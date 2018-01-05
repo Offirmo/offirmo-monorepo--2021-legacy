@@ -1,0 +1,19 @@
+{
+	"name": "offirmo-monorepo",
+	"version": "0.0.1",
+	"description": "A monorepo for all my JavaScript / TypeScript projects. So convenient.",
+	"repository": "https://github.com/Offirmo/offirmo-monorepo.git",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+	"bolt": {
+		"workspaces": [
+			"apps/*",
+			"foundations/*",
+			"incubator/*",
+			"stdlib/*"
+		]
+	},
+	"dependencies": {
+	}
+}

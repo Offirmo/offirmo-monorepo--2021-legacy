@@ -1,0 +1,40 @@
+{
+	"compileOnSave": false,
+	"compilerOptions": {
+		"allowJs": false,
+		"lib": [ "ES2017" ],
+		"moduleResolution": "node",
+
+		"listEmittedFiles": false,
+		"listFiles": false,
+		"skipDefaultLibCheck": true,
+		"noEmitOnError": true,
+		"pretty": true,
+
+		"strict": true,
+		"allowUnreachableCode": false,
+		"allowUnusedLabels": false,
+		"forceConsistentCasingInFileNames": true,
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitAny": true,
+		"noImplicitReturns": true,
+		"noImplicitThis": true,
+		"strictNullChecks": true,
+		"strictFunctionTypes": true,
+
+		"alwaysStrict": true,
+		"declaration": true,
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"importHelpers": true,
+		"noEmitHelpers": true,
+
+		"module": "ES2015",
+		"target": "ESNext",
+		"newLine": "lf",
+		"sourceMap": true
+	},
+	"include": [
+		"./typings-custom/**/*.ts"
+	]
+}

@@ -1,0 +1,8 @@
+{
+  "name": "@offirmo/timestamps",
+  "version": "0.0.1",
+  "main": "src/index.js",
+  "author": "Offirmo <offirmo.net@gmail.com>",
+  "license": "Unlicense",
+  "private": true
+}
