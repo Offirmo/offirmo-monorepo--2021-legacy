@@ -14,6 +14,12 @@
 			"stdlib/*"
 		]
 	},
-	"dependencies": {
+	"dependencies": {},
+	"devDependencies": {
+		"@offirmo/cli-toolbox": "^1.0.0",
+		"@offirmo/unit-test-toolbox": "^3.0.0",
+		"node-typescript-compiler": "^1.1.1",
+		"npm-run-all": "^4.1.2",
+		"typescript": "^2.7.0-dev.20180105"
 	}
 }

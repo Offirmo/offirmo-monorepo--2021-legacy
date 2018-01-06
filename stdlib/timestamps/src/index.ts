@@ -5,6 +5,7 @@
 // - valid in files ?
 
 
+
 function get_UTC_timestamp_ms(): number {
 	return (+ Date.now())
 }
@@ -39,8 +40,9 @@ function get_human_readable_UTC_timestamp_ms(now = new Date()): string {
 /////////////////////
 
 export {
-	get_UTC_timestamp_ms,
 	get_human_readable_UTC_timestamp_ms_v1,
+
+	get_UTC_timestamp_ms,
 	get_human_readable_UTC_timestamp_ms,
 	get_human_readable_UTC_timestamp_minutes,
 }

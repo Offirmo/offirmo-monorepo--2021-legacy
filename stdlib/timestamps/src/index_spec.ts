@@ -7,6 +7,7 @@ import {
 	get_human_readable_UTC_timestamp_minutes,
 } from '.'
 
+declare const console: any;
 
 describe('timestamps', function() {
 
