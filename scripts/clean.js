@@ -1,5 +1,6 @@
 const path = require('path')
 const meow = require('meow')
+const fs = require('@offirmo/cli-toolbox/fs/extra')
 
 /////////////////////
 
@@ -26,3 +27,5 @@ const DEPS_DIR = path.join(PKG_PATH, 'node_modules')
 
 console.log({PKG_PATH, DIST_DIR, DEPS_DIR, flags: cli.flags})
 console.log('TODO CLEAN!')
+
+//const dirs = fs.lsDirs(__dirname + '/../..')

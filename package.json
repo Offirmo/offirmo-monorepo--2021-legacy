@@ -20,8 +20,11 @@
 	"devDependencies": {
 		"@offirmo/cli-toolbox": "^1.0.0",
 		"@offirmo/unit-test-toolbox": "^3.0.0",
+		"@types/node": "^8.5.7",
+		"chalk": "^2.3.0",
 		"node-typescript-compiler": "^1.1.1",
 		"npm-run-all": "^4.1.2",
+		"prettyjson": "^1.2.1",
 		"tslib": "^1.8.1",
 		"typescript": "^2.7.0-dev.20180105"
 	}

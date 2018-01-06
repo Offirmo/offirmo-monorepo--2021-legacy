@@ -28,6 +28,6 @@ function get_human_readable_UTC_timestamp_ms(now = new Date()) {
     return 'ts1_' + get_human_readable_UTC_timestamp_ms_v1(now);
 }
 /////////////////////
-export { get_UTC_timestamp_ms, get_human_readable_UTC_timestamp_ms_v1, get_human_readable_UTC_timestamp_ms, get_human_readable_UTC_timestamp_minutes, };
+export { get_human_readable_UTC_timestamp_ms_v1, get_UTC_timestamp_ms, get_human_readable_UTC_timestamp_ms, get_human_readable_UTC_timestamp_minutes, };
 /////////////////////
 //# sourceMappingURL=index.js.map

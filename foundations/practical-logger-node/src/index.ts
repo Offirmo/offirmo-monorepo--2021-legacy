@@ -8,9 +8,9 @@ import {
 	OutputFn,
 	createLogger as createCoreLogger,
 	createChildLogger,
-} from '../universal-logger-core'
+} from '@offirmo/practical-logger-core'
 
-import { displayError } from '../display-ansi'
+import { displayError } from '@offirmo/print-error-to-ansi'
 
 import chalk from 'chalk'
 const prettyjson = require('prettyjson')
@@ -53,7 +53,7 @@ const LEVEL_TO_ASCII: { [k: string]: string } = {
 	[LogLevel.silly]:   chalk.dim(to_aligned_ascii(LEVEL_TO_HUMAN[LogLevel.silly])),
 }
 
-const LEVEL_TO_COLORIZE_BODY: { [k: string]: (s: string) => string } = {
+const LEVEL_TO_STYLIZE: { [k: string]: (s: string) => string } = {
 	[LogLevel.fatal]:   s => chalk.red.bold(s),
 	[LogLevel.emerg]:   s => chalk.red.bold(s),
 	[LogLevel.alert]:   s => chalk.red.bold(s),
@@ -85,7 +85,7 @@ function createLogger(p: LogParams): Logger {
 			+ ' '
 			+ LEVEL_TO_ASCII[level]
 			+ '› '
-			+ LEVEL_TO_COLORIZE_BODY[level](''
+			+ LEVEL_TO_STYLIZE[level](''
 				+ name
 				+ '›'
 				+ (msg ? ' ' : '')
@@ -105,6 +105,7 @@ function createLogger(p: LogParams): Logger {
 }
 
 export {
+	LEVEL_TO_STYLIZE,
 	createLogger,
 	createChildLogger,
 }
