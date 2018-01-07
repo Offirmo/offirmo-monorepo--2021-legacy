@@ -1,23 +1,18 @@
 {
-	"name": "@oh-my-rpg/logic-shop",
+	"name": "@offirmo/unicode-data",
 	"version": "0.0.1",
 	"private": true,
-	"description": "shop related logic and utilities",
+	"description": "Oh My RPG static data",
 	"main": "dist/src.es7.cjs/index.js",
 	"typings": "dist/src.es7.cjs/index.js",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "UNLICENSED",
 	"dependencies": {
-		"@oh-my-rpg/data": "^0.0.1",
-		"@oh-my-rpg/definitions": "^0.0.1",
-		"@oh-my-rpg/logic-armors": "^0.0.1",
-		"@oh-my-rpg/logic-weapons": "^0.0.1",
-		"@offirmo/random": "^2.0.4",
 		"typescript-string-enums": "^0.3.5"
 	},
 	"devDependencies": {
-		"npm-run-all": "^4.1.1",
-		"tslib": "^1.7.1"
+		"npm-run-all": "^4.1.2",
+		"tslib": "^1.8.1"
 	},
 	"scripts": {
 		"clean:build": "node ../../scripts/clean.js  dist",

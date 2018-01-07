@@ -1,23 +1,24 @@
 {
-	"name": "@oh-my-rpg/logic-shop",
+	"name": "@oh-my-rpg/view-chat",
 	"version": "0.0.1",
-	"private": true,
-	"description": "shop related logic and utilities",
-	"main": "dist/src.es7.cjs/index.js",
+	"description": "chat-like generic interface",
+	"main": "src/index.js",
 	"typings": "dist/src.es7.cjs/index.js",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "UNLICENSED",
+
 	"dependencies": {
-		"@oh-my-rpg/data": "^0.0.1",
-		"@oh-my-rpg/definitions": "^0.0.1",
-		"@oh-my-rpg/logic-armors": "^0.0.1",
-		"@oh-my-rpg/logic-weapons": "^0.0.1",
-		"@offirmo/random": "^2.0.4",
-		"typescript-string-enums": "^0.3.5"
+		"caught": "^0.1.1",
+		"joi": "^13.1.0",
+		"p-finally": "^1.0.0",
+		"p-progress": "^0.1.1"
 	},
 	"devDependencies": {
-		"npm-run-all": "^4.1.1",
-		"tslib": "^1.7.1"
+		"chalk": "^2.3.0",
+		"indent-string": "^3.2.0",
+		"prettyjson": "^1.2.1",
+		"npm-run-all": "^4.1.2",
+		"tslib": "^1.8.1"
 	},
 	"scripts": {
 		"clean:build": "node ../../scripts/clean.js  dist",

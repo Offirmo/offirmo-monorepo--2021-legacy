@@ -7,18 +7,6 @@
 	"typings": "dist/src.es7.cjs/index.js",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "UNLICENSED",
-	"scripts": {
-		"__dev": "~~~~~~~ DEVELOPMENT ~~~~~~~",
-		"clean:build": "rm -rf dist",
-		"clean:deps": "rm -rf package-lock.json node_modules",
-		"build:dev": "../../node_modules/.bin/tsc --project meta/dev",
-		"build:dev:watch": "npm run build:dev -- --watch",
-		"test": "../../node_modules/.bin/mocha --opts ../../node_modules/@offirmo/unit-test-toolbox/mocha.opts ../../node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es7.cjs/**/*spec.js'",
-		"__helpers": "----------- Helpers -----------",
-		"dev": "run-s clean:build build:dev:watch",
-		"build": "run-s clean:build build:dev",
-		"clean": "run-s clean:build clean:deps"
-	},
 	"dependencies": {
 		"@oh-my-rpg/definitions": "^0.0.1",
 		"@oh-my-rpg/logic-adventures": "^0.0.1",
@@ -41,6 +29,18 @@
 		"npm-run-all": "^4.1.1",
 		"strip-ansi": "^4.0.0",
 		"tslib": "^1.7.1"
+	},
+	"scripts": {
+		"clean:build": "node ../../scripts/clean.js  dist",
+		"clean:deps": "node ../../scripts/clean.js  deps",
+		"build:dev:watch": "node ../../scripts/build-typescript.js --watch",
+		"build:prod": "node ../../scripts/build-typescript.js",
+		"clean": "run-s clean:build clean:deps",
+		"dev": "run-s clean:build build:dev:watch",
+		"test": "../../node_modules/.bin/mocha --opts ../../node_modules/@offirmo/unit-test-toolbox/mocha.opts ../../node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es7.cjs/**/*spec.js'",
+		"build": "run-s clean:build build:prod",
+		"cheatsheet": "node doc/cheatsheet.js",
+		"demo": "node doc/demo.js"
 	},
 	"tosort": {
 		"@oh-my-rpg/data": "^0.0.1"

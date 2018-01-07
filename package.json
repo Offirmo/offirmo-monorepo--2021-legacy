@@ -8,8 +8,9 @@
 	"private": true,
 	"bolt": {
 		"workspaces": [
-			"1-foundation/*",
 			"0-stdlib/*",
+			"1-foundation/*",
+			"2-advanced/*",
 			"8-tools/*"
 		]
 	},
@@ -25,10 +26,24 @@
 		"@offirmo/cli-toolbox": "^1.0.0",
 		"@offirmo/unit-test-toolbox": "^3.0.0",
 		"@types/node": "^8.5.7",
+		"adf-builder": "^3.0.1",
+		"ansi-escapes": "^3.0.0",
+		"boxen": "^1.3.0",
+		"caught": "^0.1.1",
 		"chalk": "^2.3.0",
+		"gauge": "^2.7.4",
+		"indent-string": "^3.2.0",
+		"joi": "^13.1.0",
+		"linewrap": "^0.2.1",
 		"npm-run-all": "^4.1.2",
+		"ora": "^1.3.0",
+		"p-finally": "^1.0.0",
+		"p-progress": "^0.1.1",
 		"prettyjson": "^1.2.1",
+		"strip-ansi": "^4.0.0",
+		"term-size": "^1.2.0",
 		"tslib": "^1.8.1",
-		"typescript": "^2.7.0-dev.20180105"
+		"typescript": "^2.7.0-dev.20180105",
+		"wrap-ansi": "^3.0.1"
 	}
 }
