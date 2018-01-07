@@ -4,9 +4,9 @@
 
 console.log('Rich Text Format Demo')
 
-const RichText = require('../dist/src.es7.cjs')
+const RichText = require('../..')
 
-const callbacks_ansi = require('../../the-npm-rpg/src/utils/rich_text_to_ansi_callbacks')
+const callbacks_ansi = require('../../../../apps/the-npm-rpg/src/utils/rich_text_to_ansi_callbacks')
 
 const WEAPON_01_NAME = {
 	$classes: ['item__name', 'item-weapon-name'],

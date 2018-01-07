@@ -28,7 +28,6 @@
 	"scripts": {
 		"clean:deps": "node ../../scripts/clean.js  deps",
 		"clean": "run-s clean:deps",
-		"cheatsheet": "node doc/cheatsheet.js",
 		"demo": "node doc/demo.js"
 	}
 }
