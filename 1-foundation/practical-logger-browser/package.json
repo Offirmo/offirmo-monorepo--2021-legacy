@@ -1,0 +1,30 @@
+{
+	"name": "@offirmo/practical-logger-browser",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+	"version": "0.0.1",
+	"main": "dist/src.es7.cjs/index.js",
+	"jsnext:main": "dist/src.es7.cjs/index.js",
+	"typings": "dist/src.es7.cjs/index.d.ts",
+	"dependencies": {
+		"@offirmo/practical-logger-core": "^0.0.1"
+	},
+	"devDependencies": {
+		"@types/node": "^8.5.7",
+		"npm-run-all": "^4.1.2",
+		"tslib": "^1.8.1"
+	},
+	"scripts": {
+		"clean:build": "node ../../scripts/clean.js  dist",
+		"clean:deps": "node ../../scripts/clean.js  deps",
+		"build:dev:watch": "node ../../scripts/build-typescript.js --watch",
+		"build:prod": "node ../../scripts/build-typescript.js",
+		"clean": "run-s clean:build clean:deps",
+		"dev": "run-s clean:build build:dev:watch",
+		"test": "../../node_modules/.bin/mocha --opts ../../node_modules/@offirmo/unit-test-toolbox/mocha.opts ../../node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es7.cjs/**/*spec.js'",
+		"build": "run-s clean:build build:prod",
+		"cheatsheet": "node doc/cheatsheet.js",
+		"demo": "node doc/demo.js"
+	}
+}

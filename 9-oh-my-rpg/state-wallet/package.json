@@ -1,0 +1,31 @@
+{
+	"name": "@oh-my-rpg/state-wallet",
+	"version": "0.0.1",
+	"private": true,
+	"description": "evolving cash wallet state and reducer",
+	"main": "dist/src.es7.cjs/index.js",
+	"typings": "dist/src.es7.cjs/index.js",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "UNLICENSED",
+	"scripts": {
+		"__dev": "~~~~~~~ DEVELOPMENT ~~~~~~~",
+		"clean:build": "rm -rf dist",
+		"clean:deps": "rm -rf package-lock.json node_modules",
+		"build:dev": "../../node_modules/.bin/tsc --project meta/dev",
+		"build:dev:watch": "npm run build:dev -- --watch",
+		"test": "../../node_modules/.bin/mocha --opts ../../node_modules/@offirmo/unit-test-toolbox/mocha.opts ../../node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es7.cjs/**/*spec.js'",
+		"__helpers": "----------- Helpers -----------",
+		"dev": "run-s clean:build build:dev:watch",
+		"build": "run-s clean:build build:dev",
+		"clean": "run-s clean:build clean:deps"
+	},
+	"dependencies": {
+		"@oh-my-rpg/definitions": "^0.0.1",
+		"deep-freeze-strict": "^1.1.1",
+		"typescript-string-enums": "^0.3.5"
+	},
+	"devDependencies": {
+		"npm-run-all": "^4.1.1",
+		"tslib": "^1.7.1"
+	}
+}

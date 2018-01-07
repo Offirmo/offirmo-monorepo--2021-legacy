@@ -1,0 +1,30 @@
+{
+	"name": "@oh-my-rpg/migration-tester",
+	"version": "0.0.1",
+	"description": "helper for testing migrations",
+	"main": "src/index.js",
+	"typings": "dist/src.es7.cjs/index.js",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "UNLICENSED",
+	"scripts": {
+		"__dev": "~~~~~~~ DEVELOPMENT ~~~~~~~",
+		"clean:deps": "rm -rf package-lock.json node_modules",
+		"test": "../../node_modules/.bin/mocha --opts ../../node_modules/@offirmo/unit-test-toolbox/mocha.opts ../../node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es7.cjs/**/*spec.js'",
+		"__helpers": "----------- Helpers -----------",
+		"demo": "./demo/demo.js"
+	},
+	"dependencies": {
+		"@oh-my-rpg/definitions": "^0.0.1",
+		"deep-freeze-strict": "^1.1.1",
+		"json-stringify-safe": "^5",
+		"json3": "^3",
+		"jsondiffpatch": "^0.2",
+		"load-json-file": "^2",
+		"lodash": "^4.17.4",
+		"prettyjson": "^1",
+		"write-json-file": "^2"
+
+	},
+	"devDependencies": {
+	}
+}

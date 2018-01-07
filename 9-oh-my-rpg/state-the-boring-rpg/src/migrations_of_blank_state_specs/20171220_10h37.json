@@ -1,0 +1,95 @@
+{
+	"schema_version": 4,
+	"revision": 0,
+	"meta": {
+		"schema_version": 1,
+		"revision": 0,
+		"uuid": "uu1vEzKl5Q31YTOz28sN2pFg",
+		"name": "anonymous",
+		"email": null,
+		"allow_telemetry": true
+	},
+	"avatar": {
+		"schema_version": 2,
+		"revision": 0,
+		"name": "[anonymous]",
+		"klass": "novice",
+		"attributes": {
+			"level": 1,
+			"health": 1,
+			"mana": 0,
+			"strength": 1,
+			"agility": 1,
+			"charisma": 1,
+			"wisdom": 1,
+			"luck": 1
+		}
+	},
+	"inventory": {
+		"schema_version": 1,
+		"revision": 0,
+		"unslotted_capacity": 20,
+		"slotted": {
+			"weapon": {
+				"element_type": "item",
+				"uuid": "uu1eyXD721VuJenrR5xo9opF",
+				"slot": "weapon",
+				"base_hid": "spoon",
+				"qualifier1_hid": "used",
+				"qualifier2_hid": "noob",
+				"quality": "common",
+				"base_strength": 1,
+				"enhancement_level": 0
+			},
+			"armor": {
+				"element_type": "item",
+				"uuid": "uu1MPkyt3~gP37gJszXhJpK6",
+				"slot": "armor",
+				"base_hid": "socks",
+				"qualifier1_hid": "used",
+				"qualifier2_hid": "noob",
+				"quality": "common",
+				"base_strength": 1,
+				"enhancement_level": 0
+			}
+		},
+		"unslotted": [
+			null,
+			null,
+			null,
+			null,
+			null,
+			null,
+			null,
+			null,
+			null,
+			null,
+			null,
+			null,
+			null,
+			null,
+			null,
+			null,
+			null,
+			null,
+			null,
+			null
+		]
+	},
+	"wallet": {
+		"schema_version": 1,
+		"revision": 0,
+		"coin_count": 0,
+		"token_count": 0
+	},
+	"prng": {
+		"schema_version": 1,
+		"revision": 0,
+		"seed": 987,
+		"use_count": 0
+	},
+	"last_adventure": null,
+	"click_count": 0,
+	"good_click_count": 0,
+	"meaningful_interaction_count": 0
+}

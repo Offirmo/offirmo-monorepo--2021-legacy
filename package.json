@@ -8,13 +8,17 @@
 	"private": true,
 	"bolt": {
 		"workspaces": [
-			"apps/*",
-			"foundations/*",
-			"incubator/*",
-			"stdlib/*"
+			"1-foundation/*",
+			"0-stdlib/*",
+			"8-tools/*"
 		]
 	},
 	"dependencies": {
+		"@offirmo/loggers-types-and-stubs": "^0.2.0",
+		"lodash": "^4.17.4",
+		"os-homedir": "^1.0.2",
+		"path-exists": "^3.0.0",
+		"tildify": "^1.2.0",
 		"typescript-string-enums": "^0.3.5"
 	},
 	"devDependencies": {
@@ -22,7 +26,6 @@
 		"@offirmo/unit-test-toolbox": "^3.0.0",
 		"@types/node": "^8.5.7",
 		"chalk": "^2.3.0",
-		"node-typescript-compiler": "^1.1.1",
 		"npm-run-all": "^4.1.2",
 		"prettyjson": "^1.2.1",
 		"tslib": "^1.8.1",

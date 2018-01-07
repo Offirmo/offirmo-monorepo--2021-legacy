@@ -1,0 +1,133 @@
+body {
+	margin: 12px auto;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	color: #333;
+	max-width: 650px;
+	line-height: 1.6;
+	font-size: 12px;
+	padding: 0 10px;
+}
+h1, h2, h3 {
+	line-height: 1.2;
+}
+
+.the-boring-rpg-nav {
+	list-style-type: none;
+	padding: 0;
+	display: flex;
+}
+
+.the-boring-rpg-nav li {
+}
+.the-boring-rpg-nav li:not(:first-child) {
+	margin-left: 20px;
+}
+
+.the-boring-rpg-nav a {
+	text-decoration: none;
+}
+.the-boring-rpg-nav a.active {
+	font-weight: bold;
+}
+.the-boring-rpg-nav a.active:before {
+	content: '';
+}
+
+
+.chat {
+	display: flex;
+	flex-direction: column;
+}
+.chat__bubble {
+	border: solid 1px;
+	padding: 7px;
+	xxborder-radius: 10px;
+	border-right: 0;
+	border-top: 0;
+	margin: 7px;
+	width: fit-content;
+	max-width: 70%;
+}
+.chat__bubble--ltr {
+	align-self: flex-start;
+}
+.chat__bubble--rtl {
+	align-self: flex-end;
+}
+
+.item__name,
+.avatar__name,
+.avatar__class,
+.monster__name {
+	font-weight: bold;
+}
+
+.item--quality--common {
+	color: #909090;
+}
+.item--quality--uncommon {
+	color: forestgreen;
+}
+.item--quality--epic {
+	color: mediumblue;
+}
+.item--quality--legendary {
+	color: #d9534f;
+}
+.item--quality--artifact {
+	color: #fad700;
+}
+
+.monster--rank--common {
+}
+.monster--rank--elite {
+	color: #fad700;
+}
+.monster--rank--boss {
+	color: #d9534f;
+}
+
+
+.item--weapon:before {
+	content: '⚔ ';
+}
+.item--armor:before {
+	content: '🛡 ';
+}
+
+.currency--coin:before {
+	content: '💰 ';
+}
+.currency--token:before {
+	content: '💠  ';
+}
+/*
+
+switch($class) {
+
+		case 'attribute--level':
+			return '👶 ' + WIDTH_COMPENSATION + str
+		case 'attribute--health':
+			return '💗 ' + WIDTH_COMPENSATION + str
+		case 'attribute--mana':
+			return '💙 ' + WIDTH_COMPENSATION + str
+		case 'attribute--agility':
+			return '🤸 ' + WIDTH_COMPENSATION + str
+		case 'attribute--luck':
+			return '🤹 ' + WIDTH_COMPENSATION + str
+		case 'attribute--strength':
+			return '🏋 ' + WIDTH_COMPENSATION + str
+		case 'attribute--charisma':
+			return '👨🎤 ' + WIDTH_COMPENSATION + str
+		case 'attribute--wisdom':
+			return '👵 ' + WIDTH_COMPENSATION + str
+
+		case 'monster':
+			return str + ' ' + hints.possible_emoji + WIDTH_COMPENSATION
+		case 'rank--common':
+			return str
+		case 'rank--elite':
+			return stylize_string.bold(str + '★')
+		case 'rank--boss':
+			return stylize_string.bold(str + ' 👑' + WIDTH_COMPENSATION)
+ */

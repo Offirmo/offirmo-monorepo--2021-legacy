@@ -1,0 +1,41 @@
+{
+	"compileOnSave": false,
+	"compilerOptions": {
+		"allowJs": false,
+		"lib": [ "es7" ],
+		"moduleResolution": "node",
+
+		"listEmittedFiles": false,
+		"listFiles": false,
+		"skipDefaultLibCheck": true,
+		"noEmitOnError": true,
+		"pretty": true,
+
+		"allowUnreachableCode": false,
+		"allowUnusedLabels": false,
+		"forceConsistentCasingInFileNames": true,
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitAny": true,
+		"noImplicitReturns": true,
+		"noImplicitThis": true,
+		"noUnusedLocals": false,
+		"noUnusedParameters": false,
+		"strictNullChecks": true,
+
+		"alwaysStrict": true,
+		"declaration": true,
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"importHelpers": true,
+
+		"outDir": "../../dist/src.es7.cjs",
+		"module": "commonjs",
+		"target": "es2017",
+		"newLine": "lf",
+		"sourceMap": true
+	},
+	"include": [
+		"../../../../typings-custom/**/*.ts",
+		"../../src/**/*.ts"
+	]
+}

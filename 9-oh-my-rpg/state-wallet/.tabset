@@ -1,0 +1,1 @@
+tabset --badge $1 --color "#2ECC40"

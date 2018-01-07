@@ -1,0 +1,42 @@
+{
+	"name": "@oh-my-rpg/view-chat-ui-tty",
+	"version": "0.0.1",
+	"description": "A TTY ui for the generic @oh-my-rpg/view-chat micro-framework.",
+	"main": "src/index.js",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "UNLICENSED",
+	"scripts": {
+		"__dev": "~~~~~~~ DEVELOPMENT ~~~~~~~",
+		"clean:build": "rm -rf dist",
+		"clean:deps": "rm -rf package-lock.json node_modules",
+		"build:devx": "../../node_modules/.bin/tsc --project meta/dev",
+		"build:dev": "echo 'TODO'",
+		"build:dev:watch": "npm run build:dev -- --watch",
+		"test": "../../node_modules/.bin/mocha --opts ../../node_modules/@offirmo/unit-test-toolbox/mocha.opts ../../node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es7.cjs/**/*spec.js'",
+		"__helpers": "----------- Helpers -----------",
+		"dev": "run-s clean:build build:dev:watch",
+		"build": "run-s clean:build build:dev",
+		"clean": "run-s clean:build clean:deps",
+		"demo": "./demo/demo.js"
+	},
+	"dependencies": {
+		"ansi-escapes": "^2.0.0",
+		"boxen": "^1.2.1",
+		"chalk": "^2.3.0",
+		"gauge": "^2.7.4",
+		"indent-string": "^3.2.0",
+		"linewrap": "^0.2.1",
+		"ora": "^1.3.0",
+		"p-finally": "^1.0.0",
+		"p-progress": "^0.1.1",
+		"strip-ansi": "^4.0.0",
+		"term-size": "^1.2.0",
+		"wrap-ansi": "^3.0.1"
+	},
+	"devDependencies": {
+		"@oh-my-rpg/view-chat": "^0.0.1",
+		"prettyjson": "^1.2.1",
+		"npm-run-all": "^4.1.1",
+		"tslib": "^1.7.1"
+	}
+}
