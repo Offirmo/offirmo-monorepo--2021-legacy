@@ -2,10 +2,10 @@
 
 const Conf = require('conf')
 
-const soft_execution_context = require('@offirmo/soft-execution-context/dist/src.es7.cjs/soft-execution-context-node')
+const soft_execution_context = require('@offirmo/soft-execution-context-node')
 const { compatibleLoggerToConsole } = require('@offirmo/loggers-types-and-stubs')
 const { migrate_to_latest } = require('@oh-my-rpg/state-the-boring-rpg')
-const { createLogger } = require('@offirmo/soft-execution-context/dist/src.es7.cjs/universal-logger-node')
+const { createLogger } = require('@offirmo/practical-logger-node')
 const { DEFAULT_SEED } = require( '@oh-my-rpg/state-prng')
 
 //const { displayError } = require('@offirmo/soft-execution-context/dist/src.es7.cjs/display-ansi')

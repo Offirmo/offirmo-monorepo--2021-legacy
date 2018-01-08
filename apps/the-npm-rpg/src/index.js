@@ -13,9 +13,6 @@ if (!semver.satisfies(process.version, package_json.engines.node)) {
 
 /////////////////////////////////////////////////
 
-const { stylize_string } = require('./libs')
-const { prettify_json_for_debug } = require('./utils/debug')
-
 const { SEC, init_savegame } = require('./init')
 const { play } = require('./actions')
 const { start_loop } = require('./interactive_mode')
@@ -56,7 +53,6 @@ SEC.xPromiseTryCatch('starting', async ({ SEC, logger }) => {
 	if (!options.is_interactive) {
 		throw new Error('Non-interactive mode or non-tty terminals are not supported at this time, sorry!')
 		//play(options)
-		//render_cta(options)
 	}
 
 //console.log('\n---------------------------------------------------------------\n')

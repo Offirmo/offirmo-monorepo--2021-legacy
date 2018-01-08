@@ -4,8 +4,8 @@ const opn = require('opn');
 
 const tbrpg = require('@oh-my-rpg/state-the-boring-rpg')
 const { iterables_unslotted, get_item_at_coordinates, get_item_in_slot } = require('@oh-my-rpg/state-inventory')
-const { create: create_tty_chat_ui } = require('@oh-my-rpg/view-chat-ui-tty')
-const { create: create_chat } = require('@oh-my-rpg/view-chat')
+const { create: create_tty_chat_ui } = require('@offirmo/view-chat-ui-tty')
+const { create: create_chat } = require('@offirmo/view-chat')
 const { CHARACTER_CLASSES } = require('@oh-my-rpg/state-character')
 const {
 	render_item,
