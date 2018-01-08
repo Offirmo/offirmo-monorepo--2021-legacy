@@ -5,7 +5,7 @@ import { i18n_messages as I18N_ADVENTURES } from '@oh-my-rpg/logic-adventures'
 import { Adventure, GainType } from '@oh-my-rpg/state-the-boring-rpg'
 import { ALL_CURRENCIES, Currency, get_currency_amount } from '@oh-my-rpg/state-wallet'
 
-import * as RichText from '@oh-my-rpg/rich-text-format'
+import * as RichText from '@offirmo/rich-text-format'
 
 import { render_item } from './items'
 import { render_currency_amount } from './wallet'

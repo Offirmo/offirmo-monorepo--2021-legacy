@@ -44,12 +44,17 @@ function compile(params, files, options) {
 				if (options.verbose) console.log(`[${LIB}] spawning ${tildify(spawn_executable)} ` + spawn_params.join(' ') + '\n')
 				const spawn_instance = spawn(spawn_executable, spawn_params, spawn_options)
 
+				let already_failed = false
 				function fail(reason) {
+					if (already_failed && !options.verbose)
+						return
+
 					const err = new Error(reason)
 					err.stdout = stdout
 					err.stderr = stderr
-					console.error(err)
+					if (options.verbose) console.error(err)
 					reject(err)
+					already_failed = true
 				}
 
 				// listen to events

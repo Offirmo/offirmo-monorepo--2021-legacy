@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const data_1 = require("@oh-my-rpg/data");
-const EMOJI_ENTRIES = Object.keys(data_1.UNICODE_CHARS)
-    .map(key => data_1.UNICODE_CHARS[key])
+const unicode_data_1 = require("@offirmo/unicode-data");
+const EMOJI_ENTRIES = Object.keys(unicode_data_1.UNICODE_CHARS)
+    .map(key => unicode_data_1.UNICODE_CHARS[key])
     .filter(charDetails => charDetails.taxonomy.includes('monster'))
     .map((charDetails) => ({
     name: charDetails.properties.description,

@@ -1,7 +1,7 @@
 import { InventorySlot, Item, ITEM_SLOTS } from '@oh-my-rpg/definitions'
 import { InventoryCoordinates, State as InventoryState, iterables_unslotted, get_item_in_slot } from '@oh-my-rpg/state-inventory'
 import { State as WalletState } from '@oh-my-rpg/state-wallet'
-import * as RichText from '@oh-my-rpg/rich-text-format'
+import * as RichText from '@offirmo/rich-text-format'
 
 import { render_item } from './items'
 import { render_wallet } from './wallet'

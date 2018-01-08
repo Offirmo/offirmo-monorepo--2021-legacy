@@ -15,10 +15,10 @@ bolt ws run cheatsheet
 bolt ws run clean
 
 bolt ws exec -- rm -rf dist
+
+bolt ws run build --only @oh-my-rpg/*
+
+bolt w @oh-my-rpg/definitions run build
 ```
 
-
-🔎   [1/3] Validating project...
-error Project cannot depend on workspace Package "node-typescript-compiler"
-error Project is invalid, bolt is unable to install
-
+## Notes

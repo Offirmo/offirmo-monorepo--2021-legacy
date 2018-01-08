@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
 const _1 = require(".");
-describe('timestamps', function () {
+describe('@offirmo/timestamps', function () {
     describe('get_UTC_timestamp_ms()', function () {
         it('should return correct UTC unix timestamps in ms', function () {
             for (let i = 0; i < 10; ++i) {

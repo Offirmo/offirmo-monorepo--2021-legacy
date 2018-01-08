@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { get_UTC_timestamp_ms, get_human_readable_UTC_timestamp_ms_v1, get_human_readable_UTC_timestamp_ms, get_human_readable_UTC_timestamp_minutes, } from '.';
-describe('timestamps', function () {
+describe('@offirmo/timestamps', function () {
     describe('get_UTC_timestamp_ms()', function () {
         it('should return correct UTC unix timestamps in ms', function () {
             for (let i = 0; i < 10; ++i) {

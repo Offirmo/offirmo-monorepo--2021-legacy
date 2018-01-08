@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 
-import * as RichText from '@oh-my-rpg/rich-text-format'
+import * as RichText from '@offirmo/rich-text-format'
 
 import { generate_random_demo_weapon, DEMO_WEAPON_1, DEMO_WEAPON_2 } from '@oh-my-rpg/logic-weapons'
 import { generate_random_demo_armor, DEMO_ARMOR_1, DEMO_ARMOR_2 } from '@oh-my-rpg/logic-armors'
@@ -31,7 +31,7 @@ import {
 } from '.'
 
 
-describe('🔠  view to @oh-my-rpg/rich-text-format', function() {
+describe('🔠  view to @offirmo/rich-text-format', function() {
 
 	describe('📦  backpack rendering', function() {
 

@@ -1,6 +1,6 @@
 import { State } from '@oh-my-rpg/state-meta'
 
-import * as RichText from '@oh-my-rpg/rich-text-format'
+import * as RichText from '@offirmo/rich-text-format'
 
 
 function render_meta_infos(metas: {[k: string]: string | number | undefined}): RichText.Document {

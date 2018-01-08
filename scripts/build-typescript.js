@@ -1,3 +1,5 @@
+'use strict'
+
 const path = require('path')
 const meow = require('meow')
 const tsc = require('../8-tools/node-typescript-compiler')
@@ -60,27 +62,36 @@ if (cli.flags.dev) {
 //console.log({PKG_PATH, DIST_DIR, PKG_NAME, flags: cli.flags})
 console.log(`🔧 building ${PKG_NAME}...`)
 
-const jsnext_built = cli.flags.dev
-	? Promise.resolve(true)
-	: tsc.compile(
+
+function build_compatible() {
+	return tsc.compile(
+		{
+			...compilerOptions,
+			module: 'commonjs',
+			outDir: path.join(DIST_DIR, 'src.es7.cjs'),
+			project: PKG_PATH,
+		}
+	)
+}
+
+function build_jsnext() {
+	return tsc.compile(
 		{
 			...compilerOptions,
 			outDir: path.join(DIST_DIR, 'src.es7'),
 			project: PKG_PATH,
 		}
 	)
+}
 
-const compatible_built = tsc.compile(
-	{
-		...compilerOptions,
-		module: 'commonjs',
-		outDir: path.join(DIST_DIR, 'src.es7.cjs'),
-		project: PKG_PATH,
-	}
-)
+// build sequentially to not duplicate the errors if any.
 
-Promise.all([
-	jsnext_built,
-	compatible_built,
-])
+build_compatible()
+	.then(() => {
+		if (cli.flags.dev)
+			return build_jsnext()
+	})
 	.then(() => console.log(`🔧 building ${PKG_NAME} done.`))
+	/*.catch(err => {
+		process.exit(-1)
+	})*/

@@ -6,7 +6,11 @@ console.log('Rich Text Format Demo')
 
 const RichText = require('../..')
 
-const callbacks_ansi = require('../../../../apps/the-npm-rpg/src/utils/rich_text_to_ansi_callbacks')
+let callbacks_ansi = null
+try {
+	callbacks_ansi = require('../../../../apps/the-npm-rpg/src/utils/rich_text_to_ansi_callbacks')
+}
+catch(e) {}
 
 const WEAPON_01_NAME = {
 	$classes: ['item__name', 'item-weapon-name'],
@@ -91,7 +95,7 @@ if (false) {
 	RichText.to_debug(doc)
 
 	console.log('\n------- to text -------\n' + RichText.to_text(doc))
-	console.log('\n------- to ansi -------\n' + RichText.walk(doc, callbacks_ansi))
+	if (callbacks_ansi) console.log('\n------- to ansi -------\n' + RichText.walk(doc, callbacks_ansi))
 	console.log('\n------- to html -------\n' + RichText.to_html(doc))
 	//console.log('\n------- to debug -------\n' + RichText.walk(doc, callbacks_debug))
 }
@@ -123,6 +127,6 @@ if (true) {
 
 	//console.log('\n------- to text -------\n' + RichText.to_text(doc))
 	//console.log('\n------- to ansi -------\n' + RichText.walk(doc, callbacks_ansi))
-	console.log('\n------- to ansi -------\n' + RichText.walk(doc, callbacks_ansi))
+	if (callbacks_ansi) console.log('\n------- to ansi -------\n' + RichText.walk(doc, callbacks_ansi))
 	console.log('\n------- to html -------\n' + RichText.to_html(doc))
 }

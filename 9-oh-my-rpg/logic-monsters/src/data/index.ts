@@ -1,7 +1,7 @@
 import {
 	UnicodeCharDetails,
 	UNICODE_CHARS,
-} from '@oh-my-rpg/data'
+} from '@offirmo/unicode-data'
 
 interface RawMonsterEntry {
 	name: string

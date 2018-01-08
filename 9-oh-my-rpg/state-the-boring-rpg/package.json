@@ -10,7 +10,7 @@
 	"dependencies": {
 		"@offirmo/random": "^2.0.4",
 		"@offirmo/soft-execution-context": "^0.0.1",
-		"@oh-my-rpg/data": "^0.0.1",
+		"@offirmo/unicode-data": "^0.0.1",
 		"@oh-my-rpg/definitions": "^0.0.1",
 		"@oh-my-rpg/logic-adventures": "^0.0.1",
 		"@oh-my-rpg/logic-armors": "^0.0.1",
@@ -18,7 +18,7 @@
 		"@oh-my-rpg/logic-shop": "^0.0.1",
 		"@oh-my-rpg/logic-weapons": "^0.0.1",
 		"@oh-my-rpg/migration-tester": "^0.0.1",
-		"@oh-my-rpg/rich-text-format": "^0.0.1",
+		"@offirmo/rich-text-format": "^0.0.1",
 		"@oh-my-rpg/state-character": "^0.0.1",
 		"@oh-my-rpg/state-inventory": "^0.0.1",
 		"@oh-my-rpg/state-meta": "^0.0.1",
@@ -27,8 +27,9 @@
 		"typescript-string-enums": "^0.3.5"
 	},
 	"devDependencies": {
-		"npm-run-all": "^4.1.1",
-		"tslib": "^1.7.1"
+		"@types/lodash": "^4.14.92",
+		"npm-run-all": "^4.1.2",
+		"tslib": "^1.8.1"
 	},
 	"scripts": {
 		"clean": "node ../../scripts/clean.js dist",

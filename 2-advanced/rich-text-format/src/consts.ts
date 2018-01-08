@@ -1,4 +1,4 @@
-const LIB_ID = '@oh-my-rpg/rich-text-format'
+const LIB_ID = '@offirmo/rich-text-format'
 
 const SCHEMA_VERSION: number = 1
 

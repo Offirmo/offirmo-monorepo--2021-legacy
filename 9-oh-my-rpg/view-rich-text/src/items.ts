@@ -8,7 +8,7 @@ import {
 	get_damage_interval as get_weapon_damage_interval
 } from '@oh-my-rpg/logic-weapons'
 
-import * as RichText from '@oh-my-rpg/rich-text-format'
+import * as RichText from '@offirmo/rich-text-format'
 
 import { i18n_messages as I18N_ARMORS } from '@oh-my-rpg/logic-armors'
 import { i18n_messages as I18N_WEAPONS } from '@oh-my-rpg/logic-weapons'

@@ -11267,7 +11267,7 @@ exports.SCHEMA_VERSION = SCHEMA_VERSION;
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const LIB_ID = '@oh-my-rpg/rich-text-format';
+const LIB_ID = '@offirmo/rich-text-format';
 exports.LIB_ID = LIB_ID;
 const SCHEMA_VERSION = 1;
 exports.SCHEMA_VERSION = SCHEMA_VERSION;

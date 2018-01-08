@@ -26,6 +26,6 @@
 		"dev": "run-s clean build:dev:watch",
 		"build": "run-s clean build:prod",
 		"cheatsheet": "node doc/cheatsheet.js",
-		"demo": "node doc/demo.js"
+		"demo": "node doc/demo/index.js"
 	}
 }

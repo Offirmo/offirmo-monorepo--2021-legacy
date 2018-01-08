@@ -10,7 +10,7 @@ import {
 } from '.'
 
 
-describe('🔠  view to @oh-my-rpg/rich-text-format', function() {
+describe('🔠  view to @offirmo/rich-text-format', function() {
 
 	describe('🏋  full character sheet rendering', function() {
 

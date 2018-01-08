@@ -1,6 +1,6 @@
 "use strict";
 
-const RichText = require('@oh-my-rpg/rich-text-format')
+const RichText = require('@offirmo/rich-text-format')
 
 const callbacks = require('./rich_text_to_react_callbacks')
 

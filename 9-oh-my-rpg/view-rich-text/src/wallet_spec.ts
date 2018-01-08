@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 
-import * as RichText from '@oh-my-rpg/rich-text-format'
+import * as RichText from '@offirmo/rich-text-format'
 
 import {
 	Currency,

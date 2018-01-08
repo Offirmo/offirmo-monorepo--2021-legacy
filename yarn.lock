@@ -51,6 +51,10 @@
   dependencies:
     tslib "^1.8.0"
 
+"@offirmo/random@^2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@offirmo/random/-/random-2.0.4.tgz#6e71d0a2c6b00e789c2ff03562929def69c893d0"
+
 "@offirmo/unit-test-toolbox@^3.0.0":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@offirmo/unit-test-toolbox/-/unit-test-toolbox-3.0.0.tgz#97310f74eaf6416be8280e7c7f4df13fbfd38943"
@@ -78,6 +82,10 @@
   version "4.0.10"
   resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.0.10.tgz#0eb222c7353adde8e0980bea04165d4d3b6afef3"
 
+"@types/lodash@^4.14.92":
+  version "4.14.92"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.92.tgz#6e3cb0b71a1e12180a47a42a744e856c3ae99a57"
+
 "@types/mocha@^2":
   version "2.2.46"
   resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-2.2.46.tgz#b04713f7759d1cf752effdaae7b3969e285ebc16"
@@ -96,6 +104,10 @@
 "@types/sinon@*", "@types/sinon@^4":
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/@types/sinon/-/sinon-4.1.2.tgz#9085db9cc3288b0f12daceee20a26c4afd9c2dcd"
+
+"@types/strip-ansi@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@types/strip-ansi/-/strip-ansi-3.0.0.tgz#9b63d453a6b54aa849182207711a08be8eea48ae"
 
 adf-builder@^3.0.1:
   version "3.0.1"
@@ -553,6 +565,10 @@ deep-eql@^3.0.0:
 deep-extend@~0.4.0:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/deep-extend/-/deep-extend-0.4.2.tgz#48b699c27e334bf89f10892be432f6e4c7d34a7f"
+
+deep-freeze-strict@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/deep-freeze-strict/-/deep-freeze-strict-1.1.1.tgz#77d0583ca24a69be4bbd9ac2fae415d55523e5b0"
 
 defaults@^1.0.3:
   version "1.0.3"
@@ -1048,7 +1064,7 @@ json3@^3:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/json3/-/json3-3.3.2.tgz#3c0434743df93e2f5c42aee7b19bcb483575f4e1"
 
-jsondiffpatch@^0.2:
+jsondiffpatch@^0.2, jsondiffpatch@^0.2.5:
   version "0.2.5"
   resolved "https://registry.yarnpkg.com/jsondiffpatch/-/jsondiffpatch-0.2.5.tgz#50361d995cf8c86137e8d5589f20fa5220db3511"
   dependencies:
@@ -1326,6 +1342,10 @@ ms@2.0.0:
 mute-stream@0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.5.tgz#8fbfabb0a98a253d3184331f9e8deb7372fac6c0"
+
+nanoid@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-1.0.1.tgz#58a8e0577d9db07ae4f231a3afa59af94e4fc439"
 
 nise@^1.2.0:
   version "1.2.0"
@@ -2180,7 +2200,7 @@ write-file-atomic@^2.0.0, write-file-atomic@^2.3.0:
     imurmurhash "^0.1.4"
     signal-exit "^3.0.2"
 
-write-json-file@^2:
+write-json-file@^2, write-json-file@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/write-json-file/-/write-json-file-2.3.0.tgz#2b64c8a33004d54b8698c76d585a77ceb61da32f"
   dependencies:

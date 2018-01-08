@@ -3,7 +3,7 @@ import { expect } from 'chai'
 import { LIB_ID, SCHEMA_VERSION } from './consts'
 import { xxx_internal_reset_prng_cache } from '@oh-my-rpg/state-prng'
 
-import * as RichText from '@oh-my-rpg/rich-text-format'
+import * as RichText from '@offirmo/rich-text-format'
 
 
 import {

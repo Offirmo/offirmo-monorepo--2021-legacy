@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 
-import * as RichText from '@oh-my-rpg/rich-text-format'
+import * as RichText from '@offirmo/rich-text-format'
 
 import { InventorySlot, ItemQuality } from '@oh-my-rpg/definitions'
 import { generate_random_demo_weapon, DEMO_WEAPON_1, DEMO_WEAPON_2 } from '@oh-my-rpg/logic-weapons'

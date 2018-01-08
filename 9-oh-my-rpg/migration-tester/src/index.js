@@ -43,7 +43,7 @@ const jsondiffpatch = require('jsondiffpatch').create({
 });
 
 
-const { get_human_readable_UTC_timestamp_minutes } = require('@oh-my-rpg/definitions')
+const { get_human_readable_UTC_timestamp_minutes } = require('@offirmo/timestamps')
 const fs = require('./utils-fs')
 
 

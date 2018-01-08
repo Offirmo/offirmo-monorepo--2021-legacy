@@ -1,3 +1,5 @@
+'use strict'
+
 const path = require('path')
 const meow = require('meow')
 const fs = require('@offirmo/cli-toolbox/fs/extra')

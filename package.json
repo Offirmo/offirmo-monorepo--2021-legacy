@@ -11,26 +11,33 @@
 			"0-stdlib/*",
 			"1-foundation/*",
 			"2-advanced/*",
-			"8-tools/*"
+			"8-tools/*",
+			"9-oh-my-rpg/*"
 		]
 	},
-	"dependencies": {
-	},
+	"dependencies": {},
 	"devDependencies": {
 		"@offirmo/cli-toolbox": "^1.0.0",
 		"@offirmo/loggers-types-and-stubs": "^0.2.0",
+		"@offirmo/random": "^2.0.4",
 		"@offirmo/unit-test-toolbox": "^3.0.0",
+		"@types/lodash": "^4.14.92",
 		"@types/node": "^8.5.7",
+		"@types/strip-ansi": "^3.0.0",
 		"adf-builder": "^3.0.1",
 		"ansi-escapes": "^3.0.0",
 		"boxen": "^1.3.0",
 		"caught": "^0.1.1",
 		"chalk": "^2.3.0",
+		"deep-freeze-strict": "^1.1.1",
 		"gauge": "^2.7.4",
 		"indent-string": "^3.2.0",
 		"joi": "^13.1.0",
+		"jsondiffpatch": "^0.2.5",
 		"linewrap": "^0.2.1",
+		"load-json-file": "^4.0.0",
 		"lodash": "^4.17.4",
+		"nanoid": "^1.0.1",
 		"npm-run-all": "^4.1.2",
 		"ora": "^1.3.0",
 		"os-homedir": "^1.0.2",
@@ -44,6 +51,7 @@
 		"tslib": "^1.8.1",
 		"typescript": "^2.7.0-dev.20180105",
 		"typescript-string-enums": "^0.3.5",
-		"wrap-ansi": "^3.0.1"
+		"wrap-ansi": "^3.0.1",
+		"write-json-file": "^2.3.0"
 	}
 }

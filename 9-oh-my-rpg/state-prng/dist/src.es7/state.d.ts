@@ -1,0 +1,13 @@
+import { MT19937 } from '@offirmo/random';
+import { State } from './types';
+declare const DEFAULT_SEED = 987;
+declare function create(): State;
+declare function set_seed(state: State, seed: number): State;
+declare function update_use_count(state: State, prng: MT19937, options?: any): State;
+declare function get_prng(state: Readonly<State>): MT19937;
+declare function generate_random_seed(): number;
+declare function xxx_internal_reset_prng_cache(): void;
+declare const DEMO_STATE: State;
+declare const OLDEST_LEGACY_STATE_FOR_TESTS: any;
+declare const MIGRATION_HINTS_FOR_TESTS: any;
+export { State, DEFAULT_SEED, create, set_seed, update_use_count, get_prng, generate_random_seed, xxx_internal_reset_prng_cache, DEMO_STATE, OLDEST_LEGACY_STATE_FOR_TESTS, MIGRATION_HINTS_FOR_TESTS };

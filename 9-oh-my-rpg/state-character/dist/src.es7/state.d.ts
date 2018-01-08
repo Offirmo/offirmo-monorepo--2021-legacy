@@ -1,0 +1,13 @@
+import { CharacterAttribute, CharacterClass, CharacterAttributes, State } from './types';
+import { SoftExecutionContext } from './sec';
+declare const CHARACTER_ATTRIBUTES: ("agility" | "health" | "level" | "luck" | "mana" | "strength" | "charisma" | "wisdom")[];
+declare const CHARACTER_ATTRIBUTES_SORTED: CharacterAttribute[];
+declare const CHARACTER_CLASSES: ("novice" | "warrior" | "barbarian" | "paladin" | "sculptor" | "pirate" | "ninja" | "rogue" | "wizard" | "hunter" | "druid" | "priest")[];
+declare function create(SEC: SoftExecutionContext): State;
+declare function rename(SEC: SoftExecutionContext, state: State, new_name: string): State;
+declare function switch_class(SEC: SoftExecutionContext, state: State, klass: CharacterClass): State;
+declare function increase_stat(SEC: SoftExecutionContext, state: State, stat: CharacterAttribute, amount?: number): State;
+declare const DEMO_STATE: State;
+declare const OLDEST_LEGACY_STATE_FOR_TESTS: any;
+declare const MIGRATION_HINTS_FOR_TESTS: any;
+export { CharacterAttribute, CharacterClass, CharacterAttributes, State, CHARACTER_ATTRIBUTES, CHARACTER_ATTRIBUTES_SORTED, CHARACTER_CLASSES, create, rename, switch_class, increase_stat, DEMO_STATE, OLDEST_LEGACY_STATE_FOR_TESTS, MIGRATION_HINTS_FOR_TESTS };
