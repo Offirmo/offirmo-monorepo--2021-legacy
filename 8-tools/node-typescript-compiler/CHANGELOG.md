@@ -1,4 +1,12 @@
 
+1.2.0 2018/01/08
+- verbose option
+- spawn + params now only displayed if verbose = true
+- errors are no longer displayed, unless verbose = true.
+  They were unreadable and displaying stderr is sufficient
+- optionally display a custom msg before starting stderr,
+  useful in case of concurrent builds in the same terminal
+  
 1.1.1 2016/08/15
 - handle new tsc 2.0 array params
 - filter empty stdout lines for a more compact output

@@ -44,6 +44,15 @@ function compile(params, files, options) {
 				if (options.verbose) console.log(`[${LIB}] spawning ${tildify(spawn_executable)} ` + spawn_params.join(' ') + '\n')
 				const spawn_instance = spawn(spawn_executable, spawn_params, spawn_options)
 
+				let seen_any_output_yet = false
+				function display_banner_if_1st_output() {
+					if (seen_any_output_yet) return
+
+					console.log(options.banner || 'node-typescript-compiler:')
+
+					seen_any_output_yet = true
+				}
+
 				let already_failed = false
 				function fail(reason) {
 					if (already_failed && !options.verbose)
@@ -87,6 +96,7 @@ function compile(params, files, options) {
 				})
 
 				spawn_instance.stdout.on('data', data => {
+					display_banner_if_1st_output()
 					_.split(data, '\n').forEach(line => {
 						if (!line.length) return // convenience for more compact output
 
@@ -106,6 +116,7 @@ function compile(params, files, options) {
 				})
 
 				spawn_instance.stderr.on('data', data => {
+					display_banner_if_1st_output()
 					_.split(data, '\n').forEach(line => console.log(RADIX + '! ' + line))
 					stderr += data
 				})

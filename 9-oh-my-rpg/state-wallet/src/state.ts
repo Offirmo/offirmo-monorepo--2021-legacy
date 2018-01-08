@@ -11,7 +11,7 @@ import {
 
 /////////////////////
 
-const ALL_CURRENCIES = [
+const ALL_CURRENCIES: Currency[] = [
 	Currency.coin,
 	Currency.token,
 ]

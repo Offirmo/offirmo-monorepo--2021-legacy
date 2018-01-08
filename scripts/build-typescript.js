@@ -60,7 +60,7 @@ if (cli.flags.dev) {
 /////////////////////
 
 //console.log({PKG_PATH, DIST_DIR, PKG_NAME, flags: cli.flags})
-console.log(`🔧 building ${PKG_NAME}...`)
+console.log(`🔧 building ${PKG_NAME}...` + (cli.flags.dev ? ' (dev mode)' : ''))
 
 
 function build_compatible() {
@@ -70,7 +70,11 @@ function build_compatible() {
 			module: 'commonjs',
 			outDir: path.join(DIST_DIR, 'src.es7.cjs'),
 			project: PKG_PATH,
-		}
+		},
+		null,
+		{
+			banner: `node-typescript-compiler compiling ${PKG_NAME}...`
+		},
 	)
 }
 
@@ -80,7 +84,11 @@ function build_jsnext() {
 			...compilerOptions,
 			outDir: path.join(DIST_DIR, 'src.es7'),
 			project: PKG_PATH,
-		}
+		},
+		null,
+		{
+			banner: `node-typescript-compiler compiling ${PKG_NAME}...`
+		},
 	)
 }
 
@@ -88,8 +96,9 @@ function build_jsnext() {
 
 build_compatible()
 	.then(() => {
-		if (cli.flags.dev)
-			return build_jsnext()
+		if (cli.flags.dev) return
+
+		return build_jsnext()
 	})
 	.then(() => console.log(`🔧 building ${PKG_NAME} done.`))
 	/*.catch(err => {

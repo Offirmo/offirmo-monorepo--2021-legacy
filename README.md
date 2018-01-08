@@ -16,6 +16,7 @@ bolt ws run clean
 
 bolt ws exec -- rm -rf dist
 
+bolt ws run build --only @offirmo/*
 bolt ws run build --only @oh-my-rpg/*
 
 bolt w @oh-my-rpg/definitions run build

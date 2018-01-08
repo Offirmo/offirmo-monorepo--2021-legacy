@@ -1,5 +1,10 @@
 import { InventorySlot, Item, ITEM_SLOTS } from '@oh-my-rpg/definitions'
-import { InventoryCoordinates, State as InventoryState, iterables_unslotted, get_item_in_slot } from '@oh-my-rpg/state-inventory'
+import {
+	InventoryCoordinates,
+	State as InventoryState,
+	iterables_unslotted,
+	get_item_in_slot
+} from '@oh-my-rpg/state-inventory'
 import { State as WalletState } from '@oh-my-rpg/state-wallet'
 import * as RichText from '@offirmo/rich-text-format'
 
@@ -43,7 +48,7 @@ function render_backpack(inventory: InventoryState): RichText.Document {
 		.addClass('inventory--backpack')
 		.done()
 
-	const misc_items = Array.from(iterables_unslotted(inventory))
+	const misc_items: Item[] = Array.from(iterables_unslotted(inventory)).filter(i => !!i) as Item[]
 	misc_items.forEach((i: Item, index: number) => {
 		if (!i) return
 		$doc_list.$sub[inventory_coordinate_to_sortable_alpha_index(index)] = render_item(i)
