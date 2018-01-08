@@ -12,6 +12,8 @@ Doc:
 bolt ws run build
 bolt ws run cheatsheet
 bolt ws run clean
+
+bolt ws exec -- rm -rf dist
 ```
 
 

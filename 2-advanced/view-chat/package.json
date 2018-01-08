@@ -1,5 +1,5 @@
 {
-	"name": "@oh-my-rpg/view-chat",
+	"name": "@offirmo/view-chat",
 	"version": "0.0.1",
 	"description": "chat-like generic interface",
 	"main": "src/index.js",
@@ -21,7 +21,7 @@
 		"tslib": "^1.8.1"
 	},
 	"scripts": {
-		"clean:deps": "node ../../scripts/clean.js  deps",
+
 		"clean": "run-s clean:deps",
 		"demo": "node doc/demo.js"
 	}

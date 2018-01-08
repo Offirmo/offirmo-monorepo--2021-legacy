@@ -14,14 +14,13 @@
 	"bin": "./bin/index.js",
 	"scripts": {
 		"__dev": "~~~~~~~ DEVELOPMENT ~~~~~~~",
-		"clean:build": "rm -rf dist",
-		"clean:deps": "rm -rf package-lock.json node_modules",
+		"clean": "rm -rf dist",
 		"build:prod": "webpack --config meta/webpack.config.ts",
 		"start": "node src/index.js",
 		"test": "echo 'TODO'",
 		"__helpers": "----------- Helpers -----------",
-		"build": "run-s clean:build build:prod",
-		"clean": "run-s clean:build clean:deps",
+		"build": "run-s clean build:prod",
+
 		"bin": "bin/index.js"
 	},
 	"dependencies": {
@@ -39,7 +38,7 @@
 		"@oh-my-rpg/state-inventory": "^0.0.1",
 		"@oh-my-rpg/state-prng": "^0.0.1",
 		"@oh-my-rpg/state-the-boring-rpg": "^0.0.1",
-		"@oh-my-rpg/view-chat": "^0.0.1",
+		"@offirmo/view-chat": "^0.0.1",
 		"@oh-my-rpg/view-chat-ui-tty": "^0.0.1",
 		"@oh-my-rpg/view-rich-text": "^0.0.1",
 		"chalk": "^2.3.0",

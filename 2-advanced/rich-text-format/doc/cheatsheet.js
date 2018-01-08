@@ -15,7 +15,7 @@ const logger = createLogger({
 
 
 
-const { ALL_LOG_LEVELS, LEVEL_TO_INTEGER } = require('@offirmo/practical-logger-core')
+const { ALL_LOG_LEVELS } = require('@offirmo/practical-logger-core')
 const { LEVEL_TO_STYLIZE } = require('..')
 
 const data = ALL_LOG_LEVELS.map(level => LEVEL_TO_STYLIZE[level](level))

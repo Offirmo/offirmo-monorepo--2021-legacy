@@ -1,5 +1,5 @@
 {
-	"name": "@oh-my-rpg/rich-text-format",
+	"name": "@offirmo/rich-text-format",
 	"version": "0.0.1",
 	"description": "A rich text format for rendering to different platforms: ascii, html...",
 	"main": "dist/src.es7.cjs/index.js",
@@ -18,14 +18,14 @@
 		"tslib": "^1.8.1"
 	},
 	"scripts": {
-		"clean:build": "node ../../scripts/clean.js  dist",
-		"clean:deps": "node ../../scripts/clean.js  deps",
+		"clean": "node ../../scripts/clean.js dist",
+
 		"build:dev:watch": "node ../../scripts/build-typescript.js --watch",
 		"build:prod": "node ../../scripts/build-typescript.js",
-		"clean": "run-s clean:build clean:deps",
-		"dev": "run-s clean:build build:dev:watch",
+
+		"dev": "run-s clean build:dev:watch",
 		"test": "../../node_modules/.bin/mocha --opts ../../node_modules/@offirmo/unit-test-toolbox/mocha.opts ../../node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es7.cjs/**/*spec.js'",
-		"build": "run-s clean:build build:prod",
+		"build": "run-s clean build:prod",
 		"cheatsheet": "node doc/cheatsheet.js",
 		"demo": "node doc/demo.js"
 	}
