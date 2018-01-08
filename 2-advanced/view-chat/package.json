@@ -21,8 +21,6 @@
 		"tslib": "^1.8.1"
 	},
 	"scripts": {
-
-		"clean": "run-s clean:deps",
 		"demo": "node doc/demo.js"
 	}
 }

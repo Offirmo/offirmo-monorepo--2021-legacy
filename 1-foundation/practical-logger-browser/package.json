@@ -22,7 +22,6 @@
 		"build:prod": "node ../../scripts/build-typescript.js",
 
 		"dev": "run-s clean build:dev:watch",
-		"test": "../../node_modules/.bin/mocha --opts ../../node_modules/@offirmo/unit-test-toolbox/mocha.opts ../../node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es7.cjs/**/*spec.js'",
 		"build": "run-s clean build:prod",
 		"cheatsheet": "node doc/cheatsheet.js",
 		"demo": "node doc/demo.js"

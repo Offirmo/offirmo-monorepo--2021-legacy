@@ -9,7 +9,7 @@ import {
 
 declare const console: any;
 
-describe('timestamps', function() {
+describe('@offirmo/timestamps', function() {
 
 	describe('get_UTC_timestamp_ms()', function() {
 

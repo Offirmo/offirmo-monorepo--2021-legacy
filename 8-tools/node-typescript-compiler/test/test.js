@@ -4,7 +4,7 @@
 
 const tsc = require('..')
 
-console.log(tsc)
+console.log('tsc exported =', tsc)
 
 tsc.compile({
 	'help': true

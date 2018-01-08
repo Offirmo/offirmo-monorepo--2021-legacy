@@ -10,6 +10,7 @@ Doc:
 
 ```bash
 bolt ws run build
+bolt ws run test
 bolt ws run cheatsheet
 bolt ws run clean
 
