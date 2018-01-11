@@ -175,7 +175,8 @@ You feel useless and reflect on your place in the world. +{{wisdom}} wisdom!`,
 You are escorting an important NPC.
 Frustratingly, if you walk, he's faster than you.
 However, if you run, you're faster than him!
-By strafing and running in circles, you manage.
+By strafing and running in circles, you manage
+to stay close to him.{{br}}
 +{{health}} health thanks to your efforts!`,
 
 		// memecenter.com

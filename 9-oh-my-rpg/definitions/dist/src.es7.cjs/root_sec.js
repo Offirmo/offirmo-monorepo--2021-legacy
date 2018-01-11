@@ -10,7 +10,7 @@ function get_default_SEC_context() {
 }
 exports.get_default_SEC_context = get_default_SEC_context;
 function oh_my_rpg_get_SEC({ module, parent_SEC }) {
-    if (parent_SEC && !soft_execution_context.isomorphic.isSEC(parent_SEC)) {
+    if (parent_SEC && !soft_execution_context.isSEC(parent_SEC)) {
         // better error
         throw new Error(`@oh-my-rpg: missing sec when creating module "${module}"!`);
     }

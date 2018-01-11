@@ -28,11 +28,6 @@ import * as WalletState from '@oh-my-rpg/state-wallet'
 import { Currency } from '@oh-my-rpg/state-wallet'
 
 import * as InventoryState from '@oh-my-rpg/state-inventory'
-import {
-	InventoryCoordinates,
-	get_item_in_slot,
-	get_item_at_coordinates,
-} from '@oh-my-rpg/state-inventory'
 
 import * as PRNGState from '@oh-my-rpg/state-prng'
 import {
@@ -115,7 +110,7 @@ function create(): State {
 		base_strength: 1,
 	})
 	state = receive_item(state, start_weapon)
-	state = equip_item(state, 0)
+	state = equip_item_at_coord(state, 0)
 
 	const start_armor = create_armor(rng, {
 		base_hid: 'socks',
@@ -125,7 +120,7 @@ function create(): State {
 		base_strength: 1,
 	})
 	state = receive_item(state, start_armor)
-	state = equip_item(state, 0)
+	state = equip_item_at_coord(state, 0)
 
 	//state.prng = PRNGState.update_use_count(state.prng, rng)
 
@@ -296,7 +291,7 @@ function play_good(state: State, explicit_adventure_archetype_hid?: string): Sta
 
 	if (gained.weapon_improvement) {
 		gain_count++
-		let weapon_to_enhance = get_item_in_slot(state.inventory, InventorySlot.weapon) as Weapon
+		let weapon_to_enhance = InventoryState.get_item_in_slot(state.inventory, InventorySlot.weapon) as Weapon
 		if (weapon_to_enhance && weapon_to_enhance.enhancement_level < MAX_WEAPON_ENHANCEMENT_LEVEL)
 			enhance_weapon(weapon_to_enhance)
 		// TODO enhance another weapon as fallback
@@ -304,7 +299,7 @@ function play_good(state: State, explicit_adventure_archetype_hid?: string): Sta
 
 	if (gained.armor_improvement) {
 		gain_count++
-		const armor_to_enhance = get_item_in_slot(state.inventory, InventorySlot.armor) as Armor
+		const armor_to_enhance = InventoryState.get_item_in_slot(state.inventory, InventorySlot.armor) as Armor
 		if (armor_to_enhance && armor_to_enhance.enhancement_level < MAX_ARMOR_ENHANCEMENT_LEVEL)
 			enhance_armor(armor_to_enhance)
 		// TODO enhance another armor as fallback
@@ -319,8 +314,8 @@ function play_good(state: State, explicit_adventure_archetype_hid?: string): Sta
 	return state
 }
 
-function appraise_item_at_coordinates(state: Readonly<State>, coordinates: InventoryCoordinates): number {
-	const item_to_sell = get_item_at_coordinates(state.inventory, coordinates)
+function appraise_item(state: Readonly<State>, uuid: UUID): number {
+	const item_to_sell = InventoryState.get_item(state.inventory, uuid)
 	if (!item_to_sell)
 		throw new Error('Sell: No item!')
 
@@ -346,8 +341,8 @@ function play(state: State, explicit_adventure_archetype_hid?: string): State {
 	return play_good(state, explicit_adventure_archetype_hid)
 }
 
-function equip_item(state: State, coordinates: InventoryCoordinates): State {
-	state.inventory = InventoryState.equip_item(state.inventory, coordinates)
+function equip_item(state: State, uuid: UUID): State {
+	state.inventory = InventoryState.equip_item(state.inventory, uuid)
 
 	// TODO count it as a meaningful interaction only if positive (or with a limit)
 	state.meaningful_interaction_count++;
@@ -355,10 +350,10 @@ function equip_item(state: State, coordinates: InventoryCoordinates): State {
 	return state
 }
 
-function sell_item(state: State, coordinates: InventoryCoordinates): State {
-	const price = appraise_item_at_coordinates(state, coordinates)
+function sell_item(state: State, uuid: UUID): State {
+	const price = appraise_item(state, uuid)
 
-	state.inventory = InventoryState.remove_item(state.inventory, coordinates)
+	state.inventory = InventoryState.remove_item(state.inventory, uuid)
 	state.wallet = WalletState.add_amount(state.wallet, Currency.coin, price)
 
 	// TODO count it as a meaningful interaction only if positive (or with a limit)
@@ -660,7 +655,7 @@ export {
 	Adventure,
 	State,
 
-	appraise_item_at_coordinates,
+	appraise_item,
 
 	create,
 

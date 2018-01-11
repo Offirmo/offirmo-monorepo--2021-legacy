@@ -4,17 +4,16 @@ const {
 	LIB,
 	INTERNAL_PROP,
 	createCatcher,
-	isomorphic: {
-		isSEC,
-		create: createCore,
-		setRoot,
-		getContext,
-	}
+	isSEC,
+	setRoot,
+	getContext,
+	isomorphic,
 } = require('@offirmo/soft-execution-context')
+
 const { createLogger } = require('@offirmo/practical-logger-node')
 
 function create(...args) {
-	const SEC = createCore(...args)
+	const SEC = isomorphic.create(...args)
 
 	// TODO protect from double install
 
@@ -51,14 +50,20 @@ function create(...args) {
 	}
 }
 
+
 const node = {
 	create,
 }
 
-export {
+module.exports = {
+	LIB,
+	INTERNAL_PROP,
+	createCatcher,
 	isSEC,
 	setRoot,
 	getContext,
+
+	isomorphic,
 
 	node,
 }

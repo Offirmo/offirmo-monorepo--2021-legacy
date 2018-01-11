@@ -4,7 +4,7 @@ const Conf = require('conf')
 
 const soft_execution_context = require('@offirmo/soft-execution-context-node')
 const { compatibleLoggerToConsole } = require('@offirmo/loggers-types-and-stubs')
-const { migrate_to_latest } = require('@oh-my-rpg/state-the-boring-rpg')
+const { migrate_to_latest, reseed } = require('@oh-my-rpg/state-the-boring-rpg')
 const { createLogger } = require('@offirmo/practical-logger-node')
 const { DEFAULT_SEED } = require( '@oh-my-rpg/state-prng')
 
@@ -72,15 +72,19 @@ function init_savegame() {
 		logger.verbose(`config path: "${config.path}"`)
 		logger.trace('loaded state:', {state: config.store})
 
+		const was_empty_state = !config.store && !config.store.schema_version
 		let state = migrate_to_latest(SEC, config.store)
 
-		const is_new_state = state.prng.use_count === 0 && state.prng.seed === DEFAULT_SEED
-		if (is_new_state) {
-			state = reseed(state)
-			logger.verbose('Clean savegame created from scratch + reseeded:', {state})
+		if (was_empty_state) {
+			logger.verbose('Clean savegame created from scratch:', {state})
 		}
 		else {
 			logger.trace('migrated state:', {state})
+		}
+
+		if (state.prng.seed === DEFAULT_SEED) {
+			logger.verbose('State reseeded:', {state})
+			state = reseed(state)
 		}
 
 		if (state.prng.seed === DEFAULT_SEED)

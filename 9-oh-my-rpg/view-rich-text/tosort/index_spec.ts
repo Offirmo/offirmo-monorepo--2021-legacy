@@ -12,9 +12,9 @@ import { generate_random_demo_monster } from '@oh-my-rpg/logic-monsters'
 import {
 	State as InventoryState,
 	factory as inventory_factory,
-	equip_item,
+	equip_item_at_coord,
 	add_item,
-	remove_item,
+	remove_item_at_coord,
 } from '@oh-my-rpg/state-inventory'
 
 import {
@@ -235,8 +235,8 @@ describe('🔠  view to text', function() {
 				let inventory = inventory_factory()
 				inventory = add_item(inventory, generate_random_demo_weapon())
 				inventory = add_item(inventory, generate_random_demo_armor())
-				inventory = equip_item(inventory, 0)
-				inventory = equip_item(inventory, 0)
+				inventory = equip_item_at_coord(inventory, 0)
+				inventory = equip_item_at_coord(inventory, 0)
 
 				const str = render_equipment(inventory, {
 					globalize: Globalize('en'),
@@ -277,7 +277,7 @@ describe('🔠  view to text', function() {
 				inventory = add_item(inventory, generate_random_demo_weapon())
 				inventory = add_item(inventory, generate_random_demo_armor())
 				inventory = add_item(inventory, generate_random_demo_armor())
-				inventory = remove_item(inventory, 4)
+				inventory = remove_item_at_coord(inventory, 4)
 
 				const str = render_inventory(inventory, {
 					globalize: Globalize('en'),

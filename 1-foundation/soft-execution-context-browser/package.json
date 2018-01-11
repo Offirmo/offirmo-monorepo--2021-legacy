@@ -1,0 +1,20 @@
+{
+	"name": "@offirmo/soft-execution-context-browser",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+	"version": "0.0.1",
+	"main": "src/index.js",
+	"dependencies": {
+		"@offirmo/practical-logger-browser": "^0.0.1",
+		"@offirmo/soft-execution-context": "^0.0.1"
+	},
+	"devDependencies": {
+		"npm-run-all": "^4.1.2",
+		"tslib": "^1.8.1"
+	},
+	"scripts": {
+		"cheatsheet": "node doc/cheatsheet.js",
+		"demo": "node doc/demo.js"
+	}
+}

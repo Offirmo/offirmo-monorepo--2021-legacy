@@ -1,6 +1,6 @@
 {
 	"name": "the-npm-rpg",
-	"version": "0.8.0",
+	"version": "0.9.0",
 	"description": "⚔🛡💰 The npm RPG, a command line RPG game. Just ⌨ `npx the-npm-rpg`!",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "UNLICENSED",
@@ -12,17 +12,6 @@
 		"node": ">=8"
 	},
 	"bin": "./bin/index.js",
-	"scripts": {
-		"__dev": "~~~~~~~ DEVELOPMENT ~~~~~~~",
-		"clean": "rm -rf dist",
-		"build:prod": "webpack --config meta/webpack.config.ts",
-		"start": "node src/index.js",
-		"test": "echo 'TODO'",
-		"__helpers": "----------- Helpers -----------",
-		"build": "run-s clean build:prod",
-
-		"bin": "bin/index.js"
-	},
 	"dependencies": {
 		"conf": "^1.4.0"
 	},
@@ -58,6 +47,17 @@
 		"universal-analytics": "^0.4.16",
 		"username": "^3.0.0",
 		"webpack": "^3.10.0"
+	},
+	"scripts": {
+		"__dev": "~~~~~~~ DEVELOPMENT ~~~~~~~",
+		"clean": "rm -rf dist",
+		"build:prod": "webpack --config meta/webpack.config.ts",
+		"start": "node src/index.js",
+		"test": "echo 'TODO'",
+		"__helpers": "----------- Helpers -----------",
+		"build": "run-s clean build:prod",
+
+		"bin": "bin/index.js"
 	},
 	"custom-field": "just curious",
 	"custom-object": {

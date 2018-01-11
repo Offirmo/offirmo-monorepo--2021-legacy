@@ -9,7 +9,7 @@ exports.ElementType = ElementType;
 /////////////////////
 const ItemQuality = typescript_string_enums_1.Enum('common', 'uncommon', 'rare', 'epic', 'legendary', 'artifact');
 exports.ItemQuality = ItemQuality;
-const InventorySlot = typescript_string_enums_1.Enum('none', 'weapon', 'armor');
+const InventorySlot = typescript_string_enums_1.Enum('weapon', 'armor');
 exports.InventorySlot = InventorySlot;
 /////////////////////
 //# sourceMappingURL=types.js.map

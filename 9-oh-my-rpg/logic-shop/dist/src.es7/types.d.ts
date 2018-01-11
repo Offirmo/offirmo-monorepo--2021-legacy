@@ -1,0 +1,3 @@
+interface Shop {
+}
+export { Shop };

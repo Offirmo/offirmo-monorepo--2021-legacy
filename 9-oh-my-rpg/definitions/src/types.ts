@@ -39,7 +39,6 @@ const ItemQuality = Enum(
 type ItemQuality = Enum<typeof ItemQuality>
 
 const InventorySlot = Enum(
-	'none',
 	'weapon',
 	'armor',
 )

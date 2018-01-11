@@ -5,7 +5,6 @@
 // - valid in files ?
 
 
-
 function get_UTC_timestamp_ms(): number {
 	return (+ Date.now())
 }

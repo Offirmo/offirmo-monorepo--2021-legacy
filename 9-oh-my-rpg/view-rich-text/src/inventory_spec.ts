@@ -7,9 +7,9 @@ import { generate_random_demo_armor, DEMO_ARMOR_1, DEMO_ARMOR_2 } from '@oh-my-r
 
 import {
 	create as create_inventory,
-	equip_item,
+	equip_item_at_coord,
 	add_item,
-	remove_item,
+	remove_item_at_coord,
 } from '@oh-my-rpg/state-inventory'
 
 import {
@@ -57,7 +57,7 @@ describe('🔠  view to @offirmo/rich-text-format', function() {
 				inventory = add_item(inventory, generate_random_demo_weapon())
 				inventory = add_item(inventory, generate_random_demo_armor())
 				inventory = add_item(inventory, generate_random_demo_armor())
-				inventory = remove_item(inventory, 4)
+				inventory = remove_item_at_coord(inventory, 4)
 
 				const $doc = render_backpack(inventory)
 				const str = RichText.to_text($doc)
@@ -91,7 +91,7 @@ describe('🔠  view to @offirmo/rich-text-format', function() {
 				inventory = add_item(inventory, generate_random_demo_weapon())
 				inventory = add_item(inventory, generate_random_demo_armor())
 				inventory = add_item(inventory, generate_random_demo_armor())
-				inventory = remove_item(inventory, 4)
+				inventory = remove_item_at_coord(inventory, 4)
 
 				const $doc = render_backpack(inventory)
 				console.log(rich_text_to_ansi($doc))
@@ -119,8 +119,8 @@ describe('🔠  view to @offirmo/rich-text-format', function() {
 				let inventory = create_inventory()
 				inventory = add_item(inventory, DEMO_WEAPON_1)
 				inventory = add_item(inventory, DEMO_ARMOR_2)
-				inventory = equip_item(inventory, 0)
-				inventory = equip_item(inventory, 0)
+				inventory = equip_item_at_coord(inventory, 0)
+				inventory = equip_item_at_coord(inventory, 0)
 
 				const $doc = render_equipment(inventory)
 				const str = RichText.to_text($doc)
@@ -135,8 +135,8 @@ describe('🔠  view to @offirmo/rich-text-format', function() {
 				let inventory = create_inventory()
 				inventory = add_item(inventory, DEMO_WEAPON_1)
 				inventory = add_item(inventory, DEMO_ARMOR_2)
-				inventory = equip_item(inventory, 0)
-				inventory = equip_item(inventory, 0)
+				inventory = equip_item_at_coord(inventory, 0)
+				inventory = equip_item_at_coord(inventory, 0)
 
 				const $doc = render_equipment(inventory)
 				console.log(rich_text_to_ansi($doc))
@@ -151,15 +151,15 @@ describe('🔠  view to @offirmo/rich-text-format', function() {
 				let inventory = create_inventory()
 				inventory = add_item(inventory, DEMO_WEAPON_1)
 				inventory = add_item(inventory, DEMO_ARMOR_2)
-				inventory = equip_item(inventory, 0)
-				inventory = equip_item(inventory, 0)
+				inventory = equip_item_at_coord(inventory, 0)
+				inventory = equip_item_at_coord(inventory, 0)
 				inventory = add_item(inventory, generate_random_demo_weapon())
 				inventory = add_item(inventory, generate_random_demo_weapon())
 				inventory = add_item(inventory, generate_random_demo_armor())
 				inventory = add_item(inventory, generate_random_demo_weapon())
 				inventory = add_item(inventory, generate_random_demo_armor())
 				inventory = add_item(inventory, generate_random_demo_armor())
-				inventory = remove_item(inventory, 4)
+				inventory = remove_item_at_coord(inventory, 4)
 
 				let wallet = create_wallet()
 				wallet = add_amount(wallet, Currency.coin, 12345)

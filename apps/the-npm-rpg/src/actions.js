@@ -11,26 +11,26 @@ function play({config}) {
 	config.set(state)
 }
 
-function equip_item_at_coordinates({config}, coordinates) {
+function equip_item({config}, uuid) {
 	let state = config.store
-	state = tbrpg.equip_item(state, coordinates)
+	state = tbrpg.equip_item(state, uuid)
 	config.set(state)
 }
 
-function sell_item_at_coordinates({config}, coordinates) {
+function sell_item({config}, uuid) {
 	let state = config.store
-	state = tbrpg.sell_item(state, coordinates)
+	state = tbrpg.sell_item(state, uuid)
 	config.set(state)
 }
 
-function appraise_item_at_coordinates({config}, coordinates) {
+function appraise_item({config}, uuid) {
 	let state = config.store
-	return tbrpg.appraise_item_at_coordinates(state, coordinates)
+	return tbrpg.appraise_item(state, uuid)
 }
 
-function does_item_exist_at_coordinate({config}, coordinates) {
+function does_item_exist_in_unslotted({config}, uuid) {
 	let state = config.store
-	return !!get_item_at_coordinates(state.inventory, coordinates)
+	return !!get_item_at_coordinates(state.inventory, uuid)
 }
 
 function rename_avatar({config}, new_name) {

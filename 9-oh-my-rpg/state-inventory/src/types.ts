@@ -1,4 +1,5 @@
 import {
+	UUID,
 	Item,
 } from '@oh-my-rpg/definitions'
 
@@ -13,18 +14,19 @@ interface State {
 	schema_version: number
 	revision: number
 
-	unslotted_capacity: number
 	slotted: {
 		[slot: string]: Item | null
 	}
-	unslotted: Array<Item | null>
+	unslotted_capacity: number
+	unslotted: Array<Item>
 }
 
 /////////////////////
 
 export {
-	InventoryCoordinates,
+	UUID,
 	Item,
+	InventoryCoordinates,
 	State,
 }
 

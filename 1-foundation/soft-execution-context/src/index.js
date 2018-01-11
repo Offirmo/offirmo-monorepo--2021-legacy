@@ -25,16 +25,16 @@ function create(...args) {
 }
 
 const isomorphic = {
-	isSEC,
 	create,
-	setRoot,
-	getContext,
 }
 
 export {
 	LIB,
 	INTERNAL_PROP,
 	createCatcher,
+	isSEC,
+	setRoot,
+	getContext,
 
 	isomorphic,
 }

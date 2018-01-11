@@ -1,7 +1,7 @@
 /////////////////////
 
 import { Random, Engine } from '@offirmo/random'
-import { Item, ItemQuality, InventorySlot } from '@oh-my-rpg/definitions'
+import { Item, InventorySlot } from '@oh-my-rpg/definitions'
 import {
 	Weapon,
 	create as create_weapon,
@@ -12,11 +12,6 @@ import {
 	create as create_armor,
 	get_medium_damage_reduction,
 } from '@oh-my-rpg/logic-armors'
-
-
-import {
-	WEAPON_STRENGTH_TO_COINS_COEFFICIENT,
-} from './consts'
 
 /////////////////////
 

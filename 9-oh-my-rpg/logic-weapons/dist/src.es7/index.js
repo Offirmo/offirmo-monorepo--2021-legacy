@@ -1,7 +1,6 @@
 /////////////////////
-import { ElementType, create_element_base } from '@oh-my-rpg/definitions';
+import { ItemQuality, InventorySlot, ElementType, create_item_base, compare_items_by_quality, } from '@oh-my-rpg/definitions';
 import { Random } from '@offirmo/random';
-import { ItemQuality, InventorySlot } from '@oh-my-rpg/definitions';
 import { i18n_messages, ENTRIES as static_weapon_data } from './data';
 import { WeaponPartType, } from './types';
 import { get_interval } from './consts';
@@ -42,7 +41,7 @@ const pick_random_base_strength = Random.integer(MIN_STRENGTH, MAX_STRENGTH);
 /////////////////////
 function create(rng, hints = {}) {
     // TODO add a check for hints to be in existing components
-    return Object.assign({}, create_element_base(ElementType.item), { slot: InventorySlot.weapon, base_hid: hints.base_hid || pick_random_base(rng), qualifier1_hid: hints.qualifier1_hid || pick_random_qualifier1(rng), qualifier2_hid: hints.qualifier2_hid || pick_random_qualifier2(rng), quality: hints.quality || pick_random_quality(rng), base_strength: hints.base_strength || pick_random_base_strength(rng), enhancement_level: hints.enhancement_level || 0 });
+    return Object.assign({ slot: InventorySlot.weapon, base_hid: hints.base_hid || pick_random_base(rng), qualifier1_hid: hints.qualifier1_hid || pick_random_qualifier1(rng), qualifier2_hid: hints.qualifier2_hid || pick_random_qualifier2(rng) }, create_item_base(InventorySlot.weapon, hints.quality || pick_random_quality(rng)), { base_strength: hints.base_strength || pick_random_base_strength(rng), enhancement_level: hints.enhancement_level || 0 });
 }
 /////////////////////
 // for demo purpose, all attributes having the same probability + also random enhancement level
@@ -53,6 +52,18 @@ function generate_random_demo_weapon() {
     });
 }
 /////////////////////
+// for sorting
+function compare_weapons_by_strength(a, b) {
+    const a_dmg = get_medium_damage(a);
+    const b_dmg = get_medium_damage(b);
+    if (a_dmg !== b_dmg)
+        return b_dmg - a_dmg;
+    // with equal damage, the least enhanced has more potential
+    if (a.enhancement_level !== b.enhancement_level)
+        return a.enhancement_level - b.enhancement_level;
+    // fallback to other attributes
+    return compare_items_by_quality(a, b) || a.uuid.localeCompare(b.uuid);
+}
 function enhance(weapon) {
     if (weapon.enhancement_level >= MAX_ENHANCEMENT_LEVEL)
         throw new Error(`can't enhance a weapon above the maximal enhancement level!`);
@@ -91,6 +102,6 @@ const DEMO_WEAPON_2 = {
     enhancement_level: MAX_ENHANCEMENT_LEVEL,
 };
 /////////////////////
-export { WeaponPartType, MIN_ENHANCEMENT_LEVEL, MAX_ENHANCEMENT_LEVEL, MIN_STRENGTH, MAX_STRENGTH, create, generate_random_demo_weapon, enhance, get_damage_interval, get_medium_damage, i18n_messages, static_weapon_data, DEMO_WEAPON_1, DEMO_WEAPON_2, };
+export { WeaponPartType, MIN_ENHANCEMENT_LEVEL, MAX_ENHANCEMENT_LEVEL, MIN_STRENGTH, MAX_STRENGTH, create, generate_random_demo_weapon, compare_weapons_by_strength, enhance, get_damage_interval, get_medium_damage, i18n_messages, static_weapon_data, DEMO_WEAPON_1, DEMO_WEAPON_2, };
 /////////////////////
 //# sourceMappingURL=index.js.map

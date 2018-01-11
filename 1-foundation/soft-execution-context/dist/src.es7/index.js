@@ -8,10 +8,7 @@ function create(...args) {
     return SEC;
 }
 const isomorphic = {
-    isSEC,
     create,
-    setRoot,
-    getContext,
 };
-export { LIB, INTERNAL_PROP, createCatcher, isomorphic, };
+export { LIB, INTERNAL_PROP, createCatcher, isSEC, setRoot, getContext, isomorphic, };
 //# sourceMappingURL=index.js.map

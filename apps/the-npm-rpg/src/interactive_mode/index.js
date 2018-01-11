@@ -183,6 +183,8 @@ function start_loop(SEC, options) {
 
 				const state = config.store
 
+				xxx
+
 				if (chat_state.sub.inventory.selected) {
 					const coords = chat_state.sub.inventory.selected - 1
 					const selected_item = get_item_at_coordinates(state.inventory, coords)

@@ -5,7 +5,7 @@ const ElementType = Enum('item',
 'location', 'lore');
 /////////////////////
 const ItemQuality = Enum('common', 'uncommon', 'rare', 'epic', 'legendary', 'artifact');
-const InventorySlot = Enum('none', 'weapon', 'armor');
+const InventorySlot = Enum('weapon', 'armor');
 /////////////////////
 export { ElementType, ItemQuality, InventorySlot, };
 /////////////////////

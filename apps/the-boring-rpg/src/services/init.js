@@ -1,8 +1,8 @@
 "use strict";
 
-import * as soft_execution_context from '@offirmo/soft-execution-context/dist/src.es7.cjs/soft-execution-context-browser'
+import * as soft_execution_context from '@offirmo/soft-execution-context-browser'
 import { migrate_to_latest, reseed } from '@oh-my-rpg/state-the-boring-rpg'
-const { createLogger } = require('@offirmo/soft-execution-context/dist/src.es7.cjs/universal-logger-browser')
+const { createLogger } = require('@offirmo/practical-logger-browser')
 import { DEFAULT_SEED } from '@oh-my-rpg/state-prng'
 
 import { LS_KEYS } from './consts'
@@ -74,17 +74,21 @@ function init_savegame() {
 		catch (err) {
 			// no need
 		}
+		const was_empty_state = !state
 
 		logger.trace('loaded state:', {state})
 		state = migrate_to_latest(SEC, state)
 
-		const is_new_state = state.prng.use_count === 0 && state.prng.seed === DEFAULT_SEED
-		if (is_new_state) {
-			state = reseed(state)
-			logger.verbose('Clean savegame created from scratch + reseeded:', {state})
+		if (was_empty_state) {
+			logger.verbose('Clean savegame created from scratch:', {state})
 		}
 		else {
 			logger.trace('migrated state:', {state})
+		}
+
+		if (state.prng.seed === DEFAULT_SEED) {
+			logger.verbose('State reseeded:', {state})
+			state = reseed(state)
 		}
 
 		if (state.prng.seed === DEFAULT_SEED)

@@ -1,7 +1,7 @@
 "use strict";
 
 import * as tbrpg from '@oh-my-rpg/state-the-boring-rpg'
-import { get_item_at_coordinates } from '@oh-my-rpg/state-inventory'
+import { get_item } from '@oh-my-rpg/state-inventory'
 import { LS_KEYS } from './consts'
 
 function persist(state) {
@@ -17,28 +17,28 @@ function play(workspace) {
 	persist(state)
 }
 
-function equip_item_at_coordinates(workspace, coordinates) {
+function equip_item(workspace, uuid) {
 	let { state } = workspace
-	state = tbrpg.equip_item(state, coordinates)
+	state = tbrpg.equip_item(state, uuid)
 	workspace.state = state
 	persist(state)
 }
 
-function sell_item_at_coordinates(workspace, coordinates) {
+function sell_item(workspace, uuid) {
 	let { state } = workspace
-	state = tbrpg.sell_item(state, coordinates)
+	state = tbrpg.sell_item(state, uuid)
 	workspace.state = state
 	persist(state)
 }
 
-function appraise_item_at_coordinates(workspace, coordinates) {
+function appraise_item(workspace, uuid) {
 	let { state } = workspace
-	return tbrpg.appraise_item_at_coordinates(state, coordinates)
+	return tbrpg.appraise_item(state, uuid)
 }
 
-function does_item_exist_at_coordinate(workspace, coordinates) {
+function does_item_exist(workspace, uuid) {
 	let { state } = workspace
-	return !!get_item_at_coordinates(state.inventory, coordinates)
+	return !!get_item(state.inventory, uuid)
 }
 
 function rename_avatar(workspace, new_name) {

@@ -19,7 +19,6 @@
 	"dependencies": {},
 	"devDependencies": {
 		"@offirmo/cli-toolbox": "^1.0.0",
-		"@offirmo/loggers-types-and-stubs": "^0.2.0",
 		"@offirmo/random": "^2.0.4",
 		"@offirmo/unit-test-toolbox": "^3.0.0",
 		"@types/lodash": "^4.14.92",
@@ -69,6 +68,7 @@
 		"style-loader": "^0.19.1",
 		"term-size": "^1.2.0",
 		"tildify": "^1.2.0",
+		"ts-node": "^4.1.0",
 		"tslib": "^1.8.1",
 		"typescript": "^2.7.0-dev.20180105",
 		"typescript-string-enums": "^0.3.5",

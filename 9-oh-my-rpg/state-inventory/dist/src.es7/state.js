@@ -1,9 +1,10 @@
 /////////////////////
 import * as deepFreeze from 'deep-freeze-strict';
-import { SCHEMA_VERSION } from './consts';
 import { InventorySlot } from '@oh-my-rpg/definitions';
 import { DEMO_WEAPON_1, DEMO_WEAPON_2 } from '@oh-my-rpg/logic-weapons';
 import { DEMO_ARMOR_1, DEMO_ARMOR_2 } from '@oh-my-rpg/logic-armors';
+import { SCHEMA_VERSION } from './consts';
+import { compare_items } from './compare';
 /////////////////////
 function create() {
     return {
@@ -12,81 +13,39 @@ function create() {
         // todo rename equipped / backpack
         unslotted_capacity: 20,
         slotted: {},
-        unslotted: [
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-        ],
+        unslotted: [],
     };
 }
 /////////////////////
-// pass the item: can be a hint in case we have "allocated" bags (TODO one day)
-function find_unused_coordinates(state, item) {
-    return state.unslotted.findIndex(item => !item);
-}
 function auto_sort(state) {
-    // TODO sort by slot/strength
-    state.unslotted.sort();
+    state.unslotted.sort(compare_items);
     return state;
 }
 /////////////////////
-function coordinates_to_string(coordinates) {
-    return `#${coordinates}`;
-}
-/////////////////////
 function add_item(state, item) {
-    const coordinates = find_unused_coordinates(state, item);
-    if (coordinates < 0)
+    if (state.unslotted.length >= state.unslotted_capacity)
         throw new Error(`state-inventory: can't add item, inventory is full!`);
-    state.unslotted[coordinates] = item;
+    state.unslotted.push(item);
     return auto_sort(state);
 }
-function remove_item(state, coordinates) {
-    const item_to_remove = get_item_at_coordinates(state, coordinates);
-    if (!item_to_remove)
-        throw new Error(`state-inventory: can't remove item at ${coordinates_to_string(coordinates)}, not found!`);
-    state.unslotted[coordinates] = null;
-    return auto_sort(state);
+function remove_item_from_unslotted(state, uuid) {
+    const new_unslotted = state.unslotted.filter(i => i.uuid !== uuid);
+    if (new_unslotted.length === state.unslotted.length)
+        throw new Error(`state-inventory: can't remove item #${uuid}, not found!`);
+    state.unslotted = new_unslotted;
+    return state;
 }
-function equip_item(state, coordinates) {
-    const item_to_equip = get_item_at_coordinates(state, coordinates);
+function equip_item(state, uuid) {
+    const item_to_equip = state.unslotted.find(i => i.uuid === uuid);
     if (!item_to_equip)
-        throw new Error(`state-inventory: can't equip item at ${coordinates_to_string(coordinates)}, not found!`);
-    const slot = item_to_equip.slot;
-    if (slot === InventorySlot.none)
-        throw new Error(`state-inventory: can't equip item at ${coordinates_to_string(coordinates)}, not equipable!`);
-    const item_previously_in_slot = get_item_in_slot(state, slot); // may be null
-    state.slotted[slot] = item_to_equip;
-    state.unslotted[coordinates] = item_previously_in_slot; // whether it's null or not
-    return auto_sort(state);
-}
-function unequip_item(state, slot) {
-    const item_to_unequip = get_item_in_slot(state, slot);
-    if (!item_to_unequip)
-        throw new Error(`state-inventory: can't unequip item from slot ${slot}, it\'s empty!`);
-    const coordinates = find_unused_coordinates(state, item_to_unequip);
-    if (coordinates < 0)
-        throw new Error(`state-inventory: can't unequip item, inventory is full!`);
-    state.slotted[slot] = null;
-    delete state.slotted[slot];
-    state.unslotted[coordinates] = item_to_unequip;
+        throw new Error(`state-inventory: can't equip item #${uuid}, not found!`);
+    const target_slot = item_to_equip.slot;
+    const item_previously_in_slot = get_item_in_slot(state, target_slot); // may be null
+    // swap them
+    state.slotted[target_slot] = item_to_equip;
+    state = remove_item_from_unslotted(state, item_to_equip.uuid);
+    if (item_previously_in_slot)
+        state.unslotted.push(item_previously_in_slot);
     return auto_sort(state);
 }
 /////////////////////
@@ -99,8 +58,9 @@ function get_unequiped_item_count(state) {
 function get_item_count(state) {
     return get_equiped_item_count(state) + get_unequiped_item_count(state);
 }
-function get_item_at_coordinates(state, coordinates) {
-    return state.unslotted[coordinates] || null;
+function get_item(state, uuid) {
+    let item = state.unslotted.find(i => i.uuid === uuid);
+    return item ? item : null;
 }
 function get_item_in_slot(state, slot) {
     return state.slotted[slot] || null;
@@ -123,24 +83,6 @@ const DEMO_STATE = deepFreeze({
     unslotted: [
         DEMO_WEAPON_2,
         DEMO_ARMOR_1,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
     ],
 });
 // the oldest format we can migrate from
@@ -154,24 +96,6 @@ const OLDEST_LEGACY_STATE_FOR_TESTS = deepFreeze({
     unslotted: [
         DEMO_WEAPON_2,
         DEMO_ARMOR_1,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
     ],
 });
 // some hints may be needed to migrate to demo state
@@ -181,6 +105,6 @@ const MIGRATION_HINTS_FOR_TESTS = deepFreeze({
     },
 });
 /////////////////////
-export { InventorySlot, create, add_item, remove_item, equip_item, unequip_item, get_equiped_item_count, get_unequiped_item_count, get_item_count, get_item_at_coordinates, get_item_in_slot, iterables_unslotted, DEMO_STATE, OLDEST_LEGACY_STATE_FOR_TESTS, MIGRATION_HINTS_FOR_TESTS, };
+export { InventorySlot, create, add_item, remove_item_from_unslotted, equip_item, get_equiped_item_count, get_unequiped_item_count, get_item_count, get_item, get_item_in_slot, iterables_unslotted, DEMO_STATE, OLDEST_LEGACY_STATE_FOR_TESTS, MIGRATION_HINTS_FOR_TESTS, };
 /////////////////////
 //# sourceMappingURL=state.js.map

@@ -23,7 +23,6 @@ declare const ItemQuality: {
 };
 declare type ItemQuality = Enum<typeof ItemQuality>;
 declare const InventorySlot: {
-    none: "none";
     weapon: "weapon";
     armor: "armor";
 };

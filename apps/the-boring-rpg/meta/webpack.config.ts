@@ -4,7 +4,7 @@ const webpack = require('webpack')
 const PACKAGE_JSON_PATH = path.join('..', 'package.json')
 const { version } = require(PACKAGE_JSON_PATH)
 
-const PUBLIC_PATH = '/packages/the-boring-rpg'
+const PUBLIC_PATH = '/apps/the-boring-rpg'
 
 const config = {
 	entry: './src/index.jsx',

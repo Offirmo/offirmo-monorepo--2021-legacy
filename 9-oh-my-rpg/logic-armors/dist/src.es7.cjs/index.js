@@ -3,7 +3,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const definitions_1 = require("@oh-my-rpg/definitions");
 const random_1 = require("@offirmo/random");
-const definitions_2 = require("@oh-my-rpg/definitions");
 const data_1 = require("./data");
 exports.i18n_messages = data_1.i18n_messages;
 exports.static_armor_data = data_1.ENTRIES;
@@ -29,14 +28,14 @@ function pick_random_quality(rng) {
     // uncommon  =  389/1000
     // common    =  400/1000
     return random_1.Random.bool(400, 1000)(rng)
-        ? definitions_2.ItemQuality.common
+        ? definitions_1.ItemQuality.common
         : random_1.Random.bool(389, 600)(rng)
-            ? definitions_2.ItemQuality.uncommon
+            ? definitions_1.ItemQuality.uncommon
             : random_1.Random.bool(200, 211)(rng)
-                ? definitions_2.ItemQuality.rare
+                ? definitions_1.ItemQuality.rare
                 : random_1.Random.bool(10, 11)(rng)
-                    ? definitions_2.ItemQuality.epic
-                    : definitions_2.ItemQuality.legendary;
+                    ? definitions_1.ItemQuality.epic
+                    : definitions_1.ItemQuality.legendary;
 }
 function pick_random_base(rng) {
     return random_1.Random.pick(rng, ARMOR_BASES).hid;
@@ -51,7 +50,7 @@ const pick_random_base_strength = random_1.Random.integer(MIN_STRENGTH, MAX_STRE
 /////////////////////
 function create(rng, hints = {}) {
     // TODO add a check for hints to be in existing components
-    return Object.assign({}, definitions_1.create_element_base(definitions_1.ElementType.item), { slot: definitions_2.InventorySlot.armor, base_hid: hints.base_hid || pick_random_base(rng), qualifier1_hid: hints.qualifier1_hid || pick_random_qualifier1(rng), qualifier2_hid: hints.qualifier2_hid || pick_random_qualifier2(rng), quality: hints.quality || pick_random_quality(rng), base_strength: hints.base_strength || pick_random_base_strength(rng), enhancement_level: hints.enhancement_level || 0 });
+    return Object.assign({ base_hid: hints.base_hid || pick_random_base(rng), qualifier1_hid: hints.qualifier1_hid || pick_random_qualifier1(rng), qualifier2_hid: hints.qualifier2_hid || pick_random_qualifier2(rng) }, definitions_1.create_item_base(definitions_1.InventorySlot.armor, hints.quality || pick_random_quality(rng)), { base_strength: hints.base_strength || pick_random_base_strength(rng), enhancement_level: hints.enhancement_level || 0 });
 }
 exports.create = create;
 /////////////////////
@@ -64,6 +63,19 @@ function generate_random_demo_armor() {
 }
 exports.generate_random_demo_armor = generate_random_demo_armor;
 /////////////////////
+// for sorting
+function compare_armors_by_strength(a, b) {
+    const a_dmg = get_medium_damage_reduction(a);
+    const b_dmg = get_medium_damage_reduction(b);
+    if (a_dmg !== b_dmg)
+        return b_dmg - a_dmg;
+    // with equal damage, the least enhanced has more potential
+    if (a.enhancement_level !== b.enhancement_level)
+        return a.enhancement_level - b.enhancement_level;
+    // fallback to other attributes
+    return definitions_1.compare_items_by_quality(a, b) || a.uuid.localeCompare(b.uuid);
+}
+exports.compare_armors_by_strength = compare_armors_by_strength;
 function enhance(armor) {
     if (armor.enhancement_level >= MAX_ENHANCEMENT_LEVEL)
         throw new Error(`can't enhance an armor above the maximal enhancement level!`);
@@ -85,11 +97,11 @@ exports.get_medium_damage_reduction = get_medium_damage_reduction;
 const DEMO_ARMOR_1 = {
     uuid: 'uu1~test~demo~armor~0001',
     element_type: definitions_1.ElementType.item,
-    slot: definitions_2.InventorySlot.armor,
+    slot: definitions_1.InventorySlot.armor,
     base_hid: ARMOR_BASES[0].hid,
     qualifier1_hid: ARMOR_QUALIFIERS1[0].hid,
     qualifier2_hid: ARMOR_QUALIFIERS2[0].hid,
-    quality: definitions_2.ItemQuality.uncommon,
+    quality: definitions_1.ItemQuality.uncommon,
     base_strength: MIN_STRENGTH + 1,
     enhancement_level: MIN_ENHANCEMENT_LEVEL,
 };
@@ -97,11 +109,11 @@ exports.DEMO_ARMOR_1 = DEMO_ARMOR_1;
 const DEMO_ARMOR_2 = {
     uuid: 'uu1~test~demo~armor~0002',
     element_type: definitions_1.ElementType.item,
-    slot: definitions_2.InventorySlot.armor,
+    slot: definitions_1.InventorySlot.armor,
     base_hid: ARMOR_BASES[1].hid,
     qualifier1_hid: ARMOR_QUALIFIERS1[1].hid,
     qualifier2_hid: ARMOR_QUALIFIERS2[1].hid,
-    quality: definitions_2.ItemQuality.legendary,
+    quality: definitions_1.ItemQuality.legendary,
     base_strength: MAX_STRENGTH - 1,
     enhancement_level: MAX_ENHANCEMENT_LEVEL,
 };

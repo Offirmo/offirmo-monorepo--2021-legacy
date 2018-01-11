@@ -8,7 +8,7 @@ const { ask_question: raw_ask_question } = require('./ask_question')
 /////////////////////////////////////////////////
 
 const ui = require('./state')
-const { play, equip_item, sell_item, does_item_exist_at_coordinate, rename_avatar, change_class } = require('../actions')
+const { play, equip_item_at_coord, sell_item, does_item_exist_at_coordinate, rename_avatar, change_class } = require('../actions')
 const { render_interactive_before, render_interactive_after } = require('../screens')
 
 
@@ -77,7 +77,7 @@ function start_loop(options) {
 					key: 'e',
 					description: 'equip',
 					cb() {
-						equip_item(options, ui_state.selected_item_coordinates)
+						equip_item_at_coord(options, ui_state.selected_item_coordinates)
 						ui_state = ui.switch_screen(ui_state, 'inventory')
 					}
 				},

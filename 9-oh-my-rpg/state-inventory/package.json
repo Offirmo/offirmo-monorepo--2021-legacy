@@ -9,8 +9,8 @@
 	"license": "UNLICENSED",
 	"dependencies": {
 		"@oh-my-rpg/definitions": "^0.0.1",
-		"@oh-my-rpg/logic-weapons": "^0.0.1",
 		"@oh-my-rpg/logic-armors": "^0.0.1",
+		"@oh-my-rpg/logic-weapons": "^0.0.1",
 		"deep-freeze-strict": "^1.1.1"
 	},
 	"devDependencies": {

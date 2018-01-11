@@ -4,7 +4,7 @@
 	"license": "Unlicense",
 	"private": true,
 	"version": "0.0.1",
-	"main": "dist/src.es7.cjs/index.js",
+	"main": "src/index.js",
 	"dependencies": {
 		"@offirmo/practical-logger-node": "^0.0.1",
 		"@offirmo/soft-execution-context": "^0.0.1"
@@ -14,13 +14,6 @@
 		"tslib": "^1.8.1"
 	},
 	"scripts": {
-		"clean": "node ../../scripts/clean.js dist",
-
-		"build:dev:watch": "node ../../scripts/build-typescript.js --watch",
-		"build:prod": "node ../../scripts/build-typescript.js",
-
-		"dev": "run-s clean build:dev:watch",
-		"build": "run-s clean build:prod",
 		"cheatsheet": "node doc/cheatsheet.js",
 		"demo": "node doc/demo.js"
 	}
