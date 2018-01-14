@@ -11,7 +11,7 @@ import * as PRNGState from '@oh-my-rpg/state-prng'
 
 import { LIB_ID, SCHEMA_VERSION } from './consts'
 import { State } from './types'
-import { create, OLDEST_LEGACY_STATE_FOR_TESTS } from './state'
+import { create, reseed, OLDEST_LEGACY_STATE_FOR_TESTS } from './state'
 import { SoftExecutionContext, SECContext, get_SEC } from './sec'
 
 /////////////////////
@@ -42,6 +42,10 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: 
 				console.error(`${LIB_ID}: failed migrating schema, performing full reset !`, err)
 				state = create()
 			}
+		}
+
+		if (state.prng.seed === PRNGState.DEFAULT_SEED) {
+			state = reseed(state)
 		}
 
 		// migrate sub-reducers if any...

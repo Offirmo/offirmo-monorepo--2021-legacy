@@ -6,7 +6,7 @@ import { InventorySlot, ItemQuality } from '@oh-my-rpg/definitions'
 import { generate_random_demo_weapon, DEMO_WEAPON_1, DEMO_WEAPON_2 } from '@oh-my-rpg/logic-weapons'
 import { generate_random_demo_armor, DEMO_ARMOR_1, DEMO_ARMOR_2 } from '@oh-my-rpg/logic-armors'
 
-const { rich_text_to_ansi } = require('../../../the-npm-rpg/src/utils/rich_text_to_ansi')
+const { rich_text_to_ansi } = require('../../../../apps/the-npm-rpg/src/utils/rich_text_to_ansi')
 const prettyjson = require('prettyjson')
 function prettify_json(data: any, options = {}) {
 	return prettyjson.render(data, options)

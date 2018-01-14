@@ -60,7 +60,7 @@ function test_migrations({
 	console.log(`[MT] migration tester: ${path.basename(absolute_dir_path)}...`)
 
 	// early tests, always valid
-	describe.only('data migration', function() {
+	describe('data migration', function() {
 
 		context('when the schema version is more recent', function () {
 

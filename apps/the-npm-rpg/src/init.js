@@ -57,49 +57,8 @@ SEC.listenToUncaughtErrors()
 SEC.listenToUnhandledRejections()
 logger.trace('Soft Execution Context initialized.')
 
-
-function get_SEC() {
-	return SEC
-}
-
-function init_savegame() {
-	return SEC.xTry('init_savegame', ({logger}) => {
-		const config = new Conf({
-			configName: 'state',
-			defaults: {},
-		})
-
-		logger.verbose(`config path: "${config.path}"`)
-		logger.trace('loaded state:', {state: config.store})
-
-		const was_empty_state = !config.store && !config.store.schema_version
-		let state = migrate_to_latest(SEC, config.store)
-
-		if (was_empty_state) {
-			logger.verbose('Clean savegame created from scratch:', {state})
-		}
-		else {
-			logger.trace('migrated state:', {state})
-		}
-
-		if (state.prng.seed === DEFAULT_SEED) {
-			logger.verbose('State reseeded:', {state})
-			state = reseed(state)
-		}
-
-		if (state.prng.seed === DEFAULT_SEED)
-			throw new Error('Reseeding expected!')
-
-		config.clear()
-		config.set(state)
-
-		return config
-	})
-}
-
 /////////////////////////////////////////////////
 
 module.exports = {
 	SEC,
-	init_savegame,
 }

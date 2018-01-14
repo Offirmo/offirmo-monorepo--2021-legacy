@@ -13,8 +13,10 @@ if (!semver.satisfies(process.version, package_json.engines.node)) {
 
 /////////////////////////////////////////////////
 
+const Conf = require('conf')
+const { create_game_instance } = require('@oh-my-rpg/state-the-boring-rpg')
+
 const { SEC, init_savegame } = require('./init')
-const { play } = require('./actions')
 const { start_loop } = require('./interactive_mode')
 
 /////////////////////////////////////////////////
@@ -39,12 +41,25 @@ SEC.xPromiseTryCatch('starting', async ({ SEC, logger }) => {
 	options.is_interactive = !!process.stdout.isTTY // TODO read params also
 	//options.is_interactive = false
 	options.may_clear_screen = options.is_interactive
-	options.config = init_savegame(options)
+	options.config = new Conf({
+		configName: 'state',
+		defaults: {},
+	})
+	logger.verbose(`config path: "${options.config.path}"`)
+	logger.trace('loaded state:', {state: options.config.store})
+
+	/////////////////////////////////////////////////
+
+	const instance = create_game_instance({
+		SEC,
+		get_latest_state: () => options.config.store,
+		update_state: state => options.config.set(state),
+	})
 
 	/////////////////////////////////////////////////
 
 	if (options.is_interactive) {
-		return start_loop(SEC, options)
+		return start_loop(SEC, options, instance)
 			.then(() => console.log('Quitting...'))
 	}
 
@@ -52,7 +67,7 @@ SEC.xPromiseTryCatch('starting', async ({ SEC, logger }) => {
 
 	if (!options.is_interactive) {
 		throw new Error('Non-interactive mode or non-tty terminals are not supported at this time, sorry!')
-		//play(options)
+		//instance.play()
 	}
 
 //console.log('\n---------------------------------------------------------------\n')

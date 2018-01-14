@@ -19,36 +19,23 @@ const { rich_text_to_ansi } = require('../utils/rich_text_to_ansi')
 const { stylize_string } = require('../libs')
 const { render_header } = require('../view')
 const { prettify_json_for_debug } = require('../utils/debug')
-const {
-	play,
-	equip_item_at_coordinates,
-	sell_item_at_coordinates,
-	rename_avatar,
-	change_class,
-	reset_all,
-} = require('../actions')
 
-function get_recap({config}) {
-	const state = config.store
+function get_recap(state) {
 	return rich_text_to_ansi(tbrpg.get_recap(state))
 }
 
-function get_tip({config}) {
-	const state = config.store
+function get_tip(state) {
 	const tip = tbrpg.get_tip(state)
 	return tip && rich_text_to_ansi(tip)
 }
 
 
 
-function start_loop(SEC, options) {
+function start_loop(SEC, options, instance) {
 	return SEC.xPromiseTry('starting interactive loop', ({SEC, logger}) => {
 		logger.trace('all options:', prettify_json_for_debug(options))
 
 		render_header(options)
-
-		const {config} = options
-		//const state = config.store
 
 		function* gen_next_step() {
 			const chat_state = {
@@ -57,7 +44,7 @@ function start_loop(SEC, options) {
 				sub: {
 					main: {
 						last_displayed_adventure_uuid: (() => {
-							const { last_adventure } = config.store
+							const { last_adventure } = instance.get_latest_state()
 							return last_adventure && last_adventure.uuid
 						})()
 					},
@@ -78,7 +65,7 @@ function start_loop(SEC, options) {
 
 			function get_MODE_MAIN() {
 				const steps = []
-				const state = config.store
+				const state = instance.get_latest_state()
 				//console.log(state)
 				const { last_adventure } = state
 
@@ -129,12 +116,12 @@ function start_loop(SEC, options) {
 					// recap
 					steps.push({
 						type: 'simple_message',
-						msg_main: get_recap(options),
+						msg_main: get_recap(state),
 					})
 				}
 
 				// tip
-				let tip_msg = get_tip(options)
+				let tip_msg = get_tip(state)
 				if (tip_msg) {
 					steps.push({
 						type: 'simple_message',
@@ -151,7 +138,7 @@ function start_loop(SEC, options) {
 							value: 'play',
 							msgg_as_user: () => 'Let’s go adventuring!',
 							callback: () => {
-								play(options)
+								instance.play()
 							},
 						},
 						{
@@ -181,15 +168,13 @@ function start_loop(SEC, options) {
 				let msg_main = `What do you want to do?`
 				const choices = []
 
-				const state = config.store
-
-				xxx
+				const state = instance.get_latest_state()
 
 				if (chat_state.sub.inventory.selected) {
-					const coords = chat_state.sub.inventory.selected - 1
-					const selected_item = get_item_at_coordinates(state.inventory, coords)
-					const sell_price = tbrpg.appraise_item_at_coordinates(state, coords)
+					const uuid = chat_state.sub.inventory.selected
+					const selected_item = instance.get_item(uuid)
 					const item_ascii_full = rich_text_to_ansi(render_item(selected_item))
+					const sell_price = instance.appraise_item(uuid)
 
 					steps.push({
 						type: 'simple_message',
@@ -217,7 +202,7 @@ function start_loop(SEC, options) {
 						msgg_as_user: () => 'I want to equip it.',
 						msgg_acknowledge: () => 'Done!',
 						callback: () => {
-							equip_item_at_coordinates(options, coords)
+							instance.equip_item(uuid)
 							chat_state.sub.inventory = {}
 						}
 					})
@@ -227,7 +212,7 @@ function start_loop(SEC, options) {
 						msgg_as_user: () => `Deal for ${sell_price} coins.`,
 						msgg_acknowledge: () => `Here are you ${sell_price} coins. Pleased to do business with you!`,
 						callback: () => {
-							sell_item_at_coordinates(options, coords)
+							instance.sell_item(uuid)
 							chat_state.sub.inventory = {}
 						}
 					})
@@ -260,13 +245,13 @@ function start_loop(SEC, options) {
 						}))
 						choices.push({
 							msg_cta: 'Select ' + item_ascii,
-							value: index,
+							value: item.uuid,
 							key_hint: {
 								name: String.fromCharCode(97 + index),
 							},
 							msgg_as_user: () => 'I inspect ' + item_ascii,
 							callback: value => {
-								chat_state.sub.inventory.selected = value + 1 // to avoid 0
+								chat_state.sub.inventory.selected = value
 							},
 						})
 					})
@@ -293,7 +278,7 @@ function start_loop(SEC, options) {
 
 			function get_MODE_CHARACTER() {
 				const steps = []
-				const state = config.store
+				const state = instance.get_latest_state()
 
 				let msg_main = 'TODO char step'
 				const choices = []
@@ -310,7 +295,7 @@ function start_loop(SEC, options) {
 							msgg_as_user: () => `I want to follow the path of the ${klass}!`,
 							msgg_acknowledge: name => `You’ll make an amazing ${klass}.`,
 							callback: value => {
-								change_class(options, value)
+								instance.change_avatar_class(value)
 								chat_state.sub.character = {}
 							}
 						})
@@ -323,7 +308,7 @@ function start_loop(SEC, options) {
 						msgg_as_user: value => `My name is "${value}".`,
 						msgg_acknowledge: name => `You are now known as ${name}!`,
 						callback: value => {
-							rename_avatar(options, value)
+							instance.rename_avatar(value)
 							chat_state.sub.character = {}
 						},
 					}]
@@ -377,7 +362,7 @@ function start_loop(SEC, options) {
 
 			function get_MODE_META() {
 				const steps = []
-				const state = config.store
+				const state = instance.get_latest_state()
 
 				if (chat_state.sub.meta.reseting) {
 					steps.push({
@@ -389,7 +374,7 @@ function start_loop(SEC, options) {
 								msgg_as_user: () => 'Definitely.',
 								msgg_acknowledge: () => 'So be it...',
 								callback: () => {
-									reset_all(options)
+									instance.reset_all()
 									chat_state.sub.meta = {}
 								}
 							},
@@ -412,7 +397,7 @@ function start_loop(SEC, options) {
 							state.meta,
 							{
 								'game version': options.version,
-								'Your savegame path': config.path,
+								'Your savegame path': options.config.path,
 							}))
 					})
 

@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 
 import { DEMO_STATE } from '@oh-my-rpg/state-meta'
-const { rich_text_to_ansi } = require('../../../the-npm-rpg/src/utils/rich_text_to_ansi')
+const { rich_text_to_ansi } = require('../../../../apps/the-npm-rpg/src/utils/rich_text_to_ansi')
 
 import {
 	render_account_info,

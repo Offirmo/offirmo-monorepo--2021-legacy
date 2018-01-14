@@ -7,9 +7,9 @@ import { generate_random_demo_armor, DEMO_ARMOR_1, DEMO_ARMOR_2 } from '@oh-my-r
 
 import {
 	create as create_inventory,
-	equip_item_at_coord,
+	equip_item,
 	add_item,
-	remove_item_at_coord,
+	remove_item_from_unslotted,
 } from '@oh-my-rpg/state-inventory'
 
 import {
@@ -18,7 +18,7 @@ import {
 	add_amount,
 } from '@oh-my-rpg/state-wallet'
 
-const { rich_text_to_ansi } = require('../../../the-npm-rpg/src/utils/rich_text_to_ansi')
+const { rich_text_to_ansi } = require('../../../../apps/the-npm-rpg/src/utils/rich_text_to_ansi')
 const prettyjson = require('prettyjson')
 function prettify_json(data: any, options = {}) {
 	return prettyjson.render(data, options)
@@ -57,7 +57,7 @@ describe('🔠  view to @offirmo/rich-text-format', function() {
 				inventory = add_item(inventory, generate_random_demo_weapon())
 				inventory = add_item(inventory, generate_random_demo_armor())
 				inventory = add_item(inventory, generate_random_demo_armor())
-				inventory = remove_item_at_coord(inventory, 4)
+				inventory = remove_item_from_unslotted(inventory, inventory.unslotted[4].uuid)
 
 				const $doc = render_backpack(inventory)
 				const str = RichText.to_text($doc)
@@ -91,7 +91,7 @@ describe('🔠  view to @offirmo/rich-text-format', function() {
 				inventory = add_item(inventory, generate_random_demo_weapon())
 				inventory = add_item(inventory, generate_random_demo_armor())
 				inventory = add_item(inventory, generate_random_demo_armor())
-				inventory = remove_item_at_coord(inventory, 4)
+				inventory = remove_item_from_unslotted(inventory, inventory.unslotted[4].uuid)
 
 				const $doc = render_backpack(inventory)
 				console.log(rich_text_to_ansi($doc))
@@ -119,8 +119,8 @@ describe('🔠  view to @offirmo/rich-text-format', function() {
 				let inventory = create_inventory()
 				inventory = add_item(inventory, DEMO_WEAPON_1)
 				inventory = add_item(inventory, DEMO_ARMOR_2)
-				inventory = equip_item_at_coord(inventory, 0)
-				inventory = equip_item_at_coord(inventory, 0)
+				inventory = equip_item(inventory, DEMO_WEAPON_1.uuid)
+				inventory = equip_item(inventory, DEMO_ARMOR_2.uuid)
 
 				const $doc = render_equipment(inventory)
 				const str = RichText.to_text($doc)
@@ -135,8 +135,8 @@ describe('🔠  view to @offirmo/rich-text-format', function() {
 				let inventory = create_inventory()
 				inventory = add_item(inventory, DEMO_WEAPON_1)
 				inventory = add_item(inventory, DEMO_ARMOR_2)
-				inventory = equip_item_at_coord(inventory, 0)
-				inventory = equip_item_at_coord(inventory, 0)
+				inventory = equip_item(inventory, DEMO_WEAPON_1.uuid)
+				inventory = equip_item(inventory, DEMO_ARMOR_2.uuid)
 
 				const $doc = render_equipment(inventory)
 				console.log(rich_text_to_ansi($doc))
@@ -151,15 +151,15 @@ describe('🔠  view to @offirmo/rich-text-format', function() {
 				let inventory = create_inventory()
 				inventory = add_item(inventory, DEMO_WEAPON_1)
 				inventory = add_item(inventory, DEMO_ARMOR_2)
-				inventory = equip_item_at_coord(inventory, 0)
-				inventory = equip_item_at_coord(inventory, 0)
+				inventory = equip_item(inventory, DEMO_WEAPON_1.uuid)
+				inventory = equip_item(inventory, DEMO_ARMOR_2.uuid)
 				inventory = add_item(inventory, generate_random_demo_weapon())
 				inventory = add_item(inventory, generate_random_demo_weapon())
 				inventory = add_item(inventory, generate_random_demo_armor())
 				inventory = add_item(inventory, generate_random_demo_weapon())
 				inventory = add_item(inventory, generate_random_demo_armor())
 				inventory = add_item(inventory, generate_random_demo_armor())
-				inventory = remove_item_at_coord(inventory, 4)
+				inventory = remove_item_from_unslotted(inventory, inventory.unslotted[4].uuid)
 
 				let wallet = create_wallet()
 				wallet = add_amount(wallet, Currency.coin, 12345)

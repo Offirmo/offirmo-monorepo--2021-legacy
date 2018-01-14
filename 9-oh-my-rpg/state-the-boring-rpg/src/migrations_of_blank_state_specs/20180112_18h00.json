@@ -53,28 +53,7 @@
 				"enhancement_level": 0
 			}
 		},
-		"unslotted": [
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null
-		]
+		"unslotted": []
 	},
 	"wallet": {
 		"schema_version": 1,
@@ -85,7 +64,7 @@
 	"prng": {
 		"schema_version": 1,
 		"revision": 0,
-		"seed": 987,
+		"seed": 1234,
 		"use_count": 0
 	},
 	"last_adventure": null,

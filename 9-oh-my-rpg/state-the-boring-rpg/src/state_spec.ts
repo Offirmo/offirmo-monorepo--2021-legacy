@@ -11,7 +11,7 @@ import { ALL_GOOD_ADVENTURE_ARCHETYPES } from '@oh-my-rpg/logic-adventures'
 import {
 	get_unequiped_item_count,
 	get_equiped_item_count,
-	get_item_at_coordinates,
+	get_item,
 } from '@oh-my-rpg/state-inventory'
 
 import {
@@ -120,7 +120,7 @@ describe('⚔ 👑 😪  The Boring RPG - reducer', function() {
 							// a new item is present
 							expect(get_unequiped_item_count(state.inventory), 'unequipped').to.equal(1)
 							// it's a weapon !
-							expect(get_item_at_coordinates(state.inventory, 0)).to.have.property('slot', 'armor')
+							expect(state.inventory.unslotted[0]).to.have.property('slot', 'armor')
 						})
 						it('should sometime be an item improvement')
 					})
