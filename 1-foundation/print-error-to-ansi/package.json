@@ -12,7 +12,7 @@
 		"chalk": "^2.3.0"
 	},
 	"devDependencies": {
-		"@types/node": "^8.5.7",
+		"@types/node": "^8.5.8",
 		"npm-run-all": "^4.1.2",
 		"tslib": "^1.8.1"
 	},

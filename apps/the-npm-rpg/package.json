@@ -37,7 +37,7 @@
 		"gauge": "^2.7.4",
 		"latest-version": "^3.1.0",
 		"npm-run-all": "^4.1.2",
-		"opn": "^5.1.0",
+		"opn": "^5.2.0",
 		"package-json": "^4.0.1",
 		"prettyjson": "^1.2.1",
 		"semver": "^5.4.1",
