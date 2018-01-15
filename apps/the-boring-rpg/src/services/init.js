@@ -55,54 +55,8 @@ SEC.listenToAll()
 //SEC.listenToUnhandledRejections()
 logger.trace('Soft Execution Context initialized.')
 
-function get_SEC() {
-	return SEC
-}
-
-/////////////////////////////////////////////////
-
-function init_savegame() {
-	return SEC.xTry('init_savegame', ({logger}) => {
-		logger.verbose(`Storage key: "${LS_KEYS.savegame}"`)
-
-		const lscontent = localStorage.getItem(LS_KEYS.savegame)
-		let state = null
-		try {
-			if (lscontent)
-				state = JSON.parse(lscontent)
-		}
-		catch (err) {
-			// no need
-		}
-		const was_empty_state = !state
-
-		logger.trace('loaded state:', {state})
-		state = migrate_to_latest(SEC, state)
-
-		if (was_empty_state) {
-			logger.verbose('Clean savegame created from scratch:', {state})
-		}
-		else {
-			logger.trace('migrated state:', {state})
-		}
-
-		if (state.prng.seed === DEFAULT_SEED) {
-			logger.verbose('State reseeded:', {state})
-			state = reseed(state)
-		}
-
-		if (state.prng.seed === DEFAULT_SEED)
-			throw new Error('Reseeding expected!')
-
-		localStorage.setItem(LS_KEYS.savegame, JSON.stringify(state))
-
-		return state
-	})
-}
-
 /////////////////////////////////////////////////
 
 export {
 	SEC,
-	init_savegame,
 }

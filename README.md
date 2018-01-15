@@ -15,6 +15,8 @@ bolt ws run cheatsheet
 bolt ws run clean
 
 bolt ws exec -- rm -rf dist
+bolt ws exec -- rm -rf node_modules yarn.lock package-lock.json
+rm -rf node_modules yarn.lock package-lock.json
 
 bolt ws run build --only @offirmo/*
 bolt ws run build --only @oh-my-rpg/*

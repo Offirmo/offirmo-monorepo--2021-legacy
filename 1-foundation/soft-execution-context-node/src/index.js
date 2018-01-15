@@ -43,11 +43,10 @@ function create(...args) {
 
 	// TODO expose a node logger
 
-	return {
-		...SEC,
+	return Object.assign({}, SEC, {
 		listenToUncaughtErrors,
 		listenToUnhandledRejections,
-	}
+	})
 }
 
 

@@ -16,7 +16,9 @@
 			"apps/*"
 		]
 	},
-	"dependencies": {},
+	"dependencies": {
+		"acorn-stage3": "^0.4.0"
+	},
 	"devDependencies": {
 		"@offirmo/cli-toolbox": "^1.0.0",
 		"@offirmo/random": "^2.0.4",
