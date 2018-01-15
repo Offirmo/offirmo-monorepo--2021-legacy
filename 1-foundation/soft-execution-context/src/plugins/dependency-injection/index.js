@@ -3,7 +3,6 @@
 import { compatibleLoggerToConsole } from '@offirmo/loggers-types-and-stubs'
 import { LIB, INTERNAL_PROP } from '../../constants'
 import { SUB_LIB } from './constants'
-//import { createLogger, createChildLogger } from '../../../universal-logger-core' // TODO ?
 
 function getContext(SEC) {
 	return SEC[INTERNAL_PROP].DI.context
@@ -23,11 +22,7 @@ function installPluginDependencyInjection(SEC, args) {
 	// TODO check conflicts?
 	const defaultContext = {
 		env: 'development', // like express does
-		logger: compatibleLoggerToConsole,
-		/*logger: createLogger({
-			name: SECInternal.LS.module,
-			level: 'error'
-		}),*/
+		logger: compatibleLoggerToConsole, // no need for more, specialized versions of this lib will provide better
 	}
 
 	const parentContext = parent ? parent[INTERNAL_PROP].DI.context : {}

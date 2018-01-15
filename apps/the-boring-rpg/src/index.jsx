@@ -4,6 +4,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import 'normalize.css'
 
+const { create_game_instance } = require('@oh-my-rpg/state-the-boring-rpg')
+
 import { LS_KEYS } from './services/consts'
 import { SEC } from './services/init'
 import { App } from './components/app'

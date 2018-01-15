@@ -20,7 +20,6 @@
 		"lodash": "^4.17.4",
 		"prettyjson": "^1.2.1",
 		"write-json-file": "^2.3.0"
-
 	},
 	"devDependencies": {
 	}

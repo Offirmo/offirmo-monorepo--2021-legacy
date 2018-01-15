@@ -4,7 +4,6 @@ const tbrpg = require('@oh-my-rpg/state-the-boring-rpg')
 import { render_adventure } from '@oh-my-rpg/view-rich-text'
 
 import { Chat, ChatBubble } from '../../templates/chat-interface'
-import { play } from '../../../services/actions'
 import { rich_text_to_react } from '../../../utils/rich_text_to_react'
 
 
@@ -16,8 +15,10 @@ class Home extends React.Component {
 		this.state = {
 			bubbles: []
 		}
-		this.addRichTextBubble(tbrpg.get_recap(this.props.workspace.state), {before_mount: true})
-		this.addRichTextBubble(tbrpg.get_tip(this.props.workspace.state), {before_mount: true})
+
+		const state = this.props.workspace.instance.get_latest_state()
+		this.addRichTextBubble(tbrpg.get_recap(state), {before_mount: true})
+		this.addRichTextBubble(tbrpg.get_tip(state), {before_mount: true})
 		this.addRichTextBubble('What do you want to do?', {before_mount: true})
 	}
 
@@ -38,18 +39,16 @@ class Home extends React.Component {
 			this.setState(state => ({ bubbles: state.bubbles.concat(bubble) }))
 	}
 
-
 	componentDidMount () {
-		const {workspace} = this.props
-		const {state} = workspace
-
 		this.element.addEventListener('click', event => {
 			//console.log('click detected on', event.target)
 			const {workspace} = this.props
+			const state = workspace.instance.get_latest_state()
+
 			this.addRichTextBubble('Let’s go adventuring!', {direction: 'rtl'})
-			play(workspace)
-			this.addRichTextBubble(render_adventure(workspace.state.last_adventure))
-			this.addRichTextBubble(tbrpg.get_tip(workspace.state))
+			workspace.instance.play()
+			this.addRichTextBubble(render_adventure(state.last_adventure))
+			this.addRichTextBubble(tbrpg.get_tip(state))
 			this.addRichTextBubble('What do you want to do?')
 		})
 	}
@@ -60,7 +59,7 @@ class Home extends React.Component {
 
 	render() {
 		const {workspace} = this.props
-		const {state} = workspace
+		const state = workspace.instance.get_latest_state()
 
 		//console.log('render', this.state)
 		return (

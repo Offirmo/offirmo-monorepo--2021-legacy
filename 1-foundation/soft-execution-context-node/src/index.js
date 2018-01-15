@@ -12,8 +12,14 @@ const {
 
 const { createLogger } = require('@offirmo/practical-logger-node')
 
-function create(...args) {
-	const SEC = isomorphic.create(...args)
+function create(args = {}) {
+	args.context = args.context || {}
+	args.context.logger = args.context.logger || createLogger({
+		name: 'the-npm-rpg',
+		level: 'warn',
+	})
+
+	const SEC = isomorphic.create(args)
 
 	// TODO protect from double install
 
