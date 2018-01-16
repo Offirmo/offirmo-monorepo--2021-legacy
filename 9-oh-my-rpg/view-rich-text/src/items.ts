@@ -104,7 +104,7 @@ function render_armor(i: Armor, options: RenderItemOptions = DEFAULT_RENDER_ITEM
 		.done()
 
 	const builder = RichText.span()
-		.addClass('item', 'item--armor', 'item--quality--' + i.quality)
+		.addClass('item--armor', 'item--quality--' + i.quality)
 		.pushRawNode($node_quality, 'quality')
 		.pushRawNode(render_armor_name(i), 'name')
 		.pushRawNode($node_values, 'values')
@@ -133,7 +133,7 @@ function render_weapon(i: Weapon, options: RenderItemOptions = DEFAULT_RENDER_IT
 		.done()
 
 	const builder = RichText.span()
-		.addClass('item', 'item--weapon', 'item--quality--' + i.quality)
+		.addClass('item--weapon', 'item--quality--' + i.quality)
 		.pushRawNode($node_quality, 'quality')
 		.pushRawNode(render_weapon_name(i), 'name')
 		.pushRawNode($node_values, 'values')
@@ -151,16 +151,25 @@ function render_weapon(i: Weapon, options: RenderItemOptions = DEFAULT_RENDER_IT
 
 function render_item(i: Item, options: RenderItemOptions = DEFAULT_RENDER_ITEM_OPTIONS): RichText.Document {
 	if (!i)
-		return RichText.span().pushText('').done()
+		throw new Error('render_item(): no item provided!')
 
-	switch(i.slot) {
-		case InventorySlot.armor:
-			return render_armor(i as Armor, options)
-		case InventorySlot.weapon:
-			return render_weapon(i as Weapon, options)
-		default:
-			throw new Error(`render_item(): don't know how to render a "${i.slot}" !`)
-	}
+	const doc: RichText.Document = (function auto() {
+		switch (i.slot) {
+			case InventorySlot.armor:
+				return render_armor(i as Armor, options)
+			case InventorySlot.weapon:
+				return render_weapon(i as Weapon, options)
+			default:
+				throw new Error(`render_item(): don't know how to render a "${i.slot}" !`)
+		}
+	})()
+
+	doc!.$classes!.push('item')
+
+	// TODO move that to a higher level "render element" ?
+	doc!.$hints!.uuid = i.uuid
+
+	return doc
 }
 
 export {

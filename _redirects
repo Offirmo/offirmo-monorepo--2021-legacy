@@ -1,0 +1,4 @@
+# Redirects from what the browser requests to what we serve
+# https://www.netlify.com/docs/redirects/
+
+/apps/the-boring-rpg/*   /apps/the-boring-rpg

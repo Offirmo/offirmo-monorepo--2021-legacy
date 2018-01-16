@@ -72,7 +72,7 @@ function render_armor(i, options = DEFAULT_RENDER_ITEM_OPTIONS) {
         .pushText(`[${min} ↔ ${max}]`)
         .done();
     const builder = RichText.span()
-        .addClass('item', 'item--armor', 'item--quality--' + i.quality)
+        .addClass('item--armor', 'item--quality--' + i.quality)
         .pushRawNode($node_quality, 'quality')
         .pushRawNode(render_armor_name(i), 'name')
         .pushRawNode($node_values, 'values');
@@ -94,7 +94,7 @@ function render_weapon(i, options = DEFAULT_RENDER_ITEM_OPTIONS) {
         .pushText(`[${min} ↔ ${max}]`)
         .done();
     const builder = RichText.span()
-        .addClass('item', 'item--weapon', 'item--quality--' + i.quality)
+        .addClass('item--weapon', 'item--quality--' + i.quality)
         .pushRawNode($node_quality, 'quality')
         .pushRawNode(render_weapon_name(i), 'name')
         .pushRawNode($node_values, 'values');
@@ -108,15 +108,21 @@ function render_weapon(i, options = DEFAULT_RENDER_ITEM_OPTIONS) {
 exports.render_weapon = render_weapon;
 function render_item(i, options = DEFAULT_RENDER_ITEM_OPTIONS) {
     if (!i)
-        return RichText.span().pushText('').done();
-    switch (i.slot) {
-        case definitions_1.InventorySlot.armor:
-            return render_armor(i, options);
-        case definitions_1.InventorySlot.weapon:
-            return render_weapon(i, options);
-        default:
-            throw new Error(`render_item(): don't know how to render a "${i.slot}" !`);
-    }
+        throw new Error('render_item(): no item provided!');
+    const doc = (function auto() {
+        switch (i.slot) {
+            case definitions_1.InventorySlot.armor:
+                return render_armor(i, options);
+            case definitions_1.InventorySlot.weapon:
+                return render_weapon(i, options);
+            default:
+                throw new Error(`render_item(): don't know how to render a "${i.slot}" !`);
+        }
+    })();
+    doc.$classes.push('item');
+    // TODO move that to a higher level "render element" ?
+    doc.$hints.uuid = i.uuid;
+    return doc;
 }
 exports.render_item = render_item;
 //# sourceMappingURL=items.js.map
