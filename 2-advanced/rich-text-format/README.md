@@ -7,6 +7,7 @@ See /demos/*
 
 
 Inspiration:
+* https://developer.atlassian.com/cloud/stride/apis/document/structure/
 * https://bitbucket.org/atlassian/adf-builder-javascript#readme
 
 

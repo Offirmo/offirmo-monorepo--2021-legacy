@@ -15,7 +15,8 @@
 	"babel": {
 		"presets": [
 			"env",
-			"react"
+			"react",
+			"stage-0"
 		]
 	},
 	"scripts": {
@@ -54,6 +55,7 @@
 		"babel-loader": "^7.1.2",
 		"babel-preset-env": "^1.6.1",
 		"babel-preset-react": "^6.24.1",
+		"babel-preset-stage-0": "^6.5.0",
 		"css-loader": "^0.28.8",
 		"fetchival": "^0.3.3",
 		"html-webpack-plugin": "^2.30.1",

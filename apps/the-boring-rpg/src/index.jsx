@@ -9,6 +9,7 @@ const { create_game_instance } = require('@oh-my-rpg/state-the-boring-rpg')
 import { LS_KEYS } from './services/consts'
 import { SEC } from './services/init'
 import { App } from './components/app'
+import { GameRoot } from './components/context/game-instance-provider.jsx'
 
 const workspace = {
 	version: VERSION,
@@ -44,6 +45,8 @@ SEC.xTry('loading savegame', ({logger}) => {
 
 
 ReactDOM.render(
-	<App workspace={workspace}/>,
+	<GameInstanceProvider instance={workspace.instance}>
+		<App workspace={workspace}/>
+	</GameInstanceProvider>	,
 	document.getElementById('root')
 )

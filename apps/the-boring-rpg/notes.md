@@ -1,5 +1,4 @@
-https://dash.pusher.com/
-
+https://pusher.com/features
 
 TODO
 - energy/rate limit
