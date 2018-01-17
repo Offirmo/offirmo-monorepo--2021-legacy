@@ -1,19 +1,39 @@
+/* http://bettermotherfuckingwebsite.com/ */
+
 body {
-	margin: 12px auto;
-	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-	color: #333;
+	margin: 0 auto;
+	padding: 0;
 	max-width: 650px;
-	line-height: 1.6;
+
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 	font-size: 12px;
-	padding: 0 10px;
+	line-height: 1.6;
+	color: #333;
 }
 h1, h2, h3 {
 	line-height: 1.2;
 }
 
+/*********************/
+.container {
+	height: 100vh;
+	overflow: hidden;
+}
+
+.route-container {
+	height: calc(100vh - 29px); /* px = height of nav */
+	overflow: auto;
+}
+
+/*********************/
 .the-boring-rpg-nav {
+	padding: 5px 0;
+}
+
+.the-boring-rpg-nav-list {
 	list-style-type: none;
 	padding: 0;
+	margin: 0;
 	display: flex;
 }
 
@@ -34,6 +54,7 @@ h1, h2, h3 {
 }
 
 
+/*********************/
 .chat {
 	display: flex;
 	flex-direction: column;

@@ -1,12 +1,12 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 
-import { ROUTES } from "../routes"
+import { ROUTES } from '../routes'
 
 function Nav() {
 	return (
-		<nav>
-			<ul className='the-boring-rpg-nav'>
+		<nav className='the-boring-rpg-nav'>
+			<ul className='the-boring-rpg-nav-list'>
 				<li>
 					<NavLink exact activeClassName='active' to={ROUTES.home}>Home</NavLink>
 				</li>

@@ -1,14 +1,31 @@
 import React from 'react'
 import classNames from 'classnames'
-import { PinScrollToBottom } from '../../atoms/pin-scroll-to-bottom'
 
-function Chat({children}) {
-	const classes = classNames('chat')
-	return (
-		<div className={classes}>
-			{children}
-		</div>
-	)
+class Chat extends React.Component {
+
+	// https://stackoverflow.com/questions/37620694/how-to-scroll-to-bottom-in-react
+	scrollToBottom = () => {
+		this.messagesEnd.scrollIntoView({ behavior: "smooth" })
+	}
+
+	componentDidMount() {
+		this.scrollToBottom()
+	}
+
+	componentDidUpdate() {
+		this.scrollToBottom()
+	}
+
+	render() {
+		const classes = classNames('chat')
+		return (
+			<div className={classes}>
+				{this.props.children}
+				<div style={{ float:"left", clear: "both" }}
+					ref={(el) => { this.messagesEnd = el; }} />
+			</div>
+		)
+	}
 }
 
 function ChatBubble({direction = 'ltr', children}) {
@@ -19,9 +36,7 @@ function ChatBubble({direction = 'ltr', children}) {
 	)
 	return (
 		<div className={classes}>
-			<PinScrollToBottom>
-				{children}
-			</PinScrollToBottom>
+			{children}
 		</div>
 	)
 }
@@ -30,4 +45,5 @@ export {
 	Chat,
 	ChatBubble,
 }
+
 

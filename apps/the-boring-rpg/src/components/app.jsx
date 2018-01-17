@@ -16,14 +16,18 @@ class App extends React.Component {
 		return (
 			<Router  basename={BASE_ROUTE}>
 				<div className='container'>
+
 					<Nav/>
-					<Switch>
-						<Route exact path={ROUTES.home} render={() => <Home workspace={this.props.workspace} />} />
-						<Route path={ROUTES.inventory} render={() => <Inventory workspace={this.props.workspace} />} />
-						<Route path={ROUTES.character} render={() => <CharacterSheet workspace={this.props.workspace} />} />
-						<Route path={ROUTES.meta} render={() => <Meta workspace={this.props.workspace} />} />
-						<Route render={() => <p>Not Found</p>} />
-					</Switch>
+
+					<div className='route-container'>
+						<Switch>
+							<Route exact path={ROUTES.home} render={() => <Home workspace={this.props.workspace} />} />
+							<Route path={ROUTES.inventory} render={() => <Inventory workspace={this.props.workspace} />} />
+							<Route path={ROUTES.character} render={() => <CharacterSheet workspace={this.props.workspace} />} />
+							<Route path={ROUTES.meta} render={() => <Meta workspace={this.props.workspace} />} />
+							<Route render={() => <p>Not Found</p>} />
+						</Switch>
+					</div>
 				</div>
 			</Router>
 		)
