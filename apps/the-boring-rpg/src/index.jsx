@@ -9,7 +9,7 @@ const { create_game_instance } = require('@oh-my-rpg/state-the-boring-rpg')
 import { LS_KEYS } from './services/consts'
 import { SEC } from './services/init'
 import { App } from './components/app'
-import { GameRoot } from './components/context/game-instance-provider.jsx'
+import { GameInstanceProvider } from './components/context/game-instance-provider'
 
 const workspace = {
 	version: VERSION,

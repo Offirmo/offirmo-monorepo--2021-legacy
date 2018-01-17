@@ -19,16 +19,24 @@ class GameInstanceProvider extends React.Component {
 }
 
 
-function with_game_state(WrappedComponent) {
-	return class WithGameState extends Component {
-		static displayName = `WithGameState(${Component.displayName || Component.name})`;
+function with_game_instance(WrappedComponent) {
+
+	return class WithGameInstance extends React.Component {
+
+		static displayName = `WithGameInstance(${WrappedComponent.displayName || WrappedComponent.name})`
+
 		static contextTypes = {
 			instance: PropTypes.object.isRequired,
-		};
+		}
 
 		render() {
-			const {instance} = this.props;
-			return <WrappedComponent state={instance.get_latest_state()} {...props} />;
+			const {instance} = this.context;
+			return (
+				<WrappedComponent
+					instance={instance}
+					state={instance.get_latest_state()}
+					{...this.props} />
+			)
 		}
 	}
 }
@@ -37,5 +45,5 @@ function with_game_state(WrappedComponent) {
 
 export {
 	GameInstanceProvider,
-	with_game_state,
+	with_game_instance,
 }
