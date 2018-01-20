@@ -27,8 +27,8 @@ describe('⚔ 👑 😪  The Boring RPG - reducer', function () {
             chai_1.expect(state).to.have.property('meaningful_interaction_count', 0);
             chai_1.expect(state.last_adventure).to.be.null;
             // check our 2 predefined items are present and equipped
-            chai_1.expect(state_inventory_1.get_equiped_item_count(state.inventory), 'equipped').to.equal(2);
-            chai_1.expect(state_inventory_1.get_unequiped_item_count(state.inventory), 'unequipped').to.equal(0);
+            chai_1.expect(state_inventory_1.get_equipped_item_count(state.inventory), 'equipped').to.equal(2);
+            chai_1.expect(state_inventory_1.get_unequipped_item_count(state.inventory), 'unequipped').to.equal(0);
         });
     });
     describe('👆🏾 user actions', function () {
@@ -75,9 +75,9 @@ describe('⚔ 👑 😪  The Boring RPG - reducer', function () {
                             let state = _1.create();
                             state = _1.play(state, 'rare_goods_seller');
                             // check our 2 predefined items are still present and equipped
-                            chai_1.expect(state_inventory_1.get_equiped_item_count(state.inventory), 'equipped').to.equal(2);
+                            chai_1.expect(state_inventory_1.get_equipped_item_count(state.inventory), 'equipped').to.equal(2);
                             // a new item is present
-                            chai_1.expect(state_inventory_1.get_unequiped_item_count(state.inventory), 'unequipped').to.equal(1);
+                            chai_1.expect(state_inventory_1.get_unequipped_item_count(state.inventory), 'unequipped').to.equal(1);
                             // it's a weapon !
                             chai_1.expect(state.inventory.unslotted[0]).to.have.property('slot', 'armor');
                         });
@@ -102,8 +102,44 @@ describe('⚔ 👑 😪  The Boring RPG - reducer', function () {
         });
         describe('inventory management', function () {
             it('should allow un-equiping an item'); // not now, but useful for ex. for immediately buying a better item on the market
-            it('should allow equiping an item, correctly swapping with an already equiped item');
+            it('should allow equiping an item, correctly swapping with an already equipped item');
             it('should allow selling an item');
+        });
+    });
+    describe('Helper functions', function () {
+        describe('find_element() by uuid', function () {
+            context('when the element refers to an item', function () {
+                it('should find it', () => {
+                    const state = _1.create();
+                    const armor = state.inventory.slotted.armor;
+                    const element = _1.find_element(state, armor.uuid);
+                    chai_1.expect(element).to.deep.equal(armor);
+                });
+            });
+            context('when the uuid refers to nothing', function () {
+                it('should return null', () => {
+                    const state = _1.create();
+                    const element = _1.find_element(state, 'foo');
+                    chai_1.expect(element).to.be.null;
+                });
+            });
+        });
+        describe('appraise_item() by uuid', function () {
+            context('when the element refers to an item', function () {
+                it('should find it and appraise it', () => {
+                    const state = _1.create();
+                    const armor = state.inventory.slotted.armor;
+                    const price = _1.appraise_item(state, armor.uuid);
+                    chai_1.expect(price).to.equal(5);
+                });
+            });
+            context('when the uuid refers to nothing', function () {
+                it('should throw', () => {
+                    const state = _1.create();
+                    const attempt_appraise = () => void _1.appraise_item(state, 'foo');
+                    chai_1.expect(attempt_appraise).to.throw('No item');
+                });
+            });
         });
     });
     describe('adventures', function () {

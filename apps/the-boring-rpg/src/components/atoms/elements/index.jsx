@@ -1,13 +1,23 @@
 import React from 'react'
 
 import { with_game_instance } from '../../context/game-instance-provider'
+import { ActionButton } from '../action-button'
 
 function TBRPGElementBase({instance, state, children, uuid}) {
-	console.log('TBRPGElementBase', state)
+
+	const game_element = instance.find_element(uuid)
+	console.log('TBRPGElementBase', game_element)
+	const actions = instance.get_actions_for_element(uuid)
+
+
+	/* todo switch*/
 
 	return (
-		<span>
+		<span className={'element'}>
 			{children}
+			{actions.map(action => {
+				return <ActionButton key={action.type} action={action} />
+			})}
 		</span>
 	)
 }

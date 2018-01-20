@@ -2255,6 +2255,7 @@ const logic_weapons_1 = __webpack_require__(10);
 const logic_armors_1 = __webpack_require__(9);
 const logic_monsters_1 = __webpack_require__(64);
 const logic_shop_1 = __webpack_require__(143);
+/////////////////////
 const consts_1 = __webpack_require__(29);
 const types_1 = __webpack_require__(144);
 exports.GainType = types_1.GainType;
@@ -2268,6 +2269,10 @@ function appraise_item(state, uuid) {
     return logic_shop_1.appraise(item_to_sell);
 }
 exports.appraise_item = appraise_item;
+function find_element(state, uuid) {
+    return InventoryState.get_item(state.inventory, uuid);
+}
+exports.find_element = find_element;
 ///////
 function create() {
     let state = {
@@ -2349,15 +2354,38 @@ function rename_avatar(state, new_name) {
     return state;
 }
 exports.rename_avatar = rename_avatar;
-function change_avatar_class(state, klass) {
+function change_avatar_class(state, new_class) {
     // TODO make this have an effect (in v2 ?)
-    state.avatar = state_character_1.switch_class(sec_1.get_SEC(), state.avatar, klass);
+    state.avatar = state_character_1.switch_class(sec_1.get_SEC(), state.avatar, new_class);
     // TODO count it as a meaningful interaction only if positive (or with a limit)
     state.meaningful_interaction_count++;
     state.revision++;
     return state;
 }
 exports.change_avatar_class = change_avatar_class;
+/////////////////////
+function execute(state, action) {
+    const { expected_state_revision } = action;
+    if (expected_state_revision) {
+        if (state.revision !== expected_state_revision)
+            throw new Error(`Trying to execute an outdated action!`);
+    }
+    switch (action.type) {
+        case types_1.ActionType.play:
+            return play(state);
+        case types_1.ActionType.equip_item:
+            return equip_item(state, action.target_uuid);
+        case types_1.ActionType.sell_item:
+            return sell_item(state, action.target_uuid);
+        case types_1.ActionType.rename_avatar:
+            return rename_avatar(state, action.new_name);
+        case types_1.ActionType.change_avatar_class:
+            return change_avatar_class(state, action.new_class);
+        default:
+            throw new Error(`Unrecognized action!`);
+    }
+}
+exports.execute = execute;
 /////////////////////
 // needed to test migrations, both here and in composing parents
 // a full featured, non-trivial demo state
@@ -3269,7 +3297,7 @@ function render_armor(i, options = DEFAULT_RENDER_ITEM_OPTIONS) {
         .pushText(`[${min} ↔ ${max}]`)
         .done();
     const builder = RichText.span()
-        .addClass('item', 'item--armor', 'item--quality--' + i.quality)
+        .addClass('item--armor', 'item--quality--' + i.quality)
         .pushRawNode($node_quality, 'quality')
         .pushRawNode(render_armor_name(i), 'name')
         .pushRawNode($node_values, 'values');
@@ -3291,7 +3319,7 @@ function render_weapon(i, options = DEFAULT_RENDER_ITEM_OPTIONS) {
         .pushText(`[${min} ↔ ${max}]`)
         .done();
     const builder = RichText.span()
-        .addClass('item', 'item--weapon', 'item--quality--' + i.quality)
+        .addClass('item--weapon', 'item--quality--' + i.quality)
         .pushRawNode($node_quality, 'quality')
         .pushRawNode(render_weapon_name(i), 'name')
         .pushRawNode($node_values, 'values');
@@ -3305,15 +3333,21 @@ function render_weapon(i, options = DEFAULT_RENDER_ITEM_OPTIONS) {
 exports.render_weapon = render_weapon;
 function render_item(i, options = DEFAULT_RENDER_ITEM_OPTIONS) {
     if (!i)
-        return RichText.span().pushText('').done();
-    switch (i.slot) {
-        case definitions_1.InventorySlot.armor:
-            return render_armor(i, options);
-        case definitions_1.InventorySlot.weapon:
-            return render_weapon(i, options);
-        default:
-            throw new Error(`render_item(): don't know how to render a "${i.slot}" !`);
-    }
+        throw new Error('render_item(): no item provided!');
+    const doc = (function auto() {
+        switch (i.slot) {
+            case definitions_1.InventorySlot.armor:
+                return render_armor(i, options);
+            case definitions_1.InventorySlot.weapon:
+                return render_weapon(i, options);
+            default:
+                throw new Error(`render_item(): don't know how to render a "${i.slot}" !`);
+        }
+    })();
+    doc.$classes.push('item');
+    // TODO move that to a higher level "render element" ?
+    doc.$hints.uuid = i.uuid;
+    return doc;
 }
 exports.render_item = render_item;
 //# sourceMappingURL=items.js.map
@@ -4018,20 +4052,21 @@ function equip_item(state, uuid) {
 }
 exports.equip_item = equip_item;
 /////////////////////
-function get_equiped_item_count(state) {
+function get_equipped_item_count(state) {
     return Object.keys(state.slotted).length;
 }
-exports.get_equiped_item_count = get_equiped_item_count;
-function get_unequiped_item_count(state) {
+exports.get_equipped_item_count = get_equipped_item_count;
+function get_unequipped_item_count(state) {
     return state.unslotted.filter(i => !!i).length;
 }
-exports.get_unequiped_item_count = get_unequiped_item_count;
+exports.get_unequipped_item_count = get_unequipped_item_count;
 function get_item_count(state) {
-    return get_equiped_item_count(state) + get_unequiped_item_count(state);
+    return get_equipped_item_count(state) + get_unequipped_item_count(state);
 }
 exports.get_item_count = get_item_count;
 function get_item(state, uuid) {
     let item = state.unslotted.find(i => i.uuid === uuid);
+    item = item || Object.values(state.slotted).find(i => !!i && i.uuid === uuid);
     return item ? item : null;
 }
 exports.get_item = get_item;
@@ -11203,7 +11238,6 @@ exports.LOGICAL_STACK_SEPARATOR_NON_ADJACENT = LOGICAL_STACK_SEPARATOR_NON_ADJAC
 Object.defineProperty(exports, "__esModule", { value: true });
 const loggers_types_and_stubs_1 = __webpack_require__(52);
 const constants_1 = __webpack_require__(18);
-//import { createLogger, createChildLogger } from '../../../universal-logger-core' // TODO ?
 function getContext(SEC) {
     return SEC[constants_1.INTERNAL_PROP].DI.context;
 }
@@ -13350,6 +13384,9 @@ const GainType = typescript_string_enums_1.Enum(
 'level', 'health', 'mana', 'strength', 'agility', 'charisma', 'wisdom', 'luck', 'coin', 'token', 'weapon', 'armor', 'weapon_improvement', 'armor_improvement');
 exports.GainType = GainType;
 /////////////////////
+const ActionType = typescript_string_enums_1.Enum('play', 'equip_item', 'sell_item', 'rename_avatar', 'change_avatar_class');
+exports.ActionType = ActionType;
+/////////////////////
 //# sourceMappingURL=types.js.map
 
 /***/ }),
@@ -14321,8 +14358,14 @@ const {
 
 const { createLogger } = __webpack_require__(70)
 
-function create(...args) {
-	const SEC = isomorphic.create(...args)
+function create(args = {}) {
+	args.context = args.context || {}
+	args.context.logger = args.context.logger || createLogger({
+		name: 'the-npm-rpg',
+		level: 'warn',
+	})
+
+	const SEC = isomorphic.create(args)
 
 	// TODO protect from double install
 

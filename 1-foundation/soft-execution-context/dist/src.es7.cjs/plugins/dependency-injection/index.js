@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const loggers_types_and_stubs_1 = require("@offirmo/loggers-types-and-stubs");
 const constants_1 = require("../../constants");
-//import { createLogger, createChildLogger } from '../../../universal-logger-core' // TODO ?
 function getContext(SEC) {
     return SEC[constants_1.INTERNAL_PROP].DI.context;
 }

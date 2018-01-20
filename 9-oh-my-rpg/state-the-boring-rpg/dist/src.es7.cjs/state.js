@@ -16,9 +16,11 @@ const logic_weapons_1 = require("@oh-my-rpg/logic-weapons");
 const logic_armors_1 = require("@oh-my-rpg/logic-armors");
 const logic_monsters_1 = require("@oh-my-rpg/logic-monsters");
 const logic_shop_1 = require("@oh-my-rpg/logic-shop");
+/////////////////////
 const consts_1 = require("./consts");
 const types_1 = require("./types");
 exports.GainType = types_1.GainType;
+const serializable_actions_1 = require("./serializable_actions");
 const play_1 = require("./play");
 const sec_1 = require("./sec");
 /////////////////////
@@ -29,6 +31,36 @@ function appraise_item(state, uuid) {
     return logic_shop_1.appraise(item_to_sell);
 }
 exports.appraise_item = appraise_item;
+function find_element(state, uuid) {
+    return InventoryState.get_item(state.inventory, uuid);
+}
+exports.find_element = find_element;
+function get_actions_for_unslotted_item(state, uuid) {
+    const actions = [];
+    const equip = {
+        type: serializable_actions_1.ActionType.equip_item,
+        category: serializable_actions_1.ActionCategory.inventory,
+        expected_state_revision: state.revision,
+        target_uuid: uuid,
+    };
+    actions.push(equip);
+    const sell = {
+        type: serializable_actions_1.ActionType.sell_item,
+        category: serializable_actions_1.ActionCategory.inventory,
+        expected_state_revision: state.revision,
+        target_uuid: uuid,
+    };
+    actions.push(sell);
+    return actions;
+}
+function get_actions_for_element(state, uuid) {
+    const actions = [];
+    const as_unslotted_item = InventoryState.get_unslotted_item(state.inventory, uuid);
+    if (as_unslotted_item)
+        actions.push(...get_actions_for_unslotted_item(state, uuid));
+    return actions;
+}
+exports.get_actions_for_element = get_actions_for_element;
 ///////
 function create() {
     let state = {
@@ -110,15 +142,38 @@ function rename_avatar(state, new_name) {
     return state;
 }
 exports.rename_avatar = rename_avatar;
-function change_avatar_class(state, klass) {
+function change_avatar_class(state, new_class) {
     // TODO make this have an effect (in v2 ?)
-    state.avatar = state_character_1.switch_class(sec_1.get_SEC(), state.avatar, klass);
+    state.avatar = state_character_1.switch_class(sec_1.get_SEC(), state.avatar, new_class);
     // TODO count it as a meaningful interaction only if positive (or with a limit)
     state.meaningful_interaction_count++;
     state.revision++;
     return state;
 }
 exports.change_avatar_class = change_avatar_class;
+/////////////////////
+function execute(state, action) {
+    const { expected_state_revision } = action;
+    if (expected_state_revision) {
+        if (state.revision !== expected_state_revision)
+            throw new Error(`Trying to execute an outdated action!`);
+    }
+    switch (action.type) {
+        case serializable_actions_1.ActionType.play:
+            return play(state);
+        case serializable_actions_1.ActionType.equip_item:
+            return equip_item(state, action.target_uuid);
+        case serializable_actions_1.ActionType.sell_item:
+            return sell_item(state, action.target_uuid);
+        case serializable_actions_1.ActionType.rename_avatar:
+            return rename_avatar(state, action.new_name);
+        case serializable_actions_1.ActionType.change_avatar_class:
+            return change_avatar_class(state, action.new_class);
+        default:
+            throw new Error(`Unrecognized action!`);
+    }
+}
+exports.execute = execute;
 /////////////////////
 // needed to test migrations, both here and in composing parents
 // a full featured, non-trivial demo state

@@ -18,8 +18,8 @@ import {
 	remove_item_from_unslotted,
 	equip_item,
 
-	get_equiped_item_count,
-	get_unequiped_item_count,
+	get_equipped_item_count,
+	get_unequipped_item_count,
 	get_item_count,
 	get_item,
 	get_item_in_slot,
@@ -48,8 +48,8 @@ describe('📦 📦 📦  Inventory state - reducer', function() {
 			expect(Object.keys(state.slotted)).to.have.lengthOf(0)
 
 			expect(get_item_count(state), 'i').to.equal(0)
-			expect(get_equiped_item_count(state), 'e').to.equal(0)
-			expect(get_unequiped_item_count(state), 'u').to.equal(0)
+			expect(get_equipped_item_count(state), 'e').to.equal(0)
+			expect(get_unequipped_item_count(state), 'u').to.equal(0)
 		})
 	})
 
@@ -163,12 +163,12 @@ describe('📦 📦 📦  Inventory state - reducer', function() {
 		it('should work on simple non-empty state, equip to the correct slot and correctly remove from unslotted', function() {
 			let state = create()
 			state = add_item(state, DUMMY_ITEM)
-			expect(get_equiped_item_count(state), 'e1').to.equal(0)
-			expect(get_unequiped_item_count(state), 'u1').to.equal(1)
+			expect(get_equipped_item_count(state), 'e1').to.equal(0)
+			expect(get_unequipped_item_count(state), 'u1').to.equal(1)
 			expect(get_item_count(state), 'i1').to.equal(1)
 			state = equip_item(state, DUMMY_ITEM.uuid)
-			expect(get_equiped_item_count(state), 'e2').to.equal(1)
-			expect(get_unequiped_item_count(state), 'u2').to.equal(0)
+			expect(get_equipped_item_count(state), 'e2').to.equal(1)
+			expect(get_unequipped_item_count(state), 'u2').to.equal(0)
 			expect(get_item_count(state), 'i1').to.equal(1)
 		})
 
@@ -179,8 +179,8 @@ describe('📦 📦 📦  Inventory state - reducer', function() {
 			state = add_item(state, item1)
 			state = equip_item(state, item1.uuid)
 
-			expect(get_equiped_item_count(state), 'e').to.equal(1)
-			expect(get_unequiped_item_count(state), 'u').to.equal(0)
+			expect(get_equipped_item_count(state), 'e').to.equal(1)
+			expect(get_unequipped_item_count(state), 'u').to.equal(0)
 			expect(get_item_count(state), 'i').to.equal(1)
 			expect(get_item_in_slot(state, InventorySlot.weapon)).to.deep.equal(item1)
 			expect(state.unslotted).to.have.lengthOf(0)
@@ -189,8 +189,8 @@ describe('📦 📦 📦  Inventory state - reducer', function() {
 			state = add_item(state, item2)
 			state = equip_item(state, item2.uuid)
 
-			expect(get_equiped_item_count(state), 'e').to.equal(1)
-			expect(get_unequiped_item_count(state), 'u').to.equal(1)
+			expect(get_equipped_item_count(state), 'e').to.equal(1)
+			expect(get_unequipped_item_count(state), 'u').to.equal(1)
 			expect(get_item_count(state), 'i').to.equal(2)
 
 			expect(get_item_in_slot(state, InventorySlot.weapon)).to.deep.equal(item2)
@@ -210,7 +210,7 @@ describe('📦 📦 📦  Inventory state - reducer', function() {
 
 	describe('misc items iteration', function() {
 
-		it('should yield all unequiped slots', () => {
+		it('should yield all unequipped slots', () => {
 			const item1: Item = create_item_base(InventorySlot.armor)
 			const item2: Item = create_item_base(InventorySlot.armor)
 			const item3: Item = create_item_base(InventorySlot.weapon)

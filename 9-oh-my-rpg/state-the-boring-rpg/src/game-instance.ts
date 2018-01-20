@@ -1,4 +1,4 @@
-import { UUID } from '@oh-my-rpg/definitions'
+import { UUID, Element } from '@oh-my-rpg/definitions'
 import { CharacterClass } from '@oh-my-rpg/state-character'
 import { Item, get_item } from '@oh-my-rpg/state-inventory'
 
@@ -6,6 +6,7 @@ import { State } from './types'
 import * as state_fns from './state'
 import { migrate_to_latest } from './migrations'
 import { SoftExecutionContext } from './sec'
+import {Action} from "./serializable_actions";
 
 interface CreateParams {
 	SEC: SoftExecutionContext
@@ -71,7 +72,14 @@ function create_game_instance({SEC, get_latest_state, update_state}: CreateParam
 				let state = get_latest_state()
 				return state_fns.appraise_item(state, uuid)
 			},
-
+			find_element(uuid: UUID): Element | null {
+				let state = get_latest_state()
+				return state_fns.find_element(state, uuid)
+			},
+			get_actions_for_element(uuid: UUID): Action[] {
+				let state = get_latest_state()
+				return state_fns.get_actions_for_element(state, uuid)
+			},
 			reset_all() {
 				let state = state_fns.create()
 				state = state_fns.reseed(state)

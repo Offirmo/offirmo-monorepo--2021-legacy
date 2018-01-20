@@ -1,7 +1,6 @@
 "use strict";
 import { compatibleLoggerToConsole } from '@offirmo/loggers-types-and-stubs';
 import { INTERNAL_PROP } from '../../constants';
-//import { createLogger, createChildLogger } from '../../../universal-logger-core' // TODO ?
 function getContext(SEC) {
     return SEC[INTERNAL_PROP].DI.context;
 }

@@ -50,7 +50,7 @@ describe('⚔ 👑 😪  The Boring RPG - contextual messages', function() {
 
 		context('when the user has already played', function() {
 
-			context('when the user has an unequiped better weapon', function() {
+			context('when the user has an unequipped better weapon', function() {
 				it('should suggest to install it')
 			})
 		})

@@ -9405,6 +9405,7 @@ const logic_weapons_1 = __webpack_require__(23);
 const logic_armors_1 = __webpack_require__(22);
 const logic_monsters_1 = __webpack_require__(147);
 const logic_shop_1 = __webpack_require__(308);
+/////////////////////
 const consts_1 = __webpack_require__(73);
 const types_1 = __webpack_require__(309);
 exports.GainType = types_1.GainType;
@@ -9417,6 +9418,10 @@ function appraise_item(state, uuid) {
     return logic_shop_1.appraise(item_to_sell);
 }
 exports.appraise_item = appraise_item;
+function find_element(state, uuid) {
+    return InventoryState.get_item(state.inventory, uuid);
+}
+exports.find_element = find_element;
 ///////
 function create() {
     let state = {
@@ -9498,15 +9503,37 @@ function rename_avatar(state, new_name) {
     return state;
 }
 exports.rename_avatar = rename_avatar;
-function change_avatar_class(state, klass) {
+function change_avatar_class(state, new_class) {
     // TODO make this have an effect (in v2 ?)
-    state.avatar = state_character_1.switch_class(sec_1.get_SEC(), state.avatar, klass);
+    state.avatar = state_character_1.switch_class(sec_1.get_SEC(), state.avatar, new_class);
     // TODO count it as a meaningful interaction only if positive (or with a limit)
     state.meaningful_interaction_count++;
     state.revision++;
     return state;
 }
 exports.change_avatar_class = change_avatar_class;
+/////////////////////
+function execute(state, action) {
+    const { expected_state_revision } = action;
+    if (expected_state_revision) {
+        if (state.revision !== expected_state_revision) throw new Error(`Trying to execute an outdated action!`);
+    }
+    switch (action.type) {
+        case types_1.ActionType.play:
+            return play(state);
+        case types_1.ActionType.equip_item:
+            return equip_item(state, action.target_uuid);
+        case types_1.ActionType.sell_item:
+            return sell_item(state, action.target_uuid);
+        case types_1.ActionType.rename_avatar:
+            return rename_avatar(state, action.new_name);
+        case types_1.ActionType.change_avatar_class:
+            return change_avatar_class(state, action.new_class);
+        default:
+            throw new Error(`Unrecognized action!`);
+    }
+}
+exports.execute = execute;
 /////////////////////
 // needed to test migrations, both here and in composing parents
 // a full featured, non-trivial demo state
@@ -17911,20 +17938,21 @@ function equip_item(state, uuid) {
 }
 exports.equip_item = equip_item;
 /////////////////////
-function get_equiped_item_count(state) {
+function get_equipped_item_count(state) {
     return Object.keys(state.slotted).length;
 }
-exports.get_equiped_item_count = get_equiped_item_count;
-function get_unequiped_item_count(state) {
+exports.get_equipped_item_count = get_equipped_item_count;
+function get_unequipped_item_count(state) {
     return state.unslotted.filter(i => !!i).length;
 }
-exports.get_unequiped_item_count = get_unequiped_item_count;
+exports.get_unequipped_item_count = get_unequipped_item_count;
 function get_item_count(state) {
-    return get_equiped_item_count(state) + get_unequiped_item_count(state);
+    return get_equipped_item_count(state) + get_unequipped_item_count(state);
 }
 exports.get_item_count = get_item_count;
 function get_item(state, uuid) {
     let item = state.unslotted.find(i => i.uuid === uuid);
+    item = item || Object.values(state.slotted).find(i => !!i && i.uuid === uuid);
     return item ? item : null;
 }
 exports.get_item = get_item;
@@ -37210,7 +37238,6 @@ exports.LOGICAL_STACK_SEPARATOR_NON_ADJACENT = LOGICAL_STACK_SEPARATOR_NON_ADJAC
 Object.defineProperty(exports, "__esModule", { value: true });
 const loggers_types_and_stubs_1 = __webpack_require__(188);
 const constants_1 = __webpack_require__(42);
-//import { createLogger, createChildLogger } from '../../../universal-logger-core' // TODO ?
 function getContext(SEC) {
     return SEC[constants_1.INTERNAL_PROP].DI.context;
 }
@@ -49228,6 +49255,9 @@ const GainType = typescript_string_enums_1.Enum(
 'level', 'health', 'mana', 'strength', 'agility', 'charisma', 'wisdom', 'luck', 'coin', 'token', 'weapon', 'armor', 'weapon_improvement', 'armor_improvement');
 exports.GainType = GainType;
 /////////////////////
+const ActionType = typescript_string_enums_1.Enum('play', 'equip_item', 'sell_item', 'rename_avatar', 'change_avatar_class');
+exports.ActionType = ActionType;
+/////////////////////
 //# sourceMappingURL=types.js.map
 
 /***/ }),
@@ -53952,7 +53982,7 @@ var Home = function (_React$Component) {
 				'div',
 				{ ref: function ref(elt) {
 						return _this3.element = elt;
-					} },
+					}, className: 'page page-home' },
 				_react2.default.createElement(
 					_chatInterface.Chat,
 					null,
@@ -54509,9 +54539,12 @@ function TBRPGElementBase(_ref) {
 
 	console.log('TBRPGElementBase', state);
 
+	//const game_element = instance.find_element(uuid)
+	// todo switch
+
 	return _react2.default.createElement(
 		'span',
-		null,
+		{ className: 'element' },
 		children
 	);
 }
@@ -54551,7 +54584,7 @@ function Inventory(_ref) {
 
 	return _react2.default.createElement(
 		'div',
-		null,
+		{ className: 'page page--inventory' },
 		(0, _rich_text_to_react.rich_text_to_react)(doc)
 	);
 }
@@ -54588,7 +54621,7 @@ function CharacterSheet(_ref) {
 
 	return _react2.default.createElement(
 		'div',
-		null,
+		{ className: 'page page--character' },
 		(0, _rich_text_to_react.rich_text_to_react)(doc)
 	);
 }
@@ -54626,7 +54659,7 @@ function Meta(_ref) {
 
 	return _react2.default.createElement(
 		'div',
-		null,
+		{ className: 'page page--meta' },
 		(0, _rich_text_to_react.rich_text_to_react)(doc)
 	);
 }
@@ -54705,7 +54738,7 @@ exports = module.exports = __webpack_require__(90)(false);
 
 
 // module
-exports.push([module.i, "/* http://bettermotherfuckingwebsite.com/ */\n\nbody {\n\tmargin: 0 auto;\n\tpadding: 0;\n\tmax-width: 650px;\n\n\tfont-family: \"Lucida Sans Unicode\", \"Lucida Grande\", sans-serif;\n\tfont-size: 12px;\n\tline-height: 1.6;\n\tcolor: #333;\n}\nh1, h2, h3 {\n\tline-height: 1.2;\n}\n\n/*********************/\n.container {\n\theight: 100vh;\n\toverflow: hidden;\n}\n\n.route-container {\n\theight: calc(100vh - 29px); /* px = height of nav */\n\toverflow: auto;\n}\n\n/*********************/\n.the-boring-rpg-nav {\n\tpadding: 5px 0;\n}\n\n.the-boring-rpg-nav-list {\n\tlist-style-type: none;\n\tpadding: 0;\n\tmargin: 0;\n\tdisplay: flex;\n}\n\n.the-boring-rpg-nav li {\n}\n.the-boring-rpg-nav li:not(:first-child) {\n\tmargin-left: 20px;\n}\n\n.the-boring-rpg-nav a {\n\ttext-decoration: none;\n}\n.the-boring-rpg-nav a.active {\n\tfont-weight: bold;\n}\n.the-boring-rpg-nav a.active:before {\n\tcontent: '';\n}\n\n\n/*********************/\n.chat {\n\tdisplay: flex;\n\tflex-direction: column;\n}\n.chat__bubble {\n\tborder: solid 1px;\n\tpadding: 7px;\n\txxborder-radius: 10px;\n\tborder-right: 0;\n\tborder-top: 0;\n\tmargin: 7px;\n\twidth: fit-content;\n\tmax-width: 70%;\n}\n.chat__bubble--ltr {\n\talign-self: flex-start;\n}\n.chat__bubble--rtl {\n\talign-self: flex-end;\n}\n\n.item__name,\n.avatar__name,\n.avatar__class,\n.monster__name {\n\tfont-weight: bold;\n}\n\n.item--quality--common {\n\tcolor: #909090;\n}\n.item--quality--uncommon {\n\tcolor: forestgreen;\n}\n.item--quality--epic {\n\tcolor: mediumblue;\n}\n.item--quality--legendary {\n\tcolor: #d9534f;\n}\n.item--quality--artifact {\n\tcolor: #fad700;\n}\n\n.monster--rank--common {\n}\n.monster--rank--elite {\n\tcolor: #fad700;\n}\n.monster--rank--boss {\n\tcolor: #d9534f;\n}\n\n\n.item--weapon:before {\n\tcontent: '\\2694   ';\n}\n.item--armor:before {\n\tcontent: '\\1F6E1   ';\n}\n\n.currency--coin:before {\n\tcontent: '\\1F4B0   ';\n}\n.currency--token:before {\n\tcontent: '\\1F4A0    ';\n}\n/*\n\nswitch($class) {\n\n\t\tcase 'attribute--level':\n\t\t\treturn '👶 ' + WIDTH_COMPENSATION + str\n\t\tcase 'attribute--health':\n\t\t\treturn '💗 ' + WIDTH_COMPENSATION + str\n\t\tcase 'attribute--mana':\n\t\t\treturn '💙 ' + WIDTH_COMPENSATION + str\n\t\tcase 'attribute--agility':\n\t\t\treturn '🤸 ' + WIDTH_COMPENSATION + str\n\t\tcase 'attribute--luck':\n\t\t\treturn '🤹 ' + WIDTH_COMPENSATION + str\n\t\tcase 'attribute--strength':\n\t\t\treturn '🏋 ' + WIDTH_COMPENSATION + str\n\t\tcase 'attribute--charisma':\n\t\t\treturn '👨🎤 ' + WIDTH_COMPENSATION + str\n\t\tcase 'attribute--wisdom':\n\t\t\treturn '👵 ' + WIDTH_COMPENSATION + str\n\n\t\tcase 'monster':\n\t\t\treturn str + ' ' + hints.possible_emoji + WIDTH_COMPENSATION\n\t\tcase 'rank--common':\n\t\t\treturn str\n\t\tcase 'rank--elite':\n\t\t\treturn stylize_string.bold(str + '★')\n\t\tcase 'rank--boss':\n\t\t\treturn stylize_string.bold(str + ' 👑' + WIDTH_COMPENSATION)\n */\n", ""]);
+exports.push([module.i, "/* http://bettermotherfuckingwebsite.com/ */\n\nbody {\n\tmargin: 0 auto;\n\tpadding: 0;\n\tmax-width: 650px;\n\n\tfont-family: \"Lucida Sans Unicode\", \"Lucida Grande\", sans-serif;\n\tfont-size: 12px;\n\tline-height: 1.6;\n\tcolor: #333;\n}\nh1, h2, h3 {\n\tline-height: 1.2;\n}\n\n/*********************/\n.container {\n\theight: 100vh;\n\toverflow: hidden;\n}\n\n.route-container {\n\theight: calc(100vh - 29px); /* px = height of nav */\n\toverflow: auto;\n}\n\n/*********************/\n.the-boring-rpg-nav {\n\tpadding: 5px 10px;\n}\n\n.the-boring-rpg-nav-list {\n\tlist-style-type: none;\n\tpadding: 0;\n\tmargin: 0;\n\tdisplay: flex;\n}\n\n.the-boring-rpg-nav li {\n}\n.the-boring-rpg-nav li:not(:first-child) {\n\tmargin-left: 20px;\n}\n\n.the-boring-rpg-nav a {\n\ttext-decoration: none;\n}\n.the-boring-rpg-nav a.active {\n\tfont-weight: bold;\n}\n.the-boring-rpg-nav a.active:before {\n\tcontent: '';\n}\n\n/*********************/\n.page--character,\n.page--inventory,\n.page--meta {\n\tpadding: 7px;\n}\n\n/*********************/\n.chat {\n\tdisplay: flex;\n\tflex-direction: column;\n}\n.chat__bubble {\n\tborder: solid 1px;\n\tpadding: 7px;\n\tborder-right: 0;\n\tborder-top: 0;\n\tmargin: 7px;\n\twidth: fit-content;\n\tmax-width: 70%;\n}\n.chat__bubble--ltr {\n\talign-self: flex-start;\n}\n.chat__bubble--rtl {\n\talign-self: flex-end;\n}\n\n/*********************/\n.element {\n\t--background-color: rgba(0, 0, 0, 0.15);\n}\n\n.item__name,\n.avatar__name,\n.avatar__class,\n.monster__name {\n\tfont-weight: bold;\n}\n\n.item--quality--common {\n\tcolor: #909090;\n}\n.item--quality--uncommon {\n\tcolor: forestgreen;\n}\n.item--quality--epic {\n\tcolor: mediumblue;\n}\n.item--quality--legendary {\n\tcolor: #d9534f;\n}\n.item--quality--artifact {\n\tcolor: #fad700;\n}\n\n.monster--rank--common {\n}\n.monster--rank--elite {\n\tcolor: #fad700;\n}\n.monster--rank--boss {\n\tcolor: #d9534f;\n}\n\n\n.item--weapon:before {\n\tcontent: '\\2694   ';\n}\n.item--armor:before {\n\tcontent: '\\1F6E1   ';\n}\n\n.currency--coin:before {\n\tcontent: '\\1F4B0   ';\n}\n.currency--token:before {\n\tcontent: '\\1F4A0    ';\n}\n/*\n\nswitch($class) {\n\n\t\tcase 'attribute--level':\n\t\t\treturn '👶 ' + WIDTH_COMPENSATION + str\n\t\tcase 'attribute--health':\n\t\t\treturn '💗 ' + WIDTH_COMPENSATION + str\n\t\tcase 'attribute--mana':\n\t\t\treturn '💙 ' + WIDTH_COMPENSATION + str\n\t\tcase 'attribute--agility':\n\t\t\treturn '🤸 ' + WIDTH_COMPENSATION + str\n\t\tcase 'attribute--luck':\n\t\t\treturn '🤹 ' + WIDTH_COMPENSATION + str\n\t\tcase 'attribute--strength':\n\t\t\treturn '🏋 ' + WIDTH_COMPENSATION + str\n\t\tcase 'attribute--charisma':\n\t\t\treturn '👨🎤 ' + WIDTH_COMPENSATION + str\n\t\tcase 'attribute--wisdom':\n\t\t\treturn '👵 ' + WIDTH_COMPENSATION + str\n\n\t\tcase 'monster':\n\t\t\treturn str + ' ' + hints.possible_emoji + WIDTH_COMPENSATION\n\t\tcase 'rank--common':\n\t\t\treturn str\n\t\tcase 'rank--elite':\n\t\t\treturn stylize_string.bold(str + '★')\n\t\tcase 'rank--boss':\n\t\t\treturn stylize_string.bold(str + ' 👑' + WIDTH_COMPENSATION)\n */\n", ""]);
 
 // exports
 

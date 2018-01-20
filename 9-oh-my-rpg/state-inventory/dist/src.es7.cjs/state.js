@@ -56,20 +56,26 @@ function equip_item(state, uuid) {
 }
 exports.equip_item = equip_item;
 /////////////////////
-function get_equiped_item_count(state) {
+function get_equipped_item_count(state) {
     return Object.keys(state.slotted).length;
 }
-exports.get_equiped_item_count = get_equiped_item_count;
-function get_unequiped_item_count(state) {
+exports.get_equipped_item_count = get_equipped_item_count;
+function get_unequipped_item_count(state) {
     return state.unslotted.filter(i => !!i).length;
 }
-exports.get_unequiped_item_count = get_unequiped_item_count;
+exports.get_unequipped_item_count = get_unequipped_item_count;
 function get_item_count(state) {
-    return get_equiped_item_count(state) + get_unequiped_item_count(state);
+    return get_equipped_item_count(state) + get_unequipped_item_count(state);
 }
 exports.get_item_count = get_item_count;
-function get_item(state, uuid) {
+function get_unslotted_item(state, uuid) {
     let item = state.unslotted.find(i => i.uuid === uuid);
+    return item ? item : null;
+}
+exports.get_unslotted_item = get_unslotted_item;
+function get_item(state, uuid) {
+    let item = get_unslotted_item(state, uuid);
+    item = item || Object.values(state.slotted).find(i => !!i && i.uuid === uuid);
     return item ? item : null;
 }
 exports.get_item = get_item;

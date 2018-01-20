@@ -1,7 +1,9 @@
 "use strict";
 
+const PromiseWithProgress = require('p-progress')
+
 // TODO remove prettify_json dependency
-const { PromiseWithProgress, prettify_json } = require('./libs')
+const { prettify_json } = require('./libs')
 const { prettify_params_for_debug } = require('./utils')
 
 const LIB = '@oh-my-rpg/view-chat'

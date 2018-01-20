@@ -48,7 +48,6 @@ function add_item(state: State, item: Item): State {
 	return auto_sort(state)
 }
 
-
 function remove_item_from_unslotted(state: State, uuid: UUID): State {
 	const new_unslotted = state.unslotted.filter(i => i.uuid !== uuid)
 	if (new_unslotted.length === state.unslotted.length)
@@ -58,7 +57,6 @@ function remove_item_from_unslotted(state: State, uuid: UUID): State {
 
 	return state
 }
-
 
 function equip_item(state: State, uuid: UUID): State {
 	const item_to_equip = state.unslotted.find(i => i.uuid === uuid)
@@ -80,20 +78,26 @@ function equip_item(state: State, uuid: UUID): State {
 
 /////////////////////
 
-
-function get_equiped_item_count(state: Readonly<State>): number {
+function get_equipped_item_count(state: Readonly<State>): number {
 	return Object.keys(state.slotted).length
 }
 
-function get_unequiped_item_count(state: Readonly<State>): number {
+function get_unequipped_item_count(state: Readonly<State>): number {
 	return state.unslotted.filter(i => !!i).length
 }
+
 function get_item_count(state: Readonly<State>): number {
-	return get_equiped_item_count(state) + get_unequiped_item_count(state)
+	return get_equipped_item_count(state) + get_unequipped_item_count(state)
+}
+
+function get_unslotted_item(state: Readonly<State>, uuid: UUID): Item | null {
+	let item: Item | undefined | null = state.unslotted.find(i => i.uuid === uuid)
+	return item ? item : null
 }
 
 function get_item(state: Readonly<State>, uuid: UUID): Item | null {
-	let item = state.unslotted.find(i => i.uuid === uuid)
+	let item: Item | undefined | null = get_unslotted_item(state, uuid)
+	item = item || Object.values(state.slotted).find(i => !!i && i.uuid === uuid)
 	return item ? item : null
 }
 
@@ -160,9 +164,10 @@ export {
 	remove_item_from_unslotted,
 	equip_item,
 
-	get_equiped_item_count,
-	get_unequiped_item_count,
+	get_equipped_item_count,
+	get_unequipped_item_count,
 	get_item_count,
+	get_unslotted_item,
 	get_item,
 	get_item_in_slot,
 	iterables_unslotted,

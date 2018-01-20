@@ -7,6 +7,7 @@ import * as deepFreeze from 'deep-freeze-strict'
 
 import {
 	UUID,
+	Element,
 	ItemQuality,
 } from '@oh-my-rpg/definitions'
 
@@ -64,6 +65,8 @@ import {
 	generate_random_coin_gain,
 } from '@oh-my-rpg/logic-adventures'
 
+/////////////////////
+
 import { LIB_ID, SCHEMA_VERSION } from './consts'
 
 import {
@@ -71,6 +74,14 @@ import {
 	GainType,
 	Adventure,
 } from './types'
+
+import {
+	ActionType,
+	ActionCategory,
+	Action,
+	ActionEquipItem,
+	ActionSellItem,
+} from './serializable_actions'
 
 import { play_good, receive_item } from './play'
 
@@ -84,6 +95,42 @@ function appraise_item(state: Readonly<State>, uuid: UUID): number {
 				throw new Error('Sell: No item!')
 
 		return appraise(item_to_sell)
+}
+
+function find_element(state: Readonly<State>, uuid: UUID): Element | null {
+	return InventoryState.get_item(state.inventory, uuid)
+}
+
+function get_actions_for_unslotted_item(state: Readonly<State>, uuid: UUID): Action[] {
+	const actions: Action[] = []
+
+	const equip: ActionEquipItem = {
+		type: ActionType.equip_item,
+		category: ActionCategory.inventory,
+		expected_state_revision: state.revision,
+		target_uuid: uuid,
+	}
+	actions.push(equip)
+
+	const sell: ActionSellItem = {
+		type: ActionType.sell_item,
+		category: ActionCategory.inventory,
+		expected_state_revision: state.revision,
+		target_uuid: uuid,
+	}
+	actions.push(sell)
+
+	return actions
+}
+
+function get_actions_for_element(state: Readonly<State>, uuid: UUID): Action[] {
+	const actions: Action[] = []
+
+	const as_unslotted_item = InventoryState.get_unslotted_item(state.inventory, uuid)
+	if (as_unslotted_item)
+		actions.push(...get_actions_for_unslotted_item(state, uuid))
+
+	return actions
 }
 
 ///////
@@ -186,15 +233,40 @@ function rename_avatar(state: State, new_name: string): State {
 	return state
 }
 
-function change_avatar_class(state: State, klass: CharacterClass): State {
+function change_avatar_class(state: State, new_class: CharacterClass): State {
 	// TODO make this have an effect (in v2 ?)
-	state.avatar = switch_class(get_SEC(), state.avatar, klass)
+	state.avatar = switch_class(get_SEC(), state.avatar, new_class)
 
 	// TODO count it as a meaningful interaction only if positive (or with a limit)
 	state.meaningful_interaction_count++;
 
 	state.revision++
 	return state
+}
+
+/////////////////////
+
+function execute(state: State, action: Action): State {
+	const { expected_state_revision } = (action as any)
+	if (expected_state_revision) {
+		if (state.revision !== expected_state_revision)
+			throw new Error(`Trying to execute an outdated action!`)
+	}
+
+	switch (action.type) {
+		case ActionType.play:
+			return play(state)
+		case ActionType.equip_item:
+			return equip_item(state, action.target_uuid)
+		case ActionType.sell_item:
+			return sell_item(state, action.target_uuid)
+		case ActionType.rename_avatar:
+			return rename_avatar(state, action.new_name)
+		case ActionType.change_avatar_class:
+			return change_avatar_class(state, action.new_class)
+		default:
+			throw new Error(`Unrecognized action!`)
+	}
 }
 
 /////////////////////
@@ -471,8 +543,6 @@ export {
 	Adventure,
 	State,
 
-	appraise_item,
-
 	create,
 
 	reseed,
@@ -481,6 +551,12 @@ export {
 	sell_item,
 	rename_avatar,
 	change_avatar_class,
+
+	execute,
+
+	appraise_item,
+	find_element,
+	get_actions_for_element,
 
 	DEMO_ADVENTURE_01,
 	DEMO_ADVENTURE_02,

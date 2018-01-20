@@ -9,8 +9,8 @@ import * as PRNGState from '@oh-my-rpg/state-prng'
 import { xxx_internal_reset_prng_cache } from '@oh-my-rpg/state-prng'
 import { ALL_GOOD_ADVENTURE_ARCHETYPES } from '@oh-my-rpg/logic-adventures'
 import {
-	get_unequiped_item_count,
-	get_equiped_item_count,
+	get_unequipped_item_count,
+	get_equipped_item_count,
 	get_item,
 } from '@oh-my-rpg/state-inventory'
 
@@ -25,6 +25,8 @@ import {
 	create,
 	migrate_to_latest,
 	play,
+	find_element,
+	appraise_item,
 } from '.'
 
 describe('⚔ 👑 😪  The Boring RPG - reducer', function() {
@@ -53,8 +55,8 @@ describe('⚔ 👑 😪  The Boring RPG - reducer', function() {
 			expect(state.last_adventure).to.be.null
 
 			// check our 2 predefined items are present and equipped
-			expect(get_equiped_item_count(state.inventory), 'equipped').to.equal(2)
-			expect(get_unequiped_item_count(state.inventory), 'unequipped').to.equal(0)
+			expect(get_equipped_item_count(state.inventory), 'equipped').to.equal(2)
+			expect(get_unequipped_item_count(state.inventory), 'unequipped').to.equal(0)
 		})
 	})
 
@@ -116,9 +118,9 @@ describe('⚔ 👑 😪  The Boring RPG - reducer', function() {
 							state = play(state, 'rare_goods_seller')
 
 							// check our 2 predefined items are still present and equipped
-							expect(get_equiped_item_count(state.inventory), 'equipped').to.equal(2)
+							expect(get_equipped_item_count(state.inventory), 'equipped').to.equal(2)
 							// a new item is present
-							expect(get_unequiped_item_count(state.inventory), 'unequipped').to.equal(1)
+							expect(get_unequipped_item_count(state.inventory), 'unequipped').to.equal(1)
 							// it's a weapon !
 							expect(state.inventory.unslotted[0]).to.have.property('slot', 'armor')
 						})
@@ -148,9 +150,66 @@ describe('⚔ 👑 😪  The Boring RPG - reducer', function() {
 
 			it('should allow un-equiping an item') // not now, but useful for ex. for immediately buying a better item on the market
 
-			it('should allow equiping an item, correctly swapping with an already equiped item')
+			it('should allow equiping an item, correctly swapping with an already equipped item')
 
 			it('should allow selling an item')
+		})
+	})
+
+	describe('Helper functions', function() {
+
+		describe('find_element() by uuid', function() {
+
+			context('when the element refers to an item', function() {
+
+				it('should find it', () => {
+					const state = create()
+
+					const armor = state.inventory.slotted.armor
+
+					const element = find_element(state, armor!.uuid)
+
+					expect(element).to.deep.equal(armor)
+				})
+			})
+
+			context('when the uuid refers to nothing', function() {
+
+				it('should return null', () => {
+					const state = create()
+
+					const element = find_element(state, 'foo')
+
+					expect(element).to.be.null
+				})
+			})
+		})
+
+		describe('appraise_item() by uuid', function() {
+
+			context('when the element refers to an item', function() {
+
+				it('should find it and appraise it', () => {
+					const state = create()
+
+					const armor = state.inventory.slotted.armor
+
+					const price = appraise_item(state, armor!.uuid)
+
+					expect(price).to.equal(5)
+				})
+			})
+
+			context('when the uuid refers to nothing', function() {
+
+				it('should throw', () => {
+					const state = create()
+
+					const attempt_appraise = () => void appraise_item(state, 'foo')
+
+					expect(attempt_appraise).to.throw('No item')
+				})
+			})
 		})
 	})
 

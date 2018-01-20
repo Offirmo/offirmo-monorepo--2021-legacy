@@ -1,7 +1,5 @@
 "use strict";
 
-const PromiseWithProgress = require('p-progress')
-
 const stylize_string = require('chalk')
 
 const prettyjson = require('prettyjson')
@@ -27,7 +25,6 @@ function indent_string(msg, indentation, options = {}) {
 ////////////
 
 module.exports = {
-	PromiseWithProgress,
 	stylize_string,
 	prettify_json,
 	indent_string,

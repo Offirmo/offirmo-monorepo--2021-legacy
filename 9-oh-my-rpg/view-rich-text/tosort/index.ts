@@ -189,10 +189,10 @@ function render_characteristics(state: CharacterState, options: RenderingOptions
 }
 
 function render_equipment(inventory: InventoryState, options: RenderingOptions = DEFAULT_RENDERING_OPTIONS): string {
-	const equiped_items = ITEM_SLOTS.map(partial(get_item_in_slot, inventory))
+	const equipped_items = ITEM_SLOTS.map(partial(get_item_in_slot, inventory))
 	const {last_adventure: la} = options
 
-	return equiped_items.map((i: Item | null, index: number) => {
+	return equipped_items.map((i: Item | null, index: number) => {
 		const padded_slot = `${ITEM_SLOTS[index]}  `.slice(0, 6)
 		if (!i)
 			return `${padded_slot}: -`

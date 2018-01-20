@@ -13,7 +13,6 @@ import { State as PRNGState } from '@oh-my-rpg/state-prng'
 
 /////////////////////
 
-
 const GainType = Enum(
 	// Note: must match properties in Adventure['gains']
 	'level',
@@ -29,7 +28,7 @@ const GainType = Enum(
 	'weapon',
 	'armor',
 	'weapon_improvement',
-	'armor_improvement'
+	'armor_improvement',
 )
 type GainType = Enum<typeof GainType>
 
@@ -57,6 +56,7 @@ interface Adventure {
 	}
 }
 
+/////////////////////
 
 interface State {
 	schema_version: number
@@ -78,6 +78,7 @@ interface State {
 /////////////////////
 
 export {
+	UUID,
 	GainType,
 	Adventure,
 	State,

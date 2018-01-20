@@ -53,6 +53,14 @@ function create_game_instance({ SEC, get_latest_state, update_state }) {
                 let state = get_latest_state();
                 return state_fns.appraise_item(state, uuid);
             },
+            find_element(uuid) {
+                let state = get_latest_state();
+                return state_fns.find_element(state, uuid);
+            },
+            get_actions_for_element(uuid) {
+                let state = get_latest_state();
+                return state_fns.get_actions_for_element(state, uuid);
+            },
             reset_all() {
                 let state = state_fns.create();
                 state = state_fns.reseed(state);
