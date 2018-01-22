@@ -1,6 +1,7 @@
 "use strict";
 
 const PromiseWithProgress = require('p-progress')
+const is_promise = require('is-promise')
 
 const { indent_string } = require('./libs')
 
@@ -211,14 +212,15 @@ function create({
 				const yielded_step = gen_next_step.next({last_step, last_answer})
 
 				// just in case the returned step is a promise.
-				// will do nothing if it isn't
-				// TODO use is_promise instead!
-				const {value: raw_step, done} = await ui.spin_until_resolution(yielded_step)
+				const {value: raw_step, done} = is_promise(yielded_step)
+					? await ui.spin_until_resolution(yielded_step)
+					: yielded_step
 
 				if (done) {
 					should_exit = true
 					continue
 				}
+
 				const step = normalize_step(raw_step)
 				const elapsed_time_ms = (+new Date()) - step_start_timestamp_ms
 				if (is_step_input(last_step)) {

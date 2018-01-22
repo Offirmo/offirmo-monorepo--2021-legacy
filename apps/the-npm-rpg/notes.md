@@ -24,6 +24,8 @@ https://github.com/sindresorhus/term-img
 https://github.com/cronvel/terminal-kit
 
 
+https://www.npmjs.com/package/computer-name
+
 Inspiration
 * nethack https://web.archive.org/web/20120316213754/http://archive.gamespy.com/legacy/halloffame/nethack_a.shtm
 

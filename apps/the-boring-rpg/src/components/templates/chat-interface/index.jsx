@@ -59,7 +59,7 @@ class Chat extends React.Component {
 
 		const DEBUG = true
 
-		const display_message = ({msg, choices = [], side = '→'}) => {
+		const display_message = async ({msg, choices = [], side = '→'}) => {
 			let direction = 'ltr'
 			switch(side) {
 				case '→':
@@ -71,7 +71,6 @@ class Chat extends React.Component {
 				case '↔':
 				default:
 					throw new Error(`display_message(): incorrect side!`)
-					break
 			}
 
 			this.addBubble(
@@ -94,13 +93,14 @@ class Chat extends React.Component {
 			}))
 		}
 
-		const display_progress = ({progress_promise, msg = 'loading', msgg_acknowledge} = {}) => {
-			const progress_msg = msg + '...'
+		const display_progress = async ({progress_promise, msg = 'loading', msgg_acknowledge} = {}) => {
 			this.setState(s => {progressing: true})
+
+			await display_message({msg})
 
 			if (progress_promise.onProgress) {
 				progress_promise.onProgress(progress => {
-					// TODO
+					// TODO update percentage
 				})
 			}
 
@@ -114,9 +114,11 @@ class Chat extends React.Component {
 					final_msg += msgg_acknowledge
 						? msgg_acknowledge(success)
 						: msg
-					console.log(final_msg) // TODO display
+
+					return display_message({msg: final_msg})
 				})
 				.catch(err => {
+					// display? TODO
 					console.error('unexpected', err)
 					return false
 				})
@@ -134,7 +136,6 @@ class Chat extends React.Component {
 			teardown: () => {},
 		}
 
-		debugger
 		const chat = create_chat({
 			DEBUG,
 			gen_next_step: this.props.gen_next_step,
