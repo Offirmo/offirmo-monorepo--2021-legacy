@@ -1,12 +1,5 @@
 "use strict";
 
-const stylize_string = require('chalk')
-
-const prettyjson = require('prettyjson')
-function prettify_json(data, options) {
-	return prettyjson.render(data, options)
-}
-
 // https://github.com/sindresorhus/indent-string
 const indent_string_bad = require('indent-string');
 function indent_string(msg, indentation, options = {}) {
@@ -25,7 +18,5 @@ function indent_string(msg, indentation, options = {}) {
 ////////////
 
 module.exports = {
-	stylize_string,
-	prettify_json,
 	indent_string,
 }

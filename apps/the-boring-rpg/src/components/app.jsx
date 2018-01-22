@@ -9,7 +9,7 @@ import { Meta } from './pages/meta'
 import { ChatDemo } from './pages/x-chat-demo'
 import { BASE_ROUTE, ROUTES } from "./routes"
 
-import './index.css'
+//import './index.css'
 
 class App extends React.Component {
 	render() {
@@ -26,7 +26,7 @@ class App extends React.Component {
 							<Route path={ROUTES.character} render={() => <CharacterSheet workspace={this.props.workspace} />} />
 							<Route path={ROUTES.meta} render={() => <Meta workspace={this.props.workspace} />} />
 
-							<Route path={'/chat-demo'} render={() => <ChatDemo workspace={this.props.workspace} />} />
+							<Route path={'/chat-demo'} render={() => <ChatDemo />} />
 
 							<Route render={() => <p>Not Found TODO BETTER</p>} />
 						</Switch>

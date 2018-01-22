@@ -4,6 +4,7 @@ const PromiseWithProgress = require('p-progress')
 
 const stylize_string = require('chalk')
 
+// TODO own module with auto web/node
 const prettyjson = require('prettyjson')
 function prettify_json(data, options) {
 	return prettyjson.render(data, options)

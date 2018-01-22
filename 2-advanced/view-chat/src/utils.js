@@ -1,18 +1,6 @@
 "use strict";
 
-const {
-	prettify_json,
-	indent_string,
-} = require('./libs')
-
-
-function prettify_params_for_debug() {
-	return indent_string(
-		prettify_json.apply(null, arguments),
-		1,
-		{indent: '	'}
-	)
-}
+// TODO make a module
 
 // http://stackoverflow.com/a/1917041/587407
 function get_shared_start(strs) {
@@ -31,6 +19,5 @@ function get_shared_start(strs) {
 
 
 module.exports = {
-	prettify_params_for_debug,
 	get_shared_start,
 }

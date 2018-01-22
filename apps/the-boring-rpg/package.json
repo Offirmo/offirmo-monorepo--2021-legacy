@@ -27,6 +27,7 @@
 		"test": "echo 'TODO'",
 		"__helpers": "----------- Helpers -----------",
 		"build": "run-s clean build:prod",
+		"cheatsheet": "node doc/cheatsheet.js",
 
 		"bin": "bin/index.js"
 	},

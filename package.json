@@ -45,6 +45,7 @@
 		"gauge": "^2.7.4",
 		"html-webpack-plugin": "^2.30.1",
 		"indent-string": "^3.2.0",
+		"is-promise": "^2.1.0",
 		"joi": "^13.1.0",
 		"jsondiffpatch": "^0.2.5",
 		"latest-version": "^3.1.0",

@@ -441,5 +441,7 @@ function create({DEBUG, shouldCenter}) {
 
 
 module.exports = {
+	prettify_json,
+
 	create,
 }
