@@ -17,7 +17,6 @@
 		]
 	},
 	"dependencies": {
-		"acorn-stage3": "^0.4.0"
 	},
 	"devDependencies": {
 		"@offirmo/cli-toolbox": "^1.0.0",
@@ -67,6 +66,7 @@
 		"react": "^16.2.0",
 		"react-dom": "^16.2.0",
 		"react-router-dom": "^4.2.2",
+		"rpgui": "^1.0.3",
 		"semver": "^5.4.1",
 		"strip-ansi": "^4.0.0",
 		"strip-ansi-stream": "^1.0.0",

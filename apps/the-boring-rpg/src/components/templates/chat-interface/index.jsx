@@ -33,6 +33,7 @@ class Chat extends React.Component {
 			bubbles: [],
 			spinning: false,
 			progressing: false,
+			progress_value: 0,
 		}
 	}
 
@@ -94,7 +95,7 @@ class Chat extends React.Component {
 		}
 
 		const display_progress = async ({progress_promise, msg = 'loading', msgg_acknowledge} = {}) => {
-			this.setState(s => {progressing: true})
+			this.setState(state => ({progressing: true}))
 
 			await display_message({msg})
 
@@ -107,7 +108,7 @@ class Chat extends React.Component {
 			progress_promise
 				.then(() => true, () => false)
 				.then(success => {
-					this.setState(s => {progressing: false})
+					this.setState(state => ({progressing: false}))
 
 					let final_msg = success ? '✔' : '❌'
 					final_msg += ' '
@@ -147,10 +148,19 @@ class Chat extends React.Component {
 			.catch(console.error)
 	}
 
+	componentWillUpdate (nextProps, nextState) {
+		console.info('~~ componentWillUpdate', arguments)
+		return true // optimisation possible
+	}
 
 	render() {
 		const spinner = this.state.spinning && <div className="chat__spinner" />
-		const progress_bar = this.state.progressing && <div className="chat__progress">TODO progress</div>
+		const progress_bar = this.state.progressing && (
+			<div>
+				hello progress
+				<progress className="chat__progress" value={this.state.progress_value} max="1">XXX</progress>
+			</div>
+		)
 
 		return (
 			<AutoScrollDown>

@@ -63,7 +63,7 @@ class Home extends React.Component {
 
 		//console.log('render', this.state)
 		return (
-			<div ref={elt => this.element = elt} className={'pagehome'}>
+			<div ref={elt => this.element = elt} className={'page--home'}>
 				<Chat>
 					{this.state.bubbles}
 				</Chat>

@@ -27,7 +27,7 @@ h1, h2, h3 {
 
 /*********************/
 .the-boring-rpg-nav {
-	padding: 5px 10px;
+	padding: 5px 0;
 }
 
 .the-boring-rpg-nav-list {
@@ -38,10 +38,13 @@ h1, h2, h3 {
 }
 
 .the-boring-rpg-nav li {
+	height: 20px;
 }
-.the-boring-rpg-nav li:not(:first-child) {
-	margin-left: 20px;
+.the-boring-rpg-nav li {
+	margin-left: 10px;
 }
+
+/* #f7efb2e0 */
 
 .the-boring-rpg-nav a {
 	text-decoration: none;
@@ -58,6 +61,19 @@ h1, h2, h3 {
 .page--inventory,
 .page--meta {
 	padding: 7px;
+}
+
+/*********************/
+/* RPG UI overrides */
+.rpgui-content,
+.rpgui-container {
+	position: initial;
+	width: initial;
+	height: initial;
+}
+
+.rpgui-content {
+	overflow: initial;
 }
 
 /*********************/

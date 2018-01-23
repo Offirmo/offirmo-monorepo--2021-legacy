@@ -7,6 +7,8 @@ const ROUTES = {
 	inventory: '/inventory',
 	character: '/character',
 	meta: '/meta',
+
+	x: '/x',
 }
 
 export {
