@@ -258,7 +258,7 @@ class Chat extends React.Component {
 					{this.state.bubbles}
 					{progress_bar}
 					{spinner}
-					<div className="chat__element chat__element--rtl">
+					<div className="chat__element chat__element--rtl chat__choices">
 						{this.state.choices}
 					</div>
 					{user_input}

@@ -54,7 +54,7 @@ function* get_next_step1(skip_to_index = 0) {
 			msg_main: `Calling server...`,
 		},
 		{
-			msg_main: `Make your choice`,
+			msg_main: `Please your choice between 1 and 2?`,
 			callback: value => { state.mode = value },
 			choices: [
 				{
@@ -66,7 +66,11 @@ function* get_next_step1(skip_to_index = 0) {
 					value: 2,
 				},
 			]
-		}
+		},
+		{
+			type: 'simple_message',
+			msg_main: `Thanks, good bye.`,
+		},
 	].slice(skip_to_index)
 }
 

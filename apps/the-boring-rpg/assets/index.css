@@ -99,11 +99,11 @@ progress::-moz-progress-bar {
 .chat {
 	display: flex;
 	flex-direction: column;
-	padding: 0 7px;
+	padding: 0;
 }
 
 .chat__element {
-	margin: 3px 0;
+	margin: 3px 7px;
 }
 .chat__element--ltr {
 	align-self: flex-start;
@@ -120,11 +120,10 @@ progress::-moz-progress-bar {
 	width: fit-content;
 	max-width: 70%;
 }
-
 .chat__spinner {
 	background-image: url("./spin-1s-42px.svg");
 	background-repeat: no-repeat;
-	background-position: 10px 0px;
+	background-position: 10px 0;
 	height: 42px;
 }
 .chat__input {
@@ -133,9 +132,15 @@ progress::-moz-progress-bar {
 	font-size: 12px;
 }
 .chat__button {
-	margin: 4px;
+	margin: 4px 0;
+	padding-top: 4px;
 	border: solid 1px black;
 	background-color: white;
+}
+
+/* https://stackoverflow.com/a/8185290/587407 */
+.chat__choices > * + * {
+	margin-left: 5px;
 }
 
 /*********************/

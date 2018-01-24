@@ -22484,7 +22484,7 @@ function ChatBubble(_ref) {
 	    direction = _ref$direction === undefined ? 'ltr' : _ref$direction,
 	    children = _ref.children;
 
-	var classes = (0, _classnames2.default)('chat__bubble', { 'chat__bubble--ltr': direction === 'ltr' }, { 'chat__bubble--rtl': direction === 'rtl' });
+	var classes = (0, _classnames2.default)('chat__element', { 'chat__element--ltr': direction === 'ltr' }, { 'chat__element--rtl': direction === 'rtl' }, 'chat__bubble');
 	return _react2.default.createElement(
 		'div',
 		{ className: classes },
@@ -22504,7 +22504,10 @@ var Chat = function (_React$Component) {
 			bubbles: [],
 			spinning: false,
 			progressing: false,
-			progress_value: 0
+			progress_value: 0,
+			reading_string: false,
+			choices: [],
+			input_resolve_fn: null
 		};
 		return _this;
 	}
@@ -22625,8 +22628,10 @@ var Chat = function (_React$Component) {
 								case 3:
 
 									if (progress_promise.onProgress) {
-										progress_promise.onProgress(function (progress) {
-											// TODO update percentage
+										progress_promise.onProgress(function (progress_value) {
+											_this2.setState(function (state) {
+												return { progress_value: progress_value };
+											});
 										});
 									}
 
@@ -22636,12 +22641,13 @@ var Chat = function (_React$Component) {
 										return false;
 									}).then(function (success) {
 										_this2.setState(function (state) {
-											return { progressing: false };
+											return {
+												progress_value: 0,
+												progressing: false
+											};
 										});
 
-										var final_msg = success ? '✔' : '❌';
-										final_msg += ' ';
-										final_msg += msgg_acknowledge ? msgg_acknowledge(success) : msg;
+										var final_msg = msgg_acknowledge ? msgg_acknowledge(success) : 'Done.';
 
 										return display_message({ msg: final_msg });
 									}).catch(function (err) {
@@ -22665,12 +22671,152 @@ var Chat = function (_React$Component) {
 				};
 			}();
 
+			var read_string = function read_string(step) {
+				if (DEBUG) console.log('\u2198 read_string()', step);
+
+				return new Promise(function (resolve) {
+					_this2.setState(function (state) {
+						return {
+							reading_string: true,
+							input_resolve_fn: resolve
+						};
+					});
+				}).then(function (raw_answer) {
+					_this2.setState(function (state) {
+						return {
+							reading_string: false,
+							input_resolve_fn: null
+						};
+					});
+					var answer = String(raw_answer).trim();
+					if (DEBUG) console.log('[You entered: "' + answer + '"]');
+
+					if (step.msgg_as_user) return display_message({
+						msg: step.msgg_as_user(answer),
+						side: '←'
+					}).then(function () {
+						return answer;
+					});
+
+					return answer;
+				});
+			};
+
+			var read_choice = function () {
+				var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(step) {
+					return regeneratorRuntime.wrap(function _callee4$(_context4) {
+						while (1) {
+							switch (_context4.prev = _context4.next) {
+								case 0:
+									if (DEBUG) console.log('↘ read_choice()');
+
+									return _context4.abrupt('return', new Promise(function (resolve) {
+										_this2.setState(function (state) {
+											return {
+												choices: step.choices.map(function (choice, index) {
+													return _react2.default.createElement(
+														'button',
+														{ type: 'button',
+															key: index,
+															className: 'chat__button',
+															onClick: function onClick() {
+																return resolve(choice);
+															}
+														},
+														choice.msg_cta
+													);
+												})
+											};
+										});
+									}).then(function () {
+										var _ref8 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(choice) {
+											var answer;
+											return regeneratorRuntime.wrap(function _callee3$(_context3) {
+												while (1) {
+													switch (_context3.prev = _context3.next) {
+														case 0:
+
+															_this2.setState(function (state) {
+																return {
+																	choices: []
+																};
+															});
+
+															answer = choice.value;
+															_context3.next = 4;
+															return display_message({
+																msg: (choice.msgg_as_user || step.msgg_as_user || function () {
+																	return choice.msg_cta;
+																})(answer),
+																side: '←'
+															});
+
+														case 4:
+															return _context3.abrupt('return', answer);
+
+														case 5:
+														case 'end':
+															return _context3.stop();
+													}
+												}
+											}, _callee3, _this2);
+										}));
+
+										return function (_x5) {
+											return _ref8.apply(this, arguments);
+										};
+									}()));
+
+								case 2:
+								case 'end':
+									return _context4.stop();
+							}
+						}
+					}, _callee4, _this2);
+				}));
+
+				return function read_choice(_x4) {
+					return _ref7.apply(this, arguments);
+				};
+			}();
+
+			var read_answer = function () {
+				var _ref9 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(step) {
+					return regeneratorRuntime.wrap(function _callee5$(_context5) {
+						while (1) {
+							switch (_context5.prev = _context5.next) {
+								case 0:
+									if (DEBUG) console.log('↘ read_answer()');
+									_context5.t0 = step.type;
+									_context5.next = _context5.t0 === 'ask_for_string' ? 4 : _context5.t0 === 'ask_for_choice' ? 5 : 6;
+									break;
+
+								case 4:
+									return _context5.abrupt('return', read_string(step));
+
+								case 5:
+									return _context5.abrupt('return', read_choice(step));
+
+								case 6:
+									throw new Error('Unsupported step type: "' + step.type + '"!');
+
+								case 7:
+								case 'end':
+									return _context5.stop();
+							}
+						}
+					}, _callee5, _this2);
+				}));
+
+				return function read_answer(_x6) {
+					return _ref9.apply(this, arguments);
+				};
+			}();
+
 			var chat_ui_callbacks = {
 				setup: function setup() {},
 				display_message: display_message,
-				read_answer: function read_answer() {
-					throw new Error('TODO read_answer');
-				},
+				read_answer: read_answer,
 				spin_until_resolution: spin_until_resolution,
 				pretend_to_think: pretend_to_think,
 				display_progress: display_progress,
@@ -22696,15 +22842,36 @@ var Chat = function (_React$Component) {
 	}, {
 		key: 'render',
 		value: function render() {
+			var _this3 = this;
+
 			var spinner = this.state.spinning && _react2.default.createElement('div', { className: 'chat__spinner' });
 			var progress_bar = this.state.progressing && _react2.default.createElement(
 				'div',
-				null,
-				'hello progress',
+				{ className: 'chat__element chat__element--ltr' },
 				_react2.default.createElement(
 					'progress',
-					{ className: 'chat__progress', value: this.state.progress_value, max: '1' },
+					{ className: 'chat__progress', value: this.state.progress_value },
 					'XXX'
+				)
+			);
+			var user_input = this.state.reading_string && _react2.default.createElement(
+				'div',
+				{ className: 'chat__element chat__element--rtl' },
+				_react2.default.createElement('input', { type: 'text',
+					className: 'chat__input',
+					ref: function ref(el) {
+						return _this3.input = el;
+					}
+				}),
+				_react2.default.createElement(
+					'button',
+					{ type: 'button',
+						className: 'chat__button',
+						onClick: function onClick() {
+							return _this3.state.input_resolve_fn(_this3.input.value);
+						}
+					},
+					'\u21A9'
 				)
 			);
 
@@ -22717,7 +22884,13 @@ var Chat = function (_React$Component) {
 					this.props.children,
 					this.state.bubbles,
 					progress_bar,
-					spinner
+					spinner,
+					_react2.default.createElement(
+						'div',
+						{ className: 'chat__element chat__element--rtl chat__choices' },
+						this.state.choices
+					),
+					user_input
 				)
 			);
 		}
@@ -64667,7 +64840,7 @@ exports.ChatDemo = ChatDemo;
 
 const i_will_handle_rejection_later = __webpack_require__(701);
 
-function* get_next_step1() {
+function* get_next_step1(skip_to_index = 0) {
 	const state = {
 		mode: 'main',
 		name: undefined,
@@ -64677,15 +64850,15 @@ function* get_next_step1() {
 	yield* [{
 		type: 'progress',
 		duration_ms: 2000, // or provide a progress_promise
-		msg_main: `Waking up`,
+		msg_main: `Waking up...`,
 		callback: success => console.log(`[callback called: ${success}]`),
-		msgg_acknowledge: success => success ? `Awoken!` : 'Slumbering forever...'
+		msgg_acknowledge: success => success ? `Awoken!` : 'Slumbering forever.'
 	}, {
 		type: 'progress',
 		progress_promise: i_will_handle_rejection_later(new Promise((resolve, reject) => setTimeout(() => reject(new Error('Demo step 2 rejection!')), 2000))),
-		msg_main: `Warming up`,
+		msg_main: `Warming up...`,
 		callback: success => console.log(`[callback called: ${success}]`),
-		msgg_acknowledge: success => success ? `Ready!` : 'Too lazy...'
+		msgg_acknowledge: success => success ? `✔ Ready!` : '❌ Too lazy.'
 	}, {
 		type: 'simple_message',
 		msg_main: `Welcome. I'll have a few questions…`
@@ -64725,7 +64898,10 @@ function* get_next_step1() {
 			msg_cta: 'Choice 2',
 			value: 2
 		}]
-	}];
+	}, {
+		type: 'simple_message',
+		msg_main: `Thanks, good bye.`
+	}].slice(skip_to_index);
 }
 
 async function get_next_step2() {
