@@ -10,9 +10,10 @@ import {rich_text_to_react} from '../../../utils/rich_text_to_react'
 
 function ChatBubble({direction = 'ltr', children}) {
 	const classes = classNames(
-		'chat__bubble',
-		{ 'chat__bubble--ltr': direction === 'ltr'},
-		{ 'chat__bubble--rtl': direction === 'rtl'},
+		'chat__element',
+		{ 'chat__element--ltr': direction === 'ltr'},
+		{ 'chat__element--rtl': direction === 'rtl'},
+		'chat__bubble'
 	)
 	return (
 		<div className={classes}>
@@ -34,6 +35,9 @@ class Chat extends React.Component {
 			spinning: false,
 			progressing: false,
 			progress_value: 0,
+			reading_string: false,
+			choices: [],
+			input_resolve_fn: null,
 		}
 	}
 
@@ -100,21 +104,22 @@ class Chat extends React.Component {
 			await display_message({msg})
 
 			if (progress_promise.onProgress) {
-				progress_promise.onProgress(progress => {
-					// TODO update percentage
+				progress_promise.onProgress(progress_value => {
+					this.setState(state => ({progress_value}))
 				})
 			}
 
 			progress_promise
 				.then(() => true, () => false)
 				.then(success => {
-					this.setState(state => ({progressing: false}))
+					this.setState(state => ({
+						progress_value: 0,
+						progressing: false,
+					}))
 
-					let final_msg = success ? '✔' : '❌'
-					final_msg += ' '
-					final_msg += msgg_acknowledge
+					const final_msg = msgg_acknowledge
 						? msgg_acknowledge(success)
-						: msg
+						: 'Done.'
 
 					return display_message({msg: final_msg})
 				})
@@ -127,10 +132,83 @@ class Chat extends React.Component {
 			return progress_promise
 		}
 
+		const read_string = (step) => {
+			if (DEBUG) console.log(`↘ read_string()`, step)
+
+			return new Promise(resolve => {
+					this.setState(state => ({
+						reading_string: true,
+						input_resolve_fn: resolve,
+					}))
+				})
+				.then(raw_answer => {
+					this.setState(state => ({
+						reading_string: false,
+						input_resolve_fn: null,
+					}))
+					const answer = String(raw_answer).trim()
+					if (DEBUG) console.log(`[You entered: "${answer}"]`)
+
+					if (step.msgg_as_user)
+						return display_message({
+							msg: step.msgg_as_user(answer),
+							side: '←'
+						})
+							.then(() => answer)
+
+					return answer
+				})
+		}
+
+		const read_choice = async (step) => {
+			if (DEBUG) console.log('↘ read_choice()')
+
+			return new Promise(resolve => {
+					this.setState(state => ({
+						choices: step.choices.map((choice, index) => {
+							return (
+								<button type="button"
+									key={index}
+									className="chat__button"
+									onClick={() => resolve(choice)}
+								>{choice.msg_cta}</button>
+							)
+						})
+					}))
+				})
+				.then(async (choice) => {
+
+					this.setState(state => ({
+						choices: []
+					}))
+
+					const answer = choice.value
+					await display_message({
+						msg: (choice.msgg_as_user || step.msgg_as_user || (() => choice.msg_cta))(answer),
+						side: '←'
+					})
+
+					return answer
+				})
+
+		}
+
+		const read_answer = async (step) => {
+			if (DEBUG) console.log('↘ read_answer()')
+			switch (step.type) {
+				case 'ask_for_string':
+					return read_string(step)
+				case 'ask_for_choice':
+					return read_choice(step)
+				default:
+					throw new Error(`Unsupported step type: "${step.type}"!`)
+			}
+		}
+
 		const chat_ui_callbacks = {
 			setup: () => {},
 			display_message,
-			read_answer: () => { throw new Error('TODO read_answer') },
+			read_answer,
 			spin_until_resolution,
 			pretend_to_think,
 			display_progress,
@@ -156,9 +234,20 @@ class Chat extends React.Component {
 	render() {
 		const spinner = this.state.spinning && <div className="chat__spinner" />
 		const progress_bar = this.state.progressing && (
-			<div>
-				hello progress
-				<progress className="chat__progress" value={this.state.progress_value} max="1">XXX</progress>
+			<div className="chat__element chat__element--ltr">
+				<progress className="chat__progress" value={this.state.progress_value}>XXX</progress>
+			</div>
+		)
+		const user_input = this.state.reading_string && (
+			<div className="chat__element chat__element--rtl">
+				<input type="text"
+					className="chat__input"
+					ref={el => this.input = el}
+				/>
+				<button type="button"
+					className="chat__button"
+					onClick={() => this.state.input_resolve_fn(this.input.value)}
+				>↩</button>
 			</div>
 		)
 
@@ -169,6 +258,10 @@ class Chat extends React.Component {
 					{this.state.bubbles}
 					{progress_bar}
 					{spinner}
+					<div className="chat__element chat__element--rtl">
+						{this.state.choices}
+					</div>
+					{user_input}
 				</div>
 			</AutoScrollDown>
 		)

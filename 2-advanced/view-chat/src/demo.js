@@ -2,7 +2,7 @@
 
 const i_will_handle_rejection_later = require('caught')
 
-function* get_next_step1() {
+function* get_next_step1(skip_to_index = 0) {
 	const state = {
 		mode: 'main',
 		name: undefined,
@@ -10,19 +10,20 @@ function* get_next_step1() {
 	}
 
 	yield* [
+
 		{
 			type: 'progress',
 			duration_ms: 2000, // or provide a progress_promise
-			msg_main: `Waking up`,
+			msg_main: `Waking up...`,
 			callback: success => console.log(`[callback called: ${success}]`),
-			msgg_acknowledge: success => success ? `Awoken!` : 'Slumbering forever...',
+			msgg_acknowledge: success => success ? `Awoken!` : 'Slumbering forever.',
 		},
 		{
 			type: 'progress',
 			progress_promise: i_will_handle_rejection_later(new Promise((resolve, reject) => setTimeout(() => reject(new Error('Demo step 2 rejection!')), 2000))),
-			msg_main: `Warming up`,
+			msg_main: `Warming up...`,
 			callback: success => console.log(`[callback called: ${success}]`),
-			msgg_acknowledge: success => success ? `Ready!` : 'Too lazy...',
+			msgg_acknowledge: success => success ? `✔ Ready!` : '❌ Too lazy.',
 		},
 		{
 			type: 'simple_message',
@@ -66,7 +67,7 @@ function* get_next_step1() {
 				},
 			]
 		}
-	]
+	].slice(skip_to_index)
 }
 
 async function get_next_step2() {

@@ -246,13 +246,12 @@ function create({DEBUG, shouldCenter}) {
 		],
 	})
 	function display_progress({progress_promise, msg = 'loading', msgg_acknowledge} = {}) {
-		const progress_msg = msg + '...'
-		gauge.show(progress_msg, 0)
+		gauge.show(msg, 0)
 		const auto_pulse = setInterval(() => gauge.pulse(), 100)
 
 		if (progress_promise.onProgress) {
-			progress_promise.onProgress(progress => {
-				gauge.show(progress_msg, progress)
+			progress_promise.onProgress(progress_value => {
+				gauge.show(msg, progress_value)
 			})
 		}
 
@@ -262,8 +261,7 @@ function create({DEBUG, shouldCenter}) {
 				clearInterval(auto_pulse)
 				gauge.hide()
 
-				let final_msg = success ? stylize_string.green('✔') : stylize_string.red('❌')
-				final_msg += ' '
+				let final_msg = ' '
 				final_msg += msgg_acknowledge
 					? msgg_acknowledge(success)
 					: msg
