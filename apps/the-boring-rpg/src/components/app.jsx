@@ -21,7 +21,7 @@ class App extends React.Component {
 
 					<div className='route-container'>
 						<Switch>
-							<Route exact path={ROUTES.home} render={() => <Home workspace={this.props.workspace} />} />
+							<Route exact path={ROUTES.home} render={() => <Home />} />
 							<Route path={ROUTES.inventory} render={() => <Inventory workspace={this.props.workspace} />} />
 							<Route path={ROUTES.character} render={() => <CharacterSheet workspace={this.props.workspace} />} />
 							<Route path={ROUTES.meta} render={() => <Meta workspace={this.props.workspace} />} />

@@ -10,7 +10,6 @@ function* get_next_step1(skip_to_index = 0) {
 	}
 
 	yield* [
-
 		{
 			type: 'progress',
 			duration_ms: 2000, // or provide a progress_promise
@@ -54,7 +53,7 @@ function* get_next_step1(skip_to_index = 0) {
 			msg_main: `Calling server...`,
 		},
 		{
-			msg_main: `Please your choice between 1 and 2?`,
+			msg_main: `Please choose between 1 and 2?`,
 			callback: value => { state.mode = value },
 			choices: [
 				{

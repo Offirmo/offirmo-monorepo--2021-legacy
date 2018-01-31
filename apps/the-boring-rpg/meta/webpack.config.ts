@@ -4,6 +4,7 @@ const webpack = require('webpack')
 const PACKAGE_JSON_PATH = path.join('..', 'package.json')
 const { version } = require(PACKAGE_JSON_PATH)
 
+// content from webpack served from here:
 const PUBLIC_PATH = '/apps/the-boring-rpg'
 
 const config = {
@@ -57,6 +58,7 @@ else {
 		historyApiFallback: {
 			index: PUBLIC_PATH,
 		},
+		// content NOT from webpack served from here:
 		contentBase: '../..',
 	}
 

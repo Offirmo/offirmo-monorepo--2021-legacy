@@ -3,42 +3,137 @@ import React from 'react'
 const tbrpg = require('@oh-my-rpg/state-the-boring-rpg')
 import { render_adventure } from '@oh-my-rpg/view-rich-text'
 
-import { Chat, ChatBubble } from '../../templates/chat-interface'
+import { Chat } from '../../templates/chat-interface'
+import { with_game_instance } from '../../context/game-instance-provider'
 import { rich_text_to_react } from '../../../utils/rich_text_to_react'
 
 
-class Home extends React.Component {
+class HomeBase extends React.Component {
 
+	/*
 	constructor (props) {
 		super(props)
-
-		this.state = {
-			bubbles: []
+	}*/
+	* gen_next_step() {
+		const { instance } = this.props
+		const chat_state = {
+			last_displayed_adventure_uuid: (() => {
+				const { last_adventure } = instance.get_latest_state()
+				return last_adventure && last_adventure.uuid
+			})()
 		}
 
-		const state = this.props.workspace.instance.get_latest_state()
-		this.addRichTextBubble(tbrpg.get_recap(state), {before_mount: true})
-		this.addRichTextBubble(tbrpg.get_tip(state), {before_mount: true})
-		this.addRichTextBubble('What do you want to do?', {before_mount: true})
+		do {
+			const steps = []
+			const state = instance.get_latest_state()
+			//console.log(state)
+			const { last_adventure } = state
+
+			if (!last_adventure) {
+				// recap
+				steps.push({
+					type: 'simple_message',
+					msg_main: rich_text_to_react(tbrpg.get_recap(initial_state)),
+				})
+			} else if (chat_state.last_displayed_adventure_uuid !== last_adventure.uuid) {
+				steps.push({
+					type: 'progress',
+					duration_ms: 600,
+					msg_main: `Preparations: repairing equipment…`,
+					msgg_acknowledge: () => '✅ Equipment repaired',
+				})
+				steps.push({
+					type: 'progress',
+					duration_ms: 700,
+					msg_main: `Preparations: buying rations…`,
+					msgg_acknowledge: () => '✅ Rations resupplied',
+				})
+				steps.push({
+					type: 'progress',
+					duration_ms: 800,
+					msg_main: `Preparations: reviewing quests…`,
+					msgg_acknowledge: () => '✅ Quests reviewed',
+				})
+				steps.push({
+					type: 'progress',
+					duration_ms: 900,
+					msg_main: `Farming XP…`,
+					msgg_acknowledge: () => '✅ XP farmed',
+				})
+				steps.push({
+					type: 'progress',
+					duration_ms: 1000,
+					msg_main: `Exploring…`,
+					msgg_acknowledge: () => 'Encountered something!\n',
+				})
+
+				const { good_click_count } = state
+				//console.log({ good_click_count, last_adventure })
+				const $doc = render_adventure(last_adventure)
+				const msg_main = (
+					<div>
+						{`Episode #${good_click_count}:`}<br />
+						{rich_text_to_react($doc)}
+					</div>
+				)
+
+				steps.push({
+					type: 'simple_message',
+					msg_main,
+				})
+
+				chat_state.last_adventure = state.last_adventure
+				chat_state.last_displayed_adventure_uuid = last_adventure.uuid
+			}
+
+			// tip
+			let tip_msg = tbrpg.get_tip(state)
+			if (tip_msg) {
+				steps.push({
+					type: 'simple_message',
+					msg_main: tip_msg,
+				})
+			}
+
+			steps.push({
+				msg_main: `What do you want to do?`,
+				callback: value => { console.error('not implemented') },
+				choices: [
+					{
+						msg_cta: 'Play!',
+						value: 'play',
+						msgg_as_user: () => 'Let’s go adventuring!',
+						callback: () => {
+							instance.play()
+						},
+					},
+					/*{
+						msg_cta: 'Manage Inventory (equip, sell…)',
+						value: 'inventory',
+						msgg_as_user: () => 'Let’s sort out my stuff.',
+						msgg_acknowledge: () => `Sure.`,
+					},
+					{
+						msg_cta: 'Manage Character (rename, change class…)',
+						value: 'character',
+						msgg_as_user: () => 'Let’s see how I’m doing!',
+					},
+					{
+						msg_cta: 'Manage other stuff…',
+						value: 'meta',
+						msgg_as_user: () => 'Let’s see how I’m doing!',
+					},*/
+				],
+			})
+
+			yield* steps
+		} while (true)
 	}
-
-	addRichTextBubble(document, {before_mount = false, direction = 'ltr'} = {}) {
-		//console.log('addRichTextBubble', document)
-		if (!document) return
-
-		const key = this.state.bubbles.length + 1
-		const bubble = (
-			<ChatBubble key={key} direction={direction}>
-				{document.$v ? rich_text_to_react(document) : document}
-			</ChatBubble>
-		)
-
-		if (before_mount)
-			this.state.bubbles.push(bubble)
-		else
-			this.setState(state => ({ bubbles: state.bubbles.concat(bubble) }))
-	}
-
+	/*
+	componentWillMount() {
+		this.step_generator = create(this.props.state)()
+	}*/
+/*
 	componentDidMount () {
 		this.element.addEventListener('click', event => {
 			//console.log('click detected on', event.target)
@@ -52,26 +147,21 @@ class Home extends React.Component {
 			this.addRichTextBubble('What do you want to do?')
 		})
 	}
-
+/*
 	componentWillUnmount () {
 		console.info('~~ componentWillUnmount', arguments)
 	}
-
+*/
 	render() {
-		const {workspace} = this.props
-		const state = workspace.instance.get_latest_state()
-
-		//console.log('render', this.state)
 		return (
-			<div ref={elt => this.element = elt} className={'page--home'}>
-				<Chat>
-					{this.state.bubbles}
-				</Chat>
-				<button>play</button>
+			<div className={'page--home'}>
+				<Chat gen_next_step={this.gen_next_step()} />
 			</div>
 		)
 	}
 }
+
+const Home = with_game_instance(HomeBase)
 
 export {
 	Home,

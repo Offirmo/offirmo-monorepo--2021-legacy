@@ -2,10 +2,9 @@ import React from 'react'
 import classNames from 'classnames'
 const promiseFinally = require('p-finally')
 
-const { create: create_chat } = require('@offirmo/view-chat')
+import { create as create_chat } from '@offirmo/view-chat'
 
 import { AutoScrollDown } from '../../atoms/auto-scroll-down'
-import {rich_text_to_react} from '../../../utils/rich_text_to_react'
 
 
 function ChatBubble({direction = 'ltr', children}) {
@@ -190,7 +189,6 @@ class Chat extends React.Component {
 
 					return answer
 				})
-
 		}
 
 		const read_answer = async (step) => {
@@ -226,10 +224,12 @@ class Chat extends React.Component {
 			.catch(console.error)
 	}
 
+	/*
 	componentWillUpdate (nextProps, nextState) {
 		console.info('~~ componentWillUpdate', arguments)
 		return true // optimisation possible
 	}
+*/
 
 	render() {
 		const spinner = this.state.spinning && <div className="chat__spinner" />
