@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch, NavLink } from 'react-router-dom'
 
-import { Nav } from './molecules/nav'
+import { Header } from './organisms/header'
 import { Home } from './pages/home'
 import { Inventory } from './pages/inventory'
 import { CharacterSheet } from './pages/character-sheet'
@@ -15,11 +15,11 @@ class App extends React.Component {
 	render() {
 		return (
 			<Router  basename={BASE_ROUTE}>
-				<div className='container'>
+				<div className='tbrpg-container'>
 
-					<Nav/>
+					<Header/>
 
-					<div className='route-container'>
+					<div className='tbrpg__content'>
 						<Switch>
 							<Route exact path={ROUTES.home} render={() => <Home />} />
 							<Route path={ROUTES.inventory} render={() => <Inventory workspace={this.props.workspace} />} />

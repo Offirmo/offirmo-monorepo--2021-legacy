@@ -32,46 +32,66 @@ progress::-moz-progress-bar {
 	background-color: #909090;
 }
 
+/*********************/
+
+:root {
+	--tbrpg--header--height: 25px;
+}
+
 
 /*********************/
-.container {
-	height: 100vh;
-	overflow: hidden;
+.tbrpg-container {
+	border: solid 1px red;
+	xxheight: 100vh;
+	xxxoverflow: hidden;
 }
 
-.route-container {
-	height: calc(100vh - 29px); /* px = height of nav */
-	overflow: auto;
+.tbrpg__header {
+	xxborder: solid 1px green;
+
+	position: sticky;
+	top: 0;
+	height: var(--tbrpg--header--height);
+	background-image: linear-gradient(180deg, #000, transparent);
+	padding: 5px;
+	display: flex;
+	flex-direction: row;
+}
+
+.tbrpg__content {
+	xxxheight: calc(100vh - 29px); /* px = height of nav */
+	xxxoverflow: auto;
 }
 
 /*********************/
-.the-boring-rpg-nav {
-	padding: 5px 0;
+.tbrpg__nav {
+
 }
 
-.the-boring-rpg-nav-list {
+.tbrpg__nav__list {
 	list-style-type: none;
 	padding: 0;
 	margin: 0;
 	display: flex;
 }
 
-.the-boring-rpg-nav li {
-	height: 20px;
+.tbrpg__nav li {
+	padding-top: 2px;
+	margin-left: 16px;
 }
-.the-boring-rpg-nav li {
-	margin-left: 10px;
-}
+
 
 /* #f7efb2e0 */
 
-.the-boring-rpg-nav a {
+.tbrpg__nav a {
+	color: white;
 	text-decoration: none;
 }
-.the-boring-rpg-nav a.active {
+.tbrpg__nav a.active {
+	color: #ffe74b;
 	font-weight: bold;
 }
-.the-boring-rpg-nav a.active:before {
+.tbrpg__nav a.active:before {
 	content: '';
 }
 
@@ -97,8 +117,10 @@ progress::-moz-progress-bar {
 
 /*********************/
 .chat {
+	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
+	justify-content: flex-end;
 	padding: 0;
 }
 

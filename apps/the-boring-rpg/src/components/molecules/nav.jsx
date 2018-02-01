@@ -5,8 +5,8 @@ import { ROUTES } from '../routes'
 
 function Nav() {
 	return (
-		<nav className='the-boring-rpg-nav'>
-			<ul className='the-boring-rpg-nav-list'>
+		<nav className='tbrpg__nav'>
+			<ul className='tbrpg__nav__list'>
 				<li>
 					<NavLink exact activeClassName='active' to={ROUTES.home}>Home</NavLink>
 				</li>
