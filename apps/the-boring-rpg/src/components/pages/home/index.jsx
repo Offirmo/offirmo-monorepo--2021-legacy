@@ -33,10 +33,10 @@ class HomeBase extends React.Component {
 				// recap
 				steps.push({
 					type: 'simple_message',
-					msg_main: rich_text_to_react(tbrpg.get_recap(initial_state)),
+					msg_main: rich_text_to_react(tbrpg.get_recap(state)),
 				})
 			} else if (chat_state.last_displayed_adventure_uuid !== last_adventure.uuid) {
-				steps.push({
+				/*steps.push({
 					type: 'progress',
 					duration_ms: 600,
 					msg_main: `Preparations: repairing equipment…`,
@@ -59,7 +59,7 @@ class HomeBase extends React.Component {
 					duration_ms: 900,
 					msg_main: `Farming XP…`,
 					msgg_acknowledge: () => '✅ XP farmed',
-				})
+				})*/
 				steps.push({
 					type: 'progress',
 					duration_ms: 1000,
@@ -87,11 +87,11 @@ class HomeBase extends React.Component {
 			}
 
 			// tip
-			let tip_msg = tbrpg.get_tip(state)
-			if (tip_msg) {
+			let tip_doc = tbrpg.get_tip(state)
+			if (tip_doc) {
 				steps.push({
 					type: 'simple_message',
-					msg_main: tip_msg,
+					msg_main: rich_text_to_react(tip_doc),
 				})
 			}
 
@@ -129,32 +129,10 @@ class HomeBase extends React.Component {
 			yield* steps
 		} while (true)
 	}
-	/*
-	componentWillMount() {
-		this.step_generator = create(this.props.state)()
-	}*/
-/*
-	componentDidMount () {
-		this.element.addEventListener('click', event => {
-			//console.log('click detected on', event.target)
-			const {workspace} = this.props
-			const state = workspace.instance.get_latest_state()
 
-			this.addRichTextBubble('Let’s go adventuring!', {direction: 'rtl'})
-			workspace.instance.play()
-			this.addRichTextBubble(render_adventure(state.last_adventure))
-			this.addRichTextBubble(tbrpg.get_tip(state))
-			this.addRichTextBubble('What do you want to do?')
-		})
-	}
-/*
-	componentWillUnmount () {
-		console.info('~~ componentWillUnmount', arguments)
-	}
-*/
 	render() {
 		return (
-			<div className={'page--home'}>
+			<div className={'page page--home'}>
 				<Chat gen_next_step={this.gen_next_step()} />
 			</div>
 		)

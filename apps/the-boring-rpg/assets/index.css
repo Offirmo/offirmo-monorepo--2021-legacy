@@ -13,6 +13,7 @@ body {
 
 h1, h2, h3 {
 	line-height: 1.2;
+	margin: 0;
 }
 
 progress {
@@ -32,6 +33,20 @@ progress::-moz-progress-bar {
 	background-color: #909090;
 }
 
+input {
+	margin: 4px 0;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	font-size: 12px;
+}
+button {
+	margin: 4px 0;
+	padding: 6px 9px;
+	border: solid 1px black;
+	border-radius: 3px;
+	background-color: white;
+}
+
+
 /*********************/
 
 :root {
@@ -41,9 +56,8 @@ progress::-moz-progress-bar {
 
 /*********************/
 .tbrpg-container {
-	border: solid 1px red;
-	xxheight: 100vh;
-	xxxoverflow: hidden;
+	xxxborder: solid 1px red;
+	/*position: relative; /* to allow absolute positioning of content */
 }
 
 .tbrpg__header {
@@ -51,6 +65,7 @@ progress::-moz-progress-bar {
 
 	position: sticky;
 	top: 0;
+	z-index: 1;
 	height: var(--tbrpg--header--height);
 	background-image: linear-gradient(180deg, #000, transparent);
 	padding: 5px;
@@ -59,8 +74,7 @@ progress::-moz-progress-bar {
 }
 
 .tbrpg__content {
-	xxxheight: calc(100vh - 29px); /* px = height of nav */
-	xxxoverflow: auto;
+	min-width: 100vw;
 }
 
 /*********************/
@@ -125,13 +139,30 @@ progress::-moz-progress-bar {
 }
 
 .chat__element {
-	margin: 3px 7px;
+	margin: 6px 7px;
+	position: relative; /* to allow absolute positioning of content */
 }
 .chat__element--ltr {
 	align-self: flex-start;
 }
 .chat__element--rtl {
 	align-self: flex-end;
+}
+
+.chat__bubble.chat__element--ltr::before {
+	content: '◤';
+	font-size: 9px;
+	position: absolute;
+	bottom: -12px;
+	left: 6px;
+}
+
+.chat__bubble.chat__element--rtl::before {
+	content: '◥';
+	font-size: 9px;
+	position: absolute;
+	bottom: -12px;
+	left: 6px;
 }
 
 .chat__bubble {
@@ -148,18 +179,11 @@ progress::-moz-progress-bar {
 	background-position: 10px 0;
 	height: 42px;
 }
-.chat__input {
-	margin: 4px 0;
-	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-	font-size: 12px;
-}
-.chat__button {
-	margin: 4px 0;
-	padding-top: 4px;
-	border: solid 1px black;
-	background-color: white;
-}
 
+.chat__choices {
+	padding-right: 10px;
+	padding-bottom: 12px;
+}
 /* https://stackoverflow.com/a/8185290/587407 */
 .chat__choices > * + * {
 	margin-left: 5px;

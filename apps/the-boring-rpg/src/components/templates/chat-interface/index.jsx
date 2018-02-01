@@ -120,7 +120,13 @@ class Chat extends React.Component {
 						? msgg_acknowledge(success)
 						: 'Done.'
 
-					return display_message({msg: final_msg})
+					this.setState(state => ({bubbles: state.bubbles.slice(0, -1)}))
+
+					return display_message({msg: (
+						<span>
+							{msg}{final_msg}
+						</span>
+					)})
 				})
 				.catch(err => {
 					// display? TODO

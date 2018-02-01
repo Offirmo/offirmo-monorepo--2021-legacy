@@ -42,8 +42,8 @@ function on_node_exit({$node, $id, state, depth}) {
 
 		case 'strong': element = <strong className={class_names}>{children}</strong>; break
 		case 'em': element = <em className={class_names}>{children}</em>; break
-		case 'section': element = <section className={class_names}>{children}</section>; break
-		case 'heading': element = <h1 className={class_names}>{children}</h1>; break
+		case 'section': element = <span className={class_names}>{children}</span>; break
+		case 'heading': element = <h3 className={class_names}>{children}</h3>; break
 
 		default:
 			element = <span className={class_names}>TODO "{$type}" {children}</span>
