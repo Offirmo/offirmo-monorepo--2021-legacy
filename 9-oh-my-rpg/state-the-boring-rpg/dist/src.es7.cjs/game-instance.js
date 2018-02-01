@@ -1,9 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const state_inventory_1 = require("@oh-my-rpg/state-inventory");
+const deep_merge = require("deepmerge");
 const state_fns = require("./state");
 const migrations_1 = require("./migrations");
-function create_game_instance({ SEC, get_latest_state, update_state }) {
+const serializable_actions_1 = require("./serializable_actions");
+function overwriteMerge(destination, source) {
+    return source;
+}
+function create_game_instance({ SEC, get_latest_state, update_state, client_state }) {
     return SEC.xTry('creating tbrpg instance', ({ SEC, logger }) => {
         (function migrate() {
             SEC.xTry('auto migrating', ({ logger }) => {
@@ -19,6 +24,9 @@ function create_game_instance({ SEC, get_latest_state, update_state }) {
                 update_state(state);
             });
         })();
+        client_state = client_state || {
+            mode: serializable_actions_1.ActionCategory.base,
+        };
         return {
             play() {
                 let state = get_latest_state();
@@ -68,6 +76,15 @@ function create_game_instance({ SEC, get_latest_state, update_state }) {
                 logger.verbose('Savegame reseted:', { state });
             },
             get_latest_state,
+            set_client_state(fn) {
+                const changed = fn(client_state);
+                client_state = deep_merge(client_state, changed, {
+                    arrayMerge: overwriteMerge,
+                });
+            },
+            get_client_state() {
+                return client_state;
+            }
         };
     });
 }

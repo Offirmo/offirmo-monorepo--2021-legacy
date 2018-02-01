@@ -1,21 +1,26 @@
 import { UUID, Element } from '@oh-my-rpg/definitions'
 import { CharacterClass } from '@oh-my-rpg/state-character'
 import { Item, get_item } from '@oh-my-rpg/state-inventory'
+import * as deep_merge from 'deepmerge'
 
 import { State } from './types'
 import * as state_fns from './state'
 import { migrate_to_latest } from './migrations'
 import { SoftExecutionContext } from './sec'
-import {Action} from "./serializable_actions";
+import {Action, ActionCategory} from "./serializable_actions";
 
 interface CreateParams {
 	SEC: SoftExecutionContext
 	get_latest_state: () => State
 	update_state: (state: State) => void
+	client_state: object
 }
 
+function overwriteMerge<T>(destination: T, source: T): T {
+	return source
+}
 
-function create_game_instance({SEC, get_latest_state, update_state}: CreateParams) {
+function create_game_instance({SEC, get_latest_state, update_state, client_state}: CreateParams) {
 	return SEC.xTry('creating tbrpg instance', ({SEC, logger}: any) => {
 
 		(function migrate() {
@@ -36,6 +41,10 @@ function create_game_instance({SEC, get_latest_state, update_state}: CreateParam
 				update_state(state)
 			})
 		})()
+
+		client_state = client_state || {
+			mode: ActionCategory.base,
+		}
 
 		return {
 			play() {
@@ -88,6 +97,16 @@ function create_game_instance({SEC, get_latest_state, update_state}: CreateParam
 			},
 
 			get_latest_state,
+
+			set_client_state(fn: Function) {
+				const changed = fn(client_state)
+				client_state = deep_merge(client_state, changed, {
+					arrayMerge: overwriteMerge,
+				})
+			},
+			get_client_state() {
+				return client_state
+			}
 		}
 	})
 }
