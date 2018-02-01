@@ -1,7 +1,7 @@
 import { UUID, Element } from '@oh-my-rpg/definitions'
 import { CharacterClass } from '@oh-my-rpg/state-character'
 import { Item, get_item } from '@oh-my-rpg/state-inventory'
-import * as deep_merge from 'deepmerge'
+const deep_merge = require('deepmerge').default
 
 import { State } from './types'
 import * as state_fns from './state'

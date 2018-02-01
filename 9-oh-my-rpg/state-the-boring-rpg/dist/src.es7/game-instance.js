@@ -1,10 +1,8 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const state_inventory_1 = require("@oh-my-rpg/state-inventory");
+import { get_item } from '@oh-my-rpg/state-inventory';
 const deep_merge = require('deepmerge').default;
-const state_fns = require("./state");
-const migrations_1 = require("./migrations");
-const serializable_actions_1 = require("./serializable_actions");
+import * as state_fns from './state';
+import { migrate_to_latest } from './migrations';
+import { ActionCategory } from "./serializable_actions";
 function overwriteMerge(destination, source) {
     return source;
 }
@@ -14,7 +12,7 @@ function create_game_instance({ SEC, get_latest_state, update_state, client_stat
             SEC.xTry('auto migrating', ({ logger }) => {
                 let state = get_latest_state();
                 const was_empty_state = !state || Object.keys(state).length === 0;
-                state = migrations_1.migrate_to_latest(SEC, state);
+                state = migrate_to_latest(SEC, state);
                 if (was_empty_state) {
                     logger.verbose('Clean savegame created from scratch:', { state });
                 }
@@ -25,7 +23,7 @@ function create_game_instance({ SEC, get_latest_state, update_state, client_stat
             });
         })();
         client_state = client_state || {
-            mode: serializable_actions_1.ActionCategory.base,
+            mode: ActionCategory.base,
         };
         return {
             play() {
@@ -55,7 +53,7 @@ function create_game_instance({ SEC, get_latest_state, update_state, client_stat
             },
             get_item(uuid) {
                 let state = get_latest_state();
-                return state_inventory_1.get_item(state.inventory, uuid);
+                return get_item(state.inventory, uuid);
             },
             appraise_item(uuid) {
                 let state = get_latest_state();
@@ -88,5 +86,5 @@ function create_game_instance({ SEC, get_latest_state, update_state, client_stat
         };
     });
 }
-exports.create_game_instance = create_game_instance;
+export { create_game_instance, };
 //# sourceMappingURL=game-instance.js.map

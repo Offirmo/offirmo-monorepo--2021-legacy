@@ -10,10 +10,13 @@ import { rich_text_to_react } from '../../../utils/rich_text_to_react'
 
 class HomeBase extends React.Component {
 
-	/*
-	constructor (props) {
-		super(props)
-	}*/
+	componentWillMount () {
+		console.info('~~ HomeBase componentWillMount')
+		this.props.instance.set_client_state(client_state => ({
+			mode: 'base',
+		}))
+	}
+
 	* gen_next_step() {
 		const { instance } = this.props
 		const chat_state = {

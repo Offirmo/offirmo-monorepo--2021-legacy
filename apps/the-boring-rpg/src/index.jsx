@@ -3,7 +3,7 @@
 import 'babel-polyfill'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import 'normalize.css'
+//import 'normalize.css'
 
 const { create_game_instance } = require('@oh-my-rpg/state-the-boring-rpg')
 

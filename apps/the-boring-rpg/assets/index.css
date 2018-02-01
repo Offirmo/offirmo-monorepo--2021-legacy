@@ -39,8 +39,8 @@ input {
 	font-size: 12px;
 }
 button {
-	margin: 4px 0;
-	padding: 6px 9px;
+	margin-left: 5px;
+	padding: 5px 9px;
 	border: solid 1px black;
 	border-radius: 3px;
 	background-color: white;
@@ -63,6 +63,7 @@ button {
 .tbrpg__header {
 	xxborder: solid 1px green;
 
+	xxmin-width: 100vw;
 	position: sticky;
 	top: 0;
 	z-index: 1;
@@ -74,7 +75,7 @@ button {
 }
 
 .tbrpg__content {
-	min-width: 100vw;
+	min-width: 100%;
 }
 
 /*********************/
@@ -271,7 +272,7 @@ switch($class) {
  */
 
 /******/
-
+/*
 .action-btn {
 	background: #d98c34;
 	background-image: linear-gradient(to bottom, #d98c34, #b8772c);
@@ -287,3 +288,4 @@ switch($class) {
 	background-image: linear-gradient(to bottom, #f2ae3a, #b87427);
 	text-decoration: none;
 }
+*/
