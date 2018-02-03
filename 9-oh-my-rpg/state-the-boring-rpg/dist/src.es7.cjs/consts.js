@@ -4,4 +4,6 @@ const LIB_ID = '@oh-my-rpg/state-the-boring-rpg';
 exports.LIB_ID = LIB_ID;
 const SCHEMA_VERSION = 4;
 exports.SCHEMA_VERSION = SCHEMA_VERSION;
+const GAME_VERSION = '0.9.0';
+exports.GAME_VERSION = GAME_VERSION;
 //# sourceMappingURL=consts.js.map
