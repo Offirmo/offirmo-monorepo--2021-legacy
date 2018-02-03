@@ -11,9 +11,20 @@ class InventoryBase extends React.Component {
 
 	componentWillMount () {
 		console.info('~~ InventoryBase componentWillMount')
+
 		this.props.instance.set_client_state(client_state => ({
 			mode: 'inventory',
 		}))
+	}
+
+	componentDidMount() {
+		console.info('~~ InventoryBase componentDidMount')
+		// subscribe to future state changes
+		this.unsubscribe = this.props.instance.subscribe(() => this.forceUpdate())
+	}
+	componentWillUnmount () {
+		console.info('~~ InventoryBase componentWillUnmount', arguments)
+		this.unsubscribe()
 	}
 
 	render() {

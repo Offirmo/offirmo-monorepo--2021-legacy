@@ -1,7 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const state_inventory_1 = require("@oh-my-rpg/state-inventory");
+const NanoEvents = require('nanoevents');
+console.log({ NanoEvents });
 const deep_merge = require('deepmerge').default;
+const state_inventory_1 = require("@oh-my-rpg/state-inventory");
 const state_fns = require("./state");
 const migrations_1 = require("./migrations");
 const serializable_actions_1 = require("./serializable_actions");
@@ -27,31 +29,43 @@ function create_game_instance({ SEC, get_latest_state, update_state, client_stat
         client_state = client_state || {
             mode: serializable_actions_1.ActionCategory.base,
         };
+        const emitter = new NanoEvents();
         return {
             play() {
                 let state = get_latest_state();
                 state = state_fns.play(state);
                 update_state(state);
+                emitter.emit('state_change', state);
             },
             equip_item(uuid) {
                 let state = get_latest_state();
                 state = state_fns.equip_item(state, uuid);
                 update_state(state);
+                emitter.emit('state_change', state);
             },
             sell_item(uuid) {
                 let state = get_latest_state();
                 state = state_fns.sell_item(state, uuid);
                 update_state(state);
+                emitter.emit('state_change', state);
             },
             rename_avatar(new_name) {
                 let state = get_latest_state();
                 state = state_fns.rename_avatar(state, new_name);
                 update_state(state);
+                emitter.emit('state_change', state);
             },
             change_avatar_class(new_class) {
                 let state = get_latest_state();
                 state = state_fns.change_avatar_class(state, new_class);
                 update_state(state);
+                emitter.emit('state_change', state);
+            },
+            execute_serialized_action(action) {
+                let state = get_latest_state();
+                state = state_fns.execute(state, action);
+                update_state(state);
+                emitter.emit('state_change', state);
             },
             get_item(uuid) {
                 let state = get_latest_state();
@@ -76,6 +90,10 @@ function create_game_instance({ SEC, get_latest_state, update_state, client_stat
                 logger.verbose('Savegame reseted:', { state });
             },
             get_latest_state,
+            subscribe(fn) {
+                const unbind = emitter.on('state_change', fn);
+                return unbind;
+            },
             set_client_state(fn) {
                 const changed = fn(client_state);
                 client_state = deep_merge(client_state, changed, {
