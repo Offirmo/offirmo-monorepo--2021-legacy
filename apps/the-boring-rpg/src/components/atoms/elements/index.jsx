@@ -10,11 +10,13 @@ function TBRPGElementBase({instance, state, children, uuid}) {
 	const { mode } = instance.get_client_state()
 	const actions = instance.get_actions_for_element(uuid).filter(action => !mode || (action.category === mode))
 
+	//switch()
 	/* todo switch*/
 
 	return (
-		<span className={'element'}>
+		<span className="tbrpg-element">
 			{children}
+			{!!actions.length && <br />}
 			{actions.map(action => {
 				return <ActionButton key={action.type} action={action} />
 			})}

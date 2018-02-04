@@ -28,8 +28,12 @@ function on_node_exit({$node, $id, state, depth}) {
 			: React.cloneElement(child, {key: `${index}`})
 	})
 
-	let element = null
 	const class_names = classNames(...$classes)
+	if ($classes.includes('monster')) {
+		children.push(<span className="monster-emoji">{$hints.possible_emoji}</span>)
+	}
+
+	let element = null
 	switch ($type) {
 		case 'span': element = <span className={class_names}>{children}</span>; break
 

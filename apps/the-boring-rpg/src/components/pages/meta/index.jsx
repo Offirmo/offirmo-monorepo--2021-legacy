@@ -34,6 +34,7 @@ class MetaBase extends React.Component {
 		const doc = render_account_info(state.meta, {
 			'engine version': GAME_VERSION,
 			'savegame version': SCHEMA_VERSION,
+			'play count': state.good_click_count,
 		})
 
 		return (

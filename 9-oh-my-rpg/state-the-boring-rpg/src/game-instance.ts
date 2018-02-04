@@ -1,5 +1,4 @@
 const NanoEvents = require('nanoevents')
-console.log({NanoEvents})
 const deep_merge = require('deepmerge').default
 
 import { UUID, Element } from '@oh-my-rpg/definitions'
@@ -12,18 +11,18 @@ import { migrate_to_latest } from './migrations'
 import { SoftExecutionContext } from './sec'
 import {Action, ActionCategory} from './serializable_actions'
 
-interface CreateParams {
+interface CreateParams<T> {
 	SEC: SoftExecutionContext
 	get_latest_state: () => State
 	update_state: (state: State) => void
-	client_state: object
+	client_state: T
 }
 
 function overwriteMerge<T>(destination: T, source: T): T {
 	return source
 }
 
-function create_game_instance({SEC, get_latest_state, update_state, client_state}: CreateParams) {
+function create_game_instance<T>({SEC, get_latest_state, update_state, client_state}: CreateParams<T>) {
 	return SEC.xTry('creating tbrpg instance', ({SEC, logger}: any) => {
 
 		(function migrate() {
@@ -114,18 +113,19 @@ function create_game_instance({SEC, get_latest_state, update_state, client_state
 			},
 
 			get_latest_state,
-			subscribe(fn: Function): () => void {
+			subscribe(fn: (state: State) => void): () => void {
 				const unbind = emitter.on('state_change', fn)
 				return unbind
 			},
 
-			set_client_state(fn: Function) {
+			// allow managing a transient state
+			set_client_state(fn: (state: T) => Partial<T>): void {
 				const changed = fn(client_state)
 				client_state = deep_merge(client_state, changed, {
 					arrayMerge: overwriteMerge,
 				})
 			},
-			get_client_state() {
+			get_client_state(): T {
 				return client_state
 			}
 		}

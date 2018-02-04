@@ -3,8 +3,6 @@ import React from 'react'
 import { ActionType } from '@oh-my-rpg/state-the-boring-rpg'
 import { with_game_instance } from '../context/game-instance-provider'
 
-console.log({ActionType})
-
 const ACTION_TYPE_TO_CTA = {
 	'play': 'Play',
 	'equip_item': 'Equip',

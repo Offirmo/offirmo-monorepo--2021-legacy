@@ -15345,7 +15345,6 @@ var Chat = function (_React$Component) {
 			    _ref2$direction = _ref2.direction,
 			    direction = _ref2$direction === undefined ? 'ltr' : _ref2$direction;
 
-			console.log('addBubble', element);
 			if (!element) return;
 
 			var key = this.state.bubbles.length + 1;
@@ -15481,6 +15480,7 @@ var Chat = function (_React$Component) {
 												'span',
 												null,
 												msg,
+												' ',
 												final_msg
 											) });
 									}).catch(function (err) {
@@ -23045,6 +23045,17 @@ _init.SEC.xTry('loading savegame', function (_ref) {
 			state = new_state; // needed?
 			localStorage.setItem(_consts.LS_KEYS.savegame, JSON.stringify(state));
 		}
+	});
+	instance.set_client_state(function () {
+		return {
+			alpha_warning_displayed: false,
+			last_displayed_adventure_uuid: function () {
+				var _state = state,
+				    last_adventure = _state.last_adventure;
+
+				return last_adventure && last_adventure.uuid;
+			}()
+		};
 	});
 
 	workspace.instance = instance;
@@ -58852,7 +58863,6 @@ exports.unordered_list = unordered_list;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const NanoEvents = __webpack_require__(643);
-console.log({ NanoEvents });
 const deep_merge = __webpack_require__(644).default;
 const state_inventory_1 = __webpack_require__(88);
 const state_fns = __webpack_require__(149);
@@ -58944,6 +58954,7 @@ function create_game_instance({ SEC, get_latest_state, update_state, client_stat
                 const unbind = emitter.on('state_change', fn);
                 return unbind;
             },
+            // allow managing a transient state
             set_client_state(fn) {
                 const changed = fn(client_state);
                 client_state = deep_merge(client_state, changed, {
@@ -63072,129 +63083,140 @@ var HomeBase = function (_React$Component) {
 	}, {
 		key: 'gen_next_step',
 		value: /*#__PURE__*/regeneratorRuntime.mark(function gen_next_step() {
-			var instance, chat_state, steps, state, last_adventure, good_click_count, $doc, msg_main, tip_doc;
-			return regeneratorRuntime.wrap(function gen_next_step$(_context) {
+			var _this2 = this;
+
+			var instance, _loop;
+
+			return regeneratorRuntime.wrap(function gen_next_step$(_context2) {
 				while (1) {
-					switch (_context.prev = _context.next) {
+					switch (_context2.prev = _context2.next) {
 						case 0:
+							console.info('~~ gen_next_step');
 							instance = this.props.instance;
-							chat_state = {
-								last_displayed_adventure_uuid: function () {
-									var _instance$get_latest_ = instance.get_latest_state(),
-									    last_adventure = _instance$get_latest_.last_adventure;
+							_loop = /*#__PURE__*/regeneratorRuntime.mark(function _loop() {
+								var steps, state, ui_state, last_adventure, good_click_count, $doc, msg_main, tip_doc;
+								return regeneratorRuntime.wrap(function _loop$(_context) {
+									while (1) {
+										switch (_context.prev = _context.next) {
+											case 0:
+												steps = [];
+												state = instance.get_latest_state();
+												ui_state = instance.get_client_state();
 
-									return last_adventure && last_adventure.uuid;
-								}()
-							};
+												console.log({ ui_state: ui_state, state: state });
+												last_adventure = state.last_adventure;
 
-						case 2:
-							steps = [];
-							state = instance.get_latest_state();
-							//console.log(state)
+												if (ui_state.alpha_warning_displayed) {
+													_context.next = 9;
+													break;
+												}
 
-							last_adventure = state.last_adventure;
+												_context.next = 8;
+												return {
+													type: 'simple_message',
+													msg_main: _react2.default.createElement(
+														'span',
+														{ className: 'warning' },
+														'\u26A0 Warning! This game is alpha, your savegame may be lost at any time!'
+													)
+												};
+
+											case 8:
+												instance.set_client_state(function () {
+													return {
+														alpha_warning_displayed: true
+													};
+												});
+
+											case 9:
+
+												if (!state.last_adventure || last_adventure.uuid === ui_state.last_displayed_adventure_uuid) {
+													// recap
+													steps.push({
+														type: 'simple_message',
+														msg_main: (0, _rich_text_to_react.rich_text_to_react)(tbrpg.get_recap(state))
+													});
+												} else {
+													steps.push({
+														type: 'progress',
+														duration_ms: 1000,
+														msg_main: 'Exploring\u2026',
+														msgg_acknowledge: function msgg_acknowledge() {
+															return 'Encountered something!\n';
+														}
+													});
+
+													good_click_count = state.good_click_count;
+													//console.log({ good_click_count, last_adventure })
+
+													$doc = (0, _viewRichText.render_adventure)(last_adventure);
+													msg_main = _react2.default.createElement(
+														'div',
+														null,
+														'Episode #' + good_click_count + ':',
+														_react2.default.createElement('br', null),
+														(0, _rich_text_to_react.rich_text_to_react)($doc)
+													);
 
 
-							if (!last_adventure) {
-								// recap
-								steps.push({
-									type: 'simple_message',
-									msg_main: (0, _rich_text_to_react.rich_text_to_react)(tbrpg.get_recap(state))
-								});
-							} else if (chat_state.last_displayed_adventure_uuid !== last_adventure.uuid) {
-								/*steps.push({
-        	type: 'progress',
-        	duration_ms: 600,
-        	msg_main: `Preparations: repairing equipment…`,
-        	msgg_acknowledge: () => '✅ Equipment repaired',
-        })
-        steps.push({
-        	type: 'progress',
-        	duration_ms: 700,
-        	msg_main: `Preparations: buying rations…`,
-        	msgg_acknowledge: () => '✅ Rations resupplied',
-        })
-        steps.push({
-        	type: 'progress',
-        	duration_ms: 800,
-        	msg_main: `Preparations: reviewing quests…`,
-        	msgg_acknowledge: () => '✅ Quests reviewed',
-        })
-        steps.push({
-        	type: 'progress',
-        	duration_ms: 900,
-        	msg_main: `Farming XP…`,
-        	msgg_acknowledge: () => '✅ XP farmed',
-        })*/
-								steps.push({
-									type: 'progress',
-									duration_ms: 1000,
-									msg_main: 'Exploring\u2026',
-									msgg_acknowledge: function msgg_acknowledge() {
-										return 'Encountered something!\n';
+													steps.push({
+														type: 'simple_message',
+														msg_main: msg_main
+													});
+
+													instance.set_client_state(function () {
+														return {
+															last_displayed_adventure_uuid: last_adventure.uuid
+														};
+													});
+												}
+
+												// tip
+												tip_doc = tbrpg.get_tip(state);
+
+												if (tip_doc) {
+													steps.push({
+														type: 'simple_message',
+														msg_main: (0, _rich_text_to_react.rich_text_to_react)(tip_doc)
+													});
+												}
+
+												steps.push({
+													msg_main: 'What do you want to do?',
+													choices: [{
+														msg_cta: 'Play!',
+														value: 'play',
+														msgg_as_user: function msgg_as_user() {
+															return 'Let’s go adventuring!';
+														},
+														callback: function callback() {
+															instance.play();
+														}
+													}]
+												});
+
+												return _context.delegateYield(steps, 't0', 14);
+
+											case 14:
+											case 'end':
+												return _context.stop();
+										}
 									}
-								});
-
-								good_click_count = state.good_click_count;
-								//console.log({ good_click_count, last_adventure })
-
-								$doc = (0, _viewRichText.render_adventure)(last_adventure);
-								msg_main = _react2.default.createElement(
-									'div',
-									null,
-									'Episode #' + good_click_count + ':',
-									_react2.default.createElement('br', null),
-									(0, _rich_text_to_react.rich_text_to_react)($doc)
-								);
-
-
-								steps.push({
-									type: 'simple_message',
-									msg_main: msg_main
-								});
-
-								chat_state.last_adventure = state.last_adventure;
-								chat_state.last_displayed_adventure_uuid = last_adventure.uuid;
-							}
-
-							// tip
-							tip_doc = tbrpg.get_tip(state);
-
-							if (tip_doc) {
-								steps.push({
-									type: 'simple_message',
-									msg_main: (0, _rich_text_to_react.rich_text_to_react)(tip_doc)
-								});
-							}
-
-							steps.push({
-								msg_main: 'What do you want to do?',
-								callback: function callback(value) {
-									console.error('not implemented');
-								},
-								choices: [{
-									msg_cta: 'Play!',
-									value: 'play',
-									msgg_as_user: function msgg_as_user() {
-										return 'Let’s go adventuring!';
-									},
-									callback: function callback() {
-										instance.play();
-									}
-								}]
+								}, _loop, _this2);
 							});
 
-							return _context.delegateYield(steps, 't0', 10);
+						case 3:
+							return _context2.delegateYield(_loop(), 't0', 4);
 
-						case 10:
+						case 4:
 							if (true) {
-								_context.next = 2;
+								_context2.next = 3;
 								break;
 							}
 
-						case 11:
+						case 5:
 						case 'end':
-							return _context.stop();
+							return _context2.stop();
 					}
 				}
 			}, gen_next_step, this);
@@ -63445,7 +63467,7 @@ function render_account_info(m, extra = {}) {
     meta_infos['internal user id'] = m.uuid;
     meta_infos['telemetry allowed'] = String(m.allow_telemetry);
     if (m.email) meta_infos['email'] = m.email;
-    const $doc = RichText.span().pushText('Account infos:').pushNode(render_meta_infos(meta_infos), 'list').done();
+    const $doc = RichText.span().pushNode(RichText.heading().pushText('Account infos:').done(), 'header').pushNode(render_meta_infos(meta_infos), 'list').done();
     return $doc;
 }
 exports.render_account_info = render_account_info;
@@ -64100,8 +64122,16 @@ function on_node_exit(_ref2) {
 		return typeof child === 'string' ? child : _react2.default.cloneElement(child, { key: '' + index });
 	});
 
-	var element = null;
 	var class_names = _classnames2.default.apply(undefined, _toConsumableArray($classes));
+	if ($classes.includes('monster')) {
+		children.push(_react2.default.createElement(
+			'span',
+			{ className: 'monster-emoji' },
+			$hints.possible_emoji
+		));
+	}
+
+	var element = null;
 	switch ($type) {
 		case 'span':
 			element = _react2.default.createElement(
@@ -64261,12 +64291,14 @@ function TBRPGElementBase(_ref) {
 		return !mode || action.category === mode;
 	});
 
+	//switch()
 	/* todo switch*/
 
 	return _react2.default.createElement(
 		'span',
-		{ className: 'element' },
+		{ className: 'tbrpg-element' },
 		children,
+		!!actions.length && _react2.default.createElement('br', null),
 		actions.map(function (action) {
 			return _react2.default.createElement(_actionButton.ActionButton, { key: action.type, action: action });
 		})
@@ -64298,8 +64330,6 @@ var _stateTheBoringRpg = __webpack_require__(81);
 var _gameInstanceProvider = __webpack_require__(75);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-console.log({ ActionType: _stateTheBoringRpg.ActionType });
 
 var ACTION_TYPE_TO_CTA = {
 	'play': 'Play',
@@ -64542,7 +64572,8 @@ var MetaBase = function (_React$Component) {
 
 			var doc = (0, _viewRichText.render_account_info)(state.meta, {
 				'engine version': _stateTheBoringRpg.GAME_VERSION,
-				'savegame version': _stateTheBoringRpg.SCHEMA_VERSION
+				'savegame version': _stateTheBoringRpg.SCHEMA_VERSION,
+				'play count': state.good_click_count
 			});
 
 			return _react2.default.createElement(

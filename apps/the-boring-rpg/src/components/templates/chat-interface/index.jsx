@@ -41,7 +41,6 @@ class Chat extends React.Component {
 	}
 
 	addBubble(element, {before_mount = false, direction = 'ltr'} = {}) {
-		console.log('addBubble', element)
 		if (!element) return
 
 		const key = this.state.bubbles.length + 1
@@ -124,7 +123,7 @@ class Chat extends React.Component {
 
 					return display_message({msg: (
 						<span>
-							{msg}{final_msg}
+							{msg} {final_msg}
 						</span>
 					)})
 				})

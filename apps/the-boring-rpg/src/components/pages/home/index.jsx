@@ -18,51 +18,33 @@ class HomeBase extends React.Component {
 	}
 
 	* gen_next_step() {
+		console.info('~~ gen_next_step')
 		const { instance } = this.props
-		const chat_state = {
-			last_displayed_adventure_uuid: (() => {
-				const { last_adventure } = instance.get_latest_state()
-				return last_adventure && last_adventure.uuid
-			})()
-		}
 
 		do {
 			const steps = []
 			const state = instance.get_latest_state()
-			//console.log(state)
+			const ui_state = instance.get_client_state()
+			console.log({ui_state, state})
 			const { last_adventure } = state
 
-			if (!last_adventure) {
+			if (!ui_state.alpha_warning_displayed) {
+				yield {
+					type: 'simple_message',
+					msg_main: <span className="warning">⚠ Warning! This game is alpha, your savegame may be lost at any time!</span>,
+				}
+				instance.set_client_state(() => ({
+					alpha_warning_displayed: true,
+				}))
+			}
+
+			if (!state.last_adventure || (last_adventure.uuid === ui_state.last_displayed_adventure_uuid)) {
 				// recap
 				steps.push({
 					type: 'simple_message',
 					msg_main: rich_text_to_react(tbrpg.get_recap(state)),
 				})
-			} else if (chat_state.last_displayed_adventure_uuid !== last_adventure.uuid) {
-				/*steps.push({
-					type: 'progress',
-					duration_ms: 600,
-					msg_main: `Preparations: repairing equipment…`,
-					msgg_acknowledge: () => '✅ Equipment repaired',
-				})
-				steps.push({
-					type: 'progress',
-					duration_ms: 700,
-					msg_main: `Preparations: buying rations…`,
-					msgg_acknowledge: () => '✅ Rations resupplied',
-				})
-				steps.push({
-					type: 'progress',
-					duration_ms: 800,
-					msg_main: `Preparations: reviewing quests…`,
-					msgg_acknowledge: () => '✅ Quests reviewed',
-				})
-				steps.push({
-					type: 'progress',
-					duration_ms: 900,
-					msg_main: `Farming XP…`,
-					msgg_acknowledge: () => '✅ XP farmed',
-				})*/
+			} else {
 				steps.push({
 					type: 'progress',
 					duration_ms: 1000,
@@ -85,8 +67,9 @@ class HomeBase extends React.Component {
 					msg_main,
 				})
 
-				chat_state.last_adventure = state.last_adventure
-				chat_state.last_displayed_adventure_uuid = last_adventure.uuid
+				instance.set_client_state(() => ({
+					last_displayed_adventure_uuid: last_adventure.uuid,
+				}))
 			}
 
 			// tip
@@ -100,7 +83,6 @@ class HomeBase extends React.Component {
 
 			steps.push({
 				msg_main: `What do you want to do?`,
-				callback: value => { console.error('not implemented') },
 				choices: [
 					{
 						msg_cta: 'Play!',

@@ -40,6 +40,13 @@ SEC.xTry('loading savegame', ({logger}) => {
 			localStorage.setItem(LS_KEYS.savegame, JSON.stringify(state))
 		},
 	})
+	instance.set_client_state(() => ({
+		alpha_warning_displayed: false,
+		last_displayed_adventure_uuid: (() => {
+			const { last_adventure } = state
+			return last_adventure && last_adventure.uuid
+		})()
+	}))
 
 	workspace.instance = instance
 })

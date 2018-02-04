@@ -46,6 +46,10 @@ button {
 	background-color: white;
 }
 
+ul, ol {
+	margin: 3px 0;
+	padding-left: 18px;
+}
 
 /*********************/
 
@@ -53,6 +57,9 @@ button {
 	--tbrpg--header--height: 25px;
 }
 
+.avoid-wrap {
+	display:inline-block;
+}
 
 /*********************/
 .tbrpg-container {
@@ -150,6 +157,15 @@ button {
 	align-self: flex-end;
 }
 
+.chat__bubble {
+	border: solid 1px black;
+	padding: 3px 6px;
+	border-right: 0;
+	border-top: 0;
+	width: fit-content;
+	max-width: 70%;
+	background-color: rgba(255,255,255,0.3);
+}
 .chat__bubble.chat__element--ltr::before {
 	content: '◤';
 	font-size: 9px;
@@ -157,7 +173,6 @@ button {
 	bottom: -12px;
 	left: 6px;
 }
-
 .chat__bubble.chat__element--rtl::before {
 	content: '◥';
 	font-size: 9px;
@@ -166,14 +181,6 @@ button {
 	left: 6px;
 }
 
-.chat__bubble {
-	border: solid 1px black;
-	padding: 3px 6px;
-	border-right: 0;
-	border-top: 0;
-	width: fit-content;
-	max-width: 70%;
-}
 .chat__spinner {
 	background-image: url("./spin-1s-42px.svg");
 	background-repeat: no-repeat;
@@ -186,12 +193,16 @@ button {
 	padding-bottom: 12px;
 }
 /* https://stackoverflow.com/a/8185290/587407 */
-.chat__choices > * + * {
+/*.chat__choices > * + * {
 	margin-left: 5px;
-}
+}*/
 
 /*********************/
-.element {
+.monster-emoji {
+	font-size: xx-large;
+}
+
+.tbrpg-element {
 }
 
 .item__name,
@@ -214,13 +225,13 @@ button {
 	color: #d9534f;
 }
 .item--quality--artifact {
-	color: #fad700;
+	color: #ddba00;
 }
 
 .monster--rank--common {
 }
 .monster--rank--elite {
-	color: #fad700;
+	color: #ddba00;
 }
 .monster--rank--boss {
 	color: #d9534f;

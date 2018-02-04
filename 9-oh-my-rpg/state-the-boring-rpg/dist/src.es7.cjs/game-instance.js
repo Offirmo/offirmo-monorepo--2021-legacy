@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const NanoEvents = require('nanoevents');
-console.log({ NanoEvents });
 const deep_merge = require('deepmerge').default;
 const state_inventory_1 = require("@oh-my-rpg/state-inventory");
 const state_fns = require("./state");
@@ -94,6 +93,7 @@ function create_game_instance({ SEC, get_latest_state, update_state, client_stat
                 const unbind = emitter.on('state_change', fn);
                 return unbind;
             },
+            // allow managing a transient state
             set_client_state(fn) {
                 const changed = fn(client_state);
                 client_state = deep_merge(client_state, changed, {

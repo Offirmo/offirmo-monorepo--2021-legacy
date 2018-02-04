@@ -76,7 +76,7 @@ function start_loop(SEC, options, instance) {
 					const $doc = render_adventure(last_adventure)
 					msg_main += rich_text_to_ansi($doc)
 					chat_state.sub.main.last_adventure = state.last_adventure
-					steps.push({
+					/*steps.push({
 						type: 'progress',
 						duration_ms: 600,
 						msg_main: `Preparations: repairing equipment`,
@@ -99,12 +99,12 @@ function start_loop(SEC, options, instance) {
 						duration_ms: 900, // or provide a progress_promise
 						msg_main: `Farming XP`,
 						msgg_acknowledge: () => 'XP farmed',
-					})
+					})*/
 					steps.push({
 						type: 'progress',
 						duration_ms: 1000,
-						msg_main: `Exploring`,
-						msgg_acknowledge: () => 'exploring... Encountered something!\n',
+						msg_main: `Exploring...`,
+						msgg_acknowledge: () => 'Exploring... Encountered something!\n',
 					})
 					steps.push({
 						type: 'simple_message',
