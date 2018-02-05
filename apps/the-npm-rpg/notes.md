@@ -37,16 +37,9 @@ https://app.graphcms.com/
 https://github.com/zkat/okimdone
 
 
-https://games.slashdot.org/story/17/05/29/0632250/esr-announces-the-open-sourcing-of-the-worlds-first-text-adventure
-https://gamedevelopment.tutsplus.com/categories/game-design
-
-
 
 https://github.com/sindresorhus/npm-home
 
 https://github.com/sindresorhus/latest-version
 https://github.com/sindresorhus/package-json
-
-
-TODO https://www.sideprojectchecklist.com/marketing-checklist/
 

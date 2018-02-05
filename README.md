@@ -14,6 +14,7 @@ Doc:
 bolt ws run build
 bolt ws run test
 bolt ws run cheatsheet
+bolt ws run cheatsheet --only @oh-my-rpg/*
 bolt ws run clean
 
 bolt ws exec -- rm -rf dist

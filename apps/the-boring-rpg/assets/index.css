@@ -218,8 +218,11 @@ ul, ol {
 .item--quality--uncommon {
 	color: forestgreen;
 }
-.item--quality--epic {
+.item--quality--rare {
 	color: mediumblue;
+}
+.item--quality--epic {
+	color: #ba00cd;
 }
 .item--quality--legendary {
 	color: #d9534f;

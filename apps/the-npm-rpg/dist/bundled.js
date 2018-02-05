@@ -126,7 +126,7 @@ exports.Enum = Enum;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = __webpack_require__(2);
-tslib_1.__exportStar(__webpack_require__(23), exports);
+tslib_1.__exportStar(__webpack_require__(24), exports);
 tslib_1.__exportStar(__webpack_require__(48), exports);
 tslib_1.__exportStar(__webpack_require__(49), exports);
 tslib_1.__exportStar(__webpack_require__(50), exports);
@@ -363,7 +363,7 @@ function to_html($doc) {
     return walk_1.walk($doc, to_html_1.callbacks);
 }
 exports.to_html = to_html;
-tslib_1.__exportStar(__webpack_require__(19), exports);
+tslib_1.__exportStar(__webpack_require__(20), exports);
 tslib_1.__exportStar(__webpack_require__(70), exports);
 tslib_1.__exportStar(__webpack_require__(153), exports);
 //# sourceMappingURL=index.js.map
@@ -554,8 +554,8 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/*jshint eqnull:true*/
 
         return data[index++] | 0;
       };
-    }()) : ("function" === "function" && typeof __webpack_require__(24).randomBytes === "function") ? function () {
-        var crypto = __webpack_require__(24);
+    }()) : ("function" === "function" && typeof __webpack_require__(25).randomBytes === "function") ? function () {
+        var crypto = __webpack_require__(25);
         var bytes = crypto.randomBytes(4);
         return bytes.readInt32BE(0);
       } : null
@@ -1890,6 +1890,21 @@ defineProps(colors, init());
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+const LIB_ID = '@oh-my-rpg/state-the-boring-rpg';
+exports.LIB_ID = LIB_ID;
+const SCHEMA_VERSION = 4;
+exports.SCHEMA_VERSION = SCHEMA_VERSION;
+const GAME_VERSION = '0.9.0';
+exports.GAME_VERSION = GAME_VERSION;
+//# sourceMappingURL=consts.js.map
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
 const LIB = 'soft-execution-context';
 exports.LIB = LIB;
 const INTERNAL_PROP = '_';
@@ -1897,7 +1912,7 @@ exports.INTERNAL_PROP = INTERNAL_PROP;
 //# sourceMappingURL=constants.js.map
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1910,7 +1925,7 @@ exports.NodeType = NodeType;
 //# sourceMappingURL=types.js.map
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1962,14 +1977,15 @@ module.exports = {
 
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = __webpack_require__(2);
-tslib_1.__exportStar(__webpack_require__(22), exports);
+tslib_1.__exportStar(__webpack_require__(18), exports);
+tslib_1.__exportStar(__webpack_require__(23), exports);
 tslib_1.__exportStar(__webpack_require__(69), exports);
 tslib_1.__exportStar(__webpack_require__(148), exports);
 tslib_1.__exportStar(__webpack_require__(29), exports);
@@ -1977,7 +1993,7 @@ tslib_1.__exportStar(__webpack_require__(154), exports);
 //# sourceMappingURL=index.js.map
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2000,7 +2016,7 @@ const logic_armors_1 = __webpack_require__(9);
 const logic_monsters_1 = __webpack_require__(65);
 const logic_shop_1 = __webpack_require__(143);
 /////////////////////
-const consts_1 = __webpack_require__(28);
+const consts_1 = __webpack_require__(18);
 const types_1 = __webpack_require__(144);
 exports.GainType = types_1.GainType;
 const serializable_actions_1 = __webpack_require__(29);
@@ -2425,7 +2441,7 @@ exports.MIGRATION_HINTS_FOR_TESTS = MIGRATION_HINTS_FOR_TESTS;
 //# sourceMappingURL=state.js.map
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2446,13 +2462,13 @@ exports.InventorySlot = InventorySlot;
 //# sourceMappingURL=types.js.map
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports) {
 
 module.exports = require("crypto");
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2480,7 +2496,7 @@ exports.COMMON_ERROR_FIELDS = COMMON_ERROR_FIELDS;
 //# sourceMappingURL=index.js.map
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2493,7 +2509,7 @@ exports.SCHEMA_VERSION = SCHEMA_VERSION;
 //# sourceMappingURL=consts.js.map
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2502,19 +2518,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const LIB_ID = '@oh-my-rpg/state-inventory';
 exports.LIB_ID = LIB_ID;
 const SCHEMA_VERSION = 1;
-exports.SCHEMA_VERSION = SCHEMA_VERSION;
-//# sourceMappingURL=consts.js.map
-
-/***/ }),
-/* 28 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const LIB_ID = '@oh-my-rpg/state-the-boring-rpg';
-exports.LIB_ID = LIB_ID;
-const SCHEMA_VERSION = 4;
 exports.SCHEMA_VERSION = SCHEMA_VERSION;
 //# sourceMappingURL=consts.js.map
 
@@ -2541,7 +2544,7 @@ exports.ActionCategory = ActionCategory;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const definitions_1 = __webpack_require__(1);
-const consts_1 = __webpack_require__(28);
+const consts_1 = __webpack_require__(18);
 function get_SEC(SEC) {
     return definitions_1.oh_my_rpg_get_SEC({
         module: consts_1.LIB_ID,
@@ -3498,7 +3501,7 @@ module.exports = require("conf");
 /////////////////////
 Object.defineProperty(exports, "__esModule", { value: true });
 const typescript_string_enums_1 = __webpack_require__(0);
-const types_1 = __webpack_require__(23);
+const types_1 = __webpack_require__(24);
 ///////
 const ITEM_QUALITIES = typescript_string_enums_1.Enum.keys(types_1.ItemQuality);
 exports.ITEM_QUALITIES = ITEM_QUALITIES;
@@ -3591,7 +3594,7 @@ exports.xxx_test_unrandomize_element = xxx_test_unrandomize_element;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const constants_1 = __webpack_require__(18);
+const constants_1 = __webpack_require__(19);
 exports.LIB = constants_1.LIB;
 exports.INTERNAL_PROP = constants_1.INTERNAL_PROP;
 const catch_factory_1 = __webpack_require__(52);
@@ -3762,7 +3765,7 @@ exports.SCHEMA_VERSION = SCHEMA_VERSION;
 Object.defineProperty(exports, "__esModule", { value: true });
 const typescript_string_enums_1 = __webpack_require__(0);
 const deepFreeze = __webpack_require__(11);
-const consts_1 = __webpack_require__(26);
+const consts_1 = __webpack_require__(27);
 const types_1 = __webpack_require__(125);
 exports.CharacterAttribute = types_1.CharacterAttribute;
 exports.CharacterClass = types_1.CharacterClass;
@@ -3895,7 +3898,7 @@ exports.MIGRATION_HINTS_FOR_TESTS = MIGRATION_HINTS_FOR_TESTS;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const definitions_1 = __webpack_require__(1);
-const consts_1 = __webpack_require__(26);
+const consts_1 = __webpack_require__(27);
 function get_SEC(SEC) {
     return definitions_1.oh_my_rpg_get_SEC({
         module: consts_1.LIB_ID,
@@ -4027,7 +4030,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const definitions_1 = __webpack_require__(1);
 const logic_armors_1 = __webpack_require__(9);
 const logic_weapons_1 = __webpack_require__(10);
-const consts_1 = __webpack_require__(27);
+const consts_1 = __webpack_require__(28);
 /////////////////////
 function compare_items(a, b) {
     if (a.slot !== b.slot)
@@ -4058,7 +4061,7 @@ const definitions_1 = __webpack_require__(1);
 exports.InventorySlot = definitions_1.InventorySlot;
 const logic_weapons_1 = __webpack_require__(10);
 const logic_armors_1 = __webpack_require__(9);
-const consts_1 = __webpack_require__(27);
+const consts_1 = __webpack_require__(28);
 const compare_1 = __webpack_require__(61);
 /////////////////////
 function create() {
@@ -4492,8 +4495,8 @@ const CharacterState = __webpack_require__(7);
 const WalletState = __webpack_require__(8);
 const InventoryState = __webpack_require__(12);
 const PRNGState = __webpack_require__(13);
-const consts_1 = __webpack_require__(28);
-const state_1 = __webpack_require__(22);
+const consts_1 = __webpack_require__(18);
+const state_1 = __webpack_require__(23);
 const sec_1 = __webpack_require__(30);
 /////////////////////
 function migrate_to_latest(SEC, legacy_state, hints = {}) {
@@ -4551,7 +4554,7 @@ function migrate_to_4(SEC, legacy_state, hints) {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const consts_1 = __webpack_require__(31);
-const types_1 = __webpack_require__(19);
+const types_1 = __webpack_require__(20);
 exports.NodeType = types_1.NodeType;
 const utils_1 = __webpack_require__(149);
 function get_default_callbacks() {
@@ -5851,7 +5854,7 @@ convert.rgb.gray = function (rgb) {
 const {
 	prettify_json,
 	indent_string,
-} = __webpack_require__(20)
+} = __webpack_require__(21)
 
 
 function prettify_json_for_debug() {
@@ -8325,7 +8328,7 @@ if (!semver.satisfies(process.version, package_json.engines.node)) {
 /////////////////////////////////////////////////
 
 const Conf = __webpack_require__(47)
-const { create_game_instance } = __webpack_require__(21)
+const { create_game_instance } = __webpack_require__(22)
 
 const { SEC, init_savegame } = __webpack_require__(157)
 const { start_loop } = __webpack_require__(216)
@@ -10855,7 +10858,7 @@ module.exports = function (size) {
 /* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(24).randomBytes
+module.exports = __webpack_require__(25).randomBytes
 
 
 /***/ }),
@@ -10938,7 +10941,7 @@ module.exports =
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const types_1 = __webpack_require__(23);
+const types_1 = __webpack_require__(24);
 const consts_1 = __webpack_require__(48);
 const element_1 = __webpack_require__(50);
 function create_item_base(slot, quality = types_1.ItemQuality.common) {
@@ -10994,7 +10997,7 @@ exports.oh_my_rpg_get_SEC = oh_my_rpg_get_SEC;
 
 //import NanoEvents from 'nanoevents'  TODO ?
 Object.defineProperty(exports, "__esModule", { value: true });
-const constants_1 = __webpack_require__(18);
+const constants_1 = __webpack_require__(19);
 const promise_try_1 = __webpack_require__(117);
 const normalize_error_1 = __webpack_require__(118);
 const catch_factory_1 = __webpack_require__(52);
@@ -11143,7 +11146,7 @@ exports.promiseTry = promiseTry;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const common_error_fields_1 = __webpack_require__(25);
+const common_error_fields_1 = __webpack_require__(26);
 // Anything can be thrown: undefined, string, number...)
 // But that's not obviously not a good practice.
 // Normalize any thrown object into a true, normal error.
@@ -11168,9 +11171,9 @@ exports.normalizeError = normalizeError;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const constants_1 = __webpack_require__(18);
+const constants_1 = __webpack_require__(19);
 const constants_2 = __webpack_require__(120);
-const common_error_fields_1 = __webpack_require__(25);
+const common_error_fields_1 = __webpack_require__(26);
 common_error_fields_1.COMMON_ERROR_FIELDS.add('logicalStack');
 // TODO add non-inheritable instance
 function getLogicalStack(module, operation, parentModule, parentFullLStack = '') {
@@ -11286,7 +11289,7 @@ exports.LOGICAL_STACK_SEPARATOR_NON_ADJACENT = LOGICAL_STACK_SEPARATOR_NON_ADJAC
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const loggers_types_and_stubs_1 = __webpack_require__(53);
-const constants_1 = __webpack_require__(18);
+const constants_1 = __webpack_require__(19);
 function getContext(SEC) {
     return SEC[constants_1.INTERNAL_PROP].DI.context;
 }
@@ -11603,7 +11606,7 @@ exports.CharacterClass = CharacterClass;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const consts_1 = __webpack_require__(26);
+const consts_1 = __webpack_require__(27);
 const state_1 = __webpack_require__(57);
 const sec_1 = __webpack_require__(58);
 /////////////////////
@@ -12387,7 +12390,7 @@ exports.get_interval = get_interval;
 
 /////////////////////
 Object.defineProperty(exports, "__esModule", { value: true });
-const consts_1 = __webpack_require__(27);
+const consts_1 = __webpack_require__(28);
 const state_1 = __webpack_require__(62);
 /////////////////////
 function migrate_to_latest(legacy_state, hints = {}) {
@@ -13950,7 +13953,7 @@ exports.get_tip = get_tip;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const consts_1 = __webpack_require__(31);
-const types_1 = __webpack_require__(19);
+const types_1 = __webpack_require__(20);
 function normalize_node($raw_node) {
     const { $v = 1, $type = types_1.NodeType.span, $classes = [], $content = '', $sub = {}, $hints = {}, } = $raw_node;
     // TODO migration
@@ -14147,7 +14150,7 @@ exports.callbacks = callbacks;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const consts_1 = __webpack_require__(31);
-const types_1 = __webpack_require__(19);
+const types_1 = __webpack_require__(20);
 exports.NodeType = types_1.NodeType;
 function create($type) {
     const $node = {
@@ -14249,10 +14252,9 @@ exports.unordered_list = unordered_list;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const NanoEvents = __webpack_require__(155);
-console.log({ NanoEvents });
 const deep_merge = __webpack_require__(156).default;
 const state_inventory_1 = __webpack_require__(12);
-const state_fns = __webpack_require__(22);
+const state_fns = __webpack_require__(23);
 const migrations_1 = __webpack_require__(69);
 const serializable_actions_1 = __webpack_require__(29);
 function overwriteMerge(destination, source) {
@@ -14342,6 +14344,7 @@ function create_game_instance({ SEC, get_latest_state, update_state, client_stat
                 const unbind = emitter.on('state_change', fn);
                 return unbind;
             },
+            // allow managing a transient state
             set_client_state(fn) {
                 const changed = fn(client_state);
                 client_state = deep_merge(client_state, changed, {
@@ -14566,7 +14569,7 @@ const Conf = __webpack_require__(47)
 
 const soft_execution_context = __webpack_require__(158)
 const { compatibleLoggerToConsole } = __webpack_require__(53)
-const { migrate_to_latest, reseed } = __webpack_require__(21)
+const { migrate_to_latest, reseed } = __webpack_require__(22)
 const { createLogger } = __webpack_require__(71)
 const { DEFAULT_SEED } = __webpack_require__( 13)
 
@@ -14793,7 +14796,7 @@ exports.createChildLogger = createChildLogger;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __webpack_require__(16);
-const common_error_fields_1 = __webpack_require__(25);
+const common_error_fields_1 = __webpack_require__(26);
 function displayErrProp(errLike, prop) {
     console.error(chalk_1.default.red(chalk_1.default.dim(`🔥  ${prop}: "`) + errLike[prop] + chalk_1.default.dim('"')));
 }
@@ -18286,7 +18289,7 @@ x.iTerm.setCwd = cwd => '\u001B]50;CurrentDir=' + (cwd || process.cwd()) + '\u00
 
 const opn = __webpack_require__(217);
 
-const tbrpg = __webpack_require__(21)
+const tbrpg = __webpack_require__(22)
 const { iterables_unslotted, get_item_at_coordinates, get_item_in_slot } = __webpack_require__(12)
 const { create: create_tty_chat_ui } = __webpack_require__(219)
 const { create: create_chat } = __webpack_require__(256)
@@ -18300,7 +18303,7 @@ const {
 } = __webpack_require__(259)
 
 const { rich_text_to_ansi } = __webpack_require__(265)
-const { stylize_string } = __webpack_require__(20)
+const { stylize_string } = __webpack_require__(21)
 const { render_header } = __webpack_require__(267)
 const { prettify_json_for_debug } = __webpack_require__(76)
 
@@ -18360,7 +18363,7 @@ function start_loop(SEC, options, instance) {
 					const $doc = render_adventure(last_adventure)
 					msg_main += rich_text_to_ansi($doc)
 					chat_state.sub.main.last_adventure = state.last_adventure
-					steps.push({
+					/*steps.push({
 						type: 'progress',
 						duration_ms: 600,
 						msg_main: `Preparations: repairing equipment`,
@@ -18383,12 +18386,12 @@ function start_loop(SEC, options, instance) {
 						duration_ms: 900, // or provide a progress_promise
 						msg_main: `Farming XP`,
 						msgg_acknowledge: () => 'XP farmed',
-					})
+					})*/
 					steps.push({
 						type: 'progress',
 						duration_ms: 1000,
-						msg_main: `Exploring`,
-						msgg_acknowledge: () => 'exploring... Encountered something!\n',
+						msg_main: `Exploring...`,
+						msgg_acknowledge: () => 'Exploring... Encountered something!\n',
 					})
 					steps.push({
 						type: 'simple_message',
@@ -21653,15 +21656,17 @@ const state_inventory_1 = __webpack_require__(12);
 const RichText = __webpack_require__(3);
 const items_1 = __webpack_require__(42);
 const wallet_1 = __webpack_require__(43);
-function inventory_coordinate_to_sortable_alpha_index(coord) {
+function numeric_index_to_sortable_alphanumeric_index(index) {
     //return (' ' + (coord + 1)).slice(-2)
-    return String.fromCharCode(97 + coord);
+    //return String.fromCharCode(97 + index)
+    return index;
 }
+// we want the slots sorted by types according to an arbitrary order
 function render_equipment(inventory) {
-    const $doc_list = RichText.unordered_list()
+    const $doc_list = RichText.ordered_list()
         .addClass('inventory--equipment')
         .done();
-    definitions_1.ITEM_SLOTS.forEach((slot) => {
+    definitions_1.ITEM_SLOTS.forEach((slot, index) => {
         const item = state_inventory_1.get_item_in_slot(inventory, slot);
         const $doc_item = RichText.span()
             .pushText((slot + '   ').slice(0, 6))
@@ -21670,7 +21675,7 @@ function render_equipment(inventory) {
             ? items_1.render_item(item)
             : RichText.span().pushText('-').done())
             .done();
-        $doc_list.$sub[slot] = $doc_item;
+        $doc_list.$sub[definitions_1.ITEM_SLOTS_TO_INT[slot]] = $doc_item;
     });
     const $doc = RichText.section()
         .pushNode(RichText.heading().pushText('Active equipment:').done(), 'header')
@@ -21687,8 +21692,7 @@ function render_backpack(inventory) {
     misc_items.forEach((i, index) => {
         if (!i)
             return;
-        $doc_list.$sub[inventory_coordinate_to_sortable_alpha_index(index)] = items_1.render_item(i);
-        // TODO add coordinates
+        $doc_list.$sub[numeric_index_to_sortable_alphanumeric_index(index)] = items_1.render_item(i);
     });
     if (Object.keys($doc_list.$sub).length === 0) {
         // completely empty
@@ -21737,7 +21741,7 @@ function render_account_info(m, extra = {}) {
     if (m.email)
         meta_infos['email'] = m.email;
     const $doc = RichText.span()
-        .pushText('Account infos:')
+        .pushNode(RichText.heading().pushText('Account infos:').done(), 'header')
         .pushNode(render_meta_infos(meta_infos), 'list')
         .done();
     return $doc;
@@ -21772,7 +21776,7 @@ module.exports = {
 "use strict";
 
 
-const { stylize_string } = __webpack_require__(20)
+const { stylize_string } = __webpack_require__(21)
 
 const LIB = 'rich_text_to_ansi'
 
@@ -21926,7 +21930,7 @@ module.exports = callbacks
 "use strict";
 
 
-const { stylize_string } = __webpack_require__(20)
+const { stylize_string } = __webpack_require__(21)
 
 /////////////////////////////////////////////////
 

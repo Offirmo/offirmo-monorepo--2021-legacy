@@ -1,30 +1,32 @@
-import { InventorySlot, Item, ITEM_SLOTS } from '@oh-my-rpg/definitions'
 import {
-	InventoryCoordinates,
+	InventorySlot,
+	Item,
+	ITEM_SLOTS,
+	ITEM_SLOTS_TO_INT,
+} from '@oh-my-rpg/definitions'
+
+import {
 	State as InventoryState,
 	iterables_unslotted,
-	get_item_in_slot
+	get_item_in_slot,
 } from '@oh-my-rpg/state-inventory'
+
 import { State as WalletState } from '@oh-my-rpg/state-wallet'
 import * as RichText from '@offirmo/rich-text-format'
 
 import { render_item } from './items'
 import { render_wallet } from './wallet'
 
-function inventory_coordinate_to_sortable_alpha_index(coord: InventoryCoordinates): string {
-	//return (' ' + (coord + 1)).slice(-2)
-	return String.fromCharCode(97 + coord)
-}
-
+// we want the slots sorted by types according to an arbitrary order
 function render_equipment(inventory: InventoryState): RichText.Document {
-	const $doc_list = RichText.unordered_list()
+	const $doc_list = RichText.ordered_list()
 		.addClass('inventory--equipment')
 		.done()
 
-	ITEM_SLOTS.forEach((slot: InventorySlot) => {
+	ITEM_SLOTS.forEach((slot: InventorySlot, index: number) => {
 		const item = get_item_in_slot(inventory, slot)
+
 		const $doc_item = RichText.span()
-			//.addClass('item--' + slot)
 			.pushText((slot + '   ').slice(0, 6))
 			.pushText(': ')
 			.pushNode(item
@@ -32,7 +34,8 @@ function render_equipment(inventory: InventoryState): RichText.Document {
 				: RichText.span().pushText('-').done()
 			)
 			.done()
-		$doc_list.$sub[slot] = $doc_item
+
+		$doc_list.$sub[ITEM_SLOTS_TO_INT[slot]] = $doc_item
 	})
 
 	const $doc = RichText.section()
@@ -43,6 +46,8 @@ function render_equipment(inventory: InventoryState): RichText.Document {
 	return $doc
 }
 
+// we want the slots sorted by types according to an arbitrary order
+// = nothing to do, the inventory is auto-sorted
 function render_backpack(inventory: InventoryState): RichText.Document {
 	let $doc_list = RichText.ordered_list()
 		.addClass('inventory--backpack')
@@ -51,8 +56,7 @@ function render_backpack(inventory: InventoryState): RichText.Document {
 	const misc_items: Item[] = Array.from(iterables_unslotted(inventory)).filter(i => !!i) as Item[]
 	misc_items.forEach((i: Item, index: number) => {
 		if (!i) return
-		$doc_list.$sub[inventory_coordinate_to_sortable_alpha_index(index)] = render_item(i)
-		// TODO add coordinates
+		$doc_list.$sub[index] = render_item(i)
 	})
 
 	if (Object.keys($doc_list.$sub).length === 0) {
