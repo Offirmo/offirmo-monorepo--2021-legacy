@@ -61,6 +61,10 @@ ul, ol {
 	display:inline-block;
 }
 
+.warning {
+	color: #d9534f;
+}
+
 /*********************/
 .tbrpg-container {
 	xxxborder: solid 1px red;
