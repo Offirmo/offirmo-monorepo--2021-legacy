@@ -4,7 +4,6 @@ import { CoinsGain, AdventureType, } from './types';
 import { i18n_messages, ENTRIES } from './data';
 /////////////////////
 const ALL_ADVENTURE_ARCHETYPES = ENTRIES
-    .filter(paa => (paa.isPublished !== false))
     .map(paa => {
     const raw_outcome = paa.outcome || {};
     const outcome = {
@@ -16,10 +15,10 @@ const ALL_ADVENTURE_ARCHETYPES = ENTRIES
         strength: !!raw_outcome.strength,
         charisma: !!raw_outcome.charisma,
         wisdom: !!raw_outcome.wisdom,
-        random_charac: !!raw_outcome.random_charac,
-        lowest_charac: !!raw_outcome.lowest_charac,
-        class_main_charac: !!raw_outcome.class_main_charac,
-        class_secondary_charac: !!raw_outcome.class_secondary_charac,
+        random_attribute: !!raw_outcome.random_attribute,
+        lowest_attribute: !!raw_outcome.lowest_attribute,
+        class_primary_attribute: !!raw_outcome.class_primary_attribute,
+        class_secondary_attribute: !!raw_outcome.class_secondary_attribute,
         coin: raw_outcome.coin || CoinsGain.none,
         token: raw_outcome.token || 0,
         armor: !!raw_outcome.armor,

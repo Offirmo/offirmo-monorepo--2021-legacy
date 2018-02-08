@@ -30,6 +30,7 @@ interface AdventureArchetype {
 		// - Item Slots
 		// + some variants resolving to one of the above
 
+		// TODO type more strongly?
 		level: boolean
 
 		health: boolean
@@ -39,10 +40,10 @@ interface AdventureArchetype {
 		charisma: boolean
 		wisdom: boolean
 		luck: boolean
-		random_charac: boolean
-		lowest_charac: boolean
-		class_main_charac: boolean
-		class_secondary_charac: boolean
+		random_attribute: boolean
+		lowest_attribute: boolean
+		class_primary_attribute: boolean
+		class_secondary_attribute: boolean
 
 		coin: CoinsGain
 		token: number

@@ -1,5 +1,7 @@
 /////////////////////
 
+import { Enum } from 'typescript-string-enums'
+
 import { Random, Engine } from '@offirmo/random'
 
 /////////////////////
@@ -17,6 +19,7 @@ import {
 	increase_stat,
 	rename,
 	switch_class,
+	State as CharacterState,
 } from '@oh-my-rpg/state-character'
 
 import * as WalletState from '@oh-my-rpg/state-wallet'
@@ -72,21 +75,57 @@ import { get_SEC } from './sec'
 /////////////////////
 
 const STATS = [ 'health', 'mana', 'strength', 'agility', 'charisma', 'wisdom', 'luck' ]
-function instantiate_adventure_archetype(rng: Engine, aa: AdventureArchetype, character: CharacterAttributes, inventory: InventoryState.State): Adventure {
+const PRIMARY_STATS_BY_CLASS = {
+	[CharacterClass.novice]:    ['health', 'mana', 'strength', 'agility', 'charisma', 'wisdom', 'luck'],
+	[CharacterClass.warrior]:   ['strength'],
+	[CharacterClass.barbarian]: ['strength'],
+	[CharacterClass.paladin]:   ['strength'],
+	[CharacterClass.sculptor]:  ['agility'],
+	[CharacterClass.pirate]:    ['luck'],
+	[CharacterClass.ninja]:     ['agility'],
+	[CharacterClass.rogue]:     ['agility'],
+	[CharacterClass.wizard]:    ['mana'],
+	[CharacterClass.hunter]:    ['agility'],
+	[CharacterClass.druid]:     ['wisdom', 'mana'],
+	[CharacterClass.priest]:    ['charisma', 'mana'],
+}
+const SECONDARY_STATS_BY_CLASS = {
+	[CharacterClass.novice]:    ['health', 'mana', 'strength', 'agility', 'charisma', 'wisdom', 'luck'],
+	[CharacterClass.warrior]:   ['health'],
+	[CharacterClass.barbarian]: ['health'],
+	[CharacterClass.paladin]:   ['mana'],
+	[CharacterClass.sculptor]:  ['charisma'],
+	[CharacterClass.pirate]:    ['charisma'],
+	[CharacterClass.ninja]:     ['health'],
+	[CharacterClass.rogue]:     ['luck'],
+	[CharacterClass.wizard]:    ['wisdom'],
+	[CharacterClass.hunter]:    ['strength'],
+	[CharacterClass.druid]:     ['strength'],
+	[CharacterClass.priest]:    ['wisdom'],
+}
+function instantiate_adventure_archetype(rng: Engine, aa: AdventureArchetype, character: CharacterState, inventory: InventoryState.State): Adventure {
 	let {hid, good, type, outcome : should_gain} = aa
 
-	should_gain = {...should_gain}
+	//should_gain = {...should_gain}
 
 	// instantiate the special gains
-	if (should_gain.random_charac) {
+	if (should_gain.random_attribute) {
 		const stat: keyof OutcomeArchetype = Random.pick(rng, STATS) as keyof OutcomeArchetype
 		should_gain[stat] = true
 	}
-	if (should_gain.lowest_charac) {
+	if (should_gain.lowest_attribute) {
 		const lowest_stat: keyof OutcomeArchetype = STATS.reduce((acc, val) => {
-			return (character as any)[acc] < (character as any)[val] ? acc : val
+			return (character.attributes as any)[acc] < (character.attributes as any)[val] ? acc : val
 		}, 'health') as keyof OutcomeArchetype
 		should_gain[lowest_stat] = true
+	}
+	if (should_gain.class_primary_attribute) {
+		const stat: keyof OutcomeArchetype = Random.pick(rng, PRIMARY_STATS_BY_CLASS[character.klass]) as keyof OutcomeArchetype
+		should_gain[stat] = true
+	}
+	if (should_gain.class_secondary_attribute) {
+		const stat: keyof OutcomeArchetype = Random.pick(rng, SECONDARY_STATS_BY_CLASS[character.klass]) as keyof OutcomeArchetype
+		should_gain[stat] = true
 	}
 
 	if (should_gain.armor_or_weapon) {
@@ -104,14 +143,14 @@ function instantiate_adventure_archetype(rng: Engine, aa: AdventureArchetype, ch
 	}
 
 	// intermediate data
-	const new_player_level = character.level + (should_gain.level ? 1 : 0)
+	const new_player_level = character.attributes.level + (should_gain.level ? 1 : 0)
 
 	// TODO check multiple charac gain (should not happen)
 	return {
 		uuid: generate_uuid(),
 		hid,
 		good,
-		encounter: type === AdventureType.fight ? create_monster(rng, {level: character.level}) : undefined,
+		encounter: type === AdventureType.fight ? create_monster(rng, {level: character.attributes.level}) : undefined,
 		gains: {
 			level:    should_gain.level    ? 1 : 0,
 			health:   should_gain.health   ? 1 : 0,
@@ -170,7 +209,7 @@ function play_good(state: State, explicit_adventure_archetype_hid?: string): Sta
 	const adventure = instantiate_adventure_archetype(
 		rng,
 		aa,
-		state.avatar.attributes,
+		state.avatar,
 		state.inventory,
 	)
 	state.last_adventure = adventure

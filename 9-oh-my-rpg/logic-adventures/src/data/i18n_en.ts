@@ -107,11 +107,20 @@ You gained +{{luck}} luck!`,
 You found a golden mushroom.
 You gained +{{attr}} {{attr_name}}!`,
 
-		// TODO potions
-		// vermillon
-		// argentée
+		found_vermilion_potion: `
+You found a vermilion potion.
+Crazy drink, gained +{{attr}} {{attr_name}}!`,
+
+		found_silver_potion: `
+You found a silver potion.
+Sweet drink, gained +{{attr}} {{attr_name}}!`,
+
+		found_swirling_potion: `
+You found a swirling potion.
+Strange drink, gained +{{attr}} {{attr_name}}!`,
 
 		// TODO steal morrowind's level up message
+		// https://www.reddit.com/r/Morrowind/comments/1s1emv/i_find_the_levelup_messages_very_inspirational/
 
 		// from me
 		meet_old_wizard: `
@@ -233,15 +242,63 @@ You slay the chicken mercilessly.
 The entire cohort of guards for the town come after you and you are forced to slay them too.
 After hours of fighting you gain +{{strength}} strength!`,
 
-		// ?
-		/*
-		Vous vous présentez au capitaine de la garde. Votre mission : tuer 10 kobolds.
-Après une brève hésitation sur l’éthique de l’extermination de créatures pensantes, vous acceptez ; vous avez trop besoin de loot et d’XP.
-		 */
+		// WoW / ?
+		sentients_killing: `
+You introduce yourself to the captain of the guard. Your mission: kill 10 kobolds.
+After a brief hesitation on the ethics of the extermination of thinking creatures, you accept: you need loot and XP too badly.
+You gain {{coin}} and +{{attr}} {{attr_name}}.
+		`,
 
-		/* master's quotes
-		https://github.com/kodeguild/winter-spirits/blob/master/src/data/cookies/en-us.js#L25
-		 */
+		// classic quests
+		keep_watch: `
+You are hired to keep the watch. Boring, but lives are depending on you!
+The night pass without any trouble.
+You gain {{coin}} as agreed. Good job!
+		`,
+		farmwork: `
+The villagers hire you to do their errands.
+You gather firewood, draw water from the well, chase pests.
+You gain {{coin}} as agreed, +{{strength}} strength as a bonus and hopefully gain the people's trust for better quests in the future!
+		`,
+		critters: `
+You hunt critters to get XP and improve your skills.
+After one hour of farming, +{{attr}} {{attr_name}}, not bad!
+		`,
+		class_grimoire: `
+You find a tome about your class.
+It's filled with interesting stuff!
+It's worth reading: +{{attr}} {{attr_name}}!
+		`,
+
+		// winter spirit cookies
+		// https://github.com/kodeguild/winter-spirits/blob/master/src/data/cookies/en-us.js
+		class_master_primary_attr_1: `
+Your class master is playing wise:
+"You need to work on your {{attr_name}}, it's the basis of everything! Focus on your strengths, not your weaknesses!"
+She gives you exercises. You gain +{{attr}} {{attr_name}}.
+		`,
+		class_master_primary_attr_2: `
+Your class master is playing wise again:
+"The successful warrior is the average man, with laser-like focus! Concentrate on improving your {{attr_name}}!"
+She gives you exercises. You gain +{{attr}} {{attr_name}}.
+		`,
+		class_master_second_attr: `
+As usual, your class master is grumpy:
+"What's the use of improving only your main attribute? You need to improve your {{attr_name}} too! Focus on your your weaknesses, to become stronger!"
+She gives you exercises. You gain +{{attr}} {{attr_name}}.
+		`,
+
+		wisdom_of_books: `
+You visit a church for healing, and end up reading their books.
+You gain +{{attr}} wisdom!
+		`,
+
+		// morrowind meme
+		arrow_in_the_knee: `
+A guard tells you stories of when he was an adventurer,
+before he took an arrow in the knee.
+You feel enlightened: +{{attr}} wisdom!
+		`,
 
 		/*
 		princess rich turn out very nice very nice

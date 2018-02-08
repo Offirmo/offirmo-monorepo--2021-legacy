@@ -11,6 +11,9 @@ Doc:
 
 
 ```bash
+bolt ws run build --only @oh-my-rpg/*
+bolt ws run test --only @oh-my-rpg/*
+
 bolt ws run build
 bolt ws run test
 bolt ws run cheatsheet

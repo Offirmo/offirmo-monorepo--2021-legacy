@@ -3,11 +3,6 @@ import { iterables_unslotted, get_item_in_slot, } from '@oh-my-rpg/state-invento
 import * as RichText from '@offirmo/rich-text-format';
 import { render_item } from './items';
 import { render_wallet } from './wallet';
-function numeric_index_to_sortable_alphanumeric_index(index) {
-    //return (' ' + (coord + 1)).slice(-2)
-    //return String.fromCharCode(97 + index)
-    return index;
-}
 // we want the slots sorted by types according to an arbitrary order
 function render_equipment(inventory) {
     const $doc_list = RichText.ordered_list()
@@ -30,6 +25,8 @@ function render_equipment(inventory) {
         .done();
     return $doc;
 }
+// we want the slots sorted by types according to an arbitrary order
+// = nothing to do, the inventory is auto-sorted
 function render_backpack(inventory) {
     let $doc_list = RichText.ordered_list()
         .addClass('inventory--backpack')
@@ -38,7 +35,7 @@ function render_backpack(inventory) {
     misc_items.forEach((i, index) => {
         if (!i)
             return;
-        $doc_list.$sub[numeric_index_to_sortable_alphanumeric_index(index)] = render_item(i);
+        $doc_list.$sub[index] = render_item(i);
     });
     if (Object.keys($doc_list.$sub).length === 0) {
         // completely empty

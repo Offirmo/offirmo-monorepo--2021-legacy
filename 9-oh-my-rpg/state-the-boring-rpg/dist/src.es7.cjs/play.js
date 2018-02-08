@@ -17,19 +17,55 @@ const logic_adventures_1 = require("@oh-my-rpg/logic-adventures");
 const sec_1 = require("./sec");
 /////////////////////
 const STATS = ['health', 'mana', 'strength', 'agility', 'charisma', 'wisdom', 'luck'];
+const PRIMARY_STATS_BY_CLASS = {
+    [state_character_1.CharacterClass.novice]: ['health', 'mana', 'strength', 'agility', 'charisma', 'wisdom', 'luck'],
+    [state_character_1.CharacterClass.warrior]: ['strength'],
+    [state_character_1.CharacterClass.barbarian]: ['strength'],
+    [state_character_1.CharacterClass.paladin]: ['strength'],
+    [state_character_1.CharacterClass.sculptor]: ['agility'],
+    [state_character_1.CharacterClass.pirate]: ['luck'],
+    [state_character_1.CharacterClass.ninja]: ['agility'],
+    [state_character_1.CharacterClass.rogue]: ['agility'],
+    [state_character_1.CharacterClass.wizard]: ['mana'],
+    [state_character_1.CharacterClass.hunter]: ['agility'],
+    [state_character_1.CharacterClass.druid]: ['wisdom', 'mana'],
+    [state_character_1.CharacterClass.priest]: ['charisma', 'mana'],
+};
+const SECONDARY_STATS_BY_CLASS = {
+    [state_character_1.CharacterClass.novice]: ['health', 'mana', 'strength', 'agility', 'charisma', 'wisdom', 'luck'],
+    [state_character_1.CharacterClass.warrior]: ['health'],
+    [state_character_1.CharacterClass.barbarian]: ['health'],
+    [state_character_1.CharacterClass.paladin]: ['mana'],
+    [state_character_1.CharacterClass.sculptor]: ['charisma'],
+    [state_character_1.CharacterClass.pirate]: ['charisma'],
+    [state_character_1.CharacterClass.ninja]: ['health'],
+    [state_character_1.CharacterClass.rogue]: ['luck'],
+    [state_character_1.CharacterClass.wizard]: ['wisdom'],
+    [state_character_1.CharacterClass.hunter]: ['strength'],
+    [state_character_1.CharacterClass.druid]: ['strength'],
+    [state_character_1.CharacterClass.priest]: ['wisdom'],
+};
 function instantiate_adventure_archetype(rng, aa, character, inventory) {
     let { hid, good, type, outcome: should_gain } = aa;
-    should_gain = Object.assign({}, should_gain);
+    //should_gain = {...should_gain}
     // instantiate the special gains
-    if (should_gain.random_charac) {
+    if (should_gain.random_attribute) {
         const stat = random_1.Random.pick(rng, STATS);
         should_gain[stat] = true;
     }
-    if (should_gain.lowest_charac) {
+    if (should_gain.lowest_attribute) {
         const lowest_stat = STATS.reduce((acc, val) => {
-            return character[acc] < character[val] ? acc : val;
+            return character.attributes[acc] < character.attributes[val] ? acc : val;
         }, 'health');
         should_gain[lowest_stat] = true;
+    }
+    if (should_gain.class_primary_attribute) {
+        const stat = random_1.Random.pick(rng, PRIMARY_STATS_BY_CLASS[character.klass]);
+        should_gain[stat] = true;
+    }
+    if (should_gain.class_secondary_attribute) {
+        const stat = random_1.Random.pick(rng, SECONDARY_STATS_BY_CLASS[character.klass]);
+        should_gain[stat] = true;
     }
     if (should_gain.armor_or_weapon) {
         // TODO take into account the existing inventory
@@ -45,13 +81,13 @@ function instantiate_adventure_archetype(rng, aa, character, inventory) {
             should_gain.weapon_improvement = true;
     }
     // intermediate data
-    const new_player_level = character.level + (should_gain.level ? 1 : 0);
+    const new_player_level = character.attributes.level + (should_gain.level ? 1 : 0);
     // TODO check multiple charac gain (should not happen)
     return {
         uuid: definitions_1.generate_uuid(),
         hid,
         good,
-        encounter: type === logic_adventures_1.AdventureType.fight ? logic_monsters_1.create(rng, { level: character.level }) : undefined,
+        encounter: type === logic_adventures_1.AdventureType.fight ? logic_monsters_1.create(rng, { level: character.attributes.level }) : undefined,
         gains: {
             level: should_gain.level ? 1 : 0,
             health: should_gain.health ? 1 : 0,
@@ -98,7 +134,7 @@ function play_good(state, explicit_adventure_archetype_hid) {
         : logic_adventures_1.pick_random_good_archetype(rng);
     if (!aa)
         throw new Error(`play_good(): hinted adventure archetype "${explicit_adventure_archetype_hid}" could not be found!`);
-    const adventure = instantiate_adventure_archetype(rng, aa, state.avatar.attributes, state.inventory);
+    const adventure = instantiate_adventure_archetype(rng, aa, state.avatar, state.inventory);
     state.last_adventure = adventure;
     const { gains: gained } = adventure;
     // TODO store hid for no repetition

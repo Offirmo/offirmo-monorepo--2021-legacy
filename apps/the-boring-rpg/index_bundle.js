@@ -22062,7 +22062,7 @@ exports.AdventureType = types_1.AdventureType;
 const data_1 = __webpack_require__(634);
 exports.i18n_messages = data_1.i18n_messages;
 /////////////////////
-const ALL_ADVENTURE_ARCHETYPES = data_1.ENTRIES.filter(paa => paa.isPublished !== false).map(paa => {
+const ALL_ADVENTURE_ARCHETYPES = data_1.ENTRIES.map(paa => {
     const raw_outcome = paa.outcome || {};
     const outcome = {
         level: !!raw_outcome.level,
@@ -22073,10 +22073,10 @@ const ALL_ADVENTURE_ARCHETYPES = data_1.ENTRIES.filter(paa => paa.isPublished !=
         strength: !!raw_outcome.strength,
         charisma: !!raw_outcome.charisma,
         wisdom: !!raw_outcome.wisdom,
-        random_charac: !!raw_outcome.random_charac,
-        lowest_charac: !!raw_outcome.lowest_charac,
-        class_main_charac: !!raw_outcome.class_main_charac,
-        class_secondary_charac: !!raw_outcome.class_secondary_charac,
+        random_attribute: !!raw_outcome.random_attribute,
+        lowest_attribute: !!raw_outcome.lowest_attribute,
+        class_primary_attribute: !!raw_outcome.class_primary_attribute,
+        class_secondary_attribute: !!raw_outcome.class_secondary_attribute,
         coin: raw_outcome.coin || types_1.CoinsGain.none,
         token: raw_outcome.token || 0,
         armor: !!raw_outcome.armor,
@@ -58161,19 +58161,55 @@ const logic_adventures_1 = __webpack_require__(276);
 const sec_1 = __webpack_require__(166);
 /////////////////////
 const STATS = ['health', 'mana', 'strength', 'agility', 'charisma', 'wisdom', 'luck'];
+const PRIMARY_STATS_BY_CLASS = {
+    [state_character_1.CharacterClass.novice]: ['health', 'mana', 'strength', 'agility', 'charisma', 'wisdom', 'luck'],
+    [state_character_1.CharacterClass.warrior]: ['strength'],
+    [state_character_1.CharacterClass.barbarian]: ['strength'],
+    [state_character_1.CharacterClass.paladin]: ['strength'],
+    [state_character_1.CharacterClass.sculptor]: ['agility'],
+    [state_character_1.CharacterClass.pirate]: ['luck'],
+    [state_character_1.CharacterClass.ninja]: ['agility'],
+    [state_character_1.CharacterClass.rogue]: ['agility'],
+    [state_character_1.CharacterClass.wizard]: ['mana'],
+    [state_character_1.CharacterClass.hunter]: ['agility'],
+    [state_character_1.CharacterClass.druid]: ['wisdom', 'mana'],
+    [state_character_1.CharacterClass.priest]: ['charisma', 'mana']
+};
+const SECONDARY_STATS_BY_CLASS = {
+    [state_character_1.CharacterClass.novice]: ['health', 'mana', 'strength', 'agility', 'charisma', 'wisdom', 'luck'],
+    [state_character_1.CharacterClass.warrior]: ['health'],
+    [state_character_1.CharacterClass.barbarian]: ['health'],
+    [state_character_1.CharacterClass.paladin]: ['mana'],
+    [state_character_1.CharacterClass.sculptor]: ['charisma'],
+    [state_character_1.CharacterClass.pirate]: ['charisma'],
+    [state_character_1.CharacterClass.ninja]: ['health'],
+    [state_character_1.CharacterClass.rogue]: ['luck'],
+    [state_character_1.CharacterClass.wizard]: ['wisdom'],
+    [state_character_1.CharacterClass.hunter]: ['strength'],
+    [state_character_1.CharacterClass.druid]: ['strength'],
+    [state_character_1.CharacterClass.priest]: ['wisdom']
+};
 function instantiate_adventure_archetype(rng, aa, character, inventory) {
     let { hid, good, type, outcome: should_gain } = aa;
-    should_gain = Object.assign({}, should_gain);
+    //should_gain = {...should_gain}
     // instantiate the special gains
-    if (should_gain.random_charac) {
+    if (should_gain.random_attribute) {
         const stat = random_1.Random.pick(rng, STATS);
         should_gain[stat] = true;
     }
-    if (should_gain.lowest_charac) {
+    if (should_gain.lowest_attribute) {
         const lowest_stat = STATS.reduce((acc, val) => {
-            return character[acc] < character[val] ? acc : val;
+            return character.attributes[acc] < character.attributes[val] ? acc : val;
         }, 'health');
         should_gain[lowest_stat] = true;
+    }
+    if (should_gain.class_primary_attribute) {
+        const stat = random_1.Random.pick(rng, PRIMARY_STATS_BY_CLASS[character.klass]);
+        should_gain[stat] = true;
+    }
+    if (should_gain.class_secondary_attribute) {
+        const stat = random_1.Random.pick(rng, SECONDARY_STATS_BY_CLASS[character.klass]);
+        should_gain[stat] = true;
     }
     if (should_gain.armor_or_weapon) {
         // TODO take into account the existing inventory
@@ -58183,13 +58219,13 @@ function instantiate_adventure_archetype(rng, aa, character, inventory) {
         if (random_1.Random.bool()(rng)) should_gain.armor_improvement = true;else should_gain.weapon_improvement = true;
     }
     // intermediate data
-    const new_player_level = character.level + (should_gain.level ? 1 : 0);
+    const new_player_level = character.attributes.level + (should_gain.level ? 1 : 0);
     // TODO check multiple charac gain (should not happen)
     return {
         uuid: definitions_1.generate_uuid(),
         hid,
         good,
-        encounter: type === logic_adventures_1.AdventureType.fight ? logic_monsters_1.create(rng, { level: character.level }) : undefined,
+        encounter: type === logic_adventures_1.AdventureType.fight ? logic_monsters_1.create(rng, { level: character.attributes.level }) : undefined,
         gains: {
             level: should_gain.level ? 1 : 0,
             health: should_gain.health ? 1 : 0,
@@ -58233,7 +58269,7 @@ function play_good(state, explicit_adventure_archetype_hid) {
     let rng = state_prng_1.get_prng(state.prng);
     const aa = explicit_adventure_archetype_hid ? logic_adventures_1.get_archetype(explicit_adventure_archetype_hid) : logic_adventures_1.pick_random_good_archetype(rng);
     if (!aa) throw new Error(`play_good(): hinted adventure archetype "${explicit_adventure_archetype_hid}" could not be found!`);
-    const adventure = instantiate_adventure_archetype(rng, aa, state.avatar.attributes, state.inventory);
+    const adventure = instantiate_adventure_archetype(rng, aa, state.avatar, state.inventory);
     state.last_adventure = adventure;
     const { gains: gained } = adventure;
     // TODO store hid for no repetition
@@ -58320,7 +58356,7 @@ const i18n_en_1 = __webpack_require__(635);
 const types_1 = __webpack_require__(277);
 const story = types_1.AdventureType.story;
 const fight = types_1.AdventureType.fight;
-const ENTRIES = [{ good: false, type: story, hid: 'bad_default', outcome: {} }, { good: true, type: fight, hid: 'fight_won_coins', outcome: { coin: 'small' } }, { good: true, type: fight, hid: 'fight_won_loot', outcome: { armor_or_weapon: true } }, { good: true, type: fight, hid: 'fight_won_any', outcome: { random_charac: true } }, { good: true, type: fight, hid: 'fight_lost_any', outcome: { random_charac: true } }, { good: true, type: fight, hid: 'fight_lost_shortcoming', outcome: { lowest_charac: true } }, { good: true, type: story, hid: 'bored_log', outcome: { strength: true } }, { good: true, type: story, hid: 'caravan', outcome: { coin: 'small' } }, { good: true, type: story, hid: 'dying_man', outcome: { coin: 'medium' } }, { good: true, type: story, hid: 'ate_bacon', outcome: { level: true } }, { good: true, type: story, hid: 'ate_zombie', outcome: { mana: true } }, { good: true, type: story, hid: 'refreshing_nap', outcome: { health: true } }, { good: true, type: story, hid: 'older', outcome: { level: true } }, { good: true, type: story, hid: 'stare_cup', outcome: { mana: true } }, { good: true, type: story, hid: 'nuclear_fusion_paper', outcome: { wisdom: true } }, { good: true, type: story, hid: 'found_green_mushroom', outcome: { level: true } }, { good: true, type: story, hid: 'found_red_mushroom', outcome: { health: true } }, { good: true, type: story, hid: 'found_blue_mushroom', outcome: { mana: true } }, { good: true, type: story, hid: 'found_white_mushroom', outcome: { strength: true } }, { good: true, type: story, hid: 'found_yellow_mushroom', outcome: { agility: true } }, { good: true, type: story, hid: 'found_orange_mushroom', outcome: { charisma: true } }, { good: true, type: story, hid: 'found_black_mushroom', outcome: { wisdom: true } }, { good: true, type: story, hid: 'found_rainbow_mushroom', outcome: { luck: true } }, { good: true, type: story, hid: 'found_random_mushroom', outcome: { random_charac: true } }, { good: true, type: story, hid: 'meet_old_wizard', outcome: { wisdom: true } }, { good: true, type: story, hid: 'good_necromancer', outcome: { agility: true } }, { good: true, type: story, hid: 'talk_to_all_villagers', outcome: { charisma: true } }, { good: true, type: story, hid: 'always_keep_potions', outcome: { health: true } }, { good: true, type: story, hid: 'lost', outcome: { health: true } }, { good: true, type: story, hid: 'fate_sword', outcome: { coin: 'small' } }, { good: true, type: story, hid: 'grinding', outcome: { level: true } }, { good: true, type: story, hid: 'so_many_potions', outcome: { strength: true } }, { good: true, type: story, hid: 'rematch', outcome: { level: true } }, { good: true, type: story, hid: 'useless', outcome: { wisdom: true } }, { good: true, type: story, hid: 'escort', outcome: { health: true } }, { good: true, type: story, hid: 'rare_goods_seller', outcome: { armor_or_weapon: true } }, { good: true, type: story, hid: 'progress_loop', outcome: { armor_or_weapon: true } }, { good: true, type: story, hid: 'idiot_bandits', outcome: { coin: 'medium' } }, { good: true, type: story, hid: 'princess', outcome: { coin: 'medium', armor_or_weapon_improvement: true } }, { good: true, type: story, hid: 'bad_village', outcome: { mana: true } }, { good: true, type: story, hid: 'mana_mana', outcome: { mana: true } }, { good: true, type: story, hid: 'treasure_in_pots', outcome: { coin: 'small' } }, { good: true, type: story, hid: 'chicken_slayer', outcome: { strength: true } }];
+const ENTRIES = [{ good: false, type: story, hid: 'bad_default', outcome: {} }, { good: true, type: fight, hid: 'fight_won_coins', outcome: { coin: 'small' } }, { good: true, type: fight, hid: 'fight_won_loot', outcome: { armor_or_weapon: true } }, { good: true, type: fight, hid: 'fight_won_any', outcome: { random_attribute: true } }, { good: true, type: fight, hid: 'fight_lost_any', outcome: { random_attribute: true } }, { good: true, type: fight, hid: 'fight_lost_shortcoming', outcome: { lowest_attribute: true } }, { good: true, type: story, hid: 'bored_log', outcome: { strength: true } }, { good: true, type: story, hid: 'caravan', outcome: { coin: 'small' } }, { good: true, type: story, hid: 'dying_man', outcome: { coin: 'medium' } }, { good: true, type: story, hid: 'ate_bacon', outcome: { level: true } }, { good: true, type: story, hid: 'ate_zombie', outcome: { mana: true } }, { good: true, type: story, hid: 'refreshing_nap', outcome: { health: true } }, { good: true, type: story, hid: 'older', outcome: { level: true } }, { good: true, type: story, hid: 'stare_cup', outcome: { mana: true } }, { good: true, type: story, hid: 'nuclear_fusion_paper', outcome: { wisdom: true } }, { good: true, type: story, hid: 'found_green_mushroom', outcome: { level: true } }, { good: true, type: story, hid: 'found_red_mushroom', outcome: { health: true } }, { good: true, type: story, hid: 'found_blue_mushroom', outcome: { mana: true } }, { good: true, type: story, hid: 'found_white_mushroom', outcome: { strength: true } }, { good: true, type: story, hid: 'found_yellow_mushroom', outcome: { agility: true } }, { good: true, type: story, hid: 'found_orange_mushroom', outcome: { charisma: true } }, { good: true, type: story, hid: 'found_black_mushroom', outcome: { wisdom: true } }, { good: true, type: story, hid: 'found_rainbow_mushroom', outcome: { luck: true } }, { good: true, type: story, hid: 'found_random_mushroom', outcome: { random_attribute: true } }, { good: true, type: story, hid: 'found_vermilion_potion', outcome: { class_primary_attribute: true } }, { good: true, type: story, hid: 'found_silver_potion', outcome: { class_secondary_attribute: true } }, { good: true, type: story, hid: 'found_swirling_potion', outcome: { random_attribute: true } }, { good: true, type: story, hid: 'meet_old_wizard', outcome: { wisdom: true } }, { good: true, type: story, hid: 'good_necromancer', outcome: { agility: true } }, { good: true, type: story, hid: 'talk_to_all_villagers', outcome: { charisma: true } }, { good: true, type: story, hid: 'always_keep_potions', outcome: { health: true } }, { good: true, type: story, hid: 'lost', outcome: { health: true } }, { good: true, type: story, hid: 'fate_sword', outcome: { coin: 'small' } }, { good: true, type: story, hid: 'grinding', outcome: { level: true } }, { good: true, type: story, hid: 'so_many_potions', outcome: { strength: true } }, { good: true, type: story, hid: 'rematch', outcome: { level: true } }, { good: true, type: story, hid: 'useless', outcome: { wisdom: true } }, { good: true, type: story, hid: 'escort', outcome: { health: true } }, { good: true, type: story, hid: 'rare_goods_seller', outcome: { armor_or_weapon: true } }, { good: true, type: story, hid: 'progress_loop', outcome: { armor_or_weapon: true } }, { good: true, type: story, hid: 'idiot_bandits', outcome: { coin: 'medium' } }, { good: true, type: story, hid: 'princess', outcome: { coin: 'medium', armor_or_weapon_improvement: true } }, { good: true, type: story, hid: 'bad_village', outcome: { mana: true } }, { good: true, type: story, hid: 'mana_mana', outcome: { mana: true } }, { good: true, type: story, hid: 'treasure_in_pots', outcome: { coin: 'small' } }, { good: true, type: story, hid: 'chicken_slayer', outcome: { strength: true } }, { good: true, type: story, hid: 'sentients_killing', outcome: { coin: 'small', class_primary_attribute: true } }, { good: true, type: story, hid: 'keep_watch', outcome: { coin: 'small' } }, { good: true, type: story, hid: 'farmwork', outcome: { coin: 'small', strength: true } }, { good: true, type: story, hid: 'critters', outcome: { class_secondary_attribute: true } }, { good: true, type: story, hid: 'class_grimoire', outcome: { class_primary_attribute: true } }, { good: true, type: story, hid: 'class_master_primary_attr_1', outcome: { class_primary_attribute: true } }, { good: true, type: story, hid: 'class_master_primary_attr_2', outcome: { class_primary_attribute: true } }, { good: true, type: story, hid: 'class_master_second_attr', outcome: { class_secondary_attribute: true } }, { good: true, type: story, hid: 'wisdom_of_books', outcome: { wisdom: true } }, { good: true, type: story, hid: 'arrow_in_the_knee', outcome: { wisdom: true } }];
 exports.ENTRIES = ENTRIES;
 const i18n_messages = {
     en: i18n_en_1.messages
@@ -58418,10 +58454,17 @@ You gained +{{luck}} luck!`,
                 found_random_mushroom: `
 You found a golden mushroom.
 You gained +{{attr}} {{attr_name}}!`,
-                // TODO potions
-                // vermillon
-                // argentée
+                found_vermilion_potion: `
+You found a vermilion potion.
+Crazy drink, gained +{{attr}} {{attr_name}}!`,
+                found_silver_potion: `
+You found a silver potion.
+Sweet drink, gained +{{attr}} {{attr_name}}!`,
+                found_swirling_potion: `
+You found a swirling potion.
+Strange drink, gained +{{attr}} {{attr_name}}!`,
                 // TODO steal morrowind's level up message
+                // https://www.reddit.com/r/Morrowind/comments/1s1emv/i_find_the_levelup_messages_very_inspirational/
                 // from me
                 meet_old_wizard: `
 You meet a mysterious old wizard…
@@ -58521,7 +58564,60 @@ You collect +{{coin}} in coin, precious stones and other treasures found!`,
 You enter a village and see a chicken roaming in a garden peacefully. 
 You slay the chicken mercilessly.
 The entire cohort of guards for the town come after you and you are forced to slay them too.
-After hours of fighting you gain +{{strength}} strength!`
+After hours of fighting you gain +{{strength}} strength!`,
+                // WoW / ?
+                sentients_killing: `
+You introduce yourself to the captain of the guard. Your mission: kill 10 kobolds.
+After a brief hesitation on the ethics of the extermination of thinking creatures, you accept: you need loot and XP too badly.
+You gain {{coin}} and +{{attr}} {{attr_name}}.
+		`,
+                // classic quests
+                keep_watch: `
+You are hired to keep the watch. Boring, but lives are depending on you!
+The night pass without any trouble.
+You gain {{coin}} as agreed. Good job!
+		`,
+                farmwork: `
+The villagers hire you to do their errands.
+You gather firewood, draw water from the well, chase pests.
+You gain {{coin}} as agreed, +{{strength}} strength as a bonus and hopefully gain the people's trust for better quests in the future!
+		`,
+                critters: `
+You hunt critters to get XP and improve your skills.
+After one hour of farming, +{{attr}} {{attr_name}}, not bad!
+		`,
+                class_grimoire: `
+You find a tome about your class.
+It's filled with interesting stuff!
+It's worth reading: +{{attr}} {{attr_name}}!
+		`,
+                // winter spirit cookies
+                // https://github.com/kodeguild/winter-spirits/blob/master/src/data/cookies/en-us.js
+                class_master_primary_attr_1: `
+Your class master is playing wise:
+"You need to work on your {{attr_name}}, it's the basis of everything! Focus on your strengths, not your weaknesses!"
+She gives you exercises. You gain +{{attr}} {{attr_name}}.
+		`,
+                class_master_primary_attr_2: `
+Your class master is playing wise again:
+"The successful warrior is the average man, with laser-like focus! Concentrate on improving your {{attr_name}}!"
+She gives you exercises. You gain +{{attr}} {{attr_name}}.
+		`,
+                class_master_second_attr: `
+As usual, your class master is grumpy:
+"What's the use of improving only your main attribute? You need to improve your {{attr_name}} too! Focus on your your weaknesses, to become stronger!"
+She gives you exercises. You gain +{{attr}} {{attr_name}}.
+		`,
+                wisdom_of_books: `
+You visit a church for healing, and end up reading their books.
+You gain +{{attr}} wisdom!
+		`,
+                // morrowind meme
+                arrow_in_the_knee: `
+A guard tells you stories of when he was an adventurer,
+before he took an arrow in the knee.
+You feel enlightened: +{{attr}} wisdom!
+		`
         }
 };
 const messages = {
@@ -63407,11 +63503,6 @@ const state_inventory_1 = __webpack_require__(88);
 const RichText = __webpack_require__(44);
 const items_1 = __webpack_require__(176);
 const wallet_1 = __webpack_require__(177);
-function numeric_index_to_sortable_alphanumeric_index(index) {
-    //return (' ' + (coord + 1)).slice(-2)
-    //return String.fromCharCode(97 + index)
-    return index;
-}
 // we want the slots sorted by types according to an arbitrary order
 function render_equipment(inventory) {
     const $doc_list = RichText.ordered_list().addClass('inventory--equipment').done();
@@ -63424,12 +63515,14 @@ function render_equipment(inventory) {
     return $doc;
 }
 exports.render_equipment = render_equipment;
+// we want the slots sorted by types according to an arbitrary order
+// = nothing to do, the inventory is auto-sorted
 function render_backpack(inventory) {
     let $doc_list = RichText.ordered_list().addClass('inventory--backpack').done();
     const misc_items = Array.from(state_inventory_1.iterables_unslotted(inventory)).filter(i => !!i);
     misc_items.forEach((i, index) => {
         if (!i) return;
-        $doc_list.$sub[numeric_index_to_sortable_alphanumeric_index(index)] = items_1.render_item(i);
+        $doc_list.$sub[index] = items_1.render_item(i);
     });
     if (Object.keys($doc_list.$sub).length === 0) {
         // completely empty

@@ -5,7 +5,7 @@ interface RawAdventureArchetypeEntry {
     hid: string;
     type: AdventureType;
     outcome: Partial<OutcomeArchetype>;
-    isPublished?: boolean;
+    isBeta?: boolean;
 }
 declare const ENTRIES: RawAdventureArchetypeEntry[];
 declare const i18n_messages: I18nMessages;

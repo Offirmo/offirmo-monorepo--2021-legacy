@@ -14,7 +14,6 @@ import { i18n_messages, ENTRIES } from './data'
 /////////////////////
 
 const ALL_ADVENTURE_ARCHETYPES: AdventureArchetype[] = ENTRIES
-	.filter(paa => (paa.isPublished !== false))
 	.map(paa => {
 		const raw_outcome: Partial<OutcomeArchetype> = paa.outcome || {}
 
@@ -28,10 +27,10 @@ const ALL_ADVENTURE_ARCHETYPES: AdventureArchetype[] = ENTRIES
 			strength: !!raw_outcome.strength,
 			charisma: !!raw_outcome.charisma,
 			wisdom  : !!raw_outcome.wisdom,
-			random_charac         : !!raw_outcome.random_charac,
-			lowest_charac         : !!raw_outcome.lowest_charac,
-			class_main_charac     : !!raw_outcome.class_main_charac,
-			class_secondary_charac: !!raw_outcome.class_secondary_charac,
+			random_attribute         : !!raw_outcome.random_attribute,
+			lowest_attribute         : !!raw_outcome.lowest_attribute,
+			class_primary_attribute     : !!raw_outcome.class_primary_attribute,
+			class_secondary_attribute: !!raw_outcome.class_secondary_attribute,
 
 			coin    :   (raw_outcome.coin as CoinsGain) || CoinsGain.none,
 			token   :   raw_outcome.token || 0,
