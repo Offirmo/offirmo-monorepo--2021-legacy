@@ -205,11 +205,6 @@ You are hired to keep the watch. Boring, but lives are depending on you!
 The night pass without any trouble.
 You gain {{coin}} as agreed. Good job!
 		`,
-        farmwork: `
-The villagers hire you to do their errands.
-You gather firewood, draw water from the well, chase pests.
-You gain {{coin}} as agreed, +{{strength}} strength as a bonus and hopefully gain the people's trust for better quests in the future!
-		`,
         critters: `
 You hunt critters to get XP and improve your skills.
 After one hour of farming, +{{attr}} {{attr_name}}, not bad!
@@ -218,6 +213,75 @@ After one hour of farming, +{{attr}} {{attr_name}}, not bad!
 You find a tome about your class.
 It's filled with interesting stuff!
 It's worth reading: +{{attr}} {{attr_name}}!
+		`,
+        // farm village
+        village_farmwork: `
+The villagers hire you to do their errands.
+You gather firewood, draw water from the well, chase pests.
+You gain {{coin}} as agreed, +{{strength}} strength as a bonus and hopefully gain the people's trust for better quests in the future!
+		`,
+        village_lost_kid: `
+A villager run after you "Please find my kid lost in the forest! I heard about goblins and fear the worst!".
+You arrive just as the goblins were about to put the kid in the cauldron.
+You deal justice to these pests, drink their soup and bring back the kid.
+The parent is delighted and you looted a {{item}} in the goblin camp.
+		`,
+        village_lost_father: `
+A child from the village run after you "Please find my father lost in the forest! It's late and he isn't back!".
+You track the father to a clearing, where he took refuge in a tree, surrounded by wolves.
+You sow death amongst the pack using your adventurer's arts and bring back the father home.
+You practiced your {{attr_name}} during the fight: +{{attr}} {{attr_name}}!
+And the child now wants to be an adventurer...
+		`,
+        village_nice_daughter: `
+The daughter of one of the villager you helped want to have a tea with her saviour.
+She's very nice. You learn from her how to have a polite conversation: + {{charisma}} charisma.
+		`,
+        // town
+        // Alwayswinter
+        // capital
+        // royal castle
+        capital_castle: `
+You arrive at the Royal Castel, one of the famous landmark of the capital.
+It's incredible: huge, strong yet delicate, high towers, ornaments...
+You ponder about civilizations: +{{wisdom}} wisdom.
+		`,
+        // royal road
+        capital_royal_road: `
+You visit the Royal Road, one of the famous landmark of the capital.
+It's a wide road filled with stalls with goods from the best gatherers and the best crafters.
+You barter for a new {{item_slot}}: {{item}}.
+		`,
+        // royal amusement park
+        capital_royal_amusement_park: `
+You visit the Royal Amusement Park, one of the famous landmark of the capital.
+You try all the magical attractions and have a second round of your favorite ones.
+This is a curious but effective training: +{{attr}} {{attr_name}}!
+		`,
+        // biomes
+        // rural
+        // snow
+        // mountain
+        // jungle
+        // desert
+        // swamp
+        // sewers
+        // famous stones
+        famous_stone_ruby: `
+In a lost city, you looted the famous striped candy-pink ruby!
+Your fame increases: +{{charisma}} charisma, +{{token}} tokens.
+		`,
+        famous_stone_diamond: `
+In a meteor crater, you looted an incredible black diamond!
+Your wisdom increases: +{{wisdom}} wisdom, +{{token}} tokens.
+		`,
+        famous_stone_sapphire: `
+In a secret cave below the ocean, you looted the sapphire of Atlantis!
+Your mana increases: +{{mana}} mana, +{{token}} tokens.
+		`,
+        famous_stone_emerald: `
+On a lost altar deep in the jungle, you looted the emerald of shapeshifting!
+Your agility increases: +{{agility}} agility, +{{token}} tokens.
 		`,
         // winter spirit cookies
         // https://github.com/kodeguild/winter-spirits/blob/master/src/data/cookies/en-us.js
@@ -245,6 +309,10 @@ You gain +{{attr}} wisdom!
 A guard tells you stories of when he was an adventurer,
 before he took an arrow in the knee.
 You feel enlightened: +{{attr}} wisdom!
+		`,
+        square_eggs: `
+Deep in the jungle, you found the marvelous square eggs of the legendary fatu-liva bird!
+You cook an omelette, and gain +{{luck}} luck.
 		`,
     }
 };

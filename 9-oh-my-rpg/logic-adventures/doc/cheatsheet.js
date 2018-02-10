@@ -7,7 +7,7 @@ console.log(boxify(`
 Declaring adventures:
 
 You have defeated a {{encounter}}!{{br}}
-You looted {{coin}} {{item}} from its corpse.
+You looted {{coin}} {{item_slot}} {{[slot]}} {{item}} from its corpse.
 You perfected your {{attr_name}} during the fight: +{{attr}} {{attr_name}}!
 You gained +{{strength}} strength!
 You gained +{{level}} level!

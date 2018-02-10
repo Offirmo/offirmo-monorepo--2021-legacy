@@ -129,7 +129,7 @@ function instantiate_adventure_archetype(rng: Engine, aa: AdventureArchetype, ch
 	}
 
 	if (should_gain.armor_or_weapon) {
-		// TODO take into account the existing inventory
+		// TODO take into account the existing inventory?
 		if (Random.bool()(rng))
 			should_gain.armor = true
 		else
