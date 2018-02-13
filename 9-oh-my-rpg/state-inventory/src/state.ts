@@ -12,7 +12,7 @@ import {
 	State,
 } from './types'
 
-import { LIB_ID, SCHEMA_VERSION } from './consts'
+import { LIB, SCHEMA_VERSION } from './consts'
 import { compare_items } from './compare'
 
 /////////////////////

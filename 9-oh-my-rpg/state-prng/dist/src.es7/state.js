@@ -1,6 +1,6 @@
 /////////////////////
 import { Random } from '@offirmo/random';
-import * as deepFreeze from 'deep-freeze-strict';
+import * as deepFreeze from 'deep-freeze-strict'; // XXX to refactor
 import { SCHEMA_VERSION } from './consts';
 /////////////////////
 const DEFAULT_SEED = 987;
@@ -10,6 +10,7 @@ function create() {
         revision: 0,
         seed: DEFAULT_SEED,
         use_count: 0,
+        recently_encountered_by_id: {},
     };
 }
 /////////////////////
@@ -29,6 +30,12 @@ function update_use_count(state, prng, options = {}) {
     state.use_count = new_use_count;
     return state;
 }
+function register_recently_used(state, id, value, max_memory_size) {
+    state.recently_encountered_by_id[id] = state.recently_encountered_by_id[id] || [];
+    state.recently_encountered_by_id[id] = state.recently_encountered_by_id[id].concat(value).slice(-max_memory_size);
+    return state;
+}
+/////////////////////
 // since
 // - we MUST use only one, repeatable PRNG
 // - we can't store the prng in the state
@@ -73,11 +80,6 @@ function get_prng(state) {
     }
     return cached_prng;
 }
-// useful for re-seeding
-function generate_random_seed() {
-    const rng = Random.engines.mt19937().autoSeed();
-    return Random.integer(-2147483646, 2147483647)(rng); // doc is unclear about allowed bounds...
-}
 function xxx_internal_reset_prng_cache() {
     cached_prng = Random.engines.mt19937().seed(DEFAULT_SEED);
     cached_prng._seed = DEFAULT_SEED;
@@ -107,7 +109,7 @@ const MIGRATION_HINTS_FOR_TESTS = deepFreeze({
     },
 });
 /////////////////////
-export { DEFAULT_SEED, create, set_seed, update_use_count, get_prng, generate_random_seed, 
+export { DEFAULT_SEED, create, set_seed, update_use_count, register_recently_used, get_prng, 
 // exposed for testability, do not use !
 xxx_internal_reset_prng_cache, DEMO_STATE, OLDEST_LEGACY_STATE_FOR_TESTS, MIGRATION_HINTS_FOR_TESTS, };
 /////////////////////

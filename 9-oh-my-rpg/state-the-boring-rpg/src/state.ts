@@ -11,8 +11,6 @@ import {
 	ItemQuality,
 } from '@oh-my-rpg/definitions'
 
-import * as MetaState from '@oh-my-rpg/state-meta'
-
 import * as CharacterState from '@oh-my-rpg/state-character'
 import {
 	CharacterAttribute,
@@ -67,7 +65,7 @@ import {
 
 /////////////////////
 
-import { LIB_ID, SCHEMA_VERSION } from './consts'
+import { LIB, SCHEMA_VERSION } from './consts'
 
 import {
 	State,
@@ -140,7 +138,6 @@ function create(): State {
 		schema_version: SCHEMA_VERSION,
 		revision: 0,
 
-		meta: MetaState.create(),
 		avatar: CharacterState.create(get_SEC()),
 		inventory: InventoryState.create(),
 		wallet: WalletState.create(),
@@ -367,7 +364,6 @@ const DEMO_STATE: State = deepFreeze({
 	schema_version: 4,
 	revision: 203,
 
-	meta: MetaState.DEMO_STATE,
 	avatar: CharacterState.DEMO_STATE,
 	inventory: InventoryState.DEMO_STATE,
 	wallet: WalletState.DEMO_STATE,
@@ -385,14 +381,6 @@ const DEMO_STATE: State = deepFreeze({
 const OLDEST_LEGACY_STATE_FOR_TESTS: any = deepFreeze({
 	"schema_version": 4,
 	"revision": 203,
-	"meta": {
-		"schema_version": 1,
-		"revision": 5,
-		"uuid": "uu1dgqu3h0FydqWyQ~6cYv3g",
-		"name": "Offirmo",
-		"email": "offirmo.net@gmail.com",
-		"allow_telemetry": false
-	},
 	"avatar": {
 		"schema_version": 2,
 		"revision": 42,
@@ -529,7 +517,6 @@ const MIGRATION_HINTS_FOR_TESTS: any = deepFreeze({
 	to_v5: {
 	},
 
-	meta: MetaState.MIGRATION_HINTS_FOR_TESTS,
 	avatar: CharacterState.MIGRATION_HINTS_FOR_TESTS,
 	inventory: InventoryState.MIGRATION_HINTS_FOR_TESTS,
 	wallet: WalletState.MIGRATION_HINTS_FOR_TESTS,

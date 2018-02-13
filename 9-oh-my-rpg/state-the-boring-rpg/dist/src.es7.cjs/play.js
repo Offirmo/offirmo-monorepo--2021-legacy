@@ -125,15 +125,29 @@ function receive_tokens(state, amount) {
     return state;
 }
 /////////////////////
+const ADVENTURE_NON_REPETITION_ID = 'adventure_archetype';
+function pick_random_non_repetitive_good_archetype(state, rng) {
+    let archetype;
+    state_prng_1.regenerate_until_not_recently_encountered({
+        id: ADVENTURE_NON_REPETITION_ID,
+        generate: () => {
+            archetype = logic_adventures_1.pick_random_good_archetype(rng);
+            return archetype.hid;
+        },
+        state: state.prng,
+    });
+    return archetype;
+}
 function play_good(state, explicit_adventure_archetype_hid) {
     state.good_click_count++;
     state.meaningful_interaction_count++;
     let rng = state_prng_1.get_prng(state.prng);
     const aa = explicit_adventure_archetype_hid
         ? logic_adventures_1.get_archetype(explicit_adventure_archetype_hid)
-        : logic_adventures_1.pick_random_good_archetype(rng);
+        : pick_random_non_repetitive_good_archetype(state, rng);
     if (!aa)
         throw new Error(`play_good(): hinted adventure archetype "${explicit_adventure_archetype_hid}" could not be found!`);
+    state.prng = state_prng_1.register_recently_used(state.prng, ADVENTURE_NON_REPETITION_ID, aa.hid, 7);
     const adventure = instantiate_adventure_archetype(rng, aa, state.avatar, state.inventory);
     state.last_adventure = adventure;
     const { gains: gained } = adventure;

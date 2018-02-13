@@ -389,13 +389,21 @@ then exit the tower, victorious and more experienced (+{{attr}} {{attr_name}})!
 
 		erika: `
 Exploring the Colossal Cave, you meet Erika, a powerful sorceress whose sensitive skin
-lead her to live underground.
-She teach you a new spell for money: +{{mana}} mana
+led her to live underground.
+She teaches you a new spell for money: +{{mana}} mana
 		`,
 
-		erika: `
-
+		rachel: `
+Between to villages, you meet Rachel the 
 		`,
+
+
+
+		// bandits
+
+		// secret order
+
+		// secret sages
 
 
 		/*

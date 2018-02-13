@@ -1,4 +1,4 @@
-import { LIB_ID as LIB, SCHEMA_VERSION } from './consts'
+import { LIB, SCHEMA_VERSION } from './consts'
 
 import {
 	NodeType,

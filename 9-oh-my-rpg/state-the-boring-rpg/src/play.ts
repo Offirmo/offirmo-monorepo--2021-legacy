@@ -31,6 +31,8 @@ import * as PRNGState from '@oh-my-rpg/state-prng'
 import {
 	get_prng,
 	generate_random_seed,
+	register_recently_used,
+	regenerate_until_not_recently_encountered,
 } from '@oh-my-rpg/state-prng'
 
 import {
@@ -193,6 +195,23 @@ function receive_tokens(state: State, amount: number): State {
 
 /////////////////////
 
+const ADVENTURE_NON_REPETITION_ID = 'adventure_archetype'
+
+function pick_random_non_repetitive_good_archetype(state: State, rng: Engine): AdventureArchetype {
+	let archetype: AdventureArchetype
+
+	regenerate_until_not_recently_encountered({
+		id: ADVENTURE_NON_REPETITION_ID,
+		generate: () => {
+			archetype = pick_random_good_archetype(rng)
+			return archetype.hid
+		},
+		state: state.prng,
+	})
+
+	return archetype!
+}
+
 function play_good(state: State, explicit_adventure_archetype_hid?: string): State {
 	state.good_click_count++
 	state.meaningful_interaction_count++;
@@ -201,10 +220,17 @@ function play_good(state: State, explicit_adventure_archetype_hid?: string): Sta
 
 	const aa: AdventureArchetype = explicit_adventure_archetype_hid
 		? get_archetype(explicit_adventure_archetype_hid)
-		: pick_random_good_archetype(rng)
+		: pick_random_non_repetitive_good_archetype(state, rng)
 
 	if (!aa)
 		throw new Error(`play_good(): hinted adventure archetype "${explicit_adventure_archetype_hid}" could not be found!`)
+
+	state.prng = register_recently_used(
+		state.prng,
+		ADVENTURE_NON_REPETITION_ID,
+		aa.hid,
+		7,
+	)
 
 	const adventure = instantiate_adventure_archetype(
 		rng,

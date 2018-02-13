@@ -1,10 +1,10 @@
 import { SoftExecutionContext, SECContext, get_default_SEC_context, oh_my_rpg_get_SEC } from '@oh-my-rpg/definitions'
 
-import { LIB_ID, SCHEMA_VERSION } from './consts'
+import { LIB, SCHEMA_VERSION } from './consts'
 
 function get_SEC(SEC?: SoftExecutionContext): SoftExecutionContext {
 	return oh_my_rpg_get_SEC({
-		module: LIB_ID,
+		module: LIB,
 		parent_SEC: SEC,
 	})
 	// TODO add details: schema version

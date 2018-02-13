@@ -1,4 +1,4 @@
-import { LIB_ID as LIB } from './consts';
+import { LIB } from './consts';
 import { NodeType, } from './types';
 import { normalize_node, } from './utils';
 function get_default_callbacks() {

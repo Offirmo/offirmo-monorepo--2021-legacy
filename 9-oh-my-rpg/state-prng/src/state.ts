@@ -1,13 +1,10 @@
 /////////////////////
 
 import { Random, MT19937 } from '@offirmo/random'
-import * as deepFreeze from 'deep-freeze-strict'
+import * as deepFreeze from 'deep-freeze-strict' // XXX to refactor
 
-import { LIB_ID, SCHEMA_VERSION } from './consts'
-
-import {
-	State,
-} from './types'
+import { LIB, SCHEMA_VERSION } from './consts'
+import { MTEngineWithSeed, State } from './types'
 
 /////////////////////
 
@@ -20,6 +17,8 @@ function create(): State {
 
 		seed: DEFAULT_SEED,
 		use_count: 0,
+
+		recently_encountered_by_id: {},
 	}
 }
 
@@ -49,13 +48,16 @@ function update_use_count(state: State, prng: MT19937, options: any = {}): State
 	return state
 }
 
+function register_recently_used(state: State, id: string, value: number | string, max_memory_size: number): State {
+	state.recently_encountered_by_id[id] = state.recently_encountered_by_id[id] || []
+
+	state.recently_encountered_by_id[id] = state.recently_encountered_by_id[id].concat(value).slice(-max_memory_size)
+
+	return state
+}
 
 /////////////////////
 
-// TODO improve offirmo/random
-interface MTEngineWithSeed extends MT19937 {
-	_seed?: number
-}
 
 // since
 // - we MUST use only one, repeatable PRNG
@@ -110,12 +112,6 @@ function get_prng(state: Readonly<State>): MT19937 {
 	return cached_prng
 }
 
-// useful for re-seeding
-function generate_random_seed(): number {
-	const rng: MTEngineWithSeed = Random.engines.mt19937().autoSeed()
-	return Random.integer(-2147483646, 2147483647)(rng) // doc is unclear about allowed bounds...
-}
-
 function xxx_internal_reset_prng_cache() {
 	cached_prng = Random.engines.mt19937().seed(DEFAULT_SEED)
 	cached_prng._seed = DEFAULT_SEED
@@ -161,10 +157,9 @@ export {
 
 	set_seed,
 	update_use_count,
+	register_recently_used,
 
 	get_prng,
-	generate_random_seed,
-
 	// exposed for testability, do not use !
 	xxx_internal_reset_prng_cache,
 

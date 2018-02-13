@@ -2,7 +2,7 @@
 /////////////////////
 Object.defineProperty(exports, "__esModule", { value: true });
 const random_1 = require("@offirmo/random");
-const deepFreeze = require("deep-freeze-strict");
+const deepFreeze = require("deep-freeze-strict"); // XXX to refactor
 const consts_1 = require("./consts");
 /////////////////////
 const DEFAULT_SEED = 987;
@@ -13,6 +13,7 @@ function create() {
         revision: 0,
         seed: DEFAULT_SEED,
         use_count: 0,
+        recently_encountered_by_id: {},
     };
 }
 exports.create = create;
@@ -35,6 +36,13 @@ function update_use_count(state, prng, options = {}) {
     return state;
 }
 exports.update_use_count = update_use_count;
+function register_recently_used(state, id, value, max_memory_size) {
+    state.recently_encountered_by_id[id] = state.recently_encountered_by_id[id] || [];
+    state.recently_encountered_by_id[id] = state.recently_encountered_by_id[id].concat(value).slice(-max_memory_size);
+    return state;
+}
+exports.register_recently_used = register_recently_used;
+/////////////////////
 // since
 // - we MUST use only one, repeatable PRNG
 // - we can't store the prng in the state
@@ -80,12 +88,6 @@ function get_prng(state) {
     return cached_prng;
 }
 exports.get_prng = get_prng;
-// useful for re-seeding
-function generate_random_seed() {
-    const rng = random_1.Random.engines.mt19937().autoSeed();
-    return random_1.Random.integer(-2147483646, 2147483647)(rng); // doc is unclear about allowed bounds...
-}
-exports.generate_random_seed = generate_random_seed;
 function xxx_internal_reset_prng_cache() {
     cached_prng = random_1.Random.engines.mt19937().seed(DEFAULT_SEED);
     cached_prng._seed = DEFAULT_SEED;

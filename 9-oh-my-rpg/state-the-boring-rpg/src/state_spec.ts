@@ -1,11 +1,5 @@
 import { expect } from 'chai'
 
-import * as MetaState from '@oh-my-rpg/state-meta'
-import * as CharacterState from '@oh-my-rpg/state-character'
-import * as WalletState from '@oh-my-rpg/state-wallet'
-import * as InventoryState from '@oh-my-rpg/state-inventory'
-import * as PRNGState from '@oh-my-rpg/state-prng'
-
 import { xxx_internal_reset_prng_cache } from '@oh-my-rpg/state-prng'
 import { ALL_GOOD_ADVENTURE_ARCHETYPES } from '@oh-my-rpg/logic-adventures'
 import {
@@ -19,7 +13,7 @@ import {
 	get_currency_amount,
 } from '@oh-my-rpg/state-wallet'
 
-import { LIB_ID, SCHEMA_VERSION } from './consts'
+import { LIB, SCHEMA_VERSION } from './consts'
 
 import {
 	create,
@@ -37,10 +31,9 @@ describe('⚔ 👑 😪  The Boring RPG - reducer', function() {
 		it('should be correct', function() {
 			const state = create()
 
-			expect(Object.keys(state)).to.have.lengthOf(11) // this test should be updated if that changes
+			expect(Object.keys(state)).to.have.lengthOf(10) // this test should be updated if that changes
 
 			// check presence of sub-states
-			expect(state, 'meta').to.have.property('meta')
 			expect(state, 'avatar').to.have.property('avatar')
 			expect(state, 'inventory').to.have.property('inventory')
 			expect(state, 'wallet').to.have.property('wallet')

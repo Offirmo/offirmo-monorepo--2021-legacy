@@ -6,7 +6,7 @@ import {
 	create_item_base,
 } from '@oh-my-rpg/definitions'
 
-import { LIB_ID, SCHEMA_VERSION } from './consts'
+import { LIB, SCHEMA_VERSION } from './consts'
 
 
 import {

@@ -4,7 +4,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const deepFreeze = require("deep-freeze-strict");
 /////////////////////
 const definitions_1 = require("@oh-my-rpg/definitions");
-const MetaState = require("@oh-my-rpg/state-meta");
 const CharacterState = require("@oh-my-rpg/state-character");
 const state_character_1 = require("@oh-my-rpg/state-character");
 const WalletState = require("@oh-my-rpg/state-wallet");
@@ -66,7 +65,6 @@ function create() {
     let state = {
         schema_version: consts_1.SCHEMA_VERSION,
         revision: 0,
-        meta: MetaState.create(),
         avatar: CharacterState.create(sec_1.get_SEC()),
         inventory: InventoryState.create(),
         wallet: WalletState.create(),
@@ -273,7 +271,6 @@ exports.DEMO_ADVENTURE_04 = DEMO_ADVENTURE_04;
 const DEMO_STATE = deepFreeze({
     schema_version: 4,
     revision: 203,
-    meta: MetaState.DEMO_STATE,
     avatar: CharacterState.DEMO_STATE,
     inventory: InventoryState.DEMO_STATE,
     wallet: WalletState.DEMO_STATE,
@@ -289,14 +286,6 @@ exports.DEMO_STATE = DEMO_STATE;
 const OLDEST_LEGACY_STATE_FOR_TESTS = deepFreeze({
     "schema_version": 4,
     "revision": 203,
-    "meta": {
-        "schema_version": 1,
-        "revision": 5,
-        "uuid": "uu1dgqu3h0FydqWyQ~6cYv3g",
-        "name": "Offirmo",
-        "email": "offirmo.net@gmail.com",
-        "allow_telemetry": false
-    },
     "avatar": {
         "schema_version": 2,
         "revision": 42,
@@ -431,7 +420,6 @@ exports.OLDEST_LEGACY_STATE_FOR_TESTS = OLDEST_LEGACY_STATE_FOR_TESTS;
 // some hints may be needed to migrate to demo state
 const MIGRATION_HINTS_FOR_TESTS = deepFreeze({
     to_v5: {},
-    meta: MetaState.MIGRATION_HINTS_FOR_TESTS,
     avatar: CharacterState.MIGRATION_HINTS_FOR_TESTS,
     inventory: InventoryState.MIGRATION_HINTS_FOR_TESTS,
     wallet: WalletState.MIGRATION_HINTS_FOR_TESTS,

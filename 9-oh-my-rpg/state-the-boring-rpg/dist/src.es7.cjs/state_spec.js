@@ -12,9 +12,8 @@ describe('⚔ 👑 😪  The Boring RPG - reducer', function () {
     describe('🆕  initial state', function () {
         it('should be correct', function () {
             const state = _1.create();
-            chai_1.expect(Object.keys(state)).to.have.lengthOf(11); // this test should be updated if that changes
+            chai_1.expect(Object.keys(state)).to.have.lengthOf(10); // this test should be updated if that changes
             // check presence of sub-states
-            chai_1.expect(state, 'meta').to.have.property('meta');
             chai_1.expect(state, 'avatar').to.have.property('avatar');
             chai_1.expect(state, 'inventory').to.have.property('inventory');
             chai_1.expect(state, 'wallet').to.have.property('wallet');

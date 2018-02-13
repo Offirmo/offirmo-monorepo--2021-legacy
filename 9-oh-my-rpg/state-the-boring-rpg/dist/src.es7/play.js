@@ -7,7 +7,7 @@ import * as WalletState from '@oh-my-rpg/state-wallet';
 import { Currency } from '@oh-my-rpg/state-wallet';
 import * as InventoryState from '@oh-my-rpg/state-inventory';
 import * as PRNGState from '@oh-my-rpg/state-prng';
-import { get_prng, } from '@oh-my-rpg/state-prng';
+import { get_prng, register_recently_used, regenerate_until_not_recently_encountered, } from '@oh-my-rpg/state-prng';
 import { create as create_weapon, enhance as enhance_weapon, MAX_ENHANCEMENT_LEVEL as MAX_WEAPON_ENHANCEMENT_LEVEL, } from '@oh-my-rpg/logic-weapons';
 import { create as create_armor, enhance as enhance_armor, MAX_ENHANCEMENT_LEVEL as MAX_ARMOR_ENHANCEMENT_LEVEL, } from '@oh-my-rpg/logic-armors';
 import { create as create_monster, } from '@oh-my-rpg/logic-monsters';
@@ -122,15 +122,29 @@ function receive_tokens(state, amount) {
     return state;
 }
 /////////////////////
+const ADVENTURE_NON_REPETITION_ID = 'adventure_archetype';
+function pick_random_non_repetitive_good_archetype(state, rng) {
+    let archetype;
+    regenerate_until_not_recently_encountered({
+        id: ADVENTURE_NON_REPETITION_ID,
+        generate: () => {
+            archetype = pick_random_good_archetype(rng);
+            return archetype.hid;
+        },
+        state: state.prng,
+    });
+    return archetype;
+}
 function play_good(state, explicit_adventure_archetype_hid) {
     state.good_click_count++;
     state.meaningful_interaction_count++;
     let rng = get_prng(state.prng);
     const aa = explicit_adventure_archetype_hid
         ? get_archetype(explicit_adventure_archetype_hid)
-        : pick_random_good_archetype(rng);
+        : pick_random_non_repetitive_good_archetype(state, rng);
     if (!aa)
         throw new Error(`play_good(): hinted adventure archetype "${explicit_adventure_archetype_hid}" could not be found!`);
+    state.prng = register_recently_used(state.prng, ADVENTURE_NON_REPETITION_ID, aa.hid, 7);
     const adventure = instantiate_adventure_archetype(rng, aa, state.avatar, state.inventory);
     state.last_adventure = adventure;
     const { gains: gained } = adventure;

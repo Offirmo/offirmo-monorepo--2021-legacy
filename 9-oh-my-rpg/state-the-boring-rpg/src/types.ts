@@ -5,7 +5,6 @@ import { Weapon } from '@oh-my-rpg/logic-weapons'
 import { Armor } from '@oh-my-rpg/logic-armors'
 import { Monster } from '@oh-my-rpg/logic-monsters'
 
-import { State as MetaState } from '@oh-my-rpg/state-meta'
 import { State as CharacterState } from '@oh-my-rpg/state-character'
 import { State as InventoryState } from '@oh-my-rpg/state-inventory'
 import { State as WalletState } from '@oh-my-rpg/state-wallet'
@@ -62,7 +61,6 @@ interface State {
 	schema_version: number
 	revision: number
 
-	meta: MetaState
 	avatar: CharacterState
 	inventory: InventoryState
 	wallet: WalletState

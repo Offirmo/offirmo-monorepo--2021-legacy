@@ -14,6 +14,7 @@ describe('🎲  Persistable PRNG state - reducer', function () {
                 revision: 0,
                 seed: _1.DEFAULT_SEED,
                 use_count: 0,
+                recently_encountered_by_id: {},
             });
         });
     });
@@ -55,16 +56,6 @@ describe('🎲  Persistable PRNG state - reducer', function () {
             prng = _1.get_prng(state);
             chai_1.expect(random_1.Random.integer(0, 10)(prng), 'random 3b').to.equal(7);
             chai_1.expect(random_1.Random.integer(0, 10)(prng), 'random 4b').to.equal(0);
-        });
-    });
-    describe('generate_random_seed', function () {
-        it('should return a random seed', function () {
-            const s1 = _1.generate_random_seed();
-            const s2 = _1.generate_random_seed();
-            const s3 = _1.generate_random_seed();
-            chai_1.expect(s1).not.to.equal(s2);
-            chai_1.expect(s1).not.to.equal(s3);
-            chai_1.expect(s2).not.to.equal(s3);
         });
     });
 });

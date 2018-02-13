@@ -10,9 +10,8 @@ describe('⚔ 👑 😪  The Boring RPG - reducer', function () {
     describe('🆕  initial state', function () {
         it('should be correct', function () {
             const state = create();
-            expect(Object.keys(state)).to.have.lengthOf(11); // this test should be updated if that changes
+            expect(Object.keys(state)).to.have.lengthOf(10); // this test should be updated if that changes
             // check presence of sub-states
-            expect(state, 'meta').to.have.property('meta');
             expect(state, 'avatar').to.have.property('avatar');
             expect(state, 'inventory').to.have.property('inventory');
             expect(state, 'wallet').to.have.property('wallet');

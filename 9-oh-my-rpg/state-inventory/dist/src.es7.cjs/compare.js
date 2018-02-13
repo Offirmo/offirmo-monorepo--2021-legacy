@@ -15,7 +15,7 @@ function compare_items(a, b) {
         case definitions_1.InventorySlot.weapon:
             return logic_weapons_1.compare_weapons_by_strength(a, b);
         default:
-            throw new Error(`${consts_1.LIB_ID}: compare(): unhandled item slot "${a.slot}"!`);
+            throw new Error(`${consts_1.LIB}: compare(): unhandled item slot "${a.slot}"!`);
     }
 }
 exports.compare_items = compare_items;

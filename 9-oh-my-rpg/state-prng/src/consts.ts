@@ -1,8 +1,8 @@
-const LIB_ID = '@oh-my-rpg/state-prng'
+const LIB = '@oh-my-rpg/state-prng'
 
-const SCHEMA_VERSION: number = 1
+const SCHEMA_VERSION: number = 2
 
 export {
-	LIB_ID,
+	LIB,
 	SCHEMA_VERSION,
 }

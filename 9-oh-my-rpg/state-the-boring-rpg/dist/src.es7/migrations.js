@@ -1,10 +1,9 @@
 /////////////////////
-import * as MetaState from '@oh-my-rpg/state-meta';
 import * as CharacterState from '@oh-my-rpg/state-character';
 import * as WalletState from '@oh-my-rpg/state-wallet';
 import * as InventoryState from '@oh-my-rpg/state-inventory';
 import * as PRNGState from '@oh-my-rpg/state-prng';
-import { LIB_ID, SCHEMA_VERSION } from './consts';
+import { LIB, SCHEMA_VERSION } from './consts';
 import { create, reseed } from './state';
 import { get_SEC } from './sec';
 /////////////////////
@@ -23,14 +22,14 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
         else {
             try {
                 // TODO logger
-                console.warn(`${LIB_ID}: attempting to migrate schema from v${src_version} to v${SCHEMA_VERSION}:`);
+                console.warn(`${LIB}: attempting to migrate schema from v${src_version} to v${SCHEMA_VERSION}:`);
                 state = migrate_to_4(SEC, legacy_state, hints);
-                console.info(`${LIB_ID}: schema migration successful.`);
+                console.info(`${LIB}: schema migration successful.`);
             }
             catch (err) {
                 // failed, reset all
                 // TODO send event upwards
-                console.error(`${LIB_ID}: failed migrating schema, performing full reset !`, err);
+                console.error(`${LIB}: failed migrating schema, performing full reset !`, err);
                 state = create();
             }
         }
@@ -38,7 +37,6 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
             state = reseed(state);
         }
         // migrate sub-reducers if any...
-        state.meta = MetaState.migrate_to_latest(state.meta, hints.meta);
         state.avatar = CharacterState.migrate_to_latest(SEC, state.avatar, hints.avatar);
         state.inventory = InventoryState.migrate_to_latest(state.inventory, hints.inventory);
         state.wallet = WalletState.migrate_to_latest(state.wallet, hints.wallet);

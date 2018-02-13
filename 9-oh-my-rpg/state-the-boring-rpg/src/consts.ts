@@ -1,10 +1,10 @@
-const LIB_ID = '@oh-my-rpg/state-the-boring-rpg'
+const LIB = '@oh-my-rpg/state-the-boring-rpg'
 
 const SCHEMA_VERSION: number = 4
-const GAME_VERSION: string = '0.9.0'
+const GAME_VERSION: string = '0.10.0' // for display purpose
 
 export {
-	LIB_ID,
+	LIB,
 	SCHEMA_VERSION,
 	GAME_VERSION,
 }

@@ -17,7 +17,7 @@ import {
 } from '@oh-my-rpg/logic-weapons'
 
 import {
-	LIB_ID,
+	LIB,
 } from './consts'
 
 /////////////////////
@@ -32,7 +32,7 @@ function compare_items(a: Item, b: Item): number {
 		case InventorySlot.weapon:
 			return compare_weapons_by_strength(a as Weapon, b as Weapon)
 		default:
-			throw new Error(`${LIB_ID}: compare(): unhandled item slot "${a.slot}"!`)
+			throw new Error(`${LIB}: compare(): unhandled item slot "${a.slot}"!`)
 	}
 }
 

@@ -92,6 +92,11 @@ const ENTRIES: RawAdventureArchetypeEntry[] = [
 	{ good: true, type: story, hid: 'wisdom_of_books',              outcome: { wisdom: true }},
 	{ good: true, type: story, hid: 'arrow_in_the_knee',            outcome: { wisdom: true }},
 	{ good: true, type: story, hid: 'square_eggs',                  outcome: { luck: true }},
+	{ good: true, type: story, hid: 'colossal_cave',                outcome: { armor_or_weapon: true, class_primary_attribute: true }},
+	{ good: true, type: story, hid: 'huge_tower',                   outcome: { armor_or_weapon: true, class_primary_attribute: true }},
+
+	{ good: true, type: story, hid: 'erika',                        outcome: { mana: true }},
+	{ good: true, type: story, hid: 'rachel',                       outcome: { strength: true }},
 
 ]
 

@@ -312,6 +312,24 @@ You feel enlightened: +{{attr}} wisdom!
 Deep in the jungle, you found the marvelous square eggs of the legendary fatu-liva bird!
 You cook an omelette, and gain +{{luck}} luck.
 		`,
+        colossal_cave: `
+You discover and explore a colossal cave! Undeads, goblins, balrogs...
+You emerge victoriously, with loot ({{item}}) and experience (+{{attr}} {{attr_name}})!
+		`,
+        huge_tower: `
+You discover and explore a huge tower. It's filled with mad wizards, cultists and golems.
+You reach the top and snatch some loot({{item}})
+then exit the tower, victorious and more experienced (+{{attr}} {{attr_name}})!
+		`,
+        // future followers
+        erika: `
+Exploring the Colossal Cave, you meet Erika, a powerful sorceress whose sensitive skin
+led her to live underground.
+She teaches you a new spell for money: +{{mana}} mana
+		`,
+        rachel: `
+Between to villages, you meet Rachel the 
+		`,
     }
 };
 const messages = {

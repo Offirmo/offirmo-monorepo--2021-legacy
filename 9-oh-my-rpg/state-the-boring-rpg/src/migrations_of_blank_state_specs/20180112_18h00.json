@@ -1,14 +1,6 @@
 {
 	"schema_version": 4,
 	"revision": 0,
-	"meta": {
-		"schema_version": 1,
-		"revision": 0,
-		"uuid": "uu1vEzKl5Q31YTOz28sN2pFg",
-		"name": "anonymous",
-		"email": null,
-		"allow_telemetry": true
-	},
 	"avatar": {
 		"schema_version": 2,
 		"revision": 0,

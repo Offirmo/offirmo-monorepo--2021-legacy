@@ -1,7 +1,6 @@
 "use strict";
 /////////////////////
 Object.defineProperty(exports, "__esModule", { value: true });
-const MetaState = require("@oh-my-rpg/state-meta");
 const CharacterState = require("@oh-my-rpg/state-character");
 const WalletState = require("@oh-my-rpg/state-wallet");
 const InventoryState = require("@oh-my-rpg/state-inventory");
@@ -25,14 +24,14 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
         else {
             try {
                 // TODO logger
-                console.warn(`${consts_1.LIB_ID}: attempting to migrate schema from v${src_version} to v${consts_1.SCHEMA_VERSION}:`);
+                console.warn(`${consts_1.LIB}: attempting to migrate schema from v${src_version} to v${consts_1.SCHEMA_VERSION}:`);
                 state = migrate_to_4(SEC, legacy_state, hints);
-                console.info(`${consts_1.LIB_ID}: schema migration successful.`);
+                console.info(`${consts_1.LIB}: schema migration successful.`);
             }
             catch (err) {
                 // failed, reset all
                 // TODO send event upwards
-                console.error(`${consts_1.LIB_ID}: failed migrating schema, performing full reset !`, err);
+                console.error(`${consts_1.LIB}: failed migrating schema, performing full reset !`, err);
                 state = state_1.create();
             }
         }
@@ -40,7 +39,6 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
             state = state_1.reseed(state);
         }
         // migrate sub-reducers if any...
-        state.meta = MetaState.migrate_to_latest(state.meta, hints.meta);
         state.avatar = CharacterState.migrate_to_latest(SEC, state.avatar, hints.avatar);
         state.inventory = InventoryState.migrate_to_latest(state.inventory, hints.inventory);
         state.wallet = WalletState.migrate_to_latest(state.wallet, hints.wallet);

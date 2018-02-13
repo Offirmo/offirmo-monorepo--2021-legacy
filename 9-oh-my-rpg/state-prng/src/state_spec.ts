@@ -2,7 +2,7 @@ import { expect } from 'chai'
 
 import { Random, Engine } from '@offirmo/random'
 
-import { LIB_ID, SCHEMA_VERSION } from './consts'
+import { LIB, SCHEMA_VERSION } from './consts'
 
 import {
 	DEFAULT_SEED,
@@ -31,6 +31,8 @@ describe('🎲  Persistable PRNG state - reducer', function() {
 
 				seed: DEFAULT_SEED,
 				use_count: 0,
+
+				recently_encountered_by_id: {},
 			})
 		})
 	})
@@ -85,19 +87,6 @@ describe('🎲  Persistable PRNG state - reducer', function() {
 			prng = get_prng(state)
 			expect(Random.integer(0, 10)(prng), 'random 3b').to.equal(7)
 			expect(Random.integer(0, 10)(prng), 'random 4b').to.equal(0)
-		})
-	})
-
-	describe('generate_random_seed', function() {
-
-		it('should return a random seed', function () {
-			const s1 = generate_random_seed()
-			const s2 = generate_random_seed()
-			const s3 = generate_random_seed()
-
-			expect(s1).not.to.equal(s2)
-			expect(s1).not.to.equal(s3)
-			expect(s2).not.to.equal(s3)
 		})
 	})
 })

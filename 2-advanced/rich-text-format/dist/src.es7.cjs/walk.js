@@ -49,7 +49,7 @@ function walk_content($node, callbacks, state, depth) {
     state = split1.reduce((state, paramAndText) => {
         const split2 = paramAndText.split('}}');
         if (split2.length !== 2)
-            throw new Error(`${consts_1.LIB_ID}: syntax error in content "${$content}"!`);
+            throw new Error(`${consts_1.LIB}: syntax error in content "${$content}"!`);
         const [sub_node_id, ...$filters] = split2.shift().split('|');
         /*
         state = callbacks.on_sub_node_id({
@@ -65,7 +65,7 @@ function walk_content($node, callbacks, state, depth) {
         if (!$sub_node && sub_node_id === 'hr')
             $sub_node = SUB_NODE_HR;
         if (!$sub_node)
-            throw new Error(`${consts_1.LIB_ID}: syntax error in content "${$content}", it's referring to an unknown sub-node "${sub_node_id}"!`);
+            throw new Error(`${consts_1.LIB}: syntax error in content "${$content}", it's referring to an unknown sub-node "${sub_node_id}"!`);
         let sub_state = walk($sub_node, callbacks, {
             $parent_node: $node,
             $id: sub_node_id,

@@ -5,7 +5,7 @@ const messages = {
             'belt': 'belt',
             'boots': 'boots',
             'bracers': 'bracers',
-            'breatplate': 'breatplate',
+            'breastplate': 'breastplate',
             'cape': 'cape',
             'cloak': 'cloak',
             'crown': 'crown',

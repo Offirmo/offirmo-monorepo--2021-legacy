@@ -1,15 +1,15 @@
 "use strict";
 
-const LIB_ID = 'the-boring-rpg'
+const LIB = 'the-boring-rpg'
 
 const SCHEMA_VERSION = 1
 
 const LS_KEYS = {
-	savegame: `${LIB_ID}.savegame`,
+	savegame: `${LIB}.savegame`,
 }
 
 export {
-	LIB_ID,
+	LIB,
 	SCHEMA_VERSION,
 	LS_KEYS,
 }

@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 
-import { LIB_ID, SCHEMA_VERSION } from './consts'
+import { LIB, SCHEMA_VERSION } from './consts'
 
 import {
 	State,

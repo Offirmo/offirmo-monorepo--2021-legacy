@@ -1,4 +1,4 @@
-import { LIB_ID as LIB, SCHEMA_VERSION } from './consts';
+import { LIB, SCHEMA_VERSION } from './consts';
 import { NodeType, } from './types';
 function normalize_node($raw_node) {
     const { $v = 1, $type = NodeType.span, $classes = [], $content = '', $sub = {}, $hints = {}, } = $raw_node;

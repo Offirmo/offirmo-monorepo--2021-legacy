@@ -23,7 +23,6 @@
 		"@oh-my-rpg/migration-tester": "^0.0.1",
 		"@oh-my-rpg/state-character": "^0.0.1",
 		"@oh-my-rpg/state-inventory": "^0.0.1",
-		"@oh-my-rpg/state-meta": "^0.0.1",
 		"@oh-my-rpg/state-prng": "^0.0.1",
 		"@oh-my-rpg/state-wallet": "^0.0.1",
 		"@types/lodash": "^4.14.92",

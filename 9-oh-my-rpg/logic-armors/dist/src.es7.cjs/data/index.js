@@ -10,7 +10,7 @@ const ENTRIES = [
     { type: 'base', hid: 'belt' },
     { type: 'base', hid: 'boots' },
     { type: 'base', hid: 'bracers' },
-    { type: 'base', hid: 'breatplate' },
+    { type: 'base', hid: 'breastplate' },
     { type: 'base', hid: 'cloak' },
     { type: 'base', hid: 'crown' },
     { type: 'base', hid: 'gauntlets' },
