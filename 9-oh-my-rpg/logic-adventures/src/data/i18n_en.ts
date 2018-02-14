@@ -453,6 +453,21 @@ Between to villages, you meet Rachel the
 		
 		// village of Spuddy
 		http://www.joshuawright.net/slack-wyrm-042.html
+		
+		// http://www.joshuawright.net/slack-wyrm-059.html
+		// Zizok the wizard
+		
+	// they weren't my friends,they were just using mefor my spells
+		// http://www.joshuawright.net/slack-wyrm-066.html
+		// dragon stole the wedding cake
+		
+		// http://www.joshuawright.net/slack-wyrm-072.html
+		// Linda Greenslime
+		
+		//the country of Doily
+		// 99
+		
+		
 	}
 }
 
