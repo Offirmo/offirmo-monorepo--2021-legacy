@@ -430,6 +430,29 @@ Between to villages, you meet Rachel the
 		 */
 		// get rid of them, not slaughter them all
 		// meteorite
+		
+		// slacwirm
+		
+		// http://www.joshuawright.net/slack-wyrm-012.html
+		// "I am the Wise Wisewood Tree and I ossess uncanny wisdom
+		
+		// http://www.joshuawright.net/slack-wyrm-017.html
+		//you the dragon having tea with the rabbits His reputatinis crushed.
+		
+		// http://www.joshuawright.net/slack-wyrm-026.html
+		// the giant eye of Agoroth
+		
+		// http://www.joshuawright.net/slack-wyrm-030.html
+		
+		// pincess with woodland friends
+		// having to spot thereal princess
+		// http://www.joshuawright.net/slack-wyrm-031.html
+		
+		// hallowed dragonspear
+		// http://www.joshuawright.net/slack-wyrm-034.html
+		
+		// village of Spuddy
+		http://www.joshuawright.net/slack-wyrm-042.html
 	}
 }
 
