@@ -30,7 +30,8 @@ class Chat extends React.Component {
 		super(props)
 
 		this.state = {
-			bubbles: [],
+			bubble_key: this.props.initial_bubbles.length + 1,
+			bubbles: this.props.initial_bubbles, // TODO rekey 0-N
 			spinning: false,
 			progressing: false,
 			progress_value: 0,
@@ -43,17 +44,22 @@ class Chat extends React.Component {
 	addBubble(element, {before_mount = false, direction = 'ltr'} = {}) {
 		if (!element) return
 
-		const key = this.state.bubbles.length + 1
+		const key = this.state.bubble_key + 1
 		const bubble = (
 			<ChatBubble key={key} direction={direction}>
 				{element}
 			</ChatBubble>
 		)
 
-		if (before_mount)
+		if (before_mount) {
 			this.state.bubbles.push(bubble)
+			this.state.bubble_key++
+		}
 		else
-			this.setState(state => ({ bubbles: state.bubbles.concat(bubble) }))
+			this.setState(state => ({
+				bubbles: state.bubbles.concat(bubble).slice(-this.props.max_displayed_bubbles),
+				bubble_key: state.bubble_key + 1,
+			}))
 	}
 
 	componentWillMount() {
@@ -235,6 +241,11 @@ class Chat extends React.Component {
 		return true // optimisation possible
 	}
 */
+	componentWillUnmount () {
+		console.info('~~ componentWillUnmount', arguments)
+
+		this.props.on_unmount(this.state.bubbles)
+	}
 
 	render() {
 		const spinner = this.state.spinning && <div className="chat__spinner" />
@@ -271,6 +282,12 @@ class Chat extends React.Component {
 			</AutoScrollDown>
 		)
 	}
+}
+
+Chat.defaultProps = {
+	max_displayed_bubbles: 20,
+	on_unmount: () => {},
+	initial_bubbles: [],
 }
 
 export {

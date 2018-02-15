@@ -10454,7 +10454,7 @@ const LIB = '@oh-my-rpg/state-the-boring-rpg';
 exports.LIB = LIB;
 const SCHEMA_VERSION = 4;
 exports.SCHEMA_VERSION = SCHEMA_VERSION;
-const GAME_VERSION = '0.9.0';
+const GAME_VERSION = '0.10.0';
 exports.GAME_VERSION = GAME_VERSION;
 //# sourceMappingURL=consts.js.map
 
@@ -15328,7 +15328,8 @@ var Chat = function (_React$Component) {
 		var _this = _possibleConstructorReturn(this, (Chat.__proto__ || Object.getPrototypeOf(Chat)).call(this, props));
 
 		_this.state = {
-			bubbles: [],
+			bubble_key: _this.props.initial_bubbles.length + 1,
+			bubbles: _this.props.initial_bubbles, // TODO rekey 0-N
 			spinning: false,
 			progressing: false,
 			progress_value: 0,
@@ -15342,6 +15343,8 @@ var Chat = function (_React$Component) {
 	_createClass(Chat, [{
 		key: 'addBubble',
 		value: function addBubble(element) {
+			var _this2 = this;
+
 			var _ref2 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
 			    _ref2$before_mount = _ref2.before_mount,
 			    before_mount = _ref2$before_mount === undefined ? false : _ref2$before_mount,
@@ -15350,21 +15353,27 @@ var Chat = function (_React$Component) {
 
 			if (!element) return;
 
-			var key = this.state.bubbles.length + 1;
+			var key = this.state.bubble_key + 1;
 			var bubble = _react2.default.createElement(
 				ChatBubble,
 				{ key: key, direction: direction },
 				element
 			);
 
-			if (before_mount) this.state.bubbles.push(bubble);else this.setState(function (state) {
-				return { bubbles: state.bubbles.concat(bubble) };
+			if (before_mount) {
+				this.state.bubbles.push(bubble);
+				this.state.bubble_key++;
+			} else this.setState(function (state) {
+				return {
+					bubbles: state.bubbles.concat(bubble).slice(-_this2.props.max_displayed_bubbles),
+					bubble_key: state.bubble_key + 1
+				};
 			});
 		}
 	}, {
 		key: 'componentWillMount',
 		value: function componentWillMount() {
-			var _this2 = this;
+			var _this3 = this;
 
 			if (!this.props.gen_next_step) return;
 
@@ -15400,14 +15409,14 @@ var Chat = function (_React$Component) {
 
 								case 9:
 
-									_this2.addBubble(msg, { direction: direction });
+									_this3.addBubble(msg, { direction: direction });
 
 								case 10:
 								case 'end':
 									return _context.stop();
 							}
 						}
-					}, _callee, _this2);
+					}, _callee, _this3);
 				}));
 
 				return function display_message(_x2) {
@@ -15416,11 +15425,11 @@ var Chat = function (_React$Component) {
 			}();
 
 			var spin_until_resolution = function spin_until_resolution(anything) {
-				_this2.setState(function (s) {
+				_this3.setState(function (s) {
 					spinning: true;
 				});
 				return promiseFinally(Promise.resolve(anything), function () {
-					return _this2.setState(function (s) {
+					return _this3.setState(function (s) {
 						spinning: false;
 					});
 				});
@@ -15444,7 +15453,7 @@ var Chat = function (_React$Component) {
 						while (1) {
 							switch (_context2.prev = _context2.next) {
 								case 0:
-									_this2.setState(function (state) {
+									_this3.setState(function (state) {
 										return { progressing: true };
 									});
 
@@ -15455,7 +15464,7 @@ var Chat = function (_React$Component) {
 
 									if (progress_promise.onProgress) {
 										progress_promise.onProgress(function (progress_value) {
-											_this2.setState(function (state) {
+											_this3.setState(function (state) {
 												return { progress_value: progress_value };
 											});
 										});
@@ -15466,7 +15475,7 @@ var Chat = function (_React$Component) {
 									}, function () {
 										return false;
 									}).then(function (success) {
-										_this2.setState(function (state) {
+										_this3.setState(function (state) {
 											return {
 												progress_value: 0,
 												progressing: false
@@ -15475,7 +15484,7 @@ var Chat = function (_React$Component) {
 
 										var final_msg = msgg_acknowledge ? msgg_acknowledge(success) : 'Done.';
 
-										_this2.setState(function (state) {
+										_this3.setState(function (state) {
 											return { bubbles: state.bubbles.slice(0, -1) };
 										});
 
@@ -15499,7 +15508,7 @@ var Chat = function (_React$Component) {
 									return _context2.stop();
 							}
 						}
-					}, _callee2, _this2);
+					}, _callee2, _this3);
 				}));
 
 				return function display_progress() {
@@ -15511,14 +15520,14 @@ var Chat = function (_React$Component) {
 				if (DEBUG) console.log('\u2198 read_string()', step);
 
 				return new Promise(function (resolve) {
-					_this2.setState(function (state) {
+					_this3.setState(function (state) {
 						return {
 							reading_string: true,
 							input_resolve_fn: resolve
 						};
 					});
 				}).then(function (raw_answer) {
-					_this2.setState(function (state) {
+					_this3.setState(function (state) {
 						return {
 							reading_string: false,
 							input_resolve_fn: null
@@ -15547,7 +15556,7 @@ var Chat = function (_React$Component) {
 									if (DEBUG) console.log('↘ read_choice()');
 
 									return _context4.abrupt('return', new Promise(function (resolve) {
-										_this2.setState(function (state) {
+										_this3.setState(function (state) {
 											return {
 												choices: step.choices.map(function (choice, index) {
 													return _react2.default.createElement(
@@ -15572,7 +15581,7 @@ var Chat = function (_React$Component) {
 													switch (_context3.prev = _context3.next) {
 														case 0:
 
-															_this2.setState(function (state) {
+															_this3.setState(function (state) {
 																return {
 																	choices: []
 																};
@@ -15595,7 +15604,7 @@ var Chat = function (_React$Component) {
 															return _context3.stop();
 													}
 												}
-											}, _callee3, _this2);
+											}, _callee3, _this3);
 										}));
 
 										return function (_x5) {
@@ -15608,7 +15617,7 @@ var Chat = function (_React$Component) {
 									return _context4.stop();
 							}
 						}
-					}, _callee4, _this2);
+					}, _callee4, _this3);
 				}));
 
 				return function read_choice(_x4) {
@@ -15641,7 +15650,7 @@ var Chat = function (_React$Component) {
 									return _context5.stop();
 							}
 						}
-					}, _callee5, _this2);
+					}, _callee5, _this3);
 				}));
 
 				return function read_answer(_x6) {
@@ -15678,9 +15687,16 @@ var Chat = function (_React$Component) {
   */
 
 	}, {
+		key: 'componentWillUnmount',
+		value: function componentWillUnmount() {
+			console.info('~~ componentWillUnmount', arguments);
+
+			this.props.on_unmount(this.state.bubbles);
+		}
+	}, {
 		key: 'render',
 		value: function render() {
-			var _this3 = this;
+			var _this4 = this;
 
 			var spinner = this.state.spinning && _react2.default.createElement('div', { className: 'chat__spinner' });
 			var progress_bar = this.state.progressing && _react2.default.createElement(
@@ -15698,7 +15714,7 @@ var Chat = function (_React$Component) {
 				_react2.default.createElement('input', { type: 'text',
 					className: 'chat__input',
 					ref: function ref(el) {
-						return _this3.input = el;
+						return _this4.input = el;
 					}
 				}),
 				_react2.default.createElement(
@@ -15706,7 +15722,7 @@ var Chat = function (_React$Component) {
 					{ type: 'button',
 						className: 'chat__button',
 						onClick: function onClick() {
-							return _this3.state.input_resolve_fn(_this3.input.value);
+							return _this4.state.input_resolve_fn(_this4.input.value);
 						}
 					},
 					'\u21A9'
@@ -15736,6 +15752,12 @@ var Chat = function (_React$Component) {
 
 	return Chat;
 }(_react2.default.Component);
+
+Chat.defaultProps = {
+	max_displayed_bubbles: 20,
+	on_unmount: function on_unmount() {},
+	initial_bubbles: []
+};
 
 exports.ChatBubble = ChatBubble;
 exports.Chat = Chat;
@@ -56519,7 +56541,7 @@ const i18n_messages = {
     en: i18n_en_1.messages
 };
 exports.i18n_messages = i18n_messages;
-const ENTRIES = [{ type: 'base', hid: 'armguards' }, { type: 'base', hid: 'belt' }, { type: 'base', hid: 'boots' }, { type: 'base', hid: 'bracers' }, { type: 'base', hid: 'breatplate' }, { type: 'base', hid: 'cloak' }, { type: 'base', hid: 'crown' }, { type: 'base', hid: 'gauntlets' }, { type: 'base', hid: 'gloves' }, { type: 'base', hid: 'greaves' }, { type: 'base', hid: 'hat' }, { type: 'base', hid: 'helmet' }, { type: 'base', hid: 'leggings' }, { type: 'base', hid: 'mantle' }, { type: 'base', hid: 'pants' }, { type: 'base', hid: 'robe' }, { type: 'base', hid: 'shield' }, { type: 'base', hid: 'shoes' }, { type: 'base', hid: 'shoulders' }, { type: 'base', hid: 'socks' }, { type: 'qualifier1', hid: 'bone' }, { type: 'qualifier1', hid: 'brass' }, { type: 'qualifier1', hid: 'embroidered' }, { type: 'qualifier1', hid: 'cardboard' }, { type: 'qualifier1', hid: 'composite' }, { type: 'qualifier1', hid: 'consecrated' }, { type: 'qualifier1', hid: 'crafted' }, { type: 'qualifier1', hid: 'cursed' }, { type: 'qualifier1', hid: 'emerald' }, { type: 'qualifier1', hid: 'engraved' }, { type: 'qualifier1', hid: 'golden' }, { type: 'qualifier1', hid: 'heavy' }, { type: 'qualifier1', hid: 'holy' }, { type: 'qualifier1', hid: 'invincible' }, { type: 'qualifier1', hid: 'iron' }, { type: 'qualifier1', hid: 'jade' }, { type: 'qualifier1', hid: 'light' }, { type: 'qualifier1', hid: 'mechanical' }, { type: 'qualifier1', hid: 'mysterious' }, { type: 'qualifier1', hid: 'old' }, { type: 'qualifier1', hid: 'onyx' }, { type: 'qualifier1', hid: 'powerful' }, { type: 'qualifier1', hid: 'practical' }, { type: 'qualifier1', hid: 'proven' }, { type: 'qualifier1', hid: 'robust' }, { type: 'qualifier1', hid: 'sapphire' }, { type: 'qualifier1', hid: 'scale' }, { type: 'qualifier1', hid: 'silver' }, { type: 'qualifier1', hid: 'simple' }, { type: 'qualifier1', hid: 'skeleton' }, { type: 'qualifier1', hid: 'solid' }, { type: 'qualifier1', hid: 'steel' }, { type: 'qualifier1', hid: 'strange' }, { type: 'qualifier1', hid: 'subtile' }, { type: 'qualifier1', hid: 'swift' }, { type: 'qualifier1', hid: 'unwavering' }, { type: 'qualifier1', hid: 'used' }, { type: 'qualifier1', hid: 'wooden' }, { type: 'qualifier2', hid: 'ancients' }, { type: 'qualifier2', hid: 'apprentice' }, { type: 'qualifier2', hid: 'beginner' }, { type: 'qualifier2', hid: 'brave' }, { type: 'qualifier2', hid: 'conqueror' }, { type: 'qualifier2', hid: 'cruel_tyrant' }, { type: 'qualifier2', hid: 'defender' }, { type: 'qualifier2', hid: 'destructor' }, { type: 'qualifier2', hid: 'dwarven' }, { type: 'qualifier2', hid: 'elite' }, { type: 'qualifier2', hid: 'elven' }, { type: 'qualifier2', hid: 'expert' }, { type: 'qualifier2', hid: 'explorer' }, { type: 'qualifier2', hid: 'gladiator' }, { type: 'qualifier2', hid: 'goddess' }, { type: 'qualifier2', hid: 'guard' }, { type: 'qualifier2', hid: 'judgement' }, { type: 'qualifier2', hid: 'king' }, { type: 'qualifier2', hid: 'mediator' }, { type: 'qualifier2', hid: 'mercenary' }, { type: 'qualifier2', hid: 'militia' }, { type: 'qualifier2', hid: 'nightmare' }, { type: 'qualifier2', hid: 'noble' }, { type: 'qualifier2', hid: 'noob' }, { type: 'qualifier2', hid: 'pilgrim' }, { type: 'qualifier2', hid: 'pioneer' }, { type: 'qualifier2', hid: 'profane' }, { type: 'qualifier2', hid: 'sorcerer' }, { type: 'qualifier2', hid: 'tormentor' }, { type: 'qualifier2', hid: 'training' }, { type: 'qualifier2', hid: 'twink' }, { type: 'qualifier2', hid: 'tyrant' }, { type: 'qualifier2', hid: 'upholder' }, { type: 'qualifier2', hid: 'warfield_king' }, { type: 'qualifier2', hid: 'warfield' }, { type: 'qualifier2', hid: 'warrior' }, { type: 'qualifier2', hid: 'wise' }];
+const ENTRIES = [{ type: 'base', hid: 'armguards' }, { type: 'base', hid: 'belt' }, { type: 'base', hid: 'boots' }, { type: 'base', hid: 'bracers' }, { type: 'base', hid: 'breastplate' }, { type: 'base', hid: 'cloak' }, { type: 'base', hid: 'crown' }, { type: 'base', hid: 'gauntlets' }, { type: 'base', hid: 'gloves' }, { type: 'base', hid: 'greaves' }, { type: 'base', hid: 'hat' }, { type: 'base', hid: 'helmet' }, { type: 'base', hid: 'leggings' }, { type: 'base', hid: 'mantle' }, { type: 'base', hid: 'pants' }, { type: 'base', hid: 'robe' }, { type: 'base', hid: 'shield' }, { type: 'base', hid: 'shoes' }, { type: 'base', hid: 'shoulders' }, { type: 'base', hid: 'socks' }, { type: 'qualifier1', hid: 'bone' }, { type: 'qualifier1', hid: 'brass' }, { type: 'qualifier1', hid: 'embroidered' }, { type: 'qualifier1', hid: 'cardboard' }, { type: 'qualifier1', hid: 'composite' }, { type: 'qualifier1', hid: 'consecrated' }, { type: 'qualifier1', hid: 'crafted' }, { type: 'qualifier1', hid: 'cursed' }, { type: 'qualifier1', hid: 'emerald' }, { type: 'qualifier1', hid: 'engraved' }, { type: 'qualifier1', hid: 'golden' }, { type: 'qualifier1', hid: 'heavy' }, { type: 'qualifier1', hid: 'holy' }, { type: 'qualifier1', hid: 'invincible' }, { type: 'qualifier1', hid: 'iron' }, { type: 'qualifier1', hid: 'jade' }, { type: 'qualifier1', hid: 'light' }, { type: 'qualifier1', hid: 'mechanical' }, { type: 'qualifier1', hid: 'mysterious' }, { type: 'qualifier1', hid: 'old' }, { type: 'qualifier1', hid: 'onyx' }, { type: 'qualifier1', hid: 'powerful' }, { type: 'qualifier1', hid: 'practical' }, { type: 'qualifier1', hid: 'proven' }, { type: 'qualifier1', hid: 'robust' }, { type: 'qualifier1', hid: 'sapphire' }, { type: 'qualifier1', hid: 'scale' }, { type: 'qualifier1', hid: 'silver' }, { type: 'qualifier1', hid: 'simple' }, { type: 'qualifier1', hid: 'skeleton' }, { type: 'qualifier1', hid: 'solid' }, { type: 'qualifier1', hid: 'steel' }, { type: 'qualifier1', hid: 'strange' }, { type: 'qualifier1', hid: 'subtile' }, { type: 'qualifier1', hid: 'swift' }, { type: 'qualifier1', hid: 'unwavering' }, { type: 'qualifier1', hid: 'used' }, { type: 'qualifier1', hid: 'wooden' }, { type: 'qualifier2', hid: 'ancients' }, { type: 'qualifier2', hid: 'apprentice' }, { type: 'qualifier2', hid: 'beginner' }, { type: 'qualifier2', hid: 'brave' }, { type: 'qualifier2', hid: 'conqueror' }, { type: 'qualifier2', hid: 'cruel_tyrant' }, { type: 'qualifier2', hid: 'defender' }, { type: 'qualifier2', hid: 'destructor' }, { type: 'qualifier2', hid: 'dwarven' }, { type: 'qualifier2', hid: 'elite' }, { type: 'qualifier2', hid: 'elven' }, { type: 'qualifier2', hid: 'expert' }, { type: 'qualifier2', hid: 'explorer' }, { type: 'qualifier2', hid: 'gladiator' }, { type: 'qualifier2', hid: 'goddess' }, { type: 'qualifier2', hid: 'guard' }, { type: 'qualifier2', hid: 'judgement' }, { type: 'qualifier2', hid: 'king' }, { type: 'qualifier2', hid: 'mediator' }, { type: 'qualifier2', hid: 'mercenary' }, { type: 'qualifier2', hid: 'militia' }, { type: 'qualifier2', hid: 'nightmare' }, { type: 'qualifier2', hid: 'noble' }, { type: 'qualifier2', hid: 'noob' }, { type: 'qualifier2', hid: 'pilgrim' }, { type: 'qualifier2', hid: 'pioneer' }, { type: 'qualifier2', hid: 'profane' }, { type: 'qualifier2', hid: 'sorcerer' }, { type: 'qualifier2', hid: 'tormentor' }, { type: 'qualifier2', hid: 'training' }, { type: 'qualifier2', hid: 'twink' }, { type: 'qualifier2', hid: 'tyrant' }, { type: 'qualifier2', hid: 'upholder' }, { type: 'qualifier2', hid: 'warfield_king' }, { type: 'qualifier2', hid: 'warfield' }, { type: 'qualifier2', hid: 'warrior' }, { type: 'qualifier2', hid: 'wise' }];
 exports.ENTRIES = ENTRIES;
 //# sourceMappingURL=index.js.map
 
@@ -56538,7 +56560,7 @@ const messages = {
             'belt': 'belt',
             'boots': 'boots',
             'bracers': 'bracers',
-            'breatplate': 'breatplate',
+            'breastplate': 'breastplate',
             'cape': 'cape',
             'cloak': 'cloak',
             'crown': 'crown',
@@ -58139,12 +58161,26 @@ function receive_tokens(state, amount) {
     return state;
 }
 /////////////////////
+const ADVENTURE_NON_REPETITION_ID = 'adventure_archetype';
+function pick_random_non_repetitive_good_archetype(state, rng) {
+    let archetype;
+    state_prng_1.regenerate_until_not_recently_encountered({
+        id: ADVENTURE_NON_REPETITION_ID,
+        generate: () => {
+            archetype = logic_adventures_1.pick_random_good_archetype(rng);
+            return archetype.hid;
+        },
+        state: state.prng
+    });
+    return archetype;
+}
 function play_good(state, explicit_adventure_archetype_hid) {
     state.good_click_count++;
     state.meaningful_interaction_count++;
     let rng = state_prng_1.get_prng(state.prng);
-    const aa = explicit_adventure_archetype_hid ? logic_adventures_1.get_archetype(explicit_adventure_archetype_hid) : logic_adventures_1.pick_random_good_archetype(rng);
+    const aa = explicit_adventure_archetype_hid ? logic_adventures_1.get_archetype(explicit_adventure_archetype_hid) : pick_random_non_repetitive_good_archetype(state, rng);
     if (!aa) throw new Error(`play_good(): hinted adventure archetype "${explicit_adventure_archetype_hid}" could not be found!`);
+    state.prng = state_prng_1.register_recently_used(state.prng, ADVENTURE_NON_REPETITION_ID, aa.hid, 7);
     const adventure = instantiate_adventure_archetype(rng, aa, state.avatar, state.inventory);
     state.last_adventure = adventure;
     const { gains: gained } = adventure;
@@ -63282,10 +63318,23 @@ var HomeBase = function (_React$Component) {
 	}, {
 		key: 'render',
 		value: function render() {
+			var _this3 = this;
+
+			var client_state = this.props.instance.get_client_state();
 			return _react2.default.createElement(
 				'div',
 				{ className: 'page page--home' },
-				_react2.default.createElement(_chatInterface.Chat, { gen_next_step: this.gen_next_step() })
+				_react2.default.createElement(_chatInterface.Chat, {
+					initial_bubbles: client_state.home_bubbles,
+					gen_next_step: this.gen_next_step(),
+					on_unmount: function on_unmount(bubbles) {
+						_this3.props.instance.set_client_state(function (client_state) {
+							return {
+								home_bubbles: bubbles
+							};
+						});
+					}
+				})
 			);
 		}
 	}]);

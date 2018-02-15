@@ -430,6 +430,12 @@ Between to villages, you meet Rachel the
 		 */
 		// get rid of them, not slaughter them all
 		// meteorite
+
+		// coolidge
+		// persistence and determination win over talent,genius and skills
+
+		// knowing is half the battle
+
 	}
 }
 

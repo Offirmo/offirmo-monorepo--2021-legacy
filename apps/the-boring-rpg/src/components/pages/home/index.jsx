@@ -116,9 +116,18 @@ class HomeBase extends React.Component {
 	}
 
 	render() {
+		const client_state = this.props.instance.get_client_state()
 		return (
 			<div className={'page page--home'}>
-				<Chat gen_next_step={this.gen_next_step()} />
+				<Chat
+					initial_bubbles={client_state.home_bubbles}
+					gen_next_step={this.gen_next_step()}
+					on_unmount={(bubbles) => {
+						this.props.instance.set_client_state(client_state => ({
+							home_bubbles: bubbles,
+						}))
+					}}
+				/>
 			</div>
 		)
 	}
