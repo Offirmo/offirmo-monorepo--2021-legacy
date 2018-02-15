@@ -436,6 +436,43 @@ Between to villages, you meet Rachel the
 
 		// knowing is half the battle
 
+		// slacwirm
+
+		// http://www.joshuawright.net/slack-wyrm-012.html
+		// "I am the Wise Wisewood Tree and I ossess uncanny wisdom
+
+		// http://www.joshuawright.net/slack-wyrm-017.html
+		//you the dragon having tea with the rabbits His reputatinis crushed.
+
+		// http://www.joshuawright.net/slack-wyrm-026.html
+		// the giant eye of Agoroth
+
+		// http://www.joshuawright.net/slack-wyrm-030.html
+
+		// pincess with woodland friends
+		// having to spot thereal princess
+		// http://www.joshuawright.net/slack-wyrm-031.html
+
+		// hallowed dragonspear
+		// http://www.joshuawright.net/slack-wyrm-034.html
+
+		// village of Spuddy
+		http://www.joshuawright.net/slack-wyrm-042.html
+
+		// http://www.joshuawright.net/slack-wyrm-059.html
+		// Zizok the wizard
+
+	// they weren't my friends,they were just using mefor my spells
+		// http://www.joshuawright.net/slack-wyrm-066.html
+		// dragon stole the wedding cake
+
+		// http://www.joshuawright.net/slack-wyrm-072.html
+		// Linda Greenslime
+
+		//the country of Doily
+		// 99
+
+
 	}
 }
 
