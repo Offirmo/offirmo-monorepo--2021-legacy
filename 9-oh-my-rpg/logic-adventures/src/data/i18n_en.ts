@@ -472,6 +472,15 @@ Between to villages, you meet Rachel the
 		//the country of Doily
 		// 99
 
+		
+		// http://www.joshuawright.net/slack-wyrm-158.html
+		// The sulking swamp
+		// butthurt bog
+		// 
+		
+		// warsong
+		// peace song
+		
 
 	}
 }
