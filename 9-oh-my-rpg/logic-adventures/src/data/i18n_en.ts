@@ -323,19 +323,19 @@ This is a curious but effective training: +{{attr}} {{attr_name}}!
 
 		// famous stones
 		famous_stone_ruby: `
-In a lost city, you looted the famous striped candy-pink ruby!
+In a lost city, you looted the famous lost striped candy-pink ruby!
 Your fame increases: +{{charisma}} charisma, +{{token}} tokens.
 		`,
 		famous_stone_diamond: `
-In a meteor crater, you looted an incredible black diamond!
+In a meteor crater, you looted an incredible rare black diamond!
 Your wisdom increases: +{{wisdom}} wisdom, +{{token}} tokens.
 		`,
 		famous_stone_sapphire: `
-In a secret cave below the ocean, you looted the sapphire of Atlantis!
+In a secret cave below the ocean, you looted the forgotten sapphire of Atlantis!
 Your mana increases: +{{mana}} mana, +{{token}} tokens.
 		`,
 		famous_stone_emerald: `
-On a lost altar deep in the jungle, you looted the emerald of shapeshifting!
+On a lost altar deep in the jungle, you looted the mysterious emerald of Shapeshifting!
 Your agility increases: +{{agility}} agility, +{{token}} tokens.
 		`,
 
@@ -394,7 +394,7 @@ She teaches you a new spell for money: +{{mana}} mana
 		`,
 
 		rachel: `
-Between to villages, you meet Rachel the 
+Between to villages, you meet Rachel the washer wench
 		`,
 
 
@@ -457,12 +457,12 @@ Between to villages, you meet Rachel the
 		// http://www.joshuawright.net/slack-wyrm-034.html
 
 		// village of Spuddy
-		http://www.joshuawright.net/slack-wyrm-042.html
+		// http://www.joshuawright.net/slack-wyrm-042.html
 
 		// http://www.joshuawright.net/slack-wyrm-059.html
 		// Zizok the wizard
 
-	// they weren't my friends,they were just using mefor my spells
+		// they weren't my friends,they were just using mefor my spells
 		// http://www.joshuawright.net/slack-wyrm-066.html
 		// dragon stole the wedding cake
 
@@ -471,7 +471,6 @@ Between to villages, you meet Rachel the
 
 		//the country of Doily
 		// 99
-
 
 	}
 }
