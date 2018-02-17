@@ -436,7 +436,7 @@ Between to villages, you meet Rachel the washer wench
 
 		// knowing is half the battle
 
-		// slacwirm
+		// slackwirm
 
 		// http://www.joshuawright.net/slack-wyrm-012.html
 		// "I am the Wise Wisewood Tree and I ossess uncanny wisdom
@@ -472,9 +472,17 @@ Between to villages, you meet Rachel the washer wench
 		//the country of Doily
 		// 99
 
+		// http://www.joshuawright.net/slack-wyrm-158.html
+		// The sulking swamp
+		// butthurt bog
+		//
+
 		// mission sydney
 		// the lost mine
 		// vampire castle lost in a forest
+
+		// warsong
+		// peace song
 	}
 }
 
