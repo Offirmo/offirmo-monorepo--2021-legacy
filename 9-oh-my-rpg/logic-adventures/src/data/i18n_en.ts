@@ -472,6 +472,9 @@ Between to villages, you meet Rachel the washer wench
 		//the country of Doily
 		// 99
 
+		// mission sydney
+		// the lost mine
+		// vampire castle lost in a forest
 	}
 }
 
