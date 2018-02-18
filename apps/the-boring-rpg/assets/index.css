@@ -1,19 +1,41 @@
 /* http://bettermotherfuckingwebsite.com/ */
 
+/* for splash screen reason, this font-face is duplicated in the template */
+@font-face {
+	font-family: 'Spectral';
+	/* full path to help the minifier */
+	src:url('/apps/the-boring-rpg/assets/spectral-regular.woff') format('woff');
+}
+
 body {
 	margin: 0 auto;
 	padding: 0;
 	max-width: 650px;
 
-	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-	font-size: 12px;
-	line-height: 1.6;
+	font-family: "Spectral", "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	font-size: 16px;
+	line-height: 1.4;
 	color: #333;
 }
 
 h1, h2, h3 {
 	line-height: 1.2;
 	margin: 0;
+}
+
+.clickable-area {
+	cursor:  pointer;
+
+	/* disable text selection, since unclean clicks/taps may select text
+	 * and cause inconvenience (especially on mobile)
+	 * http://stackoverflow.com/a/4407335/587407
+	 */
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 progress {
@@ -35,7 +57,6 @@ progress::-moz-progress-bar {
 
 input {
 	margin: 4px 0;
-	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 	font-size: 12px;
 }
 button {
@@ -91,7 +112,8 @@ ul, ol {
 
 /*********************/
 .tbrpg__nav {
-
+	display: flex;
+	flex-direction: row;
 }
 
 .tbrpg__nav__list {

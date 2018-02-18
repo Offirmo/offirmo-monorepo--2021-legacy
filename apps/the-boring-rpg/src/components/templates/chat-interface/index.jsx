@@ -261,7 +261,7 @@ class Chat extends React.Component {
 					ref={el => this.input = el}
 				/>
 				<button type="button"
-					className="chat__button"
+					className="chat__button clickable-area"
 					onClick={() => this.state.input_resolve_fn(this.input.value)}
 				>↩</button>
 			</div>

@@ -5,7 +5,7 @@ import { ROUTES } from '../routes'
 
 function Nav() {
 	return (
-		<nav className='tbrpg__nav'>
+		<nav className='tbrpg__nav clickable-area'>
 			<ul className='tbrpg__nav__list'>
 				<li>
 					<NavLink exact activeClassName='active' to={ROUTES.home}>Home</NavLink>

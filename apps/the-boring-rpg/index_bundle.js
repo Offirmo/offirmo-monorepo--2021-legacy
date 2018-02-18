@@ -10454,7 +10454,7 @@ const LIB = '@oh-my-rpg/state-the-boring-rpg';
 exports.LIB = LIB;
 const SCHEMA_VERSION = 4;
 exports.SCHEMA_VERSION = SCHEMA_VERSION;
-const GAME_VERSION = '0.10.0';
+const GAME_VERSION = '0.10.0'; // for display purpose
 exports.GAME_VERSION = GAME_VERSION;
 //# sourceMappingURL=consts.js.map
 
@@ -15720,7 +15720,7 @@ var Chat = function (_React$Component) {
 				_react2.default.createElement(
 					'button',
 					{ type: 'button',
-						className: 'chat__button',
+						className: 'chat__button clickable-area',
 						onClick: function onClick() {
 							return _this4.state.input_resolve_fn(_this4.input.value);
 						}
@@ -63042,6 +63042,11 @@ function Header() {
 		'div',
 		{ className: 'tbrpg__header' },
 		_react2.default.createElement('img', { src: '../../assets/favicons/favicon-96x96.png', height: '24', width: '24' }),
+		_react2.default.createElement(
+			'div',
+			{ className: 'tbrpg__header__title' },
+			'The Boring RPG Reloaded'
+		),
 		_react2.default.createElement(_nav.Nav, null)
 	);
 }
@@ -63073,7 +63078,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function Nav() {
 	return _react2.default.createElement(
 		'nav',
-		{ className: 'tbrpg__nav' },
+		{ className: 'tbrpg__nav clickable-area' },
 		_react2.default.createElement(
 			'ul',
 			{ className: 'tbrpg__nav__list' },
