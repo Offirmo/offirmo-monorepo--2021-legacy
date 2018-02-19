@@ -12,7 +12,7 @@ const config = {
 	output: {
 		path: path.resolve(__dirname, '..'),
 		filename: 'index_bundle.js',
-		publicPath: PUBLIC_PATH,
+		//publicPath: PUBLIC_PATH,
 	},
 	module: {
 		rules: [
@@ -54,12 +54,13 @@ if (process.env.NODE_ENV === 'production') {
 	)
 }
 else {
+	config.output.publicPath = PUBLIC_PATH
 	config.devServer = {
 		historyApiFallback: {
 			index: PUBLIC_PATH,
 		},
 		// content NOT from webpack served from here:
-		// XXX path relative to webpack CWD!
+		// XXX path relative to webpack dev server CWD!
 		contentBase: '..',
 	}
 
