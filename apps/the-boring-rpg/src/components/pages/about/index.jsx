@@ -35,7 +35,7 @@ class AboutBase extends React.Component {
 			'engine version': GAME_VERSION,
 			'savegame version': SCHEMA_VERSION,
 			'play count': state.good_click_count,
-			env: NODE_ENV,
+			env: ENV,
 		})
 
 		return (

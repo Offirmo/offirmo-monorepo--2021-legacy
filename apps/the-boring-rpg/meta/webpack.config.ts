@@ -8,6 +8,10 @@ const { version } = require(PACKAGE_JSON_PATH)
 const PUBLIC_PATH = '/the-boring-rpg'
 const NODE_ENV = process.env.NODE_ENV
 console.log({NODE_ENV})
+if(typeof NODE_ENV === 'undefined')
+	throw new Error('Webpack config: NODE_ENV is not available!!!')
+if(NODE_ENV !== 'development' && NODE_ENV !== 'production')
+	throw new Error('Webpack config: NODE_ENV value is invalid!!!')
 
 const config = {
 	entry: './src/index.jsx',
@@ -34,14 +38,10 @@ const config = {
 	},
 	plugins: [
 		new webpack.DefinePlugin({
+			'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
 			VERSION: JSON.stringify(version),
 			PUBLIC_PATH: JSON.stringify(PUBLIC_PATH),
-			NODE_ENV: JSON.stringify(NODE_ENV),
-		}),
-		new webpack.DefinePlugin({
-			'process.env': {
-				NODE_ENV: JSON.stringify(NODE_ENV),
-			}
+			ENV: JSON.stringify(NODE_ENV),
 		}),
 		new HtmlWebpackPlugin({
 			// https://github.com/jantimon/html-webpack-plugin#configuration
@@ -53,15 +53,28 @@ const config = {
 }
 
 
-if (process.env.NODE_ENV === 'production') {
-	console.log('prod detected')
+if (NODE_ENV === 'production') {
+	// https://reactjs.org/docs/optimizing-performance.html#use-the-production-build
+	/*
 	const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 	config.plugins.push(
-		new UglifyJsPlugin(),
+		new UglifyJsPlugin({
+			// https://github.com/webpack-contrib/uglifyjs-webpack-plugin#uglifyoptions
+			cache: true,
+			parallel: true,
+			sourceMap: true,
+			uglifyOptions: {
+				ecma: 8,
+				warnings: true,
+				parse: {
+					ecma: 8,
+				},
+			},
+		}),
 	)
+	*/
 }
 else {
-	console.log('dev detected')
 	config.output.publicPath = PUBLIC_PATH
 	config.devServer = {
 		historyApiFallback: {
