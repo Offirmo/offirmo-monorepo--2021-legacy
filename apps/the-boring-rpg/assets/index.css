@@ -14,28 +14,13 @@ body {
 
 	font-family: "Spectral", "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 	font-size: 16px;
-	line-height: 1.4;
+	line-height: 1.25;
 	color: #333;
 }
 
 h1, h2, h3 {
 	line-height: 1.2;
 	margin: 0;
-}
-
-.clickable-area {
-	cursor:  pointer;
-
-	/* disable text selection, since unclean clicks/taps may select text
-	 * and cause inconvenience (especially on mobile)
-	 * http://stackoverflow.com/a/4407335/587407
-	 */
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
 }
 
 progress {
@@ -74,16 +59,42 @@ ul, ol {
 
 /*********************/
 
-:root {
-	--tbrpg--header--height: 25px;
-}
-
 .avoid-wrap {
 	display:inline-block;
 }
 
 .warning {
 	color: #d9534f;
+}
+
+.flex-row {
+	display: flex;
+	flex-direction: row;
+}
+.flex-column {
+	display: flex;
+	flex-direction: column;
+}
+
+.clickable-area {
+	cursor:  pointer;
+
+	/* disable text selection, since unclean clicks/taps may select text
+	 * and cause inconvenience (especially on mobile)
+	 * http://stackoverflow.com/a/4407335/587407
+	 */
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+/*********************/
+
+:root {
+	--tbrpg--header--height: 60px;
 }
 
 /*********************/
@@ -93,19 +104,22 @@ ul, ol {
 }
 
 .tbrpg__header {
-	xxborder: solid 1px green;
-
-	xxmin-width: 100vw;
 	position: sticky;
 	top: 0;
 	z-index: 1;
 	height: var(--tbrpg--header--height);
-	background-image: linear-gradient(180deg, #000, transparent);
-	padding: 5px;
+	background-image: linear-gradient(to bottom, black, black, transparent);
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 }
-
+.tbrpg__header__logo {
+	padding: 5px;
+}
+.tbrpg__header__title {
+	font-size: 25px;
+	color: #f7efb2;
+	margin-left: 7px;
+}
 .tbrpg__content {
 	min-width: 100%;
 }
@@ -114,6 +128,7 @@ ul, ol {
 .tbrpg__nav {
 	display: flex;
 	flex-direction: row;
+	line-height: 6px; /* crappy positioning in the gradient */
 }
 
 .tbrpg__nav__list {
@@ -123,8 +138,8 @@ ul, ol {
 	display: flex;
 }
 
-.tbrpg__nav li {
-	padding-top: 2px;
+/* https://stackoverflow.com/a/8185290/587407 */
+.tbrpg__nav__list li  {
 	margin-left: 16px;
 }
 
@@ -138,6 +153,7 @@ ul, ol {
 .tbrpg__nav a.active {
 	color: #ffe74b;
 	font-weight: bold;
+	border-bottom: solid 2px;
 }
 .tbrpg__nav a.active:before {
 	content: '';

@@ -63040,12 +63040,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function Header() {
 	return _react2.default.createElement(
 		'div',
-		{ className: 'tbrpg__header' },
-		_react2.default.createElement('img', { src: '../../assets/favicons/favicon-96x96.png', height: '24', width: '24' }),
+		{ className: 'tbrpg__header flex-column' },
 		_react2.default.createElement(
 			'div',
-			{ className: 'tbrpg__header__title' },
-			'The Boring RPG Reloaded'
+			{ className: 'tbrpg__header__logo flex-row' },
+			_react2.default.createElement('img', { src: '../../assets/favicons/favicon-96x96.png', height: '24', width: '24' }),
+			_react2.default.createElement(
+				'div',
+				{ className: 'tbrpg__header__title' },
+				'The Boring RPG Reloaded'
+			)
 		),
 		_react2.default.createElement(_nav.Nav, null)
 	);
