@@ -3,8 +3,7 @@
 /* for splash screen reason, this font-face is duplicated in the template */
 @font-face {
 	font-family: 'Spectral';
-	/* full path to help the minifier */
-	src:url('/the-boring-rpg/assets/spectral-regular.woff') format('woff');
+	src:url('spectral-regular.woff') format('woff');
 }
 
 body {

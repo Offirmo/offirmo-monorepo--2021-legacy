@@ -59,6 +59,7 @@ else {
 			index: PUBLIC_PATH,
 		},
 		// content NOT from webpack served from here:
+		// XXX path relative to webpack CWD!
 		contentBase: '..',
 	}
 
