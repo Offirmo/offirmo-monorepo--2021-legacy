@@ -5,7 +5,7 @@ const PACKAGE_JSON_PATH = path.join('..', 'package.json')
 const { version } = require(PACKAGE_JSON_PATH)
 
 // content from webpack served from here:
-const PUBLIC_PATH = '/apps/the-boring-rpg'
+const PUBLIC_PATH = '/the-boring-rpg'
 
 const config = {
 	entry: './src/index.jsx',
@@ -59,7 +59,7 @@ else {
 			index: PUBLIC_PATH,
 		},
 		// content NOT from webpack served from here:
-		contentBase: '../..',
+		contentBase: '..',
 	}
 
 }

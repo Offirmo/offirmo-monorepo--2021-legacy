@@ -57,7 +57,7 @@
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "/apps/the-boring-rpg";
+/******/ 	__webpack_require__.p = "/the-boring-rpg";
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(__webpack_require__.s = 286);
@@ -15128,7 +15128,7 @@ var createTransitionManager = function createTransitionManager() {
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-var BASE_ROUTE = "/apps/the-boring-rpg";
+var BASE_ROUTE = "/the-boring-rpg";
 
 var ROUTES = {
 	home: '/',
@@ -15200,7 +15200,7 @@ function render_armor(i, options = DEFAULT_RENDER_ITEM_OPTIONS) {
     if (i.slot !== definitions_1.InventorySlot.armor) throw new Error(`render_armor(): can't render a ${i.slot}!`);
     const $node_quality = RichText.span().pushText(i.quality).done();
     const [min, max] = logic_armors_1.get_damage_reduction_interval(i);
-    const $node_values = RichText.span().addClass('armor--values').pushText(`[${min} ↔ ${max}]`).done();
+    const $node_values = RichText.span().addClass('armor--values').pushText(`[absorbs ${min} to ${max} damage]`).done();
     const builder = RichText.span().addClass('item--armor', 'item--quality--' + i.quality).pushRawNode($node_quality, 'quality').pushRawNode(render_armor_name(i), 'name').pushRawNode($node_values, 'values');
     if (options.display_quality) builder.pushText('{{quality}} ');
     builder.pushText('{{name}}');
@@ -15212,7 +15212,7 @@ function render_weapon(i, options = DEFAULT_RENDER_ITEM_OPTIONS) {
     if (i.slot !== definitions_1.InventorySlot.weapon) throw new Error(`render_weapon(): can't render a ${i.slot}!`);
     const $node_quality = RichText.span().pushText(i.quality).done();
     const [min, max] = logic_weapons_1.get_damage_interval(i);
-    const $node_values = RichText.span().addClass('weapon--values').pushText(`[${min} ↔ ${max}]`).done();
+    const $node_values = RichText.span().addClass('weapon--values').pushText(`[deals ${min} to ${max} damage]`).done();
     const builder = RichText.span().addClass('item--weapon', 'item--quality--' + i.quality).pushRawNode($node_quality, 'quality').pushRawNode(render_weapon_name(i), 'name').pushRawNode($node_values, 'values');
     if (options.display_quality) builder.pushText('{{quality}} ');
     builder.pushText('{{name}}');
@@ -63044,7 +63044,7 @@ function Header() {
 		_react2.default.createElement(
 			'div',
 			{ className: 'tbrpg__header__logo flex-row' },
-			_react2.default.createElement('img', { src: '../../assets/favicons/favicon-96x96.png', height: '24', width: '24' }),
+			_react2.default.createElement('img', { src: 'assets/favicons/favicon-72x72.png', height: '24', width: '24' }),
 			_react2.default.createElement(
 				'div',
 				{ className: 'tbrpg__header__title' },

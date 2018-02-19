@@ -100,7 +100,7 @@ function render_armor(i: Armor, options: RenderItemOptions = DEFAULT_RENDER_ITEM
 	const [min, max] = get_armor_damage_reduction_interval(i)
 	const $node_values = RichText.span()
 		.addClass('armor--values')
-		.pushText(`[${min} ↔ ${max}]`)
+		.pushText(`[absorbs ${min} to ${max} damage]`)
 		.done()
 
 	const builder = RichText.span()
@@ -129,7 +129,7 @@ function render_weapon(i: Weapon, options: RenderItemOptions = DEFAULT_RENDER_IT
 	const [min, max] = get_weapon_damage_interval(i)
 	const $node_values = RichText.span()
 		.addClass('weapon--values')
-		.pushText(`[${min} ↔ ${max}]`)
+		.pushText(`[deals ${min} to ${max} damage]`)
 		.done()
 
 	const builder = RichText.span()

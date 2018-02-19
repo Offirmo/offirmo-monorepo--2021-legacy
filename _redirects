@@ -2,3 +2,4 @@
 # https://www.netlify.com/docs/redirects/
 
 /apps/the-boring-rpg/*   /apps/the-boring-rpg   200
+/the-boring-rpg/*   /the-boring-rpg   200

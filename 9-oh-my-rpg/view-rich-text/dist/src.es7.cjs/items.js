@@ -69,7 +69,7 @@ function render_armor(i, options = DEFAULT_RENDER_ITEM_OPTIONS) {
     const [min, max] = logic_armors_1.get_damage_reduction_interval(i);
     const $node_values = RichText.span()
         .addClass('armor--values')
-        .pushText(`[${min} ↔ ${max}]`)
+        .pushText(`[absorbs ${min} to ${max} damage]`)
         .done();
     const builder = RichText.span()
         .addClass('item--armor', 'item--quality--' + i.quality)
@@ -91,7 +91,7 @@ function render_weapon(i, options = DEFAULT_RENDER_ITEM_OPTIONS) {
     const [min, max] = logic_weapons_1.get_damage_interval(i);
     const $node_values = RichText.span()
         .addClass('weapon--values')
-        .pushText(`[${min} ↔ ${max}]`)
+        .pushText(`[deals ${min} to ${max} damage]`)
         .done();
     const builder = RichText.span()
         .addClass('item--weapon', 'item--quality--' + i.quality)
