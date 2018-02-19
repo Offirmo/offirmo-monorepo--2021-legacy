@@ -15131,10 +15131,12 @@ Object.defineProperty(exports, "__esModule", {
 var BASE_ROUTE = "/the-boring-rpg";
 
 var ROUTES = {
+	index: '/index.html', // technical route for redirection
+
 	home: '/',
 	inventory: '/inventory',
 	character: '/character',
-	meta: '/meta',
+	about: '/about',
 
 	x: '/x'
 };
@@ -15691,7 +15693,10 @@ var Chat = function (_React$Component) {
 		value: function componentWillUnmount() {
 			console.info('~~ componentWillUnmount', arguments);
 
-			this.props.on_unmount(this.state.bubbles);
+			var bubles_to_backup = [].concat(this.state.bubbles);
+			if (this.state.choices) bubles_to_backup.pop();
+			if (bubles_to_backup.length <= 2) bubles_to_backup = [];
+			this.props.on_unmount(bubles_to_backup);
 		}
 	}, {
 		key: 'render',
@@ -59290,7 +59295,7 @@ var _inventory = __webpack_require__(690);
 
 var _characterSheet = __webpack_require__(691);
 
-var _meta = __webpack_require__(692);
+var _about = __webpack_require__(692);
 
 var _x = __webpack_require__(693);
 
@@ -59342,24 +59347,13 @@ var App = function (_React$Component) {
 							_react2.default.createElement(_reactRouterDom.Route, { path: _routes.ROUTES.character, render: function render() {
 									return _react2.default.createElement(_characterSheet.CharacterSheet, { workspace: _this2.props.workspace });
 								} }),
-							_react2.default.createElement(_reactRouterDom.Route, { path: _routes.ROUTES.meta, render: function render() {
-									return _react2.default.createElement(_meta.Meta, { workspace: _this2.props.workspace });
+							_react2.default.createElement(_reactRouterDom.Route, { path: _routes.ROUTES.about, render: function render() {
+									return _react2.default.createElement(_about.About, { workspace: _this2.props.workspace });
 								} }),
 							_react2.default.createElement(_reactRouterDom.Route, { path: _routes.ROUTES.x, render: function render() {
 									return _react2.default.createElement(_x.XPage, null);
 								} }),
-							_react2.default.createElement(_reactRouterDom.Route, { render: function render() {
-									return _react2.default.createElement(
-										'p',
-										null,
-										'Nothing here. ',
-										_react2.default.createElement(
-											_reactRouterDom.NavLink,
-											{ exact: true, to: _routes.ROUTES.home },
-											'Go back'
-										)
-									);
-								} })
+							_react2.default.createElement(_reactRouterDom.Redirect, { to: _routes.ROUTES.home })
 						)
 					)
 				)
@@ -59371,6 +59365,8 @@ var App = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.App = App;
+
+// 							<Route render={() => <p>Nothing here. <NavLink exact to={ROUTES.home}>Go home</NavLink></p>} />
 
 /***/ }),
 /* 643 */
@@ -63118,8 +63114,8 @@ function Nav() {
 				null,
 				_react2.default.createElement(
 					_reactRouterDom.NavLink,
-					{ activeClassName: 'active', to: _routes.ROUTES.meta },
-					'Meta'
+					{ activeClassName: 'active', to: _routes.ROUTES.about },
+					'About'
 				)
 			)
 		)
@@ -63245,7 +63241,7 @@ var HomeBase = function (_React$Component) {
 														duration_ms: 1000,
 														msg_main: 'Exploring\u2026',
 														msgg_acknowledge: function msgg_acknowledge() {
-															return 'Encountered something!\n';
+															return 'Encountered something:\n';
 														}
 													});
 
@@ -63253,11 +63249,11 @@ var HomeBase = function (_React$Component) {
 													//console.log({ good_click_count, last_adventure })
 
 													$doc = (0, _viewRichText.render_adventure)(last_adventure);
+													//{`Episode #${good_click_count}:`}<br />
+
 													msg_main = _react2.default.createElement(
 														'div',
 														null,
-														'Episode #' + good_click_count + ':',
-														_react2.default.createElement('br', null),
 														(0, _rich_text_to_react.rich_text_to_react)($doc)
 													);
 
@@ -64616,7 +64612,7 @@ exports.CharacterSheet = CharacterSheet;
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.Meta = undefined;
+exports.About = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -64640,23 +64636,23 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var MetaBase = function (_React$Component) {
-	_inherits(MetaBase, _React$Component);
+var AboutBase = function (_React$Component) {
+	_inherits(AboutBase, _React$Component);
 
-	function MetaBase() {
-		_classCallCheck(this, MetaBase);
+	function AboutBase() {
+		_classCallCheck(this, AboutBase);
 
-		return _possibleConstructorReturn(this, (MetaBase.__proto__ || Object.getPrototypeOf(MetaBase)).apply(this, arguments));
+		return _possibleConstructorReturn(this, (AboutBase.__proto__ || Object.getPrototypeOf(AboutBase)).apply(this, arguments));
 	}
 
-	_createClass(MetaBase, [{
+	_createClass(AboutBase, [{
 		key: 'componentWillMount',
 		value: function componentWillMount() {
-			console.info('~~ MetaBase componentWillMount');
+			console.info('~~ AboutBase componentWillMount');
 
 			this.props.instance.set_client_state(function (client_state) {
 				return {
-					mode: 'meta'
+					mode: 'about'
 				};
 			});
 		}
@@ -64665,7 +64661,7 @@ var MetaBase = function (_React$Component) {
 		value: function componentDidMount() {
 			var _this2 = this;
 
-			console.info('~~ MetaBase componentDidMount');
+			console.info('~~ AboutBase componentDidMount');
 			// subscribe to future state changes
 			this.unsubscribe = this.props.instance.subscribe(function () {
 				return _this2.forceUpdate();
@@ -64674,7 +64670,7 @@ var MetaBase = function (_React$Component) {
 	}, {
 		key: 'componentWillUnmount',
 		value: function componentWillUnmount() {
-			console.info('~~ MetaBase componentWillUnmount', arguments);
+			console.info('~~ AboutBase componentWillUnmount', arguments);
 			this.unsubscribe();
 		}
 	}, {
@@ -64684,26 +64680,27 @@ var MetaBase = function (_React$Component) {
 
 			var state = instance.get_latest_state();
 
-			var doc = (0, _viewRichText.render_account_info)(state.meta, {
+			var doc = (0, _viewRichText.render_account_info)({}, {
 				'engine version': _stateTheBoringRpg.GAME_VERSION,
 				'savegame version': _stateTheBoringRpg.SCHEMA_VERSION,
-				'play count': state.good_click_count
+				'play count': state.good_click_count,
+				env: undefined
 			});
 
 			return _react2.default.createElement(
 				'div',
-				{ className: 'page page--meta' },
+				{ className: 'page page--about' },
 				(0, _rich_text_to_react.rich_text_to_react)(doc)
 			);
 		}
 	}]);
 
-	return MetaBase;
+	return AboutBase;
 }(_react2.default.Component);
 
-var Meta = (0, _gameInstanceProvider.with_game_instance)(MetaBase);
+var About = (0, _gameInstanceProvider.with_game_instance)(AboutBase);
 
-exports.Meta = Meta;
+exports.About = About;
 
 /***/ }),
 /* 693 */

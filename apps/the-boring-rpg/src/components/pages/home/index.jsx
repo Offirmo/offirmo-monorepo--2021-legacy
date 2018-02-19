@@ -49,15 +49,15 @@ class HomeBase extends React.Component {
 					type: 'progress',
 					duration_ms: 1000,
 					msg_main: `Exploring…`,
-					msgg_acknowledge: () => 'Encountered something!\n',
+					msgg_acknowledge: () => 'Encountered something:\n',
 				})
 
 				const { good_click_count } = state
 				//console.log({ good_click_count, last_adventure })
 				const $doc = render_adventure(last_adventure)
+				//{`Episode #${good_click_count}:`}<br />
 				const msg_main = (
 					<div>
-						{`Episode #${good_click_count}:`}<br />
 						{rich_text_to_react($doc)}
 					</div>
 				)

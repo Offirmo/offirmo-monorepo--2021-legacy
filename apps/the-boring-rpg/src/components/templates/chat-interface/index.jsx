@@ -244,7 +244,12 @@ class Chat extends React.Component {
 	componentWillUnmount () {
 		console.info('~~ componentWillUnmount', arguments)
 
-		this.props.on_unmount(this.state.bubbles)
+		let bubles_to_backup = [].concat(this.state.bubbles)
+		if (this.state.choices)
+			bubles_to_backup.pop()
+		if (bubles_to_backup.length <= 2)
+			bubles_to_backup = []
+		this.props.on_unmount(bubles_to_backup)
 	}
 
 	render() {

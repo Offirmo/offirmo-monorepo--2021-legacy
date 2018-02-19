@@ -17,7 +17,7 @@ function Nav() {
 					<NavLink activeClassName='active' to={ROUTES.character}>Character</NavLink>
 				</li>
 				<li>
-					<NavLink activeClassName='active' to={ROUTES.meta}>Meta</NavLink>
+					<NavLink activeClassName='active' to={ROUTES.about}>About</NavLink>
 				</li>
 			</ul>
 		</nav>

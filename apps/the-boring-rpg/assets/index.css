@@ -15,6 +15,8 @@ body {
 	font-size: 16px;
 	line-height: 1.25;
 	color: #333;
+
+	overflow: scroll; /* to avoid moving UI when changing tab */
 }
 
 h1, h2, h3 {
@@ -161,7 +163,7 @@ ul, ol {
 /*********************/
 .page--character,
 .page--inventory,
-.page--meta {
+.page--about {
 	padding: 7px;
 }
 

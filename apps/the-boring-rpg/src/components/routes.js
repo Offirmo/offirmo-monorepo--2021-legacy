@@ -3,10 +3,12 @@
 const BASE_ROUTE = PUBLIC_PATH
 
 const ROUTES = {
+	index: '/index.html', // technical route for redirection
+
 	home: '/',
 	inventory: '/inventory',
 	character: '/character',
-	meta: '/meta',
+	about: '/about',
 
 	x: '/x',
 }
