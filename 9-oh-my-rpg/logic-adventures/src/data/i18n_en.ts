@@ -503,10 +503,9 @@ and glowing with mana crystals. You pick some: +{{token}}
 		// vampire castle lost in a forest
 		vampire_castle: `
 Lost in the Dark Forest at night, you come across a gloomy castle.
-The owner welcomes you politely, but you spot his teeth fangs.
+The owner welcomes you politely, but you spot his teeth fangs. A vampire!
 After an intense battle, you earned the castle and its riches!{{br}}
 +{{coin}} and a {{item}}
-
 		`,
 
 		// warsong
@@ -522,6 +521,8 @@ but still ends up with good loot: +{{coin}}, {{item}}...
 
 		// dragon's graveyard
 
+		// http://www.comic-rocket.com/read/bunny/28
+		// Bunthulhu
 	}
 }
 

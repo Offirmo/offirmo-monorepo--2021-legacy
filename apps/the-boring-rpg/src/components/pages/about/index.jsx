@@ -2,6 +2,7 @@ import React from 'react'
 
 import { SCHEMA_VERSION, GAME_VERSION } from '@oh-my-rpg/state-the-boring-rpg'
 import { render_account_info } from '@oh-my-rpg/view-rich-text'
+import { VERSION, BUILD_DATE } from '../../../services/consts'
 
 import { with_game_instance } from '../../context/game-instance-provider'
 import { rich_text_to_react } from '../../../utils/rich_text_to_react'
@@ -32,6 +33,8 @@ class AboutBase extends React.Component {
 		const state = instance.get_latest_state()
 
 		const doc = render_account_info({}, {
+			version: VERSION,
+			'build date (UTC)': BUILD_DATE,
 			'engine version': GAME_VERSION,
 			'savegame version': SCHEMA_VERSION,
 			'play count': state.good_click_count,

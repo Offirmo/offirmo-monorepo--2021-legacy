@@ -10,10 +10,11 @@ function render_meta_infos(metas) {
 }
 function render_account_info(m, extra = {}) {
     const meta_infos = extra;
-    meta_infos['internal user id'] = m.uuid;
-    meta_infos['telemetry allowed'] = String(m.allow_telemetry);
-    if (m.email)
-        meta_infos['email'] = m.email;
+    /* TODO rework
+    meta_infos['internal user id'] = m.uuid
+    meta_infos['telemetry allowed'] = String(m.allow_telemetry)
+    if (m.email) meta_infos['email'] = m.email
+    */
     const $doc = RichText.span()
         .pushNode(RichText.heading().pushText('Account infos:').done(), 'header')
         .pushNode(render_meta_infos(meta_infos), 'list')

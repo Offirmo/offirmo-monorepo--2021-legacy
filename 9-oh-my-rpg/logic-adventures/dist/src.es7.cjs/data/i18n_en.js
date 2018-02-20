@@ -297,7 +297,7 @@ She gives you exercises. You gain +{{attr}} {{attr_name}}.
 		`,
         class_master_second_attr: `
 As usual, your class master is grumpy:
-"What's the use of improving only your main attribute? You need to improve your {{attr_name}} too! Focus on your your weaknesses, to become stronger!"
+"What's the use of improving only your main attribute? You need to improve your {{attr_name}} too! Focus on your weaknesses, to become stronger!"
 She gives you exercises. You gain +{{attr}} {{attr_name}}.
 		`,
         wisdom_of_books: `
@@ -328,6 +328,7 @@ You learnt necromancy (+{{mana}} mana). With your new skills, you assemble some 
 Your mom would be proud, she was always telling you to go and "make" friends!
 		`,
         // future followers
+        // Kloo the dryad druidess
         erika: `
 Exploring the Colossal Cave, you meet Erika, a powerful sorceress whose sensitive skin
 led her to live underground.
@@ -410,10 +411,9 @@ and glowing with mana crystals. You pick some: +{{token}}
         // vampire castle lost in a forest
         vampire_castle: `
 Lost in the Dark Forest at night, you come across a gloomy castle.
-The owner welcomes you politely, but you spot his teeth fangs.
+The owner welcomes you politely, but you spot his teeth fangs. A vampire!
 After an intense battle, you earned the castle and its riches!{{br}}
 +{{coin}} and a {{item}}
-
 		`,
         // warsong
         // peace song

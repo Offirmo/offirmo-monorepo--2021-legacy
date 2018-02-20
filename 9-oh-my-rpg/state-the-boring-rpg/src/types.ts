@@ -61,6 +61,9 @@ interface State {
 	schema_version: number
 	revision: number
 
+	// TODO uuid?
+	// TODO upper savegame?
+	
 	avatar: CharacterState
 	inventory: InventoryState
 	wallet: WalletState

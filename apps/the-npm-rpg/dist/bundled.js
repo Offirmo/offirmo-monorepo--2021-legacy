@@ -1895,7 +1895,7 @@ const LIB = '@oh-my-rpg/state-the-boring-rpg';
 exports.LIB = LIB;
 const SCHEMA_VERSION = 4;
 exports.SCHEMA_VERSION = SCHEMA_VERSION;
-const GAME_VERSION = '0.9.0';
+const GAME_VERSION = '0.10.0'; // for display purpose
 exports.GAME_VERSION = GAME_VERSION;
 //# sourceMappingURL=consts.js.map
 
@@ -3355,7 +3355,7 @@ function render_armor(i, options = DEFAULT_RENDER_ITEM_OPTIONS) {
     const [min, max] = logic_armors_1.get_damage_reduction_interval(i);
     const $node_values = RichText.span()
         .addClass('armor--values')
-        .pushText(`[${min} ↔ ${max}]`)
+        .pushText(`[absorbs ${min} to ${max} damage]`)
         .done();
     const builder = RichText.span()
         .addClass('item--armor', 'item--quality--' + i.quality)
@@ -3377,7 +3377,7 @@ function render_weapon(i, options = DEFAULT_RENDER_ITEM_OPTIONS) {
     const [min, max] = logic_weapons_1.get_damage_interval(i);
     const $node_values = RichText.span()
         .addClass('weapon--values')
-        .pushText(`[${min} ↔ ${max}]`)
+        .pushText(`[deals ${min} to ${max} damage]`)
         .done();
     const builder = RichText.span()
         .addClass('item--weapon', 'item--quality--' + i.quality)
@@ -11589,7 +11589,7 @@ const ENTRIES = [
     { type: 'base', hid: 'belt' },
     { type: 'base', hid: 'boots' },
     { type: 'base', hid: 'bracers' },
-    { type: 'base', hid: 'breatplate' },
+    { type: 'base', hid: 'breastplate' },
     { type: 'base', hid: 'cloak' },
     { type: 'base', hid: 'crown' },
     { type: 'base', hid: 'gauntlets' },
@@ -11698,7 +11698,7 @@ const messages = {
             'belt': 'belt',
             'boots': 'boots',
             'bracers': 'bracers',
-            'breatplate': 'breatplate',
+            'breastplate': 'breastplate',
             'cape': 'cape',
             'cloak': 'cloak',
             'crown': 'crown',
@@ -13441,15 +13441,29 @@ function receive_tokens(state, amount) {
     return state;
 }
 /////////////////////
+const ADVENTURE_NON_REPETITION_ID = 'adventure_archetype';
+function pick_random_non_repetitive_good_archetype(state, rng) {
+    let archetype;
+    state_prng_1.regenerate_until_not_recently_encountered({
+        id: ADVENTURE_NON_REPETITION_ID,
+        generate: () => {
+            archetype = logic_adventures_1.pick_random_good_archetype(rng);
+            return archetype.hid;
+        },
+        state: state.prng,
+    });
+    return archetype;
+}
 function play_good(state, explicit_adventure_archetype_hid) {
     state.good_click_count++;
     state.meaningful_interaction_count++;
     let rng = state_prng_1.get_prng(state.prng);
     const aa = explicit_adventure_archetype_hid
         ? logic_adventures_1.get_archetype(explicit_adventure_archetype_hid)
-        : logic_adventures_1.pick_random_good_archetype(rng);
+        : pick_random_non_repetitive_good_archetype(state, rng);
     if (!aa)
         throw new Error(`play_good(): hinted adventure archetype "${explicit_adventure_archetype_hid}" could not be found!`);
+    state.prng = state_prng_1.register_recently_used(state.prng, ADVENTURE_NON_REPETITION_ID, aa.hid, 7);
     const adventure = instantiate_adventure_archetype(rng, aa, state.avatar, state.inventory);
     state.last_adventure = adventure;
     const { gains: gained } = adventure;
@@ -13595,7 +13609,7 @@ const ENTRIES = [
     { good: true, type: story, hid: 'village_lost_father', outcome: { class_primary_attribute: true } },
     { good: true, type: story, hid: 'village_nice_daughter', outcome: { charisma: true } },
     { good: true, type: story, hid: 'capital_castle', outcome: { wisdom: true } },
-    { good: true, type: story, hid: 'capital_royal_road', outcome: { armor_or_weapon: true } },
+    { good: true, type: story, hid: 'capital_royal_road', outcome: { armor_or_weapon_improvement: true } },
     { good: true, type: story, hid: 'capital_royal_amusement_park', outcome: { class_primary_attribute: true } },
     { good: true, type: story, hid: 'famous_stone_ruby', outcome: { token: 1, charisma: true } },
     { good: true, type: story, hid: 'famous_stone_diamond', outcome: { token: 1, wisdom: true } },
@@ -13609,6 +13623,11 @@ const ENTRIES = [
     { good: true, type: story, hid: 'square_eggs', outcome: { luck: true } },
     { good: true, type: story, hid: 'colossal_cave', outcome: { armor_or_weapon: true, class_primary_attribute: true } },
     { good: true, type: story, hid: 'huge_tower', outcome: { armor_or_weapon: true, class_primary_attribute: true } },
+    { good: true, type: story, hid: 'make_friends', outcome: { mana: true } },
+    { good: true, type: story, hid: 'wise_wisewood_tree', outcome: { wisdom: true } },
+    { good: true, type: story, hid: 'lost_mine', outcome: { token: 1 } },
+    { good: true, type: story, hid: 'gehennom', outcome: { coin: 'medium', armor_or_weapon: true } },
+    { good: true, type: story, hid: 'vampire_castle', outcome: { coin: 'medium', armor_or_weapon: true } },
     { good: true, type: story, hid: 'erika', outcome: { mana: true } },
     { good: true, type: story, hid: 'rachel', outcome: { strength: true } },
 ];
@@ -13853,14 +13872,14 @@ You deal justice to these pests, drink their soup and bring back the kid.
 The parent is delighted and you looted a {{item}} in the goblin camp.
 		`,
         village_lost_father: `
-A child from the village run after you "Please find my father lost in the forest! It's late and he isn't back!".
+A child from the village runs after you "Please, find my father who isn't back from the forest!".
 You track the father to a clearing, where he took refuge in a tree, surrounded by wolves.
 You sow death amongst the pack using your adventurer's arts and bring back the father home.
-You practiced your {{attr_name}} during the fight: +{{attr}} {{attr_name}}!
+You practiced your {{attr_name}} during this encounter: +{{attr}} {{attr_name}}!
 And the child now wants to be an adventurer...
 		`,
         village_nice_daughter: `
-The daughter of one of the villager you helped want to have a tea with her saviour.
+The daughter of one of the villager you helped wants to have a tea with her saviour.
 She's very nice. You learn from her how to have a polite conversation: + {{charisma}} charisma.
 		`,
         // town
@@ -13868,15 +13887,15 @@ She's very nice. You learn from her how to have a polite conversation: + {{chari
         // capital
         // royal castle
         capital_castle: `
-You arrive at the Royal Castel, one of the famous landmark of the capital.
-It's incredible: huge, strong yet delicate, high towers, ornaments...
+You arrive at the Royal Castle, one of the famous landmark of the capital.
+It's incredible: huge, strong yet delicate, with high towers and ornaments everywhere...
 You ponder about civilizations: +{{wisdom}} wisdom.
 		`,
         // royal road
         capital_royal_road: `
 You visit the Royal Road, one of the famous landmark of the capital.
 It's a wide road filled with stalls with goods from the best gatherers and the best crafters.
-You barter for a new {{item_slot}}: {{item}}.
+You barter for a much needed equipment enhancement.
 		`,
         // royal amusement park
         capital_royal_amusement_park: `
@@ -13894,20 +13913,20 @@ This is a curious but effective training: +{{attr}} {{attr_name}}!
         // sewers
         // famous stones
         famous_stone_ruby: `
-In a lost city, you looted the famous striped candy-pink ruby!
-Your fame increases: +{{charisma}} charisma, +{{token}} tokens.
+In a lost city, you looted the famous lost striped candy-pink ruby!
+Your fame increases: +{{charisma}} charisma, +{{token}}.
 		`,
         famous_stone_diamond: `
-In a meteor crater, you looted an incredible black diamond!
-Your wisdom increases: +{{wisdom}} wisdom, +{{token}} tokens.
+In a meteor crater, you looted an incredible rare black diamond!
+Your wisdom increases: +{{wisdom}} wisdom, +{{token}}.
 		`,
         famous_stone_sapphire: `
-In a secret cave below the ocean, you looted the sapphire of Atlantis!
-Your mana increases: +{{mana}} mana, +{{token}} tokens.
+In a secret cave below the ocean, you looted the forgotten sapphire of Atlantis!
+Your mana increases: +{{mana}} mana, +{{token}}.
 		`,
         famous_stone_emerald: `
-On a lost altar deep in the jungle, you looted the emerald of shapeshifting!
-Your agility increases: +{{agility}} agility, +{{token}} tokens.
+On a lost altar deep in the jungle, you looted the mysterious emerald of Shapeshifting!
+Your agility increases: +{{agility}} agility, +{{token}}.
 		`,
         // winter spirit cookies
         // https://github.com/kodeguild/winter-spirits/blob/master/src/data/cookies/en-us.js
@@ -13923,7 +13942,7 @@ She gives you exercises. You gain +{{attr}} {{attr_name}}.
 		`,
         class_master_second_attr: `
 As usual, your class master is grumpy:
-"What's the use of improving only your main attribute? You need to improve your {{attr_name}} too! Focus on your your weaknesses, to become stronger!"
+"What's the use of improving only your main attribute? You need to improve your {{attr_name}} too! Focus on your weaknesses, to become stronger!"
 She gives you exercises. You gain +{{attr}} {{attr_name}}.
 		`,
         wisdom_of_books: `
@@ -13937,7 +13956,7 @@ before he took an arrow in the knee.
 You feel enlightened: +{{attr}} wisdom!
 		`,
         square_eggs: `
-Deep in the jungle, you found the marvelous square eggs of the legendary fatu-liva bird!
+Deep in the jungle, you find the marvelous square eggs of the legendary fatu-liva bird!
 You cook an omelette, and gain +{{luck}} luck.
 		`,
         colossal_cave: `
@@ -13946,17 +13965,109 @@ You emerge victoriously, with loot ({{item}}) and experience (+{{attr}} {{attr_n
 		`,
         huge_tower: `
 You discover and explore a huge tower. It's filled with mad wizards, cultists and golems.
-You reach the top and snatch some loot({{item}})
+You reach the top and snatch some loot ({{item}})
 then exit the tower, victorious and more experienced (+{{attr}} {{attr_name}})!
 		`,
+        make_friends: `
+You learnt necromancy (+{{mana}} mana). With your new skills, you assemble some living corpses from remains dug in the cemetery.{{br}}
+Your mom would be proud, she was always telling you to go and "make" friends!
+		`,
         // future followers
+        // Kloo the dryad druidess
         erika: `
 Exploring the Colossal Cave, you meet Erika, a powerful sorceress whose sensitive skin
 led her to live underground.
 She teaches you a new spell for money: +{{mana}} mana
 		`,
         rachel: `
-Between to villages, you meet Rachel the 
+Between to villages, you meet Rachel the washer wench.
+She competes with you in arm twisting, and win!
+Good exercise, +{{strength}} strength.
+		`,
+        //reginold:
+        // bandits
+        // secret order
+        // secret sages
+        /*
+        princess rich turn out very nice very nice
+        Rich, powerful
+        */
+        /* Ma Backer bandit woman
+        */
+        /*
+         // "make friends" necromancy
+         xmake_friends:
+         '',
+         // licorne multicolore
+         xunicorns:
+         '',
+         // memes
+         xarrown_in_the_knee:
+         '', // arrow in the knee
+         // retour chez le mage noir, apprentissage de sorts
+         xblack_mage_again:
+         '',
+         */
+        // get rid of them, not slaughter them all
+        // meteorite
+        // coolidge
+        // persistence and determination win over talent,genius and skills
+        // knowing is half the battle
+        // slackwirm
+        // http://www.joshuawright.net/slack-wyrm-012.html
+        // "I am the Wise Wisewood Tree and I possess uncanny wisdom
+        wise_wisewood_tree: `
+You meet the Wise Wisewood Tree:
+"I am the Wise Wisewood Tree and I possess uncanny wisdom".
+Indeed, the talking tree impart you some wisdom: +{{wisdom}}.
+		`,
+        // http://www.joshuawright.net/slack-wyrm-017.html
+        //you the dragon having tea with the rabbits His reputation is crushed.
+        // http://www.joshuawright.net/slack-wyrm-026.html
+        // the giant eye of Agoroth
+        // http://www.joshuawright.net/slack-wyrm-030.html
+        // guilt anxiety
+        // pincess with woodland friends
+        // having to spot the real princess
+        // http://www.joshuawright.net/slack-wyrm-031.html
+        // hallowed dragonspear
+        // http://www.joshuawright.net/slack-wyrm-034.html
+        // village of Spuddy
+        // http://www.joshuawright.net/slack-wyrm-042.html
+        // http://www.joshuawright.net/slack-wyrm-059.html
+        // Zizok the wizard
+        // they weren't my friends,they were just using me for my spells
+        // http://www.joshuawright.net/slack-wyrm-066.html
+        // dragon stole the wedding cake
+        // http://www.joshuawright.net/slack-wyrm-072.html
+        // Linda Greenslime
+        //the country of Doily
+        // 99
+        // http://www.joshuawright.net/slack-wyrm-158.html
+        // The sulking swamp
+        // butthurt bog
+        // mission sydney
+        // the lost mine
+        lost_mine: `
+You discover a mysterious lost mine, filled with strange tools
+and glowing with mana crystals. You pick some: +{{token}}
+		`,
+        // mission sydney
+        // vampire castle lost in a forest
+        vampire_castle: `
+Lost in the Dark Forest at night, you come across a gloomy castle.
+The owner welcomes you politely, but you spot his teeth fangs. A vampire!
+After an intense battle, you earned the castle and its riches!{{br}}
++{{coin}} and a {{item}}
+		`,
+        // warsong
+        // peace song
+        // book of Tyr
+        // Dark cavities of Gehennom
+        // Amulet of Yendor
+        gehennom: `
+You enter the dark Cavities of Gehennom. You don't find the Amulet of Yendor,
+but still ends up with good loot: +{{coin}}, {{item}}...
 		`,
     }
 };
@@ -21814,10 +21925,11 @@ function render_meta_infos(metas) {
 }
 function render_account_info(m, extra = {}) {
     const meta_infos = extra;
-    meta_infos['internal user id'] = m.uuid;
-    meta_infos['telemetry allowed'] = String(m.allow_telemetry);
-    if (m.email)
-        meta_infos['email'] = m.email;
+    /* TODO rework
+    meta_infos['internal user id'] = m.uuid
+    meta_infos['telemetry allowed'] = String(m.allow_telemetry)
+    if (m.email) meta_infos['email'] = m.email
+    */
     const $doc = RichText.span()
         .pushNode(RichText.heading().pushText('Account infos:').done(), 'header')
         .pushNode(render_meta_infos(meta_infos), 'list')

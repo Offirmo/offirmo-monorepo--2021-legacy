@@ -1,6 +1,6 @@
 {
 	"name": "the-boring-rpg",
-	"version": "0.0.1",
+	"version": "0.50.4",
 	"private": true,
 	"description": "⚔🛡💰 The boring RPG browser game, reloaded!",
 	"author": "Offirmo <offirmo.net@gmail.com>",
@@ -14,11 +14,17 @@
 	},
 	"babel": {
 		"presets": [
-			["env", {
-				"targets": {
-					"browsers": ["last 2 versions", "safari >= 7"]
+			[
+				"env",
+				{
+					"targets": {
+						"browsers": [
+							"last 2 versions",
+							"safari >= 7"
+						]
+					}
 				}
-			}],
+			],
 			"react",
 			"stage-0"
 		]
@@ -30,9 +36,8 @@
 		"start": "cross-env NODE_ENV=development webpack-dev-server -d --config meta/webpack.config.ts --define process.env.NODE_ENV=\"development\"",
 		"test": "echo 'TODO'",
 		"__helpers": "----------- Helpers -----------",
-		"build": "run-s clean build:prod",
+		"build": "npm version patch && run-s clean build:prod",
 		"cheatsheet": "node doc/cheatsheet.js",
-
 		"bin": "bin/index.js"
 	},
 	"dependencies": {
@@ -43,8 +48,10 @@
 		"react-router-dom": "^4.2.2"
 	},
 	"devDependencies": {
+		"@offirmo/cli-toolbox": "^1.0.0",
 		"@offirmo/practical-logger-browser": "^0.0.1",
 		"@offirmo/soft-execution-context-browser": "^0.0.1",
+		"@offirmo/timestamps": "^0.0.1",
 		"@offirmo/unicode-data": "^0.0.1",
 		"@oh-my-rpg/logic-adventures": "^0.0.1",
 		"@oh-my-rpg/logic-armors": "^0.0.1",
