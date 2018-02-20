@@ -278,14 +278,14 @@ You deal justice to these pests, drink their soup and bring back the kid.
 The parent is delighted and you looted a {{item}} in the goblin camp.
 		`,
 		village_lost_father: `
-A child from the village run after you "Please find my father lost in the forest! It's late and he isn't back!".
+A child from the village runs after you "Please, find my father who isn't back from the forest!".
 You track the father to a clearing, where he took refuge in a tree, surrounded by wolves.
 You sow death amongst the pack using your adventurer's arts and bring back the father home.
-You practiced your {{attr_name}} during the fight: +{{attr}} {{attr_name}}!
+You practiced your {{attr_name}} during this encounter: +{{attr}} {{attr_name}}!
 And the child now wants to be an adventurer...
 		`,
 		village_nice_daughter: `
-The daughter of one of the villager you helped want to have a tea with her saviour.
+The daughter of one of the villager you helped wants to have a tea with her saviour.
 She's very nice. You learn from her how to have a polite conversation: + {{charisma}} charisma.
 		`,
 
@@ -295,15 +295,15 @@ She's very nice. You learn from her how to have a polite conversation: + {{chari
 		// capital
 		// royal castle
 		capital_castle: `
-You arrive at the Royal Castel, one of the famous landmark of the capital.
-It's incredible: huge, strong yet delicate, high towers, ornaments...
+You arrive at the Royal Castle, one of the famous landmark of the capital.
+It's incredible: huge, strong yet delicate, with high towers and ornaments everywhere...
 You ponder about civilizations: +{{wisdom}} wisdom.
 		`,
 		// royal road
 		capital_royal_road: `
 You visit the Royal Road, one of the famous landmark of the capital.
 It's a wide road filled with stalls with goods from the best gatherers and the best crafters.
-You barter for a new {{item_slot}}: {{item}}.
+You barter for a much needed equipment enhancement.
 		`,
 		// royal amusement park
 		capital_royal_amusement_park: `
@@ -324,19 +324,19 @@ This is a curious but effective training: +{{attr}} {{attr_name}}!
 		// famous stones
 		famous_stone_ruby: `
 In a lost city, you looted the famous lost striped candy-pink ruby!
-Your fame increases: +{{charisma}} charisma, +{{token}} tokens.
+Your fame increases: +{{charisma}} charisma, +{{token}}.
 		`,
 		famous_stone_diamond: `
 In a meteor crater, you looted an incredible rare black diamond!
-Your wisdom increases: +{{wisdom}} wisdom, +{{token}} tokens.
+Your wisdom increases: +{{wisdom}} wisdom, +{{token}}.
 		`,
 		famous_stone_sapphire: `
 In a secret cave below the ocean, you looted the forgotten sapphire of Atlantis!
-Your mana increases: +{{mana}} mana, +{{token}} tokens.
+Your mana increases: +{{mana}} mana, +{{token}}.
 		`,
 		famous_stone_emerald: `
 On a lost altar deep in the jungle, you looted the mysterious emerald of Shapeshifting!
-Your agility increases: +{{agility}} agility, +{{token}} tokens.
+Your agility increases: +{{agility}} agility, +{{token}}.
 		`,
 
 		// winter spirit cookies
@@ -370,7 +370,7 @@ You feel enlightened: +{{attr}} wisdom!
 		`,
 
 		square_eggs: `
-Deep in the jungle, you found the marvelous square eggs of the legendary fatu-liva bird!
+Deep in the jungle, you find the marvelous square eggs of the legendary fatu-liva bird!
 You cook an omelette, and gain +{{luck}} luck.
 		`,
 
@@ -381,8 +381,13 @@ You emerge victoriously, with loot ({{item}}) and experience (+{{attr}} {{attr_n
 
 		huge_tower: `
 You discover and explore a huge tower. It's filled with mad wizards, cultists and golems.
-You reach the top and snatch some loot({{item}})
+You reach the top and snatch some loot ({{item}})
 then exit the tower, victorious and more experienced (+{{attr}} {{attr_name}})!
+		`,
+
+		make_friends: `
+You learnt necromancy (+{{mana}} mana). With your new skills, you assemble some living corpses from remains dug in the cemetery.{{br}}
+Your mom would be proud, she was always telling you to go and "make" friends!
 		`,
 
 		// future followers
@@ -394,9 +399,12 @@ She teaches you a new spell for money: +{{mana}} mana
 		`,
 
 		rachel: `
-Between to villages, you meet Rachel the washer wench
+Between to villages, you meet Rachel the washer wench.
+She competes with you in arm twisting, and win!
+Good exercise, +{{strength}} strength.
 		`,
 
+		//reginold:
 
 
 		// bandits
@@ -439,18 +447,24 @@ Between to villages, you meet Rachel the washer wench
 		// slackwirm
 
 		// http://www.joshuawright.net/slack-wyrm-012.html
-		// "I am the Wise Wisewood Tree and I ossess uncanny wisdom
+		// "I am the Wise Wisewood Tree and I possess uncanny wisdom
+		wise_wisewood_tree: `
+You meet the Wise Wisewood Tree:
+"I am the Wise Wisewood Tree and I possess uncanny wisdom".
+Indeed, the talking tree impart you some wisdom: +{{wisdom}}.
+		`,
 
 		// http://www.joshuawright.net/slack-wyrm-017.html
-		//you the dragon having tea with the rabbits His reputatinis crushed.
+		//you the dragon having tea with the rabbits His reputation is crushed.
 
 		// http://www.joshuawright.net/slack-wyrm-026.html
 		// the giant eye of Agoroth
 
 		// http://www.joshuawright.net/slack-wyrm-030.html
+		// guilt anxiety
 
 		// pincess with woodland friends
-		// having to spot thereal princess
+		// having to spot the real princess
 		// http://www.joshuawright.net/slack-wyrm-031.html
 
 		// hallowed dragonspear
@@ -461,8 +475,8 @@ Between to villages, you meet Rachel the washer wench
 
 		// http://www.joshuawright.net/slack-wyrm-059.html
 		// Zizok the wizard
+		// they weren't my friends,they were just using me for my spells
 
-		// they weren't my friends,they were just using mefor my spells
 		// http://www.joshuawright.net/slack-wyrm-066.html
 		// dragon stole the wedding cake
 
@@ -475,14 +489,37 @@ Between to villages, you meet Rachel the washer wench
 		// http://www.joshuawright.net/slack-wyrm-158.html
 		// The sulking swamp
 		// butthurt bog
-		//
 
 		// mission sydney
 		// the lost mine
+		lost_mine: `
+You discover a mysterious lost mine, filled with strange tools
+and glowing with mana crystals. You pick some: +{{token}}
+		`,
+
+		// mission sydney
 		// vampire castle lost in a forest
+		vampire_castle: `
+Lost in the Dark Forest at night, you come across a gloomy castle.
+The owner welcomes you politely, but you spot his teeth fangs.
+After an intense battle, you earned the castle and its riches!{{br}}
++{{coin}} and a {{item}}
+
+		`,
 
 		// warsong
 		// peace song
+
+		// book of Tyr
+		// Dark cavities of Gehennom
+		// Amulet of Yendor
+		gehennom: `
+You enter the dark Cavities of Gehennom. You don't find the Amulet of Yendor,
+but still ends up with good loot: +{{coin}}, {{item}}...
+		`,
+
+		// dragon's graveyard
+
 	}
 }
 

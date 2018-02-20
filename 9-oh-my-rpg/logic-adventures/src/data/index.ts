@@ -77,7 +77,7 @@ const ENTRIES: RawAdventureArchetypeEntry[] = [
 	{ good: true, type: story, hid: 'village_nice_daughter',     outcome: { charisma: true }},
 
 	{ good: true, type: story, hid: 'capital_castle',               outcome: { wisdom: true }},
-	{ good: true, type: story, hid: 'capital_royal_road',           outcome: { armor_or_weapon: true }},
+	{ good: true, type: story, hid: 'capital_royal_road',           outcome: { armor_or_weapon_improvement: true }},
 	{ good: true, type: story, hid: 'capital_royal_amusement_park', outcome: { class_primary_attribute: true }},
 
 	{ good: true, type: story, hid: 'famous_stone_ruby',            outcome: { token: 1, charisma: true }},
@@ -94,6 +94,11 @@ const ENTRIES: RawAdventureArchetypeEntry[] = [
 	{ good: true, type: story, hid: 'square_eggs',                  outcome: { luck: true }},
 	{ good: true, type: story, hid: 'colossal_cave',                outcome: { armor_or_weapon: true, class_primary_attribute: true }},
 	{ good: true, type: story, hid: 'huge_tower',                   outcome: { armor_or_weapon: true, class_primary_attribute: true }},
+	{ good: true, type: story, hid: 'make_friends',                 outcome: { mana: true }},
+	{ good: true, type: story, hid: 'wise_wisewood_tree',           outcome: { wisdom: true }},
+	{ good: true, type: story, hid: 'lost_mine',                    outcome: { token: 1 }},
+	{ good: true, type: story, hid: 'gehennom',                     outcome: { coin: 'medium', armor_or_weapon: true }},
+	{ good: true, type: story, hid: 'vampire_castle',               outcome: { coin: 'medium', armor_or_weapon: true }},
 
 	{ good: true, type: story, hid: 'erika',                        outcome: { mana: true }},
 	{ good: true, type: story, hid: 'rachel',                       outcome: { strength: true }},

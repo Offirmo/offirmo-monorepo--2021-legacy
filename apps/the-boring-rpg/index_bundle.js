@@ -41140,7 +41140,7 @@ const i18n_en_1 = __webpack_require__(622);
 const types_1 = __webpack_require__(264);
 const story = types_1.AdventureType.story;
 const fight = types_1.AdventureType.fight;
-const ENTRIES = [{ good: false, type: story, hid: 'bad_default', outcome: {} }, { good: true, type: fight, hid: 'fight_won_coins', outcome: { coin: 'small' } }, { good: true, type: fight, hid: 'fight_won_loot', outcome: { armor_or_weapon: true } }, { good: true, type: fight, hid: 'fight_won_any', outcome: { random_attribute: true } }, { good: true, type: fight, hid: 'fight_lost_any', outcome: { random_attribute: true } }, { good: true, type: fight, hid: 'fight_lost_shortcoming', outcome: { lowest_attribute: true } }, { good: true, type: story, hid: 'bored_log', outcome: { strength: true } }, { good: true, type: story, hid: 'caravan', outcome: { coin: 'small' } }, { good: true, type: story, hid: 'dying_man', outcome: { coin: 'medium' } }, { good: true, type: story, hid: 'ate_bacon', outcome: { level: true } }, { good: true, type: story, hid: 'ate_zombie', outcome: { mana: true } }, { good: true, type: story, hid: 'refreshing_nap', outcome: { health: true } }, { good: true, type: story, hid: 'older', outcome: { level: true } }, { good: true, type: story, hid: 'stare_cup', outcome: { mana: true } }, { good: true, type: story, hid: 'nuclear_fusion_paper', outcome: { wisdom: true } }, { good: true, type: story, hid: 'found_green_mushroom', outcome: { level: true } }, { good: true, type: story, hid: 'found_red_mushroom', outcome: { health: true } }, { good: true, type: story, hid: 'found_blue_mushroom', outcome: { mana: true } }, { good: true, type: story, hid: 'found_white_mushroom', outcome: { strength: true } }, { good: true, type: story, hid: 'found_yellow_mushroom', outcome: { agility: true } }, { good: true, type: story, hid: 'found_orange_mushroom', outcome: { charisma: true } }, { good: true, type: story, hid: 'found_black_mushroom', outcome: { wisdom: true } }, { good: true, type: story, hid: 'found_rainbow_mushroom', outcome: { luck: true } }, { good: true, type: story, hid: 'found_random_mushroom', outcome: { random_attribute: true } }, { good: true, type: story, hid: 'found_vermilion_potion', outcome: { class_primary_attribute: true } }, { good: true, type: story, hid: 'found_silver_potion', outcome: { class_secondary_attribute: true } }, { good: true, type: story, hid: 'found_swirling_potion', outcome: { random_attribute: true } }, { good: true, type: story, hid: 'meet_old_wizard', outcome: { wisdom: true } }, { good: true, type: story, hid: 'good_necromancer', outcome: { agility: true } }, { good: true, type: story, hid: 'talk_to_all_villagers', outcome: { charisma: true } }, { good: true, type: story, hid: 'always_keep_potions', outcome: { health: true } }, { good: true, type: story, hid: 'lost', outcome: { health: true } }, { good: true, type: story, hid: 'fate_sword', outcome: { coin: 'small' } }, { good: true, type: story, hid: 'grinding', outcome: { level: true } }, { good: true, type: story, hid: 'so_many_potions', outcome: { strength: true } }, { good: true, type: story, hid: 'rematch', outcome: { level: true } }, { good: true, type: story, hid: 'useless', outcome: { wisdom: true } }, { good: true, type: story, hid: 'escort', outcome: { health: true } }, { good: true, type: story, hid: 'rare_goods_seller', outcome: { armor_or_weapon: true } }, { good: true, type: story, hid: 'progress_loop', outcome: { armor_or_weapon: true } }, { good: true, type: story, hid: 'idiot_bandits', outcome: { coin: 'medium' } }, { good: true, type: story, hid: 'princess', outcome: { coin: 'medium', armor_or_weapon_improvement: true } }, { good: true, type: story, hid: 'bad_village', outcome: { mana: true } }, { good: true, type: story, hid: 'mana_mana', outcome: { mana: true } }, { good: true, type: story, hid: 'treasure_in_pots', outcome: { coin: 'small' } }, { good: true, type: story, hid: 'chicken_slayer', outcome: { strength: true } }, { good: true, type: story, hid: 'sentients_killing', outcome: { coin: 'small', class_primary_attribute: true } }, { good: true, type: story, hid: 'keep_watch', outcome: { coin: 'small' } }, { good: true, type: story, hid: 'critters', outcome: { class_secondary_attribute: true } }, { good: true, type: story, hid: 'class_grimoire', outcome: { class_primary_attribute: true } }, { good: true, type: story, hid: 'village_farmwork', outcome: { coin: 'small', strength: true } }, { good: true, type: story, hid: 'village_lost_kid', outcome: { armor_or_weapon: true } }, { good: true, type: story, hid: 'village_lost_father', outcome: { class_primary_attribute: true } }, { good: true, type: story, hid: 'village_nice_daughter', outcome: { charisma: true } }, { good: true, type: story, hid: 'capital_castle', outcome: { wisdom: true } }, { good: true, type: story, hid: 'capital_royal_road', outcome: { armor_or_weapon: true } }, { good: true, type: story, hid: 'capital_royal_amusement_park', outcome: { class_primary_attribute: true } }, { good: true, type: story, hid: 'famous_stone_ruby', outcome: { token: 1, charisma: true } }, { good: true, type: story, hid: 'famous_stone_diamond', outcome: { token: 1, wisdom: true } }, { good: true, type: story, hid: 'famous_stone_sapphire', outcome: { token: 1, mana: true } }, { good: true, type: story, hid: 'famous_stone_emerald', outcome: { token: 1, agility: true } }, { good: true, type: story, hid: 'class_master_primary_attr_1', outcome: { class_primary_attribute: true } }, { good: true, type: story, hid: 'class_master_primary_attr_2', outcome: { class_primary_attribute: true } }, { good: true, type: story, hid: 'class_master_second_attr', outcome: { class_secondary_attribute: true } }, { good: true, type: story, hid: 'wisdom_of_books', outcome: { wisdom: true } }, { good: true, type: story, hid: 'arrow_in_the_knee', outcome: { wisdom: true } }, { good: true, type: story, hid: 'square_eggs', outcome: { luck: true } }, { good: true, type: story, hid: 'colossal_cave', outcome: { armor_or_weapon: true, class_primary_attribute: true } }, { good: true, type: story, hid: 'huge_tower', outcome: { armor_or_weapon: true, class_primary_attribute: true } }, { good: true, type: story, hid: 'erika', outcome: { mana: true } }, { good: true, type: story, hid: 'rachel', outcome: { strength: true } }];
+const ENTRIES = [{ good: false, type: story, hid: 'bad_default', outcome: {} }, { good: true, type: fight, hid: 'fight_won_coins', outcome: { coin: 'small' } }, { good: true, type: fight, hid: 'fight_won_loot', outcome: { armor_or_weapon: true } }, { good: true, type: fight, hid: 'fight_won_any', outcome: { random_attribute: true } }, { good: true, type: fight, hid: 'fight_lost_any', outcome: { random_attribute: true } }, { good: true, type: fight, hid: 'fight_lost_shortcoming', outcome: { lowest_attribute: true } }, { good: true, type: story, hid: 'bored_log', outcome: { strength: true } }, { good: true, type: story, hid: 'caravan', outcome: { coin: 'small' } }, { good: true, type: story, hid: 'dying_man', outcome: { coin: 'medium' } }, { good: true, type: story, hid: 'ate_bacon', outcome: { level: true } }, { good: true, type: story, hid: 'ate_zombie', outcome: { mana: true } }, { good: true, type: story, hid: 'refreshing_nap', outcome: { health: true } }, { good: true, type: story, hid: 'older', outcome: { level: true } }, { good: true, type: story, hid: 'stare_cup', outcome: { mana: true } }, { good: true, type: story, hid: 'nuclear_fusion_paper', outcome: { wisdom: true } }, { good: true, type: story, hid: 'found_green_mushroom', outcome: { level: true } }, { good: true, type: story, hid: 'found_red_mushroom', outcome: { health: true } }, { good: true, type: story, hid: 'found_blue_mushroom', outcome: { mana: true } }, { good: true, type: story, hid: 'found_white_mushroom', outcome: { strength: true } }, { good: true, type: story, hid: 'found_yellow_mushroom', outcome: { agility: true } }, { good: true, type: story, hid: 'found_orange_mushroom', outcome: { charisma: true } }, { good: true, type: story, hid: 'found_black_mushroom', outcome: { wisdom: true } }, { good: true, type: story, hid: 'found_rainbow_mushroom', outcome: { luck: true } }, { good: true, type: story, hid: 'found_random_mushroom', outcome: { random_attribute: true } }, { good: true, type: story, hid: 'found_vermilion_potion', outcome: { class_primary_attribute: true } }, { good: true, type: story, hid: 'found_silver_potion', outcome: { class_secondary_attribute: true } }, { good: true, type: story, hid: 'found_swirling_potion', outcome: { random_attribute: true } }, { good: true, type: story, hid: 'meet_old_wizard', outcome: { wisdom: true } }, { good: true, type: story, hid: 'good_necromancer', outcome: { agility: true } }, { good: true, type: story, hid: 'talk_to_all_villagers', outcome: { charisma: true } }, { good: true, type: story, hid: 'always_keep_potions', outcome: { health: true } }, { good: true, type: story, hid: 'lost', outcome: { health: true } }, { good: true, type: story, hid: 'fate_sword', outcome: { coin: 'small' } }, { good: true, type: story, hid: 'grinding', outcome: { level: true } }, { good: true, type: story, hid: 'so_many_potions', outcome: { strength: true } }, { good: true, type: story, hid: 'rematch', outcome: { level: true } }, { good: true, type: story, hid: 'useless', outcome: { wisdom: true } }, { good: true, type: story, hid: 'escort', outcome: { health: true } }, { good: true, type: story, hid: 'rare_goods_seller', outcome: { armor_or_weapon: true } }, { good: true, type: story, hid: 'progress_loop', outcome: { armor_or_weapon: true } }, { good: true, type: story, hid: 'idiot_bandits', outcome: { coin: 'medium' } }, { good: true, type: story, hid: 'princess', outcome: { coin: 'medium', armor_or_weapon_improvement: true } }, { good: true, type: story, hid: 'bad_village', outcome: { mana: true } }, { good: true, type: story, hid: 'mana_mana', outcome: { mana: true } }, { good: true, type: story, hid: 'treasure_in_pots', outcome: { coin: 'small' } }, { good: true, type: story, hid: 'chicken_slayer', outcome: { strength: true } }, { good: true, type: story, hid: 'sentients_killing', outcome: { coin: 'small', class_primary_attribute: true } }, { good: true, type: story, hid: 'keep_watch', outcome: { coin: 'small' } }, { good: true, type: story, hid: 'critters', outcome: { class_secondary_attribute: true } }, { good: true, type: story, hid: 'class_grimoire', outcome: { class_primary_attribute: true } }, { good: true, type: story, hid: 'village_farmwork', outcome: { coin: 'small', strength: true } }, { good: true, type: story, hid: 'village_lost_kid', outcome: { armor_or_weapon: true } }, { good: true, type: story, hid: 'village_lost_father', outcome: { class_primary_attribute: true } }, { good: true, type: story, hid: 'village_nice_daughter', outcome: { charisma: true } }, { good: true, type: story, hid: 'capital_castle', outcome: { wisdom: true } }, { good: true, type: story, hid: 'capital_royal_road', outcome: { armor_or_weapon_improvement: true } }, { good: true, type: story, hid: 'capital_royal_amusement_park', outcome: { class_primary_attribute: true } }, { good: true, type: story, hid: 'famous_stone_ruby', outcome: { token: 1, charisma: true } }, { good: true, type: story, hid: 'famous_stone_diamond', outcome: { token: 1, wisdom: true } }, { good: true, type: story, hid: 'famous_stone_sapphire', outcome: { token: 1, mana: true } }, { good: true, type: story, hid: 'famous_stone_emerald', outcome: { token: 1, agility: true } }, { good: true, type: story, hid: 'class_master_primary_attr_1', outcome: { class_primary_attribute: true } }, { good: true, type: story, hid: 'class_master_primary_attr_2', outcome: { class_primary_attribute: true } }, { good: true, type: story, hid: 'class_master_second_attr', outcome: { class_secondary_attribute: true } }, { good: true, type: story, hid: 'wisdom_of_books', outcome: { wisdom: true } }, { good: true, type: story, hid: 'arrow_in_the_knee', outcome: { wisdom: true } }, { good: true, type: story, hid: 'square_eggs', outcome: { luck: true } }, { good: true, type: story, hid: 'colossal_cave', outcome: { armor_or_weapon: true, class_primary_attribute: true } }, { good: true, type: story, hid: 'huge_tower', outcome: { armor_or_weapon: true, class_primary_attribute: true } }, { good: true, type: story, hid: 'make_friends', outcome: { mana: true } }, { good: true, type: story, hid: 'wise_wisewood_tree', outcome: { wisdom: true } }, { good: true, type: story, hid: 'lost_mine', outcome: { token: 1 } }, { good: true, type: story, hid: 'gehennom', outcome: { coin: 'medium', armor_or_weapon: true } }, { good: true, type: story, hid: 'vampire_castle', outcome: { coin: 'medium', armor_or_weapon: true } }, { good: true, type: story, hid: 'erika', outcome: { mana: true } }, { good: true, type: story, hid: 'rachel', outcome: { strength: true } }];
 exports.ENTRIES = ENTRIES;
 const i18n_messages = {
     en: i18n_en_1.messages
@@ -41383,14 +41383,14 @@ You deal justice to these pests, drink their soup and bring back the kid.
 The parent is delighted and you looted a {{item}} in the goblin camp.
 		`,
                 village_lost_father: `
-A child from the village run after you "Please find my father lost in the forest! It's late and he isn't back!".
+A child from the village runs after you "Please, find my father who isn't back from the forest!".
 You track the father to a clearing, where he took refuge in a tree, surrounded by wolves.
 You sow death amongst the pack using your adventurer's arts and bring back the father home.
-You practiced your {{attr_name}} during the fight: +{{attr}} {{attr_name}}!
+You practiced your {{attr_name}} during this encounter: +{{attr}} {{attr_name}}!
 And the child now wants to be an adventurer...
 		`,
                 village_nice_daughter: `
-The daughter of one of the villager you helped want to have a tea with her saviour.
+The daughter of one of the villager you helped wants to have a tea with her saviour.
 She's very nice. You learn from her how to have a polite conversation: + {{charisma}} charisma.
 		`,
                 // town
@@ -41398,15 +41398,15 @@ She's very nice. You learn from her how to have a polite conversation: + {{chari
                 // capital
                 // royal castle
                 capital_castle: `
-You arrive at the Royal Castel, one of the famous landmark of the capital.
-It's incredible: huge, strong yet delicate, high towers, ornaments...
+You arrive at the Royal Castle, one of the famous landmark of the capital.
+It's incredible: huge, strong yet delicate, with high towers and ornaments everywhere...
 You ponder about civilizations: +{{wisdom}} wisdom.
 		`,
                 // royal road
                 capital_royal_road: `
 You visit the Royal Road, one of the famous landmark of the capital.
 It's a wide road filled with stalls with goods from the best gatherers and the best crafters.
-You barter for a new {{item_slot}}: {{item}}.
+You barter for a much needed equipment enhancement.
 		`,
                 // royal amusement park
                 capital_royal_amusement_park: `
@@ -41424,20 +41424,20 @@ This is a curious but effective training: +{{attr}} {{attr_name}}!
                 // sewers
                 // famous stones
                 famous_stone_ruby: `
-In a lost city, you looted the famous striped candy-pink ruby!
-Your fame increases: +{{charisma}} charisma, +{{token}} tokens.
+In a lost city, you looted the famous lost striped candy-pink ruby!
+Your fame increases: +{{charisma}} charisma, +{{token}}.
 		`,
                 famous_stone_diamond: `
-In a meteor crater, you looted an incredible black diamond!
-Your wisdom increases: +{{wisdom}} wisdom, +{{token}} tokens.
+In a meteor crater, you looted an incredible rare black diamond!
+Your wisdom increases: +{{wisdom}} wisdom, +{{token}}.
 		`,
                 famous_stone_sapphire: `
-In a secret cave below the ocean, you looted the sapphire of Atlantis!
-Your mana increases: +{{mana}} mana, +{{token}} tokens.
+In a secret cave below the ocean, you looted the forgotten sapphire of Atlantis!
+Your mana increases: +{{mana}} mana, +{{token}}.
 		`,
                 famous_stone_emerald: `
-On a lost altar deep in the jungle, you looted the emerald of shapeshifting!
-Your agility increases: +{{agility}} agility, +{{token}} tokens.
+On a lost altar deep in the jungle, you looted the mysterious emerald of Shapeshifting!
+Your agility increases: +{{agility}} agility, +{{token}}.
 		`,
                 // winter spirit cookies
                 // https://github.com/kodeguild/winter-spirits/blob/master/src/data/cookies/en-us.js
@@ -41467,7 +41467,7 @@ before he took an arrow in the knee.
 You feel enlightened: +{{attr}} wisdom!
 		`,
                 square_eggs: `
-Deep in the jungle, you found the marvelous square eggs of the legendary fatu-liva bird!
+Deep in the jungle, you find the marvelous square eggs of the legendary fatu-liva bird!
 You cook an omelette, and gain +{{luck}} luck.
 		`,
                 colossal_cave: `
@@ -41476,8 +41476,12 @@ You emerge victoriously, with loot ({{item}}) and experience (+{{attr}} {{attr_n
 		`,
                 huge_tower: `
 You discover and explore a huge tower. It's filled with mad wizards, cultists and golems.
-You reach the top and snatch some loot({{item}})
+You reach the top and snatch some loot ({{item}})
 then exit the tower, victorious and more experienced (+{{attr}} {{attr_name}})!
+		`,
+                make_friends: `
+You learnt necromancy (+{{mana}} mana). With your new skills, you assemble some living corpses from remains dug in the cemetery.{{br}}
+Your mom would be proud, she was always telling you to go and "make" friends!
 		`,
                 // future followers
                 erika: `
@@ -41486,7 +41490,95 @@ led her to live underground.
 She teaches you a new spell for money: +{{mana}} mana
 		`,
                 rachel: `
-Between to villages, you meet Rachel the 
+Between to villages, you meet Rachel the washer wench.
+She competes with you in arm twisting, and win!
+Good exercise, +{{strength}} strength.
+		`,
+                //reginold:
+                // bandits
+                // secret order
+                // secret sages
+                /*
+                princess rich turn out very nice very nice
+                Rich, powerful
+                */
+                /* Ma Backer bandit woman
+                */
+                /*
+                 // "make friends" necromancy
+                 xmake_friends:
+                 '',
+                 // licorne multicolore
+                 xunicorns:
+                 '',
+                 // memes
+                 xarrown_in_the_knee:
+                 '', // arrow in the knee
+                 // retour chez le mage noir, apprentissage de sorts
+                 xblack_mage_again:
+                 '',
+                 */
+                // get rid of them, not slaughter them all
+                // meteorite
+                // coolidge
+                // persistence and determination win over talent,genius and skills
+                // knowing is half the battle
+                // slackwirm
+                // http://www.joshuawright.net/slack-wyrm-012.html
+                // "I am the Wise Wisewood Tree and I possess uncanny wisdom
+                wise_wisewood_tree: `
+You meet the Wise Wisewood Tree:
+"I am the Wise Wisewood Tree and I possess uncanny wisdom".
+Indeed, the talking tree impart you some wisdom: +{{wisdom}}.
+		`,
+                // http://www.joshuawright.net/slack-wyrm-017.html
+                //you the dragon having tea with the rabbits His reputation is crushed.
+                // http://www.joshuawright.net/slack-wyrm-026.html
+                // the giant eye of Agoroth
+                // http://www.joshuawright.net/slack-wyrm-030.html
+                // guilt anxiety
+                // pincess with woodland friends
+                // having to spot the real princess
+                // http://www.joshuawright.net/slack-wyrm-031.html
+                // hallowed dragonspear
+                // http://www.joshuawright.net/slack-wyrm-034.html
+                // village of Spuddy
+                // http://www.joshuawright.net/slack-wyrm-042.html
+                // http://www.joshuawright.net/slack-wyrm-059.html
+                // Zizok the wizard
+                // they weren't my friends,they were just using me for my spells
+                // http://www.joshuawright.net/slack-wyrm-066.html
+                // dragon stole the wedding cake
+                // http://www.joshuawright.net/slack-wyrm-072.html
+                // Linda Greenslime
+                //the country of Doily
+                // 99
+                // http://www.joshuawright.net/slack-wyrm-158.html
+                // The sulking swamp
+                // butthurt bog
+                // mission sydney
+                // the lost mine
+                lost_mine: `
+You discover a mysterious lost mine, filled with strange tools
+and glowing with mana crystals. You pick some: +{{token}}
+		`,
+                // mission sydney
+                // vampire castle lost in a forest
+                vampire_castle: `
+Lost in the Dark Forest at night, you come across a gloomy castle.
+The owner welcomes you politely, but you spot his teeth fangs.
+After an intense battle, you earned the castle and its riches!{{br}}
++{{coin}} and a {{item}}
+
+		`,
+                // warsong
+                // peace song
+                // book of Tyr
+                // Dark cavities of Gehennom
+                // Amulet of Yendor
+                gehennom: `
+You enter the dark Cavities of Gehennom. You don't find the Amulet of Yendor,
+but still ends up with good loot: +{{coin}}, {{item}}...
 		`
         }
 };
