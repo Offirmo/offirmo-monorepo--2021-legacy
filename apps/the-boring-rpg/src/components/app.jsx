@@ -6,6 +6,7 @@ import { Home } from './pages/home'
 import { Inventory } from './pages/inventory'
 import { CharacterSheet } from './pages/character-sheet'
 import { About } from './pages/about'
+import { ExportSavegame } from './pages/export-savegame'
 import { XPage } from './pages/x'
 import { BASE_ROUTE, ROUTES } from "./routes"
 
@@ -26,6 +27,7 @@ class App extends React.Component {
 							<Route path={ROUTES.character} render={() => <CharacterSheet workspace={this.props.workspace} />} />
 							<Route path={ROUTES.about} render={() => <About workspace={this.props.workspace} />} />
 
+							<Route path={ROUTES.export_savegame} render={() => <ExportSavegame />} />
 							<Route path={ROUTES.x} render={() => <XPage />} />
 
 							<Redirect to={ROUTES.home} />

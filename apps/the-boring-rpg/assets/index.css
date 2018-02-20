@@ -95,26 +95,27 @@ ul, ol {
 /*********************/
 
 :root {
-	--tbrpg--header--height: 60px;
+	--tbrpg--header--height: 80px;
 }
 
 /*********************/
 .tbrpg-container {
-	xxxborder: solid 1px red;
-	/*position: relative; /* to allow absolute positioning of content */
 }
 
 .tbrpg__header {
 	position: sticky;
 	top: 0;
-	z-index: 1;
+	padding: 5px;
+	z-index: 1; /* needed to make it clickable above the content */
 	height: var(--tbrpg--header--height);
-	background-image: linear-gradient(to bottom, black, black, transparent);
+	/* https://css-tricks.com/easing-linear-gradients/
+	 * https://larsenwork.com/easing-gradients/
+	 */
+	background-image: linear-gradient(to bottom, hsl(0, 0%, 0%) 0%, hsla(0, 0%, 0%, 0.98) 9.9%, hsla(0, 0%, 0%, 0.948) 19.4%, hsla(0, 0%, 0%, 0.904) 28.4%, hsla(0, 0%, 0%, 0.845) 36.6%, hsla(0, 0%, 0%, 0.775) 43.8%, hsla(0, 0%, 0%, 0.695) 50%, hsla(0, 0%, 0%, 0.61) 55.2%, hsla(0, 0%, 0%, 0.52) 59.7%, hsla(0, 0%, 0%, 0.427) 63.8%, hsla(0, 0%, 0%, 0.335) 67.7%, hsla(0, 0%, 0%, 0.242) 71.9%, hsla(0, 0%, 0%, 0.155) 76.8%, hsla(0, 0%, 0%, 0.077) 83.2%, hsla(0, 0%, 0%, 0.022) 91.6%, hsla(0, 0%, 0%, 0) 100%);
 	display: flex;
 	flex-direction: column;
 }
 .tbrpg__header__logo {
-	padding: 5px;
 }
 .tbrpg__header__title {
 	font-size: 25px;
@@ -129,7 +130,6 @@ ul, ol {
 .tbrpg__nav {
 	display: flex;
 	flex-direction: row;
-	line-height: 6px; /* crappy positioning in the gradient */
 }
 
 .tbrpg__nav__list {
@@ -140,7 +140,7 @@ ul, ol {
 }
 
 /* https://stackoverflow.com/a/8185290/587407 */
-.tbrpg__nav__list li  {
+.tbrpg__nav__list li + li  {
 	margin-left: 16px;
 }
 
@@ -165,6 +165,11 @@ ul, ol {
 .page--inventory,
 .page--about {
 	padding: 7px;
+}
+
+pre.export_savegame {
+	font-family: monospace;
+	font-size: 10px;
 }
 
 /*********************/
@@ -211,6 +216,7 @@ ul, ol {
 }
 .chat__bubble.chat__element--ltr::before {
 	content: '◤';
+	font-family: sans-serif;
 	font-size: 9px;
 	position: absolute;
 	bottom: -12px;
@@ -218,6 +224,7 @@ ul, ol {
 }
 .chat__bubble.chat__element--rtl::before {
 	content: '◥';
+	font-family: sans-serif;
 	font-size: 9px;
 	position: absolute;
 	bottom: -12px;

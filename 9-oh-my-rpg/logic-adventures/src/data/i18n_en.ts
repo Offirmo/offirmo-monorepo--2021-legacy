@@ -353,7 +353,7 @@ She gives you exercises. You gain +{{attr}} {{attr_name}}.
 		`,
 		class_master_second_attr: `
 As usual, your class master is grumpy:
-"What's the use of improving only your main attribute? You need to improve your {{attr_name}} too! Focus on your your weaknesses, to become stronger!"
+"What's the use of improving only your main attribute? You need to improve your {{attr_name}} too! Focus on your weaknesses, to become stronger!"
 She gives you exercises. You gain +{{attr}} {{attr_name}}.
 		`,
 
@@ -391,6 +391,8 @@ Your mom would be proud, she was always telling you to go and "make" friends!
 		`,
 
 		// future followers
+
+		// Kloo the dryad druidess
 
 		erika: `
 Exploring the Colossal Cave, you meet Erika, a powerful sorceress whose sensitive skin
