@@ -6,7 +6,7 @@ const DELAY_MS = 150
 class AutoScrollDown extends React.Component {
 
 	scrollToBottom = () => {
-		this.messagesEnd.scrollIntoView({ behavior: "smooth" })
+		this.messagesEnd.scrollIntoView({ behavior: 'instant' }) // could be smooth
 	}
 
 	componentDidMount() {

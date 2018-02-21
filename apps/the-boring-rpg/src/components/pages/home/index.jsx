@@ -38,13 +38,18 @@ class HomeBase extends React.Component {
 				}))
 			}
 
-			if (!state.last_adventure || (last_adventure.uuid === ui_state.last_displayed_adventure_uuid)) {
+			if (!ui_state.recap_displayed) {
 				// recap
 				steps.push({
 					type: 'simple_message',
 					msg_main: rich_text_to_react(tbrpg.get_recap(state)),
 				})
-			} else {
+				instance.set_client_state(() => ({
+					recap_displayed: true,
+				}))
+			}
+
+			if (state.last_adventure && last_adventure.uuid !== ui_state.last_displayed_adventure_uuid) {
 				steps.push({
 					type: 'progress',
 					duration_ms: 1000,

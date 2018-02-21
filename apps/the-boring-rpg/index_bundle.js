@@ -10967,11 +10967,16 @@ var Chat = function (_React$Component) {
 	function Chat(props) {
 		_classCallCheck(this, Chat);
 
+		// rekey backupped bubbles to avoid key conflicts
 		var _this = _possibleConstructorReturn(this, (Chat.__proto__ || Object.getPrototypeOf(Chat)).call(this, props));
+
+		var initial_bubbles = _react2.default.Children.map(_this.props.initial_bubbles, function (child, index) {
+			return typeof child === 'string' ? child : _react2.default.cloneElement(child, { key: '' + index });
+		});
 
 		_this.state = {
 			bubble_key: _this.props.initial_bubbles.length + 1,
-			bubbles: _this.props.initial_bubbles, // TODO rekey 0-N
+			bubbles: initial_bubbles,
 			spinning: false,
 			progressing: false,
 			progress_value: 0,
@@ -11320,28 +11325,27 @@ var Chat = function (_React$Component) {
 				return console.log('bye');
 			}).catch(console.error);
 		}
-
-		/*
-  componentWillUpdate (nextProps, nextState) {
-  	console.info('~~ componentWillUpdate', arguments)
-  	return true // optimisation possible
-  }
-  */
-
 	}, {
 		key: 'componentWillUnmount',
 		value: function componentWillUnmount() {
 			console.info('~~ componentWillUnmount', arguments);
 
 			var bubles_to_backup = [].concat(this.state.bubbles);
-			if (this.state.choices) bubles_to_backup.pop();
-			if (bubles_to_backup.length <= 2) bubles_to_backup = [];
+			if (this.state.choices) bubles_to_backup.pop(); // remove the choice prompt, unneeded
+			if (bubles_to_backup.length < 4) bubles_to_backup = []; // just the welcome prompts, no need to back it up
 			this.props.on_unmount(bubles_to_backup);
 		}
 	}, {
 		key: 'render',
 		value: function render() {
 			var _this4 = this;
+
+			console.log('rendering chat', {
+				spinning: this.state.spinning,
+				progressing: this.state.progressing,
+				reading_string: this.state.reading_string,
+				bubble_count: this.state.bubbles.length
+			});
 
 			var spinner = this.state.spinning && _react2.default.createElement('div', { className: 'chat__spinner' });
 			var progress_bar = this.state.progressing && _react2.default.createElement(
@@ -22445,7 +22449,7 @@ var _require = __webpack_require__(77),
     create_game_instance = _require.create_game_instance;
 
 var workspace = {
-	version: "0.50.5",
+	version: "0.50.6",
 	verbose: true, // XXX
 	state: null,
 	SEC: _init.SEC
@@ -22477,6 +22481,7 @@ _init.SEC.xTry('loading savegame', function (_ref) {
 	instance.set_client_state(function () {
 		return {
 			alpha_warning_displayed: false,
+			recap_displayed: false,
 			last_displayed_adventure_uuid: function () {
 				var _state = state,
 				    last_adventure = _state.last_adventure;
@@ -45757,13 +45762,20 @@ var HomeBase = function (_React$Component) {
 
 											case 9:
 
-												if (!state.last_adventure || last_adventure.uuid === ui_state.last_displayed_adventure_uuid) {
+												if (!ui_state.recap_displayed) {
 													// recap
 													steps.push({
 														type: 'simple_message',
 														msg_main: (0, _rich_text_to_react.rich_text_to_react)(tbrpg.get_recap(state))
 													});
-												} else {
+													instance.set_client_state(function () {
+														return {
+															recap_displayed: true
+														};
+													});
+												}
+
+												if (state.last_adventure && last_adventure.uuid !== ui_state.last_displayed_adventure_uuid) {
 													steps.push({
 														type: 'progress',
 														duration_ms: 1000,
@@ -45822,9 +45834,9 @@ var HomeBase = function (_React$Component) {
 													}]
 												});
 
-												return _context.delegateYield(steps, 't0', 14);
+												return _context.delegateYield(steps, 't0', 15);
 
-											case 14:
+											case 15:
 											case 'end':
 												return _context.stop();
 										}
@@ -46654,7 +46666,7 @@ var AutoScrollDown = function (_React$Component) {
 		}
 
 		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = AutoScrollDown.__proto__ || Object.getPrototypeOf(AutoScrollDown)).call.apply(_ref, [this].concat(args))), _this), _this.scrollToBottom = function () {
-			_this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+			_this.messagesEnd.scrollIntoView({ behavior: 'instant' }); // could be smooth
 		}, _temp), _possibleConstructorReturn(_this, _ret);
 	}
 

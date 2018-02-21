@@ -42,6 +42,7 @@ SEC.xTry('loading savegame', ({logger}) => {
 	})
 	instance.set_client_state(() => ({
 		alpha_warning_displayed: false,
+		recap_displayed: false,
 		last_displayed_adventure_uuid: (() => {
 			const { last_adventure } = state
 			return last_adventure && last_adventure.uuid
