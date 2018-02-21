@@ -1,5 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin')
 const webpack = require('webpack')
 const PACKAGE_JSON_PATH = path.join('..', 'package.json')
 const { version } = require(PACKAGE_JSON_PATH)
@@ -48,7 +49,15 @@ const config = {
 			template: 'src/index.html',
 			hash: true,
 			showErrors: true,
-		})
+		}),
+		new HtmlWebpackIncludeAssetsPlugin({
+			assets: [
+				'assets/normalize.css',
+				'assets/index.css',
+			],
+			append: true,
+			hash: true,
+		}),
 	]
 }
 

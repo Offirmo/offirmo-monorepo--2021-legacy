@@ -76,23 +76,21 @@ class AboutBase extends React.Component {
 					choices: [
 						{
 							msg_cta: <span>
-								💰 Reward the game author with a
+								★ star on
 								<span className='bg-white fg-black'> GitHub </span>
-								star ★
 							</span>,
 							value: URL_OF_REPO,
 							msgg_as_user: () => 'You’re awesome…',
 						},
 						{
-							msg_cta: 'Reward the game author with a reddit like 👍',
+							msg_cta: '👍 like on reddit',
 							value: URL_OF_REDDIT_PAGE,
 							msgg_as_user: () => 'You’re awesome…',
 						},
 						{
 							msg_cta: <span>
-								💰 Reward the game author with a
+								⇧ upvote on
 								<span className='bg-red fg-white'> Product Hunt </span>
-								upvote ⇧
 							</span>,
 							value: URL_OF_PRODUCT_HUNT_PAGE,
 							msgg_as_user: () => 'You’re awesome…',
@@ -106,6 +104,12 @@ class AboutBase extends React.Component {
 							msg_cta: 'Report a bug 🐞',
 							value: URL_OF_ISSUES,
 							msgg_as_user: () => 'There is this annoying bug…',
+						},
+						{
+							msg_cta: 'Reload page ↻',
+							value: URL_OF_ISSUES,
+							msgg_as_user: () => 'Because I need it',
+							callback: () => window.location.reload(),
 						},
 						{
 							msg_cta: 'Reset your savegame 💀',

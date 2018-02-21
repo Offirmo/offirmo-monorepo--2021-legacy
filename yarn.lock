@@ -2923,7 +2923,7 @@ glob-parent@^3.1.0:
     is-glob "^3.1.0"
     path-dirname "^1.0.0"
 
-glob@7.1.2, glob@^7.0.3, glob@^7.0.5:
+glob@7.1.2, glob@^7.0.3, glob@^7.0.5, glob@^7.1.2:
   version "7.1.2"
   resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.2.tgz#c19c9df9a028702d678612384a6552404c636d15"
   dependencies:
@@ -3207,6 +3207,14 @@ html-webpack-harddisk-plugin@^0.1.0:
   resolved "https://registry.yarnpkg.com/html-webpack-harddisk-plugin/-/html-webpack-harddisk-plugin-0.1.0.tgz#432024961a21ac668fa2b5dfe24629c60b9c58d7"
   dependencies:
     mkdirp "^0.5.1"
+
+html-webpack-include-assets-plugin@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/html-webpack-include-assets-plugin/-/html-webpack-include-assets-plugin-1.0.2.tgz#8d36eadb81e9e6bf40b56dc2ae77c3d155295106"
+  dependencies:
+    glob "^7.1.2"
+    minimatch "^3.0.4"
+    slash "^1.0.0"
 
 html-webpack-plugin@^2.30.1:
   version "2.30.1"

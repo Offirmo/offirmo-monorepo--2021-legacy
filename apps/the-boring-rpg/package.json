@@ -1,6 +1,6 @@
 {
 	"name": "the-boring-rpg",
-	"version": "0.50.6",
+	"version": "0.50.10",
 	"private": true,
 	"description": "⚔🛡💰 The boring RPG browser game, reloaded!",
 	"author": "Offirmo <offirmo.net@gmail.com>",
@@ -36,7 +36,7 @@
 		"start": "cross-env NODE_ENV=development webpack-dev-server -d --config meta/webpack.config.ts --define process.env.NODE_ENV=\"development\"",
 		"test": "echo 'TODO'",
 		"__helpers": "----------- Helpers -----------",
-		"build": "npm version patch && run-s clean build:prod",
+		"build": "npm version patch && node meta/update_consts.js && run-s clean build:prod",
 		"cheatsheet": "node doc/cheatsheet.js",
 		"bin": "bin/index.js"
 	},
@@ -73,6 +73,7 @@
 		"css-loader": "^0.28.8",
 		"fetchival": "^0.3.3",
 		"html-webpack-harddisk-plugin": "^0.1.0",
+		"html-webpack-include-assets-plugin": "^1.0.2",
 		"html-webpack-plugin": "^2.30.1",
 		"latest-version": "^3.1.0",
 		"npm-run-all": "^4.1.2",

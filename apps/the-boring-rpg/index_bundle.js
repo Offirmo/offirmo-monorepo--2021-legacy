@@ -12353,8 +12353,8 @@ module.exports = navigator && navigator.userAgent || '';
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-var VERSION = '0.50.3';
-var BUILD_DATE = '20180220_22h13';
+var VERSION = '0.50.10';
+var BUILD_DATE = '20180221_23h23';
 // TODO commit
 /////// autogen ///////
 
@@ -22449,7 +22449,7 @@ var _require = __webpack_require__(77),
     create_game_instance = _require.create_game_instance;
 
 var workspace = {
-	version: "0.50.6",
+	version: "0.50.10",
 	verbose: true, // XXX
 	state: null,
 	SEC: _init.SEC
@@ -47297,20 +47297,19 @@ var AboutBase = function (_React$Component) {
 										msg_cta: _react2.default.createElement(
 											'span',
 											null,
-											'\uD83D\uDCB0 Reward the game author with a',
+											'\u2605 star on',
 											_react2.default.createElement(
 												'span',
 												{ className: 'bg-white fg-black' },
 												' GitHub '
-											),
-											'star \u2605'
+											)
 										),
 										value: _stateTheBoringRpg.URL_OF_REPO,
 										msgg_as_user: function msgg_as_user() {
 											return 'You’re awesome…';
 										}
 									}, {
-										msg_cta: 'Reward the game author with a reddit like 👍',
+										msg_cta: '👍 like on reddit',
 										value: _stateTheBoringRpg.URL_OF_REDDIT_PAGE,
 										msgg_as_user: function msgg_as_user() {
 											return 'You’re awesome…';
@@ -47319,13 +47318,12 @@ var AboutBase = function (_React$Component) {
 										msg_cta: _react2.default.createElement(
 											'span',
 											null,
-											'\uD83D\uDCB0 Reward the game author with a',
+											'\u21E7 upvote on',
 											_react2.default.createElement(
 												'span',
 												{ className: 'bg-red fg-white' },
 												' Product Hunt '
-											),
-											'upvote \u21E7'
+											)
 										),
 										value: _stateTheBoringRpg.URL_OF_PRODUCT_HUNT_PAGE,
 										msgg_as_user: function msgg_as_user() {
@@ -47342,6 +47340,15 @@ var AboutBase = function (_React$Component) {
 										value: _stateTheBoringRpg.URL_OF_ISSUES,
 										msgg_as_user: function msgg_as_user() {
 											return 'There is this annoying bug…';
+										}
+									}, {
+										msg_cta: 'Reload page ↻',
+										value: _stateTheBoringRpg.URL_OF_ISSUES,
+										msgg_as_user: function msgg_as_user() {
+											return 'Because I need it';
+										},
+										callback: function callback() {
+											return window.location.reload();
 										}
 									}, {
 										msg_cta: 'Reset your savegame 💀',
