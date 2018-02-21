@@ -523,6 +523,15 @@ but still ends up with good loot: +{{coin}}, {{item}}...
 
 		// http://www.comic-rocket.com/read/bunny/28
 		// Bunthulhu
+
+		king_reward: `
+You did well to help the kingdom.
+King Gallus welcomes you in the throne room in front of all the court assembled.
+You are rewarded with weapons and honors: {{item}}, {{token}}...
+`
+		// red eyed unicorn throwing fire
+		// badger mushrooms
+
 	}
 }
 

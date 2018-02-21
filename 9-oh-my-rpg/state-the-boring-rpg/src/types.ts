@@ -63,7 +63,7 @@ interface State {
 
 	// TODO uuid?
 	// TODO upper savegame?
-	
+
 	avatar: CharacterState
 	inventory: InventoryState
 	wallet: WalletState

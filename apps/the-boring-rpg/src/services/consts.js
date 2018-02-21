@@ -15,10 +15,17 @@ const LS_KEYS = {
 	savegame: `${LIB}.savegame`,
 }
 
+const CHANNEL = window.location.hostname === 'www.online-adventur.es'
+	? 'stable'
+	: window.location.hostname === 'offirmo.netlify.com'
+		? 'beta'
+		: 'dev'
+
 export {
 	LIB,
 	VERSION,
 	BUILD_DATE,
 	SCHEMA_VERSION,
 	LS_KEYS,
+	CHANNEL,
 }
