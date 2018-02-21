@@ -6654,6 +6654,36 @@ exports.shr64_lo = shr64_lo;
 
 "use strict";
 
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(32);
+const walk_1 = __webpack_require__(266);
+const to_debug_1 = __webpack_require__(625);
+function to_debug($doc) {
+    return walk_1.walk($doc, to_debug_1.callbacks);
+}
+exports.to_debug = to_debug;
+const to_text_1 = __webpack_require__(626);
+function to_text($doc) {
+    return walk_1.walk($doc, to_text_1.callbacks);
+}
+exports.to_text = to_text;
+const to_html_1 = __webpack_require__(627);
+function to_html($doc) {
+    return walk_1.walk($doc, to_html_1.callbacks);
+}
+exports.to_html = to_html;
+tslib_1.__exportStar(__webpack_require__(111), exports);
+tslib_1.__exportStar(__webpack_require__(266), exports);
+tslib_1.__exportStar(__webpack_require__(628), exports);
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+/* 43 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 if (__webpack_require__(10)) {
   var LIBRARY = __webpack_require__(52);
   var global = __webpack_require__(3);
@@ -7136,7 +7166,7 @@ if (__webpack_require__(10)) {
 
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Map = __webpack_require__(196);
@@ -7193,7 +7223,7 @@ module.exports = {
 
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/*jshint eqnull:true*/
@@ -7923,36 +7953,6 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/*jshint eqnull:true*/
 
 
 /***/ }),
-/* 45 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = __webpack_require__(32);
-const walk_1 = __webpack_require__(266);
-const to_debug_1 = __webpack_require__(625);
-function to_debug($doc) {
-    return walk_1.walk($doc, to_debug_1.callbacks);
-}
-exports.to_debug = to_debug;
-const to_text_1 = __webpack_require__(626);
-function to_text($doc) {
-    return walk_1.walk($doc, to_text_1.callbacks);
-}
-exports.to_text = to_text;
-const to_html_1 = __webpack_require__(627);
-function to_html($doc) {
-    return walk_1.walk($doc, to_html_1.callbacks);
-}
-exports.to_html = to_html;
-tslib_1.__exportStar(__webpack_require__(111), exports);
-tslib_1.__exportStar(__webpack_require__(266), exports);
-tslib_1.__exportStar(__webpack_require__(628), exports);
-//# sourceMappingURL=index.js.map
-
-/***/ }),
 /* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8663,7 +8663,7 @@ tslib_1.__exportStar(__webpack_require__(602), exports);
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const definitions_1 = __webpack_require__(23);
-const random_1 = __webpack_require__(44);
+const random_1 = __webpack_require__(45);
 const data_1 = __webpack_require__(603);
 exports.i18n_messages = data_1.i18n_messages;
 exports.static_armor_data = data_1.ENTRIES;
@@ -8781,7 +8781,7 @@ exports.DEMO_ARMOR_2 = DEMO_ARMOR_2;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const definitions_1 = __webpack_require__(23);
-const random_1 = __webpack_require__(44);
+const random_1 = __webpack_require__(45);
 const data_1 = __webpack_require__(607);
 exports.i18n_messages = data_1.i18n_messages;
 exports.static_weapon_data = data_1.ENTRIES;
@@ -10207,8 +10207,20 @@ const LIB = '@oh-my-rpg/state-the-boring-rpg';
 exports.LIB = LIB;
 const SCHEMA_VERSION = 4;
 exports.SCHEMA_VERSION = SCHEMA_VERSION;
-const GAME_VERSION = '0.10.0'; // for display purpose
+const GAME_VERSION = '0.10.0'; // for display purpose TODO autoinc?
 exports.GAME_VERSION = GAME_VERSION;
+const URL_OF_WEBSITE = 'https://www.online-adventur.es/the-boring-rpg';
+exports.URL_OF_WEBSITE = URL_OF_WEBSITE;
+const URL_OF_PRODUCT_HUNT_PAGE = 'https://www.producthunt.com/upcoming/the-npm-rpg';
+exports.URL_OF_PRODUCT_HUNT_PAGE = URL_OF_PRODUCT_HUNT_PAGE;
+const URL_OF_REPO = 'https://github.com/Offirmo/offirmo-monorepo/tree/master/apps/the-boring-rpg';
+exports.URL_OF_REPO = URL_OF_REPO;
+const URL_OF_FORK = 'https://github.com/Offirmo/offirmo-monorepo#fork-destination-box';
+exports.URL_OF_FORK = URL_OF_FORK;
+const URL_OF_ISSUES = 'https://github.com/Offirmo/offirmo-monorepo/issues';
+exports.URL_OF_ISSUES = URL_OF_ISSUES;
+const URL_OF_REDDIT_PAGE = 'https://www.reddit.com/r/boringrpg/';
+exports.URL_OF_REDDIT_PAGE = URL_OF_REDDIT_PAGE;
 //# sourceMappingURL=consts.js.map
 
 /***/ }),
@@ -10905,17 +10917,495 @@ var locationsAreEqual = function locationsAreEqual(a, b) {
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = __webpack_require__(32);
-tslib_1.__exportStar(__webpack_require__(665), exports);
-tslib_1.__exportStar(__webpack_require__(666), exports);
-tslib_1.__exportStar(__webpack_require__(667), exports);
-tslib_1.__exportStar(__webpack_require__(668), exports);
-tslib_1.__exportStar(__webpack_require__(172), exports);
-tslib_1.__exportStar(__webpack_require__(669), exports);
-tslib_1.__exportStar(__webpack_require__(274), exports);
-tslib_1.__exportStar(__webpack_require__(173), exports);
-//# sourceMappingURL=index.js.map
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Chat = exports.ChatBubble = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(5);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _classnames = __webpack_require__(275);
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _viewChat = __webpack_require__(670);
+
+var _autoScrollDown = __webpack_require__(676);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var promiseFinally = __webpack_require__(677);
+
+function ChatBubble(_ref) {
+	var _ref$direction = _ref.direction,
+	    direction = _ref$direction === undefined ? 'ltr' : _ref$direction,
+	    children = _ref.children;
+
+	var classes = (0, _classnames2.default)('chat__element', { 'chat__element--ltr': direction === 'ltr' }, { 'chat__element--rtl': direction === 'rtl' }, 'chat__bubble');
+	return _react2.default.createElement(
+		'div',
+		{ className: classes },
+		children
+	);
+}
+
+var Chat = function (_React$Component) {
+	_inherits(Chat, _React$Component);
+
+	function Chat(props) {
+		_classCallCheck(this, Chat);
+
+		var _this = _possibleConstructorReturn(this, (Chat.__proto__ || Object.getPrototypeOf(Chat)).call(this, props));
+
+		_this.state = {
+			bubble_key: _this.props.initial_bubbles.length + 1,
+			bubbles: _this.props.initial_bubbles, // TODO rekey 0-N
+			spinning: false,
+			progressing: false,
+			progress_value: 0,
+			reading_string: false,
+			choices: [],
+			input_resolve_fn: null
+		};
+		return _this;
+	}
+
+	_createClass(Chat, [{
+		key: 'addBubble',
+		value: function addBubble(element) {
+			var _this2 = this;
+
+			var _ref2 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+			    _ref2$before_mount = _ref2.before_mount,
+			    before_mount = _ref2$before_mount === undefined ? false : _ref2$before_mount,
+			    _ref2$direction = _ref2.direction,
+			    direction = _ref2$direction === undefined ? 'ltr' : _ref2$direction;
+
+			if (!element) return;
+
+			var key = this.state.bubble_key + 1;
+			var bubble = _react2.default.createElement(
+				ChatBubble,
+				{ key: key, direction: direction },
+				element
+			);
+
+			if (before_mount) {
+				this.state.bubbles.push(bubble);
+				this.state.bubble_key++;
+			} else this.setState(function (state) {
+				return {
+					bubbles: state.bubbles.concat(bubble).slice(-_this2.props.max_displayed_bubbles),
+					bubble_key: state.bubble_key + 1
+				};
+			});
+		}
+	}, {
+		key: 'componentWillMount',
+		value: function componentWillMount() {
+			var _this3 = this;
+
+			if (!this.props.gen_next_step) return;
+
+			var DEBUG = true;
+
+			var display_message = function () {
+				var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(_ref4) {
+					var msg = _ref4.msg,
+					    _ref4$choices = _ref4.choices,
+					    choices = _ref4$choices === undefined ? [] : _ref4$choices,
+					    _ref4$side = _ref4.side,
+					    side = _ref4$side === undefined ? '→' : _ref4$side;
+					var direction;
+					return regeneratorRuntime.wrap(function _callee$(_context) {
+						while (1) {
+							switch (_context.prev = _context.next) {
+								case 0:
+									direction = 'ltr';
+									_context.t0 = side;
+									_context.next = _context.t0 === '→' ? 4 : _context.t0 === '←' ? 6 : _context.t0 === '↔' ? 8 : 8;
+									break;
+
+								case 4:
+									direction = 'ltr';
+									return _context.abrupt('break', 9);
+
+								case 6:
+									direction = 'rtl';
+									return _context.abrupt('break', 9);
+
+								case 8:
+									throw new Error('display_message(): incorrect side!');
+
+								case 9:
+
+									_this3.addBubble(msg, { direction: direction });
+
+								case 10:
+								case 'end':
+									return _context.stop();
+							}
+						}
+					}, _callee, _this3);
+				}));
+
+				return function display_message(_x2) {
+					return _ref3.apply(this, arguments);
+				};
+			}();
+
+			var spin_until_resolution = function spin_until_resolution(anything) {
+				_this3.setState(function (s) {
+					spinning: true;
+				});
+				return promiseFinally(Promise.resolve(anything), function () {
+					return _this3.setState(function (s) {
+						spinning: false;
+					});
+				});
+			};
+
+			var pretend_to_think = function pretend_to_think(duration_ms) {
+				return spin_until_resolution(new Promise(function (resolve) {
+					setTimeout(resolve, duration_ms);
+				}));
+			};
+
+			var display_progress = function () {
+				var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+					var _ref6 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+					    progress_promise = _ref6.progress_promise,
+					    _ref6$msg = _ref6.msg,
+					    msg = _ref6$msg === undefined ? 'loading' : _ref6$msg,
+					    msgg_acknowledge = _ref6.msgg_acknowledge;
+
+					return regeneratorRuntime.wrap(function _callee2$(_context2) {
+						while (1) {
+							switch (_context2.prev = _context2.next) {
+								case 0:
+									_this3.setState(function (state) {
+										return { progressing: true };
+									});
+
+									_context2.next = 3;
+									return display_message({ msg: msg });
+
+								case 3:
+
+									if (progress_promise.onProgress) {
+										progress_promise.onProgress(function (progress_value) {
+											_this3.setState(function (state) {
+												return { progress_value: progress_value };
+											});
+										});
+									}
+
+									progress_promise.then(function () {
+										return true;
+									}, function () {
+										return false;
+									}).then(function (success) {
+										_this3.setState(function (state) {
+											return {
+												progress_value: 0,
+												progressing: false
+											};
+										});
+
+										var final_msg = msgg_acknowledge ? msgg_acknowledge(success) : 'Done.';
+
+										_this3.setState(function (state) {
+											return { bubbles: state.bubbles.slice(0, -1) };
+										});
+
+										return display_message({ msg: _react2.default.createElement(
+												'span',
+												null,
+												msg,
+												' ',
+												final_msg
+											) });
+									}).catch(function (err) {
+										// display? TODO
+										console.error('unexpected', err);
+										return false;
+									});
+
+									return _context2.abrupt('return', progress_promise);
+
+								case 6:
+								case 'end':
+									return _context2.stop();
+							}
+						}
+					}, _callee2, _this3);
+				}));
+
+				return function display_progress() {
+					return _ref5.apply(this, arguments);
+				};
+			}();
+
+			var read_string = function read_string(step) {
+				if (DEBUG) console.log('\u2198 read_string()', step);
+
+				return new Promise(function (resolve) {
+					_this3.setState(function (state) {
+						return {
+							reading_string: true,
+							input_resolve_fn: resolve
+						};
+					});
+				}).then(function (raw_answer) {
+					_this3.setState(function (state) {
+						return {
+							reading_string: false,
+							input_resolve_fn: null
+						};
+					});
+					var answer = String(raw_answer).trim();
+					if (DEBUG) console.log('[You entered: "' + answer + '"]');
+
+					if (step.msgg_as_user) return display_message({
+						msg: step.msgg_as_user(answer),
+						side: '←'
+					}).then(function () {
+						return answer;
+					});
+
+					return answer;
+				});
+			};
+
+			var read_choice = function () {
+				var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(step) {
+					return regeneratorRuntime.wrap(function _callee4$(_context4) {
+						while (1) {
+							switch (_context4.prev = _context4.next) {
+								case 0:
+									if (DEBUG) console.log('↘ read_choice()');
+
+									return _context4.abrupt('return', new Promise(function (resolve) {
+										_this3.setState(function (state) {
+											return {
+												choices: step.choices.map(function (choice, index) {
+													return _react2.default.createElement(
+														'button',
+														{ type: 'button',
+															key: index,
+															className: 'chat__button',
+															onClick: function onClick() {
+																return resolve(choice);
+															}
+														},
+														choice.msg_cta
+													);
+												})
+											};
+										});
+									}).then(function () {
+										var _ref8 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(choice) {
+											var answer;
+											return regeneratorRuntime.wrap(function _callee3$(_context3) {
+												while (1) {
+													switch (_context3.prev = _context3.next) {
+														case 0:
+
+															_this3.setState(function (state) {
+																return {
+																	choices: []
+																};
+															});
+
+															answer = choice.value;
+															_context3.next = 4;
+															return display_message({
+																msg: (choice.msgg_as_user || step.msgg_as_user || function () {
+																	return choice.msg_cta;
+																})(answer),
+																side: '←'
+															});
+
+														case 4:
+															return _context3.abrupt('return', answer);
+
+														case 5:
+														case 'end':
+															return _context3.stop();
+													}
+												}
+											}, _callee3, _this3);
+										}));
+
+										return function (_x5) {
+											return _ref8.apply(this, arguments);
+										};
+									}()));
+
+								case 2:
+								case 'end':
+									return _context4.stop();
+							}
+						}
+					}, _callee4, _this3);
+				}));
+
+				return function read_choice(_x4) {
+					return _ref7.apply(this, arguments);
+				};
+			}();
+
+			var read_answer = function () {
+				var _ref9 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(step) {
+					return regeneratorRuntime.wrap(function _callee5$(_context5) {
+						while (1) {
+							switch (_context5.prev = _context5.next) {
+								case 0:
+									if (DEBUG) console.log('↘ read_answer()');
+									_context5.t0 = step.type;
+									_context5.next = _context5.t0 === 'ask_for_string' ? 4 : _context5.t0 === 'ask_for_choice' ? 5 : 6;
+									break;
+
+								case 4:
+									return _context5.abrupt('return', read_string(step));
+
+								case 5:
+									return _context5.abrupt('return', read_choice(step));
+
+								case 6:
+									throw new Error('Unsupported step type: "' + step.type + '"!');
+
+								case 7:
+								case 'end':
+									return _context5.stop();
+							}
+						}
+					}, _callee5, _this3);
+				}));
+
+				return function read_answer(_x6) {
+					return _ref9.apply(this, arguments);
+				};
+			}();
+
+			var chat_ui_callbacks = {
+				setup: function setup() {},
+				display_message: display_message,
+				read_answer: read_answer,
+				spin_until_resolution: spin_until_resolution,
+				pretend_to_think: pretend_to_think,
+				display_progress: display_progress,
+				teardown: function teardown() {}
+			};
+
+			var chat = (0, _viewChat.create)({
+				DEBUG: DEBUG,
+				gen_next_step: this.props.gen_next_step,
+				ui: chat_ui_callbacks
+			});
+
+			chat.start().then(function () {
+				return console.log('bye');
+			}).catch(console.error);
+		}
+
+		/*
+  componentWillUpdate (nextProps, nextState) {
+  	console.info('~~ componentWillUpdate', arguments)
+  	return true // optimisation possible
+  }
+  */
+
+	}, {
+		key: 'componentWillUnmount',
+		value: function componentWillUnmount() {
+			console.info('~~ componentWillUnmount', arguments);
+
+			var bubles_to_backup = [].concat(this.state.bubbles);
+			if (this.state.choices) bubles_to_backup.pop();
+			if (bubles_to_backup.length <= 2) bubles_to_backup = [];
+			this.props.on_unmount(bubles_to_backup);
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var _this4 = this;
+
+			var spinner = this.state.spinning && _react2.default.createElement('div', { className: 'chat__spinner' });
+			var progress_bar = this.state.progressing && _react2.default.createElement(
+				'div',
+				{ className: 'chat__element chat__element--ltr' },
+				_react2.default.createElement(
+					'progress',
+					{ className: 'chat__progress', value: this.state.progress_value },
+					'XXX'
+				)
+			);
+			var user_input = this.state.reading_string && _react2.default.createElement(
+				'div',
+				{ className: 'chat__element chat__element--rtl' },
+				_react2.default.createElement('input', { type: 'text',
+					className: 'chat__input',
+					ref: function ref(el) {
+						return _this4.input = el;
+					}
+				}),
+				_react2.default.createElement(
+					'button',
+					{ type: 'button',
+						className: 'chat__button clickable-area',
+						onClick: function onClick() {
+							return _this4.state.input_resolve_fn(_this4.input.value);
+						}
+					},
+					'\u21A9'
+				)
+			);
+
+			return _react2.default.createElement(
+				_autoScrollDown.AutoScrollDown,
+				null,
+				_react2.default.createElement(
+					'div',
+					{ className: 'chat' },
+					this.props.children,
+					this.state.bubbles,
+					progress_bar,
+					spinner,
+					_react2.default.createElement(
+						'div',
+						{ className: 'chat__element chat__element--rtl chat__choices' },
+						this.state.choices
+					),
+					user_input
+				)
+			);
+		}
+	}]);
+
+	return Chat;
+}(_react2.default.Component);
+
+Chat.defaultProps = {
+	max_displayed_bubbles: 20,
+	on_unmount: function on_unmount() {},
+	initial_bubbles: []
+};
+
+exports.ChatBubble = ChatBubble;
+exports.Chat = Chat;
 
 /***/ }),
 /* 114 */
@@ -10924,7 +11414,7 @@ tslib_1.__exportStar(__webpack_require__(173), exports);
 "use strict";
 
 
-var RichText = __webpack_require__(45);
+var RichText = __webpack_require__(42);
 
 var callbacks = __webpack_require__(678);
 
@@ -11872,11 +12362,14 @@ var LS_KEYS = {
 	savegame: LIB + '.savegame'
 };
 
+var CHANNEL = window.location.hostname === 'www.online-adventur.es' ? 'stable' : window.location.hostname === 'offirmo.netlify.com' ? 'beta' : 'dev';
+
 exports.LIB = LIB;
 exports.VERSION = VERSION;
 exports.BUILD_DATE = BUILD_DATE;
 exports.SCHEMA_VERSION = SCHEMA_VERSION;
 exports.LS_KEYS = LS_KEYS;
+exports.CHANNEL = CHANNEL;
 
 /***/ }),
 /* 143 */
@@ -14856,10 +15349,29 @@ exports.ROUTES = ROUTES;
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(32);
+tslib_1.__exportStar(__webpack_require__(665), exports);
+tslib_1.__exportStar(__webpack_require__(666), exports);
+tslib_1.__exportStar(__webpack_require__(667), exports);
+tslib_1.__exportStar(__webpack_require__(668), exports);
+tslib_1.__exportStar(__webpack_require__(173), exports);
+tslib_1.__exportStar(__webpack_require__(669), exports);
+tslib_1.__exportStar(__webpack_require__(274), exports);
+tslib_1.__exportStar(__webpack_require__(174), exports);
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+/* 173 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", { value: true });
 const definitions_1 = __webpack_require__(23);
 const logic_armors_1 = __webpack_require__(63);
 const logic_weapons_1 = __webpack_require__(64);
-const RichText = __webpack_require__(45);
+const RichText = __webpack_require__(42);
 const logic_armors_2 = __webpack_require__(63);
 const logic_weapons_2 = __webpack_require__(64);
 function render_armor_name(i) {
@@ -14947,7 +15459,7 @@ exports.render_item = render_item;
 //# sourceMappingURL=items.js.map
 
 /***/ }),
-/* 173 */
+/* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14955,7 +15467,7 @@ exports.render_item = render_item;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const state_wallet_1 = __webpack_require__(62);
-const RichText = __webpack_require__(45);
+const RichText = __webpack_require__(42);
 function render_currency_amount(currency, amount) {
     return RichText.span().addClass('currency--' + currency).pushNode(RichText.span().pushText('' + amount).done(), // TODO format according to locale?
     'amount').pushText(' ' + currency + (amount === 1 ? '' : 's')) // TODO localize properly ;)
@@ -14973,503 +15485,6 @@ function render_wallet(wallet) {
 }
 exports.render_wallet = render_wallet;
 //# sourceMappingURL=wallet.js.map
-
-/***/ }),
-/* 174 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-exports.Chat = exports.ChatBubble = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(5);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _classnames = __webpack_require__(275);
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _viewChat = __webpack_require__(670);
-
-var _autoScrollDown = __webpack_require__(676);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var promiseFinally = __webpack_require__(677);
-
-function ChatBubble(_ref) {
-	var _ref$direction = _ref.direction,
-	    direction = _ref$direction === undefined ? 'ltr' : _ref$direction,
-	    children = _ref.children;
-
-	var classes = (0, _classnames2.default)('chat__element', { 'chat__element--ltr': direction === 'ltr' }, { 'chat__element--rtl': direction === 'rtl' }, 'chat__bubble');
-	return _react2.default.createElement(
-		'div',
-		{ className: classes },
-		children
-	);
-}
-
-var Chat = function (_React$Component) {
-	_inherits(Chat, _React$Component);
-
-	function Chat(props) {
-		_classCallCheck(this, Chat);
-
-		var _this = _possibleConstructorReturn(this, (Chat.__proto__ || Object.getPrototypeOf(Chat)).call(this, props));
-
-		_this.state = {
-			bubble_key: _this.props.initial_bubbles.length + 1,
-			bubbles: _this.props.initial_bubbles, // TODO rekey 0-N
-			spinning: false,
-			progressing: false,
-			progress_value: 0,
-			reading_string: false,
-			choices: [],
-			input_resolve_fn: null
-		};
-		return _this;
-	}
-
-	_createClass(Chat, [{
-		key: 'addBubble',
-		value: function addBubble(element) {
-			var _this2 = this;
-
-			var _ref2 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-			    _ref2$before_mount = _ref2.before_mount,
-			    before_mount = _ref2$before_mount === undefined ? false : _ref2$before_mount,
-			    _ref2$direction = _ref2.direction,
-			    direction = _ref2$direction === undefined ? 'ltr' : _ref2$direction;
-
-			if (!element) return;
-
-			var key = this.state.bubble_key + 1;
-			var bubble = _react2.default.createElement(
-				ChatBubble,
-				{ key: key, direction: direction },
-				element
-			);
-
-			if (before_mount) {
-				this.state.bubbles.push(bubble);
-				this.state.bubble_key++;
-			} else this.setState(function (state) {
-				return {
-					bubbles: state.bubbles.concat(bubble).slice(-_this2.props.max_displayed_bubbles),
-					bubble_key: state.bubble_key + 1
-				};
-			});
-		}
-	}, {
-		key: 'componentWillMount',
-		value: function componentWillMount() {
-			var _this3 = this;
-
-			if (!this.props.gen_next_step) return;
-
-			var DEBUG = true;
-
-			var display_message = function () {
-				var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(_ref4) {
-					var msg = _ref4.msg,
-					    _ref4$choices = _ref4.choices,
-					    choices = _ref4$choices === undefined ? [] : _ref4$choices,
-					    _ref4$side = _ref4.side,
-					    side = _ref4$side === undefined ? '→' : _ref4$side;
-					var direction;
-					return regeneratorRuntime.wrap(function _callee$(_context) {
-						while (1) {
-							switch (_context.prev = _context.next) {
-								case 0:
-									direction = 'ltr';
-									_context.t0 = side;
-									_context.next = _context.t0 === '→' ? 4 : _context.t0 === '←' ? 6 : _context.t0 === '↔' ? 8 : 8;
-									break;
-
-								case 4:
-									direction = 'ltr';
-									return _context.abrupt('break', 9);
-
-								case 6:
-									direction = 'rtl';
-									return _context.abrupt('break', 9);
-
-								case 8:
-									throw new Error('display_message(): incorrect side!');
-
-								case 9:
-
-									_this3.addBubble(msg, { direction: direction });
-
-								case 10:
-								case 'end':
-									return _context.stop();
-							}
-						}
-					}, _callee, _this3);
-				}));
-
-				return function display_message(_x2) {
-					return _ref3.apply(this, arguments);
-				};
-			}();
-
-			var spin_until_resolution = function spin_until_resolution(anything) {
-				_this3.setState(function (s) {
-					spinning: true;
-				});
-				return promiseFinally(Promise.resolve(anything), function () {
-					return _this3.setState(function (s) {
-						spinning: false;
-					});
-				});
-			};
-
-			var pretend_to_think = function pretend_to_think(duration_ms) {
-				return spin_until_resolution(new Promise(function (resolve) {
-					setTimeout(resolve, duration_ms);
-				}));
-			};
-
-			var display_progress = function () {
-				var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-					var _ref6 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-					    progress_promise = _ref6.progress_promise,
-					    _ref6$msg = _ref6.msg,
-					    msg = _ref6$msg === undefined ? 'loading' : _ref6$msg,
-					    msgg_acknowledge = _ref6.msgg_acknowledge;
-
-					return regeneratorRuntime.wrap(function _callee2$(_context2) {
-						while (1) {
-							switch (_context2.prev = _context2.next) {
-								case 0:
-									_this3.setState(function (state) {
-										return { progressing: true };
-									});
-
-									_context2.next = 3;
-									return display_message({ msg: msg });
-
-								case 3:
-
-									if (progress_promise.onProgress) {
-										progress_promise.onProgress(function (progress_value) {
-											_this3.setState(function (state) {
-												return { progress_value: progress_value };
-											});
-										});
-									}
-
-									progress_promise.then(function () {
-										return true;
-									}, function () {
-										return false;
-									}).then(function (success) {
-										_this3.setState(function (state) {
-											return {
-												progress_value: 0,
-												progressing: false
-											};
-										});
-
-										var final_msg = msgg_acknowledge ? msgg_acknowledge(success) : 'Done.';
-
-										_this3.setState(function (state) {
-											return { bubbles: state.bubbles.slice(0, -1) };
-										});
-
-										return display_message({ msg: _react2.default.createElement(
-												'span',
-												null,
-												msg,
-												' ',
-												final_msg
-											) });
-									}).catch(function (err) {
-										// display? TODO
-										console.error('unexpected', err);
-										return false;
-									});
-
-									return _context2.abrupt('return', progress_promise);
-
-								case 6:
-								case 'end':
-									return _context2.stop();
-							}
-						}
-					}, _callee2, _this3);
-				}));
-
-				return function display_progress() {
-					return _ref5.apply(this, arguments);
-				};
-			}();
-
-			var read_string = function read_string(step) {
-				if (DEBUG) console.log('\u2198 read_string()', step);
-
-				return new Promise(function (resolve) {
-					_this3.setState(function (state) {
-						return {
-							reading_string: true,
-							input_resolve_fn: resolve
-						};
-					});
-				}).then(function (raw_answer) {
-					_this3.setState(function (state) {
-						return {
-							reading_string: false,
-							input_resolve_fn: null
-						};
-					});
-					var answer = String(raw_answer).trim();
-					if (DEBUG) console.log('[You entered: "' + answer + '"]');
-
-					if (step.msgg_as_user) return display_message({
-						msg: step.msgg_as_user(answer),
-						side: '←'
-					}).then(function () {
-						return answer;
-					});
-
-					return answer;
-				});
-			};
-
-			var read_choice = function () {
-				var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(step) {
-					return regeneratorRuntime.wrap(function _callee4$(_context4) {
-						while (1) {
-							switch (_context4.prev = _context4.next) {
-								case 0:
-									if (DEBUG) console.log('↘ read_choice()');
-
-									return _context4.abrupt('return', new Promise(function (resolve) {
-										_this3.setState(function (state) {
-											return {
-												choices: step.choices.map(function (choice, index) {
-													return _react2.default.createElement(
-														'button',
-														{ type: 'button',
-															key: index,
-															className: 'chat__button',
-															onClick: function onClick() {
-																return resolve(choice);
-															}
-														},
-														choice.msg_cta
-													);
-												})
-											};
-										});
-									}).then(function () {
-										var _ref8 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(choice) {
-											var answer;
-											return regeneratorRuntime.wrap(function _callee3$(_context3) {
-												while (1) {
-													switch (_context3.prev = _context3.next) {
-														case 0:
-
-															_this3.setState(function (state) {
-																return {
-																	choices: []
-																};
-															});
-
-															answer = choice.value;
-															_context3.next = 4;
-															return display_message({
-																msg: (choice.msgg_as_user || step.msgg_as_user || function () {
-																	return choice.msg_cta;
-																})(answer),
-																side: '←'
-															});
-
-														case 4:
-															return _context3.abrupt('return', answer);
-
-														case 5:
-														case 'end':
-															return _context3.stop();
-													}
-												}
-											}, _callee3, _this3);
-										}));
-
-										return function (_x5) {
-											return _ref8.apply(this, arguments);
-										};
-									}()));
-
-								case 2:
-								case 'end':
-									return _context4.stop();
-							}
-						}
-					}, _callee4, _this3);
-				}));
-
-				return function read_choice(_x4) {
-					return _ref7.apply(this, arguments);
-				};
-			}();
-
-			var read_answer = function () {
-				var _ref9 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(step) {
-					return regeneratorRuntime.wrap(function _callee5$(_context5) {
-						while (1) {
-							switch (_context5.prev = _context5.next) {
-								case 0:
-									if (DEBUG) console.log('↘ read_answer()');
-									_context5.t0 = step.type;
-									_context5.next = _context5.t0 === 'ask_for_string' ? 4 : _context5.t0 === 'ask_for_choice' ? 5 : 6;
-									break;
-
-								case 4:
-									return _context5.abrupt('return', read_string(step));
-
-								case 5:
-									return _context5.abrupt('return', read_choice(step));
-
-								case 6:
-									throw new Error('Unsupported step type: "' + step.type + '"!');
-
-								case 7:
-								case 'end':
-									return _context5.stop();
-							}
-						}
-					}, _callee5, _this3);
-				}));
-
-				return function read_answer(_x6) {
-					return _ref9.apply(this, arguments);
-				};
-			}();
-
-			var chat_ui_callbacks = {
-				setup: function setup() {},
-				display_message: display_message,
-				read_answer: read_answer,
-				spin_until_resolution: spin_until_resolution,
-				pretend_to_think: pretend_to_think,
-				display_progress: display_progress,
-				teardown: function teardown() {}
-			};
-
-			var chat = (0, _viewChat.create)({
-				DEBUG: DEBUG,
-				gen_next_step: this.props.gen_next_step,
-				ui: chat_ui_callbacks
-			});
-
-			chat.start().then(function () {
-				return console.log('bye');
-			}).catch(console.error);
-		}
-
-		/*
-  componentWillUpdate (nextProps, nextState) {
-  	console.info('~~ componentWillUpdate', arguments)
-  	return true // optimisation possible
-  }
-  */
-
-	}, {
-		key: 'componentWillUnmount',
-		value: function componentWillUnmount() {
-			console.info('~~ componentWillUnmount', arguments);
-
-			var bubles_to_backup = [].concat(this.state.bubbles);
-			if (this.state.choices) bubles_to_backup.pop();
-			if (bubles_to_backup.length <= 2) bubles_to_backup = [];
-			this.props.on_unmount(bubles_to_backup);
-		}
-	}, {
-		key: 'render',
-		value: function render() {
-			var _this4 = this;
-
-			var spinner = this.state.spinning && _react2.default.createElement('div', { className: 'chat__spinner' });
-			var progress_bar = this.state.progressing && _react2.default.createElement(
-				'div',
-				{ className: 'chat__element chat__element--ltr' },
-				_react2.default.createElement(
-					'progress',
-					{ className: 'chat__progress', value: this.state.progress_value },
-					'XXX'
-				)
-			);
-			var user_input = this.state.reading_string && _react2.default.createElement(
-				'div',
-				{ className: 'chat__element chat__element--rtl' },
-				_react2.default.createElement('input', { type: 'text',
-					className: 'chat__input',
-					ref: function ref(el) {
-						return _this4.input = el;
-					}
-				}),
-				_react2.default.createElement(
-					'button',
-					{ type: 'button',
-						className: 'chat__button clickable-area',
-						onClick: function onClick() {
-							return _this4.state.input_resolve_fn(_this4.input.value);
-						}
-					},
-					'\u21A9'
-				)
-			);
-
-			return _react2.default.createElement(
-				_autoScrollDown.AutoScrollDown,
-				null,
-				_react2.default.createElement(
-					'div',
-					{ className: 'chat' },
-					this.props.children,
-					this.state.bubbles,
-					progress_bar,
-					spinner,
-					_react2.default.createElement(
-						'div',
-						{ className: 'chat__element chat__element--rtl chat__choices' },
-						this.state.choices
-					),
-					user_input
-				)
-			);
-		}
-	}]);
-
-	return Chat;
-}(_react2.default.Component);
-
-Chat.defaultProps = {
-	max_displayed_bubbles: 20,
-	on_unmount: function on_unmount() {},
-	initial_bubbles: []
-};
-
-exports.ChatBubble = ChatBubble;
-exports.Chat = Chat;
 
 /***/ }),
 /* 175 */
@@ -16859,7 +16874,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const nanoid = __webpack_require__(504);
 const format = __webpack_require__(506);
 const url = __webpack_require__(507);
-const random_1 = __webpack_require__(44);
+const random_1 = __webpack_require__(45);
 ///////
 const UUID_RADIX = 'uu1';
 const NANOID_LENGTH_FOR_1BTH_COLLISION_CHANCES = 21; // according to the doc
@@ -21315,7 +21330,7 @@ exports.MIGRATION_HINTS_FOR_TESTS = MIGRATION_HINTS_FOR_TESTS;
 /////////////////////
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const random_1 = __webpack_require__(44);
+const random_1 = __webpack_require__(45);
 const deepFreeze = __webpack_require__(78); // XXX to refactor
 const consts_1 = __webpack_require__(160);
 /////////////////////
@@ -21470,7 +21485,7 @@ exports.MonsterRank = MonsterRank;
 /////////////////////
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const random_1 = __webpack_require__(44);
+const random_1 = __webpack_require__(45);
 const types_1 = __webpack_require__(264);
 exports.CoinsGain = types_1.CoinsGain;
 exports.AdventureType = types_1.AdventureType;
@@ -22333,7 +22348,7 @@ var isExtraneousPopstateEvent = function isExtraneousPopstateEvent(event) {
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const RichText = __webpack_require__(45);
+const RichText = __webpack_require__(42);
 function render_monster(m) {
     const $doc = RichText.span().addClass('monster', 'monster--rank--' + m.rank).pushText('{{level}} {{rank}} {{name||Capitalize}}').pushRawNode(RichText.span().pushText('L').pushText('' + m.level).done(), 'level').pushRawNode(RichText.span().addClass('rank--' + m.rank).pushText(m.rank).done(), 'rank').pushRawNode(RichText.span().addClass('monster__name').pushText(m.name).done(), 'name').done();
     $doc.$hints.possible_emoji = m.possible_emoji;
@@ -22430,7 +22445,7 @@ var _require = __webpack_require__(77),
     create_game_instance = _require.create_game_instance;
 
 var workspace = {
-	version: "0.50.4",
+	version: "0.50.5",
 	verbose: true, // XXX
 	state: null,
 	SEC: _init.SEC
@@ -25383,7 +25398,7 @@ $export($export.G + $export.W + $export.F * !__webpack_require__(98).ABV, {
 /* 393 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(42)('Int8', 1, function (init) {
+__webpack_require__(43)('Int8', 1, function (init) {
   return function Int8Array(data, byteOffset, length) {
     return init(this, data, byteOffset, length);
   };
@@ -25394,7 +25409,7 @@ __webpack_require__(42)('Int8', 1, function (init) {
 /* 394 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(42)('Uint8', 1, function (init) {
+__webpack_require__(43)('Uint8', 1, function (init) {
   return function Uint8Array(data, byteOffset, length) {
     return init(this, data, byteOffset, length);
   };
@@ -25405,7 +25420,7 @@ __webpack_require__(42)('Uint8', 1, function (init) {
 /* 395 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(42)('Uint8', 1, function (init) {
+__webpack_require__(43)('Uint8', 1, function (init) {
   return function Uint8ClampedArray(data, byteOffset, length) {
     return init(this, data, byteOffset, length);
   };
@@ -25416,7 +25431,7 @@ __webpack_require__(42)('Uint8', 1, function (init) {
 /* 396 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(42)('Int16', 2, function (init) {
+__webpack_require__(43)('Int16', 2, function (init) {
   return function Int16Array(data, byteOffset, length) {
     return init(this, data, byteOffset, length);
   };
@@ -25427,7 +25442,7 @@ __webpack_require__(42)('Int16', 2, function (init) {
 /* 397 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(42)('Uint16', 2, function (init) {
+__webpack_require__(43)('Uint16', 2, function (init) {
   return function Uint16Array(data, byteOffset, length) {
     return init(this, data, byteOffset, length);
   };
@@ -25438,7 +25453,7 @@ __webpack_require__(42)('Uint16', 2, function (init) {
 /* 398 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(42)('Int32', 4, function (init) {
+__webpack_require__(43)('Int32', 4, function (init) {
   return function Int32Array(data, byteOffset, length) {
     return init(this, data, byteOffset, length);
   };
@@ -25449,7 +25464,7 @@ __webpack_require__(42)('Int32', 4, function (init) {
 /* 399 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(42)('Uint32', 4, function (init) {
+__webpack_require__(43)('Uint32', 4, function (init) {
   return function Uint32Array(data, byteOffset, length) {
     return init(this, data, byteOffset, length);
   };
@@ -25460,7 +25475,7 @@ __webpack_require__(42)('Uint32', 4, function (init) {
 /* 400 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(42)('Float32', 4, function (init) {
+__webpack_require__(43)('Float32', 4, function (init) {
   return function Float32Array(data, byteOffset, length) {
     return init(this, data, byteOffset, length);
   };
@@ -25471,7 +25486,7 @@ __webpack_require__(42)('Float32', 4, function (init) {
 /* 401 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(42)('Float64', 8, function (init) {
+__webpack_require__(43)('Float64', 8, function (init) {
   return function Float64Array(data, byteOffset, length) {
     return init(this, data, byteOffset, length);
   };
@@ -26518,7 +26533,7 @@ $export($export.S, 'Promise', { 'try': function (callbackfn) {
 /* 461 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var metadata = __webpack_require__(43);
+var metadata = __webpack_require__(44);
 var anObject = __webpack_require__(2);
 var toMetaKey = metadata.key;
 var ordinaryDefineOwnMetadata = metadata.set;
@@ -26532,7 +26547,7 @@ metadata.exp({ defineMetadata: function defineMetadata(metadataKey, metadataValu
 /* 462 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var metadata = __webpack_require__(43);
+var metadata = __webpack_require__(44);
 var anObject = __webpack_require__(2);
 var toMetaKey = metadata.key;
 var getOrCreateMetadataMap = metadata.map;
@@ -26553,7 +26568,7 @@ metadata.exp({ deleteMetadata: function deleteMetadata(metadataKey, target /* , 
 /* 463 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var metadata = __webpack_require__(43);
+var metadata = __webpack_require__(44);
 var anObject = __webpack_require__(2);
 var getPrototypeOf = __webpack_require__(27);
 var ordinaryHasOwnMetadata = metadata.has;
@@ -26578,7 +26593,7 @@ metadata.exp({ getMetadata: function getMetadata(metadataKey, target /* , target
 
 var Set = __webpack_require__(198);
 var from = __webpack_require__(207);
-var metadata = __webpack_require__(43);
+var metadata = __webpack_require__(44);
 var anObject = __webpack_require__(2);
 var getPrototypeOf = __webpack_require__(27);
 var ordinaryOwnMetadataKeys = metadata.keys;
@@ -26601,7 +26616,7 @@ metadata.exp({ getMetadataKeys: function getMetadataKeys(target /* , targetKey *
 /* 465 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var metadata = __webpack_require__(43);
+var metadata = __webpack_require__(44);
 var anObject = __webpack_require__(2);
 var ordinaryGetOwnMetadata = metadata.get;
 var toMetaKey = metadata.key;
@@ -26616,7 +26631,7 @@ metadata.exp({ getOwnMetadata: function getOwnMetadata(metadataKey, target /* , 
 /* 466 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var metadata = __webpack_require__(43);
+var metadata = __webpack_require__(44);
 var anObject = __webpack_require__(2);
 var ordinaryOwnMetadataKeys = metadata.keys;
 var toMetaKey = metadata.key;
@@ -26630,7 +26645,7 @@ metadata.exp({ getOwnMetadataKeys: function getOwnMetadataKeys(target /* , targe
 /* 467 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var metadata = __webpack_require__(43);
+var metadata = __webpack_require__(44);
 var anObject = __webpack_require__(2);
 var getPrototypeOf = __webpack_require__(27);
 var ordinaryHasOwnMetadata = metadata.has;
@@ -26652,7 +26667,7 @@ metadata.exp({ hasMetadata: function hasMetadata(metadataKey, target /* , target
 /* 468 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var metadata = __webpack_require__(43);
+var metadata = __webpack_require__(44);
 var anObject = __webpack_require__(2);
 var ordinaryHasOwnMetadata = metadata.has;
 var toMetaKey = metadata.key;
@@ -26667,7 +26682,7 @@ metadata.exp({ hasOwnMetadata: function hasOwnMetadata(metadataKey, target /* , 
 /* 469 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var $metadata = __webpack_require__(43);
+var $metadata = __webpack_require__(44);
 var anObject = __webpack_require__(2);
 var aFunction = __webpack_require__(17);
 var toMetaKey = $metadata.key;
@@ -39906,7 +39921,7 @@ function migrate_to_1(legacy_state, hints) {
 /////////////////////
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const random_1 = __webpack_require__(44);
+const random_1 = __webpack_require__(45);
 const consts_1 = __webpack_require__(160);
 /////////////////////
 // useful for re-seeding
@@ -39985,7 +40000,7 @@ function migrate_to_1(legacy_state, hints) {
 /////////////////////
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const random_1 = __webpack_require__(44);
+const random_1 = __webpack_require__(45);
 const definitions_1 = __webpack_require__(23);
 const types_1 = __webpack_require__(262);
 const data_1 = __webpack_require__(615);
@@ -40863,7 +40878,7 @@ exports.CHARACTERS = CHARACTERS;
 /////////////////////
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const random_1 = __webpack_require__(44);
+const random_1 = __webpack_require__(45);
 const definitions_1 = __webpack_require__(23);
 const logic_weapons_1 = __webpack_require__(64);
 const logic_armors_1 = __webpack_require__(63);
@@ -40929,7 +40944,7 @@ exports.GainType = GainType;
 /////////////////////
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const random_1 = __webpack_require__(44);
+const random_1 = __webpack_require__(45);
 /////////////////////
 const definitions_1 = __webpack_require__(23);
 const state_character_1 = __webpack_require__(72);
@@ -41616,7 +41631,7 @@ function clean_multiline_string(str) {
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const RichText = __webpack_require__(45);
+const RichText = __webpack_require__(42);
 function get_recap(state) {
     const isNewGame = state.meaningful_interaction_count === 0;
     if (isNewGame) {
@@ -41993,6 +42008,13 @@ function create_game_instance({ SEC, get_latest_state, update_state, client_stat
                 update_state(state);
                 emitter.emit('state_change', state);
             },
+            reset_all() {
+                let state = state_fns.create();
+                state = state_fns.reseed(state);
+                update_state(state);
+                logger.verbose('Savegame reseted:', { state });
+                emitter.emit('state_change', state);
+            },
             execute_serialized_action(action) {
                 let state = get_latest_state();
                 state = state_fns.execute(state, action);
@@ -42014,12 +42036,6 @@ function create_game_instance({ SEC, get_latest_state, update_state, client_stat
             get_actions_for_element(uuid) {
                 let state = get_latest_state();
                 return state_fns.get_actions_for_element(state, uuid);
-            },
-            reset_all() {
-                let state = state_fns.create();
-                state = state_fns.reseed(state);
-                update_state(state);
-                logger.verbose('Savegame reseted:', { state });
             },
             get_latest_state,
             subscribe(fn) {
@@ -42305,34 +42321,30 @@ var App = function (_React$Component) {
 				{ basename: _routes.BASE_ROUTE },
 				_react2.default.createElement(
 					'div',
-					{ className: 'tbrpg-container' },
+					{ className: 'tbrpg-container full-viewport-height' },
 					_react2.default.createElement(_header.Header, null),
 					_react2.default.createElement(
-						'div',
-						{ className: 'tbrpg__content' },
-						_react2.default.createElement(
-							_reactRouterDom.Switch,
-							null,
-							_react2.default.createElement(_reactRouterDom.Route, { exact: true, path: _routes.ROUTES.home, render: function render() {
-									return _react2.default.createElement(_home.Home, null);
-								} }),
-							_react2.default.createElement(_reactRouterDom.Route, { path: _routes.ROUTES.inventory, render: function render() {
-									return _react2.default.createElement(_inventory.Inventory, { workspace: _this2.props.workspace });
-								} }),
-							_react2.default.createElement(_reactRouterDom.Route, { path: _routes.ROUTES.character, render: function render() {
-									return _react2.default.createElement(_characterSheet.CharacterSheet, { workspace: _this2.props.workspace });
-								} }),
-							_react2.default.createElement(_reactRouterDom.Route, { path: _routes.ROUTES.about, render: function render() {
-									return _react2.default.createElement(_about.About, { workspace: _this2.props.workspace });
-								} }),
-							_react2.default.createElement(_reactRouterDom.Route, { path: _routes.ROUTES.export_savegame, render: function render() {
-									return _react2.default.createElement(_exportSavegame.ExportSavegame, null);
-								} }),
-							_react2.default.createElement(_reactRouterDom.Route, { path: _routes.ROUTES.x, render: function render() {
-									return _react2.default.createElement(_x.XPage, null);
-								} }),
-							_react2.default.createElement(_reactRouterDom.Redirect, { to: _routes.ROUTES.home })
-						)
+						_reactRouterDom.Switch,
+						null,
+						_react2.default.createElement(_reactRouterDom.Route, { exact: true, path: _routes.ROUTES.home, render: function render() {
+								return _react2.default.createElement(_home.Home, null);
+							} }),
+						_react2.default.createElement(_reactRouterDom.Route, { path: _routes.ROUTES.inventory, render: function render() {
+								return _react2.default.createElement(_inventory.Inventory, { workspace: _this2.props.workspace });
+							} }),
+						_react2.default.createElement(_reactRouterDom.Route, { path: _routes.ROUTES.character, render: function render() {
+								return _react2.default.createElement(_characterSheet.CharacterSheet, { workspace: _this2.props.workspace });
+							} }),
+						_react2.default.createElement(_reactRouterDom.Route, { path: _routes.ROUTES.about, render: function render() {
+								return _react2.default.createElement(_about.About, { workspace: _this2.props.workspace });
+							} }),
+						_react2.default.createElement(_reactRouterDom.Route, { path: _routes.ROUTES.export_savegame, render: function render() {
+								return _react2.default.createElement(_exportSavegame.ExportSavegame, null);
+							} }),
+						_react2.default.createElement(_reactRouterDom.Route, { path: _routes.ROUTES.x, render: function render() {
+								return _react2.default.createElement(_x.XPage, null);
+							} }),
+						_react2.default.createElement(_reactRouterDom.Redirect, { to: _routes.ROUTES.home })
 					)
 				)
 			);
@@ -45658,9 +45670,9 @@ var _react = __webpack_require__(5);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _viewRichText = __webpack_require__(113);
+var _viewRichText = __webpack_require__(172);
 
-var _chatInterface = __webpack_require__(174);
+var _chatInterface = __webpack_require__(113);
 
 var _gameInstanceProvider = __webpack_require__(65);
 
@@ -45895,9 +45907,9 @@ const definitions_1 = __webpack_require__(23);
 const state_character_1 = __webpack_require__(72);
 const logic_adventures_1 = __webpack_require__(263);
 const state_wallet_1 = __webpack_require__(62);
-const RichText = __webpack_require__(45);
-const items_1 = __webpack_require__(172);
-const wallet_1 = __webpack_require__(173);
+const RichText = __webpack_require__(42);
+const items_1 = __webpack_require__(173);
+const wallet_1 = __webpack_require__(174);
 const monster_1 = __webpack_require__(274);
 // TODO render attribute
 function render_adventure(a) {
@@ -45992,7 +46004,7 @@ exports.render_adventure = render_adventure;
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const RichText = __webpack_require__(45);
+const RichText = __webpack_require__(42);
 const state_character_1 = __webpack_require__(72);
 function render_avatar(state) {
     // TODO refactor
@@ -46032,9 +46044,9 @@ exports.render_character_sheet = render_character_sheet;
 Object.defineProperty(exports, "__esModule", { value: true });
 const definitions_1 = __webpack_require__(23);
 const state_inventory_1 = __webpack_require__(85);
-const RichText = __webpack_require__(45);
-const items_1 = __webpack_require__(172);
-const wallet_1 = __webpack_require__(173);
+const RichText = __webpack_require__(42);
+const items_1 = __webpack_require__(173);
+const wallet_1 = __webpack_require__(174);
 // we want the slots sorted by types according to an arbitrary order
 function render_equipment(inventory) {
     const $doc_list = RichText.ordered_list().addClass('inventory--equipment').done();
@@ -46080,7 +46092,7 @@ exports.render_full_inventory = render_full_inventory;
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const RichText = __webpack_require__(45);
+const RichText = __webpack_require__(42);
 function render_meta_infos(metas) {
     const $doc_list = RichText.unordered_list();
     Object.keys(metas).forEach(prop => {
@@ -46623,7 +46635,10 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var DELAY_MS = 150;
+
 // https://stackoverflow.com/questions/37620694/how-to-scroll-to-bottom-in-react
+
 var AutoScrollDown = function (_React$Component) {
 	_inherits(AutoScrollDown, _React$Component);
 
@@ -46646,24 +46661,32 @@ var AutoScrollDown = function (_React$Component) {
 	_createClass(AutoScrollDown, [{
 		key: 'componentDidMount',
 		value: function componentDidMount() {
-			this.scrollToBottom();
+			var _this2 = this;
+
+			setTimeout(function () {
+				return _this2.scrollToBottom();
+			}, DELAY_MS);
 		}
 	}, {
 		key: 'componentDidUpdate',
 		value: function componentDidUpdate() {
-			this.scrollToBottom();
+			var _this3 = this;
+
+			setTimeout(function () {
+				return _this3.scrollToBottom();
+			}, DELAY_MS);
 		}
 	}, {
 		key: 'render',
 		value: function render() {
-			var _this2 = this;
+			var _this4 = this;
 
 			return _react2.default.createElement(
 				'div',
 				{ className: 'auto-scroll-down' },
 				this.props.children,
 				_react2.default.createElement('div', { style: { float: "left", clear: "both" }, ref: function ref(el) {
-						return _this2.messagesEnd = el;
+						return _this4.messagesEnd = el;
 					} })
 			);
 		}
@@ -47004,9 +47027,9 @@ var _react = __webpack_require__(5);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _viewRichText = __webpack_require__(113);
+var _viewRichText = __webpack_require__(172);
 
-var _chatInterface = __webpack_require__(174);
+var _chatInterface = __webpack_require__(113);
 
 var _gameInstanceProvider = __webpack_require__(65);
 
@@ -47097,7 +47120,7 @@ var _react = __webpack_require__(5);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _viewRichText = __webpack_require__(113);
+var _viewRichText = __webpack_require__(172);
 
 var _rich_text_to_react = __webpack_require__(114);
 
@@ -47114,7 +47137,8 @@ function CharacterSheet(_ref) {
 	return _react2.default.createElement(
 		'div',
 		{ className: 'page page--character' },
-		(0, _rich_text_to_react.rich_text_to_react)(doc)
+		(0, _rich_text_to_react.rich_text_to_react)(doc),
+		_react2.default.createElement('hr', null)
 	);
 }
 
@@ -47138,15 +47162,21 @@ var _react = __webpack_require__(5);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _richTextFormat = __webpack_require__(42);
+
+var RichText = _interopRequireWildcard(_richTextFormat);
+
 var _stateTheBoringRpg = __webpack_require__(77);
 
-var _viewRichText = __webpack_require__(113);
-
 var _consts = __webpack_require__(142);
+
+var _chatInterface = __webpack_require__(113);
 
 var _gameInstanceProvider = __webpack_require__(65);
 
 var _rich_text_to_react = __webpack_require__(114);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -47169,13 +47199,173 @@ var AboutBase = function (_React$Component) {
 		key: 'componentWillMount',
 		value: function componentWillMount() {
 			console.info('~~ AboutBase componentWillMount');
-
 			this.props.instance.set_client_state(function (client_state) {
 				return {
-					mode: 'about'
+					mode: 'about',
+					game_reset_requested: false
 				};
 			});
 		}
+	}, {
+		key: 'gen_next_step',
+		value: /*#__PURE__*/regeneratorRuntime.mark(function gen_next_step() {
+			var instance, steps, state, ui_state;
+			return regeneratorRuntime.wrap(function gen_next_step$(_context) {
+				while (1) {
+					switch (_context.prev = _context.next) {
+						case 0:
+							console.info('~~ gen_next_step');
+							instance = this.props.instance;
+
+						case 2:
+							steps = [];
+							state = instance.get_latest_state();
+							ui_state = instance.get_client_state();
+
+							console.log({ ui_state: ui_state, state: state });
+
+							if (ui_state.game_reset_requested) {
+								steps.push({
+									msg_main: 'Reset your game and start over, are you really really sure?',
+									choices: [{
+										msg_cta: 'Yes, really reset your savegame, loose all my progression and start over 💀',
+										value: 'reset',
+										msgg_as_user: function msgg_as_user() {
+											return 'Definitely.';
+										},
+										msgg_acknowledge: function msgg_acknowledge() {
+											return 'So be it...';
+										},
+										callback: function callback() {
+											instance.reset_all();
+											window.location.reload();
+											instance.set_client_state(function () {
+												return {
+													game_reset_requested: false
+												};
+											});
+										}
+									}, {
+										msg_cta: 'Don’t reset and go back to game.',
+										value: 'hold',
+										msgg_as_user: function msgg_as_user() {
+											return 'Hold on, I changed my mind!';
+										},
+										msgg_acknowledge: function msgg_acknowledge() {
+											return 'A wise choice. The world needs you, hero!';
+										},
+										callback: function callback() {
+											instance.set_client_state(function () {
+												return {
+													game_reset_requested: false
+												};
+											});
+										}
+									}]
+								});
+							} else {
+								steps.push({
+									msg_main: 'What do you want to do?',
+									msgg_acknowledge: function msgg_acknowledge(url) {
+										return _react2.default.createElement(
+											'span',
+											null,
+											'Now opening ',
+											_react2.default.createElement(
+												'a',
+												{ href: url, target: '_blank' },
+												url
+											)
+										);
+									},
+									callback: function callback(url) {
+										return window.open(url, '_blank');
+									},
+									choices: [{
+										msg_cta: _react2.default.createElement(
+											'span',
+											null,
+											'\uD83D\uDCB0 Reward the game author with a',
+											_react2.default.createElement(
+												'span',
+												{ className: 'bg-white fg-black' },
+												' GitHub '
+											),
+											'star \u2605'
+										),
+										value: _stateTheBoringRpg.URL_OF_REPO,
+										msgg_as_user: function msgg_as_user() {
+											return 'You’re awesome…';
+										}
+									}, {
+										msg_cta: 'Reward the game author with a reddit like 👍',
+										value: _stateTheBoringRpg.URL_OF_REDDIT_PAGE,
+										msgg_as_user: function msgg_as_user() {
+											return 'You’re awesome…';
+										}
+									}, {
+										msg_cta: _react2.default.createElement(
+											'span',
+											null,
+											'\uD83D\uDCB0 Reward the game author with a',
+											_react2.default.createElement(
+												'span',
+												{ className: 'bg-red fg-white' },
+												' Product Hunt '
+											),
+											'upvote \u21E7'
+										),
+										value: _stateTheBoringRpg.URL_OF_PRODUCT_HUNT_PAGE,
+										msgg_as_user: function msgg_as_user() {
+											return 'You’re awesome…';
+										}
+									}, {
+										msg_cta: 'Fork on GitHub 🐙 😹',
+										value: _stateTheBoringRpg.URL_OF_FORK,
+										msgg_as_user: function msgg_as_user() {
+											return 'I’d like to contribute!';
+										}
+									}, {
+										msg_cta: 'Report a bug 🐞',
+										value: _stateTheBoringRpg.URL_OF_ISSUES,
+										msgg_as_user: function msgg_as_user() {
+											return 'There is this annoying bug…';
+										}
+									}, {
+										msg_cta: 'Reset your savegame 💀',
+										value: 'reset',
+										msgg_as_user: function msgg_as_user() {
+											return 'I want to start over…';
+										},
+										msgg_acknowledge: function msgg_acknowledge() {
+											return 'You can\'t be serious?';
+										},
+										callback: function callback() {
+											instance.set_client_state(function () {
+												return {
+													game_reset_requested: true
+												};
+											});
+										}
+									}]
+								});
+							}
+
+							return _context.delegateYield(steps, 't0', 8);
+
+						case 8:
+							if (true) {
+								_context.next = 2;
+								break;
+							}
+
+						case 9:
+						case 'end':
+							return _context.stop();
+					}
+				}
+			}, gen_next_step, this);
+		})
 	}, {
 		key: 'componentDidMount',
 		value: function componentDidMount() {
@@ -47200,19 +47390,32 @@ var AboutBase = function (_React$Component) {
 
 			var state = instance.get_latest_state();
 
-			var doc = (0, _viewRichText.render_account_info)({}, {
-				version: _consts.VERSION,
-				'build date (UTC)': _consts.BUILD_DATE,
-				'engine version': _stateTheBoringRpg.GAME_VERSION,
-				'savegame version': _stateTheBoringRpg.SCHEMA_VERSION,
-				'play count': state.good_click_count,
-				env: "production"
-			});
+			var $doc_list = RichText.unordered_list();
+			$doc_list.pushRawNode(RichText.span().pushText('Play count: ' + state.good_click_count).done(), '01-playcount');
+			$doc_list.pushRawNode(RichText.span().pushText('Game version: ' + _consts.VERSION).done(), '02-version');
+			$doc_list.pushRawNode(RichText.span().pushText('build date (UTC): ' + _consts.BUILD_DATE).done(), '03-builddate');
+			$doc_list.pushRawNode(RichText.span().pushText('Release channel: ' + _consts.CHANNEL).done(), '04-channel');
+			$doc_list.pushRawNode(RichText.span().pushText('Exec env: ' + "production").done(), '05-env');
+			$doc_list.pushRawNode(RichText.span().pushText('Engine version: ' + _stateTheBoringRpg.GAME_VERSION).done(), '06-engine');
+			$doc_list.pushRawNode(RichText.span().pushText('Savegame version: ' + _stateTheBoringRpg.SCHEMA_VERSION).done(), '07-savegame');
+			$doc_list = $doc_list.done();
+
+			var $doc = RichText.span().pushNode(RichText.heading().pushText('Client infos:').done(), 'header').pushNode($doc_list, 'list').done();
 
 			return _react2.default.createElement(
 				'div',
 				{ className: 'page page--about' },
-				(0, _rich_text_to_react.rich_text_to_react)(doc)
+				_react2.default.createElement(
+					'div',
+					{ className: 'flex-element-nogrow' },
+					(0, _rich_text_to_react.rich_text_to_react)($doc),
+					_react2.default.createElement('hr', null)
+				),
+				_react2.default.createElement(
+					'div',
+					{ className: 'flex-element-grow' },
+					_react2.default.createElement(_chatInterface.Chat, { gen_next_step: this.gen_next_step() })
+				)
 			);
 		}
 	}]);
@@ -47408,7 +47611,7 @@ var _react = __webpack_require__(5);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _chatInterface = __webpack_require__(174);
+var _chatInterface = __webpack_require__(113);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

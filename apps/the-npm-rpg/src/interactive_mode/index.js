@@ -3,6 +3,8 @@
 const opn = require('opn');
 
 const tbrpg = require('@oh-my-rpg/state-the-boring-rpg')
+const {URL_OF_REPO, URL_OF_FORK, URL_OF_ISSUES, URL_OF_PRODUCT_HUNT_PAGE, URL_OF_REDDIT_PAGE} = require('@oh-my-rpg/state-the-boring-rpg')
+
 const { iterables_unslotted, get_item_at_coordinates, get_item_in_slot } = require('@oh-my-rpg/state-inventory')
 const { create: create_tty_chat_ui } = require('@offirmo/view-chat-ui-tty')
 const { create: create_chat } = require('@offirmo/view-chat')
@@ -406,11 +408,6 @@ function start_loop(SEC, options, instance) {
 
 					const URL_OF_WEBSITE = 'https://www.online-adventur.es/the-npm-rpg.html'
 					const URL_OF_NPM_PAGE = 'https://www.npmjs.com/package/the-npm-rpg'
-					const URL_OF_REPO = 'https://github.com/online-adventures/oh-my-rpg'
-					const URL_OF_PRODUCT_HUNT_PAGE = 'https://www.producthunt.com/upcoming/the-npm-rpg'
-					const URL_OF_FORK = 'https://github.com/online-adventures/oh-my-rpg/#fork'
-					const URL_OF_ISSUES = 'https://github.com/online-adventures/oh-my-rpg/issues'
-					//const URL_OF_REDDIT_PAGE = 'TODO RED'
 
 					choices.push(
 						{
@@ -432,11 +429,11 @@ function start_loop(SEC, options, instance) {
 							value: URL_OF_REPO,
 							msgg_as_user: () => 'You’re awesome…',
 						},
-						/*{
-                          msg_cta: 'Reward the game author with a reddit like 👍',
-                          value: URL_OF_REDDIT_PAGE,
-                          msgg_as_user: () => 'You’re awesome…',
-                      },*/
+						{
+							msg_cta: 'Reward the game author with a reddit like 👍',
+							value: URL_OF_REDDIT_PAGE,
+							msgg_as_user: () => 'You’re awesome…',
+						},
 						{
 							msg_cta: `💰 Reward the game author with a ${stylize_string.bgRed(
 								stylize_string.white(' Product Hunt ')

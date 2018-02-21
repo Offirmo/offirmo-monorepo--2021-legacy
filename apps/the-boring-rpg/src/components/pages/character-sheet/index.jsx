@@ -14,6 +14,8 @@ function CharacterSheet({workspace}) {
 	return (
 		<div className={'page page--character'}>
 			{rich_text_to_react(doc)}
+			<hr/>
+
 		</div>
 	)
 }

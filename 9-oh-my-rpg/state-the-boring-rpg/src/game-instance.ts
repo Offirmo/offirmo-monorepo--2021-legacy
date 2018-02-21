@@ -81,6 +81,13 @@ function create_game_instance<T>({SEC, get_latest_state, update_state, client_st
 				update_state(state)
 				emitter.emit('state_change', state)
 			},
+			reset_all() {
+				let state = state_fns.create()
+				state = state_fns.reseed(state)
+				update_state(state)
+				logger.verbose('Savegame reseted:', {state})
+				emitter.emit('state_change', state)
+			},
 
 			execute_serialized_action(action: Action) {
 				let state = get_latest_state()
@@ -104,12 +111,6 @@ function create_game_instance<T>({SEC, get_latest_state, update_state, client_st
 			get_actions_for_element(uuid: UUID): Action[] {
 				let state = get_latest_state()
 				return state_fns.get_actions_for_element(state, uuid)
-			},
-			reset_all() {
-				let state = state_fns.create()
-				state = state_fns.reseed(state)
-				update_state(state)
-				logger.verbose('Savegame reseted:', {state})
 			},
 
 			get_latest_state,

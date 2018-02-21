@@ -1,5 +1,7 @@
 import React from 'react'
 
+const DELAY_MS = 150
+
 // https://stackoverflow.com/questions/37620694/how-to-scroll-to-bottom-in-react
 class AutoScrollDown extends React.Component {
 
@@ -8,11 +10,11 @@ class AutoScrollDown extends React.Component {
 	}
 
 	componentDidMount() {
-		this.scrollToBottom()
+		setTimeout(() => this.scrollToBottom(), DELAY_MS)
 	}
 
 	componentDidUpdate() {
-		this.scrollToBottom()
+		setTimeout(() => this.scrollToBottom(), DELAY_MS)
 	}
 
 	render() {

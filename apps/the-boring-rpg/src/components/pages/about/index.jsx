@@ -1,7 +1,15 @@
 import React from 'react'
 
 import * as RichText from '@offirmo/rich-text-format'
-import { SCHEMA_VERSION, GAME_VERSION } from '@oh-my-rpg/state-the-boring-rpg'
+import {
+	SCHEMA_VERSION,
+	GAME_VERSION,
+	URL_OF_PRODUCT_HUNT_PAGE,
+	URL_OF_REPO,
+	URL_OF_FORK,
+	URL_OF_ISSUES,
+	URL_OF_REDDIT_PAGE,
+} from '@oh-my-rpg/state-the-boring-rpg'
 
 import { VERSION, BUILD_DATE, CHANNEL } from '../../../services/consts'
 import { Chat } from '../../templates/chat-interface'
@@ -15,6 +23,7 @@ class AboutBase extends React.Component {
 		console.info('~~ AboutBase componentWillMount')
 		this.props.instance.set_client_state(client_state => ({
 			mode: 'about',
+			game_reset_requested: false,
 		}))
 	}
 
@@ -28,63 +37,90 @@ class AboutBase extends React.Component {
 			const ui_state = instance.get_client_state()
 			console.log({ui_state, state})
 
-			steps.push({
-				msg_main: `What do you want to do?`,
-				choices: [
-					{
-						msg_cta: 'Visit game official website',
-						value: URL_OF_WEBSITE,
-						msgg_as_user: () => 'Let’s have a look…',
-					},
-					{
-						msg_cta: `💰 Reward the game author with a ${stylize_string.bgRed(
-							stylize_string.white(' npm ')
-						)} star ★`,
-						value: URL_OF_NPM_PAGE,
-						msgg_as_user: () => 'You’re awesome…',
-					},
-					{
-						msg_cta: `💰 Reward the game author with a ${stylize_string.bgWhite(
-							stylize_string.black(' GitHub ')
-						)} star ★`,
-						value: URL_OF_REPO,
-						msgg_as_user: () => 'You’re awesome…',
-					},
-					/*{
-                       msg_cta: 'Reward the game author with a reddit like 👍',
-                       value: URL_OF_REDDIT_PAGE,
-                       msgg_as_user: () => 'You’re awesome…',
-                   },*/
-					{
-						msg_cta: `💰 Reward the game author with a ${stylize_string.bgRed(
-							stylize_string.white(' Product Hunt ')
-						)} upvote ⇧`,
-						value: URL_OF_PRODUCT_HUNT_PAGE,
-						msgg_as_user: () => 'You’re awesome…',
-					},
-					{
-						msg_cta: 'Fork on GitHub 🐙 😹',
-						value: URL_OF_FORK,
-						msgg_as_user: () => 'I’d like to contribute!',
-					},
-					{
-						msg_cta: 'Report a bug 🐞',
-						value: URL_OF_ISSUES,
-						msgg_as_user: () => 'There is this annoying bug…',
-					},
-					{
-						msg_cta: 'Reset your savegame 💀',
-						value: 'reset',
-						msgg_as_user: () => 'I want to start over…',
-						msgg_acknowledge: url => `You can't be serious?`,
-						callback: () => {
-							this.props.instance.set_client_state(client_state => ({
-								game_reset_requested: true
-							}))
-						}
-					},
-				],
-			})
+			if (ui_state.game_reset_requested) {
+				steps.push({
+					msg_main: 'Reset your game and start over, are you really really sure?',
+					choices: [
+						{
+							msg_cta: 'Yes, really reset your savegame, loose all my progression and start over 💀',
+							value: 'reset',
+							msgg_as_user: () => 'Definitely.',
+							msgg_acknowledge: () => 'So be it...',
+							callback: () => {
+								instance.reset_all()
+								window.location.reload()
+								instance.set_client_state(() => ({
+									game_reset_requested: false,
+								}))
+							}
+						},
+						{
+							msg_cta: 'Don’t reset and go back to game.',
+							value: 'hold',
+							msgg_as_user: () => 'Hold on, I changed my mind!',
+							msgg_acknowledge: () => 'A wise choice. The world needs you, hero!',
+							callback: () => {
+								instance.set_client_state(() => ({
+									game_reset_requested: false,
+								}))
+							}
+						},
+					],
+				})
+			}
+			else {
+				steps.push({
+					msg_main: `What do you want to do?`,
+					msgg_acknowledge: url => <span>Now opening <a href={url} target="_blank">{url}</a></span>,
+					callback: url => window.open(url, '_blank'),
+					choices: [
+						{
+							msg_cta: <span>
+								💰 Reward the game author with a
+								<span className='bg-white fg-black'> GitHub </span>
+								star ★
+							</span>,
+							value: URL_OF_REPO,
+							msgg_as_user: () => 'You’re awesome…',
+						},
+						{
+							msg_cta: 'Reward the game author with a reddit like 👍',
+							value: URL_OF_REDDIT_PAGE,
+							msgg_as_user: () => 'You’re awesome…',
+						},
+						{
+							msg_cta: <span>
+								💰 Reward the game author with a
+								<span className='bg-red fg-white'> Product Hunt </span>
+								upvote ⇧
+							</span>,
+							value: URL_OF_PRODUCT_HUNT_PAGE,
+							msgg_as_user: () => 'You’re awesome…',
+						},
+						{
+							msg_cta: 'Fork on GitHub 🐙 😹',
+							value: URL_OF_FORK,
+							msgg_as_user: () => 'I’d like to contribute!',
+						},
+						{
+							msg_cta: 'Report a bug 🐞',
+							value: URL_OF_ISSUES,
+							msgg_as_user: () => 'There is this annoying bug…',
+						},
+						{
+							msg_cta: 'Reset your savegame 💀',
+							value: 'reset',
+							msgg_as_user: () => 'I want to start over…',
+							msgg_acknowledge: () => `You can't be serious?`,
+							callback: () => {
+								instance.set_client_state(() => ({
+									game_reset_requested: true
+								}))
+							}
+						},
+					],
+				})
+			}
 
 			yield* steps
 		} while (true)
@@ -142,8 +178,13 @@ class AboutBase extends React.Component {
 
 		return (
 			<div className={'page page--about'}>
-				{rich_text_to_react($doc)}
-				<Chat gen_next_step={this.gen_next_step()} />
+				<div className='flex-element-nogrow'>
+					{rich_text_to_react($doc)}
+					<hr/>
+				</div>
+				<div className='flex-element-grow'>
+					<Chat gen_next_step={this.gen_next_step()} />
+				</div>
 			</div>
 		)
 	}

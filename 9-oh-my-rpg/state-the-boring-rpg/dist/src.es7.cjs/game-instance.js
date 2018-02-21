@@ -60,6 +60,13 @@ function create_game_instance({ SEC, get_latest_state, update_state, client_stat
                 update_state(state);
                 emitter.emit('state_change', state);
             },
+            reset_all() {
+                let state = state_fns.create();
+                state = state_fns.reseed(state);
+                update_state(state);
+                logger.verbose('Savegame reseted:', { state });
+                emitter.emit('state_change', state);
+            },
             execute_serialized_action(action) {
                 let state = get_latest_state();
                 state = state_fns.execute(state, action);
@@ -81,12 +88,6 @@ function create_game_instance({ SEC, get_latest_state, update_state, client_stat
             get_actions_for_element(uuid) {
                 let state = get_latest_state();
                 return state_fns.get_actions_for_element(state, uuid);
-            },
-            reset_all() {
-                let state = state_fns.create();
-                state = state_fns.reseed(state);
-                update_state(state);
-                logger.verbose('Savegame reseted:', { state });
             },
             get_latest_state,
             subscribe(fn) {

@@ -16,23 +16,21 @@ class App extends React.Component {
 	render() {
 		return (
 			<Router  basename={BASE_ROUTE}>
-				<div className='tbrpg-container'>
+				<div className='tbrpg-container full-viewport-height'>
 
 					<Header/>
 
-					<div className='tbrpg__content'>
-						<Switch>
-							<Route exact path={ROUTES.home} render={() => <Home />} />
-							<Route path={ROUTES.inventory} render={() => <Inventory workspace={this.props.workspace} />} />
-							<Route path={ROUTES.character} render={() => <CharacterSheet workspace={this.props.workspace} />} />
-							<Route path={ROUTES.about} render={() => <About workspace={this.props.workspace} />} />
+					<Switch>
+						<Route exact path={ROUTES.home} render={() => <Home />} />
+						<Route path={ROUTES.inventory} render={() => <Inventory workspace={this.props.workspace} />} />
+						<Route path={ROUTES.character} render={() => <CharacterSheet workspace={this.props.workspace} />} />
+						<Route path={ROUTES.about} render={() => <About workspace={this.props.workspace} />} />
 
-							<Route path={ROUTES.export_savegame} render={() => <ExportSavegame />} />
-							<Route path={ROUTES.x} render={() => <XPage />} />
+						<Route path={ROUTES.export_savegame} render={() => <ExportSavegame />} />
+						<Route path={ROUTES.x} render={() => <XPage />} />
 
-							<Redirect to={ROUTES.home} />
-						</Switch>
-					</div>
+						<Redirect to={ROUTES.home} />
+					</Switch>
 				</div>
 			</Router>
 		)

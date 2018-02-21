@@ -7,6 +7,7 @@
 }
 
 body {
+	xxborder: solid 1px orange;
 	margin: 0 auto;
 	padding: 0;
 	max-width: 650px;
@@ -60,6 +61,11 @@ ul, ol {
 
 /*********************/
 
+.full-viewport-height {
+	height: 100vh;
+	overflow: hidden;
+}
+
 .avoid-wrap {
 	display:inline-block;
 }
@@ -77,6 +83,15 @@ ul, ol {
 	flex-direction: column;
 }
 
+/* https://stackoverflow.com/questions/90178/make-a-div-fill-the-height-of-the-remaining-screen-space */
+.flex-element-nogrow {
+	flex-grow: 0;
+}
+.flex-element-grow {
+	flex-grow: 1;
+	overflow: scroll;
+}
+
 .clickable-area {
 	cursor:  pointer;
 
@@ -92,102 +107,9 @@ ul, ol {
 	user-select: none;
 }
 
-/*********************/
-
-:root {
-	--tbrpg--header--height: 80px;
-}
-
-/*********************/
-.tbrpg-container {
-}
-
-.tbrpg__header {
-	position: sticky;
-	top: 0;
-	padding: 5px;
-	z-index: 1; /* needed to make it clickable above the content */
-	height: var(--tbrpg--header--height);
-	/* https://css-tricks.com/easing-linear-gradients/
-	 * https://larsenwork.com/easing-gradients/
-	 */
-	background-image: linear-gradient(to bottom, hsl(0, 0%, 0%) 0%, hsla(0, 0%, 0%, 0.98) 9.9%, hsla(0, 0%, 0%, 0.948) 19.4%, hsla(0, 0%, 0%, 0.904) 28.4%, hsla(0, 0%, 0%, 0.845) 36.6%, hsla(0, 0%, 0%, 0.775) 43.8%, hsla(0, 0%, 0%, 0.695) 50%, hsla(0, 0%, 0%, 0.61) 55.2%, hsla(0, 0%, 0%, 0.52) 59.7%, hsla(0, 0%, 0%, 0.427) 63.8%, hsla(0, 0%, 0%, 0.335) 67.7%, hsla(0, 0%, 0%, 0.242) 71.9%, hsla(0, 0%, 0%, 0.155) 76.8%, hsla(0, 0%, 0%, 0.077) 83.2%, hsla(0, 0%, 0%, 0.022) 91.6%, hsla(0, 0%, 0%, 0) 100%);
-	display: flex;
-	flex-direction: column;
-}
-.tbrpg__header__logo {
-}
-.tbrpg__header__title {
-	font-size: 25px;
-	color: #f7efb2;
-	margin-left: 7px;
-}
-.tbrpg__content {
-	min-width: 100%;
-}
-
-/*********************/
-.tbrpg__nav {
-	display: flex;
-	flex-direction: row;
-}
-
-.tbrpg__nav__list {
-	list-style-type: none;
-	padding: 0;
-	margin: 0;
-	display: flex;
-}
-
-/* https://stackoverflow.com/a/8185290/587407 */
-.tbrpg__nav__list li + li  {
-	margin-left: 16px;
-}
-
-
-/* #f7efb2e0 */
-
-.tbrpg__nav a {
-	color: white;
-	text-decoration: none;
-}
-.tbrpg__nav a.active {
-	color: #ffe74b;
-	font-weight: bold;
-	border-bottom: solid 2px;
-}
-.tbrpg__nav a.active:before {
-	content: '';
-}
-
-/*********************/
-.page--character,
-.page--inventory,
-.page--about {
-	padding: 7px;
-}
-
-pre.export_savegame {
-	font-family: monospace;
-	font-size: 10px;
-}
-
-/*********************/
-/* RPG UI overrides */
-.rpgui-content,
-.rpgui-container {
-	position: initial;
-	width: initial;
-	height: initial;
-}
-
-.rpgui-content {
-	overflow: initial;
-}
 
 /*********************/
 .chat {
-	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-end;
@@ -241,11 +163,122 @@ pre.export_savegame {
 .chat__choices {
 	padding-right: 10px;
 	padding-bottom: 12px;
+	text-align: end;
 }
+.chat__choices button {
+	text-align: left;
+}
+
 /* https://stackoverflow.com/a/8185290/587407 */
 /*.chat__choices > * + * {
 	margin-left: 5px;
 }*/
+
+/*********************/
+
+:root {
+	--tbrpg--header--height: 80px;
+	xxborder: solid 1px green;
+}
+
+/*********************/
+.tbrpg-container {
+	xxborder: solid 1px blue;
+}
+
+.tbrpg__header {
+	position: sticky;
+	top: 0;
+	padding: 5px;
+	z-index: 1; /* needed to make it clickable above the content */
+	height: var(--tbrpg--header--height);
+	/* https://css-tricks.com/easing-linear-gradients/
+	 * https://larsenwork.com/easing-gradients/
+	 */
+	background-image: linear-gradient(to bottom, hsl(0, 0%, 0%) 0%, hsla(0, 0%, 0%, 0.98) 9.9%, hsla(0, 0%, 0%, 0.948) 19.4%, hsla(0, 0%, 0%, 0.904) 28.4%, hsla(0, 0%, 0%, 0.845) 36.6%, hsla(0, 0%, 0%, 0.775) 43.8%, hsla(0, 0%, 0%, 0.695) 50%, hsla(0, 0%, 0%, 0.61) 55.2%, hsla(0, 0%, 0%, 0.52) 59.7%, hsla(0, 0%, 0%, 0.427) 63.8%, hsla(0, 0%, 0%, 0.335) 67.7%, hsla(0, 0%, 0%, 0.242) 71.9%, hsla(0, 0%, 0%, 0.155) 76.8%, hsla(0, 0%, 0%, 0.077) 83.2%, hsla(0, 0%, 0%, 0.022) 91.6%, hsla(0, 0%, 0%, 0) 100%);
+	display: flex;
+	flex-direction: column;
+}
+.tbrpg__header__logo {
+}
+.tbrpg__header__title {
+	font-size: 25px;
+	color: #f7efb2;
+	margin-left: 7px;
+}
+
+/*********************/
+.tbrpg__nav {
+	display: flex;
+	flex-direction: row;
+}
+
+.tbrpg__nav__list {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+}
+
+/* https://stackoverflow.com/a/8185290/587407 */
+.tbrpg__nav__list li + li  {
+	margin-left: 16px;
+}
+
+
+/* #f7efb2e0 */
+
+.tbrpg__nav a {
+	color: white;
+	text-decoration: none;
+}
+.tbrpg__nav a.active {
+	color: #ffe74b;
+	font-weight: bold;
+	border-bottom: solid 2px;
+}
+.tbrpg__nav a.active:before {
+	content: '';
+}
+
+/*********************/
+.page--home {
+	height: 100vh;
+	overflow-y: scroll;
+}
+
+.page--inventory,
+.page--character,
+.page--about {
+	padding: 7px;
+	/*position: relative;
+	top: -25px;*/
+	height: calc(100vh - var(--tbrpg--header--height));
+	display: flex;
+	flex-direction: column;
+}
+
+.page .chat {
+	min-height: 100vh;
+}
+
+pre.export_savegame {
+	font-family: monospace;
+	font-size: 10px;
+}
+
+/*********************/
+/* RPG UI overrides */
+.rpgui-content,
+.rpgui-container {
+	position: initial;
+	width: initial;
+	height: initial;
+}
+
+.rpgui-content {
+	overflow: initial;
+}
 
 /*********************/
 .monster-emoji {
