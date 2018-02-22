@@ -12353,8 +12353,8 @@ module.exports = navigator && navigator.userAgent || '';
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-var VERSION = '0.50.16';
-var BUILD_DATE = '20180222_11h26';
+var VERSION = '0.50.17';
+var BUILD_DATE = '20180222_22h18';
 // TODO commit
 /////// autogen ///////
 
@@ -22455,7 +22455,7 @@ var _require = __webpack_require__(77),
     create_game_instance = _require.create_game_instance;
 
 var workspace = {
-	version: "0.50.16",
+	version: "0.50.17",
 	verbose: true, // XXX
 	state: null,
 	SEC: _init.SEC
