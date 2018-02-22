@@ -2,8 +2,8 @@
 
 /////// autogen ///////
 // do not edit this area, it is auto-generated
-const VERSION='0.50.11'
-const BUILD_DATE='20180222_02h13'
+const VERSION='0.50.12'
+const BUILD_DATE='20180222_07h02'
 // TODO commit
 /////// autogen ///////
 

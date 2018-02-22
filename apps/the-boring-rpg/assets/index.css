@@ -6,8 +6,12 @@
 	src:url('spectral-regular.woff') format('woff');
 }
 
+html {
+	height: 100%;
+}
+
 body {
-	xxborder: solid 1px orange;
+	border-color: orange;
 	margin: 0 auto;
 	padding: 0;
 	max-width: 650px;
@@ -187,14 +191,23 @@ ul, ol {
 :root {
 	--tbrpg--header--height: 80px;
 
-	box-sizing: border-box;
-	xxborder: solid 1px green;
+	border-color: green;
 }
+
+.top-container {
+	box-sizing: border-box;
+	border-style: solid;
+	border-width: 1px;
+
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
 
 /*********************/
 .tbrpg-container {
-	box-sizing: border-box;
-	xxborder: solid 1px blue;
+	border-color: blue;
 }
 
 .tbrpg__header {
@@ -275,7 +288,7 @@ ul, ol {
 }
 
 .page--home .chat {
-	min-height: 100vh;
+	min-height: calc(100vh - var(--tbrpg--header--height));
 }
 
 pre.export_savegame {

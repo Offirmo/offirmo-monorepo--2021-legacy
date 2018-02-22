@@ -11380,7 +11380,7 @@ var Chat = function (_React$Component) {
 
 			return _react2.default.createElement(
 				_autoScrollDown.AutoScrollDown,
-				null,
+				{ classname: 'flex-column' },
 				_react2.default.createElement(
 					'div',
 					{ className: 'chat' },
@@ -12353,8 +12353,8 @@ module.exports = navigator && navigator.userAgent || '';
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-var VERSION = '0.50.11';
-var BUILD_DATE = '20180222_02h13';
+var VERSION = '0.50.12';
+var BUILD_DATE = '20180222_07h02';
 // TODO commit
 /////// autogen ///////
 
@@ -15321,6 +15321,8 @@ var createTransitionManager = function createTransitionManager() {
 
 "use strict";
 
+
+// TODO auto=adapt to current path instead
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -22449,7 +22451,7 @@ var _require = __webpack_require__(77),
     create_game_instance = _require.create_game_instance;
 
 var workspace = {
-	version: "0.50.11",
+	version: "0.50.12",
 	verbose: true, // XXX
 	state: null,
 	SEC: _init.SEC
@@ -42324,7 +42326,7 @@ var App = function (_React$Component) {
 				{ basename: _routes.BASE_ROUTE },
 				_react2.default.createElement(
 					'div',
-					{ className: 'tbrpg-container' },
+					{ className: 'tbrpg-container top-container' },
 					_react2.default.createElement(_header.Header, null),
 					_react2.default.createElement(
 						_reactRouterDom.Switch,
@@ -45866,7 +45868,7 @@ var HomeBase = function (_React$Component) {
 			var client_state = this.props.instance.get_client_state();
 			return _react2.default.createElement(
 				'div',
-				{ className: 'page page--home' },
+				{ className: 'page page--home flex-column' },
 				_react2.default.createElement(_chatInterface.Chat, {
 					initial_bubbles: client_state.home_bubbles,
 					gen_next_step: this.gen_next_step(),
@@ -47196,6 +47198,21 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+function render_meta(state) {
+	var $doc_list_builder = RichText.unordered_list();
+	$doc_list_builder.pushRawNode(RichText.span().pushText('Play count: ' + state.good_click_count).done(), '01-playcount');
+	$doc_list_builder.pushRawNode(RichText.span().pushText('Game version: ' + _consts.VERSION).done(), '02-version');
+	$doc_list_builder.pushRawNode(RichText.span().pushText('Build date (UTC): ' + _consts.BUILD_DATE).done(), '03-builddate');
+	$doc_list_builder.pushRawNode(RichText.span().pushText('Release channel: ' + _consts.CHANNEL).done(), '04-channel');
+	$doc_list_builder.pushRawNode(RichText.span().pushText('Exec env: ' + "production").done(), '05-env');
+	$doc_list_builder.pushRawNode(RichText.span().pushText('Engine version: ' + _stateTheBoringRpg.GAME_VERSION).done(), '06-engine');
+	$doc_list_builder.pushRawNode(RichText.span().pushText('Savegame version: ' + _stateTheBoringRpg.SCHEMA_VERSION).done(), '07-savegame');
+
+	var $doc = RichText.span().pushNode(RichText.heading().pushText('Client infos:').done(), 'header').pushNode($doc_list_builder.done(), 'list').done();
+
+	return $doc;
+}
+
 var AboutBase = function (_React$Component) {
 	_inherits(AboutBase, _React$Component);
 
@@ -47209,10 +47226,9 @@ var AboutBase = function (_React$Component) {
 		key: 'componentWillMount',
 		value: function componentWillMount() {
 			console.info('~~ AboutBase componentWillMount');
-			this.props.instance.set_client_state(function (client_state) {
+			this.props.instance.set_client_state(function () {
 				return {
-					mode: 'about',
-					game_reset_requested: false
+					mode: 'about'
 				};
 			});
 		}
@@ -47234,139 +47250,105 @@ var AboutBase = function (_React$Component) {
 
 							console.log({ ui_state: ui_state, state: state });
 
-							if (ui_state.game_reset_requested) {
-								steps.push({
-									msg_main: 'Reset your game and start over, are you really really sure?',
-									choices: [{
-										msg_cta: 'Yes, really reset your savegame, loose all my progression and start over 💀',
-										value: 'reset',
-										msgg_as_user: function msgg_as_user() {
-											return 'Definitely.';
-										},
-										msgg_acknowledge: function msgg_acknowledge() {
-											return 'So be it...';
-										},
-										callback: function callback() {
+							steps.push({
+								msg_main: 'What do you want to do?',
+								msgg_acknowledge: function msgg_acknowledge(url) {
+									return _react2.default.createElement(
+										'span',
+										null,
+										'Now opening ',
+										_react2.default.createElement(
+											'a',
+											{ href: url, target: '_blank' },
+											url
+										)
+									);
+								},
+								callback: function callback(url) {
+									return window.open(url, '_blank');
+								},
+								choices: [{
+									msg_cta: _react2.default.createElement(
+										'span',
+										null,
+										'\u2605 star on',
+										_react2.default.createElement(
+											'span',
+											{ className: 'bg-white fg-black' },
+											' GitHub '
+										)
+									),
+									value: _stateTheBoringRpg.URL_OF_REPO,
+									msgg_as_user: function msgg_as_user() {
+										return 'You’re awesome…';
+									}
+								}, {
+									msg_cta: '👍 like on reddit',
+									value: _stateTheBoringRpg.URL_OF_REDDIT_PAGE,
+									msgg_as_user: function msgg_as_user() {
+										return 'You’re awesome…';
+									}
+								}, {
+									msg_cta: _react2.default.createElement(
+										'span',
+										null,
+										'\u21E7 upvote on',
+										_react2.default.createElement(
+											'span',
+											{ className: 'bg-red fg-white' },
+											' Product Hunt '
+										)
+									),
+									value: _stateTheBoringRpg.URL_OF_PRODUCT_HUNT_PAGE,
+									msgg_as_user: function msgg_as_user() {
+										return 'You’re awesome…';
+									}
+								}, {
+									msg_cta: 'Fork on GitHub 🐙 😹',
+									value: _stateTheBoringRpg.URL_OF_FORK,
+									msgg_as_user: function msgg_as_user() {
+										return 'I’d like to contribute!';
+									}
+								}, {
+									msg_cta: 'Report a bug 🐞',
+									value: _stateTheBoringRpg.URL_OF_ISSUES,
+									msgg_as_user: function msgg_as_user() {
+										return 'There is this annoying bug…';
+									}
+								}, {
+									msg_cta: 'Reload page ↻',
+									value: 'reload',
+									msgg_as_user: function msgg_as_user() {
+										return 'Because I need it';
+									},
+									msgg_acknowledge: function msgg_acknowledge() {
+										return 'Reloading...';
+									},
+									callback: function callback() {
+										return new Promise(function () {
+											return window.location.reload();
+										});
+									}
+								}, {
+									msg_cta: 'Reset your savegame 💀',
+									value: 'reset',
+									msgg_as_user: function msgg_as_user() {
+										return 'I want to start over…';
+									},
+									msgg_acknowledge: function msgg_acknowledge() {
+										return 'Are you serious?';
+									},
+									callback: function callback() {
+										return new Promise(function (resolve, reject) {
+											if (!window.confirm('💀 Do you really really want to reset your savegame, loose all progression and start over?')) return resolve(false);
+
 											instance.reset_all();
 											window.location.reload();
-											instance.set_client_state(function () {
-												return {
-													game_reset_requested: false
-												};
-											});
-										}
-									}, {
-										msg_cta: 'Don’t reset and go back to game.',
-										value: 'hold',
-										msgg_as_user: function msgg_as_user() {
-											return 'Hold on, I changed my mind!';
-										},
-										msgg_acknowledge: function msgg_acknowledge() {
-											return 'A wise choice. The world needs you, hero!';
-										},
-										callback: function callback() {
-											instance.set_client_state(function () {
-												return {
-													game_reset_requested: false
-												};
-											});
-										}
-									}]
-								});
-							} else {
-								steps.push({
-									msg_main: 'What do you want to do?',
-									msgg_acknowledge: function msgg_acknowledge(url) {
-										return _react2.default.createElement(
-											'span',
-											null,
-											'Now opening ',
-											_react2.default.createElement(
-												'a',
-												{ href: url, target: '_blank' },
-												url
-											)
-										);
-									},
-									callback: function callback(url) {
-										return window.open(url, '_blank');
-									},
-									choices: [{
-										msg_cta: _react2.default.createElement(
-											'span',
-											null,
-											'\u2605 star on',
-											_react2.default.createElement(
-												'span',
-												{ className: 'bg-white fg-black' },
-												' GitHub '
-											)
-										),
-										value: _stateTheBoringRpg.URL_OF_REPO,
-										msgg_as_user: function msgg_as_user() {
-											return 'You’re awesome…';
-										}
-									}, {
-										msg_cta: '👍 like on reddit',
-										value: _stateTheBoringRpg.URL_OF_REDDIT_PAGE,
-										msgg_as_user: function msgg_as_user() {
-											return 'You’re awesome…';
-										}
-									}, {
-										msg_cta: _react2.default.createElement(
-											'span',
-											null,
-											'\u21E7 upvote on',
-											_react2.default.createElement(
-												'span',
-												{ className: 'bg-red fg-white' },
-												' Product Hunt '
-											)
-										),
-										value: _stateTheBoringRpg.URL_OF_PRODUCT_HUNT_PAGE,
-										msgg_as_user: function msgg_as_user() {
-											return 'You’re awesome…';
-										}
-									}, {
-										msg_cta: 'Fork on GitHub 🐙 😹',
-										value: _stateTheBoringRpg.URL_OF_FORK,
-										msgg_as_user: function msgg_as_user() {
-											return 'I’d like to contribute!';
-										}
-									}, {
-										msg_cta: 'Report a bug 🐞',
-										value: _stateTheBoringRpg.URL_OF_ISSUES,
-										msgg_as_user: function msgg_as_user() {
-											return 'There is this annoying bug…';
-										}
-									}, {
-										msg_cta: 'Reload page ↻',
-										value: 'reload',
-										msgg_as_user: function msgg_as_user() {
-											return 'Because I need it';
-										},
-										callback: function callback() {
-											return window.location.reload();
-										}
-									}, {
-										msg_cta: 'Reset your savegame 💀',
-										value: 'reset',
-										msgg_as_user: function msgg_as_user() {
-											return 'I want to start over…';
-										},
-										msgg_acknowledge: function msgg_acknowledge() {
-											return 'You can\'t be serious?';
-										},
-										callback: function callback() {
-											instance.set_client_state(function () {
-												return {
-													game_reset_requested: true
-												};
-											});
-										}
-									}]
-								});
-							}
+											// no resolution, to give the page time to reload
+										});
+									}
+								}]
+							});
 
 							return _context.delegateYield(steps, 't0', 8);
 
@@ -47407,25 +47389,13 @@ var AboutBase = function (_React$Component) {
 
 			var state = instance.get_latest_state();
 
-			var $doc_list = RichText.unordered_list();
-			$doc_list.pushRawNode(RichText.span().pushText('Play count: ' + state.good_click_count).done(), '01-playcount');
-			$doc_list.pushRawNode(RichText.span().pushText('Game version: ' + _consts.VERSION).done(), '02-version');
-			$doc_list.pushRawNode(RichText.span().pushText('build date (UTC): ' + _consts.BUILD_DATE).done(), '03-builddate');
-			$doc_list.pushRawNode(RichText.span().pushText('Release channel: ' + _consts.CHANNEL).done(), '04-channel');
-			$doc_list.pushRawNode(RichText.span().pushText('Exec env: ' + "production").done(), '05-env');
-			$doc_list.pushRawNode(RichText.span().pushText('Engine version: ' + _stateTheBoringRpg.GAME_VERSION).done(), '06-engine');
-			$doc_list.pushRawNode(RichText.span().pushText('Savegame version: ' + _stateTheBoringRpg.SCHEMA_VERSION).done(), '07-savegame');
-			$doc_list = $doc_list.done();
-
-			var $doc = RichText.span().pushNode(RichText.heading().pushText('Client infos:').done(), 'header').pushNode($doc_list, 'list').done();
-
 			return _react2.default.createElement(
 				'div',
 				{ className: 'page page--about' },
 				_react2.default.createElement(
 					'div',
 					{ className: 'page-top-content flex-element-nogrow' },
-					(0, _rich_text_to_react.rich_text_to_react)($doc),
+					(0, _rich_text_to_react.rich_text_to_react)(render_meta(state)),
 					_react2.default.createElement('hr', null)
 				),
 				_react2.default.createElement(

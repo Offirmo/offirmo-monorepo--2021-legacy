@@ -14,7 +14,7 @@ class App extends React.Component {
 	render() {
 		return (
 			<Router  basename={BASE_ROUTE}>
-				<div className='tbrpg-container'>
+				<div className='tbrpg-container top-container'>
 
 					<Header/>
 

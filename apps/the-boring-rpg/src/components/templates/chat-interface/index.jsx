@@ -281,7 +281,7 @@ class Chat extends React.Component {
 		)
 
 		return (
-			<AutoScrollDown>
+			<AutoScrollDown classname='flex-column'>
 				<div className="chat">
 					{this.props.children}
 					{this.state.bubbles}
