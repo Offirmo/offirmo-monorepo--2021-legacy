@@ -1,6 +1,7 @@
 {
-    "name": "The Boring RPG",
+    "name": "The Boring RPG reloaded",
     "short_name": "The Boring RPG",
+    "lang": "en-US",
     "icons": [
         {
             "src": "android-chrome-192x192.png?v=yyapgPk479",
@@ -16,6 +17,6 @@
     "theme_color": "#543d46",
     "background_color": "#543d46",
     "start_url": "https://www.online-adventur.es/the-boring-rpg",
-    "display": "standalone",
+    "display": "fullscreen",
     "orientation": "portrait"
 }
