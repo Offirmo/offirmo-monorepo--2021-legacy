@@ -1,5 +1,6 @@
 "use strict";
 
+// TODO auto=adapt to current path instead
 const BASE_ROUTE = PUBLIC_PATH
 
 const ROUTES = {
