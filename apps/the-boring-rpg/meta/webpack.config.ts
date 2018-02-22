@@ -41,7 +41,7 @@ const config = {
 		new webpack.DefinePlugin({
 			'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
 			VERSION: JSON.stringify(version),
-			PUBLIC_PATH: JSON.stringify(PUBLIC_PATH),
+			//PUBLIC_PATH: JSON.stringify(PUBLIC_PATH),
 			ENV: JSON.stringify(NODE_ENV),
 		}),
 		new HtmlWebpackPlugin({

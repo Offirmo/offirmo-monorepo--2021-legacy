@@ -12353,8 +12353,8 @@ module.exports = navigator && navigator.userAgent || '';
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-var VERSION = '0.50.14';
-var BUILD_DATE = '20180222_10h00';
+var VERSION = '0.50.15';
+var BUILD_DATE = '20180222_10h14';
 // TODO commit
 /////// autogen ///////
 
@@ -15327,7 +15327,11 @@ var createTransitionManager = function createTransitionManager() {
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-var BASE_ROUTE = "/the-boring-rpg";
+var BASE_ROUTE = function (pathname) {
+	var TOP_SEGMENT_WE_ASSUME_WELL_BE_ALWAYS_SERVED_UNDER = '/the-boring-rpg';
+	var parent_segment = pathname.split(TOP_SEGMENT_WE_ASSUME_WELL_BE_ALWAYS_SERVED_UNDER)[0];
+	return parent_segment + TOP_SEGMENT_WE_ASSUME_WELL_BE_ALWAYS_SERVED_UNDER;
+}(window.location.pathname);
 
 var ROUTES = {
 	// special routes
@@ -22451,7 +22455,7 @@ var _require = __webpack_require__(77),
     create_game_instance = _require.create_game_instance;
 
 var workspace = {
-	version: "0.50.14",
+	version: "0.50.15",
 	verbose: true, // XXX
 	state: null,
 	SEC: _init.SEC
