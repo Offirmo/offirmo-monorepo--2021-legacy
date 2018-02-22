@@ -12353,8 +12353,8 @@ module.exports = navigator && navigator.userAgent || '';
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-var VERSION = '0.50.12';
-var BUILD_DATE = '20180222_07h02';
+var VERSION = '0.50.14';
+var BUILD_DATE = '20180222_10h00';
 // TODO commit
 /////// autogen ///////
 
@@ -22451,7 +22451,7 @@ var _require = __webpack_require__(77),
     create_game_instance = _require.create_game_instance;
 
 var workspace = {
-	version: "0.50.12",
+	version: "0.50.14",
 	verbose: true, // XXX
 	state: null,
 	SEC: _init.SEC
@@ -45868,7 +45868,7 @@ var HomeBase = function (_React$Component) {
 			var client_state = this.props.instance.get_client_state();
 			return _react2.default.createElement(
 				'div',
-				{ className: 'page page--home flex-column' },
+				{ className: 'page page--home flex-column overflow-y⁚auto' },
 				_react2.default.createElement(_chatInterface.Chat, {
 					initial_bubbles: client_state.home_bubbles,
 					gen_next_step: this.gen_next_step(),
@@ -47400,7 +47400,7 @@ var AboutBase = function (_React$Component) {
 				),
 				_react2.default.createElement(
 					'div',
-					{ className: 'flex-element-grow' },
+					{ className: 'flex-element-grow overflow-y\u205Aauto' },
 					_react2.default.createElement(_chatInterface.Chat, { gen_next_step: this.gen_next_step() })
 				)
 			);

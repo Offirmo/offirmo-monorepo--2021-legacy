@@ -159,7 +159,7 @@ class AboutBase extends React.Component {
 					{rich_text_to_react(render_meta(state))}
 					<hr/>
 				</div>
-				<div className='flex-element-grow'>
+				<div className='flex-element-grow overflow-y⁚auto'>
 					<Chat gen_next_step={this.gen_next_step()} />
 				</div>
 			</div>

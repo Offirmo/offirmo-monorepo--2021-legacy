@@ -123,7 +123,7 @@ class HomeBase extends React.Component {
 	render() {
 		const client_state = this.props.instance.get_client_state()
 		return (
-			<div className={'page page--home flex-column'}>
+			<div className={'page page--home flex-column overflow-y⁚auto'}>
 				<Chat
 					initial_bubbles={client_state.home_bubbles}
 					gen_next_step={this.gen_next_step()}
