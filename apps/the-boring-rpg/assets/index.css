@@ -17,7 +17,7 @@ body {
 	line-height: 1.25;
 	color: #333;
 
-	overflow: scroll; /* to avoid moving UI when changing tab */
+	overflow-y: scroll; /* to avoid moving UI when changing tab */
 }
 
 h1, h2, h3 {
@@ -64,10 +64,12 @@ ul, ol {
 
 /*********************/
 
+/*
 .full-viewport-height {
 	height: 100vh;
 	overflow: hidden;
 }
+*/
 
 .avoid-wrap {
 	display:inline-block;
@@ -87,13 +89,16 @@ ul, ol {
 }
 
 /* https://stackoverflow.com/questions/90178/make-a-div-fill-the-height-of-the-remaining-screen-space */
+/*
 .flex-element-nogrow {
 	flex-grow: 0;
 }
 .flex-element-grow {
 	flex-grow: 1;
 	overflow: scroll;
+	border: solid 1px blue;
 }
+*/
 
 .clickable-area {
 	cursor:  pointer;
@@ -181,11 +186,14 @@ ul, ol {
 
 :root {
 	--tbrpg--header--height: 80px;
+
+	box-sizing: border-box;
 	xxborder: solid 1px green;
 }
 
 /*********************/
 .tbrpg-container {
+	box-sizing: border-box;
 	xxborder: solid 1px blue;
 }
 
@@ -195,6 +203,7 @@ ul, ol {
 	padding: 5px;
 	z-index: 1; /* needed to make it clickable above the content */
 	height: var(--tbrpg--header--height);
+	margin-bottom: -20px; /* compensate the nice gradient going further */
 	/* https://css-tricks.com/easing-linear-gradients/
 	 * https://larsenwork.com/easing-gradients/
 	 */
@@ -245,9 +254,13 @@ ul, ol {
 }
 
 /*********************/
-.page--home {
-	height: 100vh;
-	overflow-y: scroll;
+.page .page-top-content {
+}
+
+.page {
+	xxheight: 100vh;
+	box-sizing: border-box;
+	xxborder: solid 1px orange;
 }
 
 .page--inventory,
@@ -256,31 +269,18 @@ ul, ol {
 	padding: 7px;
 	/*position: relative;
 	top: -25px;*/
-	height: calc(100vh - var(--tbrpg--header--height));
+	height: calc(100vh - var(--tbrpg--header--height) + 25);
 	display: flex;
 	flex-direction: column;
 }
 
-.page .chat {
+.page--home .chat {
 	min-height: 100vh;
 }
 
 pre.export_savegame {
 	font-family: monospace;
 	font-size: 10px;
-}
-
-/*********************/
-/* RPG UI overrides */
-.rpgui-content,
-.rpgui-container {
-	position: initial;
-	width: initial;
-	height: initial;
-}
-
-.rpgui-content {
-	overflow: initial;
 }
 
 /*********************/

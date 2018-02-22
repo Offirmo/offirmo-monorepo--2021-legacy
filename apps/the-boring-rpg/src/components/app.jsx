@@ -10,13 +10,11 @@ import { ExportSavegame } from './pages/export-savegame'
 import { XPage } from './pages/x'
 import { BASE_ROUTE, ROUTES } from "./routes"
 
-//import './index.css'
-
 class App extends React.Component {
 	render() {
 		return (
 			<Router  basename={BASE_ROUTE}>
-				<div className='tbrpg-container full-viewport-height'>
+				<div className='tbrpg-container'>
 
 					<Header/>
 
@@ -29,6 +27,7 @@ class App extends React.Component {
 						<Route path={ROUTES.export_savegame} render={() => <ExportSavegame />} />
 						<Route path={ROUTES.x} render={() => <XPage />} />
 
+						{/* fallback to home */}
 						<Redirect to={ROUTES.home} />
 					</Switch>
 				</div>

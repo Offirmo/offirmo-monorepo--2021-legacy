@@ -12353,8 +12353,8 @@ module.exports = navigator && navigator.userAgent || '';
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-var VERSION = '0.50.10';
-var BUILD_DATE = '20180221_23h23';
+var VERSION = '0.50.11';
+var BUILD_DATE = '20180222_02h13';
 // TODO commit
 /////// autogen ///////
 
@@ -22449,7 +22449,7 @@ var _require = __webpack_require__(77),
     create_game_instance = _require.create_game_instance;
 
 var workspace = {
-	version: "0.50.10",
+	version: "0.50.11",
 	verbose: true, // XXX
 	state: null,
 	SEC: _init.SEC
@@ -42305,8 +42305,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-//import './index.css'
-
 var App = function (_React$Component) {
 	_inherits(App, _React$Component);
 
@@ -42326,7 +42324,7 @@ var App = function (_React$Component) {
 				{ basename: _routes.BASE_ROUTE },
 				_react2.default.createElement(
 					'div',
-					{ className: 'tbrpg-container full-viewport-height' },
+					{ className: 'tbrpg-container' },
 					_react2.default.createElement(_header.Header, null),
 					_react2.default.createElement(
 						_reactRouterDom.Switch,
@@ -47343,7 +47341,7 @@ var AboutBase = function (_React$Component) {
 										}
 									}, {
 										msg_cta: 'Reload page ↻',
-										value: _stateTheBoringRpg.URL_OF_ISSUES,
+										value: 'reload',
 										msgg_as_user: function msgg_as_user() {
 											return 'Because I need it';
 										},
@@ -47426,7 +47424,7 @@ var AboutBase = function (_React$Component) {
 				{ className: 'page page--about' },
 				_react2.default.createElement(
 					'div',
-					{ className: 'flex-element-nogrow' },
+					{ className: 'page-top-content flex-element-nogrow' },
 					(0, _rich_text_to_react.rich_text_to_react)($doc),
 					_react2.default.createElement('hr', null)
 				),

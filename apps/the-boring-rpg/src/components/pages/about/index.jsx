@@ -107,7 +107,7 @@ class AboutBase extends React.Component {
 						},
 						{
 							msg_cta: 'Reload page ↻',
-							value: URL_OF_ISSUES,
+							value: 'reload',
 							msgg_as_user: () => 'Because I need it',
 							callback: () => window.location.reload(),
 						},
@@ -182,7 +182,7 @@ class AboutBase extends React.Component {
 
 		return (
 			<div className={'page page--about'}>
-				<div className='flex-element-nogrow'>
+				<div className='page-top-content flex-element-nogrow'>
 					{rich_text_to_react($doc)}
 					<hr/>
 				</div>
