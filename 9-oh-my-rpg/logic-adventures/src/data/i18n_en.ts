@@ -401,7 +401,7 @@ She teaches you a new spell for money: +{{mana}} mana
 		`,
 
 		rachel: `
-Between to villages, you meet Rachel the washer wench.
+Between two villages, you meet Rachel the washer wench.
 She competes with you in arm twisting, and win!
 Good exercise, +{{strength}} strength.
 		`,
