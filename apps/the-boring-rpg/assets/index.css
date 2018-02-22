@@ -138,6 +138,12 @@ ul, ol {
 .chat__element {
 	margin: 6px 7px;
 	position: relative; /* to allow absolute positioning of content */
+
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+	align-content: flex-start;
 }
 .chat__element--ltr {
 	align-self: flex-start;
@@ -188,6 +194,11 @@ ul, ol {
 	text-align: left;
 }
 
+.chat__input {
+	height: 22px;
+	border: solid 1px #00000038;
+}
+
 /* https://stackoverflow.com/a/8185290/587407 */
 /*.chat__choices > * + * {
 	margin-left: 5px;
@@ -196,7 +207,8 @@ ul, ol {
 /*********************/
 
 :root {
-	--tbrpg--header--height: 80px;
+	--tbrpg__header--height: 80px;
+	--tbrpg__header--height-compensation: 20px;
 
 	border-color: green;
 }
@@ -222,8 +234,8 @@ ul, ol {
 	top: 0;
 	padding: 5px;
 	z-index: 1; /* needed to make it clickable above the content */
-	height: var(--tbrpg--header--height);
-	margin-bottom: -20px; /* compensate the nice gradient going further */
+	height: var(--tbrpg__header--height);
+	margin-bottom: calc(-1 * var(--tbrpg__header--height-compensation)); /* compensate the nice gradient going further */
 	/* https://css-tricks.com/easing-linear-gradients/
 	 * https://larsenwork.com/easing-gradients/
 	 */
@@ -294,7 +306,12 @@ ul, ol {
 }
 
 .page--home .chat {
-	min-height: calc(100vh - var(--tbrpg--header--height));
+	min-height: calc(
+		100vh
+		- var(--tbrpg__header--height)
+		+ var(--tbrpg__header--height-compensation)
+		- 4px /* don't know why */
+	);
 }
 
 pre.export_savegame {

@@ -13,8 +13,8 @@ import {
 
 import { VERSION, BUILD_DATE, CHANNEL } from '../../../services/consts'
 import { Chat } from '../../templates/chat-interface'
-import { with_game_instance } from '../../context/game-instance-provider'
 import { rich_text_to_react } from '../../../utils/rich_text_to_react'
+import { with_game_instance } from '../../context/game-instance-provider'
 
 
 function render_meta(state) {

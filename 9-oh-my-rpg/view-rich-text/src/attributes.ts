@@ -5,6 +5,7 @@ import { State as CharacterState, CharacterAttribute, CHARACTER_ATTRIBUTES_SORTE
 function render_avatar(state: CharacterState): RichText.Document {
 	// TODO refactor
 	const $doc = RichText.section()
+		.pushNode(RichText.heading().pushText('Identity:{{br}}').done(), 'header')
 		.pushText('name:  {{name}}{{br}}')
 		.pushText('class: {{class}}')
 		.pushRawNode(

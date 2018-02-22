@@ -34,8 +34,10 @@ class InventoryBase extends React.Component {
 		const doc = render_full_inventory(state.inventory, state.wallet)
 
 		return (
-			<div className={'page page--inventory'}>
-				{rich_text_to_react(doc)}
+			<div className='page page--inventory overflow-y⁚auto'>
+				<div className='page-top-content'>
+					{rich_text_to_react(doc)}
+				</div>
 			</div>
 		)
 	}
