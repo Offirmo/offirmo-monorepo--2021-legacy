@@ -294,9 +294,20 @@ ul, ol {
 	xxborder: solid 1px orange;
 }
 
-.page .page-top-content {
+.page-top-content {
 	padding: 7px;
 }
+
+
+@media screen and (max-height: 600px) {
+
+	/* give room to the mobile keyboard */
+	.page-top-content {
+		display: none;
+	}
+}
+
+
 
 .page--inventory,
 .page--character,
