@@ -275,10 +275,27 @@ class Chat extends React.Component {
 				/>
 				<button type="button"
 					className="chat__button clickable-area"
-					onClick={() => this.state.input_resolve_fn(this.input.value)}
+					onClick={() => {
+						this.state.input_resolve_fn(this.input.value)
+						this.props.on_input_end()
+					}}
 				>↩</button>
+				<button type="button"
+					className="chat__button clickable-area"
+					onClick={() => {
+						this.state.input_resolve_fn(null)
+						this.props.on_input_end()
+					}}
+				>cancel</button>
 			</div>
 		)
+		if (this.state.reading_string) {
+			setTimeout(() => {
+				if (!this.input) return
+				this.props.on_input_begin()
+				this.input.focus()
+			}, 100)
+		}
 
 		return (
 			<AutoScrollDown classname='flex-column'>
@@ -299,6 +316,8 @@ class Chat extends React.Component {
 
 Chat.defaultProps = {
 	max_displayed_bubbles: 20,
+	on_input_begin: () => {},
+	on_input_end: () => {},
 	on_unmount: () => {},
 	initial_bubbles: [],
 }

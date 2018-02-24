@@ -10233,12 +10233,31 @@ var Chat = function (_React$Component) {
 					{ type: 'button',
 						className: 'chat__button clickable-area',
 						onClick: function onClick() {
-							return _this4.state.input_resolve_fn(_this4.input.value);
+							_this4.state.input_resolve_fn(_this4.input.value);
+							_this4.props.on_input_end();
 						}
 					},
 					'\u21A9'
+				),
+				_react2.default.createElement(
+					'button',
+					{ type: 'button',
+						className: 'chat__button clickable-area',
+						onClick: function onClick() {
+							_this4.state.input_resolve_fn(null);
+							_this4.props.on_input_end();
+						}
+					},
+					'cancel'
 				)
 			);
+			if (this.state.reading_string) {
+				setTimeout(function () {
+					if (!_this4.input) return;
+					_this4.props.on_input_begin();
+					_this4.input.focus();
+				}, 100);
+			}
 
 			return _react2.default.createElement(
 				_autoScrollDown.AutoScrollDown,
@@ -10266,6 +10285,8 @@ var Chat = function (_React$Component) {
 
 Chat.defaultProps = {
 	max_displayed_bubbles: 20,
+	on_input_begin: function on_input_begin() {},
+	on_input_end: function on_input_end() {},
 	on_unmount: function on_unmount() {},
 	initial_bubbles: []
 };
@@ -12353,8 +12374,8 @@ module.exports = navigator && navigator.userAgent || '';
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-var VERSION = '0.50.18';
-var BUILD_DATE = '20180224_08h33';
+var VERSION = '0.50.19';
+var BUILD_DATE = '20180224_10h02';
 // TODO commit
 /////// autogen ///////
 
@@ -22455,7 +22476,7 @@ var _require = __webpack_require__(77),
     create_game_instance = _require.create_game_instance;
 
 var workspace = {
-	version: "0.50.18",
+	version: "0.50.19",
 	verbose: true, // XXX
 	state: null,
 	SEC: _init.SEC
@@ -47179,6 +47200,9 @@ var CharacterSheetBase = function (_React$Component) {
 					mode: 'inventory'
 				};
 			});
+			this.state = {
+				mobile_keyboard_likely_present: false
+			};
 		}
 	}, {
 		key: 'gen_next_step',
@@ -47229,13 +47253,13 @@ var CharacterSheetBase = function (_React$Component) {
 									type: 'ask_for_string',
 									msg_main: 'What\u2019s your name?',
 									msgg_as_user: function msgg_as_user(value) {
-										return 'My name is "' + value + '".';
+										return value ? 'My name is "' + value + '".' : 'Nevermind.';
 									},
 									msgg_acknowledge: function msgg_acknowledge(name) {
-										return 'You are now known as ' + name + '!';
+										return name ? 'You are now known as ' + name + '!' : 'Maybe another time.';
 									},
 									callback: function callback(value) {
-										instance.rename_avatar(value);
+										if (value) instance.rename_avatar(value);
 										instance.set_client_state(function () {
 											return {
 												character_changing_name: false
@@ -47311,6 +47335,8 @@ var CharacterSheetBase = function (_React$Component) {
 	}, {
 		key: 'render',
 		value: function render() {
+			var _this3 = this;
+
 			var instance = this.props.instance;
 
 			var state = instance.get_latest_state();
@@ -47319,7 +47345,7 @@ var CharacterSheetBase = function (_React$Component) {
 			return _react2.default.createElement(
 				'div',
 				{ className: 'page page--character' },
-				_react2.default.createElement(
+				this.state.mobile_keyboard_likely_present ? '(temporarily hidden while you type)' : _react2.default.createElement(
 					'div',
 					{ className: 'page-top-content flex-element-nogrow' },
 					(0, _rich_text_to_react.rich_text_to_react)(doc),
@@ -47328,7 +47354,25 @@ var CharacterSheetBase = function (_React$Component) {
 				_react2.default.createElement(
 					'div',
 					{ className: 'flex-element-grow overflow-y\u205Aauto' },
-					_react2.default.createElement(_chatInterface.Chat, { gen_next_step: this.gen_next_step() })
+					_react2.default.createElement(_chatInterface.Chat, {
+						gen_next_step: this.gen_next_step(),
+						on_input_begin: function on_input_begin() {
+							console.log('start');
+							_this3.setState(function () {
+								return {
+									mobile_keyboard_likely_present: true
+								};
+							});
+						},
+						on_input_end: function on_input_end() {
+							console.log('stop');
+							_this3.setState(function () {
+								return {
+									mobile_keyboard_likely_present: false
+								};
+							});
+						}
+					})
 				)
 			);
 		}

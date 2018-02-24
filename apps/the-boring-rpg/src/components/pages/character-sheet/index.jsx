@@ -15,6 +15,9 @@ class CharacterSheetBase extends React.Component {
 		this.props.instance.set_client_state(() => ({
 			mode: 'inventory',
 		}))
+		this.state = {
+			mobile_keyboard_likely_present: false,
+		}
 	}
 
 	* gen_next_step() {
@@ -50,10 +53,15 @@ class CharacterSheetBase extends React.Component {
 				steps.push({
 					type: 'ask_for_string',
 					msg_main: `What’s your name?`,
-					msgg_as_user: value => `My name is "${value}".`,
-					msgg_acknowledge: name => `You are now known as ${name}!`,
+					msgg_as_user: value => value
+						? `My name is "${value}".`
+						: 'Nevermind.',
+					msgg_acknowledge: name => name
+						? `You are now known as ${name}!`
+						: 'Maybe another time.',
 					callback: value => {
-						instance.rename_avatar(value)
+						if (value)
+							instance.rename_avatar(value)
 						instance.set_client_state(() => ({
 							character_changing_name: false,
 						}))
@@ -109,12 +117,28 @@ class CharacterSheetBase extends React.Component {
 
 		return (
 			<div className={'page page--character'}>
-				<div className='page-top-content flex-element-nogrow'>
+				{this.state.mobile_keyboard_likely_present
+					? '(temporarily hidden while you type)'
+					: <div className='page-top-content flex-element-nogrow'>
 					{rich_text_to_react(doc)}
 					<hr/>
-				</div>
+				</div>}
 				<div className='flex-element-grow overflow-y⁚auto'>
-					<Chat gen_next_step={this.gen_next_step()} />
+					<Chat
+						gen_next_step={this.gen_next_step()}
+						on_input_begin={() => {
+							console.log('start')
+							this.setState(() => ({
+								mobile_keyboard_likely_present: true,
+							}))
+						}}
+						on_input_end={() => {
+							console.log('stop')
+							this.setState(() => ({
+								mobile_keyboard_likely_present: false,
+							}))
+						}}
+					/>
 				</div>
 			</div>
 		)
