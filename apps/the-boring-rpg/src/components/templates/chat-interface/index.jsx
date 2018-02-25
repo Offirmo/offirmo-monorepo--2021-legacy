@@ -5,7 +5,7 @@ const promiseFinally = require('p-finally')
 import { create as create_chat } from '@offirmo/view-chat'
 
 import { AutoScrollDown } from '../../atoms/auto-scroll-down'
-
+import { is_likely_to_be_mobile } from '../../../services/detection'
 
 function ChatBubble({direction = 'ltr', children}) {
 	const classes = classNames(
@@ -43,6 +43,7 @@ class Chat extends React.Component {
 			progressing: false,
 			progress_value: 0,
 			reading_string: false,
+			mobile_keyboard_likely_present_notified: false,
 			choices: [],
 			input_resolve_fn: null,
 		}
@@ -157,13 +158,17 @@ class Chat extends React.Component {
 						reading_string: true,
 						input_resolve_fn: resolve,
 					}))
+					this.props.on_input_begin()
 				})
 				.then(raw_answer => {
 					this.setState(state => ({
 						reading_string: false,
 						input_resolve_fn: null,
 					}))
-					const answer = String(raw_answer).trim()
+					this.props.on_input_end()
+					const answer = raw_answer
+						? String(raw_answer).trim()
+						: undefined // to not stringify to "null" or "undefined"!
 					if (DEBUG) console.log(`[You entered: "${answer}"]`)
 
 					if (step.msgg_as_user)
@@ -254,12 +259,7 @@ class Chat extends React.Component {
 	}
 
 	render() {
-		console.log('rendering chat', {
-			spinning: this.state.spinning,
-			progressing: this.state.progressing,
-			reading_string: this.state.reading_string,
-			bubble_count: this.state.bubbles.length,
-		})
+		console.log('rendering chat', this.state)
 
 		const spinner = this.state.spinning && <div className="chat__spinner" />
 		const progress_bar = this.state.progressing && (
@@ -277,31 +277,35 @@ class Chat extends React.Component {
 					className="chat__button clickable-area"
 					onClick={() => {
 						this.state.input_resolve_fn(this.input.value)
-						this.props.on_input_end()
 					}}
 				>↩</button>
 				<button type="button"
 					className="chat__button clickable-area"
 					onClick={() => {
-						this.state.input_resolve_fn(null)
-						this.props.on_input_end()
+						this.state.input_resolve_fn(undefined)
 					}}
 				>cancel</button>
 			</div>
 		)
+
 		if (this.state.reading_string) {
 			setTimeout(() => {
-				if (!this.input) return
-				this.props.on_input_begin()
-				this.input.focus()
+				if (this.input) this.input.focus()
 			}, 100)
 		}
+
+		const penultimate_bubble = this.state.bubbles.slice(0, -1)
+		const ultimate_bubble = this.state.bubbles.slice(-1)
+
+		const is_mobile_keyboard_likely_to_be_displayed =
+			this.state.reading_string && is_likely_to_be_mobile()
 
 		return (
 			<AutoScrollDown classname='flex-column'>
 				<div className="chat">
 					{this.props.children}
-					{this.state.bubbles}
+					{!is_mobile_keyboard_likely_to_be_displayed && penultimate_bubble}
+					{ultimate_bubble}
 					{progress_bar}
 					{spinner}
 					<div className="chat__element chat__element--rtl chat__choices">

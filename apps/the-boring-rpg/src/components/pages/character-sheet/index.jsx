@@ -3,6 +3,7 @@ import React from 'react'
 import { render_character_sheet } from '@oh-my-rpg/view-rich-text'
 const { CHARACTER_CLASSES } = require('@oh-my-rpg/state-character')
 
+import { is_likely_to_be_mobile } from '../../../services/detection'
 import { Chat } from '../../templates/chat-interface'
 import { rich_text_to_react } from '../../../utils/rich_text_to_react'
 import { with_game_instance } from '../../context/game-instance-provider'
@@ -10,14 +11,19 @@ import { with_game_instance } from '../../context/game-instance-provider'
 
 class CharacterSheetBase extends React.Component {
 
+	constructor (props) {
+		super(props)
+
+		this.state = {
+			mobile_keyboard_likely_present: false,
+		}
+	}
+
 	componentWillMount () {
 		console.info('~~ CharacterSheetBase componentWillMount')
 		this.props.instance.set_client_state(() => ({
 			mode: 'inventory',
 		}))
-		this.state = {
-			mobile_keyboard_likely_present: false,
-		}
 	}
 
 	* gen_next_step() {
@@ -39,7 +45,7 @@ class CharacterSheetBase extends React.Component {
 							msg_cta: klass,
 							value: klass,
 							msgg_as_user: () => `I want to follow the path of the ${klass}!`,
-							msgg_acknowledge: name => `You’ll make an amazing ${klass}.`,
+							msgg_acknowledge: () => `You’ll make an amazing ${klass}.`,
 							callback: value => {
 								instance.change_avatar_class(value)
 								instance.set_client_state(() => ({
@@ -60,6 +66,7 @@ class CharacterSheetBase extends React.Component {
 						? `You are now known as ${name}!`
 						: 'Maybe another time.',
 					callback: value => {
+						console.log({value, type: typeof value})
 						if (value)
 							instance.rename_avatar(value)
 						instance.set_client_state(() => ({
@@ -118,7 +125,7 @@ class CharacterSheetBase extends React.Component {
 		return (
 			<div className={'page page--character'}>
 				{this.state.mobile_keyboard_likely_present
-					? '(temporarily hidden while you type)'
+					? '(temporarily hidden while you type on mobile)'
 					: <div className='page-top-content flex-element-nogrow'>
 					{rich_text_to_react(doc)}
 					<hr/>
@@ -129,7 +136,7 @@ class CharacterSheetBase extends React.Component {
 						on_input_begin={() => {
 							console.log('start')
 							this.setState(() => ({
-								mobile_keyboard_likely_present: true,
+								mobile_keyboard_likely_present: is_likely_to_be_mobile(),
 							}))
 						}}
 						on_input_end={() => {

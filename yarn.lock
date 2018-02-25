@@ -2810,6 +2810,18 @@ forwarded@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/forwarded/-/forwarded-0.1.2.tgz#98c23dab1175657b8c0573e8ceccd91b0ff18c84"
 
+fr-dialogmodal@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/fr-dialogmodal/-/fr-dialogmodal-1.0.4.tgz#ba72a7adbd3bcb3f9149a8799cbfc9af9d7705c0"
+
+fr-offcanvas@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/fr-offcanvas/-/fr-offcanvas-1.0.4.tgz#1914d9d85791538c94c444cc9f91d2ac416c6bd2"
+
+fr-tooltip@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/fr-tooltip/-/fr-tooltip-1.0.3.tgz#11f268e9994fea7aa94bf776d54f47fbb2f661f9"
+
 fragment-cache@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/fragment-cache/-/fragment-cache-0.2.1.tgz#4290fad27f13e89be7f33799c6bc5a0abfff0d19"
@@ -4256,6 +4268,10 @@ mkdirp@0.5.1, mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.1, mkdirp@~0.5.0, mkdi
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.1.tgz#30057438eac6cf7f8c4767f38648d6697d75c903"
   dependencies:
     minimist "0.0.8"
+
+mobile-detect@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/mobile-detect/-/mobile-detect-1.4.1.tgz#f4b67c49bb84bf0437f72e3067deb1c60ad7b23c"
 
 mocha@^4:
   version "4.1.0"
