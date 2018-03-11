@@ -301,16 +301,6 @@ ul, ol {
 }
 
 
-@media screen and (max-height: 600px) {
-
-	/* give room to the mobile keyboard */
-	.page-top-content {
-		display: none;
-	}
-}
-
-
-
 .page--inventory,
 .page--character,
 .page--about {

@@ -1,0 +1,59 @@
+
+@font-face {
+	font-family: 'Spectral';
+	src: url('webfont--spectral-regular.woff') format('woff');
+}
+
+@font-face {
+	font-family: 'PixAntiqua';
+	src:url('webfont--pixantiqua.woff') format('woff');
+}
+
+/*********************/
+
+:root {
+	--omr⋄font-family⁚spectral: 'Spectral', sans-serif;
+	--omr⋄font-family⁚pixantiqua: 'PixAntiqua', sans-serif;
+}
+
+/*********************/
+
+.omr⋄font-family⁚spectral {
+	font-family: var(--omr⋄font-family⁚spectral);
+	letter-spacing: -.05px;
+}
+.omr⋄text-with-shadow.omr⋄font-family⁚spectral,
+.omr⋄text-with-shadow .omr⋄font-family⁚spectral,
+.omr⋄font-family⁚spectral .omr⋄text-with-shadow
+{
+	color: var(--o⋄color--quasi-white);
+	text-shadow:
+		0.07em 0 black,
+		0 0.07em black,
+		-0.07em 0 black,
+		0 -0.07em black;
+}
+
+.omr⋄font-family⁚pixantiqua {
+	font-family: var(--omr⋄font-family⁚pixantiqua);
+	letter-spacing: .35px;
+	font-size: smaller;
+	line-height: 1.65;
+}
+.omr⋄text-with-shadow.omr⋄font-family⁚pixantiqua,
+.omr⋄text-with-shadow .omr⋄font-family⁚pixantiqua,
+.omr⋄font-family⁚pixantiqua .omr⋄text-with-shadow
+{
+	color: var(--o⋄color--quasi-white);
+	text-shadow:
+		-2px 0 black,
+		0 2px black,
+		2px 0 black,
+		0 -2px black;
+}
+
+/*********************/
+
+/* TODO glow effect ?
+https://designshack.net/articles/css/12-fun-css-text-shadows-you-can-copy-and-paste/
+ */

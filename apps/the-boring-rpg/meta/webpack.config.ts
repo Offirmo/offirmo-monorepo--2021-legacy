@@ -50,6 +50,7 @@ const config = {
 			hash: true,
 			showErrors: true,
 		}),
+		/*
 		new HtmlWebpackIncludeAssetsPlugin({
 			assets: [
 				'assets/normalize.css',
@@ -57,7 +58,7 @@ const config = {
 			],
 			append: true,
 			hash: true,
-		}),
+		}),*/
 	]
 }
 
@@ -82,8 +83,26 @@ if (NODE_ENV === 'production') {
 		}),
 	)
 	*/
+	config.plugins.push(
+		new HtmlWebpackIncludeAssetsPlugin({
+			assets: [
+				'assets/index.css',
+			],
+			append: true,
+			hash: true,
+		}),
+	)
 }
 else {
+	config.plugins.push(
+		new HtmlWebpackIncludeAssetsPlugin({
+			assets: [
+				'src/index.css',
+			],
+			append: true,
+			hash: true,
+		}),
+	)
 	config.output.publicPath = PUBLIC_PATH
 	config.devServer = {
 		historyApiFallback: {

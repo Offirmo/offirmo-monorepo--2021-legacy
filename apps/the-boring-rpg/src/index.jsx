@@ -55,7 +55,7 @@ SEC.xTry('loading savegame', ({logger}) => {
 
 ReactDOM.render(
 	<GameInstanceProvider instance={workspace.instance}>
-		<App workspace={workspace}/>
+		<App />
 	</GameInstanceProvider>	,
 	document.getElementById('root')
 )

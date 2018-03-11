@@ -1,0 +1,79 @@
+
+/******* atoms *******/
+.o⋄overflow-y⁚auto {
+	overflow-y: auto;
+}
+
+.o⋄text-align⁚center {
+	text-align: center;
+}
+
+.o⋄text-noselect {
+	cursor:  pointer;
+
+	/* disable text selection, since unclean clicks/taps may select text
+	 * and cause inconvenience (especially on mobile)
+	 * http://stackoverflow.com/a/4407335/587407
+	 */
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.o⋄pad⁚5 {
+	padding: 5px;
+}
+.o⋄pad⁚7 {
+	padding: 7px;
+}
+
+/******* lists *******/
+
+.o⋄nav-list {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+}
+.o⋄nav-list li {
+	/* disable text selection, since unclean clicks/taps may select text
+	 * and cause inconvenience (especially on mobile)
+	 * http://stackoverflow.com/a/4407335/587407
+	 */
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+.o⋄nav-list a {
+	text-decoration: none;
+}
+/* https://stackoverflow.com/a/8185290/587407 */
+.o⋄nav-list li + li  {
+	margin-left: 16px;
+}
+
+/******* flex *******/
+
+.o⋄flex-row {
+	display: flex;
+	flex-direction: row;
+}
+.o⋄flex-column {
+	display: flex;
+	flex-direction: column;
+}
+
+/* https://stackoverflow.com/questions/90178/make-a-div-fill-the-height-of-the-remaining-screen-space */
+.o⋄flex-element-nogrow {
+	flex-grow: 0;
+}
+.o⋄flex-element-grow {
+	flex-grow: 1;
+}
+

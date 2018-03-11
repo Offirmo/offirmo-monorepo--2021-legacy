@@ -14,22 +14,24 @@ class App extends React.Component {
 	render() {
 		return (
 			<Router  basename={BASE_ROUTE}>
-				<div className='tbrpg-container top-container'>
+				<div className='o⋄top-container'>
+					<div class="omr⋄full-size-background-layer omr⋄filter⁚blurred⁚1 omr⋄bg-image⁚parchment-xxl" />
+					<div id="tbrpg-root" class="o⋄top-container o⋄centered-article">
+						<Header/>
 
-					<Header/>
+						<Switch>
+							<Route exact path={ROUTES.home} render={() => <Home />} />
+							<Route path={ROUTES.inventory} render={() => <Inventory />} />
+							<Route path={ROUTES.character} render={() => <CharacterSheet  />} />
+							<Route path={ROUTES.about} render={() => <About />} />
 
-					<Switch>
-						<Route exact path={ROUTES.home} render={() => <Home />} />
-						<Route path={ROUTES.inventory} render={() => <Inventory workspace={this.props.workspace} />} />
-						<Route path={ROUTES.character} render={() => <CharacterSheet workspace={this.props.workspace} />} />
-						<Route path={ROUTES.about} render={() => <About workspace={this.props.workspace} />} />
+							<Route path={ROUTES.export_savegame} render={() => <ExportSavegame />} />
+							<Route path={ROUTES.x} render={() => <XPage />} />
 
-						<Route path={ROUTES.export_savegame} render={() => <ExportSavegame />} />
-						<Route path={ROUTES.x} render={() => <XPage />} />
-
-						{/* fallback to home */}
-						<Redirect to={ROUTES.home} />
-					</Switch>
+							{/* fallback to home */}
+							<Redirect to={ROUTES.home} />
+						</Switch>
+					</div>
 				</div>
 			</Router>
 		)

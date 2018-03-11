@@ -114,7 +114,7 @@ class AboutBase extends React.Component {
 					{
 						msg_cta: 'Reload page ↻',
 						value: 'reload',
-						msgg_as_user: () => 'Because I need it',
+						msgg_as_user: () => 'Reload the page.',
 						msgg_acknowledge: () => `Reloading...`,
 						callback: () => new Promise(() => window.location.reload()),
 					},
@@ -155,11 +155,11 @@ class AboutBase extends React.Component {
 
 		return (
 			<div className={'page page--about'}>
-				<div className='page-top-content flex-element-nogrow'>
+				<div className='page-top-content o⋄flex-element-nogrow'>
 					{rich_text_to_react(render_meta(state))}
 					<hr/>
 				</div>
-				<div className='flex-element-grow overflow-y⁚auto'>
+				<div className='flex-element-grow o⋄overflow-y⁚auto'>
 					<Chat gen_next_step={this.gen_next_step()} />
 				</div>
 			</div>

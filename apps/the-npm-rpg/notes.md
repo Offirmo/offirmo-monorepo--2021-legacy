@@ -1,6 +1,8 @@
 
 HOWTO publish
 
+https://github.com/terkelg/prompts
+
 ``` bash
 npm version minor
 npm run build

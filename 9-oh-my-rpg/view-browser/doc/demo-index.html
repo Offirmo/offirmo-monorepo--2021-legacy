@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<!-- html5_007 : WTE micro template -->
+
+<html class="o⋄top-container">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<title>@oh-my-RPG/view-browser</title>
+
+		<link href="../src/style.css" rel="stylesheet">
+
+		<style type="text/css">
+			:root {
+				--header-height: 63px;
+				--nav-height: 60px;
+			}
+
+		</style>
+
+	</head>
+
+	<body class="o⋄top-container omr⋄font-family⁚spectral">
+
+		<div class="omr⋄full-size-background-layer omr⋄bg-image⁚tiled-marble_black">
+			<div class="omr⋄bg-image⁚test" style="height: var(--header-height)"></div>
+			<hr class="omr⋄border-h⁚thin_golden_1-tile" />
+		</div>
+
+		<div class="o⋄top-container o⋄centered-article">
+
+			<header class="o⋄ui-lod" style="height: var(--header-height)">
+				<h1 class="o⋄text-align⁚center">...</h1>
+				<h2 class="o⋄text-align⁚center">micro framework for browser RPGs</h2>
+			</header>
+
+			<nav class="o⋄text-align⁚center">
+				<ul class="o⋄nav-list o⋄text-noselect">
+					<li><a href="demo-index.html">Home</a></li>
+					<li><a href="demo-backgrounds.html">Backgrounds</a></li>
+				</ul>
+			</nav>
+
+			<div class="o⋄top-container omr⋄bg-image⁚parchment-xxl omr⋄filter⁚blurred⁚1">
+
+				<div class="o⋄pad⁚7">
+					<p>
+						Normal text
+						<strong>emphasized text</strong>
+						<span class="o⋄color⁚secondary">secondary text</span>
+						<span class="o⋄color⁚ancillary">ancillary text</span>
+						What I’m saying is that it’s so, so simple to make sites easier to read.
+						<button class="omr⋄borders⁚legionfall-grey">Click me!</button>
+						<a>Click me!</a>
+					</p>
+					<blockquote>
+						<p>“Don’t ignore stupid things or you will stay at the motherfucker level.”
+							— Brad Hollande</p>
+					</blockquote>
+				</div>
+
+				<hr class="omr⋄border-h⁚thin_golden_2-tile" />
+				<div class="omr⋄aspect-ratio-container⁚SH">
+					<div class="omr⋄aspect-ratio--subject"
+						  style="background:url(wallhaven-397792.jpg) center;background-size: cover;">
+					</div>
+				</div>
+				<hr class="omr⋄border-h⁚thin_golden_1-tile" />
+
+				<div class="omr⋄font-family⁚pixantiqua o⋄pad⁚7">
+					<p>
+						Normal text
+						<strong>emphasized text</strong>
+						<span class="o⋄color⁚secondary">secondary text</span>
+						<span class="o⋄color⁚ancillary">ancillary text</span>
+						What I’m saying is that it’s so, so simple to make sites easier to read.
+						<button>Click me!</button>
+						<a>Click me!</a>
+					</p>
+					<blockquote>
+						<p>“Don’t ignore stupid things or you will stay at the motherfucker level.”
+							— Brad Hollande</p>
+					</blockquote>
+				</div>
+
+
+		<script>
+			document.querySelector('h1').textContent = document.title
+			Array.prototype.forEach.call(document.querySelectorAll('a'), function(el) {
+				el.href || (el.href = el.text)
+			})
+		</script>

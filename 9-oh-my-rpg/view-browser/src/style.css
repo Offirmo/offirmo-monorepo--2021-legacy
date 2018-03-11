@@ -1,0 +1,20 @@
+@import '../node_modules/@offirmo/view-css/src/style.css';
+
+@import 'style--backgrounds.css';
+@import 'style--colors.css';
+@import 'style--containers.css';
+@import 'style--fonts.css';
+@import 'style--root.css';
+@import 'style--separators.css';
+
+/*
+.o⋄top-container {
+	border-width: 1px;
+}
+*/
+
+/*
+.test .masked-element image {
+	mask: url(#mask1);
+}
+*/

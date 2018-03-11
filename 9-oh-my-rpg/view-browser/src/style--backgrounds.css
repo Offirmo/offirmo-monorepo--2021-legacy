@@ -1,0 +1,107 @@
+:root {
+	--omr⋄z-index⁚background: -1;
+	--omr⋄z-index⁚ui: 0;
+}
+
+/*******/
+
+.omr⋄z-index⁚background {
+	z-index: var(--omr⋄z-index⁚background);
+}
+
+.omr⋄full-size-fixed-layer {
+	display: block;
+	position: fixed;
+	left: 0;
+	right: 0;
+	height: 100%;
+	width: 100%;
+}
+
+.omr⋄full-size-background-layer {
+	z-index: var(--omr⋄z-index⁚background);
+
+	display: block;
+	position: fixed;
+	left: 0;
+	right: 0;
+	height: 100%;
+	width: 100%;
+}
+
+/*******/
+
+/* from tachyons.io */
+.omr⋄aspect-ratio-container⁚16x9 {
+	height: 0;
+	position: relative;
+	padding-bottom: 56.25%;
+}
+.omr⋄aspect-ratio-container⁚SH {
+	height: 0;
+	position: relative;
+	padding-bottom: 52.33%;
+}
+.omr⋄aspect-ratio--subject {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 100;
+}
+
+/*******/
+
+.omr⋄bg-image⁚parchment-xxl {
+	background-image: url('img--parchment-xxl.jpg');
+	background-size: cover;
+}
+
+.omr⋄bg-image⁚tiled-parchment {
+	background-image: url('img--parchment-tile.png');
+	background-repeat: repeat;
+}
+
+.omr⋄bg-image⁚tiled-stonewall {
+	background-image: url('img--stormwind_throne_wall_01-tile.png');
+	background-repeat: repeat;
+}
+
+.omr⋄bg-image⁚tiled-sandstone_purple {
+	background-image: url('img--purple_sandstone-tile.png');
+	background-repeat: repeat;
+}
+
+.omr⋄bg-image⁚tiled-sandstone_grey {
+	background-image: url('img--somber_sandstone-tile.png');
+	background-repeat: repeat;
+}
+
+.omr⋄bg-image⁚tiled-sandstone_dark {
+	background-image: url('img--dark_sandstone-tile.png');
+	background-repeat: repeat;
+}
+
+.omr⋄bg-image⁚tiled-sandstone_black_stained {
+	background-image: url('img--stained_black_sandstone-tile.png');
+	background-repeat: repeat;
+}
+
+.omr⋄bg-image⁚tiled-marble_black {
+	background-image: url('img--black_marble-tile.png');
+	background-repeat: repeat;
+}
+
+.omr⋄bg-image⁚tiled-rock_dark {
+	background-image: url('img--dark_rock-tile.png');
+	background-repeat: repeat;
+}
+
+.omr⋄bg-image⁚test {
+	background-image: url('PandarenWood.png');
+	background-repeat: repeat;
+}
+

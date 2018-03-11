@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!-- html5_007 : WTE micro template -->
+
+<html class="o⋄top-container">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<title>@offirmo/view-css - CSS reset + micro framework</title>
+
+		<link href="../src/style.css" rel="stylesheet">
+	</head>
+
+	<body class="o⋄top-container">
+
+		<div class="o⋄top-container o⋄centered-article o⋄pad⁚7">
+
+			<nav>
+				<ul class="o⋄nav-list">
+					<li><span class="o⋄text-noselect">Home</span></li>
+					<li><span class="o⋄text-noselect">About</span></li>
+				</ul>
+			</nav>
+
+			<h1>...</h1>
+
+			<div class="o⋄top-container">
+				<p>
+					Normal text
+					<strong>emphasized text</strong>
+					<span class="o⋄color⁚secondary">secondary text</span>
+					<span class="o⋄color⁚ancillary">ancillary text</span>
+					What I’m saying is that it’s so, so simple to make sites easier to read. Websites are broken by default, they are functional, high-performing, and accessible, but they’re also fucking ugly. You and all the other web designers out there need to make them not total shit.
+					<button>Click me!</button>
+					<a>Click me!</a>
+				</p>
+				<blockquote class="o⋄font⁚fast-and-good-enough">
+					<p>“Blockquote featuring the "fast and good enough" font-family (.o⋄font⁚fast-and-good-enough)”
+						— Some stranger</p>
+				</blockquote>
+				<blockquote class="o⋄font⁚system">
+					<p>“Blockquote featuring the "system" font-family (.o⋄font⁚system)”
+						— Some stranger</p>
+				</blockquote>
+				<blockquote class="o⋄font⁚roboto">
+					<p>“Blockquote featuring the nice and precise "roboto" font-family (.o⋄font⁚roboto)”
+						— Some stranger</p>
+				</blockquote>
+				<blockquote class="o⋄font⁚roboto-condensed">
+					<p>“Blockquote featuring the nice and precise "roboto condensed" font-family (.o⋄font⁚roboto-condensed)”
+						— Some stranger</p>
+				</blockquote>
+			</div>
+
+
+		<script>
+			document.querySelector('h1').textContent = document.title
+			Array.prototype.forEach.call(document.querySelectorAll('a'), function(el) {
+				el.href || (el.href = el.text)
+			})
+		</script>

@@ -126,11 +126,11 @@ class CharacterSheetBase extends React.Component {
 			<div className={'page page--character'}>
 				{this.state.mobile_keyboard_likely_present
 					? '(temporarily hidden while you type on mobile)'
-					: <div className='page-top-content flex-element-nogrow'>
+					: <div className='page-top-content o⋄flex-element-nogrow'>
 					{rich_text_to_react(doc)}
 					<hr/>
 				</div>}
-				<div className='flex-element-grow overflow-y⁚auto'>
+				<div className='flex-element-grow o⋄overflow-y⁚auto'>
 					<Chat
 						gen_next_step={this.gen_next_step()}
 						on_input_begin={() => {

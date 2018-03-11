@@ -1,0 +1,9 @@
+
+.omr⋄borders⁚legionfall-grey {
+	border-style: solid;
+	border-width: 18px 17px 18px 20px;
+	-moz-border-image: url(img--border-legionfall_gray.png) 18 17 18 20 repeat;
+	-webkit-border-image: url(img--border-legionfall_gray.png) 18 17 18 20 repeat;
+	-o-border-image: url(img--border-legionfall_gray.png) 18 17 18 20 repeat;
+	border-image: url(img--border-legionfall_gray.png) 18 17 18 20 repeat;
+}
