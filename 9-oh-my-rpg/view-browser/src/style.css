@@ -4,8 +4,9 @@
 @import 'style--colors.css';
 @import 'style--containers.css';
 @import 'style--fonts.css';
-@import 'style--root.css';
+@import 'style--icomoon.css';
 @import 'style--separators.css';
+@import 'style--ui.css';
 
 /*
 .o⋄top-container {

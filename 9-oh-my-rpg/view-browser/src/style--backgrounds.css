@@ -1,3 +1,5 @@
+
+/* vars */
 :root {
 	--omr⋄z-index⁚background: -1;
 	--omr⋄z-index⁚ui: 0;
@@ -7,15 +9,6 @@
 
 .omr⋄z-index⁚background {
 	z-index: var(--omr⋄z-index⁚background);
-}
-
-.omr⋄full-size-fixed-layer {
-	display: block;
-	position: fixed;
-	left: 0;
-	right: 0;
-	height: 100%;
-	width: 100%;
 }
 
 .omr⋄full-size-background-layer {
@@ -29,15 +22,30 @@
 	width: 100%;
 }
 
+.omr⋄full-size-fixed-layer {
+	display: block;
+	position: fixed;
+	left: 0;
+	right: 0;
+	height: 100%;
+	width: 100%;
+}
+
+.omr⋄bg⁚cover {
+	background-size: cover;
+	background-position: center; /* good default */
+}
+
 /*******/
 
 /* from tachyons.io */
+/* TODO is it useful ? */
 .omr⋄aspect-ratio-container⁚16x9 {
 	height: 0;
 	position: relative;
 	padding-bottom: 56.25%;
 }
-.omr⋄aspect-ratio-container⁚SH {
+.omr⋄aspect-ratio-container⁚SH { /* TODO in progress */
 	height: 0;
 	position: relative;
 	padding-bottom: 52.33%;

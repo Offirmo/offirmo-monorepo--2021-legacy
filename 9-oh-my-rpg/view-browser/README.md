@@ -13,6 +13,7 @@ omr⋄bg-image⁚test
 Resources:
 * Font: spectral
 * Font: Pix Antiqua - Public domain - https://www.dafont.com/pixantiqua.font
+* Font https://managore.itch.io/m5x7
 * Icons: http://game-icons.net/
 * Image: img-parchment-xxl.jpg - MIT - https://github.com/stolksdorf/homebrewery
 * Image: https://opengameart.org/content/rpg-gui-construction-kit-v10
@@ -29,25 +30,36 @@ CSS tutorials:
 
 Tools:
 * http://border-image.com/
+* https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Background_and_Borders/Border-image_generator
+
+Techniques
+* https://medium.com/@peedutuisk/lesser-known-css-quirks-oddities-and-advanced-tips-css-is-awesome-8ee3d16295bb
+* https://css-tricks.com/theming-with-variables-globals-and-locals/
+* http://youmightnotneedjs.com/
 
 
 
+## Roadmap
 
-			<svg class="svg-mask">
-				<defs>
-					<mask id="mask1" maskUnits="objectBoundingBox" maskContentUnits="objectBoundingBox">
-						<radialGradient id="grad" gradientUnits="objectBoundingBox" x2="0" y2="1">
-							<stop stop-color="white" stop-opacity="100" offset="0.5"/>
-							<stop stop-color="black" stop-opacity="0" offset="0.7"/>
-						</radialGradient>
-						<rect
-							style="opacity:1;stroke:none;paint-order:normal;filter:url(#filter1553)"
-							id="rect1443"
-							width="1"
-							height="1"
-							fill="url(#grad)"
-							x="0"
-							y="0" />
-					</mask>
-				</defs>
-			</svg>
+v1
+- [x] build over an image background
+- [ ] always display the game name
+- [ ] responsive - desktop
+-- [ ] responsive - mobile: portrait only
+-- [ ] responsive - mobile: controls close to fingers
+- [ ] nice
+- [ ] display char name (if room)
+- [ ] display some kind of status (if room)
+- [ ] has quick access to usual sub-apps
+- [ ] allow "annoucements"
+
+vNext maybe
+- [ ] level up interface
+- [ ] modal capabilities
+- [ ] has indirect access to any number of sub-apps, like a task switcher
+- [ ] cue at shortcuts
+- [ ] responsive - mobile: add landscape support
+- [ ] settings interface
+- [ ] low health / mana indicators
+- [ ] swappable themes to cue of class/faction/ambiance
+- [ ] display location

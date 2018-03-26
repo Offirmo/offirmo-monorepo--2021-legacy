@@ -1,60 +1,41 @@
 
 
-:root {
-	/*https://medium.com/refactoring-ui/7-practical-tips-for-cheating-at-design-40c736799886*/
-	--o⋄color--quasi-black: hsl(0, 0%, 17%);
-	--o⋄color--dark-grey: hsl(0, 0%, 40%);
-	--o⋄color--medium-grey: hsl(0, 0%, 63%);
+/* TODO group them into a theme */
+:root,
+.o⋄theme⁚dol {
+	/* dark-on-light theme, good default
+	 * https://medium.com/refactoring-ui/7-practical-tips-for-cheating-at-design-40c736799886
+	 */
+
+	--o⋄color__dolt__quasi-black: hsl(0, 0%, 17%);
+	--o⋄color__dolt__dark-grey: hsl(0, 0%, 40%);
+	--o⋄color__dolt__medium-grey: hsl(0, 0%, 63%);
+	--o⋄color__dolt__quasi-white: #fafafa;
+
+	/* TODO
 	--o⋄color--transparent-white: hsla(0, 0%, 100%, 0.6);
 	--o⋄color--transparent-black: hsla(0, 0%, 0%, 0.6);
-	--o⋄color--quasi-white: #fafafa;
+	*/
 
-	/*
-		--oh-my-rpg__color--x: #58180D;
-	 */
+	--o⋄color--bg⁚main: var(--o⋄color__dolt__quasi-white);
+	--o⋄color--fg⁚main: var(--o⋄color__dolt__quasi-black);
+	--o⋄color--fg⁚secondary: var(--o⋄color__dolt__dark-grey);
+	--o⋄color--fg⁚ancillary: var(--o⋄color__dolt__medium-grey);
 }
 
-
-/* Dark on Light */
-.o⋄ui-dol {
-	color: var(--o⋄color--quasi-black);
+.o⋄color⁚main {
+	color: var(--o⋄color--fg⁚main);
 }
 
-.o⋄color⁚main,
-.o⋄ui-dol.o⋄color⁚main,
-.o⋄ui-dol .o⋄color⁚main {
-	color: var(--o⋄color--quasi-black);
+.o⋄color⁚secondary {
+	color: var(--o⋄color--fg⁚secondary);
 }
 
-.o⋄color⁚secondary,
-.o⋄ui-dol.o⋄color⁚secondary,
-.o⋄ui-dol .o⋄color⁚secondary {
-	color: var(--o⋄color--dark-grey);
+.o⋄color⁚ancillary {
+	color: var(--o⋄color--fg⁚ancillary);
 }
 
-.o⋄color⁚ancillary,
-.o⋄ui-dol.o⋄color⁚ancillary,
-.o⋄ui-dol .o⋄color⁚ancillary {
-	color: var(--o⋄color--medium-grey);
-}
-
-/* light on dark */
-.o⋄ui-lod {
-	color: var(--o⋄color--quasi-white);
-}
-
-/* TODOOO */
-.o⋄ui-lod.o⋄color⁚main,
-.o⋄ui-lod .o⋄color⁚main {
-	color: var(--o⋄color--quasi-black);
-}
-
-.o⋄ui-lod.o⋄color⁚secondary,
-.o⋄ui-lod .o⋄color⁚secondary {
-	color: var(--o⋄color--medium-grey);
-}
-
-.o⋄ui-lod.o⋄color⁚ancillary,
-.o⋄ui-lod .o⋄color⁚ancillary {
-	color: var(--o⋄color--dark-grey);
+/* light on dark theme */
+.o⋄theme⁚lod {
+	/* TODOO */
 }

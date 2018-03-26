@@ -1,4 +1,5 @@
 
+/* very convenient container to propagate full height */
 .o⋄top-container {
 	/* debug technique */
 	box-sizing: border-box;
@@ -15,7 +16,7 @@
 .o⋄centered-article {
 	border-color: blueviolet; /* for debug */
 
-	max-width: 650px;
+	max-width: 650px; /* a suggested good max width for text content. Taken from http://bettermotherfuckingwebsite.com/ */
 	width: 100%; /* avoid lower than max if possible */
 
 	margin: 0 auto;/* horizontal centering */
