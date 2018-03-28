@@ -4,7 +4,7 @@
 	--omr⋄ui__scale: 0.8;
 	--omr⋄ui__border--width: 3px;
 
-	--omr⋄ui__hamburger--diameter: 60px;
+	--omr⋄ui__hamburger--diameter: 69px;
 	--omr⋄ui__hamburger--visible-ratio: 0.725;
 
 	--omr⋄ui__logo--height: calc(
@@ -16,8 +16,7 @@
 	/* intermediate */
 	--omr⋄ui__hamburger--visible-width: calc(
 		(
-			2 * var(--omr⋄ui__border--width)
-			+ var(--omr⋄ui__hamburger--diameter)
+			var(--omr⋄ui__hamburger--diameter)
 		) * var(--omr⋄ui__hamburger--visible-ratio)
 	);
 }
@@ -86,16 +85,6 @@
 
 	padding-top: var(--position-shift);
 	padding-left: calc(var(--position-shift) + var(--omr⋄ui__hamburger--visible-width) * var(--omr⋄ui__scale));
-}
-.omr⋄logo > span {
-	/*position: fixed;
-	top: calc(2px * var(--omr⋄ui__scale));
-	left: calc(
-		(
-			(var(--omr⋄ui__hamburger--diameter) + var(--omr⋄ui__border--width) * 2) * var(--omr⋄ui__hamburger--visible-ratio)
-			+ 0px
-		) * var(--omr⋄ui__scale)
-	);*/
 }
 
 
