@@ -1,7 +1,11 @@
 
 /* vars */
 :root {
-	--omr⋄ui__scale: 0.8;
+	--omr⋄ui⋄base__scale: 0.8;
+
+	--omr⋄ui__immersion-view--z-index: 100;
+	--omr⋄ui__meta-view--z-index: 1000;
+
 	--omr⋄ui__border--width: 3px;
 
 	--omr⋄ui__hamburger--diameter: 69px;
@@ -13,6 +17,8 @@
 	);
 	--omr⋄ui__logo--visible-ratio: 0.8;
 
+	--omr⋄ui__meta--shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28);
+
 	/* intermediate */
 	--omr⋄ui__hamburger--visible-width: calc(
 		(
@@ -23,15 +29,19 @@
 
 
 .omr⋄top-hud {
+	position: absolute; /* prevent from taking room */
 	display: flex;
 	flex-direction: row;
 }
 
 .omr⋄hamburger {
-	--diameter: calc(var(--omr⋄ui__hamburger--diameter) * var(--omr⋄ui__scale));
+	--scale: var(--omr⋄ui__hamburger--scale, var(--omr⋄ui⋄base__scale));
+	--diameter: calc(var(--omr⋄ui__hamburger--diameter) * var(--scale));
 	--visible-ratio: var(--omr⋄ui__hamburger--visible-ratio);
 
-	z-index: 100;
+	z-index: calc(20 + var(--omr⋄ui__meta-view--z-index));
+	box-shadow: var(--omr⋄ui__meta--shadow);
+	cursor: pointer;
 
 	/* circle shape
 	 * https://css-tricks.com/examples/ShapesOfCSS/
@@ -43,39 +53,42 @@
 	border-radius: 50%;
 
 	color: var(--o⋄color--fg⁚main);
-	border: solid calc(var(--omr⋄ui__border--width) * var(--omr⋄ui__scale)) var(--o⋄color--fg⁚main);
-	background: var(--o⋄color--bg⁚main);
+	border: solid calc(var(--omr⋄ui__border--width) * var(--scale)) var(--o⋄color--fg⁚main);
+	background-color: var(--o⋄color--bg⁚main);
 
-	font-size: calc(33px * var(--omr⋄ui__scale));
+	font-size: calc(33px * var(--scale));
 
 	position: fixed;
 	top: calc(var(--diameter) * (1 - var(--visible-ratio)) * -1);
 	left: calc(var(--diameter) * (1 - var(--visible-ratio)) * -1);
 }
+.omr⋄hamburger:hover {
+	--omr⋄ui__hamburger--scale: calc(var(--omr⋄ui⋄base__scale) * 1.035);
+}
 .omr⋄hamburger > span {
 	position: fixed;
-	top: calc(4.5px * var(--omr⋄ui__scale));
-	left: calc(3px * var(--omr⋄ui__scale));
+	top: calc(4.5px * var(--scale));
+	left: calc(3px * var(--scale));
 }
 
 .omr⋄logo {
-	--width: 300px;
-	--height: calc(var(--omr⋄ui__logo--height) * var(--omr⋄ui__scale));
+	--scale: var(--omr⋄ui__logo--scale, var(--omr⋄ui⋄base__scale));
+	--height: calc(var(--omr⋄ui__logo--height) * var(--scale));
 	--visible-ratio: var(--omr⋄ui__logo--visible-ratio);
 
-	z-index: 90;
+	z-index: calc(10 + var(--omr⋄ui__meta-view--z-index));
+	box-shadow: var(--omr⋄ui__meta--shadow);
+	cursor: pointer;
 
 	/* TV shape (half)
 	 * https://css-tricks.com/examples/ShapesOfCSS/
 	 */
 	height: var(--height);
 	max-height: var(--height);
-	width: calc(var(--width) * var(--omr⋄ui__scale));
-	max-width: calc(var(--width) * var(--omr⋄ui__scale));
-	border-radius: 2% / 60%;
+	border-radius: 4% / 60%;
 
 	color: var(--o⋄color--fg⁚main);
-	border: solid calc(var(--omr⋄ui__border--width) * var(--omr⋄ui__scale)) var(--o⋄color--fg⁚main);
+	border: solid calc(var(--omr⋄ui__border--width) * var(--scale)) var(--o⋄color--fg⁚main);
 	background: var(--o⋄color--bg⁚main);
 
 	position: fixed;
@@ -83,14 +96,63 @@
 	top: calc(var(--position-shift) * -1);
 	left: calc(var(--position-shift) * -1);
 
-	padding-top: var(--position-shift);
-	padding-left: calc(var(--position-shift) + var(--omr⋄ui__hamburger--visible-width) * var(--omr⋄ui__scale));
-}
+	padding-top: calc(var(--position-shift) - 2px); /* this one has to be manually adjusted by user */
+	padding-left: calc(var(--position-shift) + (var(--omr⋄ui__hamburger--visible-width) + 5px) * var(--scale));
+	padding-right: calc(var(--position-shift));
 
+	/* Help center content */
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+.omr⋄logo:hover {
+	--omr⋄ui__logo--scale: calc(var(--omr⋄ui⋄base__scale) * 1.025);
+}
+.omr⋄logo > span {
+	align-items: center;
+}
 
 .omr⋄status⁚user {
+	--scale: var(--omr⋄ui__status⁚user--scale, var(--omr⋄ui⋄base__scale));
+	--height: calc((var(--omr⋄ui__logo--height) - var(--omr⋄ui__border--width)) * var(--scale));
+	--visible-ratio: var(--omr⋄ui__logo--visible-ratio);
 
+	z-index: calc(90 + var(--omr⋄ui__immersion-view--z-index));
+	cursor: pointer;
+
+	/* TV shape (half)
+	 * https://css-tricks.com/examples/ShapesOfCSS/
+	 */
+	height: var(--height);
+	max-height: var(--height);
+	border-radius: 1% / 40%;
+
+	color: var(--o⋄color--fg⁚main);
+	border: none;
+	background: var(--o⋄color--bg⁚main--50pc);
+
+	position: fixed;
+	--position-shift: calc(var(--height) * (1 - var(--visible-ratio)));
+	top: calc(var(--position-shift) * -1);
+	left: calc(var(--position-shift) * -1);
+
+	padding-top: var(--position-shift);
+	/* TODO remove 120px */
+	padding-left: calc(var(--position-shift) + 120px + var(--omr⋄ui__hamburger--visible-width) * var(--scale));
+	padding-right: calc(5px * var(--scale));
+
+	/* Help center content */
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
+.omr⋄status⁚user:hover {
+	--omr⋄ui__status⁚user--scale: calc(var(--omr⋄ui⋄base__scale) * 1.025);
+}
+.omr⋄status⁚user > span {
+	align-items: center;
+}
+
 
 .omr⋄status⁚location {
 

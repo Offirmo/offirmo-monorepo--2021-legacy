@@ -8,6 +8,15 @@ omr⋄bg-image⁚stonewall
 omr⋄bg-image⁚test
 ```
 
+## Internals:
+
+z-indexes:
+- 0    : ground / ultimate background
+- 100 : immersion view
+- 150 : immersion UI
+- x * 100 : upper worlds
+- 1000 : meta view
+
 ## Credits
 
 Resources:
