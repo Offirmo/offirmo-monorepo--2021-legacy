@@ -11,6 +11,21 @@
 		<link href="../src/style.css" rel="stylesheet">
 
 		<style type="text/css">
+			.omr⋄top-hud {
+				/* must be provided, can't compute that automatically */
+				--omr⋄ui__logo--width: 144px;
+			}
+			.omr⋄logo > img {
+				/* customization */
+				padding-bottom: calc(4px * var(--scale));
+			}
+			.omr⋄status⁚user⁚icon {
+				line-height: 24px;
+				margin-right: 4px;
+			}
+			.omr⋄status⁚user⁚details {
+				line-height: 14px;
+			}
 		</style>
 
 	</head>
@@ -27,12 +42,19 @@
 			</div>
 
 			<div class="omr⋄logo">
-				<span>The boring RPG</span>
+				<img src="tbrpg_logo_512x98.png" height="100%">
 			</div>
 
 			<div class="omr⋄status⁚user">
-				<span class="icomoon-user"></span>
-				Pertenax, paladin L.28
+				<div class="o⋄flex-row o⋄height⁚100pc">
+					<div class="omr⋄status⁚user⁚icon">
+						<span class="icomoon-user"></span>
+					</div>
+					<div class="omr⋄status⁚user⁚details o⋄flex-column">
+						<span>Pertenax</span>
+						<span>paladin L.28</span>
+					</div>
+				</div>
 			</div>
 
 			<div class="omr⋄status⁚location">

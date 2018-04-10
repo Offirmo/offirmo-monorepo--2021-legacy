@@ -16,6 +16,7 @@
 		* 0.8
 	);
 	--omr⋄ui__logo--visible-ratio: 0.8;
+	--omr⋄ui__logo--width: 120px;
 
 	--omr⋄ui__meta--shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28);
 
@@ -75,6 +76,7 @@
 	--scale: var(--omr⋄ui__logo--scale, var(--omr⋄ui⋄base__scale));
 	--height: calc(var(--omr⋄ui__logo--height) * var(--scale));
 	--visible-ratio: var(--omr⋄ui__logo--visible-ratio);
+	--padding: calc(var(--omr⋄ui__logo--padding, 6px) * var(--scale));
 
 	z-index: calc(10 + var(--omr⋄ui__meta-view--z-index));
 	box-shadow: var(--omr⋄ui__meta--shadow);
@@ -96,9 +98,9 @@
 	top: calc(var(--position-shift) * -1);
 	left: calc(var(--position-shift) * -1);
 
-	padding-top: calc(var(--position-shift) - 2px); /* this one has to be manually adjusted by user */
-	padding-left: calc(var(--position-shift) + (var(--omr⋄ui__hamburger--visible-width) + 5px) * var(--scale));
-	padding-right: calc(var(--position-shift));
+	padding-top: calc(var(--position-shift) - 3px * var(--scale));
+	padding-left: calc(var(--position-shift) + (var(--omr⋄ui__hamburger--visible-width) - 3px) * var(--scale));
+	padding-right: calc(var(--position-shift) - 8px * var(--scale));
 
 	/* Help center content */
 	display: flex;
@@ -108,7 +110,8 @@
 .omr⋄logo:hover {
 	--omr⋄ui__logo--scale: calc(var(--omr⋄ui⋄base__scale) * 1.025);
 }
-.omr⋄logo > span {
+.omr⋄logo > * {
+	padding: var(--padding);
 	align-items: center;
 }
 
@@ -116,6 +119,7 @@
 	--scale: var(--omr⋄ui__status⁚user--scale, var(--omr⋄ui⋄base__scale));
 	--height: calc((var(--omr⋄ui__logo--height) - var(--omr⋄ui__border--width)) * var(--scale));
 	--visible-ratio: var(--omr⋄ui__logo--visible-ratio);
+	--padding: calc(var(--omr⋄ui__status⁚user--padding, 6px) * var(--scale));
 
 	z-index: calc(90 + var(--omr⋄ui__immersion-view--z-index));
 	cursor: pointer;
@@ -136,23 +140,29 @@
 	top: calc(var(--position-shift) * -1);
 	left: calc(var(--position-shift) * -1);
 
-	padding-top: var(--position-shift);
-	/* TODO remove 120px */
-	padding-left: calc(var(--position-shift) + 120px + var(--omr⋄ui__hamburger--visible-width) * var(--scale));
-	padding-right: calc(5px * var(--scale));
-
-	/* Help center content */
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
+	padding-top: calc(var(--position-shift) + 0px * var(--scale));
+	padding-left: calc(
+		var(--omr⋄ui__hamburger--visible-width) * var(--scale)
+		+ var(--omr⋄ui__logo--width)
+		+ var(--position-shift));
+	padding-right: 0;
 }
 .omr⋄status⁚user:hover {
 	--omr⋄ui__status⁚user--scale: calc(var(--omr⋄ui⋄base__scale) * 1.025);
 }
-.omr⋄status⁚user > span {
+.omr⋄status⁚user > * {
+	/* Help center content */
+	padding: var(--padding);
 	align-items: center;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
 }
 
+.omr⋄status⁚user⁚icon {
+	align-self: center;
+	font-size: 24px;
+}
 
 .omr⋄status⁚location {
 
