@@ -77,3 +77,11 @@
 	flex-grow: 1;
 }
 
+/******* Checkbox hack *******
+ * https://css-tricks.com/the-checkbox-hack/
+ */
+.o⋄checkbox-hacked {
+	position: absolute;
+	opacity: 0.5;
+	pointer-events: none;
+}

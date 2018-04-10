@@ -1,5 +1,19 @@
 :root {
-	/* TODO */
-	--omr⋄color--dark-maroon: #58180D;
-	--omr⋄color--ocre: #c9ad6a;
+	/* http://www.colorhunt.co/c/212
+	 */
+	--o⋄color__co212__beige: #ffebbc;
+	--o⋄color__co212__blue: #5da7ae;
+	--o⋄color__co212__brown: #543d46;
+	--o⋄color__co212__dark: #292830;
+
+	/* */
+	--o⋄color--bg⁚main: var(--o⋄color__co212__dark);
+	--o⋄color--bg⁚main--50pc: rgba(41, 40, 48, 0.5);
+	--o⋄color--fg⁚main: var(--o⋄color__co212__beige);
+}
+
+.omr-tbrpg-theme⁚colorhunt212 {
+	--o⋄color--bg⁚main: var(--o⋄color__co212__dark);
+	--o⋄color--bg⁚main--50pc: rgba(41, 40, 48, 0.5);
+	--o⋄color--fg⁚main: var(--o⋄color__co212__beige);
 }

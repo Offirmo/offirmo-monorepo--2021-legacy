@@ -14,9 +14,32 @@ class App extends React.Component {
 	render() {
 		return (
 			<Router  basename={BASE_ROUTE}>
-				<div className='o⋄top-container'>
-					<div class="omr⋄full-size-background-layer omr⋄filter⁚blurred⁚1 omr⋄bg-image⁚parchment-xxl" />
-					<div id="tbrpg-root" class="o⋄top-container o⋄centered-article">
+				<div className="o⋄top-container omr⋄font-family⁚pixantiqua omr-tbrpg-theme">
+
+					<div className="omr⋄full-size-background-layer omr⋄bg-image⁚tiled-marble_black"></div>
+
+					<div className="omr⋄full-size-fixed-layer omr⋄bg⁚cover"></div>
+
+					<div className="omr⋄top-hud">
+						<div className="omr⋄hamburger">
+							<span className="icomoon-menu"></span>
+						</div>
+
+						<div className="omr⋄logo">
+							<span>The boring RPG</span>
+						</div>
+
+						<div className="omr⋄status⁚user">
+							<span class="icomoon-user"></span>
+							Pertenax, paladin L.28
+						</div>
+
+						<div className="omr⋄status⁚location">
+							<span class="icomoon-person_pin_circle"></span>
+						</div>
+					</div>
+
+					<div id="tbrpg-root" className="o⋄top-container o⋄centered-article">
 						<Header/>
 
 						<Switch>
