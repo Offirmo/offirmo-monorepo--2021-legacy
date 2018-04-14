@@ -11,20 +11,33 @@
 		<link href="../src/style.css" rel="stylesheet">
 
 		<style type="text/css">
+			/* parameters we can't compute automatically */
 			.omr⋄top-hud {
-				/* must be provided, can't compute that automatically */
 				--omr⋄ui__logo--width: 144px;
 			}
+
+			/* customization */
 			.omr⋄logo > img {
-				/* customization */
+				image-rendering: crisp-edges;
 				padding-bottom: calc(4px * var(--scale));
 			}
-			.omr⋄status⁚user⁚icon {
-				line-height: 24px;
+			.omr⋄status⁚avatar⁚icon {
+				align-self: center;
+				font-size: 26px;
 				margin-right: 4px;
 			}
-			.omr⋄status⁚user⁚details {
+			.omr⋄status⁚avatar⁚details {
 				line-height: 14px;
+			}
+
+			.omr⋄bottom-menu⁚icon {
+				align-self: center;
+				font-size: 32px;
+				margin: 0 6px;
+				cursor: pointer;
+			}
+			.omr⋄bottom-menu⁚icon:hover {
+				text-shadow: 0 0 20px var(--o⋄color--fg⁚main);
 			}
 		</style>
 
@@ -45,12 +58,10 @@
 				<img src="tbrpg_logo_512x98.png" height="100%">
 			</div>
 
-			<div class="omr⋄status⁚user">
+			<div class="omr⋄status⁚avatar">
 				<div class="o⋄flex-row o⋄height⁚100pc">
-					<div class="omr⋄status⁚user⁚icon">
-						<span class="icomoon-user"></span>
-					</div>
-					<div class="omr⋄status⁚user⁚details o⋄flex-column">
+					<span class="icomoon-user omr⋄status⁚avatar⁚icon"></span>
+					<div class="omr⋄status⁚avatar⁚details o⋄flex-column">
 						<span>Pertenax</span>
 						<span>paladin L.28</span>
 					</div>
@@ -62,9 +73,51 @@
 			</div>
 		</div>
 
-		<div class="o⋄top-container o⋄centered-article">
-
+		<div class="omr⋄z-index⁚immersion o⋄top-container o⋄centered-article">
+			<p>
+				Normal text
+				<strong>emphasized text</strong>
+				<span class="o⋄color⁚secondary">secondary text</span>
+				<span class="o⋄color⁚ancillary">ancillary text</span>
+				What I’m saying is that it’s so, so simple to make sites easier to read. Websites are broken by default, they are functional, high-performing, and accessible, but they’re also fucking ugly. You and all the other web designers out there need to make them not total shit.
+				<button>Click me!</button>
+				<a>Click me!</a>
+			</p>
+			<blockquote class="o⋄font⁚fast-and-good-enough">
+				<p>“😀 Blockquote featuring the "fast and good enough" font-family (.o⋄font⁚fast-and-good-enough)”
+					— Some stranger 🥰</p>
+			</blockquote>
+			<blockquote class="o⋄font⁚system">
+				<p>“😀 Blockquote featuring the "system" font-family (.o⋄font⁚system)”
+					— Some stranger 🥰</p>
+			</blockquote>
+			<blockquote class="o⋄font⁚roboto">
+				<p>“😀 Blockquote featuring the nice and precise "roboto" font-family (.o⋄font⁚roboto)”
+					— Some stranger 🥰</p>
+			</blockquote>
+			<blockquote class="o⋄font⁚roboto-condensed">
+				<p>“😀 Blockquote featuring the nice and precise "roboto condensed" font-family (.o⋄font⁚roboto-condensed)”
+					— Some stranger 🥰</p>
+			</blockquote>
+			<blockquote class="omr⋄font-family⁚pixantiqua">
+				<p>“😀 Blockquote featuring the fun and gamy "Pix Antiqua" font-family (.omr⋄font-family⁚pixantiqua)”
+					— Some stranger 🥰</p>
+			</blockquote>
+			<blockquote class="omr⋄font-family⁚spectral">
+				<p>“😀 Blockquote featuring the nice and fantasy "Spectral" font-family (.omr⋄font-family⁚spectral)”
+					— Some stranger 🥰</p>
+			</blockquote>
 		</div>
+
+		<div class="omr⋄bottom-hud">
+			<div class="omr⋄bottom-menu">
+				<span class="omr⋄bottom-menu⁚icon icomoon-treasure-map"></span>
+				<span class="omr⋄bottom-menu⁚icon icomoon-battle-gear"></span>
+				<span class="omr⋄bottom-menu⁚icon icomoon-locked-chest"></span>
+				<span class="omr⋄bottom-menu⁚icon icomoon-conversation"></span>
+			</div>
+		</div>
+
 
 		<script>
 			document.querySelector('h1').textContent = document.title

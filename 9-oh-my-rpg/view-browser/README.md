@@ -43,7 +43,10 @@ Tools:
 
 Techniques
 * https://medium.com/@peedutuisk/lesser-known-css-quirks-oddities-and-advanced-tips-css-is-awesome-8ee3d16295bb
-* https://css-tricks.com/theming-with-variables-globals-and-locals/
+* CSS variables
+  * https://css-tricks.com/theming-with-variables-globals-and-locals/
+  * http://simurai.com/blog/2018/04/01/contextual-styling
+  * https://github.com/giuseppeg/suitcss-toolkit/tree/example-app/examples/app#themes
 * http://youmightnotneedjs.com/
 
 

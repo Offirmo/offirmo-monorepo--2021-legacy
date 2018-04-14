@@ -2,7 +2,7 @@
 
 /* TODO group them into a theme */
 :root,
-.o⋄theme⁚dol {
+[data-o⋄theme="dark-on-light"] {
 	/* dark-on-light theme, good default
 	 * https://medium.com/refactoring-ui/7-practical-tips-for-cheating-at-design-40c736799886
 	 */
@@ -36,6 +36,6 @@
 }
 
 /* light on dark theme */
-.o⋄theme⁚lod {
+[data-o⋄theme="light-on-dark"] {
 	/* TODOO */
 }

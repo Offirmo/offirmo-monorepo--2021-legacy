@@ -26,7 +26,7 @@
 		"@oh-my-rpg/state-prng": "^0.0.1",
 		"@oh-my-rpg/state-wallet": "^0.0.1",
 		"@types/lodash": "^4.14.92",
-		"deepmerge": "^2.0.1",
+		"deepmerge": "^2.1.0",
 		"nanoevents": "^1.0.2",
 		"npm-run-all": "^4.1.2",
 		"p-finally": "^1.0.0",
