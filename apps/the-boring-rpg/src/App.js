@@ -1,11 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import './App.css';
-import OhMyRpg from './oh-my-rpg'
+import TheRealApp from './the-boring-rpg'
 
 class App extends Component {
   render() {
     return (
-      <OhMyRpg />
+      <TheRealApp />
     );
   }
 }

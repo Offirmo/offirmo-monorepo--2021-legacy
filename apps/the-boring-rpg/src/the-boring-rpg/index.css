@@ -1,0 +1,27 @@
+/******* OMR customization *******/
+
+/* parameters we can't compute automatically */
+.omr⋄top-hud {
+	--omr⋄ui__logo--width: 144px;
+}
+
+/* customization */
+.omr⋄logo > img {
+	image-rendering: crisp-edges;
+	padding-bottom: calc(4px * var(--scale));
+}
+.status⁚avatar--icon {
+	align-self: center;
+	font-size: 26px;
+	margin-right: 4px;
+}
+.status⁚avatar--details {
+	line-height: 14px;
+}
+
+/******* additions *******/
+
+.tbrpg⋄bg-image⁚fields_of_gold {
+	background-image: url('fieldsofgold01_by_andreasrocha.jpg');
+	background-position: 62%;
+}

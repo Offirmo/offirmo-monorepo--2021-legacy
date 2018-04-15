@@ -2,16 +2,16 @@
 [data-omr⋄theme="colorhunt212"] {
 	/* http://www.colorhunt.co/c/212
 	 */
-	--o⋄color__co212__beige:       #ffebbcff;
-	--o⋄color__co212__beige--50pc: #ffebbc80;
-	--o⋄color__co212__blue:        #5da7aeff;
-	--o⋄color__co212__brown:       #543d46ff;
-	--o⋄color__co212__dark:        #292830ff;
-	--o⋄color__co212__dark--50pc:  #29283080;
+	--o⋄color__co212__beige:              #ffebbcff;
+	--o⋄color__co212__beige--translucent: #ffebbc80;
+	--o⋄color__co212__blue:               #5da7aeff;
+	--o⋄color__co212__brown:              #543d46ff;
+	--o⋄color__co212__dark:               #292830ff;
+	--o⋄color__co212__dark--translucent:  #292830B0;
 
 	/* */
 	--o⋄color--bg⁚main: var(--o⋄color__co212__dark);
-	--o⋄color--bg⁚main--50pc: var(--o⋄color__co212__dark--50pc);
+	--o⋄color--bg⁚main--translucent: var(--o⋄color__co212__dark--translucent);
 	--o⋄color--fg⁚main: var(--o⋄color__co212__beige);
-	--o⋄color--fg⁚main--50pc: var(--o⋄color__co212__beige--50pc);
+	--o⋄color--fg⁚main--translucent: var(--o⋄color__co212__beige--translucent);
 }

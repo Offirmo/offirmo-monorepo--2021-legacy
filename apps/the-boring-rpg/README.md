@@ -12,3 +12,9 @@ This app is hosted inside a bolt JavaScript mono-repo. Go clone it full.
 
 ## Releasing
 TODO
+
+```
+yarn start
+yarn storybook
+yarn build
+```
