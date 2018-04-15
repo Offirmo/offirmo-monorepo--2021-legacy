@@ -106,8 +106,8 @@ function walk_content($node, callbacks, state, depth) {
     return state;
 }
 function walk($raw_node, raw_callbacks, 
-    // internal opts when recursing:
-    { $parent_node, $id = 'root', depth = 0, } = {}) {
+// internal opts when recursing:
+{ $parent_node, $id = 'root', depth = 0, } = {}) {
     const $node = normalize_node($raw_node);
     const { $type, $classes, $sub: $sub_nodes, } = $node;
     let callbacks = raw_callbacks;

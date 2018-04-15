@@ -35,8 +35,12 @@
 
 /*********************/
 
-.omr⋄z-index⁚immersion {
+.omr⋄plane⁚immersion {
 	z-index: var(--omr⋄ui__immersion-view--z-index);
+}
+
+.omr⋄plane⁚meta {
+	z-index: var(--omr⋄ui__meta-view--z-index);
 }
 
 /*********************/
@@ -45,6 +49,12 @@
 	position: absolute; /* prevent from taking room */
 	display: flex;
 	flex-direction: row;
+}
+.omr⋄top-hud a,
+.omr⋄bottom-hud a {
+	/* usually what we want */
+	text-decoration: none;
+	color: inherit;
 }
 
 .omr⋄hamburger {
@@ -173,10 +183,6 @@
 	height: 100%;
 }
 
-.omr⋄status⁚location {
-	/* TODO */
-}
-
 .omr⋄bottom-menu {
 	--scale: var(--omr⋄ui__bottom-menu--scale, var(--omr⋄ui⋄base__scale));
 	--height: calc((var(--omr⋄ui__bottom-menu--height) - var(--omr⋄ui__border--width)) * var(--scale));
@@ -210,18 +216,28 @@
 	justify-content: flex-start;
 }
 .omr⋄bottom-menu⁚icon {
+	/* Help center content */
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 	align-self: center;
-	font-size: 32px;
+	/* clamp size */
+	width: 30px;
+	font-size: 28px;
+	line-height: 32px;
+	text-align: center;
+	/**/
 	margin: 0 6px;
 	cursor: pointer;
 }
 .omr⋄bottom-menu⁚icon:hover {
+	font-size: 32px;
 	text-shadow: 0 0 20px var(--o⋄color--fg⁚main);
 }
+
+/************/
+
 
 
 /************/
 
-.omr⋄meta-background {
-	z-index: var(--omr⋄ui__meta-view--z-index);
-}

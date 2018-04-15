@@ -56,6 +56,7 @@ describe('📃  adventure rendering', function () {
     describe('adventures', function () {
         beforeEach(() => state_prng_1.xxx_internal_reset_prng_cache());
         logic_adventures_1.ALL_GOOD_ADVENTURE_ARCHETYPES
+            //.slice(0, 1)
             .forEach(({ hid, good }, index) => {
             describe(`${good ? '✅' : '🚫'}  adventure #${index} "${hid}"`, function () {
                 it('should be playable', () => {

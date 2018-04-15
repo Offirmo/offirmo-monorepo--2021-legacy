@@ -111,6 +111,10 @@ function render_adventure(a) {
     const story = _.adventures[a.hid];
     const $doc = RichText.section()
         .pushText(story)
+        //.pushLineBreak()
+        //.pushNode($listing_of_loot, 'loot')
+        //.pushNode($listing_of_item_improvement, 'item_improv')
+        //.pushNode($listing_of_character_improvement, 'char_improv')
         .done();
     $doc.$sub = Object.assign({}, $doc.$sub, $story_sub_elements);
     return $doc;

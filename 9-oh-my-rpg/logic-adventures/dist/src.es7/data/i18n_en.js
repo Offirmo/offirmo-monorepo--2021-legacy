@@ -333,7 +333,7 @@ led her to live underground.
 She teaches you a new spell for money: +{{mana}} mana
 		`,
         rachel: `
-Between to villages, you meet Rachel the washer wench.
+Between two villages, you meet Rachel the washer wench.
 She competes with you in arm twisting, and win!
 Good exercise, +{{strength}} strength.
 		`,
@@ -422,6 +422,16 @@ After an intense battle, you earned the castle and its riches!{{br}}
 You enter the dark Cavities of Gehennom. You don't find the Amulet of Yendor,
 but still ends up with good loot: +{{coin}}, {{item}}...
 		`,
+        // dragon's graveyard
+        // http://www.comic-rocket.com/read/bunny/28
+        // Bunthulhu
+        king_reward: `
+You did well to help the kingdom.
+King Gallus welcomes you in the throne room in front of all the court assembled.
+You are rewarded with weapons and honors: {{item}}, {{token}}...
+`
+        // red eyed unicorn throwing fire
+        // badger mushrooms
     }
 };
 const messages = {

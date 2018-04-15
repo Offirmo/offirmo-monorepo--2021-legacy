@@ -31,3 +31,8 @@ bolt w @oh-my-rpg/definitions run build
 ```
 
 ## Notes
+
+```bash
+npm i -g yarn
+yarn global add bolt
+```

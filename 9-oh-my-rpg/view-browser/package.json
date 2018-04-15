@@ -12,6 +12,10 @@
 		"npm-run-all": "^4.1.2"
 	},
 	"scripts": {
-		"build": "cleancss -o dist/oh-my-rpg-browser.css src/style.css"
+		"clean": "rm -rf dist",
+		"build:mkdir": "mkdir -p dist",
+		"build:copy": "cpx 'src/**/*.{woff,woff2,eot,svg,ttf,png,jpg}' dist --verbose",
+		"build:cleancss": "cleancss --skip-rebase -o dist/oh-my-rpg-browser.css src/style.css",
+		"build": "npm-run-all clean build:mkdir --parallel build:copy build:cleancss"
 	}
 }
