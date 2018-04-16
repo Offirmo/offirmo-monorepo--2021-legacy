@@ -28,13 +28,14 @@ if(NODE_ENV !== 'development' && NODE_ENV !== 'production')
 /*********************/
 
 const config: webpack.Configuration = {
+	//foo: 42,
+
 	/////// BASE
 	// https://webpack.js.org/guides/getting-started/
 	entry: './src/index.jsx',
 	output: {
 		path: path.resolve(__dirname, '../dist'),
 		filename: 'index.js',
-		//publicPath: '', // force it ?
 	},
 
 	/////// LOADERS
@@ -145,13 +146,14 @@ if (NODE_ENV === 'production') {
 
 // SPECIAL, COMPLICATED technique:
 // If we are in a monorepo and want to serve this sub-package on different URLs:
-// - PROD: https://www.online-adventur.es/the-boring-rpg/
-// - STAGING: https://offirmo.netlify.com/apps/the-boring-rpg/
+// - PROD: https://www.online-adventur.es/the-boring-rpg/index.html
+// - STAGING: https://offirmo.netlify.com/apps/dist/the-boring-rpg/index.html
+// - DEV/STAGING: http://localhost:8000/apps/the-boring-rp/dist/index.html
 // - DEV: (whatever works)
 // We use a combo of `publicPath` and `contentBase`:
 
 // content from webpack served from here:
-const PUBLIC_PATH = `/${PACKAGE_DIR}/dist` // replicate prod setting
+const PUBLIC_PATH = `/${PACKAGE_DIR}` // replicate prod setting
 // content NOT from webpack served from here:
 // XXX path relative to webpack dev server CWD!
 const CONTENT_BASE = '..' // so that /our-package-name/xyz works
