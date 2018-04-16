@@ -1,0 +1,8 @@
+/* Should we ? */
+@import '../node_modules/@offirmo/view-css/src/style.css';
+
+/* TODO use a picture */
+
+body {
+	border: 2px solid red !important;
+}
