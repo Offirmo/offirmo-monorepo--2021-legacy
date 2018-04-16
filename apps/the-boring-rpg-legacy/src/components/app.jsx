@@ -13,7 +13,7 @@ import { BASE_ROUTE, ROUTES } from "./routes"
 class App extends React.Component {
 	render() {
 		return (
-			<Router  basename={BASE_ROUTE}>
+			<Router basename={BASE_ROUTE}>
 				<div className="o⋄top-container omr⋄font-family⁚pixantiqua omr-tbrpg-theme">
 
 					<div className="omr⋄full-size-background-layer omr⋄bg-image⁚tiled-marble_black"></div>

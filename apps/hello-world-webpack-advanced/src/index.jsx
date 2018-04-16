@@ -3,6 +3,9 @@
 import 'babel-polyfill'
 import React from 'react'
 import ReactDOM from 'react-dom'
+
+import ReactRouterExample from './react-router-example'
+
 import './index.css'
 
 /*
@@ -23,6 +26,7 @@ ReactDOM.render(
 			<li>ENV: {WI_ENV}</li>
 			<li>build date: {WI_BUILD_DATE}</li>
 		</ul>
+		<ReactRouterExample />
 	</div>,
 	document.getElementById('root'),
 )

@@ -25,6 +25,9 @@ if(typeof NODE_ENV === 'undefined')
 if(NODE_ENV !== 'development' && NODE_ENV !== 'production')
 	throw new Error('Webpack config: NODE_ENV value is invalid!!!')
 
+// in prod, we want to serve behind a path
+const BASE_PATH = `/${PACKAGE_DIR}`
+
 /*********************/
 
 const config: webpack.Configuration = {
@@ -80,6 +83,7 @@ const config: webpack.Configuration = {
 		new webpack.DefinePlugin({
 			//'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
 			// WI = Webpack Injected
+			WI_BASE_PATH: JSON.stringify(BASE_PATH), // inject it for react-router basename auto-detection
 			WI_ENV: JSON.stringify(NODE_ENV),
 			WI_VERSION: JSON.stringify(VERSION),
 			WI_BUILD_DATE: JSON.stringify(BUILD_DATE),
@@ -146,15 +150,18 @@ if (NODE_ENV === 'production') {
 
 // SPECIAL, COMPLICATED technique:
 // If we are in a monorepo and want to serve this sub-package on different URLs:
-// - PROD: https://www.online-adventur.es/the-boring-rpg/index.html
-// - STAGING: https://offirmo.netlify.com/apps/dist/the-boring-rpg/index.html
-// - DEV/STAGING: http://localhost:8000/apps/the-boring-rp/dist/index.html
-// - DEV: (whatever works)
+// - PROD: https://www.online-adventur.es/the-boring-rpg/
+// - STAGING: https://offirmo.netlify.com/apps/dist/the-boring-rpg/
+// - DEV/STAGING: http://localhost:8000/apps/the-boring-rp/dist/
+// For React router to work with this, it needs to be given a "basename"
+// to make that works in dev, we simulate a sub-path in dev as well:
+// - DEV: http://localhost:8080/the-boring-rpg
 // We use a combo of `publicPath` and `contentBase`:
-
 // content from webpack served from here:
-const PUBLIC_PATH = `/${PACKAGE_DIR}` // replicate prod setting
+const PUBLIC_PATH = BASE_PATH // replicate prod setting
 // content NOT from webpack served from here:
+// XXX try to NOT SERVE ANYTHING through this,
+//     there are webpack plugins to solve that!
 // XXX path relative to webpack dev server CWD!
 const CONTENT_BASE = '..' // so that /our-package-name/xyz works
 
@@ -184,12 +191,11 @@ if (NODE_ENV !== 'production') {
 	)
 	config.output.publicPath = PUBLIC_PATH
 
+	console.log(`
+🧙‍♂️  Remember to access this app from ${PUBLIC_PATH}
+`)
 }
 
 /*********************/
 
 module.exports = config
-
-console.log(`
-🧙‍♂️  Remember to access this app from ${PUBLIC_PATH}
-`)
