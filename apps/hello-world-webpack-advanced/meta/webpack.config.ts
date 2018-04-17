@@ -8,6 +8,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 //const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin')
 // https://github.com/webpack-contrib/mini-css-extract-plugin
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const { get_human_readable_UTC_timestamp_minutes } = require('@offirmo/timestamps')
 
@@ -47,6 +48,7 @@ const config: webpack.Configuration = {
 		rules: [
 			{
 				test: /\.(js|jsx)$/,
+				// TODO check that
 				exclude: /node_modules/, // https://github.com/babel/babel/issues/6041
 				use: [
 					'babel-loader',
@@ -98,6 +100,17 @@ const config: webpack.Configuration = {
 			// Options similar to the same options in webpackOptions.output
 			filename: "index.css",
 		}),
+		new CopyWebpackPlugin([
+			{
+				// note: relative to cwd!
+				from: 'src/favicons',
+				// note: relative to output dir!
+				to: 'favicons',
+				// safety
+				toType: 'dir',
+			},
+		]),
+
 		/*
 		new HtmlWebpackIncludeAssetsPlugin({
 			assets: [
@@ -163,7 +176,7 @@ const PUBLIC_PATH = BASE_PATH // replicate prod setting
 // XXX try to NOT SERVE ANYTHING through this,
 //     there are webpack plugins to solve that!
 // XXX path relative to webpack dev server CWD!
-const CONTENT_BASE = '..' // so that /our-package-name/xyz works
+const CONTENT_BASE = '../dist' // so that /our-package-name/index.html/favicon.xyz works
 
 if (NODE_ENV !== 'production') {
 	// https://webpack.js.org/concepts/mode/

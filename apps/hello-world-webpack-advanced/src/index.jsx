@@ -7,6 +7,7 @@ import ReactDOM from 'react-dom'
 import ReactRouterExample from './react-router-example'
 
 import './index.css'
+import logo from './tbrpg_logo_512x98.png';
 
 /*
 const workspace = {
@@ -19,7 +20,7 @@ const workspace = {
 
 ReactDOM.render(
 	<div>
-		Hello world
+		Hello world <img src={logo} height="25px" />
 		<ul>
 			<li>version: {WI_VERSION}</li>
 			<li>process.env.NODE_ENV: {process.env.NODE_ENV}</li>
