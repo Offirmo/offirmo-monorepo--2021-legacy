@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import './index.css';
 
 export class OhMyRpg extends Component {
@@ -14,7 +14,7 @@ export class OhMyRpg extends Component {
 
 	render() {
 		return (
-			<div className="o⋄top-container omr⋄font-family⁚pixantiqua">
+			<div className="o⋄top-container">
 
 				<div className="omr⋄full-size-background-layer omr⋄bg-image⁚tiled-marble_black"/>
 
