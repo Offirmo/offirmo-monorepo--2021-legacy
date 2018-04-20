@@ -5,25 +5,15 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import './index.css'
+import Root from './components/root'
+//import Root from './components/universe-anchor/connected'
 
-/*
-const workspace = {
-	version: WI_VERSION,
-	verbose: true, // XXX
-	state: null,
-	SEC,
-}
-*/
+import GameContext, { game_instance } from './game-context'
+
 
 ReactDOM.render(
-	<div>
-		Hello world
-		<ul>
-			<li>version: {WI_VERSION}</li>
-			<li>process.env.NODE_ENV: {process.env.NODE_ENV}</li>
-			<li>ENV: {WI_ENV}</li>
-			<li>build date: {WI_BUILD_DATE}</li>
-		</ul>
-	</div>,
+	<GameContext.Provider value={game_instance}>
+		<Root />
+	</GameContext.Provider>,
 	document.getElementById('root'),
 )

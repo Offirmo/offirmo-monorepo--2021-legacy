@@ -1,0 +1,2 @@
+import TheBoringRPG from './component'
+
