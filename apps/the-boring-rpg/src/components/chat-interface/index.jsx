@@ -4,8 +4,8 @@ const promiseFinally = require('p-finally')
 
 import { create as create_chat } from '@offirmo/view-chat'
 
-import { AutoScrollDown } from '../../atoms/auto-scroll-down'
-import { is_likely_to_be_mobile } from '../../../services/detection'
+import { AutoScrollDown } from '../auto-scroll-down'
+import { is_likely_to_be_mobile } from '../../services/mobile-detection'
 
 function ChatBubble({direction = 'ltr', children}) {
 	const classes = classNames(

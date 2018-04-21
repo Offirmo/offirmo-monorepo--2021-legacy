@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 
-import { TBRPGElement } from '../components/atoms/elements'
+import { TBRPGElement } from '../components/rich-text'
 
 const LIB = 'rich_text_to_react'
 

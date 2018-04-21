@@ -57,20 +57,20 @@ const GameContext = React.createContext(game_instance)
 class GameContextAsPropsListener extends React.Component {
 
 	componentDidMount() {
-		console.info('~~ GameContextListener componentDidMount')
+		//console.info('~~ GameContextListener componentDidMount')
 		// subscribe to future state changes
 		this.unsubscribe = this.props.game_instance.subscribe(() => this.forceUpdate())
 	}
 	componentWillUnmount () {
-		console.info('~~ GameContextListener componentWillUnmount', arguments)
+		//console.info('~~ GameContextListener componentWillUnmount', arguments)
 		this.unsubscribe()
 	}
- 
+
 	render() {
 	  return this.props.children
 	}
  }
- 
+
  function GameContextConsumerListener(props) {
 	 return (
 		<GameContext.Consumer>
@@ -78,7 +78,7 @@ class GameContextAsPropsListener extends React.Component {
 				<GameContextAsPropsListener game_instance={game_instance}>
 					{props.children(game_instance)}
 				</GameContextAsPropsListener>
-			)}      
+			)}
 		</GameContext.Consumer>
 	 )
  }

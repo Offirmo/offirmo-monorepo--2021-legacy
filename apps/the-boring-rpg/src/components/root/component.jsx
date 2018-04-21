@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Redirect, Route, Switch, NavLink } from 'react
 import UniverseAnchor from '../universe-anchor'
 import {BASE_ROUTE, ROUTES} from '../../services/routes'
 //import { Home } from './components/pages/home'
+import ExplorePane from '../chats/explore'
 
 /*
 function Nav() {
@@ -48,7 +49,7 @@ export default class TheBoringRPG extends Component {
 					universeAnchor={<UniverseAnchor />}
 
 					hamburgerItems={[]}
-					
+
 					bottomMenuItems={[
 						<NavLink key="story" exact className="omr⋄bottom-menu⁚icon" activeClassName='active' to={ROUTES.home}>
 							<span className="icomoon-treasure-map" />
@@ -63,19 +64,22 @@ export default class TheBoringRPG extends Component {
 					]}
 				>
 					<div key="background-picture" className="omr⋄full-size-fixed-layer omr⋄bg⁚cover tbrpg⋄bg-image⁚fields_of_gold">
-						{/*
-						<Switch>
-							<Route exact path={ROUTES.home} render={() => <Home />} />
-							{ /*<Route path={ROUTES.inventory} render={() => <Inventory />} />
-							<Route path={ROUTES.character} render={() => <CharacterSheet  />} />
-							<Route path={ROUTES.about} render={() => <About />} />
+						{
+							<ExplorePane />
+							/*
+                                             <Switch>
+                                                 <Route exact path={ROUTES.home} render={() => <Home />} />
+                                                 { /*<Route path={ROUTES.inventory} render={() => <Inventory />} />
+                                                 <Route path={ROUTES.character} render={() => <CharacterSheet  />} />
+                                                 <Route path={ROUTES.about} render={() => <About />} />
 
-							<Route path={ROUTES.export_savegame} render={() => <ExportSavegame />} />
-							<Route path={ROUTES.x} render={() => <XPage />} />
+                                                 <Route path={ROUTES.export_savegame} render={() => <ExportSavegame />} />
+                                                 <Route path={ROUTES.x} render={() => <XPage />} />
 
-							{// fallback to home }
-							<Redirect to={ROUTES.home} />
-						</Switch>*/}
+                                                 {// fallback to home }
+                                                 <Redirect to={ROUTES.home} />
+                                             </Switch>*/
+						}}
 					</div>
 				</OhMyRpg>
 			</Router>

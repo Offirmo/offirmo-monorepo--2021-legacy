@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { GameContext, GameContextConsumerListener } from '../../game-context'
+import { GameContextConsumerListener } from '../../game-context'
 import Component from './component'
 
 export default props => (

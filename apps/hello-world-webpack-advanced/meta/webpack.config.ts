@@ -1,14 +1,16 @@
 // typescript config https://webpack.js.org/configuration/configuration-languages/#typescript
 
-console.log('🧙‍♂️  Hello from webpack.config.ts!')
-
 const path = require('path')
+
+console.log(`🧙‍♂️  Hello from webpack.config.ts from ${path.basename(__dirname)}!`)
+
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 //const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin')
-// https://github.com/webpack-contrib/mini-css-extract-plugin
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const DashboardPlugin = require('webpack-dashboard/plugin')
+// TODO https://github.com/headfire94/package-json-cleanup-loader
 
 const { get_human_readable_UTC_timestamp_minutes } = require('@offirmo/timestamps')
 
@@ -97,6 +99,7 @@ const config: webpack.Configuration = {
 			showErrors: true,
 		}),
 		new MiniCssExtractPlugin({
+			// https://github.com/webpack-contrib/mini-css-extract-plugin
 			// Options similar to the same options in webpackOptions.output
 			filename: "index.css",
 		}),
@@ -194,6 +197,8 @@ if (NODE_ENV !== 'production') {
 	}
 
 	config.plugins.push(
+		// https://github.com/FormidableLabs/electron-webpack-dashboard
+		new DashboardPlugin(),
 		/*new HtmlWebpackIncludeAssetsPlugin({
 			assets: [
 				'src/index.css',

@@ -5,10 +5,9 @@ console.log('🧙‍♂️  Hello from webpack.config.ts!')
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-//const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin')
-// https://github.com/webpack-contrib/mini-css-extract-plugin
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const DashboardPlugin = require('webpack-dashboard/plugin')
 
 const { get_human_readable_UTC_timestamp_minutes } = require('@offirmo/timestamps')
 
@@ -97,6 +96,7 @@ const config: webpack.Configuration = {
 			showErrors: true,
 		}),
 		new MiniCssExtractPlugin({
+			// https://github.com/webpack-contrib/mini-css-extract-plugin
 			// Options similar to the same options in webpackOptions.output
 			filename: "index.css",
 		}),
@@ -110,16 +110,6 @@ const config: webpack.Configuration = {
 				toType: 'dir',
 			},
 		]),
-
-		/*
-		new HtmlWebpackIncludeAssetsPlugin({
-			assets: [
-				'assets/normalize.css',
-				'assets/index.css',
-			],
-			append: true,
-			hash: true,
-		}),*/
 	]
 }
 
@@ -129,34 +119,6 @@ const config: webpack.Configuration = {
 if (NODE_ENV === 'production') {
 	// https://webpack.js.org/concepts/mode/
 	config.mode = 'production'
-	// https://reactjs.org/docs/optimizing-performance.html#use-the-production-build
-	/*
-	const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-	config.plugins.push(
-		new UglifyJsPlugin({
-			// https://github.com/webpack-contrib/uglifyjs-webpack-plugin#uglifyoptions
-			cache: true,
-			parallel: true,
-			sourceMap: true,
-			uglifyOptions: {
-				ecma: 8,
-				warnings: true,
-				parse: {
-					ecma: 8,
-				},
-			},
-		}),
-	)
-	*/
-	/*config.plugins.push(
-		new HtmlWebpackIncludeAssetsPlugin({
-			assets: [
-				'assets/index.css',
-			],
-			append: true,
-			hash: true,
-		}),
-	)*/
 }
 
 /******* DEV *******/
@@ -194,13 +156,8 @@ if (NODE_ENV !== 'production') {
 	}
 
 	config.plugins.push(
-		/*new HtmlWebpackIncludeAssetsPlugin({
-			assets: [
-				'src/index.css',
-			],
-			append: true,
-			hash: true,
-		}),*/
+		// https://github.com/FormidableLabs/electron-webpack-dashboard
+		new DashboardPlugin(),
 	)
 	config.output.publicPath = PUBLIC_PATH
 
