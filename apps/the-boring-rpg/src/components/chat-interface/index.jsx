@@ -7,23 +7,48 @@ import { create as create_chat } from '@offirmo/view-chat'
 import { AutoScrollDown } from '../auto-scroll-down'
 import { is_likely_to_be_mobile } from '../../services/mobile-detection'
 import './index.css'
+import SEC from '../../services/sec'
 
-function ChatBubble({direction = 'ltr', children}) {
-	const classes = classNames(
-		'chat__element',
-		{ 'chat__element--ltr': direction === 'ltr'},
-		{ 'chat__element--rtl': direction === 'rtl'},
-		'chat__bubble'
-	)
-	return (
-		<div className={classes}>
-			{children}
-		</div>
-	)
+
+class ChatBubble extends React.Component {
+	state = {
+		error: null,
+		errorInfo: null,
+	}
+
+	componentDidCatch(error, errorInfo) {
+		// Catch errors in any components below and re-render with error message
+		this.setState({
+			error,
+			errorInfo,
+		})
+	}
+
+	render() {
+		const {direction = 'ltr', children} = this.props
+		const classes = classNames(
+			'chat__element',
+			{ 'chat__element--ltr': direction === 'ltr'},
+			{ 'chat__element--rtl': direction === 'rtl'},
+			'chat__bubble'
+		)
+		return (
+			<div className={classes}>
+				{this.state.errorInfo
+					? <div className="o⋄error-boundary-report">
+							<h2>internal error</h2>
+							<details style={{ whiteSpace: 'pre-wrap' }}>
+								{this.state.error && this.state.error.toString()}
+								<br />
+								{this.state.errorInfo.componentStack}
+							</details>
+						</div>
+					: children
+				}
+			</div>
+		)
+	}
 }
-
-
-
 
 class Chat extends React.Component {
 
@@ -34,7 +59,7 @@ class Chat extends React.Component {
 		let initial_bubbles = React.Children.map(this.props.initial_bubbles, (child, index) => {
 			return (typeof child === 'string')
 				? child
-				: React.cloneElement(child, {key: `${index}`})
+				: React.cloneElement(child, {key: `restored-${index}`})
 		})
 
 		this.state = {

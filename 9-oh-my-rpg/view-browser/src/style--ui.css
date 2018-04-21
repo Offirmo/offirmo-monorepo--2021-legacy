@@ -133,6 +133,7 @@
 	--omr⋄ui__logo--scale: calc(var(--omr⋄ui⋄base__scale) * 1.025);
 }
 .omr⋄logo > * {
+	height: 100%;
 	padding: var(--padding);
 	align-items: center;
 }

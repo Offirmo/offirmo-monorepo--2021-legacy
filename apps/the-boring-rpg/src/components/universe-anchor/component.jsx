@@ -1,5 +1,6 @@
 import React from 'react';
 
+import './index.css'
 
 export default function UniverseAnchor({name, klass, level}) {
 	return (
@@ -7,7 +8,7 @@ export default function UniverseAnchor({name, klass, level}) {
 			<span className="icomoon-user status⁚avatar--icon" />
 			<div className="status⁚avatar--details o⋄flex-column">
 				<span>{name}</span>
-				<span>{klass} L.{level}</span>
+				<span className="universe-anchor__klass">{klass} L.{level}</span>
 			</div>
 		</div>
 	)

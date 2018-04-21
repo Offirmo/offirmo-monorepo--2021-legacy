@@ -21,3 +21,13 @@
 
 	margin: 0 auto;/* horizontal centering */
 }
+
+
+.o⋄error-boundary-report {
+	font-size: xx-small;
+	font-family: monospace;
+	color: red;
+	background-color: rgba(0, 0, 0, .3);
+	margin: auto;
+	z-index: 100; /* just in case */
+}

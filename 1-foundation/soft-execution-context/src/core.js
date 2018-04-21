@@ -91,7 +91,7 @@ function create(args = {}) {
 			createCatcher({
 				debugId: 'xTry',
 				decorators: sub_SEC[INTERNAL_PROP].errDecorators,
-				onError: null,
+				onError: null, //< note this: will rethrow
 			})(err)
 		}
 	}

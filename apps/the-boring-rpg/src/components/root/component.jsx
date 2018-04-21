@@ -5,6 +5,7 @@ import UniverseAnchor from '../universe-anchor'
 import {BASE_ROUTE, ROUTES} from '../../services/routes'
 //import { Home } from './components/pages/home'
 import ExplorePane from '../chats/explore'
+import MetaPane from '../chats/meta'
 
 /*
 function Nav() {
@@ -44,11 +45,11 @@ export default class TheBoringRPG extends Component {
 			<Router basename={BASE_ROUTE}>
 				<OhMyRpg
 
-					logo={<img src={logo} height="100%" />}
+					logo={<a href="https://www.online-adventur.es/the-boring-rpg/" target="_blank"><img src={logo} height="100%" /></a>}
 
 					universeAnchor={<UniverseAnchor />}
 
-					hamburgerItems={[]}
+					hamburgerPanel={<MetaPane />}
 
 					bottomMenuItems={[
 						<NavLink key="story" exact className="omr⋄bottom-menu⁚icon" activeClassName='active' to={ROUTES.home}>
@@ -63,7 +64,8 @@ export default class TheBoringRPG extends Component {
 						<span key="chat" className="omr⋄bottom-menu⁚icon icomoon-conversation" />,
 					]}
 				>
-					<div key="background-picture" className="omr⋄full-size-fixed-layer omr⋄bg⁚cover tbrpg⋄bg-image⁚fields_of_gold">
+					<div key="background-picture"
+						className="omr⋄plane⁚immersion omr⋄full-size-fixed-layer omr⋄bg⁚cover tbrpg⋄bg-image⁚fields_of_gold">
 						<div key="content-area" className="omr⋄content-area">
 						{
 							<ExplorePane />

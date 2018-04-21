@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+
+import ErrorBoundary from '../error-boundary'
+
 import './index.css';
 
 export class OhMyRpgUI extends Component {
@@ -11,6 +14,8 @@ export class OhMyRpgUI extends Component {
 			isHamburgerOpen: !state.isHamburgerOpen,
 		}))
 	}
+
+	// TODO listen on error and suggest a refresh
 
 	render() {
 		return (
@@ -31,23 +36,32 @@ export class OhMyRpgUI extends Component {
 					</div>
 
 					<div className="omr⋄universe-anchor">
-						{this.props.universeAnchor}
+						<ErrorBoundary name={'omr:universe-anchor'}>
+							{this.props.universeAnchor}
+						</ErrorBoundary>
 					</div>
 				</div>
 
-				{this.props.children}
+				<ErrorBoundary name={'omr:content'}>
+					{this.props.children}
+				</ErrorBoundary>
 
 				<div className="omr⋄bottom-hud">
 					<div className="omr⋄bottom-menu">
-						{this.props.bottomMenuItems}
+						<ErrorBoundary name={'omr:bottom-menu'}>
+							{this.props.bottomMenuItems}
+						</ErrorBoundary>
 					</div>
 				</div>
 
 				{this.state.isHamburgerOpen &&
 					<div
 						key="omr⋄plane⁚meta"
-						className="omr⋄plane⁚meta omr⋄full-size-background-layer omr⋄bg-color⁚bg-main--translucent"
-					/>
+						className="omr⋄meta-panel omr⋄plane⁚meta">
+						<ErrorBoundary name={'omr:hamburger-pane'}>
+							{this.props.hamburgerPanel}
+						</ErrorBoundary>
+					</div>
 				}
 			</div>
 		);

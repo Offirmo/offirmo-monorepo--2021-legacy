@@ -27,3 +27,25 @@ SEC.listenToUncaughtErrors()
 SEC.listenToUnhandledRejections()
 logger.trace('Soft Execution Context initialized.')
 `.trim()))
+
+
+////////
+
+console.log(boxify(`
+const soft_execution_context = require('${stylizeString.bold(PKG_JSON.name)}')
+
+function create({SEC} = {}) {
+   SEC = soft_execution_context.isomorphic.create({parent: SEC, module: LIB})
+
+   return SEC.xTryCatch(\`doing \${xyz}\`, ({logger, env}) => {
+      logger.trace({env})
+      ...
+   })
+}
+
+xTry,
+xTryCatch,
+xPromiseTry,
+xPromiseCatch,
+xPromiseTryCatch,
+`.trim()))
