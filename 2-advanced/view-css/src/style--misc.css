@@ -4,6 +4,11 @@
 	overflow-y: auto;
 }
 
+.o⋄no-overflow {
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
+
 .o⋄text-align⁚center {
 	text-align: center;
 }

@@ -1,4 +1,9 @@
 
+
+.universe-anchor__klass {
+	text-transform: capitalize;
+}
+
 .auto-scroll-down {
 	height: 100%;
 	overflow-x: hidden;
@@ -39,6 +44,7 @@
 	border-radius: .4em;
 }
 
+
 .chat__spinner {
 	background-image: url(d75adfb7e09b234ae36b4b3b7a1314d6.svg);
 	background-repeat: no-repeat;
@@ -55,8 +61,17 @@
 .chat__choices button {
 	color: inherit;
 	text-align: left;
-
+	border: solid 2px var(--o⋄color--fg⁚main);
+	box-shadow: 0 7px 14px rgba(50,50,93,.1), 0 3px 6px rgba(0,0,0,.08);
 }
+.chat__choices button:hover {
+	/*border-width: 3px;*/
+	transform: translateY(-1px);
+}
+.chat__choices button:active {
+	transform: translateY(1px);
+}
+
 
 .chat__input {
 	height: 26px;
@@ -411,7 +426,12 @@ template {
   display: none;
 }
 
-
+.omr⋄meta-panel {
+	height: 100%;
+	min-width: 100px;
+	max-width: 500px;
+	background-color: rgba(0, 0, 0, .9);
+}
 
 
 
@@ -627,6 +647,11 @@ template {
 /******* atoms *******/
 .o⋄overflow-y⁚auto {
 	overflow-y: auto;
+}
+
+.o⋄no-overflow {
+	overflow-x: hidden;
+	overflow-y: hidden;
 }
 
 .o⋄text-align⁚center {
@@ -1526,6 +1551,7 @@ hr.omr⋄border-h⁚test {
 	--omr⋄ui__logo--scale: calc(var(--omr⋄ui⋄base__scale) * 1.025);
 }
 .omr⋄logo > * {
+	height: 100%;
 	padding: var(--padding);
 	align-items: center;
 }
@@ -1635,10 +1661,12 @@ hr.omr⋄border-h⁚test {
 	padding: 0;
 	display: flex;
 	flex-direction: column;
+	overflow-x: hidden;
+	overflow-y: hidden;
 }
 .omr⋄content-area:before {
 	content: ' ';
-	height: calc((var(--omr⋄ui__hamburger--visible-width) - 3px) * var(--omr⋄ui⋄base__scale));
+	height: calc((var(--omr⋄ui__hamburger--visible-width) + 10px) * var(--omr⋄ui⋄base__scale));
 }
 .omr⋄content-area:after {
 	content: ' ';
@@ -1699,7 +1727,7 @@ hr.omr⋄border-h⁚test {
 	line-height: 14px;
 }
 
-.omr⋄content-area {
+.omr⋄plane⁚immersion .omr⋄content-area {
 	max-width: 650px;
 	margin: auto;
 	font-size: 15px;
@@ -1715,4 +1743,7 @@ hr.omr⋄border-h⁚test {
 
 
 
+.panel-top-content {
+	padding: 5px;
+}
 

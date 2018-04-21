@@ -135,8 +135,8 @@ export default class Component extends React.Component {
 		const client_state = game_instance.get_client_state()
 
 		return (
-			<div className={'tbrpg-panel o⋄flex-column'}>
-				<div className='page-top-content o⋄flex-element-nogrow'>
+			<div className={'tbrpg-panel o⋄flex-column o⋄no-overflow'}>
+				<div className='panel-top-content o⋄flex-element-nogrow'>
 					{rich_text_to_react(render_meta(state, client_state))}
 					<hr/>
 				</div>

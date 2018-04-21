@@ -19,7 +19,7 @@
 	line-height: 14px;
 }
 
-.omr⋄content-area {
+.omr⋄plane⁚immersion .omr⋄content-area {
 	max-width: 650px;
 	margin: auto;
 	font-size: 15px;
@@ -35,3 +35,6 @@
 
 
 
+.panel-top-content {
+	padding: 5px;
+}

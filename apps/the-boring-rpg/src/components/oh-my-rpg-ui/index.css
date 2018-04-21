@@ -1,10 +1,6 @@
 @import '../../../node_modules/@oh-my-rpg/view-browser/src/style.css';
 
 .omr⋄meta-panel {
-	padding:
-		calc((var(--omr⋄ui__hamburger--visible-width) - 3px) * var(--omr⋄ui⋄base__scale) + 10px)
-		5px
-		5px;
 	height: 100%;
 	min-width: 100px;
 	max-width: 500px;

@@ -243,10 +243,12 @@
 	padding: 0;
 	display: flex;
 	flex-direction: column;
+	overflow-x: hidden;
+	overflow-y: hidden;
 }
 .omr⋄content-area:before {
 	content: ' ';
-	height: calc((var(--omr⋄ui__hamburger--visible-width) - 3px) * var(--omr⋄ui⋄base__scale));
+	height: calc((var(--omr⋄ui__hamburger--visible-width) + 10px) * var(--omr⋄ui⋄base__scale));
 }
 .omr⋄content-area:after {
 	content: ' ';

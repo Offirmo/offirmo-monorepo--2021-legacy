@@ -33,6 +33,7 @@
 	border-radius: .4em;
 }
 
+
 .chat__spinner {
 	background-image: url("./Spinner-1s-42px.svg");
 	background-repeat: no-repeat;
@@ -49,8 +50,17 @@
 .chat__choices button {
 	color: inherit;
 	text-align: left;
-
+	border: solid 2px var(--o⋄color--fg⁚main);
+	box-shadow: 0 7px 14px rgba(50,50,93,.1), 0 3px 6px rgba(0,0,0,.08);
 }
+.chat__choices button:hover {
+	/*border-width: 3px;*/
+	transform: translateY(-1px);
+}
+.chat__choices button:active {
+	transform: translateY(1px);
+}
+
 
 .chat__input {
 	height: 26px;
