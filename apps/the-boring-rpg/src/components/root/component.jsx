@@ -64,6 +64,7 @@ export default class TheBoringRPG extends Component {
 					]}
 				>
 					<div key="background-picture" className="omr⋄full-size-fixed-layer omr⋄bg⁚cover tbrpg⋄bg-image⁚fields_of_gold">
+						<div key="content-area" className="omr⋄content-area">
 						{
 							<ExplorePane />
 							/*
@@ -79,7 +80,8 @@ export default class TheBoringRPG extends Component {
                                                  {// fallback to home }
                                                  <Redirect to={ROUTES.home} />
                                              </Switch>*/
-						}}
+						}
+						</div>
 					</div>
 				</OhMyRpg>
 			</Router>

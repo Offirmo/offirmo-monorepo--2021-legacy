@@ -1,4 +1,73 @@
 
+.auto-scroll-down {
+	height: 100%;
+}
+
+
+.chat {
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	padding: 5px;
+}
+
+.chat__element {
+	margin: 3px 0;
+	position: relative; /* to allow absolute positioning of content */
+	max-width: 80%;
+
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+	align-content: flex-start;
+}
+.chat__element--ltr {
+	align-self: flex-start;
+}
+.chat__element--rtl {
+	align-self: flex-end;
+}
+
+.chat__bubble,
+.chat__choices button {
+	padding: .5em .8em .4em;
+	width: fit-content;
+	background-color: rgba(0,0,0,0.42);
+	border-radius: .4em;
+}
+
+.chat__spinner {
+	background-image: url(d75adfb7e09b234ae36b4b3b7a1314d6.svg);
+	background-repeat: no-repeat;
+	background-position: 10px 0;
+	height: 42px;
+}
+
+.chat__choices {
+	padding-right: 10px;
+	padding-bottom: 12px;
+	text-align: end;
+	justify-content: flex-end;
+}
+.chat__choices button {
+	color: inherit;
+	text-align: left;
+
+}
+
+.chat__input {
+	height: 26px;
+	border: solid 1px #00000038;
+	margin-right: 2px;
+}
+
+/* https://stackoverflow.com/a/8185290/587407 */
+/*.chat__choices > * + * {
+	margin-left: 5px;
+}*/
+
 /*! normalize.css v8.0.0 | MIT License | github.com/necolas/normalize.css */
 
 /* Document
@@ -545,9 +614,9 @@ template {
 
 
 /******* atoms *******/
-/*.o⋄overflow-y⁚auto {
+.o⋄overflow-y⁚auto {
 	overflow-y: auto;
-}*/
+}
 
 .o⋄text-align⁚center {
 	text-align: center;
@@ -1550,7 +1619,20 @@ hr.omr⋄border-h⁚test {
 
 /************/
 
-
+.omr⋄content-area {
+	height: 100%;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+}
+.omr⋄content-area:before {
+	content: ' ';
+	height: calc((var(--omr⋄ui__hamburger--visible-width) - 3px) * var(--omr⋄ui⋄base__scale));
+}
+.omr⋄content-area:after {
+	content: ' ';
+	height: calc(var(--omr⋄ui__bottom-menu--height) * var(--omr⋄ui⋄base__scale));
+}
 
 /************/
 
@@ -1592,7 +1674,7 @@ hr.omr⋄border-h⁚test {
 	--omr⋄ui__logo--width: 144px;
 }
 
-/* customization */
+/* customizations */
 .omr⋄logo > img {
 	image-rendering: crisp-edges;
 	padding-bottom: calc(4px * var(--scale));
@@ -1604,6 +1686,12 @@ hr.omr⋄border-h⁚test {
 }
 .status⁚avatar--details {
 	line-height: 14px;
+}
+
+.omr⋄content-area {
+	max-width: 650px;
+	margin: auto;
+	font-size: 15px;
 }
 
 /******* additions *******/

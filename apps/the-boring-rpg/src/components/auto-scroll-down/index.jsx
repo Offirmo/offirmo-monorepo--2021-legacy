@@ -1,5 +1,7 @@
 import React from 'react'
 
+import './index.css'
+
 const DELAY_MS = 150
 
 // https://stackoverflow.com/questions/37620694/how-to-scroll-to-bottom-in-react

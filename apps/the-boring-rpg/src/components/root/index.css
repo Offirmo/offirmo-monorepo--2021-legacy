@@ -5,7 +5,7 @@
 	--omr⋄ui__logo--width: 144px;
 }
 
-/* customization */
+/* customizations */
 .omr⋄logo > img {
 	image-rendering: crisp-edges;
 	padding-bottom: calc(4px * var(--scale));
@@ -17,6 +17,12 @@
 }
 .status⁚avatar--details {
 	line-height: 14px;
+}
+
+.omr⋄content-area {
+	max-width: 650px;
+	margin: auto;
+	font-size: 15px;
 }
 
 /******* additions *******/

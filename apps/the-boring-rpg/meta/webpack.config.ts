@@ -89,6 +89,10 @@ const config: webpack.Configuration = {
 			WI_VERSION: JSON.stringify(VERSION),
 			WI_BUILD_DATE: JSON.stringify(BUILD_DATE),
 		}),
+		/*new webpack.NormalModuleReplacementPlugin(
+			/\.\/random/,
+			'./random-browser'
+		),*/
 		new HtmlWebpackPlugin({
 			// https://github.com/jantimon/html-webpack-plugin#configuration
 			template: 'src/index.html',

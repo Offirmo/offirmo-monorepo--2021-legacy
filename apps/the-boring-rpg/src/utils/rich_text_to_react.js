@@ -1,6 +1,6 @@
 "use strict";
 
-import RichText from '@offirmo/rich-text-format'
+import * as RichText from '@offirmo/rich-text-format'
 
 import * as callbacks from './rich_text_to_react_callbacks'
 

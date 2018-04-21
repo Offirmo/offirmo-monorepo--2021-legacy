@@ -6,6 +6,7 @@ import { create as create_chat } from '@offirmo/view-chat'
 
 import { AutoScrollDown } from '../auto-scroll-down'
 import { is_likely_to_be_mobile } from '../../services/mobile-detection'
+import './index.css'
 
 function ChatBubble({direction = 'ltr', children}) {
 	const classes = classNames(

@@ -1,4 +1,4 @@
-import TheBoringRPG from './component'
+import Component from './component'
 //import TheBoringRPG from './connected'
 
-export default TheBoringRPG;
+export default Component

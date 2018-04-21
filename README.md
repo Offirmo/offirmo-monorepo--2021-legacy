@@ -40,3 +40,7 @@ bolt w @oh-my-rpg/definitions run build
 npm i -g yarn
 yarn global add bolt
 ```
+
+
+TODO
+- not generate unneeded es7 es7.cjs
