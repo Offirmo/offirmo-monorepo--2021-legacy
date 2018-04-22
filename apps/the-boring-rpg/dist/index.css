@@ -1710,14 +1710,17 @@ hr.omr⋄border-h⁚test {
 
 /* parameters we can't compute automatically */
 .omr⋄top-hud {
-	--omr⋄ui__logo--width: 144px;
+	--omr⋄ui__logo--width: 149px;
 }
 
 /* customizations */
-.omr⋄logo > img {
+.omr⋄logo img {
 	image-rendering: crisp-edges;
-	padding-bottom: calc(4px * var(--scale));
 }
+.omr⋄top-hud a {
+	padding: calc(5px * var(--scale)) calc(5px * var(--scale)) calc(3px * var(--scale));
+}
+
 .status⁚avatar--icon {
 	align-self: center;
 	font-size: 26px;

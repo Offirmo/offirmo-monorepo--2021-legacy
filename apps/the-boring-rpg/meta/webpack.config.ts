@@ -48,7 +48,7 @@ const config: webpack.Configuration = {
 			{
 				test: /\.(js|jsx)$/,
 				// TODO check that
-				exclude: /node_modules/, // https://github.com/babel/babel/issues/6041
+				//exclude: /node_modules/, // https://github.com/babel/babel/issues/6041
 				use: [
 					'babel-loader',
 					],
@@ -123,6 +123,12 @@ const config: webpack.Configuration = {
 if (NODE_ENV === 'production') {
 	// https://webpack.js.org/concepts/mode/
 	config.mode = 'production'
+
+	// disable broken minification
+	// https://github.com/webpack/webpack/issues/6619#issuecomment-370204173
+	config.optimization = {
+		minimize: false,
+	}
 }
 
 /******* DEV *******/

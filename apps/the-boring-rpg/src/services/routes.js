@@ -1,10 +1,27 @@
 "use strict";
 
-// TODO auto=adapt to current path instead
+// auto-detect basename, correctly ignoring dynamic routes
 const BASE_ROUTE = (pathname => {
-	const TOP_SEGMENT_WE_ASSUME_WELL_BE_ALWAYS_SERVED_UNDER = '/the-boring-rpg'
-	const parent_segment = pathname.split(TOP_SEGMENT_WE_ASSUME_WELL_BE_ALWAYS_SERVED_UNDER)[0]
-	return parent_segment + TOP_SEGMENT_WE_ASSUME_WELL_BE_ALWAYS_SERVED_UNDER
+	// stable point, everything after is likely to be a route
+	const TOP_SEGMENT_WE_ASSUME_WELL_BE_ALWAYS_SERVED_UNDER = WI_BASE_PATH
+
+	const splitted = pathname.split(TOP_SEGMENT_WE_ASSUME_WELL_BE_ALWAYS_SERVED_UNDER)
+	const parent_segment = splitted[0]
+	let base_route = parent_segment + TOP_SEGMENT_WE_ASSUME_WELL_BE_ALWAYS_SERVED_UNDER
+
+	// special dev/staging case where we are served under an additional /dist
+	if (splitted[1].startsWith('/dist'))
+		base_route += '/dist'
+
+	console.log('computing BASE_ROUTE:', {
+		pathname,
+		TOP_SEGMENT_WE_ASSUME_WELL_BE_ALWAYS_SERVED_UNDER,
+		splitted,
+		parent_segment,
+		base_route,
+	})
+
+	return base_route
 })(window.location.pathname)
 
 const ROUTES = {
