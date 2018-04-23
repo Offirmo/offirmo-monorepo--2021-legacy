@@ -110,7 +110,7 @@ export default class Component extends React.Component {
 		const { game_instance } = this.props
 		const client_state = game_instance.get_client_state()
 		return (
-			<div className={'tbrpg-panel o⋄flex-column o⋄no-overflow'}>
+			<div className={'tbrpg-panel o⋄flex-column'}>
 				<Chat
 					initial_bubbles={client_state.home_bubbles}
 					gen_next_step={this.gen_next_step()}

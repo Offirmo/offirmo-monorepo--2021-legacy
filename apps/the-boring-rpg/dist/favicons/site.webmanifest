@@ -16,7 +16,7 @@
     ],
     "theme_color": "#543d46",
     "background_color": "#543d46",
-    "start_url": "https://www.online-adventur.es/the-boring-rpg",
+    "start_url": "https://www.online-adventur.es/apps/the-boring-rpg",
     "display": "fullscreen",
     "orientation": "portrait"
 }

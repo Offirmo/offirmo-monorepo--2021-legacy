@@ -2,7 +2,8 @@
 
 /* parameters we can't compute automatically */
 .omr⋄top-hud {
-	--omr⋄ui__logo--width: 149px;
+	--omr⋄ui__logo--width: calc(185px * var(--omr⋄ui__scale));
+	--omr⋄ui__logo--padding: 0; /* because we have an internal a */
 }
 
 /* customizations */

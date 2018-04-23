@@ -8913,8 +8913,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.GameContextConsumerListener = exports.GameContext = exports.game_instance = undefined;
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
@@ -8929,23 +8927,15 @@ var _sec2 = _interopRequireDefault(_sec);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+const CHANNEL = window.location.hostname === 'www.online-adventur.es' ? 'stable' : window.location.hostname === 'offirmo.netlify.com' ? 'beta' : 'dev';
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+let game_instance = null;
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+_sec2.default.xTry('loading savegame', ({ logger }) => {
+	logger.verbose(`Storage key: "${_consts.LS_KEYS.savegame}"`);
+	const lscontent = localStorage.getItem(_consts.LS_KEYS.savegame);
 
-var CHANNEL = window.location.hostname === 'www.online-adventur.es' ? 'stable' : window.location.hostname === 'offirmo.netlify.com' ? 'beta' : 'dev';
-
-var game_instance = null;
-
-_sec2.default.xTry('loading savegame', function (_ref) {
-	var logger = _ref.logger;
-
-	logger.verbose('Storage key: "' + _consts.LS_KEYS.savegame + '"');
-	var lscontent = localStorage.getItem(_consts.LS_KEYS.savegame);
-
-	var state = null;
+	let state = null;
 	try {
 		if (lscontent) state = JSON.parse(lscontent);
 	} catch (err) {
@@ -8954,83 +8944,58 @@ _sec2.default.xTry('loading savegame', function (_ref) {
 
 	exports.game_instance = game_instance = (0, _stateTheBoringRpg.create_game_instance)({
 		SEC: _sec2.default,
-		get_latest_state: function get_latest_state() {
-			return state;
-		},
-		update_state: function update_state(new_state) {
+		get_latest_state: () => state,
+		update_state: new_state => {
 			state = new_state; // TODO needed?
 			localStorage.setItem(_consts.LS_KEYS.savegame, JSON.stringify(state));
 		}
 	});
-	game_instance.set_client_state(function () {
-		return {
-			VERSION: "0.51.16",
-			ENV: "production",
-			BUILD_DATE: "20180422_01h05",
-			CHANNEL: CHANNEL,
-			verbose: true, // XXX auto + through SEC ?
-			SEC: _sec2.default,
-			alpha_warning_displayed: false,
-			recap_displayed: false,
-			last_displayed_adventure_uuid: function () {
-				var _state = state,
-				    last_adventure = _state.last_adventure;
+	game_instance.set_client_state(() => ({
+		VERSION: "0.51.18",
+		ENV: "production",
+		BUILD_DATE: "20180423_23h22",
+		CHANNEL,
+		verbose: true, // XXX auto + through SEC ?
+		SEC: _sec2.default,
+		alpha_warning_displayed: false,
+		recap_displayed: false,
+		last_displayed_adventure_uuid: (() => {
+			var _state = state;
+			const last_adventure = _state.last_adventure;
 
-				return last_adventure && last_adventure.uuid;
-			}()
-		};
-	});
+			return last_adventure && last_adventure.uuid;
+		})()
+	}));
 });
 
-var GameContext = _react2.default.createContext(game_instance);
+const GameContext = _react2.default.createContext(game_instance);
 
-var GameContextAsPropsListener = function (_React$Component) {
-	_inherits(GameContextAsPropsListener, _React$Component);
+class GameContextAsPropsListener extends _react2.default.Component {
 
-	function GameContextAsPropsListener() {
-		_classCallCheck(this, GameContextAsPropsListener);
-
-		return _possibleConstructorReturn(this, (GameContextAsPropsListener.__proto__ || Object.getPrototypeOf(GameContextAsPropsListener)).apply(this, arguments));
+	componentDidMount() {
+		//console.info('~~ GameContextListener componentDidMount')
+		// subscribe to future state changes
+		this.unsubscribe = this.props.game_instance.subscribe(() => this.forceUpdate());
+	}
+	componentWillUnmount() {
+		//console.info('~~ GameContextListener componentWillUnmount', arguments)
+		this.unsubscribe();
 	}
 
-	_createClass(GameContextAsPropsListener, [{
-		key: 'componentDidMount',
-		value: function componentDidMount() {
-			var _this2 = this;
-
-			//console.info('~~ GameContextListener componentDidMount')
-			// subscribe to future state changes
-			this.unsubscribe = this.props.game_instance.subscribe(function () {
-				return _this2.forceUpdate();
-			});
-		}
-	}, {
-		key: 'componentWillUnmount',
-		value: function componentWillUnmount() {
-			//console.info('~~ GameContextListener componentWillUnmount', arguments)
-			this.unsubscribe();
-		}
-	}, {
-		key: 'render',
-		value: function render() {
-			return this.props.children;
-		}
-	}]);
-
-	return GameContextAsPropsListener;
-}(_react2.default.Component);
+	render() {
+		return this.props.children;
+	}
+}
 
 function GameContextConsumerListener(props) {
 	return _react2.default.createElement(
 		GameContext.Consumer,
 		null,
-		function (game_instance) {
-			return _react2.default.createElement(
-				GameContextAsPropsListener,
-				{ game_instance: game_instance },
-				props.children(game_instance)
-			);
-		}
+		game_instance => _react2.default.createElement(
+			GameContextAsPropsListener,
+			{ game_instance: game_instance },
+			props.children(game_instance)
+		)
 	);
 }
 
@@ -10528,30 +10493,32 @@ var _consts = __webpack_require__(175);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-var _require = __webpack_require__(173),
-    createLogger = _require.createLogger;
+var _require = __webpack_require__(173);
+
+const createLogger = _require.createLogger;
+
 
 /////////////////////////////////////////////////
 
-var logger = createLogger({
+const logger = createLogger({
 	name: _consts.LIB,
 	level: 'silly'
 });
-logger.trace('Logger up with level "' + logger.getLevel() + '".');
+logger.trace(`Logger up with level "${logger.getLevel()}".`);
 
 // test
 if (false) {}
 
 function onError(err) {
-	logger.fatal('error!', { err: err });
+	logger.fatal('error!', { err });
 }
 
 // TODO report sentry
-var SEC = soft_execution_context.browser.create({
+const SEC = soft_execution_context.browser.create({
 	module: _consts.LIB,
-	onError: onError,
+	onError,
 	context: {
-		logger: logger
+		logger
 	}
 });
 soft_execution_context.setRoot(SEC);
@@ -14334,8 +14301,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Chat = exports.ChatBubble = undefined;
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
@@ -14360,93 +14325,68 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+const promiseFinally = __webpack_require__(305);
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+class ChatBubble extends _react2.default.Component {
+	constructor(...args) {
+		var _temp;
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var promiseFinally = __webpack_require__(305);
-
-var ChatBubble = function (_React$Component) {
-	_inherits(ChatBubble, _React$Component);
-
-	function ChatBubble() {
-		var _ref;
-
-		var _temp, _this, _ret;
-
-		_classCallCheck(this, ChatBubble);
-
-		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-			args[_key] = arguments[_key];
-		}
-
-		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ChatBubble.__proto__ || Object.getPrototypeOf(ChatBubble)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+		return _temp = super(...args), this.state = {
 			error: null,
 			errorInfo: null
-		}, _temp), _possibleConstructorReturn(_this, _ret);
+		}, _temp;
 	}
 
-	_createClass(ChatBubble, [{
-		key: 'componentDidCatch',
-		value: function componentDidCatch(error, errorInfo) {
-			// Catch errors in any components below and re-render with error message
-			this.setState({
-				error: error,
-				errorInfo: errorInfo
-			});
-		}
-	}, {
-		key: 'render',
-		value: function render() {
-			var _props = this.props,
-			    _props$direction = _props.direction,
-			    direction = _props$direction === undefined ? 'ltr' : _props$direction,
-			    children = _props.children;
+	componentDidCatch(error, errorInfo) {
+		// Catch errors in any components below and re-render with error message
+		this.setState({
+			error,
+			errorInfo
+		});
+	}
 
-			var classes = (0, _classnames2.default)('chat__element', { 'chat__element--ltr': direction === 'ltr' }, { 'chat__element--rtl': direction === 'rtl' }, 'chat__bubble');
-			return _react2.default.createElement(
+	render() {
+		var _props = this.props,
+		    _props$direction = _props.direction;
+		const direction = _props$direction === undefined ? 'ltr' : _props$direction,
+		      children = _props.children;
+
+		const classes = (0, _classnames2.default)('chat__element', { 'chat__element--ltr': direction === 'ltr' }, { 'chat__element--rtl': direction === 'rtl' }, 'chat__bubble');
+		return _react2.default.createElement(
+			'div',
+			{ className: classes },
+			this.state.errorInfo ? _react2.default.createElement(
 				'div',
-				{ className: classes },
-				this.state.errorInfo ? _react2.default.createElement(
-					'div',
-					{ className: 'o\u22C4error-boundary-report' },
-					_react2.default.createElement(
-						'h2',
-						null,
-						'internal error'
-					),
-					_react2.default.createElement(
-						'details',
-						{ style: { whiteSpace: 'pre-wrap' } },
-						this.state.error && this.state.error.toString(),
-						_react2.default.createElement('br', null),
-						this.state.errorInfo.componentStack
-					)
-				) : children
-			);
-		}
-	}]);
+				{ className: 'o\u22C4error-boundary-report' },
+				_react2.default.createElement(
+					'h2',
+					null,
+					'internal error'
+				),
+				_react2.default.createElement(
+					'details',
+					{ style: { whiteSpace: 'pre-wrap' } },
+					this.state.error && this.state.error.toString(),
+					_react2.default.createElement('br', null),
+					this.state.errorInfo.componentStack
+				)
+			) : children
+		);
+	}
+}
 
-	return ChatBubble;
-}(_react2.default.Component);
+class Chat extends _react2.default.Component {
 
-var Chat = function (_React$Component2) {
-	_inherits(Chat, _React$Component2);
-
-	function Chat(props) {
-		_classCallCheck(this, Chat);
+	constructor(props) {
+		super(props);
 
 		// rekey backupped bubbles to avoid key conflicts
-		var _this2 = _possibleConstructorReturn(this, (Chat.__proto__ || Object.getPrototypeOf(Chat)).call(this, props));
-
-		var initial_bubbles = _react2.default.Children.map(_this2.props.initial_bubbles, function (child, index) {
-			return typeof child === 'string' ? child : _react2.default.cloneElement(child, { key: 'restored-' + index });
+		let initial_bubbles = _react2.default.Children.map(this.props.initial_bubbles, (child, index) => {
+			return typeof child === 'string' ? child : _react2.default.cloneElement(child, { key: `restored-${index}` });
 		});
 
-		_this2.state = {
-			bubble_key: _this2.props.initial_bubbles.length + 1,
+		this.state = {
+			bubble_key: this.props.initial_bubbles.length + 1,
 			bubbles: initial_bubbles,
 			spinning: false,
 			progressing: false,
@@ -14456,448 +14396,333 @@ var Chat = function (_React$Component2) {
 			choices: [],
 			input_resolve_fn: null
 		};
-		return _this2;
 	}
 
-	_createClass(Chat, [{
-		key: 'addBubble',
-		value: function addBubble(element) {
-			var _this3 = this;
+	addBubble(element, { before_mount = false, direction = 'ltr' } = {}) {
+		if (!element) return;
 
-			var _ref2 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-			    _ref2$before_mount = _ref2.before_mount,
-			    before_mount = _ref2$before_mount === undefined ? false : _ref2$before_mount,
-			    _ref2$direction = _ref2.direction,
-			    direction = _ref2$direction === undefined ? 'ltr' : _ref2$direction;
+		const key = this.state.bubble_key + 1;
+		const bubble = _react2.default.createElement(
+			ChatBubble,
+			{ key: key, direction: direction },
+			element
+		);
 
-			if (!element) return;
+		if (before_mount) {
+			this.state.bubbles.push(bubble);
+			this.state.bubble_key++;
+		} else this.setState(state => ({
+			bubbles: state.bubbles.concat(bubble).slice(-this.props.max_displayed_bubbles),
+			bubble_key: state.bubble_key + 1
+		}));
+	}
 
-			var key = this.state.bubble_key + 1;
-			var bubble = _react2.default.createElement(
-				ChatBubble,
-				{ key: key, direction: direction },
-				element
-			);
+	componentWillMount() {
+		var _this = this;
 
-			if (before_mount) {
-				this.state.bubbles.push(bubble);
-				this.state.bubble_key++;
-			} else this.setState(function (state) {
-				return {
-					bubbles: state.bubbles.concat(bubble).slice(-_this3.props.max_displayed_bubbles),
-					bubble_key: state.bubble_key + 1
-				};
+		if (!this.props.gen_next_step) return;
+
+		const DEBUG = true;
+
+		const display_message = (() => {
+			var _ref = _asyncToGenerator(function* ({ msg, choices = [], side = '→' }) {
+				let direction = 'ltr';
+				switch (side) {
+					case '→':
+						direction = 'ltr';
+						break;
+					case '←':
+						direction = 'rtl';
+						break;
+					case '↔':
+					default:
+						throw new Error(`display_message(): incorrect side!`);
+				}
+
+				_this.addBubble(msg, { direction });
 			});
-		}
-	}, {
-		key: 'componentWillMount',
-		value: function componentWillMount() {
-			var _this4 = this;
 
-			if (!this.props.gen_next_step) return;
+			return function display_message(_x) {
+				return _ref.apply(this, arguments);
+			};
+		})();
 
-			var DEBUG = true;
+		const spin_until_resolution = anything => {
+			this.setState(s => {
+				spinning: true;
+			});
+			return promiseFinally(Promise.resolve(anything), () => this.setState(s => {
+				spinning: false;
+			}));
+		};
 
-			var display_message = function () {
-				var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(_ref4) {
-					var msg = _ref4.msg,
-					    _ref4$choices = _ref4.choices,
-					    choices = _ref4$choices === undefined ? [] : _ref4$choices,
-					    _ref4$side = _ref4.side,
-					    side = _ref4$side === undefined ? '→' : _ref4$side;
-					var direction;
-					return regeneratorRuntime.wrap(function _callee$(_context) {
-						while (1) {
-							switch (_context.prev = _context.next) {
-								case 0:
-									direction = 'ltr';
-									_context.t0 = side;
-									_context.next = _context.t0 === '→' ? 4 : _context.t0 === '←' ? 6 : _context.t0 === '↔' ? 8 : 8;
-									break;
+		const pretend_to_think = duration_ms => {
+			return spin_until_resolution(new Promise(resolve => {
+				setTimeout(resolve, duration_ms);
+			}));
+		};
 
-								case 4:
-									direction = 'ltr';
-									return _context.abrupt('break', 9);
-
-								case 6:
-									direction = 'rtl';
-									return _context.abrupt('break', 9);
-
-								case 8:
-									throw new Error('display_message(): incorrect side!');
-
-								case 9:
-
-									_this4.addBubble(msg, { direction: direction });
-
-								case 10:
-								case 'end':
-									return _context.stop();
-							}
-						}
-					}, _callee, _this4);
-				}));
-
-				return function display_message(_x2) {
-					return _ref3.apply(this, arguments);
-				};
-			}();
-
-			var spin_until_resolution = function spin_until_resolution(anything) {
-				_this4.setState(function (s) {
-					spinning: true;
+		const display_progress = (() => {
+			var _ref2 = _asyncToGenerator(function* ({ progress_promise, msg = 'loading', msgg_acknowledge } = {}) {
+				_this.setState(function (state) {
+					return { progressing: true };
 				});
-				return promiseFinally(Promise.resolve(anything), function () {
-					return _this4.setState(function (s) {
-						spinning: false;
+
+				yield display_message({ msg });
+
+				if (progress_promise.onProgress) {
+					progress_promise.onProgress(function (progress_value) {
+						_this.setState(function (state) {
+							return { progress_value };
+						});
 					});
+				}
+
+				progress_promise.then(function () {
+					return true;
+				}, function () {
+					return false;
+				}).then(function (success) {
+					_this.setState(function (state) {
+						return {
+							progress_value: 0,
+							progressing: false
+						};
+					});
+
+					const final_msg = msgg_acknowledge ? msgg_acknowledge(success) : 'Done.';
+
+					_this.setState(function (state) {
+						return { bubbles: state.bubbles.slice(0, -1) };
+					});
+
+					return display_message({ msg: _react2.default.createElement(
+							'span',
+							null,
+							msg,
+							' ',
+							final_msg
+						) });
+				}).catch(function (err) {
+					// display? TODO
+					console.error('unexpected', err);
+					return false;
 				});
+
+				return progress_promise;
+			});
+
+			return function display_progress() {
+				return _ref2.apply(this, arguments);
 			};
+		})();
 
-			var pretend_to_think = function pretend_to_think(duration_ms) {
-				return spin_until_resolution(new Promise(function (resolve) {
-					setTimeout(resolve, duration_ms);
+		const read_string = step => {
+			if (DEBUG) console.log(`↘ read_string()`, step);
+
+			return new Promise(resolve => {
+				this.setState(state => ({
+					reading_string: true,
+					input_resolve_fn: resolve
 				}));
-			};
-
-			var display_progress = function () {
-				var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-					var _ref6 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-					    progress_promise = _ref6.progress_promise,
-					    _ref6$msg = _ref6.msg,
-					    msg = _ref6$msg === undefined ? 'loading' : _ref6$msg,
-					    msgg_acknowledge = _ref6.msgg_acknowledge;
-
-					return regeneratorRuntime.wrap(function _callee2$(_context2) {
-						while (1) {
-							switch (_context2.prev = _context2.next) {
-								case 0:
-									_this4.setState(function (state) {
-										return { progressing: true };
-									});
-
-									_context2.next = 3;
-									return display_message({ msg: msg });
-
-								case 3:
-
-									if (progress_promise.onProgress) {
-										progress_promise.onProgress(function (progress_value) {
-											_this4.setState(function (state) {
-												return { progress_value: progress_value };
-											});
-										});
-									}
-
-									progress_promise.then(function () {
-										return true;
-									}, function () {
-										return false;
-									}).then(function (success) {
-										_this4.setState(function (state) {
-											return {
-												progress_value: 0,
-												progressing: false
-											};
-										});
-
-										var final_msg = msgg_acknowledge ? msgg_acknowledge(success) : 'Done.';
-
-										_this4.setState(function (state) {
-											return { bubbles: state.bubbles.slice(0, -1) };
-										});
-
-										return display_message({ msg: _react2.default.createElement(
-												'span',
-												null,
-												msg,
-												' ',
-												final_msg
-											) });
-									}).catch(function (err) {
-										// display? TODO
-										console.error('unexpected', err);
-										return false;
-									});
-
-									return _context2.abrupt('return', progress_promise);
-
-								case 6:
-								case 'end':
-									return _context2.stop();
-							}
-						}
-					}, _callee2, _this4);
+				this.props.on_input_begin();
+			}).then(raw_answer => {
+				this.setState(state => ({
+					reading_string: false,
+					input_resolve_fn: null
 				}));
+				this.props.on_input_end();
+				const answer = raw_answer ? String(raw_answer).trim() : undefined; // to not stringify to "null" or "undefined"!
+				if (DEBUG) console.log(`[You entered: "${answer}"]`);
 
-				return function display_progress() {
-					return _ref5.apply(this, arguments);
-				};
-			}();
+				if (step.msgg_as_user) return display_message({
+					msg: step.msgg_as_user(answer),
+					side: '←'
+				}).then(() => answer);
 
-			var read_string = function read_string(step) {
-				if (DEBUG) console.log('\u2198 read_string()', step);
+				return answer;
+			});
+		};
+
+		const read_choice = (() => {
+			var _ref3 = _asyncToGenerator(function* (step) {
+				if (DEBUG) console.log('↘ read_choice()');
 
 				return new Promise(function (resolve) {
-					_this4.setState(function (state) {
+					_this.setState(function (state) {
 						return {
-							reading_string: true,
-							input_resolve_fn: resolve
+							choices: step.choices.map(function (choice, index) {
+								return _react2.default.createElement(
+									'button',
+									{ type: 'button',
+										key: index,
+										className: 'chat__button',
+										onClick: function onClick() {
+											return resolve(choice);
+										}
+									},
+									choice.msg_cta
+								);
+							})
 						};
 					});
-					_this4.props.on_input_begin();
-				}).then(function (raw_answer) {
-					_this4.setState(function (state) {
-						return {
-							reading_string: false,
-							input_resolve_fn: null
-						};
-					});
-					_this4.props.on_input_end();
-					var answer = raw_answer ? String(raw_answer).trim() : undefined; // to not stringify to "null" or "undefined"!
-					if (DEBUG) console.log('[You entered: "' + answer + '"]');
+				}).then((() => {
+					var _ref4 = _asyncToGenerator(function* (choice) {
 
-					if (step.msgg_as_user) return display_message({
-						msg: step.msgg_as_user(answer),
-						side: '←'
-					}).then(function () {
+						_this.setState(function (state) {
+							return {
+								choices: []
+							};
+						});
+
+						const answer = choice.value;
+						yield display_message({
+							msg: (choice.msgg_as_user || step.msgg_as_user || function () {
+								return choice.msg_cta;
+							})(answer),
+							side: '←'
+						});
+
 						return answer;
 					});
 
-					return answer;
-				});
-			};
-
-			var read_choice = function () {
-				var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(step) {
-					return regeneratorRuntime.wrap(function _callee4$(_context4) {
-						while (1) {
-							switch (_context4.prev = _context4.next) {
-								case 0:
-									if (DEBUG) console.log('↘ read_choice()');
-
-									return _context4.abrupt('return', new Promise(function (resolve) {
-										_this4.setState(function (state) {
-											return {
-												choices: step.choices.map(function (choice, index) {
-													return _react2.default.createElement(
-														'button',
-														{ type: 'button',
-															key: index,
-															className: 'chat__button',
-															onClick: function onClick() {
-																return resolve(choice);
-															}
-														},
-														choice.msg_cta
-													);
-												})
-											};
-										});
-									}).then(function () {
-										var _ref8 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(choice) {
-											var answer;
-											return regeneratorRuntime.wrap(function _callee3$(_context3) {
-												while (1) {
-													switch (_context3.prev = _context3.next) {
-														case 0:
-
-															_this4.setState(function (state) {
-																return {
-																	choices: []
-																};
-															});
-
-															answer = choice.value;
-															_context3.next = 4;
-															return display_message({
-																msg: (choice.msgg_as_user || step.msgg_as_user || function () {
-																	return choice.msg_cta;
-																})(answer),
-																side: '←'
-															});
-
-														case 4:
-															return _context3.abrupt('return', answer);
-
-														case 5:
-														case 'end':
-															return _context3.stop();
-													}
-												}
-											}, _callee3, _this4);
-										}));
-
-										return function (_x5) {
-											return _ref8.apply(this, arguments);
-										};
-									}()));
-
-								case 2:
-								case 'end':
-									return _context4.stop();
-							}
-						}
-					}, _callee4, _this4);
-				}));
-
-				return function read_choice(_x4) {
-					return _ref7.apply(this, arguments);
-				};
-			}();
-
-			var read_answer = function () {
-				var _ref9 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(step) {
-					return regeneratorRuntime.wrap(function _callee5$(_context5) {
-						while (1) {
-							switch (_context5.prev = _context5.next) {
-								case 0:
-									if (DEBUG) console.log('↘ read_answer()');
-									_context5.t0 = step.type;
-									_context5.next = _context5.t0 === 'ask_for_string' ? 4 : _context5.t0 === 'ask_for_choice' ? 5 : 6;
-									break;
-
-								case 4:
-									return _context5.abrupt('return', read_string(step));
-
-								case 5:
-									return _context5.abrupt('return', read_choice(step));
-
-								case 6:
-									throw new Error('Unsupported step type: "' + step.type + '"!');
-
-								case 7:
-								case 'end':
-									return _context5.stop();
-							}
-						}
-					}, _callee5, _this4);
-				}));
-
-				return function read_answer(_x6) {
-					return _ref9.apply(this, arguments);
-				};
-			}();
-
-			var chat_ui_callbacks = {
-				setup: function setup() {},
-				display_message: display_message,
-				read_answer: read_answer,
-				spin_until_resolution: spin_until_resolution,
-				pretend_to_think: pretend_to_think,
-				display_progress: display_progress,
-				teardown: function teardown() {}
-			};
-
-			var chat = (0, _viewChat.create)({
-				DEBUG: DEBUG,
-				gen_next_step: this.props.gen_next_step,
-				ui: chat_ui_callbacks
+					return function (_x3) {
+						return _ref4.apply(this, arguments);
+					};
+				})());
 			});
 
-			chat.start().then(function () {
-				return console.log('bye');
-			}).catch(console.error);
-		}
-	}, {
-		key: 'componentWillUnmount',
-		value: function componentWillUnmount() {
-			console.info('~~ componentWillUnmount', arguments);
+			return function read_choice(_x2) {
+				return _ref3.apply(this, arguments);
+			};
+		})();
 
-			var bubles_to_backup = [].concat(this.state.bubbles);
-			if (this.state.choices) bubles_to_backup.pop(); // remove the choice prompt, unneeded
-			if (bubles_to_backup.length < 4) bubles_to_backup = []; // just the welcome prompts, no need to back it up
-			this.props.on_unmount(bubles_to_backup);
-		}
-	}, {
-		key: 'render',
-		value: function render() {
-			var _this5 = this;
+		const read_answer = (() => {
+			var _ref5 = _asyncToGenerator(function* (step) {
+				if (DEBUG) console.log('↘ read_answer()');
+				switch (step.type) {
+					case 'ask_for_string':
+						return read_string(step);
+					case 'ask_for_choice':
+						return read_choice(step);
+					default:
+						throw new Error(`Unsupported step type: "${step.type}"!`);
+				}
+			});
 
-			console.log('rendering chat', this.state);
+			return function read_answer(_x4) {
+				return _ref5.apply(this, arguments);
+			};
+		})();
 
-			var spinner = this.state.spinning && _react2.default.createElement('div', { className: 'chat__spinner' });
-			var progress_bar = this.state.progressing && _react2.default.createElement(
-				'div',
-				{ className: 'chat__element chat__element--ltr' },
-				_react2.default.createElement(
-					'progress',
-					{ className: 'chat__progress', value: this.state.progress_value },
-					'XXX'
-				)
-			);
-			var user_input = this.state.reading_string && _react2.default.createElement(
-				'div',
-				{ className: 'chat__element chat__element--rtl' },
-				_react2.default.createElement('input', { type: 'text',
-					className: 'chat__input',
-					ref: function ref(el) {
-						return _this5.input = el;
+		const chat_ui_callbacks = {
+			setup: () => {},
+			display_message,
+			read_answer,
+			spin_until_resolution,
+			pretend_to_think,
+			display_progress,
+			teardown: () => {}
+		};
+
+		const chat = (0, _viewChat.create)({
+			DEBUG,
+			gen_next_step: this.props.gen_next_step,
+			ui: chat_ui_callbacks
+		});
+
+		chat.start().then(() => console.log('bye')).catch(console.error);
+	}
+
+	componentWillUnmount() {
+		console.info('~~ componentWillUnmount', arguments);
+
+		let bubles_to_backup = [].concat(this.state.bubbles);
+		if (this.state.choices) bubles_to_backup.pop(); // remove the choice prompt, unneeded
+		if (bubles_to_backup.length < 4) bubles_to_backup = []; // just the welcome prompts, no need to back it up
+		this.props.on_unmount(bubles_to_backup);
+	}
+
+	render() {
+		console.log('rendering chat', this.state);
+
+		const spinner = this.state.spinning && _react2.default.createElement('div', { className: 'chat__spinner' });
+		const progress_bar = this.state.progressing && _react2.default.createElement(
+			'div',
+			{ className: 'chat__element chat__element--ltr' },
+			_react2.default.createElement(
+				'progress',
+				{ className: 'chat__progress', value: this.state.progress_value },
+				'XXX'
+			)
+		);
+		const user_input = this.state.reading_string && _react2.default.createElement(
+			'div',
+			{ className: 'chat__element chat__element--rtl' },
+			_react2.default.createElement('input', { type: 'text',
+				className: 'chat__input',
+				ref: el => this.input = el
+			}),
+			_react2.default.createElement(
+				'button',
+				{ type: 'button',
+					className: 'chat__button clickable-area',
+					onClick: () => {
+						this.state.input_resolve_fn(this.input.value);
 					}
-				}),
-				_react2.default.createElement(
-					'button',
-					{ type: 'button',
-						className: 'chat__button clickable-area',
-						onClick: function onClick() {
-							_this5.state.input_resolve_fn(_this5.input.value);
-						}
-					},
-					'\u21A9'
-				),
-				_react2.default.createElement(
-					'button',
-					{ type: 'button',
-						className: 'chat__button clickable-area',
-						onClick: function onClick() {
-							_this5.state.input_resolve_fn(undefined);
-						}
-					},
-					'cancel'
-				)
-			);
+				},
+				'\u21A9'
+			),
+			_react2.default.createElement(
+				'button',
+				{ type: 'button',
+					className: 'chat__button clickable-area',
+					onClick: () => {
+						this.state.input_resolve_fn(undefined);
+					}
+				},
+				'cancel'
+			)
+		);
 
-			if (this.state.reading_string) {
-				setTimeout(function () {
-					if (_this5.input) _this5.input.focus();
-				}, 100);
-			}
+		if (this.state.reading_string) {
+			setTimeout(() => {
+				if (this.input) this.input.focus();
+			}, 100);
+		}
 
-			var penultimate_bubble = this.state.bubbles.slice(0, -1);
-			var ultimate_bubble = this.state.bubbles.slice(-1);
+		const penultimate_bubble = this.state.bubbles.slice(0, -1);
+		const ultimate_bubble = this.state.bubbles.slice(-1);
 
-			var is_mobile_keyboard_likely_to_be_displayed = this.state.reading_string && (0, _mobileDetection.is_likely_to_be_mobile)();
+		const is_mobile_keyboard_likely_to_be_displayed = this.state.reading_string && (0, _mobileDetection.is_likely_to_be_mobile)();
 
-			return _react2.default.createElement(
-				_autoScrollDown.AutoScrollDown,
-				{ classname: 'flex-column' },
+		return _react2.default.createElement(
+			_autoScrollDown.AutoScrollDown,
+			{ classname: 'flex-column' },
+			_react2.default.createElement(
+				'div',
+				{ className: 'chat' },
+				this.props.children,
+				!is_mobile_keyboard_likely_to_be_displayed && penultimate_bubble,
+				ultimate_bubble,
+				progress_bar,
+				spinner,
 				_react2.default.createElement(
 					'div',
-					{ className: 'chat' },
-					this.props.children,
-					!is_mobile_keyboard_likely_to_be_displayed && penultimate_bubble,
-					ultimate_bubble,
-					progress_bar,
-					spinner,
-					_react2.default.createElement(
-						'div',
-						{ className: 'chat__element chat__element--rtl chat__choices' },
-						this.state.choices
-					),
-					user_input
-				)
-			);
-		}
-	}]);
-
-	return Chat;
-}(_react2.default.Component);
+					{ className: 'chat__element chat__element--rtl chat__choices' },
+					this.state.choices
+				),
+				user_input
+			)
+		);
+	}
+}
 
 Chat.defaultProps = {
 	max_displayed_bubbles: 20,
-	on_input_begin: function on_input_begin() {},
-	on_input_end: function on_input_end() {},
-	on_unmount: function on_unmount() {},
+	on_input_begin: () => {},
+	on_input_end: () => {},
+	on_unmount: () => {},
 	initial_bubbles: []
 };
 
@@ -15246,12 +15071,12 @@ module.exports = {
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-var LIB = 'the-boring-rpg';
+const LIB = 'the-boring-rpg';
 
-var SCHEMA_VERSION = 1;
+const SCHEMA_VERSION = 1;
 
-var LS_KEYS = {
-	savegame: LIB + ".savegame"
+const LS_KEYS = {
+	savegame: `${LIB}.savegame`
 };
 
 exports.LIB = LIB;
@@ -25053,8 +24878,6 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
@@ -25065,96 +24888,75 @@ var _sec2 = _interopRequireDefault(_sec);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+const soft_execution_context = __webpack_require__(174);
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+class ErrorBoundary extends _react2.default.Component {
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	constructor(props) {
+		super(props);
 
-var soft_execution_context = __webpack_require__(174);
-
-var ErrorBoundary = function (_React$Component) {
-	_inherits(ErrorBoundary, _React$Component);
-
-	function ErrorBoundary(props) {
-		_classCallCheck(this, ErrorBoundary);
-
-		var _this = _possibleConstructorReturn(this, (ErrorBoundary.__proto__ || Object.getPrototypeOf(ErrorBoundary)).call(this, props));
-
-		_this.state = {
+		this.state = {
 			error: null,
 			errorInfo: null
 		};
-		var name = props.name;
+		const name = props.name;
 
 		if (!name) throw new Error('ErrorBoundary must have a name!!!');
-		_this.SEC = soft_execution_context.browser.create({ parent: props.SEC || _sec2.default, module: name });
-		return _this;
+		this.SEC = soft_execution_context.browser.create({ parent: props.SEC || _sec2.default, module: name });
 	}
 
-	_createClass(ErrorBoundary, [{
-		key: 'componentDidCatch',
-		value: function componentDidCatch(error, errorInfo) {
-			var _this2 = this;
-
-			var name = this.props.name;
+	componentDidCatch(error, errorInfo) {
+		const name = this.props.name;
 
 
-			this.SEC.xTryCatch('handling error boundary "' + name + '"', function (_ref) {
-				var logger = _ref.logger;
-
-				// Catch errors in any components below and re-render with error message
-				_this2.setState({
-					error: error,
-					errorInfo: errorInfo
-				});
-				// You can also log error messages to an error reporting service here
-				logger.error('Error caught in boundary "' + name + '"', {
-					error: error,
-					errorInfo: errorInfo
-				});
-				if (_this2.props.onError) _this2.props.onError({
-					name: name,
-					error: error,
-					errorInfo: errorInfo
-				});
+		this.SEC.xTryCatch(`handling error boundary "${name}"`, ({ logger }) => {
+			// Catch errors in any components below and re-render with error message
+			this.setState({
+				error,
+				errorInfo
 			});
+			// You can also log error messages to an error reporting service here
+			logger.error(`Error caught in boundary "${name}"`, {
+				error,
+				errorInfo
+			});
+			if (this.props.onError) this.props.onError({
+				name,
+				error,
+				errorInfo
+			});
+		});
+	}
+
+	render() {
+		if (this.state.errorInfo) {
+			// Error path
+			const name = this.props.name;
+
+			return _react2.default.createElement(
+				'div',
+				{ className: `o⋄error-boundary-report error-boundary-report-${name}` },
+				_react2.default.createElement(
+					'h2',
+					null,
+					'Boundary "',
+					name,
+					'": Something went wrong'
+				),
+				_react2.default.createElement(
+					'details',
+					{ style: { whiteSpace: 'pre-wrap' } },
+					this.state.error && this.state.error.toString(),
+					_react2.default.createElement('br', null),
+					this.state.errorInfo.componentStack
+				)
+			);
 		}
-	}, {
-		key: 'render',
-		value: function render() {
-			if (this.state.errorInfo) {
-				// Error path
-				var name = this.props.name;
 
-				return _react2.default.createElement(
-					'div',
-					{ className: 'o\u22C4error-boundary-report error-boundary-report-' + name },
-					_react2.default.createElement(
-						'h2',
-						null,
-						'Boundary "',
-						name,
-						'": Something went wrong'
-					),
-					_react2.default.createElement(
-						'details',
-						{ style: { whiteSpace: 'pre-wrap' } },
-						this.state.error && this.state.error.toString(),
-						_react2.default.createElement('br', null),
-						this.state.errorInfo.componentStack
-					)
-				);
-			}
-
-			// Normally, just render children
-			return this.props.children;
-		}
-	}]);
-
-	return ErrorBoundary;
-}(_react2.default.Component);
-
+		// Normally, just render children
+		return this.props.children;
+	}
+}
 exports.default = ErrorBoundary;
 
 /***/ }),
@@ -25169,8 +24971,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.OhMyRpgUI = undefined;
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
@@ -25183,107 +24983,83 @@ __webpack_require__(292);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+class OhMyRpgUI extends _react.Component {
+	constructor(...args) {
+		var _temp;
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var OhMyRpgUI = exports.OhMyRpgUI = function (_Component) {
-	_inherits(OhMyRpgUI, _Component);
-
-	function OhMyRpgUI() {
-		var _ref;
-
-		var _temp, _this, _ret;
-
-		_classCallCheck(this, OhMyRpgUI);
-
-		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-			args[_key] = arguments[_key];
-		}
-
-		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = OhMyRpgUI.__proto__ || Object.getPrototypeOf(OhMyRpgUI)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+		return _temp = super(...args), this.state = {
 			isHamburgerOpen: false
-		}, _this.onHamburgerClick = function () {
-			_this.setState(function (state) {
-				return {
-					isHamburgerOpen: !state.isHamburgerOpen
-				};
-			});
-		}, _temp), _possibleConstructorReturn(_this, _ret);
+		}, this.onHamburgerClick = () => {
+			this.setState(state => ({
+				isHamburgerOpen: !state.isHamburgerOpen
+			}));
+		}, _temp;
 	}
 
-	_createClass(OhMyRpgUI, [{
-		key: 'render',
+	// TODO listen on error and suggest a refresh
 
-
-		// TODO listen on error and suggest a refresh
-
-		value: function render() {
-			return _react2.default.createElement(
+	render() {
+		return _react2.default.createElement(
+			'div',
+			{ className: 'o\u22C4top-container' },
+			_react2.default.createElement('div', { className: 'omr\u22C4full-size-background-layer omr\u22C4bg-image\u205Atiled-marble_black' }),
+			_react2.default.createElement(
 				'div',
-				{ className: 'o\u22C4top-container' },
-				_react2.default.createElement('div', { className: 'omr\u22C4full-size-background-layer omr\u22C4bg-image\u205Atiled-marble_black' }),
+				{ className: 'omr\u22C4top-hud' },
 				_react2.default.createElement(
 					'div',
-					{ className: 'omr\u22C4top-hud' },
-					_react2.default.createElement(
-						'div',
-						{ className: 'omr\u22C4hamburger', onClick: this.onHamburgerClick },
-						this.state.isHamburgerOpen ? _react2.default.createElement('span', { className: 'icomoon-undo2' }) : _react2.default.createElement('span', { className: 'icomoon-menu' })
-					),
-					_react2.default.createElement(
-						'div',
-						{ className: 'omr\u22C4logo' },
-						this.props.logo
-					),
-					_react2.default.createElement(
-						'div',
-						{ className: 'omr\u22C4universe-anchor' },
-						_react2.default.createElement(
-							_errorBoundary2.default,
-							{ name: 'omr:universe-anchor' },
-							this.props.universeAnchor
-						)
-					)
-				),
-				_react2.default.createElement(
-					_errorBoundary2.default,
-					{ name: 'omr:content' },
-					this.props.children
+					{ className: 'omr\u22C4hamburger', onClick: this.onHamburgerClick },
+					this.state.isHamburgerOpen ? _react2.default.createElement('span', { className: 'icomoon-undo2' }) : _react2.default.createElement('span', { className: 'icomoon-menu' })
 				),
 				_react2.default.createElement(
 					'div',
-					{ className: 'omr\u22C4bottom-hud' },
-					_react2.default.createElement(
-						'div',
-						{ className: 'omr\u22C4bottom-menu' },
-						_react2.default.createElement(
-							_errorBoundary2.default,
-							{ name: 'omr:bottom-menu' },
-							this.props.bottomMenuItems
-						)
-					)
+					{ className: 'omr\u22C4logo' },
+					this.props.logo
 				),
-				this.state.isHamburgerOpen && _react2.default.createElement(
+				_react2.default.createElement(
 					'div',
-					{
-						key: 'omr\u22C4plane\u205Ameta',
-						className: 'omr\u22C4meta-panel omr\u22C4content-area omr\u22C4plane\u205Ameta' },
+					{ className: 'omr\u22C4universe-anchor' },
 					_react2.default.createElement(
 						_errorBoundary2.default,
-						{ name: 'omr:hamburger-pane' },
-						this.props.hamburgerPanel
+						{ name: 'omr:universe-anchor' },
+						this.props.universeAnchor
 					)
 				)
-			);
-		}
-	}]);
+			),
+			_react2.default.createElement(
+				_errorBoundary2.default,
+				{ name: 'omr:content' },
+				this.props.children
+			),
+			_react2.default.createElement(
+				'div',
+				{ className: 'omr\u22C4bottom-hud' },
+				_react2.default.createElement(
+					'div',
+					{ className: 'omr\u22C4bottom-menu' },
+					_react2.default.createElement(
+						_errorBoundary2.default,
+						{ name: 'omr:bottom-menu' },
+						this.props.bottomMenuItems
+					)
+				)
+			),
+			this.state.isHamburgerOpen && _react2.default.createElement(
+				'div',
+				{
+					key: 'omr\u22C4plane\u205Ameta',
+					className: 'omr\u22C4meta-panel omr\u22C4content-area omr\u22C4plane\u205Ameta' },
+				_react2.default.createElement(
+					_errorBoundary2.default,
+					{ name: 'omr:hamburger-pane' },
+					this.props.hamburgerPanel
+				)
+			)
+		);
+	}
+}
 
-	return OhMyRpgUI;
-}(_react.Component);
-
+exports.OhMyRpgUI = OhMyRpgUI;
 exports.default = OhMyRpgUI;
 
 /***/ }),
@@ -25296,8 +25072,6 @@ exports.default = OhMyRpgUI;
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(2);
 
@@ -25317,196 +25091,133 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
 function render_meta(state, client_state) {
-	var $doc_list_builder = RichText.unordered_list();
-	$doc_list_builder.pushRawNode(RichText.span().pushText('Play count: ' + state.good_click_count).done(), '01-playcount');
-	$doc_list_builder.pushRawNode(RichText.span().pushText('Game version: ' + client_state.VERSION).done(), '02-version');
-	$doc_list_builder.pushRawNode(RichText.span().pushText('Build date (UTC): ' + client_state.BUILD_DATE).done(), '03-builddate');
-	$doc_list_builder.pushRawNode(RichText.span().pushText('Release channel: ' + client_state.CHANNEL).done(), '04-channel');
-	$doc_list_builder.pushRawNode(RichText.span().pushText('Exec env: ' + client_state.ENV).done(), '05-env');
-	$doc_list_builder.pushRawNode(RichText.span().pushText('Engine version: ' + _stateTheBoringRpg.GAME_VERSION).done(), '06-engine');
-	$doc_list_builder.pushRawNode(RichText.span().pushText('Savegame version: ' + _stateTheBoringRpg.SCHEMA_VERSION).done(), '07-savegame');
+	const $doc_list_builder = RichText.unordered_list();
+	$doc_list_builder.pushRawNode(RichText.span().pushText(`Play count: ${state.good_click_count}`).done(), '01-playcount');
+	$doc_list_builder.pushRawNode(RichText.span().pushText(`Game version: ${client_state.VERSION}`).done(), '02-version');
+	$doc_list_builder.pushRawNode(RichText.span().pushText(`Build date (UTC): ${client_state.BUILD_DATE}`).done(), '03-builddate');
+	$doc_list_builder.pushRawNode(RichText.span().pushText(`Release channel: ${client_state.CHANNEL}`).done(), '04-channel');
+	$doc_list_builder.pushRawNode(RichText.span().pushText(`Exec env: ${client_state.ENV}`).done(), '05-env');
+	$doc_list_builder.pushRawNode(RichText.span().pushText(`Engine version: ${_stateTheBoringRpg.GAME_VERSION}`).done(), '06-engine');
+	$doc_list_builder.pushRawNode(RichText.span().pushText(`Savegame version: ${_stateTheBoringRpg.SCHEMA_VERSION}`).done(), '07-savegame');
 
-	var $doc = RichText.span().pushNode(RichText.heading().pushText('Client infos:').done(), 'header').pushNode($doc_list_builder.done(), 'list').done();
+	const $doc = RichText.span().pushNode(RichText.heading().pushText('Client infos:').done(), 'header').pushNode($doc_list_builder.done(), 'list').done();
 
 	return $doc;
 }
 
-var Component = function (_React$Component) {
-	_inherits(Component, _React$Component);
+class Component extends _react2.default.Component {
 
-	function Component() {
-		_classCallCheck(this, Component);
+	*gen_next_step() {
+		const game_instance = this.props.game_instance;
 
-		return _possibleConstructorReturn(this, (Component.__proto__ || Object.getPrototypeOf(Component)).apply(this, arguments));
+
+		do {
+			const steps = [];
+			const state = game_instance.get_latest_state();
+			const ui_state = game_instance.get_client_state();
+			//console.log({ui_state, state})
+
+			steps.push({
+				msg_main: `What do you want to do?`,
+				msgg_acknowledge: url => _react2.default.createElement(
+					'span',
+					null,
+					'Now opening ',
+					_react2.default.createElement(
+						'a',
+						{ href: url, target: '_blank' },
+						url
+					)
+				),
+				callback: url => window.open(url, '_blank'),
+				choices: [{
+					msg_cta: _react2.default.createElement(
+						'span',
+						null,
+						'\u2605 star on',
+						_react2.default.createElement(
+							'span',
+							{ className: 'bg-white fg-black' },
+							' GitHub '
+						)
+					),
+					value: _stateTheBoringRpg.URL_OF_REPO,
+					msgg_as_user: () => 'You’re awesome…'
+				}, {
+					msg_cta: '👍 like on reddit',
+					value: _stateTheBoringRpg.URL_OF_REDDIT_PAGE,
+					msgg_as_user: () => 'You’re awesome…'
+				}, {
+					msg_cta: _react2.default.createElement(
+						'span',
+						null,
+						'\u21E7 upvote on',
+						_react2.default.createElement(
+							'span',
+							{ className: 'bg-red fg-white' },
+							' Product Hunt '
+						)
+					),
+					value: _stateTheBoringRpg.URL_OF_PRODUCT_HUNT_PAGE,
+					msgg_as_user: () => 'You’re awesome…'
+				}, {
+					msg_cta: 'Fork on GitHub 🐙 😹',
+					value: _stateTheBoringRpg.URL_OF_FORK,
+					msgg_as_user: () => 'I’d like to contribute!'
+				}, {
+					msg_cta: 'Report a bug 🐞',
+					value: _stateTheBoringRpg.URL_OF_ISSUES,
+					msgg_as_user: () => 'There is this annoying bug…'
+				}, {
+					msg_cta: 'Reload page ↻',
+					value: 'reload',
+					msgg_as_user: () => 'Reload the page.',
+					msgg_acknowledge: () => `Reloading...`,
+					callback: () => new Promise(() => window.location.reload())
+				}, {
+					msg_cta: 'Reset your savegame 💀',
+					value: 'reset',
+					msgg_as_user: () => 'I want to start over…',
+					msgg_acknowledge: () => 'Are you serious?',
+					callback: () => new Promise((resolve, reject) => {
+						if (!window.confirm('💀 Do you really really want to reset your savegame, loose all progression and start over?')) return resolve(false);
+
+						game_instance.reset_all();
+						window.location.reload();
+						// no resolution, to give the page time to reload
+					})
+				}]
+			});
+
+			yield* steps;
+		} while (true);
 	}
 
-	_createClass(Component, [{
-		key: 'gen_next_step',
-		value: /*#__PURE__*/regeneratorRuntime.mark(function gen_next_step() {
-			var game_instance, steps, state, ui_state;
-			return regeneratorRuntime.wrap(function gen_next_step$(_context) {
-				while (1) {
-					switch (_context.prev = _context.next) {
-						case 0:
-							game_instance = this.props.game_instance;
+	render() {
+		const game_instance = this.props.game_instance;
 
-						case 1:
-							steps = [];
-							state = game_instance.get_latest_state();
-							ui_state = game_instance.get_client_state();
-							//console.log({ui_state, state})
+		const state = game_instance.get_latest_state();
+		const client_state = game_instance.get_client_state();
 
-							steps.push({
-								msg_main: 'What do you want to do?',
-								msgg_acknowledge: function msgg_acknowledge(url) {
-									return _react2.default.createElement(
-										'span',
-										null,
-										'Now opening ',
-										_react2.default.createElement(
-											'a',
-											{ href: url, target: '_blank' },
-											url
-										)
-									);
-								},
-								callback: function callback(url) {
-									return window.open(url, '_blank');
-								},
-								choices: [{
-									msg_cta: _react2.default.createElement(
-										'span',
-										null,
-										'\u2605 star on',
-										_react2.default.createElement(
-											'span',
-											{ className: 'bg-white fg-black' },
-											' GitHub '
-										)
-									),
-									value: _stateTheBoringRpg.URL_OF_REPO,
-									msgg_as_user: function msgg_as_user() {
-										return 'You’re awesome…';
-									}
-								}, {
-									msg_cta: '👍 like on reddit',
-									value: _stateTheBoringRpg.URL_OF_REDDIT_PAGE,
-									msgg_as_user: function msgg_as_user() {
-										return 'You’re awesome…';
-									}
-								}, {
-									msg_cta: _react2.default.createElement(
-										'span',
-										null,
-										'\u21E7 upvote on',
-										_react2.default.createElement(
-											'span',
-											{ className: 'bg-red fg-white' },
-											' Product Hunt '
-										)
-									),
-									value: _stateTheBoringRpg.URL_OF_PRODUCT_HUNT_PAGE,
-									msgg_as_user: function msgg_as_user() {
-										return 'You’re awesome…';
-									}
-								}, {
-									msg_cta: 'Fork on GitHub 🐙 😹',
-									value: _stateTheBoringRpg.URL_OF_FORK,
-									msgg_as_user: function msgg_as_user() {
-										return 'I’d like to contribute!';
-									}
-								}, {
-									msg_cta: 'Report a bug 🐞',
-									value: _stateTheBoringRpg.URL_OF_ISSUES,
-									msgg_as_user: function msgg_as_user() {
-										return 'There is this annoying bug…';
-									}
-								}, {
-									msg_cta: 'Reload page ↻',
-									value: 'reload',
-									msgg_as_user: function msgg_as_user() {
-										return 'Reload the page.';
-									},
-									msgg_acknowledge: function msgg_acknowledge() {
-										return 'Reloading...';
-									},
-									callback: function callback() {
-										return new Promise(function () {
-											return window.location.reload();
-										});
-									}
-								}, {
-									msg_cta: 'Reset your savegame 💀',
-									value: 'reset',
-									msgg_as_user: function msgg_as_user() {
-										return 'I want to start over…';
-									},
-									msgg_acknowledge: function msgg_acknowledge() {
-										return 'Are you serious?';
-									},
-									callback: function callback() {
-										return new Promise(function (resolve, reject) {
-											if (!window.confirm('💀 Do you really really want to reset your savegame, loose all progression and start over?')) return resolve(false);
-
-											game_instance.reset_all();
-											window.location.reload();
-											// no resolution, to give the page time to reload
-										});
-									}
-								}]
-							});
-
-							return _context.delegateYield(steps, 't0', 6);
-
-						case 6:
-							if (true) {
-								_context.next = 1;
-								break;
-							}
-
-						case 7:
-						case 'end':
-							return _context.stop();
-					}
-				}
-			}, gen_next_step, this);
-		})
-	}, {
-		key: 'render',
-		value: function render() {
-			var game_instance = this.props.game_instance;
-
-			var state = game_instance.get_latest_state();
-			var client_state = game_instance.get_client_state();
-
-			return _react2.default.createElement(
+		return _react2.default.createElement(
+			'div',
+			{ className: 'tbrpg-panel o⋄flex-column' },
+			_react2.default.createElement('div', { className: 'omr\u22C4content-area--with-top-ui-height' }),
+			_react2.default.createElement(
 				'div',
-				{ className: 'tbrpg-panel o⋄flex-column o⋄no-overflow' },
-				_react2.default.createElement(
-					'div',
-					{ className: 'panel-top-content o\u22C4flex-element-nogrow' },
-					(0, _rich_text_to_react.rich_text_to_react)(render_meta(state, client_state)),
-					_react2.default.createElement('hr', null)
-				),
-				_react2.default.createElement(
-					'div',
-					{ className: 'o\u22C4flex-element-grow o\u22C4overflow-y\u205Aauto' },
-					_react2.default.createElement(_chatInterface.Chat, { gen_next_step: this.gen_next_step() })
-				)
-			);
-		}
-	}]);
-
-	return Component;
-}(_react2.default.Component);
-
+				{ className: 'panel-top-content o\u22C4flex-element-nogrow' },
+				(0, _rich_text_to_react.rich_text_to_react)(render_meta(state, client_state)),
+				_react2.default.createElement('hr', null)
+			),
+			_react2.default.createElement(
+				'div',
+				{ className: 'o\u22C4flex-element-grow o\u22C4overflow-y\u205Aauto' },
+				_react2.default.createElement(_chatInterface.Chat, { gen_next_step: this.gen_next_step() })
+			)
+		);
+	}
+}
 exports.default = Component;
 
 /***/ }),
@@ -25534,17 +25245,13 @@ var _component2 = _interopRequireDefault(_component);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = function (props) {
-	return _react2.default.createElement(
-		_gameContext.GameContextConsumerListener,
-		null,
-		function (game_instance) {
-			return _react2.default.createElement(_component2.default, _extends({}, props, {
-				game_instance: game_instance
-			}));
-		}
-	);
-};
+exports.default = props => _react2.default.createElement(
+	_gameContext.GameContextConsumerListener,
+	null,
+	game_instance => _react2.default.createElement(_component2.default, _extends({}, props, {
+		game_instance: game_instance
+	}))
+);
 
 /***/ }),
 /* 297 */
@@ -25587,7 +25294,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 /////////////////////
 
-var ACTION_TYPE_TO_CTA = {
+const ACTION_TYPE_TO_CTA = {
 	'play': 'Play',
 	'equip_item': 'Equip',
 	'sell_item': 'Sell',
@@ -25598,15 +25305,11 @@ if (Object.keys(_stateTheBoringRpg.ActionType).join(';') !== Object.keys(ACTION_
 
 /////////////////////
 
-exports.default = function (_ref) {
-	var action = _ref.action,
-	    onClick = _ref.onClick;
-	return _react2.default.createElement(
-		'button',
-		{ className: 'tbrpg-action-btn', onClick: onClick },
-		ACTION_TYPE_TO_CTA[action.type]
-	);
-};
+exports.default = ({ action, onClick }) => _react2.default.createElement(
+	'button',
+	{ className: 'tbrpg-action-btn', onClick: onClick },
+	ACTION_TYPE_TO_CTA[action.type]
+);
 
 /***/ }),
 /* 299 */
@@ -25635,21 +25338,17 @@ var _component2 = _interopRequireDefault(_component);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = function (props) {
-	return _react2.default.createElement(
-		_gameContext2.default.Consumer,
-		null,
-		function (game_instance) {
-			var action = props.action;
+exports.default = props => _react2.default.createElement(
+	_gameContext2.default.Consumer,
+	null,
+	game_instance => {
+		const action = props.action;
 
-			return _react2.default.createElement(_component2.default, _extends({}, props, {
-				onClick: function onClick() {
-					return game_instance.execute_serialized_action(action);
-				}
-			}));
-		}
-	);
-};
+		return _react2.default.createElement(_component2.default, _extends({}, props, {
+			onClick: () => game_instance.execute_serialized_action(action)
+		}));
+	}
+);
 
 /***/ }),
 /* 300 */
@@ -25690,18 +25389,12 @@ var _actionButton = __webpack_require__(300);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = function (_ref) {
-	var children = _ref.children,
-	    actions = _ref.actions;
-	return _react2.default.createElement(
-		'span',
-		{ className: 'tbrpg-element' },
-		children,
-		actions.length ? actions.map(function (action) {
-			return _react2.default.createElement(_actionButton.ActionButton, { key: action.type, action: action });
-		}) : _react2.default.createElement('br', null)
-	);
-};
+exports.default = ({ children, actions }) => _react2.default.createElement(
+	'span',
+	{ className: 'tbrpg-element' },
+	children,
+	actions.length ? actions.map(action => _react2.default.createElement(_actionButton.ActionButton, { key: action.type, action: action })) : _react2.default.createElement('br', null)
+);
 
 /***/ }),
 /* 302 */
@@ -25728,29 +25421,26 @@ var _component2 = _interopRequireDefault(_component);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = function (props) {
-	return _react2.default.createElement(
-		_gameContext.GameContextConsumerListener,
-		null,
-		function (game_instance) {
-			var uuid = props.uuid;
+exports.default = props => _react2.default.createElement(
+	_gameContext.GameContextConsumerListener,
+	null,
+	game_instance => {
+		const uuid = props.uuid;
 
-			var game_element = game_instance.find_element(uuid);
-			console.log('TBRPGElement', game_element);
+		const game_element = game_instance.find_element(uuid);
+		console.log('TBRPGElement', game_element);
 
-			var _game_instance$get_cl = game_instance.get_client_state(),
-			    mode = _game_instance$get_cl.mode;
+		var _game_instance$get_cl = game_instance.get_client_state();
 
-			var actions = game_instance.get_actions_for_element(uuid).filter(function (action) {
-				return !mode || action.category === mode;
-			});
+		const mode = _game_instance$get_cl.mode;
 
-			return _react2.default.createElement(_component2.default, _extends({}, props, {
-				actions: actions
-			}));
-		}
-	);
-};
+		const actions = game_instance.get_actions_for_element(uuid).filter(action => !mode || action.category === mode);
+
+		return _react2.default.createElement(_component2.default, _extends({}, props, {
+			actions: actions
+		}));
+	}
+);
 
 /***/ }),
 /* 303 */
@@ -25796,9 +25486,7 @@ var _richText = __webpack_require__(303);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-var LIB = 'rich_text_to_react';
+const LIB = 'rich_text_to_react';
 
 function createNodeState() {
 	return {
@@ -25807,31 +25495,23 @@ function createNodeState() {
 	};
 }
 
-function on_root_exit(_ref) {
-	var state = _ref.state;
-
+function on_root_exit({ state }) {
 	return state.element;
 }
 
 // turn the state into a react element
-function on_node_exit(_ref2) {
-	var $node = _ref2.$node,
-	    $id = _ref2.$id,
-	    state = _ref2.state,
-	    depth = _ref2.depth;
-	var $type = $node.$type,
-	    $classes = $node.$classes,
-	    $hints = $node.$hints;
+function on_node_exit({ $node, $id, state, depth }) {
+	const $type = $node.$type,
+	      $classes = $node.$classes,
+	      $hints = $node.$hints;
 
 
-	var children = state.children.map(function (c) {
-		return c.element;
-	});
-	children = _react2.default.Children.map(children, function (child, index) {
-		return typeof child === 'string' ? child : _react2.default.cloneElement(child, { key: '' + index });
+	let children = state.children.map(c => c.element);
+	children = _react2.default.Children.map(children, (child, index) => {
+		return typeof child === 'string' ? child : _react2.default.cloneElement(child, { key: `${index}` });
 	});
 
-	var class_names = _classnames2.default.apply(undefined, _toConsumableArray($classes));
+	const class_names = (0, _classnames2.default)(...$classes);
 	if ($classes.includes('monster')) {
 		children.push(_react2.default.createElement(
 			'span',
@@ -25840,7 +25520,7 @@ function on_node_exit(_ref2) {
 		));
 	}
 
-	var element = null;
+	let element = null;
 	switch ($type) {
 		case 'span':
 			element = _react2.default.createElement(
@@ -25923,34 +25603,23 @@ function on_node_exit(_ref2) {
 	return state;
 }
 
-function on_type(_ref3) {
-	var $type = _ref3.$type,
-	    state = _ref3.state,
-	    $node = _ref3.$node,
-	    depth = _ref3.depth;
-
+function on_type({ $type, state, $node, depth }) {
 	return state;
 }
 
-function on_concatenate_str(_ref4) {
-	var state = _ref4.state,
-	    str = _ref4.str;
-
+function on_concatenate_str({ state, str }) {
 	state.children.push({
 		element: str
 	});
 	return state;
 }
 
-function on_concatenate_sub_node(_ref5) {
-	var state = _ref5.state,
-	    sub_state = _ref5.sub_state;
-
+function on_concatenate_sub_node({ state, sub_state }) {
 	state.children.push(sub_state);
 	return state;
 }
 
-var on_node_enter = createNodeState;
+const on_node_enter = createNodeState;
 
 exports.on_root_exit = on_root_exit;
 exports.on_node_enter = on_node_enter;
@@ -25997,21 +25666,21 @@ Object.defineProperty(exports, "__esModule", {
 
 
 // http://detectmobilebrowsers.com/
-var is_mobile_cached = void 0;
+let is_mobile_cached;
 function is_likely_to_be_mobile() {
 	if (typeof is_mobile_cached === 'undefined') {
 
-		var a = navigator.userAgent || navigator.vendor || window.opera;
-		var is_mobile_according_to_this_random_snippet_from_the_internet = /(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(a) || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0, 4));
+		const a = navigator.userAgent || navigator.vendor || window.opera;
+		const is_mobile_according_to_this_random_snippet_from_the_internet = /(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(a) || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0, 4));
 
 		// desktop are usually paysage but this app is forcing portrait
-		var is_mobile_according_to_my_crazy_guess = window.innerWidth < window.innerHeight * 1.5;
+		const is_mobile_according_to_my_crazy_guess = window.innerWidth < window.innerHeight * 1.5;
 
 		is_mobile_cached = is_mobile_according_to_this_random_snippet_from_the_internet || is_mobile_according_to_my_crazy_guess;
 
 		console.log('Mobile detection, guess is =', is_mobile_cached, {
-			is_mobile_according_to_this_random_snippet_from_the_internet: is_mobile_according_to_this_random_snippet_from_the_internet,
-			is_mobile_according_to_my_crazy_guess: is_mobile_according_to_my_crazy_guess
+			is_mobile_according_to_this_random_snippet_from_the_internet,
+			is_mobile_according_to_my_crazy_guess
 		});
 	}
 	return is_mobile_cached;
@@ -26038,8 +25707,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.AutoScrollDown = undefined;
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
@@ -26048,71 +25715,35 @@ __webpack_require__(310);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var DELAY_MS = 150;
+const DELAY_MS = 150;
 
 // https://stackoverflow.com/questions/37620694/how-to-scroll-to-bottom-in-react
+class AutoScrollDown extends _react2.default.Component {
+	constructor(...args) {
+		var _temp;
 
-var AutoScrollDown = function (_React$Component) {
-	_inherits(AutoScrollDown, _React$Component);
-
-	function AutoScrollDown() {
-		var _ref;
-
-		var _temp, _this, _ret;
-
-		_classCallCheck(this, AutoScrollDown);
-
-		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-			args[_key] = arguments[_key];
-		}
-
-		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = AutoScrollDown.__proto__ || Object.getPrototypeOf(AutoScrollDown)).call.apply(_ref, [this].concat(args))), _this), _this.scrollToBottom = function () {
-			_this.messagesEnd.scrollIntoView({ behavior: 'instant' }); // could be smooth
-		}, _temp), _possibleConstructorReturn(_this, _ret);
+		return _temp = super(...args), this.scrollToBottom = () => {
+			this.messagesEnd.scrollIntoView({ behavior: 'instant' }); // could be smooth
+		}, _temp;
 	}
 
-	_createClass(AutoScrollDown, [{
-		key: 'componentDidMount',
-		value: function componentDidMount() {
-			var _this2 = this;
+	componentDidMount() {
+		setTimeout(() => this.scrollToBottom(), DELAY_MS);
+	}
 
-			setTimeout(function () {
-				return _this2.scrollToBottom();
-			}, DELAY_MS);
-		}
-	}, {
-		key: 'componentDidUpdate',
-		value: function componentDidUpdate() {
-			var _this3 = this;
+	componentDidUpdate() {
+		setTimeout(() => this.scrollToBottom(), DELAY_MS);
+	}
 
-			setTimeout(function () {
-				return _this3.scrollToBottom();
-			}, DELAY_MS);
-		}
-	}, {
-		key: 'render',
-		value: function render() {
-			var _this4 = this;
-
-			return _react2.default.createElement(
-				'div',
-				{ className: 'auto-scroll-down' },
-				this.props.children,
-				_react2.default.createElement('div', { style: { float: "left", clear: "both" }, ref: function ref(el) {
-						return _this4.messagesEnd = el;
-					} })
-			);
-		}
-	}]);
-
-	return AutoScrollDown;
-}(_react2.default.Component);
+	render() {
+		return _react2.default.createElement(
+			'div',
+			{ className: 'auto-scroll-down' },
+			this.props.children,
+			_react2.default.createElement('div', { style: { float: "left", clear: "both" }, ref: el => this.messagesEnd = el })
+		);
+	}
+}
 
 exports.AutoScrollDown = AutoScrollDown;
 
@@ -26870,8 +26501,6 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
@@ -26884,190 +26513,117 @@ var _rich_text_to_react = __webpack_require__(167);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+const tbrpg = __webpack_require__(94);
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+class Component extends _react2.default.Component {
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	*gen_next_step() {
+		var _props = this.props;
+		const game_instance = _props.game_instance,
+		      SEC = _props.SEC;
 
-var tbrpg = __webpack_require__(94);
 
-var Component = function (_React$Component) {
-	_inherits(Component, _React$Component);
+		do {
+			const steps = [];
+			const state = game_instance.get_latest_state();
+			const ui_state = game_instance.get_client_state();
+			const last_adventure = state.last_adventure;
 
-	function Component() {
-		_classCallCheck(this, Component);
 
-		return _possibleConstructorReturn(this, (Component.__proto__ || Object.getPrototypeOf(Component)).apply(this, arguments));
+			if (!ui_state.alpha_warning_displayed) {
+				yield {
+					type: 'simple_message',
+					msg_main: _react2.default.createElement(
+						'span',
+						{ className: 'warning' },
+						'\u26A0 Warning! This game is alpha, your savegame may be lost at any time!'
+					)
+				};
+				game_instance.set_client_state(() => ({
+					alpha_warning_displayed: true
+				}));
+			}
+
+			if (!ui_state.recap_displayed) {
+				steps.push({
+					type: 'simple_message',
+					msg_main: (0, _rich_text_to_react.rich_text_to_react)(tbrpg.get_recap(state))
+				});
+				game_instance.set_client_state(() => ({
+					recap_displayed: true
+				}));
+			}
+
+			if (state.last_adventure && last_adventure.uuid !== ui_state.last_displayed_adventure_uuid) {
+				steps.push({
+					type: 'progress',
+					duration_ms: 1000,
+					msg_main: `Exploring…`,
+					msgg_acknowledge: () => 'Encountered something:\n'
+				});
+
+				const good_click_count = state.good_click_count;
+				//console.log({ good_click_count, last_adventure })
+
+				const $doc = (0, _viewRichText.render_adventure)(last_adventure);
+				//{`Episode #${good_click_count}:`}<br />
+				steps.push({
+					type: 'simple_message',
+					msg_main: _react2.default.createElement(
+						'div',
+						null,
+						(0, _rich_text_to_react.rich_text_to_react)($doc)
+					)
+				});
+
+				game_instance.set_client_state(() => ({
+					last_displayed_adventure_uuid: last_adventure.uuid
+				}));
+			}
+
+			let tip_doc = tbrpg.get_tip(state);
+			if (tip_doc) {
+				steps.push({
+					type: 'simple_message',
+					msg_main: (0, _rich_text_to_react.rich_text_to_react)(tip_doc)
+				});
+			}
+
+			steps.push({
+				msg_main: `What do you want to do?`,
+				choices: [{
+					msg_cta: 'Play!',
+					value: 'play',
+					msgg_as_user: () => 'Let’s go adventuring!',
+					callback: () => {
+						game_instance.play();
+					}
+				}]
+			});
+
+			yield* steps;
+		} while (true);
 	}
 
-	_createClass(Component, [{
-		key: 'gen_next_step',
-		value: /*#__PURE__*/regeneratorRuntime.mark(function gen_next_step() {
-			var _this2 = this;
+	render() {
+		const game_instance = this.props.game_instance;
 
-			var _props, game_instance, SEC, _loop;
-
-			return regeneratorRuntime.wrap(function gen_next_step$(_context2) {
-				while (1) {
-					switch (_context2.prev = _context2.next) {
-						case 0:
-							_props = this.props, game_instance = _props.game_instance, SEC = _props.SEC;
-							_loop = /*#__PURE__*/regeneratorRuntime.mark(function _loop() {
-								var steps, state, ui_state, last_adventure, good_click_count, $doc, tip_doc;
-								return regeneratorRuntime.wrap(function _loop$(_context) {
-									while (1) {
-										switch (_context.prev = _context.next) {
-											case 0:
-												steps = [];
-												state = game_instance.get_latest_state();
-												ui_state = game_instance.get_client_state();
-												last_adventure = state.last_adventure;
-
-												if (ui_state.alpha_warning_displayed) {
-													_context.next = 8;
-													break;
-												}
-
-												_context.next = 7;
-												return {
-													type: 'simple_message',
-													msg_main: _react2.default.createElement(
-														'span',
-														{ className: 'warning' },
-														'\u26A0 Warning! This game is alpha, your savegame may be lost at any time!'
-													)
-												};
-
-											case 7:
-												game_instance.set_client_state(function () {
-													return {
-														alpha_warning_displayed: true
-													};
-												});
-
-											case 8:
-
-												if (!ui_state.recap_displayed) {
-													steps.push({
-														type: 'simple_message',
-														msg_main: (0, _rich_text_to_react.rich_text_to_react)(tbrpg.get_recap(state))
-													});
-													game_instance.set_client_state(function () {
-														return {
-															recap_displayed: true
-														};
-													});
-												}
-
-												if (state.last_adventure && last_adventure.uuid !== ui_state.last_displayed_adventure_uuid) {
-													steps.push({
-														type: 'progress',
-														duration_ms: 1000,
-														msg_main: 'Exploring\u2026',
-														msgg_acknowledge: function msgg_acknowledge() {
-															return 'Encountered something:\n';
-														}
-													});
-
-													good_click_count = state.good_click_count;
-													//console.log({ good_click_count, last_adventure })
-
-													$doc = (0, _viewRichText.render_adventure)(last_adventure);
-													//{`Episode #${good_click_count}:`}<br />
-
-													steps.push({
-														type: 'simple_message',
-														msg_main: _react2.default.createElement(
-															'div',
-															null,
-															(0, _rich_text_to_react.rich_text_to_react)($doc)
-														)
-													});
-
-													game_instance.set_client_state(function () {
-														return {
-															last_displayed_adventure_uuid: last_adventure.uuid
-														};
-													});
-												}
-
-												tip_doc = tbrpg.get_tip(state);
-
-												if (tip_doc) {
-													steps.push({
-														type: 'simple_message',
-														msg_main: (0, _rich_text_to_react.rich_text_to_react)(tip_doc)
-													});
-												}
-
-												steps.push({
-													msg_main: 'What do you want to do?',
-													choices: [{
-														msg_cta: 'Play!',
-														value: 'play',
-														msgg_as_user: function msgg_as_user() {
-															return 'Let’s go adventuring!';
-														},
-														callback: function callback() {
-															game_instance.play();
-														}
-													}]
-												});
-
-												return _context.delegateYield(steps, 't0', 14);
-
-											case 14:
-											case 'end':
-												return _context.stop();
-										}
-									}
-								}, _loop, _this2);
-							});
-
-						case 2:
-							return _context2.delegateYield(_loop(), 't0', 3);
-
-						case 3:
-							if (true) {
-								_context2.next = 2;
-								break;
-							}
-
-						case 4:
-						case 'end':
-							return _context2.stop();
-					}
+		const client_state = game_instance.get_client_state();
+		return _react2.default.createElement(
+			'div',
+			{ className: 'tbrpg-panel o⋄flex-column' },
+			_react2.default.createElement(_chatInterface.Chat, {
+				initial_bubbles: client_state.home_bubbles,
+				gen_next_step: this.gen_next_step(),
+				on_unmount: bubbles => {
+					game_instance.set_client_state(() => ({
+						home_bubbles: bubbles
+					}));
 				}
-			}, gen_next_step, this);
-		})
-	}, {
-		key: 'render',
-		value: function render() {
-			var game_instance = this.props.game_instance;
-
-			var client_state = game_instance.get_client_state();
-			return _react2.default.createElement(
-				'div',
-				{ className: 'tbrpg-panel o⋄flex-column o⋄no-overflow' },
-				_react2.default.createElement(_chatInterface.Chat, {
-					initial_bubbles: client_state.home_bubbles,
-					gen_next_step: this.gen_next_step(),
-					on_unmount: function on_unmount(bubbles) {
-						game_instance.set_client_state(function () {
-							return {
-								home_bubbles: bubbles
-							};
-						});
-					}
-				})
-			);
-		}
-	}]);
-
-	return Component;
-}(_react2.default.Component);
-
+			})
+		);
+	}
+}
 exports.default = Component;
 
 /***/ }),
@@ -27095,17 +26651,13 @@ var _component2 = _interopRequireDefault(_component);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = function (props) {
-	return _react2.default.createElement(
-		_gameContext.GameContextConsumerListener,
-		null,
-		function (game_instance) {
-			return _react2.default.createElement(_component2.default, _extends({}, props, {
-				game_instance: game_instance
-			}));
-		}
-	);
-};
+exports.default = props => _react2.default.createElement(
+	_gameContext.GameContextConsumerListener,
+	null,
+	game_instance => _react2.default.createElement(_component2.default, _extends({}, props, {
+		game_instance: game_instance
+	}))
+);
 
 /***/ }),
 /* 326 */
@@ -27154,11 +26706,7 @@ __webpack_require__(328);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function UniverseAnchor(_ref) {
-	var name = _ref.name,
-	    klass = _ref.klass,
-	    level = _ref.level;
-
+function UniverseAnchor({ name, klass, level }) {
 	return _react2.default.createElement(
 		'div',
 		{ className: 'o\u22C4flex-row' },
@@ -38861,22 +38409,21 @@ var _component2 = _interopRequireDefault(_component);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = function (props) {
-   return _react2.default.createElement(
-      _gameContext.GameContextConsumerListener,
-      null,
-      function (game_instance) {
-         var _game_instance$get_la = game_instance.get_latest_state(),
-             avatar = _game_instance$get_la.avatar;
+exports.default = props => _react2.default.createElement(
+   _gameContext.GameContextConsumerListener,
+   null,
+   game_instance => {
+      var _game_instance$get_la = game_instance.get_latest_state();
 
-         return _react2.default.createElement(_component2.default, _extends({}, props, {
-            name: avatar.name,
-            klass: avatar.klass,
-            level: avatar.attributes.level
-         }));
-      }
-   );
-};
+      const avatar = _game_instance$get_la.avatar;
+
+      return _react2.default.createElement(_component2.default, _extends({}, props, {
+         name: avatar.name,
+         klass: avatar.klass,
+         level: avatar.attributes.level
+      }));
+   }
+);
 
 /***/ }),
 /* 470 */
@@ -38909,8 +38456,6 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
@@ -38939,57 +38484,37 @@ var _tbrpg_logo_512x2 = _interopRequireDefault(_tbrpg_logo_512x);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+class TheBoringRPG extends _react.Component {
+	render() {
+		return _react2.default.createElement(
+			_ohMyRpgUi2.default,
+			{
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+				logo: _react2.default.createElement(
+					'a',
+					{ href: 'https://www.online-adventur.es/the-boring-rpg/', target: '_blank' },
+					_react2.default.createElement('img', { src: _tbrpg_logo_512x2.default, height: '100%' })
+				),
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+				universeAnchor: _react2.default.createElement(_universeAnchor2.default, null),
 
-var TheBoringRPG = function (_Component) {
-	_inherits(TheBoringRPG, _Component);
+				hamburgerPanel: _react2.default.createElement(_meta2.default, null),
 
-	function TheBoringRPG() {
-		_classCallCheck(this, TheBoringRPG);
-
-		return _possibleConstructorReturn(this, (TheBoringRPG.__proto__ || Object.getPrototypeOf(TheBoringRPG)).apply(this, arguments));
-	}
-
-	_createClass(TheBoringRPG, [{
-		key: 'render',
-		value: function render() {
-			return _react2.default.createElement(
-				_ohMyRpgUi2.default,
-				{
-
-					logo: _react2.default.createElement(
-						'a',
-						{ href: 'https://www.online-adventur.es/the-boring-rpg/', target: '_blank' },
-						_react2.default.createElement('img', { src: _tbrpg_logo_512x2.default, height: '100%' })
-					),
-
-					universeAnchor: _react2.default.createElement(_universeAnchor2.default, null),
-
-					hamburgerPanel: _react2.default.createElement(_meta2.default, null),
-
-					bottomMenuItems: [_react2.default.createElement('span', { key: 'explore', className: 'omr\u22C4bottom-menu\u205Aicon icomoon-treasure-map' }), _react2.default.createElement('span', { key: 'character', className: 'omr\u22C4bottom-menu\u205Aicon icomoon-battle-gear' }), _react2.default.createElement('span', { key: 'inventory', className: 'omr\u22C4bottom-menu\u205Aicon icomoon-locked-chest' }), _react2.default.createElement('span', { key: 'chat', className: 'omr\u22C4bottom-menu\u205Aicon icomoon-conversation' })]
-				},
+				bottomMenuItems: [_react2.default.createElement('span', { key: 'explore', className: 'omr\u22C4bottom-menu\u205Aicon icomoon-treasure-map' }), _react2.default.createElement('span', { key: 'character', className: 'omr\u22C4bottom-menu\u205Aicon icomoon-battle-gear' }), _react2.default.createElement('span', { key: 'inventory', className: 'omr\u22C4bottom-menu\u205Aicon icomoon-locked-chest' }), _react2.default.createElement('span', { key: 'chat', className: 'omr\u22C4bottom-menu\u205Aicon icomoon-conversation' })]
+			},
+			_react2.default.createElement(
+				'div',
+				{ key: 'background-picture',
+					className: 'omr\u22C4plane\u205Aimmersion omr\u22C4full-size-fixed-layer omr\u22C4bg\u205Acover tbrpg\u22C4bg-image\u205Afields_of_gold' },
 				_react2.default.createElement(
 					'div',
-					{ key: 'background-picture',
-						className: 'omr\u22C4plane\u205Aimmersion omr\u22C4full-size-fixed-layer omr\u22C4bg\u205Acover tbrpg\u22C4bg-image\u205Afields_of_gold' },
-					_react2.default.createElement(
-						'div',
-						{ key: 'content-area', className: 'omr\u22C4content-area o\u22C4no-overflow' },
-						_react2.default.createElement(_explore2.default, null)
-					)
+					{ key: 'content-area', className: 'omr\u22C4content-area' },
+					_react2.default.createElement(_explore2.default, null)
 				)
-			);
-		}
-	}]);
-
-	return TheBoringRPG;
-}(_react.Component);
-
+			)
+		);
+	}
+}
 exports.default = TheBoringRPG;
 
 /***/ }),
@@ -39004,34 +38529,26 @@ exports.default = TheBoringRPG;
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-var BASE_ROUTE = function (pathname) {
+const BASE_ROUTE = (pathname => {
 	// stable point, everything after is likely to be a route
-	var TOP_SEGMENT_WE_ASSUME_WELL_BE_ALWAYS_SERVED_UNDER = "/the-boring-rpg";
+	const TOP_SEGMENT_WE_ASSUME_WELL_BE_ALWAYS_SERVED_UNDER = "/the-boring-rpg";
 
-	var splitted = pathname.split(TOP_SEGMENT_WE_ASSUME_WELL_BE_ALWAYS_SERVED_UNDER);
-	var parent_segment = splitted[0];
-	var base_route = parent_segment + TOP_SEGMENT_WE_ASSUME_WELL_BE_ALWAYS_SERVED_UNDER;
+	const splitted = pathname.split(TOP_SEGMENT_WE_ASSUME_WELL_BE_ALWAYS_SERVED_UNDER);
+	const parent_segment = splitted[0];
+	let base_route = parent_segment + TOP_SEGMENT_WE_ASSUME_WELL_BE_ALWAYS_SERVED_UNDER;
 
 	// special dev/staging case where we are served under an additional /dist
 	if (splitted[1].startsWith('/dist')) base_route += '/dist';
 
-	console.log('computing BASE_ROUTE:', {
-		pathname: pathname,
-		TOP_SEGMENT_WE_ASSUME_WELL_BE_ALWAYS_SERVED_UNDER: TOP_SEGMENT_WE_ASSUME_WELL_BE_ALWAYS_SERVED_UNDER,
-		splitted: splitted,
-		parent_segment: parent_segment,
-		base_route: base_route
-	});
-
 	return base_route;
-}(window.location.pathname);
+})(window.location.pathname);
 
-var ROUTES = {
+const ROUTES = {
 	// special routes
 	index: '/index.html', // technical route for redirection
 
 	// navigable routes
-	home: '/',
+	home: '/index.html',
 	inventory: '/inventory',
 	character: '/character',
 	about: '/about',
@@ -39140,8 +38657,6 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
@@ -39156,64 +38671,43 @@ var _game2 = _interopRequireDefault(_game);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var TheBoringRPG = function (_Component) {
-    _inherits(TheBoringRPG, _Component);
-
-    function TheBoringRPG() {
-        _classCallCheck(this, TheBoringRPG);
-
-        return _possibleConstructorReturn(this, (TheBoringRPG.__proto__ || Object.getPrototypeOf(TheBoringRPG)).apply(this, arguments));
+class TheBoringRPG extends _react.Component {
+    render() {
+        return _react2.default.createElement(
+            _reactRouterDom.BrowserRouter,
+            { basename: _routes.BASE_ROUTE },
+            _react2.default.createElement(
+                _reactRouterDom.Switch,
+                null,
+                _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: _routes.ROUTES.home, render: () => _react2.default.createElement(_game2.default, null) }),
+                _react2.default.createElement(_reactRouterDom.Redirect, { to: _routes.ROUTES.home })
+            )
+        );
     }
-
-    _createClass(TheBoringRPG, [{
-        key: 'render',
-        value: function render() {
-            return _react2.default.createElement(
-                _reactRouterDom.BrowserRouter,
-                { basename: _routes.BASE_ROUTE },
-                _react2.default.createElement(
-                    _reactRouterDom.Switch,
-                    null,
-                    _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: _routes.ROUTES.home, render: function render() {
-                            return _react2.default.createElement(_game2.default, null);
-                        } }),
-                    _react2.default.createElement(_reactRouterDom.Redirect, { to: _routes.ROUTES.home })
-                )
-            );
-        }
-    }]);
-
-    return TheBoringRPG;
-}(_react.Component);
-
-/*
-function Nav() {
-return (
-<nav className='tbrpg__nav o⋄text-noselect'>
-   <ul className='o⋄nav-list'>
-       <li>
-           <NavLink exact activeClassName='active' to={ROUTES.home}>Home</NavLink>
-       </li>
-       <li>
-           <NavLink activeClassName='active' to={ROUTES.inventory}>Inventory</NavLink>
-       </li>
-       <li>
-           <NavLink activeClassName='active' to={ROUTES.character}>Character</NavLink>
-       </li>
-       <li>
-           <NavLink activeClassName='active' to={ROUTES.about}>About</NavLink>
-       </li>
-   </ul>
-</nav>
-)
 }
-*/
+
+exports.default = TheBoringRPG; /*
+                                function Nav() {
+                                return (
+                                <nav className='tbrpg__nav o⋄text-noselect'>
+                                   <ul className='o⋄nav-list'>
+                                       <li>
+                                           <NavLink exact activeClassName='active' to={ROUTES.home}>Home</NavLink>
+                                       </li>
+                                       <li>
+                                           <NavLink activeClassName='active' to={ROUTES.inventory}>Inventory</NavLink>
+                                       </li>
+                                       <li>
+                                           <NavLink activeClassName='active' to={ROUTES.character}>Character</NavLink>
+                                       </li>
+                                       <li>
+                                           <NavLink activeClassName='active' to={ROUTES.about}>About</NavLink>
+                                       </li>
+                                   </ul>
+                                </nav>
+                                )
+                                }
+                                */
 
 /*
                         <Switch>
@@ -39228,9 +38722,6 @@ return (
                             {// fallback to home }
                             <Redirect to={ROUTES.home} />
                         </Switch>*/
-
-
-exports.default = TheBoringRPG;
 
 /***/ }),
 /* 477 */

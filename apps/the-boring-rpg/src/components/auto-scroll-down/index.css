@@ -1,4 +1,4 @@
 .auto-scroll-down {
 	height: 100%;
-	overflow-x: hidden;
+	overflow-x: hidden; /* prevent jankiness when y scrollbar appears */
 }

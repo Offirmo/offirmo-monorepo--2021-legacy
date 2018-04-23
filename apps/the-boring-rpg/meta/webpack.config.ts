@@ -135,13 +135,13 @@ if (NODE_ENV === 'production') {
 
 // SPECIAL, COMPLICATED technique:
 // If we are in a monorepo and want to serve this sub-package on different URLs:
-// - PROD: https://www.online-adventur.es/the-boring-rpg/
+// - PROD: https://www.online-adventur.es/apps/the-boring-rpg/
 // - STAGING: https://offirmo.netlify.com/apps/dist/the-boring-rpg/
 // - DEV/STAGING: http://localhost:8000/apps/the-boring-rp/dist/
-// For React router to work with this, it needs to be given a "basename"
-// to make that works in dev, we simulate a sub-path in dev as well:
-// - DEV: http://localhost:8080/the-boring-rpg
-// We use a combo of `publicPath` and `contentBase`:
+// - DEV: whatever, currently http://localhost:8080/the-boring-rpg
+// For React router to work with this, it needs to be given a "basename".
+// To make that works in dev, we simulate a sub-path in dev as well,
+// by using a combo of `publicPath` and `contentBase`:
 // content from webpack served from here:
 const PUBLIC_PATH = BASE_PATH // replicate prod setting
 // content NOT from webpack served from here:

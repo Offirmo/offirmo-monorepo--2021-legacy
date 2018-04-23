@@ -13,14 +13,6 @@ const BASE_ROUTE = (pathname => {
 	if (splitted[1].startsWith('/dist'))
 		base_route += '/dist'
 
-	console.log('computing BASE_ROUTE:', {
-		pathname,
-		TOP_SEGMENT_WE_ASSUME_WELL_BE_ALWAYS_SERVED_UNDER,
-		splitted,
-		parent_segment,
-		base_route,
-	})
-
 	return base_route
 })(window.location.pathname)
 
@@ -29,7 +21,7 @@ const ROUTES = {
 	index: '/index.html', // technical route for redirection
 
 	// navigable routes
-	home: '/',
+	home: '/index.html',
 	inventory: '/inventory',
 	character: '/character',
 	about: '/about',

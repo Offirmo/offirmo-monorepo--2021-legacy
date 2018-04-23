@@ -1,35 +1,44 @@
 
 /* vars */
 :root {
-	--omr⋄ui⋄base__scale: 0.8;
+	--omr⋄ui__scale: 1;
 
 	--omr⋄ui__immersion-view--z-index: 100;
 	--omr⋄ui__meta-view--z-index: 1000;
 
+	/******* Base *******/
+
 	--omr⋄ui__border--width: 3px;
 
-	--omr⋄ui__hamburger--diameter: 69px;
+	--omr⋄ui__hamburger--shape-diameter: 69px;
 	--omr⋄ui__hamburger--visible-ratio: 0.725;
 
-	--omr⋄ui__logo--height: calc(
-		var(--omr⋄ui__hamburger--diameter)
-		* 0.8
-	);
-
+	--omr⋄ui__logo--shape-height: calc(var(--omr⋄ui__hamburger--shape-diameter) * 0.8);
 	--omr⋄ui__logo--visible-ratio: 0.8;
-	--omr⋄ui__logo--width: 200px;
+	--omr⋄ui__logo--width: 500px; /* to be re-defined by the user */
 
-	--omr⋄ui__bottom-menu--height: 69px;
+	--omr⋄ui__bottom-menu--shape-height: 69px;
 	--omr⋄ui__bottom-menu--visible-ratio: 0.7;
 
 	--omr⋄ui__meta--shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28);
 	--omr⋄ui__universe--shadow: 0 0 2px rgba(0,0,0,.14), 0 2px 4px rgba(0,0,0,.28);
 
-	/* intermediate */
-	--omr⋄ui__hamburger--visible-width: calc(
-		(
-			var(--omr⋄ui__hamburger--diameter)
-		) * var(--omr⋄ui__hamburger--visible-ratio)
+	/******* intermediate ********/
+
+	--omr⋄ui__hamburger--width: calc(
+		var(--omr⋄ui__hamburger--shape-diameter)
+		* var(--omr⋄ui__hamburger--visible-ratio)
+	);
+	--omr⋄ui__hamburger--heigth: var(--omr⋄ui__hamburger--width);
+
+	--omr⋄ui__logo--height: calc(
+		var(--omr⋄ui__logo--shape-height)
+		* var(--omr⋄ui__logo--visible-ratio)
+	);
+
+	--omr⋄ui__bottom-menu--height: calc(
+		var(--omr⋄ui__bottom-menu--shape-height)
+		* var(--omr⋄ui__bottom-menu--visible-ratio)
 	);
 }
 
@@ -58,8 +67,8 @@
 }
 
 .omr⋄hamburger {
-	--scale: var(--omr⋄ui__hamburger--scale, var(--omr⋄ui⋄base__scale));
-	--diameter: calc(var(--omr⋄ui__hamburger--diameter) * var(--scale));
+	--scale: var(--omr⋄ui__hamburger--scale, var(--omr⋄ui__scale));
+	--diameter: calc(var(--omr⋄ui__hamburger--shape-diameter) * var(--scale));
 	--visible-ratio: var(--omr⋄ui__hamburger--visible-ratio);
 
 	z-index: calc(20 + var(--omr⋄ui__meta-view--z-index));
@@ -86,7 +95,7 @@
 	left: calc(var(--diameter) * (1 - var(--visible-ratio)) * -1);
 }
 .omr⋄hamburger:hover {
-	--omr⋄ui__hamburger--scale: calc(var(--omr⋄ui⋄base__scale) * 1.05);
+	--omr⋄ui__hamburger--scale: calc(var(--omr⋄ui__scale) * 1.05);
 }
 .omr⋄hamburger > span {
 	position: fixed;
@@ -95,8 +104,15 @@
 }
 
 .omr⋄logo {
-	--scale: var(--omr⋄ui__logo--scale, var(--omr⋄ui⋄base__scale));
-	--height: calc(var(--omr⋄ui__logo--height) * var(--scale));
+	--scale: var(--omr⋄ui__logo--scale, var(--omr⋄ui__scale));
+	--height: calc(var(--omr⋄ui__logo--shape-height) * var(--scale));
+	--width: calc(
+		(
+			var(--omr⋄ui__hamburger--width)
+			+ var(--omr⋄ui__logo--width)
+			+ 2 * var(--padding)
+		) * var(--scale)
+	);
 	--visible-ratio: var(--omr⋄ui__logo--visible-ratio);
 	--padding: calc(var(--omr⋄ui__logo--padding, 6px) * var(--scale));
 
@@ -108,8 +124,8 @@
 	 * https://css-tricks.com/examples/ShapesOfCSS/
 	 */
 	height: var(--height);
-	max-height: var(--height);
-	border-radius: 4% / 60%;
+	width: var(--width);
+	border-radius: 4% / 60%; /* TODO remove % ? */
 
 	color: var(--o⋄color--fg⁚main);
 	border: solid calc(var(--omr⋄ui__border--width) * var(--scale)) var(--o⋄color--fg⁚main);
@@ -121,7 +137,7 @@
 	left: calc(var(--position-shift) * -1);
 
 	padding-top: calc(var(--position-shift) - 3px * var(--scale));
-	padding-left: calc(var(--position-shift) + (var(--omr⋄ui__hamburger--visible-width) - 3px) * var(--scale));
+	padding-left: calc(var(--position-shift) + (var(--omr⋄ui__hamburger--width) - 3px) * var(--scale));
 	padding-right: calc(var(--position-shift) - 8px * var(--scale));
 
 	/* Help center content */
@@ -130,17 +146,19 @@
 	justify-content: center;
 }
 .omr⋄logo:hover {
-	--omr⋄ui__logo--scale: calc(var(--omr⋄ui⋄base__scale) * 1.025);
+	--omr⋄ui__logo--scale: calc(var(--omr⋄ui__scale) * 1.025);
 }
 .omr⋄logo > * {
 	height: 100%;
+	width: calc(var(--omr⋄ui__logo--width) * var(--scale));
 	padding: var(--padding);
 	align-items: center;
+	object-fit: contain;
 }
 
 .omr⋄universe-anchor {
-	--scale: var(--omr⋄ui__universe-anchor--scale, var(--omr⋄ui⋄base__scale));
-	--height: calc((var(--omr⋄ui__logo--height) - var(--omr⋄ui__border--width)) * var(--scale));
+	--scale: var(--omr⋄ui__universe-anchor--scale, var(--omr⋄ui__scale));
+	--height: calc((var(--omr⋄ui__logo--shape-height) - var(--omr⋄ui__border--width)) * var(--scale));
 	--visible-ratio: var(--omr⋄ui__logo--visible-ratio);
 	--padding: calc(var(--omr⋄ui__universe-anchor--padding, 6px) * var(--scale));
 
@@ -166,13 +184,13 @@
 
 	padding-top: calc(var(--position-shift) + 0px * var(--scale));
 	padding-left: calc(
-		var(--omr⋄ui__hamburger--visible-width) * var(--scale)
+		var(--omr⋄ui__hamburger--width) * var(--scale)
 		+ var(--omr⋄ui__logo--width)
 		+ var(--position-shift));
 	padding-right: 0;
 }
 .omr⋄universe-anchor:hover {
-	--omr⋄ui__universe-anchor--scale: calc(var(--omr⋄ui⋄base__scale) * 1.04);
+	--omr⋄ui__universe-anchor--scale: calc(var(--omr⋄ui__scale) * 1.04);
 }
 .omr⋄universe-anchor > * {
 	/* Help center content */
@@ -185,8 +203,8 @@
 }
 
 .omr⋄bottom-menu {
-	--scale: var(--omr⋄ui__bottom-menu--scale, var(--omr⋄ui⋄base__scale));
-	--height: calc((var(--omr⋄ui__bottom-menu--height) - var(--omr⋄ui__border--width)) * var(--scale));
+	--scale: var(--omr⋄ui__bottom-menu--scale, var(--omr⋄ui__scale));
+	--height: calc((var(--omr⋄ui__bottom-menu--shape-height) - var(--omr⋄ui__border--width)) * var(--scale));
 	--visible-ratio: var(--omr⋄ui__bottom-menu--visible-ratio);
 	--padding: calc(6px * var(--scale));
 
@@ -243,17 +261,30 @@
 	padding: 0;
 	display: flex;
 	flex-direction: column;
-	overflow-x: hidden;
-	overflow-y: hidden;
+	/*overflow-x: hidden;
+	overflow-y: hidden;*/
 }
 .omr⋄content-area:before {
 	content: ' ';
-	height: calc((var(--omr⋄ui__hamburger--visible-width) + 10px) * var(--omr⋄ui⋄base__scale));
+	height: calc(var(--omr⋄ui__logo--height) * var(--omr⋄ui__scale));
+	flex: none;
 }
 .omr⋄content-area:after {
 	content: ' ';
-	height: calc(var(--omr⋄ui__bottom-menu--height) * var(--omr⋄ui⋄base__scale));
+	height: calc(var(--omr⋄ui__bottom-menu--height) * var(--omr⋄ui__scale));
+	flex: none;
+}
+
+.omr⋄content-area--with-top-ui-height {
+	content: ' ';
+	height: calc(var(--omr⋄ui__logo--height) * var(--omr⋄ui__scale));
+	flex: none;
+}
+
+.omr⋄content-area--with-bottom-ui-height {
+	content: ' ';
+	height: calc(var(--omr⋄ui__bottom-menu--height) * var(--omr⋄ui__scale));
+	flex: none;
 }
 
 /************/
-

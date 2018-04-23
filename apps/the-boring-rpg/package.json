@@ -1,6 +1,6 @@
 {
 	"name": "the-boring-rpg",
-	"version": "0.51.16",
+	"version": "0.51.18",
 	"private": true,
 	"description": "⚔🛡💰 The boring RPG browser game, reloaded!",
 	"author": "Offirmo <offirmo.net@gmail.com>",
@@ -19,8 +19,8 @@
 				{
 					"targets": {
 						"browsers": [
-							"last 2 versions",
-							"safari >= 7"
+							">1%",
+							"not ie 11"
 						]
 					}
 				}
