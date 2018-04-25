@@ -20,6 +20,7 @@ describe('⚔ 👑 😪  The Boring RPG - schema migration', function() {
 			migrate_to_latest: migrate_to_latest.bind(null, get_SEC()),
 			absolute_dir_path: require('path').join(__dirname, '../../src/migrations_of_active_state_specs'),
 			expect, context, it,
+			skip: true,
 		})
 	})
 
@@ -35,6 +36,7 @@ describe('⚔ 👑 😪  The Boring RPG - schema migration', function() {
 			migrate_to_latest: migrate_to_latest.bind(null, get_SEC()),
 			absolute_dir_path: require('path').join(__dirname, '../../src/migrations_of_blank_state_specs'),
 			expect, context, it,
+			skip: true,
 		})
 	})
 })

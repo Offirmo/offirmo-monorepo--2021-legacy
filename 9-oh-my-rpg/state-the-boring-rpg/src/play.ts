@@ -172,32 +172,40 @@ function instantiate_adventure_archetype(rng: Engine, aa: AdventureArchetype, ch
 	}
 }
 
-function receive_stat_increase(state: State, stat: CharacterAttribute, amount = 1): State {
-	state.avatar = increase_stat(get_SEC(), state.avatar, stat, amount)
-	return state
+function receive_stat_increase(state: Readonly<State>, stat: CharacterAttribute, amount = 1): Readonly<State> {
+	return {
+		...state,
+		avatar: increase_stat(get_SEC(), state.avatar, stat, amount),
+	}
 }
 
-function receive_item(state: State, item: Item): State {
-	// TODO handle inventory full
-	state.inventory = InventoryState.add_item(state.inventory, item)
-	return state
+function receive_item(state: Readonly<State>, item: Item): Readonly<State> {
+	return {
+		...state,
+		// TODO handle inventory full
+		inventory: InventoryState.add_item(state.inventory, item),
+	}
 }
 
-function receive_coins(state: State, amount: number): State {
-	state.wallet = WalletState.add_amount(state.wallet, Currency.coin, amount)
-	return state
+function receive_coins(state: Readonly<State>, amount: number): Readonly<State> {
+	return {
+		...state,
+		wallet: WalletState.add_amount(state.wallet, Currency.coin, amount),
+	}
 }
 
-function receive_tokens(state: State, amount: number): State {
-	state.wallet = WalletState.add_amount(state.wallet, Currency.token, amount)
-	return state
+function receive_tokens(state: Readonly<State>, amount: number): Readonly<State> {
+	return {
+		...state,
+		wallet: WalletState.add_amount(state.wallet, Currency.token, amount),
+	}
 }
 
 /////////////////////
 
 const ADVENTURE_NON_REPETITION_ID = 'adventure_archetype'
 
-function pick_random_non_repetitive_good_archetype(state: State, rng: Engine): AdventureArchetype {
+function pick_random_non_repetitive_good_archetype(state: Readonly<State>, rng: Engine): AdventureArchetype {
 	let archetype: AdventureArchetype
 
 	regenerate_until_not_recently_encountered({
@@ -212,11 +220,13 @@ function pick_random_non_repetitive_good_archetype(state: State, rng: Engine): A
 	return archetype!
 }
 
-function play_good(state: State, explicit_adventure_archetype_hid?: string): State {
-	state.good_click_count++
-	state.meaningful_interaction_count++;
+function play_good(state: Readonly<State>, explicit_adventure_archetype_hid?: string): Readonly<State> {
+	state = {
+		...state,
+		good_click_count: state.good_click_count + 1,
+	}
 
-	let rng = get_prng(state.prng)
+	const rng = get_prng(state.prng)
 
 	const aa: AdventureArchetype = explicit_adventure_archetype_hid
 		? get_archetype(explicit_adventure_archetype_hid)
@@ -225,12 +235,15 @@ function play_good(state: State, explicit_adventure_archetype_hid?: string): Sta
 	if (!aa)
 		throw new Error(`play_good(): hinted adventure archetype "${explicit_adventure_archetype_hid}" could not be found!`)
 
-	state.prng = register_recently_used(
-		state.prng,
-		ADVENTURE_NON_REPETITION_ID,
-		aa.hid,
-		7,
-	)
+	state = {
+		...state,
+		prng: register_recently_used(
+			state.prng,
+			ADVENTURE_NON_REPETITION_ID,
+			aa.hid,
+			7,
+		),
+	}
 
 	const adventure = instantiate_adventure_archetype(
 		rng,
@@ -238,7 +251,10 @@ function play_good(state: State, explicit_adventure_archetype_hid?: string): Sta
 		state.avatar,
 		state.inventory,
 	)
-	state.last_adventure = adventure
+	state = {
+		...state,
+		last_adventure: adventure,
+	}
 
 	const {gains : gained} = adventure
 
@@ -301,6 +317,7 @@ function play_good(state: State, explicit_adventure_archetype_hid?: string): Sta
 		let weapon_to_enhance = InventoryState.get_item_in_slot(state.inventory, InventorySlot.weapon) as Weapon
 		if (weapon_to_enhance && weapon_to_enhance.enhancement_level < MAX_WEAPON_ENHANCEMENT_LEVEL)
 			enhance_weapon(weapon_to_enhance)
+		// TODO immutable instead of in-place
 		// TODO enhance another weapon as fallback
 	}
 
@@ -309,14 +326,18 @@ function play_good(state: State, explicit_adventure_archetype_hid?: string): Sta
 		const armor_to_enhance = InventoryState.get_item_in_slot(state.inventory, InventorySlot.armor) as Armor
 		if (armor_to_enhance && armor_to_enhance.enhancement_level < MAX_ARMOR_ENHANCEMENT_LEVEL)
 			enhance_armor(armor_to_enhance)
+		// TODO immutable instead of in-place
 		// TODO enhance another armor as fallback
 	}
 
 	if (!gain_count)
 		throw new Error(`play_good() for hid "${aa.hid}" unexpectedly resulted in NO gains!`)
-	state.prng = PRNGState.update_use_count(state.prng, rng, {
-		I_swear_I_really_cant_know_whether_the_rng_was_used: !!explicit_adventure_archetype_hid
-	})
+	state = {
+		...state,
+		prng: PRNGState.update_use_count(state.prng, rng, {
+			I_swear_I_really_cant_know_whether_the_rng_was_used: !!explicit_adventure_archetype_hid
+		}),
+	}
 
 	return state
 }

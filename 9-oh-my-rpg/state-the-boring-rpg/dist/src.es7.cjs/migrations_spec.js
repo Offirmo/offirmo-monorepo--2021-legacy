@@ -17,6 +17,7 @@ describe('⚔ 👑 😪  The Boring RPG - schema migration', function () {
             migrate_to_latest: migrations_1.migrate_to_latest.bind(null, sec_1.get_SEC()),
             absolute_dir_path: require('path').join(__dirname, '../../src/migrations_of_active_state_specs'),
             expect: chai_1.expect, context, it,
+            skip: true,
         });
     });
     describe('migration of a new savegame', function () {
@@ -31,6 +32,7 @@ describe('⚔ 👑 😪  The Boring RPG - schema migration', function () {
             migrate_to_latest: migrations_1.migrate_to_latest.bind(null, sec_1.get_SEC()),
             absolute_dir_path: require('path').join(__dirname, '../../src/migrations_of_blank_state_specs'),
             expect: chai_1.expect, context, it,
+            skip: true,
         });
     });
 });

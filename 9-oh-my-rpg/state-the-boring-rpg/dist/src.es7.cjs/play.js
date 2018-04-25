@@ -107,22 +107,19 @@ function instantiate_adventure_archetype(rng, aa, character, inventory) {
     };
 }
 function receive_stat_increase(state, stat, amount = 1) {
-    state.avatar = state_character_1.increase_stat(sec_1.get_SEC(), state.avatar, stat, amount);
-    return state;
+    return Object.assign({}, state, { avatar: state_character_1.increase_stat(sec_1.get_SEC(), state.avatar, stat, amount) });
 }
 function receive_item(state, item) {
-    // TODO handle inventory full
-    state.inventory = InventoryState.add_item(state.inventory, item);
-    return state;
+    return Object.assign({}, state, { 
+        // TODO handle inventory full
+        inventory: InventoryState.add_item(state.inventory, item) });
 }
 exports.receive_item = receive_item;
 function receive_coins(state, amount) {
-    state.wallet = WalletState.add_amount(state.wallet, state_wallet_1.Currency.coin, amount);
-    return state;
+    return Object.assign({}, state, { wallet: WalletState.add_amount(state.wallet, state_wallet_1.Currency.coin, amount) });
 }
 function receive_tokens(state, amount) {
-    state.wallet = WalletState.add_amount(state.wallet, state_wallet_1.Currency.token, amount);
-    return state;
+    return Object.assign({}, state, { wallet: WalletState.add_amount(state.wallet, state_wallet_1.Currency.token, amount) });
 }
 /////////////////////
 const ADVENTURE_NON_REPETITION_ID = 'adventure_archetype';
@@ -139,17 +136,16 @@ function pick_random_non_repetitive_good_archetype(state, rng) {
     return archetype;
 }
 function play_good(state, explicit_adventure_archetype_hid) {
-    state.good_click_count++;
-    state.meaningful_interaction_count++;
-    let rng = state_prng_1.get_prng(state.prng);
+    state = Object.assign({}, state, { good_click_count: state.good_click_count + 1 });
+    const rng = state_prng_1.get_prng(state.prng);
     const aa = explicit_adventure_archetype_hid
         ? logic_adventures_1.get_archetype(explicit_adventure_archetype_hid)
         : pick_random_non_repetitive_good_archetype(state, rng);
     if (!aa)
         throw new Error(`play_good(): hinted adventure archetype "${explicit_adventure_archetype_hid}" could not be found!`);
-    state.prng = state_prng_1.register_recently_used(state.prng, ADVENTURE_NON_REPETITION_ID, aa.hid, 7);
+    state = Object.assign({}, state, { prng: state_prng_1.register_recently_used(state.prng, ADVENTURE_NON_REPETITION_ID, aa.hid, 7) });
     const adventure = instantiate_adventure_archetype(rng, aa, state.avatar, state.inventory);
-    state.last_adventure = adventure;
+    state = Object.assign({}, state, { last_adventure: adventure });
     const { gains: gained } = adventure;
     // TODO store hid for no repetition
     let gain_count = 0;
@@ -206,6 +202,7 @@ function play_good(state, explicit_adventure_archetype_hid) {
         let weapon_to_enhance = InventoryState.get_item_in_slot(state.inventory, definitions_1.InventorySlot.weapon);
         if (weapon_to_enhance && weapon_to_enhance.enhancement_level < logic_weapons_1.MAX_ENHANCEMENT_LEVEL)
             logic_weapons_1.enhance(weapon_to_enhance);
+        // TODO immutable instead of in-place
         // TODO enhance another weapon as fallback
     }
     if (gained.armor_improvement) {
@@ -213,13 +210,14 @@ function play_good(state, explicit_adventure_archetype_hid) {
         const armor_to_enhance = InventoryState.get_item_in_slot(state.inventory, definitions_1.InventorySlot.armor);
         if (armor_to_enhance && armor_to_enhance.enhancement_level < logic_armors_1.MAX_ENHANCEMENT_LEVEL)
             logic_armors_1.enhance(armor_to_enhance);
+        // TODO immutable instead of in-place
         // TODO enhance another armor as fallback
     }
     if (!gain_count)
         throw new Error(`play_good() for hid "${aa.hid}" unexpectedly resulted in NO gains!`);
-    state.prng = PRNGState.update_use_count(state.prng, rng, {
-        I_swear_I_really_cant_know_whether_the_rng_was_used: !!explicit_adventure_archetype_hid
-    });
+    state = Object.assign({}, state, { prng: PRNGState.update_use_count(state.prng, rng, {
+            I_swear_I_really_cant_know_whether_the_rng_was_used: !!explicit_adventure_archetype_hid
+        }) });
     return state;
 }
 exports.play_good = play_good;

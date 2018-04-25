@@ -136,7 +136,6 @@ export default class Component extends React.Component {
 
 		return (
 			<div className={'tbrpg-panel o⋄flex-column'}>
-				<div className="omr⋄content-area--with-top-ui-height" />
 				<div className='panel-top-content o⋄flex-element-nogrow'>
 					{rich_text_to_react(render_meta(state, client_state))}
 					<hr/>

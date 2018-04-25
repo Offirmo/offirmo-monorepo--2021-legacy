@@ -5,6 +5,9 @@ Truqui
 
 * https://worldbuilding.stackexchange.com/questions/94950/a-fruit-that-electrically-shocks-you
 
+personalité
+http://www.personalityresearch.org/bigfive.html
+
 Stories
 - épée dans rocher
 - réanimation de travailleurs

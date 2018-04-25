@@ -41,6 +41,7 @@ SEC.xTry('loading savegame', ({logger}) => {
 		CHANNEL,
 		verbose: true, // XXX auto + through SEC ?
 		SEC,
+		mode: 'inventory',
 		alpha_warning_displayed: false,
 		recap_displayed: false,
 		last_displayed_adventure_uuid: (() => {
@@ -55,11 +56,13 @@ const GameContext = React.createContext(game_instance)
 
 
 class GameContextAsPropsListener extends React.Component {
-
 	componentDidMount() {
 		//console.info('~~ GameContextListener componentDidMount')
 		// subscribe to future state changes
-		this.unsubscribe = this.props.game_instance.subscribe(() => this.forceUpdate())
+		this.unsubscribe = this.props.game_instance.subscribe(() => {
+			console.log('forcing update on change')
+			this.forceUpdate()
+		})
 	}
 	componentWillUnmount () {
 		//console.info('~~ GameContextListener componentWillUnmount', arguments)
@@ -67,18 +70,21 @@ class GameContextAsPropsListener extends React.Component {
 	}
 
 	render() {
-	  return this.props.children
+	  return this.props.children(game_instance)
 	}
  }
 
- function GameContextConsumerListener(props) {
+ function GameContextConsumerListener({children}) {
 	 return (
 		<GameContext.Consumer>
-			{game_instance => (
-				<GameContextAsPropsListener game_instance={game_instance}>
-					{props.children(game_instance)}
-				</GameContextAsPropsListener>
-			)}
+			{game_instance => {
+				console.log('GameContextConsumerListener re-called')
+				return (
+					<GameContextAsPropsListener game_instance={game_instance}>
+						{children}
+					</GameContextAsPropsListener>
+				)
+			}}
 		</GameContext.Consumer>
 	 )
  }

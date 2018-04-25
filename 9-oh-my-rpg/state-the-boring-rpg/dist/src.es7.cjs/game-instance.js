@@ -1,4 +1,6 @@
 "use strict";
+/* A helper for actual games using this model
+ */
 Object.defineProperty(exports, "__esModule", { value: true });
 const NanoEvents = require('nanoevents');
 const deep_merge = require('deepmerge').default;
@@ -29,6 +31,7 @@ function create_game_instance({ SEC, get_latest_state, update_state, client_stat
             mode: serializable_actions_1.ActionCategory.base,
         };
         const emitter = new NanoEvents();
+        // todo .model .view ?
         return {
             play() {
                 let state = get_latest_state();

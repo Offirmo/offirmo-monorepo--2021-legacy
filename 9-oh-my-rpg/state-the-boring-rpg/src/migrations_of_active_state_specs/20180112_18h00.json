@@ -77,10 +77,11 @@
 		"token_count": 89
 	},
 	"prng": {
-		"schema_version": 1,
+		"schema_version": 2,
 		"revision": 108,
 		"seed": 1234,
-		"use_count": 107
+		"use_count": 107,
+		"recently_encountered_by_id": {}
 	},
 	"last_adventure": {
 		"hid": "fight_lost_any",

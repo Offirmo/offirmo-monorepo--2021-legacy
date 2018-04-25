@@ -1,4 +1,5 @@
 "use strict";
+// TODO move outside? tbrpg-engagement?
 Object.defineProperty(exports, "__esModule", { value: true });
 const RichText = require("@offirmo/rich-text-format");
 function get_recap(state) {

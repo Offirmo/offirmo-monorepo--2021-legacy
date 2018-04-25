@@ -1,0 +1,87 @@
+
+.monster-emoji {
+	font-size: xx-large;
+}
+
+.tbrpg-element {
+}
+
+.item__name,
+.avatar__name,
+.avatar__class,
+.monster__name {
+	font-weight: bold;
+}
+
+.item--quality--common {
+	color: #909090;
+}
+.item--quality--uncommon {
+	color: forestgreen;
+}
+.item--quality--rare {
+	color: mediumblue;
+}
+.item--quality--epic {
+	color: #ba00cd;
+}
+.item--quality--legendary {
+	color: #d9534f;
+}
+.item--quality--artifact {
+	color: #ddba00;
+}
+
+.monster--rank--common {
+}
+.monster--rank--elite {
+	color: #ddba00;
+}
+.monster--rank--boss {
+	color: #d9534f;
+}
+
+
+.item--weapon:before {
+	content: '⚔ ';
+}
+.item--armor:before {
+	content: '🛡 ';
+}
+
+.currency--coin:before {
+	content: '💰 ';
+}
+.currency--token:before {
+	content: '💠  ';
+}
+/*
+
+switch($class) {
+
+		case 'attribute--level':
+			return '👶 ' + WIDTH_COMPENSATION + str
+		case 'attribute--health':
+			return '💗 ' + WIDTH_COMPENSATION + str
+		case 'attribute--mana':
+			return '💙 ' + WIDTH_COMPENSATION + str
+		case 'attribute--agility':
+			return '🤸 ' + WIDTH_COMPENSATION + str
+		case 'attribute--luck':
+			return '🤹 ' + WIDTH_COMPENSATION + str
+		case 'attribute--strength':
+			return '🏋 ' + WIDTH_COMPENSATION + str
+		case 'attribute--charisma':
+			return '👨🎤 ' + WIDTH_COMPENSATION + str
+		case 'attribute--wisdom':
+			return '👵 ' + WIDTH_COMPENSATION + str
+
+		case 'monster':
+			return str + ' ' + hints.possible_emoji + WIDTH_COMPENSATION
+		case 'rank--common':
+			return str
+		case 'rank--elite':
+			return stylize_string.bold(str + '★')
+		case 'rank--boss':
+			return stylize_string.bold(str + ' 👑' + WIDTH_COMPENSATION)
+ */

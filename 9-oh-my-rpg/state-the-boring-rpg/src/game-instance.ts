@@ -1,3 +1,6 @@
+/* A helper for actual games using this model
+ */
+
 const NanoEvents = require('nanoevents')
 const deep_merge = require('deepmerge').default
 
@@ -50,6 +53,7 @@ function create_game_instance<T>({SEC, get_latest_state, update_state, client_st
 
 		const emitter = new NanoEvents()
 
+		// todo .model .view ?
 		return {
 			play() {
 				let state = get_latest_state()

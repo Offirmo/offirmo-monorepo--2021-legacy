@@ -8,6 +8,7 @@ function get_SEC(SEC) {
         parent_SEC: SEC,
     });
     // TODO add details: schema version
+    // deep freeze
 }
 exports.get_SEC = get_SEC;
 //# sourceMappingURL=sec.js.map

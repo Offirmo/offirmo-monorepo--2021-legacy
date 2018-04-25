@@ -1,3 +1,4 @@
+// TODO move outside? tbrpg-engagement?
 
 import * as RichText from '@offirmo/rich-text-format'
 

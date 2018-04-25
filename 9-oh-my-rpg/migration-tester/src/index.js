@@ -56,8 +56,11 @@ function test_migrations({
 	migrate_to_latest,
 	absolute_dir_path,
 	expect, context, it,
+	skip = false,
 }) {
 	console.log(`[MT] migration tester: ${path.basename(absolute_dir_path)}...`)
+
+	it = skip ? it.skip : it
 
 	// early tests, always valid
 	describe('data migration', function() {
@@ -82,7 +85,7 @@ function test_migrations({
 		})
 
 		/////// validate params
-		if ((function validateParams() {
+		if (!skip && (function validateParams() {
 
 			// validate SCHEMA_VERSION
 			if (!SCHEMA_VERSION) return true // unit tests above will catch this
@@ -97,7 +100,7 @@ function test_migrations({
 			)
 			if (!!LATEST_EXPECTED_DATA_migrated_diff) {
 				// this error will be caught by the test, but we display the diff to help:
-				console.log('TODO display diff')
+				console.error('LATEST_EXPECTED_DATA is not up to date! TODO display diff')
 				return true
 			}
 		})()) return
@@ -143,6 +146,7 @@ function test_migrations({
 
 		/////// create / update latest file if allowed / not present
 		;(function createOrUpdateLatestIfAllowed() {
+			if (skip) return
 
 			let latest_snapshot_path = all_files.slice(-1)[0]
 
@@ -164,7 +168,7 @@ function test_migrations({
 				return
 
 			if (latest_snapshot_path)
-				console.log(`Current latest snapshot is not up to date. Difference with previous:`, prettify_json(latest_migrated_diff))
+				console.log(`Current latest snapshot is not up to date. Difference with previous:\n`, prettify_json(latest_migrated_diff))
 			else
 				console.log(`[MT] Current latest, up-to-date data is missing.`)
 

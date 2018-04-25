@@ -94,58 +94,53 @@ function create() {
     state = play_1.receive_item(state, starting_armor);
     state = equip_item(state, starting_armor.uuid);
     //state.prng = PRNGState.update_use_count(state.prng, rng)
-    state.meaningful_interaction_count = 0; // to compensate sub-functions use
-    state.revision = 0; // could have been inc by internally calling actions
+    state = Object.assign({}, state, { 
+        // to compensate sub-functions use during build
+        meaningful_interaction_count: 0, 
+        // idem, could have been inc by internally calling actions
+        revision: 0 });
     return state;
 }
 exports.create = create;
 function reseed(state, seed) {
     seed = seed || state_prng_1.generate_random_seed();
-    state.prng = PRNGState.set_seed(state.prng, seed);
+    state = Object.assign({}, state, { prng: PRNGState.set_seed(state.prng, seed) });
     return state;
 }
 exports.reseed = reseed;
 // note: allows passing an explicit adventure archetype for testing
 function play(state, explicit_adventure_archetype_hid) {
-    state.click_count++;
     // TODO good / bad
-    state = play_1.play_good(state, explicit_adventure_archetype_hid);
-    state.revision++;
+    state = Object.assign({}, play_1.play_good(state, explicit_adventure_archetype_hid), { click_count: state.click_count + 1, meaningful_interaction_count: state.meaningful_interaction_count + 1, revision: state.revision + 1 });
     return state;
 }
 exports.play = play;
 function equip_item(state, uuid) {
-    state.inventory = InventoryState.equip_item(state.inventory, uuid);
-    // TODO count it as a meaningful interaction only if positive (or with a limit)
-    state.meaningful_interaction_count++;
-    state.revision++;
+    state = Object.assign({}, state, { inventory: InventoryState.equip_item(state.inventory, uuid), 
+        // TODO count it as a meaningful interaction only if positive (or with a limit)
+        meaningful_interaction_count: state.meaningful_interaction_count + 1, revision: state.revision + 1 });
     return state;
 }
 exports.equip_item = equip_item;
 function sell_item(state, uuid) {
     const price = appraise_item(state, uuid);
-    state.inventory = InventoryState.remove_item_from_unslotted(state.inventory, uuid);
-    state.wallet = WalletState.add_amount(state.wallet, state_wallet_1.Currency.coin, price);
-    // TODO count it as a meaningful interaction only if positive (or with a limit)
-    state.meaningful_interaction_count++;
-    state.revision++;
+    state = Object.assign({}, state, { inventory: InventoryState.remove_item_from_unslotted(state.inventory, uuid), wallet: WalletState.add_amount(state.wallet, state_wallet_1.Currency.coin, price), 
+        // TODO count it as a meaningful interaction only if positive (or with a limit)
+        meaningful_interaction_count: state.meaningful_interaction_count + 1, revision: state.revision + 1 });
     return state;
 }
 exports.sell_item = sell_item;
 function rename_avatar(state, new_name) {
-    state.avatar = state_character_1.rename(sec_1.get_SEC(), state.avatar, new_name);
-    // TODO count it as a meaningful interaction once
-    state.meaningful_interaction_count++;
-    state.revision++;
+    state = Object.assign({}, state, { avatar: state_character_1.rename(sec_1.get_SEC(), state.avatar, new_name), 
+        // TODO count it as a meaningful interaction only once
+        meaningful_interaction_count: state.meaningful_interaction_count + 1, revision: state.revision + 1 });
     return state;
 }
 exports.rename_avatar = rename_avatar;
 function change_avatar_class(state, new_class) {
-    // TODO make this have an effect (in v2 ?)
-    state.avatar = state_character_1.switch_class(sec_1.get_SEC(), state.avatar, new_class);
-    // TODO count it as a meaningful interaction only if positive (or with a limit)
-    state.meaningful_interaction_count++;
-    state.revision++;
+    state = Object.assign({}, state, { avatar: state_character_1.switch_class(sec_1.get_SEC(), state.avatar, new_class), 
+        // TODO count it as a meaningful interaction only if positive (or with a limit)
+        meaningful_interaction_count: state.meaningful_interaction_count + 1, revision: state.revision + 1 });
     return state;
 }
 exports.change_avatar_class = change_avatar_class;

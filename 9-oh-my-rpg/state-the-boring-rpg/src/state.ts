@@ -82,8 +82,7 @@ import {
 } from './serializable_actions'
 
 import { play_good, receive_item } from './play'
-
-import { SoftExecutionContext, SECContext, get_SEC } from './sec'
+import { get_SEC } from './sec'
 
 /////////////////////
 
@@ -133,8 +132,8 @@ function get_actions_for_element(state: Readonly<State>, uuid: UUID): Action[] {
 
 ///////
 
-function create(): State {
-	let state: State = {
+function create(): Readonly<State> {
+	let state: Readonly<State> = {
 		schema_version: SCHEMA_VERSION,
 		revision: 0,
 
@@ -173,77 +172,107 @@ function create(): State {
 
 	//state.prng = PRNGState.update_use_count(state.prng, rng)
 
-	state.meaningful_interaction_count = 0 // to compensate sub-functions use
-	state.revision = 0 // could have been inc by internally calling actions
+	state = {
+		...state,
+
+		// to compensate sub-functions use during build
+		meaningful_interaction_count: 0,
+
+		// idem, could have been inc by internally calling actions
+		revision: 0,
+	}
 
 	return state
 }
 
-function reseed(state: State, seed?: number): State {
+function reseed(state: Readonly<State>, seed?: number): Readonly<State> {
 	seed = seed || generate_random_seed()
 
-	state.prng = PRNGState.set_seed(state.prng, seed)
+	state = {
+		...state,
+		prng: PRNGState.set_seed(state.prng, seed),
+	}
 
 	return state
 }
 
 // note: allows passing an explicit adventure archetype for testing
-function play(state: State, explicit_adventure_archetype_hid?: string): State {
-	state.click_count++
-
+function play(state: Readonly<State>, explicit_adventure_archetype_hid?: string): Readonly<State> {
 	// TODO good / bad
-	state = play_good(state, explicit_adventure_archetype_hid)
-	state.revision++
+	state = {
+		...play_good(state, explicit_adventure_archetype_hid),
+		click_count: state.click_count + 1,
+
+		meaningful_interaction_count: state.meaningful_interaction_count + 1,
+
+		revision: state.revision + 1,
+	}
+
 	return state
 }
 
-function equip_item(state: State, uuid: UUID): State {
-	state.inventory = InventoryState.equip_item(state.inventory, uuid)
+function equip_item(state: Readonly<State>, uuid: UUID): Readonly<State> {
+	state = {
+		...state,
+		inventory: InventoryState.equip_item(state.inventory, uuid),
 
-	// TODO count it as a meaningful interaction only if positive (or with a limit)
-	state.meaningful_interaction_count++;
+		// TODO count it as a meaningful interaction only if positive (or with a limit)
+		meaningful_interaction_count: state.meaningful_interaction_count + 1,
 
-	state.revision++
+		revision: state.revision + 1,
+	}
+
 	return state
 }
 
-function sell_item(state: State, uuid: UUID): State {
+function sell_item(state: Readonly<State>, uuid: UUID): Readonly<State> {
 	const price = appraise_item(state, uuid)
 
-	state.inventory = InventoryState.remove_item_from_unslotted(state.inventory, uuid)
-	state.wallet = WalletState.add_amount(state.wallet, Currency.coin, price)
+	state = {
+		...state,
+		inventory: InventoryState.remove_item_from_unslotted(state.inventory, uuid),
+		wallet: WalletState.add_amount(state.wallet, Currency.coin, price),
 
-	// TODO count it as a meaningful interaction only if positive (or with a limit)
-	state.meaningful_interaction_count++;
+		// TODO count it as a meaningful interaction only if positive (or with a limit)
+		meaningful_interaction_count: state.meaningful_interaction_count + 1,
 
-	state.revision++
+		revision: state.revision + 1,
+	}
+
 	return state
 }
 
-function rename_avatar(state: State, new_name: string): State {
-	state.avatar = rename(get_SEC(), state.avatar, new_name)
+function rename_avatar(state: Readonly<State>, new_name: string): Readonly<State> {
+	state = {
+		...state,
+		avatar: rename(get_SEC(), state.avatar, new_name),
 
-	// TODO count it as a meaningful interaction once
-	state.meaningful_interaction_count++;
+		// TODO count it as a meaningful interaction only once
+		meaningful_interaction_count: state.meaningful_interaction_count + 1,
 
-	state.revision++
+		revision: state.revision + 1,
+	}
+
 	return state
 }
 
-function change_avatar_class(state: State, new_class: CharacterClass): State {
-	// TODO make this have an effect (in v2 ?)
-	state.avatar = switch_class(get_SEC(), state.avatar, new_class)
+function change_avatar_class(state: Readonly<State>, new_class: CharacterClass): Readonly<State> {
+	state = {
+		...state,
+		avatar: switch_class(get_SEC(), state.avatar, new_class),
 
-	// TODO count it as a meaningful interaction only if positive (or with a limit)
-	state.meaningful_interaction_count++;
+		// TODO count it as a meaningful interaction only if positive (or with a limit)
+		meaningful_interaction_count: state.meaningful_interaction_count + 1,
 
-	state.revision++
+		revision: state.revision + 1,
+	}
+
 	return state
 }
 
 /////////////////////
 
-function execute(state: State, action: Action): State {
+function execute(state: Readonly<State>, action: Action): Readonly<State> {
 	const { expected_state_revision } = (action as any)
 	if (expected_state_revision) {
 		if (state.revision !== expected_state_revision)
@@ -272,7 +301,7 @@ function execute(state: State, action: Action): State {
 
 // a full featured, non-trivial demo state
 // with dev gain
-const DEMO_ADVENTURE_01: Adventure = deepFreeze({
+const DEMO_ADVENTURE_01: Readonly<Adventure> = deepFreeze({
 	hid: 'fight_lost_any',
 	uuid: 'uu1de1~EVAdXlW5_p23Ro4OH',
 	good: true,
@@ -295,7 +324,7 @@ const DEMO_ADVENTURE_01: Adventure = deepFreeze({
 	},
 })
 // with coin gain
-const DEMO_ADVENTURE_02: Adventure = deepFreeze({
+const DEMO_ADVENTURE_02: Readonly<Adventure> = deepFreeze({
 	hid: 'dying_man',
 	uuid: 'uu1de2~p23Ro4OH_EVAdXlW5',
 	good: true,
@@ -317,7 +346,7 @@ const DEMO_ADVENTURE_02: Adventure = deepFreeze({
 	}
 })
 // with loot gain
-const DEMO_ADVENTURE_03: Adventure = deepFreeze({
+const DEMO_ADVENTURE_03: Readonly<Adventure> = deepFreeze({
 	hid: 'rare_goods_seller',
 	uuid: 'uu1de2~p23Ro4OH_EVAdXlW5',
 	good: true,
@@ -360,7 +389,7 @@ const DEMO_ADVENTURE_04: Adventure = deepFreeze({
 		armor_improvement: true,
 	}
 })
-const DEMO_STATE: State = deepFreeze({
+const DEMO_STATE: Readonly<State> = deepFreeze({
 	schema_version: 4,
 	revision: 203,
 

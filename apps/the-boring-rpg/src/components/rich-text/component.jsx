@@ -1,6 +1,8 @@
 import React from 'react'
 
-import { ActionButton } from '../action-button'
+import ActionButton from '../action-button'
+
+import './index.css'
 
 export default ({children, actions}) => (
 	<span className="tbrpg-element">
