@@ -11,7 +11,10 @@ TODO
 items https://opengameart.org/content/flare-item-variation-60x60-only
 
 
-fonts https://pixelbuddha.net/freebie/jelani-display-font
+fonts
+ https://pixelbuddha.net/freebie/jelani-display-font
+ https://www.graphicdesignfreebies.com/home/2018/4/2/eisley-claise-handwriting-font
+ 
 effects https://tympanus.net/codrops/2018/04/10/webgl-distortion-hover-effects/
 
 

@@ -73,6 +73,14 @@ const config: webpack.Configuration = {
 					},
 				],
 			},
+			{
+				// https://github.com/headfire94/package-json-cleanup-loader
+				test: /package\.json$/,
+				loader: 'package-json-cleanup-loader',
+				options: {
+					only: ['version', 'name']
+				}
+			},
 		],
 	},
 	resolve: {
@@ -162,6 +170,12 @@ if (NODE_ENV !== 'production') {
 		// ..
 		historyApiFallback: {
 			index: PUBLIC_PATH,
+		},
+		watchOptions: {
+			ignored: [
+				path.resolve(__dirname, 'dist'),
+				path.resolve(__dirname, 'node_modules'),
+			],
 		},
 	}
 

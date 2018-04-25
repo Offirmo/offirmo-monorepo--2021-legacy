@@ -14,7 +14,8 @@ export default class TheBoringRPG extends Component {
 		return (
 			<OhMyRpg
 
-				logo={<a href="https://www.online-adventur.es/the-boring-rpg/" target="_blank"><img src={logo} height="100%" /></a>}
+				logo={<img src={logo} height="100%" />}
+				about={<a href="https://www.online-adventur.es/the-boring-rpg/" target="_blank"><img src={logo} height="100%" /></a>}
 
 				universeAnchor={<UniverseAnchor />}
 

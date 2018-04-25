@@ -2,16 +2,13 @@
 
 /* parameters we can't compute automatically */
 .omr⋄top-hud {
-	--omr⋄ui__logo--width: calc(185px * var(--omr⋄ui__scale));
-	--omr⋄ui__logo--padding: 0; /* because we have an internal a */
+	--omr⋄ui__universe-anchor--left-position: 141px;
 }
 
 /* customizations */
 .omr⋄logo img {
 	image-rendering: crisp-edges;
-}
-.omr⋄top-hud a {
-	padding: calc(5px * var(--scale)) calc(5px * var(--scale)) calc(3px * var(--scale));
+	padding-bottom: calc(4px * var(--scale));
 }
 
 .status⁚avatar--icon {
@@ -35,9 +32,6 @@
 	background-image: url('fieldsofgold01_by_andreasrocha.jpg');
 	background-position: 62%;
 }
-
-
-
 
 .panel-top-content {
 	padding: 5px;

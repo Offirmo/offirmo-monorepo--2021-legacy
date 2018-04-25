@@ -1421,7 +1421,7 @@ hr.omr⋄border-h⁚test {
 
 /* vars */
 :root {
-	--omr⋄ui__scale: 1;
+	--omr⋄ui__scale: .8;
 
 	--omr⋄ui__immersion-view--z-index: 100;
 	--omr⋄ui__meta-view--z-index: 1000;
@@ -1433,9 +1433,11 @@ hr.omr⋄border-h⁚test {
 	--omr⋄ui__hamburger--shape-diameter: 69px;
 	--omr⋄ui__hamburger--visible-ratio: 0.725;
 
-	--omr⋄ui__logo--shape-height: calc(var(--omr⋄ui__hamburger--shape-diameter) * 0.8);
+	--omr⋄ui__logo--shape-height: calc(var(--omr⋄ui__hamburger--shape-diameter) * .8);
 	--omr⋄ui__logo--visible-ratio: 0.8;
-	--omr⋄ui__logo--width: 500px; /* to be re-defined by the user */
+	--omr⋄ui__logo--width: auto; /* May be refined by the user */
+
+	--omr⋄ui__universe-anchor--left-position: 500px; /* To be refined by the user */
 
 	--omr⋄ui__bottom-menu--shape-height: 69px;
 	--omr⋄ui__bottom-menu--visible-ratio: 0.7;
@@ -1566,11 +1568,12 @@ hr.omr⋄border-h⁚test {
 	justify-content: center;
 }
 .omr⋄logo:hover {
-	--omr⋄ui__logo--scale: calc(var(--omr⋄ui__scale) * 1.025);
+	--omr⋄ui__logo--scale: calc(var(--omr⋄ui__scale) * 1.02);
 }
 .omr⋄logo > * {
-	height: 100%;
+	/*height: 100%;
 	width: calc(var(--omr⋄ui__logo--width) * var(--scale));
+	*/
 	padding: var(--padding);
 	align-items: center;
 	object-fit: contain;
@@ -1578,7 +1581,7 @@ hr.omr⋄border-h⁚test {
 
 .omr⋄universe-anchor {
 	--scale: var(--omr⋄ui__universe-anchor--scale, var(--omr⋄ui__scale));
-	--height: calc((var(--omr⋄ui__logo--shape-height) - var(--omr⋄ui__border--width)) * var(--scale));
+	--height: calc((var(--omr⋄ui__logo--shape-height) - 2 * var(--omr⋄ui__border--width)) * var(--scale));
 	--visible-ratio: var(--omr⋄ui__logo--visible-ratio);
 	--padding: calc(var(--omr⋄ui__universe-anchor--padding, 6px) * var(--scale));
 
@@ -1605,12 +1608,12 @@ hr.omr⋄border-h⁚test {
 	padding-top: calc(var(--position-shift) + 0px * var(--scale));
 	padding-left: calc(
 		var(--omr⋄ui__hamburger--width) * var(--scale)
-		+ var(--omr⋄ui__logo--width)
+		+ var(--omr⋄ui__universe-anchor--left-position)
 		+ var(--position-shift));
 	padding-right: 0;
 }
 .omr⋄universe-anchor:hover {
-	--omr⋄ui__universe-anchor--scale: calc(var(--omr⋄ui__scale) * 1.04);
+	--omr⋄ui__universe-anchor--scale: calc(var(--omr⋄ui__scale) * 1.05);
 }
 .omr⋄universe-anchor > * {
 	/* Help center content */
@@ -1660,18 +1663,18 @@ hr.omr⋄border-h⁚test {
 	flex-direction: column;
 	justify-content: center;
 	align-self: center;
-	/* clamp size */
-	width: 30px;
-	font-size: 28px;
-	line-height: 32px;
+	/* width: clamp to max size to avoid strange behaviour on zoom */
+	width: calc(34px * var(--scale));
+	font-size: calc(30px * var(--scale));
+	line-height: calc(32px * var(--scale));
 	text-align: center;
 	/**/
 	margin: 0 6px;
 	cursor: pointer;
 }
 .omr⋄bottom-menu⁚icon:hover {
-	font-size: 32px;
-	text-shadow: 0 0 20px var(--o⋄color--fg⁚main);
+	font-size: calc(34px * var(--scale));
+	text-shadow: 0 0 calc(22px * var(--scale)) var(--o⋄color--fg⁚main);
 }
 
 /************/
@@ -1743,16 +1746,13 @@ hr.omr⋄border-h⁚test {
 
 /* parameters we can't compute automatically */
 .omr⋄top-hud {
-	--omr⋄ui__logo--width: calc(185px * var(--omr⋄ui__scale));
-	--omr⋄ui__logo--padding: 0; /* because we have an internal a */
+	--omr⋄ui__universe-anchor--left-position: 141px;
 }
 
 /* customizations */
 .omr⋄logo img {
 	image-rendering: crisp-edges;
-}
-.omr⋄top-hud a {
-	padding: calc(5px * var(--scale)) calc(5px * var(--scale)) calc(3px * var(--scale));
+	padding-bottom: calc(4px * var(--scale));
 }
 
 .status⁚avatar--icon {
@@ -1776,9 +1776,6 @@ hr.omr⋄border-h⁚test {
 	background-image: url(ee15dc352b5f8a82c9aa4bcc0d2bd902.jpg);
 	background-position: 62%;
 }
-
-
-
 
 .panel-top-content {
 	padding: 5px;

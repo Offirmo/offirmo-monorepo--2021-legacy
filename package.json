@@ -77,6 +77,7 @@
 		"p-finally": "^1.0.0",
 		"p-progress": "^0.1.1",
 		"package-json": "^4.0.1",
+		"package-json-cleanup-loader": "^1.0.2",
 		"path-exists": "^3.0.0",
 		"prettyjson": "^1.2.1",
 		"react": "^16.3.2",

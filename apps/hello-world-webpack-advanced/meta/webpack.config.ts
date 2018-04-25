@@ -76,6 +76,14 @@ const config: webpack.Configuration = {
 					},
 				],
 			},
+			{
+				// https://github.com/headfire94/package-json-cleanup-loader
+				test: /package\.json$/,
+				loader: 'package-json-cleanup-loader',
+				options: {
+					only: ['version', 'name']
+				}
+			},
 		],
 	},
 	resolve: {
