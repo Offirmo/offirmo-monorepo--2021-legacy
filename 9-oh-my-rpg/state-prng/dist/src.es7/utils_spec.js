@@ -58,7 +58,7 @@ describe('🎲  Persistable PRNG state - utils', function () {
             expect(gen(), 'gen 2').to.equal(0);
             expect(gen(), 'gen 3').to.equal(1);
         });
-        it('should throw after too many attempts to avoid repetition');
+        it('should throw after too many attempts of avoiding repetition');
         it('should allow isolated named pools of non-repetition');
     });
 });

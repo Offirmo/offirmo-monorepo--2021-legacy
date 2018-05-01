@@ -29,6 +29,7 @@ bolt
 yarn outdated
 
 bolt ws run build --only @offirmo/*
+bolt ws run build --only @offirmo/*
 bolt ws run build --only @oh-my-rpg/*
 bolt ws run test --only @oh-my-rpg/*
 

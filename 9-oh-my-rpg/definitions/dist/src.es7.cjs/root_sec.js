@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const soft_execution_context = require("@offirmo/soft-execution-context");
+const tslib_1 = require("tslib");
+const soft_execution_context = tslib_1.__importStar(require("@offirmo/soft-execution-context"));
 const enforce_immutability = (v) => v;
 //const enforce_immutability = (state: State) => deepFreeze(state)
 function get_default_SEC_context() {

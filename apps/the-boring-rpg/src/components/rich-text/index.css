@@ -14,22 +14,22 @@
 }
 
 .item--quality--common {
-	color: #909090;
+	color: #d1d1d1;
 }
 .item--quality--uncommon {
-	color: forestgreen;
+	color: #a0f22b;
 }
 .item--quality--rare {
-	color: mediumblue;
+	color: #749aee;
 }
 .item--quality--epic {
-	color: #ba00cd;
+	color: #f571ff;
 }
 .item--quality--legendary {
-	color: #d9534f;
+	color: #ff635c;
 }
 .item--quality--artifact {
-	color: #ddba00;
+	color: #ffee62;
 }
 
 .monster--rank--common {

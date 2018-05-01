@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const RichText = require("@offirmo/rich-text-format");
+const tslib_1 = require("tslib");
+const RichText = tslib_1.__importStar(require("@offirmo/rich-text-format"));
 function render_meta_infos(metas) {
     const $doc_list = RichText.unordered_list();
     Object.keys(metas).forEach((prop) => {

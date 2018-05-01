@@ -1,10 +1,11 @@
 "use strict";
 /////////////////////
 Object.defineProperty(exports, "__esModule", { value: true });
-const CharacterState = require("@oh-my-rpg/state-character");
-const WalletState = require("@oh-my-rpg/state-wallet");
-const InventoryState = require("@oh-my-rpg/state-inventory");
-const PRNGState = require("@oh-my-rpg/state-prng");
+const tslib_1 = require("tslib");
+const CharacterState = tslib_1.__importStar(require("@oh-my-rpg/state-character"));
+const WalletState = tslib_1.__importStar(require("@oh-my-rpg/state-wallet"));
+const InventoryState = tslib_1.__importStar(require("@oh-my-rpg/state-inventory"));
+const PRNGState = tslib_1.__importStar(require("@oh-my-rpg/state-prng"));
 const consts_1 = require("./consts");
 const state_1 = require("./state");
 const sec_1 = require("./sec");

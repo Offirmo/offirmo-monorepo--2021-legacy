@@ -1,6 +1,6 @@
 /////////////////////
 
-import * as deepFreeze from 'deep-freeze-strict'
+import deepFreeze from 'deep-freeze-strict'
 
 import { InventorySlot } from '@oh-my-rpg/definitions'
 import { DEMO_WEAPON_1, DEMO_WEAPON_2 } from '@oh-my-rpg/logic-weapons'
@@ -12,7 +12,7 @@ import {
 	State,
 } from './types'
 
-import { LIB, SCHEMA_VERSION } from './consts'
+import { SCHEMA_VERSION } from './consts'
 import { compare_items } from './compare'
 
 /////////////////////

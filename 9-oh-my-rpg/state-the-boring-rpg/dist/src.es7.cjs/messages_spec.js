@@ -1,8 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
 const chai_1 = require("chai");
 const state_prng_1 = require("@oh-my-rpg/state-prng");
-const RichText = require("@offirmo/rich-text-format");
+const RichText = tslib_1.__importStar(require("@offirmo/rich-text-format"));
 const _1 = require(".");
 describe('⚔ 👑 😪  The Boring RPG - contextual messages', function () {
     beforeEach(() => state_prng_1.xxx_internal_reset_prng_cache());

@@ -3,10 +3,15 @@ import { expect } from 'chai'
 import {
 	InventorySlot,
 	ItemQuality,
-	create_item_base,
 } from '@oh-my-rpg/definitions'
+import {
+	generate_random_demo_armor
+} from '@oh-my-rpg/logic-armors'
+import {
+	generate_random_demo_weapon
+} from '@oh-my-rpg/logic-weapons'
 
-import { LIB, SCHEMA_VERSION } from './consts'
+import { SCHEMA_VERSION } from './consts'
 
 
 import {
@@ -27,7 +32,7 @@ import {
 } from '.'
 
 describe('📦 📦 📦  Inventory state - reducer', function() {
-	const DUMMY_ITEM: Item = create_item_base(InventorySlot.weapon)
+	const DUMMY_ITEM: Item = generate_random_demo_weapon()
 
 	describe('🆕 initial state', function() {
 
@@ -102,13 +107,31 @@ describe('📦 📦 📦  Inventory state - reducer', function() {
 
 		it('should succeed slot when some items where recently removed', function() {
 			const item1: Item = DUMMY_ITEM
-			const item2: Item = create_item_base(InventorySlot.weapon)
+			const item2: Item = generate_random_demo_weapon()
 			let state = create()
 			state = add_item(state, item1)
 			state = remove_item_from_unslotted(state, item1.uuid)
 			state = add_item(state, item2)
 			expect(get_item_count(state), 'item count').to.equal(1)
 			expect(state.unslotted[0]).to.deep.equal(item2)
+		})
+
+		it('should auto-sort the item inside the inventory', function() {
+			const DUMMY_ITEM_01 = {
+				...DUMMY_ITEM,
+				base_strength: 1,
+			}
+			const DUMMY_ITEM_02 = {
+				...DUMMY_ITEM,
+				base_strength: 2,
+			}
+
+			let state = create()
+			state = add_item(state, DUMMY_ITEM_01)
+			state = add_item(state, DUMMY_ITEM_02)
+
+			expect(state.unslotted[0]).to.equal(DUMMY_ITEM_02)
+			expect(state.unslotted[1]).to.equal(DUMMY_ITEM_01)
 		})
 	})
 
@@ -124,8 +147,8 @@ describe('📦 📦 📦  Inventory state - reducer', function() {
 		})
 
 		it('should work in nominal case', function() {
-			const item1: Item = create_item_base(InventorySlot.armor)
-			const item2: Item = create_item_base(InventorySlot.weapon)
+			const item1: Item = generate_random_demo_weapon()
+			const item2: Item = generate_random_demo_armor()
 
 			let state = create()
 			state = add_item(state, item1)
@@ -175,7 +198,7 @@ describe('📦 📦 📦  Inventory state - reducer', function() {
 		it('should work on simple non-empty state and correctly swap if the slot was occupied', function() {
 			let state = create()
 
-			const item1: Item = create_item_base(InventorySlot.weapon, ItemQuality.uncommon)
+			const item1: Item = generate_random_demo_weapon()
 			state = add_item(state, item1)
 			state = equip_item(state, item1.uuid)
 
@@ -185,7 +208,7 @@ describe('📦 📦 📦  Inventory state - reducer', function() {
 			expect(get_item_in_slot(state, InventorySlot.weapon)).to.deep.equal(item1)
 			expect(state.unslotted).to.have.lengthOf(0)
 
-			const item2: Item = create_item_base(InventorySlot.weapon, ItemQuality.rare)
+			const item2: Item = generate_random_demo_weapon()
 			state = add_item(state, item2)
 			state = equip_item(state, item2.uuid)
 
@@ -211,9 +234,9 @@ describe('📦 📦 📦  Inventory state - reducer', function() {
 	describe('misc items iteration', function() {
 
 		it('should yield all unequipped slots', () => {
-			const item1: Item = create_item_base(InventorySlot.armor)
-			const item2: Item = create_item_base(InventorySlot.armor)
-			const item3: Item = create_item_base(InventorySlot.weapon)
+			const item1: Item = generate_random_demo_armor()
+			const item2: Item = generate_random_demo_armor()
+			const item3: Item = generate_random_demo_weapon()
 			let state = create()
 
 			state = add_item(state, item1)

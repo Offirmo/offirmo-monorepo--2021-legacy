@@ -2,10 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
 const definitions_1 = require("@oh-my-rpg/definitions");
+const logic_armors_1 = require("@oh-my-rpg/logic-armors");
+const logic_weapons_1 = require("@oh-my-rpg/logic-weapons");
 const consts_1 = require("./consts");
 const _1 = require(".");
 describe('📦 📦 📦  Inventory state - reducer', function () {
-    const DUMMY_ITEM = definitions_1.create_item_base(definitions_1.InventorySlot.weapon);
+    const DUMMY_ITEM = logic_weapons_1.generate_random_demo_weapon();
     describe('🆕 initial state', function () {
         it('should have correct defaults', function () {
             const state = _1.create();
@@ -69,13 +71,22 @@ describe('📦 📦 📦  Inventory state - reducer', function () {
         });
         it('should succeed slot when some items where recently removed', function () {
             const item1 = DUMMY_ITEM;
-            const item2 = definitions_1.create_item_base(definitions_1.InventorySlot.weapon);
+            const item2 = logic_weapons_1.generate_random_demo_weapon();
             let state = _1.create();
             state = _1.add_item(state, item1);
             state = _1.remove_item_from_unslotted(state, item1.uuid);
             state = _1.add_item(state, item2);
             chai_1.expect(_1.get_item_count(state), 'item count').to.equal(1);
             chai_1.expect(state.unslotted[0]).to.deep.equal(item2);
+        });
+        it('should auto-sort the item inside the inventory', function () {
+            const DUMMY_ITEM_01 = Object.assign({}, DUMMY_ITEM, { base_strength: 1 });
+            const DUMMY_ITEM_02 = Object.assign({}, DUMMY_ITEM, { base_strength: 2 });
+            let state = _1.create();
+            state = _1.add_item(state, DUMMY_ITEM_01);
+            state = _1.add_item(state, DUMMY_ITEM_02);
+            chai_1.expect(state.unslotted[0]).to.equal(DUMMY_ITEM_02);
+            chai_1.expect(state.unslotted[1]).to.equal(DUMMY_ITEM_01);
         });
     });
     describe('📤 item removal', function () {
@@ -87,8 +98,8 @@ describe('📦 📦 📦  Inventory state - reducer', function () {
             chai_1.expect(remove_one).to.throw('can\'t remove item #non-existing-uuid, not found');
         });
         it('should work in nominal case', function () {
-            const item1 = definitions_1.create_item_base(definitions_1.InventorySlot.armor);
-            const item2 = definitions_1.create_item_base(definitions_1.InventorySlot.weapon);
+            const item1 = logic_weapons_1.generate_random_demo_weapon();
+            const item2 = logic_armors_1.generate_random_demo_armor();
             let state = _1.create();
             state = _1.add_item(state, item1);
             state = _1.add_item(state, item2);
@@ -130,7 +141,7 @@ describe('📦 📦 📦  Inventory state - reducer', function () {
         });
         it('should work on simple non-empty state and correctly swap if the slot was occupied', function () {
             let state = _1.create();
-            const item1 = definitions_1.create_item_base(definitions_1.InventorySlot.weapon, definitions_1.ItemQuality.uncommon);
+            const item1 = logic_weapons_1.generate_random_demo_weapon();
             state = _1.add_item(state, item1);
             state = _1.equip_item(state, item1.uuid);
             chai_1.expect(_1.get_equipped_item_count(state), 'e').to.equal(1);
@@ -138,7 +149,7 @@ describe('📦 📦 📦  Inventory state - reducer', function () {
             chai_1.expect(_1.get_item_count(state), 'i').to.equal(1);
             chai_1.expect(_1.get_item_in_slot(state, definitions_1.InventorySlot.weapon)).to.deep.equal(item1);
             chai_1.expect(state.unslotted).to.have.lengthOf(0);
-            const item2 = definitions_1.create_item_base(definitions_1.InventorySlot.weapon, definitions_1.ItemQuality.rare);
+            const item2 = logic_weapons_1.generate_random_demo_weapon();
             state = _1.add_item(state, item2);
             state = _1.equip_item(state, item2.uuid);
             chai_1.expect(_1.get_equipped_item_count(state), 'e').to.equal(1);
@@ -156,9 +167,9 @@ describe('📦 📦 📦  Inventory state - reducer', function () {
     });
     describe('misc items iteration', function () {
         it('should yield all unequipped slots', () => {
-            const item1 = definitions_1.create_item_base(definitions_1.InventorySlot.armor);
-            const item2 = definitions_1.create_item_base(definitions_1.InventorySlot.armor);
-            const item3 = definitions_1.create_item_base(definitions_1.InventorySlot.weapon);
+            const item1 = logic_armors_1.generate_random_demo_armor();
+            const item2 = logic_armors_1.generate_random_demo_armor();
+            const item3 = logic_weapons_1.generate_random_demo_weapon();
             let state = _1.create();
             state = _1.add_item(state, item1);
             state = _1.add_item(state, item2);

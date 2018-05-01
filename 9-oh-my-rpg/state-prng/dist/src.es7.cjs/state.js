@@ -2,7 +2,6 @@
 /////////////////////
 Object.defineProperty(exports, "__esModule", { value: true });
 const random_1 = require("@offirmo/random");
-const deepFreeze = require("deep-freeze-strict"); // XXX to refactor
 const consts_1 = require("./consts");
 /////////////////////
 const DEFAULT_SEED = 987;
@@ -94,31 +93,5 @@ function xxx_internal_reset_prng_cache() {
     cached_prng_was_updated_once = false;
 }
 exports.xxx_internal_reset_prng_cache = xxx_internal_reset_prng_cache;
-/////////////////////
-// needed to test migrations, both here and in composing parents
-// a full featured, non-trivial demo state
-// needed for demos
-const DEMO_STATE = deepFreeze({
-    schema_version: 1,
-    revision: 108,
-    seed: 1234,
-    use_count: 107,
-});
-exports.DEMO_STATE = DEMO_STATE;
-// the oldest format we can migrate from
-// must correspond to state above
-const OLDEST_LEGACY_STATE_FOR_TESTS = deepFreeze({
-    // no schema_version = 0
-    seed: 1234,
-    use_count: 107,
-});
-exports.OLDEST_LEGACY_STATE_FOR_TESTS = OLDEST_LEGACY_STATE_FOR_TESTS;
-// some hints may be needed to migrate to demo state
-const MIGRATION_HINTS_FOR_TESTS = deepFreeze({
-    to_v1: {
-        revision: 108,
-    },
-});
-exports.MIGRATION_HINTS_FOR_TESTS = MIGRATION_HINTS_FOR_TESTS;
 /////////////////////
 //# sourceMappingURL=state.js.map

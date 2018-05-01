@@ -1,9 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
 const definitions_1 = require("@oh-my-rpg/definitions");
 const logic_armors_1 = require("@oh-my-rpg/logic-armors");
 const logic_weapons_1 = require("@oh-my-rpg/logic-weapons");
-const RichText = require("@offirmo/rich-text-format");
+const RichText = tslib_1.__importStar(require("@offirmo/rich-text-format"));
 const logic_armors_2 = require("@oh-my-rpg/logic-armors");
 const logic_weapons_2 = require("@oh-my-rpg/logic-weapons");
 function render_armor_name(i) {

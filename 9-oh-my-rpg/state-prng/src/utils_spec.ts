@@ -2,8 +2,6 @@ import { expect } from 'chai'
 
 import { Random, Engine } from '@offirmo/random'
 
-import { LIB, SCHEMA_VERSION } from './consts'
-
 import {
 	DEFAULT_SEED,
 	create,
@@ -102,7 +100,7 @@ describe('🎲  Persistable PRNG state - utils', function() {
 			expect(gen(), 'gen 3').to.equal(1)
 		})
 
-		it('should throw after too many attempts to avoid repetition')
+		it('should throw after too many attempts of avoiding repetition')
 
 		it('should allow isolated named pools of non-repetition')
 	})

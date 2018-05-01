@@ -1,0 +1,17 @@
+{
+	"schema_version": 2,
+	"revision": 108,
+	"seed": 1234,
+	"use_count": 107,
+	"recently_encountered_by_id": {
+		"item": [
+			"axe",
+			"sword"
+		],
+		"adventures": [
+			"dragon",
+			"king"
+		],
+		"mistery": []
+	}
+}

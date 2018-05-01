@@ -1,7 +1,8 @@
 "use strict";
 // TODO move outside? tbrpg-engagement?
 Object.defineProperty(exports, "__esModule", { value: true });
-const RichText = require("@offirmo/rich-text-format");
+const tslib_1 = require("tslib");
+const RichText = tslib_1.__importStar(require("@offirmo/rich-text-format"));
 function get_recap(state) {
     const isNewGame = (state.meaningful_interaction_count === 0);
     if (isNewGame) {

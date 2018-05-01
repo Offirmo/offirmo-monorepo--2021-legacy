@@ -1,8 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
 const definitions_1 = require("@oh-my-rpg/definitions");
 const state_inventory_1 = require("@oh-my-rpg/state-inventory");
-const RichText = require("@offirmo/rich-text-format");
+const RichText = tslib_1.__importStar(require("@offirmo/rich-text-format"));
 const items_1 = require("./items");
 const wallet_1 = require("./wallet");
 // we want the slots sorted by types according to an arbitrary order

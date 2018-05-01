@@ -1,5 +1,5 @@
 /////////////////////
-import * as deepFreeze from 'deep-freeze-strict';
+import deepFreeze from 'deep-freeze-strict';
 import { SCHEMA_VERSION } from './consts';
 import { Currency, } from './types';
 /////////////////////

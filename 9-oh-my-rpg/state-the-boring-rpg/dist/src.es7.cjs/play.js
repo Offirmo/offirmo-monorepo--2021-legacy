@@ -1,14 +1,15 @@
 "use strict";
 /////////////////////
 Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
 const random_1 = require("@offirmo/random");
 /////////////////////
 const definitions_1 = require("@oh-my-rpg/definitions");
 const state_character_1 = require("@oh-my-rpg/state-character");
-const WalletState = require("@oh-my-rpg/state-wallet");
+const WalletState = tslib_1.__importStar(require("@oh-my-rpg/state-wallet"));
 const state_wallet_1 = require("@oh-my-rpg/state-wallet");
-const InventoryState = require("@oh-my-rpg/state-inventory");
-const PRNGState = require("@oh-my-rpg/state-prng");
+const InventoryState = tslib_1.__importStar(require("@oh-my-rpg/state-inventory"));
+const PRNGState = tslib_1.__importStar(require("@oh-my-rpg/state-prng"));
 const state_prng_1 = require("@oh-my-rpg/state-prng");
 const logic_weapons_1 = require("@oh-my-rpg/logic-weapons");
 const logic_armors_1 = require("@oh-my-rpg/logic-armors");

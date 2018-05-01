@@ -1,9 +1,10 @@
 "use strict";
 /////////////////////
 Object.defineProperty(exports, "__esModule", { value: true });
-const nanoid = require("nanoid");
-const format = require("nanoid/format");
-const url = require("nanoid/url");
+const tslib_1 = require("tslib");
+const nanoid_1 = tslib_1.__importDefault(require("nanoid"));
+const format_1 = tslib_1.__importDefault(require("nanoid/format"));
+const url_1 = tslib_1.__importDefault(require("nanoid/url"));
 const random_1 = require("@offirmo/random");
 ///////
 const UUID_RADIX = 'uu1';
@@ -13,14 +14,14 @@ exports.UUID_LENGTH = UUID_LENGTH;
 // TODO externalize!
 function generate_uuid({ length = NANOID_LENGTH_FOR_1BTH_COLLISION_CHANCES, rng } = {}) {
     return UUID_RADIX + (rng
-        ? format((size) => {
+        ? format_1.default((size) => {
             let result = [];
             const gen = random_1.Random.integer(0, 255);
             for (let i = 0; i < size; i++)
                 result.push(gen(rng));
             return result;
-        }, url, length)
-        : nanoid(length));
+        }, url_1.default, length)
+        : nanoid_1.default(length));
 }
 exports.generate_uuid = generate_uuid;
 /////////////////////

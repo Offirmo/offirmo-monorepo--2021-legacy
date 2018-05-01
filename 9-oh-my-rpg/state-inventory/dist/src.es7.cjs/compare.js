@@ -10,10 +10,18 @@ function compare_items(a, b) {
     if (a.slot !== b.slot)
         return definitions_1.compare_items_by_slot(a, b);
     switch (a.slot) {
-        case definitions_1.InventorySlot.armor:
-            return logic_armors_1.compare_armors_by_strength(a, b);
-        case definitions_1.InventorySlot.weapon:
-            return logic_weapons_1.compare_weapons_by_strength(a, b);
+        case definitions_1.InventorySlot.armor: {
+            const sort = logic_armors_1.compare_armors_by_strength(a, b);
+            if (!Number.isInteger(sort))
+                throw new Error(`${consts_1.LIB}: compare():  error sorting armors!`);
+            return sort;
+        }
+        case definitions_1.InventorySlot.weapon: {
+            const sort = logic_weapons_1.compare_weapons_by_strength(a, b);
+            if (!Number.isInteger(sort))
+                throw new Error(`${consts_1.LIB}: compare():  error sorting weapons!`);
+            return sort;
+        }
         default:
             throw new Error(`${consts_1.LIB}: compare(): unhandled item slot "${a.slot}"!`);
     }

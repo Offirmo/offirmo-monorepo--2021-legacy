@@ -1,6 +1,6 @@
 {
 	"name": "@offirmo/reference-webpack",
-	"version": "0.0.30",
+	"version": "0.0.35",
 	"private": true,
 	"description": "My reference webpack setup",
 	"author": "Offirmo <offirmo.net@gmail.com>",
@@ -19,7 +19,8 @@
 				{
 					"targets": {
 						"browsers": [
-							">1%, not ie 11"
+							">1%",
+							"not ie 11"
 						]
 					}
 				}

@@ -2,10 +2,11 @@
 /* A helper for actual games using this model
  */
 Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
 const NanoEvents = require('nanoevents');
 const deep_merge = require('deepmerge').default;
 const state_inventory_1 = require("@oh-my-rpg/state-inventory");
-const state_fns = require("./state");
+const state_fns = tslib_1.__importStar(require("./state"));
 const migrations_1 = require("./migrations");
 const serializable_actions_1 = require("./serializable_actions");
 function overwriteMerge(destination, source) {

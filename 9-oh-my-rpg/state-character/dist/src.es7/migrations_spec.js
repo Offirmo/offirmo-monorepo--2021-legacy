@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { cloneDeep } from 'lodash';
-import * as deepFreeze from 'deep-freeze-strict';
+import deepFreeze from 'deep-freeze-strict';
 import { SCHEMA_VERSION } from './consts';
 import { migrate_to_latest } from './migrations';
 import { DEMO_STATE, OLDEST_LEGACY_STATE_FOR_TESTS, MIGRATION_HINTS_FOR_TESTS } from './state';

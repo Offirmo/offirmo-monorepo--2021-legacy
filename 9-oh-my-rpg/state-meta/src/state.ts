@@ -1,7 +1,7 @@
 /////////////////////
 
 import { generate_uuid } from '@oh-my-rpg/definitions'
-import * as deepFreeze from 'deep-freeze-strict'
+import deepFreeze from 'deep-freeze-strict'
 
 import { LIB, SCHEMA_VERSION } from './consts'
 

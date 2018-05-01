@@ -39,6 +39,7 @@ describe('@oh-my-rpg/definitions - item utilities', function() {
 				create_item_base(InventorySlot.weapon, ItemQuality.epic),
 			]
 			const [ artifact, common, uncommon, legendary, rare, epic ] = list
+
 			expect(list.sort(compare_items_by_quality)).to.deep.equal([
 				artifact,
 				legendary,

@@ -1,6 +1,5 @@
 import React from 'react'
 
-import * as RichText from '@offirmo/rich-text-format'
 import {
 	SCHEMA_VERSION,
 	GAME_VERSION,
@@ -14,6 +13,7 @@ import { render_full_inventory } from '@oh-my-rpg/view-rich-text'
 
 import { Chat } from '../../chat-interface'
 import { rich_text_to_react } from '../../../utils/rich_text_to_react'
+import './index.css'
 
 
 export default class Component extends React.Component {
@@ -23,10 +23,10 @@ export default class Component extends React.Component {
 		const state = game_instance.get_latest_state()
 
 		return (
-			<div className={'tbrpg-panel o⋄flex-column'}>
+			<div className={'tbrpg-panel tbrpg-panel--inventory o⋄flex-column'}>
 				<div className='panel-top-content o⋄flex-element-nogrow'>
 					{rich_text_to_react(render_full_inventory(state.inventory, state.wallet))}
-					<hr/>
+					{ /* <hr/> */ }
 				</div>
 				<div className='o⋄flex-element-grow o⋄overflow-y⁚auto'>
 					{ /*<Chat gen_next_step={this.gen_next_step()} />*/ }

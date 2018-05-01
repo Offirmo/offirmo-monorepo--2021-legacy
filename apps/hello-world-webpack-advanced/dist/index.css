@@ -523,6 +523,16 @@ hr {
 }
 
 
+.o⋄error-boundary-report {
+	font-size: xx-small;
+	font-family: monospace;
+	color: red;
+	background-color: rgba(0, 0, 0, .3);
+	margin: auto;
+	z-index: 100; /* just in case */
+}
+
+
 /*********************/
 
 :root {
@@ -658,9 +668,16 @@ hr {
 
 
 /******* atoms *******/
-/*.o⋄overflow-y⁚auto {
+.o⋄overflow-y⁚auto {
 	overflow-y: auto;
-}*/
+}
+
+/* XXX NO there is likely a underlying problem
+.o⋄no-overflow {
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
+*/
 
 .o⋄text-align⁚center {
 	text-align: center;

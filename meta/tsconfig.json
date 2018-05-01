@@ -21,6 +21,7 @@
 		"noImplicitThis": true,
 		"strictNullChecks": true,
 		"strictFunctionTypes": true,
+		"strictPropertyInitialization": true,
 
 		"alwaysStrict": true,
 		"declaration": true,
@@ -30,6 +31,7 @@
 		"noEmitHelpers": true,
 
 		"module": "ES2015",
+		"esModuleInterop": true,
 		"target": "ES2017",
 		"newLine": "lf",
 		"sourceMap": true

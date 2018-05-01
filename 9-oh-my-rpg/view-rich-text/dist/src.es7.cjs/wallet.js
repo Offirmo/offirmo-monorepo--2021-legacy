@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
 const state_wallet_1 = require("@oh-my-rpg/state-wallet");
-const RichText = require("@offirmo/rich-text-format");
+const RichText = tslib_1.__importStar(require("@offirmo/rich-text-format"));
 function render_currency_amount(currency, amount) {
     return RichText.span()
         .addClass('currency--' + currency)

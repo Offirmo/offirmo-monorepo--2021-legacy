@@ -8,10 +8,10 @@ import { get_SEC } from './sec'
 
 import { create, DEMO_STATE, MIGRATION_HINTS_FOR_TESTS } from './state'
 
-describe('⚔ 👑 😪  The Boring RPG - schema migration', function() {
+describe('schema migration', function() {
 
 	describe('migration of an active savegame', function() {
-		test_migrations({
+		test_migrations.skip({
 			use_hints: true,
 			//read_only: false, // XXX
 			migration_hints_for_chaining: MIGRATION_HINTS_FOR_TESTS,
@@ -19,8 +19,7 @@ describe('⚔ 👑 😪  The Boring RPG - schema migration', function() {
 			LATEST_EXPECTED_DATA: DEMO_STATE,
 			migrate_to_latest: migrate_to_latest.bind(null, get_SEC()),
 			absolute_dir_path: require('path').join(__dirname, '../../src/migrations_of_active_state_specs'),
-			expect, context, it,
-			skip: true,
+			describe, context, it, expect,
 		})
 	})
 
@@ -28,15 +27,14 @@ describe('⚔ 👑 😪  The Boring RPG - schema migration', function() {
 		const new_state = create()
 		// alter seed to avoid migration
 		new_state.prng.seed = 1234 // should match blank state spec
-		test_migrations({
+		test_migrations.skip({
 			use_hints: false,
 			//read_only: false, // XXX
 			SCHEMA_VERSION,
 			LATEST_EXPECTED_DATA: new_state,
 			migrate_to_latest: migrate_to_latest.bind(null, get_SEC()),
 			absolute_dir_path: require('path').join(__dirname, '../../src/migrations_of_blank_state_specs'),
-			expect, context, it,
-			skip: true,
+			describe, context, it, expect,
 		})
 	})
 })

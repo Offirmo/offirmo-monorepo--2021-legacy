@@ -1,6 +1,6 @@
 /////////////////////
 import { Enum } from 'typescript-string-enums';
-import * as deepFreeze from 'deep-freeze-strict';
+import deepFreeze from 'deep-freeze-strict';
 import { SCHEMA_VERSION } from './consts';
 import { CharacterAttribute, CharacterClass, } from './types';
 import { get_SEC } from './sec';

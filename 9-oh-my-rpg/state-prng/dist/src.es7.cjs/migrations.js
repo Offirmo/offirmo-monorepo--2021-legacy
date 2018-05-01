@@ -20,7 +20,7 @@ function migrate_to_latest(legacy_state, hints = {}) {
         try {
             // TODO logger
             console.warn(`${consts_1.LIB}: attempting to migrate schema from v${src_version} to v${consts_1.SCHEMA_VERSION}:`);
-            state = migrate_to_1(legacy_state, hints);
+            state = migrate_to_2(legacy_state, hints);
             console.info(`${consts_1.LIB}: schema migration successful.`);
         }
         catch (e) {
@@ -35,11 +35,7 @@ function migrate_to_latest(legacy_state, hints = {}) {
 }
 exports.migrate_to_latest = migrate_to_latest;
 /////////////////////
-function migrate_to_1(legacy_state, hints) {
-    if (Object.keys(legacy_state).length === Object.keys(state_1.OLDEST_LEGACY_STATE_FOR_TESTS).length) {
-        console.info(`${consts_1.LIB}: migrating schema from v0/non-versioned to v1...`);
-        return Object.assign({}, legacy_state, { schema_version: 1, revision: (hints && hints.to_v1 && hints.to_v1.revision) || 0 });
-    }
+function migrate_to_2(legacy_state, hints) {
     throw new Error(`Unrecognized schema, most likely too old, can't migrate!`);
 }
 //# sourceMappingURL=migrations.js.map

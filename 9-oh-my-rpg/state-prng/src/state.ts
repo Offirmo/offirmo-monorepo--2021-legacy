@@ -1,7 +1,7 @@
 /////////////////////
 
 import { Random, MT19937 } from '@offirmo/random'
-import * as deepFreeze from 'deep-freeze-strict' // XXX to refactor
+import deepFreeze from 'deep-freeze-strict' // XXX to refactor
 
 import { LIB, SCHEMA_VERSION } from './consts'
 import { MTEngineWithSeed, State } from './types'
@@ -57,7 +57,6 @@ function register_recently_used(state: State, id: string, value: number | string
 }
 
 /////////////////////
-
 
 // since
 // - we MUST use only one, repeatable PRNG
@@ -120,36 +119,6 @@ function xxx_internal_reset_prng_cache() {
 
 /////////////////////
 
-// needed to test migrations, both here and in composing parents
-
-// a full featured, non-trivial demo state
-// needed for demos
-const DEMO_STATE: State = deepFreeze({
-	schema_version: 1,
-	revision: 108,
-
-	seed: 1234,
-	use_count: 107,
-})
-
-// the oldest format we can migrate from
-// must correspond to state above
-const OLDEST_LEGACY_STATE_FOR_TESTS: any = deepFreeze({
-	// no schema_version = 0
-
-	seed: 1234,
-	use_count: 107,
-})
-
-// some hints may be needed to migrate to demo state
-const MIGRATION_HINTS_FOR_TESTS: any = deepFreeze({
-	to_v1: {
-		revision: 108,
-	},
-})
-
-/////////////////////
-
 export {
 	State,
 	DEFAULT_SEED,
@@ -162,10 +131,6 @@ export {
 	get_prng,
 	// exposed for testability, do not use !
 	xxx_internal_reset_prng_cache,
-
-	DEMO_STATE,
-	OLDEST_LEGACY_STATE_FOR_TESTS,
-	MIGRATION_HINTS_FOR_TESTS,
 }
 
 /////////////////////

@@ -1,6 +1,5 @@
 /////////////////////
 import { Random } from '@offirmo/random';
-import * as deepFreeze from 'deep-freeze-strict'; // XXX to refactor
 import { SCHEMA_VERSION } from './consts';
 /////////////////////
 const DEFAULT_SEED = 987;
@@ -86,31 +85,8 @@ function xxx_internal_reset_prng_cache() {
     cached_prng_was_updated_once = false;
 }
 /////////////////////
-// needed to test migrations, both here and in composing parents
-// a full featured, non-trivial demo state
-// needed for demos
-const DEMO_STATE = deepFreeze({
-    schema_version: 1,
-    revision: 108,
-    seed: 1234,
-    use_count: 107,
-});
-// the oldest format we can migrate from
-// must correspond to state above
-const OLDEST_LEGACY_STATE_FOR_TESTS = deepFreeze({
-    // no schema_version = 0
-    seed: 1234,
-    use_count: 107,
-});
-// some hints may be needed to migrate to demo state
-const MIGRATION_HINTS_FOR_TESTS = deepFreeze({
-    to_v1: {
-        revision: 108,
-    },
-});
-/////////////////////
 export { DEFAULT_SEED, create, set_seed, update_use_count, register_recently_used, get_prng, 
 // exposed for testability, do not use !
-xxx_internal_reset_prng_cache, DEMO_STATE, OLDEST_LEGACY_STATE_FOR_TESTS, MIGRATION_HINTS_FOR_TESTS, };
+xxx_internal_reset_prng_cache, };
 /////////////////////
 //# sourceMappingURL=state.js.map

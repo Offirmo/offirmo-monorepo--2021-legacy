@@ -1,7 +1,8 @@
 "use strict";
 /////////////////////
 Object.defineProperty(exports, "__esModule", { value: true });
-const deepFreeze = require("deep-freeze-strict");
+const tslib_1 = require("tslib");
+const deep_freeze_strict_1 = tslib_1.__importDefault(require("deep-freeze-strict"));
 const consts_1 = require("./consts");
 const types_1 = require("./types");
 exports.Currency = types_1.Currency;
@@ -65,7 +66,7 @@ exports.iterables_currency = iterables_currency;
 // needed to test migrations, both here and in composing parents
 // a full featured, non-trivial demo state
 // needed for demos
-const DEMO_STATE = deepFreeze({
+const DEMO_STATE = deep_freeze_strict_1.default({
     schema_version: 1,
     revision: 42,
     coin_count: 23456,
@@ -74,14 +75,14 @@ const DEMO_STATE = deepFreeze({
 exports.DEMO_STATE = DEMO_STATE;
 // the oldest format we can migrate from
 // must correspond to state above
-const OLDEST_LEGACY_STATE_FOR_TESTS = deepFreeze({
+const OLDEST_LEGACY_STATE_FOR_TESTS = deep_freeze_strict_1.default({
     // no schema_version = 0
     coin_count: 23456,
     token_count: 89,
 });
 exports.OLDEST_LEGACY_STATE_FOR_TESTS = OLDEST_LEGACY_STATE_FOR_TESTS;
 // some hints may be needed to migrate to demo state
-const MIGRATION_HINTS_FOR_TESTS = deepFreeze({
+const MIGRATION_HINTS_FOR_TESTS = deep_freeze_strict_1.default({
     to_v1: {
         revision: 42
     },

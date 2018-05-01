@@ -1,8 +1,9 @@
 "use strict";
 /////////////////////
 Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
 const typescript_string_enums_1 = require("typescript-string-enums");
-const deepFreeze = require("deep-freeze-strict");
+const deep_freeze_strict_1 = tslib_1.__importDefault(require("deep-freeze-strict"));
 const consts_1 = require("./consts");
 const types_1 = require("./types");
 exports.CharacterAttribute = types_1.CharacterAttribute;
@@ -83,7 +84,7 @@ exports.increase_stat = increase_stat;
 // needed to test migrations, both here and in composing parents
 // a full featured, non-trivial demo state
 // needed for demos
-const DEMO_STATE = deepFreeze({
+const DEMO_STATE = deep_freeze_strict_1.default({
     schema_version: 2,
     revision: 42,
     name: 'Perte',
@@ -102,7 +103,7 @@ const DEMO_STATE = deepFreeze({
 exports.DEMO_STATE = DEMO_STATE;
 // the oldest format we can migrate from
 // must correspond to state above
-const OLDEST_LEGACY_STATE_FOR_TESTS = deepFreeze({
+const OLDEST_LEGACY_STATE_FOR_TESTS = deep_freeze_strict_1.default({
     // no schema_version = 0
     name: 'Perte',
     klass: 'paladin',
@@ -119,7 +120,7 @@ const OLDEST_LEGACY_STATE_FOR_TESTS = deepFreeze({
 });
 exports.OLDEST_LEGACY_STATE_FOR_TESTS = OLDEST_LEGACY_STATE_FOR_TESTS;
 // some hints may be needed to migrate to demo state
-const MIGRATION_HINTS_FOR_TESTS = deepFreeze({
+const MIGRATION_HINTS_FOR_TESTS = deep_freeze_strict_1.default({
     to_v2: {
         revision: 42
     },

@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const RichText = require("@offirmo/rich-text-format");
+const tslib_1 = require("tslib");
+const RichText = tslib_1.__importStar(require("@offirmo/rich-text-format"));
 function render_monster(m) {
     const $doc = RichText.span()
         .addClass('monster', 'monster--rank--' + m.rank)

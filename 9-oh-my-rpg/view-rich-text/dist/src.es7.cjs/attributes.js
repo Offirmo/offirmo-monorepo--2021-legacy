@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const RichText = require("@offirmo/rich-text-format");
+const tslib_1 = require("tslib");
+const RichText = tslib_1.__importStar(require("@offirmo/rich-text-format"));
 const state_character_1 = require("@oh-my-rpg/state-character");
 function render_avatar(state) {
     // TODO refactor

@@ -1,7 +1,7 @@
 /////////////////////
 
 import { Random, Engine } from '@offirmo/random'
-import * as deepFreeze from 'deep-freeze-strict'
+import deepFreeze from 'deep-freeze-strict'
 
 /////////////////////
 

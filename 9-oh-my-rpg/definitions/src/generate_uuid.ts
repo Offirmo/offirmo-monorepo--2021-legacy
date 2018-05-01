@@ -1,8 +1,8 @@
 /////////////////////
 
-import * as nanoid from 'nanoid'
-import * as format from 'nanoid/format'
-import * as url from 'nanoid/url'
+import nanoid from 'nanoid'
+import format from 'nanoid/format'
+import url from 'nanoid/url'
 
 import { Random, Engine } from '@offirmo/random'
 

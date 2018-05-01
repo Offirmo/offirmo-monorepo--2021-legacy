@@ -1,10 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
 const definitions_1 = require("@oh-my-rpg/definitions");
 const state_character_1 = require("@oh-my-rpg/state-character");
 const logic_adventures_1 = require("@oh-my-rpg/logic-adventures");
 const state_wallet_1 = require("@oh-my-rpg/state-wallet");
-const RichText = require("@offirmo/rich-text-format");
+const RichText = tslib_1.__importStar(require("@offirmo/rich-text-format"));
 const items_1 = require("./items");
 const wallet_1 = require("./wallet");
 const monster_1 = require("./monster");

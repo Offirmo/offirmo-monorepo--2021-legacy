@@ -2,7 +2,7 @@
 
 import { LIB, SCHEMA_VERSION } from './consts'
 import { State } from './types'
-import { create, OLDEST_LEGACY_STATE_FOR_TESTS } from './state'
+import { create,  } from './state'
 
 /////////////////////
 
@@ -23,7 +23,7 @@ function migrate_to_latest(legacy_state: any, hints: any = {}): State {
 		try {
 			// TODO logger
 			console.warn(`${LIB}: attempting to migrate schema from v${src_version} to v${SCHEMA_VERSION}:`)
-			state = migrate_to_1(legacy_state, hints)
+			state = migrate_to_2(legacy_state, hints)
 			console.info(`${LIB}: schema migration successful.`)
 		}
 		catch (e) {
@@ -41,16 +41,7 @@ function migrate_to_latest(legacy_state: any, hints: any = {}): State {
 
 /////////////////////
 
-function migrate_to_1(legacy_state: any, hints: any): any {
-	if (Object.keys(legacy_state).length === Object.keys(OLDEST_LEGACY_STATE_FOR_TESTS).length) {
-		console.info(`${LIB}: migrating schema from v0/non-versioned to v1...`)
-		return {
-			...legacy_state,
-			schema_version: 1, // added
-			revision: (hints && hints.to_v1 && hints.to_v1.revision) || 0, // added
-		}
-	}
-
+function migrate_to_2(legacy_state: any, hints: any): any {
 	throw new Error(`Unrecognized schema, most likely too old, can't migrate!`)
 }
 

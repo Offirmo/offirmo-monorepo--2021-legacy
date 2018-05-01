@@ -7,7 +7,4 @@ declare function update_use_count(state: State, prng: MT19937, options?: any): S
 declare function register_recently_used(state: State, id: string, value: number | string, max_memory_size: number): State;
 declare function get_prng(state: Readonly<State>): MT19937;
 declare function xxx_internal_reset_prng_cache(): void;
-declare const DEMO_STATE: State;
-declare const OLDEST_LEGACY_STATE_FOR_TESTS: any;
-declare const MIGRATION_HINTS_FOR_TESTS: any;
-export { State, DEFAULT_SEED, create, set_seed, update_use_count, register_recently_used, get_prng, xxx_internal_reset_prng_cache, DEMO_STATE, OLDEST_LEGACY_STATE_FOR_TESTS, MIGRATION_HINTS_FOR_TESTS };
+export { State, DEFAULT_SEED, create, set_seed, update_use_count, register_recently_used, get_prng, xxx_internal_reset_prng_cache };

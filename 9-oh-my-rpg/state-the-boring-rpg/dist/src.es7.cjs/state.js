@@ -1,15 +1,16 @@
 "use strict";
 /////////////////////
 Object.defineProperty(exports, "__esModule", { value: true });
-const deepFreeze = require("deep-freeze-strict");
+const tslib_1 = require("tslib");
+const deep_freeze_strict_1 = tslib_1.__importDefault(require("deep-freeze-strict"));
 /////////////////////
 const definitions_1 = require("@oh-my-rpg/definitions");
-const CharacterState = require("@oh-my-rpg/state-character");
+const CharacterState = tslib_1.__importStar(require("@oh-my-rpg/state-character"));
 const state_character_1 = require("@oh-my-rpg/state-character");
-const WalletState = require("@oh-my-rpg/state-wallet");
+const WalletState = tslib_1.__importStar(require("@oh-my-rpg/state-wallet"));
 const state_wallet_1 = require("@oh-my-rpg/state-wallet");
-const InventoryState = require("@oh-my-rpg/state-inventory");
-const PRNGState = require("@oh-my-rpg/state-prng");
+const InventoryState = tslib_1.__importStar(require("@oh-my-rpg/state-inventory"));
+const PRNGState = tslib_1.__importStar(require("@oh-my-rpg/state-prng"));
 const state_prng_1 = require("@oh-my-rpg/state-prng");
 const logic_weapons_1 = require("@oh-my-rpg/logic-weapons");
 const logic_armors_1 = require("@oh-my-rpg/logic-armors");
@@ -171,7 +172,7 @@ exports.execute = execute;
 // needed to test migrations, both here and in composing parents
 // a full featured, non-trivial demo state
 // with dev gain
-const DEMO_ADVENTURE_01 = deepFreeze({
+const DEMO_ADVENTURE_01 = deep_freeze_strict_1.default({
     hid: 'fight_lost_any',
     uuid: 'uu1de1~EVAdXlW5_p23Ro4OH',
     good: true,
@@ -195,7 +196,7 @@ const DEMO_ADVENTURE_01 = deepFreeze({
 });
 exports.DEMO_ADVENTURE_01 = DEMO_ADVENTURE_01;
 // with coin gain
-const DEMO_ADVENTURE_02 = deepFreeze({
+const DEMO_ADVENTURE_02 = deep_freeze_strict_1.default({
     hid: 'dying_man',
     uuid: 'uu1de2~p23Ro4OH_EVAdXlW5',
     good: true,
@@ -218,7 +219,7 @@ const DEMO_ADVENTURE_02 = deepFreeze({
 });
 exports.DEMO_ADVENTURE_02 = DEMO_ADVENTURE_02;
 // with loot gain
-const DEMO_ADVENTURE_03 = deepFreeze({
+const DEMO_ADVENTURE_03 = deep_freeze_strict_1.default({
     hid: 'rare_goods_seller',
     uuid: 'uu1de2~p23Ro4OH_EVAdXlW5',
     good: true,
@@ -241,7 +242,7 @@ const DEMO_ADVENTURE_03 = deepFreeze({
 });
 exports.DEMO_ADVENTURE_03 = DEMO_ADVENTURE_03;
 // with weapon enhancement gain
-const DEMO_ADVENTURE_04 = deepFreeze({
+const DEMO_ADVENTURE_04 = deep_freeze_strict_1.default({
     hid: 'princess',
     uuid: 'uu1de2~p23Ro4OH_EVAdXlW5',
     good: true,
@@ -263,7 +264,7 @@ const DEMO_ADVENTURE_04 = deepFreeze({
     }
 });
 exports.DEMO_ADVENTURE_04 = DEMO_ADVENTURE_04;
-const DEMO_STATE = deepFreeze({
+const DEMO_STATE = deep_freeze_strict_1.default({
     schema_version: 4,
     revision: 203,
     avatar: CharacterState.DEMO_STATE,
@@ -278,7 +279,7 @@ const DEMO_STATE = deepFreeze({
 exports.DEMO_STATE = DEMO_STATE;
 // the oldest format we can migrate from
 // must correspond to state above
-const OLDEST_LEGACY_STATE_FOR_TESTS = deepFreeze({
+const OLDEST_LEGACY_STATE_FOR_TESTS = deep_freeze_strict_1.default({
     "schema_version": 4,
     "revision": 203,
     "avatar": {
@@ -413,7 +414,7 @@ const OLDEST_LEGACY_STATE_FOR_TESTS = deepFreeze({
 });
 exports.OLDEST_LEGACY_STATE_FOR_TESTS = OLDEST_LEGACY_STATE_FOR_TESTS;
 // some hints may be needed to migrate to demo state
-const MIGRATION_HINTS_FOR_TESTS = deepFreeze({
+const MIGRATION_HINTS_FOR_TESTS = deep_freeze_strict_1.default({
     to_v5: {},
     avatar: CharacterState.MIGRATION_HINTS_FOR_TESTS,
     inventory: InventoryState.MIGRATION_HINTS_FOR_TESTS,

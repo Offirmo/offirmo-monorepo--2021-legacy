@@ -1,15 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
 const chai_1 = require("chai");
 const lodash_1 = require("lodash");
-const deepFreeze = require("deep-freeze-strict");
+const deep_freeze_strict_1 = tslib_1.__importDefault(require("deep-freeze-strict"));
 const consts_1 = require("./consts");
 const migrations_1 = require("./migrations");
 const state_1 = require("./state");
 const sec_1 = require("./sec");
 const DATA_v0 = state_1.OLDEST_LEGACY_STATE_FOR_TESTS;
 const DATA_OLDEST = DATA_v0;
-const DATA_v1 = deepFreeze({
+const DATA_v1 = deep_freeze_strict_1.default({
     name: 'Perte',
     klass: 'paladin',
     attributes: {
