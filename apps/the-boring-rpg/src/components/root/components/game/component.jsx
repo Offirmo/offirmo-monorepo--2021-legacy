@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 
 import UniverseAnchor from '../../../universe-anchor'
 import ExplorePanel from '../../../panels/explore'
+import CharacterPanel from '../../../panels/character'
 import InventoryPanel from '../../../panels/inventory'
 import MetaPanel from '../../../panels/meta'
 import OhMyRpg from '../../../oh-my-rpg-ui'
@@ -44,11 +45,14 @@ export default class TheBoringRPG extends Component {
 					className="omr⋄plane⁚immersion omr⋄full-size-fixed-layer omr⋄bg⁚cover tbrpg⋄bg-image⁚fields_of_gold">
 					<div key="content-area" className="omr⋄content-area">
 						{(mode => {switch(mode) {
-							case 'inventory':
-							return <InventoryPanel />
-								break
 							case 'explore':
-							return <ExplorePanel />
+								return <ExplorePanel />
+								break
+							case 'character':
+								return <CharacterPanel />
+								break
+							case 'inventory':
+								return <InventoryPanel />
 								break
 							default:
 								return <ExplorePanel />

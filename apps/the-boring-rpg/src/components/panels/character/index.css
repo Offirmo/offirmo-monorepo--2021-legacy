@@ -1,0 +1,7 @@
+
+.tbrpg-panel--character {
+	margin-top: .5em;
+	padding: .5em .8em .4em;
+	background-color: rgba(0,0,0,0.7);
+	border-radius: .4em;
+}
