@@ -11,6 +11,12 @@ import logo from './tbrpg_logo_512x98.png';
 
 
 export default class TheBoringRPG extends Component {
+	activate_panel = (panel_id) => {
+		this.props.game_instance.set_client_state(() => ({
+			mode: panel_id,
+		}))
+	}
+
 	render() {
 		const { mode } = this.props.game_instance.get_client_state()
 
@@ -25,9 +31,12 @@ export default class TheBoringRPG extends Component {
 				hamburgerPanel={<MetaPanel />}
 
 				bottomMenuItems={[
-					<span key="explore" className="omr⋄bottom-menu⁚icon icomoon-treasure-map" />,
-					<span key="character" className="omr⋄bottom-menu⁚icon icomoon-battle-gear" />,
-					<span key="inventory" className="omr⋄bottom-menu⁚icon icomoon-locked-chest" />,
+					<span key="explore" className="omr⋄bottom-menu⁚icon icomoon-treasure-map"
+						onClick={() => this.activate_panel('explore')} />,
+					<span key="character" className="omr⋄bottom-menu⁚icon icomoon-battle-gear"
+							onClick={() => this.activate_panel('character')} />,
+					<span key="inventory" className="omr⋄bottom-menu⁚icon icomoon-locked-chest"
+							onClick={() => this.activate_panel('inventory')} />,
 					<span key="chat" className="omr⋄bottom-menu⁚icon icomoon-conversation" />,
 				]}
 			>

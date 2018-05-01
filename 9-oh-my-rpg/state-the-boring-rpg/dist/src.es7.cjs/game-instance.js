@@ -1,5 +1,7 @@
 "use strict";
 /* A helper for actual games using this model
+ * TODO extract
+ * TODO force refresh on client state change
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
@@ -12,7 +14,7 @@ const serializable_actions_1 = require("./serializable_actions");
 function overwriteMerge(destination, source) {
     return source;
 }
-function create_game_instance({ SEC, get_latest_state, update_state, client_state }) {
+function create_game_instance({ SEC, get_latest_state, persist_state, client_state }) {
     return SEC.xTry('creating tbrpg instance', ({ SEC, logger }) => {
         (function migrate() {
             SEC.xTry('auto migrating', ({ logger }) => {
@@ -25,7 +27,7 @@ function create_game_instance({ SEC, get_latest_state, update_state, client_stat
                 else {
                     logger.trace('migrated state:', { state });
                 }
-                update_state(state);
+                persist_state(state);
             });
         })();
         client_state = client_state || {
@@ -37,45 +39,45 @@ function create_game_instance({ SEC, get_latest_state, update_state, client_stat
             play() {
                 let state = get_latest_state();
                 state = state_fns.play(state);
-                update_state(state);
-                emitter.emit('state_change', state);
+                persist_state(state);
+                emitter.emit('state_change');
             },
             equip_item(uuid) {
                 let state = get_latest_state();
                 state = state_fns.equip_item(state, uuid);
-                update_state(state);
-                emitter.emit('state_change', state);
+                persist_state(state);
+                emitter.emit('state_change');
             },
             sell_item(uuid) {
                 let state = get_latest_state();
                 state = state_fns.sell_item(state, uuid);
-                update_state(state);
-                emitter.emit('state_change', state);
+                persist_state(state);
+                emitter.emit('state_change');
             },
             rename_avatar(new_name) {
                 let state = get_latest_state();
                 state = state_fns.rename_avatar(state, new_name);
-                update_state(state);
-                emitter.emit('state_change', state);
+                persist_state(state);
+                emitter.emit('state_change');
             },
             change_avatar_class(new_class) {
                 let state = get_latest_state();
                 state = state_fns.change_avatar_class(state, new_class);
-                update_state(state);
-                emitter.emit('state_change', state);
+                persist_state(state);
+                emitter.emit('state_change');
             },
             reset_all() {
                 let state = state_fns.create();
                 state = state_fns.reseed(state);
-                update_state(state);
+                persist_state(state);
                 logger.verbose('Savegame reseted:', { state });
-                emitter.emit('state_change', state);
+                emitter.emit('state_change');
             },
             execute_serialized_action(action) {
                 let state = get_latest_state();
                 state = state_fns.execute(state, action);
-                update_state(state);
-                emitter.emit('state_change', state);
+                persist_state(state);
+                emitter.emit('state_change');
             },
             get_item(uuid) {
                 let state = get_latest_state();
@@ -101,9 +103,10 @@ function create_game_instance({ SEC, get_latest_state, update_state, client_stat
             // allow managing a transient state
             set_client_state(fn) {
                 const changed = fn(client_state);
-                client_state = deep_merge(client_state, changed, {
+                client_state = Object.assign({}, deep_merge(client_state, changed, {
                     arrayMerge: overwriteMerge,
-                });
+                }));
+                emitter.emit('state_change');
             },
             get_client_state() {
                 return client_state;

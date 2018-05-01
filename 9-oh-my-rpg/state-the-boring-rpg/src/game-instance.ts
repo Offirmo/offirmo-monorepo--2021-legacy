@@ -1,4 +1,6 @@
 /* A helper for actual games using this model
+ * TODO extract
+ * TODO force refresh on client state change
  */
 
 const NanoEvents = require('nanoevents')
@@ -17,7 +19,7 @@ import {Action, ActionCategory} from './serializable_actions'
 interface CreateParams<T> {
 	SEC: SoftExecutionContext
 	get_latest_state: () => State
-	update_state: (state: State) => void
+	persist_state: (state: State) => void
 	client_state: T
 }
 
@@ -25,7 +27,7 @@ function overwriteMerge<T>(destination: T, source: T): T {
 	return source
 }
 
-function create_game_instance<T>({SEC, get_latest_state, update_state, client_state}: CreateParams<T>) {
+function create_game_instance<T>({SEC, get_latest_state, persist_state, client_state}: CreateParams<T>) {
 	return SEC.xTry('creating tbrpg instance', ({SEC, logger}: any) => {
 
 		(function migrate() {
@@ -43,7 +45,7 @@ function create_game_instance<T>({SEC, get_latest_state, update_state, client_st
 					logger.trace('migrated state:', {state})
 				}
 
-				update_state(state)
+				persist_state(state)
 			})
 		})()
 
@@ -58,46 +60,46 @@ function create_game_instance<T>({SEC, get_latest_state, update_state, client_st
 			play() {
 				let state = get_latest_state()
 				state = state_fns.play(state)
-				update_state(state)
-				emitter.emit('state_change', state)
+				persist_state(state)
+				emitter.emit('state_change')
 			},
 			equip_item(uuid: UUID) {
 				let state = get_latest_state()
 				state = state_fns.equip_item(state, uuid)
-				update_state(state)
-				emitter.emit('state_change', state)
+				persist_state(state)
+				emitter.emit('state_change')
 			},
 			sell_item(uuid: UUID) {
 				let state = get_latest_state()
 				state = state_fns.sell_item(state, uuid)
-				update_state(state)
-				emitter.emit('state_change', state)
+				persist_state(state)
+				emitter.emit('state_change')
 			},
 			rename_avatar(new_name: string) {
 				let state = get_latest_state()
 				state = state_fns.rename_avatar(state, new_name)
-				update_state(state)
-				emitter.emit('state_change', state)
+				persist_state(state)
+				emitter.emit('state_change')
 			},
 			change_avatar_class(new_class: CharacterClass) {
 				let state = get_latest_state()
 				state = state_fns.change_avatar_class(state, new_class)
-				update_state(state)
-				emitter.emit('state_change', state)
+				persist_state(state)
+				emitter.emit('state_change')
 			},
 			reset_all() {
 				let state = state_fns.create()
 				state = state_fns.reseed(state)
-				update_state(state)
+				persist_state(state)
 				logger.verbose('Savegame reseted:', {state})
-				emitter.emit('state_change', state)
+				emitter.emit('state_change')
 			},
 
 			execute_serialized_action(action: Action) {
 				let state = get_latest_state()
 				state = state_fns.execute(state, action)
-				update_state(state)
-				emitter.emit('state_change', state)
+				persist_state(state)
+				emitter.emit('state_change')
 			},
 
 			get_item(uuid: UUID): Item | null {
@@ -118,7 +120,7 @@ function create_game_instance<T>({SEC, get_latest_state, update_state, client_st
 			},
 
 			get_latest_state,
-			subscribe(fn: (state: State) => void): () => void {
+			subscribe(fn: () => void): () => void {
 				const unbind = emitter.on('state_change', fn)
 				return unbind
 			},
@@ -126,9 +128,12 @@ function create_game_instance<T>({SEC, get_latest_state, update_state, client_st
 			// allow managing a transient state
 			set_client_state(fn: (state: T) => Partial<T>): void {
 				const changed = fn(client_state)
-				client_state = deep_merge(client_state, changed, {
-					arrayMerge: overwriteMerge,
-				})
+				client_state = {
+					...deep_merge(client_state, changed, {
+						arrayMerge: overwriteMerge,
+					})
+				}
+				emitter.emit('state_change')
 			},
 			get_client_state(): T {
 				return client_state

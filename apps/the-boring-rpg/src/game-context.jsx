@@ -29,8 +29,8 @@ SEC.xTry('loading savegame', ({logger}) => {
 	game_instance = create_game_instance({
 		SEC,
 		get_latest_state: () => state,
-		update_state: new_state => {
-			state = new_state // TODO needed?
+		persist_state: new_state => {
+			state = new_state // we are responsible for storing current state
 			localStorage.setItem(LS_KEYS.savegame, JSON.stringify(state))
 		},
 	})
@@ -41,7 +41,8 @@ SEC.xTry('loading savegame', ({logger}) => {
 		CHANNEL,
 		verbose: true, // XXX auto + through SEC ?
 		SEC,
-		mode: 'inventory',
+		// can change:
+		mode: 'explore',
 		alpha_warning_displayed: false,
 		recap_displayed: false,
 		last_displayed_adventure_uuid: (() => {
@@ -60,7 +61,7 @@ class GameContextAsPropsListener extends React.Component {
 		//console.info('~~ GameContextListener componentDidMount')
 		// subscribe to future state changes
 		this.unsubscribe = this.props.game_instance.subscribe(() => {
-			console.log('forcing update on change')
+			console.log('forcing update on game state change')
 			this.forceUpdate()
 		})
 	}

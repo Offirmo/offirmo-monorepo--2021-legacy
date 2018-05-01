@@ -53,7 +53,7 @@ SEC.xPromiseTryCatch('starting', async ({ SEC, logger }) => {
 	const instance = create_game_instance({
 		SEC,
 		get_latest_state: () => options.config.store,
-		update_state: state => options.config.set(state),
+		persist_state: state => options.config.set(state),
 	})
 
 	/////////////////////////////////////////////////
