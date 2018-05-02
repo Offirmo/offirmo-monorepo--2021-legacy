@@ -53,36 +53,15 @@
 }
 
 .chat__choices {
-	padding-right: 10px;
-	padding-bottom: 12px;
 	text-align: end;
 	justify-content: flex-end;
 }
-.chat__choices button {
-	color: inherit;
-	text-align: left;
-	border: solid 2px var(--o⋄color--fg⁚main);
-	box-shadow: 0 7px 14px rgba(50,50,93,.1), 0 3px 6px rgba(0,0,0,.08);
-}
-.chat__choices button:hover {
-	/*border-width: 3px;*/
-	transform: translateY(-1px);
-}
-.chat__choices button:active {
-	transform: translateY(1px);
-}
-
 
 .chat__input {
 	height: 26px;
 	border: solid 1px #00000038;
 	margin-right: 2px;
 }
-
-/* https://stackoverflow.com/a/8185290/587407 */
-/*.chat__choices > * + * {
-	margin-left: 5px;
-}*/
 
 
 .monster-emoji {
@@ -173,18 +152,18 @@ switch($class) {
  */
 
 
-.tbrpg-panel--character {
-	margin-top: .5em;
+.tbrpg-panel--character .panel-top-content {
+	margin: 5px;
 	padding: .5em .8em .4em;
-	background-color: rgba(0,0,0,0.7);
+	background-color: rgba(0,0,0,0.5);
 	border-radius: .4em;
 }
 
 
 .tbrpg-panel--inventory {
-	margin-top: .5em;
+	margin: 5px;
 	padding: .5em .8em .4em;
-	background-color: rgba(0,0,0,0.7);
+	background-color: rgba(0,0,0,0.5);
 	border-radius: .4em;
 }
 
@@ -1524,6 +1503,24 @@ hr.omr⋄border-h⁚thin_golden_2-tile,
 hr.omr⋄border-h⁚test {
 	border: none;
 	margin: 0;
+}
+
+button {
+	margin: 3px;
+	border: solid 2px var(--o⋄color--fg⁚main);
+	border-radius: .4em;
+	padding: .5em .8em .4em;
+	width: fit-content;
+
+	color: inherit;
+	box-shadow: 0 7px 14px rgba(50,50,93,.1), 0 3px 6px rgba(0,0,0,.08);
+	background-color: rgba(0,0,0,0.42);
+}
+button:hover {
+	transform: translateY(-1px);
+}
+button:active {
+	transform: translateY(1px);
 }
 
 

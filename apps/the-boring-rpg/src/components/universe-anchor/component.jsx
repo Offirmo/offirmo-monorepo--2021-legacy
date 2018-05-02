@@ -2,9 +2,9 @@ import React from 'react';
 
 import './index.css'
 
-export default function UniverseAnchor({name, klass, level}) {
+export default function UniverseAnchor({onClick, name, klass, level}) {
 	return (
-		<div className="o⋄flex-row">
+		<div className="o⋄flex-row" onClick={onClick}>
 			<span className="icomoon-user status⁚avatar--icon" />
 			<div className="status⁚avatar--details o⋄flex-column">
 				<span>{name}</span>

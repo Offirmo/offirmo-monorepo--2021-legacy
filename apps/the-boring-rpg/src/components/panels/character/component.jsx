@@ -105,7 +105,6 @@ export default class Component extends React.Component {
 					? '(temporarily hidden while you type on mobile)'
 					: <div className='panel-top-content o⋄flex-element-nogrow'>
 						{rich_text_to_react(render_character_sheet(state.avatar))}
-						<hr/>
 					</div>}
 				<div className='o⋄flex-element-grow o⋄overflow-y⁚auto'>
 					<Chat

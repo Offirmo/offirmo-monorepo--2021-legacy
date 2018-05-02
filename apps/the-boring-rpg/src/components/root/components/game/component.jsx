@@ -27,17 +27,17 @@ export default class TheBoringRPG extends Component {
 				logo={<img src={logo} height="100%" />}
 				about={<a href="https://www.online-adventur.es/the-boring-rpg/" target="_blank"><img src={logo} height="100%" /></a>}
 
-				universeAnchor={<UniverseAnchor />}
+				universeAnchor={<UniverseAnchor onClick={() => this.activate_panel('character')} />}
 
 				hamburgerPanel={<MetaPanel />}
 
 				bottomMenuItems={[
 					<span key="explore" className="omr⋄bottom-menu⁚icon icomoon-treasure-map"
 						onClick={() => this.activate_panel('explore')} />,
-					<span key="character" className="omr⋄bottom-menu⁚icon icomoon-battle-gear"
-							onClick={() => this.activate_panel('character')} />,
 					<span key="inventory" className="omr⋄bottom-menu⁚icon icomoon-locked-chest"
 							onClick={() => this.activate_panel('inventory')} />,
+					<span key="character" className="omr⋄bottom-menu⁚icon icomoon-battle-gear"
+							onClick={() => this.activate_panel('character')} />,
 					<span key="chat" className="omr⋄bottom-menu⁚icon icomoon-conversation" />,
 				]}
 			>
