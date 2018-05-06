@@ -16,7 +16,12 @@ http://www.vertabelo.com/blog/technical-articles/a-song-of-ice-and-databases-a-g
 * https://github.com/mozilla/BrowserQuest
 
 
-
+Scénario
+* https://en.wikipedia.org/wiki/Matter_of_France
+** the Twelve Peers of France
+** paladins
+* https://en.wikipedia.org/wiki/Matter_of_Britain
+* 
 
 TODO
 * immutabilité https://github.com/mweststrate/immer
@@ -29,14 +34,13 @@ TODO
 - stride
 - savegame backup
 - slack
-- re-seeding
 
 Marketing
 - news
 - live démo
 
 bugs:
-- full inventory
+- inventory full
 - display on windows
 
 TODO:
@@ -60,8 +64,6 @@ Otherworlder: https://www.dandwiki.com/wiki/Otherworlder_(5e_Background)
 
 
 https://github.com/f/graphql.js
-
-
 
 
 Priest = ce qui devrait être
@@ -127,35 +129,6 @@ https://github.com/dariusk/NaNoGenMo-2015/issues/156
 			console.log(t.render())
 			*/
 			
-
-randoms: [number, number, number, number, number, number]
-
-
-
-/*
- import {
- ACTIVATE_LOCATION
- } from './actions';
-
- import { Map } from 'immutable';
-
- const initialState = Map({})
-
- export let ui = (state = initialState, action) => {
- switch (action.type) {
- case ACTIVATE_LOCATION:
- return state.set('activeLocationId', action.id);
- default:
- return state;
- }
- };
- */
-
-
-declare module "random-js" {
-	export = random;
-}
-
 
 
 Companions

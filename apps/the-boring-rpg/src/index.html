@@ -20,11 +20,24 @@
 
 		<style type="text/css">
 			/* super early styles while the page is loading */
+			#tbrpg-group-chat {
+				position: fixed;
+				right: -500px;
+				height: 100%;
+				min-width: 400px;
+				max-width: 500px;
+				transition: right 2s;
+			}
 		</style>
 	</head>
 
 	<body class="o⋄top-container">
 		<noscript>You need to enable JavaScript to run this app.</noscript>
 		<div id="root" class="o⋄top-container omr⋄font-family⁚pixantiqua"></div>
+
+		<!-- group chat, outside of react control for DOM stability -->
+		<div id="tbrpg-group-chat" class="o⋄top-container">
+			<iframe src="//embed.tlk.io/the-boring-rpg-reloaded" width="100%" height="100%" frameborder="0"></iframe>
+		</div>
 	</body>
 </html>

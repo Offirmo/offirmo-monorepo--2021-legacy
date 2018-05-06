@@ -8,7 +8,8 @@ TODO
 - https://github.com/Tuxemon/Tuxemon
 - http://www.mapeditor.org/
 
-items https://opengameart.org/content/flare-item-variation-60x60-only
+items
+https://opengameart.org/content/flare-item-variation-60x60-only
 
 
 fonts
@@ -17,8 +18,8 @@ fonts
  
 effects https://tympanus.net/codrops/2018/04/10/webgl-distortion-hover-effects/
 
-
-
+chat tlk.io 
+<div id="tlkio" data-channel="theboringrpg" data-theme="theme--night" style="width:100%;height:100%;"></div><script async src="http://tlk.io/embed.js" type="text/javascript"></script>
 
 		"fetchival": "^0.3.3",
 		"fr-dialogmodal": "^1.0.4",

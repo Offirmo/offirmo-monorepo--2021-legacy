@@ -59,7 +59,7 @@ export class OhMyRpgUI extends Component {
 						key="omr⋄plane⁚meta"
 						className="omr⋄meta-panel omr⋄content-area omr⋄plane⁚meta">
 						<ErrorBoundary name={'omr:hamburger-pane'}>
-							{this.props.hamburgerPanel}
+							{this.props.hamburgerPanelContent}
 						</ErrorBoundary>
 					</div>
 				}

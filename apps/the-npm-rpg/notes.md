@@ -33,8 +33,6 @@ Inspiration
 
 
 Idées
-
-
 https://app.graphcms.com/
 https://github.com/zkat/okimdone
 

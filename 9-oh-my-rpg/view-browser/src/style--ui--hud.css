@@ -73,7 +73,7 @@
 	--diameter: calc(var(--omr⋄ui__hamburger--shape-diameter) * var(--scale));
 	--visible-ratio: var(--omr⋄ui__hamburger--visible-ratio);
 
-	z-index: calc(20 + var(--omr⋄ui__meta-view--z-index));
+	z-index: calc(50 + var(--omr⋄ui__meta-view--z-index));
 	box-shadow: var(--omr⋄ui__meta--shadow);
 	cursor: pointer;
 
@@ -118,7 +118,7 @@
 	--visible-ratio: var(--omr⋄ui__logo--visible-ratio);
 	--padding: calc(var(--omr⋄ui__logo--padding, 6px) * var(--scale));
 
-	z-index: calc(10 + var(--omr⋄ui__meta-view--z-index));
+	z-index: calc(40 + var(--omr⋄ui__meta-view--z-index));
 	box-shadow: var(--omr⋄ui__meta--shadow);
 	cursor: pointer;
 
@@ -165,7 +165,7 @@
 	--visible-ratio: var(--omr⋄ui__logo--visible-ratio);
 	--padding: calc(var(--omr⋄ui__universe-anchor--padding, 6px) * var(--scale));
 
-	z-index: calc(90 + var(--omr⋄ui__immersion-view--z-index));
+	z-index: calc(30 + var(--omr⋄ui__immersion-view--z-index));
 	cursor: pointer;
 	box-shadow: var(--omr⋄ui__universe--shadow);
 
@@ -211,7 +211,7 @@
 	--visible-ratio: var(--omr⋄ui__bottom-menu--visible-ratio);
 	--padding: calc(6px * var(--scale));
 
-	z-index: calc(90 + var(--omr⋄ui__immersion-view--z-index));
+	z-index: calc(50 + var(--omr⋄ui__immersion-view--z-index));
 
 	/* TV shape (half)
 	 * https://css-tricks.com/examples/ShapesOfCSS/
