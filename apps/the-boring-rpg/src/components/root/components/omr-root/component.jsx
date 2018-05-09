@@ -16,12 +16,12 @@ export default class TheBoringRPG extends Component {
 	}
 
 	static getDerivedStateFromProps(nextProps, prevState) {
-		console.log('omr-root: getDerivedStateFromProps')
 		const new_state = nextProps.game_instance.get_latest_state()
 		const avatar_name = new_state.avatar.name
 		if (avatar_name === prevState.chat_nickname)
 			return null // no update needed
 
+		console.info('omr-root: getDerivedStateFromProps: change detected', avatar_name)
 		return {
 			chat_nickname: avatar_name,
 		}
@@ -36,13 +36,13 @@ export default class TheBoringRPG extends Component {
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		console.log('omr-root: componentDidUpdate')
-
-		if (prevState.chat_nickname !== this.state.chat_nickname)
+		if (prevState.chat_nickname !== this.state.chat_nickname) {
+			console.info('omr-root: componentDidUpdate: restarting group chat...')
 			GroupChat.restart({
 				channel_id: 'the-boring-rpg-reloaded',
 				nickname: this.state.chat_nickname,
 			})
+		}
 	}
 
 	activate_panel = (panel_id) => {

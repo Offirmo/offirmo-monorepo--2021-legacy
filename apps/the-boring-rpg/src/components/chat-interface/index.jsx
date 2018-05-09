@@ -99,7 +99,7 @@ class Chat extends React.Component {
 		if (!this.props.gen_next_step)
 			return
 
-		const DEBUG = true
+		const DEBUG = false
 
 		const display_message = async ({msg, choices = [], side = '→'}) => {
 			let direction = 'ltr'
@@ -273,7 +273,7 @@ class Chat extends React.Component {
 	}
 
 	componentWillUnmount () {
-		console.info('~~ componentWillUnmount', arguments)
+		//console.info('chat-ui: componentWillUnmount', arguments)
 
 		let bubles_to_backup = [].concat(this.state.bubbles)
 		if (this.state.choices)
@@ -284,7 +284,7 @@ class Chat extends React.Component {
 	}
 
 	render() {
-		console.log('rendering chat', this.state)
+		//console.log('rendering chat', this.state)
 
 		const spinner = this.state.spinning && <div className="chat__spinner" />
 		const progress_bar = this.state.progressing && (

@@ -61,7 +61,7 @@ class GameContextAsPropsListener extends React.Component {
 		//console.info('~~ GameContextListener componentDidMount')
 		// subscribe to future state changes
 		this.unsubscribe = this.props.game_instance.subscribe(() => {
-			console.log('forcing update on game state change')
+			//console.log('forcing update on game state change')
 			this.forceUpdate()
 		})
 	}
@@ -79,7 +79,7 @@ class GameContextAsPropsListener extends React.Component {
 	 return (
 		<GameContext.Consumer>
 			{game_instance => {
-				console.log('GameContextConsumerListener re-called')
+				//console.log('GameContextConsumerListener re-called')
 				return (
 					<GameContextAsPropsListener game_instance={game_instance}>
 						{children}

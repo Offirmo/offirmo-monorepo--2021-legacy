@@ -6456,9 +6456,9 @@ _sec2.default.xTry('loading savegame', ({ logger }) => {
 		}
 	});
 	game_instance.set_client_state(() => ({
-		VERSION: "0.51.26",
+		VERSION: "0.51.27",
 		ENV: "production",
-		BUILD_DATE: "20180509_11h05",
+		BUILD_DATE: "20180509_11h14",
 		CHANNEL,
 		verbose: true, // XXX auto + through SEC ?
 		SEC: _sec2.default,
@@ -9486,7 +9486,7 @@ var callbacks = _interopRequireWildcard(_rich_text_to_react_callbacks);
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function rich_text_to_react(doc) {
-	console.log('Rendering a rich text:', doc);
+	//console.log('Rendering a rich text:', doc)
 	return RichText.walk(doc, callbacks);
 }
 
@@ -9621,7 +9621,7 @@ class Chat extends _react2.default.Component {
 
 		if (!this.props.gen_next_step) return;
 
-		const DEBUG = true;
+		const DEBUG = false;
 
 		const display_message = (() => {
 			var _ref = _asyncToGenerator(function* ({ msg, choices = [], side = '→' }) {
@@ -9834,7 +9834,7 @@ class Chat extends _react2.default.Component {
 	}
 
 	componentWillUnmount() {
-		console.info('~~ componentWillUnmount', arguments);
+		//console.info('chat-ui: componentWillUnmount', arguments)
 
 		let bubles_to_backup = [].concat(this.state.bubbles);
 		if (this.state.choices) bubles_to_backup.pop(); // remove the choice prompt, unneeded
@@ -9843,7 +9843,7 @@ class Chat extends _react2.default.Component {
 	}
 
 	render() {
-		console.log('rendering chat', this.state);
+		//console.log('rendering chat', this.state)
 
 		const spinner = this.state.spinning && _react2.default.createElement('div', { className: 'chat__spinner' });
 		const progress_bar = this.state.progressing && _react2.default.createElement(
@@ -36844,11 +36844,11 @@ class TheBoringRPG extends _react.Component {
 	}
 
 	static getDerivedStateFromProps(nextProps, prevState) {
-		console.log('omr-root: getDerivedStateFromProps');
 		const new_state = nextProps.game_instance.get_latest_state();
 		const avatar_name = new_state.avatar.name;
 		if (avatar_name === prevState.chat_nickname) return null; // no update needed
 
+		console.info('omr-root: getDerivedStateFromProps: change detected', avatar_name);
 		return {
 			chat_nickname: avatar_name
 		};
@@ -36863,12 +36863,13 @@ class TheBoringRPG extends _react.Component {
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		console.log('omr-root: componentDidUpdate');
-
-		if (prevState.chat_nickname !== this.state.chat_nickname) GroupChat.restart({
-			channel_id: 'the-boring-rpg-reloaded',
-			nickname: this.state.chat_nickname
-		});
+		if (prevState.chat_nickname !== this.state.chat_nickname) {
+			console.info('omr-root: componentDidUpdate: restarting group chat...');
+			GroupChat.restart({
+				channel_id: 'the-boring-rpg-reloaded',
+				nickname: this.state.chat_nickname
+			});
+		}
 	}
 
 	render() {
