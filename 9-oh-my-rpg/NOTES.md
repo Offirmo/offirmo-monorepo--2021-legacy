@@ -21,7 +21,8 @@ Scénario
 ** the Twelve Peers of France
 ** paladins
 * https://en.wikipedia.org/wiki/Matter_of_Britain
-* 
+* https://worldbuilding.stackexchange.com/questions/111349/how-can-a-colony-of-teleporters-make-the-most-money-while-keeping-their-teleport
+* https://twitter.com/ptychomancer/status/980968298002006016
 
 TODO
 * immutabilité https://github.com/mweststrate/immer
@@ -34,6 +35,12 @@ TODO
 - stride
 - savegame backup
 - slack
+
+fantasy metals
+* http://tvtropes.org/pmwiki/pmwiki.php/Main/FantasyMetals
+* http://metallurgy.wikia.com/wiki/Fantasy_Metals
+* http://www.bodycote.com/fictional-metals
+
 
 Marketing
 - news

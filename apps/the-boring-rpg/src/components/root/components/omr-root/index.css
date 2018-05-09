@@ -25,3 +25,8 @@
 	margin: auto;
 	font-size: 15px;
 }
+
+
+#group-chat-container {
+	z-index: calc(40 + var(--omr⋄ui__immersion-view--z-index));
+}

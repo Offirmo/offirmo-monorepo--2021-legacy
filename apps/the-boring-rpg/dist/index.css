@@ -171,6 +171,36 @@ switch($class) {
 	font-weight: normal;
 }
 
+
+
+.tbrpg⋄bg-image⁚fields_of_gold {
+	background-image: url(ee15dc352b5f8a82c9aa4bcc0d2bd902.jpg);
+	background-position: 62%;
+}
+
+.panel-top-content {
+	padding: 5px;
+}
+
+
+
+#tbrpg-group-chat {
+	position: fixed;
+	right: 0; /* TODO animate */
+	z-index: calc(10 + var(--omr⋄ui__immersion-view--z-index));
+
+	height: 100%;
+	min-width: 400px;
+	max-width: 500px;
+
+	background-color: rgba(0, 0, 0, .3);
+}
+
+#tlkio {
+	height: 100%;
+	width: 100%;
+}
+
 /*! normalize.css v8.0.0 | MIT License | github.com/necolas/normalize.css */
 
 /* Document
@@ -516,8 +546,8 @@ template {
 .omr⋄meta-panel {
 	height: 100%;
 	min-width: 100px;
-	max-width: 500px;
-	background-color: rgba(0, 0, 0, .9);
+	max-width: 400px;
+	background-color: rgba(0, 0, 0, .7);
 }
 
 
@@ -1598,7 +1628,7 @@ button:active {
 	--diameter: calc(var(--omr⋄ui__hamburger--shape-diameter) * var(--scale));
 	--visible-ratio: var(--omr⋄ui__hamburger--visible-ratio);
 
-	z-index: calc(20 + var(--omr⋄ui__meta-view--z-index));
+	z-index: calc(50 + var(--omr⋄ui__meta-view--z-index));
 	box-shadow: var(--omr⋄ui__meta--shadow);
 	cursor: pointer;
 
@@ -1643,7 +1673,7 @@ button:active {
 	--visible-ratio: var(--omr⋄ui__logo--visible-ratio);
 	--padding: calc(var(--omr⋄ui__logo--padding, 6px) * var(--scale));
 
-	z-index: calc(10 + var(--omr⋄ui__meta-view--z-index));
+	z-index: calc(40 + var(--omr⋄ui__meta-view--z-index));
 	box-shadow: var(--omr⋄ui__meta--shadow);
 	cursor: pointer;
 
@@ -1690,7 +1720,7 @@ button:active {
 	--visible-ratio: var(--omr⋄ui__logo--visible-ratio);
 	--padding: calc(var(--omr⋄ui__universe-anchor--padding, 6px) * var(--scale));
 
-	z-index: calc(90 + var(--omr⋄ui__immersion-view--z-index));
+	z-index: calc(30 + var(--omr⋄ui__immersion-view--z-index));
 	cursor: pointer;
 	box-shadow: var(--omr⋄ui__universe--shadow);
 
@@ -1736,7 +1766,7 @@ button:active {
 	--visible-ratio: var(--omr⋄ui__bottom-menu--visible-ratio);
 	--padding: calc(6px * var(--scale));
 
-	z-index: calc(90 + var(--omr⋄ui__immersion-view--z-index));
+	z-index: calc(50 + var(--omr⋄ui__immersion-view--z-index));
 
 	/* TV shape (half)
 	 * https://css-tricks.com/examples/ShapesOfCSS/
@@ -1847,6 +1877,27 @@ button:active {
 	--o⋄color--fg⁚main--translucent: var(--o⋄color__co212__beige--translucent);
 }
 
+#group-chat-container {
+	position: fixed;
+	top: 0;
+	right: 0;
+	height: 100%;
+	min-width: 400px;
+	max-width: 500px;
+	background-color: rgba(0, 0, 0, .5);
+
+	transform: translate3d(500px, 0, 0);
+	transition: transform .25s ease-in-out;
+}
+.group-chat-container--open {
+	transform: translate3d(0, 0, 0) !important;
+}
+#tlkio-error-msg {
+	color: #fff;
+	padding: 20px;
+	text-align: center;
+}
+
 /******* OMR customization *******/
 
 /* parameters we can't compute automatically */
@@ -1875,14 +1926,8 @@ button:active {
 	font-size: 15px;
 }
 
-/******* additions *******/
 
-.tbrpg⋄bg-image⁚fields_of_gold {
-	background-image: url(ee15dc352b5f8a82c9aa4bcc0d2bd902.jpg);
-	background-position: 62%;
-}
-
-.panel-top-content {
-	padding: 5px;
+#group-chat-container {
+	z-index: calc(40 + var(--omr⋄ui__immersion-view--z-index));
 }
 

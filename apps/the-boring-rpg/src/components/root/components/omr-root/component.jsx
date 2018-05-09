@@ -4,12 +4,47 @@ import UniverseAnchor from './universe-anchor'
 import MainContent from './main-content'
 import MetaPanel from '../../../panels/meta'
 import OhMyRpg from '../../../oh-my-rpg-ui'
+import * as GroupChat from '../../../group-chat-tlkio'
 
 import './index.css';
 import logo from './tbrpg_logo_512x98.png';
 
 
 export default class TheBoringRPG extends Component {
+	state = {
+		chat_nickname: 'anonymous',
+	}
+
+	static getDerivedStateFromProps(nextProps, prevState) {
+		console.log('omr-root: getDerivedStateFromProps')
+		const new_state = nextProps.game_instance.get_latest_state()
+		const avatar_name = new_state.avatar.name
+		if (avatar_name === prevState.chat_nickname)
+			return null // no update needed
+
+		return {
+			chat_nickname: avatar_name,
+		}
+	}
+
+	componentDidMount() {
+		console.log('omr-root: componentDidMount')
+		GroupChat.restart({
+			channel_id: 'the-boring-rpg-reloaded',
+			nickname: this.state.chat_nickname,
+		})
+	}
+
+	componentDidUpdate(prevProps, prevState) {
+		console.log('omr-root: componentDidUpdate')
+
+		if (prevState.chat_nickname !== this.state.chat_nickname)
+			GroupChat.restart({
+				channel_id: 'the-boring-rpg-reloaded',
+				nickname: this.state.chat_nickname,
+			})
+	}
+
 	activate_panel = (panel_id) => {
 		this.props.game_instance.set_client_state(() => ({
 			mode: panel_id,
@@ -36,7 +71,8 @@ export default class TheBoringRPG extends Component {
 							onClick={() => this.activate_panel('inventory')} />,
 					<span key="character" className="omr⋄bottom-menu⁚icon icomoon-battle-gear"
 							onClick={() => this.activate_panel('character')} />,
-					<span key="chat" className="omr⋄bottom-menu⁚icon icomoon-conversation" />,
+					<span key="chat" className="omr⋄bottom-menu⁚icon icomoon-conversation"
+							onClick={() => GroupChat.toggle()} />,
 				]}
 			>
 				<MainContent />

@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Redirect, Route, Switch, NavLink } from 'react
 
 import {BASE_ROUTE, ROUTES} from '../../services/routes'
 
-import Game from './components/game'
+import Game from './components/omr-root'
 
 
 export default class TheBoringRPG extends Component {
