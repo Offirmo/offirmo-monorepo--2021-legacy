@@ -5,6 +5,7 @@ import MainContent from './main-content'
 import MetaPanel from '../../../panels/meta'
 import OhMyRpg from '../../../oh-my-rpg-ui'
 import * as GroupChat from '../../../group-chat-tlkio'
+import About from './about'
 
 import './index.css';
 import logo from './tbrpg_logo_512x98.png';
@@ -58,7 +59,7 @@ export default class TheBoringRPG extends Component {
 			<OhMyRpg
 
 				logo={<img src={logo} height="100%" />}
-				TODOabout={<a href="https://www.online-adventur.es/the-boring-rpg/" target="_blank"><img src={logo} height="100%" /></a>}
+				aboutContent={<About />}
 
 				universeAnchor={<UniverseAnchor onClick={() => this.activate_panel('character')} />}
 

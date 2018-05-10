@@ -269,22 +269,10 @@
 }
 .omr⋄content-area:before {
 	content: ' ';
-	height: calc(var(--omr⋄ui__logo--height) * var(--omr⋄ui__scale));
+	height: calc(var(--omr⋄ui__hamburger--heigth) * var(--omr⋄ui__scale));
 	flex: none;
 }
 .omr⋄content-area:after {
-	content: ' ';
-	height: calc(var(--omr⋄ui__bottom-menu--height) * var(--omr⋄ui__scale));
-	flex: none;
-}
-
-.omr⋄content-area--with-top-ui-height {
-	content: ' ';
-	height: calc(var(--omr⋄ui__logo--height) * var(--omr⋄ui__scale));
-	flex: none;
-}
-
-.omr⋄content-area--with-bottom-ui-height {
 	content: ' ';
 	height: calc(var(--omr⋄ui__bottom-menu--height) * var(--omr⋄ui__scale));
 	flex: none;

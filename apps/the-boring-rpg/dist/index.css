@@ -543,11 +543,39 @@ template {
   display: none;
 }
 
-.omr⋄meta-panel {
-	height: 100%;
-	min-width: 100px;
-	max-width: 400px;
+#meta-panel {
+	position: fixed;
+	top: 0;
+	left: 0;
 	background-color: rgba(0, 0, 0, .7);
+}
+
+/* https://stackoverflow.com/a/37600130/587407 */
+/* big screens */
+#meta-panel {
+	width: 400px;
+}
+/* small screens */
+@media screen and (max-width: 400px) {
+	#meta-panel {
+		width: 95%;
+	}
+}
+
+
+
+#about-panel {
+	position: fixed;
+	top: 0;
+	left: 0;
+	padding: 30px;
+	text-align: center;
+	width: 100%;
+	background-color: rgba(0, 0, 0, .7);
+}
+
+#about-panel img {
+	width: 100%;
 }
 
 
@@ -1824,22 +1852,10 @@ button:active {
 }
 .omr⋄content-area:before {
 	content: ' ';
-	height: calc(var(--omr⋄ui__logo--height) * var(--omr⋄ui__scale));
+	height: calc(var(--omr⋄ui__hamburger--heigth) * var(--omr⋄ui__scale));
 	flex: none;
 }
 .omr⋄content-area:after {
-	content: ' ';
-	height: calc(var(--omr⋄ui__bottom-menu--height) * var(--omr⋄ui__scale));
-	flex: none;
-}
-
-.omr⋄content-area--with-top-ui-height {
-	content: ' ';
-	height: calc(var(--omr⋄ui__logo--height) * var(--omr⋄ui__scale));
-	flex: none;
-}
-
-.omr⋄content-area--with-bottom-ui-height {
 	content: ' ';
 	height: calc(var(--omr⋄ui__bottom-menu--height) * var(--omr⋄ui__scale));
 	flex: none;
@@ -1877,26 +1893,49 @@ button:active {
 	--o⋄color--fg⁚main--translucent: var(--o⋄color__co212__beige--translucent);
 }
 
+
+/* TODO make it more clever */
+a:link,
+a:visited {color: var(--o⋄color__co212__blue);}
+a:hover,
+a:active {color: red;}
+
 #group-chat-container {
 	position: fixed;
 	top: 0;
 	right: 0;
 	height: 100%;
-	min-width: 400px;
-	max-width: 500px;
 	background-color: rgba(0, 0, 0, .5);
 
 	transform: translate3d(500px, 0, 0);
 	transition: transform .25s ease-in-out;
 }
 .group-chat-container--open {
-	transform: translate3d(0, 0, 0) !important;
+	/* 10px partially hide the scrollbar, nicer */
+	transform: translate3d(10px, 0, 0) !important;
 }
 #tlkio-error-msg {
 	color: #fff;
 	padding: 20px;
 	text-align: center;
 }
+
+/* https://stackoverflow.com/a/37600130/587407 */
+/* big screens */
+#group-chat-container {
+	width: 500px;
+}
+/* small screens */
+@media screen and (max-width: 500px) {
+	#group-chat-container {
+		width: 95%;
+	}
+}
+
+#tlkio {
+
+}
+
 
 /******* OMR customization *******/
 
@@ -1928,6 +1967,6 @@ button:active {
 
 
 #group-chat-container {
-	z-index: calc(40 + var(--omr⋄ui__immersion-view--z-index));
+	z-index: calc(20 + var(--omr⋄ui__immersion-view--z-index));
 }
 

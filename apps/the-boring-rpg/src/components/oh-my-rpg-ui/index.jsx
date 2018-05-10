@@ -6,12 +6,19 @@ import './index.css';
 
 export class OhMyRpgUI extends Component {
 	state = {
-		isHamburgerOpen: false,
+		isHamburgerMenuOpen: false,
+		isAboutOpen: false,
 	}
 
-	onHamburgerClick = () => {
+	toggleHamburgerMenu = () => {
 		this.setState(state => ({
-			isHamburgerOpen: !state.isHamburgerOpen,
+			isHamburgerMenuOpen: !state.isHamburgerMenuOpen,
+		}))
+	}
+
+	toggleAbout = () => {
+		this.setState(state => ({
+			isAboutOpen: !state.isAboutOpen,
 		}))
 	}
 
@@ -24,15 +31,17 @@ export class OhMyRpgUI extends Component {
 				<div className="omr⋄full-size-background-layer omr⋄bg-image⁚tiled-marble_black"/>
 
 				<div className="omr⋄top-hud">
-					<div className="omr⋄hamburger" onClick={this.onHamburgerClick}>
-						{this.state.isHamburgerOpen
+					<div className="omr⋄hamburger" onClick={this.toggleHamburgerMenu}>
+						{this.state.isHamburgerMenuOpen
 							? <span className="icomoon-undo2"/>
 							: <span className="icomoon-menu"/>
 						}
 					</div>
 
-					<div className="omr⋄logo">
-						{this.props.logo}
+					<div className="omr⋄logo" onClick={this.toggleAbout}>
+						<ErrorBoundary name={'omr:logo'}>
+							{this.props.logo}
+						</ErrorBoundary>
 					</div>
 
 					<div className="omr⋄universe-anchor">
@@ -54,14 +63,27 @@ export class OhMyRpgUI extends Component {
 					</div>
 				</div>
 
-				{this.state.isHamburgerOpen &&
+				{this.state.isAboutOpen &&
 					<div
-						key="omr⋄plane⁚meta"
-						className="omr⋄meta-panel omr⋄content-area omr⋄plane⁚meta">
-						<ErrorBoundary name={'omr:hamburger-pane'}>
-							{this.props.hamburgerPanelContent}
+						key="aboutBlanket"
+						id="about-panel"
+						className="omr⋄content-area omr⋄plane⁚meta"
+						onClick={this.toggleAbout}>
+						<ErrorBoundary name={'omr:about-blanket'}>
+							{this.props.aboutContent}
 						</ErrorBoundary>
 					</div>
+				}
+
+				{this.state.isHamburgerMenuOpen &&
+				<div
+					key="hamburgerMenu"
+					id="meta-panel"
+					className="omr⋄content-area omr⋄plane⁚meta">
+					<ErrorBoundary name={'omr:hamburger-pane'}>
+						{this.props.hamburgerPanelContent}
+					</ErrorBoundary>
+				</div>
 				}
 			</div>
 		);

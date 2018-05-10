@@ -1,8 +1,36 @@
 @import '../../../node_modules/@oh-my-rpg/view-browser/src/style.css';
 
-.omr⋄meta-panel {
-	height: 100%;
-	min-width: 100px;
-	max-width: 400px;
+#meta-panel {
+	position: fixed;
+	top: 0;
+	left: 0;
 	background-color: rgba(0, 0, 0, .7);
+}
+
+/* https://stackoverflow.com/a/37600130/587407 */
+/* big screens */
+#meta-panel {
+	width: 400px;
+}
+/* small screens */
+@media screen and (max-width: 400px) {
+	#meta-panel {
+		width: 95%;
+	}
+}
+
+
+
+#about-panel {
+	position: fixed;
+	top: 0;
+	left: 0;
+	padding: 30px;
+	text-align: center;
+	width: 100%;
+	background-color: rgba(0, 0, 0, .7);
+}
+
+#about-panel img {
+	width: 100%;
 }

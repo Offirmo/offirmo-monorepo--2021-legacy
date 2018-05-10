@@ -28,5 +28,5 @@
 
 
 #group-chat-container {
-	z-index: calc(40 + var(--omr⋄ui__immersion-view--z-index));
+	z-index: calc(20 + var(--omr⋄ui__immersion-view--z-index));
 }
