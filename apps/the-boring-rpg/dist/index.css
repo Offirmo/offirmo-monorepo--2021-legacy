@@ -180,6 +180,7 @@ switch($class) {
 
 .panel-top-content {
 	padding: 5px;
+	overflow-y: auto;
 }
 
 
@@ -572,10 +573,6 @@ template {
 	text-align: center;
 	width: 100%;
 	background-color: rgba(0, 0, 0, .7);
-}
-
-#about-panel img {
-	width: 100%;
 }
 
 
@@ -1083,26 +1080,54 @@ button:active {
 }*/
 
 
-/* Reset the default appearance
+/* Reset the default appearance + animate
  * https://css-tricks.com/html5-progress-element/
+ * https://snook.ca/archives/html_and_css/animating-progress
  */
+:root {
+	--o⋄color__progress--bg: hsl(0, 0%, 90%);
+	--o⋄color__progress-bar: hsl(221, 78%, 69%);
+}
 progress {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
 
-	border: solid 1px black;
+	background-color: var(--o⋄color__progress--bg);
+	border: solid 1px var(--o⋄color--fg⁚main);
+	overflow: hidden;
 }
+/* necessary to style the progress bar background */
 progress::-webkit-progress-bar {
-	background-color: #eee;
+	background-color: var(--o⋄color__progress--bg);
 }
-progress::-webkit-progress-value,
+progress::-webkit-progress-value {
+	background-color: var(--o⋄color__progress-bar);
+}
 progress::-moz-progress-bar {
-	background-color: #909090;
+	background-color: var(--o⋄color__progress-bar);
+}
+progress::-ms-fill {
+	background-color: var(--o⋄color__progress-bar);
+	border:0;
+}
+/* animated */
+progress.animated::-webkit-progress-value {
+	transition: width 1s;
+}
+progress.animated::-moz-progress-bar {
+	transition: padding-bottom 1s;
+	padding-left: 60px;
+	padding-bottom: var(--value);
+	height: 0;
+	transform-origin: 0 0;
+	transform: rotate(-90deg) translateX(-60px) ;
+}
+progress.animated::-ms-fill {
+	border:0;
 }
 
-
-/* better scrollbar
+/* better scrollbars
  * https://codepen.io/nikhil8krishnan/pen/WvYPvv
  */
 ::-webkit-scrollbar {
@@ -1936,6 +1961,10 @@ a:active {color: red;}
 
 }
 
+.about-logo {
+	width: 100%;
+	max-width: 300px;
+}
 
 /******* OMR customization *******/
 

@@ -7,7 +7,7 @@ export default function About() {
 	return (
 		<div>
 			<a href="https://www.online-adventur.es/the-boring-rpg/" target="_blank">
-				<img src={logo} />
+				<img className="about-logo" src={logo} />
 			</a>
 			<p>
 				A hobby game from <a href="https://github.com/Offirmo" target="_blank">Offirmo</a>

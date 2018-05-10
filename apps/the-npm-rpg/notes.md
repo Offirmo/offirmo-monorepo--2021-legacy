@@ -17,6 +17,8 @@ https://github.com/JorgeBucaran/getopts
 Market:
 * https://asciinema.org/
 
+https://github.com/sindresorhus/terminal-image
+
 TOUSE
 https://github.com/SBoudrias/Inquirer.js
 https://github.com/iarna/gauge

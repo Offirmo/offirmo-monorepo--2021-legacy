@@ -6456,9 +6456,9 @@ _sec2.default.xTry('loading savegame', ({ logger }) => {
 		}
 	});
 	game_instance.set_client_state(() => ({
-		VERSION: "0.51.28",
+		VERSION: "0.51.29",
 		ENV: "production",
-		BUILD_DATE: "20180510_00h24",
+		BUILD_DATE: "20180510_23h21",
 		CHANNEL,
 		verbose: true, // XXX auto + through SEC ?
 		SEC: _sec2.default,
@@ -24954,7 +24954,7 @@ function About() {
 		_react2.default.createElement(
 			'a',
 			{ href: 'https://www.online-adventur.es/the-boring-rpg/', target: '_blank' },
-			_react2.default.createElement('img', { src: _tbrpg_logo_512x2.default })
+			_react2.default.createElement('img', { className: 'about-logo', src: _tbrpg_logo_512x2.default })
 		),
 		_react2.default.createElement(
 			'p',
@@ -26036,7 +26036,7 @@ exports.default = props => _react2.default.createElement(
 		const uuid = props.uuid;
 
 		const game_element = game_instance.find_element(uuid);
-		console.log('TBRPGElement', game_element);
+		//console.log('TBRPGElement', game_element)
 
 		var _game_instance$get_cl = game_instance.get_client_state();
 
@@ -37738,10 +37738,10 @@ const raw_messages = {
                 bad_default: `You clicked too early!
 +{{penalty_s}}s !`,
                 fight_won_coins: `
-You have defeated a {{encounter}}!{{br}}
+You have defeated a {{encounter}} !{{br}}
 You looted {{coin}} from its corpse.`,
                 fight_won_loot: `
-You have defeated a {{encounter}}!{{br}}
+You have defeated a {{encounter}} !{{br}}
 You looted a {{item}} from its corpse.`,
                 fight_won_any: `
 You have defeated a {{encounter}}!{{br}}
@@ -37787,6 +37787,9 @@ You gained +{{wisdom}} wisdom!`,
                 found_green_mushroom: `
 You found a green mushroom.
 You gained +{{level}} level!`,
+                // from players
+                // https://www.reddit.com/r/boringrpg/comments/dloxe/event_messages/
+                // TODO
                 // from me, inferred and extended
                 found_red_mushroom: `
 You found a red mushroom.
@@ -38050,8 +38053,8 @@ You emerge victoriously, with loot ({{item}}) and experience (+{{attr}} {{attr_n
 		`,
                 huge_tower: `
 You discover and explore a huge tower. It's filled with mad wizards, cultists and golems.
-You reach the top and snatch some loot ({{item}})
-then exit the tower, victorious and more experienced (+{{attr}} {{attr_name}})!
+You reach the top and snatch some loot ({{item}}) then exit the tower,
+victorious and more experienced (+{{attr}} {{attr_name}})!
 		`,
                 make_friends: `
 You learnt necromancy (+{{mana}} mana). With your new skills, you assemble some living corpses from remains dug in the cemetery.{{br}}
@@ -38069,20 +38072,16 @@ Between two villages, you meet Rachel the washer wench.
 She competes with you in arm twisting, and win!
 Good exercise, +{{strength}} strength.
 		`,
-                //reginold:
+                // reginold the guard
                 // bandits
                 // secret order
                 // secret sages
                 /*
-                princess rich turn out very nice very nice
-                Rich, powerful
+                princess rich, powerful
                 */
                 /* Ma Backer bandit woman
                 */
                 /*
-                 // "make friends" necromancy
-                 xmake_friends:
-                 '',
                  // licorne multicolore
                  xunicorns:
                  '',
@@ -38164,6 +38163,7 @@ You are rewarded with weapons and honors: {{item}}, {{token}}...
 `
                 // red eyed unicorn throwing fire
                 // badger mushrooms
+                // TODO RPG hooks Instagram
         }
 };
 const messages = {
