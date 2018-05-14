@@ -48,12 +48,12 @@ h1, h2, h3 {
 	/* http://perfectmotherfuckingwebsite.com/ */
 	line-height: 1.2;
 	/* because they are too big */
-	margin: 0;
+	/*margin: 0;*/
 }
 
 p {
 	/* because they are too big */
-	margin: .5em 0;
+	/*margin: .5em 0;*/
 }
 
 
