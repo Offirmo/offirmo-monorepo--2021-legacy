@@ -9,7 +9,6 @@
 	"dependencies": {
 		"caught": "^0.1.1",
 		"is-promise": "^2.1.0",
-		"joi": "^13.1.0",
 		"p-finally": "^1.0.0",
 		"p-progress": "^0.1.1"
 	},

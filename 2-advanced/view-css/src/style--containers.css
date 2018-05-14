@@ -20,6 +20,8 @@
 	width: 100%; /* avoid lower than max if possible */
 
 	margin: 0 auto;/* horizontal centering */
+
+	padding: 7px; /* looks good by default. Use o⋄pad⁚0 else */
 }
 
 
@@ -30,4 +32,33 @@
 	background-color: rgba(0, 0, 0, .3);
 	margin: auto;
 	z-index: 100; /* just in case */
+}
+
+
+
+/******* container utils *******/
+
+.o⋄overflow-y⁚auto {
+	overflow-y: auto;
+}
+
+/* XXX NO there is likely a underlying problem
+.o⋄no-overflow {
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
+*/
+
+.o⋄pad⁚0 {
+	padding: 0;
+}
+.o⋄pad⁚5 {
+	padding: 5px;
+}
+.o⋄pad⁚7 {
+	padding: 7px;
+}
+
+.o⋄height⁚100pc {
+	height: 100%;
 }

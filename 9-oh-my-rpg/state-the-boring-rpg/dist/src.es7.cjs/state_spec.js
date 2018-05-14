@@ -12,12 +12,13 @@ describe('⚔ 👑 😪  The Boring RPG - reducer', function () {
     describe('🆕  initial state', function () {
         it('should be correct', function () {
             const state = _1.create();
-            chai_1.expect(Object.keys(state)).to.have.lengthOf(10); // this test should be updated if that changes
             // check presence of sub-states
             chai_1.expect(state, 'avatar').to.have.property('avatar');
             chai_1.expect(state, 'inventory').to.have.property('inventory');
             chai_1.expect(state, 'wallet').to.have.property('wallet');
             chai_1.expect(state, 'prng').to.have.property('prng');
+            chai_1.expect(state, 'energy').to.have.property('energy');
+            chai_1.expect(Object.keys(state), 'quick key count check').to.have.lengthOf(11); // this test should be updated if that changes
             // init of custom values
             chai_1.expect(state).to.have.property('schema_version', consts_1.SCHEMA_VERSION);
             chai_1.expect(state).to.have.property('revision', 0);
@@ -33,7 +34,21 @@ describe('⚔ 👑 😪  The Boring RPG - reducer', function () {
     describe('👆🏾 user actions', function () {
         describe('🤘🏽 play', function () {
             context('🚫  when the cooldown has NOT passed', function () {
-                it('should generate a negative adventure');
+                it.only('should generate a negative adventure', () => {
+                    let state = _1.create();
+                    // 7 good plays
+                    state = _1.play(state);
+                    state = _1.play(state);
+                    state = _1.play(state);
+                    state = _1.play(state);
+                    state = _1.play(state);
+                    state = _1.play(state);
+                    state = _1.play(state);
+                    // too soon...
+                    state = _1.play(state);
+                    chai_1.expect(state.last_adventure).not.to.be.null;
+                    chai_1.expect(state.last_adventure.good).to.be.false;
+                });
                 it('should not decrease user stats');
                 it('should punish the user by increasing the cooldown');
                 it('may actually result in a good outcome (idea)');

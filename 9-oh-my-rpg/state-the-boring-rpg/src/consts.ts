@@ -1,7 +1,7 @@
 const LIB = '@oh-my-rpg/state-the-boring-rpg'
 
-const SCHEMA_VERSION: number = 4
-const GAME_VERSION: string = '0.10.0' // for display purpose TODO autoinc?
+const SCHEMA_VERSION: number = 5
+const GAME_VERSION: string = '0.11.0' // for display purpose TODO autoinc?
 
 
 const URL_OF_WEBSITE = 'https://www.online-adventur.es/the-boring-rpg'

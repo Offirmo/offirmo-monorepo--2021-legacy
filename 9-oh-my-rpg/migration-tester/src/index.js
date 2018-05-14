@@ -37,6 +37,8 @@ function test_migrations({
 		console.log(`${LOG_PREFIX} note: read-only, will only report errors`)
 	else
 		console.log(`${LOG_PREFIX} note: write enabled, will attempt to create/update data`)
+	if (skip)
+		console.log(`${LOG_PREFIX} note: skip mode, will do the minimum`)
 
 	// propagate the skip
 	describe = skip ? describe.skip.bind(describe) : describe
@@ -103,6 +105,14 @@ function test_migrations({
 		/////// grab the files = past snapshots and hints
 		if (!read_only)
 			fs.mkdirpSync(absolute_dir_path)
+
+		try {
+			fs.lsFiles(absolute_dir_path)
+		}
+		catch (err) {
+			if (skip) return
+			throw err
+		}
 
 		const ALL_FILES = fs.lsFiles(absolute_dir_path).sort()
 			.filter(snap_path => !snap_path.startsWith('.')) // skip .DS_STORE and like

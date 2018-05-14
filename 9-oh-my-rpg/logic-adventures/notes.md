@@ -14,9 +14,6 @@ Stories
 
 "Whip it" sentences, don't worry / be happy
 
-		_make_friends: {
-			// TODO necro + follower ?
-		},
 		_unicorns: {
 			// TODO
 		},
@@ -30,3 +27,6 @@ Stories
 
 
 https://ifcomp.org/comp/2017
+
+free adventures
+http://www.dungeonmastering.com/campaigns-adventures/83-free-dd-adventures

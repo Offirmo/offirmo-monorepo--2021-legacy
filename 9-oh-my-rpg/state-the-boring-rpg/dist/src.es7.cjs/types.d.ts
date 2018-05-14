@@ -7,6 +7,7 @@ import { State as CharacterState } from '@oh-my-rpg/state-character';
 import { State as InventoryState } from '@oh-my-rpg/state-inventory';
 import { State as WalletState } from '@oh-my-rpg/state-wallet';
 import { State as PRNGState } from '@oh-my-rpg/state-prng';
+import { State as EnergyState } from '@oh-my-rpg/state-energy';
 declare const GainType: {
     weapon: "weapon";
     armor: "armor";
@@ -54,6 +55,7 @@ interface State {
     wallet: WalletState;
     prng: PRNGState;
     last_adventure: Adventure | null;
+    energy: EnergyState;
     click_count: number;
     good_click_count: number;
     meaningful_interaction_count: number;

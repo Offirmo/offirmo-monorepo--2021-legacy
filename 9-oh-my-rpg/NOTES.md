@@ -4,6 +4,8 @@ TOREAD https://josephg.com/blog/fixing-fortnite/
 Schema:
 http://www.vertabelo.com/blog/technical-articles/a-song-of-ice-and-databases-a-game-of-thrones-data-model
 
+Ideas:
+* https://www.reddit.com/r/incremental_games/search?q=flair%3A%27MDMonday%27&restrict_sr=on&sort=new&t=all
 
 
 ## Misc / TOSORT

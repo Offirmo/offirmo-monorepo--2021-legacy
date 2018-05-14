@@ -31,13 +31,14 @@ describe('⚔ 👑 😪  The Boring RPG - reducer', function() {
 		it('should be correct', function() {
 			const state = create()
 
-			expect(Object.keys(state)).to.have.lengthOf(10) // this test should be updated if that changes
-
 			// check presence of sub-states
 			expect(state, 'avatar').to.have.property('avatar')
 			expect(state, 'inventory').to.have.property('inventory')
 			expect(state, 'wallet').to.have.property('wallet')
 			expect(state, 'prng').to.have.property('prng')
+			expect(state, 'energy').to.have.property('energy')
+
+			expect(Object.keys(state), 'quick key count check').to.have.lengthOf(11) // this test should be updated if that changes
 
 			// init of custom values
 			expect(state).to.have.property('schema_version', SCHEMA_VERSION)
@@ -58,7 +59,25 @@ describe('⚔ 👑 😪  The Boring RPG - reducer', function() {
 		describe('🤘🏽 play', function() {
 
 			context('🚫  when the cooldown has NOT passed', function() {
-				it('should generate a negative adventure')
+				it.only('should generate a negative adventure', () => {
+					let state = create()
+
+					// 7 good plays
+					state = play(state)
+					state = play(state)
+					state = play(state)
+					state = play(state)
+					state = play(state)
+					state = play(state)
+					state = play(state)
+
+					// too soon...
+					state = play(state)
+
+					expect(state.last_adventure).not.to.be.null
+					expect(state.last_adventure!.good).to.be.false
+				})
+
 				it('should not decrease user stats')
 				it('should punish the user by increasing the cooldown')
 				it('may actually result in a good outcome (idea)')

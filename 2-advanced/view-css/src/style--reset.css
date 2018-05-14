@@ -6,18 +6,17 @@ html {
 
 	margin: 0;
 	padding: 0;
-}
-
-html {
-	/* apply a natural box layout model to all elements, but allowing components to change
-	 * https://www.paulirish.com/2012/box-sizing-border-box-ftw/
-	 */
-	box-sizing: border-box;
 
 	/* https://evilmartians.com/chronicles/scroll-to-the-future-modern-javascript-css-scrolling-implementations */
 	scroll-behavior: smooth;
 }
 
+/* apply a natural box layout model to all elements, but allowing components to change
+ * https://www.paulirish.com/2012/box-sizing-border-box-ftw/
+ */
+html {
+	box-sizing: border-box;
+}
 *, *:before, *:after {
 	box-sizing: inherit;
 }
@@ -80,7 +79,7 @@ button:active {
 }*/
 
 
-/* Reset the default appearance + animate
+/* Reset the default appearance
  * https://css-tricks.com/html5-progress-element/
  * https://snook.ca/archives/html_and_css/animating-progress
  */
@@ -111,21 +110,6 @@ progress::-ms-fill {
 	background-color: var(--o⋄color__progress-bar);
 	border:0;
 }
-/* animated */
-progress.animated::-webkit-progress-value {
-	transition: width 1s;
-}
-progress.animated::-moz-progress-bar {
-	transition: padding-bottom 1s;
-	padding-left: 60px;
-	padding-bottom: var(--value);
-	height: 0;
-	transform-origin: 0 0;
-	transform: rotate(-90deg) translateX(-60px) ;
-}
-progress.animated::-ms-fill {
-	border:0;
-}
 
 /* better scrollbars
  * https://codepen.io/nikhil8krishnan/pen/WvYPvv
@@ -141,3 +125,17 @@ progress.animated::-ms-fill {
 hr {
 	width: 100%;
 }
+
+/* Adapt links to the main color.
+ * Better than the defaults.
+ */
+a:link,
+a:visited {color: inherit;}
+a:hover,
+a:active {color: red;}
+
+
+/* TODO buttons
+https://css-tricks.com/overriding-default-button-styles/
+https://fvsch.com/code/styling-buttons/
+ */

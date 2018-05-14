@@ -10,6 +10,7 @@ const state_character_1 = require("@oh-my-rpg/state-character");
 const WalletState = tslib_1.__importStar(require("@oh-my-rpg/state-wallet"));
 const state_wallet_1 = require("@oh-my-rpg/state-wallet");
 const InventoryState = tslib_1.__importStar(require("@oh-my-rpg/state-inventory"));
+const EnergyState = tslib_1.__importStar(require("@oh-my-rpg/state-energy"));
 const PRNGState = tslib_1.__importStar(require("@oh-my-rpg/state-prng"));
 const state_prng_1 = require("@oh-my-rpg/state-prng");
 const logic_weapons_1 = require("@oh-my-rpg/logic-weapons");
@@ -70,6 +71,7 @@ function create() {
         inventory: InventoryState.create(),
         wallet: WalletState.create(),
         prng: PRNGState.create(),
+        energy: EnergyState.create(),
         last_adventure: null,
         click_count: 0,
         good_click_count: 0,
@@ -111,8 +113,11 @@ function reseed(state, seed) {
 exports.reseed = reseed;
 // note: allows passing an explicit adventure archetype for testing
 function play(state, explicit_adventure_archetype_hid) {
-    // TODO good / bad
-    state = Object.assign({}, play_1.play_good(state, explicit_adventure_archetype_hid), { click_count: state.click_count + 1, meaningful_interaction_count: state.meaningful_interaction_count + 1, revision: state.revision + 1 });
+    const energy_snapshot = EnergyState.get_snapshot(state.energy);
+    const intermediate_state = (energy_snapshot.available_energy < 1)
+        ? play_1.play_bad(state, explicit_adventure_archetype_hid)
+        : play_1.play_good(state, explicit_adventure_archetype_hid);
+    state = Object.assign({}, intermediate_state, { revision: state.revision + 1, click_count: state.click_count + 1, meaningful_interaction_count: state.meaningful_interaction_count + 1 });
     return state;
 }
 exports.play = play;

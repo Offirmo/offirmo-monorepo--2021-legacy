@@ -422,7 +422,7 @@ button:active {
 }*/
 
 
-/* Reset the default appearance + animate
+/* Reset the default appearance
  * https://css-tricks.com/html5-progress-element/
  * https://snook.ca/archives/html_and_css/animating-progress
  */
@@ -453,21 +453,6 @@ progress::-ms-fill {
 	background-color: var(--o⋄color__progress-bar);
 	border:0;
 }
-/* animated */
-progress.animated::-webkit-progress-value {
-	transition: width 1s;
-}
-progress.animated::-moz-progress-bar {
-	transition: padding-bottom 1s;
-	padding-left: 60px;
-	padding-bottom: var(--value);
-	height: 0;
-	transform-origin: 0 0;
-	transform: rotate(-90deg) translateX(-60px) ;
-}
-progress.animated::-ms-fill {
-	border:0;
-}
 
 /* better scrollbars
  * https://codepen.io/nikhil8krishnan/pen/WvYPvv
@@ -483,6 +468,12 @@ progress.animated::-ms-fill {
 hr {
 	width: 100%;
 }
+
+
+/* TODO buttons
+https://css-tricks.com/overriding-default-button-styles/
+https://fvsch.com/code/styling-buttons/
+ */
 
 
 
@@ -548,6 +539,8 @@ hr {
 	width: 100%; /* avoid lower than max if possible */
 
 	margin: 0 auto;/* horizontal centering */
+
+	padding: 7px; /* looks good by default. Use o⋄pad⁚0 else */
 }
 
 
@@ -558,6 +551,35 @@ hr {
 	background-color: rgba(0, 0, 0, .3);
 	margin: auto;
 	z-index: 100; /* just in case */
+}
+
+
+
+/******* container utils *******/
+
+.o⋄overflow-y⁚auto {
+	overflow-y: auto;
+}
+
+/* XXX NO there is likely a underlying problem
+.o⋄no-overflow {
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
+*/
+
+.o⋄pad⁚0 {
+	padding: 0;
+}
+.o⋄pad⁚5 {
+	padding: 5px;
+}
+.o⋄pad⁚7 {
+	padding: 7px;
+}
+
+.o⋄height⁚100pc {
+	height: 100%;
 }
 
 
@@ -696,16 +718,6 @@ hr {
 
 
 /******* atoms *******/
-.o⋄overflow-y⁚auto {
-	overflow-y: auto;
-}
-
-/* XXX NO there is likely a underlying problem
-.o⋄no-overflow {
-	overflow-x: hidden;
-	overflow-y: hidden;
-}
-*/
 
 .o⋄text-align⁚center {
 	text-align: center;
@@ -724,17 +736,6 @@ hr {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-}
-
-.o⋄pad⁚5 {
-	padding: 5px;
-}
-.o⋄pad⁚7 {
-	padding: 7px;
-}
-
-.o⋄height⁚100pc {
-	height: 100%;
 }
 
 /******* lists *******/
@@ -791,6 +792,26 @@ hr {
 	position: absolute;
 	opacity: 0.5;
 	pointer-events: none;
+}
+
+/******* animated progress *******
+ * See also the progress reset in style--reset.css
+ * https://snook.ca/archives/html_and_css/animating-progress
+ */
+/* animated */
+progress.o⋄animated::-webkit-progress-value {
+	transition: width 1s;
+}
+progress.o⋄animated::-moz-progress-bar {
+	transition: padding-bottom 1s;
+	padding-left: 60px;
+	padding-bottom: var(--value);
+	height: 0;
+	transform-origin: 0 0;
+	transform: rotate(-90deg) translateX(-60px) ;
+}
+progress.o⋄animated::-ms-fill {
+	border:0;
 }
 
 /*

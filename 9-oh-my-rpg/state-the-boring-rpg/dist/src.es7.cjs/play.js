@@ -123,28 +123,8 @@ function receive_tokens(state, amount) {
     return Object.assign({}, state, { wallet: WalletState.add_amount(state.wallet, state_wallet_1.Currency.token, amount) });
 }
 /////////////////////
-const ADVENTURE_NON_REPETITION_ID = 'adventure_archetype';
-function pick_random_non_repetitive_good_archetype(state, rng) {
-    let archetype;
-    state_prng_1.regenerate_until_not_recently_encountered({
-        id: ADVENTURE_NON_REPETITION_ID,
-        generate: () => {
-            archetype = logic_adventures_1.pick_random_good_archetype(rng);
-            return archetype.hid;
-        },
-        state: state.prng,
-    });
-    return archetype;
-}
-function play_good(state, explicit_adventure_archetype_hid) {
-    state = Object.assign({}, state, { good_click_count: state.good_click_count + 1 });
+function play_adventure(state, aa) {
     const rng = state_prng_1.get_prng(state.prng);
-    const aa = explicit_adventure_archetype_hid
-        ? logic_adventures_1.get_archetype(explicit_adventure_archetype_hid)
-        : pick_random_non_repetitive_good_archetype(state, rng);
-    if (!aa)
-        throw new Error(`play_good(): hinted adventure archetype "${explicit_adventure_archetype_hid}" could not be found!`);
-    state = Object.assign({}, state, { prng: state_prng_1.register_recently_used(state.prng, ADVENTURE_NON_REPETITION_ID, aa.hid, 7) });
     const adventure = instantiate_adventure_archetype(rng, aa, state.avatar, state.inventory);
     state = Object.assign({}, state, { last_adventure: adventure });
     const { gains: gained } = adventure;
@@ -216,11 +196,45 @@ function play_good(state, explicit_adventure_archetype_hid) {
     }
     if (!gain_count)
         throw new Error(`play_good() for hid "${aa.hid}" unexpectedly resulted in NO gains!`);
-    state = Object.assign({}, state, { prng: PRNGState.update_use_count(state.prng, rng, {
-            I_swear_I_really_cant_know_whether_the_rng_was_used: !!explicit_adventure_archetype_hid
-        }) });
+    state = Object.assign({}, state, { prng: PRNGState.update_use_count(state.prng, rng) });
+    return state;
+}
+/////////////////////
+const ADVENTURE_GOOD_NON_REPETITION_ID = 'adventure_archetype';
+const ADVENTURE_GOOD_NON_REPETITION_COUNT = 20;
+function pick_random_non_repetitive_good_archetype(state, rng) {
+    let archetype;
+    state_prng_1.regenerate_until_not_recently_encountered({
+        id: ADVENTURE_GOOD_NON_REPETITION_ID,
+        generate: () => {
+            archetype = logic_adventures_1.pick_random_good_archetype(rng);
+            return archetype.hid;
+        },
+        state: state.prng,
+    });
+    return archetype;
+}
+function play_good(state, explicit_adventure_archetype_hid) {
+    let prng_state = state.prng;
+    const rng = state_prng_1.get_prng(prng_state);
+    const aa = explicit_adventure_archetype_hid
+        ? logic_adventures_1.get_archetype(explicit_adventure_archetype_hid)
+        : pick_random_non_repetitive_good_archetype(state, rng);
+    if (!aa)
+        throw new Error(`play_good(): hinted adventure archetype "${explicit_adventure_archetype_hid}" could not be found!`);
+    if (!aa.good) // test only, so means wrong test
+        throw new Error(`play_good(): hinted adventure archetype "${explicit_adventure_archetype_hid}" is a bad one!`);
+    if (!explicit_adventure_archetype_hid) {
+        prng_state = PRNGState.update_use_count(state.prng, rng);
+    }
+    state = Object.assign({}, state, { prng: state_prng_1.register_recently_used(prng_state, ADVENTURE_GOOD_NON_REPETITION_ID, aa.hid, ADVENTURE_GOOD_NON_REPETITION_COUNT) });
+    state = Object.assign({}, play_adventure(state, aa), { good_click_count: state.good_click_count + 1 });
     return state;
 }
 exports.play_good = play_good;
+function play_bad(state, explicit_adventure_archetype_hid) {
+    throw new Error('TODO');
+}
+exports.play_bad = play_bad;
 /////////////////////
 //# sourceMappingURL=play.js.map

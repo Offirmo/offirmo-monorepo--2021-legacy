@@ -25,6 +25,7 @@ import * as WalletState from '@oh-my-rpg/state-wallet'
 import { Currency } from '@oh-my-rpg/state-wallet'
 
 import * as InventoryState from '@oh-my-rpg/state-inventory'
+import * as EnergyState from '@oh-my-rpg/state-energy'
 
 import * as PRNGState from '@oh-my-rpg/state-prng'
 import {
@@ -81,7 +82,7 @@ import {
 	ActionSellItem,
 } from './serializable_actions'
 
-import { play_good, receive_item } from './play'
+import { play_good, play_bad, receive_item } from './play'
 import { get_SEC } from './sec'
 
 /////////////////////
@@ -141,6 +142,7 @@ function create(): Readonly<State> {
 		inventory: InventoryState.create(),
 		wallet: WalletState.create(),
 		prng: PRNGState.create(),
+		energy: EnergyState.create(),
 
 		last_adventure: null,
 		click_count: 0,
@@ -198,14 +200,19 @@ function reseed(state: Readonly<State>, seed?: number): Readonly<State> {
 
 // note: allows passing an explicit adventure archetype for testing
 function play(state: Readonly<State>, explicit_adventure_archetype_hid?: string): Readonly<State> {
-	// TODO good / bad
-	state = {
-		...play_good(state, explicit_adventure_archetype_hid),
-		click_count: state.click_count + 1,
+	const energy_snapshot = EnergyState.get_snapshot(state.energy)
 
-		meaningful_interaction_count: state.meaningful_interaction_count + 1,
+	const intermediate_state = (energy_snapshot.available_energy < 1)
+		? play_bad(state, explicit_adventure_archetype_hid)
+		: play_good(state, explicit_adventure_archetype_hid)
+
+	state = {
+		...intermediate_state,
 
 		revision: state.revision + 1,
+
+		click_count: state.click_count + 1,
+		meaningful_interaction_count: state.meaningful_interaction_count + 1,
 	}
 
 	return state
