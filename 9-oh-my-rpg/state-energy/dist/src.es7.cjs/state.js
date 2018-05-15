@@ -33,5 +33,16 @@ function use_energy(state, qty = 1, date = new Date()) {
     return state;
 }
 exports.use_energy = use_energy;
+// can be used as a punishment
+function loose_all_energy(state, date = new Date()) {
+    state = Object.assign({}, state, { revision: state.revision + 1, last_date: timestamps_1.get_human_readable_UTC_timestamp_ms(date), last_available_energy_float: 0. });
+    return state;
+}
+exports.loose_all_energy = loose_all_energy;
+function replenish_energy(state, date = new Date()) {
+    state = Object.assign({}, state, { revision: state.revision + 1, last_date: timestamps_1.get_human_readable_UTC_timestamp_ms(date), last_available_energy_float: state.max_energy * 1. });
+    return state;
+}
+exports.replenish_energy = replenish_energy;
 /////////////////////
 //# sourceMappingURL=state.js.map

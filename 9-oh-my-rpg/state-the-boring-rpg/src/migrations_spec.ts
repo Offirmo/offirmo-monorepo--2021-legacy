@@ -6,7 +6,8 @@ import { SCHEMA_VERSION } from './consts'
 import { migrate_to_latest } from './migrations'
 import { get_SEC } from './sec'
 
-import { create, DEMO_STATE, MIGRATION_HINTS_FOR_TESTS } from './state'
+import { create } from './state'
+import { DEMO_STATE, MIGRATION_HINTS_FOR_TESTS } from './examples'
 
 describe('schema migration', function() {
 

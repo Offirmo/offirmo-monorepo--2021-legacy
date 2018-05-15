@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
 const random_1 = require("@offirmo/random");
 const _1 = require(".");
-describe('🎲  Persistable PRNG state - utils', function () {
+describe('utils', function () {
     beforeEach(_1.xxx_internal_reset_prng_cache);
     describe('generate_random_seed', function () {
         it('should return a random seed', function () {
@@ -17,6 +17,24 @@ describe('🎲  Persistable PRNG state - utils', function () {
     });
     describe('optional duplicate prevention', function () {
         const id = 'tails_or_head';
+        // yes, that can happen
+        it('should prevent repetition up to 0', () => {
+            let state = _1.create();
+            const prng = _1.get_prng(state);
+            function gen() {
+                let val = _1.regenerate_until_not_recently_encountered({
+                    id,
+                    generate: () => 42,
+                    state,
+                });
+                state = _1.register_recently_used(state, id, val, 0);
+                return val;
+            }
+            chai_1.expect(gen(), 'gen 1').to.equal(42);
+            chai_1.expect(gen(), 'gen 2').to.equal(42);
+            chai_1.expect(gen(), 'gen 3').to.equal(42);
+            chai_1.expect(gen(), 'gen 4').to.equal(42);
+        });
         it('should prevent repetition up to 1', () => {
             let state = _1.create();
             const prng = _1.get_prng(state);

@@ -7,7 +7,7 @@ const state_inventory_1 = require("@oh-my-rpg/state-inventory");
 const state_wallet_1 = require("@oh-my-rpg/state-wallet");
 const consts_1 = require("./consts");
 const _1 = require(".");
-describe('⚔ 👑 😪  The Boring RPG - reducer', function () {
+describe('reducer', function () {
     beforeEach(() => state_prng_1.xxx_internal_reset_prng_cache());
     describe('🆕  initial state', function () {
         it('should be correct', function () {
@@ -33,8 +33,8 @@ describe('⚔ 👑 😪  The Boring RPG - reducer', function () {
     });
     describe('👆🏾 user actions', function () {
         describe('🤘🏽 play', function () {
-            context('🚫  when the cooldown has NOT passed', function () {
-                it.only('should generate a negative adventure', () => {
+            context('🚫  when NOT allowed (the cooldown has NOT passed / not enough energy)', function () {
+                it('should generate a negative adventure', () => {
                     let state = _1.create();
                     // 7 good plays
                     state = _1.play(state);
@@ -45,15 +45,38 @@ describe('⚔ 👑 😪  The Boring RPG - reducer', function () {
                     state = _1.play(state);
                     state = _1.play(state);
                     // too soon...
+                    chai_1.expect(state.energy.last_available_energy_float).to.be.below(1);
+                    state = _1.play(state);
+                    chai_1.expect(state.last_adventure).not.to.be.null;
+                    chai_1.expect(state.last_adventure.good).to.be.false;
+                    // again
                     state = _1.play(state);
                     chai_1.expect(state.last_adventure).not.to.be.null;
                     chai_1.expect(state.last_adventure.good).to.be.false;
                 });
                 it('should not decrease user stats');
-                it('should punish the user by increasing the cooldown');
-                it('may actually result in a good outcome (idea)');
+                it('should punish a bit the user (ex. by increasing the cooldown)', () => {
+                    let state = _1.create();
+                    // 7 good plays
+                    state = _1.play(state);
+                    state = _1.play(state);
+                    state = _1.play(state);
+                    state = _1.play(state);
+                    state = _1.play(state);
+                    state = _1.play(state);
+                    state = _1.play(state);
+                    // too soon...
+                    chai_1.expect(state.energy.last_available_energy_float).to.be.below(1);
+                    // force (for tests)
+                    state.energy.last_available_energy_float = .8;
+                    state = _1.play(state);
+                    chai_1.expect(state.last_adventure).not.to.be.null;
+                    chai_1.expect(state.last_adventure.good).to.be.false;
+                    chai_1.expect(state.energy.last_available_energy_float).to.be.below(0.0001);
+                });
+                it('may actually result in a good outcome (idea TODO)');
             });
-            context('✅  when the cooldown has passed', function () {
+            context('✅  when allowed (the cooldown has passed / enough energy)', function () {
                 it('should sometime generate a story adventure', () => {
                     const state = _1.play(_1.create());
                     chai_1.expect(state.last_adventure).not.to.be.null;
@@ -70,6 +93,8 @@ describe('⚔ 👑 😪  The Boring RPG - reducer', function () {
                     let state = _1.create();
                     for (let i = 0; i < 20; ++i) {
                         state = _1.play(state);
+                        // force (for tests)
+                        state.energy.last_available_energy_float = 7.;
                         if (state.last_adventure.hid.startsWith('fight_'))
                             fightCount++;
                     }

@@ -34,8 +34,10 @@ function regenerate_until_not_recently_encountered({
 		try_count++
 	}
 
-	if (try_count >= max_tries)
+	if (try_count >= max_tries) {
+		console.error(state)
 		throw new Error(`${LIB}: regenerate_until_not_recently_encountered(): failed after maximum tries!`)
+	}
 
 	return generated
 }

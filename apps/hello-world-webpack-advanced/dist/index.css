@@ -348,18 +348,17 @@ html {
 
 	margin: 0;
 	padding: 0;
-}
-
-html {
-	/* apply a natural box layout model to all elements, but allowing components to change
-	 * https://www.paulirish.com/2012/box-sizing-border-box-ftw/
-	 */
-	box-sizing: border-box;
 
 	/* https://evilmartians.com/chronicles/scroll-to-the-future-modern-javascript-css-scrolling-implementations */
 	scroll-behavior: smooth;
 }
 
+/* apply a natural box layout model to all elements, but allowing components to change
+ * https://www.paulirish.com/2012/box-sizing-border-box-ftw/
+ */
+html {
+	box-sizing: border-box;
+}
 *, *:before, *:after {
 	box-sizing: inherit;
 }
@@ -370,20 +369,20 @@ body {
 
 	height: 100%;
 
-	margin: 0;
-	padding: 0;
-
-	/* https://www.leejamesrobinson.com/blog/how-stripe-designs-beautiful-websites/ */
-	text-rendering: optimizeLegibility;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-
-	/* adapted from http://perfectmotherfuckingwebsite.com/ */
+	/* adapted from http://perfectmotherfuckingwebsite.com */
+	max-width: 650px;
+	margin: 0 auto; /* 0 for the 100% trick to work, auto for centering */
+	padding: 0 10px;
 	font-family: var(--o⋄font-family--fast_and_good_enough);
 	color: var(--o⋄color--fg⁚main);
 	background-color: var(--o⋄color--bg⁚main);
 	line-height: 1.6;
 	font-size: 16px;
+
+	/* https://www.leejamesrobinson.com/blog/how-stripe-designs-beautiful-websites/ */
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 
@@ -391,7 +390,7 @@ h1, h2, h3 {
 	/* http://perfectmotherfuckingwebsite.com/ */
 	line-height: 1.2;
 	/* because they are too big */
-	margin: 0;
+	margin: .5em 0;
 }
 
 p {
@@ -469,6 +468,14 @@ hr {
 	width: 100%;
 }
 
+/* Adapt links to the main color.
+ * Better than the defaults.
+ */
+a:link,
+a:visited {color: inherit;}
+a:hover,
+a:active {color: red;}
+
 
 /* TODO buttons
 https://css-tricks.com/overriding-default-button-styles/
@@ -484,7 +491,7 @@ https://fvsch.com/code/styling-buttons/
 	 * https://medium.com/refactoring-ui/7-practical-tips-for-cheating-at-design-40c736799886
 	 */
 
-	--o⋄color__dolt__quasi-black: hsl(0, 0%, 17%);
+	--o⋄color__dolt__quasi-black: hsl(0, 0%, 26%); /* 17 or 26 ? */
 	--o⋄color__dolt__dark-grey: hsl(0, 0%, 40%);
 	--o⋄color__dolt__medium-grey: hsl(0, 0%, 63%);
 	--o⋄color__dolt__quasi-white: #fafafa;

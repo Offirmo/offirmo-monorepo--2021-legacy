@@ -5,10 +5,9 @@ import * as WalletState from '@oh-my-rpg/state-wallet'
 import * as InventoryState from '@oh-my-rpg/state-inventory'
 import * as PRNGState from '@oh-my-rpg/state-prng'
 
-
 import { LIB, SCHEMA_VERSION } from './consts'
 import { State } from './types'
-import { create, reseed, OLDEST_LEGACY_STATE_FOR_TESTS } from './state'
+import { create, reseed } from './state'
 import { SoftExecutionContext, SECContext, get_SEC } from './sec'
 
 /////////////////////

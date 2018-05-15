@@ -55,7 +55,7 @@ const COINS_GAIN_RANGES = {
         console.error(ALL_ADVENTURE_ARCHETYPES);
         throw new Error(`Data sanity failure: ALL_ADVENTURE_ARCHETYPES`);
     }
-    if (ALL_BAD_ADVENTURE_ARCHETYPES.length !== 1)
+    if (ALL_BAD_ADVENTURE_ARCHETYPES.length < 6)
         throw new Error(`Data sanity failure: ALL_BAD_ADVENTURE_ARCHETYPES`);
     if (ALL_GOOD_ADVENTURE_ARCHETYPES.length < 20)
         throw new Error(`Data sanity failure: ALL_GOOD_ADVENTURE_ARCHETYPES`);

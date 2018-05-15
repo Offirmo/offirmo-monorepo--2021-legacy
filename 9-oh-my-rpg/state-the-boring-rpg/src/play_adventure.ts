@@ -1,7 +1,5 @@
 /////////////////////
 
-import { Enum } from 'typescript-string-enums'
-
 import { Random, Engine } from '@offirmo/random'
 
 /////////////////////
@@ -73,6 +71,7 @@ import {
 } from './types'
 
 import { get_SEC } from './sec'
+import { LIB } from './consts'
 
 /////////////////////
 
@@ -291,82 +290,25 @@ function play_adventure(state: Readonly<State>, aa: AdventureArchetype): Readonl
 		// TODO enhance another armor as fallback
 	}
 
-	if (!gain_count)
-		throw new Error(`play_good() for hid "${aa.hid}" unexpectedly resulted in NO gains!`)
+	if (aa.good && !gain_count)
+		throw new Error(`${LIB}: play_adventure() for "good click" hid "${aa.hid}" unexpectedly resulted in NO gains!`)
 	state = {
 		...state,
-		prng: PRNGState.update_use_count(state.prng, rng),
+		prng: PRNGState.update_use_count(state.prng, rng, {
+			// we can't know because it depend on the adventure,
+			// ex. generate a random weapon
+			I_swear_I_really_cant_know_whether_the_rng_was_used: true
+		}),
 	}
 
 	return state
-}
-
-/////////////////////
-
-const ADVENTURE_GOOD_NON_REPETITION_ID = 'adventure_archetype'
-const ADVENTURE_GOOD_NON_REPETITION_COUNT = 20
-
-function pick_random_non_repetitive_good_archetype(state: Readonly<State>, rng: Engine): AdventureArchetype {
-	let archetype: AdventureArchetype
-
-	regenerate_until_not_recently_encountered({
-		id: ADVENTURE_GOOD_NON_REPETITION_ID,
-		generate: () => {
-			archetype = pick_random_good_archetype(rng)
-			return archetype.hid
-		},
-		state: state.prng,
-	})
-
-	return archetype!
-}
-
-function play_good(state: Readonly<State>, explicit_adventure_archetype_hid?: string): Readonly<State> {
-	let prng_state = state.prng
-	const rng = get_prng(prng_state)
-
-	const aa: AdventureArchetype = explicit_adventure_archetype_hid
-		? get_archetype(explicit_adventure_archetype_hid)
-		: pick_random_non_repetitive_good_archetype(state, rng)
-
-	if (!aa)
-		throw new Error(`play_good(): hinted adventure archetype "${explicit_adventure_archetype_hid}" could not be found!`)
-
-	if (!aa.good) // test only, so means wrong test
-		throw new Error(`play_good(): hinted adventure archetype "${explicit_adventure_archetype_hid}" is a bad one!`)
-
-	if (!explicit_adventure_archetype_hid) {
-		prng_state = PRNGState.update_use_count(state.prng, rng)
-	}
-
-	state = {
-		...state,
-		prng: register_recently_used(
-			prng_state,
-			ADVENTURE_GOOD_NON_REPETITION_ID,
-			aa.hid,
-			ADVENTURE_GOOD_NON_REPETITION_COUNT,
-		),
-	}
-
-	state = {
-		...play_adventure(state, aa),
-		good_click_count: state.good_click_count + 1,
-	}
-
-	return state
-}
-
-function play_bad(state: Readonly<State>, explicit_adventure_archetype_hid?: string): Readonly<State> {
-	throw new Error('TODO')
 }
 
 /////////////////////
 
 export {
-	play_good,
-	play_bad,
 	receive_item,
+	play_adventure,
 }
 
 /////////////////////

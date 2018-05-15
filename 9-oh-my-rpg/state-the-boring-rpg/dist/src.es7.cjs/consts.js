@@ -6,6 +6,7 @@ const SCHEMA_VERSION = 5;
 exports.SCHEMA_VERSION = SCHEMA_VERSION;
 const GAME_VERSION = '0.11.0'; // for display purpose TODO autoinc?
 exports.GAME_VERSION = GAME_VERSION;
+// XXX moved TODO fix
 const URL_OF_WEBSITE = 'https://www.online-adventur.es/the-boring-rpg';
 exports.URL_OF_WEBSITE = URL_OF_WEBSITE;
 const URL_OF_PRODUCT_HUNT_PAGE = 'https://www.producthunt.com/upcoming/the-npm-rpg';

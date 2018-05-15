@@ -4,6 +4,7 @@ const SCHEMA_VERSION: number = 5
 const GAME_VERSION: string = '0.11.0' // for display purpose TODO autoinc?
 
 
+// XXX moved TODO fix
 const URL_OF_WEBSITE = 'https://www.online-adventur.es/the-boring-rpg'
 const URL_OF_PRODUCT_HUNT_PAGE = 'https://www.producthunt.com/upcoming/the-npm-rpg'
 

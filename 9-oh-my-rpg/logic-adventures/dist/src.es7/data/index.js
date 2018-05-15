@@ -3,7 +3,12 @@ import { AdventureType } from '../types';
 const story = AdventureType.story;
 const fight = AdventureType.fight;
 const ENTRIES = [
-    { good: false, type: story, hid: 'bad_default', outcome: {} },
+    { good: false, type: story, hid: 'bad_1', outcome: {} },
+    { good: false, type: story, hid: 'bad_2', outcome: {} },
+    { good: false, type: story, hid: 'bad_3', outcome: {} },
+    { good: false, type: story, hid: 'bad_4', outcome: {} },
+    { good: false, type: story, hid: 'bad_5', outcome: {} },
+    { good: false, type: story, hid: 'bad_6', outcome: {} },
     { good: true, type: fight, hid: 'fight_won_coins', outcome: { coin: 'small' } },
     { good: true, type: fight, hid: 'fight_won_loot', outcome: { armor_or_weapon: true } },
     { good: true, type: fight, hid: 'fight_won_any', outcome: { random_attribute: true } },
@@ -79,6 +84,7 @@ const ENTRIES = [
     { good: true, type: story, hid: 'vampire_castle', outcome: { coin: 'medium', armor_or_weapon: true } },
     { good: true, type: story, hid: 'erika', outcome: { mana: true } },
     { good: true, type: story, hid: 'rachel', outcome: { strength: true } },
+    { good: true, type: story, hid: 'king_reward', outcome: { armor_or_weapon: true, token: 1 } },
 ];
 const i18n_messages = {
     en,

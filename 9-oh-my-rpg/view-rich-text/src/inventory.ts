@@ -53,10 +53,13 @@ function render_backpack(inventory: InventoryState): RichText.Document {
 		.addClass('inventory--backpack')
 		.done()
 
-	const misc_items: Item[] = Array.from(iterables_unslotted(inventory)).filter(i => !!i) as Item[]
+	const misc_items: Item[] = Array
+		.from(iterables_unslotted(inventory))
+		.filter(i => !!i) as Item[]
+
 	misc_items.forEach((i: Item, index: number) => {
 		if (!i) return
-		$doc_list.$sub[index] = render_item(i)
+		$doc_list.$sub[index + 1] = render_item(i)
 	})
 
 	if (Object.keys($doc_list.$sub).length === 0) {

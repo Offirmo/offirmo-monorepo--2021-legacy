@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { Random } from '@offirmo/random';
 import { create, register_recently_used, get_prng, generate_random_seed, regenerate_until_not_recently_encountered, xxx_internal_reset_prng_cache, } from '.';
-describe('🎲  Persistable PRNG state - utils', function () {
+describe('utils', function () {
     beforeEach(xxx_internal_reset_prng_cache);
     describe('generate_random_seed', function () {
         it('should return a random seed', function () {
@@ -15,6 +15,24 @@ describe('🎲  Persistable PRNG state - utils', function () {
     });
     describe('optional duplicate prevention', function () {
         const id = 'tails_or_head';
+        // yes, that can happen
+        it('should prevent repetition up to 0', () => {
+            let state = create();
+            const prng = get_prng(state);
+            function gen() {
+                let val = regenerate_until_not_recently_encountered({
+                    id,
+                    generate: () => 42,
+                    state,
+                });
+                state = register_recently_used(state, id, val, 0);
+                return val;
+            }
+            expect(gen(), 'gen 1').to.equal(42);
+            expect(gen(), 'gen 2').to.equal(42);
+            expect(gen(), 'gen 3').to.equal(42);
+            expect(gen(), 'gen 4').to.equal(42);
+        });
         it('should prevent repetition up to 1', () => {
             let state = create();
             const prng = get_prng(state);

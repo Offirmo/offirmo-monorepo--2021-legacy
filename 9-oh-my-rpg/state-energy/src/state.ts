@@ -59,6 +59,33 @@ function use_energy(state: State, qty: number = 1, date: Date = new Date()): Sta
 	return state
 }
 
+// can be used as a punishment
+function loose_all_energy(state: State, date: Date = new Date()): State {
+	state = {
+		...state,
+
+		revision: state.revision + 1,
+
+		last_date: get_human_readable_UTC_timestamp_ms(date),
+		last_available_energy_float: 0.,
+	}
+
+	return state
+}
+
+function replenish_energy(state: State, date: Date = new Date()): State {
+	state = {
+		...state,
+
+		revision: state.revision + 1,
+
+		last_date: get_human_readable_UTC_timestamp_ms(date),
+		last_available_energy_float: state.max_energy * 1.,
+	}
+
+	return state
+}
+
 /////////////////////
 
 export {
@@ -67,6 +94,8 @@ export {
 	create,
 
 	use_energy,
+	loose_all_energy,
+	replenish_energy,
 }
 
 /////////////////////

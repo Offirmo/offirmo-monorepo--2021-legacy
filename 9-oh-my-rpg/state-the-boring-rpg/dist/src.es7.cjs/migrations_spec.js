@@ -6,14 +6,15 @@ const consts_1 = require("./consts");
 const migrations_1 = require("./migrations");
 const sec_1 = require("./sec");
 const state_1 = require("./state");
+const examples_1 = require("./examples");
 describe('schema migration', function () {
     describe('migration of an active savegame', function () {
         migration_tester_1.test_migrations.skip({
             use_hints: true,
             //read_only: false, // XXX
-            migration_hints_for_chaining: state_1.MIGRATION_HINTS_FOR_TESTS,
+            migration_hints_for_chaining: examples_1.MIGRATION_HINTS_FOR_TESTS,
             SCHEMA_VERSION: consts_1.SCHEMA_VERSION,
-            LATEST_EXPECTED_DATA: state_1.DEMO_STATE,
+            LATEST_EXPECTED_DATA: examples_1.DEMO_STATE,
             migrate_to_latest: migrations_1.migrate_to_latest.bind(null, sec_1.get_SEC()),
             absolute_dir_path: require('path').join(__dirname, '../../src/migrations_of_active_state_specs'),
             describe, context, it, expect: chai_1.expect,

@@ -5,8 +5,24 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // use {{br}} for actual line returns.
 const raw_messages = {
     adventures: {
-        bad_default: `You clicked too early!
-+{{penalty_s}}s !`,
+        // http://www.thesaurus.com/browse/tired
+        bad_1: `🚫  You clicked too early!
+You collapse from exhaustion 😵 , you loose all your energy⚡ !`,
+        bad_2: `🚫  You clicked too early!
+You burn out 😵 , you loose all your energy⚡ !`,
+        // monsters
+        bad_3: `🚫  You clicked too early!
+You fall asleep and get eaten by a dragon 🐲 !
+you loose all your energy💀 !`,
+        bad_4: `🚫  You clicked too early!
+You are drowsy during a critical fight and get eaten by a monster 🦖 !
+you loose all your energy☠ !`,
+        bad_5: `🚫  You clicked too early!
+You fall asleep and get sucked dry by a vampire 🧛‍♀️ !
+you loose all your energy⚰ !`,
+        bad_6: `🚫  You clicked too early!
+You fall asleep and get eaten by wolves 🐺 🐺 🐺 !
+you loose all your energy💀 !`,
         fight_won_coins: `
 You have defeated a {{encounter}} !{{br}}
 You looted {{coin}} from its corpse.`,

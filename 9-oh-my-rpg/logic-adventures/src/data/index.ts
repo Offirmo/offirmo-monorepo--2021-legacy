@@ -16,7 +16,12 @@ const story = AdventureType.story
 const fight = AdventureType.fight
 
 const ENTRIES: RawAdventureArchetypeEntry[] = [
-	{ good: false, type: story, hid: 'bad_default',           outcome: {}},
+	{ good: false, type: story, hid: 'bad_1',                 outcome: {}},
+	{ good: false, type: story, hid: 'bad_2',                 outcome: {}},
+	{ good: false, type: story, hid: 'bad_3',                 outcome: {}},
+	{ good: false, type: story, hid: 'bad_4',                 outcome: {}},
+	{ good: false, type: story, hid: 'bad_5',                 outcome: {}},
+	{ good: false, type: story, hid: 'bad_6',                 outcome: {}},
 
 	{ good: true, type: fight, hid: 'fight_won_coins',        outcome: { coin: 'small' }},
 	{ good: true, type: fight, hid: 'fight_won_loot',         outcome: { armor_or_weapon: true }},
@@ -103,6 +108,7 @@ const ENTRIES: RawAdventureArchetypeEntry[] = [
 	{ good: true, type: story, hid: 'erika',                        outcome: { mana: true }},
 	{ good: true, type: story, hid: 'rachel',                       outcome: { strength: true }},
 
+	{ good: true, type: story, hid: 'king_reward',                  outcome: { armor_or_weapon: true, token: 1 }},
 ]
 
 

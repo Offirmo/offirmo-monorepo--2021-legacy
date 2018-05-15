@@ -1,6 +1,6 @@
 /////////////////////
 import { Random } from '@offirmo/random';
-import { SCHEMA_VERSION } from './consts';
+import { LIB, SCHEMA_VERSION } from './consts';
 /////////////////////
 const DEFAULT_SEED = 987;
 function create() {
@@ -21,16 +21,20 @@ function set_seed(state, seed) {
 function update_use_count(state, prng, options = {}) {
     const new_use_count = prng.getUseCount();
     if (new_use_count < state.use_count)
-        throw new Error(`update PRNG state: count is lower than previous count, this is unexpected! Check your code!`);
-    if (!options.I_swear_I_really_cant_know_whether_the_rng_was_used && new_use_count === state.use_count)
-        console.warn(`update PRNG state: count hasn't changed = no random was generated! This is most likely a bug, check your code!`);
+        throw new Error(`${LIB}: update PRNG state: count is lower than previous count, this is unexpected! Check your code!`);
+    if (!options.I_swear_I_really_cant_know_whether_the_rng_was_used && new_use_count === state.use_count) {
+        const stack = new Error(`[Warning] ${LIB}: update PRNG state: count hasn't changed = no random was generated! This is most likely a bug, check your code!`).stack;
+        console.warn(stack);
+    }
     if (prng !== cached_prng)
-        throw new Error(`update PRNG state: passed prng is not the cached one, this is unexpected!`);
+        throw new Error(`${LIB}: update PRNG state: internal error: passed prng is not the cached-singleton one!`);
     state.use_count = new_use_count;
     return state;
 }
 function register_recently_used(state, id, value, max_memory_size) {
     state.recently_encountered_by_id[id] = state.recently_encountered_by_id[id] || [];
+    if (max_memory_size === 0)
+        return state;
     state.recently_encountered_by_id[id] = state.recently_encountered_by_id[id].concat(value).slice(-max_memory_size);
     return state;
 }
@@ -39,10 +43,15 @@ function register_recently_used(state, id, value, max_memory_size) {
 // - we MUST use only one, repeatable PRNG
 // - we can't store the prng in the state
 // - we must configure it once at start
-// we use a global cache to not recreate the prng each time.
+// we use a global cache to not having to recreate the prng each time.
 // Still, we control that the usage conforms to those expectations.
-let cached_prng = 'foo';
+let cached_prng = null;
 let cached_prng_was_updated_once = false;
+function xxx_internal_reset_prng_cache() {
+    cached_prng = Random.engines.mt19937().seed(DEFAULT_SEED);
+    cached_prng._seed = DEFAULT_SEED;
+    cached_prng_was_updated_once = false;
+}
 xxx_internal_reset_prng_cache();
 // WARNING this method has expectations ! (see above)
 function get_prng(state) {
@@ -61,14 +70,14 @@ function get_prng(state) {
     if (cached_prng.getUseCount() !== state.use_count) {
         // should never happen
         if (cached_prng.getUseCount() !== 0)
-            throw new Error(`state-prng get_prng() unexpected case: cached implementation need to be fast forwarded!`);
+            throw new Error(`${LIB}: get_prng(): unexpected case: cached implementation need to be fast forwarded!`);
         cached_prng.discard(state.use_count);
         cached_prng_updated = true;
     }
     if (cached_prng_updated) {
         // should never happen if we correctly update the prng state after each use
         if (cached_prng_was_updated_once)
-            throw new Error(`state-prng unexpected case: need to update again the prng!`);
+            throw new Error(`${LIB}: get_prng(): unexpected case: need to update again the prng!`);
         // we allow a unique update at start
         // TODO filter default case?
         /*console.log('updated PRNG from init situation', {
@@ -78,11 +87,6 @@ function get_prng(state) {
         cached_prng_was_updated_once = true;
     }
     return cached_prng;
-}
-function xxx_internal_reset_prng_cache() {
-    cached_prng = Random.engines.mt19937().seed(DEFAULT_SEED);
-    cached_prng._seed = DEFAULT_SEED;
-    cached_prng_was_updated_once = false;
 }
 /////////////////////
 export { DEFAULT_SEED, create, set_seed, update_use_count, register_recently_used, get_prng, 
