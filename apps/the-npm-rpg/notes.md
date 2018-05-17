@@ -6,6 +6,7 @@ https://github.com/terkelg/prompts
 ``` bash
 npm version minor
 npm run build
+npm run bin
 npm publish
 
 # https://docs.npmjs.com/cli/deprecate

@@ -14,7 +14,8 @@ interface State {
 interface Snapshot {
     available_energy: number;
     available_energy_float: number;
-    human_time_to_next: string;
     total_energy_refilling_ratio: number;
+    next_energy_refilling_ratio: number;
+    human_time_to_next: string;
 }
 export { EnergyUsage, State, Snapshot };

@@ -26,9 +26,10 @@ describe('snapshot', function() {
 			expect(snapshot).to.deep.equal({
 				available_energy: 7,
 				available_energy_float: 7.,
-				human_time_to_next: '',
-
 				total_energy_refilling_ratio: 1, // fully refilled
+
+				next_energy_refilling_ratio: 1,
+				human_time_to_next: '',
 			} as Snapshot)
 		})
 	})
@@ -47,8 +48,9 @@ describe('snapshot', function() {
 				expect(snapshot).to.deep.equal({
 					available_energy: 0,
 					available_energy_float: 0.,
-					human_time_to_next: '',
 					total_energy_refilling_ratio: 0,
+					next_energy_refilling_ratio: 0.,
+					human_time_to_next: '3h25m42s',
 				})
 			})
 		})
@@ -71,8 +73,9 @@ describe('snapshot', function() {
 				expect(snapshot).to.deep.equal({
 					available_energy: 0,
 					available_energy_float: 0.,
-					human_time_to_next: '',
 					total_energy_refilling_ratio: 0,
+					next_energy_refilling_ratio: 0.,
+					human_time_to_next: '3h25m42s',
 				})
 			})
 		})
@@ -92,8 +95,9 @@ describe('snapshot', function() {
 			expect(snapshot).to.deep.equal({
 				available_energy: 4,
 				available_energy_float: 4.,
-				human_time_to_next: '',
 				total_energy_refilling_ratio: round_float(4 / 7.),
+				next_energy_refilling_ratio: 0.,
+				human_time_to_next: '3h25m42s',
 			})
 		})
 	})
