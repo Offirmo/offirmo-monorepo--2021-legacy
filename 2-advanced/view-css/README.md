@@ -68,6 +68,6 @@ You can't use height: 100vh on Chrome mobile or the url bar will get in the way.
 * https://medium.com/@erikdkennedy/7-rules-for-creating-gorgeous-ui-part-2-430de537ba96
 
 
-## ideas todo
+## ideas TODO
 Techniques
 * http://simurai.com/blog/2018/04/01/contextual-styling

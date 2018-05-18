@@ -23,7 +23,7 @@ type ElementType = Enum<typeof ElementType>
 interface Element {
 	uuid: UUID
 	element_type: ElementType
-	// todo add schema version ?
+	// TODO add schema version ?
 }
 
 /////////////////////
@@ -49,8 +49,8 @@ type InventorySlot = Enum<typeof InventorySlot>
 interface Item extends Element {
 	slot: InventorySlot
 	quality: ItemQuality
-	// todo generation date ?
-	// made by ?
+	// TODO generation date ?
+	// TODO made by ?
 }
 
 /////////////////////

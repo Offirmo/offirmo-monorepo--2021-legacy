@@ -132,7 +132,7 @@ function start_loop(SEC, options, instance) {
 					})
 				}
 
-				let energy_snapshot = get_energy_snapshot(state.energy)
+				const energy_snapshot = get_energy_snapshot(state.energy)
 				let energy = `⚡ energy ${energy_snapshot.available_energy}/${state.energy.max_energy}`
 				if (energy_snapshot.human_time_to_next) {
 					energy += `, next in ${energy_snapshot.human_time_to_next}`
@@ -437,7 +437,7 @@ function start_loop(SEC, options, instance) {
 							msgg_as_user: () => 'You’re awesome…',
 						},
 						{
-							msg_cta: 'Reward the game author with a reddit like 👍',
+							msg_cta: '💰 Reward the game author with a reddit like 👍',
 							value: URL_OF_REDDIT_PAGE,
 							msgg_as_user: () => 'You’re awesome…',
 						},

@@ -54,7 +54,7 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects
 https://www.npmjs.com/package/universal-analytics
 
 
-TODO
+TODO SEC:
 * "lib" mode with a default context
 * stoppable
 * logger https://github.com/ianstormtaylor/browser-logger

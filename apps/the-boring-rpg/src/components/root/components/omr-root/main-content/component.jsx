@@ -4,7 +4,7 @@ import { once } from 'lodash'
 import ExplorePanel from '../../../../panels/explore'
 import CharacterPanel from '../../../../panels/character'
 import InventoryPanel from '../../../../panels/inventory'
-
+import EnergyIndicator
 import './index.css'
 
 const MODE_TO_PANEL = {
@@ -21,6 +21,7 @@ export default function UniverseAnchor({mode, is_chat_open}) {
 			<div key="content-area" className="omr⋄content-area">
 				{MODE_TO_PANEL[mode] || <ExplorePanel />}
 			</div>
+
 
 		</div>
 	)

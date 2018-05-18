@@ -8,4 +8,7 @@ The game is live here: https://www.online-adventur.es/apps/the-boring-rpg/
 This app is hosted inside a bolt JavaScript mono-repo. Go clone it full.
 
 ## Releasing
-TODO
+```bash
+yarn build
+(copy to oa TODO make a script!)
+```

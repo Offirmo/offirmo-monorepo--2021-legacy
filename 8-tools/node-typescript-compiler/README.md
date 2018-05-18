@@ -74,7 +74,7 @@ However, that would take a lot of time and effort, and I'm afraid of API changes
 ## see also
 https://www.npmjs.com/package/ntypescript but they have poor doc and don't allow choosing the typescript version (ex. using the unstable "next")
 
-TODO 
+TODO note ts comp
 - option as array
 - newline filtering
 - reset screen on watch

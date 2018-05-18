@@ -44,5 +44,4 @@ yarn global add bolt
 ```
 
 
-TODO
-- not generate unneeded es7 es7.cjs
+TODO not generate unneeded es7 es7.cjs

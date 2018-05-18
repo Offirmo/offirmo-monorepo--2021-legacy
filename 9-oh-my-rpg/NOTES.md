@@ -26,7 +26,7 @@ Scénario
 * https://worldbuilding.stackexchange.com/questions/111349/how-can-a-colony-of-teleporters-make-the-most-money-while-keeping-their-teleport
 * https://twitter.com/ptychomancer/status/980968298002006016
 
-TODO
+TODO omr
 * immutabilité https://github.com/mweststrate/immer
 * CQRS
   if switch to immutable: change all action parameters to Readonly<State>
@@ -52,7 +52,7 @@ bugs:
 - inventory full
 - display on windows
 
-TODO:
+TODO: omr
 - luck should have an effect: more money, more chance to gain artifacts, etc.
 - funny negative adventure
 - battles
