@@ -10,7 +10,7 @@ npm run bin
 npm publish
 
 # https://docs.npmjs.com/cli/deprecate
-npm deprecate the-npm-rpg@"< 0.4" "Please use the latest version"
+npm deprecate the-npm-rpg@"< 0.12" "Please use the latest version"
 ```
 
 https://github.com/JorgeBucaran/getopts
