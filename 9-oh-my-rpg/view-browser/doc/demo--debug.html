@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<!-- html5_007 : WTE micro template -->
+
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<title>@oh-my-RPG/view-browser</title>
+
+		<link href="../src/style.css" rel="stylesheet">
+		<style type="text/css">
+			/* parameters we can't compute automatically */
+			:root {
+				--omr⋄ui__logo-content--width_: 250px;
+				--omr⋄ui__universe-anchor-content--width_: 230px
+			}
+
+			body {
+				background-color: white;
+			}
+
+			.omr⋄logo span {
+				background-color: rgba(0, 255, 0, .7);
+				white-space: nowrap;
+				font-size: calc(20px * var(--omr⋄ui__scale));
+				overflow-x: hidden;
+				overflow-y: hidden;
+			}
+			.omr⋄universe-anchor span {
+				background-color: rgba(0, 255, 255, .7);
+				overflow-x: hidden;
+				overflow-y: hidden;
+			}
+
+			#debug⋄hud⁚top-left {
+				z-index: 50000;
+				position: fixed;
+				top: 0;
+				left: 0;
+				border-bottom: 1px dashed green;
+				width: 100%;
+				height: calc(var(--omr⋄ui__hamburger--visible-heigth_) * var(--omr⋄ui__scale));
+			}
+			#debug-hamburger {
+				z-index: 50000;
+				position: fixed;
+				top: 0;
+				left: 0;
+				border-right: 1px dashed red;
+				border-bottom: 1px dashed red;
+				width: calc(var(--omr⋄ui__hamburger--visible-width_) * var(--omr⋄ui__scale));
+				height: calc(var(--omr⋄ui__hamburger--visible-heigth_) * var(--omr⋄ui__scale));
+			}
+			#debug-logo {
+				z-index: 50000;
+				position: fixed;
+				top: 0;
+				left: 0;
+				border-right: 1px dashed red;
+				border-bottom: 1px dashed red;
+				width: calc(var(--omr⋄ui__logo--visible-width_) * var(--omr⋄ui__scale));
+				height: calc(var(--omr⋄ui__logo--visible-height_) * var(--omr⋄ui__scale));
+			}
+			#debug-universe-anchor {
+				z-index: 50000;
+				position: fixed;
+				top: 0;
+				left: 0;
+				border-right: 1px dashed red;
+				border-bottom: 1px dashed red;
+				width: calc(var(--omr⋄ui__universe-anchor--visible-width_) * var(--omr⋄ui__scale));
+				height: calc(var(--omr⋄ui__universe-anchor--visible-height_) * var(--omr⋄ui__scale));
+			}
+		</style>
+
+	</head>
+
+	<body class="omr⋄font-family⁚pixantiqua o⋄pad⁚0">
+
+	<div class="omr⋄hud⁚top-left">
+		<div class="omr⋄hamburger">
+			<span class="icomoon-menu"></span>
+		</div>
+
+		<div class="omr⋄logo">
+			<span>[Your superb logo here]</span>
+		</div>
+
+		<div class="omr⋄universe-anchor">
+			<span>[Player short status here]</span>
+		</div>
+	</div>
+
+	<div class="omr⋄hud⁚bottom-right">
+		<div class="omr⋄bottom-menu">
+			<span class="omr⋄bottom-menu⁚icon icomoon-treasure-map"></span>
+			<span class="omr⋄bottom-menu⁚icon icomoon-battle-gear"></span>
+			<span class="omr⋄bottom-menu⁚icon icomoon-locked-chest"></span>
+			<span class="omr⋄bottom-menu⁚icon icomoon-conversation"></span>
+		</div>
+	</div>
+
+	<!-- <div class="omr⋄full-size-fixed-layer"> -->
+	<div class="o⋄top-container o⋄centered-article">
+		<h1>...</h1>
+
+		<p>
+			Normal text
+			<strong>emphasized text</strong>
+			<span class="o⋄color⁚secondary">secondary text</span>
+			<span class="o⋄color⁚ancillary">ancillary text</span>
+			What I’m saying is that it’s so, so simple to make sites easier to read. Websites are broken by default, they are functional, high-performing, and accessible, but they’re also fucking ugly. You and all the other web designers out there need to make them not total shit.
+			<button>Click me!</button>
+			<a>Click me!</a>
+		</p>
+	</div>
+
+	<div id="debug⋄hud⁚top-left">
+		<div id="debug-hamburger"></div>
+		<div id="debug-logo"></div>
+		<div id="debug-universe-anchor"></div>
+	</div>
+
+	<div id="debug-bottom"></div>
+
+
+		<script>
+			document.querySelector('h1').textContent = document.title
+			Array.prototype.forEach.call(document.querySelectorAll('a'), function(el) {
+				el.href || (el.href = el.text)
+			})
+		</script>

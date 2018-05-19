@@ -1,7 +1,7 @@
 /******* OMR customization *******/
 
 /* parameters we can't compute automatically */
-.omr⋄top-hud {
+.omr⋄hud⁚top-left {
 	--omr⋄ui__universe-anchor--left-position: 141px;
 }
 

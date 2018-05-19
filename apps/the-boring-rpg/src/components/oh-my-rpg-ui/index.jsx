@@ -30,7 +30,7 @@ export class OhMyRpgUI extends Component {
 
 				<div className="omr⋄full-size-background-layer omr⋄bg-image⁚tiled-marble_black"/>
 
-				<div className="omr⋄top-hud">
+				<div className="omr⋄hud⁚top-left">
 					<div className="omr⋄hamburger" onClick={this.toggleHamburgerMenu}>
 						{this.state.isHamburgerMenuOpen
 							? <span className="icomoon-undo2"/>
@@ -55,7 +55,7 @@ export class OhMyRpgUI extends Component {
 					{this.props.children}
 				</ErrorBoundary>
 
-				<div className="omr⋄bottom-hud">
+				<div className="omr⋄hud⁚bottom-right">
 					<div className="omr⋄bottom-menu">
 						<ErrorBoundary name={'omr:bottom-menu'}>
 							{this.props.bottomMenuItems}

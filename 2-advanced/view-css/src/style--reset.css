@@ -47,12 +47,11 @@ body {
 h1, h2, h3 {
 	/* http://perfectmotherfuckingwebsite.com/ */
 	line-height: 1.2;
-	/* because they are too big */
-	margin: .7em 0;
 }
 
+h1, h2, h3,
 p {
-	/* because they are too big */
+	/* because they are too big by default */
 	margin: .7em 0;
 }
 

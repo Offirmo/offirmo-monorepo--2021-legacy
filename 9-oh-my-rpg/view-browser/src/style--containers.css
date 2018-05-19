@@ -6,5 +6,4 @@
 
 .omr⋄rounded-rectangle {
 	--diameter: calc(var(--omr⋄ui__hamburger--diameter) * var(--scale));
-
 }
