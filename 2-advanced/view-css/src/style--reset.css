@@ -30,12 +30,12 @@ body {
 	/* adapted from http://perfectmotherfuckingwebsite.com */
 	max-width: 650px;
 	margin: 0 auto; /* 0 for the 100% trick to work, auto for centering */
-	padding: 0 10px;
+	padding: 40px 10px;
 	font-family: var(--o⋄font-family--fast_and_good_enough);
 	color: var(--o⋄color--fg⁚main);
 	background-color: var(--o⋄color--bg⁚main);
 	line-height: 1.6;
-	font-size: 16px;
+	font-size: 18px;
 
 	/* https://www.leejamesrobinson.com/blog/how-stripe-designs-beautiful-websites/ */
 	text-rendering: optimizeLegibility;
@@ -48,12 +48,12 @@ h1, h2, h3 {
 	/* http://perfectmotherfuckingwebsite.com/ */
 	line-height: 1.2;
 	/* because they are too big */
-	margin: .5em 0;
+	margin: .7em 0;
 }
 
 p {
 	/* because they are too big */
-	margin: .5em 0;
+	margin: .7em 0;
 }
 
 

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<title>@offirmo/view-css - hello world</title>
+
+		<link href="../src/style.css" rel="stylesheet">
+	</head>
+
+	<body>
+
+		<h1>...</h1>
+
+		<p>
+			Yes, a new framework: my own ;)
+		</p>
+
+		<h2>A CSS reset + micro CC framework</h2>
+
+		<p>
+			What I’m saying is that it’s so, so simple to make sites easier to read. Websites are broken by default, they are functional, high-performing, and accessible, but they’re also fucking ugly. You and all the other web designers out there need to make them not total shit.
+		</p>
+
+		<hr>
+
+		<p>
+Strongly inspired by <a href="http://motherfuckingwebsite.com/">motherfuckingwebsite</a>,
+			<a href="http://bettermotherfuckingwebsite.com/">bettermotherfuckingwebsite</a>,
+			<a href="http://perfectmotherfuckingwebsite.com/">perfectmotherfuckingwebsite</a> and many blog posts.
+		</p>
+
+		<script>
+			document.querySelector('h1').textContent = document.title
+			Array.prototype.forEach.call(document.querySelectorAll('a'), function(el) {
+				el.href || (el.href = el.text)
+			})
+		</script>

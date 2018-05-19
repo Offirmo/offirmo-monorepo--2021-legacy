@@ -51,8 +51,8 @@ Activated through classes:
 #### full height page working on mobile browser
 You can't use height: 100vh on Chrome mobile or the url bar will get in the way. Solution:
 ```html
-<html class="o⋄top-container">
-	<body class="o⋄top-container">
+<html>
+	<body>
 		<div class="o⋄top-container o⋄centered-article o⋄pad⁚7">
 			<p>Hello world</p>
 ```

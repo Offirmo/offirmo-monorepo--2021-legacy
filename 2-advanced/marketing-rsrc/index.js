@@ -5,6 +5,8 @@ const URL_TERMS_OF_SERVICE = 'todo'
 
 //////////// Me ////////////
 
+// TODO https://icongr.am/simple
+
 const MAKER_OFFIRMO = {
 	name: 'Offirmo',
 	url: 'https://www.offirmo.net',
