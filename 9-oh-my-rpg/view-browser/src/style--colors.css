@@ -15,10 +15,3 @@
 	--o⋄color--fg⁚main: var(--o⋄color__co212__beige);
 	--o⋄color--fg⁚main--translucent: var(--o⋄color__co212__beige--translucent);
 }
-
-
-/* TODO make it more clever */
-a:link,
-a:visited {color: var(--o⋄color__co212__blue);}
-a:hover,
-a:active {color: red;}
