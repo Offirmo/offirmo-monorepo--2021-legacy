@@ -64,6 +64,7 @@ interface State {
 
 	// TODO uuid?
 	// TODO upper savegame?
+	// TODO meta?
 
 	avatar: CharacterState
 	inventory: InventoryState

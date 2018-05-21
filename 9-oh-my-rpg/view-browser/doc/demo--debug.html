@@ -38,6 +38,10 @@
 				overflow-y: hidden;
 			}
 
+			.debug {
+				pointer-events: none;
+			}
+
 			#debug⋄hud⁚top-left {
 				z-index: 50000;
 				position: fixed;
@@ -123,13 +127,13 @@
 		</p>
 	</div>
 
-	<div id="debug⋄hud⁚top-left">
-		<div id="debug-hamburger"></div>
-		<div id="debug-logo"></div>
-		<div id="debug-universe-anchor"></div>
+	<div id="debug⋄hud⁚top-left" class="debug">
+		<div id="debug-hamburger" class="debug"></div>
+		<div id="debug-logo" class="debug"></div>
+		<div id="debug-universe-anchor" class="debug"></div>
 	</div>
 
-	<div id="debug-bottom"></div>
+	<div id="debug-bottom" class="debug"></div>
 
 
 		<script>

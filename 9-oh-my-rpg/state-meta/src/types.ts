@@ -10,6 +10,7 @@ interface State {
 	name: string
 	email: string | null
 	allow_telemetry: boolean
+	creation_date: XXX /* TODO */
 }
 
 /////////////////////

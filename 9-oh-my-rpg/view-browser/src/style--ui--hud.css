@@ -51,6 +51,7 @@
 		+ var(--omr⋄ui__universe-anchor-content--width_)
 		+ 2 * var(--omr⋄ui__padding_)
 	);
+	/* TODO fix (too small) */
 	--omr⋄ui__universe-anchor--visible-height_: calc((
 			var(--omr⋄ui__logo--visible-height_)
 			- var(--omr⋄ui__border--width_)
@@ -163,7 +164,11 @@
 	top: calc(var(--position-shift) * -1);
 	left: calc(var(--position-shift) * -1);
 
-	padding-top: calc(var(--position-shift) - var(--omr⋄ui__border--width_) * var(--scale));
+	padding-top: calc(
+		var(--position-shift)
+		- var(--omr⋄ui__border--width_) * var(--scale)
+		+ var(--padding)
+	);
 	padding-left: calc(
 		var(--position-shift) + (
 			var(--omr⋄ui__hamburger--visible-width_)
@@ -172,6 +177,7 @@
 		+ var(--padding)
 	);
 	padding-right: var(--padding);
+	padding-bottom: var(--padding);
 
 	/* Help center content */
 	display: flex;
@@ -179,7 +185,7 @@
 	justify-content: center;
 }
 .omr⋄logo:hover {
-	--omr⋄ui__logo--scale: calc(var(--omr⋄ui__scale) * 1.02);
+	--omr⋄ui__logo--scale: calc(var(--omr⋄ui__scale) * 1.01);
 }
 .omr⋄logo > * {
 	/* Help center content */
@@ -191,17 +197,18 @@
 }
 
 .omr⋄universe-anchor {
-	--scale: var(--omr⋄ui__universe-anchor--scale, var(--omr⋄ui__scale));
+	--scale-base: var(--omr⋄ui__scale);
+	--scale-hoverable: var(--omr⋄ui__universe-anchor--scale, var(--omr⋄ui__scale));
 	--visible-ratio: var(--omr⋄ui__logo--visible-ratio);
-	--padding: calc(var(--omr⋄ui__padding_) * var(--scale));
+	--padding: calc(var(--omr⋄ui__padding_) * var(--scale-base));
 
-	--height: calc((var(--omr⋄ui__logo--shape-height_) - 2 * var(--omr⋄ui__border--width_)) * var(--scale));
+	--height: calc((var(--omr⋄ui__logo--shape-height_) - 2 * var(--omr⋄ui__border--width_)) * var(--scale-base));
 	--position-shift: calc(var(--height) * (1 - var(--visible-ratio)));
 	--width: calc(
 		var(--position-shift) + (
 			var(--omr⋄ui__logo--visible-width_)
 			+ var(--omr⋄ui__universe-anchor-content--width_)
-		) * var(--scale)
+		) * var(--scale-base)
 		+ 2 * var(--padding)
 	);
 
@@ -219,27 +226,39 @@
 	width: var(--width);
 	height: var(--height);
 	/*max-height: var(--height);*/
-	border-radius: calc(5px * var(--scale)) / calc(30px * var(--scale));
+	border-radius: calc(5px * var(--scale-base)) / calc(30px * var(--scale-base));
 
 	color: var(--o⋄color--fg⁚main);
 	background: var(--o⋄color--bg⁚main--translucent);
 	border: none;
 
 	position: fixed;
-	top: calc(var(--position-shift) * -1);
-	left: calc(var(--position-shift) * -1);
+	top: calc(
+		var(--position-shift) * -1
+			/* hack for hover effect */
+		+ (var(--scale-hoverable) - var(--scale-base)) * 50px
+	);
+	left: calc(
+		var(--position-shift) * -1
+		/* hack for hover effect */
+		+ (var(--scale-hoverable) - var(--scale-base)) * 50px
+	);
 
-	padding-top: var(--position-shift);
+	padding-top: calc(
+		var(--position-shift)
+		+ var(--padding)
+	);
 	padding-left: calc(
 		var(--position-shift) + (
 			var(--omr⋄ui__logo--visible-width_)
-		) * var(--scale)
+		) * var(--scale-base)
 		+ var(--padding)
 	);
 	padding-right: var(--padding);
+	padding-bottom: var(--padding);
 }
 .omr⋄universe-anchor:hover {
-	--omr⋄ui__universe-anchor--scale: calc(var(--omr⋄ui__scale) * 1.05);
+	--omr⋄ui__universe-anchor--scale: calc(var(--omr⋄ui__scale) * 1.02);
 }
 .omr⋄universe-anchor > * {
 	/* Help center content */
@@ -305,11 +324,7 @@
 /************/
 
 .omr⋄content-area {
-	/*height: 100%;
-	display: flex;
-	flex-direction: column;*/
-	/*overflow-x: hidden;
-	overflow-y: hidden;*/
+	/* only useful for before/after, see below */
 }
 .omr⋄content-area:before {
 	content: ' ';

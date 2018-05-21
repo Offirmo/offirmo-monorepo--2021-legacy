@@ -4,6 +4,7 @@
 
 /////////////////////////////////////////////////
 
+// TODO move to foundation/advanced
 const enclose_in_box = require('boxen')
 
 const stylize_string = require('chalk')

@@ -12,6 +12,7 @@ export default class TheBoringRPG extends Component {
 			<Router basename={BASE_ROUTE}>
 				<Switch>
 					<Route exact path={ROUTES.home} render={() => <Game />} />
+
 					{ /* fallback to home */ }
 					<Redirect to={ROUTES.home} />
 				</Switch>
