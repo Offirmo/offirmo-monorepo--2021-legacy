@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { render_adventure } from '@oh-my-rpg/view-rich-text'
+const { get_snapshot: get_energy_snapshot } = require('@oh-my-rpg/state-energy')
 
 import { Chat } from '../../chat-interface'
 import { rich_text_to_react } from '../../../utils/rich_text_to_react'
@@ -17,6 +18,7 @@ export default class Component extends React.Component {
 			const state = game_instance.get_latest_state()
 			const ui_state = game_instance.get_client_state()
 			const { last_adventure } = state
+			const energy_snapshot = get_energy_snapshot(state.energy)
 
 			if (!ui_state.alpha_warning_displayed) {
 				yield {
@@ -38,13 +40,14 @@ export default class Component extends React.Component {
 				}))
 			}
 
-			if (state.last_adventure && last_adventure.uuid !== ui_state.last_displayed_adventure_uuid) {
-				steps.push({
-					type: 'progress',
-					duration_ms: 1000,
-					msg_main: `Exploring…`,
-					msgg_acknowledge: () => 'Encountered something:\n',
-				})
+			if (last_adventure && last_adventure.uuid !== ui_state.last_displayed_adventure_uuid) {
+				if (last_adventure.good)
+					steps.push({
+						type: 'progress',
+						duration_ms: 1000,
+						msg_main: `Exploring…`,
+						msgg_acknowledge: () => 'Encountered something:\n',
+					})
 
 				const { good_click_count } = state
 				//console.log({ good_click_count, last_adventure })
@@ -72,11 +75,14 @@ export default class Component extends React.Component {
 				})
 			}
 
+			let CTA =`Play! ⚡${energy_snapshot.available_energy}/${state.energy.max_energy}`
+			if (energy_snapshot.human_time_to_next)
+				CTA += ` (next in ${energy_snapshot.human_time_to_next})`
 			steps.push({
 				msg_main: `What do you want to do?`,
 				choices: [
 					{
-						msg_cta: 'Play!',
+						msg_cta: CTA,
 						value: 'play',
 						msgg_as_user: () => 'Let’s go adventuring!',
 						callback: () => {
