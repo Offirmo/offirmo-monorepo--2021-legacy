@@ -3,7 +3,7 @@ import React from 'react';
 import ExplorePanel from '../../../../panels/explore'
 import CharacterPanel from '../../../../panels/character'
 import InventoryPanel from '../../../../panels/inventory'
-import EnergyIndicator from '../../../../energy-indicator'
+//import EnergyIndicator from '../../../../energy-indicator'
 
 import './index.css'
 
@@ -22,7 +22,7 @@ export default function UniverseAnchor({mode, is_chat_open}) {
 				{MODE_TO_PANEL[mode] || <ExplorePanel />}
 			</div>
 
-			<EnergyIndicator />
+			{/*<EnergyIndicator />*/}
 		</div>
 	)
 }

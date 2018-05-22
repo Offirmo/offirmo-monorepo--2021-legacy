@@ -67,7 +67,7 @@ export class OhMyRpgUI extends Component {
 					<div
 						key="aboutBlanket"
 						id="about-panel"
-						className="omr⋄content-area omr⋄plane⁚meta"
+						className="o⋄top-container omr⋄content-area omr⋄plane⁚meta"
 						onClick={this.toggleAbout}>
 						<ErrorBoundary name={'omr:about-blanket'}>
 							{this.props.aboutContent}
@@ -79,7 +79,7 @@ export class OhMyRpgUI extends Component {
 				<div
 					key="hamburgerMenu"
 					id="meta-panel"
-					className="omr⋄content-area omr⋄plane⁚meta">
+					className="o⋄top-container omr⋄content-area omr⋄plane⁚meta">
 					<ErrorBoundary name={'omr:hamburger-pane'}>
 						{this.props.hamburgerPanelContent}
 					</ErrorBoundary>
