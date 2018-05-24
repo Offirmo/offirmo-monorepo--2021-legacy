@@ -5,6 +5,25 @@ const consts_1 = require("./consts");
 const utils_1 = require("./utils");
 const ENERGY_ROUNDING = 1000000;
 exports.ENERGY_ROUNDING = ENERGY_ROUNDING;
+function time_to_human(seconds) {
+    let human_time = '';
+    const s = seconds % 60;
+    const m = ((seconds - s) / 60) % 60;
+    const h = (seconds - s - m * 60) / 3600;
+    if (h)
+        human_time += `${h}h`;
+    if (m) {
+        human_time += `${m}`;
+        if (!h)
+            human_time += 'm';
+    }
+    if (s && !(h && m)) {
+        human_time += `${s}`;
+        if (!h && !m)
+            human_time += 's';
+    }
+    return human_time;
+}
 const DEBUG = false;
 function get_snapshot(state, now = new Date()) {
     if (DEBUG)
@@ -37,20 +56,10 @@ function get_snapshot(state, now = new Date()) {
     snapshot.available_energy_float = utils_1.round_float(energy_float, ENERGY_ROUNDING);
     snapshot.total_energy_refilling_ratio = utils_1.round_float(energy_float / MAX_ENERGY_FLOAT);
     // compute time-to-next energy if applicable
-    let human_time_to_next = '';
     if (snapshot.available_energy < state.max_energy) {
         const dec = energy_float - Math.trunc(energy_float);
         const sec_until_next = Math.trunc((1 - dec) / ENERGY_REFILLING_RATE_PER_S);
-        const s = sec_until_next % 60;
-        const m = ((sec_until_next - s) / 60) % 60;
-        const h = (sec_until_next - s - m * 60) / 3600;
-        if (h)
-            human_time_to_next += `${h}h`;
-        if (m)
-            human_time_to_next += `${m}m`;
-        if (s)
-            human_time_to_next += `${s}s`;
-        snapshot.human_time_to_next = human_time_to_next;
+        snapshot.human_time_to_next = time_to_human(sec_until_next);
         snapshot.next_energy_refilling_ratio = utils_1.round_float(dec, ENERGY_ROUNDING);
     }
     return snapshot;

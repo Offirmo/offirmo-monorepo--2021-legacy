@@ -549,6 +549,7 @@ template {
 	top: 0;
 	left: 0;
 	background-color: rgba(0, 0, 0, .7);
+	border-right: solid 2px;
 }
 
 /* https://stackoverflow.com/a/37600130/587407 */
@@ -1651,8 +1652,8 @@ hr.omr⋄border-h⁚test {
 
 	--omr⋄ui__universe-anchor-content--width_: auto; /* Should be refined by the user */
 
-	--omr⋄ui__bottom-menu--shape-height_: 69px;
-	--omr⋄ui__bottom-menu--visible-ratio: 0.7;
+	--omr⋄ui__bottom-menu--shape-height_: 80px;
+	--omr⋄ui__bottom-menu--visible-ratio: 0.63;
 
 	--omr⋄ui__meta--shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28);
 	--omr⋄ui__universe--shadow: 0 0 2px rgba(0,0,0,.14), 0 2px 4px rgba(0,0,0,.28);
@@ -1706,14 +1707,13 @@ hr.omr⋄border-h⁚test {
 
 /*********************/
 
-.omr⋄hud⁚top-left, .omr⋄hud⁚bottom-right {
+.omr⋄hud {
 	position: absolute; /* prevent from taking room */
 	display: flex;
 	flex-direction: row;
 }
-.omr⋄hud⁚top-left a,
-.omr⋄hud⁚bottom-right a {
-	/* usually what we want */
+.omr⋄hud a {
+	/* usually what we want in HUD elements */
 	text-decoration: none;
 	color: inherit;
 }
@@ -1788,7 +1788,9 @@ hr.omr⋄border-h⁚test {
 	background: var(--o⋄color--bg⁚main);
 	color: var(--o⋄color--fg⁚main);
 	border: solid calc(var(--omr⋄ui__border--width_) * var(--scale)) var(--o⋄color--fg⁚main);
-	border-radius: calc(30px * var(--scale)) / calc(75px * var(--scale));
+	border-radius: calc(18px * var(--scale)) / calc(60px * var(--scale));
+	yyborder-radius: calc(30px * var(--scale)) / calc(75px * var(--scale));
+	xxborder-radius: calc(5px * var(--scale)) / calc(30px * var(--scale));
 
 	position: fixed;
 	top: calc(var(--position-shift) * -1);
@@ -1857,6 +1859,7 @@ hr.omr⋄border-h⁚test {
 	height: var(--height);
 	/*max-height: var(--height);*/
 	border-radius: calc(5px * var(--scale-base)) / calc(30px * var(--scale-base));
+	xxborder-radius: calc(30px * var(--scale-base)) / calc(75px * var(--scale-base));
 
 	color: var(--o⋄color--fg⁚main);
 	background: var(--o⋄color--bg⁚main--translucent);
@@ -1912,7 +1915,9 @@ hr.omr⋄border-h⁚test {
 	 */
 	height: var(--height);
 	max-height: var(--height);
-	border-radius: calc(8px * var(--scale)) / 40%;
+	xxborder-radius: calc(8px * var(--scale)) / 40%;
+	border-radius: calc(18px * var(--scale)) / calc(60px * var(--scale));
+	yyborder-radius: calc(30px * var(--scale)) / calc(75px * var(--scale));
 
 	color: var(--o⋄color--fg⁚main);
 	border: solid calc(1px * var(--scale)) var(--o⋄color--fg⁚main);

@@ -13,19 +13,55 @@ import { SoftExecutionContext, SECContext, get_SEC } from './sec'
 
 /////////////////////
 
+function reset_and_salvage(legacy_state: any): State {
+	let state = create()
+
+	// still, try to salvage "meta" for engagement
+	try {
+
+		// ensure this code is up to date
+		if (typeof state.avatar.name !== 'string') {
+			// TODO report
+			console.warn(`${LIB}: need to update the avatar name salvaging!`)
+			return create()
+		}
+		if (typeof legacy_state.avatar.name === 'string') {
+			state.avatar.name = legacy_state.avatar.name
+		}
+
+		// TODO salvage creation date as well
+
+		console.info(`${LIB}: salvaged some savegame data.`)
+	}
+	catch (err) {
+		/* swallow */
+		console.warn(`${LIB}: salvaging failed!`)
+		state = create()
+	}
+	return state
+}
+
 function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: any = {}): State {
 	return get_SEC(SEC).xTry('migrate_to_latest', ({SEC, logger}: SECContext) => {
 		const src_version = (legacy_state && legacy_state.schema_version) || 0
 
 		let state: State = create()
 
+		const SUB_REDUCERS_COUNT = 5
+		const OTHER_KEYS_COUNT = 6
+		if (Object.keys(state).length !== SUB_REDUCERS_COUNT + OTHER_KEYS_COUNT)
+			throw new Error('migrate_to_latest is outdated, please update!')
+
 		if (!legacy_state || Object.keys(legacy_state).length === 0) {
 			// = empty or empty object (happen, with some deserialization techniques)
 			// It's a new state, keep the freshly created one.
-		} else if (src_version === SCHEMA_VERSION)
+		}
+		else if (src_version === SCHEMA_VERSION) {
 			state = legacy_state as State
-		else if (src_version > SCHEMA_VERSION)
+		}
+		else if (src_version > SCHEMA_VERSION) {
 			throw new Error(`Your data is from a more recent version of this lib. Please update!`)
+		}
 		else {
 			try {
 				// TODO logger
@@ -37,21 +73,7 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: 
 				// failed, reset all
 				// TODO send event upwards
 				console.error(`${LIB}: failed migrating schema, performing full reset !`, err)
-				state = create()
-				// still, try to salvage "meta" for engagement
-				try {
-					if (typeof state.avatar.name !== 'string') {
-						console.warn(`${LIB}: need to update the avatar name salvaging!`)
-						throw new Error('!')
-					}
-					// TODO salvage creation date as well
-
-					if (typeof legacy_state.avatar.name === 'string')
-						state.avatar.name = legacy_state.avatar.name
-				}
-				catch (err) {
-					/* swallow */
-				}
+				state = reset_and_salvage(legacy_state)
 			}
 		}
 
@@ -59,18 +81,22 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: 
 			state = reseed(state)
 		}
 
-		// migrate sub-reducers if any...
 		// TODO migrate adventures??
-		const NON_SUB_KEYS_COUNT = 6
-		if (Object.keys(state).length > (NON_SUB_KEYS_COUNT + 5)) {
-			console.error(`${LIB}: failed migrating schema, missing sub-reducers !`)
-		}
 
-		state.avatar = CharacterState.migrate_to_latest(SEC, state.avatar, hints.avatar)
-		state.inventory = InventoryState.migrate_to_latest(state.inventory, hints.inventory)
-		state.wallet = WalletState.migrate_to_latest(state.wallet, hints.wallet)
-		state.prng = PRNGState.migrate_to_latest(state.prng, hints.prng)
-		state.energy = EnergyState.migrate_to_latest(state.energy, hints.energy)
+		// migrate sub-reducers if any...
+		try {
+			state.avatar = CharacterState.migrate_to_latest(SEC, state.avatar, hints.avatar)
+			state.inventory = InventoryState.migrate_to_latest(state.inventory, hints.inventory)
+			state.wallet = WalletState.migrate_to_latest(state.wallet, hints.wallet)
+			state.prng = PRNGState.migrate_to_latest(state.prng, hints.prng)
+			state.energy = EnergyState.migrate_to_latest(state.energy, hints.energy)
+		}
+		catch (err) {
+			// failed, reset all
+			// TODO send event upwards
+			console.error(`${LIB}: failed migrating sub-schema, performing full reset !`, err)
+			state = reset_and_salvage(legacy_state)
+		}
 
 		return state
 	})
