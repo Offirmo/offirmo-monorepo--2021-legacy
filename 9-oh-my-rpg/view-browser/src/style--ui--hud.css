@@ -158,8 +158,6 @@
 	color: var(--o⋄color--fg⁚main);
 	border: solid calc(var(--omr⋄ui__border--width_) * var(--scale)) var(--o⋄color--fg⁚main);
 	border-radius: calc(18px * var(--scale)) / calc(60px * var(--scale));
-	yyborder-radius: calc(30px * var(--scale)) / calc(75px * var(--scale));
-	xxborder-radius: calc(5px * var(--scale)) / calc(30px * var(--scale));
 
 	position: fixed;
 	top: calc(var(--position-shift) * -1);
@@ -201,7 +199,7 @@
 	--scale-base: var(--omr⋄ui__scale);
 	--scale-hoverable: var(--omr⋄ui__universe-anchor--scale, var(--omr⋄ui__scale));
 	--visible-ratio: var(--omr⋄ui__logo--visible-ratio);
-	--padding: calc(var(--omr⋄ui__padding_) * var(--scale-base));
+	--padding: calc(var(--omr⋄ui__universe-anchor--padding_, var(--omr⋄ui__padding_)) * var(--scale-base));
 
 	--height: calc((var(--omr⋄ui__logo--shape-height_) - 2 * var(--omr⋄ui__border--width_)) * var(--scale-base));
 	--position-shift: calc(var(--height) * (1 - var(--visible-ratio)));
@@ -228,7 +226,6 @@
 	height: var(--height);
 	/*max-height: var(--height);*/
 	border-radius: calc(5px * var(--scale-base)) / calc(30px * var(--scale-base));
-	xxborder-radius: calc(30px * var(--scale-base)) / calc(75px * var(--scale-base));
 
 	color: var(--o⋄color--fg⁚main);
 	background: var(--o⋄color--bg⁚main--translucent);
@@ -284,9 +281,7 @@
 	 */
 	height: var(--height);
 	max-height: var(--height);
-	xxborder-radius: calc(8px * var(--scale)) / 40%;
 	border-radius: calc(18px * var(--scale)) / calc(60px * var(--scale));
-	yyborder-radius: calc(30px * var(--scale)) / calc(75px * var(--scale));
 
 	color: var(--o⋄color--fg⁚main);
 	border: solid calc(1px * var(--scale)) var(--o⋄color--fg⁚main);

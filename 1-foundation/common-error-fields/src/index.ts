@@ -13,9 +13,10 @@ function create(): Set<string> {
 		'stack',
 
 		// non standard but widely used
-		// ?
+		'statusCode', // express, https://gist.github.com/zcaceres/2854ef613751563a3b506fabce4501fd
+		'shouldRedirect', // express, https://gist.github.com/zcaceres/2854ef613751563a3b506fabce4501fd
 
-		// Offirmo extensions
+		// My (Offirmo) extensions
 		'logicalStack',
 	])
 }

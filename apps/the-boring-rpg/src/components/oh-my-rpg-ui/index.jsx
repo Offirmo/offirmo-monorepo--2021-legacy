@@ -13,12 +13,14 @@ export class OhMyRpgUI extends Component {
 	toggleHamburgerMenu = () => {
 		this.setState(state => ({
 			isHamburgerMenuOpen: !state.isHamburgerMenuOpen,
+			isAboutOpen: false,
 		}))
 	}
 
 	toggleAbout = () => {
 		this.setState(state => ({
 			isAboutOpen: !state.isAboutOpen,
+			isHamburgerMenuOpen: false,
 		}))
 	}
 

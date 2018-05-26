@@ -21,6 +21,8 @@ bolt ws run cheatsheet
 bolt ws run cheatsheet --only @offirmo/*
 bolt ws run cheatsheet --only @oh-my-rpg/*
 
+npx yarn-tools list-duplicates yarn.lock
+
 bolt ws run clean
 bolt ws exec -- rm -rf dist
 bolt ws exec -- rm -rf node_modules yarn.lock package-lock.json

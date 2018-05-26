@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 
-import UniverseAnchor from './universe-anchor'
+import UniverseAnchor from '../omr-universe-anchor'
 import MainContent from './main-content'
 import MetaPanel from '../../../panels/meta'
 import OhMyRpg from '../../../oh-my-rpg-ui'
@@ -22,14 +22,14 @@ export default class TheBoringRPG extends Component {
 		if (avatar_name === prevState.chat_nickname)
 			return null // no update needed
 
-		console.info('omr-root: getDerivedStateFromProps: change detected', avatar_name)
+		//console.info('omr-root: getDerivedStateFromProps: change detected', avatar_name)
 		return {
 			chat_nickname: avatar_name,
 		}
 	}
 
 	componentDidMount() {
-		console.log('omr-root: componentDidMount')
+		//console.log('omr-root: componentDidMount')
 		GroupChat.restart({
 			channel_id: 'the-boring-rpg-reloaded',
 			nickname: this.state.chat_nickname,

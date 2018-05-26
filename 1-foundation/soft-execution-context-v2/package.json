@@ -1,0 +1,31 @@
+{
+	"name": "@offirmo/soft-execution-context-v2",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+	"version": "0.0.1",
+	"main": "dist/src.es7.cjs/index.js",
+	"dependencies": {
+		"@offirmo/loggers-types-and-stubs": "^0.2.0",
+		"@offirmo/common-error-fields": "^0.0.1",
+		"@offirmo/normalize-error": "^0.0.1",
+		"@offirmo/promise-try": "^0.0.1"
+	},
+	"devDependencies": {
+		"@offirmo/unit-test-toolbox": "^3.0.0",
+		"babel-cli": "^6.26.0",
+		"npm-run-all": "^4.1.2",
+		"tslib": "^1.8.1"
+	},
+	"scripts": {
+		"clean": "node ../../scripts/clean.js dist",
+
+		"build:dev:watch": "node ../../scripts/build-typescript.js --watch",
+		"build:prod": "node ../../scripts/build-typescript.js",
+
+		"dev": "run-s clean build:dev:watch",
+		"build": "run-s clean build:prod",
+		"cheatsheet": "node doc/cheatsheet.js",
+		"demo": "node doc/demo/index.js"
+	}
+}
