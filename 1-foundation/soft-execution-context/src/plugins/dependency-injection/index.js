@@ -1,55 +1,40 @@
-"use strict";
+import { INTERNAL_PROP } from '../../constants'
+import * as TopState from '../../state'
+import * as State from './state'
+import { flattenToOwn } from '../../utils'
 
-import { compatibleLoggerToConsole } from '@offirmo/loggers-types-and-stubs'
-import { LIB, INTERNAL_PROP } from '../../constants'
-import { SUB_LIB } from './constants'
+const ID = 'dependency_injection'
 
-function getContext(SEC) {
-	return SEC[INTERNAL_PROP].DI.context
-}
+const PLUGIN = {
+	id: ID,
+	state: State,
+	augment: prototype => {
 
-function installPluginDependencyInjection(SEC, args) {
-	const { parent } = args
-	const {
-		defaultContext: defaultChildContext = {},
-		context: childContext = {},
-	} = args
-	const SECInternal = SEC[INTERNAL_PROP]
+		prototype.injectDependencies = function injectDependencies(deps) {
+			let root_state = this[INTERNAL_PROP]
 
-	// TODO check params
-	// TODO report handled params
+			root_state = TopState.reduce_plugin(root_state, ID, state => {
+				Object.entries(deps).forEach(([key, value]) => {
+					state = State.injectDependencies(state, key, value)
+				})
+				return state
+			})
 
-	// TODO check conflicts?
-	const defaultContext = {
-		env: 'development', // like express does
-		logger: compatibleLoggerToConsole, // no need for more, specialized versions of this lib will provide better
+			this[INTERNAL_PROP] = root_state
+
+			return this // for chaining
+		}
+
+		prototype.getInjectedDependencies = function getInjectedDependencies() {
+			const state = this[INTERNAL_PROP].plugins[ID]
+
+			return flattenToOwn(state.context)
+		}
+
 	}
-
-	const parentContext = parent ? parent[INTERNAL_PROP].DI.context : {}
-
-	const forcedContext = {
-		logicalStack: SECInternal.LS.logicalStack,
-		tracePrefix: SECInternal.LS.logicalStack.short,
-	}
-
-	let context = {
-		...defaultContext,
-		...defaultChildContext,
-		...parentContext,
-		...childContext,
-		...forcedContext,
-	}
-
-	// TODO deep freeze ?
-
-	SECInternal.DI = {
-		context,
-	}
-
-	return SEC
 }
 
 export {
-	installPluginDependencyInjection,
-	getContext,
+	ID,
+	PLUGIN,
 }

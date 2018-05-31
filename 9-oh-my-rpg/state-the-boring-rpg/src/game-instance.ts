@@ -3,7 +3,7 @@
  * TODO force refresh on client state change
  */
 
-const NanoEvents = require('nanoevents')
+const EventEmitter = require('emittery')
 const deep_merge = require('deepmerge').default
 
 import { UUID, Element } from '@oh-my-rpg/definitions'
@@ -53,7 +53,7 @@ function create_game_instance<T>({SEC, get_latest_state, persist_state, client_s
 			mode: ActionCategory.base,
 		}
 
-		const emitter = new NanoEvents()
+		const emitter = new EventEmitter()
 
 		// todo .model .view ?
 		return {

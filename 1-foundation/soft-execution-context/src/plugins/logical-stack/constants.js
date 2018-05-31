@@ -1,19 +1,19 @@
 
 const SUB_LIB = 'plugin/logical-stack'
 
+
 const LOGICAL_STACK_BEGIN_MARKER = ''
-const LOGICAL_STACK_END_MARKER = ':'
+const LOGICAL_STACK_END_MARKER = ''
+
+const LOGICAL_STACK_SEPARATOR = '›'
+// '⋅' '↘' ':' '•' '›'
 
 const LOGICAL_STACK_MODULE_MARKER = ''
 
-const LOGICAL_STACK_SEPARATOR = '›'
-//const LOGICAL_STACK_SEPARATOR = '↘'
-//const LOGICAL_STACK_SEPARATOR = ':'
-
 const LOGICAL_STACK_OPERATION_MARKER = ''
-//const LOGICAL_STACK_OPERATION_MARKER = '…'
+// '…'
 
-const LOGICAL_STACK_SEPARATOR_NON_ADJACENT = '›…›'
+const LOGICAL_STACK_SEPARATOR_NON_ADJACENT = '…'
 
 export {
 	SUB_LIB,

@@ -13,7 +13,8 @@ function normalizeError(err_like: Partial<Error> = {}): XError {
 
 	// copy fields if they exist
 	COMMON_ERROR_FIELDS.forEach(prop => {
-		if (prop in err_like)
+		//if (prop in err_like)
+		if ((err_like as any)[prop])
 			(true_err as any)[prop] = (err_like as any)[prop]
 	})
 

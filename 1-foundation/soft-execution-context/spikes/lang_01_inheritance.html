@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spike - lang 01 - inheritance</title>
+</head>
+<body>
+
+<h1>...</h1>
+
+<script type="module">
+	document.querySelector('h1').textContent = document.title;
+	Array.prototype.forEach.call(document.querySelectorAll('a'), function(el) {
+		el.href || (el.href = el.text);
+	});
+
+
+	/*
+   const s1 = Object.create(null)
+   s1.module = '?'
+   s1.operation = '?'
+   const s2 = Object.create(s1)
+   s2.module = 'foo'
+   const s3 = Object.create(s2)
+   s3.operation = 'bar'
+
+   console.log({s1, s2, s3})
+   console.log({module: s3.module, operation: s3.operation})
+   */
+
+
+	const o1 = { foo: 33 }
+	const o2 = Object.create(o1)
+	o2.bar = 42
+	const o3 = {
+		...o2,
+		baz: 77,
+	}
+	const { foo, bar, baz } = o3
+	console.log({ foo, bar, baz })
+</script>
+
+</body>
+</html>

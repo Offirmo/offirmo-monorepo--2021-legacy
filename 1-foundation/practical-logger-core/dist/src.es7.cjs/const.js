@@ -2,6 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const typescript_string_enums_1 = require("typescript-string-enums");
 const types_1 = require("./types");
+const LIB = '@offirmo/practical-logger-core';
+exports.LIB = LIB;
 const ALL_LOG_LEVELS = typescript_string_enums_1.Enum.keys(types_1.LogLevel);
 exports.ALL_LOG_LEVELS = ALL_LOG_LEVELS;
 // level to a numerical value, for ordering and filtering

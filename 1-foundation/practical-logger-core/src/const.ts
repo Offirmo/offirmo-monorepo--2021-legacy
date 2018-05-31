@@ -2,6 +2,7 @@ import { Enum } from 'typescript-string-enums'
 
 import { LogLevel } from './types'
 
+const LIB = '@offirmo/practical-logger-core'
 
 const ALL_LOG_LEVELS = Enum.keys(LogLevel)
 
@@ -63,6 +64,7 @@ if (ALL_LOG_LEVELS.length !== Object.keys(LEVEL_TO_HUMAN).length)
 
 
 export {
+	LIB,
 	ALL_LOG_LEVELS,
 	LEVEL_TO_INTEGER,
 	LEVEL_TO_HUMAN,

@@ -10,6 +10,17 @@ Advocacy
 
 
 
+// get_own_function_name(arguments.callee)
+function get_own_function_name(arguments_callee) {
+	// https://www.tek-tips.com/viewthread.cfm?qid=1209619
+	const FN_CODE = arguments_callee.toString()
+	return FN_CODE
+		.substr(0, FN_CODE.indexOf('('))  // trim off everything after the function name
+		.substr('function '.length)       // trim off "function "
+}
+
+
+
 * Stack trace
 * app/lib trace
 * 

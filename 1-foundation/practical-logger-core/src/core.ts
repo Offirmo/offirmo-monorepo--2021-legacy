@@ -13,6 +13,7 @@ import {
 } from './types'
 
 import {
+	LIB,
 	ALL_LOG_LEVELS,
 	LEVEL_TO_INTEGER,
 } from './const'
@@ -21,7 +22,7 @@ declare const console: any
 
 function checkLevel(level: LogLevel) {
 	if (!Enum.isType(LogLevel, level))
-		throw new Error(`Not a valid log level: "${level}"!`)
+		throw new Error(`${LIB}: Not a valid log level: "${level}"!`)
 }
 
 interface CreateParams extends LogParams {
@@ -36,7 +37,7 @@ function createLogger({
 }: CreateParams): Logger {
 
 	if (!name)
-		throw new Error('universal-logger-core›create(): you must provide a name!')
+		throw new Error(`${LIB}.${createLogger.name}(): you must provide a name!`)
 
 	const internalState: InternalLoggerState = {
 		name,

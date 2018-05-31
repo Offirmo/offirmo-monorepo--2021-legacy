@@ -17,7 +17,9 @@ function create(): Set<string> {
 		'shouldRedirect', // express, https://gist.github.com/zcaceres/2854ef613751563a3b506fabce4501fd
 
 		// My (Offirmo) extensions
-		'logicalStack',
+		'details',
+		'SEC',
+		'_temp', // used for passing state around between decorators
 	])
 }
 

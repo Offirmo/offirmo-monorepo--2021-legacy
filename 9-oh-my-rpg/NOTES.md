@@ -1,6 +1,8 @@
 
 TOREAD https://josephg.com/blog/fixing-fortnite/
 
+TODO salvage lists from here https://docs.google.com/spreadsheets/d/1FCNPBMZm6tWfeOEtdOvcOrWDRZVqbe1ipzK9eQmNp2o/edit#gid=443281176
+
 Schema:
 http://www.vertabelo.com/blog/technical-articles/a-song-of-ice-and-databases-a-game-of-thrones-data-model
 

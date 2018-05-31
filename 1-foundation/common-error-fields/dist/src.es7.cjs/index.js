@@ -10,9 +10,12 @@ function create() {
         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
         'stack',
         // non standard but widely used
-        // ?
-        // Offirmo extensions
-        'logicalStack',
+        'statusCode',
+        'shouldRedirect',
+        // My (Offirmo) extensions
+        'details',
+        'SEC',
+        '_temp',
     ]);
 }
 exports.create = create;
