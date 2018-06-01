@@ -8,5 +8,9 @@ yarn-error.log*
 # Dependency directories
 node_modules/
 
-# not used
+# caches
+.cache
+
+# may be aut-generated, but not used
 package-lock.json
+dist
