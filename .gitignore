@@ -6,11 +6,11 @@ yarn-debug.log*
 yarn-error.log*
 
 # Dependency directories
-node_modules/
+node_modules
 
 # caches
-.cache
+/.cache
 
 # may be aut-generated, but not used
 package-lock.json
-dist
+/dist
