@@ -9,7 +9,6 @@
 	"license": "UNLICENSED",
 	"dependencies": {
 		"@offirmo/random": "^2.0.4",
-		"@offirmo/soft-execution-context": "^0.0.1",
 		"nanoid": "^1.0.1",
 		"typescript-string-enums": "^0.3.5"
 	},

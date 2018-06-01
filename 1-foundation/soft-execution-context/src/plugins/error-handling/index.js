@@ -5,7 +5,7 @@ import { INTERNAL_PROP } from '../../constants'
 import { flattenToOwn } from '../../utils'
 import * as State from './state'
 import { createCatcher } from './catch-factory'
-import { ID as ID_DI } from '../dependency-injection/index'
+import { PLUGIN_ID as ID_DI } from '../dependency-injection/index'
 
 const PLUGIN_ID = 'error_handling'
 

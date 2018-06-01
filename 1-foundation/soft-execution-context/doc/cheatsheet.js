@@ -13,33 +13,54 @@ SEC.setLogicalStack({
 SEC.injectDependencies({
 	logger: console,
 })
-SEC.emitter.on('final-error', function onError(err) {
+SEC.setAnalyticsDetails({
+	v: '2.3',
+})
+SEC.emitter.on('final-error', function onError({err}) {
 	logger.fatal('error!', {err})
+})
+SEC.emitter.on('analytics', function onAnalyticsEvent({eventId, details}) {
+	...
 })
 
 SEC.listenToUncaughtErrors()
 SEC.listenToUnhandledRejections()
 logger.trace('Soft Execution Context initialized.')
-`.trim()))
 
-
-////////
-
-console.log(boxify(`
-const soft_execution_context = require('${stylizeString.bold(PKG_JSON.name)}')
-
-function create({SEC} = {}) {
-   SEC = soft_execution_context.isomorphic.create({parent: SEC, module: LIB})
-
-   return SEC.xTryCatch(\`doing \${xyz}\`, ({logger, env}) => {
-      logger.trace({env})
-      ...
-   })
-}
+SEC.xTryCatch('starting', ({logger, ENV}) => {
+	logger.trace({ENV})
+	...
+})
 
 xTry,
 xTryCatch,
 xPromiseTry,
 xPromiseCatch,
 xPromiseTryCatch,
+`.trim()))
+
+
+////////
+
+console.log(boxify(`
+import { getRootSEC } from '${stylizeString.bold(PKG_JSON.name)}'
+
+const LIB = 'FOO'
+
+function get_lib_SEC(parent) {
+	return (parent || getRootSEC())
+		.createChild()
+		.setLogicalStack({module: LIB})
+}
+
+function hello(target, {SEC} = {}) {
+	get_lib_SEC(SEC).xTry(hello.name, ({SEC, logger}) => {
+		...
+	})
+}
+
+export {
+	LIB,
+	hello,
+}
 `.trim()))

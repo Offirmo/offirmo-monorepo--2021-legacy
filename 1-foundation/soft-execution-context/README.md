@@ -53,7 +53,7 @@ However, this root SEC can be customized like any other SEC.
 SEC.injectDependencies({
 	foo: 42,
 })
-const { SEC, logger, ENV, foo } = SEC.getInjectedDependencies()
+const { ENV, DEBUG, SEC, logger, foo } = SEC.getInjectedDependencies()
 
 
 SEC.xTry(operation, ({SEC, logger}) => {

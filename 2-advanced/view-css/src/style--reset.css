@@ -14,12 +14,8 @@ html {
 /* apply a natural box layout model to all elements, but allowing components to change
  * https://www.paulirish.com/2012/box-sizing-border-box-ftw/
  */
-html {
-	box-sizing: border-box;
-}
-*, *:before, *:after {
-	box-sizing: inherit;
-}
+html                 { box-sizing: border-box; }
+*, *:before, *:after { box-sizing: inherit; }
 
 
 body {
@@ -49,8 +45,7 @@ h1, h2, h3 {
 	line-height: 1.2;
 }
 
-h1, h2, h3,
-p {
+h1, h2, h3, p {
 	/* because they are too big by default */
 	margin: .7em 0;
 }
@@ -62,6 +57,10 @@ img {
 }
 
 
+/* TODO buttons
+https://css-tricks.com/overriding-default-button-styles/
+https://fvsch.com/code/styling-buttons/
+ */
 /* https://www.leejamesrobinson.com/blog/how-stripe-designs-beautiful-websites/ */
 button {
 	box-shadow: 0 3px 6px rgba(50,50,93,.1), 0 1px 2px rgba(0,0,0,.08);
@@ -83,6 +82,7 @@ button:active {
  * https://snook.ca/archives/html_and_css/animating-progress
  */
 :root {
+	/* TODO tie this to the theme ? */
 	--o⋄color__progress--bg: hsl(0, 0%, 90%);
 	--o⋄color__progress-bar: hsl(221, 78%, 69%);
 }
@@ -120,21 +120,22 @@ progress::-ms-fill {
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 }
 
-/* ref: ? */
-hr {
-	width: 100%;
-}
-
 /* Adapt links to the main color.
  * Better than the defaults.
  */
+a { text-decoration-color: var(--o⋄color--fg⁚secondary); }
 a:link,
 a:visited {color: inherit;}
 a:hover,
 a:active {color: red;}
 
 
-/* TODO buttons
-https://css-tricks.com/overriding-default-button-styles/
-https://fvsch.com/code/styling-buttons/
+/* Nicer HR
+ * possible ideas: https://css-tricks.com/examples/hrs/
  */
+hr {
+	/* simple one */
+	border: 0;
+	height: 1px;
+	background: var(--o⋄color--fg⁚ancillary);
+}

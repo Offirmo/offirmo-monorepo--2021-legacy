@@ -1,27 +1,44 @@
-
-
-/* TODO group them into a theme */
-:root,
-[data-o⋄theme="dark-on-light"] {
-	/* dark-on-light theme, good default
+:root {
+	/* Base colors
+	 * dark-on-light theme, good default, but can also be used in reverse on light-on-dark
 	 * https://medium.com/refactoring-ui/7-practical-tips-for-cheating-at-design-40c736799886
 	 */
-
 	--o⋄color__dolt__quasi-black: hsl(0, 0%, 26%); /* 17 or 26 ? */
 	--o⋄color__dolt__dark-grey: hsl(0, 0%, 40%);
 	--o⋄color__dolt__medium-grey: hsl(0, 0%, 63%);
-	--o⋄color__dolt__quasi-white: #fafafa;
+	--o⋄color__dolt__quasi-white: hsl(0, 0%, 98%);
 
-	/* TODO
-	--o⋄color--transparent-white: hsla(0, 0%, 100%, 0.6);
-	--o⋄color--transparent-black: hsla(0, 0%, 0%, 0.6);
-	*/
-
-	--o⋄color--bg⁚main: var(--o⋄color__dolt__quasi-white);
-	--o⋄color--fg⁚main: var(--o⋄color__dolt__quasi-black);
-	--o⋄color--fg⁚secondary: var(--o⋄color__dolt__dark-grey);
-	--o⋄color--fg⁚ancillary: var(--o⋄color__dolt__medium-grey);
+	--o⋄color--transparent: rgba(0, 0, 0, 0);
 }
+
+/******* themes *******/
+
+:root, /* this theme is the default */
+[data-o⋄theme="dark-on-light"] {
+	--o⋄color--bg⁚main: var(--o⋄color__dolt__quasi-white);
+
+	--o⋄color--fg⁚main: var(--o⋄color__dolt__quasi-black);
+	--o⋄color--fg⁚secondary: hsla(0, 0%, 26%, 0.66);
+	--o⋄color--fg⁚ancillary: hsla(0, 0%, 26%, 0.33);
+
+	/*--o⋄color--fg⁚secondary: var(--o⋄color__dolt__dark-grey);
+	--o⋄color--fg⁚ancillary: var(--o⋄color__dolt__medium-grey);*/
+
+}
+
+/* light on dark theme */
+[data-o⋄theme="light-on-dark"] {
+	--o⋄color--bg⁚main: var(--o⋄color__dolt__quasi-black);
+
+	--o⋄color--fg⁚main: var(--o⋄color__dolt__quasi-white);
+	--o⋄color--fg⁚secondary: hsla(0, 0%, 98%, 0.66);
+	--o⋄color--fg⁚ancillary: hsla(0, 0%, 98%, 0.33);
+
+	/*--o⋄color--fg⁚secondary: var(--o⋄color__dolt__medium-grey);
+	--o⋄color--fg⁚ancillary: var(--o⋄color__dolt__dark-grey);*/
+}
+
+/******* themes *******/
 
 .o⋄color⁚main {
 	color: var(--o⋄color--fg⁚main);
@@ -33,9 +50,4 @@
 
 .o⋄color⁚ancillary {
 	color: var(--o⋄color--fg⁚ancillary);
-}
-
-/* light on dark theme */
-[data-o⋄theme="light-on-dark"] {
-	/* TODOO */
 }

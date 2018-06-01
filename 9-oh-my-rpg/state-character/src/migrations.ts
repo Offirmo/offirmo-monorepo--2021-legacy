@@ -1,12 +1,12 @@
 import { SCHEMA_VERSION } from './consts'
 import { State } from './types'
 import { create, OLDEST_LEGACY_STATE_FOR_TESTS } from './state'
-import { SoftExecutionContext, SECContext, get_SEC } from './sec'
+import { SoftExecutionContext, OMRContext, get_lib_SEC } from './sec'
 
 /////////////////////
 
 function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: any = {}): State {
-	return get_SEC(SEC).xTry('migrate_to_latest', ({SEC, logger}: SECContext) => {
+	return get_lib_SEC(SEC).xTry(migrate_to_latest.name, ({SEC, logger}: OMRContext) => {
 		const src_version = (legacy_state && legacy_state.schema_version) || 0
 
 		let state: State = create(SEC)
@@ -44,7 +44,8 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: 
 /////////////////////
 
 function migrate_to_2(SEC: SoftExecutionContext, legacy_state: any, hints: any): State {
-	return SEC.xTry('migrate_to_2', ({SEC, logger}: SECContext) => {
+	return SEC.xTry(migrate_to_2.name, ({SEC, logger}: SECContext) => {
+		// TODO analytics
 		if (legacy_state.schema_version !== 1)
 			legacy_state = migrate_to_1(SEC, legacy_state, hints)
 
@@ -60,7 +61,8 @@ function migrate_to_2(SEC: SoftExecutionContext, legacy_state: any, hints: any):
 /////////////////////
 
 function migrate_to_1(SEC: SoftExecutionContext, legacy_state: any, hints: any): any {
-	return SEC.xTry('migrate_to_1', ({logger}: SECContext) => {
+	return SEC.xTry(migrate_to_1.name, ({logger}: SECContext) => {
+		// TODO analytics
 		if (  Object.keys(legacy_state).length !== Object.keys(OLDEST_LEGACY_STATE_FOR_TESTS).length
 			|| !legacy_state.hasOwnProperty('characteristics'))
 			throw new Error(`Unrecognized schema, most likely too old, can't migrate!`)

@@ -135,12 +135,12 @@ export default class Component extends React.Component {
 		const client_state = game_instance.get_client_state()
 
 		return (
-			<div className={'tbrpg-panel o⋄flex-column'}>
-				<div className='panel-top-content o⋄flex-element-nogrow'>
+			<div className={'tbrpg-panel o⋄flex--column'}>
+				<div className='panel-top-content o⋄flex-element--nogrow'>
 					{rich_text_to_react(render_meta(state, client_state))}
 					<hr/>
 				</div>
-				<div className='o⋄flex-element-grow o⋄overflow-y⁚auto'>
+				<div className='o⋄flex-element--grow o⋄overflow-y⁚auto'>
 					<Chat gen_next_step={this.gen_next_step()} />
 				</div>
 			</div>

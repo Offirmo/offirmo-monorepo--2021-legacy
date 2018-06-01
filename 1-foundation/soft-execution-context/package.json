@@ -3,7 +3,7 @@
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 	"private": true,
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"main": "dist/src.es7.cjs/index.js",
 	"dependencies": {
 		"@offirmo/normalize-error": "^0.0.1",

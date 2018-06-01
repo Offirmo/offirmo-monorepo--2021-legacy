@@ -3,17 +3,17 @@ import * as TopState from '../../state'
 import * as State from './state'
 import { flattenToOwn } from '../../utils'
 
-const ID = 'dependency_injection'
+const PLUGIN_ID = 'dependency_injection'
 
 const PLUGIN = {
-	id: ID,
+	id: PLUGIN_ID,
 	state: State,
 	augment: prototype => {
 
 		prototype.injectDependencies = function injectDependencies(deps) {
 			let root_state = this[INTERNAL_PROP]
 
-			root_state = TopState.reduce_plugin(root_state, ID, state => {
+			root_state = TopState.reduce_plugin(root_state, PLUGIN_ID, state => {
 				Object.entries(deps).forEach(([key, value]) => {
 					state = State.injectDependencies(state, key, value)
 				})
@@ -26,15 +26,15 @@ const PLUGIN = {
 		}
 
 		prototype.getInjectedDependencies = function getInjectedDependencies() {
-			const state = this[INTERNAL_PROP].plugins[ID]
+			const plugin_state = this[INTERNAL_PROP].plugins[PLUGIN_ID]
 
-			return flattenToOwn(state.context)
+			return flattenToOwn(plugin_state.context)
 		}
 
 	}
 }
 
 export {
-	ID,
+	PLUGIN_ID,
 	PLUGIN,
 }

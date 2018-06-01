@@ -1,7 +1,4 @@
-import {
-	getRootSEC,
-	_flattenSEC,
-} from '../../src/index.js'
+import { getRootSEC } from '../../src/index.js'
 
 const LIB = 'FOO'
 

@@ -1,0 +1,53 @@
+
+.o⋄text-align⁚center {
+	text-align: center;
+}
+
+
+/******* flex *******/
+
+.o⋄flex--row {
+	display: flex;
+	flex-direction: row;
+}
+.o⋄flex--column {
+	display: flex;
+	flex-direction: column;
+}
+
+.o⋄flex--centered-content {
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+}
+
+/* https://stackoverflow.com/questions/90178/make-a-div-fill-the-height-of-the-remaining-screen-space */
+.o⋄flex-element--nogrow {
+	flex-grow: 0;
+}
+.o⋄flex-element--grow {
+	flex-grow: 1;
+}
+
+
+
+.o⋄pad⁚0 {
+	padding: 0;
+}
+.o⋄pad⁚5 {
+	padding: 5px;
+}
+.o⋄pad⁚7 {
+	padding: 7px;
+}
+
+
+.o⋄margin⁚0 {
+	margin: 0;
+}
+.o⋄margin⁚5 {
+	margin: 5px;
+}
+.o⋄margin⁚7 {
+	margin: 7px;
+}

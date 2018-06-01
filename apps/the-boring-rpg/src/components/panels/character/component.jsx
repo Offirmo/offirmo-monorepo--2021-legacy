@@ -100,13 +100,13 @@ export default class Component extends React.Component {
 		const state = game_instance.get_latest_state()
 
 		return (
-			<div className={'tbrpg-panel tbrpg-panel--character o⋄flex-column'}>
+			<div className={'tbrpg-panel tbrpg-panel--character o⋄flex--column'}>
 				{this.state.mobile_keyboard_likely_present
 					? '(temporarily hidden while you type on mobile)'
-					: <div className='panel-top-content o⋄flex-element-nogrow'>
+					: <div className='panel-top-content o⋄flex-element--nogrow'>
 						{rich_text_to_react(render_character_sheet(state.avatar))}
 					</div>}
-				<div className='o⋄flex-element-grow o⋄overflow-y⁚auto'>
+				<div className='o⋄flex-element--grow o⋄overflow-y⁚auto'>
 					<Chat
 						gen_next_step={this.gen_next_step()}
 						on_input_begin={() => {

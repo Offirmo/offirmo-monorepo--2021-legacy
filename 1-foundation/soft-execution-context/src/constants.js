@@ -1,6 +1,7 @@
 
 const LIB = 'soft-execution-context'
-const INTERNAL_PROP = '_'
+
+const INTERNAL_PROP = '_SEC'
 
 export {
 	LIB,

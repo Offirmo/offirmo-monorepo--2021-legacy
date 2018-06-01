@@ -39,9 +39,9 @@ Activated through classes:
   * `o⋄pad⁚0`  `o⋄pad⁚5`  `o⋄pad⁚7`
   * `o⋄height⁚100pc`
   * `o⋄nav-list`
-  * `o⋄flex-row`  `o⋄flex-column`
-  * `o⋄flex-element-nogrow`
-  * `o⋄flex-element-grow`
+  * `o⋄flex--row`  `o⋄flex--column`
+  * `o⋄flex-element--nogrow`
+  * `o⋄flex-element--grow`
   * `o⋄checkbox-hacked` see https://css-tricks.com/the-checkbox-hack/
   
 ### Special techniques
@@ -70,4 +70,5 @@ You can't use height: 100vh on Chrome mobile or the url bar will get in the way.
 
 ## ideas TODO
 Techniques
-* http://simurai.com/blog/2018/04/01/contextual-styling
+* using data="xyz" http://simurai.com/blog/2018/04/01/contextual-styling
+  * (more about data) https://www.sitepoint.com/use-html5-data-attributes/
