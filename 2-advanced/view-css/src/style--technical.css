@@ -30,7 +30,6 @@
 }
 
 
-
 .o⋄pad⁚0 {
 	padding: 0;
 }
@@ -41,7 +40,7 @@
 	padding: 7px;
 }
 
-
+/*
 .o⋄margin⁚0 {
 	margin: 0;
 }
@@ -50,4 +49,22 @@
 }
 .o⋄margin⁚7 {
 	margin: 7px;
+}
+*/
+
+/******* container utils *******/
+
+.o⋄overflow-y⁚auto {
+	overflow-y: auto;
+}
+
+/* XXX NO there is likely an underlying problem!
+.o⋄no-overflow {
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
+*/
+
+.o⋄height⁚100pc {
+	height: 100%;
 }

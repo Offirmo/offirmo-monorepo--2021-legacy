@@ -54,7 +54,7 @@ function get_lib_SEC(parent) {
 }
 
 function hello(target, {SEC} = {}) {
-	get_lib_SEC(SEC).xTry(hello.name, ({SEC, logger}) => {
+	get_lib_SEC(SEC).xTry('hello', ({SEC, logger}) => {
 		...
 	})
 }

@@ -1,3 +1,5 @@
+## https://www.atlassian.com/git/tutorials/saving-changes/gitignore#git-ignore-patterns
+
 # Logs
 logs
 *.log
@@ -9,8 +11,8 @@ yarn-error.log*
 node_modules
 
 # caches
-/.cache
+.cache
 
-# may be aut-generated, but not used
+# may be auto-generated, but not used
 package-lock.json
 /dist

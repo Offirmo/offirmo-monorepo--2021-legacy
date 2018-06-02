@@ -2,6 +2,7 @@ import { Enum } from 'typescript-string-enums'
 
 /////////////////////
 
+// TODO move somewhere else
 interface I18nMessages {
 	[k: string]: string | I18nMessages
 }

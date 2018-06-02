@@ -1,4 +1,5 @@
 /////////////////////
+// TODO move to separate file
 
 import nanoid from 'nanoid'
 import format from 'nanoid/format'

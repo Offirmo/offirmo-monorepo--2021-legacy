@@ -34,7 +34,7 @@ class ChatBubble extends React.Component {
 		return (
 			<div className={classes}>
 				{this.state.errorInfo
-					? <div className="o⋄error-boundary-report">
+					? <div className="o⋄error-report">
 							<h2>internal error</h2>
 							<details style={{ whiteSpace: 'pre-wrap' }}>
 								{this.state.error && this.state.error.toString()}

@@ -27,31 +27,11 @@
 }
 
 
-.o⋄error-boundary-report {
+.o⋄error-report {
 	font-size: xx-small;
 	font-family: monospace;
 	color: red;
 	background-color: rgba(0, 0, 0, .3);
 	margin: auto;
 	z-index: 100; /* just in case */
-}
-
-
-
-/******* container utils *******/
-
-.o⋄overflow-y⁚auto {
-	overflow-y: auto;
-}
-
-/* XXX NO there is likely a underlying problem
-.o⋄no-overflow {
-	overflow-x: hidden;
-	overflow-y: hidden;
-}
-*/
-
-
-.o⋄height⁚100pc {
-	height: 100%;
 }

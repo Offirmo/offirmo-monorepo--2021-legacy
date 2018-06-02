@@ -46,7 +46,7 @@ export default class ErrorBoundary extends React.Component {
 			// Error path
 			const {name} = this.props
 			return (
-				<div className={`o⋄error-boundary-report error-boundary-report-${name}`}>
+				<div className={`o⋄error-report error-boundary-report-${name}`}>
 					<h2>Boundary "{name}": Something went wrong</h2>
 					<details style={{ whiteSpace: 'pre-wrap' }}>
 						{this.state.error && this.state.error.toString()}

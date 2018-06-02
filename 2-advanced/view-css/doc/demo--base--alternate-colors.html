@@ -17,13 +17,14 @@
 
 <body data-o⋄theme="light-on-dark">
 
-<h1>...</h1>
+<nav>
+	<ul class="o⋄nav-list">
+		<li class="o⋄text-noselect o⋄color⁚secondary"><a>Home</a></li>
+		<li class="o⋄text-noselect o⋄color⁚secondary"><a>About</a></li>
+	</ul>
+</nav>
 
-<p>
-	Yes, a new framework: my own ;)
-</p>
-
-<h2>A CSS reset + micro CC framework</h2>
+<h1>@offirmo/view-css - CSS micro framework</h1>
 
 <p>
 	What I’m saying is that it’s so, so simple to make sites easier to read. Websites are broken by default, they are
@@ -49,20 +50,3 @@
 	<a href="http://perfectmotherfuckingwebsite.com/">perfectmotherfuckingwebsite</a> and many blog posts.
 </p>
 
-<hr>
-
-<nav>
-	<ul class="o⋄nav-list">
-		<li class="o⋄text-noselect o⋄color⁚secondary"><a>Try</a></li>
-		<li class="o⋄text-noselect o⋄color⁚secondary"><a>Privacy policy</a></li>
-		<li class="o⋄text-noselect o⋄color⁚secondary"><a>Terms of service</a></li>
-	</ul>
-</nav>
-
-
-<script>
-	document.querySelector('h1').textContent = document.title
-	Array.prototype.forEach.call(document.querySelectorAll('a'), function (el) {
-		el.href || (el.href = el.text)
-	})
-</script>
