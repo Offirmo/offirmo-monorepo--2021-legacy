@@ -16,7 +16,7 @@ function create(parent_state) {
 }
 
 
-function add_detail(state, key, value) {
+function addDetail(state, key, value) {
 	const { details } = state
 
 	details[key] = value
@@ -31,5 +31,5 @@ function add_detail(state, key, value) {
 
 export {
 	create,
-	add_detail,
+	addDetail,
 }

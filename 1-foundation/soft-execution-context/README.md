@@ -46,6 +46,9 @@ There is always a unique (singleton) top SEC. It is lazily created on call of `g
 However, this root SEC can be customized like any other SEC.
 
 
+### requisites
+babel-polyfill may be needed
+
 ### Methods
 
 ```js

@@ -8,8 +8,6 @@ const { migrate_to_latest, reseed } = require('@oh-my-rpg/state-the-boring-rpg')
 const { createLogger } = require('@offirmo/practical-logger-node')
 const { DEFAULT_SEED } = require( '@oh-my-rpg/state-prng')
 
-//const { displayError } = require('@offirmo/soft-execution-context/dist/src.es7.cjs/display-ansi')
-
 const { prettify_json_for_debug } = require('./utils/debug')
 
 /////////////////////////////////////////////////

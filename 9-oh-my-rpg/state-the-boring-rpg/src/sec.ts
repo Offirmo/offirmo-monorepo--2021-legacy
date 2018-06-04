@@ -1,18 +1,16 @@
-import { SoftExecutionContext, SECContext, oh_my_rpg_get_SEC } from '@oh-my-rpg/definitions'
+import { getRootSEC } from '@offirmo/soft-execution-context'
+import { SoftExecutionContext, OMRContext } from '@oh-my-rpg/definitions'
 
-import { LIB, SCHEMA_VERSION } from './consts'
+import { LIB } from './consts'
 
-function get_SEC(SEC?: SoftExecutionContext): SoftExecutionContext {
-	return oh_my_rpg_get_SEC({
-		module: LIB,
-		parent_SEC: SEC,
-	})
-	// TODO add details: schema version
-	// deep freeze
+function get_lib_SEC(parent?: SoftExecutionContext): SoftExecutionContext {
+	return (parent || getRootSEC())
+		.createChild()
+		.setLogicalStack({module: LIB})
 }
 
 export {
 	SoftExecutionContext,
-	SECContext,
-	get_SEC,
+	OMRContext,
+	get_lib_SEC,
 }

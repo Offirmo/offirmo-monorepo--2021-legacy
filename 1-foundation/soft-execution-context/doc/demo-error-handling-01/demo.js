@@ -1,4 +1,4 @@
-import "babel-polyfill"
+import 'babel-polyfill'
 import { createLogger } from '@offirmo/practical-logger-browser'
 
 import {getRootSEC} from '../../src/index.js'

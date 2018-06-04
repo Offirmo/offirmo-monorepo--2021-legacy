@@ -294,7 +294,7 @@ class Chat extends React.Component {
 		)
 		const user_input = this.state.reading_string && (
 			<div className="chat__element chat__element--rtl">
-				<input type="text"
+				<input type="text" autofocus
 					className="chat__input"
 					ref={el => this.input = el}
 				/>

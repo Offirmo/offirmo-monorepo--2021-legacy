@@ -1,117 +1,90 @@
-"use strict";
+//export * from '@offirmo/soft-execution-context'
 
-const {
-	LIB,
-	INTERNAL_PROP,
-	createCatcher,
-	isSEC,
-	setRoot,
-	getContext,
-	isomorphic,
-} = require('@offirmo/soft-execution-context')
+import bowser from 'bowser'
+import { getRootSEC } from '@offirmo/soft-execution-context'
 
-const { createLogger } = require('@offirmo/practical-logger-browser')
+// TODO protect from double install
 
-function create(...args) {
-	const SEC = isomorphic.create(...args)
 
-	// TODO protect from double install
+// XXX redundant, next one is better (?rly)
+// https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers/onerror
+/*
+function listenToErrors() {
+	const SEC = getRootSEC()
 
-	// https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers/onerror
+	window.onerror = function (msg, url, line, colno, err) {
+		console.log('DEBUG', arguments) // TODO analyze
+		err = err || new Error(`Error "${msg}" from "${url}", line ${line}!`)
 
-	function listenToErrors() {
-		if (!SEC[INTERNAL_PROP].LS.module)
-			throw new Error(`${LIB}›listenToErrors() must only be called in the context of an app! (who are you to mess with globals, lib author??)`)
-
-		const sub_SEC = SEC.child({operation: '(uncaught error via window.onerror)'})
-
-		const catchFn = createCatcher({
-			decorators: sub_SEC[INTERNAL_PROP].errDecorators,
-			onError: sub_SEC[INTERNAL_PROP].onError,
+		SEC._handleError({
+			SEC,
 			debugId: 'browser/onError',
-		})
+			shouldRethrow: false,
+		}, err)
 
-		window.onerror = function (msg, url, line, colno, err) {
-			console.log(arguments) // TODO analyze
-			err = err || new Error(`Error "${msg}" from "${url}", line ${line}!`)
-			catchFn(err)
-			return true; // same as preventDefault XXX should we?
-		};
-	}
+		return true; // same as preventDefault XXX should we?
+	};
+}
+*/
 
-	function listenToErrorEvents() {
-		if (!SEC[INTERNAL_PROP].LS.module)
-			throw new Error(`${LIB}›listenToErrorEvents() must only be called in the context of an app! (who are you to mess with globals, lib author??)`)
+function listenToErrorEvents() {
+	const SEC = getRootSEC()
+		.createChild()
+		.setLogicalStack({operation: '(browser/on error event)'})
 
-		const sub_SEC = SEC.child({operation: '(uncaught error via window.addEventListener)'})
+	window.addEventListener('error', function(evt) {
+		// https://developer.mozilla.org/en-US/docs/Web/API/ErrorEvent
+		//console.log('DEBUG SEC browser debug: error event', arguments) // TODO analyze
+		const err = (evt && evt.message === 'Script error.')
+			? new Error(`Error from another origin!`)
+			: evt.error || new Error(`Error "${evt.message}" from "${evt.filename}", line ${evt.lineno}.${evt.colno}!`)
 
-		const catchFn = createCatcher({
-			decorators: sub_SEC[INTERNAL_PROP].errDecorators,
-			onError: sub_SEC[INTERNAL_PROP].onError,
-			debugId: 'browser/errorEvent',
-		})
-
-		window.addEventListener('error', function(evt) {
-			// https://developer.mozilla.org/en-US/docs/Web/API/ErrorEvent
-			console.log('SEC browser debug: error event', arguments) // TODO analyze
-			const err = (evt && evt.message === 'Script error.')
-				? new Error(`Error from another origin!`)
-				: evt.error || new Error(`Error "${evt.message}" from "${evt.filename}", line ${evt.lineno}.${evt.colno}!`)
-			catchFn(err)
-			evt.preventDefault(); // XXX should we?
-		});
-	}
-
-	function listenToUnhandledRejections() {
-		if (!SEC[INTERNAL_PROP].LS.module)
-			throw new Error(`${LIB}›listenToUnhandledRejections() must only be called in the context of an app! (who are you to mess with globals, lib author??)`)
-
-		const sub_SEC = SEC.child({operation: '(uncaught promise rejection via window.onunhandledrejection)'})
-
-		const catchFn = createCatcher({
-			decorators: sub_SEC[INTERNAL_PROP].errDecorators,
-			onError: sub_SEC[INTERNAL_PROP].onError,
+		SEC._handleError({
+			SEC,
 			debugId: 'browser/onError',
-		})
+			shouldRethrow: false,
+		}, err)
 
-		window.onunhandledrejection = function(evt) {
-			// https://developer.mozilla.org/en-US/docs/Web/API/PromiseRejectionEvent
-			console.log('SEC browser debug: onunhandledrejection', arguments) // TODO analyze
-			const err = evt.reason || new Error(`Error: uncaught promise rejection!`)
-			catchFn(err)
-			return true; // same as preventDefault XXX should we?
-		};
-	}
-
-	function listenToAll() {
-		//listenToErrors()
-		listenToErrorEvents()
-		listenToUnhandledRejections()
-	}
-
-	// TODO inject NODE_ENV
-
-	return Object.assign({}, SEC, {
-		listenToErrors,
-		listenToErrorEvents,
-		listenToUnhandledRejectionsEvents: listenToUnhandledRejections,
-		listenToAll,
-	})
+		evt.preventDefault(); // XXX should we?
+	});
 }
 
-const browser = {
-	create,
+function listenToUnhandledRejections() {
+	const SEC = getRootSEC()
+		.createChild()
+		.setLogicalStack({operation: '(browser/uncaught promise rejection)'})
+
+	window.onunhandledrejection = function(evt) {
+		// https://developer.mozilla.org/en-US/docs/Web/API/PromiseRejectionEvent
+		//console.log('DEBUG SEC browser debug: onunhandledrejection', arguments) // TODO analyze
+		const err = evt.reason || new Error(`Error: uncaught promise rejection!`)
+
+		SEC._handleError({
+			SEC,
+			debugId: 'browser/uncaught promise rejection',
+			shouldRethrow: false,
+		}, err)
+
+		return true; // same as preventDefault XXX should we?
+	};
 }
+
+function decorateWithDetectedEnv() {
+	const SEC = getRootSEC()
+
+	const details = {
+		browser_name: bowser.name,
+		browser_version: bowser.version,
+	}
+
+	SEC.setAnalyticsDetails(details)
+	SEC.setErrorReportDetails(details)
+}
+
+
 
 module.exports = {
-	LIB,
-	INTERNAL_PROP,
-	createCatcher,
-	isSEC,
-	setRoot,
-	getContext,
-
-	isomorphic,
-
-	browser,
+	listenToErrorEvents,
+	listenToUnhandledRejections,
+	decorateWithDetectedEnv,
 }
