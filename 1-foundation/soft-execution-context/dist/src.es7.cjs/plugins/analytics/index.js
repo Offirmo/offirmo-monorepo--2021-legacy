@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
+const timestamps_1 = require("@offirmo/timestamps");
 const constants_1 = require("../../constants");
 const TopState = tslib_1.__importStar(require("../../state"));
 const utils_1 = require("../../utils");
@@ -26,9 +27,12 @@ const PLUGIN = {
         prototype.fireAnalyticsEvent = function sendAnalytics(eventId, details) {
             const SEC = this;
             const { ENV } = SEC.getInjectedDependencies();
-            details = Object.assign({
+            const autoDetails = {
                 ENV,
-            }, SEC.getAnalyticsDetails(), details);
+                time: timestamps_1.get_UTC_timestamp_ms(),
+            };
+            const userDetails = SEC.getAnalyticsDetails();
+            details = Object.assign({}, autoDetails, userDetails, details);
             SEC.emitter.emit('analytics', { SEC, eventId, details });
             return SEC; // for chaining
         };

@@ -37,6 +37,18 @@ SEC.emitter.on('final-error', function onError({SEC, err}) {
 	console.log('details', err.details)
 	console.log(err)
 	console.groupEnd()
+
+	SEC.fireAnalyticsEvent('error', {
+		...err.details,
+		message: err.message,
+	})
+})
+
+
+SEC.emitter.on('analytics', function onError({SEC, eventId, details}) {
+	console.groupCollapsed(`⚡ Analytics! ⚡ ${eventId}`)
+	console.log('details', details)
+	console.groupEnd()
 })
 
 listenToErrorEvents()

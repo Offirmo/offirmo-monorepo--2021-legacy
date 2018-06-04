@@ -1,3 +1,5 @@
+import { get_UTC_timestamp_ms } from '@offirmo/timestamps'
+
 import { INTERNAL_PROP } from '../../constants'
 import * as TopState from '../../state'
 import { flattenToOwn } from '../../utils'
@@ -30,11 +32,15 @@ const PLUGIN = {
 			const SEC = this
 
 			const { ENV } = SEC.getInjectedDependencies()
+
+			const autoDetails = {
+				ENV,
+				time: get_UTC_timestamp_ms(),
+			}
+			const userDetails = SEC.getAnalyticsDetails()
 			details = {
-				...{
-					ENV,
-				},
-				...SEC.getAnalyticsDetails(),
+				...autoDetails,
+				...userDetails,
 				...details,
 			}
 

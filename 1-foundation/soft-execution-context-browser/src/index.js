@@ -75,6 +75,11 @@ function decorateWithDetectedEnv() {
 	const details = {
 		browser_name: bowser.name,
 		browser_version: bowser.version,
+		device: bowser.tablet
+			? 'tablet'
+			: bowser.mobile
+				? 'mobile'
+				: 'desktop'
 	}
 
 	SEC.setAnalyticsDetails(details)
