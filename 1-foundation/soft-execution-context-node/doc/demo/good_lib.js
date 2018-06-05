@@ -16,8 +16,10 @@ function create({SEC} = {}) {
 
 	// TODO add an id?
 	return SEC.xTryCatch(`instantiating#${instance_count}`, ({logger, ENV}) => {
+		logger.trace(`instantiating#${instance_count}`, {ENV})
+
 		// test
-		/*
+
 		;[
 			'fatal',
 			'emerg',
@@ -34,7 +36,7 @@ function create({SEC} = {}) {
 			'trace',
 			'silly',
 		].forEach(level => logger[level]({level}))
-*/
+
 
 		function foo_sync({x} = {}) {
 			SEC.xTry(foo_sync.name, () => {

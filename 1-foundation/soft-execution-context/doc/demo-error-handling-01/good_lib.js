@@ -21,7 +21,7 @@ function create({SEC} = {}) {
 
 	// TODO add an id?
 	return SEC.xTryCatch(`instantiating#${instance_count}`, ({logger, ENV}) => {
-		logger.trace({ENV})
+		logger.trace(`instantiating#${instance_count}`, {ENV})
 
 		// test
 		/*;[

@@ -1,74 +1,59 @@
-"use strict";
+const os = require('os')
 
-const {
-	LIB,
-	INTERNAL_PROP,
-	createCatcher,
-	isSEC,
-	setRoot,
-	getContext,
-	isomorphic,
-} = require('@offirmo/soft-execution-context')
+const { getRootSEC } = require('@offirmo/soft-execution-context')
 
-const { createLogger } = require('@offirmo/practical-logger-node')
+// TODO protect from double install
 
-function create(args = {}) {
-	args.context = args.context || {}
-	args.context.logger = args.context.logger || createLogger({
-		name: 'the-npm-rpg',
-		level: 'warn',
-	})
 
-	const SEC = isomorphic.create(args)
+function listenToUncaughtErrors() {
+	const SEC = getRootSEC()
+		.createChild()
+		.setLogicalStack({operation: '(node/uncaught)'})
 
-	// TODO protect from double install
 
-	function listenToUncaughtErrors() {
-		if (!SEC[INTERNAL_PROP].LS.module)
-			throw new Error(`${LIB}›listenToUncaughtErrors() must only be called in the context of an app! (who are you to mess with globals, lib author??)`)
-		const sub_SEC = SEC.child({operation: '(uncaught error)'})
-		process.on('uncaughtException', createCatcher({
-			decorators: sub_SEC[INTERNAL_PROP].errDecorators,
-			onError: sub_SEC[INTERNAL_PROP].onError,
-			debugId: 'node/uncaughtException',
-		}))
-	}
-
-	function listenToUnhandledRejections() {
-		if (!SEC[INTERNAL_PROP].LS.module)
-			throw new Error(`${LIB}›listenToUncaughtErrors() must only be called in the context of an app! (who are you to mess with globals, lib author??)`)
-		const sub_SEC = SEC.child({operation: '(unhandled promise rejection)'})
-		process.on('unhandledRejection', createCatcher({
-			decorators: sub_SEC[INTERNAL_PROP].errDecorators,
-			onError: sub_SEC[INTERNAL_PROP].onError,
-			debugId: 'node/unhandledRejection',
-		}))
-	}
-
-	// TODO inject NODE_ENV + overwrite ENV
-
-	// TODO expose a node logger
-
-	return Object.assign({}, SEC, {
-		listenToUncaughtErrors,
-		listenToUnhandledRejections,
+	process.on('uncaughtException', err => {
+		SEC._handleError({
+			SEC,
+			debugId: 'node/uncaught',
+			shouldRethrow: false,
+		}, err)
 	})
 }
 
 
-const node = {
-	create,
+function listenToUnhandledRejections() {
+	const SEC = getRootSEC()
+		.createChild()
+		.setLogicalStack({operation: '(node/unhandled rejection)'})
+
+	process.on('unhandledRejection', err => {
+		SEC._handleError({
+			SEC,
+			debugId: 'node/unhandled rejection',
+			shouldRethrow: false,
+		}, err)
+	})
 }
+
+
+function decorateWithDetectedEnv() {
+	const SEC = getRootSEC()
+
+	const details = {
+		node_version: process.version,
+		os_platform: os.platform(),
+		os_release: os.release(),
+		os_type: os.type(),
+	}
+
+	SEC.setAnalyticsDetails(details)
+	SEC.setErrorReportDetails(details)
+}
+
+
 
 module.exports = {
-	LIB,
-	INTERNAL_PROP,
-	createCatcher,
-	isSEC,
-	setRoot,
-	getContext,
-
-	isomorphic,
-
-	node,
+	listenToUncaughtErrors,
+	listenToUnhandledRejections,
+	decorateWithDetectedEnv,
 }

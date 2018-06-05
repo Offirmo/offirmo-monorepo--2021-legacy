@@ -3,7 +3,15 @@ import chalk from 'chalk'
 import { COMMON_ERROR_FIELDS } from '@offirmo/common-error-fields'
 
 function displayErrProp(errLike: any, prop: string) {
-	console.error(chalk.red(chalk.dim(`🔥  ${prop}: "`) + errLike[prop] + chalk.dim('"')))
+	if (prop === 'details') {
+		const details: { [key: string]: any} = errLike.details
+		console.error(chalk.red(chalk.dim(`🔥  ${prop}:`)))
+		Object.entries(details).forEach(([key, value]) => {
+			console.error(chalk.red(chalk.dim(`    ${key}: "`) + value + chalk.dim('"')))
+		})
+	}
+	else
+		console.error(chalk.red(chalk.dim(`🔥  ${prop}: "`) + errLike[prop] + chalk.dim('"')))
 }
 
 function displayError(errLike: Partial<Error> = {}) {
@@ -16,14 +24,19 @@ function displayError(errLike: Partial<Error> = {}) {
 		displayErrProp(errLike, 'message')
 		displayedProps.add('message')
 	}
+	if ((errLike as any).details) {
+		displayErrProp(errLike, 'details')
+		displayedProps.add('details')
+	}
 	if ((errLike as any).logicalStack) {
 		displayErrProp(errLike, 'logicalStack')
 		displayedProps.add('logicalStack')
 	}
 
 	COMMON_ERROR_FIELDS.forEach(prop => {
-		if (prop in errLike && !displayedProps.has(prop))
+		if (prop in errLike && !displayedProps.has(prop)) {
 			displayErrProp(errLike, prop)
+		}
 	})
 }
 

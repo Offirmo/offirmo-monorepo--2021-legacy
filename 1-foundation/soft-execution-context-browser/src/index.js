@@ -52,7 +52,7 @@ function listenToErrorEvents() {
 function listenToUnhandledRejections() {
 	const SEC = getRootSEC()
 		.createChild()
-		.setLogicalStack({operation: '(browser/uncaught promise rejection)'})
+		.setLogicalStack({operation: '(browser/unhandled rejection)'})
 
 	window.onunhandledrejection = function(evt) {
 		// https://developer.mozilla.org/en-US/docs/Web/API/PromiseRejectionEvent
@@ -61,7 +61,7 @@ function listenToUnhandledRejections() {
 
 		SEC._handleError({
 			SEC,
-			debugId: 'browser/uncaught promise rejection',
+			debugId: 'browser/unhandled rejection',
 			shouldRethrow: false,
 		}, err)
 
