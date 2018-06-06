@@ -22,8 +22,21 @@ type LogLevel = Enum<typeof LogLevel>
 
 ///////
 
-type Details = { [k: string]: any}
+type Details = { [k: string]: any }
+
 type LogFn = (message?: string, details?: Details) => void
+
+// inspired by:
+// https://github.com/trentm/node-bunyan#core-fields
+interface Payload {
+	level: LogLevel
+	name: string
+	msg: string
+	time: string
+	err?: Error
+	details: Details
+}
+
 type OutputFn = (payload: Payload) => void
 
 interface LogParams {
@@ -65,16 +78,6 @@ interface Logger {
 	warning: LogFn,
 }
 
-// inspired by:
-// https://github.com/trentm/node-bunyan#core-fields
-interface Payload {
-	level: LogLevel
-	name: string
-	msg: string
-	time: string
-	err?: Error
-	details: Details
-}
 
 
 export {

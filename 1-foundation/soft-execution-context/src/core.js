@@ -28,12 +28,11 @@ function createSEC(args = {}) {
 
 	let unhandled_args = Object.keys(args)
 
-	//const onError = args.onError || (args.parent && args.parent.onError) // XXX inherit, really?
-
 	let SEC = Object.create(ROOT_PROTOTYPE)
 
 	/////// STATE ///////
-	let state = State.create(args.parent[INTERNAL_PROP])
+	let parent_state = args.parent[INTERNAL_PROP]
+	let state = State.create(parent_state)
 	unhandled_args = unhandled_args.filter(arg => arg !== 'parent')
 
 	PLUGINS.forEach(PLUGIN => {
@@ -42,13 +41,18 @@ function createSEC(args = {}) {
 
 	SEC[INTERNAL_PROP] = state
 
-	SEC.injectDependencies({ SEC })
+	// auto injections
+	SEC.injectDependencies({
+		SEC,
+		logger: console,
+		ENV: typeof NODE_ENV === 'string'
+			? NODE_ENV
+			: 'development',
+		DEBUG: false,
+	})
 
-	/////// XXX ///////
-	// TODO event?
-	// TODO lifecycle ?
-
-	//if (SEC.verbose) console.log(`${LIB}: new SEC:`, args)
+	// Here we could send an event on the SEC bus. No usage for now.
+	// Her we could have lifecycle methods. No usage for now.
 
 	if (unhandled_args.length)
 		throw new Error(`${LIB}›createSEC() argument error: unknown args: [${unhandled_args.join(',')}]!`)

@@ -2,7 +2,6 @@
 import {INTERNAL_PROP} from '../../constants'
 import * as TopState from '../../state'
 import {
-	SUB_LIB,
 	LOGICAL_STACK_BEGIN_MARKER,
 	LOGICAL_STACK_END_MARKER,
 	LOGICAL_STACK_MODULE_MARKER,
@@ -15,11 +14,12 @@ import { _getSECStatePath } from '../../utils'
 
 const PLUGIN_ID = 'logical_stack'
 
-const branchJumpPseudoState = {
+const BRANCH_JUMP_PSEUDO_STATE = {
 	sid: -1,
 	plugins: {
 		[PLUGIN_ID]: {
 			stack: {
+				// NO module
 				operation: LOGICAL_STACK_SEPARATOR_NON_ADJACENT,
 			}
 		}
@@ -31,7 +31,7 @@ function _reduceStatePathToLogicalStack(statePath) {
 	return statePath.reduce((res, state) => {
 		const {module, operation} = state.plugins[PLUGIN_ID].stack
 
-		if (module // check existence of module due to special case "branchJumpPseudoState" above
+		if (module // check existence of module due to special case "BRANCH_JUMP_PSEUDO_STATE" above
 			&& module !== current_module
 		) {
 			res = res
@@ -49,28 +49,6 @@ function _reduceStatePathToLogicalStack(statePath) {
 		return res
 	}, '') + LOGICAL_STACK_END_MARKER
 }
-
-/*
-function _reduceStacktrace(stacktrace) {
-	let current_module = null
-	return stacktrace.reduce((res, {module, operation}) => {
-		if (module !== current_module) {
-			res = res
-				+ (res.length ? LOGICAL_STACK_SEPARATOR : '')
-				+ module
-			current_module = module
-		}
-
-		if (operation)
-			res = res
-				+ LOGICAL_STACK_SEPARATOR
-				+ operation
-				+ LOGICAL_STACK_OPERATION_MARKER
-
-		return res
-	}, '') + LOGICAL_STACK_END_MARKER
-}
-*/
 
 const PLUGIN = {
 	id: PLUGIN_ID,
@@ -100,19 +78,6 @@ const PLUGIN = {
 			return _reduceStatePathToLogicalStack(
 				_getSECStatePath(SEC)
 			)
-			/*
-			let { stack } = this[INTERNAL_PROP].plugins[PLUGIN_ID]
-
-			const stacktrace = []
-			while (stack) {
-				stacktrace.unshift({
-					module: stack.module,
-					operation: stack.operation,
-				})
-				stack = Object.getPrototypeOf(stack)
-			}
-
-			return _reduceStacktrace(stacktrace)*/
 		}
 
 		prototype.getShortLogicalStack = function get_stack_end() {
@@ -160,7 +125,7 @@ const PLUGIN = {
 
 					// reconcile the 2 stack traces
 					let improvedStatePath = [].concat(current_path)
-					improvedStatePath.push(branchJumpPseudoState)
+					improvedStatePath.push(BRANCH_JUMP_PSEUDO_STATE)
 					improvedStatePath = improvedStatePath.concat(
 						other_path.slice(last_common_index + 1)
 					)
@@ -176,7 +141,7 @@ const PLUGIN = {
 				logicalStack.short = SEC.getShortLogicalStack()
 				if (err.message.startsWith(logicalStack.short)) {
 					// can that happen??? It's a bug!
-					console.warn('SEC non-decorated error already prefixed??')
+					console.warn('UNEXPECTED SEC non-decorated error already prefixed??')
 				}
 				else {
 					err.message = logicalStack.short + ': ' + err.message
@@ -189,7 +154,6 @@ const PLUGIN = {
 				...(err.details || {}),
 				...details,
 			}
-			//err._temp.logicalStack = logicalStack.full
 
 			return err
 		}

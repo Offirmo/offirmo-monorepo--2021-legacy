@@ -1,4 +1,4 @@
-// IMMUTABLE!
+// Note: let's keep everything immutable
 
 /////////////////////
 
@@ -19,7 +19,6 @@ function activate_plugin(state, PLUGIN, args) {
 		: null
 
 	let plugin_state = PLUGIN.state.create(plugin_parent_state)
-	//plugin_state = PLUGIN.state.init_from_creation_args(plugin_state, args)
 
 	return {
 		...state,
@@ -27,9 +26,9 @@ function activate_plugin(state, PLUGIN, args) {
 			...state.plugins,
 			[PLUGIN.id]: {
 				...plugin_state,
-				sid: state.sid,
+				sid: state.sid, // propagate sid. Not really useful yet, but helps debug
 			},
-		}
+		},
 	}
 }
 
@@ -39,14 +38,14 @@ function reduce_plugin(state, PLUGIN_ID, reducer) {
 	const new_plugin_state = reducer(initial_plugin_state)
 
 	if (new_plugin_state === initial_plugin_state)
-		return state // no change
+		return state // no change (immutability expected)
 
 	return {
 		...state,
 		plugins: {
 			...state.plugins,
 			[PLUGIN_ID]: new_plugin_state,
-		}
+		},
 	}
 }
 

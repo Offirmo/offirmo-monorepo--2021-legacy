@@ -19,8 +19,7 @@
 			"apps/*"
 		]
 	},
-	"dependencies": {
-	},
+	"dependencies": {},
 	"devDependencies": {
 		"@offirmo/cli-toolbox": "^1.0.0",
 		"@offirmo/random": "^2.0.4",
@@ -94,6 +93,7 @@
 		"rpgui": "^1.0.3",
 		"semver": "^5.4.1",
 		"spawn-sync": "^2.0.0",
+		"stacktrace-js": "^2.0.0",
 		"strip-ansi": "^4.0.0",
 		"strip-ansi-stream": "^1.0.0",
 		"style-loader": "^0.21.0",

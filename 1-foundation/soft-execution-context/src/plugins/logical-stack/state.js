@@ -10,7 +10,7 @@ function create(parent_state) {
 			return stack
 		})()
 
-	stack.operation = undefined // shouldn't inherit this one
+	stack.operation = undefined // should never inherit this one
 
 	return {
 		stack,
@@ -45,19 +45,8 @@ function set_operation(state, operation) {
 	}
 }
 
-
-function init_from_creation_args(state, {module, operation}) {
-	if (module)
-		state = set_module(state, module)
-	if (operation)
-		state = set_operation(state, operation)
-
-	return state
-}
-
 export {
 	create,
 	set_module,
 	set_operation,
-	init_from_creation_args,
 }
