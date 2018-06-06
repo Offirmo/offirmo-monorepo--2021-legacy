@@ -1,25 +1,15 @@
 "use strict";
+/////////////////////
+// TODO move to SEC lib when turned to TS
 Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
-const soft_execution_context = tslib_1.__importStar(require("@offirmo/soft-execution-context"));
+/////////////////////
 const enforce_immutability = (v) => v;
-//const enforce_immutability = (state: State) => deepFreeze(state)
-function get_default_SEC_context() {
-    return {
+//const enforce_immutability = (state: State) => deepFreeze(state) TODO
+function enrich_SEC(SEC) {
+    SEC.injectDependencies({
         enforce_immutability,
-    };
-}
-exports.get_default_SEC_context = get_default_SEC_context;
-function oh_my_rpg_get_SEC({ module, parent_SEC }) {
-    if (parent_SEC && !soft_execution_context.isSEC(parent_SEC)) {
-        // better error
-        throw new Error(`@oh-my-rpg: missing sec when creating module "${module}"!`);
-    }
-    return soft_execution_context.isomorphic.create({
-        parent: parent_SEC,
-        module,
-        context: Object.assign({}, get_default_SEC_context()),
     });
+    // TODO add debug details, version, etc.
 }
-exports.oh_my_rpg_get_SEC = oh_my_rpg_get_SEC;
+exports.enrich_SEC = enrich_SEC;
 //# sourceMappingURL=root_sec.js.map

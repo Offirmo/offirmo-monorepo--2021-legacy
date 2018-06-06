@@ -63,6 +63,7 @@ interface State {
 	revision: number
 
 	// TODO uuid?
+	// TODO creation date!
 	// TODO upper savegame?
 	// TODO meta?
 
