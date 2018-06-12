@@ -14,7 +14,8 @@
 			"0-stdlib/*",
 			"1-foundation/*",
 			"2-advanced/*",
-			"8-tools/*",
+			"3-tools/*",
+			"4-incubator/*",
 			"9-oh-my-rpg/*",
 			"apps/*"
 		]
