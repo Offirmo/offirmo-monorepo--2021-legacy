@@ -7,4 +7,4 @@ declare function create(SEC?: SoftExecutionContext): State;
 declare function rename(SEC: SoftExecutionContext, state: State, new_name: string): State;
 declare function switch_class(SEC: SoftExecutionContext, state: State, klass: CharacterClass): State;
 declare function increase_stat(SEC: SoftExecutionContext, state: State, stat: CharacterAttribute, amount?: number): State;
-export { CharacterAttribute, CharacterClass, CharacterAttributes, State, CHARACTER_ATTRIBUTES, CHARACTER_ATTRIBUTES_SORTED, CHARACTER_CLASSES, create, rename, switch_class, increase_stat };
+export { CharacterAttribute, CharacterClass, CharacterAttributes, State, CHARACTER_ATTRIBUTES, CHARACTER_ATTRIBUTES_SORTED, CHARACTER_CLASSES, create, rename, switch_class, increase_stat, };

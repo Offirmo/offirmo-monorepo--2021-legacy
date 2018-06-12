@@ -42,4 +42,4 @@ interface State {
     klass: CharacterClass;
     attributes: CharacterAttributes;
 }
-export { CharacterAttribute, CharacterClass, CharacterAttributes, State };
+export { CharacterAttribute, CharacterClass, CharacterAttributes, State, };

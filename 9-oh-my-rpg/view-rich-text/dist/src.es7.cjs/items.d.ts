@@ -11,4 +11,4 @@ interface RenderItemOptions {
 declare function render_armor(i: Armor, options?: RenderItemOptions): RichText.Document;
 declare function render_weapon(i: Weapon, options?: RenderItemOptions): RichText.Document;
 declare function render_item(i: Item, options?: RenderItemOptions): RichText.Document;
-export { RenderItemOptions, render_armor_name, render_armor, render_weapon_name, render_weapon, render_item };
+export { RenderItemOptions, render_armor_name, render_armor, render_weapon_name, render_weapon, render_item, };

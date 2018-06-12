@@ -4,4 +4,4 @@ import * as RichText from '@offirmo/rich-text-format';
 declare function render_equipment(inventory: InventoryState): RichText.Document;
 declare function render_backpack(inventory: InventoryState): RichText.Document;
 declare function render_full_inventory(inventory: InventoryState, wallet: WalletState): RichText.Document;
-export { render_backpack, render_equipment, render_full_inventory };
+export { render_backpack, render_equipment, render_full_inventory, };

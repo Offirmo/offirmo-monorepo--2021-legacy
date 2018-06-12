@@ -60,4 +60,4 @@ interface State {
     good_click_count: number;
     meaningful_interaction_count: number;
 }
-export { UUID, GainType, Adventure, State };
+export { UUID, GainType, Adventure, State, };

@@ -13,4 +13,4 @@ declare function sell_item(state: Readonly<State>, uuid: UUID): Readonly<State>;
 declare function rename_avatar(state: Readonly<State>, new_name: string): Readonly<State>;
 declare function change_avatar_class(state: Readonly<State>, new_class: CharacterClass): Readonly<State>;
 declare function execute(state: Readonly<State>, action: Action): Readonly<State>;
-export { GainType, Adventure, State, create, reseed, play, equip_item, sell_item, rename_avatar, change_avatar_class, execute, appraise_item, find_element, get_actions_for_element };
+export { GainType, Adventure, State, create, reseed, play, equip_item, sell_item, rename_avatar, change_avatar_class, execute, appraise_item, find_element, get_actions_for_element, };

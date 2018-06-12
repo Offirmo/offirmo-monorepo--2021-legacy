@@ -5,4 +5,4 @@ declare const TextClass: {
     place: "place";
 };
 declare type TextClass = Enum<typeof TextClass>;
-export { TextClass };
+export { TextClass, };

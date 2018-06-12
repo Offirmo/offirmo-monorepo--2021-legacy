@@ -7,4 +7,4 @@ declare const URL_OF_REPO = "https://github.com/Offirmo/offirmo-monorepo/tree/ma
 declare const URL_OF_FORK = "https://github.com/Offirmo/offirmo-monorepo#fork-destination-box";
 declare const URL_OF_ISSUES = "https://github.com/Offirmo/offirmo-monorepo/issues";
 declare const URL_OF_REDDIT_PAGE = "https://www.reddit.com/r/boringrpg/";
-export { LIB, SCHEMA_VERSION, GAME_VERSION, URL_OF_WEBSITE, URL_OF_PRODUCT_HUNT_PAGE, URL_OF_REPO, URL_OF_FORK, URL_OF_ISSUES, URL_OF_REDDIT_PAGE };
+export { LIB, SCHEMA_VERSION, GAME_VERSION, URL_OF_WEBSITE, URL_OF_PRODUCT_HUNT_PAGE, URL_OF_REPO, URL_OF_FORK, URL_OF_ISSUES, URL_OF_REDDIT_PAGE, };

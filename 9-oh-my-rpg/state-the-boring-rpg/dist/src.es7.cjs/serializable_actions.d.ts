@@ -45,4 +45,4 @@ interface ActionChangeAvatarClass {
     new_class: CharacterClass;
 }
 declare type Action = ActionPlay | ActionEquipItem | ActionSellItem | ActionRenameAvatar | ActionChangeAvatarClass;
-export { ActionType, ActionCategory, ActionPlay, ActionEquipItem, ActionSellItem, ActionRenameAvatar, ActionChangeAvatarClass, Action };
+export { ActionType, ActionCategory, ActionPlay, ActionEquipItem, ActionSellItem, ActionRenameAvatar, ActionChangeAvatarClass, Action, };
