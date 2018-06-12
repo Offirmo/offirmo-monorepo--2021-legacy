@@ -356,12 +356,8 @@ html {
 /* apply a natural box layout model to all elements, but allowing components to change
  * https://www.paulirish.com/2012/box-sizing-border-box-ftw/
  */
-html {
-	box-sizing: border-box;
-}
-*, *:before, *:after {
-	box-sizing: inherit;
-}
+html                 { box-sizing: border-box; }
+*, *:before, *:after { box-sizing: inherit; }
 
 
 body {
@@ -372,12 +368,12 @@ body {
 	/* adapted from http://perfectmotherfuckingwebsite.com */
 	max-width: 650px;
 	margin: 0 auto; /* 0 for the 100% trick to work, auto for centering */
-	padding: 0 10px;
+	padding: 40px 10px;
 	font-family: var(--o⋄font-family--fast_and_good_enough);
 	color: var(--o⋄color--fg⁚main);
 	background-color: var(--o⋄color--bg⁚main);
 	line-height: 1.6;
-	font-size: 16px;
+	font-size: 18px;
 
 	/* https://www.leejamesrobinson.com/blog/how-stripe-designs-beautiful-websites/ */
 	text-rendering: optimizeLegibility;
@@ -389,13 +385,11 @@ body {
 h1, h2, h3 {
 	/* http://perfectmotherfuckingwebsite.com/ */
 	line-height: 1.2;
-	/* because they are too big */
-	margin: .5em 0;
 }
 
-p {
-	/* because they are too big */
-	margin: .5em 0;
+h1, h2, h3, p {
+	/* because they are too big by default */
+	margin: .7em 0;
 }
 
 
@@ -405,6 +399,10 @@ img {
 }
 
 
+/* TODO buttons
+https://css-tricks.com/overriding-default-button-styles/
+https://fvsch.com/code/styling-buttons/
+ */
 /* https://www.leejamesrobinson.com/blog/how-stripe-designs-beautiful-websites/ */
 button {
 	box-shadow: 0 3px 6px rgba(50,50,93,.1), 0 1px 2px rgba(0,0,0,.08);
@@ -426,6 +424,7 @@ button:active {
  * https://snook.ca/archives/html_and_css/animating-progress
  */
 :root {
+	/* TODO tie this to the theme ? */
 	--o⋄color__progress--bg: hsl(0, 0%, 90%);
 	--o⋄color__progress-bar: hsl(221, 78%, 69%);
 }
@@ -463,49 +462,67 @@ progress::-ms-fill {
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 }
 
-/* ref: ? */
-hr {
-	width: 100%;
-}
-
 /* Adapt links to the main color.
  * Better than the defaults.
  */
+a { text-decoration-color: var(--o⋄color--fg⁚secondary); }
 a:link,
 a:visited {color: inherit;}
 a:hover,
 a:active {color: red;}
 
 
-/* TODO buttons
-https://css-tricks.com/overriding-default-button-styles/
-https://fvsch.com/code/styling-buttons/
+/* Nicer HR
+ * possible ideas: https://css-tricks.com/examples/hrs/
  */
+hr {
+	/* simple one */
+	border: 0;
+	height: 1px;
+	background: var(--o⋄color--fg⁚ancillary);
+}
 
-
-
-/* TODO group them into a theme */
-:root,
-[data-o⋄theme="dark-on-light"] {
-	/* dark-on-light theme, good default
+:root {
+	/* Base colors
+	 * dark-on-light theme, good default, but can also be used in reverse on light-on-dark
 	 * https://medium.com/refactoring-ui/7-practical-tips-for-cheating-at-design-40c736799886
 	 */
-
 	--o⋄color__dolt__quasi-black: hsl(0, 0%, 26%); /* 17 or 26 ? */
-	--o⋄color__dolt__dark-grey: hsl(0, 0%, 40%);
+	--o⋄color__dolt__dark-grey:   hsl(0, 0%, 40%);
 	--o⋄color__dolt__medium-grey: hsl(0, 0%, 63%);
-	--o⋄color__dolt__quasi-white: #fafafa;
+	--o⋄color__dolt__quasi-white: hsl(0, 0%, 98%);
 
-	/* TODO
-	--o⋄color--transparent-white: hsla(0, 0%, 100%, 0.6);
-	--o⋄color--transparent-black: hsla(0, 0%, 0%, 0.6);
-	*/
-
-	--o⋄color--bg⁚main: var(--o⋄color__dolt__quasi-white);
-	--o⋄color--fg⁚main: var(--o⋄color__dolt__quasi-black);
-	--o⋄color--fg⁚secondary: var(--o⋄color__dolt__dark-grey);
-	--o⋄color--fg⁚ancillary: var(--o⋄color__dolt__medium-grey);
+	--o⋄color--transparent: rgba(0, 0, 0, 0);
 }
+
+/******* themes *******/
+
+:root, /* this theme is the default */
+[data-o⋄theme="dark-on-light"] {
+	--o⋄color--bg⁚main: var(--o⋄color__dolt__quasi-white);
+
+	--o⋄color--fg⁚main: var(--o⋄color__dolt__quasi-black);
+	--o⋄color--fg⁚secondary: hsla(0, 0%, 26%, 0.66);
+	--o⋄color--fg⁚ancillary: hsla(0, 0%, 26%, 0.33);
+
+	/*--o⋄color--fg⁚secondary: var(--o⋄color__dolt__dark-grey);
+	--o⋄color--fg⁚ancillary: var(--o⋄color__dolt__medium-grey);*/
+
+}
+
+/* light on dark theme */
+[data-o⋄theme="light-on-dark"] {
+	--o⋄color--bg⁚main: var(--o⋄color__dolt__quasi-black);
+
+	--o⋄color--fg⁚main: var(--o⋄color__dolt__quasi-white);
+	--o⋄color--fg⁚secondary: hsla(0, 0%, 98%, 0.66);
+	--o⋄color--fg⁚ancillary: hsla(0, 0%, 98%, 0.33);
+
+	/*--o⋄color--fg⁚secondary: var(--o⋄color__dolt__medium-grey);
+	--o⋄color--fg⁚ancillary: var(--o⋄color__dolt__dark-grey);*/
+}
+
+/******* themes *******/
 
 .o⋄color⁚main {
 	color: var(--o⋄color--fg⁚main);
@@ -519,13 +536,11 @@ https://fvsch.com/code/styling-buttons/
 	color: var(--o⋄color--fg⁚ancillary);
 }
 
-/* light on dark theme */
-[data-o⋄theme="light-on-dark"] {
-	/* TODOO */
-}
 
-
-/* very convenient container to propagate full height */
+/* very convenient container to propagate full height
+ * NOTE: full height applied by default on <html> and <body>
+ * but adding this activates the debug markings
+ */
 .o⋄top-container {
 	/* debug technique */
 	box-sizing: border-box;
@@ -537,7 +552,6 @@ https://fvsch.com/code/styling-buttons/
 
 	height: 100%;
 }
-
 
 .o⋄centered-article {
 	border-color: blueviolet; /* for debug */
@@ -551,42 +565,13 @@ https://fvsch.com/code/styling-buttons/
 }
 
 
-.o⋄error-boundary-report {
+.o⋄error-report {
 	font-size: xx-small;
 	font-family: monospace;
 	color: red;
 	background-color: rgba(0, 0, 0, .3);
 	margin: auto;
 	z-index: 100; /* just in case */
-}
-
-
-
-/******* container utils *******/
-
-.o⋄overflow-y⁚auto {
-	overflow-y: auto;
-}
-
-/* XXX NO there is likely a underlying problem
-.o⋄no-overflow {
-	overflow-x: hidden;
-	overflow-y: hidden;
-}
-*/
-
-.o⋄pad⁚0 {
-	padding: 0;
-}
-.o⋄pad⁚5 {
-	padding: 5px;
-}
-.o⋄pad⁚7 {
-	padding: 7px;
-}
-
-.o⋄height⁚100pc {
-	height: 100%;
 }
 
 
@@ -617,7 +602,6 @@ https://fvsch.com/code/styling-buttons/
 .o⋄font⁚roboto-condensed {
 	font-family: var(--o⋄font-family--roboto-condensed);
 }
-
 
 /*********************/
 
@@ -724,12 +708,6 @@ https://fvsch.com/code/styling-buttons/
 }
 
 
-/******* atoms *******/
-
-.o⋄text-align⁚center {
-	text-align: center;
-}
-
 .o⋄text-noselect {
 	cursor:  pointer;
 
@@ -751,55 +729,103 @@ https://fvsch.com/code/styling-buttons/
 	list-style-type: none;
 	padding: 0;
 	margin: 0;
-	display: flex;
-}
-.o⋄nav-list li {
-	/* disable text selection, since unclean clicks/taps may select text
-	 * and cause inconvenience (especially on mobile)
-	 * http://stackoverflow.com/a/4407335/587407
+
+	/* helps if we want to do fancy positioning
+	 * ex. combine with .o⋄flex--centered-content
 	 */
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-}
-.o⋄nav-list a {
-	text-decoration: none;
-}
-/* https://stackoverflow.com/a/8185290/587407 */
-.o⋄nav-list li + li  {
-	margin-left: 16px;
-}
-
-/******* flex *******/
-
-.o⋄flex-row {
 	display: flex;
 	flex-direction: row;
 }
-.o⋄flex-column {
+.o⋄nav-list li {
+}
+.o⋄nav-list a {
+	text-decoration: none; /* usually what we want */
+}
+/* https://stackoverflow.com/a/8185290/587407 */
+.o⋄nav-list li + li  {
+	margin-left: 2em;
+}
+
+
+.o⋄text-align⁚center {
+	text-align: center;
+}
+
+
+/******* flex *******/
+
+.o⋄flex--row {
+	display: flex;
+	flex-direction: row;
+}
+.o⋄flex--column {
 	display: flex;
 	flex-direction: column;
 }
 
+.o⋄flex--centered-content {
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+}
+
 /* https://stackoverflow.com/questions/90178/make-a-div-fill-the-height-of-the-remaining-screen-space */
-.o⋄flex-element-nogrow {
+.o⋄flex-element--nogrow {
 	flex-grow: 0;
 }
-.o⋄flex-element-grow {
+.o⋄flex-element--grow {
 	flex-grow: 1;
 }
+
+
+.o⋄pad⁚0 {
+	padding: 0;
+}
+.o⋄pad⁚5 {
+	padding: 5px;
+}
+.o⋄pad⁚7 {
+	padding: 7px;
+}
+
+/*
+.o⋄margin⁚0 {
+	margin: 0;
+}
+.o⋄margin⁚5 {
+	margin: 5px;
+}
+.o⋄margin⁚7 {
+	margin: 7px;
+}
+*/
+
+/******* container utils *******/
+
+.o⋄overflow-y⁚auto {
+	overflow-y: auto;
+}
+
+/* XXX NO there is likely an underlying problem!
+.o⋄no-overflow {
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
+*/
+
+.o⋄height⁚100pc {
+	height: 100%;
+}
+
 
 /******* Checkbox hack *******
  * https://css-tricks.com/the-checkbox-hack/
  */
-.o⋄checkbox-hacked {
+/*.o⋄checkbox-hacked {
 	position: absolute;
 	opacity: 0.5;
 	pointer-events: none;
-}
+}*/
 
 /******* animated progress *******
  * See also the progress reset in style--reset.css
@@ -820,6 +846,8 @@ progress.o⋄animated::-moz-progress-bar {
 progress.o⋄animated::-ms-fill {
 	border:0;
 }
+
+/*! @offirmo/view-css UNLICENSED */
 
 /*
 .o⋄top-container {

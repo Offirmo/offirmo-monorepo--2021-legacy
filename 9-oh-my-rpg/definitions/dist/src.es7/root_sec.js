@@ -1,14 +1,17 @@
-/////////////////////
-// TODO move to SEC lib when turned to TS
+import { PRODUCT, VERSION } from './consts';
 /////////////////////
 const enforce_immutability = (v) => v;
 //const enforce_immutability = (state: State) => deepFreeze(state) TODO
-function enrich_SEC(SEC) {
+function decorate_SEC(SEC) {
     SEC.injectDependencies({
         enforce_immutability,
     });
-    // TODO add debug details, version, etc.
+    SEC.setAnalyticsAndErrorDetails({
+        product: PRODUCT,
+        version: VERSION,
+    });
+    return SEC; // for chaining
 }
 /////////////////////
-export { enrich_SEC, };
+export { decorate_SEC, };
 //# sourceMappingURL=root_sec.js.map

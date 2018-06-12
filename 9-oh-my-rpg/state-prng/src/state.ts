@@ -73,7 +73,7 @@ let cached_prng: MTEngineWithSeed = (null as any as MTEngineWithSeed)
 let cached_prng_was_updated_once = false
 
 function xxx_internal_reset_prng_cache() {
-	console.trace('xxx_internal_reset_prng_cache')
+	//console.trace('xxx_internal_reset_prng_cache')
 	cached_prng = Random.engines.mt19937().seed(DEFAULT_SEED)
 	cached_prng._seed = DEFAULT_SEED
 	cached_prng_was_updated_once = false

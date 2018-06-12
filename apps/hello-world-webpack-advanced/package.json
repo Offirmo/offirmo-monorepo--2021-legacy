@@ -1,6 +1,6 @@
 {
 	"name": "@offirmo/reference-webpack",
-	"version": "0.0.40",
+	"version": "0.0.42",
 	"private": true,
 	"description": "My reference webpack setup",
 	"author": "Offirmo <offirmo.net@gmail.com>",
@@ -42,7 +42,8 @@
 	"dependencies": {},
 	"devDependencies": {
 		"@offirmo/practical-logger-browser": "^0.0.1",
-		"@offirmo/soft-execution-context-browser": "^0.0.1",
+		"@offirmo/soft-execution-context": "^0.0.2",
+		"@offirmo/soft-execution-context-browser": "^0.0.2",
 		"@offirmo/timestamps": "^0.0.1",
 		"@offirmo/view-css": "^0.0.1",
 		"@types/node": "^9.6.4",

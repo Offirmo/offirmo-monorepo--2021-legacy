@@ -1,0 +1,42 @@
+{
+  "name": "@offirmo/unit-test-toolbox",
+  "version": "4.0.0",
+  "description": "An aggregation of quality npm modules to be used for writing unit tests.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"no need for tests for this kind of repo\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Offirmo/unit-test-toolbox.git"
+  },
+  "keywords": [
+    "unit",
+    "test",
+    "aggregation",
+    "module",
+    "npm"
+  ],
+  "author": "Offirmo <offirmo.net@gmail.com>",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/Offirmo/unit-test-toolbox/issues"
+  },
+  "homepage": "https://github.com/Offirmo/unit-test-toolbox#readme",
+  "dependencies": {
+    "@types/chai": "^4",
+    "@types/chai-as-promised": "^7",
+    "@types/mocha": "^5",
+    "@types/sinon": "^5",
+    "@types/sinon-chai": "^2",
+    "chai": "^4",
+    "chai-as-promised": "^7",
+    "chai-moment": "^0.1",
+    "chai-subset": "^1",
+    "eslint-plugin-chai-expect": "^1",
+    "eslint-plugin-mocha": "^5",
+    "mocha": "^5",
+    "sinon": "^6",
+    "sinon-chai": "^3"
+  }
+}

@@ -56,7 +56,8 @@ const PLUGIN = {
 	augment: prototype => {
 
 		prototype.setLogicalStack = function setLogicalStack({module, operation}) {
-			let root_state = this[INTERNAL_PROP]
+			const SEC = this
+			let root_state = SEC[INTERNAL_PROP]
 
 			root_state = TopState.reduce_plugin(root_state, PLUGIN_ID, state => {
 				if (module)
@@ -67,9 +68,9 @@ const PLUGIN = {
 				return state
 			})
 
-			this[INTERNAL_PROP] = root_state
+			SEC[INTERNAL_PROP] = root_state
 
-			return this
+			return SEC
 		}
 
 		prototype.getLogicalStack = function getLogicalStack() {

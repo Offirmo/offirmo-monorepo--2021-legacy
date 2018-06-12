@@ -7,7 +7,7 @@ const sec_1 = require("./sec");
 describe('🤕 ❤️  Character state - reducer', function () {
     describe('🆕  initial state', function () {
         it('should have correct defaults', function () {
-            const state = _1.create(sec_1.get_SEC());
+            const state = _1.create(sec_1.get_lib_SEC());
             chai_1.expect(state).to.deep.equal({
                 schema_version: consts_1.SCHEMA_VERSION,
                 revision: 0,
@@ -28,19 +28,19 @@ describe('🤕 ❤️  Character state - reducer', function () {
     });
     describe('⬆ stat increase', function () {
         it('should fail on invalid amount', function () {
-            let state = _1.create(sec_1.get_SEC());
+            let state = _1.create(sec_1.get_lib_SEC());
             function increase_0() {
-                state = _1.increase_stat(sec_1.get_SEC(), state, _1.CharacterAttribute.agility, 0);
+                state = _1.increase_stat(sec_1.get_lib_SEC(), state, _1.CharacterAttribute.agility, 0);
             }
             chai_1.expect(increase_0).to.throw('invalid amount!');
             function decrease() {
-                state = _1.increase_stat(sec_1.get_SEC(), state, _1.CharacterAttribute.agility, -1);
+                state = _1.increase_stat(sec_1.get_lib_SEC(), state, _1.CharacterAttribute.agility, -1);
             }
             chai_1.expect(decrease).to.throw('invalid amount!');
         });
         it('should work in nominal case', function () {
-            let state = _1.create(sec_1.get_SEC());
-            state = _1.increase_stat(sec_1.get_SEC(), state, _1.CharacterAttribute.agility);
+            let state = _1.create(sec_1.get_lib_SEC());
+            state = _1.increase_stat(sec_1.get_lib_SEC(), state, _1.CharacterAttribute.agility);
             chai_1.expect(state.attributes.agility).to.equal(2);
             chai_1.expect(state.attributes).to.deep.equal({
                 level: 1,
@@ -52,7 +52,7 @@ describe('🤕 ❤️  Character state - reducer', function () {
                 wisdom: 1,
                 luck: 1
             });
-            state = _1.increase_stat(sec_1.get_SEC(), state, _1.CharacterAttribute.agility, 2);
+            state = _1.increase_stat(sec_1.get_lib_SEC(), state, _1.CharacterAttribute.agility, 2);
             chai_1.expect(state.attributes.agility).to.equal(4);
             chai_1.expect(state.attributes).to.deep.equal({
                 level: 1,
@@ -64,7 +64,7 @@ describe('🤕 ❤️  Character state - reducer', function () {
                 wisdom: 1,
                 luck: 1
             });
-            state = _1.increase_stat(sec_1.get_SEC(), state, _1.CharacterAttribute.agility);
+            state = _1.increase_stat(sec_1.get_lib_SEC(), state, _1.CharacterAttribute.agility);
             chai_1.expect(state.attributes.agility).to.equal(5);
             chai_1.expect(state.attributes).to.deep.equal({
                 level: 1,

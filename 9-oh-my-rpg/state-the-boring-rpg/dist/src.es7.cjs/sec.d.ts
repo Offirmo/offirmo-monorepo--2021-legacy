@@ -1,3 +1,3 @@
-import { SoftExecutionContext, SECContext } from '@oh-my-rpg/definitions';
-declare function get_SEC(SEC?: SoftExecutionContext): SoftExecutionContext;
-export { SoftExecutionContext, SECContext, get_SEC };
+import { SoftExecutionContext, OMRContext } from '@oh-my-rpg/definitions';
+declare function get_lib_SEC(parent?: SoftExecutionContext): SoftExecutionContext;
+export { SoftExecutionContext, OMRContext, get_lib_SEC };

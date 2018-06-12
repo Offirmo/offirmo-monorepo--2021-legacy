@@ -4,6 +4,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const typescript_string_enums_1 = require("typescript-string-enums");
 const types_1 = require("./types");
 ///////
+const VERSION = 'v0.1.0';
+exports.VERSION = VERSION;
+const PRODUCT = '@oh-my-rpg';
+exports.PRODUCT = PRODUCT;
+///////
 const ITEM_QUALITIES = typescript_string_enums_1.Enum.keys(types_1.ItemQuality);
 exports.ITEM_QUALITIES = ITEM_QUALITIES;
 // useful for ex. for sorting

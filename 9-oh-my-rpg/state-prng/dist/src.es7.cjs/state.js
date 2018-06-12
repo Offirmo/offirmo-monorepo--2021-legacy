@@ -55,7 +55,7 @@ exports.register_recently_used = register_recently_used;
 let cached_prng = null;
 let cached_prng_was_updated_once = false;
 function xxx_internal_reset_prng_cache() {
-    console.trace('xxx_internal_reset_prng_cache');
+    //console.trace('xxx_internal_reset_prng_cache')
     cached_prng = random_1.Random.engines.mt19937().seed(DEFAULT_SEED);
     cached_prng._seed = DEFAULT_SEED;
     cached_prng_was_updated_once = false;

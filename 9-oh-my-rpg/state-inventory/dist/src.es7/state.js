@@ -1,8 +1,5 @@
 /////////////////////
-import deepFreeze from 'deep-freeze-strict';
 import { InventorySlot } from '@oh-my-rpg/definitions';
-import { DEMO_WEAPON_1, DEMO_WEAPON_2 } from '@oh-my-rpg/logic-weapons';
-import { DEMO_ARMOR_1, DEMO_ARMOR_2 } from '@oh-my-rpg/logic-armors';
 import { SCHEMA_VERSION } from './consts';
 import { compare_items } from './compare';
 /////////////////////
@@ -74,42 +71,6 @@ function* iterables_unslotted(state) {
     yield* state.unslotted;
 }
 /////////////////////
-// needed to test migrations, both here and in composing parents
-// a full featured, non-trivial demo state
-// needed for demos
-const DEMO_STATE = deepFreeze({
-    schema_version: 1,
-    revision: 42,
-    unslotted_capacity: 20,
-    slotted: {
-        armor: DEMO_ARMOR_2,
-        weapon: DEMO_WEAPON_1,
-    },
-    unslotted: [
-        DEMO_WEAPON_2,
-        DEMO_ARMOR_1,
-    ],
-});
-// the oldest format we can migrate from
-// must correspond to state above
-const OLDEST_LEGACY_STATE_FOR_TESTS = deepFreeze({
-    unslotted_capacity: 20,
-    slotted: {
-        armor: DEMO_ARMOR_2,
-        weapon: DEMO_WEAPON_1,
-    },
-    unslotted: [
-        DEMO_WEAPON_2,
-        DEMO_ARMOR_1,
-    ],
-});
-// some hints may be needed to migrate to demo state
-const MIGRATION_HINTS_FOR_TESTS = deepFreeze({
-    to_v1: {
-        revision: 42
-    },
-});
-/////////////////////
-export { InventorySlot, create, add_item, remove_item_from_unslotted, equip_item, get_equipped_item_count, get_unequipped_item_count, get_item_count, get_unslotted_item, get_item, get_item_in_slot, iterables_unslotted, DEMO_STATE, OLDEST_LEGACY_STATE_FOR_TESTS, MIGRATION_HINTS_FOR_TESTS, };
+export { InventorySlot, create, add_item, remove_item_from_unslotted, equip_item, get_equipped_item_count, get_unequipped_item_count, get_item_count, get_unslotted_item, get_item, get_item_in_slot, iterables_unslotted, };
 /////////////////////
 //# sourceMappingURL=state.js.map

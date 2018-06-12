@@ -35,7 +35,7 @@ function reset_and_salvage(legacy_state) {
     return state;
 }
 function migrate_to_latest(SEC, legacy_state, hints = {}) {
-    return sec_1.get_SEC(SEC).xTry('migrate_to_latest', ({ SEC, logger }) => {
+    return sec_1.get_lib_SEC(SEC).xTry('migrate_to_latest', ({ SEC, logger }) => {
         const src_version = (legacy_state && legacy_state.schema_version) || 0;
         let state = state_1.create();
         const SUB_REDUCERS_COUNT = 5;

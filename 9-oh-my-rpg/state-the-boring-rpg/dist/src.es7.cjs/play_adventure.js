@@ -109,7 +109,7 @@ function instantiate_adventure_archetype(rng, aa, character, inventory) {
     };
 }
 function receive_stat_increase(state, stat, amount = 1) {
-    return Object.assign({}, state, { avatar: state_character_1.increase_stat(sec_1.get_SEC(), state.avatar, stat, amount) });
+    return Object.assign({}, state, { avatar: state_character_1.increase_stat(sec_1.get_lib_SEC(), state.avatar, stat, amount) });
 }
 function receive_item(state, item) {
     return Object.assign({}, state, { 

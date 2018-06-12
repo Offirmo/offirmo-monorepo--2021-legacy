@@ -24,8 +24,10 @@ const PLUGIN = {
             this[constants_1.INTERNAL_PROP] = root_state;
             return SEC; // for chaining
         };
-        prototype.fireAnalyticsEvent = function sendAnalytics(eventId, details) {
+        prototype.fireAnalyticsEvent = function fireAnalyticsEvent(eventId, details = {}) {
             const SEC = this;
+            if (!eventId)
+                throw new Error('Incorrect eventId!');
             const { ENV } = SEC.getInjectedDependencies();
             const autoDetails = {
                 ENV,

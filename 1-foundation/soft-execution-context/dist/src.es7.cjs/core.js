@@ -22,20 +22,30 @@ function createSEC(args = {}) {
         throw new Error(`${constants_1.LIB}›createSEC() argument error: parent must be a valid SEC!`);
     args.parent = args.parent || {};
     let unhandled_args = Object.keys(args);
-    //const onError = args.onError || (args.parent && args.parent.onError) // XXX inherit, really?
     let SEC = Object.create(root_prototype_1.ROOT_PROTOTYPE);
     /////// STATE ///////
-    let state = State.create(args.parent[constants_1.INTERNAL_PROP]);
+    let parent_state = args.parent[constants_1.INTERNAL_PROP];
+    let state = State.create(parent_state);
     unhandled_args = unhandled_args.filter(arg => arg !== 'parent');
     index_1.PLUGINS.forEach(PLUGIN => {
         state = State.activate_plugin(state, PLUGIN, args);
     });
     SEC[constants_1.INTERNAL_PROP] = state;
-    SEC.injectDependencies({ SEC });
-    /////// XXX ///////
-    // TODO event?
-    // TODO lifecycle ?
-    //if (SEC.verbose) console.log(`${LIB}: new SEC:`, args)
+    // auto injections
+    const ENV = typeof NODE_ENV === 'string'
+        ? NODE_ENV
+        : 'development';
+    SEC.injectDependencies({
+        SEC,
+        logger: console,
+        ENV,
+        DEBUG: false,
+    });
+    SEC.setAnalyticsDetails({
+        env: ENV,
+    });
+    // Here we could send an event on the SEC bus. No usage for now.
+    // Her we could have lifecycle methods. No usage for now.
     if (unhandled_args.length)
         throw new Error(`${constants_1.LIB}›createSEC() argument error: unknown args: [${unhandled_args.join(',')}]!`);
     /////////////////////

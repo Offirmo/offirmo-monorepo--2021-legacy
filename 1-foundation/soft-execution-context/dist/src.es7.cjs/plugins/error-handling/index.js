@@ -19,7 +19,7 @@ const PLUGIN = {
     id: PLUGIN_ID,
     state: State,
     augment: prototype => {
-        prototype._handleError = function handleError({ SEC, debugId, shouldRethrow }, err) {
+        prototype._handleError = function handleError({ SEC, debugId = '?', shouldRethrow = true }, err) {
             catch_factory_1.createCatcher({
                 debugId,
                 decorators: [
@@ -31,6 +31,15 @@ const PLUGIN = {
                     ? null
                     : err => SEC.emitter.emit('final-error', { SEC, err: cleanTemp(err) }),
             })(err);
+        };
+        prototype.throwNewError = function throwNewError(message, details) {
+            const SEC = this;
+            const err = new Error(message);
+            err.details = details;
+            SEC._handleError({
+                SEC,
+                shouldRethrow: true,
+            });
         };
         prototype._decorateErrorWithDetails = function _decorateErrorWithDetails(err) {
             const SEC = this;

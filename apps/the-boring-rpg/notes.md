@@ -1,6 +1,8 @@
 
 https://pusher.com/features
 
+transitions https://css-tricks.com/animate-images-and-videos-with-curtains-js/
+
 https://pushjs.org/docs/permissions
 
 TODO ui npm

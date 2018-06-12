@@ -4,22 +4,35 @@ const boxify = require('@offirmo/cli-toolbox/string/boxify')
 const PKG_JSON = require('../package.json')
 
 console.log(boxify(`
-const soft_execution_context = require('${stylizeString.bold(PKG_JSON.name)}')
+const { createLogger } = require('@offirmo/practical-logger-node')
+const { getRootSEC } = require('@offirmo/soft-execution-context')
+const {
+	listenToUncaughtErrors,
+	listenToUnhandledRejections,
+	decorateWithDetectedEnv,
+} = require('${stylizeString.bold(PKG_JSON.name)}')
 
-function onError(err) {
-   logger.fatal('error!', {err})
-}
+const APP = 'DEMO'
 
-const SEC = soft_execution_context.node.create({
-   module: 'the-npm-rpg',
-   onError,
-   context: {
-      logger,
-   }
+const logger = createLogger({
+	name: APP,
+	level: 'silly',
 })
-soft_execution_context.setRoot(SEC)
 
-SEC.listenToUncaughtErrors()
-SEC.listenToUnhandledRejections()
-logger.trace('Soft Execution Context initialized.')
+const SEC = getRootSEC()
+	.setLogicalStack({ module: APP })
+	.injectDependencies({ logger })
+
+SEC.emitter.on('final-error', function onError({logger, err}) {
+	logger.fatal('error!', {err})
+})
+
+SEC.emitter.on('analytics', function onError({SEC, eventId, details}) { … })
+
+listenToUncaughtErrors()
+listenToUnhandledRejections()
+decorateWithDetectedEnv()
+
+// Top uses tryCatch
+SEC.xTryCatch('starting', ({SEC, logger}) => { ...
 `.trim()))

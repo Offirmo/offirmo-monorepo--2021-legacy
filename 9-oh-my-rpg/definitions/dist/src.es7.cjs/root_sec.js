@@ -1,15 +1,18 @@
 "use strict";
-/////////////////////
-// TODO move to SEC lib when turned to TS
 Object.defineProperty(exports, "__esModule", { value: true });
+const consts_1 = require("./consts");
 /////////////////////
 const enforce_immutability = (v) => v;
 //const enforce_immutability = (state: State) => deepFreeze(state) TODO
-function enrich_SEC(SEC) {
+function decorate_SEC(SEC) {
     SEC.injectDependencies({
         enforce_immutability,
     });
-    // TODO add debug details, version, etc.
+    SEC.setAnalyticsAndErrorDetails({
+        product: consts_1.PRODUCT,
+        version: consts_1.VERSION,
+    });
+    return SEC; // for chaining
 }
-exports.enrich_SEC = enrich_SEC;
+exports.decorate_SEC = decorate_SEC;
 //# sourceMappingURL=root_sec.js.map

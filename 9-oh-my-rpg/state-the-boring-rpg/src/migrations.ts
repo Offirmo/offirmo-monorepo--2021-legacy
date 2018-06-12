@@ -9,7 +9,7 @@ import * as EnergyState from '@oh-my-rpg/state-energy'
 import { LIB, SCHEMA_VERSION } from './consts'
 import {Adventure, State} from './types'
 import { create, reseed } from './state'
-import { SoftExecutionContext, SECContext, get_SEC } from './sec'
+import { SoftExecutionContext, OMRContext, get_lib_SEC } from './sec'
 
 /////////////////////
 
@@ -42,7 +42,7 @@ function reset_and_salvage(legacy_state: any): State {
 }
 
 function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: any = {}): State {
-	return get_SEC(SEC).xTry('migrate_to_latest', ({SEC, logger}: SECContext) => {
+	return get_lib_SEC(SEC).xTry('migrate_to_latest', ({SEC, logger}: OMRContext) => {
 		const src_version = (legacy_state && legacy_state.schema_version) || 0
 
 		let state: State = create()
@@ -105,7 +105,7 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: 
 /////////////////////
 
 function migrate_to_4(SEC: SoftExecutionContext, legacy_state: any, hints: any): any {
-	return SEC.xTry('migrate_to_4', ({logger}: SECContext) => {
+	return SEC.xTry('migrate_to_4', ({logger}: OMRContext) => {
 		throw new Error(`Alpha release schema, won't migrate, would take too much time and schema is still unstable!`)
 	})
 }

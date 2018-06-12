@@ -82,7 +82,7 @@ import {
 	ActionSellItem,
 } from './serializable_actions'
 
-import { get_SEC } from './sec'
+import { get_lib_SEC } from './sec'
 import { receive_item } from './play_adventure'
 import { play_good, play_bad } from './play_good'
 
@@ -139,7 +139,7 @@ function create(): Readonly<State> {
 		schema_version: SCHEMA_VERSION,
 		revision: 0,
 
-		avatar: CharacterState.create(get_SEC()),
+		avatar: CharacterState.create(get_lib_SEC()),
 		inventory: InventoryState.create(),
 		wallet: WalletState.create(),
 		prng: PRNGState.create(),
@@ -259,7 +259,7 @@ function sell_item(state: Readonly<State>, uuid: UUID): Readonly<State> {
 function rename_avatar(state: Readonly<State>, new_name: string): Readonly<State> {
 	state = {
 		...state,
-		avatar: rename(get_SEC(), state.avatar, new_name),
+		avatar: rename(get_lib_SEC(), state.avatar, new_name),
 
 		// TODO count it as a meaningful interaction only once
 		meaningful_interaction_count: state.meaningful_interaction_count + 1,
@@ -273,7 +273,7 @@ function rename_avatar(state: Readonly<State>, new_name: string): Readonly<State
 function change_avatar_class(state: Readonly<State>, new_class: CharacterClass): Readonly<State> {
 	state = {
 		...state,
-		avatar: switch_class(get_SEC(), state.avatar, new_class),
+		avatar: switch_class(get_lib_SEC(), state.avatar, new_class),
 
 		// TODO count it as a meaningful interaction only if positive (or with a limit)
 		meaningful_interaction_count: state.meaningful_interaction_count + 1,

@@ -2,33 +2,16 @@
 /////////////////////
 Object.defineProperty(exports, "__esModule", { value: true });
 const consts_1 = require("./consts");
-const state_1 = require("./state");
 /////////////////////
 function migrate_to_latest(legacy_state, hints = {}) {
-    const src_version = (legacy_state && legacy_state.schema_version) || 0;
-    let state = state_1.create();
-    if (Object.keys(legacy_state).length === 0) {
-        // = empty object
-        // It happen with some deserialization techniques.
-        // It's a new state, keep freshly created one.
-    }
-    else if (src_version === consts_1.SCHEMA_VERSION)
-        state = legacy_state;
-    else if (src_version > consts_1.SCHEMA_VERSION)
+    const existing_version = (legacy_state && legacy_state.schema_version) || 0;
+    if (existing_version > consts_1.SCHEMA_VERSION)
         throw new Error(`${consts_1.LIB}: Your data is from a more recent version of this lib. Please update!`);
-    else {
-        try {
-            // TODO logger
-            console.warn(`${consts_1.LIB}: attempting to migrate schema from v${src_version} to v${consts_1.SCHEMA_VERSION}:`);
-            state = migrate_to_2(legacy_state, hints);
-            console.info(`${consts_1.LIB}: schema migration successful.`);
-        }
-        catch (e) {
-            // failed, reset all
-            // TODO send event upwards
-            console.error(`${consts_1.LIB}: failed migrating schema, performing full reset !`);
-            state = state_1.create();
-        }
+    let state = legacy_state; // for starter
+    if (existing_version < consts_1.SCHEMA_VERSION) {
+        console.warn(`${consts_1.LIB}: attempting to migrate schema from v${existing_version} to v${consts_1.SCHEMA_VERSION}:`);
+        state = migrate_to_2(legacy_state, hints);
+        console.info(`${consts_1.LIB}: schema migration successful.`);
     }
     // migrate sub-reducers if any...
     return state;
@@ -36,6 +19,6 @@ function migrate_to_latest(legacy_state, hints = {}) {
 exports.migrate_to_latest = migrate_to_latest;
 /////////////////////
 function migrate_to_2(legacy_state, hints) {
-    throw new Error(`Unrecognized schema, most likely too old, can't migrate!`);
+    throw new Error(`${consts_1.LIB}: Schema is too old (pre-beta), can't migrate!`);
 }
 //# sourceMappingURL=migrations.js.map

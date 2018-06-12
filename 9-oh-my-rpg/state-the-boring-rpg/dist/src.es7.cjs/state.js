@@ -66,7 +66,7 @@ function create() {
     let state = {
         schema_version: consts_1.SCHEMA_VERSION,
         revision: 0,
-        avatar: CharacterState.create(sec_1.get_SEC()),
+        avatar: CharacterState.create(sec_1.get_lib_SEC()),
         inventory: InventoryState.create(),
         wallet: WalletState.create(),
         prng: PRNGState.create(),
@@ -135,14 +135,14 @@ function sell_item(state, uuid) {
 }
 exports.sell_item = sell_item;
 function rename_avatar(state, new_name) {
-    state = Object.assign({}, state, { avatar: state_character_1.rename(sec_1.get_SEC(), state.avatar, new_name), 
+    state = Object.assign({}, state, { avatar: state_character_1.rename(sec_1.get_lib_SEC(), state.avatar, new_name), 
         // TODO count it as a meaningful interaction only once
         meaningful_interaction_count: state.meaningful_interaction_count + 1, revision: state.revision + 1 });
     return state;
 }
 exports.rename_avatar = rename_avatar;
 function change_avatar_class(state, new_class) {
-    state = Object.assign({}, state, { avatar: state_character_1.switch_class(sec_1.get_SEC(), state.avatar, new_class), 
+    state = Object.assign({}, state, { avatar: state_character_1.switch_class(sec_1.get_lib_SEC(), state.avatar, new_class), 
         // TODO count it as a meaningful interaction only if positive (or with a limit)
         meaningful_interaction_count: state.meaningful_interaction_count + 1, revision: state.revision + 1 });
     return state;

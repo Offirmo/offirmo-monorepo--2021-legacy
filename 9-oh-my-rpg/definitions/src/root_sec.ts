@@ -1,3 +1,5 @@
+import { PRODUCT, VERSION } from './consts'
+
 /////////////////////
 // TODO move to SEC lib when turned to TS
 
@@ -26,12 +28,18 @@ const enforce_immutability: ImmutabilityEnforcer = (v) => v
 //const enforce_immutability = (state: State) => deepFreeze(state) TODO
 
 
-function enrich_SEC(SEC: SoftExecutionContext): void {
+function decorate_SEC(SEC: SoftExecutionContext): SoftExecutionContext {
 	SEC.injectDependencies({
 		enforce_immutability,
-
 	})
-	// TODO add debug details, version, etc.
+
+	SEC.setAnalyticsAndErrorDetails({
+		product: PRODUCT,
+		version: VERSION,
+		// TODO add more details
+	})
+
+	return SEC // for chaining
 }
 
 /////////////////////
@@ -41,5 +49,5 @@ export {
 	BaseContext,
 	ImmutabilityEnforcer,
 	OMRContext,
-	enrich_SEC,
+	decorate_SEC,
 }

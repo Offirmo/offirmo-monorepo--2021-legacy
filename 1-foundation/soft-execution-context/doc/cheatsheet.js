@@ -27,8 +27,9 @@ SEC.listenToUncaughtErrors()
 SEC.listenToUnhandledRejections()
 logger.trace('Soft Execution Context initialized.')
 
-SEC.xTryCatch('starting', ({logger, ENV}) => {
+SEC.xTryCatch('starting', ({SEC, logger, ENV}) => {
 	logger.trace({ENV})
+	SEC.fireAnalyticsEvent(eventId, details)
 	...
 })
 

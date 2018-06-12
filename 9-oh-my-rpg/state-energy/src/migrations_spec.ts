@@ -7,10 +7,11 @@ import { migrate_to_latest } from './migrations'
 import { create } from './state'
 import { DEMO_STATE, MIGRATION_HINTS_FOR_TESTS } from './examples'
 
-describe.skip('schema migration', function() {
+describe('schema migration', function() {
 
 	describe('migration of a new state', function() {
 		const new_state = create()
+		// TODO ALPHA remove skip
 		test_migrations.skip({
 			//read_only: false, // XXX
 			use_hints: false,
@@ -23,6 +24,7 @@ describe.skip('schema migration', function() {
 	})
 
 	describe('migration of an active state', function() {
+		// TODO ALPHA remove skip
 		test_migrations.skip({
 			//read_only: false, // XXX
 			use_hints: true,

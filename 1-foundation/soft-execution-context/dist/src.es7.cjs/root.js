@@ -6,7 +6,6 @@ let root_SEC = null;
 function getRootSEC() {
     if (!root_SEC) {
         root_SEC = core_1.createSEC();
-        // TODO init plugins!!
     }
     return root_SEC;
 }

@@ -1,11 +1,13 @@
-import { oh_my_rpg_get_SEC } from '@oh-my-rpg/definitions';
+import { getRootSEC } from '@offirmo/soft-execution-context';
+import { decorate_SEC } from '@oh-my-rpg/definitions';
 import { LIB } from './consts';
-function get_SEC(SEC) {
-    return oh_my_rpg_get_SEC({
-        module: LIB,
-        parent_SEC: SEC,
-    });
-    // TODO add details: schema version
+function get_lib_SEC(parent) {
+    return decorate_SEC((parent || getRootSEC())
+        .createChild()
+        .setLogicalStack({ module: LIB })
+        .setAnalyticsAndErrorDetails({
+        sub_product: 'state-character',
+    }));
 }
-export { get_SEC, };
+export { get_lib_SEC, };
 //# sourceMappingURL=sec.js.map

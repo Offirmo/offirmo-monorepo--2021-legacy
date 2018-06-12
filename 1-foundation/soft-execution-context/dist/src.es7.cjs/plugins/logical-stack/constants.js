@@ -1,7 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const SUB_LIB = 'plugin/logical-stack';
-exports.SUB_LIB = SUB_LIB;
 const LOGICAL_STACK_BEGIN_MARKER = '';
 exports.LOGICAL_STACK_BEGIN_MARKER = LOGICAL_STACK_BEGIN_MARKER;
 const LOGICAL_STACK_END_MARKER = '';

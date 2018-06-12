@@ -1,5 +1,5 @@
 "use strict";
-// IMMUTABLE!
+// Note: let's keep everything immutable
 Object.defineProperty(exports, "__esModule", { value: true });
 /////////////////////
 let instance_count = 0;
@@ -17,7 +17,6 @@ function activate_plugin(state, PLUGIN, args) {
         ? state.parent.plugins[PLUGIN.id]
         : null;
     let plugin_state = PLUGIN.state.create(plugin_parent_state);
-    //plugin_state = PLUGIN.state.init_from_creation_args(plugin_state, args)
     return Object.assign({}, state, { plugins: Object.assign({}, state.plugins, { [PLUGIN.id]: Object.assign({}, plugin_state, { sid: state.sid }) }) });
 }
 exports.activate_plugin = activate_plugin;
@@ -25,7 +24,7 @@ function reduce_plugin(state, PLUGIN_ID, reducer) {
     const initial_plugin_state = state.plugins[PLUGIN_ID];
     const new_plugin_state = reducer(initial_plugin_state);
     if (new_plugin_state === initial_plugin_state)
-        return state; // no change
+        return state; // no change (immutability expected)
     return Object.assign({}, state, { plugins: Object.assign({}, state.plugins, { [PLUGIN_ID]: new_plugin_state }) });
 }
 exports.reduce_plugin = reduce_plugin;

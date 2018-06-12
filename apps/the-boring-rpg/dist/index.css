@@ -1,8 +1,101 @@
+/*
+ * react-circular-progressbar styles
+ *
+ * All of the styles in this file are optional and configurable!
+ */
 
+.CircularProgressbar {
+  /*
+   * This fixes an issue where the CircularProgressbar svg has
+   * 0 width inside a "display: flex" container, and thus not visible.
+   *
+   * If you're not using "display: flex", you can remove this style.
+   */
+  width: 100%;
+}
+
+.CircularProgressbar .CircularProgressbar-path {
+  stroke: #3e98c7;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.5s ease 0s;
+}
+
+.CircularProgressbar .CircularProgressbar-trail {
+  stroke: #d6d6d6;
+}
+
+.CircularProgressbar .CircularProgressbar-text {
+  fill: #3e98c7;
+  font-size: 20px;
+  dominant-baseline: middle;
+  text-anchor: middle;
+}
+
+.CircularProgressbar .CircularProgressbar-background {
+  fill: #d6d6d6;
+}
+
+/*
+ * Sample background styles. Use these with e.g.:
+ *
+ *   <CircularProgressbar
+ *     className="CircularProgressbar-inverted"
+ *     background
+ *     percentage={50}
+ *   />
+ */
+.CircularProgressbar.CircularProgressbar-inverted .CircularProgressbar-background {
+  fill: #3e98c7;
+}
+
+.CircularProgressbar.CircularProgressbar-inverted .CircularProgressbar-text {
+  fill: #fff;
+}
+
+.CircularProgressbar.CircularProgressbar-inverted .CircularProgressbar-path {
+  stroke: #fff;
+}
+
+.CircularProgressbar.CircularProgressbar-inverted .CircularProgressbar-trail {
+  stroke: transparent;
+}
+
+
+
+/* parameters we can't compute automatically */
+:root {
+	--omr⋄ui__universe-anchor--padding_: 3px;
+}
 
 .universe-anchor__klass {
 	text-transform: capitalize;
 }
+
+.status⁚avatar--details {
+	line-height: 12px;
+	font-size: 12px;
+}
+
+.status⁚energy {
+	position: relative;
+	margin: 0 4px;
+	display: flex;
+	width: 22px;
+	height: 22px;
+}
+
+.status⁚energy__content {
+	position: absolute;
+	top: 6px;
+	left: 5px;
+	font-size: 12px;
+	line-height: 12px;
+}
+
+.status⁚energy .CircularProgressbar-path       { stroke: var(--o⋄color--fg⁚main); }
+.status⁚energy .CircularProgressbar-trail      { stroke: var(--o⋄color__co212__brown); }
+.status⁚energy .CircularProgressbar-text       { fill: orange; }
+.status⁚energy .CircularProgressbar-background { fill: green; }
 
 .auto-scroll-down {
 	height: 100%;
@@ -576,30 +669,47 @@ template {
 	background-color: rgba(0, 0, 0, .7);
 }
 
-
-
-/* TODO group them into a theme */
-:root,
-[data-o⋄theme="dark-on-light"] {
-	/* dark-on-light theme, good default
+:root {
+	/* Base colors
+	 * dark-on-light theme, good default, but can also be used in reverse on light-on-dark
 	 * https://medium.com/refactoring-ui/7-practical-tips-for-cheating-at-design-40c736799886
 	 */
-
 	--o⋄color__dolt__quasi-black: hsl(0, 0%, 26%); /* 17 or 26 ? */
-	--o⋄color__dolt__dark-grey: hsl(0, 0%, 40%);
+	--o⋄color__dolt__dark-grey:   hsl(0, 0%, 40%);
 	--o⋄color__dolt__medium-grey: hsl(0, 0%, 63%);
-	--o⋄color__dolt__quasi-white: #fafafa;
+	--o⋄color__dolt__quasi-white: hsl(0, 0%, 98%);
 
-	/* TODO
-	--o⋄color--transparent-white: hsla(0, 0%, 100%, 0.6);
-	--o⋄color--transparent-black: hsla(0, 0%, 0%, 0.6);
-	*/
-
-	--o⋄color--bg⁚main: var(--o⋄color__dolt__quasi-white);
-	--o⋄color--fg⁚main: var(--o⋄color__dolt__quasi-black);
-	--o⋄color--fg⁚secondary: var(--o⋄color__dolt__dark-grey);
-	--o⋄color--fg⁚ancillary: var(--o⋄color__dolt__medium-grey);
+	--o⋄color--transparent: rgba(0, 0, 0, 0);
 }
+
+/******* themes *******/
+
+:root, /* this theme is the default */
+[data-o⋄theme="dark-on-light"] {
+	--o⋄color--bg⁚main: var(--o⋄color__dolt__quasi-white);
+
+	--o⋄color--fg⁚main: var(--o⋄color__dolt__quasi-black);
+	--o⋄color--fg⁚secondary: hsla(0, 0%, 26%, 0.66);
+	--o⋄color--fg⁚ancillary: hsla(0, 0%, 26%, 0.33);
+
+	/*--o⋄color--fg⁚secondary: var(--o⋄color__dolt__dark-grey);
+	--o⋄color--fg⁚ancillary: var(--o⋄color__dolt__medium-grey);*/
+
+}
+
+/* light on dark theme */
+[data-o⋄theme="light-on-dark"] {
+	--o⋄color--bg⁚main: var(--o⋄color__dolt__quasi-black);
+
+	--o⋄color--fg⁚main: var(--o⋄color__dolt__quasi-white);
+	--o⋄color--fg⁚secondary: hsla(0, 0%, 98%, 0.66);
+	--o⋄color--fg⁚ancillary: hsla(0, 0%, 98%, 0.33);
+
+	/*--o⋄color--fg⁚secondary: var(--o⋄color__dolt__medium-grey);
+	--o⋄color--fg⁚ancillary: var(--o⋄color__dolt__dark-grey);*/
+}
+
+/******* themes *******/
 
 .o⋄color⁚main {
 	color: var(--o⋄color--fg⁚main);
@@ -613,13 +723,11 @@ template {
 	color: var(--o⋄color--fg⁚ancillary);
 }
 
-/* light on dark theme */
-[data-o⋄theme="light-on-dark"] {
-	/* TODOO */
-}
 
-
-/* very convenient container to propagate full height */
+/* very convenient container to propagate full height
+ * NOTE: full height applied by default on <html> and <body>
+ * but adding this activates the debug markings
+ */
 .o⋄top-container {
 	/* debug technique */
 	box-sizing: border-box;
@@ -644,42 +752,13 @@ template {
 }
 
 
-.o⋄error-boundary-report {
+.o⋄error-report {
 	font-size: xx-small;
 	font-family: monospace;
 	color: red;
 	background-color: rgba(0, 0, 0, .3);
 	margin: auto;
 	z-index: 100; /* just in case */
-}
-
-
-
-/******* container utils *******/
-
-.o⋄overflow-y⁚auto {
-	overflow-y: auto;
-}
-
-/* XXX NO there is likely a underlying problem
-.o⋄no-overflow {
-	overflow-x: hidden;
-	overflow-y: hidden;
-}
-*/
-
-.o⋄pad⁚0 {
-	padding: 0;
-}
-.o⋄pad⁚5 {
-	padding: 5px;
-}
-.o⋄pad⁚7 {
-	padding: 7px;
-}
-
-.o⋄height⁚100pc {
-	height: 100%;
 }
 
 
@@ -710,7 +789,6 @@ template {
 .o⋄font⁚roboto-condensed {
 	font-family: var(--o⋄font-family--roboto-condensed);
 }
-
 
 /*********************/
 
@@ -817,12 +895,6 @@ template {
 }
 
 
-/******* atoms *******/
-
-.o⋄text-align⁚center {
-	text-align: center;
-}
-
 .o⋄text-noselect {
 	cursor:  pointer;
 
@@ -844,55 +916,103 @@ template {
 	list-style-type: none;
 	padding: 0;
 	margin: 0;
-	display: flex;
-}
-.o⋄nav-list li {
-	/* disable text selection, since unclean clicks/taps may select text
-	 * and cause inconvenience (especially on mobile)
-	 * http://stackoverflow.com/a/4407335/587407
+
+	/* helps if we want to do fancy positioning
+	 * ex. combine with .o⋄flex--centered-content
 	 */
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-}
-.o⋄nav-list a {
-	text-decoration: none;
-}
-/* https://stackoverflow.com/a/8185290/587407 */
-.o⋄nav-list li + li  {
-	margin-left: 16px;
-}
-
-/******* flex *******/
-
-.o⋄flex-row {
 	display: flex;
 	flex-direction: row;
 }
-.o⋄flex-column {
+.o⋄nav-list li {
+}
+.o⋄nav-list a {
+	text-decoration: none; /* usually what we want */
+}
+/* https://stackoverflow.com/a/8185290/587407 */
+.o⋄nav-list li + li  {
+	margin-left: 2em;
+}
+
+
+.o⋄text-align⁚center {
+	text-align: center;
+}
+
+
+/******* flex *******/
+
+.o⋄flex--row {
+	display: flex;
+	flex-direction: row;
+}
+.o⋄flex--column {
 	display: flex;
 	flex-direction: column;
 }
 
+.o⋄flex--centered-content {
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+}
+
 /* https://stackoverflow.com/questions/90178/make-a-div-fill-the-height-of-the-remaining-screen-space */
-.o⋄flex-element-nogrow {
+.o⋄flex-element--nogrow {
 	flex-grow: 0;
 }
-.o⋄flex-element-grow {
+.o⋄flex-element--grow {
 	flex-grow: 1;
 }
+
+
+.o⋄pad⁚0 {
+	padding: 0;
+}
+.o⋄pad⁚5 {
+	padding: 5px;
+}
+.o⋄pad⁚7 {
+	padding: 7px;
+}
+
+/*
+.o⋄margin⁚0 {
+	margin: 0;
+}
+.o⋄margin⁚5 {
+	margin: 5px;
+}
+.o⋄margin⁚7 {
+	margin: 7px;
+}
+*/
+
+/******* container utils *******/
+
+.o⋄overflow-y⁚auto {
+	overflow-y: auto;
+}
+
+/* XXX NO there is likely an underlying problem!
+.o⋄no-overflow {
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
+*/
+
+.o⋄height⁚100pc {
+	height: 100%;
+}
+
 
 /******* Checkbox hack *******
  * https://css-tricks.com/the-checkbox-hack/
  */
-.o⋄checkbox-hacked {
+/*.o⋄checkbox-hacked {
 	position: absolute;
 	opacity: 0.5;
 	pointer-events: none;
-}
+}*/
 
 /******* animated progress *******
  * See also the progress reset in style--reset.css
@@ -913,6 +1033,8 @@ progress.o⋄animated::-moz-progress-bar {
 progress.o⋄animated::-ms-fill {
 	border:0;
 }
+
+/*! @offirmo/view-css UNLICENSED */
 
 /*
 .o⋄top-container {
@@ -940,109 +1062,6 @@ button:active {
 }
 
 
-/*******/
-
-.omr⋄full-size-background-layer {
-	display: block;
-	position: fixed;
-	left: 0;
-	right: 0;
-	height: 100%;
-	width: 100%;
-}
-
-.omr⋄full-size-fixed-layer {
-	display: block;
-	position: fixed;
-	left: 0;
-	right: 0;
-	height: 100%;
-	width: 100%;
-}
-
-.omr⋄bg⁚cover {
-	background-size: cover;
-	background-position: center; /* good default */
-}
-
-/*******/
-
-/* from tachyons.io */
-/* TODO is it useful ? */
-.omr⋄aspect-ratio-container⁚16x9 {
-	height: 0;
-	position: relative;
-	padding-bottom: 56.25%;
-}
-.omr⋄aspect-ratio-container⁚SH { /* TODO in progress */
-	height: 0;
-	position: relative;
-	padding-bottom: 52.33%;
-}
-.omr⋄aspect-ratio--subject {
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-}
-
-/*******/
-
-.omr⋄bg-image⁚parchment-xxl {
-	background-image: url(8c8b6c09621da2973f2c2052c0d10a3b.jpg);
-	background-size: cover;
-}
-
-.omr⋄bg-image⁚tiled-parchment {
-	background-image: url(61b63c0aac8502b8a606dbc271d0bf46.png);
-	background-repeat: repeat;
-}
-
-.omr⋄bg-image⁚tiled-stonewall {
-	background-image: url(902a1efb7fe035f2d5c283a45b1120af.png);
-	background-repeat: repeat;
-}
-
-.omr⋄bg-image⁚tiled-sandstone_purple {
-	background-image: url(05bd0d1ab23ca9abb86870f94f9cdee5.png);
-	background-repeat: repeat;
-}
-
-.omr⋄bg-image⁚tiled-sandstone_grey {
-	background-image: url(53fdf41d3bba31f5685da67e3626c77f.png);
-	background-repeat: repeat;
-}
-
-.omr⋄bg-image⁚tiled-sandstone_dark {
-	background-image: url(a60e076dfcd0d0a8b6a7cebd7fa7de16.png);
-	background-repeat: repeat;
-}
-
-.omr⋄bg-image⁚tiled-sandstone_black_stained {
-	background-image: url(34a51d8e14e6acfd7cfee9b58c0204f8.png);
-	background-repeat: repeat;
-}
-
-.omr⋄bg-image⁚tiled-marble_black {
-	background-image: url(1a62a11878ef2baf2874bced1dbd2846.png);
-	background-repeat: repeat;
-}
-
-.omr⋄bg-image⁚tiled-rock_dark {
-	background-image: url(3c404cd796cde2ccfef7d6b989e4b3bd.png);
-	background-repeat: repeat;
-}
-/*
-.omr⋄bg-image⁚test {
-	background-image: url('PandarenWood.png');
-	background-repeat: repeat;
-}
-*/
-
-
 html {
 	border-color: yellow; /* for debug, display only if debug activated */
 
@@ -1058,12 +1077,8 @@ html {
 /* apply a natural box layout model to all elements, but allowing components to change
  * https://www.paulirish.com/2012/box-sizing-border-box-ftw/
  */
-html {
-	box-sizing: border-box;
-}
-*, *:before, *:after {
-	box-sizing: inherit;
-}
+html                 { box-sizing: border-box; }
+*, *:before, *:after { box-sizing: inherit; }
 
 
 body {
@@ -1093,8 +1108,7 @@ h1, h2, h3 {
 	line-height: 1.2;
 }
 
-h1, h2, h3,
-p {
+h1, h2, h3, p {
 	/* because they are too big by default */
 	margin: .7em 0;
 }
@@ -1106,6 +1120,10 @@ img {
 }
 
 
+/* TODO buttons
+https://css-tricks.com/overriding-default-button-styles/
+https://fvsch.com/code/styling-buttons/
+ */
 /* https://www.leejamesrobinson.com/blog/how-stripe-designs-beautiful-websites/ */
 button {
 	box-shadow: 0 3px 6px rgba(50,50,93,.1), 0 1px 2px rgba(0,0,0,.08);
@@ -1127,6 +1145,7 @@ button:active {
  * https://snook.ca/archives/html_and_css/animating-progress
  */
 :root {
+	/* TODO tie this to the theme ? */
 	--o⋄color__progress--bg: hsl(0, 0%, 90%);
 	--o⋄color__progress-bar: hsl(221, 78%, 69%);
 }
@@ -1164,24 +1183,43 @@ progress::-ms-fill {
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 }
 
-/* ref: ? */
-hr {
-	width: 100%;
-}
-
 /* Adapt links to the main color.
  * Better than the defaults.
  */
+a { text-decoration-color: var(--o⋄color--fg⁚secondary); }
 a:link,
 a:visited {color: inherit;}
 a:hover,
 a:active {color: red;}
 
 
-/* TODO buttons
-https://css-tricks.com/overriding-default-button-styles/
-https://fvsch.com/code/styling-buttons/
+/* Nicer HR
+ * possible ideas: https://css-tricks.com/examples/hrs/
  */
+hr {
+	/* simple one */
+	border: 0;
+	height: 1px;
+	background: var(--o⋄color--fg⁚ancillary);
+}
+
+:root,
+[data-omr⋄theme="colorhunt212"] {
+	/* http://www.colorhunt.co/c/212
+	 */
+	--o⋄color__co212__beige:              #ffebbcff;
+	--o⋄color__co212__beige--translucent: #ffebbc80;
+	--o⋄color__co212__blue:               #5da7aeff;
+	--o⋄color__co212__brown:              #543d46ff;
+	--o⋄color__co212__dark:               #292830ff;
+	--o⋄color__co212__dark--translucent:  #292830B0;
+
+	/* */
+	--o⋄color--bg⁚main: var(--o⋄color__co212__dark);
+	--o⋄color--bg⁚main--translucent: var(--o⋄color__co212__dark--translucent);
+	--o⋄color--fg⁚main: var(--o⋄color__co212__beige);
+	--o⋄color--fg⁚main--translucent: var(--o⋄color__co212__beige--translucent);
+}
 
 
 
@@ -1789,8 +1827,6 @@ hr.omr⋄border-h⁚test {
 	color: var(--o⋄color--fg⁚main);
 	border: solid calc(var(--omr⋄ui__border--width_) * var(--scale)) var(--o⋄color--fg⁚main);
 	border-radius: calc(18px * var(--scale)) / calc(60px * var(--scale));
-	yyborder-radius: calc(30px * var(--scale)) / calc(75px * var(--scale));
-	xxborder-radius: calc(5px * var(--scale)) / calc(30px * var(--scale));
 
 	position: fixed;
 	top: calc(var(--position-shift) * -1);
@@ -1832,7 +1868,7 @@ hr.omr⋄border-h⁚test {
 	--scale-base: var(--omr⋄ui__scale);
 	--scale-hoverable: var(--omr⋄ui__universe-anchor--scale, var(--omr⋄ui__scale));
 	--visible-ratio: var(--omr⋄ui__logo--visible-ratio);
-	--padding: calc(var(--omr⋄ui__padding_) * var(--scale-base));
+	--padding: calc(var(--omr⋄ui__universe-anchor--padding_, var(--omr⋄ui__padding_)) * var(--scale-base));
 
 	--height: calc((var(--omr⋄ui__logo--shape-height_) - 2 * var(--omr⋄ui__border--width_)) * var(--scale-base));
 	--position-shift: calc(var(--height) * (1 - var(--visible-ratio)));
@@ -1859,7 +1895,6 @@ hr.omr⋄border-h⁚test {
 	height: var(--height);
 	/*max-height: var(--height);*/
 	border-radius: calc(5px * var(--scale-base)) / calc(30px * var(--scale-base));
-	xxborder-radius: calc(30px * var(--scale-base)) / calc(75px * var(--scale-base));
 
 	color: var(--o⋄color--fg⁚main);
 	background: var(--o⋄color--bg⁚main--translucent);
@@ -1915,9 +1950,7 @@ hr.omr⋄border-h⁚test {
 	 */
 	height: var(--height);
 	max-height: var(--height);
-	xxborder-radius: calc(8px * var(--scale)) / 40%;
 	border-radius: calc(18px * var(--scale)) / calc(60px * var(--scale));
-	yyborder-radius: calc(30px * var(--scale)) / calc(75px * var(--scale));
 
 	color: var(--o⋄color--fg⁚main);
 	border: solid calc(1px * var(--scale)) var(--o⋄color--fg⁚main);
@@ -1986,23 +2019,108 @@ hr.omr⋄border-h⁚test {
 }
 */
 
-:root,
-[data-omr⋄theme="colorhunt212"] {
-	/* http://www.colorhunt.co/c/212
-	 */
-	--o⋄color__co212__beige:              #ffebbcff;
-	--o⋄color__co212__beige--translucent: #ffebbc80;
-	--o⋄color__co212__blue:               #5da7aeff;
-	--o⋄color__co212__brown:              #543d46ff;
-	--o⋄color__co212__dark:               #292830ff;
-	--o⋄color__co212__dark--translucent:  #292830B0;
 
-	/* */
-	--o⋄color--bg⁚main: var(--o⋄color__co212__dark);
-	--o⋄color--bg⁚main--translucent: var(--o⋄color__co212__dark--translucent);
-	--o⋄color--fg⁚main: var(--o⋄color__co212__beige);
-	--o⋄color--fg⁚main--translucent: var(--o⋄color__co212__beige--translucent);
+/*******/
+
+.omr⋄full-size-background-layer {
+	display: block;
+	position: fixed;
+	left: 0;
+	right: 0;
+	height: 100%;
+	width: 100%;
 }
+
+.omr⋄full-size-fixed-layer {
+	display: block;
+	position: fixed;
+	left: 0;
+	right: 0;
+	height: 100%;
+	width: 100%;
+}
+
+.omr⋄bg⁚cover {
+	background-size: cover;
+	background-position: center; /* good default */
+}
+
+/*******/
+
+/* from tachyons.io */
+/* TODO is it useful ? */
+.omr⋄aspect-ratio-container⁚16x9 {
+	height: 0;
+	position: relative;
+	padding-bottom: 56.25%;
+}
+.omr⋄aspect-ratio-container⁚SH { /* TODO in progress */
+	height: 0;
+	position: relative;
+	padding-bottom: 52.33%;
+}
+.omr⋄aspect-ratio--subject {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+/*******/
+
+.omr⋄bg-image⁚parchment-xxl {
+	background-image: url(8c8b6c09621da2973f2c2052c0d10a3b.jpg);
+	background-size: cover;
+}
+
+.omr⋄bg-image⁚tiled-parchment {
+	background-image: url(61b63c0aac8502b8a606dbc271d0bf46.png);
+	background-repeat: repeat;
+}
+
+.omr⋄bg-image⁚tiled-stonewall {
+	background-image: url(902a1efb7fe035f2d5c283a45b1120af.png);
+	background-repeat: repeat;
+}
+
+.omr⋄bg-image⁚tiled-sandstone_purple {
+	background-image: url(05bd0d1ab23ca9abb86870f94f9cdee5.png);
+	background-repeat: repeat;
+}
+
+.omr⋄bg-image⁚tiled-sandstone_grey {
+	background-image: url(53fdf41d3bba31f5685da67e3626c77f.png);
+	background-repeat: repeat;
+}
+
+.omr⋄bg-image⁚tiled-sandstone_dark {
+	background-image: url(a60e076dfcd0d0a8b6a7cebd7fa7de16.png);
+	background-repeat: repeat;
+}
+
+.omr⋄bg-image⁚tiled-sandstone_black_stained {
+	background-image: url(34a51d8e14e6acfd7cfee9b58c0204f8.png);
+	background-repeat: repeat;
+}
+
+.omr⋄bg-image⁚tiled-marble_black {
+	background-image: url(1a62a11878ef2baf2874bced1dbd2846.png);
+	background-repeat: repeat;
+}
+
+.omr⋄bg-image⁚tiled-rock_dark {
+	background-image: url(3c404cd796cde2ccfef7d6b989e4b3bd.png);
+	background-repeat: repeat;
+}
+/*
+.omr⋄bg-image⁚test {
+	background-image: url('PandarenWood.png');
+	background-repeat: repeat;
+}
+*/
 
 #group-chat-container {
 	position: fixed;

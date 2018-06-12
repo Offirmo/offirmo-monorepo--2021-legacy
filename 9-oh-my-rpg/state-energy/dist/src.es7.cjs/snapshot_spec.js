@@ -28,7 +28,7 @@ describe('snapshot', function () {
                     available_energy_float: 0.,
                     total_energy_refilling_ratio: 0,
                     next_energy_refilling_ratio: 0.,
-                    human_time_to_next: '3h25m42s',
+                    human_time_to_next: '3h25',
                 });
             });
         });
@@ -48,7 +48,7 @@ describe('snapshot', function () {
                     available_energy_float: 0.,
                     total_energy_refilling_ratio: 0,
                     next_energy_refilling_ratio: 0.,
-                    human_time_to_next: '3h25m42s',
+                    human_time_to_next: '3h25',
                 });
             });
         });
@@ -65,7 +65,7 @@ describe('snapshot', function () {
                 available_energy_float: 4.,
                 total_energy_refilling_ratio: utils_1.round_float(4 / 7.),
                 next_energy_refilling_ratio: 0.,
-                human_time_to_next: '3h25m42s',
+                human_time_to_next: '3h25',
             });
         });
     });

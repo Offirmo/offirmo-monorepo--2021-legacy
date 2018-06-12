@@ -7,11 +7,12 @@ const constants_2 = require("./constants");
 const State = tslib_1.__importStar(require("./state"));
 const utils_1 = require("../../utils");
 const PLUGIN_ID = 'logical_stack';
-const branchJumpPseudoState = {
+const BRANCH_JUMP_PSEUDO_STATE = {
     sid: -1,
     plugins: {
         [PLUGIN_ID]: {
             stack: {
+                // NO module
                 operation: constants_2.LOGICAL_STACK_SEPARATOR_NON_ADJACENT,
             }
         }
@@ -21,7 +22,7 @@ function _reduceStatePathToLogicalStack(statePath) {
     let current_module = null;
     return statePath.reduce((res, state) => {
         const { module, operation } = state.plugins[PLUGIN_ID].stack;
-        if (module // check existence of module due to special case "branchJumpPseudoState" above
+        if (module // check existence of module due to special case "BRANCH_JUMP_PSEUDO_STATE" above
             && module !== current_module) {
             res = res
                 + (res.length ? constants_2.LOGICAL_STACK_SEPARATOR : '')
@@ -36,33 +37,13 @@ function _reduceStatePathToLogicalStack(statePath) {
         return res;
     }, '') + constants_2.LOGICAL_STACK_END_MARKER;
 }
-/*
-function _reduceStacktrace(stacktrace) {
-    let current_module = null
-    return stacktrace.reduce((res, {module, operation}) => {
-        if (module !== current_module) {
-            res = res
-                + (res.length ? LOGICAL_STACK_SEPARATOR : '')
-                + module
-            current_module = module
-        }
-
-        if (operation)
-            res = res
-                + LOGICAL_STACK_SEPARATOR
-                + operation
-                + LOGICAL_STACK_OPERATION_MARKER
-
-        return res
-    }, '') + LOGICAL_STACK_END_MARKER
-}
-*/
 const PLUGIN = {
     id: PLUGIN_ID,
     state: State,
     augment: prototype => {
         prototype.setLogicalStack = function setLogicalStack({ module, operation }) {
-            let root_state = this[constants_1.INTERNAL_PROP];
+            const SEC = this;
+            let root_state = SEC[constants_1.INTERNAL_PROP];
             root_state = TopState.reduce_plugin(root_state, PLUGIN_ID, state => {
                 if (module)
                     state = State.set_module(state, module);
@@ -70,25 +51,12 @@ const PLUGIN = {
                     state = State.set_operation(state, operation);
                 return state;
             });
-            this[constants_1.INTERNAL_PROP] = root_state;
-            return this;
+            SEC[constants_1.INTERNAL_PROP] = root_state;
+            return SEC;
         };
         prototype.getLogicalStack = function getLogicalStack() {
             const SEC = this;
             return _reduceStatePathToLogicalStack(utils_1._getSECStatePath(SEC));
-            /*
-            let { stack } = this[INTERNAL_PROP].plugins[PLUGIN_ID]
-
-            const stacktrace = []
-            while (stack) {
-                stacktrace.unshift({
-                    module: stack.module,
-                    operation: stack.operation,
-                })
-                stack = Object.getPrototypeOf(stack)
-            }
-
-            return _reduceStacktrace(stacktrace)*/
         };
         prototype.getShortLogicalStack = function get_stack_end() {
             const { stack } = this[constants_1.INTERNAL_PROP].plugins[PLUGIN_ID];
@@ -127,7 +95,7 @@ const PLUGIN = {
                     }
                     // reconcile the 2 stack traces
                     let improvedStatePath = [].concat(current_path);
-                    improvedStatePath.push(branchJumpPseudoState);
+                    improvedStatePath.push(BRANCH_JUMP_PSEUDO_STATE);
                     improvedStatePath = improvedStatePath.concat(other_path.slice(last_common_index + 1));
                     err._temp.statePath = improvedStatePath;
                     details.logicalStack = _reduceStatePathToLogicalStack(improvedStatePath);
@@ -139,7 +107,7 @@ const PLUGIN = {
                 logicalStack.short = SEC.getShortLogicalStack();
                 if (err.message.startsWith(logicalStack.short)) {
                     // can that happen??? It's a bug!
-                    console.warn('SEC non-decorated error already prefixed??');
+                    console.warn('UNEXPECTED SEC non-decorated error already prefixed??');
                 }
                 else {
                     err.message = logicalStack.short + ': ' + err.message;
@@ -147,7 +115,6 @@ const PLUGIN = {
                 details.logicalStack = logicalStack.full;
             }
             err.details = Object.assign({}, (err.details || {}), details);
-            //err._temp.logicalStack = logicalStack.full
             return err;
         };
     }

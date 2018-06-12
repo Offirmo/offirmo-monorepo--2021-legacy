@@ -8,5 +8,5 @@ declare type ImmutabilityEnforcer = <T>(v: T) => Readonly<T>;
 interface OMRContext extends BaseContext {
     enforce_immutability: ImmutabilityEnforcer;
 }
-declare function enrich_SEC(SEC: SoftExecutionContext): void;
-export { SoftExecutionContext, BaseContext, ImmutabilityEnforcer, OMRContext, enrich_SEC };
+declare function decorate_SEC(SEC: SoftExecutionContext): SoftExecutionContext;
+export { SoftExecutionContext, BaseContext, ImmutabilityEnforcer, OMRContext, decorate_SEC };

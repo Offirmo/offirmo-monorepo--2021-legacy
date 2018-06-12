@@ -6,9 +6,10 @@ const consts_1 = require("./consts");
 const migrations_1 = require("./migrations");
 const state_1 = require("./state");
 const examples_1 = require("./examples");
-describe.skip('schema migration', function () {
+describe('schema migration', function () {
     describe('migration of a new state', function () {
         const new_state = state_1.create();
+        // TODO ALPHA remove skip
         migration_tester_1.test_migrations.skip({
             //read_only: false, // XXX
             use_hints: false,
@@ -20,6 +21,7 @@ describe.skip('schema migration', function () {
         });
     });
     describe('migration of an active state', function () {
+        // TODO ALPHA remove skip
         migration_tester_1.test_migrations.skip({
             //read_only: false, // XXX
             use_hints: true,

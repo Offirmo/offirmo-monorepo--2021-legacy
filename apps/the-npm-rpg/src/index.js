@@ -2,6 +2,7 @@
 
 /////////////////////////////////////////////////
 // node <8 zone
+// TODO use https://github.com/typicode/please-upgrade-node
 var loadJsonFile = require('load-json-file')
 var PACKAGE_JSON_PATH = require('path').join('.', 'package.json')
 var package_json = loadJsonFile.sync(PACKAGE_JSON_PATH)
@@ -16,7 +17,7 @@ if (!semver.satisfies(process.version, package_json.engines.node)) {
 const Conf = require('conf')
 const { create_game_instance } = require('@oh-my-rpg/state-the-boring-rpg')
 
-const { SEC, init_savegame } = require('./init')
+const { SEC } = require('./init')
 const { start_loop } = require('./interactive_mode')
 
 /////////////////////////////////////////////////

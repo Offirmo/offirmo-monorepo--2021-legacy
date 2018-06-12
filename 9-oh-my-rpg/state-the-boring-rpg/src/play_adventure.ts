@@ -70,7 +70,7 @@ import {
 	Adventure,
 } from './types'
 
-import { get_SEC } from './sec'
+import { get_lib_SEC } from './sec'
 import { LIB } from './consts'
 
 /////////////////////
@@ -174,7 +174,7 @@ function instantiate_adventure_archetype(rng: Engine, aa: AdventureArchetype, ch
 function receive_stat_increase(state: Readonly<State>, stat: CharacterAttribute, amount = 1): Readonly<State> {
 	return {
 		...state,
-		avatar: increase_stat(get_SEC(), state.avatar, stat, amount),
+		avatar: increase_stat(get_lib_SEC(), state.avatar, stat, amount),
 	}
 }
 

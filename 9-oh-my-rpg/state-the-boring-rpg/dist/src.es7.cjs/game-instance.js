@@ -5,7 +5,7 @@
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
-const NanoEvents = require('nanoevents');
+const EventEmitter = require('emittery');
 const deep_merge = require('deepmerge').default;
 const state_inventory_1 = require("@oh-my-rpg/state-inventory");
 const state_fns = tslib_1.__importStar(require("./state"));
@@ -33,7 +33,7 @@ function create_game_instance({ SEC, get_latest_state, persist_state, client_sta
         client_state = client_state || {
             mode: serializable_actions_1.ActionCategory.base,
         };
-        const emitter = new NanoEvents();
+        const emitter = new EventEmitter();
         // todo .model .view ?
         return {
             play() {

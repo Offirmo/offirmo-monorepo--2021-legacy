@@ -3,11 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 function create(parent_state) {
     const details = parent_state
         ? Object.create(parent_state.details)
-        : (() => {
-            const details = Object.create(null);
-            // TODO add auto-details? Here?
-            return details;
-        })();
+        : Object.create(null); // NO auto-details here, let's keep it simple. See core or platform specific code.
     return {
         details,
     };
