@@ -12,7 +12,7 @@
 		"emittery": "^0.3.0"
 	},
 	"devDependencies": {
-		"@offirmo/unit-test-toolbox": "^3.0.0",
+		"@offirmo/unit-test-toolbox": "^4.0.0",
 		"@offirmo/practical-logger-browser": "^0.0.1",
 		"babel-cli": "^6.26.0",
 		"npm-run-all": "^4.1.2",

@@ -9,4 +9,4 @@ interface OMRContext extends BaseContext {
     enforce_immutability: ImmutabilityEnforcer;
 }
 declare function decorate_SEC(SEC: SoftExecutionContext): SoftExecutionContext;
-export { SoftExecutionContext, BaseContext, ImmutabilityEnforcer, OMRContext, decorate_SEC };
+export { SoftExecutionContext, BaseContext, ImmutabilityEnforcer, OMRContext, decorate_SEC, };

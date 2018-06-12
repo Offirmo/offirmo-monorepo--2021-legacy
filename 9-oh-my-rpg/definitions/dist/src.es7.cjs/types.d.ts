@@ -31,4 +31,4 @@ interface Item extends Element {
     slot: InventorySlot;
     quality: ItemQuality;
 }
-export { I18nMessages, UUID, ElementType, Element, ItemQuality, InventorySlot, Item };
+export { I18nMessages, UUID, ElementType, Element, ItemQuality, InventorySlot, Item, };
