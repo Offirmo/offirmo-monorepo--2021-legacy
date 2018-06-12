@@ -6500,9 +6500,9 @@ _sec2.default.xTry('loading savegame', ({ logger }) => {
 		}
 	});
 	game_instance.set_client_state(() => ({
-		VERSION: "0.51.40",
+		VERSION: "0.51.41",
 		ENV: "production",
-		BUILD_DATE: "20180612_12h21",
+		BUILD_DATE: "20180612_12h58",
 		CHANNEL,
 		verbose: true, // XXX auto + through SEC ?
 		SEC: _sec2.default,
@@ -15445,7 +15445,7 @@ const timestamps_1 = __webpack_require__(71);
 const types_1 = __webpack_require__(121);
 const const_1 = __webpack_require__(186);
 function checkLevel(level) {
-    if (!typescript_string_enums_1.Enum.isType(types_1.LogLevel, level)) throw new Error(`${const_1.LIB}: Not a valid log level: "${level}"!`);
+    if (!typescript_string_enums_1.Enum.isType(types_1.LogLevel, level)) throw new Error(`${const_1.LIB}: checkLevel(): Not a valid log level: "${level}"!`);
 }
 function createLogger({ name, level = types_1.LogLevel.info, details = {}, outputFn = console.log }) {
     if (!name) throw new Error(`${const_1.LIB}.${createLogger.name}(): you must provide a name!`);
@@ -20724,15 +20724,19 @@ function createSEC(args = {}) {
     });
     SEC[constants_1.INTERNAL_PROP] = state;
     // auto injections
-    const ENV = typeof NODE_ENV === 'string' ? NODE_ENV : 'development';
+    if (!args.parent) {
+        const ENV = typeof NODE_ENV === 'string' ? NODE_ENV : 'development';
+        SEC.injectDependencies({
+            ENV,
+            logger: console,
+            DEBUG: false
+        });
+        SEC.setAnalyticsDetails({
+            env: ENV
+        });
+    }
     SEC.injectDependencies({
-        SEC,
-        logger: console,
-        ENV,
-        DEBUG: false
-    });
-    SEC.setAnalyticsDetails({
-        env: ENV
+        SEC
     });
     // Here we could send an event on the SEC bus. No usage for now.
     // Her we could have lifecycle methods. No usage for now.

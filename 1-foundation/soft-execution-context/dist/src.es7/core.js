@@ -27,17 +27,21 @@ function createSEC(args = {}) {
     });
     SEC[INTERNAL_PROP] = state;
     // auto injections
-    const ENV = typeof NODE_ENV === 'string'
-        ? NODE_ENV
-        : 'development';
+    if (!args.parent) {
+        const ENV = typeof NODE_ENV === 'string'
+            ? NODE_ENV
+            : 'development';
+        SEC.injectDependencies({
+            ENV,
+            logger: console,
+            DEBUG: false,
+        });
+        SEC.setAnalyticsDetails({
+            env: ENV,
+        });
+    }
     SEC.injectDependencies({
         SEC,
-        logger: console,
-        ENV,
-        DEBUG: false,
-    });
-    SEC.setAnalyticsDetails({
-        env: ENV,
     });
     // Here we could send an event on the SEC bus. No usage for now.
     // Her we could have lifecycle methods. No usage for now.

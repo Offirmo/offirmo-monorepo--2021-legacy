@@ -11,6 +11,6 @@ const logger = createLogger({
 })
 
 ALL_LOG_LEVELS.forEach(level =>
-	logger[level](`msg with level ${level}`)
+	logger[level](`msg with level "${level}"`)
 )
 

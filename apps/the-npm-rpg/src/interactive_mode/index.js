@@ -36,7 +36,7 @@ function get_tip(state) {
 
 function start_loop(SEC, options, instance) {
 	return SEC.xPromiseTry('starting interactive loop', ({SEC, logger}) => {
-		logger.trace('all options:', prettify_json_for_debug(options))
+		logger.trace('start_loop options:' + prettify_json_for_debug(options))
 
 		render_header(options)
 

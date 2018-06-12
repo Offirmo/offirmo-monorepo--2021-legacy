@@ -24,9 +24,8 @@ const logger = createLogger({
 	level: 'warn',
 })
 
-
 // test
-;[
+/*;[
 	'fatal',
 	'emerg',
 	'alert',
@@ -41,7 +40,11 @@ const logger = createLogger({
 	'debug',
 	'trace',
 	'silly',
-].forEach(level => logger[level]({level}))
+].forEach(level => {
+	console.log(`logger demo with level "${level}":`)
+	logger[level](`logger demo with level "${level}"`, {level})
+})
+*/
 
 logger.notice(`Hello from ${APP}...`)
 

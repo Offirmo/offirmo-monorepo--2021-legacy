@@ -6,7 +6,7 @@ const types_1 = require("./types");
 const const_1 = require("./const");
 function checkLevel(level) {
     if (!typescript_string_enums_1.Enum.isType(types_1.LogLevel, level))
-        throw new Error(`${const_1.LIB}: Not a valid log level: "${level}"!`);
+        throw new Error(`${const_1.LIB}: checkLevel(): Not a valid log level: "${level}"!`);
 }
 function createLogger({ name, level = types_1.LogLevel.info, details = {}, outputFn = console.log, }) {
     if (!name)

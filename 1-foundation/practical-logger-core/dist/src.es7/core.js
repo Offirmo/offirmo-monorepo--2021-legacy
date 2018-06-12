@@ -4,7 +4,7 @@ import { LogLevel, } from './types';
 import { LIB, ALL_LOG_LEVELS, LEVEL_TO_INTEGER, } from './const';
 function checkLevel(level) {
     if (!Enum.isType(LogLevel, level))
-        throw new Error(`${LIB}: Not a valid log level: "${level}"!`);
+        throw new Error(`${LIB}: checkLevel(): Not a valid log level: "${level}"!`);
 }
 function createLogger({ name, level = LogLevel.info, details = {}, outputFn = console.log, }) {
     if (!name)

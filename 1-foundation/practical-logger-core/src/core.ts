@@ -22,7 +22,7 @@ declare const console: any
 
 function checkLevel(level: LogLevel) {
 	if (!Enum.isType(LogLevel, level))
-		throw new Error(`${LIB}: Not a valid log level: "${level}"!`)
+		throw new Error(`${LIB}: checkLevel(): Not a valid log level: "${level}"!`)
 }
 
 interface CreateParams extends LogParams {
