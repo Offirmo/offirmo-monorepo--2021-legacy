@@ -5,4 +5,4 @@ interface RawArmorEntry {
     hid: string;
 }
 declare const ENTRIES: RawArmorEntry[];
-export { RawArmorEntry, ENTRIES, I18nMessages, i18n_messages };
+export { RawArmorEntry, ENTRIES, I18nMessages, i18n_messages, };

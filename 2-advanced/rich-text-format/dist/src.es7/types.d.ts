@@ -26,4 +26,4 @@ interface CheckedNode {
 }
 declare type Node = Partial<CheckedNode>;
 declare type Document = Node;
-export { NodeType, CheckedNode, Node, Document };
+export { NodeType, CheckedNode, Node, Document, };

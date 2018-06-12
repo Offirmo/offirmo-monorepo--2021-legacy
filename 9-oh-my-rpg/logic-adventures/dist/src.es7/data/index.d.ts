@@ -9,4 +9,4 @@ interface RawAdventureArchetypeEntry {
 }
 declare const ENTRIES: RawAdventureArchetypeEntry[];
 declare const i18n_messages: I18nMessages;
-export { RawAdventureArchetypeEntry, ENTRIES, i18n_messages };
+export { RawAdventureArchetypeEntry, ENTRIES, i18n_messages, };

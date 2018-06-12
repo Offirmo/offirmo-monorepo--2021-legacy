@@ -8,4 +8,4 @@ declare function iterables_currency(state: Readonly<State>): IterableIterator<"c
 declare const DEMO_STATE: State;
 declare const OLDEST_LEGACY_STATE_FOR_TESTS: any;
 declare const MIGRATION_HINTS_FOR_TESTS: any;
-export { Currency, State, ALL_CURRENCIES, create, add_amount, remove_amount, get_currency_amount, iterables_currency, DEMO_STATE, OLDEST_LEGACY_STATE_FOR_TESTS, MIGRATION_HINTS_FOR_TESTS };
+export { Currency, State, ALL_CURRENCIES, create, add_amount, remove_amount, get_currency_amount, iterables_currency, DEMO_STATE, OLDEST_LEGACY_STATE_FOR_TESTS, MIGRATION_HINTS_FOR_TESTS, };

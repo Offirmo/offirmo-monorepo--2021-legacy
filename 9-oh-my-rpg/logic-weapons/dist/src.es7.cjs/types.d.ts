@@ -15,4 +15,4 @@ interface Weapon extends Item {
     base_strength: number;
     enhancement_level: number;
 }
-export { WeaponPartType, Weapon };
+export { WeaponPartType, Weapon, };

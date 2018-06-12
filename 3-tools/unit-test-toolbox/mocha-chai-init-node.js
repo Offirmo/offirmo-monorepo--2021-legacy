@@ -21,4 +21,4 @@ chai.use(chai_subset)
 chai.use(chai_moment)
 
 // convenience
-console.log('* Starting tests...')
+console.log('* Starting tests... [powered by @offirmo/unit-test-toolbox]')

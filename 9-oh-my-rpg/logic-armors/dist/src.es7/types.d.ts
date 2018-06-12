@@ -15,4 +15,4 @@ interface Armor extends Item {
     base_strength: number;
     enhancement_level: number;
 }
-export { ArmorPartType, Armor };
+export { ArmorPartType, Armor, };

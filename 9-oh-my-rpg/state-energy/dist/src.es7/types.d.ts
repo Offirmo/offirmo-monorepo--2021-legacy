@@ -18,4 +18,4 @@ interface Snapshot {
     next_energy_refilling_ratio: number;
     human_time_to_next: string;
 }
-export { EnergyUsage, State, Snapshot };
+export { EnergyUsage, State, Snapshot, };

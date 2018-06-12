@@ -10,4 +10,4 @@ interface XError {
     SEC?: any;
     _temp?: any;
 }
-export { XError };
+export { XError, };

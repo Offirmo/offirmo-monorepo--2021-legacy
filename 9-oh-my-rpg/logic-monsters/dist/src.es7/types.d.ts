@@ -11,4 +11,4 @@ interface Monster {
     rank: MonsterRank;
     possible_emoji: string;
 }
-export { MonsterRank, Monster };
+export { MonsterRank, Monster, };

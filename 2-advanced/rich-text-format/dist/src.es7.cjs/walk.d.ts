@@ -24,9 +24,9 @@ interface WalkerCallbacks<State> {
     on_type: WalkerReducer<State, AnyParams<State>>;
     [on_x: string]: any;
 }
-declare function walk<State>($raw_node: Node, raw_callbacks: Partial<WalkerCallbacks<State>>, {$parent_node, $id, depth}?: {
+declare function walk<State>($raw_node: Node, raw_callbacks: Partial<WalkerCallbacks<State>>, { $parent_node, $id, depth, }?: {
     $parent_node?: CheckedNode;
     $id?: string;
     depth?: number;
 }): any;
-export { NodeType, CheckedNode, Node, BaseParams, AnyParams, WalkerReducer, WalkerCallbacks, walk };
+export { NodeType, CheckedNode, Node, BaseParams, AnyParams, WalkerReducer, WalkerCallbacks, walk, };

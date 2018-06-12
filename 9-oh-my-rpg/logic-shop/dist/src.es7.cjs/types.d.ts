@@ -1,3 +1,3 @@
 interface Shop {
 }
-export { Shop };
+export { Shop, };

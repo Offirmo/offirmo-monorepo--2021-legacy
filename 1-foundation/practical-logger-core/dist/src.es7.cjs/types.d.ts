@@ -61,4 +61,4 @@ interface Logger {
     warn: LogFn;
     warning: LogFn;
 }
-export { Details, LogLevel, LogFn, OutputFn, InternalLoggerState, Logger, LogParams, Payload };
+export { Details, LogLevel, LogFn, OutputFn, InternalLoggerState, Logger, LogParams, Payload, };

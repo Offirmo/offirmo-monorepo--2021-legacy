@@ -16,4 +16,4 @@ declare function heading(): Builder;
 declare function span(): Builder;
 declare function ordered_list(): Builder;
 declare function unordered_list(): Builder;
-export { NodeType, Document, Builder, create, section, heading, span, ordered_list, unordered_list };
+export { NodeType, Document, Builder, create, section, heading, span, ordered_list, unordered_list, };

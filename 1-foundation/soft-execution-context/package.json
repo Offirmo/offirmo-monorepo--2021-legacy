@@ -9,7 +9,7 @@
 		"@offirmo/normalize-error": "^0.0.1",
 		"@offirmo/promise-try": "^0.0.1",
 		"@offirmo/timestamps": "^0.0.1",
-		"emittery": "^0.3.0"
+		"emittery": "^0.4.0"
 	},
 	"devDependencies": {
 		"@offirmo/unit-test-toolbox": "^4.0.0",

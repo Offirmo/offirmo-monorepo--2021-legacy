@@ -6,4 +6,4 @@ interface State {
     email: string | null;
     allow_telemetry: boolean;
 }
-export { State };
+export { State, };

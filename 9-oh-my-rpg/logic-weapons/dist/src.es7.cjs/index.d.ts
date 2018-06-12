@@ -13,4 +13,4 @@ declare function get_damage_interval(weapon: Weapon): [number, number];
 declare function get_medium_damage(weapon: Weapon): number;
 declare const DEMO_WEAPON_1: Weapon;
 declare const DEMO_WEAPON_2: Weapon;
-export { WeaponPartType, Weapon, MIN_ENHANCEMENT_LEVEL, MAX_ENHANCEMENT_LEVEL, MIN_STRENGTH, MAX_STRENGTH, create, generate_random_demo_weapon, compare_weapons_by_strength, enhance, get_damage_interval, get_medium_damage, i18n_messages, static_weapon_data, DEMO_WEAPON_1, DEMO_WEAPON_2 };
+export { WeaponPartType, Weapon, MIN_ENHANCEMENT_LEVEL, MAX_ENHANCEMENT_LEVEL, MIN_STRENGTH, MAX_STRENGTH, create, generate_random_demo_weapon, compare_weapons_by_strength, enhance, get_damage_interval, get_medium_damage, i18n_messages, static_weapon_data, DEMO_WEAPON_1, DEMO_WEAPON_2, };

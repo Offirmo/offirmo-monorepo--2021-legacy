@@ -6,4 +6,4 @@ declare const LEVEL_TO_INTEGER: {
 declare const LEVEL_TO_HUMAN: {
     [k: string]: string;
 };
-export { LIB, ALL_LOG_LEVELS, LEVEL_TO_INTEGER, LEVEL_TO_HUMAN };
+export { LIB, ALL_LOG_LEVELS, LEVEL_TO_INTEGER, LEVEL_TO_HUMAN, };

@@ -10,4 +10,4 @@ interface State {
     coin_count: number;
     token_count: number;
 }
-export { Currency, State };
+export { Currency, State, };

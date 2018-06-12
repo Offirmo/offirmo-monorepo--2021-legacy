@@ -8,4 +8,4 @@ declare const npmLoggerToVoid: NpmLogger;
 declare const angularJSLoggerToVoid: AngularJSLogger;
 declare const bunyanLoggerToVoid: BunyanLogger;
 declare const compatibleLoggerToVoid: CompatibleLogger;
-export { simpleLoggerToVoid, consoleLoggerToVoid, syslogLoggerToVoid, log4jLoggerToVoid, serverLoggerToVoid, npmLoggerToVoid, angularJSLoggerToVoid, bunyanLoggerToVoid, compatibleLoggerToVoid };
+export { simpleLoggerToVoid, consoleLoggerToVoid, syslogLoggerToVoid, log4jLoggerToVoid, serverLoggerToVoid, npmLoggerToVoid, angularJSLoggerToVoid, bunyanLoggerToVoid, compatibleLoggerToVoid, };

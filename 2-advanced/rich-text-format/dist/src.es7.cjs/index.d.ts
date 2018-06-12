@@ -5,4 +5,4 @@ declare function to_html($doc: Node): string;
 export * from './types';
 export * from './walk';
 export * from './builder';
-export { to_debug, to_text, to_html };
+export { to_debug, to_text, to_html, };

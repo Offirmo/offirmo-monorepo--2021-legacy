@@ -75,4 +75,4 @@ interface CompatibleLogger {
     warn(...params: any[]): void;
     warning(...params: any[]): void;
 }
-export { SimpleLogger, JSConsoleLogger, SyslogLogger, Log4jLogger, ServerLogger, NpmLogger, AngularJSLogger, BunyanLogger, CompatibleLogger };
+export { SimpleLogger, JSConsoleLogger, SyslogLogger, Log4jLogger, ServerLogger, NpmLogger, AngularJSLogger, BunyanLogger, CompatibleLogger, };

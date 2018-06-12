@@ -9,13 +9,13 @@
 	"scripts": {
 		"__dev": "~~~~~~~ DEVELOPMENT ~~~~~~~",
 		"clean:deps": "rm -rf package-lock.json node_modules",
-		"test": "../../node_modules/.bin/mocha --opts ../../node_modules/@offirmo/unit-test-toolbox/mocha.opts ../../node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es7.cjs/**/*spec.js'",
+		"test": "../../node_modules/.bin/mocha --opts ../../3-tools/unit-test-toolbox/mocha.opts ../../3-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es7.cjs/**/*spec.js'",
 		"__helpers": "----------- Helpers -----------",
 		"demo": "./demo/demo.js"
 	},
 	"dependencies": {
 		"@offirmo/timestamps": "^0.0.1",
-		"jsondiffpatch": "^0.2.5",
+		"jsondiffpatch": "^0.3.10",
 		"load-json-file": "^4.0.0",
 		"lodash": "^4.17.4",
 		"prettyjson": "^1.2.1",

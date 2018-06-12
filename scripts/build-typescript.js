@@ -2,7 +2,7 @@
 
 const path = require('path')
 const meow = require('meow')
-const tsc = require('../8-tools/node-typescript-compiler')
+const tsc = require('../3-tools/node-typescript-compiler')
 
 /////////////////////
 

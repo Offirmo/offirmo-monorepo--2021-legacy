@@ -8,4 +8,4 @@ interface State {
     unslotted_capacity: number;
     unslotted: Array<Item>;
 }
-export { UUID, Item, State };
+export { UUID, Item, State, };

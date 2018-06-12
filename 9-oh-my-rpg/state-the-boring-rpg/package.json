@@ -28,7 +28,7 @@
 		"@oh-my-rpg/state-wallet": "^0.0.1",
 		"@types/lodash": "^4.14.92",
 		"deepmerge": "^2.1.0",
-		"emittery": "^0.3.0",
+		"emittery": "^0.4.0",
 		"npm-run-all": "^4.1.2",
 		"p-finally": "^1.0.0",
 		"tslib": "^1.8.1",
@@ -41,7 +41,7 @@
 		"build:prod": "node ../../scripts/build-typescript.js",
 
 		"dev": "run-s clean build:dev:watch",
-		"test": "../../node_modules/.bin/mocha --opts ../../node_modules/@offirmo/unit-test-toolbox/mocha.opts ../../node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es7.cjs/**/*spec.js'",
+		"test": "../../node_modules/.bin/mocha --opts ../../3-tools/unit-test-toolbox/mocha.opts ../../3-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es7.cjs/**/*spec.js'",
 		"build": "run-s clean build:prod"
 	}
 }

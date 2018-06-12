@@ -13,4 +13,4 @@ interface UnicodeCharDetails {
 declare const CHARACTERS: {
     [k: string]: UnicodeCharDetails;
 };
-export { UnicodeCharDetails, CHARACTERS };
+export { UnicodeCharDetails, CHARACTERS, };

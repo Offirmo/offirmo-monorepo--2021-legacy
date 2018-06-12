@@ -82,11 +82,11 @@ xxx_internal_reset_prng_cache()
 
 // WARNING this method has expectations ! (see above)
 function get_prng(state: Readonly<State>): MT19937 {
-	console.trace('get PRNG', {
+	/*console.trace('get PRNG', {
 		state,
 		cached_prng,
 		'cached_prng.getUseCount()': cached_prng.getUseCount(),
-	})
+	})*/
 
 	let cached_prng_updated = false
 

@@ -1,10 +1,10 @@
 declare const VERSION = "v0.1.0";
 declare const PRODUCT = "@oh-my-rpg";
-declare const ITEM_QUALITIES: ("common" | "uncommon" | "rare" | "epic" | "legendary" | "artifact")[];
+declare const ITEM_QUALITIES: (string | number | symbol)[];
 declare const ITEM_QUALITIES_TO_INT: {
     [k: string]: number;
 };
-declare const ITEM_SLOTS: ("weapon" | "armor")[];
+declare const ITEM_SLOTS: (string | number | symbol)[];
 declare const ITEM_SLOTS_TO_INT: {
     [k: string]: number;
 };

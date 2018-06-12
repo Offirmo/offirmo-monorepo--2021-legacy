@@ -40,4 +40,4 @@ interface AdventureArchetype {
     };
 }
 declare type OutcomeArchetype = AdventureArchetype['outcome'];
-export { CoinsGain, AdventureType, AdventureArchetype, OutcomeArchetype };
+export { CoinsGain, AdventureType, AdventureArchetype, OutcomeArchetype, };
