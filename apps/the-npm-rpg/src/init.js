@@ -1,7 +1,5 @@
 "use strict";
 
-const Conf = require('conf')
-
 const { createLogger } = require('@offirmo/practical-logger-node')
 const { getRootSEC } = require('@offirmo/soft-execution-context')
 const {
@@ -10,10 +8,6 @@ const {
 	decorateWithDetectedEnv,
 } = require('@offirmo/soft-execution-context-node')
 const { decorate_SEC } = require('@oh-my-rpg/definitions')
-const { migrate_to_latest, reseed } = require('@oh-my-rpg/state-the-boring-rpg')
-const { DEFAULT_SEED } = require( '@oh-my-rpg/state-prng')
-
-const { prettify_json_for_debug } = require('./utils/debug')
 
 /////////////////////////////////////////////////
 
@@ -59,7 +53,7 @@ SEC.emitter.on('final-error', function onError({SEC, err}) {
 	logger.fatal('error!', {err})
 })
 
-SEC.emitter.on('analytics', function onError({SEC, eventId, details}) {
+SEC.emitter.on('analytics', function onAnalytics({SEC, eventId, details}) {
 	console.groupCollapsed(`⚡  Analytics! ⚡  ${eventId}`)
 	console.log('details', details)
 	console.groupEnd()

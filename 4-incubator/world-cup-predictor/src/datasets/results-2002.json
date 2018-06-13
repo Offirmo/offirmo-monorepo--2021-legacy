@@ -1,0 +1,896 @@
+[
+  {
+    "match": 1,
+    "round": "Group",
+    "team1": {
+      "name": "France",
+      "score": 0,
+      "winner": false
+    },
+    "team2": {
+      "name": "Senegal",
+      "score": 1,
+      "winner": false
+    }
+  },
+  {
+    "match": 2,
+    "round": "Group",
+    "team1": {
+      "name": "Ireland",
+      "score": 1,
+      "winner": false
+    },
+    "team2": {
+      "name": "Cameroon",
+      "score": 1,
+      "winner": false
+    }
+  },
+  {
+    "match": 3,
+    "round": "Group",
+    "team1": {
+      "name": "Uruguay",
+      "score": 1,
+      "winner": false
+    },
+    "team2": {
+      "name": "Denmark",
+      "score": 2,
+      "winner": false
+    }
+  },
+  {
+    "match": 4,
+    "round": "Group",
+    "team1": {
+      "name": "Germany",
+      "score": 8,
+      "winner": true
+    },
+    "team2": {
+      "name": "Saudi Arabia",
+      "score": 0,
+      "winner": false
+    }
+  },
+  {
+    "match": 5,
+    "round": "Group",
+    "team1": {
+      "name": "England",
+      "score": 1,
+      "winner": false
+    },
+    "team2": {
+      "name": "Sweden",
+      "score": 1,
+      "winner": false
+    }
+  },
+  {
+    "match": 6,
+    "round": "Group",
+    "team1": {
+      "name": "Paraguay",
+      "score": 2,
+      "winner": false
+    },
+    "team2": {
+      "name": "South Africa",
+      "score": 2,
+      "winner": false
+    }
+  },
+  {
+    "match": 7,
+    "round": "Group",
+    "team1": {
+      "name": "Argentina",
+      "score": 1,
+      "winner": true
+    },
+    "team2": {
+      "name": "Nigeria",
+      "score": 0,
+      "winner": false
+    }
+  },
+  {
+    "match": 8,
+    "round": "Group",
+    "team1": {
+      "name": "Spain",
+      "score": 3,
+      "winner": true
+    },
+    "team2": {
+      "name": "Slovenia",
+      "score": 1,
+      "winner": false
+    }
+  },
+  {
+    "match": 9,
+    "round": "Group",
+    "team1": {
+      "name": "Croatia",
+      "score": 0,
+      "winner": false
+    },
+    "team2": {
+      "name": "Mexico",
+      "score": 1,
+      "winner": false
+    }
+  },
+  {
+    "match": 10,
+    "round": "Group",
+    "team1": {
+      "name": "Brazil",
+      "score": 2,
+      "winner": true
+    },
+    "team2": {
+      "name": "Turkey",
+      "score": 1,
+      "winner": false
+    }
+  },
+  {
+    "match": 11,
+    "round": "Group",
+    "team1": {
+      "name": "Italy",
+      "score": 2,
+      "winner": true
+    },
+    "team2": {
+      "name": "Ecuador",
+      "score": 0,
+      "winner": false
+    }
+  },
+  {
+    "match": 12,
+    "round": "Group",
+    "team1": {
+      "name": "China",
+      "score": 0,
+      "winner": false
+    },
+    "team2": {
+      "name": "Costa Rica",
+      "score": 2,
+      "winner": false
+    }
+  },
+  {
+    "match": 13,
+    "round": "Group",
+    "team1": {
+      "name": "Japan",
+      "score": 2,
+      "winner": false
+    },
+    "team2": {
+      "name": "Belgium",
+      "score": 2,
+      "winner": false
+    }
+  },
+  {
+    "match": 14,
+    "round": "Group",
+    "team1": {
+      "name": "South Korea",
+      "score": 2,
+      "winner": true
+    },
+    "team2": {
+      "name": "Poland",
+      "score": 0,
+      "winner": false
+    }
+  },
+  {
+    "match": 15,
+    "round": "Group",
+    "team1": {
+      "name": "Russia",
+      "score": 2,
+      "winner": true
+    },
+    "team2": {
+      "name": "Tunisia",
+      "score": 0,
+      "winner": false
+    }
+  },
+  {
+    "match": 16,
+    "round": "Group",
+    "team1": {
+      "name": "United States  3-2",
+      "score": null,
+      "winner": false
+    },
+    "team2": {
+      "score": null,
+      "winner": false
+    }
+  },
+  {
+    "match": 17,
+    "round": "Group",
+    "team1": {
+      "name": "Germany",
+      "score": 1,
+      "winner": false
+    },
+    "team2": {
+      "name": "Republic of Ireland",
+      "score": 1,
+      "winner": false
+    }
+  },
+  {
+    "match": 18,
+    "round": "Group",
+    "team1": {
+      "name": "France",
+      "score": 0,
+      "winner": false
+    },
+    "team2": {
+      "name": "Uruguay",
+      "score": 0,
+      "winner": false
+    }
+  },
+  {
+    "match": 19,
+    "round": "Group",
+    "team1": {
+      "name": "Cameroon",
+      "score": 1,
+      "winner": true
+    },
+    "team2": {
+      "name": "Saudi Arabia",
+      "score": 0,
+      "winner": false
+    }
+  },
+  {
+    "match": 19,
+    "round": "Group",
+    "team1": {
+      "name": "Denmark",
+      "score": 1,
+      "winner": false
+    },
+    "team2": {
+      "name": "Senegal",
+      "score": 1,
+      "winner": false
+    }
+  },
+  {
+    "match": 21,
+    "round": "Group",
+    "team1": {
+      "name": "Sweden",
+      "score": 2,
+      "winner": true
+    },
+    "team2": {
+      "name": "Nigeria",
+      "score": 1,
+      "winner": false
+    }
+  },
+  {
+    "match": 22,
+    "round": "Group",
+    "team1": {
+      "name": "Spain",
+      "score": 3,
+      "winner": true
+    },
+    "team2": {
+      "name": "Paraguay",
+      "score": 1,
+      "winner": false
+    }
+  },
+  {
+    "match": 23,
+    "round": "Group",
+    "team1": {
+      "name": "Argentina",
+      "score": 0,
+      "winner": false
+    },
+    "team2": {
+      "name": "England",
+      "score": 1,
+      "winner": false
+    }
+  },
+  {
+    "match": 24,
+    "round": "Group",
+    "team1": {
+      "name": "South Africa",
+      "score": 1,
+      "winner": true
+    },
+    "team2": {
+      "name": "Slovenia",
+      "score": 0,
+      "winner": false
+    }
+  },
+  {
+    "match": 25,
+    "round": "Group",
+    "team1": {
+      "name": "Italy",
+      "score": 1,
+      "winner": false
+    },
+    "team2": {
+      "name": "Croatia",
+      "score": 2,
+      "winner": false
+    }
+  },
+  {
+    "match": 26,
+    "round": "Group",
+    "team1": {
+      "name": "Brazil",
+      "score": 4,
+      "winner": true
+    },
+    "team2": {
+      "name": "China",
+      "score": 0,
+      "winner": false
+    }
+  },
+  {
+    "match": 27,
+    "round": "Group",
+    "team1": {
+      "name": "Mexico",
+      "score": 2,
+      "winner": true
+    },
+    "team2": {
+      "name": "Ecuador",
+      "score": 1,
+      "winner": false
+    }
+  },
+  {
+    "match": 28,
+    "round": "Group",
+    "team1": {
+      "name": "Costa Rica",
+      "score": 1,
+      "winner": false
+    },
+    "team2": {
+      "name": "Turkey",
+      "score": 1,
+      "winner": false
+    }
+  },
+  {
+    "match": 29,
+    "round": "Group",
+    "team1": {
+      "name": "Japan",
+      "score": 1,
+      "winner": true
+    },
+    "team2": {
+      "name": "Russia",
+      "score": 0,
+      "winner": false
+    }
+  },
+  {
+    "match": 30,
+    "round": "Group",
+    "team1": {
+      "name": "South Korea",
+      "score": 1,
+      "winner": false
+    },
+    "team2": {
+      "name": "United States",
+      "score": 1,
+      "winner": false
+    }
+  },
+  {
+    "match": 31,
+    "round": "Group",
+    "team1": {
+      "name": "Tunisia",
+      "score": 1,
+      "winner": false
+    },
+    "team2": {
+      "name": "Belgium",
+      "score": 1,
+      "winner": false
+    }
+  },
+  {
+    "match": 32,
+    "round": "Group",
+    "team1": {
+      "name": "Portugal",
+      "score": 4,
+      "winner": true
+    },
+    "team2": {
+      "name": "Poland",
+      "score": 0,
+      "winner": false
+    }
+  },
+  {
+    "match": 33,
+    "round": "Group",
+    "team1": {
+      "name": "Denmark",
+      "score": 2,
+      "winner": true
+    },
+    "team2": {
+      "name": "France",
+      "score": 0,
+      "winner": false
+    }
+  },
+  {
+    "match": 34,
+    "round": "Group",
+    "team1": {
+      "name": "Senegal",
+      "score": 3,
+      "winner": false
+    },
+    "team2": {
+      "name": "Uruguay",
+      "score": 3,
+      "winner": false
+    }
+  },
+  {
+    "match": 35,
+    "round": "Group",
+    "team1": {
+      "name": "Cameroon",
+      "score": 0,
+      "winner": false
+    },
+    "team2": {
+      "name": "Germany",
+      "score": 2,
+      "winner": false
+    }
+  },
+  {
+    "match": 36,
+    "round": "Group",
+    "team1": {
+      "name": "Saudi Arabia",
+      "score": 0,
+      "winner": false
+    },
+    "team2": {
+      "name": "Ireland",
+      "score": 3,
+      "winner": false
+    }
+  },
+  {
+    "match": 37,
+    "round": "Group",
+    "team1": {
+      "name": "Sweden",
+      "score": 1,
+      "winner": false
+    },
+    "team2": {
+      "name": "Argentina",
+      "score": 1,
+      "winner": false
+    }
+  },
+  {
+    "match": 38,
+    "round": "Group",
+    "team1": {
+      "name": "Nigeria",
+      "score": 0,
+      "winner": false
+    },
+    "team2": {
+      "name": "England",
+      "score": 0,
+      "winner": false
+    }
+  },
+  {
+    "match": 39,
+    "round": "Group",
+    "team1": {
+      "name": "South Africa",
+      "score": 2,
+      "winner": false
+    },
+    "team2": {
+      "name": "Spain",
+      "score": 3,
+      "winner": false
+    }
+  },
+  {
+    "match": 40,
+    "round": "Group",
+    "team1": {
+      "name": "Slovenia",
+      "score": 1,
+      "winner": false
+    },
+    "team2": {
+      "name": "Paraguay",
+      "score": 3,
+      "winner": false
+    }
+  },
+  {
+    "match": 41,
+    "round": "Group",
+    "team1": {
+      "name": "Costa Rica",
+      "score": 2,
+      "winner": false
+    },
+    "team2": {
+      "name": "Brazil",
+      "score": 5,
+      "winner": false
+    }
+  },
+  {
+    "match": 42,
+    "round": "Group",
+    "team1": {
+      "name": "Turkey",
+      "score": 3,
+      "winner": true
+    },
+    "team2": {
+      "name": "China",
+      "score": 0,
+      "winner": false
+    }
+  },
+  {
+    "match": 43,
+    "round": "Group",
+    "team1": {
+      "name": "Mexico",
+      "score": 1,
+      "winner": false
+    },
+    "team2": {
+      "name": "Italy",
+      "score": 1,
+      "winner": false
+    }
+  },
+  {
+    "match": 44,
+    "round": "Group",
+    "team1": {
+      "name": "Ecuador",
+      "score": 1,
+      "winner": true
+    },
+    "team2": {
+      "name": "Croatia",
+      "score": 0,
+      "winner": false
+    }
+  },
+  {
+    "match": 45,
+    "round": "Group",
+    "team1": {
+      "name": "Tunisia",
+      "score": 0,
+      "winner": false
+    },
+    "team2": {
+      "name": "Japan",
+      "score": 2,
+      "winner": false
+    }
+  },
+  {
+    "match": 46,
+    "round": "Group",
+    "team1": {
+      "name": "Belgium",
+      "score": 3,
+      "winner": true
+    },
+    "team2": {
+      "name": "Russia",
+      "score": 2,
+      "winner": false
+    }
+  },
+  {
+    "match": 47,
+    "round": "Group",
+    "team1": {
+      "name": "Portugal",
+      "score": 0,
+      "winner": false
+    },
+    "team2": {
+      "name": "South Korea",
+      "score": 1,
+      "winner": false
+    }
+  },
+  {
+    "match": 48,
+    "round": "Group",
+    "team1": {
+      "name": "Poland",
+      "score": 3,
+      "winner": true
+    },
+    "team2": {
+      "name": "United States",
+      "score": 1,
+      "winner": false
+    }
+  },
+  {
+    "match": 49,
+    "round": "Round of 16",
+    "team1": {
+      "name": "Germany",
+      "score": 1,
+      "winner": true
+    },
+    "team2": {
+      "name": "Paraguay",
+      "score": 0,
+      "winner": false
+    }
+  },
+  {
+    "match": 50,
+    "round": "Round of 16",
+    "team1": {
+      "name": "Denmark",
+      "score": 0,
+      "winner": false
+    },
+    "team2": {
+      "name": "England",
+      "score": 3,
+      "winner": false
+    }
+  },
+  {
+    "match": 51,
+    "round": "Round of 16",
+    "team1": {
+      "name": "Sweden",
+      "score": 1,
+      "winner": false
+    },
+    "team2": {
+      "score": 2,
+      "winner": false
+    }
+  },
+  {
+    "match": 52,
+    "round": "Round of 16",
+    "team1": {
+      "name": "Spain",
+      "score": 1,
+      "winner": true
+    },
+    "team2": {
+      "name": "Ireland",
+      "score": 1,
+      "winner": false
+    }
+  },
+  {
+    "match": 53,
+    "round": "Round of 16",
+    "team1": {
+      "name": "Mexico",
+      "score": 0,
+      "winner": false
+    },
+    "team2": {
+      "name": "United States",
+      "score": 2,
+      "winner": false
+    }
+  },
+  {
+    "match": 54,
+    "round": "Round of 16",
+    "team1": {
+      "name": "Brazil",
+      "score": 2,
+      "winner": true
+    },
+    "team2": {
+      "name": "Belgium",
+      "score": 0,
+      "winner": false
+    }
+  },
+  {
+    "match": 55,
+    "round": "Round of 16",
+    "team1": {
+      "name": "Japan",
+      "score": 0,
+      "winner": false
+    },
+    "team2": {
+      "name": "Turkey",
+      "score": 1,
+      "winner": false
+    }
+  },
+  {
+    "match": 56,
+    "round": "Round of 16",
+    "team1": {
+      "name": "South Korea",
+      "score": 2,
+      "winner": true
+    },
+    "team2": {
+      "name": "Italy",
+      "score": 1,
+      "winner": false
+    }
+  },
+  {
+    "match": 57,
+    "round": "Quarter-final",
+    "team1": {
+      "name": "England",
+      "score": 1,
+      "winner": false
+    },
+    "team2": {
+      "name": "Brazil",
+      "score": 2,
+      "winner": false
+    }
+  },
+  {
+    "match": 58,
+    "round": "Quarter-final",
+    "team1": {
+      "name": "Germany",
+      "score": 1,
+      "winner": true
+    },
+    "team2": {
+      "name": "United States",
+      "score": 0,
+      "winner": false
+    }
+  },
+  {
+    "match": 59,
+    "round": "Quarter-final",
+    "team1": {
+      "name": "Spain",
+      "score": 0,
+      "winner": false
+    },
+    "team2": {
+      "name": "South Korea",
+      "score": 0,
+      "winner": true
+    }
+  },
+  {
+    "match": 60,
+    "round": "Quarter-final",
+    "team1": {
+      "name": "Senegal",
+      "score": 0,
+      "winner": false
+    },
+    "team2": {
+      "name": "Turkey",
+      "score": 1,
+      "winner": false
+    }
+  },
+  {
+    "match": 61,
+    "round": "Semi-final",
+    "team1": {
+      "name": "Germany",
+      "score": 1,
+      "winner": true
+    },
+    "team2": {
+      "name": "South Korea",
+      "score": 0,
+      "winner": false
+    }
+  },
+  {
+    "match": 62,
+    "round": "Semi-final",
+    "team1": {
+      "name": "Brazil",
+      "score": 1,
+      "winner": true
+    },
+    "team2": {
+      "name": "Turkey",
+      "score": 0,
+      "winner": false
+    }
+  },
+  {
+    "match": 63,
+    "round": "Third place play-off",
+    "team1": {
+      "name": "South Korea",
+      "score": 2,
+      "winner": false
+    },
+    "team2": {
+      "name": "Turkey",
+      "score": 3,
+      "winner": false
+    }
+  },
+  {
+    "match": 64,
+    "round": "Final",
+    "team1": {
+      "name": "Germany",
+      "score": 0,
+      "winner": false
+    },
+    "team2": {
+      "name": "Brazil",
+      "score": 2,
+      "winner": false
+    }
+  }
+]

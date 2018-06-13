@@ -19,6 +19,8 @@ module.exports = {
 		"eslint:recommended",
 		"prettier",
 		"plugin:node/recommended",
+		"plugin:compat/recommended",
+		"plugin:react/recommended",
 	],
 	"rules": {
 		'no-console': 'warn',
@@ -26,5 +28,9 @@ module.exports = {
 		"linebreak-style": ["error", "unix"],
 		"quotes": ["error", "single"],
 		"semi": ["error", "never"],
+		"mocha/no-exclusive-tests": "error",
+		"chai-expect/missing-assertion": "error",
+		"chai-expect/terminating-properties": "error",
+		"chai-expect/no-inner-compare": "error",
 	}
 };

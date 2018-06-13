@@ -1,0 +1,32 @@
+{
+	"name": "@offirmo/world-cup-predictor",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+	"version": "0.0.1",
+
+	"main": "dist/src.es7.cjs/index.js",
+	"jsnext:main": "dist/src.es7/index.js",
+	"typings": "dist/src.es7.cjs/index.d.ts",
+
+	"dependencies": {
+		"@offirmo/timestamps": "^0.0.1",
+		"typescript-string-enums": "^0.3.5"
+	},
+	"devDependencies": {
+		"npm-run-all": "^4.1.2",
+		"tslib": "^1.8.1"
+	},
+	"scripts": {
+		"clean": "node ../../scripts/clean.js dist",
+
+		"build:dev:watch": "node ../../scripts/build-typescript.js --watch",
+		"build:prod": "node ../../scripts/build-typescript.js",
+
+		"dev": "run-s clean build:dev:watch",
+		"test": "../../node_modules/.bin/mocha --opts ../../3-tools/unit-test-toolbox/mocha.opts ../../3-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es7.cjs/**/*spec.js'",
+		"build": "run-s clean build:prod",
+		"cheatsheet": "node doc/cheatsheet.js",
+		"demo": "node doc/demo.js"
+	}
+}

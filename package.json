@@ -9,6 +9,10 @@
 	"scripts": {
 		"parcel": "parcel --no-hmr"
 	},
+	"browserslist": [
+		"last 2 Chrome versions",
+		"last 2 Firefox versions"
+	],
 	"bolt": {
 		"workspaces": [
 			"0-stdlib/*",
