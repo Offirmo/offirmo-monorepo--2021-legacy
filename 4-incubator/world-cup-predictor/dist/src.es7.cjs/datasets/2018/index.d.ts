@@ -1,34 +1,4 @@
-declare const TEAM_RANKINGS: {
-    'Russia': number;
-    'Germany': number;
-    'Brazil': number;
-    'Portugal': number;
-    'Argentina': number;
-    'Belgium': number;
-    'Poland': number;
-    'France': number;
-    'Spain': number;
-    'Peru': number;
-    'Switzerland': number;
-    'England': number;
-    'Colombia': number;
-    'Mexico': number;
-    'Uruguay': number;
-    'Croatia': number;
-    'Denmark': number;
-    'Iceland': number;
-    'Costa Rica': number;
-    'Sweden': number;
-    'Tunisia': number;
-    'Egypt': number;
-    'Senegal': number;
-    'Iran': number;
-    'Serbia': number;
-    'Nigeria': number;
-    'Australia': number;
-    'Japan': number;
-    'Morocco': number;
-    'Panama': number;
-    'South Korea': number;
-    'Saudi Arabia': number;
+declare const FIFA_RANKING: {
+    [k: string]: number;
 };
+export { FIFA_RANKING, };
