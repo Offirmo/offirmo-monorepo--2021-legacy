@@ -22,12 +22,18 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: 
 
 		if (existing_version < SCHEMA_VERSION) {
 			logger.warn(`attempting to migrate schema from v${existing_version} to v${SCHEMA_VERSION}:`)
-			SEC.fireAnalyticsEvent('schema migration.began')
+			SEC.fireAnalyticsEvent('schema_migration.began')
 
-			state = migrate_to_2(SEC, legacy_state, hints)
+			try {
+				state = migrate_to_2(SEC, legacy_state, hints)
+			}
+			catch (err) {
+				SEC.fireAnalyticsEvent('schema_migration.failed')
+				throw err;
+			}
 
 			logger.info(`schema migration successful.`)
-			SEC.fireAnalyticsEvent('schema migration.ended')
+			SEC.fireAnalyticsEvent('schema_migration.ended')
 		}
 
 		// migrate sub-reducers if any...

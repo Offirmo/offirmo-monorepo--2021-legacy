@@ -11,7 +11,7 @@ const tbrpg = require('@oh-my-rpg/state-the-boring-rpg')
 export default class Component extends React.Component {
 
 	* gen_next_step() {
-		const { game_instance, SEC } = this.props
+		const { game_instance } = this.props
 
 		do {
 			const steps = []

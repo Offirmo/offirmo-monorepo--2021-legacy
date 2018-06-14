@@ -1,7 +1,6 @@
 /////////////////////
 
 import { Random, Engine } from '@offirmo/random'
-import deepFreeze from 'deep-freeze-strict'
 
 /////////////////////
 
@@ -66,7 +65,7 @@ import {
 
 /////////////////////
 
-import { LIB, SCHEMA_VERSION } from './consts'
+import { SCHEMA_VERSION } from './consts'
 
 import {
 	State,
@@ -82,7 +81,7 @@ import {
 	ActionSellItem,
 } from './serializable_actions'
 
-import { get_lib_SEC } from './sec'
+import { SoftExecutionContext, OMRContext, get_lib_SEC } from './sec'
 import { receive_item } from './play_adventure'
 import { play_good, play_bad } from './play_good'
 
@@ -134,58 +133,60 @@ function get_actions_for_element(state: Readonly<State>, uuid: UUID): Action[] {
 
 ///////
 
-function create(): Readonly<State> {
-	let state: Readonly<State> = {
-		schema_version: SCHEMA_VERSION,
-		revision: 0,
+function create(SEC?: SoftExecutionContext): Readonly<State> {
+	return get_lib_SEC(SEC).xTry('create', ({enforce_immutability}: OMRContext) => {
+		let state: Readonly<State> = {
+			schema_version: SCHEMA_VERSION,
+			revision: 0,
 
-		avatar: CharacterState.create(get_lib_SEC()),
-		inventory: InventoryState.create(),
-		wallet: WalletState.create(),
-		prng: PRNGState.create(),
-		energy: EnergyState.create(),
+			avatar: CharacterState.create(SEC),
+			inventory: InventoryState.create(),
+			wallet: WalletState.create(),
+			prng: PRNGState.create(),
+			energy: EnergyState.create(),
 
-		last_adventure: null,
-		click_count: 0,
-		good_click_count: 0,
-		meaningful_interaction_count: 0,
-	}
+			last_adventure: null,
+			click_count: 0,
+			good_click_count: 0,
+			meaningful_interaction_count: 0,
+		}
 
-	let rng = get_prng(state.prng)
+		let rng = get_prng(state.prng)
 
-	const starting_weapon = create_weapon(rng, {
-		base_hid: 'spoon',
-		qualifier1_hid: 'used',
-		qualifier2_hid: 'noob',
-		quality: ItemQuality.common,
-		base_strength: 1,
+		const starting_weapon = create_weapon(rng, {
+			base_hid: 'spoon',
+			qualifier1_hid: 'used',
+			qualifier2_hid: 'noob',
+			quality: ItemQuality.common,
+			base_strength: 1,
+		})
+		state = receive_item(state, starting_weapon)
+		state = equip_item(state, starting_weapon.uuid)
+
+		const starting_armor = create_armor(rng, {
+			base_hid: 'socks',
+			qualifier1_hid: 'used',
+			qualifier2_hid: 'noob',
+			quality: 'common',
+			base_strength: 1,
+		})
+		state = receive_item(state, starting_armor)
+		state = equip_item(state, starting_armor.uuid)
+
+		//state.prng = PRNGState.update_use_count(state.prng, rng)
+
+		state = {
+			...state,
+
+			// to compensate sub-functions use during build
+			meaningful_interaction_count: 0,
+
+			// idem, could have been inc by internally calling actions
+			revision: 0,
+		}
+
+		return enforce_immutability(state)
 	})
-	state = receive_item(state, starting_weapon)
-	state = equip_item(state, starting_weapon.uuid)
-
-	const starting_armor = create_armor(rng, {
-		base_hid: 'socks',
-		qualifier1_hid: 'used',
-		qualifier2_hid: 'noob',
-		quality: 'common',
-		base_strength: 1,
-	})
-	state = receive_item(state, starting_armor)
-	state = equip_item(state, starting_armor.uuid)
-
-	//state.prng = PRNGState.update_use_count(state.prng, rng)
-
-	state = {
-		...state,
-
-		// to compensate sub-functions use during build
-		meaningful_interaction_count: 0,
-
-		// idem, could have been inc by internally calling actions
-		revision: 0,
-	}
-
-	return state
 }
 
 function reseed(state: Readonly<State>, seed?: number): Readonly<State> {

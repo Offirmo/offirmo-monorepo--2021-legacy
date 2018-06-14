@@ -41,47 +41,50 @@ function reset_and_salvage(legacy_state: any): State {
 	return state
 }
 
+const SUB_REDUCERS_COUNT = 5
+const OTHER_KEYS_COUNT = 6
+
 function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: any = {}): State {
-	return get_lib_SEC(SEC).xTry('migrate_to_latest', ({SEC, logger}: OMRContext) => {
-		const src_version = (legacy_state && legacy_state.schema_version) || 0
+	const existing_version = (legacy_state && legacy_state.schema_version) || 0
 
-		let state: State = create()
+	SEC = get_lib_SEC(SEC)
+		.setAnalyticsAndErrorDetails({
+			version_from: existing_version,
+			version_to: SCHEMA_VERSION,
+		})
 
-		const SUB_REDUCERS_COUNT = 5
-		const OTHER_KEYS_COUNT = 6
-		if (Object.keys(state).length !== SUB_REDUCERS_COUNT + OTHER_KEYS_COUNT)
+	return SEC.xTry('migrate_to_latest', ({SEC, logger}: OMRContext) => {
+		if (Object.keys(legacy_state).length !== SUB_REDUCERS_COUNT + OTHER_KEYS_COUNT)
 			throw new Error('migrate_to_latest is outdated, please update!')
 
-		if (!legacy_state || Object.keys(legacy_state).length === 0) {
-			// = empty or empty object (happen, with some deserialization techniques)
-			// It's a new state, keep the freshly created one.
-		}
-		else if (src_version === SCHEMA_VERSION) {
-			state = legacy_state as State
-		}
-		else if (src_version > SCHEMA_VERSION) {
+		if (existing_version > SCHEMA_VERSION)
 			throw new Error(`Your data is from a more recent version of this lib. Please update!`)
-		}
-		else {
+
+		let state: State = legacy_state as State // for starter
+
+		if (existing_version < SCHEMA_VERSION) {
+			logger.warn(`attempting to migrate schema from v${existing_version} to v${SCHEMA_VERSION}:`)
+			SEC.fireAnalyticsEvent('schema_migration.began')
+
 			try {
-				// TODO logger
-				console.warn(`${LIB}: attempting to migrate schema from v${src_version} to v${SCHEMA_VERSION}:`)
 				state = migrate_to_4(SEC, legacy_state, hints)
-				console.info(`${LIB}: schema migration successful.`)
+				logger.info(`schema migration successful.`)
+				SEC.fireAnalyticsEvent('schema migration.ended')
 			}
 			catch (err) {
-				// failed, reset all
-				// TODO send event upwards
-				console.error(`${LIB}: failed migrating schema, performing full reset !`, err)
+				SEC.fireAnalyticsEvent('schema_migration.failed', { step: 'main' })
+				// we are top, attempt to salvage
+				logger.error(`${LIB}: failed migrating schema, reseting and salvaging!`, {err})
 				state = reset_and_salvage(legacy_state)
+				SEC.fireAnalyticsEvent('schema_migration.salvaged', { step: 'main' })
 			}
 		}
+		// TODO migrate adventures??
 
+		// TODO still needed?
 		if (state.prng.seed === PRNGState.DEFAULT_SEED) {
 			state = reseed(state)
 		}
-
-		// TODO migrate adventures??
 
 		// migrate sub-reducers if any...
 		try {
@@ -92,10 +95,11 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: 
 			state.energy = EnergyState.migrate_to_latest(state.energy, hints.energy)
 		}
 		catch (err) {
-			// failed, reset all
-			// TODO send event upwards
-			console.error(`${LIB}: failed migrating sub-schema, performing full reset !`, err)
+			SEC.fireAnalyticsEvent('schema_migration.failed', { step: 'sub' })
+			// we are top, attempt to salvage
+			logger.error(`${LIB}: failed migrating sub-reducers, reseting and salvaging!`, {err})
 			state = reset_and_salvage(legacy_state)
+			SEC.fireAnalyticsEvent('schema_migration.salvaged', { step: 'sub' })
 		}
 
 		return state
@@ -105,9 +109,7 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: 
 /////////////////////
 
 function migrate_to_4(SEC: SoftExecutionContext, legacy_state: any, hints: any): any {
-	return SEC.xTry('migrate_to_4', ({logger}: OMRContext) => {
-		throw new Error(`Alpha release schema, won't migrate, would take too much time and schema is still unstable!`)
-	})
+	throw new Error(`Alpha release schema, won't migrate, would take too much time and schema is still unstable!`)
 }
 
 /////////////////////

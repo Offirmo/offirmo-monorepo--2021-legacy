@@ -1,7 +1,13 @@
 "use strict";
 
-import * as soft_execution_context from '@offirmo/soft-execution-context-browser'
 const { createLogger } = require('@offirmo/practical-logger-browser')
+const { getRootSEC } = require('@offirmo/soft-execution-context')
+const {
+	listenToErrorEvents,
+	listenToUnhandledRejections,
+	decorateWithDetectedEnv,
+} = require('@offirmo/soft-execution-context-browser')
+const { decorate_SEC } = require('@oh-my-rpg/definitions')
 
 import { LIB } from './consts'
 
@@ -11,6 +17,7 @@ const logger = createLogger({
 	name: LIB,
 	level: 'silly',
 })
+
 logger.trace(`Logger up with level "${logger.getLevel()}".`)
 
 // test
@@ -31,26 +38,38 @@ if (false) {
 		'debug',
 		'trace',
 		'silly',
-	].forEach(level => logger[level]({level}))
-	console.groupEnd()
+	].forEach(level => {
+		console.log(`logger demo with level "${level}":`)
+		logger[level](`logger demo with level "${level}"`, {level})
+	})
 }
 
-function onError(err) {
+logger.notice(`Hello from ${LIB}...`)
+
+const SEC = getRootSEC()
+	.setLogicalStack({ module: LIB })
+	.injectDependencies({ logger })
+
+decorate_SEC(SEC)
+
+SEC.emitter.on('final-error', function onError({SEC, err}) {
+	// TODO sentry instead
 	logger.fatal('error!', {err})
-}
-
-// TODO report sentry
-const SEC = soft_execution_context.browser.create({
-	module: LIB,
-	onError,
-	context: {
-		logger,
-	}
 })
-soft_execution_context.setRoot(SEC)
 
-SEC.listenToAll()
-//SEC.listenToUnhandledRejections()
+SEC.emitter.on('analytics', function onAnalytics({SEC, eventId, details}) {
+	console.groupCollapsed(`⚡  Analytics! ⚡  ${eventId}`)
+	console.log('details', details)
+	console.groupEnd()
+})
+
+
+/* TODO
+listenToErrorEvents()
+listenToUnhandledRejections()
+*/
+decorateWithDetectedEnv()
+
 logger.trace('Soft Execution Context initialized.')
 
 /////////////////////////////////////////////////

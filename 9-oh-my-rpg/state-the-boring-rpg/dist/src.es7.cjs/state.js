@@ -62,46 +62,48 @@ function get_actions_for_element(state, uuid) {
 }
 exports.get_actions_for_element = get_actions_for_element;
 ///////
-function create() {
-    let state = {
-        schema_version: consts_1.SCHEMA_VERSION,
-        revision: 0,
-        avatar: CharacterState.create(sec_1.get_lib_SEC()),
-        inventory: InventoryState.create(),
-        wallet: WalletState.create(),
-        prng: PRNGState.create(),
-        energy: EnergyState.create(),
-        last_adventure: null,
-        click_count: 0,
-        good_click_count: 0,
-        meaningful_interaction_count: 0,
-    };
-    let rng = state_prng_1.get_prng(state.prng);
-    const starting_weapon = logic_weapons_1.create(rng, {
-        base_hid: 'spoon',
-        qualifier1_hid: 'used',
-        qualifier2_hid: 'noob',
-        quality: definitions_1.ItemQuality.common,
-        base_strength: 1,
+function create(SEC) {
+    return sec_1.get_lib_SEC(SEC).xTry('create', ({ enforce_immutability }) => {
+        let state = {
+            schema_version: consts_1.SCHEMA_VERSION,
+            revision: 0,
+            avatar: CharacterState.create(SEC),
+            inventory: InventoryState.create(),
+            wallet: WalletState.create(),
+            prng: PRNGState.create(),
+            energy: EnergyState.create(),
+            last_adventure: null,
+            click_count: 0,
+            good_click_count: 0,
+            meaningful_interaction_count: 0,
+        };
+        let rng = state_prng_1.get_prng(state.prng);
+        const starting_weapon = logic_weapons_1.create(rng, {
+            base_hid: 'spoon',
+            qualifier1_hid: 'used',
+            qualifier2_hid: 'noob',
+            quality: definitions_1.ItemQuality.common,
+            base_strength: 1,
+        });
+        state = play_adventure_1.receive_item(state, starting_weapon);
+        state = equip_item(state, starting_weapon.uuid);
+        const starting_armor = logic_armors_1.create(rng, {
+            base_hid: 'socks',
+            qualifier1_hid: 'used',
+            qualifier2_hid: 'noob',
+            quality: 'common',
+            base_strength: 1,
+        });
+        state = play_adventure_1.receive_item(state, starting_armor);
+        state = equip_item(state, starting_armor.uuid);
+        //state.prng = PRNGState.update_use_count(state.prng, rng)
+        state = Object.assign({}, state, { 
+            // to compensate sub-functions use during build
+            meaningful_interaction_count: 0, 
+            // idem, could have been inc by internally calling actions
+            revision: 0 });
+        return enforce_immutability(state);
     });
-    state = play_adventure_1.receive_item(state, starting_weapon);
-    state = equip_item(state, starting_weapon.uuid);
-    const starting_armor = logic_armors_1.create(rng, {
-        base_hid: 'socks',
-        qualifier1_hid: 'used',
-        qualifier2_hid: 'noob',
-        quality: 'common',
-        base_strength: 1,
-    });
-    state = play_adventure_1.receive_item(state, starting_armor);
-    state = equip_item(state, starting_armor.uuid);
-    //state.prng = PRNGState.update_use_count(state.prng, rng)
-    state = Object.assign({}, state, { 
-        // to compensate sub-functions use during build
-        meaningful_interaction_count: 0, 
-        // idem, could have been inc by internally calling actions
-        revision: 0 });
-    return state;
 }
 exports.create = create;
 function reseed(state, seed) {

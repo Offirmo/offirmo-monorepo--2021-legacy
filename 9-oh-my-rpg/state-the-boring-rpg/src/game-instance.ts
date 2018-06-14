@@ -30,24 +30,24 @@ function overwriteMerge<T>(destination: T, source: T): T {
 function create_game_instance<T>({SEC, get_latest_state, persist_state, client_state}: CreateParams<T>) {
 	return SEC.xTry('creating tbrpg instance', ({SEC, logger}: any) => {
 
-		(function migrate() {
-			SEC.xTry('auto migrating', ({logger}: any) => {
-				let state = get_latest_state()
+		SEC.xTry('auto creating/migrating', ({SEC, logger}: any) => {
+			let state = get_latest_state()
 
-				const was_empty_state = !state || Object.keys(state).length === 0
+			const was_empty_state = !state || Object.keys(state).length === 0
 
-				state = migrate_to_latest(SEC, state)
+			state = was_empty_state
+				? state_fns.create(SEC)
+				: migrate_to_latest(SEC, state)
 
-				if (was_empty_state) {
-					logger.verbose('Clean savegame created from scratch:', {state})
-				}
-				else {
-					logger.trace('migrated state:', {state})
-				}
+			if (was_empty_state) {
+				logger.verbose('Clean savegame created from scratch:', {state})
+			}
+			else {
+				logger.trace('migrated state:', {state})
+			}
 
-				persist_state(state)
-			})
-		})()
+			persist_state(state)
+		})
 
 		client_state = client_state || {
 			mode: ActionCategory.base,

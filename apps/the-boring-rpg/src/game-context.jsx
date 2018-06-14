@@ -13,7 +13,7 @@ const CHANNEL = window.location.hostname === 'www.online-adventur.es'
 
 let game_instance = null
 
-SEC.xTry('loading savegame', ({logger}) => {
+SEC.xTry('loading savegame + creating game instance', ({logger}) => {
 	logger.verbose(`Storage key: "${LS_KEYS.savegame}"`)
 	const lscontent = localStorage.getItem(LS_KEYS.savegame)
 
@@ -34,27 +34,27 @@ SEC.xTry('loading savegame', ({logger}) => {
 			localStorage.setItem(LS_KEYS.savegame, JSON.stringify(state))
 		},
 	})
+})
+
+SEC.xTry('init client state', ({logger}) => {
 	game_instance.set_client_state(() => ({
 		VERSION: WI_VERSION,
 		ENV: WI_ENV,
 		BUILD_DATE: WI_BUILD_DATE,
 		CHANNEL,
 		verbose: true, // XXX auto + through SEC ?
-		SEC,
 		// can change:
 		mode: 'explore',
 		alpha_warning_displayed: false,
 		recap_displayed: false,
 		last_displayed_adventure_uuid: (() => {
-			const { last_adventure } = state
+			const { last_adventure } = game_instance.get_latest_state()
 			return last_adventure && last_adventure.uuid
 		})()
 	}))
 })
 
 const GameContext = React.createContext(game_instance)
-
-
 
 class GameContextAsPropsListener extends React.Component {
 	componentDidMount() {
