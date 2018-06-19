@@ -323,7 +323,8 @@
 /************/
 
 .omr⋄content-area {
-	/* only useful for before/after, see below */
+	display: flex;
+	flex-direction: column;
 }
 .omr⋄content-area:before {
 	content: ' ';

@@ -1,4 +1,10 @@
 
+Icons:
+- https://thenounproject.com/monjin.friends/collection/fantasy-kit/
+- https://thenounproject.com/gegebe/collection/common-rpg-icons/
+
+
+ 
 TOREAD https://josephg.com/blog/fixing-fortnite/
 
 TODO salvage lists from here https://docs.google.com/spreadsheets/d/1FCNPBMZm6tWfeOEtdOvcOrWDRZVqbe1ipzK9eQmNp2o/edit#gid=443281176

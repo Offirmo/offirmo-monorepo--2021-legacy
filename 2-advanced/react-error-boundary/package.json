@@ -1,0 +1,21 @@
+{
+	"name": "@offirmo/react-error-boundary",
+	"version": "0.0.1",
+	"main": "src/error-boundary.jsx",
+	"source": "src/error-boundary.jsx",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "UNLICENSED",
+	"scripts": {
+		"test": "echo 'TODO'",
+		"demo": "parcel doc/demo/index.html"
+	},
+	"dependencies": {
+		"@offirmo/soft-execution-context": "^0.0.2"
+	},
+	"devDependencies": {
+		"parcel-bundler": "^1.9.0",
+		"classnames": "^2.2.5",
+		"react": "^16.3.2",
+		"react-dom": "^16.3.2"
+	}
+}

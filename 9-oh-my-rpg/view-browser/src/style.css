@@ -1,15 +1,15 @@
 @import '../node_modules/@offirmo/view-css/src/style.css';
 
-@import 'style--reset.css';
+@import './style--reset.css';
 
-@import 'style--backgrounds.css';
-@import 'style--colors.css';
-@import 'style--containers.css';
-@import 'style--fonts.css';
-@import 'style--icomoon.css';
-@import 'style--separators.css';
-@import 'style--ui.css';
-@import 'style--ui--hud.css';
+@import './style--backgrounds.css';
+@import './style--colors.css';
+@import './style--containers.css';
+@import './style--fonts.css';
+@import './style--icomoon.css';
+@import './style--separators.css';
+@import './style--ui.css';
+@import './style--ui--hud.css';
 
 /*
 .o⋄top-container {

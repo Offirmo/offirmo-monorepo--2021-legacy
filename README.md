@@ -24,6 +24,7 @@ bolt ws run cheatsheet --only @oh-my-rpg/*
 npx yarn-tools list-duplicates yarn.lock
 
 bolt ws run clean
+bolt ws exec -- rm -rf .cache
 bolt ws exec -- rm -rf dist
 bolt ws exec -- rm -rf node_modules yarn.lock package-lock.json
 rm -rf node_modules yarn.lock package-lock.json
@@ -47,3 +48,10 @@ yarn global add bolt
 
 
 TODO not generate unneeded es7 es7.cjs
+
+## Hat tips
+
+Tools
+- Color converter http://www.cssportal.com/css-color-converter/
+- favicon https://realfavicongenerator.net/
+

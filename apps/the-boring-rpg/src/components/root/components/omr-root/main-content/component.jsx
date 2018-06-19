@@ -15,8 +15,10 @@ const MODE_TO_PANEL = {
 
 export default function UniverseAnchor({mode, is_chat_open}) {
 	return (
-		<div key="background-picture"
-			  className="omr⋄plane⁚immersion omr⋄full-size-fixed-layer omr⋄bg⁚cover tbrpg⋄bg-image⁚fields_of_gold">
+		<div className="omr⋄full-size-background-layer omr⋄bg-image⁚tiled-marble_black">
+
+			<div key="background-picture"
+				  className="omr⋄plane⁚immersion omr⋄full-size-fixed-layer omr⋄bg⁚cover tbrpg⋄bg-image⁚fields_of_gold"/>
 
 			<div key="content-area" className="o⋄top-container omr⋄content-area">
 				{MODE_TO_PANEL[mode] || <ExplorePanel />}

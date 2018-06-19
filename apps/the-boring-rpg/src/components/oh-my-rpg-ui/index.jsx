@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import ErrorBoundary from '../error-boundary'
 
+XXX
+
 import './index.css';
 
 export class OhMyRpgUI extends Component {

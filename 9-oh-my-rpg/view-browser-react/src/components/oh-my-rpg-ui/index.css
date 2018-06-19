@@ -1,0 +1,31 @@
+@import '../../../node_modules/@oh-my-rpg/view-browser/src/style.css';
+
+#meta-panel {
+	position: fixed;
+	top: 0;
+	left: 0;
+	background-color: var(--o⋄color--bg⁚main--backdrop);
+	border-right: solid 2px;
+}
+
+/* https://stackoverflow.com/a/37600130/587407 */
+/* big screens */
+#meta-panel {
+	width: 400px;
+}
+/* small screens */
+@media screen and (max-width: 400px) {
+	#meta-panel {
+		width: 95%;
+	}
+}
+
+#about-panel {
+	position: fixed;
+	top: 0;
+	left: 0;
+	padding: 30px;
+	text-align: center;
+	width: 100%;
+	background-color: var(--o⋄color--bg⁚main--backdrop);
+}

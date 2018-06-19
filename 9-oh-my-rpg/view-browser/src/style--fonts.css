@@ -12,19 +12,19 @@
 /*********************/
 
 :root {
-	--omr⋄font-family⁚spectral: 'Spectral', sans-serif;
-	--omr⋄font-family⁚pixantiqua: 'PixAntiqua', sans-serif;
+	--omr⋄font⁚spectral: 'Spectral', sans-serif;
+	--omr⋄font⁚pixantiqua: 'PixAntiqua', sans-serif;
 }
 
 /*********************/
 
-.omr⋄font-family⁚spectral {
-	font-family: var(--omr⋄font-family⁚spectral);
+.omr⋄font⁚spectral {
+	font-family: var(--omr⋄font⁚spectral);
 	letter-spacing: -.05px;
 }
-.omr⋄text-with-shadow.omr⋄font-family⁚spectral,
-.omr⋄text-with-shadow .omr⋄font-family⁚spectral,
-.omr⋄font-family⁚spectral .omr⋄text-with-shadow
+.omr⋄text-with-shadow.omr⋄font⁚spectral,
+.omr⋄text-with-shadow .omr⋄font⁚spectral,
+.omr⋄font⁚spectral .omr⋄text-with-shadow
 {
 	color: var(--o⋄color--quasi-white);
 	text-shadow:
@@ -34,15 +34,15 @@
 		0 -0.07em black;
 }
 
-.omr⋄font-family⁚pixantiqua {
-	font-family: var(--omr⋄font-family⁚pixantiqua);
+.omr⋄font⁚pixantiqua {
+	font-family: var(--omr⋄font⁚pixantiqua);
 	letter-spacing: .35px;
 	font-size: smaller;
 	line-height: 1.65;
 }
-.omr⋄text-with-shadow.omr⋄font-family⁚pixantiqua,
-.omr⋄text-with-shadow .omr⋄font-family⁚pixantiqua,
-.omr⋄font-family⁚pixantiqua .omr⋄text-with-shadow
+.omr⋄text-with-shadow.omr⋄font⁚pixantiqua,
+.omr⋄text-with-shadow .omr⋄font⁚pixantiqua,
+.omr⋄font⁚pixantiqua .omr⋄text-with-shadow
 {
 	color: var(--o⋄color--quasi-white);
 	text-shadow:

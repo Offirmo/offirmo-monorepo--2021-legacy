@@ -1,0 +1,26 @@
+{
+	"name": "@oh-my-rpg/view-browser-react",
+	"version": "0.0.1",
+	"main": "src/index.jsx",
+	"source": "src/index.jsx",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "UNLICENSED",
+	"scripts": {
+		"test": "echo 'TODO'",
+		"demo": "parcel doc/demo/index.html"
+	},
+	"dependencies": {
+		"@offirmo/react-error-boundary": "^0.0.1"
+	},
+	"devDependencies": {
+		"@oh-my-rpg/view-browser": "^0.0.1",
+		"babel-preset-env": "^1.7.0",
+		"babel-preset-react": "^6.24.1",
+		"babel-preset-stage-0": "^6.5.0",
+		"classnames": "^2.2.5",
+		"npm-run-all": "^4.1.2",
+		"parcel-bundler": "^1.9.0",
+		"react": "^16.3.2",
+		"react-dom": "^16.3.2"
+	}
+}

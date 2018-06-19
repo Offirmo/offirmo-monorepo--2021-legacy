@@ -1,0 +1,41 @@
+{
+	"name": "clicker",
+	"version": "0.0.1",
+	"description": "trying a clicker",
+	"main": "index.js",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "UNLICENSED",
+	"scripts": {
+		"clean": "rm -rf dist .cache",
+		"test": "echo 'TODO'",
+		"start:parcel": "parcel src/index.html",
+		"start": "run-s clean start:parcel",
+		"build:prod": "parcel build src/index.html --detailed-report",
+		"build": "npm version patch && run-s clean build:prod"
+	},
+	"dependencies": {},
+	"devDependencies": {
+		"parcel-bundler": "^1.9.0",
+		"@offirmo/marketing-rsrc": "^0.0.1",
+		"@offirmo/practical-logger-browser": "^0.0.1",
+		"@offirmo/rich-text-format": "^0.0.1",
+		"@offirmo/soft-execution-context": "^0.0.2",
+		"@offirmo/soft-execution-context-browser": "^0.0.2",
+		"@offirmo/timestamps": "^0.0.1",
+		"@oh-my-rpg/view-browser-react": "^0.0.1",
+		"@oh-my-rpg/view-rich-text": "^0.0.1",
+		"babel-plugin-transform-class-properties": "^6.24.1",
+		"babel-preset-env": "^1.7.0",
+		"babel-preset-react": "^6.24.1",
+		"babel-preset-stage-0": "^6.5.0",
+		"babel-polyfill": "^6.26.0",
+		"babel-runtime": "^6.26.0",
+		"classnames": "^2.2.5",
+		"npm-run-all": "^4.1.2",
+		"react": "^16.3.2",
+		"react-circular-progressbar": "^0.8.0",
+		"react-dom": "^16.3.2",
+		"ts-node": "^5.0.1",
+		"tslib": "^1.8.1"
+	}
+}

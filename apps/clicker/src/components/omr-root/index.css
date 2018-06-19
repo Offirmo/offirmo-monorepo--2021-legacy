@@ -1,0 +1,91 @@
+/******* OMR customization *******/
+
+/* parameters we can't compute automatically */
+:root {
+	--omr⋄ui__logo-content--width_: 163px;
+	/*--omr⋄ui__universe-anchor-content--width_: 230px*/
+}
+
+
+
+
+/* override previous CSS
+ */
+
+button {
+	margin: 1px;
+	width: unset;
+	color: inherit;
+}
+button:hover {
+	transform: translateY(0px);
+}
+button:active {
+	transform: translateY(0px);
+}
+
+
+
+/* Button: outrageously stolen from
+http://www.decisionproblem.com/paperclips/index2.html
+ */
+
+button {
+	border: 1px solid var(--o⋄color--fg⁚secondary);
+	background: #666666;
+
+	background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#cccccc));
+	background: -webkit-linear-gradient(top, #ffffff, #888888);
+	background: -moz-linear-gradient(top, #ffffff, #888888);
+	background: -ms-linear-gradient(top, #ffffff, #888888);
+	background: -o-linear-gradient(top, #ffffff, #888888);
+	background-image: -ms-linear-gradient(top, #ffffff 0%, #888888 100%);
+
+	padding: 2px 4px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	-webkit-box-shadow: rgba(255,255,255,0.4) 0 0px 0, inset rgba(255,255,255,0.4) 0 1px 0;
+	-moz-box-shadow: rgba(255,255,255,0.4) 0 0px 0, inset rgba(255,255,255,0.4) 0 1px 0;
+	box-shadow: rgba(255,255,255,0.4) 0 0px 0, inset rgba(255,255,255,0.4) 0 1px 0;
+	text-shadow: #cccccc 0 1px 0;
+	color: #000000;
+	text-decoration: none;
+	vertical-align: middle;
+	outline: none;
+}
+
+button:hover {
+	border: 1px solid var(--o⋄color--fg⁚main);
+	text-shadow: #d4d4d4 0 1px 0;
+	background: #616161;
+
+	background: -webkit-gradient(linear, left top, left bottom, from(#f7f7f7), to(#888888));
+	background: -webkit-linear-gradient(top, #f7f7f7, #888888);
+	background: -moz-linear-gradient(top, #f7f7f7, #888888);
+	background: -ms-linear-gradient(top, #f7f7f7, #888888);
+	background: -o-linear-gradient(top, #f7f7f7, #888888);
+	background-image: -ms-linear-gradient(top, #f7f7f7 0%, #888888 100%);
+
+	color: #000000;
+}
+
+button:active {
+	text-shadow: #bfbfbf 0 1px 0;
+	border: 1px solid var(--o⋄color--fg⁚main);
+
+	background: #d9d9d9;
+	background: -webkit-gradient(linear, left top, left bottom, from(#595959), to(#616161));
+	background: -webkit-linear-gradient(top, #595959, #d9d9d9);
+	background: -moz-linear-gradient(top, #595959, #d9d9d9);
+	background: -ms-linear-gradient(top, #595959, #d9d9d9);
+	background: -o-linear-gradient(top, #595959, #d9d9d9);
+	background-image: -ms-linear-gradient(top, #595959 0%, #d9d9d9 100%);
+
+	color: #444444;
+}
+
+button:disabled {
+	opacity: 0.6;
+}
+
