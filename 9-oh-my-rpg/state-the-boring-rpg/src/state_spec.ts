@@ -31,6 +31,9 @@ describe('reducer', function() {
 		it('should be correct', function() {
 			const state = create()
 
+			expect(state.uuid).to.be.a('string')
+			expect(state.creation_date).to.be.a('string')
+
 			// check presence of sub-states
 			expect(state, 'avatar').to.have.property('avatar')
 			expect(state, 'inventory').to.have.property('inventory')
@@ -38,7 +41,7 @@ describe('reducer', function() {
 			expect(state, 'prng').to.have.property('prng')
 			expect(state, 'energy').to.have.property('energy')
 
-			expect(Object.keys(state), 'quick key count check').to.have.lengthOf(11) // this test should be updated if that changes
+			expect(Object.keys(state), 'quick key count check').to.have.lengthOf(13) // this test should be updated if that changes
 
 			// init of custom values
 			expect(state).to.have.property('schema_version', SCHEMA_VERSION)

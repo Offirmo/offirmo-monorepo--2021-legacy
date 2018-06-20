@@ -1,6 +1,6 @@
 {
 	"name": "@offirmo/reference-webpack",
-	"version": "0.0.45",
+	"version": "0.0.47",
 	"private": true,
 	"description": "My reference webpack setup",
 	"author": "Offirmo <offirmo.net@gmail.com>",

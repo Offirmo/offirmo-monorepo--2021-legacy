@@ -1,6 +1,6 @@
 {
 	"name": "the-npm-rpg",
-	"version": "0.16.0",
+	"version": "0.17.0",
 	"description": "⚔🛡💰 The npm RPG, a command line RPG game. Just ⌨ `npx the-npm-rpg`!",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "UNLICENSED",

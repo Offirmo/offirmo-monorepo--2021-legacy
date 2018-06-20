@@ -1,6 +1,6 @@
 import { Enum } from 'typescript-string-enums'
 
-import { HumanReadableTimestampUTCMinutes } from '@oh-my-rpg/timestamps'
+import { HumanReadableTimestampUTCMinutes } from '@offirmo/timestamps'
 import { UUID } from '@offirmo/uuid'
 
 import { Weapon } from '@oh-my-rpg/logic-weapons'
