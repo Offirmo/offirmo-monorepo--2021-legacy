@@ -1,10 +1,18 @@
 import React, { Component, Fragment } from 'react';
 
+import ReactAnimationFrame from 'react-animation-frame';
+
 import { get_state, play, tick } from '../../model'
 
 import './index.css'
 
-export default class MainArea extends Component {
+export class MainArea extends Component {
+
+	onAnimationFrame(time) {
+		// TODO update state
+		//console.log('raf')
+		this.forceUpdate()
+	}
 
 	componentDidMount() {
 		this.refreshTick()
@@ -14,7 +22,7 @@ export default class MainArea extends Component {
 		if (this.tick) {
 			clearInterval(this.tick)
 			tick() // bonus
-			this.forceUpdate()
+			//this.forceUpdate()
 		}
 
 		const state = get_state()
@@ -26,12 +34,12 @@ export default class MainArea extends Component {
 
 		this.tick = setInterval(() => {
 			tick()
-			this.forceUpdate()
+			//this.forceUpdate()
 		}, 50)
 	}
 
 	render() {
-		const state = this.props.state
+		const state = get_state()
 
 		return (
 			<Fragment>
@@ -71,3 +79,7 @@ export default class MainArea extends Component {
 		)
 	}
 }
+
+
+const MainAreaRaf = ReactAnimationFrame(MainArea)
+export default MainAreaRaf

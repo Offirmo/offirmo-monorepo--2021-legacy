@@ -482,17 +482,27 @@ hr {
 	background: var(--o⋄color--fg⁚ancillary);
 }
 
+/* Good tool:
+ http://www.cssportal.com/css-color-converter/
+ */
 :root {
+	--o⋄color--transparent: rgba(0, 0, 0, 0);
+
+	--o⋄color__black--90: rgba(0, 0, 0, .9);
+	--o⋄color__black--10: rgba(0, 0, 0, .1);
+
+	--o⋄color__white--90: rgba(100%, 100%, 100%, .9);
+	--o⋄color__white--10: rgba(100%, 100%, 100%, .1);
+
 	/* Base colors
 	 * dark-on-light theme, good default, but can also be used in reverse on light-on-dark
 	 * https://medium.com/refactoring-ui/7-practical-tips-for-cheating-at-design-40c736799886
 	 */
-	--o⋄color__dolt__quasi-black: hsl(0, 0%, 26%); /* 17 or 26 ? */
-	--o⋄color__dolt__dark-grey:   hsl(0, 0%, 40%);
-	--o⋄color__dolt__medium-grey: hsl(0, 0%, 63%);
-	--o⋄color__dolt__quasi-white: hsl(0, 0%, 98%);
+	--o⋄color__dolt__quasi-black: rgb(17%, 17%, 17%); /* 17 or 26 ? */
+	--o⋄color__dolt__dark-grey:   rgb(40%, 40%, 40%);
+	--o⋄color__dolt__medium-grey: rgb(63%, 63%, 63%);
+	--o⋄color__dolt__quasi-white: rgb(98%, 98%, 98%);
 
-	--o⋄color--transparent: rgba(0, 0, 0, 0);
 }
 
 /******* themes *******/
@@ -500,26 +510,21 @@ hr {
 :root, /* this theme is the default */
 [data-o⋄theme="dark-on-light"] {
 	--o⋄color--bg⁚main: var(--o⋄color__dolt__quasi-white);
+	--o⋄color--bg⁚main--backdrop: rgba(98%, 98%, 98%, .88);
 
 	--o⋄color--fg⁚main: var(--o⋄color__dolt__quasi-black);
-	--o⋄color--fg⁚secondary: hsla(0, 0%, 26%, 0.66);
-	--o⋄color--fg⁚ancillary: hsla(0, 0%, 26%, 0.33);
-
-	/*--o⋄color--fg⁚secondary: var(--o⋄color__dolt__dark-grey);
-	--o⋄color--fg⁚ancillary: var(--o⋄color__dolt__medium-grey);*/
-
+	--o⋄color--fg⁚secondary: rgba(17%, 17%, 17%, .66);
+	--o⋄color--fg⁚ancillary: rgba(17%, 17%, 17%, .33);
 }
 
 /* light on dark theme */
 [data-o⋄theme="light-on-dark"] {
 	--o⋄color--bg⁚main: var(--o⋄color__dolt__quasi-black);
+	--o⋄color--bg⁚main--backdrop: rgba(17%, 17%, 17%, .9);
 
 	--o⋄color--fg⁚main: var(--o⋄color__dolt__quasi-white);
-	--o⋄color--fg⁚secondary: hsla(0, 0%, 98%, 0.66);
-	--o⋄color--fg⁚ancillary: hsla(0, 0%, 98%, 0.33);
-
-	/*--o⋄color--fg⁚secondary: var(--o⋄color__dolt__medium-grey);
-	--o⋄color--fg⁚ancillary: var(--o⋄color__dolt__dark-grey);*/
+	--o⋄color--fg⁚secondary: hsla(0, 0%, 98%, .66);
+	--o⋄color--fg⁚ancillary: hsla(0, 0%, 98%, .33);
 }
 
 /******* themes *******/

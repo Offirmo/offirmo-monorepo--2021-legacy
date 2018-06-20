@@ -1,7 +1,7 @@
 "use strict";
 /////////////////////
 Object.defineProperty(exports, "__esModule", { value: true });
-const definitions_1 = require("@oh-my-rpg/definitions");
+const uuid_1 = require("@offirmo/uuid");
 const consts_1 = require("./consts");
 /////////////////////
 const DEFAULT_NAME = 'anonymous';
@@ -11,7 +11,7 @@ function create() {
     return {
         schema_version: consts_1.SCHEMA_VERSION,
         revision: 0,
-        uuid: definitions_1.generate_uuid(),
+        uuid: uuid_1.generate_uuid(),
         name: DEFAULT_NAME,
         email: null,
         allow_telemetry: true,

@@ -1,5 +1,6 @@
 /////////////////////
 
+import { generate_uuid } from '@offirmo/uuid'
 import { Random, Engine } from '@offirmo/random'
 
 /////////////////////
@@ -7,7 +8,6 @@ import { Random, Engine } from '@offirmo/random'
 import {
 	InventorySlot,
 	Item,
-	generate_uuid,
 } from '@oh-my-rpg/definitions'
 
 import {

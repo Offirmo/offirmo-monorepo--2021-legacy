@@ -1,13 +1,10 @@
 import { Enum } from 'typescript-string-enums'
 
+import { UUID } from '@offirmo/uuid'
+
 import {
 	CharacterClass,
 } from '@oh-my-rpg/state-character'
-
-import {
-	UUID,
-	State,
-} from './types'
 
 import {
 	play,

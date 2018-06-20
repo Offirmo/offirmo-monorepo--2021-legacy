@@ -1,7 +1,4 @@
-import {
-	UUID,
-	Item,
-} from '@oh-my-rpg/definitions'
+import { Item } from '@oh-my-rpg/definitions'
 
 /////////////////////
 
@@ -19,7 +16,6 @@ interface State {
 /////////////////////
 
 export {
-	UUID,
 	Item,
 	State,
 }

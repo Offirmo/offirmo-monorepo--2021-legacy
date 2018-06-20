@@ -1,6 +1,8 @@
 import { Enum } from 'typescript-string-enums'
 
-import { UUID } from '@oh-my-rpg/definitions'
+import { HumanReadableTimestampUTCMinutes } from '@oh-my-rpg/timestamps'
+import { UUID } from '@offirmo/uuid'
+
 import { Weapon } from '@oh-my-rpg/logic-weapons'
 import { Armor } from '@oh-my-rpg/logic-armors'
 import { Monster } from '@oh-my-rpg/logic-monsters'
@@ -62,10 +64,8 @@ interface State {
 	schema_version: number
 	revision: number
 
-	// TODO uuid?
-	// TODO creation date!
-	// TODO upper savegame?
-	// TODO meta?
+	uuid: UUID
+	creation_date: HumanReadableTimestampUTCMinutes
 
 	avatar: CharacterState
 	inventory: InventoryState
@@ -83,7 +83,6 @@ interface State {
 /////////////////////
 
 export {
-	UUID,
 	GainType,
 	Adventure,
 	State,

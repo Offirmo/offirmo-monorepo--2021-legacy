@@ -1,6 +1,6 @@
+import { UUID, generate_uuid } from '@offirmo/uuid'
 
-import { UUID, ElementType, Element} from './types'
-import { generate_uuid } from './generate_uuid'
+import { ElementType, Element} from './types'
 
 function create_element_base(element_type: ElementType, hints: {uuid?: UUID} = {}): Element {
 	const uuid = hints.uuid || generate_uuid()

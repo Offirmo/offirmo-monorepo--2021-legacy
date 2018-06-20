@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const generate_uuid_1 = require("./generate_uuid");
+const uuid_1 = require("@offirmo/uuid");
 function create_element_base(element_type, hints = {}) {
-    const uuid = hints.uuid || generate_uuid_1.generate_uuid();
+    const uuid = hints.uuid || uuid_1.generate_uuid();
     return {
         element_type,
         uuid,

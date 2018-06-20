@@ -8,7 +8,7 @@ import OmrRoot from '../omr-root'
 const FRAME_RATE = 10
 
 export default class AppRoot extends Component {
-
+/*
 	componentDidMount() {
 		// TODO detect window out of view
 		this.updateRepainter()
@@ -23,7 +23,7 @@ export default class AppRoot extends Component {
 		this.repaint = setInterval(() => {
 			this.forceUpdate()
 		}, 1000 / FRAME_RATE)
-	}
+	}*/
 
 	render() {
 		/*this.frameCount = ((this.frameCount || 0) + 1) % FRAME_RATE
@@ -35,7 +35,7 @@ export default class AppRoot extends Component {
 		*/
 		return (
 			<div>
-				<OmrRoot state={get_state()} />
+				<OmrRoot />
 			</div>
 		)
 	}

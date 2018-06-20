@@ -1,4 +1,4 @@
-import { generate_uuid } from './generate_uuid';
+import { generate_uuid } from '@offirmo/uuid';
 function create_element_base(element_type, hints = {}) {
     const uuid = hints.uuid || generate_uuid();
     return {

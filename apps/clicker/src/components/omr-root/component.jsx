@@ -21,7 +21,7 @@ export default class TheBoringRPG extends Component {
 				bottomMenuItems={[]}>
 
 				<div className="omr⋄content-area">
-					<MainArea state={this.props.state}/>
+					<MainArea />
 				</div>
 			</OhMyRpgUI>
 		)

@@ -1,5 +1,6 @@
+import { UUID } from '@offirmo/uuid';
 import { InventorySlot } from '@oh-my-rpg/definitions';
-import { UUID, Item, State } from './types';
+import { Item, State } from './types';
 declare function create(): State;
 declare function add_item(state: State, item: Item): State;
 declare function remove_item_from_unslotted(state: State, uuid: UUID): State;

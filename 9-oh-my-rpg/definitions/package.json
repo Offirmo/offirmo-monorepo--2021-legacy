@@ -9,7 +9,7 @@
 	"license": "UNLICENSED",
 	"dependencies": {
 		"@offirmo/random": "^2.0.4",
-		"nanoid": "^1.0.1",
+		"@offirmo/uuid": "^0.0.1",
 		"typescript-string-enums": "^0.3.5"
 	},
 	"devDependencies": {

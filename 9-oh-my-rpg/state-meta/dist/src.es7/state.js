@@ -1,5 +1,5 @@
 /////////////////////
-import { generate_uuid } from '@oh-my-rpg/definitions';
+import { generate_uuid } from '@offirmo/uuid';
 import { SCHEMA_VERSION } from './consts';
 /////////////////////
 const DEFAULT_NAME = 'anonymous';

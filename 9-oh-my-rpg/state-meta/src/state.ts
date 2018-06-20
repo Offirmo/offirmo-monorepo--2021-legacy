@@ -1,6 +1,6 @@
 /////////////////////
 
-import { generate_uuid } from '@oh-my-rpg/definitions'
+import { generate_uuid } from '@offirmo/uuid'
 
 import { LIB, SCHEMA_VERSION } from './consts'
 

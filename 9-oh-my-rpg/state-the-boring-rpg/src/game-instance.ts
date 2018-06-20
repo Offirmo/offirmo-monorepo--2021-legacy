@@ -6,7 +6,9 @@
 const EventEmitter = require('emittery')
 const deep_merge = require('deepmerge').default
 
-import { UUID, Element } from '@oh-my-rpg/definitions'
+import { UUID } from '@offirmo/uuid'
+
+import { Element } from '@oh-my-rpg/definitions'
 import { CharacterClass } from '@oh-my-rpg/state-character'
 import { Item, get_item } from '@oh-my-rpg/state-inventory'
 

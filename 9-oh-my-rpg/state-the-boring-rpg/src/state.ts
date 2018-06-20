@@ -1,11 +1,12 @@
 /////////////////////
 
 import { Random, Engine } from '@offirmo/random'
+import { get_human_readable_UTC_timestamp_minutes } from '@offirmo/timestamps'
+import { UUID, generate_uuid } from '@offirmo/uuid'
 
 /////////////////////
 
 import {
-	UUID,
 	Element,
 	ItemQuality,
 } from '@oh-my-rpg/definitions'
@@ -138,6 +139,9 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 		let state: Readonly<State> = {
 			schema_version: SCHEMA_VERSION,
 			revision: 0,
+
+			uuid: generate_uuid(),
+			creation_date: get_human_readable_UTC_timestamp_minutes(),
 
 			avatar: CharacterState.create(SEC),
 			inventory: InventoryState.create(),

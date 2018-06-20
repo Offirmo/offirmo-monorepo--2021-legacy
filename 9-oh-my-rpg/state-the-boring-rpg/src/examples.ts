@@ -5,12 +5,6 @@ import deepFreeze from 'deep-freeze-strict'
 
 /////////////////////
 
-import {
-	UUID,
-	Element,
-	ItemQuality,
-} from '@oh-my-rpg/definitions'
-
 import * as CharacterState from '@oh-my-rpg/state-character'
 import {
 	CharacterAttribute,

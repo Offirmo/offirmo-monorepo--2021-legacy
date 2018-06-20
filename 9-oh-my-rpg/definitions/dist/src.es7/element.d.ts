@@ -1,4 +1,5 @@
-import { UUID, ElementType, Element } from './types';
+import { UUID } from '@offirmo/uuid';
+import { ElementType, Element } from './types';
 declare function create_element_base(element_type: ElementType, hints?: {
     uuid?: UUID;
 }): Element;

@@ -16,10 +16,16 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
         let state = legacy_state; // for starter
         if (existing_version < consts_1.SCHEMA_VERSION) {
             logger.warn(`attempting to migrate schema from v${existing_version} to v${consts_1.SCHEMA_VERSION}:`);
-            SEC.fireAnalyticsEvent('schema migration.began');
-            state = migrate_to_2(SEC, legacy_state, hints);
+            SEC.fireAnalyticsEvent('schema_migration.began');
+            try {
+                state = migrate_to_2(SEC, legacy_state, hints);
+            }
+            catch (err) {
+                SEC.fireAnalyticsEvent('schema_migration.failed');
+                throw err;
+            }
             logger.info(`schema migration successful.`);
-            SEC.fireAnalyticsEvent('schema migration.ended');
+            SEC.fireAnalyticsEvent('schema_migration.ended');
         }
         // migrate sub-reducers if any...
         return state;

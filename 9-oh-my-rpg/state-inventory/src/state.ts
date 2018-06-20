@@ -1,9 +1,10 @@
 /////////////////////
 
+import { UUID } from '@offirmo/uuid'
+
 import { InventorySlot } from '@oh-my-rpg/definitions'
 
 import {
-	UUID,
 	Item,
 	State,
 } from './types'

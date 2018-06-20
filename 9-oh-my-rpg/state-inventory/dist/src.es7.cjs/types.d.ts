@@ -1,4 +1,4 @@
-import { UUID, Item } from '@oh-my-rpg/definitions';
+import { Item } from '@oh-my-rpg/definitions';
 interface State {
     schema_version: number;
     revision: number;
@@ -8,4 +8,4 @@ interface State {
     unslotted_capacity: number;
     unslotted: Array<Item>;
 }
-export { UUID, Item, State, };
+export { Item, State, };

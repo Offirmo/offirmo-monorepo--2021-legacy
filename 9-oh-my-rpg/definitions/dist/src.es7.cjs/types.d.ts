@@ -1,8 +1,8 @@
 import { Enum } from 'typescript-string-enums';
+import { UUID } from '@offirmo/uuid';
 interface I18nMessages {
     [k: string]: string | I18nMessages;
 }
-declare type UUID = string;
 declare const ElementType: {
     item: "item";
     location: "location";
@@ -31,4 +31,4 @@ interface Item extends Element {
     slot: InventorySlot;
     quality: ItemQuality;
 }
-export { I18nMessages, UUID, ElementType, Element, ItemQuality, InventorySlot, Item, };
+export { I18nMessages, ElementType, Element, ItemQuality, InventorySlot, Item, };
