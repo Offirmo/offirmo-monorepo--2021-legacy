@@ -1,64 +1,92 @@
 import React, { Component, Fragment } from 'react';
+import { throttle } from 'lodash'
+import hotkeys from 'hotkeys-js'
+import { get_UTC_timestamp_ms } from '@offirmo/timestamps'
 
 import ReactAnimationFrame from 'react-animation-frame';
 
-import { get_state, play, tick } from '../../model'
+import * as Model from '../../model'
 
 import './index.css'
 
+const INITIAL_STATE = Model.create()
+const MIN_FRAME_MS = 100 // debug
+const MAX_ITERATION = 100
+
 export class MainArea extends Component {
-
-	onAnimationFrame(time) {
-		// TODO update state
-		//console.log('raf')
-		this.forceUpdate()
+	state = {
+		model_state: INITIAL_STATE,
+		ui: Model.get_derived_ui(INITIAL_STATE),
 	}
 
-	componentDidMount() {
-		this.refreshTick()
-	}
+	safety_during_dev = 0
+	time_start = 0
 
-	refreshTick = () => {
-		if (this.tick) {
-			clearInterval(this.tick)
-			tick() // bonus
-			//this.forceUpdate()
+	onAnimationFrame = throttle((time) => {
+		//const test = get_UTC_timestamp_ms()
+
+		if (!this.time_start) {
+			const now_ms = get_UTC_timestamp_ms()
+			this.time_start = now_ms - Math.trunc(time)
+			console.log('calibrating animation frame', {
+				now_ms,
+				time,
+				time_trunc: Math.trunc(time),
+				time_start: this.time_start,
+			})
 		}
 
-		const state = get_state()
-		console.log('refreshTick', state.gamer_status)
-		/*this.gamer_status = state.gamer_status
+		const now_ms = this.time_start + Math.trunc(time)
+		//console.log('onAnimationFrame', time, now_ms, test, test - now_ms)
+		console.log('onAnimationFrame')
 
-		if (!state.gamer_status.auto_period_ms)
-			return*/
+		if (MAX_ITERATION) {
+			this.safety_during_dev++
+			if (this.safety_during_dev > 100) {
+				console.log(`stopping for safety (${MAX_ITERATION})`)
+				return this.props.endAnimation()
+			}
+		}
 
-		this.tick = setInterval(() => {
-			tick()
-			//this.forceUpdate()
-		}, 50)
+		const new_model_state = Model.update(this.state.model_state, {DEBUG: false})
+		if (new_model_state !== this.state.model_state) {
+			this.setState({
+				model_state: new_model_state,
+				ui: Model.get_derived_ui(new_model_state, {DEBUG: false})
+			})
+		}
+	}, MIN_FRAME_MS)
+
+	click = () => {
+		const new_model_state = Model.click(this.state.model_state)
+		this.setState({
+			model_state: new_model_state,
+			ui: Model.get_derived_ui(new_model_state),
+	  })
 	}
 
 	render() {
-		const state = get_state()
+		console.log('render')
 
 		return (
 			<Fragment>
 				<ul>
-					<li>Gamer status: {state.gamer_status.name}</li>
-					<li>XP: {state.xp}</li>
-					<li>Level: {state.level}</li>
+					<li>Wasted ideas: {this.state.ui.wasted_ideas}</li>
 				</ul>
 				<button onClick={() => {
-					play()
-					/*const state = get_state()
-					if (state.gamer_status !== this.gamer_status)
-						this.refreshTick()
-					this.forceUpdate()*/
+					this.click()
 				}}>Play</button>
-				<ul>
-					<li>XP/click: 1</li>
-					{/*state.gamer_status.auto_period_ms && <li>Auto-play: {1000./state.gamer_status.auto_period_ms}/s</li>*/}
-				</ul>
+			</Fragment>
+		)
+	}
+}
+
+
+const MainAreaRaf = ReactAnimationFrame(MainArea)
+export default MainAreaRaf
+
+/*
+
 				<div>
 					<ul>
 						{state.clicker_enhancers.map((ce, index) => {
@@ -75,11 +103,4 @@ export class MainArea extends Component {
 				</div>
 				<button>Test</button>
 				<button disabled>XXX</button>
-			</Fragment>
-		)
-	}
-}
-
-
-const MainAreaRaf = ReactAnimationFrame(MainArea)
-export default MainAreaRaf
+ */

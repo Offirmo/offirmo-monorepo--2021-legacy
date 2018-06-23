@@ -14,6 +14,7 @@ function create(): Set<string> {
 		// non standard but widely used
 		'statusCode', // express, https://gist.github.com/zcaceres/2854ef613751563a3b506fabce4501fd
 		'shouldRedirect', // express, https://gist.github.com/zcaceres/2854ef613751563a3b506fabce4501fd
+		'framesToPop', // see facebook https://github.com/facebook/flux/blob/2.0.2/src/invariant.js
 
 		// My (Offirmo) extensions
 		'details',

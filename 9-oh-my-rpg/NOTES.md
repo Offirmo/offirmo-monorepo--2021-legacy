@@ -4,7 +4,9 @@ Icons:
 - https://thenounproject.com/gegebe/collection/common-rpg-icons/
 
 
- 
+ranking: https://en.wikipedia.org/wiki/Elo_rating_system
+
+
 TOREAD https://josephg.com/blog/fixing-fortnite/
 
 TODO salvage lists from here https://docs.google.com/spreadsheets/d/1FCNPBMZm6tWfeOEtdOvcOrWDRZVqbe1ipzK9eQmNp2o/edit#gid=443281176

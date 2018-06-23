@@ -8,7 +8,9 @@ interface XError {
 	// see comments in index.js
 	statusCode?: number
 	shouldRedirect?: boolean
-	details?: { [k: string]: any }
+	framesToPop?: number
+
+	details?: { [k: string]: boolean | number | string }
 	SEC?: any
 	_temp?: any
 }
