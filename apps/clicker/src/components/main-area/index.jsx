@@ -73,6 +73,7 @@ export class MainArea extends Component {
 				<ul>
 					<li>Wasted ideas: {this.state.ui.wasted_ideas}</li>
 				</ul>
+				<div className="">
 				<button onClick={() => {
 					this.click()
 				}}>Play</button>
