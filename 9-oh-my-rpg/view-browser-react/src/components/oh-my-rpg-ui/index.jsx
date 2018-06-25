@@ -84,7 +84,6 @@ export class OhMyRpgUI extends Component {
 					key="hamburgerMenu"
 					id="meta-panel"
 					className="o⋄top-container omr⋄content-area omr⋄plane⁚meta">
-					<div className="omr⋄full-size-background-layer omr⋄backdrop"/>
 					<ErrorBoundary name={'omr:hamburger-pane'}>
 						{this.props.hamburgerPanelContent}
 					</ErrorBoundary>

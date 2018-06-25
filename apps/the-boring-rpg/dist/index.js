@@ -6508,9 +6508,9 @@ _sec2.default.xTry('loading savegame + creating game instance', ({ logger }) => 
 
 _sec2.default.xTry('init client state', ({ logger }) => {
 	game_instance.set_client_state(() => ({
-		VERSION: "0.51.44",
+		VERSION: "0.51.45",
 		ENV: "production",
-		BUILD_DATE: "20180625_21h22",
+		BUILD_DATE: "20180625_22h34",
 		CHANNEL,
 		verbose: true, // XXX auto + through SEC ?
 		// can change:
@@ -25278,7 +25278,6 @@ class OhMyRpgUI extends _react.Component {
 					key: 'hamburgerMenu',
 					id: 'meta-panel',
 					className: 'o\u22C4top-container omr\u22C4content-area omr\u22C4plane\u205Ameta' },
-				_react2.default.createElement('div', { className: 'omr\u22C4full-size-background-layer omr\u22C4backdrop' }),
 				_react2.default.createElement(
 					_reactErrorBoundary2.default,
 					{ name: 'omr:hamburger-pane' },
