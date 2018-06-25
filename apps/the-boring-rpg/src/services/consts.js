@@ -1,4 +1,3 @@
-"use strict";
 
 const LIB = 'the-boring-rpg'
 

@@ -12,16 +12,20 @@
 
 		<style type="text/css">
 			/* parameters we can't compute automatically */
-			.omr⋄hud⁚top-left {
+			:root {
 				--omr⋄ui__logo-content--width_: 163px;
-				--omr⋄ui__universe-anchor-content--width_: 200px;
+				/*--omr⋄ui__universe-anchor-content--width_: 230px*/
 			}
 
-			/* customization */
-			.omr⋄logo > img {
-				image-rendering: crisp-edges;
+			/* customizations */
+			.omr⋄logo {
 				padding-bottom: calc(4px * var(--scale));
 			}
+			.omr⋄logo img {
+				image-rendering: crisp-edges;
+				/*padding-bottom: calc(4px * var(--scale));*/
+			}
+
 			.status⁚avatar--icon {
 				align-self: center;
 				font-size: 26px;

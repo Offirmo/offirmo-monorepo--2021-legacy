@@ -105,9 +105,8 @@ Africa
 Pacific
 /pəˈsɪf.ɪk/
 
- ocean
+ocean
 
-Europe
 
 India
 
@@ -123,3 +122,65 @@ Japan
 /dʒəˈpæn/
 
 the Arctic Circle
+/ˌɑːrk.tɪk ˈsɝː.kəl/
+
+South America
+/ˌsaʊθ əˈmer.ɪ.kə/
+
+north
+/nɔːrθ/
+
+west
+/west/
+
+east
+/iːst/
+
+south
+/saʊθ/
+
+
+USA
+/ˌjuː.esˈeɪ/
+
+Arctic
+/ˈɑːrk.tɪk/
+
+Latin
+latin
+/ˈlæt̬.ɪn/
+
+_---____
+American
+/əˈmer.ɪ.kən/
+
+--____
+Europe
+/ˈjʊr.əp/
+
+____--__
+European
+/ˌjʊr.əˈpiː.ən/
+
+experiment
+
+variation
+
+control
+
+feature
+
+group
+
+enrollment
+
+recruit
+
+recruitment
+
+multivariate
+
+default
+
+condition
+

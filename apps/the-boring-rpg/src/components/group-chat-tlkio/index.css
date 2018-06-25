@@ -22,6 +22,7 @@
 /* big screens */
 #group-chat-container {
 	width: 500px;
+	z-index: calc(20 + var(--omr⋄ui__immersion-view--z-index));
 }
 /* small screens */
 @media screen and (max-width: 500px) {
@@ -31,5 +32,8 @@
 }
 
 #tlkio {
-
+/*
+	height: 100%;
+	width: 100%;
+ */
 }

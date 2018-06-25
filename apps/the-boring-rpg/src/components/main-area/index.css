@@ -1,0 +1,21 @@
+
+
+.tbrpg⋄bg-image⁚fields_of_gold {
+	background-image: url('fieldsofgold01_by_andreasrocha.jpg');
+	background-position: 62%;
+}
+
+.panel-top-content {
+	padding: 5px;
+	overflow-y: auto;
+}
+
+.main-area {
+	z-index: calc(10 + var(--omr⋄ui__immersion-view--z-index));
+	font-size: 15px;
+}
+
+/* override */
+.o⋄centered-article {
+	padding: 0;
+}

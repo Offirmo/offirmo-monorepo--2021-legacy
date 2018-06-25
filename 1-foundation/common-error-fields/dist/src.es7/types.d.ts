@@ -4,8 +4,9 @@ interface XError {
     stack?: string;
     statusCode?: number;
     shouldRedirect?: boolean;
+    framesToPop?: number;
     details?: {
-        [k: string]: any;
+        [k: string]: boolean | number | string;
     };
     SEC?: any;
     _temp?: any;

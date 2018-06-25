@@ -576,7 +576,7 @@ hr {
 	color: red;
 	background-color: rgba(0, 0, 0, .3);
 	margin: auto;
-	z-index: 100; /* just in case */
+	z-index: 100000; /* just in case TODO check */
 }
 
 
@@ -756,6 +756,15 @@ hr {
 	text-align: center;
 }
 
+.o⋄pos⁚abs {
+	position: absolute;
+}
+.o⋄pos⁚rel {
+	position: relative;
+}
+.o⋄pos⁚fixed {
+	position: fixed;
+}
 
 /******* flex *******/
 

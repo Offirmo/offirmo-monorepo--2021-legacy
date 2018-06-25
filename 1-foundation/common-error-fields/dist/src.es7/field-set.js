@@ -10,6 +10,7 @@ function create() {
         // non standard but widely used
         'statusCode',
         'shouldRedirect',
+        'framesToPop',
         // My (Offirmo) extensions
         'details',
         'SEC',

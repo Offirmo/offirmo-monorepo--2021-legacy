@@ -35,7 +35,7 @@ function reset_and_salvage(legacy_state) {
     return state;
 }
 const SUB_REDUCERS_COUNT = 5;
-const OTHER_KEYS_COUNT = 6;
+const OTHER_KEYS_COUNT = 8;
 function migrate_to_latest(SEC, legacy_state, hints = {}) {
     const existing_version = (legacy_state && legacy_state.schema_version) || 0;
     SEC = sec_1.get_lib_SEC(SEC)
@@ -44,8 +44,6 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
         version_to: consts_1.SCHEMA_VERSION,
     });
     return SEC.xTry('migrate_to_latest', ({ SEC, logger }) => {
-        if (Object.keys(legacy_state).length !== SUB_REDUCERS_COUNT + OTHER_KEYS_COUNT)
-            throw new Error('migrate_to_latest is outdated, please update!');
         if (existing_version > consts_1.SCHEMA_VERSION)
             throw new Error(`Your data is from a more recent version of this lib. Please update!`);
         let state = legacy_state; // for starter
@@ -71,6 +69,10 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
             state = state_1.reseed(state);
         }
         // migrate sub-reducers if any...
+        if (Object.keys(state).length !== SUB_REDUCERS_COUNT + OTHER_KEYS_COUNT) {
+            logger.error('migrate_to_latest', { SUB_REDUCERS_COUNT, OTHER_KEYS_COUNT, actual_count: Object.keys(state).length, legacy_state });
+            throw new Error('migrate_to_latest src is outdated, please update!');
+        }
         try {
             state.avatar = CharacterState.migrate_to_latest(SEC, state.avatar, hints.avatar);
             state.inventory = InventoryState.migrate_to_latest(state.inventory, hints.inventory);

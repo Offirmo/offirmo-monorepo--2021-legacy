@@ -61,238 +61,10 @@
 }
 
 
-
-/* parameters we can't compute automatically */
-:root {
-	--omr⋄ui__universe-anchor--padding_: 3px;
-}
-
-.universe-anchor__klass {
-	text-transform: capitalize;
-}
-
-.status⁚avatar--details {
-	line-height: 12px;
-	font-size: 12px;
-}
-
-.status⁚energy {
-	position: relative;
-	margin: 0 4px;
-	display: flex;
-	width: 22px;
-	height: 22px;
-}
-
-.status⁚energy__content {
-	position: absolute;
-	top: 6px;
-	left: 5px;
-	font-size: 12px;
-	line-height: 12px;
-}
-
-.status⁚energy .CircularProgressbar-path       { stroke: var(--o⋄color--fg⁚main); }
-.status⁚energy .CircularProgressbar-trail      { stroke: var(--o⋄color__co212__brown); }
-.status⁚energy .CircularProgressbar-text       { fill: orange; }
-.status⁚energy .CircularProgressbar-background { fill: green; }
-
-.auto-scroll-down {
-	height: 100%;
-	overflow-x: hidden; /* prevent jankiness when y scrollbar appears */
-}
-
-
-.chat {
-	min-height: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-end;
-	padding: 5px;
-}
-
-.chat__element {
-	margin: 3px 0;
-	position: relative; /* to allow absolute positioning of content */
-	max-width: 80%;
-
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	align-items: center;
-	align-content: flex-start;
-}
-.chat__element--ltr {
-	align-self: flex-start;
-}
-.chat__element--rtl {
-	align-self: flex-end;
-}
-
-.chat__bubble,
-.chat__choices button {
-	padding: .5em .8em .4em;
-	width: fit-content;
-	background-color: rgba(0,0,0,0.42);
-	border-radius: .4em;
-}
-
-
-.chat__spinner {
-	background-image: url(d75adfb7e09b234ae36b4b3b7a1314d6.svg);
-	background-repeat: no-repeat;
-	background-position: 10px 0;
-	height: 42px;
-}
-
-.chat__choices {
-	text-align: end;
-	justify-content: flex-end;
-}
-
-.chat__input {
-	height: 26px;
-	border: solid 1px #00000038;
-	margin-right: 2px;
-}
-
-
-.monster-emoji {
-	font-size: xx-large;
-}
-
-.tbrpg-element {
-}
-
-.item__name,
-.avatar__name,
-.avatar__class,
-.monster__name {
-	font-weight: bold;
-}
-
-.item--quality--common {
-	color: #d1d1d1;
-}
-.item--quality--uncommon {
-	color: #a0f22b;
-}
-.item--quality--rare {
-	color: #749aee;
-}
-.item--quality--epic {
-	color: #f571ff;
-}
-.item--quality--legendary {
-	color: #ff635c;
-}
-.item--quality--artifact {
-	color: #ffee62;
-}
-
-.monster--rank--common {
-}
-.monster--rank--elite {
-	color: #ddba00;
-}
-.monster--rank--boss {
-	color: #d9534f;
-}
-
-
-.item--weapon:before {
-	content: '\2694   ';
-}
-.item--armor:before {
-	content: '\1F6E1   ';
-}
-
-.currency--coin:before {
-	content: '\1F4B0   ';
-}
-.currency--token:before {
-	content: '\1F4A0    ';
-}
-/*
-
-switch($class) {
-
-		case 'attribute--level':
-			return '👶 ' + WIDTH_COMPENSATION + str
-		case 'attribute--health':
-			return '💗 ' + WIDTH_COMPENSATION + str
-		case 'attribute--mana':
-			return '💙 ' + WIDTH_COMPENSATION + str
-		case 'attribute--agility':
-			return '🤸 ' + WIDTH_COMPENSATION + str
-		case 'attribute--luck':
-			return '🤹 ' + WIDTH_COMPENSATION + str
-		case 'attribute--strength':
-			return '🏋 ' + WIDTH_COMPENSATION + str
-		case 'attribute--charisma':
-			return '👨🎤 ' + WIDTH_COMPENSATION + str
-		case 'attribute--wisdom':
-			return '👵 ' + WIDTH_COMPENSATION + str
-
-		case 'monster':
-			return str + ' ' + hints.possible_emoji + WIDTH_COMPENSATION
-		case 'rank--common':
-			return str
-		case 'rank--elite':
-			return stylize_string.bold(str + '★')
-		case 'rank--boss':
-			return stylize_string.bold(str + ' 👑' + WIDTH_COMPENSATION)
- */
-
-
-.tbrpg-panel--character .panel-top-content {
-	margin: 5px;
-	padding: .5em .8em .4em;
-	background-color: rgba(0,0,0,0.5);
-	border-radius: .4em;
-}
-
-
-.tbrpg-panel--inventory {
-	margin: 5px;
-	padding: .5em .8em .4em;
-	background-color: rgba(0,0,0,0.5);
-	border-radius: .4em;
-}
-
-.tbrpg-panel--inventory  .item__name {
-	font-weight: normal;
-}
-
-
-
-.tbrpg⋄bg-image⁚fields_of_gold {
-	background-image: url(ee15dc352b5f8a82c9aa4bcc0d2bd902.jpg);
-	background-position: 62%;
-}
-
-.panel-top-content {
-	padding: 5px;
-	overflow-y: auto;
-}
-
-
-
-#tbrpg-group-chat {
-	position: fixed;
-	right: 0; /* TODO animate */
-	z-index: calc(10 + var(--omr⋄ui__immersion-view--z-index));
-
-	height: 100%;
-	min-width: 400px;
-	max-width: 500px;
-
-	background-color: rgba(0, 0, 0, .3);
-}
-
-#tlkio {
-	height: 100%;
-	width: 100%;
+body {
+	width: -webkit-fill-available;
+	width: -moz-available;
+	width: fill-available;
 }
 
 /*! normalize.css v8.0.0 | MIT License | github.com/necolas/normalize.css */
@@ -641,7 +413,7 @@ template {
 	position: fixed;
 	top: 0;
 	left: 0;
-	background-color: rgba(0, 0, 0, .7);
+	background-color: var(--o⋄color--bg⁚main--backdrop);
 	border-right: solid 2px;
 }
 
@@ -657,8 +429,6 @@ template {
 	}
 }
 
-
-
 #about-panel {
 	position: fixed;
 	top: 0;
@@ -666,7 +436,7 @@ template {
 	padding: 30px;
 	text-align: center;
 	width: 100%;
-	background-color: rgba(0, 0, 0, .7);
+	background-color: var(--o⋄color--bg⁚main--backdrop);
 }
 
 /* Good tool:
@@ -763,7 +533,7 @@ template {
 	color: red;
 	background-color: rgba(0, 0, 0, .3);
 	margin: auto;
-	z-index: 100; /* just in case */
+	z-index: 100000; /* just in case TODO check */
 }
 
 
@@ -943,6 +713,15 @@ template {
 	text-align: center;
 }
 
+.o⋄pos⁚abs {
+	position: absolute;
+}
+.o⋄pos⁚rel {
+	position: relative;
+}
+.o⋄pos⁚fixed {
+	position: fixed;
+}
 
 /******* flex *******/
 
@@ -1208,22 +987,23 @@ hr {
 	background: var(--o⋄color--fg⁚ancillary);
 }
 
+:root {
+	/* http://www.colorhunt.co/c/212
+	 */
+	--o⋄color__co212__beige:   rgb(255, 235, 188);
+	--o⋄color__co212__blue:    rgb(93, 167, 174);
+	--o⋄color__co212__brown:   rgb(84, 61, 70);
+	--o⋄color__co212__dark:    rgb(41, 40, 48);
+}
 
 /* Offirmo view theme */
 [data-o⋄theme="lod--colorhunt212"] {
-	/* http://www.colorhunt.co/c/212
-	 */
-	--o⋄color__co212__beige:              #ffebbcff;
-	--o⋄color__co212__blue:               #5da7aeff;
-	--o⋄color__co212__brown:              #543d46ff;
-	--o⋄color__co212__dark:               #292830ff;
-
 	--o⋄color--bg⁚main: var(--o⋄color__co212__dark);
-	--o⋄color--fg⁚main: var(--o⋄color__co212__beige);
+	--o⋄color--bg⁚main--backdrop: rgba(41, 40, 48, .88);
 
-	/* TODO */
-	--o⋄color--fg⁚secondary: hsla(0, 0%, 98%, 0.66);
-	--o⋄color--fg⁚ancillary: hsla(0, 0%, 98%, 0.33);
+	--o⋄color--fg⁚main: var(--o⋄color__co212__beige);
+	--o⋄color--fg⁚secondary: rgba(255, 235, 188, 0.66);
+	--o⋄color--fg⁚ancillary: rgba(255, 235, 188, 0.33);
 }
 
 
@@ -1232,9 +1012,11 @@ hr {
 	background-color: var(--o⋄color--bg⁚main--translucent);
 }
 
+/*
 .omr⋄rounded-rectangle {
 	--diameter: calc(var(--omr⋄ui__hamburger--diameter) * var(--scale));
 }
+*/
 
 
 @font-face {
@@ -1779,9 +1561,9 @@ hr.omr⋄border-h⁚test {
 	-webkit-border-radius: 50%;
 	border-radius: 50%;
 
+	background-color: var(--o⋄color--bg⁚main);
 	color: var(--o⋄color--fg⁚main);
 	border: solid calc(var(--omr⋄ui__border--width_) * var(--scale)) var(--o⋄color--fg⁚main);
-	background-color: var(--o⋄color--bg⁚main);
 
 	font-size: calc(33px * var(--scale));
 
@@ -1828,7 +1610,7 @@ hr.omr⋄border-h⁚test {
 	height: var(--height);
 	width: var(--width);
 
-	background: var(--o⋄color--bg⁚main);
+	background-color: var(--o⋄color--bg⁚main);
 	color: var(--o⋄color--fg⁚main);
 	border: solid calc(var(--omr⋄ui__border--width_) * var(--scale)) var(--o⋄color--fg⁚main);
 	border-radius: calc(18px * var(--scale)) / calc(60px * var(--scale));
@@ -1901,8 +1683,8 @@ hr.omr⋄border-h⁚test {
 	/*max-height: var(--height);*/
 	border-radius: calc(5px * var(--scale-base)) / calc(30px * var(--scale-base));
 
+	background-color: var(--o⋄color--bg⁚main--backdrop);
 	color: var(--o⋄color--fg⁚main);
-	background: var(--o⋄color--bg⁚main--translucent);
 	border: none;
 
 	position: fixed;
@@ -2030,7 +1812,7 @@ hr.omr⋄border-h⁚test {
 
 .omr⋄full-size-background-layer {
 	display: block;
-	position: fixed;
+	/*position: fixed;*/
 	left: 0;
 	right: 0;
 	height: 100%;
@@ -2128,6 +1910,230 @@ hr.omr⋄border-h⁚test {
 }
 */
 
+/* parameters we can't compute automatically */
+:root {
+	--omr⋄ui__universe-anchor--padding_: 3px;
+}
+
+.universe-anchor__klass {
+	text-transform: capitalize;
+}
+
+.status⁚avatar--details {
+	line-height: 12px;
+	font-size: 12px;
+}
+
+.status⁚energy {
+	position: relative;
+	margin: 0 4px;
+	display: flex;
+	width: 22px;
+	height: 22px;
+}
+
+.status⁚energy__content {
+	position: absolute;
+	top: 6px;
+	left: 5px;
+	font-size: 12px;
+	line-height: 12px;
+}
+
+.status⁚energy .CircularProgressbar-path       { stroke: var(--o⋄color--fg⁚main); }
+.status⁚energy .CircularProgressbar-trail      { stroke: var(--o⋄color__co212__brown); }
+.status⁚energy .CircularProgressbar-text       { fill: orange; }
+.status⁚energy .CircularProgressbar-background { fill: green; }
+
+.auto-scroll-down {
+	height: 100%;
+	overflow-x: hidden; /* prevent jankiness when y scrollbar appears */
+}
+
+
+.chat {
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	padding: 5px;
+}
+
+.chat__element {
+	margin: 3px 0;
+	position: relative; /* to allow absolute positioning of content */
+	max-width: 80%;
+
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+	align-content: flex-start;
+}
+.chat__element--ltr {
+	align-self: flex-start;
+}
+.chat__element--rtl {
+	align-self: flex-end;
+}
+
+.chat__bubble,
+.chat__choices button {
+	padding: .5em .8em .4em;
+	width: fit-content;
+	background-color: rgba(0,0,0,0.42);
+	border-radius: .4em;
+}
+
+
+.chat__spinner {
+	background-image: url(d75adfb7e09b234ae36b4b3b7a1314d6.svg);
+	background-repeat: no-repeat;
+	background-position: 10px 0;
+	height: 42px;
+}
+
+.chat__choices {
+	text-align: end;
+	justify-content: flex-end;
+}
+
+.chat__input {
+	height: 26px;
+	border: solid 1px #00000038;
+	margin-right: 2px;
+}
+
+
+.monster-emoji {
+	font-size: xx-large;
+}
+
+.tbrpg-element {
+}
+
+.item__name,
+.avatar__name,
+.avatar__class,
+.monster__name {
+	font-weight: bold;
+}
+
+.item--quality--common {
+	color: #d1d1d1;
+}
+.item--quality--uncommon {
+	color: #a0f22b;
+}
+.item--quality--rare {
+	color: #749aee;
+}
+.item--quality--epic {
+	color: #f571ff;
+}
+.item--quality--legendary {
+	color: #ff635c;
+}
+.item--quality--artifact {
+	color: #ffee62;
+}
+
+.monster--rank--common {
+}
+.monster--rank--elite {
+	color: #ddba00;
+}
+.monster--rank--boss {
+	color: #d9534f;
+}
+
+
+.item--weapon:before {
+	content: '\2694   ';
+}
+.item--armor:before {
+	content: '\1F6E1   ';
+}
+
+.currency--coin:before {
+	content: '\1F4B0   ';
+}
+.currency--token:before {
+	content: '\1F4A0    ';
+}
+/*
+
+switch($class) {
+
+		case 'attribute--level':
+			return '👶 ' + WIDTH_COMPENSATION + str
+		case 'attribute--health':
+			return '💗 ' + WIDTH_COMPENSATION + str
+		case 'attribute--mana':
+			return '💙 ' + WIDTH_COMPENSATION + str
+		case 'attribute--agility':
+			return '🤸 ' + WIDTH_COMPENSATION + str
+		case 'attribute--luck':
+			return '🤹 ' + WIDTH_COMPENSATION + str
+		case 'attribute--strength':
+			return '🏋 ' + WIDTH_COMPENSATION + str
+		case 'attribute--charisma':
+			return '👨🎤 ' + WIDTH_COMPENSATION + str
+		case 'attribute--wisdom':
+			return '👵 ' + WIDTH_COMPENSATION + str
+
+		case 'monster':
+			return str + ' ' + hints.possible_emoji + WIDTH_COMPENSATION
+		case 'rank--common':
+			return str
+		case 'rank--elite':
+			return stylize_string.bold(str + '★')
+		case 'rank--boss':
+			return stylize_string.bold(str + ' 👑' + WIDTH_COMPENSATION)
+ */
+
+
+.tbrpg-panel--character .panel-top-content {
+	margin: 5px;
+	padding: .5em .8em .4em;
+	background-color: rgba(0,0,0,0.5);
+	border-radius: .4em;
+}
+
+
+.tbrpg-panel--inventory {
+	margin: 5px;
+	padding: .5em .8em .4em;
+	background-color: rgba(0,0,0,0.5);
+	border-radius: .4em;
+}
+
+.tbrpg-panel--inventory  .item__name {
+	font-weight: normal;
+}
+
+
+
+.tbrpg⋄bg-image⁚fields_of_gold {
+	background-image: url(ee15dc352b5f8a82c9aa4bcc0d2bd902.jpg);
+	background-position: 62%;
+}
+
+.panel-top-content {
+	padding: 5px;
+	overflow-y: auto;
+}
+
+.main-area {
+	z-index: calc(10 + var(--omr⋄ui__immersion-view--z-index));
+	font-size: 15px;
+}
+
+/* override */
+.o⋄centered-article {
+	padding: 0;
+}
+
 #group-chat-container {
 	position: fixed;
 	top: 0;
@@ -2152,6 +2158,7 @@ hr.omr⋄border-h⁚test {
 /* big screens */
 #group-chat-container {
 	width: 500px;
+	z-index: calc(20 + var(--omr⋄ui__immersion-view--z-index));
 }
 /* small screens */
 @media screen and (max-width: 500px) {
@@ -2161,7 +2168,10 @@ hr.omr⋄border-h⁚test {
 }
 
 #tlkio {
-
+/*
+	height: 100%;
+	width: 100%;
+ */
 }
 
 .about-logo {
@@ -2195,14 +2205,11 @@ hr.omr⋄border-h⁚test {
 	line-height: 14px;
 }
 
-.omr⋄plane⁚immersion .omr⋄content-area {
-	max-width: 650px;
-	margin: auto;
-	font-size: 15px;
-}
 
-
-#group-chat-container {
-	z-index: calc(20 + var(--omr⋄ui__immersion-view--z-index));
+/* Debug */
+/*
+.o⋄top-container {
+	border-width: 1px;
 }
+*/
 

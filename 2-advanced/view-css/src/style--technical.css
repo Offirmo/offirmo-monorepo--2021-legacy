@@ -3,6 +3,15 @@
 	text-align: center;
 }
 
+.o⋄pos⁚abs {
+	position: absolute;
+}
+.o⋄pos⁚rel {
+	position: relative;
+}
+.o⋄pos⁚fixed {
+	position: fixed;
+}
 
 /******* flex *******/
 
