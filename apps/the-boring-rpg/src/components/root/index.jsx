@@ -4,19 +4,22 @@ import { BrowserRouter as Router, Redirect, Route, Switch, NavLink } from 'react
 import {BASE_ROUTE, ROUTES} from '../../services/routes'
 
 import Game from '../omr-root'
-
+import DevArea from '../dev-area'
 
 export default class Root extends Component {
 	render() {
 		return (
-			<Router basename={BASE_ROUTE}>
-				<Switch>
-					<Route exact path={ROUTES.home} render={() => <Game />} />
+			<Fragment>
+				<Router basename={BASE_ROUTE}>
+					<Switch>
+						<Route exact path={ROUTES.home} render={() => <Game />} />
 
-					{ /* fallback to home */ }
-					<Redirect to={ROUTES.home} />
-				</Switch>
-			</Router>
+						{ /* fallback to home */ }
+						<Redirect to={ROUTES.home} />
+					</Switch>
+				</Router>
+				<DevArea />
+			</Fragment>
 		)
 	}
 }

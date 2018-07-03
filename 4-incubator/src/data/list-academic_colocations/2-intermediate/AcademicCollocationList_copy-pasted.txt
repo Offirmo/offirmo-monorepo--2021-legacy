@@ -1,0 +1,2554 @@
+# Addition Component_I POS_I Component_II POS_II Addition
+1 abstract adj concept n
+2 academic adj achievement n
+3 academic adj career n
+4 (in) academic adj circles n
+5 academic adj community n
+6 academic adj debate n
+7 academic adj discipline n
+8 academic adj discourse n
+9 academic adj institution n
+10 academic adj journal n
+11 academic adj life n
+12 academic adj performance n
+13 academic adj research n
+14 academic adj skills n
+15 academic adj study n
+16 academic adj success n
+17 academic adj work n
+18 academic adj world n
+19 academic adj writing n
+20 academic adj year n
+21 accept v responsibility n
+22 acceptable adj behaviour n
+23 accurate adj assessment n
+24 accurate adj description n
+25 accurate adj information n
+26 accurate adj measurement n
+27 accurate adj picture n
+28 accurate adj record n
+29 achieve (a) v goal n
+30 achieve (an) v objective n
+31 achieve (an) v outcome n
+32 acquire v knowledge n
+33 active adj involvement n
+34 active adj participant n
+35 active adj participation n
+36 active adj role n
+37 (be) actively adv involved vpp
+38 acutely adv aware adj
+39 add v information n
+40 additional adj cost n
+41 additional adj information n
+42 additional adj problem n
+43 additional adj resources n
+44 additional adj support n
+45 address (an) v issue n
+46 administrative adj practices n
+47 adopt (a) v procedure n
+48 adopt (an) v approach n
+49 advanced adj economy n
+50 advanced adj technology n
+51 adverse adj effect n
+52 adverse adj reaction n
+53 adversely adv affect v
+54 affect (the) v outcome n
+55 affect (the) v development n (of)
+56 allocate v resources n
+57 allow v access n (to)
+The Academic Collocation List
+Page 1 of 42
+# Addition Component I POS I Component II POS II Addition
+58 almost adv identical adj
+59 alternative adj approach n
+60 alternative adj explanation n
+61 alternative adj form n
+62 alternative adj interpretation n
+63 alternative adj means n
+64 alternative adj method n
+65 alternative adj model n
+66 alternative adj solution n
+67 alternative adj source n
+68 alternative adj strategy n
+69 alternative adj view n
+70 alternative adj way n
+71 ample adj evidence n
+72 analytical adj approach n
+73 analytical adj tool n
+74 anecdotal adj evidence n
+75 annual adj conference n
+76 annual adj meeting n
+77 annual adj rate n
+78 annual adj report n
+79 annual adj review n
+80 apply v equally adv
+81 apply (a) v method n
+82 apply (the) v theory n
+83 appropriate adj action n
+84 appropriate adj behaviour n
+85 appropriate adj conditions n
+86 appropriate adj data n
+87 appropriate adj form n
+88 appropriate adj language n
+89 appropriate adj level n
+90 appropriate adj point n
+91 appropriate adj response n
+92 appropriate adj skills n
+93 appropriate adj treatment n
+94 appropriate adj way n
+95 armed adj conflict n
+96 artificial adj intelligence n
+97 assess (the) v impact n (of)
+98 assessment n process n
+99 associated adj factors n
+100 assume v responsibility n
+101 assume (the) v role n (of)
+102 atomic adj energy n
+103 attend (a) v conference n
+104 available adj data n
+105 available adj evidence n
+106 available adj information n
+107 available adj resources n
+108 average adj score n
+109 background n knowledge n
+110 basic adj assumption n
+111 basic adj component n
+112 basic adj concept n
+113 basic adj element n
+114 basic adj function n
+115 basic adj information n
+116 basic adj premise n
+Page 2 of 42
+# Addition Component I POS I Component II POS II Addition
+117 basic adj principle n
+118 basic adj research n
+119 basic adj structure n
+120 basic adj technique n
+121 bear v resemblance n (to)
+122 become v apparent adj
+123 become v available adj
+124 become v aware adj
+125 become v blurred adj
+126 become v established adj
+127 become v evident adj
+128 become v independent adj
+129 become v involved adj (with/in)
+130 become v obvious adj
+131 become v visible adj
+132 become v widespread adj
+133 become (a) v source n (of)
+134 become (the) v focus n (of)
+135 begin (a) v process n
+136 behave v differently adv
+137 beneficial adj effect n
+138 (be) best adv described vpp (as, in terms of)
+139 binary adj opposition n
+140 binary adj system n
+141 biological adj evolution n
+142 biological adj science n
+143 biological adj sex n
+144 brief adj account n
+145 brief adj description n
+146 brief adj discussion n
+147 brief adj history n
+148 brief adj introduction n
+149 brief adj overview n
+150 brief adj period n
+151 brief adj review n
+152 brief adj summary n
+153 brief adj time n
+154 briefly adv describe v
+155 briefly adv discuss v
+156 broad adj agreement n
+157 broad adj category n
+158 broad adj definition n
+159 (a) broad adj range n (of)
+160 broad adj spectrum n
+161 broader adj context n
+162 (be) broadly adv defined vpp
+163 broadly adv similar adj
+164 business n sector n
+165 business n transaction n
+166 capitalist adj country n
+167 capitalist adj economy n
+168 capitalist adj society n
+169 capitalist adj system n
+170 capitalist adj world n
+171 career n development n
+172 career n opportunity n
+173 careful adj analysis n
+174 careful adj attention n
+175 careful adj consideration n
+Page 3 of 42
+# Addition Component I POS I Component II POS II Addition
+176 careful adj thought n
+177 (be) carefully adv controlled vpp
+178 (be) carefully adv selected vpp
+179 carry v information n
+180 carry out v research n (of)
+181 carry out (the) v task n
+182 cast v doubt n (on)
+183 causal adj link n
+184 causal adj relation n
+185 causal adj relationship n
+186 cause v consequences n
+187 cause v stress n
+188 central adj authority n
+189 central adj concept n
+190 central adj concern n
+191 central adj control n
+192 central adj core n
+193 central adj feature n
+194 central adj focus n
+195 central adj government n
+196 central adj importance n
+197 central adj issue n
+198 central adj part n
+199 central adj point n
+200 central adj position n
+201 central adj problem n
+202 central adj question n
+203 central adj role n
+204 central adj tenet n
+205 central adj theme n
+206 certain adj aspect n
+207 certain adj assumptions n
+208 certain adj characteristics n
+209 certain adj circumstances n
+210 change v constantly adv
+211 change v dramatically adv
+212 change v rapidly adv
+213 change (an) v attitude n
+214 changing adj attitudes n
+215 changing adj circumstances n
+216 changing adj nature n
+217 changing adj needs n
+218 changing adj pattern n
+219 changing adj world n
+220 characteristic adj feature n
+221 chemical adj reaction n
+222 civil adj case n
+223 civil adj society n
+224 class n consciousness n
+225 classic adj example n
+226 classic adj study n
+227 classic adj text n
+228 classic adj work n
+229 classical adj theory n
+230 clear adj boundary n
+231 clear adj distinction n
+232 clear adj evidence n
+233 clear adj focus n
+234 clear adj indication n
+Page 4 of 42
+# Addition Component I POS I Component II POS II Addition
+235 clear adj relationship n
+236 clear adj statement n
+237 clear adj structure n
+238 (be) clearly adv defined vpp
+239 (be) clearly adv demonstrated vpp
+240 (be) clearly adv established vpp
+241 clearly adv evident adj
+242 (be) clearly adv identified vpp
+243 clearly adv important adj
+244 (be) clearly adv related vpp (to)
+245 clearly adv understand v
+246 clearly adv visible adj
+247 climate n change n
+248 climatic adj conditions n
+249 close adj contact n
+250 close adj proximity n
+251 close adj relationship n
+252 close adj scrutiny n
+253 (be) closely adv allied vpp (to, with)
+254 (be) closely adv associated vpp (with)
+255 (be) closely adv connected vpp (to, with)
+256 (be) closely adv linked vpp (to, with)
+257 (be) closely adv related vpp (to)
+258 closely adv resemble v
+259 (be) closely adv tied vpp
+260 (upon, on) closer adj examination n
+261 (on/upon) closer adj inspection n
+262 closer adj look n
+263 cognitive adj ability n
+264 cognitive adj development n
+265 cognitive adj skills n
+266 collaborative adj learning n
+267 collect v data n
+268 collect v information n
+269 collective adj action n
+270 collective adj identity n
+271 collective adj memory n
+272 combined adj effect n
+273 come into v conflict n (with)
+274 come into v contact n (with)
+275 commercial adj activity n
+276 commercial adj transaction n
+277 commit (a) v crime n
+278 commit (an) v offence n
+279 common adj ancestor n
+280 common adj approach n
+281 common adj assumption n
+282 common adj characteristic n
+283 common adj culture n
+284 common adj error n
+285 common adj feature n
+286 common adj goal n
+287 common adj method n
+288 common adj source n
+289 common adj theme n
+290 common adj usage n
+291 (be) commonly adv accepted vpp
+292 (be) commonly adv associated vpp (with)
+293 (be) commonly adv called vpp
+Page 5 of 42
+# Addition Component I POS I Component II POS II Addition
+294 (be) commonly adv encountered vpp
+295 (be) commonly adv found vpp (in)
+296 (be) commonly adv known vpp (as)
+297 (be) commonly adv referred vpp (to) (as)
+298 (be) commonly adv used vpp
+299 communicate v effectively adv
+300 comparative adj analysis n
+301 comparative adj research n
+302 comparative adj study n
+303 compelling adj argument n
+304 compelling adj evidence n
+305 compelling adj reason n
+306 competitive adj market n
+307 competitive adj pressure n
+308 complete (a) v task n
+309 complex adj area n
+310 complex adj interaction n
+311 complex adj issue n
+312 complex adj pattern n
+313 complex adj problem n
+314 complex adj process n
+315 complex adj question n
+316 complex adj relationship n
+317 complex adj set n
+318 complex adj situation n
+319 complex adj structure n
+320 complex adj system n
+321 comprehensive adj account n
+322 comprehensive adj approach n
+323 comprehensive adj overview n
+324 comprehensive adj review n
+325 comprehensive adj system n
+326 conceptual adj framework n
+327 concerted adj effort n
+328 concluding adj remarks n
+329 concluding adj section n
+330 conditional adj probability n
+331 conduct v research n
+332 conduct (a) v study n
+333 conduct (a) v survey n
+334 conduct (an) v analysis n
+335 conduct (an) v interview n
+336 conflict n resolution n
+337 conflicting adj interests n
+338 consider v appropriate adj
+339 consider v relevant adj
+340 consider (a) v possibility n
+341 consider (an) v aspect n
+342 consider (an) v issue n
+343 consider (the) v impact n (of)
+344 consider (the) v implications n
+345 consider (the) v role n (of)
+346 (a) considerable adj amount n (of)
+347 considerable adj attention n
+348 considerable adj debate n
+349 (a) considerable adj degree n (of)
+350 (in) considerable adj detail n
+351 considerable adj effort n
+352 considerable adj evidence n
+Page 6 of 42
+# Addition Component I POS I Component II POS II Addition
+353 (to a) considerable adj extent n
+354 (be of) considerable adj importance n
+355 considerable adj influence n
+356 considerable adj interest n
+357 considerable adj research n
+358 considerable adj support n
+359 considerable adj variation n
+360 consistent adj pattern n
+361 consistent adj results n
+362 constant adj rate n
+363 constituent adj elements n
+364 constituent adj parts n
+365 contain v information n
+366 contain (an) v element n
+367 contemporary adj debate n
+368 contemporary adj issue n
+369 contemporary adj life n
+370 contemporary adj society n
+371 contemporary adj world n
+372 contextual adj factors n
+373 continued adj existence n
+374 continued adj growth n
+375 continued adj use n
+376 continuous adj process n
+377 contribute v significantly adv
+378 contribute to (the) v development n (of)
+379 controversial adj issue n
+380 conventional adj view n
+381 conventional adj wisdom n
+382 convey v information n
+383 convey v meaning n
+384 convey (a) v message n
+385 convincing adj evidence n
+386 coping adj strategy n
+387 core adj area n
+388 core adj element n
+389 core adj issue n
+390 core adj skills n
+391 core adj value n
+392 correct adj interpretation n
+393 correct (an) v error n
+394 counter adj argument n
+395 cover (a) v range n (of)
+396 cover (a) v topic n
+397 cover (an) v area n
+398 create v conditions n
+399 create v opportunities n
+400 create v problems n
+401 create (an) v environment n
+402 create (an) v impression n
+403 create (an) v opportunity n
+404 creative adj process n
+405 creative adj thinking n
+406 creative adj work n
+407 criminal adj offence n
+408 critical adj analysis n
+409 critical adj approach n
+410 critical adj attention n
+411 critical adj essay n
+Page 7 of 42
+# Addition Component I POS I Component II POS II Addition
+412 critical adj evaluation n
+413 critical adj examination n
+414 critical adj factor n
+415 critical adj importance n
+416 critical adj inquiry n
+417 critical adj introduction n
+418 critical adj issue n
+419 critical adj perspective n
+420 critical adj point n
+421 critical adj reflection n
+422 critical adj review n
+423 critical adj role n
+424 critical adj scrutiny n
+425 critical adj theory n
+426 critical adj thinking n
+427 critical adj writing n
+428 critically adv evaluate v
+429 crucial adj difference n
+430 crucial adj factor n
+431 crucial adj importance n
+432 crucial adj part n
+433 crucial adj point n
+434 crucial adj question n
+435 crucial adj role n
+436 cultural adj activity n
+437 cultural adj aspect n
+438 cultural adj attitudes n
+439 cultural adj background n
+440 cultural adj boundary n
+441 cultural adj change n
+442 cultural adj context n
+443 cultural adj differences n
+444 cultural adj dimension n
+445 cultural adj diversity n
+446 cultural adj factors n
+447 cultural adj heritage n
+448 cultural adj history n
+449 cultural adj identity n
+450 cultural adj influence n
+451 cultural adj institution n
+452 cultural adj issue n
+453 cultural adj life n
+454 cultural adj norm n
+455 cultural adj perspective n
+456 cultural adj phenomenon n
+457 cultural adj practice n
+458 cultural adj significance n
+459 cultural adj theory n
+460 cultural adj tradition n
+461 cultural adj values n
+462 culturally adv specific adj
+463 current adj climate n
+464 current adj issue n
+465 current adj policy n
+466 current adj research n
+467 current adj status n
+468 current adj technology n
+469 current adj trend n
+470 currently adv available adj
+Page 8 of 42
+# Addition Component I POS I Component II POS II Addition
+471 daily adj living n
+472 data n gathering n
+473 data n set n
+474 deal (with an) v issue n
+475 deem v appropriate adj
+476 deem v necessary adj
+477 (a) deep adj understanding n (of)
+478 (at/on a) deeper adj level n
+479 (be) deeply adv embedded vpp
+480 (be) deeply adv rooted vpp
+481 defining adj characteristic n
+482 defining adj concept n
+483 defining adj feature n
+484 deliberate adj attempt n
+485 democratic adj institution n
+486 democratic adj process n
+487 democratic adj society n
+488 democratic adj state n
+489 demographic adj change n
+490 demographic adj characteristics n
+491 demographic adj factor n
+492 demonstrate v competence n
+493 (be) densely adv populated vpp
+494 deny v access n (to)
+495 dependent adj variable n
+496 describe (a) v method n
+497 describe (a) v process n
+498 describe (a) v procedure n
+499 descriptive adj statistics n
+500 desired adj outcome n
+501 detailed adj analysis n
+502 detailed adj examination n
+503 detailed adj information n
+504 detailed adj study n
+505 develop (a) v method n
+506 develop (a) v strategy n
+507 develop (a) v technique n
+508 develop (a) v theory n
+509 develop (an) v approach n
+510 develop (an) v argument n
+511 developmental adj process n
+512 developmental adj stage n
+513 diagnostic adj test n
+514 differ v considerably adv
+515 differ v significantly adv
+516 differ v widely adv
+517 digital adj information n
+518 digital adj media n
+519 digital adj technology n
+520 direct adj access n
+521 direct adj communication n
+522 direct adj consequences n
+523 direct adj contact n
+524 direct adj evidence n
+525 direct adj impact n
+526 direct adj involvement n
+527 direct adj link n
+528 direct adj observation n
+529 direct adj relationship n
+Page 9 of 42
+# Addition Component I POS I Component II POS II Addition
+530 direct adj role n
+531 directly adv affect v
+532 (be) directly adv affected vpp
+533 (be) directly adv connected vpp (to, with)
+534 (be) directly adv involved vpp (in)
+535 (be) directly adv linked vpp (to)
+536 (be) directly adv linked vpp (to, with)
+537 (be) directly adv proportional adj (to)
+538 (be) directly adv related vpp (to)
+539 (be) directly adv responsible adj (for)
+540 disclose v information n
+541 discuss (a) v topic n
+542 discuss (an) v issue n
+543 disposable adj income n
+544 distinct adj group n
+545 distinct adj type n
+546 distinctive adj feature n
+547 distinguishing adj feature n
+548 diverse adj background n
+549 diverse adj group n
+550 (a) diverse adj range n (of)
+551 dividing adj line n
+552 documentary adj evidence n
+553 domestic adj market n
+554 domestic adj sphere n
+555 domestic adj violence n
+556 dominant adj culture n
+557 dominant adj discourse n
+558 dominant adj form n
+559 dominant adj group n
+560 dominant adj ideology n
+561 dominant adj paradigm n
+562 dominant adj position n
+563 dominant adj role n
+564 dramatic adj change n
+565 dramatic adj effect n
+566 dramatic adj increase n
+567 draw v attention n (to)
+568 draw (a) v conclusion n
+569 draw (a) v distinction n
+570 draw (a) v line n
+571 driving adj force n
+572 due adj process n
+573 dynamic adj equilibrium n
+574 dynamic adj nature n
+575 dynamic adj process n
+576 dynamic adj system n
+577 earlier adj discussion n
+578 earlier adj period n
+579 earlier adj research n
+580 earlier adj stage n
+581 earlier adj study n
+582 earlier adj times n
+583 earlier adj version n
+584 earlier adj work n
+585 early adj decades n
+586 early adj study n
+587 easily adv accessible adj
+588 (be) easily adv identified vpp
+Page 10 of 42
+# Addition Component I POS I Component II POS II Addition
+589 (be) easily adv understood vpp
+590 easy adj access n
+591 economic adj activity n
+592 economic adj affairs n
+593 economic adj analysis n
+594 economic adj benefits n
+595 economic adj change n
+596 economic adj conditions n
+597 economic adj consequences n
+598 economic adj context n
+599 economic adj crisis n
+600 economic adj exploitation n
+601 economic adj factors n
+602 economic adj forces n
+603 economic adj goal n
+604 economic adj growth n
+605 economic adj inequality n
+606 economic adj integration n
+607 economic adj interests n
+608 economic adj policy n
+609 economic adj power n
+610 economic adj prosperity n
+611 economic adj reform n
+612 economic adj relations n
+613 economic adj relationships n
+614 economic adj resources n
+615 economic adj sector n
+616 economic adj stability n
+617 economic adj status n
+618 economic adj structure n
+619 economic adj success n
+620 economic adj system n
+621 economic adj theory n
+622 economic adj value n
+623 economic adj welfare n
+624 educational adj institution n
+625 educational adj opportunity n
+626 educational adj policy n
+627 educational adj programme n
+628 educational adj provision n
+629 educational adj qualification n
+630 educational adj research n
+631 educational adj setting n
+632 educational adj system n
+633 effective adj communication n
+634 effective adj implementation n
+635 effective adj intervention n
+636 effective adj management n
+637 effective adj method n
+638 effective adj participation n
+639 effective adj policy n
+640 effective adj treatment n
+641 electronic adj access n
+642 electronic adj communication n
+643 electronic adj media n
+644 electronic adj resources n
+645 electronic adj version n
+646 emotional adj impact n
+647 emotional adj intelligence n
+Page 11 of 42
+# Addition Component I POS I Component II POS II Addition
+648 emotional adj reaction n
+649 emotional adj response n
+650 emotional adj support n
+651 empirical adj data n
+652 empirical adj evidence n
+653 empirical adj investigation n
+654 empirical adj research n
+655 empirical adj study n
+656 empirical adj support n
+657 empirical adj work n
+658 employ (a) v method n
+659 employ (a) v technique n
+660 employment n opportunities n
+661 encounter v difficulties n
+662 encounter v problems n
+663 encourage (the) v development n (of)
+664 engage in (an) v activity n
+665 enhance v learning n
+666 enhance v performance n
+667 (an) enormous adj amount n (of)
+668 enormous adj impact n
+669 entire adj period n
+670 (the) entire adj range n (of)
+671 entirely adv clear adj
+672 entirely adv different adj
+673 entirely adv new adj
+674 environmental adj changes n
+675 environmental adj concern n
+676 environmental adj consequences n
+677 environmental adj damage n
+678 environmental adj degradation n
+679 environmental adj effects n
+680 environmental adj factors n
+681 environmental adj impact n
+682 environmental adj issues n
+683 environmental adj policy n
+684 environmental adj pollution n
+685 environmental adj protection n
+686 equal adj access n
+687 equal adj opportunity n
+688 equal adj status n
+689 equal adj treatment n
+690 equally adv important adj
+691 equally adv likely adj
+692 equally adv true adj
+693 equally adv valid adj
+694 essential adj component n
+695 essential adj element n
+696 essential adj feature n
+697 essential adj function n
+698 essential adj information n
+699 essential adj role n
+700 establish (a) v relationship n
+701 established adj order n
+702 established adj practice n
+703 established adj principle n
+704 ethical adj consideration n
+705 ethical adj dilemma n
+706 ethical adj issue n
+Page 12 of 42
+# Addition Component I POS I Component II POS II Addition
+707 ethical adj principle n
+708 ethical adj problem n
+709 ethical adj question n
+710 ethnic adj community n
+711 ethnic adj differences n
+712 ethnic adj diversity n
+713 ethnic adj group n
+714 ethnic adj identity n
+715 ethnic adj minority n
+716 ethnic adj origin n
+717 ever adv changing adj
+718 ever adv increasing adj
+719 evolutionary adj process n
+720 evolutionary adj theory n
+721 examine (the) v role n (of)
+722 exceptional adj case n
+723 exceptional adj circumstances n
+724 exercise v authority n
+725 existing adj data n
+726 existing adj research n
+727 existing adj structure n
+728 expand v rapidly adv
+729 experience v difficulties n
+730 experience v problems n
+731 experiential adj learning n
+732 experimental adj conditions n
+733 experimental adj data n
+734 experimental adj design n
+735 experimental adj evidence n
+736 experimental adj method n
+737 experimental adj research n
+738 experimental adj results n
+739 experimental adj study n
+740 experimental adj work n
+741 expert n opinion n
+742 explanatory adj power n
+743 explore v further adv
+744 explore (an) v issue n
+745 extended adj period n
+746 extensive adj research n
+747 (be) extensively adv used vpp
+748 external adj environment n
+749 external adj factors n
+750 external adj forces n
+751 external adj influences n
+752 external adj source n
+753 external adj threat n
+754 external adj world n
+755 extract v data n
+756 extract v information n
+757 extremely adv complex adj
+758 extremely adv powerful adj
+759 extremely adv sensitive adj
+760 extremely adv useful adj
+761 extremely adv valuable adj
+762 face v difficulties n
+763 face v discrimination n
+764 face (a) v challenge n
+765 face (a) v dilemma n
+Page 13 of 42
+# Addition Component I POS I Component II POS II Addition
+766 face (a) v problem n
+767 facial adj expression n
+768 facilitate (the) v development n (of)
+769 factual adj information n
+770 fair adj treatment n
+771 fairly adv clear adj
+772 fairly adv common adj
+773 fairly adv obvious adj
+774 fairly adv straightforward adj
+775 fall into (the) v category n (of)
+776 (be) far adv removed vpp (from)
+777 federal adj agency n
+778 federal adj government n
+779 federal adj state n
+780 feminist adj movement n
+781 field n research n
+782 final adj analysis n
+783 final adj answer n
+784 final adj chapter n
+785 final adj decision n
+786 final adj outcome n
+787 final adj phase n
+788 final adj point n
+789 final adj position n
+790 final adj product n
+791 final adj result n
+792 final adj section n
+793 final adj stage n
+794 final adj step n
+795 final adj version n
+796 financial adj affairs n
+797 financial adj assistance n
+798 financial adj institution n
+799 financial adj management n
+800 financial adj market n
+801 financial adj problem n
+802 financial adj resources n
+803 financial adj support n
+804 find v evidence n
+805 find v information n
+806 finite adj number n
+807 (be) firmly adv established vpp
+808 first adj author n
+809 first adj contact n
+810 first adj draft n
+811 first adj encounter n
+812 first adj generation n
+813 first adj impression n
+814 first adj phase n
+815 first adj priority n
+816 flexible adj approach n
+817 focal adj point n
+818 focus v attention n (on)
+819 focus on (an) v aspect n
+820 follow (a) v format n
+821 follow (a) v procedure n
+822 follow v instructions n
+823 following adj chapter n
+824 foreign adj currency n
+Page 14 of 42
+# Addition Component I POS I Component II POS II Addition
+825 foreign adj investment n
+826 foreign adj investor n
+827 foreign adj policy n
+828 formal adj structure n
+829 free adj access n
+830 free adj movement n
+831 freely adv available adj
+832 (be) frequently adv cited vpp
+833 (be) frequently adv found vpp
+834 (be) frequently adv referred vpp (to)
+835 (be) frequently adv used vpp
+836 fulfil (an) v obligation n
+837 full adj analysis n
+838 full adj employment n
+839 full adj information n
+840 full adj participation n
+841 full adj potential n
+842 (a, the) full adj range n (of)
+843 fuller adj discussion n
+844 fully adv aware adj
+845 (be) fully adv developed vpp
+846 (be) fully adv informed vpp
+847 (be) fully adv integrated vpp
+848 (be) fully adv realized vpp
+849 fully adv understand v
+850 functional adj requirement n
+851 fundamental adj aspect n
+852 fundamental adj assumption n
+853 fundamental adj change n
+854 fundamental adj component n
+855 fundamental adj difference n
+856 fundamental adj importance n
+857 fundamental adj principle n
+858 fundamental adj problem n
+859 fundamental adj question n
+860 fundamentally adv different adj
+861 further adj analysis n
+862 further adj consideration n
+863 further adj development n
+864 (be) further adv divided vpp (into)
+865 further adj evidence n
+866 further adj explanation n
+867 further adj information n
+868 further adj investigation n
+869 further adj research n
+870 further adj study n
+871 future adj development n
+872 future adj prospects n
+873 future adj research n
+874 future adj study n
+875 gain v access n (to)
+876 gain v information n
+877 gain v insight n (into)
+878 gather v data n
+879 gather v information n
+880 gender n equality n
+881 gender n stereotype n
+882 general adj agreement n
+883 general adj approach n
+Page 15 of 42
+# Addition Component I POS I Component II POS II Addition
+884 general adj argument n
+885 general adj aspect n
+886 general adj category n
+887 general adj conclusion n
+888 general adj consensus n
+889 general adj definition n
+890 general adj feature n
+891 general adj formula n
+892 general adj overview n
+893 general adj principle n
+894 general adj statement n
+895 general adj tendency n
+896 general adj theory n
+897 general adj trend n
+898 (be) generally adv accepted vpp
+899 generally adv agree v
+900 (be) generally adv assumed vpp
+901 (be) generally adv considered vpp
+902 (be) generally adv found vpp
+903 (be) generally adv known vpp (as, by)
+904 genetic adj variation n
+905 geographic(al) adj area n
+906 geographic(al) adj distribution n
+907 geographic(al) adj location n
+908 get v involved adj (with/in)
+909 give v access n (to)
+910 give v consent n
+911 give v consideration n
+912 give v emphasis n
+913 give v evidence n
+914 give v feedback n
+915 give v priority n (to)
+916 give v guidance n
+917 give v information n
+918 give v insight n (into)
+919 give (a) v presentation n
+920 give (an) v explanation n
+921 give (an) v indication n (of)
+922 give (an) v overview n (of)
+923 give (sb an) v impression n
+924 give (sb) v treatment n
+925 given adj information n
+926 given adj period n
+927 global adj capitalism n
+928 global adj context n
+929 global adj culture n
+930 global adj economy n
+931 global adj issue n
+932 global adj market n
+933 global adj marketplace n
+934 global adj media n
+935 global adj network n
+936 global adj perspective n
+937 global adj shift n
+938 global adj structure n
+939 global adj trade n
+940 global adj village n
+941 government n control n
+942 government n department n
+Page 16 of 42
+# Addition Component I POS I Component II POS II Addition
+943 government n expenditure n
+944 government n intervention n
+945 government n policy n
+946 graphical adj representation n
+947 great adj accuracy n
+948 great adj diversity n
+949 great adj impact n
+950 great adj majority n
+951 great adj potential n
+952 (a) great adj proportion n (of)
+953 (a) great adj range n (of)
+954 great adj significance n
+955 greater adj autonomy n
+956 greater adj awareness n
+957 greater adj emphasis n
+958 greater adj equality n
+959 greater adj flexibility n
+960 greater adj likelihood n
+961 greatly adv enhance v
+962 greatly adv increase v
+963 (be) greatly adv influenced vpp (by)
+964 (be) greatly adv reduced vpp
+965 grow v rapidly adv
+966 growing adj awareness n
+967 growing adj trend n
+968 guiding adj principle n
+969 hardly adv surprising adj
+970 have v access n (to)
+971 have v consequences n
+972 have v limitations n
+973 have v potential n
+974 have (a) v strategy n
+975 have (a) v tendency n (to)
+976 have (an) v obligation n
+977 heated adj debate n
+978 (be) heavily adv influenced vpp (by)
+979 hierarchical adj structure n
+980 high adj concentration n
+981 high adj correlation n
+982 high adj expectations n
+983 high adj incidence n
+984 high adj intensity n
+985 high adj level n
+986 high adj order n
+987 high adj percentage n
+988 high adj priority n
+989 high adj probability n
+990 high adj profile n
+991 (a) high adj proportion n (of)
+992 high adj quality n
+993 high adj rate n
+994 high adj score n
+995 high adj standard n
+996 high adj status n
+997 high adj turnover n
+998 high adj unemployment n
+999 high adj value n
+1000 high/er adj frequency n
+1001 (a) higher adj degree n (of)
+Page 17 of 42
+# Addition Component I POS I Component II POS II Addition
+1002 higher adj education n
+1003 (be) highly adv charged vpp
+1004 highly adv competitive adj
+1005 highly adv complex adj
+1006 highly adv controversial adj
+1007 (be) highly adv correlated vpp (with)
+1008 highly adv critical adj
+1009 highly adv dependent adj
+1010 highly adv desirable adj
+1011 (be) highly adv developed vpp
+1012 (be) highly adv educated vpp
+1013 highly adv effective adj
+1014 highly adv efficient adj
+1015 highly adv influential adj
+1016 highly adv likely adj
+1017 highly adv problematic adj
+1018 highly adv relevant adj
+1019 highly adv selective adj
+1020 highly adv sensitive adj
+1021 highly adv significant adj
+1022 highly adv skilled adj
+1023 highly adv sophisticated adj
+1024 (be) highly adv structured vpp
+1025 highly adv successful adj
+1026 highly adv unlikely adj
+1027 (be) highly adv valued vpp
+1028 highly adv variable adj
+1029 historical adj account n
+1030 historical adj analysis n
+1031 historical adj background n
+1032 historical adj change n
+1033 historical adj circumstances n
+1034 historical adj context n
+1035 historical adj data n
+1036 historical adj development n
+1037 historical adj event n
+1038 historical adj evidence n
+1039 historical adj factors n
+1040 historical adj interpretation n
+1041 historical adj knowledge n
+1042 historical adj period n
+1043 historical adj perspective n
+1044 historical adj reality n
+1045 historical adj record n
+1046 historical adj roots n
+1047 historical adj study n
+1048 historical adj writing n
+1049 historically adv specific adj
+1050 hold (a) v conference n
+1051 holistic adj approach n
+1052 homogeneous adj group n
+1053 (a) huge adj amount n (of)
+1054 human adj activity n
+1055 human adj behaviour n
+1056 human adj interaction n
+1057 human adj society n
+1058 human adj species n
+1059 (be) ideally adv suited vpp
+1060 identify v factors n
+Page 18 of 42
+# Addition Component I POS I Component II POS II Addition
+1061 identify v features n
+1062 identify (a) v problem n
+1063 identify (a) v way n
+1064 identify (an) v area n
+1065 identify (an) v issue n
+1066 immediate adj environment n
+1067 immediately adv apparent adj
+1068 immediately adv following adj
+1069 immediately adv obvious adj
+1070 immediately adv preceding adj
+1071 imported adj goods n
+1072 imported adj products n
+1073 impose v constraints n
+1074 impose v limitations n
+1075 impose v restrictions n
+1076 improved adj performance n
+1077 increase v awareness n
+1078 increase v dramatically adv
+1079 increase (the) v likelihood n
+1080 increased adj awareness n
+1081 increased adj competition n
+1082 increased adj demand n
+1083 increased adj importance n
+1084 increased adj interest n
+1085 increased adj level n
+1086 increased adj number n
+1087 increased adj pressure n
+1088 increased adj production n
+1089 increased adj productivity n
+1090 increased adj risk n
+1091 increasing adj awareness n
+1092 increasing adj complexity n
+1093 increasing adj demand n
+1094 increasing adj emphasis n
+1095 increasing adj importance n
+1096 increasing adj interest n
+1097 increasing adj pressure n
+1098 (a) increasing adj proportion n (of)
+1099 increasing adj tendency n
+1100 increasing adj trend n
+1101 increasingly adv aware adj
+1102 increasingly adv common adj
+1103 increasingly adv complex adj
+1104 increasingly adv difficult adj
+1105 increasingly adv important adj
+1106 increasingly adv popular adj
+1107 increasingly adv sophisticated adj
+1108 independent adj state n
+1109 independent adj variable n
+1110 indigenous adj people n
+1111 indigenous adj population n
+1112 individual adj behaviour n
+1113 individual adj case n
+1114 individual adj characteristics n
+1115 individual adj choice n
+1116 individual adj component n
+1117 individual adj differences n
+1118 individual adj element n
+1119 individual adj experience n
+Page 19 of 42
+# Addition Component I POS I Component II POS II Addition
+1120 individual adj interests n
+1121 individual adj item n
+1122 individual adj needs n
+1123 individual adj response n
+1124 individual adj responsibility n
+1125 individual adj rights n
+1126 individual adj variable n
+1127 individual adj variation n
+1128 industrial adj capitalism n
+1129 industrial adj country n
+1130 industrial adj development n
+1131 industrial adj production n
+1132 industrial adj society n
+1133 industrialized adj country n
+1134 industrialized adj nation n
+1135 (be) inextricably adv linked vpp (to, with)
+1136 infinite adj number n
+1137 information n flow n
+1138 information n gathering n
+1139 information n processing n
+1140 information n retrieval n
+1141 information n sharing n
+1142 informed adj consent n
+1143 initial adj period n
+1144 initial adj phase n
+1145 initial adj position n
+1146 initial adj research n
+1147 initial adj stage n
+1148 institutional adj arrangement n
+1149 institutional adj context n
+1150 institutional adj framework n
+1151 institutional adj structure n
+1152 institutional adj support n
+1153 integral adj part n
+1154 integrated adj approach n
+1155 integrated adj system n
+1156 intellectual adj property n
+1157 intellectual adj work n
+1158 intensive adj study n
+1159 interested adj party n
+1160 internal adj affairs n
+1161 internal adj conflict n
+1162 internal adj control n
+1163 internal adj market n
+1164 internal adj organ n
+1165 internal adj structure n
+1166 international adj agreement n
+1167 international adj body n
+1168 international adj community n
+1169 international adj conference n
+1170 international adj context n
+1171 international adj journal n
+1172 international adj organization n
+1173 international adj treaty n
+1174 internet n access n
+1175 interpersonal adj relationships n
+1176 interpersonal adj skills n
+1177 interpret v data n
+1178 intimate adj relationship n
+Page 20 of 42
+# Addition Component I POS I Component II POS II Addition
+1179 (be) intimately adv connected vpp (to, with)
+1180 intrinsic adj value n
+1181 introduce v legislation n
+1182 introductory adj chapter n
+1183 introductory adj section n
+1184 introductory adj text n
+1185 keenly adv aware adj
+1186 key adj area n
+1187 key adj aspect n
+1188 key adj characteristic n
+1189 key adj component n
+1190 key adj concept n
+1191 key adj element n
+1192 key adj factor n
+1193 key adj feature n
+1194 key adj findings n
+1195 key adj issue n
+1196 key adj objective n
+1197 key adj player n
+1198 key adj policy n
+1199 key adj principle n
+1200 key adj role n
+1201 key adj source n
+1202 key adj text n
+1203 key adj theme n
+1204 key adj topic n
+1205 large adj majority n
+1206 large adj percentage n
+1207 large adj portion n
+1208 (a) large adj proportion n (of)
+1209 large adj quantities n (of)
+1210 (a) large adj range n (of)
+1211 (be) largely adv based vpp (on)
+1212 (be) largely adv confined vpp (to)
+1213 (be) largely adv determined vpp (by)
+1214 (be) largely adv ignored vpp
+1215 (be) largely adv responsible adj (for)
+1216 later adj work n
+1217 later adj writings n
+1218 lead to (the) v conclusion n
+1219 leading adj role n
+1220 learning adj activity n
+1221 learning n difficulties n
+1222 learning n environment n
+1223 learning n objective n
+1224 learning n outcome n
+1225 learning n process n
+1226 learning n resources n
+1227 learning n strategy n
+1228 legal adj action n
+1229 legal adj basis n
+1230 legal adj framework n
+1231 legal adj issue n
+1232 legal adj obligation n
+1233 legal adj position n
+1234 legal adj proceedings n
+1235 legal adj protection n
+1236 legal adj requirement n
+1237 legal adj right n
+Page 21 of 42
+# Addition Component I POS I Component II POS II Addition
+1238 legal adj rule n
+1239 legal adj status n
+1240 legal adj system n
+1241 legislative adj measures n
+1242 legislative adj power n
+1243 liberal adj democracy n
+1244 lifelong adj learning n
+1245 likely adj impact n
+1246 likely adj outcome n
+1247 limited adj access n
+1248 limited adj capacity n
+1249 limited adj information n
+1250 limited adj opportunity n
+1251 (a) limited adj range n (of)
+1252 limited adj resources n
+1253 linear adj relationship n
+1254 literal adj interpretation n
+1255 literal adj meaning n
+1256 (in a) literal adj sense n
+1257 literary adj text n
+1258 literary adj tradition n
+1259 little adj evidence n
+1260 little adj impact n
+1261 little adj information n
+1262 little adj research n
+1263 little adj significance n
+1264 living adj conditions n
+1265 living adj organism n
+1266 living adj standard n
+1267 local adj area n
+1268 local adj authority n
+1269 local adj circumstances n
+1270 local adj community n
+1271 local adj culture n
+1272 local adj economy n
+1273 local adj government n
+1274 logical adj approach n
+1275 logical adj argument n
+1276 logical adj conclusion n
+1277 long adj duration n
+1278 long adv established adj
+1279 longitudinal adj study n
+1280 low adj income n
+1281 low adj intensity n
+1282 low adj level n
+1283 low adj percentage n
+1284 low adj priority n
+1285 low adj probability n
+1286 low adj profile n
+1287 low adj quality n
+1288 low adj status n
+1289 low adj turnover n
+1290 low adj unemployment n
+1291 low/er adj frequency n
+1292 lower adj class n
+1293 main adj area n
+1294 main adj argument n
+1295 main adj category n
+1296 main adj characteristics n
+Page 22 of 42
+# Addition Component I POS I Component II POS II Addition
+1297 main adj component n
+1298 main adj element n
+1299 main adj factor n
+1300 main adj feature n
+1301 main adj findings n
+1302 main adj focus n
+1303 main adj function n
+1304 main adj issue n
+1305 main adj principle n
+1306 main adj source n
+1307 main adj task n
+1308 main adj theme n
+1309 (be) mainly adv concerned vpp (with)
+1310 maintain v contact n
+1311 major adj advantage n
+1312 major adj area n
+1313 major adj cause n
+1314 major adj challenge n
+1315 major adj change n
+1316 major adj component n
+1317 major adj concern n
+1318 major adj contribution n
+1319 major adj decision n
+1320 major adj difference n
+1321 major adj factor n
+1322 major adj feature n
+1323 major adj focus n
+1324 major adj impact n
+1325 major adj implications n
+1326 major adj influence n
+1327 major adj issue n
+1328 major adj part n
+1329 major adj problem n
+1330 major adj reason n
+1331 major adj role n
+1332 major adj shift n
+1333 major adj source n
+1334 major adj theme n
+1335 make v adjustments n
+1336 make v arrangements n
+1337 make v available adj
+1338 make v aware adj
+1339 make v contact n
+1340 make (a) v contribution n
+1341 make v explicit adj
+1342 make v policy n
+1343 make v provision n
+1344 make v visible adj
+1345 make (a) v comment n
+1346 make (a) v distinction n
+1347 make (a) v living n
+1348 make (a) v prediction n
+1349 make (a) v recommendation n
+1350 make (a) v statement n
+1351 make (a) v transition n
+1352 make (an) v argument n
+1353 make (an) v assessment n
+1354 make (an) v assumption n
+1355 make (an) v impact n
+Page 23 of 42
+# Addition Component I POS I Component II POS II Addition
+1356 make (an) v impression n
+1357 make (an) v observation n
+1358 make(a) v judgement n
+1359 male adj dominance n
+1360 manual adj worker n
+1361 manufacturing adj sector n
+1362 marked adj contrast n
+1363 (be) markedly adv different adj
+1364 maximum adj duration n
+1365 mean adj score n
+1366 (in a) meaningful adj way n
+1367 media n coverage n
+1368 medical adj assistance n
+1369 medical adj treatment n
+1370 meet v criteria n
+1371 meet v expectations n
+1372 meet (a) v requirement n
+1373 meet (a) v target n
+1374 meet (an) v objective n
+1375 mental adj health n
+1376 mental adj illness n
+1377 mental adj state n
+1378 methodological adj approach n
+1379 methodological adj issue n
+1380 methodological adj problem n
+1381 metropolitan adj area n
+1382 middle adj income n
+1383 middle adj management n
+1384 migrant adj worker n
+1385 military adj action n
+1386 military adj force n
+1387 military adj power n
+1388 military adj service n
+1389 minimum adj level n
+1390 minimum adj requirement n
+1391 minimum adj standard n
+1392 minimum adj value n
+1393 minimum adj wage n
+1394 minor adj change n
+1395 minor adj role n
+1396 minority n group n
+1397 missing adj data n
+1398 modern adj culture n
+1399 modern adj method n
+1400 modern adj society n
+1401 modern adj technology n
+1402 modified adj form n
+1403 modified adj version n
+1404 moral adj dilemma n
+1405 moral adj philosophy n
+1406 moral adj principle n
+1407 multiple adj identities n
+1408 multiple adj sources n
+1409 municipal adj government n
+1410 mutual adj recognition n
+1411 mutual adj support n
+1412 mutual adj trust n
+1413 mutual adj understanding n
+1414 mutually adv exclusive adj
+Page 24 of 42
+# Addition Component I POS I Component II POS II Addition
+1415 narrow adj definition n
+1416 (a) narrow adj range n (of)
+1417 national adj average n
+1418 national adj boundary n
+1419 national adj conference n
+1420 national adj culture n
+1421 national adj economy n
+1422 national adj government n
+1423 national adj identity n
+1424 national adj income n
+1425 national adj institution n
+1426 national adj interest n
+1427 national adj language n
+1428 national adj legislation n
+1429 national adj market n
+1430 national adj media n
+1431 national adj movement n
+1432 national adj policy n
+1433 national adj press n
+1434 national adj security n
+1435 national adj survey n
+1436 native adj speaker n
+1437 natural adj conditions n
+1438 natural adj disaster n
+1439 natural adj environment n
+1440 natural adj history n
+1441 natural adj language n
+1442 natural adj law n
+1443 natural adj order n
+1444 natural adj philosophy n
+1445 natural adj process n
+1446 natural adj resources n
+1447 natural adj right n
+1448 natural adj science n
+1449 natural adj tendency n
+1450 natural adj world n
+1451 naturally adv occurring adj
+1452 necessary adj information n
+1453 negative adj aspect n
+1454 negative adj attitude n
+1455 negative adj connotation n
+1456 negative adj consequences n
+1457 negative adj correlation n
+1458 negative adj effect n
+1459 negative adj feedback n
+1460 negative adj impact n
+1461 negative adj outcome n
+1462 negative adj side n
+1463 negative adj stereotype n
+1464 negative adj value n
+1465 negative adj view n
+1466 (be) negatively adv correlated vpp (with)
+1467 new adj initiative n
+1468 new adj insight n
+1469 new adj perspective n
+1470 newly adv acquired vpp
+1471 newly adv created vpp
+1472 newly adv discovered vpp
+1473 newly adv emerging adj
+Page 25 of 42
+# Addition Component I POS I Component II POS II Addition
+1474 newly adv established adj
+1475 newly adv formed vpp
+1476 next adj decade n
+1477 next adj generation n
+1478 next adj phase n
+1479 normal adj conditions n
+1480 normal adj development n
+1481 normal adj distribution n
+1482 normal adj practice n
+1483 notable adj exception n
+1484 nuclear adj energy n
+1485 nuclear adj family n
+1486 nuclear adj power n
+1487 nuclear adj war n
+1488 nuclear adj weapon n
+1489 numerical adj data n
+1490 numerical adj value n
+1491 numerous adj studies n
+1492 objective adj criteria n
+1493 objective adj reality n
+1494 obtain v data n
+1495 obtain v information n
+1496 obtain (a) v result n
+1497 obvious adj difference n
+1498 obvious adj example n
+1499 obvious adj point n
+1500 obvious adj reason n
+1501 occur v frequently adv
+1502 occur v naturally adv
+1503 offer v insight n (into)
+1504 offer (an) v opportunity n
+1505 official adj statistics n
+1506 once adv established vpp
+1507 ongoing adj debate n
+1508 ongoing adj process n
+1509 online adj access n
+1510 online adj database n
+1511 online adj journal n
+1512 online adj version n
+1513 open adj access n
+1514 opening adj chapter n
+1515 opening adj section n
+1516 opinion n leader n
+1517 optimal adj solution n
+1518 oral adj history n
+1519 oral adj presentation n
+1520 organising adj principle n
+1521 organizational adj structure n
+1522 original adj author n
+1523 original adj context n
+1524 original adj data n
+1525 original adj intent n
+1526 original adj meaning n
+1527 original adj model n
+1528 original adj position n
+1529 original adj research n
+1530 original adj source n
+1531 original adj text n
+1532 original adj version n
+Page 26 of 42
+# Addition Component I POS I Component II POS II Addition
+1533 original adj work n
+1534 (be) originally adv developed vpp
+1535 (be) originally adv intended vpp
+1536 overall adj aim n
+1537 overall adj effect n
+1538 overall adj level n
+1539 overall adj performance n
+1540 overall adj picture n
+1541 overall adj rate n
+1542 overall adj structure n
+1543 overwhelming adj majority n
+1544 paid adj employment n
+1545 (be of) paramount adj importance n
+1546 particular adj area n
+1547 particular adj aspect n
+1548 particular adj emphasis n
+1549 particular adj feature n
+1550 particular adj focus n
+1551 particular adj individual n
+1552 particular adj meaning n
+1553 particularly adv acute adj
+1554 particularly adv apparent adj
+1555 particularly adv appropriate adj
+1556 (be) particularly adv concerned vpp (with)
+1557 particularly adv effective adj
+1558 (be) particularly adv evident adj
+1559 particularly adv influential adj
+1560 particularly adv relevant adj
+1561 particularly adv sensitive adj
+1562 particularly adv significant adj
+1563 particularly adv striking adj
+1564 particularly adv successful adj
+1565 (be) particularly adv suited vpp (to)
+1566 particularly adv useful adj
+1567 particularly adv valuable adj
+1568 (be) partly adv responsible adj (for)
+1569 party n leader n
+1570 past adj research n
+1571 peace n treaty n
+1572 perceived adj importance n
+1573 perceived adj need n
+1574 perceived adj threat n
+1575 perform (a) v function n
+1576 perform (a) v study n
+1577 perform (a) v task n
+1578 personal adj choice n
+1579 personal adj circumstances n
+1580 personal adj communication n
+1581 personal adj contact n
+1582 personal adj control n
+1583 personal adj experience n
+1584 personal adj information n
+1585 personal adj interest n
+1586 personal adj knowledge n
+1587 personal adj quality n
+1588 personal adj relationship n
+1589 personal adj responsibility n
+1590 personal adj safety n
+1591 personal adj space n
+Page 27 of 42
+# Addition Component I POS I Component II POS II Addition
+1592 physical adj activity n
+1593 physical adj appearance n
+1594 physical adj characteristics n
+1595 physical adj contact n
+1596 physical adj development n
+1597 physical adj environment n
+1598 physical adj features n
+1599 physical adj health n
+1600 physical adj needs n
+1601 physical adj presence n
+1602 physical adj properties n
+1603 physical adj proximity n
+1604 physical adj science n
+1605 physical adj space n
+1606 physical adj symptom n
+1607 physical adj world n
+1608 pilot n study n
+1609 pioneering adj work n
+1610 pivotal adj role n
+1611 place v emphasis n
+1612 planning n stage n
+1613 plausible adj explanation n
+1614 play (a) v role n (in)
+1615 political adj activism n
+1616 political adj activity n
+1617 political adj agenda n
+1618 political adj arena n
+1619 political adj authority n
+1620 political adj circumstances n
+1621 political adj climate n
+1622 political adj conflict n
+1623 political adj consciousness n
+1624 political adj consensus n
+1625 political adj consequences n
+1626 political adj consideration n
+1627 political adj context n
+1628 political adj culture n
+1629 political adj debate n
+1630 political adj dimension n
+1631 political adj economy n
+1632 political adj environment n
+1633 political adj factors n
+1634 political adj identity n
+1635 political adj ideology n
+1636 political adj implications n
+1637 political adj instability n
+1638 political adj institution n
+1639 political adj leader n
+1640 political adj mobilization n
+1641 political adj movement n
+1642 political adj organization n
+1643 political adj participation n
+1644 political adj party n
+1645 political adj philosophy n
+1646 political adj reality n
+1647 political adj reform n
+1648 political adj representation n
+1649 political adj significance n
+1650 political adj spectrum n
+Page 28 of 42
+# Addition Component I POS I Component II POS II Addition
+1651 political adj stability n
+1652 political adj status n
+1653 political adj structure n
+1654 politically adv correct adj
+1655 (be) politically adv motivated vpp
+1656 (be) poorly adv understood vpp
+1657 popular adj culture n
+1658 popular adj media n
+1659 pose (a) v challenge n
+1660 pose (a) v problem n
+1661 pose (a) v question n
+1662 pose (a) v threat n (to)
+1663 positive adj action n
+1664 positive adj aspect n
+1665 positive adj attitude n
+1666 positive adj connotation n
+1667 positive adj correlation n
+1668 positive adj discrimination n
+1669 positive adj effect n
+1670 positive adj feature n
+1671 positive adj feedback n
+1672 positive adj image n
+1673 positive adj impact n
+1674 positive adj influence n
+1675 positive adj outcome n
+1676 positive adj relationship n
+1677 positive adj result n
+1678 positive adj value n
+1679 positive adj view n
+1680 (be) positively adv associated vpp (with)
+1681 (be) positively adv correlated vpp (with)
+1682 possible adj consequences n
+1683 possible adj explanation n
+1684 possible adj outcome n
+1685 possible adj source n
+1686 potential adj benefits n
+1687 potential adj conflict n
+1688 potential adj customer n
+1689 potential adj harm n
+1690 potential adj impact n
+1691 potential adj problem n
+1692 potential adj risk n
+1693 potential adj source n
+1694 potential adj value n
+1695 potentially adv dangerous adj
+1696 powerful adj force n
+1697 powerful adj group n
+1698 powerful adj influence n
+1699 powerful adj tool n
+1700 practical adj consideration n
+1701 practical adj difficulties n
+1702 practical adj issue n
+1703 practical adj significance n
+1704 preceding adj chapter n
+1705 preceding adj discussion n
+1706 preceding adj section n
+1707 precise adj definition n
+1708 precise adj nature n
+1709 predictive adj power n
+Page 29 of 42
+# Addition Component I POS I Component II POS II Addition
+1710 preferential adj treatment n
+1711 preliminary adj data n
+1712 preliminary adj findings n
+1713 preliminary adj result n
+1714 premature adj death n
+1715 present adj context n
+1716 present v data n
+1717 present v difficulties n
+1718 present v evidence n
+1719 present (a) v challenge n
+1720 present (a) v summary n
+1721 present (an) v argument n
+1722 presidential adj election n
+1723 previous adj chapter n
+1724 previous adj decade n
+1725 previous adj discussion n
+1726 previous adj experience n
+1727 previous adj generation n
+1728 previous adj knowledge n
+1729 previous adj paragraph n
+1730 previous adj part n
+1731 previous adj research n
+1732 previous adj section n
+1733 previous adj study n
+1734 previous adj work n
+1735 previously adv described vpp
+1736 previously adv discussed vpp
+1737 previously adv known vpp
+1738 previously adv mentioned vpp
+1739 previously adv thought vpp
+1740 (be) primarily adv concerned vpp (with)
+1741 (be) primarily adv responsible adj (for)
+1742 primary adj aim n
+1743 primary adj care n
+1744 primary adj concern n
+1745 primary adj data n
+1746 primary adj education n
+1747 primary adj focus n
+1748 primary adj function n
+1749 primary adj objective n
+1750 primary adj purpose n
+1751 primary adj reason n
+1752 primary adj research n
+1753 primary adj responsibility n
+1754 primary adj source n
+1755 primary adj task n
+1756 prime adj example n
+1757 prime adj time n
+1758 principal adj source n
+1759 prior adj experience n
+1760 prior adj knowledge n
+1761 private adj individual n
+1762 private adj investment n
+1763 private adj sector n
+1764 private adj sphere n
+1765 privileged adj position n
+1766 problem n area n
+1767 process v data n
+1768 process v information n
+Page 30 of 42
+# Addition Component I POS I Component II POS II Addition
+1769 professional adj activity n
+1770 professional adj body n
+1771 professional adj colleague n
+1772 professional adj development n
+1773 professional adj experience n
+1774 professional adj knowledge n
+1775 professional adj practice n
+1776 professional adj qualification n
+1777 professional adj staff n
+1778 professional adj standard n
+1779 professional adj status n
+1780 professional adj support n
+1781 professional adj training n
+1782 professional adj work n
+1783 profound adj effect n
+1784 profound adj impact n
+1785 prominent adj feature n
+1786 prominent adj member n
+1787 prominent adj role n
+1788 promote v equality n
+1789 promote (the) v development n (of)
+1790 (be) properly adv understood vpp
+1791 proposed adj legislation n
+1792 prove v successful adj
+1793 prove v useful adj
+1794 provide v access n (to)
+1795 provide v assistance n
+1796 provide v care n
+1797 provide v context n
+1798 provide v coverage n
+1799 provide v data n
+1800 provide v evidence n
+1801 provide v feedback n
+1802 provide v guidance n
+1803 provide v information n
+1804 provide v material n
+1805 provide v resources n
+1806 provide v support n
+1807 provide v feedback n
+1808 provide v insight n (into)
+1809 provide (a) v benefit n
+1810 provide (a) v clue n
+1811 provide (a) v focus n
+1812 provide (a) v foundation n (for)
+1813 provide (a) v service n
+1814 provide (a) v source n
+1815 provide (a) v summary n
+1816 provide (an) v alternative n
+1817 provide (an) v example n
+1818 provide (an) v explanation n
+1819 provide (an) v illustration n
+1820 provide (an) v indication n (of)
+1821 provide (an) v opportunity n
+1822 provide (an) v overview n (of)
+1823 public adj access n
+1824 public adj administration n
+1825 public adj attitudes n
+1826 public adj authority n
+1827 public adj awareness n
+Page 31 of 42
+# Addition Component I POS I Component II POS II Addition
+1828 public adj debate n
+1829 public adj discourse n
+1830 public adj display n
+1831 public adj domain n
+1832 public adj expenditure n
+1833 public adj funds n
+1834 public adj image n
+1835 public adj institution n
+1836 public adj perception n
+1837 public adj policy n
+1838 public adj sector n
+1839 public adj sphere n
+1840 public adj transport n
+1841 public adj welfare n
+1842 publicly adv available adj
+1843 publish v research n
+1844 publish (a) v journal n
+1845 publish (a) v report n
+1846 publish (an) v article n
+1847 published adj literature n
+1848 published adj material n
+1849 published adj research n
+1850 published adj work n
+1851 purchasing adj power n
+1852 qualitative adj analysis n
+1853 qualitative adj approach n
+1854 qualitative adj data n
+1855 qualitative adj method n
+1856 qualitative adj research n
+1857 qualitative adj study n
+1858 qualitatively adv different adj
+1859 quantitative adj analysis n
+1860 quantitative adj approach n
+1861 quantitative adj data n
+1862 quantitative adj method n
+1863 quantitative adj research n
+1864 quantitative adj result n
+1865 quantitative adj study n
+1866 racial adj differences n
+1867 racial adj discrimination n
+1868 racial adj equality n
+1869 racial adj group n
+1870 racial adj stereotype n
+1871 radical adj change n
+1872 radical adj critique n
+1873 radical adj differences n
+1874 radical adj transformation n
+1875 radically adv different adj
+1876 raise v awareness n
+1877 raise (a) v question n
+1878 raise (an) v issue n
+1879 random adj error n
+1880 random adj sample n
+1881 random adj variable n
+1882 (be) randomly adv assigned vpp (to)
+1883 (be) randomly adv chosen vpp
+1884 (be) randomly adv selected vpp
+1885 rapid adj expansion n
+1886 rapidly adv changing adj
+Page 32 of 42
+# Addition Component I POS I Component II POS II Addition
+1887 rapidly adv growing adj
+1888 raw adj data n
+1889 reach (a) v consensus n
+1890 reach (a) v peak n
+1891 reach (an) v agreement n
+1892 readily adv accessible adj
+1893 readily adv available adj
+1894 (be) readily adv understood vpp
+1895 ready adj access n
+1896 real adj issue n
+1897 receive v feedback n
+1898 receive v information n
+1899 receive v treatment n
+1900 recent adj decades n
+1901 recent adj evidence n
+1902 recent adj research n
+1903 recent adj study n
+1904 recent adj survey n
+1905 reciprocal adj relationship n
+1906 record v data n
+1907 recurrent adj theme n
+1908 reduce v emissions n
+1909 reduce v stress n
+1910 reduce (the) v likelihood n
+1911 reflective adj practice n
+1912 reflective adj question n
+1913 regional adj development n
+1914 regional adj differences n
+1915 regional adj variation n
+1916 regulatory adj agency n
+1917 regulatory adj framework n
+1918 related adj activity n
+1919 related adj area n
+1920 related adj aspect n
+1921 related adj factor n
+1922 related adj information n
+1923 related adj issue n
+1924 related adj problem n
+1925 related adj question n
+1926 related adj topic n
+1927 relative adj autonomy n
+1928 relative adj merits n
+1929 relative adj status n
+1930 relatively adv common adj
+1931 relatively adv constant adj
+1932 relatively adv few adj
+1933 relatively adv high adj
+1934 relatively adv little adj
+1935 relatively adv low adj
+1936 relatively adv minor adj
+1937 relatively adv rare adj
+1938 relatively adv recent adj
+1939 relatively adv simple adj
+1940 relatively adv stable adj
+1941 relatively adv straightforward adj
+1942 relevant adj data n
+1943 relevant adj factors n
+1944 relevant adj information n
+1945 relevant adj issue n
+Page 33 of 42
+# Addition Component I POS I Component II POS II Addition
+1946 relevant adj literature n
+1947 relevant adj material n
+1948 reliable adj data n
+1949 reliable adj information n
+1950 religious adj belief n
+1951 religious adj faith n
+1952 religious adj freedom n
+1953 religious adj group n
+1954 religious adj identity n
+1955 religious adj movement n
+1956 religious adj practice n
+1957 rely v heavily adv (on)
+1958 remain v constant adj
+1959 remain v stable adj
+1960 remain v unchanged adj
+1961 remain v unclear adj
+1962 remarkably adv similar adj
+1963 renewable adj energy n
+1964 renewed adj interest n
+1965 report v data n
+1966 report v findings n
+1967 representative adj government n
+1968 require v consideration n
+1969 require v knowledge n
+1970 require v resources n
+1971 research n effort n
+1972 research n evidence n
+1973 research n findings n
+1974 research n methodology n
+1975 (for) research n purposes n
+1976 research n topic n
+1977 resolve (a) v conflict n
+1978 resolve (a) v dispute n
+1979 respond v appropriately adv
+1980 review (a) v study n
+1981 revised adj edition n
+1982 revised adj version n
+1983 rich adj source n
+1984 rising adj cost n
+1985 risk n assessment n
+1986 roughly adv equal adj
+1987 roughly adj equivalent n
+1988 ruling adj class n
+1989 ruling adj party n
+1990 rural adj area n
+1991 rural adj community n
+1992 rural adj economy n
+1993 rural adj population n
+1994 rural adj society n
+1995 safe adj sex n
+1996 salient adj characteristic n
+1997 salient adj feature n
+1998 scarce adj resources n
+1999 schematic adj representation n
+2000 scholarly adj journal n
+2001 scholarly adj literature n
+2002 scholarly adj research n
+2003 scholarly adj work n
+2004 scientific adj community n
+Page 34 of 42
+# Addition Component I POS I Component II POS II Addition
+2005 scientific adj discourse n
+2006 scientific adj evidence n
+2007 scientific adj investigation n
+2008 scientific adj method n
+2009 scientific adj objectivity n
+2010 scientific adj research n
+2011 scientific adj theory n
+2012 secondary adj data n
+2013 secondary adj education n
+2014 secondary adj source n
+2015 security n policy n
+2016 seek v help n
+2017 seek v information n
+2018 seem v appropriate adj
+2019 seem v obvious adj
+2020 seem v plausible adj
+2021 seem v unlikely adj
+2022 seminal adj study n
+2023 seminal adj work n
+2024 senior adj management n
+2025 separate adj entity n
+2026 serious adj challenge n
+2027 serious adj consequences n
+2028 serious adj offence n
+2029 serve (a) v function n
+2030 service n sector n
+2031 set (a) v goal n
+2032 set (a) v target n
+2033 set (an) v objective n
+2034 set (the) v agenda n
+2035 set (the) v parameters n
+2036 severely adv affect v
+2037 sexual adj abuse n
+2038 sexual adj act n
+2039 sexual adj behaviour n
+2040 sexual adj contact n
+2041 sexual adj difference n
+2042 sexual adj exploitation n
+2043 sexual adj identity n
+2044 sexual adj intercourse n
+2045 sexual adj orientation n
+2046 sexual adj violence n
+2047 share v information n
+2048 shared adj experience n
+2049 shared adj meaning n
+2050 shared adj values n
+2051 sharp adj contrast n
+2052 sharp adj distinction n
+2053 shift v emphasis n
+2054 short adj duration n
+2055 short adj period n
+2056 show v evidence n
+2057 show v variation n
+2058 show (a) v tendency n
+2059 show (a) v trend n
+2060 sign (a) v treaty n
+2061 (a) significant adj amount n (of)
+2062 significant adj change n
+2063 significant adj contribution n
+Page 35 of 42
+# Addition Component I POS I Component II POS II Addition
+2064 significant adj correlation n
+2065 significant adj correlation n
+2066 (a) significant adj degree n (of)
+2067 significant adj development n
+2068 significant adj difference n
+2069 significant adj effect n
+2070 significant adj factor n
+2071 significant adj feature n
+2072 significant adj figures n
+2073 significant adj growth n
+2074 significant adj impact n
+2075 significant adj improvement n
+2076 significant adj increase n
+2077 significant adj influence n
+2078 significant adj interaction n
+2079 significant adj number n
+2080 significant adj part n
+2081 significant adj portion n
+2082 (a) significant adj proportion n (of)
+2083 significant adj reduction n
+2084 significant adj relationship n
+2085 significant adj role n
+2086 significant adj shift n
+2087 significant adj variation n
+2088 significantly adv affect v
+2089 (be) significantly adv correlated vpp (with)
+2090 significantly adv higher adj
+2091 significantly adv increase v
+2092 (be) significantly adv reduced vpp
+2093 similar adj approach n
+2094 similar adj argument n
+2095 similar adj characteristics n
+2096 similar adj effect n
+2097 similar adj issue n
+2098 similar adj pattern n
+2099 similar adj properties n
+2100 similar adj result n
+2101 similar adj situation n
+2102 simple adj majority n
+2103 simplified adj version n
+2104 single adj currency n
+2105 single adj element n
+2106 single adj entity n
+2107 single adj individual n
+2108 single adj issue n
+2109 single adj source n
+2110 single adj variable n
+2111 skilled adj worker n
+2112 slightly adv different adj
+2113 slightly adv higher adj
+2114 slow adj process n
+2115 small adj fraction n
+2116 small adj minority n
+2117 small adj percentage n
+2118 small adj portion n
+2119 (a) small adj proportion n (of)
+2120 small adj quantities n (of)
+2121 social adj activity n
+2122 social adj aspect n
+Page 36 of 42
+# Addition Component I POS I Component II POS II Addition
+2123 social adj attitudes n
+2124 social adj background n
+2125 social adj behaviour n
+2126 social adj circumstances n
+2127 social adj conflict n
+2128 social adj consequences n
+2129 social adj construct n
+2130 social adj contact n
+2131 social adj context n
+2132 social adj democracy n
+2133 social adj dimension n
+2134 social adj environment n
+2135 social adj equality n
+2136 social adj exclusion n
+2137 social adj expectations n
+2138 social adj factors n
+2139 social adj function n
+2140 social adj identity n
+2141 social adj implications n
+2142 social adj inequality n
+2143 social adj institution n
+2144 social adj integration n
+2145 social adj interaction n
+2146 social adj isolation n
+2147 social adj mobility n
+2148 social adj movement n
+2149 social adj norm n
+2150 social adj organization n
+2151 social adj phenomenon n
+2152 social adj policy n
+2153 social adj reform n
+2154 social adj relationship n
+2155 social adj responsibility n
+2156 social adj setting n
+2157 social adj significance n
+2158 social adj status n
+2159 social adj structure n
+2160 social adj theory n
+2161 social adj transformation n
+2162 social adj trend n
+2163 social adj welfare n
+2164 socially adv acceptable adj
+2165 (be) socially adv constructed vpp
+2166 socially adv desirable adj
+2167 socially adv responsible adj
+2168 socioeconomic adj status n
+2169 solar adj energy n
+2170 solar adj panel n
+2171 solar adj power n
+2172 solar adj system n
+2173 source n material n
+2174 sovereign adj state n
+2175 (be) sparsely adv populated vpp
+2176 special adj circumstances n
+2177 special adj emphasis n
+2178 special adj issue n
+2179 special adj relationship n
+2180 special adj status n
+2181 specific adj area n
+Page 37 of 42
+# Addition Component I POS I Component II POS II Addition
+2182 specific adj aspect n
+2183 specific adj case n
+2184 specific adj characteristic n
+2185 specific adj context n
+2186 specific adj example n
+2187 specific adj factor n
+2188 specific adj feature n
+2189 specific adj focus n
+2190 specific adj form n
+2191 specific adj function n
+2192 specific adj information n
+2193 specific adj issue n
+2194 specific adj knowledge n
+2195 specific adj meaning n
+2196 specific adj needs n
+2197 specific adj problem n
+2198 specific adj purpose n
+2199 specific adj question n
+2200 specific adj reference n
+2201 specific adj sense n
+2202 specific adj type n
+2203 (be) specifically adv designed vpp (to, for)
+2204 standard adj approach n
+2205 standard adj error n
+2206 standard adj format n
+2207 standard adj method n
+2208 stark adj contrast n
+2209 start (a) v process n
+2210 state v explicitly adv
+2211 state n sector n
+2212 statistical adj analysis n
+2213 statistical adj data n
+2214 statistical adj information n
+2215 statistical adj method n
+2216 statistical adj significance n
+2217 statistical adj technique n
+2218 statistical adj test n
+2219 statistically adv significant adj
+2220 store v data n
+2221 store v information n
+2222 strategic adj decision n
+2223 strategic adj importance n
+2224 strategic adj management n
+2225 strategic adj objective n
+2226 strategic adj planning n
+2227 stress n level n
+2228 striking adj contrast n
+2229 striking adj example n
+2230 striking adj feature n
+2231 strong adj bond n
+2232 strong adj correlation n
+2233 strong adj emphasis n
+2234 strong adj evidence n
+2235 strong adj link n
+2236 strong adj reaction n
+2237 strong adj relationship n
+2238 strong adj tendency n
+2239 strongly adv agree v
+2240 (be) strongly adv associated vpp (with)
+Page 38 of 42
+# Addition Component I POS I Component II POS II Addition
+2241 (be) strongly adv correlated vpp (with)
+2242 strongly adv disagree v
+2243 (be) strongly adv influenced vpp (by)
+2244 (be) strongly adv linked vpp
+2245 (be) strongly adv opposed vpp
+2246 (be) strongly adv related vpp (to)
+2247 strongly adv suggest v
+2248 structural adj adjustment n
+2249 structural adj change n
+2250 structural adj element n
+2251 structural adj feature n
+2252 structural adj properties n
+2253 subject adj area n
+2254 subsequent adj analysis n
+2255 subsequent adj chapter n
+2256 subsequent adj development n
+2257 subsequent adj study n
+2258 subsequent adj work n
+2259 (a) substantial adj amount n (of)
+2260 substantial adj difference n
+2261 substantial adj evidence n
+2262 substantial adj number n
+2263 substantial adj part n
+2264 substantially adv different adj
+2265 successful adj implementation n
+2266 sufficient adj condition n
+2267 sufficient adj detail n
+2268 sufficient adj evidence n
+2269 sufficient adj information n
+2270 sufficient adj resources n
+2271 superior adj performance n
+2272 support (an) v argument n
+2273 supporting adj evidence n
+2274 survey n data n
+2275 symbiotic adj relationship n
+2276 systematic adj analysis n
+2277 systematic adj approach n
+2278 systematic adj study n
+2279 tacit adj knowledge n
+2280 take v initiative n
+2281 take v precedence n (over)
+2282 take v responsibility n
+2283 take (a) v role n (in)
+2284 take (an) v approach n
+2285 take into v consideration n
+2286 take on (the) role v role n (of, as)
+2287 take up (the) v role n (of, as)
+2288 target n audience n
+2289 teaching n strategy n
+2290 technical adj aspect n
+2291 technical adj assistance n
+2292 technical adj detail n
+2293 technical adj expertise n
+2294 technical adj issue n
+2295 technical adj knowledge n
+2296 technical adj problem n
+2297 technical adj skill n
+2298 technical adj support n
+2299 technical adj term n
+Page 39 of 42
+# Addition Component I POS I Component II POS II Addition
+2300 technological adj advances n
+2301 technological adj change n
+2302 technological adj development n
+2303 technological adj innovation n
+2304 technological adj progress n
+2305 test n score n
+2306 test (a) v theory n
+2307 textual adj analysis n
+2308 thematic adj analysis n
+2309 theoretical adj analysis n
+2310 theoretical adj approach n
+2311 theoretical adj basis n
+2312 theoretical adj concept n
+2313 theoretical adj debate n
+2314 theoretical adj framework n
+2315 theoretical adj issue n
+2316 theoretical adj model n
+2317 theoretical adj perspective n
+2318 theoretical adj study n
+2319 theoretical adj understanding n
+2320 theoretical adj work n
+2321 think v differently adv
+2322 thinking n process n
+2323 third adj party n
+2324 thought n process n
+2325 (be) tightly adv controlled vpp
+2326 top adj management n
+2327 total adj income n
+2328 totally adv different adj
+2329 traditional adj approach n
+2330 traditional adj culture n
+2331 traditional adj form n
+2332 traditional adj method n
+2333 traditional adj practice n
+2334 traditional adj research n
+2335 traditional adj society n
+2336 traditional adj value n
+2337 traditional adj view n
+2338 transferable adj skill n
+2339 transmit v data n
+2340 transmit v information n
+2341 transport n system n
+2342 treat v differently adv
+2343 treat v equally adv
+2344 typical adj example n
+2345 ultimate adj goal n
+2346 undergo adj transformation n
+2347 underlying adj assumption n
+2348 underlying adj cause n
+2349 underlying adj principle n
+2350 underlying adj process n
+2351 underlying adj reason n
+2352 underlying adj structure n
+2353 undertake v research n
+2354 undertake v work n
+2355 undertake (an) v activity n
+2356 unequal adj power n
+2357 unfair adj treatment n
+2358 unintended adj consequences n
+Page 40 of 42
+# Addition Component I POS I Component II POS II Addition
+2359 unique adj individual n
+2360 unique adj opportunity n
+2361 unique adj position n
+2362 (be) universally adv accepted vpp
+2363 unlimited adj access n
+2364 unskilled adj worker n
+2365 urban adj area n
+2366 urban adj centre n
+2367 urban adj design n
+2368 urban adj development n
+2369 urban adj environment n
+2370 use v criteria n
+2371 use v effectively adv
+2372 use v resources n
+2373 use v sparingly adv
+2374 use v statistics n
+2375 use (a) v format n
+2376 use (a) v method n
+2377 use (a) v methodology n
+2378 use (a) v procedure n
+2379 use (a) v source n
+2380 use (a) v strategy n
+2381 use (a) v technique n
+2382 use (a) v theory n
+2383 use (an) v approach n
+2384 use (the) v analysis n
+2385 use (the) v definition n
+2386 use (the) concept v concept n
+2387 use (the) data v data n
+2388 useful adj information n
+2389 useful adj material n
+2390 useful adj means n
+2391 useful adj source n
+2392 useful adj summary n
+2393 useful adj tool n
+2394 valid adj argument n
+2395 valuable adj information n
+2396 valuable adj resources n
+2397 various adj aspects n
+2398 vary v considerably adv
+2399 vary v greatly adv
+2400 vary v significantly adv
+2401 vary v widely adv
+2402 varying adj degree n
+2403 (a) vast adj amount n (of)
+2404 vast adj area n
+2405 (a) vast adj array n (of)
+2406 vast adj majority n
+2407 vast adj number n
+2408 vast adj quantities n (of)
+2409 (a) vast adj range n (of)
+2410 verbal adj communication n
+2411 verbal adj language n
+2412 vested adj interest n
+2413 virtual adj community n
+2414 virtually adv impossible adj
+2415 visual adj image n
+2416 visual adj media n
+2417 visual adj perception n
+Page 41 of 42
+# Addition Component I POS I Component II POS II Addition
+2418 visual adj representation n
+2419 (be of) vital adj importance n
+2420 vital adj part n
+2421 vital adj role n
+2422 vulnerable adj group n
+2423 welfare n reform n
+2424 well adv aware adj
+2425 well adv designed vpp
+2426 (be) well adv documented vpp
+2427 well adv educated vpp
+2428 (be) well adv established vpp
+2429 well adv received vpp
+2430 western adj democracy n
+2431 western adj society n
+2432 western adj tradition n
+2433 whole adj area n
+2434 whole adj period n
+2435 (a) whole adj range n (of)
+2436 wide adj area n
+2437 (a) wide adj array n (of)
+2438 (a) wide adj range n (of)
+2439 wide adj variation n
+2440 (be) widely adv accepted vpp
+2441 (be) widely adv adopted vpp
+2442 widely adv available adj
+2443 (be) widely adv believed vpp
+2444 widely adv different adj
+2445 (be) widely adv discussed vpp
+2446 (be) widely adv dispersed vpp
+2447 (be) widely adv distributed vpp
+2448 (be) widely adv known vpp
+2449 widely adv read vpp
+2450 (be) widely adv recognized vpp
+2451 (be) widely adv regarded vpp (as)
+2452 widely adv shared vpp
+2453 (be) widely adv used vpp
+2454 wider adj audience n
+2455 wider adj community n
+2456 wider adj context n
+2457 wider adj implications n
+2458 wider adj issue n
+2459 wider adj public n
+2460 wider adj society n
+2461 widespread adj acceptance n
+2462 widespread adj belief n
+2463 widespread adj support n
+2464 widespread adj use n
+2465 work v effectively adv
+2466 written adj comment n
+2467 written adj communication n
+2468 written adj statement n
+2469 younger adj generation n
+Page 42 of 42

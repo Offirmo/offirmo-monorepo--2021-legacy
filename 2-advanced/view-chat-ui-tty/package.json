@@ -11,7 +11,7 @@
 		"gauge": "^2.7.4",
 		"indent-string": "^3.2.0",
 		"linewrap": "^0.2.1",
-		"ora": "^1.3.0",
+		"ora": "^2.1.0",
 		"p-finally": "^1.0.0",
 		"p-progress": "^0.1.1",
 		"prettyjson": "^1.2.1",

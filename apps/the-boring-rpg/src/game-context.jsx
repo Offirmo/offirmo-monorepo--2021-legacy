@@ -8,7 +8,7 @@ import SEC from './services/sec'
 const CHANNEL = window.location.hostname === 'www.online-adventur.es'
 	? 'stable'
 	: window.location.hostname === 'offirmo.netlify.com'
-		? 'beta'
+		? 'staging'
 		: 'dev'
 
 let game_instance = null

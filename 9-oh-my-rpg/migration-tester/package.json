@@ -16,7 +16,7 @@
 	"dependencies": {
 		"@offirmo/timestamps": "^0.0.1",
 		"jsondiffpatch": "^0.3.10",
-		"load-json-file": "^4.0.0",
+		"load-json-file": "^5.0.0",
 		"lodash": "^4.17.4",
 		"prettyjson": "^1.2.1",
 		"write-json-file": "^2.3.0"

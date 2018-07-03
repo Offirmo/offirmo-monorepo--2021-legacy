@@ -16,6 +16,14 @@ http://www.vertabelo.com/blog/technical-articles/a-song-of-ice-and-databases-a-g
 
 Ideas:
 * https://www.reddit.com/r/incremental_games/search?q=flair%3A%27MDMonday%27&restrict_sr=on&sort=new&t=all
+* https://www.youtube.com/watch?v=1qj2rwIVW-A Top 10 Mysterious Things Found Frozen In Ice Antarctica
+* https://www.youtube.com/watch?v=UwVNkfCov1k This Incredible Animation Shows How Deep The Ocean Really Is
+* https://www.youtube.com/watch?v=tzhWVzyo4kI Incredible Animation Shows How Deep Humans Have Dug
+* https://www.youtube.com/watch?v=BibBMBibTq0 What Humans Will Look Like In 1,000 Years 
+* https://www.youtube.com/watch?v=43NvZw-nggc 15 Terrifying Prehistoric Creatures That Actually Existed
+* https://www.youtube.com/watch?v=gUmNROSYGjQ 10 Places Science Can't Explain
+
+ancient meteorite
 
 
 ## Misc / TOSORT

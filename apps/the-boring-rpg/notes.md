@@ -27,7 +27,7 @@ chat tlk.io
 		"fr-dialogmodal": "^1.0.4",
 		"fr-offcanvas": "^1.0.4",
 		"fr-tooltip": "^1.0.3",
-		"latest-version": "^3.1.0",
+		"latest-version": "^4.0.0",
 		"mobile-detect": "^1.4.1",
 		"prettyjson": "^1.2.1",
 		"semver": "^5.4.1",
