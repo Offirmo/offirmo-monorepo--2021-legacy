@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { BrowserRouter as Router, Redirect, Route, Switch, NavLink } from 'react-router-dom'
 
 import {BASE_ROUTE, ROUTES} from '../../services/routes'
+import {CHANNEL} from '../../services/channel'
 
 import Game from '../omr-root'
 import DevArea from '../dev-area'
@@ -10,6 +11,7 @@ export default class Root extends Component {
 	render() {
 		return (
 			<Fragment>
+
 				<Router basename={BASE_ROUTE}>
 					<Switch>
 						<Route exact path={ROUTES.home} render={() => <Game />} />
@@ -18,7 +20,10 @@ export default class Root extends Component {
 						<Redirect to={ROUTES.home} />
 					</Switch>
 				</Router>
-				<DevArea />
+
+				<DevArea
+					channel={CHANNEL}/>
+
 			</Fragment>
 		)
 	}

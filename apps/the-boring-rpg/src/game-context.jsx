@@ -3,13 +3,8 @@ import React from 'react'
 import { create_game_instance } from '@oh-my-rpg/state-the-boring-rpg'
 
 import { LS_KEYS } from './services/consts'
+import { CHANNEL } from './services/channel'
 import SEC from './services/sec'
-
-const CHANNEL = window.location.hostname === 'www.online-adventur.es'
-	? 'stable'
-	: window.location.hostname === 'offirmo.netlify.com'
-		? 'staging'
-		: 'dev'
 
 let game_instance = null
 
