@@ -13,8 +13,8 @@
 		"@offirmo/common-error-fields": "^0.0.1"
 	},
 	"devDependencies": {
-		"npm-run-all": "^4.1.2",
-		"tslib": "^1.8.1"
+		"npm-run-all": "^4",
+		"tslib": "^1"
 	},
 	"scripts": {
 		"clean": "node ../../scripts/clean.js dist",

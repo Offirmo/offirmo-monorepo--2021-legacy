@@ -8,14 +8,14 @@
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "UNLICENSED",
 	"dependencies": {
-		"@offirmo/random": "^2.0.4",
-		"deep-freeze-strict": "^1.1.1"
+		"@offirmo/random": "^2",
+		"deep-freeze-strict": "^1"
 	},
 	"devDependencies": {
 		"@oh-my-rpg/migration-tester": "^0.0.1",
-		"@types/lodash": "^4.14.92",
-		"npm-run-all": "^4.1.2",
-		"tslib": "^1.8.1"
+		"@types/lodash": "^4",
+		"npm-run-all": "^4",
+		"tslib": "^1"
 	},
 	"scripts": {
 		"clean": "node ../../scripts/clean.js dist",

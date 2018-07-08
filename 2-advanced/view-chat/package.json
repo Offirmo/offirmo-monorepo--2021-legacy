@@ -7,15 +7,15 @@
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "UNLICENSED",
 	"dependencies": {
-		"caught": "^0.1.1",
-		"is-promise": "^2.1.0",
-		"p-finally": "^1.0.0",
-		"p-progress": "^0.1.1"
+		"caught": "^0.1",
+		"is-promise": "^2",
+		"p-finally": "^1",
+		"p-progress": "^0.1"
 	},
 	"devDependencies": {
-		"indent-string": "^3.2.0",
-		"npm-run-all": "^4.1.2",
-		"tslib": "^1.8.1"
+		"indent-string": "^3",
+		"npm-run-all": "^4",
+		"tslib": "^1"
 	},
 	"scripts": {
 		"cheatsheet": "node doc/cheatsheet.js",

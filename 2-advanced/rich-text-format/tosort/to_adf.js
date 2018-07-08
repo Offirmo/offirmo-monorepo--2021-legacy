@@ -1,4 +1,4 @@
-// TODO 		"adf-builder": "^3.0.1",
+// TODO 		"adf-builder": "^3",
 const { Document } = require('adf-builder')
 
 function on_root_enter() {

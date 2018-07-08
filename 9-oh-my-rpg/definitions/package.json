@@ -8,13 +8,13 @@
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "UNLICENSED",
 	"dependencies": {
-		"@offirmo/random": "^2.0.4",
+		"@offirmo/random": "^2",
 		"@offirmo/uuid": "^0.0.1",
-		"typescript-string-enums": "^0.3.5"
+		"typescript-string-enums": "^0.3"
 	},
 	"devDependencies": {
-		"npm-run-all": "^4.1.2",
-		"tslib": "^1.8.1"
+		"npm-run-all": "^4",
+		"tslib": "^1"
 	},
 	"scripts": {
 		"clean": "node ../../scripts/clean.js dist",

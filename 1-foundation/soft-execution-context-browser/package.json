@@ -10,9 +10,9 @@
 	},
 	"devDependencies": {
 		"@offirmo/practical-logger-browser": "^0.0.1",
-		"bowser": "^1.9.3",
-		"npm-run-all": "^4.1.2",
-		"tslib": "^1.8.1"
+		"bowser": "^1",
+		"npm-run-all": "^4",
+		"tslib": "^1"
 	},
 	"scripts": {
 	}

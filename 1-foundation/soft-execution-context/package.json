@@ -9,14 +9,14 @@
 		"@offirmo/normalize-error": "^0.0.1",
 		"@offirmo/promise-try": "^0.0.1",
 		"@offirmo/timestamps": "^0.0.1",
-		"emittery": "^0.4.0"
+		"emittery": "^0.4"
 	},
 	"devDependencies": {
-		"@offirmo/unit-test-toolbox": "^4.0.0",
+		"@offirmo/unit-test-toolbox": "^4",
 		"@offirmo/practical-logger-browser": "^0.0.1",
-		"babel-cli": "^6.26.0",
-		"npm-run-all": "^4.1.2",
-		"tslib": "^1.8.1"
+		"babel-cli": "^6",
+		"npm-run-all": "^4",
+		"tslib": "^1"
 	},
 	"scripts": {
 		"clean": "node ../../scripts/clean.js dist",
