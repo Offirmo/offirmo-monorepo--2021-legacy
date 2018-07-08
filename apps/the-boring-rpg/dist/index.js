@@ -6508,9 +6508,9 @@ _sec2.default.xTry('loading savegame + creating game instance', ({ logger }) => 
 
 _sec2.default.xTry('init client state', ({ logger }) => {
 	game_instance.set_client_state(() => ({
-		VERSION: "0.51.48",
+		VERSION: "0.51.49",
 		ENV: "production",
-		BUILD_DATE: "20180706_08h37",
+		BUILD_DATE: "20180706_10h22",
 		CHANNEL: _channel.CHANNEL,
 		verbose: true, // XXX auto + through SEC ?
 		// can change:
@@ -7537,7 +7537,7 @@ if (__webpack_require__(13)) {
   var createArrayIncludes = __webpack_require__(117);
   var speciesConstructor = __webpack_require__(110);
   var ArrayIterators = __webpack_require__(158);
-  var Iterators = __webpack_require__(77);
+  var Iterators = __webpack_require__(78);
   var $iterDetect = __webpack_require__(113);
   var setSpecies = __webpack_require__(62);
   var arrayFill = __webpack_require__(159);
@@ -8759,7 +8759,7 @@ var objectKeys = Object.keys || function (obj) {
 module.exports = Duplex;
 
 /*<replacement>*/
-var util = __webpack_require__(84);
+var util = __webpack_require__(85);
 util.inherits = __webpack_require__(3);
 /*</replacement>*/
 
@@ -9236,6 +9236,20 @@ exports.INTERNAL_PROP = INTERNAL_PROP;
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(2);
+tslib_1.__exportStar(__webpack_require__(235), exports);
+tslib_1.__exportStar(__webpack_require__(513), exports);
+tslib_1.__exportStar(__webpack_require__(87), exports);
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+/* 74 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 module.exports = function deepFreeze(o) {
   Object.freeze(o);
 
@@ -9252,7 +9266,7 @@ module.exports = function deepFreeze(o) {
 };
 
 /***/ }),
-/* 74 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9281,7 +9295,7 @@ exports.URL_OF_REDDIT_PAGE = URL_OF_REDDIT_PAGE;
 //# sourceMappingURL=consts.js.map
 
 /***/ }),
-/* 75 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9341,7 +9355,7 @@ exports.createHashHistory = _createHashHistory3.default;
 exports.createMemoryHistory = _createMemoryHistory3.default;
 
 /***/ }),
-/* 76 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9354,7 +9368,7 @@ module.exports = function (it, TYPE) {
 };
 
 /***/ }),
-/* 77 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9363,7 +9377,7 @@ module.exports = function (it, TYPE) {
 module.exports = {};
 
 /***/ }),
-/* 78 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9401,7 +9415,7 @@ var trim = exporter.trim = function (string, TYPE) {
 module.exports = exporter;
 
 /***/ }),
-/* 79 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9416,7 +9430,7 @@ module.exports = function (it, tag, stat) {
 };
 
 /***/ }),
-/* 80 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9430,7 +9444,7 @@ base.EncoderBuffer = __webpack_require__(204).EncoderBuffer;
 base.Node = __webpack_require__(434);
 
 /***/ }),
-/* 81 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9441,13 +9455,13 @@ var asn1 = exports;
 asn1.bignum = __webpack_require__(14);
 
 asn1.define = __webpack_require__(438).define;
-asn1.base = __webpack_require__(80);
+asn1.base = __webpack_require__(81);
 asn1.constants = __webpack_require__(203);
 asn1.decoders = __webpack_require__(432);
 asn1.encoders = __webpack_require__(430);
 
 /***/ }),
-/* 82 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9537,7 +9551,7 @@ BlockHash.prototype._pad = function pad() {
 };
 
 /***/ }),
-/* 83 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9556,7 +9570,7 @@ module.exports = function xor(a, b) {
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(10).Buffer))
 
 /***/ }),
-/* 84 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9668,7 +9682,7 @@ function objectToString(o) {
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(10).Buffer))
 
 /***/ }),
-/* 85 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9705,7 +9719,7 @@ module.exports = function createHash(alg) {
 };
 
 /***/ }),
-/* 86 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9751,7 +9765,7 @@ exports._flattenSEC = _flattenSEC;
 //# sourceMappingURL=utils.js.map
 
 /***/ }),
-/* 87 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9786,20 +9800,6 @@ exports.reduce_plugin = reduce_plugin;
 //# sourceMappingURL=state.js.map
 
 /***/ }),
-/* 88 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = __webpack_require__(2);
-tslib_1.__exportStar(__webpack_require__(235), exports);
-tslib_1.__exportStar(__webpack_require__(513), exports);
-tslib_1.__exportStar(__webpack_require__(86), exports);
-//# sourceMappingURL=index.js.map
-
-/***/ }),
 /* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9808,7 +9808,7 @@ tslib_1.__exportStar(__webpack_require__(86), exports);
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = __webpack_require__(2);
-tslib_1.__exportStar(__webpack_require__(74), exports);
+tslib_1.__exportStar(__webpack_require__(75), exports);
 tslib_1.__exportStar(__webpack_require__(237), exports);
 tslib_1.__exportStar(__webpack_require__(533), exports);
 tslib_1.__exportStar(__webpack_require__(129), exports);
@@ -11122,7 +11122,7 @@ var anInstance = __webpack_require__(61);
 var isObject = __webpack_require__(8);
 var fails = __webpack_require__(6);
 var $iterDetect = __webpack_require__(113);
-var setToStringTag = __webpack_require__(79);
+var setToStringTag = __webpack_require__(80);
 var inheritIfRequired = __webpack_require__(172);
 
 module.exports = function (NAME, wrapper, methods, common, IS_MAP, IS_WEAK) {
@@ -11707,9 +11707,9 @@ exports.generate_random_coin_gain = generate_random_coin_gain;
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const soft_execution_context_1 = __webpack_require__(88);
+const soft_execution_context_1 = __webpack_require__(73);
 const definitions_1 = __webpack_require__(19);
-const consts_1 = __webpack_require__(74);
+const consts_1 = __webpack_require__(75);
 function get_lib_SEC(parent) {
     return definitions_1.decorate_SEC((parent || soft_execution_context_1.getRootSEC()).createChild().setLogicalStack({ module: consts_1.LIB }).setAnalyticsAndErrorDetails({
         sub_product: 'state-the-boring-rpg'
@@ -11789,7 +11789,7 @@ const logic_weapons_1 = __webpack_require__(47);
 const logic_armors_1 = __webpack_require__(56);
 const logic_shop_1 = __webpack_require__(391);
 /////////////////////
-const consts_1 = __webpack_require__(74);
+const consts_1 = __webpack_require__(75);
 const types_1 = __webpack_require__(237);
 exports.GainType = types_1.GainType;
 const serializable_actions_1 = __webpack_require__(126);
@@ -11988,7 +11988,7 @@ exports.SCHEMA_VERSION = SCHEMA_VERSION;
 var hash = exports;
 
 hash.utils = __webpack_require__(35);
-hash.common = __webpack_require__(82);
+hash.common = __webpack_require__(83);
 hash.sha = __webpack_require__(453);
 hash.ripemd = __webpack_require__(449);
 hash.hmac = __webpack_require__(448);
@@ -12652,7 +12652,7 @@ var Duplex;
 Writable.WritableState = WritableState;
 
 /*<replacement>*/
-var util = __webpack_require__(84);
+var util = __webpack_require__(85);
 util.inherits = __webpack_require__(3);
 /*</replacement>*/
 
@@ -14327,7 +14327,7 @@ var toIndex = __webpack_require__(256);
 var gOPN = __webpack_require__(63).f;
 var dP = __webpack_require__(12).f;
 var arrayFill = __webpack_require__(159);
-var setToStringTag = __webpack_require__(79);
+var setToStringTag = __webpack_require__(80);
 var ARRAY_BUFFER = 'ArrayBuffer';
 var DATA_VIEW = 'DataView';
 var PROTOTYPE = 'prototype';
@@ -14793,7 +14793,7 @@ module.exports = {
 
 var addToUnscopables = __webpack_require__(53);
 var step = __webpack_require__(265);
-var Iterators = __webpack_require__(77);
+var Iterators = __webpack_require__(78);
 var toIObject = __webpack_require__(27);
 
 // 22.1.3.4 Array.prototype.entries()
@@ -14870,7 +14870,7 @@ module.exports = function (original, length) {
 
 var classof = __webpack_require__(91);
 var ITERATOR = __webpack_require__(9)('iterator');
-var Iterators = __webpack_require__(77);
+var Iterators = __webpack_require__(78);
 module.exports = __webpack_require__(32).getIteratorMethod = function (it) {
   if (it != undefined) return it[ITERATOR] || it['@@iterator'] || Iterators[classof(it)];
 };
@@ -14897,7 +14897,7 @@ module.exports = function (object, index, value) {
 
 
 // check on default Array iterator
-var Iterators = __webpack_require__(77);
+var Iterators = __webpack_require__(78);
 var ITERATOR = __webpack_require__(9)('iterator');
 var ArrayProto = Array.prototype;
 
@@ -14950,7 +14950,7 @@ module.exports = function (that, searchString, NAME) {
 
 var create = __webpack_require__(64);
 var descriptor = __webpack_require__(68);
-var setToStringTag = __webpack_require__(79);
+var setToStringTag = __webpack_require__(80);
 var IteratorPrototype = {};
 
 // 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
@@ -14974,9 +14974,9 @@ var LIBRARY = __webpack_require__(54);
 var $export = __webpack_require__(0);
 var redefine = __webpack_require__(21);
 var hide = __webpack_require__(22);
-var Iterators = __webpack_require__(77);
+var Iterators = __webpack_require__(78);
 var $iterCreate = __webpack_require__(166);
-var setToStringTag = __webpack_require__(79);
+var setToStringTag = __webpack_require__(80);
 var getPrototypeOf = __webpack_require__(25);
 var ITERATOR = __webpack_require__(9)('iterator');
 var BUGGY = !([].keys && 'next' in [].keys()); // Safari has buggy iterators w/o `next`
@@ -15707,7 +15707,7 @@ const WalletState = tslib_1.__importStar(__webpack_require__(48));
 const InventoryState = tslib_1.__importStar(__webpack_require__(69));
 const PRNGState = tslib_1.__importStar(__webpack_require__(46));
 const EnergyState = tslib_1.__importStar(__webpack_require__(128));
-const consts_1 = __webpack_require__(74);
+const consts_1 = __webpack_require__(75);
 const state_1 = __webpack_require__(129);
 const sec_1 = __webpack_require__(125);
 /////////////////////
@@ -15834,7 +15834,7 @@ const logic_armors_1 = __webpack_require__(56);
 const logic_monsters_1 = __webpack_require__(193);
 const logic_adventures_1 = __webpack_require__(124);
 const sec_1 = __webpack_require__(125);
-const consts_1 = __webpack_require__(74);
+const consts_1 = __webpack_require__(75);
 /////////////////////
 const STATS = ['health', 'mana', 'strength', 'agility', 'charisma', 'wisdom', 'luck'];
 const PRIMARY_STATS_BY_CLASS = {
@@ -16175,7 +16175,7 @@ exports.SCHEMA_VERSION = SCHEMA_VERSION;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = __webpack_require__(2);
-const deep_freeze_strict_1 = tslib_1.__importDefault(__webpack_require__(73));
+const deep_freeze_strict_1 = tslib_1.__importDefault(__webpack_require__(74));
 const consts_1 = __webpack_require__(195);
 const types_1 = __webpack_require__(416);
 exports.Currency = types_1.Currency;
@@ -16296,7 +16296,7 @@ module.exports = function xor(a, b) {
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Buffer) {
 
-var createHash = __webpack_require__(85);
+var createHash = __webpack_require__(86);
 module.exports = function (seed, len) {
   var t = new Buffer('');
   var i = 0,
@@ -16331,7 +16331,7 @@ module.exports = {"1.3.132.0.10":"secp256k1","1.3.132.0.33":"p224","1.2.840.1004
 var inherits = __webpack_require__(3);
 var Buffer = __webpack_require__(10).Buffer;
 
-var asn1 = __webpack_require__(81);
+var asn1 = __webpack_require__(82);
 var base = asn1.base;
 
 // Import DER constants
@@ -16571,7 +16571,7 @@ function encodeTag(tag, primitive, cls, reporter) {
 
 var inherits = __webpack_require__(3);
 
-var asn1 = __webpack_require__(81);
+var asn1 = __webpack_require__(82);
 var base = asn1.base;
 var bignum = asn1.bignum;
 
@@ -16878,7 +16878,7 @@ constants.der = __webpack_require__(433);
 
 
 var inherits = __webpack_require__(3);
-var Reporter = __webpack_require__(80).Reporter;
+var Reporter = __webpack_require__(81).Reporter;
 var Buffer = __webpack_require__(10).Buffer;
 
 function DecoderBuffer(base, options) {
@@ -16988,7 +16988,7 @@ EncoderBuffer.prototype.join = function join(out, offset) {
 
 
 var utils = __webpack_require__(35);
-var common = __webpack_require__(82);
+var common = __webpack_require__(83);
 var assert = __webpack_require__(23);
 
 var rotr64_hi = utils.rotr64_hi;
@@ -17240,7 +17240,7 @@ function g1_512_lo(xh, xl) {
 
 
 var utils = __webpack_require__(35);
-var common = __webpack_require__(82);
+var common = __webpack_require__(83);
 var shaCommon = __webpack_require__(207);
 var assert = __webpack_require__(23);
 
@@ -17748,7 +17748,7 @@ var Buffer = __webpack_require__(7).Buffer;
 var Transform = __webpack_require__(49);
 var inherits = __webpack_require__(3);
 var GHASH = __webpack_require__(471);
-var xor = __webpack_require__(83);
+var xor = __webpack_require__(84);
 var incr32 = __webpack_require__(215);
 
 function xorTest(a, b) {
@@ -17897,7 +17897,7 @@ module.exports = incr32;
 "use strict";
 
 
-var xor = __webpack_require__(83);
+var xor = __webpack_require__(84);
 var Buffer = __webpack_require__(7).Buffer;
 var incr32 = __webpack_require__(215);
 
@@ -18617,7 +18617,7 @@ module.exports = Transform;
 var Duplex = __webpack_require__(57);
 
 /*<replacement>*/
-var util = __webpack_require__(84);
+var util = __webpack_require__(85);
 util.inherits = __webpack_require__(3);
 /*</replacement>*/
 
@@ -18922,7 +18922,7 @@ function _isUint8Array(obj) {
 /*</replacement>*/
 
 /*<replacement>*/
-var util = __webpack_require__(84);
+var util = __webpack_require__(85);
 util.inherits = __webpack_require__(3);
 /*</replacement>*/
 
@@ -19987,7 +19987,7 @@ module.exports = HashBase;
 
 
 exports.randomBytes = exports.rng = exports.pseudoRandomBytes = exports.prng = __webpack_require__(71);
-exports.createHash = exports.Hash = __webpack_require__(85);
+exports.createHash = exports.Hash = __webpack_require__(86);
 exports.createHmac = exports.Hmac = __webpack_require__(223);
 
 var algos = __webpack_require__(487);
@@ -20111,9 +20111,9 @@ exports.xxx_test_unrandomize_element = xxx_test_unrandomize_element;
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = __webpack_require__(2);
 const constants_1 = __webpack_require__(72);
-const TopState = tslib_1.__importStar(__webpack_require__(87));
+const TopState = tslib_1.__importStar(__webpack_require__(88));
 const State = tslib_1.__importStar(__webpack_require__(525));
-const utils_1 = __webpack_require__(86);
+const utils_1 = __webpack_require__(87);
 const PLUGIN_ID = 'dependency_injection';
 exports.PLUGIN_ID = PLUGIN_ID;
 const PLUGIN = {
@@ -20329,7 +20329,7 @@ const tslib_1 = __webpack_require__(2);
 const constants_1 = __webpack_require__(72);
 exports.LIB = constants_1.LIB;
 const root_prototype_1 = __webpack_require__(530);
-const State = tslib_1.__importStar(__webpack_require__(87));
+const State = tslib_1.__importStar(__webpack_require__(88));
 const index_1 = __webpack_require__(529);
 root_prototype_1.ROOT_PROTOTYPE.createChild = function createChild(args) {
     return createSEC(Object.assign({}, args, { parent: this }));
@@ -20387,7 +20387,7 @@ exports.createSEC = createSEC;
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const soft_execution_context_1 = __webpack_require__(88);
+const soft_execution_context_1 = __webpack_require__(73);
 const definitions_1 = __webpack_require__(19);
 const consts_1 = __webpack_require__(148);
 function get_lib_SEC(parent) {
@@ -21144,7 +21144,7 @@ var _invariant = __webpack_require__(43);
 
 var _invariant2 = _interopRequireDefault(_invariant);
 
-var _history = __webpack_require__(75);
+var _history = __webpack_require__(76);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21746,7 +21746,7 @@ var anInstance = __webpack_require__(61);
 var forOf = __webpack_require__(60);
 var createArrayMethod = __webpack_require__(37);
 var $has = __webpack_require__(28);
-var validate = __webpack_require__(76);
+var validate = __webpack_require__(77);
 var arrayFind = createArrayMethod(5);
 var arrayFindIndex = createArrayMethod(6);
 var id = 0;
@@ -21835,7 +21835,7 @@ var assign = __webpack_require__(277);
 var weak = __webpack_require__(257);
 var isObject = __webpack_require__(8);
 var fails = __webpack_require__(6);
-var validate = __webpack_require__(76);
+var validate = __webpack_require__(77);
 var WEAK_MAP = 'WeakMap';
 var getWeak = meta.getWeak;
 var isExtensible = Object.isExtensible;
@@ -21897,7 +21897,7 @@ if (fails(function () {
 
 
 var strong = __webpack_require__(260);
-var validate = __webpack_require__(76);
+var validate = __webpack_require__(77);
 var SET = 'Set';
 
 // 23.2 Set Objects
@@ -21930,7 +21930,7 @@ var step = __webpack_require__(265);
 var setSpecies = __webpack_require__(62);
 var DESCRIPTORS = __webpack_require__(13);
 var fastKey = __webpack_require__(55).fastKey;
-var validate = __webpack_require__(76);
+var validate = __webpack_require__(77);
 var SIZE = DESCRIPTORS ? '_s' : 'size';
 
 var getEntry = function (that, key) {
@@ -22071,7 +22071,7 @@ module.exports = {
 
 
 var strong = __webpack_require__(260);
-var validate = __webpack_require__(76);
+var validate = __webpack_require__(77);
 var MAP = 'Map';
 
 // 23.1 Map Objects
@@ -22316,7 +22316,7 @@ module.exports = function (it, msg) {
 
 
 var $parseFloat = __webpack_require__(5).parseFloat;
-var $trim = __webpack_require__(78).trim;
+var $trim = __webpack_require__(79).trim;
 
 module.exports = 1 / $parseFloat(__webpack_require__(173) + '-0') !== -Infinity ? function parseFloat(str) {
   var string = $trim(String(str), 3);
@@ -22332,7 +22332,7 @@ module.exports = 1 / $parseFloat(__webpack_require__(173) + '-0') !== -Infinity 
 
 
 var $parseInt = __webpack_require__(5).parseInt;
-var $trim = __webpack_require__(78).trim;
+var $trim = __webpack_require__(79).trim;
 var ws = __webpack_require__(173);
 var hex = /^[-+]?0[xX]/;
 
@@ -22561,18 +22561,32 @@ __webpack_require__(284);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-class DevArea extends _react.Component {
-	constructor(...args) {
-		var _temp;
+var _require = __webpack_require__(73);
 
-		return _temp = super(...args), this.state = {
-			open: false,
-			paused: false
-		}, this.onToggle = () => {
+const getRootSEC = _require.getRootSEC;
+class DevArea extends _react.Component {
+
+	constructor(props) {
+		super(props);
+
+		this.onToggle = () => {
 			this.setState({
 				open: !this.state.open
 			});
-		}, _temp;
+		};
+
+		this.SEC = props.SEC || getRootSEC();
+
+		var _SEC$getInjectedDepen = this.SEC.getInjectedDependencies();
+
+		const CHANNEL = _SEC$getInjectedDepen.CHANNEL;
+
+		this.channel = props.channel || CHANNEL || 'dev';
+		this.state = {
+			displayed: !this.channel.startsWith('prod'),
+			open: false,
+			paused: false
+		};
 	}
 
 	render() {
@@ -22595,7 +22609,7 @@ class DevArea extends _react.Component {
 
 		const dev_controls = [_react2.default.createElement(
 			'tr',
-			null,
+			{ key: 'refresh' },
 			_react2.default.createElement(
 				'td',
 				{ className: 'DA-refresh' },
@@ -22609,7 +22623,7 @@ class DevArea extends _react.Component {
 			)
 		), _react2.default.createElement(
 			'tr',
-			null,
+			{ key: 'TES' },
 			_react2.default.createElement(
 				'td',
 				null,
@@ -22623,7 +22637,7 @@ class DevArea extends _react.Component {
 			)
 		), _react2.default.createElement(
 			'tr',
-			null,
+			{ key: 'TEA' },
 			_react2.default.createElement(
 				'td',
 				null,
@@ -22639,7 +22653,7 @@ class DevArea extends _react.Component {
 			)
 		), _react2.default.createElement(
 			'tr',
-			null,
+			{ key: 'TPR' },
 			_react2.default.createElement(
 				'td',
 				null,
@@ -22656,7 +22670,7 @@ class DevArea extends _react.Component {
 		)];
 		if (media_controls.length > 0) dev_controls.unshift(_react2.default.createElement(
 			'tr',
-			null,
+			{ key: 'media' },
 			_react2.default.createElement(
 				'td',
 				{ className: 'DA-controls' },
@@ -22664,7 +22678,7 @@ class DevArea extends _react.Component {
 			)
 		));
 
-		return _react2.default.createElement(
+		return this.state.displayed && _react2.default.createElement(
 			'table',
 			{ className: 'dev-area' },
 			_react2.default.createElement(
@@ -22672,14 +22686,14 @@ class DevArea extends _react.Component {
 				null,
 				_react2.default.createElement(
 					'tr',
-					null,
+					{ key: 'main' },
 					_react2.default.createElement(
 						'td',
 						{ className: 'DA-environment' },
 						_react2.default.createElement(
 							'button',
 							{ onClick: this.onToggle },
-							'Staging'
+							this.channel
 						)
 					)
 				),
@@ -25224,7 +25238,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.get_lib_SEC = undefined;
 
-var _softExecutionContext = __webpack_require__(88);
+var _softExecutionContext = __webpack_require__(73);
 
 const LIB = 'ErrorBoundary';
 
@@ -26203,12 +26217,9 @@ var _bowser = __webpack_require__(374);
 
 var _bowser2 = _interopRequireDefault(_bowser);
 
-var _softExecutionContext = __webpack_require__(88);
+var _softExecutionContext = __webpack_require__(73);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// TODO protect from double install
-
 
 // XXX redundant, next one is better (?rly)
 // https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers/onerror
@@ -26230,8 +26241,6 @@ function listenToErrors() {
 	};
 }
 */
-
-//export * from '@offirmo/soft-execution-context'
 
 function listenToErrorEvents() {
 	const SEC = (0, _softExecutionContext.getRootSEC)().createChild().setLogicalStack({ operation: '(browser/on error event)' });
@@ -26272,18 +26281,17 @@ function listenToUnhandledRejections() {
 function decorateWithDetectedEnv() {
 	const SEC = (0, _softExecutionContext.getRootSEC)();
 
+	// TODO normalize that!
 	const details = {
 		browser_name: _bowser2.default.name,
 		browser_version: _bowser2.default.version,
-		browser_grading: _bowser2.default.a ? 'A' : _bowser2.default.c ? 'C' : 'X',
+		browser_grade: _bowser2.default.a ? 'A' : _bowser2.default.c ? 'C' : 'X',
 		device: _bowser2.default.tablet ? 'tablet' : _bowser2.default.mobile ? 'mobile' : 'desktop',
 		os_name: _bowser2.default.osname,
 		os_release: _bowser2.default.osversion
-
 	};
 
-	SEC.setAnalyticsDetails(details);
-	SEC.setErrorReportDetails(details);
+	SEC.setAnalyticsAndErrorDetails(details);
 }
 
 module.exports = {
@@ -26406,7 +26414,7 @@ var _require = __webpack_require__(378);
 
 const createLogger = _require.createLogger;
 
-var _require2 = __webpack_require__(88);
+var _require2 = __webpack_require__(73);
 
 const getRootSEC = _require2.getRootSEC;
 
@@ -27014,7 +27022,7 @@ const PRNGState = tslib_1.__importStar(__webpack_require__(46));
 const state_prng_1 = __webpack_require__(46);
 const logic_adventures_1 = __webpack_require__(124);
 /////////////////////
-const consts_1 = __webpack_require__(74);
+const consts_1 = __webpack_require__(75);
 const play_adventure_1 = __webpack_require__(190);
 /////////////////////
 const ADVENTURE_GOOD_NON_REPETITION_ID = 'adventure_archetype--good';
@@ -27727,7 +27735,7 @@ exports.replenish_energy = replenish_energy;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = __webpack_require__(2);
-const deep_freeze_strict_1 = tslib_1.__importDefault(__webpack_require__(73));
+const deep_freeze_strict_1 = tslib_1.__importDefault(__webpack_require__(74));
 // a full featured, non-trivial demo state
 // useful for demos and unit tests
 const DEMO_STATE = deep_freeze_strict_1.default({
@@ -28798,7 +28806,7 @@ exports.get_prng = get_prng;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = __webpack_require__(2);
-const deep_freeze_strict_1 = tslib_1.__importDefault(__webpack_require__(73));
+const deep_freeze_strict_1 = tslib_1.__importDefault(__webpack_require__(74));
 // a full featured, non-trivial demo state
 // useful for demos and unit tests
 const DEMO_STATE = deep_freeze_strict_1.default({
@@ -29386,7 +29394,7 @@ exports.ENTRIES = ENTRIES;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = __webpack_require__(2);
-const deep_freeze_strict_1 = tslib_1.__importDefault(__webpack_require__(73));
+const deep_freeze_strict_1 = tslib_1.__importDefault(__webpack_require__(74));
 const logic_weapons_1 = __webpack_require__(47);
 const logic_armors_1 = __webpack_require__(56);
 // needed to test migrations, both here and in composing parents
@@ -29705,7 +29713,7 @@ var mgf = __webpack_require__(199);
 var xor = __webpack_require__(198);
 var bn = __webpack_require__(14);
 var crt = __webpack_require__(133);
-var createHash = __webpack_require__(85);
+var createHash = __webpack_require__(86);
 var withPublic = __webpack_require__(197);
 module.exports = function privateDecrypt(private_key, enc, reverse) {
   var padding;
@@ -29819,7 +29827,7 @@ function compare(a, b) {
 
 var parseKeys = __webpack_require__(97);
 var randomBytes = __webpack_require__(71);
-var createHash = __webpack_require__(85);
+var createHash = __webpack_require__(86);
 var mgf = __webpack_require__(199);
 var xor = __webpack_require__(198);
 var bn = __webpack_require__(14);
@@ -30207,7 +30215,7 @@ module.exports = {"2.16.840.1.101.3.4.1.1":"aes-128-ecb","2.16.840.1.101.3.4.1.2
 
 
 
-var asn = __webpack_require__(81);
+var asn = __webpack_require__(82);
 
 var Time = asn.define('Time', function () {
   this.choice({
@@ -30421,9 +30429,9 @@ exports.tagByName = constants._reverse(exports.tag);
 "use strict";
 
 
-var Reporter = __webpack_require__(80).Reporter;
-var EncoderBuffer = __webpack_require__(80).EncoderBuffer;
-var DecoderBuffer = __webpack_require__(80).DecoderBuffer;
+var Reporter = __webpack_require__(81).Reporter;
+var EncoderBuffer = __webpack_require__(81).EncoderBuffer;
+var DecoderBuffer = __webpack_require__(81).DecoderBuffer;
 var assert = __webpack_require__(23);
 
 // Supported tags
@@ -31234,7 +31242,7 @@ exports.createContext = Script.createContext = function (context) {
 "use strict";
 
 
-var asn1 = __webpack_require__(81);
+var asn1 = __webpack_require__(82);
 var inherits = __webpack_require__(3);
 
 var api = exports;
@@ -31299,7 +31307,7 @@ Entity.prototype.encode = function encode(data, enc, /* internal */reporter) {
 // Fedor, you are amazing.
 
 
-var asn1 = __webpack_require__(81);
+var asn1 = __webpack_require__(82);
 
 exports.certificate = __webpack_require__(428);
 
@@ -32287,7 +32295,7 @@ Hmac.prototype.digest = function digest(enc) {
 
 
 var utils = __webpack_require__(35);
-var common = __webpack_require__(82);
+var common = __webpack_require__(83);
 
 var rotl32 = utils.rotl32;
 var sum32 = utils.sum32;
@@ -32434,7 +32442,7 @@ SHA224.prototype._digest = function digest(enc) {
 
 
 var utils = __webpack_require__(35);
-var common = __webpack_require__(82);
+var common = __webpack_require__(83);
 var shaCommon = __webpack_require__(207);
 
 var rotl32 = utils.rotl32;
@@ -34715,7 +34723,7 @@ module.exports.makeKey = makeKey;
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Buffer) {
 
-var createHash = __webpack_require__(85);
+var createHash = __webpack_require__(86);
 var stream = __webpack_require__(143);
 var inherits = __webpack_require__(3);
 var sign = __webpack_require__(461);
@@ -35340,7 +35348,7 @@ module.exports = GHASH;
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Buffer) {
 
-var xor = __webpack_require__(83);
+var xor = __webpack_require__(84);
 
 function getBlock(self) {
   self._prev = self._cipher.encryptBlock(self._prev);
@@ -35446,7 +35454,7 @@ exports.encrypt = function (self, chunk, decrypt) {
 
 
 var Buffer = __webpack_require__(7).Buffer;
-var xor = __webpack_require__(83);
+var xor = __webpack_require__(84);
 
 function encryptStart(self, data, decrypt) {
   var len = data.length;
@@ -35486,7 +35494,7 @@ exports.encrypt = function (self, data, decrypt) {
 "use strict";
 
 
-var xor = __webpack_require__(83);
+var xor = __webpack_require__(84);
 
 exports.encrypt = function (self, block) {
   var data = xor(block, self._prev);
@@ -36939,7 +36947,7 @@ module.exports = PassThrough;
 var Transform = __webpack_require__(226);
 
 /*<replacement>*/
-var util = __webpack_require__(84);
+var util = __webpack_require__(85);
 util.inherits = __webpack_require__(3);
 /*</replacement>*/
 
@@ -37842,8 +37850,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = __webpack_require__(2);
 const timestamps_1 = __webpack_require__(58);
 const constants_1 = __webpack_require__(72);
-const TopState = tslib_1.__importStar(__webpack_require__(87));
-const utils_1 = __webpack_require__(86);
+const TopState = tslib_1.__importStar(__webpack_require__(88));
+const utils_1 = __webpack_require__(87);
 const State = tslib_1.__importStar(__webpack_require__(514));
 const PLUGIN_ID = 'analytics';
 exports.PLUGIN_ID = PLUGIN_ID;
@@ -38128,11 +38136,11 @@ const normalize_error_1 = __webpack_require__(523);
 const promise_try_1 = __webpack_require__(520);
 const timestamps_1 = __webpack_require__(58);
 const constants_1 = __webpack_require__(72);
-const utils_1 = __webpack_require__(86);
+const utils_1 = __webpack_require__(87);
 const State = tslib_1.__importStar(__webpack_require__(517));
 const catch_factory_1 = __webpack_require__(516);
 const index_1 = __webpack_require__(233);
-const TopState = tslib_1.__importStar(__webpack_require__(87));
+const TopState = tslib_1.__importStar(__webpack_require__(88));
 const PLUGIN_ID = 'error_handling';
 function cleanTemp(err) {
     delete err._temp;
@@ -38338,10 +38346,10 @@ exports.LOGICAL_STACK_SEPARATOR_NON_ADJACENT = LOGICAL_STACK_SEPARATOR_NON_ADJAC
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = __webpack_require__(2);
 const constants_1 = __webpack_require__(72);
-const TopState = tslib_1.__importStar(__webpack_require__(87));
+const TopState = tslib_1.__importStar(__webpack_require__(88));
 const constants_2 = __webpack_require__(527);
 const State = tslib_1.__importStar(__webpack_require__(526));
-const utils_1 = __webpack_require__(86);
+const utils_1 = __webpack_require__(87);
 const PLUGIN_ID = 'logical_stack';
 const BRANCH_JUMP_PSEUDO_STATE = {
     sid: -1,
@@ -38572,7 +38580,7 @@ exports.increase_stat = increase_stat;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = __webpack_require__(2);
-const deep_freeze_strict_1 = tslib_1.__importDefault(__webpack_require__(73));
+const deep_freeze_strict_1 = tslib_1.__importDefault(__webpack_require__(74));
 const types_1 = __webpack_require__(149);
 /////////////////////
 // needed to test migrations, both here and in composing parents
@@ -38615,7 +38623,7 @@ exports.MIGRATION_HINTS_FOR_TESTS = MIGRATION_HINTS_FOR_TESTS;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = __webpack_require__(2);
-const deep_freeze_strict_1 = tslib_1.__importDefault(__webpack_require__(73));
+const deep_freeze_strict_1 = tslib_1.__importDefault(__webpack_require__(74));
 /////////////////////
 const CharacterState = tslib_1.__importStar(__webpack_require__(51));
 const WalletState = tslib_1.__importStar(__webpack_require__(48));
@@ -39325,7 +39333,7 @@ var _propTypes = __webpack_require__(24);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _history = __webpack_require__(75);
+var _history = __webpack_require__(76);
 
 var _Router = __webpack_require__(151);
 
@@ -39546,7 +39554,7 @@ var _invariant = __webpack_require__(43);
 
 var _invariant2 = _interopRequireDefault(_invariant);
 
-var _history = __webpack_require__(75);
+var _history = __webpack_require__(76);
 
 var _generatePath = __webpack_require__(239);
 
@@ -39979,7 +39987,7 @@ var _propTypes = __webpack_require__(24);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _history = __webpack_require__(75);
+var _history = __webpack_require__(76);
 
 var _Router = __webpack_require__(151);
 
@@ -40087,7 +40095,7 @@ var _propTypes = __webpack_require__(24);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _history = __webpack_require__(75);
+var _history = __webpack_require__(76);
 
 var _Router = __webpack_require__(152);
 
@@ -41240,7 +41248,7 @@ var _propTypes = __webpack_require__(24);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _history = __webpack_require__(75);
+var _history = __webpack_require__(76);
 
 var _Router = __webpack_require__(152);
 
@@ -44616,7 +44624,7 @@ var getKeys = __webpack_require__(66);
 var redefine = __webpack_require__(21);
 var global = __webpack_require__(5);
 var hide = __webpack_require__(22);
-var Iterators = __webpack_require__(77);
+var Iterators = __webpack_require__(78);
 var wks = __webpack_require__(9);
 var ITERATOR = wks('iterator');
 var TO_STRING_TAG = wks('toStringTag');
@@ -45741,7 +45749,7 @@ $export($export.P, 'String', {
 
 // https://github.com/sebmarkbage/ecmascript-string-left-right-trim
 
-__webpack_require__(78)('trimRight', function ($trim) {
+__webpack_require__(79)('trimRight', function ($trim) {
   return function trimRight() {
     return $trim(this, 2);
   };
@@ -45755,7 +45763,7 @@ __webpack_require__(78)('trimRight', function ($trim) {
 
 // https://github.com/sebmarkbage/ecmascript-string-left-right-trim
 
-__webpack_require__(78)('trimLeft', function ($trim) {
+__webpack_require__(79)('trimLeft', function ($trim) {
   return function trimLeft() {
     return $trim(this, 1);
   };
@@ -46445,7 +46453,7 @@ __webpack_require__(62)(ARRAY_BUFFER);
 
 
 var weak = __webpack_require__(257);
-var validate = __webpack_require__(76);
+var validate = __webpack_require__(77);
 var WEAK_SET = 'WeakSet';
 
 // 23.4 WeakSet Objects
@@ -46683,7 +46691,7 @@ if (!USE_NATIVE) {
 }
 
 $export($export.G + $export.W + $export.F * !USE_NATIVE, { Promise: $Promise });
-__webpack_require__(79)($Promise, PROMISE);
+__webpack_require__(80)($Promise, PROMISE);
 __webpack_require__(62)(PROMISE);
 Wrapper = __webpack_require__(32)[PROMISE];
 
@@ -47842,7 +47850,7 @@ __webpack_require__(167)(String, 'String', function (iterated) {
 
 // 21.1.3.25 String.prototype.trim()
 
-__webpack_require__(78)('trim', function ($trim) {
+__webpack_require__(79)('trim', function ($trim) {
   return function trim() {
     return $trim(this, 3);
   };
@@ -48490,7 +48498,7 @@ var fails = __webpack_require__(6);
 var gOPN = __webpack_require__(63).f;
 var gOPD = __webpack_require__(26).f;
 var dP = __webpack_require__(12).f;
-var $trim = __webpack_require__(78).trim;
+var $trim = __webpack_require__(79).trim;
 var NUMBER = 'Number';
 var $Number = global[NUMBER];
 var Base = $Number;
@@ -48930,7 +48938,7 @@ var redefine = __webpack_require__(21);
 var META = __webpack_require__(55).KEY;
 var $fails = __webpack_require__(6);
 var shared = __webpack_require__(118);
-var setToStringTag = __webpack_require__(79);
+var setToStringTag = __webpack_require__(80);
 var uid = __webpack_require__(67);
 var wks = __webpack_require__(9);
 var wksExt = __webpack_require__(281);

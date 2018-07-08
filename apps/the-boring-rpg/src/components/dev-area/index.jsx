@@ -1,12 +1,22 @@
 import React, {Component, Fragment} from 'react';
 
+const { getRootSEC } = require('@offirmo/soft-execution-context')
+
 import './index.css';
 
 
 export default class DevArea extends Component {
-	state = {
-		open: false,
-		paused: false,
+
+	constructor(props) {
+		super(props);
+		this.SEC = props.SEC || getRootSEC()
+		const { CHANNEL } = this.SEC.getInjectedDependencies()
+		this.channel = props.channel || CHANNEL || 'dev'
+		this.state = {
+			displayed: !this.channel.startsWith('prod'),
+			open: false,
+			paused: false,
+		}
 	}
 
 	onToggle = () => {
@@ -25,12 +35,12 @@ export default class DevArea extends Component {
 			media_controls.push(<button onClick={this.props.onNext}>⏭</button>)
 
 		const dev_controls = [
-			<tr>
+			<tr key="refresh">
 				<td className="DA-refresh">
 					<button onClick={() => {window.location.reload()}}>🔄</button>
 				</td>
 			</tr>,
-			<tr>
+			<tr key="TES">
 				<td>
 					<button onClick={() => {
 						throw new Error('TEST ERROR synchronous!')
@@ -38,14 +48,14 @@ export default class DevArea extends Component {
 					</button>
 				</td>
 			</tr>,
-			<tr>
+			<tr key="TEA">
 				<td>
 					<button onClick={() => {
 						setTimeout(() => { throw new Error('TEST ERROR Asynchronous!') }, 200)
 					}}>🔥AE</button>
 				</td>
 			</tr>,
-			<tr>
+			<tr key="TPR">
 				<td>
 					<button onClick={() => {
 						setTimeout(() => { Promise.reject(new Error('TEST ERROR promise rejection!')) }, 200)
@@ -54,17 +64,19 @@ export default class DevArea extends Component {
 			</tr>,
 		]
 		if (media_controls.length > 0)
-			dev_controls.unshift(<tr>
-				<td className="DA-controls">
-					{media_controls}
-				</td>
-			</tr>)
+			dev_controls.unshift(
+				<tr key="media">
+					<td className="DA-controls">
+						{media_controls}
+					</td>
+				</tr>
+			)
 
-		return (
+		return (this.state.displayed &&
 			<table className="dev-area">
 				<tbody>
-				<tr>
-					<td className="DA-environment"><button onClick={this.onToggle}>Staging</button></td>
+				<tr key="main">
+					<td className="DA-environment"><button onClick={this.onToggle}>{this.channel}</button></td>
 				</tr>
 				{this.state.open && dev_controls}
 				</tbody>

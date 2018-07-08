@@ -10,7 +10,6 @@ function listenToUncaughtErrors() {
 		.createChild()
 		.setLogicalStack({operation: '(node/uncaught)'})
 
-
 	process.on('uncaughtException', err => {
 		SEC._handleError({
 			SEC,
@@ -39,6 +38,7 @@ function listenToUnhandledRejections() {
 function decorateWithDetectedEnv() {
 	const SEC = getRootSEC()
 
+	// TODO normalize
 	const details = {
 		node_version: process.version,
 		os_platform: os.platform(),
@@ -46,10 +46,8 @@ function decorateWithDetectedEnv() {
 		os_type: os.type(),
 	}
 
-	SEC.setAnalyticsDetails(details)
-	SEC.setErrorReportDetails(details)
+	SEC.setAnalyticsAndErrorDetails(details)
 }
-
 
 
 module.exports = {

@@ -1,9 +1,5 @@
-//export * from '@offirmo/soft-execution-context'
-
 import bowser from 'bowser'
 import { getRootSEC } from '@offirmo/soft-execution-context'
-
-// TODO protect from double install
 
 
 // XXX redundant, next one is better (?rly)
@@ -49,6 +45,7 @@ function listenToErrorEvents() {
 	});
 }
 
+
 function listenToUnhandledRejections() {
 	const SEC = getRootSEC()
 		.createChild()
@@ -69,13 +66,15 @@ function listenToUnhandledRejections() {
 	};
 }
 
+
 function decorateWithDetectedEnv() {
 	const SEC = getRootSEC()
 
+	// TODO normalize that!
 	const details = {
 		browser_name: bowser.name,
 		browser_version: bowser.version,
-		browser_grading: bowser.a
+		browser_grade: bowser.a
 			? 'A'
 			: bowser.c
 				? 'C'
@@ -87,13 +86,10 @@ function decorateWithDetectedEnv() {
 				: 'desktop',
 		os_name: bowser.osname,
 		os_release: bowser.osversion,
-
 	}
 
-	SEC.setAnalyticsDetails(details)
-	SEC.setErrorReportDetails(details)
+	SEC.setAnalyticsAndErrorDetails(details)
 }
-
 
 
 module.exports = {
