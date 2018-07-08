@@ -24,9 +24,7 @@ bolt ws run cheatsheet --only @oh-my-rpg/*
 npx yarn-tools list-duplicates yarn.lock
 
 bolt ws run clean
-bolt ws exec -- rm -rf .cache
-bolt ws exec -- rm -rf dist
-bolt ws exec -- rm -rf node_modules yarn.lock package-lock.json
+bolt ws exec -- rm -rf .cache dist node_modules yarn.lock package-lock.json yarn-error.log
 rm -rf node_modules yarn.lock package-lock.json
 bolt
 yarn outdated

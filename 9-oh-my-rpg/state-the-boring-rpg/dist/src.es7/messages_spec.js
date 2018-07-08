@@ -1,19 +1,16 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
-const chai_1 = require("chai");
-const state_prng_1 = require("@oh-my-rpg/state-prng");
-const RichText = tslib_1.__importStar(require("@offirmo/rich-text-format"));
-const _1 = require(".");
+import { expect } from 'chai';
+import { xxx_internal_reset_prng_cache } from '@oh-my-rpg/state-prng';
+import * as RichText from '@offirmo/rich-text-format';
+import { create, get_recap, get_tip, } from '.';
 describe('⚔ 👑 😪  The Boring RPG - contextual messages', function () {
-    beforeEach(() => state_prng_1.xxx_internal_reset_prng_cache());
+    beforeEach(() => xxx_internal_reset_prng_cache());
     describe('get recap', function () {
         context('when the user has just started a new game', function () {
             it('should return an intro', () => {
-                const state = _1.create();
-                const doc = _1.get_recap(state);
+                const state = create();
+                const doc = get_recap(state);
                 const str = RichText.to_text(doc);
-                chai_1.expect(str).to.include('Congratulations, you were chosen');
+                expect(str).to.include('Congratulations, you were chosen');
             });
         });
         context('when the user has already played', function () {
@@ -23,12 +20,12 @@ describe('⚔ 👑 😪  The Boring RPG - contextual messages', function () {
     describe('get tip', function () {
         context('when the user has just started a new game', function () {
             it('should suggest to play', () => {
-                const state = _1.create();
-                const doc = _1.get_tip(state);
+                const state = create();
+                const doc = get_tip(state);
                 const str = RichText.to_text(doc);
                 //console.log(`"${str}"`)
-                chai_1.expect(str).to.include('Tip:');
-                chai_1.expect(str).to.include('Select play');
+                expect(str).to.include('Tip:');
+                expect(str).to.include('Select play');
             });
         });
         context('when the user has already played', function () {

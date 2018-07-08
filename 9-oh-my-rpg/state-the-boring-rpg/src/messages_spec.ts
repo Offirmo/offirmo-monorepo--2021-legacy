@@ -24,7 +24,7 @@ describe('⚔ 👑 😪  The Boring RPG - contextual messages', function() {
 				const state = create()
 				const doc = get_recap(state)
 				const str = RichText.to_text(doc)
-				expect(str).to.include('Congratulations, adventurer from another world!')
+				expect(str).to.include('Congratulations, you were chosen')
 			})
 		})
 

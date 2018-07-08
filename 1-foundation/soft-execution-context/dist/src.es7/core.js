@@ -2,6 +2,7 @@ import { LIB, INTERNAL_PROP } from './constants';
 import { ROOT_PROTOTYPE } from './root-prototype';
 import * as State from './state';
 import { PLUGINS } from './plugins/index';
+import { decorateWithDetectedEnv } from './common';
 ROOT_PROTOTYPE.createChild = function createChild(args) {
     return createSEC(Object.assign({}, args, { parent: this }));
 };
@@ -28,21 +29,12 @@ function createSEC(args = {}) {
     SEC[INTERNAL_PROP] = state;
     // auto injections
     if (!args.parent) {
-        const ENV = typeof NODE_ENV === 'string'
-            ? NODE_ENV
-            : 'development';
         SEC.injectDependencies({
-            ENV,
             logger: console,
-            DEBUG: false,
         });
-        SEC.setAnalyticsDetails({
-            env: ENV,
-        });
+        decorateWithDetectedEnv(SEC);
     }
-    SEC.injectDependencies({
-        SEC,
-    });
+    SEC.injectDependencies({ SEC });
     // Here we could send an event on the SEC bus. No usage for now.
     // Her we could have lifecycle methods. No usage for now.
     if (unhandled_args.length)

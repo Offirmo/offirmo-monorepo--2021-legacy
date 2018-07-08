@@ -6508,9 +6508,9 @@ _sec2.default.xTry('loading savegame + creating game instance', ({ logger }) => 
 
 _sec2.default.xTry('init client state', ({ logger }) => {
 	game_instance.set_client_state(() => ({
-		VERSION: "0.51.49",
+		VERSION: "0.51.50",
 		ENV: "production",
-		BUILD_DATE: "20180706_10h22",
+		BUILD_DATE: "20180708_09h28",
 		CHANNEL: _channel.CHANNEL,
 		verbose: true, // XXX auto + through SEC ?
 		// can change:
@@ -9239,7 +9239,7 @@ exports.INTERNAL_PROP = INTERNAL_PROP;
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = __webpack_require__(2);
 tslib_1.__exportStar(__webpack_require__(235), exports);
-tslib_1.__exportStar(__webpack_require__(513), exports);
+tslib_1.__exportStar(__webpack_require__(512), exports);
 tslib_1.__exportStar(__webpack_require__(87), exports);
 //# sourceMappingURL=index.js.map
 
@@ -13857,7 +13857,7 @@ module.exports = MD5;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = __webpack_require__(2);
-tslib_1.__exportStar(__webpack_require__(512), exports);
+tslib_1.__exportStar(__webpack_require__(511), exports);
 //# sourceMappingURL=index.js.map
 
 /***/ }),
@@ -20331,6 +20331,7 @@ exports.LIB = constants_1.LIB;
 const root_prototype_1 = __webpack_require__(530);
 const State = tslib_1.__importStar(__webpack_require__(88));
 const index_1 = __webpack_require__(529);
+const common_1 = __webpack_require__(513);
 root_prototype_1.ROOT_PROTOTYPE.createChild = function createChild(args) {
     return createSEC(Object.assign({}, args, { parent: this }));
 };
@@ -20357,19 +20358,12 @@ function createSEC(args = {}) {
     SEC[constants_1.INTERNAL_PROP] = state;
     // auto injections
     if (!args.parent) {
-        const ENV = typeof NODE_ENV === 'string' ? NODE_ENV : 'development';
         SEC.injectDependencies({
-            ENV,
-            logger: console,
-            DEBUG: false
+            logger: console
         });
-        SEC.setAnalyticsDetails({
-            env: ENV
-        });
+        common_1.decorateWithDetectedEnv(SEC);
     }
-    SEC.injectDependencies({
-        SEC
-    });
+    SEC.injectDependencies({ SEC });
     // Here we could send an event on the SEC bus. No usage for now.
     // Her we could have lifecycle methods. No usage for now.
     if (unhandled_args.length) throw new Error(`${constants_1.LIB}›createSEC() argument error: unknown args: [${unhandled_args.join(',')}]!`);
@@ -25680,7 +25674,7 @@ module.exports = function() {
         silk = /silk/i.test(ua),
         sailfish = /sailfish/i.test(ua),
         tizen = /tizen/i.test(ua),
-        webos = /(web|hpw)os/i.test(ua),
+        webos = /(web|hpw)(o|0)s/i.test(ua),
         windowsphone = /windows phone/i.test(ua),
         samsungBrowser = /SamsungBrowser/i.test(ua),
         windows = !windowsphone && /windows/i.test(ua),
@@ -25713,11 +25707,29 @@ module.exports = function() {
         samsungBrowser: t,
         version: versionIdentifier || getFirstMatch(/(?:SamsungBrowser)[\s\/](\d+(\.\d+)?)/i)
       };
+    } else if (/Whale/i.test(ua)) {
+      result = {
+        name: 'NAVER Whale browser',
+        whale: t,
+        version: getFirstMatch(/(?:whale)[\s\/](\d+(?:\.\d+)+)/i)
+      };
+    } else if (/MZBrowser/i.test(ua)) {
+      result = {
+        name: 'MZ Browser',
+        mzbrowser: t,
+        version: getFirstMatch(/(?:MZBrowser)[\s\/](\d+(?:\.\d+)+)/i)
+      };
     } else if (/coast/i.test(ua)) {
       result = {
         name: 'Opera Coast',
         coast: t,
         version: versionIdentifier || getFirstMatch(/(?:coast)[\s\/](\d+(\.\d+)?)/i)
+      };
+    } else if (/focus/i.test(ua)) {
+      result = {
+        name: 'Focus',
+        focus: t,
+        version: getFirstMatch(/(?:focus)[\s\/](\d+(?:\.\d+)+)/i)
       };
     } else if (/yabrowser/i.test(ua)) {
       result = {
@@ -26026,7 +26038,7 @@ module.exports = function() {
 
     // Graded Browser Support
     // http://developer.yahoo.com/yui/articles/gbs
-    if (result.msedge || result.msie && result.version >= 10 || result.yandexbrowser && result.version >= 15 || result.vivaldi && result.version >= 1.0 || result.chrome && result.version >= 20 || result.samsungBrowser && result.version >= 4 || result.firefox && result.version >= 20.0 || result.safari && result.version >= 6 || result.opera && result.version >= 10.0 || result.ios && result.osversion && result.osversion.split(".")[0] >= 6 || result.blackberry && result.version >= 10.1 || result.chromium && result.version >= 20) {
+    if (result.msedge || result.msie && result.version >= 10 || result.yandexbrowser && result.version >= 15 || result.vivaldi && result.version >= 1.0 || result.chrome && result.version >= 20 || result.samsungBrowser && result.version >= 4 || result.whale && compareVersions([result.version, '1.0']) === 1 || result.mzbrowser && compareVersions([result.version, '6.0']) === 1 || result.focus && compareVersions([result.version, '1.0']) === 1 || result.firefox && result.version >= 20.0 || result.safari && result.version >= 6 || result.opera && result.version >= 10.0 || result.ios && result.osversion && result.osversion.split(".")[0] >= 6 || result.blackberry && result.version >= 10.1 || result.chromium && result.version >= 20) {
       result.a = t;
     } else if (result.msie && result.version < 10 || result.chrome && result.version < 20 || result.firefox && result.version < 20.0 || result.safari && result.version < 6 || result.opera && result.version < 10.0 || result.ios && result.osversion && result.osversion.split(".")[0] < 6 || result.chromium && result.version < 20) {
       result.c = t;
@@ -37671,7 +37683,7 @@ module.exports = '_~0123456789' + 'abcdefghijklmnopqrstuvwxyz' + 'ABCDEFGHIJKLMN
  * Alphabet must contain 256 symbols or less. Otherwise, the generator
  * will not be secure.
  *
- * @param {random} random The random bytess generator.
+ * @param {generator} random The random bytes generator.
  * @param {string} alphabet Symbols to be used in new random string.
  * @param {size} size The number of symbols in new random string.
  *
@@ -37689,6 +37701,7 @@ module.exports = '_~0123456789' + 'abcdefghijklmnopqrstuvwxyz' + 'ABCDEFGHIJKLMN
  * format(random, "abcdef", 5) //=> "fbaef"
  *
  * @name format
+ * @function
  */
 module.exports = function (random, alphabet, size) {
   var mask = (2 << Math.log(alphabet.length - 1) / Math.LN2) - 1;
@@ -37722,41 +37735,12 @@ module.exports = function (random, alphabet, size) {
 
 var crypto = self.crypto || self.msCrypto;
 
-module.exports = function (bytes) {
-  return crypto.getRandomValues(new Uint8Array(bytes));
-};
+var url = '_~getRandomVcryp0123456789bfhijklqsuvwxzABCDEFGHIJKLMNOPQSTUWXYZ';
 
-/***/ }),
-/* 511 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var random = __webpack_require__(510);
-
-var url = '_~0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
-/**
- * Generate secure URL-friendly unique ID.
- *
- * By default, ID will have 21 symbols to have a collision probability similar
- * to UUID v4.
- *
- * @param {number} [size=21] The number of symbols in ID.
- *
- * @return {string} Random string.
- *
- * @example
- * var nanoid = require('nanoid')
- * model.id = nanoid() //=> "Uakgb_J5m9g~0JDMbcJqL"
- *
- * @name nanoid
- */
 module.exports = function (size) {
   size = size || 21;
   var id = '';
-  var bytes = random(size);
+  var bytes = crypto.getRandomValues(new Uint8Array(size));
   while (0 < size--) {
     id += url[bytes[size] & 63];
   }
@@ -37764,7 +37748,7 @@ module.exports = function (size) {
 };
 
 /***/ }),
-/* 512 */
+/* 511 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37774,7 +37758,7 @@ module.exports = function (size) {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = __webpack_require__(2);
-const nanoid_1 = tslib_1.__importDefault(__webpack_require__(511));
+const nanoid_1 = tslib_1.__importDefault(__webpack_require__(510));
 const format_1 = tslib_1.__importDefault(__webpack_require__(509));
 const url_1 = tslib_1.__importDefault(__webpack_require__(508));
 const random_1 = __webpack_require__(42);
@@ -37797,7 +37781,7 @@ exports.generate_uuid = generate_uuid;
 //# sourceMappingURL=generate.js.map
 
 /***/ }),
-/* 513 */
+/* 512 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37815,6 +37799,29 @@ function getRootSEC() {
 }
 exports.getRootSEC = getRootSEC;
 //# sourceMappingURL=root.js.map
+
+/***/ }),
+/* 513 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function decorateWithDetectedEnv(SEC) {
+    const ENV = typeof NODE_ENV === 'string' ? NODE_ENV : 'development';
+    const DEBUG = false; // TODO or verbose?
+    SEC.injectDependencies({
+        ENV,
+        DEBUG: false
+    });
+    SEC.setAnalyticsAndErrorDetails({
+        env: ENV
+    });
+}
+module.exports = {
+    decorateWithDetectedEnv
+};
+//# sourceMappingURL=common.js.map
 
 /***/ }),
 /* 514 */
