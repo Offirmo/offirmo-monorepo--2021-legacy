@@ -38,7 +38,7 @@ SEC.emitter.on('final-error', function onError({SEC, err}) {
 	else {
 		set_imminent_captured_error(err)
 		raven_client.captureException(err)
-		console.log('(the error above↑ was reported)')
+		console.log('(this error will be reported)')
 	}
 })
 

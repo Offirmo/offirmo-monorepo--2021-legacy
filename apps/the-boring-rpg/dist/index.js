@@ -6285,9 +6285,9 @@ _sec2.default.xTry('loading savegame + creating game instance', ({ logger }) => 
 
 _sec2.default.xTry('init client state', ({ logger }) => {
 	game_instance.set_client_state(() => ({
-		VERSION: "0.51.56",
+		VERSION: "0.51.57",
 		ENV: "production",
-		BUILD_DATE: "20180713_13h38",
+		BUILD_DATE: "20180713_13h43",
 		CHANNEL: _channel.CHANNEL,
 		verbose: true, // XXX auto + through SEC ?
 		// can change:
@@ -22087,12 +22087,12 @@ const error_reporter = new _ravenJs2.default.Client();
 error_reporter.config('https://ac5806cad5534bcf82f23d857a1ffce5@sentry.io/1235383', {
 	// https://docs.sentry.io/clients/javascript/config/
 	// logger ?
-	release: "0.51.56",
+	release: "0.51.57",
 	environment: "production",
 	serverName: DEVICE_UUID,
 	tags: {
 		//git_commit: 'c0deb10c4',
-		BUILD_DATE: "20180713_13h38",
+		BUILD_DATE: "20180713_13h43",
 		CHANNEL: _channel.CHANNEL
 	},
 	// whitelistUrls: [...],
@@ -22119,6 +22119,7 @@ error_reporter.config('https://ac5806cad5534bcf82f23d857a1ffce5@sentry.io/123538
 			imminent_error = null;
 		}
 
+		console.log('(this error has been reported)');
 		return data;
 	},
 	/*breadcrumbCallback: function(crumb) {
@@ -22127,7 +22128,7 @@ error_reporter.config('https://ac5806cad5534bcf82f23d857a1ffce5@sentry.io/123538
  	return crumb
  },*/
 	/*shouldSendCallback: function(data) {
- 	console.log('raven shouldSendCallback(…)', data)
+ 	//console.log('raven shouldSendCallback(…)', data)
  	return true
  },*/
 	// maxMessageLength
@@ -27335,7 +27336,7 @@ decorateWithDetectedEnv(SEC);
 
 SEC.setAnalyticsAndErrorDetails({
 	product: 'tbrpg',
-	v: "0.51.56",
+	v: "0.51.57",
 	channel: _channel.CHANNEL
 });
 
@@ -27347,7 +27348,7 @@ SEC.emitter.on('final-error', function onError({ SEC, err }) {
 	} else {
 		(0, _raven.set_imminent_captured_error)(err);
 		_raven2.default.captureException(err);
-		console.log('(the error above↑ was reported)');
+		console.log('(this error will be reported)');
 	}
 });
 

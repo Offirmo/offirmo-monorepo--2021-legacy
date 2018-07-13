@@ -46,6 +46,7 @@ error_reporter
 			}
 			else {
 				const all_details = imminent_error.details || {}
+				// clean up some unneeded details, redundant with Raven
 				const { ENV, browser_name, channel, v, ...details } = all_details
 				data.tags = {
 					...data.tags,
@@ -54,6 +55,7 @@ error_reporter
 				imminent_error = null
 			}
 
+			console.log('(this error has been reported)')
 			return data
 		},
 		/*breadcrumbCallback: function(crumb) {
@@ -62,7 +64,7 @@ error_reporter
 			return crumb
 		},*/
 		/*shouldSendCallback: function(data) {
-			console.log('raven shouldSendCallback(…)', data)
+			//console.log('raven shouldSendCallback(…)', data)
 			return true
 		},*/
 		// maxMessageLength
