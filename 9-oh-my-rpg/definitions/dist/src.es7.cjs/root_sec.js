@@ -10,7 +10,6 @@ function decorate_SEC(SEC) {
     });
     SEC.setAnalyticsAndErrorDetails({
         product: consts_1.PRODUCT,
-        version: consts_1.VERSION,
     });
     return SEC; // for chaining
 }

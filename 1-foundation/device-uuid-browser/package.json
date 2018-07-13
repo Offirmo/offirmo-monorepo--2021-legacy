@@ -1,0 +1,11 @@
+{
+	"name": "@offirmo/device-uuid-browser",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+	"version": "0.0.1",
+	"main": "index.js",
+	"devDependencies": {
+		"@offirmo/uuid": "0.0.1"
+	}
+}

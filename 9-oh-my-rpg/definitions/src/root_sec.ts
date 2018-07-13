@@ -1,4 +1,4 @@
-import { PRODUCT, VERSION } from './consts'
+import { PRODUCT } from './consts'
 
 /////////////////////
 // TODO move to SEC lib when turned to TS
@@ -35,7 +35,6 @@ function decorate_SEC(SEC: SoftExecutionContext): SoftExecutionContext {
 
 	SEC.setAnalyticsAndErrorDetails({
 		product: PRODUCT,
-		version: VERSION,
 		// TODO add more details
 	})
 

@@ -8,11 +8,11 @@ function decorateWithDetectedEnv(SEC) {
 
 	SEC.injectDependencies({
 		ENV,
-		DEBUG: false, // verbose? TODO
+		DEBUG,
 	})
 
 	SEC.setAnalyticsAndErrorDetails({
-		env: ENV,
+		ENV,
 	})
 }
 

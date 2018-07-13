@@ -5,6 +5,7 @@
 	"private": true,
 	"version": "0.0.2",
 	"main": "src/index.js",
+
 	"dependencies": {
 		"@offirmo/soft-execution-context": "^0.0.2"
 	},

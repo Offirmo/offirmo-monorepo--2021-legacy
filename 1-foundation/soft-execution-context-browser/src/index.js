@@ -41,7 +41,7 @@ function listenToErrorEvents() {
 			shouldRethrow: false,
 		}, err)
 
-		evt.preventDefault(); // XXX should we?
+		//evt.preventDefault(); // XXX should we?
 	});
 }
 
@@ -51,7 +51,8 @@ function listenToUnhandledRejections() {
 		.createChild()
 		.setLogicalStack({operation: '(browser/unhandled rejection)'})
 
-	window.onunhandledrejection = function(evt) {
+	//window.onunhandledrejection = function(evt) {
+	window.addEventListener('unhandledrejection', function(evt) {
 		// https://developer.mozilla.org/en-US/docs/Web/API/PromiseRejectionEvent
 		//console.log('DEBUG SEC browser debug: onunhandledrejection', arguments) // TODO analyze
 		const err = evt.reason || new Error(`Error: uncaught promise rejection!`)
@@ -61,14 +62,12 @@ function listenToUnhandledRejections() {
 			debugId: 'browser/unhandled rejection',
 			shouldRethrow: false,
 		}, err)
-
-		return true; // same as preventDefault XXX should we?
-	};
+	})
 }
 
 
-function decorateWithDetectedEnv() {
-	const SEC = getRootSEC()
+function decorateWithDetectedEnv(SEC) {
+	SEC = SEC || getRootSEC()
 
 	// TODO normalize that!
 	const details = {

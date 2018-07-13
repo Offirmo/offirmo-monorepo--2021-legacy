@@ -6,10 +6,10 @@ function decorateWithDetectedEnv(SEC) {
     const DEBUG = false; // TODO or verbose?
     SEC.injectDependencies({
         ENV,
-        DEBUG: false,
+        DEBUG,
     });
     SEC.setAnalyticsAndErrorDetails({
-        env: ENV,
+        ENV,
     });
 }
 module.exports = {

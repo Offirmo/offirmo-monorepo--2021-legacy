@@ -40,7 +40,7 @@ export default class DevArea extends Component {
 					<button onClick={() => {window.location.reload()}}>🔄</button>
 				</td>
 			</tr>,
-			<tr key="TES">
+			<tr key="SE">
 				<td>
 					<button onClick={() => {
 						throw new Error('TEST ERROR synchronous!')
@@ -48,18 +48,25 @@ export default class DevArea extends Component {
 					</button>
 				</td>
 			</tr>,
-			<tr key="TEA">
+			<tr key="AE">
 				<td>
 					<button onClick={() => {
 						setTimeout(() => { throw new Error('TEST ERROR Asynchronous!') }, 200)
 					}}>🔥AE</button>
 				</td>
 			</tr>,
-			<tr key="TPR">
+			<tr key="UP">
 				<td>
 					<button onClick={() => {
 						setTimeout(() => { Promise.reject(new Error('TEST ERROR promise rejection!')) }, 200)
 					}}>🔥UP</button>
+				</td>
+			</tr>,
+			<tr key="UP2">
+				<td>
+					<button onClick={() => {
+						setTimeout(() => { new Promise((rs, rj) => rj(new Error('TEST ERROR promise rejection!'))) }, 200)
+					}}>🔥UP2</button>
 				</td>
 			</tr>,
 		]

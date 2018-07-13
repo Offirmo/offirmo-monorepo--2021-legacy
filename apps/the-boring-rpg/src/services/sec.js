@@ -1,6 +1,7 @@
 "use strict";
 
-const { createLogger } = require('@offirmo/practical-logger-browser')
+import {CHANNEL} from './channel'
+
 const { getRootSEC } = require('@offirmo/soft-execution-context')
 const {
 	listenToErrorEvents,
@@ -10,47 +11,24 @@ const {
 const { decorate_SEC } = require('@oh-my-rpg/definitions')
 
 import { LIB } from './consts'
+import logger from './logger'
 
 /////////////////////////////////////////////////
-
-const logger = createLogger({
-	name: LIB,
-	level: 'silly',
-})
-
-logger.trace(`Logger up with level "${logger.getLevel()}".`)
-
-// test
-if (false) {
-	console.group('Testing log levels...')
-	;[
-		'fatal',
-		'emerg',
-		'alert',
-		'crit',
-		'error',
-		'warning',
-		'warn',
-		'notice',
-		'info',
-		'verbose',
-		'log',
-		'debug',
-		'trace',
-		'silly',
-	].forEach(level => {
-		console.log(`logger demo with level "${level}":`)
-		logger[level](`logger demo with level "${level}"`, {level})
-	})
-}
-
-logger.notice(`Hello from ${LIB}...`)
 
 const SEC = getRootSEC()
 	.setLogicalStack({ module: LIB })
 	.injectDependencies({ logger })
 
 decorate_SEC(SEC)
+decorateWithDetectedEnv(SEC)
+
+SEC.setAnalyticsAndErrorDetails({
+	product: 'tbrpg',
+	v: WI_VERSION,
+	channel: CHANNEL,
+})
+
+/////////////////////////////////////////////////
 
 SEC.emitter.on('final-error', function onError({SEC, err}) {
 	// TODO sentry instead
@@ -58,19 +36,22 @@ SEC.emitter.on('final-error', function onError({SEC, err}) {
 })
 
 SEC.emitter.on('analytics', function onAnalytics({SEC, eventId, details}) {
+	// TODO google!
 	console.groupCollapsed(`⚡  Analytics! ⚡  ${eventId}`)
 	console.log('details', details)
 	console.groupEnd()
 })
 
-
-/* TODO
 listenToErrorEvents()
 listenToUnhandledRejections()
-*/
-decorateWithDetectedEnv()
 
-logger.trace('Soft Execution Context initialized.')
+logger.trace('Soft Execution Context initialized.', {SEC})
+
+
+const { ENV } = SEC.getInjectedDependencies()
+if (ENV !== WI_ENV) {
+	logger.error('ENV detection mismatch!', {'SEC.ENV': ENV, 'WI_ENV': WI_ENV})
+}
 
 /////////////////////////////////////////////////
 

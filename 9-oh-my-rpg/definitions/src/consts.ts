@@ -6,7 +6,7 @@ import { ItemQuality, InventorySlot } from './types'
 
 ///////
 
-const VERSION = 'v0.1.0'
+//const VERSION = 'v0.1.0' // TODO remove, misleading
 const PRODUCT = '@oh-my-rpg'
 
 ///////
@@ -41,7 +41,7 @@ const MAX_LEVEL = 9999
 /////////////////////
 
 export {
-	VERSION,
+//	VERSION,
 	PRODUCT,
 	ITEM_QUALITIES,
 	ITEM_QUALITIES_TO_INT,

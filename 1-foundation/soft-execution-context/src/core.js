@@ -24,14 +24,13 @@ function createSEC(args = {}) {
 
 	if (args.parent && !isSEC(args.parent))
 		throw new Error(`${LIB}›createSEC() argument error: parent must be a valid SEC!`)
-	args.parent = args.parent || {}
 
 	let unhandled_args = Object.keys(args)
 
 	let SEC = Object.create(ROOT_PROTOTYPE)
 
 	/////// STATE ///////
-	let parent_state = args.parent[INTERNAL_PROP]
+	let parent_state = args.parent ? args.parent[INTERNAL_PROP] : undefined
 	let state = State.create(parent_state)
 	unhandled_args = unhandled_args.filter(arg => arg !== 'parent')
 
@@ -50,6 +49,8 @@ function createSEC(args = {}) {
 		decorateWithDetectedEnv(SEC)
 	}
 	SEC.injectDependencies({ SEC })
+
+	//console.log('createSEC', SEC, args.parent)
 
 	// Here we could send an event on the SEC bus. No usage for now.
 	// Her we could have lifecycle methods. No usage for now.

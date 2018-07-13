@@ -1,4 +1,4 @@
-import { PRODUCT, VERSION } from './consts';
+import { PRODUCT } from './consts';
 /////////////////////
 const enforce_immutability = (v) => v;
 //const enforce_immutability = (state: State) => deepFreeze(state) TODO
@@ -8,7 +8,6 @@ function decorate_SEC(SEC) {
     });
     SEC.setAnalyticsAndErrorDetails({
         product: PRODUCT,
-        version: VERSION,
     });
     return SEC; // for chaining
 }

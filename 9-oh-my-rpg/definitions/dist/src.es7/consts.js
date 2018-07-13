@@ -2,7 +2,7 @@
 import { Enum } from 'typescript-string-enums';
 import { ItemQuality, InventorySlot } from './types';
 ///////
-const VERSION = 'v0.1.0';
+//const VERSION = 'v0.1.0' // TODO remove, misleading
 const PRODUCT = '@oh-my-rpg';
 ///////
 const ITEM_QUALITIES = Enum.keys(ItemQuality);
@@ -26,6 +26,8 @@ const ITEM_SLOTS_TO_INT = {
 const MIN_LEVEL = 1;
 const MAX_LEVEL = 9999;
 /////////////////////
-export { VERSION, PRODUCT, ITEM_QUALITIES, ITEM_QUALITIES_TO_INT, ITEM_SLOTS, ITEM_SLOTS_TO_INT, MIN_LEVEL, MAX_LEVEL, };
+export { 
+//	VERSION,
+PRODUCT, ITEM_QUALITIES, ITEM_QUALITIES_TO_INT, ITEM_SLOTS, ITEM_SLOTS_TO_INT, MIN_LEVEL, MAX_LEVEL, };
 /////////////////////
 //# sourceMappingURL=consts.js.map

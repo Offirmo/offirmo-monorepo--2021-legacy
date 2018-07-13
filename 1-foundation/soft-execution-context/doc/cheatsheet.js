@@ -14,6 +14,7 @@ SEC.injectDependencies({
 	logger: console,
 })
 SEC.setAnalyticsDetails({
+SEC.setAnalyticsAndErrorDetails({
 	v: '2.3',
 })
 SEC.emitter.on('final-error', function onError({err}) {
@@ -23,6 +24,7 @@ SEC.emitter.on('analytics', function onAnalyticsEvent({eventId, details}) {
 	...
 })
 
+const { ENV } = SEC.getInjectedDependencies()
 SEC.listenToUncaughtErrors()
 SEC.listenToUnhandledRejections()
 logger.trace('Soft Execution Context initialized.')
