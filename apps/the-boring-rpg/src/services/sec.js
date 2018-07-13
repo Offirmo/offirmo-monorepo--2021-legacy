@@ -12,6 +12,7 @@ const { decorate_SEC } = require('@oh-my-rpg/definitions')
 
 import { LIB } from './consts'
 import logger from './logger'
+import raven_client, { set_imminent_captured_error } from './raven'
 
 /////////////////////////////////////////////////
 
@@ -31,8 +32,14 @@ SEC.setAnalyticsAndErrorDetails({
 /////////////////////////////////////////////////
 
 SEC.emitter.on('final-error', function onError({SEC, err}) {
-	// TODO sentry instead
-	logger.fatal('error!', {err})
+	if (CHANNEL === 'dev') {
+		logger.fatal('↑ error!', {SEC, err})
+	}
+	else {
+		set_imminent_captured_error(err)
+		raven_client.captureException(err)
+		console.log('(the error above↑ was reported)')
+	}
 })
 
 SEC.emitter.on('analytics', function onAnalytics({SEC, eventId, details}) {

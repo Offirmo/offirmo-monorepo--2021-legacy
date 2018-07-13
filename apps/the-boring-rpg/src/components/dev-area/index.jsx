@@ -43,7 +43,9 @@ export default class DevArea extends Component {
 			<tr key="SE">
 				<td>
 					<button onClick={() => {
-						throw new Error('TEST ERROR synchronous!')
+						const e = new Error('TEST ERROR synchronous!')
+						e.details = 'SE'
+						throw e
 					}}>🔥SE
 					</button>
 				</td>
@@ -51,7 +53,11 @@ export default class DevArea extends Component {
 			<tr key="AE">
 				<td>
 					<button onClick={() => {
-						setTimeout(() => { throw new Error('TEST ERROR Asynchronous!') }, 200)
+						setTimeout(() => {
+							const e = new Error('TEST ERROR Asynchronous!')
+							e.details = 'AE'
+							throw e
+						}, 200)
 					}}>🔥AE</button>
 				</td>
 			</tr>,

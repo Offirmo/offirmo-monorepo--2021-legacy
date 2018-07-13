@@ -90,7 +90,8 @@ const config: webpack.Configuration = {
 	///////
 	plugins: [
 		new webpack.DefinePlugin({
-			//'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
+			// confirmed: manually declaring NODE_ENV is needed!
+			'NODE_ENV': JSON.stringify(NODE_ENV),
 			// WI = Webpack Injected
 			WI_BASE_PATH: JSON.stringify(BASE_PATH), // inject it for react-router basename auto-detection
 			WI_ENV: JSON.stringify(NODE_ENV),

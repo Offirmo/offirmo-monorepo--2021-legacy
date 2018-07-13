@@ -6,7 +6,22 @@ import ensureDeviceUUID from '@offirmo/device-uuid-browser'
 
 const DEVICE_UUID = ensureDeviceUUID()
 
-Raven
+///////
+
+let imminent_error = null
+export function set_imminent_captured_error(err) {
+	if (imminent_error) {
+		// previous one wasn't handled...
+		console.error('set_imminent_captured_error(): Hey!')
+	}
+
+	imminent_error = err
+}
+
+
+const error_reporter = new Raven.Client();
+
+error_reporter
 	.config('https://ac5806cad5534bcf82f23d857a1ffce5@sentry.io/1235383', {
 		// https://docs.sentry.io/clients/javascript/config/
 		// logger ?
@@ -27,6 +42,18 @@ Raven
 		dataCallback: function(data) {
 			console.log('raven dataCallback(…)', data)
 			// do something to data
+			if (!imminent_error) {
+				// previous one wasn't handled...
+				console.error('raven dataCallback(…): set_imminent_captured_error() wasnt called!')
+			}
+			else {
+				data.tags = {
+					...data.tags,
+					...(imminent_error.details || {})
+				}
+				imminent_error = null
+			}
+
 			return data
 		},
 		/*breadcrumbCallback: function(crumb) {
@@ -42,25 +69,40 @@ Raven
 		// maxUrlLength
 		// autoBreadcrumbs
 		// maxBreadcrumbs
-		// captureUnhandledRejections: false,
+		captureUnhandledRejections: false,
 		/* transport: function (options) {
 			... send data
 		},*/
 		// allowDuplicates
 		// allowSecretKey
-		debug: true,
+		//debug: true,
 		//instrument:
 	})
-	.install();
+	//.install();
 
+/*
 // https://docs.sentry.io/clients/javascript/usage/#tracking-users
 // TODO
 Raven.setUserContext({
 	email: 'matt@example.com',
 	id: '123'
 })
+*/
+
+/*
+Raven.captureException(new Error('Oops!')
+
+Raven.wrap({
+		tags: {git_commit: 'c0deb10c4'}
+	}, function () { … });
 
 Raven.captureMessage('Test captureMessage1')
 Raven.captureMessage('Test captureMessage2', {
 	level: 'info' // one of 'info', 'warning', or 'error'
 })
+
+Raven.showReportDialog();
+*/
+
+export default error_reporter
+

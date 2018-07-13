@@ -1,6 +1,6 @@
 import { generate_uuid } from '@offirmo/uuid'
 
-export const LS_KEY = 'XO.device_uuid'
+export const LS_KEY = 'XOF.device_uuid'
 
 export default function ensureDeviceUUID({storage = window.localStorage} = {}) {
 	let UUID = storage.getItem(LS_KEY)

@@ -7,6 +7,7 @@ function decorateWithDetectedEnv(SEC) {
     SEC.injectDependencies({
         ENV,
         DEBUG,
+        'NODE_ENV': ENV,
     });
     SEC.setAnalyticsAndErrorDetails({
         ENV,

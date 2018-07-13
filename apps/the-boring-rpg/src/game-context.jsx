@@ -10,7 +10,9 @@ let game_instance = null
 
 SEC.xTry('loading savegame + creating game instance', ({logger}) => {
 	logger.verbose(`Storage key: "${LS_KEYS.savegame}"`)
-	const lscontent = localStorage.getItem(LS_KEYS.savegame)
+
+	let lscontent = localStorage.getItem(LS_KEYS.savegame) || localStorage.getItem('the-boring-rpg.savegame')
+	localStorage.removeItem('the-boring-rpg.savegame')
 
 	let state = null
 	try {

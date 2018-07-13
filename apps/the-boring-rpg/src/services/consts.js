@@ -4,7 +4,7 @@ const LIB = 'the-boring-rpg'
 const SCHEMA_VERSION = 1
 
 const LS_KEYS = {
-	savegame: `${LIB}.savegame`,
+	savegame: `XOF.${LIB}.savegame`,
 }
 
 export {
