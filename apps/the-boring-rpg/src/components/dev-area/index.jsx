@@ -44,7 +44,6 @@ export default class DevArea extends Component {
 				<td>
 					<button onClick={() => {
 						const e = new Error('TEST ERROR synchronous!')
-						e.details = 'SE'
 						throw e
 					}}>🔥SE
 					</button>
@@ -55,7 +54,6 @@ export default class DevArea extends Component {
 					<button onClick={() => {
 						setTimeout(() => {
 							const e = new Error('TEST ERROR Asynchronous!')
-							e.details = 'AE'
 							throw e
 						}, 200)
 					}}>🔥AE</button>
@@ -66,13 +64,6 @@ export default class DevArea extends Component {
 					<button onClick={() => {
 						setTimeout(() => { Promise.reject(new Error('TEST ERROR promise rejection!')) }, 200)
 					}}>🔥UP</button>
-				</td>
-			</tr>,
-			<tr key="UP2">
-				<td>
-					<button onClick={() => {
-						setTimeout(() => { new Promise((rs, rj) => rj(new Error('TEST ERROR promise rejection!'))) }, 200)
-					}}>🔥UP2</button>
 				</td>
 			</tr>,
 		]

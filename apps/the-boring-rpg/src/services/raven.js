@@ -11,15 +11,14 @@ const DEVICE_UUID = ensureDeviceUUID()
 let imminent_error = null
 export function set_imminent_captured_error(err) {
 	if (imminent_error) {
-		// previous one wasn't handled...
-		console.error('set_imminent_captured_error(): Hey!')
+		console.error('set_imminent_captured_error(): previous error wasn\'t handled!')
 	}
 
 	imminent_error = err
 }
 
 
-const error_reporter = new Raven.Client();
+const error_reporter = new Raven.Client()
 
 error_reporter
 	.config('https://ac5806cad5534bcf82f23d857a1ffce5@sentry.io/1235383', {
@@ -40,16 +39,17 @@ error_reporter
 		// sampleRate:
 		// sanitizeKeys:
 		dataCallback: function(data) {
-			console.log('raven dataCallback(…)', data)
+			//console.log('raven dataCallback(…)', data)
 			// do something to data
 			if (!imminent_error) {
-				// previous one wasn't handled...
 				console.error('raven dataCallback(…): set_imminent_captured_error() wasnt called!')
 			}
 			else {
+				const all_details = imminent_error.details || {}
+				const { ENV, browser_name, channel, v, ...details } = all_details
 				data.tags = {
 					...data.tags,
-					...(imminent_error.details || {})
+					...details,
 				}
 				imminent_error = null
 			}

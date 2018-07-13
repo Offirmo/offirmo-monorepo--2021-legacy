@@ -6285,9 +6285,9 @@ _sec2.default.xTry('loading savegame + creating game instance', ({ logger }) => 
 
 _sec2.default.xTry('init client state', ({ logger }) => {
 	game_instance.set_client_state(() => ({
-		VERSION: "0.51.55",
+		VERSION: "0.51.56",
 		ENV: "production",
-		BUILD_DATE: "20180713_13h28",
+		BUILD_DATE: "20180713_13h38",
 		CHANNEL: _channel.CHANNEL,
 		verbose: true, // XXX auto + through SEC ?
 		// can change:
@@ -22065,6 +22065,8 @@ var _deviceUuidBrowser2 = _interopRequireDefault(_deviceUuidBrowser);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
 /////////////////////////////////////////////////
 
 const DEVICE_UUID = (0, _deviceUuidBrowser2.default)();
@@ -22074,8 +22076,7 @@ const DEVICE_UUID = (0, _deviceUuidBrowser2.default)();
 let imminent_error = null;
 function set_imminent_captured_error(err) {
 	if (imminent_error) {
-		// previous one wasn't handled...
-		console.error('set_imminent_captured_error(): Hey!');
+		console.error('set_imminent_captured_error(): previous error wasn\'t handled!');
 	}
 
 	imminent_error = err;
@@ -22086,12 +22087,12 @@ const error_reporter = new _ravenJs2.default.Client();
 error_reporter.config('https://ac5806cad5534bcf82f23d857a1ffce5@sentry.io/1235383', {
 	// https://docs.sentry.io/clients/javascript/config/
 	// logger ?
-	release: "0.51.55",
+	release: "0.51.56",
 	environment: "production",
 	serverName: DEVICE_UUID,
 	tags: {
 		//git_commit: 'c0deb10c4',
-		BUILD_DATE: "20180713_13h28",
+		BUILD_DATE: "20180713_13h38",
 		CHANNEL: _channel.CHANNEL
 	},
 	// whitelistUrls: [...],
@@ -22101,13 +22102,20 @@ error_reporter.config('https://ac5806cad5534bcf82f23d857a1ffce5@sentry.io/123538
 	// sampleRate:
 	// sanitizeKeys:
 	dataCallback: function dataCallback(data) {
-		console.log('raven dataCallback(…)', data);
+		//console.log('raven dataCallback(…)', data)
 		// do something to data
 		if (!imminent_error) {
-			// previous one wasn't handled...
 			console.error('raven dataCallback(…): set_imminent_captured_error() wasnt called!');
 		} else {
-			data.tags = _extends({}, data.tags, imminent_error.details || {});
+			const all_details = imminent_error.details || {};
+
+			const ENV = all_details.ENV,
+			      browser_name = all_details.browser_name,
+			      channel = all_details.channel,
+			      v = all_details.v,
+			      details = _objectWithoutProperties(all_details, ['ENV', 'browser_name', 'channel', 'v']);
+
+			data.tags = _extends({}, data.tags, details);
 			imminent_error = null;
 		}
 
@@ -23461,7 +23469,6 @@ class DevArea extends _react.Component {
 					'button',
 					{ onClick: () => {
 							const e = new Error('TEST ERROR synchronous!');
-							e.details = 'SE';
 							throw e;
 						} },
 					'\uD83D\uDD25SE'
@@ -23478,7 +23485,6 @@ class DevArea extends _react.Component {
 					{ onClick: () => {
 							setTimeout(() => {
 								const e = new Error('TEST ERROR Asynchronous!');
-								e.details = 'AE';
 								throw e;
 							}, 200);
 						} },
@@ -23499,22 +23505,6 @@ class DevArea extends _react.Component {
 							}, 200);
 						} },
 					'\uD83D\uDD25UP'
-				)
-			)
-		), _react2.default.createElement(
-			'tr',
-			{ key: 'UP2' },
-			_react2.default.createElement(
-				'td',
-				null,
-				_react2.default.createElement(
-					'button',
-					{ onClick: () => {
-							setTimeout(() => {
-								new Promise((rs, rj) => rj(new Error('TEST ERROR promise rejection!')));
-							}, 200);
-						} },
-					'\uD83D\uDD25UP2'
 				)
 			)
 		)];
@@ -27345,7 +27335,7 @@ decorateWithDetectedEnv(SEC);
 
 SEC.setAnalyticsAndErrorDetails({
 	product: 'tbrpg',
-	v: "0.51.55",
+	v: "0.51.56",
 	channel: _channel.CHANNEL
 });
 
