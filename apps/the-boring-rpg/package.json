@@ -1,6 +1,6 @@
 {
 	"name": "the-boring-rpg",
-	"version": "0.51.57",
+	"version": "0.51.58",
 	"private": true,
 	"description": "⚔🛡💰 The boring RPG browser game, reloaded!",
 	"author": "Offirmo <offirmo.net@gmail.com>",
@@ -41,7 +41,7 @@
 	"dependencies": {},
 	"devDependencies": {
 		"@offirmo/cli-toolbox": "^1",
-		"@offirmo/device-uuid-browser": "0.0.1",
+		"@offirmo/ensure-device-uuid-browser": "^0.0.1",
 		"@offirmo/marketing-rsrc": "^0.0.1",
 		"@offirmo/practical-logger-browser": "^0.0.1",
 		"@offirmo/react-error-boundary": "^0.0.1",

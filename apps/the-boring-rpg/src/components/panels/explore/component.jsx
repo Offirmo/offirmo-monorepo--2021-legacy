@@ -4,6 +4,7 @@ import { render_adventure } from '@oh-my-rpg/view-rich-text'
 const { get_snapshot: get_energy_snapshot } = require('@oh-my-rpg/state-energy')
 
 import { Chat } from '../../chat-interface'
+//import PlayButton from '../../play-button'
 import { rich_text_to_react } from '../../../utils/rich_text_to_react'
 
 const tbrpg = require('@oh-my-rpg/state-the-boring-rpg')
@@ -126,6 +127,7 @@ export default class Component extends React.Component {
 						}))
 					}}
 				/>
+				{/* <PlayButton /> */}
 			</div>
 		)
 	}

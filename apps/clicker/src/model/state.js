@@ -63,22 +63,18 @@ function create({DEBUG = true, now_ms} = {}) {
 	now_ms = now_ms || get_UTC_timestamp_ms({DEBUG})
 	if (DEBUG) console.log({now_ms})
 
-	const stable = {
-		uuid: generate_uuid(),
-		creation_date: get_human_readable_UTC_timestamp_minutes(),
-		interaction_count: 0,
-		click_count: 0, // click as in clicker
-		bought_upgrades: [],
-	}
-
-	let snapshot = {
-		date_ms: now_ms,
-		wasted_ideas_x1000: 0,
-	}
-
 	const new_state = {
-		stable,
-		snapshot,
+		stable: {
+			uuid: generate_uuid(),
+			creation_date: get_human_readable_UTC_timestamp_minutes(),
+			interaction_count: 0,
+			click_count: 0, // click as in clicker
+			bought_upgrades: [],
+		},
+		snapshot: {
+			date_ms: now_ms,
+			wasted_ideas_x1000: 0,
+		}
 	}
 
 	if (DEBUG) console.log('created state:', new_state)

@@ -1,5 +1,5 @@
 {
-	"name": "@offirmo/device-uuid-browser",
+	"name": "@offirmo/ensure-device-uuid-browser",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 	"private": true,

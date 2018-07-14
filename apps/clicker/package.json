@@ -1,6 +1,6 @@
 {
 	"name": "clicker",
-	"version": "0.0.7",
+	"version": "0.0.8",
 	"description": "trying a clicker",
 	"main": "index.js",
 	"author": "Offirmo <offirmo.net@gmail.com>",

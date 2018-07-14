@@ -1,5 +1,6 @@
 import bowser from 'bowser'
 import { getRootSEC } from '@offirmo/soft-execution-context'
+import ensureDeviceUUID from '@offirmo/ensure-device-uuid-browser'
 
 
 // XXX redundant, next one is better (?rly)
@@ -69,8 +70,8 @@ function listenToUnhandledRejections() {
 function decorateWithDetectedEnv(SEC) {
 	SEC = SEC || getRootSEC()
 
-	// TODO normalize that!
 	const details = {
+		// TODO normalize browser/os detection!
 		browser_name: bowser.name,
 		browser_version: bowser.version,
 		browser_grade: bowser.a
@@ -85,6 +86,7 @@ function decorateWithDetectedEnv(SEC) {
 				: 'desktop',
 		os_name: bowser.osname,
 		os_release: bowser.osversion,
+		device_uuid: ensureDeviceUUID(),
 	}
 
 	SEC.setAnalyticsAndErrorDetails(details)

@@ -286,7 +286,7 @@ eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nconst 
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\nfunction decorateWithDetectedEnv(SEC) {\n    const ENV = typeof NODE_ENV === 'string'\n        ? NODE_ENV\n        : 'development';\n    const DEBUG = false; // TODO or verbose?\n    SEC.injectDependencies({\n        ENV,\n        DEBUG,\n    });\n    SEC.setAnalyticsAndErrorDetails({\n        ENV,\n    });\n}\nmodule.exports = {\n    decorateWithDetectedEnv,\n};\n//# sourceMappingURL=common.js.map\n\n//# sourceURL=webpack:////Users/yjutard/work/src/off/offirmo-monorepo/1-foundation/soft-execution-context/dist/src.es7.cjs/common.js?");
+eval("\nfunction decorateWithDetectedEnv(SEC) {\n    const ENV = typeof NODE_ENV === 'string'\n        ? NODE_ENV\n        : 'development';\n    const DEBUG = false; // TODO or verbose?\n    SEC.injectDependencies({\n        ENV,\n        DEBUG,\n        'NODE_ENV': ENV,\n    });\n    SEC.setAnalyticsAndErrorDetails({\n        ENV,\n    });\n}\nmodule.exports = {\n    decorateWithDetectedEnv,\n};\n//# sourceMappingURL=common.js.map\n\n//# sourceURL=webpack:////Users/yjutard/work/src/off/offirmo-monorepo/1-foundation/soft-execution-context/dist/src.es7.cjs/common.js?");
 
 /***/ }),
 

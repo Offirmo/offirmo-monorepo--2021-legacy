@@ -1,6 +1,6 @@
 import Raven from 'raven-js'
 import {CHANNEL} from './channel'
-import ensureDeviceUUID from '@offirmo/device-uuid-browser'
+import ensureDeviceUUID from '@offirmo/ensure-device-uuid-browser'
 
 /////////////////////////////////////////////////
 
@@ -47,7 +47,7 @@ error_reporter
 			else {
 				const all_details = imminent_error.details || {}
 				// clean up some unneeded details, redundant with Raven
-				const { ENV, browser_name, channel, v, ...details } = all_details
+				const { device_uuid, ENV, browser_name, channel, v, ...details } = all_details
 				data.tags = {
 					...data.tags,
 					...details,
