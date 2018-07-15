@@ -10,14 +10,28 @@
 		"typescript-string-enums": "^0.3"
 	},
 	"devDependencies": {
+		"@offirmo/view-css": "^0.0.1",
+		"@offirmo/practical-logger-browser": "^0.0.1",
+		"babel-plugin-transform-class-properties": "^6",
+		"babel-polyfill": "^6",
+		"babel-preset-env": "^1",
+		"babel-preset-react": "^6",
+		"babel-preset-stage-0": "^6",
+		"babel-runtime": "^6",
+		"classnames": "^2",
 		"indent-string": "^3",
 		"linewrap": "^0.2",
 		"npm-run-all": "^4",
+		"parcel-bundler": "^1",
 		"prettyjson": "^1",
+		"react": "^16",
+		"react-dom": "^16",
 		"tslib": "^1"
 	},
 	"scripts": {
-		"clean": "node ../../scripts/clean.js dist",
+		"clean": "node ../../scripts/clean.js dist .cache",
+		"start:parcel": "parcel doc/demo-web/index.html",
+		"start": "run-s clean start:parcel",
 
 		"build:dev:watch": "node ../../scripts/build-typescript.js --watch",
 		"build:prod": "node ../../scripts/build-typescript.js",
