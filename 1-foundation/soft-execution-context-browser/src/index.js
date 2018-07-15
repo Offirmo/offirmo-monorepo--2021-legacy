@@ -1,6 +1,7 @@
 import bowser from 'bowser'
 import { getRootSEC } from '@offirmo/soft-execution-context'
 import ensureDeviceUUID from '@offirmo/ensure-device-uuid-browser'
+import {LS_KEYS} from './consts'
 
 
 // XXX redundant, next one is better (?rly)
@@ -70,23 +71,34 @@ function listenToUnhandledRejections() {
 function decorateWithDetectedEnv(SEC) {
 	SEC = SEC || getRootSEC()
 
+	const IS_DEV_MODE = localStorage.getItem(LS_KEYS.dev_mode) === 'true'
+	const IS_VERBOSE = localStorage.getItem(LS_KEYS.verbose) === 'true'
+
+	SEC.injectDependencies({
+		IS_DEV_MODE,
+		IS_VERBOSE,
+	})
+
+	// TODO maybe SESSION_START_TIME from timer
+
 	const details = {
+		DEVICE_UUID: ensureDeviceUUID(),
+		// TODO unicode support?
 		// TODO normalize browser/os detection!
-		browser_name: bowser.name,
-		browser_version: bowser.version,
-		browser_grade: bowser.a
+		OS_NAME: bowser.osname,
+		OS_RELEASE: bowser.osversion,
+		BROWSER_NAME: bowser.name,
+		BROWSER_VERSION: bowser.version,
+		BROWSER_GRADE: bowser.a
 			? 'A'
 			: bowser.c
 				? 'C'
 				: 'X',
-		device: bowser.tablet
+		DEVICE_TYPE: bowser.tablet
 			? 'tablet'
 			: bowser.mobile
 				? 'mobile'
 				: 'desktop',
-		os_name: bowser.osname,
-		os_release: bowser.osversion,
-		device_uuid: ensureDeviceUUID(),
 	}
 
 	SEC.setAnalyticsAndErrorDetails(details)

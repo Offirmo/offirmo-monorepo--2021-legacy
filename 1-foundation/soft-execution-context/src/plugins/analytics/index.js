@@ -4,6 +4,7 @@ import { INTERNAL_PROP } from '../../constants'
 import * as TopState from '../../state'
 import { flattenToOwn } from '../../utils'
 import * as State from './state'
+import {PLUGIN_ID as ID_DI} from '../dependency-injection'
 
 const PLUGIN_ID = 'analytics'
 
@@ -30,6 +31,7 @@ const PLUGIN = {
 
 		prototype.fireAnalyticsEvent = function fireAnalyticsEvent(eventId, details = {}) {
 			const SEC = this
+			const now = get_UTC_timestamp_ms()
 
 			if (!eventId)
 				throw new Error('Incorrect eventId!')
@@ -38,7 +40,8 @@ const PLUGIN = {
 
 			const autoDetails = {
 				ENV,
-				time: get_UTC_timestamp_ms(),
+				TIME: now,
+				SESSION_DURATION_MS: now - state.plugins[ID_DI].context.SESSION_START_TIME,
 			}
 			const userDetails = SEC.getAnalyticsDetails()
 			details = {

@@ -13,9 +13,11 @@ import {
 
 import { Chat } from '../../chat-interface'
 import { rich_text_to_react } from '../../../utils/rich_text_to_react'
+import SEC from '../../../services/sec'
 
 
 function render_meta(state, client_state) {
+	const { CHANNEL, ENV } = SEC.getInjectedDependencies()
 	const $doc_list_builder = RichText.unordered_list()
 	$doc_list_builder.pushRawNode(
 		RichText.span().pushText(`Play count: ${state.good_click_count}`).done(),
@@ -30,11 +32,11 @@ function render_meta(state, client_state) {
 		'03-builddate'
 	)
 	$doc_list_builder.pushRawNode(
-		RichText.span().pushText(`Release channel: ${client_state.CHANNEL}`).done(),
+		RichText.span().pushText(`Release channel: ${CHANNEL}`).done(),
 		'04-channel'
 	)
 	$doc_list_builder.pushRawNode(
-		RichText.span().pushText(`Exec env: ${client_state.ENV}`).done(),
+		RichText.span().pushText(`Exec env: ${ENV}`).done(),
 		'05-env'
 	)
 	$doc_list_builder.pushRawNode(

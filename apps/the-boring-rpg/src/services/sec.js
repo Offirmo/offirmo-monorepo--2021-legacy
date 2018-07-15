@@ -1,6 +1,6 @@
 "use strict";
 
-import {CHANNEL} from './channel'
+import { CHANNEL } from './channel'
 
 const { getRootSEC } = require('@offirmo/soft-execution-context')
 const {
@@ -23,10 +23,13 @@ const SEC = getRootSEC()
 decorate_SEC(SEC)
 decorateWithDetectedEnv(SEC)
 
+SEC.injectDependencies({
+	CHANNEL,
+})
 SEC.setAnalyticsAndErrorDetails({
 	product: 'tbrpg',
 	v: WI_VERSION,
-	channel: CHANNEL,
+	CHANNEL,
 })
 
 /////////////////////////////////////////////////

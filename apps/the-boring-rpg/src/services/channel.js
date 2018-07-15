@@ -1,6 +1,6 @@
 
 const CHANNEL = window.location.hostname === 'www.online-adventur.es'
-	? 'stable'
+	? 'prod'
 	: window.location.hostname === 'offirmo.netlify.com'
 		? 'staging'
 		: 'dev'

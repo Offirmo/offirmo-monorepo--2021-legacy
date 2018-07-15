@@ -10,10 +10,10 @@ export default class DevArea extends Component {
 	constructor(props) {
 		super(props);
 		this.SEC = props.SEC || getRootSEC()
-		const { CHANNEL } = this.SEC.getInjectedDependencies()
+		const { CHANNEL, IS_DEV_MODE } = this.SEC.getInjectedDependencies()
 		this.channel = props.channel || CHANNEL || 'dev'
 		this.state = {
-			displayed: !this.channel.startsWith('prod'),
+			displayed: !this.channel.startsWith('prod') || IS_DEV_MODE,
 			open: false,
 			paused: false,
 		}

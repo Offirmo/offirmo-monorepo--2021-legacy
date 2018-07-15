@@ -6,6 +6,7 @@ const constants_1 = require("../../constants");
 const TopState = tslib_1.__importStar(require("../../state"));
 const utils_1 = require("../../utils");
 const State = tslib_1.__importStar(require("./state"));
+const dependency_injection_1 = require("../dependency-injection");
 const PLUGIN_ID = 'analytics';
 exports.PLUGIN_ID = PLUGIN_ID;
 const PLUGIN = {
@@ -26,12 +27,14 @@ const PLUGIN = {
         };
         prototype.fireAnalyticsEvent = function fireAnalyticsEvent(eventId, details = {}) {
             const SEC = this;
+            const now = timestamps_1.get_UTC_timestamp_ms();
             if (!eventId)
                 throw new Error('Incorrect eventId!');
             const { ENV } = SEC.getInjectedDependencies();
             const autoDetails = {
                 ENV,
-                time: timestamps_1.get_UTC_timestamp_ms(),
+                TIME: now,
+                SESSION_DURATION_MS: now - state.plugins[dependency_injection_1.PLUGIN_ID].context.SESSION_START_TIME,
             };
             const userDetails = SEC.getAnalyticsDetails();
             details = Object.assign({}, autoDetails, userDetails, details);

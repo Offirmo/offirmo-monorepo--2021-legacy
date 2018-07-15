@@ -56,7 +56,7 @@ babel-polyfill may be needed
 SEC.injectDependencies({
 	foo: 42,
 })
-const { ENV, DEBUG, SEC, logger, foo } = SEC.getInjectedDependencies()
+const { ENV, SEC, logger, foo } = SEC.getInjectedDependencies()
 
 
 SEC.xTry(operation, ({SEC, logger}) => {
@@ -79,6 +79,26 @@ SEC.setLogicalStack({
 SEC.getLogicalStack()
 SEC.getShortLogicalStack()
 ```
+
+### Injections
+
+| value  | Injected | Analytics | Error detail | notes |
+| ------------- | ------------- |------------- |------------- |------------- |
+| `SEC` | yes✅ | - | - | the current Software Execution Context |
+| `logger` | yes✅ | - | - | default to console |
+| `NODE_ENV` | yes✅ | - | - | if "development", may activate extra error checks, extra error reporting (cf. React) Mirror of NODE_ENV at evaluation time, defaulting to `'development'` if not set. `'production'` or `development` |
+| `ENV` | yes✅ | yes✅ | yes✅ | less connoted alias of `NODE_ENV` |
+| `IS_DEV_MODE` | yes✅ | - | - | default to `false`. Used to activate dev commands or reportings. |
+| `IS_VERBOSE` | yes✅ | - | - | default to `false`. Used to activate extra reporting on tasks. |
+| `CHANNEL` | yes✅ | yes✅ | yes✅ | current channel of rollout deployment. Default to `'unknown'`. Suggested possible values: `'dev'`, `'staging'`, `'prod'` |
+| `SESSION_START_TIME` | yes✅ | - | - | UTC timestamp in ms of the time of start |
+| `TIME` | - | yes✅ | yes✅ | UTC timestamp in ms of the time of the error/analytics |
+| `SESSION_DURATION_MS` | - | yes✅ | yes✅ | ms elapsed from the start of the session |
+| `OS_NAME` | yes✅ | yes✅ | yes✅ | (Expected to be set by platform-specific) |
+| `DEVICE_UUID` | - | yes✅ | yes✅ |  |
+| `v` | - | yes✅ | yes✅ | version |
+| `?` | - | - | - |  |
+
 
 ### Event emitter
 

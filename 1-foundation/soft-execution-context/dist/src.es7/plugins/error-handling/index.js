@@ -41,9 +41,11 @@ const PLUGIN = {
         prototype._decorateErrorWithDetails = function _decorateErrorWithDetails(err) {
             const SEC = this;
             const state = SEC[INTERNAL_PROP];
+            const now = get_UTC_timestamp_ms();
             const autoDetails = {
                 ENV: state.plugins[ID_DI].context.ENV,
-                time: get_UTC_timestamp_ms(),
+                TIME: now,
+                SESSION_DURATION_MS: now - state.plugins[ID_DI].context.SESSION_START_TIME,
             };
             const userDetails = flattenToOwn(state.plugins[PLUGIN_ID].details);
             err.details = Object.assign({}, autoDetails, userDetails, (err.details || {}));
