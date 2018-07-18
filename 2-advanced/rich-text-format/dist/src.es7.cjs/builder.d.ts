@@ -11,9 +11,9 @@ interface Builder {
     done(): CheckedNode;
 }
 declare function create($type: NodeType): Builder;
-declare function section(): Builder;
+declare function fragment(): Builder;
 declare function heading(): Builder;
 declare function span(): Builder;
 declare function ordered_list(): Builder;
 declare function unordered_list(): Builder;
-export { NodeType, Document, Builder, create, section, heading, span, ordered_list, unordered_list, };
+export { NodeType, Document, Builder, create, fragment, heading, span, ordered_list, unordered_list, };

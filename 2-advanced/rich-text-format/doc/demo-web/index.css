@@ -1,1 +1,39 @@
 @import '../../node_modules/@offirmo/view-css/src/style.css';
+
+body {
+	width: 100%;
+	max-width: unset;
+	font-size: 12px;
+}
+
+pre {
+	font-size: xx-small;
+	white-space: pre-wrap;
+}
+
+.multi-renderer {
+	width: 100%;
+	display: grid;
+	grid-template-columns: repeat(3, 33%);
+}
+
+.multi-renderer > div {
+	overflow-x: hidden;
+}
+
+
+.place {
+	color: #00B32D;
+}
+.place:after {
+	content: ' 🏜';
+}
+.person {
+	color: #0b97c4;
+}
+.item-weapon {
+	color: #d9534f;
+}
+.item-weapon:before {
+	content: '⚔ ';
+}

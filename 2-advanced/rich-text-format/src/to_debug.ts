@@ -21,8 +21,11 @@ function debug_node_short($node: CheckedNode) {
 
 ////////////////////////////////////
 
+const consoleGroupStart: Function = (console.groupCollapsed || console.group || console.log).bind(console)
+const consoleGroupEnd: Function = (console.groupEnd || console.log).bind(console)
+
 const on_root_enter = () => {
-	console.log('⟩ [on_root_enter]')
+	consoleGroupStart('⟩ [on_root_enter]')
 }
 const on_root_exit = ({state}: BaseParams<string>): string => {
 	console.log('⟨ [on_root_exit]')
@@ -31,14 +34,14 @@ const on_root_exit = ({state}: BaseParams<string>): string => {
 }
 
 const on_node_enter: WalkerReducer<string, AnyParams<string>> = ({$node, $id, depth}) => {
-	console.log(indent(depth) + `⟩ [on_node_enter] #${$id} ` + debug_node_short($node))
+	consoleGroupStart(indent(depth) + `⟩ [on_node_enter] #${$id} ` + debug_node_short($node))
 	const state = ''
 	console.log(indent(depth) + `  [state="${state}"] (init)`)
 	return state
 }
 
 const on_node_exit: WalkerReducer<string, AnyParams<string>> = ({$node, $id, state, depth}) => {
-	console.log(indent(depth) + `⟨ [on_node_exit] #${$id}`)
+	consoleGroupEnd(indent(depth) + `⟨ [on_node_exit] #${$id}`)
 	console.log(indent(depth) + `  [state="${state}"]`)
 
 	return state

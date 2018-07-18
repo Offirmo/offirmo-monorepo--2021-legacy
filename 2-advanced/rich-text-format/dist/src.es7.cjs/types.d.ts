@@ -1,15 +1,15 @@
 import { Enum } from 'typescript-string-enums';
 declare const NodeType: {
     span: "span";
-    br: "br";
+    strong: "strong";
+    em: "em";
+    heading: "heading";
     hr: "hr";
     ol: "ol";
     ul: "ul";
     li: "li";
-    strong: "strong";
-    em: "em";
-    section: "section";
-    heading: "heading";
+    br: "br";
+    fragment: "fragment";
 };
 declare type NodeType = Enum<typeof NodeType>;
 interface CheckedNode {

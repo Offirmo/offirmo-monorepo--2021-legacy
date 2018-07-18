@@ -57,6 +57,7 @@ function create($type: NodeType): Builder {
 	}
 
 	function pushRawNode(node: Node, id: string): Builder {
+		// XX restrict?
 		$node.$sub[id] = node
 		return builder
 	}
@@ -100,8 +101,8 @@ function create($type: NodeType): Builder {
 	return builder
 }
 
-function section(): Builder {
-	return create(NodeType.section)
+function fragment(): Builder {
+	return create(NodeType.fragment)
 }
 
 function heading(): Builder {
@@ -135,7 +136,7 @@ export {
 
 	create,
 
-	section,
+	fragment,
 	heading,
 	span,
 	ordered_list,

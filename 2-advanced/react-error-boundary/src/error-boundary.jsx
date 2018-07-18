@@ -1,6 +1,9 @@
 import React from 'react'
+import renderProps from 'render-props'
 
 import { get_lib_SEC } from './sec'
+
+const DEFAULT_CONTENT = <span>ErrorBoundary: no children nor renderProp!</span>
 
 export default class ErrorBoundary extends React.Component {
 	state = {
@@ -62,7 +65,29 @@ export default class ErrorBoundary extends React.Component {
 			)
 		}
 
-		// Normally, just render children
-		return this.props.children
+		try {
+			// inspired from render-props:
+			// https://github.com/donavon/render-props/blob/develop/src/index.js
+			// but enhanced.
+			const { children, render, ...props } = this.props
+			const ComponentOrFunctionOrAny = children || render || DEFAULT_CONTENT
+
+			console.log('render', { 'this.props': this.props, props, ComponentOrFunctionOrAny })
+
+			if (ComponentOrFunctionOrAny.propTypes || ComponentOrFunctionOrAny.render || (ComponentOrFunctionOrAny.prototype && ComponentOrFunctionOrAny.prototype.render))
+				return <ComponentOrFunction {...props} />
+
+			if (typeof ComponentOrFunctionOrAny === 'function')
+				return ComponentOrFunctionOrAny({
+					...(ComponentOrFunctionOrAny.defaultProps || {}),
+					...props,
+				})
+
+			return ComponentOrFunctionOrAny
+		}
+		catch (err) {
+			setTimeout(() => this.componentDidCatch(err, 'crash in ErrorBoundary.render()'))
+		}
+		return null
 	}
 }

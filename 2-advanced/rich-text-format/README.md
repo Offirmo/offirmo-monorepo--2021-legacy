@@ -1,5 +1,6 @@
-
 A generic, platform independent rich text format.
+
+It's half-way between raw text and html. It has only 1 dimension.
 
 Can be rendered in ascii, html, react...
 

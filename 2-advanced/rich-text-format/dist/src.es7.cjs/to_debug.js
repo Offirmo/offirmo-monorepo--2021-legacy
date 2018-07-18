@@ -10,8 +10,10 @@ function debug_node_short($node) {
     return `${$type}."${$content}"`;
 }
 ////////////////////////////////////
+const consoleGroupStart = (console.groupCollapsed || console.group || console.log).bind(console);
+const consoleGroupEnd = (console.groupEnd || console.log).bind(console);
 const on_root_enter = () => {
-    console.log('⟩ [on_root_enter]');
+    consoleGroupStart('⟩ [on_root_enter]');
 };
 const on_root_exit = ({ state }) => {
     console.log('⟨ [on_root_exit]');
@@ -19,13 +21,13 @@ const on_root_exit = ({ state }) => {
     return state;
 };
 const on_node_enter = ({ $node, $id, depth }) => {
-    console.log(indent(depth) + `⟩ [on_node_enter] #${$id} ` + debug_node_short($node));
+    consoleGroupStart(indent(depth) + `⟩ [on_node_enter] #${$id} ` + debug_node_short($node));
     const state = '';
     console.log(indent(depth) + `  [state="${state}"] (init)`);
     return state;
 };
 const on_node_exit = ({ $node, $id, state, depth }) => {
-    console.log(indent(depth) + `⟨ [on_node_exit] #${$id}`);
+    consoleGroupEnd(indent(depth) + `⟨ [on_node_exit] #${$id}`);
     console.log(indent(depth) + `  [state="${state}"]`);
     return state;
 };

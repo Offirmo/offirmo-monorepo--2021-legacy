@@ -3,16 +3,24 @@ import { Enum } from 'typescript-string-enums'
 ///////
 
 const NodeType = Enum(
+	// https://stackoverflow.com/questions/9189810/css-display-inline-vs-inline-block
+	// display: inline
 	'span',
-	'br',
+	'strong',
+	'em',
+
+	// "block"
+	'heading',
 	'hr',
 	'ol',
 	'ul',
+
+	// internally used, don't bother
 	'li',
-	'strong',
-	'em',
-	'section',
-	'heading',
+
+	// special
+	'br',
+	'fragment',
 )
 type NodeType = Enum<typeof NodeType>
 

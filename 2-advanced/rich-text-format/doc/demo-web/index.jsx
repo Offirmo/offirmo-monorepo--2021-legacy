@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom'
 
 import './index.css'
 
-import Root from './component'
+import Root from './components/root'
 
 ReactDOM.render(
 	<Root />,

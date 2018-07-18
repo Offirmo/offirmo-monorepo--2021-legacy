@@ -33,6 +33,7 @@ function create($type) {
         return builder;
     }
     function pushRawNode(node, id) {
+        // XX restrict?
         $node.$sub[id] = node;
         return builder;
     }
@@ -67,10 +68,10 @@ function create($type) {
     return builder;
 }
 exports.create = create;
-function section() {
-    return create(types_1.NodeType.section);
+function fragment() {
+    return create(types_1.NodeType.fragment);
 }
-exports.section = section;
+exports.fragment = fragment;
 function heading() {
     return create(types_1.NodeType.heading);
 }
