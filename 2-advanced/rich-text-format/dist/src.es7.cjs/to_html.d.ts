@@ -1,3 +1,4 @@
 import { WalkerCallbacks } from './walk';
-declare const callbacks: Partial<WalkerCallbacks<string>>;
+declare type State = string;
+declare const callbacks: Partial<WalkerCallbacks<State>>;
 export { callbacks };

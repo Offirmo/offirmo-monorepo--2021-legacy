@@ -4,18 +4,19 @@ import { Enum } from 'typescript-string-enums'
 
 const NodeType = Enum(
 	// https://stackoverflow.com/questions/9189810/css-display-inline-vs-inline-block
-	// display: inline
+
+	// display "inline"
 	'span',
 	'strong',
 	'em',
 
-	// "block"
+	// display "block"
 	'heading',
 	'hr',
 	'ol',
 	'ul',
 
-	// internally used, don't bother
+	// internally used, don't mind
 	'li',
 
 	// special

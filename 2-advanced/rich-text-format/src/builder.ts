@@ -56,12 +56,14 @@ function create($type: NodeType): Builder {
 		return builder
 	}
 
+	// nothing is added in content
 	function pushRawNode(node: Node, id: string): Builder {
 		// XX restrict?
 		$node.$sub[id] = node
 		return builder
 	}
 
+	// node ref is auto added into content
 	function pushNode(node: Node, id?: string): Builder {
 		id = id || ('s' + ++sub_id)
 		$node.$content += `{{${id}}}`

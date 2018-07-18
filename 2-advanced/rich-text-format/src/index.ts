@@ -8,9 +8,9 @@ function to_debug($doc: Node): string {
 	return walk<string>($doc, callbacks_render_debug)
 }
 
-import { callbacks as walk_callbacks_to_text } from './to_text'
+import { State as ToTextState, callbacks as walk_callbacks_to_text } from './to_text'
 function to_text($doc: Node): string {
-	return walk<string>($doc, walk_callbacks_to_text)
+	return walk<ToTextState>($doc, walk_callbacks_to_text).str
 }
 
 import { callbacks as callbacks_render_html} from './to_html'

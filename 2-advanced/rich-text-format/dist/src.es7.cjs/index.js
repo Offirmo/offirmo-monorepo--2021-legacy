@@ -9,7 +9,7 @@ function to_debug($doc) {
 exports.to_debug = to_debug;
 const to_text_1 = require("./to_text");
 function to_text($doc) {
-    return walk_1.walk($doc, to_text_1.callbacks);
+    return walk_1.walk($doc, to_text_1.callbacks).str;
 }
 exports.to_text = to_text;
 const to_html_1 = require("./to_html");

@@ -72,7 +72,7 @@ export default class ErrorBoundary extends React.Component {
 			const { children, render, ...props } = this.props
 			const ComponentOrFunctionOrAny = children || render || DEFAULT_CONTENT
 
-			console.log('render', { 'this.props': this.props, props, ComponentOrFunctionOrAny })
+			//console.log('render', { 'this.props': this.props, props, ComponentOrFunctionOrAny })
 
 			if (ComponentOrFunctionOrAny.propTypes || ComponentOrFunctionOrAny.render || (ComponentOrFunctionOrAny.prototype && ComponentOrFunctionOrAny.prototype.render))
 				return <ComponentOrFunction {...props} />

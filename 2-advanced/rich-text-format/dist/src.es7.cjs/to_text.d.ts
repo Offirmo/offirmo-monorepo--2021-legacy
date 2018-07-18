@@ -1,3 +1,9 @@
 import { WalkerCallbacks } from './walk';
-declare const callbacks: Partial<WalkerCallbacks<string>>;
-export { callbacks };
+export declare type State = {
+    starts_with_block: boolean;
+    ends_with_block: boolean;
+    str: string;
+};
+declare function assemble(state: State): string;
+declare const callbacks: Partial<WalkerCallbacks<State>>;
+export { assemble, callbacks, };

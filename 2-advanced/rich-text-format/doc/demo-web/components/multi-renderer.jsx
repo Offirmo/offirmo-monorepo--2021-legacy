@@ -2,26 +2,19 @@ import React, { Component } from 'react';
 
 import ErrorBoundary from '@offirmo/react-error-boundary'
 
-const prettyjson = require('prettyjson')
-function prettify_json(data, options) {
-	return prettyjson.render(data, options)
-}
-
 const RichText = require('../../../dist/src.es7.cjs')
-
 
 const RichTextView = ({doc, mode = 'to_html'}) => {
 	switch(mode) {
 		case 'to_text':
-			return (
-				<pre>
-					{RichText.to_text(doc)} />
-				</pre>
-			)
+			return <pre>{RichText.to_text(doc)}</pre>
+
 		case 'to_html':
 			return <div dangerouslySetInnerHTML={{ __html: RichText.to_html(doc) }} />
+
 		case 'to_react':
 			return 'TODO'
+
 		default:
 			return `<RichTextView /> unknown mode "${mode}"!`
 	}
@@ -34,6 +27,14 @@ export default class MultiRenderer extends Component {
 		console.log({doc})
 		try {
 			RichText.to_debug(doc)
+			console.log('to_debug done.')
+			console.groupEnd()
+			console.groupEnd()
+			console.groupEnd()
+			console.groupEnd()
+			console.groupEnd()
+			console.groupEnd()
+			console.groupEnd()
 		}
 		catch (err) {
 			console.groupEnd()

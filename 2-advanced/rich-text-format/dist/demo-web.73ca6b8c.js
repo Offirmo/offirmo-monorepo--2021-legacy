@@ -22390,7 +22390,7 @@ class ErrorBoundary extends _react2.default.Component {
 			      props = _objectWithoutProperties(_props, ['children', 'render']);
 			const ComponentOrFunctionOrAny = children || render || DEFAULT_CONTENT;
 
-			console.log('render', { 'this.props': this.props, props, ComponentOrFunctionOrAny });
+			//console.log('render', { 'this.props': this.props, props, ComponentOrFunctionOrAny })
 
 			if (ComponentOrFunctionOrAny.propTypes || ComponentOrFunctionOrAny.render || ComponentOrFunctionOrAny.prototype && ComponentOrFunctionOrAny.prototype.render) return _react2.default.createElement(ComponentOrFunction, props);
 
@@ -22404,1794 +22404,7 @@ class ErrorBoundary extends _react2.default.Component {
 	}
 }
 exports.default = ErrorBoundary;
-},{"react":"../../node_modules/@offirmo/react-error-boundary/node_modules/react/index.js","render-props":"../../node_modules/@offirmo/react-error-boundary/node_modules/render-props/lib/index.js","./sec":"../../node_modules/@offirmo/react-error-boundary/src/sec.js"}],"../../../../node_modules/util/support/isBufferBrowser.js":[function(require,module,exports) {
-module.exports = function isBuffer(arg) {
-  return arg && typeof arg === 'object'
-    && typeof arg.copy === 'function'
-    && typeof arg.fill === 'function'
-    && typeof arg.readUInt8 === 'function';
-}
-},{}],"../../../../node_modules/inherits/inherits_browser.js":[function(require,module,exports) {
-if (typeof Object.create === 'function') {
-  // implementation from standard node.js 'util' module
-  module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    ctor.prototype = Object.create(superCtor.prototype, {
-      constructor: {
-        value: ctor,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-  };
-} else {
-  // old school shim for old browsers
-  module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    var TempCtor = function () {}
-    TempCtor.prototype = superCtor.prototype
-    ctor.prototype = new TempCtor()
-    ctor.prototype.constructor = ctor
-  }
-}
-
-},{}],"../../../../node_modules/process/browser.js":[function(require,module,exports) {
-
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout() {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-})();
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch (e) {
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch (e) {
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e) {
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e) {
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while (len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-process.prependListener = noop;
-process.prependOnceListener = noop;
-
-process.listeners = function (name) {
-    return [];
-};
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () {
-    return '/';
-};
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function () {
-    return 0;
-};
-},{}],"../../../../node_modules/util/util.js":[function(require,module,exports) {
-var global = arguments[3];
-var process = require("process");
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-var formatRegExp = /%[sdj%]/g;
-exports.format = function (f) {
-  if (!isString(f)) {
-    var objects = [];
-    for (var i = 0; i < arguments.length; i++) {
-      objects.push(inspect(arguments[i]));
-    }
-    return objects.join(' ');
-  }
-
-  var i = 1;
-  var args = arguments;
-  var len = args.length;
-  var str = String(f).replace(formatRegExp, function (x) {
-    if (x === '%%') return '%';
-    if (i >= len) return x;
-    switch (x) {
-      case '%s':
-        return String(args[i++]);
-      case '%d':
-        return Number(args[i++]);
-      case '%j':
-        try {
-          return JSON.stringify(args[i++]);
-        } catch (_) {
-          return '[Circular]';
-        }
-      default:
-        return x;
-    }
-  });
-  for (var x = args[i]; i < len; x = args[++i]) {
-    if (isNull(x) || !isObject(x)) {
-      str += ' ' + x;
-    } else {
-      str += ' ' + inspect(x);
-    }
-  }
-  return str;
-};
-
-// Mark that a method should not be used.
-// Returns a modified function which warns once by default.
-// If --no-deprecation is set, then it is a no-op.
-exports.deprecate = function (fn, msg) {
-  // Allow for deprecating things in the process of starting up.
-  if (isUndefined(global.process)) {
-    return function () {
-      return exports.deprecate(fn, msg).apply(this, arguments);
-    };
-  }
-
-  if (process.noDeprecation === true) {
-    return fn;
-  }
-
-  var warned = false;
-  function deprecated() {
-    if (!warned) {
-      if (process.throwDeprecation) {
-        throw new Error(msg);
-      } else if (process.traceDeprecation) {
-        console.trace(msg);
-      } else {
-        console.error(msg);
-      }
-      warned = true;
-    }
-    return fn.apply(this, arguments);
-  }
-
-  return deprecated;
-};
-
-var debugs = {};
-var debugEnviron;
-exports.debuglog = function (set) {
-  if (isUndefined(debugEnviron)) debugEnviron = undefined || '';
-  set = set.toUpperCase();
-  if (!debugs[set]) {
-    if (new RegExp('\\b' + set + '\\b', 'i').test(debugEnviron)) {
-      var pid = process.pid;
-      debugs[set] = function () {
-        var msg = exports.format.apply(exports, arguments);
-        console.error('%s %d: %s', set, pid, msg);
-      };
-    } else {
-      debugs[set] = function () {};
-    }
-  }
-  return debugs[set];
-};
-
-/**
- * Echos the value of a value. Trys to print the value out
- * in the best way possible given the different types.
- *
- * @param {Object} obj The object to print out.
- * @param {Object} opts Optional options object that alters the output.
- */
-/* legacy: obj, showHidden, depth, colors*/
-function inspect(obj, opts) {
-  // default options
-  var ctx = {
-    seen: [],
-    stylize: stylizeNoColor
-  };
-  // legacy...
-  if (arguments.length >= 3) ctx.depth = arguments[2];
-  if (arguments.length >= 4) ctx.colors = arguments[3];
-  if (isBoolean(opts)) {
-    // legacy...
-    ctx.showHidden = opts;
-  } else if (opts) {
-    // got an "options" object
-    exports._extend(ctx, opts);
-  }
-  // set default options
-  if (isUndefined(ctx.showHidden)) ctx.showHidden = false;
-  if (isUndefined(ctx.depth)) ctx.depth = 2;
-  if (isUndefined(ctx.colors)) ctx.colors = false;
-  if (isUndefined(ctx.customInspect)) ctx.customInspect = true;
-  if (ctx.colors) ctx.stylize = stylizeWithColor;
-  return formatValue(ctx, obj, ctx.depth);
-}
-exports.inspect = inspect;
-
-// http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
-inspect.colors = {
-  'bold': [1, 22],
-  'italic': [3, 23],
-  'underline': [4, 24],
-  'inverse': [7, 27],
-  'white': [37, 39],
-  'grey': [90, 39],
-  'black': [30, 39],
-  'blue': [34, 39],
-  'cyan': [36, 39],
-  'green': [32, 39],
-  'magenta': [35, 39],
-  'red': [31, 39],
-  'yellow': [33, 39]
-};
-
-// Don't use 'blue' not visible on cmd.exe
-inspect.styles = {
-  'special': 'cyan',
-  'number': 'yellow',
-  'boolean': 'yellow',
-  'undefined': 'grey',
-  'null': 'bold',
-  'string': 'green',
-  'date': 'magenta',
-  // "name": intentionally not styling
-  'regexp': 'red'
-};
-
-function stylizeWithColor(str, styleType) {
-  var style = inspect.styles[styleType];
-
-  if (style) {
-    return '\u001b[' + inspect.colors[style][0] + 'm' + str + '\u001b[' + inspect.colors[style][1] + 'm';
-  } else {
-    return str;
-  }
-}
-
-function stylizeNoColor(str, styleType) {
-  return str;
-}
-
-function arrayToHash(array) {
-  var hash = {};
-
-  array.forEach(function (val, idx) {
-    hash[val] = true;
-  });
-
-  return hash;
-}
-
-function formatValue(ctx, value, recurseTimes) {
-  // Provide a hook for user-specified inspect functions.
-  // Check that value is an object with an inspect function on it
-  if (ctx.customInspect && value && isFunction(value.inspect) &&
-  // Filter out the util module, it's inspect function is special
-  value.inspect !== exports.inspect &&
-  // Also filter out any prototype objects using the circular check.
-  !(value.constructor && value.constructor.prototype === value)) {
-    var ret = value.inspect(recurseTimes, ctx);
-    if (!isString(ret)) {
-      ret = formatValue(ctx, ret, recurseTimes);
-    }
-    return ret;
-  }
-
-  // Primitive types cannot have properties
-  var primitive = formatPrimitive(ctx, value);
-  if (primitive) {
-    return primitive;
-  }
-
-  // Look up the keys of the object.
-  var keys = Object.keys(value);
-  var visibleKeys = arrayToHash(keys);
-
-  if (ctx.showHidden) {
-    keys = Object.getOwnPropertyNames(value);
-  }
-
-  // IE doesn't make error fields non-enumerable
-  // http://msdn.microsoft.com/en-us/library/ie/dww52sbt(v=vs.94).aspx
-  if (isError(value) && (keys.indexOf('message') >= 0 || keys.indexOf('description') >= 0)) {
-    return formatError(value);
-  }
-
-  // Some type of object without properties can be shortcutted.
-  if (keys.length === 0) {
-    if (isFunction(value)) {
-      var name = value.name ? ': ' + value.name : '';
-      return ctx.stylize('[Function' + name + ']', 'special');
-    }
-    if (isRegExp(value)) {
-      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
-    }
-    if (isDate(value)) {
-      return ctx.stylize(Date.prototype.toString.call(value), 'date');
-    }
-    if (isError(value)) {
-      return formatError(value);
-    }
-  }
-
-  var base = '',
-      array = false,
-      braces = ['{', '}'];
-
-  // Make Array say that they are Array
-  if (isArray(value)) {
-    array = true;
-    braces = ['[', ']'];
-  }
-
-  // Make functions say that they are functions
-  if (isFunction(value)) {
-    var n = value.name ? ': ' + value.name : '';
-    base = ' [Function' + n + ']';
-  }
-
-  // Make RegExps say that they are RegExps
-  if (isRegExp(value)) {
-    base = ' ' + RegExp.prototype.toString.call(value);
-  }
-
-  // Make dates with properties first say the date
-  if (isDate(value)) {
-    base = ' ' + Date.prototype.toUTCString.call(value);
-  }
-
-  // Make error with message first say the error
-  if (isError(value)) {
-    base = ' ' + formatError(value);
-  }
-
-  if (keys.length === 0 && (!array || value.length == 0)) {
-    return braces[0] + base + braces[1];
-  }
-
-  if (recurseTimes < 0) {
-    if (isRegExp(value)) {
-      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
-    } else {
-      return ctx.stylize('[Object]', 'special');
-    }
-  }
-
-  ctx.seen.push(value);
-
-  var output;
-  if (array) {
-    output = formatArray(ctx, value, recurseTimes, visibleKeys, keys);
-  } else {
-    output = keys.map(function (key) {
-      return formatProperty(ctx, value, recurseTimes, visibleKeys, key, array);
-    });
-  }
-
-  ctx.seen.pop();
-
-  return reduceToSingleString(output, base, braces);
-}
-
-function formatPrimitive(ctx, value) {
-  if (isUndefined(value)) return ctx.stylize('undefined', 'undefined');
-  if (isString(value)) {
-    var simple = '\'' + JSON.stringify(value).replace(/^"|"$/g, '').replace(/'/g, "\\'").replace(/\\"/g, '"') + '\'';
-    return ctx.stylize(simple, 'string');
-  }
-  if (isNumber(value)) return ctx.stylize('' + value, 'number');
-  if (isBoolean(value)) return ctx.stylize('' + value, 'boolean');
-  // For some reason typeof null is "object", so special case here.
-  if (isNull(value)) return ctx.stylize('null', 'null');
-}
-
-function formatError(value) {
-  return '[' + Error.prototype.toString.call(value) + ']';
-}
-
-function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
-  var output = [];
-  for (var i = 0, l = value.length; i < l; ++i) {
-    if (hasOwnProperty(value, String(i))) {
-      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys, String(i), true));
-    } else {
-      output.push('');
-    }
-  }
-  keys.forEach(function (key) {
-    if (!key.match(/^\d+$/)) {
-      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys, key, true));
-    }
-  });
-  return output;
-}
-
-function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
-  var name, str, desc;
-  desc = Object.getOwnPropertyDescriptor(value, key) || { value: value[key] };
-  if (desc.get) {
-    if (desc.set) {
-      str = ctx.stylize('[Getter/Setter]', 'special');
-    } else {
-      str = ctx.stylize('[Getter]', 'special');
-    }
-  } else {
-    if (desc.set) {
-      str = ctx.stylize('[Setter]', 'special');
-    }
-  }
-  if (!hasOwnProperty(visibleKeys, key)) {
-    name = '[' + key + ']';
-  }
-  if (!str) {
-    if (ctx.seen.indexOf(desc.value) < 0) {
-      if (isNull(recurseTimes)) {
-        str = formatValue(ctx, desc.value, null);
-      } else {
-        str = formatValue(ctx, desc.value, recurseTimes - 1);
-      }
-      if (str.indexOf('\n') > -1) {
-        if (array) {
-          str = str.split('\n').map(function (line) {
-            return '  ' + line;
-          }).join('\n').substr(2);
-        } else {
-          str = '\n' + str.split('\n').map(function (line) {
-            return '   ' + line;
-          }).join('\n');
-        }
-      }
-    } else {
-      str = ctx.stylize('[Circular]', 'special');
-    }
-  }
-  if (isUndefined(name)) {
-    if (array && key.match(/^\d+$/)) {
-      return str;
-    }
-    name = JSON.stringify('' + key);
-    if (name.match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/)) {
-      name = name.substr(1, name.length - 2);
-      name = ctx.stylize(name, 'name');
-    } else {
-      name = name.replace(/'/g, "\\'").replace(/\\"/g, '"').replace(/(^"|"$)/g, "'");
-      name = ctx.stylize(name, 'string');
-    }
-  }
-
-  return name + ': ' + str;
-}
-
-function reduceToSingleString(output, base, braces) {
-  var numLinesEst = 0;
-  var length = output.reduce(function (prev, cur) {
-    numLinesEst++;
-    if (cur.indexOf('\n') >= 0) numLinesEst++;
-    return prev + cur.replace(/\u001b\[\d\d?m/g, '').length + 1;
-  }, 0);
-
-  if (length > 60) {
-    return braces[0] + (base === '' ? '' : base + '\n ') + ' ' + output.join(',\n  ') + ' ' + braces[1];
-  }
-
-  return braces[0] + base + ' ' + output.join(', ') + ' ' + braces[1];
-}
-
-// NOTE: These type checking functions intentionally don't use `instanceof`
-// because it is fragile and can be easily faked with `Object.create()`.
-function isArray(ar) {
-  return Array.isArray(ar);
-}
-exports.isArray = isArray;
-
-function isBoolean(arg) {
-  return typeof arg === 'boolean';
-}
-exports.isBoolean = isBoolean;
-
-function isNull(arg) {
-  return arg === null;
-}
-exports.isNull = isNull;
-
-function isNullOrUndefined(arg) {
-  return arg == null;
-}
-exports.isNullOrUndefined = isNullOrUndefined;
-
-function isNumber(arg) {
-  return typeof arg === 'number';
-}
-exports.isNumber = isNumber;
-
-function isString(arg) {
-  return typeof arg === 'string';
-}
-exports.isString = isString;
-
-function isSymbol(arg) {
-  return typeof arg === 'symbol';
-}
-exports.isSymbol = isSymbol;
-
-function isUndefined(arg) {
-  return arg === void 0;
-}
-exports.isUndefined = isUndefined;
-
-function isRegExp(re) {
-  return isObject(re) && objectToString(re) === '[object RegExp]';
-}
-exports.isRegExp = isRegExp;
-
-function isObject(arg) {
-  return typeof arg === 'object' && arg !== null;
-}
-exports.isObject = isObject;
-
-function isDate(d) {
-  return isObject(d) && objectToString(d) === '[object Date]';
-}
-exports.isDate = isDate;
-
-function isError(e) {
-  return isObject(e) && (objectToString(e) === '[object Error]' || e instanceof Error);
-}
-exports.isError = isError;
-
-function isFunction(arg) {
-  return typeof arg === 'function';
-}
-exports.isFunction = isFunction;
-
-function isPrimitive(arg) {
-  return arg === null || typeof arg === 'boolean' || typeof arg === 'number' || typeof arg === 'string' || typeof arg === 'symbol' || // ES6 symbol
-  typeof arg === 'undefined';
-}
-exports.isPrimitive = isPrimitive;
-
-exports.isBuffer = require('./support/isBuffer');
-
-function objectToString(o) {
-  return Object.prototype.toString.call(o);
-}
-
-function pad(n) {
-  return n < 10 ? '0' + n.toString(10) : n.toString(10);
-}
-
-var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-// 26 Feb 16:19:34
-function timestamp() {
-  var d = new Date();
-  var time = [pad(d.getHours()), pad(d.getMinutes()), pad(d.getSeconds())].join(':');
-  return [d.getDate(), months[d.getMonth()], time].join(' ');
-}
-
-// log is just a thin wrapper to console.log that prepends a timestamp
-exports.log = function () {
-  console.log('%s - %s', timestamp(), exports.format.apply(exports, arguments));
-};
-
-/**
- * Inherit the prototype methods from one constructor into another.
- *
- * The Function.prototype.inherits from lang.js rewritten as a standalone
- * function (not on Function.prototype). NOTE: If this file is to be loaded
- * during bootstrapping this function needs to be rewritten using some native
- * functions as prototype setup using normal JavaScript does not work as
- * expected during bootstrapping (see mirror.js in r114903).
- *
- * @param {function} ctor Constructor function which needs to inherit the
- *     prototype.
- * @param {function} superCtor Constructor function to inherit prototype from.
- */
-exports.inherits = require('inherits');
-
-exports._extend = function (origin, add) {
-  // Don't do anything if add isn't an object
-  if (!add || !isObject(add)) return origin;
-
-  var keys = Object.keys(add);
-  var i = keys.length;
-  while (i--) {
-    origin[keys[i]] = add[keys[i]];
-  }
-  return origin;
-};
-
-function hasOwnProperty(obj, prop) {
-  return Object.prototype.hasOwnProperty.call(obj, prop);
-}
-},{"./support/isBuffer":"../../../../node_modules/util/support/isBufferBrowser.js","inherits":"../../../../node_modules/inherits/inherits_browser.js","process":"../../../../node_modules/process/browser.js"}],"../../node_modules/prettyjson/node_modules/colors/lib/styles.js":[function(require,module,exports) {
-/*
-The MIT License (MIT)
-
-Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-
-*/
-
-var styles = {};
-module['exports'] = styles;
-
-var codes = {
-  reset: [0, 0],
-
-  bold: [1, 22],
-  dim: [2, 22],
-  italic: [3, 23],
-  underline: [4, 24],
-  inverse: [7, 27],
-  hidden: [8, 28],
-  strikethrough: [9, 29],
-
-  black: [30, 39],
-  red: [31, 39],
-  green: [32, 39],
-  yellow: [33, 39],
-  blue: [34, 39],
-  magenta: [35, 39],
-  cyan: [36, 39],
-  white: [37, 39],
-  gray: [90, 39],
-  grey: [90, 39],
-
-  bgBlack: [40, 49],
-  bgRed: [41, 49],
-  bgGreen: [42, 49],
-  bgYellow: [43, 49],
-  bgBlue: [44, 49],
-  bgMagenta: [45, 49],
-  bgCyan: [46, 49],
-  bgWhite: [47, 49],
-
-  // legacy styles for colors pre v1.0.0
-  blackBG: [40, 49],
-  redBG: [41, 49],
-  greenBG: [42, 49],
-  yellowBG: [43, 49],
-  blueBG: [44, 49],
-  magentaBG: [45, 49],
-  cyanBG: [46, 49],
-  whiteBG: [47, 49]
-
-};
-
-Object.keys(codes).forEach(function (key) {
-  var val = codes[key];
-  var style = styles[key] = [];
-  style.open = '\u001b[' + val[0] + 'm';
-  style.close = '\u001b[' + val[1] + 'm';
-});
-},{}],"../../../../node_modules/os-browserify/browser.js":[function(require,module,exports) {
-exports.endianness = function () { return 'LE' };
-
-exports.hostname = function () {
-    if (typeof location !== 'undefined') {
-        return location.hostname
-    }
-    else return '';
-};
-
-exports.loadavg = function () { return [] };
-
-exports.uptime = function () { return 0 };
-
-exports.freemem = function () {
-    return Number.MAX_VALUE;
-};
-
-exports.totalmem = function () {
-    return Number.MAX_VALUE;
-};
-
-exports.cpus = function () { return [] };
-
-exports.type = function () { return 'Browser' };
-
-exports.release = function () {
-    if (typeof navigator !== 'undefined') {
-        return navigator.appVersion;
-    }
-    return '';
-};
-
-exports.networkInterfaces
-= exports.getNetworkInterfaces
-= function () { return {} };
-
-exports.arch = function () { return 'javascript' };
-
-exports.platform = function () { return 'browser' };
-
-exports.tmpdir = exports.tmpDir = function () {
-    return '/tmp';
-};
-
-exports.EOL = '\n';
-
-exports.homedir = function () {
-	return '/'
-};
-
-},{}],"../../node_modules/prettyjson/node_modules/colors/lib/system/has-flag.js":[function(require,module,exports) {
-var process = require("process");
-/*
-MIT License
-
-Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in
-the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-of the Software, and to permit persons to whom the Software is furnished to do
-so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-*/
-
-'use strict';
-
-module.exports = function (flag, argv) {
-  argv = argv || process.argv;
-
-  var terminatorPos = argv.indexOf('--');
-  var prefix = /^-{1,2}/.test(flag) ? '' : '--';
-  var pos = argv.indexOf(prefix + flag);
-
-  return pos !== -1 && (terminatorPos === -1 ? true : pos < terminatorPos);
-};
-},{"process":"../../../../node_modules/process/browser.js"}],"../../node_modules/prettyjson/node_modules/colors/lib/system/supports-colors.js":[function(require,module,exports) {
-var process = require("process");
-/*
-The MIT License (MIT)
-
-Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-
-*/
-
-'use strict';
-
-var os = require('os');
-var hasFlag = require('./has-flag.js');
-
-var env = process.env;
-
-var forceColor = void 0;
-if (hasFlag('no-color') || hasFlag('no-colors') || hasFlag('color=false')) {
-  forceColor = false;
-} else if (hasFlag('color') || hasFlag('colors') || hasFlag('color=true') || hasFlag('color=always')) {
-  forceColor = true;
-}
-if ('FORCE_COLOR' in env) {
-  forceColor = env.FORCE_COLOR.length === 0 || parseInt(env.FORCE_COLOR, 10) !== 0;
-}
-
-function translateLevel(level) {
-  if (level === 0) {
-    return false;
-  }
-
-  return {
-    level: level,
-    hasBasic: true,
-    has256: level >= 2,
-    has16m: level >= 3
-  };
-}
-
-function supportsColor(stream) {
-  if (forceColor === false) {
-    return 0;
-  }
-
-  if (hasFlag('color=16m') || hasFlag('color=full') || hasFlag('color=truecolor')) {
-    return 3;
-  }
-
-  if (hasFlag('color=256')) {
-    return 2;
-  }
-
-  if (stream && !stream.isTTY && forceColor !== true) {
-    return 0;
-  }
-
-  var min = forceColor ? 1 : 0;
-
-  if (process.platform === 'win32') {
-    // Node.js 7.5.0 is the first version of Node.js to include a patch to
-    // libuv that enables 256 color output on Windows. Anything earlier and it
-    // won't work. However, here we target Node.js 8 at minimum as it is an LTS
-    // release, and Node.js 7 is not. Windows 10 build 10586 is the first
-    // Windows release that supports 256 colors. Windows 10 build 14931 is the
-    // first release that supports 16m/TrueColor.
-    var osRelease = os.release().split('.');
-    if (Number(process.versions.node.split('.')[0]) >= 8 && Number(osRelease[0]) >= 10 && Number(osRelease[2]) >= 10586) {
-      return Number(osRelease[2]) >= 14931 ? 3 : 2;
-    }
-
-    return 1;
-  }
-
-  if ('CI' in env) {
-    if (['TRAVIS', 'CIRCLECI', 'APPVEYOR', 'GITLAB_CI'].some(function (sign) {
-      return sign in env;
-    }) || env.CI_NAME === 'codeship') {
-      return 1;
-    }
-
-    return min;
-  }
-
-  if ('TEAMCITY_VERSION' in env) {
-    return (/^(9\.(0*[1-9]\d*)\.|\d{2,}\.)/.test(env.TEAMCITY_VERSION) ? 1 : 0
-    );
-  }
-
-  if ('TERM_PROGRAM' in env) {
-    var version = parseInt((env.TERM_PROGRAM_VERSION || '').split('.')[0], 10);
-
-    switch (env.TERM_PROGRAM) {
-      case 'iTerm.app':
-        return version >= 3 ? 3 : 2;
-      case 'Hyper':
-        return 3;
-      case 'Apple_Terminal':
-        return 2;
-      // No default
-    }
-  }
-
-  if (/-256(color)?$/i.test(env.TERM)) {
-    return 2;
-  }
-
-  if (/^screen|^xterm|^vt100|^rxvt|color|ansi|cygwin|linux/i.test(env.TERM)) {
-    return 1;
-  }
-
-  if ('COLORTERM' in env) {
-    return 1;
-  }
-
-  if (env.TERM === 'dumb') {
-    return min;
-  }
-
-  return min;
-}
-
-function getSupportLevel(stream) {
-  var level = supportsColor(stream);
-  return translateLevel(level);
-}
-
-module.exports = {
-  supportsColor: getSupportLevel,
-  stdout: getSupportLevel(process.stdout),
-  stderr: getSupportLevel(process.stderr)
-};
-},{"os":"../../../../node_modules/os-browserify/browser.js","./has-flag.js":"../../node_modules/prettyjson/node_modules/colors/lib/system/has-flag.js","process":"../../../../node_modules/process/browser.js"}],"../../node_modules/prettyjson/node_modules/colors/lib/custom/trap.js":[function(require,module,exports) {
-module['exports'] = function runTheTrap(text, options) {
-  var result = '';
-  text = text || 'Run the trap, drop the bass';
-  text = text.split('');
-  var trap = {
-    a: ['\u0040', '\u0104', '\u023a', '\u0245', '\u0394', '\u039b', '\u0414'],
-    b: ['\u00df', '\u0181', '\u0243', '\u026e', '\u03b2', '\u0e3f'],
-    c: ['\u00a9', '\u023b', '\u03fe'],
-    d: ['\u00d0', '\u018a', '\u0500', '\u0501', '\u0502', '\u0503'],
-    e: ['\u00cb', '\u0115', '\u018e', '\u0258', '\u03a3', '\u03be', '\u04bc', '\u0a6c'],
-    f: ['\u04fa'],
-    g: ['\u0262'],
-    h: ['\u0126', '\u0195', '\u04a2', '\u04ba', '\u04c7', '\u050a'],
-    i: ['\u0f0f'],
-    j: ['\u0134'],
-    k: ['\u0138', '\u04a0', '\u04c3', '\u051e'],
-    l: ['\u0139'],
-    m: ['\u028d', '\u04cd', '\u04ce', '\u0520', '\u0521', '\u0d69'],
-    n: ['\u00d1', '\u014b', '\u019d', '\u0376', '\u03a0', '\u048a'],
-    o: ['\u00d8', '\u00f5', '\u00f8', '\u01fe', '\u0298', '\u047a', '\u05dd', '\u06dd', '\u0e4f'],
-    p: ['\u01f7', '\u048e'],
-    q: ['\u09cd'],
-    r: ['\u00ae', '\u01a6', '\u0210', '\u024c', '\u0280', '\u042f'],
-    s: ['\u00a7', '\u03de', '\u03df', '\u03e8'],
-    t: ['\u0141', '\u0166', '\u0373'],
-    u: ['\u01b1', '\u054d'],
-    v: ['\u05d8'],
-    w: ['\u0428', '\u0460', '\u047c', '\u0d70'],
-    x: ['\u04b2', '\u04fe', '\u04fc', '\u04fd'],
-    y: ['\u00a5', '\u04b0', '\u04cb'],
-    z: ['\u01b5', '\u0240']
-  };
-  text.forEach(function (c) {
-    c = c.toLowerCase();
-    var chars = trap[c] || [' '];
-    var rand = Math.floor(Math.random() * chars.length);
-    if (typeof trap[c] !== 'undefined') {
-      result += trap[c][rand];
-    } else {
-      result += c;
-    }
-  });
-  return result;
-};
-},{}],"../../node_modules/prettyjson/node_modules/colors/lib/custom/zalgo.js":[function(require,module,exports) {
-// please no
-module['exports'] = function zalgo(text, options) {
-  text = text || '   he is here   ';
-  var soul = {
-    'up': ['̍', '̎', '̄', '̅', '̿', '̑', '̆', '̐', '͒', '͗', '͑', '̇', '̈', '̊', '͂', '̓', '̈', '͊', '͋', '͌', '̃', '̂', '̌', '͐', '̀', '́', '̋', '̏', '̒', '̓', '̔', '̽', '̉', 'ͣ', 'ͤ', 'ͥ', 'ͦ', 'ͧ', 'ͨ', 'ͩ', 'ͪ', 'ͫ', 'ͬ', 'ͭ', 'ͮ', 'ͯ', '̾', '͛', '͆', '̚'],
-    'down': ['̖', '̗', '̘', '̙', '̜', '̝', '̞', '̟', '̠', '̤', '̥', '̦', '̩', '̪', '̫', '̬', '̭', '̮', '̯', '̰', '̱', '̲', '̳', '̹', '̺', '̻', '̼', 'ͅ', '͇', '͈', '͉', '͍', '͎', '͓', '͔', '͕', '͖', '͙', '͚', '̣'],
-    'mid': ['̕', '̛', '̀', '́', '͘', '̡', '̢', '̧', '̨', '̴', '̵', '̶', '͜', '͝', '͞', '͟', '͠', '͢', '̸', '̷', '͡', ' ҉']
-  };
-  var all = [].concat(soul.up, soul.down, soul.mid);
-
-  function randomNumber(range) {
-    var r = Math.floor(Math.random() * range);
-    return r;
-  }
-
-  function isChar(character) {
-    var bool = false;
-    all.filter(function (i) {
-      bool = i === character;
-    });
-    return bool;
-  }
-
-  function heComes(text, options) {
-    var result = '';
-    var counts;
-    var l;
-    options = options || {};
-    options['up'] = typeof options['up'] !== 'undefined' ? options['up'] : true;
-    options['mid'] = typeof options['mid'] !== 'undefined' ? options['mid'] : true;
-    options['down'] = typeof options['down'] !== 'undefined' ? options['down'] : true;
-    options['size'] = typeof options['size'] !== 'undefined' ? options['size'] : 'maxi';
-    text = text.split('');
-    for (l in text) {
-      if (isChar(l)) {
-        continue;
-      }
-      result = result + text[l];
-      counts = { 'up': 0, 'down': 0, 'mid': 0 };
-      switch (options.size) {
-        case 'mini':
-          counts.up = randomNumber(8);
-          counts.mid = randomNumber(2);
-          counts.down = randomNumber(8);
-          break;
-        case 'maxi':
-          counts.up = randomNumber(16) + 3;
-          counts.mid = randomNumber(4) + 1;
-          counts.down = randomNumber(64) + 3;
-          break;
-        default:
-          counts.up = randomNumber(8) + 1;
-          counts.mid = randomNumber(6) / 2;
-          counts.down = randomNumber(8) + 1;
-          break;
-      }
-
-      var arr = ['up', 'mid', 'down'];
-      for (var d in arr) {
-        var index = arr[d];
-        for (var i = 0; i <= counts[index]; i++) {
-          if (options[index]) {
-            result = result + soul[index][randomNumber(soul[index].length)];
-          }
-        }
-      }
-    }
-    return result;
-  }
-  // don't summon him
-  return heComes(text, options);
-};
-},{}],"../../node_modules/prettyjson/node_modules/colors/lib/maps/america.js":[function(require,module,exports) {
-var colors = require('../colors');
-
-module['exports'] = function () {
-  return function (letter, i, exploded) {
-    if (letter === ' ') return letter;
-    switch (i % 3) {
-      case 0:
-        return colors.red(letter);
-      case 1:
-        return colors.white(letter);
-      case 2:
-        return colors.blue(letter);
-    }
-  };
-}();
-},{"../colors":"../../node_modules/prettyjson/node_modules/colors/lib/colors.js"}],"../../node_modules/prettyjson/node_modules/colors/lib/maps/zebra.js":[function(require,module,exports) {
-var colors = require('../colors');
-
-module['exports'] = function (letter, i, exploded) {
-  return i % 2 === 0 ? letter : colors.inverse(letter);
-};
-},{"../colors":"../../node_modules/prettyjson/node_modules/colors/lib/colors.js"}],"../../node_modules/prettyjson/node_modules/colors/lib/maps/rainbow.js":[function(require,module,exports) {
-var colors = require('../colors');
-
-module['exports'] = function () {
-  // RoY G BiV
-  var rainbowColors = ['red', 'yellow', 'green', 'blue', 'magenta'];
-  return function (letter, i, exploded) {
-    if (letter === ' ') {
-      return letter;
-    } else {
-      return colors[rainbowColors[i++ % rainbowColors.length]](letter);
-    }
-  };
-}();
-},{"../colors":"../../node_modules/prettyjson/node_modules/colors/lib/colors.js"}],"../../node_modules/prettyjson/node_modules/colors/lib/maps/random.js":[function(require,module,exports) {
-var colors = require('../colors');
-
-module['exports'] = function () {
-  var available = ['underline', 'inverse', 'grey', 'yellow', 'red', 'green', 'blue', 'white', 'cyan', 'magenta'];
-  return function (letter, i, exploded) {
-    return letter === ' ' ? letter : colors[available[Math.round(Math.random() * (available.length - 2))]](letter);
-  };
-}();
-},{"../colors":"../../node_modules/prettyjson/node_modules/colors/lib/colors.js"}],"../../node_modules/prettyjson/node_modules/colors/lib/colors.js":[function(require,module,exports) {
-/*
-
-The MIT License (MIT)
-
-Original Library
-  - Copyright (c) Marak Squires
-
-Additional functionality
- - Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-
-*/
-
-var colors = {};
-module['exports'] = colors;
-
-colors.themes = {};
-
-var util = require('util');
-var ansiStyles = colors.styles = require('./styles');
-var defineProps = Object.defineProperties;
-var newLineRegex = new RegExp(/[\r\n]+/g);
-
-colors.supportsColor = require('./system/supports-colors').supportsColor;
-
-if (typeof colors.enabled === 'undefined') {
-  colors.enabled = colors.supportsColor() !== false;
-}
-
-colors.enable = function () {
-  colors.enabled = true;
-};
-
-colors.disable = function () {
-  colors.enabled = false;
-};
-
-colors.stripColors = colors.strip = function (str) {
-  return ('' + str).replace(/\x1B\[\d+m/g, '');
-};
-
-// eslint-disable-next-line no-unused-vars
-var stylize = colors.stylize = function stylize(str, style) {
-  if (!colors.enabled) {
-    return str + '';
-  }
-
-  return ansiStyles[style].open + str + ansiStyles[style].close;
-};
-
-var matchOperatorsRe = /[|\\{}()[\]^$+*?.]/g;
-var escapeStringRegexp = function (str) {
-  if (typeof str !== 'string') {
-    throw new TypeError('Expected a string');
-  }
-  return str.replace(matchOperatorsRe, '\\$&');
-};
-
-function build(_styles) {
-  var builder = function builder() {
-    return applyStyle.apply(builder, arguments);
-  };
-  builder._styles = _styles;
-  // __proto__ is used because we must return a function, but there is
-  // no way to create a function with a different prototype.
-  builder.__proto__ = proto;
-  return builder;
-}
-
-var styles = function () {
-  var ret = {};
-  ansiStyles.grey = ansiStyles.gray;
-  Object.keys(ansiStyles).forEach(function (key) {
-    ansiStyles[key].closeRe = new RegExp(escapeStringRegexp(ansiStyles[key].close), 'g');
-    ret[key] = {
-      get: function () {
-        return build(this._styles.concat(key));
-      }
-    };
-  });
-  return ret;
-}();
-
-var proto = defineProps(function colors() {}, styles);
-
-function applyStyle() {
-  var args = Array.prototype.slice.call(arguments);
-
-  var str = args.map(function (arg) {
-    if (arg !== undefined && arg.constructor === String) {
-      return arg;
-    } else {
-      return util.inspect(arg);
-    }
-  }).join(' ');
-
-  if (!colors.enabled || !str) {
-    return str;
-  }
-
-  var newLinesPresent = str.indexOf('\n') != -1;
-
-  var nestedStyles = this._styles;
-
-  var i = nestedStyles.length;
-  while (i--) {
-    var code = ansiStyles[nestedStyles[i]];
-    str = code.open + str.replace(code.closeRe, code.open) + code.close;
-    if (newLinesPresent) {
-      str = str.replace(newLineRegex, code.close + '\n' + code.open);
-    }
-  }
-
-  return str;
-}
-
-colors.setTheme = function (theme) {
-  if (typeof theme === 'string') {
-    console.log('colors.setTheme now only accepts an object, not a string.  ' + 'If you are trying to set a theme from a file, it is now your (the ' + 'caller\'s) responsibility to require the file.  The old syntax ' + 'looked like colors.setTheme(__dirname + ' + '\'/../themes/generic-logging.js\'); The new syntax looks like ' + 'colors.setTheme(require(__dirname + ' + '\'/../themes/generic-logging.js\'));');
-    return;
-  }
-  for (var style in theme) {
-    (function (style) {
-      colors[style] = function (str) {
-        if (typeof theme[style] === 'object') {
-          var out = str;
-          for (var i in theme[style]) {
-            out = colors[theme[style][i]](out);
-          }
-          return out;
-        }
-        return colors[theme[style]](str);
-      };
-    })(style);
-  }
-};
-
-function init() {
-  var ret = {};
-  Object.keys(styles).forEach(function (name) {
-    ret[name] = {
-      get: function () {
-        return build([name]);
-      }
-    };
-  });
-  return ret;
-}
-
-var sequencer = function sequencer(map, str) {
-  var exploded = str.split('');
-  exploded = exploded.map(map);
-  return exploded.join('');
-};
-
-// custom formatter methods
-colors.trap = require('./custom/trap');
-colors.zalgo = require('./custom/zalgo');
-
-// maps
-colors.maps = {};
-colors.maps.america = require('./maps/america');
-colors.maps.zebra = require('./maps/zebra');
-colors.maps.rainbow = require('./maps/rainbow');
-colors.maps.random = require('./maps/random');
-
-for (var map in colors.maps) {
-  (function (map) {
-    colors[map] = function (str) {
-      return sequencer(colors.maps[map], str);
-    };
-  })(map);
-}
-
-defineProps(colors, init());
-},{"util":"../../../../node_modules/util/util.js","./styles":"../../node_modules/prettyjson/node_modules/colors/lib/styles.js","./system/supports-colors":"../../node_modules/prettyjson/node_modules/colors/lib/system/supports-colors.js","./custom/trap":"../../node_modules/prettyjson/node_modules/colors/lib/custom/trap.js","./custom/zalgo":"../../node_modules/prettyjson/node_modules/colors/lib/custom/zalgo.js","./maps/america":"../../node_modules/prettyjson/node_modules/colors/lib/maps/america.js","./maps/zebra":"../../node_modules/prettyjson/node_modules/colors/lib/maps/zebra.js","./maps/rainbow":"../../node_modules/prettyjson/node_modules/colors/lib/maps/rainbow.js","./maps/random":"../../node_modules/prettyjson/node_modules/colors/lib/maps/random.js"}],"../../node_modules/prettyjson/node_modules/colors/safe.js":[function(require,module,exports) {
-//
-// Remark: Requiring this file will use the "safe" colors API,
-// which will not touch String.prototype.
-//
-//   var colors = require('colors/safe');
-//   colors.red("foo")
-//
-//
-var colors = require('./lib/colors');
-module['exports'] = colors;
-},{"./lib/colors":"../../node_modules/prettyjson/node_modules/colors/lib/colors.js"}],"../../node_modules/prettyjson/lib/utils.js":[function(require,module,exports) {
-'use strict';
-
-/**
- * Creates a string with the same length as `numSpaces` parameter
- **/
-exports.indent = function indent(numSpaces) {
-  return new Array(numSpaces+1).join(' ');
-};
-
-/**
- * Gets the string length of the longer index in a hash
- **/
-exports.getMaxIndexLength = function(input) {
-  var maxWidth = 0;
-
-  Object.getOwnPropertyNames(input).forEach(function(key) {
-    // Skip undefined values.
-    if (input[key] === undefined) {
-      return;
-    }
-
-    maxWidth = Math.max(maxWidth, key.length);
-  });
-  return maxWidth;
-};
-
-},{}],"../../node_modules/prettyjson/package.json":[function(require,module,exports) {
-module.exports = {
-  "author": "Rafael de Oleza <rafeca@gmail.com> (https://github.com/rafeca)",
-  "name": "prettyjson",
-  "description": "Package for formatting JSON data in a coloured YAML-style, perfect for CLI output",
-  "version": "1.2.1",
-  "homepage": "http://rafeca.com/prettyjson",
-  "keywords": [
-    "json",
-    "cli",
-    "formatting",
-    "colors"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/rafeca/prettyjson.git"
-  },
-  "bugs": {
-    "url": "https://github.com/rafeca/prettyjson/issues"
-  },
-  "main": "./lib/prettyjson",
-  "license": "MIT",
-  "scripts": {
-    "test": "npm run jshint && mocha --reporter spec",
-    "testwin": "node ./node_modules/mocha/bin/mocha --reporter spec",
-    "jshint": "jshint lib/*.js test/*.js",
-    "coverage": "istanbul cover _mocha --report lcovonly -- -R spec",
-    "coveralls": "npm run coverage && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
-    "changelog": "git log $(git describe --tags --abbrev=0)..HEAD --pretty='* %s' --first-parent"
-  },
-  "bin": {
-    "prettyjson": "./bin/prettyjson"
-  },
-  "dependencies": {
-    "colors": "^1.1.2",
-    "minimist": "^1.2.0"
-  },
-  "devDependencies": {
-    "coveralls": "^2.11.15",
-    "istanbul": "^0.4.5",
-    "jshint": "^2.9.4",
-    "mocha": "^3.1.2",
-    "mocha-lcov-reporter": "^1.2.0",
-    "should": "^11.1.1"
-  }
-}
-;
-},{}],"../../node_modules/prettyjson/lib/prettyjson.js":[function(require,module,exports) {
-'use strict';
-
-// ### Module dependencies
-var colors = require('colors/safe');
-var Utils = require('./utils');
-
-exports.version = require('../package.json').version;
-
-// Helper function to detect if an object can be directly serializable
-var isSerializable = function(input, onlyPrimitives, options) {
-  if (
-    typeof input === 'boolean' ||
-    typeof input === 'number' ||
-    typeof input === 'function' ||
-    input === null ||
-    input instanceof Date
-  ) {
-    return true;
-  }
-  if (typeof input === 'string' && input.indexOf('\n') === -1) {
-    return true;
-  }
-
-  if (options.inlineArrays && !onlyPrimitives) {
-    if (Array.isArray(input) && isSerializable(input[0], true, options)) {
-      return true;
-    }
-  }
-
-  return false;
-};
-
-var addColorToData = function(input, options) {
-  if (options.noColor) {
-    return input;
-  }
-
-  if (typeof input === 'string') {
-    // Print strings in regular terminal color
-    return options.stringColor ? colors[options.stringColor](input) : input;
-  }
-
-  var sInput = input + '';
-
-  if (input === true) {
-    return colors.green(sInput);
-  }
-  if (input === false) {
-    return colors.red(sInput);
-  }
-  if (input === null) {
-    return colors.grey(sInput);
-  }
-  if (typeof input === 'number') {
-    return colors[options.numberColor](sInput);
-  }
-  if (typeof input === 'function') {
-    return 'function() {}';
-  }
-
-  if (Array.isArray(input)) {
-    return input.join(', ');
-  }
-
-  return sInput;
-};
-
-var indentLines = function(string, spaces){
-  var lines = string.split('\n');
-  lines = lines.map(function(line){
-    return Utils.indent(spaces) + line;
-  });
-  return lines.join('\n');
-};
-
-var renderToArray = function(data, options, indentation) {
-  if (isSerializable(data, false, options)) {
-    return [Utils.indent(indentation) + addColorToData(data, options)];
-  }
-
-  // Unserializable string means it's multiline
-  if (typeof data === 'string') {
-    return [
-      Utils.indent(indentation) + '"""',
-      indentLines(data, indentation + options.defaultIndentation),
-      Utils.indent(indentation) + '"""'
-    ];
-  }
-
-
-  if (Array.isArray(data)) {
-    // If the array is empty, render the `emptyArrayMsg`
-    if (data.length === 0) {
-      return [Utils.indent(indentation) + options.emptyArrayMsg];
-    }
-
-    var outputArray = [];
-
-    data.forEach(function(element) {
-      // Prepend the dash at the begining of each array's element line
-      var line = '- ';
-      if (!options.noColor) {
-        line = colors[options.dashColor](line);
-      }
-      line = Utils.indent(indentation) + line;
-
-      // If the element of the array is a string, bool, number, or null
-      // render it in the same line
-      if (isSerializable(element, false, options)) {
-        line += renderToArray(element, options, 0)[0];
-        outputArray.push(line);
-
-      // If the element is an array or object, render it in next line
-      } else {
-        outputArray.push(line);
-        outputArray.push.apply(
-          outputArray,
-          renderToArray(
-            element, options, indentation + options.defaultIndentation
-          )
-        );
-      }
-    });
-
-    return outputArray;
-  }
-
-  if (data instanceof Error) {
-    return renderToArray(
-      {
-        message: data.message,
-        stack: data.stack.split('\n')
-      },
-      options,
-      indentation
-    );
-  }
-
-  // If values alignment is enabled, get the size of the longest index
-  // to align all the values
-  var maxIndexLength = options.noAlign ? 0 : Utils.getMaxIndexLength(data);
-  var key;
-  var output = [];
-
-  Object.getOwnPropertyNames(data).forEach(function(i) {
-    // Prepend the index at the beginning of the line
-    key = (i + ': ');
-    if (!options.noColor) {
-      key = colors[options.keysColor](key);
-    }
-    key = Utils.indent(indentation) + key;
-
-    // Skip `undefined`, it's not a valid JSON value.
-    if (data[i] === undefined) {
-      return;
-    }
-
-    // If the value is serializable, render it in the same line
-    if (isSerializable(data[i], false, options)) {
-      var nextIndentation = options.noAlign ? 0 : maxIndexLength - i.length;
-      key += renderToArray(data[i], options, nextIndentation)[0];
-      output.push(key);
-
-      // If the index is an array or object, render it in next line
-    } else {
-      output.push(key);
-      output.push.apply(
-        output,
-        renderToArray(
-          data[i],
-          options,
-          indentation + options.defaultIndentation
-        )
-      );
-    }
-  });
-  return output;
-};
-
-// ### Render function
-// *Parameters:*
-//
-// * **`data`**: Data to render
-// * **`options`**: Hash with different options to configure the parser
-// * **`indentation`**: Base indentation of the parsed output
-//
-// *Example of options hash:*
-//
-//     {
-//       emptyArrayMsg: '(empty)', // Rendered message on empty strings
-//       keysColor: 'blue',        // Color for keys in hashes
-//       dashColor: 'red',         // Color for the dashes in arrays
-//       stringColor: 'grey',      // Color for strings
-//       defaultIndentation: 2     // Indentation on nested objects
-//     }
-exports.render = function render(data, options, indentation) {
-  // Default values
-  indentation = indentation || 0;
-  options = options || {};
-  options.emptyArrayMsg = options.emptyArrayMsg || '(empty array)';
-  options.keysColor = options.keysColor || 'green';
-  options.dashColor = options.dashColor || 'green';
-  options.numberColor = options.numberColor || 'blue';
-  options.defaultIndentation = options.defaultIndentation || 2;
-  options.noColor = !!options.noColor;
-  options.noAlign = !!options.noAlign;
-
-  options.stringColor = options.stringColor || null;
-
-  return renderToArray(data, options, indentation).join('\n');
-};
-
-// ### Render from string function
-// *Parameters:*
-//
-// * **`data`**: Data to render as a string
-// * **`options`**: Hash with different options to configure the parser
-// * **`indentation`**: Base indentation of the parsed output
-//
-// *Example of options hash:*
-//
-//     {
-//       emptyArrayMsg: '(empty)', // Rendered message on empty strings
-//       keysColor: 'blue',        // Color for keys in hashes
-//       dashColor: 'red',         // Color for the dashes in arrays
-//       defaultIndentation: 2     // Indentation on nested objects
-//     }
-exports.renderString = function renderString(data, options, indentation) {
-
-  var output = '';
-  var parsedData;
-  // If the input is not a string or if it's empty, just return an empty string
-  if (typeof data !== 'string' || data === '') {
-    return '';
-  }
-
-  // Remove non-JSON characters from the beginning string
-  if (data[0] !== '{' && data[0] !== '[') {
-    var beginingOfJson;
-    if (data.indexOf('{') === -1) {
-      beginingOfJson = data.indexOf('[');
-    } else if (data.indexOf('[') === -1) {
-      beginingOfJson = data.indexOf('{');
-    } else if (data.indexOf('{') < data.indexOf('[')) {
-      beginingOfJson = data.indexOf('{');
-    } else {
-      beginingOfJson = data.indexOf('[');
-    }
-    output += data.substr(0, beginingOfJson) + '\n';
-    data = data.substr(beginingOfJson);
-  }
-
-  try {
-    parsedData = JSON.parse(data);
-  } catch (e) {
-    // Return an error in case of an invalid JSON
-    return colors.red('Error:') + ' Not valid JSON!';
-  }
-
-  // Call the real render() method
-  output += exports.render(parsedData, options, indentation);
-  return output;
-};
-
-},{"colors/safe":"../../node_modules/prettyjson/node_modules/colors/safe.js","./utils":"../../node_modules/prettyjson/lib/utils.js","../package.json":"../../node_modules/prettyjson/package.json"}],"../../dist/src.es7.cjs/consts.js":[function(require,module,exports) {
+},{"react":"../../node_modules/@offirmo/react-error-boundary/node_modules/react/index.js","render-props":"../../node_modules/@offirmo/react-error-boundary/node_modules/render-props/lib/index.js","./sec":"../../node_modules/@offirmo/react-error-boundary/src/sec.js"}],"../../dist/src.es7.cjs/consts.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -24199,6 +22412,22 @@ const LIB = '@offirmo/rich-text-format';
 exports.LIB = LIB;
 const SCHEMA_VERSION = 1;
 exports.SCHEMA_VERSION = SCHEMA_VERSION;
+const NODE_TYPE_TO_DISPLAY_MODE = {
+    'span': 'inline',
+    'strong': 'inline',
+    'em': 'inline',
+    // display "block"
+    'heading': 'block',
+    'hr': 'block',
+    'ol': 'block',
+    'ul': 'block',
+    // internally used, don't mind
+    'li': 'block',
+    // special
+    'br': 'inline',
+    'fragment': 'inline'
+};
+exports.NODE_TYPE_TO_DISPLAY_MODE = NODE_TYPE_TO_DISPLAY_MODE;
 //# sourceMappingURL=consts.js.map
 },{}],"../../node_modules/typescript-string-enums/dist/index.js":[function(require,module,exports) {
 "use strict";
@@ -24258,11 +22487,11 @@ const typescript_string_enums_1 = require("typescript-string-enums");
 ///////
 const NodeType = typescript_string_enums_1.Enum(
 // https://stackoverflow.com/questions/9189810/css-display-inline-vs-inline-block
-// display: inline
+// display "inline"
 'span', 'strong', 'em',
-// "block"
+// display "block"
 'heading', 'hr', 'ol', 'ul',
-// internally used, don't bother
+// internally used, don't mind
 'li',
 // special
 'br', 'fragment');
@@ -24307,11 +22536,12 @@ function get_default_callbacks() {
     return {
         on_root_enter: nothing,
         on_root_exit: identity,
-        on_node_enter: identity,
+        on_node_enter: () => {
+            throw new Error('Please define on_node_enter()!');
+        },
         on_node_exit: identity,
         on_concatenate_str: identity,
         on_concatenate_sub_node: identity,
-        on_sub_node_id: identity,
         on_filter: identity,
         on_filter_Capitalize: ({ state }) => {
             if (typeof state === 'string' && state) {
@@ -24335,8 +22565,9 @@ const SUB_NODE_HR = {
 function walk_content($node, callbacks, state, depth) {
     const { $content, $sub: $sub_nodes } = $node;
     const split1 = $content.split('{{');
-    state = callbacks.on_concatenate_str({
-        str: split1.shift(),
+    const initial_str = split1.shift();
+    if (initial_str) state = callbacks.on_concatenate_str({
+        str: initial_str,
         state,
         $node,
         depth
@@ -24345,14 +22576,6 @@ function walk_content($node, callbacks, state, depth) {
         const split2 = paramAndText.split('}}');
         if (split2.length !== 2) throw new Error(`${consts_1.LIB}: syntax error in content "${$content}"!`);
         const [sub_node_id, ...$filters] = split2.shift().split('|');
-        /*
-        state = callbacks.on_sub_node_id({
-            $id: sub_node_id,
-            state,
-            $node,
-            depth,
-        })
-        */
         let $sub_node = $sub_nodes[sub_node_id];
         if (!$sub_node && sub_node_id === 'br') $sub_node = SUB_NODE_BR;
         if (!$sub_node && sub_node_id === 'hr') $sub_node = SUB_NODE_HR;
@@ -24363,8 +22586,9 @@ function walk_content($node, callbacks, state, depth) {
             depth: depth + 1
         });
         sub_state = $filters.reduce((state, $filter) => {
-            const fine_filter_cb = `on_filter_${$filter}`;
-            if (callbacks[fine_filter_cb]) return callbacks[fine_filter_cb]({
+            const fine_filter_cb_id = `on_filter_${$filter}`;
+            const fine_filter_callback = callbacks[fine_filter_cb_id];
+            if (fine_filter_callback) state = fine_filter_callback({
                 $filter,
                 $filters,
                 state,
@@ -24388,7 +22612,7 @@ function walk_content($node, callbacks, state, depth) {
             $node: utils_1.normalize_node($sub_node),
             depth
         });
-        state = callbacks.on_concatenate_str({
+        if (split2[0]) state = callbacks.on_concatenate_str({
             str: split2[0],
             state,
             $node,
@@ -24418,6 +22642,7 @@ function walk($raw_node, raw_callbacks,
         depth
     }), state);
     if ($type === 'ul' || $type === 'ol') {
+        // special case of sub-content
         const sorted_keys = Object.keys($sub_nodes).sort();
         sorted_keys.forEach(key => {
             const $sub_node = {
@@ -24443,8 +22668,10 @@ function walk($raw_node, raw_callbacks,
         });
     } else state = walk_content($node, callbacks, state, depth);
     state = $classes.reduce((state, $class) => callbacks.on_class_after({ $class, state, $node, depth }), state);
-    const fine_type_cb = `on_type_${$type}`;
-    if (callbacks[fine_type_cb]) state = callbacks[fine_type_cb]({ $type, state, $node, depth });else state = callbacks.on_type({ $type, state, $node, depth });
+    const fine_type_cb_id = `on_type_${$type}`;
+    const fine_type_callback = callbacks[fine_type_cb_id];
+    if (fine_type_callback) state = fine_type_callback({ $type, $parent_node, state, $node, depth });
+    state = callbacks.on_type({ $type, $parent_node, state, $node, depth });
     state = callbacks.on_node_exit({ $node, $id, state, depth });
     if (!$parent_node) state = callbacks.on_root_exit({ state, $node, depth: 0 });
     return state;
@@ -24457,14 +22684,13 @@ exports.walk = walk;
 Object.defineProperty(exports, "__esModule", { value: true });
 const MANY_SPACES = '                                                                                                ';
 function indent(n) {
-    return MANY_SPACES.slice(0, n * 2);
+    return console.groupCollapsed || console.group ? '' : MANY_SPACES.slice(0, n * 2);
 }
 ////////////////////////////////////
 function debug_node_short($node) {
     const { $type, $content } = $node;
     return `${$type}."${$content}"`;
 }
-////////////////////////////////////
 const consoleGroupStart = (console.groupCollapsed || console.group || console.log).bind(console);
 const consoleGroupEnd = (console.groupEnd || console.log).bind(console);
 const on_root_enter = () => {
@@ -24473,17 +22699,19 @@ const on_root_enter = () => {
 const on_root_exit = ({ state }) => {
     console.log('⟨ [on_root_exit]');
     console.log(`  [state="${state}"]`);
+    consoleGroupEnd();
     return state;
 };
 const on_node_enter = ({ $node, $id, depth }) => {
-    consoleGroupStart(indent(depth) + `⟩ [on_node_enter] #${$id} ` + debug_node_short($node));
+    consoleGroupStart(indent(depth) + `⟩ [on_node_enter] #${$id}/` + debug_node_short($node));
     const state = '';
     console.log(indent(depth) + `  [state="${state}"] (init)`);
     return state;
 };
 const on_node_exit = ({ $node, $id, state, depth }) => {
-    consoleGroupEnd(indent(depth) + `⟨ [on_node_exit] #${$id}`);
+    console.log(indent(depth) + `⟨ [on_node_exit] #${$id}`);
     console.log(indent(depth) + `  [state="${state}"]`);
+    consoleGroupEnd();
     return state;
 };
 // when walking inside the content
@@ -24534,13 +22762,13 @@ const callbacks = {
     on_class_before,
     on_class_after,
     on_type,
-    on_type_br: ({ state }) => {
-        if (typeof state === 'string') return state + '{{br}}';
-        return state;
+    on_type_br: ({ state, depth }) => {
+        console.log(indent(depth) + `  [on_type_br]`);
+        return state + '\\\\br\\\\';
     },
-    on_type_hr: ({ state }) => {
-        if (typeof state === 'string') return state + '{{hr}}';
-        return state;
+    on_type_hr: ({ state, depth }) => {
+        console.log(indent(depth) + `  [on_type_hr]`);
+        return state + '--hr--';
     }
 };
 exports.callbacks = callbacks;
@@ -24549,21 +22777,111 @@ exports.callbacks = callbacks;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const on_concatenate_sub_node = ({ state, sub_state, $id, $parent_node }) => {
-    if ($parent_node.$type === 'ul') return state + '\n - ' + sub_state;
-    if ($parent_node.$type === 'ol') return state + `\n ${(' ' + $id).slice(-2)}. ` + sub_state;
-    return state + sub_state;
+const consts_1 = require("./consts");
+function assemble(state) {
+    // TODO
+    return state.str;
+}
+exports.assemble = assemble;
+const on_type = ({ $type, state, $node, depth }) => {
+    console.log('[on_type]', { $type, state });
+    const markdown = true;
+    if (markdown) {
+        switch ($node.$type) {
+            case 'heading':
+                state.str = `## ${state.str} ##`;
+                break;
+            case 'strong':
+                state.str = `**${state.str}**`;
+                break;
+            case 'em':
+                state.str = `_${state.str}_`;
+                break;
+            case 'br':
+                state.ends_with_block = true;
+                break;
+            case 'hr':
+                state.str = '---';
+                break;
+            default:
+                break;
+        }
+    } else {
+        switch ($node.$type) {
+            case 'br':
+                state.ends_with_block = true;
+                break;
+            case 'hr':
+                state.str = '------------------------------------------------------------';
+                break;
+            default:
+                break;
+        }
+    }
+    if (consts_1.NODE_TYPE_TO_DISPLAY_MODE[$node.$type] === 'block') {
+        state.starts_with_block = true;
+        state.ends_with_block = true;
+    }
+    return state;
+};
+const on_concatenate_sub_node = ({ state, sub_state, $node, $id, $parent_node }) => {
+    let sub_str = sub_state.str;
+    let sub_starts_with_block = sub_state.starts_with_block;
+    switch ($parent_node.$type) {
+        case 'ul':
+            // automake sub-state a ul > li
+            sub_starts_with_block = true;
+            sub_str = '- ' + sub_str;
+            break;
+        case 'ol':
+            // automake sub-state a ol > li
+            sub_starts_with_block = true;
+            sub_str = `${(' ' + $id).slice(-2)}. ` + sub_str;
+            break;
+        default:
+            break;
+    }
+    console.log('on_concatenate_sub_node()', {
+        sub_node: $node,
+        sub_state: Object.assign({}, sub_state, { str: sub_str, starts_with_block: sub_starts_with_block }),
+        state: JSON.parse(JSON.stringify(state))
+    });
+    if (state.str.length === 0) {
+        // we are at start
+        if (sub_state.starts_with_block) {
+            // propagate start
+            state.starts_with_block = true;
+        }
+    } else {
+        if (state.ends_with_block || sub_starts_with_block) {
+            state.str += '\n';
+        }
+    }
+    state.str += sub_str;
+    state.ends_with_block = sub_state.ends_with_block;
+    return state;
 };
 const callbacks = {
-    on_node_enter: () => '',
-    on_concatenate_str: ({ state, str }) => state + str,
+    on_node_enter: ({ $node }) => ({
+        starts_with_block: false,
+        ends_with_block: false,
+        str: ''
+    }),
+    on_concatenate_str: ({ state, str }) => {
+        console.log('on_concatenate_str()', { str, state: JSON.parse(JSON.stringify(state)) });
+        if (state.ends_with_block) {
+            state.str += '\n';
+            state.ends_with_block = false;
+        }
+        state.str += str;
+        return state;
+    },
     on_concatenate_sub_node,
-    on_type_br: ({ state }) => state + '\n',
-    on_type_hr: ({ state }) => state + '\n------------------------------------------------------------\n'
+    on_type
 };
 exports.callbacks = callbacks;
 //# sourceMappingURL=to_text.js.map
-},{}],"../../dist/src.es7.cjs/to_html.js":[function(require,module,exports) {
+},{"./consts":"../../dist/src.es7.cjs/consts.js"}],"../../dist/src.es7.cjs/to_html.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -24586,9 +22904,10 @@ function apply_type($type, str, $classes, $sub_node_count, depth) {
     }
     let result = '';
     if (!is_inline) result += '\n' + indent(depth);
-    result += `<${$type}`;
+    const element = $type === 'heading' ? 'h3' : $type;
+    result += `<${element}`;
     if ($classes.length) result += ` class="${$classes.join(' ')}"`;
-    result += '>' + str + ($sub_node_count ? '\n' + indent(depth) : '') + `</${$type}>`;
+    result += '>' + str + ($sub_node_count ? '\n' + indent(depth) : '') + `</${element}>`;
     return result;
 }
 const on_concatenate_sub_node = ({ state, sub_state }) => {
@@ -24638,11 +22957,13 @@ function create($type) {
         $node.$content += str;
         return builder;
     }
+    // nothing is added in content
     function pushRawNode(node, id) {
         // XX restrict?
         $node.$sub[id] = node;
         return builder;
     }
+    // node ref is auto added into content
     function pushNode(node, id) {
         id = id || 's' + ++sub_id;
         $node.$content += `{{${id}}}`;
@@ -24710,7 +23031,7 @@ function to_debug($doc) {
 exports.to_debug = to_debug;
 const to_text_1 = require("./to_text");
 function to_text($doc) {
-    return walk_1.walk($doc, to_text_1.callbacks);
+    return walk_1.walk($doc, to_text_1.callbacks).str;
 }
 exports.to_text = to_text;
 const to_html_1 = require("./to_html");
@@ -24739,11 +23060,6 @@ var _reactErrorBoundary2 = _interopRequireDefault(_reactErrorBoundary);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const prettyjson = require('prettyjson');
-function prettify_json(data, options) {
-	return prettyjson.render(data, options);
-}
-
 const RichText = require('../../../dist/src.es7.cjs');
 
 const RichTextView = ({ doc, mode = 'to_html' }) => {
@@ -24752,13 +23068,15 @@ const RichTextView = ({ doc, mode = 'to_html' }) => {
 			return _react2.default.createElement(
 				'pre',
 				null,
-				RichText.to_text(doc),
-				' />'
+				RichText.to_text(doc)
 			);
+
 		case 'to_html':
 			return _react2.default.createElement('div', { dangerouslySetInnerHTML: { __html: RichText.to_html(doc) } });
+
 		case 'to_react':
 			return 'TODO';
+
 		default:
 			return `<RichTextView /> unknown mode "${mode}"!`;
 	}
@@ -24771,6 +23089,14 @@ class MultiRenderer extends _react.Component {
 		console.log({ doc });
 		try {
 			RichText.to_debug(doc);
+			console.log('to_debug done.');
+			console.groupEnd();
+			console.groupEnd();
+			console.groupEnd();
+			console.groupEnd();
+			console.groupEnd();
+			console.groupEnd();
+			console.groupEnd();
 		} catch (err) {
 			console.groupEnd();
 			console.groupEnd();
@@ -24822,7 +23148,7 @@ class MultiRenderer extends _react.Component {
 	}
 }
 exports.default = MultiRenderer;
-},{"react":"../../node_modules/react/index.js","@offirmo/react-error-boundary":"../../node_modules/@offirmo/react-error-boundary/src/error-boundary.jsx","prettyjson":"../../node_modules/prettyjson/lib/prettyjson.js","../../../dist/src.es7.cjs":"../../dist/src.es7.cjs/index.js"}],"../examples.js":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","@offirmo/react-error-boundary":"../../node_modules/@offirmo/react-error-boundary/src/error-boundary.jsx","../../../dist/src.es7.cjs":"../../dist/src.es7.cjs/index.js"}],"../examples.js":[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -24833,7 +23159,7 @@ const RichText = require('..');
 const DEMO_TYPES = exports.DEMO_TYPES = {
 	$type: 'fragment',
 	$classes: [],
-	$content: 'horizontal rule:{{hr}}heading:{{heading}}Some text:{{br}}{{text}}{{br}}{{strong}}{{br}}{{em}}{{br}}Unordered list:{{ul}}ordered list:{{ol}}',
+	$content: 'horizontal rule:{{hr}}Heading:{{heading}}Some text:{{br}}{{text}}{{br}}{{strong}}{{br}}{{em}}{{br}}Unordered list:{{ul}}Ordered list:{{ol}}More text.',
 	$sub: {
 		heading: {
 			$type: 'heading',

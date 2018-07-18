@@ -12,11 +12,10 @@ function get_default_callbacks() {
     return {
         on_root_enter: nothing,
         on_root_exit: identity,
-        on_node_enter: identity,
+        on_node_enter: () => { throw new Error('Please define on_node_enter()!'); },
         on_node_exit: identity,
         on_concatenate_str: identity,
         on_concatenate_sub_node: identity,
-        on_sub_node_id: identity,
         on_filter: identity,
         on_filter_Capitalize: ({ state }) => {
             if (typeof state === 'string' && state) {
@@ -40,25 +39,19 @@ const SUB_NODE_HR = {
 function walk_content($node, callbacks, state, depth) {
     const { $content, $sub: $sub_nodes } = $node;
     const split1 = $content.split('{{');
-    state = callbacks.on_concatenate_str({
-        str: split1.shift(),
-        state,
-        $node,
-        depth,
-    });
+    const initial_str = split1.shift();
+    if (initial_str)
+        state = callbacks.on_concatenate_str({
+            str: initial_str,
+            state,
+            $node,
+            depth,
+        });
     state = split1.reduce((state, paramAndText) => {
         const split2 = paramAndText.split('}}');
         if (split2.length !== 2)
             throw new Error(`${consts_1.LIB}: syntax error in content "${$content}"!`);
         const [sub_node_id, ...$filters] = split2.shift().split('|');
-        /*
-        state = callbacks.on_sub_node_id({
-            $id: sub_node_id,
-            state,
-            $node,
-            depth,
-        })
-        */
         let $sub_node = $sub_nodes[sub_node_id];
         if (!$sub_node && sub_node_id === 'br')
             $sub_node = SUB_NODE_BR;
@@ -72,9 +65,10 @@ function walk_content($node, callbacks, state, depth) {
             depth: depth + 1,
         });
         sub_state = $filters.reduce((state, $filter) => {
-            const fine_filter_cb = `on_filter_${$filter}`;
-            if (callbacks[fine_filter_cb])
-                return callbacks[fine_filter_cb]({
+            const fine_filter_cb_id = `on_filter_${$filter}`;
+            const fine_filter_callback = callbacks[fine_filter_cb_id];
+            if (fine_filter_callback)
+                state = fine_filter_callback({
                     $filter,
                     $filters,
                     state,
@@ -98,12 +92,13 @@ function walk_content($node, callbacks, state, depth) {
             $node: utils_1.normalize_node($sub_node),
             depth,
         });
-        state = callbacks.on_concatenate_str({
-            str: split2[0],
-            state,
-            $node,
-            depth,
-        });
+        if (split2[0])
+            state = callbacks.on_concatenate_str({
+                str: split2[0],
+                state,
+                $node,
+                depth,
+            });
         return state;
     }, state);
     return state;
@@ -128,6 +123,7 @@ function walk($raw_node, raw_callbacks,
         depth
     }), state);
     if ($type === 'ul' || $type === 'ol') {
+        // special case of sub-content
         const sorted_keys = Object.keys($sub_nodes).sort();
         sorted_keys.forEach(key => {
             const $sub_node = {
@@ -155,11 +151,11 @@ function walk($raw_node, raw_callbacks,
     else
         state = walk_content($node, callbacks, state, depth);
     state = $classes.reduce((state, $class) => callbacks.on_class_after({ $class, state, $node, depth }), state);
-    const fine_type_cb = `on_type_${$type}`;
-    if (callbacks[fine_type_cb])
-        state = callbacks[fine_type_cb]({ $type, state, $node, depth });
-    else
-        state = callbacks.on_type({ $type, state, $node, depth });
+    const fine_type_cb_id = `on_type_${$type}`;
+    const fine_type_callback = callbacks[fine_type_cb_id];
+    if (fine_type_callback)
+        state = fine_type_callback({ $type, $parent_node, state, $node, depth });
+    state = callbacks.on_type({ $type, $parent_node, state, $node, depth });
     state = callbacks.on_node_exit({ $node, $id, state, depth });
     if (!$parent_node)
         state = callbacks.on_root_exit({ state, $node, depth: 0 });

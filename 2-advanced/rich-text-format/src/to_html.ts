@@ -1,17 +1,14 @@
-import { WalkerCallbacks, WalkerReducer, AnyParams } from './walk'
-
-
-import stylize_string  from 'chalk'
-
+import {NodeType, OnConcatenateStringParams, OnConcatenateSubNodeParams, WalkerCallbacks, WalkerReducer} from './walk'
 
 const MANY_TABS = '																																							'
+
+type State = string
 
 function indent(n: number): string {
 	return MANY_TABS.slice(0, n)
 }
 
-
-function apply_type($type: string, str: string, $classes: string[], $sub_node_count: number, depth: number): string {
+function apply_type($type: NodeType, str: string, $classes: string[], $sub_node_count: number, depth: number): string {
 	if ($type === 'br')
 		return '<br/>\n'
 
@@ -33,21 +30,23 @@ function apply_type($type: string, str: string, $classes: string[], $sub_node_co
 	if (!is_inline)
 		result += '\n' + indent(depth)
 
-	result += `<${$type}`
+	const element: string = $type === 'heading' ? 'h3' : $type
+
+	result += `<${element}`
 	if ($classes.length)
 		result += ` class="${$classes.join(' ')}"`
-	result += '>' + str + ($sub_node_count ? '\n' + indent(depth) : '') + `</${$type}>`
+	result += '>' + str + ($sub_node_count ? '\n' + indent(depth) : '') + `</${element}>`
 
 	return result
 }
 
-const on_concatenate_sub_node: WalkerReducer<string, AnyParams<string>> = ({state, sub_state}) => {
+const on_concatenate_sub_node: WalkerReducer<State, OnConcatenateSubNodeParams<State>> = ({state, sub_state}) => {
 	return state + sub_state
 }
 
-const callbacks: Partial<WalkerCallbacks<string>> = {
+const callbacks: Partial<WalkerCallbacks<State>> = {
 	on_node_enter: () => '',
-	on_concatenate_str: ({state, str}) => state + str,
+	on_concatenate_str: ({state, str}: OnConcatenateStringParams<State>) => state + str,
 	on_concatenate_sub_node,
 	on_type: ({state: str, $type, $node: {$classes, $sub}, depth}) =>
 		apply_type(

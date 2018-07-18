@@ -1,4 +1,4 @@
-import { LIB, SCHEMA_VERSION } from './consts'
+import { LIB } from './consts'
 
 import {
 	NodeType,
@@ -6,44 +6,78 @@ import {
 	Node,
 } from './types'
 
-import {
-	normalize_node,
-} from './utils'
+import { normalize_node } from './utils'
 
 
-// TODO better
-interface BaseParams<State> {
-	state: State,
-	$node: CheckedNode,
+export interface OnNodeEnterParams<State> {
+	$id: string
+	$node: CheckedNode
 	depth: number
+}
+export interface BaseParams<State> {
+	state: State
+	$node: CheckedNode
+	depth: number
+}
+export interface OnRootExitParams<State> extends BaseParams<State> {
+}
+export interface OnNodeExitParams<State> extends BaseParams<State> {
+	$id: string
+}
+export interface OnConcatenateStringParams<State> extends BaseParams<State> {
+	str: string
+}
+export interface OnConcatenateSubNodeParams<State> extends BaseParams<State> {
+	sub_state: State
+	$id: string
+	$parent_node: CheckedNode
+}
+export interface OnFilterParams<State> extends BaseParams<State> {
+	$filter: string
+	$filters: string[]
+}
+export interface OnClassParams<State> extends BaseParams<State> {
+	$class: string
+}
+export interface OnTypeParams<State> extends BaseParams<State> {
+	$type: NodeType
+	$parent_node?: CheckedNode
 }
 
 interface WalkerReducer<State, P extends BaseParams<State>> {
 	(params: P): State
 }
 
-interface AnyParams<State> extends BaseParams<State> {
-	[x: string]: any
-}
-
 interface WalkerCallbacks<State> {
 	on_root_enter(): void,
-	on_root_exit(params: BaseParams<State>): any,
-	on_node_enter: any, // TODO
-	// TODO better types
-	on_node_exit: WalkerReducer<State, AnyParams<State>>,
-	on_concatenate_str: WalkerReducer<State, AnyParams<State>>,
-	on_concatenate_sub_node: WalkerReducer<State, AnyParams<State>>,
-	//on_sub_node_id: WalkerReducer<State, AnyParams<State>>,
-	on_filter: WalkerReducer<State, AnyParams<State>>,
-	on_filter_Capitalize: WalkerReducer<State, AnyParams<State>>,
-	on_class_before: WalkerReducer<State, AnyParams<State>>,
-	on_class_after: WalkerReducer<State, AnyParams<State>>,
-	on_type: WalkerReducer<State, AnyParams<State>>,
-	[on_x: string]: any,
+	on_root_exit(params: OnRootExitParams<State>): any,
+	on_node_enter(params: OnNodeEnterParams<State>): State,
+	on_node_exit: WalkerReducer<State, OnNodeExitParams<State>>,
+	on_concatenate_str: WalkerReducer<State, OnConcatenateStringParams<State>>,
+	on_concatenate_sub_node: WalkerReducer<State, OnConcatenateSubNodeParams<State>>,
+	on_filter: WalkerReducer<State, OnFilterParams<State>>,
+	on_filter_Capitalize: WalkerReducer<State, OnFilterParams<State>>,
+	on_class_before: WalkerReducer<State, OnClassParams<State>>,
+	on_class_after: WalkerReducer<State, OnClassParams<State>>,
+	on_type: WalkerReducer<State, OnTypeParams<State>>,
+
+	on_type_span?: WalkerReducer<State, OnTypeParams<State>>,
+	on_type_strong?: WalkerReducer<State, OnTypeParams<State>>,
+	on_type_em?: WalkerReducer<State, OnTypeParams<State>>,
+	on_type_heading?: WalkerReducer<State, OnTypeParams<State>>,
+	on_type_hr?: WalkerReducer<State, OnTypeParams<State>>,
+	on_type_ol?: WalkerReducer<State, OnTypeParams<State>>,
+	on_type_ul?: WalkerReducer<State, OnTypeParams<State>>,
+	on_type_li?: WalkerReducer<State, OnTypeParams<State>>,
+	on_type_br?: WalkerReducer<State, OnTypeParams<State>>,
+
+	// hard to express but allowed
+	[on_fiter_or_type: string]: any
+	//[on_filter_x: string]: WalkerReducer<State, OnFilterParams<State>>,
+	//[on_type_x: string]: WalkerReducer<State, OnTypeParams<State>>,
 }
 
-function get_default_callbacks<State>(): WalkerCallbacks<State> {
+function get_default_callbacks<State = string>(): WalkerCallbacks<State> {
 	function nothing(): void {}
 	function identity({state}: {state: State}): State {
 		return state
@@ -52,11 +86,10 @@ function get_default_callbacks<State>(): WalkerCallbacks<State> {
 	return {
 		on_root_enter: nothing,
 		on_root_exit: identity,
-		on_node_enter: identity,
+		on_node_enter: () => { throw new Error('Please define on_node_enter()!') },
 		on_node_exit: identity,
 		on_concatenate_str: identity,
 		on_concatenate_sub_node: identity,
-		on_sub_node_id: identity,
 		on_filter: identity,
 		on_filter_Capitalize: ({state}: {state: State}) => {
 			if (typeof state === 'string' && state) {
@@ -91,12 +124,14 @@ function walk_content<State>(
 	const { $content, $sub: $sub_nodes } = $node
 	const split1 = $content.split('{{')
 
-	state = callbacks.on_concatenate_str({
-		str: split1.shift(),
-		state,
-		$node,
-		depth,
-	})
+	const initial_str: string = split1.shift()!
+	if (initial_str)
+		state = callbacks.on_concatenate_str({
+			str: initial_str,
+			state,
+			$node,
+			depth,
+		})
 
 	state = split1.reduce((state, paramAndText) => {
 		const split2 = paramAndText.split('}}')
@@ -104,14 +139,6 @@ function walk_content<State>(
 			throw new Error(`${LIB}: syntax error in content "${$content}"!`)
 
 		const [ sub_node_id, ...$filters ] = split2.shift()!.split('|')
-		/*
-		state = callbacks.on_sub_node_id({
-			$id: sub_node_id,
-			state,
-			$node,
-			depth,
-		})
-		*/
 
 		let $sub_node = $sub_nodes[sub_node_id]
 
@@ -132,15 +159,17 @@ function walk_content<State>(
 
 		sub_state = $filters.reduce(
 			(state, $filter) => {
-				const fine_filter_cb = `on_filter_${$filter}`
-				if (callbacks[fine_filter_cb])
-					return callbacks[fine_filter_cb]({
+				const fine_filter_cb_id = `on_filter_${$filter}`
+				const fine_filter_callback = callbacks[fine_filter_cb_id] as WalkerReducer<State, OnFilterParams<State>>
+				if (fine_filter_callback)
+					state = fine_filter_callback({
 						$filter,
 						$filters,
 						state,
 						$node,
 						depth
 					})
+
 				return callbacks.on_filter({
 					$filter,
 					$filters,
@@ -163,12 +192,13 @@ function walk_content<State>(
 			depth,
 		})
 
-		state = callbacks.on_concatenate_str({
-			str: split2[0],
-			state,
-			$node,
-			depth,
-		})
+		if (split2[0])
+			state = callbacks.on_concatenate_str({
+				str: split2[0],
+				state,
+				$node,
+				depth,
+			})
 
 		return state
 	}, state)
@@ -224,6 +254,7 @@ function walk<State>(
 	)
 
 	if ($type === 'ul' || $type === 'ol') {
+		// special case of sub-content
 		const sorted_keys = Object.keys($sub_nodes).sort()
 		sorted_keys.forEach(key => {
 			const $sub_node: Node = {
@@ -256,11 +287,11 @@ function walk<State>(
 		state
 	)
 
-	const fine_type_cb = `on_type_${$type}`
-	if (callbacks[fine_type_cb])
-		state = callbacks[fine_type_cb]({ $type, state, $node, depth })
-	else
-		state = callbacks.on_type({ $type, state, $node, depth })
+	const fine_type_cb_id = `on_type_${$type}`
+	const fine_type_callback = callbacks[fine_type_cb_id] as WalkerReducer<State, OnTypeParams<State>>
+	if (fine_type_callback)
+		state = fine_type_callback({ $type, $parent_node, state, $node, depth })
+	state = callbacks.on_type({ $type, $parent_node, state, $node, depth })
 
 	state = callbacks.on_node_exit({$node, $id, state, depth})
 
@@ -274,8 +305,6 @@ export {
 	NodeType,
 	CheckedNode,
 	Node,
-	BaseParams,
-	AnyParams,
 	WalkerReducer,
 	WalkerCallbacks,
 	walk,

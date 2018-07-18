@@ -22,10 +22,11 @@ function apply_type($type, str, $classes, $sub_node_count, depth) {
     let result = '';
     if (!is_inline)
         result += '\n' + indent(depth);
-    result += `<${$type}`;
+    const element = $type === 'heading' ? 'h3' : $type;
+    result += `<${element}`;
     if ($classes.length)
         result += ` class="${$classes.join(' ')}"`;
-    result += '>' + str + ($sub_node_count ? '\n' + indent(depth) : '') + `</${$type}>`;
+    result += '>' + str + ($sub_node_count ? '\n' + indent(depth) : '') + `</${element}>`;
     return result;
 }
 const on_concatenate_sub_node = ({ state, sub_state }) => {

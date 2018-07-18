@@ -3,7 +3,7 @@ const RichText = require('..')
 export const DEMO_TYPES = {
 	$type: 'fragment',
 	$classes: [],
-	$content: 'horizontal rule:{{hr}}heading:{{heading}}Some text:{{br}}{{text}}{{br}}{{strong}}{{br}}{{em}}{{br}}Unordered list:{{ul}}ordered list:{{ol}}',
+	$content: 'horizontal rule:{{hr}}Heading:{{heading}}Some text:{{br}}{{text}}{{br}}{{strong}}{{br}}{{em}}{{br}}Unordered list:{{ul}}Ordered list:{{ol}}More text.',
 	$sub: {
 		heading: {
 			$type: 'heading',
