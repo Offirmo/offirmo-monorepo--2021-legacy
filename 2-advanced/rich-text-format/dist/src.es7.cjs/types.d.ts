@@ -9,7 +9,8 @@ declare const NodeType: {
     ul: "ul";
     li: "li";
     br: "br";
-    fragment: "fragment";
+    inline_fragment: "inline_fragment";
+    block_fragment: "block_fragment";
 };
 declare type NodeType = Enum<typeof NodeType>;
 interface CheckedNode {

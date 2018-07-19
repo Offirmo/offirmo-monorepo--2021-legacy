@@ -20571,7 +20571,7 @@ if ('development' === 'production') {
 
 },{"../node_modules/normalize.css/normalize.css":"../../node_modules/@offirmo/view-css/node_modules/normalize.css/normalize.css","./style--reset.css":"../../node_modules/@offirmo/view-css/node_modules/normalize.css/normalize.css","./style--colors.css":"../../node_modules/@offirmo/view-css/node_modules/normalize.css/normalize.css","./style--containers.css":"../../node_modules/@offirmo/view-css/node_modules/normalize.css/normalize.css","./style--fonts.css":"../../node_modules/@offirmo/view-css/src/style--fonts.css","./style--semantic.css":"../../node_modules/@offirmo/view-css/node_modules/normalize.css/normalize.css","./style--technical.css":"../../node_modules/@offirmo/view-css/node_modules/normalize.css/normalize.css","./style--misc.css":"../../node_modules/@offirmo/view-css/node_modules/normalize.css/normalize.css"}],"index.css":[function(require,module,exports) {
 
-},{"../../node_modules/@offirmo/view-css/src/style.css":"../../node_modules/@offirmo/view-css/src/style.css"}],"../../node_modules/@offirmo/react-error-boundary/node_modules/react/index.js":[function(require,module,exports) {
+},{"../../node_modules/@offirmo/view-css/src/style.css":"../../node_modules/@offirmo/view-css/src/style.css","../../src/index.css":"../../node_modules/@offirmo/view-css/node_modules/normalize.css/normalize.css"}],"../../node_modules/@offirmo/react-error-boundary/node_modules/react/index.js":[function(require,module,exports) {
 'use strict';
 
 if ('development' === 'production') {
@@ -22312,7 +22312,7 @@ function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in ob
 const DEFAULT_CONTENT = _react2.default.createElement(
 	'span',
 	null,
-	'ErrorBoundary: no children nor renderProp!'
+	'ErrorBoundary: no children nor render prop!'
 );
 
 class ErrorBoundary extends _react2.default.Component {
@@ -22425,7 +22425,8 @@ const NODE_TYPE_TO_DISPLAY_MODE = {
     'li': 'block',
     // special
     'br': 'inline',
-    'fragment': 'inline'
+    'inline_fragment': 'inline',
+    'block_fragment': 'block'
 };
 exports.NODE_TYPE_TO_DISPLAY_MODE = NODE_TYPE_TO_DISPLAY_MODE;
 //# sourceMappingURL=consts.js.map
@@ -22494,7 +22495,7 @@ const NodeType = typescript_string_enums_1.Enum(
 // internally used, don't mind
 'li',
 // special
-'br', 'fragment');
+'br', 'inline_fragment', 'block_fragment');
 exports.NodeType = NodeType;
 //# sourceMappingURL=types.js.map
 },{"typescript-string-enums":"../../node_modules/typescript-string-enums/dist/index.js"}],"../../dist/src.es7.cjs/utils.js":[function(require,module,exports) {
@@ -22784,7 +22785,7 @@ function assemble(state) {
 }
 exports.assemble = assemble;
 const on_type = ({ $type, state, $node, depth }) => {
-    console.log('[on_type]', { $type, state });
+    //console.log('[on_type]', { $type, state })
     const markdown = true;
     if (markdown) {
         switch ($node.$type) {
@@ -22841,11 +22842,15 @@ const on_concatenate_sub_node = ({ state, sub_state, $node, $id, $parent_node })
         default:
             break;
     }
-    console.log('on_concatenate_sub_node()', {
+    /*console.log('on_concatenate_sub_node()', {
         sub_node: $node,
-        sub_state: Object.assign({}, sub_state, { str: sub_str, starts_with_block: sub_starts_with_block }),
-        state: JSON.parse(JSON.stringify(state))
-    });
+        sub_state: {
+            ...sub_state,
+                str: sub_str,
+                starts_with_block: sub_starts_with_block,
+        },
+        state: JSON.parse(JSON.stringify(state)),
+    })*/
     if (state.str.length === 0) {
         // we are at start
         if (sub_state.starts_with_block) {
@@ -22868,7 +22873,7 @@ const callbacks = {
         str: ''
     }),
     on_concatenate_str: ({ state, str }) => {
-        console.log('on_concatenate_str()', { str, state: JSON.parse(JSON.stringify(state)) });
+        //console.log('on_concatenate_str()', {str, state: JSON.parse(JSON.stringify(state)),})
         if (state.ends_with_block) {
             state.str += '\n';
             state.ends_with_block = false;
@@ -22885,10 +22890,16 @@ exports.callbacks = callbacks;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+const walk_1 = require("./walk");
 const MANY_TABS = '																																							';
 function indent(n) {
     return MANY_TABS.slice(0, n);
 }
+const NODE_TYPE_TO_HTML_ELEMENT = {
+    [walk_1.NodeType.heading]: 'h3',
+    [walk_1.NodeType.inline_fragment]: 'span',
+    [walk_1.NodeType.block_fragment]: 'div'
+};
 function apply_type($type, str, $classes, $sub_node_count, depth) {
     if ($type === 'br') return '<br/>\n';
     if ($type === 'hr') return '\n<hr/>\n';
@@ -22904,7 +22915,7 @@ function apply_type($type, str, $classes, $sub_node_count, depth) {
     }
     let result = '';
     if (!is_inline) result += '\n' + indent(depth);
-    const element = $type === 'heading' ? 'h3' : $type;
+    const element = NODE_TYPE_TO_HTML_ELEMENT[$type] || $type;
     result += `<${element}`;
     if ($classes.length) result += ` class="${$classes.join(' ')}"`;
     result += '>' + str + ($sub_node_count ? '\n' + indent(depth) : '') + `</${element}>`;
@@ -22921,7 +22932,7 @@ const callbacks = {
 };
 exports.callbacks = callbacks;
 //# sourceMappingURL=to_html.js.map
-},{}],"../../dist/src.es7.cjs/builder.js":[function(require,module,exports) {
+},{"./walk":"../../dist/src.es7.cjs/walk.js"}],"../../dist/src.es7.cjs/builder.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -22991,10 +23002,14 @@ function create($type) {
     return builder;
 }
 exports.create = create;
-function fragment() {
-    return create(types_1.NodeType.fragment);
+function inline_fragment() {
+    return create(types_1.NodeType.inline_fragment);
 }
-exports.fragment = fragment;
+exports.inline_fragment = inline_fragment;
+function block_fragment() {
+    return create(types_1.NodeType.block_fragment);
+}
+exports.block_fragment = block_fragment;
 function heading() {
     return create(types_1.NodeType.heading);
 }
@@ -23043,7 +23058,240 @@ tslib_1.__exportStar(require("./types"), exports);
 tslib_1.__exportStar(require("./walk"), exports);
 tslib_1.__exportStar(require("./builder"), exports);
 //# sourceMappingURL=index.js.map
-},{"tslib":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/node_modules/tslib/tslib.es6.js","./walk":"../../dist/src.es7.cjs/walk.js","./to_debug":"../../dist/src.es7.cjs/to_debug.js","./to_text":"../../dist/src.es7.cjs/to_text.js","./to_html":"../../dist/src.es7.cjs/to_html.js","./types":"../../dist/src.es7.cjs/types.js","./builder":"../../dist/src.es7.cjs/builder.js"}],"components/multi-renderer.jsx":[function(require,module,exports) {
+},{"tslib":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/node_modules/tslib/tslib.es6.js","./walk":"../../dist/src.es7.cjs/walk.js","./to_debug":"../../dist/src.es7.cjs/to_debug.js","./to_text":"../../dist/src.es7.cjs/to_text.js","./to_html":"../../dist/src.es7.cjs/to_html.js","./types":"../../dist/src.es7.cjs/types.js","./builder":"../../dist/src.es7.cjs/builder.js"}],"../../node_modules/classnames/index.js":[function(require,module,exports) {
+var define;
+/*!
+  Copyright (c) 2017 Jed Watson.
+  Licensed under the MIT License (MIT), see
+  http://jedwatson.github.io/classnames
+*/
+/* global define */
+
+(function () {
+	'use strict';
+
+	var hasOwn = {}.hasOwnProperty;
+
+	function classNames () {
+		var classes = [];
+
+		for (var i = 0; i < arguments.length; i++) {
+			var arg = arguments[i];
+			if (!arg) continue;
+
+			var argType = typeof arg;
+
+			if (argType === 'string' || argType === 'number') {
+				classes.push(arg);
+			} else if (Array.isArray(arg) && arg.length) {
+				var inner = classNames.apply(null, arg);
+				if (inner) {
+					classes.push(inner);
+				}
+			} else if (argType === 'object') {
+				for (var key in arg) {
+					if (hasOwn.call(arg, key) && arg[key]) {
+						classes.push(key);
+					}
+				}
+			}
+		}
+
+		return classes.join(' ');
+	}
+
+	if (typeof module !== 'undefined' && module.exports) {
+		classNames.default = classNames;
+		module.exports = classNames;
+	} else if (typeof define === 'function' && typeof define.amd === 'object' && define.amd) {
+		// register as 'classnames', consistent with npm package name
+		define('classnames', [], function () {
+			return classNames;
+		});
+	} else {
+		window.classNames = classNames;
+	}
+}());
+
+},{}],"services/rich_text_to_react_callbacks.jsx":[function(require,module,exports) {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.on_concatenate_sub_node = exports.on_concatenate_str = exports.on_node_exit = exports.on_node_enter = exports.on_root_exit = undefined;
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const LIB = 'rich_text_to_react';
+
+function on_node_enter() {
+	return {
+		element: null,
+		children: []
+	};
+}
+
+function on_root_exit({ state }) {
+	return state.element;
+}
+
+// turn the state into a react element
+function on_node_exit({ $node, $id, state, depth }) {
+	const { $type, $classes, $hints } = $node;
+
+	let children = state.children.map(c => c.element);
+	children = _react2.default.Children.map(children, (child, index) => {
+		return typeof child === 'string' ? child : _react2.default.cloneElement(child, { key: `${index}` });
+	});
+
+	const class_names = (0, _classnames2.default)(...$classes);
+	if ($classes.includes('monster')) {
+		children.push(_react2.default.createElement(
+			'span',
+			{ className: 'monster-emoji' },
+			$hints.possible_emoji
+		));
+	}
+
+	let element = null;
+	switch ($type) {
+		case 'span':
+			element = _react2.default.createElement(
+				'span',
+				{ className: class_names },
+				children
+			);break;
+
+		case 'br':
+			element = _react2.default.createElement('br', { className: class_names });break;
+		case 'hr':
+			element = _react2.default.createElement('hr', { className: class_names });break;
+
+		case 'li':
+			element = _react2.default.createElement(
+				'li',
+				{ className: class_names },
+				children
+			);break;
+		case 'ol':
+			element = _react2.default.createElement(
+				'ol',
+				{ className: class_names },
+				children
+			);break;
+		case 'ul':
+			element = _react2.default.createElement(
+				'ul',
+				{ className: class_names },
+				children
+			);break;
+
+		case 'strong':
+			element = _react2.default.createElement(
+				'strong',
+				{ className: class_names },
+				children
+			);break;
+		case 'em':
+			element = _react2.default.createElement(
+				'em',
+				{ className: class_names },
+				children
+			);break;
+		case 'section':
+			element = _react2.default.createElement(
+				'span',
+				{ className: class_names },
+				children
+			);break;
+		case 'heading':
+			element = _react2.default.createElement(
+				'h3',
+				{ className: class_names },
+				children
+			);break;
+
+		case 'inline_fragment':
+			element = _react2.default.createElement(
+				'span',
+				{ className: class_names },
+				children
+			);break;
+		case 'block_fragment':
+			element = _react2.default.createElement(
+				'div',
+				{ className: class_names },
+				children
+			);break;
+
+		default:
+			element = _react2.default.createElement(
+				'span',
+				{ className: class_names },
+				'TODO "',
+				$type,
+				'" ',
+				children
+			);
+			break;
+	}
+
+	if ($hints.uuid) {
+		console.log('seen element with uuid:', $node);
+		//element = <TBRPGElement uuid={$hints.uuid}>{element}</TBRPGElement>
+	}
+
+	state.element = element;
+	return state;
+}
+
+function on_concatenate_str({ state, str }) {
+	state.children.push({
+		element: str
+	});
+	return state;
+}
+
+function on_concatenate_sub_node({ state, sub_state }) {
+	state.children.push(sub_state);
+	return state;
+}
+
+exports.on_root_exit = on_root_exit;
+exports.on_node_enter = on_node_enter;
+exports.on_node_exit = on_node_exit;
+exports.on_concatenate_str = on_concatenate_str;
+exports.on_concatenate_sub_node = on_concatenate_sub_node;
+},{"react":"../../node_modules/react/index.js","classnames":"../../node_modules/classnames/index.js"}],"services/rich_text_to_react.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = rich_text_to_react;
+
+var _rich_text_to_react_callbacks = require('./rich_text_to_react_callbacks');
+
+var callbacks = _interopRequireWildcard(_rich_text_to_react_callbacks);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+const { walk } = require('../../../dist/src.es7.cjs');
+
+function rich_text_to_react(doc) {
+	//console.log('Rendering a rich text:', doc)
+	return walk(doc, callbacks);
+}
+},{"../../../dist/src.es7.cjs":"../../dist/src.es7.cjs/index.js","./rich_text_to_react_callbacks":"services/rich_text_to_react_callbacks.jsx"}],"components/multi-renderer.jsx":[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -23058,9 +23306,14 @@ var _reactErrorBoundary = require('@offirmo/react-error-boundary');
 
 var _reactErrorBoundary2 = _interopRequireDefault(_reactErrorBoundary);
 
+var _rich_text_to_react = require('../services/rich_text_to_react');
+
+var _rich_text_to_react2 = _interopRequireDefault(_rich_text_to_react);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const RichText = require('../../../dist/src.es7.cjs');
+
 
 const RichTextView = ({ doc, mode = 'to_html' }) => {
 	switch (mode) {
@@ -23072,10 +23325,14 @@ const RichTextView = ({ doc, mode = 'to_html' }) => {
 			);
 
 		case 'to_html':
-			return _react2.default.createElement('div', { dangerouslySetInnerHTML: { __html: RichText.to_html(doc) } });
+			return _react2.default.createElement('div', { className: 'o\u22C4rich-text', dangerouslySetInnerHTML: { __html: RichText.to_html(doc) } });
 
 		case 'to_react':
-			return 'TODO';
+			return _react2.default.createElement(
+				'div',
+				{ className: 'o\u22C4rich-text' },
+				(0, _rich_text_to_react2.default)(doc)
+			);
 
 		default:
 			return `<RichTextView /> unknown mode "${mode}"!`;
@@ -23148,7 +23405,7 @@ class MultiRenderer extends _react.Component {
 	}
 }
 exports.default = MultiRenderer;
-},{"react":"../../node_modules/react/index.js","@offirmo/react-error-boundary":"../../node_modules/@offirmo/react-error-boundary/src/error-boundary.jsx","../../../dist/src.es7.cjs":"../../dist/src.es7.cjs/index.js"}],"../examples.js":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","@offirmo/react-error-boundary":"../../node_modules/@offirmo/react-error-boundary/src/error-boundary.jsx","../../../dist/src.es7.cjs":"../../dist/src.es7.cjs/index.js","../services/rich_text_to_react":"services/rich_text_to_react.js"}],"../examples.js":[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -23156,41 +23413,72 @@ Object.defineProperty(exports, "__esModule", {
 });
 const RichText = require('..');
 
-const DEMO_TYPES = exports.DEMO_TYPES = {
-	$type: 'fragment',
+const DEMO_BASE_TYPES = exports.DEMO_BASE_TYPES = {
+	$type: 'inline_fragment',
 	$classes: [],
-	$content: 'horizontal rule:{{hr}}Heading:{{heading}}Some text:{{br}}{{text}}{{br}}{{strong}}{{br}}{{em}}{{br}}Unordered list:{{ul}}Ordered list:{{ol}}More text.',
+	$content: '{{fragment1}}{{fragment2}}',
+	$sub: {
+		fragment1: {
+			$type: 'inline_fragment',
+			$classes: [],
+			$content: 'horizontal rule:{{hr}}Heading:{{heading}}Some text:{{br}}{{text}}{{br}}{{strong}}{{br}}{{em}}{{br}}Unordered list:{{ul}}Ordered list:{{ol}}More text.',
+			$sub: {
+				heading: {
+					$type: 'heading',
+					$content: 'heading'
+				},
+				text: {
+					$type: 'span',
+					$content: 'normal'
+				},
+				strong: {
+					$type: 'strong',
+					$content: 'strong'
+				},
+				em: {
+					$type: 'em',
+					$content: 'em(phasis)'
+				},
+				ul: {
+					$type: 'ul',
+					$sub: {
+						2: { $type: 'span', $content: 'ul #2' },
+						1: { $type: 'span', $content: 'ul #1' },
+						3: { $type: 'span', $content: 'ul #3' }
+					}
+				},
+				ol: {
+					$type: 'ol',
+					$sub: {
+						2: { $type: 'span', $content: 'ol #2' },
+						1: { $type: 'span', $content: 'ol #1' },
+						3: { $type: 'span', $content: 'ol #3' }
+					}
+				}
+			}
+		},
+		fragment2: {
+			$type: 'block_fragment',
+			$classes: [],
+			$content: 'Some text in a block fragment'
+		}
+	}
+};
+
+const DEMO_ADVANCED_TYPES = exports.DEMO_ADVANCED_TYPES = {
+	$type: 'inline_fragment',
+	$classes: [],
+	$content: '{{heading}}{{link}}{{br}}Done.',
 	$sub: {
 		heading: {
 			$type: 'heading',
-			$content: 'heading'
+			$content: 'Advanced types'
 		},
-		text: {
+		link: {
 			$type: 'span',
-			$content: 'normal'
-		},
-		strong: {
-			$type: 'strong',
-			$content: 'strong'
-		},
-		em: {
-			$type: 'em',
-			$content: 'em(phasis)'
-		},
-		ul: {
-			$type: 'ul',
-			$sub: {
-				2: { $type: 'span', $content: 'ul #2' },
-				1: { $type: 'span', $content: 'ul #1' },
-				3: { $type: 'span', $content: 'ul #3' }
-			}
-		},
-		ol: {
-			$type: 'ol',
-			$sub: {
-				2: { $type: 'span', $content: 'ol #2' },
-				1: { $type: 'span', $content: 'ol #1' },
-				3: { $type: 'span', $content: 'ol #3' }
+			$content: 'offirmo’s website',
+			$hints: {
+				href: 'https://www.offirmo.net'
 			}
 		}
 	}
@@ -23249,7 +23537,7 @@ const NPC_01 = exports.NPC_01 = {
 
 const MSG_01 = exports.MSG_01 = {
 	$v: 1,
-	$type: 'fragment',
+	$type: 'block_fragment',
 	$content: 'You are in {{place}}. You meet {{npc}}.{{br}}He gives you a {{item}}.{{hr}}',
 	$sub: {
 		place: PLACE_01,
@@ -23268,7 +23556,7 @@ const MSG_02 = exports.MSG_02 = {
 	}
 };
 
-const MSG_03 = exports.MSG_03 = RichText.fragment().pushText('' + 'Great sages prophetized your coming,{{br}}' + 'commoners are waiting for their hero{{br}}' + 'and kings are trembling from fear of change...{{br}}' + '…undoubtly, you’ll make a name in this world and fulfill your destiny!{{br}}').pushStrong('A great saga just started.').pushText('{{br}}loot:').pushNode(MSG_02, 'loot').done();
+const MSG_03 = exports.MSG_03 = RichText.block_fragment().pushText('' + 'Great sages prophetized your coming,{{br}}' + 'commoners are waiting for their hero{{br}}' + 'and kings are trembling from fear of change...{{br}}' + '…undoubtly, you’ll make a name in this world and fulfill your destiny!{{br}}').pushStrong('A great saga just started.').pushText('{{br}}loot:').pushNode(MSG_02, 'loot').done();
 },{"..":"../../dist/src.es7.cjs/index.js"}],"components/root.jsx":[function(require,module,exports) {
 'use strict';
 
@@ -23293,7 +23581,7 @@ class Root extends _react.Component {
 		var _temp;
 
 		return _temp = super(...args), this.state = {
-			doc: _examples.DEMO_TYPES
+			doc: _examples.DEMO_ADVANCED_TYPES
 		}, _temp;
 	}
 

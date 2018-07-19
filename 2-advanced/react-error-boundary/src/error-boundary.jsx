@@ -3,7 +3,7 @@ import renderProps from 'render-props'
 
 import { get_lib_SEC } from './sec'
 
-const DEFAULT_CONTENT = <span>ErrorBoundary: no children nor renderProp!</span>
+const DEFAULT_CONTENT = <span>ErrorBoundary: no children nor render prop!</span>
 
 export default class ErrorBoundary extends React.Component {
 	state = {

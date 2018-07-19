@@ -70,10 +70,14 @@ function create($type) {
     return builder;
 }
 exports.create = create;
-function fragment() {
-    return create(types_1.NodeType.fragment);
+function inline_fragment() {
+    return create(types_1.NodeType.inline_fragment);
 }
-exports.fragment = fragment;
+exports.inline_fragment = inline_fragment;
+function block_fragment() {
+    return create(types_1.NodeType.block_fragment);
+}
+exports.block_fragment = block_fragment;
 function heading() {
     return create(types_1.NodeType.heading);
 }

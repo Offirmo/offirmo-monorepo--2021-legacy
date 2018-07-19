@@ -103,8 +103,11 @@ function create($type: NodeType): Builder {
 	return builder
 }
 
-function fragment(): Builder {
-	return create(NodeType.fragment)
+function inline_fragment(): Builder {
+	return create(NodeType.inline_fragment)
+}
+function block_fragment(): Builder {
+	return create(NodeType.block_fragment)
 }
 
 function heading(): Builder {
@@ -138,7 +141,8 @@ export {
 
 	create,
 
-	fragment,
+	inline_fragment,
+	block_fragment,
 	heading,
 	span,
 	ordered_list,

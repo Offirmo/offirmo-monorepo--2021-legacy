@@ -7,7 +7,7 @@ function assemble(state) {
 }
 exports.assemble = assemble;
 const on_type = ({ $type, state, $node, depth }) => {
-    console.log('[on_type]', { $type, state });
+    //console.log('[on_type]', { $type, state })
     const markdown = true;
     if (markdown) {
         switch ($node.$type) {
@@ -65,11 +65,15 @@ const on_concatenate_sub_node = ({ state, sub_state, $node, $id, $parent_node })
         default:
             break;
     }
-    console.log('on_concatenate_sub_node()', {
+    /*console.log('on_concatenate_sub_node()', {
         sub_node: $node,
-        sub_state: Object.assign({}, sub_state, { str: sub_str, starts_with_block: sub_starts_with_block }),
+        sub_state: {
+            ...sub_state,
+                str: sub_str,
+                starts_with_block: sub_starts_with_block,
+        },
         state: JSON.parse(JSON.stringify(state)),
-    });
+    })*/
     if (state.str.length === 0) {
         // we are at start
         if (sub_state.starts_with_block) {
@@ -93,7 +97,7 @@ const callbacks = {
         str: '',
     }),
     on_concatenate_str: ({ state, str }) => {
-        console.log('on_concatenate_str()', { str, state: JSON.parse(JSON.stringify(state)), });
+        //console.log('on_concatenate_str()', {str, state: JSON.parse(JSON.stringify(state)),})
         if (state.ends_with_block) {
             state.str += '\n';
             state.ends_with_block = false;

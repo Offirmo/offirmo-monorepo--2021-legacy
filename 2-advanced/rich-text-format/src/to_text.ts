@@ -15,7 +15,7 @@ function assemble(state: State): string {
 }
 
 const on_type: WalkerReducer<State, OnTypeParams<State>> = ({$type, state, $node, depth}) => {
-	console.log('[on_type]', { $type, state })
+	//console.log('[on_type]', { $type, state })
 
 	const markdown = true
 	if (markdown) {
@@ -90,7 +90,7 @@ const on_concatenate_sub_node: WalkerReducer<State, OnConcatenateSubNodeParams<S
 			break
 	}
 
-	console.log('on_concatenate_sub_node()', {
+	/*console.log('on_concatenate_sub_node()', {
 		sub_node: $node,
 		sub_state: {
 			...sub_state,
@@ -98,7 +98,7 @@ const on_concatenate_sub_node: WalkerReducer<State, OnConcatenateSubNodeParams<S
 				starts_with_block: sub_starts_with_block,
 		},
 		state: JSON.parse(JSON.stringify(state)),
-	})
+	})*/
 
 	if (state.str.length === 0) {
 		// we are at start
@@ -127,7 +127,7 @@ const callbacks: Partial<WalkerCallbacks<State>> = {
 		str: '',
 	}),
 	on_concatenate_str: ({state, str}: OnConcatenateStringParams<State>) => {
-		console.log('on_concatenate_str()', {str, state: JSON.parse(JSON.stringify(state)),})
+		//console.log('on_concatenate_str()', {str, state: JSON.parse(JSON.stringify(state)),})
 		if (state.ends_with_block) {
 			state.str += '\n'
 			state.ends_with_block = false
@@ -137,16 +137,6 @@ const callbacks: Partial<WalkerCallbacks<State>> = {
 	},
 	on_concatenate_sub_node,
 	on_type,
-	/*on_type_br: ({state}: {state: State}) => {
-		state.str += '\n'
-		return state
-	},*/
-	/*on_type_hr: ({state}: {state: State}) => on_concatenate_sub_node({
-		state,
-	})
-		display: 'block',
-		content: '------------------------------------------------------------',
-	}),*/
 }
 
 
@@ -154,4 +144,3 @@ export {
 	assemble,
 	callbacks,
 }
-

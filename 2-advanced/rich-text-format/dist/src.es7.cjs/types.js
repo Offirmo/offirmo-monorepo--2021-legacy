@@ -11,6 +11,6 @@ const NodeType = typescript_string_enums_1.Enum(
 // internally used, don't mind
 'li', 
 // special
-'br', 'fragment');
+'br', 'inline_fragment', 'block_fragment');
 exports.NodeType = NodeType;
 //# sourceMappingURL=types.js.map

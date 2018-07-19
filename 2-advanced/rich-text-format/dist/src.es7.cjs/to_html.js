@@ -1,9 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const walk_1 = require("./walk");
 const MANY_TABS = '																																							';
 function indent(n) {
     return MANY_TABS.slice(0, n);
 }
+const NODE_TYPE_TO_HTML_ELEMENT = {
+    [walk_1.NodeType.heading]: 'h3',
+    [walk_1.NodeType.inline_fragment]: 'span',
+    [walk_1.NodeType.block_fragment]: 'div',
+};
 function apply_type($type, str, $classes, $sub_node_count, depth) {
     if ($type === 'br')
         return '<br/>\n';
@@ -22,7 +28,7 @@ function apply_type($type, str, $classes, $sub_node_count, depth) {
     let result = '';
     if (!is_inline)
         result += '\n' + indent(depth);
-    const element = $type === 'heading' ? 'h3' : $type;
+    const element = NODE_TYPE_TO_HTML_ELEMENT[$type] || $type;
     result += `<${element}`;
     if ($classes.length)
         result += ` class="${$classes.join(' ')}"`;

@@ -861,6 +861,24 @@ progress.o⋄animated::-ms-fill {
 	border-width: 1px;
 }
 */
+
+.o⋄rich-text h3
+{
+	margin: 0;
+}
+
+.o⋄rich-text ol,
+.o⋄rich-text ul
+{
+	margin: 0;
+	padding-left: 3px;
+}
+
+.o⋄rich-text li {
+	list-style-position: inside;
+}
+
+.o⋄rich-text ul > li > * { position: relative; left: -7px; }
 body {
 	width: 100%;
 	max-width: unset;

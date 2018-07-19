@@ -18,7 +18,8 @@ const NODE_TYPE_TO_DISPLAY_MODE: { [k: string]: 'inline' | 'block' } = {
 
 	// special
 	'br': 'inline',
-	'fragment': 'inline',
+	'inline_fragment': 'inline',
+	'block_fragment': 'block',
 }
 
 export {

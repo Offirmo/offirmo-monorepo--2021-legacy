@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import ErrorBoundary from '@offirmo/react-error-boundary'
 
 const RichText = require('../../../dist/src.es7.cjs')
+import rich_text_to_react from '../services/rich_text_to_react'
 
 const RichTextView = ({doc, mode = 'to_html'}) => {
 	switch(mode) {
@@ -10,10 +11,10 @@ const RichTextView = ({doc, mode = 'to_html'}) => {
 			return <pre>{RichText.to_text(doc)}</pre>
 
 		case 'to_html':
-			return <div dangerouslySetInnerHTML={{ __html: RichText.to_html(doc) }} />
+			return <div className="o⋄rich-text" dangerouslySetInnerHTML={{ __html: RichText.to_html(doc) }} />
 
 		case 'to_react':
-			return 'TODO'
+			return <div className="o⋄rich-text">{rich_text_to_react(doc)}</div>
 
 		default:
 			return `<RichTextView /> unknown mode "${mode}"!`

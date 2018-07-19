@@ -17,7 +17,8 @@ const NODE_TYPE_TO_DISPLAY_MODE = {
     'li': 'block',
     // special
     'br': 'inline',
-    'fragment': 'inline',
+    'inline_fragment': 'inline',
+    'block_fragment': 'block',
 };
 exports.NODE_TYPE_TO_DISPLAY_MODE = NODE_TYPE_TO_DISPLAY_MODE;
 //# sourceMappingURL=consts.js.map

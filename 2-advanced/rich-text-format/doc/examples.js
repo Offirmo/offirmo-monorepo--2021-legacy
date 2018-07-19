@@ -1,40 +1,71 @@
 const RichText = require('..')
 
-export const DEMO_TYPES = {
-	$type: 'fragment',
+export const DEMO_BASE_TYPES = {
+	$type: 'inline_fragment',
 	$classes: [],
-	$content: 'horizontal rule:{{hr}}Heading:{{heading}}Some text:{{br}}{{text}}{{br}}{{strong}}{{br}}{{em}}{{br}}Unordered list:{{ul}}Ordered list:{{ol}}More text.',
+	$content: '{{fragment1}}{{fragment2}}',
+	$sub: {
+		fragment1: {
+			$type: 'inline_fragment',
+			$classes: [],
+			$content: 'horizontal rule:{{hr}}Heading:{{heading}}Some text:{{br}}{{text}}{{br}}{{strong}}{{br}}{{em}}{{br}}Unordered list:{{ul}}Ordered list:{{ol}}More text.',
+			$sub: {
+				heading: {
+					$type: 'heading',
+					$content: 'heading',
+				},
+				text: {
+					$type: 'span',
+					$content: 'normal',
+				},
+				strong: {
+					$type: 'strong',
+					$content: 'strong',
+				},
+				em: {
+					$type: 'em',
+					$content: 'em(phasis)',
+				},
+				ul: {
+					$type: 'ul',
+					$sub: {
+						2: {$type: 'span', $content: 'ul #2'},
+						1: {$type: 'span', $content: 'ul #1'},
+						3: {$type: 'span', $content: 'ul #3'},
+					},
+				},
+				ol: {
+					$type: 'ol',
+					$sub: {
+						2: {$type: 'span', $content: 'ol #2'},
+						1: {$type: 'span', $content: 'ol #1'},
+						3: {$type: 'span', $content: 'ol #3'},
+					},
+				},
+			},
+		},
+		fragment2: {
+			$type: 'block_fragment',
+			$classes: [],
+			$content: 'Some text in a block fragment',
+		},
+	},
+}
+
+export const DEMO_ADVANCED_TYPES = {
+	$type: 'inline_fragment',
+	$classes: [],
+	$content: '{{heading}}{{link}}{{br}}Done.',
 	$sub: {
 		heading: {
 			$type: 'heading',
-			$content: 'heading',
+			$content: 'Advanced types',
 		},
-		text: {
+		link: {
 			$type: 'span',
-			$content: 'normal',
-		},
-		strong: {
-			$type: 'strong',
-			$content: 'strong',
-		},
-		em: {
-			$type: 'em',
-			$content: 'em(phasis)',
-		},
-		ul: {
-			$type: 'ul',
-			$sub: {
-				2: {$type: 'span', $content: 'ul #2'},
-				1: {$type: 'span', $content: 'ul #1'},
-				3: {$type: 'span', $content: 'ul #3'},
-			},
-		},
-		ol: {
-			$type: 'ol',
-			$sub: {
-				2: {$type: 'span', $content: 'ol #2'},
-				1: {$type: 'span', $content: 'ol #1'},
-				3: {$type: 'span', $content: 'ol #3'},
+			$content: 'offirmo’s website',
+			$hints: {
+				href: 'https://www.offirmo.net',
 			},
 		},
 	},
@@ -93,7 +124,7 @@ export const NPC_01 = {
 
 export const MSG_01 = {
 	$v: 1,
-	$type: 'fragment',
+	$type: 'block_fragment',
 	$content: 'You are in {{place}}. You meet {{npc}}.{{br}}He gives you a {{item}}.{{hr}}',
 	$sub: {
 		place: PLACE_01,
@@ -112,7 +143,7 @@ export const MSG_02 = {
 	},
 }
 
-export const MSG_03 = RichText.fragment()
+export const MSG_03 = RichText.block_fragment()
 	.pushText(''
 		+ 'Great sages prophetized your coming,{{br}}'
 		+ 'commoners are waiting for their hero{{br}}'

@@ -21,7 +21,8 @@ const NodeType = Enum(
 
 	// special
 	'br',
-	'fragment',
+	'inline_fragment',
+	'block_fragment',
 )
 type NodeType = Enum<typeof NodeType>
 

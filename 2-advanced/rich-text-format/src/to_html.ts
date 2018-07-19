@@ -8,6 +8,12 @@ function indent(n: number): string {
 	return MANY_TABS.slice(0, n)
 }
 
+const NODE_TYPE_TO_HTML_ELEMENT: { [k: string]: string } = {
+	[NodeType.heading]: 'h3',
+	[NodeType.inline_fragment]: 'span',
+	[NodeType.block_fragment]: 'div',
+}
+
 function apply_type($type: NodeType, str: string, $classes: string[], $sub_node_count: number, depth: number): string {
 	if ($type === 'br')
 		return '<br/>\n'
@@ -30,7 +36,7 @@ function apply_type($type: NodeType, str: string, $classes: string[], $sub_node_
 	if (!is_inline)
 		result += '\n' + indent(depth)
 
-	const element: string = $type === 'heading' ? 'h3' : $type
+	const element: string = NODE_TYPE_TO_HTML_ELEMENT[$type] || $type
 
 	result += `<${element}`
 	if ($classes.length)
