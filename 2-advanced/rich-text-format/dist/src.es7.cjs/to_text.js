@@ -1,18 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const walk_1 = require("./walk");
 const consts_1 = require("./consts");
-function assemble(state) {
-    // TODO
-    return state.str;
-}
-exports.assemble = assemble;
 const on_type = ({ $type, state, $node, depth }) => {
     //console.log('[on_type]', { $type, state })
     const markdown = true;
     if (markdown) {
         switch ($node.$type) {
             case 'heading':
-                state.str = `## ${state.str} ##`;
+                state.str = `### ${state.str}`;
                 break;
             case 'strong':
                 state.str = `**${state.str}**`;
@@ -29,6 +25,8 @@ const on_type = ({ $type, state, $node, depth }) => {
             default:
                 break;
         }
+        if ($node.$hints.href)
+            state.str = `[${state.str}](${$node.$hints.href})`;
     }
     else {
         switch ($node.$type) {
@@ -109,4 +107,8 @@ const callbacks = {
     on_type,
 };
 exports.callbacks = callbacks;
+function to_text($doc) {
+    return walk_1.walk($doc, callbacks).str;
+}
+exports.to_text = to_text;
 //# sourceMappingURL=to_text.js.map

@@ -22683,6 +22683,7 @@ exports.walk = walk;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+const walk_1 = require("./walk");
 const MANY_SPACES = '                                                                                                ';
 function indent(n) {
     return console.groupCollapsed || console.group ? '' : MANY_SPACES.slice(0, n * 2);
@@ -22773,24 +22774,60 @@ const callbacks = {
     }
 };
 exports.callbacks = callbacks;
+function to_debug($doc) {
+    return walk_1.walk($doc, callbacks);
+}
+exports.to_debug = to_debug;
 //# sourceMappingURL=to_debug.js.map
-},{}],"../../dist/src.es7.cjs/to_text.js":[function(require,module,exports) {
+},{"./walk":"../../dist/src.es7.cjs/walk.js"}],"../../dist/src.es7.cjs/to_actions.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const consts_1 = require("./consts");
-function assemble(state) {
-    // TODO
-    return state.str;
+const walk_1 = require("./walk");
+const on_type = ({ $type, state, $node, depth }) => {
+    //console.log('[on_type]', { $type, state })
+    if ($node.$hints.href) {
+        state.actions.push({
+            type: 'link',
+            data: $node.$hints.href
+        });
+    }
+    return state;
+};
+const on_concatenate_sub_node = ({ state, sub_state, $node, $id, $parent_node }) => {
+    state.actions = state.actions.concat(...sub_state.actions);
+    return state;
+};
+const callbacks = {
+    on_node_enter: ({ $node }) => ({
+        actions: []
+    }),
+    on_concatenate_str: ({ state, str }) => {
+        // nothing
+        return state;
+    },
+    on_concatenate_sub_node,
+    on_type
+};
+exports.callbacks = callbacks;
+function to_actions($doc) {
+    return walk_1.walk($doc, callbacks).actions;
 }
-exports.assemble = assemble;
+exports.to_actions = to_actions;
+//# sourceMappingURL=to_actions.js.map
+},{"./walk":"../../dist/src.es7.cjs/walk.js"}],"../../dist/src.es7.cjs/to_text.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const walk_1 = require("./walk");
+const consts_1 = require("./consts");
 const on_type = ({ $type, state, $node, depth }) => {
     //console.log('[on_type]', { $type, state })
     const markdown = true;
     if (markdown) {
         switch ($node.$type) {
             case 'heading':
-                state.str = `## ${state.str} ##`;
+                state.str = `### ${state.str}`;
                 break;
             case 'strong':
                 state.str = `**${state.str}**`;
@@ -22807,6 +22844,7 @@ const on_type = ({ $type, state, $node, depth }) => {
             default:
                 break;
         }
+        if ($node.$hints.href) state.str = `[${state.str}](${$node.$hints.href})`;
     } else {
         switch ($node.$type) {
             case 'br':
@@ -22885,8 +22923,12 @@ const callbacks = {
     on_type
 };
 exports.callbacks = callbacks;
+function to_text($doc) {
+    return walk_1.walk($doc, callbacks).str;
+}
+exports.to_text = to_text;
 //# sourceMappingURL=to_text.js.map
-},{"./consts":"../../dist/src.es7.cjs/consts.js"}],"../../dist/src.es7.cjs/to_html.js":[function(require,module,exports) {
+},{"./walk":"../../dist/src.es7.cjs/walk.js","./consts":"../../dist/src.es7.cjs/consts.js"}],"../../dist/src.es7.cjs/to_html.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -22900,7 +22942,14 @@ const NODE_TYPE_TO_HTML_ELEMENT = {
     [walk_1.NodeType.inline_fragment]: 'span',
     [walk_1.NodeType.block_fragment]: 'div'
 };
-function apply_type($type, str, $classes, $sub_node_count, depth) {
+const on_concatenate_sub_node = ({ state, sub_state }) => {
+    return state + sub_state;
+};
+const on_type = ({ state, $node, depth, $type }) => {
+    const { $classes, $sub, $hints } = $node;
+    const $sub_node_count = Object.keys($sub).length;
+    //$type: NodeType, str
+    //}: string, $classes: string[], $sub_node_count: number, depth: number): string {
     if ($type === 'br') return '<br/>\n';
     if ($type === 'hr') return '\n<hr/>\n';
     let is_inline = false;
@@ -22918,19 +22967,21 @@ function apply_type($type, str, $classes, $sub_node_count, depth) {
     const element = NODE_TYPE_TO_HTML_ELEMENT[$type] || $type;
     result += `<${element}`;
     if ($classes.length) result += ` class="${$classes.join(' ')}"`;
-    result += '>' + str + ($sub_node_count ? '\n' + indent(depth) : '') + `</${element}>`;
+    result += '>' + state + ($sub_node_count ? '\n' + indent(depth) : '') + `</${element}>`;
+    if ($hints.href) result = `<a href="${$hints.href}">${result}</a>`;
     return result;
-}
-const on_concatenate_sub_node = ({ state, sub_state }) => {
-    return state + sub_state;
 };
 const callbacks = {
     on_node_enter: () => '',
     on_concatenate_str: ({ state, str }) => state + str,
     on_concatenate_sub_node,
-    on_type: ({ state: str, $type, $node: { $classes, $sub }, depth }) => apply_type($type, str, $classes, Object.keys($sub).length, depth)
+    on_type
 };
 exports.callbacks = callbacks;
+function to_html($doc) {
+    return walk_1.walk($doc, callbacks);
+}
+exports.to_html = to_html;
 //# sourceMappingURL=to_html.js.map
 },{"./walk":"../../dist/src.es7.cjs/walk.js"}],"../../dist/src.es7.cjs/builder.js":[function(require,module,exports) {
 "use strict";
@@ -23038,27 +23089,19 @@ exports.unordered_list = unordered_list;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
-const walk_1 = require("./walk");
-const to_debug_1 = require("./to_debug");
-function to_debug($doc) {
-    return walk_1.walk($doc, to_debug_1.callbacks);
-}
-exports.to_debug = to_debug;
-const to_text_1 = require("./to_text");
-function to_text($doc) {
-    return walk_1.walk($doc, to_text_1.callbacks).str;
-}
-exports.to_text = to_text;
-const to_html_1 = require("./to_html");
-function to_html($doc) {
-    return walk_1.walk($doc, to_html_1.callbacks);
-}
-exports.to_html = to_html;
+var to_debug_1 = require("./to_debug");
+exports.to_debug = to_debug_1.to_debug;
+var to_actions_1 = require("./to_actions");
+exports.to_actions = to_actions_1.to_actions;
+var to_text_1 = require("./to_text");
+exports.to_text = to_text_1.to_text;
+var to_html_1 = require("./to_html");
+exports.to_html = to_html_1.to_html;
 tslib_1.__exportStar(require("./types"), exports);
 tslib_1.__exportStar(require("./walk"), exports);
 tslib_1.__exportStar(require("./builder"), exports);
 //# sourceMappingURL=index.js.map
-},{"tslib":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/node_modules/tslib/tslib.es6.js","./walk":"../../dist/src.es7.cjs/walk.js","./to_debug":"../../dist/src.es7.cjs/to_debug.js","./to_text":"../../dist/src.es7.cjs/to_text.js","./to_html":"../../dist/src.es7.cjs/to_html.js","./types":"../../dist/src.es7.cjs/types.js","./builder":"../../dist/src.es7.cjs/builder.js"}],"../../node_modules/classnames/index.js":[function(require,module,exports) {
+},{"tslib":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/node_modules/tslib/tslib.es6.js","./to_debug":"../../dist/src.es7.cjs/to_debug.js","./to_actions":"../../dist/src.es7.cjs/to_actions.js","./to_text":"../../dist/src.es7.cjs/to_text.js","./to_html":"../../dist/src.es7.cjs/to_html.js","./types":"../../dist/src.es7.cjs/types.js","./walk":"../../dist/src.es7.cjs/walk.js","./builder":"../../dist/src.es7.cjs/builder.js"}],"../../node_modules/classnames/index.js":[function(require,module,exports) {
 var define;
 /*!
   Copyright (c) 2017 Jed Watson.
@@ -23576,21 +23619,77 @@ var _examples = require('../../examples');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+const DATA = [_examples.DEMO_BASE_TYPES, _examples.DEMO_ADVANCED_TYPES, _examples.MSG_03, _examples.MSG_03];
+
 class Root extends _react.Component {
 	constructor(...args) {
 		var _temp;
 
 		return _temp = super(...args), this.state = {
-			doc: _examples.DEMO_ADVANCED_TYPES
+			selected: localStorage.getItem('XOF.richtext.demo.select') || 0
+		}, this.select = n => {
+			this.setState({ selected: n });
+			localStorage.setItem('XOF.richtext.demo.select', n);
 		}, _temp;
 	}
 
 	render() {
-
+		const { selected } = this.state;
+		const doc = DATA[selected];
 		return _react2.default.createElement(
-			'div',
+			_react.Fragment,
 			null,
-			_react2.default.createElement(_multiRenderer2.default, { doc: this.state.doc })
+			_react2.default.createElement(
+				'form',
+				{ action: '' },
+				_react2.default.createElement(
+					'fieldset',
+					null,
+					_react2.default.createElement(
+						'legend',
+						null,
+						'Select sample data'
+					),
+					_react2.default.createElement(
+						'label',
+						null,
+						_react2.default.createElement('input', { type: 'radio', name: 'sample-data-select',
+							value: '0',
+							defaultChecked: selected == 0,
+							onChange: () => this.select(0)
+						}),
+						'Base types'
+					),
+					_react2.default.createElement(
+						'label',
+						null,
+						_react2.default.createElement('input', { type: 'radio', name: 'sample-data-select',
+							value: '1', defaultChecked: selected == 1,
+							onChange: () => this.select(1)
+						}),
+						'Advanced types'
+					),
+					_react2.default.createElement(
+						'label',
+						null,
+						_react2.default.createElement('input', { type: 'radio', name: 'sample-data-select',
+							value: '2', defaultChecked: selected == 2,
+							onChange: () => this.select(2)
+						}),
+						'Hints'
+					),
+					_react2.default.createElement(
+						'label',
+						null,
+						_react2.default.createElement('input', { type: 'radio', name: 'sample-data-select',
+							value: '3', defaultChecked: selected == 3,
+							onChange: () => this.select(3)
+						}),
+						'RPG'
+					)
+				)
+			),
+			_react2.default.createElement(_multiRenderer2.default, { doc: doc })
 		);
 	}
 }

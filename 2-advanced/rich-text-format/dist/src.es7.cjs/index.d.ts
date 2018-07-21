@@ -1,8 +1,7 @@
-import { Node } from './types';
-declare function to_debug($doc: Node): string;
-declare function to_text($doc: Node): string;
-declare function to_html($doc: Node): string;
+export { to_debug } from './to_debug';
+export { to_actions } from './to_actions';
+export { to_text } from './to_text';
+export { to_html } from './to_html';
 export * from './types';
 export * from './walk';
 export * from './builder';
-export { to_debug, to_text, to_html, };

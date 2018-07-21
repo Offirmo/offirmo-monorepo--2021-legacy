@@ -3,6 +3,7 @@ import {
 	CheckedNode,
 	Node,
 } from './types'
+
 import {
 	WalkerCallbacks,
 	BaseParams,
@@ -11,7 +12,8 @@ import {
 	OnNodeEnterParams,
 	OnNodeExitParams, OnConcatenateStringParams, OnConcatenateSubNodeParams, OnFilterParams,
 	OnClassParams,
-	OnTypeParams
+	OnTypeParams,
+	walk,
 } from './walk'
 
 const MANY_SPACES = '                                                                                                '
@@ -126,4 +128,8 @@ const callbacks: Partial<WalkerCallbacks<State>> = {
 	},
 }
 
-export { callbacks }
+function to_debug($doc: Node): string {
+	return walk<State>($doc, callbacks)
+}
+
+export { callbacks, to_debug }

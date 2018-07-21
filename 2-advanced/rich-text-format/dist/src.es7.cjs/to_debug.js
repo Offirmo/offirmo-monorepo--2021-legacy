@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const walk_1 = require("./walk");
 const MANY_SPACES = '                                                                                                ';
 function indent(n) {
     return (console.groupCollapsed || console.group)
@@ -92,4 +93,8 @@ const callbacks = {
     },
 };
 exports.callbacks = callbacks;
+function to_debug($doc) {
+    return walk_1.walk($doc, callbacks);
+}
+exports.to_debug = to_debug;
 //# sourceMappingURL=to_debug.js.map

@@ -1,6 +1,14 @@
-import {OnConcatenateStringParams, OnConcatenateSubNodeParams, OnNodeEnterParams, OnTypeParams, WalkerCallbacks, WalkerReducer} from './walk'
+import {
+	OnConcatenateStringParams,
+	OnConcatenateSubNodeParams,
+	OnNodeEnterParams,
+	OnTypeParams,
+	walk,
+	WalkerCallbacks,
+	WalkerReducer
+} from './walk'
 import { NODE_TYPE_TO_DISPLAY_MODE } from './consts'
-import { CheckedNode } from './types'
+import { Node} from './types'
 
 export type State = {
 	starts_with_block: boolean
@@ -8,11 +16,6 @@ export type State = {
 	str: string
 }
 
-
-function assemble(state: State): string {
-	// TODO
-	return state.str
-}
 
 const on_type: WalkerReducer<State, OnTypeParams<State>> = ({$type, state, $node, depth}) => {
 	//console.log('[on_type]', { $type, state })
@@ -22,7 +25,7 @@ const on_type: WalkerReducer<State, OnTypeParams<State>> = ({$type, state, $node
 		switch ($node.$type) {
 
 			case 'heading':
-				state.str = `## ${state.str} ##`
+				state.str = `### ${state.str}`
 				  break
 
 			case 'strong':
@@ -44,6 +47,9 @@ const on_type: WalkerReducer<State, OnTypeParams<State>> = ({$type, state, $node
 			default:
 				break
 		}
+
+		if ($node.$hints.href)
+			state.str = `[${state.str}](${$node.$hints.href})`
 	}
 	else {
 		switch ($node.$type) {
@@ -139,8 +145,11 @@ const callbacks: Partial<WalkerCallbacks<State>> = {
 	on_type,
 }
 
+function to_text($doc: Node): string {
+	return walk<State>($doc, callbacks).str
+}
 
 export {
-	assemble,
 	callbacks,
+	to_text,
 }
