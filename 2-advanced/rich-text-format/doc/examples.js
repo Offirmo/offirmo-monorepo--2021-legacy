@@ -1,5 +1,50 @@
 const RichText = require('..')
 
+export const SUB_UL_ITEMS = {
+	2: {$type: 'span', $content: 'ul #2'},
+	1: {$type: 'span', $content: 'ul #1'},
+	3: {$type: 'span', $content: 'ul #3'},
+}
+
+export const SUB_KEY_VALUE_PAIRS = {
+	1: {
+		$type: 'inline_fragment',
+		$content: `{{key}}: {{value}}`,
+		$sub: {
+			key: {
+				$content: 'level',
+			},
+			value: {
+				$content: '12',
+			},
+		},
+	},
+	2: {
+		$type: 'inline_fragment',
+		$content: `{{key}}: {{value}}`,
+		$sub: {
+			key: {
+				$content: 'health',
+			},
+			value: {
+				$content: '87',
+			},
+		},
+	},
+	3: {
+		$type: 'inline_fragment',
+		$content: `{{key}}: {{value}}`,
+		$sub: {
+			key: {
+				$content: 'mana',
+			},
+			value: {
+				$content: '118',
+			},
+		},
+	},
+}
+
 export const DEMO_BASE_TYPES = {
 	$type: 'inline_fragment',
 	$classes: [],
@@ -28,11 +73,7 @@ export const DEMO_BASE_TYPES = {
 				},
 				ul: {
 					$type: 'ul',
-					$sub: {
-						2: {$type: 'span', $content: 'ul #2'},
-						1: {$type: 'span', $content: 'ul #1'},
-						3: {$type: 'span', $content: 'ul #3'},
-					},
+					$sub: SUB_UL_ITEMS,
 				},
 				ol: {
 					$type: 'ol',
@@ -55,17 +96,43 @@ export const DEMO_BASE_TYPES = {
 export const DEMO_ADVANCED_TYPES = {
 	$type: 'inline_fragment',
 	$classes: [],
-	$content: '{{heading}}{{link}}{{br}}Done.',
+	$content: '{{heading}}Key-value pairs:{{kvdefault}}Done.',
 	$sub: {
 		heading: {
 			$type: 'heading',
 			$content: 'Advanced types',
+		},
+		kvdefault: {
+			$type: 'ul',
+			$sub: SUB_KEY_VALUE_PAIRS,
+			$hints: {
+				//key_align: left,
+			},
+		},
+	},
+}
+
+export const DEMO_HINTS = {
+	$type: 'inline_fragment',
+	$classes: [],
+	$content: '{{heading}}link: {{link}}{{br}}List with no bullets:{{list}}Done.',
+	$sub: {
+		heading: {
+			$type: 'heading',
+			$content: 'Hints',
 		},
 		link: {
 			$type: 'span',
 			$content: 'offirmo’s website',
 			$hints: {
 				href: 'https://www.offirmo.net',
+			},
+		},
+		list: {
+			$type: 'ul',
+			$sub: SUB_UL_ITEMS,
+			$hints: {
+				bullets_style: 'none',
 			},
 		},
 	},

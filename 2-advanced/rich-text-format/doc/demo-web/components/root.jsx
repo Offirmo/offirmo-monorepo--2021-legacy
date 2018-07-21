@@ -2,12 +2,13 @@ import React, { Component, Fragment } from 'react';
 
 import MultiRenderer from './multi-renderer'
 
-import { DEMO_BASE_TYPES, DEMO_ADVANCED_TYPES, MSG_01, MSG_02, MSG_03 } from '../../examples'
+import { DEMO_BASE_TYPES, DEMO_ADVANCED_TYPES, DEMO_HINTS, MSG_01, MSG_03 } from '../../examples'
 
 const DATA = [
 	DEMO_BASE_TYPES,
 	DEMO_ADVANCED_TYPES,
-	MSG_03,
+	DEMO_HINTS,
+	MSG_01,
 	MSG_03,
 ]
 
@@ -56,7 +57,14 @@ export default class Root extends Component {
 											 value="3" defaultChecked={selected == 3}
 											 onChange={() => this.select(3)}
 							/>
-							RPG
+							RPG1
+						</label>
+						<label>
+							<input type="radio" name="sample-data-select"
+									 value="4" defaultChecked={selected == 4}
+									 onChange={() => this.select(4)}
+							/>
+							RPG2
 						</label>
 					</fieldset>
 				</form>

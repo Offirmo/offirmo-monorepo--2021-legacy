@@ -1,0 +1,116 @@
+import {
+	NodeType,
+	OnConcatenateStringParams,
+	OnConcatenateSubNodeParams, OnNodeExitParams,
+	OnTypeParams,
+	walk,
+	WalkerCallbacks,
+	WalkerReducer
+} from '../walk'
+import {CheckedNode, Node} from '../types';
+
+import { is_list, is_link, is_KVP_list } from './common'
+
+const MANY_TABS = '																																							'
+
+type State = {
+	sub_nodes: CheckedNode[]
+	str: string
+}
+
+function indent(n: number): string {
+	return MANY_TABS.slice(0, n)
+}
+
+const NODE_TYPE_TO_HTML_ELEMENT: { [k: string]: string } = {
+	[NodeType.heading]: 'h3',
+	[NodeType.inline_fragment]: 'div',
+	[NodeType.block_fragment]: 'div',
+}
+
+const on_concatenate_sub_node: WalkerReducer<State, OnConcatenateSubNodeParams<State>> = ({$node, state, sub_state}) => {
+	state.sub_nodes.push($node)
+	state.str = state.str + sub_state.str
+	return state
+}
+
+const on_node_exit: WalkerReducer<State, OnNodeExitParams<State>> = ({state, $node, depth}) => {
+	const { $type, $classes, $sub, $hints } = $node
+	const $sub_node_count = Object.keys($sub).length
+
+	//$type: NodeType, str
+//}: string, $classes: string[], $sub_node_count: number, depth: number): string {
+
+	if ($type === 'br') {
+		state.str = '<br/>\n'
+		return state
+	}
+
+	if ($type === 'hr') {
+		state.str = '\n<hr/>\n'
+		return state
+	}
+
+	let result = ''
+	let is_inline = false
+	const classes = [...$classes]
+
+	switch($type) {
+		case 'strong':
+		case 'em':
+		case 'span':
+			is_inline = true
+			break
+		case 'inline_fragment':
+			classes.push('o⋄rich-text⋄inline')
+			break;
+		default:
+			break;
+	}
+
+	if (!is_inline)
+		result += '\n' + indent(depth)
+
+	const element: string = NODE_TYPE_TO_HTML_ELEMENT[$type] || $type
+
+	if (is_list($node)) {
+		switch($hints.bullets_style) {
+			case 'none':
+				classes.push('o⋄rich-text⋄ul--no-bullet')
+				break
+
+			default:
+				break
+		}
+	}
+
+	result += `<${element}`
+	if (classes.length)
+		result += ` class="${classes.join(' ')}"`
+	result += '>' + state.str + ($sub_node_count ? '\n' + indent(depth) : '') + `</${element}>`
+
+	if (is_link($node))
+		result = `<a href="${$hints.href}" target="_blank">${result}</a>`
+
+	state.str = result
+	return state
+}
+
+const callbacks: Partial<WalkerCallbacks<State>> = {
+	on_node_enter: () => ({
+		sub_nodes: [],
+		str: '',
+	}),
+	on_concatenate_str: ({state, str}: OnConcatenateStringParams<State>) => {
+		state.str += str
+		return state
+	},
+	on_concatenate_sub_node,
+	on_node_exit,
+}
+
+function to_html($doc: Node): string {
+	return '<div class="o⋄rich-text">\n	' + walk<State>($doc, callbacks).str + '\n</div>\n'
+}
+
+export { callbacks, to_html }

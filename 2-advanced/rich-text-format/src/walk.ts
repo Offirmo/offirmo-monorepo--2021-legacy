@@ -259,9 +259,9 @@ function walk<State>(
 		sorted_keys.forEach(key => {
 			const $sub_node: Node = {
 				$type: NodeType.li,
-				$content: `{{${key}}}`,
+				$content: `{{content}}`,
 				$sub: {
-					[key]: $sub_nodes[key]
+					'content': $sub_nodes[key]
 				}
 			}
 			let sub_state = walk( $sub_node, callbacks, {

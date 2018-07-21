@@ -1,5 +1,5 @@
 @import '../../node_modules/@offirmo/view-css/src/style.css';
-@import '../../src/index.css';
+@import '../../src/renderers/style.css';
 
 body {
 	width: 100%;

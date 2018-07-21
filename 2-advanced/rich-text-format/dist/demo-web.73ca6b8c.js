@@ -20571,7 +20571,7 @@ if ('development' === 'production') {
 
 },{"../node_modules/normalize.css/normalize.css":"../../node_modules/@offirmo/view-css/node_modules/normalize.css/normalize.css","./style--reset.css":"../../node_modules/@offirmo/view-css/node_modules/normalize.css/normalize.css","./style--colors.css":"../../node_modules/@offirmo/view-css/node_modules/normalize.css/normalize.css","./style--containers.css":"../../node_modules/@offirmo/view-css/node_modules/normalize.css/normalize.css","./style--fonts.css":"../../node_modules/@offirmo/view-css/src/style--fonts.css","./style--semantic.css":"../../node_modules/@offirmo/view-css/node_modules/normalize.css/normalize.css","./style--technical.css":"../../node_modules/@offirmo/view-css/node_modules/normalize.css/normalize.css","./style--misc.css":"../../node_modules/@offirmo/view-css/node_modules/normalize.css/normalize.css"}],"index.css":[function(require,module,exports) {
 
-},{"../../node_modules/@offirmo/view-css/src/style.css":"../../node_modules/@offirmo/view-css/src/style.css","../../src/index.css":"../../node_modules/@offirmo/view-css/node_modules/normalize.css/normalize.css"}],"../../node_modules/@offirmo/react-error-boundary/node_modules/react/index.js":[function(require,module,exports) {
+},{"../../node_modules/@offirmo/view-css/src/style.css":"../../node_modules/@offirmo/view-css/src/style.css","../../src/renderers/style.css":"../../node_modules/@offirmo/view-css/node_modules/normalize.css/normalize.css"}],"../../node_modules/@offirmo/react-error-boundary/node_modules/react/index.js":[function(require,module,exports) {
 'use strict';
 
 if ('development' === 'production') {
@@ -22648,9 +22648,9 @@ function walk($raw_node, raw_callbacks,
         sorted_keys.forEach(key => {
             const $sub_node = {
                 $type: types_1.NodeType.li,
-                $content: `{{${key}}}`,
+                $content: `{{content}}`,
                 $sub: {
-                    [key]: $sub_nodes[key]
+                    'content': $sub_nodes[key]
                 }
             };
             let sub_state = walk($sub_node, callbacks, {
@@ -22679,11 +22679,11 @@ function walk($raw_node, raw_callbacks,
 }
 exports.walk = walk;
 //# sourceMappingURL=walk.js.map
-},{"./consts":"../../dist/src.es7.cjs/consts.js","./types":"../../dist/src.es7.cjs/types.js","./utils":"../../dist/src.es7.cjs/utils.js"}],"../../dist/src.es7.cjs/to_debug.js":[function(require,module,exports) {
+},{"./consts":"../../dist/src.es7.cjs/consts.js","./types":"../../dist/src.es7.cjs/types.js","./utils":"../../dist/src.es7.cjs/utils.js"}],"../../dist/src.es7.cjs/renderers/to_debug.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const walk_1 = require("./walk");
+const walk_1 = require("../walk");
 const MANY_SPACES = '                                                                                                ';
 function indent(n) {
     return console.groupCollapsed || console.group ? '' : MANY_SPACES.slice(0, n * 2);
@@ -22779,15 +22779,16 @@ function to_debug($doc) {
 }
 exports.to_debug = to_debug;
 //# sourceMappingURL=to_debug.js.map
-},{"./walk":"../../dist/src.es7.cjs/walk.js"}],"../../dist/src.es7.cjs/to_actions.js":[function(require,module,exports) {
+},{"../walk":"../../dist/src.es7.cjs/walk.js"}],"../../dist/src.es7.cjs/renderers/to_actions.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const walk_1 = require("./walk");
+const walk_1 = require("../walk");
 const on_type = ({ $type, state, $node, depth }) => {
     //console.log('[on_type]', { $type, state })
     if ($node.$hints.href) {
         state.actions.push({
+            $node,
             type: 'link',
             data: $node.$hints.href
         });
@@ -22815,13 +22816,32 @@ function to_actions($doc) {
 }
 exports.to_actions = to_actions;
 //# sourceMappingURL=to_actions.js.map
-},{"./walk":"../../dist/src.es7.cjs/walk.js"}],"../../dist/src.es7.cjs/to_text.js":[function(require,module,exports) {
+},{"../walk":"../../dist/src.es7.cjs/walk.js"}],"../../dist/src.es7.cjs/renderers/common.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const walk_1 = require("./walk");
-const consts_1 = require("./consts");
-const on_type = ({ $type, state, $node, depth }) => {
+function is_list($node) {
+    return $node.$type === 'ul' || $node.$type === 'ol';
+}
+exports.is_list = is_list;
+function is_link($node) {
+    return !!$node.$hints.href;
+}
+exports.is_link = is_link;
+function is_KVP_list($node) {
+    if (!is_list($node)) return false;
+    return Object.values($node.$sub).every($node => $node.$content === '{{key}}: {{value}}');
+}
+exports.is_KVP_list = is_KVP_list;
+//# sourceMappingURL=common.js.map
+},{}],"../../dist/src.es7.cjs/renderers/to_text.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const consts_1 = require("../consts");
+const walk_1 = require("../walk");
+const common_1 = require("./common");
+const on_node_exit = ({ state, $node, depth }) => {
     //console.log('[on_type]', { $type, state })
     const markdown = true;
     if (markdown) {
@@ -22844,7 +22864,7 @@ const on_type = ({ $type, state, $node, depth }) => {
             default:
                 break;
         }
-        if ($node.$hints.href) state.str = `[${state.str}](${$node.$hints.href})`;
+        if (common_1.is_link($node)) state.str = `[${state.str}](${$node.$hints.href})`;
     } else {
         switch ($node.$type) {
             case 'br':
@@ -22857,6 +22877,27 @@ const on_type = ({ $type, state, $node, depth }) => {
                 break;
         }
     }
+    if (common_1.is_KVP_list($node)) {
+        // rewrite completely
+        console.log('TODO KVP', { state, $node });
+        const key_value_pairs = [];
+        let max_key_length = 0;
+        let max_value_length = 0;
+        state.sub_nodes.forEach(li_node => {
+            console.log({ li_node });
+            const kv_node = li_node.$sub.content;
+            const key_node = kv_node.$sub.key;
+            const value_node = kv_node.$sub.value;
+            const key_text = to_text(key_node);
+            const value_text = to_text(value_node);
+            max_key_length = Math.max(max_key_length, key_text.length);
+            max_value_length = Math.max(max_value_length, value_text.length);
+            key_value_pairs.push([key_text, value_text]);
+        });
+        state.str = key_value_pairs.map(([key_text, value_text]) => {
+            return key_text.padEnd(max_key_length + 1, '.') + value_text.padStart(max_value_length + 1, '.');
+        }).join('\n');
+    }
     if (consts_1.NODE_TYPE_TO_DISPLAY_MODE[$node.$type] === 'block') {
         state.starts_with_block = true;
         state.ends_with_block = true;
@@ -22866,6 +22907,7 @@ const on_type = ({ $type, state, $node, depth }) => {
 const on_concatenate_sub_node = ({ state, sub_state, $node, $id, $parent_node }) => {
     let sub_str = sub_state.str;
     let sub_starts_with_block = sub_state.starts_with_block;
+    state.sub_nodes.push($node);
     switch ($parent_node.$type) {
         case 'ul':
             // automake sub-state a ul > li
@@ -22906,6 +22948,7 @@ const on_concatenate_sub_node = ({ state, sub_state, $node, $id, $parent_node })
 };
 const callbacks = {
     on_node_enter: ({ $node }) => ({
+        sub_nodes: [],
         starts_with_block: false,
         ends_with_block: false,
         str: ''
@@ -22920,7 +22963,7 @@ const callbacks = {
         return state;
     },
     on_concatenate_sub_node,
-    on_type
+    on_node_exit
 };
 exports.callbacks = callbacks;
 function to_text($doc) {
@@ -22928,67 +22971,96 @@ function to_text($doc) {
 }
 exports.to_text = to_text;
 //# sourceMappingURL=to_text.js.map
-},{"./walk":"../../dist/src.es7.cjs/walk.js","./consts":"../../dist/src.es7.cjs/consts.js"}],"../../dist/src.es7.cjs/to_html.js":[function(require,module,exports) {
+},{"../consts":"../../dist/src.es7.cjs/consts.js","../walk":"../../dist/src.es7.cjs/walk.js","./common":"../../dist/src.es7.cjs/renderers/common.js"}],"../../dist/src.es7.cjs/renderers/to_html.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const walk_1 = require("./walk");
+const walk_1 = require("../walk");
+const common_1 = require("./common");
 const MANY_TABS = '																																							';
 function indent(n) {
     return MANY_TABS.slice(0, n);
 }
 const NODE_TYPE_TO_HTML_ELEMENT = {
     [walk_1.NodeType.heading]: 'h3',
-    [walk_1.NodeType.inline_fragment]: 'span',
+    [walk_1.NodeType.inline_fragment]: 'div',
     [walk_1.NodeType.block_fragment]: 'div'
 };
-const on_concatenate_sub_node = ({ state, sub_state }) => {
-    return state + sub_state;
+const on_concatenate_sub_node = ({ $node, state, sub_state }) => {
+    state.sub_nodes.push($node);
+    state.str = state.str + sub_state.str;
+    return state;
 };
-const on_type = ({ state, $node, depth, $type }) => {
-    const { $classes, $sub, $hints } = $node;
+const on_node_exit = ({ state, $node, depth }) => {
+    const { $type, $classes, $sub, $hints } = $node;
     const $sub_node_count = Object.keys($sub).length;
     //$type: NodeType, str
     //}: string, $classes: string[], $sub_node_count: number, depth: number): string {
-    if ($type === 'br') return '<br/>\n';
-    if ($type === 'hr') return '\n<hr/>\n';
+    if ($type === 'br') {
+        state.str = '<br/>\n';
+        return state;
+    }
+    if ($type === 'hr') {
+        state.str = '\n<hr/>\n';
+        return state;
+    }
+    let result = '';
     let is_inline = false;
+    const classes = [...$classes];
     switch ($type) {
         case 'strong':
         case 'em':
         case 'span':
             is_inline = true;
             break;
+        case 'inline_fragment':
+            classes.push('o⋄rich-text⋄inline');
+            break;
         default:
             break;
     }
-    let result = '';
     if (!is_inline) result += '\n' + indent(depth);
     const element = NODE_TYPE_TO_HTML_ELEMENT[$type] || $type;
+    if (common_1.is_list($node)) {
+        switch ($hints.bullets_style) {
+            case 'none':
+                classes.push('o⋄rich-text⋄ul--no-bullet');
+                break;
+            default:
+                break;
+        }
+    }
     result += `<${element}`;
-    if ($classes.length) result += ` class="${$classes.join(' ')}"`;
-    result += '>' + state + ($sub_node_count ? '\n' + indent(depth) : '') + `</${element}>`;
-    if ($hints.href) result = `<a href="${$hints.href}">${result}</a>`;
-    return result;
+    if (classes.length) result += ` class="${classes.join(' ')}"`;
+    result += '>' + state.str + ($sub_node_count ? '\n' + indent(depth) : '') + `</${element}>`;
+    if (common_1.is_link($node)) result = `<a href="${$hints.href}" target="_blank">${result}</a>`;
+    state.str = result;
+    return state;
 };
 const callbacks = {
-    on_node_enter: () => '',
-    on_concatenate_str: ({ state, str }) => state + str,
+    on_node_enter: () => ({
+        sub_nodes: [],
+        str: ''
+    }),
+    on_concatenate_str: ({ state, str }) => {
+        state.str += str;
+        return state;
+    },
     on_concatenate_sub_node,
-    on_type
+    on_node_exit
 };
 exports.callbacks = callbacks;
 function to_html($doc) {
-    return walk_1.walk($doc, callbacks);
+    return '<div class="o⋄rich-text">\n	' + walk_1.walk($doc, callbacks).str + '\n</div>\n';
 }
 exports.to_html = to_html;
 //# sourceMappingURL=to_html.js.map
-},{"./walk":"../../dist/src.es7.cjs/walk.js"}],"../../dist/src.es7.cjs/builder.js":[function(require,module,exports) {
+},{"../walk":"../../dist/src.es7.cjs/walk.js","./common":"../../dist/src.es7.cjs/renderers/common.js"}],"../../dist/src.es7.cjs/utils/builder.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const consts_1 = require("./consts");
-const types_1 = require("./types");
+const consts_1 = require("../consts");
+const types_1 = require("../types");
 exports.NodeType = types_1.NodeType;
 function create($type) {
     const $node = {
@@ -23084,24 +23156,25 @@ function unordered_list() {
 }
 exports.unordered_list = unordered_list;
 //# sourceMappingURL=builder.js.map
-},{"./consts":"../../dist/src.es7.cjs/consts.js","./types":"../../dist/src.es7.cjs/types.js"}],"../../dist/src.es7.cjs/index.js":[function(require,module,exports) {
+},{"../consts":"../../dist/src.es7.cjs/consts.js","../types":"../../dist/src.es7.cjs/types.js"}],"../../dist/src.es7.cjs/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
-var to_debug_1 = require("./to_debug");
+var to_debug_1 = require("./renderers/to_debug");
 exports.to_debug = to_debug_1.to_debug;
-var to_actions_1 = require("./to_actions");
+var to_actions_1 = require("./renderers/to_actions");
 exports.to_actions = to_actions_1.to_actions;
-var to_text_1 = require("./to_text");
+var to_text_1 = require("./renderers/to_text");
 exports.to_text = to_text_1.to_text;
-var to_html_1 = require("./to_html");
+var to_html_1 = require("./renderers/to_html");
 exports.to_html = to_html_1.to_html;
 tslib_1.__exportStar(require("./types"), exports);
 tslib_1.__exportStar(require("./walk"), exports);
-tslib_1.__exportStar(require("./builder"), exports);
+tslib_1.__exportStar(require("./renderers/common"), exports);
+tslib_1.__exportStar(require("./utils/builder"), exports);
 //# sourceMappingURL=index.js.map
-},{"tslib":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/node_modules/tslib/tslib.es6.js","./to_debug":"../../dist/src.es7.cjs/to_debug.js","./to_actions":"../../dist/src.es7.cjs/to_actions.js","./to_text":"../../dist/src.es7.cjs/to_text.js","./to_html":"../../dist/src.es7.cjs/to_html.js","./types":"../../dist/src.es7.cjs/types.js","./walk":"../../dist/src.es7.cjs/walk.js","./builder":"../../dist/src.es7.cjs/builder.js"}],"../../node_modules/classnames/index.js":[function(require,module,exports) {
+},{"tslib":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/node_modules/tslib/tslib.es6.js","./renderers/to_debug":"../../dist/src.es7.cjs/renderers/to_debug.js","./renderers/to_actions":"../../dist/src.es7.cjs/renderers/to_actions.js","./renderers/to_text":"../../dist/src.es7.cjs/renderers/to_text.js","./renderers/to_html":"../../dist/src.es7.cjs/renderers/to_html.js","./types":"../../dist/src.es7.cjs/types.js","./walk":"../../dist/src.es7.cjs/walk.js","./renderers/common":"../../dist/src.es7.cjs/renderers/common.js","./utils/builder":"../../dist/src.es7.cjs/utils/builder.js"}],"../../node_modules/classnames/index.js":[function(require,module,exports) {
 var define;
 /*!
   Copyright (c) 2017 Jed Watson.
@@ -23156,13 +23229,13 @@ var define;
 	}
 }());
 
-},{}],"services/rich_text_to_react_callbacks.jsx":[function(require,module,exports) {
-'use strict';
+},{}],"services/rich_text_to_react.js":[function(require,module,exports) {
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.on_concatenate_sub_node = exports.on_concatenate_str = exports.on_node_exit = exports.on_node_enter = exports.on_root_exit = undefined;
+exports.default = to_react;
 
 var _react = require('react');
 
@@ -23174,18 +23247,9 @@ var _classnames2 = _interopRequireDefault(_classnames);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+const { walk, is_list } = require('../../../dist/src.es7.cjs');
+
 const LIB = 'rich_text_to_react';
-
-function on_node_enter() {
-	return {
-		element: null,
-		children: []
-	};
-}
-
-function on_root_exit({ state }) {
-	return state.element;
-}
 
 // turn the state into a react element
 function on_node_exit({ $node, $id, state, depth }) {
@@ -23196,7 +23260,22 @@ function on_node_exit({ $node, $id, state, depth }) {
 		return typeof child === 'string' ? child : _react2.default.cloneElement(child, { key: `${index}` });
 	});
 
-	const class_names = (0, _classnames2.default)(...$classes);
+	const classes = [...$classes];
+
+	if (is_list($node)) {
+		switch ($hints.bullets_style) {
+			case 'none':
+				classes.push('o⋄rich-text⋄ul--no-bullet');
+				break;
+
+			default:
+				break;
+		}
+	}
+
+	if ($type === 'inline_fragment') classes.push('o⋄rich-text⋄inline');
+
+	const class_names = (0, _classnames2.default)(...classes);
 	if ($classes.includes('monster')) {
 		children.push(_react2.default.createElement(
 			'span',
@@ -23264,11 +23343,7 @@ function on_node_exit({ $node, $id, state, depth }) {
 			);break;
 
 		case 'inline_fragment':
-			element = _react2.default.createElement(
-				'span',
-				{ className: class_names },
-				children
-			);break;
+		/* fallthrough */
 		case 'block_fragment':
 			element = _react2.default.createElement(
 				'div',
@@ -23278,7 +23353,7 @@ function on_node_exit({ $node, $id, state, depth }) {
 
 		default:
 			element = _react2.default.createElement(
-				'span',
+				'div',
 				{ className: class_names },
 				'TODO "',
 				$type,
@@ -23290,7 +23365,16 @@ function on_node_exit({ $node, $id, state, depth }) {
 
 	if ($hints.uuid) {
 		console.log('seen element with uuid:', $node);
+		// TODO extensible
 		//element = <TBRPGElement uuid={$hints.uuid}>{element}</TBRPGElement>
+	}
+
+	if ($hints.href) {
+		element = _react2.default.createElement(
+			'a',
+			{ href: $hints.href, target: '_blank' },
+			element
+		);
 	}
 
 	state.element = element;
@@ -23304,37 +23388,28 @@ function on_concatenate_str({ state, str }) {
 	return state;
 }
 
-function on_concatenate_sub_node({ state, sub_state }) {
+function on_concatenate_sub_node({ $node, state, sub_state }) {
+	state.sub_nodes.push($node);
 	state.children.push(sub_state);
 	return state;
 }
 
-exports.on_root_exit = on_root_exit;
-exports.on_node_enter = on_node_enter;
-exports.on_node_exit = on_node_exit;
-exports.on_concatenate_str = on_concatenate_str;
-exports.on_concatenate_sub_node = on_concatenate_sub_node;
-},{"react":"../../node_modules/react/index.js","classnames":"../../node_modules/classnames/index.js"}],"services/rich_text_to_react.js":[function(require,module,exports) {
-"use strict";
+const callbacks = {
+	on_node_enter: () => ({
+		sub_nodes: [],
+		element: null,
+		children: []
+	}),
+	on_node_exit,
+	on_concatenate_str,
+	on_concatenate_sub_node
+};
 
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-exports.default = rich_text_to_react;
-
-var _rich_text_to_react_callbacks = require('./rich_text_to_react_callbacks');
-
-var callbacks = _interopRequireWildcard(_rich_text_to_react_callbacks);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-const { walk } = require('../../../dist/src.es7.cjs');
-
-function rich_text_to_react(doc) {
+function to_react(doc) {
 	//console.log('Rendering a rich text:', doc)
-	return walk(doc, callbacks);
+	return walk(doc, callbacks).element;
 }
-},{"../../../dist/src.es7.cjs":"../../dist/src.es7.cjs/index.js","./rich_text_to_react_callbacks":"services/rich_text_to_react_callbacks.jsx"}],"components/multi-renderer.jsx":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","classnames":"../../node_modules/classnames/index.js","../../../dist/src.es7.cjs":"../../dist/src.es7.cjs/index.js"}],"components/multi-renderer.jsx":[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -23368,7 +23443,7 @@ const RichTextView = ({ doc, mode = 'to_html' }) => {
 			);
 
 		case 'to_html':
-			return _react2.default.createElement('div', { className: 'o\u22C4rich-text', dangerouslySetInnerHTML: { __html: RichText.to_html(doc) } });
+			return _react2.default.createElement('div', { dangerouslySetInnerHTML: { __html: RichText.to_html(doc) } });
 
 		case 'to_react':
 			return _react2.default.createElement(
@@ -23456,6 +23531,51 @@ Object.defineProperty(exports, "__esModule", {
 });
 const RichText = require('..');
 
+const SUB_UL_ITEMS = exports.SUB_UL_ITEMS = {
+	2: { $type: 'span', $content: 'ul #2' },
+	1: { $type: 'span', $content: 'ul #1' },
+	3: { $type: 'span', $content: 'ul #3' }
+};
+
+const SUB_KEY_VALUE_PAIRS = exports.SUB_KEY_VALUE_PAIRS = {
+	1: {
+		$type: 'inline_fragment',
+		$content: `{{key}}: {{value}}`,
+		$sub: {
+			key: {
+				$content: 'level'
+			},
+			value: {
+				$content: '12'
+			}
+		}
+	},
+	2: {
+		$type: 'inline_fragment',
+		$content: `{{key}}: {{value}}`,
+		$sub: {
+			key: {
+				$content: 'health'
+			},
+			value: {
+				$content: '87'
+			}
+		}
+	},
+	3: {
+		$type: 'inline_fragment',
+		$content: `{{key}}: {{value}}`,
+		$sub: {
+			key: {
+				$content: 'mana'
+			},
+			value: {
+				$content: '118'
+			}
+		}
+	}
+};
+
 const DEMO_BASE_TYPES = exports.DEMO_BASE_TYPES = {
 	$type: 'inline_fragment',
 	$classes: [],
@@ -23484,11 +23604,7 @@ const DEMO_BASE_TYPES = exports.DEMO_BASE_TYPES = {
 				},
 				ul: {
 					$type: 'ul',
-					$sub: {
-						2: { $type: 'span', $content: 'ul #2' },
-						1: { $type: 'span', $content: 'ul #1' },
-						3: { $type: 'span', $content: 'ul #3' }
-					}
+					$sub: SUB_UL_ITEMS
 				},
 				ol: {
 					$type: 'ol',
@@ -23511,17 +23627,43 @@ const DEMO_BASE_TYPES = exports.DEMO_BASE_TYPES = {
 const DEMO_ADVANCED_TYPES = exports.DEMO_ADVANCED_TYPES = {
 	$type: 'inline_fragment',
 	$classes: [],
-	$content: '{{heading}}{{link}}{{br}}Done.',
+	$content: '{{heading}}Key-value pairs:{{kvdefault}}Done.',
 	$sub: {
 		heading: {
 			$type: 'heading',
 			$content: 'Advanced types'
+		},
+		kvdefault: {
+			$type: 'ul',
+			$sub: SUB_KEY_VALUE_PAIRS,
+			$hints: {
+				//key_align: left,
+			}
+		}
+	}
+};
+
+const DEMO_HINTS = exports.DEMO_HINTS = {
+	$type: 'inline_fragment',
+	$classes: [],
+	$content: '{{heading}}link: {{link}}{{br}}List with no bullets:{{list}}Done.',
+	$sub: {
+		heading: {
+			$type: 'heading',
+			$content: 'Hints'
 		},
 		link: {
 			$type: 'span',
 			$content: 'offirmo’s website',
 			$hints: {
 				href: 'https://www.offirmo.net'
+			}
+		},
+		list: {
+			$type: 'ul',
+			$sub: SUB_UL_ITEMS,
+			$hints: {
+				bullets_style: 'none'
 			}
 		}
 	}
@@ -23619,7 +23761,7 @@ var _examples = require('../../examples');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const DATA = [_examples.DEMO_BASE_TYPES, _examples.DEMO_ADVANCED_TYPES, _examples.MSG_03, _examples.MSG_03];
+const DATA = [_examples.DEMO_BASE_TYPES, _examples.DEMO_ADVANCED_TYPES, _examples.DEMO_HINTS, _examples.MSG_01, _examples.MSG_03];
 
 class Root extends _react.Component {
 	constructor(...args) {
@@ -23685,7 +23827,16 @@ class Root extends _react.Component {
 							value: '3', defaultChecked: selected == 3,
 							onChange: () => this.select(3)
 						}),
-						'RPG'
+						'RPG1'
+					),
+					_react2.default.createElement(
+						'label',
+						null,
+						_react2.default.createElement('input', { type: 'radio', name: 'sample-data-select',
+							value: '4', defaultChecked: selected == 4,
+							onChange: () => this.select(4)
+						}),
+						'RPG2'
 					)
 				)
 			),

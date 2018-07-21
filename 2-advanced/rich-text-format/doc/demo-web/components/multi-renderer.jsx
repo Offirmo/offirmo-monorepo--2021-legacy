@@ -11,7 +11,7 @@ const RichTextView = ({doc, mode = 'to_html'}) => {
 			return <pre>{RichText.to_text(doc)}</pre>
 
 		case 'to_html':
-			return <div className="o⋄rich-text" dangerouslySetInnerHTML={{ __html: RichText.to_html(doc) }} />
+			return <div dangerouslySetInnerHTML={{ __html: RichText.to_html(doc) }} />
 
 		case 'to_react':
 			return <div className="o⋄rich-text">{rich_text_to_react(doc)}</div>

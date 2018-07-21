@@ -862,6 +862,16 @@ progress.o⋄animated::-ms-fill {
 }
 */
 
+/* Global considerations for Rich Text display:
+ * - must be "terminal-like", since it's supposed to be displayed the same on a console
+ * - has only 1 main direction
+ */
+
+
+.o⋄rich-text div.o⋄rich-text⋄inline {
+	display: inline;
+}
+
 .o⋄rich-text h3
 {
 	margin: 0;
@@ -877,8 +887,19 @@ progress.o⋄animated::-ms-fill {
 .o⋄rich-text li {
 	list-style-position: inside;
 }
+.o⋄rich-text ul > li > * {
+	position: relative;
+	left: -7px;
+}
 
-.o⋄rich-text ul > li > * { position: relative; left: -7px; }
+.o⋄rich-text ul.o⋄rich-text⋄ul--no-bullet {
+	list-style-type: none;
+	padding-left: 0;
+}
+.o⋄rich-text ul.o⋄rich-text⋄ul--no-bullet > li > * {
+	position: unset;
+	left: unset;
+}
 body {
 	width: 100%;
 	max-width: unset;
