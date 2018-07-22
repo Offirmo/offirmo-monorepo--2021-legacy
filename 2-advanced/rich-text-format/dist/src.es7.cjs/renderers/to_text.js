@@ -43,12 +43,11 @@ const on_node_exit = ({ state, $node, depth }) => {
     }
     if (common_1.is_KVP_list($node)) {
         // rewrite completely
-        console.log('TODO KVP', { state, $node });
         const key_value_pairs = [];
         let max_key_length = 0;
         let max_value_length = 0;
         state.sub_nodes.forEach(li_node => {
-            console.log({ li_node });
+            //console.log({li_node})
             const kv_node = li_node.$sub.content;
             const key_node = kv_node.$sub.key;
             const value_node = kv_node.$sub.value;

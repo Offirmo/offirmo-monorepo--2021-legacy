@@ -1,12 +1,14 @@
 const RichText = require('..')
 
+/////// parts ///////
+
 export const SUB_UL_ITEMS = {
 	2: {$type: 'span', $content: 'ul #2'},
 	1: {$type: 'span', $content: 'ul #1'},
 	3: {$type: 'span', $content: 'ul #3'},
 }
 
-export const SUB_KEY_VALUE_PAIRS = {
+export const SUB_UL_KEY_VALUE_PAIRS = {
 	1: {
 		$type: 'inline_fragment',
 		$content: `{{key}}: {{value}}`,
@@ -45,7 +47,69 @@ export const SUB_KEY_VALUE_PAIRS = {
 	},
 }
 
-export const DEMO_BASE_TYPES = {
+export const DOC_WEAPON_01_NAME = {
+	$classes: ['item__name', 'item-weapon-name'],
+	$content: '{{qualifier2|Capitalize}} {{qualifier1|Capitalize}} {{base|Capitalize}}',
+	$sub: {
+		qualifier2: {
+			$type: 'span',
+			$content: 'warfield king’s',
+		},
+		qualifier1: {
+			$type: 'span',
+			$content: 'onyx',
+		},
+		base: {
+			$type: 'span',
+			$content: 'longsword',
+		},
+	},
+}
+
+export const DOC_WEAPON_01 = {
+	$type: 'span',
+	$classes: ['item', 'item-weapon', 'item--quality--legendary'],
+	$content: '{{weapon_name}} {{enhancement}}',
+	$sub: {
+		weapon_name: DOC_WEAPON_01_NAME,
+		enhancement: {
+			$type: 'span',
+			$classes: ['item--enhancement'],
+			$content: '+3',
+		},
+	},
+	$hints: {
+		uuid: '1234',
+	}
+}
+
+export const DOC_PLACE_01 = {
+	$type: 'span',
+	$classes: ['place'],
+	$content: 'the country of {{name}}',
+	$sub: {
+		name: {
+			$classes: ['place-name'],
+			$content: 'Foo',
+		}
+	},
+}
+
+export const DOC_NPC_01 = {
+	$type: 'span',
+	$classes: ['person', 'npc', 'monster--rank--boss'],
+	$content: 'John Smith',
+}
+
+export const SUB_UL_ACTIONABLE_ITEMS = {
+	1: DOC_WEAPON_01,
+	2: DOC_WEAPON_01,
+	3: DOC_WEAPON_01,
+}
+
+/////// COMPLETE DOCS ///////
+
+export const DOC_DEMO_BASE_TYPES = {
 	$type: 'inline_fragment',
 	$classes: [],
 	$content: '{{fragment1}}{{fragment2}}',
@@ -93,10 +157,10 @@ export const DEMO_BASE_TYPES = {
 	},
 }
 
-export const DEMO_ADVANCED_TYPES = {
+export const DOC_DEMO_ADVANCED_TYPES = {
 	$type: 'inline_fragment',
 	$classes: [],
-	$content: '{{heading}}Key-value pairs:{{kvdefault}}Done.',
+	$content: '{{heading}}Key-value pairs:{{kvdefault}}Actionable items:{{uuid_list}}Done.',
 	$sub: {
 		heading: {
 			$type: 'heading',
@@ -104,7 +168,14 @@ export const DEMO_ADVANCED_TYPES = {
 		},
 		kvdefault: {
 			$type: 'ul',
-			$sub: SUB_KEY_VALUE_PAIRS,
+			$sub: SUB_UL_KEY_VALUE_PAIRS,
+			$hints: {
+				//key_align: left,
+			},
+		},
+		uuid_list: {
+			$type: 'ol',
+			$sub: SUB_UL_ACTIONABLE_ITEMS,
 			$hints: {
 				//key_align: left,
 			},
@@ -112,7 +183,7 @@ export const DEMO_ADVANCED_TYPES = {
 	},
 }
 
-export const DEMO_HINTS = {
+export const DOC_DEMO_HINTS = {
 	$type: 'inline_fragment',
 	$classes: [],
 	$content: '{{heading}}link: {{link}}{{br}}List with no bullets:{{list}}Done.',
@@ -138,79 +209,28 @@ export const DEMO_HINTS = {
 	},
 }
 
-export const WEAPON_01_NAME = {
-	$classes: ['item__name', 'item-weapon-name'],
-	$content: '{{qualifier2|Capitalize}} {{qualifier1|Capitalize}} {{base|Capitalize}}',
-	$sub: {
-		qualifier2: {
-			$type: 'span',
-			$content: 'warfield king’s',
-		},
-		qualifier1: {
-			$type: 'span',
-			$content: 'onyx',
-		},
-		base: {
-			$type: 'span',
-			$content: 'longsword',
-		},
-	},
-}
-
-export const WEAPON_01 = {
-	$type: 'span',
-	$classes: ['item', 'item-weapon', 'item--quality--legendary'],
-	$content: '{{weapon_name}} {{enhancement}}',
-	$sub: {
-		weapon_name: WEAPON_01_NAME,
-		enhancement: {
-			$type: 'span',
-			$classes: ['item--enhancement'],
-			$content: '+3',
-		},
-	},
-}
-
-export const PLACE_01 = {
-	$type: 'span',
-	$classes: ['place'],
-	$content: 'the country of {{name}}',
-	$sub: {
-		name: {
-			$classes: ['place-name'],
-			$content: 'Foo',
-		}
-	},
-}
-
-export const NPC_01 = {
-	$type: 'span',
-	$classes: ['person', 'npc', 'monster--rank--boss'],
-	$content: 'John Smith',
-}
-
-export const MSG_01 = {
+export const DOC_DEMO_RPG_01 = {
 	$v: 1,
 	$type: 'block_fragment',
 	$content: 'You are in {{place}}. You meet {{npc}}.{{br}}He gives you a {{item}}.{{hr}}',
 	$sub: {
-		place: PLACE_01,
-		npc: NPC_01,
-		item: WEAPON_01,
+		place: DOC_PLACE_01,
+		npc: DOC_NPC_01,
+		item: DOC_WEAPON_01,
 	},
 }
 
-export const MSG_02 = {
+export const DOC_DEMO_RPG_02 = {
 	$v: 1,
 	$type: 'ol',
 	$sub: {
-		1: WEAPON_01,
-		2: PLACE_01,
-		3: NPC_01
+		1: DOC_WEAPON_01,
+		2: DOC_PLACE_01,
+		3: DOC_NPC_01
 	},
 }
 
-export const MSG_03 = RichText.block_fragment()
+export const DOC_DEMO_RPG_03 = RichText.block_fragment()
 	.pushText(''
 		+ 'Great sages prophetized your coming,{{br}}'
 		+ 'commoners are waiting for their hero{{br}}'
@@ -219,5 +239,5 @@ export const MSG_03 = RichText.block_fragment()
 	)
 	.pushStrong('A great saga just started.')
 	.pushText('{{br}}loot:')
-	.pushNode(MSG_02, 'loot')
+	.pushNode(DOC_DEMO_RPG_02, 'loot')
 	.done()

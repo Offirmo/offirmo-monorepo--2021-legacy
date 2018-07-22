@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const walk_1 = require("../walk");
 const common_1 = require("./common");
+const LIB = 'rich_text_to_html';
 const MANY_TABS = '																																							';
 function indent(n) {
     return MANY_TABS.slice(0, n);
@@ -50,10 +51,19 @@ const on_node_exit = ({ state, $node, depth }) => {
     if (common_1.is_list($node)) {
         switch ($hints.bullets_style) {
             case 'none':
-                classes.push('o⋄rich-text⋄ul--no-bullet');
+                classes.push('o⋄rich-text⋄list--no-bullet');
                 break;
             default:
                 break;
+        }
+        if (common_1.is_uuid_list($node)) {
+            console.log(`${LIB} seen uuid list`);
+            classes.push('o⋄rich-text⋄list--no-bullet');
+        }
+        if (common_1.is_KVP_list($node)) {
+            classes.push('o⋄rich-text⋄list--no-bullet');
+            // TODO rewrite completely
+            console.log(`${LIB} TODO KVP`);
         }
     }
     result += `<${element}`;

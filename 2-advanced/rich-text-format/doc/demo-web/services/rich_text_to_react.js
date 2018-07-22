@@ -2,82 +2,95 @@
 
 import React from 'react'
 import classNames from 'classnames'
+import {is_KVP_list} from '../../../src/renderers/common'
 
-const { walk, is_list } = require('../../../dist/src.es7.cjs')
+const { Enum, NodeType, walk, is_list, is_uuid_list } = require('../../../dist/src.es7.cjs')
 
 const LIB = 'rich_text_to_react'
 
+export const NODE_TYPE_TO_COMPONENT = {
+	[NodeType.heading]: 'h3',
+	[NodeType.inline_fragment]: 'div',
+	[NodeType.block_fragment]: 'div',
+}
+
+export const NODE_TYPE_TO_EXTRA_CLASSES = {
+	[NodeType.inline_fragment]: [ 'o⋄rich-text⋄inline' ],
+}
+
 
 // turn the state into a react element
-function on_node_exit({$node, $id, state, depth}) {
+export function intermediate_on_node_exit({$node, $id, state}) {
 	const { $type, $classes, $hints } = $node
 
-	let children = state.children.map(c => c.element)
-	children = React.Children.map(children, (child, index) => {
-		return (typeof child === 'string')
-			? child
-			: React.cloneElement(child, {key: `${index}`})
-	})
+	const result = {
+		children: null,
+		classes: [...$classes],
+		component: NODE_TYPE_TO_COMPONENT[$type] || $type,
+		wrapper: children => children
+	}
 
-	const classes = [...$classes]
+	result.children =
+		React.Children.map(
+			state.children.map(c => c.element),
+			(child, index) => {
+				return (typeof child === 'string')
+					? child
+					: React.cloneElement(child, {key: `${index}`})
+			}
+		)
+
+	result.classes.push(...(NODE_TYPE_TO_EXTRA_CLASSES[$type] || []))
 
 	if (is_list($node)) {
+		if (is_uuid_list($node)) {
+			console.log(`${LIB} seen uuid list`)
+			result.classes.push('o⋄rich-text⋄list--no-bullet')
+		}
+
 		switch($hints.bullets_style) {
 			case 'none':
-				classes.push('o⋄rich-text⋄ul--no-bullet')
+				result.classes.push('o⋄rich-text⋄list--no-bullet')
 				break
 
 			default:
 				break
 		}
+
+		if (is_KVP_list($node)) {
+			// TODO rewrite completely
+			console.log(`${LIB} TODO KVP`)
+			result.classes.push('o⋄rich-text⋄list--no-bullet')
+		}
 	}
 
-	if($type === 'inline_fragment')
-		classes.push('o⋄rich-text⋄inline')
+	if ($hints.href)
+		result.wrapper = children => <a href={$hints.href} target="_blank">{children}</a>
 
-	const class_names = classNames(...classes)
-	if ($classes.includes('monster')) {
-		children.push(<span className="monster-emoji">{$hints.possible_emoji}</span>)
-	}
+	if (!Enum.isType(NodeType, $type))
+		result.wrapper = children => <div className="o⋄rich-text⋄error">TODO "{$type}" {children}</div>
 
-	let element = null
-	switch ($type) {
-		case 'span': element = <span className={class_names}>{children}</span>; break
+	return result
+}
 
-		case 'br': element = <br className={class_names}/>; break
-		case 'hr': element = <hr className={class_names}/>; break
+export function intermediate_assemble({ children, classes, component, wrapper }) {
+	if (component === 'br' || component === 'hr')
+		children = undefined
 
-		case 'li': element = <li className={class_names}>{children}</li>; break
-		case 'ol': element = <ol className={class_names}>{children}</ol>; break
-		case 'ul': element = <ul className={class_names}>{children}</ul>; break
+	return wrapper(
+		React.createElement(component, {
+			className: classNames(...classes)
+		}, children)
+	)
+}
 
-		case 'strong': element = <strong className={class_names}>{children}</strong>; break
-		case 'em': element = <em className={class_names}>{children}</em>; break
-		case 'section': element = <span className={class_names}>{children}</span>; break
-		case 'heading': element = <h3 className={class_names}>{children}</h3>; break
 
-		case 'inline_fragment':
-			/* fallthrough */
-		case 'block_fragment':
-			element = <div className={class_names}>{children}</div>; break
+// default
+function on_node_exit(params) {
+	const { children, classes, component, wrapper } = intermediate_on_node_exit(params)
 
-		default:
-			element = <div className={class_names}>TODO "{$type}" {children}</div>
-			break
-	}
-
-	if ($hints.uuid) {
-		console.log('seen element with uuid:', $node)
-		// TODO extensible
-		//element = <TBRPGElement uuid={$hints.uuid}>{element}</TBRPGElement>
-	}
-
-	if ($hints.href) {
-		element = <a href={$hints.href} target="_blank">{element}</a>
-	}
-
-	state.element = element
-	return state
+	params.state.element = intermediate_assemble({ children, classes, component, wrapper })
+	return params.state
 }
 
 function on_concatenate_str({state, str}) {
@@ -104,7 +117,36 @@ const callbacks = {
 	on_concatenate_sub_node,
 }
 
-export default function to_react(doc) {
-	//console.log('Rendering a rich text:', doc)
-	return walk(doc, callbacks).element
+////////////
+function TEST_overriden_on_node_exit(params) {
+	const { children, classes, component, wrapper } = intermediate_on_node_exit(params)
+	const { state, $node } = params
+	const { $type, $classes, $hints } = $node
+
+	// XXX
+	/*
+	const class_names = classNames(...classes)
+	if ($classes.includes('monster')) {
+		children.push(<span className="monster-emoji">{$hints.possible_emoji}</span>)
+	}*/
+
+
+	let element = intermediate_assemble({ children, classes, component, wrapper })
+
+	if ($hints.uuid) {
+		//console.log(`${LIB} seen element with uuid:`, $node)
+		element = <div className="o⋄rich-text⋄inline">{element}[uuid={$hints.uuid}]</div>
+	}
+
+	state.element = element
+	return state
+}
+////////////
+
+export default function to_react(doc, {on_node_exit_override = TEST_overriden_on_node_exit} = {}) {
+	//console.log(`${LIB} Rendering a rich text:`, doc)
+	return walk(doc, {
+		...callbacks,
+		on_node_exit: on_node_exit_override,
+	}).element
 }

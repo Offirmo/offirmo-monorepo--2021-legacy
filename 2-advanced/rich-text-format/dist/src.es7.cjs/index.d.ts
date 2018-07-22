@@ -6,3 +6,4 @@ export * from './types';
 export * from './walk';
 export * from './renderers/common';
 export * from './utils/builder';
+export { Enum } from 'typescript-string-enums';

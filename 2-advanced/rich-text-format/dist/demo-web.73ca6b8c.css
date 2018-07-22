@@ -892,11 +892,12 @@ progress.o⋄animated::-ms-fill {
 	left: -7px;
 }
 
-.o⋄rich-text ul.o⋄rich-text⋄ul--no-bullet {
+.o⋄rich-text ol.o⋄rich-text⋄list--no-bullet,
+.o⋄rich-text ul.o⋄rich-text⋄list--no-bullet {
 	list-style-type: none;
 	padding-left: 0;
 }
-.o⋄rich-text ul.o⋄rich-text⋄ul--no-bullet > li > * {
+.o⋄rich-text ul.o⋄rich-text⋄list--no-bullet > li > * {
 	position: unset;
 	left: unset;
 }

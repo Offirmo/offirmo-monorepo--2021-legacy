@@ -9,7 +9,9 @@ import {
 } from '../walk'
 import {CheckedNode, Node} from '../types';
 
-import { is_list, is_link, is_KVP_list } from './common'
+import { is_list, is_link, is_KVP_list, is_uuid_list } from './common'
+
+const LIB = 'rich_text_to_html'
 
 const MANY_TABS = '																																							'
 
@@ -76,11 +78,22 @@ const on_node_exit: WalkerReducer<State, OnNodeExitParams<State>> = ({state, $no
 	if (is_list($node)) {
 		switch($hints.bullets_style) {
 			case 'none':
-				classes.push('o⋄rich-text⋄ul--no-bullet')
+				classes.push('o⋄rich-text⋄list--no-bullet')
 				break
 
 			default:
 				break
+		}
+
+		if (is_uuid_list($node)) {
+			console.log(`${LIB} seen uuid list`)
+			classes.push('o⋄rich-text⋄list--no-bullet')
+		}
+
+		if (is_KVP_list($node)) {
+			classes.push('o⋄rich-text⋄list--no-bullet')
+			// TODO rewrite completely
+			console.log(`${LIB} TODO KVP`)
 		}
 	}
 

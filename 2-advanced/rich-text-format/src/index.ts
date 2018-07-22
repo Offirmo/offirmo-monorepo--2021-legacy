@@ -8,3 +8,6 @@ export * from './types'
 export * from './walk'
 export * from './renderers/common'
 export * from './utils/builder'
+
+// for convenience of the consumer
+export { Enum } from 'typescript-string-enums'

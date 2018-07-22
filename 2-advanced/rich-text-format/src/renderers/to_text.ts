@@ -72,14 +72,12 @@ const on_node_exit: WalkerReducer<State, OnNodeExitParams<State>> = ({state, $no
 
 	if (is_KVP_list($node)) {
 		// rewrite completely
-		console.log('TODO KVP', {state, $node})
-
 		const key_value_pairs: [string, string][] = []
 
 		let max_key_length = 0
 		let max_value_length = 0
 		state.sub_nodes.forEach(li_node => {
-			console.log({li_node})
+			//console.log({li_node})
 			const kv_node = li_node.$sub.content! as CheckedNode
 
 			const key_node = kv_node.$sub.key!

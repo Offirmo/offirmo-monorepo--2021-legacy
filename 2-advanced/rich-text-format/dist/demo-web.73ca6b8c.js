@@ -22575,7 +22575,7 @@ function walk_content($node, callbacks, state, depth) {
     });
     state = split1.reduce((state, paramAndText) => {
         const split2 = paramAndText.split('}}');
-        if (split2.length !== 2) throw new Error(`${consts_1.LIB}: syntax error in content "${$content}"!`);
+        if (split2.length !== 2) throw new Error(`${consts_1.LIB}: syntax error in content "${$content}", unmatched {{}}!`);
         const [sub_node_id, ...$filters] = split2.shift().split('|');
         let $sub_node = $sub_nodes[sub_node_id];
         if (!$sub_node && sub_node_id === 'br') $sub_node = SUB_NODE_BR;
@@ -22833,6 +22833,11 @@ function is_KVP_list($node) {
     return Object.values($node.$sub).every($node => $node.$content === '{{key}}: {{value}}');
 }
 exports.is_KVP_list = is_KVP_list;
+function is_uuid_list($node) {
+    if (!is_list($node)) return false;
+    return Object.values($node.$sub).every($node => !!($node.$hints || {}).uuid);
+}
+exports.is_uuid_list = is_uuid_list;
 //# sourceMappingURL=common.js.map
 },{}],"../../dist/src.es7.cjs/renderers/to_text.js":[function(require,module,exports) {
 "use strict";
@@ -22879,12 +22884,11 @@ const on_node_exit = ({ state, $node, depth }) => {
     }
     if (common_1.is_KVP_list($node)) {
         // rewrite completely
-        console.log('TODO KVP', { state, $node });
         const key_value_pairs = [];
         let max_key_length = 0;
         let max_value_length = 0;
         state.sub_nodes.forEach(li_node => {
-            console.log({ li_node });
+            //console.log({li_node})
             const kv_node = li_node.$sub.content;
             const key_node = kv_node.$sub.key;
             const value_node = kv_node.$sub.value;
@@ -22977,6 +22981,7 @@ exports.to_text = to_text;
 Object.defineProperty(exports, "__esModule", { value: true });
 const walk_1 = require("../walk");
 const common_1 = require("./common");
+const LIB = 'rich_text_to_html';
 const MANY_TABS = '																																							';
 function indent(n) {
     return MANY_TABS.slice(0, n);
@@ -23024,10 +23029,19 @@ const on_node_exit = ({ state, $node, depth }) => {
     if (common_1.is_list($node)) {
         switch ($hints.bullets_style) {
             case 'none':
-                classes.push('o⋄rich-text⋄ul--no-bullet');
+                classes.push('o⋄rich-text⋄list--no-bullet');
                 break;
             default:
                 break;
+        }
+        if (common_1.is_uuid_list($node)) {
+            console.log(`${LIB} seen uuid list`);
+            classes.push('o⋄rich-text⋄list--no-bullet');
+        }
+        if (common_1.is_KVP_list($node)) {
+            classes.push('o⋄rich-text⋄list--no-bullet');
+            // TODO rewrite completely
+            console.log(`${LIB} TODO KVP`);
         }
     }
     result += `<${element}`;
@@ -23173,8 +23187,11 @@ tslib_1.__exportStar(require("./types"), exports);
 tslib_1.__exportStar(require("./walk"), exports);
 tslib_1.__exportStar(require("./renderers/common"), exports);
 tslib_1.__exportStar(require("./utils/builder"), exports);
+// for convenience of the consumer
+var typescript_string_enums_1 = require("typescript-string-enums");
+exports.Enum = typescript_string_enums_1.Enum;
 //# sourceMappingURL=index.js.map
-},{"tslib":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/node_modules/tslib/tslib.es6.js","./renderers/to_debug":"../../dist/src.es7.cjs/renderers/to_debug.js","./renderers/to_actions":"../../dist/src.es7.cjs/renderers/to_actions.js","./renderers/to_text":"../../dist/src.es7.cjs/renderers/to_text.js","./renderers/to_html":"../../dist/src.es7.cjs/renderers/to_html.js","./types":"../../dist/src.es7.cjs/types.js","./walk":"../../dist/src.es7.cjs/walk.js","./renderers/common":"../../dist/src.es7.cjs/renderers/common.js","./utils/builder":"../../dist/src.es7.cjs/utils/builder.js"}],"../../node_modules/classnames/index.js":[function(require,module,exports) {
+},{"tslib":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/node_modules/tslib/tslib.es6.js","./renderers/to_debug":"../../dist/src.es7.cjs/renderers/to_debug.js","./renderers/to_actions":"../../dist/src.es7.cjs/renderers/to_actions.js","./renderers/to_text":"../../dist/src.es7.cjs/renderers/to_text.js","./renderers/to_html":"../../dist/src.es7.cjs/renderers/to_html.js","./types":"../../dist/src.es7.cjs/types.js","./walk":"../../dist/src.es7.cjs/walk.js","./renderers/common":"../../dist/src.es7.cjs/renderers/common.js","./utils/builder":"../../dist/src.es7.cjs/utils/builder.js","typescript-string-enums":"../../node_modules/typescript-string-enums/dist/index.js"}],"../../node_modules/classnames/index.js":[function(require,module,exports) {
 var define;
 /*!
   Copyright (c) 2017 Jed Watson.
@@ -23229,12 +23246,44 @@ var define;
 	}
 }());
 
+},{}],"../../src/renderers/common.ts":[function(require,module,exports) {
+"use strict";
+
+exports.__esModule = true;
+function is_list($node) {
+    return $node.$type === 'ul' || $node.$type === 'ol';
+}
+exports.is_list = is_list;
+function is_link($node) {
+    return !!$node.$hints.href;
+}
+exports.is_link = is_link;
+function is_KVP_list($node) {
+    if (!is_list($node)) return false;
+    return Object.values($node.$sub).every(function ($node) {
+        return $node.$content === '{{key}}: {{value}}';
+    });
+}
+exports.is_KVP_list = is_KVP_list;
+function is_uuid_list($node) {
+    if (!is_list($node)) return false;
+    return Object.values($node.$sub).every(function ($node) {
+        return !!($node.$hints || {}).uuid;
+    });
+}
+exports.is_uuid_list = is_uuid_list;
 },{}],"services/rich_text_to_react.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
+exports.NODE_TYPE_TO_EXTRA_CLASSES = exports.NODE_TYPE_TO_COMPONENT = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+exports.intermediate_on_node_exit = intermediate_on_node_exit;
+exports.intermediate_assemble = intermediate_assemble;
 exports.default = to_react;
 
 var _react = require('react');
@@ -23245,140 +23294,94 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
+var _common = require('../../../src/renderers/common');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const { walk, is_list } = require('../../../dist/src.es7.cjs');
+const { Enum, NodeType, walk, is_list, is_uuid_list } = require('../../../dist/src.es7.cjs');
 
 const LIB = 'rich_text_to_react';
 
-// turn the state into a react element
-function on_node_exit({ $node, $id, state, depth }) {
+const NODE_TYPE_TO_COMPONENT = exports.NODE_TYPE_TO_COMPONENT = {
+	[NodeType.heading]: 'h3',
+	[NodeType.inline_fragment]: 'div',
+	[NodeType.block_fragment]: 'div'
+};
+
+const NODE_TYPE_TO_EXTRA_CLASSES = exports.NODE_TYPE_TO_EXTRA_CLASSES = {
+	[NodeType.inline_fragment]: ['o⋄rich-text⋄inline']
+
+	// turn the state into a react element
+};function intermediate_on_node_exit({ $node, $id, state }) {
 	const { $type, $classes, $hints } = $node;
 
-	let children = state.children.map(c => c.element);
-	children = _react2.default.Children.map(children, (child, index) => {
+	const result = {
+		children: null,
+		classes: [...$classes],
+		component: NODE_TYPE_TO_COMPONENT[$type] || $type,
+		wrapper: children => children
+	};
+
+	result.children = _react2.default.Children.map(state.children.map(c => c.element), (child, index) => {
 		return typeof child === 'string' ? child : _react2.default.cloneElement(child, { key: `${index}` });
 	});
 
-	const classes = [...$classes];
+	result.classes.push(...(NODE_TYPE_TO_EXTRA_CLASSES[$type] || []));
 
 	if (is_list($node)) {
+		if (is_uuid_list($node)) {
+			console.log(`${LIB} seen uuid list`);
+			result.classes.push('o⋄rich-text⋄list--no-bullet');
+		}
+
 		switch ($hints.bullets_style) {
 			case 'none':
-				classes.push('o⋄rich-text⋄ul--no-bullet');
+				result.classes.push('o⋄rich-text⋄list--no-bullet');
 				break;
 
 			default:
 				break;
 		}
+
+		if ((0, _common.is_KVP_list)($node)) {
+			// TODO rewrite completely
+			console.log(`${LIB} TODO KVP`);
+			result.classes.push('o⋄rich-text⋄list--no-bullet');
+		}
 	}
 
-	if ($type === 'inline_fragment') classes.push('o⋄rich-text⋄inline');
+	if ($hints.href) result.wrapper = children => _react2.default.createElement(
+		'a',
+		{ href: $hints.href, target: '_blank' },
+		children
+	);
 
-	const class_names = (0, _classnames2.default)(...classes);
-	if ($classes.includes('monster')) {
-		children.push(_react2.default.createElement(
-			'span',
-			{ className: 'monster-emoji' },
-			$hints.possible_emoji
-		));
-	}
+	if (!Enum.isType(NodeType, $type)) result.wrapper = children => _react2.default.createElement(
+		'div',
+		{ className: 'o\u22C4rich-text\u22C4error' },
+		'TODO "',
+		$type,
+		'" ',
+		children
+	);
 
-	let element = null;
-	switch ($type) {
-		case 'span':
-			element = _react2.default.createElement(
-				'span',
-				{ className: class_names },
-				children
-			);break;
+	return result;
+}
 
-		case 'br':
-			element = _react2.default.createElement('br', { className: class_names });break;
-		case 'hr':
-			element = _react2.default.createElement('hr', { className: class_names });break;
+function intermediate_assemble({ children, classes, component, wrapper }) {
+	if (component === 'br' || component === 'hr') children = undefined;
 
-		case 'li':
-			element = _react2.default.createElement(
-				'li',
-				{ className: class_names },
-				children
-			);break;
-		case 'ol':
-			element = _react2.default.createElement(
-				'ol',
-				{ className: class_names },
-				children
-			);break;
-		case 'ul':
-			element = _react2.default.createElement(
-				'ul',
-				{ className: class_names },
-				children
-			);break;
+	return wrapper(_react2.default.createElement(component, {
+		className: (0, _classnames2.default)(...classes)
+	}, children));
+}
 
-		case 'strong':
-			element = _react2.default.createElement(
-				'strong',
-				{ className: class_names },
-				children
-			);break;
-		case 'em':
-			element = _react2.default.createElement(
-				'em',
-				{ className: class_names },
-				children
-			);break;
-		case 'section':
-			element = _react2.default.createElement(
-				'span',
-				{ className: class_names },
-				children
-			);break;
-		case 'heading':
-			element = _react2.default.createElement(
-				'h3',
-				{ className: class_names },
-				children
-			);break;
+// default
+function on_node_exit(params) {
+	const { children, classes, component, wrapper } = intermediate_on_node_exit(params);
 
-		case 'inline_fragment':
-		/* fallthrough */
-		case 'block_fragment':
-			element = _react2.default.createElement(
-				'div',
-				{ className: class_names },
-				children
-			);break;
-
-		default:
-			element = _react2.default.createElement(
-				'div',
-				{ className: class_names },
-				'TODO "',
-				$type,
-				'" ',
-				children
-			);
-			break;
-	}
-
-	if ($hints.uuid) {
-		console.log('seen element with uuid:', $node);
-		// TODO extensible
-		//element = <TBRPGElement uuid={$hints.uuid}>{element}</TBRPGElement>
-	}
-
-	if ($hints.href) {
-		element = _react2.default.createElement(
-			'a',
-			{ href: $hints.href, target: '_blank' },
-			element
-		);
-	}
-
-	state.element = element;
-	return state;
+	params.state.element = intermediate_assemble({ children, classes, component, wrapper });
+	return params.state;
 }
 
 function on_concatenate_str({ state, str }) {
@@ -23403,13 +23406,46 @@ const callbacks = {
 	on_node_exit,
 	on_concatenate_str,
 	on_concatenate_sub_node
-};
 
-function to_react(doc) {
-	//console.log('Rendering a rich text:', doc)
-	return walk(doc, callbacks).element;
+	////////////
+};function TEST_overriden_on_node_exit(params) {
+	const { children, classes, component, wrapper } = intermediate_on_node_exit(params);
+	const { state, $node } = params;
+	const { $type, $classes, $hints } = $node;
+
+	// XXX
+	/*
+ const class_names = classNames(...classes)
+ if ($classes.includes('monster')) {
+ 	children.push(<span className="monster-emoji">{$hints.possible_emoji}</span>)
+ }*/
+
+	let element = intermediate_assemble({ children, classes, component, wrapper });
+
+	if ($hints.uuid) {
+		//console.log(`${LIB} seen element with uuid:`, $node)
+		element = _react2.default.createElement(
+			'div',
+			{ className: 'o\u22C4rich-text\u22C4inline' },
+			element,
+			'[uuid=',
+			$hints.uuid,
+			']'
+		);
+	}
+
+	state.element = element;
+	return state;
 }
-},{"react":"../../node_modules/react/index.js","classnames":"../../node_modules/classnames/index.js","../../../dist/src.es7.cjs":"../../dist/src.es7.cjs/index.js"}],"components/multi-renderer.jsx":[function(require,module,exports) {
+////////////
+
+function to_react(doc, { on_node_exit_override = TEST_overriden_on_node_exit } = {}) {
+	//console.log(`${LIB} Rendering a rich text:`, doc)
+	return walk(doc, _extends({}, callbacks, {
+		on_node_exit: on_node_exit_override
+	})).element;
+}
+},{"react":"../../node_modules/react/index.js","classnames":"../../node_modules/classnames/index.js","../../../src/renderers/common":"../../src/renderers/common.ts","../../../dist/src.es7.cjs":"../../dist/src.es7.cjs/index.js"}],"components/multi-renderer.jsx":[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -23531,13 +23567,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 const RichText = require('..');
 
+/////// parts ///////
+
 const SUB_UL_ITEMS = exports.SUB_UL_ITEMS = {
 	2: { $type: 'span', $content: 'ul #2' },
 	1: { $type: 'span', $content: 'ul #1' },
 	3: { $type: 'span', $content: 'ul #3' }
 };
 
-const SUB_KEY_VALUE_PAIRS = exports.SUB_KEY_VALUE_PAIRS = {
+const SUB_UL_KEY_VALUE_PAIRS = exports.SUB_UL_KEY_VALUE_PAIRS = {
 	1: {
 		$type: 'inline_fragment',
 		$content: `{{key}}: {{value}}`,
@@ -23576,7 +23614,68 @@ const SUB_KEY_VALUE_PAIRS = exports.SUB_KEY_VALUE_PAIRS = {
 	}
 };
 
-const DEMO_BASE_TYPES = exports.DEMO_BASE_TYPES = {
+const DOC_WEAPON_01_NAME = exports.DOC_WEAPON_01_NAME = {
+	$classes: ['item__name', 'item-weapon-name'],
+	$content: '{{qualifier2|Capitalize}} {{qualifier1|Capitalize}} {{base|Capitalize}}',
+	$sub: {
+		qualifier2: {
+			$type: 'span',
+			$content: 'warfield king’s'
+		},
+		qualifier1: {
+			$type: 'span',
+			$content: 'onyx'
+		},
+		base: {
+			$type: 'span',
+			$content: 'longsword'
+		}
+	}
+};
+
+const DOC_WEAPON_01 = exports.DOC_WEAPON_01 = {
+	$type: 'span',
+	$classes: ['item', 'item-weapon', 'item--quality--legendary'],
+	$content: '{{weapon_name}} {{enhancement}}',
+	$sub: {
+		weapon_name: DOC_WEAPON_01_NAME,
+		enhancement: {
+			$type: 'span',
+			$classes: ['item--enhancement'],
+			$content: '+3'
+		}
+	},
+	$hints: {
+		uuid: '1234'
+	}
+};
+
+const DOC_PLACE_01 = exports.DOC_PLACE_01 = {
+	$type: 'span',
+	$classes: ['place'],
+	$content: 'the country of {{name}}',
+	$sub: {
+		name: {
+			$classes: ['place-name'],
+			$content: 'Foo'
+		}
+	}
+};
+
+const DOC_NPC_01 = exports.DOC_NPC_01 = {
+	$type: 'span',
+	$classes: ['person', 'npc', 'monster--rank--boss'],
+	$content: 'John Smith'
+};
+
+const SUB_UL_ACTIONABLE_ITEMS = exports.SUB_UL_ACTIONABLE_ITEMS = {
+	1: DOC_WEAPON_01,
+	2: DOC_WEAPON_01,
+	3: DOC_WEAPON_01
+
+	/////// COMPLETE DOCS ///////
+
+};const DOC_DEMO_BASE_TYPES = exports.DOC_DEMO_BASE_TYPES = {
 	$type: 'inline_fragment',
 	$classes: [],
 	$content: '{{fragment1}}{{fragment2}}',
@@ -23624,10 +23723,10 @@ const DEMO_BASE_TYPES = exports.DEMO_BASE_TYPES = {
 	}
 };
 
-const DEMO_ADVANCED_TYPES = exports.DEMO_ADVANCED_TYPES = {
+const DOC_DEMO_ADVANCED_TYPES = exports.DOC_DEMO_ADVANCED_TYPES = {
 	$type: 'inline_fragment',
 	$classes: [],
-	$content: '{{heading}}Key-value pairs:{{kvdefault}}Done.',
+	$content: '{{heading}}Key-value pairs:{{kvdefault}}Actionable items:{{uuid_list}}Done.',
 	$sub: {
 		heading: {
 			$type: 'heading',
@@ -23635,7 +23734,14 @@ const DEMO_ADVANCED_TYPES = exports.DEMO_ADVANCED_TYPES = {
 		},
 		kvdefault: {
 			$type: 'ul',
-			$sub: SUB_KEY_VALUE_PAIRS,
+			$sub: SUB_UL_KEY_VALUE_PAIRS,
+			$hints: {
+				//key_align: left,
+			}
+		},
+		uuid_list: {
+			$type: 'ol',
+			$sub: SUB_UL_ACTIONABLE_ITEMS,
 			$hints: {
 				//key_align: left,
 			}
@@ -23643,7 +23749,7 @@ const DEMO_ADVANCED_TYPES = exports.DEMO_ADVANCED_TYPES = {
 	}
 };
 
-const DEMO_HINTS = exports.DEMO_HINTS = {
+const DOC_DEMO_HINTS = exports.DOC_DEMO_HINTS = {
 	$type: 'inline_fragment',
 	$classes: [],
 	$content: '{{heading}}link: {{link}}{{br}}List with no bullets:{{list}}Done.',
@@ -23669,79 +23775,28 @@ const DEMO_HINTS = exports.DEMO_HINTS = {
 	}
 };
 
-const WEAPON_01_NAME = exports.WEAPON_01_NAME = {
-	$classes: ['item__name', 'item-weapon-name'],
-	$content: '{{qualifier2|Capitalize}} {{qualifier1|Capitalize}} {{base|Capitalize}}',
-	$sub: {
-		qualifier2: {
-			$type: 'span',
-			$content: 'warfield king’s'
-		},
-		qualifier1: {
-			$type: 'span',
-			$content: 'onyx'
-		},
-		base: {
-			$type: 'span',
-			$content: 'longsword'
-		}
-	}
-};
-
-const WEAPON_01 = exports.WEAPON_01 = {
-	$type: 'span',
-	$classes: ['item', 'item-weapon', 'item--quality--legendary'],
-	$content: '{{weapon_name}} {{enhancement}}',
-	$sub: {
-		weapon_name: WEAPON_01_NAME,
-		enhancement: {
-			$type: 'span',
-			$classes: ['item--enhancement'],
-			$content: '+3'
-		}
-	}
-};
-
-const PLACE_01 = exports.PLACE_01 = {
-	$type: 'span',
-	$classes: ['place'],
-	$content: 'the country of {{name}}',
-	$sub: {
-		name: {
-			$classes: ['place-name'],
-			$content: 'Foo'
-		}
-	}
-};
-
-const NPC_01 = exports.NPC_01 = {
-	$type: 'span',
-	$classes: ['person', 'npc', 'monster--rank--boss'],
-	$content: 'John Smith'
-};
-
-const MSG_01 = exports.MSG_01 = {
+const DOC_DEMO_RPG_01 = exports.DOC_DEMO_RPG_01 = {
 	$v: 1,
 	$type: 'block_fragment',
 	$content: 'You are in {{place}}. You meet {{npc}}.{{br}}He gives you a {{item}}.{{hr}}',
 	$sub: {
-		place: PLACE_01,
-		npc: NPC_01,
-		item: WEAPON_01
+		place: DOC_PLACE_01,
+		npc: DOC_NPC_01,
+		item: DOC_WEAPON_01
 	}
 };
 
-const MSG_02 = exports.MSG_02 = {
+const DOC_DEMO_RPG_02 = exports.DOC_DEMO_RPG_02 = {
 	$v: 1,
 	$type: 'ol',
 	$sub: {
-		1: WEAPON_01,
-		2: PLACE_01,
-		3: NPC_01
+		1: DOC_WEAPON_01,
+		2: DOC_PLACE_01,
+		3: DOC_NPC_01
 	}
 };
 
-const MSG_03 = exports.MSG_03 = RichText.block_fragment().pushText('' + 'Great sages prophetized your coming,{{br}}' + 'commoners are waiting for their hero{{br}}' + 'and kings are trembling from fear of change...{{br}}' + '…undoubtly, you’ll make a name in this world and fulfill your destiny!{{br}}').pushStrong('A great saga just started.').pushText('{{br}}loot:').pushNode(MSG_02, 'loot').done();
+const DOC_DEMO_RPG_03 = exports.DOC_DEMO_RPG_03 = RichText.block_fragment().pushText('' + 'Great sages prophetized your coming,{{br}}' + 'commoners are waiting for their hero{{br}}' + 'and kings are trembling from fear of change...{{br}}' + '…undoubtly, you’ll make a name in this world and fulfill your destiny!{{br}}').pushStrong('A great saga just started.').pushText('{{br}}loot:').pushNode(DOC_DEMO_RPG_02, 'loot').done();
 },{"..":"../../dist/src.es7.cjs/index.js"}],"components/root.jsx":[function(require,module,exports) {
 'use strict';
 
@@ -23761,7 +23816,7 @@ var _examples = require('../../examples');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const DATA = [_examples.DEMO_BASE_TYPES, _examples.DEMO_ADVANCED_TYPES, _examples.DEMO_HINTS, _examples.MSG_01, _examples.MSG_03];
+const DATA = [_examples.DOC_DEMO_BASE_TYPES, _examples.DOC_DEMO_ADVANCED_TYPES, _examples.DOC_DEMO_HINTS, _examples.DOC_DEMO_RPG_01, _examples.DOC_DEMO_RPG_03];
 
 class Root extends _react.Component {
 	constructor(...args) {

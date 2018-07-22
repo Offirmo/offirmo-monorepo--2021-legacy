@@ -13,4 +13,7 @@ tslib_1.__exportStar(require("./types"), exports);
 tslib_1.__exportStar(require("./walk"), exports);
 tslib_1.__exportStar(require("./renderers/common"), exports);
 tslib_1.__exportStar(require("./utils/builder"), exports);
+// for convenience of the consumer
+var typescript_string_enums_1 = require("typescript-string-enums");
+exports.Enum = typescript_string_enums_1.Enum;
 //# sourceMappingURL=index.js.map

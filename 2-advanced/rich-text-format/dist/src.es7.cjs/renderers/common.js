@@ -15,4 +15,11 @@ function is_KVP_list($node) {
         .every($node => $node.$content === '{{key}}: {{value}}');
 }
 exports.is_KVP_list = is_KVP_list;
+function is_uuid_list($node) {
+    if (!is_list($node))
+        return false;
+    return Object.values($node.$sub)
+        .every($node => !!($node.$hints || {}).uuid);
+}
+exports.is_uuid_list = is_uuid_list;
 //# sourceMappingURL=common.js.map

@@ -6,7 +6,7 @@ console.log('Rich Text Format Demo')
 
 const RichText = require('../..')
 
-import { MSG_01, MSG_02, MSG_03 } from '../examples'
+import { DOC_DEMO_RPG_01, DOC_DEMO_RPG_02, DOC_DEMO_RPG_03 } from '../examples'
 
 let callbacks_ansi = null
 try {
@@ -20,7 +20,7 @@ catch(e) {}
 ////////////////////////////////////
 if (false) {
 	console.log('\n------- 1 -------')
-	const doc = MSG_01
+	const doc = DOC_DEMO_RPG_01
 
 	console.log('\n------- to debug -------\n')
 	RichText.to_debug(doc)
@@ -44,7 +44,7 @@ if (false) {
 ////////////////////////////////////
 if (true) {
 	console.log('\n------- 2 -------')
-	const doc = MSG_03
+	const doc = DOC_DEMO_RPG_03
 
 	//console.log('\n------- to text -------\n' + RichText.to_text(doc))
 	//console.log('\n------- to ansi -------\n' + RichText.walk(doc, callbacks_ansi))

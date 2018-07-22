@@ -50,7 +50,7 @@ function walk_content($node, callbacks, state, depth) {
     state = split1.reduce((state, paramAndText) => {
         const split2 = paramAndText.split('}}');
         if (split2.length !== 2)
-            throw new Error(`${consts_1.LIB}: syntax error in content "${$content}"!`);
+            throw new Error(`${consts_1.LIB}: syntax error in content "${$content}", unmatched {{}}!`);
         const [sub_node_id, ...$filters] = split2.shift().split('|');
         let $sub_node = $sub_nodes[sub_node_id];
         if (!$sub_node && sub_node_id === 'br')

@@ -136,7 +136,7 @@ function walk_content<State>(
 	state = split1.reduce((state, paramAndText) => {
 		const split2 = paramAndText.split('}}')
 		if (split2.length !== 2)
-			throw new Error(`${LIB}: syntax error in content "${$content}"!`)
+			throw new Error(`${LIB}: syntax error in content "${$content}", unmatched {{}}!`)
 
 		const [ sub_node_id, ...$filters ] = split2.shift()!.split('|')
 
