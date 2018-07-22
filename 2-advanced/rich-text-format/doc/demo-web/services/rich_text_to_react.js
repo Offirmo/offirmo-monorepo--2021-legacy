@@ -135,7 +135,7 @@ function TEST_overriden_on_node_exit(params) {
 
 	if ($hints.uuid) {
 		//console.log(`${LIB} seen element with uuid:`, $node)
-		element = <div className="o⋄rich-text⋄inline">{element}[uuid={$hints.uuid}]</div>
+		element = <button>{element}</button>
 	}
 
 	state.element = element

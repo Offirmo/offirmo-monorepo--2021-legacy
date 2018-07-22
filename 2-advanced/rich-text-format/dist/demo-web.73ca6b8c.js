@@ -23048,6 +23048,8 @@ const on_node_exit = ({ state, $node, depth }) => {
     if (classes.length) result += ` class="${classes.join(' ')}"`;
     result += '>' + state.str + ($sub_node_count ? '\n' + indent(depth) : '') + `</${element}>`;
     if (common_1.is_link($node)) result = `<a href="${$hints.href}" target="_blank">${result}</a>`;
+    // for demo only
+    if ($hints.uuid) result = `<button>${result}</button>`;
     state.str = result;
     return state;
 };
@@ -23425,12 +23427,9 @@ const callbacks = {
 	if ($hints.uuid) {
 		//console.log(`${LIB} seen element with uuid:`, $node)
 		element = _react2.default.createElement(
-			'div',
-			{ className: 'o\u22C4rich-text\u22C4inline' },
-			element,
-			'[uuid=',
-			$hints.uuid,
-			']'
+			'button',
+			null,
+			element
 		);
 	}
 

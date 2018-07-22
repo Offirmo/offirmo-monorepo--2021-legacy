@@ -72,6 +72,9 @@ const on_node_exit = ({ state, $node, depth }) => {
     result += '>' + state.str + ($sub_node_count ? '\n' + indent(depth) : '') + `</${element}>`;
     if (common_1.is_link($node))
         result = `<a href="${$hints.href}" target="_blank">${result}</a>`;
+    // for demo only
+    if ($hints.uuid)
+        result = `<button>${result}</button>`;
     state.str = result;
     return state;
 };

@@ -105,6 +105,10 @@ const on_node_exit: WalkerReducer<State, OnNodeExitParams<State>> = ({state, $no
 	if (is_link($node))
 		result = `<a href="${$hints.href}" target="_blank">${result}</a>`
 
+	// for demo only
+	if ($hints.uuid)
+		result = `<button>${result}</button>`
+
 	state.str = result
 	return state
 }
