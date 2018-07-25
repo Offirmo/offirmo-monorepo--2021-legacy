@@ -2,13 +2,13 @@ const RichText = require('..')
 
 /////// parts ///////
 
-export const SUB_UL_ITEMS = {
+const SUB_UL_ITEMS = {
 	2: {$type: 'span', $content: 'ul #2'},
 	1: {$type: 'span', $content: 'ul #1'},
 	3: {$type: 'span', $content: 'ul #3'},
 }
 
-export const SUB_UL_KEY_VALUE_PAIRS = {
+const SUB_UL_KEY_VALUE_PAIRS = {
 	1: {
 		$type: 'inline_fragment',
 		$content: `{{key}}: {{value}}`,
@@ -47,8 +47,8 @@ export const SUB_UL_KEY_VALUE_PAIRS = {
 	},
 }
 
-export const DOC_WEAPON_01_NAME = {
-	$classes: ['item__name', 'item-weapon-name'],
+const DOC_WEAPON_01_NAME = {
+	$classes: ['item--name', 'item--weapon--name'],
 	$content: '{{qualifier2|Capitalize}} {{qualifier1|Capitalize}} {{base|Capitalize}}',
 	$sub: {
 		qualifier2: {
@@ -66,9 +66,9 @@ export const DOC_WEAPON_01_NAME = {
 	},
 }
 
-export const DOC_WEAPON_01 = {
+const DOC_WEAPON_01 = {
 	$type: 'span',
-	$classes: ['item', 'item-weapon', 'item--quality--legendary'],
+	$classes: ['item', 'item--weapon', 'item--quality--legendary'],
 	$content: '{{weapon_name}} {{enhancement}}',
 	$sub: {
 		weapon_name: DOC_WEAPON_01_NAME,
@@ -83,25 +83,25 @@ export const DOC_WEAPON_01 = {
 	}
 }
 
-export const DOC_PLACE_01 = {
+const DOC_PLACE_01 = {
 	$type: 'span',
 	$classes: ['place'],
 	$content: 'the country of {{name}}',
 	$sub: {
 		name: {
-			$classes: ['place-name'],
+			$classes: ['place--name'],
 			$content: 'Foo',
 		}
 	},
 }
 
-export const DOC_NPC_01 = {
+const DOC_NPC_01 = {
 	$type: 'span',
 	$classes: ['person', 'npc', 'monster--rank--boss'],
 	$content: 'John Smith',
 }
 
-export const SUB_UL_ACTIONABLE_ITEMS = {
+const SUB_UL_ACTIONABLE_ITEMS = {
 	1: DOC_WEAPON_01,
 	2: DOC_WEAPON_01,
 	3: DOC_WEAPON_01,
@@ -109,7 +109,7 @@ export const SUB_UL_ACTIONABLE_ITEMS = {
 
 /////// COMPLETE DOCS ///////
 
-export const DOC_DEMO_BASE_TYPES = {
+const DOC_DEMO_BASE_TYPES = {
 	$type: 'inline_fragment',
 	$classes: [],
 	$content: '{{fragment1}}{{fragment2}}',
@@ -157,7 +157,7 @@ export const DOC_DEMO_BASE_TYPES = {
 	},
 }
 
-export const DOC_DEMO_ADVANCED_TYPES = {
+const DOC_DEMO_ADVANCED_TYPES = {
 	$type: 'inline_fragment',
 	$classes: [],
 	$content: '{{heading}}Key-value pairs:{{kvdefault}}Actionable items:{{uuid_list}}Done.',
@@ -183,7 +183,7 @@ export const DOC_DEMO_ADVANCED_TYPES = {
 	},
 }
 
-export const DOC_DEMO_HINTS = {
+const DOC_DEMO_HINTS = {
 	$type: 'inline_fragment',
 	$classes: [],
 	$content: '{{heading}}link: {{link}}{{br}}List with no bullets:{{list}}Done.',
@@ -209,7 +209,7 @@ export const DOC_DEMO_HINTS = {
 	},
 }
 
-export const DOC_DEMO_RPG_01 = {
+const DOC_DEMO_RPG_01 = {
 	$v: 1,
 	$type: 'block_fragment',
 	$content: 'You are in {{place}}. You meet {{npc}}.{{br}}He gives you a {{item}}.{{hr}}',
@@ -220,7 +220,7 @@ export const DOC_DEMO_RPG_01 = {
 	},
 }
 
-export const DOC_DEMO_RPG_02 = {
+const DOC_DEMO_RPG_02 = {
 	$v: 1,
 	$type: 'ol',
 	$sub: {
@@ -230,7 +230,7 @@ export const DOC_DEMO_RPG_02 = {
 	},
 }
 
-export const DOC_DEMO_RPG_03 = RichText.block_fragment()
+const DOC_DEMO_RPG_03 = RichText.block_fragment()
 	.pushText(''
 		+ 'Great sages prophetized your coming,{{br}}'
 		+ 'commoners are waiting for their hero{{br}}'
@@ -241,3 +241,14 @@ export const DOC_DEMO_RPG_03 = RichText.block_fragment()
 	.pushText('{{br}}loot:')
 	.pushNode(DOC_DEMO_RPG_02, 'loot')
 	.done()
+
+////////////
+
+module.exports = {
+	DOC_DEMO_BASE_TYPES,
+	DOC_DEMO_ADVANCED_TYPES,
+	DOC_DEMO_HINTS,
+	DOC_DEMO_RPG_01,
+	DOC_DEMO_RPG_02,
+	DOC_DEMO_RPG_03,
+}

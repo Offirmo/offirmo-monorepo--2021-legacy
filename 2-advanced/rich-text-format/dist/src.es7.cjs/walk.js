@@ -36,7 +36,7 @@ const SUB_NODE_BR = {
 const SUB_NODE_HR = {
     $type: 'hr',
 };
-function walk_content($node, callbacks, state, depth) {
+function walk_content($node, callbacks, state, depth, options) {
     const { $content, $sub: $sub_nodes } = $node;
     const split1 = $content.split('{{');
     const initial_str = split1.shift();
@@ -46,7 +46,7 @@ function walk_content($node, callbacks, state, depth) {
             state,
             $node,
             depth,
-        });
+        }, options);
     state = split1.reduce((state, paramAndText) => {
         const split2 = paramAndText.split('}}');
         if (split2.length !== 2)
@@ -59,7 +59,7 @@ function walk_content($node, callbacks, state, depth) {
             $sub_node = SUB_NODE_HR;
         if (!$sub_node)
             throw new Error(`${consts_1.LIB}: syntax error in content "${$content}", it's referring to an unknown sub-node "${sub_node_id}"!`);
-        let sub_state = walk($sub_node, callbacks, {
+        let sub_state = walk($sub_node, callbacks, options, {
             $parent_node: $node,
             $id: sub_node_id,
             depth: depth + 1,
@@ -74,14 +74,14 @@ function walk_content($node, callbacks, state, depth) {
                     state,
                     $node,
                     depth
-                });
+                }, options);
             return callbacks.on_filter({
                 $filter,
                 $filters,
                 state,
                 $node,
                 depth,
-            });
+            }, options);
         }, sub_state);
         // TODO detect unused $subnodes?
         state = callbacks.on_concatenate_sub_node({
@@ -91,37 +91,40 @@ function walk_content($node, callbacks, state, depth) {
             state,
             $node: utils_1.normalize_node($sub_node),
             depth,
-        });
+        }, options);
         if (split2[0])
             state = callbacks.on_concatenate_str({
                 str: split2[0],
                 state,
                 $node,
                 depth,
-            });
+            }, options);
         return state;
     }, state);
     return state;
 }
-function walk($raw_node, raw_callbacks, 
+function walk($raw_node, raw_callbacks, options = {}, 
 // internal opts when recursing:
 { $parent_node, $id = 'root', depth = 0, } = {}) {
     const $node = utils_1.normalize_node($raw_node);
     const { $type, $classes, $sub: $sub_nodes, } = $node;
+    // quick check
+    if (!Object.keys(raw_callbacks).every(k => k.startsWith('on_')))
+        console.warn(`${consts_1.LIB} Bad callbacks, check the API!`);
     let callbacks = raw_callbacks;
     const isRoot = !$parent_node;
     if (isRoot) {
         callbacks = Object.assign({}, get_default_callbacks(), callbacks);
-        callbacks.on_root_enter();
+        callbacks.on_root_enter(options);
     }
-    let state = callbacks.on_node_enter({ $node, $id, depth });
+    let state = callbacks.on_node_enter({ $node, $id, depth }, options);
     // TODO class begin / start ?
     state = $classes.reduce((state, $class) => callbacks.on_class_before({
         $class,
         state,
         $node,
         depth
-    }), state);
+    }, options), state);
     if ($type === 'ul' || $type === 'ol') {
         // special case of sub-content
         const sorted_keys = Object.keys($sub_nodes).sort();
@@ -133,7 +136,7 @@ function walk($raw_node, raw_callbacks,
                     'content': $sub_nodes[key]
                 }
             };
-            let sub_state = walk($sub_node, callbacks, {
+            let sub_state = walk($sub_node, callbacks, options, {
                 $parent_node: $node,
                 depth: depth + 1,
                 $id: key,
@@ -145,20 +148,20 @@ function walk($raw_node, raw_callbacks,
                 $node: utils_1.normalize_node($sub_node),
                 $parent_node: $node,
                 depth,
-            });
+            }, options);
         });
     }
     else
-        state = walk_content($node, callbacks, state, depth);
-    state = $classes.reduce((state, $class) => callbacks.on_class_after({ $class, state, $node, depth }), state);
+        state = walk_content($node, callbacks, state, depth, options);
+    state = $classes.reduce((state, $class) => callbacks.on_class_after({ $class, state, $node, depth }, options), state);
     const fine_type_cb_id = `on_type_${$type}`;
     const fine_type_callback = callbacks[fine_type_cb_id];
     if (fine_type_callback)
-        state = fine_type_callback({ $type, $parent_node, state, $node, depth });
-    state = callbacks.on_type({ $type, $parent_node, state, $node, depth });
-    state = callbacks.on_node_exit({ $node, $id, state, depth });
+        state = fine_type_callback({ $type, $parent_node, state, $node, depth }, options);
+    state = callbacks.on_type({ $type, $parent_node, state, $node, depth }, options);
+    state = callbacks.on_node_exit({ $node, $id, state, depth }, options);
     if (!$parent_node)
-        state = callbacks.on_root_exit({ state, $node, depth: 0 });
+        state = callbacks.on_root_exit({ state, $node, depth: 0 }, options);
     return state;
 }
 exports.walk = walk;

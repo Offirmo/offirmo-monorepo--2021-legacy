@@ -21,6 +21,13 @@ bolt ws run cheatsheet
 bolt ws run cheatsheet --only @offirmo/*
 bolt ws run cheatsheet --only @oh-my-rpg/*
 
+bolt ws run build --only @offirmo/*
+bolt ws run test --only @offirmo/*
+bolt ws run build --only @oh-my-rpg/*
+bolt ws run test --only @oh-my-rpg/*
+bolt ws run build
+
+
 npx yarn-tools list-duplicates yarn.lock
 
 bolt ws run clean

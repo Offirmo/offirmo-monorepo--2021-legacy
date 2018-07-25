@@ -27,6 +27,7 @@
 		"prettyjson": "^1",
 		"react": "^16",
 		"react-dom": "^16",
+		"tiny-invariant": "^0.0.3",
 		"tslib": "^1"
 	},
 	"scripts": {
@@ -40,6 +41,6 @@
 		"dev": "run-s clean build:dev:watch",
 		"build": "run-s clean build:prod",
 		"cheatsheet": "node doc/cheatsheet.js",
-		"demo": "node doc/demo/index.js"
+		"demo": "node doc/demo-node/index.js"
 	}
 }

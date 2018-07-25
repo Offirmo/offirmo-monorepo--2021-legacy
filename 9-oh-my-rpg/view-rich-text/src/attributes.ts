@@ -4,7 +4,7 @@ import { State as CharacterState, CharacterAttribute, CHARACTER_ATTRIBUTES_SORTE
 
 function render_avatar(state: CharacterState): RichText.Document {
 	// TODO refactor
-	const $doc = RichText.section()
+	const $doc = RichText.block_fragment()
 		.pushNode(RichText.heading().pushText('Identity:{{br}}').done(), 'header')
 		.pushText('name:  {{name}}{{br}}')
 		.pushText('class: {{class}}')
@@ -27,6 +27,7 @@ function render_attributes(state: CharacterState): RichText.Document {
 		.done()
 
 	// TODO better sort
+	// TODO KV
 	CHARACTER_ATTRIBUTES_SORTED.forEach((stat: CharacterAttribute, index: number) => {
 		const label = stat
 		const value = state.attributes[stat]
@@ -41,7 +42,7 @@ function render_attributes(state: CharacterState): RichText.Document {
 		$doc_list.$sub['' + index] = $doc_item
 	})
 
-	const $doc = RichText.section()
+	const $doc = RichText.block_fragment()
 		.pushNode(RichText.heading().pushText('Attributes:').done(), 'header')
 		.pushNode($doc_list, 'list')
 		.done()
@@ -51,9 +52,9 @@ function render_attributes(state: CharacterState): RichText.Document {
 
 
 function render_character_sheet(state: CharacterState): RichText.Document {
-	const $doc = RichText.section()
+	const $doc = RichText.block_fragment()
 		.pushNode(render_avatar(state), 'avatar')
-		.pushLineBreak()
+		//.pushLineBreak()
 		.pushNode(render_attributes(state), 'attributes')
 		.done()
 

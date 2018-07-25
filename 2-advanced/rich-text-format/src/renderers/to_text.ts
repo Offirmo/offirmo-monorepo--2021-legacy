@@ -4,7 +4,6 @@ import {
 	OnConcatenateStringParams,
 	OnConcatenateSubNodeParams,
 	OnNodeEnterParams, OnNodeExitParams,
-	OnTypeParams,
 	walk,
 	WalkerCallbacks,
 	WalkerReducer
@@ -12,7 +11,14 @@ import {
 
 import { is_link, is_KVP_list } from './common'
 
-export type State = {
+export type Options = {
+	style: 'basic' | 'advanced' | 'markdown'
+}
+export const DEFAULT_OPTIONS: Options = {
+	style: 'advanced'
+}
+
+type State = {
 	sub_nodes: CheckedNode[]
 	starts_with_block: boolean
 	ends_with_block: boolean
@@ -20,16 +26,23 @@ export type State = {
 }
 
 
-const on_node_exit: WalkerReducer<State, OnNodeExitParams<State>> = ({state, $node, depth}) => {
+const on_node_exit: WalkerReducer<State, OnNodeExitParams<State>, Options> = ({state, $node, depth}, {style}) => {
 	//console.log('[on_type]', { $type, state })
 
-	const markdown = true
-	if (markdown) {
-		switch ($node.$type) {
+	switch ($node.$type) {
+		case 'br':
+			state.ends_with_block = true;
+			break
 
+		default:
+			break
+	}
+
+	if (style === 'markdown') {
+		switch ($node.$type) {
 			case 'heading':
 				state.str = `### ${state.str}`
-				  break
+				break
 
 			case 'strong':
 				state.str = `**${state.str}**`
@@ -37,10 +50,6 @@ const on_node_exit: WalkerReducer<State, OnNodeExitParams<State>> = ({state, $no
 
 			case 'em':
 				state.str = `_${state.str}_`
-				break
-
-			case 'br':
-				state.ends_with_block = true;
 				break
 
 			case 'hr':
@@ -56,11 +65,6 @@ const on_node_exit: WalkerReducer<State, OnNodeExitParams<State>> = ({state, $no
 	}
 	else {
 		switch ($node.$type) {
-
-			case 'br':
-				state.ends_with_block = true;
-				break
-
 			case 'hr':
 				state.str = '------------------------------------------------------------'
 				break
@@ -68,33 +72,33 @@ const on_node_exit: WalkerReducer<State, OnNodeExitParams<State>> = ({state, $no
 			default:
 				break
 		}
-	}
 
-	if (is_KVP_list($node)) {
-		// rewrite completely
-		const key_value_pairs: [string, string][] = []
+		if (style === 'advanced' && is_KVP_list($node)) {
+			// rewrite completely to a better-looking one
+			const key_value_pairs: [string, string][] = []
 
-		let max_key_length = 0
-		let max_value_length = 0
-		state.sub_nodes.forEach(li_node => {
-			//console.log({li_node})
-			const kv_node = li_node.$sub.content! as CheckedNode
+			let max_key_length = 0
+			let max_value_length = 0
+			state.sub_nodes.forEach(li_node => {
+				//console.log({li_node})
+				const kv_node = li_node.$sub.content! as CheckedNode
 
-			const key_node = kv_node.$sub.key!
-			const value_node = kv_node.$sub.value!
+				const key_node = kv_node.$sub.key!
+				const value_node = kv_node.$sub.value!
 
-			const key_text = to_text(key_node)
-			const value_text = to_text(value_node)
+				const key_text = to_text(key_node)
+				const value_text = to_text(value_node)
 
-			max_key_length = Math.max(max_key_length, key_text.length)
-			max_value_length = Math.max(max_value_length, value_text.length)
+				max_key_length = Math.max(max_key_length, key_text.length)
+				max_value_length = Math.max(max_value_length, value_text.length)
 
-			key_value_pairs.push([key_text, value_text])
-		})
+				key_value_pairs.push([key_text, value_text])
+			})
 
-		state.str = key_value_pairs.map(([key_text, value_text]) => {
-			return key_text.padEnd(max_key_length + 1, '.') + value_text.padStart(max_value_length + 1, '.')
-		}).join('\n')
+			state.str = key_value_pairs.map(([key_text, value_text]) => {
+				return key_text.padEnd(max_key_length + 1, '.') + value_text.padStart(max_value_length + 1, '.')
+			}).join('\n')
+		}
 	}
 
 	if (NODE_TYPE_TO_DISPLAY_MODE[$node.$type] === 'block') {
@@ -105,23 +109,35 @@ const on_node_exit: WalkerReducer<State, OnNodeExitParams<State>> = ({state, $no
 	return state
 }
 
-const on_concatenate_sub_node: WalkerReducer<State, OnConcatenateSubNodeParams<State>> = ({state, sub_state, $node, $id, $parent_node}) => {
+const on_concatenate_sub_node: WalkerReducer<State, OnConcatenateSubNodeParams<State>, Options> = ({state, sub_state, $node, $id, $parent_node}, {style}) => {
 	let sub_str = sub_state.str
 	let sub_starts_with_block = sub_state.starts_with_block
 
 	state.sub_nodes.push($node)
 
 	switch ($parent_node.$type) {
-		case 'ul':
+		case 'ul': {
 			// automake sub-state a ul > li
-			sub_starts_with_block = true
-			sub_str = '- ' + sub_str
-			break
+			const bullet: string = (() => {
+				if ($parent_node.$hints.bullets_style === 'none' && style === 'advanced')
+					return ''
 
+				return '- '
+			})()
+			sub_starts_with_block = true
+			sub_str = bullet + sub_str
+			break
+	}
 		case 'ol':
 			// automake sub-state a ol > li
+			const bullet: string = (() => {
+				if (style === 'markdown')
+					return `${$id}. `
+
+				return `${(' ' + $id).slice(-2)}. `
+			})()
 			sub_starts_with_block = true
-			sub_str = `${(' ' + $id).slice(-2)}. ` + sub_str
+			sub_str = bullet + sub_str
 			break
 
 		default:
@@ -158,8 +174,8 @@ const on_concatenate_sub_node: WalkerReducer<State, OnConcatenateSubNodeParams<S
 	return state
 }
 
-const callbacks: Partial<WalkerCallbacks<State>> = {
-	on_node_enter: ({$node}: OnNodeEnterParams<State>) => ({
+const callbacks: Partial<WalkerCallbacks<State, Options>> = {
+	on_node_enter: () => ({
 		sub_nodes: [],
 		starts_with_block: false,
 		ends_with_block: false,
@@ -178,8 +194,15 @@ const callbacks: Partial<WalkerCallbacks<State>> = {
 	on_node_exit,
 }
 
-function to_text($doc: Node): string {
-	return walk<State>($doc, callbacks).str
+function to_text(
+	$doc: Node,
+	options: Options = DEFAULT_OPTIONS,
+	callback_overrides: Partial<WalkerCallbacks<State, Options>> = {}
+): string {
+	return walk<State, Options>($doc, {
+		...callbacks,
+		...callback_overrides
+	}, options).str
 }
 
 export {

@@ -1,5 +1,4 @@
 import React from 'react'
-import renderProps from 'render-props'
 
 import { get_lib_SEC } from './sec'
 

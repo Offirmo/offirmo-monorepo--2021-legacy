@@ -136,6 +136,7 @@
 		"universal-analytics": "^0.4",
 		"url-loader": "^1",
 		"username": "^3",
+		"tiny-invariant": "^0.0.3",
 		"webpack": "^4",
 		"webpack-cli": "^3",
 		"webpack-dashboard": "^2",

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import ErrorBoundary from '@offirmo/react-error-boundary'
 
 const RichText = require('../../../dist/src.es7.cjs')
-import rich_text_to_react from '../services/rich_text_to_react'
+import rich_text_to_react from '../../../../rich-text-format-to-react'
 
 const RichTextView = ({doc, mode = 'to_html'}) => {
 	switch(mode) {
@@ -17,9 +17,10 @@ const RichTextView = ({doc, mode = 'to_html'}) => {
 			return <div className="o⋄rich-text">{rich_text_to_react(doc)}</div>
 
 		default:
-			return `<RichTextView /> unknown mode "${mode}"!`
+			return <div>Unknown mode "{mode}"!</div>
 	}
 }
+
 
 export default class MultiRenderer extends Component {
 

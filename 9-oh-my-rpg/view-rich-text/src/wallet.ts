@@ -23,7 +23,7 @@ function render_wallet(wallet: WalletState): RichText.Document {
 		$doc_list.$sub[currency] = render_currency_amount(currency, amount)
 	})
 
-	const $doc = RichText.section()
+	const $doc = RichText.block_fragment()
 		.pushNode(RichText.heading().pushText('Wallet:').done(), 'header')
 		.pushNode($doc_list, 'list')
 		.done()

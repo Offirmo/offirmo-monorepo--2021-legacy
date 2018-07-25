@@ -10,7 +10,6 @@ import * as RichText from '@offirmo/rich-text-format'
 import { render_item } from './items'
 import { render_currency_amount } from './wallet'
 import { render_monster } from './monster'
-// TODO render attribute
 
 
 function render_adventure(a: Adventure): RichText.Document {
@@ -27,9 +26,9 @@ function render_adventure(a: Adventure): RichText.Document {
 	// coin
 	// improved_item
 	// 2. also generate some "summaries" for some gains
-	let $listing_of_loot = RichText.span().done()
-	let $listing_of_character_improvement = RichText.span().done()
-	let $listing_of_item_improvement = RichText.span().done()
+	let $listing_of_loot = RichText.block_fragment().done()
+	let $listing_of_character_improvement = RichText.block_fragment().done()
+	let $listing_of_item_improvement = RichText.block_fragment().done()
 	// make sure that we handled every possible outcomes
 	const handled_adventure_outcomes_so_far: Set<string> = new Set()
 
@@ -64,8 +63,8 @@ function render_adventure(a: Adventure): RichText.Document {
 
 		const hasLoot = !!Object.keys($loot_list.$sub).length
 		if (hasLoot)
-			$listing_of_loot = RichText.section()
-				.pushLineBreak()
+			$listing_of_loot = RichText.block_fragment()
+				//.pushLineBreak()
 				.pushText('Loot:')
 				.pushNode($loot_list, 'list')
 				.done()
@@ -97,8 +96,8 @@ function render_adventure(a: Adventure): RichText.Document {
 
 		const has_improvement = !!Object.keys($improvement_list.$sub).length
 		if (has_improvement)
-			$listing_of_character_improvement = RichText.section()
-				.pushLineBreak()
+			$listing_of_character_improvement = RichText.block_fragment()
+				//.pushLineBreak()
 				.pushText('Character improvement:')
 				.pushNode($improvement_list, 'list')
 				.done()
@@ -116,8 +115,8 @@ function render_adventure(a: Adventure): RichText.Document {
 			handled_adventure_outcomes_so_far.add('weapon_improvement')
 
 		if (has_improvement)
-			$listing_of_item_improvement = RichText.section()
-				.pushLineBreak()
+			$listing_of_item_improvement = RichText.block_fragment()
+				//.pushLineBreak()
 				.pushText('Item improvement:')
 				.pushNode($improvement_list, 'list')
 				.done()
@@ -140,7 +139,7 @@ function render_adventure(a: Adventure): RichText.Document {
 	const _ = I18N_ADVENTURES.en as any
 	const story = _.adventures[a.hid]
 
-	const $doc = RichText.section()
+	const $doc = RichText.block_fragment()
 		.pushText(story)
 		//.pushLineBreak()
 		//.pushNode($listing_of_loot, 'loot')

@@ -16,7 +16,7 @@ function render_account_info(m, extra = {}) {
     meta_infos['telemetry allowed'] = String(m.allow_telemetry)
     if (m.email) meta_infos['email'] = m.email
     */
-    const $doc = RichText.span()
+    const $doc = RichText.block_fragment()
         .pushNode(RichText.heading().pushText('Account infos:').done(), 'header')
         .pushNode(render_meta_infos(meta_infos), 'list')
         .done();

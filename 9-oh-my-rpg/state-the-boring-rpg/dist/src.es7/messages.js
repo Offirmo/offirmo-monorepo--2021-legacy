@@ -3,7 +3,7 @@ import * as RichText from '@offirmo/rich-text-format';
 function get_recap(state) {
     const isNewGame = (state.meaningful_interaction_count === 0);
     if (isNewGame) {
-        return RichText.section()
+        return RichText.inline_fragment()
             .pushText('You are an ')
             .pushStrong('otherworlder')
             .pushText(', an adventurer from another world…{{br}}')
@@ -14,7 +14,7 @@ function get_recap(state) {
             .pushText('But for now, let’s go on an adventure, for glory ⚔ and loot 📦 💰 !')
             .done();
     }
-    return RichText.section()
+    return RichText.block_fragment()
         .pushText('You are ')
         .pushNode(RichText.span().addClass('avatar__name').pushText(state.avatar.name).done(), 'name')
         .pushText(', the ')
@@ -29,7 +29,7 @@ function get_recap(state) {
 function get_tip(state) {
     const hasEverPlayed = !!state.click_count;
     if (!hasEverPlayed)
-        return RichText.section()
+        return RichText.block_fragment()
             .pushStrong('Tip: ')
             .pushText('Select ')
             .pushStrong('play')

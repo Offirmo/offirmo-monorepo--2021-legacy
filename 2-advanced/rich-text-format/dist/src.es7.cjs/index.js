@@ -6,6 +6,7 @@ exports.to_debug = to_debug_1.to_debug;
 var to_actions_1 = require("./renderers/to_actions");
 exports.to_actions = to_actions_1.to_actions;
 var to_text_1 = require("./renderers/to_text");
+exports.to_text_callbacks = to_text_1.callbacks;
 exports.to_text = to_text_1.to_text;
 var to_html_1 = require("./renderers/to_html");
 exports.to_html = to_html_1.to_html;

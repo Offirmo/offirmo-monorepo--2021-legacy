@@ -44,32 +44,32 @@ export interface OnTypeParams<State> extends BaseParams<State> {
 	$parent_node?: CheckedNode
 }
 
-interface WalkerReducer<State, P extends BaseParams<State>> {
-	(params: P): State
+interface WalkerReducer<State, P extends BaseParams<State>, RenderingOptions> {
+	(params: P, options: RenderingOptions): State
 }
 
-interface WalkerCallbacks<State> {
-	on_root_enter(): void,
-	on_root_exit(params: OnRootExitParams<State>): any,
-	on_node_enter(params: OnNodeEnterParams<State>): State,
-	on_node_exit: WalkerReducer<State, OnNodeExitParams<State>>,
-	on_concatenate_str: WalkerReducer<State, OnConcatenateStringParams<State>>,
-	on_concatenate_sub_node: WalkerReducer<State, OnConcatenateSubNodeParams<State>>,
-	on_filter: WalkerReducer<State, OnFilterParams<State>>,
-	on_filter_Capitalize: WalkerReducer<State, OnFilterParams<State>>,
-	on_class_before: WalkerReducer<State, OnClassParams<State>>,
-	on_class_after: WalkerReducer<State, OnClassParams<State>>,
-	on_type: WalkerReducer<State, OnTypeParams<State>>,
+interface WalkerCallbacks<State, RenderingOptions> {
+	on_root_enter(options: RenderingOptions): void,
+	on_root_exit(params: OnRootExitParams<State>, options: RenderingOptions): any,
+	on_node_enter(params: OnNodeEnterParams<State>, options: RenderingOptions): State,
+	on_node_exit: WalkerReducer<State, OnNodeExitParams<State>, RenderingOptions>,
+	on_concatenate_str: WalkerReducer<State, OnConcatenateStringParams<State>, RenderingOptions>,
+	on_concatenate_sub_node: WalkerReducer<State, OnConcatenateSubNodeParams<State>, RenderingOptions>,
+	on_filter: WalkerReducer<State, OnFilterParams<State>, RenderingOptions>,
+	on_filter_Capitalize: WalkerReducer<State, OnFilterParams<State>, RenderingOptions>,
+	on_class_before: WalkerReducer<State, OnClassParams<State>, RenderingOptions>,
+	on_class_after: WalkerReducer<State, OnClassParams<State>, RenderingOptions>,
+	on_type: WalkerReducer<State, OnTypeParams<State>, RenderingOptions>,
 
-	on_type_span?: WalkerReducer<State, OnTypeParams<State>>,
-	on_type_strong?: WalkerReducer<State, OnTypeParams<State>>,
-	on_type_em?: WalkerReducer<State, OnTypeParams<State>>,
-	on_type_heading?: WalkerReducer<State, OnTypeParams<State>>,
-	on_type_hr?: WalkerReducer<State, OnTypeParams<State>>,
-	on_type_ol?: WalkerReducer<State, OnTypeParams<State>>,
-	on_type_ul?: WalkerReducer<State, OnTypeParams<State>>,
-	on_type_li?: WalkerReducer<State, OnTypeParams<State>>,
-	on_type_br?: WalkerReducer<State, OnTypeParams<State>>,
+	on_type_span?: WalkerReducer<State, OnTypeParams<State>, RenderingOptions>,
+	on_type_strong?: WalkerReducer<State, OnTypeParams<State>, RenderingOptions>,
+	on_type_em?: WalkerReducer<State, OnTypeParams<State>, RenderingOptions>,
+	on_type_heading?: WalkerReducer<State, OnTypeParams<State>, RenderingOptions>,
+	on_type_hr?: WalkerReducer<State, OnTypeParams<State>, RenderingOptions>,
+	on_type_ol?: WalkerReducer<State, OnTypeParams<State>, RenderingOptions>,
+	on_type_ul?: WalkerReducer<State, OnTypeParams<State>, RenderingOptions>,
+	on_type_li?: WalkerReducer<State, OnTypeParams<State>, RenderingOptions>,
+	on_type_br?: WalkerReducer<State, OnTypeParams<State>, RenderingOptions>,
 
 	// hard to express but allowed
 	[on_fiter_or_type: string]: any
@@ -77,7 +77,7 @@ interface WalkerCallbacks<State> {
 	//[on_type_x: string]: WalkerReducer<State, OnTypeParams<State>>,
 }
 
-function get_default_callbacks<State = string>(): WalkerCallbacks<State> {
+function get_default_callbacks<State = string, RenderingOptions = any>(): WalkerCallbacks<State, RenderingOptions> {
 	function nothing(): void {}
 	function identity({state}: {state: State}): State {
 		return state
@@ -115,11 +115,12 @@ const SUB_NODE_HR: Node = {
 }
 
 
-function walk_content<State>(
+function walk_content<State, RenderingOptions>(
 	$node: CheckedNode,
-	callbacks: WalkerCallbacks<State>,
+	callbacks: WalkerCallbacks<State, RenderingOptions>,
 	state: State,
-	depth: number
+	depth: number,
+	options: RenderingOptions,
 ) {
 	const { $content, $sub: $sub_nodes } = $node
 	const split1 = $content.split('{{')
@@ -131,7 +132,7 @@ function walk_content<State>(
 			state,
 			$node,
 			depth,
-		})
+		}, options)
 
 	state = split1.reduce((state, paramAndText) => {
 		const split2 = paramAndText.split('}}')
@@ -151,7 +152,7 @@ function walk_content<State>(
 		if (!$sub_node)
 			throw new Error(`${LIB}: syntax error in content "${$content}", it's referring to an unknown sub-node "${sub_node_id}"!`)
 
-		let sub_state = walk($sub_node, callbacks, {
+		let sub_state = walk($sub_node, callbacks, options, {
 			$parent_node: $node,
 			$id: sub_node_id,
 			depth: depth + 1,
@@ -160,7 +161,7 @@ function walk_content<State>(
 		sub_state = $filters.reduce(
 			(state, $filter) => {
 				const fine_filter_cb_id = `on_filter_${$filter}`
-				const fine_filter_callback = callbacks[fine_filter_cb_id] as WalkerReducer<State, OnFilterParams<State>>
+				const fine_filter_callback = callbacks[fine_filter_cb_id] as WalkerReducer<State, OnFilterParams<State>, RenderingOptions>
 				if (fine_filter_callback)
 					state = fine_filter_callback({
 						$filter,
@@ -168,7 +169,7 @@ function walk_content<State>(
 						state,
 						$node,
 						depth
-					})
+					}, options)
 
 				return callbacks.on_filter({
 					$filter,
@@ -176,7 +177,7 @@ function walk_content<State>(
 					state,
 					$node,
 					depth,
-				})
+				}, options)
 			},
 			sub_state,
 		)
@@ -190,7 +191,7 @@ function walk_content<State>(
 			state,
 			$node: normalize_node($sub_node),
 			depth,
-		})
+		}, options)
 
 		if (split2[0])
 			state = callbacks.on_concatenate_str({
@@ -198,7 +199,7 @@ function walk_content<State>(
 				state,
 				$node,
 				depth,
-			})
+			}, options)
 
 		return state
 	}, state)
@@ -207,9 +208,10 @@ function walk_content<State>(
 }
 
 
-function walk<State>(
+function walk<State, RenderingOptions>(
 	$raw_node: Node,
-	raw_callbacks: Partial<WalkerCallbacks<State>>,
+	raw_callbacks: Partial<WalkerCallbacks<State, RenderingOptions>>,
+	options: RenderingOptions = {} as any,
 	// internal opts when recursing:
 	{
 		$parent_node,
@@ -220,8 +222,9 @@ function walk<State>(
 		//$parent_state?: State, TODO ?
 		$id?: string,
 		depth?: number,
-	} = {}
+	} = {},
 ) {
+
 	const $node = normalize_node($raw_node)
 	const {
 		$type,
@@ -229,17 +232,20 @@ function walk<State>(
 		$sub: $sub_nodes,
 	} = $node
 
-	let callbacks: WalkerCallbacks<State> = raw_callbacks as any as WalkerCallbacks<State>
+	// quick check
+	if (!Object.keys(raw_callbacks).every(k => k.startsWith('on_')))
+		console.warn(`${LIB} Bad callbacks, check the API!`)
+	let callbacks: WalkerCallbacks<State, RenderingOptions> = raw_callbacks as any as WalkerCallbacks<State, RenderingOptions>
 	const isRoot = !$parent_node
 	if (isRoot) {
 		callbacks = {
-			...get_default_callbacks<State>(),
+			...get_default_callbacks<State, RenderingOptions>(),
 			...callbacks,
 		}
-		callbacks.on_root_enter()
+		callbacks.on_root_enter(options)
 	}
 
-	let state = callbacks.on_node_enter({ $node, $id, depth })
+	let state = callbacks.on_node_enter({ $node, $id, depth }, options)
 
 	// TODO class begin / start ?
 
@@ -249,7 +255,7 @@ function walk<State>(
 			state,
 			$node,
 			depth
-		}),
+		}, options),
 		state
 	)
 
@@ -264,7 +270,7 @@ function walk<State>(
 					'content': $sub_nodes[key]
 				}
 			}
-			let sub_state = walk( $sub_node, callbacks, {
+			let sub_state = walk( $sub_node, callbacks, options, {
 				$parent_node: $node,
 				depth: depth +1,
 				$id: key,
@@ -276,27 +282,27 @@ function walk<State>(
 				$node: normalize_node($sub_node),
 				$parent_node: $node,
 				depth,
-			})
+			}, options)
 		})
 	}
 	else
-		state = walk_content($node, callbacks, state, depth)
+		state = walk_content($node, callbacks, state, depth, options)
 
 	state = $classes.reduce(
-		(state, $class) => callbacks.on_class_after({ $class, state, $node, depth }),
+		(state, $class) => callbacks.on_class_after({ $class, state, $node, depth }, options),
 		state
 	)
 
 	const fine_type_cb_id = `on_type_${$type}`
-	const fine_type_callback = callbacks[fine_type_cb_id] as WalkerReducer<State, OnTypeParams<State>>
+	const fine_type_callback = callbacks[fine_type_cb_id] as WalkerReducer<State, OnTypeParams<State>, RenderingOptions>
 	if (fine_type_callback)
-		state = fine_type_callback({ $type, $parent_node, state, $node, depth })
-	state = callbacks.on_type({ $type, $parent_node, state, $node, depth })
+		state = fine_type_callback({ $type, $parent_node, state, $node, depth }, options)
+	state = callbacks.on_type({ $type, $parent_node, state, $node, depth }, options)
 
-	state = callbacks.on_node_exit({$node, $id, state, depth})
+	state = callbacks.on_node_exit({$node, $id, state, depth}, options)
 
 	if (!$parent_node)
-		state = callbacks.on_root_exit({state, $node, depth: 0})
+		state = callbacks.on_root_exit({state, $node, depth: 0}, options)
 
 	return state
 }

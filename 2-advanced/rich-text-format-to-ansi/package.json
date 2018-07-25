@@ -1,0 +1,16 @@
+{
+	"name": "@offirmo/rich-text-format-to-ansi",
+	"version": "0.0.1",
+	"description": "Rendering rich text format to Ansi (Terminal)",
+	"main": "index.js",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "UNLICENSED",
+	"dependencies": {
+		"@offirmo/rich-text-format": "^0.0.1",
+		"chalk": "^2"
+	},
+	"devDependencies": {
+	},
+	"scripts": {
+	}
+}

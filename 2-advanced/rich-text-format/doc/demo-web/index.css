@@ -33,9 +33,9 @@ pre {
 .person {
 	color: #0b97c4;
 }
-.item-weapon {
+.item--weapon {
 	color: #d9534f;
 }
-.item-weapon:before {
+.item--weapon:before {
 	content: '⚔ ';
 }

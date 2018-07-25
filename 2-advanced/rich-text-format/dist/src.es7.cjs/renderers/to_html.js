@@ -4,6 +4,7 @@ const walk_1 = require("../walk");
 const common_1 = require("./common");
 const LIB = 'rich_text_to_html';
 const MANY_TABS = '																																							';
+exports.DEFAULT_OPTIONS = {};
 function indent(n) {
     return MANY_TABS.slice(0, n);
 }
@@ -91,8 +92,8 @@ const callbacks = {
     on_node_exit,
 };
 exports.callbacks = callbacks;
-function to_html($doc) {
-    return '<div class="o⋄rich-text">\n	' + walk_1.walk($doc, callbacks).str + '\n</div>\n';
+function to_html($doc, options = exports.DEFAULT_OPTIONS) {
+    return '<div class="o⋄rich-text">\n	' + walk_1.walk($doc, callbacks, options).str + '\n</div>\n';
 }
 exports.to_html = to_html;
 //# sourceMappingURL=to_html.js.map

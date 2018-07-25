@@ -9,7 +9,6 @@ const RichText = tslib_1.__importStar(require("@offirmo/rich-text-format"));
 const items_1 = require("./items");
 const wallet_1 = require("./wallet");
 const monster_1 = require("./monster");
-// TODO render attribute
 function render_adventure(a) {
     const gains = a.gains; // alias for typing
     // in this special function, we'll be:
@@ -23,9 +22,9 @@ function render_adventure(a) {
     // coin
     // improved_item
     // 2. also generate some "summaries" for some gains
-    let $listing_of_loot = RichText.span().done();
-    let $listing_of_character_improvement = RichText.span().done();
-    let $listing_of_item_improvement = RichText.span().done();
+    let $listing_of_loot = RichText.block_fragment().done();
+    let $listing_of_character_improvement = RichText.block_fragment().done();
+    let $listing_of_item_improvement = RichText.block_fragment().done();
     // make sure that we handled every possible outcomes
     const handled_adventure_outcomes_so_far = new Set();
     (function render_loot() {
@@ -51,8 +50,8 @@ function render_adventure(a) {
         });
         const hasLoot = !!Object.keys($loot_list.$sub).length;
         if (hasLoot)
-            $listing_of_loot = RichText.section()
-                .pushLineBreak()
+            $listing_of_loot = RichText.block_fragment()
+                //.pushLineBreak()
                 .pushText('Loot:')
                 .pushNode($loot_list, 'list')
                 .done();
@@ -75,8 +74,8 @@ function render_adventure(a) {
         // TODO one day spells / skills
         const has_improvement = !!Object.keys($improvement_list.$sub).length;
         if (has_improvement)
-            $listing_of_character_improvement = RichText.section()
-                .pushLineBreak()
+            $listing_of_character_improvement = RichText.block_fragment()
+                //.pushLineBreak()
                 .pushText('Character improvement:')
                 .pushNode($improvement_list, 'list')
                 .done();
@@ -90,8 +89,8 @@ function render_adventure(a) {
         if (gains.weapon_improvement)
             handled_adventure_outcomes_so_far.add('weapon_improvement');
         if (has_improvement)
-            $listing_of_item_improvement = RichText.section()
-                .pushLineBreak()
+            $listing_of_item_improvement = RichText.block_fragment()
+                //.pushLineBreak()
                 .pushText('Item improvement:')
                 .pushNode($improvement_list, 'list')
                 .done();
@@ -110,7 +109,7 @@ function render_adventure(a) {
     /////// Final wrap-up //////
     const _ = logic_adventures_1.i18n_messages.en;
     const story = _.adventures[a.hid];
-    const $doc = RichText.section()
+    const $doc = RichText.block_fragment()
         .pushText(story)
         //.pushLineBreak()
         //.pushNode($listing_of_loot, 'loot')

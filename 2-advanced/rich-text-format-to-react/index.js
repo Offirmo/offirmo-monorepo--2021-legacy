@@ -2,9 +2,8 @@
 
 import React from 'react'
 import classNames from 'classnames'
-import {is_KVP_list} from '../../../src/renderers/common'
 
-const { Enum, NodeType, walk, is_list, is_uuid_list } = require('../../../dist/src.es7.cjs')
+const { Enum, NodeType, walk, is_list, is_uuid_list, is_KVP_list } = require('@offirmo/rich-text-format')
 
 const LIB = 'rich_text_to_react'
 
@@ -65,10 +64,15 @@ export function intermediate_on_node_exit({$node, $id, state}) {
 	}
 
 	if ($hints.href)
-		result.wrapper = children => <a href={$hints.href} target="_blank">{children}</a>
+		result.wrapper = children => React.createElement('a', {
+			href: $hints.href,
+			target: '_blank'
+		}, children)
 
 	if (!Enum.isType(NodeType, $type))
-		result.wrapper = children => <div className="o⋄rich-text⋄error">TODO "{$type}" {children}</div>
+		result.wrapper = children => React.createElement('div', {
+			className: 'o⋄rich-text⋄error',
+		}, [ `TODO "${$type}"`, children])
 
 	return result
 }
@@ -121,7 +125,7 @@ const callbacks = {
 function TEST_overriden_on_node_exit(params) {
 	const { children, classes, component, wrapper } = intermediate_on_node_exit(params)
 	const { state, $node } = params
-	const { $type, $classes, $hints } = $node
+	const { $hints } = $node
 
 	// XXX
 	/*
@@ -135,7 +139,7 @@ function TEST_overriden_on_node_exit(params) {
 
 	if ($hints.uuid) {
 		//console.log(`${LIB} seen element with uuid:`, $node)
-		element = <button>{element}</button>
+		element = React.createElement('button', {}, element)
 	}
 
 	state.element = element
@@ -143,10 +147,10 @@ function TEST_overriden_on_node_exit(params) {
 }
 ////////////
 
-export default function to_react(doc, {on_node_exit_override = TEST_overriden_on_node_exit} = {}) {
+export default function to_react(doc, callback_overrides = {on_node_exit: TEST_overriden_on_node_exit}) {
 	//console.log(`${LIB} Rendering a rich text:`, doc)
 	return walk(doc, {
 		...callbacks,
-		on_node_exit: on_node_exit_override,
+		...callback_overrides,
 	}).element
 }

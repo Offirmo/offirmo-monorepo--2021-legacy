@@ -12,6 +12,7 @@ function debug_node_short($node) {
     const { $type, $content } = $node;
     return `${$type}."${$content}"`;
 }
+exports.DEFAULT_OPTIONS = {};
 const consoleGroupStart = (console.groupCollapsed || console.group || console.log).bind(console);
 const consoleGroupEnd = (console.groupEnd || console.log).bind(console);
 const on_root_enter = () => {
@@ -93,8 +94,8 @@ const callbacks = {
     },
 };
 exports.callbacks = callbacks;
-function to_debug($doc) {
-    return walk_1.walk($doc, callbacks);
+function to_debug($doc, options = exports.DEFAULT_OPTIONS) {
+    return walk_1.walk($doc, callbacks, options);
 }
 exports.to_debug = to_debug;
 //# sourceMappingURL=to_debug.js.map

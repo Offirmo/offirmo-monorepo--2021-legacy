@@ -22,7 +22,7 @@ function render_equipment(inventory) {
             .done();
         $doc_list.$sub[definitions_1.ITEM_SLOTS_TO_INT[slot]] = $doc_item;
     });
-    const $doc = RichText.section()
+    const $doc = RichText.block_fragment()
         .pushNode(RichText.heading().pushText('Active equipment:').done(), 'header')
         .pushNode($doc_list, 'list')
         .done();
@@ -48,7 +48,7 @@ function render_backpack(inventory) {
         $doc_list.$type = RichText.NodeType.ul;
         $doc_list.$sub['-'] = RichText.span().pushText('(empty)').done();
     }
-    const $doc = RichText.section()
+    const $doc = RichText.block_fragment()
         .pushNode(RichText.heading().pushText('backpack:').done(), 'header')
         .pushNode($doc_list, 'list')
         .done();
@@ -56,11 +56,11 @@ function render_backpack(inventory) {
 }
 exports.render_backpack = render_backpack;
 function render_full_inventory(inventory, wallet) {
-    const $doc = RichText.section()
+    const $doc = RichText.block_fragment()
         .pushNode(render_equipment(inventory), 'equipped')
-        .pushLineBreak()
+        //.pushLineBreak()
         .pushNode(wallet_1.render_wallet(wallet), 'wallet')
-        .pushLineBreak()
+        //.pushLineBreak()
         .pushNode(render_backpack(inventory), 'backpack')
         .done();
     return $doc;

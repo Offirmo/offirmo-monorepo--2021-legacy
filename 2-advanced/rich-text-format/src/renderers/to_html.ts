@@ -15,6 +15,9 @@ const LIB = 'rich_text_to_html'
 
 const MANY_TABS = '																																							'
 
+export type Options = {}
+export const DEFAULT_OPTIONS = {}
+
 type State = {
 	sub_nodes: CheckedNode[]
 	str: string
@@ -30,13 +33,13 @@ const NODE_TYPE_TO_HTML_ELEMENT: { [k: string]: string } = {
 	[NodeType.block_fragment]: 'div',
 }
 
-const on_concatenate_sub_node: WalkerReducer<State, OnConcatenateSubNodeParams<State>> = ({$node, state, sub_state}) => {
+const on_concatenate_sub_node: WalkerReducer<State, OnConcatenateSubNodeParams<State>, Options> = ({$node, state, sub_state}) => {
 	state.sub_nodes.push($node)
 	state.str = state.str + sub_state.str
 	return state
 }
 
-const on_node_exit: WalkerReducer<State, OnNodeExitParams<State>> = ({state, $node, depth}) => {
+const on_node_exit: WalkerReducer<State, OnNodeExitParams<State>, Options> = ({state, $node, depth}) => {
 	const { $type, $classes, $sub, $hints } = $node
 	const $sub_node_count = Object.keys($sub).length
 
@@ -113,7 +116,7 @@ const on_node_exit: WalkerReducer<State, OnNodeExitParams<State>> = ({state, $no
 	return state
 }
 
-const callbacks: Partial<WalkerCallbacks<State>> = {
+const callbacks: Partial<WalkerCallbacks<State, Options>> = {
 	on_node_enter: () => ({
 		sub_nodes: [],
 		str: '',
@@ -126,8 +129,8 @@ const callbacks: Partial<WalkerCallbacks<State>> = {
 	on_node_exit,
 }
 
-function to_html($doc: Node): string {
-	return '<div class="o⋄rich-text">\n	' + walk<State>($doc, callbacks).str + '\n</div>\n'
+function to_html($doc: Node, options: Options = DEFAULT_OPTIONS): string {
+	return '<div class="o⋄rich-text">\n	' + walk<State, Options>($doc, callbacks, options).str + '\n</div>\n'
 }
 
 export { callbacks, to_html }

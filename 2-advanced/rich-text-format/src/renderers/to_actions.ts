@@ -17,11 +17,14 @@ export interface Action {
 	// TODO more
 }
 
-export type State = {
+export type Options = {}
+export const DEFAULT_OPTIONS = {}
+
+type State = {
 	actions: Action[],
 }
 
-const on_type: WalkerReducer<State, OnTypeParams<State>> = ({$type, state, $node, depth}) => {
+const on_type: WalkerReducer<State, OnTypeParams<State>, Options> = ({$type, state, $node, depth}) => {
 	//console.log('[on_type]', { $type, state })
 
 
@@ -36,14 +39,14 @@ const on_type: WalkerReducer<State, OnTypeParams<State>> = ({$type, state, $node
 	return state
 }
 
-const on_concatenate_sub_node: WalkerReducer<State, OnConcatenateSubNodeParams<State>> = ({state, sub_state, $node, $id, $parent_node}) => {
+const on_concatenate_sub_node: WalkerReducer<State, OnConcatenateSubNodeParams<State>, Options> = ({state, sub_state, $node, $id, $parent_node}) => {
 	state.actions = state.actions.concat(...sub_state.actions)
 
 	return state
 }
 
-const callbacks: Partial<WalkerCallbacks<State>> = {
-	on_node_enter: ({$node}: OnNodeEnterParams<State>) => ({
+const callbacks: Partial<WalkerCallbacks<State, Options>> = {
+	on_node_enter: () => ({
 		actions: [],
 	}),
 	on_concatenate_str: ({state, str}: OnConcatenateStringParams<State>) => {
@@ -55,8 +58,8 @@ const callbacks: Partial<WalkerCallbacks<State>> = {
 }
 
 
-function to_actions($doc: Node): Action[] {
-	return walk<State>($doc, callbacks).actions
+function to_actions($doc: Node, options: Options = DEFAULT_OPTIONS): Action[] {
+	return walk<State, Options>($doc, callbacks, options).actions
 }
 
 export {

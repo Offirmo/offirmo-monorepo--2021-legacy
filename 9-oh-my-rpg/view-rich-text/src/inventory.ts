@@ -38,7 +38,7 @@ function render_equipment(inventory: InventoryState): RichText.Document {
 		$doc_list.$sub[ITEM_SLOTS_TO_INT[slot]] = $doc_item
 	})
 
-	const $doc = RichText.section()
+	const $doc = RichText.block_fragment()
 		.pushNode(RichText.heading().pushText('Active equipment:').done(), 'header')
 		.pushNode($doc_list, 'list')
 		.done()
@@ -68,7 +68,7 @@ function render_backpack(inventory: InventoryState): RichText.Document {
 		$doc_list.$sub['-'] = RichText.span().pushText('(empty)').done()
 	}
 
-	const $doc = RichText.section()
+	const $doc = RichText.block_fragment()
 		.pushNode(RichText.heading().pushText('backpack:').done(), 'header')
 		.pushNode($doc_list, 'list')
 		.done()
@@ -77,11 +77,11 @@ function render_backpack(inventory: InventoryState): RichText.Document {
 }
 
 function render_full_inventory(inventory: InventoryState, wallet: WalletState): RichText.Document {
-	const $doc = RichText.section()
+	const $doc = RichText.block_fragment()
 		.pushNode(render_equipment(inventory), 'equipped')
-		.pushLineBreak()
+		//.pushLineBreak()
 		.pushNode(render_wallet(wallet), 'wallet')
-		.pushLineBreak()
+		//.pushLineBreak()
 		.pushNode(render_backpack(inventory), 'backpack')
 		.done()
 
