@@ -49,7 +49,7 @@ function render_backpack(inventory) {
         $doc_list.$sub['-'] = RichText.span().pushText('(empty)').done();
     }
     const $doc = RichText.block_fragment()
-        .pushNode(RichText.heading().pushText('backpack:').done(), 'header')
+        .pushNode(RichText.heading().pushText('Backpack:').done(), 'header')
         .pushNode($doc_list, 'list')
         .done();
     return $doc;
@@ -63,6 +63,7 @@ function render_full_inventory(inventory, wallet) {
         //.pushLineBreak()
         .pushNode(render_backpack(inventory), 'backpack')
         .done();
+    //console.log(JSON.stringify($doc, null, 2))
     return $doc;
 }
 exports.render_full_inventory = render_full_inventory;

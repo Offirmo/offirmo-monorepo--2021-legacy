@@ -4,6 +4,14 @@ import { is_link, is_KVP_list } from './common';
 export const DEFAULT_OPTIONS = {
     style: 'advanced'
 };
+const DEFAULT_STATE = Object.freeze({
+    sub_nodes: [],
+    starts_with_block: false,
+    ends_with_block: false,
+    margin_top: 0,
+    margin_bottom: 0,
+    str: '',
+});
 const on_node_exit = ({ state, $node, depth }, { style }) => {
     //console.log('[on_type]', { $type, state })
     switch ($node.$type) {
@@ -17,6 +25,8 @@ const on_node_exit = ({ state, $node, depth }, { style }) => {
         switch ($node.$type) {
             case 'heading':
                 state.str = `### ${state.str}`;
+                state.margin_top = Math.max(state.margin_top, 1);
+                state.margin_bottom = Math.max(state.margin_bottom, 1);
                 break;
             case 'strong':
                 state.str = `**${state.str}**`;
@@ -35,6 +45,9 @@ const on_node_exit = ({ state, $node, depth }, { style }) => {
     }
     else {
         switch ($node.$type) {
+            case 'heading':
+                state.margin_top = Math.max(state.margin_top, 1);
+                break;
             case 'hr':
                 state.str = '------------------------------------------------------------';
                 break;
@@ -111,11 +124,12 @@ const on_concatenate_sub_node = ({ state, sub_state, $node, $id, $parent_node },
         if (sub_state.starts_with_block) {
             // propagate start
             state.starts_with_block = true;
+            state.margin_top = Math.max(state.margin_top, sub_state.margin_top);
         }
     }
     else {
         if (state.ends_with_block || sub_starts_with_block) {
-            state.str += '\n';
+            state.str += ''.padStart(Math.max(state.margin_bottom, sub_state.margin_top) + 1, '\n');
         }
     }
     state.str += sub_str;
@@ -123,17 +137,13 @@ const on_concatenate_sub_node = ({ state, sub_state, $node, $id, $parent_node },
     return state;
 };
 const callbacks = {
-    on_node_enter: () => ({
-        sub_nodes: [],
-        starts_with_block: false,
-        ends_with_block: false,
-        str: '',
-    }),
+    on_node_enter: () => (Object.assign({}, DEFAULT_STATE, { sub_nodes: [] })),
     on_concatenate_str: ({ state, str }) => {
         //console.log('on_concatenate_str()', {str, state: JSON.parse(JSON.stringify(state)),})
         if (state.ends_with_block) {
-            state.str += '\n';
+            state.str += ''.padStart(state.margin_bottom + 1, '\n');
             state.ends_with_block = false;
+            state.margin_bottom = 0;
         }
         state.str += str;
         return state;

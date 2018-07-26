@@ -1,4 +1,5 @@
 # offirmo-monorepo
+
 A monorepo for all my JavaScript / TypeScript projects. So convenient.
 
 
@@ -21,6 +22,7 @@ bolt ws run cheatsheet
 bolt ws run cheatsheet --only @offirmo/*
 bolt ws run cheatsheet --only @oh-my-rpg/*
 
+
 bolt ws run build --only @offirmo/*
 bolt ws run test --only @offirmo/*
 bolt ws run build --only @oh-my-rpg/*
@@ -28,18 +30,13 @@ bolt ws run test --only @oh-my-rpg/*
 bolt ws run build
 
 
-npx yarn-tools list-duplicates yarn.lock
-
 bolt ws run clean
 bolt ws exec -- rm -rf .cache dist node_modules yarn.lock package-lock.json yarn-error.log
 rm -rf node_modules yarn.lock package-lock.json
 bolt
 yarn outdated
+npx yarn-tools list-duplicates yarn.lock
 
-bolt ws run build --only @offirmo/*
-bolt ws run build --only @offirmo/*
-bolt ws run build --only @oh-my-rpg/*
-bolt ws run test --only @oh-my-rpg/*
 
 bolt w @oh-my-rpg/definitions run build
 ```

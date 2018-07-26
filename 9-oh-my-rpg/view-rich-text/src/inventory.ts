@@ -69,7 +69,7 @@ function render_backpack(inventory: InventoryState): RichText.Document {
 	}
 
 	const $doc = RichText.block_fragment()
-		.pushNode(RichText.heading().pushText('backpack:').done(), 'header')
+		.pushNode(RichText.heading().pushText('Backpack:').done(), 'header')
 		.pushNode($doc_list, 'list')
 		.done()
 
@@ -85,6 +85,7 @@ function render_full_inventory(inventory: InventoryState, wallet: WalletState): 
 		.pushNode(render_backpack(inventory), 'backpack')
 		.done()
 
+	//console.log(JSON.stringify($doc, null, 2))
 	return $doc
 }
 

@@ -2,8 +2,9 @@ import * as RichText from '@offirmo/rich-text-format';
 import { CHARACTER_ATTRIBUTES_SORTED } from '@oh-my-rpg/state-character';
 function render_avatar(state) {
     // TODO refactor
+    // TODO KV
     const $doc = RichText.block_fragment()
-        .pushNode(RichText.heading().pushText('Identity:{{br}}').done(), 'header')
+        .pushNode(RichText.heading().pushText('Identity:').done(), 'header')
         .pushText('name:  {{name}}{{br}}')
         .pushText('class: {{class}}')
         .pushRawNode(RichText.span().addClass('avatar__name').pushText(state.name).done(), 'name')

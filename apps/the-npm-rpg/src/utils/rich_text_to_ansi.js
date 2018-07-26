@@ -2,10 +2,11 @@
 
 const RichText = require('@offirmo/rich-text-format')
 
-const callbacks = require('./rich_text_to_ansi_callbacks')
+const to_ansi = require('@offirmo/rich-text-format-to-ansi')
 
 function rich_text_to_ansi(doc) {
-	return RichText.walk(doc, callbacks)
+	// TODO extend
+	return to_ansi(doc)
 }
 
 module.exports = {

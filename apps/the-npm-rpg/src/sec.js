@@ -1,6 +1,5 @@
 "use strict";
 
-const { createLogger } = require('@offirmo/practical-logger-node')
 const { getRootSEC } = require('@offirmo/soft-execution-context')
 const {
 	listenToUncaughtErrors,
@@ -8,10 +7,11 @@ const {
 	decorateWithDetectedEnv,
 } = require('@offirmo/soft-execution-context-node')
 const { decorate_SEC } = require('@oh-my-rpg/definitions')
+const { createLogger } = require('@offirmo/practical-logger-node')
 
 /////////////////////////////////////////////////
 
-const APP = 'the-npm-rpg'
+const { APP } = require('./consts')
 
 const logger = createLogger({
 	name: APP,
@@ -42,6 +42,8 @@ const logger = createLogger({
 
 logger.notice(`Hello from ${APP}...`)
 
+/////////////////////////////////////////////////
+
 const SEC = getRootSEC()
 	.setLogicalStack({ module: APP })
 	.injectDependencies({ logger })
@@ -54,6 +56,7 @@ SEC.emitter.on('final-error', function onError({SEC, err}) {
 })
 
 SEC.emitter.on('analytics', function onAnalytics({SEC, eventId, details}) {
+	// TODO
 	console.groupCollapsed(`⚡  Analytics! ⚡  ${eventId}`)
 	console.log('details', details)
 	console.groupEnd()
@@ -63,11 +66,7 @@ listenToUncaughtErrors()
 listenToUnhandledRejections()
 decorateWithDetectedEnv()
 
-
-logger.trace('Soft Execution Context initialized.')
-
 /////////////////////////////////////////////////
 
-module.exports = {
-	SEC,
-}
+module.exports = SEC
+

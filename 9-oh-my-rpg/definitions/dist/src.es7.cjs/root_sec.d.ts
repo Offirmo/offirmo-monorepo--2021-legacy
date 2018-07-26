@@ -4,7 +4,7 @@ interface BaseContext {
     ENV: string;
     logger: any;
 }
-declare type ImmutabilityEnforcer = <T>(v: T) => Readonly<T>;
+declare type ImmutabilityEnforcer = <T>(x: T) => Readonly<T>;
 interface OMRContext extends BaseContext {
     enforce_immutability: ImmutabilityEnforcer;
 }

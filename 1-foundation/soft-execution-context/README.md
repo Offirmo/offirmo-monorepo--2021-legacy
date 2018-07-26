@@ -96,7 +96,7 @@ SEC.getShortLogicalStack()
 | `SESSION_DURATION_MS` | - | yes✅ | yes✅ | ms elapsed from the start of the session |
 | `OS_NAME` | yes✅ | yes✅ | yes✅ | (Expected to be set by platform-specific) |
 | `DEVICE_UUID` | - | yes✅ | yes✅ |  |
-| `v` | - | yes✅ | yes✅ | version |
+| `VERSION` | - | yes✅ | yes✅ | version |
 | `?` | - | - | - |  |
 
 

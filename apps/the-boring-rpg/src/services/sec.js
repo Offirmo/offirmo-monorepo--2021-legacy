@@ -25,10 +25,11 @@ decorateWithDetectedEnv(SEC)
 
 SEC.injectDependencies({
 	CHANNEL,
+	VERSION: WI_VERSION,
 })
 SEC.setAnalyticsAndErrorDetails({
 	product: 'tbrpg',
-	v: WI_VERSION,
+	VERSION: WI_VERSION,
 	CHANNEL,
 })
 

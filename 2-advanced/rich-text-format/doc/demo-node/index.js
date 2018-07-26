@@ -13,6 +13,7 @@ const {
 	DOC_DEMO_RPG_01,
 	DOC_DEMO_RPG_02,
 	DOC_DEMO_RPG_03,
+	DOC_DEMO_INVENTORY,
 } = require('../examples')
 
 let to_ansi = null
@@ -38,8 +39,10 @@ function demo(wrapped_doc) {
 ////////////////////////////////////
 
 //demo({DOC_DEMO_BASE_TYPES})
-demo({DOC_DEMO_ADVANCED_TYPES})
+//demo({DOC_DEMO_ADVANCED_TYPES})
+//demo({DOC_DEMO_HINTS})
 //demo({DOC_DEMO_RPG_03})
+demo({DOC_DEMO_INVENTORY})
 
 // TODO actions
 // TODO links

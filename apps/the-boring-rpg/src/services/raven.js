@@ -47,7 +47,7 @@ error_reporter
 			else {
 				const all_details = imminent_error.details || {}
 				// clean up some unneeded details, redundant with Raven or already set above
-				const { ENV, CHANNEL, DEVICE_UUID, OS_NAME, BROWSER_NAME, v, ...details } = all_details
+				const { ENV, CHANNEL, DEVICE_UUID, OS_NAME, BROWSER_NAME, VERSION, ...details } = all_details
 				data.tags = {
 					...data.tags,
 					...details,

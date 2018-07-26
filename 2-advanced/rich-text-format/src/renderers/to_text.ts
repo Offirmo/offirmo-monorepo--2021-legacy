@@ -22,9 +22,18 @@ type State = {
 	sub_nodes: CheckedNode[]
 	starts_with_block: boolean
 	ends_with_block: boolean
+	margin_top: number
+	margin_bottom: number
 	str: string
 }
-
+const DEFAULT_STATE: State = Object.freeze({
+	sub_nodes: [],
+	starts_with_block: false,
+	ends_with_block: false,
+	margin_top: 0,
+	margin_bottom: 0,
+	str: '',
+})
 
 const on_node_exit: WalkerReducer<State, OnNodeExitParams<State>, Options> = ({state, $node, depth}, {style}) => {
 	//console.log('[on_type]', { $type, state })
@@ -42,6 +51,8 @@ const on_node_exit: WalkerReducer<State, OnNodeExitParams<State>, Options> = ({s
 		switch ($node.$type) {
 			case 'heading':
 				state.str = `### ${state.str}`
+				state.margin_top = Math.max(state.margin_top, 1)
+				state.margin_bottom = Math.max(state.margin_bottom, 1)
 				break
 
 			case 'strong':
@@ -65,6 +76,10 @@ const on_node_exit: WalkerReducer<State, OnNodeExitParams<State>, Options> = ({s
 	}
 	else {
 		switch ($node.$type) {
+			case 'heading':
+				state.margin_top = Math.max(state.margin_top, 1)
+				break
+
 			case 'hr':
 				state.str = '------------------------------------------------------------'
 				break
@@ -159,11 +174,12 @@ const on_concatenate_sub_node: WalkerReducer<State, OnConcatenateSubNodeParams<S
 		if (sub_state.starts_with_block) {
 			// propagate start
 			state.starts_with_block = true
+			state.margin_top = Math.max(state.margin_top, sub_state.margin_top)
 		}
 	}
 	else {
 		if (state.ends_with_block || sub_starts_with_block) {
-			state.str += '\n'
+			state.str += ''.padStart(Math.max(state.margin_bottom, sub_state.margin_top) + 1,'\n')
 		}
 	}
 
@@ -176,22 +192,22 @@ const on_concatenate_sub_node: WalkerReducer<State, OnConcatenateSubNodeParams<S
 
 const callbacks: Partial<WalkerCallbacks<State, Options>> = {
 	on_node_enter: () => ({
+		...DEFAULT_STATE,
 		sub_nodes: [],
-		starts_with_block: false,
-		ends_with_block: false,
-		str: '',
 	}),
 	on_concatenate_str: ({state, str}: OnConcatenateStringParams<State>) => {
 		//console.log('on_concatenate_str()', {str, state: JSON.parse(JSON.stringify(state)),})
 		if (state.ends_with_block) {
-			state.str += '\n'
+			state.str += ''.padStart(state.margin_bottom + 1,'\n')
 			state.ends_with_block = false
+			state.margin_bottom = 0
 		}
 		state.str += str
 		return state
 	},
 	on_concatenate_sub_node,
 	on_node_exit,
+	// TODO on root_exit apply final top/bottom margins
 }
 
 function to_text(

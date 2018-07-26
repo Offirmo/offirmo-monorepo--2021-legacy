@@ -35,10 +35,10 @@ function get_tip(state) {
 
 
 function start_loop(SEC, options, instance) {
-	return SEC.xPromiseTry('starting interactive loop', ({SEC, logger}) => {
+	return SEC.xPromiseTry('starting interactive loop', ({SEC, logger, VERSION}) => {
 		logger.trace('start_loop options:' + prettify_json_for_debug(options))
 
-		render_header(options)
+		render_header(SEC, options)
 
 		function* gen_next_step() {
 			const chat_state = {
@@ -241,7 +241,7 @@ function start_loop(SEC, options, instance) {
 					const $doc = render_full_inventory(state.inventory, state.wallet)
 					steps.push({
 						type: 'simple_message',
-						msg_main: 'Here is your full inventory:\n' + rich_text_to_ansi($doc)
+						msg_main: 'Here is your full inventory:\n\n' + rich_text_to_ansi($doc)
 					})
 
 					const misc_items = Array.from(iterables_unslotted(state.inventory))
@@ -405,7 +405,7 @@ function start_loop(SEC, options, instance) {
 						msg_main: rich_text_to_ansi(render_account_info(
 							state.meta,
 							{
-								'game version': options.version,
+								'game version': VERSION,
 								'Your savegame path': options.config.path,
 							}))
 					})

@@ -14,7 +14,7 @@ interface BaseContext {
 /////////////////////
 // TODO move in final app (new module?)
 
-type ImmutabilityEnforcer = <T>(v: T) => Readonly<T>
+type ImmutabilityEnforcer = <T>(x: T) => Readonly<T>
 
 interface OMRContext extends BaseContext {
 	enforce_immutability: ImmutabilityEnforcer
@@ -24,7 +24,7 @@ interface OMRContext extends BaseContext {
 
 /////////////////////
 
-const enforce_immutability: ImmutabilityEnforcer = (v) => v
+const enforce_immutability: ImmutabilityEnforcer = (x) => x
 //const enforce_immutability = (state: State) => deepFreeze(state) TODO
 
 

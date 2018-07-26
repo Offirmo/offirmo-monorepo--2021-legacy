@@ -28,13 +28,14 @@ const PLUGIN = {
         prototype.fireAnalyticsEvent = function fireAnalyticsEvent(eventId, details = {}) {
             const SEC = this;
             const now = timestamps_1.get_UTC_timestamp_ms();
+            let root_state = SEC[constants_1.INTERNAL_PROP];
             if (!eventId)
                 throw new Error('Incorrect eventId!');
             const { ENV } = SEC.getInjectedDependencies();
             const autoDetails = {
                 ENV,
                 TIME: now,
-                SESSION_DURATION_MS: now - state.plugins[dependency_injection_1.PLUGIN_ID].context.SESSION_START_TIME,
+                SESSION_DURATION_MS: now - root_state.plugins[dependency_injection_1.PLUGIN_ID].context.SESSION_START_TIME,
             };
             const userDetails = SEC.getAnalyticsDetails();
             details = Object.assign({}, autoDetails, userDetails, details);

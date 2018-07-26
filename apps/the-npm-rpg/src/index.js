@@ -17,24 +17,23 @@ if (!semver.satisfies(process.version, package_json.engines.node)) {
 const Conf = require('conf')
 const { create_game_instance } = require('@oh-my-rpg/state-the-boring-rpg')
 
-const { SEC } = require('./init')
+const SEC = require('./sec')
 const { start_loop } = require('./interactive_mode')
 
 /////////////////////////////////////////////////
 
-SEC.xPromiseTryCatch('starting', async ({ SEC, logger }) => {
+const { version: VERSION } = package_json
+SEC.injectDependencies({ VERSION })
+
+SEC.xPromiseTryCatch('starting', async ({ SEC, logger, IS_VERBOSE }) => {
 	const MINIMAL_TERMINAL_WIDTH = 80
 
-	const verbose = false // XXX
-	if (verbose) {
+	if (IS_VERBOSE) {
 		logger.setLevel('verbose')
 		logger.verbose('verbose mode activated')
 	}
 
-	const { version } = package_json
 	const options = {
-		version,
-		verbose,
 		is_interactive: true,
 		may_clear_screen: true,
 		term_width: MINIMAL_TERMINAL_WIDTH,
