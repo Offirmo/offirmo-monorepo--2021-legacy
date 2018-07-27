@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import ErrorBoundary from '@offirmo/react-error-boundary'
 
 const RichText = require('../../../dist/src.es7.cjs')
-import rich_text_to_react from '../../../../rich-text-format-to-react'
+import rich_text_to_react from '../services/rich-text-to-react'
 
 const RichTextView = ({doc, mode = 'to_html'}) => {
 	switch(mode) {

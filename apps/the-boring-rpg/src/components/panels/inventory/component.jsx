@@ -12,7 +12,7 @@ import {
 import { render_full_inventory } from '@oh-my-rpg/view-rich-text'
 
 import { Chat } from '../../chat-interface'
-import { rich_text_to_react } from '../../../utils/rich_text_to_react'
+import rich_text_to_react from '../../../utils/rich_text_to_react'
 import './index.css'
 
 

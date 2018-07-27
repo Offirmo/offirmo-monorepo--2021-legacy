@@ -12,7 +12,7 @@ import {
 } from '@oh-my-rpg/state-the-boring-rpg'
 
 import { Chat } from '../../chat-interface'
-import { rich_text_to_react } from '../../../utils/rich_text_to_react'
+import rich_text_to_react from '../../../utils/rich_text_to_react'
 import SEC from '../../../services/sec'
 
 

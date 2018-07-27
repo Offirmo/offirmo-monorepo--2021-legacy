@@ -18,10 +18,10 @@ const {
 	render_account_info,
 } = require('@oh-my-rpg/view-rich-text')
 
-const { rich_text_to_ansi } = require('../utils/rich_text_to_ansi')
-const { stylize_string } = require('../libs')
+const { rich_text_to_ansi } = require('../services/rich_text_to_ansi')
+const { stylize_string } = require('../utils/libs')
 const { render_header } = require('../view')
-const { prettify_json_for_debug } = require('../utils/debug')
+const { prettify_json_for_debug } = require('../utils/debug') // TODO externalize
 
 function get_recap(state) {
 	return rich_text_to_ansi(tbrpg.get_recap(state))

@@ -3,7 +3,8 @@
 import React from 'react'
 import classNames from 'classnames'
 
-const { Enum, NodeType, walk, is_list, is_uuid_list, is_KVP_list } = require('@offirmo/rich-text-format')
+import { Enum, NodeType, walk, is_list, is_uuid_list, is_KVP_list } from '@offirmo/rich-text-format'
+import '@offirmo/rich-text-format/src/renderers/style.css'
 
 const LIB = 'rich_text_to_react'
 
@@ -147,10 +148,16 @@ function TEST_overriden_on_node_exit(params) {
 }
 ////////////
 
-export default function to_react(doc, callback_overrides = {on_node_exit: TEST_overriden_on_node_exit}) {
+export function to_react(doc, callback_overrides = {on_node_exit: TEST_overriden_on_node_exit}) {
 	//console.log(`${LIB} Rendering a rich text:`, doc)
-	return walk(doc, {
+	const content = walk(doc, {
 		...callbacks,
 		...callback_overrides,
 	}).element
+
+	return React.createElement('div', {
+		className: 'o⋄rich-text',
+	}, content)
 }
+
+export default to_react

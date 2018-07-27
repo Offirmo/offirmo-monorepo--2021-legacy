@@ -1,9 +1,9 @@
 "use strict";
 
 import React from 'react'
-const { to_react, intermediate_on_node_exit, intermediate_assemble } = require('@offirmo/rich-text-format-to-react')
 
-import TBRPGElement from '../components/rich-text'
+const { to_react, intermediate_on_node_exit, intermediate_assemble } = require('../../../../rich-text-format-to-react')
+
 
 ////////////
 function on_node_exit(params) {
@@ -18,8 +18,8 @@ function on_node_exit(params) {
 	let element = intermediate_assemble({ children, classes, component, wrapper })
 
 	if ($hints.uuid) {
-		console.log('seen element with uuid:', $node)
-		element = <TBRPGElement uuid={$hints.uuid}>{element}</TBRPGElement>
+		//console.log(`${LIB} seen element with uuid:`, $node)
+		element = React.createElement('button', {}, element)
 	}
 
 	state.element = element

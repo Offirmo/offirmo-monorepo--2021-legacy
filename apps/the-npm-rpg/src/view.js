@@ -1,6 +1,6 @@
 "use strict";
 
-const { stylize_string } = require('./libs')
+const { stylize_string } = require('./utils/libs')
 
 /////////////////////////////////////////////////
 

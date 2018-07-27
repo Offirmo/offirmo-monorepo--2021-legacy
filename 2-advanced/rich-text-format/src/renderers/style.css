@@ -11,22 +11,22 @@
 
 .o⋄rich-text h3
 {
-	margin: 0;
+	/*margin: 0;*/
 }
 
 .o⋄rich-text ol,
 .o⋄rich-text ul
 {
-	margin: 0;
-	padding-left: 3px;
+	/*margin: 0;*/
+	padding-left: 24px;
 }
 
 .o⋄rich-text li {
-	list-style-position: inside;
+	/*list-style-position: inside;*/
 }
 .o⋄rich-text ul > li > * {
-	position: relative;
-	left: -7px;
+	/*position: relative;
+	left: -7px;*/
 }
 
 .o⋄rich-text ol.o⋄rich-text⋄list--no-bullet,

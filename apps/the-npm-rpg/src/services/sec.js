@@ -11,7 +11,7 @@ const { createLogger } = require('@offirmo/practical-logger-node')
 
 /////////////////////////////////////////////////
 
-const { APP } = require('./consts')
+const { APP } = require('../consts')
 
 const logger = createLogger({
 	name: APP,

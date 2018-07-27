@@ -6603,9 +6603,9 @@ _sec2.default.xTry('loading savegame + creating game instance', ({ logger }) => 
 
 _sec2.default.xTry('init client state', ({ logger }) => {
 	game_instance.set_client_state(() => ({
-		VERSION: "0.51.63",
+		VERSION: "0.51.64",
 		ENV: "production",
-		BUILD_DATE: "20180726_07h49",
+		BUILD_DATE: "20180726_23h52",
 		CHANNEL: _channel.CHANNEL,
 		verbose: true, // XXX auto + through SEC ?
 		// can change:
@@ -11630,24 +11630,68 @@ exports.Chat = Chat;
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.rich_text_to_react = undefined;
+exports.default = rich_text_to_react;
 
-var _richTextFormat = __webpack_require__(41);
+var _react = __webpack_require__(1);
 
-var RichText = _interopRequireWildcard(_richTextFormat);
+var _react2 = _interopRequireDefault(_react);
 
-var _rich_text_to_react_callbacks = __webpack_require__(760);
+var _richText = __webpack_require__(760);
 
-var callbacks = _interopRequireWildcard(_rich_text_to_react_callbacks);
+var _richText2 = _interopRequireDefault(_richText);
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function rich_text_to_react(doc) {
-	//console.log('Rendering a rich text:', doc)
-	return RichText.walk(doc, callbacks);
+var _require = __webpack_require__(768);
+
+const to_react = _require.to_react,
+      intermediate_on_node_exit = _require.intermediate_on_node_exit,
+      intermediate_assemble = _require.intermediate_assemble;
+
+
+////////////
+function on_node_exit(params) {
+	var _intermediate_on_node = intermediate_on_node_exit(params);
+
+	const children = _intermediate_on_node.children,
+	      classes = _intermediate_on_node.classes,
+	      component = _intermediate_on_node.component,
+	      wrapper = _intermediate_on_node.wrapper;
+	const state = params.state,
+	      $node = params.$node;
+	const $hints = $node.$hints;
+
+
+	if (classes.includes('monster')) {
+		children.push(_react2.default.createElement(
+			'span',
+			{ className: 'monster-emoji' },
+			$hints.possible_emoji
+		));
+	}
+
+	let element = intermediate_assemble({ children, classes, component, wrapper });
+
+	if ($hints.uuid) {
+		console.log('seen element with uuid:', $node);
+		element = _react2.default.createElement(
+			_richText2.default,
+			{ uuid: $hints.uuid },
+			element
+		);
+	}
+
+	state.element = element;
+	return state;
 }
+////////////
 
-exports.rich_text_to_react = rich_text_to_react;
+function rich_text_to_react(doc, options) {
+	//console.log(`${LIB} Rendering a rich text:`, doc)
+	return to_react(doc, {
+		on_node_exit
+	}, options);
+}
 
 /***/ }),
 /* 123 */
@@ -17420,12 +17464,12 @@ const error_reporter = new _ravenJs2.default.Client();
 error_reporter.config('https://ac5806cad5534bcf82f23d857a1ffce5@sentry.io/1235383', {
 	// https://docs.sentry.io/clients/javascript/config/
 	// logger ?
-	release: "0.51.63",
+	release: "0.51.64",
 	environment: "production",
 	serverName: DEVICE_UUID,
 	tags: {
 		//git_commit: 'c0deb10c4',
-		BUILD_DATE: "20180726_07h49",
+		BUILD_DATE: "20180726_23h52",
 		CHANNEL: _channel.CHANNEL
 	},
 	// whitelistUrls: [...],
@@ -23251,11 +23295,11 @@ decorateWithDetectedEnv(SEC);
 
 SEC.injectDependencies({
 	CHANNEL: _channel.CHANNEL,
-	VERSION: "0.51.63"
+	VERSION: "0.51.64"
 });
 SEC.setAnalyticsAndErrorDetails({
 	product: 'tbrpg',
-	VERSION: "0.51.63",
+	VERSION: "0.51.64",
 	CHANNEL: _channel.CHANNEL
 });
 
@@ -42880,7 +42924,7 @@ var _omrRoot = __webpack_require__(632);
 
 var _omrRoot2 = _interopRequireDefault(_omrRoot);
 
-var _devArea = __webpack_require__(792);
+var _devArea = __webpack_require__(794);
 
 var _devArea2 = _interopRequireDefault(_devArea);
 
@@ -50843,19 +50887,19 @@ var _mainArea = __webpack_require__(737);
 
 var _mainArea2 = _interopRequireDefault(_mainArea);
 
-var _meta = __webpack_require__(781);
+var _meta = __webpack_require__(783);
 
 var _meta2 = _interopRequireDefault(_meta);
 
-var _groupChatTlkio = __webpack_require__(784);
+var _groupChatTlkio = __webpack_require__(786);
 
 var GroupChat = _interopRequireWildcard(_groupChatTlkio);
 
-var _omrAbout = __webpack_require__(787);
+var _omrAbout = __webpack_require__(789);
 
 var _omrAbout2 = _interopRequireDefault(_omrAbout);
 
-__webpack_require__(790);
+__webpack_require__(792);
 
 var _tbrpg_logo_512x = __webpack_require__(288);
 
@@ -51597,15 +51641,15 @@ var _explore = __webpack_require__(740);
 
 var _explore2 = _interopRequireDefault(_explore);
 
-var _character = __webpack_require__(769);
+var _character = __webpack_require__(771);
 
 var _character2 = _interopRequireDefault(_character);
 
-var _inventory = __webpack_require__(774);
+var _inventory = __webpack_require__(776);
 
 var _inventory2 = _interopRequireDefault(_inventory);
 
-__webpack_require__(779);
+__webpack_require__(781);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -51708,6 +51752,8 @@ var _chatInterface = __webpack_require__(121);
 
 var _rich_text_to_react = __webpack_require__(122);
 
+var _rich_text_to_react2 = _interopRequireDefault(_rich_text_to_react);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var _require = __webpack_require__(175);
@@ -51748,7 +51794,7 @@ class Component extends _react2.default.Component {
 			if (!ui_state.recap_displayed) {
 				steps.push({
 					type: 'simple_message',
-					msg_main: (0, _rich_text_to_react.rich_text_to_react)(tbrpg.get_recap(state))
+					msg_main: (0, _rich_text_to_react2.default)(tbrpg.get_recap(state))
 				});
 				game_instance.set_client_state(() => ({
 					recap_displayed: true
@@ -51773,7 +51819,7 @@ class Component extends _react2.default.Component {
 					msg_main: _react2.default.createElement(
 						'div',
 						null,
-						(0, _rich_text_to_react.rich_text_to_react)($doc)
+						(0, _rich_text_to_react2.default)($doc)
 					)
 				});
 
@@ -51786,7 +51832,7 @@ class Component extends _react2.default.Component {
 			if (tip_doc) {
 				steps.push({
 					type: 'simple_message',
-					msg_main: (0, _rich_text_to_react.rich_text_to_react)(tip_doc)
+					msg_main: (0, _rich_text_to_react2.default)(tip_doc)
 				});
 			}
 
@@ -52703,178 +52749,11 @@ module.exports = (promise, onFinally) => {
 
 
 Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-exports.on_concatenate_sub_node = exports.on_concatenate_str = exports.on_node_exit = exports.on_node_enter = exports.on_root_exit = undefined;
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _classnames = __webpack_require__(286);
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _richText = __webpack_require__(761);
-
-var _richText2 = _interopRequireDefault(_richText);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-const LIB = 'rich_text_to_react';
-
-function createNodeState() {
-	return {
-		element: null,
-		children: []
-	};
-}
-
-function on_root_exit({ state }) {
-	return state.element;
-}
-
-// turn the state into a react element
-function on_node_exit({ $node, $id, state, depth }) {
-	const $type = $node.$type,
-	      $classes = $node.$classes,
-	      $hints = $node.$hints;
-
-
-	let children = state.children.map(c => c.element);
-	children = _react2.default.Children.map(children, (child, index) => {
-		return typeof child === 'string' ? child : _react2.default.cloneElement(child, { key: `${index}` });
-	});
-
-	const class_names = (0, _classnames2.default)(...$classes);
-	if ($classes.includes('monster')) {
-		children.push(_react2.default.createElement(
-			'span',
-			{ className: 'monster-emoji' },
-			$hints.possible_emoji
-		));
-	}
-
-	let element = null;
-	switch ($type) {
-		case 'span':
-			element = _react2.default.createElement(
-				'span',
-				{ className: class_names },
-				children
-			);break;
-
-		case 'br':
-			element = _react2.default.createElement('br', { className: class_names });break;
-		case 'hr':
-			element = _react2.default.createElement('hr', { className: class_names });break;
-
-		case 'li':
-			element = _react2.default.createElement(
-				'li',
-				{ className: class_names },
-				children
-			);break;
-		case 'ol':
-			element = _react2.default.createElement(
-				'ol',
-				{ className: class_names },
-				children
-			);break;
-		case 'ul':
-			element = _react2.default.createElement(
-				'ul',
-				{ className: class_names },
-				children
-			);break;
-
-		case 'strong':
-			element = _react2.default.createElement(
-				'strong',
-				{ className: class_names },
-				children
-			);break;
-		case 'em':
-			element = _react2.default.createElement(
-				'em',
-				{ className: class_names },
-				children
-			);break;
-		case 'section':
-			element = _react2.default.createElement(
-				'span',
-				{ className: class_names },
-				children
-			);break;
-		case 'heading':
-			element = _react2.default.createElement(
-				'h3',
-				{ className: class_names },
-				children
-			);break;
-
-		default:
-			element = _react2.default.createElement(
-				'span',
-				{ className: class_names },
-				'TODO "',
-				$type,
-				'" ',
-				children
-			);
-			break;
-	}
-
-	if ($hints.uuid) {
-		console.log('seen element with uuid:', $node);
-		element = _react2.default.createElement(
-			_richText2.default,
-			{ uuid: $hints.uuid },
-			element
-		);
-	}
-
-	state.element = element;
-	return state;
-}
-
-function on_type({ $type, state, $node, depth }) {
-	return state;
-}
-
-function on_concatenate_str({ state, str }) {
-	state.children.push({
-		element: str
-	});
-	return state;
-}
-
-function on_concatenate_sub_node({ state, sub_state }) {
-	state.children.push(sub_state);
-	return state;
-}
-
-const on_node_enter = createNodeState;
-
-exports.on_root_exit = on_root_exit;
-exports.on_node_enter = on_node_enter;
-exports.on_node_exit = on_node_exit;
-exports.on_concatenate_str = on_concatenate_str;
-exports.on_concatenate_sub_node = on_concatenate_sub_node;
-
-/***/ }),
-/* 761 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = undefined;
 
-var _connected = __webpack_require__(762);
+var _connected = __webpack_require__(761);
 
 var _connected2 = _interopRequireDefault(_connected);
 
@@ -52883,7 +52762,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = _connected2.default;
 
 /***/ }),
-/* 762 */
+/* 761 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -52901,7 +52780,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _gameContext = __webpack_require__(40);
 
-var _component = __webpack_require__(763);
+var _component = __webpack_require__(762);
 
 var _component2 = _interopRequireDefault(_component);
 
@@ -52929,7 +52808,7 @@ exports.default = props => _react2.default.createElement(
 );
 
 /***/ }),
-/* 763 */
+/* 762 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -52943,11 +52822,11 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _actionButton = __webpack_require__(764);
+var _actionButton = __webpack_require__(763);
 
 var _actionButton2 = _interopRequireDefault(_actionButton);
 
-__webpack_require__(767);
+__webpack_require__(766);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -52959,7 +52838,7 @@ exports.default = ({ children, actions }) => _react2.default.createElement(
 );
 
 /***/ }),
-/* 764 */
+/* 763 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -52970,7 +52849,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _connected = __webpack_require__(765);
+var _connected = __webpack_require__(764);
 
 var _connected2 = _interopRequireDefault(_connected);
 
@@ -52979,7 +52858,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = _connected2.default;
 
 /***/ }),
-/* 765 */
+/* 764 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -52999,7 +52878,7 @@ var _gameContext = __webpack_require__(40);
 
 var _gameContext2 = _interopRequireDefault(_gameContext);
 
-var _component = __webpack_require__(766);
+var _component = __webpack_require__(765);
 
 var _component2 = _interopRequireDefault(_component);
 
@@ -53018,7 +52897,7 @@ exports.default = props => _react2.default.createElement(
 );
 
 /***/ }),
-/* 766 */
+/* 765 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53056,14 +52935,190 @@ exports.default = ({ action, onClick }) => _react2.default.createElement(
 );
 
 /***/ }),
-/* 767 */
+/* 766 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
 
 /***/ }),
-/* 768 */,
+/* 767 */,
+/* 768 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.NODE_TYPE_TO_EXTRA_CLASSES = exports.NODE_TYPE_TO_COMPONENT = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+exports.intermediate_on_node_exit = intermediate_on_node_exit;
+exports.intermediate_assemble = intermediate_assemble;
+exports.to_react = to_react;
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _classnames = __webpack_require__(286);
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _richTextFormat = __webpack_require__(41);
+
+__webpack_require__(769);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const LIB = 'rich_text_to_react';
+
+const NODE_TYPE_TO_COMPONENT = exports.NODE_TYPE_TO_COMPONENT = {
+	[_richTextFormat.NodeType.heading]: 'h3',
+	[_richTextFormat.NodeType.inline_fragment]: 'div',
+	[_richTextFormat.NodeType.block_fragment]: 'div'
+};
+
+const NODE_TYPE_TO_EXTRA_CLASSES = exports.NODE_TYPE_TO_EXTRA_CLASSES = {
+	[_richTextFormat.NodeType.inline_fragment]: ['o⋄rich-text⋄inline']
+
+	// turn the state into a react element
+};function intermediate_on_node_exit({ $node, $id, state }) {
+	const { $type, $classes, $hints } = $node;
+
+	const result = {
+		children: null,
+		classes: [...$classes],
+		component: NODE_TYPE_TO_COMPONENT[$type] || $type,
+		wrapper: children => children
+	};
+
+	result.children = _react2.default.Children.map(state.children.map(c => c.element), (child, index) => {
+		return typeof child === 'string' ? child : _react2.default.cloneElement(child, { key: `${index}` });
+	});
+
+	result.classes.push(...(NODE_TYPE_TO_EXTRA_CLASSES[$type] || []));
+
+	if ((0, _richTextFormat.is_list)($node)) {
+		if ((0, _richTextFormat.is_uuid_list)($node)) {
+			console.log(`${LIB} seen uuid list`);
+			result.classes.push('o⋄rich-text⋄list--no-bullet');
+		}
+
+		switch ($hints.bullets_style) {
+			case 'none':
+				result.classes.push('o⋄rich-text⋄list--no-bullet');
+				break;
+
+			default:
+				break;
+		}
+
+		if ((0, _richTextFormat.is_KVP_list)($node)) {
+			// TODO rewrite completely
+			console.log(`${LIB} TODO KVP`);
+			result.classes.push('o⋄rich-text⋄list--no-bullet');
+		}
+	}
+
+	if ($hints.href) result.wrapper = children => _react2.default.createElement('a', {
+		href: $hints.href,
+		target: '_blank'
+	}, children);
+
+	if (!_richTextFormat.Enum.isType(_richTextFormat.NodeType, $type)) result.wrapper = children => _react2.default.createElement('div', {
+		className: 'o⋄rich-text⋄error'
+	}, [`TODO "${$type}"`, children]);
+
+	return result;
+}
+
+function intermediate_assemble({ children, classes, component, wrapper }) {
+	if (component === 'br' || component === 'hr') children = undefined;
+
+	return wrapper(_react2.default.createElement(component, {
+		className: (0, _classnames2.default)(...classes)
+	}, children));
+}
+
+// default
+function on_node_exit(params) {
+	const { children, classes, component, wrapper } = intermediate_on_node_exit(params);
+
+	params.state.element = intermediate_assemble({ children, classes, component, wrapper });
+	return params.state;
+}
+
+function on_concatenate_str({ state, str }) {
+	state.children.push({
+		element: str
+	});
+	return state;
+}
+
+function on_concatenate_sub_node({ $node, state, sub_state }) {
+	state.sub_nodes.push($node);
+	state.children.push(sub_state);
+	return state;
+}
+
+const callbacks = {
+	on_node_enter: () => ({
+		sub_nodes: [],
+		element: null,
+		children: []
+	}),
+	on_node_exit,
+	on_concatenate_str,
+	on_concatenate_sub_node
+
+	////////////
+};function TEST_overriden_on_node_exit(params) {
+	const { children, classes, component, wrapper } = intermediate_on_node_exit(params);
+	const { state, $node } = params;
+	const { $hints } = $node;
+
+	// XXX
+	/*
+ const class_names = classNames(...classes)
+ if ($classes.includes('monster')) {
+ 	children.push(<span className="monster-emoji">{$hints.possible_emoji}</span>)
+ }*/
+
+	let element = intermediate_assemble({ children, classes, component, wrapper });
+
+	if ($hints.uuid) {
+		//console.log(`${LIB} seen element with uuid:`, $node)
+		element = _react2.default.createElement('button', {}, element);
+	}
+
+	state.element = element;
+	return state;
+}
+////////////
+
+function to_react(doc, callback_overrides = { on_node_exit: TEST_overriden_on_node_exit }) {
+	//console.log(`${LIB} Rendering a rich text:`, doc)
+	const content = (0, _richTextFormat.walk)(doc, _extends({}, callbacks, callback_overrides)).element;
+
+	return _react2.default.createElement('div', {
+		className: 'o⋄rich-text'
+	}, content);
+}
+
+exports.default = to_react;
+
+/***/ }),
 /* 769 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+/* 770 */,
+/* 771 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53074,7 +53129,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _connected = __webpack_require__(770);
+var _connected = __webpack_require__(772);
 
 var _connected2 = _interopRequireDefault(_connected);
 
@@ -53083,7 +53138,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = _connected2.default;
 
 /***/ }),
-/* 770 */
+/* 772 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53101,7 +53156,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _gameContext = __webpack_require__(40);
 
-var _component = __webpack_require__(771);
+var _component = __webpack_require__(773);
 
 var _component2 = _interopRequireDefault(_component);
 
@@ -53119,7 +53174,7 @@ exports.default = props => _react2.default.createElement(
 );
 
 /***/ }),
-/* 771 */
+/* 773 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53141,7 +53196,9 @@ var _chatInterface = __webpack_require__(121);
 
 var _rich_text_to_react = __webpack_require__(122);
 
-__webpack_require__(772);
+var _rich_text_to_react2 = _interopRequireDefault(_rich_text_to_react);
+
+__webpack_require__(774);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -53238,7 +53295,7 @@ class Component extends _react2.default.Component {
 			this.state.mobile_keyboard_likely_present ? '(temporarily hidden while you type on mobile)' : _react2.default.createElement(
 				'div',
 				{ className: 'panel-top-content o\u22C4flex-element--nogrow' },
-				(0, _rich_text_to_react.rich_text_to_react)((0, _viewRichText.render_character_sheet)(state.avatar))
+				(0, _rich_text_to_react2.default)((0, _viewRichText.render_character_sheet)(state.avatar))
 			),
 			_react2.default.createElement(
 				'div',
@@ -53265,14 +53322,14 @@ class Component extends _react2.default.Component {
 exports.default = Component;
 
 /***/ }),
-/* 772 */
+/* 774 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
 
 /***/ }),
-/* 773 */,
-/* 774 */
+/* 775 */,
+/* 776 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53283,7 +53340,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _connected = __webpack_require__(775);
+var _connected = __webpack_require__(777);
 
 var _connected2 = _interopRequireDefault(_connected);
 
@@ -53292,7 +53349,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = _connected2.default;
 
 /***/ }),
-/* 775 */
+/* 777 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53310,7 +53367,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _gameContext = __webpack_require__(40);
 
-var _component = __webpack_require__(776);
+var _component = __webpack_require__(778);
 
 var _component2 = _interopRequireDefault(_component);
 
@@ -53328,7 +53385,7 @@ exports.default = props => _react2.default.createElement(
 );
 
 /***/ }),
-/* 776 */
+/* 778 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53350,7 +53407,9 @@ var _chatInterface = __webpack_require__(121);
 
 var _rich_text_to_react = __webpack_require__(122);
 
-__webpack_require__(777);
+var _rich_text_to_react2 = _interopRequireDefault(_rich_text_to_react);
+
+__webpack_require__(779);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -53367,7 +53426,7 @@ class Component extends _react2.default.Component {
 			_react2.default.createElement(
 				'div',
 				{ className: 'panel-top-content o\u22C4flex-element--nogrow' },
-				(0, _rich_text_to_react.rich_text_to_react)((0, _viewRichText.render_full_inventory)(state.inventory, state.wallet))
+				(0, _rich_text_to_react2.default)((0, _viewRichText.render_full_inventory)(state.inventory, state.wallet))
 			),
 			_react2.default.createElement('div', { className: 'o\u22C4flex-element--grow o\u22C4overflow-y\u205Aauto' })
 		);
@@ -53376,13 +53435,6 @@ class Component extends _react2.default.Component {
 exports.default = Component;
 
 /***/ }),
-/* 777 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-/* 778 */,
 /* 779 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -53393,6 +53445,13 @@ exports.default = Component;
 /* 781 */
 /***/ (function(module, exports, __webpack_require__) {
 
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+/* 782 */,
+/* 783 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 
@@ -53401,7 +53460,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _connected = __webpack_require__(782);
+var _connected = __webpack_require__(784);
 
 var _connected2 = _interopRequireDefault(_connected);
 
@@ -53410,7 +53469,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = _connected2.default;
 
 /***/ }),
-/* 782 */
+/* 784 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53428,7 +53487,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _gameContext = __webpack_require__(40);
 
-var _component = __webpack_require__(783);
+var _component = __webpack_require__(785);
 
 var _component2 = _interopRequireDefault(_component);
 
@@ -53443,7 +53502,7 @@ exports.default = props => _react2.default.createElement(
 );
 
 /***/ }),
-/* 783 */
+/* 785 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53466,6 +53525,8 @@ var _stateTheBoringRpg = __webpack_require__(91);
 var _chatInterface = __webpack_require__(121);
 
 var _rich_text_to_react = __webpack_require__(122);
+
+var _rich_text_to_react2 = _interopRequireDefault(_rich_text_to_react);
 
 var _sec = __webpack_require__(282);
 
@@ -53595,7 +53656,7 @@ class Component extends _react2.default.Component {
 			_react2.default.createElement(
 				'div',
 				{ className: 'panel-top-content o\u22C4flex-element--nogrow' },
-				(0, _rich_text_to_react.rich_text_to_react)(render_meta(state, client_state)),
+				(0, _rich_text_to_react2.default)(render_meta(state, client_state)),
 				_react2.default.createElement('hr', null)
 			),
 			_react2.default.createElement(
@@ -53609,7 +53670,7 @@ class Component extends _react2.default.Component {
 exports.default = Component;
 
 /***/ }),
-/* 784 */
+/* 786 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53620,7 +53681,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.toggle = exports.restart = undefined;
 
-__webpack_require__(785);
+__webpack_require__(787);
 
 const LIB = 'group chat SaaS (tlk.io)';
 const PARENT_ID = 'group-chat-container';
@@ -53697,14 +53758,14 @@ exports.restart = restart;
 exports.toggle = toggle;
 
 /***/ }),
-/* 785 */
+/* 787 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
 
 /***/ }),
-/* 786 */,
-/* 787 */
+/* 788 */,
+/* 789 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53723,7 +53784,7 @@ var _tbrpg_logo_512x = __webpack_require__(288);
 
 var _tbrpg_logo_512x2 = _interopRequireDefault(_tbrpg_logo_512x);
 
-__webpack_require__(788);
+__webpack_require__(790);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -53778,13 +53839,6 @@ function About() {
 }
 
 /***/ }),
-/* 788 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-/* 789 */,
 /* 790 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -53793,6 +53847,13 @@ function About() {
 /***/ }),
 /* 791 */,
 /* 792 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+/* 793 */,
+/* 794 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53806,7 +53867,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-__webpack_require__(793);
+__webpack_require__(795);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -53957,7 +54018,7 @@ class DevArea extends _react.Component {
 exports.default = DevArea;
 
 /***/ }),
-/* 793 */
+/* 795 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin

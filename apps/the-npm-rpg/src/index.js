@@ -17,7 +17,7 @@ if (!semver.satisfies(process.version, package_json.engines.node)) {
 const Conf = require('conf')
 const { create_game_instance } = require('@oh-my-rpg/state-the-boring-rpg')
 
-const SEC = require('./sec')
+const SEC = require('./services/sec')
 const { start_loop } = require('./interactive_mode')
 
 /////////////////////////////////////////////////

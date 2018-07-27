@@ -3,10 +3,9 @@ The npm RPG ⚔🛡💰
 
 https://www.npmjs.com/package/the-npm-rpg
 
+This is a simple command-line RPG. Every time you play, something happens!
 
-This is a simple command-line RPG. Every time you launch the command, something happens!
-
-**NOTE: very early stage of development**
+**NOTE: still in Beta, savegame may be reset anytime**
 
 
 ## TLDR; I want to play !
@@ -39,14 +38,12 @@ Please file a GitHub bug.
 npx has a cache. To force a refresh:
 `npx the-npm-rpg --ignore-existing`
 
-### I can't equip weapons/armors
-In progress!!!
 
 
 ## Contributing
 TODO...
 
+Hat tips:
 * http://jlongster.com/Backend-Apps-with-Webpack--Part-I
-* lerna
 * http://thisdavej.com/making-interactive-node-js-console-apps-that-listen-for-keypress-events/
 * https://stackoverflow.com/questions/5006821/nodejs-how-to-read-keystrokes-from-stdin

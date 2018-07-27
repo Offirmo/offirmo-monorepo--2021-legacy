@@ -17,3 +17,9 @@ Tosort
 
 TODO
 * error boundaries?
+
+
+```bash
+yarn start:parcel
+yarn build:dev:watch
+```
