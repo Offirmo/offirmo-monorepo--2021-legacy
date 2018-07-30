@@ -20,6 +20,6 @@ TODO
 
 
 ```bash
-yarn start:parcel
 yarn build:dev:watch
+rm -rf .cache & yarn start:parcel
 ```

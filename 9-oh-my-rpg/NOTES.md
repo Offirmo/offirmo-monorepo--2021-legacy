@@ -4,6 +4,9 @@ Icons:
 - https://thenounproject.com/gegebe/collection/common-rpg-icons/
 
 
++++ skills etc. https://docs.google.com/spreadsheets/d/1mVrIOtq09Mr_OJO7j2UxHr5-I-cJy26vSR-5mRO8Fwg/edit?pli=1#gid=929838144
+
+
 ranking: https://en.wikipedia.org/wiki/Elo_rating_system
 
 

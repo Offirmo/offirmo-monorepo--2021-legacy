@@ -2,12 +2,17 @@
 
 import React from 'react'
 
-const { to_react, intermediate_on_node_exit, intermediate_assemble } = require('../../../../rich-text-format-to-react')
+const {
+	to_react,
+	intermediate_on_node_exit,
+	intermediate_assemble,
+	InteractiveRichTextElement,
+} = require('../../../../rich-text-format-to-react/src')
 
 
 ////////////
-function on_node_exit(params) {
-	const { children, classes, component, wrapper } = intermediate_on_node_exit(params)
+function on_node_exit(params, options) {
+	const { children, classes, component, wrapper } = intermediate_on_node_exit(params, options)
 	const { state, $node } = params
 	const { $hints } = $node
 
@@ -15,11 +20,14 @@ function on_node_exit(params) {
 		children.push(<span className="monster-emoji">{$hints.possible_emoji}</span>)
 	}
 
-	let element = intermediate_assemble({ children, classes, component, wrapper })
+	let element = intermediate_assemble({ children, classes, component, wrapper }, options)
 
 	if ($hints.uuid) {
 		//console.log(`${LIB} seen element with uuid:`, $node)
-		element = React.createElement('button', {}, element)
+		element = <InteractiveRichTextElement
+			UUID={$hints.uuid}
+			react_representation={element}
+		/>
 	}
 
 	state.element = element

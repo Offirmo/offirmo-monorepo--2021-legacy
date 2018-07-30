@@ -20,7 +20,7 @@ export const NODE_TYPE_TO_EXTRA_CLASSES = {
 
 
 // turn the state into a react element
-export function intermediate_on_node_exit({$node, $id, state}) {
+export function intermediate_on_node_exit({$node, $id, state}, options) {
 	const { $type, $classes, $hints } = $node
 
 	const result = {
@@ -45,7 +45,7 @@ export function intermediate_on_node_exit({$node, $id, state}) {
 	if (is_list($node)) {
 		if (is_uuid_list($node)) {
 			console.log(`${LIB} seen uuid list`)
-			result.classes.push('o⋄rich-text⋄list--no-bullet')
+			result.classes.push('o⋄rich-text⋄list--interactive')
 		}
 
 		switch($hints.bullets_style) {
@@ -78,7 +78,7 @@ export function intermediate_on_node_exit({$node, $id, state}) {
 	return result
 }
 
-export function intermediate_assemble({ children, classes, component, wrapper }) {
+export function intermediate_assemble({ children, classes, component, wrapper }, options) {
 	if (component === 'br' || component === 'hr')
 		children = undefined
 
@@ -91,10 +91,11 @@ export function intermediate_assemble({ children, classes, component, wrapper })
 
 
 // default
-function on_node_exit(params) {
-	const { children, classes, component, wrapper } = intermediate_on_node_exit(params)
+function on_node_exit(params, options) {
+	const { children, classes, component, wrapper } = intermediate_on_node_exit(params, options)
 
-	params.state.element = intermediate_assemble({ children, classes, component, wrapper })
+	params.state.element = intermediate_assemble({ children, classes, component, wrapper }, options)
+
 	return params.state
 }
 
@@ -105,7 +106,7 @@ function on_concatenate_str({state, str}) {
 	return state
 }
 
-function on_concatenate_sub_node({$node, state, sub_state}) {
+function on_concatenate_sub_node({$node, state, sub_state}, options) {
 	state.sub_nodes.push($node)
 	state.children.push(sub_state)
 	return state
@@ -122,38 +123,18 @@ const callbacks = {
 	on_concatenate_sub_node,
 }
 
-////////////
-function TEST_overriden_on_node_exit(params) {
-	const { children, classes, component, wrapper } = intermediate_on_node_exit(params)
-	const { state, $node } = params
-	const { $hints } = $node
 
-	// XXX
-	/*
-	const class_names = classNames(...classes)
-	if ($classes.includes('monster')) {
-		children.push(<span className="monster-emoji">{$hints.possible_emoji}</span>)
-	}*/
-
-
-	let element = intermediate_assemble({ children, classes, component, wrapper })
-
-	if ($hints.uuid) {
-		//console.log(`${LIB} seen element with uuid:`, $node)
-		element = React.createElement('button', {}, element)
-	}
-
-	state.element = element
-	return state
-}
 ////////////
 
-export function to_react(doc, callback_overrides = {on_node_exit: TEST_overriden_on_node_exit}) {
+export function to_react(doc, callback_overrides = {}, options = {}) {
 	//console.log(`${LIB} Rendering a rich text:`, doc)
-	const content = walk(doc, {
-		...callbacks,
-		...callback_overrides,
-	}).element
+	const content = walk(
+		doc, {
+			...callbacks,
+			...callback_overrides,
+		},
+		options
+	).element
 
 	return React.createElement('div', {
 		className: 'o⋄rich-text',

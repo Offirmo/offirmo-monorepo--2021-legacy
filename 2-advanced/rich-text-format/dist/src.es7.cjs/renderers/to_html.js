@@ -59,7 +59,7 @@ const on_node_exit = ({ state, $node, depth }) => {
         }
         if (common_1.is_uuid_list($node)) {
             console.log(`${LIB} seen uuid list`);
-            classes.push('o⋄rich-text⋄list--no-bullet');
+            classes.push('o⋄rich-text⋄list--interactive');
         }
         if (common_1.is_KVP_list($node)) {
             classes.push('o⋄rich-text⋄list--no-bullet');
@@ -75,7 +75,7 @@ const on_node_exit = ({ state, $node, depth }) => {
         result = `<a href="${$hints.href}" target="_blank">${result}</a>`;
     // for demo only
     if ($hints.uuid)
-        result = `<button>${result}</button>`;
+        result = `<button class="o⋄rich-text⋄interactive" title="TODO interactive ${$hints.uuid}">${result}</button>`;
     state.str = result;
     return state;
 };

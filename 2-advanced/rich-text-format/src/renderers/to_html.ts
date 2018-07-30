@@ -90,7 +90,7 @@ const on_node_exit: WalkerReducer<State, OnNodeExitParams<State>, Options> = ({s
 
 		if (is_uuid_list($node)) {
 			console.log(`${LIB} seen uuid list`)
-			classes.push('o⋄rich-text⋄list--no-bullet')
+			classes.push('o⋄rich-text⋄list--interactive')
 		}
 
 		if (is_KVP_list($node)) {
@@ -110,7 +110,7 @@ const on_node_exit: WalkerReducer<State, OnNodeExitParams<State>, Options> = ({s
 
 	// for demo only
 	if ($hints.uuid)
-		result = `<button>${result}</button>`
+		result = `<button class="o⋄rich-text⋄interactive" title="TODO interactive ${$hints.uuid}">${result}</button>`
 
 	state.str = result
 	return state

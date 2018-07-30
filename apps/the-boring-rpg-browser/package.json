@@ -83,6 +83,7 @@
 		"react": "^16",
 		"react-circular-progressbar": "^1",
 		"react-dom": "^16",
+		"react-portal-tooltip": "^2",
 		"react-router-dom": "^4",
 		"semver": "^5",
 		"ts-node": "^5",
