@@ -6,7 +6,7 @@ const {
 	to_react,
 	intermediate_on_node_exit,
 	intermediate_assemble,
-	InteractiveRichTextElement,
+	InteractiveRichTextFragment,
 } = require('../../../../rich-text-format-to-react/src')
 
 
@@ -24,7 +24,7 @@ function on_node_exit(params, options) {
 
 	if ($hints.uuid) {
 		//console.log(`${LIB} seen element with uuid:`, $node)
-		element = <InteractiveRichTextElement
+		element = <InteractiveRichTextFragment key={$hints.uuid}
 			UUID={$hints.uuid}
 			react_representation={element}
 		/>

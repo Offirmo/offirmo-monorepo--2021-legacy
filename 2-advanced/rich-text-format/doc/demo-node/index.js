@@ -39,10 +39,10 @@ function demo(wrapped_doc) {
 ////////////////////////////////////
 
 //demo({DOC_DEMO_BASE_TYPES})
-//demo({DOC_DEMO_ADVANCED_TYPES})
+demo({DOC_DEMO_ADVANCED_TYPES})
 //demo({DOC_DEMO_HINTS})
 //demo({DOC_DEMO_RPG_03})
-demo({DOC_DEMO_INVENTORY})
+//demo({DOC_DEMO_INVENTORY})
 
 // TODO actions
 // TODO links

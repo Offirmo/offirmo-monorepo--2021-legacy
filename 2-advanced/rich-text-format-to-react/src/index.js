@@ -3,4 +3,4 @@ export {
 	intermediate_on_node_exit,
 	intermediate_assemble,
 } from './to_react'
-export { InteractiveRichTextElement } from './interactive-component'
+export { InteractiveRichTextFragment } from './interactive-fragment'

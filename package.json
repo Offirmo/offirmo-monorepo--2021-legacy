@@ -61,6 +61,7 @@
 		"conf": "^2",
 		"copy-webpack-plugin": "^4",
 		"cpx": "^1",
+		"create-react-class": "^15.6.3",
 		"cross-env": "^5",
 		"cross-spawn": "^6",
 		"css-loader": "^1",

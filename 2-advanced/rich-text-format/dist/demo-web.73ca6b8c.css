@@ -917,6 +917,8 @@ progress.o⋄animated::-ms-fill {
 	xxtext-decoration: none;
 	text-align: left;
 	transition: all 0.15s;
+
+	outline: none;
 }
 .o⋄rich-text button.o⋄rich-text⋄interactive:hover {
 	border-color: #FFFFFF;
@@ -927,6 +929,18 @@ progress.o⋄animated::-ms-fill {
 		margin: 0.4em auto;
 	}
 }
+
+/* not namespaced since may be
+div.o⋄rich-text⋄modal__dialog {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	border: 1px solid #e5e5e5;
+	background-color: white;
+	box-shadow: 0 5px 15px rgba(0,0,0,.5);
+	/*padding: 20,
+}*/
 body {
 	width: 100%;
 	max-width: unset;
@@ -1021,6 +1035,8 @@ pre {
 	xxtext-decoration: none;
 	text-align: left;
 	transition: all 0.15s;
+
+	outline: none;
 }
 .o⋄rich-text button.o⋄rich-text⋄interactive:hover {
 	border-color: #FFFFFF;
@@ -1031,3 +1047,15 @@ pre {
 		margin: 0.4em auto;
 	}
 }
+
+/* not namespaced since may be
+div.o⋄rich-text⋄modal__dialog {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	border: 1px solid #e5e5e5;
+	background-color: white;
+	box-shadow: 0 5px 15px rgba(0,0,0,.5);
+	/*padding: 20,
+}*/

@@ -69,11 +69,10 @@ const pick_random_base_strength = Random.integer(MIN_STRENGTH, MAX_STRENGTH)
 function create(rng: Engine, hints: Partial<Weapon> = {}): Weapon {
 	// TODO add a check for hints to be in existing components
 	return {
-		slot: InventorySlot.weapon,
+		...create_item_base(InventorySlot.weapon, hints.quality || pick_random_quality(rng)),
 		base_hid: hints.base_hid || pick_random_base(rng),
 		qualifier1_hid: hints.qualifier1_hid || pick_random_qualifier1(rng),
 		qualifier2_hid: hints.qualifier2_hid || pick_random_qualifier2(rng),
-		...create_item_base(InventorySlot.weapon, hints.quality || pick_random_quality(rng)),
 		base_strength: hints.base_strength || pick_random_base_strength(rng),
 		enhancement_level: hints.enhancement_level || 0,
 	}

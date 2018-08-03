@@ -100,3 +100,4 @@ You can't use height: 100vh on Chrome mobile or the url bar will get in the way.
 
 ## ideas TODO
 * currentColor https://css-tricks.com/currentcolor/
+* emoji icons https://preethisam.com/2018/06/25/how-to-use-emojis-as-icons/

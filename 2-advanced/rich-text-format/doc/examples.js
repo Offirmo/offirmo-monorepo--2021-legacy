@@ -1,5 +1,15 @@
 const RichText = require('..')
 
+const {
+	DEMO_WEAPON_1,
+	DEMO_WEAPON_2,
+	generate_random_demo_weapon,
+} = require('../../../9-oh-my-rpg/logic-weapons/dist/src.es7.cjs')
+
+const {
+	render_item,
+} = require('../../../9-oh-my-rpg/view-rich-text/dist/src.es7.cjs')
+
 /////// parts ///////
 
 const SUB_UL_ITEMS = {
@@ -103,8 +113,8 @@ const DOC_NPC_01 = {
 
 const SUB_UL_ACTIONABLE_ITEMS = {
 	1: DOC_WEAPON_01,
-	2: DOC_WEAPON_01,
-	3: DOC_WEAPON_01,
+	2: render_item(DEMO_WEAPON_1, {display_values: false}),
+	3: render_item(DEMO_WEAPON_2, {display_values: false}),
 }
 
 /////// COMPLETE DOCS ///////

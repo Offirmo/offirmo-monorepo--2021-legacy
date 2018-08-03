@@ -32,7 +32,7 @@
 	},
 	"scripts": {
 		"clean": "node ../../scripts/clean.js dist .cache",
-		"start:parcel": "parcel doc/demo-web/index.html --no-hmr",
+		"start:parcel": "parcel doc/demo-web/index.html doc/demo-web/index-iframe.html --no-hmr",
 		"start": "run-s clean start:parcel",
 
 		"build:dev:watch": "node ../../scripts/build-typescript.js --watch",
