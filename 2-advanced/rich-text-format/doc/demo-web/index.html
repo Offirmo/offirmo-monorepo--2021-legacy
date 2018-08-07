@@ -38,19 +38,19 @@
 			</label>
 			<label>
 				<input type="radio" name="style_select" onclick="oc()" value="base-dol" >
-				Offirmo base DoL
+				base DoL
 			</label>
 			<label>
 				<input type="radio" name="style_select" onclick="oc()" value="base-lod" >
-				Offirmo base LoD
-			</label>
-			<label>
-				<input type="radio" name="style_select" onclick="oc()" value="omr-lod" >
-				OMR LoD
+				base LoD
 			</label>
 			<label>
 				<input type="radio" name="style_select" onclick="oc()" value="omr-dol" >
 				OMR DoL
+			</label>
+			<label>
+				<input type="radio" name="style_select" onclick="oc()" value="omr-lod" >
+				OMR LoD
 			</label>
 		</fieldset>
 	</form>
@@ -69,31 +69,53 @@
 			Array.from(form)
 				.filter(e => e instanceof HTMLInputElement)
 				.forEach(element => {
-					const { type, value, checked } = element
-					console.log({ element, type, value, checked })
+					const { name, type, value } = element
+					//console.log({ element, name, type, value })
 
-					state[element.name] = state[element.name] || element.value
+					state[name] = state[name] || localStorage.getItem(`XOF.richtext.demo.${name}`)
 
 					switch (type) {
 						case 'radio':
 							if (element.checked) {
-								state[element.name] = element.value
+								//console.log('found checked:', value)
+								state[name] = value
 							}
-							element.checked = state[element.name] === element.value
 							break
 
 						default:
 							console.log('TODO handle type', type)
-							  break
+							break
+					}
+				})
+
+
+			Array.from(form)
+				.filter(e => e instanceof HTMLInputElement)
+				.forEach(element => {
+					const { name, type, value, checked } = element
+
+					switch (type) {
+						case 'radio':
+							element.checked = state[name] === value
+							break
+
+						default:
+							console.log('TODO handle type', type)
+							break
 					}
 				})
 
 			console.log({state})
+
+			Object.keys(state).forEach(k => {
+				localStorage.setItem(`XOF.richtext.demo.${k}`, state[k])
+			})
 			// TODO persist
+
+			render()
 		}
 		window.oc = on_click
 		on_click()
-		render()
 
 		function render() {
 			const searchParams = new URLSearchParams()

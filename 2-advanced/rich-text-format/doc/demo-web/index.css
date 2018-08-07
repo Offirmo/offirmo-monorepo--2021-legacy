@@ -1,11 +1,10 @@
-@import '../../node_modules/@offirmo/view-css/src/style.css';
 @import '../../src/renderers/style.css';
 
 body {
-	width: 100%;
-	max-width: unset;
-	font-size: 12px;
-	padding: 0 7px;
+	xxwidth: 100% !important;
+	max-width: unset !important;
+	font-size: 12px !important;
+	padding: 0 7px !important;
 }
 
 pre {
@@ -16,7 +15,7 @@ pre {
 .multi-renderer {
 	width: 100%;
 	display: grid;
-	grid-template-columns: repeat(3, 33%);
+	grid-template-columns: repeat(3, 33.3%);
 }
 
 .multi-renderer > div {

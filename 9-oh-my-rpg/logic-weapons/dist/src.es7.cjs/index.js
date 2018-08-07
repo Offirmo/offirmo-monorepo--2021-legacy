@@ -50,7 +50,7 @@ const pick_random_base_strength = random_1.Random.integer(MIN_STRENGTH, MAX_STRE
 /////////////////////
 function create(rng, hints = {}) {
     // TODO add a check for hints to be in existing components
-    return Object.assign({ slot: definitions_1.InventorySlot.weapon, base_hid: hints.base_hid || pick_random_base(rng), qualifier1_hid: hints.qualifier1_hid || pick_random_qualifier1(rng), qualifier2_hid: hints.qualifier2_hid || pick_random_qualifier2(rng) }, definitions_1.create_item_base(definitions_1.InventorySlot.weapon, hints.quality || pick_random_quality(rng)), { base_strength: hints.base_strength || pick_random_base_strength(rng), enhancement_level: hints.enhancement_level || 0 });
+    return Object.assign({}, definitions_1.create_item_base(definitions_1.InventorySlot.weapon, hints.quality || pick_random_quality(rng)), { base_hid: hints.base_hid || pick_random_base(rng), qualifier1_hid: hints.qualifier1_hid || pick_random_qualifier1(rng), qualifier2_hid: hints.qualifier2_hid || pick_random_qualifier2(rng), base_strength: hints.base_strength || pick_random_base_strength(rng), enhancement_level: hints.enhancement_level || 0 });
 }
 exports.create = create;
 /////////////////////

@@ -8,7 +8,6 @@
 
 		<style type="text/css">
 			/* super early styles while the page is loading */
-
 		</style>
 
 		<script>
@@ -23,6 +22,26 @@
 
 		<div id="root" class="o⋄top-container o⋄font⁚roboto"></div>
 
-		<script src="/demo-web.73ca6b8c.js"></script>
 	</body>
+
+	<script type="module">
+		console.log('iframe-index loading with:', {search: window.location.search})
+
+		import style_once from '//localhost:1981/0-stdlib/style-once/index.js'
+
+		const searchParams = new URLSearchParams(window.location.search);
+
+		const style = searchParams.get('style_select')
+
+		if (style.startsWith('base'))
+			style_once({ id: 'style', href: '//localhost:1981/2-advanced/view-css/src/style.css' })
+		if (style.startsWith('omr'))
+			style_once({ id: 'style', href: '//localhost:1981/9-oh-my-rpg/view-browser/src/style.css' })
+
+		if (style.endsWith('lod'))
+			document.body.dataset.oTheme = 'light-on-dark'
+	</script>
+
+	<script src="/demo-web.73ca6b8c.js"></script>
+
 </html>

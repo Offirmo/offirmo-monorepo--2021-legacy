@@ -8,7 +8,7 @@
 }
 
 /* Offirmo view theme */
-[data-o⋄theme="lod--colorhunt212"] {
+[data-o-theme="lod--colorhunt212"] {
 	--o⋄color--bg⁚main: var(--o⋄color__co212__dark);
 	--o⋄color--bg⁚main--backdrop: rgba(41, 40, 48, .88);
 

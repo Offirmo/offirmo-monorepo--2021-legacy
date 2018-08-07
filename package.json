@@ -7,7 +7,8 @@
 	"license": "Unlicense",
 	"private": true,
 	"scripts": {
-		"parcel": "parcel --no-hmr"
+		"parcel": "parcel --no-hmr",
+		"puer": "puer --no-launch --port 1981 --allow-cors"
 	},
 	"browserslist": [
 		"last 2 Chrome versions",
@@ -73,7 +74,7 @@
 		"eslint-plugin-chai-expect": "^1",
 		"eslint-plugin-json": "^1",
 		"eslint-plugin-mocha": "^5",
-		"eslint-plugin-node": "^6",
+		"eslint-plugin-node": "^7",
 		"eslint-plugin-prettier": "^2",
 		"eslint-plugin-react": "^7",
 		"fetchival": "^0.3",
@@ -111,6 +112,7 @@
 		"path-exists": "^3",
 		"prettier": "^1",
 		"prettyjson": "^1",
+		"puer": "^2.0.0",
 		"raven-js": "^3",
 		"react": "^16",
 		"react-animation-frame": "^1",

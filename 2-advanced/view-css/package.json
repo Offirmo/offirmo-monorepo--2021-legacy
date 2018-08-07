@@ -11,7 +11,10 @@
 		"npm-run-all": "^4"
 	},
 	"scripts": {
-		"clean": "rm -rf dist && mkdir dist",
+		"clean": "rm -rf dist .cache && mkdir dist",
+		"start:parcel": "parcel doc/demo/index.html doc/demo/index-iframe-base.html doc/demo/index-iframe-advanced.html doc/demo/index-iframe-controls.html --no-hmr",
+		"demo": "run-s clean start:parcel",
+
 		"build:copy": "cpx 'src/**/*.woff2' dist --verbose",
 		"build:cleancss": "cleancss --skip-rebase -o dist/offirmo-reset+utils.css src/style.css",
 		"build": "npm-run-all clean --parallel build:copy build:cleancss"

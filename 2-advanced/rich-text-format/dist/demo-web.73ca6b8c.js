@@ -1276,7 +1276,7 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
 
 module.exports = checkPropTypes;
 },{"./lib/ReactPropTypesSecret":"../../../../node_modules/prop-types/lib/ReactPropTypesSecret.js"}],"../../node_modules/react/cjs/react.development.js":[function(require,module,exports) {
-/** @license React v16.4.1
+/** @license React v16.4.2
  * react.development.js
  *
  * Copyright (c) 2013-present, Facebook, Inc.
@@ -1300,7 +1300,7 @@ if ('development' !== "production") {
 
     // TODO: this is special because it gets imported during build.
 
-    var ReactVersion = '16.4.1';
+    var ReactVersion = '16.4.2';
 
     // The Symbol used to tag the ReactElement-like types. If there is no native Symbol
     // nor polyfill, then a plain number is used for performance.
@@ -3122,7 +3122,7 @@ function camelizeStyleName(string) {
 
 module.exports = camelizeStyleName;
 },{"./camelize":"../../../../node_modules/fbjs/lib/camelize.js"}],"../../node_modules/react-dom/cjs/react-dom.development.js":[function(require,module,exports) {
-/** @license React v16.4.1
+/** @license React v16.4.2
  * react-dom.development.js
  *
  * Copyright (c) 2013-present, Facebook, Inc.
@@ -5682,14 +5682,15 @@ if ('development' !== "production") {
     var ROOT_ATTRIBUTE_NAME = 'data-reactroot';
     var VALID_ATTRIBUTE_NAME_REGEX = new RegExp('^[' + ATTRIBUTE_NAME_START_CHAR + '][' + ATTRIBUTE_NAME_CHAR + ']*$');
 
+    var hasOwnProperty = Object.prototype.hasOwnProperty;
     var illegalAttributeNameCache = {};
     var validatedAttributeNameCache = {};
 
     function isAttributeNameSafe(attributeName) {
-      if (validatedAttributeNameCache.hasOwnProperty(attributeName)) {
+      if (hasOwnProperty.call(validatedAttributeNameCache, attributeName)) {
         return true;
       }
-      if (illegalAttributeNameCache.hasOwnProperty(attributeName)) {
+      if (hasOwnProperty.call(illegalAttributeNameCache, attributeName)) {
         return false;
       }
       if (VALID_ATTRIBUTE_NAME_REGEX.test(attributeName)) {
@@ -10013,7 +10014,7 @@ if ('development' !== "production") {
     var rARIA = new RegExp('^(aria)-[' + ATTRIBUTE_NAME_CHAR + ']*$');
     var rARIACamel = new RegExp('^(aria)[A-Z][' + ATTRIBUTE_NAME_CHAR + ']*$');
 
-    var hasOwnProperty = Object.prototype.hasOwnProperty;
+    var hasOwnProperty$1 = Object.prototype.hasOwnProperty;
 
     function getStackAddendum() {
       var stack = ReactDebugCurrentFrame.getStackAddendum();
@@ -10021,7 +10022,7 @@ if ('development' !== "production") {
     }
 
     function validateProperty(tagName, name) {
-      if (hasOwnProperty.call(warnedProperties, name) && warnedProperties[name]) {
+      if (hasOwnProperty$1.call(warnedProperties, name) && warnedProperties[name]) {
         return true;
       }
 
@@ -20027,7 +20028,7 @@ if ('development' !== "production") {
 
     // TODO: this is special because it gets imported during build.
 
-    var ReactVersion = '16.4.1';
+    var ReactVersion = '16.4.2';
 
     // TODO: This type is shared between the reconciler and ReactDOM, but will
     // eventually be lifted out to the renderer.
@@ -20563,15 +20564,11 @@ if ('development' === 'production') {
 } else {
   module.exports = require('./cjs/react-dom.development.js');
 }
-},{"./cjs/react-dom.development.js":"../../node_modules/react-dom/cjs/react-dom.development.js"}],"../../node_modules/@offirmo/view-css/node_modules/normalize.css/normalize.css":[function(require,module,exports) {
+},{"./cjs/react-dom.development.js":"../../node_modules/react-dom/cjs/react-dom.development.js"}],"../../src/renderers/style.css":[function(require,module,exports) {
 
-},{}],"../../node_modules/@offirmo/view-css/src/style--fonts.css":[function(require,module,exports) {
+},{}],"index.css":[function(require,module,exports) {
 
-},{"./font--roboto_regular--latin.v18.woff2":[["font--roboto_regular--latin.v18.a1e0b902.woff2","../../node_modules/@offirmo/view-css/src/font--roboto_regular--latin.v18.woff2"],"../../node_modules/@offirmo/view-css/src/font--roboto_regular--latin.v18.woff2"],"./font--roboto_regular--latin-ext.v18.woff2":[["font--roboto_regular--latin-ext.v18.9a84ddc9.woff2","../../node_modules/@offirmo/view-css/src/font--roboto_regular--latin-ext.v18.woff2"],"../../node_modules/@offirmo/view-css/src/font--roboto_regular--latin-ext.v18.woff2"],"./font--roboto_condensed_regular--latin.v16.woff2":[["font--roboto_condensed_regular--latin.v16.6272472b.woff2","../../node_modules/@offirmo/view-css/src/font--roboto_condensed_regular--latin.v16.woff2"],"../../node_modules/@offirmo/view-css/src/font--roboto_condensed_regular--latin.v16.woff2"],"./font--roboto_condensed_regular--latin-ext.v16.woff2":[["font--roboto_condensed_regular--latin-ext.v16.9976c7f4.woff2","../../node_modules/@offirmo/view-css/src/font--roboto_condensed_regular--latin-ext.v16.woff2"],"../../node_modules/@offirmo/view-css/src/font--roboto_condensed_regular--latin-ext.v16.woff2"]}],"../../node_modules/@offirmo/view-css/src/style.css":[function(require,module,exports) {
-
-},{"../node_modules/normalize.css/normalize.css":"../../node_modules/@offirmo/view-css/node_modules/normalize.css/normalize.css","./style--reset.css":"../../node_modules/@offirmo/view-css/node_modules/normalize.css/normalize.css","./style--colors.css":"../../node_modules/@offirmo/view-css/node_modules/normalize.css/normalize.css","./style--containers.css":"../../node_modules/@offirmo/view-css/node_modules/normalize.css/normalize.css","./style--fonts.css":"../../node_modules/@offirmo/view-css/src/style--fonts.css","./style--semantic.css":"../../node_modules/@offirmo/view-css/node_modules/normalize.css/normalize.css","./style--technical.css":"../../node_modules/@offirmo/view-css/node_modules/normalize.css/normalize.css","./style--misc.css":"../../node_modules/@offirmo/view-css/node_modules/normalize.css/normalize.css"}],"index.css":[function(require,module,exports) {
-
-},{"../../node_modules/@offirmo/view-css/src/style.css":"../../node_modules/@offirmo/view-css/src/style.css","../../src/renderers/style.css":"../../node_modules/@offirmo/view-css/node_modules/normalize.css/normalize.css"}],"../../node_modules/@offirmo/react-error-boundary/node_modules/react/index.js":[function(require,module,exports) {
+},{"../../src/renderers/style.css":"../../src/renderers/style.css"}],"../../node_modules/@offirmo/react-error-boundary/node_modules/react/index.js":[function(require,module,exports) {
 'use strict';
 
 if ('development' === 'production') {
@@ -24190,7 +24187,7 @@ const callbacks = {
 }
 
 exports.default = to_react;
-},{"react":"../../../rich-text-format-to-react/node_modules/react/index.js","classnames":"../../../rich-text-format-to-react/node_modules/classnames/index.js","@offirmo/rich-text-format":"../../../rich-text-format-to-react/node_modules/@offirmo/rich-text-format/dist/src.es7.cjs/index.js","@offirmo/rich-text-format/src/renderers/style.css":"../../node_modules/@offirmo/view-css/node_modules/normalize.css/normalize.css"}],"../../../../node_modules/prop-types/factoryWithTypeCheckers.js":[function(require,module,exports) {
+},{"react":"../../../rich-text-format-to-react/node_modules/react/index.js","classnames":"../../../rich-text-format-to-react/node_modules/classnames/index.js","@offirmo/rich-text-format":"../../../rich-text-format-to-react/node_modules/@offirmo/rich-text-format/dist/src.es7.cjs/index.js","@offirmo/rich-text-format/src/renderers/style.css":"../../src/renderers/style.css"}],"../../../../node_modules/prop-types/factoryWithTypeCheckers.js":[function(require,module,exports) {
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -24760,7 +24757,7 @@ if ('development' === 'production') {
   module.exports = require('./cjs/react.development.js');
 }
 },{"./cjs/react.development.js":"../../node_modules/react/cjs/react.development.js"}],"../../../../node_modules/react-dom/cjs/react-dom.development.js":[function(require,module,exports) {
-/** @license React v16.4.1
+/** @license React v16.4.2
  * react-dom.development.js
  *
  * Copyright (c) 2013-present, Facebook, Inc.
@@ -27320,14 +27317,15 @@ if ('development' !== "production") {
     var ROOT_ATTRIBUTE_NAME = 'data-reactroot';
     var VALID_ATTRIBUTE_NAME_REGEX = new RegExp('^[' + ATTRIBUTE_NAME_START_CHAR + '][' + ATTRIBUTE_NAME_CHAR + ']*$');
 
+    var hasOwnProperty = Object.prototype.hasOwnProperty;
     var illegalAttributeNameCache = {};
     var validatedAttributeNameCache = {};
 
     function isAttributeNameSafe(attributeName) {
-      if (validatedAttributeNameCache.hasOwnProperty(attributeName)) {
+      if (hasOwnProperty.call(validatedAttributeNameCache, attributeName)) {
         return true;
       }
-      if (illegalAttributeNameCache.hasOwnProperty(attributeName)) {
+      if (hasOwnProperty.call(illegalAttributeNameCache, attributeName)) {
         return false;
       }
       if (VALID_ATTRIBUTE_NAME_REGEX.test(attributeName)) {
@@ -31651,7 +31649,7 @@ if ('development' !== "production") {
     var rARIA = new RegExp('^(aria)-[' + ATTRIBUTE_NAME_CHAR + ']*$');
     var rARIACamel = new RegExp('^(aria)[A-Z][' + ATTRIBUTE_NAME_CHAR + ']*$');
 
-    var hasOwnProperty = Object.prototype.hasOwnProperty;
+    var hasOwnProperty$1 = Object.prototype.hasOwnProperty;
 
     function getStackAddendum() {
       var stack = ReactDebugCurrentFrame.getStackAddendum();
@@ -31659,7 +31657,7 @@ if ('development' !== "production") {
     }
 
     function validateProperty(tagName, name) {
-      if (hasOwnProperty.call(warnedProperties, name) && warnedProperties[name]) {
+      if (hasOwnProperty$1.call(warnedProperties, name) && warnedProperties[name]) {
         return true;
       }
 
@@ -41665,7 +41663,7 @@ if ('development' !== "production") {
 
     // TODO: this is special because it gets imported during build.
 
-    var ReactVersion = '16.4.1';
+    var ReactVersion = '16.4.2';
 
     // TODO: This type is shared between the reconciler and ReactDOM, but will
     // eventually be lifted out to the renderer.
@@ -44312,7 +44310,7 @@ deprecated._resetWarned = _resetWarned;
 
 module.exports = exports['default'];
 },{"warning":"../../../../node_modules/warning/browser.js"}],"../../../../node_modules/react-is/cjs/react-is.development.js":[function(require,module,exports) {
-/** @license React v16.4.1
+/** @license React v16.4.2
  * react-is.development.js
  *
  * Copyright (c) 2013-present, Facebook, Inc.
@@ -49982,7 +49980,7 @@ if (util && util.inspect && util.inspect.custom) {
     return this.constructor.name + ' ' + obj;
   };
 }
-},{"safe-buffer":"../../../../node_modules/safe-buffer/index.js","util":"../../node_modules/@offirmo/view-css/node_modules/normalize.css/normalize.css"}],"../../../../node_modules/readable-stream/lib/internal/streams/destroy.js":[function(require,module,exports) {
+},{"safe-buffer":"../../../../node_modules/safe-buffer/index.js","util":"../../src/renderers/style.css"}],"../../../../node_modules/readable-stream/lib/internal/streams/destroy.js":[function(require,module,exports) {
 'use strict';
 
 /*<replacement>*/
@@ -52271,7 +52269,7 @@ function indexOf(xs, x) {
   }
   return -1;
 }
-},{"process-nextick-args":"../../../../node_modules/process-nextick-args/index.js","isarray":"../../../../node_modules/buffer/node_modules/isarray/index.js","events":"../../../../node_modules/events/events.js","./internal/streams/stream":"../../../../node_modules/readable-stream/lib/internal/streams/stream-browser.js","safe-buffer":"../../../../node_modules/safe-buffer/index.js","core-util-is":"../../../../node_modules/core-util-is/lib/util.js","inherits":"../../../../node_modules/inherits/inherits_browser.js","util":"../../node_modules/@offirmo/view-css/node_modules/normalize.css/normalize.css","./internal/streams/BufferList":"../../../../node_modules/readable-stream/lib/internal/streams/BufferList.js","./internal/streams/destroy":"../../../../node_modules/readable-stream/lib/internal/streams/destroy.js","./_stream_duplex":"../../../../node_modules/readable-stream/lib/_stream_duplex.js","string_decoder/":"../../../../node_modules/readable-stream/node_modules/string_decoder/lib/string_decoder.js","process":"../../../../node_modules/process/browser.js"}],"../../../../node_modules/readable-stream/lib/_stream_transform.js":[function(require,module,exports) {
+},{"process-nextick-args":"../../../../node_modules/process-nextick-args/index.js","isarray":"../../../../node_modules/buffer/node_modules/isarray/index.js","events":"../../../../node_modules/events/events.js","./internal/streams/stream":"../../../../node_modules/readable-stream/lib/internal/streams/stream-browser.js","safe-buffer":"../../../../node_modules/safe-buffer/index.js","core-util-is":"../../../../node_modules/core-util-is/lib/util.js","inherits":"../../../../node_modules/inherits/inherits_browser.js","util":"../../src/renderers/style.css","./internal/streams/BufferList":"../../../../node_modules/readable-stream/lib/internal/streams/BufferList.js","./internal/streams/destroy":"../../../../node_modules/readable-stream/lib/internal/streams/destroy.js","./_stream_duplex":"../../../../node_modules/readable-stream/lib/_stream_duplex.js","string_decoder/":"../../../../node_modules/readable-stream/node_modules/string_decoder/lib/string_decoder.js","process":"../../../../node_modules/process/browser.js"}],"../../../../node_modules/readable-stream/lib/_stream_transform.js":[function(require,module,exports) {
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -60057,7 +60055,7 @@ var Buffer = require("buffer").Buffer;
   };
 })(typeof module === 'undefined' || module, this);
 
-},{"buffer":"../../node_modules/@offirmo/view-css/node_modules/normalize.css/normalize.css"}],"../../../../node_modules/brorand/index.js":[function(require,module,exports) {
+},{"buffer":"../../src/renderers/style.css"}],"../../../../node_modules/brorand/index.js":[function(require,module,exports) {
 var r;
 
 module.exports = function rand(len) {
@@ -60124,7 +60122,7 @@ if (typeof self === 'object') {
   }
 }
 
-},{"crypto":"../../node_modules/@offirmo/view-css/node_modules/normalize.css/normalize.css"}],"../../../../node_modules/miller-rabin/lib/mr.js":[function(require,module,exports) {
+},{"crypto":"../../src/renderers/style.css"}],"../../../../node_modules/miller-rabin/lib/mr.js":[function(require,module,exports) {
 var bn = require('bn.js');
 var brorand = require('brorand');
 
@@ -70207,7 +70205,7 @@ const pick_random_base_strength = random_1.Random.integer(MIN_STRENGTH, MAX_STRE
 /////////////////////
 function create(rng, hints = {}) {
     // TODO add a check for hints to be in existing components
-    return Object.assign({ slot: definitions_1.InventorySlot.weapon, base_hid: hints.base_hid || pick_random_base(rng), qualifier1_hid: hints.qualifier1_hid || pick_random_qualifier1(rng), qualifier2_hid: hints.qualifier2_hid || pick_random_qualifier2(rng) }, definitions_1.create_item_base(definitions_1.InventorySlot.weapon, hints.quality || pick_random_quality(rng)), { base_strength: hints.base_strength || pick_random_base_strength(rng), enhancement_level: hints.enhancement_level || 0 });
+    return Object.assign({}, definitions_1.create_item_base(definitions_1.InventorySlot.weapon, hints.quality || pick_random_quality(rng)), { base_hid: hints.base_hid || pick_random_base(rng), qualifier1_hid: hints.qualifier1_hid || pick_random_qualifier1(rng), qualifier2_hid: hints.qualifier2_hid || pick_random_qualifier2(rng), base_strength: hints.base_strength || pick_random_base_strength(rng), enhancement_level: hints.enhancement_level || 0 });
 }
 exports.create = create;
 /////////////////////
@@ -74317,7 +74315,7 @@ const pick_random_base_strength = random_1.Random.integer(MIN_STRENGTH, MAX_STRE
 /////////////////////
 function create(rng, hints = {}) {
     // TODO add a check for hints to be in existing components
-    return Object.assign({ slot: definitions_1.InventorySlot.weapon, base_hid: hints.base_hid || pick_random_base(rng), qualifier1_hid: hints.qualifier1_hid || pick_random_qualifier1(rng), qualifier2_hid: hints.qualifier2_hid || pick_random_qualifier2(rng) }, definitions_1.create_item_base(definitions_1.InventorySlot.weapon, hints.quality || pick_random_quality(rng)), { base_strength: hints.base_strength || pick_random_base_strength(rng), enhancement_level: hints.enhancement_level || 0 });
+    return Object.assign({}, definitions_1.create_item_base(definitions_1.InventorySlot.weapon, hints.quality || pick_random_quality(rng)), { base_hid: hints.base_hid || pick_random_base(rng), qualifier1_hid: hints.qualifier1_hid || pick_random_qualifier1(rng), qualifier2_hid: hints.qualifier2_hid || pick_random_qualifier2(rng), base_strength: hints.base_strength || pick_random_base_strength(rng), enhancement_level: hints.enhancement_level || 0 });
 }
 exports.create = create;
 /////////////////////
@@ -75023,7 +75021,7 @@ const pick_random_base_strength = random_1.Random.integer(MIN_STRENGTH, MAX_STRE
 /////////////////////
 function create(rng, hints = {}) {
     // TODO add a check for hints to be in existing components
-    return Object.assign({ slot: definitions_1.InventorySlot.weapon, base_hid: hints.base_hid || pick_random_base(rng), qualifier1_hid: hints.qualifier1_hid || pick_random_qualifier1(rng), qualifier2_hid: hints.qualifier2_hid || pick_random_qualifier2(rng) }, definitions_1.create_item_base(definitions_1.InventorySlot.weapon, hints.quality || pick_random_quality(rng)), { base_strength: hints.base_strength || pick_random_base_strength(rng), enhancement_level: hints.enhancement_level || 0 });
+    return Object.assign({}, definitions_1.create_item_base(definitions_1.InventorySlot.weapon, hints.quality || pick_random_quality(rng)), { base_hid: hints.base_hid || pick_random_base(rng), qualifier1_hid: hints.qualifier1_hid || pick_random_qualifier1(rng), qualifier2_hid: hints.qualifier2_hid || pick_random_qualifier2(rng), base_strength: hints.base_strength || pick_random_base_strength(rng), enhancement_level: hints.enhancement_level || 0 });
 }
 exports.create = create;
 /////////////////////

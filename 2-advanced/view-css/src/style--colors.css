@@ -24,7 +24,7 @@
 /******* themes *******/
 
 :root, /* this theme is the default */
-[data-o⋄theme="dark-on-light"] {
+[data-o-theme="dark-on-light"] {
 	--o⋄color--bg⁚main: var(--o⋄color__dolt__quasi-white);
 	--o⋄color--bg⁚main--backdrop: rgba(98%, 98%, 98%, .88);
 
@@ -34,7 +34,7 @@
 }
 
 /* light on dark theme */
-[data-o⋄theme="light-on-dark"] {
+[data-o-theme="light-on-dark"] {
 	--o⋄color--bg⁚main: var(--o⋄color__dolt__quasi-black);
 	--o⋄color--bg⁚main--backdrop: rgba(17%, 17%, 17%, .9);
 
