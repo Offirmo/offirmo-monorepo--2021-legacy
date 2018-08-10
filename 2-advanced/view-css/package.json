@@ -12,7 +12,7 @@
 	},
 	"scripts": {
 		"clean": "rm -rf dist .cache && mkdir dist",
-		"start:parcel": "parcel doc/demo/index.html doc/demo/index-iframe-base.html doc/demo/index-iframe-advanced.html doc/demo/index-iframe-controls.html --no-hmr",
+		"start:parcel": "parcel doc/demo/index.html doc/demo/index-iframe-base.html doc/demo/index-iframe-fonts.html doc/demo/index-iframe-advanced.html doc/demo/index-iframe-controls.html",
 		"demo": "run-s clean start:parcel",
 
 		"build:copy": "cpx 'src/**/*.woff2' dist --verbose",

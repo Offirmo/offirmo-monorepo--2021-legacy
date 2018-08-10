@@ -371,21 +371,23 @@ body {
 	font-family: var(--o⋄font-family--fast_and_good_enough);
 	color: var(--o⋄color--fg⁚main);
 	background-color: var(--o⋄color--bg⁚main);
-	line-height: 1.6;
-	font-size: 18px;
 
 	/* https://www.leejamesrobinson.com/blog/how-stripe-designs-beautiful-websites/ */
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+
+	/* TODO replace with typography.js */
+	line-height: 1.6;
+	font-size: 18px;
 }
 
 
+/* TODO replace with typography.js */
 h1, h2, h3 {
 	/* http://perfectmotherfuckingwebsite.com/ */
 	line-height: 1.2;
 }
-
 h1, h2, h3, p {
 	/* because they are too big by default */
 	margin: .7em 0;
@@ -398,15 +400,67 @@ img {
 }
 
 
-/* TODO buttons
+
+
+/* Adapt links to the main color.
+ * Better than the defaults.
+ */
+a { text-decoration-color: var(--o⋄color--fg⁚secondary); }
+a:link,
+a:visited {color: inherit;}
+a:hover,
+a:active {color: red;}
+
+
+/* Nicer HR
+ * possible ideas: https://css-tricks.com/examples/hrs/
+ */
+hr {
+	/* simple one */
+	width: 100%;
+	border: .05em solid;
+	background-color: var(--o⋄color--fg⁚ancillary);
+}
+/************ buttons ************
 https://css-tricks.com/overriding-default-button-styles/
 https://fvsch.com/code/styling-buttons/
-TODO https://fdossena.com/index.php?p=html5cool/buttons/i.frag
  */
-/* https://www.leejamesrobinson.com/blog/how-stripe-designs-beautiful-websites/ */
+
+/* Button 8 from
+ * https://fdossena.com/?p=html5cool/buttons/i.frag
+ */
 button {
-	box-shadow: 0 3px 6px rgba(50,50,93,.1), 0 1px 2px rgba(0,0,0,.08);
+	/*position: relative;*/
+	display: inline-block;
+	padding: 0.2em 1.45em;
+	margin: 0.1em;
+	border: 0.15em solid var(--o⋄color--transparent);
+
+	background-color: var(--o⋄color--bg⁚highlight-10);
+	color: var(--o⋄color--fg⁚main);
+	text-decoration: none;
+	text-align: center;
 }
+button:hover {
+	border-color: var(--o⋄color--bg⁚highlight-20);
+}
+button:active {
+	background-color: var(--o⋄color--bg⁚highlight-20);
+}
+
+/*
+@media all and (max-width: 30em) {
+	 button {
+		display: block;
+		margin: 0.2em auto;
+	}
+}*/
+
+/* https://www.leejamesrobinson.com/blog/how-stripe-designs-beautiful-websites/ */
+/*button {
+	box-shadow: 0 3px 6px rgba(50, 50, 93, .1), 0 1px 2px rgba(0, 0, 0, .08);
+}*/
+
 /* questionable, TOREVIEW
 button:hover {
 	border-width: 2px;
@@ -419,15 +473,18 @@ button:active {
 }*/
 
 
+/************ progress ************/
+
 /* Reset the default appearance
  * https://css-tricks.com/html5-progress-element/
  * https://snook.ca/archives/html_and_css/animating-progress
  */
 :root {
-	/* TODO tie this to the theme ? */
+	/* TODO tie this to the theme */
 	--o⋄color__progress--bg: hsl(0, 0%, 90%);
 	--o⋄color__progress-bar: hsl(221, 78%, 69%);
 }
+
 progress {
 	-webkit-appearance: none;
 	-moz-appearance: none;
@@ -449,8 +506,10 @@ progress::-moz-progress-bar {
 }
 progress::-ms-fill {
 	background-color: var(--o⋄color__progress-bar);
-	border:0;
+	border: 0;
 }
+
+/************ scroll bars ************/
 
 /* better scrollbars
  * https://codepen.io/nikhil8krishnan/pen/WvYPvv
@@ -459,27 +518,7 @@ progress::-ms-fill {
 	width: 6px;
 }
 ::-webkit-scrollbar-thumb {
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-}
-
-/* Adapt links to the main color.
- * Better than the defaults.
- */
-a { text-decoration-color: var(--o⋄color--fg⁚secondary); }
-a:link,
-a:visited {color: inherit;}
-a:hover,
-a:active {color: red;}
-
-
-/* Nicer HR
- * possible ideas: https://css-tricks.com/examples/hrs/
- */
-hr {
-	/* simple one */
-	border: 0;
-	height: 1px;
-	background: var(--o⋄color--fg⁚ancillary);
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 /* Good tool:
  http://www.cssportal.com/css-color-converter/
@@ -487,29 +526,36 @@ hr {
 :root {
 	--o⋄color--transparent: rgba(0, 0, 0, 0);
 
-	--o⋄color__black--90: rgba(0, 0, 0, .9);
-	--o⋄color__black--10: rgba(0, 0, 0, .1);
+	--o⋄color__darker--10: rgba(0, 0, 0, .1);
+	--o⋄color__darker--20: rgba(0, 0, 0, .2);
+	--o⋄color__darker--90: rgba(0, 0, 0, .9);
 
-	--o⋄color__white--90: rgba(100%, 100%, 100%, .9);
-	--o⋄color__white--10: rgba(100%, 100%, 100%, .1);
+	--o⋄color__lighter--10: rgba(100%, 100%, 100%, .1);
+	--o⋄color__lighter--20: rgba(100%, 100%, 100%, .2);
+	--o⋄color__lighter--90: rgba(100%, 100%, 100%, .9);
 
 	/* Base colors
 	 * dark-on-light theme, good default, but can also be used in reverse on light-on-dark
 	 * https://medium.com/refactoring-ui/7-practical-tips-for-cheating-at-design-40c736799886
 	 */
-	--o⋄color__dolt__quasi-black: rgb(17%, 17%, 17%); /* 17 or 26 ? */
-	--o⋄color__dolt__dark-grey:   rgb(40%, 40%, 40%);
-	--o⋄color__dolt__medium-grey: rgb(63%, 63%, 63%);
-	--o⋄color__dolt__quasi-white: rgb(98%, 98%, 98%);
+	--o⋄color__dolt__quasi-black: hsl(0, 0%, 17%); /* 17 or 26 ? */
+	--o⋄color__dolt__dark-grey:   hsl(0, 0%, 33%);
+	--o⋄color__dolt__medium-grey: hsl(0, 0%, 66%);
+	--o⋄color__dolt__quasi-white: hsl(0, 0%, 98%);
 
 }
 
 /******* themes *******/
+/* TODO hue based https://medium.com/@mwichary/dark-theme-in-a-day-3518dde2955a */
 
 :root, /* this theme is the default */
 [data-o-theme="dark-on-light"] {
+	--o⋄hue⁚main: 0;
+
 	--o⋄color--bg⁚main: var(--o⋄color__dolt__quasi-white);
-	--o⋄color--bg⁚main--backdrop: rgba(98%, 98%, 98%, .88);
+	--o⋄color--bg⁚main--backdrop: rgba(98%, 98%, 98%, .88); /* TODO review */
+	--o⋄color--bg⁚highlight-10: var(--o⋄color__darker--10);
+	--o⋄color--bg⁚highlight-20: var(--o⋄color__darker--20);
 
 	--o⋄color--fg⁚main: var(--o⋄color__dolt__quasi-black);
 	--o⋄color--fg⁚secondary: rgba(17%, 17%, 17%, .66);
@@ -520,6 +566,8 @@ hr {
 [data-o-theme="light-on-dark"] {
 	--o⋄color--bg⁚main: var(--o⋄color__dolt__quasi-black);
 	--o⋄color--bg⁚main--backdrop: rgba(17%, 17%, 17%, .9);
+	--o⋄color--bg⁚highlight-10: var(--o⋄color__lighter--10);
+	--o⋄color--bg⁚highlight-20: var(--o⋄color__lighter--20);
 
 	--o⋄color--fg⁚main: var(--o⋄color__dolt__quasi-white);
 	--o⋄color--fg⁚secondary: hsla(0, 0%, 98%, .66);
@@ -539,6 +587,19 @@ hr {
 .o⋄color⁚ancillary {
 	color: var(--o⋄color--fg⁚ancillary);
 }
+
+/******* utils *******/
+/* temporary class to transition themes smoothly
+ * https://medium.com/@mwichary/dark-theme-in-a-day-3518dde2955a
+ * TODO
+html.color-theme-in-transition,
+html.color-theme-in-transition *,
+html.color-theme-in-transition *:before,
+html.color-theme-in-transition *:after {
+	transition: all 750ms !important;
+	transition-delay: 0 !important;
+}
+*/
 
 /* very convenient container to propagate full height
  * NOTE: full height applied by default on <html> and <body>
@@ -571,10 +632,14 @@ hr {
 .o⋄error-report {
 	font-size: xx-small;
 	font-family: monospace;
-	color: red;
-	background-color: rgba(0, 0, 0, .3);
+	color: red; /* TODO */
+	background-color: rgba(0, 0, 0, .3); /* TODO */
 	margin: auto;
 	z-index: 100000; /* just in case TODO check */
+}
+.o⋄error-report > pre {
+	white-space: pre-wrap;
+	text-align: initial;
 }
 
 /*********************/

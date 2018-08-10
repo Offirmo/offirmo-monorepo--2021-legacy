@@ -30,8 +30,12 @@
 .o⋄error-report {
 	font-size: xx-small;
 	font-family: monospace;
-	color: red;
-	background-color: rgba(0, 0, 0, .3);
+	color: red; /* TODO */
+	background-color: rgba(0, 0, 0, .3); /* TODO */
 	margin: auto;
 	z-index: 100000; /* just in case TODO check */
+}
+.o⋄error-report > pre {
+	white-space: pre-wrap;
+	text-align: initial;
 }

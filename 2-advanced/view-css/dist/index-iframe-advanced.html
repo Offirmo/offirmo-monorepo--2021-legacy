@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<title>Demo base</title>
+		<title>Demo advanced</title>
 
 		<style type="text/css">
 			/* super early styles while the page is loading */
@@ -15,50 +15,28 @@
 		</script>
 	</head>
 
-	<body class="o⋄top-container">
-
-	<nav>
-		<ul class="o⋄nav-list">
-			<li class="o⋄text-noselect o⋄color⁚secondary"><a>Home</a></li>
-			<li class="o⋄text-noselect o⋄color⁚secondary"><a>About</a></li>
-		</ul>
-	</nav>
+<body class="o⋄font⁚system o⋄text-align⁚center" data-o⋄theme="light-on-dark">
 
 	<h1>...</h1>
 
 	<p>
 		What I’m saying is that it’s so, so simple to make sites easier to read. Websites are broken by default, they are functional, high-performing, and accessible, but they’re also fucking ugly. You and all the other web designers out there need to make them not total shit.
 	</p>
+
+	<div class="o⋄error-report">
+		A sample error report
+		<pre>[Intervention] Slow network is detected. See https://www.chromestatus.com/feature/5636954674692096 for more details. Fallback font will be used while loading: https://fonts.gstatic.com/stats/Merriweather/normal/900
+		</pre>
+	</div>
 	<hr>
-	<p>
-		Normal text
-		<strong>emphasized text</strong>
-		<span class="o⋄color⁚secondary">secondary text</span>
-		<span class="o⋄color⁚ancillary">ancillary text</span>
-		<a href="#">link</a>
-	</p>
 
-	<blockquote class="o⋄font⁚fast-and-good-enough">
-		<p>“😀 Blockquote featuring the "fast and good enough" font-family (.o⋄font⁚fast-and-good-enough)”
-			— Some stranger 🥰</p>
-	</blockquote>
-	<blockquote class="o⋄font⁚system">
-		<p>“😀 Blockquote featuring the "system" font-family (.o⋄font⁚system)”
-			— Some stranger 🥰</p>
-	</blockquote>
-	<blockquote class="o⋄font⁚roboto">
-		<p>“😀 Blockquote featuring the nice and precise "roboto" font-family (.o⋄font⁚roboto)”
-			— Some stranger 🥰</p>
-	</blockquote>
-	<blockquote class="o⋄font⁚roboto-condensed">
-		<p>“😀 Blockquote featuring the nice and precise "roboto condensed" font-family (.o⋄font⁚roboto-condensed)”
-			— Some stranger 🥰</p>
-	</blockquote>
-
-	<p>
-		<button>Click me!</button>
-		<progress value=".5">progress</progress>
-	</p>
+	<nav>
+		<ul class="o⋄nav-list o⋄flex--centered-content">
+			<li class="o⋄text-noselect o⋄color⁚secondary"><a href="https://www.atlassian.com/try">Try all products</a></li>
+			<li class="o⋄text-noselect o⋄color⁚secondary"><a href="https://www.atlassian.com/legal/privacy-policy">Privacy policy</a></li>
+			<li class="o⋄text-noselect o⋄color⁚secondary"><a href="https://www.atlassian.com/legal/customer-agreement">Terms of service</a></li>
+		</ul>
+	</nav>
 
 	<script>
 		document.querySelector('h1').textContent = document.title
@@ -67,8 +45,6 @@
 		})
 	</script>
 
-	</body>
-
 	<script type="module" src="//localhost:1981/2-advanced/view-css/doc/demo/common/add-css-from-queryparams.js"></script>
 
-</html>
+</body></html>

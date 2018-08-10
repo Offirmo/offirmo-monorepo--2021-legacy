@@ -4,29 +4,36 @@
 :root {
 	--o⋄color--transparent: rgba(0, 0, 0, 0);
 
-	--o⋄color__black--90: rgba(0, 0, 0, .9);
-	--o⋄color__black--10: rgba(0, 0, 0, .1);
+	--o⋄color__darker--10: rgba(0, 0, 0, .1);
+	--o⋄color__darker--20: rgba(0, 0, 0, .2);
+	--o⋄color__darker--90: rgba(0, 0, 0, .9);
 
-	--o⋄color__white--90: rgba(100%, 100%, 100%, .9);
-	--o⋄color__white--10: rgba(100%, 100%, 100%, .1);
+	--o⋄color__lighter--10: rgba(100%, 100%, 100%, .1);
+	--o⋄color__lighter--20: rgba(100%, 100%, 100%, .2);
+	--o⋄color__lighter--90: rgba(100%, 100%, 100%, .9);
 
 	/* Base colors
 	 * dark-on-light theme, good default, but can also be used in reverse on light-on-dark
 	 * https://medium.com/refactoring-ui/7-practical-tips-for-cheating-at-design-40c736799886
 	 */
-	--o⋄color__dolt__quasi-black: rgb(17%, 17%, 17%); /* 17 or 26 ? */
-	--o⋄color__dolt__dark-grey:   rgb(40%, 40%, 40%);
-	--o⋄color__dolt__medium-grey: rgb(63%, 63%, 63%);
-	--o⋄color__dolt__quasi-white: rgb(98%, 98%, 98%);
+	--o⋄color__dolt__quasi-black: hsl(0, 0%, 17%); /* 17 or 26 ? */
+	--o⋄color__dolt__dark-grey:   hsl(0, 0%, 33%);
+	--o⋄color__dolt__medium-grey: hsl(0, 0%, 66%);
+	--o⋄color__dolt__quasi-white: hsl(0, 0%, 98%);
 
 }
 
 /******* themes *******/
+/* TODO hue based https://medium.com/@mwichary/dark-theme-in-a-day-3518dde2955a */
 
 :root, /* this theme is the default */
 [data-o-theme="dark-on-light"] {
+	--o⋄hue⁚main: 0;
+
 	--o⋄color--bg⁚main: var(--o⋄color__dolt__quasi-white);
-	--o⋄color--bg⁚main--backdrop: rgba(98%, 98%, 98%, .88);
+	--o⋄color--bg⁚main--backdrop: rgba(98%, 98%, 98%, .88); /* TODO review */
+	--o⋄color--bg⁚highlight-10: var(--o⋄color__darker--10);
+	--o⋄color--bg⁚highlight-20: var(--o⋄color__darker--20);
 
 	--o⋄color--fg⁚main: var(--o⋄color__dolt__quasi-black);
 	--o⋄color--fg⁚secondary: rgba(17%, 17%, 17%, .66);
@@ -37,6 +44,8 @@
 [data-o-theme="light-on-dark"] {
 	--o⋄color--bg⁚main: var(--o⋄color__dolt__quasi-black);
 	--o⋄color--bg⁚main--backdrop: rgba(17%, 17%, 17%, .9);
+	--o⋄color--bg⁚highlight-10: var(--o⋄color__lighter--10);
+	--o⋄color--bg⁚highlight-20: var(--o⋄color__lighter--20);
 
 	--o⋄color--fg⁚main: var(--o⋄color__dolt__quasi-white);
 	--o⋄color--fg⁚secondary: hsla(0, 0%, 98%, .66);
@@ -56,3 +65,16 @@
 .o⋄color⁚ancillary {
 	color: var(--o⋄color--fg⁚ancillary);
 }
+
+/******* utils *******/
+/* temporary class to transition themes smoothly
+ * https://medium.com/@mwichary/dark-theme-in-a-day-3518dde2955a
+ * TODO
+html.color-theme-in-transition,
+html.color-theme-in-transition *,
+html.color-theme-in-transition *:before,
+html.color-theme-in-transition *:after {
+	transition: all 750ms !important;
+	transition-delay: 0 !important;
+}
+*/

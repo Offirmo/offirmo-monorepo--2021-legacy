@@ -30,21 +30,23 @@ body {
 	font-family: var(--o⋄font-family--fast_and_good_enough);
 	color: var(--o⋄color--fg⁚main);
 	background-color: var(--o⋄color--bg⁚main);
-	line-height: 1.6;
-	font-size: 18px;
 
 	/* https://www.leejamesrobinson.com/blog/how-stripe-designs-beautiful-websites/ */
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+
+	/* TODO replace with typography.js */
+	line-height: 1.6;
+	font-size: 18px;
 }
 
 
+/* TODO replace with typography.js */
 h1, h2, h3 {
 	/* http://perfectmotherfuckingwebsite.com/ */
 	line-height: 1.2;
 }
-
 h1, h2, h3, p {
 	/* because they are too big by default */
 	margin: .7em 0;
@@ -57,69 +59,7 @@ img {
 }
 
 
-/* TODO buttons
-https://css-tricks.com/overriding-default-button-styles/
-https://fvsch.com/code/styling-buttons/
-TODO https://fdossena.com/index.php?p=html5cool/buttons/i.frag
- */
-/* https://www.leejamesrobinson.com/blog/how-stripe-designs-beautiful-websites/ */
-button {
-	box-shadow: 0 3px 6px rgba(50,50,93,.1), 0 1px 2px rgba(0,0,0,.08);
-}
-/* questionable, TOREVIEW
-button:hover {
-	border-width: 2px;
-	xxtransform: translateY(-1px);
-	box-shadow: 0 7px 14px rgba(50,50,93,.1), 0 3px 6px rgba(0,0,0,.08);
-}
-button:active {
-	xxtransform: translateY(1px);
-	border-width: 2px;
-}*/
 
-
-/* Reset the default appearance
- * https://css-tricks.com/html5-progress-element/
- * https://snook.ca/archives/html_and_css/animating-progress
- */
-:root {
-	/* TODO tie this to the theme ? */
-	--o⋄color__progress--bg: hsl(0, 0%, 90%);
-	--o⋄color__progress-bar: hsl(221, 78%, 69%);
-}
-progress {
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	appearance: none;
-
-	background-color: var(--o⋄color__progress--bg);
-	border: solid 1px var(--o⋄color--fg⁚main);
-	overflow: hidden;
-}
-/* necessary to style the progress bar background */
-progress::-webkit-progress-bar {
-	background-color: var(--o⋄color__progress--bg);
-}
-progress::-webkit-progress-value {
-	background-color: var(--o⋄color__progress-bar);
-}
-progress::-moz-progress-bar {
-	background-color: var(--o⋄color__progress-bar);
-}
-progress::-ms-fill {
-	background-color: var(--o⋄color__progress-bar);
-	border:0;
-}
-
-/* better scrollbars
- * https://codepen.io/nikhil8krishnan/pen/WvYPvv
- */
-::-webkit-scrollbar {
-	width: 6px;
-}
-::-webkit-scrollbar-thumb {
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-}
 
 /* Adapt links to the main color.
  * Better than the defaults.
@@ -136,7 +76,7 @@ a:active {color: red;}
  */
 hr {
 	/* simple one */
-	border: 0;
-	height: 1px;
-	background: var(--o⋄color--fg⁚ancillary);
+	width: 100%;
+	border: .05em solid;
+	background-color: var(--o⋄color--fg⁚ancillary);
 }
