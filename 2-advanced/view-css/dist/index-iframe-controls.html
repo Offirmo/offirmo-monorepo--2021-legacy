@@ -8,6 +8,11 @@
 
 	<style type="text/css">
 		/* super early styles while the page is loading */
+
+		.scroll-demo-container {
+			height: 200px;
+			overflow-y: scroll;
+		}
 	</style>
 
 	<script>
@@ -29,14 +34,35 @@
 	Normal text
 	<span class="o⋄color⁚secondary">secondary text</span>
 	<span class="o⋄color⁚ancillary">ancillary text</span>
-	<a href="#">link</a>
+</p>
+
+<hr>
+
+<p>
+	Some text <a href="http://bettermotherfuckingwebsite.com/">link</a>
+	Some text <button>Click me!</button>
+	Some text <progress value=".5">progress</progress>
+	Some text
 </p>
 
 <p>
-	<a href="http://bettermotherfuckingwebsite.com/">link</a>
-	<button>Click me!</button>
-	<progress value=".5">progress</progress>
+	What I’m saying is that it’s so, <button class="o⋄button--inline">so simple to make sites</button> easier to read. Websites are broken by default...
 </p>
+
+<div class="scroll-demo-container o⋄border⁚default">
+	<p>Hi</p>
+	<p>Hi</p>
+	<p>Hi</p>
+	<p>Hi</p>
+	<p>Hi</p>
+	<p>Hi</p>
+	<p>Hi</p>
+	<p>Hi</p>
+	<p>Hi</p>
+	<p>Hi</p>
+	<p>Hi</p>
+</div>
+
 
 <script>
 	document.querySelector('h1').textContent = document.title

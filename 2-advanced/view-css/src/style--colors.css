@@ -28,28 +28,31 @@
 
 :root, /* this theme is the default */
 [data-o-theme="dark-on-light"] {
-	--o⋄hue⁚main: 0;
-
 	--o⋄color--bg⁚main: var(--o⋄color__dolt__quasi-white);
 	--o⋄color--bg⁚main--backdrop: rgba(98%, 98%, 98%, .88); /* TODO review */
-	--o⋄color--bg⁚highlight-10: var(--o⋄color__darker--10);
-	--o⋄color--bg⁚highlight-20: var(--o⋄color__darker--20);
+	--o⋄color--bg⁚highlight--1: rgba(0, 0, 0, .1);
+	--o⋄color--bg⁚highlight--2: rgba(0, 0, 0, .3);
 
 	--o⋄color--fg⁚main: var(--o⋄color__dolt__quasi-black);
-	--o⋄color--fg⁚secondary: rgba(17%, 17%, 17%, .66);
-	--o⋄color--fg⁚ancillary: rgba(17%, 17%, 17%, .33);
+	--o⋄color--fg⁚secondary: hsla(0, 0%, 17%, .66);
+	--o⋄color--fg⁚ancillary: hsla(0, 0%, 17%, .33);
+
+	--o⋄color--fg⁚accent: #7AACFE; /* classic blue */
+
 }
 
 /* light on dark theme */
 [data-o-theme="light-on-dark"] {
 	--o⋄color--bg⁚main: var(--o⋄color__dolt__quasi-black);
-	--o⋄color--bg⁚main--backdrop: rgba(17%, 17%, 17%, .9);
-	--o⋄color--bg⁚highlight-10: var(--o⋄color__lighter--10);
-	--o⋄color--bg⁚highlight-20: var(--o⋄color__lighter--20);
+	--o⋄color--bg⁚main--backdrop: rgba(17%, 17%, 17%, .9); /* TODO review */
+	--o⋄color--bg⁚highlight--1: rgba(100%, 100%, 100%, .2);
+	--o⋄color--bg⁚highlight--2: rgba(100%, 100%, 100%, .4);
 
 	--o⋄color--fg⁚main: var(--o⋄color__dolt__quasi-white);
 	--o⋄color--fg⁚secondary: hsla(0, 0%, 98%, .66);
 	--o⋄color--fg⁚ancillary: hsla(0, 0%, 98%, .33);
+
+	--o⋄color--fg⁚accent: #7AACFE; /* classic blue */
 }
 
 /******* themes *******/

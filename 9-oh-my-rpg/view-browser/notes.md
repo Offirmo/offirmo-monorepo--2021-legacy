@@ -28,3 +28,5 @@ https://v-play.net/game-resources/16-sites-featuring-free-game-graphics
 Inspiration:
 - http://www.dungeonsurvivor.com/
 - http://www.dungeonsurvivor.com/preregistration
+
+TODO inventory with https://github.com/drcmda/mauerwerk ?

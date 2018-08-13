@@ -26,6 +26,9 @@
 	padding: 7px; /* looks good by default. Use o⋄pad⁚0 else */
 }
 
+.o⋄border⁚default {
+	border: solid var(--o⋄border--thickness) var(--o⋄color--fg⁚main);
+}
 
 .o⋄error-report {
 	font-size: xx-small;

@@ -55,6 +55,8 @@ Activated through classes:
   * `o⋄overflow-y⁚auto`
   * `o⋄height⁚100pc`
   
+  * `.o⋄border⁚default`
+  
 * data selectors
   * `data-o⋄theme="light-on-dark"` (dark-on-light being the default)
 

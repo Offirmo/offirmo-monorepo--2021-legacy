@@ -1,4 +1,12 @@
 
+/*********************/
+
+:root {
+	--o⋄border--thickness: .08em;
+}
+
+/*********************/
+
 html {
 	border-color: yellow; /* for debug, display only if debug activated */
 
@@ -68,7 +76,7 @@ a { text-decoration-color: var(--o⋄color--fg⁚secondary); }
 a:link,
 a:visited {color: inherit;}
 a:hover,
-a:active {color: red;}
+a:active {color: var(--o⋄color--fg⁚accent);}
 
 
 /* Nicer HR
@@ -77,6 +85,7 @@ a:active {color: red;}
 hr {
 	/* simple one */
 	width: 100%;
-	border: .05em solid;
+	border: none;
+	border-top: var(--o⋄border--thickness) solid;
 	background-color: var(--o⋄color--fg⁚ancillary);
 }

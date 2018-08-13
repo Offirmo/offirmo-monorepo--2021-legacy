@@ -3,6 +3,13 @@ Icons:
 - https://thenounproject.com/monjin.friends/collection/fantasy-kit/
 - https://thenounproject.com/gegebe/collection/common-rpg-icons/
 
+fontes
+https://www.behance.net/gallery/67861589/Sangha-Kali-typeface-(free)
+
+Story
+- shlock gate keepers
+- unifying magic, kept secret by lords
+- tribes leaving in "monster dumps"
 
 +++ skills etc. https://docs.google.com/spreadsheets/d/1mVrIOtq09Mr_OJO7j2UxHr5-I-cJy26vSR-5mRO8Fwg/edit?pli=1#gid=929838144
 

@@ -5,14 +5,20 @@
 	--o⋄color__co212__blue:    rgb(93, 167, 174);
 	--o⋄color__co212__brown:   rgb(84, 61, 70);
 	--o⋄color__co212__dark:    rgb(41, 40, 48);
+
+	outline-color: var(--o⋄color__co212__beige);
 }
 
 /* Offirmo view theme */
 [data-o-theme="lod--colorhunt212"] {
 	--o⋄color--bg⁚main: var(--o⋄color__co212__dark);
-	--o⋄color--bg⁚main--backdrop: rgba(41, 40, 48, .88);
+	--o⋄color--bg⁚main--backdrop: hsla(248, 9%, 17%, 0.88); /* TODO review */
+	--o⋄color--bg⁚highlight--1: rgba(100%, 100%, 100%, .2);
+	--o⋄color--bg⁚highlight--2: rgba(100%, 100%, 100%, .4);
 
 	--o⋄color--fg⁚main: var(--o⋄color__co212__beige);
 	--o⋄color--fg⁚secondary: rgba(255, 235, 188, 0.66);
 	--o⋄color--fg⁚ancillary: rgba(255, 235, 188, 0.33);
+
+	--o⋄color--fg⁚accent: var(--o⋄color__co212__blue);
 }

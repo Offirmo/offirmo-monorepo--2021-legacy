@@ -340,6 +340,14 @@ template {
   display: none;
 }
 
+/*********************/
+
+:root {
+	--o⋄border--thickness: .08em;
+}
+
+/*********************/
+
 html {
 	border-color: yellow; /* for debug, display only if debug activated */
 
@@ -409,7 +417,7 @@ a { text-decoration-color: var(--o⋄color--fg⁚secondary); }
 a:link,
 a:visited {color: inherit;}
 a:hover,
-a:active {color: red;}
+a:active {color: var(--o⋄color--fg⁚accent);}
 
 
 /* Nicer HR
@@ -418,60 +426,65 @@ a:active {color: red;}
 hr {
 	/* simple one */
 	width: 100%;
-	border: .05em solid;
+	border: none;
+	border-top: var(--o⋄border--thickness) solid;
 	background-color: var(--o⋄color--fg⁚ancillary);
 }
+/******* misc *******/
+
+/* Alter the ugly focus ring
+ * https://hackernoon.com/removing-that-ugly-focus-ring-and-keeping-it-too-6c8727fefcd2?gi=c50f17a45f16
+ */
+/* 1) no focus style for non-keyboard-inputs elements */
+*:focus {
+	outline: none;
+}
+/* 2) and for keyboard users, override everything with
+ * a classic ring when focused on any element
+ */
+body.user-is-tabbing *:focus {
+	outline: 5px auto var(--o⋄color--fg⁚accent);
+}
+
+
 /************ buttons ************
 https://css-tricks.com/overriding-default-button-styles/
 https://fvsch.com/code/styling-buttons/
  */
 
-/* Button 8 from
+/* Derived from "button 8" from
  * https://fdossena.com/?p=html5cool/buttons/i.frag
  */
 button {
-	/*position: relative;*/
+	/* TODO fit-content ? https://developer.mozilla.org/en-US/docs/Web/CSS/fit-content */
 	display: inline-block;
 	padding: 0.2em 1.45em;
 	margin: 0.1em;
-	border: 0.15em solid var(--o⋄color--transparent);
+	border: solid calc(var(--o⋄border--thickness) * 2) var(--o⋄color--transparent);
 
-	background-color: var(--o⋄color--bg⁚highlight-10);
+	background-color: var(--o⋄color--bg⁚highlight--1);
 	color: var(--o⋄color--fg⁚main);
 	text-decoration: none;
 	text-align: center;
 }
 button:hover {
-	border-color: var(--o⋄color--bg⁚highlight-20);
+	border-color: var(--o⋄color--fg⁚main);
 }
 button:active {
-	background-color: var(--o⋄color--bg⁚highlight-20);
+	background-color: var(--o⋄color--bg⁚highlight--2);
 }
 
-/*
-@media all and (max-width: 30em) {
-	 button {
-		display: block;
-		margin: 0.2em auto;
-	}
-}*/
-
-/* https://www.leejamesrobinson.com/blog/how-stripe-designs-beautiful-websites/ */
-/*button {
-	box-shadow: 0 3px 6px rgba(50, 50, 93, .1), 0 1px 2px rgba(0, 0, 0, .08);
-}*/
-
-/* questionable, TOREVIEW
-button:hover {
-	border-width: 2px;
-	xxtransform: translateY(-1px);
-	box-shadow: 0 7px 14px rgba(50,50,93,.1), 0 3px 6px rgba(0,0,0,.08);
+/*** special "inline" button */
+button.o⋄button--inline {
+	padding: 0 .1em;
+	margin: 0;
+	border-radius: .25em;
+	border-width: var(--o⋄border--thickness);
 }
-button:active {
-	xxtransform: translateY(1px);
-	border-width: 2px;
-}*/
-
+button.o⋄button--inline:hover {
+	background-color: var(--o⋄color--bg⁚highlight--2);
+	border-color: var(--o⋄color--bg⁚highlight--1);
+}
 
 /************ progress ************/
 
@@ -479,19 +492,18 @@ button:active {
  * https://css-tricks.com/html5-progress-element/
  * https://snook.ca/archives/html_and_css/animating-progress
  */
-:root {
-	/* TODO tie this to the theme */
-	--o⋄color__progress--bg: hsl(0, 0%, 90%);
-	--o⋄color__progress-bar: hsl(221, 78%, 69%);
-}
-
 progress {
+	--o⋄color__progress--bg: var(--o⋄color--bg⁚highlight--1);
+	--o⋄color__progress-border: var(--o⋄color--bg⁚highlight--1);
+	--o⋄color__progress-bar: var(--o⋄color--fg⁚main);
+
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
 
+	vertical-align: middle;
 	background-color: var(--o⋄color__progress--bg);
-	border: solid 1px var(--o⋄color--fg⁚main);
+	border: solid var(--o⋄border--thickness) var(--o⋄color__progress-border);
 	overflow: hidden;
 }
 /* necessary to style the progress bar background */
@@ -512,13 +524,15 @@ progress::-ms-fill {
 /************ scroll bars ************/
 
 /* better scrollbars
- * https://codepen.io/nikhil8krishnan/pen/WvYPvv
+ * https://stackoverflow.com/a/14150577/587407
+ * https://css-tricks.com/almanac/properties/s/scrollbar/
  */
 ::-webkit-scrollbar {
-	width: 6px;
+	width: .4em;
 }
 ::-webkit-scrollbar-thumb {
-	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+	background-color: var(--o⋄color--bg⁚highlight--1);
+	xx-webkit-box-shadow: inset 0 0 .4em var(--o⋄color--bg⁚highlight--2);
 }
 /* Good tool:
  http://www.cssportal.com/css-color-converter/
@@ -550,28 +564,31 @@ progress::-ms-fill {
 
 :root, /* this theme is the default */
 [data-o-theme="dark-on-light"] {
-	--o⋄hue⁚main: 0;
-
 	--o⋄color--bg⁚main: var(--o⋄color__dolt__quasi-white);
 	--o⋄color--bg⁚main--backdrop: rgba(98%, 98%, 98%, .88); /* TODO review */
-	--o⋄color--bg⁚highlight-10: var(--o⋄color__darker--10);
-	--o⋄color--bg⁚highlight-20: var(--o⋄color__darker--20);
+	--o⋄color--bg⁚highlight--1: rgba(0, 0, 0, .1);
+	--o⋄color--bg⁚highlight--2: rgba(0, 0, 0, .3);
 
 	--o⋄color--fg⁚main: var(--o⋄color__dolt__quasi-black);
-	--o⋄color--fg⁚secondary: rgba(17%, 17%, 17%, .66);
-	--o⋄color--fg⁚ancillary: rgba(17%, 17%, 17%, .33);
+	--o⋄color--fg⁚secondary: hsla(0, 0%, 17%, .66);
+	--o⋄color--fg⁚ancillary: hsla(0, 0%, 17%, .33);
+
+	--o⋄color--fg⁚accent: #7AACFE; /* classic blue */
+
 }
 
 /* light on dark theme */
 [data-o-theme="light-on-dark"] {
 	--o⋄color--bg⁚main: var(--o⋄color__dolt__quasi-black);
-	--o⋄color--bg⁚main--backdrop: rgba(17%, 17%, 17%, .9);
-	--o⋄color--bg⁚highlight-10: var(--o⋄color__lighter--10);
-	--o⋄color--bg⁚highlight-20: var(--o⋄color__lighter--20);
+	--o⋄color--bg⁚main--backdrop: rgba(17%, 17%, 17%, .9); /* TODO review */
+	--o⋄color--bg⁚highlight--1: rgba(100%, 100%, 100%, .2);
+	--o⋄color--bg⁚highlight--2: rgba(100%, 100%, 100%, .4);
 
 	--o⋄color--fg⁚main: var(--o⋄color__dolt__quasi-white);
 	--o⋄color--fg⁚secondary: hsla(0, 0%, 98%, .66);
 	--o⋄color--fg⁚ancillary: hsla(0, 0%, 98%, .33);
+
+	--o⋄color--fg⁚accent: #7AACFE; /* classic blue */
 }
 
 /******* themes *******/
@@ -628,6 +645,9 @@ html.color-theme-in-transition *:after {
 	padding: 7px; /* looks good by default. Use o⋄pad⁚0 else */
 }
 
+.o⋄border⁚default {
+	border: solid var(--o⋄border--thickness) var(--o⋄color--fg⁚main);
+}
 
 .o⋄error-report {
 	font-size: xx-small;
