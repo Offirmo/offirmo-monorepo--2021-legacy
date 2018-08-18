@@ -7,65 +7,33 @@
 	display: inline;
 }
 
-.o⋄rich-text h3 {
-	/*margin: 0;*/
-}
-
 .o⋄rich-text ol,
 .o⋄rich-text ul {
-	/*margin: 0;*/
 	padding-left: 24px;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
 }
 
-.o⋄rich-text li {
-	/*list-style-position: inside;*/
+.o⋄rich-text⋄list button {
+	padding: .2em;
+	height: 3em;
+	width: 99%;
+	text-align: left;
+
 }
 
-.o⋄rich-text ul > li > * {
-	/*position: relative;
-	left: -7px;*/
-}
-
-.o⋄rich-text ol.o⋄rich-text⋄list--no-bullet,
-.o⋄rich-text ul.o⋄rich-text⋄list--no-bullet {
+ol.o⋄rich-text⋄list--no-bullet,
+ul.o⋄rich-text⋄list--no-bullet {
 	list-style-type: none;
 	padding-left: 12px;
 }
-
-.o⋄rich-text ol.o⋄rich-text⋄list--interactive,
-.o⋄rich-text ul.o⋄rich-text⋄list--interactive {
+ol.o⋄rich-text⋄list--interactive,
+ul.o⋄rich-text⋄list--interactive {
 	list-style-type: none;
 	padding-left: 0;
 }
 
-/*.o⋄rich-text ul.o⋄rich-text⋄list--no-bullet > li > * {
-	position: unset;
-	left: unset;
-}*/
-
-.o⋄rich-text button.o⋄rich-text⋄interactive {
-	display: inline-block;
-	box-sizing: border-box;
-	border: 0.1em solid #000000;
-	border-radius: 0.12em;
-
-	padding: 0.46em 1.6em;
-	margin: 0 0.2em 0.2em 0;
-	xxtext-decoration: none;
-	text-align: left;
-	transition: all 0.15s;
-
-	outline: none;
-}
-.o⋄rich-text button.o⋄rich-text⋄interactive:hover {
-	border-color: #FFFFFF;
-}
-@media all and (max-width: 30em) {
-	.o⋄rich-text button.o⋄rich-text⋄interactive {
-		display: block;
-		margin: 0.4em auto;
-	}
-}
 
 /* not namespaced since may be
 div.o⋄rich-text⋄modal__dialog {
@@ -111,7 +79,7 @@ pre {
 	color: #0b97c4;
 }
 .item--weapon {
-	color: #d9534f;
+	color: var(--o⋄color__quality--artifact);
 }
 .item--weapon:before {
 	content: '⚔ ';
@@ -125,65 +93,33 @@ pre {
 	display: inline;
 }
 
-.o⋄rich-text h3 {
-	/*margin: 0;*/
-}
-
 .o⋄rich-text ol,
 .o⋄rich-text ul {
-	/*margin: 0;*/
 	padding-left: 24px;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
 }
 
-.o⋄rich-text li {
-	/*list-style-position: inside;*/
+.o⋄rich-text⋄list button {
+	padding: .2em;
+	height: 3em;
+	width: 99%;
+	text-align: left;
+
 }
 
-.o⋄rich-text ul > li > * {
-	/*position: relative;
-	left: -7px;*/
-}
-
-.o⋄rich-text ol.o⋄rich-text⋄list--no-bullet,
-.o⋄rich-text ul.o⋄rich-text⋄list--no-bullet {
+ol.o⋄rich-text⋄list--no-bullet,
+ul.o⋄rich-text⋄list--no-bullet {
 	list-style-type: none;
 	padding-left: 12px;
 }
-
-.o⋄rich-text ol.o⋄rich-text⋄list--interactive,
-.o⋄rich-text ul.o⋄rich-text⋄list--interactive {
+ol.o⋄rich-text⋄list--interactive,
+ul.o⋄rich-text⋄list--interactive {
 	list-style-type: none;
 	padding-left: 0;
 }
 
-/*.o⋄rich-text ul.o⋄rich-text⋄list--no-bullet > li > * {
-	position: unset;
-	left: unset;
-}*/
-
-.o⋄rich-text button.o⋄rich-text⋄interactive {
-	display: inline-block;
-	box-sizing: border-box;
-	border: 0.1em solid #000000;
-	border-radius: 0.12em;
-
-	padding: 0.46em 1.6em;
-	margin: 0 0.2em 0.2em 0;
-	xxtext-decoration: none;
-	text-align: left;
-	transition: all 0.15s;
-
-	outline: none;
-}
-.o⋄rich-text button.o⋄rich-text⋄interactive:hover {
-	border-color: #FFFFFF;
-}
-@media all and (max-width: 30em) {
-	.o⋄rich-text button.o⋄rich-text⋄interactive {
-		display: block;
-		margin: 0.4em auto;
-	}
-}
 
 /* not namespaced since may be
 div.o⋄rich-text⋄modal__dialog {

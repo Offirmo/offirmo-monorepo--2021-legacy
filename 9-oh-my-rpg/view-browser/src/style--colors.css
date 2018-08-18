@@ -1,4 +1,7 @@
 :root {
+	/* http://colorbrewer2.org/#type=qualitative&scheme=Set1&n=5
+	 */
+
 	/* http://www.colorhunt.co/c/212
 	 */
 	--o⋄color__co212__beige:   rgb(255, 235, 188);
@@ -9,16 +12,51 @@
 	outline-color: var(--o⋄color__co212__beige);
 }
 
+:root, /* this theme is the default */
+[data-o-theme="dark-on-light"] {
+	/* TODO adjust for light background */
+	--o⋄color__quality--poor:      hsl(0, 0%, 62%);
+	--o⋄color__quality--common:    hsl(0, 100%, 100%);
+	--o⋄color__quality--uncommon:  hsl(113, 100%, 50%);
+	--o⋄color__quality--rare:      hsl(210, 100%, 43%);
+	--o⋄color__quality--epic:      hsl(276, 84%, 57%);
+	--o⋄color__quality--legendary: hsl(30, 100%, 50%);
+	--o⋄color__quality--artifact:  hsl(360, 100%, 64%);
+}
+
+/* light on dark theme */
+[data-o-theme="light-on-dark"] {
+	/* https://wow.gamepedia.com/Quality
+	 */
+	--o⋄color__quality--poor:      hsl(0, 0%, 62%);
+	--o⋄color__quality--common:    hsl(0, 100%, 100%);
+	--o⋄color__quality--uncommon:  hsl(113, 100%, 50%);
+	--o⋄color__quality--rare:      hsl(210, 100%, 43%);
+	--o⋄color__quality--epic:      hsl(276, 84%, 57%);
+	--o⋄color__quality--legendary: hsl(30, 100%, 50%);
+	--o⋄color__quality--artifact:  hsl(360, 100%, 64%);
+}
+
 /* Offirmo view theme */
 [data-o-theme="lod--colorhunt212"] {
 	--o⋄color--bg⁚main: var(--o⋄color__co212__dark);
 	--o⋄color--bg⁚main--backdrop: hsla(248, 9%, 17%, 0.88); /* TODO review */
-	--o⋄color--bg⁚highlight--1: rgba(100%, 100%, 100%, .2);
-	--o⋄color--bg⁚highlight--2: rgba(100%, 100%, 100%, .4);
+	--o⋄color--bg⁚highlight--1: rgba(100%, 100%, 100%, .1);
+	--o⋄color--bg⁚highlight--2: rgba(100%, 100%, 100%, .2);
 
 	--o⋄color--fg⁚main: var(--o⋄color__co212__beige);
 	--o⋄color--fg⁚secondary: rgba(255, 235, 188, 0.66);
 	--o⋄color--fg⁚ancillary: rgba(255, 235, 188, 0.33);
 
 	--o⋄color--fg⁚accent: var(--o⋄color__co212__blue);
+
+	/* https://wow.gamepedia.com/Quality
+	 */
+	--o⋄color__quality--poor:      hsl(0, 0%, 62%);
+	--o⋄color__quality--common:    hsl(0, 100%, 100%);
+	--o⋄color__quality--uncommon:  hsl(113, 100%, 50%);
+	--o⋄color__quality--rare:      hsl(210, 100%, 43%);
+	--o⋄color__quality--epic:      hsl(276, 84%, 57%);
+	--o⋄color__quality--legendary: hsl(30, 100%, 50%);
+	--o⋄color__quality--artifact:  hsl(360, 100%, 75%);
 }

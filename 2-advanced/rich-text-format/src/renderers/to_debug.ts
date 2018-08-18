@@ -49,7 +49,7 @@ const on_root_exit = ({state}: OnRootExitParams<State>): State => {
 	return state
 }
 
-const on_node_enter = ({$node, $id, depth}: OnNodeEnterParams<State>): State => {
+const on_node_enter = ({$node, $id, depth}: OnNodeEnterParams): State => {
 	consoleGroupStart(indent(depth) + `⟩ [on_node_enter] #${$id}/` + debug_node_short($node))
 	const state = ''
 	console.log(indent(depth) + `  [state="${state}"] (init)`)

@@ -79,6 +79,8 @@ const on_node_exit: WalkerReducer<State, OnNodeExitParams<State>, Options> = ({s
 	const element: string = NODE_TYPE_TO_HTML_ELEMENT[$type] || $type
 
 	if (is_list($node)) {
+		classes.push('o⋄rich-text⋄list')
+
 		switch($hints.bullets_style) {
 			case 'none':
 				classes.push('o⋄rich-text⋄list--no-bullet')

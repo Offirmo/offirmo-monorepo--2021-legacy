@@ -28,7 +28,7 @@
 		"prettyjson": "^1",
 		"react": "^16",
 		"react-dom": "^16",
-		"tiny-invariant": "^0.0.3",
+		"tiny-invariant": "^1",
 		"tslib": "^1"
 	},
 	"scripts": {

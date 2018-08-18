@@ -1,18 +1,18 @@
 import { NodeType, CheckedNode, Node } from './types';
-export interface OnNodeEnterParams<State> {
-    $id: string;
-    $node: CheckedNode;
-    depth: number;
-}
 export interface BaseParams<State> {
     state: State;
     $node: CheckedNode;
     depth: number;
 }
-export interface OnRootExitParams<State> extends BaseParams<State> {
+export interface OnNodeEnterParams {
+    $id: string;
+    $node: CheckedNode;
+    depth: number;
 }
 export interface OnNodeExitParams<State> extends BaseParams<State> {
     $id: string;
+}
+export interface OnRootExitParams<State> extends BaseParams<State> {
 }
 export interface OnConcatenateStringParams<State> extends BaseParams<State> {
     str: string;
@@ -39,7 +39,7 @@ interface WalkerReducer<State, P extends BaseParams<State>, RenderingOptions> {
 interface WalkerCallbacks<State, RenderingOptions> {
     on_root_enter(options: RenderingOptions): void;
     on_root_exit(params: OnRootExitParams<State>, options: RenderingOptions): any;
-    on_node_enter(params: OnNodeEnterParams<State>, options: RenderingOptions): State;
+    on_node_enter(params: OnNodeEnterParams, options: RenderingOptions): State;
     on_node_exit: WalkerReducer<State, OnNodeExitParams<State>, RenderingOptions>;
     on_concatenate_str: WalkerReducer<State, OnConcatenateStringParams<State>, RenderingOptions>;
     on_concatenate_sub_node: WalkerReducer<State, OnConcatenateSubNodeParams<State>, RenderingOptions>;

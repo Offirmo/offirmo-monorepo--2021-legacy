@@ -48,6 +48,7 @@ const on_node_exit = ({ state, $node, depth }) => {
         result += '\n' + indent(depth);
     const element = NODE_TYPE_TO_HTML_ELEMENT[$type] || $type;
     if (is_list($node)) {
+        classes.push('o⋄rich-text⋄list');
         switch ($hints.bullets_style) {
             case 'none':
                 classes.push('o⋄rich-text⋄list--no-bullet');

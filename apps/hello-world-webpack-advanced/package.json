@@ -1,6 +1,6 @@
 {
 	"name": "hello-world-webpack-advanced",
-	"version": "0.0.58",
+	"version": "0.0.59",
 	"private": true,
 	"description": "My reference webpack setup",
 	"author": "Offirmo <offirmo.net@gmail.com>",
@@ -69,17 +69,17 @@
 		"semver": "^5",
 		"ts-node": "^5",
 		"tslib": "^1",
-		"typescript": "^2",
+		"typescript": "^3",
 		"url-loader": "^1",
 		"webpack": "^4",
 		"webpack-cli": "^3",
 		"webpack-dashboard": "^2",
 		"webpack-dev-server": "^3",
-		"webpack-serve": "^1"
+		"webpack-serve": "^2"
 	},
 	"tosort": {
 		"html-webpack-harddisk-plugin": "^0.2",
 		"html-webpack-include-assets-plugin": "^1",
-		"style-loader": "^0.21"
+		"style-loader": "^0.22"
 	}
 }

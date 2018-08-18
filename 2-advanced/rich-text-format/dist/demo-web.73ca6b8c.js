@@ -23029,6 +23029,7 @@ const on_node_exit = ({ state, $node, depth }) => {
     if (!is_inline) result += '\n' + indent(depth);
     const element = NODE_TYPE_TO_HTML_ELEMENT[$type] || $type;
     if (common_1.is_list($node)) {
+        classes.push('o⋄rich-text⋄list');
         switch ($hints.bullets_style) {
             case 'none':
                 classes.push('o⋄rich-text⋄list--no-bullet');
@@ -23873,6 +23874,7 @@ const on_node_exit = ({ state, $node, depth }) => {
         result += '\n' + indent(depth);
     const element = NODE_TYPE_TO_HTML_ELEMENT[$type] || $type;
     if (common_1.is_list($node)) {
+        classes.push('o⋄rich-text⋄list');
         switch ($hints.bullets_style) {
             case 'none':
                 classes.push('o⋄rich-text⋄list--no-bullet');
@@ -24102,6 +24104,8 @@ const NODE_TYPE_TO_EXTRA_CLASSES = exports.NODE_TYPE_TO_EXTRA_CLASSES = {
 	result.classes.push(...(NODE_TYPE_TO_EXTRA_CLASSES[$type] || []));
 
 	if ((0, _richTextFormat.is_list)($node)) {
+		result.classes.push('o⋄rich-text⋄list');
+
 		if ((0, _richTextFormat.is_uuid_list)($node)) {
 			console.log(`${LIB} seen uuid list`);
 			result.classes.push('o⋄rich-text⋄list--interactive');
@@ -46647,126 +46651,199 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactPortalTooltip = require('react-portal-tooltip');
 
+var _reactPortalTooltip2 = _interopRequireDefault(_reactPortalTooltip);
+
 var _reactOverlays = require('react-overlays');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const modalStyle = {
+const modal_style = {
 	position: 'fixed',
-	zIndex: 1040,
+	zIndex: 1040, // TODO
 	top: 0, bottom: 0, left: 0, right: 0
 };
-
-const backdropStyle = _extends({}, modalStyle, {
+const backdrop_style = _extends({}, modal_style, {
 	zIndex: 'auto',
 	backgroundColor: '#000',
 	opacity: 0.5
 });
-
-const dialogStyle = function () {
+const dialog_style = function () {
 	let top = 50;
 	let left = 50;
 
 	return {
 		position: 'absolute',
-		//width: 400,
 		top: top + '%', left: left + '%',
 		transform: `translate(-${top}%, -${left}%)`,
-		border: '1px solid #e5e5e5',
-		backgroundColor: 'white',
-		boxShadow: '0 5px 15px rgba(0,0,0,.5)',
-		padding: 20,
-		outline: 'none'
+		boxShadow: '0 5px 15px rgba(0,0,0,.5)'
 	};
 };
+
+const tooltip_style = {
+	style: {
+		padding: '.5em',
+		backgroundColor: 'var(--o⋄color--bg⁚main)',
+		borderRadius: '0',
+		zIndex: 'auto',
+		border: 'solid calc(var(--o⋄border--thickness) * 1) var(--o⋄color--fg⁚main)',
+		boxShadow: '0 5px 15px rgba(0,0,0,.5)'
+	},
+	arrowStyle: {}
+};
+
+function Card({ UUID, react_representation, render }) {
+	return render ? render({
+		UUID,
+		react_representation
+	}) || react_representation : react_representation;
+}
+
+class ActiveCard extends _react.Component {
+	constructor(props) {
+		//console.log('hx')
+		super(props);
+
+		this.on_click = (...args) => {
+			if (this.props.on_click) this.props.on_click(...args);
+		};
+
+		this.on_mouse_over = (...args) => {
+			if (this.props.on_mouse_over) this.props.on_mouse_over(...args);
+		};
+
+		this.on_mouse_out = (...args) => {
+			if (this.props.on_mouse_out) this.props.on_mouse_out(...args);
+		};
+
+		this.render = () => {
+			const { UUID, react_representation, render, forward_ref } = this.props;
+
+			return _react2.default.createElement(
+				'button',
+				{ key: UUID + '-content',
+					ref: forward_ref,
+					className: 'o\u22C4rich-text\u22C4interactive',
+					onClick: this.on_click,
+					onMouseOver: this.on_mouse_over,
+					onMouseOut: this.on_mouse_out
+				},
+				_react2.default.createElement(Card, { UUID, react_representation, render })
+			);
+		};
+	}
+
+}
 
 class InteractiveRichTextFragment extends _react.Component {
 
 	constructor(props) {
 		super(props);
 
-		this.close_modal = () => {
-			this.setState({ show_modal: false });
+		this.on_mouse_over = () => {
+			this.setState({ show_tooltip: true });
 		};
 
-		this.on_click = () => {
-			this.setState({ show_modal: true });
+		this.on_mouse_out = () => {
+			this.setState({ show_tooltip: false });
+		};
+
+		this.on_card_click = () => {
+			this.setState({ show_tooltip: false, show_modal: true });
 			this.props.on_click(this.props.UUID);
 		};
 
-		this.state = {
-			show_modal: false
+		this.on_close_modal = () => {
+			this.setState({ show_modal: false });
 		};
-	}
 
-	render() {
-		const {
-			UUID,
-			react_representation,
-			render,
-			render_tooltip
-		} = this.props;
+		this.render = () => {
+			//console.log('render', this.element)
+			const {
+				UUID,
+				react_representation,
+				render,
+				render_detailed
+			} = this.props;
 
-		const content_without_actions = render ? render({
-			UUID,
-			react_representation
-		}) || react_representation : react_representation;
+			const card = _react2.default.createElement(ActiveCard, _extends({
+				forward_ref: this.card_ref
+			}, { UUID, react_representation, render }, {
+				on_click: this.on_card_click,
+				on_mouse_over: this.on_mouse_over,
+				on_mouse_out: this.on_mouse_out
+			}));
 
-		let element = _react2.default.createElement(
-			'button',
-			{ key: UUID + '-content', className: 'o\u22C4rich-text\u22C4interactive', onClick: this.on_click },
-			content_without_actions
-		);
+			const detailed = render_detailed ? render_detailed({
+				UUID,
+				react_representation
+			}) : null;
 
-		const tooltip = render_tooltip ? render_tooltip({
-			UUID,
-			react_representation
-		}) : null;
-
-		if (tooltip) {
-			element = _react2.default.createElement(
-				_reactPortalTooltip.StatefulToolTip,
-				{ key: UUID + '-tooltip-wrapper', parent: element, position: 'left', align: 'left' },
-				tooltip
+			let tooltip = detailed && _react2.default.createElement(
+				_reactPortalTooltip2.default,
+				{ key: UUID + '-tooltip-wrapper',
+					className: 'o\u22C4box',
+					active: this.state.show_tooltip,
+					parent: this.card_ref.current,
+					tooltipTimeout: 0,
+					position: 'left',
+					align: 'left',
+					style: tooltip_style
+				},
+				detailed
 			);
-		}
 
-		return _react2.default.createElement(
-			_react.Fragment,
-			{ key: UUID },
-			element,
-			_react2.default.createElement(
+			const modal = detailed && _react2.default.createElement(
 				_reactOverlays.Modal,
 				{
 					key: UUID + '-modal',
 					'aria-labelledby': 'modal-label',
 					show: this.state.show_modal,
-					onHide: this.close_modal,
-					style: modalStyle,
-					backdropStyle: backdropStyle
+					onHide: this.on_close_modal,
+					style: modal_style,
+					backdropStyle: backdrop_style
 				},
 				_react2.default.createElement(
 					'div',
-					{ className: 'o\u22C4rich-text\u22C4modal__dialog', style: dialogStyle() },
-					content_without_actions
+					{ className: 'o\u22C4box o\u22C4rich-text\u22C4modal__dialog', style: dialog_style() },
+					detailed
 				)
-			)
-		);
+			);
+
+			return _react2.default.createElement(
+				_react.Fragment,
+				{ key: UUID },
+				card,
+				tooltip,
+				modal
+			);
+		};
+
+		this.state = {
+			show_tooltip: false,
+			show_modal: false
+		};
+		this.card_ref = (0, _react.createRef)();
 	}
+
 }
 exports.InteractiveRichTextFragment = InteractiveRichTextFragment;
 InteractiveRichTextFragment.defaultProps = {
 	on_click: UUID => {
 		console.warn(`Rich Text to React Interactive fragment: TODO implement on_click! (element #${UUID})`);
 	},
-	render_tooltip: ({ react_representation }) => react_representation // TODO remove
+	render_detailed: ({ react_representation }) => react_representation // TODO remove
 };
+
+const final = InteractiveRichTextFragment;
+//const final = withHoverProps(InteractiveRichTextFragment)
+exports.default = final;
 },{"react":"../../../rich-text-format-to-react/node_modules/react/index.js","react-portal-tooltip":"../../../rich-text-format-to-react/node_modules/react-portal-tooltip/lib/index.js","react-overlays":"../../../rich-text-format-to-react/node_modules/react-overlays/lib/index.js"}],"../../../rich-text-format-to-react/src/index.js":[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
+exports.InteractiveRichTextFragment = exports.intermediate_assemble = exports.intermediate_on_node_exit = exports.to_react = undefined;
 
 var _to_react = require('./to_react');
 
@@ -46791,12 +46868,11 @@ Object.defineProperty(exports, 'intermediate_assemble', {
 
 var _interactiveFragment = require('./interactive-fragment');
 
-Object.defineProperty(exports, 'InteractiveRichTextFragment', {
-	enumerable: true,
-	get: function () {
-		return _interactiveFragment.InteractiveRichTextFragment;
-	}
-});
+var _interactiveFragment2 = _interopRequireDefault(_interactiveFragment);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.InteractiveRichTextFragment = _interactiveFragment2.default;
 },{"./to_react":"../../../rich-text-format-to-react/src/to_react.js","./interactive-fragment":"../../../rich-text-format-to-react/src/interactive-fragment.jsx"}],"services/rich-text-to-react.jsx":[function(require,module,exports) {
 "use strict";
 
@@ -47062,11 +47138,13 @@ module.exports = function (size) {
  * @return {string} Random string.
  *
  * @example
- * var format = require('nanoid/format')
+ * const format = require('nanoid/format')
  *
  * function random (size) {
- *   var result = []
- *   for (var i = 0; i < size; i++) result.push(randomByte())
+ *   const result = []
+ *   for (let i = 0; i < size; i++) {
+ *     result.push(randomByte())
+ *   }
  *   return result
  * }
  *
@@ -47106,7 +47184,7 @@ module.exports = function (random, alphabet, size) {
  * @type {string}
  *
  * @example
- * var url = require('nanoid/url')
+ * const url = require('nanoid/url')
  * generate(url, 10) //=> "Uakgb_J5m9"
  */
 module.exports =
@@ -50948,7 +51026,7 @@ Duplex.prototype._destroy = function (err, cb) {
 
   pna.nextTick(cb, err);
 };
-},{"process-nextick-args":"../../../../node_modules/process-nextick-args/index.js","core-util-is":"../../../../node_modules/core-util-is/lib/util.js","inherits":"../../../../node_modules/inherits/inherits_browser.js","./_stream_readable":"../../../../node_modules/readable-stream/lib/_stream_readable.js","./_stream_writable":"../../../../node_modules/readable-stream/lib/_stream_writable.js"}],"../../../../node_modules/readable-stream/node_modules/string_decoder/lib/string_decoder.js":[function(require,module,exports) {
+},{"process-nextick-args":"../../../../node_modules/process-nextick-args/index.js","core-util-is":"../../../../node_modules/core-util-is/lib/util.js","inherits":"../../../../node_modules/inherits/inherits_browser.js","./_stream_readable":"../../../../node_modules/readable-stream/lib/_stream_readable.js","./_stream_writable":"../../../../node_modules/readable-stream/lib/_stream_writable.js"}],"../../../../node_modules/string_decoder/lib/string_decoder.js":[function(require,module,exports) {
 
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -52269,7 +52347,7 @@ function indexOf(xs, x) {
   }
   return -1;
 }
-},{"process-nextick-args":"../../../../node_modules/process-nextick-args/index.js","isarray":"../../../../node_modules/buffer/node_modules/isarray/index.js","events":"../../../../node_modules/events/events.js","./internal/streams/stream":"../../../../node_modules/readable-stream/lib/internal/streams/stream-browser.js","safe-buffer":"../../../../node_modules/safe-buffer/index.js","core-util-is":"../../../../node_modules/core-util-is/lib/util.js","inherits":"../../../../node_modules/inherits/inherits_browser.js","util":"../../src/renderers/style.css","./internal/streams/BufferList":"../../../../node_modules/readable-stream/lib/internal/streams/BufferList.js","./internal/streams/destroy":"../../../../node_modules/readable-stream/lib/internal/streams/destroy.js","./_stream_duplex":"../../../../node_modules/readable-stream/lib/_stream_duplex.js","string_decoder/":"../../../../node_modules/readable-stream/node_modules/string_decoder/lib/string_decoder.js","process":"../../../../node_modules/process/browser.js"}],"../../../../node_modules/readable-stream/lib/_stream_transform.js":[function(require,module,exports) {
+},{"process-nextick-args":"../../../../node_modules/process-nextick-args/index.js","isarray":"../../../../node_modules/buffer/node_modules/isarray/index.js","events":"../../../../node_modules/events/events.js","./internal/streams/stream":"../../../../node_modules/readable-stream/lib/internal/streams/stream-browser.js","safe-buffer":"../../../../node_modules/safe-buffer/index.js","core-util-is":"../../../../node_modules/core-util-is/lib/util.js","inherits":"../../../../node_modules/inherits/inherits_browser.js","util":"../../src/renderers/style.css","./internal/streams/BufferList":"../../../../node_modules/readable-stream/lib/internal/streams/BufferList.js","./internal/streams/destroy":"../../../../node_modules/readable-stream/lib/internal/streams/destroy.js","./_stream_duplex":"../../../../node_modules/readable-stream/lib/_stream_duplex.js","string_decoder/":"../../../../node_modules/string_decoder/lib/string_decoder.js","process":"../../../../node_modules/process/browser.js"}],"../../../../node_modules/readable-stream/lib/_stream_transform.js":[function(require,module,exports) {
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -54013,7 +54091,7 @@ CipherBase.prototype._toString = function (value, enc, fin) {
 
 module.exports = CipherBase
 
-},{"safe-buffer":"../../../../node_modules/safe-buffer/index.js","stream":"../../../../node_modules/stream-browserify/index.js","string_decoder":"../../../../node_modules/readable-stream/node_modules/string_decoder/lib/string_decoder.js","inherits":"../../../../node_modules/inherits/inherits_browser.js"}],"../../../../node_modules/create-hash/browser.js":[function(require,module,exports) {
+},{"safe-buffer":"../../../../node_modules/safe-buffer/index.js","stream":"../../../../node_modules/stream-browserify/index.js","string_decoder":"../../../../node_modules/string_decoder/lib/string_decoder.js","inherits":"../../../../node_modules/inherits/inherits_browser.js"}],"../../../../node_modules/create-hash/browser.js":[function(require,module,exports) {
 'use strict'
 var inherits = require('inherits')
 var MD5 = require('md5.js')
@@ -60639,7 +60717,7 @@ function getr(priv) {
 },{"bn.js":"../../../../node_modules/bn.js/lib/bn.js","randombytes":"../../../../node_modules/randombytes/browser.js","buffer":"../../../../node_modules/buffer/index.js"}],"../../../../node_modules/elliptic/package.json":[function(require,module,exports) {
 module.exports = {
   "name": "elliptic",
-  "version": "6.4.0",
+  "version": "6.4.1",
   "description": "EC cryptography",
   "main": "lib/elliptic.js",
   "files": [
@@ -62179,7 +62257,6 @@ JPoint.prototype.eqXToP = function eqXToP(x) {
     if (this.x.cmp(rx) === 0)
       return true;
   }
-  return false;
 };
 
 JPoint.prototype.inspect = function inspect() {
@@ -62454,10 +62531,10 @@ EdwardsCurve.prototype.pointFromY = function pointFromY(y, odd) {
   if (!y.red)
     y = y.toRed(this.red);
 
-  // x^2 = (y^2 - 1) / (d y^2 + 1)
+  // x^2 = (y^2 - c^2) / (c^2 d y^2 - a)
   var y2 = y.redSqr();
-  var lhs = y2.redSub(this.one);
-  var rhs = y2.redMul(this.d).redAdd(this.one);
+  var lhs = y2.redSub(this.c2);
+  var rhs = y2.redMul(this.d).redMul(this.c2).redSub(this.a);
   var x2 = lhs.redMul(rhs.redInvm());
 
   if (x2.cmp(this.zero) === 0) {
@@ -62471,7 +62548,7 @@ EdwardsCurve.prototype.pointFromY = function pointFromY(y, odd) {
   if (x.redSqr().redSub(x2).cmp(this.zero) !== 0)
     throw new Error('invalid point');
 
-  if (x.isOdd() !== odd)
+  if (x.fromRed().isOdd() !== odd)
     x = x.redNeg();
 
   return this.point(x, y);
@@ -62548,7 +62625,8 @@ Point.prototype.inspect = function inspect() {
 Point.prototype.isInfinity = function isInfinity() {
   // XXX This code assumes that zero is always zero in red
   return this.x.cmpn(0) === 0 &&
-         this.y.cmp(this.z) === 0;
+    (this.y.cmp(this.z) === 0 ||
+    (this.zOne && this.y.cmp(this.curve.c) === 0));
 };
 
 Point.prototype._extDbl = function _extDbl() {
@@ -62629,7 +62707,7 @@ Point.prototype._projDbl = function _projDbl() {
     // E = C + D
     var e = c.redAdd(d);
     // H = (c * Z1)^2
-    var h = this.curve._mulC(this.c.redMul(this.z)).redSqr();
+    var h = this.curve._mulC(this.z).redSqr();
     // J = E - 2 * H
     var j = e.redSub(h).redSub(h);
     // X3 = c * (B - E) * J
@@ -62805,7 +62883,6 @@ Point.prototype.eqXToP = function eqXToP(x) {
     if (this.x.cmp(rx) === 0)
       return true;
   }
-  return false;
 };
 
 // Compatibility with BaseCurve
@@ -73065,6 +73142,7 @@ const on_node_exit = ({ state, $node, depth }) => {
         result += '\n' + indent(depth);
     const element = NODE_TYPE_TO_HTML_ELEMENT[$type] || $type;
     if (common_1.is_list($node)) {
+        classes.push('o⋄rich-text⋄list');
         switch ($hints.bullets_style) {
             case 'none':
                 classes.push('o⋄rich-text⋄list--no-bullet');

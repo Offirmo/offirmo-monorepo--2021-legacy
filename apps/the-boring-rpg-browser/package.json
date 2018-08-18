@@ -1,6 +1,6 @@
 {
-	"name": "the-boring-rpg",
-	"version": "0.51.66",
+	"name": "the-boring-rpg-browser",
+	"version": "0.51.67",
 	"private": true,
 	"description": "⚔🛡💰 The boring RPG browser game, reloaded!",
 	"author": "Offirmo <offirmo.net@gmail.com>",
@@ -83,12 +83,11 @@
 		"react": "^16",
 		"react-circular-progressbar": "^1",
 		"react-dom": "^16",
-		"react-portal-tooltip": "^2",
 		"react-router-dom": "^4",
 		"semver": "^5",
 		"ts-node": "^5",
 		"tslib": "^1",
-		"typescript": "^2",
+		"typescript": "^3",
 		"url-loader": "^1",
 		"webpack": "^4",
 		"webpack-cli": "^3",
@@ -98,6 +97,6 @@
 	"tosort": {
 		"html-webpack-harddisk-plugin": "^0.2",
 		"html-webpack-include-assets-plugin": "^1",
-		"style-loader": "^0.21"
+		"style-loader": "^0.22"
 	}
 }

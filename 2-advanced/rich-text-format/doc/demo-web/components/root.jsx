@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment } from 'react'
 
 import MultiRenderer from './multi-renderer'
 
@@ -11,6 +11,7 @@ const DATA = [
 	DOC_DEMO_RPG_01,
 	DOC_DEMO_RPG_03,
 ]
+
 
 export default class Root extends Component {
 	state = {

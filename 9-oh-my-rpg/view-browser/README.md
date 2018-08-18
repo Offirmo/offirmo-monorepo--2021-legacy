@@ -28,7 +28,7 @@ Resources:
 * Image: https://opengameart.org/content/rpg-gui-construction-kit-v10
 * Misc: WoW - NOT FREE / TO REPLACE - https://github.com/Gethe/wow-ui-textures
 * Font: https://www.behance.net/gallery/64168335/Keletifree-font-(download-link)
-
+* colors: http://colorbrewer2.org/#type=qualitative&scheme=Set1&n=5
 
 Inspiration:
 * https://github.com/RonenNess/RPGUI

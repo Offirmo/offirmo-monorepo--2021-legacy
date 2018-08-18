@@ -11,11 +11,13 @@
 		"react": "^16"
 	},
 	"dependencies": {
+		"@klarna/higher-order-components": "^6",
 		"@offirmo/react-error-boundary": "^0.0.1",
 		"@offirmo/rich-text-format": "^0.0.1",
 		"classnames": "^2",
 		"react-overlays": "^0.8",
-		"react-portal-tooltip": "^2"
+		"react-portal-tooltip": "^2",
+		"recompose": "^0.28"
 	},
 	"devDependencies": {
 	}

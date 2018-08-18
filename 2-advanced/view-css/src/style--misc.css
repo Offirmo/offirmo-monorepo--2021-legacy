@@ -1,4 +1,33 @@
 
+/******* emojis as icons *******
+ * https://preethisam.com/2018/06/25/how-to-use-emojis-as-icons/
+ */
+.o⋄character-as-icon {
+	color: transparent;
+	text-shadow: 0 0 var(--o⋄color--fg⁚main);
+}
+
+.o⋄rotated--45deg {
+	display: inline-block;
+	transform-origin: 50% 50% 0;
+	transform: rotate(45deg) translate3d( 0, 0, 0);
+}
+.o⋄rotated--90deg {
+	display: inline-block;
+	transform-origin: 50% 50% 0;
+	transform: rotate(90deg) translate3d( 0, 0, 0);
+}
+.o⋄rotated--180deg {
+	display: inline-block;
+	transform-origin: 50% 50% 0;
+	transform: rotate(180deg) translate3d( 0, 0, 0);
+}
+.o⋄rotated--270deg {
+	 display: inline-block;
+	 transform-origin: 50% 50% 0;
+	 transform: rotate(270deg) translate3d( 0, 0, 0);
+ }
+
 /******* Checkbox hack *******
  * https://css-tricks.com/the-checkbox-hack/
  */
@@ -13,6 +42,7 @@
  * https://snook.ca/archives/html_and_css/animating-progress
  */
 /* animated */
+/*
 progress.o⋄animated::-webkit-progress-value {
 	transition: width 1s;
 }
@@ -27,3 +57,5 @@ progress.o⋄animated::-moz-progress-bar {
 progress.o⋄animated::-ms-fill {
 	border:0;
 }
+*/
+

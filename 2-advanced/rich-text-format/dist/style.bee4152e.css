@@ -340,6 +340,15 @@ template {
   display: none;
 }
 
+/*********************/
+
+:root {
+	--o⋄border--thickness: 1px;
+	/*--o⋄border--thickness: .08em;*/
+}
+
+/*********************/
+
 html {
 	border-color: yellow; /* for debug, display only if debug activated */
 
@@ -371,21 +380,23 @@ body {
 	font-family: var(--o⋄font-family--fast_and_good_enough);
 	color: var(--o⋄color--fg⁚main);
 	background-color: var(--o⋄color--bg⁚main);
-	line-height: 1.6;
-	font-size: 18px;
 
 	/* https://www.leejamesrobinson.com/blog/how-stripe-designs-beautiful-websites/ */
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+
+	/* TODO replace with typography.js */
+	line-height: 1.6;
+	font-size: 18px;
 }
 
 
+/* TODO replace with typography.js */
 h1, h2, h3 {
 	/* http://perfectmotherfuckingwebsite.com/ */
 	line-height: 1.2;
 }
-
 h1, h2, h3, p {
 	/* because they are too big by default */
 	margin: .7em 0;
@@ -398,43 +409,102 @@ img {
 }
 
 
-/* TODO buttons
+
+
+/* Adapt links to the main color.
+ * Better than the defaults.
+ */
+a { text-decoration-color: var(--o⋄color--fg⁚secondary); }
+a:link,
+a:visited {color: inherit;}
+a:hover,
+a:active {color: var(--o⋄color--fg⁚accent);}
+
+
+/* Nicer HR
+ * possible ideas: https://css-tricks.com/examples/hrs/
+ */
+hr {
+	/* simple one */
+	width: 100%;
+	border: none;
+	border-top: var(--o⋄border--thickness) solid;
+	background-color: var(--o⋄color--fg⁚ancillary);
+}
+/******* misc *******/
+
+/* Alter the ugly focus ring
+ * https://hackernoon.com/removing-that-ugly-focus-ring-and-keeping-it-too-6c8727fefcd2?gi=c50f17a45f16
+ */
+/* 1) no focus style for non-keyboard-inputs elements */
+*:focus {
+	outline: none;
+}
+/* 2) and for keyboard users, override everything with
+ * a classic ring when focused on any element
+ */
+body.user-is-tabbing *:focus {
+	outline: 5px auto var(--o⋄color--fg⁚accent);
+}
+
+
+/************ buttons ************
 https://css-tricks.com/overriding-default-button-styles/
 https://fvsch.com/code/styling-buttons/
-TODO https://fdossena.com/index.php?p=html5cool/buttons/i.frag
  */
-/* https://www.leejamesrobinson.com/blog/how-stripe-designs-beautiful-websites/ */
+
+/* Derived from "button 8" from
+ * https://fdossena.com/?p=html5cool/buttons/i.frag
+ */
 button {
-	box-shadow: 0 3px 6px rgba(50,50,93,.1), 0 1px 2px rgba(0,0,0,.08);
+	/* TODO fit-content ? https://developer.mozilla.org/en-US/docs/Web/CSS/fit-content */
+	display: inline-block;
+	padding: 0.2em 1.45em;
+	margin: 0.1em;
+	border: solid calc(var(--o⋄border--thickness) * 2) var(--o⋄color--transparent);
+
+	background-color: var(--o⋄color--bg⁚highlight--1);
+	color: var(--o⋄color--fg⁚main);
+	text-decoration: none;
+	text-align: center;
 }
-/* questionable, TOREVIEW
 button:hover {
-	border-width: 2px;
-	xxtransform: translateY(-1px);
-	box-shadow: 0 7px 14px rgba(50,50,93,.1), 0 3px 6px rgba(0,0,0,.08);
+	border-color: var(--o⋄color--fg⁚main);
 }
 button:active {
-	xxtransform: translateY(1px);
-	border-width: 2px;
-}*/
+	background-color: var(--o⋄color--bg⁚highlight--2);
+}
 
+/*** special "inline" button */
+button.o⋄button--inline {
+	padding: 0 .1em;
+	margin: 0;
+	border-radius: .25em;
+	border-width: var(--o⋄border--thickness);
+}
+button.o⋄button--inline:hover {
+	background-color: var(--o⋄color--bg⁚highlight--2);
+	border-color: var(--o⋄color--bg⁚highlight--1);
+}
+
+/************ progress ************/
 
 /* Reset the default appearance
  * https://css-tricks.com/html5-progress-element/
  * https://snook.ca/archives/html_and_css/animating-progress
  */
-:root {
-	/* TODO tie this to the theme ? */
-	--o⋄color__progress--bg: hsl(0, 0%, 90%);
-	--o⋄color__progress-bar: hsl(221, 78%, 69%);
-}
 progress {
+	--o⋄color__progress--bg: var(--o⋄color--bg⁚highlight--1);
+	--o⋄color__progress-border: var(--o⋄color--bg⁚highlight--1);
+	--o⋄color__progress-bar: var(--o⋄color--fg⁚main);
+
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
 
+	vertical-align: middle;
 	background-color: var(--o⋄color__progress--bg);
-	border: solid 1px var(--o⋄color--fg⁚main);
+	border: solid var(--o⋄border--thickness) var(--o⋄color__progress-border);
 	overflow: hidden;
 }
 /* necessary to style the progress bar background */
@@ -449,37 +519,21 @@ progress::-moz-progress-bar {
 }
 progress::-ms-fill {
 	background-color: var(--o⋄color__progress-bar);
-	border:0;
+	border: 0;
 }
+
+/************ scroll bars ************/
 
 /* better scrollbars
- * https://codepen.io/nikhil8krishnan/pen/WvYPvv
+ * https://stackoverflow.com/a/14150577/587407
+ * https://css-tricks.com/almanac/properties/s/scrollbar/
  */
 ::-webkit-scrollbar {
-	width: 6px;
+	width: .4em;
 }
 ::-webkit-scrollbar-thumb {
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-}
-
-/* Adapt links to the main color.
- * Better than the defaults.
- */
-a { text-decoration-color: var(--o⋄color--fg⁚secondary); }
-a:link,
-a:visited {color: inherit;}
-a:hover,
-a:active {color: red;}
-
-
-/* Nicer HR
- * possible ideas: https://css-tricks.com/examples/hrs/
- */
-hr {
-	/* simple one */
-	border: 0;
-	height: 1px;
-	background: var(--o⋄color--fg⁚ancillary);
+	background-color: var(--o⋄color--bg⁚highlight--1);
+	xx-webkit-box-shadow: inset 0 0 .4em var(--o⋄color--bg⁚highlight--2);
 }
 /* Good tool:
  http://www.cssportal.com/css-color-converter/
@@ -487,43 +541,55 @@ hr {
 :root {
 	--o⋄color--transparent: rgba(0, 0, 0, 0);
 
-	--o⋄color__black--90: rgba(0, 0, 0, .9);
-	--o⋄color__black--10: rgba(0, 0, 0, .1);
+	--o⋄color__darker--10: rgba(0, 0, 0, .1);
+	--o⋄color__darker--20: rgba(0, 0, 0, .2);
+	--o⋄color__darker--90: rgba(0, 0, 0, .9);
 
-	--o⋄color__white--90: rgba(100%, 100%, 100%, .9);
-	--o⋄color__white--10: rgba(100%, 100%, 100%, .1);
+	--o⋄color__lighter--10: rgba(100%, 100%, 100%, .1);
+	--o⋄color__lighter--20: rgba(100%, 100%, 100%, .2);
+	--o⋄color__lighter--90: rgba(100%, 100%, 100%, .9);
 
 	/* Base colors
 	 * dark-on-light theme, good default, but can also be used in reverse on light-on-dark
 	 * https://medium.com/refactoring-ui/7-practical-tips-for-cheating-at-design-40c736799886
 	 */
-	--o⋄color__dolt__quasi-black: rgb(17%, 17%, 17%); /* 17 or 26 ? */
-	--o⋄color__dolt__dark-grey:   rgb(40%, 40%, 40%);
-	--o⋄color__dolt__medium-grey: rgb(63%, 63%, 63%);
-	--o⋄color__dolt__quasi-white: rgb(98%, 98%, 98%);
+	--o⋄color__dolt__quasi-black: hsl(0, 0%, 17%); /* 17 or 26 ? */
+	--o⋄color__dolt__dark-grey:   hsl(0, 0%, 33%);
+	--o⋄color__dolt__medium-grey: hsl(0, 0%, 66%);
+	--o⋄color__dolt__quasi-white: hsl(0, 0%, 98%);
 
 }
 
 /******* themes *******/
+/* TODO hue based https://medium.com/@mwichary/dark-theme-in-a-day-3518dde2955a */
 
 :root, /* this theme is the default */
 [data-o-theme="dark-on-light"] {
 	--o⋄color--bg⁚main: var(--o⋄color__dolt__quasi-white);
-	--o⋄color--bg⁚main--backdrop: rgba(98%, 98%, 98%, .88);
+	--o⋄color--bg⁚main--backdrop: rgba(98%, 98%, 98%, .88); /* TODO review */
+	--o⋄color--bg⁚highlight--1: rgba(0, 0, 0, .1);
+	--o⋄color--bg⁚highlight--2: rgba(0, 0, 0, .3);
 
 	--o⋄color--fg⁚main: var(--o⋄color__dolt__quasi-black);
-	--o⋄color--fg⁚secondary: rgba(17%, 17%, 17%, .66);
-	--o⋄color--fg⁚ancillary: rgba(17%, 17%, 17%, .33);
+	--o⋄color--fg⁚secondary: hsla(0, 0%, 17%, .66);
+	--o⋄color--fg⁚ancillary: hsla(0, 0%, 17%, .33);
+
+	--o⋄color--fg⁚accent: #7AACFE; /* classic blue */
+
 }
 
 /* light on dark theme */
 [data-o-theme="light-on-dark"] {
 	--o⋄color--bg⁚main: var(--o⋄color__dolt__quasi-black);
-	--o⋄color--bg⁚main--backdrop: rgba(17%, 17%, 17%, .9);
+	--o⋄color--bg⁚main--backdrop: rgba(17%, 17%, 17%, .9); /* TODO review */
+	--o⋄color--bg⁚highlight--1: rgba(100%, 100%, 100%, .1);
+	--o⋄color--bg⁚highlight--2: rgba(100%, 100%, 100%, .2);
 
 	--o⋄color--fg⁚main: var(--o⋄color__dolt__quasi-white);
 	--o⋄color--fg⁚secondary: hsla(0, 0%, 98%, .66);
 	--o⋄color--fg⁚ancillary: hsla(0, 0%, 98%, .33);
+
+	--o⋄color--fg⁚accent: #7AACFE; /* classic blue */
 }
 
 /******* themes *******/
@@ -539,6 +605,19 @@ hr {
 .o⋄color⁚ancillary {
 	color: var(--o⋄color--fg⁚ancillary);
 }
+
+/******* utils *******/
+/* temporary class to transition themes smoothly
+ * https://medium.com/@mwichary/dark-theme-in-a-day-3518dde2955a
+ * TODO
+html.color-theme-in-transition,
+html.color-theme-in-transition *,
+html.color-theme-in-transition *:before,
+html.color-theme-in-transition *:after {
+	transition: all 750ms !important;
+	transition-delay: 0 !important;
+}
+*/
 
 /* very convenient container to propagate full height
  * NOTE: full height applied by default on <html> and <body>
@@ -567,14 +646,29 @@ hr {
 	padding: 7px; /* looks good by default. Use o⋄pad⁚0 else */
 }
 
+.o⋄border⁚default {
+	border: solid var(--o⋄border--thickness) var(--o⋄color--fg⁚main);
+}
 
 .o⋄error-report {
 	font-size: xx-small;
 	font-family: monospace;
-	color: red;
-	background-color: rgba(0, 0, 0, .3);
+	color: red; /* TODO */
+	background-color: rgba(0, 0, 0, .3); /* TODO */
 	margin: auto;
 	z-index: 100000; /* just in case TODO check */
+}
+.o⋄error-report > pre {
+	white-space: pre-wrap;
+	text-align: initial;
+}
+
+
+.o⋄box {
+	padding: 1em;
+	color: var(--o⋄color--fg⁚main);
+	background-color: var(--o⋄color--bg⁚main);
+	border: solid calc(var(--o⋄border--thickness) * 1) var(--o⋄color--fg⁚main);
 }
 
 /*********************/
@@ -826,6 +920,35 @@ hr {
 	height: 100%;
 }
 
+/******* emojis as icons *******
+ * https://preethisam.com/2018/06/25/how-to-use-emojis-as-icons/
+ */
+.o⋄character-as-icon {
+	color: transparent;
+	text-shadow: 0 0 var(--o⋄color--fg⁚main);
+}
+
+.o⋄rotated--45deg {
+	display: inline-block;
+	transform-origin: 50% 50% 0;
+	transform: rotate(45deg) translate3d( 0, 0, 0);
+}
+.o⋄rotated--90deg {
+	display: inline-block;
+	transform-origin: 50% 50% 0;
+	transform: rotate(90deg) translate3d( 0, 0, 0);
+}
+.o⋄rotated--180deg {
+	display: inline-block;
+	transform-origin: 50% 50% 0;
+	transform: rotate(180deg) translate3d( 0, 0, 0);
+}
+.o⋄rotated--270deg {
+	 display: inline-block;
+	 transform-origin: 50% 50% 0;
+	 transform: rotate(270deg) translate3d( 0, 0, 0);
+ }
+
 /******* Checkbox hack *******
  * https://css-tricks.com/the-checkbox-hack/
  */
@@ -840,6 +963,7 @@ hr {
  * https://snook.ca/archives/html_and_css/animating-progress
  */
 /* animated */
+/*
 progress.o⋄animated::-webkit-progress-value {
 	transition: width 1s;
 }
@@ -854,6 +978,8 @@ progress.o⋄animated::-moz-progress-bar {
 progress.o⋄animated::-ms-fill {
 	border:0;
 }
+*/
+
 /*! @offirmo/view-css UNLICENSED */
 
 /*

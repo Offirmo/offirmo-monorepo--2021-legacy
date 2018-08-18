@@ -13,7 +13,7 @@
 		"linewrap": "^0.2",
 		"ora": "^2",
 		"p-finally": "^1",
-		"p-progress": "^0.1",
+		"p-progress": "^0.2",
 		"prettyjson": "^1",
 		"strip-ansi": "^4",
 		"term-size": "^1",

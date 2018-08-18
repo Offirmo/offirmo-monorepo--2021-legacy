@@ -33,7 +33,7 @@ pre {
 	color: #0b97c4;
 }
 .item--weapon {
-	color: #d9534f;
+	color: var(--o⋄color__quality--artifact);
 }
 .item--weapon:before {
 	content: '⚔ ';

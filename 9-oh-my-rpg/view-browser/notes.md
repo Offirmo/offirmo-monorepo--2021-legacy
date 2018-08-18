@@ -1,4 +1,9 @@
 
+notched buttons ? https://css-tricks.com/notched-boxes/
+
+scooped corners for discussion https://css-tricks.com/scooped-corners-in-2018/
+
+use that for text? https://github.com/pshihn/lumin
 
 
 			<svg class="svg-mask">

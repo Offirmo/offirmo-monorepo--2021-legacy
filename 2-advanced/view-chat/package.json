@@ -10,7 +10,7 @@
 		"caught": "^0.1",
 		"is-promise": "^2",
 		"p-finally": "^1",
-		"p-progress": "^0.1"
+		"p-progress": "^0.2"
 	},
 	"devDependencies": {
 		"indent-string": "^3",

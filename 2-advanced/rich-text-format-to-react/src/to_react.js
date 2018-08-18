@@ -43,6 +43,8 @@ export function intermediate_on_node_exit({$node, $id, state}, options) {
 	result.classes.push(...(NODE_TYPE_TO_EXTRA_CLASSES[$type] || []))
 
 	if (is_list($node)) {
+		result.classes.push('o⋄rich-text⋄list')
+
 		if (is_uuid_list($node)) {
 			console.log(`${LIB} seen uuid list`)
 			result.classes.push('o⋄rich-text⋄list--interactive')

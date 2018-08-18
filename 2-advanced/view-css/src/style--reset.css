@@ -2,7 +2,8 @@
 /*********************/
 
 :root {
-	--o⋄border--thickness: .08em;
+	--o⋄border--thickness: 1px;
+	/*--o⋄border--thickness: .08em;*/
 }
 
 /*********************/
