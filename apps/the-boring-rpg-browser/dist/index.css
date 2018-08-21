@@ -2464,6 +2464,7 @@ div.o⋄rich-text⋄modal__dialog {
 	font-size: inherit;
 	padding: 0;
 	box-shadow: none;
+	color: black;
 	background-color: transparent;
 }
 .dev-area td {

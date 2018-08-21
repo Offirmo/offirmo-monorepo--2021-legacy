@@ -6633,9 +6633,9 @@ _sec2.default.xTry('loading savegame + creating game instance', ({ logger }) => 
 
 _sec2.default.xTry('init client state', ({ logger }) => {
 	game_instance.set_client_state(() => ({
-		VERSION: "0.51.71",
+		VERSION: "0.51.72",
 		ENV: "production",
-		BUILD_DATE: "20180821_07h19",
+		BUILD_DATE: "20180821_07h33",
 		CHANNEL: _channel.CHANNEL,
 		verbose: true, // XXX auto + through SEC ?
 		// can change:
@@ -18041,12 +18041,12 @@ const error_reporter = new _ravenJs2.default.Client();
 error_reporter.config('https://ac5806cad5534bcf82f23d857a1ffce5@sentry.io/1235383', {
 	// https://docs.sentry.io/clients/javascript/config/
 	// logger ?
-	release: "0.51.71",
+	release: "0.51.72",
 	environment: "production",
 	serverName: DEVICE_UUID,
 	tags: {
 		//git_commit: 'c0deb10c4',
-		BUILD_DATE: "20180821_07h19",
+		BUILD_DATE: "20180821_07h33",
 		CHANNEL: _channel.CHANNEL
 	},
 	// whitelistUrls: [...],
@@ -23872,11 +23872,11 @@ decorateWithDetectedEnv(SEC);
 
 SEC.injectDependencies({
 	CHANNEL: _channel.CHANNEL,
-	VERSION: "0.51.71"
+	VERSION: "0.51.72"
 });
 SEC.setAnalyticsAndErrorDetails({
 	product: 'tbrpg',
-	VERSION: "0.51.71",
+	VERSION: "0.51.72",
 	CHANNEL: _channel.CHANNEL
 });
 
