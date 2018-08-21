@@ -21,6 +21,9 @@
 		"npm-run-all": "^4",
 		"parcel-bundler": "^1",
 		"react": "^16",
-		"react-dom": "^16"
+		"react-burger-menu": "^2",
+		"react-blur": "^0.6",
+		"react-dom": "^16",
+		"react-swipeable-views": "^0.12"
 	}
 }

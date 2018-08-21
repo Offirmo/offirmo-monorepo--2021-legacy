@@ -179,7 +179,15 @@ export class InteractiveRichTextFragment extends Component {
 }
 InteractiveRichTextFragment.defaultProps = {
 	on_click: (UUID) => { console.warn(`Rich Text to React Interactive fragment: TODO implement on_click! (element #${UUID})`)},
-	render_detailed: ({react_representation}) => react_representation, // TODO remove
+	render_detailed: ({react_representation}) => { // TODO remove
+		return (
+			<Fragment>
+				{react_representation}
+				<p>additional info</p>
+				<p className="o⋄color⁚ancillary"><i>piece of lore</i></p>
+			</Fragment>
+		)
+	}
 };
 
 const final = InteractiveRichTextFragment

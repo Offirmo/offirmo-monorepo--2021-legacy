@@ -24,13 +24,13 @@ pre {
 
 
 .place {
-	color: #00B32D;
+	color: var(--o⋄color__quality--uncommon);
 }
 .place:after {
 	content: ' 🏜';
 }
 .person {
-	color: #0b97c4;
+	color: var(--o⋄color__quality--rare);
 }
 .item--weapon {
 	color: var(--o⋄color__quality--artifact);

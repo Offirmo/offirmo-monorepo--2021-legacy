@@ -103,12 +103,18 @@ const DOC_PLACE_01 = {
 			$content: 'Foo',
 		}
 	},
+	$hints: {
+		uuid: '2345',
+	}
 }
 
 const DOC_NPC_01 = {
 	$type: 'span',
 	$classes: ['person', 'npc', 'monster--rank--boss'],
 	$content: 'John Smith',
+	$hints: {
+		uuid: '3456',
+	}
 }
 
 const SUB_UL_ACTIONABLE_ITEMS = {

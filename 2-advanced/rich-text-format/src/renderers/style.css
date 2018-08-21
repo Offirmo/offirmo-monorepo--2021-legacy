@@ -34,6 +34,12 @@ ul.o⋄rich-text⋄list--interactive {
 	padding-left: 0;
 }
 
+button.o⋄rich-text⋄interactive {
+	padding: 0 .1em;
+}
+li > button.o⋄rich-text⋄interactive {
+	padding: .2em;
+}
 
 /* not namespaced since may be
 div.o⋄rich-text⋄modal__dialog {

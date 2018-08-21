@@ -1,6 +1,6 @@
 {
 	"name": "the-boring-rpg-browser",
-	"version": "0.51.67",
+	"version": "0.51.71",
 	"private": true,
 	"description": "⚔🛡💰 The boring RPG browser game, reloaded!",
 	"author": "Offirmo <offirmo.net@gmail.com>",
@@ -85,7 +85,6 @@
 		"react-dom": "^16",
 		"react-router-dom": "^4",
 		"semver": "^5",
-		"ts-node": "^5",
 		"tslib": "^1",
 		"typescript": "^3",
 		"url-loader": "^1",
