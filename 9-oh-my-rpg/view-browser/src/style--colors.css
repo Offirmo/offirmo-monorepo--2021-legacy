@@ -53,7 +53,7 @@
 /* Offirmo view theme */
 [data-o-theme="lod--colorhunt212"] {
 	--o⋄color--bg⁚main: var(--o⋄color__co212__dark);
-	--o⋄color--bg⁚main--backdrop: hsla(248, 9%, 17%, 0.88); /* TODO review */
+	--o⋄color--bg⁚main--backdrop: rgba(17%, 17%, 17%, .9); /* TODO review */
 	--o⋄color--bg⁚highlight--1: rgba(100%, 100%, 100%, .1);
 	--o⋄color--bg⁚highlight--2: rgba(100%, 100%, 100%, .2);
 

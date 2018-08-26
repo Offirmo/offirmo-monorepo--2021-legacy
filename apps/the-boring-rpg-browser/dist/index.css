@@ -478,6 +478,8 @@ button {
 }
 button:hover {
 	border-color: var(--o⋄color--fg⁚main);
+	xxbox-shadow: 0 0 0 1px var(--o⋄color--bg⁚main--backdrop);
+	box-shadow: 0 0 .3em 0 var(--o⋄color--bg⁚main--backdrop);
 }
 button:active {
 	background-color: var(--o⋄color--bg⁚highlight--2);
@@ -1254,7 +1256,7 @@ hr {
 /* Offirmo view theme */
 [data-o-theme="lod--colorhunt212"] {
 	--o⋄color--bg⁚main: var(--o⋄color__co212__dark);
-	--o⋄color--bg⁚main--backdrop: hsla(248, 9%, 17%, 0.88); /* TODO review */
+	--o⋄color--bg⁚main--backdrop: rgba(17%, 17%, 17%, .9); /* TODO review */
 	--o⋄color--bg⁚highlight--1: rgba(100%, 100%, 100%, .1);
 	--o⋄color--bg⁚highlight--2: rgba(100%, 100%, 100%, .2);
 
@@ -2142,6 +2144,7 @@ button {
 
 .chat__element {
 	margin: 3px 0;
+	padding: 0;
 	position: relative; /* to allow absolute positioning of content */
 	max-width: 80%;
 
@@ -2150,6 +2153,8 @@ button {
 	flex-wrap: wrap;
 	align-items: center;
 	align-content: flex-start;
+
+	border-radius: .4em;
 }
 .chat__element--ltr {
 	align-self: flex-start;
@@ -2162,10 +2167,23 @@ button {
 .chat__choices button {
 	padding: .5em .8em .4em;
 	width: fit-content;
+	/* background only here since we don't want bg between buttons */
 	background-color: rgba(0,0,0,0.42);
-	border-radius: .4em;
 }
-
+.chat__choices button {
+	margin: .3em;
+	/= make it round like the bubbles */
+	border-radius: .4em;
+	/* force border to differentiate with a bubble */
+	border: solid calc(var(--o⋄border--thickness) * 2) var(--o⋄color--fg⁚main);
+}
+/* redefine active and hover since we altered the border and bg */
+.chat__choices button:hover {
+	background-color: rgba(0,0,0,0.6);
+}
+.chat__choices button:active {
+	background-color: var(--o⋄color--bg⁚highlight--2);
+}
 
 .chat__spinner {
 	background-image: url(d75adfb7e09b234ae36b4b3b7a1314d6.svg);
@@ -2236,6 +2254,11 @@ div.o⋄rich-text⋄modal__dialog {
 	box-shadow: 0 5px 15px rgba(0,0,0,.5);
 	/*padding: 20,
 }*/
+
+/* react */
+.ToolTipPortal {
+	z-index: 999;
+}
 
 
 .monster-emoji {

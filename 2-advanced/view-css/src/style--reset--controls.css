@@ -37,6 +37,8 @@ button {
 }
 button:hover {
 	border-color: var(--o⋄color--fg⁚main);
+	xxbox-shadow: 0 0 0 1px var(--o⋄color--bg⁚main--backdrop);
+	box-shadow: 0 0 .3em 0 var(--o⋄color--bg⁚main--backdrop);
 }
 button:active {
 	background-color: var(--o⋄color--bg⁚highlight--2);

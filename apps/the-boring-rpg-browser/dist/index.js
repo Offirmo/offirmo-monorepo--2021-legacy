@@ -6285,9 +6285,9 @@ _sec2.default.xTry('loading savegame + creating game instance', ({ logger }) => 
 
 _sec2.default.xTry('init client state', ({ logger }) => {
 	game_instance.set_client_state(() => ({
-		VERSION: "0.51.73",
+		VERSION: "0.51.74",
 		ENV: "production",
-		BUILD_DATE: "20180826_03h31",
+		BUILD_DATE: "20180826_22h24",
 		CHANNEL: _channel.CHANNEL,
 		verbose: true, // XXX auto + through SEC ?
 		// can change:
@@ -16001,18 +16001,6 @@ function decorate_with_common_item_props(i, doc) {
     doc.$hints.uuid = i.uuid;
     return doc;
 }
-/*
-const MAP = {
-    [InventorySlot.armor]: {
-        render_short: render_armor_short,
-        render_detailed: render_armor_detailed,
-    },
-    [InventorySlot.weapon]: {
-        render_short: render_weapon_short,
-        render_detailed: render_weapon_detailed,
-    },
-}
-*/
 function render_item_short(i, options = consts_1.DEFAULT_RENDER_ITEM_OPTIONS) {
     if (!i) throw new Error('render_item_short(): no item provided!');
     const doc = function auto() {
@@ -16029,7 +16017,7 @@ function render_item_short(i, options = consts_1.DEFAULT_RENDER_ITEM_OPTIONS) {
 }
 exports.render_item_short = render_item_short;
 function render_item_detailed(i) {
-    if (!i) throw new Error('render_item_short(): no item provided!');
+    if (!i) throw new Error('render_item_detailed(): no item provided!');
     const doc = function auto() {
         switch (i.slot) {
             case definitions_1.InventorySlot.armor:
@@ -16037,7 +16025,7 @@ function render_item_detailed(i) {
             case definitions_1.InventorySlot.weapon:
                 return items__weapon_1.render_weapon_detailed(i);
             default:
-                throw new Error(`render_item_short(): don't know how to render a "${i.slot}" !`);
+                throw new Error(`render_item_detailed(): don't know how to render a "${i.slot}" !`);
         }
     }();
     return decorate_with_common_item_props(i, doc);
@@ -18038,12 +18026,12 @@ const error_reporter = new _ravenJs2.default.Client();
 error_reporter.config('https://ac5806cad5534bcf82f23d857a1ffce5@sentry.io/1235383', {
 	// https://docs.sentry.io/clients/javascript/config/
 	// logger ?
-	release: "0.51.73",
+	release: "0.51.74",
 	environment: "production",
 	serverName: DEVICE_UUID,
 	tags: {
 		//git_commit: 'c0deb10c4',
-		BUILD_DATE: "20180826_03h31",
+		BUILD_DATE: "20180826_22h24",
 		CHANNEL: _channel.CHANNEL
 	},
 	// whitelistUrls: [...],
@@ -23869,11 +23857,11 @@ decorateWithDetectedEnv(SEC);
 
 SEC.injectDependencies({
 	CHANNEL: _channel.CHANNEL,
-	VERSION: "0.51.73"
+	VERSION: "0.51.74"
 });
 SEC.setAnalyticsAndErrorDetails({
 	product: 'tbrpg',
-	VERSION: "0.51.73",
+	VERSION: "0.51.74",
 	CHANNEL: _channel.CHANNEL
 });
 
