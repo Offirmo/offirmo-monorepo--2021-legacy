@@ -89,11 +89,11 @@ import { play_good, play_bad } from './play_good'
 /////////////////////
 
 function appraise_item(state: Readonly<State>, uuid: UUID): number {
-		const item_to_sell = InventoryState.get_item(state.inventory, uuid)
-			if (!item_to_sell)
-				throw new Error('Sell: No item!')
+	const item_to_sell = InventoryState.get_item(state.inventory, uuid)
+		if (!item_to_sell)
+			throw new Error('Sell: No item!')
 
-		return appraise(item_to_sell)
+	return appraise(item_to_sell)
 }
 
 function find_element(state: Readonly<State>, uuid: UUID): Element | null {

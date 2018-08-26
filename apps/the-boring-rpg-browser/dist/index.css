@@ -2085,6 +2085,11 @@ button {
 	border-radius: .2em;
 }
 
+.about-logo {
+	width: 100%;
+	max-width: 300px;
+}
+
 /* parameters we can't compute automatically */
 :root {
 	--omr⋄ui__universe-anchor--padding_: 3px;
@@ -2115,6 +2120,7 @@ button {
 	line-height: 12px;
 }
 
+/* TODO clean */
 .status⁚energy .CircularProgressbar-path       { stroke: var(--o⋄color--fg⁚main); }
 .status⁚energy .CircularProgressbar-trail      { stroke: var(--o⋄color__co212__brown); }
 .status⁚energy .CircularProgressbar-text       { fill: orange; }
@@ -2178,6 +2184,58 @@ button {
 	border: solid 1px #00000038;
 	margin-right: 2px;
 }
+
+
+/* Global considerations for Rich Text display:
+ * - must be "terminal-like", since it's supposed to be displayed the same on a console
+ * - has only 1 main direction
+ */
+
+.o⋄rich-text div.o⋄rich-text⁚inline {
+	display: inline;
+}
+
+.o⋄rich-text ol,
+.o⋄rich-text ul {
+	padding-left: 24px;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+}
+
+ol.o⋄rich-text⋄list--no-bullet,
+ul.o⋄rich-text⋄list--no-bullet {
+	list-style-type: none;
+	padding-left: 12px;
+}
+ol.o⋄rich-text⋄list--interactive,
+ul.o⋄rich-text⋄list--interactive {
+	list-style-type: none;
+	padding-left: 0;
+}
+
+button.o⋄rich-text⋄interactive {
+	padding: 0 .1em;
+}
+
+.o⋄rich-text⋄list--interactive button.o⋄rich-text⋄interactive {
+	padding: .2em;
+	height: 3em;
+	width: 99%;
+	text-align: left;
+}
+
+/* not namespaced since may be
+div.o⋄rich-text⋄modal__dialog {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	border: 1px solid #e5e5e5;
+	background-color: white;
+	box-shadow: 0 5px 15px rgba(0,0,0,.5);
+	/*padding: 20,
+}*/
 
 
 .monster-emoji {
@@ -2267,61 +2325,6 @@ switch($class) {
 			return stylize_string.bold(str + ' 👑' + WIDTH_COMPENSATION)
  */
 
-/* Global considerations for Rich Text display:
- * - must be "terminal-like", since it's supposed to be displayed the same on a console
- * - has only 1 main direction
- */
-
-.o⋄rich-text div.o⋄rich-text⁚inline {
-	display: inline;
-}
-
-.o⋄rich-text ol,
-.o⋄rich-text ul {
-	padding-left: 24px;
-	display: flex;
-	flex-direction: column;
-	align-items: stretch;
-}
-
-.o⋄rich-text⋄list button {
-	padding: .2em;
-	height: 3em;
-	width: 99%;
-	text-align: left;
-
-}
-
-ol.o⋄rich-text⋄list--no-bullet,
-ul.o⋄rich-text⋄list--no-bullet {
-	list-style-type: none;
-	padding-left: 12px;
-}
-ol.o⋄rich-text⋄list--interactive,
-ul.o⋄rich-text⋄list--interactive {
-	list-style-type: none;
-	padding-left: 0;
-}
-
-button.o⋄rich-text⋄interactive {
-	padding: 0 .1em;
-}
-li > button.o⋄rich-text⋄interactive {
-	padding: .2em;
-}
-
-/* not namespaced since may be
-div.o⋄rich-text⋄modal__dialog {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	border: 1px solid #e5e5e5;
-	background-color: white;
-	box-shadow: 0 5px 15px rgba(0,0,0,.5);
-	/*padding: 20,
-}*/
-
 
 .tbrpg-panel--character .panel-top-content {
 	margin: 5px;
@@ -2404,11 +2407,6 @@ div.o⋄rich-text⋄modal__dialog {
  */
 }
 
-.about-logo {
-	width: 100%;
-	max-width: 300px;
-}
-
 /******* OMR customization *******/
 
 /* parameters we can't compute automatically */
@@ -2442,6 +2440,12 @@ div.o⋄rich-text⋄modal__dialog {
 	border-width: 1px;
 }
 */
+
+
+.dev-page {
+	max-width: 375px;
+	margin: 0 auto;
+}
 
 
 

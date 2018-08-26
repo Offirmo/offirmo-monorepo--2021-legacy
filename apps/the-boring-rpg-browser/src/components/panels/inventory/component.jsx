@@ -1,18 +1,8 @@
 import React from 'react'
 
-import {
-	SCHEMA_VERSION,
-	GAME_VERSION,
-	URL_OF_PRODUCT_HUNT_PAGE,
-	URL_OF_REPO,
-	URL_OF_FORK,
-	URL_OF_ISSUES,
-	URL_OF_REDDIT_PAGE,
-} from '@oh-my-rpg/state-the-boring-rpg'
 import { render_full_inventory } from '@oh-my-rpg/view-rich-text'
 
-import { Chat } from '../../chat-interface'
-import rich_text_to_react from '../../../utils/rich_text_to_react'
+import rich_text_to_react from '../../../services/rich-text-to-react'
 import './index.css'
 
 

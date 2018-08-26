@@ -15,14 +15,6 @@
 	align-items: stretch;
 }
 
-.o⋄rich-text⋄list button {
-	padding: .2em;
-	height: 3em;
-	width: 99%;
-	text-align: left;
-
-}
-
 ol.o⋄rich-text⋄list--no-bullet,
 ul.o⋄rich-text⋄list--no-bullet {
 	list-style-type: none;
@@ -37,8 +29,12 @@ ul.o⋄rich-text⋄list--interactive {
 button.o⋄rich-text⋄interactive {
 	padding: 0 .1em;
 }
-li > button.o⋄rich-text⋄interactive {
+
+.o⋄rich-text⋄list--interactive button.o⋄rich-text⋄interactive {
 	padding: .2em;
+	height: 3em;
+	width: 99%;
+	text-align: left;
 }
 
 /* not namespaced since may be

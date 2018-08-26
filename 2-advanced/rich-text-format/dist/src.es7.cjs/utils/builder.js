@@ -21,6 +21,7 @@ function create($type) {
         pushNode,
         pushLineBreak,
         pushHorizontalRule,
+        pushKeyValue,
         done,
     };
     let sub_id = 0;
@@ -64,6 +65,14 @@ function create($type) {
         $node.$content += '{{hr}}';
         return builder;
     }
+    function pushKeyValue(key, value, id) {
+        if ($node.$type !== types_1.NodeType.ol && $node.$type !== types_1.NodeType.ul)
+            throw new Error(`${consts_1.LIB}: Key/value is intended to be used in a ol/ul only!`);
+        const kv_node = key_value(key, value).done();
+        //id = id || `${Object.keys($node.$sub).length}`
+        id = id || ('s' + ++sub_id);
+        return pushRawNode(kv_node, id);
+    }
     function done() {
         return $node;
     }
@@ -100,4 +109,17 @@ function unordered_list() {
     return create(types_1.NodeType.ul);
 }
 exports.unordered_list = unordered_list;
+function key_value(key, value) {
+    const key_node = typeof key === 'string'
+        ? span().pushText(key).done()
+        : key;
+    const value_node = typeof value === 'string'
+        ? span().pushText(value).done()
+        : value;
+    return inline_fragment()
+        .pushNode(key_node, 'key')
+        .pushText(': ')
+        .pushNode(value_node, 'value');
+}
+exports.key_value = key_value;
 //# sourceMappingURL=builder.js.map

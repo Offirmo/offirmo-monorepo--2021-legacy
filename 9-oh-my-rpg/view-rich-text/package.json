@@ -23,6 +23,7 @@
 		"typescript-string-enums": "^0.3"
 	},
 	"devDependencies": {
+		"@offirmo/rich-text-format-to-ansi": "^0.0.1",
 		"@oh-my-rpg/state-prng": "^0.0.1",
 		"@types/strip-ansi": "^3",
 		"npm-run-all": "^4",

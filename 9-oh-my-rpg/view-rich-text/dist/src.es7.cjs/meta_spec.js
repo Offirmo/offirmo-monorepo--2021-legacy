@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const state_meta_1 = require("@oh-my-rpg/state-meta");
-const { rich_text_to_ansi } = require('../../../../apps/the-npm-rpg/src/utils/rich_text_to_ansi');
+const { rich_text_to_ansi } = require('../../../../apps/the-boring-rpg-node/src/services/rich_text_to_ansi');
 const _1 = require(".");
 describe('🗿 👻  meta rendering', function () {
     describe('demo', function () {

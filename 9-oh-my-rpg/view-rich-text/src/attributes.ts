@@ -4,18 +4,16 @@ import { State as CharacterState, CharacterAttribute, CHARACTER_ATTRIBUTES_SORTE
 
 function render_avatar(state: CharacterState): RichText.Document {
 	// TODO refactor
-	// TODO KV
+	const $doc_name = RichText.span().addClass('avatar__name').pushText(state.name).done()
+	const $doc_class = RichText.span().addClass('avatar__class').pushText(state.klass).done()
+
 	const $doc = RichText.block_fragment()
 		.pushNode(RichText.heading().pushText('Identity:').done(), 'header')
-		.pushText('name:  {{name}}{{br}}')
-		.pushText('class: {{class}}')
-		.pushRawNode(
-			RichText.span().addClass('avatar__name').pushText(state.name).done(),
-			'name'
-		)
-		.pushRawNode(
-			RichText.span().addClass('avatar__class').pushText(state.klass).done(),
-			'class'
+		.pushNode(
+			RichText.unordered_list()
+				.pushKeyValue('name', $doc_name)
+				.pushKeyValue('class', $doc_class)
+				.done()
 		)
 		.done()
 
@@ -28,19 +26,15 @@ function render_attributes(state: CharacterState): RichText.Document {
 		.done()
 
 	// TODO better sort
-	// TODO KV
 	CHARACTER_ATTRIBUTES_SORTED.forEach((stat: CharacterAttribute, index: number) => {
 		const label = stat
 		const value = state.attributes[stat]
 
-		const padded_label = `${label}............`.slice(0, 11)
-		const padded_human_value = `.......${value}`.slice(-4)
+		const $doc_attr = RichText.key_value(label, `${value}`).done()
 
-		const $doc_item = RichText.span()
-			.addClass('attribute--' + stat)
-			.pushText(padded_label + padded_human_value)
-			.done()
-		$doc_list.$sub['' + index] = $doc_item
+		$doc_list.$sub['' + index] = $doc_attr
+
+
 	})
 
 	const $doc = RichText.block_fragment()
@@ -55,7 +49,6 @@ function render_attributes(state: CharacterState): RichText.Document {
 function render_character_sheet(state: CharacterState): RichText.Document {
 	const $doc = RichText.block_fragment()
 		.pushNode(render_avatar(state), 'avatar')
-		//.pushLineBreak()
 		.pushNode(render_attributes(state), 'attributes')
 		.done()
 

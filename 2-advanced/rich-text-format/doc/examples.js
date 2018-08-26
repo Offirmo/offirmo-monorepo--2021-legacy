@@ -5,9 +5,15 @@ const {
 	DEMO_WEAPON_2,
 	generate_random_demo_weapon,
 } = require('../../../9-oh-my-rpg/logic-weapons/dist/src.es7.cjs')
+const {
+	DEMO_ARMOR_1,
+	DEMO_ARMOR_2,
+	generate_random_demo_armor,
+} = require('../../../9-oh-my-rpg/logic-armors/dist/src.es7.cjs')
 
 const {
-	render_item,
+	render_item_short,
+	render_item_detailed,
 } = require('../../../9-oh-my-rpg/view-rich-text/dist/src.es7.cjs')
 
 /////// parts ///////
@@ -117,10 +123,15 @@ const DOC_NPC_01 = {
 	}
 }
 
+function render_item(i) {
+	return render_item_short(i)
+}
 const SUB_UL_ACTIONABLE_ITEMS = {
 	1: DOC_WEAPON_01,
-	2: render_item(DEMO_WEAPON_1, {display_values: false}),
-	3: render_item(DEMO_WEAPON_2, {display_values: false}),
+	2: render_item(DEMO_WEAPON_1),
+	3: render_item(DEMO_ARMOR_1),
+	4: render_item(DEMO_WEAPON_2),
+	5: render_item(DEMO_ARMOR_2),
 }
 
 /////// COMPLETE DOCS ///////

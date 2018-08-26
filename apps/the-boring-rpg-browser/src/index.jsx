@@ -8,7 +8,7 @@ import 'react-circular-progressbar/dist/styles.css'
 import './services/raven'
 
 import './index.css'
-import Root from './components/root'
+import Root from './components/router'
 
 import GameContext, { game_instance } from './game-context'
 

@@ -13,14 +13,11 @@ function render_equipment(inventory) {
         .done();
     definitions_1.ITEM_SLOTS.forEach((slot, index) => {
         const item = state_inventory_1.get_item_in_slot(inventory, slot);
-        const $doc_item = RichText.span()
-            .pushText((slot + '   ').slice(0, 6))
-            .pushText(': ')
-            .pushNode(item
-            ? items_1.render_item(item)
-            : RichText.span().pushText('-').done())
-            .done();
-        $doc_list.$sub[definitions_1.ITEM_SLOTS_TO_INT[slot]] = $doc_item;
+        const $doc_item = item
+            ? items_1.render_item_short(item)
+            : RichText.span().pushText('-').done();
+        const $doc_line = RichText.key_value(slot, $doc_item).done();
+        $doc_list.$sub[definitions_1.ITEM_SLOTS_TO_INT[slot]] = $doc_line;
     });
     const $doc = RichText.block_fragment()
         .pushNode(RichText.heading().pushText('Active equipment:').done(), 'header')
@@ -41,7 +38,7 @@ function render_backpack(inventory) {
     misc_items.forEach((i, index) => {
         if (!i)
             return;
-        $doc_list.$sub[index + 1] = items_1.render_item(i);
+        $doc_list.$sub[index + 1] = items_1.render_item_short(i);
     });
     if (Object.keys($doc_list.$sub).length === 0) {
         // completely empty

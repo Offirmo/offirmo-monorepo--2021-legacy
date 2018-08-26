@@ -17,6 +17,7 @@ interface Builder {
 	pushNode(node: Node, id?: string): Builder
 	pushLineBreak(): Builder
 	pushHorizontalRule(): Builder
+	pushKeyValue(key: Node | string, value: Node | string, id?: string): Builder
 	done(): CheckedNode
 }
 
@@ -41,6 +42,7 @@ function create($type: NodeType): Builder {
 		pushNode,
 		pushLineBreak,
 		pushHorizontalRule,
+		pushKeyValue,
 		done,
 	}
 
@@ -96,6 +98,17 @@ function create($type: NodeType): Builder {
 		return builder
 	}
 
+	function pushKeyValue(key: Node | string, value: Node | string, id?: string): Builder {
+		if ($node.$type !== NodeType.ol && $node.$type !== NodeType.ul)
+			throw new Error(`${LIB}: Key/value is intended to be used in a ol/ul only!`)
+
+		const kv_node: Node = key_value(key, value).done()
+
+		//id = id || `${Object.keys($node.$sub).length}`
+		id = id || ('s' + ++sub_id)
+		return pushRawNode(kv_node, id)
+	}
+
 	function done(): CheckedNode {
 		return $node
 	}
@@ -134,6 +147,21 @@ function unordered_list(): Builder {
 	return create(NodeType.ul)
 }
 
+function key_value(key: Node | string, value: Node | string): Builder {
+	const key_node: Node = typeof key === 'string'
+		? span().pushText(key).done()
+		: key
+
+	const value_node: Node = typeof value === 'string'
+		? span().pushText(value).done()
+		: value
+
+	return inline_fragment()
+		.pushNode(key_node, 'key')
+		.pushText(': ')
+		.pushNode(value_node, 'value')
+}
+
 export {
 	NodeType,
 	Document,
@@ -147,4 +175,5 @@ export {
 	span,
 	ordered_list,
 	unordered_list,
+	key_value,
 }

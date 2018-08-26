@@ -4,7 +4,7 @@ const tslib_1 = require("tslib");
 const chai_1 = require("chai");
 const RichText = tslib_1.__importStar(require("@offirmo/rich-text-format"));
 const state_wallet_1 = require("@oh-my-rpg/state-wallet");
-const { rich_text_to_ansi } = require('../../../../apps/the-npm-rpg/src/utils/rich_text_to_ansi');
+const { rich_text_to_ansi } = require('../../../../apps/the-boring-rpg-node/src/services/rich_text_to_ansi');
 const _1 = require(".");
 describe('💰  wallet rendering', function () {
     context('when empty', function () {

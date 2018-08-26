@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import * as RichText from '@offirmo/rich-text-format';
 import { Currency, DEMO_STATE, create as create_wallet, add_amount, } from '@oh-my-rpg/state-wallet';
-const { rich_text_to_ansi } = require('../../../../apps/the-npm-rpg/src/utils/rich_text_to_ansi');
+const { rich_text_to_ansi } = require('../../../../apps/the-boring-rpg-node/src/services/rich_text_to_ansi');
 import { render_wallet, } from '.';
 describe('💰  wallet rendering', function () {
     context('when empty', function () {

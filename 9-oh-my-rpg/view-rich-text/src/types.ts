@@ -13,8 +13,16 @@ type TextClass = Enum<typeof TextClass>
 
 /////////////////////
 
+interface RenderItemOptions {
+	display_quality?: boolean
+	display_values?: boolean
+}
+
+/////////////////////
+
 export {
 	TextClass,
+	RenderItemOptions,
 }
 
 /////////////////////

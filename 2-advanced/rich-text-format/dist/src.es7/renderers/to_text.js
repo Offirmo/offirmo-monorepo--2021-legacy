@@ -155,4 +155,5 @@ function to_text($doc, options = DEFAULT_OPTIONS, callback_overrides = {}) {
     return walk($doc, Object.assign({}, callbacks, callback_overrides), options).str;
 }
 export { callbacks, to_text, };
+// TODO capitalize
 //# sourceMappingURL=to_text.js.map

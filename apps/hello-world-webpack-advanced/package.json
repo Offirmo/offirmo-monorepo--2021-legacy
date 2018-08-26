@@ -1,6 +1,6 @@
 {
 	"name": "hello-world-webpack-advanced",
-	"version": "0.0.61",
+	"version": "0.0.62",
 	"private": true,
 	"description": "My reference webpack setup",
 	"author": "Offirmo <offirmo.net@gmail.com>",

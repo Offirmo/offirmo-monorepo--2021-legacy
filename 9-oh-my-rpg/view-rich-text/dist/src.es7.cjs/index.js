@@ -5,6 +5,8 @@ tslib_1.__exportStar(require("./types"), exports);
 tslib_1.__exportStar(require("./adventure"), exports);
 tslib_1.__exportStar(require("./attributes"), exports);
 tslib_1.__exportStar(require("./inventory"), exports);
+tslib_1.__exportStar(require("./items--armor"), exports);
+tslib_1.__exportStar(require("./items--weapon"), exports);
 tslib_1.__exportStar(require("./items"), exports);
 tslib_1.__exportStar(require("./meta"), exports);
 tslib_1.__exportStar(require("./monster"), exports);

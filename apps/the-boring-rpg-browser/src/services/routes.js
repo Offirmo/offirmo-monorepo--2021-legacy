@@ -10,7 +10,7 @@ const BASE_ROUTE = (pathname => {
 	let base_route = parent_segment + TOP_SEGMENT_WE_ASSUME_WELL_BE_ALWAYS_SERVED_UNDER
 
 	// special dev/staging case where we are served under an additional /dist
-	if (splitted[1].startsWith('/dist'))
+	if (splitted[1] && splitted[1].startsWith('/dist'))
 		base_route += '/dist'
 
 	return base_route
@@ -22,12 +22,13 @@ const ROUTES = {
 
 	// navigable routes
 	home: '/index.html',
-	inventory: '/inventory',
-	character: '/character',
-	about: '/about',
+	//inventory: '/inventory',
+	//character: '/character',
+	//about: '/about',
 
 	// non-navigable routes
 	export_savegame: '/savegame',
+	dev: '/dev',
 	x: '/x',
 }
 

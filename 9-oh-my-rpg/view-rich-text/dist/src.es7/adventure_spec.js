@@ -3,7 +3,7 @@ const strip_ansi = require('strip-ansi');
 import { xxx_internal_reset_prng_cache } from '@oh-my-rpg/state-prng';
 import { ALL_GOOD_ADVENTURE_ARCHETYPES, ALL_BAD_ADVENTURE_ARCHETYPES } from '@oh-my-rpg/logic-adventures';
 import { create, play, DEMO_ADVENTURE_01, DEMO_ADVENTURE_02, DEMO_ADVENTURE_03, DEMO_ADVENTURE_04, } from '@oh-my-rpg/state-the-boring-rpg';
-const { rich_text_to_ansi } = require('../../../../apps/the-npm-rpg/src/utils/rich_text_to_ansi');
+const { rich_text_to_ansi } = require('../../../../apps/the-boring-rpg-node/src/services/rich_text_to_ansi');
 import { render_adventure } from '.';
 const prettyjson = require('prettyjson');
 function prettify_json(data, options = {}) {

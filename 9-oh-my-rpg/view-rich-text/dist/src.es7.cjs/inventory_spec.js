@@ -7,7 +7,7 @@ const logic_weapons_1 = require("@oh-my-rpg/logic-weapons");
 const logic_armors_1 = require("@oh-my-rpg/logic-armors");
 const state_inventory_1 = require("@oh-my-rpg/state-inventory");
 const state_wallet_1 = require("@oh-my-rpg/state-wallet");
-const { rich_text_to_ansi } = require('../../../../apps/the-npm-rpg/src/utils/rich_text_to_ansi');
+const { rich_text_to_ansi } = require('../../../../apps/the-boring-rpg-node/src/services/rich_text_to_ansi');
 const prettyjson = require('prettyjson');
 function prettify_json(data, options = {}) {
     return prettyjson.render(data, options);

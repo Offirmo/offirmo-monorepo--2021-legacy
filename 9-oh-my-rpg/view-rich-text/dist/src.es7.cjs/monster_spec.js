@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const logic_monsters_1 = require("@oh-my-rpg/logic-monsters");
-const { rich_text_to_ansi } = require('../../../../apps/the-npm-rpg/src/utils/rich_text_to_ansi');
+const { rich_text_to_ansi } = require('../../../../apps/the-boring-rpg-node/src/services/rich_text_to_ansi');
 const _1 = require(".");
 describe('🗿 👻  monster rendering', function () {
     describe('demo', function () {

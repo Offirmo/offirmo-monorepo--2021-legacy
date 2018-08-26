@@ -1,16 +1,14 @@
-"use strict";
+import React, { Fragment } from 'react'
 
-import React from 'react'
-
-const {
+import {
 	to_react,
 	intermediate_on_node_exit,
 	intermediate_assemble,
 	InteractiveRichTextFragment,
-} = require('../../../../rich-text-format-to-react/src')
-
+} from '../../../../rich-text-format-to-react/src'
 
 ////////////
+
 function on_node_exit(params, options) {
 	const { children, classes, component, wrapper } = intermediate_on_node_exit(params, options)
 	const { state, $node } = params
@@ -24,15 +22,31 @@ function on_node_exit(params, options) {
 
 	if ($hints.uuid) {
 		//console.log(`${LIB} seen element with uuid:`, $node)
-		element = <InteractiveRichTextFragment key={$hints.uuid}
-			UUID={$hints.uuid}
-			react_representation={element}
-		/>
+		const UUID = $hints.uuid
+		const base = element
+		const render_detailed = () => {
+			return (
+				<Fragment>
+					{base}
+					<p>additional info</p>
+					<p className="o⋄color⁚ancillary">piece of lore</p>
+				</Fragment>
+			)
+		}
+		element = (
+			<InteractiveRichTextFragment
+				UUID={UUID}
+				render_detailed={render_detailed}
+			>
+				{base}
+			</InteractiveRichTextFragment>
+		)
 	}
 
 	state.element = element
 	return state
 }
+
 ////////////
 
 export default function rich_text_to_react(doc, options) {

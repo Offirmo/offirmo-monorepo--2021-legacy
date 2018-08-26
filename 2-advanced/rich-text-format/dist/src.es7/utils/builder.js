@@ -1,4 +1,4 @@
-import { SCHEMA_VERSION } from '../consts';
+import { LIB, SCHEMA_VERSION } from '../consts';
 import { NodeType, } from '../types';
 function create($type) {
     const $node = {
@@ -18,6 +18,7 @@ function create($type) {
         pushNode,
         pushLineBreak,
         pushHorizontalRule,
+        pushKeyValue,
         done,
     };
     let sub_id = 0;
@@ -61,6 +62,14 @@ function create($type) {
         $node.$content += '{{hr}}';
         return builder;
     }
+    function pushKeyValue(key, value, id) {
+        if ($node.$type !== NodeType.ol && $node.$type !== NodeType.ul)
+            throw new Error(`${LIB}: Key/value is intended to be used in a ol/ul only!`);
+        const kv_node = key_value(key, value).done();
+        //id = id || `${Object.keys($node.$sub).length}`
+        id = id || ('s' + ++sub_id);
+        return pushRawNode(kv_node, id);
+    }
     function done() {
         return $node;
     }
@@ -90,5 +99,17 @@ function ordered_list() {
 function unordered_list() {
     return create(NodeType.ul);
 }
-export { NodeType, create, inline_fragment, block_fragment, heading, span, ordered_list, unordered_list, };
+function key_value(key, value) {
+    const key_node = typeof key === 'string'
+        ? span().pushText(key).done()
+        : key;
+    const value_node = typeof value === 'string'
+        ? span().pushText(value).done()
+        : value;
+    return inline_fragment()
+        .pushNode(key_node, 'key')
+        .pushText(': ')
+        .pushNode(value_node, 'value');
+}
+export { NodeType, create, inline_fragment, block_fragment, heading, span, ordered_list, unordered_list, key_value, };
 //# sourceMappingURL=builder.js.map

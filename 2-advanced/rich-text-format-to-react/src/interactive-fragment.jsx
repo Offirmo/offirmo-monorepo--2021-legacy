@@ -38,15 +38,7 @@ const tooltip_style = {
 	arrowStyle: {},
 }
 
-function Card({UUID, react_representation, render}) {
-	return render
-		? render({
-				UUID,
-				react_representation,
-			}) || react_representation
-		: react_representation
-}
-
+// Put content inside a button together with hover callbacks
 class ActiveCard extends Component {
 	constructor(props) {
 		//console.log('hx')
@@ -69,21 +61,22 @@ class ActiveCard extends Component {
 	}
 
 	render = () => {
-		const { UUID, react_representation, render, forward_ref } = this.props
+		const { children, forward_ref } = this.props
 
 		return (
-			<button key={UUID + '-content'}
+			<button
 					ref={forward_ref}
 					className="o⋄rich-text⋄interactive"
 					onClick={this.on_click}
 					onMouseOver={this.on_mouse_over}
 					onMouseOut={this.on_mouse_out}
 			>
-				<Card {...{UUID, react_representation, render}} />
+				{children}
 			</button>
 		)
 	}
 }
+
 
 export class InteractiveRichTextFragment extends Component {
 
@@ -106,7 +99,6 @@ export class InteractiveRichTextFragment extends Component {
 
 	on_card_click = () => {
 		this.setState({ show_tooltip: false, show_modal: true })
-		this.props.on_click(this.props.UUID)
 	}
 
 	on_close_modal = () => {
@@ -117,26 +109,23 @@ export class InteractiveRichTextFragment extends Component {
 		//console.log('render', this.element)
 		const {
 			UUID,
-			react_representation,
-			render,
+			children,
 			render_detailed,
 		} = this.props
 
-		const card = (
-				<ActiveCard
+		const base = (
+				<ActiveCard key={UUID + '-content'}
 					forward_ref={this.card_ref}
-					{...{UUID, react_representation, render}}
 					on_click={this.on_card_click}
 					on_mouse_over={this.on_mouse_over}
 					on_mouse_out={this.on_mouse_out}
-				/>
+				>
+					{children}
+				</ActiveCard>
 			)
 
 		const detailed = render_detailed
-			? render_detailed({
-				UUID,
-				react_representation,
-			})
+			? render_detailed({UUID, react_representation: children})
 			: null
 
 		let tooltip = detailed && (
@@ -170,7 +159,7 @@ export class InteractiveRichTextFragment extends Component {
 
 		return (
 			<Fragment key={UUID}>
-				{card}
+				{base}
 				{tooltip}
 				{modal}
 			</Fragment>
@@ -178,18 +167,8 @@ export class InteractiveRichTextFragment extends Component {
 	}
 }
 InteractiveRichTextFragment.defaultProps = {
-	on_click: (UUID) => { console.warn(`Rich Text to React Interactive fragment: TODO implement on_click! (element #${UUID})`)},
-	render_detailed: ({react_representation}) => { // TODO remove
-		return (
-			<Fragment>
-				{react_representation}
-				<p>additional info</p>
-				<p className="o⋄color⁚ancillary"><i>piece of lore</i></p>
-			</Fragment>
-		)
-	}
-};
+	// UUID,
+	render_detailed: () => 'TODO InteractiveRichTextFragment.render_detailed',
+}
 
-const final = InteractiveRichTextFragment
-//const final = withHoverProps(InteractiveRichTextFragment)
-export default final
+export default InteractiveRichTextFragment

@@ -5,4 +5,8 @@ declare const TextClass: {
     place: "place";
 };
 declare type TextClass = Enum<typeof TextClass>;
-export { TextClass, };
+interface RenderItemOptions {
+    display_quality?: boolean;
+    display_values?: boolean;
+}
+export { TextClass, RenderItemOptions, };

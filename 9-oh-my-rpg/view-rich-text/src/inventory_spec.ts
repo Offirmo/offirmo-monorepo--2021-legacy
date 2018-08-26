@@ -18,7 +18,7 @@ import {
 	add_amount,
 } from '@oh-my-rpg/state-wallet'
 
-const { rich_text_to_ansi } = require('../../../../apps/the-npm-rpg/src/utils/rich_text_to_ansi')
+const { rich_text_to_ansi } = require('../../../../apps/the-boring-rpg-node/src/services/rich_text_to_ansi')
 const prettyjson = require('prettyjson')
 function prettify_json(data: any, options = {}) {
 	return prettyjson.render(data, options)

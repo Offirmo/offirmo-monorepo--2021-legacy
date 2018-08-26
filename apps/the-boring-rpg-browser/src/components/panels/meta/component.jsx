@@ -11,12 +11,12 @@ import {
 	URL_OF_REDDIT_PAGE,
 } from '@oh-my-rpg/state-the-boring-rpg'
 
-import { Chat } from '../../chat-interface'
-import rich_text_to_react from '../../../utils/rich_text_to_react'
+import { Chat } from '../../utils/chat-interface'
+import rich_text_to_react from '../../../services/rich-text-to-react'
 import SEC from '../../../services/sec'
 
 
-function render_meta(state, client_state) {
+export function render_meta(state, client_state) {
 	const { CHANNEL, ENV } = SEC.getInjectedDependencies()
 	const $doc_list_builder = RichText.unordered_list()
 	$doc_list_builder.pushRawNode(

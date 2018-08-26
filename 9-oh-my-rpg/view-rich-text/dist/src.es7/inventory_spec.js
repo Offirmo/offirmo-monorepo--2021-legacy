@@ -4,7 +4,7 @@ import { generate_random_demo_weapon, DEMO_WEAPON_1 } from '@oh-my-rpg/logic-wea
 import { generate_random_demo_armor, DEMO_ARMOR_2 } from '@oh-my-rpg/logic-armors';
 import { create as create_inventory, equip_item, add_item, remove_item_from_unslotted, } from '@oh-my-rpg/state-inventory';
 import { Currency, create as create_wallet, add_amount, } from '@oh-my-rpg/state-wallet';
-const { rich_text_to_ansi } = require('../../../../apps/the-npm-rpg/src/utils/rich_text_to_ansi');
+const { rich_text_to_ansi } = require('../../../../apps/the-boring-rpg-node/src/services/rich_text_to_ansi');
 const prettyjson = require('prettyjson');
 function prettify_json(data, options = {}) {
     return prettyjson.render(data, options);

@@ -33,7 +33,7 @@ function render_adventure(a) {
             //console.info('handling adventure outcome [l1]: ' + slot)
             if (!gains[slot])
                 return;
-            const $doc = items_1.render_item(gains[slot]);
+            const $doc = items_1.render_item_short(gains[slot]);
             $story_sub_elements.item = $doc;
             $story_sub_elements.item_slot = RichText.span().pushText(slot).done();
             $story_sub_elements[slot] = $doc;

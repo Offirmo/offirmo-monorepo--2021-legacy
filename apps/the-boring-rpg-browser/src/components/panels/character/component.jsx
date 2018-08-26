@@ -4,8 +4,8 @@ const { CHARACTER_CLASSES } = require('@oh-my-rpg/state-character')
 import { render_character_sheet } from '@oh-my-rpg/view-rich-text'
 
 import { is_likely_to_be_mobile } from '../../../services/mobile-detection'
-import { Chat } from '../../chat-interface'
-import rich_text_to_react from '../../../utils/rich_text_to_react'
+import { Chat } from '../../utils/chat-interface'
+import rich_text_to_react from '../../../services/rich-text-to-react'
 import './index.css'
 
 

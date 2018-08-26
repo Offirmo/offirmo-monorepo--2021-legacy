@@ -13,7 +13,7 @@ import {
 	DEMO_ADVENTURE_04,
 } from '@oh-my-rpg/state-the-boring-rpg'
 
-const { rich_text_to_ansi } = require('../../../../apps/the-npm-rpg/src/utils/rich_text_to_ansi')
+const { rich_text_to_ansi } = require('../../../../apps/the-boring-rpg-node/src/services/rich_text_to_ansi')
 
 import { render_adventure } from '.'
 
