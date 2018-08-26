@@ -1,0 +1,148 @@
+/* Global considerations for Rich Text display:
+ * - must be "terminal-like", since it's supposed to be displayed the same on a console
+ * - has only 1 main direction
+ */
+
+.o⋄rich-text div.o⋄rich-text⁚inline {
+	display: inline;
+}
+
+.o⋄rich-text ol,
+.o⋄rich-text ul {
+	padding-left: 24px;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+}
+
+ol.o⋄rich-text⋄list--no-bullet,
+ul.o⋄rich-text⋄list--no-bullet {
+	list-style-type: none;
+	padding-left: 12px;
+}
+ol.o⋄rich-text⋄list--interactive,
+ul.o⋄rich-text⋄list--interactive {
+	list-style-type: none;
+	padding-left: 0;
+}
+
+button.o⋄rich-text⋄interactive {
+	padding: 0 .1em;
+}
+
+.o⋄rich-text⋄list--interactive button.o⋄rich-text⋄interactive {
+	padding: .2em;
+	height: 3em;
+	width: 99%;
+	text-align: left;
+}
+
+/* not namespaced since may be
+div.o⋄rich-text⋄modal__dialog {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	border: 1px solid #e5e5e5;
+	background-color: white;
+	box-shadow: 0 5px 15px rgba(0,0,0,.5);
+	/*padding: 20,
+}*/
+
+/* react */
+.ToolTipPortal {
+	z-index: 999;
+}
+body {
+	xxwidth: 100% !important;
+	max-width: unset !important;
+	font-size: 12px !important;
+	padding: 0 7px !important;
+}
+
+pre {
+	font-size: x-small;
+	white-space: pre-wrap;
+}
+
+.multi-renderer {
+	width: 100%;
+	display: grid;
+	grid-template-columns: repeat(3, 33.3%);
+}
+
+.multi-renderer > div {
+	overflow-x: hidden;
+}
+
+
+.place {
+	color: var(--o⋄color__quality--uncommon);
+}
+.place:after {
+	content: ' 🏜';
+}
+.person {
+	color: var(--o⋄color__quality--rare);
+}
+.item--weapon {
+	color: var(--o⋄color__quality--artifact);
+}
+.item--weapon:before {
+	content: '⚔ ';
+}
+/* Global considerations for Rich Text display:
+ * - must be "terminal-like", since it's supposed to be displayed the same on a console
+ * - has only 1 main direction
+ */
+
+.o⋄rich-text div.o⋄rich-text⁚inline {
+	display: inline;
+}
+
+.o⋄rich-text ol,
+.o⋄rich-text ul {
+	padding-left: 24px;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+}
+
+ol.o⋄rich-text⋄list--no-bullet,
+ul.o⋄rich-text⋄list--no-bullet {
+	list-style-type: none;
+	padding-left: 12px;
+}
+ol.o⋄rich-text⋄list--interactive,
+ul.o⋄rich-text⋄list--interactive {
+	list-style-type: none;
+	padding-left: 0;
+}
+
+button.o⋄rich-text⋄interactive {
+	padding: 0 .1em;
+}
+
+.o⋄rich-text⋄list--interactive button.o⋄rich-text⋄interactive {
+	padding: .2em;
+	height: 3em;
+	width: 99%;
+	text-align: left;
+}
+
+/* not namespaced since may be
+div.o⋄rich-text⋄modal__dialog {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	border: 1px solid #e5e5e5;
+	background-color: white;
+	box-shadow: 0 5px 15px rgba(0,0,0,.5);
+	/*padding: 20,
+}*/
+
+/* react */
+.ToolTipPortal {
+	z-index: 999;
+}

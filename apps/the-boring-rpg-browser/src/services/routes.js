@@ -3,7 +3,10 @@
 // auto-detect basename, correctly ignoring dynamic routes
 const BASE_ROUTE = (pathname => {
 	// stable point, everything after is likely to be a route
-	const TOP_SEGMENT_WE_ASSUME_WELL_BE_ALWAYS_SERVED_UNDER = WI_BASE_PATH
+	const TOP_SEGMENT_WE_ASSUME_WELL_BE_ALWAYS_SERVED_UNDER =
+		pathname.includes('/the-boring-rpg-browser')
+			? '/the-boring-rpg-browser' // dev+ setup
+			: WI_BASE_PATH
 
 	const splitted = pathname.split(TOP_SEGMENT_WE_ASSUME_WELL_BE_ALWAYS_SERVED_UNDER)
 	const parent_segment = splitted[0]

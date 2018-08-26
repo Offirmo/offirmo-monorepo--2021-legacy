@@ -25,8 +25,9 @@ if(typeof NODE_ENV === 'undefined')
 if(NODE_ENV !== 'development' && NODE_ENV !== 'production')
 	throw new Error('Webpack config: NODE_ENV value is invalid!!!')
 
-// in prod, we want to serve behind a path
-const BASE_PATH = `/${PACKAGE_DIR}`
+// the path we'll serve under in prod
+const BASE_PATH = `/the-boring-rpg`
+//const BASE_PATH = `/${PACKAGE_DIR}`
 
 /*********************/
 

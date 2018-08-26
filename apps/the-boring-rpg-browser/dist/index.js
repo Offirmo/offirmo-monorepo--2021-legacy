@@ -6285,9 +6285,9 @@ _sec2.default.xTry('loading savegame + creating game instance', ({ logger }) => 
 
 _sec2.default.xTry('init client state', ({ logger }) => {
 	game_instance.set_client_state(() => ({
-		VERSION: "0.51.74",
+		VERSION: "0.51.75",
 		ENV: "production",
-		BUILD_DATE: "20180826_22h24",
+		BUILD_DATE: "20180826_22h49",
 		CHANNEL: _channel.CHANNEL,
 		verbose: true, // XXX auto + through SEC ?
 		// can change:
@@ -18026,12 +18026,12 @@ const error_reporter = new _ravenJs2.default.Client();
 error_reporter.config('https://ac5806cad5534bcf82f23d857a1ffce5@sentry.io/1235383', {
 	// https://docs.sentry.io/clients/javascript/config/
 	// logger ?
-	release: "0.51.74",
+	release: "0.51.75",
 	environment: "production",
 	serverName: DEVICE_UUID,
 	tags: {
 		//git_commit: 'c0deb10c4',
-		BUILD_DATE: "20180826_22h24",
+		BUILD_DATE: "20180826_22h49",
 		CHANNEL: _channel.CHANNEL
 	},
 	// whitelistUrls: [...],
@@ -23857,11 +23857,11 @@ decorateWithDetectedEnv(SEC);
 
 SEC.injectDependencies({
 	CHANNEL: _channel.CHANNEL,
-	VERSION: "0.51.74"
+	VERSION: "0.51.75"
 });
 SEC.setAnalyticsAndErrorDetails({
 	product: 'tbrpg',
-	VERSION: "0.51.74",
+	VERSION: "0.51.75",
 	CHANNEL: _channel.CHANNEL
 });
 
@@ -47335,7 +47335,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 const BASE_ROUTE = (pathname => {
 	// stable point, everything after is likely to be a route
-	const TOP_SEGMENT_WE_ASSUME_WELL_BE_ALWAYS_SERVED_UNDER = "/the-boring-rpg-browser";
+	const TOP_SEGMENT_WE_ASSUME_WELL_BE_ALWAYS_SERVED_UNDER = pathname.includes('/the-boring-rpg-browser') ? '/the-boring-rpg-browser' // dev+ setup
+	: "/the-boring-rpg";
 
 	const splitted = pathname.split(TOP_SEGMENT_WE_ASSUME_WELL_BE_ALWAYS_SERVED_UNDER);
 	const parent_segment = splitted[0];
