@@ -112,7 +112,7 @@ const on_node_exit: WalkerReducer<State, OnNodeExitParams<State>, Options> = ({s
 
 	// for demo only
 	if ($hints.uuid)
-		result = `<button class="o⋄rich-text⋄interactive" title="TODO interactive ${$hints.uuid}">${result}</button>`
+		result = `<button class="o⋄button--inline o⋄rich-text⋄interactive" title="TODO interactive ${$hints.uuid}">${result}</button>`
 
 	state.str = result
 	return state

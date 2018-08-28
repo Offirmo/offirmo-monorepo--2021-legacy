@@ -12,6 +12,7 @@
 	},
 	"dependencies": {
 		"@klarna/higher-order-components": "^6",
+		"@offirmo/features-detection-browser": "^0.0.1",
 		"@offirmo/react-error-boundary": "^0.0.1",
 		"@offirmo/rich-text-format": "^0.0.1",
 		"classnames": "^2",

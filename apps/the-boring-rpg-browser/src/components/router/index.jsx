@@ -6,6 +6,7 @@ import {CHANNEL} from '../../services/channel'
 
 import Home from '../pages/home'
 import Dev from '../pages/dev'
+import Diagnostic from '../pages/diagnostic'
 import DevUI from '../meta/dev-area'
 
 export default class Root extends Component {
@@ -17,6 +18,7 @@ export default class Root extends Component {
 					<Switch>
 						<Route exact path={ROUTES.home} render={() => <Home />} />
 						<Route exact path={ROUTES.dev} render={() => <Dev />} />
+						<Route exact path={ROUTES.diagnostic} render={() => <Diagnostic />} />
 
 						{ /* fallback to home */ }
 						<Redirect to={ROUTES.home} />

@@ -26,19 +26,11 @@ function on_node_exit(params, options) {
 
 	if ($hints.uuid && options.render_interactive) {
 		element = (
-			<Interactive UUID={$hints.uuid}>
+			<Interactive key={$hints.uuid} UUID={$hints.uuid}>
 				{element}
 			</Interactive>
 		)
 	}
-	/*
-	if ($hints.uuid && options.render_interactive) {
-		//console.log(`${LIB} seen element with uuid:`, $node)
-		element = <InteractiveRichTextFragment key={$hints.uuid}
-			UUID={$hints.uuid}
-			react_representation={element}
-		/>
-	}*/
 
 	state.element = element
 	return state

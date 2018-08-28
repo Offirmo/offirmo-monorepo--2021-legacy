@@ -32,6 +32,7 @@ const ROUTES = {
 	// non-navigable routes
 	export_savegame: '/savegame',
 	dev: '/dev',
+	diagnostic: '/diag',
 	x: '/x',
 }
 

@@ -13,6 +13,12 @@ function with_element_and_action(Component) {
 			{game_instance => {
 				const { UUID } = props
 				const element = game_instance.find_element(UUID)
+				if (!element) {
+					// element disappeared. This happen transitively (ex. sold)
+					// due to my crappy change listening technique.
+					return null
+				}
+
 				const actions = game_instance.get_actions_for_element(UUID)
 
 				props = {

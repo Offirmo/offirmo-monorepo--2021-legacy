@@ -38,7 +38,8 @@
 /* light on dark theme */
 [data-o-theme="light-on-dark"] {
 	/* List from https://wow.gamepedia.com/Quality
-	 * some colors "stolen" from
+	 * some colors taken from http://colorbrewer2.org/#type=qualitative&scheme=Set1&n=5
+	 * some colors inspired from http://boz.com/
 	 */
 	--o⋄color__quality--poor:      var(--o⋄color__boz__gray);
 	--o⋄color__quality--common:    white;

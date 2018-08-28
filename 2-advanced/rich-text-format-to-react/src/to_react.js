@@ -92,7 +92,7 @@ export function intermediate_assemble({ children, classes, component, wrapper },
 }
 
 
-// default
+// default, to replace for extension
 function on_node_exit(params, options) {
 	const { children, classes, component, wrapper } = intermediate_on_node_exit(params, options)
 

@@ -1,0 +1,15 @@
+{
+	"name": "@offirmo/features-detection-browser",
+	"version": "0.0.1",
+	"description": "My own feature detection lib",
+	"main": "src/index.js",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "UNLICENSED",
+	"dependencies": {
+		"memoize-one": "^4"
+	},
+	"devDependencies": {
+	},
+	"scripts": {
+	}
+}

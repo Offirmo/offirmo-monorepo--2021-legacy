@@ -41,9 +41,9 @@ export default class ErrorBoundary extends React.Component {
 			})
 			if (this.props.onError) {
 				this.props.onError({
-					name,
 					error,
 					errorInfo,
+					name,
 				})
 			}
 		})

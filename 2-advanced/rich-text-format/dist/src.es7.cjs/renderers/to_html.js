@@ -76,7 +76,7 @@ const on_node_exit = ({ state, $node, depth }) => {
         result = `<a href="${$hints.href}" target="_blank">${result}</a>`;
     // for demo only
     if ($hints.uuid)
-        result = `<button class="o⋄rich-text⋄interactive" title="TODO interactive ${$hints.uuid}">${result}</button>`;
+        result = `<button class="o⋄button--inline o⋄rich-text⋄interactive" title="TODO interactive ${$hints.uuid}">${result}</button>`;
     state.str = result;
     return state;
 };

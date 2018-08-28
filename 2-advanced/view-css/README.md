@@ -28,6 +28,7 @@ Activated through classes:
   * `o⋄top-container`
   * `o⋄centered-article`
   * `o⋄error-report`
+  * `o⋄box`
   * `o⋄text-noselect`
   * `o⋄nav-list`
   
@@ -56,6 +57,12 @@ Activated through classes:
   * `o⋄height⁚100pc`
   
   * `.o⋄border⁚default`
+  
+  * `o⋄character-as-icon`
+  * `o⋄rotated⁚45deg`
+  * `o⋄rotated⁚90deg`
+  * `o⋄rotated⁚180deg`
+  * `o⋄rotated⁚270deg`
   
 * data selectors
   * `data-o⋄theme="light-on-dark"` (dark-on-light being the default)
@@ -98,8 +105,12 @@ You can't use height: 100vh on Chrome mobile or the url bar will get in the way.
 * https://ianstormtaylor.com/design-tip-never-use-black/
 * https://medium.com/refactoring-ui/7-practical-tips-for-cheating-at-design-40c736799886
 * https://medium.com/@erikdkennedy/7-rules-for-creating-gorgeous-ui-part-2-430de537ba96
+* emoji icons https://preethisam.com/2018/06/25/how-to-use-emojis-as-icons/
+* https://medium.com/@mwichary/dark-theme-in-a-day-3518dde2955a
+* nice hrs https://css-tricks.com/examples/hrs/
+* https://hackernoon.com/removing-that-ugly-focus-ring-and-keeping-it-too-6c8727fefcd2
+* nice buttons https://fdossena.com/?p=html5cool/buttons/i.frag
 
 
 ## ideas TODO
 * currentColor https://css-tricks.com/currentcolor/
-* emoji icons https://preethisam.com/2018/06/25/how-to-use-emojis-as-icons/

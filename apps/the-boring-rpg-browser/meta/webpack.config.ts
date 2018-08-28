@@ -179,6 +179,9 @@ if (NODE_ENV !== 'production') {
 				path.resolve(__dirname, 'node_modules'),
 			],
 		},
+		allowedHosts: [
+			'.ngrok.io'
+		],
 	}
 
 	config.plugins.push(

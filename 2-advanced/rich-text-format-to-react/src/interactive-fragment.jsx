@@ -1,7 +1,8 @@
 import React, { Component, Fragment, createRef } from 'react'
 import ToolTip from 'react-portal-tooltip'
 import { Modal } from 'react-overlays'
-
+import { has_any_hover } from '@offirmo/features-detection-browser'
+import ErrorBoundary from '@offirmo/react-error-boundary'
 
 const modal_style = {
 	position: 'fixed',
@@ -63,13 +64,20 @@ class ActiveCard extends Component {
 	render = () => {
 		const { children, forward_ref } = this.props
 
+		const props = {
+			onClick: this.on_click,
+		}
+		if (has_any_hover()) {
+			// only when possible. Avoid mobile Safari flickering.
+			props.onMouseOver = this.on_mouse_over
+			props.onMouseOut = this.on_mouse_out
+		}
+
 		return (
 			<button
 					ref={forward_ref}
-					className="o⋄rich-text⋄interactive"
-					onClick={this.on_click}
-					onMouseOver={this.on_mouse_over}
-					onMouseOut={this.on_mouse_out}
+					className="o⋄button--inline o⋄rich-text⋄interactive"
+					{...props}
 			>
 				{children}
 			</button>
@@ -101,9 +109,7 @@ export class InteractiveRichTextFragment extends Component {
 		this.setState({ show_tooltip: false, show_modal: true })
 	}
 
-	on_close_modal = () => {
-		this.setState({ show_modal: false })
-	}
+	// TODO componentDidCatch
 
 	render = () => {
 		//console.log('render', this.element)
@@ -124,37 +130,46 @@ export class InteractiveRichTextFragment extends Component {
 				</ActiveCard>
 			)
 
-		const detailed = render_detailed
-			? render_detailed({UUID, react_representation: children})
-			: null
+		let detailed = <ErrorBoundary name={`IF-${UUID}-detailed`}
+				render={
+					render_detailed
+						? render_detailed.bind(null, {UUID, react_representation: children})
+						: () => null
+				}
+			/>
 
 		let tooltip = detailed && (
-				<ToolTip key={UUID + '-tooltip-wrapper'}
-					className="o⋄box"
-					active={this.state.show_tooltip}
-					parent={this.card_ref.current}
-					tooltipTimeout={0}
-					position="left"
-					align="left"
-					style={tooltip_style}
-				>
-					{detailed}
-				</ToolTip>
+				<ErrorBoundary name={`IF-${UUID}-tooltip-wrapper`}
+									onError={this.on_mouse_out}>
+					<ToolTip key={UUID + '-tooltip-wrapper'}
+						className="o⋄box"
+						active={this.state.show_tooltip}
+						parent={this.card_ref.current}
+						xxtooltipTimeout={0}
+						position="left"
+						align="left"
+						style={tooltip_style}
+					>
+						{detailed}
+					</ToolTip>
+				</ErrorBoundary>
 			)
 
 		const modal = detailed && (
-			<Modal
-				key={UUID + '-modal'}
-				aria-labelledby='modal-label'
-				show={this.state.show_modal}
-				onHide={this.on_close_modal}
-				style={modal_style}
-				backdropStyle={backdrop_style}
-			>
-				<div className="o⋄box o⋄rich-text⋄modal__dialog" style={dialog_style()} >
-					{detailed}
-				</div>
-			</Modal>
+			<ErrorBoundary name={`IF-${UUID}-modal`} onError={this.on_close_modal}>
+				<Modal
+					key={UUID + '-modal'}
+					aria-labelledby='modal-label'
+					show={this.state.show_modal}
+					onHide={this.on_close_modal}
+					style={modal_style}
+					backdropStyle={backdrop_style}
+				>
+					<div className="o⋄box o⋄rich-text⋄modal__dialog" style={dialog_style()} >
+						{detailed}
+					</div>
+				</Modal>
+			</ErrorBoundary>
 		)
 
 		return (

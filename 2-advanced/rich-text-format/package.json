@@ -10,6 +10,7 @@
 		"typescript-string-enums": "^0.3"
 	},
 	"devDependencies": {
+		"@offirmo/features-detection-browser": "^0.0.1",
 		"@offirmo/style-once": "^0.0.1",
 		"@offirmo/view-css": "^0.0.1",
 		"@offirmo/practical-logger-browser": "^0.0.1",

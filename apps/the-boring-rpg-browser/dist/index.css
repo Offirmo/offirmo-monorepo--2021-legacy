@@ -442,7 +442,7 @@ template {
 /******* misc *******/
 
 /* Alter the ugly focus ring
- * https://hackernoon.com/removing-that-ugly-focus-ring-and-keeping-it-too-6c8727fefcd2?gi=c50f17a45f16
+ * https://hackernoon.com/removing-that-ugly-focus-ring-and-keeping-it-too-6c8727fefcd2
  */
 /* 1) no focus style for non-keyboard-inputs elements */
 *:focus {
@@ -457,8 +457,8 @@ body.user-is-tabbing *:focus {
 
 
 /************ buttons ************
-https://css-tricks.com/overriding-default-button-styles/
-https://fvsch.com/code/styling-buttons/
+ * https://css-tricks.com/overriding-default-button-styles/
+ * https://fvsch.com/code/styling-buttons/
  */
 
 /* Derived from "button 8" from
@@ -467,33 +467,30 @@ https://fvsch.com/code/styling-buttons/
 button {
 	/* TODO fit-content ? https://developer.mozilla.org/en-US/docs/Web/CSS/fit-content */
 	display: inline-block;
-	padding: 0.2em 1.45em;
-	margin: 0.1em;
+	padding: .3em 2.1em;
+	margin: .1em;
 	border: solid calc(var(--o⋄border--thickness) * 2) var(--o⋄color--transparent);
 
 	background-color: var(--o⋄color--bg⁚highlight--1);
 	color: var(--o⋄color--fg⁚main);
 	text-decoration: none;
 	text-align: center;
+
+	/* stripe.com */
+	/*xxbox-shadow: 0 4px 6px rgba(50,50,93,.11),0 1px 3px rgba(0,0,0,.08);*/
 }
 button:hover {
 	border-color: var(--o⋄color--fg⁚main);
-	box-shadow: 0 0 .3em 0 var(--o⋄color--bg⁚main--backdrop);
+	/*xxbox-shadow: 0 0 .3em 0 var(--o⋄color--bg⁚main--backdrop);*/
 }
 button:active {
 	background-color: var(--o⋄color--bg⁚highlight--2);
 }
 
-/*** special "inline" button */
+/* special "inline" button */
 button.o⋄button--inline {
-	padding: 0 .1em;
-	margin: 0;
+	padding: .1em .3em;
 	border-radius: .25em;
-	border-width: var(--o⋄border--thickness);
-}
-button.o⋄button--inline:hover {
-	background-color: var(--o⋄color--bg⁚highlight--2);
-	border-color: var(--o⋄color--bg⁚highlight--1);
 }
 
 /************ progress ************/
@@ -545,8 +542,9 @@ progress::-ms-fill {
 	xx-webkit-box-shadow: inset 0 0 .4em var(--o⋄color--bg⁚highlight--2);
 }
 
-/* Good tool:
- http://www.cssportal.com/css-color-converter/
+/* Good tools:
+ * http://www.cssportal.com/css-color-converter/
+ * https://picular.co/quality
  */
 :root {
 	--o⋄color--transparent: rgba(0, 0, 0, 0);
@@ -943,22 +941,22 @@ html.color-theme-in-transition *:after {
 	text-shadow: 0 0 var(--o⋄color--fg⁚main);
 }
 
-.o⋄rotated--45deg {
+.o⋄rotated⁚45deg {
 	display: inline-block;
 	transform-origin: 50% 50% 0;
 	transform: rotate(45deg) translate3d( 0, 0, 0);
 }
-.o⋄rotated--90deg {
+.o⋄rotated⁚90deg {
 	display: inline-block;
 	transform-origin: 50% 50% 0;
 	transform: rotate(90deg) translate3d( 0, 0, 0);
 }
-.o⋄rotated--180deg {
+.o⋄rotated⁚180deg {
 	display: inline-block;
 	transform-origin: 50% 50% 0;
 	transform: rotate(180deg) translate3d( 0, 0, 0);
 }
-.o⋄rotated--270deg {
+.o⋄rotated⁚270deg {
 	 display: inline-block;
 	 transform-origin: 50% 50% 0;
 	 transform: rotate(270deg) translate3d( 0, 0, 0);
@@ -1240,7 +1238,8 @@ hr {
 /* light on dark theme */
 [data-o-theme="light-on-dark"] {
 	/* List from https://wow.gamepedia.com/Quality
-	 * some colors "stolen" from
+	 * some colors taken from http://colorbrewer2.org/#type=qualitative&scheme=Set1&n=5
+	 * some colors inspired from http://boz.com/
 	 */
 	--o⋄color__quality--poor:      var(--o⋄color__boz__gray);
 	--o⋄color__quality--common:    white;
@@ -2232,29 +2231,17 @@ ul.o⋄rich-text⋄list--interactive {
 }
 
 button.o⋄rich-text⋄interactive {
-	padding: 0 .1em;
+	/* see o⋄button--inline first */
 }
 
 .o⋄rich-text⋄list--interactive button.o⋄rich-text⋄interactive {
-	padding: .2em;
+	padding: .3em;
 	height: 3em;
 	width: 99%;
 	text-align: left;
 }
 
-/* not namespaced since may be
-div.o⋄rich-text⋄modal__dialog {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	border: 1px solid #e5e5e5;
-	background-color: white;
-	box-shadow: 0 5px 15px rgba(0,0,0,.5);
-	/*padding: 20,
-}*/
-
-/* react */
+/* only for react render */
 .ToolTipPortal {
 	z-index: 999;
 }

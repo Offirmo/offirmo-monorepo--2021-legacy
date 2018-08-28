@@ -27,29 +27,17 @@ ul.o⋄rich-text⋄list--interactive {
 }
 
 button.o⋄rich-text⋄interactive {
-	padding: 0 .1em;
+	/* see o⋄button--inline first */
 }
 
 .o⋄rich-text⋄list--interactive button.o⋄rich-text⋄interactive {
-	padding: .2em;
+	padding: .3em;
 	height: 3em;
 	width: 99%;
 	text-align: left;
 }
 
-/* not namespaced since may be
-div.o⋄rich-text⋄modal__dialog {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	border: 1px solid #e5e5e5;
-	background-color: white;
-	box-shadow: 0 5px 15px rgba(0,0,0,.5);
-	/*padding: 20,
-}*/
-
-/* react */
+/* only for react render */
 .ToolTipPortal {
 	z-index: 999;
 }
