@@ -109,6 +109,10 @@ export class InteractiveRichTextFragment extends Component {
 		this.setState({ show_tooltip: false, show_modal: true })
 	}
 
+	on_close_modal = () => {
+		this.setState({ show_modal: false })
+	}
+
 	// TODO componentDidCatch
 
 	render = () => {
@@ -167,6 +171,7 @@ export class InteractiveRichTextFragment extends Component {
 				>
 					<div className="o⋄box o⋄rich-text⋄modal__dialog" style={dialog_style()} >
 						{detailed}
+						<button onClick={this.on_close_modal}>Close</button>
 					</div>
 				</Modal>
 			</ErrorBoundary>

@@ -6285,9 +6285,9 @@ _sec2.default.xTry('loading savegame + creating game instance', ({ logger }) => 
 
 _sec2.default.xTry('init client state', ({ logger }) => {
 	game_instance.set_client_state(() => ({
-		VERSION: "0.51.78",
+		VERSION: "0.51.79",
 		ENV: "production",
-		BUILD_DATE: "20180828_23h17",
+		BUILD_DATE: "20180829_23h15",
 		CHANNEL: _channel.CHANNEL,
 		verbose: true, // XXX auto + through SEC ?
 		// can change:
@@ -18018,12 +18018,12 @@ const error_reporter = new _ravenJs2.default.Client();
 error_reporter.config('https://ac5806cad5534bcf82f23d857a1ffce5@sentry.io/1235383', {
 	// https://docs.sentry.io/clients/javascript/config/
 	// logger ?
-	release: "0.51.78",
+	release: "0.51.79",
 	environment: "production",
 	serverName: DEVICE_UUID,
 	tags: {
 		//git_commit: 'c0deb10c4',
-		BUILD_DATE: "20180828_23h17",
+		BUILD_DATE: "20180829_23h15",
 		CHANNEL: _channel.CHANNEL
 	},
 	// whitelistUrls: [...],
@@ -23849,11 +23849,11 @@ decorateWithDetectedEnv(SEC);
 
 SEC.injectDependencies({
 	CHANNEL: _channel.CHANNEL,
-	VERSION: "0.51.78"
+	VERSION: "0.51.79"
 });
 SEC.setAnalyticsAndErrorDetails({
 	product: 'tbrpg',
-	VERSION: "0.51.78",
+	VERSION: "0.51.79",
 	CHANNEL: _channel.CHANNEL
 });
 
@@ -54771,7 +54771,7 @@ function Short({ children, element }) {
 
 function Detailed({ element, actions = [] }) {
 	return _react2.default.createElement(
-		'div',
+		_react.Fragment,
 		null,
 		(0, _richTextToReact2.default)((0, _viewRichText.render_item_detailed)(element), { render_interactive: false }),
 		actions.map(action => _react2.default.createElement(_actionButton2.default, { key: action.type, action: action }))
@@ -55201,6 +55201,10 @@ class InteractiveRichTextFragment extends _react.Component {
 			this.setState({ show_tooltip: false, show_modal: true });
 		};
 
+		this.on_close_modal = () => {
+			this.setState({ show_modal: false });
+		};
+
 		this.render = () => {
 			//console.log('render', this.element)
 			const {
@@ -55259,7 +55263,12 @@ class InteractiveRichTextFragment extends _react.Component {
 					_react2.default.createElement(
 						'div',
 						{ className: 'o\u22C4box o\u22C4rich-text\u22C4modal__dialog', style: dialog_style() },
-						detailed
+						detailed,
+						_react2.default.createElement(
+							'button',
+							{ onClick: this.on_close_modal },
+							'Close'
+						)
 					)
 				)
 			);

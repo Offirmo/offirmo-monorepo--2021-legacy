@@ -19,10 +19,10 @@ function Short({children, element}) {
 
 function Detailed({element, actions = []}) {
 	return (
-		<div>
+		<Fragment>
 			{rich_text_to_react(render_item_detailed(element), {render_interactive: false})}
 			{actions.map(action => (<ActionButton key={action.type} action={action}/>))}
-		</div>
+		</Fragment>
 	)
 }
 
