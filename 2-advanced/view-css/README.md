@@ -1,25 +1,41 @@
 ## @offirmo/view-css
 
-A micro CSS framework (like Bootstrap but with minimal features)
-with the minimal styles to make a page looks good.
-
-Mostly for my personal use.
+A micro CSS framework (like Bootstrap but with minimal features), mostly for my personal use.
+**[live demo on CodePen](https://codepen.io/Offirmo/pen/qYYWVy)** (Thanks [rawgit](https://rawgit.com/))
 
 Can also be used as a base for more advanced CSS frameworks like @oh-my-rpg/view-browser
 
-**[live demo on CodePen](https://codepen.io/Offirmo/pen/qYYWVy)** (Thanks [rawgit](https://rawgit.com/))
 
+Features:
+- by default, the minimal styles to make a page looks good (cf. "motherfucking website")
+- by default, activates clever settings gleaned across blog posts (see list at bottom)
+- several "atomic" classes (see [tachyons](https://tachyons.io/) / [atomic CSS](https://acss.io/))
+
+Inspiration:
 * inspired by [tachyons](https://tachyons.io/)
 * inspired by [motherfuckingwebsite](http://motherfuckingwebsite.com/) / [better](http://bettermotherfuckingwebsite.com/) / [perfect](http://perfectmotherfuckingwebsite.com/)
-* inspired by techniques borrowed in articles around the net:
-  * using data="xyz" http://simurai.com/blog/2018/04/01/contextual-styling
-    * (more about data) https://www.sitepoint.com/use-html5-data-attributes/
+* inspired by techniques borrowed in articles around the net (see refs. in the code and "credits" below)
 
 
 ## Usage
 
 ### automatic (reset)
-TODO
+By default, this stylesheet will activate a page like "mother fucking website".
+```html
+<link rel="stylesheet" type="text/css" href="https://rawgit.com/Offirmo/offirmo-monorepo/master/2-advanced/view-css/dist/offirmo-reset%2Butils.css" />
+```
+alternatively:
+```css
+@import '../../node_modules/@oh-my-rpg/view-browser/src/style.css';
+```
+
+### Full-page app
+There is a special class to unset the defaults:
+```html
+<html class="o⋄top-container">
+	<body class="o⋄top-container o⋄body⁚full-page">
+		…
+```
 
 ### Manual
 Activated through classes:
@@ -45,6 +61,7 @@ Activated through classes:
   * `o⋄pad⁚0`
   * `o⋄pad⁚5`
   * `o⋄pad⁚7`
+  * `o⋄margin⁚0`
   
   * `o⋄flex--row`
   * `o⋄flex--column`
@@ -73,22 +90,14 @@ Activated through classes:
 **[More advanced demo](https://codepen.io/Offirmo/pen/zjavzJ)**
 
 #### full height page working on mobile browser
-You can't use height: 100vh on Chrome mobile or the url bar will get in the way. Solution:
-```html
-<html>
-	<body>
-		<div class="o⋄top-container o⋄centered-article o⋄pad⁚7">
-			<p>Hello world</p>
-```
+You can't use height: 100vh on Chrome mobile or the url bar will get in the way.
+Solution: use a cascade of `class="o⋄top-container"` (optionally starting at `html` and `body`)
 
 #### containers debug
 ```html
-	<style type="text/css">
-		.o⋄top-container {
-			border-width: 1px;
-		}
-	</style>
-</head>
+<style type="text/css">
+	.o⋄top-container { border-width: 1px; }
+</style>
 
 <html class="o⋄top-container">
 	<body class="o⋄top-container">
@@ -101,6 +110,8 @@ You can't use height: 100vh on Chrome mobile or the url bar will get in the way.
 * http://motherfuckingwebsite.com/
 * http://bettermotherfuckingwebsite.com/
 * http://perfectmotherfuckingwebsite.com/
+* using data="xyz" http://simurai.com/blog/2018/04/01/contextual-styling
+  * (more about data) https://www.sitepoint.com/use-html5-data-attributes/
 * https://www.leejamesrobinson.com/blog/how-stripe-designs-beautiful-websites/
 * https://ianstormtaylor.com/design-tip-never-use-black/
 * https://medium.com/refactoring-ui/7-practical-tips-for-cheating-at-design-40c736799886

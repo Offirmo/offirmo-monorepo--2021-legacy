@@ -1,6 +1,6 @@
-@import '../../../node_modules/@oh-my-rpg/view-browser/src/style.css';
+@import '../../node_modules/@oh-my-rpg/view-browser/src/style.css';
 
-#meta-panel {
+#meta-panel, .bm-menu-wrap {
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -18,14 +18,4 @@
 	#meta-panel {
 		width: 95%;
 	}
-}
-
-#about-panel {
-	position: fixed;
-	top: 0;
-	left: 0;
-	padding: 30px;
-	text-align: center;
-	width: 100%;
-	background-color: var(--o⋄color--bg⁚main--backdrop);
 }

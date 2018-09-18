@@ -1,3 +1,3 @@
-import OhMyRpgUI from './components/oh-my-rpg-ui'
+import OhMyRpgUI from './components'
 
 export default OhMyRpgUI

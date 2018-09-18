@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import { ScaleDown as BurgerMenu } from 'react-burger-menu'
 import ErrorBoundary from '@offirmo/react-error-boundary'
 
 import './index.css';
@@ -33,6 +34,10 @@ export class OhMyRpgUI extends Component {
 	render() {
 		return (
 			<div className="o⋄top-container">
+
+				<BurgerMenu
+					isOpen={this.state.isHamburgerMenuOpen}
+				>
 
 				<div className="omr⋄hud⁚top-left">
 					<div className="omr⋄hamburger" onClick={this.toggleHamburgerMenu}>
@@ -89,6 +94,10 @@ export class OhMyRpgUI extends Component {
 					</ErrorBoundary>
 				</div>
 				}
+
+
+				</BurgerMenu>
+
 			</div>
 		);
 	}

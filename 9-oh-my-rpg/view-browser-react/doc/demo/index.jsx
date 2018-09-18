@@ -14,21 +14,17 @@ export default class ViewBrowserReactDemo extends Component {
 			<OhMyRpg
 
 				logo={<img src={logo} height="100%" />}
-				aboutContent={'About'}
+				aboutContent={'<About>'}
 
-				universeAnchor={'UniverseAnchor'}
+				universeAnchor={'<UniverseAnchor>'}
 
 				hamburgerPanelContent={'<HamburgerArea>'}
 
 				bottomMenuItems={[
-					<span key="explore" className="omr⋄bottom-menu⁚icon icomoon-treasure-map"
-							onClick={() => this.activate_panel('explore')} />,
-					<span key="inventory" className="omr⋄bottom-menu⁚icon icomoon-locked-chest"
-							onClick={() => this.activate_panel('inventory')} />,
-					<span key="character" className="omr⋄bottom-menu⁚icon icomoon-battle-gear"
-							onClick={() => this.activate_panel('character')} />,
-					<span key="chat" className="omr⋄bottom-menu⁚icon icomoon-conversation"
-							onClick={() => GroupChat.toggle()} />,
+					<span key="explore" className="omr⋄bottom-menu⁚icon icomoon-treasure-map" />,
+					<span key="inventory" className="omr⋄bottom-menu⁚icon icomoon-locked-chest" />,
+					<span key="character" className="omr⋄bottom-menu⁚icon icomoon-battle-gear" />,
+					<span key="chat" className="omr⋄bottom-menu⁚icon icomoon-conversation" />,
 				]}
 			>
 				Main area
@@ -38,5 +34,5 @@ export default class ViewBrowserReactDemo extends Component {
 }
 
 
-const mountNode = document.getElementById('app')
+const mountNode = document.getElementById('root')
 ReactDOM.render(<ViewBrowserReactDemo />, mountNode)

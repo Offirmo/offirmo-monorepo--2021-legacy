@@ -3,7 +3,6 @@
 /* parameters we can't compute automatically */
 :root {
 	--omr⋄ui__logo-content--width_: 163px;
-	/*--omr⋄ui__universe-anchor-content--width_: 230px*/
 }
 
 /* customizations */
@@ -12,7 +11,6 @@
 }
 .omr⋄logo img {
 	image-rendering: crisp-edges;
-	/*padding-bottom: calc(4px * var(--scale));*/
 }
 
 .status⁚avatar--icon {
@@ -26,8 +24,6 @@
 
 
 /* Debug */
-/*
 .o⋄top-container {
 	border-width: 1px;
 }
-*/
