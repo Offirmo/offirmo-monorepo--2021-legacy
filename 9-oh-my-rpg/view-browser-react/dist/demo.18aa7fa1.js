@@ -26630,69 +26630,74 @@ function Main({ children, logo, universeAnchor, bottomMenuItems, aboutContent })
 	return _react2.default.createElement(
 		_stateContext.OhMyRPGUIContext.Consumer,
 		null,
-		({ isBurgerMenuOpen, openBurgerMenu, isAboutOpen, toggleAbout }) => _react2.default.createElement(
-			'main',
-			{ className: 'o\u22C4top-container' },
-			_react2.default.createElement('div', { className: 'omr\u22C4hud\u205Ashifts-hider' }),
-			_react2.default.createElement(
-				'div',
-				{ className: 'omr\u22C4hud\u205Atop-left' },
+		({ isBurgerMenuOpen, openBurgerMenu, isAboutOpen, toggleAbout, screenIndex }) => {
+			document.documentElement.style.setProperty('--omr⋄ui__bottom-menu--selected-reverse-index', -bottomMenuItems.length + screenIndex + 1);
+
+			return _react2.default.createElement(
+				'main',
+				{ className: 'o\u22C4top-container' },
+				_react2.default.createElement('div', { className: 'omr\u22C4hud\u205Ashifts-hider' }),
 				_react2.default.createElement(
 					'div',
-					{ className: 'omr\u22C4hamburger', onClick: openBurgerMenu },
-					isBurgerMenuOpen ? _react2.default.createElement('span', { className: 'icomoon-undo2' }) : _react2.default.createElement('span', { className: 'icomoon-menu' })
-				),
-				logo && _react2.default.createElement(
-					'div',
-					{ className: 'omr\u22C4logo', onClick: toggleAbout },
+					{ className: 'omr\u22C4hud\u205Atop-left' },
 					_react2.default.createElement(
-						_reactErrorBoundary2.default,
-						{ name: 'omr:logo' },
-						logo
+						'div',
+						{ className: 'omr\u22C4hamburger', onClick: openBurgerMenu },
+						isBurgerMenuOpen ? _react2.default.createElement('span', { className: 'icomoon-undo2' }) : _react2.default.createElement('span', { className: 'icomoon-menu' })
+					),
+					logo && _react2.default.createElement(
+						'div',
+						{ className: 'omr\u22C4logo', onClick: toggleAbout },
+						_react2.default.createElement(
+							_reactErrorBoundary2.default,
+							{ name: 'omr:logo' },
+							logo
+						)
+					),
+					logo && universeAnchor && _react2.default.createElement(
+						'div',
+						{ className: 'omr\u22C4universe-anchor' },
+						_react2.default.createElement(
+							_reactErrorBoundary2.default,
+							{ name: 'omr:universe-anchor' },
+							universeAnchor
+						)
 					)
 				),
-				logo && universeAnchor && _react2.default.createElement(
-					'div',
-					{ className: 'omr\u22C4universe-anchor' },
-					_react2.default.createElement(
-						_reactErrorBoundary2.default,
-						{ name: 'omr:universe-anchor' },
-						universeAnchor
-					)
-				)
-			),
-			_react2.default.createElement(
-				_reactErrorBoundary2.default,
-				{ name: 'omr:content' },
-				children
-			),
-			bottomMenuItems.length > 0 && _react2.default.createElement(
-				'div',
-				{ className: 'omr\u22C4hud\u205Abottom-right' },
-				_react2.default.createElement(
-					'div',
-					{ className: 'omr\u22C4bottom-menu' },
-					_react2.default.createElement(
-						_reactErrorBoundary2.default,
-						{ name: 'omr:bottom-menu' },
-						bottomMenuItems
-					)
-				)
-			),
-			isAboutOpen && _react2.default.createElement(
-				'div',
-				{
-					key: 'aboutBlanket',
-					id: 'about-panel',
-					className: 'o\u22C4top-container omr\u22C4content-area omr\u22C4plane\u205Ameta',
-					onClick: toggleAbout },
 				_react2.default.createElement(
 					_reactErrorBoundary2.default,
-					{ name: 'omr:about-blanket' },
-					aboutContent
+					{ name: 'omr:content' },
+					children
+				),
+				bottomMenuItems.length > 0 && _react2.default.createElement(
+					'div',
+					{ className: 'omr\u22C4hud\u205Abottom-right' },
+					_react2.default.createElement(
+						'div',
+						{ className: 'omr\u22C4bottom-menu' },
+						_react2.default.createElement(
+							_reactErrorBoundary2.default,
+							{ name: 'omr:bottom-menu' },
+							bottomMenuItems,
+							_react2.default.createElement('div', { className: 'omr\u22C4bottom-menu--selected-indicator' })
+						)
+					)
+				),
+				isAboutOpen && _react2.default.createElement(
+					'div',
+					{
+						key: 'aboutBlanket',
+						id: 'about-panel',
+						className: 'o\u22C4top-container omr\u22C4content-area omr\u22C4plane\u205Ameta',
+						onClick: toggleAbout },
+					_react2.default.createElement(
+						_reactErrorBoundary2.default,
+						{ name: 'omr:about-blanket' },
+						aboutContent
+					)
 				)
-			)
-		)
+			);
+		}
 	);
 }
 Main.defaultProps = {

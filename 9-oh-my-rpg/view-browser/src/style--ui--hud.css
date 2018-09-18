@@ -274,6 +274,8 @@
 
 .omr⋄bottom-menu {
 	--scale: var(--omr⋄ui__scale);
+	--icon-width_: 34px;
+	--icon-margin: calc(8px * var(--scale));
 	--height: calc((var(--omr⋄ui__bottom-menu--shape-height_) - var(--omr⋄ui__border--width_)) * var(--scale));
 	--visible-ratio: var(--omr⋄ui__bottom-menu--visible-ratio);
 	--padding: calc(var(--omr⋄ui__padding_) * var(--scale));
@@ -311,17 +313,31 @@
 	justify-content: center;
 	align-self: center;
 	/* width: clamp to max size to avoid strange behaviour on zoom */
-	width: calc(34px * var(--scale));
-	font-size: calc(30px * var(--scale));
-	line-height: calc(32px * var(--scale));
+	width: calc(var(--icon-width_) * var(--scale));
+	font-size: calc((var(--icon-width_) - 2px) * var(--scale));
+	line-height: calc((var(--icon-width_) - 0px) * var(--scale));
 	text-align: center;
 	/**/
-	margin: 0 6px;
+	margin: 0 var(--icon-margin);
 	cursor: pointer;
 }
 .omr⋄bottom-menu⁚icon:hover {
-	font-size: calc(34px * var(--scale));
+	font-size: calc(var(--icon-width_) * 1.1 * var(--scale));
 	text-shadow: 0 0 calc(22px * var(--scale)) var(--o⋄color--fg⁚main);
+}
+.omr⋄bottom-menu--selected-indicator {
+	--height: calc(3px * var(--scale));
+	--width: calc(var(--icon-width_) * var(--scale) + var(--icon-margin));
+
+	--reverse-index: var(--omr⋄ui__bottom-menu--selected-reverse-index, 0);
+
+	position: fixed;
+	bottom: var(--height);
+	right: calc(var(--reverse-index) * -1 * (var(--width) + var(--icon-margin)) + var(--icon-margin) * .5);
+
+	height: var(--height);
+	width: var(--width);
+	background-color: var(--o⋄color--fg⁚main);
 }
 
 /************/
