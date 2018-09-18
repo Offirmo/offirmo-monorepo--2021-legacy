@@ -76,16 +76,20 @@
 
 /*********************/
 
+
+/*
 .omr⋄hud {
-	position: absolute; /* prevent from taking room */
-	display: flex;
+ position: absolute; /* prevent from taking room */
+	/*display: flex;
 	flex-direction: row;
 }
 .omr⋄hud a {
 	/* usually what we want in HUD elements */
-	text-decoration: none;
+	/*text-decoration: none;
 	color: inherit;
 }
+*/
+
 
 .omr⋄hamburger {
 	--scale: var(--omr⋄ui__hamburger--scale, var(--omr⋄ui__scale));
@@ -338,3 +342,21 @@
 }
 
 /************/
+
+/* special usage when needing to hide the extra hud parts */
+.omr⋄hud⁚shifts-hider {
+	z-index: calc(100 + var(--omr⋄ui__meta-view--z-index));
+
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+
+	pointer-events: none;
+	background-color: transparent;
+	outline: calc(var(--omr⋄ui__scale) * 30px) solid var(--o⋄color--bg⁚main);
+
+	position: fixed;
+	top: 0;
+	left: 0;
+}

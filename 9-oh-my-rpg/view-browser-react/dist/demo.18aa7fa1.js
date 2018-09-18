@@ -26446,6 +26446,8 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -26467,20 +26469,28 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const PAGE_WRAP_ID = 'oh-my-rpg-ui__page-wrap';
 const OUTER_CONTAINER_ID = 'oh-my-rpg-ui__outer-container';
 
-function BurgerMenuWrapper({ mainContent, hamburgerPanelContent }) {
+function BurgerMenuWrapper({ isOpen, onStateChange, toggleBurgerMenu, mainContent, burgerPanelContent }) {
+	const cloned_content = _react2.default.Children.map(mainContent, child => {
+		return _react2.default.cloneElement(child, {
+			toggleBurgerMenu
+		});
+	});
+
 	return _react2.default.createElement(
 		'div',
 		{ id: OUTER_CONTAINER_ID, className: 'o\u22C4top-container' },
 		_react2.default.createElement(
 			_scaleDown2.default,
 			{
+				isOpen: isOpen,
 				pageWrapId: PAGE_WRAP_ID,
-				outerContainerId: OUTER_CONTAINER_ID
+				outerContainerId: OUTER_CONTAINER_ID,
+				onStateChange: onStateChange
 			},
 			_react2.default.createElement(
 				_reactErrorBoundary2.default,
 				{ name: 'omr:burger-menu:menu' },
-				hamburgerPanelContent
+				burgerPanelContent
 			)
 		),
 		_react2.default.createElement(
@@ -26489,19 +26499,166 @@ function BurgerMenuWrapper({ mainContent, hamburgerPanelContent }) {
 			_react2.default.createElement(
 				_reactErrorBoundary2.default,
 				{ name: 'omr:burger-menu:main' },
-				mainContent
+				cloned_content
 			)
 		)
 	);
 }
 
-exports.default = BurgerMenuWrapper;
+class WithState extends _react2.default.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			isBurgerMenuOpen: false
+
+			// This keeps your state in sync with the opening/closing of the menu
+			// via the default means, e.g. clicking the X, pressing the ESC key etc.
+		};this.handleStateChange = state => {
+			this.setState({ isBurgerMenuOpen: state.isOpen });
+		};
+
+		this.toggleMenu = () => {
+			this.setState({ isBurgerMenuOpen: !this.state.isBurgerMenuOpen });
+		};
+	}
+	/*
+       // This can be used to close the menu, e.g. when a user clicks a menu item
+       closeMenu () {
+           this.setState({isBurgerMenuOpen: false})
+       }
+        // This can be used to toggle the menu, e.g. when using a custom icon
+       // Tip: You probably want to hide either/both default icons if using a custom icon
+       // See https://github.com/negomi/react-burger-menu#custom-icons
+    */
+	render() {
+		return _react2.default.createElement(BurgerMenuWrapper, _extends({}, this.props, {
+			isOpen: this.state.isBurgerMenuOpen,
+			onStateChange: this.handleStateChange,
+			toggleBurgerMenu: this.toggleMenu
+		}));
+	}
+}
+
+exports.default = WithState;
 },{"react":"../../node_modules/react/index.js","react-burger-menu/lib/menus/scaleDown":"../../node_modules/react-burger-menu/lib/menus/scaleDown.js","@offirmo/react-error-boundary":"../../node_modules/@offirmo/react-error-boundary/src/error-boundary.jsx","./index.css":"../../src/components/burger-menu-wrapper/index.css"}],"../../src/components/main/index.css":[function(require,module,exports) {
 
 var reloadCSS = require('_css_loader');
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"../../../../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"../../node_modules/@oh-my-rpg/view-browser/node_modules/@offirmo/view-css/node_modules/normalize.css/normalize.css":[function(require,module,exports) {
+},{"_css_loader":"../../../../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"../../src/components/main/index.jsx":[function(require,module,exports) {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactErrorBoundary = require('@offirmo/react-error-boundary');
+
+var _reactErrorBoundary2 = _interopRequireDefault(_reactErrorBoundary);
+
+require('./index.css');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function Main({ children, toggleBurgerMenu, toggleAbout, logo, universeAnchor, bottomMenuItems, aboutContent }) {
+	const isHamburgerMenuOpen = false; // TODO remove
+	const isAboutOpen = false; // TODO
+
+	return _react2.default.createElement(
+		'main',
+		{ className: 'o\u22C4top-container' },
+		_react2.default.createElement('div', { className: 'omr\u22C4hud\u205Ashifts-hider' }),
+		_react2.default.createElement(
+			'div',
+			{ className: 'omr\u22C4hud\u205Atop-left' },
+			_react2.default.createElement(
+				'div',
+				{ className: 'omr\u22C4hamburger', onClick: toggleBurgerMenu },
+				isHamburgerMenuOpen ? _react2.default.createElement('span', { className: 'icomoon-undo2' }) : _react2.default.createElement('span', { className: 'icomoon-menu' })
+			),
+			logo && _react2.default.createElement(
+				'div',
+				{ className: 'omr\u22C4logo', onClick: toggleAbout },
+				_react2.default.createElement(
+					_reactErrorBoundary2.default,
+					{ name: 'omr:logo' },
+					logo
+				)
+			),
+			logo && universeAnchor && _react2.default.createElement(
+				'div',
+				{ className: 'omr\u22C4universe-anchor' },
+				_react2.default.createElement(
+					_reactErrorBoundary2.default,
+					{ name: 'omr:universe-anchor' },
+					universeAnchor
+				)
+			)
+		),
+		_react2.default.createElement(
+			_reactErrorBoundary2.default,
+			{ name: 'omr:content' },
+			children
+		),
+		bottomMenuItems.length > 0 && _react2.default.createElement(
+			'div',
+			{ className: 'omr\u22C4hud\u205Abottom-right' },
+			_react2.default.createElement(
+				'div',
+				{ className: 'omr\u22C4bottom-menu' },
+				_react2.default.createElement(
+					_reactErrorBoundary2.default,
+					{ name: 'omr:bottom-menu' },
+					bottomMenuItems
+				)
+			)
+		),
+		isAboutOpen && _react2.default.createElement(
+			'div',
+			{
+				key: 'aboutBlanket',
+				id: 'about-panel',
+				className: 'o\u22C4top-container omr\u22C4content-area omr\u22C4plane\u205Ameta',
+				onClick: this.toggleAbout },
+			_react2.default.createElement(
+				_reactErrorBoundary2.default,
+				{ name: 'omr:about-blanket' },
+				aboutContent
+			)
+		)
+	);
+}
+Main.defaultProps = {
+	toggleBurgerMenu: () => {
+		console.warn('TODO implement Oh My RPG UI toggleBurgerMenu() !');
+	},
+	toggleAbout: () => {
+		console.warn('TODO implement Oh My RPG UI toggleAbout() !');
+	},
+	logo: _react2.default.createElement(
+		'span',
+		null,
+		'[Game name/logo here]'
+	),
+	bottomMenuItems: [],
+	aboutContent: _react2.default.createElement(
+		'span',
+		null,
+		'This game was made by [x]...'
+	),
+	hamburgerPanelContent: _react2.default.createElement(
+		'span',
+		null,
+		'TODO put some settings here'
+	)
+};
+
+exports.default = Main;
+},{"react":"../../node_modules/react/index.js","@offirmo/react-error-boundary":"../../node_modules/@offirmo/react-error-boundary/src/error-boundary.jsx","./index.css":"../../src/components/main/index.css"}],"../../node_modules/@oh-my-rpg/view-browser/node_modules/@offirmo/view-css/node_modules/normalize.css/normalize.css":[function(require,module,exports) {
 
         var reloadCSS = require('_css_loader');
         module.hot.dispose(reloadCSS);
@@ -26661,45 +26818,17 @@ require('./index.css');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 class OhMyRpgUI extends _react.Component {
-
-	constructor() {
-		super();
-		this.state = {
-			isHamburgerMenuOpen: false,
-			isAboutOpen: false
-		};
-
-		this.toggleHamburgerMenu = () => {
-			this.setState(state => ({
-				isHamburgerMenuOpen: !state.isHamburgerMenuOpen,
-				isAboutOpen: false
-			}));
-		};
-
-		this.toggleAbout = () => {
-			this.setState(state => ({
-				isAboutOpen: !state.isAboutOpen,
-				isHamburgerMenuOpen: false
-			}));
-		};
-	}
-
 	// TODO listen on error and suggest a refresh
 
 	render() {
 		return _react2.default.createElement(_burgerMenuWrapper2.default, {
-			hamburgerPanelContent: this.props.hamburgerPanelContent,
-			xxmainContent: _react2.default.createElement(_main2.default, this.props),
-			mainContent: _react2.default.createElement(
-				'span',
-				null,
-				'[main content here]'
-			)
+			burgerPanelContent: this.props.hamburgerPanelContent,
+			mainContent: _react2.default.createElement(_main2.default, this.props)
 		});
 	}
 }
+exports.OhMyRpgUI = OhMyRpgUI; // mainContent={<span>[main content here]</span>}
 
-exports.OhMyRpgUI = OhMyRpgUI;
 OhMyRpgUI.defaultProps = {
 	logo: _react2.default.createElement(
 		'span',
@@ -26720,7 +26849,7 @@ OhMyRpgUI.defaultProps = {
 };
 
 exports.default = OhMyRpgUI;
-},{"react":"../../node_modules/react/index.js","@offirmo/react-error-boundary":"../../node_modules/@offirmo/react-error-boundary/src/error-boundary.jsx","./burger-menu-wrapper":"../../src/components/burger-menu-wrapper/index.jsx","./main":"../../src/components/main/index.css","./index.css":"../../src/components/index.css"}],"../../src/index.jsx":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","@offirmo/react-error-boundary":"../../node_modules/@offirmo/react-error-boundary/src/error-boundary.jsx","./burger-menu-wrapper":"../../src/components/burger-menu-wrapper/index.jsx","./main":"../../src/components/main/index.jsx","./index.css":"../../src/components/index.css"}],"../../src/index.jsx":[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -26776,6 +26905,7 @@ class ViewBrowserReactDemo extends _react.Component {
 			{
 
 				logo: _react2.default.createElement('img', { src: _tbrpg_logo_512x2.default, height: '100%' }),
+
 				aboutContent: '<About>',
 
 				universeAnchor: '<UniverseAnchor>',
@@ -26784,7 +26914,7 @@ class ViewBrowserReactDemo extends _react.Component {
 
 				bottomMenuItems: [_react2.default.createElement('span', { key: 'explore', className: 'omr\u22C4bottom-menu\u205Aicon icomoon-treasure-map' }), _react2.default.createElement('span', { key: 'inventory', className: 'omr\u22C4bottom-menu\u205Aicon icomoon-locked-chest' }), _react2.default.createElement('span', { key: 'character', className: 'omr\u22C4bottom-menu\u205Aicon icomoon-battle-gear' }), _react2.default.createElement('span', { key: 'chat', className: 'omr\u22C4bottom-menu\u205Aicon icomoon-conversation' })]
 			},
-			'Main area'
+			'Main area. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
 		);
 	}
 }
@@ -26821,7 +26951,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '49686' + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '63480' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
