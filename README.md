@@ -39,6 +39,8 @@ npx yarn-tools list-duplicates yarn.lock
 
 
 bolt w @oh-my-rpg/definitions run build
+ngrok http -subdomain=offirmo 1234
+
 ```
 
 ## Notes

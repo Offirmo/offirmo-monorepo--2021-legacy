@@ -1,3 +1,5 @@
+XXX TODO
+
 import React, { Component } from 'react';
 
 import ErrorBoundary from '@offirmo/react-error-boundary'
@@ -20,11 +22,8 @@ export class Test extends Component {
 	}
 }
 
-OhMyRpgUI.defaultProps = {
+Test.defaultProps = {
 	logo: <span>[Game name/logo here]</span>,
-	bottomMenuItems: [],
-	aboutContent: <span>This game was made by [x]...</span>,
-	hamburgerPanelContent: <span>TODO put some settings here</span>
 };
 
 export default OhMyRpgUI;

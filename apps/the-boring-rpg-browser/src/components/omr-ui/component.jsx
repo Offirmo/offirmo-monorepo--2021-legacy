@@ -62,7 +62,7 @@ export default class TheBoringRPG extends Component {
 
 				universeAnchor={<UniverseAnchor onClick={() => this.activate_panel('character')} />}
 
-				hamburgerPanelContent={<HamburgerArea />}
+				burgerPanelContent={<HamburgerArea />}
 
 				bottomMenuItems={[
 					<span key="explore" className="omr⋄bottom-menu⁚icon icomoon-treasure-map"

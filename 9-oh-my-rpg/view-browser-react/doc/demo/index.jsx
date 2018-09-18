@@ -4,7 +4,7 @@ import ReactDOM from "react-dom"
 import OhMyRpg from '../../src'
 
 import './index.css'
-import logo from './tbrpg_logo_512x98.png'
+//import logo from './tbrpg_logo_512x98.png'
 
 
 export default class ViewBrowserReactDemo extends Component {
@@ -13,13 +13,13 @@ export default class ViewBrowserReactDemo extends Component {
 		return (
 			<OhMyRpg
 
-				logo={<img src={logo} height="100%" />}
+				logo={'<logo>'}
 
 				aboutContent={'<About>'}
 
 				universeAnchor={'<UniverseAnchor>'}
 
-				hamburgerPanelContent={'<HamburgerArea>'}
+				burgerPanelContent={'<BurgerArea>'}
 
 				bottomMenuItems={[
 					<span key="explore" className="omr⋄bottom-menu⁚icon icomoon-treasure-map" />,
@@ -34,6 +34,7 @@ export default class ViewBrowserReactDemo extends Component {
 	}
 }
 
+// logo={<img src={logo} height="100%" />}
 
 const mountNode = document.getElementById('root')
 ReactDOM.render(<ViewBrowserReactDemo />, mountNode)

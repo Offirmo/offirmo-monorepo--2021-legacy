@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 import BurgerMenu from 'react-burger-menu/lib/menus/scaleDown'
 import ErrorBoundary from '@offirmo/react-error-boundary'
+import { OhMyRPGUIContext } from '../state-context'
 
 import './index.css';
 
@@ -11,36 +12,33 @@ const PAGE_WRAP_ID = 'oh-my-rpg-ui__page-wrap'
 const OUTER_CONTAINER_ID = 'oh-my-rpg-ui__outer-container'
 
 
-function BurgerMenuWrapper({isOpen, onStateChange, toggleBurgerMenu, mainContent, burgerPanelContent}) {
-	const cloned_content = React.Children.map(mainContent, child => {
-		return React.cloneElement(child, {
-			toggleBurgerMenu,
-		})
-	})
-
+function BurgerMenuWrapper({onStateChange, toggleBurgerMenu, mainContent, burgerPanelContent}) {
 	return (
-		<div id={OUTER_CONTAINER_ID} className="o⋄top-container">
+		<OhMyRPGUIContext.Consumer>
+			{({isBurgerMenuOpen, onUpdateBurgerMenu}) => (
+				<div id={OUTER_CONTAINER_ID} className="o⋄top-container">
+					<BurgerMenu
+						isOpen={isBurgerMenuOpen}
+						pageWrapId={PAGE_WRAP_ID}
+						outerContainerId={OUTER_CONTAINER_ID}
+						onStateChange={onUpdateBurgerMenu}
+					>
+						<ErrorBoundary name={'omr:burger-menu:menu'}>
+							{burgerPanelContent}
+						</ErrorBoundary>
+					</BurgerMenu>
 
-			<BurgerMenu
-				isOpen={isOpen}
-				pageWrapId={PAGE_WRAP_ID}
-				outerContainerId={OUTER_CONTAINER_ID}
-				onStateChange={onStateChange}
-			>
-				<ErrorBoundary name={'omr:burger-menu:menu'}>
-					{burgerPanelContent}
-				</ErrorBoundary>
-			</BurgerMenu>
-
-			<div id={PAGE_WRAP_ID} className="o⋄top-container">
-				<ErrorBoundary name={'omr:burger-menu:main'}>
-					{cloned_content}
-				</ErrorBoundary>
-			</div>
-		</div>
+					<div id={PAGE_WRAP_ID} className="o⋄top-container">
+						<ErrorBoundary name={'omr:burger-menu:main'}>
+							{mainContent}
+						</ErrorBoundary>
+					</div>
+				</div>
+			)}
+		</OhMyRPGUIContext.Consumer>
 	)
 }
-
+/*
 class WithState extends React.Component {
 	constructor (props) {
 		super(props)
@@ -58,17 +56,7 @@ class WithState extends React.Component {
 			this.setState({isBurgerMenuOpen: !this.state.isBurgerMenuOpen})
 		}
 	}
-	/*
-       // This can be used to close the menu, e.g. when a user clicks a menu item
-       closeMenu () {
-           this.setState({isBurgerMenuOpen: false})
-       }
 
-       // This can be used to toggle the menu, e.g. when using a custom icon
-       // Tip: You probably want to hide either/both default icons if using a custom icon
-       // See https://github.com/negomi/react-burger-menu#custom-icons
-
-   */
 	render () {
 		return (
 			<BurgerMenuWrapper
@@ -82,5 +70,5 @@ class WithState extends React.Component {
 		)
 	}
 }
-
-export default WithState
+*/
+export default BurgerMenuWrapper
