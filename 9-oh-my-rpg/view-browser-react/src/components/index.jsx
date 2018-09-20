@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import BurgerMenuWrapper from './burger-menu-wrapper'
-import Main from './main'
+import OMR from './omr'
 import OhMyRPGUIContextProvider from './state-context'
 
 import './index.css'
@@ -14,7 +14,7 @@ export class OhMyRpgUI extends Component {
 			<OhMyRPGUIContextProvider>
 				<BurgerMenuWrapper
 					burgerPanelContent={this.props.burgerPanelContent}
-					mainContent={<Main {...this.props} />}
+					mainContent={<OMR {...this.props} />}
 				/>
 			</OhMyRPGUIContextProvider>
 		)

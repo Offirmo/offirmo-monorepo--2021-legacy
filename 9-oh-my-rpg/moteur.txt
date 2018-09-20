@@ -1,0 +1,61 @@
+
+
+soul
+- will
+- motivation
+- 
+
+
+- physical power
+  - strength
+  - finesse
+- brain power
+- magic power
+  - strength
+  - finesse
+
+Skills:
+- climbing
+- fighting
+- evading
+- parrying
+- haggling
+- commanding
+- 
+
+
+
+Attributes
+Skills
+"Slots" = according to attributes + intelligence
+
+Jobs
+- fighter
+  - verbal
+  - physical
+    - common
+	  - footwork
+	  - posture
+	  - stance
+	  - invite
+	  - taunt
+	  - tactics
+	    - parry
+		- riposte
+		- mystery circle
+    - unarmed
+	  - guard
+	  - strike
+	  - close-ranged
+	  - mid-ranged
+	  - long-ranged
+	  - ground fight
+	  
+    - sword
+    - bow
+	  - Natural point of aim
+	  - 3 positions
+	  - accurizing
+	  - sharpshooting
+    - buckler
+    - 

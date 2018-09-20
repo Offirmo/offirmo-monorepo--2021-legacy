@@ -38,37 +38,5 @@ function BurgerMenuWrapper({onStateChange, toggleBurgerMenu, mainContent, burger
 		</OhMyRPGUIContext.Consumer>
 	)
 }
-/*
-class WithState extends React.Component {
-	constructor (props) {
-		super(props)
-		this.state = {
-			isBurgerMenuOpen: false
-		}
 
-		// This keeps your state in sync with the opening/closing of the menu
-		// via the default means, e.g. clicking the X, pressing the ESC key etc.
-		this.handleStateChange = (state) => {
-			this.setState({isBurgerMenuOpen: state.isOpen})
-		}
-
-		this.toggleMenu = () => {
-			this.setState({isBurgerMenuOpen: !this.state.isBurgerMenuOpen})
-		}
-	}
-
-	render () {
-		return (
-			<BurgerMenuWrapper
-				{...{
-					...this.props,
-					isOpen: this.state.isBurgerMenuOpen,
-					onStateChange: this.handleStateChange,
-					toggleBurgerMenu: this.toggleMenu,
-				}}
-			/>
-		)
-	}
-}
-*/
 export default BurgerMenuWrapper

@@ -31,6 +31,6 @@ chat tlk.io
 		"mobile-detect": "^1",
 		"prettyjson": "^1",
 		"semver": "^5",
-		"style-loader": "^0.22",
+		"style-loader": "^0.23",
 		"tslib": "^1",
 		"universal-analytics": "^0.4",

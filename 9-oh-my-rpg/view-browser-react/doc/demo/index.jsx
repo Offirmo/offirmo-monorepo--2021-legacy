@@ -26,9 +26,24 @@ export default class ViewBrowserReactDemo extends Component {
 					<span key="inventory" className="omr⋄bottom-menu⁚icon icomoon-locked-chest" />,
 					<span key="character" className="omr⋄bottom-menu⁚icon icomoon-battle-gear" />,
 					<span key="chat" className="omr⋄bottom-menu⁚icon icomoon-conversation" />,
+				slides={[
+					{
+						icon: <span key="explore" className="omr⋄bottom-menu⁚icon icomoon-treasure-map" />,
+						content: <div>Main area. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>,
+					},
+					{
+						icon: <span key="inventory" className="omr⋄bottom-menu⁚icon icomoon-locked-chest" />,
+						content: <div>Main area. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>,
+					},
+					{
+						icon: <span key="character" className="omr⋄bottom-menu⁚icon icomoon-battle-gear" />,
+						content: <div>Main area. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>,
+					},
+					{
+						icon: <span key="chat" className="omr⋄bottom-menu⁚icon icomoon-conversation" />,
+					},
 				]}
 			>
-				Main area. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 			</OhMyRpg>
 		)
 	}

@@ -39,6 +39,12 @@ export default class ContextProvider extends React.Component {
 				isAboutOpen: !state.isAboutOpen,
 			}))
 		}
+
+		this.state.goToScreenIndex = this.state.onScreenIndexChange = (index) => {
+			this.setState(state => ({
+				screenIndex: index,
+			}))
+		}
 	}
 
 	render() {
