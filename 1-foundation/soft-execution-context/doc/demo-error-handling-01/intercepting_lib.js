@@ -1,4 +1,4 @@
-"use strict";
+'use strict'
 
 const good_lib = require('./good_lib.js').create()
 

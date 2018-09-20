@@ -29,8 +29,8 @@ const SEC = getRootSEC()
 
 SEC.emitter.on('final-error', function onError({SEC, err}) {
 	const styles = {
-		error: "color: red; font-weight: bold",
-	};
+		error: 'color: red; font-weight: bold',
+	}
 
 	console.groupCollapsed(`%c💣💣💣 Crashed! 💣💣💣 "${err.message}"`, styles.error)
 	console.log(`%c${err.message}`, styles.error)

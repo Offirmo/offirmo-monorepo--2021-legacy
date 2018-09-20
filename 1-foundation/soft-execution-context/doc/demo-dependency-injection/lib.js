@@ -13,7 +13,7 @@ function get_lib_SEC(parent) {
 
 function hello(target, {SEC} = {}) {
 	get_lib_SEC(SEC).xTry('hello', ({SEC, ENV, logger}) => {
-		logger.info(`[This is a log entry]`, {SEC, ENV})
+		logger.info('[This is a log entry]', {SEC, ENV})
 		console.log(`Hello, ${target}!`)
 	})
 }

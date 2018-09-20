@@ -11,8 +11,8 @@ function get_lib_SEC(parent) {
 
 function hello(target, {SEC} = {}) {
 	get_lib_SEC(SEC).xTry(hello.name, ({SEC, logger}) => {
-		logger.info(`short:`, SEC.getShortLogicalStack())
-		logger.info(`long:`, SEC.getLogicalStack())
+		logger.info('short:', SEC.getShortLogicalStack())
+		logger.info('long:', SEC.getLogicalStack())
 		logger.log('misc', {
 			SEC,
 		})

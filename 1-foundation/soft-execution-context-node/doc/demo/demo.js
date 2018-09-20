@@ -1,6 +1,6 @@
 #!/bin/sh
 ':' //# http://sambal.org/?p=1014 ; exec `dirname $0`/../../../../node_modules/.bin/babel-node "$0" "$@"
-'use strict';
+'use strict'
 
 const { createLogger } = require('@offirmo/practical-logger-node')
 const { getRootSEC } = require('@offirmo/soft-execution-context')

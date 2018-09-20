@@ -34,7 +34,7 @@ function listenToErrorEvents() {
 		// https://developer.mozilla.org/en-US/docs/Web/API/ErrorEvent
 		//console.log('DEBUG SEC browser debug: error event', arguments) // TODO analyze
 		const err = (evt && evt.message === 'Script error.')
-			? new Error(`Error from another origin!`)
+			? new Error('Error from another origin!')
 			: evt.error || new Error(`Error "${evt.message}" from "${evt.filename}", line ${evt.lineno}.${evt.colno}!`)
 
 		SEC._handleError({
@@ -44,7 +44,7 @@ function listenToErrorEvents() {
 		}, err)
 
 		//evt.preventDefault(); // XXX should we?
-	});
+	})
 }
 
 
@@ -57,7 +57,7 @@ function listenToUnhandledRejections() {
 	window.addEventListener('unhandledrejection', function(evt) {
 		// https://developer.mozilla.org/en-US/docs/Web/API/PromiseRejectionEvent
 		//console.log('DEBUG SEC browser debug: onunhandledrejection', arguments) // TODO analyze
-		const err = evt.reason || new Error(`Error: uncaught promise rejection!`)
+		const err = evt.reason || new Error('Error: uncaught promise rejection!')
 
 		SEC._handleError({
 			SEC,

@@ -1,4 +1,4 @@
-"use strict";
+'use strict'
 
 /*
 function be_naughty_sync({x}) {

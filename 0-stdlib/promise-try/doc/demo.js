@@ -3,7 +3,7 @@ const {
 } = require('..')
 
 promiseTry(() => { throw new Error('Oups!') })
-.then(
-	() => console.log('OK (UNEXPECTED!)'),
-	err => console.error('error! (expected)')
-)
+	.then(
+		() => console.log('OK (UNEXPECTED!)'),
+		err => console.error('error! (expected)')
+	)
