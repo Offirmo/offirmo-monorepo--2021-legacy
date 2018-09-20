@@ -9,7 +9,7 @@ const RoundType = Enum(
 	'Third place play-off',
 	'Final',
 )
-type RoundType = Enum<typeof RoundType>
+type RoundType = Enum<typeof RoundType> // eslint-disable-line no-redeclare
 
 
 const Team = Enum(
@@ -46,7 +46,7 @@ const Team = Enum(
 	'Tunisia',
 	'Uruguay',
 )
-type Team = Enum<typeof Team>
+type Team = Enum<typeof Team> // eslint-disable-line no-redeclare
 
 interface MatchResult {
 	match: number

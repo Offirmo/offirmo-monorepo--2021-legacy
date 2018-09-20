@@ -143,7 +143,7 @@ const on_concatenate_sub_node: WalkerReducer<State, OnConcatenateSubNodeParams<S
 		sub_str = bullet + sub_str
 		break
 	}
-	case 'ol':
+	case 'ol': {
 		// automake sub-state a ol > li
 		const bullet: string = (() => {
 			if (style === 'markdown')
@@ -154,7 +154,7 @@ const on_concatenate_sub_node: WalkerReducer<State, OnConcatenateSubNodeParams<S
 		sub_starts_with_block = true
 		sub_str = bullet + sub_str
 		break
-
+	}
 	default:
 		break
 	}

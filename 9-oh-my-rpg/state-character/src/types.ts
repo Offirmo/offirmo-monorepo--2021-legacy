@@ -12,7 +12,7 @@ const CharacterAttribute = Enum(
 	'charisma',
 	'wisdom',
 )
-type CharacterAttribute = Enum<typeof CharacterAttribute>
+type CharacterAttribute = Enum<typeof CharacterAttribute> // eslint-disable-line no-redeclare
 
 const CharacterClass = Enum(
 	'novice',
@@ -28,7 +28,7 @@ const CharacterClass = Enum(
 	'druid',
 	'priest',
 )
-type CharacterClass = Enum<typeof CharacterClass>
+type CharacterClass = Enum<typeof CharacterClass> // eslint-disable-line no-redeclare
 
 /////////////////////
 

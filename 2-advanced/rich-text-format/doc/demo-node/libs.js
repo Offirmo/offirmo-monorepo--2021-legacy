@@ -1,5 +1,3 @@
-
-
 const prettyjson = require('prettyjson')
 function prettify_json(data, options) {
 	return prettyjson.render(data, options)

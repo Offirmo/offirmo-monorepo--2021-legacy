@@ -9,7 +9,7 @@ const WeaponPartType = Enum(
 	'qualifier1',
 	'qualifier2',
 )
-type WeaponPartType = Enum<typeof WeaponPartType>
+type WeaponPartType = Enum<typeof WeaponPartType> // eslint-disable-line no-redeclare
 
 ///////
 

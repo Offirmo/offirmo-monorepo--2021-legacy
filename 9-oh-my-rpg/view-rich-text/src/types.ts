@@ -9,7 +9,7 @@ const TextClass = Enum(
 	'item',
 	'place',
 )
-type TextClass = Enum<typeof TextClass>
+type TextClass = Enum<typeof TextClass> // eslint-disable-line no-redeclare
 
 /////////////////////
 

@@ -9,7 +9,7 @@ const MonsterRank = Enum(
 	'elite',
 	'boss',
 )
-type MonsterRank = Enum<typeof MonsterRank>
+type MonsterRank = Enum<typeof MonsterRank> // eslint-disable-line no-redeclare
 
 // TODO property, etc...
 

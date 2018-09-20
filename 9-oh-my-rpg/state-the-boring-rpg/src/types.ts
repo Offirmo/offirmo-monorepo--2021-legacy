@@ -32,7 +32,7 @@ const GainType = Enum(
 	'weapon_improvement',
 	'armor_improvement',
 )
-type GainType = Enum<typeof GainType>
+type GainType = Enum<typeof GainType> // eslint-disable-line no-redeclare
 
 
 interface Adventure {

@@ -23,7 +23,7 @@ const ActionType = Enum(
 	'rename_avatar',
 	'change_avatar_class',
 )
-type ActionType = Enum<typeof ActionType>
+type ActionType = Enum<typeof ActionType> // eslint-disable-line no-redeclare
 
 const ActionCategory = Enum(
 	'base',
@@ -31,7 +31,7 @@ const ActionCategory = Enum(
 	'character',
 	'meta',
 )
-type ActionCategory = Enum<typeof ActionCategory>
+type ActionCategory = Enum<typeof ActionCategory> // eslint-disable-line no-redeclare
 
 /////////////////////
 

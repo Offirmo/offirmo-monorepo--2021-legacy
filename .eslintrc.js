@@ -68,7 +68,7 @@ module.exports = {
 				'typescript/no-array-constructor': 'error',
 				'typescript/no-empty-interface': 'error',
 				'typescript/no-explicit-any': 'off', // TODO reactivate sometimes
-				'typescript/no-inferrable-types': 'error',
+				'typescript/no-inferrable-types': 'off',
 				'typescript/no-namespace': 'error',
 				'typescript/no-non-null-assertion': 'off', // TODO reactivate sometimes
 				'typescript/no-parameter-properties': 'error',
@@ -84,6 +84,7 @@ module.exports = {
 		{
 			'files': ['**/doc/**/*.{ts,js,jsx}', 'webpack.config.ts'],
 			'rules': {
+				'no-unused-vars': 'off',
 				'no-console': 'off',
 				'typescript/no-var-requires': 'off',
 			},

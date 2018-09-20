@@ -40,7 +40,7 @@ window.addEventListener('keydown', on_key_down_to_detect_tabs)
 
 ///////
 
-function on_touch_start(evt) {
+function on_touch_start() {
 	has_seen_touch_usage = true
 	window.removeEventListener('touchstart', on_touch_start)
 }

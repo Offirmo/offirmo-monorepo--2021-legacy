@@ -24,7 +24,7 @@ const NodeType = Enum(
 	'inline_fragment',
 	'block_fragment',
 )
-type NodeType = Enum<typeof NodeType>
+type NodeType = Enum<typeof NodeType> // eslint-disable-line no-redeclare
 
 
 interface CheckedNode {

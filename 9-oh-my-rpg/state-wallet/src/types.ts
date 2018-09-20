@@ -6,7 +6,7 @@ const Currency = Enum(
 	'coin',
 	'token',
 )
-type Currency = Enum<typeof Currency>
+type Currency = Enum<typeof Currency> // eslint-disable-line no-redeclare
 
 /////////////////////
 

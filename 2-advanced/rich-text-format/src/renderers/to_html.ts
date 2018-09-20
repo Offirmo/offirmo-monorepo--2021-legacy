@@ -91,14 +91,14 @@ const on_node_exit: WalkerReducer<State, OnNodeExitParams<State>, Options> = ({s
 		}
 
 		if (is_uuid_list($node)) {
-			console.log(`${LIB} seen uuid list`)
+			//console.log(`${LIB} seen uuid list`)
 			classes.push('o⋄rich-text⋄list--interactive')
 		}
 
 		if (is_KVP_list($node)) {
 			classes.push('o⋄rich-text⋄list--no-bullet')
 			// TODO rewrite completely
-			console.log(`${LIB} TODO KVP`)
+			//console.log(`${LIB} TODO KVP`)
 		}
 	}
 

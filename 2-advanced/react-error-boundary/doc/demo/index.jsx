@@ -1,4 +1,4 @@
-XXX TODO
+/*XXX TODO
 
 import React, { Component } from 'react';
 
@@ -27,3 +27,4 @@ Test.defaultProps = {
 };
 
 export default OhMyRpgUI;
+*/

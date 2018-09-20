@@ -7,7 +7,7 @@ const AchievementStatus = Enum(
 	'revealed',
 	'unlocked',
 )
-type AchievementStatus = Enum<typeof AchievementStatus>
+type AchievementStatus = Enum<typeof AchievementStatus> // eslint-disable-line no-redeclare
 
 /////////////////////
 

@@ -11,7 +11,6 @@ const { prettify_params_for_debug, get_shared_start } = require('./utils')
 
 
 const MANY_BOX_HORIZ = '────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────'
-const MANY_SPACES = '                                                                                                                                                                  '
 const LIB = 'view-chat/tty'
 
 function alpha_to_nice_unicode(char) {

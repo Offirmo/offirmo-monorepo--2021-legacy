@@ -9,14 +9,14 @@ const CoinsGain = Enum(
 	'big',
 	'huge',
 )
-type CoinsGain = Enum<typeof CoinsGain>
+type CoinsGain = Enum<typeof CoinsGain> // eslint-disable-line no-redeclare
 
 
 const AdventureType = Enum(
 	'story',
 	'fight',
 )
-type AdventureType = Enum<typeof AdventureType>
+type AdventureType = Enum<typeof AdventureType> // eslint-disable-line no-redeclare
 
 
 interface AdventureArchetype {

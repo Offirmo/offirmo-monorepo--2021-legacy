@@ -17,7 +17,7 @@ const ElementType = Enum(
 	'location',
 	'lore',
 )
-type ElementType = Enum<typeof ElementType>
+type ElementType = Enum<typeof ElementType> // eslint-disable-line no-redeclare
 
 ///////
 
@@ -37,13 +37,13 @@ const ItemQuality = Enum(
 	'legendary',
 	'artifact',
 )
-type ItemQuality = Enum<typeof ItemQuality>
+type ItemQuality = Enum<typeof ItemQuality> // eslint-disable-line no-redeclare
 
 const InventorySlot = Enum(
 	'weapon',
 	'armor',
 )
-type InventorySlot = Enum<typeof InventorySlot>
+type InventorySlot = Enum<typeof InventorySlot> // eslint-disable-line no-redeclare
 
 ///////
 

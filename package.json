@@ -7,7 +7,6 @@
 	"license": "Unlicense",
 	"private": true,
 	"scripts": {
-		"xxeslint": "eslint '{0-stdlib,1-foundation,2-advanced,3-tools,4-incubator,9-oh-my-rpg,apps}/**/*.js'",
 		"eslint": "eslint '{0-stdlib,1-foundation,2-advanced,3-tools,4-incubator,9-oh-my-rpg,apps}/**/{src,doc}/**/*.{ts,js,jsx}' '**/{\\.eslintrc.js,prettier.config.js,webpack.config.ts}'",
 		"eslint:fix": "npm run eslint -- --fix",
 		"lint": "npm run eslint",
@@ -76,6 +75,7 @@
 		"env-paths": "^1",
 		"eslint": "^5",
 		"eslint-plugin-chai-expect": "^1",
+		"eslint-plugin-import": "^2",
 		"eslint-plugin-json": "^1",
 		"eslint-plugin-mocha": "^5",
 		"eslint-plugin-node": "^7",
