@@ -8,7 +8,7 @@
 	"private": true,
 	"scripts": {
 		"xxeslint": "eslint '{0-stdlib,1-foundation,2-advanced,3-tools,4-incubator,9-oh-my-rpg,apps}/**/*.js'",
-		"eslint": "eslint '{0-stdlib,1-foundation}/**/{src,doc}/**/*.js' '**/{\\.eslintrc.js,prettier.config.js}'",
+		"eslint": "eslint '{0-stdlib,1-foundation}/**/{src,doc}/**/*.{ts,js,jsx}' '**/{\\.eslintrc.js,prettier.config.js}'",
 		"eslint:fix": "npm run eslint -- --fix",
 		"lint": "npm run eslint",
 		"parcel": "parcel --no-hmr",

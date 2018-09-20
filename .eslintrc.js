@@ -1,6 +1,5 @@
 module.exports = {
 	'root': true,
-	'parser': 'typescript-eslint-parser',
 	'env': {
 		'es6': true,
 		'mocha': true,
@@ -15,19 +14,23 @@ module.exports = {
 	},
 	'plugins': [
 		//'plugin:prettier/recommended',
-		'typescript',
 		'node',
 		'json',
 		'mocha',
 		'chai-expect',
 		//'react',
 	],
+	"settings": {
+		"react": {
+			"version": "16", // React version, default to the latest React stable release
+		},
+	},
+	// TODO try 'all'
 	'extends': [
 		'eslint:recommended',
 		//'prettier',
 		//'plugin:node/recommended',
-		//'plugin:compat/recommended',
-		//'plugin:react/recommended',
+		'plugin:react/recommended',
 	],
 	'globals': {
 		'require': true, // recognized by webpack / parcel, so always allowed.
@@ -57,6 +60,22 @@ module.exports = {
 			'files': ['**/doc/**/*.js'],
 			'rules': {
 				'no-console': 'off',
+			},
+		},
+		{
+			'files': ['\\.eslintrc.js', 'prettier.config.js'],
+			'env': {
+				'node': true,
+			},
+		},
+		{
+			'files': ['**/*.ts'],
+			'parser': 'typescript-eslint-parser',
+			'plugins': [
+				'typescript',
+			],
+			'rules': {
+				'no-undef': 'off', // bug https://github.com/nzakas/eslint-plugin-typescript/issues/110
 			},
 		},
 	]
