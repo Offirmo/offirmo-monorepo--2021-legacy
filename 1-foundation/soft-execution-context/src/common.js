@@ -1,3 +1,4 @@
+/* global NODE_ENV */
 import { get_UTC_timestamp_ms } from '@offirmo/timestamps'
 
 function decorateWithDetectedEnv(SEC) {
@@ -27,6 +28,6 @@ function decorateWithDetectedEnv(SEC) {
 }
 
 
-module.exports = {
+export {
 	decorateWithDetectedEnv,
 }

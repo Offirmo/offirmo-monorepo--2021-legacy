@@ -34,7 +34,7 @@ const interesting = [
 
 console.log('--- should display:')
 
-const {
+import {
 	simpleLoggerToConsole,
 	consoleLoggerToConsole,
 	syslogLoggerToConsole,
@@ -44,9 +44,9 @@ const {
 	angularJSLoggerToConsole,
 	bunyanLoggerToConsole,
 	compatibleLoggerToConsole,
-} = require('..')
+} from '..'
 
-;[
+	;[
 	simpleLoggerToConsole,
 	consoleLoggerToConsole,
 	syslogLoggerToConsole,
