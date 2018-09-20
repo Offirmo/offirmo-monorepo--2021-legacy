@@ -105,7 +105,7 @@ function decorateWithDetectedEnv(SEC) {
 }
 
 
-module.exports = {
+export {
 	listenToErrorEvents,
 	listenToUnhandledRejections,
 	decorateWithDetectedEnv,

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { getRootSEC } from '@offirmo/soft-execution-context'
 
 const LIB = 'GOOD_LIB'

@@ -1,8 +1,4 @@
 import EventEmitter from 'emittery'
-import {PLUGIN_ID} from './plugins/analytics'
-import * as State from './plugins/analytics/state'
-import {INTERNAL_PROP} from './constants'
-import * as TopState from './state'
 
 /////////////////////
 

@@ -29,7 +29,7 @@ async function foo_async() {
 	})
 }
 
-module.exports = {
+export {
 	foo_sync,
 	foo_async,
 }

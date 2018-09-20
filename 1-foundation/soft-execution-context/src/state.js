@@ -13,7 +13,7 @@ function create(parent_state) {
 }
 
 
-function activate_plugin(state, PLUGIN, args) {
+function activate_plugin(state, PLUGIN/*, args*/) {
 	const plugin_parent_state = state.parent
 		? state.parent.plugins[PLUGIN.id]
 		: null

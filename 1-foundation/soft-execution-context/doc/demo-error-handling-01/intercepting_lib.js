@@ -7,12 +7,12 @@ function foo_sync() {
 }
 
 async function foo_async() {
-	return new Promise((resolve, reject) => {
+	return new Promise((resolve) => {
 		setTimeout(() => resolve(good_lib.foo_async()), 100)
 	})
 }
 
-module.exports = {
+export {
 	foo_sync,
 	foo_async,
 }

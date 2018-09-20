@@ -4,7 +4,6 @@ import * as TopState from '../../state'
 import {
 	LOGICAL_STACK_BEGIN_MARKER,
 	LOGICAL_STACK_END_MARKER,
-	LOGICAL_STACK_MODULE_MARKER,
 	LOGICAL_STACK_SEPARATOR,
 	LOGICAL_STACK_OPERATION_MARKER,
 	LOGICAL_STACK_SEPARATOR_NON_ADJACENT,
@@ -142,7 +141,9 @@ const PLUGIN = {
 				logicalStack.short = SEC.getShortLogicalStack()
 				if (err.message.startsWith(logicalStack.short)) {
 					// can that happen??? It's a bug!
+					/* eslint-disable no-console */
 					console.warn('UNEXPECTED SEC non-decorated error already prefixed??')
+					/* eslint-enable no-console */
 				}
 				else {
 					err.message = logicalStack.short + ': ' + err.message

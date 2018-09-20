@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import 'babel-polyfill'
 import { createLogger } from '@offirmo/practical-logger-browser'
 
@@ -57,6 +58,6 @@ SEC.xTryCatch('starting', ({SEC, logger}) => {
 
 	//return SEC.xPromiseResolve('calling bad lib', bad_lib.foo_async())
 	//return intercepting_lib.foo_async()
-	return SEC.xPromiseTry('calling intercepting lib', () => intercepting_lib.foo_async())
+	//return SEC.xPromiseTry('calling intercepting lib', () => intercepting_lib.foo_async())
 	//return good_lib_inst.foo_async().then(() => logger.log('--- this should not be called !! ---'))
 })

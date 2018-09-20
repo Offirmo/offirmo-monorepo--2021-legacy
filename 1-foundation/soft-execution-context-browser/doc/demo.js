@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import 'babel-polyfill'
 import { createLogger } from '@offirmo/practical-logger-browser'
 import { getRootSEC } from '@offirmo/soft-execution-context'
@@ -62,8 +63,8 @@ SEC.xTry('starting', ({SEC, logger}) => {
 	SEC.xTry('calling good lib', () => good_lib_inst.foo_sync({x: 1}))
 
 	throw new Error('Ha ha')
-
+/*
 	SEC.xPromiseTry('crashing in a promise', () => {
 		throw new Error('Ho ho')
-	})
+	})*/
 })

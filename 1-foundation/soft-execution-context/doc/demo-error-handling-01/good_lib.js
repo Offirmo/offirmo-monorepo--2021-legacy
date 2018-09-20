@@ -2,7 +2,7 @@
 
 import {
 	getRootSEC,
-	_flattenSEC,
+	//_flattenSEC,
 } from '../../src/index.js'
 
 const LIB = 'GOOD_LIB'
