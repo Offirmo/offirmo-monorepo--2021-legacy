@@ -43,7 +43,7 @@ function restart({channel_id, nickname} = {}) {
 			report_error()
 	}, 5000)
 
-	let anchor_elem = document.getElementById(ELEMENT_ID);
+	let anchor_elem = document.getElementById(ELEMENT_ID)
 	if (anchor_elem) {
 		console.warn(`${LIB}: replacing an existing instance. This may not work well!`)
 		anchor_elem.parentNode.removeChild(anchor_elem)

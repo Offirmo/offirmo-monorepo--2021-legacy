@@ -1,4 +1,4 @@
-"use strict";
+'use strict'
 
 ///////////////////////////////////////////////////////
 
@@ -71,7 +71,7 @@ function compile(params, files, options) {
 					fail(`Spawn : got err event : ${err}`)
 				})
 				spawn_instance.on('disconnect', () => {
-					console.log(`Spawn : got disconnect`)
+					console.log('Spawn : got disconnect')
 				})
 				spawn_instance.on('exit', (code, signal) => {
 					if (code === 0)

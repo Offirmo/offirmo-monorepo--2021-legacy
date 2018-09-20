@@ -20,8 +20,8 @@ const DEMO_STATE: State = deepFreeze({
 
 
 const MIGRATION_HINTS_FOR_TESTS = {
-	"to_v1": {},
-	"to_v2": {},
+	'to_v1': {},
+	'to_v2': {},
 }
 
 

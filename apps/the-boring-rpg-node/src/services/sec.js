@@ -1,4 +1,4 @@
-"use strict";
+'use strict'
 
 const { getRootSEC } = require('@offirmo/soft-execution-context')
 const {

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment } from 'react'
 import { BrowserRouter as Router, Redirect, Route, Switch, NavLink } from 'react-router-dom'
 
 import {BASE_ROUTE, ROUTES} from '../../services/routes'

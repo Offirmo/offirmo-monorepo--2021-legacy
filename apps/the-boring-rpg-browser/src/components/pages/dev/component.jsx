@@ -26,7 +26,7 @@ export default function Dev({game_instance}) {
 			<hr key="last_adventure" />
 			{rich_text_to_react(render_adventure(state.last_adventure))}
 			<hr key="tip" />
-			{tip_doc ? rich_text_to_react(tip_doc) : "(no tip ATM)"}
+			{tip_doc ? rich_text_to_react(tip_doc) : '(no tip ATM)'}
 			<hr key="avatar" />
 			{rich_text_to_react(render_character_sheet(state.avatar))}
 			<hr key="inventory" />

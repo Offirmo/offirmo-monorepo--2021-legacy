@@ -46,7 +46,7 @@ export default class Component extends React.Component {
 					steps.push({
 						type: 'progress',
 						duration_ms: 1000,
-						msg_main: `Exploring…`,
+						msg_main: 'Exploring…',
 						msgg_acknowledge: () => 'Encountered something:\n',
 					})
 
@@ -80,7 +80,7 @@ export default class Component extends React.Component {
 			if (energy_snapshot.human_time_to_next)
 				CTA += ` (next in ${energy_snapshot.human_time_to_next})`
 			steps.push({
-				msg_main: `What do you want to do?`,
+				msg_main: 'What do you want to do?',
 				choices: [
 					{
 						msg_cta: CTA,

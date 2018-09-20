@@ -1,6 +1,6 @@
-"use strict";
+'use strict'
 
-const opn = require('opn');
+const opn = require('opn')
 
 const tbrpg = require('@oh-my-rpg/state-the-boring-rpg')
 const {URL_OF_REPO, URL_OF_FORK, URL_OF_ISSUES, URL_OF_PRODUCT_HUNT_PAGE, URL_OF_REDDIT_PAGE} = require('@oh-my-rpg/state-the-boring-rpg')
@@ -106,7 +106,7 @@ function start_loop(SEC, options, instance) {
 					steps.push({
 						type: 'progress',
 						duration_ms: 1000,
-						msg_main: `Exploring...`,
+						msg_main: 'Exploring...',
 						msgg_acknowledge: () => 'Exploring... Encountered something!\n',
 					})
 					steps.push({
@@ -154,7 +154,7 @@ function start_loop(SEC, options, instance) {
 							msg_cta: 'Manage Inventory (equip, sell…)',
 							value: 'inventory',
 							msgg_as_user: () => 'Let’s sort out my stuff.',
-							msgg_acknowledge: () => `Sure.`,
+							msgg_acknowledge: () => 'Sure.',
 						},
 						{
 							msg_cta: 'Manage Character (rename, change class…)',
@@ -174,7 +174,7 @@ function start_loop(SEC, options, instance) {
 
 			function get_MODE_INVENTORY() {
 				const steps = []
-				let msg_main = `What do you want to do?`
+				let msg_main = 'What do you want to do?'
 				const choices = []
 
 				const state = instance.get_latest_state()
@@ -313,7 +313,7 @@ function start_loop(SEC, options, instance) {
 				else if (chat_state.sub.character.rename) {
 					return [{
 						type: 'ask_for_string',
-						msg_main: `What’s your name?`,
+						msg_main: 'What’s your name?',
 						msgg_as_user: value => `My name is "${value}".`,
 						msgg_acknowledge: name => `You are now known as ${name}!`,
 						callback: value => {
@@ -329,7 +329,7 @@ function start_loop(SEC, options, instance) {
 						msg_main: 'Here is your character sheet:\n\n' + rich_text_to_ansi($doc)
 					})
 
-					msg_main = `What do you want to do?`
+					msg_main = 'What do you want to do?'
 
 					choices.push(
 						{
@@ -410,7 +410,7 @@ function start_loop(SEC, options, instance) {
 							}))
 					})
 
-					let msg_main = `What do you want to do?`
+					let msg_main = 'What do you want to do?'
 					const choices = []
 
 					const URL_OF_WEBSITE = 'https://www.online-adventur.es/the-npm-rpg.html'
@@ -462,7 +462,7 @@ function start_loop(SEC, options, instance) {
 							msg_cta: 'Reset your savegame 💀',
 							value: 'reset',
 							msgg_as_user: () => 'I want to start over…',
-							msgg_acknowledge: url => `You can't be serious?`,
+							msgg_acknowledge: url => 'You can\'t be serious?',
 							callback: () => {
 								chat_state.sub.meta.reseting = true
 							}
@@ -472,7 +472,7 @@ function start_loop(SEC, options, instance) {
 							key_hint: { name: 'x' },
 							value: 'x',
 							msgg_as_user: () => 'Let’s do something else.',
-							msgg_acknowledge: url => `Yay, for loot and glory!`,
+							msgg_acknowledge: url => 'Yay, for loot and glory!',
 							callback: () => {
 								chat_state.sub.character = {}
 								chat_state.mode = 'main'
@@ -483,7 +483,7 @@ function start_loop(SEC, options, instance) {
 					steps.push({
 						msg_main,
 						choices,
-						msgg_acknowledge: url => `Now opening ` + url,
+						msgg_acknowledge: url => 'Now opening ' + url,
 						callback: url => {
 							opn(url)
 						}
@@ -498,25 +498,25 @@ function start_loop(SEC, options, instance) {
 			let loopDetector = 0
 			do {
 				switch(chat_state.mode) {
-					case 'main':
-						chat_state.count++
-						yielded = yield* get_MODE_MAIN()
-						break
-					case 'inventory':
-						chat_state.count++
-						yielded = yield* get_MODE_INVENTORY()
-						break
-					case 'character':
-						chat_state.count++
-						yielded = yield* get_MODE_CHARACTER()
-						break
-					case 'meta':
-						chat_state.count++
-						yielded = yield* get_MODE_META()
-						break
-					default:
-						console.error(`Unknown mode: "${chat_state.mode}"`)
-						process.exit(1)
+				case 'main':
+					chat_state.count++
+					yielded = yield* get_MODE_MAIN()
+					break
+				case 'inventory':
+					chat_state.count++
+					yielded = yield* get_MODE_INVENTORY()
+					break
+				case 'character':
+					chat_state.count++
+					yielded = yield* get_MODE_CHARACTER()
+					break
+				case 'meta':
+					chat_state.count++
+					yielded = yield* get_MODE_META()
+					break
+				default:
+					console.error(`Unknown mode: "${chat_state.mode}"`)
+					process.exit(1)
 				}
 
 				if (chat_state.count % 10 === 0) {

@@ -11,7 +11,7 @@ function get_lib_SEC(parent?: SoftExecutionContext): SoftExecutionContext {
 			.setAnalyticsAndErrorDetails({
 				sub_product: 'state-character',
 			})
-		)
+	)
 }
 
 export {

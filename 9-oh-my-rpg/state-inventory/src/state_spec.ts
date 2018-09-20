@@ -167,8 +167,8 @@ describe('📦 📦 📦  Inventory state - reducer', function() {
 			function remove_one() {
 				state = remove_item_from_unslotted(state, DUMMY_ITEM.uuid)
 			}
-			expect(remove_one).to.throw(`can\'t remove item`)
-			expect(remove_one).to.throw(`not found`)
+			expect(remove_one).to.throw('can\'t remove item')
+			expect(remove_one).to.throw('not found')
 		})
 	})
 

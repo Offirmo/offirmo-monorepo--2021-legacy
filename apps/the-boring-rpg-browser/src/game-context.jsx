@@ -70,9 +70,9 @@ class GameContextAsPropsListener extends React.Component {
 	render() {
 	  return this.props.children(game_instance)
 	}
- }
+}
 
- function GameContextConsumerListener({children}) {
+function GameContextConsumerListener({children}) {
 	 return (
 		<GameContext.Consumer>
 			{game_instance => {
@@ -85,7 +85,7 @@ class GameContextAsPropsListener extends React.Component {
 			}}
 		</GameContext.Consumer>
 	 )
- }
+}
 
 export {
 	game_instance,

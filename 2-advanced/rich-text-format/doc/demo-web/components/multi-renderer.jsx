@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
 import ErrorBoundary from '@offirmo/react-error-boundary'
 
@@ -7,17 +7,17 @@ import rich_text_to_react from '../services/rich-text-to-react'
 
 const RichTextView = ({doc, mode = 'to_html'}) => {
 	switch(mode) {
-		case 'to_text':
-			return <pre>{RichText.to_text(doc)}</pre>
+	case 'to_text':
+		return <pre>{RichText.to_text(doc)}</pre>
 
-		case 'to_html':
-			return <div dangerouslySetInnerHTML={{ __html: RichText.to_html(doc) }} />
+	case 'to_html':
+		return <div dangerouslySetInnerHTML={{ __html: RichText.to_html(doc) }} />
 
-		case 'to_react':
-			return <div className="o⋄rich-text">{rich_text_to_react(doc)}</div>
+	case 'to_react':
+		return <div className="o⋄rich-text">{rich_text_to_react(doc)}</div>
 
-		default:
-			return <div>Unknown mode "{mode}"!</div>
+	default:
+		return <div>Unknown mode "{mode}"!</div>
 	}
 }
 

@@ -219,10 +219,10 @@ function walk<State, RenderingOptions>(
 		$id = 'root',
 		depth = 0,
 	}: {
-		$parent_node?: CheckedNode,
-		//$parent_state?: State, TODO ?
-		$id?: string,
-		depth?: number,
+	$parent_node?: CheckedNode,
+	//$parent_state?: State, TODO ?
+	$id?: string,
+	depth?: number,
 	} = {},
 ) {
 
@@ -266,7 +266,7 @@ function walk<State, RenderingOptions>(
 		sorted_keys.forEach(key => {
 			const $sub_node: Node = {
 				$type: NodeType.li,
-				$content: `{{content}}`,
+				$content: '{{content}}',
 				$sub: {
 					'content': $sub_nodes[key]
 				}

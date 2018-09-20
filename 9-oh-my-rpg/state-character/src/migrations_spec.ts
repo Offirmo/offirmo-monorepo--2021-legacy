@@ -6,7 +6,7 @@ import { migrate_to_latest } from './migrations'
 import { DEMO_STATE, MIGRATION_HINTS_FOR_TESTS } from './examples'
 import { get_lib_SEC } from './sec'
 import {create} from './state'
-import {test_migrations} from "@oh-my-rpg/migration-tester";
+import {test_migrations} from '@oh-my-rpg/migration-tester'
 
 describe('schema migration', function() {
 

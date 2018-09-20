@@ -1,4 +1,4 @@
-"use strict";
+'use strict'
 
 /////////////////////////////////////////////////
 // node <8 zone
@@ -70,6 +70,6 @@ SEC.xPromiseTryCatch('starting', async ({ SEC, logger, IS_VERBOSE }) => {
 		//instance.play()
 	}
 
-//console.log('\n---------------------------------------------------------------\n')
+	//console.log('\n---------------------------------------------------------------\n')
 
 })

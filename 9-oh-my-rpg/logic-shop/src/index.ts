@@ -43,12 +43,12 @@ function appraise_weapon(weapon: Weapon): number {
 
 function appraise(item: Item): number {
 	switch(item.slot) {
-		case InventorySlot.armor:
-			return appraise_armor(item as Armor)
-		case InventorySlot.weapon:
-			return appraise_weapon(item as Weapon)
-		default:
-			throw new Error(`appraise(): no appraisal scheme for slot "${item.slot}" !`)
+	case InventorySlot.armor:
+		return appraise_armor(item as Armor)
+	case InventorySlot.weapon:
+		return appraise_weapon(item as Weapon)
+	default:
+		throw new Error(`appraise(): no appraisal scheme for slot "${item.slot}" !`)
 	}
 }
 

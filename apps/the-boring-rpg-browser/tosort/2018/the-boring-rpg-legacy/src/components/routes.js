@@ -1,4 +1,4 @@
-"use strict";
+'use strict'
 
 // TODO auto=adapt to current path instead
 const BASE_ROUTE = (pathname => {

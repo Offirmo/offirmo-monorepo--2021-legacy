@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 const path = require('path')
 const { cloneDeep } = require('lodash')
@@ -90,7 +90,7 @@ function test_migrations({
 				migrate_to_latest(cloneDeep(LATEST_EXPECTED_DATA)),
 				LATEST_EXPECTED_DATA,
 			)
-			if (!!LATEST_EXPECTED_DATA_migrated_diff) {
+			if (LATEST_EXPECTED_DATA_migrated_diff) {
 				// this error will be caught by the test, but we display the diff to help:
 				console.error(`${LOG_PREFIX} LATEST_EXPECTED_DATA is not up to date! TODO display diff`)
 				return false

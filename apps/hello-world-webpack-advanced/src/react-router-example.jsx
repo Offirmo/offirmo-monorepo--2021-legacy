@@ -1,7 +1,7 @@
 // https://reacttraining.com/react-router/web/example/basic
 
-import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import React from 'react'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 // auto-detect basename, correctly ignoring dynamic routes
 const BASE_ROUTE = (pathname => {
@@ -43,19 +43,19 @@ const BasicExample = () => (
 			<Route path="/topics" component={Topics} />
 		</div>
 	</Router>
-);
+)
 
 const Home = () => (
 	<div>
 		<h2>Home</h2>
 	</div>
-);
+)
 
 const About = () => (
 	<div>
 		<h2>About</h2>
 	</div>
-);
+)
 
 const Topics = ({ match }) => (
 	<div>
@@ -79,13 +79,13 @@ const Topics = ({ match }) => (
 			render={() => <h3>Please select a topic.</h3>}
 		/>
 	</div>
-);
+)
 
 const Topic = ({ match }) => (
 	<div>
 		<h3>{match.params.topicId}</h3>
 	</div>
-);
+)
 
-export default BasicExample;
+export default BasicExample
 

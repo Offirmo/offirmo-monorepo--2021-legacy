@@ -1,4 +1,4 @@
-"use strict";
+'use strict'
 
 const to_ansi = require('@offirmo/rich-text-format-to-ansi')
 

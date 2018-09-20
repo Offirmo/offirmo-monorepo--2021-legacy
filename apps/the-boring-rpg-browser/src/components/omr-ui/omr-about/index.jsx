@@ -1,6 +1,6 @@
-import React from 'react';
+import React from 'react'
 
-import logo from '../tbrpg_logo_512x98.png';
+import logo from '../tbrpg_logo_512x98.png'
 import './index.css'
 
 export default function About() {
@@ -14,7 +14,7 @@ export default function About() {
 			</p>
 			<p>A remake
 				of the original, now defunct, browser game <a href="https://www.reddit.com/r/boringrpg/" target="_blank">The boring RPG</a>
-				{' '}by <a href="https://www.reddit.com/user/andypants" target="_blank">andypants</a>.
+			{' '}by <a href="https://www.reddit.com/user/andypants" target="_blank">andypants</a>.
 			</p>
 			<p>
 				See <a href="https://www.online-adventur.es/" target="_blank">all my games</a>

@@ -27,7 +27,7 @@ const SUB_UL_ITEMS = {
 const SUB_UL_KEY_VALUE_PAIRS = {
 	1: {
 		$type: 'inline_fragment',
-		$content: `{{key}}: {{value}}`,
+		$content: '{{key}}: {{value}}',
 		$sub: {
 			key: {
 				$content: 'level',
@@ -39,7 +39,7 @@ const SUB_UL_KEY_VALUE_PAIRS = {
 	},
 	2: {
 		$type: 'inline_fragment',
-		$content: `{{key}}: {{value}}`,
+		$content: '{{key}}: {{value}}',
 		$sub: {
 			key: {
 				$content: 'health',
@@ -51,7 +51,7 @@ const SUB_UL_KEY_VALUE_PAIRS = {
 	},
 	3: {
 		$type: 'inline_fragment',
-		$content: `{{key}}: {{value}}`,
+		$content: '{{key}}: {{value}}',
 		$sub: {
 			key: {
 				$content: 'mana',
@@ -270,297 +270,297 @@ const DOC_DEMO_RPG_03 = RichText.block_fragment()
 	.done()
 
 const DOC_DEMO_INVENTORY = {
-	"$v": 1,
-	"$type": "block_fragment",
-	"$classes": [],
-	"$content": "{{equipped}}{{wallet}}{{backpack}}",
-	"$sub": {
-		"equipped": {
-			"$v": 1,
-			"$type": "block_fragment",
-			"$classes": [],
-			"$content": "{{header}}{{list}}",
-			"$sub": {
-				"header": {
-					"$v": 1,
-					"$type": "heading",
-					"$classes": [],
-					"$content": "Active equipment:",
-					"$sub": {},
-					"$hints": {}
+	'$v': 1,
+	'$type': 'block_fragment',
+	'$classes': [],
+	'$content': '{{equipped}}{{wallet}}{{backpack}}',
+	'$sub': {
+		'equipped': {
+			'$v': 1,
+			'$type': 'block_fragment',
+			'$classes': [],
+			'$content': '{{header}}{{list}}',
+			'$sub': {
+				'header': {
+					'$v': 1,
+					'$type': 'heading',
+					'$classes': [],
+					'$content': 'Active equipment:',
+					'$sub': {},
+					'$hints': {}
 				},
-				"list": {
-					"$v": 1,
-					"$type": "ol",
-					"$classes": [
-						"inventory--equipment"
+				'list': {
+					'$v': 1,
+					'$type': 'ol',
+					'$classes': [
+						'inventory--equipment'
 					],
-					"$content": "",
-					"$sub": {
-						"1": {
-							"$v": 1,
-							"$type": "span",
-							"$classes": [],
-							"$content": "weapon: {{s1}}",
-							"$sub": {
-								"s1": {
-									"$v": 1,
-									"$type": "span",
-									"$classes": [
-										"item--weapon",
-										"item--quality--common",
-										"item"
+					'$content': '',
+					'$sub': {
+						'1': {
+							'$v': 1,
+							'$type': 'span',
+							'$classes': [],
+							'$content': 'weapon: {{s1}}',
+							'$sub': {
+								's1': {
+									'$v': 1,
+									'$type': 'span',
+									'$classes': [
+										'item--weapon',
+										'item--quality--common',
+										'item'
 									],
-									"$content": "{{quality}} {{name}} {{values}}",
-									"$sub": {
-										"quality": {
-											"$v": 1,
-											"$type": "span",
-											"$classes": [],
-											"$content": "common",
-											"$sub": {},
-											"$hints": {}
+									'$content': '{{quality}} {{name}} {{values}}',
+									'$sub': {
+										'quality': {
+											'$v': 1,
+											'$type': 'span',
+											'$classes': [],
+											'$content': 'common',
+											'$sub': {},
+											'$hints': {}
 										},
-										"name": {
-											"$v": 1,
-											"$type": "span",
-											"$classes": [
-												"item__name"
+										'name': {
+											'$v': 1,
+											'$type': 'span',
+											'$classes': [
+												'item__name'
 											],
-											"$content": "{{q2|Capitalize}} {{q1|Capitalize}} {{base|Capitalize}}",
-											"$sub": {
-												"base": {
-													"$v": 1,
-													"$type": "span",
-													"$classes": [],
-													"$content": "spear",
-													"$sub": {},
-													"$hints": {}
+											'$content': '{{q2|Capitalize}} {{q1|Capitalize}} {{base|Capitalize}}',
+											'$sub': {
+												'base': {
+													'$v': 1,
+													'$type': 'span',
+													'$classes': [],
+													'$content': 'spear',
+													'$sub': {},
+													'$hints': {}
 												},
-												"q1": {
-													"$v": 1,
-													"$type": "span",
-													"$classes": [],
-													"$content": "heavy",
-													"$sub": {},
-													"$hints": {}
+												'q1': {
+													'$v': 1,
+													'$type': 'span',
+													'$classes': [],
+													'$content': 'heavy',
+													'$sub': {},
+													'$hints': {}
 												},
-												"q2": {
-													"$v": 1,
-													"$type": "span",
-													"$classes": [],
-													"$content": "woodsman’s",
-													"$sub": {},
-													"$hints": {}
+												'q2': {
+													'$v': 1,
+													'$type': 'span',
+													'$classes': [],
+													'$content': 'woodsman’s',
+													'$sub': {},
+													'$hints': {}
 												}
 											},
-											"$hints": {}
+											'$hints': {}
 										},
-										"values": {
-											"$v": 1,
-											"$type": "span",
-											"$classes": [
-												"weapon--values"
+										'values': {
+											'$v': 1,
+											'$type': 'span',
+											'$classes': [
+												'weapon--values'
 											],
-											"$content": "[deals 9 to 20 damage]",
-											"$sub": {},
-											"$hints": {}
+											'$content': '[deals 9 to 20 damage]',
+											'$sub': {},
+											'$hints': {}
 										}
 									},
-									"$hints": {
-										"uuid": "uu1JemeGpESJh8tGT3kfVqdm"
+									'$hints': {
+										'uuid': 'uu1JemeGpESJh8tGT3kfVqdm'
 									}
 								}
 							},
-							"$hints": {}
+							'$hints': {}
 						},
-						"2": {
-							"$v": 1,
-							"$type": "span",
-							"$classes": [],
-							"$content": "armor : {{s1}}",
-							"$sub": {
-								"s1": {
-									"$v": 1,
-									"$type": "span",
-									"$classes": [
-										"item--armor",
-										"item--quality--common",
-										"item"
+						'2': {
+							'$v': 1,
+							'$type': 'span',
+							'$classes': [],
+							'$content': 'armor : {{s1}}',
+							'$sub': {
+								's1': {
+									'$v': 1,
+									'$type': 'span',
+									'$classes': [
+										'item--armor',
+										'item--quality--common',
+										'item'
 									],
-									"$content": "{{quality}} {{name}} {{values}}",
-									"$sub": {
-										"quality": {
-											"$v": 1,
-											"$type": "span",
-											"$classes": [],
-											"$content": "common",
-											"$sub": {},
-											"$hints": {}
+									'$content': '{{quality}} {{name}} {{values}}',
+									'$sub': {
+										'quality': {
+											'$v': 1,
+											'$type': 'span',
+											'$classes': [],
+											'$content': 'common',
+											'$sub': {},
+											'$hints': {}
 										},
-										"name": {
-											"$v": 1,
-											"$type": "span",
-											"$classes": [
-												"item__name"
+										'name': {
+											'$v': 1,
+											'$type': 'span',
+											'$classes': [
+												'item__name'
 											],
-											"$content": "{{q1|Capitalize}} {{base|Capitalize}} {{q2|Capitalize}}",
-											"$sub": {
-												"base": {
-													"$v": 1,
-													"$type": "span",
-													"$classes": [],
-													"$content": "socks",
-													"$sub": {},
-													"$hints": {}
+											'$content': '{{q1|Capitalize}} {{base|Capitalize}} {{q2|Capitalize}}',
+											'$sub': {
+												'base': {
+													'$v': 1,
+													'$type': 'span',
+													'$classes': [],
+													'$content': 'socks',
+													'$sub': {},
+													'$hints': {}
 												},
-												"q1": {
-													"$v": 1,
-													"$type": "span",
-													"$classes": [],
-													"$content": "used",
-													"$sub": {},
-													"$hints": {}
+												'q1': {
+													'$v': 1,
+													'$type': 'span',
+													'$classes': [],
+													'$content': 'used',
+													'$sub': {},
+													'$hints': {}
 												},
-												"q2": {
-													"$v": 1,
-													"$type": "span",
-													"$classes": [],
-													"$content": "of the noob",
-													"$sub": {},
-													"$hints": {}
+												'q2': {
+													'$v': 1,
+													'$type': 'span',
+													'$classes': [],
+													'$content': 'of the noob',
+													'$sub': {},
+													'$hints': {}
 												}
 											},
-											"$hints": {}
+											'$hints': {}
 										},
-										"values": {
-											"$v": 1,
-											"$type": "span",
-											"$classes": [
-												"armor--values"
+										'values': {
+											'$v': 1,
+											'$type': 'span',
+											'$classes': [
+												'armor--values'
 											],
-											"$content": "[absorbs 1 to 4 damage]",
-											"$sub": {},
-											"$hints": {}
+											'$content': '[absorbs 1 to 4 damage]',
+											'$sub': {},
+											'$hints': {}
 										}
 									},
-									"$hints": {
-										"uuid": "uu18tX6IviEJpYNTWdCl7nxL"
+									'$hints': {
+										'uuid': 'uu18tX6IviEJpYNTWdCl7nxL'
 									}
 								}
 							},
-							"$hints": {}
+							'$hints': {}
 						}
 					},
-					"$hints": {}
+					'$hints': {}
 				}
 			},
-			"$hints": {}
+			'$hints': {}
 		},
-		"wallet": {
-			"$v": 1,
-			"$type": "block_fragment",
-			"$classes": [],
-			"$content": "{{header}}{{list}}",
-			"$sub": {
-				"header": {
-					"$v": 1,
-					"$type": "heading",
-					"$classes": [],
-					"$content": "Wallet:",
-					"$sub": {},
-					"$hints": {}
+		'wallet': {
+			'$v': 1,
+			'$type': 'block_fragment',
+			'$classes': [],
+			'$content': '{{header}}{{list}}',
+			'$sub': {
+				'header': {
+					'$v': 1,
+					'$type': 'heading',
+					'$classes': [],
+					'$content': 'Wallet:',
+					'$sub': {},
+					'$hints': {}
 				},
-				"list": {
-					"$v": 1,
-					"$type": "ul",
-					"$classes": [
-						"inventory--wallet"
+				'list': {
+					'$v': 1,
+					'$type': 'ul',
+					'$classes': [
+						'inventory--wallet'
 					],
-					"$content": "",
-					"$sub": {
-						"coin": {
-							"$v": 1,
-							"$type": "span",
-							"$classes": [
-								"currency--coin"
+					'$content': '',
+					'$sub': {
+						'coin': {
+							'$v': 1,
+							'$type': 'span',
+							'$classes': [
+								'currency--coin'
 							],
-							"$content": "{{amount}} coins",
-							"$sub": {
-								"amount": {
-									"$v": 1,
-									"$type": "span",
-									"$classes": [],
-									"$content": "17",
-									"$sub": {},
-									"$hints": {}
+							'$content': '{{amount}} coins',
+							'$sub': {
+								'amount': {
+									'$v': 1,
+									'$type': 'span',
+									'$classes': [],
+									'$content': '17',
+									'$sub': {},
+									'$hints': {}
 								}
 							},
-							"$hints": {}
+							'$hints': {}
 						},
-						"token": {
-							"$v": 1,
-							"$type": "span",
-							"$classes": [
-								"currency--token"
+						'token': {
+							'$v': 1,
+							'$type': 'span',
+							'$classes': [
+								'currency--token'
 							],
-							"$content": "{{amount}} tokens",
-							"$sub": {
-								"amount": {
-									"$v": 1,
-									"$type": "span",
-									"$classes": [],
-									"$content": "0",
-									"$sub": {},
-									"$hints": {}
+							'$content': '{{amount}} tokens',
+							'$sub': {
+								'amount': {
+									'$v': 1,
+									'$type': 'span',
+									'$classes': [],
+									'$content': '0',
+									'$sub': {},
+									'$hints': {}
 								}
 							},
-							"$hints": {}
+							'$hints': {}
 						}
 					},
-					"$hints": {}
+					'$hints': {}
 				}
 			},
-			"$hints": {}
+			'$hints': {}
 		},
-		"backpack": {
-			"$v": 1,
-			"$type": "block_fragment",
-			"$classes": [],
-			"$content": "{{header}}{{list}}",
-			"$sub": {
-				"header": {
-					"$v": 1,
-					"$type": "heading",
-					"$classes": [],
-					"$content": "Backpack:",
-					"$sub": {},
-					"$hints": {}
+		'backpack': {
+			'$v': 1,
+			'$type': 'block_fragment',
+			'$classes': [],
+			'$content': '{{header}}{{list}}',
+			'$sub': {
+				'header': {
+					'$v': 1,
+					'$type': 'heading',
+					'$classes': [],
+					'$content': 'Backpack:',
+					'$sub': {},
+					'$hints': {}
 				},
-				"list": {
-					"$v": 1,
-					"$type": "ul",
-					"$classes": [
-						"inventory--backpack"
+				'list': {
+					'$v': 1,
+					'$type': 'ul',
+					'$classes': [
+						'inventory--backpack'
 					],
-					"$content": "",
-					"$sub": {
-						"-": {
-							"$v": 1,
-							"$type": "span",
-							"$classes": [],
-							"$content": "(empty)",
-							"$sub": {},
-							"$hints": {}
+					'$content': '',
+					'$sub': {
+						'-': {
+							'$v': 1,
+							'$type': 'span',
+							'$classes': [],
+							'$content': '(empty)',
+							'$sub': {},
+							'$hints': {}
 						}
 					},
-					"$hints": {}
+					'$hints': {}
 				}
 			},
-			"$hints": {}
+			'$hints': {}
 		}
 	},
-	"$hints": {}
+	'$hints': {}
 }
 
 ////////////

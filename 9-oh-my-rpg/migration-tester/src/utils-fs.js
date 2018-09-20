@@ -28,9 +28,9 @@ fs = {
 	lsFiles,
 	json: {
 		read: loadJsonFile,
-      readSync: loadJsonFile.sync,
+		readSync: loadJsonFile.sync,
 		write: writeJsonFile,
-      writeSync: writeJsonFile.sync,
+		writeSync: writeJsonFile.sync,
 	}
 }
 

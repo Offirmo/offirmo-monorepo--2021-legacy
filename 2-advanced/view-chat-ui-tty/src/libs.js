@@ -1,4 +1,4 @@
-"use strict";
+'use strict'
 
 const PromiseWithProgress = require('p-progress')
 
@@ -11,7 +11,7 @@ function prettify_json(data, options) {
 }
 
 // https://github.com/sindresorhus/indent-string
-const indent_string_bad = require('indent-string');
+const indent_string_bad = require('indent-string')
 function indent_string(msg, indentation, options = {}) {
 	let result = indent_string_bad(msg, indentation, options)
 

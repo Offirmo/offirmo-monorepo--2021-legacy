@@ -7,7 +7,7 @@ import {
 	WalkerCallbacks,
 	WalkerReducer
 } from '../walk'
-import {CheckedNode, Node} from '../types';
+import {CheckedNode, Node} from '../types'
 
 import { is_list, is_link, is_KVP_list, is_uuid_list } from './common'
 
@@ -44,7 +44,7 @@ const on_node_exit: WalkerReducer<State, OnNodeExitParams<State>, Options> = ({s
 	const $sub_node_count = Object.keys($sub).length
 
 	//$type: NodeType, str
-//}: string, $classes: string[], $sub_node_count: number, depth: number): string {
+	//}: string, $classes: string[], $sub_node_count: number, depth: number): string {
 
 	if ($type === 'br') {
 		state.str = '<br/>\n'
@@ -61,16 +61,16 @@ const on_node_exit: WalkerReducer<State, OnNodeExitParams<State>, Options> = ({s
 	const classes = [...$classes]
 
 	switch($type) {
-		case 'strong':
-		case 'em':
-		case 'span':
-			is_inline = true
-			break
-		case 'inline_fragment':
-			classes.push('o⋄rich-text⋄inline')
-			break;
-		default:
-			break;
+	case 'strong':
+	case 'em':
+	case 'span':
+		is_inline = true
+		break
+	case 'inline_fragment':
+		classes.push('o⋄rich-text⋄inline')
+		break
+	default:
+		break
 	}
 
 	if (!is_inline)
@@ -82,12 +82,12 @@ const on_node_exit: WalkerReducer<State, OnNodeExitParams<State>, Options> = ({s
 		classes.push('o⋄rich-text⋄list')
 
 		switch($hints.bullets_style) {
-			case 'none':
-				classes.push('o⋄rich-text⋄list--no-bullet')
-				break
+		case 'none':
+			classes.push('o⋄rich-text⋄list--no-bullet')
+			break
 
-			default:
-				break
+		default:
+			break
 		}
 
 		if (is_uuid_list($node)) {

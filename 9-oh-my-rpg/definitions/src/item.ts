@@ -13,11 +13,11 @@ function create_item_base(slot: InventorySlot, quality: ItemQuality = ItemQualit
 function compare_items_by_slot(a: Item, b: Item): number {
 	const rank_a = ITEM_SLOTS_TO_INT[a.slot]
 	if (!Number.isInteger(rank_a))
-		throw new Error(`compare items by slots: unhandled slot! (A)`)
+		throw new Error('compare items by slots: unhandled slot! (A)')
 
 	const rank_b = ITEM_SLOTS_TO_INT[b.slot]
 	if (!Number.isInteger(rank_b))
-		throw new Error(`compare items by slots: unhandled slot! (B)`)
+		throw new Error('compare items by slots: unhandled slot! (B)')
 
 	return rank_a - rank_b
 }
@@ -25,11 +25,11 @@ function compare_items_by_slot(a: Item, b: Item): number {
 function compare_items_by_quality(a: Item, b: Item): number {
 	const rank_a = ITEM_QUALITIES_TO_INT[a.quality]
 	if (!Number.isInteger(rank_a))
-		throw new Error(`compare items by quality: unhandled quality! (A)`)
+		throw new Error('compare items by quality: unhandled quality! (A)')
 
 	const rank_b = ITEM_QUALITIES_TO_INT[b.quality]
 	if (!Number.isInteger(rank_b))
-		throw new Error(`compare items by quality: unhandled quality! (B)`)
+		throw new Error('compare items by quality: unhandled quality! (B)')
 
 	return rank_a - rank_b
 }

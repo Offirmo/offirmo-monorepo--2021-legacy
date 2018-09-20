@@ -1,4 +1,4 @@
-"use strict";
+'use strict'
 
 // auto-detect basename, correctly ignoring dynamic routes
 const BASE_ROUTE = (pathname => {

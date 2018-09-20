@@ -2,7 +2,7 @@ import style_once from '//localhost:1981/0-stdlib/style-once/index.js'
 
 console.log('iframed loading with:', {search: window.location.search})
 
-const searchParams = new URLSearchParams(window.location.search);
+const searchParams = new URLSearchParams(window.location.search)
 
 const style = searchParams.get('style_select')
 

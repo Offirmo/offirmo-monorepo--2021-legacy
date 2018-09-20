@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 import ExplorePanel from '../../panels/explore'
 import CharacterPanel from '../../panels/character'

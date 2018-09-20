@@ -3,12 +3,12 @@ import React, { Component } from 'react'
 import ErrorBoundary from '@offirmo/react-error-boundary'
 import SwipeableViews from 'react-swipeable-views'
 import { virtualize } from 'react-swipeable-views-utils'
-import { mod } from 'react-swipeable-views-core';
+import { mod } from 'react-swipeable-views-core'
 
-const VirtualizeSwipeableViews = bindKeyboard(virtualize(SwipeableViews));
+const VirtualizeSwipeableViews = bindKeyboard(virtualize(SwipeableViews))
 
 import { OhMyRPGUIContext } from '../state-context'
-import './index.css';
+import './index.css'
 
 function Main({children, logo, universeAnchor, bottomMenuItems, aboutContent}) {
 	return (

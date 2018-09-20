@@ -39,36 +39,36 @@ const on_node_exit: WalkerReducer<State, OnNodeExitParams<State>, Options> = ({s
 	//console.log('[on_type]', { $type, state })
 
 	switch ($node.$type) {
-		case 'br':
-			state.ends_with_block = true;
-			break
+	case 'br':
+		state.ends_with_block = true
+		break
 
-		default:
-			break
+	default:
+		break
 	}
 
 	if (style === 'markdown') {
 		switch ($node.$type) {
-			case 'heading':
-				state.str = `### ${state.str}`
-				state.margin_top = Math.max(state.margin_top, 1)
-				state.margin_bottom = Math.max(state.margin_bottom, 1)
-				break
+		case 'heading':
+			state.str = `### ${state.str}`
+			state.margin_top = Math.max(state.margin_top, 1)
+			state.margin_bottom = Math.max(state.margin_bottom, 1)
+			break
 
-			case 'strong':
-				state.str = `**${state.str}**`
-				break
+		case 'strong':
+			state.str = `**${state.str}**`
+			break
 
-			case 'em':
-				state.str = `_${state.str}_`
-				break
+		case 'em':
+			state.str = `_${state.str}_`
+			break
 
-			case 'hr':
-				state.str = '---'
-				break
+		case 'hr':
+			state.str = '---'
+			break
 
-			default:
-				break
+		default:
+			break
 		}
 
 		if (is_link($node))
@@ -76,16 +76,16 @@ const on_node_exit: WalkerReducer<State, OnNodeExitParams<State>, Options> = ({s
 	}
 	else {
 		switch ($node.$type) {
-			case 'heading':
-				state.margin_top = Math.max(state.margin_top, 1)
-				break
+		case 'heading':
+			state.margin_top = Math.max(state.margin_top, 1)
+			break
 
-			case 'hr':
-				state.str = '------------------------------------------------------------'
-				break
+		case 'hr':
+			state.str = '------------------------------------------------------------'
+			break
 
-			default:
-				break
+		default:
+			break
 		}
 
 		if (style === 'advanced' && is_KVP_list($node)) {
@@ -117,8 +117,8 @@ const on_node_exit: WalkerReducer<State, OnNodeExitParams<State>, Options> = ({s
 	}
 
 	if (NODE_TYPE_TO_DISPLAY_MODE[$node.$type] === 'block') {
-		state.starts_with_block = true;
-		state.ends_with_block = true;
+		state.starts_with_block = true
+		state.ends_with_block = true
 	}
 
 	return state
@@ -131,32 +131,32 @@ const on_concatenate_sub_node: WalkerReducer<State, OnConcatenateSubNodeParams<S
 	state.sub_nodes.push($node)
 
 	switch ($parent_node.$type) {
-		case 'ul': {
-			// automake sub-state a ul > li
-			const bullet: string = (() => {
-				if ($parent_node.$hints.bullets_style === 'none' && style === 'advanced')
-					return ''
+	case 'ul': {
+		// automake sub-state a ul > li
+		const bullet: string = (() => {
+			if ($parent_node.$hints.bullets_style === 'none' && style === 'advanced')
+				return ''
 
-				return '- '
-			})()
-			sub_starts_with_block = true
-			sub_str = bullet + sub_str
-			break
+			return '- '
+		})()
+		sub_starts_with_block = true
+		sub_str = bullet + sub_str
+		break
 	}
-		case 'ol':
-			// automake sub-state a ol > li
-			const bullet: string = (() => {
-				if (style === 'markdown')
-					return `${$id}. `
+	case 'ol':
+		// automake sub-state a ol > li
+		const bullet: string = (() => {
+			if (style === 'markdown')
+				return `${$id}. `
 
-				return `${(' ' + $id).slice(-2)}. `
-			})()
-			sub_starts_with_block = true
-			sub_str = bullet + sub_str
-			break
+			return `${(' ' + $id).slice(-2)}. `
+		})()
+		sub_starts_with_block = true
+		sub_str = bullet + sub_str
+		break
 
-		default:
-			break
+	default:
+		break
 	}
 
 	/*console.log('on_concatenate_sub_node()', {

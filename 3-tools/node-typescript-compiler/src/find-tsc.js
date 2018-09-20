@@ -1,4 +1,4 @@
-"use strict";
+'use strict'
 
 const path = require('path')
 const path_exists = require('path-exists')

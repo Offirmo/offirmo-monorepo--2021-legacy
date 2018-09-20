@@ -24,7 +24,7 @@ const jsondiffpatch = require('jsondiffpatch').create({
       This becomes useful if you're diffing and patching the same objects multiple times without serializing deltas.
       instead of true, a function can be specified here to provide a custom clone(value)
       */
-});
+})
 
 const diff = jsondiffpatch.diff.bind(jsondiffpatch)
 

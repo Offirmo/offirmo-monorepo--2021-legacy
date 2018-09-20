@@ -79,19 +79,19 @@ describe('📃  adventure rendering', function() {
 
 		ALL_GOOD_ADVENTURE_ARCHETYPES
 			.forEach(({hid, good}, index) => {
-			describe(`✅  adventure #${index} "${hid}"`, function() {
-				it('should be playable', () => {
-					let state = create()
-					state = play(state, hid)
+				describe(`✅  adventure #${index} "${hid}"`, function() {
+					it('should be playable', () => {
+						let state = create()
+						state = play(state, hid)
 
-					const $doc = render_adventure(state.last_adventure!)
-					//console.log(prettify_json($doc))
-					const str = rich_text_to_ansi($doc)
+						const $doc = render_adventure(state.last_adventure!)
+						//console.log(prettify_json($doc))
+						const str = rich_text_to_ansi($doc)
 					//console.log(str)
 					// should just not throw
+					})
 				})
 			})
-		})
 
 		ALL_BAD_ADVENTURE_ARCHETYPES
 			.forEach(({hid, good}, index) => {

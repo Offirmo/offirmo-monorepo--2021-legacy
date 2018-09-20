@@ -1,4 +1,4 @@
-"use strict";
+'use strict'
 
 import 'babel-polyfill'
 import React from 'react'
@@ -7,7 +7,7 @@ import ReactDOM from 'react-dom'
 import ReactRouterExample from './react-router-example'
 
 import './index.css'
-import logo from './tbrpg_logo_512x98.png';
+import logo from './tbrpg_logo_512x98.png'
 
 /*
 const workspace = {

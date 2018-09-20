@@ -1,4 +1,4 @@
-"use strict";
+'use strict'
 
 import { CHANNEL } from './channel'
 

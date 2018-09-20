@@ -76,7 +76,7 @@ class AboutBase extends React.Component {
 			console.log({ui_state, state})
 
 			steps.push({
-				msg_main: `What do you want to do?`,
+				msg_main: 'What do you want to do?',
 				msgg_acknowledge: url => <span>Now opening <a href={url} target="_blank">{url}</a></span>,
 				callback: url => window.open(url, '_blank'),
 				choices: [
@@ -115,7 +115,7 @@ class AboutBase extends React.Component {
 						msg_cta: 'Reload page ↻',
 						value: 'reload',
 						msgg_as_user: () => 'Reload the page.',
-						msgg_acknowledge: () => `Reloading...`,
+						msgg_acknowledge: () => 'Reloading...',
 						callback: () => new Promise(() => window.location.reload()),
 					},
 					{

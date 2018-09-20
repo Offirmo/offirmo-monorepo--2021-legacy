@@ -1,4 +1,4 @@
-"use strict";
+'use strict'
 
 // simply rename / clean the APIs
 

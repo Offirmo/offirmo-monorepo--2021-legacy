@@ -4,7 +4,7 @@ import BurgerMenu from 'react-burger-menu/lib/menus/scaleDown'
 import ErrorBoundary from '@offirmo/react-error-boundary'
 import { OhMyRPGUIContext } from '../state-context'
 
-import './index.css';
+import './index.css'
 
 // technical elements needed by burger-menu scale down
 // https://github.com/negomi/react-burger-menu#properties

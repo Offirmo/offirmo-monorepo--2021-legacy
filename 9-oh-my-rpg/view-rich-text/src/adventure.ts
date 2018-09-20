@@ -132,7 +132,7 @@ function render_adventure(a: Adventure): RichText.Document {
 	if (unhandled_adventure_outcomes.length) {
 		console.error(`render_adventure(): *UN*handled outcome properties: "${unhandled_adventure_outcomes}"!`)
 		console.info(`render_adventure(): handled outcome properties: "${Array.from(handled_adventure_outcomes_so_far.values())}"`)
-		throw new Error(`render_adventure(): unhandled outcome properties!`)
+		throw new Error('render_adventure(): unhandled outcome properties!')
 	}
 
 	/////// Final wrap-up //////

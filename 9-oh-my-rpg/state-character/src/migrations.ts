@@ -16,7 +16,7 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: 
 	return SEC.xTry('migrate_to_latest', ({SEC, logger}: OMRContext) => {
 
 		if (existing_version > SCHEMA_VERSION)
-			throw new Error(`Your data is from a more recent version of this lib. Please update!`)
+			throw new Error('Your data is from a more recent version of this lib. Please update!')
 
 		let state: State = legacy_state as State // for starter
 
@@ -29,10 +29,10 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: 
 			}
 			catch (err) {
 				SEC.fireAnalyticsEvent('schema_migration.failed')
-				throw err;
+				throw err
 			}
 
-			logger.info(`schema migration successful.`)
+			logger.info('schema migration successful.')
 			SEC.fireAnalyticsEvent('schema_migration.ended')
 		}
 
@@ -45,7 +45,7 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: 
 /////////////////////
 
 function migrate_to_2(SEC: SoftExecutionContext, legacy_state: any, hints: any): State {
-	throw new Error(`Schema is too old (pre-beta), can't migrate!`)
+	throw new Error('Schema is too old (pre-beta), can\'t migrate!')
 }
 
 /////////////////////

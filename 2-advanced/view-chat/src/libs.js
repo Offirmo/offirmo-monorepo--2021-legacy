@@ -1,7 +1,7 @@
-"use strict";
+'use strict'
 
 // https://github.com/sindresorhus/indent-string
-const indent_string_bad = require('indent-string');
+const indent_string_bad = require('indent-string')
 function indent_string(msg, indentation, options = {}) {
 	let result = indent_string_bad(msg, indentation, options)
 

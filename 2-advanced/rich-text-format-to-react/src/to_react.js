@@ -1,4 +1,4 @@
-"use strict";
+'use strict'
 
 import React from 'react'
 import classNames from 'classnames'
@@ -51,12 +51,12 @@ export function intermediate_on_node_exit({$node, $id, state}, options) {
 		}
 
 		switch($hints.bullets_style) {
-			case 'none':
-				result.classes.push('o⋄rich-text⋄list--no-bullet')
-				break
+		case 'none':
+			result.classes.push('o⋄rich-text⋄list--no-bullet')
+			break
 
-			default:
-				break
+		default:
+			break
 		}
 
 		if (is_KVP_list($node)) {

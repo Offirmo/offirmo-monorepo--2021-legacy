@@ -8,7 +8,7 @@ import { CharacterSheet } from './pages/character-sheet'
 import { About } from './pages/about'
 import { ExportSavegame } from './pages/export-savegame'
 import { XPage } from './pages/x'
-import { BASE_ROUTE, ROUTES } from "./routes"
+import { BASE_ROUTE, ROUTES } from './routes'
 
 class App extends React.Component {
 	render() {
@@ -30,12 +30,12 @@ class App extends React.Component {
 						</div>
 
 						<div className="omr⋄status⁚user">
-							<span class="icomoon-user"></span>
+							<span className="icomoon-user"></span>
 							Pertenax, paladin L.28
 						</div>
 
 						<div className="omr⋄status⁚location">
-							<span class="icomoon-person_pin_circle"></span>
+							<span className="icomoon-person_pin_circle"></span>
 						</div>
 					</div>
 

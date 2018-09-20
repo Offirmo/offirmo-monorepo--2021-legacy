@@ -8,7 +8,7 @@ function prettify_json(data, options) {
 const stylize_string = require('chalk')
 
 // https://github.com/sindresorhus/indent-string
-const indent_string = require('indent-string');
+const indent_string = require('indent-string')
 
 
 // https://github.com/AnAppAMonth/linewrap

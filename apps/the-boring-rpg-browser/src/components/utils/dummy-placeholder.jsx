@@ -8,4 +8,4 @@ function DummyPlaceholder({name}) {
 	)
 }
 
-export default DummyPlaceholder;
+export default DummyPlaceholder

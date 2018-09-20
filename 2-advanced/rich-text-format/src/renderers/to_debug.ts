@@ -120,11 +120,11 @@ const callbacks: Partial<WalkerCallbacks<State, Options>> = {
 	on_class_after,
 	on_type,
 	on_type_br: ({state, depth}: {state: any, depth: number}) => {
-		console.log(indent(depth) + `  [on_type_br]`)
+		console.log(indent(depth) + '  [on_type_br]')
 		return state + '\\\\br\\\\'
 	},
 	on_type_hr: ({state, depth}: {state: any, depth: number}) => {
-		console.log(indent(depth) + `  [on_type_hr]`)
+		console.log(indent(depth) + '  [on_type_hr]')
 		return state + '--hr--'
 	},
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const DEFAULT = {
 	isBurgerMenuOpen: false,
@@ -13,7 +13,7 @@ export const OhMyRPGUIContext = React.createContext({...DEFAULT})
 
 export default class ContextProvider extends React.Component {
 	constructor(props) {
-		super(props);
+		super(props)
 		this.state = {
 			...DEFAULT
 		}

@@ -1,4 +1,4 @@
-"use strict";
+'use strict'
 
 const { createLogger } = require('@offirmo/practical-logger-browser')
 

@@ -1,4 +1,4 @@
-"use strict";
+'use strict'
 
 const readline = require('readline')
 const term_size = require('term-size')
@@ -77,12 +77,12 @@ function create({DEBUG, shouldCenter}) {
 	})
 
 	rli.on('close', () => {
-		if (DEBUG) console.log(`[Received close]`)
+		if (DEBUG) console.log('[Received close]')
 		state.is_closing = true
 	})
 
 	process.stdin.on('keypress', (str, key_pressed) => {
-		if (DEBUG) console.log(`[keypress]`)
+		if (DEBUG) console.log('[keypress]')
 		if (!state.keypress_callback)
 			return
 		if (state.is_closing)
@@ -139,8 +139,8 @@ function create({DEBUG, shouldCenter}) {
 		// naive affectation for unhinted ones (may collide)
 		unhinted_choices.forEach(choice => {
 			choice._ui_tty.key = {
-					name: choice._ui_tty.clean_cta[0]
-				}
+				name: choice._ui_tty.clean_cta[0]
+			}
 		})
 
 		// find colliding choices with same key
@@ -285,9 +285,9 @@ function create({DEBUG, shouldCenter}) {
 	async function display_message({msg, choices = [], side = '→'}) {
 		if (DEBUG) console.log(`↘ display_message(\n${prettify_params_for_debug({msg, choices, side})}\n)`)
 		if (typeof arguments[0] !== 'object')
-			throw new Error(`display_message(): incorrect invocation!`)
+			throw new Error('display_message(): incorrect invocation!')
 		if (!msg)
-			throw new Error(`display_message(): no msg!`)
+			throw new Error('display_message(): no msg!')
 
 		const {
 			MSG_MAX_WIDTH,
@@ -316,16 +316,16 @@ function create({DEBUG, shouldCenter}) {
 
 		let indent_col_count = 0
 		switch(side) {
-			case '→':
-				indent_col_count = MSG_L_INDENT
-				break
-			case '←':
-				indent_col_count = MSG_R_INDENT
-				break
-			case '↔':
-			default:
-				throw new Error(`display_message(): incorrect side!`)
-				break
+		case '→':
+			indent_col_count = MSG_L_INDENT
+			break
+		case '←':
+			indent_col_count = MSG_R_INDENT
+			break
+		case '↔':
+		default:
+			throw new Error('display_message(): incorrect side!')
+			break
 		}
 		msg = indent_string(
 			msg,
@@ -339,22 +339,22 @@ function create({DEBUG, shouldCenter}) {
 	function read_string(step) {
 		if (DEBUG) console.log(`↘ read_string(\n${prettify_params_for_debug(step)}\n)`)
 		return new Promise(resolve => {
-				//rli.clearLine(process.stdout, 0)
-				rli.prompt()
+			//rli.clearLine(process.stdout, 0)
+			rli.prompt()
 
-				rli.question('', answer => {
-					rli.clearLine(process.stdout, 0)
-					answer = String(answer).trim()
-					if (DEBUG) console.log(`[You entered: "${answer}"]`)
-					resolve(answer)
-				})
+			rli.question('', answer => {
+				rli.clearLine(process.stdout, 0)
+				answer = String(answer).trim()
+				if (DEBUG) console.log(`[You entered: "${answer}"]`)
+				resolve(answer)
 			})
+		})
 			.then(answer => {
 				if (step.msgg_as_user)
 					return display_message({
-							msg: step.msgg_as_user(answer),
-							side: '←'
-						})
+						msg: step.msgg_as_user(answer),
+						side: '←'
+					})
 						.then(() => answer)
 
 				return answer
@@ -404,10 +404,10 @@ function create({DEBUG, shouldCenter}) {
 	async function read_answer(step) {
 		if (DEBUG) console.log('↘ read_answer()')
 		switch (step.type) {
-			case 'ask_for_string':
-				return read_string(step)
-			case 'ask_for_choice':
-				return read_choice(step)
+		case 'ask_for_string':
+			return read_string(step)
+		case 'ask_for_choice':
+			return read_choice(step)
 			/*
 			case 'confirm':
 
@@ -416,8 +416,8 @@ function create({DEBUG, shouldCenter}) {
 				if (DEBUG) console.log(`↖ ask_user(…) confirmation = "${ok}"`)
 			}
 			 */
-			default:
-				throw new Error(`Unsupported step type: "${step.type}"!`)
+		default:
+			throw new Error(`Unsupported step type: "${step.type}"!`)
 		}
 	}
 
