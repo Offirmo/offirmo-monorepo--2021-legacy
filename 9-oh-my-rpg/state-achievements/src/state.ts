@@ -27,17 +27,17 @@ function create(): State {
 
 function add_amount(state: State, currency: Currency, amount: number): State {
 	if (amount <= 0)
-		throw new Error('state-wallet: can\'t add a <= 0 amount')
+		throw new Error('state-wallet: can’t add a <= 0 amount')
 
 	return change_amount_by(state, currency, amount)
 }
 
 function remove_amount(state: State, currency: Currency, amount: number): State {
 	if (amount <= 0)
-		throw new Error('state-wallet: can\'t remove a <= 0 amount')
+		throw new Error('state-wallet: can’t remove a <= 0 amount')
 
 	if (amount > get_currency_amount(state, currency))
-		throw new Error('state-wallet: can\'t remove more than available, no credit !')
+		throw new Error('state-wallet: can’t remove more than available, no credit !')
 
 	return change_amount_by(state, currency, -amount)
 }

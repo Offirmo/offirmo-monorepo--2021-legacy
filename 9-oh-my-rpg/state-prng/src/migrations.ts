@@ -29,7 +29,7 @@ function migrate_to_latest(legacy_state: any, hints: any = {}): State {
 /////////////////////
 
 function migrate_to_2(legacy_state: any, hints: any): any {
-	throw new Error('Unrecognized schema, most likely too old, can\'t migrate!')
+	throw new Error('Unrecognized schema, most likely too old, can’t migrate!')
 }
 
 /////////////////////

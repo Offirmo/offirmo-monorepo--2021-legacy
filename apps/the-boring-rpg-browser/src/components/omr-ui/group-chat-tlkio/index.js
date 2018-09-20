@@ -30,11 +30,11 @@ function report_error() {
 
 function restart({channel_id, nickname} = {}) {
 	if (!channel_id)
-		throw new Error(`${LIB}: Cant set up chat without a channel id!`)
+		throw new Error(`${LIB}: can’t set up chat without a channel id!`)
 
 	const parent = document.getElementById(PARENT_ID)
 	if (!parent)
-		throw new Error(`${LIB}: Cant set up chat without a #${PARENT_ID} parent!`)
+		throw new Error(`${LIB}: can’t set up chat without a #${PARENT_ID} parent!`)
 
 	setTimeout(() => {
 		// check if there is an iframe

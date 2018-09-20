@@ -143,7 +143,7 @@ describe('📦 📦 📦  Inventory state - reducer', function() {
 			function remove_one() {
 				state = remove_item_from_unslotted(state, 'non-existing-uuid')
 			}
-			expect(remove_one).to.throw('can\'t remove item #non-existing-uuid, not found')
+			expect(remove_one).to.throw('can’t remove item #non-existing-uuid, not found')
 		})
 
 		it('should work in nominal case', function() {
@@ -167,7 +167,7 @@ describe('📦 📦 📦  Inventory state - reducer', function() {
 			function remove_one() {
 				state = remove_item_from_unslotted(state, DUMMY_ITEM.uuid)
 			}
-			expect(remove_one).to.throw('can\'t remove item')
+			expect(remove_one).to.throw('can’t remove item')
 			expect(remove_one).to.throw('not found')
 		})
 	})
@@ -179,7 +179,7 @@ describe('📦 📦 📦  Inventory state - reducer', function() {
 			function equip_empty() {
 				state = equip_item(state, 'non-existing-uuid')
 			}
-			expect(equip_empty).to.throw('can\'t equip item')
+			expect(equip_empty).to.throw('can’t equip item')
 			expect(equip_empty).to.throw('not found!')
 		})
 

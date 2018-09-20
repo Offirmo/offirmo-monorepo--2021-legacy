@@ -51,7 +51,7 @@ function migrate_to_1(legacy_state: any, hints: any): any {
 		}
 	}
 
-	throw new Error('Unrecognized schema, most likely too old, can\'t migrate!')
+	throw new Error('Unrecognized schema, most likely too old, can’t migrate!')
 }
 
 /////////////////////

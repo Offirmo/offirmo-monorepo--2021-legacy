@@ -462,7 +462,7 @@ function start_loop(SEC, options, instance) {
 							msg_cta: 'Reset your savegame 💀',
 							value: 'reset',
 							msgg_as_user: () => 'I want to start over…',
-							msgg_acknowledge: url => 'You can\'t be serious?',
+							msgg_acknowledge: url => 'You can’t be serious?',
 							callback: () => {
 								chat_state.sub.meta.reseting = true
 							}

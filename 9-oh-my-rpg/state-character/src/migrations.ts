@@ -45,7 +45,7 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: 
 /////////////////////
 
 function migrate_to_2(SEC: SoftExecutionContext, legacy_state: any, hints: any): State {
-	throw new Error('Schema is too old (pre-beta), can\'t migrate!')
+	throw new Error('Schema is too old (pre-beta), can’t migrate!')
 }
 
 /////////////////////
