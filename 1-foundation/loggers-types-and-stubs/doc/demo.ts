@@ -2,7 +2,7 @@
 console.log('Hello')
 
 
-const {
+/*const {
 	SimpleLogger,
 	JSConsoleLogger,
 	SyslogLogger,
@@ -11,7 +11,7 @@ const {
 	AngularJSLogger,
 	BunyanLogger,
 	CompatibleLogger,
-} = require('..')
+} = require('..')*/
 
 
 const interesting = [
@@ -32,7 +32,7 @@ const interesting = [
 ]
 
 
-console.log('--- should display:');
+console.log('--- should display:')
 
 const {
 	simpleLoggerToConsole,
@@ -69,7 +69,7 @@ const {
 })
 
 
-console.log('--- should NOT display:');
+console.log('--- should NOT display:')
 
 const {
 	simpleLoggerToVoid,

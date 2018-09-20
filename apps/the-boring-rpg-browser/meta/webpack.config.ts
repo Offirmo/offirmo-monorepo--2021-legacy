@@ -5,7 +5,7 @@ console.log('🧙‍♂️  Hello from webpack.config.ts!')
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const DashboardPlugin = require('webpack-dashboard/plugin')
 
@@ -26,7 +26,7 @@ if(NODE_ENV !== 'development' && NODE_ENV !== 'production')
 	throw new Error('Webpack config: NODE_ENV value is invalid!!!')
 
 // the path we'll serve under in prod
-const BASE_PATH = `/the-boring-rpg`
+const BASE_PATH = '/the-boring-rpg'
 //const BASE_PATH = `/${PACKAGE_DIR}`
 
 /*********************/
@@ -52,7 +52,7 @@ const config: webpack.Configuration = {
 				//exclude: /node_modules/, // https://github.com/babel/babel/issues/6041
 				use: [
 					'babel-loader',
-					],
+				],
 			},
 			{
 				test: /\.css$/,
@@ -112,7 +112,7 @@ const config: webpack.Configuration = {
 		new MiniCssExtractPlugin({
 			// https://github.com/webpack-contrib/mini-css-extract-plugin
 			// Options similar to the same options in webpackOptions.output
-			filename: "index.css",
+			filename: 'index.css',
 		}),
 		new CopyWebpackPlugin([
 			{

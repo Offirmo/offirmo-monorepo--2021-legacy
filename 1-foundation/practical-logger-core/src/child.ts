@@ -16,12 +16,12 @@ interface ChildCreateParams extends Partial<LogParams> {
 }
 
 function createChildLogger({
-										parent,
-										name = parent._.name,
-										level = parent.getLevel(),
-										details = {},
-										outputFn = parent._.outputFn,
-									}: ChildCreateParams): Logger {
+	parent,
+	name = parent._.name,
+	level = parent.getLevel(),
+	details = {},
+	outputFn = parent._.outputFn,
+}: ChildCreateParams): Logger {
 	details = {
 		...parent._.details,
 		...details,

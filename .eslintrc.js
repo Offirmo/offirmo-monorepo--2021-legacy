@@ -20,9 +20,9 @@ module.exports = {
 		'chai-expect',
 		//'react',
 	],
-	"settings": {
-		"react": {
-			"version": "16", // React version, default to the latest React stable release
+	'settings': {
+		'react': {
+			'version': '16', // React version, default to the latest React stable release
 		},
 	},
 	// TODO try 'all'
@@ -57,13 +57,13 @@ module.exports = {
 			},
 		},
 		{
-			'files': ['**/doc/**/*.js'],
+			'files': ['**/doc/**/*.{ts,js,jsx}', 'webpack.config.ts'],
 			'rules': {
 				'no-console': 'off',
 			},
 		},
 		{
-			'files': ['\\.eslintrc.js', 'prettier.config.js'],
+			'files': ['\\.eslintrc.js', 'prettier.config.js', 'webpack.config.ts'],
 			'env': {
 				'node': true,
 			},
@@ -76,6 +76,7 @@ module.exports = {
 			],
 			'rules': {
 				'no-undef': 'off', // bug https://github.com/nzakas/eslint-plugin-typescript/issues/110
+				'no-unused-vars': 'off', // bug https://github.com/nzakas/eslint-plugin-typescript/issues/150
 			},
 		},
 	]

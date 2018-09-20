@@ -32,7 +32,7 @@ const LEVEL_TO_INTEGER: { [k: string]: number } = {
 	[LogLevel.silly]:    1,
 }
 if (ALL_LOG_LEVELS.length !== Object.keys(LEVEL_TO_INTEGER).length)
-	throw new Error(`universal-logger-core: LEVEL_TO_INTEGER needs an update`)
+	throw new Error('universal-logger-core: LEVEL_TO_INTEGER needs an update')
 
 
 // level to short, meaningful string to maybe be displayed on screen
@@ -60,7 +60,7 @@ const LEVEL_TO_HUMAN: { [k: string]: string } = {
 	[LogLevel.silly]:   'silly',
 }
 if (ALL_LOG_LEVELS.length !== Object.keys(LEVEL_TO_HUMAN).length)
-	throw new Error(`universal-logger-core: LEVEL_TO_HUMAN needs an update`)
+	throw new Error('universal-logger-core: LEVEL_TO_HUMAN needs an update')
 
 
 export {

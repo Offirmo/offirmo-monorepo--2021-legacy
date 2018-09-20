@@ -18,7 +18,7 @@ const LogLevel = Enum(
 	'trace',
 	'silly',
 )
-type LogLevel = Enum<typeof LogLevel>
+type LogLevel = Enum<typeof LogLevel> // eslint-disable-line no-redeclare
 
 ///////
 

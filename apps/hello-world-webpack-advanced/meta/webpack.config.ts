@@ -7,7 +7,7 @@ console.log(`🧙‍♂️  Hello from webpack.config.ts from ${path.basename(__
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 //const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin')
-const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const DashboardPlugin = require('webpack-dashboard/plugin')
 // TODO https://github.com/headfire94/package-json-cleanup-loader
@@ -54,7 +54,7 @@ const config: webpack.Configuration = {
 				exclude: /node_modules/, // https://github.com/babel/babel/issues/6041
 				use: [
 					'babel-loader',
-					],
+				],
 			},
 			{
 				test: /\.css$/,
@@ -109,7 +109,7 @@ const config: webpack.Configuration = {
 		new MiniCssExtractPlugin({
 			// https://github.com/webpack-contrib/mini-css-extract-plugin
 			// Options similar to the same options in webpackOptions.output
-			filename: "index.css",
+			filename: 'index.css',
 		}),
 		new CopyWebpackPlugin([
 			{

@@ -3,9 +3,7 @@ import {
 	LogLevel,
 	Logger,
 	LogParams,
-	Details,
 	Payload,
-	OutputFn,
 	createLogger as createCoreLogger,
 	createChildLogger,
 } from '@offirmo/practical-logger-core'
@@ -93,7 +91,7 @@ function createLogger(p: LogParams): Logger {
 				+ ' '
 				+ prettifyJson(detailsNoErr)
 			)
-		console.log(line)
+		console.log(line) // eslint-disable-line no-console
 		if (err)
 			displayError(err)
 	}

@@ -21,13 +21,13 @@ const UUID_LENGTH = UUID_RADIX.length + NANOID_LENGTH_FOR_1BTH_COLLISION_CHANCES
 function generate_uuid({length = NANOID_LENGTH_FOR_1BTH_COLLISION_CHANCES, rng}: {length?: number, rng?: Engine} = {}): UUID {
 	return UUID_RADIX + (
 		rng
-		? format((size: number) => {
-			let result = []
-			const gen = Random.integer(0, 255)
-			for (let i = 0; i < size; i++) result.push(gen(rng!))
-			return result
-		}, url, length)
-		: nanoid(length)
+			? format((size: number) => {
+				let result = []
+				const gen = Random.integer(0, 255)
+				for (let i = 0; i < size; i++) result.push(gen(rng!))
+				return result
+			}, url, length)
+			: nanoid(length)
 	)
 }
 

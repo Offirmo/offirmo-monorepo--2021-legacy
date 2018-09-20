@@ -5,7 +5,7 @@ import {
 	parse_human_readable_UTC_timestamp_ms,
 } from '.'
 
-declare const console: any;
+//declare const console: any
 
 describe('@offirmo/timestamps', function() {
 
