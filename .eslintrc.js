@@ -1,5 +1,6 @@
 module.exports = {
 	'root': true,
+	'parser': 'typescript-eslint-parser',
 	'env': {
 		'es6': true,
 		'mocha': true,
@@ -8,12 +9,13 @@ module.exports = {
 	'parserOptions': {
 		'ecmaVersion': 2018,
 		'sourceType': 'module',
-		"ecmaFeatures": {
-			"jsx": true,
+		'ecmaFeatures': {
+			'jsx': true,
 		}
 	},
 	'plugins': [
 		//'plugin:prettier/recommended',
+		'typescript',
 		'node',
 		'json',
 		'mocha',
@@ -27,8 +29,8 @@ module.exports = {
 		//'plugin:compat/recommended',
 		//'plugin:react/recommended',
 	],
-	"globals": {
-		"require": true, // recognized by webpack / parcel, so always allowed.
+	'globals': {
+		'require': true, // recognized by webpack / parcel, so always allowed.
 	},
 	'rules': {
 		'no-console': 'warn',

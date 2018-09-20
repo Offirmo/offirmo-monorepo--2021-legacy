@@ -1,5 +1,5 @@
 module.exports = {
-	"env": {
-		"shared-node-browser": true,
+	'env': {
+		'shared-node-browser': true,
 	},
-};
+}
