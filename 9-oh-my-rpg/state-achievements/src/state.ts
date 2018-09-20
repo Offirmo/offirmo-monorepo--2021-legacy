@@ -3,6 +3,12 @@
 import deepFreeze from 'deep-freeze-strict'
 
 import { LIB, SCHEMA_VERSION } from './consts'
+import {
+	AchievementDefinition,
+	AchievementEntry,
+	AchievementStatus,
+} from './types'
+import ACHIEVEMENT_DEFINITIONS from './data'
 
 import {
 	State,
@@ -16,7 +22,7 @@ function create(): State {
 		schema_version: SCHEMA_VERSION,
 		revision: 0,
 
-
+		statistics: {},
 	}
 }
 
@@ -24,7 +30,7 @@ function create(): State {
 
 
 /////////////////////
-
+/*
 function add_amount(state: State, currency: Currency, amount: number): State {
 	if (amount <= 0)
 		throw new Error('state-wallet: can’t add a <= 0 amount')
@@ -41,61 +47,28 @@ function remove_amount(state: State, currency: Currency, amount: number): State 
 
 	return change_amount_by(state, currency, -amount)
 }
-
+*/
 /////////////////////
 
-function get_sorted_visible_achievements(state: Readonly<State>): number {
-	return (state as any)[currency_to_state_entry(currency)]
+// TODO memoize
+function get_sorted_visible_achievements(state: Readonly<State>): AchievementEntry[] {
+	const { statistics } = state
+
+	return ACHIEVEMENT_DEFINITIONS
+		.map((def: AchievementDefinition): AchievementEntry => {
+			return {
+				key: def.key,
+				status: def.get_status(statistics),
+			}
+		})
+		.filter(entry => entry.status !== AchievementStatus.hidden)
 }
-
-
-/////////////////////
-
-// needed to test migrations, both here and in composing parents
-
-// a full featured, non-trivial demo state
-// needed for demos
-const DEMO_STATE: State = deepFreeze({
-	schema_version: 1,
-	revision: 42,
-
-	coin_count: 23456,
-	token_count: 89,
-})
-
-// the oldest format we can migrate from
-// must correspond to state above
-const OLDEST_LEGACY_STATE_FOR_TESTS: any = deepFreeze({
-	// no schema_version = 0
-
-	coin_count: 23456,
-	token_count: 89,
-})
-
-// some hints may be needed to migrate to demo state
-const MIGRATION_HINTS_FOR_TESTS: any = deepFreeze({
-	to_v1: {
-		revision: 42
-	},
-})
 
 /////////////////////
 
 export {
-	Currency,
-	State,
-	ALL_CURRENCIES,
-
 	create,
-	add_amount,
-	remove_amount,
-
-	get_currency_amount,
-	iterables_currency,
-
-	DEMO_STATE,
-	OLDEST_LEGACY_STATE_FOR_TESTS,
-	MIGRATION_HINTS_FOR_TESTS,
+	get_sorted_visible_achievements
 }
 
 /////////////////////

@@ -14,29 +14,52 @@ module.exports = {
 	},
 	'plugins': [
 		//'plugin:prettier/recommended',
+		'import',
 		'node',
 		'json',
 		'mocha',
 		'chai-expect',
-		//'react',
+		'react',
+		'promise',
+		'eslint-comments',
 	],
 	'settings': {
 		'react': {
 			'version': '16', // React version, default to the latest React stable release
 		},
+		/*'import/parsers': {
+			'typescript-eslint-parser': ['.ts', '.tsx'],
+		},*/
+		'import/resolver': {
+			'node': {
+				'extensions': [
+					'.js',
+					'.jsx',
+					'.ts',
+				]
+			}
+		}
 	},
 	// TODO try 'all'
 	'extends': [
 		'eslint:recommended',
+		'plugin:import/errors',
 		//'prettier',
 		//'plugin:node/recommended',
 		'plugin:react/recommended',
+		'plugin:promise/recommended',
+		'plugin:eslint-comments/recommended',
 	],
 	'globals': {
 		'require': true, // recognized by webpack / parcel, so always allowed.
 	},
 	'rules': {
-		'no-console': 'warn',
+		'no-console': 'off',  // TODO, too much noise for now
+		'no-unused-vars': 'off',  // TODO, too much noise for now
+		'react/prop-types': 'off',  // TODO, too much noise for now
+		'node/no-extraneous-require': 'off',  // TODO, too much noise for now
+		'node/no-unsupported-features/es-syntax': 'off',  // TODO, too much noise for now
+		'eslint-comments/disable-enable-pair': 'off',  // TODO, too much noise for now
 		'indent': ['error', 'tab'],
 		'linebreak-style': ['error', 'unix'],
 		'quotes': ['error', 'single'],
@@ -56,6 +79,10 @@ module.exports = {
 			'rules': {
 				'no-undef': 'off', // bug https://github.com/nzakas/eslint-plugin-typescript/issues/110
 				'no-unused-vars': 'off', // bug https://github.com/nzakas/eslint-plugin-typescript/issues/150
+				//'import/no-unresolved': 'off', // bug on resolving .ts
+				'import/named': 'off', // bug on types
+				'node/no-unpublished-require': 'off', // monorepo
+				'node/no-unsupported-features/es-syntax': 'off',
 				'typescript/adjacent-overload-signatures': 'error',
 				'typescript/class-name-casing': 'error',
 				'typescript/explicit-function-return-type': 'off', // TODO
@@ -102,6 +129,7 @@ module.exports = {
 			},
 			'rules': {
 				'no-console': 'off',
+				'node/no-extraneous-require': 'off',
 			},
 		},
 		{

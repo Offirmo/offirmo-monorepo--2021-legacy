@@ -2,7 +2,10 @@ module.exports = {
 	'env': {
 		'node': true,
 	},
-		'rules': {
+	'extends': [
+		'plugin:node/recommended',
+	],
+	'rules': {
 		'no-console': 'off',
 	},
 }

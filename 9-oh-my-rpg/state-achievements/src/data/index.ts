@@ -4,7 +4,7 @@ interface RawEntry {
 	name: string
 	description: string
 	lore?: string // TODO
-	get_status: (stats: Statistics) => AchievementStatus
+	get_status?: (stats: Statistics) => AchievementStatus
 }
 
 // TODO tests!!
@@ -15,6 +15,8 @@ const RAW_ENTRIES: RawEntry[] = [
 	{
 		name: 'The First Step',
 		description: 'You began your adventures in another world.',
+		lore: 'Thanks for visiting!',
+		get_status: () => true,
 	},
 
 	// main CTA
@@ -156,10 +158,15 @@ const ENTRIES: AchievementDefinition[] = RAW_ENTRIES
 			get_status,
 		}
 	})
+
+export default ENTRIES
+export {
+	RawEntry,
+	RAW_ENTRIES,
+	ENTRIES,
+}
+
 /*’
-
-
-
 - I was born ready - having replaced all starting equipment
 
 - I like swords - having equipped a sword

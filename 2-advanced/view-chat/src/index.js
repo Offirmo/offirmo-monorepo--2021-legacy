@@ -12,12 +12,12 @@ function is_step_input(step) {
 }
 
 function create({
-						 DEBUG,
-						 gen_next_step,
-						 ui,
-						 inter_msg_delay_ms = 0,
-						 after_input_delay_ms = 0,
-						 prettify_json = null,
+	DEBUG,
+	gen_next_step,
+	ui,
+	inter_msg_delay_ms = 0,
+	after_input_delay_ms = 0,
+	prettify_json = null,
 					 }) {
 	if (DEBUG) console.log('↘ create()')
 

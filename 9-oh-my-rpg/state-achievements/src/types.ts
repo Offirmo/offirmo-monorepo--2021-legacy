@@ -25,7 +25,7 @@ interface AchievementDefinition {
 	description: string
 	lore?: string // TODO
 
-	sorting_rank: number
+	sorting_rank: number // TODO useful?
 
 	get_status: (stats: Statistics) => AchievementStatus
 	//get_completion_rate: (stats: Statistics) => number
@@ -34,7 +34,7 @@ interface AchievementDefinition {
 interface AchievementEntry {
 	key: string
 	status: AchievementStatus
-	completion_rate: number
+	//completion_rate: number
 }
 
 /////////////////////
