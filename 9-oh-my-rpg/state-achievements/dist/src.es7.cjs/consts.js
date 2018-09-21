@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const LIB = '@oh-my-rpg/state-wallet';
+const LIB = '@oh-my-rpg/state-achievements';
 exports.LIB = LIB;
 const SCHEMA_VERSION = 1;
 exports.SCHEMA_VERSION = SCHEMA_VERSION;

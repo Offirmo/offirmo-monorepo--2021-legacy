@@ -1,11 +1,5 @@
-import { Currency, State } from './types';
-declare const ALL_CURRENCIES: Currency[];
+import { AchievementEntry } from './types';
+import { State } from './types';
 declare function create(): State;
-declare function add_amount(state: State, currency: Currency, amount: number): State;
-declare function remove_amount(state: State, currency: Currency, amount: number): State;
-declare function get_currency_amount(state: Readonly<State>, currency: Currency): number;
-declare function iterables_currency(state: Readonly<State>): IterableIterator<"coin" | "token">;
-declare const DEMO_STATE: State;
-declare const OLDEST_LEGACY_STATE_FOR_TESTS: any;
-declare const MIGRATION_HINTS_FOR_TESTS: any;
-export { Currency, State, ALL_CURRENCIES, create, add_amount, remove_amount, get_currency_amount, iterables_currency, DEMO_STATE, OLDEST_LEGACY_STATE_FOR_TESTS, MIGRATION_HINTS_FOR_TESTS, };
+declare function get_sorted_visible_achievements(state: Readonly<State>): AchievementEntry[];
+export { create, get_sorted_visible_achievements };

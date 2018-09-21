@@ -1,18 +1,12 @@
 import { expect } from 'chai'
 
 import { LIB, SCHEMA_VERSION } from './consts'
-
 import {
-	Currency,
-	State,
-	ALL_CURRENCIES,
-
+	AchievementStatus
+} from './types'
+import {
 	create,
-	add_amount,
-	remove_amount,
-
-	get_currency_amount,
-	iterables_currency,
+	get_sorted_visible_achievements,
 } from '.'
 
 describe('state - reducer', function() {
@@ -27,14 +21,24 @@ describe('state - reducer', function() {
 				schema_version: SCHEMA_VERSION,
 				revision: 0,
 
-				coin_count: 0,
-				token_count: 0,
+				statistics: {
+					// TODO
+				}
 			})
+		})
+	})
 
-			expect(ALL_CURRENCIES).to.have.lengthOf(EXPECTED_CURRENCY_SLOT_COUNT)
+	describe('get_sorted_visible_achievements()', function() {
 
-			ALL_CURRENCIES.forEach((currency: Currency) =>
-				expect(get_currency_amount(state, currency), currency).to.equal(0))
+		it('should work on initial state', function() {
+			const state = create()
+
+			expect(get_sorted_visible_achievements(state)).to.deep.equal([
+				{
+					key: 'The First Step',
+					status: AchievementStatus.unlocked,
+				}
+			])
 		})
 	})
 })

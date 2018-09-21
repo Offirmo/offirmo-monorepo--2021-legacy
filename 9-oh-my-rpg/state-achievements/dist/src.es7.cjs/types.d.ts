@@ -1,13 +1,27 @@
 import { Enum } from 'typescript-string-enums';
-declare const Currency: {
-    coin: "coin";
-    token: "token";
+declare const AchievementStatus: {
+    hidden: "hidden";
+    revealed: "revealed";
+    unlocked: "unlocked";
 };
-declare type Currency = Enum<typeof Currency>;
+declare type AchievementStatus = Enum<typeof AchievementStatus>;
+interface Statistics {
+}
+interface AchievementDefinition {
+    key: string;
+    name: string;
+    description: string;
+    lore?: string;
+    sorting_rank: number;
+    get_status: (stats: Statistics) => AchievementStatus;
+}
+interface AchievementEntry {
+    key: string;
+    status: AchievementStatus;
+}
 interface State {
     schema_version: number;
     revision: number;
-    coin_count: number;
-    token_count: number;
+    statistics: Statistics;
 }
-export { Currency, State, };
+export { AchievementStatus, Statistics, AchievementDefinition, AchievementEntry, State, };

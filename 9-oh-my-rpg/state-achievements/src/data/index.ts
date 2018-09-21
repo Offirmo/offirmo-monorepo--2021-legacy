@@ -16,7 +16,7 @@ const RAW_ENTRIES: RawEntry[] = [
 		name: 'The First Step',
 		description: 'You began your adventures in another world.',
 		lore: 'Thanks for visiting!',
-		get_status: () => true,
+		get_status: () => AchievementStatus.unlocked,
 	},
 
 	// main CTA
@@ -155,7 +155,7 @@ const ENTRIES: AchievementDefinition[] = RAW_ENTRIES
 			description,
 			lore,
 			sorting_rank: index,
-			get_status,
+			get_status: get_status!,
 		}
 	})
 
