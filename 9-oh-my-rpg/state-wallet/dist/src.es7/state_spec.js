@@ -38,7 +38,7 @@ describe('💰 💰 💎  Currencies wallet state - reducer', function () {
             function remove() {
                 state = remove_amount(state, Currency.coin, 3);
             }
-            expect(remove).to.throw('state-wallet: can\'t remove more than available, no credit !');
+            expect(remove).to.throw('state-wallet: can’t remove more than available, no credit !');
         });
         it('should throw on currency slot too low', function () {
             let state = create();
@@ -46,7 +46,7 @@ describe('💰 💰 💎  Currencies wallet state - reducer', function () {
             function remove() {
                 state = remove_amount(state, Currency.coin, 6);
             }
-            expect(remove).to.throw('state-wallet: can\'t remove more than available, no credit !');
+            expect(remove).to.throw('state-wallet: can’t remove more than available, no credit !');
         });
         it('should work in nominal case', function () {
             let state = create();

@@ -18,7 +18,7 @@ function create({
 	inter_msg_delay_ms = 0,
 	after_input_delay_ms = 0,
 	prettify_json = null,
-					 }) {
+}) {
 	if (DEBUG) console.log('↘ create()')
 
 	function prettify_params_for_debug(x) {

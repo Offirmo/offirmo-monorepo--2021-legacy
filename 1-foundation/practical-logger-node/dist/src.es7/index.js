@@ -66,7 +66,7 @@ function createLogger(p) {
                 + msg
                 + ' '
                 + prettifyJson(detailsNoErr));
-        console.log(line);
+        console.log(line); // eslint-disable-line no-console
         if (err)
             displayError(err);
     }

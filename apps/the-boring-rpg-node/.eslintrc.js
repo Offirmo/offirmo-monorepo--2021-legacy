@@ -3,7 +3,7 @@ module.exports = {
 		'node': true,
 	},
 	'extends': [
-		'plugin:node/recommended',
+		'../../meta/node.eslintrc.js',
 	],
 	'rules': {
 		'no-console': 'off',

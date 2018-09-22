@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import ErrorBoundary from '@offirmo/react-error-boundary'
 import SwipeableViews from 'react-swipeable-views'
-import { virtualize } from 'react-swipeable-views-utils'
+import { bindKeyboard, virtualize } from 'react-swipeable-views-utils'
 import { mod } from 'react-swipeable-views-core'
 
 const VirtualizeSwipeableViews = bindKeyboard(virtualize(SwipeableViews))

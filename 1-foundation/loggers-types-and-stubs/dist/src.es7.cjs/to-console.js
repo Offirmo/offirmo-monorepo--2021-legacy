@@ -1,4 +1,5 @@
 "use strict";
+/* eslint-disable no-console */
 Object.defineProperty(exports, "__esModule", { value: true });
 const log = console.log.bind(console);
 const info = console.info.bind(console);

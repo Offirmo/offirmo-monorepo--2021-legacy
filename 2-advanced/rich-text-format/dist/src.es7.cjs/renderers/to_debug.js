@@ -85,11 +85,11 @@ const callbacks = {
     on_class_after,
     on_type,
     on_type_br: ({ state, depth }) => {
-        console.log(indent(depth) + `  [on_type_br]`);
+        console.log(indent(depth) + '  [on_type_br]');
         return state + '\\\\br\\\\';
     },
     on_type_hr: ({ state, depth }) => {
-        console.log(indent(depth) + `  [on_type_hr]`);
+        console.log(indent(depth) + '  [on_type_hr]');
         return state + '--hr--';
     },
 };

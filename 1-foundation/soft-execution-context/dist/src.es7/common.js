@@ -1,3 +1,4 @@
+/* global NODE_ENV */
 import { get_UTC_timestamp_ms } from '@offirmo/timestamps';
 function decorateWithDetectedEnv(SEC) {
     const ENV = typeof NODE_ENV === 'string'
@@ -20,7 +21,5 @@ function decorateWithDetectedEnv(SEC) {
         CHANNEL,
     });
 }
-module.exports = {
-    decorateWithDetectedEnv,
-};
+export { decorateWithDetectedEnv, };
 //# sourceMappingURL=common.js.map

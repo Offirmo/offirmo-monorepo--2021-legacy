@@ -1,5 +1,14 @@
 import { Enum } from 'typescript-string-enums'
 
+// TODO move out
+interface Analytics {
+	SEC: any,
+	eventId: string,
+	details: {
+		[k: string]: string | number | undefined | null
+	}
+}
+
 /////////////////////
 
 const AchievementStatus = Enum(
@@ -49,6 +58,7 @@ interface State {
 /////////////////////
 
 export {
+	Analytics,
 	AchievementStatus,
 	Statistics,
 	AchievementDefinition,

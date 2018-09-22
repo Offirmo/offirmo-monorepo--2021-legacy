@@ -5,6 +5,7 @@ import OMR from './omr'
 import OhMyRPGUIContextProvider from './state-context'
 
 import './index.css'
+import ErrorBoundary from '@offirmo/react-error-boundary'
 
 export class OhMyRpgUI extends Component {
 	// TODO listen to errors and suggest a refresh?
@@ -13,6 +14,7 @@ export class OhMyRpgUI extends Component {
 		return (
 			<OhMyRPGUIContextProvider>
 				<BurgerMenuWrapper
+					logo={this.props.logo}
 					burgerPanelContent={this.props.burgerPanelContent}
 					mainContent={<OMR {...this.props} />}
 				/>

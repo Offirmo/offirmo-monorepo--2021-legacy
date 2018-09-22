@@ -8,11 +8,13 @@ function createCatcher({ decorators = [], onError, debugId = '?' } = {}) {
                     throw new Error();
             }
             catch (decoratorErr) {
+                /* eslint-disable no-console */
                 console.error(`catchFactory exec from ${debugId}: bad decorator!`, {
                     err,
                     decoratorErr,
                     'decorator.name': decorator.name,
                 });
+                /* eslint-enable no-console */
             }
             return err;
         }, err);

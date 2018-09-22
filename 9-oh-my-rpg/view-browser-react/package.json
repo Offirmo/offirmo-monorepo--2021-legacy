@@ -6,8 +6,7 @@
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "UNLICENSED",
 	"scripts": {
-		"test": "echo 'TODO'",
-		"demo": "parcel doc/demo/index.html"
+		"demo": "rm -rf .cache dist && parcel doc/demo/index.html"
 	},
 	"dependencies": {
 		"@offirmo/react-error-boundary": "^0.0.1"

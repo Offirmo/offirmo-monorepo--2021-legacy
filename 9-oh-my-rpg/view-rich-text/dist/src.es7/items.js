@@ -1,7 +1,7 @@
 import { InventorySlot } from '@oh-my-rpg/definitions';
 import { render_armor_short, render_armor_detailed } from './items--armor';
 import { render_weapon_short, render_weapon_detailed, } from './items--weapon';
-import { DEFAULT_RENDER_ITEM_OPTIONS } from "./consts";
+import { DEFAULT_RENDER_ITEM_OPTIONS } from './consts';
 function decorate_with_common_item_props(i, doc) {
     doc.$hints = doc.$hints || {};
     doc.$hints.uuid = i.uuid;

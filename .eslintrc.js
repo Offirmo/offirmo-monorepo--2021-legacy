@@ -54,20 +54,22 @@ module.exports = {
 		'require': true, // recognized by webpack / parcel, so always allowed.
 	},
 	'rules': {
-		'no-console': 'off',  // TODO, too much noise for now
-		'no-unused-vars': 'off',  // TODO, too much noise for now
-		'react/prop-types': 'off',  // TODO, too much noise for now
-		'node/no-extraneous-require': 'off',  // TODO, too much noise for now
-		'node/no-unsupported-features/es-syntax': 'off',  // TODO, too much noise for now
-		'eslint-comments/disable-enable-pair': 'off',  // TODO, too much noise for now
 		'indent': ['error', 'tab'],
 		'linebreak-style': ['error', 'unix'],
+		'no-console': 'off',  // TODO, too much noise for now
+		'no-unused-vars': 'off',  // TODO, too much noise for now
 		'quotes': ['error', 'single'],
 		'semi': ['error', 'never'],
-		'mocha/no-exclusive-tests': 'error',
 		'chai-expect/missing-assertion': 'error',
-		'chai-expect/terminating-properties': 'error',
 		'chai-expect/no-inner-compare': 'error',
+		'chai-expect/terminating-properties': 'error',
+		'eslint-comments/disable-enable-pair': 'off',  // TODO, too much noise for now
+		'import/no-unresolved': 'off', // buggy and no way we could miss that
+		'mocha/no-exclusive-tests': 'error',
+		'node/no-extraneous-require': 'off',  // TODO, too much noise for now
+		'node/no-unsupported-features/es-syntax': 'off',  // TODO, too much noise for now
+		'react/prop-types': 'off',  // TODO, too much noise for now
+		'react/display-name': 'off',  // TODO, too much noise for now
 	},
 	'overrides': [
 		{
@@ -81,8 +83,6 @@ module.exports = {
 				'no-unused-vars': 'off', // bug https://github.com/nzakas/eslint-plugin-typescript/issues/150
 				//'import/no-unresolved': 'off', // bug on resolving .ts
 				'import/named': 'off', // bug on types
-				'node/no-unpublished-require': 'off', // monorepo
-				'node/no-unsupported-features/es-syntax': 'off',
 				'typescript/adjacent-overload-signatures': 'error',
 				'typescript/class-name-casing': 'error',
 				'typescript/explicit-function-return-type': 'off', // TODO
@@ -90,20 +90,20 @@ module.exports = {
 				'typescript/interface-name-prefix': 'error',
 				'typescript/member-delimiter-style': {'delimiter': 'none'},
 				'typescript/member-naming': 'error',
-				'typescript/member-ordering': 'error',
+				'typescript/member-ordering': 'off', // TODO
 				'typescript/no-angle-bracket-type-assertion': 'error',
 				'typescript/no-array-constructor': 'error',
-				'typescript/no-empty-interface': 'error',
+				'typescript/no-empty-interface': 'off', // TODO
 				'typescript/no-explicit-any': 'off', // TODO reactivate sometimes
 				'typescript/no-inferrable-types': 'off',
 				'typescript/no-namespace': 'error',
 				'typescript/no-non-null-assertion': 'off', // TODO reactivate sometimes
+				'typescript/no-var-requires': 'off', // TODO
 				'typescript/no-parameter-properties': 'error',
 				'typescript/no-triple-slash-reference': 'error',
 				'typescript/no-type-alias': 'off',
 				'typescript/no-unused-vars': 'error',
 				'typescript/no-use-before-define': 'off', // TODO
-				'typescript/no-var-requires': 'warn', // TODO
 				'typescript/prefer-namespace-keyword': 'error',
 				'typescript/type-annotation-spacing': 'error',
 			},

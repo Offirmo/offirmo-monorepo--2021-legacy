@@ -53,18 +53,18 @@ const COINS_GAIN_RANGES = {
 (function checkDataSanity() {
     if (ALL_ADVENTURE_ARCHETYPES.length < 20) {
         console.error(ALL_ADVENTURE_ARCHETYPES);
-        throw new Error(`Data sanity failure: ALL_ADVENTURE_ARCHETYPES`);
+        throw new Error('Data sanity failure: ALL_ADVENTURE_ARCHETYPES');
     }
     if (ALL_BAD_ADVENTURE_ARCHETYPES.length < 6)
-        throw new Error(`Data sanity failure: ALL_BAD_ADVENTURE_ARCHETYPES`);
+        throw new Error('Data sanity failure: ALL_BAD_ADVENTURE_ARCHETYPES');
     if (ALL_GOOD_ADVENTURE_ARCHETYPES.length < 20)
-        throw new Error(`Data sanity failure: ALL_GOOD_ADVENTURE_ARCHETYPES`);
+        throw new Error('Data sanity failure: ALL_GOOD_ADVENTURE_ARCHETYPES');
     if (GOOD_ADVENTURE_ARCHETYPES_BY_TYPE.fight.length !== 5) {
         console.error(GOOD_ADVENTURE_ARCHETYPES_BY_TYPE.fight);
-        throw new Error(`Data sanity failure: GOOD_ADVENTURE_ARCHETYPES_BY_TYPE.fight`);
+        throw new Error('Data sanity failure: GOOD_ADVENTURE_ARCHETYPES_BY_TYPE.fight');
     }
     if (GOOD_ADVENTURE_ARCHETYPES_BY_TYPE.story.length < 20)
-        throw new Error(`Data sanity failure: GOOD_ADVENTURE_ARCHETYPES_BY_TYPE.story`);
+        throw new Error('Data sanity failure: GOOD_ADVENTURE_ARCHETYPES_BY_TYPE.story');
 })();
 /////////////////////
 // useful for picking an exact archetype (ex. tests)

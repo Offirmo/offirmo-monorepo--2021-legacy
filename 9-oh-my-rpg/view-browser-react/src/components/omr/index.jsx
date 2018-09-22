@@ -10,7 +10,7 @@ import './index.css';
 
 const VirtualizeSwipeableViews = bindKeyboard(virtualize(SwipeableViews));
 
-function HudTopLeft({isBurgerMenuOpen, openBurgerMenu, logo, toggleAbout, universeAnchor, }) {
+function TopLeftHud({isBurgerMenuOpen, openBurgerMenu, logo, toggleAbout, universeAnchor, }) {
 	return (
 		<div className="omr⋄hud⁚top-left">
 			<div className="omr⋄hamburger" onClick={openBurgerMenu}>
@@ -20,7 +20,7 @@ function HudTopLeft({isBurgerMenuOpen, openBurgerMenu, logo, toggleAbout, univer
 				}
 			</div>
 
-			{logo && <div className="omr⋄logo" onClick={toggleAbout}>
+			{logo && <div className="omr⋄logo" onClick={e => {e.preventDefault();toggleAbout()}}>
 				<ErrorBoundary name={'omr:logo'}>
 					{logo}
 				</ErrorBoundary>
@@ -35,6 +35,20 @@ function HudTopLeft({isBurgerMenuOpen, openBurgerMenu, logo, toggleAbout, univer
 	)
 }
 
+function BottomRightHud({bottomMenuItems}) {
+	return bottomMenuItems.length > 0 && (
+		<div className="omr⋄hud⁚bottom-right">
+			<div className="omr⋄bottom-menu">
+				<ErrorBoundary name={'omr:bottom-menu'}>
+					{bottomMenuItems}
+					{/* TODO <div className="omr⋄bottom-menu--selected-indicator"/> */}
+				</ErrorBoundary>
+			</div>
+		</div>
+	)
+}
+
+/*
 function SwipableContent({isBurgerMenuOpen, screenIndex, screens, immersionSlidesRenderer, onScreenIndexChange}) {
 	return (
 		<VirtualizeSwipeableViews
@@ -46,6 +60,11 @@ function SwipableContent({isBurgerMenuOpen, screenIndex, screens, immersionSlide
 			slideCount={}
 		/>
 	)
+}
+*/
+
+function Content() {
+
 }
 
 
@@ -63,24 +82,13 @@ function Main({children, logo, universeAnchor, bottomMenuItems, aboutContent}) {
 
 						<div className="omr⋄hud⁚shifts-hider"/>
 
-						<HudTopLeft
-							{...{isBurgerMenuOpen, openBurgerMenu, logo, toggleAbout, universeAnchor}}
-							/>
+						<TopLeftHud {...{isBurgerMenuOpen, openBurgerMenu, logo, toggleAbout, universeAnchor}} />
 
 						<ErrorBoundary name={'omr:content'}>
-							<SwipeableViews>
-								{children}
-							</SwipeableViews>
+							{children}
 						</ErrorBoundary>
 
-						{bottomMenuItems.length > 0 && <div className="omr⋄hud⁚bottom-right">
-							<div className="omr⋄bottom-menu">
-								<ErrorBoundary name={'omr:bottom-menu'}>
-									{bottomMenuItems}
-									<div className="omr⋄bottom-menu--selected-indicator"/>
-								</ErrorBoundary>
-							</div>
-						</div>}
+						<BottomRightHud {...{bottomMenuItems}} />
 
 						{isAboutOpen && <div
 							key="aboutBlanket"
@@ -88,6 +96,7 @@ function Main({children, logo, universeAnchor, bottomMenuItems, aboutContent}) {
 							className="o⋄top-container omr⋄content-area omr⋄plane⁚meta"
 							onClick={toggleAbout}>
 							<ErrorBoundary name={'omr:about-blanket'}>
+								<div className="omr-auto-logo">{logo}</div>
 								{aboutContent}
 							</ErrorBoundary>
 						</div>}

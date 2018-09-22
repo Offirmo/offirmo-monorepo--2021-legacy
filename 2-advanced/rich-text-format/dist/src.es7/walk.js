@@ -128,7 +128,7 @@ function walk($raw_node, raw_callbacks, options = {},
         sorted_keys.forEach(key => {
             const $sub_node = {
                 $type: NodeType.li,
-                $content: `{{content}}`,
+                $content: '{{content}}',
                 $sub: {
                     'content': $sub_nodes[key]
                 }

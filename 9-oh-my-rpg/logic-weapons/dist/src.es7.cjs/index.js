@@ -78,7 +78,7 @@ function compare_weapons_by_strength(a, b) {
 exports.compare_weapons_by_strength = compare_weapons_by_strength;
 function enhance(weapon) {
     if (weapon.enhancement_level >= MAX_ENHANCEMENT_LEVEL)
-        throw new Error(`can't enhance a weapon above the maximal enhancement level!`);
+        throw new Error('can’t enhance a weapon above the maximal enhancement level!');
     weapon.enhancement_level++;
     return weapon;
 }

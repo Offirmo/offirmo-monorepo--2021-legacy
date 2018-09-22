@@ -40,6 +40,6 @@ function migrate_to_1(legacy_state, hints) {
         console.info(`${consts_1.LIB}: migrating schema from v0/non-versioned to v1...`);
         return Object.assign({}, legacy_state, { schema_version: 1, revision: (hints && hints.to_v1 && hints.to_v1.revision) || 0 });
     }
-    throw new Error(`Unrecognized schema, most likely too old, can't migrate!`);
+    throw new Error('Unrecognized schema, most likely too old, can’t migrate!');
 }
 //# sourceMappingURL=migrations.js.map

@@ -1,6 +1,6 @@
 {
 	"name": "the-npm-rpg",
-	"version": "0.34.0",
+	"version": "0.36.0",
 	"description": "⚔🛡💰 The npm RPG, a command line RPG game. Just ⌨ `npx the-npm-rpg`!",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "UNLICENSED",
@@ -9,7 +9,7 @@
 		"url": "git+https://github.com/online-adventures/oh-my-rpg.git"
 	},
 	"engines": {
-		"node": ">=8"
+		"node": ">=8.5"
 	},
 	"bin": "./bin/index.js",
 	"dependencies": {

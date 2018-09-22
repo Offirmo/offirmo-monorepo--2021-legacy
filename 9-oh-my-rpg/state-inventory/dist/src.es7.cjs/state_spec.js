@@ -95,7 +95,7 @@ describe('📦 📦 📦  Inventory state - reducer', function () {
             function remove_one() {
                 state = _1.remove_item_from_unslotted(state, 'non-existing-uuid');
             }
-            chai_1.expect(remove_one).to.throw('can\'t remove item #non-existing-uuid, not found');
+            chai_1.expect(remove_one).to.throw('can’t remove item #non-existing-uuid, not found');
         });
         it('should work in nominal case', function () {
             const item1 = logic_weapons_1.generate_random_demo_weapon();
@@ -115,8 +115,8 @@ describe('📦 📦 📦  Inventory state - reducer', function () {
             function remove_one() {
                 state = _1.remove_item_from_unslotted(state, DUMMY_ITEM.uuid);
             }
-            chai_1.expect(remove_one).to.throw(`can\'t remove item`);
-            chai_1.expect(remove_one).to.throw(`not found`);
+            chai_1.expect(remove_one).to.throw('can’t remove item');
+            chai_1.expect(remove_one).to.throw('not found');
         });
     });
     describe('⬆ item equipping', function () {
@@ -125,7 +125,7 @@ describe('📦 📦 📦  Inventory state - reducer', function () {
             function equip_empty() {
                 state = _1.equip_item(state, 'non-existing-uuid');
             }
-            chai_1.expect(equip_empty).to.throw('can\'t equip item');
+            chai_1.expect(equip_empty).to.throw('can’t equip item');
             chai_1.expect(equip_empty).to.throw('not found!');
         });
         it('should work on simple non-empty state, equip to the correct slot and correctly remove from unslotted', function () {

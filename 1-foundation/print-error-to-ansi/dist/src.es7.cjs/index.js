@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
+/* eslint-disable no-console */
 const chalk_1 = tslib_1.__importDefault(require("chalk"));
 const common_error_fields_1 = require("@offirmo/common-error-fields");
 function displayErrProp(errLike, prop) {

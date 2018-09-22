@@ -67,6 +67,81 @@ body {
 	width: fill-available;
 }
 
+/* re-styling of react-burger-menu classes */
+
+.bm-menu-wrap {
+	background-color: var(--o⋄color--bg⁚main--backdrop);
+	border-right: solid 2px;
+}
+
+/* https://stackoverflow.com/a/37600130/587407 */
+/* big screens */
+.bm-menu-wrap {
+	width: 400px !important;
+}
+/* small screens */
+@media screen and (max-width: 400px) {
+	.bm-menu-wrap {
+		width: 80% !important;
+	}
+}
+
+.bm-overlay {
+	background-color: var(--o⋄color--bg⁚main--backdrop);
+}
+.bm-cross {
+	background: var(--o⋄color--fg⁚main);
+}
+.bm-cross-button {
+	top: 0 !important;
+	right: 0 !important;
+}
+
+.bm-burger-button {
+	z-index: calc(51 + var(--omr⋄ui__meta-view--z-index));
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: calc(var(--diameter) * var(--visible-ratio));
+	height: calc(var(--diameter) * var(--visible-ratio));
+}
+
+/* https://github.com/negomi/react-burger-menu/issues/220#issue-289936395 */
+.bm-overlay,
+.bm-menu-wrap {
+	transition-duration: .4s !important;
+}
+
+/************/
+
+.bm-menu-wrap .omr-auto-logo {
+	width: 100%;
+	padding: 24px 1em 0 1em;
+}
+.bm-menu-wrap .omr-auto-logo img {
+	width: 100%;
+}
+
+
+#about-panel {
+	position: fixed;
+	top: 0;
+	left: 0;
+	padding: 30px;
+	text-align: center;
+	width: 100%;
+	background-color: var(--o⋄color--bg⁚main--backdrop);
+}
+
+
+#about-panel .omr-auto-logo {
+	width: 300px;
+	margin: 0 auto;
+}
+#about-panel .omr-auto-logo img {
+	width: 100%;
+}
+
 /*! normalize.css v8.0.0 | MIT License | github.com/necolas/normalize.css */
 
 /* Document
@@ -409,7 +484,7 @@ template {
   display: none;
 }
 
-#meta-panel {
+#meta-panel, .bm-menu-wrap {
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -427,16 +502,6 @@ template {
 	#meta-panel {
 		width: 95%;
 	}
-}
-
-#about-panel {
-	position: fixed;
-	top: 0;
-	left: 0;
-	padding: 30px;
-	text-align: center;
-	width: 100%;
-	background-color: var(--o⋄color--bg⁚main--backdrop);
 }
 
 /******* misc *******/
@@ -633,11 +698,6 @@ html.color-theme-in-transition *:after {
  * but adding this activates the debug markings
  */
 .o⋄top-container {
-	/* debug technique */
-	box-sizing: border-box;
-	border-style: solid;
-	border-width: 0; /* xxx change this for debug */
-
 	display: flex;
 	flex-direction: column;
 
@@ -645,14 +705,19 @@ html.color-theme-in-transition *:after {
 }
 
 .o⋄centered-article {
-	border-color: blueviolet; /* for debug */
-
 	max-width: 650px; /* a suggested good max width for text content. Taken from http://bettermotherfuckingwebsite.com/ */
 	width: 100%; /* avoid lower than max if possible */
 
 	margin: 0 auto;/* horizontal centering */
 
 	padding: 7px; /* looks good by default. Use o⋄pad⁚0 else */
+}
+
+.o⋄body⁚full-page {
+	max-width: unset;
+	width: 100%; /* avoid lower than max if possible */
+	margin: 0;
+	padding: 0;
 }
 
 .o⋄border⁚default {
@@ -903,10 +968,11 @@ html.color-theme-in-transition *:after {
 	padding: 7px;
 }
 
-/*
+
 .o⋄margin⁚0 {
 	margin: 0;
 }
+/*
 .o⋄margin⁚5 {
 	margin: 5px;
 }
@@ -994,13 +1060,38 @@ progress.o⋄animated::-ms-fill {
 */
 
 
-/*! @offirmo/view-css UNLICENSED */
+/*********************/
+/* borders for debug, display only if debug activated */
 
-/*
+/* comment/uncomment this for debug
 .o⋄top-container {
 	border-width: 1px;
 }
 */
+
+.o⋄top-container {
+	/* debug technique */
+	box-sizing: border-box;
+	border-style: solid;
+	border-width: 0;
+}
+
+/* Note: will only work if has class o⋄top-container (should) */
+html                                  { border-color: red; }
+body                                  { border-color: greenyellow; }
+body .o⋄top-container:nth-child(odd)  { border-color: greenyellow; }
+body .o⋄top-container:nth-child(even) { border-color: red; }
+
+
+/*
+/*#root, #app         { border-color: blue; }  commonly used in react
+
+#root > .o⋄top-container:first-child,
+#app > .o⋄top-container:first-child
+                    { border-color: coral; }
+*/
+
+/*! @offirmo/view-css UNLICENSED */
 
 
 /*********************/
@@ -1010,11 +1101,15 @@ progress.o⋄animated::-ms-fill {
 	/*--o⋄border--thickness: .08em;*/
 }
 
+/* apply a natural box layout model to all elements, but allowing components to change
+ * https://www.paulirish.com/2012/box-sizing-border-box-ftw/
+ */
+html                 { box-sizing: border-box; }
+*, *:before, *:after { box-sizing: inherit; }
+
 /*********************/
 
 html {
-	border-color: yellow; /* for debug, display only if debug activated */
-
 	height: 100%;
 
 	margin: 0;
@@ -1024,16 +1119,7 @@ html {
 	scroll-behavior: smooth;
 }
 
-/* apply a natural box layout model to all elements, but allowing components to change
- * https://www.paulirish.com/2012/box-sizing-border-box-ftw/
- */
-html                 { box-sizing: border-box; }
-*, *:before, *:after { box-sizing: inherit; }
-
-
 body {
-	border-color: orange; /* for debug, display only if debug activated */
-
 	height: 100%;
 
 	/* adapted from http://perfectmotherfuckingwebsite.com */
@@ -1801,16 +1887,20 @@ hr.omr⋄border-h⁚test {
 
 /*********************/
 
+
+/*
 .omr⋄hud {
-	position: absolute; /* prevent from taking room */
-	display: flex;
+ position: absolute; /* prevent from taking room */
+	/*display: flex;
 	flex-direction: row;
 }
 .omr⋄hud a {
 	/* usually what we want in HUD elements */
-	text-decoration: none;
+	/*text-decoration: none;
 	color: inherit;
 }
+*/
+
 
 .omr⋄hamburger {
 	--scale: var(--omr⋄ui__hamburger--scale, var(--omr⋄ui__scale));
@@ -1995,6 +2085,8 @@ hr.omr⋄border-h⁚test {
 
 .omr⋄bottom-menu {
 	--scale: var(--omr⋄ui__scale);
+	--icon-width_: 34px;
+	--icon-margin: calc(8px * var(--scale));
 	--height: calc((var(--omr⋄ui__bottom-menu--shape-height_) - var(--omr⋄ui__border--width_)) * var(--scale));
 	--visible-ratio: var(--omr⋄ui__bottom-menu--visible-ratio);
 	--padding: calc(var(--omr⋄ui__padding_) * var(--scale));
@@ -2010,7 +2102,8 @@ hr.omr⋄border-h⁚test {
 
 	color: var(--o⋄color--fg⁚main);
 	border: solid calc(1px * var(--scale)) var(--o⋄color--fg⁚main);
-	background-color: var(--o⋄color--bg⁚main--translucent);
+	background-color: var(--o⋄color--bg⁚main--backdrop);
+/*	background-color: var(--o⋄color--bg⁚main--translucent);*/
 
 	position: fixed;
 	--position-shift: calc(var(--height) * (1 - var(--visible-ratio)));
@@ -2032,17 +2125,31 @@ hr.omr⋄border-h⁚test {
 	justify-content: center;
 	align-self: center;
 	/* width: clamp to max size to avoid strange behaviour on zoom */
-	width: calc(34px * var(--scale));
-	font-size: calc(30px * var(--scale));
-	line-height: calc(32px * var(--scale));
+	width: calc(var(--icon-width_) * var(--scale));
+	font-size: calc((var(--icon-width_) - 2px) * var(--scale));
+	line-height: calc((var(--icon-width_) - 0px) * var(--scale));
 	text-align: center;
 	/**/
-	margin: 0 6px;
+	margin: 0 var(--icon-margin);
 	cursor: pointer;
 }
 .omr⋄bottom-menu⁚icon:hover {
-	font-size: calc(34px * var(--scale));
+	font-size: calc(var(--icon-width_) * 1.1 * var(--scale));
 	text-shadow: 0 0 calc(22px * var(--scale)) var(--o⋄color--fg⁚main);
+}
+.omr⋄bottom-menu--selected-indicator {
+	--height: calc(3px * var(--scale));
+	--width: calc(var(--icon-width_) * var(--scale) + var(--icon-margin));
+
+	--reverse-index: var(--omr⋄ui__bottom-menu--selected-reverse-index, 0);
+
+	position: fixed;
+	bottom: var(--height);
+	right: calc(var(--reverse-index) * -1 * (var(--width) + var(--icon-margin)) + var(--icon-margin) * .5);
+
+	height: var(--height);
+	width: var(--width);
+	background-color: var(--o⋄color--fg⁚main);
 }
 
 /************/
@@ -2063,6 +2170,24 @@ hr.omr⋄border-h⁚test {
 }
 
 /************/
+
+/* special usage when needing to hide the extra hud parts */
+.omr⋄hud⁚shifts-hider {
+	z-index: calc(100 + var(--omr⋄ui__meta-view--z-index));
+
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+
+	pointer-events: none;
+	background-color: transparent;
+	outline: calc(var(--omr⋄ui__scale) * 30px) solid var(--o⋄color--bg⁚main);
+
+	position: fixed;
+	top: 0;
+	left: 0;
+}
 
 /*
 .o⋄top-container {

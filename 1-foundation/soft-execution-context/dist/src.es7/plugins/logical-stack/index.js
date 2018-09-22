@@ -104,7 +104,9 @@ const PLUGIN = {
                 logicalStack.short = SEC.getShortLogicalStack();
                 if (err.message.startsWith(logicalStack.short)) {
                     // can that happen??? It's a bug!
+                    /* eslint-disable no-console */
                     console.warn('UNEXPECTED SEC non-decorated error already prefixed??');
+                    /* eslint-enable no-console */
                 }
                 else {
                     err.message = logicalStack.short + ': ' + err.message;

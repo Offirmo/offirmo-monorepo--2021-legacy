@@ -2,7 +2,7 @@ import React from 'react'
 
 import { get_lib_SEC } from './sec'
 
-const DEFAULT_CONTENT = <span>ErrorBoundary: no children nor render prop!</span>
+const DEFAULT_CONTENT = <span className={`o⋄error-report error-boundary-report-${name}`}>ErrorBoundary: no children nor render prop!</span>
 
 export default class ErrorBoundary extends React.Component {
 	state = {

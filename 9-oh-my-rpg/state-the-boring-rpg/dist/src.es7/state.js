@@ -145,7 +145,7 @@ function execute(state, action) {
     const { expected_state_revision } = action;
     if (expected_state_revision) {
         if (state.revision !== expected_state_revision)
-            throw new Error(`Trying to execute an outdated action!`);
+            throw new Error('Trying to execute an outdated action!');
     }
     switch (action.type) {
         case ActionType.play:
@@ -159,7 +159,7 @@ function execute(state, action) {
         case ActionType.change_avatar_class:
             return change_avatar_class(state, action.new_class);
         default:
-            throw new Error(`Unrecognized action!`);
+            throw new Error('Unrecognized action!');
     }
 }
 /////////////////////

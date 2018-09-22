@@ -4,6 +4,7 @@ import deepFreeze from 'deep-freeze-strict'
 
 import { LIB, SCHEMA_VERSION } from './consts'
 import {
+	Analytics,
 	AchievementDefinition,
 	AchievementEntry,
 	AchievementStatus,
@@ -30,6 +31,11 @@ function create(): State {
 
 
 /////////////////////
+function on_analytics(state: Readonly<State>, ...analytics: Analytics[]): Readonly<State> {
+	// TODO
+	return state
+}
+
 /*
 function add_amount(state: State, currency: Currency, amount: number): State {
 	if (amount <= 0)

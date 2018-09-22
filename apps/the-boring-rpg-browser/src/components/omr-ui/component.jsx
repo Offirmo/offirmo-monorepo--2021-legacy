@@ -57,7 +57,11 @@ export default class TheBoringRPG extends Component {
 		return (
 			<OhMyRpg
 
-				logo={<img src={logo} height="100%" />}
+				logo={
+					<a href="https://www.online-adventur.es/the-boring-rpg/" target="_blank" rel="noopener noreferrer">
+						<img src={logo} height="100%" />
+					</a>
+				}
 				aboutContent={<About />}
 
 				universeAnchor={<UniverseAnchor onClick={() => this.activate_panel('character')} />}

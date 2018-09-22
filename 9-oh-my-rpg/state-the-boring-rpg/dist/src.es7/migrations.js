@@ -42,14 +42,14 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
     });
     return SEC.xTry('migrate_to_latest', ({ SEC, logger }) => {
         if (existing_version > SCHEMA_VERSION)
-            throw new Error(`Your data is from a more recent version of this lib. Please update!`);
+            throw new Error('Your data is from a more recent version of this lib. Please update!');
         let state = legacy_state; // for starter
         if (existing_version < SCHEMA_VERSION) {
             logger.warn(`attempting to migrate schema from v${existing_version} to v${SCHEMA_VERSION}:`);
             SEC.fireAnalyticsEvent('schema_migration.began');
             try {
                 state = migrate_to_4(SEC, legacy_state, hints);
-                logger.info(`schema migration successful.`);
+                logger.info('schema migration successful.');
                 SEC.fireAnalyticsEvent('schema migration.ended');
             }
             catch (err) {
@@ -89,7 +89,7 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
 }
 /////////////////////
 function migrate_to_4(SEC, legacy_state, hints) {
-    throw new Error(`Alpha release schema, won't migrate, would take too much time and schema is still unstable!`);
+    throw new Error('Alpha release schema, won\'t migrate, would take too much time and schema is still unstable!');
 }
 /////////////////////
 export { migrate_to_latest, };

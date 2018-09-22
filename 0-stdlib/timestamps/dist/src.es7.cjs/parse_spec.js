@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
 const _1 = require(".");
+//declare const console: any
 describe('@offirmo/timestamps', function () {
     describe('parse_human_readable_UTC_timestamp_ms()', function () {
         it('should correctly parse corresponding timestamps', function () {

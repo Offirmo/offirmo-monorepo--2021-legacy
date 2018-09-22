@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const log = console.log.bind(console);
 const info = console.info.bind(console);
 const warn = console.warn.bind(console);

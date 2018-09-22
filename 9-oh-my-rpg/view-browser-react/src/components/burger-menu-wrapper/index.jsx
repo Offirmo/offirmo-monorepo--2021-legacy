@@ -12,7 +12,7 @@ const PAGE_WRAP_ID = 'oh-my-rpg-ui__page-wrap'
 const OUTER_CONTAINER_ID = 'oh-my-rpg-ui__outer-container'
 
 
-function BurgerMenuWrapper({onStateChange, toggleBurgerMenu, mainContent, burgerPanelContent}) {
+function BurgerMenuWrapper({onStateChange, toggleBurgerMenu, mainContent, logo, burgerPanelContent}) {
 	return (
 		<OhMyRPGUIContext.Consumer>
 			{({isBurgerMenuOpen, onUpdateBurgerMenu}) => (
@@ -24,6 +24,7 @@ function BurgerMenuWrapper({onStateChange, toggleBurgerMenu, mainContent, burger
 						onStateChange={onUpdateBurgerMenu}
 					>
 						<ErrorBoundary name={'omr:burger-menu:menu'}>
+							<div className="omr-auto-logo">{logo}</div>
 							{burgerPanelContent}
 						</ErrorBoundary>
 					</BurgerMenu>

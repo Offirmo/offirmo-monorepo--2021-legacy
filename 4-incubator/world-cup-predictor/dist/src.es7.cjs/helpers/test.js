@@ -4,65 +4,65 @@ const chai_1 = require("chai");
 const typescript_string_enums_1 = require("typescript-string-enums");
 const types_1 = require("../types");
 const DEFAULT_EXAMPLE = {
-    "round": "Group",
-    "match": 5,
-    "team1": "Australia",
-    "team2": "France",
-    "results": [
+    'round': 'Group',
+    'match': 5,
+    'team1': 'Australia',
+    'team2': 'France',
+    'results': [
         {
-            "match": 1,
-            "round": "Group",
-            "team1": {
-                "name": "Russia",
-                "score": 1,
-                "winner": true
+            'match': 1,
+            'round': 'Group',
+            'team1': {
+                'name': 'Russia',
+                'score': 1,
+                'winner': true
             },
-            "team2": {
-                "name": "Saudi Arabia",
-                "score": 0,
-                "winner": false
+            'team2': {
+                'name': 'Saudi Arabia',
+                'score': 0,
+                'winner': false
             }
         },
         {
-            "match": 2,
-            "round": "Group",
-            "team1": {
-                "name": "Egypt",
-                "score": 2,
-                "winner": false
+            'match': 2,
+            'round': 'Group',
+            'team1': {
+                'name': 'Egypt',
+                'score': 2,
+                'winner': false
             },
-            "team2": {
-                "name": "Uruguay",
-                "score": 3,
-                "winner": true
+            'team2': {
+                'name': 'Uruguay',
+                'score': 3,
+                'winner': true
             }
         },
         {
-            "match": 3,
-            "round": "Group",
-            "team1": {
-                "name": "Portugal",
-                "score": 2,
-                "winner": false
+            'match': 3,
+            'round': 'Group',
+            'team1': {
+                'name': 'Portugal',
+                'score': 2,
+                'winner': false
             },
-            "team2": {
-                "name": "Spain",
-                "score": 2,
-                "winner": false
+            'team2': {
+                'name': 'Spain',
+                'score': 2,
+                'winner': false
             }
         },
         {
-            "match": 4,
-            "round": "Group",
-            "team1": {
-                "name": "Morocco",
-                "score": 1,
-                "winner": true
+            'match': 4,
+            'round': 'Group',
+            'team1': {
+                'name': 'Morocco',
+                'score': 1,
+                'winner': true
             },
-            "team2": {
-                "name": "Iran",
-                "score": 0,
-                "winner": false
+            'team2': {
+                'name': 'Iran',
+                'score': 0,
+                'winner': false
             }
         }
     ]

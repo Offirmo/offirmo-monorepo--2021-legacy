@@ -288,7 +288,7 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
 
 module.exports = checkPropTypes;
 },{"./lib/ReactPropTypesSecret":"../../../../node_modules/prop-types/lib/ReactPropTypesSecret.js"}],"../../node_modules/react/cjs/react.development.js":[function(require,module,exports) {
-/** @license React v16.5.1
+/** @license React v16.5.2
  * react.development.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -308,7 +308,7 @@ if ('development' !== "production") {
 
     // TODO: this is special because it gets imported during build.
 
-    var ReactVersion = '16.5.1';
+    var ReactVersion = '16.5.2';
 
     // The Symbol used to tag the ReactElement-like types. If there is no native Symbol
     // nor polyfill, then a plain number is used for performance.
@@ -369,7 +369,7 @@ if ('development' !== "production") {
     // Gather advanced timing metrics for Profiler subtrees.
 
 
-    // Track which interactions trigger each commit.
+    // Trace which interactions trigger each commit.
 
 
     // Only used in www builds.
@@ -2014,7 +2014,7 @@ if ('development' === 'production') {
   module.exports = require('./cjs/react.development.js');
 }
 },{"./cjs/react.development.js":"../../node_modules/react/cjs/react.development.js"}],"../../../../node_modules/schedule/cjs/schedule.development.js":[function(require,module,exports) {
-/** @license React v16.5.1
+/** @license React v16.5.2
  * schedule.development.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -2031,50 +2031,244 @@ if ('development' !== "production") {
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
-    var canUseDOM = !!(typeof window !== 'undefined' && window.document && window.document.createElement);
+    /* eslint-disable no-var */
 
-    /**
-     * A scheduling library to allow scheduling work with more granular priority and
-     * control than requestAnimationFrame and requestIdleCallback.
-     * Current TODO items:
-     * X- Pull out the scheduleWork polyfill built into React
-     * X- Initial test coverage
-     * X- Support for multiple callbacks
-     * - Support for two priorities; serial and deferred
-     * - Better test coverage
-     * - Better docblock
-     * - Polish documentation, API
-     */
+    // TODO: Currently there's only a single priority level, Deferred. Will add
+    // additional priorities.
+    var DEFERRED_TIMEOUT = 5000;
 
-    // This is a built-in polyfill for requestIdleCallback. It works by scheduling
-    // a requestAnimationFrame, storing the time for the start of the frame, then
-    // scheduling a postMessage which gets scheduled after paint. Within the
-    // postMessage handler do as much work as possible until time + frame rate.
-    // By separating the idle call into a separate event tick we ensure that
+    // Callbacks are stored as a circular, doubly linked list.
+    var firstCallbackNode = null;
+
+    var isPerformingWork = false;
+
+    var isHostCallbackScheduled = false;
+
+    var hasNativePerformanceNow = typeof performance === 'object' && typeof performance.now === 'function';
+
+    var timeRemaining;
+    if (hasNativePerformanceNow) {
+      timeRemaining = function () {
+        // We assume that if we have a performance timer that the rAF callback
+        // gets a performance timer value. Not sure if this is always true.
+        var remaining = getFrameDeadline() - performance.now();
+        return remaining > 0 ? remaining : 0;
+      };
+    } else {
+      timeRemaining = function () {
+        // Fallback to Date.now()
+        var remaining = getFrameDeadline() - Date.now();
+        return remaining > 0 ? remaining : 0;
+      };
+    }
+
+    var deadlineObject = {
+      timeRemaining: timeRemaining,
+      didTimeout: false
+    };
+
+    function ensureHostCallbackIsScheduled() {
+      if (isPerformingWork) {
+        // Don't schedule work yet; wait until the next time we yield.
+        return;
+      }
+      // Schedule the host callback using the earliest timeout in the list.
+      var timesOutAt = firstCallbackNode.timesOutAt;
+      if (!isHostCallbackScheduled) {
+        isHostCallbackScheduled = true;
+      } else {
+        // Cancel the existing host callback.
+        cancelCallback();
+      }
+      requestCallback(flushWork, timesOutAt);
+    }
+
+    function flushFirstCallback(node) {
+      var flushedNode = firstCallbackNode;
+
+      // Remove the node from the list before calling the callback. That way the
+      // list is in a consistent state even if the callback throws.
+      var next = firstCallbackNode.next;
+      if (firstCallbackNode === next) {
+        // This is the last callback in the list.
+        firstCallbackNode = null;
+        next = null;
+      } else {
+        var previous = firstCallbackNode.previous;
+        firstCallbackNode = previous.next = next;
+        next.previous = previous;
+      }
+
+      flushedNode.next = flushedNode.previous = null;
+
+      // Now it's safe to call the callback.
+      var callback = flushedNode.callback;
+      callback(deadlineObject);
+    }
+
+    function flushWork(didTimeout) {
+      isPerformingWork = true;
+      deadlineObject.didTimeout = didTimeout;
+      try {
+        if (didTimeout) {
+          // Flush all the timed out callbacks without yielding.
+          while (firstCallbackNode !== null) {
+            // Read the current time. Flush all the callbacks that expire at or
+            // earlier than that time. Then read the current time again and repeat.
+            // This optimizes for as few performance.now calls as possible.
+            var currentTime = exports.unstable_now();
+            if (firstCallbackNode.timesOutAt <= currentTime) {
+              do {
+                flushFirstCallback();
+              } while (firstCallbackNode !== null && firstCallbackNode.timesOutAt <= currentTime);
+              continue;
+            }
+            break;
+          }
+        } else {
+          // Keep flushing callbacks until we run out of time in the frame.
+          if (firstCallbackNode !== null) {
+            do {
+              flushFirstCallback();
+            } while (firstCallbackNode !== null && getFrameDeadline() - exports.unstable_now() > 0);
+          }
+        }
+      } finally {
+        isPerformingWork = false;
+        if (firstCallbackNode !== null) {
+          // There's still work remaining. Request another callback.
+          ensureHostCallbackIsScheduled(firstCallbackNode);
+        } else {
+          isHostCallbackScheduled = false;
+        }
+      }
+    }
+
+    function unstable_scheduleWork(callback, options) {
+      var currentTime = exports.unstable_now();
+
+      var timesOutAt;
+      if (options !== undefined && options !== null && options.timeout !== null && options.timeout !== undefined) {
+        // Check for an explicit timeout
+        timesOutAt = currentTime + options.timeout;
+      } else {
+        // Compute an absolute timeout using the default constant.
+        timesOutAt = currentTime + DEFERRED_TIMEOUT;
+      }
+
+      var newNode = {
+        callback: callback,
+        timesOutAt: timesOutAt,
+        next: null,
+        previous: null
+      };
+
+      // Insert the new callback into the list, sorted by its timeout.
+      if (firstCallbackNode === null) {
+        // This is the first callback in the list.
+        firstCallbackNode = newNode.next = newNode.previous = newNode;
+        ensureHostCallbackIsScheduled(firstCallbackNode);
+      } else {
+        var next = null;
+        var node = firstCallbackNode;
+        do {
+          if (node.timesOutAt > timesOutAt) {
+            // The new callback times out before this one.
+            next = node;
+            break;
+          }
+          node = node.next;
+        } while (node !== firstCallbackNode);
+
+        if (next === null) {
+          // No callback with a later timeout was found, which means the new
+          // callback has the latest timeout in the list.
+          next = firstCallbackNode;
+        } else if (next === firstCallbackNode) {
+          // The new callback has the earliest timeout in the entire list.
+          firstCallbackNode = newNode;
+          ensureHostCallbackIsScheduled(firstCallbackNode);
+        }
+
+        var previous = next.previous;
+        previous.next = next.previous = newNode;
+        newNode.next = next;
+        newNode.previous = previous;
+      }
+
+      return newNode;
+    }
+
+    function unstable_cancelScheduledWork(callbackNode) {
+      var next = callbackNode.next;
+      if (next === null) {
+        // Already cancelled.
+        return;
+      }
+
+      if (next === callbackNode) {
+        // This is the only scheduled callback. Clear the list.
+        firstCallbackNode = null;
+      } else {
+        // Remove the callback from its position in the list.
+        if (callbackNode === firstCallbackNode) {
+          firstCallbackNode = next;
+        }
+        var previous = callbackNode.previous;
+        previous.next = next;
+        next.previous = previous;
+      }
+
+      callbackNode.next = callbackNode.previous = null;
+    }
+
+    // The remaining code is essentially a polyfill for requestIdleCallback. It
+    // works by scheduling a requestAnimationFrame, storing the time for the start
+    // of the frame, then scheduling a postMessage which gets scheduled after paint.
+    // Within the postMessage handler do as much work as possible until time + frame
+    // rate. By separating the idle call into a separate event tick we ensure that
     // layout, paint and other browser work is counted against the available time.
     // The frame rate is dynamically adjusted.
 
     // We capture a local reference to any global, in case it gets polyfilled after
-    // this module is initially evaluated.
-    // We want to be using a consistent implementation.
+    // this module is initially evaluated. We want to be using a
+    // consistent implementation.
     var localDate = Date;
 
-    // This initialization code may run even on server environments
-    // if a component just imports ReactDOM (e.g. for findDOMNode).
-    // Some environments might not have setTimeout or clearTimeout.
-    // However, we always expect them to be defined on the client.
-    // https://github.com/facebook/react/pull/13088
+    // This initialization code may run even on server environments if a component
+    // just imports ReactDOM (e.g. for findDOMNode). Some environments might not
+    // have setTimeout or clearTimeout. However, we always expect them to be defined
+    // on the client. https://github.com/facebook/react/pull/13088
     var localSetTimeout = typeof setTimeout === 'function' ? setTimeout : undefined;
     var localClearTimeout = typeof clearTimeout === 'function' ? clearTimeout : undefined;
 
-    // We don't expect either of these to necessarily be defined,
-    // but we will error later if they are missing on the client.
+    // We don't expect either of these to necessarily be defined, but we will error
+    // later if they are missing on the client.
     var localRequestAnimationFrame = typeof requestAnimationFrame === 'function' ? requestAnimationFrame : undefined;
     var localCancelAnimationFrame = typeof cancelAnimationFrame === 'function' ? cancelAnimationFrame : undefined;
 
-    var hasNativePerformanceNow = typeof performance === 'object' && typeof performance.now === 'function';
+    // requestAnimationFrame does not run when the tab is in the background. If
+    // we're backgrounded we prefer for that work to happen so that the page
+    // continues to load in the background. So we also schedule a 'setTimeout' as
+    // a fallback.
+    // TODO: Need a better heuristic for backgrounded work.
+    var ANIMATION_FRAME_TIMEOUT = 100;
+    var rAFID;
+    var rAFTimeoutID;
+    var requestAnimationFrameWithTimeout = function (callback) {
+      // schedule rAF and also a setTimeout
+      rAFID = localRequestAnimationFrame(function (timestamp) {
+        // cancel the setTimeout
+        localClearTimeout(rAFTimeoutID);
+        callback(timestamp);
+      });
+      rAFTimeoutID = localSetTimeout(function () {
+        // cancel the requestAnimationFrame
+        localCancelAnimationFrame(rAFID);
+        callback(exports.unstable_now());
+      }, ANIMATION_FRAME_TIMEOUT);
+    };
 
-    exports.unstable_now = void 0;
     if (hasNativePerformanceNow) {
       var Performance = performance;
       exports.unstable_now = function () {
@@ -2086,80 +2280,46 @@ if ('development' !== "production") {
       };
     }
 
-    exports.unstable_scheduleWork = void 0;
-    exports.unstable_cancelScheduledWork = void 0;
+    var requestCallback;
+    var cancelCallback;
+    var getFrameDeadline;
 
-    if (!canUseDOM) {
-      var timeoutIds = new Map();
-
-      exports.unstable_scheduleWork = function (callback, options) {
-        // keeping return type consistent
-        var callbackConfig = {
-          scheduledCallback: callback,
-          timeoutTime: 0,
-          next: null,
-          prev: null
-        };
-        var timeoutId = localSetTimeout(function () {
-          callback({
-            timeRemaining: function () {
-              return Infinity;
-            },
-
-            didTimeout: false
-          });
-        });
-        timeoutIds.set(callback, timeoutId);
-        return callbackConfig;
+    if (typeof window === 'undefined') {
+      // If this accidentally gets imported in a non-browser environment, fallback
+      // to a naive implementation.
+      var timeoutID = -1;
+      requestCallback = function (callback, absoluteTimeout) {
+        timeoutID = setTimeout(callback, 0, true);
       };
-      exports.unstable_cancelScheduledWork = function (callbackId) {
-        var callback = callbackId.scheduledCallback;
-        var timeoutId = timeoutIds.get(callback);
-        timeoutIds.delete(callbackId);
-        localClearTimeout(timeoutId);
+      cancelCallback = function () {
+        clearTimeout(timeoutID);
       };
+      getFrameDeadline = function () {
+        return 0;
+      };
+    } else if (window._schedMock) {
+      // Dynamic injection, only for testing purposes.
+      var impl = window._schedMock;
+      requestCallback = impl[0];
+      cancelCallback = impl[1];
+      getFrameDeadline = impl[2];
     } else {
-      {
-        if (typeof console !== 'undefined') {
-          if (typeof localRequestAnimationFrame !== 'function') {
-            console.error("This browser doesn't support requestAnimationFrame. " + 'Make sure that you load a ' + 'polyfill in older browsers. https://fb.me/react-polyfills');
-          }
-          if (typeof localCancelAnimationFrame !== 'function') {
-            console.error("This browser doesn't support cancelAnimationFrame. " + 'Make sure that you load a ' + 'polyfill in older browsers. https://fb.me/react-polyfills');
-          }
+      if (typeof console !== 'undefined') {
+        if (typeof localRequestAnimationFrame !== 'function') {
+          console.error("This browser doesn't support requestAnimationFrame. " + 'Make sure that you load a ' + 'polyfill in older browsers. https://fb.me/react-polyfills');
+        }
+        if (typeof localCancelAnimationFrame !== 'function') {
+          console.error("This browser doesn't support cancelAnimationFrame. " + 'Make sure that you load a ' + 'polyfill in older browsers. https://fb.me/react-polyfills');
         }
       }
 
-      var headOfPendingCallbacksLinkedList = null;
-      var tailOfPendingCallbacksLinkedList = null;
-
-      // We track what the next soonest timeoutTime is, to be able to quickly tell
-      // if none of the scheduled callbacks have timed out.
-      var nextSoonestTimeoutTime = -1;
-
+      var scheduledCallback = null;
       var isIdleScheduled = false;
+      var timeoutTime = -1;
+
       var isAnimationFrameScheduled = false;
 
-      // requestAnimationFrame does not run when the tab is in the background.
-      // if we're backgrounded we prefer for that work to happen so that the page
-      // continues	to load in the background.
-      // so we also schedule a 'setTimeout' as a fallback.
-      var animationFrameTimeout = 100;
-      var rafID = void 0;
-      var timeoutID = void 0;
-      var scheduleAnimationFrameWithFallbackSupport = function (callback) {
-        // schedule rAF and also a setTimeout
-        rafID = localRequestAnimationFrame(function (timestamp) {
-          // cancel the setTimeout
-          localClearTimeout(timeoutID);
-          callback(timestamp);
-        });
-        timeoutID = localSetTimeout(function () {
-          // cancel the requestAnimationFrame
-          localCancelAnimationFrame(rafID);
-          callback(exports.unstable_now());
-        }, animationFrameTimeout);
-      };
+      var isPerformingIdleWork = false;
 
       var frameDeadline = 0;
       // We start out assuming that we run at 30fps but then the heuristic tracking
@@ -2168,93 +2328,8 @@ if ('development' !== "production") {
       var previousFrameTime = 33;
       var activeFrameTime = 33;
 
-      var frameDeadlineObject = {
-        didTimeout: false,
-        timeRemaining: function () {
-          var remaining = frameDeadline - exports.unstable_now();
-          return remaining > 0 ? remaining : 0;
-        }
-      };
-
-      /**
-       * Handles the case where a callback errors:
-       * - don't catch the error, because this changes debugging behavior
-       * - do start a new postMessage callback, to call any remaining callbacks,
-       * - but only if there is an error, so there is not extra overhead.
-       */
-      var callUnsafely = function (callbackConfig, arg) {
-        var callback = callbackConfig.scheduledCallback;
-        var finishedCalling = false;
-        try {
-          callback(arg);
-          finishedCalling = true;
-        } finally {
-          // always remove it from linked list
-          exports.unstable_cancelScheduledWork(callbackConfig);
-
-          if (!finishedCalling) {
-            // an error must have been thrown
-            isIdleScheduled = true;
-            window.postMessage(messageKey, '*');
-          }
-        }
-      };
-
-      /**
-       * Checks for timed out callbacks, runs them, and then checks again to see if
-       * any more have timed out.
-       * Keeps doing this until there are none which have currently timed out.
-       */
-      var callTimedOutCallbacks = function () {
-        if (headOfPendingCallbacksLinkedList === null) {
-          return;
-        }
-
-        var currentTime = exports.unstable_now();
-        // TODO: this would be more efficient if deferred callbacks are stored in
-        // min heap.
-        // Or in a linked list with links for both timeoutTime order and insertion
-        // order.
-        // For now an easy compromise is the current approach:
-        // Keep a pointer to the soonest timeoutTime, and check that first.
-        // If it has not expired, we can skip traversing the whole list.
-        // If it has expired, then we step through all the callbacks.
-        if (nextSoonestTimeoutTime === -1 || nextSoonestTimeoutTime > currentTime) {
-          // We know that none of them have timed out yet.
-          return;
-        }
-        // NOTE: we intentionally wait to update the nextSoonestTimeoutTime until
-        // after successfully calling any timed out callbacks.
-        // If a timed out callback throws an error, we could get stuck in a state
-        // where the nextSoonestTimeoutTime was set wrong.
-        var updatedNextSoonestTimeoutTime = -1; // we will update nextSoonestTimeoutTime below
-        var timedOutCallbacks = [];
-
-        // iterate once to find timed out callbacks and find nextSoonestTimeoutTime
-        var currentCallbackConfig = headOfPendingCallbacksLinkedList;
-        while (currentCallbackConfig !== null) {
-          var _timeoutTime = currentCallbackConfig.timeoutTime;
-          if (_timeoutTime !== -1 && _timeoutTime <= currentTime) {
-            // it has timed out!
-            timedOutCallbacks.push(currentCallbackConfig);
-          } else {
-            if (_timeoutTime !== -1 && (updatedNextSoonestTimeoutTime === -1 || _timeoutTime < updatedNextSoonestTimeoutTime)) {
-              updatedNextSoonestTimeoutTime = _timeoutTime;
-            }
-          }
-          currentCallbackConfig = currentCallbackConfig.next;
-        }
-
-        if (timedOutCallbacks.length > 0) {
-          frameDeadlineObject.didTimeout = true;
-          for (var i = 0, len = timedOutCallbacks.length; i < len; i++) {
-            callUnsafely(timedOutCallbacks[i], frameDeadlineObject);
-          }
-        }
-
-        // NOTE: we intentionally wait to update the nextSoonestTimeoutTime until
-        // after successfully calling any timed out callbacks.
-        nextSoonestTimeoutTime = updatedNextSoonestTimeoutTime;
+      getFrameDeadline = function () {
+        return frameDeadline;
       };
 
       // We use the postMessage trick to defer idle work until after the repaint.
@@ -2263,29 +2338,40 @@ if ('development' !== "production") {
         if (event.source !== window || event.data !== messageKey) {
           return;
         }
+
         isIdleScheduled = false;
 
-        if (headOfPendingCallbacksLinkedList === null) {
-          return;
-        }
-
-        // First call anything which has timed out, until we have caught up.
-        callTimedOutCallbacks();
-
         var currentTime = exports.unstable_now();
-        // Next, as long as we have idle time, try calling more callbacks.
-        while (frameDeadline - currentTime > 0 && headOfPendingCallbacksLinkedList !== null) {
-          var latestCallbackConfig = headOfPendingCallbacksLinkedList;
-          frameDeadlineObject.didTimeout = false;
-          // callUnsafely will remove it from the head of the linked list
-          callUnsafely(latestCallbackConfig, frameDeadlineObject);
-          currentTime = exports.unstable_now();
+
+        var didTimeout = false;
+        if (frameDeadline - currentTime <= 0) {
+          // There's no time left in this idle period. Check if the callback has
+          // a timeout and whether it's been exceeded.
+          if (timeoutTime !== -1 && timeoutTime <= currentTime) {
+            // Exceeded the timeout. Invoke the callback even though there's no
+            // time left.
+            didTimeout = true;
+          } else {
+            // No timeout.
+            if (!isAnimationFrameScheduled) {
+              // Schedule another animation callback so we retry later.
+              isAnimationFrameScheduled = true;
+              requestAnimationFrameWithTimeout(animationTick);
+            }
+            // Exit without invoking the callback.
+            return;
+          }
         }
-        if (headOfPendingCallbacksLinkedList !== null) {
-          if (!isAnimationFrameScheduled) {
-            // Schedule another animation callback so we retry later.
-            isAnimationFrameScheduled = true;
-            scheduleAnimationFrameWithFallbackSupport(animationTick);
+
+        timeoutTime = -1;
+        var callback = scheduledCallback;
+        scheduledCallback = null;
+        if (callback !== null) {
+          isPerformingIdleWork = true;
+          try {
+            callback(didTimeout);
+          } finally {
+            isPerformingIdleWork = false;
           }
         }
       };
@@ -2320,111 +2406,32 @@ if ('development' !== "production") {
         }
       };
 
-      exports.unstable_scheduleWork = function (callback, options) /* CallbackConfigType */{
-        var timeoutTime = -1;
-        if (options != null && typeof options.timeout === 'number') {
-          timeoutTime = exports.unstable_now() + options.timeout;
-        }
-        if (nextSoonestTimeoutTime === -1 || timeoutTime !== -1 && timeoutTime < nextSoonestTimeoutTime) {
-          nextSoonestTimeoutTime = timeoutTime;
-        }
-
-        var scheduledCallbackConfig = {
-          scheduledCallback: callback,
-          timeoutTime: timeoutTime,
-          prev: null,
-          next: null
-        };
-        if (headOfPendingCallbacksLinkedList === null) {
-          // Make this callback the head and tail of our list
-          headOfPendingCallbacksLinkedList = scheduledCallbackConfig;
-          tailOfPendingCallbacksLinkedList = scheduledCallbackConfig;
-        } else {
-          // Add latest callback as the new tail of the list
-          scheduledCallbackConfig.prev = tailOfPendingCallbacksLinkedList;
-          // renaming for clarity
-          var oldTailOfPendingCallbacksLinkedList = tailOfPendingCallbacksLinkedList;
-          if (oldTailOfPendingCallbacksLinkedList !== null) {
-            oldTailOfPendingCallbacksLinkedList.next = scheduledCallbackConfig;
-          }
-          tailOfPendingCallbacksLinkedList = scheduledCallbackConfig;
-        }
-
-        if (!isAnimationFrameScheduled) {
+      requestCallback = function (callback, absoluteTimeout) {
+        scheduledCallback = callback;
+        timeoutTime = absoluteTimeout;
+        if (isPerformingIdleWork) {
+          // If we're already performing idle work, an error must have been thrown.
+          // Don't wait for the next frame. Continue working ASAP, in a new event.
+          window.postMessage(messageKey, '*');
+        } else if (!isAnimationFrameScheduled) {
           // If rAF didn't already schedule one, we need to schedule a frame.
           // TODO: If this rAF doesn't materialize because the browser throttles, we
-          // might want to still have setTimeout trigger scheduleWork as a backup to ensure
+          // might want to still have setTimeout trigger rIC as a backup to ensure
           // that we keep performing work.
           isAnimationFrameScheduled = true;
-          scheduleAnimationFrameWithFallbackSupport(animationTick);
+          requestAnimationFrameWithTimeout(animationTick);
         }
-        return scheduledCallbackConfig;
       };
 
-      exports.unstable_cancelScheduledWork = function (callbackConfig /* CallbackConfigType */
-      ) {
-        if (callbackConfig.prev === null && headOfPendingCallbacksLinkedList !== callbackConfig) {
-          // this callbackConfig has already been cancelled.
-          // cancelScheduledWork should be idempotent, a no-op after first call.
-          return;
-        }
-
-        /**
-         * There are four possible cases:
-         * - Head/nodeToRemove/Tail -> null
-         *   In this case we set Head and Tail to null.
-         * - Head -> ... middle nodes... -> Tail/nodeToRemove
-         *   In this case we point the middle.next to null and put middle as the new
-         *   Tail.
-         * - Head/nodeToRemove -> ...middle nodes... -> Tail
-         *   In this case we point the middle.prev at null and move the Head to
-         *   middle.
-         * - Head -> ... ?some nodes ... -> nodeToRemove -> ... ?some nodes ... -> Tail
-         *   In this case we point the Head.next to the Tail and the Tail.prev to
-         *   the Head.
-         */
-        var next = callbackConfig.next;
-        var prev = callbackConfig.prev;
-        callbackConfig.next = null;
-        callbackConfig.prev = null;
-        if (next !== null) {
-          // we have a next
-
-          if (prev !== null) {
-            // we have a prev
-
-            // callbackConfig is somewhere in the middle of a list of 3 or more nodes.
-            prev.next = next;
-            next.prev = prev;
-            return;
-          } else {
-            // there is a next but not a previous one;
-            // callbackConfig is the head of a list of 2 or more other nodes.
-            next.prev = null;
-            headOfPendingCallbacksLinkedList = next;
-            return;
-          }
-        } else {
-          // there is no next callback config; this must the tail of the list
-
-          if (prev !== null) {
-            // we have a prev
-
-            // callbackConfig is the tail of a list of 2 or more other nodes.
-            prev.next = null;
-            tailOfPendingCallbacksLinkedList = prev;
-            return;
-          } else {
-            // there is no previous callback config;
-            // callbackConfig is the only thing in the linked list,
-            // so both head and tail point to it.
-            headOfPendingCallbacksLinkedList = null;
-            tailOfPendingCallbacksLinkedList = null;
-            return;
-          }
-        }
+      cancelCallback = function () {
+        scheduledCallback = null;
+        isIdleScheduled = false;
+        timeoutTime = -1;
       };
     }
+
+    exports.unstable_scheduleWork = unstable_scheduleWork;
+    exports.unstable_cancelScheduledWork = unstable_cancelScheduledWork;
   })();
 }
 },{}],"../../../../node_modules/schedule/index.js":[function(require,module,exports) {
@@ -2435,9 +2442,9 @@ if ('development' === 'production') {
 } else {
   module.exports = require('./cjs/schedule.development.js');
 }
-},{"./cjs/schedule.development.js":"../../../../node_modules/schedule/cjs/schedule.development.js"}],"../../../../node_modules/schedule/cjs/schedule-tracking.development.js":[function(require,module,exports) {
-/** @license React v16.5.1
- * schedule-tracking.development.js
+},{"./cjs/schedule.development.js":"../../../../node_modules/schedule/cjs/schedule.development.js"}],"../../../../node_modules/schedule/cjs/schedule-tracing.development.js":[function(require,module,exports) {
+/** @license React v16.5.2
+ * schedule-tracing.development.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
@@ -2483,8 +2490,8 @@ if ('development' !== "production") {
     // Gather advanced timing metrics for Profiler subtrees.
 
 
-    // Track which interactions trigger each commit.
-    var enableSchedulerTracking = true;
+    // Trace which interactions trigger each commit.
+    var enableSchedulerTracing = true;
 
     // Only used in www builds.
 
@@ -2501,16 +2508,16 @@ if ('development' !== "production") {
     var interactionIDCounter = 0;
     var threadIDCounter = 0;
 
-    // Set of currently tracked interactions.
+    // Set of currently traced interactions.
     // Interactions "stack"–
-    // Meaning that newly tracked interactions are appended to the previously active set.
+    // Meaning that newly traced interactions are appended to the previously active set.
     // When an interaction goes out of scope, the previous set (if any) is restored.
     exports.__interactionsRef = null;
 
     // Listener(s) to notify when interactions begin and end.
     exports.__subscriberRef = null;
 
-    if (enableSchedulerTracking) {
+    if (enableSchedulerTracing) {
       exports.__interactionsRef = {
         current: new Set()
       };
@@ -2520,7 +2527,7 @@ if ('development' !== "production") {
     }
 
     function unstable_clear(callback) {
-      if (!enableSchedulerTracking) {
+      if (!enableSchedulerTracing) {
         return callback();
       }
 
@@ -2535,7 +2542,7 @@ if ('development' !== "production") {
     }
 
     function unstable_getCurrent() {
-      if (!enableSchedulerTracking) {
+      if (!enableSchedulerTracing) {
         return null;
       } else {
         return exports.__interactionsRef.current;
@@ -2546,10 +2553,10 @@ if ('development' !== "production") {
       return ++threadIDCounter;
     }
 
-    function unstable_track(name, timestamp, callback) {
+    function unstable_trace(name, timestamp, callback) {
       var threadID = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : DEFAULT_THREAD_ID;
 
-      if (!enableSchedulerTracking) {
+      if (!enableSchedulerTracing) {
         return callback();
       }
 
@@ -2562,7 +2569,7 @@ if ('development' !== "production") {
 
       var prevInteractions = exports.__interactionsRef.current;
 
-      // Tracked interactions should stack/accumulate.
+      // Traced interactions should stack/accumulate.
       // To do that, clone the current interactions.
       // The previous set will be restored upon completion.
       var interactions = new Set(prevInteractions);
@@ -2574,7 +2581,7 @@ if ('development' !== "production") {
 
       try {
         if (subscriber !== null) {
-          subscriber.onInteractionTracked(interaction);
+          subscriber.onInteractionTraced(interaction);
         }
       } finally {
         try {
@@ -2610,7 +2617,7 @@ if ('development' !== "production") {
     function unstable_wrap(callback) {
       var threadID = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : DEFAULT_THREAD_ID;
 
-      if (!enableSchedulerTracking) {
+      if (!enableSchedulerTracing) {
         return callback;
       }
 
@@ -2701,18 +2708,18 @@ if ('development' !== "production") {
     }
 
     var subscribers = null;
-    if (enableSchedulerTracking) {
+    if (enableSchedulerTracing) {
       subscribers = new Set();
     }
 
     function unstable_subscribe(subscriber) {
-      if (enableSchedulerTracking) {
+      if (enableSchedulerTracing) {
         subscribers.add(subscriber);
 
         if (subscribers.size === 1) {
           exports.__subscriberRef.current = {
             onInteractionScheduledWorkCompleted: onInteractionScheduledWorkCompleted,
-            onInteractionTracked: onInteractionTracked,
+            onInteractionTraced: onInteractionTraced,
             onWorkCanceled: onWorkCanceled,
             onWorkScheduled: onWorkScheduled,
             onWorkStarted: onWorkStarted,
@@ -2723,7 +2730,7 @@ if ('development' !== "production") {
     }
 
     function unstable_unsubscribe(subscriber) {
-      if (enableSchedulerTracking) {
+      if (enableSchedulerTracing) {
         subscribers.delete(subscriber);
 
         if (subscribers.size === 0) {
@@ -2732,13 +2739,13 @@ if ('development' !== "production") {
       }
     }
 
-    function onInteractionTracked(interaction) {
+    function onInteractionTraced(interaction) {
       var didCatchError = false;
       var caughtError = null;
 
       subscribers.forEach(function (subscriber) {
         try {
-          subscriber.onInteractionTracked(interaction);
+          subscriber.onInteractionTraced(interaction);
         } catch (error) {
           if (!didCatchError) {
             didCatchError = true;
@@ -2855,22 +2862,22 @@ if ('development' !== "production") {
     exports.unstable_clear = unstable_clear;
     exports.unstable_getCurrent = unstable_getCurrent;
     exports.unstable_getThreadID = unstable_getThreadID;
-    exports.unstable_track = unstable_track;
+    exports.unstable_trace = unstable_trace;
     exports.unstable_wrap = unstable_wrap;
     exports.unstable_subscribe = unstable_subscribe;
     exports.unstable_unsubscribe = unstable_unsubscribe;
   })();
 }
-},{}],"../../../../node_modules/schedule/tracking.js":[function(require,module,exports) {
+},{}],"../../../../node_modules/schedule/tracing.js":[function(require,module,exports) {
 'use strict';
 
 if ('development' === 'production') {
-  module.exports = require('./cjs/schedule-tracking.production.min.js');
+  module.exports = require('./cjs/schedule-tracing.production.min.js');
 } else {
-  module.exports = require('./cjs/schedule-tracking.development.js');
+  module.exports = require('./cjs/schedule-tracing.development.js');
 }
-},{"./cjs/schedule-tracking.development.js":"../../../../node_modules/schedule/cjs/schedule-tracking.development.js"}],"../../node_modules/react-dom/cjs/react-dom.development.js":[function(require,module,exports) {
-/** @license React v16.5.1
+},{"./cjs/schedule-tracing.development.js":"../../../../node_modules/schedule/cjs/schedule-tracing.development.js"}],"../../node_modules/react-dom/cjs/react-dom.development.js":[function(require,module,exports) {
+/** @license React v16.5.2
  * react-dom.development.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -2889,7 +2896,7 @@ if ('development' !== "production") {
     var _assign = require('object-assign');
     var checkPropTypes = require('prop-types/checkPropTypes');
     var schedule = require('schedule');
-    var tracking = require('schedule/tracking');
+    var tracing = require('schedule/tracing');
 
     /**
      * Use invariant() to assert state which your program assumes to be true.
@@ -6038,8 +6045,8 @@ if ('development' !== "production") {
     // Gather advanced timing metrics for Profiler subtrees.
     var enableProfilerTimer = true;
 
-    // Track which interactions trigger each commit.
-    var enableSchedulerTracking = true;
+    // Trace which interactions trigger each commit.
+    var enableSchedulerTracing = true;
 
     // Only used in www builds.
 
@@ -8151,7 +8158,7 @@ if ('development' !== "production") {
      */
     function setOffsets(node, offsets) {
       var doc = node.ownerDocument || document;
-      var win = doc ? doc.defaultView : window;
+      var win = doc && doc.defaultView || window;
       var selection = win.getSelection();
       var length = node.textContent.length;
       var start = Math.min(offsets.start, length);
@@ -8835,6 +8842,7 @@ if ('development' !== "production") {
     function updateWrapper$1(element, props) {
       var node = element;
       var value = getToStringValue(props.value);
+      var defaultValue = getToStringValue(props.defaultValue);
       if (value != null) {
         // Cast `value` to a string to ensure the value is set correctly. While
         // browsers typically do this as necessary, jsdom doesn't.
@@ -8843,12 +8851,12 @@ if ('development' !== "production") {
         if (newValue !== node.value) {
           node.value = newValue;
         }
-        if (props.defaultValue == null) {
+        if (props.defaultValue == null && node.defaultValue !== newValue) {
           node.defaultValue = newValue;
         }
       }
-      if (props.defaultValue != null) {
-        node.defaultValue = toString(getToStringValue(props.defaultValue));
+      if (defaultValue != null) {
+        node.defaultValue = toString(defaultValue);
       }
     }
 
@@ -12932,17 +12940,17 @@ if ('development' !== "production") {
     // TODO: This should be lifted into the renderer.
 
 
-    // The following attributes are only used by interaction tracking builds.
+    // The following attributes are only used by interaction tracing builds.
     // They enable interactions to be associated with their async work,
     // And expose interaction metadata to the React DevTools Profiler plugin.
-    // Note that these attributes are only defined when the enableSchedulerTracking flag is enabled.
+    // Note that these attributes are only defined when the enableSchedulerTracing flag is enabled.
 
 
     // Exported FiberRoot type includes all properties,
     // To avoid requiring potentially error-prone :any casts throughout the project.
-    // Profiling properties are only safe to access in profiling builds (when enableSchedulerTracking is true).
+    // Profiling properties are only safe to access in profiling builds (when enableSchedulerTracing is true).
     // The types are defined separately within this file to ensure they stay in sync.
-    // (We don't have to use an inline :any cast when enableSchedulerTracking is disabled.)
+    // (We don't have to use an inline :any cast when enableSchedulerTracing is disabled.)
 
     /* eslint-enable no-use-before-define */
 
@@ -12952,7 +12960,7 @@ if ('development' !== "production") {
       var uninitializedFiber = createHostRootFiber(isAsync);
 
       var root = void 0;
-      if (enableSchedulerTracking) {
+      if (enableSchedulerTracing) {
         root = {
           current: uninitializedFiber,
           containerInfo: containerInfo,
@@ -12977,7 +12985,7 @@ if ('development' !== "production") {
           firstBatch: null,
           nextScheduledRoot: null,
 
-          interactionThreadID: tracking.unstable_getThreadID(),
+          interactionThreadID: tracing.unstable_getThreadID(),
           memoizedInteractions: new Set(),
           pendingInteractionMap: new Map()
         };
@@ -13011,8 +13019,8 @@ if ('development' !== "production") {
       uninitializedFiber.stateNode = root;
 
       // The reason for the way the Flow types are structured in this file,
-      // Is to avoid needing :any casts everywhere interaction tracking fields are used.
-      // Unfortunately that requires an :any cast for non-interaction tracking capable builds.
+      // Is to avoid needing :any casts everywhere interaction tracing fields are used.
+      // Unfortunately that requires an :any cast for non-interaction tracing capable builds.
       // $FlowFixMe Remove this :any cast and replace it with something better.
       return root;
     }
@@ -17608,7 +17616,7 @@ if ('development' !== "production") {
             if (enableProfilerTimer) {
               var onRender = finishedWork.memoizedProps.onRender;
 
-              if (enableSchedulerTracking) {
+              if (enableSchedulerTracing) {
                 onRender(finishedWork.memoizedProps.id, current$$1 === null ? 'mount' : 'update', finishedWork.actualDuration, finishedWork.treeBaseDuration, finishedWork.actualStartTime, getCommitTime(), finishedRoot.memoizedInteractions);
               } else {
                 onRender(finishedWork.memoizedProps.id, current$$1 === null ? 'mount' : 'update', finishedWork.actualDuration, finishedWork.treeBaseDuration, finishedWork.actualStartTime, getCommitTime());
@@ -18463,10 +18471,10 @@ if ('development' !== "production") {
     var warnAboutUpdateOnUnmounted = void 0;
     var warnAboutInvalidUpdates = void 0;
 
-    if (enableSchedulerTracking) {
+    if (enableSchedulerTracing) {
       // Provide explicit error message when production+profiling bundle of e.g. react-dom
-      // is used with production (non-profiling) bundle of schedule/tracking
-      !(tracking.__interactionsRef != null && tracking.__interactionsRef.current != null) ? invariant(false, 'It is not supported to run the profiling version of a renderer (for example, `react-dom/profiling`) without also replacing the `schedule/tracking` module with `schedule/tracking-profiling`. Your bundler might have a setting for aliasing both modules. Learn more at http://fb.me/react-profiling') : void 0;
+      // is used with production (non-profiling) bundle of schedule/tracing
+      !(tracing.__interactionsRef != null && tracing.__interactionsRef.current != null) ? invariant(false, 'It is not supported to run the profiling version of a renderer (for example, `react-dom/profiling`) without also replacing the `schedule/tracing` module with `schedule/tracing-profiling`. Your bundler might have a setting for aliasing both modules. Learn more at http://fb.me/react-profiling') : void 0;
     }
 
     {
@@ -18807,12 +18815,12 @@ if ('development' !== "production") {
       markCommittedPriorityLevels(root, earliestRemainingTimeBeforeCommit);
 
       var prevInteractions = null;
-      var committedInteractions = enableSchedulerTracking ? [] : null;
-      if (enableSchedulerTracking) {
+      var committedInteractions = enableSchedulerTracing ? [] : null;
+      if (enableSchedulerTracing) {
         // Restore any pending interactions at this point,
         // So that cascading work triggered during the render phase will be accounted for.
-        prevInteractions = tracking.__interactionsRef.current;
-        tracking.__interactionsRef.current = root.memoizedInteractions;
+        prevInteractions = tracing.__interactionsRef.current;
+        tracing.__interactionsRef.current = root.memoizedInteractions;
 
         // We are potentially finished with the current batch of interactions.
         // So we should clear them out of the pending interaction map.
@@ -18960,13 +18968,13 @@ if ('development' !== "production") {
       }
       onCommit(root, earliestRemainingTimeAfterCommit);
 
-      if (enableSchedulerTracking) {
-        tracking.__interactionsRef.current = prevInteractions;
+      if (enableSchedulerTracing) {
+        tracing.__interactionsRef.current = prevInteractions;
 
         var subscriber = void 0;
 
         try {
-          subscriber = tracking.__subscriberRef.current;
+          subscriber = tracing.__subscriberRef.current;
           if (subscriber !== null && root.memoizedInteractions.size > 0) {
             var threadID = computeThreadID(committedExpirationTime, root.interactionThreadID);
             subscriber.onWorkStopped(root.memoizedInteractions, threadID);
@@ -19323,11 +19331,11 @@ if ('development' !== "production") {
       var expirationTime = root.nextExpirationTimeToWorkOn;
 
       var prevInteractions = null;
-      if (enableSchedulerTracking) {
-        // We're about to start new tracked work.
+      if (enableSchedulerTracing) {
+        // We're about to start new traced work.
         // Restore pending interactions so cascading work triggered during the render phase will be accounted for.
-        prevInteractions = tracking.__interactionsRef.current;
-        tracking.__interactionsRef.current = root.memoizedInteractions;
+        prevInteractions = tracing.__interactionsRef.current;
+        tracing.__interactionsRef.current = root.memoizedInteractions;
       }
 
       // Check if we're starting from a fresh stack, or if we're resuming from
@@ -19340,7 +19348,7 @@ if ('development' !== "production") {
         nextUnitOfWork = createWorkInProgress(nextRoot.current, null, nextRenderExpirationTime);
         root.pendingCommitExpirationTime = NoWork;
 
-        if (enableSchedulerTracking) {
+        if (enableSchedulerTracing) {
           // Determine which interactions this batch of work currently includes,
           // So that we can accurately attribute time spent working on it,
           var interactions = new Set();
@@ -19359,13 +19367,13 @@ if ('development' !== "production") {
           root.memoizedInteractions = interactions;
 
           if (interactions.size > 0) {
-            var subscriber = tracking.__subscriberRef.current;
+            var subscriber = tracing.__subscriberRef.current;
             if (subscriber !== null) {
               var threadID = computeThreadID(expirationTime, root.interactionThreadID);
               try {
                 subscriber.onWorkStarted(interactions, threadID);
               } catch (error) {
-                // Work thrown by an interaction tracking subscriber should be rethrown,
+                // Work thrown by an interaction tracing subscriber should be rethrown,
                 // But only once it's safe (to avoid leaveing the scheduler in an invalid state).
                 // Store the error for now and we'll re-throw in finishRendering().
                 if (!hasUnhandledError) {
@@ -19428,9 +19436,9 @@ if ('development' !== "production") {
         break;
       } while (true);
 
-      if (enableSchedulerTracking) {
-        // Tracked work is done for now; restore the previous interactions.
-        tracking.__interactionsRef.current = prevInteractions;
+      if (enableSchedulerTracing) {
+        // Traced work is done for now; restore the previous interactions.
+        tracing.__interactionsRef.current = prevInteractions;
       }
 
       // We're done performing work. Time to clean up.
@@ -19681,15 +19689,15 @@ if ('development' !== "production") {
         scheduleWorkToRoot(fiber, retryTime);
         var rootExpirationTime = root.expirationTime;
         if (rootExpirationTime !== NoWork) {
-          if (enableSchedulerTracking) {
+          if (enableSchedulerTracing) {
             // Restore previous interactions so that new work is associated with them.
-            var prevInteractions = tracking.__interactionsRef.current;
-            tracking.__interactionsRef.current = root.memoizedInteractions;
+            var prevInteractions = tracing.__interactionsRef.current;
+            tracing.__interactionsRef.current = root.memoizedInteractions;
             // Because suspense timeouts do not decrement the interaction count,
             // Continued suspense work should also not increment the count.
             storeInteractionsForExpirationTime(root, rootExpirationTime, false);
             requestWork(root, rootExpirationTime);
-            tracking.__interactionsRef.current = prevInteractions;
+            tracing.__interactionsRef.current = prevInteractions;
           } else {
             requestWork(root, rootExpirationTime);
           }
@@ -19730,11 +19738,11 @@ if ('development' !== "production") {
     }
 
     function storeInteractionsForExpirationTime(root, expirationTime, updateInteractionCounts) {
-      if (!enableSchedulerTracking) {
+      if (!enableSchedulerTracing) {
         return;
       }
 
-      var interactions = tracking.__interactionsRef.current;
+      var interactions = tracing.__interactionsRef.current;
       if (interactions.size > 0) {
         var pendingInteractions = root.pendingInteractionMap.get(expirationTime);
         if (pendingInteractions != null) {
@@ -19757,7 +19765,7 @@ if ('development' !== "production") {
           }
         }
 
-        var subscriber = tracking.__subscriberRef.current;
+        var subscriber = tracing.__subscriberRef.current;
         if (subscriber !== null) {
           var threadID = computeThreadID(expirationTime, root.interactionThreadID);
           subscriber.onWorkScheduled(interactions, threadID);
@@ -19783,7 +19791,7 @@ if ('development' !== "production") {
         return;
       }
 
-      if (enableSchedulerTracking) {
+      if (enableSchedulerTracing) {
         storeInteractionsForExpirationTime(root, expirationTime, true);
       }
 
@@ -19924,7 +19932,7 @@ if ('development' !== "production") {
         recomputeCurrentRendererTime();
         currentSchedulerTime = currentRendererTime;
 
-        if (enableSchedulerTracking) {
+        if (enableSchedulerTracing) {
           // Don't update pending interaction counts for suspense timeouts,
           // Because we know we still need to do more work in this case.
           suspenseDidTimeout = true;
@@ -20430,7 +20438,7 @@ if ('development' !== "production") {
       } finally {
         isBatchingUpdates = previousIsBatchingUpdates;
         if (!isBatchingUpdates && !isRendering) {
-          performWork(Sync, null);
+          performSyncWork();
         }
       }
     }
@@ -20607,7 +20615,7 @@ if ('development' !== "production") {
 
     // TODO: this is special because it gets imported during build.
 
-    var ReactVersion = '16.5.1';
+    var ReactVersion = '16.5.2';
 
     // TODO: This type is shared between the reconciler and ReactDOM, but will
     // eventually be lifted out to the renderer.
@@ -21107,7 +21115,7 @@ if ('development' !== "production") {
     module.exports = reactDom;
   })();
 }
-},{"react":"../../node_modules/react/index.js","object-assign":"../../../../node_modules/object-assign/index.js","prop-types/checkPropTypes":"../../../../node_modules/prop-types/checkPropTypes.js","schedule":"../../../../node_modules/schedule/index.js","schedule/tracking":"../../../../node_modules/schedule/tracking.js"}],"../../node_modules/react-dom/index.js":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","object-assign":"../../../../node_modules/object-assign/index.js","prop-types/checkPropTypes":"../../../../node_modules/prop-types/checkPropTypes.js","schedule":"../../../../node_modules/schedule/index.js","schedule/tracing":"../../../../node_modules/schedule/tracing.js"}],"../../node_modules/react-dom/index.js":[function(require,module,exports) {
 'use strict';
 
 function checkDCE() {
@@ -22535,7 +22543,7 @@ var styles = {
 exports['default'] = (0, _menuFactory2['default'])(styles);
 module.exports = exports['default'];
 },{"../menuFactory":"../../node_modules/react-burger-menu/lib/menuFactory.js"}],"../../node_modules/@offirmo/react-error-boundary/node_modules/react/cjs/react.development.js":[function(require,module,exports) {
-/** @license React v16.5.1
+/** @license React v16.5.2
  * react.development.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -22555,7 +22563,7 @@ if ('development' !== "production") {
 
     // TODO: this is special because it gets imported during build.
 
-    var ReactVersion = '16.5.1';
+    var ReactVersion = '16.5.2';
 
     // The Symbol used to tag the ReactElement-like types. If there is no native Symbol
     // nor polyfill, then a plain number is used for performance.
@@ -22616,7 +22624,7 @@ if ('development' !== "production") {
     // Gather advanced timing metrics for Profiler subtrees.
 
 
-    // Track which interactions trigger each commit.
+    // Trace which interactions trigger each commit.
 
 
     // Only used in www builds.
@@ -24423,416 +24431,39 @@ Object.defineProperty(Emittery.Typed, 'Typed', {
 });
 
 module.exports = Emittery;
-},{}],"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/node_modules/tslib/tslib.es6.js":[function(require,module,exports) {
-"use strict";
+},{}],"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/root-prototype.js":[function(require,module,exports) {
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+	value: true
 });
-exports.__extends = __extends;
-exports.__rest = __rest;
-exports.__decorate = __decorate;
-exports.__param = __param;
-exports.__metadata = __metadata;
-exports.__awaiter = __awaiter;
-exports.__generator = __generator;
-exports.__exportStar = __exportStar;
-exports.__values = __values;
-exports.__read = __read;
-exports.__spread = __spread;
-exports.__await = __await;
-exports.__asyncGenerator = __asyncGenerator;
-exports.__asyncDelegator = __asyncDelegator;
-exports.__asyncValues = __asyncValues;
-exports.__makeTemplateObject = __makeTemplateObject;
-exports.__importStar = __importStar;
-exports.__importDefault = __importDefault;
-/*! *****************************************************************************
-Copyright (c) Microsoft Corporation. All rights reserved.
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-this file except in compliance with the License. You may obtain a copy of the
-License at http://www.apache.org/licenses/LICENSE-2.0
+exports.ROOT_PROTOTYPE = undefined;
 
-THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
-WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
-MERCHANTABLITY OR NON-INFRINGEMENT.
+var _emittery = require('emittery');
 
-See the Apache Version 2.0 License for specific language governing permissions
-and limitations under the License.
-***************************************************************************** */
-/* global Reflect, Promise */
+var _emittery2 = _interopRequireDefault(_emittery);
 
-var extendStatics = function (d, b) {
-    extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function (d, b) {
-        d.__proto__ = b;
-    } || function (d, b) {
-        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    };
-    return extendStatics(d, b);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/////////////////////
+
+const ROOT_PROTOTYPE = Object.create(null);
+
+// global bus shared by all SECs
+ROOT_PROTOTYPE.emitter = new _emittery2.default();
+
+// common functions
+
+// because we often set the same details
+ROOT_PROTOTYPE.setAnalyticsAndErrorDetails = function setAnalyticsAndErrorDetails(details = {}) {
+	const SEC = this;
+	return SEC.setAnalyticsDetails(details).setErrorReportDetails(details);
 };
 
-function __extends(d, b) {
-    extendStatics(d, b);
-    function __() {
-        this.constructor = d;
-    }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-}
-
-var __assign = exports.__assign = function () {
-    exports.__assign = __assign = Object.assign || function __assign(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-
-function __rest(s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) if (e.indexOf(p[i]) < 0) t[p[i]] = s[p[i]];
-    return t;
-}
-
-function __decorate(decorators, target, key, desc) {
-    var c = arguments.length,
-        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-        d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-}
-
-function __param(paramIndex, decorator) {
-    return function (target, key) {
-        decorator(target, key, paramIndex);
-    };
-}
-
-function __metadata(metadataKey, metadataValue) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
-}
-
-function __awaiter(thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) {
-            try {
-                step(generator.next(value));
-            } catch (e) {
-                reject(e);
-            }
-        }
-        function rejected(value) {
-            try {
-                step(generator["throw"](value));
-            } catch (e) {
-                reject(e);
-            }
-        }
-        function step(result) {
-            result.done ? resolve(result.value) : new P(function (resolve) {
-                resolve(result.value);
-            }).then(fulfilled, rejected);
-        }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-}
-
-function __generator(thisArg, body) {
-    var _ = { label: 0, sent: function () {
-            if (t[0] & 1) throw t[1];return t[1];
-        }, trys: [], ops: [] },
-        f,
-        y,
-        t,
-        g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
-        return this;
-    }), g;
-    function verb(n) {
-        return function (v) {
-            return step([n, v]);
-        };
-    }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0:case 1:
-                    t = op;break;
-                case 4:
-                    _.label++;return { value: op[1], done: false };
-                case 5:
-                    _.label++;y = op[1];op = [0];continue;
-                case 7:
-                    op = _.ops.pop();_.trys.pop();continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
-                        _ = 0;continue;
-                    }
-                    if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
-                        _.label = op[1];break;
-                    }
-                    if (op[0] === 6 && _.label < t[1]) {
-                        _.label = t[1];t = op;break;
-                    }
-                    if (t && _.label < t[2]) {
-                        _.label = t[2];_.ops.push(op);break;
-                    }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop();continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) {
-            op = [6, e];y = 0;
-        } finally {
-            f = t = 0;
-        }
-        if (op[0] & 5) throw op[1];return { value: op[0] ? op[1] : void 0, done: true };
-    }
-}
-
-function __exportStar(m, exports) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
-
-function __values(o) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator],
-        i = 0;
-    if (m) return m.call(o);
-    return {
-        next: function () {
-            if (o && i >= o.length) o = void 0;
-            return { value: o && o[i++], done: !o };
-        }
-    };
-}
-
-function __read(o, n) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator];
-    if (!m) return o;
-    var i = m.call(o),
-        r,
-        ar = [],
-        e;
-    try {
-        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
-    } catch (error) {
-        e = { error: error };
-    } finally {
-        try {
-            if (r && !r.done && (m = i["return"])) m.call(i);
-        } finally {
-            if (e) throw e.error;
-        }
-    }
-    return ar;
-}
-
-function __spread() {
-    for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
-    return ar;
-}
-
-function __await(v) {
-    return this instanceof __await ? (this.v = v, this) : new __await(v);
-}
-
-function __asyncGenerator(thisArg, _arguments, generator) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var g = generator.apply(thisArg, _arguments || []),
-        i,
-        q = [];
-    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () {
-        return this;
-    }, i;
-    function verb(n) {
-        if (g[n]) i[n] = function (v) {
-            return new Promise(function (a, b) {
-                q.push([n, v, a, b]) > 1 || resume(n, v);
-            });
-        };
-    }
-    function resume(n, v) {
-        try {
-            step(g[n](v));
-        } catch (e) {
-            settle(q[0][3], e);
-        }
-    }
-    function step(r) {
-        r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r);
-    }
-    function fulfill(value) {
-        resume("next", value);
-    }
-    function reject(value) {
-        resume("throw", value);
-    }
-    function settle(f, v) {
-        if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]);
-    }
-}
-
-function __asyncDelegator(o) {
-    var i, p;
-    return i = {}, verb("next"), verb("throw", function (e) {
-        throw e;
-    }), verb("return"), i[Symbol.iterator] = function () {
-        return this;
-    }, i;
-    function verb(n, f) {
-        i[n] = o[n] ? function (v) {
-            return (p = !p) ? { value: __await(o[n](v)), done: n === "return" } : f ? f(v) : v;
-        } : f;
-    }
-}
-
-function __asyncValues(o) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var m = o[Symbol.asyncIterator],
-        i;
-    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () {
-        return this;
-    }, i);
-    function verb(n) {
-        i[n] = o[n] && function (v) {
-            return new Promise(function (resolve, reject) {
-                v = o[n](v), settle(resolve, reject, v.done, v.value);
-            });
-        };
-    }
-    function settle(resolve, reject, d, v) {
-        Promise.resolve(v).then(function (v) {
-            resolve({ value: v, done: d });
-        }, reject);
-    }
-}
-
-function __makeTemplateObject(cooked, raw) {
-    if (Object.defineProperty) {
-        Object.defineProperty(cooked, "raw", { value: raw });
-    } else {
-        cooked.raw = raw;
-    }
-    return cooked;
-};
-
-function __importStar(mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result.default = mod;
-    return result;
-}
-
-function __importDefault(mod) {
-    return mod && mod.__esModule ? mod : { default: mod };
-}
-},{}],"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/node_modules/@offirmo/timestamps/dist/src.es7.cjs/generate.js":[function(require,module,exports) {
-"use strict";
 /////////////////////
-Object.defineProperty(exports, "__esModule", { value: true });
-function get_UTC_timestamp_ms() {
-    return (+Date.now());
-}
-exports.get_UTC_timestamp_ms = get_UTC_timestamp_ms;
-/////////////////////
-function get_human_readable_UTC_timestamp_minutes(now = new Date()) {
-    const YYYY = now.getUTCFullYear();
-    const MM = ('0' + (now.getUTCMonth() + 1)).slice(-2);
-    const DD = ('0' + now.getUTCDate()).slice(-2);
-    const hh = ('0' + now.getUTCHours()).slice(-2);
-    const mm = ('0' + now.getUTCMinutes()).slice(-2);
-    return `${YYYY}${MM}${DD}_${hh}h${mm}`;
-}
-exports.get_human_readable_UTC_timestamp_minutes = get_human_readable_UTC_timestamp_minutes;
-function get_human_readable_UTC_timestamp_ms_v1(now = new Date()) {
-    const YYYY = now.getUTCFullYear();
-    const MM = ('0' + (now.getUTCMonth() + 1)).slice(-2);
-    const DD = ('0' + now.getUTCDate()).slice(-2);
-    const hh = ('0' + now.getUTCHours()).slice(-2);
-    const mm = ('0' + now.getUTCMinutes()).slice(-2);
-    const ss = ('0' + now.getUTCSeconds()).slice(-2);
-    const mmm = ('00' + now.getUTCMilliseconds()).slice(-3);
-    // TODO remove the ':' ?
-    return `${YYYY}${MM}${DD}_${hh}h${mm}:${ss}.${mmm}`;
-}
-exports.get_human_readable_UTC_timestamp_ms_v1 = get_human_readable_UTC_timestamp_ms_v1;
-function get_human_readable_UTC_timestamp_ms(now = new Date()) {
-    return 'ts1_' + get_human_readable_UTC_timestamp_ms_v1(now);
-}
-exports.get_human_readable_UTC_timestamp_ms = get_human_readable_UTC_timestamp_ms;
-/////////////////////
-//# sourceMappingURL=generate.js.map
-},{}],"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/node_modules/@offirmo/timestamps/dist/src.es7.cjs/parse.js":[function(require,module,exports) {
-"use strict";
-/////////////////////
-Object.defineProperty(exports, "__esModule", { value: true });
-/////////////////////
-function parse_human_readable_UTC_timestamp_ms_v1(tstamp) {
-    //console.log({tstamp})
-    // format: ${YYYY}${MM}${DD}_${hh}h${mm}:${ss}.${mmm}
-    if (tstamp.length !== 21)
-        throw new Error('Human-readable timestamp UTC/ms: cant parse! [wrong length]');
-    const [date_part, time_part] = tstamp.split('_');
-    //console.log({date_part, time_part})
-    if (date_part.length !== 8)
-        throw new Error('Human-readable timestamp UTC/ms: cant parse! [wrong date length]');
-    const YYYY_part = date_part.slice(0, 4);
-    const MM_part = date_part.slice(4, 6);
-    const DD_part = date_part.slice(6, 8);
-    const YYYY = Number(YYYY_part);
-    if (YYYY < 1970)
-        throw new Error('Human-readable timestamp UTC/ms: cant parse! [YYYY]');
-    const MM = Number(MM_part) - 1; // stupid spec
-    if (MM > 11)
-        throw new Error('Human-readable timestamp UTC/ms: cant parse! [MM]');
-    const DD = Number(DD_part);
-    if (DD > 31)
-        throw new Error('Human-readable timestamp UTC/ms: cant parse! [DD]');
-    if (time_part.length !== 12)
-        throw new Error('Human-readable timestamp UTC/ms: cant parse! [wrong time length]');
-    const hh_part = time_part.slice(0, 2);
-    const mm_part = time_part.slice(3, 5);
-    const ss_part = time_part.slice(6, 8);
-    const mmm_part = time_part.slice(9, 12);
-    //console.log({YYYY_part, MM_part, DD_part, hh_part, mm_part, ss_part, mmm_part})
-    const hh = Number(hh_part);
-    if (hh > 23)
-        throw new Error('Human-readable timestamp UTC/ms: cant parse! [hh]');
-    const mm = Number(mm_part);
-    if (mm > 59)
-        throw new Error('Human-readable timestamp UTC/ms: cant parse! [mm]');
-    const ss = Number(ss_part);
-    if (ss > 59)
-        throw new Error('Human-readable timestamp UTC/ms: cant parse! [ss]');
-    const mmm = Number(mmm_part);
-    //console.log({YYYY, MM, DD, hh, mm, ss, mmm})
-    return new Date(Date.UTC(YYYY, MM, DD, hh, mm, ss, mmm));
-}
-exports.parse_human_readable_UTC_timestamp_ms_v1 = parse_human_readable_UTC_timestamp_ms_v1;
-function parse_human_readable_UTC_timestamp_ms(tstamp) {
-    if (tstamp.startsWith('ts1_'))
-        return parse_human_readable_UTC_timestamp_ms_v1(tstamp.slice(4));
-    throw new Error('wrong timestamp, cant parse!');
-}
-exports.parse_human_readable_UTC_timestamp_ms = parse_human_readable_UTC_timestamp_ms;
-/////////////////////
-//# sourceMappingURL=parse.js.map
-},{}],"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/node_modules/@offirmo/timestamps/dist/src.es7.cjs/index.js":[function(require,module,exports) {
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
-tslib_1.__exportStar(require("./generate"), exports);
-tslib_1.__exportStar(require("./parse"), exports);
-//# sourceMappingURL=index.js.map
-},{"tslib":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/node_modules/tslib/tslib.es6.js","./generate":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/node_modules/@offirmo/timestamps/dist/src.es7.cjs/generate.js","./parse":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/node_modules/@offirmo/timestamps/dist/src.es7.cjs/parse.js"}],"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/state.js":[function(require,module,exports) {
+
+exports.ROOT_PROTOTYPE = ROOT_PROTOTYPE;
+},{"emittery":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/node_modules/emittery/index.js"}],"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/state.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -24855,7 +24486,7 @@ function create(parent_state) {
 	};
 }
 
-function activate_plugin(state, PLUGIN, args) {
+function activate_plugin(state, PLUGIN /*, args*/) {
 	const plugin_parent_state = state.parent ? state.parent.plugins[PLUGIN.id] : null;
 
 	let plugin_state = PLUGIN.state.create(plugin_parent_state);
@@ -24887,314 +24518,7 @@ function reduce_plugin(state, PLUGIN_ID, reducer) {
 exports.create = create;
 exports.activate_plugin = activate_plugin;
 exports.reduce_plugin = reduce_plugin;
-},{}],"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/utils.js":[function(require,module,exports) {
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-exports._flattenSEC = exports._getSECStatePath = exports.flattenToOwn = undefined;
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _constants = require('./constants');
-
-function flattenToOwn(object) {
-	if (!object) return object;
-	if (Array.isArray(object)) return object;
-	if (typeof object !== 'object') return object;
-
-	const res = Object.create(null);
-
-	for (const property in object) {
-		res[property] = object[property];
-	}
-
-	return res;
-}
-
-// needed for various tree traversal algorithms
-function _getSECStatePath(SEC) {
-	if (!SEC[_constants.INTERNAL_PROP].cache.statePath) {
-		const path = [];
-		let state = SEC[_constants.INTERNAL_PROP];
-
-		while (state) {
-			path.unshift(state);
-			state = state.parent;
-		}
-
-		SEC[_constants.INTERNAL_PROP].cache.statePath = path;
-	}
-
-	return SEC[_constants.INTERNAL_PROP].cache.statePath;
-}
-
-// for debug
-function _flattenSEC(SEC) {
-	const plugins = _extends({}, SEC[_constants.INTERNAL_PROP].plugins);
-
-	plugins.analytics.details = flattenToOwn(plugins.analytics.details);
-
-	plugins.dependency_injection.context = flattenToOwn(plugins.dependency_injection.context);
-
-	plugins.error_handling.details = flattenToOwn(plugins.error_handling.details);
-
-	plugins.logical_stack.stack = flattenToOwn(plugins.logical_stack.stack);
-
-	return plugins;
-}
-
-exports.flattenToOwn = flattenToOwn;
-exports._getSECStatePath = _getSECStatePath;
-exports._flattenSEC = _flattenSEC;
-},{"./constants":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/constants.js"}],"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/plugins/analytics/state.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-function create(parent_state) {
-	const details = parent_state ? Object.create(parent_state.details) : Object.create(null); // NO auto-details here, let's keep it simple. See core or platform specific code.
-
-	return {
-		details
-	};
-}
-
-function addDetail(state, key, value) {
-	const { details } = state;
-
-	details[key] = value;
-
-	return _extends({}, state, {
-		details
-	});
-}
-
-/////////////////////
-
-exports.create = create;
-exports.addDetail = addDetail;
-},{}],"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/plugins/dependency-injection/state.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-function create(parent_state) {
-	const context = parent_state ? Object.create(parent_state.context) : Object.create(null); // NO auto-injections here, let's keep it simple. See core.
-
-	return {
-		context
-	};
-}
-
-function injectDependencies(state, key, value) {
-	const { context } = state;
-
-	context[key] = value;
-
-	return _extends({}, state, {
-		context
-	});
-}
-
-/////////////////////
-
-exports.create = create;
-exports.injectDependencies = injectDependencies;
-},{}],"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/plugins/dependency-injection/index.js":[function(require,module,exports) {
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-exports.PLUGIN = exports.PLUGIN_ID = undefined;
-
-var _constants = require('../../constants');
-
-var _state = require('../../state');
-
-var TopState = _interopRequireWildcard(_state);
-
-var _state2 = require('./state');
-
-var State = _interopRequireWildcard(_state2);
-
-var _utils = require('../../utils');
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-const PLUGIN_ID = 'dependency_injection';
-
-const PLUGIN = {
-	id: PLUGIN_ID,
-	state: State,
-	augment: prototype => {
-
-		prototype.injectDependencies = function injectDependencies(deps) {
-			let root_state = this[_constants.INTERNAL_PROP];
-
-			root_state = TopState.reduce_plugin(root_state, PLUGIN_ID, state => {
-				Object.entries(deps).forEach(([key, value]) => {
-					state = State.injectDependencies(state, key, value);
-				});
-				return state;
-			});
-
-			this[_constants.INTERNAL_PROP] = root_state;
-
-			return this; // for chaining
-		};
-
-		prototype.getInjectedDependencies = function getInjectedDependencies() {
-			const plugin_state = this[_constants.INTERNAL_PROP].plugins[PLUGIN_ID];
-
-			return (0, _utils.flattenToOwn)(plugin_state.context);
-		};
-	}
-};
-
-exports.PLUGIN_ID = PLUGIN_ID;
-exports.PLUGIN = PLUGIN;
-},{"../../constants":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/constants.js","../../state":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/state.js","./state":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/plugins/dependency-injection/state.js","../../utils":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/utils.js"}],"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/plugins/analytics/index.js":[function(require,module,exports) {
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-exports.PLUGIN = exports.PLUGIN_ID = undefined;
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _timestamps = require('@offirmo/timestamps');
-
-var _constants = require('../../constants');
-
-var _state = require('../../state');
-
-var TopState = _interopRequireWildcard(_state);
-
-var _utils = require('../../utils');
-
-var _state2 = require('./state');
-
-var State = _interopRequireWildcard(_state2);
-
-var _dependencyInjection = require('../dependency-injection');
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-const PLUGIN_ID = 'analytics';
-
-const PLUGIN = {
-	id: PLUGIN_ID,
-	state: State,
-	augment: prototype => {
-
-		prototype.setAnalyticsDetails = function setAnalyticsDetails(details) {
-			const SEC = this;
-			let root_state = SEC[_constants.INTERNAL_PROP];
-
-			root_state = TopState.reduce_plugin(root_state, PLUGIN_ID, plugin_state => {
-				Object.entries(details).forEach(([key, value]) => {
-					plugin_state = State.addDetail(plugin_state, key, value);
-				});
-				return plugin_state;
-			});
-
-			this[_constants.INTERNAL_PROP] = root_state;
-
-			return SEC; // for chaining
-		};
-
-		prototype.fireAnalyticsEvent = function fireAnalyticsEvent(eventId, details = {}) {
-			const SEC = this;
-			const now = (0, _timestamps.get_UTC_timestamp_ms)();
-			let root_state = SEC[_constants.INTERNAL_PROP];
-
-			if (!eventId) throw new Error('Incorrect eventId!');
-
-			const { ENV } = SEC.getInjectedDependencies();
-
-			const autoDetails = {
-				ENV,
-				TIME: now,
-				SESSION_DURATION_MS: now - root_state.plugins[_dependencyInjection.PLUGIN_ID].context.SESSION_START_TIME
-			};
-			const userDetails = SEC.getAnalyticsDetails();
-			details = _extends({}, autoDetails, userDetails, details);
-
-			SEC.emitter.emit('analytics', { SEC, eventId, details });
-
-			return SEC; // for chaining
-		};
-
-		prototype.getAnalyticsDetails = function getAnalyticsDetails() {
-			const SEC = this;
-			const plugin_state = SEC[_constants.INTERNAL_PROP].plugins[PLUGIN_ID];
-
-			return (0, _utils.flattenToOwn)(plugin_state.details);
-		};
-	}
-};
-
-exports.PLUGIN_ID = PLUGIN_ID;
-exports.PLUGIN = PLUGIN;
-},{"@offirmo/timestamps":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/node_modules/@offirmo/timestamps/dist/src.es7.cjs/index.js","../../constants":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/constants.js","../../state":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/state.js","../../utils":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/utils.js","./state":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/plugins/analytics/state.js","../dependency-injection":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/plugins/dependency-injection/index.js"}],"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/root-prototype.js":[function(require,module,exports) {
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-exports.ROOT_PROTOTYPE = undefined;
-
-var _emittery = require('emittery');
-
-var _emittery2 = _interopRequireDefault(_emittery);
-
-var _analytics = require('./plugins/analytics');
-
-var _state = require('./plugins/analytics/state');
-
-var State = _interopRequireWildcard(_state);
-
-var _constants = require('./constants');
-
-var _state2 = require('./state');
-
-var TopState = _interopRequireWildcard(_state2);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/////////////////////
-
-const ROOT_PROTOTYPE = Object.create(null);
-
-// global bus shared by all SECs
-ROOT_PROTOTYPE.emitter = new _emittery2.default();
-
-// common functions
-
-// because we often set the same details
-ROOT_PROTOTYPE.setAnalyticsAndErrorDetails = function setAnalyticsAndErrorDetails(details = {}) {
-	const SEC = this;
-	return SEC.setAnalyticsDetails(details).setErrorReportDetails(details);
-};
-
-/////////////////////
-
-exports.ROOT_PROTOTYPE = ROOT_PROTOTYPE;
-},{"emittery":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/node_modules/emittery/index.js","./plugins/analytics":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/plugins/analytics/index.js","./plugins/analytics/state":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/plugins/analytics/state.js","./constants":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/constants.js","./state":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/state.js"}],"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/plugins/logical-stack/constants.js":[function(require,module,exports) {
+},{}],"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/plugins/logical-stack/constants.js":[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -25272,7 +24596,68 @@ function set_operation(state, operation) {
 exports.create = create;
 exports.set_module = set_module;
 exports.set_operation = set_operation;
-},{}],"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/plugins/logical-stack/index.js":[function(require,module,exports) {
+},{}],"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/utils.js":[function(require,module,exports) {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports._flattenSEC = exports._getSECStatePath = exports.flattenToOwn = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _constants = require('./constants');
+
+function flattenToOwn(object) {
+	if (!object) return object;
+	if (Array.isArray(object)) return object;
+	if (typeof object !== 'object') return object;
+
+	const res = Object.create(null);
+
+	for (const property in object) {
+		res[property] = object[property];
+	}
+
+	return res;
+}
+
+// needed for various tree traversal algorithms
+function _getSECStatePath(SEC) {
+	if (!SEC[_constants.INTERNAL_PROP].cache.statePath) {
+		const path = [];
+		let state = SEC[_constants.INTERNAL_PROP];
+
+		while (state) {
+			path.unshift(state);
+			state = state.parent;
+		}
+
+		SEC[_constants.INTERNAL_PROP].cache.statePath = path;
+	}
+
+	return SEC[_constants.INTERNAL_PROP].cache.statePath;
+}
+
+// for debug
+function _flattenSEC(SEC) {
+	const plugins = _extends({}, SEC[_constants.INTERNAL_PROP].plugins);
+
+	plugins.analytics.details = flattenToOwn(plugins.analytics.details);
+
+	plugins.dependency_injection.context = flattenToOwn(plugins.dependency_injection.context);
+
+	plugins.error_handling.details = flattenToOwn(plugins.error_handling.details);
+
+	plugins.logical_stack.stack = flattenToOwn(plugins.logical_stack.stack);
+
+	return plugins;
+}
+
+exports.flattenToOwn = flattenToOwn;
+exports._getSECStatePath = _getSECStatePath;
+exports._flattenSEC = _flattenSEC;
+},{"./constants":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/constants.js"}],"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/plugins/logical-stack/index.js":[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -25407,7 +24792,9 @@ const PLUGIN = {
 				logicalStack.short = SEC.getShortLogicalStack();
 				if (err.message.startsWith(logicalStack.short)) {
 					// can that happen??? It's a bug!
+					/* eslint-disable no-console */
 					console.warn('UNEXPECTED SEC non-decorated error already prefixed??');
+					/* eslint-enable no-console */
 				} else {
 					err.message = logicalStack.short + ': ' + err.message;
 				}
@@ -25423,7 +24810,92 @@ const PLUGIN = {
 };
 
 exports.PLUGIN = PLUGIN;
-},{"../../constants":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/constants.js","../../state":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/state.js","./constants":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/plugins/logical-stack/constants.js","./state":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/plugins/logical-stack/state.js","../../utils":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/utils.js"}],"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/node_modules/@offirmo/normalize-error/node_modules/@offirmo/common-error-fields/node_modules/tslib/tslib.es6.js":[function(require,module,exports) {
+},{"../../constants":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/constants.js","../../state":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/state.js","./constants":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/plugins/logical-stack/constants.js","./state":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/plugins/logical-stack/state.js","../../utils":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/utils.js"}],"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/plugins/dependency-injection/state.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function create(parent_state) {
+	const context = parent_state ? Object.create(parent_state.context) : Object.create(null); // NO auto-injections here, let's keep it simple. See core.
+
+	return {
+		context
+	};
+}
+
+function injectDependencies(state, key, value) {
+	const { context } = state;
+
+	context[key] = value;
+
+	return _extends({}, state, {
+		context
+	});
+}
+
+/////////////////////
+
+exports.create = create;
+exports.injectDependencies = injectDependencies;
+},{}],"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/plugins/dependency-injection/index.js":[function(require,module,exports) {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.PLUGIN = exports.PLUGIN_ID = undefined;
+
+var _constants = require('../../constants');
+
+var _state = require('../../state');
+
+var TopState = _interopRequireWildcard(_state);
+
+var _state2 = require('./state');
+
+var State = _interopRequireWildcard(_state2);
+
+var _utils = require('../../utils');
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+const PLUGIN_ID = 'dependency_injection';
+
+const PLUGIN = {
+	id: PLUGIN_ID,
+	state: State,
+	augment: prototype => {
+
+		prototype.injectDependencies = function injectDependencies(deps) {
+			let root_state = this[_constants.INTERNAL_PROP];
+
+			root_state = TopState.reduce_plugin(root_state, PLUGIN_ID, state => {
+				Object.entries(deps).forEach(([key, value]) => {
+					state = State.injectDependencies(state, key, value);
+				});
+				return state;
+			});
+
+			this[_constants.INTERNAL_PROP] = root_state;
+
+			return this; // for chaining
+		};
+
+		prototype.getInjectedDependencies = function getInjectedDependencies() {
+			const plugin_state = this[_constants.INTERNAL_PROP].plugins[PLUGIN_ID];
+
+			return (0, _utils.flattenToOwn)(plugin_state.context);
+		};
+	}
+};
+
+exports.PLUGIN_ID = PLUGIN_ID;
+exports.PLUGIN = PLUGIN;
+},{"../../constants":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/constants.js","../../state":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/state.js","./state":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/plugins/dependency-injection/state.js","../../utils":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/utils.js"}],"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/node_modules/@offirmo/normalize-error/node_modules/@offirmo/common-error-fields/node_modules/tslib/tslib.es6.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -25797,7 +25269,416 @@ function promiseTry(fn) {
 }
 exports.promiseTry = promiseTry;
 //# sourceMappingURL=index.js.map
-},{}],"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/plugins/error-handling/state.js":[function(require,module,exports) {
+},{}],"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/node_modules/tslib/tslib.es6.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.__extends = __extends;
+exports.__rest = __rest;
+exports.__decorate = __decorate;
+exports.__param = __param;
+exports.__metadata = __metadata;
+exports.__awaiter = __awaiter;
+exports.__generator = __generator;
+exports.__exportStar = __exportStar;
+exports.__values = __values;
+exports.__read = __read;
+exports.__spread = __spread;
+exports.__await = __await;
+exports.__asyncGenerator = __asyncGenerator;
+exports.__asyncDelegator = __asyncDelegator;
+exports.__asyncValues = __asyncValues;
+exports.__makeTemplateObject = __makeTemplateObject;
+exports.__importStar = __importStar;
+exports.__importDefault = __importDefault;
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at http://www.apache.org/licenses/LICENSE-2.0
+
+THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+MERCHANTABLITY OR NON-INFRINGEMENT.
+
+See the Apache Version 2.0 License for specific language governing permissions
+and limitations under the License.
+***************************************************************************** */
+/* global Reflect, Promise */
+
+var extendStatics = function (d, b) {
+    extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function (d, b) {
+        d.__proto__ = b;
+    } || function (d, b) {
+        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    };
+    return extendStatics(d, b);
+};
+
+function __extends(d, b) {
+    extendStatics(d, b);
+    function __() {
+        this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+var __assign = exports.__assign = function () {
+    exports.__assign = __assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+
+function __rest(s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) if (e.indexOf(p[i]) < 0) t[p[i]] = s[p[i]];
+    return t;
+}
+
+function __decorate(decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+
+function __param(paramIndex, decorator) {
+    return function (target, key) {
+        decorator(target, key, paramIndex);
+    };
+}
+
+function __metadata(metadataKey, metadataValue) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
+}
+
+function __awaiter(thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) {
+            try {
+                step(generator.next(value));
+            } catch (e) {
+                reject(e);
+            }
+        }
+        function rejected(value) {
+            try {
+                step(generator["throw"](value));
+            } catch (e) {
+                reject(e);
+            }
+        }
+        function step(result) {
+            result.done ? resolve(result.value) : new P(function (resolve) {
+                resolve(result.value);
+            }).then(fulfilled, rejected);
+        }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+}
+
+function __generator(thisArg, body) {
+    var _ = { label: 0, sent: function () {
+            if (t[0] & 1) throw t[1];return t[1];
+        }, trys: [], ops: [] },
+        f,
+        y,
+        t,
+        g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
+        return this;
+    }), g;
+    function verb(n) {
+        return function (v) {
+            return step([n, v]);
+        };
+    }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0:case 1:
+                    t = op;break;
+                case 4:
+                    _.label++;return { value: op[1], done: false };
+                case 5:
+                    _.label++;y = op[1];op = [0];continue;
+                case 7:
+                    op = _.ops.pop();_.trys.pop();continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+                        _ = 0;continue;
+                    }
+                    if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+                        _.label = op[1];break;
+                    }
+                    if (op[0] === 6 && _.label < t[1]) {
+                        _.label = t[1];t = op;break;
+                    }
+                    if (t && _.label < t[2]) {
+                        _.label = t[2];_.ops.push(op);break;
+                    }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop();continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) {
+            op = [6, e];y = 0;
+        } finally {
+            f = t = 0;
+        }
+        if (op[0] & 5) throw op[1];return { value: op[0] ? op[1] : void 0, done: true };
+    }
+}
+
+function __exportStar(m, exports) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+
+function __values(o) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator],
+        i = 0;
+    if (m) return m.call(o);
+    return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+}
+
+function __read(o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o),
+        r,
+        ar = [],
+        e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    } catch (error) {
+        e = { error: error };
+    } finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        } finally {
+            if (e) throw e.error;
+        }
+    }
+    return ar;
+}
+
+function __spread() {
+    for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
+    return ar;
+}
+
+function __await(v) {
+    return this instanceof __await ? (this.v = v, this) : new __await(v);
+}
+
+function __asyncGenerator(thisArg, _arguments, generator) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var g = generator.apply(thisArg, _arguments || []),
+        i,
+        q = [];
+    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () {
+        return this;
+    }, i;
+    function verb(n) {
+        if (g[n]) i[n] = function (v) {
+            return new Promise(function (a, b) {
+                q.push([n, v, a, b]) > 1 || resume(n, v);
+            });
+        };
+    }
+    function resume(n, v) {
+        try {
+            step(g[n](v));
+        } catch (e) {
+            settle(q[0][3], e);
+        }
+    }
+    function step(r) {
+        r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r);
+    }
+    function fulfill(value) {
+        resume("next", value);
+    }
+    function reject(value) {
+        resume("throw", value);
+    }
+    function settle(f, v) {
+        if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]);
+    }
+}
+
+function __asyncDelegator(o) {
+    var i, p;
+    return i = {}, verb("next"), verb("throw", function (e) {
+        throw e;
+    }), verb("return"), i[Symbol.iterator] = function () {
+        return this;
+    }, i;
+    function verb(n, f) {
+        i[n] = o[n] ? function (v) {
+            return (p = !p) ? { value: __await(o[n](v)), done: n === "return" } : f ? f(v) : v;
+        } : f;
+    }
+}
+
+function __asyncValues(o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator],
+        i;
+    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () {
+        return this;
+    }, i);
+    function verb(n) {
+        i[n] = o[n] && function (v) {
+            return new Promise(function (resolve, reject) {
+                v = o[n](v), settle(resolve, reject, v.done, v.value);
+            });
+        };
+    }
+    function settle(resolve, reject, d, v) {
+        Promise.resolve(v).then(function (v) {
+            resolve({ value: v, done: d });
+        }, reject);
+    }
+}
+
+function __makeTemplateObject(cooked, raw) {
+    if (Object.defineProperty) {
+        Object.defineProperty(cooked, "raw", { value: raw });
+    } else {
+        cooked.raw = raw;
+    }
+    return cooked;
+};
+
+function __importStar(mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result.default = mod;
+    return result;
+}
+
+function __importDefault(mod) {
+    return mod && mod.__esModule ? mod : { default: mod };
+}
+},{}],"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/node_modules/@offirmo/timestamps/dist/src.es7.cjs/generate.js":[function(require,module,exports) {
+"use strict";
+/////////////////////
+Object.defineProperty(exports, "__esModule", { value: true });
+function get_UTC_timestamp_ms() {
+    return (+Date.now());
+}
+exports.get_UTC_timestamp_ms = get_UTC_timestamp_ms;
+/////////////////////
+function get_human_readable_UTC_timestamp_minutes(now = new Date()) {
+    const YYYY = now.getUTCFullYear();
+    const MM = ('0' + (now.getUTCMonth() + 1)).slice(-2);
+    const DD = ('0' + now.getUTCDate()).slice(-2);
+    const hh = ('0' + now.getUTCHours()).slice(-2);
+    const mm = ('0' + now.getUTCMinutes()).slice(-2);
+    return `${YYYY}${MM}${DD}_${hh}h${mm}`;
+}
+exports.get_human_readable_UTC_timestamp_minutes = get_human_readable_UTC_timestamp_minutes;
+function get_human_readable_UTC_timestamp_ms_v1(now = new Date()) {
+    const YYYY = now.getUTCFullYear();
+    const MM = ('0' + (now.getUTCMonth() + 1)).slice(-2);
+    const DD = ('0' + now.getUTCDate()).slice(-2);
+    const hh = ('0' + now.getUTCHours()).slice(-2);
+    const mm = ('0' + now.getUTCMinutes()).slice(-2);
+    const ss = ('0' + now.getUTCSeconds()).slice(-2);
+    const mmm = ('00' + now.getUTCMilliseconds()).slice(-3);
+    // TODO remove the ':' ?
+    return `${YYYY}${MM}${DD}_${hh}h${mm}:${ss}.${mmm}`;
+}
+exports.get_human_readable_UTC_timestamp_ms_v1 = get_human_readable_UTC_timestamp_ms_v1;
+function get_human_readable_UTC_timestamp_ms(now = new Date()) {
+    return 'ts1_' + get_human_readable_UTC_timestamp_ms_v1(now);
+}
+exports.get_human_readable_UTC_timestamp_ms = get_human_readable_UTC_timestamp_ms;
+/////////////////////
+//# sourceMappingURL=generate.js.map
+},{}],"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/node_modules/@offirmo/timestamps/dist/src.es7.cjs/parse.js":[function(require,module,exports) {
+"use strict";
+/////////////////////
+Object.defineProperty(exports, "__esModule", { value: true });
+/////////////////////
+function parse_human_readable_UTC_timestamp_ms_v1(tstamp) {
+    //console.log({tstamp})
+    // format: ${YYYY}${MM}${DD}_${hh}h${mm}:${ss}.${mmm}
+    if (tstamp.length !== 21)
+        throw new Error('Human-readable timestamp UTC/ms: can’t parse! [wrong length]');
+    const [date_part, time_part] = tstamp.split('_');
+    //console.log({date_part, time_part})
+    if (date_part.length !== 8)
+        throw new Error('Human-readable timestamp UTC/ms: can’t parse! [wrong date length]');
+    const YYYY_part = date_part.slice(0, 4);
+    const MM_part = date_part.slice(4, 6);
+    const DD_part = date_part.slice(6, 8);
+    const YYYY = Number(YYYY_part);
+    if (YYYY < 1970)
+        throw new Error('Human-readable timestamp UTC/ms: can’t parse! [YYYY]');
+    const MM = Number(MM_part) - 1; // stupid spec
+    if (MM > 11)
+        throw new Error('Human-readable timestamp UTC/ms: can’t parse! [MM]');
+    const DD = Number(DD_part);
+    if (DD > 31)
+        throw new Error('Human-readable timestamp UTC/ms: can’t parse! [DD]');
+    if (time_part.length !== 12)
+        throw new Error('Human-readable timestamp UTC/ms: can’t parse! [wrong time length]');
+    const hh_part = time_part.slice(0, 2);
+    const mm_part = time_part.slice(3, 5);
+    const ss_part = time_part.slice(6, 8);
+    const mmm_part = time_part.slice(9, 12);
+    //console.log({YYYY_part, MM_part, DD_part, hh_part, mm_part, ss_part, mmm_part})
+    const hh = Number(hh_part);
+    if (hh > 23)
+        throw new Error('Human-readable timestamp UTC/ms: can’t parse! [hh]');
+    const mm = Number(mm_part);
+    if (mm > 59)
+        throw new Error('Human-readable timestamp UTC/ms: can’t parse! [mm]');
+    const ss = Number(ss_part);
+    if (ss > 59)
+        throw new Error('Human-readable timestamp UTC/ms: can’t parse! [ss]');
+    const mmm = Number(mmm_part);
+    //console.log({YYYY, MM, DD, hh, mm, ss, mmm})
+    return new Date(Date.UTC(YYYY, MM, DD, hh, mm, ss, mmm));
+}
+exports.parse_human_readable_UTC_timestamp_ms_v1 = parse_human_readable_UTC_timestamp_ms_v1;
+function parse_human_readable_UTC_timestamp_ms(tstamp) {
+    if (tstamp.startsWith('ts1_'))
+        return parse_human_readable_UTC_timestamp_ms_v1(tstamp.slice(4));
+    throw new Error('wrong timestamp, can’t parse!');
+}
+exports.parse_human_readable_UTC_timestamp_ms = parse_human_readable_UTC_timestamp_ms;
+/////////////////////
+//# sourceMappingURL=parse.js.map
+},{}],"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/node_modules/@offirmo/timestamps/dist/src.es7.cjs/index.js":[function(require,module,exports) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
+tslib_1.__exportStar(require("./generate"), exports);
+tslib_1.__exportStar(require("./parse"), exports);
+//# sourceMappingURL=index.js.map
+},{"tslib":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/node_modules/tslib/tslib.es6.js","./generate":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/node_modules/@offirmo/timestamps/dist/src.es7.cjs/generate.js","./parse":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/node_modules/@offirmo/timestamps/dist/src.es7.cjs/parse.js"}],"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/plugins/error-handling/state.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -25809,8 +25690,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 /////////////////////
 
 function create(parent_state) {
-	const details = parent_state ? Object.create(parent_state.details) : Object.create(null); // NO auto-details here, let's keep it simple + usually shared with analytics
-	// . See core or platform specific code.
+	const details = parent_state ? Object.create(parent_state.details) : Object.create(null); // NO auto-details here, let's keep it simple + usually shared with analytics. See core or platform specific code.
 
 	return {
 		details
@@ -25847,11 +25727,13 @@ function createCatcher({ decorators = [], onError, debugId = '?' } = {}) {
 				err = decorator(err);
 				if (!err.message) throw new Error();
 			} catch (decoratorErr) {
+				/* eslint-disable no-console */
 				console.error(`catchFactory exec from ${debugId}: bad decorator!`, {
 					err,
 					decoratorErr,
 					'decorator.name': decorator.name
 				});
+				/* eslint-enable no-console */
 			}
 			return err;
 		}, err);
@@ -26033,7 +25915,122 @@ const PLUGIN = {
 };
 
 exports.PLUGIN = PLUGIN;
-},{"@offirmo/normalize-error":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/node_modules/@offirmo/normalize-error/dist/src.es7.cjs/index.js","@offirmo/promise-try":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/node_modules/@offirmo/promise-try/dist/src.es7.cjs/index.js","@offirmo/timestamps":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/node_modules/@offirmo/timestamps/dist/src.es7.cjs/index.js","../../constants":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/constants.js","../../utils":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/utils.js","./state":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/plugins/error-handling/state.js","./catch-factory":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/plugins/error-handling/catch-factory.js","../dependency-injection/index":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/plugins/dependency-injection/index.js","../../state":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/state.js"}],"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/plugins/index.js":[function(require,module,exports) {
+},{"@offirmo/normalize-error":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/node_modules/@offirmo/normalize-error/dist/src.es7.cjs/index.js","@offirmo/promise-try":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/node_modules/@offirmo/promise-try/dist/src.es7.cjs/index.js","@offirmo/timestamps":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/node_modules/@offirmo/timestamps/dist/src.es7.cjs/index.js","../../constants":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/constants.js","../../utils":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/utils.js","./state":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/plugins/error-handling/state.js","./catch-factory":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/plugins/error-handling/catch-factory.js","../dependency-injection/index":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/plugins/dependency-injection/index.js","../../state":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/state.js"}],"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/plugins/analytics/state.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function create(parent_state) {
+	const details = parent_state ? Object.create(parent_state.details) : Object.create(null); // NO auto-details here, let's keep it simple. See core or platform specific code.
+
+	return {
+		details
+	};
+}
+
+function addDetail(state, key, value) {
+	const { details } = state;
+
+	details[key] = value;
+
+	return _extends({}, state, {
+		details
+	});
+}
+
+/////////////////////
+
+exports.create = create;
+exports.addDetail = addDetail;
+},{}],"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/plugins/analytics/index.js":[function(require,module,exports) {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.PLUGIN = exports.PLUGIN_ID = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _timestamps = require('@offirmo/timestamps');
+
+var _constants = require('../../constants');
+
+var _state = require('../../state');
+
+var TopState = _interopRequireWildcard(_state);
+
+var _utils = require('../../utils');
+
+var _state2 = require('./state');
+
+var State = _interopRequireWildcard(_state2);
+
+var _dependencyInjection = require('../dependency-injection');
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+const PLUGIN_ID = 'analytics';
+
+const PLUGIN = {
+	id: PLUGIN_ID,
+	state: State,
+	augment: prototype => {
+
+		prototype.setAnalyticsDetails = function setAnalyticsDetails(details) {
+			const SEC = this;
+			let root_state = SEC[_constants.INTERNAL_PROP];
+
+			root_state = TopState.reduce_plugin(root_state, PLUGIN_ID, plugin_state => {
+				Object.entries(details).forEach(([key, value]) => {
+					plugin_state = State.addDetail(plugin_state, key, value);
+				});
+				return plugin_state;
+			});
+
+			this[_constants.INTERNAL_PROP] = root_state;
+
+			return SEC; // for chaining
+		};
+
+		prototype.fireAnalyticsEvent = function fireAnalyticsEvent(eventId, details = {}) {
+			const SEC = this;
+			const now = (0, _timestamps.get_UTC_timestamp_ms)();
+			let root_state = SEC[_constants.INTERNAL_PROP];
+
+			if (!eventId) throw new Error('Incorrect eventId!');
+
+			const { ENV } = SEC.getInjectedDependencies();
+
+			const autoDetails = {
+				ENV,
+				TIME: now,
+				SESSION_DURATION_MS: now - root_state.plugins[_dependencyInjection.PLUGIN_ID].context.SESSION_START_TIME
+			};
+			const userDetails = SEC.getAnalyticsDetails();
+			details = _extends({}, autoDetails, userDetails, details);
+
+			SEC.emitter.emit('analytics', { SEC, eventId, details });
+
+			return SEC; // for chaining
+		};
+
+		prototype.getAnalyticsDetails = function getAnalyticsDetails() {
+			const SEC = this;
+			const plugin_state = SEC[_constants.INTERNAL_PROP].plugins[PLUGIN_ID];
+
+			return (0, _utils.flattenToOwn)(plugin_state.details);
+		};
+	}
+};
+
+exports.PLUGIN_ID = PLUGIN_ID;
+exports.PLUGIN = PLUGIN;
+},{"@offirmo/timestamps":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/node_modules/@offirmo/timestamps/dist/src.es7.cjs/index.js","../../constants":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/constants.js","../../state":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/state.js","../../utils":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/utils.js","./state":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/plugins/analytics/state.js","../dependency-injection":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/plugins/dependency-injection/index.js"}],"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/plugins/index.js":[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -26063,6 +26060,11 @@ exports.PLUGINS = PLUGINS;
 },{"./logical-stack/index":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/plugins/logical-stack/index.js","./dependency-injection/index":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/plugins/dependency-injection/index.js","./error-handling/index":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/plugins/error-handling/index.js","./analytics/index":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/plugins/analytics/index.js"}],"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/common.js":[function(require,module,exports) {
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.decorateWithDetectedEnv = undefined;
+
 var _timestamps = require('@offirmo/timestamps');
 
 function decorateWithDetectedEnv(SEC) {
@@ -26087,11 +26089,8 @@ function decorateWithDetectedEnv(SEC) {
 		ENV,
 		CHANNEL
 	});
-}
-
-module.exports = {
-	decorateWithDetectedEnv
-};
+} /* global NODE_ENV */
+exports.decorateWithDetectedEnv = decorateWithDetectedEnv;
 },{"@offirmo/timestamps":"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/node_modules/@offirmo/timestamps/dist/src.es7.cjs/index.js"}],"../../node_modules/@offirmo/react-error-boundary/node_modules/@offirmo/soft-execution-context/src/core.js":[function(require,module,exports) {
 'use strict';
 
@@ -26280,7 +26279,7 @@ function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in ob
 
 const DEFAULT_CONTENT = _react2.default.createElement(
 	'span',
-	null,
+	{ className: `o⋄error-report error-boundary-report-${name}` },
 	'ErrorBoundary: no children nor render prop!'
 );
 
@@ -26427,7 +26426,7 @@ class ContextProvider extends _react2.default.Component {
 			}));
 		};
 
-		this.state.goToScreenIndex = index => {
+		this.state.goToScreenIndex = this.state.onScreenIndexChange = index => {
 			this.setState(state => ({
 				screenIndex: index
 			}));
@@ -26539,7 +26538,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const PAGE_WRAP_ID = 'oh-my-rpg-ui__page-wrap';
 const OUTER_CONTAINER_ID = 'oh-my-rpg-ui__outer-container';
 
-function BurgerMenuWrapper({ onStateChange, toggleBurgerMenu, mainContent, burgerPanelContent }) {
+function BurgerMenuWrapper({ onStateChange, toggleBurgerMenu, mainContent, logo, burgerPanelContent }) {
 	return _react2.default.createElement(
 		_stateContext.OhMyRPGUIContext.Consumer,
 		null,
@@ -26557,6 +26556,8 @@ function BurgerMenuWrapper({ onStateChange, toggleBurgerMenu, mainContent, burge
 				_react2.default.createElement(
 					_reactErrorBoundary2.default,
 					{ name: 'omr:burger-menu:menu' },
+					logo,
+					_react2.default.createElement('br', null),
 					burgerPanelContent
 				)
 			),
@@ -26986,7 +26987,7 @@ if (_inDOM2.default) {
 exports.default = off;
 module.exports = exports['default'];
 },{"../util/inDOM":"../../../../node_modules/dom-helpers/util/inDOM.js"}],"../../../../node_modules/react/cjs/react.development.js":[function(require,module,exports) {
-/** @license React v16.5.1
+/** @license React v16.5.2
  * react.development.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -27006,7 +27007,7 @@ if ('development' !== "production") {
 
     // TODO: this is special because it gets imported during build.
 
-    var ReactVersion = '16.5.1';
+    var ReactVersion = '16.5.2';
 
     // The Symbol used to tag the ReactElement-like types. If there is no native Symbol
     // nor polyfill, then a plain number is used for performance.
@@ -27067,7 +27068,7 @@ if ('development' !== "production") {
     // Gather advanced timing metrics for Profiler subtrees.
 
 
-    // Track which interactions trigger each commit.
+    // Trace which interactions trigger each commit.
 
 
     // Only used in www builds.
@@ -31335,7 +31336,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 const VirtualizeSwipeableViews = (0, _reactSwipeableViewsUtils.bindKeyboard)((0, _reactSwipeableViewsUtils.virtualize)(_reactSwipeableViews2.default));
 
-function HudTopLeft({ isBurgerMenuOpen, openBurgerMenu, logo, toggleAbout, universeAnchor }) {
+function TopLeftHud({ isBurgerMenuOpen, openBurgerMenu, logo, toggleAbout, universeAnchor }) {
 	return _react2.default.createElement(
 		'div',
 		{ className: 'omr\u22C4hud\u205Atop-left' },
@@ -31365,35 +31366,38 @@ function HudTopLeft({ isBurgerMenuOpen, openBurgerMenu, logo, toggleAbout, unive
 	);
 }
 
-function SwipableContent({ isBurgerMenuOpen, screenIndex }) {
-	return _react2.default.createElement(
+function BottomRightHud({ bottomMenuItems }) {
+	return bottomMenuItems.length > 0 && _react2.default.createElement(
 		'div',
-		{ className: 'omr\u22C4hud\u205Atop-left' },
+		{ className: 'omr\u22C4hud\u205Abottom-right' },
 		_react2.default.createElement(
 			'div',
-			{ className: 'omr\u22C4hamburger', onClick: openBurgerMenu },
-			isBurgerMenuOpen ? _react2.default.createElement('span', { className: 'icomoon-undo2' }) : _react2.default.createElement('span', { className: 'icomoon-menu' })
-		),
-		logo && _react2.default.createElement(
-			'div',
-			{ className: 'omr\u22C4logo', onClick: toggleAbout },
+			{ className: 'omr\u22C4bottom-menu' },
 			_react2.default.createElement(
 				_reactErrorBoundary2.default,
-				{ name: 'omr:logo' },
-				logo
-			)
-		),
-		logo && universeAnchor && _react2.default.createElement(
-			'div',
-			{ className: 'omr\u22C4universe-anchor' },
-			_react2.default.createElement(
-				_reactErrorBoundary2.default,
-				{ name: 'omr:universe-anchor' },
-				universeAnchor
+				{ name: 'omr:bottom-menu' },
+				bottomMenuItems
 			)
 		)
 	);
 }
+
+/*
+function SwipableContent({isBurgerMenuOpen, screenIndex, screens, immersionSlidesRenderer, onScreenIndexChange}) {
+	return (
+		<VirtualizeSwipeableViews
+			enableMouseEvents={true}
+			index={screenIndex}
+			onChangeIndex={onScreenIndexChange}
+			style={{}}
+			slideRenderer={immersionSlidesRenderer}
+			slideCount={}
+		/>
+	)
+}
+*/
+
+function Content() {}
 
 function Main({ children, logo, universeAnchor, bottomMenuItems, aboutContent }) {
 	return _react2.default.createElement(
@@ -31406,30 +31410,13 @@ function Main({ children, logo, universeAnchor, bottomMenuItems, aboutContent })
 				'div',
 				{ className: 'o\u22C4top-container' },
 				_react2.default.createElement('div', { className: 'omr\u22C4hud\u205Ashifts-hider' }),
-				_react2.default.createElement(HudTopLeft, { isBurgerMenuOpen, openBurgerMenu, logo, toggleAbout, universeAnchor }),
+				_react2.default.createElement(TopLeftHud, { isBurgerMenuOpen, openBurgerMenu, logo, toggleAbout, universeAnchor }),
 				_react2.default.createElement(
 					_reactErrorBoundary2.default,
 					{ name: 'omr:content' },
-					_react2.default.createElement(
-						_reactSwipeableViews2.default,
-						null,
-						children
-					)
+					children
 				),
-				bottomMenuItems.length > 0 && _react2.default.createElement(
-					'div',
-					{ className: 'omr\u22C4hud\u205Abottom-right' },
-					_react2.default.createElement(
-						'div',
-						{ className: 'omr\u22C4bottom-menu' },
-						_react2.default.createElement(
-							_reactErrorBoundary2.default,
-							{ name: 'omr:bottom-menu' },
-							bottomMenuItems,
-							_react2.default.createElement('div', { className: 'omr\u22C4bottom-menu--selected-indicator' })
-						)
-					)
-				),
+				_react2.default.createElement(BottomRightHud, { bottomMenuItems }),
 				isAboutOpen && _react2.default.createElement(
 					'div',
 					{
@@ -31440,6 +31427,8 @@ function Main({ children, logo, universeAnchor, bottomMenuItems, aboutContent })
 					_react2.default.createElement(
 						_reactErrorBoundary2.default,
 						{ name: 'omr:about-blanket' },
+						logo,
+						_react2.default.createElement('br', null),
 						aboutContent
 					)
 				)
@@ -31453,6 +31442,7 @@ Main.defaultProps = {
 		null,
 		'[Game name/logo here]'
 	),
+	immersionSlides: [],
 	bottomMenuItems: [],
 	aboutContent: _react2.default.createElement(
 		'span',
@@ -31624,6 +31614,10 @@ var _stateContext2 = _interopRequireDefault(_stateContext);
 
 require('./index.css');
 
+var _reactErrorBoundary = require('@offirmo/react-error-boundary');
+
+var _reactErrorBoundary2 = _interopRequireDefault(_reactErrorBoundary);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 class OhMyRpgUI extends _react.Component {
@@ -31634,6 +31628,7 @@ class OhMyRpgUI extends _react.Component {
 			_stateContext2.default,
 			null,
 			_react2.default.createElement(_burgerMenuWrapper2.default, {
+				logo: this.props.logo,
 				burgerPanelContent: this.props.burgerPanelContent,
 				mainContent: _react2.default.createElement(_omr2.default, this.props)
 			})
@@ -31643,7 +31638,7 @@ class OhMyRpgUI extends _react.Component {
 
 exports.OhMyRpgUI = OhMyRpgUI;
 exports.default = OhMyRpgUI;
-},{"react":"../../node_modules/react/index.js","./burger-menu-wrapper":"../../src/components/burger-menu-wrapper/index.jsx","./omr":"../../src/components/omr/index.jsx","./state-context":"../../src/components/state-context/index.jsx","./index.css":"../../src/components/index.css"}],"../../src/index.jsx":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","./burger-menu-wrapper":"../../src/components/burger-menu-wrapper/index.jsx","./omr":"../../src/components/omr/index.jsx","./state-context":"../../src/components/state-context/index.jsx","./index.css":"../../src/components/index.css","@offirmo/react-error-boundary":"../../node_modules/@offirmo/react-error-boundary/src/error-boundary.jsx"}],"../../src/index.jsx":[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31705,12 +31700,34 @@ class ViewBrowserReactDemo extends _react.Component {
 
 				bottomMenuItems: [_react2.default.createElement('span', { key: 'explore', className: 'omr\u22C4bottom-menu\u205Aicon icomoon-treasure-map' }), _react2.default.createElement('span', { key: 'inventory', className: 'omr\u22C4bottom-menu\u205Aicon icomoon-locked-chest' }), _react2.default.createElement('span', { key: 'character', className: 'omr\u22C4bottom-menu\u205Aicon icomoon-battle-gear' }), _react2.default.createElement('span', { key: 'chat', className: 'omr\u22C4bottom-menu\u205Aicon icomoon-conversation' })]
 			},
-			'Main area. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+			_react2.default.createElement(
+				'div',
+				{ className: 'o\u22C4top-container omr\u22C4text-with-shadow omr\u22C4bg-image\u205Aparchment-xxl' },
+				'Hello'
+			)
 		);
 	}
 }
 
-exports.default = ViewBrowserReactDemo; // logo={<img src={logo} height="100%" />}
+exports.default = ViewBrowserReactDemo; /*
+                                        				slides={[
+                                        					{
+                                        						icon: <span key="explore" className="omr⋄bottom-menu⁚icon icomoon-treasure-map" />,
+                                        						content: <div>Main area. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>,
+                                        					},
+                                        					{
+                                        						icon: <span key="inventory" className="omr⋄bottom-menu⁚icon icomoon-locked-chest" />,
+                                        						content: <div>Main area. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>,
+                                        					},
+                                        					{
+                                        						icon: <span key="character" className="omr⋄bottom-menu⁚icon icomoon-battle-gear" />,
+                                        						content: <div>Main area. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>,
+                                        					},
+                                        					{
+                                        						icon: <span key="chat" className="omr⋄bottom-menu⁚icon icomoon-conversation" />,
+                                        					},
+                                         */
+// logo={<img src={logo} height="100%" />}
 
 const mountNode = document.getElementById('root');
 _reactDom2.default.render(_react2.default.createElement(ViewBrowserReactDemo, null), mountNode);
@@ -31743,7 +31760,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '63480' + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '61446' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 

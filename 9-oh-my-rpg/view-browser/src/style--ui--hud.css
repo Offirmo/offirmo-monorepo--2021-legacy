@@ -291,7 +291,8 @@
 
 	color: var(--o⋄color--fg⁚main);
 	border: solid calc(1px * var(--scale)) var(--o⋄color--fg⁚main);
-	background-color: var(--o⋄color--bg⁚main--translucent);
+	background-color: var(--o⋄color--bg⁚main--backdrop);
+/*	background-color: var(--o⋄color--bg⁚main--translucent);*/
 
 	position: fixed;
 	--position-shift: calc(var(--height) * (1 - var(--visible-ratio)));

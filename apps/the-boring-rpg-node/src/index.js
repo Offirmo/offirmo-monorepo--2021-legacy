@@ -8,8 +8,7 @@ var PACKAGE_JSON_PATH = require('path').join('.', 'package.json')
 var package_json = loadJsonFile.sync(PACKAGE_JSON_PATH)
 var semver = require('semver')
 if (!semver.satisfies(process.version, package_json.engines.node)) {
-	console.error('ERROR: Invalid node, must be: ' + package_json.engines.node + '!\n')
-	process.exit(3)
+	throw new Error('Invalid node, must be: ' + package_json.engines.node + '!\n')
 }
 
 /////////////////////////////////////////////////

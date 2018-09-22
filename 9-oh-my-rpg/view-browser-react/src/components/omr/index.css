@@ -8,3 +8,12 @@
 	width: 100%;
 	background-color: var(--o⋄color--bg⁚main--backdrop);
 }
+
+
+#about-panel .omr-auto-logo {
+	width: 300px;
+	margin: 0 auto;
+}
+#about-panel .omr-auto-logo img {
+	width: 100%;
+}

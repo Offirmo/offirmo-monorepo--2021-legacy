@@ -265,6 +265,8 @@ function create({DEBUG, shouldCenter}) {
 					? msgg_acknowledge(success)
 					: msg
 				console.log(final_msg)
+
+				return true
 			})
 			.catch(err => {
 				console.error('unexpected', err)
@@ -324,7 +326,6 @@ function create({DEBUG, shouldCenter}) {
 		case '↔':
 		default:
 			throw new Error('display_message(): incorrect side!')
-			break
 		}
 		msg = indent_string(
 			msg,

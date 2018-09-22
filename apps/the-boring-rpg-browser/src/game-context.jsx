@@ -68,12 +68,12 @@ class GameContextAsPropsListener extends React.Component {
 	}
 
 	render() {
-	  return this.props.children(game_instance)
+		return this.props.children(game_instance)
 	}
 }
 
 function GameContextConsumerListener({children}) {
-	 return (
+	return (
 		<GameContext.Consumer>
 			{game_instance => {
 				//console.log('GameContextConsumerListener re-called')
@@ -84,7 +84,7 @@ function GameContextConsumerListener({children}) {
 				)
 			}}
 		</GameContext.Consumer>
-	 )
+	)
 }
 
 export {

@@ -97,7 +97,7 @@ const on_concatenate_sub_node = ({ state, sub_state, $node, $id, $parent_node },
             sub_str = bullet + sub_str;
             break;
         }
-        case 'ol':
+        case 'ol': {
             // automake sub-state a ol > li
             const bullet = (() => {
                 if (style === 'markdown')
@@ -107,6 +107,7 @@ const on_concatenate_sub_node = ({ state, sub_state, $node, $id, $parent_node },
             sub_starts_with_block = true;
             sub_str = bullet + sub_str;
             break;
+        }
         default:
             break;
     }

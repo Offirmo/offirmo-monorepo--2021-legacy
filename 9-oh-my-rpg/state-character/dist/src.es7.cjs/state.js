@@ -23,7 +23,7 @@ const CHARACTER_ATTRIBUTES_SORTED = [
 exports.CHARACTER_ATTRIBUTES_SORTED = CHARACTER_ATTRIBUTES_SORTED;
 sec_1.get_lib_SEC().xTry('boot checks', () => {
     if (CHARACTER_ATTRIBUTES.length !== CHARACTER_ATTRIBUTES_SORTED.length)
-        throw new Error(`CHARACTER_ATTRIBUTES to update!`);
+        throw new Error('CHARACTER_ATTRIBUTES to update!');
 });
 const CHARACTER_CLASSES = typescript_string_enums_1.Enum.keys(types_1.CharacterClass);
 exports.CHARACTER_CLASSES = CHARACTER_CLASSES;

@@ -21,7 +21,7 @@ function auto_sort(state) {
 /////////////////////
 function add_item(state, item) {
     if (state.unslotted.length >= state.unslotted_capacity)
-        throw new Error(`state-inventory: can't add item, inventory is full!`);
+        throw new Error('state-inventory: can’t add item, inventory is full!');
     state.unslotted.push(item);
     return auto_sort(state);
 }

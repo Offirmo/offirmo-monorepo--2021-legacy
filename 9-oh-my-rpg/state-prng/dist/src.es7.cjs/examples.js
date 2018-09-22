@@ -17,8 +17,8 @@ const DEMO_STATE = deep_freeze_strict_1.default({
 });
 exports.DEMO_STATE = DEMO_STATE;
 const MIGRATION_HINTS_FOR_TESTS = {
-    "to_v1": {},
-    "to_v2": {},
+    'to_v1': {},
+    'to_v2': {},
 };
 exports.MIGRATION_HINTS_FOR_TESTS = MIGRATION_HINTS_FOR_TESTS;
 //# sourceMappingURL=examples.js.map

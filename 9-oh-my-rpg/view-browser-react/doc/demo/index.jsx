@@ -26,6 +26,17 @@ export default class ViewBrowserReactDemo extends Component {
 					<span key="inventory" className="omr⋄bottom-menu⁚icon icomoon-locked-chest" />,
 					<span key="character" className="omr⋄bottom-menu⁚icon icomoon-battle-gear" />,
 					<span key="chat" className="omr⋄bottom-menu⁚icon icomoon-conversation" />,
+				]}
+			>
+				<div className="o⋄top-container omr⋄text-with-shadow omr⋄bg-image⁚parchment-xxl">
+					Hello
+				</div>
+			</OhMyRpg>
+		)
+	}
+}
+
+/*
 				slides={[
 					{
 						icon: <span key="explore" className="omr⋄bottom-menu⁚icon icomoon-treasure-map" />,
@@ -42,13 +53,7 @@ export default class ViewBrowserReactDemo extends Component {
 					{
 						icon: <span key="chat" className="omr⋄bottom-menu⁚icon icomoon-conversation" />,
 					},
-				]}
-			>
-			</OhMyRpg>
-		)
-	}
-}
-
+ */
 // logo={<img src={logo} height="100%" />}
 
 const mountNode = document.getElementById('root')

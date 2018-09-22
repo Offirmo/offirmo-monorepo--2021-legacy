@@ -70,7 +70,7 @@ function createLogger(p) {
                 + msg
                 + ' '
                 + prettifyJson(detailsNoErr));
-        console.log(line);
+        console.log(line); // eslint-disable-line no-console
         if (err)
             print_error_to_ansi_1.displayError(err);
     }

@@ -66,7 +66,7 @@ function compare_armors_by_strength(a, b) {
 }
 function enhance(armor) {
     if (armor.enhancement_level >= MAX_ENHANCEMENT_LEVEL)
-        throw new Error(`can't enhance an armor above the maximal enhancement level!`);
+        throw new Error('can’t enhance an armor above the maximal enhancement level!');
     armor.enhancement_level++;
     return armor;
 }

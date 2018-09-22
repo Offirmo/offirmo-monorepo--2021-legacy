@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { test_migrations } from "@oh-my-rpg/migration-tester";
+import { test_migrations } from '@oh-my-rpg/migration-tester';
 import { SCHEMA_VERSION } from './consts';
 import { migrate_to_latest } from './migrations';
 import { get_lib_SEC } from './sec';

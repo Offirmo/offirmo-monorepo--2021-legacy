@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import { get_human_readable_UTC_timestamp_ms, parse_human_readable_UTC_timestamp_ms, } from '.';
+//declare const console: any
 describe('@offirmo/timestamps', function () {
     describe('parse_human_readable_UTC_timestamp_ms()', function () {
         it('should correctly parse corresponding timestamps', function () {

@@ -5,6 +5,9 @@
 	"private": true,
 	"version": "0.0.2",
 	"main": "src/index.js",
+	"engines": {
+		"node": ">=8.5"
+	},
 	"dependencies": {
 		"@offirmo/soft-execution-context": "^0.0.2"
 	},

@@ -12,7 +12,7 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
     });
     return SEC.xTry('migrate_to_latest', ({ SEC, logger }) => {
         if (existing_version > consts_1.SCHEMA_VERSION)
-            throw new Error(`Your data is from a more recent version of this lib. Please update!`);
+            throw new Error('Your data is from a more recent version of this lib. Please update!');
         let state = legacy_state; // for starter
         if (existing_version < consts_1.SCHEMA_VERSION) {
             logger.warn(`attempting to migrate schema from v${existing_version} to v${consts_1.SCHEMA_VERSION}:`);
@@ -24,7 +24,7 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
                 SEC.fireAnalyticsEvent('schema_migration.failed');
                 throw err;
             }
-            logger.info(`schema migration successful.`);
+            logger.info('schema migration successful.');
             SEC.fireAnalyticsEvent('schema_migration.ended');
         }
         // migrate sub-reducers if any...
@@ -34,6 +34,6 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
 exports.migrate_to_latest = migrate_to_latest;
 /////////////////////
 function migrate_to_2(SEC, legacy_state, hints) {
-    throw new Error(`Schema is too old (pre-beta), can't migrate!`);
+    throw new Error('Schema is too old (pre-beta), can’t migrate!');
 }
 //# sourceMappingURL=migrations.js.map

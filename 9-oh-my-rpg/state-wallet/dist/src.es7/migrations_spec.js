@@ -28,12 +28,12 @@ describe('💰 💰 💎  Currencies wallet state - schema migration', function 
         });
     });
     describe('individual migration functions', function () {
-        describe(`1 to latest`, function () {
+        describe('1 to latest', function () {
             it('should work', () => {
                 expect(migrate_to_latest(cloneDeep(DATA_v1), MIGRATION_HINTS_FOR_TESTS)).to.deep.equal(DATA_LATEST);
             });
         });
-        describe(`0 to latest`, function () {
+        describe('0 to latest', function () {
             it('should work', () => {
                 expect(migrate_to_latest(cloneDeep(DATA_v0), MIGRATION_HINTS_FOR_TESTS)).to.deep.equal(DATA_LATEST);
             });

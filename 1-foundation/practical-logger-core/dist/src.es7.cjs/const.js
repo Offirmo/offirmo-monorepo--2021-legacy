@@ -25,7 +25,7 @@ const LEVEL_TO_INTEGER = {
 };
 exports.LEVEL_TO_INTEGER = LEVEL_TO_INTEGER;
 if (ALL_LOG_LEVELS.length !== Object.keys(LEVEL_TO_INTEGER).length)
-    throw new Error(`universal-logger-core: LEVEL_TO_INTEGER needs an update`);
+    throw new Error('universal-logger-core: LEVEL_TO_INTEGER needs an update');
 // level to short, meaningful string to maybe be displayed on screen
 const LEVEL_TO_HUMAN = {
     [types_1.LogLevel.fatal]: 'fatal',
@@ -45,5 +45,5 @@ const LEVEL_TO_HUMAN = {
 };
 exports.LEVEL_TO_HUMAN = LEVEL_TO_HUMAN;
 if (ALL_LOG_LEVELS.length !== Object.keys(LEVEL_TO_HUMAN).length)
-    throw new Error(`universal-logger-core: LEVEL_TO_HUMAN needs an update`);
+    throw new Error('universal-logger-core: LEVEL_TO_HUMAN needs an update');
 //# sourceMappingURL=const.js.map

@@ -17,7 +17,7 @@ const CHARACTER_ATTRIBUTES_SORTED = [
 ];
 get_lib_SEC().xTry('boot checks', () => {
     if (CHARACTER_ATTRIBUTES.length !== CHARACTER_ATTRIBUTES_SORTED.length)
-        throw new Error(`CHARACTER_ATTRIBUTES to update!`);
+        throw new Error('CHARACTER_ATTRIBUTES to update!');
 });
 const CHARACTER_CLASSES = Enum.keys(CharacterClass);
 ///////

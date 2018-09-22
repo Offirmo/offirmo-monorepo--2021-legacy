@@ -16,6 +16,10 @@ function create() {
 exports.create = create;
 /////////////////////
 /////////////////////
+function on_analytics(state, ...analytics) {
+    // TODO
+    return state;
+}
 /*
 function add_amount(state: State, currency: Currency, amount: number): State {
     if (amount <= 0)
