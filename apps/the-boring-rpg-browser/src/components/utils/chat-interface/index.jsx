@@ -88,11 +88,21 @@ class Chat extends React.Component {
 			this.state.bubbles.push(bubble)
 			this.state.bubble_key++
 		}
-		else
-			this.setState(state => ({
-				bubbles: state.bubbles.concat(bubble).slice(-this.props.max_displayed_bubbles),
-				bubble_key: state.bubble_key + 1,
-			}))
+		else {
+			this.setState(state => {
+				let bubbles = state.bubbles.concat(bubble).slice(-this.props.max_displayed_bubbles)
+
+				// special unclean behavior, I will rewrite everything anyway
+				if (element === 'Let’s go adventuring!') {
+					bubbles = []
+				}
+
+				return {
+					bubbles,
+					bubble_key: state.bubble_key + 1,
+				}
+			})
+		}
 	}
 
 	componentWillMount() {

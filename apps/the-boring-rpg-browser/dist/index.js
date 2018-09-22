@@ -6349,9 +6349,9 @@ _sec2.default.xTry('loading savegame + creating game instance', ({ logger }) => 
 
 _sec2.default.xTry('init client state', ({ logger }) => {
 	game_instance.set_client_state(() => ({
-		VERSION: "0.51.83",
+		VERSION: "0.51.84",
 		ENV: "production",
-		BUILD_DATE: "20180922_08h56",
+		BUILD_DATE: "20180922_09h57",
 		CHANNEL: _channel.CHANNEL,
 		verbose: true, // XXX auto + through SEC ?
 		// can change:
@@ -16610,10 +16610,21 @@ class Chat extends _react2.default.Component {
 		if (before_mount) {
 			this.state.bubbles.push(bubble);
 			this.state.bubble_key++;
-		} else this.setState(state => ({
-			bubbles: state.bubbles.concat(bubble).slice(-this.props.max_displayed_bubbles),
-			bubble_key: state.bubble_key + 1
-		}));
+		} else {
+			this.setState(state => {
+				let bubbles = state.bubbles.concat(bubble).slice(-this.props.max_displayed_bubbles);
+
+				// special unclean behavior, I will rewrite everything anyway
+				if (element === 'Let’s go adventuring!') {
+					bubbles = [];
+				}
+
+				return {
+					bubbles,
+					bubble_key: state.bubble_key + 1
+				};
+			});
+		}
 	}
 
 	componentWillMount() {
@@ -18324,12 +18335,12 @@ const error_reporter = new _ravenJs2.default.Client();
 error_reporter.config('https://ac5806cad5534bcf82f23d857a1ffce5@sentry.io/1235383', {
 	// https://docs.sentry.io/clients/javascript/config/
 	// logger ?
-	release: "0.51.83",
+	release: "0.51.84",
 	environment: "production",
 	serverName: DEVICE_UUID,
 	tags: {
 		//git_commit: 'c0deb10c4',
-		BUILD_DATE: "20180922_08h56",
+		BUILD_DATE: "20180922_09h57",
 		CHANNEL: _channel.CHANNEL
 	},
 	// whitelistUrls: [...],
@@ -24155,11 +24166,11 @@ decorateWithDetectedEnv(SEC);
 
 SEC.injectDependencies({
 	CHANNEL: _channel.CHANNEL,
-	VERSION: "0.51.83"
+	VERSION: "0.51.84"
 });
 SEC.setAnalyticsAndErrorDetails({
 	product: 'tbrpg',
-	VERSION: "0.51.83",
+	VERSION: "0.51.84",
 	CHANNEL: _channel.CHANNEL
 });
 

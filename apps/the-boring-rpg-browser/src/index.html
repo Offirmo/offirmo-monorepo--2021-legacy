@@ -45,6 +45,10 @@
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-103238291-2"></script>
 	<script>
+		// I absolutely don't understand this bug but nevermind, easy to fix
+		if (document.URL === 'https://www.online-adventur.es/apps/the-boring-rpg')
+			window.location = document.URL + '/'
+
 		window.dataLayer = window.dataLayer || [];
 		function gtag(){dataLayer.push(arguments);}
 		gtag('js', new Date());

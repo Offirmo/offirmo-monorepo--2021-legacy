@@ -30,7 +30,7 @@
 				transform: translate3d(500px, 0, 0);
 			}
 		</style>
-	<link href="index.css?423ec21181e928ecff53" rel="stylesheet"></head>
+	<link href="index.css?720dd4617976ce99ec15" rel="stylesheet"></head>
 
 	<body class="o⋄top-container o⋄body⁚full-page omr⋄font⁚pixantiqua" data-o-theme="lod--colorhunt212">
 		<noscript>You need to enable JavaScript to run this app.</noscript>
@@ -40,11 +40,15 @@
 		<!-- group chat, outside of react control for DOM stability -->
 		<div id="group-chat-container" class="o⋄top-container">
 		</div>
-	<script type="text/javascript" src="index.js?423ec21181e928ecff53"></script></body>
+	<script type="text/javascript" src="index.js?720dd4617976ce99ec15"></script></body>
 
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-103238291-2"></script>
 	<script>
+		// I absolutely don't understand this bug but nevermind, easy to fix
+		if (document.URL === 'https://www.online-adventur.es/apps/the-boring-rpg')
+			window.location = document.URL + '/'
+
 		window.dataLayer = window.dataLayer || [];
 		function gtag(){dataLayer.push(arguments);}
 		gtag('js', new Date());
