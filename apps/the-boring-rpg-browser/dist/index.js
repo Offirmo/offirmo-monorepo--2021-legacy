@@ -6349,9 +6349,9 @@ _sec2.default.xTry('loading savegame + creating game instance', ({ logger }) => 
 
 _sec2.default.xTry('init client state', ({ logger }) => {
 	game_instance.set_client_state(() => ({
-		VERSION: "0.51.84",
+		VERSION: "0.51.85",
 		ENV: "production",
-		BUILD_DATE: "20180922_09h57",
+		BUILD_DATE: "20180923_06h25",
 		CHANNEL: _channel.CHANNEL,
 		verbose: true, // XXX auto + through SEC ?
 		// can change:
@@ -18335,12 +18335,12 @@ const error_reporter = new _ravenJs2.default.Client();
 error_reporter.config('https://ac5806cad5534bcf82f23d857a1ffce5@sentry.io/1235383', {
 	// https://docs.sentry.io/clients/javascript/config/
 	// logger ?
-	release: "0.51.84",
+	release: "0.51.85",
 	environment: "production",
 	serverName: DEVICE_UUID,
 	tags: {
 		//git_commit: 'c0deb10c4',
-		BUILD_DATE: "20180922_09h57",
+		BUILD_DATE: "20180923_06h25",
 		CHANNEL: _channel.CHANNEL
 	},
 	// whitelistUrls: [...],
@@ -24166,11 +24166,11 @@ decorateWithDetectedEnv(SEC);
 
 SEC.injectDependencies({
 	CHANNEL: _channel.CHANNEL,
-	VERSION: "0.51.84"
+	VERSION: "0.51.85"
 });
 SEC.setAnalyticsAndErrorDetails({
 	product: 'tbrpg',
-	VERSION: "0.51.84",
+	VERSION: "0.51.85",
 	CHANNEL: _channel.CHANNEL
 });
 
@@ -57263,6 +57263,8 @@ var _component2 = _interopRequireDefault(_component);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+const BACKGROUNDS = ['lost_castle', 'desert', 'civilization', 'half_remembered_ruins', 'snowcapped_environment', 'north_country', 'city_gates', 'return_of_the_knight', 'fields_of_gold', 'journey_to_the_center_of_the_earth'];
+
 exports.default = props => _react2.default.createElement(
 	_gameContext.GameContextConsumerListener,
 	null,
@@ -57271,9 +57273,11 @@ exports.default = props => _react2.default.createElement(
 
 		const mode = _game_instance$get_cl.mode;
 
+		const state = game_instance.get_latest_state();
 
 		return _react2.default.createElement(_component2.default, _extends({}, props, {
-			mode: mode
+			mode: mode,
+			background: BACKGROUNDS[state.good_click_count % BACKGROUNDS.length]
 		}));
 	}
 );
@@ -57317,15 +57321,16 @@ const MODE_TO_PANEL = {
 };
 //import EnergyIndicator from '../../../../energy-indicator'
 
-function MainArea({ mode, is_chat_open }) {
+function MainArea({ mode, background, is_chat_open }) {
+	const bg_class = `tbrpg⋄bg-image⁚${background}`;
 	return _react2.default.createElement(
 		'div',
 		{ className: 'omr\u22C4content-area main-area' },
 		_react2.default.createElement(
 			'div',
-			{ key: 'background', className: 'omr\u22C4full-size-fixed-layer' },
+			{ key: 'background', className: 'omr\u22C4full-size-fixed-layer omr\u22C4bg-image\u205Atiled-marble_black' },
 			_react2.default.createElement('div', { key: 'background-picture',
-				className: 'omr\u22C4full-size-background-layer omr\u22C4bg\u205Acover tbrpg\u22C4bg-image\u205Afields_of_gold' })
+				className: `omr⋄full-size-background-layer omr⋄bg⁚cover ${bg_class}` })
 		),
 		_react2.default.createElement(
 			'div',

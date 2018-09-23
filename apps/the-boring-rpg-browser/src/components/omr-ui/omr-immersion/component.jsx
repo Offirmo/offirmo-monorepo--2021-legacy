@@ -13,16 +13,14 @@ const MODE_TO_PANEL = {
 	'inventory': <InventoryPanel />,
 }
 
-export default function MainArea({mode, is_chat_open}) {
+export default function MainArea({mode, background, is_chat_open}) {
+	const bg_class = `tbrpg⋄bg-image⁚${background}`
 	return (
 		<div className="omr⋄content-area main-area">
 
-			<div key="background" className="omr⋄full-size-fixed-layer">
-				{/*<div key="background-layer"
-					className="omr⋄full-size-background-layer omr⋄bg-image⁚tiled-marble_black" />*/}
-
+			<div key="background" className="omr⋄full-size-fixed-layer omr⋄bg-image⁚tiled-marble_black">
 				<div key="background-picture"
-					className="omr⋄full-size-background-layer omr⋄bg⁚cover tbrpg⋄bg-image⁚fields_of_gold" />
+					className={`omr⋄full-size-background-layer omr⋄bg⁚cover ${bg_class}`} />
 			</div>
 
 			<div key="content-area" className="o⋄pos⁚rel o⋄top-container o⋄centered-article">
