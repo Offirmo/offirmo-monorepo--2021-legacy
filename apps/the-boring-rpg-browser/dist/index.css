@@ -2091,7 +2091,7 @@ hr.omr⋄border-h⁚test {
 	--visible-ratio: var(--omr⋄ui__bottom-menu--visible-ratio);
 	--padding: calc(var(--omr⋄ui__padding_) * var(--scale));
 
-	z-index: calc(50 + var(--omr⋄ui__immersion-view--z-index));
+	z-index: calc(var(--omr⋄ui__meta-view--z-index) - 10);
 
 	/* TV shape (half)
 	 * https://css-tricks.com/examples/ShapesOfCSS/
@@ -2480,6 +2480,33 @@ switch($class) {
 }
 
 
+.tbrpg-panel--achievements .panel-top-content {
+	margin: 5px;
+	padding: .5em .8em .4em;
+	background-color: rgba(0,0,0,0.5);
+	border-radius: .4em;
+}
+
+
+.tbrpg-panel--achievements .panel-top-content {
+	margin: 5px;
+	padding: .5em .8em .4em;
+	background-color: rgba(0,0,0,0.5);
+	border-radius: .4em;
+}
+
+
+
+
+.tbrpg⋄bg-image⁚desert {
+	background-image: url(d7a055125448a91481f913bc013bb7d4.jpg);
+	background-position: 59%;
+}
+
+.tbrpg⋄bg-image⁚lost_castle {
+	background-image: url(dd8567a3bee7dfca3c1de3274f88a2a2.jpg);
+	background-position: 29%;
+}
 
 .tbrpg⋄bg-image⁚fields_of_gold {
 	background-image: url(ee15dc352b5f8a82c9aa4bcc0d2bd902.jpg);
@@ -2517,18 +2544,8 @@ switch($class) {
 }
 
 .tbrpg⋄bg-image⁚civilization {
-	background-image: url(04333cfa709efa0ad78e088b08061d08.jpg);
+	background-image: url(d5437cc1f7047996c3ca5d1d59012137.jpg);
 	background-position: 41%;
-}
-
-.tbrpg⋄bg-image⁚desert {
-	background-image: url(d7a055125448a91481f913bc013bb7d4.jpg);
-	background-position: 59%;
-}
-
-.tbrpg⋄bg-image⁚lost_castle {
-	background-image: url(dd8567a3bee7dfca3c1de3274f88a2a2.jpg);
-	background-position: 29%;
 }
 
 
@@ -2571,7 +2588,7 @@ switch($class) {
 /* big screens */
 #group-chat-container {
 	width: 500px;
-	z-index: calc(20 + var(--omr⋄ui__immersion-view--z-index));
+	z-index: calc(var(--omr⋄ui__meta-view--z-index) - 20);
 }
 /* small screens */
 @media screen and (max-width: 500px) {
@@ -2581,6 +2598,7 @@ switch($class) {
 }
 
 #tlkio {
+	padding-bottom: 29px;
 /*
 	height: 100%;
 	width: 100%;
