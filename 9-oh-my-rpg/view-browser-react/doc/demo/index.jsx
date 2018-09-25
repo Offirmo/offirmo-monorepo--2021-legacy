@@ -27,6 +27,8 @@ export default class ViewBrowserReactDemo extends Component {
 					<span key="character" className="omr⋄bottom-menu⁚icon icomoon-battle-gear" />,
 					<span key="chat" className="omr⋄bottom-menu⁚icon icomoon-conversation" />,
 				]}
+
+				bottomMarkerIndex={0}
 			>
 				<div className="o⋄top-container omr⋄text-with-shadow omr⋄bg-image⁚parchment-xxl">
 					Hello

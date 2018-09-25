@@ -9,6 +9,6 @@ import {
 describe('🐀 🐉  monster logic - data:', function() {
 
 	it('should have all the expected monsters', () => {
-		expect(ENTRIES).to.have.lengthOf(71)
+		expect(ENTRIES).to.have.lengthOf(76)
 	})
 })

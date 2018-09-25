@@ -11,6 +11,13 @@ import * as GroupChat from './group-chat-tlkio'
 import './index.css';
 import logo from './tbrpg_logo_512x98.png';
 
+const MODE_TO_INDEX = {
+	'explore': 0,
+	'inventory': 1,
+	'character': 2,
+	'achievements': 3,
+	'social': 4,
+}
 
 export default class TheBoringRPG extends Component {
 	state = {
@@ -53,7 +60,14 @@ export default class TheBoringRPG extends Component {
 		}))
 	}
 
+	toggle_character_panel = () => {
+		const { mode } = this.props.game_instance.get_client_state()
+		this.activate_panel(mode === 'explore' ? 'character' : 'explore')
+	}
+
 	render() {
+		const { mode } = this.props.game_instance.get_client_state()
+
 		return (
 			<OhMyRpg
 
@@ -64,20 +78,26 @@ export default class TheBoringRPG extends Component {
 				}
 				aboutContent={<About />}
 
-				universeAnchor={<UniverseAnchor onClick={() => this.activate_panel('character')} />}
+				universeAnchor={<UniverseAnchor onClick={this.toggle_character_panel} />}
 
 				burgerPanelContent={<HamburgerArea />}
 
 				bottomMenuItems={[
 					<span key="explore" className="omr⋄bottom-menu⁚icon icomoon-treasure-map"
 							onClick={() => this.activate_panel('explore')} />,
-					<span key="inventory" className="omr⋄bottom-menu⁚icon icomoon-locked-chest"
+					<span key="inventory" className="omr⋄bottom-menu⁚icon icomoon-cash"
 							onClick={() => this.activate_panel('inventory')} />,
 					<span key="character" className="omr⋄bottom-menu⁚icon icomoon-battle-gear"
 							onClick={() => this.activate_panel('character')} />,
+					<span key="achievements" className="omr⋄bottom-menu⁚icon icomoon-laurel-crown"
+							onClick={() => this.activate_panel('achievements')} />,
+					<span key="social" className="omr⋄bottom-menu⁚icon icomoon-eagle-emblem"
+							onClick={() => this.activate_panel('social')} />,
 					<span key="chat" className="omr⋄bottom-menu⁚icon icomoon-conversation"
 							onClick={() => GroupChat.toggle()} />,
 				]}
+
+				bottomMarkerIndex={MODE_TO_INDEX[mode]}
 			>
 				<MainArea />
 			</OhMyRpg>

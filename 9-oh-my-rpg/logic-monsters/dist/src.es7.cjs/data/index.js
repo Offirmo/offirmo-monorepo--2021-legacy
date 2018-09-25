@@ -15,7 +15,28 @@ const EXTRA_ENTRIES = [
     },
     {
         name: 'dahu',
-        emoji: '🐏',
+        emoji: '🐐',
+    },
+    // TODO https://en.wikipedia.org/wiki/Fearsome_critters
+    {
+        name: 'hoop snake',
+        emoji: '🐍',
+    },
+    {
+        name: 'joint snake',
+        emoji: '🐍',
+    },
+    {
+        name: 'spreading adder',
+        emoji: '🐍',
+    },
+    {
+        name: 'fur-bearing truit',
+        emoji: '🐡',
+    },
+    {
+        name: 'splintercat',
+        emoji: '🐡',
     },
 ];
 const ENTRIES = [].concat(...EMOJI_ENTRIES, ...EXTRA_ENTRIES);

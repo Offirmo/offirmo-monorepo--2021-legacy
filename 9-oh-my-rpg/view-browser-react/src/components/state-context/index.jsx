@@ -6,7 +6,7 @@ const DEFAULT = {
 	screenIndex: 0,
 	isChatPanelVisible: false,
 	popup: false, // TODO
-	messages: [], // TODO
+	pendingFlags: [], // TODO
 }
 
 export const OhMyRPGUIContext = React.createContext({...DEFAULT})

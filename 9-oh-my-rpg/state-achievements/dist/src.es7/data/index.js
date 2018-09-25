@@ -8,6 +8,16 @@ const RAW_ENTRIES = [
         lore: 'Thanks for visiting!',
         get_status: () => AchievementStatus.unlocked,
     },
+    // alpha / beta
+    {
+        name: 'Alpha',
+        description: 'You started playing during the alpha or earlier',
+        lore: 'Let me tell you of a time of great adventure...',
+    },
+    {
+        name: 'Beta',
+        description: 'You started playing during the beta or earlier',
+    },
     // main CTA
     {
         name: 'I am bored',
@@ -16,6 +26,11 @@ const RAW_ENTRIES = [
     {
         name: 'I am very bored',
         description: 'Having played 7 times.',
+    },
+    {
+        // https://www.urbandictionary.com/define.php?term=Turn%20it%20up%20to%20eleven
+        name: 'Turn it up to eleven',
+        description: 'Having played 11 times.',
     },
     {
         name: 'I am dead bored',
@@ -127,6 +142,20 @@ const RAW_ENTRIES = [
     {
         name: 'Just plain lucky',
         description: 'You have 1/500000 chance to gain this on each activity.',
+    },
+    // attributes
+    // https://www.google.com/search?q=silver+tongue
+    {
+        name: 'Sharp tongue',
+        description: 'Having a charisma of 10 or higher.',
+    },
+    {
+        name: 'Silver tongue',
+        description: 'Having a charisma of 50 or higher.',
+    },
+    {
+        name: 'Golden tongue',
+        description: 'Having a charisma of 100 or higher.',
     },
 ];
 const ENTRIES = RAW_ENTRIES

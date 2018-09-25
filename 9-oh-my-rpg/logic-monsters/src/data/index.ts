@@ -23,7 +23,28 @@ const EXTRA_ENTRIES: RawMonsterEntry[] = [
 	},
 	{
 		name: 'dahu',
-		emoji: '🐏',
+		emoji: '🐐',
+	},
+	// TODO https://en.wikipedia.org/wiki/Fearsome_critters
+	{
+		name: 'hoop snake',
+		emoji: '🐍',
+	},
+	{
+		name: 'joint snake',
+		emoji: '🐍',
+	},
+	{
+		name: 'spreading adder',
+		emoji: '🐍',
+	},
+	{
+		name: 'fur-bearing truit',
+		emoji: '🐡',
+	},
+	{
+		name: 'splintercat',
+		emoji: '🐡',
 	},
 ]
 

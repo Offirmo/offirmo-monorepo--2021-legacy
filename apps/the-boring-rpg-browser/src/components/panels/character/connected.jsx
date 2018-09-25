@@ -6,7 +6,6 @@ import Component from './component'
 export default props => (
 	<GameContextConsumerListener>
 		{game_instance => {
-			console.log('Inventory connected re-called')
 			return (
 				<Component
 					{...props}

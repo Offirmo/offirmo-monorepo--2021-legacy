@@ -1,14 +1,10 @@
 import React, { Component } from 'react'
 
 import ErrorBoundary from '@offirmo/react-error-boundary'
-import SwipeableViews from 'react-swipeable-views'
-import { virtualize, bindKeyboard } from 'react-swipeable-views-utils'
-import { mod } from 'react-swipeable-views-core';
 
 import { OhMyRPGUIContext } from '../state-context'
 import './index.css';
 
-const VirtualizeSwipeableViews = bindKeyboard(virtualize(SwipeableViews));
 
 function TopLeftHud({isBurgerMenuOpen, openBurgerMenu, logo, toggleAbout, universeAnchor, }) {
 	return (
@@ -35,46 +31,28 @@ function TopLeftHud({isBurgerMenuOpen, openBurgerMenu, logo, toggleAbout, univer
 	)
 }
 
-function BottomRightHud({bottomMenuItems}) {
+function BottomRightHud({bottomMenuItems, bottomMarkerIndex}) {
+
 	return bottomMenuItems.length > 0 && (
 		<div className="omr⋄hud⁚bottom-right">
 			<div className="omr⋄bottom-menu">
 				<ErrorBoundary name={'omr:bottom-menu'}>
 					{bottomMenuItems}
-					{/* TODO <div className="omr⋄bottom-menu--selected-indicator"/> */}
+					<div className="omr⋄bottom-menu--selected-indicator"/>
 				</ErrorBoundary>
 			</div>
 		</div>
 	)
 }
 
-/*
-function SwipableContent({isBurgerMenuOpen, screenIndex, screens, immersionSlidesRenderer, onScreenIndexChange}) {
-	return (
-		<VirtualizeSwipeableViews
-			enableMouseEvents={true}
-			index={screenIndex}
-			onChangeIndex={onScreenIndexChange}
-			style={{}}
-			slideRenderer={immersionSlidesRenderer}
-			slideCount={}
-		/>
-	)
-}
-*/
-
-function Content() {
-
-}
-
-
-function Main({children, logo, universeAnchor, bottomMenuItems, aboutContent}) {
+function Main({children, logo, universeAnchor, bottomMenuItems, bottomMarkerIndex, aboutContent}) {
 	return (
 		<OhMyRPGUIContext.Consumer>
-			{({isBurgerMenuOpen, openBurgerMenu, isAboutOpen, toggleAbout, screenIndex}) => {
+			{({isBurgerMenuOpen, openBurgerMenu, isAboutOpen, toggleAbout}) => {
+				const css_selected_bottom_menu_value = -bottomMenuItems.length + 1 + ((bottomMarkerIndex >= 0) ? bottomMarkerIndex : -1)
 				document.documentElement.style.setProperty(
 					'--omr⋄ui__bottom-menu--selected-reverse-index',
-					-bottomMenuItems.length + screenIndex + 1
+					css_selected_bottom_menu_value
 				)
 
 				return (
@@ -88,7 +66,7 @@ function Main({children, logo, universeAnchor, bottomMenuItems, aboutContent}) {
 							{children}
 						</ErrorBoundary>
 
-						<BottomRightHud {...{bottomMenuItems}} />
+						<BottomRightHud {...{bottomMenuItems, bottomMarkerIndex}} />
 
 						{isAboutOpen && <div
 							key="aboutBlanket"

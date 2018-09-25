@@ -8,21 +8,24 @@
 /* https://stackoverflow.com/a/37600130/587407 */
 /* big screens */
 .bm-menu-wrap {
-	width: 400px;
+	width: 400px !important;
 }
 /* small screens */
 @media screen and (max-width: 400px) {
 	.bm-menu-wrap {
-		width: 95%;
+		width: 80% !important;
 	}
 }
 
 .bm-overlay {
 	background-color: var(--o⋄color--bg⁚main--backdrop);
 }
-
 .bm-cross {
-	background: #bdc3c7;
+	background: var(--o⋄color--fg⁚main);
+}
+.bm-cross-button {
+	top: 0 !important;
+	right: 0 !important;
 }
 
 .bm-burger-button {
@@ -40,6 +43,16 @@
 	transition-duration: .4s !important;
 }
 
+/************/
+
+.bm-menu-wrap .omr-auto-logo {
+	width: 100%;
+	padding: 24px 1em 0 1em;
+}
+.bm-menu-wrap .omr-auto-logo img {
+	width: 100%;
+}
+
 #about-panel {
 	position: fixed;
 	top: 0;
@@ -48,6 +61,15 @@
 	text-align: center;
 	width: 100%;
 	background-color: var(--o⋄color--bg⁚main--backdrop);
+}
+
+
+#about-panel .omr-auto-logo {
+	width: 300px;
+	margin: 0 auto;
+}
+#about-panel .omr-auto-logo img {
+	width: 100%;
 }
 /*! normalize.css v8.0.0 | MIT License | github.com/necolas/normalize.css */
 

@@ -11,11 +11,15 @@ omr⋄bg-image⁚test
 ## Internals:
 
 z-indexes:
-- 0    : ground / ultimate background
+- 0   : ground / ultimate background
 - 100 : immersion view
-- 150 : immersion UI
-- x * 100 : upper worlds
+  - 130 : universe anchor
+  - x * 100 : upper worlds
+  - 980 : chat TODO put in meta?
+  - 990 : bottom menu TODO put in meta?
 - 1000 : meta view
+  - 1040 : logo
+  - 1050 : hamburger
 
 ## Credits
 
