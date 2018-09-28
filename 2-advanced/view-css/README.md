@@ -126,3 +126,4 @@ Solution: use a cascade of `class="o⋄top-container"` (optionally starting at `
 ## ideas TODO
 * currentColor https://css-tricks.com/currentcolor/
 * typography https://github.com/KyleAMathews/typography.js
+* https://github.com/KyleAMathews/typefaces/tree/master/packages
