@@ -1,8 +1,4 @@
 import { HumanReadableTimestampUTCMs } from '@offirmo/timestamps';
-interface EnergyUsage {
-    date: HumanReadableTimestampUTCMs;
-    energy_consumed: number;
-}
 interface State {
     schema_version: number;
     revision: number;
@@ -18,4 +14,4 @@ interface Snapshot {
     next_energy_refilling_ratio: number;
     human_time_to_next: string;
 }
-export { EnergyUsage, State, Snapshot, };
+export { State, Snapshot, };

@@ -6,7 +6,7 @@ const logic_armors_1 = require("@oh-my-rpg/logic-armors");
 const logic_weapons_1 = require("@oh-my-rpg/logic-weapons");
 const consts_1 = require("./consts");
 const _1 = require(".");
-describe('📦 📦 📦  Inventory state - reducer', function () {
+describe('reducer', function () {
     const DUMMY_ITEM = logic_weapons_1.generate_random_demo_weapon();
     describe('🆕 initial state', function () {
         it('should have correct defaults', function () {

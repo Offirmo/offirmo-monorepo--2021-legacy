@@ -76,6 +76,7 @@ function compare_armors_by_strength(a, b) {
     return definitions_1.compare_items_by_quality(a, b) || a.uuid.localeCompare(b.uuid);
 }
 exports.compare_armors_by_strength = compare_armors_by_strength;
+// TODO immu!
 function enhance(armor) {
     if (armor.enhancement_level >= MAX_ENHANCEMENT_LEVEL)
         throw new Error('can’t enhance an armor above the maximal enhancement level!');

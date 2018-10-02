@@ -89,7 +89,7 @@ function generate_random_demo_armor(): Armor {
 /////////////////////
 
 // for sorting
-function compare_armors_by_strength(a: Armor, b: Armor): number {
+function compare_armors_by_strength(a: Readonly<Armor>, b: Readonly<Armor>): number {
 	const a_dmg = get_medium_damage_reduction(a)
 	const b_dmg = get_medium_damage_reduction(b)
 	if (a_dmg !== b_dmg)
@@ -103,6 +103,7 @@ function compare_armors_by_strength(a: Armor, b: Armor): number {
 	return compare_items_by_quality(a, b) || a.uuid.localeCompare(b.uuid)
 }
 
+// TODO immu!
 function enhance(armor: Armor): Armor {
 	if (armor.enhancement_level >= MAX_ENHANCEMENT_LEVEL)
 		throw new Error('can’t enhance an armor above the maximal enhancement level!')
@@ -111,7 +112,7 @@ function enhance(armor: Armor): Armor {
 	return armor
 }
 
-function get_damage_reduction_interval(armor: Armor): [number, number] {
+function get_damage_reduction_interval(armor: Readonly<Armor>): [number, number] {
 	const ATTACK_VS_DEFENSE_RATIO = 0.5
 	return get_interval(
 		armor.base_strength,
@@ -121,14 +122,14 @@ function get_damage_reduction_interval(armor: Armor): [number, number] {
 	)
 }
 
-function get_medium_damage_reduction(armor: Armor): number {
+function get_medium_damage_reduction(armor: Readonly<Armor>): number {
 	const reduction_range = get_damage_reduction_interval(armor)
 	return Math.round((reduction_range[0] + reduction_range[1]) / 2)
 }
 
 /////////////////////
 
-const DEMO_ARMOR_1: Armor = {
+const DEMO_ARMOR_1: Readonly<Armor> = {
 	uuid: 'uu1~test~demo~armor~0001',
 	element_type: ElementType.item,
 	slot: InventorySlot.armor,
@@ -140,7 +141,7 @@ const DEMO_ARMOR_1: Armor = {
 	enhancement_level: MIN_ENHANCEMENT_LEVEL,
 }
 
-const DEMO_ARMOR_2: Armor = {
+const DEMO_ARMOR_2: Readonly<Armor> = {
 	uuid: 'uu1~test~demo~armor~0002',
 	element_type: ElementType.item,
 	slot: InventorySlot.armor,

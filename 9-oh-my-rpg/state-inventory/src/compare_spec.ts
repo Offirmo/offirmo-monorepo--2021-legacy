@@ -12,7 +12,7 @@ import {
 	compare_items,
 } from '.'
 
-describe('📦 📦 📦  Inventory state - sorting', function() {
+describe('sorting', function() {
 
 	describe('comparison of different types', function() {
 

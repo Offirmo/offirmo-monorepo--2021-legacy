@@ -30,18 +30,18 @@ function generate_random_demo_shop(): void {
 /////////////////////
 
 const ARMOR_DMG_REDUCTION_TO_COINS_RATIO = 1.8
-function appraise_armor(armor: Armor): number {
+function appraise_armor(armor: Readonly<Armor>): number {
 	return Math.round(get_medium_damage_reduction(armor) * ARMOR_DMG_REDUCTION_TO_COINS_RATIO)
 }
 
 const WEAPON_DMG_TO_COINS_RATIO = 0.8
-function appraise_weapon(weapon: Weapon): number {
+function appraise_weapon(weapon: Readonly<Weapon>): number {
 	return Math.round(get_medium_damage(weapon) * WEAPON_DMG_TO_COINS_RATIO)
 }
 
 ///////
 
-function appraise(item: Item): number {
+function appraise(item: Readonly<Item>): number {
 	switch(item.slot) {
 	case InventorySlot.armor:
 		return appraise_armor(item as Armor)

@@ -31,7 +31,7 @@ import {
 	iterables_unslotted,
 } from '.'
 
-describe('📦 📦 📦  Inventory state - reducer', function() {
+describe('reducer', function() {
 	const DUMMY_ITEM: Item = generate_random_demo_weapon()
 
 	describe('🆕 initial state', function() {

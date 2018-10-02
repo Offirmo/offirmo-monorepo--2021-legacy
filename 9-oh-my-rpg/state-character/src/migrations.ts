@@ -1,6 +1,13 @@
+import deepFreeze from 'deep-freeze-strict'
+
 import { SCHEMA_VERSION } from './consts'
 import { State } from './types'
 import { SoftExecutionContext, OMRContext, get_lib_SEC } from './sec'
+
+// some hints may be needed to migrate to demo state
+// need to export them for composing tests
+const MIGRATION_HINTS_FOR_TESTS: any = deepFreeze({
+})
 
 /////////////////////
 
@@ -52,4 +59,5 @@ function migrate_to_2(SEC: SoftExecutionContext, legacy_state: any, hints: any):
 
 export {
 	migrate_to_latest,
+	MIGRATION_HINTS_FOR_TESTS,
 }

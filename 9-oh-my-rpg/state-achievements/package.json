@@ -8,11 +8,13 @@
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "UNLICENSED",
 	"dependencies": {
+		"@offirmo/soft-execution-context": "^0.0.2",
 		"@oh-my-rpg/definitions": "^0.0.1",
 		"deep-freeze-strict": "^1",
 		"typescript-string-enums": "^0.3"
 	},
 	"devDependencies": {
+		"@oh-my-rpg/migration-tester": "^0.0.1",
 		"@types/lodash": "^4",
 		"npm-run-all": "^4",
 		"tslib": "^1"

@@ -11,7 +11,7 @@ import {
 } from '.'
 import { get_lib_SEC } from './sec'
 
-describe('🤕 ❤️  Character state - reducer', function() {
+describe('reducer', function() {
 
 	describe('🆕  initial state', function() {
 

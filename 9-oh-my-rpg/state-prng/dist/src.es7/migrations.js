@@ -1,5 +1,10 @@
 /////////////////////
 import { LIB, SCHEMA_VERSION } from './consts';
+// need to be exported to compose migration tests
+const MIGRATION_HINTS_FOR_TESTS = {
+    'to_v1': {},
+    'to_v2': {},
+};
 /////////////////////
 function migrate_to_latest(legacy_state, hints = {}) {
     const existing_version = (legacy_state && legacy_state.schema_version) || 0;
@@ -19,5 +24,5 @@ function migrate_to_2(legacy_state, hints) {
     throw new Error('Unrecognized schema, most likely too old, can’t migrate!');
 }
 /////////////////////
-export { migrate_to_latest, };
+export { migrate_to_latest, MIGRATION_HINTS_FOR_TESTS, };
 //# sourceMappingURL=migrations.js.map

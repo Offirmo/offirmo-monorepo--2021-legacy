@@ -1,12 +1,12 @@
 import { expect } from 'chai'
-
+import {test_migrations} from '@oh-my-rpg/migration-tester'
 
 import { SCHEMA_VERSION } from './consts'
-import { migrate_to_latest } from './migrations'
-import { DEMO_STATE, MIGRATION_HINTS_FOR_TESTS } from './examples'
+import { migrate_to_latest, MIGRATION_HINTS_FOR_TESTS } from './migrations'
+import { DEMO_STATE } from './examples'
 import { get_lib_SEC } from './sec'
 import {create} from './state'
-import {test_migrations} from '@oh-my-rpg/migration-tester'
+
 
 describe('schema migration', function() {
 

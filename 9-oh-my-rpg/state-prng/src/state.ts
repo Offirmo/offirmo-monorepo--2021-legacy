@@ -9,7 +9,7 @@ import { MTEngineWithSeed, State } from './types'
 
 const DEFAULT_SEED = 987
 
-function create(): State {
+function create(): Readonly<State> {
 	return {
 		schema_version: SCHEMA_VERSION,
 		revision: 0,
@@ -23,14 +23,18 @@ function create(): State {
 
 /////////////////////
 
-function set_seed(state: State, seed: number): State {
-	state.seed = seed
-	state.use_count = 0
+function set_seed(state: Readonly<State>, seed: number): Readonly<State> {
+	return {
+		...state,
 
-	return state
+		seed,
+		use_count: 0,
+
+		revision: state.revision + 1,
+	}
 }
 
-function update_use_count(state: State, prng: MT19937, options: any = {}): State {
+function update_use_count(state: Readonly<State>, prng: MT19937, options: any = {}): Readonly<State> {
 	const new_use_count = prng.getUseCount()
 
 	if (new_use_count < state.use_count)
@@ -44,20 +48,33 @@ function update_use_count(state: State, prng: MT19937, options: any = {}): State
 	if (prng !== cached_prng)
 		throw new Error(`${LIB}: update PRNG state: internal error: passed prng is not the cached-singleton one!`)
 
-	state.use_count = new_use_count
+	return {
+		...state,
 
-	return state
+		use_count: new_use_count,
+
+		revision: state.revision + 1,
+	}
 }
 
-function register_recently_used(state: State, id: string, value: number | string, max_memory_size: number): State {
-	state.recently_encountered_by_id[id] = state.recently_encountered_by_id[id] || []
-
+function register_recently_used(state: Readonly<State>, id: string, value: number | string, max_memory_size: number): Readonly<State> {
 	if (max_memory_size === 0)
 		return state
 
-	state.recently_encountered_by_id[id] = state.recently_encountered_by_id[id].concat(value).slice(-max_memory_size)
+	let recently_encountered = state.recently_encountered_by_id[id] || []
+	recently_encountered = recently_encountered.concat(value).slice(-max_memory_size)
 
-	return state
+	return {
+		...state,
+
+		recently_encountered_by_id: {
+			...state.recently_encountered_by_id,
+
+			[id]: recently_encountered,
+		},
+
+		revision: state.revision + 1,
+	}
 }
 
 /////////////////////

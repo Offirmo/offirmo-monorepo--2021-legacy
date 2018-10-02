@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { SCHEMA_VERSION } from './consts';
 import { create, } from '.';
-describe('🤕 ❤️  Meta state - reducer', function () {
+describe('reducer', function () {
     describe('🆕  initial state', function () {
         const TEST_UUID_v1 = 'uu1dgqu3h0FydqWyQ~6cYv3g';
         it('should have correct defaults and a unique uuid', function () {

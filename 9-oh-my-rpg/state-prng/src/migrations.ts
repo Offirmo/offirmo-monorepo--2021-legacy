@@ -3,6 +3,12 @@
 import { LIB, SCHEMA_VERSION } from './consts'
 import { State } from './types'
 
+// need to be exported to compose migration tests
+const MIGRATION_HINTS_FOR_TESTS = {
+	'to_v1': {},
+	'to_v2': {},
+}
+
 /////////////////////
 
 function migrate_to_latest(legacy_state: any, hints: any = {}): State {
@@ -36,4 +42,5 @@ function migrate_to_2(legacy_state: any, hints: any): any {
 
 export {
 	migrate_to_latest,
+	MIGRATION_HINTS_FOR_TESTS,
 }

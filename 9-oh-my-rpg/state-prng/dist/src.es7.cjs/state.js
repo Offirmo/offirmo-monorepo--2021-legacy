@@ -18,9 +18,7 @@ function create() {
 exports.create = create;
 /////////////////////
 function set_seed(state, seed) {
-    state.seed = seed;
-    state.use_count = 0;
-    return state;
+    return Object.assign({}, state, { seed, use_count: 0, revision: state.revision + 1 });
 }
 exports.set_seed = set_seed;
 function update_use_count(state, prng, options = {}) {
@@ -33,16 +31,15 @@ function update_use_count(state, prng, options = {}) {
     }
     if (prng !== cached_prng)
         throw new Error(`${consts_1.LIB}: update PRNG state: internal error: passed prng is not the cached-singleton one!`);
-    state.use_count = new_use_count;
-    return state;
+    return Object.assign({}, state, { use_count: new_use_count, revision: state.revision + 1 });
 }
 exports.update_use_count = update_use_count;
 function register_recently_used(state, id, value, max_memory_size) {
-    state.recently_encountered_by_id[id] = state.recently_encountered_by_id[id] || [];
     if (max_memory_size === 0)
         return state;
-    state.recently_encountered_by_id[id] = state.recently_encountered_by_id[id].concat(value).slice(-max_memory_size);
-    return state;
+    let recently_encountered = state.recently_encountered_by_id[id] || [];
+    recently_encountered = recently_encountered.concat(value).slice(-max_memory_size);
+    return Object.assign({}, state, { recently_encountered_by_id: Object.assign({}, state.recently_encountered_by_id, { [id]: recently_encountered }), revision: state.revision + 1 });
 }
 exports.register_recently_used = register_recently_used;
 /////////////////////

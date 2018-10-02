@@ -57,7 +57,7 @@ function remove_amount(state: State, currency: Currency, amount: number): State 
 /////////////////////
 
 // TODO memoize
-function get_sorted_visible_achievements(state: Readonly<State>): AchievementEntry[] {
+function get_sorted_visible_achievements(state: Readonly<State>): Readonly<AchievementEntry>[] {
 	const { statistics } = state
 
 	return ACHIEVEMENT_DEFINITIONS

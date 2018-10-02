@@ -53,6 +53,7 @@ exports.create = create;
 /////////////////////
 function rename(SEC, state, new_name) {
     return sec_1.get_lib_SEC(SEC).xTry('rename', ({ enforce_immutability }) => {
+        // TODO name normalization
         if (!new_name)
             throw new Error(`Error while renaming to "${new_name}: invalid target value!`); // TODO details
         if (new_name === state.name)

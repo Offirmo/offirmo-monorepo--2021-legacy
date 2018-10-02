@@ -96,11 +96,11 @@ function appraise_item(state: Readonly<State>, uuid: UUID): number {
 	return appraise(item_to_sell)
 }
 
-function find_element(state: Readonly<State>, uuid: UUID): Element | null {
+function find_element(state: Readonly<State>, uuid: UUID): Readonly<Element> | null {
 	return InventoryState.get_item(state.inventory, uuid)
 }
 
-function get_actions_for_unslotted_item(state: Readonly<State>, uuid: UUID): Action[] {
+function get_actions_for_unslotted_item(state: Readonly<State>, uuid: UUID): Readonly<Action>[] {
 	const actions: Action[] = []
 
 	const equip: ActionEquipItem = {
@@ -122,7 +122,7 @@ function get_actions_for_unslotted_item(state: Readonly<State>, uuid: UUID): Act
 	return actions
 }
 
-function get_actions_for_element(state: Readonly<State>, uuid: UUID): Action[] {
+function get_actions_for_element(state: Readonly<State>, uuid: UUID): Readonly<Action>[] {
 	const actions: Action[] = []
 
 	const as_unslotted_item = InventoryState.get_unslotted_item(state.inventory, uuid)

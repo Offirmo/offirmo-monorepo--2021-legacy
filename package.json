@@ -29,7 +29,10 @@
 			"apps/*"
 		]
 	},
-	"dependencies": {},
+	"dependencies": {
+		"bolt": "^0.22.4",
+		"global": "^4.3.2"
+	},
 	"devDependencies": {
 		"@klarna/higher-order-components": "^6",
 		"@offirmo/cli-toolbox": "^1",

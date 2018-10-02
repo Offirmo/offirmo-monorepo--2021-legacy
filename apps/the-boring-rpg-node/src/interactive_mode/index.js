@@ -11,7 +11,8 @@ const { create: create_chat } = require('@offirmo/view-chat')
 const { CHARACTER_CLASSES } = require('@oh-my-rpg/state-character')
 const { get_snapshot: get_energy_snapshot } = require('@oh-my-rpg/state-energy')
 const {
-	render_item,
+	render_item_short,
+	render_item_detailed,
 	render_character_sheet,
 	render_full_inventory,
 	render_adventure,
@@ -182,12 +183,12 @@ function start_loop(SEC, options, instance) {
 				if (chat_state.sub.inventory.selected) {
 					const uuid = chat_state.sub.inventory.selected
 					const selected_item = instance.get_item(uuid)
-					const item_ascii_full = rich_text_to_ansi(render_item(selected_item))
+					const item_ascii_full = rich_text_to_ansi(render_item_detailed(selected_item))
 					const sell_price = instance.appraise_item(uuid)
 
 					steps.push({
 						type: 'simple_message',
-						msg_main: 'You inspect the ' + item_ascii_full + ' in your backpack.'
+						msg_main: 'You inspect the ' + item_ascii_full + '\nthat is in your backpack.'
 					})
 
 					const slot = selected_item.slot
@@ -201,7 +202,7 @@ function start_loop(SEC, options, instance) {
 					else {
 						steps.push({
 							type: 'simple_message',
-							msg_main: `You compare it to your currently equipped ${slot}: ` + rich_text_to_ansi(render_item(equipped_item_in_same_slot))
+							msg_main: `You compare it to your currently equipped ${slot}: ` + rich_text_to_ansi(render_item_detailed(equipped_item_in_same_slot))
 						})
 					}
 
@@ -248,7 +249,7 @@ function start_loop(SEC, options, instance) {
 					misc_items.forEach((item, index) => {
 						if (!item) return
 
-						const item_ascii = rich_text_to_ansi(render_item(item, {
+						const item_ascii = rich_text_to_ansi(render_item_short(item, {
 							display_quality: true,
 							display_values: false,
 						}))

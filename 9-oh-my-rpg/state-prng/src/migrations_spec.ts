@@ -3,11 +3,12 @@ import { expect } from 'chai'
 import { test_migrations } from '@oh-my-rpg/migration-tester'
 
 import { SCHEMA_VERSION } from './consts'
-import { migrate_to_latest } from './migrations'
+import { migrate_to_latest, MIGRATION_HINTS_FOR_TESTS } from './migrations'
 import { create } from './state'
-import { DEMO_STATE, MIGRATION_HINTS_FOR_TESTS } from './examples'
+import { DEMO_STATE } from './examples'
 
-describe('🎲  Persistable PRNG state - schema migration', function() {
+
+describe('schema migration', function() {
 
 	describe('migration of a new state', function() {
 		const new_state = create()

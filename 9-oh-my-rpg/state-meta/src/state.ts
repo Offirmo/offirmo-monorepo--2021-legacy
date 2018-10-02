@@ -14,7 +14,7 @@ const DEFAULT_NAME = 'anonymous'
 
 ///////
 
-function create(): State {
+function create(): Readonly<State> {
 	return {
 		schema_version: SCHEMA_VERSION,
 		revision: 0,
@@ -28,23 +28,32 @@ function create(): State {
 
 /////////////////////
 
-function rename(state: State, new_name: string): State {
-	if (!new_name)
-		throw new Error(`Error while renaming to "${new_name}: invalid value!`)
+function rename(state: Readonly<State>, name: string): Readonly<State> {
+	if (!name)
+		throw new Error(`Error while renaming to "${name}: invalid value!`)
+	// TODO normalize
 
-	state.name = new_name
+	return {
+		...state,
 
-	return state
+		name,
+
+		revision: state.revision + 1,
+	}
 }
 
-function set_email(state: State, email: string): State {
+function set_email(state: Readonly<State>, email: string): Readonly<State> {
 	if (!email)
 		throw new Error(`Error while setting mail to "${email}: invalid value!`)
+	// TODO normalize
 
-	state.email = email
+	return {
+		...state,
 
-	return state
-}
+		email,
+
+		revision: state.revision + 1,
+	}}
 
 /////////////////////
 

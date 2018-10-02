@@ -1,5 +1,4 @@
 /////////////////////
-import deepFreeze from 'deep-freeze-strict';
 import { SCHEMA_VERSION } from './consts';
 import { Currency, } from './types';
 /////////////////////
@@ -17,20 +16,17 @@ function create() {
 }
 /////////////////////
 function currency_to_state_entry(currency) {
-    return `${currency}_count`;
-}
-function change_amount_by(state, currency, amount) {
     switch (currency) {
         case Currency.coin:
-            state.coin_count += amount;
-            break;
         case Currency.token:
-            state.token_count += amount;
-            break;
+            return `${currency}_count`;
         default:
             throw new Error(`state-wallet: unrecognized currency: "${currency}`);
     }
-    return state;
+}
+function change_amount_by(state, currency, amount) {
+    let state_entry = currency_to_state_entry(currency);
+    return Object.assign({}, state, { [state_entry]: state[state_entry] + amount, revision: state.revision + 1 });
 }
 /////////////////////
 function add_amount(state, currency, amount) {
@@ -53,29 +49,6 @@ function* iterables_currency(state) {
     yield* ALL_CURRENCIES;
 }
 /////////////////////
-// needed to test migrations, both here and in composing parents
-// a full featured, non-trivial demo state
-// needed for demos
-const DEMO_STATE = deepFreeze({
-    schema_version: 1,
-    revision: 42,
-    coin_count: 23456,
-    token_count: 89,
-});
-// the oldest format we can migrate from
-// must correspond to state above
-const OLDEST_LEGACY_STATE_FOR_TESTS = deepFreeze({
-    // no schema_version = 0
-    coin_count: 23456,
-    token_count: 89,
-});
-// some hints may be needed to migrate to demo state
-const MIGRATION_HINTS_FOR_TESTS = deepFreeze({
-    to_v1: {
-        revision: 42
-    },
-});
-/////////////////////
-export { Currency, ALL_CURRENCIES, create, add_amount, remove_amount, get_currency_amount, iterables_currency, DEMO_STATE, OLDEST_LEGACY_STATE_FOR_TESTS, MIGRATION_HINTS_FOR_TESTS, };
+export { ALL_CURRENCIES, create, add_amount, remove_amount, get_currency_amount, iterables_currency, };
 /////////////////////
 //# sourceMappingURL=state.js.map

@@ -1,10 +1,10 @@
 import { MT19937 } from '@offirmo/random';
 import { State } from './types';
 declare const DEFAULT_SEED = 987;
-declare function create(): State;
-declare function set_seed(state: State, seed: number): State;
-declare function update_use_count(state: State, prng: MT19937, options?: any): State;
-declare function register_recently_used(state: State, id: string, value: number | string, max_memory_size: number): State;
+declare function create(): Readonly<State>;
+declare function set_seed(state: Readonly<State>, seed: number): Readonly<State>;
+declare function update_use_count(state: Readonly<State>, prng: MT19937, options?: any): Readonly<State>;
+declare function register_recently_used(state: Readonly<State>, id: string, value: number | string, max_memory_size: number): Readonly<State>;
 declare function xxx_internal_reset_prng_cache(): void;
 declare function get_prng(state: Readonly<State>): MT19937;
 export { State, DEFAULT_SEED, create, set_seed, update_use_count, register_recently_used, get_prng, xxx_internal_reset_prng_cache, };

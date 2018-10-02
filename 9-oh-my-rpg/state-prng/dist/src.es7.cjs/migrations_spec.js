@@ -6,7 +6,7 @@ const consts_1 = require("./consts");
 const migrations_1 = require("./migrations");
 const state_1 = require("./state");
 const examples_1 = require("./examples");
-describe('🎲  Persistable PRNG state - schema migration', function () {
+describe('schema migration', function () {
     describe('migration of a new state', function () {
         const new_state = state_1.create();
         migration_tester_1.test_migrations({
@@ -25,7 +25,7 @@ describe('🎲  Persistable PRNG state - schema migration', function () {
             use_hints: true,
             SCHEMA_VERSION: consts_1.SCHEMA_VERSION,
             LATEST_EXPECTED_DATA: examples_1.DEMO_STATE,
-            migration_hints_for_chaining: examples_1.MIGRATION_HINTS_FOR_TESTS,
+            migration_hints_for_chaining: migrations_1.MIGRATION_HINTS_FOR_TESTS,
             migrate_to_latest: migrations_1.migrate_to_latest,
             absolute_dir_path: require('path').join(__dirname, '../../src/migrations_of_active_state_specs'),
             describe, context, it, expect: chai_1.expect,

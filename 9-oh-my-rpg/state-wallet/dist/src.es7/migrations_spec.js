@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import { cloneDeep } from 'lodash';
 import { SCHEMA_VERSION } from './consts';
-import { migrate_to_latest } from './migrations';
-import { DEMO_STATE, OLDEST_LEGACY_STATE_FOR_TESTS, MIGRATION_HINTS_FOR_TESTS } from './state';
+import { migrate_to_latest, OLDEST_LEGACY_STATE_FOR_TESTS, MIGRATION_HINTS_FOR_TESTS } from './migrations';
+import { DEMO_STATE } from './examples';
 const DATA_v0 = OLDEST_LEGACY_STATE_FOR_TESTS;
 const DATA_OLDEST = DATA_v0;
 const DATA_v1 = DEMO_STATE;

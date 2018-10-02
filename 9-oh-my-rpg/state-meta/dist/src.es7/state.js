@@ -15,17 +15,17 @@ function create() {
     };
 }
 /////////////////////
-function rename(state, new_name) {
-    if (!new_name)
-        throw new Error(`Error while renaming to "${new_name}: invalid value!`);
-    state.name = new_name;
-    return state;
+function rename(state, name) {
+    if (!name)
+        throw new Error(`Error while renaming to "${name}: invalid value!`);
+    // TODO normalize
+    return Object.assign({}, state, { name, revision: state.revision + 1 });
 }
 function set_email(state, email) {
     if (!email)
         throw new Error(`Error while setting mail to "${email}: invalid value!`);
-    state.email = email;
-    return state;
+    // TODO normalize
+    return Object.assign({}, state, { email, revision: state.revision + 1 });
 }
 /////////////////////
 export { DEFAULT_NAME, create, rename, set_email, };

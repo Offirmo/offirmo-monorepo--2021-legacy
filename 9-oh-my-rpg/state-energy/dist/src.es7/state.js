@@ -4,8 +4,6 @@ import { LIB, SCHEMA_VERSION } from './consts';
 import { get_snapshot } from './snapshot';
 import { parse_human_readable_UTC_timestamp_ms } from '@offirmo/timestamps';
 /////////////////////
-const DEFAULT_NAME = 'anonymous';
-///////
 function create() {
     return {
         schema_version: SCHEMA_VERSION,
@@ -34,6 +32,7 @@ function loose_all_energy(state, date = new Date()) {
     state = Object.assign({}, state, { revision: state.revision + 1, last_date: get_human_readable_UTC_timestamp_ms(date), last_available_energy_float: 0. });
     return state;
 }
+// TODO time elapse
 function replenish_energy(state, date = new Date()) {
     state = Object.assign({}, state, { revision: state.revision + 1, last_date: get_human_readable_UTC_timestamp_ms(date), last_available_energy_float: state.max_energy * 1. });
     return state;

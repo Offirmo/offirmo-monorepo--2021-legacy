@@ -13,7 +13,7 @@ import { i18n_messages, ENTRIES } from './data'
 
 /////////////////////
 
-const ALL_ADVENTURE_ARCHETYPES: AdventureArchetype[] = ENTRIES
+const ALL_ADVENTURE_ARCHETYPES: Readonly<AdventureArchetype>[] = ENTRIES
 	.map(paa => {
 		const raw_outcome: Partial<OutcomeArchetype> = paa.outcome || {}
 
@@ -51,10 +51,10 @@ const ALL_ADVENTURE_ARCHETYPES: AdventureArchetype[] = ENTRIES
 		return aa
 	})
 
-const ALL_BAD_ADVENTURE_ARCHETYPES: AdventureArchetype[] = ALL_ADVENTURE_ARCHETYPES.filter(aa => !aa.good)
-const ALL_GOOD_ADVENTURE_ARCHETYPES: AdventureArchetype[] = ALL_ADVENTURE_ARCHETYPES.filter(aa => aa.good)
+const ALL_BAD_ADVENTURE_ARCHETYPES: Readonly<AdventureArchetype>[] = ALL_ADVENTURE_ARCHETYPES.filter(aa => !aa.good)
+const ALL_GOOD_ADVENTURE_ARCHETYPES: Readonly<AdventureArchetype>[] = ALL_ADVENTURE_ARCHETYPES.filter(aa => aa.good)
 
-const GOOD_ADVENTURE_ARCHETYPES_BY_TYPE: { [k: string]: AdventureArchetype[] } = {
+const GOOD_ADVENTURE_ARCHETYPES_BY_TYPE: { [k: string]: Readonly<AdventureArchetype>[] } = {
 	story: ALL_GOOD_ADVENTURE_ARCHETYPES.filter(aa => aa.type === AdventureType.story),
 	fight: ALL_GOOD_ADVENTURE_ARCHETYPES.filter(aa => aa.type === AdventureType.fight),
 }
@@ -89,7 +89,7 @@ const COINS_GAIN_RANGES: { [k: string]: [number, number] } = {
 /////////////////////
 
 // useful for picking an exact archetype (ex. tests)
-function get_archetype(hid: string): AdventureArchetype {
+function get_archetype(hid: string): Readonly<AdventureArchetype> {
 	const aa = ALL_ADVENTURE_ARCHETYPES.find(aa => aa.hid === hid)
 	if (!aa)
 		throw new Error(`logic-adventures, get_archetype(): couldn't find archetype "${hid}" !`)
@@ -98,13 +98,13 @@ function get_archetype(hid: string): AdventureArchetype {
 
 const FIGHT_ENCOUNTER_RATIO = 0.33
 
-function pick_random_good_archetype(rng: Engine): AdventureArchetype {
+function pick_random_good_archetype(rng: Engine): Readonly<AdventureArchetype> {
 	return Random.bool(FIGHT_ENCOUNTER_RATIO)(rng)
 		? Random.pick(rng, GOOD_ADVENTURE_ARCHETYPES_BY_TYPE.fight)
 		: Random.pick(rng, GOOD_ADVENTURE_ARCHETYPES_BY_TYPE.story)
 }
 
-function pick_random_bad_archetype(rng: Engine): AdventureArchetype {
+function pick_random_bad_archetype(rng: Engine): Readonly<AdventureArchetype> {
 	return Random.pick(rng, ALL_BAD_ADVENTURE_ARCHETYPES)
 }
 

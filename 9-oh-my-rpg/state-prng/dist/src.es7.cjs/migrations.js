@@ -2,6 +2,12 @@
 /////////////////////
 Object.defineProperty(exports, "__esModule", { value: true });
 const consts_1 = require("./consts");
+// need to be exported to compose migration tests
+const MIGRATION_HINTS_FOR_TESTS = {
+    'to_v1': {},
+    'to_v2': {},
+};
+exports.MIGRATION_HINTS_FOR_TESTS = MIGRATION_HINTS_FOR_TESTS;
 /////////////////////
 function migrate_to_latest(legacy_state, hints = {}) {
     const existing_version = (legacy_state && legacy_state.schema_version) || 0;

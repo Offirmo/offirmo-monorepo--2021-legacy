@@ -1,3 +1,6 @@
+// XXX move to tstate
+
+
 Energy bar, like Candy Crush.
 
 

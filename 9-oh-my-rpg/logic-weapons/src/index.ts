@@ -66,7 +66,7 @@ const pick_random_base_strength = Random.integer(MIN_STRENGTH, MAX_STRENGTH)
 
 /////////////////////
 
-function create(rng: Engine, hints: Partial<Weapon> = {}): Weapon {
+function create(rng: Engine, hints: Readonly<Partial<Weapon>> = {}): Weapon {
 	// TODO add a check for hints to be in existing components
 	return {
 		...create_item_base(InventorySlot.weapon, hints.quality || pick_random_quality(rng)),
@@ -91,7 +91,7 @@ function generate_random_demo_weapon(): Weapon {
 /////////////////////
 
 // for sorting
-function compare_weapons_by_strength(a: Weapon, b: Weapon): number {
+function compare_weapons_by_strength(a: Readonly<Weapon>, b: Readonly<Weapon>): number {
 	const a_dmg = get_medium_damage(a)
 	const b_dmg = get_medium_damage(b)
 	if (a_dmg !== b_dmg)
@@ -105,6 +105,7 @@ function compare_weapons_by_strength(a: Weapon, b: Weapon): number {
 	return compare_items_by_quality(a, b) || a.uuid.localeCompare(b.uuid)
 }
 
+// TODO immu
 function enhance(weapon: Weapon): Weapon {
 	if (weapon.enhancement_level >= MAX_ENHANCEMENT_LEVEL)
 		throw new Error('can’t enhance a weapon above the maximal enhancement level!')
@@ -115,7 +116,7 @@ function enhance(weapon: Weapon): Weapon {
 
 ///////
 
-function get_damage_interval(weapon: Weapon): [number, number] {
+function get_damage_interval(weapon: Readonly<Weapon>): [number, number] {
 	return get_interval(
 		weapon.base_strength,
 		weapon.quality,
@@ -123,14 +124,14 @@ function get_damage_interval(weapon: Weapon): [number, number] {
 	)
 }
 
-function get_medium_damage(weapon: Weapon): number {
+function get_medium_damage(weapon: Readonly<Weapon>): number {
 	const damage_range = get_damage_interval(weapon)
 	return Math.round((damage_range[0] + damage_range[1]) / 2)
 }
 
 /////////////////////
 
-const DEMO_WEAPON_1: Weapon = {
+const DEMO_WEAPON_1: Readonly<Weapon> = {
 	uuid: 'uu1~test~demo~weapon~001',
 	element_type: ElementType.item,
 	slot: InventorySlot.weapon,
@@ -142,7 +143,7 @@ const DEMO_WEAPON_1: Weapon = {
 	enhancement_level: MIN_ENHANCEMENT_LEVEL,
 }
 
-const DEMO_WEAPON_2: Weapon = {
+const DEMO_WEAPON_2: Readonly<Weapon> = {
 	uuid: 'uu1~test~demo~weapon~002',
 	element_type: ElementType.item,
 	slot: InventorySlot.weapon,

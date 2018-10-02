@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { generate_random_demo_armor } from '@oh-my-rpg/logic-armors';
 import { generate_random_demo_weapon } from '@oh-my-rpg/logic-weapons';
 import { compare_items, } from '.';
-describe('📦 📦 📦  Inventory state - sorting', function () {
+describe('sorting', function () {
     describe('comparison of different types', function () {
         it('should work - equality', function () {
             const DUMMY_ITEM_01 = generate_random_demo_weapon();

@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { SCHEMA_VERSION } from './consts';
 import { CharacterAttribute, CharacterClass, create, increase_stat, } from '.';
 import { get_lib_SEC } from './sec';
-describe('🤕 ❤️  Character state - reducer', function () {
+describe('reducer', function () {
     describe('🆕  initial state', function () {
         it('should have correct defaults', function () {
             const state = create(get_lib_SEC());

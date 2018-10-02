@@ -1,10 +1,8 @@
-/////////////////////
 import deepFreeze from 'deep-freeze-strict';
 import { CharacterClass, } from './types';
 /////////////////////
-// needed to test migrations, both here and in composing parents
 // a full featured, non-trivial demo state
-// needed for demos
+// useful for demos and unit tests
 const DEMO_STATE = deepFreeze({
     schema_version: 2,
     revision: 42,
@@ -21,12 +19,6 @@ const DEMO_STATE = deepFreeze({
         luck: 8,
     },
 });
-// the oldest format we can migrate from
-// must correspond to state above
-const OLDEST_LEGACY_STATE_FOR_TESTS = DEMO_STATE; // TODO ALPHA freeze this
-// some hints may be needed to migrate to demo state
-const MIGRATION_HINTS_FOR_TESTS = deepFreeze({});
 /////////////////////
-export { DEMO_STATE, OLDEST_LEGACY_STATE_FOR_TESTS, MIGRATION_HINTS_FOR_TESTS, };
-/////////////////////
+export { DEMO_STATE, };
 //# sourceMappingURL=examples.js.map

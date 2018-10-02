@@ -4,7 +4,7 @@ const chai_1 = require("chai");
 const logic_armors_1 = require("@oh-my-rpg/logic-armors");
 const logic_weapons_1 = require("@oh-my-rpg/logic-weapons");
 const _1 = require(".");
-describe('📦 📦 📦  Inventory state - sorting', function () {
+describe('sorting', function () {
     describe('comparison of different types', function () {
         it('should work - equality', function () {
             const DUMMY_ITEM_01 = logic_weapons_1.generate_random_demo_weapon();

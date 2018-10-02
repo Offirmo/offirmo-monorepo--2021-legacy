@@ -6,8 +6,6 @@ const consts_1 = require("./consts");
 const snapshot_1 = require("./snapshot");
 const timestamps_2 = require("@offirmo/timestamps");
 /////////////////////
-const DEFAULT_NAME = 'anonymous';
-///////
 function create() {
     return {
         schema_version: consts_1.SCHEMA_VERSION,
@@ -39,6 +37,7 @@ function loose_all_energy(state, date = new Date()) {
     return state;
 }
 exports.loose_all_energy = loose_all_energy;
+// TODO time elapse
 function replenish_energy(state, date = new Date()) {
     state = Object.assign({}, state, { revision: state.revision + 1, last_date: timestamps_1.get_human_readable_UTC_timestamp_ms(date), last_available_energy_float: state.max_energy * 1. });
     return state;

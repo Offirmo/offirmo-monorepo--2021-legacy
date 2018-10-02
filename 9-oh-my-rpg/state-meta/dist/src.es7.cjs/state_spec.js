@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
 const consts_1 = require("./consts");
 const _1 = require(".");
-describe('🤕 ❤️  Meta state - reducer', function () {
+describe('reducer', function () {
     describe('🆕  initial state', function () {
         const TEST_UUID_v1 = 'uu1dgqu3h0FydqWyQ~6cYv3g';
         it('should have correct defaults and a unique uuid', function () {

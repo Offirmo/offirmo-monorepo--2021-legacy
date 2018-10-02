@@ -7,7 +7,6 @@ import { get_human_readable_UTC_timestamp_ms } from '@offirmo/timestamps'
 import { LIB, SCHEMA_VERSION } from './consts'
 
 import {
-	EnergyUsage,
 	State,
 } from './types'
 
@@ -16,11 +15,8 @@ import { parse_human_readable_UTC_timestamp_ms } from '@offirmo/timestamps'
 
 /////////////////////
 
-const DEFAULT_NAME = 'anonymous'
 
-///////
-
-function create(): State {
+function create(): Readonly<State> {
 	return {
 		schema_version: SCHEMA_VERSION,
 		revision: 0,
@@ -34,9 +30,9 @@ function create(): State {
 }
 
 /////////////////////
-
 // date can be forced for testing reasons,
-function use_energy(state: State, qty: number = 1, date: Date = new Date()): State {
+
+function use_energy(state: Readonly<State>, qty: number = 1, date: Date = new Date()): Readonly<State> {
 	if (date < parse_human_readable_UTC_timestamp_ms(state.last_date))
 		throw new Error(`${LIB}: time went backward! (cheating attempt?)`)
 
@@ -60,7 +56,7 @@ function use_energy(state: State, qty: number = 1, date: Date = new Date()): Sta
 }
 
 // can be used as a punishment
-function loose_all_energy(state: State, date: Date = new Date()): State {
+function loose_all_energy(state: Readonly<State>, date: Date = new Date()): Readonly<State> {
 	state = {
 		...state,
 
@@ -73,7 +69,8 @@ function loose_all_energy(state: State, date: Date = new Date()): State {
 	return state
 }
 
-function replenish_energy(state: State, date: Date = new Date()): State {
+// TODO time elapse
+function replenish_energy(state: Readonly<State>, date: Date = new Date()): Readonly<State> {
 	state = {
 		...state,
 

@@ -2640,6 +2640,15 @@ switch($class) {
 */
 
 
+.page--savegame h1 {
+	display: inline;
+}
+
+.page--savegame pre {
+	font-size: x-small;
+}
+
+
 .dev-page {
 	max-width: 375px;
 	margin: 0 auto;

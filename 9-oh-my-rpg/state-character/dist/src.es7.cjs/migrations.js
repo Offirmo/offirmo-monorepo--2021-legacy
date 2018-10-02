@@ -1,7 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
+const deep_freeze_strict_1 = tslib_1.__importDefault(require("deep-freeze-strict"));
 const consts_1 = require("./consts");
 const sec_1 = require("./sec");
+// some hints may be needed to migrate to demo state
+// need to export them for composing tests
+const MIGRATION_HINTS_FOR_TESTS = deep_freeze_strict_1.default({});
+exports.MIGRATION_HINTS_FOR_TESTS = MIGRATION_HINTS_FOR_TESTS;
 /////////////////////
 function migrate_to_latest(SEC, legacy_state, hints = {}) {
     const existing_version = (legacy_state && legacy_state.schema_version) || 0;

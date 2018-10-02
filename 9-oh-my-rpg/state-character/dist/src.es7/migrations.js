@@ -1,5 +1,9 @@
+import deepFreeze from 'deep-freeze-strict';
 import { SCHEMA_VERSION } from './consts';
 import { get_lib_SEC } from './sec';
+// some hints may be needed to migrate to demo state
+// need to export them for composing tests
+const MIGRATION_HINTS_FOR_TESTS = deepFreeze({});
 /////////////////////
 function migrate_to_latest(SEC, legacy_state, hints = {}) {
     const existing_version = (legacy_state && legacy_state.schema_version) || 0;
@@ -34,5 +38,5 @@ function migrate_to_2(SEC, legacy_state, hints) {
     throw new Error('Schema is too old (pre-beta), can’t migrate!');
 }
 /////////////////////
-export { migrate_to_latest, };
+export { migrate_to_latest, MIGRATION_HINTS_FOR_TESTS, };
 //# sourceMappingURL=migrations.js.map

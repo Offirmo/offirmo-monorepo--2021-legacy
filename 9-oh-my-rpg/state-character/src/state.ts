@@ -20,7 +20,6 @@ const CHARACTER_ATTRIBUTES_SORTED: CharacterAttribute[] = [
 	'level',
 	'health',
 	'mana',
-
 	'strength',
 	'agility',
 	'charisma',
@@ -37,7 +36,7 @@ const CHARACTER_CLASSES = Enum.keys(CharacterClass)
 
 ///////
 
-function create(SEC?: SoftExecutionContext): State {
+function create(SEC?: SoftExecutionContext): Readonly<State> {
 	return get_lib_SEC(SEC).xTry('create', ({enforce_immutability}: OMRContext) => {
 		return enforce_immutability({
 			schema_version: SCHEMA_VERSION,
@@ -64,8 +63,9 @@ function create(SEC?: SoftExecutionContext): State {
 
 /////////////////////
 
-function rename(SEC: SoftExecutionContext, state: State, new_name: string): State {
+function rename(SEC: SoftExecutionContext, state: Readonly<State>, new_name: string): Readonly<State> {
 	return get_lib_SEC(SEC).xTry('rename', ({enforce_immutability}: OMRContext) => {
+		// TODO name normalization
 		if (!new_name)
 			throw new Error(`Error while renaming to "${new_name}: invalid target value!`) // TODO details
 		if (new_name === state.name)
@@ -79,7 +79,7 @@ function rename(SEC: SoftExecutionContext, state: State, new_name: string): Stat
 	})
 }
 
-function switch_class(SEC: SoftExecutionContext, state: State, klass: CharacterClass): State {
+function switch_class(SEC: SoftExecutionContext, state: Readonly<State>, klass: CharacterClass): Readonly<State> {
 	return get_lib_SEC(SEC).xTry('switch_class', ({enforce_immutability}: OMRContext) => {
 		if (klass === state.klass)
 			return state
@@ -92,7 +92,7 @@ function switch_class(SEC: SoftExecutionContext, state: State, klass: CharacterC
 	})
 }
 
-function increase_stat(SEC: SoftExecutionContext, state: State, stat: CharacterAttribute, amount = 1): State {
+function increase_stat(SEC: SoftExecutionContext, state: Readonly<State>, stat: CharacterAttribute, amount = 1): Readonly<State> {
 	return get_lib_SEC(SEC).xTry('increase_stat', ({enforce_immutability}: OMRContext) => {
 		if (amount <= 0)
 			throw new Error(`Error while increasing stat "${stat}": invalid amount!`) // TODO details
@@ -121,7 +121,6 @@ export {
 	CHARACTER_ATTRIBUTES,
 	CHARACTER_ATTRIBUTES_SORTED,
 	CHARACTER_CLASSES,
-
 
 	create,
 	rename,

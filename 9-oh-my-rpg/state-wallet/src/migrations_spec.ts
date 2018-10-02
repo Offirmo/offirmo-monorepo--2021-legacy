@@ -4,9 +4,10 @@ import { cloneDeep } from 'lodash'
 import deepFreeze from 'deep-freeze-strict'
 
 import { SCHEMA_VERSION } from './consts'
-import { migrate_to_latest } from './migrations'
+import { migrate_to_latest, OLDEST_LEGACY_STATE_FOR_TESTS, MIGRATION_HINTS_FOR_TESTS } from './migrations'
 import { State } from './types'
-import { DEMO_STATE, OLDEST_LEGACY_STATE_FOR_TESTS, MIGRATION_HINTS_FOR_TESTS } from './state'
+import { DEMO_STATE } from './examples'
+
 
 const DATA_v0: any = OLDEST_LEGACY_STATE_FOR_TESTS
 const DATA_OLDEST = DATA_v0

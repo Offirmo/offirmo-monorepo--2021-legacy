@@ -24,6 +24,25 @@ Compose and profit !
 
 
 ## analytics
+TODO
+
+## TODO
+* analytics
+
+All states (and logic) having...
+* ☑ readonly<>
+* ☐ immu
+* ☐ enforce_immu
+* ☐ SEC
+* ☐ revision
+* ☐ examples
+* ☐ split ustate / tstate / zstate
+* ☐ migration
+* ☐ accessors
 
 
-inspired by http://ronenness.github.io/RPGUI/
+## Credits
+See package.json.
+
+Extra:
+- inspired by http://ronenness.github.io/RPGUI/

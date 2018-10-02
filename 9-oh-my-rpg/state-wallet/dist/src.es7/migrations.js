@@ -1,6 +1,22 @@
 /////////////////////
 import { LIB, SCHEMA_VERSION } from './consts';
-import { create, OLDEST_LEGACY_STATE_FOR_TESTS } from './state';
+import { create } from './state';
+import deepFreeze from "deep-freeze-strict";
+// the oldest format we can migrate from
+// must correspond to state above
+// TODO clean that
+const OLDEST_LEGACY_STATE_FOR_TESTS = deepFreeze({
+    // no schema_version = 0
+    coin_count: 23456,
+    token_count: 89,
+});
+// some hints may be needed to migrate to demo state
+// must be exposed to combine unit test
+const MIGRATION_HINTS_FOR_TESTS = {
+    to_v1: {
+        revision: 42
+    },
+};
 /////////////////////
 function migrate_to_latest(legacy_state, hints = {}) {
     const src_version = (legacy_state && legacy_state.schema_version) || 0;
@@ -40,5 +56,5 @@ function migrate_to_1(legacy_state, hints) {
     throw new Error('Unrecognized schema, most likely too old, can’t migrate!');
 }
 /////////////////////
-export { migrate_to_latest, };
+export { OLDEST_LEGACY_STATE_FOR_TESTS, MIGRATION_HINTS_FOR_TESTS, migrate_to_latest, };
 //# sourceMappingURL=migrations.js.map

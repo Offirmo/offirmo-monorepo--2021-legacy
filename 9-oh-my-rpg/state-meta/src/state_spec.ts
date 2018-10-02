@@ -8,7 +8,7 @@ import {
 	create,
 } from '.'
 
-describe('🤕 ❤️  Meta state - reducer', function() {
+describe('reducer', function() {
 
 	describe('🆕  initial state', function() {
 		const TEST_UUID_v1 = 'uu1dgqu3h0FydqWyQ~6cYv3g'

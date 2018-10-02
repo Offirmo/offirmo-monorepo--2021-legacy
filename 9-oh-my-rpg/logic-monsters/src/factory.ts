@@ -27,7 +27,7 @@ function pick_random_rank(rng: Engine): MonsterRank {
 
 const MONSTER_RELATIVE_LEVEL_SPREAD = 0.1
 
-function create(rng: Engine, hints: Partial<Monster> = {}): Monster {
+function create(rng: Engine, hints: Readonly<Partial<Monster>> = {}): Monster {
 	const raw = hints.name
 		? ENTRIES.find(raw_monster => raw_monster.name === hints.name)
 		: Random.pick(rng, ENTRIES)
@@ -63,7 +63,7 @@ function generate_random_demo_monster(): Monster {
 	return create(rng)
 }
 
-const DEMO_MONSTER_01: Monster = {
+const DEMO_MONSTER_01: Readonly<Monster> = {
 	name: 'chicken',
 	level: 7,
 	rank: MonsterRank.elite,
