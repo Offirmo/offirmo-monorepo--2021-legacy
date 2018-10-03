@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { Random } from '@offirmo/random';
 import { SCHEMA_VERSION } from './consts';
 import { DEFAULT_SEED, create, update_use_count, get_prng, xxx_internal_reset_prng_cache, } from '.';
-describe('reducer', function () {
+describe('@oh-my-rpg/state-prng - reducer', function () {
     beforeEach(xxx_internal_reset_prng_cache);
     describe('🆕  initial value', function () {
         it('should have correct defaults', function () {

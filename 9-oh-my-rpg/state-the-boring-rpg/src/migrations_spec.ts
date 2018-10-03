@@ -9,7 +9,7 @@ import { get_lib_SEC } from './sec'
 import { create } from './state'
 import { DEMO_STATE, MIGRATION_HINTS_FOR_TESTS } from './examples'
 
-describe('schema migration', function() {
+describe('@oh-my-rpg/state-the-boring-rpg - schema migration', function() {
 
 	describe('migration of an existing state', function() {
 		// TODO ALPHA remove skip

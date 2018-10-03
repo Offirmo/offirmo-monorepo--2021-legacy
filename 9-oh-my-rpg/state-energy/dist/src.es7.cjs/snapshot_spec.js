@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
 const utils_1 = require("./utils");
 const _1 = require(".");
-describe('snapshot', function () {
+describe('@oh-my-rpg/state-energy - snapshot', function () {
     context('🆕  initial state', function () {
         it('should yield a correct snapshot', function () {
             const state = _1.create();

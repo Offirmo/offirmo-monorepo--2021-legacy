@@ -9,7 +9,8 @@ const RichText = tslib_1.__importStar(require("@offirmo/rich-text-format"));
 const items_1 = require("./items");
 const wallet_1 = require("./wallet");
 const monster_1 = require("./monster");
-function render_adventure(a) {
+const consts_1 = require("./consts");
+function render_adventure(a, options = consts_1.DEFAULT_RENDER_ITEM_OPTIONS) {
     const gains = a.gains; // alias for typing
     // in this special function, we'll be:
     // 1. generically filling a RichText.Document with any possible sub-elements,
@@ -33,7 +34,7 @@ function render_adventure(a) {
             //console.info('handling adventure outcome [l1]: ' + slot)
             if (!gains[slot])
                 return;
-            const $doc = items_1.render_item_short(gains[slot]);
+            const $doc = items_1.render_item_short(gains[slot], options);
             $story_sub_elements.item = $doc;
             $story_sub_elements.item_slot = RichText.span().pushText(slot).done();
             $story_sub_elements[slot] = $doc;

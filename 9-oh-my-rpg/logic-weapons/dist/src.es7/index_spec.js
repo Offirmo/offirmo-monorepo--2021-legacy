@@ -1,26 +1,40 @@
 import { expect } from 'chai';
+import { Enum } from 'typescript-string-enums';
 import { InventorySlot, ItemQuality, ElementType, xxx_test_unrandomize_element } from '@oh-my-rpg/definitions';
 import { Random } from '@offirmo/random';
 import { MAX_ENHANCEMENT_LEVEL, create, generate_random_demo_weapon, compare_weapons_by_strength, enhance, get_damage_interval, get_medium_damage, } from '.';
-describe('⚔ 🏹  weapon logic:', function () {
+function assert_shape(weapon) {
+    expect(Object.keys(weapon)).to.have.lengthOf(9);
+    expect(weapon.uuid).to.equal('uu1~test~test~test~test~');
+    expect(weapon.element_type).to.be.a('string');
+    expect(Enum.isType(ElementType, weapon.element_type)).to.be.true;
+    expect(weapon.slot).to.be.a('string');
+    expect(Enum.isType(InventorySlot, weapon.slot)).to.be.true;
+    expect(weapon.base_hid).to.be.a('string');
+    expect(weapon.base_hid.length).to.have.above(2);
+    expect(weapon.qualifier1_hid).to.be.a('string');
+    expect(weapon.qualifier1_hid.length).to.have.above(2);
+    expect(weapon.qualifier2_hid).to.be.a('string');
+    expect(weapon.qualifier2_hid.length).to.have.above(2);
+    expect(weapon.quality).to.be.a('string');
+    expect(Enum.isType(ItemQuality, weapon.quality)).to.be.true;
+    expect(weapon.base_strength).to.be.a('number');
+    expect(weapon.base_strength).to.be.at.least(1);
+    expect(weapon.base_strength).to.be.at.most(5000); // TODO real max
+    expect(weapon.enhancement_level).to.be.a('number');
+    expect(weapon.enhancement_level).to.be.at.least(0);
+    expect(weapon.enhancement_level).to.be.at.most(MAX_ENHANCEMENT_LEVEL);
+}
+describe('@oh-my-rpg/logic-weapons - logic', function () {
     describe('creation', function () {
         it('should allow creating a random weapon', function () {
             const rng = Random.engines.mt19937().seed(789);
             const weapon1 = xxx_test_unrandomize_element(create(rng));
-            expect(weapon1).to.deep.equal({
-                uuid: 'uu1~test~test~test~test~',
-                element_type: ElementType.item,
-                slot: InventorySlot.weapon,
-                base_hid: 'luth',
-                qualifier1_hid: 'simple',
-                qualifier2_hid: 'mercenary',
-                quality: ItemQuality.uncommon,
-                base_strength: 17,
-                enhancement_level: 0
-            });
-            expect(rng.getUseCount(), '# rng draws 1').to.equal(6);
-            const weapon2 = create(rng);
-            expect(rng.getUseCount(), '# rng draws 2').to.equal(11);
+            assert_shape(weapon1);
+            expect(rng.getUseCount(), '# rng draws 1').to.equal(7); // between 5 and 8 (TODO improve)
+            const weapon2 = xxx_test_unrandomize_element(create(rng));
+            assert_shape(weapon2);
+            expect(rng.getUseCount(), '# rng draws 2').to.equal(12);
             expect(weapon2).not.to.deep.equal(weapon1);
         });
         it('should allow creating a partially predefined weapon', function () {

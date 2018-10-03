@@ -15,7 +15,7 @@ import {
 	get_snapshot,
 } from '.'
 
-describe('snapshot', function() {
+describe('@oh-my-rpg/state-energy - snapshot', function() {
 
 	context('🆕  initial state', function() {
 

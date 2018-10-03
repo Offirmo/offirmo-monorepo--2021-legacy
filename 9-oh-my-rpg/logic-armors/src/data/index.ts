@@ -1,4 +1,6 @@
 import { I18nMessages } from '@oh-my-rpg/definitions'
+
+import { ArmorPartType } from '../types'
 import { messages as en } from './i18n_en'
 
 const i18n_messages: I18nMessages = {
@@ -10,7 +12,7 @@ interface RawArmorEntry {
 	hid: string
 }
 
-const ENTRIES: RawArmorEntry[] = [
+const ENTRIES: Readonly<RawArmorEntry>[] = [
 	{ type: 'base', hid: 'armguards' },
 	{ type: 'base', hid: 'belt' },
 	{ type: 'base', hid: 'boots' },
@@ -110,10 +112,25 @@ const ENTRIES: RawArmorEntry[] = [
 	{ type: 'qualifier2', hid: 'wise' },
 ]
 
+
+const ARMOR_BASES =
+	ENTRIES.filter((armor_component: any) => armor_component.type === ArmorPartType.base) as
+		Readonly<{type: 'base', hid: string}>[]
+const ARMOR_QUALIFIERS1 =
+	ENTRIES.filter((armor_component: any) => armor_component.type === ArmorPartType.qualifier1) as
+		Readonly<{type: 'qualifier1', hid: string}>[]
+const ARMOR_QUALIFIERS2 =
+	ENTRIES.filter((armor_component: any) => armor_component.type === ArmorPartType.qualifier2) as
+		Readonly<{type: 'qualifier2', hid: string}>[]
+
+
 export {
 	RawArmorEntry,
-	ENTRIES,
-
 	I18nMessages,
+
 	i18n_messages,
+	ENTRIES,
+	ARMOR_BASES,
+	ARMOR_QUALIFIERS1,
+	ARMOR_QUALIFIERS2,
 }

@@ -78,7 +78,7 @@ interface WalkerCallbacks<State, RenderingOptions> {
 	//[on_type_x: string]: WalkerReducer<State, OnTypeParams<State>>,
 }
 
-function get_default_callbacks<State = string, RenderingOptions = any>(): WalkerCallbacks<State, RenderingOptions> {
+function get_default_callbacks<State, RenderingOptions = any>(): WalkerCallbacks<State, RenderingOptions> {
 	function nothing(): void {}
 	function identity({state}: {state: State}): State {
 		return state
@@ -93,10 +93,16 @@ function get_default_callbacks<State = string, RenderingOptions = any>(): Walker
 		on_concatenate_sub_node: identity,
 		on_filter: identity,
 		on_filter_Capitalize: ({state}: {state: State}) => {
-			if (typeof state === 'string' && state) {
+
+			// generic processing that works for text, ansi, React...
+			const generic_state = state as any
+			if (generic_state && typeof generic_state.str === 'string') {
 				//console.log(`${LIB} auto capitalizing...`, state)
-				const str = '' + state
-				return str[0].toUpperCase() + str.slice(1) as any as State
+				const str = '' + generic_state.str
+				return {
+					...(generic_state as any),
+					str: str[0].toUpperCase() + str.slice(1)
+				} as State
 			}
 
 			return state
@@ -159,9 +165,11 @@ function walk_content<State, RenderingOptions>(
 			depth: depth + 1,
 		})
 
+		//console.log('[filters', $filters, '])
 		sub_state = $filters.reduce(
 			(state, $filter) => {
 				const fine_filter_cb_id = `on_filter_${$filter}`
+				//console.log({fine_filter_cb_id})
 				const fine_filter_callback = callbacks[fine_filter_cb_id] as WalkerReducer<State, OnFilterParams<State>, RenderingOptions>
 				if (fine_filter_callback)
 					state = fine_filter_callback({

@@ -5,7 +5,7 @@ const chai_1 = require("chai");
 const state_prng_1 = require("@oh-my-rpg/state-prng");
 const RichText = tslib_1.__importStar(require("@offirmo/rich-text-format"));
 const _1 = require(".");
-describe('⚔ 👑 😪  The Boring RPG - contextual messages', function () {
+describe('@oh-my-rpg/state-the-boring-rpg - contextual messages', function () {
     beforeEach(() => state_prng_1.xxx_internal_reset_prng_cache());
     describe('get recap', function () {
         context('when the user has just started a new game', function () {

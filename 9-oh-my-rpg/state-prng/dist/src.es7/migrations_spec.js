@@ -4,7 +4,7 @@ import { SCHEMA_VERSION } from './consts';
 import { migrate_to_latest, MIGRATION_HINTS_FOR_TESTS } from './migrations';
 import { create } from './state';
 import { DEMO_STATE } from './examples';
-describe('schema migration', function () {
+describe('@oh-my-rpg/state-prng - schema migration', function () {
     describe('migration of a new state', function () {
         const new_state = create();
         test_migrations({

@@ -7,7 +7,7 @@ const migrations_1 = require("./migrations");
 const sec_1 = require("./sec");
 const state_1 = require("./state");
 const examples_1 = require("./examples");
-describe('schema migration', function () {
+describe('@oh-my-rpg/state-the-boring-rpg - schema migration', function () {
     describe('migration of an existing state', function () {
         // TODO ALPHA remove skip
         migration_tester_1.test_migrations.skip({

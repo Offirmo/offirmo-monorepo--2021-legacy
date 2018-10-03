@@ -4,7 +4,7 @@ import { generate_random_demo_armor } from '@oh-my-rpg/logic-armors';
 import { generate_random_demo_weapon } from '@oh-my-rpg/logic-weapons';
 import { SCHEMA_VERSION } from './consts';
 import { create, add_item, remove_item_from_unslotted, equip_item, get_equipped_item_count, get_unequipped_item_count, get_item_count, get_item_in_slot, iterables_unslotted, } from '.';
-describe('reducer', function () {
+describe('@oh-my-rpg/state-inventory - reducer', function () {
     const DUMMY_ITEM = generate_random_demo_weapon();
     describe('🆕 initial state', function () {
         it('should have correct defaults', function () {

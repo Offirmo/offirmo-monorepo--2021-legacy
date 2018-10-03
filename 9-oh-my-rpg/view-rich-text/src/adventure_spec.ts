@@ -58,8 +58,7 @@ describe('📃  adventure rendering', function() {
 		console.log(str)
 		expect(str).to.be.a('string')
 		expect(str).to.include('You come across an old man with eccentric apparel')
-		expect(str).to.include('uncommon Adjudicator’s Admirable Axe')
-		expect(str).to.include('[deals 19 to 133 damage]')
+		expect(str).to.include('Adjudicator’s Admirable Axe')
 	})
 
 	it('should render properly - with gain of item improvement', () => {

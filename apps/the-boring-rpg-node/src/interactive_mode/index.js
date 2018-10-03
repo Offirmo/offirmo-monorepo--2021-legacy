@@ -24,6 +24,11 @@ const { stylize_string } = require('../utils/libs')
 const { render_header } = require('../view')
 const { prettify_json_for_debug } = require('../utils/debug') // TODO externalize
 
+const RENDER_ITEM_OPTIONS = {
+	display_quality: true,
+	display_values: true,
+}
+
 function get_recap(state) {
 	return rich_text_to_ansi(tbrpg.get_recap(state))
 }
@@ -32,7 +37,6 @@ function get_tip(state) {
 	const tip = tbrpg.get_tip(state)
 	return tip && rich_text_to_ansi(tip)
 }
-
 
 
 function start_loop(SEC, options, instance) {
@@ -77,7 +81,7 @@ function start_loop(SEC, options, instance) {
 					const { good_click_count } = state
 					//console.log({ good_click_count, last_adventure })
 					let msg_main = `Episode #${good_click_count}:\n`
-					const $doc = render_adventure(last_adventure)
+					const $doc = render_adventure(last_adventure, RENDER_ITEM_OPTIONS)
 					msg_main += rich_text_to_ansi($doc)
 					chat_state.sub.main.last_adventure = state.last_adventure
 					/*steps.push({
@@ -239,7 +243,7 @@ function start_loop(SEC, options, instance) {
 					})
 				}
 				else {
-					const $doc = render_full_inventory(state.inventory, state.wallet)
+					const $doc = render_full_inventory(state.inventory, state.wallet, RENDER_ITEM_OPTIONS)
 					steps.push({
 						type: 'simple_message',
 						msg_main: 'Here is your full inventory:\n\n' + rich_text_to_ansi($doc)
@@ -249,10 +253,7 @@ function start_loop(SEC, options, instance) {
 					misc_items.forEach((item, index) => {
 						if (!item) return
 
-						const item_ascii = rich_text_to_ansi(render_item_short(item, {
-							display_quality: true,
-							display_values: false,
-						}))
+						const item_ascii = rich_text_to_ansi(render_item_short(item, RENDER_ITEM_OPTIONS))
 						choices.push({
 							msg_cta: 'Select ' + item_ascii,
 							value: item.uuid,

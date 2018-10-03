@@ -31,7 +31,7 @@ import {
 	iterables_unslotted,
 } from '.'
 
-describe('reducer', function() {
+describe('@oh-my-rpg/state-inventory - reducer', function() {
 	const DUMMY_ITEM: Item = generate_random_demo_weapon()
 
 	describe('🆕 initial state', function() {

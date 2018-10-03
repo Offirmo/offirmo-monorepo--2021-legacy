@@ -17,7 +17,7 @@ import {
 	xxx_internal_reset_prng_cache,
 } from '.'
 
-describe('reducer', function() {
+describe('@oh-my-rpg/state-prng - reducer', function() {
 	beforeEach(xxx_internal_reset_prng_cache)
 
 	describe('🆕  initial value', function() {

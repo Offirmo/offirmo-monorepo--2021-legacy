@@ -13,7 +13,7 @@ import {
 	generate_random_coin_gain,
 } from '.'
 
-describe('⚔ 💰  adventures logic:', function () {
+describe('@oh-my-rpg/logic-adventures - logic', function () {
 
 	describe('bad adventures picker', function () {
 

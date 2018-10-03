@@ -7,7 +7,6 @@ const deep_merge = require('deepmerge').default;
 import { get_item } from '@oh-my-rpg/state-inventory';
 import * as state_fns from './state';
 import { migrate_to_latest } from './migrations';
-import { ActionCategory } from './serializable_actions';
 function overwriteMerge(destination, source) {
     return source;
 }
@@ -28,7 +27,7 @@ function create_game_instance({ SEC, get_latest_state, persist_state, client_sta
             persist_state(state);
         });
         client_state = client_state || {
-            mode: ActionCategory.base,
+        //mode: ActionCategory.base,
         };
         const emitter = new EventEmitter();
         // todo .model .view ?

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { InventorySlot, ItemQuality } from '@oh-my-rpg/definitions';
 import { appraise } from '.';
-describe('📦 💰 📤 📥  shop logic:', function () {
+describe('@oh-my-rpg/logic-shop - logic:', function () {
     describe('appraisal', function () {
         context('of armors', function () {
             it('should work', () => {

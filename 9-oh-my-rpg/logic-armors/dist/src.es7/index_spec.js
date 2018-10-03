@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { InventorySlot, ItemQuality, ElementType, xxx_test_unrandomize_element, } from '@oh-my-rpg/definitions';
 import { Random } from '@offirmo/random';
 import { MAX_ENHANCEMENT_LEVEL, create, generate_random_demo_armor, enhance, get_damage_reduction_interval, get_medium_damage_reduction, compare_armors_by_strength, } from '.';
-describe('🛡 👕  armor logic:', function () {
+describe('@oh-my-rpg/logic-armors - logic', function () {
     describe('creation', function () {
         it('should allow creating a random armor', function () {
             const rng = Random.engines.mt19937().seed(789);

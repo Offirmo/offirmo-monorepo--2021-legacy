@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { SCHEMA_VERSION } from './consts';
 import { Currency, ALL_CURRENCIES, create, add_amount, remove_amount, get_currency_amount, } from '.';
-describe('💰 💰 💎  Currencies wallet state - reducer', function () {
+describe('@oh-my-rpg/state-wallet - reducer', function () {
     const EXPECTED_CURRENCY_SLOT_COUNT = 2;
     describe('🆕 initial state', function () {
         it('should have correct defaults to 0', function () {

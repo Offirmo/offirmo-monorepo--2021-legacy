@@ -19,7 +19,7 @@ import {
 	compare_armors_by_strength,
 } from '.'
 
-describe('🛡 👕  armor logic:', function() {
+describe('@oh-my-rpg/logic-armors - logic', function() {
 
 	describe('creation', function() {
 

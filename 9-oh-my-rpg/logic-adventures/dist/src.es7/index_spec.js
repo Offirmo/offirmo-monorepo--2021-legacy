@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { Random } from '@offirmo/random';
 import { CoinsGain, pick_random_good_archetype, pick_random_bad_archetype, generate_random_coin_gain, } from '.';
-describe('⚔ 💰  adventures logic:', function () {
+describe('@oh-my-rpg/logic-adventures - logic', function () {
     describe('bad adventures picker', function () {
         it('should provide bad adventure archetypes', () => {
             const rng = Random.engines.mt19937().seed(789);

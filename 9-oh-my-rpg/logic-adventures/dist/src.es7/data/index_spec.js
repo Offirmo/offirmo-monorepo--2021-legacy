@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { i18n_messages, ENTRIES, } from '.';
-describe('⚔ 💰  adventures data:', function () {
+describe('@oh-my-rpg/logic-adventures - data:', function () {
     const _ = i18n_messages.en;
     const ARCHETYPES = {};
     ENTRIES.forEach(entry => ARCHETYPES[entry.hid] = entry);

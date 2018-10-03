@@ -6,7 +6,7 @@ const consts_1 = require("./consts");
 const migrations_1 = require("./migrations");
 const state_1 = require("./state");
 const examples_1 = require("./examples");
-describe('schema migration', function () {
+describe('@oh-my-rpg/state-inventory - schema migration', function () {
     describe('migration of a new state', function () {
         const new_state = state_1.create();
         // TODO ALPHA remove skip

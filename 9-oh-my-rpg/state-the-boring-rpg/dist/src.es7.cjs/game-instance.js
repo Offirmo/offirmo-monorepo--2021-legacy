@@ -10,7 +10,6 @@ const deep_merge = require('deepmerge').default;
 const state_inventory_1 = require("@oh-my-rpg/state-inventory");
 const state_fns = tslib_1.__importStar(require("./state"));
 const migrations_1 = require("./migrations");
-const serializable_actions_1 = require("./serializable_actions");
 function overwriteMerge(destination, source) {
     return source;
 }
@@ -31,7 +30,7 @@ function create_game_instance({ SEC, get_latest_state, persist_state, client_sta
             persist_state(state);
         });
         client_state = client_state || {
-            mode: serializable_actions_1.ActionCategory.base,
+        //mode: ActionCategory.base,
         };
         const emitter = new EventEmitter();
         // todo .model .view ?

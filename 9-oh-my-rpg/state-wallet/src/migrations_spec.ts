@@ -17,7 +17,7 @@ const DATA_v1: any = DEMO_STATE
 const DATA_LATEST = DEMO_STATE as State
 
 
-describe('💰 💰 💎  Currencies wallet state - schema migration', function() {
+describe('@oh-my-rpg/state-wallet - schema migration', function() {
 
 	context('when the version is more recent', function() {
 

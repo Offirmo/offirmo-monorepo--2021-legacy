@@ -78,7 +78,7 @@ describe('🔠  view to @offirmo/rich-text-format', function () {
                 const $doc = _1.render_equipment(inventory);
                 const str = RichText.to_text($doc);
                 chai_1.expect(str).to.be.a('string');
-                chai_1.expect(str).to.contain('armor : -');
+                chai_1.expect(str).to.contain('armor: -');
                 chai_1.expect(str).to.contain('weapon: -');
             });
         });
@@ -92,8 +92,8 @@ describe('🔠  view to @offirmo/rich-text-format', function () {
                 const $doc = _1.render_equipment(inventory);
                 const str = RichText.to_text($doc);
                 chai_1.expect(str).to.be.a('string');
-                chai_1.expect(str).to.contain('armor : legendary Apprentice’s Brass Belt +8');
-                chai_1.expect(str).to.contain('weapon: uncommon Adjudicator’s Admirable Axe');
+                chai_1.expect(str).to.contain('armor: Apprentice’s Brass Belt +8');
+                chai_1.expect(str).to.contain('weapon: Adjudicator’s Admirable Axe');
             });
         });
         describe('demo', function () {

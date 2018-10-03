@@ -4,7 +4,7 @@ const chai_1 = require("chai");
 const consts_1 = require("./consts");
 const types_1 = require("./types");
 const _1 = require(".");
-describe('state - reducer', function () {
+describe('@oh-my-rpg/state-achievements - reducer', function () {
     const EXPECTED_CURRENCY_SLOT_COUNT = 2;
     describe('🆕 initial state', function () {
         it('should have correct defaults', function () {

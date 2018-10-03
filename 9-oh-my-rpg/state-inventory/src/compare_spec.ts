@@ -12,7 +12,7 @@ import {
 	compare_items,
 } from '.'
 
-describe('sorting', function() {
+describe('@oh-my-rpg/state-inventory - sorting', function() {
 
 	describe('comparison of different types', function() {
 

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { Random } from '@offirmo/random';
 import { create, register_recently_used, get_prng, generate_random_seed, regenerate_until_not_recently_encountered, xxx_internal_reset_prng_cache, } from '.';
-describe('utils', function () {
+describe('@oh-my-rpg/state-prng - utils', function () {
     beforeEach(xxx_internal_reset_prng_cache);
     describe('generate_random_seed', function () {
         it('should return a random seed', function () {

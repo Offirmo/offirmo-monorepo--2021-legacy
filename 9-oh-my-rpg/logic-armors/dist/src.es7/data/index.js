@@ -1,3 +1,4 @@
+import { ArmorPartType } from '../types';
 import { messages as en } from './i18n_en';
 const i18n_messages = {
     en,
@@ -99,5 +100,8 @@ const ENTRIES = [
     { type: 'qualifier2', hid: 'warrior' },
     { type: 'qualifier2', hid: 'wise' },
 ];
-export { ENTRIES, i18n_messages, };
+const ARMOR_BASES = ENTRIES.filter((armor_component) => armor_component.type === ArmorPartType.base);
+const ARMOR_QUALIFIERS1 = ENTRIES.filter((armor_component) => armor_component.type === ArmorPartType.qualifier1);
+const ARMOR_QUALIFIERS2 = ENTRIES.filter((armor_component) => armor_component.type === ArmorPartType.qualifier2);
+export { i18n_messages, ENTRIES, ARMOR_BASES, ARMOR_QUALIFIERS1, ARMOR_QUALIFIERS2, };
 //# sourceMappingURL=index.js.map

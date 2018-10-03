@@ -41,8 +41,7 @@ describe('📃  adventure rendering', function () {
         console.log(str);
         chai_1.expect(str).to.be.a('string');
         chai_1.expect(str).to.include('You come across an old man with eccentric apparel');
-        chai_1.expect(str).to.include('uncommon Adjudicator’s Admirable Axe');
-        chai_1.expect(str).to.include('[deals 19 to 133 damage]');
+        chai_1.expect(str).to.include('Adjudicator’s Admirable Axe');
     });
     it('should render properly - with gain of item improvement', () => {
         const $doc = _1.render_adventure(state_the_boring_rpg_1.DEMO_ADVENTURE_04);

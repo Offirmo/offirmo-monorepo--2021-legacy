@@ -18,6 +18,8 @@ function on_node_exit(params, options) {
 	const { state, $node } = params
 	const { $hints } = $node
 
+	//console.warn('final on_node_exit', state)
+
 	if (classes.includes('monster')) {
 		children.push(<span className="monster-emoji">{$hints.possible_emoji}</span>)
 	}

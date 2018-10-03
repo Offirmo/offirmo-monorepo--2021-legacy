@@ -6,10 +6,10 @@ const NodeType = Enum(
 'span', 'strong', 'em', 
 // display "block"
 'heading', 'hr', 'ol', 'ul', 
-// internally used, don't mind
-'li', 
 // special
-'br', 'inline_fragment', 'block_fragment');
+'br', 'inline_fragment', 'block_fragment', 
+// internally used, don't mind, don't use directly
+'li');
 ////////////
 export { NodeType, };
 //# sourceMappingURL=types.js.map

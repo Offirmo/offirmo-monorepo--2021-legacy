@@ -4,7 +4,7 @@ const chai_1 = require("chai");
 const consts_1 = require("./consts");
 const _1 = require(".");
 const timestamps_1 = require("@offirmo/timestamps");
-describe('state reducer', function () {
+describe('@oh-my-rpg/state-energy - reducer', function () {
     describe('🆕  initial state', function () {
         it('should have correct defaults', function () {
             let state = _1.create();

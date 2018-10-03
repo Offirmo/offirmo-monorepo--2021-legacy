@@ -7,7 +7,7 @@ import { migrate_to_latest } from './migrations'
 import { create } from './state'
 import { DEMO_STATE, MIGRATION_HINTS_FOR_TESTS } from './examples'
 
-describe('schema migration', function() {
+describe('@oh-my-rpg/state-inventory - schema migration', function() {
 
 	describe('migration of a new state', function() {
 		const new_state = create()

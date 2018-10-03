@@ -51,9 +51,9 @@ function create_game_instance<T>({SEC, get_latest_state, persist_state, client_s
 			persist_state(state)
 		})
 
-		client_state = client_state || {
-			mode: ActionCategory.base,
-		}
+		client_state = client_state || ({
+			//mode: ActionCategory.base,
+		} as any as T)
 
 		const emitter = new EventEmitter()
 

@@ -11,9 +11,9 @@ function create_element_base(element_type: ElementType, hints: {uuid?: UUID} = {
 	}
 }
 
-function xxx_test_unrandomize_element<T extends Element>(e: any, hint?: UUID): T {
+function xxx_test_unrandomize_element<T extends Element>(e: Readonly<T>, hint?: UUID): T {
 	return {
-		...e,
+		...(e as any),
 		uuid: hint || 'uu1~test~test~test~test~'
 	} as T
 }

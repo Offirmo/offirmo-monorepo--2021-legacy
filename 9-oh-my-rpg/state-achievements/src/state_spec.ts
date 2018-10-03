@@ -9,7 +9,7 @@ import {
 	get_sorted_visible_achievements,
 } from '.'
 
-describe('state - reducer', function() {
+describe('@oh-my-rpg/state-achievements - reducer', function() {
 	const EXPECTED_CURRENCY_SLOT_COUNT = 2
 
 	describe('🆕 initial state', function() {

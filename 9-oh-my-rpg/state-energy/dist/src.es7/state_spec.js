@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { SCHEMA_VERSION } from './consts';
 import { create, use_energy, get_snapshot, } from '.';
 import { get_human_readable_UTC_timestamp_ms } from '@offirmo/timestamps';
-describe('state reducer', function () {
+describe('@oh-my-rpg/state-energy - reducer', function () {
     describe('🆕  initial state', function () {
         it('should have correct defaults', function () {
             let state = create();

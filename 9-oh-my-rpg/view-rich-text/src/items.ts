@@ -5,8 +5,8 @@ import * as RichText from '@offirmo/rich-text-format'
 
 import { render_armor_short, render_armor_detailed } from './items--armor'
 import { render_weapon_short, render_weapon_detailed, } from './items--weapon'
-import {RenderItemOptions} from './types'
-import {DEFAULT_RENDER_ITEM_OPTIONS} from './consts'
+import { RenderItemOptions } from './types'
+import { DEFAULT_RENDER_ITEM_OPTIONS } from './consts'
 
 
 function decorate_with_common_item_props(i: Item, doc: RichText.Document): RichText.Document {

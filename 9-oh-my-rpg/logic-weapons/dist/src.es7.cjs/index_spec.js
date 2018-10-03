@@ -1,28 +1,42 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
+const typescript_string_enums_1 = require("typescript-string-enums");
 const definitions_1 = require("@oh-my-rpg/definitions");
 const random_1 = require("@offirmo/random");
 const _1 = require(".");
-describe('⚔ 🏹  weapon logic:', function () {
+function assert_shape(weapon) {
+    chai_1.expect(Object.keys(weapon)).to.have.lengthOf(9);
+    chai_1.expect(weapon.uuid).to.equal('uu1~test~test~test~test~');
+    chai_1.expect(weapon.element_type).to.be.a('string');
+    chai_1.expect(typescript_string_enums_1.Enum.isType(definitions_1.ElementType, weapon.element_type)).to.be.true;
+    chai_1.expect(weapon.slot).to.be.a('string');
+    chai_1.expect(typescript_string_enums_1.Enum.isType(definitions_1.InventorySlot, weapon.slot)).to.be.true;
+    chai_1.expect(weapon.base_hid).to.be.a('string');
+    chai_1.expect(weapon.base_hid.length).to.have.above(2);
+    chai_1.expect(weapon.qualifier1_hid).to.be.a('string');
+    chai_1.expect(weapon.qualifier1_hid.length).to.have.above(2);
+    chai_1.expect(weapon.qualifier2_hid).to.be.a('string');
+    chai_1.expect(weapon.qualifier2_hid.length).to.have.above(2);
+    chai_1.expect(weapon.quality).to.be.a('string');
+    chai_1.expect(typescript_string_enums_1.Enum.isType(definitions_1.ItemQuality, weapon.quality)).to.be.true;
+    chai_1.expect(weapon.base_strength).to.be.a('number');
+    chai_1.expect(weapon.base_strength).to.be.at.least(1);
+    chai_1.expect(weapon.base_strength).to.be.at.most(5000); // TODO real max
+    chai_1.expect(weapon.enhancement_level).to.be.a('number');
+    chai_1.expect(weapon.enhancement_level).to.be.at.least(0);
+    chai_1.expect(weapon.enhancement_level).to.be.at.most(_1.MAX_ENHANCEMENT_LEVEL);
+}
+describe('@oh-my-rpg/logic-weapons - logic', function () {
     describe('creation', function () {
         it('should allow creating a random weapon', function () {
             const rng = random_1.Random.engines.mt19937().seed(789);
             const weapon1 = definitions_1.xxx_test_unrandomize_element(_1.create(rng));
-            chai_1.expect(weapon1).to.deep.equal({
-                uuid: 'uu1~test~test~test~test~',
-                element_type: definitions_1.ElementType.item,
-                slot: definitions_1.InventorySlot.weapon,
-                base_hid: 'luth',
-                qualifier1_hid: 'simple',
-                qualifier2_hid: 'mercenary',
-                quality: definitions_1.ItemQuality.uncommon,
-                base_strength: 17,
-                enhancement_level: 0
-            });
-            chai_1.expect(rng.getUseCount(), '# rng draws 1').to.equal(6);
-            const weapon2 = _1.create(rng);
-            chai_1.expect(rng.getUseCount(), '# rng draws 2').to.equal(11);
+            assert_shape(weapon1);
+            chai_1.expect(rng.getUseCount(), '# rng draws 1').to.equal(7); // between 5 and 8 (TODO improve)
+            const weapon2 = definitions_1.xxx_test_unrandomize_element(_1.create(rng));
+            assert_shape(weapon2);
+            chai_1.expect(rng.getUseCount(), '# rng draws 2').to.equal(12);
             chai_1.expect(weapon2).not.to.deep.equal(weapon1);
         });
         it('should allow creating a partially predefined weapon', function () {

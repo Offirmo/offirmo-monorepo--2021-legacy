@@ -5,7 +5,7 @@ import { get_unequipped_item_count, get_equipped_item_count, } from '@oh-my-rpg/
 import { Currency, get_currency_amount, } from '@oh-my-rpg/state-wallet';
 import { SCHEMA_VERSION } from './consts';
 import { create, play, find_element, appraise_item, } from '.';
-describe('reducer', function () {
+describe('@oh-my-rpg/state-the-boring-rpg - reducer', function () {
     beforeEach(() => xxx_internal_reset_prng_cache());
     describe('🆕  initial state', function () {
         it('should be correct', function () {

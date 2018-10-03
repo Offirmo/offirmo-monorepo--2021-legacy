@@ -13,7 +13,7 @@ import {
 } from '.'
 
 
-describe('⚔ 👑 😪  The Boring RPG - contextual messages', function() {
+describe('@oh-my-rpg/state-the-boring-rpg - contextual messages', function() {
 	beforeEach(() => xxx_internal_reset_prng_cache())
 
 	describe('get recap', function() {

@@ -15,10 +15,12 @@ function get_default_callbacks() {
         on_concatenate_sub_node: identity,
         on_filter: identity,
         on_filter_Capitalize: ({ state }) => {
-            if (typeof state === 'string' && state) {
+            // generic processing that works for text, ansi, React...
+            const generic_state = state;
+            if (generic_state && typeof generic_state.str === 'string') {
                 //console.log(`${LIB} auto capitalizing...`, state)
-                const str = '' + state;
-                return str[0].toUpperCase() + str.slice(1);
+                const str = '' + generic_state.str;
+                return Object.assign({}, generic_state, { str: str[0].toUpperCase() + str.slice(1) });
             }
             return state;
         },
@@ -61,8 +63,10 @@ function walk_content($node, callbacks, state, depth, options) {
             $id: sub_node_id,
             depth: depth + 1,
         });
+        //console.log('[filters', $filters, '])
         sub_state = $filters.reduce((state, $filter) => {
             const fine_filter_cb_id = `on_filter_${$filter}`;
+            //console.log({fine_filter_cb_id})
             const fine_filter_callback = callbacks[fine_filter_cb_id];
             if (fine_filter_callback)
                 state = fine_filter_callback({

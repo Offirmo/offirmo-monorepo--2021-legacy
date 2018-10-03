@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { round_float } from './utils';
 import { create, use_energy, get_snapshot, } from '.';
-describe('snapshot', function () {
+describe('@oh-my-rpg/state-energy - snapshot', function () {
     context('🆕  initial state', function () {
         it('should yield a correct snapshot', function () {
             const state = create();

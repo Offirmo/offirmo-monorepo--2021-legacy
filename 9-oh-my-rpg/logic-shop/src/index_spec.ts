@@ -16,9 +16,10 @@ import {
 	appraise
 } from '.'
 
-describe('📦 💰 📤 📥  shop logic:', function() {
+describe('@oh-my-rpg/logic-shop - logic:', function() {
 
 	describe('appraisal', function() {
+
 		context('of armors', function() {
 			it('should work', () => {
 				const price = appraise({
@@ -34,6 +35,7 @@ describe('📦 💰 📤 📥  shop logic:', function() {
 				expect(price).to.equal(3670)
 			})
 		})
+
 		context('of weapons', function() {
 			it('should work', () => {
 				const price = appraise({

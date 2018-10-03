@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
 const random_1 = require("@offirmo/random");
 const _1 = require(".");
-describe('⚔ 💰  adventures logic:', function () {
+describe('@oh-my-rpg/logic-adventures - logic', function () {
     describe('bad adventures picker', function () {
         it('should provide bad adventure archetypes', () => {
             const rng = random_1.Random.engines.mt19937().seed(789);

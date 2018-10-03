@@ -7,7 +7,7 @@ const state_inventory_1 = require("@oh-my-rpg/state-inventory");
 const state_wallet_1 = require("@oh-my-rpg/state-wallet");
 const consts_1 = require("./consts");
 const _1 = require(".");
-describe('reducer', function () {
+describe('@oh-my-rpg/state-the-boring-rpg - reducer', function () {
     beforeEach(() => state_prng_1.xxx_internal_reset_prng_cache());
     describe('🆕  initial state', function () {
         it('should be correct', function () {

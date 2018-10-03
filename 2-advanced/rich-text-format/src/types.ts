@@ -16,13 +16,13 @@ const NodeType = Enum(
 	'ol',
 	'ul',
 
-	// internally used, don't mind
-	'li',
-
 	// special
 	'br',
 	'inline_fragment',
 	'block_fragment',
+
+	// internally used, don't mind, don't use directly
+	'li',
 )
 type NodeType = Enum<typeof NodeType> // eslint-disable-line no-redeclare
 

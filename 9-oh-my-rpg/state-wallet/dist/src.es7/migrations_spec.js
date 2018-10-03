@@ -7,7 +7,7 @@ const DATA_v0 = OLDEST_LEGACY_STATE_FOR_TESTS;
 const DATA_OLDEST = DATA_v0;
 const DATA_v1 = DEMO_STATE;
 const DATA_LATEST = DEMO_STATE;
-describe('💰 💰 💎  Currencies wallet state - schema migration', function () {
+describe('@oh-my-rpg/state-wallet - schema migration', function () {
     context('when the version is more recent', function () {
         it('should throw with a meaningful error', () => {
             function load() {

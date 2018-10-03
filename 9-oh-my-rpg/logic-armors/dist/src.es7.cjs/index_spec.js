@@ -4,7 +4,7 @@ const chai_1 = require("chai");
 const definitions_1 = require("@oh-my-rpg/definitions");
 const random_1 = require("@offirmo/random");
 const _1 = require(".");
-describe('🛡 👕  armor logic:', function () {
+describe('@oh-my-rpg/logic-armors - logic', function () {
     describe('creation', function () {
         it('should allow creating a random armor', function () {
             const rng = random_1.Random.engines.mt19937().seed(789);

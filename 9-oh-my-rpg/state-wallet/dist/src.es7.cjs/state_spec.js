@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
 const consts_1 = require("./consts");
 const _1 = require(".");
-describe('💰 💰 💎  Currencies wallet state - reducer', function () {
+describe('@oh-my-rpg/state-wallet - reducer', function () {
     const EXPECTED_CURRENCY_SLOT_COUNT = 2;
     describe('🆕 initial state', function () {
         it('should have correct defaults to 0', function () {

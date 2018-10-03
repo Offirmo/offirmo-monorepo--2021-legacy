@@ -19,19 +19,11 @@ const QUALITY_STRENGTH_SPREAD = {
     artifact: 1,
 };
 const ENHANCEMENT_MULTIPLIER = 0.2;
-function get_interval(base_strength, quality, enhancement_level, coef = 1) {
-    const spread = QUALITY_STRENGTH_SPREAD[quality];
-    const strength_multiplier = QUALITY_STRENGTH_MULTIPLIER[quality];
-    const enhancement_multiplier = (1 + ENHANCEMENT_MULTIPLIER * enhancement_level);
-    // constrain interval
-    const min_strength = Math.max(base_strength - spread, 1);
-    const max_strength = Math.min(base_strength + spread, 20);
-    return [
-        Math.round(min_strength * strength_multiplier * enhancement_multiplier * coef),
-        Math.round(max_strength * strength_multiplier * enhancement_multiplier * coef)
-    ];
-}
+const MIN_ENHANCEMENT_LEVEL = 0;
+const MAX_ENHANCEMENT_LEVEL = 8;
+const MIN_STRENGTH = 1;
+const MAX_STRENGTH = 20;
 ////////////////////////////////////
-export { QUALITY_STRENGTH_MULTIPLIER, QUALITY_STRENGTH_SPREAD, ENHANCEMENT_MULTIPLIER, get_interval, };
+export { QUALITY_STRENGTH_MULTIPLIER, QUALITY_STRENGTH_SPREAD, ENHANCEMENT_MULTIPLIER, MIN_ENHANCEMENT_LEVEL, MAX_ENHANCEMENT_LEVEL, MIN_STRENGTH, MAX_STRENGTH, };
 ////////////////////////////////////
 //# sourceMappingURL=consts.js.map

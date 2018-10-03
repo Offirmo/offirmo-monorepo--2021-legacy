@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
 const random_1 = require("@offirmo/random");
 const _1 = require(".");
-describe('utils', function () {
+describe('@oh-my-rpg/state-prng - utils', function () {
     beforeEach(_1.xxx_internal_reset_prng_cache);
     describe('generate_random_seed', function () {
         it('should return a random seed', function () {

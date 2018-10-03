@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const types_1 = require("../types");
 const i18n_en_1 = require("./i18n_en");
 const i18n_messages = {
     en: i18n_en_1.messages,
@@ -103,4 +104,10 @@ const ENTRIES = [
     { type: 'qualifier2', hid: 'wise' },
 ];
 exports.ENTRIES = ENTRIES;
+const ARMOR_BASES = ENTRIES.filter((armor_component) => armor_component.type === types_1.ArmorPartType.base);
+exports.ARMOR_BASES = ARMOR_BASES;
+const ARMOR_QUALIFIERS1 = ENTRIES.filter((armor_component) => armor_component.type === types_1.ArmorPartType.qualifier1);
+exports.ARMOR_QUALIFIERS1 = ARMOR_QUALIFIERS1;
+const ARMOR_QUALIFIERS2 = ENTRIES.filter((armor_component) => armor_component.type === types_1.ArmorPartType.qualifier2);
+exports.ARMOR_QUALIFIERS2 = ARMOR_QUALIFIERS2;
 //# sourceMappingURL=index.js.map

@@ -8,7 +8,7 @@ import {
 	ENTRIES,
 } from '.'
 
-describe('⚔ 💰  adventures data:', function () {
+describe('@oh-my-rpg/logic-adventures - data:', function () {
 	const _: any = i18n_messages.en
 	const ARCHETYPES: { [key: string]: RawAdventureArchetypeEntry } = {}
 	ENTRIES.forEach(entry => ARCHETYPES[entry.hid] = entry)

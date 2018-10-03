@@ -4,7 +4,7 @@ const chai_1 = require("chai");
 const consts_1 = require("./consts");
 const _1 = require(".");
 const sec_1 = require("./sec");
-describe('reducer', function () {
+describe('@oh-my-rpg/state-character - reducer', function () {
     describe('🆕  initial state', function () {
         it('should have correct defaults', function () {
             const state = _1.create(sec_1.get_lib_SEC());

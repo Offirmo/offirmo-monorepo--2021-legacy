@@ -123,6 +123,23 @@ const callbacks = {
 	on_node_exit,
 	on_concatenate_str,
 	on_concatenate_sub_node,
+	on_filter_Capitalize: ({state}) => {
+		//console.warn('rich-text-to-react Capitalize', state)
+
+		state.element = React.cloneElement(
+			state.element,
+			{
+				children: React.Children.map(
+					state.element.props.children,
+					(child) => (typeof child === 'string')
+						? child[0].toUpperCase() + child.slice(1)
+						: child,
+				)
+			},
+		)
+
+		return state
+	},
 }
 
 

@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { xxx_internal_reset_prng_cache } from '@oh-my-rpg/state-prng';
 import * as RichText from '@offirmo/rich-text-format';
 import { create, get_recap, get_tip, } from '.';
-describe('⚔ 👑 😪  The Boring RPG - contextual messages', function () {
+describe('@oh-my-rpg/state-the-boring-rpg - contextual messages', function () {
     beforeEach(() => xxx_internal_reset_prng_cache());
     describe('get recap', function () {
         context('when the user has just started a new game', function () {

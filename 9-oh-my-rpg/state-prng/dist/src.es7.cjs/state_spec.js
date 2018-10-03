@@ -4,7 +4,7 @@ const chai_1 = require("chai");
 const random_1 = require("@offirmo/random");
 const consts_1 = require("./consts");
 const _1 = require(".");
-describe('reducer', function () {
+describe('@oh-my-rpg/state-prng - reducer', function () {
     beforeEach(_1.xxx_internal_reset_prng_cache);
     describe('🆕  initial value', function () {
         it('should have correct defaults', function () {

@@ -23,7 +23,7 @@ import {
 	appraise_item,
 } from '.'
 
-describe('reducer', function() {
+describe('@oh-my-rpg/state-the-boring-rpg - reducer', function() {
 	beforeEach(() => xxx_internal_reset_prng_cache())
 
 	describe('🆕  initial state', function() {

@@ -6,7 +6,8 @@ import * as RichText from '@offirmo/rich-text-format';
 import { render_item_short } from './items';
 import { render_currency_amount } from './wallet';
 import { render_monster } from './monster';
-function render_adventure(a) {
+import { DEFAULT_RENDER_ITEM_OPTIONS } from './consts';
+function render_adventure(a, options = DEFAULT_RENDER_ITEM_OPTIONS) {
     const gains = a.gains; // alias for typing
     // in this special function, we'll be:
     // 1. generically filling a RichText.Document with any possible sub-elements,
@@ -30,7 +31,7 @@ function render_adventure(a) {
             //console.info('handling adventure outcome [l1]: ' + slot)
             if (!gains[slot])
                 return;
-            const $doc = render_item_short(gains[slot]);
+            const $doc = render_item_short(gains[slot], options);
             $story_sub_elements.item = $doc;
             $story_sub_elements.item_slot = RichText.span().pushText(slot).done();
             $story_sub_elements[slot] = $doc;

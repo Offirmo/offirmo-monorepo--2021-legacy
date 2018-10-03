@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
 const definitions_1 = require("@oh-my-rpg/definitions");
 const _1 = require(".");
-describe('📦 💰 📤 📥  shop logic:', function () {
+describe('@oh-my-rpg/logic-shop - logic:', function () {
     describe('appraisal', function () {
         context('of armors', function () {
             it('should work', () => {

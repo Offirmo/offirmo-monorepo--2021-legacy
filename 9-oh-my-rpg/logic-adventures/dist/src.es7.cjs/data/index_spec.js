@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
 const _1 = require(".");
-describe('⚔ 💰  adventures data:', function () {
+describe('@oh-my-rpg/logic-adventures - data:', function () {
     const _ = _1.i18n_messages.en;
     const ARCHETYPES = {};
     _1.ENTRIES.forEach(entry => ARCHETYPES[entry.hid] = entry);

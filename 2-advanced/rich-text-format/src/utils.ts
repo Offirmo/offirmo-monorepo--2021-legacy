@@ -7,7 +7,7 @@ import {
 } from './types'
 
 
-function normalize_node($raw_node: Node): CheckedNode {
+function normalize_node($raw_node: Readonly<Node>): CheckedNode {
 	const {
 		$v = 1,
 		$type = NodeType.span,
