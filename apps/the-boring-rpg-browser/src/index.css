@@ -4,3 +4,7 @@ body {
 	width: -moz-available;
 	width: fill-available;
 }
+
+iframe#netlify-identity-widget {
+	z-index: 2000 !important;
+}

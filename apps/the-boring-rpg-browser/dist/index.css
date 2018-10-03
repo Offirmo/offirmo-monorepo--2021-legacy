@@ -1,70 +1,12 @@
-/*
- * react-circular-progressbar styles
- *
- * All of the styles in this file are optional and configurable!
- */
-
-.CircularProgressbar {
-  /*
-   * This fixes an issue where the CircularProgressbar svg has
-   * 0 width inside a "display: flex" container, and thus not visible.
-   *
-   * If you're not using "display: flex", you can remove this style.
-   */
-  width: 100%;
-}
-
-.CircularProgressbar .CircularProgressbar-path {
-  stroke: #3e98c7;
-  stroke-linecap: round;
-  transition: stroke-dashoffset 0.5s ease 0s;
-}
-
-.CircularProgressbar .CircularProgressbar-trail {
-  stroke: #d6d6d6;
-}
-
-.CircularProgressbar .CircularProgressbar-text {
-  fill: #3e98c7;
-  font-size: 20px;
-  dominant-baseline: middle;
-  text-anchor: middle;
-}
-
-.CircularProgressbar .CircularProgressbar-background {
-  fill: #d6d6d6;
-}
-
-/*
- * Sample background styles. Use these with e.g.:
- *
- *   <CircularProgressbar
- *     className="CircularProgressbar-inverted"
- *     background
- *     percentage={50}
- *   />
- */
-.CircularProgressbar.CircularProgressbar-inverted .CircularProgressbar-background {
-  fill: #3e98c7;
-}
-
-.CircularProgressbar.CircularProgressbar-inverted .CircularProgressbar-text {
-  fill: #fff;
-}
-
-.CircularProgressbar.CircularProgressbar-inverted .CircularProgressbar-path {
-  stroke: #fff;
-}
-
-.CircularProgressbar.CircularProgressbar-inverted .CircularProgressbar-trail {
-  stroke: transparent;
-}
-
 
 body {
 	width: -webkit-fill-available;
 	width: -moz-available;
 	width: fill-available;
+}
+
+iframe#netlify-identity-widget {
+	z-index: 2000 !important;
 }
 
 /* re-styling of react-burger-menu classes */
@@ -2509,12 +2451,12 @@ switch($class) {
 }
 
 .tbrpg⋄bg-image⁚fields_of_gold {
-	background-image: url(ee15dc352b5f8a82c9aa4bcc0d2bd902.jpg);
+	background-image: url(7ef87b1209003d9cb77a17f406b075ce.jpg);
 	background-position: 62%;
 }
 
 .tbrpg⋄bg-image⁚journey_to_the_center_of_the_earth {
-	background-image: url(487ed2543d495f428183434c764e7e21.jpg);
+	background-image: url(288cf29e379186e72292c73f32eaf745.jpg);
 	background-position: 51%;
 }
 
@@ -2529,12 +2471,12 @@ switch($class) {
 }
 
 .tbrpg⋄bg-image⁚north_country {
-	background-image: url(bccbaee027c9a9345efd1ae0e7cfc2e2.jpg);
+	background-image: url(f4a16ee47c44d314318ba849adafeebe.jpg);
 	background-position: 2%;
 }
 
 .tbrpg⋄bg-image⁚snowcapped_environment {
-	background-image: url(a1e7523bd276e430b7e52df365602896.jpg);
+	background-image: url(519c18c4cc862eb9400ce7be1a654798.jpg);
 	background-position: 60%;
 }
 

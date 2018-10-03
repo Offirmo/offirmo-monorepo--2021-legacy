@@ -3,7 +3,7 @@
 import 'babel-polyfill'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import 'react-circular-progressbar/dist/styles.css'
+//import 'react-circular-progressbar/dist/styles.css'
 
 import './services/raven'
 

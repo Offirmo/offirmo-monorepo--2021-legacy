@@ -1,6 +1,6 @@
 {
 	"name": "the-boring-rpg-browser",
-	"version": "0.51.94",
+	"version": "0.51.95",
 	"private": true,
 	"description": "⚔🛡💰 The boring RPG browser game, reloaded!",
 	"author": "Offirmo <offirmo.net@gmail.com>",
@@ -38,11 +38,12 @@
 		"__helpers": "----------- Helpers -----------",
 		"build": "npm version patch && run-s clean build:prod"
 	},
-	"dependencies": {
-		"@offirmo/cli-toolbox": "^1",
+	"dependencies": {},
+	"devDependencies": {
 		"@offirmo/ensure-device-uuid-browser": "^0.0.1",
 		"@offirmo/features-detection-browser": "^0.0.1",
 		"@offirmo/marketing-rsrc": "^0.0.1",
+		"@offirmo/poll-window-variable": "^0.0.1",
 		"@offirmo/practical-logger-browser": "^0.0.1",
 		"@offirmo/react-error-boundary": "^0.0.1",
 		"@offirmo/rich-text-format": "^0.0.1",
@@ -82,7 +83,6 @@
 		"package-json-cleanup-loader": "^1",
 		"raven-js": "^3",
 		"react": "^16",
-		"react-circular-progressbar": "^1",
 		"react-dom": "^16",
 		"react-router-dom": "^4",
 		"semver": "^5",
@@ -94,8 +94,8 @@
 		"webpack-dashboard": "^2",
 		"webpack-dev-server": "^3"
 	},
-	"devDependencies": {},
 	"tosort": {
+		"react-circular-progressbar": "^1",
 		"html-webpack-harddisk-plugin": "^0.2",
 		"html-webpack-include-assets-plugin": "^1",
 		"style-loader": "^0.22"
