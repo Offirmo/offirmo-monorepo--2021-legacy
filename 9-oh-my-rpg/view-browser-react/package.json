@@ -6,24 +6,25 @@
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "UNLICENSED",
 	"scripts": {
-		"demo": "rm -rf .cache dist && parcel doc/demo/index.html"
+		"demo": "rm -rf .cache dist && parcel --no-autoinstall doc/demo/index.html"
+	},
+	"peerDependencies": {
+		"react": "^16.0.0"
 	},
 	"dependencies": {
-		"@offirmo/react-error-boundary": "^0.0.1"
+		"@offirmo/react-error-boundary": "^0.0.1",
+		"@oh-my-rpg/view-browser": "^0.0.1",
+		"classnames": "^2",
+		"react-burger-menu": "^2",
+		"react-notification-system": "^0.2",
+		"react-swipeable-views": "^0.12",
+		"react-swipeable-views-utils": "^0.12"
 	},
 	"devDependencies": {
-		"@oh-my-rpg/view-browser": "^0.0.1",
-		"babel-preset-env": "^1",
-		"babel-preset-react": "^6",
-		"babel-preset-stage-0": "^6",
-		"classnames": "^2",
+		"@babel/core": "^7",
 		"npm-run-all": "^4",
 		"parcel-bundler": "^1",
 		"react": "^16",
-		"react-burger-menu": "^2",
-		"react-blur": "^0.6",
-		"react-dom": "^16",
-		"react-swipeable-views": "^0.12",
-		"react-swipeable-views-utils": "^0.12"
+		"react-dom": "^16"
 	}
 }

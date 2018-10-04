@@ -1,8 +1,8 @@
 {
 	"presets": [
-		"react",
+		"@babel/react",
 		[
-			"env",
+			"@babel/env",
 			{
 				"targets": {
 					"browsers": [
@@ -11,7 +11,6 @@
 					]
 				}
 			}
-		],
-		"stage-0"
+		]
 	]
 }

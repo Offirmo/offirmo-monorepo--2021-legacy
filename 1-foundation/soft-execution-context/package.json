@@ -14,9 +14,9 @@
 		"emittery": "^0.4"
 	},
 	"devDependencies": {
+		"@babel/core": "^7",
 		"@offirmo/unit-test-toolbox": "^4",
 		"@offirmo/practical-logger-browser": "^0.0.1",
-		"babel-cli": "^6",
 		"npm-run-all": "^4",
 		"tslib": "^1"
 	},

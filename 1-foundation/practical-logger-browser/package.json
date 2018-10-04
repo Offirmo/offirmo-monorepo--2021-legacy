@@ -11,6 +11,7 @@
 		"@offirmo/practical-logger-core": "^0.0.1"
 	},
 	"devDependencies": {
+		"@babel/core": "^7",
 		"npm-run-all": "^4",
 		"tslib": "^1"
 	},

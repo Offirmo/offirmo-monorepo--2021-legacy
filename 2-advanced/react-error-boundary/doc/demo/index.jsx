@@ -1,30 +1,32 @@
-/*XXX TODO
+import React, { Component, Fragment } from 'react'
+import ReactDOM from "react-dom"
 
-import React, { Component } from 'react';
+import ErrorBoundary from '../..'
 
-import ErrorBoundary from '@offirmo/react-error-boundary'
+//import './index.css'
 
-import './index.css';
 
-export class Test extends Component {
+export default class Demo extends Component {
 
 	render() {
 		return (
-			<div className="o⋄top-container">
+			[
+				<ErrorBoundary name={'demo1'}>
+					Demo 1: no error
+				</ErrorBoundary>,
 
-				{this.props.logo && <div className="omr⋄logo" onClick={this.toggleAbout}>
-					<ErrorBoundary name={'omr:logo'}>
-						{this.props.logo}
-					</ErrorBoundary>
-				</div>}
-			</div>
-		);
+				<ErrorBoundary name={'demo2'}
+					render={() => { throw new Error('Demo 2 error!') }} />,
+
+				<ErrorBoundary name={'demo3'}>
+					{() => { throw new Error('Demo 3 error!') }}
+				</ErrorBoundary>,
+
+			]
+		)
 	}
 }
 
-Test.defaultProps = {
-	logo: <span>[Game name/logo here]</span>,
-};
 
-export default OhMyRpgUI;
-*/
+const mountNode = document.getElementById('root')
+ReactDOM.render(<Demo />, mountNode)

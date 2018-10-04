@@ -22,3 +22,18 @@ ngrok http -subdomain=offirmo 8080
 yarn build
 (copy to oa TODO make a script!)
 ```
+
+## Credits
+1. see package.json
+2. art:
+  * https://www.raphael-lacoste.com/projects
+  * Dan Zhao
+
+
+
+		"babel-core": "^6",
+		"babel-loader": "^8",
+		"babel-polyfill": "^6",
+		"babel-preset-env": "^1",
+		"babel-preset-react": "^6",
+		"babel-preset-stage-0": "^6",

@@ -12,3 +12,10 @@ Remember to tweak the body and root! (see demo)
   * scale-down
   * slide
 * https://github.com/xeodou/react-crouton
+
+
+
+		"babel-core": "^6",
+		"babel-preset-env": "^1",
+		"babel-preset-react": "^6",
+		"babel-preset-stage-0": "^6",

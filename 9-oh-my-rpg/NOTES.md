@@ -8,6 +8,12 @@ collect famous precious stones:
 -
 
 
+http://conan.wikia.com/wiki/Eye_of_the_Serpent
+the mountain of power
+the jeweled crown of Aquilonia
+the atlantean sword http://conan.wikia.com/wiki/Atlantean_Sword
+
+
 fight ancient ones
 - Mammoth
 - Lion

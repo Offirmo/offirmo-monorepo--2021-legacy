@@ -50,7 +50,7 @@
 		"strip-ansi-stream": "^1",
 		"tslib": "^1",
 		"universal-analytics": "^0.4",
-		"username": "^3",
+		"username": "^4",
 		"webpack": "^4"
 	},
 	"scripts": {

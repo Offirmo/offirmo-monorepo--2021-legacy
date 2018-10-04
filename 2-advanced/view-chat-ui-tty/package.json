@@ -17,7 +17,7 @@
 		"prettyjson": "^1",
 		"strip-ansi": "^4",
 		"term-size": "^1",
-		"wrap-ansi": "^3"
+		"wrap-ansi": "^4"
 	},
 	"devDependencies": {
 		"@offirmo/view-chat": "^0.0.1",

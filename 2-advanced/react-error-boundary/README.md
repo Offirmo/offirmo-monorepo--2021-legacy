@@ -29,12 +29,12 @@ import ErrorBoundary from '@offirmo/react-error-boundary'
 
 // Will work:
 <ErrorBoundary name={'foo'}>
-	{dangerousFunctionThatThrow.bind(x)}
+	{dangerousFunctionThatThrow.bind(null, x)}
 </ErrorBoundary>
 
 or
 <ErrorBoundary name={'foo'}'
-	render={dangerousFunctionThatThrow.bind(x)} />
+	render={dangerousFunctionThatThrow.bind(null, x)} />
 
 or:
 const View = ({x}) => (
@@ -42,7 +42,6 @@ const View = ({x}) => (
 			{RichText.to_text(doc)} />
 		</Fragment>
 )
-
 <ErrorBoundary name={'foo'}>
 	<View x={x} />
 </ErrorBoundary>
@@ -50,3 +49,11 @@ const View = ({x}) => (
 
 
 Note .babelrc is needed by some consumers of this package (ex. webpack)
+
+
+TODO
+
+		"babel-core": "^6",
+		"babel-preset-env": "^1",
+		"babel-preset-react": "^6",
+		"babel-preset-stage-0": "^6",

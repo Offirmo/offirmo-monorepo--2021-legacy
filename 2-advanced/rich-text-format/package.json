@@ -10,17 +10,12 @@
 		"typescript-string-enums": "^0.3"
 	},
 	"devDependencies": {
+		"@babel/core": "^7",
 		"@offirmo/features-detection-browser": "^0.0.1",
 		"@offirmo/style-once": "^0.0.1",
 		"@offirmo/view-css": "^0.0.1",
 		"@offirmo/practical-logger-browser": "^0.0.1",
 		"@offirmo/react-error-boundary": "^0.0.1",
-		"babel-plugin-transform-class-properties": "^6",
-		"babel-polyfill": "^6",
-		"babel-preset-env": "^1",
-		"babel-preset-react": "^6",
-		"babel-preset-stage-0": "^6",
-		"babel-runtime": "^6",
 		"classnames": "^2",
 		"indent-string": "^3",
 		"linewrap": "^0.2",
@@ -34,7 +29,7 @@
 	},
 	"scripts": {
 		"clean": "node ../../scripts/clean.js dist .cache",
-		"start:parcel": "parcel doc/demo-web/index.html doc/demo-web/index-iframe.html --no-hmr",
+		"start:parcel": "parcel --no-autoinstall doc/demo-web/index.html doc/demo-web/index-iframe.html --no-hmr",
 		"start": "run-s clean start:parcel",
 
 		"build:dev:watch": "node ../../scripts/build-typescript.js --watch",

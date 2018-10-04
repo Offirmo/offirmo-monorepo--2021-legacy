@@ -50,9 +50,14 @@ npm i -g yarn
 yarn global add bolt
 ```
 
+react-error-boundary
+rich-text-format
+view-browser-react
+
 ## Hat tips
 
 Tools
 - Color converter http://www.cssportal.com/css-color-converter/
 - favicon https://realfavicongenerator.net/
+
 

@@ -11,6 +11,7 @@
 		"@offirmo/soft-execution-context": "^0.0.2"
 	},
 	"devDependencies": {
+		"@babel/core": "^7",
 		"@offirmo/practical-logger-browser": "^0.0.1",
 		"bowser": "^1",
 		"npm-run-all": "^4",
