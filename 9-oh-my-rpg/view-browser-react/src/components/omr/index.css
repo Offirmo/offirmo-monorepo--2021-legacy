@@ -17,3 +17,37 @@
 #about-panel .omr-auto-logo img {
 	width: 100%;
 }
+
+
+/* 3rd party override */
+.notification {
+	background-color: var(--o⋄color--bg⁚main--backdrop) !important;
+}
+.notification-title {
+	color: inherit !important;
+	font-size: var(--o⋄font-size--default) !important;
+}
+.notification-message {
+	font-size: var(--o⋄font-size--default) !important;
+}
+.notification-dismiss {
+	color: var(--o⋄color--fg⁚main) !important;
+	background-color: var(--o⋄color--bg⁚highlight--2) !important;
+}
+
+.notification-error {
+	color: var(--o⋄color--fg⁚error) !important;
+	border-top-color: var(--o⋄color--fg⁚error) !important;
+}
+.notification-warning {
+	color: var(--o⋄color--fg⁚warning) !important;
+	border-top-color: var(--o⋄color--fg⁚warning) !important;
+}
+.notification-info {
+	color: var(--o⋄color--fg⁚info) !important;
+	border-top-color: var(--o⋄color--fg⁚info) !important;
+}
+.notification-success {
+	color: var(--o⋄color--fg⁚success) !important;
+	border-top-color: var(--o⋄color--fg⁚success) !important;
+}

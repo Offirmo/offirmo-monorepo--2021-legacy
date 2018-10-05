@@ -1,4 +1,4 @@
-{
+module.export = {
 	"plugins": [
 		["@babel/plugin-proposal-class-properties", { "loose": false }],
 		"@babel/plugin-proposal-export-default-from",
@@ -11,8 +11,8 @@
 			{
 				"targets": {
 					"browsers": [
-						"last 2 Chrome versions",
-						"last 2 Firefox versions"
+						">1%",
+						"not ie 11"
 					]
 				}
 			}

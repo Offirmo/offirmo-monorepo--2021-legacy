@@ -6,6 +6,9 @@
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "UNLICENSED",
 	"scripts": {
+		"clean": "node ../../scripts/clean.js dist .cache",
+		"start:parcel": "parcel --no-autoinstall --no-hmr doc/demo/index.html doc/demo/index-iframe.html",
+		"demo": "run-s clean start:parcel"
 	},
 	"peerDependencies": {
 		"react": "^16"
@@ -15,9 +18,13 @@
 		"@offirmo/react-error-boundary": "^0.0.1",
 		"@offirmo/rich-text-format": "^0.0.1",
 		"classnames": "^2",
+		"react": "^16",
+		"react-dom": "^16",
 		"react-overlays": "^0.8",
 		"react-portal-tooltip": "^2"
 	},
 	"devDependencies": {
+		"@babel/core": "^7",
+		"parcel-bundler": "^1"
 	}
 }

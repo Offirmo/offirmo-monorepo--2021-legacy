@@ -1,4 +1,4 @@
-@import '../../src/renderers/style.css';
+@import '../../../rich-text-format/src/renderers/style.css';
 
 body {
 	xxwidth: 100% !important;

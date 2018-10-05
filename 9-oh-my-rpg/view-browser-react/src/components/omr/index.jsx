@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import NotificationSystem from 'react-notification-system'
 
 import ErrorBoundary from '@offirmo/react-error-boundary'
 
@@ -48,7 +49,7 @@ function BottomRightHud({bottomMenuItems, bottomMarkerIndex}) {
 function Main({children, logo, universeAnchor, bottomMenuItems, bottomMarkerIndex, aboutContent}) {
 	return (
 		<OhMyRPGUIContext.Consumer>
-			{({isBurgerMenuOpen, openBurgerMenu, isAboutOpen, toggleAbout}) => {
+			{({isBurgerMenuOpen, openBurgerMenu, isAboutOpen, toggleAbout, _registerNotificationSystem}) => {
 				const css_selected_bottom_menu_value = -bottomMenuItems.length + 1 + ((bottomMarkerIndex >= 0) ? bottomMarkerIndex : -1)
 				document.documentElement.style.setProperty(
 					'--omr⋄ui__bottom-menu--selected-reverse-index',
@@ -79,6 +80,7 @@ function Main({children, logo, universeAnchor, bottomMenuItems, bottomMarkerInde
 							</ErrorBoundary>
 						</div>}
 
+						<NotificationSystem ref={_registerNotificationSystem} />
 					</div>
 				)
 			}}

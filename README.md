@@ -29,7 +29,6 @@ bolt ws run build --only @oh-my-rpg/*
 bolt ws run test --only @oh-my-rpg/*
 bolt ws run build
 
-
 bolt ws run clean
 bolt ws exec -- rm -rf .cache dist node_modules yarn.lock package-lock.json yarn-error.log
 rm -rf node_modules yarn.lock package-lock.json
@@ -49,10 +48,6 @@ ngrok http -subdomain=offirmo 1234
 npm i -g yarn
 yarn global add bolt
 ```
-
-react-error-boundary
-rich-text-format
-view-browser-react
 
 ## Hat tips
 

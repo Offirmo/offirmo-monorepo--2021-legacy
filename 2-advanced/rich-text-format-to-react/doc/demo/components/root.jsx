@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 
 import MultiRenderer from './multi-renderer'
 
-import { DOC_DEMO_BASE_TYPES, DOC_DEMO_ADVANCED_TYPES, DOC_DEMO_HINTS, DOC_DEMO_RPG_01, DOC_DEMO_RPG_03 } from '../../examples'
+import { DOC_DEMO_BASE_TYPES, DOC_DEMO_ADVANCED_TYPES, DOC_DEMO_HINTS, DOC_DEMO_RPG_01, DOC_DEMO_RPG_03 } from '../../../../rich-text-format/doc/examples'
 
 const DATA = [
 	DOC_DEMO_BASE_TYPES,

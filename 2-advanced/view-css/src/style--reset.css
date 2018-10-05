@@ -3,6 +3,7 @@
 
 :root {
 	--o⋄border--thickness: 1px;
+	--o⋄font-size--default: 18px;
 	/*--o⋄border--thickness: .08em;*/
 }
 
@@ -42,7 +43,7 @@ body {
 
 	/* TODO replace with typography.js */
 	line-height: 1.6;
-	font-size: 18px;
+	font-size: var(--o⋄font-size--default);
 }
 
 

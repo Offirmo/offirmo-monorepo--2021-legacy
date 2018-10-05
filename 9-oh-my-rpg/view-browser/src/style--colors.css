@@ -9,17 +9,6 @@
 	--o⋄color__co212__brown:   rgb(84, 61, 70);
 	--o⋄color__co212__dark:    rgb(41, 40, 48);
 
-	/* from http://boz.com/
-	 * Looks good on dark backgrounds
-	 */
-	--o⋄color__boz__gray:     hsl(0,    0%, 60%);
-	--o⋄color__boz__yellow:   hsl(53,  87%, 57%);
-	--o⋄color__boz__pink:     hsl(318, 87%, 69%);
-	--o⋄color__boz__green:    hsl(93,  73%, 61%);
-	--o⋄color__boz__cyan:     hsl(180, 86%, 52%);
-	--o⋄color__boz__blue:     hsl(199, 81%, 56%);
-	--o⋄color__boz__purple:   hsl(269, 83%, 77%);
-
 	outline-color: var(--o⋄color__co212__beige);
 }
 
@@ -63,6 +52,12 @@
 	--o⋄color--fg⁚ancillary: rgba(255, 235, 188, 0.33);
 
 	--o⋄color--fg⁚accent: var(--o⋄color__co212__blue);
+
+	/* levels */
+	--o⋄color--fg⁚error: hsl(19, 81%, 56%);
+	--o⋄color--fg⁚warning: var(--o⋄color__boz__yellow);
+	--o⋄color--fg⁚info: var(--o⋄color__boz__blue);
+	--o⋄color--fg⁚success: var(--o⋄color__boz__green);
 
 	/* https://wow.gamepedia.com/Quality
 	 */
