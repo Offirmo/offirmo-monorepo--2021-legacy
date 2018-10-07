@@ -3,9 +3,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* global NODE_ENV */
 const timestamps_1 = require("@offirmo/timestamps");
 function decorateWithDetectedEnv(SEC) {
-    const ENV = typeof NODE_ENV === 'string'
-        ? NODE_ENV
-        : 'development';
+    let ENV = () => {
+        try {
+            if (typeof NODE_ENV === 'string')
+                return NODE_ENV;
+            if (typeof process !== 'undefined' && typeof process.env.NODE_ENV === 'string')
+                return process.env.NODE_ENV;
+        }
+        catch (err) {
+            /* swallow */
+        }
+        return 'development';
+    };
     const IS_DEV_MODE = false;
     const IS_VERBOSE = false;
     const CHANNEL = 'unknown';
