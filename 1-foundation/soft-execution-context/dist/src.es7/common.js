@@ -1,7 +1,7 @@
 /* global NODE_ENV */
 import { get_UTC_timestamp_ms } from '@offirmo/timestamps';
 function decorateWithDetectedEnv(SEC) {
-    let ENV = () => {
+    let ENV = (() => {
         try {
             if (typeof NODE_ENV === 'string')
                 return NODE_ENV;
@@ -12,7 +12,7 @@ function decorateWithDetectedEnv(SEC) {
             /* swallow */
         }
         return 'development';
-    };
+    })();
     const IS_DEV_MODE = false;
     const IS_VERBOSE = false;
     const CHANNEL = 'unknown';

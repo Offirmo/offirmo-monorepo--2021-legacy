@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* global NODE_ENV */
 const timestamps_1 = require("@offirmo/timestamps");
 function decorateWithDetectedEnv(SEC) {
-    let ENV = () => {
+    let ENV = (() => {
         try {
             if (typeof NODE_ENV === 'string')
                 return NODE_ENV;
@@ -14,7 +14,7 @@ function decorateWithDetectedEnv(SEC) {
             /* swallow */
         }
         return 'development';
-    };
+    })();
     const IS_DEV_MODE = false;
     const IS_VERBOSE = false;
     const CHANNEL = 'unknown';
