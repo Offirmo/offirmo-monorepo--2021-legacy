@@ -3,6 +3,7 @@
 	"version": "0.0.1",
 	"description": "Rendering rich text format to React",
 	"main": "src/index.js",
+	"source": "src/index.js",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "UNLICENSED",
 	"scripts": {

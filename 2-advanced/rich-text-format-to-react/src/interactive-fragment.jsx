@@ -61,7 +61,7 @@ class ActiveCard extends Component {
 			this.props.on_mouse_out(...args)
 	}
 
-	render = () => {
+	render() {
 		const { children, forward_ref } = this.props
 
 		const props = {

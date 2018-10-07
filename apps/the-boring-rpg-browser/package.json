@@ -1,6 +1,6 @@
 {
 	"name": "the-boring-rpg-browser",
-	"version": "0.51.95",
+	"version": "0.51.99",
 	"private": true,
 	"description": "⚔🛡💰 The boring RPG browser game, reloaded!",
 	"author": "Offirmo <offirmo.net@gmail.com>",
@@ -12,34 +12,21 @@
 	"engines": {
 		"node": ">=9"
 	},
-	"babel": {
-		"presets": [
-			[
-				"env",
-				{
-					"targets": {
-						"browsers": [
-							">1%",
-							"not ie 11"
-						]
-					}
-				}
-			],
-			"react",
-			"stage-0"
-		]
-	},
 	"scripts": {
-		"__dev": "~~~~~~~ DEVELOPMENT ~~~~~~~",
-		"clean": "rm -rf dist",
-		"build:prod": "cross-env NODE_ENV=production webpack --config meta/webpack.config.ts",
-		"start": "cross-env NODE_ENV=development webpack-dev-server -d --config meta/webpack.config.ts",
+		"refresh-build-variables": "node meta/update_build_variables.js",
+		"clean": "rm -rf dist .cache",
+		"start:parcel": "parcel src/index.html",
+		"start": "run-s clean refresh-build-variables start:parcel",
 		"test": "echo 'TODO'",
-		"__helpers": "----------- Helpers -----------",
-		"build": "npm version patch && run-s clean build:prod"
+		"build:parcel": "parcel build src/index.html --public-url ./",
+		"build": "npm version patch && run-s clean refresh-build-variables build:parcel",
+		"leg-build:prod": "cross-env NODE_ENV=production webpack --config meta/webpack.config.ts",
+		"leg-start": "cross-env NODE_ENV=development webpack-dev-server -d --config meta/webpack.config.ts",
+		"leg-build": "npm version patch && run-s clean build:prod"
 	},
 	"dependencies": {},
 	"devDependencies": {
+		"@babel/core": "^7",
 		"@offirmo/ensure-device-uuid-browser": "^0.0.1",
 		"@offirmo/features-detection-browser": "^0.0.1",
 		"@offirmo/marketing-rsrc": "^0.0.1",
@@ -65,30 +52,30 @@
 		"@oh-my-rpg/view-browser-react": "^0.0.1",
 		"@oh-my-rpg/view-rich-text": "^0.0.1",
 		"@types/node": "^10",
-		"@types/webpack": "^4",
 		"classnames": "^2",
-		"copy-webpack-plugin": "^4",
 		"cross-env": "^5",
-		"css-loader": "^1",
-		"html-webpack-plugin": "^3",
-		"mini-css-extract-plugin": "^0.4",
 		"netlify-identity-widget": "^1",
 		"npm-run-all": "^4",
-		"package-json-cleanup-loader": "^1",
 		"raven-js": "^3",
 		"react": "^16",
 		"react-dom": "^16",
 		"react-router-dom": "^4",
 		"semver": "^5",
 		"tslib": "^1",
-		"typescript": "^3",
+		"typescript": "^3"
+	},
+	"tosort": {
+		"@types/webpack": "^4",
+		"copy-webpack-plugin": "^4",
+		"css-loader": "^1",
+		"package-json-cleanup-loader": "^1",
+		"html-webpack-plugin": "^3",
 		"url-loader": "^1",
 		"webpack": "^4",
 		"webpack-cli": "^3",
 		"webpack-dashboard": "^2",
-		"webpack-dev-server": "^3"
-	},
-	"tosort": {
+		"webpack-dev-server": "^3",
+		"mini-css-extract-plugin": "^0.4",
 		"react-circular-progressbar": "^1",
 		"html-webpack-harddisk-plugin": "^0.2",
 		"html-webpack-include-assets-plugin": "^1",

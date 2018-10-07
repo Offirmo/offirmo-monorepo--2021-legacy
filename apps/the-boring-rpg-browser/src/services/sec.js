@@ -1,7 +1,5 @@
 'use strict'
 
-import { CHANNEL } from './channel'
-
 const { getRootSEC } = require('@offirmo/soft-execution-context')
 const {
 	listenToErrorEvents,
@@ -11,6 +9,8 @@ const {
 const { decorate_SEC } = require('@oh-my-rpg/definitions')
 
 import { LIB } from './consts'
+import { VERSION, BUILD_DATE } from './build.json'
+import { CHANNEL } from './channel'
 import logger from './logger'
 import raven_client, { set_imminent_captured_error } from './raven'
 
@@ -25,11 +25,11 @@ decorateWithDetectedEnv(SEC)
 
 SEC.injectDependencies({
 	CHANNEL,
-	VERSION: WI_VERSION,
+	VERSION,
 })
 SEC.setAnalyticsAndErrorDetails({
 	product: 'tbrpg',
-	VERSION: WI_VERSION,
+	VERSION,
 	CHANNEL,
 })
 
@@ -60,8 +60,8 @@ logger.trace('Soft Execution Context initialized.', {SEC})
 
 
 const { ENV } = SEC.getInjectedDependencies()
-if (ENV !== WI_ENV) {
-	logger.error('ENV detection mismatch!', {'SEC.ENV': ENV, 'WI_ENV': WI_ENV})
+if (ENV !== process.env.NODE_ENV) {
+	logger.error('ENV detection mismatch!', { 'SEC.ENV': ENV, 'process.env.NODE_ENV': process.env.NODE_ENV })
 }
 
 /////////////////////////////////////////////////

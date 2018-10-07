@@ -2,6 +2,9 @@ import Raven from 'raven-js'
 import { CHANNEL } from './channel'
 import ensureDeviceUUID from '@offirmo/ensure-device-uuid-browser'
 
+import { VERSION, BUILD_DATE } from './build.json'
+
+
 /////////////////////////////////////////////////
 
 const DEVICE_UUID = ensureDeviceUUID()
@@ -24,12 +27,12 @@ error_reporter
 	.config('https://ac5806cad5534bcf82f23d857a1ffce5@sentry.io/1235383', {
 		// https://docs.sentry.io/clients/javascript/config/
 		// logger ?
-		release: WI_VERSION,
-		environment: WI_ENV,
+		release: VERSION,
+		environment: process.env.NODE_ENV, // TOCHECK
 		serverName: DEVICE_UUID,
 		tags: {
 			//git_commit: 'c0deb10c4',
-			BUILD_DATE: WI_BUILD_DATE,
+			BUILD_DATE,
 			CHANNEL,
 		},
 		// whitelistUrls: [...],

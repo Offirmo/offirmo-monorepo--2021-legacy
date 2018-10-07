@@ -6,7 +6,7 @@ const BASE_ROUTE = (pathname => {
 	const TOP_SEGMENT_WE_ASSUME_WELL_BE_ALWAYS_SERVED_UNDER =
 		pathname.includes('/the-boring-rpg-browser')
 			? '/the-boring-rpg-browser' // dev+ setup
-			: WI_BASE_PATH
+			: '/the-boring-rpg'
 
 	const splitted = pathname.split(TOP_SEGMENT_WE_ASSUME_WELL_BE_ALWAYS_SERVED_UNDER)
 	const parent_segment = splitted[0]

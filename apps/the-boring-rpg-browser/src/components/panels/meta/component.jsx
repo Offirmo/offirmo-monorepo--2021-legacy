@@ -13,6 +13,7 @@ import {
 
 import { Chat } from '../../utils/chat-interface'
 import rich_text_to_react from '../../../services/rich-text-to-react'
+import { VERSION, BUILD_DATE } from '../../../services/build.json'
 import SEC from '../../../services/sec'
 
 
@@ -24,11 +25,11 @@ export function render_meta(state, client_state) {
 		'01-playcount'
 	)
 	$doc_list_builder.pushRawNode(
-		RichText.span().pushText(`Game version: ${client_state.VERSION}`).done(),
+		RichText.span().pushText(`Game version: ${VERSION}`).done(),
 		'02-version'
 	)
 	$doc_list_builder.pushRawNode(
-		RichText.span().pushText(`Build date (UTC): ${client_state.BUILD_DATE}`).done(),
+		RichText.span().pushText(`Build date (UTC): ${BUILD_DATE}`).done(),
 		'03-builddate'
 	)
 	$doc_list_builder.pushRawNode(

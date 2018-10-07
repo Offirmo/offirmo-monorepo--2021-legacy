@@ -37,11 +37,7 @@ SEC.xTry('init client state', ({logger}) => {
 	const netlifyIdentity = poll_window_variable('netlifyIdentity', { timeoutMs: 30 * 1000 })
 
 	game_instance.set_client_state(() => ({
-		VERSION: WI_VERSION,
-		ENV: WI_ENV,
-		BUILD_DATE: WI_BUILD_DATE,
 		CHANNEL,
-		verbose: true, // XXX auto + through SEC ?
 		netlifyIdentity,
 		// can change:
 		mode: 'explore',

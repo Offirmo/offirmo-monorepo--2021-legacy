@@ -80,7 +80,7 @@ function Main({children, logo, universeAnchor, bottomMenuItems, bottomMarkerInde
 							</ErrorBoundary>
 						</div>}
 
-						<NotificationSystem ref={_registerNotificationSystem} />
+						{/*<NotificationSystem ref={_registerNotificationSystem} />*/}
 					</div>
 				)
 			}}
