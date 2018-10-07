@@ -12,6 +12,7 @@ node_modules
 
 # caches
 .cache
+.parcel
 
 # may be auto-generated, but not used
 package-lock.json
