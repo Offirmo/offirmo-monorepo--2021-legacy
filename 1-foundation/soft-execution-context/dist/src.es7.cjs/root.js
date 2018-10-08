@@ -40,7 +40,7 @@ if (typeof global !== 'undefined') {
             },
             get: function () {
                 if (!root_SEC) {
-                    console.info('Creating root SEC… [global path]');
+                    console.info('Creating root SEC… [node path]');
                     root_SEC = core_1.createSEC();
                 }
                 return root_SEC;

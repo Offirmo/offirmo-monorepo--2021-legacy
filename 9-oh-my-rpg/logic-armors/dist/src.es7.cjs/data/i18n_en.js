@@ -76,7 +76,7 @@ const messages = {
             'solid': 'solid',
             'steel': 'steel',
             'strange': 'strange',
-            'subtile': 'subtile',
+            'subtile': 'subtle',
             'swift': 'swift',
             'unwavering': 'unwavering',
             'used': 'used',

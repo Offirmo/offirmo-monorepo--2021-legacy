@@ -19,7 +19,7 @@ const PKG_NAME = PKG_JSON.name
 /////////////////////
 
 //console.log({PKG_PATH, DIST_DIR, DEPS_DIR})
-console.log(`🔧 Cleaning ${PKG_NAME}...`)
+console.log(`🔧 Cleaning ${PKG_NAME} [${cli.input}]...`)
 
 
 Promise.all([
