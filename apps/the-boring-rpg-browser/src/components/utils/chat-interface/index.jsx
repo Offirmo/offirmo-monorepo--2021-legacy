@@ -303,7 +303,7 @@ class Chat extends React.Component {
 	}
 
 	onErrorBoundaryMount = (componentDidCatch) => {
-		console.log('chat-interface onErrorBoundaryMount')
+		//console.log('chat-interface onErrorBoundaryMount')
 		this.componentDidCatch = componentDidCatch
 	}
 

@@ -50,7 +50,7 @@ SEC.xTry('init client state', ({logger}) => {
 	}))
 
 	netlifyIdentity.then(NetlifyIdentity => {
-		console.info('Netlify Identity loaded')
+		console.info('Netlify Identity loaded ✅')
 
 		//NetlifyIdentity.open("signup")
 		/*NetlifyIdentity.init({

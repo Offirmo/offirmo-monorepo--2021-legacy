@@ -43,7 +43,7 @@ class ContextProvider extends React.Component {
 
 		// TODO clean up in future iterations
 		this.state._registerNotificationSystem = (notificationSystem) => {
-			console.log('_registerNotificationSystem', notificationSystem)
+			//console.log('_registerNotificationSystem', notificationSystem)
 
 			if (this._notificationSystem) {
 				// cleanups (should happen only in dev / HMR)
@@ -72,7 +72,7 @@ class ContextProvider extends React.Component {
 
 		this.state.enqueueNotification = (options = {}) => {
 			flag_count++
-			console.log(`enqueueNotification #${flag_count}`, options)
+			console.log(`OMR enqueueNotification #${flag_count}`, options)
 			let {level, title, message, children, position, auto_dismiss_delay_ms, uid = flag_count} = {
 				...DEFAULT_FLAG_SETTINGS,
 				...options,
