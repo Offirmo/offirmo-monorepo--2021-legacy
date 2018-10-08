@@ -40,7 +40,7 @@ function find_tsc() {
 		.catch(() => candidate_if_exists(candidate_from_require))
 		.catch(() => candidate_if_exists(candidate_from_global))
 		.catch(() => {
-			console.error(`${LIB}: Tested locations, by priority:
+			console.error(`${LIB}: Unsuccessfully tested locations, by priority:
 - ${candidate_from_sibling_module}
 - ${candidate_from_caller_node_module}
 - ${candidate_from_require} (from require('typescript'))

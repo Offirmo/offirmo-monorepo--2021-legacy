@@ -7,10 +7,7 @@
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "UNLICENSED",
 	"scripts": {
-		"__dev": "~~~~~~~ DEVELOPMENT ~~~~~~~",
-		"clean:deps": "rm -rf package-lock.json node_modules",
 		"test": "../../node_modules/.bin/mocha --opts ../../3-tools/unit-test-toolbox/mocha.opts ../../3-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es7.cjs/**/*spec.js'",
-		"__helpers": "----------- Helpers -----------",
 		"demo": "./demo/demo.js"
 	},
 	"dependencies": {

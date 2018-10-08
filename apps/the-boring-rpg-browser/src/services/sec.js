@@ -37,7 +37,7 @@ SEC.setAnalyticsAndErrorDetails({
 
 SEC.emitter.on('final-error', function onError({SEC, err}) {
 	if (CHANNEL === 'dev') {
-		logger.fatal('↑ error!', {SEC, err})
+		logger.fatal('↑ error! (no report since dev)', {SEC, err})
 	}
 	else {
 		set_imminent_captured_error(err)
@@ -56,8 +56,9 @@ SEC.emitter.on('analytics', function onAnalytics({SEC, eventId, details}) {
 listenToErrorEvents()
 listenToUnhandledRejections()
 
-logger.trace('Soft Execution Context initialized.', {SEC})
-
+SEC.xTry('SEC/browser/listenToUnhandledRejections', ({logger}) => {
+	logger.trace('Soft Execution Context initialized.', {SEC})
+})
 
 const { ENV } = SEC.getInjectedDependencies()
 if (ENV !== process.env.NODE_ENV) {

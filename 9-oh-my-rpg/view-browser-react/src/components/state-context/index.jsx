@@ -1,16 +1,20 @@
-import React from 'react'
+import React, { Fragment } from 'react'
+
+import ErrorBoundary from '@offirmo/react-error-boundary'
+
+////////////
 
 const FLAGS_POSITION_TO_3RD_PARTY = {
 	'top-center': 'tc',
 	'bottom-center': 'bc',
 }
+let flag_count = 0
 
 const DEFAULT_FLAG_SETTINGS = {
 	level: 'info',
 	position: 'bottom-center',
-	autoDismiss: 0,
+	auto_dismiss_delay_ms: 0,
 }
-
 
 const DEFAULT_STATE = {
 	isBurgerMenuOpen: false,
@@ -21,42 +25,82 @@ const DEFAULT_STATE = {
 	pendingFlags: [], // TODO
 }
 
-export const OhMyRPGUIContext = React.createContext({...DEFAULT_STATE})
+const OhMyRPGUIContext = React.createContext({...DEFAULT_STATE})
 
-export default class ContextProvider extends React.Component {
+class ContextProvider extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
 			...DEFAULT_STATE
 		}
 
+		this._notificationSystem = null
+		this.notificationSystem = new Promise((resolve, reject) => {
+			this.resolveNotificationSystem = resolve
+			this.rejectNotificationSystem = reject
+		})
+		this.notificationSystem.then(() => console.info('OMR notifications system ready ✅'))
+
+		// TODO clean up in future iterations
 		this.state._registerNotificationSystem = (notificationSystem) => {
-			//console.log('_registerNotificationSystem', notificationSystem)
+			console.log('_registerNotificationSystem', notificationSystem)
+
+			if (this._notificationSystem) {
+				// cleanups (should happen only in dev / HMR)
+				this._notificationSystem.clearNotifications()
+				this._notificationSystem = null
+				this.rejectNotificationSystem(new Error('notif reloaded!'))
+
+				this.notificationSystem = new Promise((resolve, reject) => {
+					this.resolveNotificationSystem = resolve
+					this.rejectNotificationSystem = reject
+				})
+				this.notificationSystem.then(() => console.info('OMR notifications system ready ✅'))
+			}
+
 			if (!notificationSystem) return
 
 			this._notificationSystem = notificationSystem
+			// intentionally giving some room to let the app load
+			setTimeout(() => {
+				if (!this.resolveNotificationSystem) return
 
-			const message = 'message'
-			this.state.queueNotification({level: 'error', title: 'error', message})
-			this.state.queueNotification({level: 'warning', title: 'warning', message})
-			this.state.queueNotification({level: 'info', title: 'info', message})
-			this.state.queueNotification({level: 'success', title: 'success', message})
+				this.resolveNotificationSystem(this._notificationSystem)
+				this.resolveNotificationSystem = null
+			}, 1000)
 		}
 
-		this.state.queueNotification = (options = {}) => {
-			let {level, title, message, position, autoDismiss} = {
+		this.state.enqueueNotification = (options = {}) => {
+			flag_count++
+			console.log(`enqueueNotification #${flag_count}`, options)
+			let {level, title, message, children, position, auto_dismiss_delay_ms, uid = flag_count} = {
 				...DEFAULT_FLAG_SETTINGS,
 				...options,
 			}
 
-			if (!title && !message)
-				title = 'ERROR: no title nor message'
+			if (!title && !message && !children)
+				title = 'OMR notification: ERROR: no title nor message nor children'
+
+			// normalize content
+			children = (
+				<ErrorBoundary name={`omr:flag:${uid}`}>
+					{title && <h4 className="notification-title">{title}</h4>}
+					{message && <p className="notification-message">{message}</p>}
+					{children}
+				</ErrorBoundary>
+			)
 
 			position = FLAGS_POSITION_TO_3RD_PARTY[position] || position
 
-			this._notificationSystem.addNotification({
-				level, title, message, position, autoDismiss,
-			})
+			this.notificationSystem.then(notificationSystem =>
+				notificationSystem.addNotification({
+					uid,
+					level,
+					/*title, message,*/ children,
+					position,
+					autoDismiss: auto_dismiss_delay_ms / 1000.,
+				})
+			)
 		}
 
 		this.state.openBurgerMenu = () => {
@@ -95,4 +139,10 @@ export default class ContextProvider extends React.Component {
 			</OhMyRPGUIContext.Provider>
 		)
 	}
+}
+
+export default ContextProvider
+
+export {
+	OhMyRPGUIContext
 }

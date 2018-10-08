@@ -1,5 +1,6 @@
 import React from 'react'
 
+import ErrorBoundary from '@offirmo/react-error-boundary'
 import { render_adventure } from '@oh-my-rpg/view-rich-text'
 const { get_snapshot: get_energy_snapshot } = require('@oh-my-rpg/state-energy')
 
@@ -20,16 +21,6 @@ export default class Component extends React.Component {
 			const ui_state = game_instance.get_client_state()
 			const { last_adventure } = state
 			const energy_snapshot = get_energy_snapshot(state.energy)
-
-			if (!ui_state.alpha_warning_displayed) {
-				yield {
-					type: 'simple_message',
-					msg_main: <span className="warning">⚠ Warning! This game is alpha, your savegame may be lost at any time!</span>,
-				}
-				game_instance.set_client_state(() => ({
-					alpha_warning_displayed: true,
-				}))
-			}
 
 			if (!ui_state.recap_displayed) {
 				steps.push({
@@ -118,16 +109,17 @@ export default class Component extends React.Component {
 		const client_state = game_instance.get_client_state()
 		return (
 			<div className={'o⋄top-container tbrpg-panel'}>
-				<Chat
-					initial_bubbles={client_state.home_bubbles}
-					gen_next_step={this.gen_next_step()}
-					on_unmount={(bubbles) => {
-						game_instance.set_client_state(() => ({
-							home_bubbles: bubbles,
-						}))
-					}}
-				/>
-				{/* <PlayButton /> */}
+				<ErrorBoundary name={'chat:explore'}>
+					<Chat
+						initial_bubbles={client_state.home_bubbles}
+						gen_next_step={this.gen_next_step()}
+						on_unmount={(bubbles) => {
+							game_instance.set_client_state(() => ({
+								home_bubbles: bubbles,
+							}))
+						}}
+					/>
+				</ErrorBoundary>
 			</div>
 		)
 	}

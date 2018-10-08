@@ -2,6 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 const promiseFinally = require('p-finally')
 
+import ErrorBoundary from '@offirmo/react-error-boundary'
 import { create as create_chat } from '@offirmo/view-chat'
 
 import { AutoScrollDown } from '../auto-scroll-down'
@@ -277,9 +278,17 @@ class Chat extends React.Component {
 			ui: chat_ui_callbacks,
 		})
 
-		chat.start()
+		return chat.start()
 			.then(() => console.log('bye'))
-			.catch(console.error)
+			.catch(err => {
+				if (this.componentDidCatch) {
+					this.componentDidCatch(err)
+					return
+				}
+
+				// don't know how to handle, rethrow
+				throw err
+			})
 	}
 
 	componentWillUnmount () {
@@ -291,6 +300,11 @@ class Chat extends React.Component {
 		if (bubles_to_backup.length < 4)
 			bubles_to_backup = [] // just the welcome prompts, no need to back it up
 		this.props.on_unmount(bubles_to_backup)
+	}
+
+	onErrorBoundaryMount = (componentDidCatch) => {
+		console.log('chat-interface onErrorBoundaryMount')
+		this.componentDidCatch = componentDidCatch
 	}
 
 	render() {
@@ -336,19 +350,21 @@ class Chat extends React.Component {
 			this.state.reading_string && is_likely_to_be_mobile()
 
 		return (
-			<AutoScrollDown classname='flex-column'>
-				<div className="chat">
-					{this.props.children}
-					{!is_mobile_keyboard_likely_to_be_displayed && penultimate_bubble}
-					{ultimate_bubble}
-					{progress_bar}
-					{spinner}
-					<div className="chat__element chat__element--rtl chat__choices">
-						{this.state.choices}
+			<ErrorBoundary name={'chat-interface'} onMount={this.onErrorBoundaryMount}>
+				<AutoScrollDown classname='flex-column'>
+					<div className="chat">
+						{this.props.children}
+						{!is_mobile_keyboard_likely_to_be_displayed && penultimate_bubble}
+						{ultimate_bubble}
+						{progress_bar}
+						{spinner}
+						<div className="chat__element chat__element--rtl chat__choices">
+							{this.state.choices}
+						</div>
+						{user_input}
 					</div>
-					{user_input}
-				</div>
-			</AutoScrollDown>
+				</AutoScrollDown>
+			</ErrorBoundary>
 		)
 	}
 }

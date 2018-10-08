@@ -4,18 +4,15 @@
 Remember to tweak the body and root! (see demo)
 
 
+## Credits
+* https://github.com/igorprado/react-notification-system
+* https://github.com/negomi/react-burger-menu
+  * scale-down
+  * slide
 
 ## TODO
 * https://github.com/oliviertassinari/react-swipeable-views
 * https://github.com/javierbyte/react-blur
-* https://github.com/negomi/react-burger-menu
-  * scale-down
-  * slide
-* https://github.com/xeodou/react-crouton
 
-
-
-		"babel-core": "^6",
-		"babel-preset-env": "^1",
-		"babel-preset-react": "^6",
-		"babel-preset-stage-0": "^6",
+		"react-swipeable-views": "^0.12",
+		"react-swipeable-views-utils": "^0.12"

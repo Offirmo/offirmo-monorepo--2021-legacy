@@ -2,7 +2,11 @@ import React from 'react'
 
 import { get_lib_SEC } from './sec'
 
-const DEFAULT_CONTENT = <span className={`o⋄error-report error-boundary-report-${name}`}>ErrorBoundary: no children nor render prop!</span>
+const DEFAULT_CONTENT = (
+	<span className={`o⋄error-report error-boundary-report--${name}`}>
+		ErrorBoundary: no children nor render prop!
+	</span>
+)
 
 export default class ErrorBoundary extends React.Component {
 	state = {
@@ -22,7 +26,15 @@ export default class ErrorBoundary extends React.Component {
 			})
 	}
 
-	componentDidCatch(error, errorInfo) {
+	componentDidMount() {
+		const {onMount} = this.props
+		if (onMount) {
+			onMount(this.componentDidCatch)
+		}
+	}
+
+	// as a member var to be able to pass it around
+	componentDidCatch = (error, errorInfo) => {
 		const {name} = this.props
 
 		this.SEC.xTryCatch(`handling error boundary "${name}"`, ({SEC, logger}) => {
@@ -37,7 +49,7 @@ export default class ErrorBoundary extends React.Component {
 				errorInfo,
 			})
 			SEC.fireAnalyticsEvent('react.error-boundary.triggered', {
-				err: error, // XXX
+				err: error, // XXX TODO
 			})
 			if (this.props.onError) {
 				this.props.onError({
@@ -50,7 +62,7 @@ export default class ErrorBoundary extends React.Component {
 	}
 
 	render() {
-		if (this.state.errorInfo) {
+		if (this.state.error || this.state.errorInfo) {
 			const {name} = this.props
 			return (
 				<div className={`o⋄error-report error-boundary-report-${name}`}>
@@ -58,7 +70,7 @@ export default class ErrorBoundary extends React.Component {
 					<details style={{ whiteSpace: 'pre-wrap' }}>
 						{this.state.error && this.state.error.toString()}
 						<br />
-						{this.state.errorInfo.componentStack}
+						{this.state.errorInfo && this.state.errorInfo.componentStack}
 					</details>
 				</div>
 			)
@@ -87,6 +99,7 @@ export default class ErrorBoundary extends React.Component {
 		catch (err) {
 			setTimeout(() => this.componentDidCatch(err, 'crash in ErrorBoundary.render()'))
 		}
+
 		return null
 	}
 }

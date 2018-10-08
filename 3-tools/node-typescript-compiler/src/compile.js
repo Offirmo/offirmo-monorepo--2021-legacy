@@ -125,7 +125,7 @@ function compile(params, files, options) {
 					fail(`[${LIB}] got stderr error event : "${error}"`)
 				})
 			})
-			.catch(reject)
+			.catch(reject) // XXX must be wrong to do that
 	})
 }
 

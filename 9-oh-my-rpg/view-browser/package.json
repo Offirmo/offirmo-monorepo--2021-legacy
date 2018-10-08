@@ -4,18 +4,16 @@
 	"private": true,
 	"description": "Graphical css and assets for an RPG UI",
 	"license": "UNLICENSED",
+	"scripts": {
+		"clean": "node ../../scripts/clean.js dist",
+		"build:copy": "mkdir -p dist && cpx 'src/**/*.{woff,woff2,eot,svg,ttf,png,jpg}' dist --verbose",
+		"build:cleancss": "mkdir -p dist && cleancss --skip-rebase -o dist/oh-my-rpg-browser.css src/style.css",
+		"build": "npm-run-all clean --parallel build:copy build:cleancss"
+	},
 	"devDependencies": {
 		"@offirmo/view-css": "^0.0.1",
 		"clean-css-cli": "^4",
 		"cpx": "^1",
-		"normalize.css": "^8",
 		"npm-run-all": "^4"
-	},
-	"scripts": {
-		"clean": "rm -rf dist",
-		"build:mkdir": "mkdir -p dist",
-		"build:copy": "cpx 'src/**/*.{woff,woff2,eot,svg,ttf,png,jpg}' dist --verbose",
-		"build:cleancss": "cleancss --skip-rebase -o dist/oh-my-rpg-browser.css src/style.css",
-		"build": "npm-run-all clean build:mkdir --parallel build:copy build:cleancss"
 	}
 }

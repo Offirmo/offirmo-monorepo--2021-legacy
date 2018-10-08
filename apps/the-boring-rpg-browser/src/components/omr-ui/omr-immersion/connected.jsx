@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { OhMyRPGUIContext } from '@oh-my-rpg/view-browser-react'
+
 import {GameContextConsumerListener} from '../../../game-context'
 import Component from './component'
 
@@ -17,17 +19,23 @@ const BACKGROUNDS = [
 ]
 
 export default props => (
-	<GameContextConsumerListener>
-		{game_instance => {
-			const {mode} = game_instance.get_client_state()
-			const state = game_instance.get_latest_state()
+	<OhMyRPGUIContext.Consumer>
+		{omr => (
+			<GameContextConsumerListener>
+				{game_instance => {
+					const {mode} = game_instance.get_client_state()
+					const state = game_instance.get_latest_state()
 
-			return (
-				<Component
-					{...props}
-					mode={mode}
-					background={BACKGROUNDS[state.good_click_count % BACKGROUNDS.length]}
-				/>)
-		}}
-	</GameContextConsumerListener>
+					return (
+						<Component
+							{...props}
+							omr={omr}
+							mode={mode}
+							background={BACKGROUNDS[state.good_click_count % BACKGROUNDS.length]}
+						/>)
+				}}
+			</GameContextConsumerListener>
+		)}
+	</OhMyRPGUIContext.Consumer>
+
 )

@@ -6,25 +6,23 @@
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "UNLICENSED",
 	"scripts": {
-		"demo": "rm -rf .cache dist && parcel --no-autoinstall doc/demo/index.html"
+		"clean": "node ../../scripts/clean.js dist cache",
+		"start:parcel": "parcel --out-dir .parcel --no-autoinstall doc/demo/index.html",
+		"demo": "run-s clean start:parcel"
 	},
 	"peerDependencies": {
-		"react": "^16.0.0"
+		"react": "^16"
 	},
 	"dependencies": {
 		"@offirmo/react-error-boundary": "^0.0.1",
 		"@oh-my-rpg/view-browser": "^0.0.1",
 		"classnames": "^2",
 		"react-burger-menu": "^2",
-		"react-notification-system": "^0.2",
-		"react-swipeable-views": "^0.12",
-		"react-swipeable-views-utils": "^0.12"
+		"react-notification-system": "^0.2"
 	},
 	"devDependencies": {
 		"@babel/core": "^7",
-		"npm-run-all": "^4",
 		"parcel-bundler": "^1",
-		"react": "^16",
 		"react-dom": "^16"
 	}
 }

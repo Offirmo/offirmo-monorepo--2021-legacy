@@ -4,19 +4,19 @@
 	"private": true,
 	"description": "Small reusable CSS classes",
 	"license": "UNLICENSED",
+	"scripts": {
+		"clean": "node ../../scripts/clean.js dist cache",
+		"start:parcel": "parcel --out-dir .parcel --no-autoinstall doc/demo/index.html doc/demo/index-iframe-advanced.html doc/demo/index-iframe-base.html doc/demo/index-iframe-controls.html doc/demo/index-iframe-fonts.html doc/demo/index-iframe-rpg-elements.html",
+		"demo": "run-s clean start:parcel",
+
+		"build:copy": "mkdir -p dist && cpx 'src/**/*.woff2' dist --verbose",
+		"build:cleancss": "mkdir -p dist && cleancss --skip-rebase --output dist/offirmo-reset+utils.css src/style.css",
+		"build": "npm-run-all clean --parallel build:copy build:cleancss"
+	},
 	"devDependencies": {
 		"clean-css-cli": "^4",
 		"cpx": "^1",
 		"normalize.css": "^8",
 		"npm-run-all": "^4"
-	},
-	"scripts": {
-		"clean": "rm -rf dist .cache && mkdir dist",
-		"start:parcel": "parcel doc/demo/index.html doc/demo/index-iframe-advanced.html doc/demo/index-iframe-base.html doc/demo/index-iframe-controls.html doc/demo/index-iframe-fonts.html doc/demo/index-iframe-rpg-elements.html",
-		"demo": "run-s clean start:parcel",
-
-		"build:copy": "cpx 'src/**/*.woff2' dist --verbose",
-		"build:cleancss": "cleancss --skip-rebase -o dist/offirmo-reset+utils.css src/style.css",
-		"build": "npm-run-all clean --parallel build:copy build:cleancss"
 	}
 }

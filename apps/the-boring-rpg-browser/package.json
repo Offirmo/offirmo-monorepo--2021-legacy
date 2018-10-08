@@ -1,6 +1,6 @@
 {
 	"name": "the-boring-rpg-browser",
-	"version": "0.52.0",
+	"version": "0.52.4",
 	"private": true,
 	"description": "⚔🛡💰 The boring RPG browser game, reloaded!",
 	"author": "Offirmo <offirmo.net@gmail.com>",
@@ -14,9 +14,9 @@
 	},
 	"scripts": {
 		"refresh-build-variables": "node meta/update_build_variables.js",
-		"clean": "rm -rf dist .cache",
-		"start:parcel": "parcel src/index.html",
-		"start": "run-s clean refresh-build-variables start:parcel",
+		"clean": "node ../../scripts/clean.js dist cache",
+		"start:parcel": "parcel --out-dir .parcel --no-autoinstall --port 8080 --no-hmr src/index.html",
+		"start": "run-s refresh-build-variables start:parcel",
 		"test": "echo 'TODO'",
 		"build:parcel": "parcel build src/index.html --public-url ./",
 		"build": "npm version patch && run-s clean refresh-build-variables build:parcel",

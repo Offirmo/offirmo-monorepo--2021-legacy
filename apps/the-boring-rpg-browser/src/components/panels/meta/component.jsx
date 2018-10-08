@@ -15,6 +15,7 @@ import { Chat } from '../../utils/chat-interface'
 import rich_text_to_react from '../../../services/rich-text-to-react'
 import { VERSION, BUILD_DATE } from '../../../services/build.json'
 import SEC from '../../../services/sec'
+import ErrorBoundary from '@offirmo/react-error-boundary'
 
 
 export function render_meta(state, client_state) {
@@ -144,7 +145,9 @@ export default class Component extends React.Component {
 					<hr/>
 				</div>
 				<div className='o⋄flex-element--grow o⋄overflow-y⁚auto'>
-					<Chat gen_next_step={this.gen_next_step()} />
+					<ErrorBoundary name={'chat:meta'}>
+						<Chat gen_next_step={this.gen_next_step()} />
+					</ErrorBoundary>
 				</div>
 			</div>
 		)

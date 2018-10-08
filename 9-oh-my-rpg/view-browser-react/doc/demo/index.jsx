@@ -1,19 +1,41 @@
 import React, { Component, Fragment } from 'react'
 import ReactDOM from "react-dom"
 
-import OhMyRpg from '../../src'
+import OhMyRpg, { OhMyRPGUIContext } from '../../src'
 
 import './index.css'
 //import logo from './tbrpg_logo_512x98.png'
 
 
-export default class ViewBrowserReactDemo extends Component {
+class Main extends Component {
 
+	componentDidMount() {
+		console.log('demo main: componentDidMount')
+
+		const message = 'message'
+		this.props.omr.enqueueNotification({level: 'error', title: 'error', message})
+		this.props.omr.enqueueNotification({level: 'warning', title: 'warning', message, position: 'top-center'})
+		this.props.omr.enqueueNotification({level: 'info', title: 'info', message})
+		this.props.omr.enqueueNotification({level: 'success', title: 'success', message})
+	}
+
+	render() {
+		// XXX TODO fix imbricated themes
+
+		return (
+			<div className="o⋄top-container omr⋄bg-image⁚parchment-xxl o⋄color⁚main" data-o-theme="dark-on-light">
+				Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
+			</div>
+		)
+	}
+}
+
+export default class ViewBrowserReactDemo extends Component {
 	render() {
 		return (
 			<OhMyRpg
 
-				logo={'<logo>'}
+				logo={'<Logo>'}
 
 				aboutContent={'<About>'}
 
@@ -30,10 +52,9 @@ export default class ViewBrowserReactDemo extends Component {
 
 				bottomMarkerIndex={0}
 			>
-				{/* XXX TODO fix imbricated themes */}
-				<div className="o⋄top-container omr⋄bg-image⁚parchment-xxl o⋄color⁚main" data-o-theme="dark-on-light">
-					Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
-				</div>
+				<OhMyRPGUIContext.Consumer>
+					{omr => <Main omr={omr} />}
+				</OhMyRPGUIContext.Consumer>
 			</OhMyRpg>
 		)
 	}

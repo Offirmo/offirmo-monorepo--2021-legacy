@@ -1,6 +1,6 @@
 {
 	"name": "the-npm-rpg",
-	"version": "0.50.0",
+	"version": "0.53.0",
 	"description": "⚔🛡💰 The npm RPG, a command line RPG game. Just ⌨ `npx the-npm-rpg`!",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "UNLICENSED",
@@ -12,6 +12,17 @@
 		"node": ">=8.5"
 	},
 	"bin": "./bin/index.js",
+	"scripts": {
+		"__dev": "~~~~~~~ DEVELOPMENT ~~~~~~~",
+		"clean": "node ../../scripts/clean.js dist cache",
+		"bump": "npm version minor",
+		"build:prod": "cross-env NODE_ENV=development webpack --config meta/webpack.config.ts",
+		"start": "node src/index.js",
+		"test": "echo 'TODO'",
+		"__helpers": "----------- Helpers -----------",
+		"build": "run-s clean bump build:prod",
+		"bin": "bin/index.js"
+	},
 	"dependencies": {
 		"conf": "^2"
 	},
@@ -52,17 +63,6 @@
 		"universal-analytics": "^0.4",
 		"username": "^4",
 		"webpack": "^4"
-	},
-	"scripts": {
-		"__dev": "~~~~~~~ DEVELOPMENT ~~~~~~~",
-		"clean": "rm -rf dist",
-		"bump": "npm version minor",
-		"build:prod": "cross-env NODE_ENV=development webpack --config meta/webpack.config.ts",
-		"start": "node src/index.js",
-		"test": "echo 'TODO'",
-		"__helpers": "----------- Helpers -----------",
-		"build": "run-s clean bump build:prod",
-		"bin": "bin/index.js"
 	},
 	"custom-field": "just curious",
 	"custom-object": {

@@ -5,10 +5,11 @@
 	"private": true,
 	"version": "0.0.2",
 	"main": "src/index.js",
-
-	"dependencies": {
-		"@offirmo/ensure-device-uuid-browser": "^0.0.1",
+	"peerDependencies": {
 		"@offirmo/soft-execution-context": "^0.0.2"
+	},
+	"dependencies": {
+		"@offirmo/ensure-device-uuid-browser": "^0.0.1"
 	},
 	"devDependencies": {
 		"@babel/core": "^7",

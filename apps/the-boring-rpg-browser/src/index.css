@@ -3,6 +3,8 @@ body {
 	width: -webkit-fill-available;
 	width: -moz-available;
 	width: fill-available;
+
+	--o⋄font-size--default: 15px;
 }
 
 iframe#netlify-identity-widget {

@@ -7,10 +7,12 @@
 	"typings": "dist/src.es7.cjs/index.js",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "UNLICENSED",
+	"peerDependencies": {
+		"@offirmo/soft-execution-context": "^0.0.2"
+	},
 	"dependencies": {
 		"@offirmo/random": "^2",
 		"@offirmo/rich-text-format": "^0.0.1",
-		"@offirmo/soft-execution-context": "^0.0.2",
 		"@offirmo/timestamps": "^0.0.1",
 		"@offirmo/unicode-data": "^0.0.1",
 		"@offirmo/uuid": "^0.0.1",

@@ -99,7 +99,7 @@ export default class TheBoringRPG extends Component {
 
 				bottomMarkerIndex={MODE_TO_INDEX[mode]}
 			>
-				<MainArea />
+				<MainArea />}
 			</OhMyRpg>
 		)
 	}

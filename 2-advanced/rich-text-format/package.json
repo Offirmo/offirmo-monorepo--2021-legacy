@@ -6,6 +6,16 @@
 	"typings": "dist/src.es7.cjs/index.d.ts",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "UNLICENSED",
+	"scripts": {
+		"clean": "node ../../scripts/clean.js dist",
+		"build:dev:watch": "node ../../scripts/build-typescript.js --watch",
+		"build:prod": "node ../../scripts/build-typescript.js",
+
+		"dev": "run-s clean build:dev:watch",
+		"build": "run-s clean build:prod",
+		"cheatsheet": "node doc/cheatsheet.js",
+		"demo": "node doc/demo-node/index.js"
+	},
 	"dependencies": {
 		"typescript-string-enums": "^0.3"
 	},
@@ -17,15 +27,5 @@
 		"prettyjson": "^1",
 		"tiny-invariant": "^1",
 		"tslib": "^1"
-	},
-	"scripts": {
-		"clean": "node ../../scripts/clean.js dist",
-		"build:dev:watch": "node ../../scripts/build-typescript.js --watch",
-		"build:prod": "node ../../scripts/build-typescript.js",
-
-		"dev": "run-s clean build:dev:watch",
-		"build": "run-s clean build:prod",
-		"cheatsheet": "node doc/cheatsheet.js",
-		"demo": "node doc/demo-node/index.js"
 	}
 }

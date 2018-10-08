@@ -3,10 +3,15 @@
 // auto-detect basename, correctly ignoring dynamic routes
 const BASE_ROUTE = (pathname => {
 	// stable point, everything after is likely to be a route
-	const TOP_SEGMENT_WE_ASSUME_WELL_BE_ALWAYS_SERVED_UNDER =
-		pathname.includes('/the-boring-rpg-browser')
-			? '/the-boring-rpg-browser' // dev+ setup
-			: '/the-boring-rpg'
+	const TOP_SEGMENT_WE_ASSUME_WELL_BE_ALWAYS_SERVED_UNDER = (() => {
+		if (pathname.includes('/the-boring-rpg-browser'))
+			return '/the-boring-rpg-browser' // "dev+" setup
+
+		if (pathname.includes('/the-boring-rpg'))
+			return '/the-boring-rpg' // prod setup
+
+		return '' // dev setup
+	})()
 
 	const splitted = pathname.split(TOP_SEGMENT_WE_ASSUME_WELL_BE_ALWAYS_SERVED_UNDER)
 	const parent_segment = splitted[0]
@@ -15,6 +20,13 @@ const BASE_ROUTE = (pathname => {
 	// special dev/staging case where we are served under an additional /dist
 	if (splitted[1] && splitted[1].startsWith('/dist'))
 		base_route += '/dist'
+
+	/*console.log('BASE_ROUTE computation', {
+		TOP_SEGMENT_WE_ASSUME_WELL_BE_ALWAYS_SERVED_UNDER,
+		splitted,
+		parent_segment,
+		base_route,
+	})*/
 
 	return base_route
 })(window.location.pathname)

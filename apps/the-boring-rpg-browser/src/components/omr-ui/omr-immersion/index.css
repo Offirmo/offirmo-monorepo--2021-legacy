@@ -59,7 +59,6 @@
 
 .main-area {
 	z-index: calc(10 + var(--omr⋄ui__immersion-view--z-index));
-	font-size: 15px;
 }
 
 /* override */

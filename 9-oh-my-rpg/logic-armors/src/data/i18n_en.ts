@@ -76,7 +76,7 @@ const messages: I18nMessages = {
 			'solid': 'solid',
 			'steel': 'steel',
 			'strange': 'strange',
-			'subtile': 'subtile',
+			'subtile': 'subtle',
 			'swift': 'swift',
 			'unwavering': 'unwavering',
 			'used': 'used',

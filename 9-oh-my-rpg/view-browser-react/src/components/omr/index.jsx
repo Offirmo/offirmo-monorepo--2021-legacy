@@ -32,8 +32,7 @@ function TopLeftHud({isBurgerMenuOpen, openBurgerMenu, logo, toggleAbout, univer
 	)
 }
 
-function BottomRightHud({bottomMenuItems, bottomMarkerIndex}) {
-
+function BottomRightHud({bottomMenuItems}) {
 	return bottomMenuItems.length > 0 && (
 		<div className="omr⋄hud⁚bottom-right">
 			<div className="omr⋄bottom-menu">
@@ -80,7 +79,9 @@ function Main({children, logo, universeAnchor, bottomMenuItems, bottomMarkerInde
 							</ErrorBoundary>
 						</div>}
 
-						{/*<NotificationSystem ref={_registerNotificationSystem} />*/}
+						<ErrorBoundary name={'omr:notification-system'}>
+							<NotificationSystem ref={_registerNotificationSystem} />
+						</ErrorBoundary>
 					</div>
 				)
 			}}

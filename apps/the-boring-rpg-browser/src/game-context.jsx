@@ -41,7 +41,7 @@ SEC.xTry('init client state', ({logger}) => {
 		netlifyIdentity,
 		// can change:
 		mode: 'explore',
-		alpha_warning_displayed: false,
+		//alpha_warning_displayed: false,
 		recap_displayed: false,
 		last_displayed_adventure_uuid: (() => {
 			const { last_adventure } = game_instance.get_latest_state()

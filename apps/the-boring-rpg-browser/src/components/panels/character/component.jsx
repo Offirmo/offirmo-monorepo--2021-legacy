@@ -7,6 +7,7 @@ import { is_likely_to_be_mobile } from '../../../services/mobile-detection'
 import { Chat } from '../../utils/chat-interface'
 import rich_text_to_react from '../../../services/rich-text-to-react'
 import './index.css'
+import ErrorBoundary from '@offirmo/react-error-boundary'
 
 
 export default class Component extends React.Component {
@@ -107,21 +108,23 @@ export default class Component extends React.Component {
 						{rich_text_to_react(render_character_sheet(state.avatar))}
 					</div>}
 				<div className='o⋄flex-element--grow o⋄overflow-y⁚auto'>
-					<Chat
-						gen_next_step={this.gen_next_step()}
-						on_input_begin={() => {
-							console.log('input start')
-							this.setState(() => ({
-								mobile_keyboard_likely_present: is_likely_to_be_mobile(),
-							}))
-						}}
-						on_input_end={() => {
-							console.log('unput stop')
-							this.setState(() => ({
-								mobile_keyboard_likely_present: false,
-							}))
-						}}
-					/>
+					<ErrorBoundary name={'chat:character'}>
+						<Chat
+							gen_next_step={this.gen_next_step()}
+							on_input_begin={() => {
+								console.log('input start')
+								this.setState(() => ({
+									mobile_keyboard_likely_present: is_likely_to_be_mobile(),
+								}))
+							}}
+							on_input_end={() => {
+								console.log('unput stop')
+								this.setState(() => ({
+									mobile_keyboard_likely_present: false,
+								}))
+							}}
+						/>
+					</ErrorBoundary>
 				</div>
 			</div>
 		)

@@ -19,7 +19,7 @@ export default class Component extends React.Component {
 					{ /* <hr/> */ }
 				</div>
 				<div className='o⋄flex-element--grow o⋄overflow-y⁚auto'>
-					{ /*<Chat gen_next_step={this.gen_next_step()} />*/ }
+					{ /*<ErrorBoundary name={'chat:explore'}><Chat gen_next_step={this.gen_next_step()} />*/ }
 				</div>
 			</div>
 		)

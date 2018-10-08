@@ -7,4 +7,4 @@ promiseTry(() => { throw new Error('Oups!') })
 		() => console.log('OK (UNEXPECTED!)'),
 		() => console.error('error! (expected)')
 	)
-	.catch(() => {})
+	.catch(console.error)

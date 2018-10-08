@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 
 import BurgerMenuWrapper from './burger-menu-wrapper'
 import OMR from './omr'
-import OhMyRPGUIContextProvider from './state-context'
+import OhMyRPGUIContextProvider, { OhMyRPGUIContext } from './state-context'
 
 import './index.css'
 
-export class OhMyRpgUI extends Component {
+class OhMyRpgUI extends Component {
 	// TODO listen to errors and suggest a refresh?
 
 	render() {
@@ -22,4 +22,7 @@ export class OhMyRpgUI extends Component {
 	}
 }
 
-export default OhMyRpgUI
+export {
+	OhMyRpgUI,
+	OhMyRPGUIContext,
+}

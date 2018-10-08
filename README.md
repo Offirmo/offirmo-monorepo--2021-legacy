@@ -30,7 +30,7 @@ bolt ws run test --only @oh-my-rpg/*
 bolt ws run build
 
 bolt ws run clean
-bolt ws exec -- rm -rf .cache dist node_modules yarn.lock package-lock.json yarn-error.log
+bolt ws exec -- rm -rf .cache .parcel dist node_modules yarn.lock package-lock.json yarn-error.log
 rm -rf node_modules yarn.lock package-lock.json
 bolt
 yarn outdated
