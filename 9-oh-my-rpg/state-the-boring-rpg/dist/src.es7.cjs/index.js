@@ -4,6 +4,7 @@ const tslib_1 = require("tslib");
 tslib_1.__exportStar(require("./consts"), exports);
 tslib_1.__exportStar(require("./types"), exports);
 tslib_1.__exportStar(require("./examples"), exports);
+tslib_1.__exportStar(require("./selectors"), exports);
 tslib_1.__exportStar(require("./state"), exports);
 tslib_1.__exportStar(require("./migrations"), exports);
 tslib_1.__exportStar(require("./messages"), exports);

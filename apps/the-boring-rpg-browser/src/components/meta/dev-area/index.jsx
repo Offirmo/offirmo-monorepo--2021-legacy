@@ -4,7 +4,7 @@ const { getRootSEC } = require('@offirmo/soft-execution-context')
 
 import './index.css';
 
-
+// TODO extract
 export default class DevArea extends Component {
 
 	constructor(props) {

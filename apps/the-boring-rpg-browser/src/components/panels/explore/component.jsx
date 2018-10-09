@@ -67,38 +67,37 @@ export default class Component extends React.Component {
 				})
 			}
 
-			let CTA =`Play! ⚡${energy_snapshot.available_energy}/${state.energy.max_energy}`
-			if (energy_snapshot.human_time_to_next)
-				CTA += ` (next in ${energy_snapshot.human_time_to_next})`
-			steps.push({
-				msg_main: 'What do you want to do?',
-				choices: [
-					{
-						msg_cta: CTA,
-						value: 'play',
-						msgg_as_user: () => 'Let’s go adventuring!',
-						callback: () => {
-							game_instance.play()
+			if (tbrpg.is_inventory_full(state)) {
+				steps.push({
+					msg_main: 'Your inventory is full! You can’t play until you make some space.',
+					choices: [
+						{
+							msg_cta: 'Manage Inventory (equip, sell…)',
+							value: 'inventory',
+							msgg_as_user: () => 'Let’s sort out my stuff.',
+							callback: () => game_instance.set_client_state(() => ({ mode: 'inventory' })),
+					  },
+					],
+				})
+			}
+			else {
+				let CTA =`Play! ⚡${energy_snapshot.available_energy}/${state.energy.max_energy}`
+				if (energy_snapshot.human_time_to_next)
+					CTA += ` (next in ${energy_snapshot.human_time_to_next})`
+				steps.push({
+					msg_main: 'What do you want to do?',
+					choices: [
+						{
+							msg_cta: CTA,
+							value: 'play',
+							msgg_as_user: () => 'Let’s go adventuring!',
+							callback: () => {
+								game_instance.play()
+							},
 						},
-					},
-					/*{
-						msg_cta: 'Manage Inventory (equip, sell…)',
-						value: 'inventory',
-						msgg_as_user: () => 'Let’s sort out my stuff.',
-						msgg_acknowledge: () => `Sure.`,
-					},
-					{
-						msg_cta: 'Manage Character (rename, change class…)',
-						value: 'character',
-						msgg_as_user: () => 'Let’s see how I’m doing!',
-					},
-					{
-						msg_cta: 'Manage other stuff…',
-						value: 'meta',
-						msgg_as_user: () => 'Let’s see how I’m doing!',
-					},*/
-				],
-			})
+					],
+				})
+			}
 
 			yield* steps
 		} while (true)

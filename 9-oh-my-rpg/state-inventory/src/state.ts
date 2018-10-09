@@ -4,13 +4,11 @@ import { UUID } from '@offirmo/uuid'
 
 import { InventorySlot } from '@oh-my-rpg/definitions'
 
-import {
-	Item,
-	State,
-} from './types'
 
 import { SCHEMA_VERSION } from './consts'
+import { Item, State } from './types'
 import { compare_items } from './compare'
+import { is_full, get_item_in_slot } from './selectors'
 import { SoftExecutionContext, OMRContext, get_lib_SEC } from './sec'
 
 /////////////////////
@@ -44,7 +42,6 @@ function internal_remove_item(state: State, uuid: UUID): State {
 	state.unslotted = new_unslotted
 	return state
 }
-
 
 /////////////////////
 
@@ -95,61 +92,13 @@ function equip_item(state: Readonly<State>, uuid: UUID): Readonly<State> {
 
 /////////////////////
 
-function is_full(state: Readonly<State>): boolean {
-	return (state.unslotted.length >= state.unslotted_capacity)
-}
-
-function get_equipped_item_count(state: Readonly<State>): number {
-	return Object.keys(state.slotted).length
-}
-
-function get_unequipped_item_count(state: Readonly<State>): number {
-	return state.unslotted.filter(i => !!i).length
-}
-
-function get_item_count(state: Readonly<State>): number {
-	return get_equipped_item_count(state) + get_unequipped_item_count(state)
-}
-
-function get_unslotted_item(state: Readonly<State>, uuid: UUID): Readonly<Item> | null {
-	let item: Item | undefined | null = state.unslotted.find(i => i.uuid === uuid)
-	return item ? item : null
-}
-
-function get_item(state: Readonly<State>, uuid: UUID): Readonly<Item> | null {
-	let item: Item | undefined | null = get_unslotted_item(state, uuid)
-	item = item || Object.values(state.slotted).find(i => !!i && i.uuid === uuid)
-	return item ? item : null
-}
-
-function get_item_in_slot(state: Readonly<State>, slot: InventorySlot): Readonly<Item> | null {
-	return state.slotted[slot] || null
-}
-
-function* iterables_unslotted(state: Readonly<State>) {
-	yield* state.unslotted
-}
-
-/////////////////////
-
 export {
 	InventorySlot,
-	Item,
-	State,
 
 	create,
 	add_item,
 	remove_item_from_unslotted,
 	equip_item,
-
-	is_full,
-	get_equipped_item_count,
-	get_unequipped_item_count,
-	get_item_count,
-	get_unslotted_item,
-	get_item,
-	get_item_in_slot,
-	iterables_unslotted,
 }
 
 /////////////////////

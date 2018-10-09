@@ -81,3 +81,9 @@ vNext maybe
 - [ ] low health / mana indicators
 - [ ] swappable themes to cue of class/faction/ambiance
 - [ ] display location
+
+
+/* TODO glow effect ?
+https://designshack.net/articles/css/12-fun-css-text-shadows-you-can-copy-and-paste/
+ */
+

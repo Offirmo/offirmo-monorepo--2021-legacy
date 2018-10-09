@@ -1,0 +1,43 @@
+
+
+.omr⋄bg-image⁚tiled-stonewall {
+	background-image: url('img--stormwind_throne_wall_01-tile.png');
+	background-repeat: repeat;
+}
+
+.omr⋄bg-image⁚tiled-sandstone_purple {
+	background-image: url('img--purple_sandstone-tile.png');
+	background-repeat: repeat;
+}
+
+.omr⋄bg-image⁚tiled-sandstone_grey {
+	background-image: url('img--somber_sandstone-tile.png');
+	background-repeat: repeat;
+}
+
+.omr⋄bg-image⁚tiled-sandstone_dark {
+	background-image: url('img--dark_sandstone-tile.png');
+	background-repeat: repeat;
+}
+
+.omr⋄bg-image⁚tiled-sandstone_black_stained {
+	background-image: url('img--stained_black_sandstone-tile.png');
+	background-repeat: repeat;
+}
+
+.omr⋄bg-image⁚tiled-rock_dark {
+	background-image: url('img--dark_rock-tile.png');
+	background-repeat: repeat;
+}
+
+
+
+
+.omr⋄borders⁚legionfall-grey {
+	border-style: solid;
+	border-width: 18px 17px 18px 20px;
+	-moz-border-image: url(img--border-legionfall_gray.png) 18 17 18 20 repeat;
+	-webkit-border-image: url(img--border-legionfall_gray.png) 18 17 18 20 repeat;
+	-o-border-image: url(img--border-legionfall_gray.png) 18 17 18 20 repeat;
+	border-image: url(img--border-legionfall_gray.png) 18 17 18 20 repeat;
+}

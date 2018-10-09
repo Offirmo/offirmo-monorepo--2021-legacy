@@ -23,6 +23,12 @@ yarn build
 (copy to oa TODO make a script!)
 ```
 
+
+## TODO
+
+`npx bundle-inspector "https://www.online-adventur.es/apps/the-boring-rpg/index.html"`
+
+
 ## Credits
 1. see package.json
 2. art:

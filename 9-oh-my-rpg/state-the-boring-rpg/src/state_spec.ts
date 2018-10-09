@@ -135,16 +135,20 @@ describe('@oh-my-rpg/state-the-boring-rpg - reducer', function() {
 				})
 
 				it('should sometime generate a fight adventure', () => {
+
 					let fightCount = 0
 					let state = create()
-					for(let i = 0; i < 20; ++i) {
+					for(let i = 0; i < 100; ++i) {
+						state.energy.last_available_energy_float = 7. // for tests
 						state = play(state)
-						// force (for tests)
-						state.energy.last_available_energy_float = 7.
+
 						if (state.last_adventure!.hid.startsWith('fight_'))
 							fightCount++
 					}
-					expect(fightCount).to.be.above(3)
+
+					//const EXPECTED_FIGHT_ENCOUNTER_RATIO = 0.33
+					expect(fightCount).to.be.above(10)
+					expect(fightCount).to.be.below(50)
 				})
 
 				context('when the adventure is a story', function() {
@@ -181,13 +185,17 @@ describe('@oh-my-rpg/state-the-boring-rpg - reducer', function() {
 					it('should generate a suitable enemy', () => {
 						let state = create()
 						state.avatar.attributes.level = 500
-						for(let i = 0; i < 20; ++i) {
+
+						for(let i = 0; i < 100; ++i) {
+							state.energy.last_available_energy_float = 7. // for tests
 							state = play(state)
 							if (state.last_adventure!.hid.startsWith('fight_'))
 								break
 						}
+
 						//console.log(state.last_adventure)
-						expect(state.last_adventure!.encounter).to.exist
+						expect(state.last_adventure, 'fight adventure').to.exist
+						expect(state.last_adventure!.encounter, 'encounter field').to.exist
 						expect(state.last_adventure!.encounter!.level).to.be.within(400, 600)
 					})
 				})

@@ -87,6 +87,22 @@ const ENTRIES = [
     { good: true, type: story, hid: 'erika', outcome: { mana: true } },
     { good: true, type: story, hid: 'rachel', outcome: { strength: true } },
     { good: true, type: story, hid: 'king_reward', outcome: { armor_or_weapon: true, token: 1 } },
+    { good: true, type: story, hid: 'walk_in_mordor', outcome: { "agility": true } },
+    { good: true, type: story, hid: 'jig', outcome: { "agility": true } },
+    { good: true, type: story, hid: 'good_end', outcome: { "wisdom": true } },
+    { good: true, type: story, hid: 'waterfall', outcome: { "health": true } },
+    { good: true, type: story, hid: 'meteor', outcome: { "luck": true } },
+    { good: true, type: story, hid: 'weird_duck', outcome: { "coin": "big" } },
+    { good: true, type: story, hid: 'last_quest', outcome: { "level": true } },
+    { good: true, type: story, hid: 'busking', outcome: { "token": 1 } },
+    { good: true, type: story, hid: 'best_meal', outcome: { "health": true } },
+    { good: true, type: story, hid: 'witch_riddle', outcome: { "wisdom": true } },
+    { good: true, type: story, hid: 'princess_castle', outcome: { "luck": true } },
+    { good: true, type: story, hid: 'foreign_language', outcome: { "wisdom": true } },
+    { good: true, type: story, hid: 'last_night', outcome: { "luck": true } },
+    { good: true, type: story, hid: 'chasm_leap', outcome: { "agility": true } },
+    { good: true, type: story, hid: 'coffee', outcome: { "wisdom": true } },
+    { good: true, type: story, hid: 'gold_nugget', outcome: { "coin": "medium" } },
 ];
 exports.ENTRIES = ENTRIES;
 const i18n_messages = {

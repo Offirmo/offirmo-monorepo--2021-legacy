@@ -1,6 +1,7 @@
 import { Enum } from 'typescript-string-enums';
 declare const CoinsGain: {
     none: "none";
+    loss: "loss";
     small: "small";
     medium: "medium";
     big: "big";

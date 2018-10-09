@@ -2,96 +2,6 @@
 https://fr.wikipedia.org/wiki/Si%C3%A8ge_(militaire)
 
 
-collect famous precious stones:
--
--
--
-
-
-http://conan.wikia.com/wiki/Eye_of_the_Serpent
-the mountain of power
-the jeweled crown of Aquilonia
-the atlantean sword http://conan.wikia.com/wiki/Atlantean_Sword
-
-
-fight ancient ones
-- Mammoth
-- Lion
-- Elk
-- Snake
-- ...
-
-fight/meet monsters
-
-Walpurgis
-
-Your master makes you imit (animal) you gain ...
-
-You observe a mighty (animal) this triggers a sirit in you, +1xxx
-
-places:
-- colossal cave
-- huge tower
-- toxic forest
-- green moutains
-
-
-ancient beasts
-- sabertooth tiger
-- cavern lion
-- cavern bear
-- cavern leopard
-- bison
-- wapiti
-
-https://fr.wikipedia.org/wiki/Si%C3%A8ge_(militaire)
-
-
-rare plants:
--
-
-
-dragons
--
--
-
-
-Sages caches
--
--
--
-
-Alfonz
-
-Followers
-- Chloe the traveller
-- Erika the mage
-- Guy the aspiring old wizard
--
-
-
-Aventures
-
-you meet an old woman with a (fagot). You help her to carry this heavy load.
-- she thanks you (no reward)
-- it's a fairy in disguise! She rewards you with...
-
-You defeat a troll and loot his cavern. You open the chest... but it contains only an apple. Yes, anordinary apple. Good for your health.
-You give a coin to a beggar
-your karma increases: +1 luck
-he gets robbed: +1 wisdom
-amazed by your kindness, he starts his life anew
-reconnaissant, he gives you a treasure map
-
-You wrestle with a strong man/woman, you gain +1 force
-
-You have a conversation with a wizard, you gain +1 intelligence
-
-Youhave a conversation with a senior (class), you gain +1 X
-
-You climb the world tree, you gain +1 agility
-
-
 TODO
 make luck active
 - luck-skewin items:
@@ -100,9 +10,11 @@ make luck active
 -ring of lott
 - hammer of smith-> increase item improvements
 
-
 Sets
 
+
+// TODO steal morrowind's level up message
+// https://www.reddit.com/r/Morrowind/comments/1s1emv/i_find_the_levelup_messages_very_inspirational/
 
 
 Icons:
@@ -110,7 +22,7 @@ Icons:
 - https://thenounproject.com/gegebe/collection/common-rpg-icons/
 
 fontes
-https://www.behance.net/gallery/67861589/Sangha-Kali-typeface-(free)
+- https://www.behance.net/gallery/67861589/Sangha-Kali-typeface-(free)
 
 Story
 - shlock gate keepers
@@ -122,13 +34,12 @@ Story
 
 ranking: https://en.wikipedia.org/wiki/Elo_rating_system
 
-
 TOREAD https://josephg.com/blog/fixing-fortnite/
 
 TODO salvage lists from here https://docs.google.com/spreadsheets/d/1FCNPBMZm6tWfeOEtdOvcOrWDRZVqbe1ipzK9eQmNp2o/edit#gid=443281176
 
 Schema:
-http://www.vertabelo.com/blog/technical-articles/a-song-of-ice-and-databases-a-game-of-thrones-data-model
+- http://www.vertabelo.com/blog/technical-articles/a-song-of-ice-and-databases-a-game-of-thrones-data-model
 
 Ideas:
 * https://www.reddit.com/r/incremental_games/search?q=flair%3A%27MDMonday%27&restrict_sr=on&sort=new&t=all
@@ -150,7 +61,6 @@ ancient meteorite
   * https://gamedevelopment.tutsplus.com/tutorials/making-difficult-fun-how-to-challenge-your-players--cms-25873
 * ;-) https://gamedevelopment.tutsplus.com/articles/3-questions-to-help-you-finish-your-first-game--gamedev-9576
 * https://github.com/mozilla/BrowserQuest
-
 
 Scénario
 * https://en.wikipedia.org/wiki/Matter_of_France
@@ -177,7 +87,6 @@ fantasy metals
 * http://metallurgy.wikia.com/wiki/Fantasy_Metals
 * http://www.bodycote.com/fictional-metals
 
-
 Marketing
 - news
 - live démo
@@ -193,7 +102,6 @@ TODO: omr
 
 Otherworlder: https://www.dandwiki.com/wiki/Otherworlder_(5e_Background)
 
-
 /*
 .pushText(''
 	+ 'Great sages prophesied your coming,{{br}}'
@@ -204,9 +112,6 @@ Otherworlder: https://www.dandwiki.com/wiki/Otherworlder_(5e_Background)
 )
 .pushStrong('A great saga just started.')
 */
-
-
-https://github.com/f/graphql.js
 
 
 Priest = ce qui devrait être
@@ -228,14 +133,11 @@ Content:
   
 
 
-
-
 https://getavataaars.com/?accessoriesType=Wayfarers&avatarStyle=Circle&clotheColor=PastelRed&clotheType=Hoodie&eyeType=Dizzy&eyebrowType=RaisedExcitedNatural&hairColor=Platinum&mouthType=Serious&ref=producthunt&skinColor=Brown&topType=LongHairFroBand
 
 http://paizo.com/pathfinderRPG
 
 http://idlerpg.net/
-
 
 emotions: https://westus.dev.cognitive.microsoft.com/docs/services/5639d931ca73072154c1ce89/operations/563b31ea778daf121cc3a5fa
     "anger": 0.00300731952,
@@ -248,31 +150,14 @@ emotions: https://westus.dev.cognitive.microsoft.com/docs/services/5639d931ca730
       "surprise": 0.008229999
     
 
-
-
 https://games.slashdot.org/story/17/05/29/0632250/esr-announces-the-open-sourcing-of-the-worlds-first-text-adventure
 https://gamedevelopment.tutsplus.com/categories/game-design
-
 
 https://github.com/rangle/typed-immutable-record
 
 http://mewo2.com/notes/naming-language/
 http://mewo2.com/notes/terrain/ Generating fantasy maps
 https://github.com/dariusk/NaNoGenMo-2015/issues/156
-
-			/*
-			const header = _.map(schema.properties, (val, key) => ({
-				value: key,
-				align : 'left',
-			}))
-			 const t = Table(header,raw_data, {
-				borderColor : "blue",
-				paddingBottom : 0,
-			})
-			console.log(t.render())
-			*/
-			
-
 
 Companions
 
@@ -290,4 +175,3 @@ Women are taught to use certain phrases to please men and potentially score a fu
 jungle kid
 
 bride rescued from caravan, doesn't know to whom she was to be married
-

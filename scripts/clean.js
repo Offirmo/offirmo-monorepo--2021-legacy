@@ -38,4 +38,4 @@ Promise.all([
 		])
 		: Promise.resolve(true),
 ])
-	.then(() => console.log(`🔧 Cleaning ${PKG_NAME} done.`))
+	.then(() => console.log(`🔧 Cleaning ${PKG_NAME} [${cli.input}] done.`))

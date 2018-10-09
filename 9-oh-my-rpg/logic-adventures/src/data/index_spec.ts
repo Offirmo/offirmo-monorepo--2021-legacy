@@ -7,6 +7,9 @@ import {
 	i18n_messages,
 	ENTRIES,
 } from '.'
+import {CoinsGain} from "../types";
+
+let missing_descriptors: string[] = []
 
 describe('@oh-my-rpg/logic-adventures - data:', function () {
 	const _: any = i18n_messages.en
@@ -22,6 +25,9 @@ describe('@oh-my-rpg/logic-adventures - data:', function () {
 			})
 
 			it('should have a corresponding descriptor', () => {
+				if (!ARCHETYPES[key]) {
+					missing_descriptors.push(key)
+				}
 				expect(ARCHETYPES).to.have.property(key)
 			})
 		})
@@ -34,6 +40,8 @@ describe('@oh-my-rpg/logic-adventures - data:', function () {
 			it('should have the correct format', () => {
 				expect(ARCHETYPES[hid]).to.have.property('good')
 				expect(ARCHETYPES[hid]).to.have.property('outcome')
+				if (ARCHETYPES[hid].good)
+					expect(Object.keys(ARCHETYPES[hid].outcome).length, 'outcome length').to.be.above(0)
 			})
 
 			it('should have an en i18n message', () => {
@@ -44,7 +52,7 @@ describe('@oh-my-rpg/logic-adventures - data:', function () {
 
 	describe('stats', function() {
 
-		it('brags', () => {
+		it('brags about the number of stories', () => {
 			const ENTRIES_GOOD = ENTRIES.filter(entry => entry.good)
 			console.log('Good entries: # ' + ENTRIES_GOOD.length)
 		})
@@ -52,5 +60,33 @@ describe('@oh-my-rpg/logic-adventures - data:', function () {
 		it('has a correct distribution of outcomes')
 		it('has an outcome of each type')
 
+		it('auto helps to fix the errors', () => {
+			if (missing_descriptors.length) {
+				missing_descriptors.forEach(key => {
+					const outcome: any = {}
+					const text = _.adventures[key]
+
+					if (text.includes('{{level}}')) outcome.level = true
+					if (text.includes('{{health}}')) outcome.health = true
+					if (text.includes('{{mana}}')) outcome.mana = true
+					if (text.includes('{{strength}}')) outcome.strength = true
+					if (text.includes('{{agility}}')) outcome.agility = true
+					if (text.includes('{{charisma}}')) outcome.charisma = true
+					if (text.includes('{{wisdom}}')) outcome.wisdom = true
+					if (text.includes('{{luck}}')) outcome.luck = true
+					if (text.includes('{{attr_name}}')) outcome.XXX_attribute = true
+
+					if (text.includes('{{coin}}')) outcome.coin = 'XXX'
+					if (text.includes('{{token}}')) outcome.token = 1
+
+					if (text.includes('{{item}}')) outcome.XXX_armor_or_weapon = true
+
+					if(Object.keys(outcome).length === 0) outcome.armor_or_weapon_improvement = true
+
+					const hid_part = `hid: '${key}',                              `
+					console.log(`	{ good: true, type: story, ${hid_part.slice(0, 34)} outcome: ${JSON.stringify(outcome)}},`)
+				})
+			}
+		})
 	})
 })

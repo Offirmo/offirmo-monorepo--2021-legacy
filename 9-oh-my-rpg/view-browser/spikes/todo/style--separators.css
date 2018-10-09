@@ -1,0 +1,46 @@
+/* TODO check if useful */
+.omr⋄border-h⁚golden_thorned-tile {
+	height: 25px;
+	background-image: url('img--separator_h_golden_thorned-tile.png');
+	background-repeat: repeat-x;
+}
+
+.omr⋄border-h⁚golden_leaves-tile {
+	height: 31px;
+	background-image: url('img--separator_h_golden_leaves-tile.png');
+	background-repeat: repeat-x;
+}
+
+.omr⋄border-h⁚wood-tile {
+	height: 20px;
+	background-image: url('img--separator_wood-tile.png');
+	background-repeat: repeat-x;
+}
+
+.omr⋄border-h⁚thin_golden_1-tile {
+	height: 8px;
+	background-image: url('img--separator_h_thin_golden_1-tile.png');
+	background-repeat: repeat-x;
+}
+.omr⋄border-h⁚thin_golden_2-tile {
+	height: 8px;
+	background-image: url('img--separator_h_thin_golden_2-tile.png');
+	background-repeat: repeat-x;
+}
+
+
+.omr⋄border-h⁚test {
+	height: 20px;
+	background-image: url('img--separator_h_thin_golden_2-tile.png');
+	background-repeat: repeat-x;
+}
+
+hr.omr⋄border-h⁚golden_thorned-tile,
+hr.omr⋄border-h⁚golden_leaves-tile,
+hr.omr⋄border-h⁚wood-tile,
+hr.omr⋄border-h⁚thin_golden_1-tile,
+hr.omr⋄border-h⁚thin_golden_2-tile,
+hr.omr⋄border-h⁚test {
+	border: none;
+	margin: 0;
+}

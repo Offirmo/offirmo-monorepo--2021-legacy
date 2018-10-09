@@ -4,6 +4,7 @@ import { Enum } from 'typescript-string-enums'
 
 const CoinsGain = Enum(
 	'none',
+	'loss',
 	'small',
 	'medium',
 	'big',
