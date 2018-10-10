@@ -8,10 +8,10 @@ This file is just for taking notes for the next Reddit post.
 - 🤕 chore: 
 /////////////
 
-- 🤩 feature: in case your inventory is full, you are notified and can't play before you make some room
-
-
+- 🤩 feature: the inventory now displays the power of your items
+- 🤩 feature: the inventory now displays whether an item is better or worse than your currently equipped one
+- 🤩 feature: 2 new backgrounds
+- 🤩 feature: 3 new adventures (now totalling 95!)
 
 /////////////
 
-- 🤩 feature: the inventory now displays 

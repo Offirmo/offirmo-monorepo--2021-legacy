@@ -1,7 +1,5 @@
 import { Enum } from 'typescript-string-enums'
 
-//import { Item, InventorySlot, ItemQuality } from '@oh-my-rpg/definitions'
-
 /////////////////////
 
 const MonsterRank = Enum(
@@ -21,7 +19,6 @@ interface Monster {
 	rank: MonsterRank
 	possible_emoji: string
 }
-
 
 /////////////////////
 

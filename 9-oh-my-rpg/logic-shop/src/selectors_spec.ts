@@ -13,16 +13,16 @@ import {
 } from '@oh-my-rpg/logic-weapons'
 
 import {
-	appraise
+	appraise_value,
 } from '.'
 
-describe('@oh-my-rpg/logic-shop - logic:', function() {
+describe('@oh-my-rpg/logic-shop - selectors:', function() {
 
 	describe('appraisal', function() {
 
 		context('of armors', function() {
 			it('should work', () => {
-				const price = appraise({
+				const price = appraise_value({
 					slot: InventorySlot.armor,
 					base_hid: 'whatever',
 					qualifier1_hid: 'whatever',
@@ -38,7 +38,7 @@ describe('@oh-my-rpg/logic-shop - logic:', function() {
 
 		context('of weapons', function() {
 			it('should work', () => {
-				const price = appraise({
+				const price = appraise_value({
 					slot: InventorySlot.weapon,
 					base_hid: 'whatever',
 					qualifier1_hid: 'whatever',

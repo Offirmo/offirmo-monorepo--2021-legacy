@@ -188,7 +188,7 @@ function start_loop(SEC, options, instance) {
 					const uuid = chat_state.sub.inventory.selected
 					const selected_item = instance.get_item(uuid)
 					const item_ascii_full = rich_text_to_ansi(render_item_detailed(selected_item))
-					const sell_price = instance.appraise_item(uuid)
+					const sell_price = instance.appraise_item_value(uuid)
 
 					steps.push({
 						type: 'simple_message',

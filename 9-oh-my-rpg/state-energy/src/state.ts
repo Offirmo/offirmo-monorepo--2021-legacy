@@ -69,7 +69,6 @@ function loose_all_energy(state: Readonly<State>, date: Date = new Date()): Read
 	return state
 }
 
-// TODO time elapse
 function replenish_energy(state: Readonly<State>, date: Date = new Date()): Readonly<State> {
 	state = {
 		...state,

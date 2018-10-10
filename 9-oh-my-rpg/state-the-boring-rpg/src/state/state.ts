@@ -6,10 +6,7 @@ import { UUID, generate_uuid } from '@offirmo/uuid'
 
 /////////////////////
 
-import {
-	Element,
-	ItemQuality,
-} from '@oh-my-rpg/definitions'
+import { ItemQuality } from '@oh-my-rpg/definitions'
 
 import * as CharacterState from '@oh-my-rpg/state-character'
 import {
@@ -48,9 +45,6 @@ import {
 	DEMO_MONSTER_01,
 } from '@oh-my-rpg/logic-monsters'
 
-import {
-	appraise,
-} from '@oh-my-rpg/logic-shop'
 
 import {
 	CoinsGain,
@@ -66,13 +60,17 @@ import {
 
 /////////////////////
 
-import { SCHEMA_VERSION } from './consts'
+import { SCHEMA_VERSION } from '../consts'
 
 import {
 	State,
 	GainType,
 	Adventure,
-} from './types'
+} from '../types'
+
+import {
+	appraise_item_value,
+} from '../selectors'
 
 import {
 	ActionType,
@@ -80,25 +78,14 @@ import {
 	Action,
 	ActionEquipItem,
 	ActionSellItem,
-} from './serializable_actions'
+} from '../serializable_actions'
 
-import { SoftExecutionContext, OMRContext, get_lib_SEC } from './sec'
+import { SoftExecutionContext, OMRContext, get_lib_SEC } from '../sec'
 import { receive_item } from './play_adventure'
-import { play_good, play_bad } from './play_good'
+import { play_good } from './play_good'
+import { play_bad } from './play_bad'
 
 /////////////////////
-
-function appraise_item(state: Readonly<State>, uuid: UUID): number {
-	const item_to_sell = InventoryState.get_item(state.inventory, uuid)
-	if (!item_to_sell)
-		throw new Error('Sell: No item!')
-
-	return appraise(item_to_sell)
-}
-
-function find_element(state: Readonly<State>, uuid: UUID): Readonly<Element> | null {
-	return InventoryState.get_item(state.inventory, uuid)
-}
 
 function get_actions_for_unslotted_item(state: Readonly<State>, uuid: UUID): Readonly<Action>[] {
 	const actions: Action[] = []
@@ -245,7 +232,7 @@ function equip_item(state: Readonly<State>, uuid: UUID): Readonly<State> {
 }
 
 function sell_item(state: Readonly<State>, uuid: UUID): Readonly<State> {
-	const price = appraise_item(state, uuid)
+	const price = appraise_item_value(state, uuid)
 
 	state = {
 		...state,
@@ -332,8 +319,6 @@ export {
 
 	execute,
 
-	appraise_item,
-	find_element,
 	get_actions_for_element,
 }
 

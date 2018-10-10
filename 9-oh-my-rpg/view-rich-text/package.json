@@ -12,6 +12,7 @@
 		"@oh-my-rpg/logic-adventures": "^0.0.1",
 		"@oh-my-rpg/logic-armors": "^0.0.1",
 		"@oh-my-rpg/logic-monsters": "^0.0.1",
+		"@oh-my-rpg/logic-shop": "^0.0.1",
 		"@oh-my-rpg/logic-weapons": "^0.0.1",
 		"@offirmo/rich-text-format": "^0.0.1",
 		"@oh-my-rpg/state-character": "^0.0.1",

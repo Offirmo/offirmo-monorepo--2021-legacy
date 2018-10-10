@@ -1,32 +1,10 @@
 ////////////////////////////////////
 
-interface NumberHash {
-	[k: string]: number
-}
+const LIB = '@oh-my-rpg/logic-armors'
 
-////////////
+const SCHEMA_VERSION: number = 1
 
-// actualized strength
-// quality multipliers (see spreadsheet for calculation)
-const QUALITY_STRENGTH_MULTIPLIER: NumberHash = {
-	common:      1,
-	uncommon:   19,
-	rare:       46,
-	epic:       91,
-	legendary: 182,
-	artifact:  333,
-}
-
-const QUALITY_STRENGTH_SPREAD: NumberHash = {
-	common:    6,
-	uncommon:  5,
-	rare:      4,
-	epic:      3,
-	legendary: 2,
-	artifact:  1,
-}
-
-const ENHANCEMENT_MULTIPLIER = 0.2
+////////////////////////////////////
 
 const MIN_ENHANCEMENT_LEVEL = 0
 const MAX_ENHANCEMENT_LEVEL = 8
@@ -36,10 +14,8 @@ const MAX_STRENGTH = 20
 ////////////////////////////////////
 
 export {
-	NumberHash,
-	QUALITY_STRENGTH_MULTIPLIER,
-	QUALITY_STRENGTH_SPREAD,
-	ENHANCEMENT_MULTIPLIER,
+	LIB,
+	SCHEMA_VERSION,
 	MIN_ENHANCEMENT_LEVEL,
 	MAX_ENHANCEMENT_LEVEL,
 	MIN_STRENGTH,

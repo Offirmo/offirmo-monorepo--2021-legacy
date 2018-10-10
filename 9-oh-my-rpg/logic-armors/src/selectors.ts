@@ -1,9 +1,36 @@
+////////////////////////////////////
+
 import { ItemQuality } from '@oh-my-rpg/definitions'
 
 import {Armor} from './types'
-import {ENHANCEMENT_MULTIPLIER, QUALITY_STRENGTH_MULTIPLIER, QUALITY_STRENGTH_SPREAD, MAX_ENHANCEMENT_LEVEL} from './consts'
 
-/////////////////////
+////////////////////////////////////
+
+interface NumberHash {
+	[k: string]: number
+}
+
+// actualized strength
+// quality multipliers (see spreadsheet for calculation)
+const QUALITY_STRENGTH_MULTIPLIER: NumberHash = {
+	common:      1,
+	uncommon:   19,
+	rare:       46,
+	epic:       91,
+	legendary: 182,
+	artifact:  333,
+}
+
+const QUALITY_STRENGTH_SPREAD: NumberHash = {
+	common:    6,
+	uncommon:  5,
+	rare:      4,
+	epic:      3,
+	legendary: 2,
+	artifact:  1,
+}
+
+const ENHANCEMENT_MULTIPLIER = 0.2
 
 function get_interval(base_strength: number, quality: ItemQuality, enhancement_level: number, coef: number = 1): [number, number] {
 	const spread = QUALITY_STRENGTH_SPREAD[quality]
@@ -20,6 +47,8 @@ function get_interval(base_strength: number, quality: ItemQuality, enhancement_l
 	]
 }
 
+/////////////////////
+
 function get_damage_reduction_interval(armor: Readonly<Armor>): [number, number] {
 	const ATTACK_VS_DEFENSE_RATIO = 0.5
 	return get_interval(
@@ -35,23 +64,10 @@ function get_medium_damage_reduction(armor: Readonly<Armor>): number {
 	return Math.round((reduction_range[0] + reduction_range[1]) / 2)
 }
 
-/////////////////////
-
-// TODO immu!
-function enhance(armor: Armor): Armor {
-	if (armor.enhancement_level >= MAX_ENHANCEMENT_LEVEL)
-		throw new Error('can’t enhance an armor above the maximal enhancement level!')
-
-	armor.enhancement_level++
-	return armor
-}
-
-/////////////////////
+////////////////////////////////////
 
 export {
-	get_interval,
+	//get_interval,
 	get_damage_reduction_interval,
 	get_medium_damage_reduction,
-
-	enhance,
 }

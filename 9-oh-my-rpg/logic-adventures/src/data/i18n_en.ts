@@ -311,6 +311,18 @@ The fight against the final boss was hard, very hard…
 Most importantly, +{{strength}} strength for managing to control a pressing urge during the encounter after drinking 25 health potions !`,
 
 
+	// https://www.instagram.com/p/BjnclTCAiEK/?saved-by=theboringrpg
+	high_level_zone_1: `
+You accidentally wander into a high level zone.
+Unexpectedly, this is good training: +{{attr}} {{attr_name}}!
+	`,
+
+	/*high_level_zone_2: `
+You accidentally wander into a high level zone.
+You quickly and horribly die after fleeing monsters for half an hour.
+What did you expect?
+	`,*/
+
 	// slackwirm
 
 	// http://www.joshuawright.net/slack-wyrm-012.html
@@ -330,7 +342,7 @@ Indeed, the talking tree impart you some wisdom: +{{wisdom}}.
 	// http://www.joshuawright.net/slack-wyrm-030.html
 	// guilt anxiety
 
-	// pincess with woodland friends
+	// princess with woodland friends
 	// having to spot the real princess
 	// http://www.joshuawright.net/slack-wyrm-031.html
 
@@ -409,6 +421,17 @@ but still ends up with good loot: +{{coin}}, {{item}}...
 }
 
 const OFFIRMO_POPULAR_CULTURE: I18nMessages = {
+
+	// classic tales
+	sword_in_rock: `
+You find a sword planted into a stone.
+You draw it out. People around worship you!
+`,
+	sword_in_a_lake: `
+You find a good sword at the bottom of a lake.
+Who could have thrown it there?
+Nevermind, it's good loot!
+`,
 
 	// mission sydney (escape room)
 	// the lost mine

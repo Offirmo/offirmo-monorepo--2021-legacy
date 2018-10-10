@@ -1,7 +1,6 @@
 import * as RichText from '@offirmo/rich-text-format'
 import { State as CharacterState, CharacterAttribute, CHARACTER_ATTRIBUTES_SORTED } from '@oh-my-rpg/state-character'
 
-
 function render_avatar(state: CharacterState): RichText.Document {
 	// TODO refactor
 	const $doc_name = RichText.span().addClass('avatar__name').pushText(state.name).done()
@@ -44,7 +43,6 @@ function render_attributes(state: CharacterState): RichText.Document {
 
 	return $doc
 }
-
 
 function render_character_sheet(state: CharacterState): RichText.Document {
 	const $doc = RichText.block_fragment()

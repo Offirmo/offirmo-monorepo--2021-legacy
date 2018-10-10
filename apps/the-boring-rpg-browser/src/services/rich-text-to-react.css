@@ -49,12 +49,24 @@
 	content: '🛡 ';
 }
 
-.currency--coin:before {
-	content: '💰 ';
+.currency--coin:before, .value--coin:before {
+	content: '💰';
 }
-.currency--token:before {
-	content: '💠  ';
+.currency--token:before, .value--token:before {
+	content: '💠';
 }
+
+.comparison--better {
+	color: #a0f22b;
+}
+.comparison--worse {
+	color: #d9534f;
+}
+.comparison--equal {
+	color: #d1d1d1;
+}
+
+
 /*
 
 switch($class) {

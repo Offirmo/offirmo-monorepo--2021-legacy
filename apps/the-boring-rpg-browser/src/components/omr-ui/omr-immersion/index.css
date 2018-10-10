@@ -1,5 +1,9 @@
 
 
+.tbrpg⋄bg-image⁚ancient-castle {
+	background-image: url('backgrounds/ancient_castle-dan_zhao.jpg');
+	background-position: 37%;
+}
 
 .tbrpg⋄bg-image⁚desert {
 	background-image: url('backgrounds/artwork1-dan_zhao.jpg');
@@ -9,6 +13,11 @@
 .tbrpg⋄bg-image⁚lost_castle {
 	background-image: url('backgrounds/artwork2-dan_zhao.jpg');
 	background-position: 29%;
+}
+
+.tbrpg⋄bg-image⁚cabin_in_cave {
+	background-image: url('backgrounds/cabin_in_the_cave-dan_zhao.jpg');
+	background-position: 25%;
 }
 
 .tbrpg⋄bg-image⁚fields_of_gold {

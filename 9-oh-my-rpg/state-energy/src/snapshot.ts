@@ -1,4 +1,4 @@
-import { get_human_readable_UTC_timestamp_ms, parse_human_readable_UTC_timestamp_ms } from '@offirmo/timestamps'
+import { parse_human_readable_UTC_timestamp_ms } from '@offirmo/timestamps'
 
 import { LIB } from './consts'
 
@@ -32,7 +32,7 @@ function time_to_human(seconds: number): string {
 }
 
 const DEBUG = false
-function get_snapshot(state: State, now: Date = new Date()): Snapshot {
+function get_snapshot(state: Readonly<State>, now: Readonly<Date> = new Date()): Readonly<Snapshot> {
 	if (DEBUG) console.log('\nstarting snapshot computation', state, {now})
 
 	// base = all max

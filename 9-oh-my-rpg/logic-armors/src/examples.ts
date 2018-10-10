@@ -1,3 +1,7 @@
+////////////////////////////////////
+
+import { Random, Engine } from '@offirmo/random'
+
 import {
 	ItemQuality,
 	InventorySlot,
@@ -5,8 +9,10 @@ import {
 } from '@oh-my-rpg/definitions'
 
 import {Armor} from './types'
-import {MAX_ENHANCEMENT_LEVEL, MAX_STRENGTH, MIN_ENHANCEMENT_LEVEL, MIN_STRENGTH} from './index'
+import {create, MAX_ENHANCEMENT_LEVEL, MAX_STRENGTH, MIN_ENHANCEMENT_LEVEL, MIN_STRENGTH} from '.'
 import { ARMOR_BASES, ARMOR_QUALIFIERS1, ARMOR_QUALIFIERS2 } from './data'
+
+////////////////////////////////////
 
 const DEMO_ARMOR_1: Readonly<Armor> = {
 	uuid: 'uu1~test~demo~armor~0001',
@@ -32,7 +38,19 @@ const DEMO_ARMOR_2: Readonly<Armor> = {
 	enhancement_level: MAX_ENHANCEMENT_LEVEL,
 }
 
+
+// for demo purpose, all attributes having the same probability + also random enhancement level
+function generate_random_demo_armor(): Armor {
+	const rng: Engine = Random.engines.mt19937().autoSeed()
+	return create(rng, {
+		enhancement_level: Random.integer(MIN_ENHANCEMENT_LEVEL, MAX_ENHANCEMENT_LEVEL)(rng)
+	})
+}
+
+////////////////////////////////////
+
 export {
 	DEMO_ARMOR_1,
 	DEMO_ARMOR_2,
+	generate_random_demo_armor,
 }

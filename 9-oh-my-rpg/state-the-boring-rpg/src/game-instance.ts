@@ -14,6 +14,7 @@ import { Item, get_item } from '@oh-my-rpg/state-inventory'
 
 import { State } from './types'
 import * as state_fns from './state'
+import * as selectors from './selectors'
 import { migrate_to_latest } from './migrations'
 import { SoftExecutionContext } from './sec'
 import {Action, ActionCategory} from './serializable_actions'
@@ -108,13 +109,17 @@ function create_game_instance<T>({SEC, get_latest_state, persist_state, client_s
 				let state = get_latest_state()
 				return get_item(state.inventory, uuid)
 			},
-			appraise_item(uuid: UUID): number {
+			appraise_item_value(uuid: UUID): number {
 				let state = get_latest_state()
-				return state_fns.appraise_item(state, uuid)
+				return selectors.appraise_item_value(state, uuid)
+			},
+			appraise_item_power(uuid: UUID): number {
+				let state = get_latest_state()
+				return selectors.appraise_item_power(state, uuid)
 			},
 			find_element(uuid: UUID): Element | null {
 				let state = get_latest_state()
-				return state_fns.find_element(state, uuid)
+				return selectors.find_element(state, uuid)
 			},
 			get_actions_for_element(uuid: UUID): Action[] {
 				let state = get_latest_state()

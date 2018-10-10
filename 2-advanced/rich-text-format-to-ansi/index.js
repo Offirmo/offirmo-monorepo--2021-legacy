@@ -70,10 +70,13 @@ function on_class_after({ $class, state, $node, depth }, options) {
 		case 'item--weapon':
 			state.str = '⚔ ' + WIDTH_COMPENSATION + state.str
 			break
+
 		case 'currency--coin':
+		case 'value--coin':
 			state.str = '💰 ' + WIDTH_COMPENSATION + state.str
 			break
 		case 'currency--token':
+		case 'value--token':
 			state.str = '💠 ' + WIDTH_COMPENSATION + state.str
 			break
 
@@ -130,14 +133,24 @@ function on_class_after({ $class, state, $node, depth }, options) {
 			state.str = stylize_string.blue(state.str)
 			break
 
+		case 'comparison--better':
+			state.str = stylize_string.green.bold(state.str)
+			break
+		case 'comparison--worse':
+			state.str = stylize_string.red.dim(state.str)
+			break
+		case 'comparison--equal':
+			// no style
+			break
+
 		case 'npc':
 		case 'place--name':
 		case 'item':
 		case 'item--name':
-		case 'item--weapon--name':
+		//case 'item--weapon--name':
 		case 'item--enhancement':
-		case 'armor--values':
-		case 'weapon--values':
+		case 'item--values':
+		case 'item--power':
 		case 'attributes':
 		case 'inventory--equipment':
 		case 'inventory--wallet':

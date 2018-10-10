@@ -6,8 +6,10 @@ import {GameContextConsumerListener} from '../../../game-context'
 import Component from './component'
 
 const BACKGROUNDS = [
-	'lost_castle',
+	'ancient-castle',
 	'desert',
+	'lost_castle',
+	'cabin_in_cave',
 	'civilization',
 	'half_remembered_ruins',
 	'snowcapped_environment',

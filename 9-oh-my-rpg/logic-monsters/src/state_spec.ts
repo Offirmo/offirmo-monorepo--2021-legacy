@@ -7,7 +7,6 @@ import {
 	Monster,
 	MonsterRank,
 	create,
-	generate_random_demo_monster,
 } from '.'
 
 function assert_shape(monster: Readonly<Monster>) {

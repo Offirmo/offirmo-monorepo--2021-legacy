@@ -134,7 +134,4 @@ const messages: I18nMessages = {
 	},
 }
 
-export {
-	I18nMessages,
-	messages,
-}
+export default messages

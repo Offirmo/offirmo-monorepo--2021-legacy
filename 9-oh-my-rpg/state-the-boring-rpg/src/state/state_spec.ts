@@ -13,15 +13,15 @@ import {
 	get_currency_amount,
 } from '@oh-my-rpg/state-wallet'
 
-import { LIB, SCHEMA_VERSION } from './consts'
+import { LIB, SCHEMA_VERSION } from '../consts'
 
 import {
 	create,
 	migrate_to_latest,
 	play,
 	find_element,
-	appraise_item,
-} from '.'
+	appraise_item_value,
+} from '..'
 
 describe('@oh-my-rpg/state-the-boring-rpg - reducer', function() {
 	beforeEach(() => xxx_internal_reset_prng_cache())
@@ -241,16 +241,16 @@ describe('@oh-my-rpg/state-the-boring-rpg - reducer', function() {
 			})
 		})
 
-		describe('appraise_item() by uuid', function() {
+		describe('appraise_item_value() by uuid', function() {
 
 			context('when the element refers to an item', function() {
 
-				it('should find it and appraise it', () => {
+				it('should find it and appraise its value', () => {
 					const state = create()
 
 					const armor = state.inventory.slotted.armor
 
-					const price = appraise_item(state, armor!.uuid)
+					const price = appraise_item_value(state, armor!.uuid)
 
 					expect(price).to.equal(5)
 				})
@@ -261,7 +261,7 @@ describe('@oh-my-rpg/state-the-boring-rpg - reducer', function() {
 				it('should throw', () => {
 					const state = create()
 
-					const attempt_appraise = () => void appraise_item(state, 'foo')
+					const attempt_appraise = () => void appraise_item_value(state, 'foo')
 
 					expect(attempt_appraise).to.throw('No item')
 				})

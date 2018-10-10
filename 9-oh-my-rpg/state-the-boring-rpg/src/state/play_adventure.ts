@@ -68,10 +68,10 @@ import {
 import {
 	State,
 	Adventure,
-} from './types'
+} from '../types'
 
-import { get_lib_SEC } from './sec'
-import { LIB } from './consts'
+import { get_lib_SEC } from '../sec'
+import { LIB } from '../consts'
 
 /////////////////////
 
@@ -292,6 +292,7 @@ function play_adventure(state: Readonly<State>, aa: AdventureArchetype): Readonl
 
 	if (aa.good && !gain_count)
 		throw new Error(`${LIB}: play_adventure() for "good click" hid "${aa.hid}" unexpectedly resulted in NO gains!`)
+
 	state = {
 		...state,
 		prng: PRNGState.update_use_count(state.prng, rng, {

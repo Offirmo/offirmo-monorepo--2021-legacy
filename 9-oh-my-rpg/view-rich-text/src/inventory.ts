@@ -13,6 +13,7 @@ import {
 
 import { State as WalletState } from '@oh-my-rpg/state-wallet'
 import * as RichText from '@offirmo/rich-text-format'
+import { appraise_power } from '@oh-my-rpg/logic-shop'
 
 import { render_item_short } from './items'
 import { render_wallet } from './wallet'
@@ -62,9 +63,20 @@ function render_backpack(inventory: InventoryState, options?: RenderItemOptions)
 		.from(iterables_unslotted(inventory))
 		.filter(i => !!i) as Item[]
 
+	const reference_powers: any = {}
+
 	misc_items.forEach((i: Item, index: number) => {
 		if (!i) return
-		$doc_list.$sub[index + 1] = render_item_short(i, options)
+
+		if (!reference_powers[i.slot]) {
+			const item = get_item_in_slot(inventory, i.slot)
+			reference_powers[i.slot] = item ? appraise_power(item) : 0
+		}
+
+		$doc_list.$sub[index + 1] = render_item_short(i, {
+			...options,
+			reference_power: reference_powers[i.slot],
+		})
 	})
 
 	if (Object.keys($doc_list.$sub).length === 0) {
