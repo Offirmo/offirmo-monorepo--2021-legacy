@@ -32,7 +32,6 @@ function loose_all_energy(state, date = new Date()) {
     state = Object.assign({}, state, { revision: state.revision + 1, last_date: get_human_readable_UTC_timestamp_ms(date), last_available_energy_float: 0. });
     return state;
 }
-// TODO time elapse
 function replenish_energy(state, date = new Date()) {
     state = Object.assign({}, state, { revision: state.revision + 1, last_date: get_human_readable_UTC_timestamp_ms(date), last_available_energy_float: state.max_energy * 1. });
     return state;

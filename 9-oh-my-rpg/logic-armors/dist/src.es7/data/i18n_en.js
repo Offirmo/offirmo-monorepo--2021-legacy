@@ -131,5 +131,5 @@ const messages = {
         }
     },
 };
-export { messages, };
+export default messages;
 //# sourceMappingURL=i18n_en.js.map

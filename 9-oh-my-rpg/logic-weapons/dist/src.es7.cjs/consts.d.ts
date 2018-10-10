@@ -1,9 +1,5 @@
-import { ItemQuality } from '@oh-my-rpg/definitions';
-interface NumberHash {
-    [k: string]: number;
-}
-declare const QUALITY_STRENGTH_MULTIPLIER: NumberHash;
-declare const QUALITY_STRENGTH_SPREAD: NumberHash;
-declare const ENHANCEMENT_MULTIPLIER = 0.2;
-declare function get_interval(base_strength: number, quality: ItemQuality, enhancement_level: number, coef?: number): [number, number];
-export { NumberHash, QUALITY_STRENGTH_MULTIPLIER, QUALITY_STRENGTH_SPREAD, ENHANCEMENT_MULTIPLIER, get_interval, };
+declare const MIN_ENHANCEMENT_LEVEL = 0;
+declare const MAX_ENHANCEMENT_LEVEL = 8;
+declare const MIN_STRENGTH = 1;
+declare const MAX_STRENGTH = 20;
+export { MIN_ENHANCEMENT_LEVEL, MAX_ENHANCEMENT_LEVEL, MIN_STRENGTH, MAX_STRENGTH, };

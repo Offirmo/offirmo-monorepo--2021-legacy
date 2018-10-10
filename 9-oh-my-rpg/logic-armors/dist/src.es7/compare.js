@@ -1,5 +1,7 @@
-import { compare_items_by_quality, } from '@oh-my-rpg/definitions';
-import { get_medium_damage_reduction } from './utils';
+////////////////////////////////////
+import { compare_items_by_quality } from '@oh-my-rpg/definitions';
+import { get_medium_damage_reduction } from './selectors';
+////////////////////////////////////
 function compare_armors_by_strength(a, b) {
     const a_dmg = get_medium_damage_reduction(a);
     const b_dmg = get_medium_damage_reduction(b);
@@ -11,5 +13,6 @@ function compare_armors_by_strength(a, b) {
     // fallback to other attributes
     return compare_items_by_quality(a, b) || a.uuid.localeCompare(b.uuid);
 }
+////////////////////////////////////
 export { compare_armors_by_strength, };
 //# sourceMappingURL=compare.js.map

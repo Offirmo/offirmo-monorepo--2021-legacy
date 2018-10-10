@@ -103,6 +103,9 @@ const ENTRIES = [
     { good: true, type: story, hid: 'chasm_leap', outcome: { "agility": true } },
     { good: true, type: story, hid: 'coffee', outcome: { "wisdom": true } },
     { good: true, type: story, hid: 'gold_nugget', outcome: { "coin": "medium" } },
+    { good: true, type: story, hid: 'high_level_zone_1', outcome: { class_primary_attribute: true } },
+    { good: true, type: story, hid: 'sword_in_rock', outcome: { weapon: true } },
+    { good: true, type: story, hid: 'sword_in_a_lake', outcome: { weapon: true } },
 ];
 exports.ENTRIES = ENTRIES;
 const i18n_messages = {

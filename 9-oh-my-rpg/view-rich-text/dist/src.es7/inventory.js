@@ -1,6 +1,7 @@
 import { ITEM_SLOTS, ITEM_SLOTS_TO_INT, } from '@oh-my-rpg/definitions';
 import { iterables_unslotted, get_item_in_slot, } from '@oh-my-rpg/state-inventory';
 import * as RichText from '@offirmo/rich-text-format';
+import { appraise_power } from '@oh-my-rpg/logic-shop';
 import { render_item_short } from './items';
 import { render_wallet } from './wallet';
 import { DEFAULT_RENDER_ITEM_OPTIONS } from "./consts";
@@ -37,10 +38,15 @@ function render_backpack(inventory, options) {
     const misc_items = Array
         .from(iterables_unslotted(inventory))
         .filter(i => !!i);
+    const reference_powers = {};
     misc_items.forEach((i, index) => {
         if (!i)
             return;
-        $doc_list.$sub[index + 1] = render_item_short(i, options);
+        if (!reference_powers[i.slot]) {
+            const item = get_item_in_slot(inventory, i.slot);
+            reference_powers[i.slot] = item ? appraise_power(item) : 0;
+        }
+        $doc_list.$sub[index + 1] = render_item_short(i, Object.assign({}, options, { reference_power: reference_powers[i.slot] }));
     });
     if (Object.keys($doc_list.$sub).length === 0) {
         // completely empty

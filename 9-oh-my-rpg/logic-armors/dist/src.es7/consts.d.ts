@@ -1,11 +1,7 @@
-interface NumberHash {
-    [k: string]: number;
-}
-declare const QUALITY_STRENGTH_MULTIPLIER: NumberHash;
-declare const QUALITY_STRENGTH_SPREAD: NumberHash;
-declare const ENHANCEMENT_MULTIPLIER = 0.2;
+declare const LIB = "@oh-my-rpg/logic-armors";
+declare const SCHEMA_VERSION: number;
 declare const MIN_ENHANCEMENT_LEVEL = 0;
 declare const MAX_ENHANCEMENT_LEVEL = 8;
 declare const MIN_STRENGTH = 1;
 declare const MAX_STRENGTH = 20;
-export { NumberHash, QUALITY_STRENGTH_MULTIPLIER, QUALITY_STRENGTH_SPREAD, ENHANCEMENT_MULTIPLIER, MIN_ENHANCEMENT_LEVEL, MAX_ENHANCEMENT_LEVEL, MIN_STRENGTH, MAX_STRENGTH, };
+export { LIB, SCHEMA_VERSION, MIN_ENHANCEMENT_LEVEL, MAX_ENHANCEMENT_LEVEL, MIN_STRENGTH, MAX_STRENGTH, };

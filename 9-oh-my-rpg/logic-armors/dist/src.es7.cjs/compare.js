@@ -1,10 +1,12 @@
 "use strict";
+////////////////////////////////////
 Object.defineProperty(exports, "__esModule", { value: true });
 const definitions_1 = require("@oh-my-rpg/definitions");
-const utils_1 = require("./utils");
+const selectors_1 = require("./selectors");
+////////////////////////////////////
 function compare_armors_by_strength(a, b) {
-    const a_dmg = utils_1.get_medium_damage_reduction(a);
-    const b_dmg = utils_1.get_medium_damage_reduction(b);
+    const a_dmg = selectors_1.get_medium_damage_reduction(a);
+    const b_dmg = selectors_1.get_medium_damage_reduction(b);
     if (a_dmg !== b_dmg)
         return b_dmg - a_dmg;
     // with equal damage, the least enhanced has more potential

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.messages = {
+const messages = {
     weapon: {
         base: {
             axe: 'axe',
@@ -127,4 +127,5 @@ exports.messages = {
         },
     },
 };
+exports.default = messages;
 //# sourceMappingURL=i18n_en.js.map

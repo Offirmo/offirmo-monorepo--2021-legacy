@@ -1,4 +1,4 @@
-export const messages = {
+const messages = {
     weapon: {
         base: {
             axe: 'axe',
@@ -125,4 +125,5 @@ export const messages = {
         },
     },
 };
+export default messages;
 //# sourceMappingURL=i18n_en.js.map

@@ -4,6 +4,7 @@ const tslib_1 = require("tslib");
 const definitions_1 = require("@oh-my-rpg/definitions");
 const state_inventory_1 = require("@oh-my-rpg/state-inventory");
 const RichText = tslib_1.__importStar(require("@offirmo/rich-text-format"));
+const logic_shop_1 = require("@oh-my-rpg/logic-shop");
 const items_1 = require("./items");
 const wallet_1 = require("./wallet");
 const consts_1 = require("./consts");
@@ -41,10 +42,15 @@ function render_backpack(inventory, options) {
     const misc_items = Array
         .from(state_inventory_1.iterables_unslotted(inventory))
         .filter(i => !!i);
+    const reference_powers = {};
     misc_items.forEach((i, index) => {
         if (!i)
             return;
-        $doc_list.$sub[index + 1] = items_1.render_item_short(i, options);
+        if (!reference_powers[i.slot]) {
+            const item = state_inventory_1.get_item_in_slot(inventory, i.slot);
+            reference_powers[i.slot] = item ? logic_shop_1.appraise_power(item) : 0;
+        }
+        $doc_list.$sub[index + 1] = items_1.render_item_short(i, Object.assign({}, options, { reference_power: reference_powers[i.slot] }));
     });
     if (Object.keys($doc_list.$sub).length === 0) {
         // completely empty

@@ -6,6 +6,7 @@ const EventEmitter = require('emittery');
 const deep_merge = require('deepmerge').default;
 import { get_item } from '@oh-my-rpg/state-inventory';
 import * as state_fns from './state';
+import * as selectors from './selectors';
 import { migrate_to_latest } from './migrations';
 function overwriteMerge(destination, source) {
     return source;
@@ -79,13 +80,17 @@ function create_game_instance({ SEC, get_latest_state, persist_state, client_sta
                 let state = get_latest_state();
                 return get_item(state.inventory, uuid);
             },
-            appraise_item(uuid) {
+            appraise_item_value(uuid) {
                 let state = get_latest_state();
-                return state_fns.appraise_item(state, uuid);
+                return selectors.appraise_item_value(state, uuid);
+            },
+            appraise_item_power(uuid) {
+                let state = get_latest_state();
+                return selectors.appraise_item_power(state, uuid);
             },
             find_element(uuid) {
                 let state = get_latest_state();
-                return state_fns.find_element(state, uuid);
+                return selectors.find_element(state, uuid);
             },
             get_actions_for_element(uuid) {
                 let state = get_latest_state();
