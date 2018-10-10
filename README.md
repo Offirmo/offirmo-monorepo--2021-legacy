@@ -29,17 +29,16 @@ bolt ws run build --only @oh-my-rpg/*
 bolt ws run test --only @oh-my-rpg/*
 bolt ws run build
 
-bolt ws run clean
-bolt ws exec -- rm -rf .cache .parcel dist node_modules yarn.lock package-lock.json yarn-error.log
-rm -rf node_modules yarn.lock package-lock.json
-bolt
-yarn outdated
+yarn clean
+  bolt ws run clean
+  bolt ws exec -- rm -rf .cache .parcel dist node_modules yarn.lock package-lock.json yarn-error.log
+rm -rf node_modules yarn.lock package-lock.json && bolt && yarn outdated
 npx yarn-tools list-duplicates yarn.lock
 
 
 bolt w @oh-my-rpg/definitions run build
 ngrok http -subdomain=offirmo 1234
-
+yarn puer
 ```
 
 ## Notes

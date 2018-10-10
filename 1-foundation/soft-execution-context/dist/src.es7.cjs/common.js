@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-/* global NODE_ENV */
+/* global NODE_ENV process */
 const timestamps_1 = require("@offirmo/timestamps");
 function decorateWithDetectedEnv(SEC) {
     let ENV = (() => {

@@ -8,7 +8,7 @@ const DEFAULT_CONTENT = (
 	</span>
 )
 
-export default class ErrorBoundary extends React.Component {
+class ErrorBoundary extends React.Component {
 	state = {
 		error: null,
 		errorInfo: null,
@@ -103,3 +103,5 @@ export default class ErrorBoundary extends React.Component {
 		return null
 	}
 }
+
+export default ErrorBoundary

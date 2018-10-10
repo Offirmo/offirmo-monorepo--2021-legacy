@@ -1,6 +1,6 @@
 {
 	"name": "the-boring-rpg-browser",
-	"version": "0.52.6",
+	"version": "0.52.9",
 	"private": true,
 	"description": "⚔🛡💰 The boring RPG browser game, reloaded!",
 	"author": "Offirmo <offirmo.net@gmail.com>",
@@ -36,6 +36,7 @@
 		"@offirmo/rich-text-format-to-react": "^0.0.1",
 		"@offirmo/soft-execution-context": "^0.0.2",
 		"@offirmo/soft-execution-context-browser": "^0.0.2",
+		"@offirmo/timestamps": "^0.0.1",
 		"@offirmo/view-chat": "^0.0.1",
 		"@oh-my-rpg/definitions": "^0.0.1",
 		"@oh-my-rpg/state-character": "^0.0.1",

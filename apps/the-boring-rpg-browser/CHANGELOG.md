@@ -10,3 +10,8 @@ This file is just for taking notes for the next Reddit post.
 
 - 🤩 feature: in case your inventory is full, you are notified and can't play before you make some room
 
+
+
+/////////////
+
+- 🤩 feature: the inventory now displays 

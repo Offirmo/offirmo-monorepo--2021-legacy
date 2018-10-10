@@ -1,9 +1,7 @@
 import React, { Component, Fragment } from 'react'
-import ReactDOM from "react-dom"
+import ReactDOM from 'react-dom'
 
 import ErrorBoundary from '../..'
-
-//import './index.css'
 
 
 export default class Demo extends Component {

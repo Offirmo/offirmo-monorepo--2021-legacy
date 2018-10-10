@@ -73,6 +73,7 @@ function* get_next_step1(skip_to_index = 0) {
 	].slice(skip_to_index)
 }
 
+/*
 async function get_next_step2() {
 
 	const MAIN_MODE = {
@@ -101,9 +102,9 @@ async function get_next_step2() {
 		? MAIN_MODE
 		: GET_NAME
 }
-
+*/
 
 module.exports = {
 	get_next_step1,
-	get_next_step2,
+	//get_next_step2,
 }

@@ -7,7 +7,6 @@ import {
 	i18n_messages,
 	ENTRIES,
 } from '.'
-import {CoinsGain} from "../types";
 
 let missing_descriptors: string[] = []
 

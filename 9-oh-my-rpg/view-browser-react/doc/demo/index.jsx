@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import ReactDOM from "react-dom"
+import ReactDOM from 'react-dom'
 
 import OhMyRpg, { OhMyRPGUIContext } from '../../src'
 

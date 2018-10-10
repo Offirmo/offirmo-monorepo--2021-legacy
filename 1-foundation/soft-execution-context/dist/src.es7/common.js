@@ -1,4 +1,4 @@
-/* global NODE_ENV */
+/* global NODE_ENV process */
 import { get_UTC_timestamp_ms } from '@offirmo/timestamps';
 function decorateWithDetectedEnv(SEC) {
     let ENV = (() => {

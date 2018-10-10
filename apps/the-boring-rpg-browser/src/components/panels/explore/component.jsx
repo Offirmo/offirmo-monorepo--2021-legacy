@@ -76,7 +76,7 @@ export default class Component extends React.Component {
 							value: 'inventory',
 							msgg_as_user: () => 'Let’s sort out my stuff.',
 							callback: () => game_instance.set_client_state(() => ({ mode: 'inventory' })),
-					  },
+						},
 					],
 				})
 			}
