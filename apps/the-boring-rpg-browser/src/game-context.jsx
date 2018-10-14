@@ -92,6 +92,7 @@ class GameContextAsPropsListener extends React.Component {
 	}
 }
 
+// TODO redo properly
 function GameContextConsumerListener({children}) {
 	return (
 		<GameContext.Consumer>

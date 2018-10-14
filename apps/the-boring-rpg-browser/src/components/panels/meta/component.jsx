@@ -1,24 +1,19 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import * as RichText from '@offirmo/rich-text-format'
-import {
-	SCHEMA_VERSION,
-	GAME_VERSION,
-	URL_OF_PRODUCT_HUNT_PAGE,
-	URL_OF_REPO,
-	URL_OF_FORK,
-	URL_OF_ISSUES,
-	URL_OF_REDDIT_PAGE,
-} from '@oh-my-rpg/state-the-boring-rpg'
+import { THE_BORING_RPG } from '@offirmo/marketing-rsrc'
+import { SCHEMA_VERSION, GAME_VERSION } from '@oh-my-rpg/state-the-boring-rpg'
 
 import { Chat } from '../../utils/chat-interface'
 import rich_text_to_react from '../../../services/rich-text-to-react'
 import { VERSION, BUILD_DATE } from '../../../services/build.json'
 import SEC from '../../../services/sec'
+import { ROUTES } from '../../../services/routes'
 import ErrorBoundary from '@offirmo/react-error-boundary'
 
 
-export function render_meta(state, client_state) {
+export function render_meta(state) {
 	const { CHANNEL, ENV } = SEC.getInjectedDependencies()
 	const $doc_list_builder = RichText.unordered_list()
 	$doc_list_builder.pushRawNode(
@@ -59,72 +54,47 @@ export function render_meta(state, client_state) {
 }
 
 export default class Component extends React.Component {
+	static propTypes = {
+		game_instance: PropTypes.object.isRequired,
+		history: PropTypes.object.isRequired,
+	};
 
 	* gen_next_step() {
-		const { game_instance } = this.props
+		const { history } = this.props
 
 		do {
 			const steps = []
-			const state = game_instance.get_latest_state()
-			const ui_state = game_instance.get_client_state()
+			//const state = game_instance.get_latest_state()
+			//const ui_state = game_instance.get_client_state()
 			//console.log({ui_state, state})
 
 			steps.push({
 				msg_main: 'What do you want to do?',
 				msgg_acknowledge: url => <span>Now opening <a href={url} target="_blank">{url}</a></span>,
-				callback: url => window.open(url, '_blank'),
+				callback: url => window.open(url, '_blank', 'noopener'),
 				choices: [
 					{
-						msg_cta: <span>
-							★ star on
-							<span className='bg-white fg-black'> GitHub </span>
-						</span>,
-						value: URL_OF_REPO,
+						msg_cta: '👍 Like on social medias',
+						value: THE_BORING_RPG.aggregated_links_url,
 						msgg_as_user: () => 'You’re awesome…',
-					},
-					{
-						msg_cta: '👍 like on reddit',
-						value: URL_OF_REDDIT_PAGE,
-						msgg_as_user: () => 'You’re awesome…',
-					},
-					{
-						msg_cta: <span>
-							⇧ upvote on
-							<span className='bg-red fg-white'> Product Hunt </span>
-						</span>,
-						value: URL_OF_PRODUCT_HUNT_PAGE,
-						msgg_as_user: () => 'You’re awesome…',
-					},
-					{
-						msg_cta: 'Fork on GitHub 🐙 😹',
-						value: URL_OF_FORK,
-						msgg_as_user: () => 'I’d like to contribute!',
 					},
 					{
 						msg_cta: 'Report a bug 🐞',
-						value: URL_OF_ISSUES,
+						value: THE_BORING_RPG.issues_url,
 						msgg_as_user: () => 'There is this annoying bug…',
+					},
+					{
+						msg_cta: 'Save/load/reset your savegame',
+						value: 'save',
+						msgg_as_user: () => 'Let’s mess with my savegame…',
+						callback: async () => history.push(ROUTES.savegame),
 					},
 					{
 						msg_cta: 'Reload page ↻',
 						value: 'reload',
 						msgg_as_user: () => 'Reload the page.',
 						msgg_acknowledge: () => 'Reloading...',
-						callback: () => new Promise(() => window.location.reload()),
-					},
-					{
-						msg_cta: 'Reset your savegame 💀',
-						value: 'reset',
-						msgg_as_user: () => 'I want to start over…',
-						msgg_acknowledge: () => 'Are you serious?',
-						callback: () => new Promise((resolve, reject) => {
-							if (!window.confirm('💀 Do you really really want to reset your savegame, loose all progression and start over?'))
-								return resolve(false)
-
-							game_instance.reset_all()
-							window.location.reload()
-							// no resolution, to give the page time to reload
-						})
+						callback: async () => window.location.reload(),
 					},
 				],
 			})
@@ -136,12 +106,12 @@ export default class Component extends React.Component {
 	render() {
 		const { game_instance } = this.props
 		const state = game_instance.get_latest_state()
-		const client_state = game_instance.get_client_state()
+		//const client_state = game_instance.get_client_state()
 
 		return (
 			<div className={'tbrpg-panel o⋄flex--column'}>
 				<div className='panel-top-content o⋄flex-element--nogrow'>
-					{rich_text_to_react(render_meta(state, client_state))}
+					{rich_text_to_react(render_meta(state))}
 					<hr/>
 				</div>
 				<div className='o⋄flex-element--grow o⋄overflow-y⁚auto'>

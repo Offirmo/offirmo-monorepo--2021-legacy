@@ -11,7 +11,7 @@ const MAKER_OFFIRMO = {
 	name: 'Offirmo',
 	url: 'https://www.offirmo.net',
 	cta: 'visit',
-	social: {
+	social_urls: {
 		twitter: 'https://twitter.com/Offirmo',
 		reddit: 'https://www.reddit.com/user/Offirmo',
 		product_hunt: 'https://www.producthunt.com/@offirmo',
@@ -24,7 +24,7 @@ const ONLINE_ADVENTURES = {
 	maker: MAKER_OFFIRMO,
 	url: 'https://www.online-adventur.es/the-boring-rpg',
 	cta: 'explore',
-	repo: 'https://github.com/online-adventures/online-adventures.github.io',
+	repo_url: 'https://github.com/online-adventures/online-adventures.github.io',
 }
 
 const THE_NPM_RPG = {
@@ -32,25 +32,25 @@ const THE_NPM_RPG = {
 	maker: MAKER_OFFIRMO,
 	url: 'https://www.npmjs.com/package/the-npm-rpg',
 	cta: 'play',
-	homepage: 'https://www.online-adventur.es/the-npm-rpg',
-	repo: 'https://github.com/Offirmo/offirmo-monorepo/tree/master/apps/the-npm-rpg',
-	issues: 'https://github.com/Offirmo/offirmo-monorepo/issues',
-	social: {
+	homepage_url: 'https://www.online-adventur.es/the-npm-rpg',
+	repo_url: 'https://github.com/Offirmo/offirmo-monorepo/tree/master/apps/the-npm-rpg',
+	issues_url: 'https://github.com/Offirmo/offirmo-monorepo/issues',
+	social_urls: {
 		product_hunt: 'https://www.producthunt.com/upcoming/the-npm-rpg',
 	},
 }
 
-// metashort: https://metashort.co/pageEditor.php?shortURL=soe0b
 const THE_BORING_RPG = {
 	name: 'The Boring RPG reloaded',
 	maker: MAKER_OFFIRMO,
 	url: 'https://www.online-adventur.es/apps/the-boring-rpg',
 	cta: 'play',
-	homepage: 'https://www.online-adventur.es/the-boring-rpg',
-	repo: 'https://github.com/Offirmo/offirmo-monorepo/tree/master/apps/the-boring-rpg',
-	issues: 'https://github.com/Offirmo/offirmo-monorepo/issues',
-	social: {
-		shareable_url: 'https://metashort.co/soe0b',
+	homepage_url: 'https://www.online-adventur.es/the-boring-rpg',
+	repo_url: 'https://github.com/Offirmo/offirmo-monorepo/tree/master/apps/the-boring-rpg',
+	issues_url: 'https://github.com/Offirmo/offirmo-monorepo/issues',
+	aggregated_links_url: 'https://linktr.ee/theboringrpg',
+	social_urls: {
+		facebook: '',
 		instagram: 'https://www.instagram.com/theboringrpg/',
 		reddit: 'https://www.reddit.com/r/boringrpg/',
 		twitter: 'https://twitter.com/TheBoringRpg',
@@ -61,7 +61,7 @@ const THE_BORING_RPG = {
 
 const MAKER_ANDZ = {
 	name: 'Andz',
-	social: {
+	social_urls: {
 		reddit: 'https://www.reddit.com/user/andypants',
 		twitter: 'https://twitter.com/BoringRPG',
 	},
@@ -70,7 +70,7 @@ const MAKER_ANDZ = {
 const THE_BORING_RPG_ORIGINAL = {
 	maker: MAKER_ANDZ,
 	url: 'http://http://www.boringrpg.com/',
-	social: {
+	social_urls: {
 		reddit: 'https://www.reddit.com/r/boringrpg/',
 		twitter: 'https://twitter.com/BoringRPG',
 	},

@@ -5251,6 +5251,10 @@ fd-slicer@~1.0.1:
   dependencies:
     pend "~1.2.0"
 
+fetch-inject@^2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/fetch-inject/-/fetch-inject-2.0.2.tgz#bf11ed9fa397d6a18768d82670238449b2a61240"
+
 fetchival@^0.3:
   version "0.3.3"
   resolved "https://registry.yarnpkg.com/fetchival/-/fetchival-0.3.3.tgz#89cd7e3d401e54d0641e378ad8bac76e555a8d62"
@@ -9994,7 +9998,7 @@ prop-types-extra@^1.0.1:
     react-is "^16.3.2"
     warning "^3.0.0"
 
-prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2:
+prop-types@^15, prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2:
   version "15.6.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.2.tgz#05d5ca77b4453e985d60fc7ff8c859094a497102"
   dependencies:

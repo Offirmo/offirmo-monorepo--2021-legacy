@@ -323,6 +323,20 @@ You quickly and horribly die after fleeing monsters for half an hour.
 What did you expect?
 	`,*/
 
+	// https://starecat.com/the-witcher-looking-at-side-quest-meme/
+	side_quests: `
+	You get distracted by side quests again!
+Hopefully the loot ({{coin}} coins) and preparation (equipment enhanced) will help in the final battle!
+	`,
+
+	// https://starecat.com/gandalf-tells-them-to-run-to-get-all-the-xp-on-the-balrog-and-level-up/
+	balrog: `You tell your party members to run then kill the balrog and get all the XP. You level up!`,
+
+	// classic manga story
+	castle_summon: `
+
+	`,
+
 	// slackwirm
 
 	// http://www.joshuawright.net/slack-wyrm-012.html
@@ -371,6 +385,17 @@ Indeed, the talking tree impart you some wisdom: +{{wisdom}}.
 
 	// http://www.comic-rocket.com/read/bunny/28
 	// Bunthulhu
+
+	// https://www.instagram.com/p/Bi5QlAeAAlx/?saved-by=theboringrpg
+	murderer: `
+You're accused of murder and the guards try to arrest you. You kill them all.
+Nobody is after you anymore, that was an effective way to prove your innocence!
+You gain +{{wisdom}} wisdom!
+	`,
+
+	// https://starecat.com/when-a-piece-of-armor-doesnt-match-your-current-set-but-its-stats-are-too-good-to-pass-up-hello-kitty-shield-pink/
+	unmatched_set: `
+You find a nice weapon but it's `
 }
 
 const OFFIRMO_GAMING_CULTURE: I18nMessages = {
@@ -669,7 +694,12 @@ Good exercise, +{{strength}} strength.
 
 	// dragon's graveyard
 
-
+	// https://starecat.com/the-witcher-looking-at-side-quest-meme/
+	meteor_metal: `
+A meteorite falls near you position. You rush to the crater and gather star metal.
+You then pay a blacksmith to coat your equipment with it.
+Nice enhancement!
+	`,
 
 	king_reward: `
 You did well to help the kingdom.

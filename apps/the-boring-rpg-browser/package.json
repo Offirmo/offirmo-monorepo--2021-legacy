@@ -1,6 +1,6 @@
 {
 	"name": "the-boring-rpg-browser",
-	"version": "0.52.11",
+	"version": "0.52.12",
 	"private": true,
 	"description": "⚔🛡💰 The boring RPG browser game, reloaded!",
 	"author": "Offirmo <offirmo.net@gmail.com>",
@@ -24,11 +24,10 @@
 		"leg-start": "cross-env NODE_ENV=development webpack-dev-server -d --config meta/webpack.config.ts",
 		"leg-build": "npm version patch && run-s clean build:prod"
 	},
-	"dependencies": {},
-	"devDependencies": {
-		"@babel/core": "^7",
+	"dependencies": {
 		"@offirmo/ensure-device-uuid-browser": "^0.0.1",
 		"@offirmo/features-detection-browser": "^0.0.1",
+		"@offirmo/marketing-rsrc": "^0.0.1",
 		"@offirmo/poll-window-variable": "^0.0.1",
 		"@offirmo/practical-logger-browser": "^0.0.1",
 		"@offirmo/react-error-boundary": "^0.0.1",
@@ -36,7 +35,6 @@
 		"@offirmo/rich-text-format-to-react": "^0.0.1",
 		"@offirmo/soft-execution-context": "^0.0.2",
 		"@offirmo/soft-execution-context-browser": "^0.0.2",
-		"@offirmo/timestamps": "^0.0.1",
 		"@offirmo/view-chat": "^0.0.1",
 		"@oh-my-rpg/definitions": "^0.0.1",
 		"@oh-my-rpg/state-character": "^0.0.1",
@@ -45,13 +43,19 @@
 		"@oh-my-rpg/view-browser-react": "^0.0.1",
 		"@oh-my-rpg/view-rich-text": "^0.0.1",
 		"classnames": "^2",
-		"cross-env": "^5",
-		"npm-run-all": "^4",
+		"fetch-inject": "^2",
+		"prop-types": "^15",
 		"raven-js": "^3",
 		"react": "^16",
 		"react-dom": "^16",
 		"react-router-dom": "^4",
 		"tslib": "^1"
+	},
+	"devDependencies": {
+		"@babel/core": "^7",
+		"@offirmo/timestamps": "^0.0.1",
+		"cross-env": "^5",
+		"npm-run-all": "^4"
 	},
 	"tosort": {
 		"semver": "^5",

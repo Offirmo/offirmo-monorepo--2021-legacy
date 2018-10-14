@@ -40,8 +40,6 @@ const ROUTES = {
 	//inventory: '/inventory',
 	//character: '/character',
 	//about: '/about',
-
-	// non-navigable routes
 	savegame: '/savegame',
 	dev: '/dev',
 	diagnostic: '/diag',
