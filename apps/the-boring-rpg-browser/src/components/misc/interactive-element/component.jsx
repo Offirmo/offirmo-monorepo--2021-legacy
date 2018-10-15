@@ -40,6 +40,7 @@ class Interactive extends Component {
 		const { UUID, children } = this.props
 		return (
 			<InteractiveRichTextFragment
+				key='IRTF'
 				UUID={UUID}
 				render_detailed={this.render_detailed}
 			>

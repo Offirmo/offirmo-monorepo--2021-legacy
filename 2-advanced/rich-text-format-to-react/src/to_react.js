@@ -30,15 +30,35 @@ export function intermediate_on_node_exit({$node, $id, state}, options) {
 		wrapper: children => children
 	}
 
-	result.children =
-		React.Children.map(
-			state.children.map(c => c.element),
-			(child, index) => {
-				return (typeof child === 'string')
-					? child
-					: React.cloneElement(child, {key: `${index}`})
+	result.children = state.children.map(c => c.element)
+	if (result.children.length > 1) {
+		// at their level, children can't ensure that their keys are unique,
+		// especially for {br} which may be repeated.
+		// Help with that.
+		//console.group(`starting rekey for ${$id}...`)
+		//console.log({$node, state})
+		const key_count = {}
+		result.children = result.children.map(child => {
+			if (typeof child === 'string')
+				return child
+
+			let key = child.key
+			//console.log(key)
+			key_count[key] = key_count[key]
+				? key_count[key] + 1
+				: 1
+
+			if (key_count[key] > 1) {
+				child = React.cloneElement(child, {
+					'key': `${key}*${key_count[key]}`
+				})
 			}
-		)
+
+			return child
+		})
+		//console.log(key_count)
+		//console.groupEnd()
+	}
 
 	result.classes.push(...(NODE_TYPE_TO_EXTRA_CLASSES[$type] || []))
 
@@ -46,7 +66,7 @@ export function intermediate_on_node_exit({$node, $id, state}, options) {
 		result.classes.push('o⋄rich-text⋄list')
 
 		if (is_uuid_list($node)) {
-			console.log(`${LIB} seen uuid list`)
+			//console.log(`${LIB} seen uuid list`)
 			result.classes.push('o⋄rich-text⋄list--interactive')
 		}
 
@@ -68,24 +88,26 @@ export function intermediate_on_node_exit({$node, $id, state}, options) {
 
 	if ($hints.href)
 		result.wrapper = children => React.createElement('a', {
+			key: $id,
 			href: $hints.href,
 			target: '_blank'
 		}, children)
-
-	if (!Enum.isType(NodeType, $type))
+	else if (!Enum.isType(NodeType, $type))
 		result.wrapper = children => React.createElement('div', {
+			key: $id,
 			className: 'o⋄rich-text⋄error',
 		}, [ `TODO "${$type}"`, children])
 
 	return result
 }
 
-export function intermediate_assemble({ children, classes, component, wrapper }, options) {
+export function intermediate_assemble({ $id, children, classes, component, wrapper }, options) {
 	if (component === 'br' || component === 'hr')
 		children = undefined
 
 	return wrapper(
 		React.createElement(component, {
+			key: $id,
 			className: classNames(...classes)
 		}, children)
 	)
@@ -94,9 +116,10 @@ export function intermediate_assemble({ children, classes, component, wrapper },
 
 // default, to replace for extension
 function on_node_exit(params, options) {
+	const { $id } = params
 	const { children, classes, component, wrapper } = intermediate_on_node_exit(params, options)
 
-	params.state.element = intermediate_assemble({ children, classes, component, wrapper }, options)
+	params.state.element = intermediate_assemble({ $id, children, classes, component, wrapper }, options)
 
 	return params.state
 }
@@ -148,7 +171,8 @@ const callbacks = {
 export function to_react(doc, callback_overrides = {}, options = {}) {
 	//console.log(`${LIB} Rendering a rich text:`, doc)
 	const content = walk(
-		doc, {
+		doc,
+		{
 			...callbacks,
 			...callback_overrides,
 		},
@@ -156,6 +180,7 @@ export function to_react(doc, callback_overrides = {}, options = {}) {
 	).element
 
 	return React.createElement('div', {
+		key: options.key || 'rich-text-format-to-react--root',
 		className: 'o⋄rich-text',
 	}, content)
 }

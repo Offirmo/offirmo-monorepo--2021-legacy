@@ -74,7 +74,7 @@ class ActiveCard extends Component {
 		}
 
 		return (
-			<button
+			<button key='AC.content'
 					ref={forward_ref}
 					className="o⋄button--inline o⋄rich-text⋄interactive"
 					{...props}
@@ -124,7 +124,7 @@ export class InteractiveRichTextFragment extends Component {
 		} = this.props
 
 		const base = (
-				<ActiveCard key={UUID + '-content'}
+				<ActiveCard key='IF.content'
 					forward_ref={this.card_ref}
 					on_click={this.on_card_click}
 					on_mouse_over={this.on_mouse_over}
@@ -134,7 +134,7 @@ export class InteractiveRichTextFragment extends Component {
 				</ActiveCard>
 			)
 
-		let detailed = <ErrorBoundary name={`IF-${UUID}-detailed`}
+		let detailed = <ErrorBoundary key='IF.detailed' name={`IF-${UUID}-detailed`}
 				render={
 					render_detailed
 						? render_detailed.bind(null, {UUID, react_representation: children})
@@ -142,8 +142,9 @@ export class InteractiveRichTextFragment extends Component {
 				}
 			/>
 
-		let tooltip = detailed && (
-				<ErrorBoundary name={`IF-${UUID}-tooltip-wrapper`}
+		let tooltip = detailed && this.card_ref.current && (
+				<ErrorBoundary key='IF.tooltip-wrapper'
+									name={`IF-${UUID}-tooltip-wrapper`}
 									onError={this.on_mouse_out}>
 					<ToolTip key={UUID + '-tooltip-wrapper'}
 						className="o⋄box"
@@ -160,7 +161,7 @@ export class InteractiveRichTextFragment extends Component {
 			)
 
 		const modal = detailed && (
-			<ErrorBoundary name={`IF-${UUID}-modal`} onError={this.on_close_modal}>
+			<ErrorBoundary key='IF.modal-wrapper' name={`IF-${UUID}-modal`} onError={this.on_close_modal}>
 				<Modal
 					key={UUID + '-modal'}
 					aria-labelledby='modal-label'

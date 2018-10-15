@@ -65,7 +65,7 @@ class ErrorBoundary extends React.Component {
 		if (this.state.error || this.state.errorInfo) {
 			const {name} = this.props
 			return (
-				<div className={`o⋄error-report error-boundary-report-${name}`}>
+				<div key={name} className={`o⋄error-report error-boundary-report-${name}`}>
 					<h2>Boundary "{name}": Something went wrong</h2>
 					<details style={{ whiteSpace: 'pre-wrap' }}>
 						{this.state.error && this.state.error.toString()}
@@ -86,7 +86,7 @@ class ErrorBoundary extends React.Component {
 			//console.log('render', { 'this.props': this.props, props, ComponentOrFunctionOrAny })
 
 			if (ComponentOrFunctionOrAny.propTypes || ComponentOrFunctionOrAny.render || (ComponentOrFunctionOrAny.prototype && ComponentOrFunctionOrAny.prototype.render))
-				return <ComponentOrFunction {...props} />
+				return <ComponentOrFunction key={name} {...props} />
 
 			if (typeof ComponentOrFunctionOrAny === 'function')
 				return ComponentOrFunctionOrAny({

@@ -14,7 +14,7 @@ const RichTextView = ({doc, mode = 'to_html'}) => {
 		return <div dangerouslySetInnerHTML={{ __html: RichText.to_html(doc) }} />
 
 	case 'to_react':
-		return <div className="o⋄rich-text">{rich_text_to_react(doc)}</div>
+		return rich_text_to_react(doc)
 
 	default:
 		return <div>Unknown mode "{mode}"!</div>
@@ -52,24 +52,24 @@ export default class MultiRenderer extends Component {
 		return (
 			<div className="multi-renderer">
 
-				<div>
+				<div key='to_text'>
 					raw txt<br />
 					<ErrorBoundary name={'to_text'}>
 						<RichTextView doc={doc} mode='to_text' />
 					</ErrorBoundary>
 				</div>
 
-				<div>
+				<div key='to_html'>
 					HTML<br />
 					<ErrorBoundary name={'to_html'}>
 						<RichTextView doc={doc} mode='to_html' />
 					</ErrorBoundary>
 				</div>
 
-				<div>
+				<div key='to_ract'>
 					React<br />
 					<ErrorBoundary name={'to_react'}>
-						<RichTextView doc={doc} mode='to_react' />
+						<RichTextView key="RTV_to_react" doc={doc} mode='to_react' />
 					</ErrorBoundary>
 				</div>
 			</div>
