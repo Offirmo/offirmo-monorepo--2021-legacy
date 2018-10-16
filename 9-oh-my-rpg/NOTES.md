@@ -12,6 +12,12 @@ make luck active
 
 Sets
 
+méchants
+http://fandom.wikia.com/articles/grindelwald-vs-voldemort-who-is-more-villainous
+
+books:
+- http://forgottenrealms.wikia.com/wiki/Book_of_Vile_Darkness
+
 
 // TODO steal morrowind's level up message
 // https://www.reddit.com/r/Morrowind/comments/1s1emv/i_find_the_levelup_messages_very_inspirational/

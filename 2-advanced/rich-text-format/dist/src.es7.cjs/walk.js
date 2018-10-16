@@ -137,7 +137,7 @@ function walk($raw_node, raw_callbacks, options = {},
                 $type: types_1.NodeType.li,
                 $content: '{{content}}',
                 $sub: {
-                    'content': $sub_nodes[key]
+                    content: $sub_nodes[key],
                 }
             };
             let sub_state = walk($sub_node, callbacks, options, {
