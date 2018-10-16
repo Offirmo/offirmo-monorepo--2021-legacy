@@ -30,6 +30,7 @@ function internal_remove_item(state, uuid) {
     const new_unslotted = state.unslotted.filter(i => i.uuid !== uuid);
     if (new_unslotted.length === state.unslotted.length)
         throw new Error(`state-inventory: can’t remove item #${uuid}, not found!`);
+    // removing won't change the sort order, so no need to auto-sort
     state.unslotted = new_unslotted;
     return state;
 }

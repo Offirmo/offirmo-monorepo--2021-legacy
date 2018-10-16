@@ -23,10 +23,10 @@ you loose all your energy💀 !`,
 const FIGHT_ADVENTURES = {
     fight_won_coins: `
 You have defeated a {{encounter}} !{{br}}
-You looted {{coin}} from its corpse.`,
+You loot {{coin}} from its corpse.`,
     fight_won_loot: `
 You have defeated a {{encounter}} !{{br}}
-You looted a {{item}} from its corpse.`,
+You loot a {{item}} from its corpse.`,
     fight_won_any: `
 You have defeated a {{encounter}}!{{br}}
 You perfected your {{attr_name}} during the fight: +{{attr}} {{attr_name}}!`,
@@ -39,56 +39,58 @@ You reflect on your lack of {{attr_name}} in the fight and train hard: +{{attr}}
 };
 const SCAVENGED_ORIGINAL_ADVENTURES = {
     // scavenged from screens of the original game
+    // slightly altered/enhanced/normalized
     bored_log: `
-You were so bored, you punched a log for hours!
-You gained +{{strength}} strength!`,
-    caravan: `
+You are so bored, you punch a log for hours!
+You gain +{{strength}} strength!`,
+    caravan_success: `
 You were hired to protect a caravan of merchants.
-You gained {{coin}}!`,
+Your presence repels them, the caravan arrives at its destination, you gain {{coin}}!`,
     dying_man: `
 A dying man on the street left you everything he had.
-You gained {{coin}}!`,
+You gain {{coin}}!`,
     ate_bacon: `
-You ate some bacon.
-You gained +{{level}} level!`,
+You eat some bacon.
+You gain +{{level}} level!`,
     /* too bland, please!
      ate_mushroom: `
 You ate a mushroom.
 You gained +{{level}} level!`,*/
     ate_zombie: `
-You ate a zombie.
-You gained +{{mana}} mana!`,
+You eat a zombie!
+You gain +{{mana}} mana!`,
     refreshing_nap: `
-You took a nap and feel refreshed.
-You gained +{{health}} health!`,
+You take a nap and feel refreshed.
+You gain +{{health}} health!`,
     older: `
 You feel a little older.
-You gained +{{level}} level!`,
+You just gained +{{level}} level!`,
     stare_cup: `
 You stare really hard at a cup, and it almost moves!
-You gained +{{mana}} mana!`,
+You gain +{{mana}} mana!`,
     nuclear_fusion_paper: `
-You wrote a paper on nuclear fusion.
-You gained +{{wisdom}} wisdom!`,
+You write a paper on nuclear fusion.
+You gain +{{wisdom}} wisdom!`,
     found_green_mushroom: `
-You found a green mushroom.
-You gained +{{level}} level!`,
+You find a green mushroom.
+You gain +{{level}} level!`,
     // from this round of player suggestions
     // https://www.reddit.com/r/boringrpg/comments/dloxe/event_messages/
+    // TODO loss
     //eaten_by_a_grue: `You have been eaten by a grue. You lose {{coin}} coins`,
     walk_in_mordor: `You simply walk into Mordor. You gain +{{agility}} agility.`,
     jig: `You see a guy doing a jig, and join him! +{{agility}} agility!`,
-    good_end: `Oh, THAT end’s the one you hit them with! +{{wisdom}} wisdom!`,
+    good_end: `Oh, THAT end is the one you hit them with! +{{wisdom}} wisdom!`,
     waterfall: `You sit under a pounding waterfall! +{{health}} vitality!`,
     meteor: `A meteor JUST misses you! +{{luck}} luck!`,
     weird_duck: `Some weird duck is trying to swim in coins, so you take them! +{{coin}} coins!`,
     last_quest: `That last quest gave you just enough XP! Level Up!`,
     busking: `You wail on a guitar next to the inn, and it pays off! +{{token}} token!`,
     best_meal: `You eat the best meal you've ever had! +{{health}} health!`,
-    witch_riddle: `You successfully solve a riddle from a witch. Gain +{{wisdom}} wisdom!`,
-    princess_castle: `The princess was actually in this castle. +{{luck}} luck!`,
+    witch_riddle: `You successfully solve a riddle from a witch. You gain +{{wisdom}} wisdom!`,
+    princess_castle: `The princess was actually in this castle! +{{luck}} luck!`,
     //problem: `Problem? -{{coin}} coins`,
-    foreign_language: `You learn a foreign language. +{{wisdom}} wisdom!`,
+    foreign_language: `You learn a foreign language. +{{charisma}} charisma!`,
     last_night: `...what happened last night? +{{luck}} luck!`,
     chasm_leap: `You successfully leap over a chasm! +{{agility}} agility!`,
     //luxurious_meal: `You cook the most luxurious meal! -{{coin}} coins`,
@@ -97,43 +99,40 @@ You gained +{{level}} level!`,
     //socks: `You buy some socks. -gold`,
     gold_nugget: `You trip on a gold nugget: +{{coin}} gold!`,
 };
-// from me, inferred and extended
-const OFFIRMO_MUSHROOMS_AND_POTIONS = {
+// from me, inferred and extended from the originals
+const OFFIRMO_MUSHROOMS_AND_MISC = {
     found_red_mushroom: `
-You found a red mushroom.
+You find a red mushroom and eat it.
 You gained +{{health}} health!`,
     found_blue_mushroom: `
-You found a blue mushroom.
+You find a blue mushroom and eat it.
 You gained +{{mana}} mana!`,
     found_white_mushroom: `
-You found a white mushroom.
+You find a white mushroom and eat it.
 You gained +{{strength}} strength!`,
     found_yellow_mushroom: `
-You found a yellow mushroom.
+You find a yellow mushroom and eat it.
 You gained +{{agility}} agility!`,
     found_orange_mushroom: `
-You found an orange mushroom.
+You find an orange mushroom and eat it.
 You gained +{{charisma}} charisma!`,
     found_black_mushroom: `
-You found a black mushroom.
+You find a black mushroom and eat it.
 You gained +{{wisdom}} wisdom!`,
     found_rainbow_mushroom: `
-You found a glowing rainbow mushroom.
+You find a glowing rainbow mushroom and eat it.
 You gained +{{luck}} luck!`,
     found_random_mushroom: `
-You found a golden mushroom.
+You find a golden mushroom and eat it.
 You gained +{{attr}} {{attr_name}}!`,
-    found_vermilion_potion: `
-You found a vermilion potion.
-Crazy drink, gained +{{attr}} {{attr_name}}!`,
-    found_silver_potion: `
-You found a silver potion.
-Sweet drink, gained +{{attr}} {{attr_name}}!`,
-    found_swirling_potion: `
-You found a swirling potion.
-Strange drink, gained +{{attr}} {{attr_name}}!`,
 };
 const OFFIRMO_INSPIRED_FROM_RPG_MEMES_FROM_THE_NET = {
+    // https://swordscomic.com/swords/VI/
+    // https://swordscomic.com/swords/IX/
+    // https://swordscomic.com/swords/XI/
+    // https://swordscomic.com/swords/XII/
+    // https://swordscomic.com/swords/XIII/
+    // https://swordscomic.com/swords/XVII/
     // electricbunnycomics.com
     good_necromancer: `
 You meet a child weeping over his dead hamster… Thanks to necromancy, you reanimate it as a hamster-zombie!
@@ -153,7 +152,7 @@ the heirloom sword passed down in his family for generations.{{br}}
     rematch: `
 You got beaten by a goblin!
 In shame, you roam around the country, accepting quest after quest to train yourself before facing him again.{{br}}
-Alas, he also trained and beat you again!
+Alas, he also trained and beats you again!
 Well, the +{{level}} level is still useful…`,
     // paintraincomic.com
     // http://paintraincomic.com/comic/cemetery/
@@ -176,6 +175,7 @@ to stay close to him.{{br}}
 You come across an old man with eccentric apparel.
 Score! It's a rare item seller!
 He gives you a good price for a {{item}}.`,
+    // TODO loss
     // memecenter.com
     progress_loop: `
 You would need better gear to level up.
@@ -191,7 +191,7 @@ before your fireball incinerates them.
 Fortunately, gold doesn't burn: +{{coin}}!`,
     // don't remember the source for this one
     princess: `
-"You won't take back the princess!" yells the fearsome black mage,
+"You won’t take back the princess!" yells the fearsome black mage,
 as you reach his throne room.
 You reassure him: you are only here for loot.{{br}}
 He lets you help yourself to {{coin}}
@@ -206,7 +206,7 @@ A good opportunity to practice your magic: +{{mana}} mana.`,
     so_many_potions: `
 The fight against the final boss was hard, very hard…
 Most importantly, +{{strength}} strength for managing to control a pressing urge during the encounter after drinking 25 health potions !`,
-    // https://www.instagram.com/p/BjnclTCAiEK/?saved-by=theboringrpg
+    // https://www.instagram.com/p/BjnclTCAiEK/
     high_level_zone_1: `
 You accidentally wander into a high level zone.
 Unexpectedly, this is good training: +{{attr}} {{attr_name}}!
@@ -216,7 +216,68 @@ You accidentally wander into a high level zone.
 You quickly and horribly die after fleeing monsters for half an hour.
 What did you expect?
     `,*/
-    // slackwirm
+    // https://starecat.com/the-witcher-looking-at-side-quest-meme/
+    side_quests: `
+	You get distracted by side quests again!
+Hopefully the loot ({{coin}} coins) and preparation (equipment enhanced) will help in the final battle!
+	`,
+    // https://starecat.com/gandalf-tells-them-to-run-to-get-all-the-xp-on-the-balrog-and-level-up/
+    balrog: `You tell your party members to run then kill the balrog and get all the XP. You level up!`,
+    // classic manga story
+    castle_summon: `
+You are summoned to the castle by the king.
+In the throne room, in front of the court, he pressures you:
+"Hero, you must defeat the demon lord to bring back peace in the land!{{br}}
+Take this magical sword, only with it can you defeat the evil ones!".{{br}}
+Well, a new weapon is always welcome: {{weapon}}!
+	`,
+    // https://starecat.com/when-a-piece-of-armor-doesnt-match-your-current-set-but-its-stats-are-too-good-to-pass-up-hello-kitty-shield-pink/
+    unmatched_set: `
+You loot a nice piece of armor but unfortunately it matches badly your existing ones...
+No way, style is important for a hero! You ditch the piece of armor for coin: +{{coin}} coin!`,
+};
+const OFFIRMO_INSPIRED_FROM_INSTAGRAM_POSTS = {
+    // TODO RPG hooks Instagram
+    // https://www.instagram.com/p/BorAmImhT-f/
+    xxx_save_village_no_money: `
+"Please hero, save our village! We have no money but you are our only hope!"
+	`,
+    // https://www.instagram.com/p/BozHAjkBGVt/
+    xxx_odd_boy: `
+"A small child asks you to help him find his lost kitty.
+As you and the child search the forest you find his pet,
+beast
+	`,
+    // https://www.instagram.com/p/BoyqXBVhjSa/
+    // archer skeleton
+    // https://www.instagram.com/p/BkkgGyiH5X-/?saved-by=theboringrpg
+    xxx_magical_cooking: `
+	You try magical cooking but end up summoning Ragnaros 
+	`,
+    // https://www.instagram.com/p/BorYMavBG3s/
+    xxx_fancy_arrows: `
+	You 
+	`,
+    // https://www.instagram.com/p/Boo4jwRBe6D/
+    // rule them like gods!
+    // https://www.instagram.com/p/BodLbb0hTvw/
+    // big festival
+    // https://www.instagram.com/p/BoMOPU4h8VH/
+    // need help to get down
+    // https://www.instagram.com/p/Bl6cKIghQxY/
+    // hit first
+    // https://www.instagram.com/p/Bkg3XsChrfw/
+    // https://www.instagram.com/p/Bi1yE_3hBdn/
+    // https://www.instagram.com/p/BiroNNUhFkE/
+    // https://www.instagram.com/p/BiUzisIBfoU/
+    // https://www.instagram.com/p/BhFS4-FAquN/
+    // https://www.instagram.com/p/BowGNzChB-U/?utm_source=ig_web_button_share_sheet
+    xxx_guarding_dungeon: `
+You are so effective at raiding his dungeon
+that the dark necromancer offers you gold to guard it instead.
+You would be using your experience to keep other adventurers from looting it!
+	`,
+    // slackwirm:
     // http://www.joshuawright.net/slack-wyrm-012.html
     // "I am the Wise Wisewood Tree and I possess uncanny wisdom
     wise_wisewood_tree: `
@@ -224,8 +285,53 @@ You meet the Wise Wisewood Tree:
 "I am the Wise Wisewood Tree and I possess uncanny wisdom".
 Indeed, the talking tree impart you some wisdom: +{{wisdom}}.
 		`,
+    // http://www.joshuawright.net/slack-wyrm-017.html
+    //you the dragon having tea with the rabbits His reputation is crushed.
+    // http://www.joshuawright.net/slack-wyrm-026.html
+    // the giant eye of Agoroth
+    // http://www.joshuawright.net/slack-wyrm-030.html
+    // guilt anxiety
+    // princess with woodland friends
+    // having to spot the real princess
+    // http://www.joshuawright.net/slack-wyrm-031.html
+    // hallowed dragonspear
+    // http://www.joshuawright.net/slack-wyrm-034.html
+    // village of Spuddy
+    // http://www.joshuawright.net/slack-wyrm-042.html
+    // http://www.joshuawright.net/slack-wyrm-059.html
+    // Zizok the wizard
+    // they weren't my friends,they were just using me for my spells
+    // http://www.joshuawright.net/slack-wyrm-066.html
+    // dragon stole the wedding cake
+    // http://www.joshuawright.net/slack-wyrm-072.html
+    // Linda Greenslime
+    //the country of Doily
+    // 99
+    // http://www.joshuawright.net/slack-wyrm-158.html
+    // The sulking swamp
+    // butthurt bog
+    // http://www.comic-rocket.com/read/bunny/28
+    // Bunthulhu
+    // https://www.instagram.com/p/Bi5QlAeAAlx/
+    murderer: `
+You are accused of murder and the guards try to arrest you! You refuse, they insist and you kill them all.
+Nobody is after you anymore, that was an effective way to prove your innocence!{{br}}
+You gain +{{luck}} luck!
+	`,
 };
 const OFFIRMO_GAMING_CULTURE = {
+    // TODO always winter
+    // Marvel reference
+    give_a_shield: `
+The captain of the assieged castle yells: "Give this hero a shield!"{{br}}
+The blacksmith obey: you receive a {{item}}!
+`,
+    // cookie clicker
+    cookies_grandmas: `
+A group of strange grandmas bake you cookies.
+They are incredibly good and make you crave for more!
+They have a magical effect: you gain +{{attr}} {{attr_name}}!
+	`,
     // Zelda reference
     treasure_in_pots: `
 You enter a pottery shop and destroy every jug, vase and item in the store.
@@ -236,13 +342,13 @@ You enter a village and see a chicken roaming in a garden peacefully.
 You slay the chicken mercilessly.
 The entire cohort of guards for the town come after you and you are forced to slay them too.
 After hours of fighting you gain +{{strength}} strength!`,
-    // morrowind meme
+    // skyrim meme
     arrow_in_the_knee: `
 A guard tells you stories of when he was an adventurer,
 before he took an arrow in the knee.
 You feel enlightened: +{{attr}} wisdom!
 		`,
-    // irspired from morrowind's level up messages
+    // inspired by morrowind's level up messages
     // https://www.reddit.com/r/Morrowind/comments/1s1emv/i_find_the_levelup_messages_very_inspirational/
     // TODO
     // WoW / 1st quest (+ a meme somewhere)
@@ -253,7 +359,7 @@ You gain {{coin}} and +{{attr}} {{attr_name}}.
 		`,
     // Colossal Cave Adventure
     colossal_cave: `
-You discover and explore a colossal cave! Undeads, goblins, balrogs...
+You discover and explore a colossal cave! Undeads, goblins, !s...
 You emerge victoriously, with loot ({{item}}) and experience (+{{attr}} {{attr_name}})!
 		`,
     gehennom: `
@@ -262,13 +368,23 @@ but still ends up with good loot: +{{coin}}, {{item}}...
 		`,
 };
 const OFFIRMO_POPULAR_CULTURE = {
+    // goblin slayer
+    xxx_goblin_slayer: `
+"The only good goblins are the one who never come out of their stinking holes!"
+	`,
+    // Conan movie http://conan.wikia.com/wiki/The_Riddle_of_Steel
+    riddle_of_steel: `
+You solve the riddle of steel; Obviously it's more steel! And stronger steel!{{br}}
+You have a blacksmith reforge your equipment to enhance it.`,
+    // TOTO tree of woe, eat a vulture http://conan.wikia.com/wiki/Tree_of_Woe
     // classic tales
     sword_in_rock: `
 You find a sword planted into a stone.
-You draw it out. People around worship you!
+You draw it out: {{item}}.{{br}}
+People nearby start worshipping you!
 `,
     sword_in_a_lake: `
-You find a good sword at the bottom of a lake.
+You find a good sword at the bottom of a lake: {{item}}.{{br}}
 Who could have thrown it there?
 Nevermind, it's good loot!
 `,
@@ -276,7 +392,7 @@ Nevermind, it's good loot!
     // the lost mine
     lost_mine: `
 You discover a mysterious lost mine, filled with strange tools
-and glowing with mana crystals. You pick some: +{{token}}
+and glowing with mana crystals. You pick some: +{{token}}.
 		`,
     // mission sydney (escape room)
     // vampire castle lost in a forest
@@ -297,6 +413,12 @@ You cook an omelette, and gain +{{luck}} luck.
 		`,
 };
 const OFFIRMO_ORIGINAL = {
+    // twist on original
+    caravan_failure: `
+You were hired to protect a caravan of merchants.
+The bandits and monsters aren’t impressed, they keep harassing the caravan until no one is left alive except you.
+You nevertheless gain some loot and gold from the remains of both the caravan and the attackers: +{{coin}} coin and a {{item}}!`,
+    // classic fantasy/rpg
     meet_old_wizard: `
 You meet a mysterious old wizard…
 Before giving you the quest, he tells you his loooong story: You gain +{{wisdom}} wisdom!`,
@@ -348,9 +470,14 @@ And the child now wants to be an adventurer...
 The daughter of one of the villager you helped wants to have a tea with her saviour.
 She's very nice. You learn from her how to have a polite conversation: + {{charisma}} charisma.
 		`,
-    // TODO sword in rock
-    // town
-    // Alwayswinter
+    village_gifts_blacksmith: `
+You helped the village so much that the inhabitants are giving you parting gifts.
+"You can’t travel without protection" say the blacksmith. He makes you an armor: {{armor}}!
+`,
+    village_strongman: `
+You spar with the village's strongman. His methods are crude but practical and effective.
+"You gain +{{strength}} strength!
+`,
     // capital
     // royal castle
     capital_castle: `
@@ -395,6 +522,7 @@ Your mana increases: +{{mana}} mana, +{{token}}.
 On a lost altar deep in the jungle, you looted the mysterious emerald of Shapeshifting!
 Your agility increases: +{{agility}} agility, +{{token}}.
 		`,
+    // class master
     // winter spirit cookies
     // https://github.com/kodeguild/winter-spirits/blob/master/src/data/cookies/en-us.js
     class_master_primary_attr_1: `
@@ -412,9 +540,12 @@ As usual, your class master is grumpy:
 "What's the use of improving only your main attribute? You need to improve your {{attr_name}} too! Focus on your weaknesses, to become stronger!"
 She gives you exercises. You gain +{{attr}} {{attr_name}}.
 		`,
-    wisdom_of_books: `
+    // TODO sneak and forbidden knowledge
+    // coolidge
+    // persistence and determination win over talent, genius and skills
+    church_book: `
 You visit a church for healing, and end up reading their books.
-You gain +{{attr}} wisdom!
+You gain +{{attr}} mana!
 		`,
     huge_tower: `
 You discover and explore a huge tower. It's filled with mad wizards, cultists and golems.
@@ -428,8 +559,8 @@ Your mom would be proud, she was always telling you to go and "make" friends!
     // future followers
     // Kloo the dryad druidess
     erika: `
-Exploring the Colossal Cave, you meet Erika, a powerful sorceress whose sensitive skin
-led her to live underground.
+Exploring the Colossal Cave, you meet Erika, a powerful sorceress
+whose sensitive skin led her to live underground.
 She teaches you a new spell for money: +{{mana}} mana
 		`,
     rachel: `
@@ -444,46 +575,75 @@ Good exercise, +{{strength}} strength.
     /*
      princess rich, powerful
      */
-    /* Ma Backer bandit woman
+    /* Ma Backer bandit woman ->
      */
     /*
       // licorne multicolore
       xunicorns:
       '',
       // memes
-      xarrown_in_the_knee:
-      '', // arrow in the knee
       // retour chez le mage noir, apprentissage de sorts
       xblack_mage_again:
       '',
       */
     // get rid of them, not slaughter them all
-    // meteorite
-    // coolidge
-    // persistence and determination win over talent,genius and skills
     // knowing is half the battle
     // warsong
     // peace song
     // dragon's graveyard
+    // https://starecat.com/the-witcher-looking-at-side-quest-meme/
+    meteor_metal: `
+A meteorite falls near your position. You rush to the crater and gather the star metal.
+You then pay a blacksmith to coat your equipment with it.
+Nice enhancement!
+	`,
     king_reward: `
 You did well to help the kingdom.
-King Gallus welcomes you in the throne room in front of all the court assembled.
+King Gallus welcomes you again in the throne room in front of all the court assembled.
 You are rewarded with weapons and honors: {{item}}, {{token}}...
 `
     // red eyed unicorn throwing fire
     // badger mushrooms
 };
+const OFFIRMO_BLAND_REPARTITION_ADJUSTMENT = {
+    // we can change the target attribute to improve the distribution
+    // food
+    dragon_kebab: `
+You have the chance to taste the legendary dragon meat kebab!
+Through this magical food, you gain +{{attr}} !
+	`,
+    elven_hydromel: `
+You have the chance to taste the legendary elven hydromel!
+Through this magical drink, you gain +{{attr}} !
+	`,
+    // potions
+    found_vermilion_potion: `
+You find a vermilion potion.
+Crazy drink, gained +{{attr}} {{attr_name}}!`,
+    found_silver_potion: `
+You find a silver potion.
+Sweet drink, gained +{{attr}} {{attr_name}}!`,
+    found_swirling_potion: `
+You find a swirling potion.
+Strange drink, gained +{{attr}} {{attr_name}}!`,
+    // books
+    found_journal: `
+You find the remains of an unlucky adventurer. She or he (you can't tell from the remains) kept a journal.
+You read it and learn from their failure: +{{attr}} {{attr_name}}!`,
+};
 // NOTE: we allow line returns for ease of writing
 // but they'll be automatically removed, see bottom of this file.
 // use {{br}} for actual line returns.
 const raw_messages = {
-    adventures: Object.assign({}, BAD_ADVENTURES, FIGHT_ADVENTURES, SCAVENGED_ORIGINAL_ADVENTURES, OFFIRMO_MUSHROOMS_AND_POTIONS, OFFIRMO_INSPIRED_FROM_RPG_MEMES_FROM_THE_NET, OFFIRMO_GAMING_CULTURE, OFFIRMO_POPULAR_CULTURE, OFFIRMO_ORIGINAL)
+    adventures: Object.assign({}, BAD_ADVENTURES, FIGHT_ADVENTURES, SCAVENGED_ORIGINAL_ADVENTURES, OFFIRMO_MUSHROOMS_AND_MISC, OFFIRMO_INSPIRED_FROM_RPG_MEMES_FROM_THE_NET, OFFIRMO_INSPIRED_FROM_INSTAGRAM_POSTS, OFFIRMO_GAMING_CULTURE, OFFIRMO_POPULAR_CULTURE, OFFIRMO_ORIGINAL, OFFIRMO_BLAND_REPARTITION_ADJUSTMENT)
 };
 const messages = {
     adventures: {}
 };
 exports.messages = messages;
-Object.keys(raw_messages.adventures).forEach((entry) => {
+Object.keys(raw_messages.adventures)
+    .filter(key => !key.startsWith('xxx'))
+    .forEach((entry) => {
     messages.adventures[entry] = clean_multiline_string(raw_messages.adventures[entry]);
 });
 function clean_multiline_string(str) {

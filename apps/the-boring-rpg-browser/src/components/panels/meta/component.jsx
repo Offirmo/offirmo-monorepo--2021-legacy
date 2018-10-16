@@ -84,7 +84,7 @@ export default class Component extends React.Component {
 						msgg_as_user: () => 'There is this annoying bug…',
 					},
 					{
-						msg_cta: 'Save/load/reset your savegame',
+						msg_cta: '⚙ Save/load/reset your savegame',
 						value: 'save',
 						msgg_as_user: () => 'Let’s mess with my savegame…',
 						callback: async () => history.push(ROUTES.savegame),

@@ -35,6 +35,13 @@ export default class Savegame extends Component {
 			this.editor.session.foldAll()
 			this.editor.session.unfold(1)
 		}, 500)
+
+		/* or ?
+		https://stackoverflow.com/a/37796568/587407
+		editor.renderer.on('afterRender', function() {
+    // Your code...
+});
+		 */
 	}
 
 	onSave = () => {
