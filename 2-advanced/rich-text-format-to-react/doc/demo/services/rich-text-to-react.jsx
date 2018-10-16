@@ -11,14 +11,13 @@ import {
 
 function on_node_exit(params, options) {
 	const { children, classes, component, wrapper } = intermediate_on_node_exit(params, options)
-	const { state, $node, $id } = params
-	const { $hints } = $node
+	const { state, $node: { $hints }, $id } = params
 
 	if (classes.includes('monster')) {
 		children.push(<span key={$id} className="monster-emoji">{$hints.possible_emoji}</span>)
 	}
 
-	let element = intermediate_assemble({ $id, children, classes, component, wrapper }, options)
+	let element = intermediate_assemble({ ...params, children, classes, component, wrapper }, options)
 
 	if ($hints.uuid) {
 		//console.log(`${LIB} seen element with uuid:`, $node)
@@ -35,9 +34,12 @@ function on_node_exit(params, options) {
 				</React.Fragment>
 			)
 		}
+
+		// note: key with UUID is needed in case the popup is open
+		// and the parent element changes, ex. inventory item swap
 		element = (
 			<InteractiveRichTextFragment
-				key={$id}
+				key={`IRTF.${$id}.uuid:${UUID}`}
 				UUID={UUID}
 				render_detailed={render_detailed}
 			>

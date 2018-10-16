@@ -113,8 +113,6 @@ export class InteractiveRichTextFragment extends Component {
 		this.setState({ show_modal: false })
 	}
 
-	// TODO componentDidCatch
-
 	render = () => {
 		//console.log('render', this.element)
 		const {

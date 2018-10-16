@@ -2,6 +2,7 @@ import React from 'react'
 
 const {
 	to_react,
+	generate_react_key,
 	intermediate_on_node_exit,
 	intermediate_assemble,
 } = require('@offirmo/rich-text-format-to-react')
@@ -22,11 +23,14 @@ function on_node_exit(params, options) {
 		children.push(<span key={$id} className="monster-emoji">{$hints.possible_emoji}</span>)
 	}
 
-	let element = intermediate_assemble({ $id, children, classes, component, wrapper }, options)
+	let element = intermediate_assemble({ ...params, children, classes, component, wrapper }, options)
 
 	if ($hints.uuid && options.render_interactive) {
 		element = (
-			<Interactive key={$id} UUID={$hints.uuid}>
+			<Interactive
+				key={generate_react_key({$id, $node})}
+				UUID={$hints.uuid}
+			>
 				{element}
 			</Interactive>
 		)

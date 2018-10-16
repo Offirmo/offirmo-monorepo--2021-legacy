@@ -1,5 +1,3 @@
-'use strict'
-
 import React from 'react'
 import classNames from 'classnames'
 
@@ -18,6 +16,26 @@ export const NODE_TYPE_TO_EXTRA_CLASSES = {
 	[NodeType.inline_fragment]: [ 'o⋄rich-text⋄inline' ],
 }
 
+// a clever key is critically needed in general, but even more critical
+// for lists, whom default keys "1, 2, 3" is dangerous if the list is re-ordered.
+// Thus we attempt to enrich the default key ($id) from various hints.
+export function generate_react_key({$id, $node}) {
+	let key = $id
+
+	if ($node.$type === 'li') {
+		// this is a wrapper, go down a level
+		$node = $node.$sub.content
+	}
+
+	if ($node.$hints.key)
+		key += `.aka:${$node.$hints.key}`
+	if ($node.$hints.uuid)
+		key += `.uuid:${$node.$hints.uuid}`
+
+	//console.log('generate_react_key', {$id, $node, key})
+
+	return key
+}
 
 // turn the state into a react element
 export function intermediate_on_node_exit({$node, $id, state}, options) {
@@ -34,7 +52,7 @@ export function intermediate_on_node_exit({$node, $id, state}, options) {
 	if (result.children.length > 1) {
 		// at their level, children can't ensure that their keys are unique,
 		// especially for {br} which may be repeated.
-		// Help with that.
+		// We need to help with that.
 		//console.group(`starting rekey for ${$id}...`)
 		//console.log({$node, state})
 		const key_count = {}
@@ -43,16 +61,16 @@ export function intermediate_on_node_exit({$node, $id, state}, options) {
 				return child
 
 			let key = child.key
-			//console.log(key)
+
 			key_count[key] = key_count[key]
 				? key_count[key] + 1
 				: 1
 
-			if (key_count[key] > 1) {
-				child = React.cloneElement(child, {
-					'key': `${key}*${key_count[key]}`
-				})
-			}
+			if (key_count[key] > 1)
+				key += `+${key_count[key]}`
+
+			if (key !== child.key)
+				child = React.cloneElement(child, { key })
 
 			return child
 		})
@@ -87,42 +105,56 @@ export function intermediate_on_node_exit({$node, $id, state}, options) {
 	}
 
 	if ($hints.href)
-		result.wrapper = children => React.createElement('a', {
-			key: $id,
-			href: $hints.href,
-			target: '_blank'
-		}, children)
+		result.wrapper = children => React.createElement(
+			'a',
+			{
+				key: generate_react_key({$id, $node}),
+				href: $hints.href,
+				target: '_blank',
+			},
+			children
+		)
 	else if (!Enum.isType(NodeType, $type))
-		result.wrapper = children => React.createElement('div', {
-			key: $id,
-			className: 'o⋄rich-text⋄error',
-		}, [ `TODO "${$type}"`, children])
+		result.wrapper = children => React.createElement(
+			'div',
+			{
+				key: generate_react_key({$id, $node}),
+				className: 'o⋄rich-text⋄error',
+			},
+			[ `TODO "${$type}"`, children]
+		)
 
 	return result
 }
 
-export function intermediate_assemble({ $id, children, classes, component, wrapper }, options) {
+export function intermediate_assemble({ $id, $node, children, classes, component, wrapper }, options) {
+	//console.log('intermediate_assemble', arguments)
 	if (component === 'br' || component === 'hr')
 		children = undefined
 
 	return wrapper(
-		React.createElement(component, {
-			key: $id,
-			className: classNames(...classes)
-		}, children)
+		React.createElement(
+			component,
+			{
+				key: generate_react_key({$id, $node}),
+				className: classNames(...classes),
+			},
+			children
+		)
 	)
 }
 
 
+/// XXX ////
 // default, to replace for extension
 function on_node_exit(params, options) {
-	const { $id } = params
 	const { children, classes, component, wrapper } = intermediate_on_node_exit(params, options)
 
-	params.state.element = intermediate_assemble({ $id, children, classes, component, wrapper }, options)
+	params.state.element = intermediate_assemble({ ...params, children, classes, component, wrapper }, options)
 
 	return params.state
 }
+/// XXX ////
 
 function on_concatenate_str({state, str}) {
 	state.children.push({
