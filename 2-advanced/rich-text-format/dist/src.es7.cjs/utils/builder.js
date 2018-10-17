@@ -41,7 +41,7 @@ function create($type) {
     }
     // node ref is auto added into content
     function pushNode(node, id) {
-        id = id || ('s' + ++sub_id);
+        id = id || ('000' + ++sub_id).slice(-4);
         $node.$content += `{{${id}}}`;
         return pushRawNode(node, id);
     }
@@ -70,7 +70,7 @@ function create($type) {
             throw new Error(`${consts_1.LIB}: Key/value is intended to be used in a ol/ul only!`);
         const kv_node = key_value(key, value).done();
         //id = id || `${Object.keys($node.$sub).length}`
-        id = id || ('s' + ++sub_id);
+        id = id || ('000' + ++sub_id).slice(-4);
         return pushRawNode(kv_node, id);
     }
     function done() {

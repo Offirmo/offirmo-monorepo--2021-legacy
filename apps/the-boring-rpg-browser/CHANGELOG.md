@@ -10,12 +10,13 @@ This file is just for taking notes for the next Reddit post.
 /////////////
 
 NEXT
+- 😍 feature: 1 new background
 - 🤩 feature: 15 new adventures (now totalling 110!)
 - 😍 feature: cleaned and uniformized existing adventures (usage of past tense)
 - 🤩 feature: uniformized the outcome distribution of adventures, stats upgrades are now more evenly distributed (and should stay that way)
-- 😍 feature: the savegame can now be edited, conveniently with a superb JSON editor
+- 😍 feature: the savegame can now be edited, conveniently with a superb JSON editor with syntax highlighting
 - 🤩 feature: cleaned the meta panel
-- 😍 feature: improved load time of the game bx deferring non-critical scripts
+- 😍 feature: improved load time of the game by deferring non-critical scripts
 - 😅 fix: fixed the key-ing of react elements produced by rendering a rich text
 - 😅 fix (hopefully!): fixed a bug causing the inventory backpack to appear not sorted when having more than 10 items
 

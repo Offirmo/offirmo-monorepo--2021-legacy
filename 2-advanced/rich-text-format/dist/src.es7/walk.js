@@ -129,6 +129,14 @@ function walk($raw_node, raw_callbacks, options = {},
     if ($type === 'ul' || $type === 'ol') {
         // special case of sub-content
         const sorted_keys = Object.keys($sub_nodes).sort();
+        //console.log('walk ul/ol', sorted_keys)
+        sorted_keys.forEach(key => {
+            // I've been bitten by that...
+            const number = Number(key);
+            if (key === number.toString()) {
+                console.warn(`in sub-node '${$id}', the ul/ol key '${key}' suspiciously looks like a number. Beware of auto sorting!`);
+            }
+        });
         sorted_keys.forEach(key => {
             const $sub_node = {
                 $type: NodeType.li,
