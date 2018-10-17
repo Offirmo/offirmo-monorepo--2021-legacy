@@ -270,6 +270,7 @@ function walk<State, RenderingOptions>(
 
 	if ($type === 'ul' || $type === 'ol') {
 		// special case of sub-content
+		XXXXX
 		const sorted_keys = Object.keys($sub_nodes).sort()
 		sorted_keys.forEach(key => {
 			const $sub_node: Node = {

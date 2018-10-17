@@ -49,8 +49,10 @@
 	<script defer src="https://www.googletagmanager.com/gtag/js?id=UA-103238291-2"></script>
 	<script>
 		// I absolutely don't understand this bug but nevermind, easy to fix
-		if (document.URL === 'https://www.online-adventur.es/apps/the-boring-rpg')
+		if (document.URL === 'https://www.online-adventur.es/apps/the-boring-rpg') {
+			console.log('strange non-/ case, redirecting...')
 			window.location = document.URL + '/'
+		}
 
 		window.dataLayer = window.dataLayer || [];
 		function gtag(){dataLayer.push(arguments);}
