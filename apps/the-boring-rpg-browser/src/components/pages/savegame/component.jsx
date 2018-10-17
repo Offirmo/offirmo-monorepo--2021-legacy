@@ -6,14 +6,34 @@ import './index.css'
 
 const ACE_BASE_PATH = 'https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.1/'
 let ace_injected = null
+function ensureACE() {
+	if (!ace_injected) {
+		console.log('injecting ACE editor…')
+		ace_injected = fetch_inject([`${ACE_BASE_PATH}/ace.js`])
+			.then(() => {
+				console.log('ACE injected ✅')
+				return window.ace
+			})
+			.then(ace => {
+				// https://github.com/ajaxorg/ace/wiki/Configuring-Ace
+				ace.config.set('basePath', ACE_BASE_PATH)
 
-// TODO maybe https://github.com/ajaxorg/ace/wiki/Syntax-validation
+				// TODO maybe https://github.com/ajaxorg/ace/wiki/Syntax-validation
+
+				return ace
+			})
+	}
+
+	return ace_injected
+}
+
 
 export default class Savegame extends Component {
 	static propTypes = {
 		ls_key: PropTypes.string.isRequired,
-		home_url: PropTypes.string.isRequired,
+		navigate_home: PropTypes.func.isRequired,
 	}
+	editor = null
 
 	getCurrentSavegameContent() {
 		return JSON.stringify(
@@ -40,7 +60,6 @@ export default class Savegame extends Component {
 		https://stackoverflow.com/a/37796568/587407
 		editor.renderer.on('afterRender', function() {
     // Your code...
-});
 		 */
 	}
 
@@ -63,24 +82,13 @@ export default class Savegame extends Component {
 			return
 
 		localStorage.removeItem(this.props.ls_key)
-		window.location = this.props.home_url
+		this.props.navigate_home()
 	}
 
-	ensureACE() {
-		if (ace_injected)
-			return
-
-		console.log('injecting ACE editor…')
-		ace_injected = fetch_inject([ `${ACE_BASE_PATH}/ace.js` ])
-			.then(() => {
-				console.log('ACE injected ✅')
-				return window.ace
-			})
+	componentDidMount() {
+		//console.log('Savegame did mount')
+		ensureACE()
 			.then(ace => {
-				// https://github.com/ajaxorg/ace/wiki/Configuring-Ace
-				ace.config.set('basePath', ACE_BASE_PATH)
-
-
 				const editor = window.ace.edit('ace-editor')
 				editor.setTheme('ace/theme/monokai')
 				editor.session.setMode('ace/mode/json')
@@ -93,20 +101,21 @@ export default class Savegame extends Component {
 				this.editor = editor
 
 				this.onRefresh()
-
-				// for tests
-				//window.xxe = editor
 			})
 	}
 
-	render = () => {
-		this.ensureACE()
+	componentWillUnmount() {
+		//console.log('cleaning ACE editor')
+		this.editor.destroy()
+		this.editor = null
+	}
 
+	render = () => {
 		return (
 			<div className="o⋄top-container o⋄pad⁚0 page--savegame">
 				<div className="o⋄flex--row o⋄pad⁚7">
 					<h2>Savegame editor</h2>
-					<button onClick={() => window.location = this.props.home_url}>Back to game</button>
+					<button onClick={this.props.navigate_home}>Back to game</button>
 					<button onClick={this.onRefresh}>Refresh</button>
 					<button onClick={this.onSave}>💀 Save changes</button>
 					<button onClick={this.onReset}>💀 Reset</button>

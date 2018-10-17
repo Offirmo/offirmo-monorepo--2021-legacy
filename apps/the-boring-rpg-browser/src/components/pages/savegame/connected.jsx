@@ -1,12 +1,21 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router'
 
-import C from './component'
+import Savegame1 from './component'
 import { LS_KEYS } from '../../../services/consts'
 import { ROUTES } from '../../../services/routes'
 
 
-export default class Savegame extends Component {
+class Savegame2 extends Component {
+	navigate_home = () => {
+		this.props.history.push(ROUTES.home)
+	}
+
 	render() {
-		return <C ls_key={LS_KEYS.savegame} home_url={ROUTES.home} />
+		return <Savegame1 ls_key={LS_KEYS.savegame} navigate_home={this.navigate_home} />
 	}
 }
+
+const Savegame3 = withRouter(Savegame2)
+
+export default Savegame3

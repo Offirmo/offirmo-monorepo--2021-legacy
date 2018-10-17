@@ -87,7 +87,14 @@ export default class Component extends React.Component {
 						msg_cta: '⚙ Save/load/reset your savegame',
 						value: 'save',
 						msgg_as_user: () => 'Let’s mess with my savegame…',
-						callback: async () => history.push(ROUTES.savegame),
+						callback: async () => {
+							history.push(ROUTES.savegame)
+							// trick: we'll navigate, causing this chat to be unmounted
+							// which is hard to sync. Delay resolution so that
+							// the chat doesn't try to advance until we're already unmounted.
+							// TODO improve further (intercept return of this func?)
+							return new Promise(resolve => setTimeout(resolve, 2000))
+						}
 					},
 					{
 						msg_cta: 'Reload page ↻',

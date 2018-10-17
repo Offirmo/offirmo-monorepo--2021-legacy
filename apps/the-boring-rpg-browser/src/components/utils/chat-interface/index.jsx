@@ -11,19 +11,6 @@ import './index.css'
 
 
 class ChatBubble extends React.Component {
-	state = {
-		error: null,
-		errorInfo: null,
-	}
-
-	componentDidCatch(error, errorInfo) {
-		// Catch errors in any components below and re-render with error message
-		this.setState({
-			error,
-			errorInfo,
-		})
-	}
-
 	render() {
 		const {direction = 'ltr', children} = this.props
 		const classes = classNames(
@@ -34,17 +21,9 @@ class ChatBubble extends React.Component {
 		)
 		return (
 			<div className={classes}>
-				{this.state.errorInfo
-					? <div className="o⋄error-report">
-							<h2>internal error</h2>
-							<details style={{ whiteSpace: 'pre-wrap' }}>
-								{this.state.error && this.state.error.toString()}
-								<br />
-								{this.state.errorInfo.componentStack}
-							</details>
-						</div>
-					: children
-				}
+				<ErrorBoundary name="chat-bubble">
+					{children}
+				</ErrorBoundary>
 			</div>
 		)
 	}
@@ -73,9 +52,10 @@ class Chat extends React.Component {
 			choices: [],
 			input_resolve_fn: null,
 		}
+		this.mounted = false // need to track to avoid errors before mount and during/after unmounting
 	}
 
-	addBubble(element, {before_mount = false, direction = 'ltr'} = {}) {
+	addBubble(element, {direction = 'ltr'} = {}) {
 		if (!element) return
 
 		const key = this.state.bubble_key + 1
@@ -85,7 +65,7 @@ class Chat extends React.Component {
 			</ChatBubble>
 		)
 
-		if (before_mount) {
+		if (!this.mounted) {
 			this.state.bubbles.push(bubble)
 			this.state.bubble_key++
 		}
@@ -107,6 +87,8 @@ class Chat extends React.Component {
 	}
 
 	componentWillMount() {
+		this.mounted = true
+
 		if (!this.props.gen_next_step)
 			return
 
@@ -133,10 +115,10 @@ class Chat extends React.Component {
 		}
 
 		const spin_until_resolution = anything => {
-			this.setState(s => {spinning: true})
+			if (this.mounted) this.setState(s => {spinning: true})
 			return promiseFinally(
 				Promise.resolve(anything),
-				() => this.setState(s => {spinning: false}),
+				() => { if (this.mounted)  this.setState(s => {spinning: false}) },
 			)
 		}
 
@@ -293,6 +275,7 @@ class Chat extends React.Component {
 
 	componentWillUnmount () {
 		//console.info('chat-ui: componentWillUnmount', arguments)
+		this.mounted = false
 
 		let bubles_to_backup = [].concat(this.state.bubbles)
 		if (this.state.choices)

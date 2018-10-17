@@ -39,7 +39,7 @@ const ROUTES = {
 	index: '/index.html', // technical route for redirection
 
 	// navigable routes
-	home: '',
+	home: '/',
 	//inventory: '/inventory',
 	//character: '/character',
 	//about: '/about',

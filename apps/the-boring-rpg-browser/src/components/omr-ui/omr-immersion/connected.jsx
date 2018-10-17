@@ -10,6 +10,7 @@ const BACKGROUNDS = [
 	'desert',
 	'lost_castle',
 	'cabin_in_cave',
+	'castle_phantom',
 	'civilization',
 	'half_remembered_ruins',
 	'snowcapped_environment',

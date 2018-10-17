@@ -20,6 +20,16 @@
 	background-position: 25%;
 }
 
+.tbrpg⋄bg-image⁚castle_phantom {
+	background-image: url('backgrounds/castle_phantom-raphael_lacoste.jpg');
+	background-position: 51%;
+}
+
+.tbrpg⋄bg-image⁚city_gates {
+	background-image: url('backgrounds/city_gates-andreas_rocha.jpg');
+	background-position: 64%;
+}
+
 .tbrpg⋄bg-image⁚fields_of_gold {
 	background-image: url('backgrounds/fields_of_gold-andreas_rocha.jpg');
 	background-position: 62%;
@@ -33,11 +43,6 @@
 .tbrpg⋄bg-image⁚return_of_the_knight {
 	background-image: url('backgrounds/return_of_the_knight-raphael_lacoste.jpg');
 	background-position: 77%;
-}
-
-.tbrpg⋄bg-image⁚city_gates {
-	background-image: url('backgrounds/city_gates-andreas_rocha.jpg');
-	background-position: 64%;
 }
 
 .tbrpg⋄bg-image⁚north_country {
