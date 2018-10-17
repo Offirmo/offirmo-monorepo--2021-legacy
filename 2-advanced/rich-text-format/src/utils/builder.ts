@@ -67,7 +67,7 @@ function create($type: NodeType): Builder {
 
 	// node ref is auto added into content
 	function pushNode(node: Node, id?: string): Builder {
-		id = id || ('s' + ++sub_id)
+		id = id || ('000' + ++sub_id).slice(-4)
 		$node.$content += `{{${id}}}`
 		return pushRawNode(node, id)
 	}
@@ -105,7 +105,7 @@ function create($type: NodeType): Builder {
 		const kv_node: Node = key_value(key, value).done()
 
 		//id = id || `${Object.keys($node.$sub).length}`
-		id = id || ('s' + ++sub_id)
+		id = id || ('000' + ++sub_id).slice(-4)
 		return pushRawNode(kv_node, id)
 	}
 

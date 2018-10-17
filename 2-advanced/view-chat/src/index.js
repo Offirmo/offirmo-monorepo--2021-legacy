@@ -230,7 +230,7 @@ function create({
 
 				last_answer = await execute_step(step)
 				last_step = step
-			} while(!should_exit)
+			} while (!should_exit)
 			await ui.teardown()
 		}
 		catch (e) {

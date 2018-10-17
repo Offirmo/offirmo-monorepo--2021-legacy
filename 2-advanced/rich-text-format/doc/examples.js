@@ -19,9 +19,9 @@ const {
 /////// parts ///////
 
 const SUB_UL_ITEMS = {
-	2: {$type: 'span', $content: 'ul #2'},
-	1: {$type: 'span', $content: 'ul #1'},
-	3: {$type: 'span', $content: 'ul #3'},
+	'002': {$type: 'span', $content: 'ul #2'},
+	'001': {$type: 'span', $content: 'ul #1'},
+	'003': {$type: 'span', $content: 'ul #3'},
 }
 
 const SUB_UL_KEY_VALUE_PAIRS = {
@@ -127,11 +127,11 @@ function render_item(i) {
 	return render_item_short(i)
 }
 const SUB_UL_ACTIONABLE_ITEMS = {
-	1: DOC_WEAPON_01,
-	2: render_item(DEMO_WEAPON_1),
-	3: render_item(DEMO_ARMOR_1),
-	4: render_item(DEMO_WEAPON_2),
-	5: render_item(DEMO_ARMOR_2),
+	'001': DOC_WEAPON_01,
+	'002': render_item(DEMO_WEAPON_1),
+	'003': render_item(DEMO_ARMOR_1),
+	'004': render_item(DEMO_WEAPON_2),
+	'005': render_item(DEMO_ARMOR_2),
 }
 
 /////// COMPLETE DOCS ///////
@@ -169,9 +169,9 @@ const DOC_DEMO_BASE_TYPES = {
 				ol: {
 					$type: 'ol',
 					$sub: {
-						2: {$type: 'span', $content: 'ol #2'},
-						1: {$type: 'span', $content: 'ol #1'},
-						3: {$type: 'span', $content: 'ol #3'},
+						'002': {$type: 'span', $content: 'ol #2'},
+						'001': {$type: 'span', $content: 'ol #1'},
+						'003': {$type: 'span', $content: 'ol #3'},
 					},
 				},
 			},
@@ -251,9 +251,9 @@ const DOC_DEMO_RPG_02 = {
 	$v: 1,
 	$type: 'ol',
 	$sub: {
-		1: DOC_WEAPON_01,
-		2: DOC_PLACE_01,
-		3: DOC_NPC_01
+		'001': DOC_WEAPON_01,
+		'002': DOC_PLACE_01,
+		'003': DOC_NPC_01
 	},
 }
 
