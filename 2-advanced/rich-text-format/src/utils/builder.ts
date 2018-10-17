@@ -59,8 +59,11 @@ function create($type: NodeType): Builder {
 	}
 
 	// nothing is added in content
-	function pushRawNode(node: Node, id: string): Builder {
-		// XX restrict?
+	// useful for
+	// 1. lists
+	// 2. manual stuff
+	function pushRawNode(node: Node, id?: string): Builder {
+		id = id || ('000' + ++sub_id).slice(-4)
 		$node.$sub[id] = node
 		return builder
 	}
@@ -104,8 +107,6 @@ function create($type: NodeType): Builder {
 
 		const kv_node: Node = key_value(key, value).done()
 
-		//id = id || `${Object.keys($node.$sub).length}`
-		id = id || ('000' + ++sub_id).slice(-4)
 		return pushRawNode(kv_node, id)
 	}
 

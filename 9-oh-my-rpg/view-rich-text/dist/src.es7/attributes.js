@@ -22,7 +22,7 @@ function render_attributes(state) {
         const label = stat;
         const value = state.attributes[stat];
         const $doc_attr = RichText.key_value(label, `${value}`).done();
-        $doc_list.$sub['' + index] = $doc_attr;
+        $doc_list.$sub[`000${index}`.slice(-3)] = $doc_attr;
     });
     const $doc = RichText.block_fragment()
         .pushNode(RichText.heading().pushText('Attributes:').done(), 'header')

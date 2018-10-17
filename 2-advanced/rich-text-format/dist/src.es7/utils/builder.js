@@ -31,8 +31,11 @@ function create($type) {
         return builder;
     }
     // nothing is added in content
+    // useful for
+    // 1. lists
+    // 2. manual stuff
     function pushRawNode(node, id) {
-        // XX restrict?
+        id = id || ('000' + ++sub_id).slice(-4);
         $node.$sub[id] = node;
         return builder;
     }
@@ -66,8 +69,6 @@ function create($type) {
         if ($node.$type !== NodeType.ol && $node.$type !== NodeType.ul)
             throw new Error(`${LIB}: Key/value is intended to be used in a ol/ul only!`);
         const kv_node = key_value(key, value).done();
-        //id = id || `${Object.keys($node.$sub).length}`
-        id = id || ('000' + ++sub_id).slice(-4);
         return pushRawNode(kv_node, id);
     }
     function done() {

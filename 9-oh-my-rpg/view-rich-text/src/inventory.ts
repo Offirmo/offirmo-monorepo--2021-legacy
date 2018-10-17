@@ -41,7 +41,7 @@ function render_equipment(inventory: InventoryState, options?: RenderItemOptions
 			.pushNode($doc_item, 'item')
 			.done()
 
-		$doc_list.$sub[ITEM_SLOTS_TO_INT[slot]] = $doc_line
+		$doc_list.$sub[`000${ITEM_SLOTS_TO_INT[slot]}`.slice(-3)] = $doc_line
 	})
 
 	const $doc = RichText.block_fragment()
@@ -55,9 +55,8 @@ function render_equipment(inventory: InventoryState, options?: RenderItemOptions
 // we want the slots sorted by types according to an arbitrary order
 // = nothing to do, the inventory is auto-sorted
 function render_backpack(inventory: InventoryState, options?: RenderItemOptions): RichText.Document {
-	let $doc_list = RichText.ordered_list()
+	const builder = RichText.ordered_list()
 		.addClass('inventory--backpack')
-		.done()
 
 	const misc_items: Item[] = Array
 		.from(iterables_unslotted(inventory))
@@ -73,11 +72,13 @@ function render_backpack(inventory: InventoryState, options?: RenderItemOptions)
 			reference_powers[i.slot] = item ? appraise_power(item) : 0
 		}
 
-		$doc_list.$sub[index + 1] = render_item_short(i, {
+		builder.pushRawNode(render_item_short(i, {
 			...options,
 			reference_power: reference_powers[i.slot],
-		})
+		}))
 	})
+
+	const $doc_list = builder.done()
 
 	if (Object.keys($doc_list.$sub).length === 0) {
 		// completely empty

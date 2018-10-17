@@ -276,7 +276,14 @@ function walk<State, RenderingOptions>(
 			// I've been bitten by that...
 			const number = Number(key)
 			if (key === number.toString()) {
-				console.warn(`in sub-node '${$id}', the ul/ol key '${key}' suspiciously looks like a number. Beware of auto sorting!`)}
+				console.warn(
+					`in sub-node '${$id}', the ul/ol key '${key}' suspiciously looks like a number. Beware of auto sorting!`,
+					{
+						$node,
+						sorted_keys,
+					}
+				)
+			}
 		})
 		sorted_keys.forEach(key => {
 			const $sub_node: Node = {
