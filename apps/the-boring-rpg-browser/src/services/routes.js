@@ -6,10 +6,10 @@ const BASE_ROUTE = (pathname => {
 	// stable point, everything after is likely to be a route
 	const TOP_SEGMENT_WE_ASSUME_WELL_BE_ALWAYS_SERVED_UNDER = (() => {
 		if (pathname.includes('/the-boring-rpg-browser'))
-			return '/the-boring-rpg-browser' // "dev+" setup
+			return '/the-boring-rpg-browser' // when served by GitHub = "dev+" setup
 
-		if (pathname.includes('/the-boring-rpg-test'))
-			return '/the-boring-rpg-test' // special prod-like test env
+		if (pathname.includes('/the-boring-rpg-preprod'))
+			return '/the-boring-rpg-preprod'
 
 		if (pathname.includes('/the-boring-rpg'))
 			return '/the-boring-rpg' // prod setup

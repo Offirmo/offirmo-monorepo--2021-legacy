@@ -6,3 +6,4 @@ function pollWindowVariable(varname, options) {
 }
 
 export default pollWindowVariable
+export { poll } // for convenience

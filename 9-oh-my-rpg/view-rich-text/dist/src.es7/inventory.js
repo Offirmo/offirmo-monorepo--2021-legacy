@@ -38,9 +38,11 @@ function render_backpack(inventory, options) {
         .from(iterables_unslotted(inventory))
         .filter(i => !!i);
     const reference_powers = {};
+    let item_count = 0;
     misc_items.forEach((i, index) => {
         if (!i)
             return;
+        item_count++;
         if (!reference_powers[i.slot]) {
             const item = get_item_in_slot(inventory, i.slot);
             reference_powers[i.slot] = item ? appraise_power(item) : 0;
@@ -54,7 +56,7 @@ function render_backpack(inventory, options) {
         $doc_list.$sub['-'] = RichText.span().pushText('(empty)').done();
     }
     const $doc = RichText.block_fragment()
-        .pushNode(RichText.heading().pushText('Backpack:').done(), 'header')
+        .pushNode(RichText.heading().pushText(`Backpack: (${item_count}/${inventory.unslotted_capacity})`).done(), 'header')
         .pushNode($doc_list, 'list')
         .done();
     return $doc;

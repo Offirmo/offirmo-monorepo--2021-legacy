@@ -64,8 +64,10 @@ function render_backpack(inventory: InventoryState, options?: RenderItemOptions)
 
 	const reference_powers: any = {}
 
+	let item_count = 0
 	misc_items.forEach((i: Item, index: number) => {
 		if (!i) return
+		item_count++
 
 		if (!reference_powers[i.slot]) {
 			const item = get_item_in_slot(inventory, i.slot)
@@ -87,7 +89,7 @@ function render_backpack(inventory: InventoryState, options?: RenderItemOptions)
 	}
 
 	const $doc = RichText.block_fragment()
-		.pushNode(RichText.heading().pushText('Backpack:').done(), 'header')
+		.pushNode(RichText.heading().pushText(`Backpack: (${item_count}/${inventory.unslotted_capacity})`).done(), 'header')
 		.pushNode($doc_list, 'list')
 		.done()
 
