@@ -5,6 +5,7 @@ import * as RichText from '@offirmo/rich-text-format'
 import { THE_BORING_RPG } from '@offirmo/marketing-rsrc'
 import { SCHEMA_VERSION, GAME_VERSION } from '@oh-my-rpg/state-the-boring-rpg'
 
+import NetlifyWidget from '../../misc/netlify'
 import { Chat } from '../../utils/chat-interface'
 import rich_text_to_react from '../../../services/rich-text-to-react'
 import { VERSION, BUILD_DATE } from '../../../services/build.json'
@@ -117,6 +118,7 @@ export default class Component extends React.Component {
 
 		return (
 			<div className={'tbrpg-panel o⋄flex--column'}>
+				<NetlifyWidget />
 				<div className='panel-top-content o⋄flex-element--nogrow'>
 					{rich_text_to_react(render_meta(state))}
 					<hr/>

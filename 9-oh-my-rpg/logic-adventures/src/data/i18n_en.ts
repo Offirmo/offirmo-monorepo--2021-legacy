@@ -526,6 +526,8 @@ but still ends up with good loot: +{{coin}}, {{item}}...
 
 const OFFIRMO_POPULAR_CULTURE: I18nMessages = {
 
+	// TODO Shrek
+
 	// goblin slayer
 	xxx_goblin_slayer: `
 "The only good goblins are the one who never come out of their stinking holes!"
@@ -578,6 +580,8 @@ You cook an omelette, and gain +{{luck}} luck.
 }
 
 const OFFIRMO_ORIGINAL: I18nMessages = {
+
+	// friend with the dark mage
 
 	// twist on original
 	caravan_failure: `

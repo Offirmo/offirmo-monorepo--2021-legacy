@@ -12,6 +12,10 @@ make luck active
 
 Sets
 
+https://en.wikipedia.org/wiki/List_of_magical_weapons#Arthurian_legend
+https://www.dndbeyond.com/compendium/rules/basic-rules/magic-items#Attunement
+https://en.wikipedia.org/wiki/The_Riddle_of_Steel <- idées de combat
+
 méchants
 http://fandom.wikia.com/articles/grindelwald-vs-voldemort-who-is-more-villainous
 

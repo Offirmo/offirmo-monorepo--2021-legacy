@@ -30,9 +30,19 @@
 	background-position: 64%;
 }
 
+.tbrpg⋄bg-image⁚civilization {
+	background-image: url('backgrounds/civilization-blinck.jpg');
+	background-position: 41%;
+}
+
 .tbrpg⋄bg-image⁚fields_of_gold {
 	background-image: url('backgrounds/fields_of_gold-andreas_rocha.jpg');
 	background-position: 62%;
+}
+
+.tbrpg⋄bg-image⁚gnomon {
+	background-image: url('backgrounds/gnomon-raphael_lacoste.jpg');
+	background-position: 51%;
 }
 
 .tbrpg⋄bg-image⁚journey_to_the_center_of_the_earth {
@@ -58,11 +68,6 @@
 .tbrpg⋄bg-image⁚half_remembered_ruins {
 	background-image: url('backgrounds/half_remembered_ruins-blinck.jpg');
 	background-position: 74%;
-}
-
-.tbrpg⋄bg-image⁚civilization {
-	background-image: url('backgrounds/civilization-blinck.jpg');
-	background-position: 41%;
 }
 
 

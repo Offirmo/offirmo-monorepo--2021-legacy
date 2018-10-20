@@ -11,13 +11,14 @@ const BACKGROUNDS = [
 	'lost_castle',
 	'cabin_in_cave',
 	'castle_phantom',
+	'city_gates',
 	'civilization',
+	'fields_of_gold',
+	'gnomon',
 	'half_remembered_ruins',
 	'snowcapped_environment',
 	'north_country',
-	'city_gates',
 	'return_of_the_knight',
-	'fields_of_gold',
 	'journey_to_the_center_of_the_earth',
 ]
 

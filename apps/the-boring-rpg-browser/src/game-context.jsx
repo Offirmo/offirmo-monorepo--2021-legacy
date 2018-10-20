@@ -37,11 +37,10 @@ SEC.xTry('init client state', ({logger}) => {
 	const netlifyIdentity = poll_window_variable('netlifyIdentity', { timeoutMs: 30 * 1000 })
 
 	game_instance.set_client_state(() => ({
-		CHANNEL,
-		netlifyIdentity,
+		//CHANNEL,
+		netlifyIdentity, // XXX
 		// can change:
 		mode: 'explore',
-		//alpha_warning_displayed: false,
 		recap_displayed: false,
 		last_displayed_adventure_uuid: (() => {
 			const { last_adventure } = game_instance.get_latest_state()
@@ -49,25 +48,7 @@ SEC.xTry('init client state', ({logger}) => {
 		})()
 	}))
 
-	netlifyIdentity.then(NetlifyIdentity => {
-		console.info('Netlify Identity loaded ✅')
 
-		//NetlifyIdentity.open('signup')
-		/*NetlifyIdentity.init({
-           container: '#netlify-modal' // defaults to document.body,
-       });*/
-
-		/*NetlifyIdentity.open(); // open the modal
-       NetlifyIdentity.open('login'); // open the modal to the login tab
-       NetlifyIdentity.open('signup'); // open the modal to the signup tab*/
-
-		NetlifyIdentity.on('init', user => console.info('netlify init', user));
-		NetlifyIdentity.on('login', user => console.info('netlify login', user));
-		NetlifyIdentity.on('logout', () => console.info('netlify Logged out'));
-		NetlifyIdentity.on('error', err => console.error('netlify error', err));
-		NetlifyIdentity.on('open', () => console.info('netlify Widget opened'));
-		NetlifyIdentity.on('close', () => console.info('netlify Widget closed'));
-	})
 })
 
 

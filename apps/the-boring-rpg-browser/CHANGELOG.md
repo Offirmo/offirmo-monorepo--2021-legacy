@@ -10,6 +10,10 @@ This file is just for taking notes for the next Reddit post.
 /////////////
 
 NEXT
+- 😍 feature: 1 new background (now totalling 14)
+
+
+2018/10/18 v0.52.20
 - 😍 feature: 1 new background
 - 🤩 feature: 15 new adventures (now totalling 110!)
 - 😍 feature: cleaned and uniformized existing adventures (usage of past tense)
