@@ -70,6 +70,7 @@ export default class NetlifyIdentity extends Component {
 
 				NetlifyIdentity.on('init', user => console.info('<NetlifyIdentity /> init', user));
 
+				// note: called only on FRESH login
 				NetlifyIdentity.on('login', user => {
 					console.info('<NetlifyIdentity /> login', user)
 					this.setState({
@@ -86,7 +87,10 @@ export default class NetlifyIdentity extends Component {
 					})
 				})
 
-				NetlifyIdentity.on('error', err => console.error('<NetlifyIdentity /> error', err));
+				NetlifyIdentity.on('error', err => {
+					console.error('<NetlifyIdentity /> error', err)
+					throw err // to be caught by Sentry
+				});
 
 				NetlifyIdentity.on('open', () => {
 					console.info('<NetlifyIdentity /> Widget opened')
@@ -112,6 +116,10 @@ export default class NetlifyIdentity extends Component {
 					user.jwt()
 						.then(() => {
 							console.log('<NetlifyIdentity /> user refreshed', user)
+							this.setState({
+								state: STATES.LOGGED_IN,
+								user,
+							})
 						})
 						/* not handled for now, we'll see in Sentry if that happens
 						.catch(err => {

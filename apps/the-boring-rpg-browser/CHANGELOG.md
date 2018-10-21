@@ -11,6 +11,7 @@ This file is just for taking notes for the next Reddit post.
 
 NEXT
 - 😍 feature: 1 new background (now totalling 14)
+- 🤩 feature: users can now login (will unlock features in the future)
 
 
 2018/10/18 v0.52.20
