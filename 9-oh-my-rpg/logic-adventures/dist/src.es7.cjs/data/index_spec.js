@@ -40,8 +40,8 @@ describe('@oh-my-rpg/logic-adventures - data:', function () {
             'luck',
             'strength',
             'wisdom',
-            'lowest_attribute',
             'random_attribute',
+            'lowest_attribute',
             'class_primary_attribute',
             'class_secondary_attribute',
             'armor',
@@ -96,6 +96,8 @@ describe('@oh-my-rpg/logic-adventures - data:', function () {
                 if (stats_adjustments[gain_key])
                     text += ` (+${stats_adjustments[gain_key]})`;
                 console.log(text);
+                if (gain_key === 'level' || gain_key === 'wisdom')
+                    console.log('-------');
             });
         });
         it('auto helps to fix the errors', () => {

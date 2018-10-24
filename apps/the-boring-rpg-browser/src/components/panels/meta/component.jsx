@@ -65,9 +65,6 @@ export default class Component extends React.Component {
 
 		do {
 			const steps = []
-			//const state = game_instance.get_latest_state()
-			//const ui_state = game_instance.get_client_state()
-			//console.log({ui_state, state})
 
 			steps.push({
 				msg_main: 'What do you want to do?',
@@ -113,8 +110,7 @@ export default class Component extends React.Component {
 
 	render() {
 		const { game_instance } = this.props
-		const state = game_instance.get_latest_state()
-		//const client_state = game_instance.get_client_state()
+		const state = game_instance.model.get_state()
 
 		return (
 			<div className={'tbrpg-panel o⋄flex--column'}>

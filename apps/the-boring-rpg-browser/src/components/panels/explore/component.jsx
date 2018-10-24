@@ -17,8 +17,8 @@ export default class Component extends React.Component {
 
 		do {
 			const steps = []
-			const state = game_instance.get_latest_state()
-			const ui_state = game_instance.get_client_state()
+			const state = game_instance.model.get_state()
+			const ui_state = game_instance.view.get_state()
 			const { last_adventure } = state
 			const energy_snapshot = get_energy_snapshot(state.energy)
 
@@ -27,7 +27,7 @@ export default class Component extends React.Component {
 					type: 'simple_message',
 					msg_main: rich_text_to_react(tbrpg.get_recap(state)),
 				})
-				game_instance.set_client_state(() => ({
+				game_instance.view.set_state(() => ({
 					recap_displayed: true,
 				}))
 			}
@@ -54,7 +54,7 @@ export default class Component extends React.Component {
 					),
 				})
 
-				game_instance.set_client_state(() => ({
+				game_instance.view.set_state(() => ({
 					last_displayed_adventure_uuid: last_adventure.uuid,
 				}))
 			}
@@ -75,7 +75,7 @@ export default class Component extends React.Component {
 							msg_cta: 'Manage Inventory (equip, sell…)',
 							value: 'inventory',
 							msgg_as_user: () => 'Let’s sort out my stuff.',
-							callback: () => game_instance.set_client_state(() => ({ mode: 'inventory' })),
+							callback: () => game_instance.view.set_state(() => ({ mode: 'inventory' })),
 						},
 					],
 				})
@@ -92,7 +92,7 @@ export default class Component extends React.Component {
 							value: 'play',
 							msgg_as_user: () => 'Let’s go adventuring!',
 							callback: () => {
-								game_instance.play()
+								game_instance.reducers.play()
 							},
 						},
 					],
@@ -105,7 +105,7 @@ export default class Component extends React.Component {
 
 	render() {
 		const { game_instance } = this.props
-		const client_state = game_instance.get_client_state()
+		const client_state = game_instance.view.get_state()
 		return (
 			<div className={'o⋄top-container tbrpg-panel'}>
 				<ErrorBoundary name={'chat:explore'}>
@@ -113,7 +113,7 @@ export default class Component extends React.Component {
 						initial_bubbles={client_state.home_bubbles}
 						gen_next_step={this.gen_next_step()}
 						on_unmount={(bubbles) => {
-							game_instance.set_client_state(() => ({
+							game_instance.view.set_state(() => ({
 								home_bubbles: bubbles,
 							}))
 						}}

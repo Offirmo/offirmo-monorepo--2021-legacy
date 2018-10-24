@@ -10,7 +10,7 @@ export default props => (
 			return (
 				<Component
 					{...props}
-					onClick={() => game_instance.execute_serialized_action(action)}
+					onClick={() => game_instance.reducers.execute_serialized_action(action)}
 				/>)
 		}}
 	</GameContext.Consumer>

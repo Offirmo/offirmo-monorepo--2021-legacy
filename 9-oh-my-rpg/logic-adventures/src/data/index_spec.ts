@@ -56,8 +56,8 @@ describe('@oh-my-rpg/logic-adventures - data:', function () {
 			'strength',
 			'wisdom',
 
-			'lowest_attribute',
 			'random_attribute',
+			'lowest_attribute',
 			'class_primary_attribute',
 			'class_secondary_attribute',
 
@@ -124,6 +124,8 @@ describe('@oh-my-rpg/logic-adventures - data:', function () {
 					text += ` (+${stats_adjustments[gain_key]})`
 
 				console.log(text)
+				if (gain_key === 'level' || gain_key === 'wisdom')
+					console.log('-------')
 			})
 		})
 

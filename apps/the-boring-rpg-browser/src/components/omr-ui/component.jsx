@@ -25,7 +25,7 @@ export default class TheBoringRPG extends Component {
 	}
 
 	static getDerivedStateFromProps(nextProps, prevState) {
-		const new_state = nextProps.game_instance.get_latest_state()
+		const new_state = nextProps.game_instance.model.get_state()
 		const avatar_name = new_state.avatar.name
 		if (avatar_name === prevState.chat_nickname)
 			return null // no update needed
@@ -55,18 +55,18 @@ export default class TheBoringRPG extends Component {
 	}
 
 	activate_panel = (panel_id) => {
-		this.props.game_instance.set_client_state(() => ({
+		this.props.game_instance.view.set_state(() => ({
 			mode: panel_id,
 		}))
 	}
 
 	toggle_character_panel = () => {
-		const { mode } = this.props.game_instance.get_client_state()
+		const { mode } = this.props.game_instance.view.get_state()
 		this.activate_panel(mode === 'explore' ? 'character' : 'explore')
 	}
 
 	render() {
-		const { mode } = this.props.game_instance.get_client_state()
+		const { mode } = this.props.game_instance.view.get_state()
 
 		return (
 			<OhMyRpg

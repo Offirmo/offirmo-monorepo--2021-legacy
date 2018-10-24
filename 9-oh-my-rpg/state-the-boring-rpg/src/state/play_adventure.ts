@@ -80,7 +80,7 @@ const PRIMARY_STATS_BY_CLASS = {
 	[CharacterClass.novice]:    ['health', 'mana', 'strength', 'agility', 'charisma', 'wisdom', 'luck'],
 	[CharacterClass.warrior]:   ['strength'],
 	[CharacterClass.barbarian]: ['strength'],
-	[CharacterClass.paladin]:   ['strength'],
+	[CharacterClass.paladin]:   ['strength', 'mana'],
 	[CharacterClass.sculptor]:  ['agility'],
 	[CharacterClass.pirate]:    ['luck'],
 	[CharacterClass.ninja]:     ['agility'],
@@ -94,7 +94,7 @@ const SECONDARY_STATS_BY_CLASS = {
 	[CharacterClass.novice]:    ['health', 'mana', 'strength', 'agility', 'charisma', 'wisdom', 'luck'],
 	[CharacterClass.warrior]:   ['health'],
 	[CharacterClass.barbarian]: ['health'],
-	[CharacterClass.paladin]:   ['mana'],
+	[CharacterClass.paladin]:   ['health'],
 	[CharacterClass.sculptor]:  ['charisma'],
 	[CharacterClass.pirate]:    ['charisma'],
 	[CharacterClass.ninja]:     ['health'],
@@ -104,10 +104,9 @@ const SECONDARY_STATS_BY_CLASS = {
 	[CharacterClass.druid]:     ['strength'],
 	[CharacterClass.priest]:    ['wisdom'],
 }
+
 function instantiate_adventure_archetype(rng: Engine, aa: AdventureArchetype, character: CharacterState, inventory: InventoryState.State): Adventure {
 	let {hid, good, type, outcome : should_gain} = aa
-
-	//should_gain = {...should_gain}
 
 	// instantiate the special gains
 	if (should_gain.random_attribute) {
@@ -179,9 +178,9 @@ function receive_stat_increase(state: Readonly<State>, stat: CharacterAttribute,
 }
 
 function receive_item(state: Readonly<State>, item: Item): Readonly<State> {
+	// inventory shouldn't be full since we prevent playing in this case
 	return {
 		...state,
-		// TODO handle inventory full
 		inventory: InventoryState.add_item(state.inventory, item),
 	}
 }
@@ -217,8 +216,6 @@ function play_adventure(state: Readonly<State>, aa: AdventureArchetype): Readonl
 	}
 
 	const {gains : gained} = adventure
-
-	// TODO store hid for no repetition
 
 	let gain_count = 0
 	if (gained.level) {
@@ -296,7 +293,7 @@ function play_adventure(state: Readonly<State>, aa: AdventureArchetype): Readonl
 	state = {
 		...state,
 		prng: PRNGState.update_use_count(state.prng, rng, {
-			// we can't know because it depend on the adventure,
+			// we can't know because it depends on the adventure,
 			// ex. generate a random weapon
 			I_swear_I_really_cant_know_whether_the_rng_was_used: true
 		}),

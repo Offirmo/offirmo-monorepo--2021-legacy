@@ -74,6 +74,7 @@ interface State {
 	last_adventure: Adventure | null
 	energy: EnergyState
 
+	// TODO move in dedicated state
 	// TODO rename click to something more generic
 	click_count: number
 	good_click_count: number

@@ -24,7 +24,7 @@ const PRIMARY_STATS_BY_CLASS = {
     [state_character_1.CharacterClass.novice]: ['health', 'mana', 'strength', 'agility', 'charisma', 'wisdom', 'luck'],
     [state_character_1.CharacterClass.warrior]: ['strength'],
     [state_character_1.CharacterClass.barbarian]: ['strength'],
-    [state_character_1.CharacterClass.paladin]: ['strength'],
+    [state_character_1.CharacterClass.paladin]: ['strength', 'mana'],
     [state_character_1.CharacterClass.sculptor]: ['agility'],
     [state_character_1.CharacterClass.pirate]: ['luck'],
     [state_character_1.CharacterClass.ninja]: ['agility'],
@@ -38,7 +38,7 @@ const SECONDARY_STATS_BY_CLASS = {
     [state_character_1.CharacterClass.novice]: ['health', 'mana', 'strength', 'agility', 'charisma', 'wisdom', 'luck'],
     [state_character_1.CharacterClass.warrior]: ['health'],
     [state_character_1.CharacterClass.barbarian]: ['health'],
-    [state_character_1.CharacterClass.paladin]: ['mana'],
+    [state_character_1.CharacterClass.paladin]: ['health'],
     [state_character_1.CharacterClass.sculptor]: ['charisma'],
     [state_character_1.CharacterClass.pirate]: ['charisma'],
     [state_character_1.CharacterClass.ninja]: ['health'],
@@ -50,7 +50,6 @@ const SECONDARY_STATS_BY_CLASS = {
 };
 function instantiate_adventure_archetype(rng, aa, character, inventory) {
     let { hid, good, type, outcome: should_gain } = aa;
-    //should_gain = {...should_gain}
     // instantiate the special gains
     if (should_gain.random_attribute) {
         const stat = random_1.Random.pick(rng, STATS);
@@ -113,9 +112,8 @@ function receive_stat_increase(state, stat, amount = 1) {
     return Object.assign({}, state, { avatar: state_character_1.increase_stat(sec_1.get_lib_SEC(), state.avatar, stat, amount) });
 }
 function receive_item(state, item) {
-    return Object.assign({}, state, { 
-        // TODO handle inventory full
-        inventory: InventoryState.add_item(state.inventory, item) });
+    // inventory shouldn't be full since we prevent playing in this case
+    return Object.assign({}, state, { inventory: InventoryState.add_item(state.inventory, item) });
 }
 exports.receive_item = receive_item;
 function receive_coins(state, amount) {
@@ -130,7 +128,6 @@ function play_adventure(state, aa) {
     const adventure = instantiate_adventure_archetype(rng, aa, state.avatar, state.inventory);
     state = Object.assign({}, state, { last_adventure: adventure });
     const { gains: gained } = adventure;
-    // TODO store hid for no repetition
     let gain_count = 0;
     if (gained.level) {
         gain_count++;
@@ -199,7 +196,7 @@ function play_adventure(state, aa) {
     if (aa.good && !gain_count)
         throw new Error(`${consts_1.LIB}: play_adventure() for "good click" hid "${aa.hid}" unexpectedly resulted in NO gains!`);
     state = Object.assign({}, state, { prng: PRNGState.update_use_count(state.prng, rng, {
-            // we can't know because it depend on the adventure,
+            // we can't know because it depends on the adventure,
             // ex. generate a random weapon
             I_swear_I_really_cant_know_whether_the_rng_was_used: true
         }) });

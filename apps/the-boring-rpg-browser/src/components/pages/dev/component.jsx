@@ -9,8 +9,8 @@ import { render_meta } from '../../panels/meta/component'
 import './index.css'
 
 export default function Dev({game_instance}) {
-	const state = game_instance.get_latest_state()
-	const client_state = game_instance.get_client_state()
+	const state = game_instance.model.get_state()
+	const client_state = game_instance.view.get_state()
 	let tip_doc = tbrpg.get_tip(state)
 
 	const interactive_items = [

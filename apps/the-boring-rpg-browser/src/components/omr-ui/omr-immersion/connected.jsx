@@ -27,8 +27,8 @@ export default props => (
 		{omr => (
 			<GameContextConsumerListener>
 				{game_instance => {
-					const {mode} = game_instance.get_client_state()
-					const state = game_instance.get_latest_state()
+					const {mode} = game_instance.view.get_state()
+					const state = game_instance.model.get_state()
 
 					return (
 						<Component

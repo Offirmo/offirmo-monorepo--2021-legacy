@@ -20,8 +20,8 @@ export default class Component extends React.Component {
 
 		do {
 			const steps = []
-			const state = game_instance.get_latest_state()
-			const ui_state = game_instance.get_client_state()
+			const state = game_instance.model.get_state()
+			const ui_state = game_instance.view.get_state()
 			//console.log({ui_state, state})
 
 			if (ui_state.character_changing_class) {
@@ -35,8 +35,8 @@ export default class Component extends React.Component {
 							msgg_as_user: () => `I want to follow the path of the ${klass}!`,
 							msgg_acknowledge: () => `You’ll make an amazing ${klass}.`,
 							callback: value => {
-								game_instance.change_avatar_class(value)
-								game_instance.set_client_state(() => ({
+								game_instance.reducers.change_avatar_class(value)
+								game_instance.view.set_state(() => ({
 									character_changing_class: false,
 								}))
 							}
@@ -56,8 +56,8 @@ export default class Component extends React.Component {
 					callback: value => {
 						console.log({value, type: typeof value})
 						if (value)
-							game_instance.rename_avatar(value)
-						game_instance.set_client_state(() => ({
+							game_instance.reducers.rename_avatar(value)
+						game_instance.view.set_state(() => ({
 							character_changing_name: false,
 						}))
 					},
@@ -72,7 +72,7 @@ export default class Component extends React.Component {
 							value: 'c',
 							msgg_as_user: () => 'I want to follow the path of…',
 							callback: () => {
-								game_instance.set_client_state(() => ({
+								game_instance.view.set_state(() => ({
 									character_changing_class: true,
 								}))
 							}
@@ -82,7 +82,7 @@ export default class Component extends React.Component {
 							value: 'r',
 							msgg_as_user: () => 'Let’s fix my name…',
 							callback: () => {
-								game_instance.set_client_state(() => ({
+								game_instance.view.set_state(() => ({
 									character_changing_name: true,
 								}))
 							}
@@ -98,7 +98,7 @@ export default class Component extends React.Component {
 	render() {
 		console.log('Character is refreshing')
 		const { game_instance } = this.props
-		const state = game_instance.get_latest_state()
+		const state = game_instance.model.get_state()
 
 		return (
 			<div className={'tbrpg-panel tbrpg-panel--character o⋄flex--column'}>

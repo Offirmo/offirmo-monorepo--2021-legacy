@@ -33,7 +33,6 @@ const ENTRIES = [
     { good: true, type: story, hid: 'found_orange_mushroom', outcome: { charisma: true } },
     { good: true, type: story, hid: 'found_black_mushroom', outcome: { wisdom: true } },
     { good: true, type: story, hid: 'found_rainbow_mushroom', outcome: { luck: true } },
-    { good: true, type: story, hid: 'found_random_mushroom', outcome: { random_attribute: true } },
     { good: true, type: story, hid: 'meet_old_wizard', outcome: { wisdom: true } },
     { good: true, type: story, hid: 'good_necromancer', outcome: { agility: true } },
     { good: true, type: story, hid: 'talk_to_all_villagers', outcome: { charisma: true } },
@@ -115,12 +114,14 @@ const ENTRIES = [
     { good: true, type: story, hid: 'riddle_of_steel', outcome: { armor_or_weapon_improvement: true } },
     { good: true, type: story, hid: 'give_a_shield', outcome: { armor: true } },
     { good: true, type: story, hid: 'king_reward', outcome: { armor_or_weapon: true, token: 1 } },
+    { good: true, type: story, hid: 'chilies', outcome: { class_primary_attribute: true } },
+    { good: true, type: story, hid: 'bards', outcome: { charisma: true } },
     // those stories are not hinting a a specific attribute,
     // thus can be used as a distribution adjustment
     // (if aligned, use 'random_attribute')
     { good: true, type: story, hid: 'dragon_kebab', outcome: { charisma: true } },
+    { good: true, type: story, hid: 'found_random_mushroom', outcome: { random_attribute: true } },
     { good: true, type: story, hid: 'elven_hydromel', outcome: { luck: true } },
-    { good: true, type: story, hid: 'chilies', outcome: { charisma: true } },
     { good: true, type: story, hid: 'found_vermilion_potion', outcome: { charisma: true } },
     { good: true, type: story, hid: 'found_silver_potion', outcome: { luck: true } },
     { good: true, type: story, hid: 'found_swirling_potion', outcome: { strength: true } },

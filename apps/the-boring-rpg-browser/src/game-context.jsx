@@ -27,7 +27,7 @@ SEC.xTry('loading savegame + creating game instance', ({logger}) => {
 		SEC,
 		get_latest_state: () => state,
 		persist_state: new_state => {
-			state = new_state // we are responsible for storing current state
+			state = new_state // we are responsible for storing current state, see get_latest_state()
 			localStorage.setItem(LS_KEYS.savegame, JSON.stringify(state))
 		},
 	})
@@ -36,14 +36,14 @@ SEC.xTry('loading savegame + creating game instance', ({logger}) => {
 SEC.xTry('init client state', ({logger}) => {
 	const netlifyIdentity = poll_window_variable('netlifyIdentity', { timeoutMs: 30 * 1000 })
 
-	game_instance.set_client_state(() => ({
+	game_instance.view.set_state(() => ({
 		//CHANNEL,
 		netlifyIdentity, // XXX
 		// can change:
 		mode: 'explore',
 		recap_displayed: false,
 		last_displayed_adventure_uuid: (() => {
-			const { last_adventure } = game_instance.get_latest_state()
+			const { last_adventure } = game_instance.model.get_state()
 			return last_adventure && last_adventure.uuid
 		})()
 	}))

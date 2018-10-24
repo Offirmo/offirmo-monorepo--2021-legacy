@@ -236,6 +236,15 @@ Well, a new weapon is always welcome: {{weapon}}!
 You loot a nice piece of armor but unfortunately it matches badly your existing ones...
 No way, style is important for a hero! You ditch the piece of armor for coin: +{{coin}} coin!`,
 };
+const OFFIRMO_INSPIRED_FROM_NET_RSRCS = {
+    // My potions would kill you traveler. You can't handle my potions.
+    // http://orteil.dashnet.org/gamegen
+    bards: `
+Bards start writing songs about you.
+This fame helps you when dealing with humans.
+You gain +{{charisma}} charisma!
+`,
+};
 const OFFIRMO_INSPIRED_FROM_INSTAGRAM_POSTS = {
     // TODO RPG hooks Instagram
     // https://www.instagram.com/p/BorAmImhT-f/
@@ -414,11 +423,16 @@ You cook an omelette, and gain +{{luck}} luck.
 		`,
 };
 const OFFIRMO_ORIGINAL = {
-    // H.
+    // from H.
     foodie_friend: `
 You meet with you foodie friend.
 He convinces you to try the latest magic treats.
 You gain extra energy (+{{health}} health) and a bit of weight!
+	`,
+    chilies: `
+At the adventuring guild party, you pickup a treat.
+Turns out it's made of magic chilies and you can't feel your face anymore!
+Once the pain is gone (one day later!) you feel better than ever, you gained +{{attr}} !
 	`,
     // friend with the dark mage
     // twist on original
@@ -624,11 +638,6 @@ Through this magical food, you gain +{{attr}} !
 You have the chance to taste the legendary elven hydromel!
 Through this magical drink, you gain +{{attr}} !
 	`,
-    chilies: `
-At the adventuring guild party, you pickup a treat.
-Turns out it's made of magic chilies and you can't feel your face anymore!
-Once the pain is gone (one day later!) you feel better than ever, you gained +{{attr}} !
-	`,
     // potions
     // https://www.reddit.com/r/DnDBehindTheScreen/comments/4btnkc/random_potions_table/
     // see "appearance"
@@ -656,7 +665,7 @@ You read it and learn from their failure: +{{attr}} {{attr_name}}!`,
 // but they'll be automatically removed, see bottom of this file.
 // use {{br}} for actual line returns.
 const raw_messages = {
-    adventures: Object.assign({}, BAD_ADVENTURES, FIGHT_ADVENTURES, SCAVENGED_ORIGINAL_ADVENTURES, OFFIRMO_MUSHROOMS_AND_MISC, OFFIRMO_INSPIRED_FROM_RPG_MEMES_FROM_THE_NET, OFFIRMO_INSPIRED_FROM_INSTAGRAM_POSTS, OFFIRMO_GAMING_CULTURE, OFFIRMO_POPULAR_CULTURE, OFFIRMO_ORIGINAL, OFFIRMO_BLAND_REPARTITION_ADJUSTMENT)
+    adventures: Object.assign({}, BAD_ADVENTURES, FIGHT_ADVENTURES, SCAVENGED_ORIGINAL_ADVENTURES, OFFIRMO_MUSHROOMS_AND_MISC, OFFIRMO_INSPIRED_FROM_RPG_MEMES_FROM_THE_NET, OFFIRMO_INSPIRED_FROM_NET_RSRCS, OFFIRMO_INSPIRED_FROM_INSTAGRAM_POSTS, OFFIRMO_GAMING_CULTURE, OFFIRMO_POPULAR_CULTURE, OFFIRMO_ORIGINAL, OFFIRMO_BLAND_REPARTITION_ADJUSTMENT)
 };
 const messages = {
     adventures: {}

@@ -218,28 +218,12 @@ You gained +{{attr}} {{attr_name}}!`,
 
 const OFFIRMO_INSPIRED_FROM_RPG_MEMES_FROM_THE_NET: I18nMessages = {
 
-	// My potions would kill you traveler. You can't handle my potions.
-
 	// https://swordscomic.com/swords/VI/
 	// https://swordscomic.com/swords/IX/
 	// https://swordscomic.com/swords/XI/
 	// https://swordscomic.com/swords/XII/
 	// https://swordscomic.com/swords/XIII/
 	// https://swordscomic.com/swords/XVII/
-
-	// http://orteil.dashnet.org/gamegen
-	// bards write songs about you +charisma
-	// you free some elementals. They reward you with training suited to your class.
-	// you have superhuman luck
-	// you battle mages to unravel the fabric of reality. mana
-	// you destroy a few parallel worlds with cyborgs.
-	// you mine ore
-	// you craft some stuff
-	// you saved the world
-	// tower
-	// ruin
-	// sewers
-	// catacombs
 
 	// electricbunnycomics.com
 	good_necromancer: `
@@ -361,6 +345,28 @@ Well, a new weapon is always welcome: {{weapon}}!
 You loot a nice piece of armor but unfortunately it matches badly your existing ones...
 No way, style is important for a hero! You ditch the piece of armor for coin: +{{coin}} coin!`,
 
+}
+
+const OFFIRMO_INSPIRED_FROM_NET_RSRCS: I18nMessages = {
+
+	// My potions would kill you traveler. You can't handle my potions.
+	// http://orteil.dashnet.org/gamegen
+	bards: `
+Bards start writing songs about you.
+This fame helps you when dealing with humans.
+You gain +{{charisma}} charisma!
+`,
+	// you free some elementals. They reward you with training suited to your class.
+	// you have superhuman luck
+	// you battle mages to unravel the fabric of reality. mana
+	// you destroy a few parallel worlds with cyborgs.
+	// you mine ore
+	// you craft some stuff
+	// you saved the world
+	// tower
+	// ruin
+	// sewers
+	// catacombs
 }
 
 const OFFIRMO_INSPIRED_FROM_INSTAGRAM_POSTS: I18nMessages = {
@@ -886,6 +892,7 @@ const raw_messages: I18nMessages = {
 
 		...OFFIRMO_MUSHROOMS_AND_MISC,
 		...OFFIRMO_INSPIRED_FROM_RPG_MEMES_FROM_THE_NET,
+		...OFFIRMO_INSPIRED_FROM_NET_RSRCS,
 		...OFFIRMO_INSPIRED_FROM_INSTAGRAM_POSTS,
 		...OFFIRMO_GAMING_CULTURE,
 		...OFFIRMO_POPULAR_CULTURE,

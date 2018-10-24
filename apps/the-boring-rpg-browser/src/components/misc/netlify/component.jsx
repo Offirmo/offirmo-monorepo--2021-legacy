@@ -142,7 +142,7 @@ export default class NetlifyIdentity extends Component {
 	}
 
 	render() {
-		console.log('<NetlifyIdentity /> Render')
+		//console.log('<NetlifyIdentity /> Render')
 
 		switch (this.state.state) {
 			case STATES.WAITING_FOR_LIB:

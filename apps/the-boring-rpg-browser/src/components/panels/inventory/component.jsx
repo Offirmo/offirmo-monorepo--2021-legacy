@@ -10,7 +10,7 @@ export default class Component extends React.Component {
 	render() {
 		console.log('Inventory is refreshing')
 		const { game_instance } = this.props
-		const state = game_instance.get_latest_state()
+		const state = game_instance.model.get_state()
 
 		return (
 			<div className={'tbrpg-panel tbrpg-panel--inventory o⋄flex--column'}>

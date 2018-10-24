@@ -3,7 +3,7 @@
 const opn = require('opn')
 
 const tbrpg = require('@oh-my-rpg/state-the-boring-rpg')
-const {URL_OF_REPO, URL_OF_FORK, URL_OF_ISSUES, URL_OF_PRODUCT_HUNT_PAGE, URL_OF_REDDIT_PAGE} = require('@oh-my-rpg/state-the-boring-rpg')
+const {URL_OF_REPO, URL_OF_FORK, URL_OF_ISSUES, URL_OF_PRODUCT_HUNT_PAGE} = require('@oh-my-rpg/state-the-boring-rpg')
 
 const { iterables_unslotted, get_item_in_slot } = require('@oh-my-rpg/state-inventory')
 const { create: create_tty_chat_ui } = require('@offirmo/view-chat-ui-tty')

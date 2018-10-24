@@ -27,6 +27,7 @@ https://github.com/SamVerschueren/listr
 https://github.com/sindresorhus/ora
 https://github.com/sindresorhus/term-img
 https://github.com/cronvel/terminal-kit
+https://github.com/victorqribeiro/imgToAscii
 
 
 https://www.npmjs.com/package/computer-name

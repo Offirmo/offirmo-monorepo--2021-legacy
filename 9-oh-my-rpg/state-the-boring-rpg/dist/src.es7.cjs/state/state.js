@@ -18,42 +18,12 @@ const logic_weapons_1 = require("@oh-my-rpg/logic-weapons");
 const logic_armors_1 = require("@oh-my-rpg/logic-armors");
 /////////////////////
 const consts_1 = require("../consts");
-const types_1 = require("../types");
-exports.GainType = types_1.GainType;
 const selectors_1 = require("../selectors");
-const serializable_actions_1 = require("../serializable_actions");
 const sec_1 = require("../sec");
 const play_adventure_1 = require("./play_adventure");
 const play_good_1 = require("./play_good");
 const play_bad_1 = require("./play_bad");
 /////////////////////
-function get_actions_for_unslotted_item(state, uuid) {
-    const actions = [];
-    const equip = {
-        type: serializable_actions_1.ActionType.equip_item,
-        category: serializable_actions_1.ActionCategory.inventory,
-        expected_state_revision: state.revision,
-        target_uuid: uuid,
-    };
-    actions.push(equip);
-    const sell = {
-        type: serializable_actions_1.ActionType.sell_item,
-        category: serializable_actions_1.ActionCategory.inventory,
-        expected_state_revision: state.revision,
-        target_uuid: uuid,
-    };
-    actions.push(sell);
-    return actions;
-}
-function get_actions_for_element(state, uuid) {
-    const actions = [];
-    const as_unslotted_item = InventoryState.get_unslotted_item(state.inventory, uuid);
-    if (as_unslotted_item)
-        actions.push(...get_actions_for_unslotted_item(state, uuid));
-    return actions;
-}
-exports.get_actions_for_element = get_actions_for_element;
-///////
 function create(SEC) {
     return sec_1.get_lib_SEC(SEC).xTry('create', ({ enforce_immutability }) => {
         let state = {
@@ -144,28 +114,5 @@ function change_avatar_class(state, new_class) {
     return state;
 }
 exports.change_avatar_class = change_avatar_class;
-/////////////////////
-function execute(state, action) {
-    const { expected_state_revision } = action;
-    if (expected_state_revision) {
-        if (state.revision !== expected_state_revision)
-            throw new Error('Trying to execute an outdated action!');
-    }
-    switch (action.type) {
-        case serializable_actions_1.ActionType.play:
-            return play(state);
-        case serializable_actions_1.ActionType.equip_item:
-            return equip_item(state, action.target_uuid);
-        case serializable_actions_1.ActionType.sell_item:
-            return sell_item(state, action.target_uuid);
-        case serializable_actions_1.ActionType.rename_avatar:
-            return rename_avatar(state, action.new_name);
-        case serializable_actions_1.ActionType.change_avatar_class:
-            return change_avatar_class(state, action.new_class);
-        default:
-            throw new Error('Unrecognized action!');
-    }
-}
-exports.execute = execute;
 /////////////////////
 //# sourceMappingURL=state.js.map

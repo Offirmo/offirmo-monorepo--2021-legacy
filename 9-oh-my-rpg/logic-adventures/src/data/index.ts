@@ -138,6 +138,7 @@ const ENTRIES: RawAdventureArchetypeEntry[] = [
 	{ good: true, type: story, hid: 'give_a_shield',                outcome: { armor: true }},
 	{ good: true, type: story, hid: 'king_reward',                  outcome: { armor_or_weapon: true, token: 1 }},
 	{ good: true, type: story, hid: 'chilies',                      outcome: { class_primary_attribute: true }},
+	{ good: true, type: story, hid: 'bards',                        outcome: { charisma: true }},
 
 	// those stories are not hinting a a specific attribute,
 	// thus can be used as a distribution adjustment

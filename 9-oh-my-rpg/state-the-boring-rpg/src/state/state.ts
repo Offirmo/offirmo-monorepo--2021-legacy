@@ -33,7 +33,6 @@ import {
 import {
 	Weapon,
 	create as create_weapon,
-	DEMO_WEAPON_1,
 } from '@oh-my-rpg/logic-weapons'
 
 import {
@@ -41,44 +40,15 @@ import {
 	create as create_armor,
 } from '@oh-my-rpg/logic-armors'
 
-import {
-	DEMO_MONSTER_01,
-} from '@oh-my-rpg/logic-monsters'
-
-
-import {
-	CoinsGain,
-	OutcomeArchetype,
-	AdventureType,
-	AdventureArchetype,
-
-	get_archetype,
-	pick_random_good_archetype,
-	pick_random_bad_archetype,
-	generate_random_coin_gain,
-} from '@oh-my-rpg/logic-adventures'
-
 /////////////////////
 
 import { SCHEMA_VERSION } from '../consts'
 
-import {
-	State,
-	GainType,
-	Adventure,
-} from '../types'
+import { State } from '../types'
 
 import {
 	appraise_item_value,
 } from '../selectors'
-
-import {
-	ActionType,
-	ActionCategory,
-	Action,
-	ActionEquipItem,
-	ActionSellItem,
-} from '../serializable_actions'
 
 import { SoftExecutionContext, OMRContext, get_lib_SEC } from '../sec'
 import { receive_item } from './play_adventure'
@@ -86,40 +56,6 @@ import { play_good } from './play_good'
 import { play_bad } from './play_bad'
 
 /////////////////////
-
-function get_actions_for_unslotted_item(state: Readonly<State>, uuid: UUID): Readonly<Action>[] {
-	const actions: Action[] = []
-
-	const equip: ActionEquipItem = {
-		type: ActionType.equip_item,
-		category: ActionCategory.inventory,
-		expected_state_revision: state.revision,
-		target_uuid: uuid,
-	}
-	actions.push(equip)
-
-	const sell: ActionSellItem = {
-		type: ActionType.sell_item,
-		category: ActionCategory.inventory,
-		expected_state_revision: state.revision,
-		target_uuid: uuid,
-	}
-	actions.push(sell)
-
-	return actions
-}
-
-function get_actions_for_element(state: Readonly<State>, uuid: UUID): Readonly<Action>[] {
-	const actions: Action[] = []
-
-	const as_unslotted_item = InventoryState.get_unslotted_item(state.inventory, uuid)
-	if (as_unslotted_item)
-		actions.push(...get_actions_for_unslotted_item(state, uuid))
-
-	return actions
-}
-
-///////
 
 function create(SEC?: SoftExecutionContext): Readonly<State> {
 	return get_lib_SEC(SEC).xTry('create', ({enforce_immutability}: OMRContext) => {
@@ -278,36 +214,7 @@ function change_avatar_class(state: Readonly<State>, new_class: CharacterClass):
 
 /////////////////////
 
-function execute(state: Readonly<State>, action: Action): Readonly<State> {
-	const { expected_state_revision } = (action as any)
-	if (expected_state_revision) {
-		if (state.revision !== expected_state_revision)
-			throw new Error('Trying to execute an outdated action!')
-	}
-
-	switch (action.type) {
-	case ActionType.play:
-		return play(state)
-	case ActionType.equip_item:
-		return equip_item(state, action.target_uuid)
-	case ActionType.sell_item:
-		return sell_item(state, action.target_uuid)
-	case ActionType.rename_avatar:
-		return rename_avatar(state, action.new_name)
-	case ActionType.change_avatar_class:
-		return change_avatar_class(state, action.new_class)
-	default:
-		throw new Error('Unrecognized action!')
-	}
-}
-
-/////////////////////
-
 export {
-	GainType,
-	Adventure,
-	State,
-
 	create,
 
 	reseed,
@@ -316,10 +223,6 @@ export {
 	sell_item,
 	rename_avatar,
 	change_avatar_class,
-
-	execute,
-
-	get_actions_for_element,
 }
 
 /////////////////////
