@@ -1,31 +1,100 @@
-
+import normalize_code from '../normalize-code'
 import { Code, CodesConditions, State } from '../types'
 
 ////////////
 
-const BORED: Code = {
-	uuid: 'BORED',
-	text: 'BORED',
-	redeem_limit: null,
-	is_redeemable: (state: Readonly<State>, current: Readonly<CodesConditions>) => {
-		return false // TODO
-	}
+// for test only
+const TEST_CODES: { [key: string]: Partial<Code> } = {
+
+	TESTNEVER: {
+		redeem_limit: null,
+		is_redeemable: (state: Readonly<State>, infos: Readonly<CodesConditions>) => {
+			return false
+		},
+	},
+
+	TESTALWAYS: {
+		redeem_limit: null,
+		is_redeemable: (state: Readonly<State>, infos: Readonly<CodesConditions>) => {
+			return true
+		},
+	},
+
+	TESTONCE: {
+		redeem_limit: 1,
+		is_redeemable: (state: Readonly<State>, infos: Readonly<CodesConditions>) => {
+			return true
+		},
+	},
+
+	TESTTWICE: {
+		redeem_limit: 2,
+		is_redeemable: (state: Readonly<State>, infos: Readonly<CodesConditions>) => {
+			return true
+		},
+	},
 }
 
-const ALPHA_MIGRANT: Code = {
-	uuid: 'ALPHA-MIGRANT',
-	text: 'ALPHA-MIGRANT',
-	redeem_limit: 1,
-	is_redeemable: (state: Readonly<State>, current: Readonly<CodesConditions>) => {
-		return current.is_alpha_player && current.good_play_count < 20
-	}
+const RAW_CODES: { [key: string]: Partial<Code> } = {
+
+	BORED: {
+		redeem_limit: null,
+		is_redeemable: (state: Readonly<State>, infos: Readonly<CodesConditions>) => {
+			return false // TODO
+		},
+	},
+
+	REBORN: {
+		redeem_limit: 1,
+		is_redeemable: (state: Readonly<State>, infos: Readonly<CodesConditions>) => {
+			return infos.is_alpha_player
+		}
+	},
+
+	ALPHART: {
+		redeem_limit: 1,
+		is_redeemable: (state: Readonly<State>, infos: Readonly<CodesConditions>) => {
+			return infos.is_alpha_player && infos.good_play_count < 20
+		}
+	},
+
+	...TEST_CODES,
 }
 
 ////////////
 
-const CODES: { [key: string]: Code } = {
-	BORED,
-	ALPHA_MIGRANT,
-}
+const ALL_CODES: Readonly<Code>[] = Object.keys(RAW_CODES).map(hkey => {
+	const {
+		key,
+		code,
+		redeem_limit,
+		is_redeemable,
+	} = RAW_CODES[hkey]
 
-export default CODES
+	if (key)
+		throw new Error(`Code entry "${hkey}" redundantly specifies a key!`)
+	if (hkey !== normalize_code(hkey))
+		throw new Error(`Code entry "${hkey}" should have normalized form "${normalize_code(hkey)}"!`)
+
+	return {
+		key: hkey,
+		code: code || hkey,
+		redeem_limit,
+		is_redeemable,
+	} as Code
+})
+
+const CODES_BY_KEY: { [key: string]: Readonly<Code> } = ALL_CODES.reduce(
+	(acc, code) => {
+		acc[code.key] = code
+		return acc
+	},
+	{} as { [key: string]: Readonly<Code> },
+)
+
+////////////
+
+export {
+	CODES_BY_KEY,
+	ALL_CODES
+}

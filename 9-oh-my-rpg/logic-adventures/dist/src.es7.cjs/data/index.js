@@ -81,6 +81,7 @@ const ENTRIES = [
     { good: true, type: story, hid: 'lost_mine', outcome: { token: 1 } },
     { good: true, type: story, hid: 'gehennom', outcome: { coin: 'medium', armor_or_weapon: true } },
     { good: true, type: story, hid: 'vampire_castle', outcome: { coin: 'medium', armor_or_weapon: true } },
+    { good: true, type: story, hid: 'foodie_friend', outcome: { health: true } },
     { good: true, type: story, hid: 'erika', outcome: { mana: true } },
     { good: true, type: story, hid: 'rachel', outcome: { strength: true } },
     { good: true, type: story, hid: 'walk_in_mordor', outcome: { agility: true } },
@@ -116,12 +117,16 @@ const ENTRIES = [
     { good: true, type: story, hid: 'king_reward', outcome: { armor_or_weapon: true, token: 1 } },
     // those stories are not hinting a a specific attribute,
     // thus can be used as a distribution adjustment
+    // (if aligned, use 'random_attribute')
     { good: true, type: story, hid: 'dragon_kebab', outcome: { charisma: true } },
     { good: true, type: story, hid: 'elven_hydromel', outcome: { luck: true } },
+    { good: true, type: story, hid: 'chilies', outcome: { charisma: true } },
     { good: true, type: story, hid: 'found_vermilion_potion', outcome: { charisma: true } },
     { good: true, type: story, hid: 'found_silver_potion', outcome: { luck: true } },
     { good: true, type: story, hid: 'found_swirling_potion', outcome: { strength: true } },
-    { good: true, type: story, hid: 'found_journal', outcome: { health: true } },
+    { good: true, type: story, hid: 'found_fizzing_potion', outcome: { luck: true } },
+    { good: true, type: story, hid: 'found_bubbly_potion', outcome: { random_attribute: true } },
+    { good: true, type: story, hid: 'found_journal', outcome: { agility: true } },
     { good: true, type: story, hid: 'cookies_grandmas', outcome: { agility: true } },
 ];
 exports.ENTRIES = ENTRIES;

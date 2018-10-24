@@ -78,6 +78,8 @@ SEC.setLogicalStack({
 
 SEC.getLogicalStack()
 SEC.getShortLogicalStack()
+
+SEC.emitter.emit('analytics', { SEC, eventId, details })
 ```
 
 ### Injections

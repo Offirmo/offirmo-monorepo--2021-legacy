@@ -47,6 +47,7 @@ yarn puer
 npm i -g yarn
 yarn global add bolt
 ```
+TODO https://www.npmjs.com/package/eslint-import-resolver-typescript
 
 ## Hat tips
 

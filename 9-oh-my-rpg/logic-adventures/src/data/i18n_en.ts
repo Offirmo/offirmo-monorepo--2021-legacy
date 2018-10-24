@@ -218,12 +218,28 @@ You gained +{{attr}} {{attr_name}}!`,
 
 const OFFIRMO_INSPIRED_FROM_RPG_MEMES_FROM_THE_NET: I18nMessages = {
 
+	// My potions would kill you traveler. You can't handle my potions.
+
 	// https://swordscomic.com/swords/VI/
 	// https://swordscomic.com/swords/IX/
 	// https://swordscomic.com/swords/XI/
 	// https://swordscomic.com/swords/XII/
 	// https://swordscomic.com/swords/XIII/
 	// https://swordscomic.com/swords/XVII/
+
+	// http://orteil.dashnet.org/gamegen
+	// bards write songs about you +charisma
+	// you free some elementals. They reward you with training suited to your class.
+	// you have superhuman luck
+	// you battle mages to unravel the fabric of reality. mana
+	// you destroy a few parallel worlds with cyborgs.
+	// you mine ore
+	// you craft some stuff
+	// you saved the world
+	// tower
+	// ruin
+	// sewers
+	// catacombs
 
 	// electricbunnycomics.com
 	good_necromancer: `
@@ -581,6 +597,18 @@ You cook an omelette, and gain +{{luck}} luck.
 
 const OFFIRMO_ORIGINAL: I18nMessages = {
 
+	// from H.
+	foodie_friend: `
+You meet with you foodie friend.
+He convinces you to try the latest magic treats.
+You gain extra energy (+{{health}} health) and a bit of weight!
+	`,
+	chilies: `
+At the adventuring guild party, you pickup a treat.
+Turns out it's made of magic chilies and you can't feel your face anymore!
+Once the pain is gone (one day later!) you feel better than ever, you gained +{{attr}} !
+	`,
+
 	// friend with the dark mage
 
 	// twist on original
@@ -822,24 +850,28 @@ Through this magical drink, you gain +{{attr}} !
 	`,
 
 	// potions
+	// https://www.reddit.com/r/DnDBehindTheScreen/comments/4btnkc/random_potions_table/
+	// see "appearance"
 	found_vermilion_potion: `
 You find a vermilion potion.
 Crazy drink, gained +{{attr}} {{attr_name}}!`,
-
 	found_silver_potion: `
 You find a silver potion.
 Sweet drink, gained +{{attr}} {{attr_name}}!`,
-
 	found_swirling_potion: `
 You find a swirling potion.
 Strange drink, gained +{{attr}} {{attr_name}}!`,
+	found_fizzing_potion: `
+You find a fizzing potion.
+Sparkling drink, gained +{{attr}} {{attr_name}}!`,
+	found_bubbly_potion: `
+You find a bubbly potion.
+Soft drink, gained +{{attr}} {{attr_name}}!`,
 
 	// books
 	found_journal: `
 You find the remains of an unlucky adventurer. She or he (you can't tell from the remains) kept a journal.
 You read it and learn from their failure: +{{attr}} {{attr_name}}!`,
-
-
 }
 
 // NOTE: we allow line returns for ease of writing

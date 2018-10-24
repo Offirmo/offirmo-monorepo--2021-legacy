@@ -1,23 +1,22 @@
 /////////////////////
 
 import { Enum } from 'typescript-string-enums'
+import { get_human_readable_UTC_timestamp_minutes } from '@offirmo/timestamps'
 
 import { SCHEMA_VERSION } from './consts'
 
 import {
+	CodeRedemption,
+	CodesConditions,
 	State,
 } from './types'
 
+import { is_code_redeemable } from './selectors'
+
 import { SoftExecutionContext, OMRContext, get_lib_SEC } from './sec'
+import normalize_code from './normalize-code'
 
 /////////////////////
-
-get_lib_SEC().xTry('boot checks', () => {
-	if (CHARACTER_ATTRIBUTES.length !== CHARACTER_ATTRIBUTES_SORTED.length)
-		throw new Error('CHARACTER_ATTRIBUTES to update!')
-})
-
-///////
 
 function create(SEC?: SoftExecutionContext): Readonly<State> {
 	return get_lib_SEC(SEC).xTry('create', ({enforce_immutability}: OMRContext) => {
@@ -25,55 +24,37 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 			schema_version: SCHEMA_VERSION,
 			revision: 0,
 
-			redeemed_codes: [],
+			redeemed_codes: {},
 		})
 	})
 }
 
 /////////////////////
 
-function rename(SEC: SoftExecutionContext, state: Readonly<State>, new_name: string): Readonly<State> {
-	return get_lib_SEC(SEC).xTry('rename', ({enforce_immutability}: OMRContext) => {
-		// TODO name normalization
-		if (!new_name)
-			throw new Error(`Error while renaming to "${new_name}: invalid target value!`) // TODO details
-		if (new_name === state.name)
-			return state
+function redeem_code(SEC: SoftExecutionContext, state: Readonly<State>, code: string, infos: Readonly<CodesConditions>): Readonly<State> {
+	return get_lib_SEC(SEC).xTry('redeem_code', ({enforce_immutability}: OMRContext) => {
+		if (!is_code_redeemable(state, code, infos))
+			throw new Error(`This code is either non-existing or non redeemable at the moment!`)
+
+		code = normalize_code(code)
+
+		const r: CodeRedemption = state.redeemed_codes[code] || ({
+			redeem_count: 0,
+			last_redeem_date_minutes: '',
+		} as CodeRedemption)
 
 		return enforce_immutability({
 			...state,
-			name: new_name,
-			revision: state.revision + 1,
-		})
-	})
-}
 
-function switch_class(SEC: SoftExecutionContext, state: Readonly<State>, klass: CharacterClass): Readonly<State> {
-	return get_lib_SEC(SEC).xTry('switch_class', ({enforce_immutability}: OMRContext) => {
-		if (klass === state.klass)
-			return state
-
-		return enforce_immutability({
-			...state,
-			klass,
-			revision: state.revision + 1,
-		})
-	})
-}
-
-function increase_stat(SEC: SoftExecutionContext, state: Readonly<State>, stat: CharacterAttribute, amount = 1): Readonly<State> {
-	return get_lib_SEC(SEC).xTry('increase_stat', ({enforce_immutability}: OMRContext) => {
-		if (amount <= 0)
-			throw new Error(`Error while increasing stat "${stat}": invalid amount!`) // TODO details
-
-		// TODO stats caps
-
-		return enforce_immutability({
-			...state,
-			attributes: {
-				...state.attributes,
-				[stat]: state.attributes[stat] + amount,
+			redeemed_codes: {
+				...state.redeemed_codes,
+				[code]: {
+					...r,
+					redeem_count: r.redeem_count + 1,
+					last_redeem_date_minutes: get_human_readable_UTC_timestamp_minutes(),
+				}
 			},
+
 			revision: state.revision + 1,
 		})
 	})
@@ -82,19 +63,9 @@ function increase_stat(SEC: SoftExecutionContext, state: Readonly<State>, stat: 
 /////////////////////
 
 export {
-	CharacterAttribute,
-	CharacterClass,
-	CharacterAttributes,
 	State,
-
-	CHARACTER_ATTRIBUTES,
-	CHARACTER_ATTRIBUTES_SORTED,
-	CHARACTER_CLASSES,
-
 	create,
-	rename,
-	switch_class,
-	increase_stat,
+	redeem_code,
 }
 
 /////////////////////

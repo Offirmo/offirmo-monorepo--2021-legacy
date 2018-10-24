@@ -366,6 +366,7 @@ but still ends up with good loot: +{{coin}}, {{item}}...
 		`,
 };
 const OFFIRMO_POPULAR_CULTURE = {
+    // TODO Shrek
     // goblin slayer
     xxx_goblin_slayer: `
 "The only good goblins are the one who never come out of their stinking holes!"
@@ -411,6 +412,13 @@ You cook an omelette, and gain +{{luck}} luck.
 		`,
 };
 const OFFIRMO_ORIGINAL = {
+    // H.
+    foodie_friend: `
+You meet with you foodie friend.
+He convinces you to try the latest magic treats.
+You gain extra energy (+{{health}} health) and a bit of weight!
+	`,
+    // friend with the dark mage
     // twist on original
     caravan_failure: `
 You were hired to protect a caravan of merchants.
@@ -614,7 +622,14 @@ Through this magical food, you gain +{{attr}} !
 You have the chance to taste the legendary elven hydromel!
 Through this magical drink, you gain +{{attr}} !
 	`,
+    chilies: `
+At the adventuring guild party, you pickup a treat.
+Turns out it's made of magic chilies and you can't feel your face anymore!
+Once the pain is gone (one day later!) you feel better than ever, you gained +{{attr}} !
+	`,
     // potions
+    // https://www.reddit.com/r/DnDBehindTheScreen/comments/4btnkc/random_potions_table/
+    // see "appearance"
     found_vermilion_potion: `
 You find a vermilion potion.
 Crazy drink, gained +{{attr}} {{attr_name}}!`,
@@ -624,6 +639,12 @@ Sweet drink, gained +{{attr}} {{attr_name}}!`,
     found_swirling_potion: `
 You find a swirling potion.
 Strange drink, gained +{{attr}} {{attr_name}}!`,
+    found_fizzing_potion: `
+You find a fizzing potion.
+Sparkling drink, gained +{{attr}} {{attr_name}}!`,
+    found_bubbly_potion: `
+You find a bubbly potion.
+Soft drink, gained +{{attr}} {{attr_name}}!`,
     // books
     found_journal: `
 You find the remains of an unlucky adventurer. She or he (you can't tell from the remains) kept a journal.

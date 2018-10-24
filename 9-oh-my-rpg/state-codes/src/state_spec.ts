@@ -1,17 +1,18 @@
+import deepFreeze from "deep-freeze-strict"
 import { expect } from 'chai'
 
 import { SCHEMA_VERSION } from './consts'
 import {
-	CharacterAttribute,
-	CharacterClass,
+	CodesConditions,
 	State,
-
+	is_code,
+	is_code_redeemable,
 	create,
-	increase_stat,
+	redeem_code,
 } from '.'
 import { get_lib_SEC } from './sec'
 
-describe('@oh-my-rpg/state-character - reducer', function() {
+describe('@oh-my-rpg/state-codes - reducer', function() {
 
 	describe('🆕  initial state', function() {
 
@@ -21,91 +22,53 @@ describe('@oh-my-rpg/state-character - reducer', function() {
 				schema_version: SCHEMA_VERSION,
 				revision: 0,
 
-				name: '[anonymous]',
-				klass: CharacterClass.novice,
-				attributes: {
-					level: 1,
-
-					health: 1,
-					mana: 0,
-
-					strength: 1,
-					agility: 1,
-					charisma: 1,
-					wisdom: 1,
-					luck: 1
-				},
+				redeemed_codes: {},
 			})
 		})
 	})
 
-	describe('⬆ stat increase', function() {
-
-		it('should fail on invalid amount', function() {
-			let state = create(get_lib_SEC())
-
-			function increase_0() {
-				state = increase_stat(get_lib_SEC(), state, CharacterAttribute.agility, 0)
-			}
-			expect(increase_0).to.throw('invalid amount!')
-
-			function decrease() {
-				state = increase_stat(get_lib_SEC(), state, CharacterAttribute.agility, -1)
-			}
-			expect(decrease).to.throw('invalid amount!')
+	describe('code redemption', function() {
+		const BASE_INFOS: Readonly<CodesConditions> = deepFreeze({
+			good_play_count: 0,
+			is_alpha_player: true,
+			is_player_since_alpha: true,
 		})
 
-		it('should work in nominal case', function() {
-			let state = create(get_lib_SEC())
+		context('when the code is unknown or when the conditions are NOT met', function() {
 
-			state = increase_stat(get_lib_SEC(), state, CharacterAttribute.agility)
-			expect(state.attributes.agility).to.equal(2)
-			expect(state.attributes).to.deep.equal({
-				level: 1,
+			// no need to test detailed, see selectors
+			it('should reject and not update the state', () => {
+				let state = create()
+				let SEC = get_lib_SEC()
 
-				health: 1,
-				mana: 0,
-
-				strength: 1,
-				agility: 2,
-				charisma: 1,
-				wisdom: 1,
-				luck: 1
-			})
-
-			state = increase_stat(get_lib_SEC(), state, CharacterAttribute.agility, 2)
-			expect(state.attributes.agility).to.equal(4)
-
-			expect(state.attributes).to.deep.equal({
-				level: 1,
-
-				health: 1,
-				mana: 0,
-
-				strength: 1,
-				agility: 4,
-				charisma: 1,
-				wisdom: 1,
-				luck: 1
-			})
-
-			state = increase_stat(get_lib_SEC(), state, CharacterAttribute.agility)
-			expect(state.attributes.agility).to.equal(5)
-
-			expect(state.attributes).to.deep.equal({
-				level: 1,
-
-				health: 1,
-				mana: 0,
-
-				strength: 1,
-				agility: 5,
-				charisma: 1,
-				wisdom: 1,
-				luck: 1
+				const do_it = () => redeem_code(SEC, state, 'TESTNEVER', BASE_INFOS)
+				expect(do_it).to.throw('This code is either non-existing or non redeemable at the moment')
+				expect(state.redeemed_codes).to.deep.equal({})
+				expect(state.revision).to.equal(0)
 			})
 		})
 
-		it('should cap')
+		context('when the conditions are met', function() {
+
+			it('should update the state', () => {
+				let state = create()
+				let SEC = get_lib_SEC()
+				const code = 'TESTALWAYS'
+
+				state = redeem_code(SEC, state, code, BASE_INFOS)
+
+				expect(state.redeemed_codes).to.have.property(code)
+				expect(state.redeemed_codes[code]).to.have.property('redeem_count', 1)
+				expect(state.redeemed_codes[code]).to.have.property('last_redeem_date_minutes')
+				expect(state.revision).to.equal(1)
+
+				state = redeem_code(SEC, state, code, BASE_INFOS)
+
+				expect(state.redeemed_codes).to.have.property(code)
+				expect(state.redeemed_codes[code]).to.have.property('redeem_count', 2)
+				expect(state.redeemed_codes[code]).to.have.property('last_redeem_date_minutes')
+				expect(state.revision).to.equal(2)
+			})
+		})
 	})
 })

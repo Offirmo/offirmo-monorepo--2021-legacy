@@ -10,7 +10,9 @@ This file is just for taking notes for the next Reddit post.
 /////////////
 
 NEXT
-- 😍 feature: 1 new background (now totalling 14)
+- 😍 feature: 1 new background (now totalling 14!)
+- 🤩 feature: 4 new adventures (now totalling 114!)
+- 😍 feature: inventory size and limit are now displayed, ex. 12/20
 - 🤩 feature: users can now login (will unlock features in the future)
 
 

@@ -47,7 +47,6 @@ const ENTRIES: RawAdventureArchetypeEntry[] = [
 	{ good: true, type: story, hid: 'found_orange_mushroom',  outcome: { charisma: true }},
 	{ good: true, type: story, hid: 'found_black_mushroom',   outcome: { wisdom: true }},
 	{ good: true, type: story, hid: 'found_rainbow_mushroom', outcome: { luck: true }},
-	{ good: true, type: story, hid: 'found_random_mushroom',  outcome: { random_attribute: true }},
 
 	{ good: true, type: story, hid: 'meet_old_wizard',           outcome: { wisdom: true }},
 	{ good: true, type: story, hid: 'good_necromancer',          outcome: { agility: true }},
@@ -101,6 +100,7 @@ const ENTRIES: RawAdventureArchetypeEntry[] = [
 	{ good: true, type: story, hid: 'lost_mine',                    outcome: { token: 1 }},
 	{ good: true, type: story, hid: 'gehennom',                     outcome: { coin: 'medium', armor_or_weapon: true }},
 	{ good: true, type: story, hid: 'vampire_castle',               outcome: { coin: 'medium', armor_or_weapon: true }},
+	{ good: true, type: story, hid: 'foodie_friend',                outcome: { health: true }},
 
 	{ good: true, type: story, hid: 'erika',                        outcome: { mana: true }},
 	{ good: true, type: story, hid: 'rachel',                       outcome: { strength: true }},
@@ -137,16 +137,21 @@ const ENTRIES: RawAdventureArchetypeEntry[] = [
 
 	{ good: true, type: story, hid: 'give_a_shield',                outcome: { armor: true }},
 	{ good: true, type: story, hid: 'king_reward',                  outcome: { armor_or_weapon: true, token: 1 }},
+	{ good: true, type: story, hid: 'chilies',                      outcome: { class_primary_attribute: true }},
 
 	// those stories are not hinting a a specific attribute,
 	// thus can be used as a distribution adjustment
-	{ good: true, type: story, hid: 'dragon_kebab',               outcome: { charisma: true }},
-	{ good: true, type: story, hid: 'elven_hydromel',             outcome: { luck: true }},
-	{ good: true, type: story, hid: 'found_vermilion_potion',     outcome: { charisma: true }},
-	{ good: true, type: story, hid: 'found_silver_potion',        outcome: { luck: true }},
-	{ good: true, type: story, hid: 'found_swirling_potion',      outcome: { strength: true }},
-	{ good: true, type: story, hid: 'found_journal',              outcome: { health: true }},
-	{ good: true, type: story, hid: 'cookies_grandmas',           outcome: { agility: true }},
+	// (if aligned, use 'random_attribute')
+	{ good: true, type: story, hid: 'dragon_kebab',                 outcome: { charisma: true }},
+	{ good: true, type: story, hid: 'found_random_mushroom',        outcome: { random_attribute: true }},
+	{ good: true, type: story, hid: 'elven_hydromel',               outcome: { luck: true }},
+	{ good: true, type: story, hid: 'found_vermilion_potion',       outcome: { charisma: true }},
+	{ good: true, type: story, hid: 'found_silver_potion',          outcome: { luck: true }},
+	{ good: true, type: story, hid: 'found_swirling_potion',        outcome: { strength: true }},
+	{ good: true, type: story, hid: 'found_fizzing_potion',         outcome: { luck: true}},
+	{ good: true, type: story, hid: 'found_bubbly_potion',          outcome: { random_attribute: true }},
+	{ good: true, type: story, hid: 'found_journal',                outcome: { agility: true }},
+	{ good: true, type: story, hid: 'cookies_grandmas',             outcome: { agility: true }},
 ]
 
 
