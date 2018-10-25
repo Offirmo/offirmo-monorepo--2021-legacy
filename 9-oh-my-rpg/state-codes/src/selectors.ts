@@ -41,6 +41,7 @@ function is_code_redeemable(state: Readonly<State>, code: string, infos: Readonl
 /////////////////////
 
 export {
+	normalize_code,
 	is_code,
 	is_code_redeemable,
 }

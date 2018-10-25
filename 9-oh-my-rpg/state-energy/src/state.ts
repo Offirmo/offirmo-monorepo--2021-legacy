@@ -69,14 +69,14 @@ function loose_all_energy(state: Readonly<State>, date: Date = new Date()): Read
 	return state
 }
 
-function replenish_energy(state: Readonly<State>, date: Date = new Date()): Readonly<State> {
+function restore_energy(state: Readonly<State>, qty_float?: number): Readonly<State> {
+	qty_float = (qty_float || state.max_energy) * 1.
 	state = {
 		...state,
 
 		revision: state.revision + 1,
 
-		last_date: get_human_readable_UTC_timestamp_ms(date),
-		last_available_energy_float: state.max_energy * 1.,
+		last_available_energy_float: Math.min(state.max_energy, state.last_available_energy_float + qty_float),
 	}
 
 	return state
@@ -91,7 +91,7 @@ export {
 
 	use_energy,
 	loose_all_energy,
-	replenish_energy,
+	restore_energy,
 }
 
 /////////////////////

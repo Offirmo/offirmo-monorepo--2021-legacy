@@ -90,6 +90,12 @@ function create_game_instance<T>({SEC, get_latest_state, persist_state, view_sta
 					persist_state(state)
 					emitter.emit('state_change')
 				},
+				attempt_to_redeem_code(code: string) {
+					let state = get_latest_state()
+					state = state_fns.attempt_to_redeem_code(state, code)
+					persist_state(state)
+					emitter.emit('state_change')
+				},
 				execute_serialized_action(action: Action) {
 					let state = get_latest_state()
 					state = reduce_action(state, action)

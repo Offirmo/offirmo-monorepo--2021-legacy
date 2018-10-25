@@ -54,5 +54,6 @@ TODO https://www.npmjs.com/package/eslint-import-resolver-typescript
 Tools
 - Color converter http://www.cssportal.com/css-color-converter/
 - favicon https://realfavicongenerator.net/
+* https://github.com/scottsidwell/bundle-inspector
 
 

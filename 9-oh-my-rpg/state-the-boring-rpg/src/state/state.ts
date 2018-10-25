@@ -23,6 +23,7 @@ import { Currency } from '@oh-my-rpg/state-wallet'
 
 import * as InventoryState from '@oh-my-rpg/state-inventory'
 import * as EnergyState from '@oh-my-rpg/state-energy'
+import * as EngagementState from '@oh-my-rpg/state-engagement'
 
 import * as PRNGState from '@oh-my-rpg/state-prng'
 import {
@@ -76,12 +77,12 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 			wallet: WalletState.create(),
 			prng: PRNGState.create(),
 			energy: EnergyState.create(),
-			codes: CodesState.create(),
+			engagement: EngagementState.create(SEC),
+			codes: CodesState.create(SEC),
 
 			last_adventure: null,
 			click_count: 0,
 			good_click_count: 0,
-			meaningful_interaction_count: 0,
 		}
 
 		let rng = get_prng(state.prng)
@@ -112,9 +113,6 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 			...state,
 
 			// to compensate sub-functions use during build
-			meaningful_interaction_count: 0,
-
-			// idem, could have been inc by internally calling actions
 			revision: 0,
 		}
 
@@ -153,7 +151,6 @@ function play(state: Readonly<State>, explicit_adventure_archetype_hid?: string)
 		revision: state.revision + 1,
 
 		click_count: state.click_count + 1,
-		meaningful_interaction_count: state.meaningful_interaction_count + 1,
 	}
 
 	return state
@@ -163,9 +160,6 @@ function equip_item(state: Readonly<State>, uuid: UUID): Readonly<State> {
 	state = {
 		...state,
 		inventory: InventoryState.equip_item(state.inventory, uuid),
-
-		// TODO count it as a meaningful interaction only if positive (or with a limit)
-		meaningful_interaction_count: state.meaningful_interaction_count + 1,
 
 		revision: state.revision + 1,
 	}
@@ -181,9 +175,6 @@ function sell_item(state: Readonly<State>, uuid: UUID): Readonly<State> {
 		inventory: InventoryState.remove_item_from_unslotted(state.inventory, uuid),
 		wallet: WalletState.add_amount(state.wallet, Currency.coin, price),
 
-		// TODO count it as a meaningful interaction only if positive (or with a limit)
-		meaningful_interaction_count: state.meaningful_interaction_count + 1,
-
 		revision: state.revision + 1,
 	}
 
@@ -194,9 +185,6 @@ function rename_avatar(state: Readonly<State>, new_name: string): Readonly<State
 	state = {
 		...state,
 		avatar: rename(get_lib_SEC(), state.avatar, new_name),
-
-		// TODO count it as a meaningful interaction only once
-		meaningful_interaction_count: state.meaningful_interaction_count + 1,
 
 		revision: state.revision + 1,
 	}
@@ -209,33 +197,57 @@ function change_avatar_class(state: Readonly<State>, new_class: CharacterClass):
 		...state,
 		avatar: switch_class(get_lib_SEC(), state.avatar, new_class),
 
-		// TODO count it as a meaningful interaction only if positive (or with a limit)
-		meaningful_interaction_count: state.meaningful_interaction_count + 1,
-
 		revision: state.revision + 1,
 	}
 
 	return state
 }
 
-function redeem_code(state: Readonly<State>, code: string): Readonly<State> {
+function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<State> {
 	const infos: CodesConditions = {
 		good_play_count: state.good_click_count,
 		is_alpha_player: true, // TODO clean that up when moving to beta
 		is_player_since_alpha: true,
 	}
 
+	const previous_revision = state.revision
+
 	state = {
 		...state,
 		codes: CodesState.redeem_code(get_lib_SEC(), state.codes, code, infos),
-
-		// TODO count it as a meaningful interaction only if positive (or with a limit)
-		meaningful_interaction_count: state.meaningful_interaction_count + 1,
-
-		revision: state.revision + 1,
 	}
 
-	return state
+	// if we are here, it means we succeeded
+	code = CodesState.normalize_code(code)
+	switch(code) {
+		case 'TESTNEVER':
+		case 'TESTALWAYS':
+		case 'TESTONCE':
+		case 'TESTTWICE':
+			// test code which do nothing
+			break
+		case 'BORED':
+			state = {
+				...state,
+				energy: EnergyState.restore_energy(state.energy, 1.),
+			}
+			break
+		/*case 'REBORN': {
+
+			}
+			break
+		case 'ALPHART': {
+
+			}
+			break*/
+		default:
+			throw new Error(`Internal error: code "${code}" not implemented!`)
+	}
+
+	return {
+		...state,
+		revision: previous_revision + 1,
+	}
 }
 
 
@@ -250,7 +262,7 @@ export {
 	sell_item,
 	rename_avatar,
 	change_avatar_class,
-	redeem_code,
+	attempt_to_redeem_code,
 }
 
 /////////////////////

@@ -5,7 +5,7 @@ import * as RichText from '@offirmo/rich-text-format'
 import { State } from '../types'
 
 function get_recap(state: Readonly<State>): RichText.Document {
-	const isNewGame = (state.meaningful_interaction_count === 0)
+	const isNewGame = (state.revision === 0)
 	if (isNewGame) {
 		return RichText.inline_fragment()
 			.pushText('You are an ')

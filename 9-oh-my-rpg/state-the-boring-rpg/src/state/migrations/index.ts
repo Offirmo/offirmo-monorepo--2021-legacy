@@ -5,6 +5,7 @@ import * as WalletState from '@oh-my-rpg/state-wallet'
 import * as InventoryState from '@oh-my-rpg/state-inventory'
 import * as PRNGState from '@oh-my-rpg/state-prng'
 import * as EnergyState from '@oh-my-rpg/state-energy'
+import * as EngagementState from '@oh-my-rpg/state-engagement'
 import * as CodesState from '@oh-my-rpg/state-codes'
 
 import { LIB, SCHEMA_VERSION } from '../../consts'
@@ -42,7 +43,7 @@ function reset_and_salvage(legacy_state: any): State {
 	return state
 }
 
-const SUB_REDUCERS_COUNT = 6
+const SUB_REDUCERS_COUNT = 7
 const OTHER_KEYS_COUNT = 8
 
 function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: any = {}): State {
@@ -62,7 +63,9 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: 
 
 		// micro pseudo-migrations (TODO clean)
 		if (!state.codes)
-			state.codes = CodesState.create()
+			state.codes = CodesState.create(SEC)
+		if (!state.engagement)
+			state.engagement = EngagementState.create(SEC)
 
 		if (existing_version < SCHEMA_VERSION) {
 			logger.warn(`attempting to migrate schema from v${existing_version} to v${SCHEMA_VERSION}:`)
@@ -104,6 +107,8 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: 
 			state.prng = PRNGState.migrate_to_latest(state.prng, hints.prng)
 			count++
 			state.energy = EnergyState.migrate_to_latest(state.energy, hints.energy)
+			count++
+			state.engagement = EngagementState.migrate_to_latest(SEC, state.engagement, hints.engagement)
 			count++
 			state.codes = CodesState.migrate_to_latest(SEC, state.codes, hints.codes)
 			count++

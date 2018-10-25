@@ -40,6 +40,7 @@ describe('@oh-my-rpg/state-the-boring-rpg - reducer', function() {
 			expect(state, 'wallet').to.have.property('wallet')
 			expect(state, 'prng').to.have.property('prng')
 			expect(state, 'energy').to.have.property('energy')
+			expect(state, 'engagement').to.have.property('engagement')
 			expect(state, 'codes').to.have.property('codes')
 
 			expect(Object.keys(state), 'quick key count check').to.have.lengthOf(14) // because this test should be updated if that changes
@@ -49,7 +50,6 @@ describe('@oh-my-rpg/state-the-boring-rpg - reducer', function() {
 			expect(state).to.have.property('revision', 0)
 			expect(state).to.have.property('click_count', 0)
 			expect(state).to.have.property('good_click_count', 0)
-			expect(state).to.have.property('meaningful_interaction_count', 0)
 			expect(state.last_adventure).to.be.null
 
 			// check our 2 predefined items are present and equipped
@@ -132,7 +132,6 @@ describe('@oh-my-rpg/state-the-boring-rpg - reducer', function() {
 
 					expect(state).to.have.property('click_count', 1)
 					expect(state).to.have.property('good_click_count', 1)
-					expect(state).to.have.property('meaningful_interaction_count', 1)
 				})
 
 				it('should sometime generate a fight adventure', () => {
