@@ -40,8 +40,9 @@ describe('@oh-my-rpg/state-the-boring-rpg - reducer', function() {
 			expect(state, 'wallet').to.have.property('wallet')
 			expect(state, 'prng').to.have.property('prng')
 			expect(state, 'energy').to.have.property('energy')
+			expect(state, 'codes').to.have.property('codes')
 
-			expect(Object.keys(state), 'quick key count check').to.have.lengthOf(13) // this test should be updated if that changes
+			expect(Object.keys(state), 'quick key count check').to.have.lengthOf(14) // because this test should be updated if that changes
 
 			// init of custom values
 			expect(state).to.have.property('schema_version', SCHEMA_VERSION)

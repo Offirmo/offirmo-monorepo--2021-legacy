@@ -40,6 +40,11 @@ import {
 	create as create_armor,
 } from '@oh-my-rpg/logic-armors'
 
+import * as CodesState from '@oh-my-rpg/state-codes'
+import {
+	CodesConditions
+} from '@oh-my-rpg/state-codes'
+
 /////////////////////
 
 import { SCHEMA_VERSION } from '../consts'
@@ -71,6 +76,7 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 			wallet: WalletState.create(),
 			prng: PRNGState.create(),
 			energy: EnergyState.create(),
+			codes: CodesState.create(),
 
 			last_adventure: null,
 			click_count: 0,
@@ -212,6 +218,27 @@ function change_avatar_class(state: Readonly<State>, new_class: CharacterClass):
 	return state
 }
 
+function redeem_code(state: Readonly<State>, code: string): Readonly<State> {
+	const infos: CodesConditions = {
+		good_play_count: state.good_click_count,
+		is_alpha_player: true, // TODO clean that up when moving to beta
+		is_player_since_alpha: true,
+	}
+
+	state = {
+		...state,
+		codes: CodesState.redeem_code(get_lib_SEC(), state.codes, code, infos),
+
+		// TODO count it as a meaningful interaction only if positive (or with a limit)
+		meaningful_interaction_count: state.meaningful_interaction_count + 1,
+
+		revision: state.revision + 1,
+	}
+
+	return state
+}
+
+
 /////////////////////
 
 export {
@@ -223,6 +250,7 @@ export {
 	sell_item,
 	rename_avatar,
 	change_avatar_class,
+	redeem_code,
 }
 
 /////////////////////

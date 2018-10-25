@@ -10,7 +10,7 @@ import './index.css'
 
 export default function Dev({game_instance}) {
 	const state = game_instance.model.get_state()
-	const client_state = game_instance.view.get_state()
+	const view_state = game_instance.view.get_state()
 	let tip_doc = tbrpg.get_tip(state)
 
 	const interactive_items = [
@@ -32,7 +32,7 @@ export default function Dev({game_instance}) {
 			<hr key="inventory" />
 			{rich_text_to_react(render_full_inventory(state.inventory, state.wallet))}
 			<hr key="meta" />
-			{rich_text_to_react(render_meta(state, client_state))}
+			{rich_text_to_react(render_meta(state, view_state))}
 			<hr key="items" />
 			<h3>Interactive items:</h3>
 			<h4>interactive (auto)</h4>

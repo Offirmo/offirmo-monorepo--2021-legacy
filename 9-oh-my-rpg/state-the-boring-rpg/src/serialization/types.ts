@@ -12,6 +12,7 @@ const ActionType = Enum(
 	'sell_item',
 	'rename_avatar',
 	'change_avatar_class',
+	'redeem_code',
 )
 type ActionType = Enum<typeof ActionType> // eslint-disable-line no-redeclare
 
@@ -58,7 +59,14 @@ interface ActionChangeAvatarClass {
 	new_class: CharacterClass
 }
 
-type Action = ActionPlay | ActionEquipItem | ActionSellItem | ActionRenameAvatar | ActionChangeAvatarClass
+interface ActionRedeemCode {
+	type: typeof ActionType.redeem_code
+	category: typeof ActionCategory.meta
+	expected_state_revision: number
+	code: string
+}
+
+type Action = ActionPlay | ActionEquipItem | ActionSellItem | ActionRenameAvatar | ActionChangeAvatarClass | ActionRedeemCode
 
 /////////////////////
 
@@ -71,6 +79,7 @@ export {
 	ActionSellItem,
 	ActionRenameAvatar,
 	ActionChangeAvatarClass,
+	ActionRedeemCode,
 
 	Action,
 }

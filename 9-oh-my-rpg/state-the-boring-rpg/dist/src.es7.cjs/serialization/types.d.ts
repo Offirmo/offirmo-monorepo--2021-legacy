@@ -7,6 +7,7 @@ declare const ActionType: {
     sell_item: "sell_item";
     rename_avatar: "rename_avatar";
     change_avatar_class: "change_avatar_class";
+    redeem_code: "redeem_code";
 };
 declare type ActionType = Enum<typeof ActionType>;
 declare const ActionCategory: {
@@ -44,5 +45,11 @@ interface ActionChangeAvatarClass {
     expected_state_revision: number;
     new_class: CharacterClass;
 }
-declare type Action = ActionPlay | ActionEquipItem | ActionSellItem | ActionRenameAvatar | ActionChangeAvatarClass;
-export { ActionType, ActionCategory, ActionPlay, ActionEquipItem, ActionSellItem, ActionRenameAvatar, ActionChangeAvatarClass, Action, };
+interface ActionRedeemCode {
+    type: typeof ActionType.redeem_code;
+    category: typeof ActionCategory.meta;
+    expected_state_revision: number;
+    code: string;
+}
+declare type Action = ActionPlay | ActionEquipItem | ActionSellItem | ActionRenameAvatar | ActionChangeAvatarClass | ActionRedeemCode;
+export { ActionType, ActionCategory, ActionPlay, ActionEquipItem, ActionSellItem, ActionRenameAvatar, ActionChangeAvatarClass, ActionRedeemCode, Action, };

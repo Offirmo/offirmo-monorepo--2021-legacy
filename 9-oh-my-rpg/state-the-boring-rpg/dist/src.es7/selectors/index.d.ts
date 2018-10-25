@@ -1,0 +1,14 @@
+import { UUID } from '@offirmo/uuid';
+import { InventorySlot, Element } from '@oh-my-rpg/definitions';
+import { Snapshot } from '@oh-my-rpg/state-energy';
+import { Item } from '@oh-my-rpg/state-inventory';
+import { State } from '../types';
+declare function is_inventory_full(state: Readonly<State>): boolean;
+declare function get_energy_snapshot(state: Readonly<State>, now?: Readonly<Date>): Readonly<Snapshot>;
+declare function get_item_in_slot(state: Readonly<State>, slot: InventorySlot): Readonly<Item> | null;
+declare function get_item(state: Readonly<State>, uuid: UUID): Readonly<Item> | null;
+declare function appraise_item_value(state: Readonly<State>, uuid: UUID): number;
+declare function appraise_item_power(state: Readonly<State>, uuid: UUID): number;
+declare function appraise_player_power(state: Readonly<State>): number;
+declare function find_element(state: Readonly<State>, uuid: UUID): Readonly<Element> | null;
+export { get_energy_snapshot, is_inventory_full, get_item_in_slot, get_item, appraise_item_value, appraise_item_power, find_element, appraise_player_power, };

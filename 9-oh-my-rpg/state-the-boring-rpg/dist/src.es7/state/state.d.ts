@@ -1,0 +1,13 @@
+import { UUID } from '@offirmo/uuid';
+import { CharacterClass } from '@oh-my-rpg/state-character';
+import { State } from '../types';
+import { SoftExecutionContext } from '../sec';
+declare function create(SEC?: SoftExecutionContext): Readonly<State>;
+declare function reseed(state: Readonly<State>, seed?: number): Readonly<State>;
+declare function play(state: Readonly<State>, explicit_adventure_archetype_hid?: string): Readonly<State>;
+declare function equip_item(state: Readonly<State>, uuid: UUID): Readonly<State>;
+declare function sell_item(state: Readonly<State>, uuid: UUID): Readonly<State>;
+declare function rename_avatar(state: Readonly<State>, new_name: string): Readonly<State>;
+declare function change_avatar_class(state: Readonly<State>, new_class: CharacterClass): Readonly<State>;
+declare function redeem_code(state: Readonly<State>, code: string): Readonly<State>;
+export { create, reseed, play, equip_item, sell_item, rename_avatar, change_avatar_class, redeem_code, };

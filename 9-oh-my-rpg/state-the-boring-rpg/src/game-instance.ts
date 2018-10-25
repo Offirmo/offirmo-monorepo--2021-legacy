@@ -23,14 +23,14 @@ interface CreateParams<T> {
 	SEC: SoftExecutionContext
 	get_latest_state: () => State
 	persist_state: (state: State) => void
-	client_state: T
+	view_state: T
 }
 
 function overwriteMerge<T>(destination: T, source: T): T {
 	return source
 }
 
-function create_game_instance<T>({SEC, get_latest_state, persist_state, client_state}: CreateParams<T>) {
+function create_game_instance<T>({SEC, get_latest_state, persist_state, view_state}: CreateParams<T>) {
 	return SEC.xTry('creating tbrpg instance', ({SEC, logger}: any) => {
 
 		SEC.xTry('auto creating/migrating', ({SEC, logger}: any) => {
@@ -54,7 +54,7 @@ function create_game_instance<T>({SEC, get_latest_state, persist_state, client_s
 			persist_state(state)
 		})
 
-		client_state = client_state || ({} as any as T)
+		view_state = view_state || ({} as any as T)
 
 		const emitter = new EventEmitter()
 
@@ -141,16 +141,17 @@ function create_game_instance<T>({SEC, get_latest_state, persist_state, client_s
 			view: {
 				// allow managing a transient state
 				set_state(fn: (state: T) => Partial<T>): void {
-					const changed = fn(client_state)
-					client_state = {
-						...deep_merge(client_state, changed, {
+					const changed = fn(view_state)
+					view_state = {
+						...deep_merge(view_state, changed, {
 							arrayMerge: overwriteMerge,
 						})
 					}
 					emitter.emit('state_change')
 				},
+
 				get_state(): T {
-					return client_state
+					return view_state
 				},
 			}
 		}

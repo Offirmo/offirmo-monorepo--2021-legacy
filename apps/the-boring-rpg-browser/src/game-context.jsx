@@ -3,7 +3,6 @@ import poll_window_variable from '@offirmo/poll-window-variable'
 import { create_game_instance } from '@oh-my-rpg/state-the-boring-rpg'
 
 import { LS_KEYS } from './services/consts'
-import { CHANNEL } from './services/channel'
 import SEC from './services/sec'
 
 let game_instance = null
@@ -18,6 +17,7 @@ SEC.xTry('loading savegame + creating game instance', ({logger}) => {
 	try {
 		if (lscontent)
 			state = JSON.parse(lscontent)
+		localStorage.setItem(LS_KEYS.savegame_backup, JSON.stringify(state))
 	}
 	catch (err) {
 		// TODO log / report??

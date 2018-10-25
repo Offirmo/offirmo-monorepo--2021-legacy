@@ -16,6 +16,7 @@ const PRNGState = tslib_1.__importStar(require("@oh-my-rpg/state-prng"));
 const state_prng_1 = require("@oh-my-rpg/state-prng");
 const logic_weapons_1 = require("@oh-my-rpg/logic-weapons");
 const logic_armors_1 = require("@oh-my-rpg/logic-armors");
+const CodesState = tslib_1.__importStar(require("@oh-my-rpg/state-codes"));
 /////////////////////
 const consts_1 = require("../consts");
 const selectors_1 = require("../selectors");
@@ -36,6 +37,7 @@ function create(SEC) {
             wallet: WalletState.create(),
             prng: PRNGState.create(),
             energy: EnergyState.create(),
+            codes: CodesState.create(),
             last_adventure: null,
             click_count: 0,
             good_click_count: 0,
@@ -114,5 +116,17 @@ function change_avatar_class(state, new_class) {
     return state;
 }
 exports.change_avatar_class = change_avatar_class;
+function redeem_code(state, code) {
+    const infos = {
+        good_play_count: state.good_click_count,
+        is_alpha_player: true,
+        is_player_since_alpha: true,
+    };
+    state = Object.assign({}, state, { codes: CodesState.redeem_code(sec_1.get_lib_SEC(), state.codes, code, infos), 
+        // TODO count it as a meaningful interaction only if positive (or with a limit)
+        meaningful_interaction_count: state.meaningful_interaction_count + 1, revision: state.revision + 1 });
+    return state;
+}
+exports.redeem_code = redeem_code;
 /////////////////////
 //# sourceMappingURL=state.js.map

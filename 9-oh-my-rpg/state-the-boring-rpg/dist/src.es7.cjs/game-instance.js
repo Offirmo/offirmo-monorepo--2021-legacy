@@ -15,7 +15,7 @@ const serialization_1 = require("./serialization");
 function overwriteMerge(destination, source) {
     return source;
 }
-function create_game_instance({ SEC, get_latest_state, persist_state, client_state }) {
+function create_game_instance({ SEC, get_latest_state, persist_state, view_state }) {
     return SEC.xTry('creating tbrpg instance', ({ SEC, logger }) => {
         SEC.xTry('auto creating/migrating', ({ SEC, logger }) => {
             let state = get_latest_state();
@@ -33,7 +33,7 @@ function create_game_instance({ SEC, get_latest_state, persist_state, client_sta
             }
             persist_state(state);
         });
-        client_state = client_state || {};
+        view_state = view_state || {};
         const emitter = new EventEmitter();
         return {
             reducers: {
@@ -113,14 +113,14 @@ function create_game_instance({ SEC, get_latest_state, persist_state, client_sta
             view: {
                 // allow managing a transient state
                 set_state(fn) {
-                    const changed = fn(client_state);
-                    client_state = Object.assign({}, deep_merge(client_state, changed, {
+                    const changed = fn(view_state);
+                    view_state = Object.assign({}, deep_merge(view_state, changed, {
                         arrayMerge: overwriteMerge,
                     }));
                     emitter.emit('state_change');
                 },
                 get_state() {
-                    return client_state;
+                    return view_state;
                 },
             }
         };

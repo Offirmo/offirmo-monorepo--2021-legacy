@@ -1,0 +1,107 @@
+{
+	"schema_version": 6,
+	"revision": 1,
+	"uuid": "uu1b7rqHkjCcr2nskSaGvoiJ",
+	"creation_date": "20181020_20h04",
+	"avatar": {
+		"schema_version": 2,
+		"revision": 0,
+		"name": "[anonymous]",
+		"klass": "novice",
+		"attributes": {
+			"level": 1,
+			"health": 1,
+			"mana": 0,
+			"strength": 1,
+			"agility": 1,
+			"charisma": 1,
+			"wisdom": 1,
+			"luck": 1
+		}
+	},
+	"inventory": {
+		"schema_version": 1,
+		"revision": 4,
+		"unslotted_capacity": 20,
+		"slotted": {
+			"weapon": {
+				"element_type": "item",
+				"uuid": "uu1Gwm7J9g~d45Dk_kTswsWh",
+				"slot": "weapon",
+				"quality": "common",
+				"base_hid": "spoon",
+				"qualifier1_hid": "used",
+				"qualifier2_hid": "noob",
+				"base_strength": 1,
+				"enhancement_level": 0
+			},
+			"armor": {
+				"base_hid": "socks",
+				"qualifier1_hid": "used",
+				"qualifier2_hid": "noob",
+				"element_type": "item",
+				"uuid": "uu1qOPSxWc94jchjVCO4jSmx",
+				"slot": "armor",
+				"quality": "common",
+				"base_strength": 1,
+				"enhancement_level": 0
+			}
+		},
+		"unslotted": []
+	},
+	"wallet": {
+		"schema_version": 1,
+		"revision": 1,
+		"coin_count": 14,
+		"token_count": 0
+	},
+	"prng": {
+		"schema_version": 2,
+		"revision": 4,
+		"seed": -1083939820,
+		"use_count": 8,
+		"recently_encountered_by_id": {
+			"adventure_archetype--good": [
+				"fight_won_coins"
+			]
+		}
+	},
+	"energy": {
+		"schema_version": 1,
+		"revision": 1,
+		"max_energy": 7,
+		"base_energy_refilling_rate_per_day": 7,
+		"last_date": "ts1_20181020_20h05:09.674",
+		"last_available_energy_float": 6
+	},
+	"last_adventure": {
+		"uuid": "uu1cpEIu9wiFH3NN3hHTquLe",
+		"hid": "fight_won_coins",
+		"good": true,
+		"encounter": {
+			"name": "hatching chick",
+			"level": 1,
+			"rank": "common",
+			"possible_emoji": "🐣"
+		},
+		"gains": {
+			"level": 0,
+			"health": 0,
+			"mana": 0,
+			"strength": 0,
+			"agility": 0,
+			"charisma": 0,
+			"wisdom": 0,
+			"luck": 0,
+			"coin": 14,
+			"token": 0,
+			"armor": null,
+			"weapon": null,
+			"armor_improvement": false,
+			"weapon_improvement": false
+		}
+	},
+	"click_count": 1,
+	"good_click_count": 1,
+	"meaningful_interaction_count": 1
+}

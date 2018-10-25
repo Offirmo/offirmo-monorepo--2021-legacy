@@ -20,7 +20,8 @@ describe('@oh-my-rpg/state-the-boring-rpg - reducer', function () {
             chai_1.expect(state, 'wallet').to.have.property('wallet');
             chai_1.expect(state, 'prng').to.have.property('prng');
             chai_1.expect(state, 'energy').to.have.property('energy');
-            chai_1.expect(Object.keys(state), 'quick key count check').to.have.lengthOf(13); // this test should be updated if that changes
+            chai_1.expect(state, 'codes').to.have.property('codes');
+            chai_1.expect(Object.keys(state), 'quick key count check').to.have.lengthOf(14); // because this test should be updated if that changes
             // init of custom values
             chai_1.expect(state).to.have.property('schema_version', consts_1.SCHEMA_VERSION);
             chai_1.expect(state).to.have.property('revision', 0);

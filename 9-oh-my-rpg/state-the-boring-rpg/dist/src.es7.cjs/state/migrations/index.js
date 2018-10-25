@@ -7,6 +7,7 @@ const WalletState = tslib_1.__importStar(require("@oh-my-rpg/state-wallet"));
 const InventoryState = tslib_1.__importStar(require("@oh-my-rpg/state-inventory"));
 const PRNGState = tslib_1.__importStar(require("@oh-my-rpg/state-prng"));
 const EnergyState = tslib_1.__importStar(require("@oh-my-rpg/state-energy"));
+const CodesState = tslib_1.__importStar(require("@oh-my-rpg/state-codes"));
 const consts_1 = require("../../consts");
 const state_1 = require("../state");
 const sec_1 = require("../../sec");
@@ -34,7 +35,7 @@ function reset_and_salvage(legacy_state) {
     }
     return state;
 }
-const SUB_REDUCERS_COUNT = 5;
+const SUB_REDUCERS_COUNT = 6;
 const OTHER_KEYS_COUNT = 8;
 function migrate_to_latest(SEC, legacy_state, hints = {}) {
     const existing_version = (legacy_state && legacy_state.schema_version) || 0;
@@ -47,6 +48,9 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
         if (existing_version > consts_1.SCHEMA_VERSION)
             throw new Error('Your data is from a more recent version of this lib. Please update!');
         let state = legacy_state; // for starter
+        // micro pseudo-migrations (TODO clean)
+        if (!state.codes)
+            state.codes = CodesState.create();
         if (existing_version < consts_1.SCHEMA_VERSION) {
             logger.warn(`attempting to migrate schema from v${existing_version} to v${consts_1.SCHEMA_VERSION}:`);
             SEC.fireAnalyticsEvent('schema_migration.began');
@@ -71,14 +75,25 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
         // migrate sub-reducers if any...
         if (Object.keys(state).length !== SUB_REDUCERS_COUNT + OTHER_KEYS_COUNT) {
             logger.error('migrate_to_latest', { SUB_REDUCERS_COUNT, OTHER_KEYS_COUNT, actual_count: Object.keys(state).length, legacy_state });
-            throw new Error('migrate_to_latest src is outdated, please update!');
+            throw new Error('migrate_to_latest src (1) is outdated, please update!');
         }
         try {
+            let count = 0;
             state.avatar = CharacterState.migrate_to_latest(SEC, state.avatar, hints.avatar);
+            count++;
             state.inventory = InventoryState.migrate_to_latest(state.inventory, hints.inventory);
+            count++;
             state.wallet = WalletState.migrate_to_latest(state.wallet, hints.wallet);
+            count++;
             state.prng = PRNGState.migrate_to_latest(state.prng, hints.prng);
+            count++;
             state.energy = EnergyState.migrate_to_latest(state.energy, hints.energy);
+            count++;
+            state.codes = CodesState.migrate_to_latest(SEC, state.codes, hints.codes);
+            count++;
+            if (count !== SUB_REDUCERS_COUNT) {
+                throw new Error('migrate_to_latest src (2) is outdated, please update!');
+            }
         }
         catch (err) {
             SEC.fireAnalyticsEvent('schema_migration.failed', { step: 'sub' });

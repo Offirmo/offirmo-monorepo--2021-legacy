@@ -23,6 +23,7 @@
 		"@oh-my-rpg/logic-shop": "^0.0.1",
 		"@oh-my-rpg/logic-weapons": "^0.0.1",
 		"@oh-my-rpg/state-character": "^0.0.1",
+		"@oh-my-rpg/state-codes": "^0.0.1",
 		"@oh-my-rpg/state-energy": "^0.0.1",
 		"@oh-my-rpg/state-inventory": "^0.0.1",
 		"@oh-my-rpg/state-prng": "^0.0.1",

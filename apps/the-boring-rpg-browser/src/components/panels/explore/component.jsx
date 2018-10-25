@@ -105,12 +105,12 @@ export default class Component extends React.Component {
 
 	render() {
 		const { game_instance } = this.props
-		const client_state = game_instance.view.get_state()
+		const view_state = game_instance.view.get_state()
 		return (
 			<div className={'o⋄top-container tbrpg-panel'}>
 				<ErrorBoundary name={'chat:explore'}>
 					<Chat
-						initial_bubbles={client_state.home_bubbles}
+						initial_bubbles={view_state.home_bubbles}
 						gen_next_step={this.gen_next_step()}
 						on_unmount={(bubbles) => {
 							game_instance.view.set_state(() => ({
