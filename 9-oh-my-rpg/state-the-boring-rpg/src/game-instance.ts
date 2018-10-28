@@ -7,10 +7,12 @@ const EventEmitter = require('emittery')
 const deep_merge = require('deepmerge').default
 
 import { UUID } from '@offirmo/uuid'
+import { Document } from '@offirmo/rich-text-format'
 
 import { Element } from '@oh-my-rpg/definitions'
 import { CharacterClass } from '@oh-my-rpg/state-character'
 import { Item, get_item } from '@oh-my-rpg/state-inventory'
+import { PendingEngagement } from "@oh-my-rpg/state-engagement"
 
 import { State } from './types'
 import * as state_fns from './state'
@@ -96,6 +98,12 @@ function create_game_instance<T>({SEC, get_latest_state, persist_state, view_sta
 					persist_state(state)
 					emitter.emit('state_change')
 				},
+				acknowledge_engagement_msg_seen(key: string) {
+					let state = get_latest_state()
+					state = state_fns.acknowledge_engagement_msg_seen(state, key)
+					persist_state(state)
+					emitter.emit('state_change')
+				},
 				execute_serialized_action(action: Action) {
 					let state = get_latest_state()
 					state = reduce_action(state, action)
@@ -124,6 +132,14 @@ function create_game_instance<T>({SEC, get_latest_state, persist_state, view_sta
 				get_actions_for_element(uuid: UUID): Action[] {
 					let state = get_latest_state()
 					return get_actions_for_element(state, uuid)
+				},
+				get_oldest_pending_flow_engagement(): { key: string, $doc: Document, pe: PendingEngagement } | null {
+					let state = get_latest_state()
+					return selectors.get_oldest_pending_flow_engagement(state)
+				},
+				get_oldest_pending_non_flow_engagement(): { key: string, $doc: Document, pe: PendingEngagement } | null {
+					let state = get_latest_state()
+					return selectors.get_oldest_pending_non_flow_engagement(state)
 				},
 			},
 

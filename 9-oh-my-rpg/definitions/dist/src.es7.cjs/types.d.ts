@@ -10,7 +10,7 @@ declare const ElementType: {
 };
 declare type ElementType = Enum<typeof ElementType>;
 interface Element {
-    uuid: UUID;
+    readonly uuid: UUID;
     element_type: ElementType;
 }
 declare const ItemQuality: {

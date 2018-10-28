@@ -3,7 +3,7 @@
 import { LIB, SCHEMA_VERSION } from './consts'
 import { State } from './types'
 import { create } from './state'
-import deepFreeze from "deep-freeze-strict";
+import deepFreeze from 'deep-freeze-strict'
 
 // the oldest format we can migrate from
 // must correspond to state above

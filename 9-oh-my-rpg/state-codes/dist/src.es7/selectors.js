@@ -27,5 +27,5 @@ function is_code_redeemable(state, code, infos) {
     return true;
 }
 /////////////////////
-export { is_code, is_code_redeemable, };
+export { normalize_code, is_code, is_code_redeemable, };
 //# sourceMappingURL=selectors.js.map

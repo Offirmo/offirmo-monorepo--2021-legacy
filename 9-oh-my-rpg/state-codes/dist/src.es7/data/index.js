@@ -1,3 +1,4 @@
+import { get_human_readable_UTC_timestamp_minutes } from '@offirmo/timestamps';
 import normalize_code from '../normalize-code';
 ////////////
 // for test only
@@ -26,11 +27,24 @@ const TEST_CODES = {
             return true;
         },
     },
+    TESTNOTIFS: {
+        redeem_limit: null,
+        is_redeemable: (state, infos) => {
+            return true;
+        },
+    },
 };
 const RAW_CODES = Object.assign({ BORED: {
         redeem_limit: null,
         is_redeemable: (state, infos) => {
-            return false; // TODO
+            if (!infos.has_energy_depleted)
+                return false;
+            if (!state.redeemed_codes['BORED'])
+                return true;
+            const now_minutes = get_human_readable_UTC_timestamp_minutes();
+            const last_redeem_date_minutes = state.redeemed_codes['BORED'].last_redeem_date_minutes;
+            const is_same_day = now_minutes.slice(0, 8) === last_redeem_date_minutes.slice(0, 8);
+            return !is_same_day;
         },
     }, REBORN: {
         redeem_limit: 1,

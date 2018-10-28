@@ -22,7 +22,7 @@ type ElementType = Enum<typeof ElementType> // eslint-disable-line no-redeclare
 ///////
 
 interface Element {
-	uuid: UUID
+	readonly uuid: UUID
 	element_type: ElementType
 	// TODO add schema version ?
 }

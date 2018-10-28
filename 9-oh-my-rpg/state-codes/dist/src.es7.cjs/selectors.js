@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const data_1 = require("./data");
 const normalize_code_1 = tslib_1.__importDefault(require("./normalize-code"));
+exports.normalize_code = normalize_code_1.default;
 /////////////////////
 function is_code(code) {
     if (typeof code !== 'string')

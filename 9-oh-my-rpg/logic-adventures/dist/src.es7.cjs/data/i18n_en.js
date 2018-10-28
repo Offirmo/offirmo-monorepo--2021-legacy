@@ -237,6 +237,9 @@ You loot a nice piece of armor but unfortunately it matches badly your existing 
 No way, style is important for a hero! You ditch the piece of armor for coin: +{{coin}} coin!`,
 };
 const OFFIRMO_INSPIRED_FROM_NET_RSRCS = {
+    // https://springhole.net/writing_roleplaying_randomators/rpg-campaign-idea.htm
+    // https://www.seventhsanctum.com/generate.php?Genname=storygen
+    // https://donjon.bin.sh/fantasy/adventure/
     // My potions would kill you traveler. You can't handle my potions.
     // http://orteil.dashnet.org/gamegen
     bards: `

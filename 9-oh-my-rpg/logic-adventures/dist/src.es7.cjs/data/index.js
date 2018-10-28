@@ -105,7 +105,7 @@ const ENTRIES = [
     { good: true, type: story, hid: 'side_quests', outcome: { coin: 'medium' } },
     { good: true, type: story, hid: 'balrog', outcome: { level: true } },
     { good: true, type: story, hid: 'castle_summon', outcome: { weapon: true } },
-    { good: true, type: story, hid: 'murderer', outcome: { wisdom: true } },
+    { good: true, type: story, hid: 'murderer', outcome: { luck: true } },
     { good: true, type: story, hid: 'unmatched_set', outcome: { coin: 'big' } },
     { good: true, type: story, hid: 'village_gifts_blacksmith', outcome: { armor: true } },
     { good: true, type: story, hid: 'village_strongman', outcome: { strength: true } },
@@ -117,7 +117,7 @@ const ENTRIES = [
     { good: true, type: story, hid: 'chilies', outcome: { class_primary_attribute: true } },
     { good: true, type: story, hid: 'bards', outcome: { charisma: true } },
     // those stories are not hinting a a specific attribute,
-    // thus can be used as a distribution adjustment
+    // thus can be used for adjusting distribution.
     // (if aligned, use 'random_attribute')
     { good: true, type: story, hid: 'dragon_kebab', outcome: { charisma: true } },
     { good: true, type: story, hid: 'found_random_mushroom', outcome: { random_attribute: true } },

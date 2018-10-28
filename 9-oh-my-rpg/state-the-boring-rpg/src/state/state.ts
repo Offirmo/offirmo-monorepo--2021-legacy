@@ -51,15 +51,18 @@ import {
 import { SCHEMA_VERSION } from '../consts'
 
 import { State } from '../types'
+import { EngagementKey } from '../engagement'
 
 import {
 	appraise_item_value,
+	get_energy_snapshot,
 } from '../selectors'
 
 import { SoftExecutionContext, OMRContext, get_lib_SEC } from '../sec'
 import { receive_item } from './play_adventure'
 import { play_good } from './play_good'
 import { play_bad } from './play_bad'
+import {is_in_queue} from "@oh-my-rpg/state-engagement/src";
 
 /////////////////////
 
@@ -106,6 +109,14 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 		})
 		state = receive_item(state, starting_armor)
 		state = equip_item(state, starting_armor.uuid)
+
+		state = {
+			...state,
+			engagement: EngagementState.enqueue(state.engagement, {
+				type: EngagementState.EngagementType.flow,
+				key: EngagementKey['tip--first_play']
+			}),
+		}
 
 		//state.prng = PRNGState.update_use_count(state.prng, rng)
 
@@ -205,52 +216,101 @@ function change_avatar_class(state: Readonly<State>, new_class: CharacterClass):
 
 function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<State> {
 	const infos: CodesConditions = {
+		has_energy_depleted: get_energy_snapshot(state).available_energy < 1,
 		good_play_count: state.good_click_count,
 		is_alpha_player: true, // TODO clean that up when moving to beta
 		is_player_since_alpha: true,
 	}
 
-	const previous_revision = state.revision
+	let engagement_key: EngagementKey = EngagementKey['code_redemption--failed']
+	let engagement_params: any = {}
+	if (!CodesState.is_code_redeemable(state.codes, code, infos)) {
 
-	state = {
-		...state,
-		codes: CodesState.redeem_code(get_lib_SEC(), state.codes, code, infos),
 	}
+	else {
+		state = {
+			...state,
+			codes: CodesState.redeem_code(get_lib_SEC(), state.codes, code, infos),
+		}
 
-	// if we are here, it means we succeeded
-	code = CodesState.normalize_code(code)
-	switch(code) {
-		case 'TESTNEVER':
-		case 'TESTALWAYS':
-		case 'TESTONCE':
-		case 'TESTTWICE':
-			// test code which do nothing
-			break
-		case 'BORED':
-			state = {
-				...state,
-				energy: EnergyState.restore_energy(state.energy, 1.),
-			}
-			break
-		/*case 'REBORN': {
+		code = CodesState.normalize_code(code)
+		engagement_key = EngagementKey['code_redemption--succeeded']
+		engagement_params.code = code
+		switch(code) {
+			case 'TESTNEVER':
+			case 'TESTALWAYS':
+			case 'TESTONCE':
+			case 'TESTTWICE':
+				// test codes which do nothing
+				break
+			case 'TESTNOTIFS':
+				state = {
+					...state,
+					engagement: EngagementState.enqueue(state.engagement, {
+						type: EngagementState.EngagementType.flow,
+						key: EngagementKey['hello_world--flow'],
+					}, {
+						name: 'flow from TESTNOTIFS',
+					}),
+				}
+				state = {
+					...state,
+					engagement: EngagementState.enqueue(state.engagement, {
+						type: EngagementState.EngagementType.aside,
+						key: EngagementKey['hello_world--aside'],
+					}, {
+						name: 'aside from TESTNOTIFS',
+					}),
+				}
+				state = {
+					...state,
+					engagement: EngagementState.enqueue(state.engagement, {
+						type: EngagementState.EngagementType.warning,
+						key: EngagementKey['hello_world--warning'],
+					}, {
+						name: 'warning from TESTNOTIFS',
+					}),
+				}
+				break
+			case 'BORED':
+				state = {
+					...state,
+					energy: EnergyState.restore_energy(state.energy, 1.),
+				}
+				break
+			// TODO
+			/*case 'REBORN': {
 
-			}
-			break
-		case 'ALPHART': {
+               }
+               break
+           case 'ALPHART': {
 
-			}
-			break*/
-		default:
-			throw new Error(`Internal error: code "${code}" not implemented!`)
+               }
+               break*/
+			default:
+				throw new Error(`Internal error: code "${code}" not implemented!`)
+		}
 	}
 
 	return {
 		...state,
-		revision: previous_revision + 1,
+		engagement: EngagementState.enqueue(state.engagement, {
+			type: EngagementState.EngagementType.flow,
+			key: engagement_key,
+		}, engagement_params),
+		revision: state.revision + 1,
 	}
 }
 
+function acknowledge_engagement_msg_seen(state: Readonly<State>, key: string): Readonly<State> {
+	return {
+		...state,
 
+		engagement: EngagementState.acknowledge_seen(state.engagement, key),
+
+		revision: state.revision + 1,
+	}
+}
 /////////////////////
 
 export {
@@ -263,6 +323,7 @@ export {
 	rename_avatar,
 	change_avatar_class,
 	attempt_to_redeem_code,
+	acknowledge_engagement_msg_seen,
 }
 
 /////////////////////

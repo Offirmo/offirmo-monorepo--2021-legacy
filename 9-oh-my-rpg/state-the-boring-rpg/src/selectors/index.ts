@@ -1,4 +1,5 @@
 import { UUID } from '@offirmo/uuid'
+import * as RichText from '@offirmo/rich-text-format'
 
 import { ITEM_SLOTS, InventorySlot, Element } from '@oh-my-rpg/definitions'
 import { is_full } from '@oh-my-rpg/state-inventory'
@@ -9,10 +10,17 @@ import {
 	get_item as _get_item,
 	get_item_in_slot as _get_item_in_slot,
 } from '@oh-my-rpg/state-inventory'
+import {
+	EngagementType,
+	PendingEngagement,
+	get_oldest_queued_flow,
+	get_oldest_queued_non_flow,
+} from "@oh-my-rpg/state-engagement"
 
 /////////////////////
 
 import { State } from '../types'
+import { get_engagement_message } from '../engagement'
 
 /////////////////////
 
@@ -68,6 +76,39 @@ function find_element(state: Readonly<State>, uuid: UUID): Readonly<Element> | n
 	return get_item(state, uuid)
 }
 
+/*
+function has_non_flow_engagement_pending(state: Readonly<State>): boolean {
+
+}
+
+function has_flow_engagement_pending(state: Readonly<State>): boolean {
+
+}*/
+
+function get_oldest_pending_flow_engagement(state: Readonly<State>): { key: string, $doc: RichText.Document, pe: PendingEngagement } | null {
+	const pe = get_oldest_queued_flow(state.engagement)
+	if (!pe)
+		return null
+
+	return {
+		key: pe.engagement.key,
+		$doc: get_engagement_message(state, pe),
+		pe,
+	}
+}
+
+function get_oldest_pending_non_flow_engagement(state: Readonly<State>): { key: string, $doc: RichText.Document, pe: PendingEngagement } | null {
+	const pe = get_oldest_queued_non_flow(state.engagement)
+	if (!pe)
+		return null
+
+	return {
+		key: pe.engagement.key,
+		$doc: get_engagement_message(state, pe),
+		pe,
+	}
+}
+
 /////////////////////
 
 export {
@@ -79,6 +120,8 @@ export {
 	appraise_item_power,
 	find_element,
 	appraise_player_power,
+	get_oldest_pending_flow_engagement,
+	get_oldest_pending_non_flow_engagement,
 }
 
 /////////////////////

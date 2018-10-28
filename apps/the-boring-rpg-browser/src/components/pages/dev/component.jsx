@@ -11,7 +11,6 @@ import './index.css'
 export default function Dev({game_instance}) {
 	const state = game_instance.model.get_state()
 	const view_state = game_instance.view.get_state()
-	let tip_doc = tbrpg.get_tip(state)
 
 	const interactive_items = [
 		...Object.values(state.inventory.slotted),
@@ -25,8 +24,8 @@ export default function Dev({game_instance}) {
 			{rich_text_to_react(tbrpg.get_recap(state))}
 			<hr key="last_adventure" />
 			{rich_text_to_react(render_adventure(state.last_adventure))}
-			<hr key="tip" />
-			{tip_doc ? rich_text_to_react(tip_doc) : '(no tip ATM)'}
+			<hr key="pending" />
+			{/* TODO */}
 			<hr key="avatar" />
 			{rich_text_to_react(render_character_sheet(state.avatar))}
 			<hr key="inventory" />

@@ -37,10 +37,11 @@ function loose_all_energy(state, date = new Date()) {
     return state;
 }
 exports.loose_all_energy = loose_all_energy;
-function replenish_energy(state, date = new Date()) {
-    state = Object.assign({}, state, { revision: state.revision + 1, last_date: timestamps_1.get_human_readable_UTC_timestamp_ms(date), last_available_energy_float: state.max_energy * 1. });
+function restore_energy(state, qty_float) {
+    qty_float = (qty_float || state.max_energy) * 1.;
+    state = Object.assign({}, state, { revision: state.revision + 1, last_available_energy_float: Math.min(state.max_energy, state.last_available_energy_float + qty_float) });
     return state;
 }
-exports.replenish_energy = replenish_energy;
+exports.restore_energy = restore_energy;
 /////////////////////
 //# sourceMappingURL=state.js.map

@@ -1,47 +1,37 @@
 "use strict";
-// TODO move outside? tbrpg-engagement?
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const RichText = tslib_1.__importStar(require("@offirmo/rich-text-format"));
-function get_recap(state) {
-    const isNewGame = (state.meaningful_interaction_count === 0);
-    if (isNewGame) {
-        return RichText.inline_fragment()
-            .pushText('You are an ')
-            .pushStrong('otherworlder')
-            .pushText(', an adventurer from another world…{{br}}')
-            .pushText('Congratulations, you were chosen to enter the unknown realm of ')
-            .pushStrong('Jaema')
-            .pushText('!{{br}}')
-            .pushText('Maybe were you just more courageous, cunning and curious than your peers?{{br}}')
-            .pushText('But for now, let’s go on an adventure, for glory ⚔ and loot 📦 💰 !')
-            .done();
+const types_1 = require("./types");
+function get_engagement_message(state, pe) {
+    const { engagement: { key }, params } = pe;
+    switch (key) {
+        case types_1.EngagementKey['hello_world--flow']:
+        case types_1.EngagementKey['hello_world--aside']:
+        case types_1.EngagementKey['hello_world--warning']:
+            return RichText.block_fragment()
+                .pushText('[TEST] Hello, ')
+                .pushNode(RichText.span().pushText(params.name || 'world').done(), 'name')
+                .pushText('!')
+                .done();
+        case types_1.EngagementKey['tip--first_play']:
+            return RichText.block_fragment()
+                .pushStrong('Tip: ')
+                .pushText('Select ')
+                .pushStrong('play')
+                .pushText(' to start adventuring!')
+                .done();
+        case types_1.EngagementKey['code_redemption--failed']:
+            return RichText.block_fragment()
+                .pushStrong('Error: This code is either non-existing or non redeemable at the moment.')
+                .done();
+        case types_1.EngagementKey['code_redemption--succeeded']:
+            return RichText.block_fragment()
+                .pushStrong('Code successfully redeemed.')
+                .done();
+        default:
+            throw new Error(`No engagement message for "${key}"!`);
     }
-    return RichText.block_fragment()
-        .pushText('You are ')
-        .pushNode(RichText.span().addClass('avatar__name').pushText(state.avatar.name).done(), 'name')
-        .pushText(', the ')
-        .pushNode(RichText.span().addClass('avatar__class').pushText(state.avatar.klass).done(), 'class')
-        .pushText(' from another world.{{br}}')
-        .pushText('You are adventuring in the mysterious world of ')
-        .pushStrong('Jaema')
-        .pushText('…{{br}}')
-        .pushStrong('For glory ⚔  and loot 📦 💰 !')
-        .done();
 }
-exports.get_recap = get_recap;
-function get_tip(state) {
-    const hasEverPlayed = !!state.click_count;
-    if (!hasEverPlayed)
-        return RichText.block_fragment()
-            .pushStrong('Tip: ')
-            .pushText('Select ')
-            .pushStrong('play')
-            .pushText(' to start adventuring!')
-            .done();
-    // TODO suggest changing name
-    // TODO suggest changing class
-    return null;
-}
-exports.get_tip = get_tip;
+exports.get_engagement_message = get_engagement_message;
 //# sourceMappingURL=messages.js.map

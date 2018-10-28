@@ -1,3 +1,5 @@
+import { get_human_readable_UTC_timestamp_minutes } from '@offirmo/timestamps'
+
 import normalize_code from '../normalize-code'
 import { Code, CodesConditions, State } from '../types'
 
@@ -33,6 +35,13 @@ const TEST_CODES: { [key: string]: Partial<Code> } = {
 			return true
 		},
 	},
+
+	TESTNOTIFS: {
+		redeem_limit: null,
+		is_redeemable: (state: Readonly<State>, infos: Readonly<CodesConditions>) => {
+			return true
+		},
+	},
 }
 
 const RAW_CODES: { [key: string]: Partial<Code> } = {
@@ -40,7 +49,16 @@ const RAW_CODES: { [key: string]: Partial<Code> } = {
 	BORED: {
 		redeem_limit: null,
 		is_redeemable: (state: Readonly<State>, infos: Readonly<CodesConditions>) => {
-			return false // TODO
+			if (!infos.has_energy_depleted)
+				return false
+
+			if (!state.redeemed_codes['BORED'])
+				return true
+
+			const now_minutes = get_human_readable_UTC_timestamp_minutes()
+			const last_redeem_date_minutes = state.redeemed_codes['BORED']!.last_redeem_date_minutes
+			const is_same_day = now_minutes.slice(0, 8) === last_redeem_date_minutes.slice(0, 8)
+			return !is_same_day
 		},
 	},
 

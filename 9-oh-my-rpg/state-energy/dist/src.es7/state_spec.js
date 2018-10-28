@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { SCHEMA_VERSION } from './consts';
-import { create, use_energy, get_snapshot, } from '.';
+import { create, use_energy, restore_energy, get_snapshot, } from '.';
 import { get_human_readable_UTC_timestamp_ms } from '@offirmo/timestamps';
 describe('@oh-my-rpg/state-energy - reducer', function () {
     describe('🆕  initial state', function () {
@@ -69,7 +69,31 @@ describe('@oh-my-rpg/state-energy - reducer', function () {
             });
         });
     });
-    describe('energy limitations', function () {
+    describe('energy replenishment', function () {
+        context('when not going over the limit', function () {
+            it('should increment energy correctly', function () {
+                let state = create();
+                state = use_energy(state, 1);
+                state = use_energy(state, 1);
+                state = use_energy(state, 1);
+                expect(get_snapshot(state).available_energy).to.equal(4);
+                state = restore_energy(state, 2);
+                expect(get_snapshot(state).available_energy).to.equal(6);
+            });
+        });
+        context('when going over the limit', function () {
+            it('should increment but cap', function () {
+                let state = create();
+                state = use_energy(state, 1);
+                state = use_energy(state, 1);
+                state = use_energy(state, 1);
+                expect(get_snapshot(state).available_energy).to.equal(4);
+                state = restore_energy(state);
+                expect(get_snapshot(state).available_energy).to.equal(7); // max
+            });
+        });
+    });
+    describe('natural replenishment', function () {
         it('should not allow playing more than X times in 24 hours - case 1', function () {
             let state = create();
             // all at once
@@ -115,10 +139,8 @@ describe('@oh-my-rpg/state-energy - reducer', function () {
             // 24h elapsed
             expect(get_snapshot(state, new Date(2017, 1, 2, 0)).available_energy).to.be.below(7);
         });
-    });
-    describe('exploit', function () {
         // case 1 = a wrong implementation I did first
-        it('should not be allowed - case 1', function () {
+        it('should not be exploitable - case 1', function () {
             let state = create();
             // burst to 0
             state = use_energy(state, 1, new Date(2017, 1, 1, 0));

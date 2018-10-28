@@ -27,20 +27,20 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 
 /////////////////////
 
-function enqueue(state: Readonly<State>, engagement: Engagement, queue_time_root_revision: number): Readonly<State> {
+function enqueue(state: Readonly<State>, engagement: Engagement, params: PendingEngagement['params'] = {}): Readonly<State> {
 
 	// TODO refine this concept
 	// ex. multiple level rises should be ok
 	// flow maybe
 	// or maybe it's a bug if this happen?
 	if (is_in_queue(state, engagement.key)) {
-		throw new Error(`Engagemnet: attempting to queue duplicate "${engagement.key}"!`)
+		throw new Error(`Engagement: attempting to queue duplicate "${engagement.key}"!`)
 		//return state
 	}
 
 	const pending: PendingEngagement = {
 		engagement,
-		queue_time_root_revision,
+		params,
 	}
 
 	return {

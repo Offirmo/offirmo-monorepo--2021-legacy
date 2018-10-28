@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import poll_window_variable, { poll } from '@offirmo/poll-window-variable'
 
-//import './index.css';
+import './index.css';
 
 const STATES = {
 	WAITING_FOR_LIB: 'WAITING_FOR_LIB',
@@ -46,10 +46,10 @@ class LoggedIn extends Component {
 	render() {
 		const { user, onRequestLogout } = this.props
 		return (
-			<Fragment>
+			<div className="netlify-widget">
 				Logged in as: {user.user_metadata ? user.user_metadata.full_name : '(pending…)'}
 				<button onClick={onRequestLogout}>log out</button>
-			</Fragment>
+			</div>
 		)
 	}
 }

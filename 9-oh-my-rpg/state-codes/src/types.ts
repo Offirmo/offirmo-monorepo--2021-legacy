@@ -5,6 +5,7 @@ import { HumanReadableTimestampUTCMinutes } from '@offirmo/timestamps'
 /////////////////////
 
 interface CodesConditions {
+	has_energy_depleted: boolean
 	good_play_count: number
 	is_alpha_player: boolean
 	is_player_since_alpha: boolean

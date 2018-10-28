@@ -38,7 +38,7 @@ type GainType = Enum<typeof GainType> // eslint-disable-line no-redeclare
 
 
 interface Adventure {
-	uuid: UUID
+	readonly uuid: UUID
 	hid: string
 	good: boolean
 	encounter?: Monster,
@@ -66,7 +66,7 @@ interface State {
 	schema_version: number
 	revision: number
 
-	uuid: UUID
+	readonly uuid: UUID // TODO review
 	creation_date: HumanReadableTimestampUTCMinutes
 
 	avatar: CharacterState

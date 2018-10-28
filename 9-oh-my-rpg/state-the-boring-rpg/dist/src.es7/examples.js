@@ -109,7 +109,6 @@ const DEMO_STATE = deepFreeze({
     last_adventure: DEMO_ADVENTURE_01,
     click_count: 86,
     good_click_count: 86,
-    meaningful_interaction_count: 86,
 });
 // the oldest format we can migrate from
 // must correspond to state above
@@ -244,7 +243,6 @@ const OLDEST_LEGACY_STATE_FOR_TESTS = deepFreeze({
     },
     'click_count': 86,
     'good_click_count': 86,
-    'meaningful_interaction_count': 86
 });
 // some hints may be needed to migrate to demo state
 const MIGRATION_HINTS_FOR_TESTS = deepFreeze({

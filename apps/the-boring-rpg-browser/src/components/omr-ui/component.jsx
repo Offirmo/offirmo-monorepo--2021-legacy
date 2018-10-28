@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment } from 'react'
 
 import OhMyRpg from '@oh-my-rpg/view-browser-react'
 
@@ -8,8 +8,8 @@ import MainArea from './omr-immersion'
 import HamburgerArea from './omr-hamburger'
 import * as GroupChat from './group-chat-tlkio'
 
-import './index.css';
-import logo from './tbrpg_logo_512x98.png';
+import './index.css'
+import logo from './tbrpg_logo_512x98.png'
 
 const MODE_TO_INDEX = {
 	'explore': 0,
@@ -99,7 +99,7 @@ export default class TheBoringRPG extends Component {
 
 				bottomMarkerIndex={MODE_TO_INDEX[mode]}
 			>
-				<MainArea />}
+				<MainArea />
 			</OhMyRpg>
 		)
 	}

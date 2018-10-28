@@ -67,6 +67,18 @@ function create_game_instance({ SEC, get_latest_state, persist_state, view_state
                     persist_state(state);
                     emitter.emit('state_change');
                 },
+                attempt_to_redeem_code(code) {
+                    let state = get_latest_state();
+                    state = state_fns.attempt_to_redeem_code(state, code);
+                    persist_state(state);
+                    emitter.emit('state_change');
+                },
+                acknowledge_engagement_msg_seen(key) {
+                    let state = get_latest_state();
+                    state = state_fns.acknowledge_engagement_msg_seen(state, key);
+                    persist_state(state);
+                    emitter.emit('state_change');
+                },
                 execute_serialized_action(action) {
                     let state = get_latest_state();
                     state = serialization_1.reduce_action(state, action);
@@ -94,6 +106,14 @@ function create_game_instance({ SEC, get_latest_state, persist_state, view_state
                 get_actions_for_element(uuid) {
                     let state = get_latest_state();
                     return serialization_1.get_actions_for_element(state, uuid);
+                },
+                get_oldest_pending_flow_engagement() {
+                    let state = get_latest_state();
+                    return selectors.get_oldest_pending_flow_engagement(state);
+                },
+                get_oldest_pending_non_flow_engagement() {
+                    let state = get_latest_state();
+                    return selectors.get_oldest_pending_non_flow_engagement(state);
                 },
             },
             model: {

@@ -20,75 +20,87 @@ export default class Component extends React.Component {
 
 		do {
 			const steps = []
-			const state = game_instance.model.get_state()
-			const ui_state = game_instance.view.get_state()
-			//console.log({ui_state, state})
 
-			if (ui_state.character_changing_class) {
+			const engagement_msg = game_instance.selectors.get_oldest_pending_flow_engagement()
+			if (engagement_msg) {
+				const { key, $doc } = engagement_msg
 				steps.push({
-					msg_main: 'Choose your path wisely:',
-					choices: CHARACTER_CLASSES
-						.filter(klass => klass !== 'novice')
-						.map(klass => ({
-							msg_cta: klass,
-							value: klass,
-							msgg_as_user: () => `I want to follow the path of the ${klass}!`,
-							msgg_acknowledge: () => `You’ll make an amazing ${klass}.`,
-							callback: value => {
-								game_instance.reducers.change_avatar_class(value)
-								game_instance.view.set_state(() => ({
-									character_changing_class: false,
-								}))
-							}
-						}))
+					type: 'simple_message',
+					msg_main: rich_text_to_react($doc),
 				})
-			}
-			else if (ui_state.character_changing_name) {
-				steps.push({
-					type: 'ask_for_string',
-					msg_main: `What’s your name?`,
-					msgg_as_user: value => value
-						? `My name is "${value}".`
-						: 'Nevermind.',
-					msgg_acknowledge: name => name
-						? `You are now known as ${name}!`
-						: 'Maybe another time.',
-					callback: value => {
-						console.log({value, type: typeof value})
-						if (value)
-							game_instance.reducers.rename_avatar(value)
-						game_instance.view.set_state(() => ({
-							character_changing_name: false,
-						}))
-					},
-				})
+				game_instance.reducers.acknowledge_engagement_msg_seen(key)
 			}
 			else {
-				steps.push({
-					msg_main: 'What do you want to do?',
-					choices: [
-						{
-							msg_cta: 'Change class',
-							value: 'c',
-							msgg_as_user: () => 'I want to follow the path of…',
-							callback: () => {
-								game_instance.view.set_state(() => ({
-									character_changing_class: true,
-								}))
-							}
+				//const state = game_instance.model.get_state()
+				const view_state = game_instance.view.get_state()
+				//console.log({view_state, state})
+
+				if (view_state.changing_character_class) {
+					steps.push({
+						msg_main: 'Choose your path wisely:',
+						choices: CHARACTER_CLASSES
+							.filter(klass => klass !== 'novice')
+							.map(klass => ({
+								msg_cta: klass,
+								value: klass,
+								msgg_as_user: () => `I want to follow the path of the ${klass}!`,
+								msgg_acknowledge: () => `You’ll make an amazing ${klass}.`,
+								callback: value => {
+									game_instance.reducers.change_avatar_class(value)
+									game_instance.view.set_state(() => ({
+										changing_character_class: false,
+									}))
+								}
+							}))
+					})
+				}
+				else if (view_state.changing_character_name) {
+					steps.push({
+						type: 'ask_for_string',
+						msg_main: `What’s your name?`,
+						msgg_as_user: value => value
+							? `My name is "${value}".`
+							: 'Nevermind.',
+						msgg_acknowledge: name => name
+							? `You are now known as ${name}!`
+							: 'Maybe another time.',
+						callback: value => {
+							console.log({value, type: typeof value})
+							if (value)
+								game_instance.reducers.rename_avatar(value)
+							game_instance.view.set_state(() => ({
+								changing_character_name: false,
+							}))
 						},
-						{
-							msg_cta: 'Rename hero',
-							value: 'r',
-							msgg_as_user: () => 'Let’s fix my name…',
-							callback: () => {
-								game_instance.view.set_state(() => ({
-									character_changing_name: true,
-								}))
-							}
-						},
-					],
-				})
+					})
+				}
+				else {
+					steps.push({
+						msg_main: 'What do you want to do?',
+						choices: [
+							{
+								msg_cta: 'Change class',
+								value: 'c',
+								msgg_as_user: () => 'I want to follow the path of…',
+								callback: () => {
+									game_instance.view.set_state(() => ({
+										changing_character_class: true,
+									}))
+								}
+							},
+							{
+								msg_cta: 'Rename hero',
+								value: 'r',
+								msgg_as_user: () => 'Let’s fix my name…',
+								callback: () => {
+									game_instance.view.set_state(() => ({
+										changing_character_name: true,
+									}))
+								}
+							},
+						],
+					})
+				}
 			}
 
 			yield* steps

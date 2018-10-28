@@ -1,5 +1,5 @@
 import * as RichText from '@offirmo/rich-text-format';
+import { PendingEngagement } from '@oh-my-rpg/state-engagement';
 import { State } from '../types';
-declare function get_recap(state: Readonly<State>): RichText.Document;
-declare function get_tip(state: Readonly<State>): RichText.Document | null;
-export { get_recap, get_tip, };
+declare function get_engagement_message(state: Readonly<State>, pe: PendingEngagement): RichText.Document;
+export { get_engagement_message, };

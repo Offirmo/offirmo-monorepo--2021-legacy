@@ -45,7 +45,10 @@ SEC.xTry('init client state', ({logger}) => {
 		last_displayed_adventure_uuid: (() => {
 			const { last_adventure } = game_instance.model.get_state()
 			return last_adventure && last_adventure.uuid
-		})()
+		})(),
+		changing_character_class: false,
+		changing_character_name: false,
+		redeeming_code: false,
 	}))
 
 

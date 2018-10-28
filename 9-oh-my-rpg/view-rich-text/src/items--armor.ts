@@ -11,7 +11,6 @@ import { appraise_power, appraise_value } from '@oh-my-rpg/logic-shop'
 
 import { RenderItemOptions } from './types'
 import { DEFAULT_RENDER_ITEM_OPTIONS } from './consts'
-import {render_weapon_short} from "./items--weapon";
 
 /////////////////////
 

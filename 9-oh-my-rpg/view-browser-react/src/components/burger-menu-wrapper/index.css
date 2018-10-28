@@ -11,7 +11,7 @@
 	width: 400px !important;
 }
 /* small screens */
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 500px) {
 	.bm-menu-wrap {
 		width: 80% !important;
 	}
@@ -24,8 +24,8 @@
 	background: var(--o⋄color--fg⁚main);
 }
 .bm-cross-button {
-	top: 0 !important;
-	right: 0 !important;
+	top: 7px !important;
+	left: 7px !important;
 }
 
 .bm-burger-button {
@@ -46,6 +46,7 @@
 /************/
 
 .bm-menu-wrap .omr-auto-logo {
+	text-align: center;
 	width: 100%;
 	padding: 24px 1em 0 1em;
 }

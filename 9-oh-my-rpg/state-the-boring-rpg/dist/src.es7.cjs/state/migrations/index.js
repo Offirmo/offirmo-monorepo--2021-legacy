@@ -7,6 +7,7 @@ const WalletState = tslib_1.__importStar(require("@oh-my-rpg/state-wallet"));
 const InventoryState = tslib_1.__importStar(require("@oh-my-rpg/state-inventory"));
 const PRNGState = tslib_1.__importStar(require("@oh-my-rpg/state-prng"));
 const EnergyState = tslib_1.__importStar(require("@oh-my-rpg/state-energy"));
+const EngagementState = tslib_1.__importStar(require("@oh-my-rpg/state-engagement"));
 const CodesState = tslib_1.__importStar(require("@oh-my-rpg/state-codes"));
 const consts_1 = require("../../consts");
 const state_1 = require("../state");
@@ -35,7 +36,7 @@ function reset_and_salvage(legacy_state) {
     }
     return state;
 }
-const SUB_REDUCERS_COUNT = 6;
+const SUB_REDUCERS_COUNT = 7;
 const OTHER_KEYS_COUNT = 8;
 function migrate_to_latest(SEC, legacy_state, hints = {}) {
     const existing_version = (legacy_state && legacy_state.schema_version) || 0;
@@ -50,7 +51,9 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
         let state = legacy_state; // for starter
         // micro pseudo-migrations (TODO clean)
         if (!state.codes)
-            state.codes = CodesState.create();
+            state.codes = CodesState.create(SEC);
+        if (!state.engagement)
+            state.engagement = EngagementState.create(SEC);
         if (existing_version < consts_1.SCHEMA_VERSION) {
             logger.warn(`attempting to migrate schema from v${existing_version} to v${consts_1.SCHEMA_VERSION}:`);
             SEC.fireAnalyticsEvent('schema_migration.began');
@@ -88,6 +91,8 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
             state.prng = PRNGState.migrate_to_latest(state.prng, hints.prng);
             count++;
             state.energy = EnergyState.migrate_to_latest(state.energy, hints.energy);
+            count++;
+            state.engagement = EngagementState.migrate_to_latest(SEC, state.engagement, hints.engagement);
             count++;
             state.codes = CodesState.migrate_to_latest(SEC, state.codes, hints.codes);
             count++;

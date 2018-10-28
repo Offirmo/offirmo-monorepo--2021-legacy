@@ -61,48 +61,95 @@ export default class Component extends React.Component {
 	};
 
 	* gen_next_step() {
-		const { history } = this.props
+		const { game_instance, history } = this.props
 
 		do {
 			const steps = []
 
-			steps.push({
-				msg_main: 'What do you want to do?',
-				msgg_acknowledge: url => <span>Now opening <a href={url} target="_blank">{url}</a></span>,
-				callback: url => window.open(url, '_blank', 'noopener'),
-				choices: [
-					{
-						msg_cta: '👍 Like on social medias',
-						value: THE_BORING_RPG.aggregated_links_url,
-						msgg_as_user: () => 'You’re awesome…',
-					},
-					{
-						msg_cta: 'Report a bug 🐞',
-						value: THE_BORING_RPG.issues_url,
-						msgg_as_user: () => 'There is this annoying bug…',
-					},
-					{
-						msg_cta: '⚙ Save/load/reset your savegame',
-						value: 'save',
-						msgg_as_user: () => 'Let’s mess with my savegame…',
-						callback: async () => {
-							history.push(ROUTES.savegame)
-							// trick: we'll navigate, causing this chat to be unmounted
-							// which is hard to sync. Delay resolution so that
-							// the chat doesn't try to advance until we're already unmounted.
-							// TODO improve further (intercept return of this func?)
-							return new Promise(resolve => setTimeout(resolve, 2000))
-						}
-					},
-					{
-						msg_cta: 'Reload page ↻',
-						value: 'reload',
-						msgg_as_user: () => 'Reload the page.',
-						msgg_acknowledge: () => 'Reloading...',
-						callback: async () => window.location.reload(),
-					},
-				],
-			})
+			const engagement_msg = game_instance.selectors.get_oldest_pending_flow_engagement()
+			if (engagement_msg) {
+				const { key, $doc } = engagement_msg
+				steps.push({
+					type: 'simple_message',
+					msg_main: rich_text_to_react($doc),
+				})
+				game_instance.reducers.acknowledge_engagement_msg_seen(key)
+			}
+			else {
+				//const state = game_instance.model.get_state()
+				const view_state = game_instance.view.get_state()
+				//console.log({view_state, state})
+
+				if (view_state.redeeming_code) {
+					steps.push({
+						type: 'ask_for_string',
+						msg_main: `Please enter a code…`,
+						msgg_as_user: value => value
+							? `Let's redeem "${value}_".`
+							: 'Nevermind.',
+						msgg_acknowledge: code => code
+							? `Redeeming the code "${code}"...`
+							: 'Maybe another time.',
+						callback: value => {
+							console.log({value, type: typeof value})
+							if (value)
+								game_instance.reducers.attempt_to_redeem_code(value)
+							game_instance.view.set_state(() => ({
+								redeeming_code: false,
+							}))
+						},
+					})
+				}
+				else {
+					steps.push({
+						msg_main: 'What do you want to do?',
+						callback: url => window.open(url, '_blank').opener = null,
+						choices: [
+							{
+								msg_cta: '👍 Like on social medias',
+								value: THE_BORING_RPG.aggregated_links_url,
+								msgg_as_user: () => 'You’re awesome…',
+								msgg_acknowledge: url => <span>Now opening <a href={url} target="_blank">{url}</a></span>,
+							},
+							{
+								msg_cta: 'Enter a code',
+								value: 'redeem',
+								callback: () => {
+									game_instance.view.set_state(() => ({
+										redeeming_code: true,
+									}))
+								}
+							},
+							{
+								msg_cta: 'Report a bug 🐞',
+								value: THE_BORING_RPG.issues_url,
+								msgg_as_user: () => 'There is this annoying bug…',
+								msgg_acknowledge: url => <span>Now opening <a href={url} target="_blank">{url}</a></span>,
+							},
+							{
+								msg_cta: '⚙ Save/load/reset your savegame',
+								value: 'save',
+								msgg_as_user: () => 'Let’s mess with my savegame…',
+								callback: async () => {
+									history.push(ROUTES.savegame)
+									// trick: we'll navigate, causing this chat to be unmounted
+									// which is hard to sync. Delay resolution so that
+									// the chat doesn't try to advance until we're already unmounted.
+									// TODO improve further (intercept return of this func?)
+									return new Promise(resolve => setTimeout(resolve, 2000))
+								}
+							},
+							{
+								msg_cta: 'Reload page ↻',
+								value: 'reload',
+								msgg_as_user: () => 'Reload the page.',
+								msgg_acknowledge: () => 'Reloading...',
+								callback: async () => window.location.reload(),
+							},
+						],
+					})
+				}
+			}
 
 			yield* steps
 		} while (true)
@@ -114,11 +161,13 @@ export default class Component extends React.Component {
 
 		return (
 			<div className={'tbrpg-panel o⋄flex--column'}>
+				<hr/>
 				<NetlifyWidget />
+				<hr/>
 				<div className='panel-top-content o⋄flex-element--nogrow'>
 					{rich_text_to_react(render_meta(state))}
-					<hr/>
 				</div>
+				<hr/>
 				<div className='o⋄flex-element--grow o⋄overflow-y⁚auto'>
 					<ErrorBoundary name={'chat:meta'}>
 						<Chat gen_next_step={this.gen_next_step()} />

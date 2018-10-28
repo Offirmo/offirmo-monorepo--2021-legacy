@@ -1,1 +1,1 @@
-{"version":3,"file":"normalize-code.js","sourceRoot":"","sources":["../../src/normalize-code.ts"],"names":[],"mappings":";;AAAA,gEAAuD;AAEvD,MAAM,cAAc,GAAG,8BAAW,CAAC,yBAAyB,CAAA;AAE5D,kBAAe,cAAc,CAAA"}
+{"version":3,"file":"normalize-code.js","sourceRoot":"","sources":["../../src/normalize-code.ts"],"names":[],"mappings":";;AAAA,gEAAuD;AAEvD,kDAAkD;AAClD,SAAS,cAAc,CAAC,CAAS;IAChC,OAAO,8BAAW,CAAC,yBAAyB,CAAC,CAAC,CAAC,CAAA;AAChD,CAAC;AAED,kBAAe,cAAc,CAAA"}

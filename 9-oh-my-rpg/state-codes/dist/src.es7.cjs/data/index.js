@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
+const timestamps_1 = require("@offirmo/timestamps");
 const normalize_code_1 = tslib_1.__importDefault(require("../normalize-code"));
 ////////////
 // for test only
@@ -29,11 +30,24 @@ const TEST_CODES = {
             return true;
         },
     },
+    TESTNOTIFS: {
+        redeem_limit: null,
+        is_redeemable: (state, infos) => {
+            return true;
+        },
+    },
 };
 const RAW_CODES = Object.assign({ BORED: {
         redeem_limit: null,
         is_redeemable: (state, infos) => {
-            return false; // TODO
+            if (!infos.has_energy_depleted)
+                return false;
+            if (!state.redeemed_codes['BORED'])
+                return true;
+            const now_minutes = timestamps_1.get_human_readable_UTC_timestamp_minutes();
+            const last_redeem_date_minutes = state.redeemed_codes['BORED'].last_redeem_date_minutes;
+            const is_same_day = now_minutes.slice(0, 8) === last_redeem_date_minutes.slice(0, 8);
+            return !is_same_day;
         },
     }, REBORN: {
         redeem_limit: 1,

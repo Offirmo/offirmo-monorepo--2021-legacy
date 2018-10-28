@@ -71,7 +71,31 @@ describe('@oh-my-rpg/state-energy - reducer', function () {
             });
         });
     });
-    describe('energy limitations', function () {
+    describe('energy replenishment', function () {
+        context('when not going over the limit', function () {
+            it('should increment energy correctly', function () {
+                let state = _1.create();
+                state = _1.use_energy(state, 1);
+                state = _1.use_energy(state, 1);
+                state = _1.use_energy(state, 1);
+                chai_1.expect(_1.get_snapshot(state).available_energy).to.equal(4);
+                state = _1.restore_energy(state, 2);
+                chai_1.expect(_1.get_snapshot(state).available_energy).to.equal(6);
+            });
+        });
+        context('when going over the limit', function () {
+            it('should increment but cap', function () {
+                let state = _1.create();
+                state = _1.use_energy(state, 1);
+                state = _1.use_energy(state, 1);
+                state = _1.use_energy(state, 1);
+                chai_1.expect(_1.get_snapshot(state).available_energy).to.equal(4);
+                state = _1.restore_energy(state);
+                chai_1.expect(_1.get_snapshot(state).available_energy).to.equal(7); // max
+            });
+        });
+    });
+    describe('natural replenishment', function () {
         it('should not allow playing more than X times in 24 hours - case 1', function () {
             let state = _1.create();
             // all at once
@@ -117,10 +141,8 @@ describe('@oh-my-rpg/state-energy - reducer', function () {
             // 24h elapsed
             chai_1.expect(_1.get_snapshot(state, new Date(2017, 1, 2, 0)).available_energy).to.be.below(7);
         });
-    });
-    describe('exploit', function () {
         // case 1 = a wrong implementation I did first
-        it('should not be allowed - case 1', function () {
+        it('should not be exploitable - case 1', function () {
             let state = _1.create();
             // burst to 0
             state = _1.use_energy(state, 1, new Date(2017, 1, 1, 0));

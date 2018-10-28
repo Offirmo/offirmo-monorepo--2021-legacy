@@ -1,2 +1,2 @@
-declare const normalize_code: import("../../../0-stdlib/normalize-string/dist/src.es7.cjs/types").StringNormalizer;
+declare function normalize_code(s: string): string;
 export default normalize_code;

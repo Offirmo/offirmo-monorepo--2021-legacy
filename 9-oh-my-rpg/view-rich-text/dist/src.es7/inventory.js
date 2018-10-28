@@ -4,7 +4,7 @@ import * as RichText from '@offirmo/rich-text-format';
 import { appraise_power } from '@oh-my-rpg/logic-shop';
 import { render_item_short } from './items';
 import { render_wallet } from './wallet';
-import { DEFAULT_RENDER_ITEM_OPTIONS } from "./consts";
+import { DEFAULT_RENDER_ITEM_OPTIONS } from './consts';
 // we want the slots sorted by types according to an arbitrary order
 function render_equipment(inventory, options) {
     const $doc_list = RichText.unordered_list()

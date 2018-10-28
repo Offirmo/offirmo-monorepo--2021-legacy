@@ -20,6 +20,7 @@ describe('@oh-my-rpg/state-the-boring-rpg - reducer', function () {
             chai_1.expect(state, 'wallet').to.have.property('wallet');
             chai_1.expect(state, 'prng').to.have.property('prng');
             chai_1.expect(state, 'energy').to.have.property('energy');
+            chai_1.expect(state, 'engagement').to.have.property('engagement');
             chai_1.expect(state, 'codes').to.have.property('codes');
             chai_1.expect(Object.keys(state), 'quick key count check').to.have.lengthOf(14); // because this test should be updated if that changes
             // init of custom values
@@ -27,7 +28,6 @@ describe('@oh-my-rpg/state-the-boring-rpg - reducer', function () {
             chai_1.expect(state).to.have.property('revision', 0);
             chai_1.expect(state).to.have.property('click_count', 0);
             chai_1.expect(state).to.have.property('good_click_count', 0);
-            chai_1.expect(state).to.have.property('meaningful_interaction_count', 0);
             chai_1.expect(state.last_adventure).to.be.null;
             // check our 2 predefined items are present and equipped
             chai_1.expect(state_inventory_1.get_equipped_item_count(state.inventory), 'equipped').to.equal(2);
@@ -89,7 +89,6 @@ describe('@oh-my-rpg/state-the-boring-rpg - reducer', function () {
                     const state = __1.play(__1.create());
                     chai_1.expect(state).to.have.property('click_count', 1);
                     chai_1.expect(state).to.have.property('good_click_count', 1);
-                    chai_1.expect(state).to.have.property('meaningful_interaction_count', 1);
                 });
                 it('should sometime generate a fight adventure', () => {
                     let fightCount = 0;

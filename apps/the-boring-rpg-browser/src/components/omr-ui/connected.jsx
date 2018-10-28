@@ -5,11 +5,13 @@ import Component from './component'
 
 export default props => (
 	<GameContextConsumerListener>
-		{game_instance => (
-			<Component
-				{...props}
-				game_instance={game_instance}
-			/>
-		)}
+		{game_instance => {
+			return (
+				<Component
+					{...props}
+					game_instance={game_instance}
+				/>
+			)
+		}}
 	</GameContextConsumerListener>
 )

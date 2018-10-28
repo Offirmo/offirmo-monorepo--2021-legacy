@@ -14,6 +14,9 @@ NEXT
 - 🤩 feature: 5 new adventures (now totalling 115!)
 - 😍 feature: inventory size and limit are now displayed, ex. 12/20
 - 🤩 feature: users can now login (will unlock features in the future)
+- 😍 feature: small UI improvements
+- 😅 fix (hopefully!): a crashing story
+- 😅 fix (hopefully!): minor UI bugs
 
 
 2018/10/18 v0.52.20

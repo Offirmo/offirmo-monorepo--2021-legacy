@@ -9,6 +9,7 @@ import { State as InventoryState } from '@oh-my-rpg/state-inventory';
 import { State as WalletState } from '@oh-my-rpg/state-wallet';
 import { State as PRNGState } from '@oh-my-rpg/state-prng';
 import { State as EnergyState } from '@oh-my-rpg/state-energy';
+import { State as EngagementState } from '@oh-my-rpg/state-engagement';
 import { State as CodesState } from '@oh-my-rpg/state-codes';
 declare const GainType: {
     agility: "agility";
@@ -28,7 +29,7 @@ declare const GainType: {
 };
 declare type GainType = Enum<typeof GainType>;
 interface Adventure {
-    uuid: UUID;
+    readonly uuid: UUID;
     hid: string;
     good: boolean;
     encounter?: Monster;
@@ -52,7 +53,7 @@ interface Adventure {
 interface State {
     schema_version: number;
     revision: number;
-    uuid: UUID;
+    readonly uuid: UUID;
     creation_date: HumanReadableTimestampUTCMinutes;
     avatar: CharacterState;
     inventory: InventoryState;
@@ -60,9 +61,9 @@ interface State {
     prng: PRNGState;
     last_adventure: Adventure | null;
     energy: EnergyState;
+    engagement: EngagementState;
     codes: CodesState;
     click_count: number;
     good_click_count: number;
-    meaningful_interaction_count: number;
 }
 export { GainType, Adventure, State, };

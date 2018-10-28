@@ -57,3 +57,5 @@ Tools
 * https://github.com/scottsidwell/bundle-inspector
 
 
+
+https://github.com/netlify/netlify-identity-widget

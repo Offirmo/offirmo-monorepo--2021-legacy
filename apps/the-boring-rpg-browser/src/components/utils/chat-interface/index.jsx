@@ -301,22 +301,24 @@ class Chat extends React.Component {
 		)
 		const user_input = this.state.reading_string && (
 			<div className="chat__element chat__element--rtl">
-				<input type="text" autoFocus
-					className="chat__input"
-					ref={el => this.input = el}
-				/>
-				<button type="button"
-					className="chat__button clickable-area"
-					onClick={() => {
-						this.state.input_resolve_fn(this.input.value)
-					}}
-				>↩</button>
-				<button type="button"
-					className="chat__button clickable-area"
-					onClick={() => {
-						this.state.input_resolve_fn(undefined)
-					}}
-				>cancel</button>
+				<form onSubmit={e => e.preventDefault()}>
+					<input type="text" autoFocus
+						className="chat__input"
+						ref={el => this.input = el}
+					/>
+					<button type="submit"
+						className="chat__button clickable-area"
+						onClick={() => {
+							this.state.input_resolve_fn(this.input.value)
+						}}
+					>↩</button>
+					<button type="button"
+						className="chat__button clickable-area"
+						onClick={() => {
+							this.state.input_resolve_fn(undefined)
+						}}
+					>cancel</button>
+				</form>
 			</div>
 		)
 

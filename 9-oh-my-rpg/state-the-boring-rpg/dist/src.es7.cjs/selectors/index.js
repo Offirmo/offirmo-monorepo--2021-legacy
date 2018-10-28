@@ -5,6 +5,8 @@ const state_inventory_1 = require("@oh-my-rpg/state-inventory");
 const state_energy_1 = require("@oh-my-rpg/state-energy");
 const logic_shop_1 = require("@oh-my-rpg/logic-shop");
 const state_inventory_2 = require("@oh-my-rpg/state-inventory");
+const state_engagement_1 = require("@oh-my-rpg/state-engagement");
+const engagement_1 = require("../engagement");
 /////////////////////
 function is_inventory_full(state) {
     return state_inventory_1.is_full(state.inventory);
@@ -52,5 +54,35 @@ function find_element(state, uuid) {
     return get_item(state, uuid);
 }
 exports.find_element = find_element;
+/*
+function has_non_flow_engagement_pending(state: Readonly<State>): boolean {
+
+}
+
+function has_flow_engagement_pending(state: Readonly<State>): boolean {
+
+}*/
+function get_oldest_pending_flow_engagement(state) {
+    const pe = state_engagement_1.get_oldest_queued_flow(state.engagement);
+    if (!pe)
+        return null;
+    return {
+        key: pe.engagement.key,
+        $doc: engagement_1.get_engagement_message(state, pe),
+        pe,
+    };
+}
+exports.get_oldest_pending_flow_engagement = get_oldest_pending_flow_engagement;
+function get_oldest_pending_non_flow_engagement(state) {
+    const pe = state_engagement_1.get_oldest_queued_non_flow(state.engagement);
+    if (!pe)
+        return null;
+    return {
+        key: pe.engagement.key,
+        $doc: engagement_1.get_engagement_message(state, pe),
+        pe,
+    };
+}
+exports.get_oldest_pending_non_flow_engagement = get_oldest_pending_non_flow_engagement;
 /////////////////////
 //# sourceMappingURL=index.js.map
