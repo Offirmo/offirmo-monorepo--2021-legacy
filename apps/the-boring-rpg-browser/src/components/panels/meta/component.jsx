@@ -85,7 +85,7 @@ export default class Component extends React.Component {
 						type: 'ask_for_string',
 						msg_main: `Please enter a code…`,
 						msgg_as_user: value => value
-							? `Let's redeem "${value}_".`
+							? `Let's redeem "${value}".`
 							: 'Nevermind.',
 						msgg_acknowledge: code => code
 							? `Redeeming the code "${code}"...`
