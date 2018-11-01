@@ -7,7 +7,7 @@ import * as EnergyState from '@oh-my-rpg/state-energy';
 import * as EngagementState from '@oh-my-rpg/state-engagement';
 import * as CodesState from '@oh-my-rpg/state-codes';
 import { LIB, SCHEMA_VERSION } from '../../consts';
-import { create, reseed } from '../state';
+import { create } from '../state';
 import { get_lib_SEC } from '../../sec';
 /////////////////////
 function reset_and_salvage(legacy_state) {
@@ -23,7 +23,8 @@ function reset_and_salvage(legacy_state) {
         if (typeof legacy_state.avatar.name === 'string') {
             state.avatar.name = legacy_state.avatar.name;
         }
-        // TODO salvage creation date as well
+        // TODO salvage creation date as well?
+        // TODO auto-replay as much?
         console.info(`${LIB}: salvaged some savegame data.`);
     }
     catch (err) {
@@ -34,7 +35,7 @@ function reset_and_salvage(legacy_state) {
     return state;
 }
 const SUB_REDUCERS_COUNT = 7;
-const OTHER_KEYS_COUNT = 8;
+const OTHER_KEYS_COUNT = 7;
 function migrate_to_latest(SEC, legacy_state, hints = {}) {
     const existing_version = (legacy_state && legacy_state.schema_version) || 0;
     SEC = get_lib_SEC(SEC)
@@ -51,6 +52,8 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
             state.codes = CodesState.create(SEC);
         if (!state.engagement)
             state.engagement = EngagementState.create(SEC);
+        if (legacy_state.meaningful_interaction_count)
+            delete legacy_state.meaningful_interaction_count;
         if (existing_version < SCHEMA_VERSION) {
             logger.warn(`attempting to migrate schema from v${existing_version} to v${SCHEMA_VERSION}:`);
             SEC.fireAnalyticsEvent('schema_migration.began');
@@ -67,17 +70,14 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
                 SEC.fireAnalyticsEvent('schema_migration.salvaged', { step: 'main' });
             }
         }
-        // TODO migrate adventures??
-        // TODO still needed?
-        if (state.prng.seed === PRNGState.DEFAULT_SEED) {
-            state = reseed(state);
-        }
-        // migrate sub-reducers if any...
-        if (Object.keys(state).length !== SUB_REDUCERS_COUNT + OTHER_KEYS_COUNT) {
-            logger.error('migrate_to_latest', { SUB_REDUCERS_COUNT, OTHER_KEYS_COUNT, actual_count: Object.keys(state).length, legacy_state });
-            throw new Error('migrate_to_latest src (1) is outdated, please update!');
-        }
+        // 2nd part (can re-reset...)
         try {
+            // TODO migrate adventures??
+            // migrate sub-reducers if any...
+            if (Object.keys(state).length !== SUB_REDUCERS_COUNT + OTHER_KEYS_COUNT) {
+                logger.error('migrate_to_latest', { SUB_REDUCERS_COUNT, OTHER_KEYS_COUNT, actual_count: Object.keys(state).length, keys: Object.keys(state) });
+                throw new Error('migrate_to_latest src (1) is outdated, please update!');
+            }
             let count = 0;
             state.avatar = CharacterState.migrate_to_latest(SEC, state.avatar, hints.avatar);
             count++;

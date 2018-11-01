@@ -1,5 +1,6 @@
 import {AchievementDefinition, AchievementStatus, Statistics} from '../types'
 
+// 🍪🎂🏴🏳
 interface RawEntry {
 	name: string
 	description: string

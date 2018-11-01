@@ -26,6 +26,13 @@ class LoggedIn extends Component {
 		loaded: false,
 	}
 
+	getName = () => {
+		if (user.user_metadata && user.user_metadata.full_name)
+			return user.user_metadata.full_name
+
+		return user.email
+	}
+
 	constructor(props) {
 		super(props)
 
@@ -47,7 +54,7 @@ class LoggedIn extends Component {
 		const { user, onRequestLogout } = this.props
 		return (
 			<div className="netlify-widget">
-				Logged in as: {user.user_metadata ? user.user_metadata.full_name : '(pending…)'}
+				Logged in as: {this.getName() || '(pending…)'}
 				<button onClick={onRequestLogout}>log out</button>
 			</div>
 		)

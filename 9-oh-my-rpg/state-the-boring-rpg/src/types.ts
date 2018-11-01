@@ -73,10 +73,11 @@ interface State {
 	inventory: InventoryState
 	wallet: WalletState
 	prng: PRNGState
-	last_adventure: Adventure | null
 	energy: EnergyState
 	engagement: EngagementState
 	codes: CodesState
+
+	last_adventure: Adventure | null
 
 	// TODO move in dedicated state
 	// TODO rename click to something more generic

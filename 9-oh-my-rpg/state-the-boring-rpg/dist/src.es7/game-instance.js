@@ -5,6 +5,7 @@
 const EventEmitter = require('emittery');
 const deep_merge = require('deepmerge').default;
 import { get_item } from '@oh-my-rpg/state-inventory';
+import * as PRNGState from '@oh-my-rpg/state-prng';
 import * as state_fns from './state';
 import * as selectors from './selectors';
 import { migrate_to_latest } from './state/migrations';
@@ -19,7 +20,7 @@ function create_game_instance({ SEC, get_latest_state, persist_state, view_state
             // need this check due to some serializations returning {} for empty
             const was_empty_state = !state || Object.keys(state).length === 0;
             state = was_empty_state
-                ? state_fns.create(SEC)
+                ? state_fns.reseed(state_fns.create(SEC))
                 : migrate_to_latest(SEC, state);
             // TODO enqueue in engagement?
             if (was_empty_state) {
@@ -27,6 +28,12 @@ function create_game_instance({ SEC, get_latest_state, persist_state, view_state
             }
             else {
                 logger.trace('migrated state:', { state });
+            }
+            // re-seed outside of the unit test path
+            if (state.prng.seed === PRNGState.DEFAULT_SEED) {
+                // TODO still needed ? Report as error to check.
+                state = state_fns.reseed(state);
+                logger.warn('re-seeding that shouldn’t be needed!');
             }
             persist_state(state);
         });

@@ -1,7 +1,9 @@
 import { MT19937 } from '@offirmo/random';
 import { State } from './types';
 declare const DEFAULT_SEED = 987;
-declare function create(): Readonly<State>;
+declare function create({ seed }?: {
+    seed?: number;
+}): Readonly<State>;
 declare function set_seed(state: Readonly<State>, seed: number): Readonly<State>;
 declare function update_use_count(state: Readonly<State>, prng: MT19937, options?: any): Readonly<State>;
 declare function register_recently_used(state: Readonly<State>, id: string, value: number | string, max_memory_size: number): Readonly<State>;

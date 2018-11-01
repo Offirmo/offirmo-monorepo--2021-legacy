@@ -12,6 +12,14 @@ make luck active
 
 Sets
 
+
+fairies
+vouivres
+tarasque
+vampires
+sirènes
+
+
 https://en.wikipedia.org/wiki/List_of_magical_weapons#Arthurian_legend
 https://www.dndbeyond.com/compendium/rules/basic-rules/magic-items#Attunement
 https://en.wikipedia.org/wiki/The_Riddle_of_Steel <- idées de combat

@@ -11,6 +11,14 @@ interface Analytics {
 
 /////////////////////
 
+const AchievementPlane = Enum(
+	'account',
+	'app',
+	'character',
+)
+type AchievementPlane = Enum<typeof AchievementPlane> // eslint-disable-line no-redeclare
+
+
 const AchievementStatus = Enum(
 	'hidden',
 	'revealed',

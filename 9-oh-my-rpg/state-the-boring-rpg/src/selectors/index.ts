@@ -56,6 +56,7 @@ function appraise_item_power(state: Readonly<State>, uuid: UUID): number {
 	return appraise_power(item)
 }
 
+// TODO
 function appraise_player_power(state: Readonly<State>): number {
 	let power: number = 1
 
@@ -76,14 +77,20 @@ function find_element(state: Readonly<State>, uuid: UUID): Readonly<Element> | n
 	return get_item(state, uuid)
 }
 
-/*
-function has_non_flow_engagement_pending(state: Readonly<State>): boolean {
+function find_better_unequipped_weapon(state: Readonly<State>): Readonly<Element> | null {
+	// we take advantage of the fact that the inventory is auto-sorted
+	const best_unequipped_weapon = state.inventory.unslotted.find(e => e.slot === InventorySlot.weapon)
 
+	if (!best_unequipped_weapon)
+		return null
+
+	const best_unequipped_power = appraise_power(best_unequipped_weapon)
+	const equipped_power = appraise_power(get_item_in_slot(state, InventorySlot.weapon))
+	if (best_unequipped_power > equipped_power)
+		return best_unequipped_weapon
+
+	return null
 }
-
-function has_flow_engagement_pending(state: Readonly<State>): boolean {
-
-}*/
 
 function get_oldest_pending_flow_engagement(state: Readonly<State>): { key: string, $doc: RichText.Document, pe: PendingEngagement } | null {
 	const pe = get_oldest_queued_flow(state.engagement)
@@ -119,6 +126,7 @@ export {
 	appraise_item_value,
 	appraise_item_power,
 	find_element,
+	find_better_unequipped_weapon,
 	appraise_player_power,
 	get_oldest_pending_flow_engagement,
 	get_oldest_pending_non_flow_engagement,

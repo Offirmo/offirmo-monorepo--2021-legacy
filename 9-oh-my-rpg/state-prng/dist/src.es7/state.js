@@ -3,11 +3,12 @@ import { Random } from '@offirmo/random';
 import { LIB, SCHEMA_VERSION } from './consts';
 /////////////////////
 const DEFAULT_SEED = 987;
-function create() {
+function create({ seed } = {}) {
     return {
         schema_version: SCHEMA_VERSION,
         revision: 0,
-        seed: DEFAULT_SEED,
+        // using a default seed makes unit tests easier
+        seed: seed || DEFAULT_SEED,
         use_count: 0,
         recently_encountered_by_id: {},
     };

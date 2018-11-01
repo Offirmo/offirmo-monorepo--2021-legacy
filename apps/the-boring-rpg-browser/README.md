@@ -28,6 +28,10 @@ yarn build
 
 `npx bundle-inspector "https://www.online-adventur.es/apps/the-boring-rpg/index.html"`
 
+## doc
+* https://github.com/netlify/netlify-identity-widget
+* https://github.com/babel/babel/tree/master/packages/babel-preset-stage-0#babelpreset-stage-0
+* https://github.com/igorprado/react-notification-system
 
 ## Credits
 1. see package.json

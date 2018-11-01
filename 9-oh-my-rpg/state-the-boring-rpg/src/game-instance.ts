@@ -13,6 +13,7 @@ import { Element } from '@oh-my-rpg/definitions'
 import { CharacterClass } from '@oh-my-rpg/state-character'
 import { Item, get_item } from '@oh-my-rpg/state-inventory'
 import { PendingEngagement } from "@oh-my-rpg/state-engagement"
+import * as PRNGState from '@oh-my-rpg/state-prng'
 
 import { State } from './types'
 import * as state_fns from './state'
@@ -42,7 +43,7 @@ function create_game_instance<T>({SEC, get_latest_state, persist_state, view_sta
 			const was_empty_state = !state || Object.keys(state).length === 0
 
 			state = was_empty_state
-				? state_fns.create(SEC)
+				? state_fns.reseed(state_fns.create(SEC))
 				: migrate_to_latest(SEC, state)
 
 			// TODO enqueue in engagement?
@@ -51,6 +52,13 @@ function create_game_instance<T>({SEC, get_latest_state, persist_state, view_sta
 			}
 			else {
 				logger.trace('migrated state:', {state})
+			}
+
+			// re-seed outside of the unit test path
+			if (state.prng.seed === PRNGState.DEFAULT_SEED) {
+				// TODO still needed ? Report as error to check.
+				state = state_fns.reseed(state)
+				logger.warn('re-seeding that shouldn’t be needed!')
 			}
 
 			persist_state(state)

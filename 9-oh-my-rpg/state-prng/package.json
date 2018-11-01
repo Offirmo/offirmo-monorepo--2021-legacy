@@ -16,7 +16,6 @@
 	},
 	"devDependencies": {
 		"@oh-my-rpg/migration-tester": "^0.0.1",
-		"@types/lodash": "^4",
 		"npm-run-all": "^4",
 		"tslib": "^1"
 	},

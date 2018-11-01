@@ -59,10 +59,10 @@ interface State {
     inventory: InventoryState;
     wallet: WalletState;
     prng: PRNGState;
-    last_adventure: Adventure | null;
     energy: EnergyState;
     engagement: EngagementState;
     codes: CodesState;
+    last_adventure: Adventure | null;
     click_count: number;
     good_click_count: number;
 }
