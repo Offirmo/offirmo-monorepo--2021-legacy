@@ -1,1 +1,1 @@
-TODO normalize text
+TODO TS types (JSON)

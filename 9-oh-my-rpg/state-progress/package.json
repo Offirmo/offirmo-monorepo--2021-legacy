@@ -1,8 +1,8 @@
 {
-	"name": "@oh-my-rpg/state-statistics",
+	"name": "@oh-my-rpg/state-progress",
 	"version": "0.0.1",
 	"private": true,
-	"description": "statistics (for achievements) state and reducer",
+	"description": "flags, unlocks and extra statistics state and reducer",
 	"main": "dist/src.es7.cjs/index.js",
 	"typings": "dist/src.es7.cjs/index.js",
 	"author": "Offirmo <offirmo.net@gmail.com>",

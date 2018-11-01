@@ -8,7 +8,7 @@ import { get_lib_SEC } from './sec'
 import {create} from './state'
 
 
-describe('@oh-my-rpg/state-statistics schema migration', function() {
+describe('@oh-my-rpg/state-progress schema migration', function() {
 
 	describe('migration of an existing state', function() {
 		// TODO ALPHA remove skip

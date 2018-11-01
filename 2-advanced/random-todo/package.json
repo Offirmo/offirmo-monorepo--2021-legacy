@@ -1,5 +1,5 @@
 {
-  "name": "@offirmo/random",
+  "name": "@offirmo/random-todo",
   "description": "A mathematically correct and serializable random number generator library for JavaScript.",
   "version": "2.0.4",
   "author": {
@@ -13,8 +13,14 @@
   "license": "MIT",
   "main": "lib/random",
   "typings": "lib/random.d.ts",
-  "readmeFilename": "README.md",
+  "scripts": {
+    "test": "jasmine-node lib/random.js spec/",
+    "build": "uglifyjs --compress --mangle --screw-ie8 --output lib/random.min.js --source-map lib/random.min.js.map -- lib/random.js",
+    "np": "np"
+  },
   "devDependencies": {
+  },
+  "xxxdevDependencies": {
     "jasmine-node": "^1.14.5",
     "karma": "^1.2.0",
     "karma-chrome-launcher": "^2.0.0",
@@ -29,13 +35,5 @@
     "np": "^2.9.0",
     "requirejs": "^2.1.10",
     "uglify-js": "^2.7.3"
-  },
-  "scripts": {
-    "test": "jasmine-node lib/random.js spec/",
-    "build": "uglifyjs --compress --mangle --screw-ie8 --output lib/random.min.js --source-map lib/random.min.js.map -- lib/random.js",
-    "np": "np"
-  },
-  "testling": {
-    "files": "spec/*.js"
   }
 }

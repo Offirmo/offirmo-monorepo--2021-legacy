@@ -52,6 +52,7 @@
 		"@offirmo/random": "^2",
 		"@types/chai": "^4",
 		"@types/chai-as-promised": "^7",
+		"@types/deep-freeze-strict": "^1.1.0",
 		"@types/deepmerge": "^2",
 		"@types/lodash": "^4",
 		"@types/mocha": "^5",
