@@ -1,4 +1,6 @@
 import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types'
+
 import poll_window_variable, { poll } from '@offirmo/poll-window-variable'
 
 import './index.css';
@@ -22,11 +24,17 @@ function request_redirect(url) {
 }
 
 class LoggedIn extends Component {
+	static propTypes = {
+		user: PropTypes.object.isRequired,
+	};
+
 	state = {
 		loaded: false,
 	}
 
 	getName = () => {
+		const { user } = this.props
+
 		if (user.user_metadata && user.user_metadata.full_name)
 			return user.user_metadata.full_name
 
@@ -35,9 +43,6 @@ class LoggedIn extends Component {
 
 	constructor(props) {
 		super(props)
-
-		if (!this.props.user)
-			throw new Error('LoggedIn: need a user!')
 
 		// user may not be fully populated immediately
 		// we need to refresh when it is
@@ -51,7 +56,8 @@ class LoggedIn extends Component {
 	}
 
 	render() {
-		const { user, onRequestLogout } = this.props
+		const { onRequestLogout } = this.props
+		// TODO we could display a loader, but not worth it.
 		return (
 			<div className="netlify-widget">
 				Logged in as: {this.getName() || '(pending…)'}
