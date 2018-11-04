@@ -21,8 +21,8 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 			schema_version: SCHEMA_VERSION,
 			revision: 0,
 
+			wiki: null,
 			flags: null,
-
 			achievements: null,
 
 			statistics: {
@@ -50,50 +50,50 @@ interface PlayedDetails {
 function on_played(state: Readonly<State>, details: PlayedDetails): Readonly<State> {
 	const { good, adventure_key, encountered_monster_key, active_class } = details
 
-	const new_state: State = {
+	state = {
 		...state,
 
-		// mutate the root fields we'll change below
+		// mutate the root of fields we'll change below
 		statistics: {
 			...state.statistics,
 		},
 	}
 
-	if(!new_state.statistics.encountered_adventures[adventure_key]) {
-		new_state.statistics.encountered_adventures = {
-			...new_state.statistics.encountered_adventures,
+	if(!state.statistics.encountered_adventures[adventure_key]) {
+		state.statistics.encountered_adventures = {
+			...state.statistics.encountered_adventures,
 			[adventure_key]: true,
 		}
 	}
 
 	if (good) {
-		new_state.statistics.good_play_count++
-		new_state.statistics.good_play_count_by_active_class = {
+		state.statistics.good_play_count++
+		state.statistics.good_play_count_by_active_class = {
 			// ensure the key is present + immutable
 			[active_class]: 0,
-			...new_state.statistics.good_play_count_by_active_class,
+			...state.statistics.good_play_count_by_active_class,
 		}
-		new_state.statistics.good_play_count_by_active_class[active_class]++
+		state.statistics.good_play_count_by_active_class[active_class]++
 	}
 	else {
-		new_state.statistics.bad_play_count++
-		new_state.statistics.bad_play_count_by_active_class = {
+		state.statistics.bad_play_count++
+		state.statistics.bad_play_count_by_active_class = {
 			// ensure the key is present + immutable
 			[active_class]: 0,
-			...new_state.statistics.bad_play_count_by_active_class,
+			...state.statistics.bad_play_count_by_active_class,
 		}
-		new_state.statistics.bad_play_count_by_active_class[active_class]++
+		state.statistics.bad_play_count_by_active_class[active_class]++
 	}
 
 	if (encountered_monster_key && !state.statistics.encountered_monsters[encountered_monster_key]) {
-		new_state.statistics.encountered_monsters = {
-			...new_state.statistics.encountered_monsters,
+		state.statistics.encountered_monsters = {
+			...state.statistics.encountered_monsters,
 			[encountered_monster_key]: true,
 		}
 	}
 
 	return {
-		...new_state,
+		...state,
 
 		revision: state.revision + 1,
 	}

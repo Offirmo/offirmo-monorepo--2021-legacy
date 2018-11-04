@@ -25,12 +25,10 @@ describe('@oh-my-rpg/state-the-boring-rpg - reducer', function () {
             chai_1.expect(state, 'engagement').to.have.property('engagement');
             chai_1.expect(state, 'codes').to.have.property('codes');
             chai_1.expect(state, 'codes').to.have.property('progress');
-            chai_1.expect(Object.keys(state), 'quick key count check').to.have.lengthOf(15); // because this test should be updated if that changes
+            chai_1.expect(Object.keys(state), 'quick key count check').to.have.lengthOf(13); // because this test should be updated if that changes
             // init of custom values
             chai_1.expect(state).to.have.property('schema_version', consts_1.SCHEMA_VERSION);
             chai_1.expect(state).to.have.property('revision', 0);
-            chai_1.expect(state).to.have.property('click_count', 0);
-            chai_1.expect(state).to.have.property('good_click_count', 0);
             chai_1.expect(state.last_adventure).to.be.null;
             // check our 2 predefined items are present and equipped
             chai_1.expect(state_inventory_1.get_equipped_item_count(state.inventory), 'equipped').to.equal(2);
@@ -42,7 +40,7 @@ describe('@oh-my-rpg/state-the-boring-rpg - reducer', function () {
             context('🚫  when NOT allowed (the cooldown has NOT passed / not enough energy)', function () {
                 it('should generate a negative adventure', () => {
                     let state = __1.create();
-                    // force delete energy
+                    // force deplete energy
                     state = Object.assign({}, state, { energy: EnergyState.loose_all_energy(state.energy) });
                     chai_1.expect(state.energy.last_available_energy_float).to.be.below(1);
                     state = __1.play(state);
@@ -54,18 +52,19 @@ describe('@oh-my-rpg/state-the-boring-rpg - reducer', function () {
                     chai_1.expect(state.last_adventure.good).to.be.false;
                 });
                 it('should not decrease user stats');
+                it('should correctly increment counters', () => {
+                    let state = __1.create();
+                    state = Object.assign({}, state, { energy: EnergyState.loose_all_energy(state.energy) });
+                    state = __1.play(state);
+                    chai_1.expect(state).to.have.nested.property('progress.statistics.bad_play_count', 1);
+                    chai_1.expect(state).to.have.nested.property('progress.statistics.bad_play_count_by_active_class.novice', 1);
+                    state = __1.play(state);
+                    chai_1.expect(state).to.have.nested.property('progress.statistics.bad_play_count', 2);
+                    chai_1.expect(state).to.have.nested.property('progress.statistics.bad_play_count_by_active_class.novice', 2);
+                });
                 it('should punish a bit the user (ex. by increasing the cooldown)', () => {
                     let state = __1.create();
-                    // 7 good plays
-                    state = __1.play(state);
-                    state = __1.play(state);
-                    state = __1.play(state);
-                    state = __1.play(state);
-                    state = __1.play(state);
-                    state = __1.play(state);
-                    state = __1.play(state);
-                    // too soon...
-                    chai_1.expect(state.energy.last_available_energy_float).to.be.below(1);
+                    state = Object.assign({}, state, { energy: EnergyState.loose_all_energy(state.energy) });
                     // force (for tests)
                     state.energy.last_available_energy_float = .8;
                     state = __1.play(state);
@@ -82,9 +81,12 @@ describe('@oh-my-rpg/state-the-boring-rpg - reducer', function () {
                     chai_1.expect(state.last_adventure.good).to.be.true;
                 });
                 it('should correctly increment counters', () => {
-                    const state = __1.play(__1.create());
-                    chai_1.expect(state).to.have.property('click_count', 1);
-                    chai_1.expect(state).to.have.property('good_click_count', 1);
+                    let state = __1.play(__1.create());
+                    chai_1.expect(state).to.have.nested.property('progress.statistics.good_play_count', 1);
+                    chai_1.expect(state).to.have.nested.property('progress.statistics.good_play_count_by_active_class.novice', 1);
+                    state = __1.play(state);
+                    chai_1.expect(state).to.have.nested.property('progress.statistics.good_play_count', 2);
+                    chai_1.expect(state).to.have.nested.property('progress.statistics.good_play_count_by_active_class.novice', 2);
                 });
                 it('should sometime generate a fight adventure', () => {
                     let fightCount = 0;

@@ -77,7 +77,6 @@ function play_good(state: Readonly<State>, explicit_adventure_archetype_hid?: st
 
 	state = {
 		...play_adventure(state, aa),
-		good_click_count: state.good_click_count + 1,
 	}
 
 	return state

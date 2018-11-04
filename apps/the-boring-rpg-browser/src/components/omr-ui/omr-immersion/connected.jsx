@@ -16,11 +16,13 @@ const BACKGROUNDS = [
 	'civilization',
 	'fields_of_gold',
 	'gnomon',
+	'gothic_choir',
 	'half_remembered_ruins',
-	'snowcapped_environment',
-	'north_country',
-	'return_of_the_knight',
 	'journey_to_the_center_of_the_earth',
+	'jungle',
+	'return_of_the_knight',
+	'north_country',
+	'snowcapped_environment',
 ]
 
 export default props => (
@@ -75,7 +77,7 @@ export default props => (
 							{...props}
 							omr={omr}
 							mode={mode}
-							background={BACKGROUNDS[state.good_click_count % BACKGROUNDS.length]}
+							background={BACKGROUNDS[state.progress.statistics.good_play_count % BACKGROUNDS.length]}
 						/>)
 				}}
 			</GameContextConsumerListener>

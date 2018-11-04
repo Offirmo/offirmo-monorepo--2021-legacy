@@ -87,8 +87,6 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 			progress: ProgressState.create(SEC),
 
 			last_adventure: null,
-			click_count: 0,
-			good_click_count: 0,
 		}
 
 		let rng = get_prng(state.prng)
@@ -149,23 +147,32 @@ function reseed(state: Readonly<State>, seed?: number): Readonly<State> {
 function play(state: Readonly<State>, explicit_adventure_archetype_hid?: string): Readonly<State> {
 	const energy_snapshot = EnergyState.get_snapshot(state.energy)
 
-	const intermediate_state = (energy_snapshot.available_energy < 1)
+	const good = energy_snapshot.available_energy >= 1
+	state = good
 		? {
-			...play_bad(state, explicit_adventure_archetype_hid),
-			energy: EnergyState.loose_all_energy(state.energy), // punishment
-		}
-		: {
 			...play_good(state, explicit_adventure_archetype_hid),
 			energy: EnergyState.use_energy(state.energy),
 		}
+		: {
+			...play_bad(state, explicit_adventure_archetype_hid),
+			energy: EnergyState.loose_all_energy(state.energy), // punishment
+		}
 
 	state = {
-		...intermediate_state,
+		...state,
+		progress: ProgressState.on_played(state.progress, {
+			good,
+			adventure_key: state.last_adventure!.hid,
+			encountered_monster_key: state.last_adventure!.encounter
+				? state.last_adventure!.encounter!.name
+				: null,
+			active_class: state.avatar.klass,
+		}),
 
 		revision: state.revision + 1,
-
-		click_count: state.click_count + 1,
 	}
+
+	//console.log(state.progress)
 
 	return state
 }
@@ -220,7 +227,7 @@ function change_avatar_class(state: Readonly<State>, new_class: CharacterClass):
 function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<State> {
 	const infos: CodesConditions = {
 		has_energy_depleted: get_energy_snapshot(state).available_energy < 1,
-		good_play_count: state.good_click_count,
+		good_play_count: state.progress.statistics.good_play_count,
 		is_alpha_player: true, // TODO clean that up when moving to beta
 		is_player_since_alpha: true,
 	}

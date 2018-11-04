@@ -46,7 +46,7 @@ function reset_and_salvage(legacy_state: any): State {
 }
 
 const SUB_REDUCERS_COUNT = 8
-const OTHER_KEYS_COUNT = 7
+const OTHER_KEYS_COUNT = 5
 
 function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: any = {}): State {
 	const existing_version = (legacy_state && legacy_state.schema_version) || 0
@@ -73,6 +73,10 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: 
 			state.engagement = EngagementState.create(SEC)
 		if (legacy_state.meaningful_interaction_count)
 			delete legacy_state.meaningful_interaction_count
+		if (legacy_state.click_count)
+			delete legacy_state.click_count
+		if (legacy_state.good_click_count)
+			delete legacy_state.good_click_count
 
 		if (existing_version < SCHEMA_VERSION) {
 			logger.warn(`attempting to migrate schema from v${existing_version} to v${SCHEMA_VERSION}:`)

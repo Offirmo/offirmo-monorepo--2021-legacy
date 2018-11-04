@@ -65,7 +65,5 @@ interface State {
     codes: CodesState;
     progress: ProgressState;
     last_adventure: Adventure | null;
-    click_count: number;
-    good_click_count: number;
 }
 export { GainType, Adventure, State, };

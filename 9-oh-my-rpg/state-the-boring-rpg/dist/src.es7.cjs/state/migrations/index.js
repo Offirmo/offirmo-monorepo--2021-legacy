@@ -39,7 +39,7 @@ function reset_and_salvage(legacy_state) {
     return state;
 }
 const SUB_REDUCERS_COUNT = 8;
-const OTHER_KEYS_COUNT = 7;
+const OTHER_KEYS_COUNT = 5;
 function migrate_to_latest(SEC, legacy_state, hints = {}) {
     const existing_version = (legacy_state && legacy_state.schema_version) || 0;
     SEC = sec_1.get_lib_SEC(SEC)
@@ -61,6 +61,10 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
             state.engagement = EngagementState.create(SEC);
         if (legacy_state.meaningful_interaction_count)
             delete legacy_state.meaningful_interaction_count;
+        if (legacy_state.click_count)
+            delete legacy_state.click_count;
+        if (legacy_state.good_click_count)
+            delete legacy_state.good_click_count;
         if (existing_version < consts_1.SCHEMA_VERSION) {
             logger.warn(`attempting to migrate schema from v${existing_version} to v${consts_1.SCHEMA_VERSION}:`);
             SEC.fireAnalyticsEvent('schema_migration.began');

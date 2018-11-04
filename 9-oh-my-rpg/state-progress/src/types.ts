@@ -8,8 +8,8 @@ interface State {
 	schema_version: number
 	revision: number
 
+	wiki: null // TODO
 	flags: null // TODO
-
 	achievements: null // TODO
 
 	statistics: {

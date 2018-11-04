@@ -6,6 +6,7 @@ const TRUE_TRUE = true; // https://github.com/Microsoft/TypeScript/issues/19360
 const DEMO_STATE = deepFreeze({
     schema_version: 1,
     revision: 42,
+    wiki: null,
     flags: null,
     achievements: null,
     statistics: {

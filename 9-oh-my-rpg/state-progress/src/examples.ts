@@ -12,8 +12,8 @@ const DEMO_STATE: State = deepFreeze({
 	schema_version: 1,
 	revision: 42,
 
+	wiki: null,
 	flags: null,
-
 	achievements: null,
 
 	statistics: {

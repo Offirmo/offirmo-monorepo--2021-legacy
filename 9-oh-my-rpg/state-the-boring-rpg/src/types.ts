@@ -80,11 +80,6 @@ interface State {
 	progress: ProgressState
 
 	last_adventure: Adventure | null
-
-	// TODO move in dedicated state
-	// TODO rename click to something more generic
-	click_count: number
-	good_click_count: number
 }
 
 /////////////////////

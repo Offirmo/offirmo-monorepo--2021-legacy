@@ -22,12 +22,10 @@ describe('@oh-my-rpg/state-the-boring-rpg - reducer', function () {
             expect(state, 'engagement').to.have.property('engagement');
             expect(state, 'codes').to.have.property('codes');
             expect(state, 'codes').to.have.property('progress');
-            expect(Object.keys(state), 'quick key count check').to.have.lengthOf(15); // because this test should be updated if that changes
+            expect(Object.keys(state), 'quick key count check').to.have.lengthOf(13); // because this test should be updated if that changes
             // init of custom values
             expect(state).to.have.property('schema_version', SCHEMA_VERSION);
             expect(state).to.have.property('revision', 0);
-            expect(state).to.have.property('click_count', 0);
-            expect(state).to.have.property('good_click_count', 0);
             expect(state.last_adventure).to.be.null;
             // check our 2 predefined items are present and equipped
             expect(get_equipped_item_count(state.inventory), 'equipped').to.equal(2);
@@ -39,7 +37,7 @@ describe('@oh-my-rpg/state-the-boring-rpg - reducer', function () {
             context('🚫  when NOT allowed (the cooldown has NOT passed / not enough energy)', function () {
                 it('should generate a negative adventure', () => {
                     let state = create();
-                    // force delete energy
+                    // force deplete energy
                     state = Object.assign({}, state, { energy: EnergyState.loose_all_energy(state.energy) });
                     expect(state.energy.last_available_energy_float).to.be.below(1);
                     state = play(state);
@@ -51,18 +49,19 @@ describe('@oh-my-rpg/state-the-boring-rpg - reducer', function () {
                     expect(state.last_adventure.good).to.be.false;
                 });
                 it('should not decrease user stats');
+                it('should correctly increment counters', () => {
+                    let state = create();
+                    state = Object.assign({}, state, { energy: EnergyState.loose_all_energy(state.energy) });
+                    state = play(state);
+                    expect(state).to.have.nested.property('progress.statistics.bad_play_count', 1);
+                    expect(state).to.have.nested.property('progress.statistics.bad_play_count_by_active_class.novice', 1);
+                    state = play(state);
+                    expect(state).to.have.nested.property('progress.statistics.bad_play_count', 2);
+                    expect(state).to.have.nested.property('progress.statistics.bad_play_count_by_active_class.novice', 2);
+                });
                 it('should punish a bit the user (ex. by increasing the cooldown)', () => {
                     let state = create();
-                    // 7 good plays
-                    state = play(state);
-                    state = play(state);
-                    state = play(state);
-                    state = play(state);
-                    state = play(state);
-                    state = play(state);
-                    state = play(state);
-                    // too soon...
-                    expect(state.energy.last_available_energy_float).to.be.below(1);
+                    state = Object.assign({}, state, { energy: EnergyState.loose_all_energy(state.energy) });
                     // force (for tests)
                     state.energy.last_available_energy_float = .8;
                     state = play(state);
@@ -79,9 +78,12 @@ describe('@oh-my-rpg/state-the-boring-rpg - reducer', function () {
                     expect(state.last_adventure.good).to.be.true;
                 });
                 it('should correctly increment counters', () => {
-                    const state = play(create());
-                    expect(state).to.have.property('click_count', 1);
-                    expect(state).to.have.property('good_click_count', 1);
+                    let state = play(create());
+                    expect(state).to.have.nested.property('progress.statistics.good_play_count', 1);
+                    expect(state).to.have.nested.property('progress.statistics.good_play_count_by_active_class.novice', 1);
+                    state = play(state);
+                    expect(state).to.have.nested.property('progress.statistics.good_play_count', 2);
+                    expect(state).to.have.nested.property('progress.statistics.good_play_count_by_active_class.novice', 2);
                 });
                 it('should sometime generate a fight adventure', () => {
                     let fightCount = 0;

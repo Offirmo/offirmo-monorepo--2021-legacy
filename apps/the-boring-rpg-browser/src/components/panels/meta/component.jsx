@@ -18,7 +18,7 @@ export function render_meta(state) {
 	const { CHANNEL, ENV } = SEC.getInjectedDependencies()
 	const $doc_list_builder = RichText.unordered_list()
 	$doc_list_builder.pushRawNode(
-		RichText.span().pushText(`Play count: ${state.good_click_count}`).done(),
+		RichText.span().pushText(`Play count: ${state.progress.statistics.good_play_count}`).done(),
 		'01-playcount'
 	)
 	$doc_list_builder.pushRawNode(

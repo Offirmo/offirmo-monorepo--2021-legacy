@@ -35,7 +35,7 @@ function play_good(state, explicit_adventure_archetype_hid) {
         prng_state = PRNGState.update_use_count(state.prng, rng);
     }
     state = Object.assign({}, state, { prng: register_recently_used(prng_state, ADVENTURE_GOOD_NON_REPETITION_ID, aa.hid, ADVENTURE_GOOD_NON_REPETITION_COUNT) });
-    state = Object.assign({}, play_adventure(state, aa), { good_click_count: state.good_click_count + 1 });
+    state = Object.assign({}, play_adventure(state, aa));
     return state;
 }
 /////////////////////

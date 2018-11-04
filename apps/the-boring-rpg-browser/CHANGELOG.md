@@ -10,6 +10,8 @@ This file is just for taking notes for the next Reddit post.
 /////////////
 
 Next
+- 😍 feature: 2 new background (now totalling 16!)
+- 🤩 feature: 3 new adventures (now totalling 118!)
 - 😅 fix (hopefully!): minor bugs with signup/signin
 - 😅 fix (hopefully!): bug abusively reseting the savegame (reported by u/LiddiLidd )
 - 😷 chore: added safeties to detect/prevent abusive game resets in the future

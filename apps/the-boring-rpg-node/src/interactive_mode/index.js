@@ -78,9 +78,9 @@ function start_loop(SEC, options, instance) {
 				const { last_adventure } = state
 
 				if (last_adventure && chat_state.sub.main.last_displayed_adventure_uuid !== last_adventure.uuid) {
-					const { good_click_count } = state
-					//console.log({ good_click_count, last_adventure })
-					let msg_main = `Episode #${good_click_count}:\n`
+					const { good_play_count } = state.progress.statistics
+					//console.log({ good_play_count, last_adventure })
+					let msg_main = `Episode #${good_play_count}:\n`
 					const $doc = render_adventure(last_adventure, RENDER_ITEM_OPTIONS)
 					msg_main += rich_text_to_ansi($doc)
 					chat_state.sub.main.last_adventure = state.last_adventure

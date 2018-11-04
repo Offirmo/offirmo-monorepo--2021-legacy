@@ -157,9 +157,6 @@ const DEMO_STATE: Readonly<State> = deepFreeze({
 	progress: Progress.DEMO_STATE,
 
 	last_adventure: DEMO_ADVENTURE_01,
-
-	click_count:                  92,
-	good_click_count:             86,
 })
 
 // the oldest format we can migrate from
@@ -293,8 +290,6 @@ const OLDEST_LEGACY_STATE_FOR_TESTS: any = deepFreeze({
 			'weapon_improvement': false
 		}
 	},
-	'click_count': 86,
-	'good_click_count': 86,
 })
 
 // some hints may be needed to migrate to demo state

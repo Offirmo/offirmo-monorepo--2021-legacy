@@ -1,6 +1,7 @@
 interface State {
     schema_version: number;
     revision: number;
+    wiki: null;
     flags: null;
     achievements: null;
     statistics: {

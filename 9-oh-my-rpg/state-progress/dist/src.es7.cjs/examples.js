@@ -9,6 +9,7 @@ const TRUE_TRUE = true; // https://github.com/Microsoft/TypeScript/issues/19360
 const DEMO_STATE = deep_freeze_strict_1.default({
     schema_version: 1,
     revision: 42,
+    wiki: null,
     flags: null,
     achievements: null,
     statistics: {

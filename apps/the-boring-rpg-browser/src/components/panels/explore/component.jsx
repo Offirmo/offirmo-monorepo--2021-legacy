@@ -52,10 +52,7 @@ export default class Component extends React.Component {
 							msgg_acknowledge: () => 'Encountered something:\n',
 						})
 
-					const {good_click_count} = state
-					//console.log({ good_click_count, last_adventure })
 					const $doc = render_adventure(last_adventure)
-					//{`Episode #${good_click_count}:`}<br />
 					steps.push({
 						type: 'simple_message',
 						msg_main: (

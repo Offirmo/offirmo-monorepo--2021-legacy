@@ -44,8 +44,6 @@ function create(SEC) {
             codes: CodesState.create(SEC),
             progress: ProgressState.create(SEC),
             last_adventure: null,
-            click_count: 0,
-            good_click_count: 0,
         };
         let rng = get_prng(state.prng);
         const starting_weapon = create_weapon(rng, {
@@ -85,9 +83,18 @@ function reseed(state, seed) {
 // note: allows passing an explicit adventure archetype for testing
 function play(state, explicit_adventure_archetype_hid) {
     const energy_snapshot = EnergyState.get_snapshot(state.energy);
-    const intermediate_state = (energy_snapshot.available_energy < 1)
-        ? Object.assign({}, play_bad(state, explicit_adventure_archetype_hid), { energy: EnergyState.loose_all_energy(state.energy) }) : Object.assign({}, play_good(state, explicit_adventure_archetype_hid), { energy: EnergyState.use_energy(state.energy) });
-    state = Object.assign({}, intermediate_state, { revision: state.revision + 1, click_count: state.click_count + 1 });
+    const good = energy_snapshot.available_energy >= 1;
+    state = good
+        ? Object.assign({}, play_good(state, explicit_adventure_archetype_hid), { energy: EnergyState.use_energy(state.energy) }) : Object.assign({}, play_bad(state, explicit_adventure_archetype_hid), { energy: EnergyState.loose_all_energy(state.energy) });
+    state = Object.assign({}, state, { progress: ProgressState.on_played(state.progress, {
+            good,
+            adventure_key: state.last_adventure.hid,
+            encountered_monster_key: state.last_adventure.encounter
+                ? state.last_adventure.encounter.name
+                : null,
+            active_class: state.avatar.klass,
+        }), revision: state.revision + 1 });
+    //console.log(state.progress)
     return state;
 }
 function equip_item(state, uuid) {
@@ -110,7 +117,7 @@ function change_avatar_class(state, new_class) {
 function attempt_to_redeem_code(state, code) {
     const infos = {
         has_energy_depleted: get_energy_snapshot(state).available_energy < 1,
-        good_play_count: state.good_click_count,
+        good_play_count: state.progress.statistics.good_play_count,
         is_alpha_player: true,
         is_player_since_alpha: true,
     };
