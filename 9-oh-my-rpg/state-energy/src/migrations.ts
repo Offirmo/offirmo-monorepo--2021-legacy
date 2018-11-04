@@ -1,39 +1,63 @@
-/////////////////////
+import deepFreeze from 'deep-freeze-strict'
 
-import { LIB, SCHEMA_VERSION } from './consts'
+import { SCHEMA_VERSION } from './consts'
 import { State } from './types'
+import { SoftExecutionContext, OMRContext, get_lib_SEC } from './sec'
+
+// some hints may be needed to migrate to demo state
+// need to export them for composing tests
+const MIGRATION_HINTS_FOR_TESTS: any = deepFreeze({
+})
 
 /////////////////////
 
-function migrate_to_latest(legacy_state: any, hints: any = {}): State {
+function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: any = {}): State {
 	const existing_version = (legacy_state && legacy_state.schema_version) || 0
 
-	if (existing_version > SCHEMA_VERSION)
-		throw new Error(`${LIB}: Your data is from a more recent version of this lib. Please update!`)
+	SEC = get_lib_SEC(SEC)
+		.setAnalyticsAndErrorDetails({
+			version_from: existing_version,
+			version_to: SCHEMA_VERSION,
+		})
 
-	let state: State = legacy_state as State // for starter
+	return SEC.xTry('migrate_to_latest', ({SEC, logger}: OMRContext) => {
 
-	if (existing_version < SCHEMA_VERSION) {
-		console.warn(`${LIB}: attempting to migrate schema from v${existing_version} to v${SCHEMA_VERSION}:`)
+		if (existing_version > SCHEMA_VERSION)
+			throw new Error('Your data is from a more recent version of this lib. Please update!')
 
-		state = migrate_to_2(legacy_state, hints)
+		let state: State = legacy_state as State // for starter
 
-		console.info(`${LIB}: schema migration successful.`)
-	}
+		if (existing_version < SCHEMA_VERSION) {
+			logger.warn(`attempting to migrate schema from v${existing_version} to v${SCHEMA_VERSION}:`)
+			SEC.fireAnalyticsEvent('schema_migration.began')
 
-	// migrate sub-reducers if any...
+			try {
+				state = migrate_to_2(SEC, legacy_state, hints)
+			}
+			catch (err) {
+				SEC.fireAnalyticsEvent('schema_migration.failed')
+				throw err
+			}
 
-	return state
+			logger.info('schema migration successful.')
+			SEC.fireAnalyticsEvent('schema_migration.ended')
+		}
+
+		// migrate sub-reducers if any...
+
+		return state
+	})
 }
 
 /////////////////////
 
-function migrate_to_2(legacy_state: any, hints: any): any {
-	throw new Error(`${LIB}: Schema is too old (pre-beta), can't migrate!`)
+function migrate_to_2(SEC: SoftExecutionContext, legacy_state: any, hints: any): State {
+	throw new Error('Schema is too old (pre-beta), can’t migrate!')
 }
 
 /////////////////////
 
 export {
 	migrate_to_latest,
+	MIGRATION_HINTS_FOR_TESTS,
 }

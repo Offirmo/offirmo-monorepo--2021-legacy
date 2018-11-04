@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
 const chai_1 = require("chai");
+const deep_freeze_strict_1 = tslib_1.__importDefault(require("deep-freeze-strict"));
 const migration_tester_1 = require("@oh-my-rpg/migration-tester");
 const consts_1 = require("../../consts");
 const _1 = require(".");
@@ -8,9 +10,10 @@ const sec_1 = require("../../sec");
 const __1 = require("..");
 const examples_1 = require("../../examples");
 describe('@oh-my-rpg/state-the-boring-rpg - schema migration', function () {
-    it('should correctly migrate a fresh state', () => {
-        const old_state = __1.create();
+    it('should correctly migrate a fresh state (by touching nothing)', () => {
+        const old_state = deep_freeze_strict_1.default(__1.create());
         const new_state = _1.migrate_to_latest(sec_1.get_lib_SEC(), old_state);
+        //expect(new_state).to.equal(old_state)
         chai_1.expect(new_state).to.deep.equal(old_state);
     });
     describe('migration of an existing state', function () {
@@ -170,7 +173,7 @@ describe('@oh-my-rpg/state-the-boring-rpg - schema migration', function () {
             };
             const new_state = _1.migrate_to_latest(sec_1.get_lib_SEC(), old_state);
         });
-        it.only('should migrate LiidLidd 20181029', () => {
+        it('should migrate LiidLidd 20181029', () => {
             const old_state = {
                 "schema_version": 6,
                 "revision": 485,

@@ -85,7 +85,7 @@ function find_better_unequipped_weapon(state: Readonly<State>): Readonly<Element
 		return null
 
 	const best_unequipped_power = appraise_power(best_unequipped_weapon)
-	const equipped_power = appraise_power(get_item_in_slot(state, InventorySlot.weapon))
+	const equipped_power = appraise_power(get_item_in_slot(state, InventorySlot.weapon)!)
 	if (best_unequipped_power > equipped_power)
 		return best_unequipped_weapon
 

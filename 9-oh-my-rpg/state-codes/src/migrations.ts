@@ -27,7 +27,6 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: 
 
 		let state: State = legacy_state as State // for starter
 
-		/*
 		if (existing_version < SCHEMA_VERSION) {
 			logger.warn(`attempting to migrate schema from v${existing_version} to v${SCHEMA_VERSION}:`)
 			SEC.fireAnalyticsEvent('schema_migration.began')
@@ -42,7 +41,7 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: 
 
 			logger.info('schema migration successful.')
 			SEC.fireAnalyticsEvent('schema_migration.ended')
-		}*/
+		}
 
 		// migrate sub-reducers if any...
 

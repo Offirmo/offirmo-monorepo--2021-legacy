@@ -114,6 +114,9 @@ const ENTRIES = [
     { good: true, type: story, hid: 'king_reward', outcome: { armor_or_weapon: true, token: 1 } },
     { good: true, type: story, hid: 'chilies', outcome: { class_primary_attribute: true } },
     { good: true, type: story, hid: 'bards', outcome: { charisma: true } },
+    { good: true, type: story, hid: 'raining_elves', outcome: { "mana": true } },
+    { good: true, type: story, hid: 'raining_dwarves', outcome: { "strength": true } },
+    { good: true, type: story, hid: 'need_for_speed', outcome: { "agility": true } },
     // those stories are not hinting a a specific attribute,
     // thus can be used for adjusting distribution.
     // (if aligned, use 'random_attribute')

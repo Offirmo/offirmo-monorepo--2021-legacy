@@ -16,10 +16,11 @@ import {
 describe('@oh-my-rpg/logic-armors - comparison', function() {
 
 	it('should sort properly by strength', () => {
+		const rng: Engine = Random.engines.mt19937().seed(789)
 		const armors = [
-			generate_random_demo_armor(),
-			generate_random_demo_armor(),
-			generate_random_demo_armor(),
+			generate_random_demo_armor(rng),
+			generate_random_demo_armor(rng),
+			generate_random_demo_armor(rng),
 		].sort(compare_armors_by_strength)
 		const [ s1, s2, s3 ] = armors.map(get_medium_damage_reduction)
 		expect(s1).to.be.above(s2)

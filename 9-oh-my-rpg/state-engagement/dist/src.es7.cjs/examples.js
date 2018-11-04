@@ -16,6 +16,7 @@ const DEMO_STATE = deep_freeze_strict_1.default({
                 type: types_1.EngagementType.flow,
             },
             queue_time_root_revision: 0,
+            params: {},
         }
     ],
 });

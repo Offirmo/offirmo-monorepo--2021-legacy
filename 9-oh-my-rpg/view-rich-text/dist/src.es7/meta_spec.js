@@ -1,12 +1,13 @@
 import { DEMO_STATE } from '@oh-my-rpg/state-meta';
 const { rich_text_to_ansi } = require('../../../../apps/the-boring-rpg-node/src/services/rich_text_to_ansi');
 import { render_account_info, } from '.';
-describe('🗿 👻  meta rendering', function () {
+describe('🔠  view to @offirmo/rich-text-format - meta', function () {
     describe('demo', function () {
         it('shows off', () => {
-            const doc = render_account_info(DEMO_STATE);
-            //console.log(prettify_json(doc))
-            console.log(rich_text_to_ansi(doc));
+            const $doc = render_account_info(DEMO_STATE);
+            //console.log(prettify_json($doc))
+            const str = rich_text_to_ansi($doc);
+            // should just not throw
         });
     });
 });

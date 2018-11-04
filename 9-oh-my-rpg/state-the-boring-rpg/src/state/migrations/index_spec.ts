@@ -1,4 +1,5 @@
 import {expect} from 'chai'
+import deepFreeze from 'deep-freeze-strict'
 
 import {test_migrations} from '@oh-my-rpg/migration-tester'
 
@@ -8,15 +9,15 @@ import {get_lib_SEC} from '../../sec'
 
 import {create} from '..'
 import {DEMO_STATE, MIGRATION_HINTS_FOR_TESTS} from '../../examples'
-import {State} from "../../types";
 
 describe('@oh-my-rpg/state-the-boring-rpg - schema migration', function () {
 
-	it('should correctly migrate a fresh state', () => {
-		const old_state = create()
+	it('should correctly migrate a fresh state (by touching nothing)', () => {
+		const old_state = deepFreeze(create())
 
 		const new_state = migrate_to_latest(get_lib_SEC(), old_state)
 
+		//expect(new_state).to.equal(old_state)
 		expect(new_state).to.deep.equal(old_state)
 	})
 
@@ -182,7 +183,7 @@ describe('@oh-my-rpg/state-the-boring-rpg - schema migration', function () {
 			const new_state = migrate_to_latest(get_lib_SEC(), old_state)
 		})
 
-		it.only('should migrate LiidLidd 20181029', () => {
+		it('should migrate LiidLidd 20181029', () => {
 			const old_state = {
 				"schema_version": 6,
 				"revision": 485,
@@ -452,5 +453,4 @@ describe('@oh-my-rpg/state-the-boring-rpg - schema migration', function () {
 			const new_state = migrate_to_latest(get_lib_SEC(), old_state)
 		})
 	})
-
 })

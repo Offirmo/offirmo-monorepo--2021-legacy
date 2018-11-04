@@ -1,44 +1,45 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
 const chai_1 = require("chai");
-const lodash_1 = require("lodash");
+const deep_freeze_strict_1 = tslib_1.__importDefault(require("deep-freeze-strict"));
+const migration_tester_1 = require("@oh-my-rpg/migration-tester");
 const consts_1 = require("./consts");
 const migrations_1 = require("./migrations");
 const examples_1 = require("./examples");
-const DATA_v0 = migrations_1.OLDEST_LEGACY_STATE_FOR_TESTS;
-const DATA_OLDEST = DATA_v0;
-const DATA_v1 = examples_1.DEMO_STATE;
-const DATA_LATEST = examples_1.DEMO_STATE;
+const sec_1 = require("./sec");
+const state_1 = require("./state");
 describe('@oh-my-rpg/state-wallet - schema migration', function () {
-    context('when the version is more recent', function () {
-        it('should throw with a meaningful error', () => {
-            function load() {
-                migrations_1.migrate_to_latest({ schema_version: 99999 });
-            }
-            chai_1.expect(load).to.throw('more recent version');
+    it('should correctly migrate a fresh new state (by touching nothing)', () => {
+        const old_state = deep_freeze_strict_1.default(state_1.create());
+        const new_state = migrations_1.migrate_to_latest(sec_1.get_lib_SEC(), old_state);
+        //expect(new_state).to.equal(old_state)
+        chai_1.expect(new_state).to.deep.equal(old_state);
+    });
+    describe('migration of a new state', function () {
+        const new_state = state_1.create();
+        // TODO ALPHA remove skip
+        migration_tester_1.test_migrations.skip({
+            use_hints: false,
+            //read_only: false, // XXX
+            SCHEMA_VERSION: consts_1.SCHEMA_VERSION,
+            LATEST_EXPECTED_DATA: new_state,
+            migrate_to_latest: migrations_1.migrate_to_latest.bind(null, sec_1.get_lib_SEC()),
+            absolute_dir_path: require('path').join(__dirname, '../../src/migrations_of_blank_state_specs'),
+            describe, context, it, expect: chai_1.expect,
         });
     });
-    context('when the version is up to date', function () {
-        it('should return the state without change', () => {
-            chai_1.expect(DATA_LATEST.schema_version).to.equal(consts_1.SCHEMA_VERSION); // make sure our tests are up to date
-            chai_1.expect(migrations_1.migrate_to_latest(lodash_1.cloneDeep(DATA_LATEST))).to.deep.equal(DATA_LATEST);
-        });
-    });
-    context('when the version is outdated', function () {
-        it('should migrate to latest version', () => {
-            chai_1.expect(migrations_1.migrate_to_latest(lodash_1.cloneDeep(DATA_OLDEST), migrations_1.MIGRATION_HINTS_FOR_TESTS)).to.deep.equal(DATA_LATEST);
-        });
-    });
-    describe('individual migration functions', function () {
-        describe('1 to latest', function () {
-            it('should work', () => {
-                chai_1.expect(migrations_1.migrate_to_latest(lodash_1.cloneDeep(DATA_v1), migrations_1.MIGRATION_HINTS_FOR_TESTS)).to.deep.equal(DATA_LATEST);
-            });
-        });
-        describe('0 to latest', function () {
-            it('should work', () => {
-                chai_1.expect(migrations_1.migrate_to_latest(lodash_1.cloneDeep(DATA_v0), migrations_1.MIGRATION_HINTS_FOR_TESTS)).to.deep.equal(DATA_LATEST);
-            });
+    describe('migration of an existing state', function () {
+        // TODO ALPHA remove skip
+        migration_tester_1.test_migrations.skip({
+            use_hints: true,
+            //read_only: false, // XXX
+            migration_hints_for_chaining: migrations_1.MIGRATION_HINTS_FOR_TESTS,
+            SCHEMA_VERSION: consts_1.SCHEMA_VERSION,
+            LATEST_EXPECTED_DATA: examples_1.DEMO_STATE,
+            migrate_to_latest: migrations_1.migrate_to_latest.bind(null, sec_1.get_lib_SEC()),
+            absolute_dir_path: require('path').join(__dirname, '../../src/migrations_of_active_state_specs'),
+            describe, context, it, expect: chai_1.expect,
         });
     });
 });

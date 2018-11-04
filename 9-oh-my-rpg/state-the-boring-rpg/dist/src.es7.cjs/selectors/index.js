@@ -38,6 +38,7 @@ function appraise_item_power(state, uuid) {
     return logic_shop_1.appraise_power(item);
 }
 exports.appraise_item_power = appraise_item_power;
+// TODO
 function appraise_player_power(state) {
     let power = 1;
     definitions_1.ITEM_SLOTS.forEach((slot) => {
@@ -54,14 +55,18 @@ function find_element(state, uuid) {
     return get_item(state, uuid);
 }
 exports.find_element = find_element;
-/*
-function has_non_flow_engagement_pending(state: Readonly<State>): boolean {
-
+function find_better_unequipped_weapon(state) {
+    // we take advantage of the fact that the inventory is auto-sorted
+    const best_unequipped_weapon = state.inventory.unslotted.find(e => e.slot === definitions_1.InventorySlot.weapon);
+    if (!best_unequipped_weapon)
+        return null;
+    const best_unequipped_power = logic_shop_1.appraise_power(best_unequipped_weapon);
+    const equipped_power = logic_shop_1.appraise_power(get_item_in_slot(state, definitions_1.InventorySlot.weapon));
+    if (best_unequipped_power > equipped_power)
+        return best_unequipped_weapon;
+    return null;
 }
-
-function has_flow_engagement_pending(state: Readonly<State>): boolean {
-
-}*/
+exports.find_better_unequipped_weapon = find_better_unequipped_weapon;
 function get_oldest_pending_flow_engagement(state) {
     const pe = state_engagement_1.get_oldest_queued_flow(state.engagement);
     if (!pe)

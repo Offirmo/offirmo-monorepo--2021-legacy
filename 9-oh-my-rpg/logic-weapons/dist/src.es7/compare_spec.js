@@ -4,10 +4,11 @@ import { ItemQuality } from '@oh-my-rpg/definitions';
 import { create, generate_random_demo_weapon, compare_weapons_by_strength, get_medium_damage, } from '.';
 describe('@oh-my-rpg/logic-weapons - compare', function () {
     it('should sort properly by strength', () => {
+        const rng = Random.engines.mt19937().seed(789);
         const items = [
-            generate_random_demo_weapon(),
-            generate_random_demo_weapon(),
-            generate_random_demo_weapon(),
+            generate_random_demo_weapon(rng),
+            generate_random_demo_weapon(rng),
+            generate_random_demo_weapon(rng),
         ].sort(compare_weapons_by_strength);
         const [s1, s2, s3] = items.map(get_medium_damage);
         expect(s1).to.be.above(s2);

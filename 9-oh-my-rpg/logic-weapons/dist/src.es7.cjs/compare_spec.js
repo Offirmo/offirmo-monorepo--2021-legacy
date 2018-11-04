@@ -6,10 +6,11 @@ const definitions_1 = require("@oh-my-rpg/definitions");
 const _1 = require(".");
 describe('@oh-my-rpg/logic-weapons - compare', function () {
     it('should sort properly by strength', () => {
+        const rng = random_1.Random.engines.mt19937().seed(789);
         const items = [
-            _1.generate_random_demo_weapon(),
-            _1.generate_random_demo_weapon(),
-            _1.generate_random_demo_weapon(),
+            _1.generate_random_demo_weapon(rng),
+            _1.generate_random_demo_weapon(rng),
+            _1.generate_random_demo_weapon(rng),
         ].sort(_1.compare_weapons_by_strength);
         const [s1, s2, s3] = items.map(_1.get_medium_damage);
         chai_1.expect(s1).to.be.above(s2);

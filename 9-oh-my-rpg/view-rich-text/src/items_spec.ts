@@ -15,6 +15,6 @@ function prettify_json(data: any, options = {}) {
 import { render_item_short } from '.'
 
 
-describe('⚔ 🛡 item rendering', function() {
+describe('🔠  view to @offirmo/rich-text-format - item', function() {
 
 })

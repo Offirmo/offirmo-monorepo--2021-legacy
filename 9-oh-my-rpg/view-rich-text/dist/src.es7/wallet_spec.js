@@ -3,7 +3,7 @@ import * as RichText from '@offirmo/rich-text-format';
 import { Currency, DEMO_STATE, create as create_wallet, add_amount, } from '@oh-my-rpg/state-wallet';
 const { rich_text_to_ansi } = require('../../../../apps/the-boring-rpg-node/src/services/rich_text_to_ansi');
 import { render_wallet, } from '.';
-describe('💰  wallet rendering', function () {
+describe('🔠  view to @offirmo/rich-text-format - wallet', function () {
     context('when empty', function () {
         it('should render properly', () => {
             let wallet = create_wallet();
@@ -30,7 +30,9 @@ describe('💰  wallet rendering', function () {
     describe('demo', function () {
         it('shows off', () => {
             const $doc = render_wallet(DEMO_STATE);
-            console.log(rich_text_to_ansi($doc));
+            //console.log(prettify_json($doc))
+            const str = rich_text_to_ansi($doc);
+            // should just not throw
         });
     });
 });

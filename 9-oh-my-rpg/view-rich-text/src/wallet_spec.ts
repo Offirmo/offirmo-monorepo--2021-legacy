@@ -16,7 +16,7 @@ import {
 } from '.'
 
 
-describe('💰  wallet rendering', function() {
+describe('🔠  view to @offirmo/rich-text-format - wallet', function() {
 
 	context('when empty', function() {
 
@@ -51,7 +51,9 @@ describe('💰  wallet rendering', function() {
 	describe('demo', function() {
 		it('shows off', () => {
 			const $doc = render_wallet(DEMO_STATE)
-			console.log(rich_text_to_ansi($doc))
+			//console.log(prettify_json($doc))
+			const str = rich_text_to_ansi($doc)
+			// should just not throw
 		})
 	})
 

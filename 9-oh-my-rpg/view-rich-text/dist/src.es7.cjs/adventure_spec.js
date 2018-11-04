@@ -11,12 +11,12 @@ const prettyjson = require('prettyjson');
 function prettify_json(data, options = {}) {
     return prettyjson.render(data, options);
 }
-describe('📃  adventure rendering', function () {
+describe('🔠  view to @offirmo/rich-text-format - adventure', function () {
     it('should render properly - with gain of skills', () => {
         const $doc = _1.render_adventure(state_the_boring_rpg_1.DEMO_ADVENTURE_01);
         //console.log(prettify_json($doc))
         const str = strip_ansi(rich_text_to_ansi($doc));
-        console.log(str);
+        //console.log(str)
         chai_1.expect(str).to.be.a('string');
         chai_1.expect(str).to.include('You were attacked and nearly killed');
         chai_1.expect(str).to.include('L7');
@@ -28,17 +28,17 @@ describe('📃  adventure rendering', function () {
         const $doc = _1.render_adventure(state_the_boring_rpg_1.DEMO_ADVENTURE_02);
         //console.log(prettify_json($doc))
         const str = strip_ansi(rich_text_to_ansi($doc));
-        console.log(str);
+        //console.log(str)
         chai_1.expect(str).to.be.a('string');
         chai_1.expect(str).to.include('A dying man on the street left you everything he had.');
-        chai_1.expect(str).to.include('You gained');
+        chai_1.expect(str).to.include('You gain');
         chai_1.expect(str).to.include('1234 coins');
     });
     it('should render properly - with gain of item(s)', () => {
         const $doc = _1.render_adventure(state_the_boring_rpg_1.DEMO_ADVENTURE_03);
         //console.log(prettify_json($doc))
         const str = strip_ansi(rich_text_to_ansi($doc));
-        console.log(str);
+        //console.log(str)
         chai_1.expect(str).to.be.a('string');
         chai_1.expect(str).to.include('You come across an old man with eccentric apparel');
         chai_1.expect(str).to.include('Adjudicator’s Admirable Axe');
@@ -47,9 +47,9 @@ describe('📃  adventure rendering', function () {
         const $doc = _1.render_adventure(state_the_boring_rpg_1.DEMO_ADVENTURE_04);
         //console.log(prettify_json($doc))
         const str = strip_ansi(rich_text_to_ansi($doc));
-        console.log(str);
+        //console.log(str)
         chai_1.expect(str).to.be.a('string');
-        chai_1.expect(str).to.include('You won\'t take back the princess!');
+        chai_1.expect(str).to.include('You won’t take back the princess!');
         chai_1.expect(str).to.include('123 coins');
         chai_1.expect(str).to.include('enchant');
     });

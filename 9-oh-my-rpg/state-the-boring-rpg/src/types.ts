@@ -14,6 +14,7 @@ import { State as PRNGState } from '@oh-my-rpg/state-prng'
 import { State as EnergyState } from '@oh-my-rpg/state-energy'
 import { State as EngagementState } from '@oh-my-rpg/state-engagement'
 import { State as CodesState } from '@oh-my-rpg/state-codes'
+import { State as ProgressState } from '@oh-my-rpg/state-progress'
 
 /////////////////////
 
@@ -76,6 +77,7 @@ interface State {
 	energy: EnergyState
 	engagement: EngagementState
 	codes: CodesState
+	progress: ProgressState
 
 	last_adventure: Adventure | null
 

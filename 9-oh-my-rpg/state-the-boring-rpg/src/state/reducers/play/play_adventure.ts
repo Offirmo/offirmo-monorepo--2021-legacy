@@ -68,7 +68,7 @@ import {
 import {
 	State,
 	Adventure,
-} from '../../types'
+} from '../../../types'
 
 import { get_lib_SEC } from '../../../sec'
 import { LIB } from '../../../consts'

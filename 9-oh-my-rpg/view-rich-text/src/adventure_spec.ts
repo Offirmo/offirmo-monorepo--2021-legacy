@@ -22,14 +22,14 @@ function prettify_json(data: any, options = {}) {
 	return prettyjson.render(data, options)
 }
 
-describe('📃  adventure rendering', function() {
+describe('🔠  view to @offirmo/rich-text-format - adventure', function() {
 
 	it('should render properly - with gain of skills', () => {
 		const $doc = render_adventure(DEMO_ADVENTURE_01)
 		//console.log(prettify_json($doc))
 
 		const str = strip_ansi(rich_text_to_ansi($doc))
-		console.log(str)
+		//console.log(str)
 		expect(str).to.be.a('string')
 		expect(str).to.include('You were attacked and nearly killed')
 		expect(str).to.include('L7')
@@ -43,10 +43,10 @@ describe('📃  adventure rendering', function() {
 		//console.log(prettify_json($doc))
 
 		const str = strip_ansi(rich_text_to_ansi($doc))
-		console.log(str)
+		//console.log(str)
 		expect(str).to.be.a('string')
 		expect(str).to.include('A dying man on the street left you everything he had.')
-		expect(str).to.include('You gained')
+		expect(str).to.include('You gain')
 		expect(str).to.include('1234 coins')
 	})
 
@@ -55,7 +55,7 @@ describe('📃  adventure rendering', function() {
 		//console.log(prettify_json($doc))
 
 		const str = strip_ansi(rich_text_to_ansi($doc))
-		console.log(str)
+		//console.log(str)
 		expect(str).to.be.a('string')
 		expect(str).to.include('You come across an old man with eccentric apparel')
 		expect(str).to.include('Adjudicator’s Admirable Axe')
@@ -66,9 +66,9 @@ describe('📃  adventure rendering', function() {
 		//console.log(prettify_json($doc))
 
 		const str = strip_ansi(rich_text_to_ansi($doc))
-		console.log(str)
+		//console.log(str)
 		expect(str).to.be.a('string')
-		expect(str).to.include('You won\'t take back the princess!')
+		expect(str).to.include('You won’t take back the princess!')
 		expect(str).to.include('123 coins')
 		expect(str).to.include('enchant')
 	})

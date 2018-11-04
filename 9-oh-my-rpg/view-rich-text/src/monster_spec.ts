@@ -8,15 +8,16 @@ import {
 } from '.'
 
 
-describe('🗿 👻  monster rendering', function() {
+describe('🔠  view to @offirmo/rich-text-format - monster', function() {
 
 	describe('demo', function() {
 		it('shows off', () => {
 			for(let i = 0; i < 10; ++i) {
 				const m = generate_random_demo_monster()
-				const doc = render_monster(m)
-				//console.log(prettify_json(doc))
-				console.log(rich_text_to_ansi(doc))
+				const $doc = render_monster(m)
+				//console.log(prettify_json($doc))
+				const str = rich_text_to_ansi($doc)
+				// should just not throw
 			}
 		})
 	})

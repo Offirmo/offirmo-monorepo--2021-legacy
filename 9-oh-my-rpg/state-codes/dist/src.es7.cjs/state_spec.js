@@ -19,6 +19,7 @@ describe('@oh-my-rpg/state-codes - reducer', function () {
     });
     describe('code redemption', function () {
         const BASE_INFOS = deep_freeze_strict_1.default({
+            has_energy_depleted: false,
             good_play_count: 0,
             is_alpha_player: true,
             is_player_since_alpha: true,

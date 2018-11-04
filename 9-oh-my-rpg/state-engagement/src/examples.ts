@@ -20,6 +20,7 @@ const DEMO_STATE: State = deepFreeze({
 				type: EngagementType.flow,
 			},
 			queue_time_root_revision: 0,
+			params: {},
 		}
 	],
 })

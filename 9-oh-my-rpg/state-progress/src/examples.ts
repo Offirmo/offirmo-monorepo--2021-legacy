@@ -4,7 +4,7 @@ import { State } from './types'
 
 /////////////////////
 
-const TRUE_TRUE: true = true
+const TRUE_TRUE: true = true // https://github.com/Microsoft/TypeScript/issues/19360
 
 // a full featured, non-trivial demo state
 // useful for demos and unit tests

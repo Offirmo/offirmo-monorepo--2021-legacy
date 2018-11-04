@@ -10,8 +10,8 @@ function prettify_json(data, options = {}) {
     return prettyjson.render(data, options);
 }
 import { render_backpack, render_equipment, render_full_inventory, } from '.';
-describe('🔠  view to @offirmo/rich-text-format', function () {
-    describe('📦  backpack rendering', function () {
+describe('🔠  view to @offirmo/rich-text-format - inventory', function () {
+    describe('backpack rendering', function () {
         context('when empty', function () {
             it('should render properly', () => {
                 let inventory = create_inventory();
@@ -64,11 +64,12 @@ describe('🔠  view to @offirmo/rich-text-format', function () {
                 inventory = add_item(inventory, generate_random_demo_armor());
                 inventory = remove_item_from_unslotted(inventory, inventory.unslotted[4].uuid);
                 const $doc = render_backpack(inventory);
-                console.log(rich_text_to_ansi($doc));
+                const str = rich_text_to_ansi($doc);
+                // should just not throw
             });
         });
     });
-    describe('⚔ 🛡  active equipment rendering', function () {
+    describe('active equipment rendering', function () {
         context('when empty', function () {
             it('should render properly', () => {
                 let inventory = create_inventory();
@@ -101,11 +102,12 @@ describe('🔠  view to @offirmo/rich-text-format', function () {
                 inventory = equip_item(inventory, DEMO_WEAPON_1.uuid);
                 inventory = equip_item(inventory, DEMO_ARMOR_2.uuid);
                 const $doc = render_equipment(inventory);
-                console.log(rich_text_to_ansi($doc));
+                const str = rich_text_to_ansi($doc);
+                // should just not throw
             });
         });
     });
-    describe('⚔ 🛡 💰 📦  full inventory rendering', function () {
+    describe('full inventory rendering', function () {
         describe('demo', function () {
             it('shows off', () => {
                 let inventory = create_inventory();
@@ -124,7 +126,8 @@ describe('🔠  view to @offirmo/rich-text-format', function () {
                 wallet = add_amount(wallet, Currency.coin, 12345);
                 wallet = add_amount(wallet, Currency.token, 67);
                 const $doc = render_full_inventory(inventory, wallet);
-                console.log(rich_text_to_ansi($doc));
+                const str = rich_text_to_ansi($doc);
+                // should just not throw
             });
         });
     });

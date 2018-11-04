@@ -558,7 +558,7 @@ const OFFIRMO_POPULAR_CULTURE: I18nMessages = {
 It's raining... elves?{{br}}
 You gain +{{mana}} mana!`,
 
-	raining_elves: `
+	raining_dwarves: `
 It's raining... dwarves?{{br}}
 You gain +{{strength}} strength!`,
 

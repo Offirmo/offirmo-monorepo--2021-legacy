@@ -10,7 +10,7 @@ function prettify_json(data, options = {}) {
     return prettyjson.render(data, options);
 }
 const _1 = require(".");
-describe('⚔  weapon rendering', function () {
+describe('🔠  view to @offirmo/rich-text-format -  weapon', function () {
     context('when not enhanced', function () {
         it('should render properly', () => {
             const $doc = _1.render_weapon_detailed(logic_weapons_1.DEMO_WEAPON_1);
@@ -35,17 +35,20 @@ describe('⚔  weapon rendering', function () {
     });
     describe('demos', function () {
         it('shows off weapons', () => {
-            const doc2 = _1.render_weapon_detailed(logic_weapons_1.DEMO_WEAPON_2, 2000);
-            //console.log(prettify_json(doc2))
-            console.log(rich_text_to_ansi(doc2));
             const doc1 = _1.render_weapon_detailed(logic_weapons_1.DEMO_WEAPON_1, 2000);
             //console.log(prettify_json(doc1))
-            console.log(rich_text_to_ansi(doc1));
+            let str = rich_text_to_ansi(doc1);
+            // should just not throw
+            const doc2 = _1.render_weapon_detailed(logic_weapons_1.DEMO_WEAPON_2, 2000);
+            //console.log(prettify_json(doc2))
+            str = rich_text_to_ansi(doc2);
+            // should just not throw
             for (let i = 0; i < 10; ++i) {
                 const item = logic_weapons_1.generate_random_demo_weapon();
-                const doc = _1.render_weapon_detailed(item, 2000);
-                //console.log(prettify_json(doc))
-                console.log(rich_text_to_ansi(doc));
+                const $doc = _1.render_weapon_detailed(item, 2000);
+                //console.log(prettify_json($doc))
+                const str = rich_text_to_ansi($doc);
+                // should just not throw
             }
         });
     });

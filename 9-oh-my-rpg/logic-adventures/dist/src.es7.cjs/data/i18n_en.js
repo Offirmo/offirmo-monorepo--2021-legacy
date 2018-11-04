@@ -249,6 +249,7 @@ You gain +{{charisma}} charisma!
 `,
 };
 const OFFIRMO_INSPIRED_FROM_INSTAGRAM_POSTS = {
+    // TODO https://www.instagram.com/travisjhanson/
     // TODO RPG hooks Instagram
     // https://www.instagram.com/p/BorAmImhT-f/
     xxx_save_village_no_money: `
@@ -380,6 +381,19 @@ but still ends up with good loot: +{{coin}}, {{item}}...
 		`,
 };
 const OFFIRMO_POPULAR_CULTURE = {
+    raining_elves: `
+It's raining... elves?{{br}}
+You gain +{{mana}} mana!`,
+    raining_dwarves: `
+It's raining... dwarves?{{br}}
+You gain +{{strength}} strength!`,
+    // Top Gun
+    need_for_speed: `
+You feel the need…{{br}}
+…the need for speed!{{br}}
++{{agility}} agility!
+`,
+    // TODO dungeons
     // TODO Shrek
     // goblin slayer
     xxx_goblin_slayer: `

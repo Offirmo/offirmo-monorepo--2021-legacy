@@ -7,10 +7,11 @@ import * as PRNGState from '@oh-my-rpg/state-prng'
 import * as EnergyState from '@oh-my-rpg/state-energy'
 import * as EngagementState from '@oh-my-rpg/state-engagement'
 import * as CodesState from '@oh-my-rpg/state-codes'
+import * as ProgressState from '@oh-my-rpg/state-progress'
 
 import { LIB, SCHEMA_VERSION } from '../../consts'
 import { State } from '../../types'
-import { create } from '../state'
+import { create } from '../reducers/state'
 import { SoftExecutionContext, OMRContext, get_lib_SEC } from '../../sec'
 
 /////////////////////
@@ -44,7 +45,7 @@ function reset_and_salvage(legacy_state: any): State {
 	return state
 }
 
-const SUB_REDUCERS_COUNT = 7
+const SUB_REDUCERS_COUNT = 8
 const OTHER_KEYS_COUNT = 7
 
 function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: any = {}): State {
@@ -65,6 +66,9 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: 
 		// micro pseudo-migrations (TODO clean)
 		if (!state.codes)
 			state.codes = CodesState.create(SEC)
+		// XXX TODO reset instead (dev only)
+		if (!state.progress)
+			state.progress = ProgressState.create(SEC)
 		if (!state.engagement)
 			state.engagement = EngagementState.create(SEC)
 		if (legacy_state.meaningful_interaction_count)
@@ -75,7 +79,7 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: 
 			SEC.fireAnalyticsEvent('schema_migration.began')
 
 			try {
-				state = migrate_to_4(SEC, legacy_state, hints)
+				state = migrate_to_6(SEC, legacy_state, hints)
 				logger.info('schema migration successful.')
 				SEC.fireAnalyticsEvent('schema migration.ended')
 			}
@@ -93,6 +97,7 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: 
 			// TODO migrate adventures??
 
 			// migrate sub-reducers if any...
+			state = { ...state }
 
 			if (Object.keys(state).length !== SUB_REDUCERS_COUNT + OTHER_KEYS_COUNT) {
 				logger.error('migrate_to_latest', {SUB_REDUCERS_COUNT, OTHER_KEYS_COUNT, actual_count: Object.keys(state).length, keys: Object.keys(state)})
@@ -102,17 +107,19 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: 
 			let count = 0
 			state.avatar = CharacterState.migrate_to_latest(SEC, state.avatar, hints.avatar)
 			count++
-			state.inventory = InventoryState.migrate_to_latest(state.inventory, hints.inventory)
+			state.inventory = InventoryState.migrate_to_latest(SEC, state.inventory, hints.inventory)
 			count++
-			state.wallet = WalletState.migrate_to_latest(state.wallet, hints.wallet)
+			state.wallet = WalletState.migrate_to_latest(SEC, state.wallet, hints.wallet)
 			count++
-			state.prng = PRNGState.migrate_to_latest(state.prng, hints.prng)
+			state.prng = PRNGState.migrate_to_latest(SEC, state.prng, hints.prng)
 			count++
-			state.energy = EnergyState.migrate_to_latest(state.energy, hints.energy)
+			state.energy = EnergyState.migrate_to_latest(SEC, state.energy, hints.energy)
 			count++
 			state.engagement = EngagementState.migrate_to_latest(SEC, state.engagement, hints.engagement)
 			count++
 			state.codes = CodesState.migrate_to_latest(SEC, state.codes, hints.codes)
+			count++
+			state.progress = ProgressState.migrate_to_latest(SEC, state.progress, hints.progress)
 			count++
 
 			if (count !== SUB_REDUCERS_COUNT) {
@@ -121,7 +128,7 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: 
 		}
 		catch (err) {
 			SEC.fireAnalyticsEvent('schema_migration.failed', { step: 'sub' })
-			// we are top, attempt to salvage
+			// attempt to salvage
 			logger.error(`${LIB}: failed migrating sub-reducers, reseting and salvaging!`, {err})
 			state = reset_and_salvage(legacy_state)
 			SEC.fireAnalyticsEvent('schema_migration.salvaged', { step: 'sub' })
@@ -133,7 +140,7 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: 
 
 /////////////////////
 
-function migrate_to_4(SEC: SoftExecutionContext, legacy_state: any, hints: any): any {
+function migrate_to_6(SEC: SoftExecutionContext, legacy_state: any, hints: any): any {
 	throw new Error('Alpha release schema, won\'t migrate, would take too much time and schema is still unstable!')
 }
 

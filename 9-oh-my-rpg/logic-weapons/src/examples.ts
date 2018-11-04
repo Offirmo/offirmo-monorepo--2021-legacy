@@ -54,9 +54,9 @@ const DEMO_WEAPON_2: Readonly<Weapon> = {
 /////////////////////
 
 // for demo purpose, all attributes having the same probability + also random enhancement level
-function generate_random_demo_weapon(): Weapon {
-	const rng: Engine = Random.engines.mt19937().autoSeed()
-	return create(rng, {
+function generate_random_demo_weapon(rng?: Engine): Weapon {
+	rng = rng || Random.engines.mt19937().autoSeed()
+	return create(rng!, {
 		enhancement_level: Random.integer(0, MAX_ENHANCEMENT_LEVEL)(rng)
 	})
 }

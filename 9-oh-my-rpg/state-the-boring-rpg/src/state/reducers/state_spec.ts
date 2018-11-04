@@ -1,26 +1,24 @@
 import { expect } from 'chai'
 
 import { xxx_internal_reset_prng_cache } from '@oh-my-rpg/state-prng'
-import { ALL_GOOD_ADVENTURE_ARCHETYPES } from '@oh-my-rpg/logic-adventures'
+import { ALL_ADVENTURE_ARCHETYPES } from '@oh-my-rpg/logic-adventures'
 import {
 	get_unequipped_item_count,
 	get_equipped_item_count,
 	get_item,
 } from '@oh-my-rpg/state-inventory'
+import * as EnergyState from '@oh-my-rpg/state-energy'
 
 import {
 	Currency,
 	get_currency_amount,
 } from '@oh-my-rpg/state-wallet'
 
-import { LIB, SCHEMA_VERSION } from '../consts'
+import { SCHEMA_VERSION } from '../../consts'
 
 import {
 	create,
-	migrate_to_latest,
 	play,
-	find_element,
-	appraise_item_value,
 } from '..'
 
 describe('@oh-my-rpg/state-the-boring-rpg - reducer', function() {
@@ -42,8 +40,9 @@ describe('@oh-my-rpg/state-the-boring-rpg - reducer', function() {
 			expect(state, 'energy').to.have.property('energy')
 			expect(state, 'engagement').to.have.property('engagement')
 			expect(state, 'codes').to.have.property('codes')
+			expect(state, 'codes').to.have.property('progress')
 
-			expect(Object.keys(state), 'quick key count check').to.have.lengthOf(14) // because this test should be updated if that changes
+			expect(Object.keys(state), 'quick key count check').to.have.lengthOf(15) // because this test should be updated if that changes
 
 			// init of custom values
 			expect(state).to.have.property('schema_version', SCHEMA_VERSION)
@@ -66,16 +65,11 @@ describe('@oh-my-rpg/state-the-boring-rpg - reducer', function() {
 				it('should generate a negative adventure', () => {
 					let state = create()
 
-					// 7 good plays
-					state = play(state)
-					state = play(state)
-					state = play(state)
-					state = play(state)
-					state = play(state)
-					state = play(state)
-					state = play(state)
-
-					// too soon...
+					// force delete energy
+					state = {
+						...state,
+						energy: EnergyState.loose_all_energy(state.energy)
+					}
 					expect(state.energy.last_available_energy_float).to.be.below(1)
 
 					state = play(state)
@@ -212,68 +206,19 @@ describe('@oh-my-rpg/state-the-boring-rpg - reducer', function() {
 		})
 	})
 
-	describe('Helper functions', function() {
-
-		describe('find_element() by uuid', function() {
-
-			context('when the element refers to an item', function() {
-
-				it('should find it', () => {
-					const state = create()
-
-					const armor = state.inventory.slotted.armor
-
-					const element = find_element(state, armor!.uuid)
-
-					expect(element).to.deep.equal(armor)
-				})
-			})
-
-			context('when the uuid refers to nothing', function() {
-
-				it('should return null', () => {
-					const state = create()
-
-					const element = find_element(state, 'foo')
-
-					expect(element).to.be.null
-				})
-			})
-		})
-
-		describe('appraise_item_value() by uuid', function() {
-
-			context('when the element refers to an item', function() {
-
-				it('should find it and appraise its value', () => {
-					const state = create()
-
-					const armor = state.inventory.slotted.armor
-
-					const price = appraise_item_value(state, armor!.uuid)
-
-					expect(price).to.equal(5)
-				})
-			})
-
-			context('when the uuid refers to nothing', function() {
-
-				it('should throw', () => {
-					const state = create()
-
-					const attempt_appraise = () => void appraise_item_value(state, 'foo')
-
-					expect(attempt_appraise).to.throw('No item')
-				})
-			})
-		})
-	})
-
 	describe('adventures', function() {
-		ALL_GOOD_ADVENTURE_ARCHETYPES.forEach(({hid, good}) => {
+		ALL_ADVENTURE_ARCHETYPES.forEach(({hid, good}) => {
 			describe(`${good ? '✅' : '🚫'}  adventure "${hid}"`, function() {
 				it('should be playable', () => {
 					let state = create()
+
+					if (!good) {
+						// force deplete energy
+						state = {
+							...state,
+							energy: EnergyState.loose_all_energy(state.energy)
+						}
+					}
 					state = play(state, hid)
 				})
 			})

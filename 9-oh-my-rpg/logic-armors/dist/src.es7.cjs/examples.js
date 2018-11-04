@@ -31,8 +31,8 @@ const DEMO_ARMOR_2 = {
 };
 exports.DEMO_ARMOR_2 = DEMO_ARMOR_2;
 // for demo purpose, all attributes having the same probability + also random enhancement level
-function generate_random_demo_armor() {
-    const rng = random_1.Random.engines.mt19937().autoSeed();
+function generate_random_demo_armor(rng) {
+    rng = rng || random_1.Random.engines.mt19937().autoSeed();
     return _1.create(rng, {
         enhancement_level: random_1.Random.integer(_1.MIN_ENHANCEMENT_LEVEL, _1.MAX_ENHANCEMENT_LEVEL)(rng)
     });

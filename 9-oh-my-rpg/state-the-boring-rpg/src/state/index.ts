@@ -1,2 +1,2 @@
-export * from './state'
+export * from './reducers/state'
 export * from './migrations'

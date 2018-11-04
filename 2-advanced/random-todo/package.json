@@ -14,9 +14,9 @@
   "main": "lib/random",
   "typings": "lib/random.d.ts",
   "scripts": {
-    "test": "jasmine-node lib/random.js spec/",
-    "build": "uglifyjs --compress --mangle --screw-ie8 --output lib/random.min.js --source-map lib/random.min.js.map -- lib/random.js",
-    "np": "np"
+    "xxtest": "jasmine-node lib/random.js spec/",
+    "xxbuild": "uglifyjs --compress --mangle --screw-ie8 --output lib/random.min.js --source-map lib/random.min.js.map -- lib/random.js",
+    "xxnp": "np"
   },
   "devDependencies": {
   },

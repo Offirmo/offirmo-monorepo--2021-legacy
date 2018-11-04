@@ -11,6 +11,7 @@
 		"@offirmo/soft-execution-context": "^0.0.2"
 	},
 	"dependencies": {
+		"@oh-my-rpg/definitions": "^0.0.1",
 		"@offirmo/random": "^2",
 		"deep-freeze-strict": "^1"
 	},

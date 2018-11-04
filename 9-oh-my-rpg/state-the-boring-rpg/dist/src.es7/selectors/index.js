@@ -1,4 +1,4 @@
-import { ITEM_SLOTS } from '@oh-my-rpg/definitions';
+import { ITEM_SLOTS, InventorySlot } from '@oh-my-rpg/definitions';
 import { is_full } from '@oh-my-rpg/state-inventory';
 import { get_snapshot } from '@oh-my-rpg/state-energy';
 import { appraise_value, appraise_power } from '@oh-my-rpg/logic-shop';
@@ -30,6 +30,7 @@ function appraise_item_power(state, uuid) {
         throw new Error('appraise_item_power(): No item!');
     return appraise_power(item);
 }
+// TODO
 function appraise_player_power(state) {
     let power = 1;
     ITEM_SLOTS.forEach((slot) => {
@@ -44,14 +45,17 @@ function find_element(state, uuid) {
     // only inventory for now
     return get_item(state, uuid);
 }
-/*
-function has_non_flow_engagement_pending(state: Readonly<State>): boolean {
-
+function find_better_unequipped_weapon(state) {
+    // we take advantage of the fact that the inventory is auto-sorted
+    const best_unequipped_weapon = state.inventory.unslotted.find(e => e.slot === InventorySlot.weapon);
+    if (!best_unequipped_weapon)
+        return null;
+    const best_unequipped_power = appraise_power(best_unequipped_weapon);
+    const equipped_power = appraise_power(get_item_in_slot(state, InventorySlot.weapon));
+    if (best_unequipped_power > equipped_power)
+        return best_unequipped_weapon;
+    return null;
 }
-
-function has_flow_engagement_pending(state: Readonly<State>): boolean {
-
-}*/
 function get_oldest_pending_flow_engagement(state) {
     const pe = get_oldest_queued_flow(state.engagement);
     if (!pe)
@@ -73,6 +77,6 @@ function get_oldest_pending_non_flow_engagement(state) {
     };
 }
 /////////////////////
-export { get_energy_snapshot, is_inventory_full, get_item_in_slot, get_item, appraise_item_value, appraise_item_power, find_element, appraise_player_power, get_oldest_pending_flow_engagement, get_oldest_pending_non_flow_engagement, };
+export { get_energy_snapshot, is_inventory_full, get_item_in_slot, get_item, appraise_item_value, appraise_item_power, find_element, find_better_unequipped_weapon, appraise_player_power, get_oldest_pending_flow_engagement, get_oldest_pending_non_flow_engagement, };
 /////////////////////
 //# sourceMappingURL=index.js.map

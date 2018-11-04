@@ -14,10 +14,11 @@ import {
 describe('@oh-my-rpg/logic-weapons - compare', function() {
 
 	it('should sort properly by strength', () => {
+		const rng: Engine = Random.engines.mt19937().seed(789)
 		const items = [
-			generate_random_demo_weapon(),
-			generate_random_demo_weapon(),
-			generate_random_demo_weapon(),
+			generate_random_demo_weapon(rng),
+			generate_random_demo_weapon(rng),
+			generate_random_demo_weapon(rng),
 		].sort(compare_weapons_by_strength)
 		const [ s1, s2, s3 ] = items.map(get_medium_damage)
 		expect(s1).to.be.above(s2)

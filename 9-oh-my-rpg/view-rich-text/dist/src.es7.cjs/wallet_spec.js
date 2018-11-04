@@ -6,7 +6,7 @@ const RichText = tslib_1.__importStar(require("@offirmo/rich-text-format"));
 const state_wallet_1 = require("@oh-my-rpg/state-wallet");
 const { rich_text_to_ansi } = require('../../../../apps/the-boring-rpg-node/src/services/rich_text_to_ansi');
 const _1 = require(".");
-describe('💰  wallet rendering', function () {
+describe('🔠  view to @offirmo/rich-text-format - wallet', function () {
     context('when empty', function () {
         it('should render properly', () => {
             let wallet = state_wallet_1.create();
@@ -33,7 +33,9 @@ describe('💰  wallet rendering', function () {
     describe('demo', function () {
         it('shows off', () => {
             const $doc = _1.render_wallet(state_wallet_1.DEMO_STATE);
-            console.log(rich_text_to_ansi($doc));
+            //console.log(prettify_json($doc))
+            const str = rich_text_to_ansi($doc);
+            // should just not throw
         });
     });
 });

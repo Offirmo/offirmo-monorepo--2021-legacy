@@ -1,5 +1,6 @@
 /////////////////////
 
+import { Enum } from 'typescript-string-enums'
 import invariant from 'tiny-invariant'
 import { Random, Engine } from '@offirmo/random'
 import { get_human_readable_UTC_timestamp_minutes } from '@offirmo/timestamps'
@@ -20,13 +21,15 @@ import {
 } from '@oh-my-rpg/state-character'
 
 import * as WalletState from '@oh-my-rpg/state-wallet'
-import { Currency } from '@oh-my-rpg/state-wallet'
-
 import * as InventoryState from '@oh-my-rpg/state-inventory'
 import * as EnergyState from '@oh-my-rpg/state-energy'
 import * as EngagementState from '@oh-my-rpg/state-engagement'
-
 import * as PRNGState from '@oh-my-rpg/state-prng'
+import * as CodesState from '@oh-my-rpg/state-codes'
+import * as ProgressState from '@oh-my-rpg/state-progress'
+
+import { Currency } from '@oh-my-rpg/state-wallet'
+
 import {
 	get_prng,
 	generate_random_seed,
@@ -36,13 +39,11 @@ import {
 	Weapon,
 	create as create_weapon,
 } from '@oh-my-rpg/logic-weapons'
-
 import {
 	Armor,
 	create as create_armor,
 } from '@oh-my-rpg/logic-armors'
 
-import * as CodesState from '@oh-my-rpg/state-codes'
 import {
 	CodesConditions
 } from '@oh-my-rpg/state-codes'
@@ -83,6 +84,7 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 			energy: EnergyState.create(),
 			engagement: EngagementState.create(SEC),
 			codes: CodesState.create(SEC),
+			progress: ProgressState.create(SEC),
 
 			last_adventure: null,
 			click_count: 0,
@@ -318,20 +320,24 @@ function acknowledge_engagement_msg_seen(state: Readonly<State>, key: string): R
 function autogroom(state: Readonly<State>, options: { class_hint?: CharacterClass } = {}) {
 	invariant(!options.class_hint || Enum.isType(CharacterClass, options.class_hint), 'invalid class hint!')
 
+	let change_made = false // so far
+
 	// User
 	// User class
-	if (state.character.klass === CharacterClass.novice) {
+	if (state.avatar.klass === CharacterClass.novice) {
 		// change class
-		let new_class = options.class_hint || Random.pick(Random.engines.nativeMath, Enum.values(CharacterClass))
+		let new_class: CharacterClass = options.class_hint || Random.pick(Random.engines.nativeMath, Enum.values(CharacterClass))
 		state = change_avatar_class(state, new_class)
 	}
 
 	// inventory
 	// better gear
-	const better_weapon =
+	//const better_weapon =
+
 	// inventory full
 	if (is_inventory_full(state)) {
 		// sell stuff
+		// TODO
 	}
 }
 

@@ -29,8 +29,8 @@ const DEMO_WEAPON_2 = {
 };
 /////////////////////
 // for demo purpose, all attributes having the same probability + also random enhancement level
-function generate_random_demo_weapon() {
-    const rng = Random.engines.mt19937().autoSeed();
+function generate_random_demo_weapon(rng) {
+    rng = rng || Random.engines.mt19937().autoSeed();
     return create(rng, {
         enhancement_level: Random.integer(0, MAX_ENHANCEMENT_LEVEL)(rng)
     });

@@ -13,8 +13,8 @@ function prettify_json(data, options = {}) {
     return prettyjson.render(data, options);
 }
 const _1 = require(".");
-describe('🔠  view to @offirmo/rich-text-format', function () {
-    describe('📦  backpack rendering', function () {
+describe('🔠  view to @offirmo/rich-text-format - inventory', function () {
+    describe('backpack rendering', function () {
         context('when empty', function () {
             it('should render properly', () => {
                 let inventory = state_inventory_1.create();
@@ -67,11 +67,12 @@ describe('🔠  view to @offirmo/rich-text-format', function () {
                 inventory = state_inventory_1.add_item(inventory, logic_armors_1.generate_random_demo_armor());
                 inventory = state_inventory_1.remove_item_from_unslotted(inventory, inventory.unslotted[4].uuid);
                 const $doc = _1.render_backpack(inventory);
-                console.log(rich_text_to_ansi($doc));
+                const str = rich_text_to_ansi($doc);
+                // should just not throw
             });
         });
     });
-    describe('⚔ 🛡  active equipment rendering', function () {
+    describe('active equipment rendering', function () {
         context('when empty', function () {
             it('should render properly', () => {
                 let inventory = state_inventory_1.create();
@@ -104,11 +105,12 @@ describe('🔠  view to @offirmo/rich-text-format', function () {
                 inventory = state_inventory_1.equip_item(inventory, logic_weapons_1.DEMO_WEAPON_1.uuid);
                 inventory = state_inventory_1.equip_item(inventory, logic_armors_1.DEMO_ARMOR_2.uuid);
                 const $doc = _1.render_equipment(inventory);
-                console.log(rich_text_to_ansi($doc));
+                const str = rich_text_to_ansi($doc);
+                // should just not throw
             });
         });
     });
-    describe('⚔ 🛡 💰 📦  full inventory rendering', function () {
+    describe('full inventory rendering', function () {
         describe('demo', function () {
             it('shows off', () => {
                 let inventory = state_inventory_1.create();
@@ -127,7 +129,8 @@ describe('🔠  view to @offirmo/rich-text-format', function () {
                 wallet = state_wallet_1.add_amount(wallet, state_wallet_1.Currency.coin, 12345);
                 wallet = state_wallet_1.add_amount(wallet, state_wallet_1.Currency.token, 67);
                 const $doc = _1.render_full_inventory(inventory, wallet);
-                console.log(rich_text_to_ansi($doc));
+                const str = rich_text_to_ansi($doc);
+                // should just not throw
             });
         });
     });

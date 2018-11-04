@@ -31,9 +31,9 @@ import {
 } from '.'
 
 
-describe('🔠  view to @offirmo/rich-text-format', function() {
+describe('🔠  view to @offirmo/rich-text-format - inventory', function() {
 
-	describe('📦  backpack rendering', function() {
+	describe('backpack rendering', function() {
 
 		context('when empty', function() {
 
@@ -95,12 +95,13 @@ describe('🔠  view to @offirmo/rich-text-format', function() {
 				inventory = remove_item_from_unslotted(inventory, inventory.unslotted[4].uuid)
 
 				const $doc = render_backpack(inventory)
-				console.log(rich_text_to_ansi($doc))
+				const str = rich_text_to_ansi($doc)
+				// should just not throw
 			})
 		})
 	})
 
-	describe('⚔ 🛡  active equipment rendering', function() {
+	describe('active equipment rendering', function() {
 
 		context('when empty', function() {
 
@@ -140,12 +141,13 @@ describe('🔠  view to @offirmo/rich-text-format', function() {
 				inventory = equip_item(inventory, DEMO_ARMOR_2.uuid)
 
 				const $doc = render_equipment(inventory)
-				console.log(rich_text_to_ansi($doc))
+				const str = rich_text_to_ansi($doc)
+				// should just not throw
 			})
 		})
 	})
 
-	describe('⚔ 🛡 💰 📦  full inventory rendering', function() {
+	describe('full inventory rendering', function() {
 
 		describe('demo', function() {
 			it('shows off', () => {
@@ -167,7 +169,8 @@ describe('🔠  view to @offirmo/rich-text-format', function() {
 				wallet = add_amount(wallet, Currency.token, 67)
 
 				const $doc = render_full_inventory(inventory, wallet)
-				console.log(rich_text_to_ansi($doc))
+				const str = rich_text_to_ansi($doc)
+				// should just not throw
 			})
 		})
 	})

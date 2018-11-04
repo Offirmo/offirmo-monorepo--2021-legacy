@@ -9,8 +9,9 @@ const PRNGState = tslib_1.__importStar(require("@oh-my-rpg/state-prng"));
 const EnergyState = tslib_1.__importStar(require("@oh-my-rpg/state-energy"));
 const EngagementState = tslib_1.__importStar(require("@oh-my-rpg/state-engagement"));
 const CodesState = tslib_1.__importStar(require("@oh-my-rpg/state-codes"));
+const ProgressState = tslib_1.__importStar(require("@oh-my-rpg/state-progress"));
 const consts_1 = require("../../consts");
-const state_1 = require("../state");
+const state_1 = require("../reducers/state");
 const sec_1 = require("../../sec");
 /////////////////////
 function reset_and_salvage(legacy_state) {
@@ -37,7 +38,7 @@ function reset_and_salvage(legacy_state) {
     }
     return state;
 }
-const SUB_REDUCERS_COUNT = 7;
+const SUB_REDUCERS_COUNT = 8;
 const OTHER_KEYS_COUNT = 7;
 function migrate_to_latest(SEC, legacy_state, hints = {}) {
     const existing_version = (legacy_state && legacy_state.schema_version) || 0;
@@ -53,6 +54,9 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
         // micro pseudo-migrations (TODO clean)
         if (!state.codes)
             state.codes = CodesState.create(SEC);
+        // XXX TODO reset instead (dev only)
+        if (!state.progress)
+            state.progress = ProgressState.create(SEC);
         if (!state.engagement)
             state.engagement = EngagementState.create(SEC);
         if (legacy_state.meaningful_interaction_count)
@@ -61,7 +65,7 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
             logger.warn(`attempting to migrate schema from v${existing_version} to v${consts_1.SCHEMA_VERSION}:`);
             SEC.fireAnalyticsEvent('schema_migration.began');
             try {
-                state = migrate_to_4(SEC, legacy_state, hints);
+                state = migrate_to_6(SEC, legacy_state, hints);
                 logger.info('schema migration successful.');
                 SEC.fireAnalyticsEvent('schema migration.ended');
             }
@@ -77,6 +81,7 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
         try {
             // TODO migrate adventures??
             // migrate sub-reducers if any...
+            state = Object.assign({}, state);
             if (Object.keys(state).length !== SUB_REDUCERS_COUNT + OTHER_KEYS_COUNT) {
                 logger.error('migrate_to_latest', { SUB_REDUCERS_COUNT, OTHER_KEYS_COUNT, actual_count: Object.keys(state).length, keys: Object.keys(state) });
                 throw new Error('migrate_to_latest src (1) is outdated, please update!');
@@ -84,17 +89,19 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
             let count = 0;
             state.avatar = CharacterState.migrate_to_latest(SEC, state.avatar, hints.avatar);
             count++;
-            state.inventory = InventoryState.migrate_to_latest(state.inventory, hints.inventory);
+            state.inventory = InventoryState.migrate_to_latest(SEC, state.inventory, hints.inventory);
             count++;
-            state.wallet = WalletState.migrate_to_latest(state.wallet, hints.wallet);
+            state.wallet = WalletState.migrate_to_latest(SEC, state.wallet, hints.wallet);
             count++;
-            state.prng = PRNGState.migrate_to_latest(state.prng, hints.prng);
+            state.prng = PRNGState.migrate_to_latest(SEC, state.prng, hints.prng);
             count++;
-            state.energy = EnergyState.migrate_to_latest(state.energy, hints.energy);
+            state.energy = EnergyState.migrate_to_latest(SEC, state.energy, hints.energy);
             count++;
             state.engagement = EngagementState.migrate_to_latest(SEC, state.engagement, hints.engagement);
             count++;
             state.codes = CodesState.migrate_to_latest(SEC, state.codes, hints.codes);
+            count++;
+            state.progress = ProgressState.migrate_to_latest(SEC, state.progress, hints.progress);
             count++;
             if (count !== SUB_REDUCERS_COUNT) {
                 throw new Error('migrate_to_latest src (2) is outdated, please update!');
@@ -102,7 +109,7 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
         }
         catch (err) {
             SEC.fireAnalyticsEvent('schema_migration.failed', { step: 'sub' });
-            // we are top, attempt to salvage
+            // attempt to salvage
             logger.error(`${consts_1.LIB}: failed migrating sub-reducers, reseting and salvaging!`, { err });
             state = reset_and_salvage(legacy_state);
             SEC.fireAnalyticsEvent('schema_migration.salvaged', { step: 'sub' });
@@ -112,7 +119,7 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
 }
 exports.migrate_to_latest = migrate_to_latest;
 /////////////////////
-function migrate_to_4(SEC, legacy_state, hints) {
+function migrate_to_6(SEC, legacy_state, hints) {
     throw new Error('Alpha release schema, won\'t migrate, would take too much time and schema is still unstable!');
 }
 //# sourceMappingURL=index.js.map

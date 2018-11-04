@@ -5,6 +5,6 @@ const prettyjson = require('prettyjson');
 function prettify_json(data, options = {}) {
     return prettyjson.render(data, options);
 }
-describe('⚔ 🛡 item rendering', function () {
+describe('🔠  view to @offirmo/rich-text-format - item', function () {
 });
 //# sourceMappingURL=items_spec.js.map

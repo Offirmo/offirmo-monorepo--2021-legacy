@@ -1,9 +1,6 @@
 import deepFreeze from 'deep-freeze-strict'
 
-import {
-	CodeRedemption,
-	State,
-} from './types'
+import { State } from './types'
 
 /////////////////////
 
@@ -11,11 +8,14 @@ import {
 // useful for demos and unit tests
 const DEMO_STATE: State = deepFreeze({
 	schema_version: 1,
-	revision: 42,
+	revision: 3,
 
-	redeemed_codes: [
-		// TODO
-	],
+	redeemed_codes: {
+		BORED: {
+			"redeem_count": 1,
+			"last_redeem_date_minutes": "20181030_21h23"
+		}
+	},
 })
 
 /////////////////////

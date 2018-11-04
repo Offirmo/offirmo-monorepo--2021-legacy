@@ -3,13 +3,31 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const deep_freeze_strict_1 = tslib_1.__importDefault(require("deep-freeze-strict"));
-/////////////////////
-const CharacterState = tslib_1.__importStar(require("@oh-my-rpg/state-character"));
-const WalletState = tslib_1.__importStar(require("@oh-my-rpg/state-wallet"));
-const InventoryState = tslib_1.__importStar(require("@oh-my-rpg/state-inventory"));
-const PRNGState = tslib_1.__importStar(require("@oh-my-rpg/state-prng"));
+const Character = tslib_1.__importStar(require("@oh-my-rpg/state-character"));
+const Inventory = tslib_1.__importStar(require("@oh-my-rpg/state-inventory"));
+const Wallet = tslib_1.__importStar(require("@oh-my-rpg/state-wallet"));
+const PRNG = tslib_1.__importStar(require("@oh-my-rpg/state-prng"));
+const Energy = tslib_1.__importStar(require("@oh-my-rpg/state-energy"));
+const Engagement = tslib_1.__importStar(require("@oh-my-rpg/state-engagement"));
+const Codes = tslib_1.__importStar(require("@oh-my-rpg/state-codes"));
+const Progress = tslib_1.__importStar(require("@oh-my-rpg/state-progress"));
 const logic_weapons_1 = require("@oh-my-rpg/logic-weapons");
 const logic_monsters_1 = require("@oh-my-rpg/logic-monsters");
+/*
+import {
+    CoinsGain,
+    OutcomeArchetype,
+    AdventureType,
+    AdventureArchetype,
+
+    get_archetype,
+    pick_random_good_archetype,
+    pick_random_bad_archetype,
+    generate_random_coin_gain,
+} from '@oh-my-rpg/logic-adventures'
+*/
+/////////////////////
+const consts_1 = require("./consts");
 /////////////////////
 // needed to test migrations, both here and in composing parents
 // a full featured, non-trivial demo state
@@ -107,14 +125,20 @@ const DEMO_ADVENTURE_04 = deep_freeze_strict_1.default({
 });
 exports.DEMO_ADVENTURE_04 = DEMO_ADVENTURE_04;
 const DEMO_STATE = deep_freeze_strict_1.default({
-    schema_version: 4,
+    uuid: "uu1EO9VgTjPlR1YPj0yfdWjG",
+    creation_date: "20180813_00h33",
+    schema_version: consts_1.SCHEMA_VERSION,
     revision: 203,
-    avatar: CharacterState.DEMO_STATE,
-    inventory: InventoryState.DEMO_STATE,
-    wallet: WalletState.DEMO_STATE,
-    prng: PRNGState.DEMO_STATE,
+    avatar: Character.DEMO_STATE,
+    inventory: Inventory.DEMO_STATE,
+    wallet: Wallet.DEMO_STATE,
+    prng: PRNG.DEMO_STATE,
+    energy: Energy.DEMO_STATE,
+    engagement: Engagement.DEMO_STATE,
+    codes: Codes.DEMO_STATE,
+    progress: Progress.DEMO_STATE,
     last_adventure: DEMO_ADVENTURE_01,
-    click_count: 86,
+    click_count: 92,
     good_click_count: 86,
 });
 exports.DEMO_STATE = DEMO_STATE;
@@ -256,10 +280,14 @@ exports.OLDEST_LEGACY_STATE_FOR_TESTS = OLDEST_LEGACY_STATE_FOR_TESTS;
 // some hints may be needed to migrate to demo state
 const MIGRATION_HINTS_FOR_TESTS = deep_freeze_strict_1.default({
     to_v5: {},
-    avatar: CharacterState.MIGRATION_HINTS_FOR_TESTS,
-    inventory: InventoryState.MIGRATION_HINTS_FOR_TESTS,
-    wallet: WalletState.MIGRATION_HINTS_FOR_TESTS,
-    prng: PRNGState.MIGRATION_HINTS_FOR_TESTS,
+    avatar: Character.MIGRATION_HINTS_FOR_TESTS,
+    inventory: Inventory.MIGRATION_HINTS_FOR_TESTS,
+    wallet: Wallet.MIGRATION_HINTS_FOR_TESTS,
+    prng: PRNG.MIGRATION_HINTS_FOR_TESTS,
+    energy: Energy.MIGRATION_HINTS_FOR_TESTS,
+    engagement: Engagement.MIGRATION_HINTS_FOR_TESTS,
+    codes: Codes.MIGRATION_HINTS_FOR_TESTS,
+    progress: Progress.MIGRATION_HINTS_FOR_TESTS,
 });
 exports.MIGRATION_HINTS_FOR_TESTS = MIGRATION_HINTS_FOR_TESTS;
 /////////////////////

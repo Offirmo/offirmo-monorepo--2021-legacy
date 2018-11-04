@@ -6,10 +6,11 @@ const random_1 = require("@offirmo/random");
 const _1 = require(".");
 describe('@oh-my-rpg/logic-armors - comparison', function () {
     it('should sort properly by strength', () => {
+        const rng = random_1.Random.engines.mt19937().seed(789);
         const armors = [
-            _1.generate_random_demo_armor(),
-            _1.generate_random_demo_armor(),
-            _1.generate_random_demo_armor(),
+            _1.generate_random_demo_armor(rng),
+            _1.generate_random_demo_armor(rng),
+            _1.generate_random_demo_armor(rng),
         ].sort(_1.compare_armors_by_strength);
         const [s1, s2, s3] = armors.map(_1.get_medium_damage_reduction);
         chai_1.expect(s1).to.be.above(s2);

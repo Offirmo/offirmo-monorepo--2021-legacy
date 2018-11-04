@@ -1,12 +1,30 @@
 /////////////////////
 import deepFreeze from 'deep-freeze-strict';
+import * as Character from '@oh-my-rpg/state-character';
+import * as Inventory from '@oh-my-rpg/state-inventory';
+import * as Wallet from '@oh-my-rpg/state-wallet';
+import * as PRNG from '@oh-my-rpg/state-prng';
+import * as Energy from '@oh-my-rpg/state-energy';
+import * as Engagement from '@oh-my-rpg/state-engagement';
+import * as Codes from '@oh-my-rpg/state-codes';
+import * as Progress from '@oh-my-rpg/state-progress';
+import { DEMO_WEAPON_1 } from '@oh-my-rpg/logic-weapons';
+import { DEMO_MONSTER_01 } from '@oh-my-rpg/logic-monsters';
+/*
+import {
+    CoinsGain,
+    OutcomeArchetype,
+    AdventureType,
+    AdventureArchetype,
+
+    get_archetype,
+    pick_random_good_archetype,
+    pick_random_bad_archetype,
+    generate_random_coin_gain,
+} from '@oh-my-rpg/logic-adventures'
+*/
 /////////////////////
-import * as CharacterState from '@oh-my-rpg/state-character';
-import * as WalletState from '@oh-my-rpg/state-wallet';
-import * as InventoryState from '@oh-my-rpg/state-inventory';
-import * as PRNGState from '@oh-my-rpg/state-prng';
-import { DEMO_WEAPON_1, } from '@oh-my-rpg/logic-weapons';
-import { DEMO_MONSTER_01, } from '@oh-my-rpg/logic-monsters';
+import { SCHEMA_VERSION } from './consts';
 /////////////////////
 // needed to test migrations, both here and in composing parents
 // a full featured, non-trivial demo state
@@ -100,14 +118,20 @@ const DEMO_ADVENTURE_04 = deepFreeze({
     }
 });
 const DEMO_STATE = deepFreeze({
-    schema_version: 4,
+    uuid: "uu1EO9VgTjPlR1YPj0yfdWjG",
+    creation_date: "20180813_00h33",
+    schema_version: SCHEMA_VERSION,
     revision: 203,
-    avatar: CharacterState.DEMO_STATE,
-    inventory: InventoryState.DEMO_STATE,
-    wallet: WalletState.DEMO_STATE,
-    prng: PRNGState.DEMO_STATE,
+    avatar: Character.DEMO_STATE,
+    inventory: Inventory.DEMO_STATE,
+    wallet: Wallet.DEMO_STATE,
+    prng: PRNG.DEMO_STATE,
+    energy: Energy.DEMO_STATE,
+    engagement: Engagement.DEMO_STATE,
+    codes: Codes.DEMO_STATE,
+    progress: Progress.DEMO_STATE,
     last_adventure: DEMO_ADVENTURE_01,
-    click_count: 86,
+    click_count: 92,
     good_click_count: 86,
 });
 // the oldest format we can migrate from
@@ -247,10 +271,14 @@ const OLDEST_LEGACY_STATE_FOR_TESTS = deepFreeze({
 // some hints may be needed to migrate to demo state
 const MIGRATION_HINTS_FOR_TESTS = deepFreeze({
     to_v5: {},
-    avatar: CharacterState.MIGRATION_HINTS_FOR_TESTS,
-    inventory: InventoryState.MIGRATION_HINTS_FOR_TESTS,
-    wallet: WalletState.MIGRATION_HINTS_FOR_TESTS,
-    prng: PRNGState.MIGRATION_HINTS_FOR_TESTS,
+    avatar: Character.MIGRATION_HINTS_FOR_TESTS,
+    inventory: Inventory.MIGRATION_HINTS_FOR_TESTS,
+    wallet: Wallet.MIGRATION_HINTS_FOR_TESTS,
+    prng: PRNG.MIGRATION_HINTS_FOR_TESTS,
+    energy: Energy.MIGRATION_HINTS_FOR_TESTS,
+    engagement: Engagement.MIGRATION_HINTS_FOR_TESTS,
+    codes: Codes.MIGRATION_HINTS_FOR_TESTS,
+    progress: Progress.MIGRATION_HINTS_FOR_TESTS,
 });
 /////////////////////
 export { DEMO_ADVENTURE_01, DEMO_ADVENTURE_02, DEMO_ADVENTURE_03, DEMO_ADVENTURE_04, DEMO_STATE, OLDEST_LEGACY_STATE_FOR_TESTS, MIGRATION_HINTS_FOR_TESTS, };
