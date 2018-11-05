@@ -1,5 +1,5 @@
 import deepFreeze from 'deep-freeze-strict';
-import { SCHEMA_VERSION } from './consts';
+import { LIB, SCHEMA_VERSION } from './consts';
 import { get_lib_SEC } from './sec';
 // some hints may be needed to migrate to demo state
 // need to export them for composing tests
@@ -17,7 +17,7 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
             throw new Error('Your data is from a more recent version of this lib. Please update!');
         let state = legacy_state; // for starter
         if (existing_version < SCHEMA_VERSION) {
-            logger.warn(`attempting to migrate schema from v${existing_version} to v${SCHEMA_VERSION}:`);
+            logger.warn(`${LIB}: attempting to migrate schema from v${existing_version} to v${SCHEMA_VERSION}:`);
             SEC.fireAnalyticsEvent('schema_migration.began');
             try {
                 state = migrate_to_2(SEC, legacy_state, hints);
@@ -26,7 +26,7 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
                 SEC.fireAnalyticsEvent('schema_migration.failed');
                 throw err;
             }
-            logger.info('schema migration successful.');
+            logger.info(`${LIB}: schema migration successful.`);
             SEC.fireAnalyticsEvent('schema_migration.ended');
         }
         // migrate sub-reducers if any...

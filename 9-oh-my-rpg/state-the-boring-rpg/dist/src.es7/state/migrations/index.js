@@ -48,27 +48,11 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
         if (existing_version > SCHEMA_VERSION)
             throw new Error('Your data is from a more recent version of this lib. Please update!');
         let state = legacy_state; // for starter
-        // micro pseudo-migrations (TODO clean)
-        if (!state.codes)
-            state.codes = CodesState.create(SEC);
-        // XXX TODO reset instead (dev only)
-        if (!state.progress)
-            state.progress = ProgressState.create(SEC);
-        if (!state.engagement)
-            state.engagement = EngagementState.create(SEC);
-        if (legacy_state.meaningful_interaction_count)
-            delete legacy_state.meaningful_interaction_count;
-        if (legacy_state.click_count)
-            delete legacy_state.click_count;
-        if (legacy_state.good_click_count)
-            delete legacy_state.good_click_count;
         if (existing_version < SCHEMA_VERSION) {
-            logger.warn(`attempting to migrate schema from v${existing_version} to v${SCHEMA_VERSION}:`);
+            logger.warn(`${LIB}: attempting to migrate schema from v${existing_version} to v${SCHEMA_VERSION}:`);
             SEC.fireAnalyticsEvent('schema_migration.began');
             try {
-                state = migrate_to_6(SEC, legacy_state, hints);
-                logger.info('schema migration successful.');
-                SEC.fireAnalyticsEvent('schema migration.ended');
+                state = migrate_to_7(SEC, legacy_state, hints);
             }
             catch (err) {
                 SEC.fireAnalyticsEvent('schema_migration.failed', { step: 'main' });
@@ -80,33 +64,34 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
         }
         // 2nd part (can re-reset...)
         try {
-            // TODO migrate adventures??
+            // TODO migrate adventures
             // migrate sub-reducers if any...
             state = Object.assign({}, state);
             if (Object.keys(state).length !== SUB_REDUCERS_COUNT + OTHER_KEYS_COUNT) {
                 logger.error('migrate_to_latest', { SUB_REDUCERS_COUNT, OTHER_KEYS_COUNT, actual_count: Object.keys(state).length, keys: Object.keys(state) });
                 throw new Error('migrate_to_latest src (1) is outdated, please update!');
             }
-            let count = 0;
+            let sub_reducer_migrated = [];
             state.avatar = CharacterState.migrate_to_latest(SEC, state.avatar, hints.avatar);
-            count++;
+            sub_reducer_migrated.push('avatar');
             state.inventory = InventoryState.migrate_to_latest(SEC, state.inventory, hints.inventory);
-            count++;
+            sub_reducer_migrated.push('inventory');
             state.wallet = WalletState.migrate_to_latest(SEC, state.wallet, hints.wallet);
-            count++;
+            sub_reducer_migrated.push('wallet');
             state.prng = PRNGState.migrate_to_latest(SEC, state.prng, hints.prng);
-            count++;
+            sub_reducer_migrated.push('prng');
             state.energy = EnergyState.migrate_to_latest(SEC, state.energy, hints.energy);
-            count++;
+            sub_reducer_migrated.push('energy');
             state.engagement = EngagementState.migrate_to_latest(SEC, state.engagement, hints.engagement);
-            count++;
+            sub_reducer_migrated.push('engagement');
             state.codes = CodesState.migrate_to_latest(SEC, state.codes, hints.codes);
-            count++;
+            sub_reducer_migrated.push('codes');
             state.progress = ProgressState.migrate_to_latest(SEC, state.progress, hints.progress);
-            count++;
-            if (count !== SUB_REDUCERS_COUNT) {
+            sub_reducer_migrated.push('progress');
+            if (sub_reducer_migrated.length !== SUB_REDUCERS_COUNT)
                 throw new Error('migrate_to_latest src (2) is outdated, please update!');
-            }
+            logger.info(`${LIB}: schema migration successful.`);
+            SEC.fireAnalyticsEvent('schema migration.ended');
         }
         catch (err) {
             SEC.fireAnalyticsEvent('schema_migration.failed', { step: 'sub' });
@@ -119,7 +104,32 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
     });
 }
 /////////////////////
-function migrate_to_6(SEC, legacy_state, hints) {
+function migrate_to_7(SEC, legacy_state, hints) {
+    if (legacy_state.schema_version >= 7)
+        throw new Error('migrate_to_X src (3) is outdated, please update!');
+    if (legacy_state.schema_version < 4)
+        legacy_state = migrate_to_4(SEC, legacy_state, hints);
+    let state = Object.assign({}, legacy_state);
+    // new entries
+    if (!state.codes)
+        state.codes = CodesState.create(SEC);
+    if (!state.progress)
+        state.progress = ProgressState.create(SEC);
+    if (!state.engagement)
+        state.engagement = EngagementState.create(SEC);
+    if (state.meaningful_interaction_count)
+        delete state.meaningful_interaction_count;
+    if (state.good_click_count) {
+        state.progress.statistics.good_play_count = state.good_click_count;
+        delete state.good_click_count;
+    }
+    if (state.click_count) {
+        state.progress.statistics.bad_play_count = state.click_count - state.progress.statistics.good_play_count;
+        delete state.click_count;
+    }
+    return state;
+}
+function migrate_to_4(SEC, legacy_state, hints) {
     throw new Error('Alpha release schema, won\'t migrate, would take too much time and schema is still unstable!');
 }
 /////////////////////

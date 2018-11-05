@@ -9,7 +9,7 @@ function create(SEC) {
             revision: 0,
             wiki: null,
             flags: null,
-            achievements: null,
+            achievements: {},
             statistics: {
                 good_play_count: 0,
                 bad_play_count: 0,
@@ -51,6 +51,10 @@ function on_played(state, details) {
     return Object.assign({}, state, { revision: state.revision + 1 });
 }
 /////////////////////
-export { create, on_played, };
+function on_achieved(state, key, new_status) {
+    return Object.assign({}, state, { achievements: Object.assign({}, state.achievements, { [key]: new_status }), revision: state.revision + 1 });
+}
+/////////////////////
+export { create, on_played, on_achieved, };
 /////////////////////
 //# sourceMappingURL=state.js.map

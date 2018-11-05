@@ -1,4 +1,4 @@
-import { I18nMessages } from '@oh-my-rpg/definitions';
+import { I18nMessages } from '@offirmo/ts-types';
 declare const i18n_messages: I18nMessages;
 declare const WEAPON_BASES: {
     type: "base";

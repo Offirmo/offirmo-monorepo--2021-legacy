@@ -39,7 +39,7 @@ function create(SEC) {
             uuid: uuid_1.generate_uuid(),
             creation_date: timestamps_1.get_human_readable_UTC_timestamp_minutes(),
             avatar: CharacterState.create(SEC),
-            inventory: InventoryState.create(),
+            inventory: InventoryState.create(SEC),
             wallet: WalletState.create(),
             prng: PRNGState.create(),
             energy: EnergyState.create(),

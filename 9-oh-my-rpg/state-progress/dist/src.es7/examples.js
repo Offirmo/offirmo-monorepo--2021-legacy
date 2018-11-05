@@ -8,7 +8,9 @@ const DEMO_STATE = deepFreeze({
     revision: 42,
     wiki: null,
     flags: null,
-    achievements: null,
+    achievements: {
+    // TODO
+    },
     statistics: {
         good_play_count: 12,
         bad_play_count: 3,

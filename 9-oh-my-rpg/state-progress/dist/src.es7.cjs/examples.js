@@ -11,7 +11,9 @@ const DEMO_STATE = deep_freeze_strict_1.default({
     revision: 42,
     wiki: null,
     flags: null,
-    achievements: null,
+    achievements: {
+    // TODO
+    },
     statistics: {
         good_play_count: 12,
         bad_play_count: 3,

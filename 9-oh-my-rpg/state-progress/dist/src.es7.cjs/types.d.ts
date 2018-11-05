@@ -1,9 +1,25 @@
+import { Enum } from 'typescript-string-enums';
+declare const AchievementStatus: {
+    hidden: "hidden";
+    revealed: "revealed";
+    unlocked: "unlocked";
+};
+declare type AchievementStatus = Enum<typeof AchievementStatus>;
+interface AchievementDefinition {
+    name: string;
+    icon: string;
+    description: string;
+    lore?: string;
+    get_status: (stats: State) => AchievementStatus;
+}
 interface State {
     schema_version: number;
     revision: number;
     wiki: null;
     flags: null;
-    achievements: null;
+    achievements: {
+        [key: string]: AchievementStatus;
+    };
     statistics: {
         good_play_count: number;
         bad_play_count: number;
@@ -23,4 +39,4 @@ interface State {
         is_registered_alpha_player: boolean;
     };
 }
-export { State, };
+export { AchievementStatus, AchievementDefinition, State, };

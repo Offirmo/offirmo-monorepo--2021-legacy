@@ -9,14 +9,16 @@ This file is just for taking notes for the next Reddit post.
 - 😷 chore: 
 /////////////
 
+- TODO 😷 chore: ESLINT
+
 Next
 - 😍 feature: 2 new background (now totalling 16!)
 - 🤩 feature: 3 new adventures (now totalling 118!)
+- 😍 feature: enabled migration of savegames! (for now, no more resets)
 - 😅 fix (hopefully!): minor bugs with signup/signin
 - 😅 fix (hopefully!): bug abusively reseting the savegame (reported by u/LiddiLidd )
 - 😷 chore: added safeties to detect/prevent abusive game resets in the future
 - 😷 chore: better typings
-- TODO 😷 chore: ESLINT
 
 
 2018/10/29 v0.52.34

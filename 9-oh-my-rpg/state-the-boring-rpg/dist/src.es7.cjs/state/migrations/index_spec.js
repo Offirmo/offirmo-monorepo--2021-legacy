@@ -9,6 +9,11 @@ const _1 = require(".");
 const sec_1 = require("../../sec");
 const __1 = require("..");
 const examples_1 = require("../../examples");
+function advanced_diff_json(a, b, { diff } = {}) {
+    if (diff)
+        delete diff.creation_date;
+    return diff;
+}
 describe('@oh-my-rpg/state-the-boring-rpg - schema migration', function () {
     it('should correctly migrate a fresh state (by touching nothing)', () => {
         const old_state = deep_freeze_strict_1.default(__1.create());
@@ -18,14 +23,15 @@ describe('@oh-my-rpg/state-the-boring-rpg - schema migration', function () {
     });
     describe('migration of an existing state', function () {
         // TODO ALPHA remove skip
-        migration_tester_1.test_migrations.skip({
+        migration_tester_1.test_migrations({
             use_hints: true,
-            //read_only: false, // XXX
+            read_only: false,
             migration_hints_for_chaining: examples_1.MIGRATION_HINTS_FOR_TESTS,
+            advanced_diff_json,
             SCHEMA_VERSION: consts_1.SCHEMA_VERSION,
             LATEST_EXPECTED_DATA: examples_1.DEMO_STATE,
             migrate_to_latest: _1.migrate_to_latest.bind(null, sec_1.get_lib_SEC()),
-            absolute_dir_path: require('path').join(__dirname, '../../../src/state/migrations/migrations_of_active_state_specs'),
+            absolute_dir_path: require('path').join(__dirname, '../../../../src/state/migrations/migrations_of_active_state_specs'),
             describe, context, it, expect: chai_1.expect,
         });
     });
@@ -34,18 +40,19 @@ describe('@oh-my-rpg/state-the-boring-rpg - schema migration', function () {
         // alter seed to avoid migration
         new_state.prng.seed = 1234; // should match blank state spec
         // TODO ALPHA remove skip
-        migration_tester_1.test_migrations.skip({
+        migration_tester_1.test_migrations({
             use_hints: false,
-            //read_only: false, // XXX
+            read_only: false,
+            advanced_diff_json,
             SCHEMA_VERSION: consts_1.SCHEMA_VERSION,
             LATEST_EXPECTED_DATA: new_state,
             migrate_to_latest: _1.migrate_to_latest.bind(null, sec_1.get_lib_SEC()),
-            absolute_dir_path: require('path').join(__dirname, '../../../src/state/migrations/migrations_of_blank_state_specs'),
+            absolute_dir_path: require('path').join(__dirname, '../../../../src/state/migrations/migrations_of_blank_state_specs'),
             describe, context, it, expect: chai_1.expect,
         });
     });
     describe('migration of known failures', function () {
-        it('should migrate v4 -> v6 20181029', () => {
+        it('should reset v4 20181029 without crashing', () => {
             const old_state = {
                 "schema_version": 4,
                 "revision": 12,
@@ -172,8 +179,12 @@ describe('@oh-my-rpg/state-the-boring-rpg - schema migration', function () {
                 "meaningful_interaction_count": 12
             };
             const new_state = _1.migrate_to_latest(sec_1.get_lib_SEC(), old_state);
+            // this state is too old
+            // we just check that it resets without crashing
+            chai_1.expect(new_state.progress.statistics.good_play_count).to.equal(0);
+            chai_1.expect(new_state.progress.statistics.bad_play_count).to.equal(0);
         });
-        it('should migrate LiidLidd 20181029', () => {
+        it('should migrate v6 LiddiLidd 20181029', () => {
             const old_state = {
                 "schema_version": 6,
                 "revision": 485,
@@ -440,6 +451,8 @@ describe('@oh-my-rpg/state-the-boring-rpg - schema migration', function () {
                 "meaningful_interaction_count": 485
             };
             const new_state = _1.migrate_to_latest(sec_1.get_lib_SEC(), old_state);
+            chai_1.expect(new_state.progress.statistics.good_play_count).to.equal(429);
+            chai_1.expect(new_state.progress.statistics.bad_play_count).to.equal(433 - 429);
         });
     });
 });

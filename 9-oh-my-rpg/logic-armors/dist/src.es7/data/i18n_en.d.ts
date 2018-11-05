@@ -1,3 +1,3 @@
-import { I18nMessages } from '@oh-my-rpg/definitions';
+import { I18nMessages } from '@offirmo/ts-types';
 declare const messages: I18nMessages;
 export default messages;

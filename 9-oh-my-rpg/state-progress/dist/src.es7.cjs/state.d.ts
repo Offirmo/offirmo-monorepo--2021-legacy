@@ -1,4 +1,4 @@
-import { State } from './types';
+import { AchievementStatus, State } from './types';
 import { SoftExecutionContext } from './sec';
 declare function create(SEC?: SoftExecutionContext): Readonly<State>;
 interface PlayedDetails {
@@ -8,4 +8,5 @@ interface PlayedDetails {
     active_class: string;
 }
 declare function on_played(state: Readonly<State>, details: PlayedDetails): Readonly<State>;
-export { create, on_played, };
+declare function on_achieved(state: Readonly<State>, key: string, new_status: AchievementStatus): Readonly<State>;
+export { create, on_played, on_achieved, };

@@ -11,8 +11,9 @@ describe('@oh-my-rpg/state-progress - reducer', function () {
             chai_1.expect(state).to.deep.equal({
                 schema_version: consts_1.SCHEMA_VERSION,
                 revision: 0,
+                wiki: null,
                 flags: null,
-                achievements: null,
+                achievements: {},
                 statistics: {
                     good_play_count: 0,
                     bad_play_count: 0,
@@ -36,25 +37,19 @@ describe('@oh-my-rpg/state-progress - reducer', function () {
                     encountered_monster_key: null,
                     active_class: 'foo',
                 });
-                chai_1.expect(state).to.deep.equal({
-                    schema_version: consts_1.SCHEMA_VERSION,
-                    revision: 1,
-                    flags: null,
-                    achievements: null,
-                    statistics: {
-                        good_play_count: 0,
-                        bad_play_count: 1,
-                        encountered_adventures: {
-                            'foo_adv': true,
-                        },
-                        encountered_monsters: {},
-                        good_play_count_by_active_class: {},
-                        bad_play_count_by_active_class: {
-                            'foo': 1,
-                        },
-                        has_account: false,
-                        is_registered_alpha_player: false,
-                    }
+                chai_1.expect(state.statistics).to.deep.equal({
+                    good_play_count: 0,
+                    bad_play_count: 1,
+                    encountered_adventures: {
+                        'foo_adv': true,
+                    },
+                    encountered_monsters: {},
+                    good_play_count_by_active_class: {},
+                    bad_play_count_by_active_class: {
+                        'foo': 1,
+                    },
+                    has_account: false,
+                    is_registered_alpha_player: false,
                 });
             });
         });
@@ -67,25 +62,19 @@ describe('@oh-my-rpg/state-progress - reducer', function () {
                     encountered_monster_key: null,
                     active_class: 'foo',
                 });
-                chai_1.expect(state).to.deep.equal({
-                    schema_version: consts_1.SCHEMA_VERSION,
-                    revision: 1,
-                    flags: null,
-                    achievements: null,
-                    statistics: {
-                        good_play_count: 1,
-                        bad_play_count: 0,
-                        encountered_adventures: {
-                            'foo_adv': true,
-                        },
-                        encountered_monsters: {},
-                        good_play_count_by_active_class: {
-                            'foo': 1,
-                        },
-                        bad_play_count_by_active_class: {},
-                        has_account: false,
-                        is_registered_alpha_player: false,
-                    }
+                chai_1.expect(state.statistics).to.deep.equal({
+                    good_play_count: 1,
+                    bad_play_count: 0,
+                    encountered_adventures: {
+                        'foo_adv': true,
+                    },
+                    encountered_monsters: {},
+                    good_play_count_by_active_class: {
+                        'foo': 1,
+                    },
+                    bad_play_count_by_active_class: {},
+                    has_account: false,
+                    is_registered_alpha_player: false,
                 });
                 state = _1.on_played(state, {
                     good: true,
@@ -93,28 +82,37 @@ describe('@oh-my-rpg/state-progress - reducer', function () {
                     encountered_monster_key: 'foo_mon',
                     active_class: 'foo',
                 });
-                chai_1.expect(state).to.deep.equal({
-                    schema_version: consts_1.SCHEMA_VERSION,
-                    revision: 2,
-                    flags: null,
-                    achievements: null,
-                    statistics: {
-                        good_play_count: 2,
-                        bad_play_count: 0,
-                        encountered_adventures: {
-                            'foo_adv': true,
-                        },
-                        encountered_monsters: {
-                            'foo_mon': true,
-                        },
-                        good_play_count_by_active_class: {
-                            'foo': 2,
-                        },
-                        bad_play_count_by_active_class: {},
-                        has_account: false,
-                        is_registered_alpha_player: false,
-                    }
+                chai_1.expect(state.statistics).to.deep.equal({
+                    good_play_count: 2,
+                    bad_play_count: 0,
+                    encountered_adventures: {
+                        'foo_adv': true,
+                    },
+                    encountered_monsters: {
+                        'foo_mon': true,
+                    },
+                    good_play_count_by_active_class: {
+                        'foo': 2,
+                    },
+                    bad_play_count_by_active_class: {},
+                    has_account: false,
+                    is_registered_alpha_player: false,
                 });
+            });
+        });
+    });
+    describe('on_achieved', function () {
+        it('should correct updates relevant values', function () {
+            let state = _1.create(sec_1.get_lib_SEC());
+            state = _1.on_achieved(state, 'foo', _1.AchievementStatus.revealed);
+            chai_1.expect(state.achievements).to.deep.equal({
+                foo: _1.AchievementStatus.revealed,
+            });
+            state = _1.on_achieved(state, 'bar', _1.AchievementStatus.revealed);
+            state = _1.on_achieved(state, 'foo', _1.AchievementStatus.unlocked);
+            chai_1.expect(state.achievements).to.deep.equal({
+                bar: _1.AchievementStatus.revealed,
+                foo: _1.AchievementStatus.unlocked,
             });
         });
     });
