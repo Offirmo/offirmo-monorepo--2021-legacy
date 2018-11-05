@@ -4,13 +4,6 @@ import { UUID } from '@offirmo/uuid'
 
 /////////////////////
 
-// TODO move somewhere else
-interface I18nMessages {
-	[k: string]: string | I18nMessages
-}
-
-/////////////////////
-
 const ElementType = Enum(
 	'item',
 	// TODO expand
@@ -57,7 +50,6 @@ interface Item extends Element {
 /////////////////////
 
 export {
-	I18nMessages,
 	ElementType,
 	Element,
 	ItemQuality,

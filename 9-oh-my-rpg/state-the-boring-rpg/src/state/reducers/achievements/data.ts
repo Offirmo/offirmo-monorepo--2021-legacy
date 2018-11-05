@@ -1,16 +1,17 @@
-import {AchievementDefinition, AchievementStatus, Statistics} from '../types'
+import { AchievementStatus, AchievementDefinition } from '@oh-my-rpg/state-progress'
+import { State } from '../../../types'
 
-// 🍪🎂🏴🏳
-interface RawEntry {
-	name: string
-	description: string
-	lore?: string // TODO
-	get_status?: (stats: Statistics) => AchievementStatus
-}
+/*
+🍪🎂🏴🏳
+📦💰
+🥇🥈🥉
+🎖🏆🏅
+👑🎓
+ */
 
-// TODO tests!!
 
-const RAW_ENTRIES: RawEntry[] = [
+
+const RAW_ENTRIES: Partial<AchievementDefinition>[] = [
 
 	// Intro
 	{
@@ -182,24 +183,18 @@ const RAW_ENTRIES: RawEntry[] = [
 ]
 
 const ENTRIES: AchievementDefinition[] = RAW_ENTRIES
-	.filter(raw => raw.name && raw.get_status)
-	.map(({name, description, lore, get_status}, index) => {
+	.filter(raw => raw.name && raw.description && raw.get_status)
+	.map(({name, icon, description, lore, get_status}, index) => {
 		return {
-			key: name,
-			name,
-			description,
+			icon: icon || '🏆',
+			name: name!,
+			description: description!,
 			lore,
-			sorting_rank: index,
 			get_status: get_status!,
 		}
 	})
 
 export default ENTRIES
-export {
-	RawEntry,
-	RAW_ENTRIES,
-	ENTRIES,
-}
 
 /*’
 - I was born ready - having replaced all starting equipment

@@ -16,6 +16,8 @@ import { State as EngagementState } from '@oh-my-rpg/state-engagement'
 import { State as CodesState } from '@oh-my-rpg/state-codes'
 import { State as ProgressState } from '@oh-my-rpg/state-progress'
 
+import { AchievementStatus } from '@oh-my-rpg/state-progress'
+
 /////////////////////
 
 const GainType = Enum(

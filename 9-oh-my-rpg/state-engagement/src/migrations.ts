@@ -1,6 +1,6 @@
 import deepFreeze from 'deep-freeze-strict'
 
-import { SCHEMA_VERSION } from './consts'
+import { LIB, SCHEMA_VERSION } from './consts'
 import { State } from './types'
 import { SoftExecutionContext, OMRContext, get_lib_SEC } from './sec'
 
@@ -28,7 +28,7 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: 
 		let state: State = legacy_state as State // for starter
 
 		if (existing_version < SCHEMA_VERSION) {
-			logger.warn(`attempting to migrate schema from v${existing_version} to v${SCHEMA_VERSION}:`)
+			logger.warn(`${LIB}: attempting to migrate schema from v${existing_version} to v${SCHEMA_VERSION}:`)
 			SEC.fireAnalyticsEvent('schema_migration.began')
 
 			try {
@@ -39,7 +39,7 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: 
 				throw err
 			}
 
-			logger.info('schema migration successful.')
+			logger.info(`${LIB}: schema migration successful.`)
 			SEC.fireAnalyticsEvent('schema_migration.ended')
 		}
 

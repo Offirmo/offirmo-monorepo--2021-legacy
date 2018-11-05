@@ -1,4 +1,4 @@
-import { I18nMessages } from '@oh-my-rpg/definitions'
+import { I18nMessages } from '@offirmo/ts-types'
 
 const BAD_ADVENTURES: I18nMessages = {
 	// http://www.thesaurus.com/browse/tired

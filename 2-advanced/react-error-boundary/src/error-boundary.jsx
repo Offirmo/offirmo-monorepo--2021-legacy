@@ -1,19 +1,15 @@
 import React from 'react'
+import PropTypes from "prop-types"
 
 import { get_lib_SEC } from './sec'
 
-const DEFAULT_CONTENT = (
-	<span className={`o⋄error-report error-boundary-report--${name}`}>
-		ErrorBoundary: no children nor render prop!
-	</span>
-)
 
 class ErrorBoundary extends React.Component {
 	state = {
 		error: null,
 		errorInfo: null,
 	}
-	mounted = true // ned to track that in case an error happen at unmounting
+	mounted = true // need to track that in case an error happen during unmounting
 
 	constructor(props) {
 		super(props)
@@ -28,10 +24,7 @@ class ErrorBoundary extends React.Component {
 	}
 
 	componentDidMount() {
-		const {onMount} = this.props
-		if (onMount) {
-			onMount(this.componentDidCatch)
-		}
+		this.props.onMount(this.componentDidCatch)
 	}
 
 	componentWillUnmount() {
@@ -63,20 +56,19 @@ class ErrorBoundary extends React.Component {
 				isMounted: this.mounted,
 			})
 
-			// optionally forward to parent
-			if (this.props.onError) {
-				this.props.onError({
-					error,
-					errorInfo,
-					name,
-				})
-			}
+			// forward to parent
+			this.props.onError({
+				error,
+				errorInfo,
+				name,
+			})
 		})
 	}
 
 	render() {
+		const {name} = this.props
+
 		if (this.state.error || this.state.errorInfo) {
-			const {name} = this.props
 			return (
 				<div key={name} className={`o⋄error-report error-boundary-report-${name}`}>
 					<h2>Boundary "{name}": Something went wrong</h2>
@@ -94,12 +86,16 @@ class ErrorBoundary extends React.Component {
 			// https://github.com/donavon/render-props/blob/develop/src/index.js
 			// but enhanced.
 			const { children, render, ...props } = this.props
-			const ComponentOrFunctionOrAny = children || render || DEFAULT_CONTENT
+			const ComponentOrFunctionOrAny = children || render || (
+				<span className={`o⋄error-report error-boundary-report--${name}`}>
+					ErrorBoundary: no children nor render prop!
+				</span>
+			)
 
 			//console.log('render', { 'this.props': this.props, props, ComponentOrFunctionOrAny })
 
 			if (ComponentOrFunctionOrAny.propTypes || ComponentOrFunctionOrAny.render || (ComponentOrFunctionOrAny.prototype && ComponentOrFunctionOrAny.prototype.render))
-				return <ComponentOrFunction key={name} {...props} />
+				return <ComponentOrFunctionOrAny key={name} {...props} />
 
 			if (typeof ComponentOrFunctionOrAny === 'function')
 				return ComponentOrFunctionOrAny({
@@ -115,6 +111,17 @@ class ErrorBoundary extends React.Component {
 
 		return null
 	}
+}
+ErrorBoundary.propTypes = {
+	name: PropTypes.string.isRequired,
+	onMount: PropTypes.func,
+	onError: PropTypes.func,
+	logger: PropTypes.any,
+};
+ErrorBoundary.defaultProps = {
+	onMount: () => {},
+	onError: () => {},
+	logger: console,
 }
 
 export default ErrorBoundary

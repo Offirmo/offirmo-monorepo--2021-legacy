@@ -1,17 +1,13 @@
 {
-	"name": "@oh-my-rpg/logic-adventures",
+	"name": "@offirmo/ts-types",
 	"version": "0.0.1",
 	"private": true,
-	"description": "predefined adventures logic and utilities",
+	"description": "TypeScript base types definitions",
 	"main": "dist/src.es7.cjs/index.js",
-	"typings": "dist/src.es7.cjs/index.js",
+	"typings": "dist/src.es7.cjs/index.d.ts",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "UNLICENSED",
 	"dependencies": {
-		"@offirmo/ts-types": "^0.0.1",
-		"@oh-my-rpg/definitions": "^0.0.1",
-		"@offirmo/random": "^2",
-		"typescript-string-enums": "^0.3"
 	},
 	"devDependencies": {
 		"npm-run-all": "^4",

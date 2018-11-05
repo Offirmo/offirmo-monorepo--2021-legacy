@@ -1,4 +1,4 @@
-import { I18nMessages } from '@oh-my-rpg/definitions'
+import { I18nMessages } from '@offirmo/ts-types'
 
 const messages: I18nMessages = {
 	weapon: {

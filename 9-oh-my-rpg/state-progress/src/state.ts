@@ -6,6 +6,7 @@ import { get_human_readable_UTC_timestamp_minutes } from '@offirmo/timestamps'
 import { SCHEMA_VERSION } from './consts'
 
 import {
+	AchievementStatus,
 	State,
 } from './types'
 
@@ -23,7 +24,7 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 
 			wiki: null,
 			flags: null,
-			achievements: null,
+			achievements: {},
 
 			statistics: {
 				good_play_count: 0,
@@ -40,13 +41,13 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 }
 
 /////////////////////
+
 interface PlayedDetails {
 	good: boolean
 	adventure_key: string
 	encountered_monster_key?: string | null
 	active_class: string
 }
-
 function on_played(state: Readonly<State>, details: PlayedDetails): Readonly<State> {
 	const { good, adventure_key, encountered_monster_key, active_class } = details
 
@@ -101,9 +102,25 @@ function on_played(state: Readonly<State>, details: PlayedDetails): Readonly<Sta
 
 /////////////////////
 
+function on_achieved(state: Readonly<State>, key: string, new_status: AchievementStatus): Readonly<State> {
+	return {
+		...state,
+
+		achievements: {
+			...state.achievements,
+			[key]: new_status,
+		},
+
+		revision: state.revision + 1,
+	}
+}
+
+/////////////////////
+
 export {
 	create,
 	on_played,
+	on_achieved,
 }
 
 /////////////////////

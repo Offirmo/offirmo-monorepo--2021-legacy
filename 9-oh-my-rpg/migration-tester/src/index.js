@@ -17,7 +17,7 @@ function prettify_json(data) {
 const { get_human_readable_UTC_timestamp_minutes } = require('@offirmo/timestamps')
 const { LIB, HINTS_FILENAME } = require('./consts')
 const fs = require('./utils-fs')
-const diff_json = require('./json-diff')
+const base_diff_json = require('./json-diff')
 
 
 function test_migrations({
@@ -28,6 +28,7 @@ function test_migrations({
 	LATEST_EXPECTED_DATA,
 	migrate_to_latest,
 	absolute_dir_path,
+	advanced_diff_json = undefined,
 	describe, context, it, expect,
 	skip = false, // allow skipping the test, like it.skip
 }) {
@@ -43,6 +44,23 @@ function test_migrations({
 	// propagate the skip
 	describe = skip ? describe.skip.bind(describe) : describe
 	//it = skip ? it.skip.bind(it) : it
+
+	function diff_json(a, b) {
+		let diff = base_diff_json(a, b)
+		if (!diff) return
+
+		if (advanced_diff_json) {
+			diff = advanced_diff_json(a, b, {
+				diff_json: base_diff_json,
+				prettify_json,
+				diff,
+			})
+			if (!Object.keys(diff).length)
+				diff = undefined
+		}
+
+		return diff
+	}
 
 	// early tests, always valid
 	describe(`[${LIB} - automatically generated tests]`, function() {
@@ -86,13 +104,13 @@ function test_migrations({
 			if (LATEST_EXPECTED_DATA.schema_version !== SCHEMA_VERSION)
 				return false // unit tests above will catch this
 
-			const LATEST_EXPECTED_DATA_migrated_diff = diff_json(
+			const LATEST_EXPECTED_DATA_migrated_diff = base_diff_json(
 				migrate_to_latest(cloneDeep(LATEST_EXPECTED_DATA)),
 				LATEST_EXPECTED_DATA,
 			)
 			if (LATEST_EXPECTED_DATA_migrated_diff) {
 				// this error will be caught by the test, but we display the diff to help:
-				console.error(`${LOG_PREFIX} LATEST_EXPECTED_DATA is not up to date! TODO display diff`)
+				console.error(`${LOG_PREFIX} ✖ LATEST_EXPECTED_DATA is not up to date! Difference when migrated:\n`, prettify_json(LATEST_EXPECTED_DATA_migrated_diff))
 				return false
 			}
 
@@ -177,7 +195,6 @@ function test_migrations({
 			)
 
 			const latest_snapshot_data_matches_latest_expected_data = typeof latest_migrated_diff === 'undefined'
-
 			if (latest_snapshot_data_matches_latest_expected_data)
 				return
 

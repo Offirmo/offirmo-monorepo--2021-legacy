@@ -13,6 +13,7 @@
 	},
 	"peerDependencies": {
 		"@offirmo/soft-execution-context": "^0.0.2",
+		"prop-types": "^15",
 		"react": "^16"
 	},
 	"dependencies": {

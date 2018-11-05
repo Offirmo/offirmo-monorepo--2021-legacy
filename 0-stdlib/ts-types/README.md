@@ -1,0 +1,1 @@
+Useful TypeScript types

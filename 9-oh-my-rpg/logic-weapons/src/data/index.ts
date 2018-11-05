@@ -1,6 +1,6 @@
 /////////////////////
 
-import { I18nMessages } from '@oh-my-rpg/definitions'
+import { I18nMessages } from '@offirmo/ts-types'
 
 import { WeaponPartType } from '../types'
 import en from './i18n_en'

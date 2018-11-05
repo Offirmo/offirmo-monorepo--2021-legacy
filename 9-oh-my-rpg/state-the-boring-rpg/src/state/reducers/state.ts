@@ -78,7 +78,7 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 			creation_date: get_human_readable_UTC_timestamp_minutes(),
 
 			avatar: CharacterState.create(SEC),
-			inventory: InventoryState.create(),
+			inventory: InventoryState.create(SEC),
 			wallet: WalletState.create(),
 			prng: PRNGState.create(),
 			energy: EnergyState.create(),
