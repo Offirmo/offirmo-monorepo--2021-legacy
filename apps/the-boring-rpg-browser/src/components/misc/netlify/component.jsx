@@ -9,7 +9,7 @@ const STATES = {
 	WAITING_FOR_LIB: 'WAITING_FOR_LIB',
 	NOT_LOGGED_IN: 'NOT_LOGGED_IN',
 	LOGGED_IN: 'LOGGED_IN',
-	//ERROR: 'ERROR',
+	ERROR: 'ERROR',
 }
 
 
@@ -143,6 +143,12 @@ export default class NetlifyIdentity extends Component {
 						})*/
 				}
 			})
+			.catch(err => {
+				// TODO report error
+				this.setState({
+					state: STATES.ERROR,
+				})
+			})
 	}
 
 	onClickOnSignInUpButton = () => {
@@ -158,6 +164,8 @@ export default class NetlifyIdentity extends Component {
 		//console.log('<NetlifyIdentity /> Render')
 
 		switch (this.state.state) {
+			case STATES.ERROR:
+				return <div>(login error. Disable ad blocker?)</div>
 			case STATES.WAITING_FOR_LIB:
 				return <div>...</div>
 			case STATES.NOT_LOGGED_IN:

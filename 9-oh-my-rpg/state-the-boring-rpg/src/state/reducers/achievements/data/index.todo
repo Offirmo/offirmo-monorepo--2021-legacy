@@ -115,6 +115,10 @@ const RAW_ENTRIES: RawEntry[] = [
 		name: 'Graduated',
 		description: 'Having selected a class.',
 	},
+	{
+		name: 'Registered',
+		description: 'Having signed up.',
+	},
 
 	// Progression/milestones
 	// ..
