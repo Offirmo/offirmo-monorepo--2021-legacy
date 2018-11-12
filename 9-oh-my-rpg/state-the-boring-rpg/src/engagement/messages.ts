@@ -39,6 +39,7 @@ function get_engagement_message(state: Readonly<State>, pe: PendingEngagement): 
 				.pushStrong('Code successfully redeemed.')
 				.done()
 
+		// TODO
 		default:
 			throw new Error(`No engagement message for "${key}"!`)
 	}

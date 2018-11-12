@@ -61,16 +61,20 @@ const on_node_exit: WalkerReducer<State, OnNodeExitParams<State>, Options> = ({s
 	const classes = [...$classes]
 
 	switch($type) {
-	case 'strong':
-	case 'em':
-	case 'span':
-		is_inline = true
-		break
-	case 'inline_fragment':
-		classes.push('o⋄rich-text⋄inline')
-		break
-	default:
-		break
+		case 'strong':
+		case 'em':
+		case 'span':
+			is_inline = true
+			break
+		case 'weak':
+			classes.push('o⋄color⁚secondary')
+			is_inline = true
+			break
+		case 'inline_fragment':
+			classes.push('o⋄rich-text⋄inline')
+			break
+		default:
+			break
 	}
 
 	if (!is_inline)
@@ -82,12 +86,12 @@ const on_node_exit: WalkerReducer<State, OnNodeExitParams<State>, Options> = ({s
 		classes.push('o⋄rich-text⋄list')
 
 		switch($hints.bullets_style) {
-		case 'none':
-			classes.push('o⋄rich-text⋄list--no-bullet')
-			break
+			case 'none':
+				classes.push('o⋄rich-text⋄list--no-bullet')
+				break
 
-		default:
-			break
+			default:
+				break
 		}
 
 		if (is_uuid_list($node)) {

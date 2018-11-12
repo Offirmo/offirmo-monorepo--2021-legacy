@@ -9,6 +9,7 @@ const EngagementKey = Enum(
 	// TODO suggest changing class
 	'code_redemption--failed',
 	'code_redemption--succeeded',
+	'achievement-unlocked',
 
 )
 type EngagementKey = Enum<typeof EngagementKey> // eslint-disable-line no-redeclare

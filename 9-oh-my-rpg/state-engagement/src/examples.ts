@@ -15,6 +15,7 @@ const DEMO_STATE: State = deepFreeze({
 
 	queue: [
 		{
+			uid: 42,
 			engagement: {
 				key: 'new-game-welcome',
 				type: EngagementType.flow,

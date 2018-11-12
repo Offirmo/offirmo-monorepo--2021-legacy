@@ -14,12 +14,17 @@ Sets
 
 https://developer.mozilla.org/en-US/docs/Games/Techniques/Audio_for_Web_Games
 
+mysterious worlds
+https://www.youtube.com/watch?v=oX1rLjFYseA
+
 
 fairies
 vouivres
 tarasque
 vampires
 sirènes
+géants
+lutins
 
 
 https://en.wikipedia.org/wiki/List_of_magical_weapons#Arthurian_legend

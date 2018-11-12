@@ -312,11 +312,11 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<
 	}
 }
 
-function acknowledge_engagement_msg_seen(state: Readonly<State>, key: string): Readonly<State> {
+function acknowledge_engagement_msg_seen(state: Readonly<State>, uid: number): Readonly<State> {
 	return {
 		...state,
 
-		engagement: EngagementState.acknowledge_seen(state.engagement, key),
+		engagement: EngagementState.acknowledge_seen(state.engagement, uid),
 
 		revision: state.revision + 1,
 	}
@@ -383,5 +383,6 @@ export {
 	attempt_to_redeem_code,
 	acknowledge_engagement_msg_seen,
 }
+export * from './achievements'
 
 /////////////////////

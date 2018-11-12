@@ -136,7 +136,7 @@ function migrate_to_7(SEC: SoftExecutionContext, legacy_state: any, hints: any):
 	if (legacy_state.schema_version < 4)
 		legacy_state = migrate_to_4(SEC, legacy_state, hints)
 
-	let state = { ...legacy_state }
+	let state = { ...legacy_state, schema_version: 7 }
 
 	// new entries
 	if (!state.codes)

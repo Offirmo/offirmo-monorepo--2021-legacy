@@ -1,22 +1,35 @@
 import { Enum } from 'typescript-string-enums'
 
-import { HumanReadableTimestampUTCMinutes } from '@offirmo/timestamps'
+import { Element } from '@oh-my-rpg/definitions'
+//import { HumanReadableTimestampUTCMinutes } from '@offirmo/timestamps'
+//import { JSONObject } from "@offirmo/ts-types"
 
 /////////////////////
 
 const AchievementStatus = Enum(
-	'hidden',
-	'revealed',
+	'secret', // should not even be hinted
+	'hidden', // may be hinted, for ex. as [???]
+	'revealed', // appear and conditions may be seen
 	'unlocked',
 )
 type AchievementStatus = Enum<typeof AchievementStatus> // eslint-disable-line no-redeclare
 
-interface AchievementDefinition {
+interface AchievementDefinition<S> {
+	session_uuid: string // helping React + rich text with a sortable id which may not be stable across sessions. Should NOT be stored.
+	name: string // is also the key
+	icon: string
+	description: string
+	lore?: string
+	get_status: (state: S) => AchievementStatus
+}
+
+// useful for display
+interface AchievementSnapshot extends Element {
 	name: string
 	icon: string
 	description: string
 	lore?: string
-	get_status: (stats: State) => AchievementStatus
+	status: AchievementStatus
 }
 
 /////////////////////
@@ -29,14 +42,20 @@ interface State {
 	// that would be redundant!
 
 	wiki: null // TODO
+	// places
+	// mysteries
+	// people, organizations
+	// events (history)
 	flags: null // TODO
 
+	// THIS IS NOT representing the state of achievements.
 	// Achievements are derived from the state,
 	// so we don't need to store their status.
 	// BUT we need to detect a change in status,
 	// hence the need for storing the previous state.
 	// Theoretically we COULD detect a change without that,
 	// EXCEPT for newly introduced achievements, so this is needed.
+	// TODO rename as "last_known_achievement_status" ?
 	achievements: { [key: string]: AchievementStatus }
 
 	statistics: {
@@ -57,6 +76,7 @@ interface State {
 /////////////////////
 
 export {
+	AchievementSnapshot,
 	AchievementStatus,
 	AchievementDefinition,
 	State,

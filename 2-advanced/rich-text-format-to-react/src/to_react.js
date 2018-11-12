@@ -7,6 +7,8 @@ import '@offirmo/rich-text-format/src/renderers/style.css'
 const LIB = 'rich_text_to_react'
 
 export const NODE_TYPE_TO_COMPONENT = {
+	// will default to own tag if not in this list (ex. strong => strong)
+	[NodeType.weak]: 'em', // TODO refine
 	[NodeType.heading]: 'h3',
 	[NodeType.inline_fragment]: 'div',
 	[NodeType.block_fragment]: 'div',
@@ -14,6 +16,7 @@ export const NODE_TYPE_TO_COMPONENT = {
 
 export const NODE_TYPE_TO_EXTRA_CLASSES = {
 	[NodeType.inline_fragment]: [ 'o⋄rich-text⋄inline' ],
+	[NodeType.weak]: [ 'o⋄color⁚secondary' ],
 }
 
 // a clever key is critically needed in general, but even more critical
@@ -41,6 +44,7 @@ export function generate_react_key({$id, $node}) {
 export function intermediate_on_node_exit({$node, $id, state}, options) {
 	const { $type, $classes, $hints } = $node
 
+	// initial values, may be overriden later
 	const result = {
 		children: null,
 		classes: [...$classes],
@@ -52,7 +56,8 @@ export function intermediate_on_node_exit({$node, $id, state}, options) {
 	if (result.children.length > 1) {
 		// at their level, children can't ensure that their keys are unique,
 		// especially for {br} which may be repeated.
-		// We need to help with that.
+		// We need to help with that:
+
 		//console.group(`starting rekey for ${$id}...`)
 		//console.log({$node, state})
 		const key_count = {}
@@ -146,7 +151,8 @@ export function intermediate_assemble({ $id, $node, children, classes, component
 
 
 /// XXX ////
-// default, to replace for extension
+// default version,
+// replace it for extension
 function on_node_exit(params, options) {
 	const { children, classes, component, wrapper } = intermediate_on_node_exit(params, options)
 

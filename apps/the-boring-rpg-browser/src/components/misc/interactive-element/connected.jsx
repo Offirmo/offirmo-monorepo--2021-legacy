@@ -14,9 +14,10 @@ function with_element_and_action(Component) {
 				const { UUID } = props
 				const element = game_instance.selectors.find_element(UUID)
 				if (!element) {
+					console.warn(`interactive element not found!`, UUID, props)
 					// element disappeared. This happen transitively (ex. sold)
 					// due to my crappy change listening technique.
-					return null
+					return props.children
 				}
 
 				const actions = game_instance.selectors.get_actions_for_element(UUID)

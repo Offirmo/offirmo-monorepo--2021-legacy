@@ -16,11 +16,13 @@ import {
 	get_oldest_queued_flow,
 	get_oldest_queued_non_flow,
 } from "@oh-my-rpg/state-engagement"
+import { AchievementSnapshot } from "@oh-my-rpg/state-progress";
 
 /////////////////////
 
 import { State } from '../types'
 import { get_engagement_message } from '../engagement'
+import {get_achievement_snapshot_by_uuid} from "./achievements";
 
 /////////////////////
 
@@ -72,9 +74,9 @@ function appraise_player_power(state: Readonly<State>): number {
 	return power
 }
 
-function find_element(state: Readonly<State>, uuid: UUID): Readonly<Element> | null {
+function find_element(state: Readonly<State>, uuid: UUID): Readonly<Element> | Readonly<AchievementSnapshot> | null {
 	// only inventory for now
-	return get_item(state, uuid)
+	return get_item(state, uuid) || get_achievement_snapshot_by_uuid(state, uuid)
 }
 
 function find_better_unequipped_weapon(state: Readonly<State>): Readonly<Element> | null {
@@ -104,13 +106,13 @@ function get_oldest_pending_flow_engagement(state: Readonly<State>): { key: stri
 	}
 }
 
-function get_oldest_pending_non_flow_engagement(state: Readonly<State>): { key: string, $doc: RichText.Document, pe: PendingEngagement } | null {
+function get_oldest_pending_non_flow_engagement(state: Readonly<State>): { uid: number, $doc: RichText.Document, pe: PendingEngagement } | null {
 	const pe = get_oldest_queued_non_flow(state.engagement)
 	if (!pe)
 		return null
 
 	return {
-		key: pe.engagement.key,
+		uid: pe.uid,
 		$doc: get_engagement_message(state, pe),
 		pe,
 	}
@@ -131,5 +133,6 @@ export {
 	get_oldest_pending_flow_engagement,
 	get_oldest_pending_non_flow_engagement,
 }
+export * from './achievements'
 
 /////////////////////

@@ -14,7 +14,7 @@ const DEVICE_UUID = ensureDeviceUUID()
 let imminent_error = null
 export function set_imminent_captured_error(err) {
 	if (imminent_error) {
-		console.error('set_imminent_captured_error(): previous error wasn\'t handled!')
+		console.error('set_imminent_captured_error(): previous error wasn’t handled!')
 	}
 
 	imminent_error = err
@@ -45,7 +45,7 @@ error_reporter
 			//console.log('raven dataCallback(…)', data)
 			// do something to data
 			if (!imminent_error) {
-				console.error('raven dataCallback(…): set_imminent_captured_error() wasnt called!')
+				console.error('raven dataCallback(…): set_imminent_captured_error() wasn’t called!')
 			}
 			else {
 				const all_details = imminent_error.details || {}

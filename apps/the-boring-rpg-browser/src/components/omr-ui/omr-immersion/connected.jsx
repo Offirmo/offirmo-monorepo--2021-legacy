@@ -39,7 +39,7 @@ export default props => (
 					do {
 						pending_non_flow_engagement = game_instance.selectors.get_oldest_pending_non_flow_engagement()
 						if (pending_non_flow_engagement) {
-							const { key, $doc, pe } = pending_non_flow_engagement
+							const { uid, $doc, pe } = pending_non_flow_engagement
 							const type = pe.engagement.type
 							switch(type) {
 								case 'aside': {
@@ -67,7 +67,7 @@ export default props => (
 								default:
 									throw new Error(`Engagement type not recognized: "${type}"!`)
 							}
-							game_instance.reducers.acknowledge_engagement_msg_seen(key)
+							game_instance.reducers.acknowledge_engagement_msg_seen(uid)
 						}
 					} while(pending_non_flow_engagement)
 

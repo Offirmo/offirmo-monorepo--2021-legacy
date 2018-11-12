@@ -12,6 +12,7 @@ interface Builder {
 	addClass(...classes: string[]): Builder
 	pushText(str: string): Builder
 	pushStrong(str: string, id?: string): Builder
+	pushWeak(str: string, id?: string): Builder
 	pushEmphasized(str: string, id?: string): Builder
 	pushRawNode(node: Node, id?: string): Builder
 	pushNode(node: Node, id?: string): Builder
@@ -37,6 +38,7 @@ function create($type: NodeType): Builder {
 		addClass,
 		pushText,
 		pushStrong,
+		pushWeak,
 		pushEmphasized,
 		pushRawNode,
 		pushNode,
@@ -77,6 +79,14 @@ function create($type: NodeType): Builder {
 
 	function pushStrong(str: string, id?: string): Builder {
 		const node = strong()
+			.pushText(str)
+			.done()
+
+		return pushNode(node, id)
+	}
+
+	function pushWeak(str: string, id?: string): Builder {
+		const node = weak()
 			.pushText(str)
 			.done()
 
@@ -130,6 +140,10 @@ function heading(): Builder {
 
 function strong(): Builder {
 	return create(NodeType.strong)
+}
+
+function weak(): Builder {
+	return create(NodeType.weak)
 }
 
 function emphasized(): Builder {

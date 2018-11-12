@@ -22,6 +22,7 @@ function apply_type($type, str) {
 			return str
 		case 'strong':
 			return stylize_string.bold(str)
+		xxx
 		case 'heading':
 			return '\n' + stylize_string.bold(str)
 		case 'em':
@@ -123,6 +124,7 @@ function on_concatenate_sub_node({state, sub_state, $id, $parent_node}) {
 
 	if ($parent_node.$type === 'strong')
 		return state + stylize_string.bold(sub_state)
+	xxx
 
 	return state + sub_state
 }

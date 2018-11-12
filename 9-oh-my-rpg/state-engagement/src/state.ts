@@ -10,8 +10,6 @@ import {
 
 import { SoftExecutionContext, OMRContext, get_lib_SEC } from './sec'
 
-import { is_in_queue } from './selectors'
-
 /////////////////////
 
 function create(SEC?: SoftExecutionContext): Readonly<State> {
@@ -29,16 +27,14 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 
 function enqueue(state: Readonly<State>, engagement: Engagement, params: PendingEngagement['params'] = {}): Readonly<State> {
 
+	// Avoid duplication? Is it a bug?
 	// TODO refine this concept
-	// ex. multiple level rises should be ok
-	// flow maybe
+	// ex. multiple level rises should be ok.
+	// ex. multiple new achievements
 	// or maybe it's a bug if this happen?
-	if (is_in_queue(state, engagement.key)) {
-		throw new Error(`Engagement: attempting to queue duplicate "${engagement.key}"!`)
-		//return state
-	}
 
 	const pending: PendingEngagement = {
+		uid: state.revision + 1,
 		engagement,
 		params,
 	}
@@ -56,15 +52,17 @@ function enqueue(state: Readonly<State>, engagement: Engagement, params: Pending
 }
 
 
-function acknowledge_seen(state: Readonly<State>, key: string): Readonly<State> {
-	if (!is_in_queue(state, key)) {
-		throw new Error(`Engagement: acknowledging a non-queued engagement "${key}"!`)
+function acknowledge_seen(state: Readonly<State>, uid: number): Readonly<State> {
+
+	const is_in_queue = state.queue.some(queued => queued.uid === uid)
+	if (!is_in_queue) {
+		throw new Error(`Engagement: acknowledging a non-queued engagement "${uid}"!`)
 	}
 
 	return {
 		...state,
 
-		queue: state.queue.filter(queued => queued.engagement.key !== key),
+		queue: state.queue.filter(queued => queued.uid !== uid),
 
 		revision: state.revision + 1,
 	}

@@ -49,26 +49,31 @@ const on_node_exit: WalkerReducer<State, OnNodeExitParams<State>, Options> = ({s
 
 	if (style === 'markdown') {
 		switch ($node.$type) {
-		case 'heading':
-			state.str = `### ${state.str}`
-			state.margin_top = Math.max(state.margin_top, 1)
-			state.margin_bottom = Math.max(state.margin_bottom, 1)
-			break
+			case 'heading':
+				state.str = `### ${state.str}`
+				state.margin_top = Math.max(state.margin_top, 1)
+				state.margin_bottom = Math.max(state.margin_bottom, 1)
+				break
 
-		case 'strong':
-			state.str = `**${state.str}**`
-			break
+			case 'strong':
+				state.str = `**${state.str}**`
+				break
 
-		case 'em':
-			state.str = `_${state.str}_`
-			break
+			case 'weak':
+				// how?
+				// no change...
+				break
 
-		case 'hr':
-			state.str = '---'
-			break
+			case 'em':
+				state.str = `_${state.str}_`
+				break
 
-		default:
-			break
+			case 'hr':
+				state.str = '---'
+				break
+
+			default:
+				break
 		}
 
 		if (is_link($node))

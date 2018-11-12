@@ -27,6 +27,7 @@ interface EngagementParams {
 }
 
 interface PendingEngagement {
+	uid: number
 	engagement: Engagement
 	params: EngagementParams
 }

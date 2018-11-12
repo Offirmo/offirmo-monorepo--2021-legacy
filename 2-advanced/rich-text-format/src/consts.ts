@@ -6,6 +6,7 @@ const NODE_TYPE_TO_DISPLAY_MODE: { [k: string]: 'inline' | 'block' } = {
 	// classics inline
 	'span': 'inline',
 	'strong': 'inline',
+	'weak': 'inline',
 	'em': 'inline',
 	// classics block
 	'heading': 'block',

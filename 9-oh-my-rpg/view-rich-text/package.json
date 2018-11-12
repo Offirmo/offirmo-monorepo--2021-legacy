@@ -18,6 +18,7 @@
 		"@oh-my-rpg/state-character": "^0.0.1",
 		"@oh-my-rpg/state-inventory": "^0.0.1",
 		"@oh-my-rpg/state-meta": "^0.0.1",
+		"@oh-my-rpg/state-progress": "^0.0.1",
 		"@oh-my-rpg/state-the-boring-rpg": "^0.0.1",
 		"@oh-my-rpg/state-wallet": "^0.0.1",
 		"lodash": "^4",

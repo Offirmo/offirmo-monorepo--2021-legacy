@@ -144,7 +144,7 @@ const DOC_DEMO_BASE_TYPES = {
 		fragment1: {
 			$type: 'inline_fragment',
 			$classes: [],
-			$content: 'horizontal rule:{{hr}}Heading:{{heading}}Another heading:{{heading}}Some text:{{br}}{{text}}{{br}}{{strong}}{{br}}{{em}}{{br}}Unordered list:{{ul}}Ordered list:{{ol}}More text.',
+			$content: 'horizontal rule:{{hr}}Heading:{{heading}}Another heading:{{heading}}Some text:{{br}}{{text}}{{br}}{{strong}}{{br}}{{weak}}{{br}}{{em}}{{br}}Unordered list:{{ul}}Ordered list:{{ol}}More text.',
 			$sub: {
 				heading: {
 					$type: 'heading',
@@ -157,6 +157,10 @@ const DOC_DEMO_BASE_TYPES = {
 				strong: {
 					$type: 'strong',
 					$content: 'strong',
+				},
+				weak: {
+					$type: 'weak',
+					$content: 'weak',
 				},
 				em: {
 					$type: 'em',

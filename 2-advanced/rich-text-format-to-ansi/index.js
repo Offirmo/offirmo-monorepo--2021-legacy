@@ -22,6 +22,9 @@ function on_type({ $type, $parent_node, state, $node, depth }, options) {
 		case 'strong':
 			state.str = stylize_string.bold(state.str)
 			break
+		case 'weak':
+			state.str = stylize_string.dim(state.str)
+			break
 		case 'em':
 			state.str = stylize_string.italic(state.str)
 			break

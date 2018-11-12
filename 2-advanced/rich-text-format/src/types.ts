@@ -6,9 +6,10 @@ const NodeType = Enum(
 	// https://stackoverflow.com/questions/9189810/css-display-inline-vs-inline-block
 
 	// display "inline"
-	'span',
+	'span', // TODO remove?
 	'strong',
-	'em',
+	'weak', // opposite of strong ;)
+	'em', // TODO semantic difference with strong?
 
 	// display "block"
 	'heading',

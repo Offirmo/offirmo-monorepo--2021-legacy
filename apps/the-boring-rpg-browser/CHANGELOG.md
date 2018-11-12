@@ -14,6 +14,11 @@ This file is just for taking notes for the next Reddit post.
 Next
 - 😍 feature: 2 new background (now totalling 16!)
 - 🤩 feature: 3 new adventures (now totalling 118!)
+
+
+2018/11/06 v0.52.41
+- 😍 feature: 2 new background (now totalling 16!)
+- 🤩 feature: 3 new adventures (now totalling 118!)
 - 😍 feature: enabled migration of savegames! (for now, no more resets)
 - 😅 fix (hopefully!): minor bugs with signup/signin
 - 😅 fix (hopefully!): bug abusively reseting the savegame (reported by u/LiddiLidd )
@@ -44,38 +49,8 @@ Next
 - 😅 fix: fixed the key-ing of react elements produced by rendering a rich text
 - 😅 fix (hopefully!): fixed a bug causing the inventory backpack to appear not sorted when having more than 10 items
 
-
 2018/10/11 v0.52.11
 - 🤩 feature: the inventory now displays the power of your items
 - 🤩 feature: the inventory now displays whether an item is better or worse than your currently equipped one
 - 🤩 feature: 2 new backgrounds
 - 🤩 feature: 3 new adventures (now totalling 95!)
-
-
-
-v0.52.33 https://www.online-adventur.es/apps/the-boring-rpg/
-
-Feedback is greatly appreciated! (and help me stay motivated)
-
-What changed?
-- 😍 feature: users can now enter codes! (in the hamburger menu). Will be useful for special rewards (alpha testers), seasonal content, cheat, internal tests...
-- 🤩 feature: a notification system, will be useful for achievements (test it by entering the code "testnotifs")
-- 😍 feature: 1 new background (now totalling 14!)
-- 🤩 feature: 5 new adventures (now totalling 115!)
-- 😍 feature: inventory size and limit are now displayed, ex. 12/20
-- 🤩 feature: users can now login (will unlock features in the future)
-- 😍 feature: small UI improvements
-- 😅 fix (hopefully!): a crashing story
-- 😅 fix (hopefully!): minor UI bugs
-Chat: https://tlk.io/the-boring-rpg-reloaded
-Be sure to report bugs and suggestions https://github.com/Offirmo/offirmo-monorepo/issues
-Follow on social networks: https://linktr.ee/theboringrpg
-
-Special thanks to:
-- u/LiddiLidd and H. for the encouragements and bug reports
-
-Btw this is open source, so feel free to tweak / copy the stories (if you want to make another revival)
-
-login
-
-codes and notifs

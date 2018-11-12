@@ -14,6 +14,7 @@ import { CharacterClass } from '@oh-my-rpg/state-character'
 import { Item, get_item } from '@oh-my-rpg/state-inventory'
 import { PendingEngagement } from "@oh-my-rpg/state-engagement"
 import * as PRNGState from '@oh-my-rpg/state-prng'
+import { AchievementSnapshot } from '@oh-my-rpg/state-progress'
 
 import { State } from './types'
 import * as state_fns from './state'
@@ -106,9 +107,9 @@ function create_game_instance<T>({SEC, get_latest_state, persist_state, view_sta
 					persist_state(state)
 					emitter.emit('state_change')
 				},
-				acknowledge_engagement_msg_seen(key: string) {
+				acknowledge_engagement_msg_seen(uid: number) {
 					let state = get_latest_state()
-					state = state_fns.acknowledge_engagement_msg_seen(state, key)
+					state = state_fns.acknowledge_engagement_msg_seen(state, uid)
 					persist_state(state)
 					emitter.emit('state_change')
 				},
@@ -133,7 +134,7 @@ function create_game_instance<T>({SEC, get_latest_state, persist_state, view_sta
 					let state = get_latest_state()
 					return selectors.appraise_item_power(state, uuid)
 				},
-				find_element(uuid: UUID): Readonly<Element> | null {
+				find_element(uuid: UUID): Readonly<Element> | Readonly<AchievementSnapshot> | null {
 					let state = get_latest_state()
 					return selectors.find_element(state, uuid)
 				},
@@ -145,10 +146,14 @@ function create_game_instance<T>({SEC, get_latest_state, persist_state, view_sta
 					let state = get_latest_state()
 					return selectors.get_oldest_pending_flow_engagement(state)
 				},
-				get_oldest_pending_non_flow_engagement(): { key: string, $doc: Document, pe: PendingEngagement } | null {
+				get_oldest_pending_non_flow_engagement(): { uid: number, $doc: Document, pe: PendingEngagement } | null {
 					let state = get_latest_state()
 					return selectors.get_oldest_pending_non_flow_engagement(state)
 				},
+				get_achievements_snapshot(): Readonly<AchievementSnapshot>[] {
+					let state = get_latest_state()
+					return selectors.get_achievements_snapshot(state)
+				}
 			},
 
 			model: {

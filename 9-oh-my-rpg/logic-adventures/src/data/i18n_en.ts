@@ -334,16 +334,16 @@ Hopefully the loot ({{coin}} coins) and preparation (equipment enhanced) will he
 	// classic manga story
 	castle_summon: `
 You are summoned to the castle by the king.
-In the throne room, in front of the court, he pressures you:
-"Hero, you must defeat the demon lord to bring back peace in the land!{{br}}
+In the throne room, in front of the court, he pressures you:{{br}}
+"Hero, you must defeat the demon lord to bring back peace in the land!
 Take this magical sword, only with it can you defeat the evil ones!".{{br}}
 Well, a new weapon is always welcome: {{weapon}}!
 	`,
 
 	// https://starecat.com/when-a-piece-of-armor-doesnt-match-your-current-set-but-its-stats-are-too-good-to-pass-up-hello-kitty-shield-pink/
 	unmatched_set: `
-You loot a nice piece of armor but unfortunately it matches badly your existing ones...
-No way, style is important for a hero! You ditch the piece of armor for coin: +{{coin}} coin!`,
+You loot a powerful piece of armor but unfortunately its appearance doesn’t match with your existing ones...
+No way, style is important for a hero! You sell this piece of armor for coin: +{{coin}} coin!`,
 
 }
 
@@ -553,6 +553,15 @@ but still ends up with good loot: +{{coin}}, {{item}}...
 }
 
 const OFFIRMO_POPULAR_CULTURE: I18nMessages = {
+
+	drown_in_holy_water: `
+You nearly drown yourself in holy water. You gain +{{mana}} mana!
+	`,
+
+	rings_of_power: `
+You forge rings and give them to you dwarven, elven and human allies.
+They now like you a bit more: +{{charisma}} charisma!
+	`,
 
 	raining_elves: `
 It's raining... elves?{{br}}
@@ -814,6 +823,16 @@ Between two villages, you meet Rachel the washer wench.
 She competes with you in arm twisting, and win!
 Good exercise, +{{strength}} strength.
 		`,
+
+	ribert: `
+You meet Ribert, the head of the royal guards.{{br}}
+He is a seasoned warrior and agrees to spar with you.{{br}}
+Good exercise, you gain +{{strength}} strength.
+		`,
+
+	// Maluka the bardess
+	// Ribert the head of the guards
+	// King Gallus
 
 	// reginold the guard
 

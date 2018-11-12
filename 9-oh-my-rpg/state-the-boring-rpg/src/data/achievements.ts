@@ -1,5 +1,5 @@
 import { AchievementStatus, AchievementDefinition } from '@oh-my-rpg/state-progress'
-import { State } from '../../../types'
+import { State } from '../types'
 
 /*
 🍪🎂🏴🏳
@@ -10,8 +10,7 @@ import { State } from '../../../types'
  */
 
 
-
-const RAW_ENTRIES: Partial<AchievementDefinition>[] = [
+const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
 
 	// Intro
 	{
@@ -26,41 +25,74 @@ const RAW_ENTRIES: Partial<AchievementDefinition>[] = [
 		name: 'Alpha',
 		description: 'You started playing during the alpha or earlier',
 		lore: 'Let me tell you of a time of great adventure...',
+		get_status: () => AchievementStatus.unlocked, // TODO alpha
 	},
 	{
 		name: 'Beta',
 		description: 'You started playing during the beta or earlier',
+		// TODO
 	},
 
 	// main CTA
 	{
 		name: 'I am bored',
 		description: 'Having played for the first time.',
+		get_status: (state: State) => state.progress.statistics.good_play_count
+			? AchievementStatus.unlocked
+			: AchievementStatus.revealed,
 	},
 	{
 		name: 'I am very bored',
 		description: 'Having played 7 times.',
+		get_status: (state: State) => state.progress.statistics.good_play_count >= 7
+			? AchievementStatus.unlocked
+			: AchievementStatus.revealed,
 	},
 	{
 		// https://www.urbandictionary.com/define.php?term=Turn%20it%20up%20to%20eleven
 		name: 'Turn it up to eleven',
 		description: 'Having played 11 times.',
+		get_status: (state: State) => state.progress.statistics.good_play_count >= 11
+			? AchievementStatus.unlocked
+			: state.progress.statistics.good_play_count >= 7
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
 	},
 	{
 		name: 'I am dead bored',
 		description: 'Having played 77 times.',
+		get_status: (state: State) => state.progress.statistics.good_play_count >= 77
+			? AchievementStatus.unlocked
+			: state.progress.statistics.good_play_count >= 11
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
 	},
 	{
 		name: 'did I mention I was bored?',
 		description: 'Having played 500 times.',
+		get_status: (state: State) => state.progress.statistics.good_play_count >= 500
+			? AchievementStatus.unlocked
+			: state.progress.statistics.good_play_count >= 77
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
 	},
 	{
 		name: 'king of boredom',
 		description: 'Having played 1000 times.',
+		get_status: (state: State) => state.progress.statistics.good_play_count >= 1000
+			? AchievementStatus.unlocked
+			: state.progress.statistics.good_play_count >= 500
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
 	},
 	{
 		name: 'No-life except for boredom',
 		description: 'Having played 10.000 times.',
+		get_status: (state: State) => state.progress.statistics.good_play_count >= 10000
+			? AchievementStatus.unlocked
+			: state.progress.statistics.good_play_count >= 1000
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
 	},
 
 	// regularity
@@ -182,10 +214,12 @@ const RAW_ENTRIES: Partial<AchievementDefinition>[] = [
 	},
 ]
 
-const ENTRIES: AchievementDefinition[] = RAW_ENTRIES
+const ENTRIES: AchievementDefinition<State>[] = RAW_ENTRIES
 	.filter(raw => raw.name && raw.description && raw.get_status)
 	.map(({name, icon, description, lore, get_status}, index) => {
+		const session_uuid = [`${index}`.padStart(4, '0'), name].join(' ')
 		return {
+			session_uuid,
 			icon: icon || '🏆',
 			name: name!,
 			description: description!,
