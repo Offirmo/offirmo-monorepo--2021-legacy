@@ -3,12 +3,9 @@ import { State as WalletState, ALL_CURRENCIES, Currency, get_currency_amount } f
 import * as RichText from '@offirmo/rich-text-format'
 
 function render_currency_amount(currency: Currency, amount: number): RichText.Document {
-	return RichText.span()
+	return RichText.inline_fragment()
 		.addClass('currency--' + currency)
-		.pushNode(
-			RichText.span().pushText('' + amount).done(), // TODO format according to locale?
-			'amount'
-		)
+		.pushInlineFragment('' + amount, {id: 'amount'}) // TODO format according to locale?
 		.pushText(' ' + currency + (amount === 1 ? '' : 's')) // TODO localize properly ;)
 		.done()
 }
@@ -24,8 +21,8 @@ function render_wallet(wallet: WalletState): RichText.Document {
 	})
 
 	const $doc = RichText.block_fragment()
-		.pushNode(RichText.heading().pushText('Wallet:').done(), 'header')
-		.pushNode($doc_list, 'list')
+		.pushHeading('Wallet:', {id: 'header'})
+		.pushNode($doc_list, {id: 'list'})
 		.done()
 
 	return $doc

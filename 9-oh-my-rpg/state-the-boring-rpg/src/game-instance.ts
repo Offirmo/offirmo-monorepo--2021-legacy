@@ -142,7 +142,7 @@ function create_game_instance<T>({SEC, get_latest_state, persist_state, view_sta
 					let state = get_latest_state()
 					return get_actions_for_element(state, uuid)
 				},
-				get_oldest_pending_flow_engagement(): { key: string, $doc: Document, pe: PendingEngagement } | null {
+				get_oldest_pending_flow_engagement(): { uid: number, $doc: Document, pe: PendingEngagement } | null {
 					let state = get_latest_state()
 					return selectors.get_oldest_pending_flow_engagement(state)
 				},

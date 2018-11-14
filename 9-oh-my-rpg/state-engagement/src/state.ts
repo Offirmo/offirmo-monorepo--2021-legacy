@@ -51,7 +51,6 @@ function enqueue(state: Readonly<State>, engagement: Engagement, params: Pending
 	}
 }
 
-
 function acknowledge_seen(state: Readonly<State>, uid: number): Readonly<State> {
 
 	const is_in_queue = state.queue.some(queued => queued.uid === uid)

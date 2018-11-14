@@ -3,7 +3,7 @@ import {
 	AchievementDefinition,
 	AchievementStatus,
 	on_achieved,
-	get_last_know_achievement_status,
+	get_last_known_achievement_status,
 } from '@oh-my-rpg/state-progress'
 import {
 	enqueue as enqueueEngagement,
@@ -24,8 +24,8 @@ function refresh_achievements(state: Readonly<State>): Readonly<State> {
 	}
 
 	ACHIEVEMENT_DEFINITIONS.forEach((definition: AchievementDefinition<State>) => {
-		const { name } = definition
-		const last_known_status = get_last_know_achievement_status(progress, name)
+		const { icon, name } = definition
+		const last_known_status = get_last_known_achievement_status(progress, name)
 		const current_status = definition.get_status(state)
 
 		if (last_known_status === current_status) return
@@ -38,8 +38,11 @@ function refresh_achievements(state: Readonly<State>): Readonly<State> {
 				...state,
 				engagement: enqueueEngagement(state.engagement, {
 					type: EngagementType.aside,
-					key: EngagementKey['hello_world--aside'],
+					key: EngagementKey['achievement-unlocked'],
 				}, {
+					semantic_level: 'success',
+					auto_dismiss_delay_ms: 7_000,
+					icon,
 					name,
 				}),
 			}

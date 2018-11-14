@@ -14,6 +14,7 @@ This file is just for taking notes for the next Reddit post.
 Next
 - 😍 feature: 2 new background (now totalling 16!)
 - 🤩 feature: 3 new adventures (now totalling 118!)
+- 😍 achievements!!! (X so far)
 
 
 2018/11/06 v0.52.41

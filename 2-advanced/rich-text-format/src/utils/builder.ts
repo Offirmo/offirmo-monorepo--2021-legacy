@@ -7,18 +7,31 @@ import {
 	Document,
 } from '../types'
 
+interface CommonOptions {
+	id?: string
+	classes?: string[]
+}
 
 interface Builder {
 	addClass(...classes: string[]): Builder
+	addHints(hints: { [k: string]: any }): Builder
+
 	pushText(str: string): Builder
-	pushStrong(str: string, id?: string): Builder
-	pushWeak(str: string, id?: string): Builder
-	pushEmphasized(str: string, id?: string): Builder
-	pushRawNode(node: Node, id?: string): Builder
-	pushNode(node: Node, id?: string): Builder
-	pushLineBreak(): Builder
+	pushRawNode(node: Node, options?: CommonOptions): Builder
+	pushNode(node: Node, options?: CommonOptions): Builder
+
+	pushInlineFragment(str: string, options?: CommonOptions): Builder
+	pushBlockFragment(str: string, options?: CommonOptions): Builder
+	pushStrong(str: string, options?: CommonOptions): Builder
+	pushWeak(str: string, options?: CommonOptions): Builder
+	pushEmphasized(str: string, options?: CommonOptions): Builder
+	pushHeading(str: string, options?: CommonOptions): Builder
 	pushHorizontalRule(): Builder
-	pushKeyValue(key: Node | string, value: Node | string, id?: string): Builder
+	pushLineBreak(): Builder
+	pushHeading(str: string, options?: CommonOptions): Builder
+
+	pushKeyValue(key: Node | string, value: Node | string, options?: CommonOptions): Builder
+
 	done(): CheckedNode
 }
 
@@ -36,15 +49,23 @@ function create($type: NodeType): Builder {
 
 	const builder: Builder = {
 		addClass,
+		addHints,
+
 		pushText,
+		pushRawNode,
+		pushNode,
+
+		pushInlineFragment,
+		pushBlockFragment,
 		pushStrong,
 		pushWeak,
 		pushEmphasized,
-		pushRawNode,
-		pushNode,
-		pushLineBreak,
+		pushHeading,
 		pushHorizontalRule,
+		pushLineBreak,
+
 		pushKeyValue,
+
 		done,
 	}
 
@@ -55,55 +76,75 @@ function create($type: NodeType): Builder {
 		return builder
 	}
 
+	function addHints(hints: { [k: string]: any }): Builder {
+		$node.$hints = {
+			...$node.$hints,
+			...hints,
+		}
+		return builder
+	}
+
 	function pushText(str: string): Builder {
 		$node.$content += str
 		return builder
+	}
+
+
+	function _buildAndPush(builder: Builder, str: string, options: CommonOptions = {}) {
+		options = {
+			classes: [],
+			...options,
+		}
+		const node = builder
+			.pushText(str)
+			.addClass(...options.classes!)
+			.done()
+		delete options.classes
+
+		return pushNode(node, options)
 	}
 
 	// nothing is added in content
 	// useful for
 	// 1. lists
 	// 2. manual stuff
-	function pushRawNode(node: Node, id?: string): Builder {
-		id = id || ('000' + ++sub_id).slice(-4)
+	function pushRawNode(node: Node, options: CommonOptions = {}): Builder {
+		const id = options.id || ('000' + ++sub_id).slice(-4)
 		$node.$sub[id] = node
+		if (options.classes)
+			$node.$classes.push(...options.classes)
 		return builder
 	}
 
 	// node ref is auto added into content
-	function pushNode(node: Node, id?: string): Builder {
-		id = id || ('000' + ++sub_id).slice(-4)
+	function pushNode(node: Node, options: CommonOptions = {}): Builder {
+		const id = options.id || ('000' + ++sub_id).slice(-4)
 		$node.$content += `{{${id}}}`
-		return pushRawNode(node, id)
+		return pushRawNode(node, { ...options, id })
 	}
 
-	function pushStrong(str: string, id?: string): Builder {
-		const node = strong()
-			.pushText(str)
-			.done()
-
-		return pushNode(node, id)
+	function pushInlineFragment(str: string, options?: CommonOptions): Builder {
+		return _buildAndPush(inline_fragment(), str, options)
 	}
 
-	function pushWeak(str: string, id?: string): Builder {
-		const node = weak()
-			.pushText(str)
-			.done()
-
-		return pushNode(node, id)
+	function pushBlockFragment(str: string, options?: CommonOptions): Builder {
+		return _buildAndPush(block_fragment(), str, options)
 	}
 
-	function pushEmphasized(str: string, id?: string): Builder {
-		const node = emphasized()
-			.pushText(str)
-			.done()
-
-		return pushNode(node, id)
+	function pushStrong(str: string, options?: CommonOptions): Builder {
+		return _buildAndPush(strong(), str, options)
 	}
 
-	function pushLineBreak(): Builder {
-		$node.$content += '{{br}}'
-		return builder
+	function pushWeak(str: string, options?: CommonOptions): Builder {
+		return _buildAndPush(weak(), str, options)
+	}
+
+	function pushEmphasized(str: string, options?: CommonOptions): Builder {
+		return _buildAndPush(emphasized(), str, options)
+	}
+
+	function pushHeading(str: string, options?: CommonOptions): Builder {
+		return _buildAndPush(heading(), str, options)
 	}
 
 	function pushHorizontalRule(): Builder {
@@ -111,13 +152,25 @@ function create($type: NodeType): Builder {
 		return builder
 	}
 
-	function pushKeyValue(key: Node | string, value: Node | string, id?: string): Builder {
+	function pushLineBreak(): Builder {
+		$node.$content += '{{br}}'
+		return builder
+	}
+
+	function pushKeyValue(key: Node | string, value: Node | string, options: CommonOptions = {}): Builder {
 		if ($node.$type !== NodeType.ol && $node.$type !== NodeType.ul)
 			throw new Error(`${LIB}: Key/value is intended to be used in a ol/ul only!`)
 
-		const kv_node: Node = key_value(key, value).done()
+		options = {
+			classes: [],
+			...options,
+		}
+		const kv_node: Node = key_value(key, value)
+			.addClass(...options.classes!)
+			.done()
+		delete options.classes
 
-		return pushRawNode(kv_node, id)
+		return pushRawNode(kv_node, options)
 	}
 
 	function done(): CheckedNode {
@@ -172,9 +225,9 @@ function key_value(key: Node | string, value: Node | string): Builder {
 		: value
 
 	return inline_fragment()
-		.pushNode(key_node, 'key')
+		.pushNode(key_node, { id: 'key' })
 		.pushText(': ')
-		.pushNode(value_node, 'value')
+		.pushNode(value_node, { id: 'value' })
 }
 
 export {
@@ -187,6 +240,9 @@ export {
 	inline_fragment,
 	block_fragment,
 	heading,
+	strong,
+	weak,
+	emphasized,
 	span,
 	ordered_list,
 	unordered_list,

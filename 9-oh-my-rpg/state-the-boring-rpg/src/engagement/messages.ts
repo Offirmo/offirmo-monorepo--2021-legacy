@@ -14,10 +14,7 @@ function get_engagement_message(state: Readonly<State>, pe: PendingEngagement): 
 		case EngagementKey['hello_world--warning']:
 			return RichText.block_fragment()
 				.pushText('[TEST] Hello, ')
-				.pushNode(
-					RichText.span().pushText(params.name || 'world').done(),
-					'name'
-				)
+				.pushInlineFragment(params.name || 'world', {id: 'name'})
 				.pushText('!')
 				.done()
 
@@ -39,9 +36,15 @@ function get_engagement_message(state: Readonly<State>, pe: PendingEngagement): 
 				.pushStrong('Code successfully redeemed.')
 				.done()
 
-		// TODO
+		case EngagementKey['achievement-unlocked']:
+			return RichText.block_fragment()
+				.pushStrong(`🏆 Achievement unlocked:`)
+				.pushLineBreak()
+				.pushText(`“${params.icon} ${params.name}“`)
+				.done()
+
 		default:
-			throw new Error(`No engagement message for "${key}"!`)
+			throw new Error(`TODO: No engagement message for "${key}"!`)
 	}
 }
 

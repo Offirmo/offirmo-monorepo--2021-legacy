@@ -65,6 +65,7 @@ import { SoftExecutionContext, OMRContext, get_lib_SEC } from '../../sec'
 import { receive_item } from './play/play_adventure'
 import { play_good } from './play/play_good'
 import { play_bad } from './play/play_bad'
+import { refresh_achievements } from './achievements'
 
 /////////////////////
 
@@ -111,6 +112,17 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 		state = receive_item(state, starting_armor)
 		state = equip_item(state, starting_armor.uuid)
 
+		state = refresh_achievements(state) // there are some initial achievements
+		// reset engagements that may have been created by noisy initial achievements
+		state = {
+			...state,
+			engagement: {
+				...state.engagement,
+				queue: [],
+			}
+		}
+
+		// now insert some relevant start engagements
 		state = {
 			...state,
 			engagement: EngagementState.enqueue(state.engagement, {
@@ -120,6 +132,7 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 		}
 
 		//state.prng = PRNGState.update_use_count(state.prng, rng)
+
 
 		state = {
 			...state,
@@ -174,7 +187,7 @@ function play(state: Readonly<State>, explicit_adventure_archetype_hid?: string)
 
 	//console.log(state.progress)
 
-	return state
+	return refresh_achievements(state)
 }
 
 function equip_item(state: Readonly<State>, uuid: UUID): Readonly<State> {
@@ -185,7 +198,7 @@ function equip_item(state: Readonly<State>, uuid: UUID): Readonly<State> {
 		revision: state.revision + 1,
 	}
 
-	return state
+	return refresh_achievements(state)
 }
 
 function sell_item(state: Readonly<State>, uuid: UUID): Readonly<State> {
@@ -199,7 +212,7 @@ function sell_item(state: Readonly<State>, uuid: UUID): Readonly<State> {
 		revision: state.revision + 1,
 	}
 
-	return state
+	return refresh_achievements(state)
 }
 
 function rename_avatar(state: Readonly<State>, new_name: string): Readonly<State> {
@@ -210,7 +223,7 @@ function rename_avatar(state: Readonly<State>, new_name: string): Readonly<State
 		revision: state.revision + 1,
 	}
 
-	return state
+	return refresh_achievements(state)
 }
 
 function change_avatar_class(state: Readonly<State>, new_class: CharacterClass): Readonly<State> {
@@ -221,7 +234,7 @@ function change_avatar_class(state: Readonly<State>, new_class: CharacterClass):
 		revision: state.revision + 1,
 	}
 
-	return state
+	return refresh_achievements(state)
 }
 
 function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<State> {
@@ -260,6 +273,7 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<
 						type: EngagementState.EngagementType.flow,
 						key: EngagementKey['hello_world--flow'],
 					}, {
+						// TODO make flow have semantic levels as well!
 						name: 'flow from TESTNOTIFS',
 					}),
 				}
@@ -269,7 +283,47 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<
 						type: EngagementState.EngagementType.aside,
 						key: EngagementKey['hello_world--aside'],
 					}, {
-						name: 'aside from TESTNOTIFS',
+						name: 'aside default from TESTNOTIFS',
+					}),
+				}
+				state = {
+					...state,
+					engagement: EngagementState.enqueue(state.engagement, {
+						type: EngagementState.EngagementType.aside,
+						key: EngagementKey['hello_world--aside'],
+					}, {
+						semantic_level: 'error',
+						name: 'aside error from TESTNOTIFS',
+					}),
+				}
+				state = {
+					...state,
+					engagement: EngagementState.enqueue(state.engagement, {
+						type: EngagementState.EngagementType.aside,
+						key: EngagementKey['hello_world--aside'],
+					}, {
+						semantic_level: 'warning',
+						name: 'aside warning from TESTNOTIFS',
+					}),
+				}
+				state = {
+					...state,
+					engagement: EngagementState.enqueue(state.engagement, {
+						type: EngagementState.EngagementType.aside,
+						key: EngagementKey['hello_world--aside'],
+					}, {
+						semantic_level: 'info',
+						name: 'aside info from TESTNOTIFS',
+					}),
+				}
+				state = {
+					...state,
+					engagement: EngagementState.enqueue(state.engagement, {
+						type: EngagementState.EngagementType.aside,
+						key: EngagementKey['hello_world--aside'],
+					}, {
+						semantic_level: 'success',
+						name: 'aside success from TESTNOTIFS',
 					}),
 				}
 				state = {
@@ -282,6 +336,14 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<
 					}),
 				}
 				break
+			case 'TESTACH':
+				// this will auto-re-gain this achievement
+				state = {
+					...state,
+					progress: ProgressState.on_achieved(state.progress, 'TEST', ProgressState.AchievementStatus.revealed)
+				}
+				break
+
 			case 'BORED':
 				state = {
 					...state,
@@ -302,14 +364,14 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<
 		}
 	}
 
-	return {
+	return refresh_achievements({
 		...state,
 		engagement: EngagementState.enqueue(state.engagement, {
 			type: EngagementState.EngagementType.flow,
 			key: engagement_key,
 		}, engagement_params),
 		revision: state.revision + 1,
-	}
+	})
 }
 
 function acknowledge_engagement_msg_seen(state: Readonly<State>, uid: number): Readonly<State> {
@@ -383,6 +445,5 @@ export {
 	attempt_to_redeem_code,
 	acknowledge_engagement_msg_seen,
 }
-export * from './achievements'
 
 /////////////////////

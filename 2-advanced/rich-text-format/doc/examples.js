@@ -25,7 +25,7 @@ const SUB_UL_ITEMS = {
 }
 
 const SUB_UL_KEY_VALUE_PAIRS = {
-	1: {
+	'001': {
 		$type: 'inline_fragment',
 		$content: '{{key}}: {{value}}',
 		$sub: {
@@ -37,7 +37,7 @@ const SUB_UL_KEY_VALUE_PAIRS = {
 			},
 		},
 	},
-	2: {
+	'002': {
 		$type: 'inline_fragment',
 		$content: '{{key}}: {{value}}',
 		$sub: {
@@ -49,7 +49,7 @@ const SUB_UL_KEY_VALUE_PAIRS = {
 			},
 		},
 	},
-	3: {
+	'003': {
 		$type: 'inline_fragment',
 		$content: '{{key}}: {{value}}',
 		$sub: {
@@ -301,7 +301,7 @@ const DOC_DEMO_INVENTORY = {
 					],
 					'$content': '',
 					'$sub': {
-						'1': {
+						'001': {
 							'$v': 1,
 							'$type': 'span',
 							'$classes': [],
@@ -378,7 +378,7 @@ const DOC_DEMO_INVENTORY = {
 							},
 							'$hints': {}
 						},
-						'2': {
+						'002': {
 							'$v': 1,
 							'$type': 'span',
 							'$classes': [],

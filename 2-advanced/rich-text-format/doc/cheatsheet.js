@@ -6,7 +6,7 @@ const PKG_JSON = require('../package.json')
 console.log(boxify(`
 import { RichText } from '${stylizeString.bold(PKG_JSON.name)}'
 
-const doc = RichText.span()
+const doc = RichText.inline_fragment()
    .pushText('Hello ')
    .pushStrong('world!')
    .done()

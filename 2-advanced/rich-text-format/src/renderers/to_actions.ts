@@ -27,7 +27,6 @@ type State = {
 const on_type: WalkerReducer<State, OnTypeParams<State>, Options> = ({$type, state, $node, depth}) => {
 	//console.log('[on_type]', { $type, state })
 
-
 	if ($node.$hints.href) {
 		state.actions.push({
 			$node,

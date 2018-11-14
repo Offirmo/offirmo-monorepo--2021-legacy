@@ -6,6 +6,20 @@ Can be rendered in ascii, html, react...
 
 See /demos/*
 
+```js
+import * as RichText from '@offirmo/rich-text-format'
+
+const $doc = RichText.block_fragment()
+		.pushNode(RichText.heading().pushText('Identity:').done(), {id: 'header'})
+		.pushNode(
+			RichText.unordered_list()
+				.pushKeyValue('name', $doc_name)
+				.pushKeyValue('class', $doc_class)
+				.done()
+		)
+		.done()
+		
+```
 
 Inspiration:
 * https://developer.atlassian.com/cloud/stride/apis/document/structure/

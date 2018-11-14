@@ -10,7 +10,8 @@ import {
 } from '@oh-my-rpg/state-wallet'
 
 import { State } from '../../../types'
-import { create, refresh_achievements } from '../state'
+import { create } from '../state'
+import { refresh_achievements } from '.'
 import ACHIEVEMENT_DEFINITIONS from '../../../data/achievements'
 
 describe('@oh-my-rpg/state-the-boring-rpg - reducer / achievements', function() {

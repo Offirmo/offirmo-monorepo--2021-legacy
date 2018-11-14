@@ -20,6 +20,7 @@
 		"typescript-string-enums": "^0.3"
 	},
 	"devDependencies": {
+		"@offirmo/ts-types": "^0.0.1",
 		"@offirmo/practical-logger-browser": "^0.0.1",
 		"indent-string": "^3",
 		"linewrap": "^0.2",

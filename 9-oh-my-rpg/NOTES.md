@@ -18,6 +18,25 @@ mysterious worlds
 https://www.youtube.com/watch?v=oX1rLjFYseA
 
 
+Spirituality
+3 fundamental realities
+The more I know the more I do not know
+Life is a mystery to be lived, not a problem to be solved
+Mystery: the inexhaustible intelligibility of the world
+The Ultimate Mystery
+
+4 sets of relationship
+- with the Ultimate Mystery
+- with other human beings
+- with the world of events and things
+The heart and soul of spirituality: living relationships
+= require commitment, work
+som rel are life-giving, death-giving
+community tending, not private
+shared symbols, rituals, creeds, organization, authority, structures
+avoid individualism
+mysticism: lived awareness of the unity (with the set of relationships)
+
 fairies
 vouivres
 tarasque

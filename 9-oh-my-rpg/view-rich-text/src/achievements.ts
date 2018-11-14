@@ -20,33 +20,35 @@ function render_achievement_snapshot_short(achievement_snapshot: AchievementSnap
 			throw new Error(`Secret achievements should never make it there!`)
 
 		case AchievementStatus.hidden:
-			// no change
+			icon_text = ''
 			break
 
 		case AchievementStatus.revealed:
-			icon_text = '❕'
+			//icon_text = '❕'
 			legend = name
 			break
 
 		case AchievementStatus.unlocked:
 			icon_text = icon
-			legend = name
+			legend = name + ' ★'
 			break
 
 		default:
 			throw new Error(`Unknown achievement status!`)
 	}
 
+	if (icon_text) {
+		builder
+			.pushText(icon_text)
+			.pushText('  ')
+	}
+
 	builder
-		.pushText(icon_text)
-		.pushText(' ')
 		.pushText(legend)
+		.addHints({ uuid})
 
-	const $doc = builder.done()
-	$doc.$hints = $doc.$hints || {}
-	$doc.$hints.uuid = uuid
 
-	return $doc
+	return builder.done()
 }
 
 function render_achievement_snapshot_detailed(achievement_snapshot: AchievementSnapshot): RichText.Document {
@@ -54,7 +56,7 @@ function render_achievement_snapshot_detailed(achievement_snapshot: AchievementS
 	const element_tags = [ 'achievement' ]
 
 	const builder = RichText.block_fragment()
-		.addClass('achievement', `achievement--${status}`)
+		.addClass('achievement')
 
 	let icon_text = null
 	let name_text = '???'
@@ -66,14 +68,13 @@ function render_achievement_snapshot_detailed(achievement_snapshot: AchievementS
 			throw new Error(`Secret achievements should never make it there!`)
 
 		case AchievementStatus.hidden:
-			description_text = '(this achievement is hidden at the moment)'
+			description_text = '(this achievement is hidden at the moment. Try playing more!)'
 			element_tags.push('hidden')
-			// no other change
 			break
 
 		case AchievementStatus.revealed:
 			element_tags.push('locked')
-			icon_text = '❕'
+			icon_text = '❔'
 			name_text = name
 			description_text = description
 			lore_text = lore
@@ -98,7 +99,7 @@ function render_achievement_snapshot_detailed(achievement_snapshot: AchievementS
 	}
 
 	builder
-		.pushStrong(name_text)
+		.pushStrong(name_text, { classes: [ 'achievement__title' ]})
 		.pushHorizontalRule()
 
 		/* TODO
@@ -111,34 +112,33 @@ function render_achievement_snapshot_detailed(achievement_snapshot: AchievementS
 
 	if (lore_text) {
 		builder
-			.pushWeak(`«${lore_text}»`)
+			.pushWeak(`“${lore_text}“`, { classes: [ 'achievement__lore' ]})
 			.pushLineBreak()
 	}
 
-	const $doc = builder.done()
-	$doc.$hints = $doc.$hints || {}
-	$doc.$hints.uuid = uuid
+	builder.addHints({ uuid })
 
-	return $doc
+	return builder.done()
 }
 
 function render_achievements_snapshot(ordered_achievement_snapshots: AchievementSnapshot[]): RichText.Document {
-	const builder = RichText.ordered_list()
+	const builder = RichText.unordered_list()
 		.addClass('achievements-snapshot')
 
 	ordered_achievement_snapshots.forEach((achievement_snapshot: AchievementSnapshot) => {
 		const { uuid } = achievement_snapshot
-		builder.pushRawNode(render_achievement_snapshot_short(achievement_snapshot), uuid)
+		console.log(uuid)
+		builder.pushRawNode(render_achievement_snapshot_short(achievement_snapshot), {id: uuid})
 	})
 
 	const $doc_list = builder.done()
 
 	const $doc = RichText.block_fragment()
-		.pushNode(RichText.heading().pushText(`Achievements`).done(), 'header')
-		.pushNode($doc_list, 'list')
+		.pushNode(RichText.heading().pushText(`Achievements`).done(), {id: 'header'})
+		.pushNode($doc_list, {id: 'list'})
 		.done()
 
-	console.log('render_achievements_snapshot', ordered_achievement_snapshots, $doc)
+	//console.log('render_achievements_snapshot', ordered_achievement_snapshots, $doc)
 
 	return $doc
 }

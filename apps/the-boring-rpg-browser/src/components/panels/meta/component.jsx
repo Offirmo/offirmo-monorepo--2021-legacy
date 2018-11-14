@@ -18,35 +18,35 @@ export function render_meta(state) {
 	const { CHANNEL, ENV } = SEC.getInjectedDependencies()
 	const $doc_list_builder = RichText.unordered_list()
 	$doc_list_builder.pushRawNode(
-		RichText.span().pushText(`Play count: ${state.progress.statistics.good_play_count}`).done(),
+		RichText.inline_fragment().pushText(`Play count: ${state.progress.statistics.good_play_count}`).done(),
 		'01-playcount'
 	)
 	$doc_list_builder.pushRawNode(
-		RichText.span().pushText(`Game version: ${VERSION}`).done(),
+		RichText.inline_fragment().pushText(`Game version: ${VERSION}`).done(),
 		'02-version'
 	)
 	$doc_list_builder.pushRawNode(
-		RichText.span().pushText(`Build date (UTC): ${BUILD_DATE}`).done(),
+		RichText.inline_fragment().pushText(`Build date (UTC): ${BUILD_DATE}`).done(),
 		'03-builddate'
 	)
 	$doc_list_builder.pushRawNode(
-		RichText.span().pushText(`Release channel: ${CHANNEL}`).done(),
+		RichText.inline_fragment().pushText(`Release channel: ${CHANNEL}`).done(),
 		'04-channel'
 	)
 	$doc_list_builder.pushRawNode(
-		RichText.span().pushText(`Exec env: ${ENV}`).done(),
+		RichText.inline_fragment().pushText(`Exec env: ${ENV}`).done(),
 		'05-env'
 	)
 	$doc_list_builder.pushRawNode(
-		RichText.span().pushText(`Engine version: ${GAME_VERSION}`).done(),
+		RichText.inline_fragment().pushText(`Engine version: ${GAME_VERSION}`).done(),
 		'06-engine'
 	)
 	$doc_list_builder.pushRawNode(
-		RichText.span().pushText(`Savegame version: ${SCHEMA_VERSION}`).done(),
+		RichText.inline_fragment().pushText(`Savegame version: ${SCHEMA_VERSION}`).done(),
 		'07-savegame'
 	)
 
-	const $doc = RichText.span()
+	const $doc = RichText.inline_fragment()
 		.pushNode(RichText.heading().pushText('Client infos:').done(), 'header')
 		.pushNode($doc_list_builder.done(), 'list')
 		.done()
@@ -68,12 +68,12 @@ export default class Component extends React.Component {
 
 			const engagement_msg = game_instance.selectors.get_oldest_pending_flow_engagement()
 			if (engagement_msg) {
-				const { key, $doc } = engagement_msg
+				const { uid, $doc } = engagement_msg
 				steps.push({
 					type: 'simple_message',
 					msg_main: rich_text_to_react($doc),
 				})
-				game_instance.reducers.acknowledge_engagement_msg_seen(key)
+				game_instance.reducers.acknowledge_engagement_msg_seen(uid)
 			}
 			else {
 				//const state = game_instance.model.get_state()

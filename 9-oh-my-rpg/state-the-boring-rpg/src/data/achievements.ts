@@ -1,4 +1,5 @@
 import { AchievementStatus, AchievementDefinition } from '@oh-my-rpg/state-progress'
+import { CharacterClass, DEFAULT_AVATAR_NAME } from '@oh-my-rpg/state-character'
 import { State } from '../types'
 
 /*
@@ -12,9 +13,20 @@ import { State } from '../types'
 
 const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
 
+	{
+		icon: '🍪',
+		name: 'TEST',
+		description: 'This secret achievement can only be obtained through debug commands, to test the achievements system.',
+		lore: '…and a piece of lore should appear here',
+		get_status: (state: State) => state.progress.achievements['TEST'] === undefined || state.progress.achievements['TEST'] === AchievementStatus.secret
+			? AchievementStatus.secret // keep it secret
+			: AchievementStatus.unlocked, // unlock it ASAP
+	},
+
 	// Intro
 	{
-		name: 'The First Step',
+		icon: '✨',
+		name: 'Summoned',
 		description: 'You began your adventures in another world.',
 		lore: 'Thanks for visiting!',
 		get_status: () => AchievementStatus.unlocked,
@@ -22,19 +34,22 @@ const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
 
 	// alpha / beta
 	{
-		name: 'Alpha',
-		description: 'You started playing during the alpha or earlier',
-		lore: 'Let me tell you of a time of great adventure...',
+		icon: '🐺',
+		name: 'Alpha player',
+		description: 'You started playing during the alpha or earlier.',
+		lore: 'Let me tell you of a time of great adventure…',
 		get_status: () => AchievementStatus.unlocked, // TODO alpha
 	},
 	{
-		name: 'Beta',
-		description: 'You started playing during the beta or earlier',
-		// TODO
+		icon: '🦍',
+		name: 'Beta player',
+		description: 'You started playing during the beta or earlier.',
+		get_status: () => AchievementStatus.secret, // TODO beta
 	},
 
 	// main CTA
 	{
+		icon: '🥉',
 		name: 'I am bored',
 		description: 'Having played for the first time.',
 		get_status: (state: State) => state.progress.statistics.good_play_count
@@ -42,6 +57,7 @@ const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
 			: AchievementStatus.revealed,
 	},
 	{
+		icon: '🥈',
 		name: 'I am very bored',
 		description: 'Having played 7 times.',
 		get_status: (state: State) => state.progress.statistics.good_play_count >= 7
@@ -49,6 +65,7 @@ const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
 			: AchievementStatus.revealed,
 	},
 	{
+		icon: '🥈',
 		// https://www.urbandictionary.com/define.php?term=Turn%20it%20up%20to%20eleven
 		name: 'Turn it up to eleven',
 		description: 'Having played 11 times.',
@@ -59,6 +76,7 @@ const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
 				: AchievementStatus.hidden,
 	},
 	{
+		icon: '🥇',
 		name: 'I am dead bored',
 		description: 'Having played 77 times.',
 		get_status: (state: State) => state.progress.statistics.good_play_count >= 77
@@ -68,6 +86,7 @@ const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
 				: AchievementStatus.hidden,
 	},
 	{
+		icon: '🏅',
 		name: 'did I mention I was bored?',
 		description: 'Having played 500 times.',
 		get_status: (state: State) => state.progress.statistics.good_play_count >= 500
@@ -77,6 +96,7 @@ const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
 				: AchievementStatus.hidden,
 	},
 	{
+		icon: '👑',
 		name: 'king of boredom',
 		description: 'Having played 1000 times.',
 		get_status: (state: State) => state.progress.statistics.good_play_count >= 1000
@@ -86,6 +106,7 @@ const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
 				: AchievementStatus.hidden,
 	},
 	{
+		icon: '🎖',
 		name: 'No-life except for boredom',
 		description: 'Having played 10.000 times.',
 		get_status: (state: State) => state.progress.statistics.good_play_count >= 10000
@@ -97,58 +118,98 @@ const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
 
 	// regularity
 	{
+		icon: '',
 		name: 'I’ll be back',
 		description: 'Having been playing for 2 days.',
 	},
 	{
+		icon: '',
 		name: 'Regular',
 		description: 'Having been playing for 7 days.',
 	},
 	{
+		icon: '',
 		name: 'Faithful',
 		description: 'Having been playing for 30 days.',
 	},
 	{
+		icon: '',
 		name: 'Hooked',
 		description: 'Having been playing for 120 days.',
 	},
 	{
+		icon: '🎂',
 		name: 'Addicted',
 		description: 'Having been playing for 365 days.',
 	},
 
 	// counter-CTA
 	{
+		icon: '😱',
 		name: 'Sorry my hand slipped',
 		description: 'Having played too soon for the 1st time.',
+		get_status: (state: State) => state.progress.statistics.bad_play_count
+			? AchievementStatus.unlocked
+			: AchievementStatus.hidden,
 	},
 	{
+		icon: '😼',
 		name: 'Oops!... I Did It Again',
 		description: 'Having played too soon for the 2nd time.',
+		get_status: (state: State) => state.progress.statistics.bad_play_count >= 2
+			? AchievementStatus.unlocked
+			: AchievementStatus.hidden,
 	},
 	{
+		icon: '😼',
 		name: 'I’m not that innocent',
 		description: 'Having played too soon 10 times.',
+		get_status: (state: State) => state.progress.statistics.bad_play_count >= 10
+			? AchievementStatus.unlocked
+			: state.progress.statistics.bad_play_count >= 3
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
 	},
 	{
+		icon: '😈',
 		name: 'It’s good to be bad',
 		description: 'Having played too soon 66 times.',
+		get_status: (state: State) => state.progress.statistics.bad_play_count >= 66
+			? AchievementStatus.unlocked
+			: state.progress.statistics.bad_play_count >= 10
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
 	},
 	{
+		icon: '👻',
 		name: 'Hello darkness my old friend',
 		description: 'Having played too soon 666 times.',
+		get_status: (state: State) => state.progress.statistics.bad_play_count >= 666
+			? AchievementStatus.unlocked
+			: state.progress.statistics.bad_play_count >= 66
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
 	},
 
 	// Engagement
 	{
+		icon: '🆙',
 		name: 'What’s in a name?',
 		description: 'Having set one’s name.',
+		get_status: (state: State) => state.avatar.name !== DEFAULT_AVATAR_NAME
+			? AchievementStatus.unlocked
+			: AchievementStatus.revealed,
 	},
 	{
+		icon: '🎓',
 		name: 'Graduated',
 		description: 'Having selected a class.',
+		get_status: (state: State) => state.avatar.klass !== CharacterClass.novice
+			? AchievementStatus.unlocked
+			: AchievementStatus.revealed,
 	},
 	{
+		icon: '🆔',
 		name: 'Registered',
 		description: 'Having signed up.',
 	},
@@ -156,59 +217,72 @@ const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
 	// Progression/milestones
 	// ..
 	{
+		icon: '🥄',
 		name: 'There is no spoon',
 		description: 'Having replaced your starting weapon.',
 	},
 	// - quality
 	{
+		icon: '',
 		name: 'U got the look',
 		description: 'All equipped items of quality uncommon or higher.',
 	},
 	{
+		icon: '',
 		name: 'Rare sight',
 		description: 'All equipped items of quality rare or higher.',
 	},
 	{
+		icon: '',
 		name: 'Epic smile',
 		description: 'All equipped items of quality epic or higher.',
 	},
 	{
+		icon: '',
 		name: 'I am a legend',
 		description: 'All equipped items of quality legendary or higher.',
 	},
 	// - power
 	{
+		icon: '🐸',
 		name: 'Frog in a well',
 		description: 'Having a combined equipment’s power of 100 or higher.',
 	},
 	{
+		icon: '',
 		name: '',
 		description: 'Having a combined equipment’s power of 1000 or higher.',
 	},
 	{
+		icon: '',
 		name: '',
 		description: 'Having a combined equipment’s power of 2000 or higher.',
 	},
 
 	{
+		icon: '',
 		name: 'God complex',
 		description: 'Having the name "Perte" or "Offirmo"',
 	},
 	{
+		icon: '',
 		name: 'Just plain lucky',
 		description: 'You have 1/500000 chance to gain this on each activity.',
 	},
 	// attributes
 	// https://www.google.com/search?q=silver+tongue
 	{
+		icon: '',
 		name: 'Sharp tongue',
 		description: 'Having a charisma of 10 or higher.',
 	},
 	{
+		icon: '',
 		name: 'Silver tongue',
 		description: 'Having a charisma of 50 or higher.',
 	},
 	{
+		icon: '',
 		name: 'Golden tongue',
 		description: 'Having a charisma of 100 or higher.',
 	},

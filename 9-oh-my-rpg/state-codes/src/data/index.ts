@@ -42,6 +42,11 @@ const TEST_CODES: { [key: string]: Partial<Code> } = {
 			return true
 		},
 	},
+
+	TESTACH: {
+		redeem_limit: null,
+		is_redeemable: () => true,
+	},
 }
 
 const RAW_CODES: { [key: string]: Partial<Code> } = {

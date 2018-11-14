@@ -32,6 +32,10 @@
 	color: #ffee62;
 }
 
+.achievement__lore {
+	font-style: italic;
+}
+
 .monster--rank--common {
 }
 .monster--rank--elite {

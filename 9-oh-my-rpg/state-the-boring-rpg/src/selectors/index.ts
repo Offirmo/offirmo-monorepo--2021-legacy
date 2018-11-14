@@ -76,7 +76,14 @@ function appraise_player_power(state: Readonly<State>): number {
 
 function find_element(state: Readonly<State>, uuid: UUID): Readonly<Element> | Readonly<AchievementSnapshot> | null {
 	// only inventory for now
-	return get_item(state, uuid) || get_achievement_snapshot_by_uuid(state, uuid)
+	let possible_achievement: Readonly<AchievementSnapshot> | null = null
+	try {
+		possible_achievement = get_achievement_snapshot_by_uuid(state, uuid)
+	}
+	catch (err) {
+		// not found, swallow
+	}
+	return possible_achievement || get_item(state, uuid)
 }
 
 function find_better_unequipped_weapon(state: Readonly<State>): Readonly<Element> | null {
@@ -94,18 +101,18 @@ function find_better_unequipped_weapon(state: Readonly<State>): Readonly<Element
 	return null
 }
 
-function get_oldest_pending_flow_engagement(state: Readonly<State>): { key: string, $doc: RichText.Document, pe: PendingEngagement } | null {
+// TODO code duplication
+function get_oldest_pending_flow_engagement(state: Readonly<State>): { uid: number, $doc: RichText.Document, pe: PendingEngagement } | null {
 	const pe = get_oldest_queued_flow(state.engagement)
 	if (!pe)
 		return null
 
 	return {
-		key: pe.engagement.key,
+		uid: pe.uid,
 		$doc: get_engagement_message(state, pe),
 		pe,
 	}
 }
-
 function get_oldest_pending_non_flow_engagement(state: Readonly<State>): { uid: number, $doc: RichText.Document, pe: PendingEngagement } | null {
 	const pe = get_oldest_queued_non_flow(state.engagement)
 	if (!pe)

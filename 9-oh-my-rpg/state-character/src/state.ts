@@ -15,6 +15,7 @@ import { SoftExecutionContext, OMRContext, get_lib_SEC } from './sec'
 
 /////////////////////
 
+const DEFAULT_AVATAR_NAME = '[anonymous]'
 const CHARACTER_ATTRIBUTES = Enum.keys(CharacterAttribute)
 const CHARACTER_ATTRIBUTES_SORTED: CharacterAttribute[] = [
 	'level',
@@ -42,7 +43,7 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 			schema_version: SCHEMA_VERSION,
 			revision: 0,
 
-			name: '[anonymous]',
+			name: DEFAULT_AVATAR_NAME,
 			klass: CharacterClass.novice,
 			attributes: {
 				level: 1,
@@ -118,6 +119,7 @@ export {
 	CharacterAttributes,
 	State,
 
+	DEFAULT_AVATAR_NAME,
 	CHARACTER_ATTRIBUTES,
 	CHARACTER_ATTRIBUTES_SORTED,
 	CHARACTER_CLASSES,

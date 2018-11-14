@@ -6,10 +6,10 @@ import * as RichText from '@offirmo/rich-text-format'
 function render_meta_infos(metas: {[k: string]: string | number | undefined}): RichText.Document {
 	const $doc_list = RichText.unordered_list()
 
-	Object.keys(metas).forEach((prop: string) => {
+	Object.keys(metas).forEach((key: string) => {
 		$doc_list.pushRawNode(
-			RichText.span().pushText(prop + ': ' + metas[prop]).done(),
-			prop
+			RichText.inline_fragment().pushText(key + ': ' + metas[key]).done(),
+			{id: key}
 		)
 	})
 
@@ -27,10 +27,10 @@ function render_account_info(m: State, extra: {[k: string]: string | number | un
 	*/
 
 	const $doc = RichText.block_fragment()
-		.pushNode(RichText.heading().pushText('Account infos:').done(), 'header')
+		.pushHeading('Account infos:', {id: 'header'})
 		.pushNode(
 			render_meta_infos(meta_infos),
-			'list'
+			{id: 'list'}
 		)
 		.done()
 

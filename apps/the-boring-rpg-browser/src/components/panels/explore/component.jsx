@@ -20,12 +20,12 @@ export default class Component extends React.Component {
 
 			const engagement_msg = game_instance.selectors.get_oldest_pending_flow_engagement()
 			if (engagement_msg) {
-				const { key, $doc } = engagement_msg
+				const { uid, $doc } = engagement_msg
 				steps.push({
 					type: 'simple_message',
 					msg_main: rich_text_to_react($doc),
 				})
-				game_instance.reducers.acknowledge_engagement_msg_seen(key)
+				game_instance.reducers.acknowledge_engagement_msg_seen(uid)
 			}
 			else {
 				const state = game_instance.model.get_state()

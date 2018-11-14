@@ -8,14 +8,14 @@ const LIB = 'rich_text_to_react'
 
 export const NODE_TYPE_TO_COMPONENT = {
 	// will default to own tag if not in this list (ex. strong => strong)
-	[NodeType.weak]: 'em', // TODO refine
+	[NodeType.weak]: 'span',
 	[NodeType.heading]: 'h3',
-	[NodeType.inline_fragment]: 'div',
+	[NodeType.inline_fragment]: 'span',
 	[NodeType.block_fragment]: 'div',
 }
 
 export const NODE_TYPE_TO_EXTRA_CLASSES = {
-	[NodeType.inline_fragment]: [ 'o⋄rich-text⋄inline' ],
+	//[NodeType.inline_fragment]: [ 'o⋄rich-text⋄inline' ],
 	[NodeType.weak]: [ 'o⋄color⁚secondary' ],
 }
 

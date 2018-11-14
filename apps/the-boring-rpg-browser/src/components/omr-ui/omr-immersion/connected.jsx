@@ -40,11 +40,12 @@ export default props => (
 						pending_non_flow_engagement = game_instance.selectors.get_oldest_pending_non_flow_engagement()
 						if (pending_non_flow_engagement) {
 							const { uid, $doc, pe } = pending_non_flow_engagement
+							console.info('Dequeing engagement: ', {uid, $doc, pe, pending_non_flow_engagement})
 							const type = pe.engagement.type
 							switch(type) {
 								case 'aside': {
 									const level = pe.params.semantic_level || 'info'
-									const auto_dismiss_delay_ms = pe.auto_dismiss_delay_ms || 0
+									const auto_dismiss_delay_ms = pe.params.auto_dismiss_delay_ms || 0
 									omr.enqueueNotification({
 										level,
 										children: rich_text_to_react($doc),
@@ -55,7 +56,7 @@ export default props => (
 								}
 								case 'warning': {
 									const level = pe.params.semantic_level || 'warning'
-									const auto_dismiss_delay_ms = pe.auto_dismiss_delay_ms || 0
+									const auto_dismiss_delay_ms = pe.params.auto_dismiss_delay_ms || 0
 									omr.enqueueNotification({
 										level,
 										children: rich_text_to_react($doc),

@@ -74,6 +74,12 @@ function on_class_after({ $class, state, $node, depth }, options) {
 			state.str = '⚔ ' + WIDTH_COMPENSATION + state.str
 			break
 
+		case 'achievement':
+			break
+		case 'achievement__lore':
+			state.str = stylize_string.italic(state.str)
+			break
+
 		case 'currency--coin':
 		case 'value--coin':
 			state.str = '💰 ' + WIDTH_COMPENSATION + state.str
