@@ -70,6 +70,26 @@
 	background-position: 79%;
 }
 
+.tbrpg⋄bg-image⁚cloud_city_palace {
+	background-image: url('backgrounds/jupiter_ascending_palace-raphael_lacoste.jpg');
+	background-position: 39%;
+}
+
+.tbrpg⋄bg-image⁚cloud_city {
+	background-image: url('backgrounds/jupiter_ascending-raphael_lacoste.jpg');
+	background-position: 22%;
+}
+
+.tbrpg⋄bg-image⁚kvasir_fortress {
+	background-image: url('backgrounds/kvasir_fortress-raphael_lacoste.jpg');
+	background-position: 84%;
+}
+
+.tbrpg⋄bg-image⁚barren_landscape {
+	background-image: url('backgrounds/landscape-raphael_lacoste.jpg');
+	background-position: 17%;
+}
+
 .tbrpg⋄bg-image⁚north_country {
 	background-image: url('backgrounds/some_skyrim_like.jpg');
 	background-position: 2%;

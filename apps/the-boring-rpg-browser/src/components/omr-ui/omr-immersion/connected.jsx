@@ -22,6 +22,10 @@ const BACKGROUNDS = [
 	'jungle',
 	'return_of_the_knight',
 	'north_country',
+	'cloud_city_palace',
+	'cloud_city',
+	'kvasir_fortress',
+	'barren_landscape',
 	'snowcapped_environment',
 ]
 

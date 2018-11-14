@@ -12,7 +12,7 @@ function render_achievement_snapshot_short(achievement_snapshot: AchievementSnap
 	const builder = RichText.inline_fragment()
 		.addClass('achievement', `achievement--${status}`)
 
-	let icon_text = '❔'
+	let icon_text = ''
 	let legend = '???'
 
 	switch(status) {
@@ -20,11 +20,10 @@ function render_achievement_snapshot_short(achievement_snapshot: AchievementSnap
 			throw new Error(`Secret achievements should never make it there!`)
 
 		case AchievementStatus.hidden:
-			icon_text = ''
 			break
 
 		case AchievementStatus.revealed:
-			//icon_text = '❕'
+			icon_text = '❔'
 			legend = name
 			break
 
@@ -43,9 +42,12 @@ function render_achievement_snapshot_short(achievement_snapshot: AchievementSnap
 			.pushText('  ')
 	}
 
-	builder
-		.pushText(legend)
-		.addHints({ uuid})
+	if(status === AchievementStatus.unlocked)
+		builder.pushStrong(legend)
+	else
+		builder.pushWeak(legend)
+
+	builder.addHints({ uuid})
 
 
 	return builder.done()
