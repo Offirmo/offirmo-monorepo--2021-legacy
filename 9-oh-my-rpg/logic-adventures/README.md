@@ -2,11 +2,30 @@
 ```
 {{encounter}}
 {{coin}}
-{{attr}}
-{{attr_name}}
-{{strength}}
-{{health}}
+{{item}}
+{{attr}} {{attr_name}}
+
 {{level}}
+{{health}}
 {{mana}}
+
+{{agility}}
+{{charisma}}
+{{luck}}
+{{strength}}
 {{wisdom}}
+
+coins gain:
+	'none',
+	'loss',
+	'small',
+	'medium',
+	'big',
+	'huge',
+	
+class_primary_attribute
+class_secondary_attribute
+armor_or_weapon_improvement
+armor_or_weapon
+
 ```

@@ -12,12 +12,13 @@ This file is just for taking notes for the next Reddit post.
 - TODO 😷 chore: ESLINT
 
 Next
-- 😍 feature: X new achievements (now totalling 18!)
-- 🤩 feature: X new adventures (now totalling 125!)
-- 😍 feature: X new backgrounds (now totalling 17!)
+- 😍 feature: X new achievements (now totalling X!)
+- 🤩 feature: X new adventures (now totalling X!)
+- 😍 feature: X new backgrounds (now totalling X!)
 
 
 2018/
+- 🤩 feature: 33 new adventures!! (now totalling 158!)
 - 😍 feature: 4 new backgrounds (now totalling 21!)
 
 

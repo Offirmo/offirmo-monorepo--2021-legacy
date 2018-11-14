@@ -7,16 +7,15 @@ function render_achievement_snapshot_short(achievement_snapshot) {
     const { uuid, icon, name, status } = achievement_snapshot;
     const builder = RichText.inline_fragment()
         .addClass('achievement', `achievement--${status}`);
-    let icon_text = '❔';
+    let icon_text = '';
     let legend = '???';
     switch (status) {
         case state_progress_1.AchievementStatus.secret:
             throw new Error(`Secret achievements should never make it there!`);
         case state_progress_1.AchievementStatus.hidden:
-            icon_text = '';
             break;
         case state_progress_1.AchievementStatus.revealed:
-            //icon_text = '❕'
+            icon_text = '❔';
             legend = name;
             break;
         case state_progress_1.AchievementStatus.unlocked:
@@ -31,9 +30,11 @@ function render_achievement_snapshot_short(achievement_snapshot) {
             .pushText(icon_text)
             .pushText('  ');
     }
-    builder
-        .pushText(legend)
-        .addHints({ uuid });
+    if (status === state_progress_1.AchievementStatus.unlocked)
+        builder.pushStrong(legend);
+    else
+        builder.pushWeak(legend);
+    builder.addHints({ uuid });
     return builder.done();
 }
 exports.render_achievement_snapshot_short = render_achievement_snapshot_short;

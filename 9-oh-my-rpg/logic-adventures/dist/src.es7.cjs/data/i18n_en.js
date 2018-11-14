@@ -98,6 +98,16 @@ You gain +{{level}} level!`,
     coffee: `You drink a cup of coffee. +{{wisdom}} wisdom!`,
     //socks: `You buy some socks. -gold`,
     gold_nugget: `You trip on a gold nugget: +{{coin}} gold!`,
+    //pileup: `You get into a 3 horse pileup: -{{coin}} gold!`,
+    //	You drink too much at the tavern, lose "x amount of" coins
+    magic_lamp: `You stumble upon a magic lamp! You gain +{{luck}} luck!`,
+    rabbit_hole: `You find out just how deep the rabbit hold goes. You gain +{{wisdom}} wisdom.`,
+    cat_out_tree: `You help a little girl get her cat out a tree. You gain +{{agility}} agility!`,
+    green_food: `You somehow survive eating green eggs and ham. You gain +{{health}} health!`,
+    //You try your luck at the wishing well. You lose 1 coin.
+    conscripted: `You are conscripted into the army, you gain +{{coin}} coins.`,
+    //Waylayed by brigands, -coins
+    duke_rescue: `You rescued a duke, you are rewarded +{{coin}} coins!`,
 };
 // from me, inferred and extended from the originals
 const OFFIRMO_MUSHROOMS_AND_MISC = {
@@ -128,11 +138,33 @@ You gained +{{attr}} {{attr_name}}!`,
 };
 const OFFIRMO_INSPIRED_FROM_RPG_MEMES_FROM_THE_NET = {
     // https://swordscomic.com/swords/VI/
+    demon_king: `
+You swear to defeat the demon king!{{br}}
+The local hero pledges you his sword... and leaves you with it!{{br}}
+Well, it's loot: {{item}}`,
     // https://swordscomic.com/swords/IX/
+    false_lake: `
+A hand holding a sword emerges from the lake:
+"take this blade and become the new king!"
+As you reach out, the lake monster emerges and try to devour you: it's a trap!{{br}}
+You defeat it and find good loot from previous victims: {{item}}, +{{coin}} coin.
+	`,
     // https://swordscomic.com/swords/XI/
+    soul_weapon_pet_zombie: `
+You attach a soul to your weapon (+1 enhancement) and keep the soul owner's body as a pet zombie.{{br}}
+The pet zombie's aura increases your regeneration: +{{health}} heath!
+	`,
     // https://swordscomic.com/swords/XII/
+    class_master_sharpest_weapon: `
+You ask your master: "What is the best weapon?".
+She answers: "The most lethal weapon is your mind!".{{br}}
+You're not convinced, so you train instead of meditating.
+You gain +{{attr}} {{attr_name}}!
+	`,
     // https://swordscomic.com/swords/XIII/
+    // racist towards dwarves TODO secret equipment door
     // https://swordscomic.com/swords/XVII/
+    // demon board games
     // electricbunnycomics.com
     good_necromancer: `
 You meet a child weeping over his dead hamster… Thanks to necromancy, you reanimate it as a hamster-zombie!
@@ -209,13 +241,14 @@ Most importantly, +{{strength}} strength for managing to control a pressing urge
     // https://www.instagram.com/p/BjnclTCAiEK/
     high_level_zone_1: `
 You accidentally wander into a high level zone.
-Unexpectedly, this is good training: +{{attr}} {{attr_name}}!
+Unexpectedly, this challenges your limits and proves to be a good training: +{{attr}} {{attr_name}}!
 	`,
-    /*high_level_zone_2: `
+    high_level_zone_2: `
 You accidentally wander into a high level zone.
 You quickly and horribly die after fleeing monsters for half an hour.
-What did you expect?
-    `,*/
+What did you expect?{{br}}
+You go back to training and gain +{{attr}} {{attr_name}}.
+	`,
     // https://starecat.com/the-witcher-looking-at-side-quest-meme/
     side_quests: `
 	You get distracted by side quests again!
@@ -247,6 +280,35 @@ Bards start writing songs about you.
 This fame helps you when dealing with humans.
 You gain +{{charisma}} charisma!
 `,
+    elementals: `
+You free some elementals. They reward you with a blessing suited to your class.
+You gain {{attr}} {{attr_name}}!`,
+    // you have superhuman luck
+    fabric_of_reality: `
+You battle mages to unravel the fabric of reality.
+You gain +{{mana}} {{mana}}!`,
+    // you destroy a few parallel worlds with cyborgs.
+    // you mine ore
+    // you craft some stuff
+    save_world_again: `
+You saved the world. Again. You are famous: +{{charisma}} charisma!{{br}}
+But honestly, you and me know you are doing it only for the loot ;)
+Indeed you gain a {{item}} and {{coin}} coins!`,
+    clean_wizard_tower: `
+You clean a mad wizard's tower.{{br}}
+You learn some of her magic: +{{mana}} mana!`,
+    explore_ruins: `
+You explore some ruins of an ancient civilisation the world.{{br}}
+You find a {{item}} and worth {{coin}} of coins!`,
+    inspect_sewers: `
+You inspect the city's sewers and clean the vermin.{{br}}
+You worth {{coin}} of coins and polish your skills: +{{attr}} {{attr_name}}!`,
+    explore_catacombs: `
+You explore the city's old catacombs and put the undeads to rest.{{br}}
+You find a {{item}} and worth {{coin}} of coins!`,
+    bandits_punishment: `
+You are attacked by bandits: They are in need of some punishment!.{{br}}
+You promptly dispense it and loot {{coin}} coins from them.`,
 };
 const OFFIRMO_INSPIRED_FROM_INSTAGRAM_POSTS = {
     // TODO https://www.instagram.com/travisjhanson/
@@ -264,8 +326,9 @@ beast
     // https://www.instagram.com/p/BoyqXBVhjSa/
     // archer skeleton
     // https://www.instagram.com/p/BkkgGyiH5X-/?saved-by=theboringrpg
-    xxx_magical_cooking: `
-	You try magical cooking but end up summoning Ragnaros 
+    magical_cooking_ragnaros: `
+You try magical cooking but end up summoning a tiny Ragnaros in your frying pan!{{br}}
+You keep this avatar as a pet. His aura gives you +{{strength}} strength!
 	`,
     // https://www.instagram.com/p/BorYMavBG3s/
     xxx_fancy_arrows: `
@@ -456,7 +519,7 @@ You gain extra energy (+{{health}} health) and a bit of weight!
     chilies: `
 At the adventuring guild party, you pickup a treat.
 Turns out it's made of magic chilies and you can't feel your face anymore!
-Once the pain is gone (one day later!) you feel better than ever, you gained +{{attr}} !
+Once the pain is gone (one day later!) you feel better than ever, you gained +{{attr}}!
 	`,
     // friend with the dark mage
     // twist on original
@@ -586,12 +649,34 @@ As usual, your class master is grumpy:
 "What's the use of improving only your main attribute? You need to improve your {{attr_name}} too! Focus on your weaknesses, to become stronger!"
 She gives you exercises. You gain +{{attr}} {{attr_name}}.
 		`,
-    // TODO sneak and forbidden knowledge
-    // coolidge
-    // persistence and determination win over talent, genius and skills
+    class_master_forbidden_knowledge: `
+You feel that your class master is not teaching you everything.
+You sneak into her room and read her forbidden scrolls.
+You gain +{{attr}} {{attr_name}}!
+		`,
+    class_master_dark_holocron: `
+You feel that your class master is not teaching you everything.
+You sneak into her room and find the holocron of a dead evil master.
+He happily teaches you in exchange of some "services". You gain +{{attr}} {{attr_name}}!
+		`,
+    class_master_coolidge: `
+Your class master implores you to meditate:
+"Persistence and determination win over talent, genius and skills!"{{br}}
+Persistence? Determination? She must be talking about levelling: You gain +{{level}} {{level}}!
+		`,
+    class_master_half_battle: `
+Your class master tries to instill some common sense:
+"Knowing is half the battle!"{{br}}
+She must means you need more experience. You spar against other classes and gain +{{attr}} {{attr_name}}!
+		`,
     church_book: `
-You visit a church for healing, and end up reading their books.
+You visit a church for healing and end up reading their magic books.
 You gain +{{attr}} mana!
+		`,
+    church_cellar_prisoner: `
+You visit a church for healing and check their cellar.
+Behind a secret door, a chained prisoner offers you power in exchange of his freedom.
+You gain +{{attr}} {{attr_name}}!
 		`,
     huge_tower: `
 You discover and explore a huge tower. It's filled with mad wizards, cultists and golems.
@@ -602,6 +687,15 @@ victorious and more experienced (+{{attr}} {{attr_name}})!
 You learnt necromancy (+{{mana}} mana). With your new skills, you assemble some living corpses from remains dug in the cemetery.{{br}}
 Your mom would be proud, she was always telling you to go and "make" friends!
 		`,
+    milk: `
+You drink a lot of milk! Your bones strengthen and your health increases!
+You gain +{{health}} health.
+	`,
+    clover: `You find a four-leaf clover. You gain +{{luck}} luck.`,
+    horseshoe: `You find a horseshoe. You gain +{{luck}} luck.`,
+    rabbit_foot: `
+You kill a rabbit, eat it and keep one of its foot as a good luck charm.
+You gain +{{luck}} luck.`,
     // future followers
     // Kloo the dryad druidess
     erika: `
@@ -614,13 +708,6 @@ Between two villages, you meet Rachel the washer wench.
 She competes with you in arm twisting, and win!
 Good exercise, +{{strength}} strength.
 		`,
-    milk: `
-You drink a lot of milk! Your bones strengthen and your health increases!
-You gain +{{health}} health.
-	`,
-    clover: `You find a four-leaf clover. You gain +{{luck}} luck.`,
-    horseshoe: `You find a horseshoe. You gain +{{luck}} luck.`,
-    rabbit_foot: `You kill a rabbit, eat it and keep one of its foot as a good luck charm. You gain +{{luck}} luck.`,
     // inspired by player
     ribert: `
 You meet Ribert, the head of the royal guards.{{br}}
@@ -662,20 +749,53 @@ Nice enhancement!
 You did well to help the kingdom.
 King Gallus welcomes you again in the throne room in front of all the court assembled.
 You are rewarded with weapons and honors: {{item}}, {{token}}...
-`
-    // red eyed unicorn throwing fire
-    // badger mushrooms
+`,
+    // pets
+    pet_squirrel: `
+Having spent so much time in the forest, you befriend and tame a squirrel.
+You keep it as a pet.
+His aura gives you +{{agility}} agility!
+	`,
+    pet_black_cat: `
+You befriend and tame a black cat.
+He now follows you as a pet.
+His aura gives you +{{luck}} luck!
+	`,
+    pet_rainbow_lorikeet: `
+In the paradise island, you befriend and tame a rainbow lorikeet.
+He now stays on your shoulder, that's quite a sight!
+This makes you popular: +{{charisma}} charisma!
+	`,
+    pet_red_eyed_unicorn: `
+You encounter a red eyed unicorn throwing fire from her mouth.
+She seems evil and acknowledges you.{{br}}
+You just won yourself an epic mount! And her aura gives you +{{mana}} mana!
+	`,
+    pet_badger_mushrooms: `
+You dance and sing "badger badger mushrooms mushrooms"{{br}}
+You must have eaten the wrong mushroom.{{br}}
+You wake up with a pet badger. His aura gives you +{{strength}} strength!
+`,
 };
 const OFFIRMO_BLAND_REPARTITION_ADJUSTMENT = {
     // we can change the target attribute to improve the distribution
     // food
     dragon_kebab: `
 You have the chance to taste the legendary dragon meat kebab!
-Through this magical food, you gain +{{attr}} !
+Through this magical food, you gain +{{attr}} {{attr_name}}!
 	`,
     elven_hydromel: `
 You have the chance to taste the legendary elven hydromel!
-Through this magical drink, you gain +{{attr}} !
+Through this magical drink, you gain +{{attr}} {{attr_name}}!
+	`,
+    random_blessing: `
+You helped a village. The village's elder grant you a blessing.
+She is very old and you are not very sure she knows what she's doing…
+You find that you gained +{{attr}} {{attr_name}}!
+	`,
+    guild_party_food: `
+At an adventuring guild party, you are drunk and pick something unidentified to eat.{{br}}
+Once you wake up (one day later!) you discover that you strangely gained +{{attr}}!
 	`,
     // potions
     // https://www.reddit.com/r/DnDBehindTheScreen/comments/4btnkc/random_potions_table/
@@ -695,6 +815,10 @@ Sparkling drink, gained +{{attr}} {{attr_name}}!`,
     found_bubbly_potion: `
 You find a bubbly potion.
 Soft drink, gained +{{attr}} {{attr_name}}!`,
+    found_worn_out_potion: `
+You find an old potion with an unreadable label.
+You try your luck and drink it.
+You gain +{{attr}} {{attr_name}}!`,
     // books
     found_journal: `
 You find the remains of an unlucky adventurer. She or he (you can't tell from the remains) kept a journal.
