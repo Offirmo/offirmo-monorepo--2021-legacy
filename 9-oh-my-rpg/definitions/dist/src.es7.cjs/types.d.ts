@@ -2,6 +2,7 @@ import { Enum } from 'typescript-string-enums';
 import { UUID } from '@offirmo/uuid';
 declare const ElementType: {
     item: "item";
+    achievement_snapshot: "achievement_snapshot";
     location: "location";
     lore: "lore";
 };
@@ -28,4 +29,8 @@ interface Item extends Element {
     slot: InventorySlot;
     quality: ItemQuality;
 }
-export { ElementType, Element, ItemQuality, InventorySlot, Item, };
+interface BaseState {
+    schema_version: number;
+    revision: number;
+}
+export { ElementType, Element, ItemQuality, InventorySlot, Item, BaseState, };

@@ -11,7 +11,7 @@ function get_engagement_message(state, pe) {
         case types_1.EngagementKey['hello_world--warning']:
             return RichText.block_fragment()
                 .pushText('[TEST] Hello, ')
-                .pushNode(RichText.span().pushText(params.name || 'world').done(), 'name')
+                .pushInlineFragment(params.name || 'world', { id: 'name' })
                 .pushText('!')
                 .done();
         case types_1.EngagementKey['tip--first_play']:
@@ -29,8 +29,14 @@ function get_engagement_message(state, pe) {
             return RichText.block_fragment()
                 .pushStrong('Code successfully redeemed.')
                 .done();
+        case types_1.EngagementKey['achievement-unlocked']:
+            return RichText.block_fragment()
+                .pushStrong(`🏆 Achievement unlocked:`)
+                .pushLineBreak()
+                .pushText(`“${params.icon} ${params.name}“`)
+                .done();
         default:
-            throw new Error(`No engagement message for "${key}"!`);
+            throw new Error(`TODO: No engagement message for "${key}"!`);
     }
 }
 exports.get_engagement_message = get_engagement_message;

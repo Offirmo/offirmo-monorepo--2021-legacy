@@ -33,7 +33,7 @@ function render_adventure(a, options = DEFAULT_RENDER_ITEM_OPTIONS) {
                 return;
             const $doc = render_item_short(gains[slot], options);
             $story_sub_elements.item = $doc;
-            $story_sub_elements.item_slot = RichText.span().pushText(slot).done();
+            $story_sub_elements.item_slot = RichText.inline_fragment().pushText(slot).done();
             $story_sub_elements[slot] = $doc;
             $loot_list.$sub[slot] = $doc;
             handled_adventure_outcomes_so_far.add(slot);
@@ -51,7 +51,7 @@ function render_adventure(a, options = DEFAULT_RENDER_ITEM_OPTIONS) {
             $listing_of_loot = RichText.block_fragment()
                 //.pushLineBreak()
                 .pushText('Loot:')
-                .pushNode($loot_list, 'list')
+                .pushNode($loot_list, { id: 'list' })
                 .done();
     })();
     (function render_character_improvement() {
@@ -60,13 +60,13 @@ function render_adventure(a, options = DEFAULT_RENDER_ITEM_OPTIONS) {
             //console.info('handling adventure outcome [c1]: ' + attr)
             if (!gains[attr])
                 return;
-            $story_sub_elements.attr_name = RichText.span().pushText(attr).done();
-            const $doc_attr_gain_value = RichText.span().pushText('' + gains[attr]).done();
+            $story_sub_elements.attr_name = RichText.inline_fragment().pushText(attr).done();
+            const $doc_attr_gain_value = RichText.inline_fragment().pushText('' + gains[attr]).done();
             $story_sub_elements.attr = $doc_attr_gain_value; // generic
             $story_sub_elements[attr] = $doc_attr_gain_value; // precise
             $improvement_list.$sub[attr] = attr === 'level'
-                ? RichText.span().pushText('🆙 You leveled up!').done()
-                : RichText.span().pushText(`You improved your ${attr} by ${gains[attr]}!`).done(); // TODO improve
+                ? RichText.inline_fragment().pushText('🆙 You leveled up!').done()
+                : RichText.inline_fragment().pushText(`You improved your ${attr} by ${gains[attr]}!`).done(); // TODO improve
             handled_adventure_outcomes_so_far.add(attr);
         });
         // TODO one day spells / skills
@@ -75,7 +75,7 @@ function render_adventure(a, options = DEFAULT_RENDER_ITEM_OPTIONS) {
             $listing_of_character_improvement = RichText.block_fragment()
                 //.pushLineBreak()
                 .pushText('Character improvement:')
-                .pushNode($improvement_list, 'list')
+                .pushNode($improvement_list, { id: 'list' })
                 .done();
     })();
     (function render_item_improvement() {
@@ -90,7 +90,7 @@ function render_adventure(a, options = DEFAULT_RENDER_ITEM_OPTIONS) {
             $listing_of_item_improvement = RichText.block_fragment()
                 //.pushLineBreak()
                 .pushText('Item improvement:')
-                .pushNode($improvement_list, 'list')
+                .pushNode($improvement_list, { id: 'list' })
                 .done();
     })();
     /////// Encounter ///////

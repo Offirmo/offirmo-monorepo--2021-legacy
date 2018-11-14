@@ -71,7 +71,7 @@ describe('🔠  view to @offirmo/rich-text-format - adventure', function () {
         });
         logic_adventures_1.ALL_BAD_ADVENTURE_ARCHETYPES
             .forEach(({ hid, good }, index) => {
-            describe(`🚫  adventure #${index} "${hid}"`, function () {
+            describe(`❎  adventure #${index} "${hid}"`, function () {
                 it('should be playable', () => {
                     let state = state_the_boring_rpg_1.create();
                     state = state_the_boring_rpg_1.play(state);

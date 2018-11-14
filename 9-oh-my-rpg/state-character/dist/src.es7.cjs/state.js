@@ -8,6 +8,8 @@ exports.CharacterAttribute = types_1.CharacterAttribute;
 exports.CharacterClass = types_1.CharacterClass;
 const sec_1 = require("./sec");
 /////////////////////
+const DEFAULT_AVATAR_NAME = '[anonymous]';
+exports.DEFAULT_AVATAR_NAME = DEFAULT_AVATAR_NAME;
 const CHARACTER_ATTRIBUTES = typescript_string_enums_1.Enum.keys(types_1.CharacterAttribute);
 exports.CHARACTER_ATTRIBUTES = CHARACTER_ATTRIBUTES;
 const CHARACTER_ATTRIBUTES_SORTED = [
@@ -33,7 +35,7 @@ function create(SEC) {
         return enforce_immutability({
             schema_version: consts_1.SCHEMA_VERSION,
             revision: 0,
-            name: '[anonymous]',
+            name: DEFAULT_AVATAR_NAME,
             klass: types_1.CharacterClass.novice,
             attributes: {
                 level: 1,

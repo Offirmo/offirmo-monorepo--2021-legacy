@@ -6,6 +6,7 @@ declare const EngagementKey: {
     "tip--first_play": "tip--first_play";
     "code_redemption--failed": "code_redemption--failed";
     "code_redemption--succeeded": "code_redemption--succeeded";
+    "achievement-unlocked": "achievement-unlocked";
 };
 declare type EngagementKey = Enum<typeof EngagementKey>;
 export { EngagementKey, };

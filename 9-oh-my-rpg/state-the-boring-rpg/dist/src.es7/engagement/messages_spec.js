@@ -9,6 +9,7 @@ describe('@oh-my-rpg/state-the-boring-rpg - engagement messages', function () {
         it('should suggest to play', () => {
             const state = create();
             const doc = get_engagement_message(state, {
+                uid: 0,
                 engagement: {
                     key: EngagementKey['tip--first_play'],
                     type: EngagementType.flow,

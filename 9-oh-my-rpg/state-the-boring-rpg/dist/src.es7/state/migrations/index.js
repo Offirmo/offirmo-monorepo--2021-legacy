@@ -9,6 +9,7 @@ import * as CodesState from '@oh-my-rpg/state-codes';
 import * as ProgressState from '@oh-my-rpg/state-progress';
 import { LIB, SCHEMA_VERSION } from '../../consts';
 import { create } from '../reducers/state';
+import { refresh_achievements } from '../reducers/achievements';
 import { get_lib_SEC } from '../../sec';
 /////////////////////
 function reset_and_salvage(legacy_state) {
@@ -90,6 +91,8 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
             sub_reducer_migrated.push('progress');
             if (sub_reducer_migrated.length !== SUB_REDUCERS_COUNT)
                 throw new Error('migrate_to_latest src (2) is outdated, please update!');
+            // TODO remove, migration
+            state = refresh_achievements(state);
             logger.info(`${LIB}: schema migration successful.`);
             SEC.fireAnalyticsEvent('schema migration.ended');
         }
@@ -109,7 +112,7 @@ function migrate_to_7(SEC, legacy_state, hints) {
         throw new Error('migrate_to_X src (3) is outdated, please update!');
     if (legacy_state.schema_version < 4)
         legacy_state = migrate_to_4(SEC, legacy_state, hints);
-    let state = Object.assign({}, legacy_state);
+    let state = Object.assign({}, legacy_state, { schema_version: 7 });
     // new entries
     if (!state.codes)
         state.codes = CodesState.create(SEC);

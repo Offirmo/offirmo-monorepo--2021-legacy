@@ -18,9 +18,15 @@ function get_recap(state) {
     }
     return RichText.block_fragment()
         .pushText('You are ')
-        .pushNode(RichText.span().addClass('avatar__name').pushText(state.avatar.name).done(), 'name')
+        .pushInlineFragment(state.avatar.name, {
+        id: 'name',
+        classes: ['avatar__name'],
+    })
         .pushText(', the ')
-        .pushNode(RichText.span().addClass('avatar__class').pushText(state.avatar.klass).done(), 'class')
+        .pushInlineFragment(state.avatar.klass, {
+        id: 'class',
+        classes: ['avatar__class'],
+    })
         .pushText(' from another world.{{br}}')
         .pushText('You are adventuring in the mysterious world of ')
         .pushStrong('Jaema')

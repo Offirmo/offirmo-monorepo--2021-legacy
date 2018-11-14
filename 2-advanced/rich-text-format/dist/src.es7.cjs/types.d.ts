@@ -2,6 +2,7 @@ import { Enum } from 'typescript-string-enums';
 declare const NodeType: {
     span: "span";
     strong: "strong";
+    weak: "weak";
     em: "em";
     heading: "heading";
     hr: "hr";

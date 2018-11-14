@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
 const definitions_1 = require("@oh-my-rpg/definitions");
 const state_inventory_1 = require("@oh-my-rpg/state-inventory");
 const state_energy_1 = require("@oh-my-rpg/state-energy");
@@ -7,6 +8,7 @@ const logic_shop_1 = require("@oh-my-rpg/logic-shop");
 const state_inventory_2 = require("@oh-my-rpg/state-inventory");
 const state_engagement_1 = require("@oh-my-rpg/state-engagement");
 const engagement_1 = require("../engagement");
+const achievements_1 = require("./achievements");
 /////////////////////
 function is_inventory_full(state) {
     return state_inventory_1.is_full(state.inventory);
@@ -52,7 +54,14 @@ function appraise_player_power(state) {
 exports.appraise_player_power = appraise_player_power;
 function find_element(state, uuid) {
     // only inventory for now
-    return get_item(state, uuid);
+    let possible_achievement = null;
+    try {
+        possible_achievement = achievements_1.get_achievement_snapshot_by_uuid(state, uuid);
+    }
+    catch (err) {
+        // not found, swallow
+    }
+    return possible_achievement || get_item(state, uuid);
 }
 exports.find_element = find_element;
 function find_better_unequipped_weapon(state) {
@@ -67,12 +76,13 @@ function find_better_unequipped_weapon(state) {
     return null;
 }
 exports.find_better_unequipped_weapon = find_better_unequipped_weapon;
+// TODO code duplication
 function get_oldest_pending_flow_engagement(state) {
     const pe = state_engagement_1.get_oldest_queued_flow(state.engagement);
     if (!pe)
         return null;
     return {
-        key: pe.engagement.key,
+        uid: pe.uid,
         $doc: engagement_1.get_engagement_message(state, pe),
         pe,
     };
@@ -83,11 +93,12 @@ function get_oldest_pending_non_flow_engagement(state) {
     if (!pe)
         return null;
     return {
-        key: pe.engagement.key,
+        uid: pe.uid,
         $doc: engagement_1.get_engagement_message(state, pe),
         pe,
     };
 }
 exports.get_oldest_pending_non_flow_engagement = get_oldest_pending_non_flow_engagement;
+tslib_1.__exportStar(require("./achievements"), exports);
 /////////////////////
 //# sourceMappingURL=index.js.map

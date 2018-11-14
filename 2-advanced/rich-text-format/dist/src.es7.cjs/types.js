@@ -5,7 +5,9 @@ const typescript_string_enums_1 = require("typescript-string-enums");
 const NodeType = typescript_string_enums_1.Enum(
 // https://stackoverflow.com/questions/9189810/css-display-inline-vs-inline-block
 // display "inline"
-'span', 'strong', 'em', 
+'span', // TODO remove?
+'strong', 'weak', // opposite of strong ;)
+'em', // TODO semantic difference with strong?
 // display "block"
 'heading', 'hr', 'ol', 'ul', 
 // special

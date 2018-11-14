@@ -67,8 +67,10 @@ describe('🔠  view to @offirmo/rich-text-format - inventory', function () {
                 inventory = state_inventory_1.add_item(inventory, logic_armors_1.generate_random_demo_armor());
                 inventory = state_inventory_1.remove_item_from_unslotted(inventory, inventory.unslotted[4].uuid);
                 const $doc = _1.render_backpack(inventory);
+                //console.log(prettify_json($doc))
                 const str = rich_text_to_ansi($doc);
                 // should just not throw
+                //console.log(str)
             });
         });
     });

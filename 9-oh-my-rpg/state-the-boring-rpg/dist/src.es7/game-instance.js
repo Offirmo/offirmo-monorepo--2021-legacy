@@ -77,9 +77,9 @@ function create_game_instance({ SEC, get_latest_state, persist_state, view_state
                     persist_state(state);
                     emitter.emit('state_change');
                 },
-                acknowledge_engagement_msg_seen(key) {
+                acknowledge_engagement_msg_seen(uid) {
                     let state = get_latest_state();
-                    state = state_fns.acknowledge_engagement_msg_seen(state, key);
+                    state = state_fns.acknowledge_engagement_msg_seen(state, uid);
                     persist_state(state);
                     emitter.emit('state_change');
                 },
@@ -119,6 +119,10 @@ function create_game_instance({ SEC, get_latest_state, persist_state, view_state
                     let state = get_latest_state();
                     return selectors.get_oldest_pending_non_flow_engagement(state);
                 },
+                get_achievements_snapshot() {
+                    let state = get_latest_state();
+                    return selectors.get_achievements_snapshot(state);
+                }
             },
             model: {
                 get_state: get_latest_state,

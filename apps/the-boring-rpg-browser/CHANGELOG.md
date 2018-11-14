@@ -12,9 +12,11 @@ This file is just for taking notes for the next Reddit post.
 - TODO 😷 chore: ESLINT
 
 Next
-- 😍 feature: 2 new background (now totalling 16!)
-- 🤩 feature: 3 new adventures (now totalling 118!)
-- 😍 achievements!!! (X so far)
+- 😍 achievements!!! (18 so far)
+- 🤩 feature: 7 new adventures (now totalling 125!)
+- 😍 feature: 1 new background (now totalling 17!)
+- 😷 chore: better rich text capabilities in messages
+- 😷 chore: better capabilities in notifications
 
 
 2018/11/06 v0.52.41

@@ -4,6 +4,7 @@ import { SCHEMA_VERSION } from './consts';
 import { CharacterAttribute, CharacterClass, } from './types';
 import { get_lib_SEC } from './sec';
 /////////////////////
+const DEFAULT_AVATAR_NAME = '[anonymous]';
 const CHARACTER_ATTRIBUTES = Enum.keys(CharacterAttribute);
 const CHARACTER_ATTRIBUTES_SORTED = [
     'level',
@@ -26,7 +27,7 @@ function create(SEC) {
         return enforce_immutability({
             schema_version: SCHEMA_VERSION,
             revision: 0,
-            name: '[anonymous]',
+            name: DEFAULT_AVATAR_NAME,
             klass: CharacterClass.novice,
             attributes: {
                 level: 1,
@@ -69,6 +70,6 @@ function increase_stat(SEC, state, stat, amount = 1) {
     });
 }
 /////////////////////
-export { CharacterAttribute, CharacterClass, CHARACTER_ATTRIBUTES, CHARACTER_ATTRIBUTES_SORTED, CHARACTER_CLASSES, create, rename, switch_class, increase_stat, };
+export { CharacterAttribute, CharacterClass, DEFAULT_AVATAR_NAME, CHARACTER_ATTRIBUTES, CHARACTER_ATTRIBUTES_SORTED, CHARACTER_CLASSES, create, rename, switch_class, increase_stat, };
 /////////////////////
 //# sourceMappingURL=state.js.map

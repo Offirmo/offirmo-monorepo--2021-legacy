@@ -1,5 +1,6 @@
 import { CharacterAttribute, CharacterClass, CharacterAttributes, State } from './types';
 import { SoftExecutionContext } from './sec';
+declare const DEFAULT_AVATAR_NAME = "[anonymous]";
 declare const CHARACTER_ATTRIBUTES: ("agility" | "health" | "level" | "luck" | "mana" | "strength" | "charisma" | "wisdom")[];
 declare const CHARACTER_ATTRIBUTES_SORTED: CharacterAttribute[];
 declare const CHARACTER_CLASSES: ("novice" | "warrior" | "barbarian" | "paladin" | "sculptor" | "pirate" | "ninja" | "rogue" | "wizard" | "hunter" | "druid" | "priest")[];
@@ -7,4 +8,4 @@ declare function create(SEC?: SoftExecutionContext): Readonly<State>;
 declare function rename(SEC: SoftExecutionContext, state: Readonly<State>, new_name: string): Readonly<State>;
 declare function switch_class(SEC: SoftExecutionContext, state: Readonly<State>, klass: CharacterClass): Readonly<State>;
 declare function increase_stat(SEC: SoftExecutionContext, state: Readonly<State>, stat: CharacterAttribute, amount?: number): Readonly<State>;
-export { CharacterAttribute, CharacterClass, CharacterAttributes, State, CHARACTER_ATTRIBUTES, CHARACTER_ATTRIBUTES_SORTED, CHARACTER_CLASSES, create, rename, switch_class, increase_stat, };
+export { CharacterAttribute, CharacterClass, CharacterAttributes, State, DEFAULT_AVATAR_NAME, CHARACTER_ATTRIBUTES, CHARACTER_ATTRIBUTES_SORTED, CHARACTER_CLASSES, create, rename, switch_class, increase_stat, };

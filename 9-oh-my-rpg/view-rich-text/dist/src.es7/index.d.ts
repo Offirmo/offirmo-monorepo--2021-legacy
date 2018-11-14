@@ -1,4 +1,5 @@
 export * from './types';
+export * from './achievements';
 export * from './adventure';
 export * from './attributes';
 export * from './inventory';

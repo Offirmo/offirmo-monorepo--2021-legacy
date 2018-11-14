@@ -5,6 +5,7 @@ import { appraise_value, appraise_power } from '@oh-my-rpg/logic-shop';
 import { get_item as _get_item, get_item_in_slot as _get_item_in_slot, } from '@oh-my-rpg/state-inventory';
 import { get_oldest_queued_flow, get_oldest_queued_non_flow, } from "@oh-my-rpg/state-engagement";
 import { get_engagement_message } from '../engagement';
+import { get_achievement_snapshot_by_uuid } from "./achievements";
 /////////////////////
 function is_inventory_full(state) {
     return is_full(state.inventory);
@@ -43,7 +44,14 @@ function appraise_player_power(state) {
 }
 function find_element(state, uuid) {
     // only inventory for now
-    return get_item(state, uuid);
+    let possible_achievement = null;
+    try {
+        possible_achievement = get_achievement_snapshot_by_uuid(state, uuid);
+    }
+    catch (err) {
+        // not found, swallow
+    }
+    return possible_achievement || get_item(state, uuid);
 }
 function find_better_unequipped_weapon(state) {
     // we take advantage of the fact that the inventory is auto-sorted
@@ -56,12 +64,13 @@ function find_better_unequipped_weapon(state) {
         return best_unequipped_weapon;
     return null;
 }
+// TODO code duplication
 function get_oldest_pending_flow_engagement(state) {
     const pe = get_oldest_queued_flow(state.engagement);
     if (!pe)
         return null;
     return {
-        key: pe.engagement.key,
+        uid: pe.uid,
         $doc: get_engagement_message(state, pe),
         pe,
     };
@@ -71,12 +80,13 @@ function get_oldest_pending_non_flow_engagement(state) {
     if (!pe)
         return null;
     return {
-        key: pe.engagement.key,
+        uid: pe.uid,
         $doc: get_engagement_message(state, pe),
         pe,
     };
 }
 /////////////////////
 export { get_energy_snapshot, is_inventory_full, get_item_in_slot, get_item, appraise_item_value, appraise_item_power, find_element, find_better_unequipped_weapon, appraise_player_power, get_oldest_pending_flow_engagement, get_oldest_pending_non_flow_engagement, };
+export * from './achievements';
 /////////////////////
 //# sourceMappingURL=index.js.map

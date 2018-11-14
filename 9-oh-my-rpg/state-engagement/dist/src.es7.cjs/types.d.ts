@@ -15,6 +15,7 @@ interface EngagementParams {
     [key: string]: any;
 }
 interface PendingEngagement {
+    uid: number;
     engagement: Engagement;
     params: EngagementParams;
 }

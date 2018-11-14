@@ -2,10 +2,10 @@ import * as RichText from '@offirmo/rich-text-format';
 import { CHARACTER_ATTRIBUTES_SORTED } from '@oh-my-rpg/state-character';
 function render_avatar(state) {
     // TODO refactor
-    const $doc_name = RichText.span().addClass('avatar__name').pushText(state.name).done();
-    const $doc_class = RichText.span().addClass('avatar__class').pushText(state.klass).done();
+    const $doc_name = RichText.inline_fragment().addClass('avatar__name').pushText(state.name).done();
+    const $doc_class = RichText.inline_fragment().addClass('avatar__class').pushText(state.klass).done();
     const $doc = RichText.block_fragment()
-        .pushNode(RichText.heading().pushText('Identity:').done(), 'header')
+        .pushHeading('Identity:', { id: 'header' })
         .pushNode(RichText.unordered_list()
         .pushKeyValue('name', $doc_name)
         .pushKeyValue('class', $doc_class)
@@ -25,15 +25,15 @@ function render_attributes(state) {
         $doc_list.$sub[`000${index}`.slice(-3)] = $doc_attr;
     });
     const $doc = RichText.block_fragment()
-        .pushNode(RichText.heading().pushText('Attributes:').done(), 'header')
-        .pushNode($doc_list, 'list')
+        .pushNode(RichText.heading().pushText('Attributes:').done(), { id: 'header' })
+        .pushNode($doc_list, { id: 'list' })
         .done();
     return $doc;
 }
 function render_character_sheet(state) {
     const $doc = RichText.block_fragment()
-        .pushNode(render_avatar(state), 'avatar')
-        .pushNode(render_attributes(state), 'attributes')
+        .pushNode(render_avatar(state), { id: 'avatar' })
+        .pushNode(render_attributes(state), { id: 'attributes' })
         .done();
     return $doc;
 }

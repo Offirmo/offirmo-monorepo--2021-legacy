@@ -43,8 +43,8 @@ const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
 	{
 		icon: '🦍',
 		name: 'Beta player',
-		description: 'You started playing during the beta or earlier.',
-		get_status: () => AchievementStatus.secret, // TODO beta
+		description: 'You played during the beta.',
+		get_status: () => AchievementStatus.revealed, // TODO beta
 	},
 
 	// main CTA
@@ -153,7 +153,7 @@ const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
 			: AchievementStatus.hidden,
 	},
 	{
-		icon: '😼',
+		icon: '🙀',
 		name: 'Oops!... I Did It Again',
 		description: 'Having played too soon for the 2nd time.',
 		get_status: (state: State) => state.progress.statistics.bad_play_count >= 2

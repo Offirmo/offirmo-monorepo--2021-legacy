@@ -30,6 +30,7 @@ const sec_1 = require("../../sec");
 const play_adventure_1 = require("./play/play_adventure");
 const play_good_1 = require("./play/play_good");
 const play_bad_1 = require("./play/play_bad");
+const achievements_1 = require("./achievements");
 /////////////////////
 function create(SEC) {
     return sec_1.get_lib_SEC(SEC).xTry('create', ({ enforce_immutability }) => {
@@ -67,6 +68,10 @@ function create(SEC) {
         });
         state = play_adventure_1.receive_item(state, starting_armor);
         state = equip_item(state, starting_armor.uuid);
+        state = achievements_1.refresh_achievements(state); // there are some initial achievements
+        // reset engagements that may have been created by noisy initial achievements
+        state = Object.assign({}, state, { engagement: Object.assign({}, state.engagement, { queue: [] }) });
+        // now insert some relevant start engagements
         state = Object.assign({}, state, { engagement: EngagementState.enqueue(state.engagement, {
                 type: EngagementState.EngagementType.flow,
                 key: engagement_1.EngagementKey['tip--first_play']
@@ -100,28 +105,28 @@ function play(state, explicit_adventure_archetype_hid) {
             active_class: state.avatar.klass,
         }), revision: state.revision + 1 });
     //console.log(state.progress)
-    return state;
+    return achievements_1.refresh_achievements(state);
 }
 exports.play = play;
 function equip_item(state, uuid) {
     state = Object.assign({}, state, { inventory: InventoryState.equip_item(state.inventory, uuid), revision: state.revision + 1 });
-    return state;
+    return achievements_1.refresh_achievements(state);
 }
 exports.equip_item = equip_item;
 function sell_item(state, uuid) {
     const price = selectors_1.appraise_item_value(state, uuid);
     state = Object.assign({}, state, { inventory: InventoryState.remove_item_from_unslotted(state.inventory, uuid), wallet: WalletState.add_amount(state.wallet, state_wallet_1.Currency.coin, price), revision: state.revision + 1 });
-    return state;
+    return achievements_1.refresh_achievements(state);
 }
 exports.sell_item = sell_item;
 function rename_avatar(state, new_name) {
     state = Object.assign({}, state, { avatar: state_character_1.rename(sec_1.get_lib_SEC(), state.avatar, new_name), revision: state.revision + 1 });
-    return state;
+    return achievements_1.refresh_achievements(state);
 }
 exports.rename_avatar = rename_avatar;
 function change_avatar_class(state, new_class) {
     state = Object.assign({}, state, { avatar: state_character_1.switch_class(sec_1.get_lib_SEC(), state.avatar, new_class), revision: state.revision + 1 });
-    return state;
+    return achievements_1.refresh_achievements(state);
 }
 exports.change_avatar_class = change_avatar_class;
 function attempt_to_redeem_code(state, code) {
@@ -152,13 +157,42 @@ function attempt_to_redeem_code(state, code) {
                         type: EngagementState.EngagementType.flow,
                         key: engagement_1.EngagementKey['hello_world--flow'],
                     }, {
+                        // TODO make flow have semantic levels as well!
                         name: 'flow from TESTNOTIFS',
                     }) });
                 state = Object.assign({}, state, { engagement: EngagementState.enqueue(state.engagement, {
                         type: EngagementState.EngagementType.aside,
                         key: engagement_1.EngagementKey['hello_world--aside'],
                     }, {
-                        name: 'aside from TESTNOTIFS',
+                        name: 'aside default from TESTNOTIFS',
+                    }) });
+                state = Object.assign({}, state, { engagement: EngagementState.enqueue(state.engagement, {
+                        type: EngagementState.EngagementType.aside,
+                        key: engagement_1.EngagementKey['hello_world--aside'],
+                    }, {
+                        semantic_level: 'error',
+                        name: 'aside error from TESTNOTIFS',
+                    }) });
+                state = Object.assign({}, state, { engagement: EngagementState.enqueue(state.engagement, {
+                        type: EngagementState.EngagementType.aside,
+                        key: engagement_1.EngagementKey['hello_world--aside'],
+                    }, {
+                        semantic_level: 'warning',
+                        name: 'aside warning from TESTNOTIFS',
+                    }) });
+                state = Object.assign({}, state, { engagement: EngagementState.enqueue(state.engagement, {
+                        type: EngagementState.EngagementType.aside,
+                        key: engagement_1.EngagementKey['hello_world--aside'],
+                    }, {
+                        semantic_level: 'info',
+                        name: 'aside info from TESTNOTIFS',
+                    }) });
+                state = Object.assign({}, state, { engagement: EngagementState.enqueue(state.engagement, {
+                        type: EngagementState.EngagementType.aside,
+                        key: engagement_1.EngagementKey['hello_world--aside'],
+                    }, {
+                        semantic_level: 'success',
+                        name: 'aside success from TESTNOTIFS',
                     }) });
                 state = Object.assign({}, state, { engagement: EngagementState.enqueue(state.engagement, {
                         type: EngagementState.EngagementType.warning,
@@ -166,6 +200,10 @@ function attempt_to_redeem_code(state, code) {
                     }, {
                         name: 'warning from TESTNOTIFS',
                     }) });
+                break;
+            case 'TESTACH':
+                // this will auto-re-gain this achievement
+                state = Object.assign({}, state, { progress: ProgressState.on_achieved(state.progress, 'TEST', ProgressState.AchievementStatus.revealed) });
                 break;
             case 'BORED':
                 state = Object.assign({}, state, { energy: EnergyState.restore_energy(state.energy, 1.) });
@@ -183,14 +221,14 @@ function attempt_to_redeem_code(state, code) {
                 throw new Error(`Internal error: code "${code}" not implemented!`);
         }
     }
-    return Object.assign({}, state, { engagement: EngagementState.enqueue(state.engagement, {
+    return achievements_1.refresh_achievements(Object.assign({}, state, { engagement: EngagementState.enqueue(state.engagement, {
             type: EngagementState.EngagementType.flow,
             key: engagement_key,
-        }, engagement_params), revision: state.revision + 1 });
+        }, engagement_params), revision: state.revision + 1 }));
 }
 exports.attempt_to_redeem_code = attempt_to_redeem_code;
-function acknowledge_engagement_msg_seen(state, key) {
-    return Object.assign({}, state, { engagement: EngagementState.acknowledge_seen(state.engagement, key), revision: state.revision + 1 });
+function acknowledge_engagement_msg_seen(state, uid) {
+    return Object.assign({}, state, { engagement: EngagementState.acknowledge_seen(state.engagement, uid), revision: state.revision + 1 });
 }
 exports.acknowledge_engagement_msg_seen = acknowledge_engagement_msg_seen;
 /////////////////////

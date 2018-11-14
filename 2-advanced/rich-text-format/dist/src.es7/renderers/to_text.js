@@ -31,6 +31,10 @@ const on_node_exit = ({ state, $node, depth }, { style }) => {
             case 'strong':
                 state.str = `**${state.str}**`;
                 break;
+            case 'weak':
+                // how?
+                // no change...
+                break;
             case 'em':
                 state.str = `_${state.str}_`;
                 break;

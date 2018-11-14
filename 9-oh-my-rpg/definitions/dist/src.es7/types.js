@@ -1,6 +1,8 @@
 import { Enum } from 'typescript-string-enums';
 /////////////////////
-const ElementType = Enum('item', 
+// An element is everything which can be interacted with and/or has a rich tooltip
+// ex. item, place, achievement, title...
+const ElementType = Enum('item', 'achievement_snapshot', 
 // TODO expand
 'location', 'lore');
 /////////////////////

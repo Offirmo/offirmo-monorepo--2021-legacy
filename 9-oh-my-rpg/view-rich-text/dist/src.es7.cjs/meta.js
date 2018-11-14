@@ -4,8 +4,8 @@ const tslib_1 = require("tslib");
 const RichText = tslib_1.__importStar(require("@offirmo/rich-text-format"));
 function render_meta_infos(metas) {
     const $doc_list = RichText.unordered_list();
-    Object.keys(metas).forEach((prop) => {
-        $doc_list.pushRawNode(RichText.span().pushText(prop + ': ' + metas[prop]).done(), prop);
+    Object.keys(metas).forEach((key) => {
+        $doc_list.pushRawNode(RichText.inline_fragment().pushText(key + ': ' + metas[key]).done(), { id: key });
     });
     return $doc_list.done();
 }
@@ -17,8 +17,8 @@ function render_account_info(m, extra = {}) {
     if (m.email) meta_infos['email'] = m.email
     */
     const $doc = RichText.block_fragment()
-        .pushNode(RichText.heading().pushText('Account infos:').done(), 'header')
-        .pushNode(render_meta_infos(meta_infos), 'list')
+        .pushHeading('Account infos:', { id: 'header' })
+        .pushNode(render_meta_infos(meta_infos), { id: 'list' })
         .done();
     return $doc;
 }

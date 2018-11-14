@@ -33,6 +33,10 @@ const TEST_CODES = {
             return true;
         },
     },
+    TESTACH: {
+        redeem_limit: null,
+        is_redeemable: () => true,
+    },
 };
 const RAW_CODES = Object.assign({ BORED: {
         redeem_limit: null,

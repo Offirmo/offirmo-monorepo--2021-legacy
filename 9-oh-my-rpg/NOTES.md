@@ -1,6 +1,7 @@
 
 https://fr.wikipedia.org/wiki/Si%C3%A8ge_(militaire)
 
+https://twitter.com/i/moments/1059210757869572096
 
 TODO
 make luck active

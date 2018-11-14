@@ -2,7 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const typescript_string_enums_1 = require("typescript-string-enums");
 /////////////////////
-const ElementType = typescript_string_enums_1.Enum('item', 
+// An element is everything which can be interacted with and/or has a rich tooltip
+// ex. item, place, achievement, title...
+const ElementType = typescript_string_enums_1.Enum('item', 'achievement_snapshot', 
 // TODO expand
 'location', 'lore');
 exports.ElementType = ElementType;

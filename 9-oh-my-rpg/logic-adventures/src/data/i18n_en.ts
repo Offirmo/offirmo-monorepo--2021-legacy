@@ -824,14 +824,23 @@ She competes with you in arm twisting, and win!
 Good exercise, +{{strength}} strength.
 		`,
 
+	milk: `
+You drink a lot of milk! Your bones strengthen and your health increases!
+You gain +{{health}} health.
+	`,
+
+	clover: `You find a four-leaf clover. You gain +{{luck}} luck.`,
+	horseshoe: `You find a horseshoe. You gain +{{luck}} luck.`,
+	rabbit_foot: `You kill a rabbit, eat it and keep one of its foot as a good luck charm. You gain +{{luck}} luck.`,
+
+	// inspired by player
 	ribert: `
 You meet Ribert, the head of the royal guards.{{br}}
 He is a seasoned warrior and agrees to spar with you.{{br}}
-Good exercise, you gain +{{strength}} strength.
+Good fighting exercise, you gain +{{attr}} {{attr_name}}.
 		`,
 
 	// Maluka the bardess
-	// Ribert the head of the guards
 	// King Gallus
 
 	// reginold the guard

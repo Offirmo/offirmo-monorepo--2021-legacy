@@ -14,13 +14,18 @@ function create($type) {
     };
     const builder = {
         addClass,
+        addHints,
         pushText,
-        pushStrong,
-        pushEmphasized,
         pushRawNode,
         pushNode,
-        pushLineBreak,
+        pushInlineFragment,
+        pushBlockFragment,
+        pushStrong,
+        pushWeak,
+        pushEmphasized,
+        pushHeading,
         pushHorizontalRule,
+        pushLineBreak,
         pushKeyValue,
         done,
     };
@@ -29,50 +34,75 @@ function create($type) {
         $node.$classes.push(...classes);
         return builder;
     }
+    function addHints(hints) {
+        $node.$hints = Object.assign({}, $node.$hints, hints);
+        return builder;
+    }
     function pushText(str) {
         $node.$content += str;
         return builder;
+    }
+    function _buildAndPush(builder, str, options = {}) {
+        options = Object.assign({ classes: [] }, options);
+        const node = builder
+            .pushText(str)
+            .addClass(...options.classes)
+            .done();
+        delete options.classes;
+        return pushNode(node, options);
     }
     // nothing is added in content
     // useful for
     // 1. lists
     // 2. manual stuff
-    function pushRawNode(node, id) {
-        id = id || ('000' + ++sub_id).slice(-4);
+    function pushRawNode(node, options = {}) {
+        const id = options.id || ('000' + ++sub_id).slice(-4);
         $node.$sub[id] = node;
+        if (options.classes)
+            $node.$classes.push(...options.classes);
         return builder;
     }
     // node ref is auto added into content
-    function pushNode(node, id) {
-        id = id || ('000' + ++sub_id).slice(-4);
+    function pushNode(node, options = {}) {
+        const id = options.id || ('000' + ++sub_id).slice(-4);
         $node.$content += `{{${id}}}`;
-        return pushRawNode(node, id);
+        return pushRawNode(node, Object.assign({}, options, { id }));
     }
-    function pushStrong(str, id) {
-        const node = strong()
-            .pushText(str)
-            .done();
-        return pushNode(node, id);
+    function pushInlineFragment(str, options) {
+        return _buildAndPush(inline_fragment(), str, options);
     }
-    function pushEmphasized(str, id) {
-        const node = emphasized()
-            .pushText(str)
-            .done();
-        return pushNode(node, id);
+    function pushBlockFragment(str, options) {
+        return _buildAndPush(block_fragment(), str, options);
     }
-    function pushLineBreak() {
-        $node.$content += '{{br}}';
-        return builder;
+    function pushStrong(str, options) {
+        return _buildAndPush(strong(), str, options);
+    }
+    function pushWeak(str, options) {
+        return _buildAndPush(weak(), str, options);
+    }
+    function pushEmphasized(str, options) {
+        return _buildAndPush(emphasized(), str, options);
+    }
+    function pushHeading(str, options) {
+        return _buildAndPush(heading(), str, options);
     }
     function pushHorizontalRule() {
         $node.$content += '{{hr}}';
         return builder;
     }
-    function pushKeyValue(key, value, id) {
+    function pushLineBreak() {
+        $node.$content += '{{br}}';
+        return builder;
+    }
+    function pushKeyValue(key, value, options = {}) {
         if ($node.$type !== types_1.NodeType.ol && $node.$type !== types_1.NodeType.ul)
             throw new Error(`${consts_1.LIB}: Key/value is intended to be used in a ol/ul only!`);
-        const kv_node = key_value(key, value).done();
-        return pushRawNode(kv_node, id);
+        options = Object.assign({ classes: [] }, options);
+        const kv_node = key_value(key, value)
+            .addClass(...options.classes)
+            .done();
+        delete options.classes;
+        return pushRawNode(kv_node, options);
     }
     function done() {
         return $node;
@@ -95,9 +125,15 @@ exports.heading = heading;
 function strong() {
     return create(types_1.NodeType.strong);
 }
+exports.strong = strong;
+function weak() {
+    return create(types_1.NodeType.weak);
+}
+exports.weak = weak;
 function emphasized() {
     return create(types_1.NodeType.em);
 }
+exports.emphasized = emphasized;
 function span() {
     return create(types_1.NodeType.span);
 }
@@ -118,9 +154,9 @@ function key_value(key, value) {
         ? span().pushText(value).done()
         : value;
     return inline_fragment()
-        .pushNode(key_node, 'key')
+        .pushNode(key_node, { id: 'key' })
         .pushText(': ')
-        .pushNode(value_node, 'value');
+        .pushNode(value_node, { id: 'value' });
 }
 exports.key_value = key_value;
 //# sourceMappingURL=builder.js.map

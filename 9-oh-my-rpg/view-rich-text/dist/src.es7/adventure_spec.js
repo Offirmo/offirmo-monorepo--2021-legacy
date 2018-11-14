@@ -69,7 +69,7 @@ describe('🔠  view to @offirmo/rich-text-format - adventure', function () {
         });
         ALL_BAD_ADVENTURE_ARCHETYPES
             .forEach(({ hid, good }, index) => {
-            describe(`🚫  adventure #${index} "${hid}"`, function () {
+            describe(`❎  adventure #${index} "${hid}"`, function () {
                 it('should be playable', () => {
                     let state = create();
                     state = play(state);

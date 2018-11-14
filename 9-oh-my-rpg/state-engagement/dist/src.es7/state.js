@@ -1,7 +1,6 @@
 /////////////////////
 import { SCHEMA_VERSION } from './consts';
 import { get_lib_SEC } from './sec';
-import { is_in_queue } from './selectors';
 /////////////////////
 function create(SEC) {
     return get_lib_SEC(SEC).xTry('create', ({ enforce_immutability }) => {
@@ -14,15 +13,13 @@ function create(SEC) {
 }
 /////////////////////
 function enqueue(state, engagement, params = {}) {
+    // Avoid duplication? Is it a bug?
     // TODO refine this concept
-    // ex. multiple level rises should be ok
-    // flow maybe
+    // ex. multiple level rises should be ok.
+    // ex. multiple new achievements
     // or maybe it's a bug if this happen?
-    if (is_in_queue(state, engagement.key)) {
-        throw new Error(`Engagement: attempting to queue duplicate "${engagement.key}"!`);
-        //return state
-    }
     const pending = {
+        uid: state.revision + 1,
         engagement,
         params,
     };
@@ -31,11 +28,12 @@ function enqueue(state, engagement, params = {}) {
             pending,
         ], revision: state.revision + 1 });
 }
-function acknowledge_seen(state, key) {
-    if (!is_in_queue(state, key)) {
-        throw new Error(`Engagement: acknowledging a non-queued engagement "${key}"!`);
+function acknowledge_seen(state, uid) {
+    const is_in_queue = state.queue.some(queued => queued.uid === uid);
+    if (!is_in_queue) {
+        throw new Error(`Engagement: acknowledging a non-queued engagement "${uid}"!`);
     }
-    return Object.assign({}, state, { queue: state.queue.filter(queued => queued.engagement.key !== key), revision: state.revision + 1 });
+    return Object.assign({}, state, { queue: state.queue.filter(queued => queued.uid !== uid), revision: state.revision + 1 });
 }
 /////////////////////
 export { create, enqueue, acknowledge_seen, };

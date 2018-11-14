@@ -14,18 +14,18 @@ function render_equipment(inventory, options) {
         const item = get_item_in_slot(inventory, slot);
         const $doc_item = item
             ? render_item_short(item, options)
-            : RichText.span().pushText('-').done();
+            : RichText.inline_fragment().pushText('-').done();
         //const $doc_line = RichText.key_value(slot, $doc_item).done()
         const $doc_line = RichText.inline_fragment()
             .pushText(slot)
             .pushText(': ')
-            .pushNode($doc_item, 'item')
+            .pushNode($doc_item, { id: 'item' })
             .done();
         $doc_list.$sub[`000${ITEM_SLOTS_TO_INT[slot]}`.slice(-3)] = $doc_line;
     });
     const $doc = RichText.block_fragment()
-        .pushNode(RichText.heading().pushText('Active equipment:').done(), 'header')
-        .pushNode($doc_list, 'list')
+        .pushNode(RichText.heading().pushText('Active equipment:').done(), { id: 'header' })
+        .pushNode($doc_list, { id: 'list' })
         .done();
     return $doc;
 }
@@ -34,15 +34,11 @@ function render_equipment(inventory, options) {
 function render_backpack(inventory, options) {
     const builder = RichText.ordered_list()
         .addClass('inventory--backpack');
-    const misc_items = Array
-        .from(iterables_unslotted(inventory))
+    const misc_items = Array.from(iterables_unslotted(inventory))
         .filter(i => !!i);
+    const item_count = misc_items.length;
     const reference_powers = {};
-    let item_count = 0;
-    misc_items.forEach((i, index) => {
-        if (!i)
-            return;
-        item_count++;
+    misc_items.forEach((i) => {
         if (!reference_powers[i.slot]) {
             const item = get_item_in_slot(inventory, i.slot);
             reference_powers[i.slot] = item ? appraise_power(item) : 0;
@@ -53,19 +49,19 @@ function render_backpack(inventory, options) {
     if (Object.keys($doc_list.$sub).length === 0) {
         // completely empty
         $doc_list.$type = RichText.NodeType.ul;
-        $doc_list.$sub['-'] = RichText.span().pushText('(empty)').done();
+        $doc_list.$sub['-'] = RichText.inline_fragment().pushText('(empty)').done();
     }
     const $doc = RichText.block_fragment()
-        .pushNode(RichText.heading().pushText(`Backpack: (${item_count}/${inventory.unslotted_capacity})`).done(), 'header')
-        .pushNode($doc_list, 'list')
+        .pushNode(RichText.heading().pushText(`Backpack: (${item_count}/${inventory.unslotted_capacity})`).done(), { id: 'header' })
+        .pushNode($doc_list, { id: 'list' })
         .done();
     return $doc;
 }
 function render_full_inventory(inventory, wallet, options = DEFAULT_RENDER_ITEM_OPTIONS) {
     const $doc = RichText.block_fragment()
-        .pushNode(render_equipment(inventory, options), 'equipped')
-        .pushNode(render_wallet(wallet), 'wallet')
-        .pushNode(render_backpack(inventory, options), 'backpack')
+        .pushNode(render_equipment(inventory, options), { id: 'equipped' })
+        .pushNode(render_wallet(wallet), { id: 'wallet' })
+        .pushNode(render_backpack(inventory, options), { id: 'backpack' })
         .done();
     //console.log(JSON.stringify($doc, null, 2))
     return $doc;

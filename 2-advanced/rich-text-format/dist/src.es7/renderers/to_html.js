@@ -38,6 +38,10 @@ const on_node_exit = ({ state, $node, depth }) => {
         case 'span':
             is_inline = true;
             break;
+        case 'weak':
+            classes.push('o⋄color⁚secondary');
+            is_inline = true;
+            break;
         case 'inline_fragment':
             classes.push('o⋄rich-text⋄inline');
             break;
