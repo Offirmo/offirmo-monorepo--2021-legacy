@@ -1,8 +1,8 @@
 {
-	"name": "@offirmo/unicode-data",
+	"name": "@offirmo/unicode-magic",
 	"version": "0.0.1",
 	"private": true,
-	"description": "Unicode static data featuring tags, ex. monster",
+	"description": "Unicode magic!",
 	"main": "dist/src.es7.cjs/index.js",
 	"typings": "dist/src.es7.cjs/index.js",
 	"author": "Offirmo <offirmo.net@gmail.com>",
@@ -20,6 +20,7 @@
 		"build:dev:watch": "node ../../scripts/build-typescript.js --watch",
 		"build:prod": "node ../../scripts/build-typescript.js",
 
+		"demo": "node ./doc/demo.js",
 		"dev": "run-s clean build:dev:watch",
 		"build": "run-s clean build:prod"
 	}
