@@ -63,7 +63,6 @@ const on_node_exit: WalkerReducer<State, OnNodeExitParams<State>, Options> = ({s
 	switch($type) {
 		case 'strong':
 		case 'em':
-		case 'span':
 			is_inline = true
 			break
 		case 'weak':
@@ -71,7 +70,8 @@ const on_node_exit: WalkerReducer<State, OnNodeExitParams<State>, Options> = ({s
 			is_inline = true
 			break
 		case 'inline_fragment':
-			classes.push('o⋄rich-text⋄inline')
+			//classes.push('o⋄rich-text⋄inline')
+			is_inline = true
 			break
 		default:
 			break
@@ -102,7 +102,7 @@ const on_node_exit: WalkerReducer<State, OnNodeExitParams<State>, Options> = ({s
 		if (is_KVP_list($node)) {
 			classes.push('o⋄rich-text⋄list--no-bullet')
 			// TODO rewrite completely
-			//console.log(`${LIB} TODO KVP`)
+			console.warn(`${LIB} TODO KVP`)
 		}
 	}
 

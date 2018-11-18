@@ -12,7 +12,7 @@ const WIDTH_COMPENSATION = ' '
 function apply_type($type, str) {
 	switch($type) {
 		case 'li':
-		case 'span':
+		case 'inline_fragment':
 		case 'section':
 			// nothing to do for those one
 			return str

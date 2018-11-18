@@ -62,14 +62,8 @@ interface WalkerCallbacks<State, RenderingOptions> {
 	on_class_after: WalkerReducer<State, OnClassParams<State>, RenderingOptions>,
 	on_type: WalkerReducer<State, OnTypeParams<State>, RenderingOptions>,
 
-	on_type_span?: WalkerReducer<State, OnTypeParams<State>, RenderingOptions>,
-	on_type_strong?: WalkerReducer<State, OnTypeParams<State>, RenderingOptions>,
-	on_type_em?: WalkerReducer<State, OnTypeParams<State>, RenderingOptions>,
-	on_type_heading?: WalkerReducer<State, OnTypeParams<State>, RenderingOptions>,
+	// two specials
 	on_type_hr?: WalkerReducer<State, OnTypeParams<State>, RenderingOptions>,
-	on_type_ol?: WalkerReducer<State, OnTypeParams<State>, RenderingOptions>,
-	on_type_ul?: WalkerReducer<State, OnTypeParams<State>, RenderingOptions>,
-	on_type_li?: WalkerReducer<State, OnTypeParams<State>, RenderingOptions>,
 	on_type_br?: WalkerReducer<State, OnTypeParams<State>, RenderingOptions>,
 
 	// hard to express but allowed
@@ -191,7 +185,9 @@ function walk_content<State, RenderingOptions>(
 			sub_state,
 		)
 
-		// TODO detect unused $subnodes?
+		// Should we detect unused $subnodes?
+		// NO it's convenient (ex. Oh-my-rpg) to over-set subnodes
+		// and set a content which may or may not use them.
 
 		state = callbacks.on_concatenate_sub_node({
 			sub_state,
@@ -228,7 +224,6 @@ function walk<State, RenderingOptions>(
 		depth = 0,
 	}: {
 	$parent_node?: CheckedNode,
-	//$parent_state?: State, TODO ?
 	$id?: string,
 	depth?: number,
 	} = {},

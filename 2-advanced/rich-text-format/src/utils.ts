@@ -10,7 +10,7 @@ import {
 function normalize_node($raw_node: Readonly<Node>): CheckedNode {
 	const {
 		$v = 1,
-		$type = NodeType.span,
+		$type = NodeType.inline_fragment,
 		$classes = [],
 		$content = '',
 		$sub = {},

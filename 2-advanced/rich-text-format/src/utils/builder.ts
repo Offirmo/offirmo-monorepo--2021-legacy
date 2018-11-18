@@ -24,7 +24,6 @@ interface Builder {
 	pushBlockFragment(str: string, options?: CommonOptions): Builder
 	pushStrong(str: string, options?: CommonOptions): Builder
 	pushWeak(str: string, options?: CommonOptions): Builder
-	pushEmphasized(str: string, options?: CommonOptions): Builder
 	pushHeading(str: string, options?: CommonOptions): Builder
 	pushHorizontalRule(): Builder
 	pushLineBreak(): Builder
@@ -59,7 +58,6 @@ function create($type: NodeType): Builder {
 		pushBlockFragment,
 		pushStrong,
 		pushWeak,
-		pushEmphasized,
 		pushHeading,
 		pushHorizontalRule,
 		pushLineBreak,
@@ -139,10 +137,6 @@ function create($type: NodeType): Builder {
 		return _buildAndPush(weak(), str, options)
 	}
 
-	function pushEmphasized(str: string, options?: CommonOptions): Builder {
-		return _buildAndPush(emphasized(), str, options)
-	}
-
 	function pushHeading(str: string, options?: CommonOptions): Builder {
 		return _buildAndPush(heading(), str, options)
 	}
@@ -199,14 +193,6 @@ function weak(): Builder {
 	return create(NodeType.weak)
 }
 
-function emphasized(): Builder {
-	return create(NodeType.em)
-}
-
-function span(): Builder {
-	return create(NodeType.span)
-}
-
 function ordered_list(): Builder {
 	return create(NodeType.ol)
 }
@@ -217,11 +203,11 @@ function unordered_list(): Builder {
 
 function key_value(key: Node | string, value: Node | string): Builder {
 	const key_node: Node = typeof key === 'string'
-		? span().pushText(key).done()
+		? inline_fragment().pushText(key).done()
 		: key
 
 	const value_node: Node = typeof value === 'string'
-		? span().pushText(value).done()
+		? inline_fragment().pushText(value).done()
 		: value
 
 	return inline_fragment()
@@ -242,8 +228,6 @@ export {
 	heading,
 	strong,
 	weak,
-	emphasized,
-	span,
 	ordered_list,
 	unordered_list,
 	key_value,
