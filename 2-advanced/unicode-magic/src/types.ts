@@ -3,11 +3,10 @@ import { Enum } from 'typescript-string-enums'
 
 // tslint:disable-next-line: variable-name
 const Gender = Enum(
-	'undef',
 	'unknown',
-	'neutral',
 	'male',
 	'female',
+	'neutral',
 )
 type Gender = Enum<typeof Gender> // eslint-disable-line no-redeclare
 
@@ -59,7 +58,6 @@ const Feature = Enum(
 	'prince',
 	'princess',
 	'mage',
-
 	// TODO more
 )
 type Feature = Enum<typeof Feature> // eslint-disable-line no-redeclare

@@ -1,3 +1,5 @@
+import { Enum } from 'typescript-string-enums'
+
 import {
 	GENDER_MALE,
 	GENDER_FEMALE,
@@ -10,12 +12,13 @@ import {
 
 
 const GENDER_TO_UNICODE = {
-	[Gender.undef]: '',
 	[Gender.unknown]: '',
-	[Gender.neutral]: '',
 	[Gender.male]: GENDER_MALE,
 	[Gender.female]: GENDER_FEMALE,
+	[Gender.neutral]: '',
 }
+if (Object.keys(GENDER_TO_UNICODE).length !== Enum.keys(Gender).length)
+	throw new Error('GENDER_TO_UNICODE is not up to date!')
 
 const SKIN_TONE_TO_UNICODE = {
 	[SkinTone.unknown]: '',
@@ -31,6 +34,8 @@ const SKIN_TONE_TO_UNICODE = {
 	[SkinTone.brown]: '🏾',
 	[SkinTone.dark_brown]: '🏿',
 }
+if (Object.keys(SKIN_TONE_TO_UNICODE).length !== Enum.keys(SkinTone).length)
+	throw new Error('SKIN_TONE_TO_UNICODE is not up to date!')
 
 export {
 	GENDER_TO_UNICODE,

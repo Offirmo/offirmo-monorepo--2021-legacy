@@ -87,14 +87,12 @@ function render(spec: AvatarSpec): [ string, Message[] ] {
 	}
 
 	if (!is_skin_tone_applied) {
-		if (SKIN_TONE_TO_UNICODE[skin_tone])
-			result = result + SKIN_TONE_TO_UNICODE[skin_tone]
+		result = add_skin_tone(result, skin_tone)
 		is_skin_tone_applied = true
 	}
 
 	if (!is_gender_applied) {
-		if (GENDER_TO_UNICODE[gender])
-			result = result + ZERO_WIDTH_JOINER + GENDER_TO_UNICODE[gender]
+		result = add_gender(result, gender)
 		is_gender_applied = true
 	}
 
@@ -102,8 +100,25 @@ function render(spec: AvatarSpec): [ string, Message[] ] {
 	return [ result, notes ]
 }
 
+
+function add_skin_tone(base: string, skin_tone: SkinTone): string {
+	if (SKIN_TONE_TO_UNICODE[skin_tone])
+		return base + SKIN_TONE_TO_UNICODE[skin_tone]
+	return base
+}
+
+function add_gender(base: string, gender: Gender): string {
+	if (GENDER_TO_UNICODE[gender])
+		return base + ZERO_WIDTH_JOINER + GENDER_TO_UNICODE[gender]
+	return base
+}
+
 export {
 	AvatarSpec,
 	Message,
+
+	add_skin_tone,
+	add_gender,
+
 	render,
 }
