@@ -6,7 +6,6 @@ const { to_text_callbacks, to_text, Enum, NodeType, walk, is_list, is_uuid_list,
 
 const LIB = 'rich_text_to_ansi'
 
-// TODO handle fixed width?
 // TODO handle boxification ? (needed?)
 
 // TODO use unicode database
@@ -35,7 +34,7 @@ function on_type({ $type, $parent_node, state, $node, depth }, options) {
 	return state
 }
 
-// TODO remove and put somewhere else
+// TODO remove and put somewhere else? (extensible)
 function on_class_after({ $class, state, $node, depth }, options) {
 	//console.log(`${LIB} on_class_after()`)
 	const { $hints } = $node

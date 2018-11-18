@@ -52,7 +52,7 @@ interface State {
 	name: string
 	klass: CharacterClass
 	attributes: CharacterAttributes
-	// TODO inventory here ?
+	// TODO equipped inventory here ?
 }
 
 /////////////////////

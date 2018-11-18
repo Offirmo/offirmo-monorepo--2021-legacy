@@ -23,8 +23,6 @@ const cli = meow(`build`, {
 
 const PKG_PATH = process.cwd()
 const DIST_DIR = path.join(PKG_PATH, 'dist')
-const SRC  = path.join(PKG_PATH, 'src') + '/**/*.ts'
-
 const PKG_JSON = require(path.join(PKG_PATH, 'package.json'))
 const PKG_NAME = PKG_JSON.name
 

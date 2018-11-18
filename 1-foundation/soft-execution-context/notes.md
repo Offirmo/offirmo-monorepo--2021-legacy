@@ -65,10 +65,8 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects
 https://www.npmjs.com/package/universal-analytics
 
 
-TODO SEC:
-* "lib" mode with a default context
-* stoppable
-* logger https://github.com/ianstormtaylor/browser-logger
+* TODO stoppable
+* TODO logger ? https://github.com/ianstormtaylor/browser-logger
 
 
 "logical stack trace" vs. "technical stack trace"

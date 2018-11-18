@@ -2,6 +2,7 @@ import { Enum } from 'typescript-string-enums'
 
 /////////////////////
 
+// TODO needed?
 interface State {
 	schema_version: number
 	revision: number

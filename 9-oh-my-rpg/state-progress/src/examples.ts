@@ -15,7 +15,24 @@ const DEMO_STATE: State = deepFreeze({
 	wiki: null,
 	flags: null,
 	achievements: {
-		// TODO
+		"TEST": "unlocked",
+		"Summoned": "unlocked",
+		"Alpha player": "unlocked",
+		"Beta player": "revealed",
+		"I am bored": "unlocked",
+		"Turn it up to eleven": "unlocked",
+		"I am dead bored": "revealed",
+		"did I mention I was bored?": "hidden",
+		"king of boredom": "hidden",
+		"No-life except for boredom": "hidden",
+		"Hello darkness my old friend": "revealed",
+		"What’s in a name?": "unlocked",
+		"Graduated": "unlocked",
+		"I am very bored": "unlocked",
+		"Sorry my hand slipped": "unlocked",
+		"Oops!... I Did It Again": "unlocked",
+		"I’m not that innocent": "unlocked",
+		"It’s good to be bad": "unlocked",
 	},
 
 	statistics: {

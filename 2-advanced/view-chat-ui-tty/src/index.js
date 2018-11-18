@@ -97,9 +97,6 @@ function create({DEBUG, shouldCenter}) {
 		state.keypress_callback(key_pressed)
 	})
 	rli.prompt()
-	// TODO
-	// global exit key
-
 
 	function decorate_choices_with_key(step) {
 		// init
@@ -389,7 +386,6 @@ function create({DEBUG, shouldCenter}) {
 			}
 			else {
 				answer = choice.value
-				// TODO display here ?
 				await display_message({
 					msg: (choice.msgg_as_user || step.msgg_as_user || (() => choice.msg_cta))(answer),
 					// () => choice.msg_cta

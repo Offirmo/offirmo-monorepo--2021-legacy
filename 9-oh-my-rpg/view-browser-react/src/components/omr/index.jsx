@@ -93,7 +93,7 @@ Main.defaultProps = {
 	immersionSlides: [],
 	bottomMenuItems: [],
 	aboutContent: <span>This game was made by [x]...</span>,
-	burgerPanelContent: <span>TODO put some settings here</span>
+	burgerPanelContent: <span>put some settings here</span>
 }
 
 export default Main

@@ -46,5 +46,3 @@ demo({DOC_DEMO_BASE_TYPES})
 
 // TODO actions
 // TODO links
-// TODO micro-format clickables?
-// TODO uuid

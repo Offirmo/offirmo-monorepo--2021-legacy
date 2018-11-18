@@ -11,7 +11,7 @@ function listenToErrors() {
 	const SEC = getRootSEC()
 
 	window.onerror = function (msg, url, line, colno, err) {
-		console.log('DEBUG', arguments) // TODO analyze
+		console.log('DEBUG', arguments)
 		err = err || new Error(`Error "${msg}" from "${url}", line ${line}!`)
 
 		SEC._handleError({
@@ -34,7 +34,7 @@ function listenToErrorEvents() {
 
 		window.addEventListener('error', function(evt) {
 			// https://developer.mozilla.org/en-US/docs/Web/API/ErrorEvent
-			//console.log('DEBUG SEC browser debug: error event', arguments) // TODO analyze
+			//console.log('DEBUG SEC browser debug: error event', arguments)
 			const err = (evt && evt.message === 'Script error.')
 				? new Error('Error from another origin!')
 				: evt.error || new Error(`Error "${evt.message}" from "${evt.filename}", line ${evt.lineno}.${evt.colno}!`)
@@ -63,7 +63,7 @@ function listenToUnhandledRejections() {
 		//window.onunhandledrejection = function(evt) {
 		window.addEventListener('unhandledrejection', function(evt) {
 			// https://developer.mozilla.org/en-US/docs/Web/API/PromiseRejectionEvent
-			//console.log('DEBUG SEC browser debug: onunhandledrejection', arguments) // TODO analyze
+			//console.log('DEBUG SEC browser debug: onunhandledrejection', arguments)
 			const err = evt.reason || new Error('Error: uncaught promise rejection!')
 
 			SEC._handleError({
@@ -89,11 +89,8 @@ function decorateWithDetectedEnv(SEC) {
 		IS_VERBOSE,
 	})
 
-	// TODO maybe SESSION_START_TIME from timer
-
 	const details = {
 		DEVICE_UUID: ensureDeviceUUID(),
-		// TODO unicode support?
 		// TODO normalize browser/os detection!
 		OS_NAME: bowser.osname,
 		OS_RELEASE: bowser.osversion,
@@ -113,7 +110,6 @@ function decorateWithDetectedEnv(SEC) {
 
 	SEC.setAnalyticsAndErrorDetails(details)
 }
-
 
 export {
 	listenToErrorEvents,

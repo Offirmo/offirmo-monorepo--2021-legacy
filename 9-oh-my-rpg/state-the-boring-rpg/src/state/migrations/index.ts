@@ -34,7 +34,8 @@ function reset_and_salvage(legacy_state: any): State {
 		}
 
 		// TODO salvage creation date as well?
-		// TODO auto-replay as much?
+		// TODO salvage class
+		// TODO salvage by auto-replay as much?
 
 		console.info(`${LIB}: salvaged some savegame data.`)
 	}
@@ -83,6 +84,7 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: 
 		// 2nd part (can re-reset...)
 		try {
 			// TODO migrate adventures
+			// TODO migrate items
 
 			// migrate sub-reducers if any...
 			state = { ...state }
@@ -113,7 +115,7 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: 
 			if (sub_reducer_migrated.length !== SUB_REDUCERS_COUNT)
 				throw new Error('migrate_to_latest src (2) is outdated, please update!')
 
-			// TODO remove, migration
+			// TODO remove, temp migration
 			state = refresh_achievements(state)
 
 			logger.info(`${LIB}: schema migration successful.`)

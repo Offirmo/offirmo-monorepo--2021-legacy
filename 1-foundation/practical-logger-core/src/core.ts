@@ -95,7 +95,7 @@ function createLogger({
 		}
 	}
 
-	// TODO check
+	// TODO child
 	/*
 	function child({name, level, details}: Partial<LogParams>): Logger {
 		return createChildLogger({

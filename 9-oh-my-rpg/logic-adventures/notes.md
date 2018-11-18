@@ -14,13 +14,6 @@ Stories
 
 "Whip it" sentences, don't worry / be happy
 
-		_unicorns: {
-			// TODO
-		},
-		_black_mage_again: {
-			// TODO
-		}
-
 https://ifcomp.org/comp/2017
 
 free adventures

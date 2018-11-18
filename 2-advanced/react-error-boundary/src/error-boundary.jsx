@@ -52,7 +52,7 @@ class ErrorBoundary extends React.Component {
 				isMounted: this.mounted,
 			})
 			SEC.fireAnalyticsEvent('react.error-boundary.triggered', {
-				err: error, // XXX TODO
+				err: error,
 				isMounted: this.mounted,
 			})
 

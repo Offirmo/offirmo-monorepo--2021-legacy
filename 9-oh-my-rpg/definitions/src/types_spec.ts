@@ -17,7 +17,6 @@ const state: State = {
 
 	wiki: null,
 
-
 	achievements: { foo: ElementType.item },
 
 	statistics: {

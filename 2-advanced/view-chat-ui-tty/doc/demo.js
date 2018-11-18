@@ -11,11 +11,11 @@ const DEBUG = false
 
 const no_ui = {
 	setup: async () => {},
-	display_message: async () => { throw new Error('TODO display_message') },
-	read_answer: async () => { throw new Error('TODO read_answer') },
-	spin_until_resolution: async () => { throw new Error('TODO spin_until_resolution') },
-	pretend_to_think: async () => { throw new Error('TODO pretend_to_think') },
-	display_progress: async () => { throw new Error('TODO display_progress') },
+	display_message: async () => { throw new Error('NO UI display_message') },
+	read_answer: async () => { throw new Error('NO UI read_answer') },
+	spin_until_resolution: async () => { throw new Error('NO UI spin_until_resolution') },
+	pretend_to_think: async () => { throw new Error('NO UI pretend_to_think') },
+	display_progress: async () => { throw new Error('NO UI display_progress') },
 	teardown: async () => {},
 }
 

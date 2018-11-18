@@ -14,7 +14,6 @@ function create({SEC} = {}) {
 	instance_count++
 	SEC = get_lib_SEC(SEC)
 
-	// TODO add an id?
 	return SEC.xTryCatch(`instantiating#${instance_count}`, ({logger, ENV}) => {
 		logger.trace(`instantiating#${instance_count}`, {ENV})
 

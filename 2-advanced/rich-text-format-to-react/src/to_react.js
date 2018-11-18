@@ -120,13 +120,15 @@ export function intermediate_on_node_exit({$node, $id, state}, options) {
 			children
 		)
 	else if (!Enum.isType(NodeType, $type))
+		console.error(`Unknown node type "${$type}"!`)
+		// TODO throw instead??
 		result.wrapper = children => React.createElement(
 			'div',
 			{
 				key: generate_react_key({$id, $node}),
 				className: 'o⋄rich-text⋄error',
 			},
-			[ `TODO "${$type}"`, children]
+			[ `Unknown type "${$type}"`, children]
 		)
 
 	return result

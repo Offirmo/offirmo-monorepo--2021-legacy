@@ -19,7 +19,7 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 			schema_version: SCHEMA_VERSION,
 			revision: 0,
 
-			// todo rename equipped / backpack
+			// todo rename equipped / backpack ?
 			unslotted_capacity: 20,
 			slotted: {},
 			unslotted: [],

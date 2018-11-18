@@ -20,6 +20,7 @@ const AdventureType = Enum(
 type AdventureType = Enum<typeof AdventureType> // eslint-disable-line no-redeclare
 
 
+// TODO rewrite using an array of gains
 interface AdventureArchetype {
 	hid: string
 	type: AdventureType

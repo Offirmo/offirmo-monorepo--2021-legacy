@@ -4,11 +4,11 @@
 
 /////////////////////////////////////////////////
 
-// TODO move to foundation/advanced
 const enclose_in_box = require('boxen')
 
 const stylize_string = require('chalk')
 
+// TODO move to foundation/advanced
 const prettyjson = require('prettyjson')
 function prettify_json(data, options) {
 	return prettyjson.render(data, options)

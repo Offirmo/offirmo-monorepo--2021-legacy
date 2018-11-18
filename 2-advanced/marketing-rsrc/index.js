@@ -1,7 +1,7 @@
 
 // instructions: https://support.google.com/googleapi/answer/7394288#ensure-approval
-const URL_PRIVACY_POLICY = 'todo'
-const URL_TERMS_OF_SERVICE = 'todo'
+const URL_PRIVACY_POLICY = 'TODO'
+const URL_TERMS_OF_SERVICE = 'TODO'
 
 //////////// Me ////////////
 

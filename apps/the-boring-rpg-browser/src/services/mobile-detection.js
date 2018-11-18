@@ -1,5 +1,5 @@
 /* eslint-disable no-useless-escape */
-// TODO put outside
+// TODO externalize
 // http://detectmobilebrowsers.com/
 let is_mobile_cached
 function is_likely_to_be_mobile() {

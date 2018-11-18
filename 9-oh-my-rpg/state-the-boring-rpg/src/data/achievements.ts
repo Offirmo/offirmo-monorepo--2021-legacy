@@ -43,7 +43,7 @@ const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
 	{
 		icon: '🦍',
 		name: 'Beta player',
-		description: 'You played during the beta.',
+		description: 'You played during the beta. (no beta yet, though)',
 		get_status: () => AchievementStatus.revealed, // TODO beta
 	},
 

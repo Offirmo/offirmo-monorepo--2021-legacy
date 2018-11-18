@@ -87,7 +87,7 @@
 							break
 
 						default:
-							console.log('TODO handle type', type)
+							console.log('NOT IMPLEMENTED handle type', type)
 							break
 					}
 				})
@@ -104,7 +104,7 @@
 							break
 
 						default:
-							console.log('TODO handle type', type)
+							console.log('NOT IMPLEMENTED handle type', type)
 							break
 					}
 				})
@@ -114,7 +114,6 @@
 			Object.keys(state).forEach(k => {
 				localStorage.setItem(`XOF.richtext.demo.${k}`, state[k])
 			})
-			// TODO persist
 
 			render()
 		}

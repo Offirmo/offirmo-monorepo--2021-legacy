@@ -4,11 +4,12 @@ https://fr.wikipedia.org/wiki/Si%C3%A8ge_(militaire)
 https://twitter.com/i/moments/1059210757869572096
 
 TODO
+luck should have an effect: more money, more chance to gain artifacts, etc.
 make luck active
-- luck-skewin items:
+- luck-skewing items:
 - ring of animals -> increase encounter chance
-- wallet of midas->increase moneygain
--ring of lott
+- wallet of midas -> increase money gain
+-ring of loot
 - hammer of smith-> increase item improvements
 
 Sets
@@ -117,8 +118,6 @@ Scénario
 
 TODO omr
 * immutabilité https://github.com/mweststrate/immer
-* CQRS
-  if switch to immutable: change all action parameters to Readonly<State>
 * time
   * seasonal content
 - non tty
@@ -127,23 +126,14 @@ TODO omr
 - savegame backup
 - slack
 
-fantasy metals
-* http://tvtropes.org/pmwiki/pmwiki.php/Main/FantasyMetals
-* http://metallurgy.wikia.com/wiki/Fantasy_Metals
-* http://www.bodycote.com/fictional-metals
+
 
 Marketing
 - news
 - live démo
 
 bugs:
-- inventory full
 - display on windows
-
-TODO: omr
-- luck should have an effect: more money, more chance to gain artifacts, etc.
-- funny negative adventure
-- battles
 
 Otherworlder: https://www.dandwiki.com/wiki/Otherworlder_(5e_Background)
 

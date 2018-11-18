@@ -23,9 +23,6 @@ Code is isomorphic, targeting node & browser. This is achieved by being text bas
 Compose and profit !
 
 
-## analytics
-TODO
-
 ## TODO
 * analytics
 

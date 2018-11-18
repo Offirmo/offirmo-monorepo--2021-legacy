@@ -48,7 +48,7 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 			attributes: {
 				level: 1,
 
-				// TODO improve this
+				// TODO improve this one day
 				health: 1,
 				mana: 0,
 
@@ -98,7 +98,7 @@ function increase_stat(SEC: SoftExecutionContext, state: Readonly<State>, stat: 
 		if (amount <= 0)
 			throw new Error(`Error while increasing stat "${stat}": invalid amount!`) // TODO details
 
-		// TODO stats caps
+		// TODO stats caps?
 
 		return enforce_immutability({
 			...state,

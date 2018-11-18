@@ -9,8 +9,6 @@ const MonsterRank = Enum(
 )
 type MonsterRank = Enum<typeof MonsterRank> // eslint-disable-line no-redeclare
 
-// TODO property, etc...
-
 ///////
 
 interface Monster {

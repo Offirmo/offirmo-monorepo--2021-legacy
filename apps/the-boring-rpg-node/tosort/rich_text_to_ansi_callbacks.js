@@ -28,7 +28,7 @@ function apply_type($type, str) {
 		case 'em':
 			return stylize_string.italic(str)
 		default:
-			console.warn(`${LIB}: unknown type "${$type}", ignored.`) // todo avoid repetition ?
+			console.warn(`${LIB}: unknown type "${$type}", ignored.`)
 			return str
 	}
 }
@@ -110,7 +110,7 @@ function apply_class($class, str, hints = {}) {
 			return str
 
 		default:
-			console.warn(`${LIB}: unknown class "${$class}", ignored.`) // todo avoid repetition
+			console.warn(`${LIB}: unknown class "${$class}", ignored.`)
 			return str
 	}
 }

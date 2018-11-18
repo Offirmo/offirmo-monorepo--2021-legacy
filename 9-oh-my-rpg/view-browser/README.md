@@ -83,7 +83,5 @@ vNext maybe
 - [ ] display location
 
 
-/* TODO glow effect ?
+TODO glow effect ?
 https://designshack.net/articles/css/12-fun-css-text-shadows-you-can-copy-and-paste/
- */
-

@@ -38,7 +38,7 @@ function listenToUnhandledRejections() {
 function decorateWithDetectedEnv() {
 	const SEC = getRootSEC()
 
-	// TODO normalize
+	// TODO normalize browser/os detection
 	const details = {
 		node_version: process.version,
 		os_platform: os.platform(),

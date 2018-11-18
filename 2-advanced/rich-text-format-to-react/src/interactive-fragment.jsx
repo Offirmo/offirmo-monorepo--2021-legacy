@@ -6,7 +6,7 @@ import ErrorBoundary from '@offirmo/react-error-boundary'
 
 const modal_style = {
 	position: 'fixed',
-	zIndex: 1040, // TODO
+	zIndex: 1040, // TODO var
 	top: 0, bottom: 0, left: 0, right: 0,
 }
 const backdrop_style = {
@@ -186,8 +186,7 @@ export class InteractiveRichTextFragment extends Component {
 	}
 }
 InteractiveRichTextFragment.defaultProps = {
-	// UUID,
-	render_detailed: () => 'TODO InteractiveRichTextFragment.render_detailed',
+	render_detailed: () => 'NOT IMPLEMENTED InteractiveRichTextFragment.render_detailed',
 }
 
 export default InteractiveRichTextFragment

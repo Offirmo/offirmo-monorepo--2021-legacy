@@ -1,5 +1,4 @@
 /////////////////////
-// TODO
 
 import { Random, Engine } from '@offirmo/random'
 import { Item, InventorySlot } from '@oh-my-rpg/definitions'

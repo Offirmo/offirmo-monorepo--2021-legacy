@@ -1038,6 +1038,13 @@ You find an old potion with an unreadable label.
 You try your luck and drink it.
 You gain +{{attr}} {{attr_name}}!`,
 
+	/*
+	fantasy metals
+		* http://tvtropes.org/pmwiki/pmwiki.php/Main/FantasyMetals
+* http://metallurgy.wikia.com/wiki/Fantasy_Metals
+	* http://www.bodycote.com/fictional-metals
+*/
+
 	// books
 	found_journal: `
 You find the remains of an unlucky adventurer. She or he (you can't tell from the remains) kept a journal.

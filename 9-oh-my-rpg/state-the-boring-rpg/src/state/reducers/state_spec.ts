@@ -119,8 +119,6 @@ describe('@oh-my-rpg/state-the-boring-rpg - reducer', function() {
 
 					expect(state.energy.last_available_energy_float).to.be.below(0.0001)
 				})
-
-				it('may actually result in a good outcome (idea TODO)')
 			})
 
 			context('✅  when allowed (the cooldown has passed / enough energy)', function() {

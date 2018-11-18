@@ -4,6 +4,7 @@ import { SoftExecutionContext, OMRContext, decorate_SEC } from '@oh-my-rpg/defin
 import { LIB } from './consts'
 
 function get_lib_SEC(parent?: SoftExecutionContext): SoftExecutionContext {
+	// TODO review memoize / not mutate the parent??
 	return decorate_SEC(
 		(parent || getRootSEC())
 			.createChild()

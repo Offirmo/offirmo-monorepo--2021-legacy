@@ -43,9 +43,6 @@ const ROUTES = {
 
 	// navigable routes
 	home: '/',
-	//inventory: '/inventory',
-	//character: '/character',
-	//about: '/about',
 	savegame: '/savegame',
 	dev: '/dev',
 	diagnostic: '/diag',
@@ -56,5 +53,3 @@ export {
 	BASE_ROUTE,
 	ROUTES,
 }
-
-// TODO cleanup

@@ -26,11 +26,11 @@ function* get_next_step1(skip_to_index = 0) {
 		},
 		{
 			type: 'simple_message',
-			msg_main: 'Welcome. I\'ll have a few questions…',
+			msg_main: 'Welcome. I’ll have a few questions…',
 		},
 		{
 			type: 'ask_for_string',
-			msg_main: 'What\'s your name?',
+			msg_main: 'What’s your name?',
 			//validator: null, // TODO
 			msgg_as_user: value => `My name is "${value}".`,
 			msgg_acknowledge: name => `Thanks for the answer, ${name}!`,

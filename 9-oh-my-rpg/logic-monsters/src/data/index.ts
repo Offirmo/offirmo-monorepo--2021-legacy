@@ -25,7 +25,7 @@ const EXTRA_ENTRIES: RawMonsterEntry[] = [
 		name: 'dahu',
 		emoji: '🐐',
 	},
-	// TODO https://en.wikipedia.org/wiki/Fearsome_critters
+	// https://en.wikipedia.org/wiki/Fearsome_critters
 	{
 		name: 'hoop snake',
 		emoji: '🐍',

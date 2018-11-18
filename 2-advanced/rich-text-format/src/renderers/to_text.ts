@@ -212,7 +212,6 @@ const callbacks: Partial<WalkerCallbacks<State, Options>> = {
 	},
 	on_concatenate_sub_node,
 	on_node_exit,
-	// TODO on root_exit apply final top/bottom margins
 }
 
 function to_text(

@@ -35,7 +35,7 @@ const SEC = getRootSEC()
 SEC.emitter.on('final-error', function onError({SEC, err}) {
 	logger.log('that', {err})
 
-	// TODO sentry instead
+	// or direct to reporter
 	SEC.fireAnalyticsEvent('error', {
 		...err.details,
 		message: err.message,
