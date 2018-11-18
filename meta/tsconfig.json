@@ -12,6 +12,7 @@
 		"pretty": true,
 
 		"strict": true,
+		"keyofStringsOnly": true,
 		"allowUnreachableCode": false,
 		"allowUnusedLabels": false,
 		"forceConsistentCasingInFileNames": true,
@@ -34,7 +35,9 @@
 		"esModuleInterop": true,
 		"target": "ES2017",
 		"newLine": "lf",
-		"sourceMap": true
+		"sourceMap": true,
+
+		"preserveSymlinks": true
 	},
 	"include": [
 		"./typings-custom/**/*.ts"

@@ -1,3 +1,4 @@
+import { ImmutabilityEnforcer } from '@offirmo/ts-types'
 import { PRODUCT } from './consts'
 
 /////////////////////
@@ -13,8 +14,6 @@ interface BaseContext {
 
 /////////////////////
 // TODO move in final app (new module?)
-
-type ImmutabilityEnforcer = <T>(x: T) => Readonly<T>
 
 interface OMRContext extends BaseContext {
 	enforce_immutability: ImmutabilityEnforcer
@@ -46,7 +45,6 @@ function decorate_SEC(SEC: SoftExecutionContext): SoftExecutionContext {
 export {
 	SoftExecutionContext,
 	BaseContext,
-	ImmutabilityEnforcer,
 	OMRContext,
 	decorate_SEC,
 }

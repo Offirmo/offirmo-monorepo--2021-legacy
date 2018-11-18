@@ -36,6 +36,10 @@ interface I18nMessages {
 
 /////////////////////
 
+type ImmutabilityEnforcer = <T>(x: T) => Readonly<T>
+
+/////////////////////
+
 export {
 	JSPrimitiveType,
 
