@@ -9,7 +9,7 @@ import { State } from '../types'
 🎖🏆🏅
 👑🎓
  */
-
+// https://www.begeek.fr/vous-galerez-sur-red-dead-redemption-ii-voici-les-codes-pour-tricher-298991
 
 const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
 

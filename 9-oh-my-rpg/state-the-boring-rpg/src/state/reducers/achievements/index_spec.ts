@@ -22,7 +22,7 @@ describe('@oh-my-rpg/state-the-boring-rpg - reducer / achievements', function() 
 		context('🚫  when having no new achievements', function() {
 
 			it('should not change the state at all', () => {
-				const state = refresh_achievements(create())
+				const state = create() // includes an initial refresh
 
 				// a second time
 				const new_state = refresh_achievements(state)
@@ -34,12 +34,20 @@ describe('@oh-my-rpg/state-the-boring-rpg - reducer / achievements', function() 
 		context('✅  when having new achievements', function() {
 
 			it('should generate only a bunch of basic achievements', () => {
-				const state = create()
+				let state = create()
+
+				// trigger an achievement out of band (would never happen for real)
+				state = {
+					...state,
+					avatar: {
+						...state.avatar,
+						name: 'Foo',
+					}
+				}
 
 				const new_state = refresh_achievements(state)
 
 				expect(new_state).not.to.equal(state) // immutability
-
 			})
 		})
 	})

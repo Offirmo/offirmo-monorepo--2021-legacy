@@ -48,4 +48,6 @@ export {
 	JSONObject,
 
 	I18nMessages,
+
+	ImmutabilityEnforcer,
 }

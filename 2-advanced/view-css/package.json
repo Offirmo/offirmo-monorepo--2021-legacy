@@ -13,6 +13,11 @@
 		"build:cleancss": "mkdir -p dist && cleancss --skip-rebase --output dist/offirmo-reset+utils.css src/style.css",
 		"build": "npm-run-all clean --parallel build:copy build:cleancss"
 	},
+	"dependencies": {
+		"typeface-roboto": "^0.0.54",
+		"typeface-roboto-condensed": "^0.0.54",
+		"typeface-roboto-mono": "^0.0.54"
+	},
 	"devDependencies": {
 		"clean-css-cli": "^4",
 		"cpx": "^1",
