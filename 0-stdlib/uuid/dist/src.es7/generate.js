@@ -1,5 +1,5 @@
 /////////////////////
-// TODO move to separate file
+// TODO NOT USE nanoid!!
 import nanoid from 'nanoid';
 import format from 'nanoid/format';
 import url from 'nanoid/url';
@@ -8,7 +8,6 @@ import { Random } from '@offirmo/random';
 const UUID_RADIX = 'uu1';
 const NANOID_LENGTH_FOR_1BTH_COLLISION_CHANCES = 21; // according to the doc
 const UUID_LENGTH = UUID_RADIX.length + NANOID_LENGTH_FOR_1BTH_COLLISION_CHANCES;
-// TODO externalize!
 function generate_uuid({ length = NANOID_LENGTH_FOR_1BTH_COLLISION_CHANCES, rng } = {}) {
     return UUID_RADIX + (rng
         ? format((size) => {

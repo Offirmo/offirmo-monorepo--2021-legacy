@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const typescript_string_enums_1 = require("typescript-string-enums");
 // tslint:disable-next-line: variable-name
-const Gender = typescript_string_enums_1.Enum('undef', 'unknown', 'neutral', 'male', 'female');
+const Gender = typescript_string_enums_1.Enum('unknown', 'male', 'female', 'neutral');
 exports.Gender = Gender;
 // tslint:disable-next-line: variable-name
 const Age = typescript_string_enums_1.Enum('unknown', 'baby', 'child', 'adult', 'elder');

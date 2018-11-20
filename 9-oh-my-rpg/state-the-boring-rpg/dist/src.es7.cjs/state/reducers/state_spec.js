@@ -72,7 +72,6 @@ describe('@oh-my-rpg/state-the-boring-rpg - reducer', function () {
                     chai_1.expect(state.last_adventure.good).to.be.false;
                     chai_1.expect(state.energy.last_available_energy_float).to.be.below(0.0001);
                 });
-                it('may actually result in a good outcome (idea TODO)');
             });
             context('✅  when allowed (the cooldown has passed / enough energy)', function () {
                 it('should sometime generate a story adventure', () => {
@@ -88,19 +87,8 @@ describe('@oh-my-rpg/state-the-boring-rpg - reducer', function () {
                     chai_1.expect(state).to.have.nested.property('progress.statistics.good_play_count', 2);
                     chai_1.expect(state).to.have.nested.property('progress.statistics.good_play_count_by_active_class.novice', 2);
                 });
-                it('should sometime generate a fight adventure', () => {
-                    let fightCount = 0;
-                    let state = __1.create();
-                    for (let i = 0; i < 100; ++i) {
-                        state.energy.last_available_energy_float = 7.; // for tests
-                        state = __1.play(state);
-                        if (state.last_adventure.hid.startsWith('fight_'))
-                            fightCount++;
-                    }
-                    //const EXPECTED_FIGHT_ENCOUNTER_RATIO = 0.33
-                    chai_1.expect(fightCount).to.be.above(10);
-                    chai_1.expect(fightCount).to.be.below(50);
-                });
+                // hard to test
+                it('should sometime generate a fight adventure');
                 context('when the adventure is a story', function () {
                     describe('the outcome', function () {
                         it('should sometime be a coin gain', () => {

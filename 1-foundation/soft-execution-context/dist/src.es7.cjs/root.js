@@ -1,9 +1,10 @@
 "use strict";
 /* global window, global */
 Object.defineProperty(exports, "__esModule", { value: true });
-/* Complicated setup to have a truly unique global var
- * even with module duplication due to bad transpilation (parcel but maybe otherbundler. Or is it only HMR?)
+/* browser/node singleton
  * TODO externalize?
+ * Complicated setup to have a truly unique global var
+ * even with module duplication due to bad transpilation (parcel but maybe other bundler. Or is it only HMR?)
  */
 const core_1 = require("./core");
 const GLOBAL_VAR_NAME = '__global_root sec';

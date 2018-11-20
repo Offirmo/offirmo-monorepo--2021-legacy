@@ -22,7 +22,6 @@ function create($type) {
         pushBlockFragment,
         pushStrong,
         pushWeak,
-        pushEmphasized,
         pushHeading,
         pushHorizontalRule,
         pushLineBreak,
@@ -80,9 +79,6 @@ function create($type) {
     function pushWeak(str, options) {
         return _buildAndPush(weak(), str, options);
     }
-    function pushEmphasized(str, options) {
-        return _buildAndPush(emphasized(), str, options);
-    }
     function pushHeading(str, options) {
         return _buildAndPush(heading(), str, options);
     }
@@ -130,14 +126,6 @@ function weak() {
     return create(types_1.NodeType.weak);
 }
 exports.weak = weak;
-function emphasized() {
-    return create(types_1.NodeType.em);
-}
-exports.emphasized = emphasized;
-function span() {
-    return create(types_1.NodeType.span);
-}
-exports.span = span;
 function ordered_list() {
     return create(types_1.NodeType.ol);
 }
@@ -148,10 +136,10 @@ function unordered_list() {
 exports.unordered_list = unordered_list;
 function key_value(key, value) {
     const key_node = typeof key === 'string'
-        ? span().pushText(key).done()
+        ? inline_fragment().pushText(key).done()
         : key;
     const value_node = typeof value === 'string'
-        ? span().pushText(value).done()
+        ? inline_fragment().pushText(value).done()
         : value;
     return inline_fragment()
         .pushNode(key_node, { id: 'key' })

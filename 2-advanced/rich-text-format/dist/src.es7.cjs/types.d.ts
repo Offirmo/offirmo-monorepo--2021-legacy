@@ -1,16 +1,15 @@
 import { Enum } from 'typescript-string-enums';
 declare const NodeType: {
-    span: "span";
+    inline_fragment: "inline_fragment";
     strong: "strong";
     weak: "weak";
     em: "em";
+    block_fragment: "block_fragment";
     heading: "heading";
     hr: "hr";
     ol: "ol";
     ul: "ul";
     br: "br";
-    inline_fragment: "inline_fragment";
-    block_fragment: "block_fragment";
     li: "li";
 };
 declare type NodeType = Enum<typeof NodeType>;

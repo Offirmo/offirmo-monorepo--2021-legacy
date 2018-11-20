@@ -52,6 +52,7 @@ function on_played(state, details) {
 }
 /////////////////////
 function on_achieved(state, key, new_status) {
+    //console.log('on_achieved', key)
     return Object.assign({}, state, { achievements: Object.assign({}, state.achievements, { [key]: new_status }), revision: state.revision + 1 });
 }
 /////////////////////

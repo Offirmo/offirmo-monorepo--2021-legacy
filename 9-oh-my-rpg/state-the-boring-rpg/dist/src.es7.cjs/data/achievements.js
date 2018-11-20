@@ -9,6 +9,7 @@ const state_character_1 = require("@oh-my-rpg/state-character");
 🎖🏆🏅
 👑🎓
  */
+// https://www.begeek.fr/vous-galerez-sur-red-dead-redemption-ii-voici-les-codes-pour-tricher-298991
 const RAW_ENTRIES = [
     {
         icon: '🍪',
@@ -38,7 +39,7 @@ const RAW_ENTRIES = [
     {
         icon: '🦍',
         name: 'Beta player',
-        description: 'You played during the beta.',
+        description: 'You played during the beta. (no beta yet, though)',
         get_status: () => state_progress_1.AchievementStatus.revealed,
     },
     // main CTA

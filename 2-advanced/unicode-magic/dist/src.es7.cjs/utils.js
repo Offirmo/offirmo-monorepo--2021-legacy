@@ -57,17 +57,27 @@ function render(spec) {
         skin_tone = types_1.SkinTone.fp3;
     }
     if (!is_skin_tone_applied) {
-        if (data_1.SKIN_TONE_TO_UNICODE[skin_tone])
-            result = result + data_1.SKIN_TONE_TO_UNICODE[skin_tone];
+        result = add_skin_tone(result, skin_tone);
         is_skin_tone_applied = true;
     }
     if (!is_gender_applied) {
-        if (data_1.GENDER_TO_UNICODE[gender])
-            result = result + consts_1.ZERO_WIDTH_JOINER + data_1.GENDER_TO_UNICODE[gender];
+        result = add_gender(result, gender);
         is_gender_applied = true;
     }
     //console.log(options)
     return [result, notes];
 }
 exports.render = render;
+function add_skin_tone(base, skin_tone) {
+    if (data_1.SKIN_TONE_TO_UNICODE[skin_tone])
+        return base + data_1.SKIN_TONE_TO_UNICODE[skin_tone];
+    return base;
+}
+exports.add_skin_tone = add_skin_tone;
+function add_gender(base, gender) {
+    if (data_1.GENDER_TO_UNICODE[gender])
+        return base + consts_1.ZERO_WIDTH_JOINER + data_1.GENDER_TO_UNICODE[gender];
+    return base;
+}
+exports.add_gender = add_gender;
 //# sourceMappingURL=utils.js.map

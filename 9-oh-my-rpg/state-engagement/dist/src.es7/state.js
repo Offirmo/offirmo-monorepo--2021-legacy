@@ -13,11 +13,9 @@ function create(SEC) {
 }
 /////////////////////
 function enqueue(state, engagement, params = {}) {
-    // Avoid duplication? Is it a bug?
-    // TODO refine this concept
+    // Avoid duplication? Possible bug? No, hard to detect, may have different params.
     // ex. multiple level rises should be ok.
     // ex. multiple new achievements
-    // or maybe it's a bug if this happen?
     const pending = {
         uid: state.revision + 1,
         engagement,

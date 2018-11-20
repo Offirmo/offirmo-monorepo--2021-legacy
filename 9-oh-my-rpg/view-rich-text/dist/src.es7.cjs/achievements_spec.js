@@ -10,7 +10,7 @@ function prettify_json(data, options = {}) {
     return prettyjson.render(data, options);
 }
 describe('🔠  view to @offirmo/rich-text-format - achievements', function () {
-    it.only('should render properly - demo', () => {
+    it('should render properly - demo', () => {
         const state = state_the_boring_rpg_1.play(state_the_boring_rpg_1.create());
         const $doc = _1.render_achievements_snapshot(state_the_boring_rpg_1.get_achievements_snapshot(state));
         //console.log(prettify_json($doc))

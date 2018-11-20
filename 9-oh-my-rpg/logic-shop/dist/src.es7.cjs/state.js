@@ -1,6 +1,5 @@
 "use strict";
 /////////////////////
-// TODO
 Object.defineProperty(exports, "__esModule", { value: true });
 const random_1 = require("@offirmo/random");
 /////////////////////

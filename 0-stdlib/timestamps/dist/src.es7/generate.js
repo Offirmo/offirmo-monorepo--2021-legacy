@@ -19,7 +19,6 @@ function get_human_readable_UTC_timestamp_ms_v1(now = new Date()) {
     const mm = ('0' + now.getUTCMinutes()).slice(-2);
     const ss = ('0' + now.getUTCSeconds()).slice(-2);
     const mmm = ('00' + now.getUTCMilliseconds()).slice(-3);
-    // TODO remove the ':' ?
     return `${YYYY}${MM}${DD}_${hh}h${mm}:${ss}.${mmm}`;
 }
 function get_human_readable_UTC_timestamp_ms(now = new Date()) {

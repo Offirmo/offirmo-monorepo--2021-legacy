@@ -1,4 +1,5 @@
 import deepFreeze from 'deep-freeze-strict';
+import { AchievementStatus } from './types';
 /////////////////////
 const TRUE_TRUE = true; // https://github.com/Microsoft/TypeScript/issues/19360
 // a full featured, non-trivial demo state
@@ -9,7 +10,24 @@ const DEMO_STATE = deepFreeze({
     wiki: null,
     flags: null,
     achievements: {
-    // TODO
+        "TEST": AchievementStatus.unlocked,
+        "Summoned": AchievementStatus.unlocked,
+        "Alpha player": AchievementStatus.unlocked,
+        "Beta player": AchievementStatus.revealed,
+        "I am bored": AchievementStatus.unlocked,
+        "Turn it up to eleven": AchievementStatus.unlocked,
+        "I am dead bored": AchievementStatus.revealed,
+        "did I mention I was bored?": AchievementStatus.hidden,
+        "king of boredom": AchievementStatus.hidden,
+        "No-life except for boredom": AchievementStatus.hidden,
+        "Hello darkness my old friend": AchievementStatus.hidden,
+        "What’s in a name?": AchievementStatus.unlocked,
+        "Graduated": AchievementStatus.unlocked,
+        "I am very bored": AchievementStatus.unlocked,
+        "Sorry my hand slipped": AchievementStatus.unlocked,
+        "Oops!... I Did It Again": AchievementStatus.unlocked,
+        "I’m not that innocent": AchievementStatus.revealed,
+        "It’s good to be bad": AchievementStatus.hidden,
     },
     statistics: {
         good_play_count: 12,

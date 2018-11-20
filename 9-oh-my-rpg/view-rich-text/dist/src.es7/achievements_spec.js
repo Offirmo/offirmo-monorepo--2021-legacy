@@ -8,7 +8,7 @@ function prettify_json(data, options = {}) {
     return prettyjson.render(data, options);
 }
 describe('🔠  view to @offirmo/rich-text-format - achievements', function () {
-    it.only('should render properly - demo', () => {
+    it('should render properly - demo', () => {
         const state = play(create());
         const $doc = render_achievements_snapshot(get_achievements_snapshot(state));
         //console.log(prettify_json($doc))

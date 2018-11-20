@@ -1,7 +1,8 @@
 /* global window, global */
-/* Complicated setup to have a truly unique global var
- * even with module duplication due to bad transpilation (parcel but maybe otherbundler. Or is it only HMR?)
+/* browser/node singleton
  * TODO externalize?
+ * Complicated setup to have a truly unique global var
+ * even with module duplication due to bad transpilation (parcel but maybe other bundler. Or is it only HMR?)
  */
 import { createSEC } from './core';
 const GLOBAL_VAR_NAME = '__global_root sec';

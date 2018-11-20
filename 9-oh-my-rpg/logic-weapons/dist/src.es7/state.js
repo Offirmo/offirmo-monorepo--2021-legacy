@@ -35,7 +35,7 @@ function create(rng, hints = {}) {
     // TODO add a check for hints to be in existing components
     return Object.assign({}, create_item_base(InventorySlot.weapon, hints.quality || pick_random_quality(rng)), { base_hid: hints.base_hid || pick_random_base(rng), qualifier1_hid: hints.qualifier1_hid || pick_random_qualifier1(rng), qualifier2_hid: hints.qualifier2_hid || pick_random_qualifier2(rng), base_strength: hints.base_strength || pick_random_base_strength(rng), enhancement_level: hints.enhancement_level || MIN_ENHANCEMENT_LEVEL });
 }
-// TODO immu
+// TODO state, immu
 function enhance(weapon) {
     if (weapon.enhancement_level >= MAX_ENHANCEMENT_LEVEL)
         throw new Error('can’t enhance a weapon above the maximal enhancement level!');

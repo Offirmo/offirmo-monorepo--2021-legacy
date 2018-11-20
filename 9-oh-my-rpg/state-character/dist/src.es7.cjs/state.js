@@ -39,7 +39,7 @@ function create(SEC) {
             klass: types_1.CharacterClass.novice,
             attributes: {
                 level: 1,
-                // TODO improve this
+                // TODO improve this one day
                 health: 1,
                 mana: 0,
                 strength: 1,
@@ -76,7 +76,7 @@ function increase_stat(SEC, state, stat, amount = 1) {
     return sec_1.get_lib_SEC(SEC).xTry('increase_stat', ({ enforce_immutability }) => {
         if (amount <= 0)
             throw new Error(`Error while increasing stat "${stat}": invalid amount!`); // TODO details
-        // TODO stats caps
+        // TODO stats caps?
         return enforce_immutability(Object.assign({}, state, { attributes: Object.assign({}, state.attributes, { [stat]: state.attributes[stat] + amount }), revision: state.revision + 1 }));
     });
 }

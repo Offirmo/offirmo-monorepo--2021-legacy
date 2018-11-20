@@ -48,14 +48,7 @@ interface WalkerCallbacks<State, RenderingOptions> {
     on_class_before: WalkerReducer<State, OnClassParams<State>, RenderingOptions>;
     on_class_after: WalkerReducer<State, OnClassParams<State>, RenderingOptions>;
     on_type: WalkerReducer<State, OnTypeParams<State>, RenderingOptions>;
-    on_type_span?: WalkerReducer<State, OnTypeParams<State>, RenderingOptions>;
-    on_type_strong?: WalkerReducer<State, OnTypeParams<State>, RenderingOptions>;
-    on_type_em?: WalkerReducer<State, OnTypeParams<State>, RenderingOptions>;
-    on_type_heading?: WalkerReducer<State, OnTypeParams<State>, RenderingOptions>;
     on_type_hr?: WalkerReducer<State, OnTypeParams<State>, RenderingOptions>;
-    on_type_ol?: WalkerReducer<State, OnTypeParams<State>, RenderingOptions>;
-    on_type_ul?: WalkerReducer<State, OnTypeParams<State>, RenderingOptions>;
-    on_type_li?: WalkerReducer<State, OnTypeParams<State>, RenderingOptions>;
     on_type_br?: WalkerReducer<State, OnTypeParams<State>, RenderingOptions>;
     [on_fiter_or_type: string]: any;
 }

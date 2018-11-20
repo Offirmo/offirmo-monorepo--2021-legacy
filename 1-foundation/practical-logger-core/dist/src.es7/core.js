@@ -53,7 +53,7 @@ function createLogger({ name, level = LogLevel.info, details = {}, outputFn = co
     function addDetails(details) {
         internalState.details = Object.assign({}, internalState.details, details);
     }
-    // TODO check
+    // TODO child
     /*
     function child({name, level, details}: Partial<LogParams>): Logger {
         return createChildLogger({

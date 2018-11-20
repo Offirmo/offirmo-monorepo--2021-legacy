@@ -33,7 +33,7 @@ function get_engagement_message(state, pe) {
                 .pushText(`“${params.icon} ${params.name}“`)
                 .done();
         default:
-            throw new Error(`TODO: No engagement message for "${key}"!`);
+            throw new Error(`Missing engagement message for "${key}"! (not implemented?)`);
     }
 }
 ////////////////////////////////////

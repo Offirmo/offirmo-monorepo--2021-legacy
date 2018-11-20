@@ -19,7 +19,6 @@ function create($type) {
         pushBlockFragment,
         pushStrong,
         pushWeak,
-        pushEmphasized,
         pushHeading,
         pushHorizontalRule,
         pushLineBreak,
@@ -77,9 +76,6 @@ function create($type) {
     function pushWeak(str, options) {
         return _buildAndPush(weak(), str, options);
     }
-    function pushEmphasized(str, options) {
-        return _buildAndPush(emphasized(), str, options);
-    }
     function pushHeading(str, options) {
         return _buildAndPush(heading(), str, options);
     }
@@ -121,12 +117,6 @@ function strong() {
 function weak() {
     return create(NodeType.weak);
 }
-function emphasized() {
-    return create(NodeType.em);
-}
-function span() {
-    return create(NodeType.span);
-}
 function ordered_list() {
     return create(NodeType.ol);
 }
@@ -135,15 +125,15 @@ function unordered_list() {
 }
 function key_value(key, value) {
     const key_node = typeof key === 'string'
-        ? span().pushText(key).done()
+        ? inline_fragment().pushText(key).done()
         : key;
     const value_node = typeof value === 'string'
-        ? span().pushText(value).done()
+        ? inline_fragment().pushText(value).done()
         : value;
     return inline_fragment()
         .pushNode(key_node, { id: 'key' })
         .pushText(': ')
         .pushNode(value_node, { id: 'value' });
 }
-export { NodeType, create, inline_fragment, block_fragment, heading, strong, weak, emphasized, span, ordered_list, unordered_list, key_value, };
+export { NodeType, create, inline_fragment, block_fragment, heading, strong, weak, ordered_list, unordered_list, key_value, };
 //# sourceMappingURL=builder.js.map

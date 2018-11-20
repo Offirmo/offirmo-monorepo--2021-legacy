@@ -1,7 +1,6 @@
 import * as RichText from '@offirmo/rich-text-format';
 import { CHARACTER_ATTRIBUTES_SORTED } from '@oh-my-rpg/state-character';
 function render_avatar(state) {
-    // TODO refactor
     const $doc_name = RichText.inline_fragment().addClass('avatar__name').pushText(state.name).done();
     const $doc_class = RichText.inline_fragment().addClass('avatar__class').pushText(state.klass).done();
     const $doc = RichText.block_fragment()
@@ -17,7 +16,6 @@ function render_attributes(state) {
     const $doc_list = RichText.unordered_list()
         .addClass('attributes')
         .done();
-    // TODO better sort
     CHARACTER_ATTRIBUTES_SORTED.forEach((stat, index) => {
         const label = stat;
         const value = state.attributes[stat];

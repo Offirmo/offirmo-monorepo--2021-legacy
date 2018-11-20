@@ -1,5 +1,4 @@
 /////////////////////
-// TODO
 import { Random } from '@offirmo/random';
 /////////////////////
 function create(rng) {

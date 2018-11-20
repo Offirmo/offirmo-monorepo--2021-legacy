@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const consts_1 = require("./consts");
 const types_1 = require("./types");
 function normalize_node($raw_node) {
-    const { $v = 1, $type = types_1.NodeType.span, $classes = [], $content = '', $sub = {}, $hints = {}, } = $raw_node;
+    const { $v = 1, $type = types_1.NodeType.inline_fragment, $classes = [], $content = '', $sub = {}, $hints = {}, } = $raw_node;
     // TODO migration
     if ($v !== consts_1.SCHEMA_VERSION)
         throw new Error(`${consts_1.LIB}: unknown schema version "${$v}"!`);

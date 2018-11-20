@@ -84,7 +84,9 @@ function walk_content($node, callbacks, state, depth, options) {
                 depth,
             }, options);
         }, sub_state);
-        // TODO detect unused $subnodes?
+        // Should we detect unused $subnodes?
+        // NO it's convenient (ex. Oh-my-rpg) to over-set subnodes
+        // and set a content which may or may not use them.
         state = callbacks.on_concatenate_sub_node({
             sub_state,
             $id: sub_node_id,

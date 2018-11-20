@@ -15,7 +15,6 @@ interface Builder {
     pushBlockFragment(str: string, options?: CommonOptions): Builder;
     pushStrong(str: string, options?: CommonOptions): Builder;
     pushWeak(str: string, options?: CommonOptions): Builder;
-    pushEmphasized(str: string, options?: CommonOptions): Builder;
     pushHeading(str: string, options?: CommonOptions): Builder;
     pushHorizontalRule(): Builder;
     pushLineBreak(): Builder;
@@ -29,9 +28,7 @@ declare function block_fragment(): Builder;
 declare function heading(): Builder;
 declare function strong(): Builder;
 declare function weak(): Builder;
-declare function emphasized(): Builder;
-declare function span(): Builder;
 declare function ordered_list(): Builder;
 declare function unordered_list(): Builder;
 declare function key_value(key: Node | string, value: Node | string): Builder;
-export { NodeType, Document, Builder, create, inline_fragment, block_fragment, heading, strong, weak, emphasized, span, ordered_list, unordered_list, key_value, };
+export { NodeType, Document, Builder, create, inline_fragment, block_fragment, heading, strong, weak, ordered_list, unordered_list, key_value, };

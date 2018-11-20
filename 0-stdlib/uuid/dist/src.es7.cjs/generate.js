@@ -1,8 +1,8 @@
 "use strict";
 /////////////////////
-// TODO move to separate file
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
+// TODO NOT USE nanoid!!
 const nanoid_1 = tslib_1.__importDefault(require("nanoid"));
 const format_1 = tslib_1.__importDefault(require("nanoid/format"));
 const url_1 = tslib_1.__importDefault(require("nanoid/url"));
@@ -12,7 +12,6 @@ const UUID_RADIX = 'uu1';
 const NANOID_LENGTH_FOR_1BTH_COLLISION_CHANCES = 21; // according to the doc
 const UUID_LENGTH = UUID_RADIX.length + NANOID_LENGTH_FOR_1BTH_COLLISION_CHANCES;
 exports.UUID_LENGTH = UUID_LENGTH;
-// TODO externalize!
 function generate_uuid({ length = NANOID_LENGTH_FOR_1BTH_COLLISION_CHANCES, rng } = {}) {
     return UUID_RADIX + (rng
         ? format_1.default((size) => {

@@ -4,11 +4,35 @@ const tslib_1 = require("tslib");
 const chai_1 = require("chai");
 const deep_freeze_strict_1 = tslib_1.__importDefault(require("deep-freeze-strict"));
 const migration_tester_1 = require("@oh-my-rpg/migration-tester");
+const CharacterState = tslib_1.__importStar(require("@oh-my-rpg/state-character"));
+const WalletState = tslib_1.__importStar(require("@oh-my-rpg/state-wallet"));
+const InventoryState = tslib_1.__importStar(require("@oh-my-rpg/state-inventory"));
+const PRNGState = tslib_1.__importStar(require("@oh-my-rpg/state-prng"));
+const EnergyState = tslib_1.__importStar(require("@oh-my-rpg/state-energy"));
+const EngagementState = tslib_1.__importStar(require("@oh-my-rpg/state-engagement"));
+const CodesState = tslib_1.__importStar(require("@oh-my-rpg/state-codes"));
+const ProgressState = tslib_1.__importStar(require("@oh-my-rpg/state-progress"));
 const consts_1 = require("../../consts");
 const _1 = require(".");
 const sec_1 = require("../../sec");
 const __1 = require("..");
 const examples_1 = require("../../examples");
+// some hints may be needed to migrate to demo state
+const MIGRATION_HINTS_FOR_TESTS = deep_freeze_strict_1.default({
+    to_v8: {},
+    avatar: CharacterState.MIGRATION_HINTS_FOR_TESTS,
+    inventory: InventoryState.MIGRATION_HINTS_FOR_TESTS,
+    wallet: WalletState.MIGRATION_HINTS_FOR_TESTS,
+    prng: PRNGState.MIGRATION_HINTS_FOR_TESTS,
+    energy: EnergyState.MIGRATION_HINTS_FOR_TESTS,
+    engagement: EngagementState.MIGRATION_HINTS_FOR_TESTS,
+    codes: CodesState.MIGRATION_HINTS_FOR_TESTS,
+    progress: ProgressState.MIGRATION_HINTS_FOR_TESTS,
+});
+if (Object.keys(MIGRATION_HINTS_FOR_TESTS)
+    .filter(k => !k.startsWith('to_'))
+    .length !== _1.SUB_REDUCERS_COUNT)
+    throw new Error('the-boring-rpg migrations: MIGRATION_HINTS_FOR_TESTS is outdated!');
 function advanced_diff_json(a, b, { diff } = {}) {
     if (diff)
         delete diff.creation_date;
@@ -26,7 +50,7 @@ describe('@oh-my-rpg/state-the-boring-rpg - schema migration', function () {
         migration_tester_1.test_migrations({
             use_hints: true,
             read_only: false,
-            migration_hints_for_chaining: examples_1.MIGRATION_HINTS_FOR_TESTS,
+            migration_hints_for_chaining: MIGRATION_HINTS_FOR_TESTS,
             advanced_diff_json,
             SCHEMA_VERSION: consts_1.SCHEMA_VERSION,
             LATEST_EXPECTED_DATA: examples_1.DEMO_STATE,
@@ -40,7 +64,7 @@ describe('@oh-my-rpg/state-the-boring-rpg - schema migration', function () {
         // alter seed to avoid migration
         new_state.prng.seed = 1234; // should match blank state spec
         // TODO ALPHA remove skip
-        migration_tester_1.test_migrations({
+        migration_tester_1.test_migrations.skip({
             use_hints: false,
             read_only: false,
             advanced_diff_json,

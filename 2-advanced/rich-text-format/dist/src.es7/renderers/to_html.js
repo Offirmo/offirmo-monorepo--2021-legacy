@@ -35,7 +35,6 @@ const on_node_exit = ({ state, $node, depth }) => {
     switch ($type) {
         case 'strong':
         case 'em':
-        case 'span':
             is_inline = true;
             break;
         case 'weak':
@@ -43,7 +42,8 @@ const on_node_exit = ({ state, $node, depth }) => {
             is_inline = true;
             break;
         case 'inline_fragment':
-            classes.push('o⋄rich-text⋄inline');
+            //classes.push('o⋄rich-text⋄inline')
+            is_inline = true;
             break;
         default:
             break;
@@ -67,7 +67,7 @@ const on_node_exit = ({ state, $node, depth }) => {
         if (is_KVP_list($node)) {
             classes.push('o⋄rich-text⋄list--no-bullet');
             // TODO rewrite completely
-            //console.log(`${LIB} TODO KVP`)
+            console.warn(`${LIB} TODO KVP`);
         }
     }
     result += `<${element}`;
@@ -78,7 +78,7 @@ const on_node_exit = ({ state, $node, depth }) => {
         result = `<a href="${$hints.href}" target="_blank">${result}</a>`;
     // for demo only
     if ($hints.uuid)
-        result = `<button class="o⋄button--inline o⋄rich-text⋄interactive" title="TODO interactive ${$hints.uuid}">${result}</button>`;
+        result = `<button class="o⋄button--inline o⋄rich-text⋄interactive" ${$hints.uuid}">${result}</button>`;
     state.str = result;
     return state;
 };

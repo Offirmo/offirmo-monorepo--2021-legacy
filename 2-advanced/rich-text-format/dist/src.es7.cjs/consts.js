@@ -6,19 +6,18 @@ const SCHEMA_VERSION = 1;
 exports.SCHEMA_VERSION = SCHEMA_VERSION;
 const NODE_TYPE_TO_DISPLAY_MODE = {
     // classics inline
-    'span': 'inline',
+    'inline_fragment': 'inline',
     'strong': 'inline',
     'weak': 'inline',
     'em': 'inline',
     // classics block
+    'block_fragment': 'block',
     'heading': 'block',
     'hr': 'block',
     'ol': 'block',
     'ul': 'block',
     // special
     'br': 'inline',
-    'inline_fragment': 'inline',
-    'block_fragment': 'block',
     // internally used, don't mind
     'li': 'block',
 };

@@ -10,7 +10,7 @@ function create(SEC) {
         return enforce_immutability({
             schema_version: SCHEMA_VERSION,
             revision: 0,
-            // todo rename equipped / backpack
+            // todo rename equipped / backpack ?
             unslotted_capacity: 20,
             slotted: {},
             unslotted: [],

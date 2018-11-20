@@ -29,7 +29,8 @@ function reset_and_salvage(legacy_state) {
             state.avatar.name = legacy_state.avatar.name;
         }
         // TODO salvage creation date as well?
-        // TODO auto-replay as much?
+        // TODO salvage class
+        // TODO salvage by auto-replay as much?
         console.info(`${consts_1.LIB}: salvaged some savegame data.`);
     }
     catch (err) {
@@ -40,6 +41,7 @@ function reset_and_salvage(legacy_state) {
     return state;
 }
 const SUB_REDUCERS_COUNT = 8;
+exports.SUB_REDUCERS_COUNT = SUB_REDUCERS_COUNT;
 const OTHER_KEYS_COUNT = 5;
 function migrate_to_latest(SEC, legacy_state, hints = {}) {
     const existing_version = (legacy_state && legacy_state.schema_version) || 0;
@@ -69,8 +71,9 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
         // 2nd part (can re-reset...)
         try {
             // TODO migrate adventures
+            // TODO migrate items
             // migrate sub-reducers if any...
-            state = Object.assign({}, state);
+            state = Object.assign({}, state); // TODO remove this mutation if possible
             if (Object.keys(state).length !== SUB_REDUCERS_COUNT + OTHER_KEYS_COUNT) {
                 logger.error('migrate_to_latest', { SUB_REDUCERS_COUNT, OTHER_KEYS_COUNT, actual_count: Object.keys(state).length, keys: Object.keys(state) });
                 throw new Error('migrate_to_latest src (1) is outdated, please update!');
@@ -94,7 +97,8 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
             sub_reducer_migrated.push('progress');
             if (sub_reducer_migrated.length !== SUB_REDUCERS_COUNT)
                 throw new Error('migrate_to_latest src (2) is outdated, please update!');
-            // TODO remove, migration
+            // TODO remove, temp migration
+            // TODO move
             state = achievements_1.refresh_achievements(state);
             logger.info(`${consts_1.LIB}: schema migration successful.`);
             SEC.fireAnalyticsEvent('schema migration.ended');

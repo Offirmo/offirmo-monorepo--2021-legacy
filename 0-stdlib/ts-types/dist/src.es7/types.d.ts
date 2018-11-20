@@ -8,4 +8,5 @@ interface JSONArray extends Array<JSONPrimitiveType | JSONObject | JSONArray> {
 interface I18nMessages {
     [k: string]: string | I18nMessages;
 }
-export { JSPrimitiveType, JSONPrimitiveType, JSONArray, JSONObject, I18nMessages, };
+declare type ImmutabilityEnforcer = <T>(x: T) => Readonly<T>;
+export { JSPrimitiveType, JSONPrimitiveType, JSONArray, JSONObject, I18nMessages, ImmutabilityEnforcer, };
