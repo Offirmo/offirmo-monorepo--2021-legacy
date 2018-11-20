@@ -3,13 +3,40 @@ import deepFreeze from 'deep-freeze-strict'
 
 import { JSONObject } from '@offirmo/ts-types'
 import {test_migrations} from '@oh-my-rpg/migration-tester'
+import * as CharacterState from '@oh-my-rpg/state-character'
+import * as WalletState from '@oh-my-rpg/state-wallet'
+import * as InventoryState from '@oh-my-rpg/state-inventory'
+import * as PRNGState from '@oh-my-rpg/state-prng'
+import * as EnergyState from '@oh-my-rpg/state-energy'
+import * as EngagementState from '@oh-my-rpg/state-engagement'
+import * as CodesState from '@oh-my-rpg/state-codes'
+import * as ProgressState from '@oh-my-rpg/state-progress'
 
 import {SCHEMA_VERSION} from '../../consts'
-import {migrate_to_latest} from '.'
+import {migrate_to_latest, SUB_REDUCERS_COUNT} from '.'
 import {get_lib_SEC} from '../../sec'
 
 import {create} from '..'
-import {DEMO_STATE, MIGRATION_HINTS_FOR_TESTS} from '../../examples'
+import { DEMO_STATE } from '../../examples'
+
+// some hints may be needed to migrate to demo state
+const MIGRATION_HINTS_FOR_TESTS: any = deepFreeze({
+	to_v8: {
+	},
+
+	avatar: CharacterState.MIGRATION_HINTS_FOR_TESTS,
+	inventory: InventoryState.MIGRATION_HINTS_FOR_TESTS,
+	wallet: WalletState.MIGRATION_HINTS_FOR_TESTS,
+	prng: PRNGState.MIGRATION_HINTS_FOR_TESTS,
+	energy: EnergyState.MIGRATION_HINTS_FOR_TESTS,
+	engagement: EngagementState.MIGRATION_HINTS_FOR_TESTS,
+	codes: CodesState.MIGRATION_HINTS_FOR_TESTS,
+	progress: ProgressState.MIGRATION_HINTS_FOR_TESTS,
+})
+if (Object.keys(MIGRATION_HINTS_FOR_TESTS)
+	.filter(k => !k.startsWith('to_'))
+	.length !== SUB_REDUCERS_COUNT)
+	throw new Error('the-boring-rpg migrations: MIGRATION_HINTS_FOR_TESTS is outdated!')
 
 function advanced_diff_json(a: JSONObject, b: JSONObject, { diff }: { diff?: JSONObject } = {}) {
 	if (diff)
@@ -48,7 +75,7 @@ describe('@oh-my-rpg/state-the-boring-rpg - schema migration', function () {
 		// alter seed to avoid migration
 		new_state.prng.seed = 1234 // should match blank state spec
 		// TODO ALPHA remove skip
-		test_migrations({
+		test_migrations.skip({
 			use_hints: false,
 			read_only: false, // uncomment when updating
 			advanced_diff_json,

@@ -21,7 +21,7 @@ function prettify_json(data: any, options = {}) {
 
 describe('🔠  view to @offirmo/rich-text-format - achievements', function() {
 
-	it.only('should render properly - demo', () => {
+	it('should render properly - demo', () => {
 		const state = play(create())
 
 

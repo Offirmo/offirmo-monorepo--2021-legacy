@@ -87,7 +87,7 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: 
 			// TODO migrate items
 
 			// migrate sub-reducers if any...
-			state = { ...state }
+			state = { ...state } // TODO remove this mutation if possible
 
 			if (Object.keys(state).length !== SUB_REDUCERS_COUNT + OTHER_KEYS_COUNT) {
 				logger.error('migrate_to_latest', {SUB_REDUCERS_COUNT, OTHER_KEYS_COUNT, actual_count: Object.keys(state).length, keys: Object.keys(state)})
@@ -116,6 +116,7 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: 
 				throw new Error('migrate_to_latest src (2) is outdated, please update!')
 
 			// TODO remove, temp migration
+			// TODO move
 			state = refresh_achievements(state)
 
 			logger.info(`${LIB}: schema migration successful.`)
@@ -175,5 +176,6 @@ function migrate_to_4(SEC: SoftExecutionContext, legacy_state: any, hints: any):
 /////////////////////
 
 export {
+	SUB_REDUCERS_COUNT,
 	migrate_to_latest,
 }

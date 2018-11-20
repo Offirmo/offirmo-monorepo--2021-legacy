@@ -25,14 +25,14 @@ const DEMO_STATE: State = deepFreeze({
 		"did I mention I was bored?": AchievementStatus.hidden,
 		"king of boredom": AchievementStatus.hidden,
 		"No-life except for boredom": AchievementStatus.hidden,
-		"Hello darkness my old friend": AchievementStatus.revealed,
+		"Hello darkness my old friend": AchievementStatus.hidden,
 		"What’s in a name?": AchievementStatus.unlocked,
 		"Graduated": AchievementStatus.unlocked,
 		"I am very bored": AchievementStatus.unlocked,
 		"Sorry my hand slipped": AchievementStatus.unlocked,
 		"Oops!... I Did It Again": AchievementStatus.unlocked,
-		"I’m not that innocent": AchievementStatus.unlocked,
-		"It’s good to be bad": AchievementStatus.unlocked,
+		"I’m not that innocent": AchievementStatus.revealed,
+		"It’s good to be bad": AchievementStatus.hidden,
 	},
 
 	statistics: {
