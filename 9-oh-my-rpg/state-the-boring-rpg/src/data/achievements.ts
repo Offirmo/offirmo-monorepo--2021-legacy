@@ -8,8 +8,14 @@ import { State } from '../types'
 🥇🥈🥉
 🎖🏆🏅
 👑🎓
+https://www.wowhead.com/the-entitled-a-guide-to-titles
+https://www.wowhead.com/achievements
+http://cookieclicker.wikia.com/wiki/Achievement
+https://www.trueachievements.com/game/Diablo-III-Reaper-of-Souls-Ultimate-Evil-Edition/achievements
  */
 // https://www.begeek.fr/vous-galerez-sur-red-dead-redemption-ii-voici-les-codes-pour-tricher-298991
+// https://www.trueachievements.com/game/Diablo-III-Reaper-of-Souls-Ultimate-Evil-Edition/achievements
+
 
 const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
 
@@ -118,29 +124,52 @@ const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
 
 	// regularity
 	{
-		icon: '',
+		icon: '🌱',
 		name: 'I’ll be back',
 		description: 'Having been playing for 2 days.',
+		get_status: (state: State) => state.progress.statistics.active_day_count >= 2
+			? AchievementStatus.unlocked
+			: AchievementStatus.revealed,
 	},
 	{
-		icon: '',
+		icon: '🌿',
 		name: 'Regular',
 		description: 'Having been playing for 7 days.',
+		get_status: (state: State) => state.progress.statistics.active_day_count >= 7
+			? AchievementStatus.unlocked
+			: state.progress.statistics.good_play_count >= 2
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
 	},
 	{
-		icon: '',
+		icon: '🌳',
 		name: 'Faithful',
 		description: 'Having been playing for 30 days.',
+		get_status: (state: State) => state.progress.statistics.active_day_count >= 30
+			? AchievementStatus.unlocked
+			: state.progress.statistics.good_play_count >= 7
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
 	},
 	{
-		icon: '',
+		icon: '💉',
 		name: 'Hooked',
 		description: 'Having been playing for 120 days.',
+		get_status: (state: State) => state.progress.statistics.active_day_count >= 120
+			? AchievementStatus.unlocked
+			: state.progress.statistics.good_play_count >= 30
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
 	},
 	{
 		icon: '🎂',
 		name: 'Addicted',
 		description: 'Having been playing for 365 days.',
+		get_status: (state: State) => state.progress.statistics.active_day_count >= 365
+			? AchievementStatus.unlocked
+			: state.progress.statistics.good_play_count >= 120
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
 	},
 
 	// counter-CTA
@@ -212,6 +241,11 @@ const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
 		icon: '🆔',
 		name: 'Registered',
 		description: 'Having signed up.',
+		get_status: (state: State) => state.progress.statistics.active_day_count >= 365
+			? AchievementStatus.unlocked
+			: state.progress.statistics.good_play_count >= 120
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
 	},
 
 	// Progression/milestones

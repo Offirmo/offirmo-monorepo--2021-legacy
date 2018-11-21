@@ -42,5 +42,14 @@ describe('@offirmo/timestamps', function () {
             }
         });
     });
+    describe('get_human_readable_UTC_timestamp_days()', function () {
+        it('should return correct UTC timestamps up to the day', function () {
+            for (let i = 0; i < 10; ++i) {
+                const stamp = _1.get_human_readable_UTC_timestamp_days();
+                console.log(stamp);
+                chai_1.expect(stamp).to.be.a('string');
+            }
+        });
+    });
 });
 //# sourceMappingURL=generate_spec.js.map

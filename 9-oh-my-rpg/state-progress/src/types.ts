@@ -1,7 +1,7 @@
 import { Enum } from 'typescript-string-enums'
 
 import { Element } from '@oh-my-rpg/definitions'
-//import { HumanReadableTimestampUTCMinutes } from '@offirmo/timestamps'
+import { HumanReadableTimestampUTCDays } from '@offirmo/timestamps'
 //import { JSONObject } from "@offirmo/ts-types"
 
 /////////////////////
@@ -59,6 +59,9 @@ interface State {
 	achievements: { [key: string]: AchievementStatus }
 
 	statistics: {
+		last_visited_timestamp: HumanReadableTimestampUTCDays
+		active_day_count: number
+
 		// game
 		good_play_count: number
 		bad_play_count: number

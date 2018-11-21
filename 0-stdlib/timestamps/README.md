@@ -1,5 +1,22 @@
+# human readable timestamps
 
-// - human readable timestamps
-// - valid in URLs ?
-// - valid in files ?
 
+Examples:
+get_UTC_timestamp_ms()
+1542780045627
+
+get_human_readable_UTC_timestamp_ms_v1()
+20181121_06h00:45.632
+
+get_human_readable_UTC_timestamp_ms()
+ts1_20181121_06h00:45.634
+
+get_human_readable_UTC_timestamp_minutes()
+20181121_06h00
+
+get_human_readable_UTC_timestamp_days()
+20181121
+
+## Roadmap
+TODO valid in URLs ?
+TODO valid in filenames ?

@@ -1,6 +1,7 @@
-import { TimestampUTCMs, HumanReadableTimestampUTCMinutes, HumanReadableTimestampUTCMs } from './types';
+import { TimestampUTCMs, HumanReadableTimestampUTCDays, HumanReadableTimestampUTCMinutes, HumanReadableTimestampUTCMs } from './types';
 declare function get_UTC_timestamp_ms(): TimestampUTCMs;
+declare function get_human_readable_UTC_timestamp_days(now?: Date): HumanReadableTimestampUTCDays;
 declare function get_human_readable_UTC_timestamp_minutes(now?: Date): HumanReadableTimestampUTCMinutes;
 declare function get_human_readable_UTC_timestamp_ms_v1(now?: Date): HumanReadableTimestampUTCMs;
 declare function get_human_readable_UTC_timestamp_ms(now?: Date): HumanReadableTimestampUTCMs;
-export { TimestampUTCMs, HumanReadableTimestampUTCMinutes, HumanReadableTimestampUTCMs, get_human_readable_UTC_timestamp_ms_v1, get_UTC_timestamp_ms, get_human_readable_UTC_timestamp_ms, get_human_readable_UTC_timestamp_minutes, };
+export { get_human_readable_UTC_timestamp_ms_v1, get_UTC_timestamp_ms, get_human_readable_UTC_timestamp_ms, get_human_readable_UTC_timestamp_minutes, get_human_readable_UTC_timestamp_days, };

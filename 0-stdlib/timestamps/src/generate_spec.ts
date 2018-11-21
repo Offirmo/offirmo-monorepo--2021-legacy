@@ -5,6 +5,7 @@ import {
 	get_human_readable_UTC_timestamp_ms_v1,
 	get_human_readable_UTC_timestamp_ms,
 	get_human_readable_UTC_timestamp_minutes,
+	get_human_readable_UTC_timestamp_days,
 } from '.'
 
 declare const console: any
@@ -53,6 +54,17 @@ describe('@offirmo/timestamps', function() {
 		it('should return correct UTC timestamps up to the minute', function() {
 			for(let i = 0; i < 10; ++i) {
 				const stamp = get_human_readable_UTC_timestamp_minutes()
+				console.log(stamp)
+				expect(stamp).to.be.a('string')
+			}
+		})
+	})
+
+	describe('get_human_readable_UTC_timestamp_days()', function() {
+
+		it('should return correct UTC timestamps up to the day', function() {
+			for(let i = 0; i < 10; ++i) {
+				const stamp = get_human_readable_UTC_timestamp_days()
 				console.log(stamp)
 				expect(stamp).to.be.a('string')
 			}
