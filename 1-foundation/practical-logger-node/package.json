@@ -9,9 +9,9 @@
 	"typings": "dist/src.es7.cjs/index.d.ts",
 	"dependencies": {
 		"@offirmo/practical-logger-core": "^0.0.1",
+		"@offirmo/prettify-json": "^0.0.1",
 		"@offirmo/print-error-to-ansi": "^0.0.1",
-		"chalk": "^2",
-		"prettyjson": "^1"
+		"chalk": "^2"
 	},
 	"devDependencies": {
 		"@types/node": "^10",

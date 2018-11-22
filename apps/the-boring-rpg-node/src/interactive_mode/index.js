@@ -1,6 +1,7 @@
 'use strict'
 
 const opn = require('opn')
+const prettify_json = require("@offirmo/prettify-json")
 
 const tbrpg = require('@oh-my-rpg/state-the-boring-rpg')
 const {URL_OF_REPO, URL_OF_FORK, URL_OF_ISSUES, URL_OF_PRODUCT_HUNT_PAGE} = require('@oh-my-rpg/state-the-boring-rpg')
@@ -22,7 +23,6 @@ const {
 const { rich_text_to_ansi } = require('../services/rich_text_to_ansi')
 const { stylize_string } = require('../utils/libs')
 const { render_header } = require('../view')
-const { prettify_json_for_debug } = require('../utils/debug') // TODO externalize
 
 const RENDER_ITEM_OPTIONS = {
 	display_quality: true,
@@ -41,7 +41,7 @@ function get_tip(state) {
 
 function start_loop(SEC, options, instance) {
 	return SEC.xPromiseTry('starting interactive loop', ({SEC, logger, VERSION}) => {
-		logger.trace('start_loop options:' + prettify_json_for_debug(options))
+		logger.trace('start_loop options:' + prettify_json(options, { outline: true }))
 
 		render_header(SEC, options)
 

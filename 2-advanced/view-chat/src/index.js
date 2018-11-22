@@ -3,8 +3,6 @@
 const PromiseWithProgress = require('p-progress')
 const is_promise = require('is-promise')
 
-const { indent_string } = require('./libs')
-
 const LIB = '@oh-my-rpg/view-chat'
 
 function is_step_input(step) {
@@ -17,19 +15,9 @@ function create({
 	ui,
 	inter_msg_delay_ms = 0,
 	after_input_delay_ms = 0,
-	prettify_json = null,
+	prettify_json = x => x, // work with browser
 }) {
 	if (DEBUG) console.log('↘ create()')
-
-	function prettify_params_for_debug(x) {
-		if (!prettify_json) return x
-
-		return indent_string(
-			prettify_json.apply(null, x),
-			1,
-			{indent: '	'}
-		)
-	}
 
 	function create_dummy_progress_promise({DURATION_MS = 2000, PERIOD_MS = 100} = {}) {
 		return new PromiseWithProgress((resolve, reject, progress) => {
@@ -96,7 +84,7 @@ function create({
 			return step
 		}
 		catch (e) {
-			console.error(prettify_json ? prettify_json(step) : step)
+			console.error(prettify_json(step))
 			throw e
 		}
 	}
@@ -110,13 +98,13 @@ function create({
 			return choice
 		}
 		catch (e) {
-			console.error(prettify_json ? prettify_json(choice) : choice)
+			console.error(prettify_json(choice))
 			throw e
 		}
 	}
 
 	async function ask_user(step) {
-		if (DEBUG) console.log('↘ ask_user(\n', prettify_params_for_debug(step), '\n)')
+		if (DEBUG) console.log('↘ ask_user(\n', prettify_json(step, {outline: true}), '\n)')
 
 		let answer = ''
 		let ok = true // TODO used for confirmation
@@ -148,7 +136,7 @@ function create({
 	}
 
 	async function execute_step(step) {
-		if (DEBUG) console.log('↘ execute_step(\n', prettify_params_for_debug(step), '\n)')
+		if (DEBUG) console.log('↘ execute_step(\n', prettify_json(step, {outline: true}), '\n)')
 
 		switch (step.type) {
 		case 'simple_message':

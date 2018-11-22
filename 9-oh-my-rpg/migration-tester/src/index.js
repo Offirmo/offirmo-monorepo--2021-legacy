@@ -2,18 +2,7 @@
 
 const path = require('path')
 const { cloneDeep } = require('lodash')
-const prettyjson = require('prettyjson')
-
-
-// TODO extract
-function prettify_json(data) {
-	if (!data) return String(data)
-
-	return prettyjson.render(data, {
-		keysColor: 'dim',
-	})
-}
-
+const prettify_json = require('@offirmo/prettify-json').default
 const { get_human_readable_UTC_timestamp_minutes } = require('@offirmo/timestamps')
 const { LIB, HINTS_FILENAME } = require('./consts')
 const fs = require('./utils-fs')

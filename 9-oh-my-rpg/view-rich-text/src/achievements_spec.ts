@@ -14,11 +14,6 @@ const { rich_text_to_ansi } = require('../../../../apps/the-boring-rpg-node/src/
 
 import { render_achievements_snapshot } from '.'
 
-const prettyjson = require('prettyjson')
-function prettify_json(data: any, options = {}) {
-	return prettyjson.render(data, options)
-}
-
 describe('🔠  view to @offirmo/rich-text-format - achievements', function() {
 
 	it('should render properly - demo', () => {

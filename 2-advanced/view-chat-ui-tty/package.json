@@ -6,22 +6,20 @@
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "UNLICENSED",
 	"dependencies": {
+		"@offirmo/prettify-json": "^0.0.1",
 		"ansi-escapes": "^3",
 		"chalk": "^2",
 		"gauge": "^2",
-		"indent-string": "^3",
 		"linewrap": "^0.2",
 		"ora": "^2",
 		"p-finally": "^1",
 		"p-progress": "^0.2",
-		"prettyjson": "^1",
 		"strip-ansi": "^4",
 		"term-size": "^1",
 		"wrap-ansi": "^4"
 	},
 	"devDependencies": {
 		"@offirmo/view-chat": "^0.0.1",
-		"prettyjson": "^1",
 		"npm-run-all": "^4",
 		"tslib": "^1"
 	},

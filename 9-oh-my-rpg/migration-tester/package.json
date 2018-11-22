@@ -11,11 +11,11 @@
 		"demo": "./demo/demo.js"
 	},
 	"dependencies": {
+		"@offirmo/prettify-json": "^0.0.1",
 		"@offirmo/timestamps": "^0.0.1",
 		"jsondiffpatch": "^0.3",
 		"load-json-file": "^5",
 		"lodash": "^4",
-		"prettyjson": "^1",
 		"write-json-file": "^3"
 	},
 	"devDependencies": {

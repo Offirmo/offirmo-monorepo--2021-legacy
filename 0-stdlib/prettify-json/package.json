@@ -8,6 +8,8 @@
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "UNLICENSED",
 	"dependencies": {
+		"indent-string": "^3",
+		"prettyjson": "^1"
 	},
 	"devDependencies": {
 		"npm-run-all": "^4",

@@ -1,29 +1,11 @@
 'use strict'
 
-const PromiseWithProgress = require('p-progress')
+//const PromiseWithProgress = require('p-progress')
+
+const prettify_json = require('@offirmo/prettify-json')
 
 const stylize_string = require('chalk')
 
-// TODO own module with auto web/node
-const prettyjson = require('prettyjson')
-function prettify_json(data, options) {
-	return prettyjson.render(data, options)
-}
-
-// https://github.com/sindresorhus/indent-string
-const indent_string_bad = require('indent-string')
-function indent_string(msg, indentation, options = {}) {
-	let result = indent_string_bad(msg, indentation, options)
-
-	if (!options || !options.indent || options.indent === ' ')
-		return result
-
-	const indent_str = Array(indentation).fill(options.indent).join('')
-	const lines = result.split('\n')
-	return lines
-		.map(line => line.startsWith(indent_str) ? line : indent_str + line)
-		.join('\n')
-}
 
 // https://github.com/AnAppAMonth/linewrap
 const linewrap = require('linewrap')
@@ -33,9 +15,8 @@ function wrap_string(s, size) {
 
 
 // https://github.com/sindresorhus/boxen
-const boxen = require('boxen')
-const enclose_in_box = boxen
-
+//const boxen = require('boxen')
+//const enclose_in_box = boxen
 
 
 // https://github.com/nexdrew/ansi-align
@@ -44,10 +25,10 @@ const enclose_in_box = boxen
 ////////////
 
 module.exports = {
-	PromiseWithProgress,
-	stylize_string,
+	//PromiseWithProgress,
 	prettify_json,
+	stylize_string,
 	indent_string,
 	wrap_string,
-	enclose_in_box,
+	//enclose_in_box,
 }

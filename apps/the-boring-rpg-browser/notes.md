@@ -23,7 +23,6 @@ TODO bg switching effects https://tympanus.net/codrops/2018/04/10/webgl-distorti
 
 		"fetchival": "^0.3",
 		"latest-version": "^4",
-		"prettyjson": "^1",
 		"semver": "^5",
 		"style-loader": "^0.23",
 		"tslib": "^1",

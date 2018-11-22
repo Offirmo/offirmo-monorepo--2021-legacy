@@ -4,15 +4,12 @@
 
 /////////////////////////////////////////////////
 
-const enclose_in_box = require('boxen')
-
 const stylize_string = require('chalk')
 
-// TODO move to foundation/advanced
-const prettyjson = require('prettyjson')
-function prettify_json(data, options) {
-	return prettyjson.render(data, options)
-}
+const prettify_json = require('@offirmo/prettify-json')
+
+/*
+const enclose_in_box = require('boxen')
 
 // https://github.com/sindresorhus/indent-string
 const indent_string = require('indent-string')
@@ -33,14 +30,15 @@ function clear_terminal() {
 }
 
 // https://github.com/nexdrew/ansi-align
+*/
 
 /////////////////////////////////////////////////
 
 module.exports = {
-	enclose_in_box,
+	//enclose_in_box,
 	stylize_string,
-	indent_string,
-	wrap_lines,
+	//indent_string,
 	prettify_json,
-	clear_terminal,
+	//wrap_lines,
+	//clear_terminal,
 }

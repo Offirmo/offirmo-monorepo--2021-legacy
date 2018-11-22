@@ -17,11 +17,6 @@ const { rich_text_to_ansi } = require('../../../../apps/the-boring-rpg-node/src/
 
 import { render_adventure } from '.'
 
-const prettyjson = require('prettyjson')
-function prettify_json(data: any, options = {}) {
-	return prettyjson.render(data, options)
-}
-
 describe('🔠  view to @offirmo/rich-text-format - adventure', function() {
 
 	it('should render properly - with gain of skills', () => {
