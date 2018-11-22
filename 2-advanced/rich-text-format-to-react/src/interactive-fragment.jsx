@@ -8,6 +8,7 @@ const modal_style = {
 	position: 'fixed',
 	zIndex: 1040, // TODO var
 	top: 0, bottom: 0, left: 0, right: 0,
+	maxWidth: '600px',
 }
 const backdrop_style = {
 	...modal_style,
@@ -35,6 +36,7 @@ const tooltip_style = {
 		zIndex: 'auto',
 		border: 'solid calc(var(--o⋄border--thickness) * 1) var(--o⋄color--fg⁚main)',
 		boxShadow: '0 5px 15px rgba(0,0,0,.5)',
+		maxWidth: '400px',
 	},
 	arrowStyle: {},
 }
@@ -168,7 +170,7 @@ export class InteractiveRichTextFragment extends Component {
 					style={modal_style}
 					backdropStyle={backdrop_style}
 				>
-					<div className="o⋄box o⋄rich-text⋄modal__dialog" style={dialog_style()} >
+					<div className="o⋄box" style={dialog_style()} >
 						{detailed}
 						<button onClick={this.on_close_modal}>Close</button>
 					</div>
