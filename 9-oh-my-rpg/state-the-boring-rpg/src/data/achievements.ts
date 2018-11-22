@@ -16,9 +16,7 @@ https://www.trueachievements.com/game/Diablo-III-Reaper-of-Souls-Ultimate-Evil-E
 // https://www.begeek.fr/vous-galerez-sur-red-dead-redemption-ii-voici-les-codes-pour-tricher-298991
 // https://www.trueachievements.com/game/Diablo-III-Reaper-of-Souls-Ultimate-Evil-Edition/achievements
 
-
-const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
-
+const RAW_ENTRIES_TEST: Partial<AchievementDefinition<State>>[] = [
 	{
 		icon: '🍪',
 		name: 'TEST',
@@ -28,17 +26,9 @@ const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
 			? AchievementStatus.secret // keep it secret
 			: AchievementStatus.unlocked, // unlock it ASAP
 	},
+]
 
-	// Intro
-	{
-		icon: '✨',
-		name: 'Summoned',
-		description: 'You began your adventures in another world.',
-		lore: 'Thanks for visiting!',
-		get_status: () => AchievementStatus.unlocked,
-	},
-
-	// alpha / beta
+const RAW_ENTRIES_GAME_PHASES: Partial<AchievementDefinition<State>>[] = [
 	{
 		icon: '🐺',
 		name: 'Alpha player',
@@ -50,14 +40,18 @@ const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
 		icon: '🦍',
 		name: 'Beta player',
 		description: 'You played during the beta. (no beta yet, though)',
+		lore: 'Those were the days my friend…',
 		get_status: () => AchievementStatus.revealed, // TODO beta
 	},
+]
 
+const RAW_ENTRIES_CTAS: Partial<AchievementDefinition<State>>[] = [
 	// main CTA
 	{
 		icon: '🥉',
 		name: 'I am bored',
 		description: 'Having played for the first time.',
+		lore: 'I am looking for someone to share in an adventure…',
 		get_status: (state: State) => state.progress.statistics.good_play_count
 			? AchievementStatus.unlocked
 			: AchievementStatus.revealed,
@@ -66,6 +60,7 @@ const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
 		icon: '🥈',
 		name: 'I am very bored',
 		description: 'Having played 7 times.',
+		lore: 'If I take one more step, I’ll be the farthest away from home I’ve ever been…',
 		get_status: (state: State) => state.progress.statistics.good_play_count >= 7
 			? AchievementStatus.unlocked
 			: AchievementStatus.revealed,
@@ -75,6 +70,7 @@ const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
 		// https://www.urbandictionary.com/define.php?term=Turn%20it%20up%20to%20eleven
 		name: 'Turn it up to eleven',
 		description: 'Having played 11 times.',
+		lore: 'You step onto the road, and there’s no telling where you might be swept off to…',
 		get_status: (state: State) => state.progress.statistics.good_play_count >= 11
 			? AchievementStatus.unlocked
 			: state.progress.statistics.good_play_count >= 7
@@ -85,6 +81,7 @@ const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
 		icon: '🥇',
 		name: 'I am dead bored',
 		description: 'Having played 77 times.',
+		lore: 'Not all those who wander are lost.',
 		get_status: (state: State) => state.progress.statistics.good_play_count >= 77
 			? AchievementStatus.unlocked
 			: state.progress.statistics.good_play_count >= 11
@@ -137,7 +134,7 @@ const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
 		description: 'Having been playing for 7 days.',
 		get_status: (state: State) => state.progress.statistics.active_day_count >= 7
 			? AchievementStatus.unlocked
-			: state.progress.statistics.good_play_count >= 2
+			: state.progress.statistics.active_day_count >= 2
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
 	},
@@ -147,7 +144,7 @@ const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
 		description: 'Having been playing for 30 days.',
 		get_status: (state: State) => state.progress.statistics.active_day_count >= 30
 			? AchievementStatus.unlocked
-			: state.progress.statistics.good_play_count >= 7
+			: state.progress.statistics.active_day_count >= 7
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
 	},
@@ -157,7 +154,7 @@ const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
 		description: 'Having been playing for 120 days.',
 		get_status: (state: State) => state.progress.statistics.active_day_count >= 120
 			? AchievementStatus.unlocked
-			: state.progress.statistics.good_play_count >= 30
+			: state.progress.statistics.active_day_count >= 30
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
 	},
@@ -167,16 +164,20 @@ const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
 		description: 'Having been playing for 365 days.',
 		get_status: (state: State) => state.progress.statistics.active_day_count >= 365
 			? AchievementStatus.unlocked
-			: state.progress.statistics.good_play_count >= 120
+			: state.progress.statistics.active_day_count >= 120
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
 	},
+]
 
-	// counter-CTA
+const RAW_ENTRIES_COUNTER_CTAS: Partial<AchievementDefinition<State>>[] = [
+
+	// bad clicks
 	{
 		icon: '😱',
 		name: 'Sorry my hand slipped',
 		description: 'Having played too soon for the 1st time.',
+		lore: 'each mistake teaches us something…',
 		get_status: (state: State) => state.progress.statistics.bad_play_count
 			? AchievementStatus.unlocked
 			: AchievementStatus.hidden,
@@ -185,6 +186,7 @@ const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
 		icon: '🙀',
 		name: 'Oops!... I Did It Again',
 		description: 'Having played too soon for the 2nd time.',
+		lore: 'Anyone who has never made a mistake has never tried anything new.',
 		get_status: (state: State) => state.progress.statistics.bad_play_count >= 2
 			? AchievementStatus.unlocked
 			: AchievementStatus.hidden,
@@ -193,6 +195,7 @@ const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
 		icon: '😼',
 		name: 'I’m not that innocent',
 		description: 'Having played too soon 10 times.',
+		lore: 'There is no such thing as accident; it is fate misnamed.',
 		get_status: (state: State) => state.progress.statistics.bad_play_count >= 10
 			? AchievementStatus.unlocked
 			: state.progress.statistics.bad_play_count >= 3
@@ -203,6 +206,7 @@ const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
 		icon: '😈',
 		name: 'It’s good to be bad',
 		description: 'Having played too soon 66 times.',
+		lore: 'Never retreat, never retract… never admit a mistake…',
 		get_status: (state: State) => state.progress.statistics.bad_play_count >= 66
 			? AchievementStatus.unlocked
 			: state.progress.statistics.bad_play_count >= 10
@@ -213,14 +217,16 @@ const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
 		icon: '👻',
 		name: 'Hello darkness my old friend',
 		description: 'Having played too soon 666 times.',
+		lore: 'Give yourself to the dark side…',
 		get_status: (state: State) => state.progress.statistics.bad_play_count >= 666
 			? AchievementStatus.unlocked
 			: state.progress.statistics.bad_play_count >= 66
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
 	},
+]
 
-	// Engagement
+const RAW_ENTRIES_ENGAGEMENT: Partial<AchievementDefinition<State>>[] = [
 	{
 		icon: '🆙',
 		name: 'What’s in a name?',
@@ -241,20 +247,16 @@ const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
 		icon: '🆔',
 		name: 'Registered',
 		description: 'Having signed up.',
-		get_status: (state: State) => state.progress.statistics.active_day_count >= 365
-			? AchievementStatus.unlocked
-			: state.progress.statistics.good_play_count >= 120
-				? AchievementStatus.revealed
-				: AchievementStatus.hidden,
 	},
+]
 
-	// Progression/milestones
-	// ..
+const RAW_ENTRIES_PROGRESSION_EQUIPMENT: Partial<AchievementDefinition<State>>[] = [
 	{
 		icon: '🥄',
 		name: 'There is no spoon',
 		description: 'Having replaced your starting weapon.',
 	},
+
 	// - quality
 	{
 		icon: '',
@@ -276,6 +278,7 @@ const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
 		name: 'I am a legend',
 		description: 'All equipped items of quality legendary or higher.',
 	},
+
 	// - power
 	{
 		icon: '🐸',
@@ -292,17 +295,9 @@ const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
 		name: '',
 		description: 'Having a combined equipment’s power of 2000 or higher.',
 	},
+]
 
-	{
-		icon: '',
-		name: 'God complex',
-		description: 'Having the name "Perte" or "Offirmo"',
-	},
-	{
-		icon: '',
-		name: 'Just plain lucky',
-		description: 'You have 1/500000 chance to gain this on each activity.',
-	},
+const RAW_ENTRIES_PROGRESSION_ATTRIBUTES: Partial<AchievementDefinition<State>>[] = [
 	// attributes
 	// https://www.google.com/search?q=silver+tongue
 	{
@@ -322,21 +317,6 @@ const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
 	},
 ]
 
-const ENTRIES: AchievementDefinition<State>[] = RAW_ENTRIES
-	.filter(raw => raw.name && raw.description && raw.get_status)
-	.map(({name, icon, description, lore, get_status}, index) => {
-		const session_uuid = [`${index}`.padStart(4, '0'), name].join(' ')
-		return {
-			session_uuid,
-			icon: icon || '🏆',
-			name: name!,
-			description: description!,
-			lore,
-			get_status: get_status!,
-		}
-	})
-
-export default ENTRIES
 
 /*’
 - I was born ready - having replaced all starting equipment
@@ -402,4 +382,79 @@ Such a little thing
 		name: '',
 		description: '',
 	},
+
+	you've been officially labeled a 'disturber of the peace.'
+
+	https://en.wikipedia.org/wiki/All_that_is_gold_does_not_glitter
+
+	https://www.brainyquote.com/search_results?q=adventure
  */
+
+const RAW_ENTRIES_SECRETS: Partial<AchievementDefinition<State>>[] = [
+	{
+		icon: '👑',
+		name: 'Usurper',
+		description: 'Having set the name "Offirmo".',
+		lore: 'I see you…',
+		get_status: (state: State) => state.avatar.name === 'Offirmo'
+			? AchievementStatus.unlocked
+			: AchievementStatus.secret,
+	},
+	{
+		icon: '🍀',
+		name: 'Just plain lucky',
+		description: 'You have 1/500000 chance to gain this on each activity.',
+		lore: 'The amount of good luck coming your way depends on your willingness to act.',
+		get_status: () => Math.floor(Math.random() * 500000) === 123456
+			? AchievementStatus.unlocked
+			: AchievementStatus.secret,
+	},
+	{
+		icon: '🏴‍☠️',
+		name: 'Cheater',
+		description: 'You manipulated the threads of reality to obtain this achievement. (can’t be obtained by normal means)',
+		lore: 'Just a different way of looking at problems that no one’s thought of ;)',
+		get_status: (state: State) => AchievementStatus.secret,
+	},
+]
+
+const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
+
+	...RAW_ENTRIES_TEST,
+	...RAW_ENTRIES_GAME_PHASES,
+
+	// Intro
+	{
+		icon: '✨',
+		name: 'Summoned',
+		description: 'You began your adventures in another world.',
+		lore: 'Thanks for visiting!',
+		get_status: () => AchievementStatus.unlocked,
+	},
+
+	...RAW_ENTRIES_CTAS,
+	...RAW_ENTRIES_COUNTER_CTAS,
+	...RAW_ENTRIES_ENGAGEMENT,
+
+	// Progression/milestones
+	...RAW_ENTRIES_PROGRESSION_EQUIPMENT,
+	...RAW_ENTRIES_PROGRESSION_ATTRIBUTES,
+
+	...RAW_ENTRIES_SECRETS,
+]
+
+const ENTRIES: AchievementDefinition<State>[] = RAW_ENTRIES
+	.filter(raw => raw.name && raw.description && raw.get_status)
+	.map(({name, icon, description, lore, get_status}, index) => {
+		const session_uuid = [`${index}`.padStart(4, '0'), name].join(' ')
+		return {
+			session_uuid,
+			icon: icon || '🏆',
+			name: name!,
+			description: description!,
+			lore,
+			get_status: get_status!,
+		}
+	})
+
+export default ENTRIES

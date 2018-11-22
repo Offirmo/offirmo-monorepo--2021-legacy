@@ -1,4 +1,5 @@
 
+TODO https://squoosh.app/
 
 transitions https://css-tricks.com/animate-images-and-videos-with-curtains-js/
 

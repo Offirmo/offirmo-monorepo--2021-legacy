@@ -15,7 +15,6 @@ export const NODE_TYPE_TO_COMPONENT = {
 }
 
 export const NODE_TYPE_TO_EXTRA_CLASSES = {
-	//[NodeType.inline_fragment]: [ 'o⋄rich-text⋄inline' ],
 	[NodeType.weak]: [ 'o⋄color⁚secondary' ],
 }
 
@@ -119,7 +118,7 @@ export function intermediate_on_node_exit({$node, $id, state}, options) {
 			},
 			children
 		)
-	else if (!Enum.isType(NodeType, $type))
+	else if (!Enum.isType(NodeType, $type)) {
 		console.error(`Unknown node type "${$type}"!`)
 		// TODO throw instead??
 		result.wrapper = children => React.createElement(
@@ -128,8 +127,12 @@ export function intermediate_on_node_exit({$node, $id, state}, options) {
 				key: generate_react_key({$id, $node}),
 				className: 'o⋄rich-text⋄error',
 			},
-			[ `Unknown type "${$type}"`, children]
+			[
+				`[Unknown type "${$type}"]`, // extra inline text
+				children
+			]
 		)
+	}
 
 	return result
 }

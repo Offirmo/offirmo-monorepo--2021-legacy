@@ -65,7 +65,7 @@ import { SoftExecutionContext, OMRContext, get_lib_SEC } from '../../sec'
 import { receive_item } from './play/play_adventure'
 import { play_good } from './play/play_good'
 import { play_bad } from './play/play_bad'
-import { refresh_achievements } from './achievements'
+import { _refresh_achievements } from './achievements'
 
 /////////////////////
 
@@ -112,7 +112,7 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 		state = receive_item(state, starting_armor)
 		state = equip_item(state, starting_armor.uuid)
 
-		state = refresh_achievements(state) // there are some initial achievements
+		state = _refresh_achievements(state) // there are some initial achievements
 		// reset engagements that may have been created by noisy initial achievements
 		state = {
 			...state,
@@ -145,15 +145,18 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 	})
 }
 
-function reseed(state: Readonly<State>, seed?: number): Readonly<State> {
-	seed = seed || generate_random_seed()
-
+function on_start_session(state: Readonly<State>): Readonly<State> {
+	// 1. statistics (may trigger achievements)
 	state = {
 		...state,
-		prng: PRNGState.set_seed(state.prng, seed),
+
+		progress: ProgressState.on_start_session(state.progress),
+
+		revision: state.revision + 1,
 	}
 
-	return state
+	// 2. new achievements may have appeared
+	return _refresh_achievements(state)
 }
 
 // note: allows passing an explicit adventure archetype for testing
@@ -187,7 +190,7 @@ function play(state: Readonly<State>, explicit_adventure_archetype_hid?: string)
 
 	//console.log(state.progress)
 
-	return refresh_achievements(state)
+	return _refresh_achievements(state)
 }
 
 function equip_item(state: Readonly<State>, uuid: UUID): Readonly<State> {
@@ -198,7 +201,7 @@ function equip_item(state: Readonly<State>, uuid: UUID): Readonly<State> {
 		revision: state.revision + 1,
 	}
 
-	return refresh_achievements(state)
+	return _refresh_achievements(state)
 }
 
 function sell_item(state: Readonly<State>, uuid: UUID): Readonly<State> {
@@ -212,7 +215,7 @@ function sell_item(state: Readonly<State>, uuid: UUID): Readonly<State> {
 		revision: state.revision + 1,
 	}
 
-	return refresh_achievements(state)
+	return _refresh_achievements(state)
 }
 
 function rename_avatar(state: Readonly<State>, new_name: string): Readonly<State> {
@@ -223,7 +226,7 @@ function rename_avatar(state: Readonly<State>, new_name: string): Readonly<State
 		revision: state.revision + 1,
 	}
 
-	return refresh_achievements(state)
+	return _refresh_achievements(state)
 }
 
 function change_avatar_class(state: Readonly<State>, new_class: CharacterClass): Readonly<State> {
@@ -234,7 +237,7 @@ function change_avatar_class(state: Readonly<State>, new_class: CharacterClass):
 		revision: state.revision + 1,
 	}
 
-	return refresh_achievements(state)
+	return _refresh_achievements(state)
 }
 
 function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<State> {
@@ -364,7 +367,7 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<
 		}
 	}
 
-	return refresh_achievements({
+	return _refresh_achievements({
 		...state,
 		engagement: EngagementState.enqueue(state.engagement, {
 			type: EngagementState.EngagementType.flow,
@@ -385,6 +388,17 @@ function acknowledge_engagement_msg_seen(state: Readonly<State>, uid: number): R
 }
 
 /////////////////////
+
+function reseed(state: Readonly<State>, seed?: number): Readonly<State> {
+	seed = seed || generate_random_seed()
+
+	state = {
+		...state,
+		prng: PRNGState.set_seed(state.prng, seed),
+	}
+
+	return state
+}
 
 function autogroom(state: Readonly<State>, options: { class_hint?: CharacterClass } = {}) {
 	invariant(!options.class_hint || Enum.isType(CharacterClass, options.class_hint), 'invalid class hint!')
@@ -435,7 +449,7 @@ function autoplay(state: Readonly<State>, options: { unlimited_energy: boolean }
 
 export {
 	create,
-
+	on_start_session,
 	reseed,
 	play,
 	equip_item,

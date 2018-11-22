@@ -31,6 +31,7 @@ SEC.xTry('loading savegame + creating game instance', ({logger}) => {
 			localStorage.setItem(LS_KEYS.savegame, JSON.stringify(state))
 		},
 	})
+	game_instance.reducers.on_start_session()
 })
 
 SEC.xTry('init client state', ({logger}) => {

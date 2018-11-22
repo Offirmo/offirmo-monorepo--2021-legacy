@@ -1,5 +1,6 @@
 import {expect} from 'chai'
 import deepFreeze from 'deep-freeze-strict'
+import sinon from 'sinon'
 
 import { JSONObject } from '@offirmo/ts-types'
 import {test_migrations} from '@oh-my-rpg/migration-tester'
@@ -45,6 +46,9 @@ function advanced_diff_json(a: JSONObject, b: JSONObject, { diff }: { diff?: JSO
 }
 
 describe('@oh-my-rpg/state-the-boring-rpg - schema migration', function () {
+	beforeEach(function () {
+		this.clock = sinon.useFakeTimers(1542794960217); // needed to have a reproducible timestamp
+	})
 
 	it('should correctly migrate a fresh state (by touching nothing)', () => {
 		const old_state = deepFreeze(create())
@@ -59,7 +63,7 @@ describe('@oh-my-rpg/state-the-boring-rpg - schema migration', function () {
 		// TODO ALPHA remove skip
 		test_migrations({
 			use_hints: true,
-			read_only: false, // uncomment when updating
+			//read_only: false, // uncomment when updating
 			migration_hints_for_chaining: MIGRATION_HINTS_FOR_TESTS,
 			advanced_diff_json,
 			SCHEMA_VERSION,
@@ -77,7 +81,7 @@ describe('@oh-my-rpg/state-the-boring-rpg - schema migration', function () {
 		// TODO ALPHA remove skip
 		test_migrations.skip({
 			use_hints: false,
-			read_only: false, // uncomment when updating
+			//read_only: false, // uncomment when updating
 			advanced_diff_json,
 			SCHEMA_VERSION,
 			LATEST_EXPECTED_DATA: new_state,

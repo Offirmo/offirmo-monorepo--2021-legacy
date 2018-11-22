@@ -17,7 +17,7 @@ import {EngagementKey} from "../../../engagement";
 
 /////////////////////
 
-function refresh_achievements(state: Readonly<State>): Readonly<State> {
+function _refresh_achievements(state: Readonly<State>): Readonly<State> {
 	let changed = false
 	let progress: ProgressState = {
 		...state.progress
@@ -28,6 +28,11 @@ function refresh_achievements(state: Readonly<State>): Readonly<State> {
 		const last_known_status = get_last_known_achievement_status(progress, name)
 		const current_status = definition.get_status(state)
 
+		// Don't remove an achievement
+		// if it was a bug, it should be revoked in a migration
+		if (last_known_status === AchievementStatus.unlocked) return
+
+		// nothing to do if no change
 		if (last_known_status === current_status) return
 
 		changed = true
@@ -59,5 +64,5 @@ function refresh_achievements(state: Readonly<State>): Readonly<State> {
 }
 
 export {
-	refresh_achievements,
+	_refresh_achievements,
 }

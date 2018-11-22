@@ -11,13 +11,13 @@ import {
 
 import { State } from '../../../types'
 import { create } from '../state'
-import { refresh_achievements } from '.'
+import { _refresh_achievements } from '.'
 import ACHIEVEMENT_DEFINITIONS from '../../../data/achievements'
 
 describe('@oh-my-rpg/state-the-boring-rpg - reducer / achievements', function() {
 	beforeEach(() => xxx_internal_reset_prng_cache())
 
-	describe('refresh_achievements()', function() {
+	describe('_refresh_achievements()', function() {
 
 		context('🚫  when having no new achievements', function() {
 
@@ -25,7 +25,7 @@ describe('@oh-my-rpg/state-the-boring-rpg - reducer / achievements', function() 
 				const state = create() // includes an initial refresh
 
 				// a second time
-				const new_state = refresh_achievements(state)
+				const new_state = _refresh_achievements(state)
 
 				expect(new_state).to.equal(state) // immutability
 			})
@@ -45,7 +45,7 @@ describe('@oh-my-rpg/state-the-boring-rpg - reducer / achievements', function() 
 					}
 				}
 
-				const new_state = refresh_achievements(state)
+				const new_state = _refresh_achievements(state)
 
 				expect(new_state).not.to.equal(state) // immutability
 			})

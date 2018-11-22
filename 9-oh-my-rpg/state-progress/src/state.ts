@@ -60,7 +60,7 @@ function _on_activity(state: Readonly<State>, previous_revision: number): Readon
 	if (!is_new_day)
 		return state // FOR NOW?
 
-	new_state.statistics.active_day_count++
+	new_state.statistics.active_day_count = (new_state.statistics.active_day_count || 0) + 1
 
 	return new_state
 }

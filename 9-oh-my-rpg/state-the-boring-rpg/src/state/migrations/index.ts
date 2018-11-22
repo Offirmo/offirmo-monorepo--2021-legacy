@@ -12,7 +12,6 @@ import * as ProgressState from '@oh-my-rpg/state-progress'
 import { LIB, SCHEMA_VERSION } from '../../consts'
 import { State } from '../../types'
 import { create } from '../reducers/state'
-import { refresh_achievements } from '../reducers/achievements'
 import { SoftExecutionContext, OMRContext, get_lib_SEC } from '../../sec'
 
 /////////////////////
@@ -114,10 +113,6 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: 
 
 			if (sub_reducer_migrated.length !== SUB_REDUCERS_COUNT)
 				throw new Error('migrate_to_latest src (2) is outdated, please update!')
-
-			// TODO remove, temp migration
-			// TODO move
-			state = refresh_achievements(state)
 
 			logger.info(`${LIB}: schema migration successful.`)
 			SEC.fireAnalyticsEvent('schema migration.ended')

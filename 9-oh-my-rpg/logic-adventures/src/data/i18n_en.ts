@@ -740,9 +740,9 @@ You gather firewood, draw water from the well, chase pests.
 You gain {{coin}} as agreed, +{{strength}} strength as a bonus and hopefully gain the people's trust for better quests in the future!
 		`,
 	village_lost_kid: `
-A villager run after you "Please find my kid lost in the forest! I heard about goblins and fear the worst!".
+A villager runs after you "Please find my kid lost in the forest! I heard about goblins and fear the worst!".{{br}}
 You arrive just as the goblins were about to put the kid in the cauldron.
-You deal justice to these pests, drink their soup and bring back the kid.
+You deal justice to these pests, drink their soup and bring back the kid.{{br}}
 The parent is delighted and you looted a {{item}} in the goblin camp.
 		`,
 	village_lost_father: `
@@ -963,31 +963,31 @@ You are rewarded with weapons and honors: {{item}}, {{token}}...
 	pet_squirrel: `
 Having spent so much time in the forest, you befriend and tame a squirrel.
 You keep it as a pet.
-His aura gives you +{{agility}} agility!
+Its aura gives you +{{agility}} agility!
 	`,
 
 	pet_black_cat: `
 You befriend and tame a black cat.
 He now follows you as a pet.
-His aura gives you +{{luck}} luck!
+Its aura gives you +{{luck}} luck!
 	`,
 
 	pet_rainbow_lorikeet: `
 In the paradise island, you befriend and tame a rainbow lorikeet.
-He now stays on your shoulder, that's quite a sight!
+It now stays on your shoulder, that's quite a sight!
 This makes you popular: +{{charisma}} charisma!
 	`,
 
 	pet_red_eyed_unicorn: `
 You encounter a red eyed unicorn throwing fire from her mouth.
-She seems evil and acknowledges you.{{br}}
-You just won yourself an epic mount! And her aura gives you +{{mana}} mana!
+It seems evil and acknowledges you.{{br}}
+You just won yourself an epic mount! And its aura gives you +{{mana}} mana!
 	`,
 
 	pet_badger_mushrooms: `
 You dance and sing "badger badger mushrooms mushrooms"{{br}}
 You must have eaten the wrong mushroom.{{br}}
-You wake up with a pet badger. His aura gives you +{{strength}} strength!
+You wake up with a pet badger. Its aura gives you +{{strength}} strength!
 `,
 
 }
