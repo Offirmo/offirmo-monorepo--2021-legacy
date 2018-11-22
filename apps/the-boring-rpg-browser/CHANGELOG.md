@@ -17,10 +17,11 @@ Next
 - 🤩 feature: X new achievements (now totalling X!)
 
 
-2018/
+2018/11/22 v0.52.50
 - 🤩 feature: 33 new adventures!! (now totalling 158!)
 - 😍 feature: 4 new backgrounds (now totalling 21!)
 - 🤩 feature: 9 new achievements (now totalling 27!)
+- 😅 fix: tweaked the interface here and there
 - 😷 chore: some internal refactors
 
 

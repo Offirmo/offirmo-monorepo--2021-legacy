@@ -5,10 +5,10 @@ import { has_any_hover } from '@offirmo/features-detection-browser'
 import ErrorBoundary from '@offirmo/react-error-boundary'
 
 const modal_style = {
+	// this is mor the backdrop than the modal, beware!
 	position: 'fixed',
 	zIndex: 1040, // TODO var
 	top: 0, bottom: 0, left: 0, right: 0,
-	maxWidth: '600px',
 }
 const backdrop_style = {
 	...modal_style,
@@ -25,6 +25,7 @@ const dialog_style = function() {
 		top: top + '%', left: left + '%',
 		transform: `translate(-${top}%, -${left}%)`,
 		boxShadow: '0 5px 15px rgba(0,0,0,.5)',
+		maxWidth: '600px',
 	}
 }
 
