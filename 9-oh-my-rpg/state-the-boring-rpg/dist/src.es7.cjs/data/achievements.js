@@ -8,9 +8,14 @@ const state_character_1 = require("@oh-my-rpg/state-character");
 🥇🥈🥉
 🎖🏆🏅
 👑🎓
+https://www.wowhead.com/the-entitled-a-guide-to-titles
+https://www.wowhead.com/achievements
+http://cookieclicker.wikia.com/wiki/Achievement
+https://www.trueachievements.com/game/Diablo-III-Reaper-of-Souls-Ultimate-Evil-Edition/achievements
  */
 // https://www.begeek.fr/vous-galerez-sur-red-dead-redemption-ii-voici-les-codes-pour-tricher-298991
-const RAW_ENTRIES = [
+// https://www.trueachievements.com/game/Diablo-III-Reaper-of-Souls-Ultimate-Evil-Edition/achievements
+const RAW_ENTRIES_TEST = [
     {
         icon: '🍪',
         name: 'TEST',
@@ -20,15 +25,8 @@ const RAW_ENTRIES = [
             ? state_progress_1.AchievementStatus.secret // keep it secret
             : state_progress_1.AchievementStatus.unlocked,
     },
-    // Intro
-    {
-        icon: '✨',
-        name: 'Summoned',
-        description: 'You began your adventures in another world.',
-        lore: 'Thanks for visiting!',
-        get_status: () => state_progress_1.AchievementStatus.unlocked,
-    },
-    // alpha / beta
+];
+const RAW_ENTRIES_GAME_PHASES = [
     {
         icon: '🐺',
         name: 'Alpha player',
@@ -40,13 +38,17 @@ const RAW_ENTRIES = [
         icon: '🦍',
         name: 'Beta player',
         description: 'You played during the beta. (no beta yet, though)',
+        lore: 'Those were the days my friend…',
         get_status: () => state_progress_1.AchievementStatus.revealed,
     },
+];
+const RAW_ENTRIES_CTAS = [
     // main CTA
     {
         icon: '🥉',
         name: 'I am bored',
         description: 'Having played for the first time.',
+        lore: 'I am looking for someone to share in an adventure…',
         get_status: (state) => state.progress.statistics.good_play_count
             ? state_progress_1.AchievementStatus.unlocked
             : state_progress_1.AchievementStatus.revealed,
@@ -55,6 +57,7 @@ const RAW_ENTRIES = [
         icon: '🥈',
         name: 'I am very bored',
         description: 'Having played 7 times.',
+        lore: 'If I take one more step, I’ll be the farthest away from home I’ve ever been…',
         get_status: (state) => state.progress.statistics.good_play_count >= 7
             ? state_progress_1.AchievementStatus.unlocked
             : state_progress_1.AchievementStatus.revealed,
@@ -64,6 +67,7 @@ const RAW_ENTRIES = [
         // https://www.urbandictionary.com/define.php?term=Turn%20it%20up%20to%20eleven
         name: 'Turn it up to eleven',
         description: 'Having played 11 times.',
+        lore: 'You step onto the road, and there’s no telling where you might be swept off to…',
         get_status: (state) => state.progress.statistics.good_play_count >= 11
             ? state_progress_1.AchievementStatus.unlocked
             : state.progress.statistics.good_play_count >= 7
@@ -74,6 +78,7 @@ const RAW_ENTRIES = [
         icon: '🥇',
         name: 'I am dead bored',
         description: 'Having played 77 times.',
+        lore: 'Not all those who wander are lost.',
         get_status: (state) => state.progress.statistics.good_play_count >= 77
             ? state_progress_1.AchievementStatus.unlocked
             : state.progress.statistics.good_play_count >= 11
@@ -112,35 +117,61 @@ const RAW_ENTRIES = [
     },
     // regularity
     {
-        icon: '',
+        icon: '🌱',
         name: 'I’ll be back',
         description: 'Having been playing for 2 days.',
+        get_status: (state) => state.progress.statistics.active_day_count >= 2
+            ? state_progress_1.AchievementStatus.unlocked
+            : state_progress_1.AchievementStatus.revealed,
     },
     {
-        icon: '',
+        icon: '🌿',
         name: 'Regular',
         description: 'Having been playing for 7 days.',
+        get_status: (state) => state.progress.statistics.active_day_count >= 7
+            ? state_progress_1.AchievementStatus.unlocked
+            : state.progress.statistics.active_day_count >= 2
+                ? state_progress_1.AchievementStatus.revealed
+                : state_progress_1.AchievementStatus.hidden,
     },
     {
-        icon: '',
+        icon: '🌳',
         name: 'Faithful',
         description: 'Having been playing for 30 days.',
+        get_status: (state) => state.progress.statistics.active_day_count >= 30
+            ? state_progress_1.AchievementStatus.unlocked
+            : state.progress.statistics.active_day_count >= 7
+                ? state_progress_1.AchievementStatus.revealed
+                : state_progress_1.AchievementStatus.hidden,
     },
     {
-        icon: '',
+        icon: '💉',
         name: 'Hooked',
         description: 'Having been playing for 120 days.',
+        get_status: (state) => state.progress.statistics.active_day_count >= 120
+            ? state_progress_1.AchievementStatus.unlocked
+            : state.progress.statistics.active_day_count >= 30
+                ? state_progress_1.AchievementStatus.revealed
+                : state_progress_1.AchievementStatus.hidden,
     },
     {
         icon: '🎂',
         name: 'Addicted',
         description: 'Having been playing for 365 days.',
+        get_status: (state) => state.progress.statistics.active_day_count >= 365
+            ? state_progress_1.AchievementStatus.unlocked
+            : state.progress.statistics.active_day_count >= 120
+                ? state_progress_1.AchievementStatus.revealed
+                : state_progress_1.AchievementStatus.hidden,
     },
-    // counter-CTA
+];
+const RAW_ENTRIES_COUNTER_CTAS = [
+    // bad clicks
     {
         icon: '😱',
         name: 'Sorry my hand slipped',
         description: 'Having played too soon for the 1st time.',
+        lore: 'each mistake teaches us something…',
         get_status: (state) => state.progress.statistics.bad_play_count
             ? state_progress_1.AchievementStatus.unlocked
             : state_progress_1.AchievementStatus.hidden,
@@ -149,6 +180,7 @@ const RAW_ENTRIES = [
         icon: '🙀',
         name: 'Oops!... I Did It Again',
         description: 'Having played too soon for the 2nd time.',
+        lore: 'Anyone who has never made a mistake has never tried anything new.',
         get_status: (state) => state.progress.statistics.bad_play_count >= 2
             ? state_progress_1.AchievementStatus.unlocked
             : state_progress_1.AchievementStatus.hidden,
@@ -157,6 +189,7 @@ const RAW_ENTRIES = [
         icon: '😼',
         name: 'I’m not that innocent',
         description: 'Having played too soon 10 times.',
+        lore: 'There is no such thing as accident; it is fate misnamed.',
         get_status: (state) => state.progress.statistics.bad_play_count >= 10
             ? state_progress_1.AchievementStatus.unlocked
             : state.progress.statistics.bad_play_count >= 3
@@ -167,6 +200,7 @@ const RAW_ENTRIES = [
         icon: '😈',
         name: 'It’s good to be bad',
         description: 'Having played too soon 66 times.',
+        lore: 'Never retreat, never retract… never admit a mistake…',
         get_status: (state) => state.progress.statistics.bad_play_count >= 66
             ? state_progress_1.AchievementStatus.unlocked
             : state.progress.statistics.bad_play_count >= 10
@@ -177,13 +211,15 @@ const RAW_ENTRIES = [
         icon: '👻',
         name: 'Hello darkness my old friend',
         description: 'Having played too soon 666 times.',
+        lore: 'Give yourself to the dark side…',
         get_status: (state) => state.progress.statistics.bad_play_count >= 666
             ? state_progress_1.AchievementStatus.unlocked
             : state.progress.statistics.bad_play_count >= 66
                 ? state_progress_1.AchievementStatus.revealed
                 : state_progress_1.AchievementStatus.hidden,
     },
-    // Engagement
+];
+const RAW_ENTRIES_ENGAGEMENT = [
     {
         icon: '🆙',
         name: 'What’s in a name?',
@@ -205,8 +241,8 @@ const RAW_ENTRIES = [
         name: 'Registered',
         description: 'Having signed up.',
     },
-    // Progression/milestones
-    // ..
+];
+const RAW_ENTRIES_PROGRESSION_EQUIPMENT = [
     {
         icon: '🥄',
         name: 'There is no spoon',
@@ -249,16 +285,8 @@ const RAW_ENTRIES = [
         name: '',
         description: 'Having a combined equipment’s power of 2000 or higher.',
     },
-    {
-        icon: '',
-        name: 'God complex',
-        description: 'Having the name "Perte" or "Offirmo"',
-    },
-    {
-        icon: '',
-        name: 'Just plain lucky',
-        description: 'You have 1/500000 chance to gain this on each activity.',
-    },
+];
+const RAW_ENTRIES_PROGRESSION_ATTRIBUTES = [
     // attributes
     // https://www.google.com/search?q=silver+tongue
     {
@@ -277,20 +305,6 @@ const RAW_ENTRIES = [
         description: 'Having a charisma of 100 or higher.',
     },
 ];
-const ENTRIES = RAW_ENTRIES
-    .filter(raw => raw.name && raw.description && raw.get_status)
-    .map(({ name, icon, description, lore, get_status }, index) => {
-    const session_uuid = [`${index}`.padStart(4, '0'), name].join(' ');
-    return {
-        session_uuid,
-        icon: icon || '🏆',
-        name: name,
-        description: description,
-        lore,
-        get_status: get_status,
-    };
-});
-exports.default = ENTRIES;
 /*’
 - I was born ready - having replaced all starting equipment
 
@@ -355,5 +369,71 @@ Such a little thing
         name: '',
         description: '',
     },
+
+    you've been officially labeled a 'disturber of the peace.'
+
+    https://en.wikipedia.org/wiki/All_that_is_gold_does_not_glitter
+
+    https://www.brainyquote.com/search_results?q=adventure
  */
+const RAW_ENTRIES_SECRETS = [
+    {
+        icon: '👑',
+        name: 'Usurper',
+        description: 'Having set the name "Offirmo".',
+        lore: 'I see you…',
+        get_status: (state) => state.avatar.name === 'Offirmo'
+            ? state_progress_1.AchievementStatus.unlocked
+            : state_progress_1.AchievementStatus.secret,
+    },
+    {
+        icon: '🍀',
+        name: 'Just plain lucky',
+        description: 'You have 1/500000 chance to gain this on each activity.',
+        lore: 'The amount of good luck coming your way depends on your willingness to act.',
+        get_status: () => Math.floor(Math.random() * 500000) === 123456
+            ? state_progress_1.AchievementStatus.unlocked
+            : state_progress_1.AchievementStatus.secret,
+    },
+    {
+        icon: '🏴‍☠️',
+        name: 'Cheater',
+        description: 'You manipulated the threads of reality to obtain this achievement. (can’t be obtained by normal means)',
+        lore: 'Just a different way of looking at problems that no one’s thought of ;)',
+        get_status: (state) => state_progress_1.AchievementStatus.secret,
+    },
+];
+const RAW_ENTRIES = [
+    ...RAW_ENTRIES_TEST,
+    ...RAW_ENTRIES_GAME_PHASES,
+    // Intro
+    {
+        icon: '✨',
+        name: 'Summoned',
+        description: 'You began your adventures in another world.',
+        lore: 'Thanks for visiting!',
+        get_status: () => state_progress_1.AchievementStatus.unlocked,
+    },
+    ...RAW_ENTRIES_CTAS,
+    ...RAW_ENTRIES_COUNTER_CTAS,
+    ...RAW_ENTRIES_ENGAGEMENT,
+    // Progression/milestones
+    ...RAW_ENTRIES_PROGRESSION_EQUIPMENT,
+    ...RAW_ENTRIES_PROGRESSION_ATTRIBUTES,
+    ...RAW_ENTRIES_SECRETS,
+];
+const ENTRIES = RAW_ENTRIES
+    .filter(raw => raw.name && raw.description && raw.get_status)
+    .map(({ name, icon, description, lore, get_status }, index) => {
+    const session_uuid = [`${index}`.padStart(4, '0'), name].join(' ');
+    return {
+        session_uuid,
+        icon: icon || '🏆',
+        name: name,
+        description: description,
+        lore,
+        get_status: get_status,
+    };
+});
+exports.default = ENTRIES;
 //# sourceMappingURL=achievements.js.map

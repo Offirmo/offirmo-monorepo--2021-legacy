@@ -10,12 +10,12 @@ const _1 = require(".");
 const achievements_1 = tslib_1.__importDefault(require("../../../data/achievements"));
 describe('@oh-my-rpg/state-the-boring-rpg - reducer / achievements', function () {
     beforeEach(() => state_prng_1.xxx_internal_reset_prng_cache());
-    describe('refresh_achievements()', function () {
+    describe('_refresh_achievements()', function () {
         context('🚫  when having no new achievements', function () {
             it('should not change the state at all', () => {
                 const state = state_1.create(); // includes an initial refresh
                 // a second time
-                const new_state = _1.refresh_achievements(state);
+                const new_state = _1._refresh_achievements(state);
                 chai_1.expect(new_state).to.equal(state); // immutability
             });
         });
@@ -24,7 +24,7 @@ describe('@oh-my-rpg/state-the-boring-rpg - reducer / achievements', function ()
                 let state = state_1.create();
                 // trigger an achievement out of band (would never happen for real)
                 state = Object.assign({}, state, { avatar: Object.assign({}, state.avatar, { name: 'Foo' }) });
-                const new_state = _1.refresh_achievements(state);
+                const new_state = _1._refresh_achievements(state);
                 chai_1.expect(new_state).not.to.equal(state); // immutability
             });
         });

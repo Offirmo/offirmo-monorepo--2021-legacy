@@ -3,7 +3,7 @@ import { CharacterClass } from '@oh-my-rpg/state-character';
 import { State } from '../../types';
 import { SoftExecutionContext } from '../../sec';
 declare function create(SEC?: SoftExecutionContext): Readonly<State>;
-declare function reseed(state: Readonly<State>, seed?: number): Readonly<State>;
+declare function on_start_session(state: Readonly<State>): Readonly<State>;
 declare function play(state: Readonly<State>, explicit_adventure_archetype_hid?: string): Readonly<State>;
 declare function equip_item(state: Readonly<State>, uuid: UUID): Readonly<State>;
 declare function sell_item(state: Readonly<State>, uuid: UUID): Readonly<State>;
@@ -11,4 +11,5 @@ declare function rename_avatar(state: Readonly<State>, new_name: string): Readon
 declare function change_avatar_class(state: Readonly<State>, new_class: CharacterClass): Readonly<State>;
 declare function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<State>;
 declare function acknowledge_engagement_msg_seen(state: Readonly<State>, uid: number): Readonly<State>;
-export { create, reseed, play, equip_item, sell_item, rename_avatar, change_avatar_class, attempt_to_redeem_code, acknowledge_engagement_msg_seen, };
+declare function reseed(state: Readonly<State>, seed?: number): Readonly<State>;
+export { create, on_start_session, reseed, play, equip_item, sell_item, rename_avatar, change_avatar_class, attempt_to_redeem_code, acknowledge_engagement_msg_seen, };

@@ -1,13 +1,8 @@
 import * as tslib_1 from "tslib";
 import { LEVEL_TO_HUMAN, LogLevel, createLogger as createCoreLogger, createChildLogger, } from '@offirmo/practical-logger-core';
 import { displayError } from '@offirmo/print-error-to-ansi';
+const prettifyJson = require('@offirmo/prettify-json');
 import chalk from 'chalk';
-const prettyjson = require('prettyjson');
-function prettifyJson(data) {
-    return prettyjson.render(data, {
-        keysColor: 'dim',
-    });
-}
 const MIN_WIDTH = 7;
 function to_aligned_ascii(level) {
     let lvl = level.toUpperCase();

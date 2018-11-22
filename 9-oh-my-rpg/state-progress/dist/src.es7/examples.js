@@ -30,6 +30,8 @@ const DEMO_STATE = deepFreeze({
         "It’s good to be bad": AchievementStatus.hidden,
     },
     statistics: {
+        last_visited_timestamp: "20180813",
+        active_day_count: 12,
         good_play_count: 12,
         bad_play_count: 3,
         encountered_adventures: {

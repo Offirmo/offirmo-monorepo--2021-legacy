@@ -68,7 +68,7 @@ function create(SEC) {
         });
         state = play_adventure_1.receive_item(state, starting_armor);
         state = equip_item(state, starting_armor.uuid);
-        state = achievements_1.refresh_achievements(state); // there are some initial achievements
+        state = achievements_1._refresh_achievements(state); // there are some initial achievements
         // reset engagements that may have been created by noisy initial achievements
         state = Object.assign({}, state, { engagement: Object.assign({}, state.engagement, { queue: [] }) });
         // now insert some relevant start engagements
@@ -84,12 +84,13 @@ function create(SEC) {
     });
 }
 exports.create = create;
-function reseed(state, seed) {
-    seed = seed || state_prng_1.generate_random_seed();
-    state = Object.assign({}, state, { prng: PRNGState.set_seed(state.prng, seed) });
-    return state;
+function on_start_session(state) {
+    // 1. statistics (may trigger achievements)
+    state = Object.assign({}, state, { progress: ProgressState.on_start_session(state.progress), revision: state.revision + 1 });
+    // 2. new achievements may have appeared
+    return achievements_1._refresh_achievements(state);
 }
-exports.reseed = reseed;
+exports.on_start_session = on_start_session;
 // note: allows passing an explicit adventure archetype for testing
 function play(state, explicit_adventure_archetype_hid) {
     const energy_snapshot = EnergyState.get_snapshot(state.energy);
@@ -105,28 +106,28 @@ function play(state, explicit_adventure_archetype_hid) {
             active_class: state.avatar.klass,
         }), revision: state.revision + 1 });
     //console.log(state.progress)
-    return achievements_1.refresh_achievements(state);
+    return achievements_1._refresh_achievements(state);
 }
 exports.play = play;
 function equip_item(state, uuid) {
     state = Object.assign({}, state, { inventory: InventoryState.equip_item(state.inventory, uuid), revision: state.revision + 1 });
-    return achievements_1.refresh_achievements(state);
+    return achievements_1._refresh_achievements(state);
 }
 exports.equip_item = equip_item;
 function sell_item(state, uuid) {
     const price = selectors_1.appraise_item_value(state, uuid);
     state = Object.assign({}, state, { inventory: InventoryState.remove_item_from_unslotted(state.inventory, uuid), wallet: WalletState.add_amount(state.wallet, state_wallet_1.Currency.coin, price), revision: state.revision + 1 });
-    return achievements_1.refresh_achievements(state);
+    return achievements_1._refresh_achievements(state);
 }
 exports.sell_item = sell_item;
 function rename_avatar(state, new_name) {
     state = Object.assign({}, state, { avatar: state_character_1.rename(sec_1.get_lib_SEC(), state.avatar, new_name), revision: state.revision + 1 });
-    return achievements_1.refresh_achievements(state);
+    return achievements_1._refresh_achievements(state);
 }
 exports.rename_avatar = rename_avatar;
 function change_avatar_class(state, new_class) {
     state = Object.assign({}, state, { avatar: state_character_1.switch_class(sec_1.get_lib_SEC(), state.avatar, new_class), revision: state.revision + 1 });
-    return achievements_1.refresh_achievements(state);
+    return achievements_1._refresh_achievements(state);
 }
 exports.change_avatar_class = change_avatar_class;
 function attempt_to_redeem_code(state, code) {
@@ -221,7 +222,7 @@ function attempt_to_redeem_code(state, code) {
                 throw new Error(`Internal error: code "${code}" not implemented!`);
         }
     }
-    return achievements_1.refresh_achievements(Object.assign({}, state, { engagement: EngagementState.enqueue(state.engagement, {
+    return achievements_1._refresh_achievements(Object.assign({}, state, { engagement: EngagementState.enqueue(state.engagement, {
             type: EngagementState.EngagementType.flow,
             key: engagement_key,
         }, engagement_params), revision: state.revision + 1 }));
@@ -232,6 +233,12 @@ function acknowledge_engagement_msg_seen(state, uid) {
 }
 exports.acknowledge_engagement_msg_seen = acknowledge_engagement_msg_seen;
 /////////////////////
+function reseed(state, seed) {
+    seed = seed || state_prng_1.generate_random_seed();
+    state = Object.assign({}, state, { prng: PRNGState.set_seed(state.prng, seed) });
+    return state;
+}
+exports.reseed = reseed;
 function autogroom(state, options = {}) {
     tiny_invariant_1.default(!options.class_hint || typescript_string_enums_1.Enum.isType(state_character_1.CharacterClass, options.class_hint), 'invalid class hint!');
     let change_made = false; // so far

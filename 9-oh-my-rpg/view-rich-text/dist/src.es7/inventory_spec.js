@@ -5,10 +5,6 @@ import { generate_random_demo_armor, DEMO_ARMOR_2 } from '@oh-my-rpg/logic-armor
 import { create as create_inventory, equip_item, add_item, remove_item_from_unslotted, } from '@oh-my-rpg/state-inventory';
 import { Currency, create as create_wallet, add_amount, } from '@oh-my-rpg/state-wallet';
 const { rich_text_to_ansi } = require('../../../../apps/the-boring-rpg-node/src/services/rich_text_to_ansi');
-const prettyjson = require('prettyjson');
-function prettify_json(data, options = {}) {
-    return prettyjson.render(data, options);
-}
 import { render_backpack, render_equipment, render_full_inventory, } from '.';
 describe('🔠  view to @offirmo/rich-text-format - inventory', function () {
     describe('backpack rendering', function () {

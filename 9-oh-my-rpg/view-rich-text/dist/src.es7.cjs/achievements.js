@@ -15,7 +15,7 @@ function render_achievement_snapshot_short(achievement_snapshot) {
         case state_progress_1.AchievementStatus.hidden:
             break;
         case state_progress_1.AchievementStatus.revealed:
-            icon_text = '❔';
+            //icon_text = '✖' //'❔'
             legend = name;
             break;
         case state_progress_1.AchievementStatus.unlocked:

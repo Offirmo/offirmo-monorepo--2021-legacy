@@ -50,6 +50,12 @@ function create_game_instance({ SEC, get_latest_state, persist_state, view_state
                     persist_state(state);
                     emitter.emit('state_change');
                 },
+                on_start_session() {
+                    let state = get_latest_state();
+                    state = state_fns.on_start_session(state);
+                    persist_state(state);
+                    emitter.emit('state_change');
+                },
                 equip_item(uuid) {
                     let state = get_latest_state();
                     state = state_fns.equip_item(state, uuid);

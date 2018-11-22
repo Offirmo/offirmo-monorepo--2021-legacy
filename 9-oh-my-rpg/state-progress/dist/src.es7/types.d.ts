@@ -1,5 +1,6 @@
 import { Enum } from 'typescript-string-enums';
 import { Element } from '@oh-my-rpg/definitions';
+import { HumanReadableTimestampUTCDays } from '@offirmo/timestamps';
 declare const AchievementStatus: {
     secret: "secret";
     hidden: "hidden";
@@ -31,6 +32,8 @@ interface State {
         [key: string]: AchievementStatus;
     };
     statistics: {
+        last_visited_timestamp: HumanReadableTimestampUTCDays;
+        active_day_count: number;
         good_play_count: number;
         bad_play_count: number;
         encountered_monsters: {

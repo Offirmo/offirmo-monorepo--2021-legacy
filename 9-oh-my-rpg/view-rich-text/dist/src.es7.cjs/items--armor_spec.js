@@ -5,10 +5,6 @@ const chai_1 = require("chai");
 const RichText = tslib_1.__importStar(require("@offirmo/rich-text-format"));
 const logic_armors_1 = require("@oh-my-rpg/logic-armors");
 const { rich_text_to_ansi } = require('../../../../apps/the-boring-rpg-node/src/services/rich_text_to_ansi');
-const prettyjson = require('prettyjson');
-function prettify_json(data, options = {}) {
-    return prettyjson.render(data, options);
-}
 const _1 = require(".");
 describe('🔠  view to @offirmo/rich-text-format - armor', function () {
     context('when not enhanced', function () {

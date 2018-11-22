@@ -27,7 +27,7 @@ import { get_lib_SEC } from '../../sec';
 import { receive_item } from './play/play_adventure';
 import { play_good } from './play/play_good';
 import { play_bad } from './play/play_bad';
-import { refresh_achievements } from './achievements';
+import { _refresh_achievements } from './achievements';
 /////////////////////
 function create(SEC) {
     return get_lib_SEC(SEC).xTry('create', ({ enforce_immutability }) => {
@@ -65,7 +65,7 @@ function create(SEC) {
         });
         state = receive_item(state, starting_armor);
         state = equip_item(state, starting_armor.uuid);
-        state = refresh_achievements(state); // there are some initial achievements
+        state = _refresh_achievements(state); // there are some initial achievements
         // reset engagements that may have been created by noisy initial achievements
         state = Object.assign({}, state, { engagement: Object.assign({}, state.engagement, { queue: [] }) });
         // now insert some relevant start engagements
@@ -80,10 +80,11 @@ function create(SEC) {
         return enforce_immutability(state);
     });
 }
-function reseed(state, seed) {
-    seed = seed || generate_random_seed();
-    state = Object.assign({}, state, { prng: PRNGState.set_seed(state.prng, seed) });
-    return state;
+function on_start_session(state) {
+    // 1. statistics (may trigger achievements)
+    state = Object.assign({}, state, { progress: ProgressState.on_start_session(state.progress), revision: state.revision + 1 });
+    // 2. new achievements may have appeared
+    return _refresh_achievements(state);
 }
 // note: allows passing an explicit adventure archetype for testing
 function play(state, explicit_adventure_archetype_hid) {
@@ -100,24 +101,24 @@ function play(state, explicit_adventure_archetype_hid) {
             active_class: state.avatar.klass,
         }), revision: state.revision + 1 });
     //console.log(state.progress)
-    return refresh_achievements(state);
+    return _refresh_achievements(state);
 }
 function equip_item(state, uuid) {
     state = Object.assign({}, state, { inventory: InventoryState.equip_item(state.inventory, uuid), revision: state.revision + 1 });
-    return refresh_achievements(state);
+    return _refresh_achievements(state);
 }
 function sell_item(state, uuid) {
     const price = appraise_item_value(state, uuid);
     state = Object.assign({}, state, { inventory: InventoryState.remove_item_from_unslotted(state.inventory, uuid), wallet: WalletState.add_amount(state.wallet, Currency.coin, price), revision: state.revision + 1 });
-    return refresh_achievements(state);
+    return _refresh_achievements(state);
 }
 function rename_avatar(state, new_name) {
     state = Object.assign({}, state, { avatar: rename(get_lib_SEC(), state.avatar, new_name), revision: state.revision + 1 });
-    return refresh_achievements(state);
+    return _refresh_achievements(state);
 }
 function change_avatar_class(state, new_class) {
     state = Object.assign({}, state, { avatar: switch_class(get_lib_SEC(), state.avatar, new_class), revision: state.revision + 1 });
-    return refresh_achievements(state);
+    return _refresh_achievements(state);
 }
 function attempt_to_redeem_code(state, code) {
     const infos = {
@@ -211,7 +212,7 @@ function attempt_to_redeem_code(state, code) {
                 throw new Error(`Internal error: code "${code}" not implemented!`);
         }
     }
-    return refresh_achievements(Object.assign({}, state, { engagement: EngagementState.enqueue(state.engagement, {
+    return _refresh_achievements(Object.assign({}, state, { engagement: EngagementState.enqueue(state.engagement, {
             type: EngagementState.EngagementType.flow,
             key: engagement_key,
         }, engagement_params), revision: state.revision + 1 }));
@@ -220,6 +221,11 @@ function acknowledge_engagement_msg_seen(state, uid) {
     return Object.assign({}, state, { engagement: EngagementState.acknowledge_seen(state.engagement, uid), revision: state.revision + 1 });
 }
 /////////////////////
+function reseed(state, seed) {
+    seed = seed || generate_random_seed();
+    state = Object.assign({}, state, { prng: PRNGState.set_seed(state.prng, seed) });
+    return state;
+}
 function autogroom(state, options = {}) {
     invariant(!options.class_hint || Enum.isType(CharacterClass, options.class_hint), 'invalid class hint!');
     let change_made = false; // so far
@@ -258,6 +264,6 @@ function autoplay(state, options) {
         })()
  */
 /////////////////////
-export { create, reseed, play, equip_item, sell_item, rename_avatar, change_avatar_class, attempt_to_redeem_code, acknowledge_engagement_msg_seen, };
+export { create, on_start_session, reseed, play, equip_item, sell_item, rename_avatar, change_avatar_class, attempt_to_redeem_code, acknowledge_engagement_msg_seen, };
 /////////////////////
 //# sourceMappingURL=state.js.map

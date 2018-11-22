@@ -3,16 +3,16 @@ import { expect } from 'chai';
 import { AchievementStatus } from '@oh-my-rpg/state-progress';
 import { xxx_internal_reset_prng_cache } from '@oh-my-rpg/state-prng';
 import { create } from '../state';
-import { refresh_achievements } from '.';
+import { _refresh_achievements } from '.';
 import ACHIEVEMENT_DEFINITIONS from '../../../data/achievements';
 describe('@oh-my-rpg/state-the-boring-rpg - reducer / achievements', function () {
     beforeEach(() => xxx_internal_reset_prng_cache());
-    describe('refresh_achievements()', function () {
+    describe('_refresh_achievements()', function () {
         context('🚫  when having no new achievements', function () {
             it('should not change the state at all', () => {
                 const state = create(); // includes an initial refresh
                 // a second time
-                const new_state = refresh_achievements(state);
+                const new_state = _refresh_achievements(state);
                 expect(new_state).to.equal(state); // immutability
             });
         });
@@ -21,7 +21,7 @@ describe('@oh-my-rpg/state-the-boring-rpg - reducer / achievements', function ()
                 let state = create();
                 // trigger an achievement out of band (would never happen for real)
                 state = Object.assign({}, state, { avatar: Object.assign({}, state.avatar, { name: 'Foo' }) });
-                const new_state = refresh_achievements(state);
+                const new_state = _refresh_achievements(state);
                 expect(new_state).not.to.equal(state); // immutability
             });
         });

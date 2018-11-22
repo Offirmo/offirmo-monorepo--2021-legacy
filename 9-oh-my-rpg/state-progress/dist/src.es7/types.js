@@ -1,5 +1,4 @@
 import { Enum } from 'typescript-string-enums';
-//import { HumanReadableTimestampUTCMinutes } from '@offirmo/timestamps'
 //import { JSONObject } from "@offirmo/ts-types"
 /////////////////////
 const AchievementStatus = Enum('secret', // should not even be hinted

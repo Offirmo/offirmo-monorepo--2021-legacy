@@ -4,13 +4,8 @@ const tslib_1 = require("tslib");
 const practical_logger_core_1 = require("@offirmo/practical-logger-core");
 exports.createChildLogger = practical_logger_core_1.createChildLogger;
 const print_error_to_ansi_1 = require("@offirmo/print-error-to-ansi");
+const prettifyJson = require('@offirmo/prettify-json');
 const chalk_1 = tslib_1.__importDefault(require("chalk"));
-const prettyjson = require('prettyjson');
-function prettifyJson(data) {
-    return prettyjson.render(data, {
-        keysColor: 'dim',
-    });
-}
 const MIN_WIDTH = 7;
 function to_aligned_ascii(level) {
     let lvl = level.toUpperCase();

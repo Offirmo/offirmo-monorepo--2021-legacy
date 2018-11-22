@@ -2,10 +2,6 @@ import { expect } from 'chai';
 import * as RichText from '@offirmo/rich-text-format';
 import { generate_random_demo_weapon, DEMO_WEAPON_1, DEMO_WEAPON_2 } from '@oh-my-rpg/logic-weapons';
 const { rich_text_to_ansi } = require('../../../../apps/the-boring-rpg-node/src/services/rich_text_to_ansi');
-const prettyjson = require('prettyjson');
-function prettify_json(data, options = {}) {
-    return prettyjson.render(data, options);
-}
 import { render_weapon_detailed } from '.';
 describe('🔠  view to @offirmo/rich-text-format -  weapon', function () {
     context('when not enhanced', function () {

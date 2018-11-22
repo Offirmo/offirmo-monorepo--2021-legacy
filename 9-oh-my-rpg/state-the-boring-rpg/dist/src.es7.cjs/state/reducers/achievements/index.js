@@ -6,13 +6,18 @@ const state_engagement_1 = require("@oh-my-rpg/state-engagement");
 const achievements_1 = tslib_1.__importDefault(require("../../../data/achievements"));
 const engagement_1 = require("../../../engagement");
 /////////////////////
-function refresh_achievements(state) {
+function _refresh_achievements(state) {
     let changed = false;
     let progress = Object.assign({}, state.progress);
     achievements_1.default.forEach((definition) => {
         const { icon, name } = definition;
         const last_known_status = state_progress_1.get_last_known_achievement_status(progress, name);
         const current_status = definition.get_status(state);
+        // Don't remove an achievement
+        // if it was a bug, it should be revoked in a migration
+        if (last_known_status === state_progress_1.AchievementStatus.unlocked)
+            return;
+        // nothing to do if no change
         if (last_known_status === current_status)
             return;
         changed = true;
@@ -34,5 +39,5 @@ function refresh_achievements(state) {
         return state;
     return Object.assign({}, state, { progress });
 }
-exports.refresh_achievements = refresh_achievements;
+exports._refresh_achievements = _refresh_achievements;
 //# sourceMappingURL=index.js.map

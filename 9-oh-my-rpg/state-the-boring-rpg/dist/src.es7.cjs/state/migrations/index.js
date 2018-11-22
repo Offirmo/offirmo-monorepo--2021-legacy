@@ -12,7 +12,6 @@ const CodesState = tslib_1.__importStar(require("@oh-my-rpg/state-codes"));
 const ProgressState = tslib_1.__importStar(require("@oh-my-rpg/state-progress"));
 const consts_1 = require("../../consts");
 const state_1 = require("../reducers/state");
-const achievements_1 = require("../reducers/achievements");
 const sec_1 = require("../../sec");
 /////////////////////
 function reset_and_salvage(legacy_state) {
@@ -97,9 +96,6 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
             sub_reducer_migrated.push('progress');
             if (sub_reducer_migrated.length !== SUB_REDUCERS_COUNT)
                 throw new Error('migrate_to_latest src (2) is outdated, please update!');
-            // TODO remove, temp migration
-            // TODO move
-            state = achievements_1.refresh_achievements(state);
             logger.info(`${consts_1.LIB}: schema migration successful.`);
             SEC.fireAnalyticsEvent('schema migration.ended');
         }

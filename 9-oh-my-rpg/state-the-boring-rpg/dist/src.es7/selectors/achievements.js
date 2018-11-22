@@ -1,10 +1,11 @@
 import { ElementType } from '@oh-my-rpg/definitions';
-import { AchievementStatus, } from '@oh-my-rpg/state-progress';
+import { get_last_known_achievement_status, AchievementStatus, } from '@oh-my-rpg/state-progress';
 import ACHIEVEMENT_DEFINITIONS from '../data/achievements';
 /////////////////////
 function get_achievement_snapshot(state, definition) {
-    const { session_uuid, name, icon, description, lore, get_status } = definition;
-    const status = get_status(state);
+    const { session_uuid, name, icon, description, lore } = definition;
+    // we check this and not get_status since unlock is "sticky" (by design) and get_status may not be
+    const status = get_last_known_achievement_status(state.progress, name);
     return {
         uuid: session_uuid,
         element_type: ElementType.achievement_snapshot,
@@ -12,7 +13,7 @@ function get_achievement_snapshot(state, definition) {
         icon,
         description,
         lore,
-        status,
+        status: status,
     };
 }
 function get_achievement_snapshot_by_uuid(state, session_uuid) {

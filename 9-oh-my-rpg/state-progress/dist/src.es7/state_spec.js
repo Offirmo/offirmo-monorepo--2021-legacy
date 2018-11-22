@@ -1,11 +1,16 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { SCHEMA_VERSION } from './consts';
 import { AchievementStatus, create, on_played, on_achieved, } from '.';
 import { get_lib_SEC } from './sec';
 describe('@oh-my-rpg/state-progress - reducer', function () {
+    beforeEach(function () {
+        this.clock = sinon.useFakeTimers(); // needed to have a reproducible timestamp
+    });
     describe('🆕  initial state', function () {
         it('should have correct defaults', function () {
-            const state = create(get_lib_SEC());
+            let state = create(get_lib_SEC());
+            expect(state.statistics.last_visited_timestamp).to.have.lengthOf(8);
             expect(state).to.deep.equal({
                 schema_version: SCHEMA_VERSION,
                 revision: 0,
@@ -13,6 +18,8 @@ describe('@oh-my-rpg/state-progress - reducer', function () {
                 flags: null,
                 achievements: {},
                 statistics: {
+                    last_visited_timestamp: "19700101",
+                    active_day_count: 1,
                     good_play_count: 0,
                     bad_play_count: 0,
                     encountered_adventures: {},
@@ -36,6 +43,8 @@ describe('@oh-my-rpg/state-progress - reducer', function () {
                     active_class: 'foo',
                 });
                 expect(state.statistics).to.deep.equal({
+                    last_visited_timestamp: "19700101",
+                    active_day_count: 1,
                     good_play_count: 0,
                     bad_play_count: 1,
                     encountered_adventures: {
@@ -61,6 +70,8 @@ describe('@oh-my-rpg/state-progress - reducer', function () {
                     active_class: 'foo',
                 });
                 expect(state.statistics).to.deep.equal({
+                    last_visited_timestamp: "19700101",
+                    active_day_count: 1,
                     good_play_count: 1,
                     bad_play_count: 0,
                     encountered_adventures: {
@@ -81,6 +92,8 @@ describe('@oh-my-rpg/state-progress - reducer', function () {
                     active_class: 'foo',
                 });
                 expect(state.statistics).to.deep.equal({
+                    last_visited_timestamp: "19700101",
+                    active_day_count: 1,
                     good_play_count: 2,
                     bad_play_count: 0,
                     encountered_adventures: {

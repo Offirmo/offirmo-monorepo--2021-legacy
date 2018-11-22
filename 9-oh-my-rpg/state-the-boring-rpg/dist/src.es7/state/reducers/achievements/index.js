@@ -3,13 +3,18 @@ import { enqueue as enqueueEngagement, EngagementType, } from '@oh-my-rpg/state-
 import ACHIEVEMENT_DEFINITIONS from '../../../data/achievements';
 import { EngagementKey } from "../../../engagement";
 /////////////////////
-function refresh_achievements(state) {
+function _refresh_achievements(state) {
     let changed = false;
     let progress = Object.assign({}, state.progress);
     ACHIEVEMENT_DEFINITIONS.forEach((definition) => {
         const { icon, name } = definition;
         const last_known_status = get_last_known_achievement_status(progress, name);
         const current_status = definition.get_status(state);
+        // Don't remove an achievement
+        // if it was a bug, it should be revoked in a migration
+        if (last_known_status === AchievementStatus.unlocked)
+            return;
+        // nothing to do if no change
         if (last_known_status === current_status)
             return;
         changed = true;
@@ -31,5 +36,5 @@ function refresh_achievements(state) {
         return state;
     return Object.assign({}, state, { progress });
 }
-export { refresh_achievements, };
+export { _refresh_achievements, };
 //# sourceMappingURL=index.js.map

@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const chai_1 = require("chai");
 const deep_freeze_strict_1 = tslib_1.__importDefault(require("deep-freeze-strict"));
+const sinon_1 = tslib_1.__importDefault(require("sinon"));
 const migration_tester_1 = require("@oh-my-rpg/migration-tester");
 const CharacterState = tslib_1.__importStar(require("@oh-my-rpg/state-character"));
 const WalletState = tslib_1.__importStar(require("@oh-my-rpg/state-wallet"));
@@ -39,6 +40,9 @@ function advanced_diff_json(a, b, { diff } = {}) {
     return diff;
 }
 describe('@oh-my-rpg/state-the-boring-rpg - schema migration', function () {
+    beforeEach(function () {
+        this.clock = sinon_1.default.useFakeTimers(1542794960217); // needed to have a reproducible timestamp
+    });
     it('should correctly migrate a fresh state (by touching nothing)', () => {
         const old_state = deep_freeze_strict_1.default(__1.create());
         const new_state = _1.migrate_to_latest(sec_1.get_lib_SEC(), old_state);
@@ -49,7 +53,7 @@ describe('@oh-my-rpg/state-the-boring-rpg - schema migration', function () {
         // TODO ALPHA remove skip
         migration_tester_1.test_migrations({
             use_hints: true,
-            read_only: false,
+            //read_only: false, // uncomment when updating
             migration_hints_for_chaining: MIGRATION_HINTS_FOR_TESTS,
             advanced_diff_json,
             SCHEMA_VERSION: consts_1.SCHEMA_VERSION,
@@ -66,7 +70,7 @@ describe('@oh-my-rpg/state-the-boring-rpg - schema migration', function () {
         // TODO ALPHA remove skip
         migration_tester_1.test_migrations.skip({
             use_hints: false,
-            read_only: false,
+            //read_only: false, // uncomment when updating
             advanced_diff_json,
             SCHEMA_VERSION: consts_1.SCHEMA_VERSION,
             LATEST_EXPECTED_DATA: new_state,

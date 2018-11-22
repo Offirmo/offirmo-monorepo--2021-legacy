@@ -6,8 +6,9 @@ const state_progress_1 = require("@oh-my-rpg/state-progress");
 const achievements_1 = tslib_1.__importDefault(require("../data/achievements"));
 /////////////////////
 function get_achievement_snapshot(state, definition) {
-    const { session_uuid, name, icon, description, lore, get_status } = definition;
-    const status = get_status(state);
+    const { session_uuid, name, icon, description, lore } = definition;
+    // we check this and not get_status since unlock is "sticky" (by design) and get_status may not be
+    const status = state_progress_1.get_last_known_achievement_status(state.progress, name);
     return {
         uuid: session_uuid,
         element_type: definitions_1.ElementType.achievement_snapshot,
@@ -15,7 +16,7 @@ function get_achievement_snapshot(state, definition) {
         icon,
         description,
         lore,
-        status,
+        status: status,
     };
 }
 exports.get_achievement_snapshot = get_achievement_snapshot;

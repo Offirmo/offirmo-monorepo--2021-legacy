@@ -7,10 +7,6 @@ const logic_adventures_1 = require("@oh-my-rpg/logic-adventures");
 const state_the_boring_rpg_1 = require("@oh-my-rpg/state-the-boring-rpg");
 const { rich_text_to_ansi } = require('../../../../apps/the-boring-rpg-node/src/services/rich_text_to_ansi');
 const _1 = require(".");
-const prettyjson = require('prettyjson');
-function prettify_json(data, options = {}) {
-    return prettyjson.render(data, options);
-}
 describe('🔠  view to @offirmo/rich-text-format - adventure', function () {
     it('should render properly - with gain of skills', () => {
         const $doc = _1.render_adventure(state_the_boring_rpg_1.DEMO_ADVENTURE_01);
