@@ -25,7 +25,7 @@ const dialog_style = function() {
 		top: top + '%', left: left + '%',
 		transform: `translate(-${top}%, -${left}%)`,
 		boxShadow: '0 5px 15px rgba(0,0,0,.5)',
-		maxWidth: '600px',
+		maxWidth: '550px',
 	}
 }
 
