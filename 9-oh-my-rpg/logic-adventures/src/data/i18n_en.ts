@@ -149,7 +149,7 @@ You gain +{{level}} level!`,
 
 	magic_lamp: `You stumble upon a magic lamp! You gain +{{luck}} luck!`,
 
-	rabbit_hole: `You find out just how deep the rabbit hold goes. You gain +{{wisdom}} wisdom.`,
+	rabbit_hole: `You find out just how deep the rabbit hole goes. You gain +{{wisdom}} wisdom.`,
 
 	cat_out_tree: `You help a little girl get her cat out a tree. You gain +{{agility}} agility!`,
 
@@ -389,7 +389,7 @@ You gain {{attr}} {{attr_name}}!`,
 	// you have superhuman luck
 	fabric_of_reality: `
 You battle mages to unravel the fabric of reality.
-You gain +{{mana}} {{mana}}!`,
+You gain +{{mana}} mana!`,
 
 	// you destroy a few parallel worlds with cyborgs.
 	// you mine ore

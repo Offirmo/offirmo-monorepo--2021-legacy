@@ -29,7 +29,7 @@
 		"@oh-my-rpg/state-prng": "^0.0.1",
 		"@types/strip-ansi": "^3",
 		"npm-run-all": "^4",
-		"strip-ansi": "^4",
+		"strip-ansi": "^5",
 		"tslib": "^1"
 	},
 	"scripts": {

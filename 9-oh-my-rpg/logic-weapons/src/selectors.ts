@@ -1,10 +1,12 @@
 /////////////////////
 
 import {
+	InventorySlot,
 	ItemQuality,
 } from '@oh-my-rpg/definitions'
 import { Random, Engine } from '@offirmo/random'
 
+import {LIB} from "./consts";
 import {
 	Weapon,
 } from './types'
@@ -68,11 +70,33 @@ function get_medium_damage(weapon: Readonly<Weapon>): number {
 	return Math.round((damage_range[0] + damage_range[1]) / 2)
 }
 
+function matches(weapon: Readonly<Weapon>, elements: Readonly<Partial<Weapon>>): boolean {
+	let matches = true // so far
+
+	if (weapon.slot !== InventorySlot.weapon)
+		return false
+
+	if (elements.slot && elements.slot !== InventorySlot.weapon)
+		throw new Error(`${LIB} matches: can't match against a non-weapon slot "${elements.slot}"!`)
+
+			;(Object.keys(elements) as Array<keyof Weapon>)
+		.forEach((k: keyof Weapon) => {
+			if (!(k in weapon))
+				throw new Error(`${LIB} matches: can't match on non-weapon key "${k}"!`)
+
+			if (elements[k] !== weapon[k])
+				matches = false
+		})
+
+	return matches
+}
+
 /////////////////////
 
 export {
 	get_damage_interval,
 	get_medium_damage,
+	matches,
 }
 
 /////////////////////

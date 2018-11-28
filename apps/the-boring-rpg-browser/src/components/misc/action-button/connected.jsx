@@ -1,14 +1,14 @@
 import React from 'react'
 
 import GameContext from '../../../game-context'
-import Component from './component'
+import ActionButtonP from './component'
 
 export default props => (
 	<GameContext.Consumer>
 		{game_instance => {
 			const { action } = props
 			return (
-				<Component
+				<ActionButtonP
 					{...props}
 					onClick={() => game_instance.reducers.execute_serialized_action(action)}
 				/>)

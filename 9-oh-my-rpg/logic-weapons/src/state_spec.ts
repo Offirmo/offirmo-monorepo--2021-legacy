@@ -4,6 +4,7 @@ import { Enum } from 'typescript-string-enums'
 import { InventorySlot, ItemQuality, ElementType, xxx_test_unrandomize_element } from '@oh-my-rpg/definitions'
 import { Random, Engine } from '@offirmo/random'
 
+import { LIB } from './consts'
 import {
 	Weapon,
 	MAX_ENHANCEMENT_LEVEL,
@@ -46,7 +47,7 @@ function assert_shape(weapon: Readonly<Weapon>) {
 }
 
 
-describe('@oh-my-rpg/logic-weapons - logic', function() {
+describe(`${LIB} - logic`, function() {
 
 	describe('creation', function() {
 
@@ -54,11 +55,11 @@ describe('@oh-my-rpg/logic-weapons - logic', function() {
 			const rng: Engine = Random.engines.mt19937().seed(789)
 			const weapon1 = xxx_test_unrandomize_element<Weapon>(create(rng))
 			assert_shape(weapon1)
-			expect((rng as any).getUseCount(), '# rng draws 1').to.equal(7) // between 5 and 8 (TODO improve)
+			expect((rng as any).getUseCount(), '# rng draws 1').to.equal(5)
 
 			const weapon2 = xxx_test_unrandomize_element<Weapon>(create(rng))
 			assert_shape(weapon2)
-			expect((rng as any).getUseCount(), '# rng draws 2').to.equal(12)
+			expect((rng as any).getUseCount(), '# rng draws 2').to.equal(10)
 			expect(weapon2).not.to.deep.equal(weapon1)
 		})
 

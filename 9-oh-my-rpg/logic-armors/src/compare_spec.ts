@@ -5,6 +5,7 @@ import {
 } from '@oh-my-rpg/definitions'
 import { Random, Engine } from '@offirmo/random'
 
+import { LIB } from './consts'
 import {
 	create,
 	generate_random_demo_armor,
@@ -13,7 +14,7 @@ import {
 } from '.'
 
 
-describe('@oh-my-rpg/logic-armors - comparison', function() {
+describe(`${LIB} - comparison`, function() {
 
 	it('should sort properly by strength', () => {
 		const rng: Engine = Random.engines.mt19937().seed(789)

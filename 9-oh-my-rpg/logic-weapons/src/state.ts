@@ -1,16 +1,14 @@
 /////////////////////
 
 import {
+	Item,
 	ItemQuality,
 	InventorySlot,
-	ElementType,
 	create_item_base,
-	compare_items_by_quality,
 } from '@oh-my-rpg/definitions'
 import { Random, Engine } from '@offirmo/random'
 
 import {
-	WeaponPartType,
 	Weapon,
 } from './types'
 
@@ -31,21 +29,31 @@ import {
 /////////////////////
 
 function pick_random_quality(rng: Engine): ItemQuality {
-	// legendary =    1/1000
-	// epic:     =   10/1000
-	// rare:     =  200/1000
-	// uncommon  =  389/1000
 	// common    =  400/1000
-	return Random.bool(400, 1000)(rng)
-		? ItemQuality.common
-		: Random.bool(389, 600)(rng)
-			? ItemQuality.uncommon
-			: Random.bool(200, 211)(rng)
-				? ItemQuality.rare
-				: Random.bool(10, 11)(rng)
-					? ItemQuality.epic
-					: ItemQuality.legendary
+	// uncommon  =  389/1000
+	// rare:     =  200/1000
+	// epic:     =   10/1000
+	// legendary =    1/1000
+	let p = Random.integer(1, 1000)(rng)
+
+	if (p <= 400)
+		return ItemQuality.common
+	p -= 400
+
+	if (p <= 389)
+		return ItemQuality.uncommon
+	p -= 389
+
+	if (p <= 200)
+		return ItemQuality.rare
+	p -= 200
+
+	if (p <= 10)
+		return ItemQuality.epic
+
+	return ItemQuality.legendary
 }
+
 function pick_random_base(rng: Engine): string {
 	return Random.pick(rng, WEAPON_BASES).hid
 }
@@ -61,8 +69,11 @@ const pick_random_base_strength = Random.integer(MIN_STRENGTH, MAX_STRENGTH)
 
 function create(rng: Engine, hints: Readonly<Partial<Weapon>> = {}): Weapon {
 	// TODO add a check for hints to be in existing components
+
+	const base = create_item_base(InventorySlot.weapon, hints.quality || pick_random_quality(rng)) as Item & { slot: typeof InventorySlot.weapon }
+
 	return {
-		...create_item_base(InventorySlot.weapon, hints.quality || pick_random_quality(rng)),
+		...base,
 		base_hid: hints.base_hid || pick_random_base(rng),
 		qualifier1_hid: hints.qualifier1_hid || pick_random_qualifier1(rng),
 		qualifier2_hid: hints.qualifier2_hid || pick_random_qualifier2(rng),

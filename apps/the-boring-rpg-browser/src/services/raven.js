@@ -111,3 +111,6 @@ Raven.showReportDialog();
 
 export default error_reporter
 
+export function report_error(err) {
+	Raven.captureException(err)
+}

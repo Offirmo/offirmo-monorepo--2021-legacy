@@ -23,7 +23,7 @@ function request_redirect(url) {
 	localStorage.setItem(REDIRECT_LS_KEY, JSON.stringify(redirect_request))
 }
 
-class LoggedIn extends Component {
+class NetlifyLoggedIndicator extends Component {
 	static propTypes = {
 		user: PropTypes.object.isRequired,
 	};
@@ -66,8 +66,6 @@ class LoggedIn extends Component {
 		)
 	}
 }
-
-
 
 export default class NetlifyIdentity extends Component {
 	state = {
@@ -171,7 +169,7 @@ export default class NetlifyIdentity extends Component {
 			case STATES.NOT_LOGGED_IN:
 				return <button onClick={this.onClickOnSignInUpButton}>Sign in / sign up...</button>
 			case STATES.LOGGED_IN:
-				return <LoggedIn user={this.state.user} onRequestLogout={this.onRequestLogout}/>
+				return <NetlifyLoggedIndicator user={this.state.user} onRequestLogout={this.onRequestLogout}/>
 		}
 	}
 }

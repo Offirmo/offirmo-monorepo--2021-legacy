@@ -1,16 +1,16 @@
-import React, {Component, Fragment} from 'react';
+import React, { Component, Fragment } from 'react';
 
 const { getRootSEC } = require('@offirmo/soft-execution-context')
 
 import './index.css';
 
-// TODO extract
 export default class DevArea extends Component {
-
 	constructor(props) {
 		super(props);
 		this.SEC = props.SEC || getRootSEC()
-		const { CHANNEL, IS_DEV_MODE } = this.SEC.getInjectedDependencies()
+		const { CHANNEL, IS_DEV_MODE, logger } = this.SEC.getInjectedDependencies()
+		this.logger = logger
+		this.logger.trace('🆕 DevArea')
 		this.channel = props.channel || CHANNEL || 'dev'
 		this.state = {
 			displayed: !this.channel.startsWith('prod') || IS_DEV_MODE,
@@ -26,6 +26,8 @@ export default class DevArea extends Component {
 	}
 
 	render() {
+		this.logger.trace('🔄 DevArea')
+
 		const media_controls = []
 		if (this.props.onPlayPause)
 			media_controls.push(<button onClick={this.props.onPlayPause}>{this.state.paused ? '▶️' : '⏸️'}</button>)

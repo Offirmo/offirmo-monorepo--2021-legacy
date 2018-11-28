@@ -3,6 +3,13 @@ https://fr.wikipedia.org/wiki/Si%C3%A8ge_(militaire)
 
 https://twitter.com/i/moments/1059210757869572096
 
+
+Idées
+https://worldofwarcraft.judgehype.com/news/world-boss-assemblage-de-grelons-est-de-retour-en-drustvar-157658/
+https://worldofwarcraft.judgehype.com/news/guide-du-14eme-anniversaire-de-wow-world-boss-objets-et-nouveautes-pour-2018-157688/
+https://worldofwarcraft.judgehype.com/news/blizzard-parle-des-boss-de-l-application-wow-des-reputations-de-l-equipement-157691/
+
+
 TODO
 luck should have an effect: more money, more chance to gain artifacts, etc.
 make luck active

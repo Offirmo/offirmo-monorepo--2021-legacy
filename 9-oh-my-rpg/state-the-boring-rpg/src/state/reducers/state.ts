@@ -8,7 +8,7 @@ import { UUID, generate_uuid } from '@offirmo/uuid'
 
 /////////////////////
 
-import { ItemQuality } from '@oh-my-rpg/definitions'
+import { ItemQuality, Element, Item, InventorySlot } from '@oh-my-rpg/definitions'
 
 import * as CharacterState from '@oh-my-rpg/state-character'
 import {
@@ -37,10 +37,12 @@ import {
 
 import {
 	Weapon,
+	matches as matches_weapon,
 	create as create_weapon,
 } from '@oh-my-rpg/logic-weapons'
 import {
 	Armor,
+	matches as matches_armor,
 	create as create_armor,
 } from '@oh-my-rpg/logic-armors'
 
@@ -59,6 +61,8 @@ import {
 	appraise_item_value,
 	get_energy_snapshot,
 	is_inventory_full,
+	find_better_unequipped_armor,
+	find_better_unequipped_weapon,
 } from '../../selectors'
 
 import { SoftExecutionContext, OMRContext, get_lib_SEC } from '../../sec'
@@ -68,6 +72,21 @@ import { play_bad } from './play/play_bad'
 import { _refresh_achievements } from './achievements'
 
 /////////////////////
+
+const STARTING_WEAPON_SPEC: Readonly<Partial<Weapon>> = {
+	base_hid: 'spoon',
+	qualifier1_hid: 'used',
+	qualifier2_hid: 'noob',
+	quality: ItemQuality.common,
+	base_strength: 1,
+}
+const STARTING_ARMOR_SPEC: Readonly<Partial<Armor>> = {
+	base_hid: 'socks',
+	qualifier1_hid: 'used',
+	qualifier2_hid: 'noob',
+	quality: 'common',
+	base_strength: 1,
+}
 
 function create(SEC?: SoftExecutionContext): Readonly<State> {
 	return get_lib_SEC(SEC).xTry('create', ({enforce_immutability}: OMRContext) => {
@@ -92,23 +111,11 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 
 		let rng = get_prng(state.prng)
 
-		const starting_weapon = create_weapon(rng, {
-			base_hid: 'spoon',
-			qualifier1_hid: 'used',
-			qualifier2_hid: 'noob',
-			quality: ItemQuality.common,
-			base_strength: 1,
-		})
+		const starting_weapon = create_weapon(rng, STARTING_WEAPON_SPEC)
 		state = receive_item(state, starting_weapon)
 		state = equip_item(state, starting_weapon.uuid)
 
-		const starting_armor = create_armor(rng, {
-			base_hid: 'socks',
-			qualifier1_hid: 'used',
-			qualifier2_hid: 'noob',
-			quality: 'common',
-			base_strength: 1,
-		})
+		const starting_armor = create_armor(rng, STARTING_ARMOR_SPEC)
 		state = receive_item(state, starting_armor)
 		state = equip_item(state, starting_armor.uuid)
 
@@ -146,16 +153,8 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 }
 
 function on_start_session(state: Readonly<State>): Readonly<State> {
-	// 1. statistics (may trigger achievements)
-	state = {
-		...state,
-
-		progress: ProgressState.on_start_session(state.progress),
-
-		revision: state.revision + 1,
-	}
-
-	// 2. new achievements may have appeared
+	// new achievements may have appeared
+	// (new content = not the same as a migration)
 	return _refresh_achievements(state)
 }
 
@@ -411,23 +410,44 @@ function autogroom(state: Readonly<State>, options: { class_hint?: CharacterClas
 		// change class
 		let new_class: CharacterClass = options.class_hint || Random.pick(Random.engines.nativeMath, Enum.values(CharacterClass))
 		state = change_avatar_class(state, new_class)
+		change_made = true
 	}
 
 	// inventory
-	// better gear
-	//const better_weapon =
+	// equip best gear
+	const better_weapon = find_better_unequipped_weapon(state)
+	if (better_weapon) {
+		state = equip_item(state, better_weapon.uuid)
+	}
+	const better_armor = find_better_unequipped_armor(state)
+	if (better_armor) {
+		state = equip_item(state, better_armor.uuid)
+	}
 
 	// inventory full
 	if (is_inventory_full(state)) {
-		// sell stuff
-		// TODO
+		let freed_count = 0
+
+		// sell stuff, starting from the worst, but keeping the starting items (for sentimental reasons)
+		Array.from(state.inventory.unslotted)
+			.filter(e => !!e) // TODO useful?
+			.reverse() // to put the lowest quality items first
+			.forEach((e: Readonly<Item>) => {
+				if (matches_weapon(e, STARTING_WEAPON_SPEC))
+					return
+				if (matches_armor(e, STARTING_ARMOR_SPEC))
+					return
+				if (e.quality === ItemQuality.common || freed_count === 0) {
+					state = sell_item(state, e.uuid)
+					freed_count++
+					return
+				}
+			})
 	}
 }
 
 // will use up to 1 energy and do everything needed
 function autoplay(state: Readonly<State>, options: { unlimited_energy: boolean }) {
-
-
 	// use 1 energy on what's needed the most
 }
 

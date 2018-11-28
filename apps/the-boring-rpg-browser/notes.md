@@ -1,5 +1,11 @@
 
-TODO https://squoosh.app/
+TODO https://squoosh.app/ ou pas puisque Netlify le fait...
+
+TODO https://developers.google.com/web/updates/2018/10/intl-relativetimeformat
+
+TODO https://segment.com/product/connections/
+
+TODO https://frontarm.com/articles/react-context-performance/
 
 transitions https://css-tricks.com/animate-images-and-videos-with-curtains-js/
 

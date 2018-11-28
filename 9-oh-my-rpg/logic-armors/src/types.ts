@@ -16,7 +16,7 @@ type ArmorPartType = Enum<typeof ArmorPartType> // eslint-disable-line no-redecl
 // TODO check extends (own state?)
 // TODO full fledged state with revision and schema version
 interface Armor extends Item {
-	slot: InventorySlot
+	slot: typeof InventorySlot.armor
 	base_hid: string
 	qualifier1_hid: string
 	qualifier2_hid: string

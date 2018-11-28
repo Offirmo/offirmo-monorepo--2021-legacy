@@ -21,7 +21,6 @@
 	"main": "src/index.js",
 	"dependencies": {
 		"lodash": "^4",
-		"os-homedir": "^1",
 		"path-exists": "^3",
 		"tildify": "^1"
 	},

@@ -65,10 +65,6 @@ function _on_activity(state: Readonly<State>, previous_revision: number): Readon
 	return new_state
 }
 
-function on_start_session(state: Readonly<State>): Readonly<State> {
-	return _on_activity(state, state.revision)
-}
-
 interface PlayedDetails {
 	good: boolean
 	adventure_key: string
@@ -145,7 +141,6 @@ function on_achieved(state: Readonly<State>, key: string, new_status: Achievemen
 
 export {
 	create,
-	on_start_session,
 	on_played,
 	on_achieved,
 }

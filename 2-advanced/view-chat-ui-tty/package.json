@@ -14,7 +14,7 @@
 		"ora": "^2",
 		"p-finally": "^1",
 		"p-progress": "^0.2",
-		"strip-ansi": "^4",
+		"strip-ansi": "^5",
 		"term-size": "^1",
 		"wrap-ansi": "^4"
 	},
@@ -25,8 +25,5 @@
 	},
 	"scripts": {
 		"demo": "node doc/demo.js"
-	},
-	"tosort": {
-		"boxen": "^1"
 	}
 }

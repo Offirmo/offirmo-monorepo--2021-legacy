@@ -13,9 +13,10 @@ type WeaponPartType = Enum<typeof WeaponPartType> // eslint-disable-line no-rede
 
 ///////
 
-// TODO check extends
+// TODO check extends (own state?)
+// TODO full fledged state with revision and schema version
 interface Weapon extends Item {
-	slot: InventorySlot
+	slot: typeof InventorySlot.weapon
 	base_hid: string
 	qualifier1_hid: string
 	qualifier2_hid: string

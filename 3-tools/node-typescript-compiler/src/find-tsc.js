@@ -2,7 +2,7 @@
 
 const path = require('path')
 const path_exists = require('path-exists')
-const os_homedir = require('os-homedir')
+const os = require('os')
 
 const { LIB } = require('./consts')
 
@@ -24,7 +24,7 @@ function find_tsc() {
 	catch(err) { /* not found, ignore */ }
 
 	// last try: fallbacking to an eventual global typescript module
-	const candidate_from_global = path.join(os_homedir(), '.nvm/versions/node/', process.version, 'bin/tsc')
+	const candidate_from_global = path.join(os.homedir(), '.nvm/versions/node/', process.version, 'bin/tsc')
 
 
 	function candidate_if_exists(candidate) {

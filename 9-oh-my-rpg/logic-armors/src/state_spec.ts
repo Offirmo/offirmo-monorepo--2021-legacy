@@ -9,6 +9,7 @@ import {
 } from '@oh-my-rpg/definitions'
 import { Random, Engine } from '@offirmo/random'
 
+import { LIB } from './consts'
 import {
 	MAX_ENHANCEMENT_LEVEL,
 	create,
@@ -16,10 +17,9 @@ import {
 	enhance,
 	get_damage_reduction_interval,
 	get_medium_damage_reduction,
-	compare_armors_by_strength,
 } from '.'
 
-describe('@oh-my-rpg/logic-armors - logic', function() {
+describe(`${LIB} - state`, function() {
 
 	describe('creation', function() {
 
@@ -30,17 +30,17 @@ describe('@oh-my-rpg/logic-armors - logic', function() {
 				uuid: 'uu1~test~test~test~test~',
 				element_type: ElementType.item,
 				slot: InventorySlot.armor,
-				base_hid: 'socks',
-				qualifier1_hid: 'onyx',
-				qualifier2_hid: 'tormentor',
+				base_hid: 'pants',
+				qualifier1_hid: 'emerald',
+				qualifier2_hid: 'pilgrim',
 				quality: ItemQuality.uncommon,
-				base_strength: 17,
+				base_strength: 14,
 				enhancement_level: 0
 			})
-			expect((rng as any).getUseCount(), '# rng draws 1').to.equal(6)
+			expect((rng as any).getUseCount(), '# rng draws 1').to.equal(5)
 
 			const armor2 = create(rng)
-			expect((rng as any).getUseCount(), '# rng draws 2').to.equal(11)
+			expect((rng as any).getUseCount(), '# rng draws 2').to.equal(10)
 			expect(armor2).not.to.deep.equal(armor1)
 		})
 

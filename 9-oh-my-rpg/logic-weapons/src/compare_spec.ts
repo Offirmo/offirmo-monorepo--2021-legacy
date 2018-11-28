@@ -3,6 +3,7 @@ import { expect } from 'chai'
 import { Random, Engine } from '@offirmo/random'
 import { ItemQuality } from '@oh-my-rpg/definitions'
 
+import { LIB } from './consts'
 import {
 	create,
 	generate_random_demo_weapon,
@@ -11,7 +12,7 @@ import {
 } from '.'
 
 
-describe('@oh-my-rpg/logic-weapons - compare', function() {
+describe(`${LIB} - compare`, function() {
 
 	it('should sort properly by strength', () => {
 		const rng: Engine = Random.engines.mt19937().seed(789)

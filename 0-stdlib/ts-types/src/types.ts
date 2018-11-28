@@ -22,11 +22,12 @@ We go classic, we don't allow Date.
 BUT we allow undefined, for convenience.
 JSON all-caps more readable, and "object" instead of "map" hinting at depth.
  */
+type JSONAny = JSONPrimitiveType | JSONArray | JSONObject
 type JSONPrimitiveType = boolean | null | undefined | number | string
 interface JSONObject {
-	[k: string]: JSONPrimitiveType | JSONArray | JSONObject
+	[k: string]: JSONAny
 }
-interface JSONArray extends Array<JSONPrimitiveType | JSONObject | JSONArray> { }
+interface JSONArray extends Array<JSONAny> { }
 
 /////////////////////
 
@@ -43,6 +44,7 @@ type ImmutabilityEnforcer = <T>(x: T) => Readonly<T>
 export {
 	JSPrimitiveType,
 
+	JSONAny,
 	JSONPrimitiveType,
 	JSONArray,
 	JSONObject,

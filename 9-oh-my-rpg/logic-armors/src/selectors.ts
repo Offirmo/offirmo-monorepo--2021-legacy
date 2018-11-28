@@ -1,8 +1,9 @@
 ////////////////////////////////////
 
-import { ItemQuality } from '@oh-my-rpg/definitions'
+import { ItemQuality, InventorySlot } from '@oh-my-rpg/definitions'
 
 import {Armor} from './types'
+import {LIB} from "./consts";
 
 ////////////////////////////////////
 
@@ -64,10 +65,32 @@ function get_medium_damage_reduction(armor: Readonly<Armor>): number {
 	return Math.round((reduction_range[0] + reduction_range[1]) / 2)
 }
 
+function matches(armor: Readonly<Armor>, elements: Readonly<Partial<Armor>>): boolean {
+	let matches = true // so far
+
+	if (elements.slot && elements.slot !== InventorySlot.armor)
+		throw new Error(`${LIB} matches: can't match against a non-armor slot "${elements.slot}"!`)
+
+	if (armor.slot !== InventorySlot.armor)
+		return false
+
+	;(Object.keys(elements) as Array<keyof Armor>)
+		.forEach((k: keyof Armor) => {
+			if (!(k in armor))
+				throw new Error(`${LIB} matches: can't match on non-armor key "${k}"!`)
+
+			if (elements[k] !== armor[k])
+				matches = false
+		})
+
+	return matches
+}
+
 ////////////////////////////////////
 
 export {
 	//get_interval,
 	get_damage_reduction_interval,
 	get_medium_damage_reduction,
+	matches,
 }
