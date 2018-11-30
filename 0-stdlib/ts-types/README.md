@@ -1,7 +1,13 @@
 Useful TypeScript types
 
-export {
+```js
+import { NumberHash } from '@offirmo/ts-types'
+import { I18nMessages } from '@offirmo/ts-types'
+
+import {
 	JSPrimitiveType,
+
+	NumberHash,
 
 	JSONPrimitiveType,
 	JSONArray,
@@ -11,3 +17,4 @@ export {
 
 	ImmutabilityEnforcer,
 } from '@offirmo/ts-types'
+```

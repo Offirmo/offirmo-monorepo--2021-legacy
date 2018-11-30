@@ -29,7 +29,7 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 
 /////////////////////
 
-function internal_auto_sort(state: State): State {
+function _auto_sort(state: State): State {
 	state.unslotted.sort(compare_items)
 	return state
 }
@@ -50,7 +50,7 @@ function add_item(state: Readonly<State>, item: Item): Readonly<State> {
 	if (is_full(state))
 		throw new Error('state-inventory: can’t add item, inventory is full!')
 
-	return internal_auto_sort({
+	return _auto_sort({
 		...state,
 
 		unslotted: [...state.unslotted, item],
@@ -88,7 +88,7 @@ function equip_item(state: Readonly<State>, uuid: UUID): Readonly<State> {
 	if (item_previously_in_slot)
 		new_state.unslotted.push(item_previously_in_slot)
 
-	return internal_auto_sort(new_state)
+	return _auto_sort(new_state)
 }
 
 /////////////////////

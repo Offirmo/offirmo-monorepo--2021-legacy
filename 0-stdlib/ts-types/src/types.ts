@@ -1,9 +1,14 @@
-
 /////////////////////
 
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types
 // TODO Symbol?
 type JSPrimitiveType = boolean | null | undefined | number | string
+
+/////////////////////
+
+interface NumberHash {
+	[k: string]: number
+}
 
 /////////////////////
 
@@ -43,6 +48,8 @@ type ImmutabilityEnforcer = <T>(x: T) => Readonly<T>
 
 export {
 	JSPrimitiveType,
+
+	NumberHash,
 
 	JSONAny,
 	JSONPrimitiveType,

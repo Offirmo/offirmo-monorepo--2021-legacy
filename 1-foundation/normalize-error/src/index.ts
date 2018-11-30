@@ -22,6 +22,4 @@ function normalizeError(err_like: Partial<Error> = {}): XError {
 }
 
 
-export {
-	normalizeError,
-}
+export default normalizeError

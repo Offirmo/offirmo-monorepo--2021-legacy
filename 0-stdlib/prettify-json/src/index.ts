@@ -31,8 +31,14 @@ function prettify_json(data: any, options: PrettyJsonOptions = {}) {
 	return result
 }
 
-function dump_pretty_json(name: string, data: any, options?: PrettyJsonOptions) {
-
+function dump_pretty_json(msg: string, data: Readonly<any>, options?: Readonly<PrettyJsonOptions>) {
+	console.log(msg)
+	console.log(prettify_json(data, options))
 }
 
 export default prettify_json
+
+export {
+	prettify_json,
+	dump_pretty_json,
+}

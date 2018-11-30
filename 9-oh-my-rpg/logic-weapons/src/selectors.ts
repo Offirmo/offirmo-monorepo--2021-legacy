@@ -1,5 +1,7 @@
 /////////////////////
 
+import { NumberHash } from '@offirmo/ts-types'
+
 import {
 	InventorySlot,
 	ItemQuality,
@@ -12,10 +14,6 @@ import {
 } from './types'
 
 /////////////////////
-
-interface NumberHash {
-	[k: string]: number
-}
 
 // actualized strength
 // quality multipliers (see spreadsheet for calculation)

@@ -598,6 +598,8 @@ but still ends up with good loot: +{{coin}}, {{item}}...
 
 const OFFIRMO_POPULAR_CULTURE: I18nMessages = {
 
+	// Atlantis is calling
+	
 	drown_in_holy_water: `
 You nearly drown yourself in holy water. You gain +{{mana}} mana!
 	`,

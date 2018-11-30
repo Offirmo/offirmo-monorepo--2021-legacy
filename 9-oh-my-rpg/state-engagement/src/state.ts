@@ -65,12 +65,25 @@ function acknowledge_seen(state: Readonly<State>, uid: number): Readonly<State> 
 	}
 }
 
+function acknowledge_all_seen(state: Readonly<State>): Readonly<State> {
+	if (!state.queue.length) return state
+
+	return {
+		...state,
+
+		queue: [],
+
+		revision: state.revision + 1,
+	}
+}
+
 /////////////////////
 
 export {
 	create,
 	enqueue,
 	acknowledge_seen,
+	acknowledge_all_seen,
 }
 
 /////////////////////

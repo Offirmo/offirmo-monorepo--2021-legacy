@@ -166,8 +166,7 @@ function create_game_instance<T>({SEC, get_latest_state, persist_state, view_sta
 				get_state: get_latest_state,
 
 				reset_state() {
-					let state = state_fns.create()
-					state = state_fns.reseed(state)
+					const state = state_fns.reseed(state_fns.create())
 					persist_state(state)
 					logger.verbose('Savegame reseted:', {state})
 					emitter.emit('state_change')
