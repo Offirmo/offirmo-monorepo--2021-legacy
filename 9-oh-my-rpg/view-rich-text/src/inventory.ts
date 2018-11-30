@@ -22,7 +22,7 @@ import {DEFAULT_RENDER_ITEM_OPTIONS} from './consts'
 
 
 // we want the slots sorted by types according to an arbitrary order
-function render_equipment(inventory: InventoryState, options?: RenderItemOptions): RichText.Document {
+function render_equipment(inventory: Readonly<InventoryState>, options?: Readonly<RenderItemOptions>): RichText.Document {
 	const $doc_list = RichText.unordered_list()
 		.addClass('inventory--equipment')
 		.done()
@@ -54,7 +54,7 @@ function render_equipment(inventory: InventoryState, options?: RenderItemOptions
 
 // we want the slots sorted by types according to an arbitrary order
 // = nothing to do, the inventory is auto-sorted
-function render_backpack(inventory: InventoryState, options?: RenderItemOptions): RichText.Document {
+function render_backpack(inventory: Readonly<InventoryState>, options?: Readonly<RenderItemOptions>): RichText.Document {
 	const builder = RichText.ordered_list()
 		.addClass('inventory--backpack')
 
@@ -92,7 +92,7 @@ function render_backpack(inventory: InventoryState, options?: RenderItemOptions)
 	return $doc
 }
 
-function render_full_inventory(inventory: InventoryState, wallet: WalletState, options: RenderItemOptions = DEFAULT_RENDER_ITEM_OPTIONS): RichText.Document {
+function render_full_inventory(inventory: Readonly<InventoryState>, wallet: Readonly<WalletState>, options: Readonly<RenderItemOptions> = DEFAULT_RENDER_ITEM_OPTIONS): RichText.Document {
 	const $doc = RichText.block_fragment()
 		.pushNode(render_equipment(inventory, options), {id: 'equipped'})
 		.pushNode(render_wallet(wallet), {id: 'wallet'})

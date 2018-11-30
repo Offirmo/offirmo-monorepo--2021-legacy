@@ -1,6 +1,6 @@
 import { I18nMessages } from '@offirmo/ts-types'
 
-const messages: I18nMessages = {
+const messages: Readonly<I18nMessages> = {
 	weapon: {
 		base: {
 			axe: 'axe',

@@ -16,7 +16,7 @@ https://www.trueachievements.com/game/Diablo-III-Reaper-of-Souls-Ultimate-Evil-E
 // https://www.begeek.fr/vous-galerez-sur-red-dead-redemption-ii-voici-les-codes-pour-tricher-298991
 // https://www.trueachievements.com/game/Diablo-III-Reaper-of-Souls-Ultimate-Evil-Edition/achievements
 
-const RAW_ENTRIES_TEST: Partial<AchievementDefinition<State>>[] = [
+const RAW_ENTRIES_TEST: Readonly<Partial<AchievementDefinition<State>>>[] = [
 	{
 		icon: '🍪',
 		name: 'TEST',
@@ -28,7 +28,7 @@ const RAW_ENTRIES_TEST: Partial<AchievementDefinition<State>>[] = [
 	},
 ]
 
-const RAW_ENTRIES_GAME_PHASES: Partial<AchievementDefinition<State>>[] = [
+const RAW_ENTRIES_GAME_PHASES: Readonly<Partial<AchievementDefinition<State>>>[] = [
 	{
 		icon: '🐺',
 		name: 'Alpha player',
@@ -45,7 +45,7 @@ const RAW_ENTRIES_GAME_PHASES: Partial<AchievementDefinition<State>>[] = [
 	},
 ]
 
-const RAW_ENTRIES_CTAS: Partial<AchievementDefinition<State>>[] = [
+const RAW_ENTRIES_CTAS: Readonly<Partial<AchievementDefinition<State>>>[] = [
 	// main CTA
 	{
 		icon: '🥉',
@@ -170,7 +170,7 @@ const RAW_ENTRIES_CTAS: Partial<AchievementDefinition<State>>[] = [
 	},
 ]
 
-const RAW_ENTRIES_COUNTER_CTAS: Partial<AchievementDefinition<State>>[] = [
+const RAW_ENTRIES_COUNTER_CTAS: Readonly<Partial<AchievementDefinition<State>>>[] = [
 
 	// bad clicks
 	{
@@ -226,7 +226,7 @@ const RAW_ENTRIES_COUNTER_CTAS: Partial<AchievementDefinition<State>>[] = [
 	},
 ]
 
-const RAW_ENTRIES_ENGAGEMENT: Partial<AchievementDefinition<State>>[] = [
+const RAW_ENTRIES_ENGAGEMENT: Readonly<Partial<AchievementDefinition<State>>>[] = [
 	{
 		icon: '🆙',
 		name: 'What’s in a name?',
@@ -250,7 +250,7 @@ const RAW_ENTRIES_ENGAGEMENT: Partial<AchievementDefinition<State>>[] = [
 	},
 ]
 
-const RAW_ENTRIES_PROGRESSION_EQUIPMENT: Partial<AchievementDefinition<State>>[] = [
+const RAW_ENTRIES_PROGRESSION_EQUIPMENT: Readonly<Partial<AchievementDefinition<State>>>[] = [
 	{
 		icon: '🥄',
 		name: 'There is no spoon',
@@ -297,7 +297,7 @@ const RAW_ENTRIES_PROGRESSION_EQUIPMENT: Partial<AchievementDefinition<State>>[]
 	},
 ]
 
-const RAW_ENTRIES_PROGRESSION_ATTRIBUTES: Partial<AchievementDefinition<State>>[] = [
+const RAW_ENTRIES_PROGRESSION_ATTRIBUTES: Readonly<Partial<AchievementDefinition<State>>>[] = [
 	// attributes
 	// https://www.google.com/search?q=silver+tongue
 	{
@@ -390,7 +390,7 @@ Such a little thing
 	https://www.brainyquote.com/search_results?q=adventure
  */
 
-const RAW_ENTRIES_SECRETS: Partial<AchievementDefinition<State>>[] = [
+const RAW_ENTRIES_SECRETS: Readonly<Partial<AchievementDefinition<State>>>[] = [
 	{
 		icon: '👑',
 		name: 'Usurper',
@@ -418,7 +418,7 @@ const RAW_ENTRIES_SECRETS: Partial<AchievementDefinition<State>>[] = [
 	},
 ]
 
-const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
+const RAW_ENTRIES: Readonly<Partial<AchievementDefinition<State>>>[] = [
 
 	...RAW_ENTRIES_TEST,
 	...RAW_ENTRIES_GAME_PHASES,
@@ -443,7 +443,7 @@ const RAW_ENTRIES: Partial<AchievementDefinition<State>>[] = [
 	...RAW_ENTRIES_SECRETS,
 ]
 
-const ENTRIES: AchievementDefinition<State>[] = RAW_ENTRIES
+const ENTRIES: Readonly<AchievementDefinition<State>>[] = RAW_ENTRIES
 	.filter(raw => raw.name && raw.description && raw.get_status)
 	.map(({name, icon, description, lore, get_status}, index) => {
 		const session_uuid = [`${index}`.padStart(4, '0'), name].join(' ')

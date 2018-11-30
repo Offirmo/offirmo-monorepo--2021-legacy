@@ -2,6 +2,7 @@ import { I18nMessages } from '@offirmo/ts-types'
 
 import { messages as en } from './i18n_en'
 
+// TODO type better? (coins)
 import { CoinsGain, OutcomeArchetype, AdventureType } from '../types'
 
 interface RawAdventureArchetypeEntry {
@@ -15,7 +16,7 @@ interface RawAdventureArchetypeEntry {
 const story = AdventureType.story
 const fight = AdventureType.fight
 
-const ENTRIES: RawAdventureArchetypeEntry[] = [
+const ENTRIES: Readonly<RawAdventureArchetypeEntry>[] = [
 	{ good: false, type: story, hid: 'bad_1',                 outcome: {}},
 	{ good: false, type: story, hid: 'bad_2',                 outcome: {}},
 	{ good: false, type: story, hid: 'bad_3',                 outcome: {}},
@@ -200,7 +201,7 @@ const ENTRIES: RawAdventureArchetypeEntry[] = [
 ]
 
 
-const i18n_messages: I18nMessages = {
+const i18n_messages: Readonly<I18nMessages> = {
 	en,
 }
 

@@ -25,7 +25,7 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 
 /////////////////////
 
-function enqueue(state: Readonly<State>, engagement: Engagement, params: PendingEngagement['params'] = {}): Readonly<State> {
+function enqueue(state: Readonly<State>, engagement: Readonly<Engagement>, params: Readonly<PendingEngagement['params']> = {}): Readonly<State> {
 
 	// Avoid duplication? Possible bug? No, hard to detect, may have different params.
 	// ex. multiple level rises should be ok.

@@ -3,7 +3,7 @@ import { XError, COMMON_ERROR_FIELDS } from '@offirmo/common-error-fields'
 // Anything can be thrown: undefined, string, number...)
 // But that's obviously not a good practice.
 // Normalize any thrown object into a true, normal error.
-function normalizeError(err_like: Partial<Error> = {}): XError {
+function normalizeError(err_like: Readonly<Partial<Error>> = {}): XError {
 	// Fact: in browser, sometimes, an error-like, un-writable object is thrown
 
 	// create a true, safe, writable error object

@@ -5,8 +5,10 @@ import { Code, CodesConditions, State } from '../types'
 
 ////////////
 
+// TODO move data outside!
+
 // for test only
-const TEST_CODES: { [key: string]: Partial<Code> } = {
+const TEST_CODES: { [key: string]: Readonly<Partial<Code>> } = {
 
 	TESTNEVER: {
 		redeem_limit: null,
@@ -49,7 +51,7 @@ const TEST_CODES: { [key: string]: Partial<Code> } = {
 	},
 }
 
-const RAW_CODES: { [key: string]: Partial<Code> } = {
+const RAW_CODES: { [key: string]: Readonly<Partial<Code>> } = {
 
 	BORED: {
 		redeem_limit: null,

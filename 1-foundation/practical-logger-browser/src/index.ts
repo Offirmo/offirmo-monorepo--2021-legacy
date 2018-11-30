@@ -11,7 +11,7 @@ import {
 } from '@offirmo/practical-logger-core'
 
 
-const LEVEL_TO_CONSOLE_METHOD: { [k: string]: string } = {
+const LEVEL_TO_CONSOLE_METHOD: Readonly<{ [k: string]: string }> = {
 	[LogLevel.fatal]:   'error',
 	[LogLevel.emerg]:   'error',
 	[LogLevel.alert]:   'error',
@@ -33,7 +33,7 @@ const LEVEL_TO_CONSOLE_METHOD: { [k: string]: string } = {
 	[LogLevel.silly]:   'log',
 }
 
-const LEVEL_TO_STYLE: { [k: string]: string } = {
+const LEVEL_TO_STYLE: Readonly<{ [k: string]: string }> = {
 	[LogLevel.fatal]:   '',
 	[LogLevel.emerg]:   '',
 	[LogLevel.alert]:   '',

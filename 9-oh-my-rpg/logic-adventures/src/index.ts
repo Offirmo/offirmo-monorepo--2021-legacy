@@ -54,14 +54,14 @@ const ALL_ADVENTURE_ARCHETYPES: Readonly<AdventureArchetype>[] = ENTRIES
 const ALL_BAD_ADVENTURE_ARCHETYPES: Readonly<AdventureArchetype>[] = ALL_ADVENTURE_ARCHETYPES.filter(aa => !aa.good)
 const ALL_GOOD_ADVENTURE_ARCHETYPES: Readonly<AdventureArchetype>[] = ALL_ADVENTURE_ARCHETYPES.filter(aa => aa.good)
 
-const GOOD_ADVENTURE_ARCHETYPES_BY_TYPE: { [k: string]: Readonly<AdventureArchetype>[] } = {
+const GOOD_ADVENTURE_ARCHETYPES_BY_TYPE: Readonly<{ [k: string]: Readonly<AdventureArchetype>[] }> = {
 	story: ALL_GOOD_ADVENTURE_ARCHETYPES.filter(aa => aa.type === AdventureType.story),
 	fight: ALL_GOOD_ADVENTURE_ARCHETYPES.filter(aa => aa.type === AdventureType.fight),
 }
 
 const COINS_GAIN_MULTIPLIER_PER_LEVEL = 1.1
 
-const COINS_GAIN_RANGES: { [k: string]: [number, number] } = {
+const COINS_GAIN_RANGES: Readonly<{ [k: string]: [number, number] }> = {
 	none:   [  0,    0],
 	small:  [  1,   20],
 	medium: [ 50,  100],

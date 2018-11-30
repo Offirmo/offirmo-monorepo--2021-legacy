@@ -6,7 +6,7 @@ import { ENTRIES } from './entries'
 
 /////////////////////
 
-const i18n_messages: I18nMessages = {
+const i18n_messages: Readonly<I18nMessages> = {
 	en,
 }
 

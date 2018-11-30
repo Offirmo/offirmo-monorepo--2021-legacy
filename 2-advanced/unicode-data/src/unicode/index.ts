@@ -12,7 +12,7 @@ interface UnicodeCharDetails {
 	}
 }
 
-const CHARACTERS: { [k: string]: UnicodeCharDetails } = {
+const CHARACTERS: Readonly<{ [k: string]: Readonly<UnicodeCharDetails> }> = {
 
 	'01f400': {
 		code_point: 128000,

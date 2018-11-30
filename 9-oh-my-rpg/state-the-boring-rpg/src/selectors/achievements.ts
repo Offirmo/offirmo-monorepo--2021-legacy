@@ -13,7 +13,7 @@ import ACHIEVEMENT_DEFINITIONS from '../data/achievements'
 
 /////////////////////
 
-function get_achievement_snapshot(state: Readonly<State>, definition: AchievementDefinition<State>): Readonly<AchievementSnapshot> {
+function get_achievement_snapshot(state: Readonly<State>, definition: Readonly<AchievementDefinition<State>>): Readonly<AchievementSnapshot> {
 	const { session_uuid, name, icon, description, lore } = definition
 
 	// we check this and not get_status since unlock is "sticky" (by design) and get_status may not be

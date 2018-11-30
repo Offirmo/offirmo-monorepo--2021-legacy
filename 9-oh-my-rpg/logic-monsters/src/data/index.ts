@@ -8,7 +8,7 @@ interface RawMonsterEntry {
 	emoji: string
 }
 
-const EMOJI_ENTRIES: RawMonsterEntry[] = Object.keys(UNICODE_CHARS)
+const EMOJI_ENTRIES: Readonly<RawMonsterEntry>[] = Object.keys(UNICODE_CHARS)
 	.map(key => UNICODE_CHARS[key])
 	.filter(charDetails => charDetails.taxonomy.includes('monster'))
 	.map((charDetails: UnicodeCharDetails) => ({
@@ -16,7 +16,7 @@ const EMOJI_ENTRIES: RawMonsterEntry[] = Object.keys(UNICODE_CHARS)
 		emoji: charDetails.char,
 	}))
 
-const EXTRA_ENTRIES: RawMonsterEntry[] = [
+const EXTRA_ENTRIES: Readonly<RawMonsterEntry>[] = [
 	{
 		name: 'drop bear',
 		emoji: '🐨',
@@ -49,7 +49,7 @@ const EXTRA_ENTRIES: RawMonsterEntry[] = [
 ]
 
 
-const ENTRIES = ([] as RawMonsterEntry[]).concat(...EMOJI_ENTRIES, ...EXTRA_ENTRIES)
+const ENTRIES: Readonly<RawMonsterEntry>[] = ([] as RawMonsterEntry[]).concat(...EMOJI_ENTRIES, ...EXTRA_ENTRIES)
 
 export {
 	RawMonsterEntry,

@@ -14,7 +14,7 @@ import { RenderItemOptions } from './types'
 import { DEFAULT_RENDER_ITEM_OPTIONS } from './consts'
 
 
-function render_adventure(a: Adventure, options: RenderItemOptions = DEFAULT_RENDER_ITEM_OPTIONS): RichText.Document {
+function render_adventure(a: Readonly<Adventure>, options: Readonly<RenderItemOptions> = DEFAULT_RENDER_ITEM_OPTIONS): RichText.Document {
 	const gains: any = a.gains // alias for typing
 
 	// in this special function, we'll be:

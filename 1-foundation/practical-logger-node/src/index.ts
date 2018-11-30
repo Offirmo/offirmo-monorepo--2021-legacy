@@ -23,7 +23,7 @@ function to_aligned_ascii(level: string): string {
 	return lvl
 }
 
-const LEVEL_TO_ASCII: { [k: string]: string } = {
+const LEVEL_TO_ASCII: Readonly<{ [k: string]: string }> = {
 	[LogLevel.fatal]:   chalk.bgRed.white.bold(to_aligned_ascii(' ' + LEVEL_TO_HUMAN[LogLevel.fatal])),
 	[LogLevel.emerg]:   chalk.bgRed.white.bold(to_aligned_ascii(LEVEL_TO_HUMAN[LogLevel.emerg])),
 	[LogLevel.alert]:   chalk.bgRed.white.bold(to_aligned_ascii(' ' + LEVEL_TO_HUMAN[LogLevel.alert])),
@@ -45,7 +45,7 @@ const LEVEL_TO_ASCII: { [k: string]: string } = {
 	[LogLevel.silly]:   chalk.dim(to_aligned_ascii(LEVEL_TO_HUMAN[LogLevel.silly])),
 }
 
-const LEVEL_TO_STYLIZE: { [k: string]: (s: string) => string } = {
+const LEVEL_TO_STYLIZE: Readonly<{ [k: string]: (s: string) => string }> = {
 	[LogLevel.fatal]:   s => chalk.red.bold(s),
 	[LogLevel.emerg]:   s => chalk.red.bold(s),
 	[LogLevel.alert]:   s => chalk.red.bold(s),
@@ -67,7 +67,7 @@ const LEVEL_TO_STYLIZE: { [k: string]: (s: string) => string } = {
 	[LogLevel.silly]:   s => chalk.dim(s),
 }
 
-function createLogger(p: LogParams): Logger {
+function createLogger(p: Readonly<LogParams>): Logger {
 
 	function outputFn(payload: Payload): void {
 		const { level, name, msg, time, details } = payload

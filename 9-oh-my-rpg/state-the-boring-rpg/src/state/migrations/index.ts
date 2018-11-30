@@ -1,4 +1,5 @@
 /////////////////////
+import { JSONObject, JSONAny } from '@offirmo/ts-types'
 
 import * as CharacterState from '@oh-my-rpg/state-character'
 import * as WalletState from '@oh-my-rpg/state-wallet'
@@ -11,45 +12,16 @@ import * as ProgressState from '@oh-my-rpg/state-progress'
 
 import { LIB, SCHEMA_VERSION } from '../../consts'
 import { State } from '../../types'
-import { create } from '../reducers/state'
+import { create } from '../reducers'
 import { SoftExecutionContext, OMRContext, get_lib_SEC } from '../../sec'
+import { reset_and_salvage } from './salvage'
 
 /////////////////////
-
-function reset_and_salvage(legacy_state: any): State {
-	let state = create()
-
-	// still, try to salvage "meta" for engagement
-	try {
-
-		// ensure this code is up to date
-		if (typeof state.avatar.name !== 'string') {
-			// TODO report
-			console.warn(`${LIB}: need to update the avatar name salvaging!`)
-			return create()
-		}
-		if (typeof legacy_state.avatar.name === 'string') {
-			state.avatar.name = legacy_state.avatar.name
-		}
-
-		// TODO salvage creation date as well?
-		// TODO salvage class
-		// TODO salvage by auto-replay as much?
-
-		console.info(`${LIB}: salvaged some savegame data.`)
-	}
-	catch (err) {
-		/* swallow */
-		console.warn(`${LIB}: salvaging failed!`)
-		state = create()
-	}
-	return state
-}
 
 const SUB_REDUCERS_COUNT = 8
 const OTHER_KEYS_COUNT = 5
 
-function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: any = {}): State {
+function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any> = {}): State {
 	const existing_version = (legacy_state && legacy_state.schema_version) || 0
 
 	SEC = get_lib_SEC(SEC)
@@ -131,14 +103,14 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: 
 
 /////////////////////
 
-function migrate_to_7(SEC: SoftExecutionContext, legacy_state: any, hints: any): any {
+function migrate_to_7(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any>): any {
 	if (legacy_state.schema_version >= 7)
 		throw new Error('migrate_to_X src (3) is outdated, please update!')
 
 	if (legacy_state.schema_version < 4)
 		legacy_state = migrate_to_4(SEC, legacy_state, hints)
 
-	let state = { ...legacy_state, schema_version: 7 }
+	let state: any = { ...legacy_state, schema_version: 7 }
 
 	// new entries
 	if (!state.codes)
@@ -164,7 +136,7 @@ function migrate_to_7(SEC: SoftExecutionContext, legacy_state: any, hints: any):
 	return state
 }
 
-function migrate_to_4(SEC: SoftExecutionContext, legacy_state: any, hints: any): any {
+function migrate_to_4(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any>): any {
 	throw new Error('Alpha release schema, won\'t migrate, would take too much time and schema is still unstable!')
 }
 

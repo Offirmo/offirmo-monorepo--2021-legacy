@@ -9,12 +9,13 @@ import {
 	get_currency_amount,
 } from '@oh-my-rpg/state-wallet'
 
+import { LIB } from '../../../consts'
 import { State } from '../../../types'
-import { create } from '../state'
+import { create } from '..'
 import { _refresh_achievements } from '.'
 import ACHIEVEMENT_DEFINITIONS from '../../../data/achievements'
 
-describe('@oh-my-rpg/state-the-boring-rpg - reducer / achievements', function() {
+describe(`${LIB} - reducer`, function() {
 	beforeEach(() => xxx_internal_reset_prng_cache())
 
 	describe('_refresh_achievements()', function() {

@@ -19,7 +19,7 @@ function push_quality(builder: Builder, i: Readonly<Armor>): Builder {
 	return builder.pushNode($node, {id: 'quality'})
 }
 
-function push_values(builder: Builder, i: Readonly<Armor>, options: {short: boolean} = {short: false}): Builder {
+function push_values(builder: Builder, i: Readonly<Armor>, options: Readonly<{short: boolean}> = {short: false}): Builder {
 	const [min, max] = get_armor_damage_reduction_interval(i)
 	const $node = RichText.inline_fragment()
 		.addClass('item--values')
@@ -28,7 +28,7 @@ function push_values(builder: Builder, i: Readonly<Armor>, options: {short: bool
 	return builder.pushNode($node, {id: 'values'})
 }
 
-function push_power(builder: Builder, i: Readonly<Armor>, options: {short?: boolean, reference_power?: number} = {short: false}): Builder {
+function push_power(builder: Builder, i: Readonly<Armor>, options: Readonly<{short?: boolean, reference_power?: number}> = {short: false}): Builder {
 	const power = appraise_power(i)
 
 	if (!options.short) {
@@ -76,7 +76,7 @@ function push_sell_value(builder: Builder, i: Readonly<Armor>): Builder {
 
 /////////////////////
 
-function render_armor_name(i: Armor): RichText.Document {
+function render_armor_name(i: Readonly<Armor>): RichText.Document {
 	const _ = I18N_ARMORS.en as any
 	const b = _.armor.base[i.base_hid]
 	const q1 = _.armor.qualifier1[i.qualifier1_hid]
@@ -107,7 +107,7 @@ function render_armor_name(i: Armor): RichText.Document {
 	return $doc
 }
 
-function render_armor_short(i: Armor, options: RenderItemOptions = DEFAULT_RENDER_ITEM_OPTIONS): RichText.Document {
+function render_armor_short(i: Readonly<Armor>, options: Readonly<RenderItemOptions> = DEFAULT_RENDER_ITEM_OPTIONS): RichText.Document {
 	if (i.slot !== InventorySlot.armor)
 		throw new Error(`render_armor_short(): can't render a ${i.slot}!`)
 
@@ -143,7 +143,7 @@ function render_armor_short(i: Armor, options: RenderItemOptions = DEFAULT_RENDE
 		.done()
 }
 
-function render_armor_detailed(i: Armor, reference_power?: number): RichText.Document {
+function render_armor_detailed(i: Readonly<Armor>, reference_power?: number): RichText.Document {
 	if (i.slot !== InventorySlot.armor)
 		throw new Error(`render_armor_detailed(): can't render a ${i.slot}!`)
 

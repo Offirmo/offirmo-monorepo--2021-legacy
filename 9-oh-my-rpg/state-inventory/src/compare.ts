@@ -22,7 +22,7 @@ import {
 
 /////////////////////
 
-function compare_items(a: Item, b: Item): number {
+function compare_items(a: Readonly<Item>, b: Readonly<Item>): number {
 	if (a.slot !== b.slot)
 		return compare_items_by_slot(a, b)
 

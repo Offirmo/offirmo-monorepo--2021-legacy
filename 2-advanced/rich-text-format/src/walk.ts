@@ -214,16 +214,16 @@ function walk_content<State, RenderingOptions>(
 
 
 function walk<State, RenderingOptions>(
-	$raw_node: Node,
-	raw_callbacks: Partial<WalkerCallbacks<State, RenderingOptions>>,
-	options: RenderingOptions = {} as any,
+	$raw_node: Readonly<Node>,
+	raw_callbacks: Readonly<Partial<WalkerCallbacks<State, RenderingOptions>>>,
+	options: Readonly<RenderingOptions> = {} as any,
 	// internal opts when recursing:
 	{
 		$parent_node,
 		$id = 'root',
 		depth = 0,
 	}: {
-	$parent_node?: CheckedNode,
+	$parent_node?: Readonly<CheckedNode>,
 	$id?: string,
 	depth?: number,
 	} = {},

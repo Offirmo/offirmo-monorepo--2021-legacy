@@ -23,7 +23,7 @@ import {
 
 /////////////////////
 
-function reduce_action(state: Readonly<State>, action: Action): Readonly<State> {
+function reduce_action(state: Readonly<State>, action: Readonly<Action>): Readonly<State> {
 	const { expected_state_revision } = (action as any)
 	if (expected_state_revision) {
 		if (state.revision !== expected_state_revision)

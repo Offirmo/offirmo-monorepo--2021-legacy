@@ -77,15 +77,16 @@ const angularJSLoggerToConsole: AngularJSLogger = {
 
 
 const bunyanLoggerToConsole: BunyanLogger = {
-	fatal: (x: any, ...args: any[]) => fatal(...bunyan_args_harmonizer(x, ...args)),
-	error: (x: any, ...args: any[]) => error(...bunyan_args_harmonizer(x, ...args)),
-	warn: (x: any, ...args: any[]) => warn(...bunyan_args_harmonizer(x, ...args)),
-	info: (x: any, ...args: any[]) => info(...bunyan_args_harmonizer(x, ...args)),
-	debug: (x: any, ...args: any[]) => debug(...bunyan_args_harmonizer(x, ...args)),
-	trace: (x: any, ...args: any[]) => trace(...bunyan_args_harmonizer(x, ...args)),
+	fatal: (x: Readonly<any>, ...args: Readonly<any>[]) => fatal(...bunyan_args_harmonizer(x, ...args)),
+	error: (x: Readonly<any>, ...args: Readonly<any>[]) => error(...bunyan_args_harmonizer(x, ...args)),
+	warn: (x: Readonly<any>, ...args: Readonly<any>[]) => warn(...bunyan_args_harmonizer(x, ...args)),
+	info: (x: Readonly<any>, ...args: Readonly<any>[]) => info(...bunyan_args_harmonizer(x, ...args)),
+	debug: (x: Readonly<any>, ...args: Readonly<any>[]) => debug(...bunyan_args_harmonizer(x, ...args)),
+	trace: (x: Readonly<any>, ...args: Readonly<any>[]) => trace(...bunyan_args_harmonizer(x, ...args)),
 }
 
-function bunyan_args_harmonizer(arg1: any, ...other_args: any[]): any[] {
+// TODO Readonly
+function bunyan_args_harmonizer(arg1: Readonly<any>, ...other_args: Readonly<any>[]): Readonly<any>[] {
 	if (arg1 instanceof Error) {
 		const err = arg1
 		return other_args.concat({err})
@@ -97,7 +98,7 @@ function bunyan_args_harmonizer(arg1: any, ...other_args: any[]): any[] {
 	}
 
 	// no change
-	return [arg1].concat(...other_args)
+	return [arg1, ...other_args]
 }
 
 const compatibleLoggerToConsole: CompatibleLogger = {

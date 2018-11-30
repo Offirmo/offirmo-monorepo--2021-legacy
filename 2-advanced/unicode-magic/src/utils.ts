@@ -27,7 +27,7 @@ interface Message {
 	type: 'warning' | 'error'
 	msg: string
 }
-function render(spec: AvatarSpec): [ string, Message[] ] {
+function render(spec: Readonly<AvatarSpec>): [ string, Message[] ] {
 	let {gender, age, skin_tone, hair} = spec
 
 	//console.log(Object.values(spec))

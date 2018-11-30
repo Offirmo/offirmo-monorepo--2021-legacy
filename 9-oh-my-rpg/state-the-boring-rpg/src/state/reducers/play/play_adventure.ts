@@ -2,13 +2,11 @@
 
 import { generate_uuid } from '@offirmo/uuid'
 import { Random, Engine } from '@offirmo/random'
+import { dump_pretty_json } from '@offirmo/prettify-json' // TODO remove
 
 /////////////////////
 
-import {
-	InventorySlot,
-	Item,
-} from '@oh-my-rpg/definitions'
+import { InventorySlot } from '@oh-my-rpg/definitions'
 
 import {
 	CharacterAttribute,
@@ -20,11 +18,9 @@ import {
 	State as CharacterState,
 } from '@oh-my-rpg/state-character'
 
-import * as WalletState from '@oh-my-rpg/state-wallet'
 import { Currency } from '@oh-my-rpg/state-wallet'
 
 import * as InventoryState from '@oh-my-rpg/state-inventory'
-
 import * as PRNGState from '@oh-my-rpg/state-prng'
 import {
 	get_prng,
@@ -40,7 +36,6 @@ import {
 	MAX_ENHANCEMENT_LEVEL as MAX_WEAPON_ENHANCEMENT_LEVEL,
 	DEMO_WEAPON_1,
 } from '@oh-my-rpg/logic-weapons'
-
 import {
 	Armor,
 	create as create_armor,
@@ -70,8 +65,14 @@ import {
 	Adventure,
 } from '../../../types'
 
-import { get_lib_SEC } from '../../../sec'
 import { LIB } from '../../../consts'
+
+import {
+	_receive_stat_increase,
+	_receive_coins,
+	_receive_tokens,
+	_receive_item,
+} from '../base'
 
 /////////////////////
 
@@ -105,8 +106,16 @@ const SECONDARY_STATS_BY_CLASS = {
 	[CharacterClass.priest]:    ['wisdom'],
 }
 
-function instantiate_adventure_archetype(rng: Engine, aa: AdventureArchetype, character: CharacterState, inventory: InventoryState.State): Adventure {
-	let {hid, good, type, outcome : should_gain} = aa
+function _instantiate_adventure_archetype(
+	rng: Engine,
+	aa: Readonly<AdventureArchetype>,
+	character: Readonly<CharacterState>,
+	inventory: Readonly<InventoryState.State>
+): Readonly<Adventure> {
+	let {hid, good, type, outcome} = aa
+	let should_gain = {
+		...outcome
+	}
 
 	// instantiate the special gains
 	if (should_gain.random_attribute) {
@@ -170,41 +179,12 @@ function instantiate_adventure_archetype(rng: Engine, aa: AdventureArchetype, ch
 	}
 }
 
-function receive_stat_increase(state: Readonly<State>, stat: CharacterAttribute, amount = 1): Readonly<State> {
-	return {
-		...state,
-		avatar: increase_stat(get_lib_SEC(), state.avatar, stat, amount),
-	}
-}
-
-function receive_item(state: Readonly<State>, item: Item): Readonly<State> {
-	// inventory shouldn't be full since we prevent playing in this case
-	return {
-		...state,
-		inventory: InventoryState.add_item(state.inventory, item),
-	}
-}
-
-function receive_coins(state: Readonly<State>, amount: number): Readonly<State> {
-	return {
-		...state,
-		wallet: WalletState.add_amount(state.wallet, Currency.coin, amount),
-	}
-}
-
-function receive_tokens(state: Readonly<State>, amount: number): Readonly<State> {
-	return {
-		...state,
-		wallet: WalletState.add_amount(state.wallet, Currency.token, amount),
-	}
-}
-
 /////////////////////
 
-function play_adventure(state: Readonly<State>, aa: AdventureArchetype): Readonly<State> {
+function play_adventure(state: Readonly<State>, aa: Readonly<AdventureArchetype>): Readonly<State> {
 	const rng = get_prng(state.prng)
 
-	const adventure = instantiate_adventure_archetype(
+	const adventure = _instantiate_adventure_archetype(
 		rng,
 		aa,
 		state.avatar,
@@ -215,58 +195,62 @@ function play_adventure(state: Readonly<State>, aa: AdventureArchetype): Readonl
 		last_adventure: adventure,
 	}
 
-	const {gains : gained} = adventure
+	const {gains: gained} = adventure
 
 	let gain_count = 0
+	let item_gain_count = 0
+
 	if (gained.level) {
 		gain_count++
-		state = receive_stat_increase(state, CharacterAttribute.level)
+		state = _receive_stat_increase(state, CharacterAttribute.level)
 	}
 	if (gained.health) {
 		gain_count++
-		state = receive_stat_increase(state, CharacterAttribute.health, gained.health)
+		state = _receive_stat_increase(state, CharacterAttribute.health, gained.health)
 	}
 	if (gained.mana) {
 		gain_count++
-		state = receive_stat_increase(state, CharacterAttribute.mana, gained.mana)
+		state = _receive_stat_increase(state, CharacterAttribute.mana, gained.mana)
 	}
 	if (gained.strength) {
 		gain_count++
-		state = receive_stat_increase(state, CharacterAttribute.strength, gained.strength)
+		state = _receive_stat_increase(state, CharacterAttribute.strength, gained.strength)
 	}
 	if (gained.agility) {
 		gain_count++
-		state = receive_stat_increase(state, CharacterAttribute.agility, gained.agility)
+		state = _receive_stat_increase(state, CharacterAttribute.agility, gained.agility)
 	}
 	if (gained.charisma) {
 		gain_count++
-		state = receive_stat_increase(state, CharacterAttribute.charisma, gained.charisma)
+		state = _receive_stat_increase(state, CharacterAttribute.charisma, gained.charisma)
 	}
 	if (gained.wisdom) {
 		gain_count++
-		state = receive_stat_increase(state, CharacterAttribute.wisdom, gained.wisdom)
+		state = _receive_stat_increase(state, CharacterAttribute.wisdom, gained.wisdom)
 	}
 	if (gained.luck) {
 		gain_count++
-		state = receive_stat_increase(state, CharacterAttribute.luck, gained.luck)
+		state = _receive_stat_increase(state, CharacterAttribute.luck, gained.luck)
 	}
 
 	if (gained.coin) {
 		gain_count++
-		state = receive_coins(state, gained.coin)
+		state = _receive_coins(state, gained.coin)
 	}
 	if (gained.token) {
 		gain_count++
-		state = receive_tokens(state, gained.token)
+		state = _receive_tokens(state, gained.token)
 	}
 
 	if (gained.weapon) {
 		gain_count++
-		state = receive_item(state, gained.weapon)
+		item_gain_count++
+		state = _receive_item(state, gained.weapon)
 	}
 	if (gained.armor) {
 		gain_count++
-		state = receive_item(state, gained.armor)
+		item_gain_count++
+		state = _receive_item(state, gained.armor)
 	}
 
 	if (gained.weapon_improvement) {
@@ -287,8 +271,14 @@ function play_adventure(state: Readonly<State>, aa: AdventureArchetype): Readonl
 		// TODO enhance another armor as fallback
 	}
 
-	if (aa.good && !gain_count)
+	if (aa.good && !gain_count) {
+		dump_pretty_json('Error NO gain!', {aa, adventure})
 		throw new Error(`${LIB}: play_adventure() for "good click" hid "${aa.hid}" unexpectedly resulted in NO gains!`)
+	}
+	if (item_gain_count > 1) {
+		dump_pretty_json('Error 2x item gain!', {aa, adventure})
+		throw new Error(`${LIB}: play_adventure() for hid "${aa.hid}" unexpectedly resulted in ${item_gain_count} item gains!`)
+	}
 
 	state = {
 		...state,
@@ -305,7 +295,6 @@ function play_adventure(state: Readonly<State>, aa: AdventureArchetype): Readonl
 /////////////////////
 
 export {
-	receive_item,
 	play_adventure,
 }
 

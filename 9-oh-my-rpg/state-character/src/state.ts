@@ -17,7 +17,7 @@ import { SoftExecutionContext, OMRContext, get_lib_SEC } from './sec'
 
 const DEFAULT_AVATAR_NAME = '[anonymous]'
 const CHARACTER_ATTRIBUTES = Enum.keys(CharacterAttribute)
-const CHARACTER_ATTRIBUTES_SORTED: CharacterAttribute[] = [
+const CHARACTER_ATTRIBUTES_SORTED: Readonly<CharacterAttribute>[] = [
 	'level',
 	'health',
 	'mana',

@@ -5,7 +5,7 @@ import {
 	EngagementKey,
 } from './types'
 
-function get_engagement_message(state: Readonly<State>, pe: PendingEngagement): RichText.Document {
+function get_engagement_message(state: Readonly<State>, pe: Readonly<PendingEngagement>): RichText.Document {
 	const { engagement: {key}, params} = pe
 
 	switch(key) {

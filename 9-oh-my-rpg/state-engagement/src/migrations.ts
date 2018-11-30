@@ -11,7 +11,7 @@ const MIGRATION_HINTS_FOR_TESTS: any = deepFreeze({
 
 /////////////////////
 
-function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: any = {}): State {
+function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any> = {}): State {
 	const existing_version = (legacy_state && legacy_state.schema_version) || 0
 
 	SEC = get_lib_SEC(SEC)
@@ -51,7 +51,7 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: any, hints: 
 
 /////////////////////
 
-function migrate_to_2(SEC: SoftExecutionContext, legacy_state: any, hints: any): State {
+function migrate_to_2(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any>): State {
 	throw new Error('Schema is too old (pre-beta), can’t migrate!')
 }
 

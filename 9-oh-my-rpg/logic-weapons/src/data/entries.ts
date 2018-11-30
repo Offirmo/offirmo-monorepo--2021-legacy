@@ -1,3 +1,4 @@
+
 interface RawArmorEntry {
 	type: 'base' | 'qualifier1' | 'qualifier2'
 	hid: string
@@ -5,7 +6,7 @@ interface RawArmorEntry {
 
 // TODO tests!!
 
-const ENTRIES: RawArmorEntry[] = [
+const ENTRIES: Readonly<RawArmorEntry>[] = [
 	{ type: 'base', hid: 'axe' },
 	{ type: 'base', hid: 'bow' },
 	{ type: 'base', hid: 'claw' },

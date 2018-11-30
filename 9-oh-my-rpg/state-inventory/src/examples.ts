@@ -11,7 +11,7 @@ import { State } from './types'
 
 // a full featured, non-trivial demo state
 // needed for demos
-const DEMO_STATE: State = deepFreeze({
+const DEMO_STATE: Readonly<State> = deepFreeze({
 	schema_version: 1,
 	revision: 42,
 

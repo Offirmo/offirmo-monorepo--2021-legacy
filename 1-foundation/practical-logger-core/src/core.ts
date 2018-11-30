@@ -107,7 +107,7 @@ function createLogger({
 	}
 	*/
 
-	function serializer(level: LogLevel, msg: string, details: Details): Payload {
+	function serializer(level: LogLevel, msg: string, details: Readonly<Details>): Payload {
 		const payload: Payload = {
 			details: {
 				...internalState.details,

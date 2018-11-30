@@ -6,7 +6,7 @@ import indent_string from './indent-string'
 // https://github.com/rafeca/prettyjson
 type PrettyJsonOptions = any
 
-function prettify_json(data: any, options: PrettyJsonOptions = {}) {
+function prettify_json(data: Readonly<any>, options: Readonly<PrettyJsonOptions> = {}) {
 	if (!data) return String(data)
 
 	let { outline, ...prettyjson_options } = options

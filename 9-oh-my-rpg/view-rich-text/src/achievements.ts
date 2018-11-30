@@ -6,7 +6,7 @@ import {
 import * as RichText from '@offirmo/rich-text-format'
 
 
-function render_achievement_snapshot_short(achievement_snapshot: AchievementSnapshot): RichText.Document {
+function render_achievement_snapshot_short(achievement_snapshot: Readonly<AchievementSnapshot>): RichText.Document {
 	const { uuid, icon, name, status } = achievement_snapshot
 
 	const builder = RichText.inline_fragment()
@@ -53,7 +53,7 @@ function render_achievement_snapshot_short(achievement_snapshot: AchievementSnap
 	return builder.done()
 }
 
-function render_achievement_snapshot_detailed(achievement_snapshot: AchievementSnapshot): RichText.Document {
+function render_achievement_snapshot_detailed(achievement_snapshot: Readonly<AchievementSnapshot>): RichText.Document {
 	const { uuid, icon, name, description, lore, status } = achievement_snapshot
 	const element_tags = [ 'achievement' ]
 
@@ -123,7 +123,7 @@ function render_achievement_snapshot_detailed(achievement_snapshot: AchievementS
 	return builder.done()
 }
 
-function render_achievements_snapshot(ordered_achievement_snapshots: AchievementSnapshot[]): RichText.Document {
+function render_achievements_snapshot(ordered_achievement_snapshots: Readonly<AchievementSnapshot>[]): RichText.Document {
 	const builder = RichText.unordered_list()
 		.addClass('achievements-snapshot')
 

@@ -10,7 +10,7 @@ function render_currency_amount(currency: Currency, amount: number): RichText.Do
 		.done()
 }
 
-function render_wallet(wallet: WalletState): RichText.Document {
+function render_wallet(wallet: Readonly<WalletState>): RichText.Document {
 	const $doc_list = RichText.unordered_list()
 		.addClass('inventory--wallet')
 		.done()

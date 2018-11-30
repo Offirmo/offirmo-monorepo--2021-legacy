@@ -8,7 +8,7 @@ const TRUE_TRUE: true = true // https://github.com/Microsoft/TypeScript/issues/1
 
 // a full featured, non-trivial demo state
 // useful for demos and unit tests
-const DEMO_STATE: State = deepFreeze({
+const DEMO_STATE: Readonly<State> = deepFreeze({
 	schema_version: 1,
 	revision: 42,
 

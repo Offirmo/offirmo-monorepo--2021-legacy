@@ -3,7 +3,7 @@ import { State } from '@oh-my-rpg/state-meta'
 import * as RichText from '@offirmo/rich-text-format'
 
 
-function render_meta_infos(metas: {[k: string]: string | number | undefined}): RichText.Document {
+function render_meta_infos(metas: Readonly<{[k: string]: string | number | undefined}>): RichText.Document {
 	const $doc_list = RichText.unordered_list()
 
 	Object.keys(metas).forEach((key: string) => {
@@ -17,7 +17,7 @@ function render_meta_infos(metas: {[k: string]: string | number | undefined}): R
 }
 
 
-function render_account_info(m: State, extra: {[k: string]: string | number | undefined} = {}): RichText.Document {
+function render_account_info(m: Readonly<State>, extra: Readonly<{[k: string]: string | number | undefined}> = {}): RichText.Document {
 	const meta_infos = extra
 
 	/* TODO rework

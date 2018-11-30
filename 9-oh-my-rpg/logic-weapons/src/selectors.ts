@@ -17,7 +17,7 @@ import {
 
 // actualized strength
 // quality multipliers (see spreadsheet for calculation)
-const QUALITY_STRENGTH_MULTIPLIER: NumberHash = {
+const QUALITY_STRENGTH_MULTIPLIER: Readonly<NumberHash> = {
 	common:      1,
 	uncommon:   19,
 	rare:       46,
@@ -26,7 +26,7 @@ const QUALITY_STRENGTH_MULTIPLIER: NumberHash = {
 	artifact:  333,
 }
 
-const QUALITY_STRENGTH_SPREAD: NumberHash = {
+const QUALITY_STRENGTH_SPREAD: Readonly<NumberHash> = {
 	common:    6,
 	uncommon:  5,
 	rare:      4,

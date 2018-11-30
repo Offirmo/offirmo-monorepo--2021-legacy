@@ -19,7 +19,7 @@ function push_quality(builder: Builder, i: Readonly<Weapon>): Builder {
 	return builder.pushNode($node, { id: 'quality'})
 }
 
-function push_values(builder: Builder, i: Readonly<Weapon>, options: {short: boolean} = {short: false}): Builder {
+function push_values(builder: Builder, i: Readonly<Weapon>, options: Readonly<{short: boolean}> = {short: false}): Builder {
 	const [min, max] = get_weapon_damage_interval(i)
 	const $node = RichText.inline_fragment()
 		.addClass('item--values')
@@ -28,7 +28,7 @@ function push_values(builder: Builder, i: Readonly<Weapon>, options: {short: boo
 	return builder.pushNode($node, { id: 'values'})
 }
 
-function push_power(builder: Builder, i: Readonly<Weapon>, options: {short?: boolean, reference_power?: number} = {short: false}): Builder {
+function push_power(builder: Builder, i: Readonly<Weapon>, options: Readonly<{short?: boolean, reference_power?: number}> = {short: false}): Builder {
 	const power = appraise_power(i)
 
 	if (!options.short) {

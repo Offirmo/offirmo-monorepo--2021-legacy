@@ -24,7 +24,7 @@ type LogLevel = Enum<typeof LogLevel> // eslint-disable-line no-redeclare
 
 type Details = { [k: string]: any }
 
-type LogFn = (message?: string, details?: Details) => void
+type LogFn = (message?: string, details?: Readonly<Details>) => void
 
 // inspired by:
 // https://github.com/trentm/node-bunyan#core-fields
@@ -41,8 +41,8 @@ type OutputFn = (payload: Payload) => void
 
 interface LogParams {
 	name: string
-	level?: LogLevel
-	details?: Details
+	level?: Readonly<LogLevel>
+	details?: Readonly<Details>
 }
 
 interface InternalLoggerState {

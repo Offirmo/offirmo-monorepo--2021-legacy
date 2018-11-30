@@ -3,7 +3,7 @@ import chalk from 'chalk'
 
 import { COMMON_ERROR_FIELDS } from '@offirmo/common-error-fields'
 
-function displayErrProp(errLike: any, prop: string) {
+function displayErrProp(errLike: Readonly<any>, prop: string) {
 	if (prop === 'details') {
 		const details: { [key: string]: any} = errLike.details
 		console.error(chalk.red(chalk.dim(`🔥  ${prop}:`)))
@@ -15,7 +15,7 @@ function displayErrProp(errLike: any, prop: string) {
 		console.error(chalk.red(chalk.dim(`🔥  ${prop}: "`) + errLike[prop] + chalk.dim('"')))
 }
 
-function displayError(errLike: Partial<Error> = {}) {
+function displayError(errLike: Readonly<Partial<Error>> = {}) {
 	console.error(chalk.red(`🔥🔥🔥🔥🔥🔥🔥  ${chalk.bold(errLike.name || 'Error')} 🔥🔥🔥🔥🔥🔥🔥`))
 
 	const displayedProps = new Set()

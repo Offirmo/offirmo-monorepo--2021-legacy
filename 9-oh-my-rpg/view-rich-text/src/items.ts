@@ -9,14 +9,14 @@ import { RenderItemOptions } from './types'
 import { DEFAULT_RENDER_ITEM_OPTIONS } from './consts'
 
 
-function decorate_with_common_item_props(i: Item, doc: RichText.Document): RichText.Document {
+function decorate_with_common_item_props(i: Readonly<Item>, doc: RichText.Document): RichText.Document {
 	doc.$hints = doc.$hints || {}
 	doc.$hints.uuid = i.uuid
 
 	return doc
 }
 
-function render_item_short(i: Item, options: RenderItemOptions = DEFAULT_RENDER_ITEM_OPTIONS): RichText.Document {
+function render_item_short(i: Readonly<Item>, options: Readonly<RenderItemOptions> = DEFAULT_RENDER_ITEM_OPTIONS): RichText.Document {
 	if (!i)
 		throw new Error('render_item_short(): no item provided!')
 
@@ -34,7 +34,7 @@ function render_item_short(i: Item, options: RenderItemOptions = DEFAULT_RENDER_
 	return decorate_with_common_item_props(i, doc)
 }
 
-function render_item_detailed(i: Item): RichText.Document {
+function render_item_detailed(i: Readonly<Item>): RichText.Document {
 	if (!i)
 		throw new Error('render_item_detailed(): no item provided!')
 
