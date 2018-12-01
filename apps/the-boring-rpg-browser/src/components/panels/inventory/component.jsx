@@ -6,7 +6,7 @@ import rich_text_to_react from '../../../services/rich-text-to-react'
 import './index.css'
 
 
-export default class Component extends React.Component {
+export default class PanelView extends React.Component {
 	render() {
 		console.log('Inventory is refreshing')
 		const { game_instance } = this.props

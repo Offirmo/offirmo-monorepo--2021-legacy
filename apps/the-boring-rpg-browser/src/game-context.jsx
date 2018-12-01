@@ -4,7 +4,7 @@ import { create_game_instance } from '@oh-my-rpg/state-the-boring-rpg'
 
 import { LS_KEYS } from './services/consts'
 import SEC from './services/sec'
-import get_game_instance from './services/game-instance'
+import get_game_instance from './services/game-instance-browser'
 
 let game_instance = get_game_instance()
 
@@ -14,7 +14,7 @@ class GameContextAsPropsListener extends React.Component {
 	componentDidMount() {
 		//console.info('~~ GameContextListener componentDidMount')
 		// subscribe to future state changes
-		this.unsubscribe = this.props.game_instance.subscribe(() => {
+		this.unsubscribe = game_instance.subscribe(() => {
 			//console.log('forcing update on game state change')
 			this.forceUpdate()
 		})

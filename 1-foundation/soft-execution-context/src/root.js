@@ -25,7 +25,7 @@ if (typeof window !== 'undefined') {
 			},
 			get: function() {
 				if (!root_SEC) {
-					console.info('Creating root SEC… [window path]')
+					//console.info('Creating root SEC… [window path]')
 					root_SEC = createSEC()
 				}
 				return root_SEC
@@ -46,7 +46,7 @@ if (typeof global !== 'undefined') {
 			},
 			get: function() {
 				if (!root_SEC) {
-					console.info('Creating root SEC… [node path]')
+					//console.info('Creating root SEC… [node path]')
 					root_SEC = createSEC()
 				}
 				return root_SEC
@@ -65,7 +65,7 @@ function getRootSEC() {
 	}
 
 	if (!root_SEC) {
-		console.info('Creating root SEC… [unknown env path]')
+		console.info('Creating root SEC… [XXX unknown env path]')
 		root_SEC = createSEC()
 	}
 

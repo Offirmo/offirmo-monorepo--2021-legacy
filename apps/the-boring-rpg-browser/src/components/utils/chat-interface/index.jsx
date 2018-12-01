@@ -86,7 +86,7 @@ class Chat extends React.Component {
 		}
 	}
 
-	componentWillMount() {
+	componentDidMount() {
 		this.mounted = true
 
 		if (!this.props.gen_next_step)

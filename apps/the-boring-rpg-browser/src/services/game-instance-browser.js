@@ -7,6 +7,10 @@ import { report_error } from './raven'
 
 let game_instance
 
+function get_backup_ls_key(v) {
+	return `${LS_KEYS.savegame_backup}.v${v}`
+}
+
 SEC.xTry('loading savegame + creating game instance', ({logger}) => {
 	logger.verbose(`Storage key: "${LS_KEYS.savegame}"`)
 
@@ -18,10 +22,13 @@ SEC.xTry('loading savegame + creating game instance', ({logger}) => {
 			state = JSON.parse(ls_content)
 		localStorage.setItem(LS_KEYS.savegame_backup, JSON.stringify(state))
 		if (state && state.schema_version) {
-			localStorage.setItem(LS_KEYS.savegame_backup + `v${state.schema_version}`, JSON.stringify(state))
+			localStorage.setItem(get_backup_ls_key(state.schema_version), JSON.stringify(state))
 			for (let i = state.schema_version - 2; i > 0; --i) {
-				console.log('cleaning old backup = v', i)
-				localStorage.removeItem(LS_KEYS.savegame_backup + `v${i}`)
+				const key = get_backup_ls_key(i)
+				if (localStorage.getItem(key)) {
+					console.log('cleaning old backup = v', i)
+					localStorage.removeItem(key)
+				}
 			}
 		}
 	}

@@ -2,14 +2,14 @@ import React from 'react'
 import { withRouter } from 'react-router'
 
 import { GameContextConsumerListener } from '../../../game-context'
-import Component from './component'
+import PanelView from './component'
 
-const C1 = withRouter(Component)
+const PanelViewWithRouter = withRouter(PanelView)
 
 export default props => (
 	<GameContextConsumerListener>
 		{game_instance => (
-			<C1
+			<PanelViewWithRouter
 				{...props}
 				game_instance={game_instance}
 			/>

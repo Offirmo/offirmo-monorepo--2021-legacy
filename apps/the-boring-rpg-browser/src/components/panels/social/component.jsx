@@ -6,7 +6,7 @@ import React from 'react'
 import './index.css'
 
 
-export default class Component extends React.Component {
+export default class PanelView extends React.Component {
 	render() {
 		const { game_instance } = this.props
 		const state = game_instance.model.get_state()

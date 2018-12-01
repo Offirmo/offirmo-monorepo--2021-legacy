@@ -10,7 +10,7 @@ import rich_text_to_react from '../../../services/rich-text-to-react'
 
 const tbrpg = require('@oh-my-rpg/state-the-boring-rpg')
 
-export default class Component extends React.Component {
+export default class PanelView extends React.Component {
 
 	* gen_next_step() {
 		const { game_instance } = this.props

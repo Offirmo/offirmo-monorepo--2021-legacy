@@ -1,10 +1,10 @@
 import React from 'react'
 
 import { GameContextConsumerListener } from '../../../game-context'
-import Component from './component'
+import Dev from './component'
 
 export default () => (
 	<GameContextConsumerListener>
-		{game_instance => <Component game_instance={game_instance} />}
+		{game_instance => <Dev game_instance={game_instance} />}
 	</GameContextConsumerListener>
 )

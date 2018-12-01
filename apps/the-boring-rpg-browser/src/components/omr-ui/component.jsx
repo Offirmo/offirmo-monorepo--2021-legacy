@@ -19,7 +19,7 @@ const MODE_TO_INDEX = {
 	'social': 4,
 }
 
-export default class TheBoringRPG extends Component {
+export default class OhMyRPGView extends Component {
 	state = {
 		chat_nickname: 'anonymous',
 	}

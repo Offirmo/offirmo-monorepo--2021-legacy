@@ -10,7 +10,7 @@ import './index.css'
 import ErrorBoundary from '@offirmo/react-error-boundary'
 
 
-export default class Component extends React.Component {
+export default class PanelView extends React.Component {
 	state = {
 		mobile_keyboard_likely_present: false,
 	};

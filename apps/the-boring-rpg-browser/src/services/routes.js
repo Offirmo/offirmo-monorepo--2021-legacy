@@ -2,7 +2,7 @@
 
 // auto-detect basename, correctly ignoring dynamic routes
 const BASE_ROUTE = (pathname => {
-	console.log(`computing BASE_ROUTE from pathname="${pathname}"...`)
+	//console.log(`computing BASE_ROUTE from pathname = "${pathname}"…`)
 	// stable point, everything after is likely to be a route
 	const TOP_SEGMENT_WE_ASSUME_WELL_BE_ALWAYS_SERVED_UNDER = (() => {
 		if (pathname.includes('/the-boring-rpg-browser'))
@@ -34,7 +34,7 @@ const BASE_ROUTE = (pathname => {
 
 	return base_route
 })(window.location.pathname)
-console.log(`BASE_ROUTE="${BASE_ROUTE}"...`)
+console.log(`BASE_ROUTE = "${BASE_ROUTE}"`)
 
 
 const ROUTES = {

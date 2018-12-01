@@ -1,12 +1,12 @@
 import React from 'react'
 
 import { GameContextConsumerListener } from '../../../game-context'
-import Component from './component'
+import PanelView from './component'
 
 export default props => (
 	<GameContextConsumerListener>
 		{game_instance => (
-			<Component
+			<PanelView
 				{...props}
 				game_instance={game_instance}
 			/>

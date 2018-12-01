@@ -54,7 +54,7 @@ export function render_meta(state) {
 	return $doc
 }
 
-export default class Component extends React.Component {
+export default class PanelView extends React.Component {
 	static propTypes = {
 		game_instance: PropTypes.object.isRequired,
 		history: PropTypes.object.isRequired,

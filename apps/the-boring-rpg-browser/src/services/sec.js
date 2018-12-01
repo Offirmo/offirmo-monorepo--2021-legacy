@@ -36,14 +36,21 @@ SEC.setAnalyticsAndErrorDetails({
 /////////////////////////////////////////////////
 
 SEC.emitter.on('final-error', function onError({SEC, err}) {
+	// ignore some
+	console.log({err})
+	if (err.message === `the-boring-rpg›(browser/on error event): Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.`) {
+		logger.info('(↑ error in the ignore list)')
+		return
+	}
+
 	if (CHANNEL === 'dev') {
 		logger.fatal('↑ error! (no report since dev)', {SEC, err})
+		return
 	}
-	else {
-		set_imminent_captured_error(err)
-		raven_client.captureException(err)
-		console.log('(this error will be reported)')
-	}
+
+	set_imminent_captured_error(err)
+	raven_client.captureException(err)
+	console.log('(this error will be reported)')
 })
 
 SEC.emitter.on('analytics', function onAnalytics({SEC, eventId, details}) {

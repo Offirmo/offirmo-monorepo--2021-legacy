@@ -2,7 +2,7 @@ import React from 'react'
 
 import './index.css'
 
-export default function UniverseAnchor({onClick, name, klass, level}) {
+export default function OMRUniverseAnchor({onClick, name, klass, level}) {
 	return (
 		<div className="o⋄flex--row" onClick={onClick}>
 			<span className="icomoon-user status⁚avatar--icon" />
