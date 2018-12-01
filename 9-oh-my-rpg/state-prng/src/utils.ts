@@ -23,9 +23,13 @@ function regenerate_until_not_recently_encountered({
 	id,
 	generate,
 	state,
-	max_tries = 10,
+	max_tries,
 }: RegenerateParams) {
 	const recently_encountered = state.recently_encountered_by_id[id] || []
+
+	// Intelligently computes a reasonable max_tries.
+	// Best effort, we would need the complete generation range to come up with a proper number.
+	max_tries = max_tries || Math.max(10, recently_encountered.length * 10)
 
 	let generated = generate()
 	let try_count = 1

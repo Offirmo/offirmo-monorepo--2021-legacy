@@ -34,6 +34,9 @@ https://dev.to/nrobinson2000/why-you-need-terminal-bpd
 ## Troubleshooting
 Please file a GitHub bug.
 
+config path: `~/Library/Preferences/the-npm-rpg-nodejs/state.json`
+
+
 ### I can't get the latest version!
 npx has a cache. To force a refresh:
 `npx the-npm-rpg --ignore-existing`

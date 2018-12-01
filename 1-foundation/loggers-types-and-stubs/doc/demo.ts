@@ -71,7 +71,7 @@ import {
 
 console.log('--- should NOT display:')
 
-const {
+import {
 	simpleLoggerToVoid,
 	consoleLoggerToVoid,
 	syslogLoggerToVoid,
@@ -81,7 +81,7 @@ const {
 	angularJSLoggerToVoid,
 	bunyanLoggerToVoid,
 	compatibleLoggerToVoid,
-} = require('..')
+} from '..'
 
 ;[
 	simpleLoggerToVoid,

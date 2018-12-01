@@ -28,7 +28,7 @@ module.exports = {
 	//PromiseWithProgress,
 	prettify_json,
 	stylize_string,
-	indent_string,
+	//indent_string,
 	wrap_string,
 	//enclose_in_box,
 }

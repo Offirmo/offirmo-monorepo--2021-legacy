@@ -3,8 +3,8 @@
  * TODO force refresh on client state change
  */
 
-const EventEmitter = require('emittery')
-const deep_merge = require('deepmerge').default
+import EventEmitter from 'emittery'
+import deep_merge from 'deepmerge'
 
 import { UUID } from '@offirmo/uuid'
 import { Document } from '@offirmo/rich-text-format'

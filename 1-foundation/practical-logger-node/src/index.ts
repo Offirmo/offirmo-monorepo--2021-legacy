@@ -8,7 +8,7 @@ import {
 	createChildLogger,
 } from '@offirmo/practical-logger-core'
 import { displayError } from '@offirmo/print-error-to-ansi'
-const prettifyJson = require('@offirmo/prettify-json')
+import prettifyJson from '@offirmo/prettify-json'
 import chalk from 'chalk'
 
 

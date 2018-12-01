@@ -39,7 +39,7 @@ function get_item(state: Readonly<State>, uuid: UUID): Readonly<Item> | null {
 }
 
 function get_item_in_slot(state: Readonly<State>, slot: InventorySlot): Readonly<Item> | null {
-	return state.slotted[slot] || null
+	return (state.slotted as { [k: string]: Item})[slot] || null
 }
 
 function* iterables_unslotted(state: Readonly<State>) {

@@ -3,7 +3,7 @@
 import { Enum } from 'typescript-string-enums'
 import invariant from 'tiny-invariant'
 import { Random, Engine } from '@offirmo/random'
-import prettify_json from '@offirmo/prettify-json' // TODO remove
+import { get_human_readable_UTC_timestamp_days } from '@offirmo/timestamps'
 
 /////////////////////
 
@@ -77,21 +77,23 @@ function _ack_all_engagements(state: Readonly<State>): Readonly<State> {
 	}
 }
 
-function _autogroom(state: Readonly<State>, options: {}): Readonly<State> {
-	console.log(`  - Autogroom… (inventory holding ${state.inventory.unslotted.length} items)`)
+function _autogroom(state: Readonly<State>, options: { DEBUG?: boolean }): Readonly<State> {
+	const { DEBUG } = options
+
+	if (DEBUG) console.log(`  - Autogroom… (inventory holding ${state.inventory.unslotted.length} items)`)
 
 	// User
 	// User class
 	if (state.avatar.klass === CharacterClass.novice) {
 		// change class
 		let new_class: CharacterClass = Random.pick(Random.engines.nativeMath, Enum.values(CharacterClass))
-		console.log(`    - Changing class to ${new_class}…`)
+		if (DEBUG) console.log(`    - Changing class to ${new_class}…`)
 		state = change_avatar_class(state, new_class)
 	}
 	// User name
 	if (state.avatar.name === CharacterState.DEFAULT_AVATAR_NAME) {
 		let new_name = 'A' + state.uuid.slice(3)
-		console.log(`    - renaming to ${new_name}…`)
+		if (DEBUG) console.log(`    - renaming to ${new_name}…`)
 		state = rename_avatar(state, new_name)
 	}
 
@@ -108,7 +110,7 @@ function _autogroom(state: Readonly<State>, options: {}): Readonly<State> {
 
 	// inventory full
 	if (is_inventory_full(state)) {
-		console.log(`    Inventory is full (${state.inventory.unslotted.length} items)`)
+		if (DEBUG) console.log(`    Inventory is full (${state.inventory.unslotted.length} items)`)
 		let freed_count = 0
 
 		// sell stuff, starting from the worst, but keeping the starting items (for sentimental reasons)
@@ -130,8 +132,7 @@ function _autogroom(state: Readonly<State>, options: {}): Readonly<State> {
 				}
 
 				if (e.quality === ItemQuality.common || freed_count === 0) {
-					console.log('    - selling:')
-					console.log(prettify_json(e))
+					//console.log('    - selling:', e)
 					state = sell_item(state, e.uuid)
 					freed_count++
 					return
@@ -141,7 +142,7 @@ function _autogroom(state: Readonly<State>, options: {}): Readonly<State> {
 		if (freed_count === 0)
 			throw new Error('Internal error: autogroom: inventory is full and couldnt free stuff!')
 
-		console.log(`    Freed ${freed_count} items, inventory now holding ${state.inventory.unslotted.length} items.`)
+		if (DEBUG) console.log(`    Freed ${freed_count} items, inventory now holding ${state.inventory.unslotted.length} items.`)
 	}
 
 	// misc: ack the possible notifications
@@ -150,10 +151,15 @@ function _autogroom(state: Readonly<State>, options: {}): Readonly<State> {
 	return state
 }
 
-function _autoplay(state: Readonly<State>, options: Readonly<{ target_good_play_count?: number, target_bad_play_count?: number }> = {}): Readonly<State> {
-	console.log(`- Autoplay...`)
+/* Autoplay,
+ * as efficiently as possible,
+ * trying to restore as much achievements as possible
+ */
+function autoplay(state: Readonly<State>, options: Readonly<{ target_good_play_count?: number, target_bad_play_count?: number, DEBUG?: boolean }> = {}): Readonly<State> {
+	let { target_good_play_count, target_bad_play_count, DEBUG } = options
 
-	let { target_good_play_count, target_bad_play_count } = options
+	if (DEBUG) console.log(`- Autoplay...`)
+
 	target_good_play_count = target_good_play_count || 0
 	target_bad_play_count = target_bad_play_count || 0
 	if (target_good_play_count < 0)
@@ -163,7 +169,23 @@ function _autoplay(state: Readonly<State>, options: Readonly<{ target_good_play_
 	if (target_good_play_count === 0 && target_bad_play_count === 0)
 		target_good_play_count = state.progress.statistics.good_play_count + 1
 
-	let last_visited_timestamp = Number(state.progress.statistics.last_visited_timestamp)
+	let last_visited_timestamp_num = (() => {
+		const days_needed = Math.ceil((target_good_play_count - state.progress.statistics.good_play_count) / 8)
+		const from_now = Number(get_human_readable_UTC_timestamp_days()) - days_needed
+		return Math.min(from_now, Number(state.progress.statistics.last_visited_timestamp))
+	})()
+	if (last_visited_timestamp_num !== Number(state.progress.statistics.last_visited_timestamp)) {
+		state = {
+			...state,
+			progress: {
+				...state.progress,
+				statistics: {
+					...state.progress.statistics,
+					last_visited_timestamp: String(last_visited_timestamp_num)
+				}
+			}
+		}
+	}
 	state = _autogroom(state, options)
 
 	// do we have energy?
@@ -181,7 +203,7 @@ function _autoplay(state: Readonly<State>, options: Readonly<{ target_good_play_
 
 		// play bad
 		for (let i = state.progress.statistics.bad_play_count; i < target_bad_play_count; ++i) {
-			console.log('  - playing bad...')
+			if (DEBUG) console.log('  - playing bad...')
 			state = play(state)
 			state = _autogroom(state, options)
 		}
@@ -195,7 +217,7 @@ function _autoplay(state: Readonly<State>, options: Readonly<{ target_good_play_
 
 			if (!have_energy) {
 				// replenish and pretend one day has passed
-				last_visited_timestamp--
+				last_visited_timestamp_num++
 				state = {
 					...state,
 					energy: EnergyState.restore_energy(state.energy),
@@ -203,13 +225,13 @@ function _autoplay(state: Readonly<State>, options: Readonly<{ target_good_play_
 						...state.progress,
 						statistics: {
 							...state.progress.statistics,
-							last_visited_timestamp: String(last_visited_timestamp)
+							last_visited_timestamp: String(last_visited_timestamp_num)
 						}
 					}
 				}
 			}
 
-			console.log('  - playing good...')
+			if (DEBUG) console.log('  - playing good...')
 			state = play(state)
 			state = _autogroom(state, options)
 		}
@@ -224,5 +246,5 @@ function _autoplay(state: Readonly<State>, options: Readonly<{ target_good_play_
 /////////////////////
 
 export {
-	_autoplay,
+	autoplay,
 }

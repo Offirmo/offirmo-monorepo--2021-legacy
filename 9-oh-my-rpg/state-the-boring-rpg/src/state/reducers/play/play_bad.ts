@@ -42,6 +42,7 @@ function pick_random_non_repetitive_bad_archetype(state: Readonly<State>, rng: E
 			return archetype.hid
 		},
 		state: state.prng,
+		max_tries: ADVENTURE_BAD_NON_REPETITION_COUNT * 10,
 	})
 
 	return archetype!

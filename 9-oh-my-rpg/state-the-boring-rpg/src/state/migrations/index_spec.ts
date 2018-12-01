@@ -13,7 +13,7 @@ import * as EngagementState from '@oh-my-rpg/state-engagement'
 import * as CodesState from '@oh-my-rpg/state-codes'
 import * as ProgressState from '@oh-my-rpg/state-progress'
 
-import {SCHEMA_VERSION} from '../../consts'
+import {LIB, SCHEMA_VERSION} from '../../consts'
 import {migrate_to_latest, SUB_REDUCERS_COUNT} from '.'
 import {get_lib_SEC} from '../../sec'
 
@@ -45,7 +45,7 @@ function advanced_diff_json(a: JSONObject, b: JSONObject, { diff }: { diff?: JSO
 	return diff
 }
 
-describe('@oh-my-rpg/state-the-boring-rpg - schema migration', function () {
+describe(`${LIB} - schema migration`, function() {
 	beforeEach(function () {
 		this.clock = sinon.useFakeTimers(1542794960217); // needed to have a reproducible timestamp
 	})

@@ -49,6 +49,7 @@ SEC.xPromiseTryCatch('starting', async ({ SEC, logger, IS_VERBOSE }) => {
 
 	/////////////////////////////////////////////////
 
+	throw new Error('TODO rework')
 	const instance = create_game_instance({
 		SEC,
 		get_latest_state: () => options.config.store,
@@ -70,5 +71,4 @@ SEC.xPromiseTryCatch('starting', async ({ SEC, logger, IS_VERBOSE }) => {
 	}
 
 	//console.log('\n---------------------------------------------------------------\n')
-
 })
