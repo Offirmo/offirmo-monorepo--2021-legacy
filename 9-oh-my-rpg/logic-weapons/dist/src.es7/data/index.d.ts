@@ -1,5 +1,5 @@
 import { I18nMessages } from '@offirmo/ts-types';
-declare const i18n_messages: I18nMessages;
+declare const i18n_messages: Readonly<I18nMessages>;
 declare const WEAPON_BASES: {
     type: "base";
     hid: string;

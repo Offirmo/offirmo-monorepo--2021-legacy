@@ -3,8 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
 const random_1 = require("@offirmo/random");
 const definitions_1 = require("@oh-my-rpg/definitions");
+const consts_1 = require("./consts");
 const _1 = require(".");
-describe('@oh-my-rpg/logic-weapons - compare', function () {
+describe(`${consts_1.LIB} - compare`, function () {
     it('should sort properly by strength', () => {
         const rng = random_1.Random.engines.mt19937().seed(789);
         const items = [

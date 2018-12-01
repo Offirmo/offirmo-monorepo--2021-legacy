@@ -39,7 +39,7 @@ function advanced_diff_json(a, b, { diff } = {}) {
         delete diff.creation_date;
     return diff;
 }
-describe('@oh-my-rpg/state-the-boring-rpg - schema migration', function () {
+describe(`${consts_1.LIB} - schema migration`, function () {
     beforeEach(function () {
         this.clock = sinon_1.default.useFakeTimers(1542794960217); // needed to have a reproducible timestamp
     });
@@ -209,8 +209,8 @@ describe('@oh-my-rpg/state-the-boring-rpg - schema migration', function () {
             const new_state = _1.migrate_to_latest(sec_1.get_lib_SEC(), old_state);
             // this state is too old
             // we just check that it resets without crashing
-            chai_1.expect(new_state.progress.statistics.good_play_count).to.equal(0);
-            chai_1.expect(new_state.progress.statistics.bad_play_count).to.equal(0);
+            chai_1.expect(new_state.progress.statistics.good_play_count, 'good').to.equal(11);
+            chai_1.expect(new_state.progress.statistics.bad_play_count, 'bad').to.equal(0);
         });
         it('should migrate v6 LiddiLidd 20181029', () => {
             const old_state = {

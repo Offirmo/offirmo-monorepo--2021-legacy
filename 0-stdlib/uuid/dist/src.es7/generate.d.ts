@@ -1,8 +1,8 @@
 import { Engine } from '@offirmo/random';
 import { UUID } from './types';
 declare const UUID_LENGTH: number;
-declare function generate_uuid({ length, rng }?: {
+declare function generate_uuid({ length, rng }?: Readonly<{
     length?: number;
     rng?: Engine;
-}): UUID;
+}>): UUID;
 export { UUID_LENGTH, generate_uuid, };

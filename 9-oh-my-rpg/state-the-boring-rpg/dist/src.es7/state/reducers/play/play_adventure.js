@@ -1,11 +1,10 @@
 /////////////////////
 import { generate_uuid } from '@offirmo/uuid';
 import { Random } from '@offirmo/random';
+import { dump_pretty_json } from '@offirmo/prettify-json'; // TODO remove
 /////////////////////
-import { InventorySlot, } from '@oh-my-rpg/definitions';
-import { CharacterAttribute, CharacterClass, increase_stat, } from '@oh-my-rpg/state-character';
-import * as WalletState from '@oh-my-rpg/state-wallet';
-import { Currency } from '@oh-my-rpg/state-wallet';
+import { InventorySlot } from '@oh-my-rpg/definitions';
+import { CharacterAttribute, CharacterClass, } from '@oh-my-rpg/state-character';
 import * as InventoryState from '@oh-my-rpg/state-inventory';
 import * as PRNGState from '@oh-my-rpg/state-prng';
 import { get_prng, } from '@oh-my-rpg/state-prng';
@@ -13,8 +12,8 @@ import { create as create_weapon, enhance as enhance_weapon, MAX_ENHANCEMENT_LEV
 import { create as create_armor, enhance as enhance_armor, MAX_ENHANCEMENT_LEVEL as MAX_ARMOR_ENHANCEMENT_LEVEL, } from '@oh-my-rpg/logic-armors';
 import { create as create_monster, } from '@oh-my-rpg/logic-monsters';
 import { AdventureType, generate_random_coin_gain, } from '@oh-my-rpg/logic-adventures';
-import { get_lib_SEC } from '../../../sec';
 import { LIB } from '../../../consts';
+import { _receive_stat_increase, _receive_coins, _receive_tokens, _receive_item, } from '../base';
 /////////////////////
 const STATS = ['health', 'mana', 'strength', 'agility', 'charisma', 'wisdom', 'luck'];
 const PRIMARY_STATS_BY_CLASS = {
@@ -45,8 +44,9 @@ const SECONDARY_STATS_BY_CLASS = {
     [CharacterClass.druid]: ['strength'],
     [CharacterClass.priest]: ['wisdom'],
 };
-function instantiate_adventure_archetype(rng, aa, character, inventory) {
-    let { hid, good, type, outcome: should_gain } = aa;
+function _instantiate_adventure_archetype(rng, aa, character, inventory) {
+    let { hid, good, type, outcome } = aa;
+    let should_gain = Object.assign({}, outcome);
     // instantiate the special gains
     if (should_gain.random_attribute) {
         const stat = Random.pick(rng, STATS);
@@ -105,73 +105,63 @@ function instantiate_adventure_archetype(rng, aa, character, inventory) {
         }
     };
 }
-function receive_stat_increase(state, stat, amount = 1) {
-    return Object.assign({}, state, { avatar: increase_stat(get_lib_SEC(), state.avatar, stat, amount) });
-}
-function receive_item(state, item) {
-    // inventory shouldn't be full since we prevent playing in this case
-    return Object.assign({}, state, { inventory: InventoryState.add_item(state.inventory, item) });
-}
-function receive_coins(state, amount) {
-    return Object.assign({}, state, { wallet: WalletState.add_amount(state.wallet, Currency.coin, amount) });
-}
-function receive_tokens(state, amount) {
-    return Object.assign({}, state, { wallet: WalletState.add_amount(state.wallet, Currency.token, amount) });
-}
 /////////////////////
 function play_adventure(state, aa) {
     const rng = get_prng(state.prng);
-    const adventure = instantiate_adventure_archetype(rng, aa, state.avatar, state.inventory);
+    const adventure = _instantiate_adventure_archetype(rng, aa, state.avatar, state.inventory);
     state = Object.assign({}, state, { last_adventure: adventure });
     const { gains: gained } = adventure;
     let gain_count = 0;
+    let item_gain_count = 0;
     if (gained.level) {
         gain_count++;
-        state = receive_stat_increase(state, CharacterAttribute.level);
+        state = _receive_stat_increase(state, CharacterAttribute.level);
     }
     if (gained.health) {
         gain_count++;
-        state = receive_stat_increase(state, CharacterAttribute.health, gained.health);
+        state = _receive_stat_increase(state, CharacterAttribute.health, gained.health);
     }
     if (gained.mana) {
         gain_count++;
-        state = receive_stat_increase(state, CharacterAttribute.mana, gained.mana);
+        state = _receive_stat_increase(state, CharacterAttribute.mana, gained.mana);
     }
     if (gained.strength) {
         gain_count++;
-        state = receive_stat_increase(state, CharacterAttribute.strength, gained.strength);
+        state = _receive_stat_increase(state, CharacterAttribute.strength, gained.strength);
     }
     if (gained.agility) {
         gain_count++;
-        state = receive_stat_increase(state, CharacterAttribute.agility, gained.agility);
+        state = _receive_stat_increase(state, CharacterAttribute.agility, gained.agility);
     }
     if (gained.charisma) {
         gain_count++;
-        state = receive_stat_increase(state, CharacterAttribute.charisma, gained.charisma);
+        state = _receive_stat_increase(state, CharacterAttribute.charisma, gained.charisma);
     }
     if (gained.wisdom) {
         gain_count++;
-        state = receive_stat_increase(state, CharacterAttribute.wisdom, gained.wisdom);
+        state = _receive_stat_increase(state, CharacterAttribute.wisdom, gained.wisdom);
     }
     if (gained.luck) {
         gain_count++;
-        state = receive_stat_increase(state, CharacterAttribute.luck, gained.luck);
+        state = _receive_stat_increase(state, CharacterAttribute.luck, gained.luck);
     }
     if (gained.coin) {
         gain_count++;
-        state = receive_coins(state, gained.coin);
+        state = _receive_coins(state, gained.coin);
     }
     if (gained.token) {
         gain_count++;
-        state = receive_tokens(state, gained.token);
+        state = _receive_tokens(state, gained.token);
     }
     if (gained.weapon) {
         gain_count++;
-        state = receive_item(state, gained.weapon);
+        item_gain_count++;
+        state = _receive_item(state, gained.weapon);
     }
     if (gained.armor) {
         gain_count++;
-        state = receive_item(state, gained.armor);
+        item_gain_count++;
+        state = _receive_item(state, gained.armor);
     }
     if (gained.weapon_improvement) {
         gain_count++;
@@ -189,8 +179,14 @@ function play_adventure(state, aa) {
         // TODO immutable instead of in-place
         // TODO enhance another armor as fallback
     }
-    if (aa.good && !gain_count)
+    if (aa.good && !gain_count) {
+        dump_pretty_json('Error NO gain!', { aa, adventure });
         throw new Error(`${LIB}: play_adventure() for "good click" hid "${aa.hid}" unexpectedly resulted in NO gains!`);
+    }
+    if (item_gain_count > 1) {
+        dump_pretty_json('Error 2x item gain!', { aa, adventure });
+        throw new Error(`${LIB}: play_adventure() for hid "${aa.hid}" unexpectedly resulted in ${item_gain_count} item gains!`);
+    }
     state = Object.assign({}, state, { prng: PRNGState.update_use_count(state.prng, rng, {
             // we can't know because it depends on the adventure,
             // ex. generate a random weapon
@@ -199,6 +195,6 @@ function play_adventure(state, aa) {
     return state;
 }
 /////////////////////
-export { receive_item, play_adventure, };
+export { play_adventure, };
 /////////////////////
 //# sourceMappingURL=play_adventure.js.map

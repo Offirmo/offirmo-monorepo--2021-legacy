@@ -1,8 +1,9 @@
 import { expect } from 'chai';
 import { ItemQuality, } from '@oh-my-rpg/definitions';
 import { Random } from '@offirmo/random';
+import { LIB } from './consts';
 import { create, generate_random_demo_armor, get_medium_damage_reduction, compare_armors_by_strength, } from '.';
-describe('@oh-my-rpg/logic-armors - comparison', function () {
+describe(`${LIB} - comparison`, function () {
     it('should sort properly by strength', () => {
         const rng = Random.engines.mt19937().seed(789);
         const armors = [

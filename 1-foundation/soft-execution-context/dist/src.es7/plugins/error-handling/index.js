@@ -1,4 +1,4 @@
-import { normalizeError } from '@offirmo/normalize-error';
+import normalizeError from '@offirmo/normalize-error';
 import { promiseTry } from '@offirmo/promise-try';
 import { get_UTC_timestamp_ms } from '@offirmo/timestamps';
 import { INTERNAL_PROP } from '../../constants';

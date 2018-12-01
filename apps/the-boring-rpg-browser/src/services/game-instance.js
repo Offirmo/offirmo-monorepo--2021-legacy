@@ -1,4 +1,4 @@
-import poll_window_variable from '@offirmo/poll-window-variable'
+//import poll_window_variable from '@offirmo/poll-window-variable'
 import { create_game_instance } from '@oh-my-rpg/state-the-boring-rpg'
 
 import { LS_KEYS } from './consts'
@@ -41,10 +41,10 @@ SEC.xTry('loading savegame + creating game instance', ({logger}) => {
 })
 
 SEC.xTry('init client state', () => {
-	const netlifyIdentity = poll_window_variable('netlifyIdentity', { timeoutMs: 30 * 1000 })
+	//const netlifyIdentity = poll_window_variable('netlifyIdentity', { timeoutMs: 30 * 1000 })
 
 	game_instance.view.set_state(() => ({
-		netlifyIdentity, // TODO check (SEC ?)
+		//netlifyIdentity, // TODO check (SEC ?)
 		// can change:
 		mode: 'explore',
 		recap_displayed: false,

@@ -1,5 +1,4 @@
 "use strict";
-/////////////////////
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const CharacterState = tslib_1.__importStar(require("@oh-my-rpg/state-character"));
@@ -11,34 +10,9 @@ const EngagementState = tslib_1.__importStar(require("@oh-my-rpg/state-engagemen
 const CodesState = tslib_1.__importStar(require("@oh-my-rpg/state-codes"));
 const ProgressState = tslib_1.__importStar(require("@oh-my-rpg/state-progress"));
 const consts_1 = require("../../consts");
-const state_1 = require("../reducers/state");
 const sec_1 = require("../../sec");
+const salvage_1 = require("./salvage");
 /////////////////////
-function reset_and_salvage(legacy_state) {
-    let state = state_1.create();
-    // still, try to salvage "meta" for engagement
-    try {
-        // ensure this code is up to date
-        if (typeof state.avatar.name !== 'string') {
-            // TODO report
-            console.warn(`${consts_1.LIB}: need to update the avatar name salvaging!`);
-            return state_1.create();
-        }
-        if (typeof legacy_state.avatar.name === 'string') {
-            state.avatar.name = legacy_state.avatar.name;
-        }
-        // TODO salvage creation date as well?
-        // TODO salvage class
-        // TODO salvage by auto-replay as much?
-        console.info(`${consts_1.LIB}: salvaged some savegame data.`);
-    }
-    catch (err) {
-        /* swallow */
-        console.warn(`${consts_1.LIB}: salvaging failed!`);
-        state = state_1.create();
-    }
-    return state;
-}
 const SUB_REDUCERS_COUNT = 8;
 exports.SUB_REDUCERS_COUNT = SUB_REDUCERS_COUNT;
 const OTHER_KEYS_COUNT = 5;
@@ -63,7 +37,7 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
                 SEC.fireAnalyticsEvent('schema_migration.failed', { step: 'main' });
                 // we are top, attempt to salvage
                 logger.error(`${consts_1.LIB}: failed migrating schema, reseting and salvaging!`, { err });
-                state = reset_and_salvage(legacy_state);
+                state = salvage_1.reset_and_salvage(legacy_state);
                 SEC.fireAnalyticsEvent('schema_migration.salvaged', { step: 'main' });
             }
         }
@@ -103,7 +77,7 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
             SEC.fireAnalyticsEvent('schema_migration.failed', { step: 'sub' });
             // attempt to salvage
             logger.error(`${consts_1.LIB}: failed migrating sub-reducers, reseting and salvaging!`, { err });
-            state = reset_and_salvage(legacy_state);
+            state = salvage_1.reset_and_salvage(legacy_state);
             SEC.fireAnalyticsEvent('schema_migration.salvaged', { step: 'sub' });
         }
         return state;

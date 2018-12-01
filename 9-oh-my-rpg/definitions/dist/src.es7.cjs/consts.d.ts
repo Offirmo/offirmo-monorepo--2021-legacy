@@ -3,7 +3,7 @@ declare const ITEM_QUALITIES: ("common" | "uncommon" | "rare" | "epic" | "legend
 declare const ITEM_QUALITIES_TO_INT: {
     [k: string]: number;
 };
-declare const ITEM_SLOTS: ("weapon" | "armor")[];
+declare const ITEM_SLOTS: ("weapon" | "armor" | "none")[];
 declare const ITEM_SLOTS_TO_INT: {
     [k: string]: number;
 };

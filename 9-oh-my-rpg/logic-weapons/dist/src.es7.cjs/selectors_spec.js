@@ -1,9 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
+const definitions_1 = require("@oh-my-rpg/definitions");
 const random_1 = require("@offirmo/random");
+const consts_1 = require("./consts");
 const _1 = require(".");
-describe('@oh-my-rpg/logic-weapons - selectors', function () {
+describe(`${consts_1.LIB} - selectors`, function () {
     describe('damage', function () {
         const rng = random_1.Random.engines.mt19937().seed(789);
         describe('interval', function () {
@@ -99,6 +101,71 @@ describe('@oh-my-rpg/logic-weapons - selectors', function () {
                 chai_1.expect(med).to.be.below(5824); // max for legend+3
                 chai_1.expect(med).to.equal(Math.round((4659 + 3494) / 2));
             });
+        });
+    });
+    describe('matches', function () {
+        const rng = random_1.Random.engines.mt19937().seed(789);
+        const REF = _1.create(rng, {
+            quality: definitions_1.ItemQuality.rare,
+            base_hid: 'socks',
+            qualifier1_hid: 'onyx',
+            qualifier2_hid: 'tormentor',
+            base_strength: 17,
+        });
+        it('should correctly match when appropriate', function () {
+            chai_1.expect(_1.matches(REF, {}), '0').to.be.true;
+            chai_1.expect(_1.matches(REF, {
+                quality: definitions_1.ItemQuality.rare,
+            }), '1a').to.be.true;
+            chai_1.expect(_1.matches(REF, {
+                qualifier1_hid: 'onyx',
+            }), '1b').to.be.true;
+            chai_1.expect(_1.matches(REF, {
+                quality: definitions_1.ItemQuality.rare,
+                base_hid: 'socks',
+            }), '2a').to.be.true;
+            chai_1.expect(_1.matches(REF, {
+                quality: definitions_1.ItemQuality.rare,
+                base_hid: 'socks',
+                qualifier1_hid: 'onyx',
+                qualifier2_hid: 'tormentor',
+                base_strength: 17,
+            }), '5').to.be.true;
+        });
+        it('should correctly NOT match when appropriate', function () {
+            chai_1.expect(_1.matches(REF, {
+                quality: definitions_1.ItemQuality.common,
+            }), '1a').to.be.false;
+            chai_1.expect(_1.matches(REF, {
+                qualifier1_hid: 'dwarven',
+            }), '1b').to.be.false;
+            chai_1.expect(_1.matches(REF, {
+                quality: definitions_1.ItemQuality.rare,
+                base_hid: 'mantle',
+            }), '2a').to.be.false;
+            chai_1.expect(_1.matches(REF, {
+                quality: definitions_1.ItemQuality.legendary,
+                base_hid: 'socks',
+            }), '2b').to.be.false;
+            chai_1.expect(_1.matches(REF, {
+                quality: definitions_1.ItemQuality.rare,
+                base_hid: 'socks',
+                qualifier1_hid: 'onyx',
+                qualifier2_hid: 'tormentor',
+                base_strength: 20,
+            }), '5').to.be.false;
+        });
+        it('should correctly throw when appropriate', function () {
+            chai_1.expect(() => {
+                _1.matches(REF, {
+                    slot: definitions_1.InventorySlot.armor,
+                });
+            }, 'slot').to.throw('non-weapon slot');
+            chai_1.expect(() => {
+                _1.matches(REF, {
+                    foo: 42,
+                });
+            }, 'foreign').to.throw('non-weapon key');
         });
     });
 });

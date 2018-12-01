@@ -14,7 +14,10 @@ function prettify_json(data, options = {}) {
     }
     return result;
 }
-function dump_pretty_json(name, data, options) {
+function dump_pretty_json(msg, data, options) {
+    console.log(msg);
+    console.log(prettify_json(data, options));
 }
 export default prettify_json;
+export { prettify_json, dump_pretty_json, };
 //# sourceMappingURL=index.js.map

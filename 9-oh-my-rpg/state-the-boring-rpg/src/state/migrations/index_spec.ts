@@ -224,8 +224,8 @@ describe(`${LIB} - schema migration`, function() {
 
 			// this state is too old
 			// we just check that it resets without crashing
-			expect(new_state.progress.statistics.good_play_count).to.equal(0)
-			expect(new_state.progress.statistics.bad_play_count).to.equal(0)
+			expect(new_state.progress.statistics.good_play_count, 'good').to.equal(11)
+			expect(new_state.progress.statistics.bad_play_count, 'bad').to.equal(0)
 		})
 
 		it('should migrate v6 LiddiLidd 20181029', () => {

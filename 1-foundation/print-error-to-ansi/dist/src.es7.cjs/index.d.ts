@@ -1,2 +1,2 @@
-declare function displayError(errLike?: Partial<Error>): void;
+declare function displayError(errLike?: Readonly<Partial<Error>>): void;
 export { displayError, };

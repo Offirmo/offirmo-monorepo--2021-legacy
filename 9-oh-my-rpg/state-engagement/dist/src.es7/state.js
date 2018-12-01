@@ -33,7 +33,12 @@ function acknowledge_seen(state, uid) {
     }
     return Object.assign({}, state, { queue: state.queue.filter(queued => queued.uid !== uid), revision: state.revision + 1 });
 }
+function acknowledge_all_seen(state) {
+    if (!state.queue.length)
+        return state;
+    return Object.assign({}, state, { queue: [], revision: state.revision + 1 });
+}
 /////////////////////
-export { create, enqueue, acknowledge_seen, };
+export { create, enqueue, acknowledge_seen, acknowledge_all_seen, };
 /////////////////////
 //# sourceMappingURL=state.js.map

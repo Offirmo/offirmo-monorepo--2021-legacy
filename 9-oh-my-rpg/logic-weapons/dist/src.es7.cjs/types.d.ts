@@ -7,7 +7,7 @@ declare const WeaponPartType: {
 };
 declare type WeaponPartType = Enum<typeof WeaponPartType>;
 interface Weapon extends Item {
-    slot: InventorySlot;
+    slot: typeof InventorySlot.weapon;
     base_hid: string;
     qualifier1_hid: string;
     qualifier2_hid: string;

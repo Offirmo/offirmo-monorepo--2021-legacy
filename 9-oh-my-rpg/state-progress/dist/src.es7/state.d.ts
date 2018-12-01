@@ -1,7 +1,6 @@
 import { AchievementStatus, State } from './types';
 import { SoftExecutionContext } from './sec';
 declare function create(SEC?: SoftExecutionContext): Readonly<State>;
-declare function on_start_session(state: Readonly<State>): Readonly<State>;
 interface PlayedDetails {
     good: boolean;
     adventure_key: string;
@@ -10,4 +9,4 @@ interface PlayedDetails {
 }
 declare function on_played(state: Readonly<State>, details: PlayedDetails): Readonly<State>;
 declare function on_achieved(state: Readonly<State>, key: string, new_status: AchievementStatus): Readonly<State>;
-export { create, on_start_session, on_played, on_achieved, };
+export { create, on_played, on_achieved, };

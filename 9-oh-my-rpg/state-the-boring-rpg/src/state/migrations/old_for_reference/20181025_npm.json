@@ -1,0 +1,126 @@
+{
+	"schema_version": 6,
+	"revision": 51,
+	"avatar": {
+		"schema_version": 2,
+		"revision": 23,
+		"name": "Perte",
+		"klass": "sculptor",
+		"attributes": {
+			"level": 4,
+			"health": 3,
+			"mana": 5,
+			"strength": 1,
+			"agility": 4,
+			"charisma": 3,
+			"wisdom": 6,
+			"luck": 1
+		}
+	},
+	"inventory": {
+		"schema_version": 1,
+		"revision": 6,
+		"unslotted_capacity": 20,
+		"slotted": {
+			"weapon": {
+				"slot": "weapon",
+				"base_hid": "knife",
+				"qualifier1_hid": "consecrated",
+				"qualifier2_hid": "beginner",
+				"element_type": "item",
+				"uuid": "uu1SPpEtd0grqE7WfksSRCBy",
+				"quality": "uncommon",
+				"base_strength": 10,
+				"enhancement_level": 1
+			},
+			"armor": {
+				"base_hid": "shoulders",
+				"qualifier1_hid": "onyx",
+				"qualifier2_hid": "ancients",
+				"element_type": "item",
+				"uuid": "uu1pUsdWcAohOjqHH3HHmjfG",
+				"slot": "armor",
+				"quality": "rare",
+				"base_strength": 14,
+				"enhancement_level": 0
+			}
+		},
+		"unslotted": []
+	},
+	"wallet": {
+		"schema_version": 1,
+		"revision": 10,
+		"coin_count": 1200,
+		"token_count": 4
+	},
+	"prng": {
+		"schema_version": 2,
+		"revision": 36,
+		"seed": -2114472982,
+		"use_count": 221,
+		"recently_encountered_by_id": {
+			"adventure_archetype--good": [
+				"fight_won_loot",
+				"fight_lost_any",
+				"found_swirling_potion",
+				"ate_bacon",
+				"class_grimoire",
+				"treasure_in_pots",
+				"lost",
+				"gehennom",
+				"fate_sword",
+				"vampire_castle",
+				"older",
+				"wise_wisewood_tree",
+				"caravan",
+				"found_vermilion_potion",
+				"famous_stone_ruby",
+				"colossal_cave",
+				"keep_watch",
+				"fight_won_any",
+				"princess",
+				"lost_mine"
+			],
+			"adventure_archetype--bad": []
+		}
+	},
+	"energy": {
+		"schema_version": 1,
+		"revision": 38,
+		"max_energy": 7,
+		"base_energy_refilling_rate_per_day": 7,
+		"last_date": "ts1_20181008_03h37:54.785",
+		"last_available_energy_float": 6
+	},
+	"last_adventure": {
+		"uuid": "uu1zYjSEWOXzyYewCq0OttI_",
+		"hid": "lost_mine",
+		"good": true,
+		"gains": {
+			"level": 0,
+			"health": 0,
+			"mana": 0,
+			"strength": 0,
+			"agility": 0,
+			"charisma": 0,
+			"wisdom": 0,
+			"luck": 0,
+			"coin": 0,
+			"token": 1,
+			"armor": null,
+			"weapon": null,
+			"armor_improvement": false,
+			"weapon_improvement": false
+		}
+	},
+	"click_count": 38,
+	"good_click_count": 32,
+	"meaningful_interaction_count": 51,
+	"uuid": "uu1~WBK03fow0iZtSXIRzaEd",
+	"creation_date": "20180725_04h05",
+	"codes": {
+		"schema_version": 1,
+		"revision": 0,
+		"redeemed_codes": {}
+	}
+}

@@ -2,7 +2,7 @@
 // http://jlongster.com/Backend-Apps-with-Webpack--Part-I
 // , I don't understand what I'm doing :-]
 
-import path from 'path'
+const path = require('path')
 
 module.exports = {
 	mode: 'development',

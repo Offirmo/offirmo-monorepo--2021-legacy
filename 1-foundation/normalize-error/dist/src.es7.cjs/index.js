@@ -16,5 +16,5 @@ function normalizeError(err_like = {}) {
     });
     return true_err;
 }
-exports.normalizeError = normalizeError;
+exports.default = normalizeError;
 //# sourceMappingURL=index.js.map

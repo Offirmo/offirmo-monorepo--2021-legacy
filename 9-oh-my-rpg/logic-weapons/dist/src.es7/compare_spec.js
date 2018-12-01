@@ -1,8 +1,9 @@
 import { expect } from 'chai';
 import { Random } from '@offirmo/random';
 import { ItemQuality } from '@oh-my-rpg/definitions';
+import { LIB } from './consts';
 import { create, generate_random_demo_weapon, compare_weapons_by_strength, get_medium_damage, } from '.';
-describe('@oh-my-rpg/logic-weapons - compare', function () {
+describe(`${LIB} - compare`, function () {
     it('should sort properly by strength', () => {
         const rng = Random.engines.mt19937().seed(789);
         const items = [

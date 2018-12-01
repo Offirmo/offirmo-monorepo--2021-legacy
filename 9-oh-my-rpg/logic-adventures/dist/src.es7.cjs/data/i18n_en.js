@@ -101,7 +101,7 @@ You gain +{{level}} level!`,
     //pileup: `You get into a 3 horse pileup: -{{coin}} gold!`,
     //	You drink too much at the tavern, lose "x amount of" coins
     magic_lamp: `You stumble upon a magic lamp! You gain +{{luck}} luck!`,
-    rabbit_hole: `You find out just how deep the rabbit hold goes. You gain +{{wisdom}} wisdom.`,
+    rabbit_hole: `You find out just how deep the rabbit hole goes. You gain +{{wisdom}} wisdom.`,
     cat_out_tree: `You help a little girl get her cat out a tree. You gain +{{agility}} agility!`,
     green_food: `You somehow survive eating green eggs and ham. You gain +{{health}} health!`,
     //You try your luck at the wishing well. You lose 1 coin.
@@ -286,7 +286,7 @@ You gain {{attr}} {{attr_name}}!`,
     // you have superhuman luck
     fabric_of_reality: `
 You battle mages to unravel the fabric of reality.
-You gain +{{mana}} {{mana}}!`,
+You gain +{{mana}} mana!`,
     // you destroy a few parallel worlds with cyborgs.
     // you mine ore
     // you craft some stuff
@@ -444,6 +444,7 @@ but still ends up with good loot: +{{coin}}, {{item}}...
 		`,
 };
 const OFFIRMO_POPULAR_CULTURE = {
+    // Atlantis is calling
     drown_in_holy_water: `
 You nearly drown yourself in holy water. You gain +{{mana}} mana!
 	`,

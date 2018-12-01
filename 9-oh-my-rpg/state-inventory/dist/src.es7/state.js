@@ -18,7 +18,7 @@ function create(SEC) {
     });
 }
 /////////////////////
-function internal_auto_sort(state) {
+function _auto_sort(state) {
     state.unslotted.sort(compare_items);
     return state;
 }
@@ -34,7 +34,7 @@ function internal_remove_item(state, uuid) {
 function add_item(state, item) {
     if (is_full(state))
         throw new Error('state-inventory: can’t add item, inventory is full!');
-    return internal_auto_sort(Object.assign({}, state, { unslotted: [...state.unslotted, item], revision: state.revision + 1 }));
+    return _auto_sort(Object.assign({}, state, { unslotted: [...state.unslotted, item], revision: state.revision + 1 }));
 }
 function remove_item_from_unslotted(state, uuid) {
     return internal_remove_item(Object.assign({}, state, { revision: state.revision + 1 }), uuid);
@@ -50,7 +50,7 @@ function equip_item(state, uuid) {
     new_state = internal_remove_item(new_state, item_to_equip.uuid);
     if (item_previously_in_slot)
         new_state.unslotted.push(item_previously_in_slot);
-    return internal_auto_sort(new_state);
+    return _auto_sort(new_state);
 }
 /////////////////////
 export { InventorySlot, create, add_item, remove_item_from_unslotted, equip_item, };

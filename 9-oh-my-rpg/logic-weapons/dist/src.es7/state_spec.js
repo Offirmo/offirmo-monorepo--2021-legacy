@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { Enum } from 'typescript-string-enums';
 import { InventorySlot, ItemQuality, ElementType, xxx_test_unrandomize_element } from '@oh-my-rpg/definitions';
 import { Random } from '@offirmo/random';
+import { LIB } from './consts';
 import { MAX_ENHANCEMENT_LEVEL, create, generate_random_demo_weapon, enhance, } from '.';
 function assert_shape(weapon) {
     expect(Object.keys(weapon)).to.have.lengthOf(9);
@@ -25,16 +26,16 @@ function assert_shape(weapon) {
     expect(weapon.enhancement_level).to.be.at.least(0);
     expect(weapon.enhancement_level).to.be.at.most(MAX_ENHANCEMENT_LEVEL);
 }
-describe('@oh-my-rpg/logic-weapons - logic', function () {
+describe(`${LIB} - logic`, function () {
     describe('creation', function () {
         it('should allow creating a random weapon', function () {
             const rng = Random.engines.mt19937().seed(789);
             const weapon1 = xxx_test_unrandomize_element(create(rng));
             assert_shape(weapon1);
-            expect(rng.getUseCount(), '# rng draws 1').to.equal(7); // between 5 and 8 (TODO improve)
+            expect(rng.getUseCount(), '# rng draws 1').to.equal(5);
             const weapon2 = xxx_test_unrandomize_element(create(rng));
             assert_shape(weapon2);
-            expect(rng.getUseCount(), '# rng draws 2').to.equal(12);
+            expect(rng.getUseCount(), '# rng draws 2').to.equal(10);
             expect(weapon2).not.to.deep.equal(weapon1);
         });
         it('should allow creating a partially predefined weapon', function () {

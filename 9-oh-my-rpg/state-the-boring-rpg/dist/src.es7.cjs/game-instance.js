@@ -5,8 +5,8 @@
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
-const EventEmitter = require('emittery');
-const deep_merge = require('deepmerge').default;
+const emittery_1 = tslib_1.__importDefault(require("emittery"));
+const deepmerge_1 = tslib_1.__importDefault(require("deepmerge"));
 const state_inventory_1 = require("@oh-my-rpg/state-inventory");
 const PRNGState = tslib_1.__importStar(require("@oh-my-rpg/state-prng"));
 const state_fns = tslib_1.__importStar(require("./state"));
@@ -41,7 +41,7 @@ function create_game_instance({ SEC, get_latest_state, persist_state, view_state
             persist_state(state);
         });
         view_state = view_state || {};
-        const emitter = new EventEmitter();
+        const emitter = new emittery_1.default();
         return {
             reducers: {
                 play() {
@@ -136,8 +136,7 @@ function create_game_instance({ SEC, get_latest_state, persist_state, view_state
             model: {
                 get_state: get_latest_state,
                 reset_state() {
-                    let state = state_fns.create();
-                    state = state_fns.reseed(state);
+                    const state = state_fns.reseed(state_fns.create());
                     persist_state(state);
                     logger.verbose('Savegame reseted:', { state });
                     emitter.emit('state_change');
@@ -151,7 +150,7 @@ function create_game_instance({ SEC, get_latest_state, persist_state, view_state
                 // allow managing a transient state
                 set_state(fn) {
                     const changed = fn(view_state);
-                    view_state = Object.assign({}, deep_merge(view_state, changed, {
+                    view_state = Object.assign({}, deepmerge_1.default(view_state, changed, {
                         arrayMerge: overwriteMerge,
                     }));
                     emitter.emit('state_change');

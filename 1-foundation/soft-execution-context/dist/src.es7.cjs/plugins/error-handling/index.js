@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
-const normalize_error_1 = require("@offirmo/normalize-error");
+const normalize_error_1 = tslib_1.__importDefault(require("@offirmo/normalize-error"));
 const promise_try_1 = require("@offirmo/promise-try");
 const timestamps_1 = require("@offirmo/timestamps");
 const constants_1 = require("../../constants");
@@ -23,7 +23,7 @@ const PLUGIN = {
             catch_factory_1.createCatcher({
                 debugId,
                 decorators: [
-                    normalize_error_1.normalizeError,
+                    normalize_error_1.default,
                     err => SEC._decorateErrorWithLogicalStack(err),
                     err => SEC._decorateErrorWithDetails(err),
                 ],

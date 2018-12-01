@@ -19,7 +19,7 @@ declare type LogLevel = Enum<typeof LogLevel>;
 declare type Details = {
     [k: string]: any;
 };
-declare type LogFn = (message?: string, details?: Details) => void;
+declare type LogFn = (message?: string, details?: Readonly<Details>) => void;
 interface Payload {
     level: LogLevel;
     name: string;
@@ -31,8 +31,8 @@ interface Payload {
 declare type OutputFn = (payload: Payload) => void;
 interface LogParams {
     name: string;
-    level?: LogLevel;
-    details?: Details;
+    level?: Readonly<LogLevel>;
+    details?: Readonly<Details>;
 }
 interface InternalLoggerState {
     name: string;

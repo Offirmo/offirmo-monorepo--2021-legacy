@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const i18n_en_1 = require("./i18n_en");
+// TODO type better? (coins)
 const types_1 = require("../types");
 const story = types_1.AdventureType.story;
 const fight = types_1.AdventureType.fight;

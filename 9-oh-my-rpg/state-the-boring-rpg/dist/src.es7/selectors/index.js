@@ -53,9 +53,32 @@ function find_element(state, uuid) {
     }
     return possible_achievement || get_item(state, uuid);
 }
-function find_better_unequipped_weapon(state) {
+function find_best_unequipped_armor(state) {
+    // we take advantage of the fact that the inventory is auto-sorted
+    const best_unequipped_armor = state.inventory.unslotted.find(e => e.slot === InventorySlot.armor);
+    return best_unequipped_armor
+        ? best_unequipped_armor
+        : null;
+}
+function find_better_unequipped_armor(state) {
+    const best_unequipped_armor = find_best_unequipped_armor(state);
+    if (!best_unequipped_armor)
+        return null;
+    const best_unequipped_power = appraise_power(best_unequipped_armor);
+    const equipped_power = appraise_power(get_item_in_slot(state, InventorySlot.armor));
+    if (best_unequipped_power > equipped_power)
+        return best_unequipped_armor;
+    return null;
+}
+function find_best_unequipped_weapon(state) {
     // we take advantage of the fact that the inventory is auto-sorted
     const best_unequipped_weapon = state.inventory.unslotted.find(e => e.slot === InventorySlot.weapon);
+    return best_unequipped_weapon
+        ? best_unequipped_weapon
+        : null;
+}
+function find_better_unequipped_weapon(state) {
+    const best_unequipped_weapon = find_best_unequipped_weapon(state);
     if (!best_unequipped_weapon)
         return null;
     const best_unequipped_power = appraise_power(best_unequipped_weapon);
@@ -86,7 +109,7 @@ function get_oldest_pending_non_flow_engagement(state) {
     };
 }
 /////////////////////
-export { get_energy_snapshot, is_inventory_full, get_item_in_slot, get_item, appraise_item_value, appraise_item_power, find_element, find_better_unequipped_weapon, appraise_player_power, get_oldest_pending_flow_engagement, get_oldest_pending_non_flow_engagement, };
+export { get_energy_snapshot, is_inventory_full, get_item_in_slot, get_item, appraise_item_value, appraise_item_power, find_element, find_better_unequipped_armor, find_better_unequipped_weapon, appraise_player_power, get_oldest_pending_flow_engagement, get_oldest_pending_non_flow_engagement, };
 export * from './achievements';
 /////////////////////
 //# sourceMappingURL=index.js.map

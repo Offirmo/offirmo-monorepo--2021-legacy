@@ -1,4 +1,3 @@
-/////////////////////
 import * as CharacterState from '@oh-my-rpg/state-character';
 import * as WalletState from '@oh-my-rpg/state-wallet';
 import * as InventoryState from '@oh-my-rpg/state-inventory';
@@ -8,34 +7,9 @@ import * as EngagementState from '@oh-my-rpg/state-engagement';
 import * as CodesState from '@oh-my-rpg/state-codes';
 import * as ProgressState from '@oh-my-rpg/state-progress';
 import { LIB, SCHEMA_VERSION } from '../../consts';
-import { create } from '../reducers/state';
 import { get_lib_SEC } from '../../sec';
+import { reset_and_salvage } from './salvage';
 /////////////////////
-function reset_and_salvage(legacy_state) {
-    let state = create();
-    // still, try to salvage "meta" for engagement
-    try {
-        // ensure this code is up to date
-        if (typeof state.avatar.name !== 'string') {
-            // TODO report
-            console.warn(`${LIB}: need to update the avatar name salvaging!`);
-            return create();
-        }
-        if (typeof legacy_state.avatar.name === 'string') {
-            state.avatar.name = legacy_state.avatar.name;
-        }
-        // TODO salvage creation date as well?
-        // TODO salvage class
-        // TODO salvage by auto-replay as much?
-        console.info(`${LIB}: salvaged some savegame data.`);
-    }
-    catch (err) {
-        /* swallow */
-        console.warn(`${LIB}: salvaging failed!`);
-        state = create();
-    }
-    return state;
-}
 const SUB_REDUCERS_COUNT = 8;
 const OTHER_KEYS_COUNT = 5;
 function migrate_to_latest(SEC, legacy_state, hints = {}) {

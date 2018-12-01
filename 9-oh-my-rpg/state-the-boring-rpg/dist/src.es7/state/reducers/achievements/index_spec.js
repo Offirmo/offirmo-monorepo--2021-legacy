@@ -2,10 +2,11 @@ import { Enum } from 'typescript-string-enums';
 import { expect } from 'chai';
 import { AchievementStatus } from '@oh-my-rpg/state-progress';
 import { xxx_internal_reset_prng_cache } from '@oh-my-rpg/state-prng';
-import { create } from '../state';
+import { LIB } from '../../../consts';
+import { create } from '..';
 import { _refresh_achievements } from '.';
 import ACHIEVEMENT_DEFINITIONS from '../../../data/achievements';
-describe('@oh-my-rpg/state-the-boring-rpg - reducer / achievements', function () {
+describe(`${LIB} - reducer`, function () {
     beforeEach(() => xxx_internal_reset_prng_cache());
     describe('_refresh_achievements()', function () {
         context('🚫  when having no new achievements', function () {

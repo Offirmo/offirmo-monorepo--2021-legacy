@@ -1,8 +1,9 @@
 import { expect } from 'chai';
 import { InventorySlot, ItemQuality, ElementType, xxx_test_unrandomize_element, } from '@oh-my-rpg/definitions';
 import { Random } from '@offirmo/random';
+import { LIB } from './consts';
 import { MAX_ENHANCEMENT_LEVEL, create, generate_random_demo_armor, enhance, get_damage_reduction_interval, get_medium_damage_reduction, } from '.';
-describe('@oh-my-rpg/logic-armors - logic', function () {
+describe(`${LIB} - state`, function () {
     describe('creation', function () {
         it('should allow creating a random armor', function () {
             const rng = Random.engines.mt19937().seed(789);
@@ -11,16 +12,16 @@ describe('@oh-my-rpg/logic-armors - logic', function () {
                 uuid: 'uu1~test~test~test~test~',
                 element_type: ElementType.item,
                 slot: InventorySlot.armor,
-                base_hid: 'socks',
-                qualifier1_hid: 'onyx',
-                qualifier2_hid: 'tormentor',
+                base_hid: 'pants',
+                qualifier1_hid: 'emerald',
+                qualifier2_hid: 'pilgrim',
                 quality: ItemQuality.uncommon,
-                base_strength: 17,
+                base_strength: 14,
                 enhancement_level: 0
             });
-            expect(rng.getUseCount(), '# rng draws 1').to.equal(6);
+            expect(rng.getUseCount(), '# rng draws 1').to.equal(5);
             const armor2 = create(rng);
-            expect(rng.getUseCount(), '# rng draws 2').to.equal(11);
+            expect(rng.getUseCount(), '# rng draws 2').to.equal(10);
             expect(armor2).not.to.deep.equal(armor1);
         });
         it('should allow creating a partially predefined armor', function () {

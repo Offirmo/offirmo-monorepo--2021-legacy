@@ -10,7 +10,7 @@ interface UnicodeCharDetails {
         [k: string]: string;
     };
 }
-declare const CHARACTERS: {
-    [k: string]: UnicodeCharDetails;
-};
+declare const CHARACTERS: Readonly<{
+    [k: string]: Readonly<UnicodeCharDetails>;
+}>;
 export { UnicodeCharDetails, CHARACTERS, };

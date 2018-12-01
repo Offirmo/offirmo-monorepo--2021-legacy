@@ -35,9 +35,6 @@ function _on_activity(state, previous_revision) {
     new_state.statistics.active_day_count = (new_state.statistics.active_day_count || 0) + 1;
     return new_state;
 }
-function on_start_session(state) {
-    return _on_activity(state, state.revision);
-}
 function on_played(state, details) {
     const { good, adventure_key, encountered_monster_key, active_class } = details;
     const new_state = Object.assign({}, state, { 
@@ -71,6 +68,6 @@ function on_achieved(state, key, new_status) {
     return _on_activity(new_state, state.revision);
 }
 /////////////////////
-export { create, on_start_session, on_played, on_achieved, };
+export { create, on_played, on_achieved, };
 /////////////////////
 //# sourceMappingURL=state.js.map

@@ -2,8 +2,8 @@
  * TODO extract
  * TODO force refresh on client state change
  */
-const EventEmitter = require('emittery');
-const deep_merge = require('deepmerge').default;
+import EventEmitter from 'emittery';
+import deep_merge from 'deepmerge';
 import { get_item } from '@oh-my-rpg/state-inventory';
 import * as PRNGState from '@oh-my-rpg/state-prng';
 import * as state_fns from './state';
@@ -133,8 +133,7 @@ function create_game_instance({ SEC, get_latest_state, persist_state, view_state
             model: {
                 get_state: get_latest_state,
                 reset_state() {
-                    let state = state_fns.create();
-                    state = state_fns.reseed(state);
+                    const state = state_fns.reseed(state_fns.create());
                     persist_state(state);
                     logger.verbose('Savegame reseted:', { state });
                     emitter.emit('state_change');

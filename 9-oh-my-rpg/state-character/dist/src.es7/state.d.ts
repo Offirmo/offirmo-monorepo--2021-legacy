@@ -2,7 +2,7 @@ import { CharacterAttribute, CharacterClass, CharacterAttributes, State } from '
 import { SoftExecutionContext } from './sec';
 declare const DEFAULT_AVATAR_NAME = "[anonymous]";
 declare const CHARACTER_ATTRIBUTES: ("agility" | "health" | "level" | "luck" | "mana" | "strength" | "charisma" | "wisdom")[];
-declare const CHARACTER_ATTRIBUTES_SORTED: CharacterAttribute[];
+declare const CHARACTER_ATTRIBUTES_SORTED: Readonly<CharacterAttribute>[];
 declare const CHARACTER_CLASSES: ("novice" | "warrior" | "barbarian" | "paladin" | "sculptor" | "pirate" | "ninja" | "rogue" | "wizard" | "hunter" | "druid" | "priest")[];
 declare function create(SEC?: SoftExecutionContext): Readonly<State>;
 declare function rename(SEC: SoftExecutionContext, state: Readonly<State>, new_name: string): Readonly<State>;

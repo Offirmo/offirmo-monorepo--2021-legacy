@@ -4,6 +4,7 @@ const chai_1 = require("chai");
 const typescript_string_enums_1 = require("typescript-string-enums");
 const definitions_1 = require("@oh-my-rpg/definitions");
 const random_1 = require("@offirmo/random");
+const consts_1 = require("./consts");
 const _1 = require(".");
 function assert_shape(weapon) {
     chai_1.expect(Object.keys(weapon)).to.have.lengthOf(9);
@@ -27,16 +28,16 @@ function assert_shape(weapon) {
     chai_1.expect(weapon.enhancement_level).to.be.at.least(0);
     chai_1.expect(weapon.enhancement_level).to.be.at.most(_1.MAX_ENHANCEMENT_LEVEL);
 }
-describe('@oh-my-rpg/logic-weapons - logic', function () {
+describe(`${consts_1.LIB} - logic`, function () {
     describe('creation', function () {
         it('should allow creating a random weapon', function () {
             const rng = random_1.Random.engines.mt19937().seed(789);
             const weapon1 = definitions_1.xxx_test_unrandomize_element(_1.create(rng));
             assert_shape(weapon1);
-            chai_1.expect(rng.getUseCount(), '# rng draws 1').to.equal(7); // between 5 and 8 (TODO improve)
+            chai_1.expect(rng.getUseCount(), '# rng draws 1').to.equal(5);
             const weapon2 = definitions_1.xxx_test_unrandomize_element(_1.create(rng));
             assert_shape(weapon2);
-            chai_1.expect(rng.getUseCount(), '# rng draws 2').to.equal(12);
+            chai_1.expect(rng.getUseCount(), '# rng draws 2').to.equal(10);
             chai_1.expect(weapon2).not.to.deep.equal(weapon1);
         });
         it('should allow creating a partially predefined weapon', function () {

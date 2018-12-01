@@ -10,8 +10,11 @@ function generate_random_seed() {
     return random_1.Random.integer(-2147483646, 2147483647)(rng); // doc is unclear about allowed bounds...
 }
 exports.generate_random_seed = generate_random_seed;
-function regenerate_until_not_recently_encountered({ id, generate, state, max_tries = 10, }) {
+function regenerate_until_not_recently_encountered({ id, generate, state, max_tries, }) {
     const recently_encountered = state.recently_encountered_by_id[id] || [];
+    // Intelligently computes a reasonable max_tries.
+    // Best effort, we would need the complete generation range to come up with a proper number.
+    max_tries = max_tries || Math.max(10, recently_encountered.length * 10);
     let generated = generate();
     let try_count = 1;
     while (recently_encountered.includes(generated) && try_count < max_tries) {

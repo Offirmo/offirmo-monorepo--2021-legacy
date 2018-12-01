@@ -1,6 +1,7 @@
 import { get_human_readable_UTC_timestamp_minutes } from '@offirmo/timestamps';
 import normalize_code from '../normalize-code';
 ////////////
+// TODO move data outside!
 // for test only
 const TEST_CODES = {
     TESTNEVER: {

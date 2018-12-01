@@ -8,7 +8,7 @@ import { LIB } from '../../../consts';
 import { play_adventure } from './play_adventure';
 /////////////////////
 const ADVENTURE_BAD_NON_REPETITION_ID = 'adventure_archetype--bad';
-const ADVENTURE_BAD_NON_REPETITION_COUNT = 0;
+const ADVENTURE_BAD_NON_REPETITION_COUNT = 2;
 function pick_random_non_repetitive_bad_archetype(state, rng) {
     let archetype;
     regenerate_until_not_recently_encountered({
@@ -18,6 +18,7 @@ function pick_random_non_repetitive_bad_archetype(state, rng) {
             return archetype.hid;
         },
         state: state.prng,
+        max_tries: ADVENTURE_BAD_NON_REPETITION_COUNT * 10,
     });
     return archetype;
 }

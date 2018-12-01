@@ -11,7 +11,7 @@ const consts_1 = require("../../../consts");
 const play_adventure_1 = require("./play_adventure");
 /////////////////////
 const ADVENTURE_BAD_NON_REPETITION_ID = 'adventure_archetype--bad';
-const ADVENTURE_BAD_NON_REPETITION_COUNT = 0;
+const ADVENTURE_BAD_NON_REPETITION_COUNT = 2;
 function pick_random_non_repetitive_bad_archetype(state, rng) {
     let archetype;
     state_prng_1.regenerate_until_not_recently_encountered({
@@ -21,6 +21,7 @@ function pick_random_non_repetitive_bad_archetype(state, rng) {
             return archetype.hid;
         },
         state: state.prng,
+        max_tries: ADVENTURE_BAD_NON_REPETITION_COUNT * 10,
     });
     return archetype;
 }

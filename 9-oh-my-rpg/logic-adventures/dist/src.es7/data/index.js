@@ -1,4 +1,5 @@
 import { messages as en } from './i18n_en';
+// TODO type better? (coins)
 import { AdventureType } from '../types';
 const story = AdventureType.story;
 const fight = AdventureType.fight;

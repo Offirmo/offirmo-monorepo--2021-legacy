@@ -4,7 +4,7 @@ const tslib_1 = require("tslib");
 const practical_logger_core_1 = require("@offirmo/practical-logger-core");
 exports.createChildLogger = practical_logger_core_1.createChildLogger;
 const print_error_to_ansi_1 = require("@offirmo/print-error-to-ansi");
-const prettifyJson = require('@offirmo/prettify-json');
+const prettify_json_1 = tslib_1.__importDefault(require("@offirmo/prettify-json"));
 const chalk_1 = tslib_1.__importDefault(require("chalk"));
 const MIN_WIDTH = 7;
 function to_aligned_ascii(level) {
@@ -64,7 +64,7 @@ function createLogger(p) {
                 + (msg ? ' ' : '')
                 + msg
                 + ' '
-                + prettifyJson(detailsNoErr));
+                + prettify_json_1.default(detailsNoErr));
         console.log(line); // eslint-disable-line no-console
         if (err)
             print_error_to_ansi_1.displayError(err);

@@ -1,6 +1,8 @@
 "use strict";
 ////////////////////////////////////
 Object.defineProperty(exports, "__esModule", { value: true });
+const definitions_1 = require("@oh-my-rpg/definitions");
+const consts_1 = require("./consts");
 // actualized strength
 // quality multipliers (see spreadsheet for calculation)
 const QUALITY_STRENGTH_MULTIPLIER = {
@@ -43,4 +45,20 @@ function get_medium_damage_reduction(armor) {
     return Math.round((reduction_range[0] + reduction_range[1]) / 2);
 }
 exports.get_medium_damage_reduction = get_medium_damage_reduction;
+function matches(armor, elements) {
+    let matches = true; // so far
+    if (elements.slot && elements.slot !== definitions_1.InventorySlot.armor)
+        throw new Error(`${consts_1.LIB} matches: can't match against a non-armor slot "${elements.slot}"!`);
+    if (armor.slot !== definitions_1.InventorySlot.armor)
+        return false;
+    Object.keys(elements)
+        .forEach((k) => {
+        if (!(k in armor))
+            throw new Error(`${consts_1.LIB} matches: can't match on non-armor key "${k}"!`);
+        if (elements[k] !== armor[k])
+            matches = false;
+    });
+    return matches;
+}
+exports.matches = matches;
 //# sourceMappingURL=selectors.js.map

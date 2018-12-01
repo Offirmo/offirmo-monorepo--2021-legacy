@@ -4,6 +4,7 @@ const tslib_1 = require("tslib");
 const timestamps_1 = require("@offirmo/timestamps");
 const normalize_code_1 = tslib_1.__importDefault(require("../normalize-code"));
 ////////////
+// TODO move data outside!
 // for test only
 const TEST_CODES = {
     TESTNEVER: {

@@ -1,7 +1,11 @@
 "use strict";
 ////////////////////////////////////
 Object.defineProperty(exports, "__esModule", { value: true });
-////////////
+const LIB = '@oh-my-rpg/logic-weapons';
+exports.LIB = LIB;
+const SCHEMA_VERSION = 1;
+exports.SCHEMA_VERSION = SCHEMA_VERSION;
+////////////////////////////////////
 const MIN_ENHANCEMENT_LEVEL = 0;
 exports.MIN_ENHANCEMENT_LEVEL = MIN_ENHANCEMENT_LEVEL;
 const MAX_ENHANCEMENT_LEVEL = 8;

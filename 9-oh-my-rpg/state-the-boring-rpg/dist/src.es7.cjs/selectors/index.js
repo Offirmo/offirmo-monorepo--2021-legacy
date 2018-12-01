@@ -64,9 +64,33 @@ function find_element(state, uuid) {
     return possible_achievement || get_item(state, uuid);
 }
 exports.find_element = find_element;
-function find_better_unequipped_weapon(state) {
+function find_best_unequipped_armor(state) {
+    // we take advantage of the fact that the inventory is auto-sorted
+    const best_unequipped_armor = state.inventory.unslotted.find(e => e.slot === definitions_1.InventorySlot.armor);
+    return best_unequipped_armor
+        ? best_unequipped_armor
+        : null;
+}
+function find_better_unequipped_armor(state) {
+    const best_unequipped_armor = find_best_unequipped_armor(state);
+    if (!best_unequipped_armor)
+        return null;
+    const best_unequipped_power = logic_shop_1.appraise_power(best_unequipped_armor);
+    const equipped_power = logic_shop_1.appraise_power(get_item_in_slot(state, definitions_1.InventorySlot.armor));
+    if (best_unequipped_power > equipped_power)
+        return best_unequipped_armor;
+    return null;
+}
+exports.find_better_unequipped_armor = find_better_unequipped_armor;
+function find_best_unequipped_weapon(state) {
     // we take advantage of the fact that the inventory is auto-sorted
     const best_unequipped_weapon = state.inventory.unslotted.find(e => e.slot === definitions_1.InventorySlot.weapon);
+    return best_unequipped_weapon
+        ? best_unequipped_weapon
+        : null;
+}
+function find_better_unequipped_weapon(state) {
+    const best_unequipped_weapon = find_best_unequipped_weapon(state);
     if (!best_unequipped_weapon)
         return null;
     const best_unequipped_power = logic_shop_1.appraise_power(best_unequipped_weapon);

@@ -3,8 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
 const definitions_1 = require("@oh-my-rpg/definitions");
 const random_1 = require("@offirmo/random");
+const consts_1 = require("./consts");
 const _1 = require(".");
-describe('@oh-my-rpg/logic-armors - logic', function () {
+describe(`${consts_1.LIB} - state`, function () {
     describe('creation', function () {
         it('should allow creating a random armor', function () {
             const rng = random_1.Random.engines.mt19937().seed(789);
@@ -13,16 +14,16 @@ describe('@oh-my-rpg/logic-armors - logic', function () {
                 uuid: 'uu1~test~test~test~test~',
                 element_type: definitions_1.ElementType.item,
                 slot: definitions_1.InventorySlot.armor,
-                base_hid: 'socks',
-                qualifier1_hid: 'onyx',
-                qualifier2_hid: 'tormentor',
+                base_hid: 'pants',
+                qualifier1_hid: 'emerald',
+                qualifier2_hid: 'pilgrim',
                 quality: definitions_1.ItemQuality.uncommon,
-                base_strength: 17,
+                base_strength: 14,
                 enhancement_level: 0
             });
-            chai_1.expect(rng.getUseCount(), '# rng draws 1').to.equal(6);
+            chai_1.expect(rng.getUseCount(), '# rng draws 1').to.equal(5);
             const armor2 = _1.create(rng);
-            chai_1.expect(rng.getUseCount(), '# rng draws 2').to.equal(11);
+            chai_1.expect(rng.getUseCount(), '# rng draws 2').to.equal(10);
             chai_1.expect(armor2).not.to.deep.equal(armor1);
         });
         it('should allow creating a partially predefined armor', function () {

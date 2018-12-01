@@ -1,4 +1,7 @@
 /////////////////////
+import { InventorySlot, } from '@oh-my-rpg/definitions';
+import { LIB } from "./consts";
+/////////////////////
 // actualized strength
 // quality multipliers (see spreadsheet for calculation)
 const QUALITY_STRENGTH_MULTIPLIER = {
@@ -38,7 +41,22 @@ function get_medium_damage(weapon) {
     const damage_range = get_damage_interval(weapon);
     return Math.round((damage_range[0] + damage_range[1]) / 2);
 }
+function matches(weapon, elements) {
+    let matches = true; // so far
+    if (weapon.slot !== InventorySlot.weapon)
+        return false;
+    if (elements.slot && elements.slot !== InventorySlot.weapon)
+        throw new Error(`${LIB} matches: can't match against a non-weapon slot "${elements.slot}"!`);
+    Object.keys(elements)
+        .forEach((k) => {
+        if (!(k in weapon))
+            throw new Error(`${LIB} matches: can't match on non-weapon key "${k}"!`);
+        if (elements[k] !== weapon[k])
+            matches = false;
+    });
+    return matches;
+}
 /////////////////////
-export { get_damage_interval, get_medium_damage, };
+export { get_damage_interval, get_medium_damage, matches, };
 /////////////////////
 //# sourceMappingURL=selectors.js.map

@@ -52,8 +52,8 @@ interface WalkerCallbacks<State, RenderingOptions> {
     on_type_br?: WalkerReducer<State, OnTypeParams<State>, RenderingOptions>;
     [on_fiter_or_type: string]: any;
 }
-declare function walk<State, RenderingOptions>($raw_node: Node, raw_callbacks: Partial<WalkerCallbacks<State, RenderingOptions>>, options?: RenderingOptions, { $parent_node, $id, depth, }?: {
-    $parent_node?: CheckedNode;
+declare function walk<State, RenderingOptions>($raw_node: Readonly<Node>, raw_callbacks: Readonly<Partial<WalkerCallbacks<State, RenderingOptions>>>, options?: Readonly<RenderingOptions>, { $parent_node, $id, depth, }?: {
+    $parent_node?: Readonly<CheckedNode>;
     $id?: string;
     depth?: number;
 }): State;

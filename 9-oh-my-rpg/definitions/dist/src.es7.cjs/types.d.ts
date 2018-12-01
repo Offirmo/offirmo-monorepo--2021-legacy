@@ -23,6 +23,7 @@ declare type ItemQuality = Enum<typeof ItemQuality>;
 declare const InventorySlot: {
     weapon: "weapon";
     armor: "armor";
+    none: "none";
 };
 declare type InventorySlot = Enum<typeof InventorySlot>;
 interface Item extends Element {

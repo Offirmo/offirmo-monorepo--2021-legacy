@@ -4,9 +4,9 @@ import { i18n_messages } from './data';
 declare const ALL_ADVENTURE_ARCHETYPES: Readonly<AdventureArchetype>[];
 declare const ALL_BAD_ADVENTURE_ARCHETYPES: Readonly<AdventureArchetype>[];
 declare const ALL_GOOD_ADVENTURE_ARCHETYPES: Readonly<AdventureArchetype>[];
-declare const GOOD_ADVENTURE_ARCHETYPES_BY_TYPE: {
+declare const GOOD_ADVENTURE_ARCHETYPES_BY_TYPE: Readonly<{
     [k: string]: Readonly<AdventureArchetype>[];
-};
+}>;
 declare function get_archetype(hid: string): Readonly<AdventureArchetype>;
 declare function pick_random_good_archetype(rng: Engine): Readonly<AdventureArchetype>;
 declare function pick_random_bad_archetype(rng: Engine): Readonly<AdventureArchetype>;

@@ -7,6 +7,6 @@ interface RawAdventureArchetypeEntry {
     outcome: Partial<OutcomeArchetype>;
     isBeta?: boolean;
 }
-declare const ENTRIES: RawAdventureArchetypeEntry[];
-declare const i18n_messages: I18nMessages;
+declare const ENTRIES: Readonly<RawAdventureArchetypeEntry>[];
+declare const i18n_messages: Readonly<I18nMessages>;
 export { RawAdventureArchetypeEntry, ENTRIES, i18n_messages, };

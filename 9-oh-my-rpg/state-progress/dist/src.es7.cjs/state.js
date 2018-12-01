@@ -38,10 +38,6 @@ function _on_activity(state, previous_revision) {
     new_state.statistics.active_day_count = (new_state.statistics.active_day_count || 0) + 1;
     return new_state;
 }
-function on_start_session(state) {
-    return _on_activity(state, state.revision);
-}
-exports.on_start_session = on_start_session;
 function on_played(state, details) {
     const { good, adventure_key, encountered_monster_key, active_class } = details;
     const new_state = Object.assign({}, state, { 

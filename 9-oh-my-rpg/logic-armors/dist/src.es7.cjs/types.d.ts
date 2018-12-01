@@ -7,7 +7,7 @@ declare const ArmorPartType: {
 };
 declare type ArmorPartType = Enum<typeof ArmorPartType>;
 interface Armor extends Item {
-    slot: InventorySlot;
+    slot: typeof InventorySlot.armor;
     base_hid: string;
     qualifier1_hid: string;
     qualifier2_hid: string;

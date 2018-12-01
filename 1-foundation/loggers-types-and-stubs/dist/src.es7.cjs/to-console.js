@@ -71,6 +71,7 @@ const bunyanLoggerToConsole = {
     trace: (x, ...args) => trace(...bunyan_args_harmonizer(x, ...args)),
 };
 exports.bunyanLoggerToConsole = bunyanLoggerToConsole;
+// TODO Readonly
 function bunyan_args_harmonizer(arg1, ...other_args) {
     if (arg1 instanceof Error) {
         const err = arg1;
@@ -81,7 +82,7 @@ function bunyan_args_harmonizer(arg1, ...other_args) {
         return other_args.concat(details);
     }
     // no change
-    return [arg1].concat(...other_args);
+    return [arg1, ...other_args];
 }
 const compatibleLoggerToConsole = {
     alert,

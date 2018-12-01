@@ -10,7 +10,7 @@ import * as EnergyState from '@oh-my-rpg/state-energy';
 import * as EngagementState from '@oh-my-rpg/state-engagement';
 import * as CodesState from '@oh-my-rpg/state-codes';
 import * as ProgressState from '@oh-my-rpg/state-progress';
-import { SCHEMA_VERSION } from '../../consts';
+import { LIB, SCHEMA_VERSION } from '../../consts';
 import { migrate_to_latest, SUB_REDUCERS_COUNT } from '.';
 import { get_lib_SEC } from '../../sec';
 import { create } from '..';
@@ -36,7 +36,7 @@ function advanced_diff_json(a, b, { diff } = {}) {
         delete diff.creation_date;
     return diff;
 }
-describe('@oh-my-rpg/state-the-boring-rpg - schema migration', function () {
+describe(`${LIB} - schema migration`, function () {
     beforeEach(function () {
         this.clock = sinon.useFakeTimers(1542794960217); // needed to have a reproducible timestamp
     });
@@ -206,8 +206,8 @@ describe('@oh-my-rpg/state-the-boring-rpg - schema migration', function () {
             const new_state = migrate_to_latest(get_lib_SEC(), old_state);
             // this state is too old
             // we just check that it resets without crashing
-            expect(new_state.progress.statistics.good_play_count).to.equal(0);
-            expect(new_state.progress.statistics.bad_play_count).to.equal(0);
+            expect(new_state.progress.statistics.good_play_count, 'good').to.equal(11);
+            expect(new_state.progress.statistics.bad_play_count, 'bad').to.equal(0);
         });
         it('should migrate v6 LiddiLidd 20181029', () => {
             const old_state = {
