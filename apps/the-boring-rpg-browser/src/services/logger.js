@@ -3,7 +3,7 @@
 const { createLogger } = require('@offirmo/practical-logger-browser')
 
 import { LIB } from './consts'
-
+import { VERSION, BUILD_DATE } from './build'
 /////////////////////////////////////////////////
 
 const logger = createLogger({
@@ -12,7 +12,7 @@ const logger = createLogger({
 })
 
 
-logger.notice(`Hello from "${LIB}"! Logger up with level "${logger.getLevel()}".`)
+logger.notice(`Hello from "${LIB}", v${VERSION} ${BUILD_DATE}! Logger up with level = "${logger.getLevel()}".`)
 
 // test
 if (false) {
