@@ -1,0 +1,133 @@
+{
+	"schema_version": 6,
+	"revision": 9,
+	"uuid": "uu1G0EGsqIIKu3ZWbE9iKXIM",
+	"creation_date": "20181104_10h03",
+	"avatar": {
+		"schema_version": 2,
+		"revision": 6,
+		"name": "[anonymous]",
+		"klass": "novice",
+		"attributes": {
+			"level": 1,
+			"health": 1,
+			"mana": 1,
+			"strength": 3,
+			"agility": 2,
+			"charisma": 1,
+			"wisdom": 3,
+			"luck": 1
+		}
+	},
+	"inventory": {
+		"schema_version": 1,
+		"revision": 4,
+		"unslotted_capacity": 20,
+		"slotted": {
+			"weapon": {
+				"element_type": "item",
+				"uuid": "uu1xlffrVTPU8dQ9ME9qQuE1",
+				"slot": "weapon",
+				"quality": "common",
+				"base_hid": "spoon",
+				"qualifier1_hid": "used",
+				"qualifier2_hid": "noob",
+				"base_strength": 1,
+				"enhancement_level": 1
+			},
+			"armor": {
+				"base_hid": "socks",
+				"qualifier1_hid": "used",
+				"qualifier2_hid": "noob",
+				"element_type": "item",
+				"uuid": "uu1vgIbxtRe6CLNW6HCEhLsa",
+				"slot": "armor",
+				"quality": "common",
+				"base_strength": 1,
+				"enhancement_level": 0
+			}
+		},
+		"unslotted": []
+	},
+	"wallet": {
+		"schema_version": 1,
+		"revision": 1,
+		"coin_count": 0,
+		"token_count": 1
+	},
+	"prng": {
+		"schema_version": 2,
+		"revision": 25,
+		"seed": -642931807,
+		"use_count": 41,
+		"recently_encountered_by_id": {
+			"adventure_archetype--good": [
+				"busking",
+				"found_white_mushroom",
+				"fight_lost_any",
+				"cookies_grandmas",
+				"fight_won_any",
+				"meteor_metal",
+				"village_lost_father",
+				"found_black_mushroom"
+			]
+		}
+	},
+	"energy": {
+		"schema_version": 1,
+		"revision": 8,
+		"max_energy": 7,
+		"base_energy_refilling_rate_per_day": 7,
+		"last_date": "ts1_20181105_19h07:03.776",
+		"last_available_energy_float": 5.502044
+	},
+	"engagement": { "schema_version": 1, "revision": 2, "queue": [] },
+	"codes": { "schema_version": 1, "revision": 0, "redeemed_codes": {} },
+	"progress": {
+		"schema_version": 1,
+		"revision": 8,
+		"wiki": null,
+		"flags": null,
+		"achievements": null,
+		"statistics": {
+			"good_play_count": 8,
+			"bad_play_count": 0,
+			"encountered_adventures": {
+				"busking": true,
+				"found_white_mushroom": true,
+				"fight_lost_any": true,
+				"cookies_grandmas": true,
+				"fight_won_any": true,
+				"meteor_metal": true,
+				"village_lost_father": true,
+				"found_black_mushroom": true
+			},
+			"encountered_monsters": { "pigeon": true, "tropical fish": true },
+			"good_play_count_by_active_class": { "novice": 8 },
+			"bad_play_count_by_active_class": {},
+			"has_account": false,
+			"is_registered_alpha_player": false
+		}
+	},
+	"last_adventure": {
+		"uuid": "uu1ii9PzhfyWSlp~KeXB2OFi",
+		"hid": "found_black_mushroom",
+		"good": true,
+		"gains": {
+			"level": 0,
+			"health": 0,
+			"mana": 0,
+			"strength": 0,
+			"agility": 0,
+			"charisma": 0,
+			"wisdom": 1,
+			"luck": 0,
+			"coin": 0,
+			"token": 0,
+			"armor": null,
+			"weapon": null,
+			"armor_improvement": false,
+			"weapon_improvement": false
+		}
+	}
+}

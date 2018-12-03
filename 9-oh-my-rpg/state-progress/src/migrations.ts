@@ -52,7 +52,11 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any
 /////////////////////
 
 function migrate_to_2(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any>): State {
-	throw new Error('Schema is too old (pre-beta), can’t migrate!')
+	return {
+		...legacy_state,
+		schema_version: 2,
+		achievements: legacy_state.achievements || {}
+	} as State
 }
 
 /////////////////////

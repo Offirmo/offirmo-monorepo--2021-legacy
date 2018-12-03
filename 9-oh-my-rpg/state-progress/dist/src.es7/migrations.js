@@ -35,7 +35,7 @@ function migrate_to_latest(SEC, legacy_state, hints = {}) {
 }
 /////////////////////
 function migrate_to_2(SEC, legacy_state, hints) {
-    throw new Error('Schema is too old (pre-beta), can’t migrate!');
+    return Object.assign({}, legacy_state, { schema_version: 2, achievements: legacy_state.achievements || {} });
 }
 /////////////////////
 export { migrate_to_latest, MIGRATION_HINTS_FOR_TESTS, };
