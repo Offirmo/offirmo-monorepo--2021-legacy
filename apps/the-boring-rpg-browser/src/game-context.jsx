@@ -25,7 +25,7 @@ class GameContextAsPropsListener extends React.Component {
 	}
 
 	render() {
-		console.log("🔄 GameContextAsPropsListener");
+		console.log("🔄 (LEG) GameContextAsPropsListener");
 		return this.props.children(game_instance)
 	}
 }

@@ -1,7 +1,6 @@
-import { CODES_BY_KEY } from './data'
-import {State, Code, CodesConditions, CodeRedemption} from './types'
+import { LIB } from './consts'
+import {State, CodeSpec, CodeRedemption} from './types'
 import normalize_code from './normalize-code'
-
 
 /////////////////////
 
@@ -10,18 +9,19 @@ function is_code(code: string): boolean {
 		return false
 
 	code = normalize_code(code)
-	if (!CODES_BY_KEY[code])
+	if (!code)
 		return false
 
 	return true
 }
 
-function is_code_redeemable(state: Readonly<State>, code: string, infos: Readonly<CodesConditions>): boolean {
-	if (!is_code(code))
-		return false
+function is_code_redeemable<T>(state: Readonly<State>, code_spec: Readonly<CodeSpec<T>>, infos: Readonly<T>): boolean {
+	if (!code_spec)
+		throw new Error(`${LIB}: is_code_redeemable() invalid invocation!`)
+	const code = normalize_code(code_spec.code)
+	if (code_spec.code !== code)
+		throw new Error(`Invalid code spec for "${code_spec.code}", should be "${code}"!`)
 
-	code = normalize_code(code)
-	const code_spec: Code = CODES_BY_KEY[code]
 	const code_redemption: CodeRedemption | undefined = state.redeemed_codes[code]
 
 	// integrated conditions
@@ -32,7 +32,7 @@ function is_code_redeemable(state: Readonly<State>, code: string, infos: Readonl
 	}
 
 	// custom condition
-	if (!code_spec.is_redeemable(state, infos))
+	if (!code_spec.is_redeemable(infos, state))
 		return false
 
 	return true

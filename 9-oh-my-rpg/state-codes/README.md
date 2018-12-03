@@ -1,1 +1,2 @@
-// TODO merge with state-progress?
+
+Holds the past redemption of codes + some shared logic.

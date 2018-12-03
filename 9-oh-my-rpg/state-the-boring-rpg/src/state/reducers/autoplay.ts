@@ -32,10 +32,6 @@ import {
 import { Weapon, matches as matches_weapon } from '@oh-my-rpg/logic-weapons'
 import { Armor, matches as matches_armor } from '@oh-my-rpg/logic-armors'
 
-import {
-	CodesConditions
-} from '@oh-my-rpg/state-codes'
-
 /////////////////////
 
 import { State } from '../../types'

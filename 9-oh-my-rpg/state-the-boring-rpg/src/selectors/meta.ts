@@ -1,7 +1,27 @@
+import { State } from '../types'
 
-// TODO
-/*
-	has_account: boolean // temporary, to move to
-	is_registered_alpha_player: boolean // TODO decide between this and the other
-	is_player_since_alpha: boolean
- */
+/////////////////////
+
+function has_account(state: Readonly<State>): boolean {
+	return false // TODO
+}
+
+function is_alpha(): boolean {
+	return true
+}
+
+function is_player_since_alpha(state: Readonly<State>): boolean {
+	return true // TODO check date
+}
+
+function is_registered_alpha_player(state: Readonly<State>): boolean {
+	return true // TODO
+}
+
+
+export {
+	has_account,
+	is_alpha,
+	is_player_since_alpha,
+	is_registered_alpha_player,
+}

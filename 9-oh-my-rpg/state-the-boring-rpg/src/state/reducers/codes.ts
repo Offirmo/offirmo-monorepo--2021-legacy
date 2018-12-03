@@ -1,21 +1,12 @@
 /////////////////////
 
-
 import { Random, Engine } from '@offirmo/random'
 
 /////////////////////
 
-import { ItemQuality, Element, Item, InventorySlot } from '@oh-my-rpg/definitions'
+import { CodeSpec } from '@oh-my-rpg/state-codes'
 
-import * as CharacterState from '@oh-my-rpg/state-character'
-import {
-	CharacterAttribute,
-	CharacterAttributes,
-	CharacterClass,
-	increase_stat,
-	rename,
-	switch_class,
-} from '@oh-my-rpg/state-character'
+import { switch_class } from '@oh-my-rpg/state-character'
 
 import * as WalletState from '@oh-my-rpg/state-wallet'
 import * as InventoryState from '@oh-my-rpg/state-inventory'
@@ -25,72 +16,42 @@ import * as PRNGState from '@oh-my-rpg/state-prng'
 import * as CodesState from '@oh-my-rpg/state-codes'
 import * as ProgressState from '@oh-my-rpg/state-progress'
 
-import { Currency } from '@oh-my-rpg/state-wallet'
-
-import {
-	get_prng,
-	generate_random_seed,
-} from '@oh-my-rpg/state-prng'
-
-import {
-	Weapon,
-	matches as matches_weapon,
-	create as create_weapon,
-} from '@oh-my-rpg/logic-weapons'
-import {
-	Armor,
-	matches as matches_armor,
-	create as create_armor,
-} from '@oh-my-rpg/logic-armors'
-
-import {
-	CodesConditions
-} from '@oh-my-rpg/state-codes'
 
 /////////////////////
 
-import { get_lib_SEC } from '../../../sec'
-import { State } from '../../../types'
-import { EngagementKey } from '../../../engagement'
+import { State } from '../../types'
+import { EngagementKey } from '../../engagement'
+import { CODE_SPECS_BY_KEY } from '../../data/codes'
 
-import {
-	get_energy_snapshot,
-} from '../../../selectors'
-
-import { _receive_item } from '../base'
-import { _refresh_achievements } from '../achievements'
+import { _receive_item } from './base'
+import { _refresh_achievements } from './achievements'
 
 /////////////////////
 
+/*
+	if (!is_code_redeemable(state, code, infos))
+		throw new Error(`This code is either non-existing or non redeemable at the moment!`)
+ */
 function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<State> {
-	const infos: CodesConditions = {
-		has_energy_depleted: get_energy_snapshot(state).available_energy < 1,
-		good_play_count: state.progress.statistics.good_play_count,
-		is_alpha_player: true, // TODO clean that up when moving to beta
-		is_player_since_alpha: true,
-	}
-
 	let engagement_key: EngagementKey = EngagementKey['code_redemption--failed']
 	let engagement_params: any = {}
-	if (!CodesState.is_code_redeemable(state.codes, code, infos)) {
-		// TODO ?
+
+	code = CodesState.normalize_code(code)
+	const code_spec = CODE_SPECS_BY_KEY[code]
+
+	if (!CodesState.is_code_redeemable(state.codes, code_spec, state)) {
+		// this should not having been called
+		// nothing to do, will trigger an engagement rejection
 	}
 	else {
 		state = {
 			...state,
-			codes: CodesState.redeem_code(get_lib_SEC(), state.codes, code, infos),
+			codes: CodesState.attempt_to_redeem_code(state.codes, code_spec, state),
 		}
 
-		code = CodesState.normalize_code(code)
 		engagement_key = EngagementKey['code_redemption--succeeded']
 		engagement_params.code = code
 		switch(code) {
-			case 'TESTNEVER':
-			case 'TESTALWAYS':
-			case 'TESTONCE':
-			case 'TESTTWICE':
-				// test codes which do nothing
-				break
 			case 'TESTNOTIFS':
 				state = {
 					...state,
@@ -161,8 +122,9 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<
 					}),
 				}
 				break
+
 			case 'TESTACH':
-				// this will auto-re-gain this achievement
+				// complicated, but will auto-re-gain this achievement
 				state = {
 					...state,
 					progress: ProgressState.on_achieved(state.progress, 'TEST', ProgressState.AchievementStatus.revealed)
@@ -175,6 +137,7 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<
 					energy: EnergyState.restore_energy(state.energy, 1.),
 				}
 				break
+
 			// TODO
 			/*case 'REBORN': {
 

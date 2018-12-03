@@ -6,7 +6,8 @@ import './index.css';
 
 export default class DevArea extends Component {
 	constructor(props) {
-		super(props);
+		super(props)
+
 		this.SEC = props.SEC || getRootSEC()
 		const { CHANNEL, IS_DEV_MODE, logger } = this.SEC.getInjectedDependencies()
 		this.logger = logger

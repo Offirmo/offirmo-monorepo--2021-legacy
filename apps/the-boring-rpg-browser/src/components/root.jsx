@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-d
 
 import {BASE_ROUTE, ROUTES} from '../services/routes'
 import {CHANNEL} from '../services/channel'
-import { GameStateListenerAndProvider } from '../context/game-state'
+import { AppStateListenerAndProvider } from '../context/app-state'
 
 import Home from './pages/home'
 import Savegame from './pages/savegame'
@@ -14,12 +14,13 @@ import DevUI from './meta/dev-area'
 //const StrictCheck = StrictMode
 const StrictCheck = Fragment
 
+// TODO https://reactjs.org/docs/react-api.html#reactlazy
 function render_home() {
 	return (
 		<StrictCheck>
-			<GameStateListenerAndProvider>
+			<AppStateListenerAndProvider>
 				<Home />
-			</GameStateListenerAndProvider>
+			</AppStateListenerAndProvider>
 		</StrictCheck>
 	)
 }

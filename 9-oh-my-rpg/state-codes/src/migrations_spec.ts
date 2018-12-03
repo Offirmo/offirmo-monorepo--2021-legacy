@@ -3,14 +3,14 @@ import deepFreeze from 'deep-freeze-strict'
 
 import { test_migrations } from '@oh-my-rpg/migration-tester'
 
-import { SCHEMA_VERSION } from './consts'
+import { LIB, SCHEMA_VERSION } from './consts'
 import { migrate_to_latest, MIGRATION_HINTS_FOR_TESTS } from './migrations'
 import { DEMO_STATE } from './examples'
 import { get_lib_SEC } from './sec'
 import { create } from './state'
 
 
-describe('@oh-my-rpg/state-codes - migration', function() {
+describe(`${LIB} - migration`, function() {
 
 	it('should correctly migrate a fresh new state (by touching nothing)', () => {
 		const old_state = deepFreeze(create())

@@ -3,6 +3,7 @@ import { Enum } from 'typescript-string-enums'
 /////////////////////
 
 const CharacterAttribute = Enum(
+	// TODO improve
 	'agility',
 	'health',
 	'level',
@@ -15,6 +16,7 @@ const CharacterAttribute = Enum(
 type CharacterAttribute = Enum<typeof CharacterAttribute> // eslint-disable-line no-redeclare
 
 const CharacterClass = Enum(
+	// TODO more classes https://en.wikipedia.org/wiki/Character_class_(Dungeons_%26_Dragons)
 	'novice',
 	'warrior',
 	'barbarian',

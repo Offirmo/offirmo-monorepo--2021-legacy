@@ -38,6 +38,7 @@ function get_achievement_snapshot_by_uuid(state: Readonly<State>, session_uuid: 
 	return get_achievement_snapshot(state, definition)
 }
 
+// TODO % completion
 function get_achievements_snapshot(state: Readonly<State>): Readonly<AchievementSnapshot>[] {
 	return ACHIEVEMENT_DEFINITIONS
 		.map((definition: AchievementDefinition<State>): AchievementSnapshot => {
@@ -45,6 +46,8 @@ function get_achievements_snapshot(state: Readonly<State>): Readonly<Achievement
 		})
 		.filter(as => as.status !== AchievementStatus.secret)
 }
+
+/////////////////////
 
 export {
 	get_achievement_snapshot,

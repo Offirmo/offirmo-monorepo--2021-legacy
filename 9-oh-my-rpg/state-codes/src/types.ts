@@ -4,19 +4,12 @@ import { HumanReadableTimestampUTCMinutes } from '@offirmo/timestamps'
 
 /////////////////////
 
-interface CodesConditions {
-	has_energy_depleted: boolean
-	good_play_count: number
-	is_alpha_player: boolean
-	is_player_since_alpha: boolean
-}
-
-interface Code {
-	key: string
-	code: string
+interface CodeSpec<T> {
+	code: string // also serves as unique key
 	redeem_limit: number | null // null = no limit or non-count limit (see is_redeemable)
-	is_redeemable: (state: Readonly<State>, infos: Readonly<CodesConditions>) => boolean
+	is_redeemable: (infos: Readonly<T>, state: Readonly<State>) => boolean
 	redemption_success_message?: string
+	//redemption_success_reducer: (state: Readonly<State>) => Readonly<State>,
 }
 
 interface CodeRedemption {
@@ -35,8 +28,7 @@ interface State {
 /////////////////////
 
 export {
-	CodesConditions,
-	Code,
+	CodeSpec,
 	CodeRedemption,
 	State,
 }

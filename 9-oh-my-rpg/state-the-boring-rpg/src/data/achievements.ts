@@ -66,7 +66,7 @@ const RAW_ENTRIES_CTAS: Readonly<Partial<AchievementDefinition<State>>>[] = [
 			: AchievementStatus.revealed,
 	},
 	{
-		icon: '🥈',
+		icon: '🥇',
 		// https://www.urbandictionary.com/define.php?term=Turn%20it%20up%20to%20eleven
 		name: 'Turn it up to eleven',
 		description: 'Having played 11 times.',
@@ -78,7 +78,7 @@ const RAW_ENTRIES_CTAS: Readonly<Partial<AchievementDefinition<State>>>[] = [
 				: AchievementStatus.hidden,
 	},
 	{
-		icon: '🥇',
+		icon: '🏅',
 		name: 'I am dead bored',
 		description: 'Having played 77 times.',
 		lore: 'Not all those who wander are lost.',
@@ -89,7 +89,7 @@ const RAW_ENTRIES_CTAS: Readonly<Partial<AchievementDefinition<State>>>[] = [
 				: AchievementStatus.hidden,
 	},
 	{
-		icon: '🏅',
+		icon: '🎖',
 		name: 'did I mention I was bored?',
 		description: 'Having played 500 times.',
 		get_status: (state: State) => state.progress.statistics.good_play_count >= 500
@@ -109,7 +109,7 @@ const RAW_ENTRIES_CTAS: Readonly<Partial<AchievementDefinition<State>>>[] = [
 				: AchievementStatus.hidden,
 	},
 	{
-		icon: '🎖',
+		icon: '🏆',
 		name: 'No-life except for boredom',
 		description: 'Having played 10.000 times.',
 		get_status: (state: State) => state.progress.statistics.good_play_count >= 10000

@@ -12,13 +12,15 @@ import {
 	get_currency_amount,
 } from '@oh-my-rpg/state-wallet'
 
+import { LIB } from '../consts'
+import { create } from '..'
 import {
-	create,
 	find_element,
 	appraise_item_value,
-} from '..'
+} from './others'
 
-describe('@oh-my-rpg/state-the-boring-rpg - selectors', function() {
+
+describe(`${LIB} - selectors`, function() {
 	beforeEach(() => xxx_internal_reset_prng_cache())
 
 	describe('find_element() by uuid', function() {
