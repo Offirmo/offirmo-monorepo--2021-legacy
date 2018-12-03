@@ -27,6 +27,7 @@ const ENTRIES: Readonly<RawAdventureArchetypeEntry>[] = [
 	{ good: true, type: fight, hid: 'fight_won_coins',        outcome: { coin: 'small' }},
 	{ good: true, type: fight, hid: 'fight_won_loot',         outcome: { armor_or_weapon: true }},
 	{ good: true, type: fight, hid: 'fight_won_any',          outcome: { random_attribute: true }},
+	{ good: true, type: fight, hid: 'fight_observe',          outcome: { class_secondary_attribute: true }},
 	{ good: true, type: fight, hid: 'fight_lost_any',         outcome: { random_attribute: true }},
 	{ good: true, type: fight, hid: 'fight_lost_shortcoming', outcome: { lowest_attribute: true }},
 
@@ -175,6 +176,9 @@ const ENTRIES: Readonly<RawAdventureArchetypeEntry>[] = [
 	{ good: true, type: story, hid: 'bandits_punishment',           outcome: {"coin":"medium"}},
 	{ good: true, type: story, hid: 'magical_cooking_ragnaros',     outcome: {"strength":true}},
 	{ good: true, type: story, hid: 'church_cellar_prisoner',       outcome: {class_secondary_attribute:true}},
+	{ good: true, type: story, hid: 'colossal_cave_maze',           outcome: {"armor_or_weapon":true}},
+	{ good: true, type: story, hid: 'exile_GIFTS',                  outcome: {"weapon_improvement":true}},
+	{ good: true, type: story, hid: 'DQ_good_slime',                outcome: {class_primary_attribute:true}},
 
 	{ good: true, type: story, hid: 'pet_squirrel',                 outcome: {"agility":true}},
 	{ good: true, type: story, hid: 'pet_black_cat',                outcome: {"luck":true}},

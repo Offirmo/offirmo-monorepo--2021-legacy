@@ -25,12 +25,17 @@ const TEST_CODES: Readonly<{ [key: string]: Readonly<Partial<CodeSpec<State>>> }
 		redeem_limit: null,
 		is_redeemable: () => true,
 	},
+
+	REBORNX: {
+		redeem_limit: null,
+		is_redeemable: () => is_alpha(),
+	},
 }
 
 const ALPHA_CODES: Readonly<{ [key: string]: Readonly<Partial<CodeSpec<State>>> }> = {
 
 	REBORN: {
-		redeem_limit: 1,
+		redeem_limit: null,
 		is_redeemable: () => is_alpha(),
 	},
 
@@ -62,6 +67,16 @@ const POWER_CODES: Readonly<{ [key: string]: Readonly<Partial<CodeSpec<State>>> 
 			const is_same_day = now_minutes.slice(0, 8) === last_redeem_date_minutes.slice(0, 8)
 			return !is_same_day
 		},
+	},
+
+	// https://en.wikipedia.org/wiki/Colossal_Cave_Adventure
+	XYZZY: {
+		redeem_limit: null,
+		is_redeemable: () => true,
+	},
+	PLUGH: {
+		redeem_limit: null,
+		is_redeemable: () => true,
 	},
 }
 

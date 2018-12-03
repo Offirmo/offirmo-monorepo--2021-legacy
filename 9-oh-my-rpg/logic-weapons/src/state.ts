@@ -29,26 +29,22 @@ import {
 /////////////////////
 
 function pick_random_quality(rng: Engine): ItemQuality {
-	// common    =  400/1000
-	// uncommon  =  389/1000
-	// rare:     =  200/1000
-	// epic:     =   10/1000
-	// legendary =    1/1000
+	// see armor for numbers
 	let p = Random.integer(1, 1000)(rng)
 
-	if (p <= 400)
+	if (p <= 300)
 		return ItemQuality.common
-	p -= 400
+	p -= 300
 
-	if (p <= 389)
+	if (p <= 300)
 		return ItemQuality.uncommon
-	p -= 389
+	p -= 300
 
-	if (p <= 200)
+	if (p <= 250)
 		return ItemQuality.rare
-	p -= 200
+	p -= 250
 
-	if (p <= 10)
+	if (p <= 120)
 		return ItemQuality.epic
 
 	return ItemQuality.legendary

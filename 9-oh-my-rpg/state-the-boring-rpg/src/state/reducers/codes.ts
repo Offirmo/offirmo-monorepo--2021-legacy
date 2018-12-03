@@ -25,6 +25,8 @@ import { CODE_SPECS_BY_KEY } from '../../data/codes'
 
 import { _receive_item } from './base'
 import { _refresh_achievements } from './achievements'
+import { reset_and_salvage } from '../migrations/salvage'
+import {reseed} from "./create";
 
 /////////////////////
 
@@ -39,7 +41,7 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<
 	code = CodesState.normalize_code(code)
 	const code_spec = CODE_SPECS_BY_KEY[code]
 
-	if (!CodesState.is_code_redeemable(state.codes, code_spec, state)) {
+	if (!code_spec || !CodesState.is_code_redeemable(state.codes, code_spec, state)) {
 		// this should not having been called
 		// nothing to do, will trigger an engagement rejection
 	}
@@ -138,15 +140,53 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<
 				}
 				break
 
-			// TODO
-			/*case 'REBORN': {
+			case 'XYZZY':
+				// http://www.plover.net/~davidw/sol/xyzzy.html
+				state = {
+					...state,
+					engagement: EngagementState.enqueue(state.engagement, {
+						type: EngagementState.EngagementType.flow,
+						key: EngagementKey['just-some-text'],
+					}, {
+						text: 'Nothing happens.', // TODO
+					}),
+				}
+				break
+			case 'PLUGH':
+				// http://www.plover.net/~davidw/sol/plugh.html
+				state = {
+					...state,
+					engagement: EngagementState.enqueue(state.engagement, {
+						type: EngagementState.EngagementType.flow,
+						key: EngagementKey['just-some-text'],
+					}, {
+						text: 'A hollow voice says "Ahhhhhhh".', // TODO
+					}),
+				}
+				break
 
-               }
-               break
-           case 'ALPHART': {
+			case 'REBORNX':
+				state = reseed(state) // force random reseed to see new stuff
+				state = reset_and_salvage(state as any)
+				state = {
+					...state,
+					progress: ProgressState.on_achieved(state.progress, 'Reborn!', ProgressState.AchievementStatus.unlocked)
+				}
+				break
+			case 'REBORN':
+				state = reset_and_salvage(state as any)
+				state = {
+					...state,
+					progress: ProgressState.on_achieved(state.progress, 'Reborn!', ProgressState.AchievementStatus.unlocked)
+				}
+				break
 
-               }
-               break*/
+			/*case 'ALPHATWINK': {
+				const weapon =
+
+				break
+			}*/
+
 			default:
 				throw new Error(`Internal error: code "${code}" not implemented!`)
 		}

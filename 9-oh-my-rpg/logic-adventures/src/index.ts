@@ -70,19 +70,19 @@ const COINS_GAIN_RANGES: Readonly<{ [k: string]: [number, number] }> = {
 }
 
 ;(function checkDataSanity() {
-	if (ALL_ADVENTURE_ARCHETYPES.length < 20) {
+	if (ALL_ADVENTURE_ARCHETYPES.length < 100) {
 		console.error(ALL_ADVENTURE_ARCHETYPES)
 		throw new Error('Data sanity failure: ALL_ADVENTURE_ARCHETYPES')
 	}
 	if (ALL_BAD_ADVENTURE_ARCHETYPES.length < 6)
 		throw new Error('Data sanity failure: ALL_BAD_ADVENTURE_ARCHETYPES')
-	if (ALL_GOOD_ADVENTURE_ARCHETYPES.length < 20)
+	if (ALL_GOOD_ADVENTURE_ARCHETYPES.length < 100)
 		throw new Error('Data sanity failure: ALL_GOOD_ADVENTURE_ARCHETYPES')
-	if (GOOD_ADVENTURE_ARCHETYPES_BY_TYPE.fight.length !== 5) {
+	if (GOOD_ADVENTURE_ARCHETYPES_BY_TYPE.fight.length !== 6) {
 		console.error(GOOD_ADVENTURE_ARCHETYPES_BY_TYPE.fight)
 		throw new Error('Data sanity failure: GOOD_ADVENTURE_ARCHETYPES_BY_TYPE.fight')
 	}
-	if (GOOD_ADVENTURE_ARCHETYPES_BY_TYPE.story.length < 20)
+	if (GOOD_ADVENTURE_ARCHETYPES_BY_TYPE.story.length < 100)
 		throw new Error('Data sanity failure: GOOD_ADVENTURE_ARCHETYPES_BY_TYPE.story')
 })()
 

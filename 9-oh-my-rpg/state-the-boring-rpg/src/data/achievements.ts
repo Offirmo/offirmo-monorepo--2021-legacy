@@ -26,6 +26,15 @@ const RAW_ENTRIES_TEST: Readonly<Partial<AchievementDefinition<State>>>[] = [
 			? AchievementStatus.secret // keep it secret
 			: AchievementStatus.unlocked, // unlock it ASAP
 	},
+	{
+		icon: '🧒',
+		name: 'Reborn!',
+		description: 'This secret achievement can only be obtained if you got "reborn" = your savegame was reinitialised with an autoplay due to a new format being introduced. This can only happen during the alpha.',
+		lore: 'I won’t waste this new chance! I’ll live my life to the fullest!',
+		get_status: (state: State) => state.progress.achievements['Reborn!'] === AchievementStatus.unlocked
+			? AchievementStatus.unlocked // keep it unlocked
+			: AchievementStatus.secret, // keep it secret
+	},
 ]
 
 const RAW_ENTRIES_GAME_PHASES: Readonly<Partial<AchievementDefinition<State>>>[] = [

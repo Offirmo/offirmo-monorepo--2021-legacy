@@ -39,6 +39,13 @@ You loot a {{item}} from its corpse.`,
 You have defeated a {{encounter}}!{{br}}
 You perfected your {{attr_name}} during the fight: +{{attr}} {{attr_name}}!`,
 
+	fight_observe: `
+You encounter a {{encounter}} from afar!{{br}}
+Fascinated, you observe it instead of attacking it.{{br}}
+Its behaviour makes you think of new techniques. You gain +{{attr}} {{attr_name}}!`,
+
+	// TODO follow to resources
+
 	fight_lost_any: `
 You were attacked and nearly killed by a {{encounter}} but you got away just before it was too late.{{br}}
 You figured out techniques to flee more efficiently: +{{attr}} {{attr_name}}!`,
@@ -583,23 +590,45 @@ You gain {{coin}} and +{{attr}} {{attr_name}}.
 
 	// Colossal Cave Adventure
 	colossal_cave: `
-You discover and explore a colossal cave! Undeads, goblins, !s...
+You discover and explore a colossal cave! Undeads, goblins...
 You emerge victoriously, with loot ({{item}}) and experience (+{{attr}} {{attr_name}})!
 		`,
+	colossal_cave_maze: `
+You explore yet another cave.
+You are in a maze of twisty little passages, all alike.
+You find a {{item}} on the ground and manage to find an exit after a while.
+`,
 
+	// nethack
 	gehennom: `
 You enter the dark Cavities of Gehennom. You don't find the Amulet of Yendor,
 but still ends up with good loot: +{{coin}}, {{item}}...
 		`,
-
 	// TODO book of Tyr
 	// TODO Amulet of Yendor
+
+	// Exile / Avernum
+	exile_GIFTS: `
+You meet a tribe of Giant, Intelligent, Friendly, Talking Spiders.
+They're shy and all respond to the name "Spider".{{br}}
+You buy poison from them and coat your weapon with it, providing a good enhancement!
+	`,
+
+	// Ultima
+	// Wizardry
+	// TODO prestige classes
+
+	// Dragon quest
+	DQ_good_slime: `The slime speaks to you: «I’m not a bad slime, you know?»{{br}}
+What a stupid statement: obviously slimes are monsters! You slaughter it and many others.{{br}}
+This training earns you +{{attr}} {{attr_name}}!`,
+
 }
 
 const OFFIRMO_POPULAR_CULTURE: I18nMessages = {
 
 	// Atlantis is calling
-	
+
 	drown_in_holy_water: `
 You nearly drown yourself in holy water. You gain +{{mana}} mana!
 	`,
