@@ -1,5 +1,6 @@
 import { Enum } from 'typescript-string-enums';
 declare const EngagementKey: {
+    "just-some-text": "just-some-text";
     "hello_world--flow": "hello_world--flow";
     "hello_world--aside": "hello_world--aside";
     "hello_world--warning": "hello_world--warning";

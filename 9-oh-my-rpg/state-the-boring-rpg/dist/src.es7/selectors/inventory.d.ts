@@ -1,0 +1,10 @@
+import { UUID } from '@offirmo/uuid';
+import { InventorySlot, Element } from '@oh-my-rpg/definitions';
+import { Item } from '@oh-my-rpg/state-inventory';
+import { State } from '../types';
+declare function is_inventory_full(state: Readonly<State>): boolean;
+declare function get_item_in_slot(state: Readonly<State>, slot: InventorySlot): Readonly<Item> | null;
+declare function get_item(state: Readonly<State>, uuid: UUID): Readonly<Item> | null;
+declare function find_better_unequipped_armor(state: Readonly<State>): Readonly<Element> | null;
+declare function find_better_unequipped_weapon(state: Readonly<State>): Readonly<Element> | null;
+export { is_inventory_full, get_item_in_slot, get_item, find_better_unequipped_armor, find_better_unequipped_weapon, };

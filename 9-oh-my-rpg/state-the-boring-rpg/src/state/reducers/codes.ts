@@ -4,9 +4,7 @@ import { Random, Engine } from '@offirmo/random'
 
 /////////////////////
 
-import { CodeSpec } from '@oh-my-rpg/state-codes'
-
-import { switch_class } from '@oh-my-rpg/state-character'
+import { ItemQuality } from "@oh-my-rpg/definitions";
 
 import * as WalletState from '@oh-my-rpg/state-wallet'
 import * as InventoryState from '@oh-my-rpg/state-inventory'
@@ -16,6 +14,11 @@ import * as PRNGState from '@oh-my-rpg/state-prng'
 import * as CodesState from '@oh-my-rpg/state-codes'
 import * as ProgressState from '@oh-my-rpg/state-progress'
 
+import { get_prng } from '@oh-my-rpg/state-prng'
+import { create as create_weapon } from '@oh-my-rpg/logic-weapons'
+import { create as create_armor } from '@oh-my-rpg/logic-armors'
+import { CodeSpec } from '@oh-my-rpg/state-codes'
+import { switch_class } from '@oh-my-rpg/state-character'
 
 /////////////////////
 
@@ -27,6 +30,7 @@ import { _receive_item } from './base'
 import { _refresh_achievements } from './achievements'
 import { reset_and_salvage } from '../migrations/salvage'
 import {reseed} from "./create";
+import { _auto_make_room } from './autoplay'
 
 /////////////////////
 
@@ -181,11 +185,20 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<
 				}
 				break
 
-			/*case 'ALPHATWINK': {
-				const weapon =
-
+			case 'ALPHATWINK': {
+				const rng = get_prng(state.prng)
+				const weapon = create_weapon(rng, { quality: ItemQuality.artifact })
+				const armor = create_armor(rng, { quality: ItemQuality.artifact })
+				state = _auto_make_room(state)
+				state = _receive_item(state, weapon)
+				state = _auto_make_room(state)
+				state = _receive_item(state, armor)
+				state = {
+					...state,
+					prng: PRNGState.update_use_count(state.prng, rng, 8),
+				}
 				break
-			}*/
+			}
 
 			default:
 				throw new Error(`Internal error: code "${code}" not implemented!`)

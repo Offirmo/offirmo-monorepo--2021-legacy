@@ -15,12 +15,14 @@ const ITEM_QUALITIES_TO_INT = {
     [ItemQuality.artifact]: 1,
 };
 ///////
-const ITEM_SLOTS = Enum.keys(InventorySlot);
+const ITEM_SLOTS = Enum.keys(InventorySlot).filter(s => s !== InventorySlot.none);
 // useful for ex. for sorting
 const ITEM_SLOTS_TO_INT = {
-    [InventorySlot.armor]: 2,
     [InventorySlot.weapon]: 1,
+    [InventorySlot.armor]: 2,
 };
+if (Object.keys(ITEM_SLOTS_TO_INT).length !== ITEM_SLOTS.length)
+    throw new Error('Static data ITEM_SLOTS_TO_INT is outdated!');
 ///////
 const MIN_LEVEL = 1;
 const MAX_LEVEL = 9999;

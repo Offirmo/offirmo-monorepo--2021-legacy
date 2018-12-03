@@ -20,36 +20,10 @@ function _ack_all_engagements(state) {
         return state;
     return Object.assign({}, state, { engagement: EngagementState.acknowledge_all_seen(state.engagement), revision: state.revision + 1 });
 }
-function _autogroom(state, options) {
+function _auto_make_room(state, options = {}) {
     const { DEBUG } = options;
     if (DEBUG)
-        console.log(`  - Autogroom… (inventory holding ${state.inventory.unslotted.length} items)`);
-    // User
-    // User class
-    if (state.avatar.klass === CharacterClass.novice) {
-        // change class
-        let new_class = Random.pick(Random.engines.nativeMath, Enum.values(CharacterClass));
-        if (DEBUG)
-            console.log(`    - Changing class to ${new_class}…`);
-        state = change_avatar_class(state, new_class);
-    }
-    // User name
-    if (state.avatar.name === CharacterState.DEFAULT_AVATAR_NAME) {
-        let new_name = 'A' + state.uuid.slice(3);
-        if (DEBUG)
-            console.log(`    - renaming to ${new_name}…`);
-        state = rename_avatar(state, new_name);
-    }
-    // inventory
-    // equip best gear
-    const better_weapon = find_better_unequipped_weapon(state);
-    if (better_weapon) {
-        state = equip_item(state, better_weapon.uuid);
-    }
-    const better_armor = find_better_unequipped_armor(state);
-    if (better_armor) {
-        state = equip_item(state, better_armor.uuid);
-    }
+        console.log(`  - _auto_make_room()… (inventory holding ${state.inventory.unslotted.length} items)`);
     // inventory full
     if (is_inventory_full(state)) {
         if (DEBUG)
@@ -80,10 +54,44 @@ function _autogroom(state, options) {
             }
         });
         if (freed_count === 0)
-            throw new Error('Internal error: autogroom: inventory is full and couldnt free stuff!');
+            throw new Error('Internal error: _auto_make_room(): inventory is full and couldn’t free stuff!');
         if (DEBUG)
             console.log(`    Freed ${freed_count} items, inventory now holding ${state.inventory.unslotted.length} items.`);
     }
+    return state;
+}
+function _autogroom(state, options = {}) {
+    const { DEBUG } = options;
+    if (DEBUG)
+        console.log(`  - Autogroom… (inventory holding ${state.inventory.unslotted.length} items)`);
+    // User
+    // User class
+    if (state.avatar.klass === CharacterClass.novice) {
+        // change class
+        let new_class = Random.pick(Random.engines.nativeMath, Enum.values(CharacterClass));
+        if (DEBUG)
+            console.log(`    - Changing class to ${new_class}…`);
+        state = change_avatar_class(state, new_class);
+    }
+    // User name
+    if (state.avatar.name === CharacterState.DEFAULT_AVATAR_NAME) {
+        let new_name = 'A' + state.uuid.slice(3);
+        if (DEBUG)
+            console.log(`    - renaming to ${new_name}…`);
+        state = rename_avatar(state, new_name);
+    }
+    // inventory
+    // equip best gear
+    const better_weapon = find_better_unequipped_weapon(state);
+    if (better_weapon) {
+        state = equip_item(state, better_weapon.uuid);
+    }
+    const better_armor = find_better_unequipped_armor(state);
+    if (better_armor) {
+        state = equip_item(state, better_armor.uuid);
+    }
+    // inventory full
+    state = _auto_make_room(state, options);
     // misc: ack the possible notifications
     state = _ack_all_engagements(state);
     return state;
@@ -150,5 +158,5 @@ function autoplay(state, options = {}) {
     return state;
 }
 /////////////////////
-export { autoplay, };
+export { _auto_make_room, _autogroom, autoplay, };
 //# sourceMappingURL=autoplay.js.map

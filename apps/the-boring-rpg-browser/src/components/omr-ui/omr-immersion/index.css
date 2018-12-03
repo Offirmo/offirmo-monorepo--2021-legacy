@@ -65,11 +65,6 @@
 	background-position: 15%;
 }
 
-.tbrpg⋄bg-image⁚return_of_the_knight {
-	background-image: url('backgrounds/return_of_the_knight-raphael_lacoste.jpg');
-	background-position: 79%;
-}
-
 .tbrpg⋄bg-image⁚cloud_city_palace {
 	background-image: url('backgrounds/jupiter_ascending_palace-raphael_lacoste.jpg');
 	background-position: 39%;
@@ -90,14 +85,24 @@
 	background-position: 17%;
 }
 
-.tbrpg⋄bg-image⁚north_country {
-	background-image: url('backgrounds/some_skyrim_like.jpg');
-	background-position: 2%;
+.tbrpg⋄bg-image⁚return_of_the_knight {
+	background-image: url('backgrounds/return_of_the_knight-raphael_lacoste.jpg');
+	background-position: 79%;
 }
 
 .tbrpg⋄bg-image⁚snowcapped_environment {
 	background-image: url('backgrounds/snowcapped_environment-julius_camenzind.jpg');
 	background-position: 74%;
+}
+
+.tbrpg⋄bg-image⁚north_country {
+	background-image: url('backgrounds/some_skyrim_like.jpg');
+	background-position: 2%;
+}
+
+.tbrpg⋄bg-image⁚viking_ambush {
+	background-image: url('backgrounds/viking_ambush-raphael_lacoste.jpg');
+	background-position: 25%;
 }
 
 

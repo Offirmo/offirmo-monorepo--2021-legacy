@@ -3,6 +3,10 @@ import { EngagementKey, } from './types';
 function get_engagement_message(state, pe) {
     const { engagement: { key }, params } = pe;
     switch (key) {
+        case EngagementKey['just-some-text']:
+            return RichText.block_fragment()
+                .pushText(params.text)
+                .done();
         case EngagementKey['hello_world--flow']:
         case EngagementKey['hello_world--aside']:
         case EngagementKey['hello_world--warning']:
@@ -24,7 +28,7 @@ function get_engagement_message(state, pe) {
                 .done();
         case EngagementKey['code_redemption--succeeded']:
             return RichText.block_fragment()
-                .pushStrong('Code successfully redeemed.')
+                .pushWeak('Code successfully redeemed.')
                 .done();
         case EngagementKey['achievement-unlocked']:
             return RichText.block_fragment()

@@ -27,6 +27,7 @@ function get_achievement_snapshot_by_uuid(state, session_uuid) {
     return get_achievement_snapshot(state, definition);
 }
 exports.get_achievement_snapshot_by_uuid = get_achievement_snapshot_by_uuid;
+// TODO % completion
 function get_achievements_snapshot(state) {
     return achievements_1.default
         .map((definition) => {

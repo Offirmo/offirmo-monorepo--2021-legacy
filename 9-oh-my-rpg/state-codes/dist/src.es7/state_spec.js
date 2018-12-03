@@ -1,9 +1,10 @@
 import deepFreeze from "deep-freeze-strict";
 import { expect } from 'chai';
-import { SCHEMA_VERSION } from './consts';
-import { create, redeem_code, } from '.';
+import { LIB, SCHEMA_VERSION } from './consts';
+import { create, attempt_to_redeem_code, } from '.';
 import { get_lib_SEC } from './sec';
-describe('@oh-my-rpg/state-codes - reducer', function () {
+import { CODESPECS_BY_KEY } from './test';
+describe(`${LIB} - reducer`, function () {
     describe('🆕  initial state', function () {
         it('should have correct defaults', function () {
             const state = create(get_lib_SEC());
@@ -25,8 +26,8 @@ describe('@oh-my-rpg/state-codes - reducer', function () {
             // no need to test detailed, see selectors
             it('should reject and not update the state', () => {
                 let state = create();
-                let SEC = get_lib_SEC();
-                const do_it = () => redeem_code(SEC, state, 'TESTNEVER', BASE_INFOS);
+                const code_spec = CODESPECS_BY_KEY['TESTNEVER'];
+                const do_it = () => attempt_to_redeem_code(state, code_spec, BASE_INFOS);
                 expect(do_it).to.throw('This code is either non-existing or non redeemable at the moment');
                 expect(state.redeemed_codes).to.deep.equal({});
                 expect(state.revision).to.equal(0);
@@ -35,14 +36,14 @@ describe('@oh-my-rpg/state-codes - reducer', function () {
         context('when the conditions are met', function () {
             it('should update the state', () => {
                 let state = create();
-                let SEC = get_lib_SEC();
-                const code = 'TESTALWAYS';
-                state = redeem_code(SEC, state, code, BASE_INFOS);
+                const code_spec = CODESPECS_BY_KEY['TESTALWAYS'];
+                const code = code_spec.code;
+                state = attempt_to_redeem_code(state, code_spec, BASE_INFOS);
                 expect(state.redeemed_codes).to.have.property(code);
                 expect(state.redeemed_codes[code]).to.have.property('redeem_count', 1);
                 expect(state.redeemed_codes[code]).to.have.property('last_redeem_date_minutes');
                 expect(state.revision).to.equal(1);
-                state = redeem_code(SEC, state, code, BASE_INFOS);
+                state = attempt_to_redeem_code(state, code_spec, BASE_INFOS);
                 expect(state.redeemed_codes).to.have.property(code);
                 expect(state.redeemed_codes[code]).to.have.property('redeem_count', 2);
                 expect(state.redeemed_codes[code]).to.have.property('last_redeem_date_minutes');

@@ -3,7 +3,6 @@ import { get_human_readable_UTC_timestamp_minutes } from '@offirmo/timestamps';
 import { SCHEMA_VERSION } from './consts';
 import { is_code_redeemable } from './selectors';
 import { get_lib_SEC } from './sec';
-import normalize_code from './normalize-code';
 /////////////////////
 function create(SEC) {
     return get_lib_SEC(SEC).xTry('create', ({ enforce_immutability }) => {
@@ -15,11 +14,11 @@ function create(SEC) {
     });
 }
 /////////////////////
-function redeem_code(SEC, state, code, infos) {
-    return get_lib_SEC(SEC).xTry('redeem_code', ({ enforce_immutability }) => {
-        if (!is_code_redeemable(state, code, infos))
+function attempt_to_redeem_code(state, code_spec, infos) {
+    return get_lib_SEC().xTry('redeem_code', ({ enforce_immutability }) => {
+        if (!is_code_redeemable(state, code_spec, infos))
             throw new Error(`This code is either non-existing or non redeemable at the moment!`);
-        code = normalize_code(code);
+        const code = code_spec.code;
         const r = state.redeemed_codes[code] || {
             redeem_count: 0,
             last_redeem_date_minutes: '',
@@ -28,6 +27,6 @@ function redeem_code(SEC, state, code, infos) {
     });
 }
 /////////////////////
-export { create, redeem_code, };
+export { create, attempt_to_redeem_code, };
 /////////////////////
 //# sourceMappingURL=state.js.map

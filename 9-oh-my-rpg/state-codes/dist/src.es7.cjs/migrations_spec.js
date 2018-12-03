@@ -9,7 +9,7 @@ const migrations_1 = require("./migrations");
 const examples_1 = require("./examples");
 const sec_1 = require("./sec");
 const state_1 = require("./state");
-describe('@oh-my-rpg/state-codes - migration', function () {
+describe(`${consts_1.LIB} - migration`, function () {
     it('should correctly migrate a fresh new state (by touching nothing)', () => {
         const old_state = deep_freeze_strict_1.default(state_1.create());
         const new_state = migrations_1.migrate_to_latest(sec_1.get_lib_SEC(), old_state);

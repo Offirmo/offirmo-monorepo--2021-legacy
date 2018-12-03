@@ -47,6 +47,8 @@ describe('@oh-my-rpg/logic-adventures - data:', function () {
             'armor',
             'weapon',
             'armor_or_weapon',
+            'weapon_improvement',
+            // TODO 'armor_improvement',
             'armor_or_weapon_improvement',
             'token',
             'coin',

@@ -1,12 +1,13 @@
+import { InventorySlot } from './types';
 declare const PRODUCT = "@oh-my-rpg";
 declare const ITEM_QUALITIES: ("common" | "uncommon" | "rare" | "epic" | "legendary" | "artifact")[];
-declare const ITEM_QUALITIES_TO_INT: {
+declare const ITEM_QUALITIES_TO_INT: Readonly<{
     [k: string]: number;
-};
-declare const ITEM_SLOTS: ("weapon" | "armor" | "none")[];
-declare const ITEM_SLOTS_TO_INT: {
+}>;
+declare const ITEM_SLOTS: InventorySlot[];
+declare const ITEM_SLOTS_TO_INT: Readonly<{
     [k: string]: number;
-};
+}>;
 declare const MIN_LEVEL = 1;
 declare const MAX_LEVEL = 9999;
 export { PRODUCT, ITEM_QUALITIES, ITEM_QUALITIES_TO_INT, ITEM_SLOTS, ITEM_SLOTS_TO_INT, MIN_LEVEL, MAX_LEVEL, };

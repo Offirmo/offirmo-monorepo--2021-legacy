@@ -22,6 +22,7 @@ function get_achievement_snapshot_by_uuid(state, session_uuid) {
         throw new Error(`No achievement definition found for uuid "${session_uuid}"!`);
     return get_achievement_snapshot(state, definition);
 }
+// TODO % completion
 function get_achievements_snapshot(state) {
     return ACHIEVEMENT_DEFINITIONS
         .map((definition) => {
@@ -29,5 +30,6 @@ function get_achievements_snapshot(state) {
     })
         .filter(as => as.status !== AchievementStatus.secret);
 }
+/////////////////////
 export { get_achievement_snapshot, get_achievement_snapshot_by_uuid, get_achievements_snapshot, };
 //# sourceMappingURL=achievements.js.map

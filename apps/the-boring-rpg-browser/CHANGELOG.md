@@ -18,9 +18,9 @@ Next
 
 2018/12/03 v
 - 🤩 feature: 4 new adventures (now totalling 162!)
-- 😍 feature: reborn! Instead of reseting the game, it will now triggers an auto-replay so you won't loose your time
-- 🤩 improved good drops distribution! Now 20x times more chance to get legendary drops! (computed to happen ~once every 2 month)
-- 😅 fix: tweaks (1 more fight outcome), typos, small bugs
+- 😍 feature: reborn! Instead of resetting the game, it will now triggers an auto-replay so you won't loose your hard work!
+- 🤩 improved good drops distribution! Now 20x times more chance to get legendary drops! (computed to get ~one every 1.5 month)
+- 😅 fix: tweaks, typos, small bugs
 - 😷 chore: refactored some stuff internally
 
 2018/11/22 v0.53.1

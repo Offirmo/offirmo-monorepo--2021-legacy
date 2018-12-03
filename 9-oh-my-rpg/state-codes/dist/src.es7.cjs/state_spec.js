@@ -6,7 +6,8 @@ const chai_1 = require("chai");
 const consts_1 = require("./consts");
 const _1 = require(".");
 const sec_1 = require("./sec");
-describe('@oh-my-rpg/state-codes - reducer', function () {
+const test_1 = require("./test");
+describe(`${consts_1.LIB} - reducer`, function () {
     describe('🆕  initial state', function () {
         it('should have correct defaults', function () {
             const state = _1.create(sec_1.get_lib_SEC());
@@ -28,8 +29,8 @@ describe('@oh-my-rpg/state-codes - reducer', function () {
             // no need to test detailed, see selectors
             it('should reject and not update the state', () => {
                 let state = _1.create();
-                let SEC = sec_1.get_lib_SEC();
-                const do_it = () => _1.redeem_code(SEC, state, 'TESTNEVER', BASE_INFOS);
+                const code_spec = test_1.CODESPECS_BY_KEY['TESTNEVER'];
+                const do_it = () => _1.attempt_to_redeem_code(state, code_spec, BASE_INFOS);
                 chai_1.expect(do_it).to.throw('This code is either non-existing or non redeemable at the moment');
                 chai_1.expect(state.redeemed_codes).to.deep.equal({});
                 chai_1.expect(state.revision).to.equal(0);
@@ -38,14 +39,14 @@ describe('@oh-my-rpg/state-codes - reducer', function () {
         context('when the conditions are met', function () {
             it('should update the state', () => {
                 let state = _1.create();
-                let SEC = sec_1.get_lib_SEC();
-                const code = 'TESTALWAYS';
-                state = _1.redeem_code(SEC, state, code, BASE_INFOS);
+                const code_spec = test_1.CODESPECS_BY_KEY['TESTALWAYS'];
+                const code = code_spec.code;
+                state = _1.attempt_to_redeem_code(state, code_spec, BASE_INFOS);
                 chai_1.expect(state.redeemed_codes).to.have.property(code);
                 chai_1.expect(state.redeemed_codes[code]).to.have.property('redeem_count', 1);
                 chai_1.expect(state.redeemed_codes[code]).to.have.property('last_redeem_date_minutes');
                 chai_1.expect(state.revision).to.equal(1);
-                state = _1.redeem_code(SEC, state, code, BASE_INFOS);
+                state = _1.attempt_to_redeem_code(state, code_spec, BASE_INFOS);
                 chai_1.expect(state.redeemed_codes).to.have.property(code);
                 chai_1.expect(state.redeemed_codes[code]).to.have.property('redeem_count', 2);
                 chai_1.expect(state.redeemed_codes[code]).to.have.property('last_redeem_date_minutes');

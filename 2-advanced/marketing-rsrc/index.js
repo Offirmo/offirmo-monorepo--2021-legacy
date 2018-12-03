@@ -46,6 +46,7 @@ const THE_BORING_RPG = {
 	url: 'https://www.online-adventur.es/apps/the-boring-rpg',
 	cta: 'play',
 	homepage_url: 'https://www.online-adventur.es/the-boring-rpg',
+	changelog: 'https://www.reddit.com/r/boringrpg/',
 	repo_url: 'https://github.com/Offirmo/offirmo-monorepo/tree/master/apps/the-boring-rpg',
 	issues_url: 'https://github.com/Offirmo/offirmo-monorepo/issues',
 	aggregated_links_url: 'https://linktr.ee/theboringrpg',

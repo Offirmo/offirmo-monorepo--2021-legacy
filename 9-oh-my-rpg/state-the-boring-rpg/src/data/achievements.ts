@@ -429,7 +429,6 @@ const RAW_ENTRIES_SECRETS: Readonly<Partial<AchievementDefinition<State>>>[] = [
 
 const RAW_ENTRIES: Readonly<Partial<AchievementDefinition<State>>>[] = [
 
-	...RAW_ENTRIES_TEST,
 	...RAW_ENTRIES_GAME_PHASES,
 
 	// Intro
@@ -450,6 +449,7 @@ const RAW_ENTRIES: Readonly<Partial<AchievementDefinition<State>>>[] = [
 	...RAW_ENTRIES_PROGRESSION_ATTRIBUTES,
 
 	...RAW_ENTRIES_SECRETS,
+	...RAW_ENTRIES_TEST,
 ]
 
 const ENTRIES: Readonly<AchievementDefinition<State>>[] = RAW_ENTRIES

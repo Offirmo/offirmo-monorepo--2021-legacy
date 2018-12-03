@@ -94,7 +94,7 @@ function render_achievements_snapshot(ordered_achievement_snapshots) {
         .addClass('achievements-snapshot');
     ordered_achievement_snapshots.forEach((achievement_snapshot) => {
         const { uuid } = achievement_snapshot;
-        console.log(uuid);
+        //console.log(uuid)
         builder.pushRawNode(render_achievement_snapshot_short(achievement_snapshot), { id: uuid });
     });
     const $doc_list = builder.done();

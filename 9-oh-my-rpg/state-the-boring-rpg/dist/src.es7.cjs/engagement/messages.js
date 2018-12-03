@@ -6,6 +6,10 @@ const types_1 = require("./types");
 function get_engagement_message(state, pe) {
     const { engagement: { key }, params } = pe;
     switch (key) {
+        case types_1.EngagementKey['just-some-text']:
+            return RichText.block_fragment()
+                .pushText(params.text)
+                .done();
         case types_1.EngagementKey['hello_world--flow']:
         case types_1.EngagementKey['hello_world--aside']:
         case types_1.EngagementKey['hello_world--warning']:
@@ -27,7 +31,7 @@ function get_engagement_message(state, pe) {
                 .done();
         case types_1.EngagementKey['code_redemption--succeeded']:
             return RichText.block_fragment()
-                .pushStrong('Code successfully redeemed.')
+                .pushWeak('Code successfully redeemed.')
                 .done();
         case types_1.EngagementKey['achievement-unlocked']:
             return RichText.block_fragment()

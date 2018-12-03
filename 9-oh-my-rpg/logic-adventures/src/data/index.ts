@@ -97,7 +97,7 @@ const ENTRIES: Readonly<RawAdventureArchetypeEntry>[] = [
 	{ good: true, type: story, hid: 'class_master_coolidge',        outcome: {"level":true}},
 	{ good: true, type: story, hid: 'class_master_half_battle',     outcome: { class_secondary_attribute:true}},
 
-	{ good: true, type: story, hid: 'church_book',                  outcome: { wisdom: true }},
+	{ good: true, type: story, hid: 'church_book',                  outcome: { mana: true }},
 	{ good: true, type: story, hid: 'arrow_in_the_knee',            outcome: { wisdom: true }},
 	{ good: true, type: story, hid: 'square_eggs',                  outcome: { luck: true }},
 	{ good: true, type: story, hid: 'colossal_cave',                outcome: { armor_or_weapon: true, class_primary_attribute: true }},

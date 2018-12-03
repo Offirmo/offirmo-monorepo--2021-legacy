@@ -5,4 +5,5 @@ tslib_1.__exportStar(require("./examples"), exports);
 tslib_1.__exportStar(require("./selectors"), exports);
 tslib_1.__exportStar(require("./state"), exports);
 tslib_1.__exportStar(require("./migrations"), exports);
+tslib_1.__exportStar(require("./normalize-code"), exports);
 //# sourceMappingURL=index.js.map

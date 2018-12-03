@@ -37,63 +37,65 @@ function create_game_instance({ SEC, get_latest_state, persist_state, view_state
             }
             persist_state(state);
         });
-        view_state = view_state || {};
+        view_state = view_state || {
+            model: get_latest_state(),
+        };
         const emitter = new EventEmitter();
-        return {
+        const gi = {
             reducers: {
                 play() {
                     let state = get_latest_state();
                     state = state_fns.play(state);
                     persist_state(state);
-                    emitter.emit('state_change');
+                    emitter.emit('model_change', 'play()');
                 },
                 on_start_session() {
                     let state = get_latest_state();
                     state = state_fns.on_start_session(state);
                     persist_state(state);
-                    emitter.emit('state_change');
+                    emitter.emit('model_change', 'on_start_session()');
                 },
                 equip_item(uuid) {
                     let state = get_latest_state();
                     state = state_fns.equip_item(state, uuid);
                     persist_state(state);
-                    emitter.emit('state_change');
+                    emitter.emit('model_change', 'equip_item()');
                 },
                 sell_item(uuid) {
                     let state = get_latest_state();
                     state = state_fns.sell_item(state, uuid);
                     persist_state(state);
-                    emitter.emit('state_change');
+                    emitter.emit('model_change', 'sell_item()');
                 },
                 rename_avatar(new_name) {
                     let state = get_latest_state();
                     state = state_fns.rename_avatar(state, new_name);
                     persist_state(state);
-                    emitter.emit('state_change');
+                    emitter.emit('model_change', 'rename_avatar()');
                 },
                 change_avatar_class(new_class) {
                     let state = get_latest_state();
                     state = state_fns.change_avatar_class(state, new_class);
                     persist_state(state);
-                    emitter.emit('state_change');
+                    emitter.emit('model_change', 'change_avatar_class()');
                 },
                 attempt_to_redeem_code(code) {
                     let state = get_latest_state();
                     state = state_fns.attempt_to_redeem_code(state, code);
                     persist_state(state);
-                    emitter.emit('state_change');
+                    emitter.emit('model_change', 'attempt_to_redeem_code()');
                 },
                 acknowledge_engagement_msg_seen(uid) {
                     let state = get_latest_state();
                     state = state_fns.acknowledge_engagement_msg_seen(state, uid);
                     persist_state(state);
-                    emitter.emit('state_change');
+                    emitter.emit('model_change', 'acknowledge_engagement_msg_seen()');
                 },
                 execute_serialized_action(action) {
                     let state = get_latest_state();
                     state = reduce_action(state, action);
                     persist_state(state);
-                    emitter.emit('state_change');
+                    emitter.emit('model_change', `execute_serialized_action(${action.type})`);
                 },
             },
             selectors: {
@@ -136,27 +138,42 @@ function create_game_instance({ SEC, get_latest_state, persist_state, view_state
                     const state = state_fns.reseed(state_fns.create());
                     persist_state(state);
                     logger.verbose('Savegame reseted:', { state });
-                    emitter.emit('state_change');
+                    emitter.emit('model_change', 'reset_state()');
                 },
-            },
-            subscribe(fn) {
-                const unbind = emitter.on('state_change', fn);
-                return unbind;
+                // TODO clean
+                subscribe(fn) {
+                    const unbind = emitter.on('model_change', (src) => {
+                        console.log(`🌀 model change reported to a subscriber (source: ${src})`);
+                        fn();
+                    });
+                    return unbind;
+                },
             },
             view: {
                 // allow managing a transient state
                 set_state(fn) {
                     const changed = fn(view_state);
-                    view_state = Object.assign({}, deep_merge(view_state, changed, {
-                        arrayMerge: overwriteMerge,
-                    }));
-                    emitter.emit('state_change');
+                    console.log('⚡ view change requested', changed);
+                    view_state = Object.assign({}, deep_merge(view_state, changed, { arrayMerge: overwriteMerge }), { model: get_latest_state() });
+                    emitter.emit('view_change', 'set_state(…)');
                 },
                 get_state() {
                     return view_state;
                 },
-            }
+            },
+            subscribe(fn) {
+                const unbind = emitter.on('view_change', (src) => {
+                    console.log(`🌀 uber state change reported to a subscriber (source: view/${src})`);
+                    fn();
+                });
+                return unbind;
+            },
         };
+        emitter.on('model_change', (src) => {
+            view_state = Object.assign({}, view_state, { model: get_latest_state() });
+            emitter.emit('view_change', `model.${src}`);
+        });
+        return gi;
     });
 }
 export { create_game_instance, };

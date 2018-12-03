@@ -20,14 +20,16 @@ const ITEM_QUALITIES_TO_INT = {
 };
 exports.ITEM_QUALITIES_TO_INT = ITEM_QUALITIES_TO_INT;
 ///////
-const ITEM_SLOTS = typescript_string_enums_1.Enum.keys(types_1.InventorySlot);
+const ITEM_SLOTS = typescript_string_enums_1.Enum.keys(types_1.InventorySlot).filter(s => s !== types_1.InventorySlot.none);
 exports.ITEM_SLOTS = ITEM_SLOTS;
 // useful for ex. for sorting
 const ITEM_SLOTS_TO_INT = {
-    [types_1.InventorySlot.armor]: 2,
     [types_1.InventorySlot.weapon]: 1,
+    [types_1.InventorySlot.armor]: 2,
 };
 exports.ITEM_SLOTS_TO_INT = ITEM_SLOTS_TO_INT;
+if (Object.keys(ITEM_SLOTS_TO_INT).length !== ITEM_SLOTS.length)
+    throw new Error('Static data ITEM_SLOTS_TO_INT is outdated!');
 ///////
 const MIN_LEVEL = 1;
 exports.MIN_LEVEL = MIN_LEVEL;

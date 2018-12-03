@@ -30,11 +30,16 @@ You loot a {{item}} from its corpse.`,
     fight_won_any: `
 You have defeated a {{encounter}}!{{br}}
 You perfected your {{attr_name}} during the fight: +{{attr}} {{attr_name}}!`,
+    fight_observe: `
+You encounter a {{encounter}} from afar!{{br}}
+Fascinated, you observe it instead of attacking it.{{br}}
+Its behaviour makes you think of new techniques. You gain +{{attr}} {{attr_name}}!`,
+    // TODO follow to resources
     fight_lost_any: `
 You were attacked and nearly killed by a {{encounter}} but you got away just before it was too late.{{br}}
 You figured out techniques to flee more efficiently: +{{attr}} {{attr_name}}!`,
     fight_lost_shortcoming: `
-You were attacked by a {{encounter}} and it didn't end well... but you got away just before it was about to kill you.{{br}}
+You were attacked by a {{encounter}} and it didn’t end well... but you got away just before it was about to kill you.{{br}}
 You reflect on your lack of {{attr_name}} in the fight and train hard: +{{attr}} {{attr_name}}!`,
 };
 const SCAVENGED_ORIGINAL_ADVENTURES = {
@@ -86,7 +91,7 @@ You gain +{{level}} level!`,
     weird_duck: `Some weird duck is trying to swim in coins, so you take them! +{{coin}} coins!`,
     last_quest: `That last quest gave you just enough XP! Level Up!`,
     busking: `You wail on a guitar next to the inn, and it pays off! +{{token}} token!`,
-    best_meal: `You eat the best meal you've ever had! +{{health}} health!`,
+    best_meal: `You eat the best meal you’ve ever had! +{{health}} health!`,
     witch_riddle: `You successfully solve a riddle from a witch. You gain +{{wisdom}} wisdom!`,
     princess_castle: `The princess was actually in this castle! +{{luck}} luck!`,
     //problem: `Problem? -{{coin}} coins`,
@@ -141,24 +146,24 @@ const OFFIRMO_INSPIRED_FROM_RPG_MEMES_FROM_THE_NET = {
     demon_king: `
 You swear to defeat the demon king!{{br}}
 The local hero pledges you his sword... and leaves you with it!{{br}}
-Well, it's loot: {{item}}`,
+Well, it’s loot: {{item}}`,
     // https://swordscomic.com/swords/IX/
     false_lake: `
 A hand holding a sword emerges from the lake:
 "take this blade and become the new king!"
-As you reach out, the lake monster emerges and try to devour you: it's a trap!{{br}}
+As you reach out, the lake monster emerges and try to devour you: it’s a trap!{{br}}
 You defeat it and find good loot from previous victims: {{item}}, +{{coin}} coin.
 	`,
     // https://swordscomic.com/swords/XI/
     soul_weapon_pet_zombie: `
-You attach a soul to your weapon (+1 enhancement) and keep the soul owner's body as a pet zombie.{{br}}
-The pet zombie's aura increases your regeneration: +{{health}} heath!
+You attach a soul to your weapon (+1 enhancement) and keep the soul owner’s body as a pet zombie.{{br}}
+The pet zombie’s aura increases your regeneration: +{{health}} heath!
 	`,
     // https://swordscomic.com/swords/XII/
     class_master_sharpest_weapon: `
 You ask your master: "What is the best weapon?".
 She answers: "The most lethal weapon is your mind!".{{br}}
-You're not convinced, so you train instead of meditating.
+You’re not convinced, so you train instead of meditating.
 You gain +{{attr}} {{attr_name}}!
 	`,
     // https://swordscomic.com/swords/XIII/
@@ -197,21 +202,21 @@ You feel useless and reflect on your place in the world. +{{wisdom}} wisdom!`,
     // memecenter.com
     escort: `
 You are escorting an important NPC.
-Frustratingly, if you walk, he's faster than you.
-However, if you run, you're faster than him!
+Frustratingly, if you walk, he’s faster than you.
+However, if you run, you’re faster than him!
 By strafing and running in circles, you manage
 to stay close to him.{{br}}
 +{{health}} health thanks to your efforts!`,
     // memecenter.com
     rare_goods_seller: `
 You come across an old man with eccentric apparel.
-Score! It's a rare item seller!
+Score! It’s a rare item seller!
 He gives you a good price for a {{item}}.`,
     // TODO loss
     // memecenter.com
     progress_loop: `
 You would need better gear to level up.
-But you'd need to level up to get better gear.
+But you’d need to level up to get better gear.
 Cruel dilemma!{{br}}
 Fortunately, you find a {{item}} at the bottom of a well!`,
     // memecenter.com/motohorse
@@ -220,7 +225,7 @@ Your name is whispered across the land since you slayed the dragon and defeated 
 Bandits ambush you, aiming for your wealth. For their folly!
 They realize their mistake one moment
 before your fireball incinerates them.
-Fortunately, gold doesn't burn: +{{coin}}!`,
+Fortunately, gold doesn’t burn: +{{coin}}!`,
     // don't remember the source for this one
     princess: `
 "You won’t take back the princess!" yells the fearsome black mage,
@@ -273,7 +278,7 @@ const OFFIRMO_INSPIRED_FROM_NET_RSRCS = {
     // https://springhole.net/writing_roleplaying_randomators/rpg-campaign-idea.htm
     // https://www.seventhsanctum.com/generate.php?Genname=storygen
     // https://donjon.bin.sh/fantasy/adventure/
-    // My potions would kill you traveler. You can't handle my potions.
+    // My potions would kill you traveler. You can’t handle my potions.
     // http://orteil.dashnet.org/gamegen
     bards: `
 Bards start writing songs about you.
@@ -295,16 +300,16 @@ You saved the world. Again. You are famous: +{{charisma}} charisma!{{br}}
 But honestly, you and me know you are doing it only for the loot ;)
 Indeed you gain a {{item}} and {{coin}} coins!`,
     clean_wizard_tower: `
-You clean a mad wizard's tower.{{br}}
+You clean a mad wizard’s tower.{{br}}
 You learn some of her magic: +{{mana}} mana!`,
     explore_ruins: `
 You explore some ruins of an ancient civilisation the world.{{br}}
 You find a {{item}} and worth {{coin}} of coins!`,
     inspect_sewers: `
-You inspect the city's sewers and clean the vermin.{{br}}
+You inspect the city’s sewers and clean the vermin.{{br}}
 You worth {{coin}} of coins and polish your skills: +{{attr}} {{attr_name}}!`,
     explore_catacombs: `
-You explore the city's old catacombs and put the undeads to rest.{{br}}
+You explore the city’s old catacombs and put the undeads to rest.{{br}}
 You find a {{item}} and worth {{coin}} of coins!`,
     bandits_punishment: `
 You are attacked by bandits: They are in need of some punishment!.{{br}}
@@ -359,7 +364,7 @@ You would be using your experience to keep other adventurers from looting it!
     wise_wisewood_tree: `
 You meet the Wise Wisewood Tree:
 "I am the Wise Wisewood Tree and I possess uncanny wisdom".
-Indeed, the talking tree impart you some wisdom: +{{wisdom}}.
+Indeed, the talking tree impart you some: +{{wisdom}} wisdom.
 		`,
     // http://www.joshuawright.net/slack-wyrm-017.html
     //you the dragon having tea with the rabbits His reputation is crushed.
@@ -376,7 +381,7 @@ Indeed, the talking tree impart you some wisdom: +{{wisdom}}.
     // http://www.joshuawright.net/slack-wyrm-042.html
     // http://www.joshuawright.net/slack-wyrm-059.html
     // Zizok the wizard
-    // they weren't my friends,they were just using me for my spells
+    // they weren’t my friends,they were just using me for my spells
     // http://www.joshuawright.net/slack-wyrm-066.html
     // dragon stole the wedding cake
     // http://www.joshuawright.net/slack-wyrm-072.html
@@ -422,7 +427,7 @@ After hours of fighting you gain +{{strength}} strength!`,
     arrow_in_the_knee: `
 A guard tells you stories of when he was an adventurer,
 before he took an arrow in the knee.
-You feel enlightened: +{{attr}} wisdom!
+You feel enlightened: +{{wisdom}} wisdom!
 		`,
     // inspired by morrowind's level up messages
     // https://www.reddit.com/r/Morrowind/comments/1s1emv/i_find_the_levelup_messages_very_inspirational/
@@ -435,13 +440,34 @@ You gain {{coin}} and +{{attr}} {{attr_name}}.
 		`,
     // Colossal Cave Adventure
     colossal_cave: `
-You discover and explore a colossal cave! Undeads, goblins, !s...
+You discover and explore a colossal cave! Undeads, goblins...
 You emerge victoriously, with loot ({{item}}) and experience (+{{attr}} {{attr_name}})!
 		`,
+    colossal_cave_maze: `
+You explore yet another cave.
+You are in a maze of twisty little passages, all alike.
+You find a {{item}} on the ground and manage to find an exit after a while.
+`,
+    // nethack
     gehennom: `
-You enter the dark Cavities of Gehennom. You don't find the Amulet of Yendor,
+You enter the dark Cavities of Gehennom. You don’t find the Amulet of Yendor,
 but still ends up with good loot: +{{coin}}, {{item}}...
 		`,
+    // TODO book of Tyr
+    // TODO Amulet of Yendor
+    // Exile / Avernum
+    exile_GIFTS: `
+You meet a tribe of Giant, Intelligent, Friendly, Talking Spiders.
+They’re shy and all respond to the name "Spider".{{br}}
+You buy poison from them and coat your weapon with it, providing a good enhancement!
+	`,
+    // Ultima
+    // Wizardry
+    // TODO prestige classes
+    // Dragon quest
+    DQ_good_slime: `The slime speaks to you: «I’m not a bad slime, you know?»{{br}}
+What a stupid statement: obviously slimes are monsters! You slaughter it and many others.{{br}}
+This training earns you +{{attr}} {{attr_name}}!`,
 };
 const OFFIRMO_POPULAR_CULTURE = {
     // Atlantis is calling
@@ -453,10 +479,10 @@ You forge rings and give them to you dwarven, elven and human allies.
 They now like you a bit more: +{{charisma}} charisma!
 	`,
     raining_elves: `
-It's raining... elves?{{br}}
+It’s raining... elves?{{br}}
 You gain +{{mana}} mana!`,
     raining_dwarves: `
-It's raining... dwarves?{{br}}
+It’s raining... dwarves?{{br}}
 You gain +{{strength}} strength!`,
     // Top Gun
     need_for_speed: `
@@ -472,7 +498,7 @@ You feel the need…{{br}}
 	`,
     // Conan movie http://conan.wikia.com/wiki/The_Riddle_of_Steel
     riddle_of_steel: `
-You solve the riddle of steel; Obviously it's more steel! And stronger steel!{{br}}
+You solve the riddle of steel; Obviously it’s more steel! And stronger steel!{{br}}
 You have a blacksmith reforge your equipment to enhance it.`,
     // TOTO tree of woe, eat a vulture http://conan.wikia.com/wiki/Tree_of_Woe
     // classic tales
@@ -484,7 +510,7 @@ People nearby start worshipping you!
     sword_in_a_lake: `
 You find a good sword at the bottom of a lake: {{item}}.{{br}}
 Who could have thrown it there?
-Nevermind, it's good loot!
+Nevermind, it’s good loot!
 `,
     // mission sydney (escape room)
     // the lost mine
@@ -519,8 +545,8 @@ You gain extra energy (+{{health}} health) and a bit of weight!
 	`,
     chilies: `
 At the adventuring guild party, you pickup a treat.
-Turns out it's made of magic chilies and you can't feel your face anymore!
-Once the pain is gone (one day later!) you feel better than ever, you gained +{{attr}}!
+Turns out it’s made of magic chilies and you can’t feel your face anymore!
+Once the pain is gone (one day later!) you feel better than ever, you gained +{{attr}} {{attr_name}}!
 	`,
     // friend with the dark mage
     // twist on original
@@ -540,7 +566,7 @@ With all those quests, you forgot where you had to go…{{br}}
 But circling around the map is good for your health: +{{health}} health!`,
     grinding: `
 For lack of a better thing to do, you grind for hours and hours…
-So what? It's an RPG, what did you expect?
+So what? It’s an RPG, what did you expect?
 But it pays off: +{{level}} level!`,
     // classic quests
     keep_watch: `
@@ -554,14 +580,14 @@ After one hour of farming, +{{attr}} {{attr_name}}, not bad!
 		`,
     class_grimoire: `
 You find a tome about your class.
-It's filled with interesting stuff!
-It's worth reading: +{{attr}} {{attr_name}}!
+It’s filled with interesting stuff!
+It’s worth reading: +{{attr}} {{attr_name}}!
 		`,
     // farm village
     village_farmwork: `
 The villagers hire you to do their errands.
 You gather firewood, draw water from the well, chase pests.
-You gain {{coin}} as agreed, +{{strength}} strength as a bonus and hopefully gain the people's trust for better quests in the future!
+You gain {{coin}} as agreed, +{{strength}} strength as a bonus and hopefully gain the people’s trust for better quests in the future!
 		`,
     village_lost_kid: `
 A villager runs after you "Please find my kid lost in the forest! I heard about goblins and fear the worst!".{{br}}
@@ -570,35 +596,35 @@ You deal justice to these pests, drink their soup and bring back the kid.{{br}}
 The parent is delighted and you looted a {{item}} in the goblin camp.
 		`,
     village_lost_father: `
-A child from the village runs after you "Please, find my father who isn't back from the forest!".
+A child from the village runs after you "Please, find my father who isn’t back from the forest!".
 You track the father to a clearing, where he took refuge in a tree, surrounded by wolves.
-You sow death amongst the pack using your adventurer's arts and bring back the father home.
+You sow death amongst the pack using your adventurer’s arts and bring back the father home.
 You practiced your {{attr_name}} during this encounter: +{{attr}} {{attr_name}}!
 And the child now wants to be an adventurer...
 		`,
     village_nice_daughter: `
 The daughter of one of the villager you helped wants to have a tea with her saviour.
-She's very nice. You learn from her how to have a polite conversation: + {{charisma}} charisma.
+She’s very nice. You learn from her how to have a polite conversation: + {{charisma}} charisma.
 		`,
     village_gifts_blacksmith: `
 You helped the village so much that the inhabitants are giving you parting gifts.
 "You can’t travel without protection" say the blacksmith. He makes you an armor: {{armor}}!
 `,
     village_strongman: `
-You spar with the village's strongman. His methods are crude but practical and effective.
+You spar with the village’s strongman. His methods are crude but practical and effective.
 "You gain +{{strength}} strength!
 `,
     // capital
     // royal castle
     capital_castle: `
 You arrive at the Royal Castle, one of the famous landmark of the capital.
-It's incredible: huge, strong yet delicate, with high towers and ornaments everywhere...
+It’s incredible: huge, strong yet delicate, with high towers and ornaments everywhere...
 You ponder about civilizations: +{{wisdom}} wisdom.
 		`,
     // royal road
     capital_royal_road: `
 You visit the Royal Road, one of the famous landmark of the capital.
-It's a wide road filled with stalls with goods from the best gatherers and the best crafters.
+It’s a wide road filled with stalls with goods from the best gatherers and the best crafters.
 You barter for a much needed equipment enhancement.
 		`,
     // royal amusement park
@@ -637,7 +663,7 @@ Your agility increases: +{{agility}} agility, +{{token}}.
     // https://github.com/kodeguild/winter-spirits/blob/master/src/data/cookies/en-us.js
     class_master_primary_attr_1: `
 Your class master is playing wise:
-"You need to work on your {{attr_name}}, it's the basis of everything! Focus on your strengths, not your weaknesses!"
+"You need to work on your {{attr_name}}, it’s the basis of everything! Focus on your strengths, not your weaknesses!"
 She gives you exercises. You gain +{{attr}} {{attr_name}}.
 		`,
     class_master_primary_attr_2: `
@@ -647,7 +673,7 @@ She gives you exercises. You gain +{{attr}} {{attr_name}}.
 		`,
     class_master_second_attr: `
 As usual, your class master is grumpy:
-"What's the use of improving only your main attribute? You need to improve your {{attr_name}} too! Focus on your weaknesses, to become stronger!"
+"What’s the use of improving only your main attribute? You need to improve your {{attr_name}} too! Focus on your weaknesses, to become stronger!"
 She gives you exercises. You gain +{{attr}} {{attr_name}}.
 		`,
     class_master_forbidden_knowledge: `
@@ -672,7 +698,7 @@ She must means you need more experience. You spar against other classes and gain
 		`,
     church_book: `
 You visit a church for healing and end up reading their magic books.
-You gain +{{attr}} mana!
+You gain +{{mana}} mana!
 		`,
     church_cellar_prisoner: `
 You visit a church for healing and check their cellar.
@@ -680,7 +706,7 @@ Behind a secret door, a chained prisoner offers you power in exchange of his fre
 You gain +{{attr}} {{attr_name}}!
 		`,
     huge_tower: `
-You discover and explore a huge tower. It's filled with mad wizards, cultists and golems.
+You discover and explore a huge tower. It’s filled with mad wizards, cultists and golems.
 You reach the top and snatch some loot ({{item}}) then exit the tower,
 victorious and more experienced (+{{attr}} {{attr_name}})!
 		`,
@@ -764,7 +790,7 @@ Its aura gives you +{{luck}} luck!
 	`,
     pet_rainbow_lorikeet: `
 In the paradise island, you befriend and tame a rainbow lorikeet.
-It now stays on your shoulder, that's quite a sight!
+It now stays on your shoulder, that’s quite a sight!
 This makes you popular: +{{charisma}} charisma!
 	`,
     pet_red_eyed_unicorn: `
@@ -790,13 +816,13 @@ You have the chance to taste the legendary elven hydromel!
 Through this magical drink, you gain +{{attr}} {{attr_name}}!
 	`,
     random_blessing: `
-You helped a village. The village's elder grant you a blessing.
-She is very old and you are not very sure she knows what she's doing…
+You helped a village. The village’s elder grant you a blessing.
+She is very old and you are not very sure she knows what she’s doing…
 You find that you gained +{{attr}} {{attr_name}}!
 	`,
     guild_party_food: `
 At an adventuring guild party, you are drunk and pick something unidentified to eat.{{br}}
-Once you wake up (one day later!) you discover that you strangely gained +{{attr}}!
+Once you wake up (one day later!) you discover that you strangely gained +{{attr}} {{attr_name}}!
 	`,
     // potions
     // https://www.reddit.com/r/DnDBehindTheScreen/comments/4btnkc/random_potions_table/
@@ -828,7 +854,7 @@ You gain +{{attr}} {{attr_name}}!`,
 */
     // books
     found_journal: `
-You find the remains of an unlucky adventurer. She or he (you can't tell from the remains) kept a journal.
+You find the remains of an unlucky adventurer. She or he (you can’t tell from the remains) kept a journal.
 You read it and learn from their failure: +{{attr}} {{attr_name}}!`,
 };
 // NOTE: we allow line returns for ease of writing

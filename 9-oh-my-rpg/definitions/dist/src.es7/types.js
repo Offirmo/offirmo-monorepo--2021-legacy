@@ -7,7 +7,7 @@ const ElementType = Enum('item', 'achievement_snapshot',
 'location', 'lore');
 /////////////////////
 const ItemQuality = Enum('common', 'uncommon', 'rare', 'epic', 'legendary', 'artifact');
-const InventorySlot = Enum('weapon', 'armor', 'none' // TODO
+const InventorySlot = Enum('weapon', 'armor', 'none' // = non slottable (TODO)
 );
 /////////////////////
 export { ElementType, ItemQuality, InventorySlot, };

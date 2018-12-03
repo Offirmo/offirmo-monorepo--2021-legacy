@@ -39,14 +39,10 @@ const ALPHA_CODES: Readonly<{ [key: string]: Readonly<Partial<CodeSpec<State>>> 
 		is_redeemable: () => is_alpha(),
 	},
 
-	// TODO?
-	/*
-	ALPHART: {
+	ALPHATWINK: {
 		redeem_limit: 1,
-		is_redeemable: (state: Readonly<State>, progress_state: Readonly<ProgressState>) => {
-			return is_registered_alpha_player(state) && state.progress.statistics.good_play_count < 20
-		}
-	},*/
+		is_redeemable: () => is_alpha(),
+	},
 
 }
 

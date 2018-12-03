@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 
 import { OhMyRPGUIContext } from '@oh-my-rpg/view-browser-react'
 
 import rich_text_to_react from '../../../services/rich-text-to-react'
 import {GameContextConsumerListener} from '../../../game-context'
+
 import Component from './component'
+import {VERSION} from '../../../services/build'
 
 const BACKGROUNDS = [
 	'ancient-castle',
@@ -27,6 +29,7 @@ const BACKGROUNDS = [
 	'kvasir_fortress',
 	'barren_landscape',
 	'snowcapped_environment',
+	'viking_ambush',
 ]
 
 export default props => (
@@ -75,7 +78,6 @@ export default props => (
 							game_instance.reducers.acknowledge_engagement_msg_seen(uid)
 						}
 					} while(pending_non_flow_engagement)
-
 
 					return (
 						<Component

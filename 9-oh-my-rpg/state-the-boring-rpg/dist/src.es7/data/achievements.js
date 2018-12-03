@@ -23,6 +23,15 @@ const RAW_ENTRIES_TEST = [
             ? AchievementStatus.secret // keep it secret
             : AchievementStatus.unlocked,
     },
+    {
+        icon: '🧒',
+        name: 'Reborn!',
+        description: 'This secret achievement can only be obtained if you got "reborn" = your savegame was reinitialised with an autoplay due to a new format being introduced. This can only happen during the alpha.',
+        lore: 'I won’t waste this new chance! I’ll live my life to the fullest!',
+        get_status: (state) => state.progress.achievements['Reborn!'] === AchievementStatus.unlocked
+            ? AchievementStatus.unlocked // keep it unlocked
+            : AchievementStatus.secret,
+    },
 ];
 const RAW_ENTRIES_GAME_PHASES = [
     {
@@ -61,7 +70,7 @@ const RAW_ENTRIES_CTAS = [
             : AchievementStatus.revealed,
     },
     {
-        icon: '🥈',
+        icon: '🥇',
         // https://www.urbandictionary.com/define.php?term=Turn%20it%20up%20to%20eleven
         name: 'Turn it up to eleven',
         description: 'Having played 11 times.',
@@ -73,7 +82,7 @@ const RAW_ENTRIES_CTAS = [
                 : AchievementStatus.hidden,
     },
     {
-        icon: '🥇',
+        icon: '🏅',
         name: 'I am dead bored',
         description: 'Having played 77 times.',
         lore: 'Not all those who wander are lost.',
@@ -84,7 +93,7 @@ const RAW_ENTRIES_CTAS = [
                 : AchievementStatus.hidden,
     },
     {
-        icon: '🏅',
+        icon: '🎖',
         name: 'did I mention I was bored?',
         description: 'Having played 500 times.',
         get_status: (state) => state.progress.statistics.good_play_count >= 500
@@ -104,7 +113,7 @@ const RAW_ENTRIES_CTAS = [
                 : AchievementStatus.hidden,
     },
     {
-        icon: '🎖',
+        icon: '🏆',
         name: 'No-life except for boredom',
         description: 'Having played 10.000 times.',
         get_status: (state) => state.progress.statistics.good_play_count >= 10000
@@ -402,7 +411,6 @@ const RAW_ENTRIES_SECRETS = [
     },
 ];
 const RAW_ENTRIES = [
-    ...RAW_ENTRIES_TEST,
     ...RAW_ENTRIES_GAME_PHASES,
     // Intro
     {
@@ -419,6 +427,7 @@ const RAW_ENTRIES = [
     ...RAW_ENTRIES_PROGRESSION_EQUIPMENT,
     ...RAW_ENTRIES_PROGRESSION_ATTRIBUTES,
     ...RAW_ENTRIES_SECRETS,
+    ...RAW_ENTRIES_TEST,
 ];
 const ENTRIES = RAW_ENTRIES
     .filter(raw => raw.name && raw.description && raw.get_status)
