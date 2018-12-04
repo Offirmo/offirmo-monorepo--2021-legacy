@@ -29,7 +29,7 @@ describe(`${LIB} - reducer`, function() {
 
 			try {
 				for (let i = 0; i < 1000; ++i) {
-					state = autoplay(state)
+					state = autoplay(state, { DEBUG: false })
 				}
 			}
 			catch (err) {

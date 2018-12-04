@@ -1,7 +1,7 @@
 /////////////////////
 import { InventorySlot } from '@oh-my-rpg/definitions';
 import { SCHEMA_VERSION } from './consts';
-import { compare_items } from './compare';
+import { compare_items_by_slot_then_strength } from './compare';
 import { is_full, get_item_in_slot } from './selectors';
 import { get_lib_SEC } from './sec';
 /////////////////////
@@ -19,7 +19,7 @@ function create(SEC) {
 }
 /////////////////////
 function _auto_sort(state) {
-    state.unslotted.sort(compare_items);
+    state.unslotted.sort(compare_items_by_slot_then_strength);
     return state;
 }
 function internal_remove_item(state, uuid) {

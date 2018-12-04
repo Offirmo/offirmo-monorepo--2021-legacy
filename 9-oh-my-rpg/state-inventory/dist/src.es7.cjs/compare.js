@@ -6,7 +6,7 @@ const logic_armors_1 = require("@oh-my-rpg/logic-armors");
 const logic_weapons_1 = require("@oh-my-rpg/logic-weapons");
 const consts_1 = require("./consts");
 /////////////////////
-function compare_items(a, b) {
+function compare_items_by_slot_then_strength(a, b) {
     if (a.slot !== b.slot)
         return definitions_1.compare_items_by_slot(a, b);
     switch (a.slot) {
@@ -26,6 +26,6 @@ function compare_items(a, b) {
             throw new Error(`${consts_1.LIB}: compare(): unhandled item slot "${a.slot}"!`);
     }
 }
-exports.compare_items = compare_items;
+exports.compare_items_by_slot_then_strength = compare_items_by_slot_then_strength;
 /////////////////////
 //# sourceMappingURL=compare.js.map

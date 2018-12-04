@@ -1,6 +1,7 @@
 ////////////////////////////////////
 import { InventorySlot } from '@oh-my-rpg/definitions';
 import { LIB } from "./consts";
+////////////////////////////////////
 // actualized strength
 // quality multipliers (see spreadsheet for calculation)
 const QUALITY_STRENGTH_MULTIPLIER = {
@@ -20,6 +21,7 @@ const QUALITY_STRENGTH_SPREAD = {
     artifact: 1,
 };
 const ENHANCEMENT_MULTIPLIER = 0.2;
+export const ATTACK_VS_DEFENSE_RATIO = 0.5;
 function get_interval(base_strength, quality, enhancement_level, coef = 1) {
     const spread = QUALITY_STRENGTH_SPREAD[quality];
     const strength_multiplier = QUALITY_STRENGTH_MULTIPLIER[quality];
@@ -34,7 +36,6 @@ function get_interval(base_strength, quality, enhancement_level, coef = 1) {
 }
 /////////////////////
 function get_damage_reduction_interval(armor) {
-    const ATTACK_VS_DEFENSE_RATIO = 0.5;
     return get_interval(armor.base_strength, armor.quality, armor.enhancement_level, ATTACK_VS_DEFENSE_RATIO);
 }
 function get_medium_damage_reduction(armor) {

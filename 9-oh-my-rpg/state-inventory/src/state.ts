@@ -7,7 +7,7 @@ import { InventorySlot } from '@oh-my-rpg/definitions'
 
 import { SCHEMA_VERSION } from './consts'
 import { Item, State } from './types'
-import { compare_items } from './compare'
+import { compare_items_by_slot_then_strength } from './compare'
 import { is_full, get_item_in_slot } from './selectors'
 import { SoftExecutionContext, OMRContext, get_lib_SEC } from './sec'
 
@@ -30,7 +30,7 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 /////////////////////
 
 function _auto_sort(state: State): State {
-	state.unslotted.sort(compare_items)
+	state.unslotted.sort(compare_items_by_slot_then_strength)
 	return state
 }
 

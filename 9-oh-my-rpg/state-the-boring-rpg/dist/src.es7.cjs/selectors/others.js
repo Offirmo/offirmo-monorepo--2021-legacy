@@ -13,20 +13,6 @@ function get_energy_snapshot(state, now) {
     return state_energy_1.get_snapshot(state.energy, now);
 }
 exports.get_energy_snapshot = get_energy_snapshot;
-function appraise_item_value(state, uuid) {
-    const item = state_inventory_1.get_item(state.inventory, uuid);
-    if (!item)
-        throw new Error('appraise_item_value(): No item!');
-    return logic_shop_1.appraise_value(item);
-}
-exports.appraise_item_value = appraise_item_value;
-function appraise_item_power(state, uuid) {
-    const item = state_inventory_1.get_item(state.inventory, uuid);
-    if (!item)
-        throw new Error('appraise_item_power(): No item!');
-    return logic_shop_1.appraise_power(item);
-}
-exports.appraise_item_power = appraise_item_power;
 // TODO
 function appraise_player_power(state) {
     let power = 1;

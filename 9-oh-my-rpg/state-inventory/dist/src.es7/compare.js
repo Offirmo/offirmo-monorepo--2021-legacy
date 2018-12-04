@@ -4,7 +4,7 @@ import { compare_armors_by_strength, } from '@oh-my-rpg/logic-armors';
 import { compare_weapons_by_strength, } from '@oh-my-rpg/logic-weapons';
 import { LIB, } from './consts';
 /////////////////////
-function compare_items(a, b) {
+function compare_items_by_slot_then_strength(a, b) {
     if (a.slot !== b.slot)
         return compare_items_by_slot(a, b);
     switch (a.slot) {
@@ -25,6 +25,6 @@ function compare_items(a, b) {
     }
 }
 /////////////////////
-export { compare_items, };
+export { compare_items_by_slot_then_strength, };
 /////////////////////
 //# sourceMappingURL=compare.js.map

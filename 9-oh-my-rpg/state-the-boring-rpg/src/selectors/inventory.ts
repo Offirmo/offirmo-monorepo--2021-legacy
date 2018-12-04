@@ -17,6 +17,22 @@ import { State } from '../types'
 
 /////////////////////
 
+function appraise_item_value(state: Readonly<State>, uuid: UUID): number {
+	const item = _get_item(state.inventory, uuid)
+	if (!item)
+		throw new Error('appraise_item_value(): No item!')
+
+	return appraise_value(item)
+}
+
+function appraise_item_power(state: Readonly<State>, uuid: UUID): number {
+	const item = _get_item(state.inventory, uuid)
+	if (!item)
+		throw new Error('appraise_item_power(): No item!')
+
+	return appraise_power(item)
+}
+
 function is_inventory_full(state: Readonly<State>): boolean {
 	return is_full(state.inventory)
 }
@@ -76,6 +92,8 @@ function find_better_unequipped_weapon(state: Readonly<State>): Readonly<Element
 /////////////////////
 
 export {
+	appraise_item_value,
+	appraise_item_power,
 	is_inventory_full,
 	get_item_in_slot,
 	get_item,

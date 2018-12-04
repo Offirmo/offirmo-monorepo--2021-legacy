@@ -1,6 +1,6 @@
 /////////////////////
 import { InventorySlot } from '@oh-my-rpg/definitions';
-import { get_medium_damage_reduction, MAX_ENHANCEMENT_LEVEL as ARMOR_MAX_ENHANCEMENT_LEVEL, } from '@oh-my-rpg/logic-armors';
+import { get_medium_damage_reduction, MAX_ENHANCEMENT_LEVEL as ARMOR_MAX_ENHANCEMENT_LEVEL, ATTACK_VS_DEFENSE_RATIO, } from '@oh-my-rpg/logic-armors';
 import { get_medium_damage, MAX_ENHANCEMENT_LEVEL as WEAPON_MAX_ENHANCEMENT_LEVEL, } from '@oh-my-rpg/logic-weapons';
 /////////////////////
 const ARMOR_DMG_REDUCTION_TO_POWER_RATIO = 5.;
@@ -12,6 +12,17 @@ const WEAPON_DMG_TO_POWER_RATIO = 5.;
 function appraise_weapon_power(weapon, potential) {
     weapon = Object.assign({}, weapon, { enhancement_level: potential ? WEAPON_MAX_ENHANCEMENT_LEVEL : weapon.enhancement_level });
     return Math.round(get_medium_damage(weapon) * WEAPON_DMG_TO_POWER_RATIO);
+}
+// appraise power normalized across different item slots
+function appraise_power_normalized(item, potential = true) {
+    switch (item.slot) {
+        case InventorySlot.armor:
+            return appraise_armor_power(item, potential) / ATTACK_VS_DEFENSE_RATIO;
+        case InventorySlot.weapon:
+            return appraise_weapon_power(item, potential);
+        default:
+            throw new Error(`appraise_power_normalized(): no appraisal scheme for slot "${item.slot}" !`);
+    }
 }
 function appraise_power(item, potential = true) {
     switch (item.slot) {
@@ -44,5 +55,5 @@ function appraise_value(item) {
     }
 }
 /////////////////////
-export { appraise_power, appraise_value, };
+export { appraise_power_normalized, appraise_power, appraise_value, };
 //# sourceMappingURL=selectors.js.map

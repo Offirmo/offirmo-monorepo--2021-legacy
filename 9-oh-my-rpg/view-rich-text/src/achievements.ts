@@ -135,8 +135,34 @@ function render_achievements_snapshot(ordered_achievement_snapshots: Readonly<Ac
 
 	const $doc_list = builder.done()
 
+	let stats = ordered_achievement_snapshots.reduce((acc, {status}) => {
+			switch(status) {
+				case AchievementStatus.secret:
+					break
+
+				case AchievementStatus.hidden:
+				case AchievementStatus.revealed:
+					acc.visible_count++
+					break
+
+				case AchievementStatus.unlocked:
+					acc.visible_count++
+					acc.unlocked_count++
+					break
+
+				default:
+					throw new Error(`Unknown achievement status!`)
+			}
+
+		return acc
+	},
+		{
+		visible_count: 0,
+		unlocked_count: 0
+	})
+
 	const $doc = RichText.block_fragment()
-		.pushNode(RichText.heading().pushText(`Achievements`).done(), {id: 'header'})
+		.pushNode(RichText.heading().pushText(`Achievements (${stats.unlocked_count}/${stats.visible_count})`).done(), {id: 'header'})
 		.pushNode($doc_list, {id: 'list'})
 		.done()
 

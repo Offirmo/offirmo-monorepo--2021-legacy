@@ -15,16 +15,27 @@ Next
 - 🤩 feature: X new adventures (now totalling X!)
 - 😍 feature: X new backgrounds (now totalling X!)
 - 🤩 feature: X new achievements (now totalling X!)
+- 😷 chore: some internal refactors
+
+
+2018/12/XX v0.55.
+- 🤩 feature: X new adventures (now totalling X!)
+- 😍 feature: X new backgrounds (now totalling X!)
+- 🤩 feature: 15 new achievements (now totalling X!)
+- 😅 fix (hopefully!): autoplay/reborn no longer discards all the armors (now balanced)
+- 😷 chore: some internal refactors
 
 
 2018/12/03 v0.54.4
 - 🤩 feature: 4 new adventures (now totalling 162!)
-- 😍 feature: reborn! Instead of resetting the game, it will now triggers an auto-replay so you won't loose your hard work!
-- 🤩 improved good drops distribution! Now 20x times more chance to get legendary drops! (computed to get ~one every 1.5 month)
-- 😍 feature: 1 new background (now totalling 22!)
+- 😍 improved good drops distribution! Now 20x times more chance to get legendary drops! (computed to get ~one every 1.5 month)
+- 🤩 feature: reborn! When I make internal changes to the savegame format, instead of resetting the game, it will now triggers an auto-replay so you won't loose your hard work!
+  - You can trigger a rebirth now (to benefit from the new drop rate) by using the code "reborn"
+ - 😍 feature: 1 new background (now totalling 22!)
 - 🤩 added an update notification with a link to Reddit
+- 😎 a secret code to get "artifact" level items (as a reward to alpha players)
 - 😅 fix: tweaks, typos, small bugs…
-- 😷 chore: refactored some stuff internally
+- 😷 chore: some internal refactors
 
 
 2018/11/22 v0.53.1

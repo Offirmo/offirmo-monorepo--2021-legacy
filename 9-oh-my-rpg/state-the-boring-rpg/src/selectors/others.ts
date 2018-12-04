@@ -32,22 +32,6 @@ function get_energy_snapshot(state: Readonly<State>, now?: Readonly<Date>): Read
 	return get_snapshot(state.energy, now)
 }
 
-function appraise_item_value(state: Readonly<State>, uuid: UUID): number {
-	const item = _get_item(state.inventory, uuid)
-	if (!item)
-		throw new Error('appraise_item_value(): No item!')
-
-	return appraise_value(item)
-}
-
-function appraise_item_power(state: Readonly<State>, uuid: UUID): number {
-	const item = _get_item(state.inventory, uuid)
-	if (!item)
-		throw new Error('appraise_item_power(): No item!')
-
-	return appraise_power(item)
-}
-
 // TODO
 function appraise_player_power(state: Readonly<State>): number {
 	let power: number = 1
@@ -104,8 +88,6 @@ function get_oldest_pending_non_flow_engagement(state: Readonly<State>): { uid: 
 
 export {
 	get_energy_snapshot,
-	appraise_item_value,
-	appraise_item_power,
 	find_element,
 	appraise_player_power,
 	get_oldest_pending_flow_engagement,

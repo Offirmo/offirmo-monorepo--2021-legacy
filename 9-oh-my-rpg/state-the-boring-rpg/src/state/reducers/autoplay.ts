@@ -1,13 +1,21 @@
 /////////////////////
 
 import { Enum } from 'typescript-string-enums'
-import invariant from 'tiny-invariant'
 import { Random, Engine } from '@offirmo/random'
 import { get_human_readable_UTC_timestamp_days } from '@offirmo/timestamps'
 
 /////////////////////
 
-import { ItemQuality, Item, InventorySlot } from '@oh-my-rpg/definitions'
+import {
+	ItemQuality,
+	Item,
+	InventorySlot,
+	compare_items_by_slot,
+	compare_items_by_quality,
+	ITEM_QUALITIES_TO_INT,
+} from '@oh-my-rpg/definitions'
+
+import { appraise_power_normalized } from '@oh-my-rpg/logic-shop'
 
 import * as CharacterState from '@oh-my-rpg/state-character'
 import * as EngagementState from '@oh-my-rpg/state-engagement'
@@ -58,8 +66,16 @@ import {
 	STARTING_WEAPON_SPEC,
 	STARTING_ARMOR_SPEC,
 } from './create'
+import {LIB} from "@oh-my-rpg/state-inventory/src/consts";
 
 /////////////////////
+
+function compare_items_by_normalized_power(a: Readonly<Item>, b: Readonly<Item>): number {
+	const power_a = appraise_power_normalized(a)
+	const power_b = appraise_power_normalized(b)
+
+	return power_b - power_a
+}
 
 function _ack_all_engagements(state: Readonly<State>): Readonly<State> {
 	if (!state.engagement.queue.length) return state
@@ -85,9 +101,25 @@ function _auto_make_room(state: Readonly<State>, options: { DEBUG?: boolean } = 
 
 		// sell stuff, starting from the worst, but keeping the starting items (for sentimental reasons)
 		Array.from(state.inventory.unslotted)
-			.filter(e => !!e) // TODO useful?
+			.filter((e: Readonly<Item>) => {
+				switch (e.slot) {
+					case InventorySlot.armor:
+						if (matches_armor(e as Armor, STARTING_ARMOR_SPEC))
+							return false
+						break
+					case InventorySlot.weapon:
+						if (matches_weapon(e as Weapon, STARTING_WEAPON_SPEC))
+							return false
+						break
+					default:
+						break
+				}
+				return true
+			})
+			.sort(compare_items_by_normalized_power)
 			.reverse() // to put the lowest quality items first
 			.forEach((e: Readonly<Item>) => {
+				console.log(e.quality, e.slot, appraise_power_normalized(e))
 				switch(e.slot) {
 					case InventorySlot.armor:
 						if (matches_armor(e as Armor, STARTING_ARMOR_SPEC))

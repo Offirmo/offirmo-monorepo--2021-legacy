@@ -2,16 +2,10 @@
 
 import { NumberHash } from '@offirmo/ts-types'
 
-import {
-	InventorySlot,
-	ItemQuality,
-} from '@oh-my-rpg/definitions'
-import { Random, Engine } from '@offirmo/random'
+import { ItemQuality, InventorySlot } from '@oh-my-rpg/definitions'
 
 import {LIB} from "./consts";
-import {
-	Weapon,
-} from './types'
+import { Weapon } from './types'
 
 /////////////////////
 

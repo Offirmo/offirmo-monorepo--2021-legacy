@@ -1,15 +1,13 @@
 ////////////////////////////////////
 
+import { NumberHash } from '@offirmo/ts-types'
+
 import { ItemQuality, InventorySlot } from '@oh-my-rpg/definitions'
 
 import {Armor} from './types'
 import {LIB} from "./consts";
 
 ////////////////////////////////////
-
-interface NumberHash {
-	[k: string]: number
-}
 
 // actualized strength
 // quality multipliers (see spreadsheet for calculation)
@@ -32,6 +30,8 @@ const QUALITY_STRENGTH_SPREAD: Readonly<NumberHash> = {
 }
 
 const ENHANCEMENT_MULTIPLIER = 0.2
+export const ATTACK_VS_DEFENSE_RATIO = 0.5
+
 
 function get_interval(base_strength: number, quality: ItemQuality, enhancement_level: number, coef: number = 1): [number, number] {
 	const spread = QUALITY_STRENGTH_SPREAD[quality]
@@ -51,7 +51,6 @@ function get_interval(base_strength: number, quality: ItemQuality, enhancement_l
 /////////////////////
 
 function get_damage_reduction_interval(armor: Readonly<Armor>): [number, number] {
-	const ATTACK_VS_DEFENSE_RATIO = 0.5
 	return get_interval(
 		armor.base_strength,
 		armor.quality,

@@ -7,6 +7,7 @@ const random_1 = require("@offirmo/random");
 const timestamps_1 = require("@offirmo/timestamps");
 /////////////////////
 const definitions_1 = require("@oh-my-rpg/definitions");
+const logic_shop_1 = require("@oh-my-rpg/logic-shop");
 const CharacterState = tslib_1.__importStar(require("@oh-my-rpg/state-character"));
 const EngagementState = tslib_1.__importStar(require("@oh-my-rpg/state-engagement"));
 const EnergyState = tslib_1.__importStar(require("@oh-my-rpg/state-energy"));
@@ -18,6 +19,11 @@ const base_1 = require("./base");
 const play_1 = require("./play");
 const create_1 = require("./create");
 /////////////////////
+function compare_items_by_normalized_power(a, b) {
+    const power_a = logic_shop_1.appraise_power_normalized(a);
+    const power_b = logic_shop_1.appraise_power_normalized(b);
+    return power_b - power_a;
+}
 function _ack_all_engagements(state) {
     if (!state.engagement.queue.length)
         return state;
@@ -34,9 +40,25 @@ function _auto_make_room(state, options = {}) {
         let freed_count = 0;
         // sell stuff, starting from the worst, but keeping the starting items (for sentimental reasons)
         Array.from(state.inventory.unslotted)
-            .filter(e => !!e) // TODO useful?
+            .filter((e) => {
+            switch (e.slot) {
+                case definitions_1.InventorySlot.armor:
+                    if (logic_armors_1.matches(e, create_1.STARTING_ARMOR_SPEC))
+                        return false;
+                    break;
+                case definitions_1.InventorySlot.weapon:
+                    if (logic_weapons_1.matches(e, create_1.STARTING_WEAPON_SPEC))
+                        return false;
+                    break;
+                default:
+                    break;
+            }
+            return true;
+        })
+            .sort(compare_items_by_normalized_power)
             .reverse() // to put the lowest quality items first
             .forEach((e) => {
+            console.log(e.quality, e.slot, logic_shop_1.appraise_power_normalized(e));
             switch (e.slot) {
                 case definitions_1.InventorySlot.armor:
                     if (logic_armors_1.matches(e, create_1.STARTING_ARMOR_SPEC))

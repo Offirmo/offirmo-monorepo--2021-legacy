@@ -1,5 +1,5 @@
 /////////////////////
-import { InventorySlot, } from '@oh-my-rpg/definitions';
+import { InventorySlot } from '@oh-my-rpg/definitions';
 import { LIB } from "./consts";
 /////////////////////
 // actualized strength

@@ -129,7 +129,7 @@
 		}
 	},
 	"progress": {
-		"schema_version": 1,
+		"schema_version": 2,
 		"revision": 42,
 		"wiki": null,
 		"flags": null,

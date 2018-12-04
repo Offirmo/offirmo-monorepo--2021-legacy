@@ -103,8 +103,28 @@ function render_achievements_snapshot(ordered_achievement_snapshots) {
         builder.pushRawNode(render_achievement_snapshot_short(achievement_snapshot), { id: uuid });
     });
     const $doc_list = builder.done();
+    let stats = ordered_achievement_snapshots.reduce((acc, { status }) => {
+        switch (status) {
+            case state_progress_1.AchievementStatus.secret:
+                break;
+            case state_progress_1.AchievementStatus.hidden:
+            case state_progress_1.AchievementStatus.revealed:
+                acc.visible_count++;
+                break;
+            case state_progress_1.AchievementStatus.unlocked:
+                acc.visible_count++;
+                acc.unlocked_count++;
+                break;
+            default:
+                throw new Error(`Unknown achievement status!`);
+        }
+        return acc;
+    }, {
+        visible_count: 0,
+        unlocked_count: 0
+    });
     const $doc = RichText.block_fragment()
-        .pushNode(RichText.heading().pushText(`Achievements`).done(), { id: 'header' })
+        .pushNode(RichText.heading().pushText(`Achievements (${stats.unlocked_count}/${stats.visible_count})`).done(), { id: 'header' })
         .pushNode($doc_list, { id: 'list' })
         .done();
     //console.log('render_achievements_snapshot', ordered_achievement_snapshots, $doc)

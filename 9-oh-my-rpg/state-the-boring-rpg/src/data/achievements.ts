@@ -1,7 +1,7 @@
 import { AchievementStatus, AchievementDefinition } from '@oh-my-rpg/state-progress'
 import { CharacterClass, DEFAULT_AVATAR_NAME } from '@oh-my-rpg/state-character'
 import { State } from '../types'
-
+import { STARTING_ARMOR_SPEC, STARTING_WEAPON_SPEC } from '../state/reducers/create'
 /*
 🍪🎂🏴🏳
 📦💰
@@ -307,22 +307,175 @@ const RAW_ENTRIES_PROGRESSION_EQUIPMENT: Readonly<Partial<AchievementDefinition<
 ]
 
 const RAW_ENTRIES_PROGRESSION_ATTRIBUTES: Readonly<Partial<AchievementDefinition<State>>>[] = [
+
+	/*
+	level: number
+
+	health: number
+	mana: number 🧙
+
+	strength: number
+	agility: number
+	charisma: number
+	wisdom: number
+	luck: number
+	 */
 	// attributes
+
+	/////// STRENGHTH ///////
+	// 🦍
+	{
+		icon: '💪',
+		name: 'Well Built',
+		description: 'Having a strength of 10 or higher.',
+		get_status: (state: State) => state.avatar.attributes.strength >= 10
+			? AchievementStatus.unlocked
+			: AchievementStatus.revealed,
+	},
+	{
+		icon: '😤',
+		name: 'Local Strongperson',
+		description: 'Having a strength of 30 or higher.',
+		get_status: (state: State) => state.avatar.attributes.strength >= 30
+			? AchievementStatus.unlocked
+			: state.avatar.attributes.strength >= 10
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
+	},
+	{
+		icon: '🏋',
+		name: 'Titan',
+		description: 'Having a strength of 100 or higher.',
+		get_status: (state: State) => state.avatar.attributes.strength >= 100
+			? AchievementStatus.unlocked
+			: state.avatar.attributes.strength >= 30
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
+	},
+
+	/////// AGILITY ///////
+	// 🦊 🐱
+	{
+		icon: '🤸',
+		name: 'Small one',
+		description: 'Having a agility of 10 or higher.',
+		get_status: (state: State) => state.avatar.attributes.agility >= 10
+			? AchievementStatus.unlocked
+			: AchievementStatus.revealed,
+	},
+	{
+		icon: '😛',
+		name: 'Swift one',
+		description: 'Having a agility of 30 or higher.',
+		get_status: (state: State) => state.avatar.attributes.agility >= 30
+			? AchievementStatus.unlocked
+			: state.avatar.attributes.agility >= 10
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
+	},
+	{
+		icon: '😜',
+		name: 'Untouchable',
+		description: 'Having a agility of 100 or higher.',
+		get_status: (state: State) => state.avatar.attributes.agility >= 100
+			? AchievementStatus.unlocked
+			: state.avatar.attributes.agility >= 30
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
+	},
+
+	/////// CHARISMA ///////
 	// https://www.google.com/search?q=silver+tongue
 	{
-		icon: '',
+		icon: '😋',
 		name: 'Sharp tongue',
 		description: 'Having a charisma of 10 or higher.',
+		get_status: (state: State) => state.avatar.attributes.charisma >= 10
+			? AchievementStatus.unlocked
+			: AchievementStatus.revealed,
 	},
 	{
-		icon: '',
+		icon: '😛',
 		name: 'Silver tongue',
-		description: 'Having a charisma of 50 or higher.',
+		description: 'Having a charisma of 30 or higher.',
+		get_status: (state: State) => state.avatar.attributes.charisma >= 30
+			? AchievementStatus.unlocked
+			: state.avatar.attributes.charisma >= 10
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
 	},
 	{
-		icon: '',
+		icon: '😜',
 		name: 'Golden tongue',
 		description: 'Having a charisma of 100 or higher.',
+		get_status: (state: State) => state.avatar.attributes.charisma >= 100
+			? AchievementStatus.unlocked
+			: state.avatar.attributes.charisma >= 30
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
+	},
+
+	/////// WISDOM ///////
+	// 🦉
+	{
+		icon: '🤓',
+		name: 'Bright',
+		description: 'Having a wisdom of 10 or higher.',
+		get_status: (state: State) => state.avatar.attributes.wisdom >= 10
+			? AchievementStatus.unlocked
+			: AchievementStatus.revealed,
+	},
+	{
+		icon: '🧐',
+		name: 'Smart',
+		description: 'Having a wisdom of 30 or higher.',
+		get_status: (state: State) => state.avatar.attributes.wisdom >= 30
+			? AchievementStatus.unlocked
+			: state.avatar.attributes.wisdom >= 10
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
+	},
+	{
+		icon: '😜',
+		name: 'Sage',
+		description: 'Having a wisdom of 100 or higher.',
+		get_status: (state: State) => state.avatar.attributes.wisdom >= 100
+			? AchievementStatus.unlocked
+			: state.avatar.attributes.wisdom >= 30
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
+	},
+
+	/////// LUCK ///////
+	{
+		icon: '☘',
+		name: 'Sprinkled',
+		description: 'Having a luck of 10 or higher.',
+		lore: 'Luck is great, but most of life is hard work.',
+		get_status: (state: State) => state.avatar.attributes.luck >= 10
+			? AchievementStatus.unlocked
+			: AchievementStatus.revealed,
+	},
+	{
+		icon: '🍀',
+		name: 'Blessed',
+		description: 'Having a luck of 30 or higher.',
+		lore: 'The amount of good luck coming your way depends on your willingness to act.',
+		get_status: (state: State) => state.avatar.attributes.luck >= 30
+			? AchievementStatus.unlocked
+			: state.avatar.attributes.luck >= 10
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
+	},
+	{
+		icon: '🎲',
+		name: 'Divinely Touched',
+		description: 'Having a luck of 100 or higher.',
+		get_status: (state: State) => state.avatar.attributes.luck >= 100
+			? AchievementStatus.unlocked
+			: state.avatar.attributes.luck >= 30
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
 	},
 ]
 
@@ -370,6 +523,8 @@ Titles
 https://www.imdb.com/title/tt0120737/quotes?ref_=tt_ql_trv_4
 https://www.imdb.com/title/tt0167261/quotes?ref_=tt_ql_trv_4
 https://www.imdb.com/title/tt0167260/quotes?ref_=tt_ql_trv_4
+
+twinkle twinkle little star = artifact x2
 
 The red pill
 The blue pill

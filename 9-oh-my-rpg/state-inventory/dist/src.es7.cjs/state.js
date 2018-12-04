@@ -23,7 +23,7 @@ function create(SEC) {
 exports.create = create;
 /////////////////////
 function _auto_sort(state) {
-    state.unslotted.sort(compare_1.compare_items);
+    state.unslotted.sort(compare_1.compare_items_by_slot_then_strength);
     return state;
 }
 function internal_remove_item(state, uuid) {

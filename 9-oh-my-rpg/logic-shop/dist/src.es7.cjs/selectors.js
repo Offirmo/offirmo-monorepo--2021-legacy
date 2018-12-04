@@ -15,6 +15,18 @@ function appraise_weapon_power(weapon, potential) {
     weapon = Object.assign({}, weapon, { enhancement_level: potential ? logic_weapons_1.MAX_ENHANCEMENT_LEVEL : weapon.enhancement_level });
     return Math.round(logic_weapons_1.get_medium_damage(weapon) * WEAPON_DMG_TO_POWER_RATIO);
 }
+// appraise power normalized across different item slots
+function appraise_power_normalized(item, potential = true) {
+    switch (item.slot) {
+        case definitions_1.InventorySlot.armor:
+            return appraise_armor_power(item, potential) / logic_armors_1.ATTACK_VS_DEFENSE_RATIO;
+        case definitions_1.InventorySlot.weapon:
+            return appraise_weapon_power(item, potential);
+        default:
+            throw new Error(`appraise_power_normalized(): no appraisal scheme for slot "${item.slot}" !`);
+    }
+}
+exports.appraise_power_normalized = appraise_power_normalized;
 function appraise_power(item, potential = true) {
     switch (item.slot) {
         case definitions_1.InventorySlot.armor:

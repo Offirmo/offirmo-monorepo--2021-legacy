@@ -5,6 +5,20 @@ const state_inventory_1 = require("@oh-my-rpg/state-inventory");
 const logic_shop_1 = require("@oh-my-rpg/logic-shop");
 const state_inventory_2 = require("@oh-my-rpg/state-inventory");
 /////////////////////
+function appraise_item_value(state, uuid) {
+    const item = state_inventory_2.get_item(state.inventory, uuid);
+    if (!item)
+        throw new Error('appraise_item_value(): No item!');
+    return logic_shop_1.appraise_value(item);
+}
+exports.appraise_item_value = appraise_item_value;
+function appraise_item_power(state, uuid) {
+    const item = state_inventory_2.get_item(state.inventory, uuid);
+    if (!item)
+        throw new Error('appraise_item_power(): No item!');
+    return logic_shop_1.appraise_power(item);
+}
+exports.appraise_item_power = appraise_item_power;
 function is_inventory_full(state) {
     return state_inventory_1.is_full(state.inventory);
 }

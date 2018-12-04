@@ -5,6 +5,7 @@ import {
 	Armor,
 	get_medium_damage_reduction,
 	MAX_ENHANCEMENT_LEVEL as ARMOR_MAX_ENHANCEMENT_LEVEL,
+	ATTACK_VS_DEFENSE_RATIO,
 } from '@oh-my-rpg/logic-armors'
 import {
 	Weapon,
@@ -30,6 +31,18 @@ function appraise_weapon_power(weapon: Readonly<Weapon>, potential: boolean): nu
 		enhancement_level: potential ? WEAPON_MAX_ENHANCEMENT_LEVEL: weapon.enhancement_level,
 	}
 	return Math.round(get_medium_damage(weapon) * WEAPON_DMG_TO_POWER_RATIO)
+}
+
+// appraise power normalized across different item slots
+function appraise_power_normalized(item: Readonly<Item>, potential: boolean = true): number {
+	switch(item.slot) {
+		case InventorySlot.armor:
+			return appraise_armor_power(item as Armor, potential) / ATTACK_VS_DEFENSE_RATIO
+		case InventorySlot.weapon:
+			return appraise_weapon_power(item as Weapon, potential)
+		default:
+			throw new Error(`appraise_power_normalized(): no appraisal scheme for slot "${item.slot}" !`)
+	}
 }
 
 function appraise_power(item: Readonly<Item>, potential: boolean = true): number {
@@ -70,6 +83,7 @@ function appraise_value(item: Readonly<Item>): number {
 /////////////////////
 
 export {
+	appraise_power_normalized,
 	appraise_power,
 	appraise_value,
 }

@@ -17,7 +17,7 @@ describe(`${consts_1.LIB} - reducer`, function () {
             let state = create_1.create();
             try {
                 for (let i = 0; i < 1000; ++i) {
-                    state = autoplay_1.autoplay(state);
+                    state = autoplay_1.autoplay(state, { DEBUG: false });
                 }
             }
             catch (err) {

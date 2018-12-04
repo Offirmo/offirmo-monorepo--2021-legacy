@@ -3,7 +3,8 @@ import { Enum } from 'typescript-string-enums';
 import { Random } from '@offirmo/random';
 import { get_human_readable_UTC_timestamp_days } from '@offirmo/timestamps';
 /////////////////////
-import { ItemQuality, InventorySlot } from '@oh-my-rpg/definitions';
+import { ItemQuality, InventorySlot, } from '@oh-my-rpg/definitions';
+import { appraise_power_normalized } from '@oh-my-rpg/logic-shop';
 import * as CharacterState from '@oh-my-rpg/state-character';
 import * as EngagementState from '@oh-my-rpg/state-engagement';
 import * as EnergyState from '@oh-my-rpg/state-energy';
@@ -15,6 +16,11 @@ import { rename_avatar, change_avatar_class, equip_item, sell_item, } from './ba
 import { play, } from './play';
 import { STARTING_WEAPON_SPEC, STARTING_ARMOR_SPEC, } from './create';
 /////////////////////
+function compare_items_by_normalized_power(a, b) {
+    const power_a = appraise_power_normalized(a);
+    const power_b = appraise_power_normalized(b);
+    return power_b - power_a;
+}
 function _ack_all_engagements(state) {
     if (!state.engagement.queue.length)
         return state;
@@ -31,9 +37,25 @@ function _auto_make_room(state, options = {}) {
         let freed_count = 0;
         // sell stuff, starting from the worst, but keeping the starting items (for sentimental reasons)
         Array.from(state.inventory.unslotted)
-            .filter(e => !!e) // TODO useful?
+            .filter((e) => {
+            switch (e.slot) {
+                case InventorySlot.armor:
+                    if (matches_armor(e, STARTING_ARMOR_SPEC))
+                        return false;
+                    break;
+                case InventorySlot.weapon:
+                    if (matches_weapon(e, STARTING_WEAPON_SPEC))
+                        return false;
+                    break;
+                default:
+                    break;
+            }
+            return true;
+        })
+            .sort(compare_items_by_normalized_power)
             .reverse() // to put the lowest quality items first
             .forEach((e) => {
+            console.log(e.quality, e.slot, appraise_power_normalized(e));
             switch (e.slot) {
                 case InventorySlot.armor:
                     if (matches_armor(e, STARTING_ARMOR_SPEC))
