@@ -1,6 +1,6 @@
 {
 	"name": "the-npm-rpg",
-	"version": "0.90.0",
+	"version": "0.54.0",
 	"description": "⚔🛡💰 The npm RPG, a command line RPG game. Just ⌨ `npx the-npm-rpg`!",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "UNLICENSED",
@@ -15,7 +15,7 @@
 	"scripts": {
 		"__dev": "~~~~~~~ DEVELOPMENT ~~~~~~~",
 		"clean": "node ../../scripts/clean.js dist cache",
-		"bump": "npm version minor",
+		"bump": "npm version patch",
 		"build:prod": "cross-env NODE_ENV=development webpack --config meta/webpack.config.ts",
 		"start": "node src/index.js",
 		"test": "echo 'TODO'",

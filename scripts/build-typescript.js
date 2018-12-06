@@ -59,7 +59,7 @@ if (cli.flags.dev) {
 /////////////////////
 
 //console.log({PKG_PATH, DIST_DIR, PKG_NAME, flags: cli.flags})
-console.log(`🔧  🔻 building ${stylize_string.bold(PKG_NAME)}...` + (cli.flags.dev ? ' (dev mode)' : ''))
+console.log(`🛠  🔻 building ${stylize_string.bold(PKG_NAME)}...` + (cli.flags.dev ? ' (dev mode)' : ''))
 
 
 function build_compatible() {
@@ -99,7 +99,7 @@ build_compatible()
 
 		return build_jsnext()
 	})
-	.then(() => console.log(`🔧  🔺 building ${stylize_string.bold(PKG_NAME)} done ✔`))
+	.then(() => console.log(`🛠  🔺 building ${stylize_string.bold(PKG_NAME)} done ✔`))
 	/*.catch(err => {
 		process.exit(-1)
 	})*/
