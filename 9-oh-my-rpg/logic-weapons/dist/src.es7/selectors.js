@@ -43,10 +43,12 @@ function get_medium_damage(weapon) {
 }
 function matches(weapon, elements) {
     let matches = true; // so far
-    if (weapon.slot !== InventorySlot.weapon)
-        return false;
+    if (!weapon)
+        throw new Error(`${LIB} matches: can't match nothing!`);
     if (elements.slot && elements.slot !== InventorySlot.weapon)
         throw new Error(`${LIB} matches: can't match against a non-weapon slot "${elements.slot}"!`);
+    if (weapon.slot !== InventorySlot.weapon)
+        return false;
     Object.keys(elements)
         .forEach((k) => {
         if (!(k in weapon))

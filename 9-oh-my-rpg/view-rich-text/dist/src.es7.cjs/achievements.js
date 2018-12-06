@@ -4,7 +4,7 @@ const tslib_1 = require("tslib");
 const state_progress_1 = require("@oh-my-rpg/state-progress");
 const RichText = tslib_1.__importStar(require("@offirmo/rich-text-format"));
 function render_achievement_snapshot_short(achievement_snapshot) {
-    const { uuid, icon, name, status } = achievement_snapshot;
+    const { uuid, icon, name, status, completion_rate } = achievement_snapshot;
     const builder = RichText.inline_fragment()
         .addClass('achievement', `achievement--${status}`);
     let icon_text = '';
@@ -20,10 +20,10 @@ function render_achievement_snapshot_short(achievement_snapshot) {
             break;
         case state_progress_1.AchievementStatus.unlocked:
             icon_text = icon;
-            legend = name + ' ★';
+            legend = name + ' ✔'; //' ★' // ✔
             break;
         default:
-            throw new Error(`Unknown achievement status!`);
+            throw new Error(`Unknown achievement status for "${name}"!`);
     }
     if (icon_text) {
         builder
@@ -34,12 +34,18 @@ function render_achievement_snapshot_short(achievement_snapshot) {
         builder.pushStrong(legend);
     else
         builder.pushWeak(legend);
+    if (completion_rate && status === state_progress_1.AchievementStatus.revealed) {
+        const percentage = 100. * completion_rate[0] / completion_rate[1];
+        if (percentage > 100)
+            throw new Error(`Invalid achievement completion rate for "${name}"!`);
+        builder.pushWeak(` ${Math.round(percentage)}%`);
+    }
     builder.addHints({ uuid });
     return builder.done();
 }
 exports.render_achievement_snapshot_short = render_achievement_snapshot_short;
 function render_achievement_snapshot_detailed(achievement_snapshot) {
-    const { uuid, icon, name, description, lore, status } = achievement_snapshot;
+    const { uuid, icon, name, description, lore, status, completion_rate } = achievement_snapshot;
     const element_tags = ['achievement'];
     const builder = RichText.block_fragment()
         .addClass('achievement');
@@ -82,6 +88,15 @@ function render_achievement_snapshot_detailed(achievement_snapshot) {
     /* TODO
     .pushWeak(element_tags.join(', '))
     .()*/
+    if (completion_rate && status === state_progress_1.AchievementStatus.revealed) {
+        const [done, to_do] = completion_rate;
+        const percentage = 100. * done / to_do;
+        if (percentage > 100)
+            throw new Error(`Invalid achievement completion rate for "${name}"!`);
+        builder
+            .pushText(`${done}/${to_do} (${Math.round(percentage)}%)`)
+            .pushLineBreak();
+    }
     builder
         .pushText(description_text)
         .pushLineBreak();

@@ -1,7 +1,6 @@
 /////////////////////
 import { generate_uuid } from '@offirmo/uuid';
 import { Random } from '@offirmo/random';
-import { dump_pretty_json } from '@offirmo/prettify-json'; // TODO remove
 /////////////////////
 import { InventorySlot } from '@oh-my-rpg/definitions';
 import { CharacterAttribute, CharacterClass, } from '@oh-my-rpg/state-character';
@@ -180,11 +179,11 @@ function play_adventure(state, aa) {
         // TODO enhance another armor as fallback
     }
     if (aa.good && !gain_count) {
-        dump_pretty_json('Error NO gain!', { aa, adventure });
+        //dump_pretty_json('Error NO gain!', {aa, adventure})
         throw new Error(`${LIB}: play_adventure() for "good click" hid "${aa.hid}" unexpectedly resulted in NO gains!`);
     }
     if (item_gain_count > 1) {
-        dump_pretty_json('Error 2x item gain!', { aa, adventure });
+        //dump_pretty_json('Error 2x item gain!', {aa, adventure})
         throw new Error(`${LIB}: play_adventure() for hid "${aa.hid}" unexpectedly resulted in ${item_gain_count} item gains!`);
     }
     state = Object.assign({}, state, { prng: PRNGState.update_use_count(state.prng, rng, {

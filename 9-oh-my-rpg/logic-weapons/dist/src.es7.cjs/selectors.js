@@ -47,10 +47,12 @@ function get_medium_damage(weapon) {
 exports.get_medium_damage = get_medium_damage;
 function matches(weapon, elements) {
     let matches = true; // so far
-    if (weapon.slot !== definitions_1.InventorySlot.weapon)
-        return false;
+    if (!weapon)
+        throw new Error(`${consts_1.LIB} matches: can't match nothing!`);
     if (elements.slot && elements.slot !== definitions_1.InventorySlot.weapon)
         throw new Error(`${consts_1.LIB} matches: can't match against a non-weapon slot "${elements.slot}"!`);
+    if (weapon.slot !== definitions_1.InventorySlot.weapon)
+        return false;
     Object.keys(elements)
         .forEach((k) => {
         if (!(k in weapon))

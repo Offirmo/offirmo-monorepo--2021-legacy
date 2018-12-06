@@ -7,10 +7,9 @@
 	"license": "Unlicense",
 	"private": true,
 	"scripts": {
-		"xclean": "bolt ws run clean && bolt ws exec -- rm -rf .cache .parcel dist node_modules yarn.lock package-lock.json yarn-error.log",
-		"xtest": "bolt ws run test",
-		"xbuild": "bolt ws run build",
-		"foo": "echo 'FOO' && bolt ws run foo",
+		"clean": "bolt ws run clean && bolt ws exec -- rm -rf .cache .parcel dist node_modules yarn.lock package-lock.json yarn-error.log",
+		"test": "bolt ws run test",
+		"build": "bolt ws run build",
 		"eslint": "eslint '{0-stdlib,1-foundation,2-advanced,3-tools,9-oh-my-rpg,apps}/**/{src,doc}/**/*.{ts,js,jsx,json}' '**/{\\.eslintrc.js,prettier.config.js,webpack.config.ts,*.json}'",
 		"eslint:fix": "yarn eslint --fix",
 		"lint": "yarn eslint",

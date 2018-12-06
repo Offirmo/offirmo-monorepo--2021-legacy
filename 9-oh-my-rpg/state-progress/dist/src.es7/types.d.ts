@@ -15,6 +15,7 @@ interface AchievementDefinition<S> {
     description: string;
     lore?: string;
     get_status: (state: S) => AchievementStatus;
+    get_completion_rate?: (state: S) => [number, number];
 }
 interface AchievementSnapshot extends Element {
     name: string;
@@ -22,6 +23,7 @@ interface AchievementSnapshot extends Element {
     description: string;
     lore?: string;
     status: AchievementStatus;
+    completion_rate?: [number, number];
 }
 interface State {
     schema_version: number;
@@ -48,6 +50,9 @@ interface State {
         bad_play_count_by_active_class: {
             [klass: string]: number;
         };
+        coins_gained: number;
+        tokens_gained: number;
+        items_gained: number;
         has_account: boolean;
         is_registered_alpha_player: boolean;
     };

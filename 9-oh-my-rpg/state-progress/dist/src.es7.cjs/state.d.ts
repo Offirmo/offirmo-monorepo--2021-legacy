@@ -6,6 +6,9 @@ interface PlayedDetails {
     adventure_key: string;
     encountered_monster_key?: string | null;
     active_class: string;
+    coins_gained: number;
+    tokens_gained: number;
+    items_gained: number;
 }
 declare function on_played(state: Readonly<State>, details: PlayedDetails): Readonly<State>;
 declare function on_achieved(state: Readonly<State>, key: string, new_status: AchievementStatus): Readonly<State>;

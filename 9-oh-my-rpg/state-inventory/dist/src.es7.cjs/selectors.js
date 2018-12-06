@@ -11,7 +11,7 @@ function get_equipped_item_count(state) {
 }
 exports.get_equipped_item_count = get_equipped_item_count;
 function get_unequipped_item_count(state) {
-    return state.unslotted.filter(i => !!i).length;
+    return state.unslotted.length;
 }
 exports.get_unequipped_item_count = get_unequipped_item_count;
 function get_item_count(state) {
@@ -33,6 +33,18 @@ function get_item_in_slot(state, slot) {
     return state.slotted[slot] || null;
 }
 exports.get_item_in_slot = get_item_in_slot;
+/*
+function get_typed_item_in_slot(state: Readonly<State>, slot: InventorySlot): State['slotted'][keyof State['slotted']] | null {
+    switch(slot) {
+        case InventorySlot.armor:
+            return state.slotted[InventorySlot.armor] || null
+        case InventorySlot.weapon:
+            return state.slotted[InventorySlot.weapon] || null
+        default:
+            return null
+    }
+}
+*/
 function* iterables_unslotted(state) {
     yield* state.unslotted;
 }

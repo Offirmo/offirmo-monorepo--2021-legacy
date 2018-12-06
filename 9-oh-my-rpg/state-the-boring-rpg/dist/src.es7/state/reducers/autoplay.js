@@ -55,7 +55,7 @@ function _auto_make_room(state, options = {}) {
             .sort(compare_items_by_normalized_power)
             .reverse() // to put the lowest quality items first
             .forEach((e) => {
-            console.log(e.quality, e.slot, appraise_power_normalized(e));
+            //console.log(e.quality, e.slot, appraise_power_normalized(e))
             switch (e.slot) {
                 case InventorySlot.armor:
                     if (matches_armor(e, STARTING_ARMOR_SPEC))

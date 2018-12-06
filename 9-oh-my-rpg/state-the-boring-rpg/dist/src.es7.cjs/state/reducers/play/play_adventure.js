@@ -4,7 +4,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const uuid_1 = require("@offirmo/uuid");
 const random_1 = require("@offirmo/random");
-const prettify_json_1 = require("@offirmo/prettify-json"); // TODO remove
 /////////////////////
 const definitions_1 = require("@oh-my-rpg/definitions");
 const state_character_1 = require("@oh-my-rpg/state-character");
@@ -183,11 +182,11 @@ function play_adventure(state, aa) {
         // TODO enhance another armor as fallback
     }
     if (aa.good && !gain_count) {
-        prettify_json_1.dump_pretty_json('Error NO gain!', { aa, adventure });
+        //dump_pretty_json('Error NO gain!', {aa, adventure})
         throw new Error(`${consts_1.LIB}: play_adventure() for "good click" hid "${aa.hid}" unexpectedly resulted in NO gains!`);
     }
     if (item_gain_count > 1) {
-        prettify_json_1.dump_pretty_json('Error 2x item gain!', { aa, adventure });
+        //dump_pretty_json('Error 2x item gain!', {aa, adventure})
         throw new Error(`${consts_1.LIB}: play_adventure() for hid "${aa.hid}" unexpectedly resulted in ${item_gain_count} item gains!`);
     }
     state = Object.assign({}, state, { prng: PRNGState.update_use_count(state.prng, rng, {

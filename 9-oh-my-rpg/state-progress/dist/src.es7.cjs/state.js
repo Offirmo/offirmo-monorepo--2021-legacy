@@ -22,6 +22,9 @@ function create(SEC) {
                 encountered_monsters: {},
                 good_play_count_by_active_class: {},
                 bad_play_count_by_active_class: {},
+                coins_gained: 0,
+                tokens_gained: 0,
+                items_gained: 0,
                 has_account: false,
                 is_registered_alpha_player: false,
             }
@@ -39,30 +42,35 @@ function _on_activity(state, previous_revision) {
     return new_state;
 }
 function on_played(state, details) {
-    const { good, adventure_key, encountered_monster_key, active_class } = details;
+    const { good, adventure_key, encountered_monster_key, active_class, coins_gained, tokens_gained, items_gained, } = details;
     const new_state = Object.assign({}, state, { 
         // mutate the root of fields we'll change below
         statistics: Object.assign({}, state.statistics), revision: state.revision + 1 });
-    if (!new_state.statistics.encountered_adventures[adventure_key]) {
-        new_state.statistics.encountered_adventures = Object.assign({}, new_state.statistics.encountered_adventures, { [adventure_key]: true });
+    // shortcut
+    let stats = new_state.statistics;
+    if (!stats.encountered_adventures[adventure_key]) {
+        stats.encountered_adventures = Object.assign({}, stats.encountered_adventures, { [adventure_key]: true });
     }
     if (good) {
-        new_state.statistics.good_play_count++;
-        new_state.statistics.good_play_count_by_active_class = Object.assign({ 
+        stats.good_play_count++;
+        stats.good_play_count_by_active_class = Object.assign({ 
             // ensure the key is present + immutable
-            [active_class]: 0 }, new_state.statistics.good_play_count_by_active_class);
-        new_state.statistics.good_play_count_by_active_class[active_class]++;
+            [active_class]: 0 }, stats.good_play_count_by_active_class);
+        stats.good_play_count_by_active_class[active_class]++;
     }
     else {
-        new_state.statistics.bad_play_count++;
-        new_state.statistics.bad_play_count_by_active_class = Object.assign({ 
+        stats.bad_play_count++;
+        stats.bad_play_count_by_active_class = Object.assign({ 
             // ensure the key is present + immutable
-            [active_class]: 0 }, new_state.statistics.bad_play_count_by_active_class);
-        new_state.statistics.bad_play_count_by_active_class[active_class]++;
+            [active_class]: 0 }, stats.bad_play_count_by_active_class);
+        stats.bad_play_count_by_active_class[active_class]++;
     }
-    if (encountered_monster_key && !new_state.statistics.encountered_monsters[encountered_monster_key]) {
-        new_state.statistics.encountered_monsters = Object.assign({}, new_state.statistics.encountered_monsters, { [encountered_monster_key]: true });
+    if (encountered_monster_key && !stats.encountered_monsters[encountered_monster_key]) {
+        stats.encountered_monsters = Object.assign({}, stats.encountered_monsters, { [encountered_monster_key]: true });
     }
+    stats.coins_gained += coins_gained;
+    stats.tokens_gained += tokens_gained;
+    stats.items_gained += items_gained;
     return _on_activity(new_state, state.revision);
 }
 exports.on_played = on_played;

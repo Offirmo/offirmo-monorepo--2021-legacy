@@ -26,6 +26,9 @@ describe('@oh-my-rpg/state-progress - reducer', function () {
                     encountered_monsters: {},
                     good_play_count_by_active_class: {},
                     bad_play_count_by_active_class: {},
+                    coins_gained: 0,
+                    tokens_gained: 0,
+                    items_gained: 0,
                     has_account: false,
                     is_registered_alpha_player: false,
                 }
@@ -41,6 +44,9 @@ describe('@oh-my-rpg/state-progress - reducer', function () {
                     adventure_key: 'foo_adv',
                     encountered_monster_key: null,
                     active_class: 'foo',
+                    coins_gained: 12,
+                    tokens_gained: 34,
+                    items_gained: 56,
                 });
                 expect(state.statistics).to.deep.equal({
                     last_visited_timestamp: "19700101",
@@ -55,6 +61,9 @@ describe('@oh-my-rpg/state-progress - reducer', function () {
                     bad_play_count_by_active_class: {
                         'foo': 1,
                     },
+                    coins_gained: 12,
+                    tokens_gained: 34,
+                    items_gained: 56,
                     has_account: false,
                     is_registered_alpha_player: false,
                 });
@@ -68,6 +77,9 @@ describe('@oh-my-rpg/state-progress - reducer', function () {
                     adventure_key: 'foo_adv',
                     encountered_monster_key: null,
                     active_class: 'foo',
+                    coins_gained: 12,
+                    tokens_gained: 34,
+                    items_gained: 56,
                 });
                 expect(state.statistics).to.deep.equal({
                     last_visited_timestamp: "19700101",
@@ -82,6 +94,9 @@ describe('@oh-my-rpg/state-progress - reducer', function () {
                         'foo': 1,
                     },
                     bad_play_count_by_active_class: {},
+                    coins_gained: 12,
+                    tokens_gained: 34,
+                    items_gained: 56,
                     has_account: false,
                     is_registered_alpha_player: false,
                 });
@@ -90,6 +105,9 @@ describe('@oh-my-rpg/state-progress - reducer', function () {
                     adventure_key: 'foo_adv',
                     encountered_monster_key: 'foo_mon',
                     active_class: 'foo',
+                    coins_gained: 12,
+                    tokens_gained: 34,
+                    items_gained: 56,
                 });
                 expect(state.statistics).to.deep.equal({
                     last_visited_timestamp: "19700101",
@@ -106,6 +124,9 @@ describe('@oh-my-rpg/state-progress - reducer', function () {
                         'foo': 2,
                     },
                     bad_play_count_by_active_class: {},
+                    coins_gained: 24,
+                    tokens_gained: 68,
+                    items_gained: 112,
                     has_account: false,
                     is_registered_alpha_player: false,
                 });

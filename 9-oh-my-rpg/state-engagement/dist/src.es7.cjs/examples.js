@@ -13,7 +13,7 @@ const DEMO_STATE = deep_freeze_strict_1.default({
         {
             uid: 42,
             engagement: {
-                key: 'new-game-welcome',
+                key: 'hello_world--flow',
                 type: types_1.EngagementType.flow,
             },
             queue_time_root_revision: 0,

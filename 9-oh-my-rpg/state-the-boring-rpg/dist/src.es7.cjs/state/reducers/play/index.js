@@ -22,6 +22,9 @@ function play(state, explicit_adventure_archetype_hid) {
                 ? state.last_adventure.encounter.name
                 : null,
             active_class: state.avatar.klass,
+            coins_gained: state.last_adventure.gains.coin,
+            tokens_gained: state.last_adventure.gains.token,
+            items_gained: (state.last_adventure.gains.armor ? 1 : 0) + (state.last_adventure.gains.weapon ? 1 : 0),
         }), revision: state.revision + 1 });
     return achievements_1._refresh_achievements(state);
 }

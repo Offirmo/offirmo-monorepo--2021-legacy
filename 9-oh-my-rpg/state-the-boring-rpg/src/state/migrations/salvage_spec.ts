@@ -387,7 +387,7 @@ describe(`${LIB} - schema migration`, function() {
 
 			expect(salvaged_state.avatar.name).to.equal('Perte')
 			expect(salvaged_state.avatar.klass).to.equal("paladin")
-			expect(salvaged_state.progress.statistics.good_play_count).to.equal(12)
+			expect(salvaged_state.progress.statistics.good_play_count).to.equal(13)
 			expect(salvaged_state.progress.statistics.bad_play_count).to.equal(3)
 		})
 	})

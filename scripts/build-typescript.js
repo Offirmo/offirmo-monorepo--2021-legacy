@@ -1,6 +1,7 @@
 'use strict'
 
 const path = require('path')
+const stylize_string = require('chalk')
 const meow = require('meow')
 const tsc = require('../3-tools/node-typescript-compiler')
 
@@ -58,7 +59,7 @@ if (cli.flags.dev) {
 /////////////////////
 
 //console.log({PKG_PATH, DIST_DIR, PKG_NAME, flags: cli.flags})
-console.log(`🔧 building ${PKG_NAME}...` + (cli.flags.dev ? ' (dev mode)' : ''))
+console.log(`🔧  building ${stylize_string.bold(PKG_NAME)}...` + (cli.flags.dev ? ' (dev mode)' : ''))
 
 
 function build_compatible() {

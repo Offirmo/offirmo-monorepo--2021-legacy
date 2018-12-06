@@ -58,6 +58,9 @@ const DEMO_STATE = deep_freeze_strict_1.default({
             'novice': 2,
             'warrior': 1,
         },
+        coins_gained: 1234,
+        tokens_gained: 2,
+        items_gained: 3,
         has_account: true,
         is_registered_alpha_player: false,
     }

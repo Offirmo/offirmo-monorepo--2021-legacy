@@ -48,6 +48,8 @@ function get_medium_damage_reduction(armor) {
 exports.get_medium_damage_reduction = get_medium_damage_reduction;
 function matches(armor, elements) {
     let matches = true; // so far
+    if (!armor)
+        throw new Error(`${consts_1.LIB} matches: can't match nothing!`);
     if (elements.slot && elements.slot !== definitions_1.InventorySlot.armor)
         throw new Error(`${consts_1.LIB} matches: can't match against a non-armor slot "${elements.slot}"!`);
     if (armor.slot !== definitions_1.InventorySlot.armor)

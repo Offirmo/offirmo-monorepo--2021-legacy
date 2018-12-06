@@ -1,6 +1,7 @@
 'use strict'
 
 const path = require('path')
+const stylize_string = require('chalk')
 const meow = require('meow')
 const fs = require('@offirmo/cli-toolbox/fs/extra')
 
@@ -19,7 +20,7 @@ const PKG_NAME = PKG_JSON.name
 /////////////////////
 
 //console.log({PKG_PATH, DIST_DIR, DEPS_DIR})
-console.log(`🔧 Cleaning ${PKG_NAME} [${cli.input}]...`)
+console.log(`🔧  Cleaning ${stylize_string.bold(PKG_NAME)} [${cli.input}]...`)
 
 
 Promise.all([
