@@ -3,6 +3,8 @@
 import { UUID } from '@offirmo/uuid'
 
 import { InventorySlot } from '@oh-my-rpg/definitions'
+import { Armor } from '@oh-my-rpg/logic-armors'
+import { Weapon } from '@oh-my-rpg/logic-weapons'
 
 import {
 	Item,
@@ -41,6 +43,12 @@ function get_item(state: Readonly<State>, uuid: UUID): Readonly<Item> | null {
 function get_item_in_slot(state: Readonly<State>, slot: InventorySlot): Readonly<Item> | null {
 	return (state.slotted as { [k: string]: Item})[slot] || null
 }
+function get_slotted_armor(state: Readonly<State>): Readonly<Armor> | null {
+	return state.slotted[InventorySlot.armor] || null
+}
+function get_slotted_weapon(state: Readonly<State>): Readonly<Weapon> | null {
+	return state.slotted[InventorySlot.weapon] || null
+}
 /*
 function get_typed_item_in_slot(state: Readonly<State>, slot: InventorySlot): State['slotted'][keyof State['slotted']] | null {
 	switch(slot) {
@@ -68,6 +76,8 @@ export {
 	get_unslotted_item,
 	get_item,
 	get_item_in_slot,
+	get_slotted_armor,
+	get_slotted_weapon,
 	iterables_unslotted,
 }
 

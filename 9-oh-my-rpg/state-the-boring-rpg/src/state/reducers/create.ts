@@ -56,7 +56,7 @@ const STARTING_ARMOR_SPEC: Readonly<Partial<Armor>> = {
 	base_hid: 'socks',
 	qualifier1_hid: 'used',
 	qualifier2_hid: 'noob',
-	quality: 'common',
+	quality: ItemQuality.common,
 	base_strength: 1,
 }
 

@@ -25,7 +25,7 @@ https://www.trueachievements.com/game/Diablo-III-Reaper-of-Souls-Ultimate-Evil-E
 // https://www.begeek.fr/vous-galerez-sur-red-dead-redemption-ii-voici-les-codes-pour-tricher-298991
 // https://www.trueachievements.com/game/Diablo-III-Reaper-of-Souls-Ultimate-Evil-Edition/achievements
 
-function _are_all_equipped_items_of_quality_higher_or_equal_than(state: State, quality: ItemQuality): boolean {
+function _are_all_slots_equipped_with_quality_higher_or_equal_than(state: State, quality: ItemQuality): boolean {
 	return ITEM_SLOTS.every(
 		slot => {
 			const item = get_item_in_slot(state.inventory, slot)
@@ -335,25 +335,25 @@ const RAW_ENTRIES_PROGRESSION_EQUIPMENT: Readonly<Partial<AchievementDefinition<
 	{
 		icon: '🥄',
 		name: 'There Is No Spoon',
-		description: 'Having replaced your starting weapon.',
+		description: 'Having replaced your starting "spoon of the noob" weapon.',
 		lore: 'A weapon isn’t good or bad, depends on the person who uses it.',
-		get_status: (state: State) => _equipped_weapon_matches(state, STARTING_WEAPON_SPEC)
+		get_status: (state: State) => (!state.inventory.slotted[InventorySlot.weapon] || _equipped_weapon_matches(state, STARTING_WEAPON_SPEC))
 			? AchievementStatus.revealed
 			: AchievementStatus.unlocked,
 	},
 	{
 		icon: '🧦',
 		name: 'They Weren’t Matched Anyway',
-		description: 'Having replaced your starting armor.',
+		description: 'Having replaced your starting "socks of the noob" armor.',
 		lore: 'I’ll tell you one thing you can’t do: you can’t put your shoes on, then your socks on.',
-		get_status: (state: State) => _equipped_armor_matches(state, STARTING_ARMOR_SPEC)
+		get_status: (state: State) => (!state.inventory.slotted[InventorySlot.armor] || _equipped_armor_matches(state, STARTING_ARMOR_SPEC))
 			? AchievementStatus.revealed
 			: AchievementStatus.unlocked,
 	},
 	{
 		icon: '🎒',
 		name: 'I Was Born Ready',
-		description: 'Having replaced all your starting equipment.',
+		description: 'Having replaced all your starting "spoon+socks" equipment.',
 		// lore: 'TODO',
 		get_status: (state: State) => _equipped_armor_matches(state, STARTING_ARMOR_SPEC) || _equipped_weapon_matches(state, STARTING_WEAPON_SPEC)
 			? AchievementStatus.revealed
@@ -366,7 +366,7 @@ const RAW_ENTRIES_PROGRESSION_EQUIPMENT: Readonly<Partial<AchievementDefinition<
 		name: 'U Got The Look',
 		description: 'All equipped items of quality uncommon or higher. 💚 ',
 		lore: 'If there are cracks in your armor, your opponent is going to find them...',
-		get_status: (state: State) => _are_all_equipped_items_of_quality_higher_or_equal_than(state, ItemQuality.uncommon)
+		get_status: (state: State) => _are_all_slots_equipped_with_quality_higher_or_equal_than(state, ItemQuality.uncommon)
 				? AchievementStatus.unlocked
 				: AchievementStatus.revealed,
 	},
@@ -375,9 +375,9 @@ const RAW_ENTRIES_PROGRESSION_EQUIPMENT: Readonly<Partial<AchievementDefinition<
 		name: 'Rare Sight',
 		description: 'All equipped items of quality rare or higher. 💙 ',
 		// lore: 'TODO',
-		get_status: (state: State) => _are_all_equipped_items_of_quality_higher_or_equal_than(state, ItemQuality.rare)
+		get_status: (state: State) => _are_all_slots_equipped_with_quality_higher_or_equal_than(state, ItemQuality.rare)
 			? AchievementStatus.unlocked
-			: _are_all_equipped_items_of_quality_higher_or_equal_than(state, ItemQuality.uncommon)
+			: _are_all_slots_equipped_with_quality_higher_or_equal_than(state, ItemQuality.uncommon)
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
 	},
@@ -386,9 +386,9 @@ const RAW_ENTRIES_PROGRESSION_EQUIPMENT: Readonly<Partial<AchievementDefinition<
 		name: 'Epic Smile',
 		description: 'All equipped items of quality epic or higher. 💜 ',
 		// lore: 'TODO',
-		get_status: (state: State) => _are_all_equipped_items_of_quality_higher_or_equal_than(state, ItemQuality.epic)
+		get_status: (state: State) => _are_all_slots_equipped_with_quality_higher_or_equal_than(state, ItemQuality.epic)
 			? AchievementStatus.unlocked
-			: _are_all_equipped_items_of_quality_higher_or_equal_than(state, ItemQuality.rare)
+			: _are_all_slots_equipped_with_quality_higher_or_equal_than(state, ItemQuality.rare)
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
 	},
@@ -397,9 +397,9 @@ const RAW_ENTRIES_PROGRESSION_EQUIPMENT: Readonly<Partial<AchievementDefinition<
 		name: 'I Am A Legend',
 		description: 'All equipped items of quality legendary or higher. 🧡 ',
 		// lore: 'TODO',
-		get_status: (state: State) => _are_all_equipped_items_of_quality_higher_or_equal_than(state, ItemQuality.legendary)
+		get_status: (state: State) => _are_all_slots_equipped_with_quality_higher_or_equal_than(state, ItemQuality.legendary)
 			? AchievementStatus.unlocked
-			: _are_all_equipped_items_of_quality_higher_or_equal_than(state, ItemQuality.epic)
+			: _are_all_slots_equipped_with_quality_higher_or_equal_than(state, ItemQuality.epic)
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
 	},
@@ -408,7 +408,7 @@ const RAW_ENTRIES_PROGRESSION_EQUIPMENT: Readonly<Partial<AchievementDefinition<
 		name: 'Twinkle Twinkle Little Star',
 		description: 'All equipped items of quality artifact or higher. 💛 ',
 		// lore: 'TODO',
-		get_status: (state: State) => _are_all_equipped_items_of_quality_higher_or_equal_than(state, ItemQuality.artifact)
+		get_status: (state: State) => _are_all_slots_equipped_with_quality_higher_or_equal_than(state, ItemQuality.artifact)
 			? AchievementStatus.unlocked
 			: AchievementStatus.hidden, // since artifact can't be obtained by normal means
 	},
@@ -416,7 +416,7 @@ const RAW_ENTRIES_PROGRESSION_EQUIPMENT: Readonly<Partial<AchievementDefinition<
 	// - power
 	{
 		icon: '🐸',
-		name: 'Frog In A Well ⚔ 🛡 ',
+		name: 'Frog In A Well',
 		description: 'Having a combined equipment’s power of 500 or higher.',
 		// lore: 'TODO',
 		get_status: (state: State) => _get_combined_equipped_items_power(state) > 500
@@ -475,7 +475,7 @@ const RAW_ENTRIES_PROGRESSION_ATTRIBUTES: Readonly<Partial<AchievementDefinition
 	// https://en.uesp.net/wiki/Oblivion:Leveling
 	{
 		icon: '👶',
-		name: 'As Tall As 3 Apples',
+		name: 'Tiny Adventurer',
 		description: 'Having a level of 3 or higher.',
 		lore: 'You realize that all your life you have been coasting along as if you were in a dream. Suddenly, facing the trials of the last few days, you have come alive.',
 		get_status: (state: State) => state.avatar.attributes.level >= 3
@@ -484,7 +484,7 @@ const RAW_ENTRIES_PROGRESSION_ATTRIBUTES: Readonly<Partial<AchievementDefinition
 	},
 	{
 		icon: '🧒',
-		name: 'Able To Reason',
+		name: 'Reasonable Adventurer',
 		description: 'Having a level of 7 or higher.',
 		lore: 'Today you wake up, full of energy and ideas, and you know, somehow, that overnight everything has changed. What a difference a day makes.',
 		get_status: (state: State) => state.avatar.attributes.level >= 7
