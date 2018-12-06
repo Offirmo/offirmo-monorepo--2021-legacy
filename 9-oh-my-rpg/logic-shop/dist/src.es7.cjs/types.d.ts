@@ -1,3 +1,0 @@
-interface Shop {
-}
-export { Shop, };
