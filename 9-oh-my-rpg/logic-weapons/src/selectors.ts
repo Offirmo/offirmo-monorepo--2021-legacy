@@ -65,13 +65,15 @@ function get_medium_damage(weapon: Readonly<Weapon>): number {
 function matches(weapon: Readonly<Weapon>, elements: Readonly<Partial<Weapon>>): boolean {
 	let matches = true // so far
 
-	if (weapon.slot !== InventorySlot.weapon)
-		return false
-
+	if (!weapon)
+		throw new Error(`${LIB} matches: can't match nothing!`)
 	if (elements.slot && elements.slot !== InventorySlot.weapon)
 		throw new Error(`${LIB} matches: can't match against a non-weapon slot "${elements.slot}"!`)
 
-			;(Object.keys(elements) as Array<keyof Weapon>)
+	if (weapon.slot !== InventorySlot.weapon)
+		return false
+
+	;(Object.keys(elements) as Array<keyof Weapon>)
 		.forEach((k: keyof Weapon) => {
 			if (!(k in weapon))
 				throw new Error(`${LIB} matches: can't match on non-weapon key "${k}"!`)

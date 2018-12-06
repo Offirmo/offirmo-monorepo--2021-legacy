@@ -110,7 +110,7 @@
 			{
 				"uid": 42,
 				"engagement": {
-					"key": "new-game-welcome",
+					"key": "hello_world--flow",
 					"type": "flow"
 				},
 				"queue_time_root_revision": 0,
@@ -179,6 +179,9 @@
 				"novice": 2,
 				"warrior": 1
 			},
+			"coins_gained": 1234,
+			"tokens_gained": 2,
+			"items_gained": 3,
 			"has_account": true,
 			"is_registered_alpha_player": false
 		}

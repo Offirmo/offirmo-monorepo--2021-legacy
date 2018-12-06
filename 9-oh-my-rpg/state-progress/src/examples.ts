@@ -61,6 +61,10 @@ const DEMO_STATE: Readonly<State> = deepFreeze({
 			'novice': 2,
 			'warrior': 1,
 		},
+		coins_gained: 1234,
+		tokens_gained: 2,
+		items_gained: 3,
+
 		has_account: true,
 		is_registered_alpha_player: false,
 	}

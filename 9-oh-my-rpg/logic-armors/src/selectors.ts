@@ -67,6 +67,8 @@ function get_medium_damage_reduction(armor: Readonly<Armor>): number {
 function matches(armor: Readonly<Armor>, elements: Readonly<Partial<Armor>>): boolean {
 	let matches = true // so far
 
+	if (!armor)
+		throw new Error(`${LIB} matches: can't match nothing!`)
 	if (elements.slot && elements.slot !== InventorySlot.armor)
 		throw new Error(`${LIB} matches: can't match against a non-armor slot "${elements.slot}"!`)
 

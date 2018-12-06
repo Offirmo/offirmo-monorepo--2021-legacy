@@ -7,6 +7,7 @@ const game_instance = get_game_instance()
 const DEFAULT_VALUE = {}
 const AppStateContext = React.createContext(DEFAULT_VALUE)
 
+let subscribedId = 0
 class AppStateListenerAndProvider extends React.Component {
 	state = {
 		uber_state: {},
@@ -14,7 +15,8 @@ class AppStateListenerAndProvider extends React.Component {
 
 	componentDidMount() {
 		this.unsubscribe = game_instance.subscribe(() => {
-			console.log('🔄 AppStateListenerAndProvider: updating on uber state change', game_instance.view.get_state())
+			this.id = ++subscribedId
+			console.log(`🔄 AppStateListenerAndProvider #${this.id}: updating on uber state change`, game_instance.view.get_state())
 			this.setState({
 				uber_state: game_instance.view.get_state()
 			})
@@ -25,7 +27,7 @@ class AppStateListenerAndProvider extends React.Component {
 	}
 
 	render() {
-		console.log("🔄 AppStateListenerAndProvider");
+		console.log(`🔄 AppStateListenerAndProvider #${this.id}`);
 
 		/*const game_instance = get_game_instance()
 		console.warn(game_instance)*/

@@ -40,7 +40,7 @@ You have defeated a {{encounter}}!{{br}}
 You perfected your {{attr_name}} during the fight: +{{attr}} {{attr_name}}!`,
 
 	fight_observe: `
-You encounter a {{encounter}} from afar!{{br}}
+You encounter a wild {{encounter}} from afar!{{br}}
 Fascinated, you observe it instead of attacking it.{{br}}
 Its behaviour makes you think of new techniques. You gain +{{attr}} {{attr_name}}!`,
 
@@ -72,8 +72,8 @@ A dying man on the street left you everything he had.
 You gain {{coin}}!`,
 
 	ate_bacon: `
-You eat some bacon.
-You gain +{{level}} level!`, // delicious crispy
+You eat some delicious crispy bacon.
+You gain +{{level}} level!`,
 
 	/* too bland, please!
      ate_mushroom: `

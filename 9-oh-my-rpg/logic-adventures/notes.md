@@ -2,6 +2,7 @@ https://fr.aleteia.org/2017/10/26/pourquoi-les-exorcistes-insistent-ils-pour-que
 
 TODO extract from oh-my-rpg
 
+https://en.wikipedia.org/wiki/Old_One_in_fiction
 
 Bamonte et Amorth
 Truqui
@@ -12,7 +13,6 @@ personalité
 http://www.personalityresearch.org/bigfive.html
 
 Stories
-- épée dans rocher
 - réanimation de travailleurs
 
 "Whip it" sentences, don't worry / be happy
@@ -45,8 +45,6 @@ fight/meet monsters
 Walpurgis
 
 Your master makes you imit (animal) you gain ...
-
-You observe a mighty (animal) this triggers a sirit in you, +1xxx
 
 places:
 - colossal cave

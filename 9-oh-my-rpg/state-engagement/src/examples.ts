@@ -17,7 +17,7 @@ const DEMO_STATE: Readonly<State> = deepFreeze({
 		{
 			uid: 42,
 			engagement: {
-				key: 'new-game-welcome',
+				key: 'hello_world--flow',
 				type: EngagementType.flow,
 			},
 			queue_time_root_revision: 0,

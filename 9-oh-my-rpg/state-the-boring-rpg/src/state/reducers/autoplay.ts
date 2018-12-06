@@ -10,9 +10,6 @@ import {
 	ItemQuality,
 	Item,
 	InventorySlot,
-	compare_items_by_slot,
-	compare_items_by_quality,
-	ITEM_QUALITIES_TO_INT,
 } from '@oh-my-rpg/definitions'
 
 import { appraise_power_normalized } from '@oh-my-rpg/logic-shop'
@@ -119,7 +116,7 @@ function _auto_make_room(state: Readonly<State>, options: { DEBUG?: boolean } = 
 			.sort(compare_items_by_normalized_power)
 			.reverse() // to put the lowest quality items first
 			.forEach((e: Readonly<Item>) => {
-				console.log(e.quality, e.slot, appraise_power_normalized(e))
+				//console.log(e.quality, e.slot, appraise_power_normalized(e))
 				switch(e.slot) {
 					case InventorySlot.armor:
 						if (matches_armor(e as Armor, STARTING_ARMOR_SPEC))

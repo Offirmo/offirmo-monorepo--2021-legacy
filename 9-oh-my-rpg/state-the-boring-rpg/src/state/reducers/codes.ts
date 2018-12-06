@@ -156,6 +156,7 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<
 					}),
 				}
 				break
+
 			case 'PLUGH':
 				// http://www.plover.net/~davidw/sol/plugh.html
 				state = {

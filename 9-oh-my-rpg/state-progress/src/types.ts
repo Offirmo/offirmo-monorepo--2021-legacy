@@ -21,6 +21,7 @@ interface AchievementDefinition<S> {
 	description: string
 	lore?: string
 	get_status: (state: S) => AchievementStatus
+	get_completion_rate?: (state: S) => [number, number]
 }
 
 // useful for display
@@ -30,6 +31,7 @@ interface AchievementSnapshot extends Element {
 	description: string
 	lore?: string
 	status: AchievementStatus
+	completion_rate?: [number, number]
 }
 
 /////////////////////
@@ -69,6 +71,9 @@ interface State {
 		encountered_adventures: { [key: string]: true }
 		good_play_count_by_active_class: { [klass: string]: number }
 		bad_play_count_by_active_class: { [klass: string]: number }
+		coins_gained: number
+		tokens_gained: number
+		items_gained: number
 
 		// meta (sent from above)
 		has_account: boolean

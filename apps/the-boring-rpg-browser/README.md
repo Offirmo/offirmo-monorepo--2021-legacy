@@ -1,4 +1,4 @@
-## The Boring RPG, reloaded - web version
+## 🧙The Boring RPG, reloaded 👨🏻‍💻💰⚔🛡 - web version
 
 Source code for the browser game "The Boring RPG, reloaded"
 

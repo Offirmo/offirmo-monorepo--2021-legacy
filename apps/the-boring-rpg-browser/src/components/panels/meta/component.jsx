@@ -91,7 +91,7 @@ export default class PanelView extends React.Component {
 							? `Redeeming the code "${code}"...`
 							: 'Maybe another time.',
 						callback: value => {
-							console.log({value, type: typeof value})
+							//console.log({value, type: typeof value})
 							if (value)
 								game_instance.reducers.attempt_to_redeem_code(value)
 							game_instance.view.set_state(() => ({
