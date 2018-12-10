@@ -10,6 +10,8 @@ TODO optimise with tiny-invariant
 
 https://wiki.openstreetmap.org/wiki/Servers/Name_Ideas
 
+"They reckon you get ice in your veins, that's what they call it," she said.
+
 Idées
 https://worldofwarcraft.judgehype.com/news/world-boss-assemblage-de-grelons-est-de-retour-en-drustvar-157658/
 https://worldofwarcraft.judgehype.com/news/guide-du-14eme-anniversaire-de-wow-world-boss-objets-et-nouveautes-pour-2018-157688/

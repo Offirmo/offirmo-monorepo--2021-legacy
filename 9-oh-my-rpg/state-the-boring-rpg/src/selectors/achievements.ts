@@ -14,7 +14,7 @@ import ACHIEVEMENT_DEFINITIONS from '../data/achievements'
 /////////////////////
 
 function get_achievement_snapshot(state: Readonly<State>, definition: Readonly<AchievementDefinition<State>>): Readonly<AchievementSnapshot> {
-	const { session_uuid, name, icon, description, lore } = definition
+	const { session_uuid, name, icon, description, lore, get_completion_rate } = definition
 
 	// we check this and not get_status since unlock is "sticky" (by design) and get_status may not be
 	const status = get_last_known_achievement_status(state.progress, name)
@@ -27,6 +27,7 @@ function get_achievement_snapshot(state: Readonly<State>, definition: Readonly<A
 		description,
 		lore,
 		status: status!,
+		completion_rate: get_completion_rate ? get_completion_rate(state) : undefined,
 	}
 }
 

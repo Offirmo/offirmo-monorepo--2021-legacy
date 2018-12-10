@@ -47,12 +47,13 @@ function render_achievement_snapshot_short(achievement_snapshot: Readonly<Achiev
 	else
 		builder.pushWeak(legend)
 
-	if (completion_rate && status === AchievementStatus.revealed) {
+	// no, too much info
+	/*if (completion_rate && status === AchievementStatus.revealed) {
 		const percentage = 100. * completion_rate[0] / completion_rate[1]
 		if (percentage > 100)
 			throw new Error(`Invalid achievement completion rate for "${name}"!`)
-		builder.pushWeak(` ${Math.round(percentage)}%`)
-	}
+		builder.pushWeak(` - ${Math.round(percentage)}%`)
+	}*/
 
 	builder.addHints({ uuid})
 
@@ -121,7 +122,7 @@ function render_achievement_snapshot_detailed(achievement_snapshot: Readonly<Ach
 		if (percentage > 100)
 			throw new Error(`Invalid achievement completion rate for "${name}"!`)
 		builder
-			.pushText(`${done}/${to_do} (${Math.round(percentage)}%)`)
+			.pushWeak(`Progress: ${Math.round(percentage)}% (${done}/${to_do})`)
 			.pushLineBreak()
 	}
 
