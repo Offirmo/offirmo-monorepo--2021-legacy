@@ -158,6 +158,8 @@
 			"active_day_count": 12,
 			"good_play_count": 12,
 			"bad_play_count": 3,
+			"fight_won_count": 6,
+			"fight_lost_count": 4,
 			"encountered_adventures": {
 				"caravan_success": true,
 				"dying_man": true,

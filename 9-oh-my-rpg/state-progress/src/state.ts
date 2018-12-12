@@ -35,6 +35,8 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 				encountered_monsters: {},
 				good_play_count_by_active_class: {},
 				bad_play_count_by_active_class: {},
+				fight_won_count: 0,
+				fight_lost_count: 0,
 				coins_gained: 0,
 				tokens_gained: 0,
 				items_gained: 0,
@@ -117,6 +119,12 @@ function on_played(state: Readonly<State>, details: PlayedDetails): Readonly<Sta
 			...stats.good_play_count_by_active_class,
 		}
 		stats.good_play_count_by_active_class[active_class]++
+		if (adventure_key.startsWith('fight_won_')) {
+			stats.fight_won_count++
+		}
+		else if (adventure_key.startsWith('fight_lost_')) {
+			stats.fight_lost_count++
+		}
 	}
 	else {
 		stats.bad_play_count++

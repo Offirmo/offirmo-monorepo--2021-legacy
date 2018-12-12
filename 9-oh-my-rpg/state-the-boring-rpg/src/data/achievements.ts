@@ -5,6 +5,7 @@ import { CharacterClass, DEFAULT_AVATAR_NAME } from '@oh-my-rpg/state-character'
 import { get_item_in_slot } from '@oh-my-rpg/state-inventory'
 import { Weapon, matches as matches_weapon } from '@oh-my-rpg/logic-weapons'
 import { Armor, matches as matches_armor } from '@oh-my-rpg/logic-armors'
+import { ALL_GOOD_ADVENTURE_ARCHETYPES } from '@oh-my-rpg/logic-adventures'
 
 import { State } from '../types'
 import { STARTING_ARMOR_SPEC, STARTING_WEAPON_SPEC } from '../state/reducers/create'
@@ -54,6 +55,32 @@ function _equipped_weapon_matches(state: Readonly<State>, spec: Readonly<Partial
 		? matches_weapon(weapon, spec)
 		: false
 }
+function _encountered_good_adventures_count(state: Readonly<State>): number {
+	return Object.keys(state.progress.statistics.encountered_adventures).length
+}
+function _encountered_fight_adventures_count(state: Readonly<State>): number {
+	return state.progress.statistics.fight_won_count + state.progress.statistics.fight_lost_count
+}
+function _eaten_mushroom_count(state: Readonly<State>): number {
+	return Object.keys(state.progress.statistics.encountered_adventures)
+		.filter(k => k.endsWith('_mushroom'))
+		.length
+}
+function _drunk_potion_count(state: Readonly<State>): number {
+	return Object.keys(state.progress.statistics.encountered_adventures)
+		.filter(k => k.endsWith('_potion'))
+		.length
+}
+function _helped_village_count(state: Readonly<State>): number {
+	return Object.keys(state.progress.statistics.encountered_adventures)
+		.filter(k => k.startsWith('village_'))
+		.length
+}
+function _famous_stones_count(state: Readonly<State>): number {
+	return Object.keys(state.progress.statistics.encountered_adventures)
+		.filter(k => k.startsWith('famous_stone_'))
+		.length
+}
 
 const RAW_ENTRIES_TEST: Readonly<Partial<AchievementDefinition<State>>>[] = [
 	{
@@ -93,19 +120,223 @@ const RAW_ENTRIES_GAME_PHASES: Readonly<Partial<AchievementDefinition<State>>>[]
 	},
 ]
 
-const ADVENTURING: Readonly<Partial<AchievementDefinition<State>>>[] = [
+const ADVENTURE_TIERS = [1, 7, 12, 20, 50, 100, 150]
+const RAW_ENTRIES_ADVENTURING: Readonly<Partial<AchievementDefinition<State>>>[] = [
 	{
 		icon: '🥉',
-		name: 'I am bored',
-		description: `Having played for the first time.`,
-		get_status: (state: State) => state.progress.statistics.good_play_count
+		name: 'Aspiring Explorer',
+		description: `Having experienced ${ADVENTURE_TIERS[1]} different adventures`,
+		get_status: (state: State) => _encountered_good_adventures_count(state) >= ADVENTURE_TIERS[1]
 			? AchievementStatus.unlocked
 			: AchievementStatus.revealed,
 	},
+	{
+		icon: '🥈',
+		name: 'Rookie Explorer',
+		description: `Having experienced ${ADVENTURE_TIERS[2]} different adventures`,
+		get_status: (state: State) => _encountered_good_adventures_count(state) >= ADVENTURE_TIERS[2]
+			? AchievementStatus.unlocked
+			: _encountered_good_adventures_count(state) >= ADVENTURE_TIERS[1]
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
+		get_completion_rate: (state: State) => ([_encountered_good_adventures_count(state), ADVENTURE_TIERS[2]])
+	},
+	{
+		icon: '🥇',
+		name: 'Young Explorer',
+		description: `Having experienced ${ADVENTURE_TIERS[3]} different adventures`,
+		get_status: (state: State) => _encountered_good_adventures_count(state) >= ADVENTURE_TIERS[3]
+			? AchievementStatus.unlocked
+			: _encountered_good_adventures_count(state) >= ADVENTURE_TIERS[2]
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
+		get_completion_rate: (state: State) => ([_encountered_good_adventures_count(state), ADVENTURE_TIERS[3]])
+	},
+	{
+		icon: '🏅',
+		name: 'Master Explorer',
+		description: `Having experienced ${ADVENTURE_TIERS[4]} different adventures`,
+		get_status: (state: State) => _encountered_good_adventures_count(state) >= ADVENTURE_TIERS[4]
+			? AchievementStatus.unlocked
+			: _encountered_good_adventures_count(state) >= ADVENTURE_TIERS[3]
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
+		get_completion_rate: (state: State) => ([_encountered_good_adventures_count(state), ADVENTURE_TIERS[4]])
+	},
+	{
+		icon: '🎖',
+		name: 'Senior Explorer',
+		description: `Having experienced ${ADVENTURE_TIERS[5]} different adventures`,
+		get_status: (state: State) => _encountered_good_adventures_count(state) >= ADVENTURE_TIERS[5]
+			? AchievementStatus.unlocked
+			: _encountered_good_adventures_count(state) >= ADVENTURE_TIERS[4]
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
+		get_completion_rate: (state: State) => ([_encountered_good_adventures_count(state), ADVENTURE_TIERS[5]])
+	},
+	{
+		icon: '🏆',
+		name: 'Grandmaster Explorer',
+		description: `Having experienced ${ADVENTURE_TIERS[6]} different adventures`,
+		get_status: (state: State) => _encountered_good_adventures_count(state) >= ADVENTURE_TIERS[6]
+			? AchievementStatus.unlocked
+			: _encountered_good_adventures_count(state) >= ADVENTURE_TIERS[5]
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
+		get_completion_rate: (state: State) => ([_encountered_good_adventures_count(state), ADVENTURE_TIERS[6]])
+	},
+
+	{
+		icon: '👑',
+		name: 'Absolute Explorer',
+		description: `Having experienced ALL the adventures`,
+		get_status: (state: State) => _encountered_good_adventures_count(state) >= ALL_GOOD_ADVENTURE_ARCHETYPES.length
+			? AchievementStatus.unlocked
+			: _encountered_good_adventures_count(state) >= ADVENTURE_TIERS[6]
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
+		get_completion_rate: (state: State) => ([_encountered_good_adventures_count(state), ALL_GOOD_ADVENTURE_ARCHETYPES.length])
+	},
 ]
 
-// TODO adventuring
-/*
+const FIGHT_ENCOUNTER_TIERS = [1, 3, 10, 50, 100, 500]
+const RAW_ENTRIES_FIGHT_ENCOUNTERS: Readonly<Partial<AchievementDefinition<State>>>[] = [
+	{
+		icon: '🥄',
+		name: 'First Blood',
+		description: `Having experienced your first random fight encounter.`,
+		get_status: (state: State) => _encountered_fight_adventures_count(state) >= 1
+			? AchievementStatus.unlocked
+			: AchievementStatus.revealed,
+	},
+	{
+		icon: '🔨',
+		name: 'Into The Wild',
+		description: `Having experienced ${FIGHT_ENCOUNTER_TIERS[1]} random fight encounters.`,
+		get_status: (state: State) => _encountered_fight_adventures_count(state) >= ADVENTURE_TIERS[1]
+			? AchievementStatus.unlocked
+			: _encountered_fight_adventures_count(state) >= 1
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
+		get_completion_rate: (state: State) => ([_encountered_fight_adventures_count(state), ADVENTURE_TIERS[1]])
+	},
+	{
+		icon: '⛏',
+		name: 'Born To Be Wild',
+		description: `Having experienced ${FIGHT_ENCOUNTER_TIERS[2]} random fight encounters.`,
+		get_status: (state: State) => _encountered_fight_adventures_count(state) >= ADVENTURE_TIERS[2]
+			? AchievementStatus.unlocked
+			: _encountered_fight_adventures_count(state) >= ADVENTURE_TIERS[1]
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
+		get_completion_rate: (state: State) => ([_encountered_fight_adventures_count(state), ADVENTURE_TIERS[2]])
+	},
+	{
+		icon: '🔪',
+		name: 'Wild Like The Wind',
+		description: `Having experienced ${FIGHT_ENCOUNTER_TIERS[3]} random fight encounters.`,
+		get_status: (state: State) => _encountered_fight_adventures_count(state) >= ADVENTURE_TIERS[3]
+			? AchievementStatus.unlocked
+			: _encountered_fight_adventures_count(state) >= ADVENTURE_TIERS[2]
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
+		get_completion_rate: (state: State) => ([_encountered_fight_adventures_count(state), ADVENTURE_TIERS[3]])
+	},
+	{
+		icon: '🗡',
+		name: 'The Wild One',
+		description: `Having experienced ${FIGHT_ENCOUNTER_TIERS[4]} random fight encounters.`,
+		get_status: (state: State) => _encountered_fight_adventures_count(state) >= ADVENTURE_TIERS[4]
+			? AchievementStatus.unlocked
+			: _encountered_fight_adventures_count(state) >= ADVENTURE_TIERS[3]
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
+		get_completion_rate: (state: State) => ([_encountered_fight_adventures_count(state), ADVENTURE_TIERS[4]])
+	},
+	{
+		icon: '⚔',
+		name: 'Alpha Of The Wilderness',
+		description: `Having experienced ${FIGHT_ENCOUNTER_TIERS[5]} random fight encounters.`,
+		get_status: (state: State) => _encountered_fight_adventures_count(state) >= ADVENTURE_TIERS[5]
+			? AchievementStatus.unlocked
+			: _encountered_fight_adventures_count(state) >= ADVENTURE_TIERS[4]
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
+		get_completion_rate: (state: State) => ([_encountered_fight_adventures_count(state), ADVENTURE_TIERS[5]])
+	},
+]
+
+const RAW_ENTRIES_ADVENTURES_SETS: Readonly<Partial<AchievementDefinition<State>>>[] = [
+	{
+		icon: '🍄',
+		name: 'Mushrooms Lover',
+		description: `Having eaten 3 different mushrooms.`,
+		get_status: (state: State) => _eaten_mushroom_count(state) >= 3
+			? AchievementStatus.unlocked
+			: _eaten_mushroom_count(state) >= 1
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
+	},
+	{
+		icon: '🍡',
+		name: 'Mushrooms Gourmet',
+		description: `Having eaten all the different mushrooms.`,
+		get_status: (state: State) => _eaten_mushroom_count(state) >= 8
+			? AchievementStatus.unlocked
+			: _eaten_mushroom_count(state) >= 3
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
+	},
+
+	{
+		icon: '🥤',
+		name: 'Potions Taster',
+		description: `Having drunk 3 different potions.`,
+		get_status: (state: State) => _drunk_potion_count(state) >= 3
+			? AchievementStatus.unlocked
+			: _drunk_potion_count(state) >= 1
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
+	},
+	{
+		icon: '🍹',
+		name: 'Potions Sommelier',
+		description: `Having drunk all the different potions.`,
+		get_status: (state: State) => _drunk_potion_count(state) >= 6
+			? AchievementStatus.unlocked
+			: _drunk_potion_count(state) >= 3
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
+	},
+
+	{
+		icon: '👩‍🌾',
+		name: 'Folk Hero',
+		description: `Having completed all the village quests.`,
+		get_status: (state: State) => _helped_village_count(state) >= 6
+			? AchievementStatus.unlocked
+			: _helped_village_count(state) >= 1
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
+	},
+
+	{
+		icon: '💎',
+		name: 'Famous Gems Collector',
+		description: `Having collected all the famous gems.`,
+		get_status: (state: State) => _famous_stones_count(state) >= 4
+			? AchievementStatus.unlocked
+			: _famous_stones_count(state) >= 1
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
+	},
+
+	// all class master
+	// all pets
+	// all npc
+]
+
+/* TODO
 exploration
 
 Adventures
@@ -163,7 +394,6 @@ Adventures
 882	U+1F386	🎆	fireworks	celebration | fireworks
 883	U+1F387	🎇	sparkler
  */
-
 
 const GOOD_CLICKS_TIERS = [1, 7, 11, 77, 500, 1000, 10_000]
 const RAW_ENTRIES_PRIMARY_CTA: Readonly<Partial<AchievementDefinition<State>>>[] = [
@@ -411,7 +641,7 @@ const RAW_ENTRIES_ENGAGEMENT: Readonly<Partial<AchievementDefinition<State>>>[] 
 	},
 ]
 
-const POWER_TIERS = [0, 1000, 5000, 10_000, 50_000, 100_000]
+const POWER_TIERS = [0, 1000, 5000, 10_000, 40_000, 80_000]
 const RAW_ENTRIES_PROGRESSION_EQUIPMENT: Readonly<Partial<AchievementDefinition<State>>>[] = [
 	{
 		icon: '🥄',
@@ -500,7 +730,7 @@ const RAW_ENTRIES_PROGRESSION_EQUIPMENT: Readonly<Partial<AchievementDefinition<
 		name: 'Frog In A Well',
 		description: `Having a combined equipment’s power of ${POWER_TIERS[1]} or higher.`,
 		// lore: 'TODO',
-		get_status: (state: State) => _get_combined_equipped_items_power(state) > POWER_TIERS[1]
+		get_status: (state: State) => _get_combined_equipped_items_power(state) >= POWER_TIERS[1]
 			? AchievementStatus.unlocked
 			: AchievementStatus.revealed,
 		get_completion_rate: (state: State) => ([_get_combined_equipped_items_power(state), POWER_TIERS[1]])
@@ -510,9 +740,9 @@ const RAW_ENTRIES_PROGRESSION_EQUIPMENT: Readonly<Partial<AchievementDefinition<
 		name: 'Looking Like something',
 		description: `Having a combined equipment’s power of ${POWER_TIERS[2]} or higher.`,
 		// lore: 'TODO',
-		get_status: (state: State) => _get_combined_equipped_items_power(state) > POWER_TIERS[2]
+		get_status: (state: State) => _get_combined_equipped_items_power(state) >= POWER_TIERS[2]
 			? AchievementStatus.unlocked
-			: _get_combined_equipped_items_power(state) > POWER_TIERS[1]
+			: _get_combined_equipped_items_power(state) >= POWER_TIERS[1]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
 		get_completion_rate: (state: State) => ([_get_combined_equipped_items_power(state), POWER_TIERS[2]])
@@ -522,9 +752,9 @@ const RAW_ENTRIES_PROGRESSION_EQUIPMENT: Readonly<Partial<AchievementDefinition<
 		name: 'Formal Adventurer',
 		description: `Having a combined equipment’s power of ${POWER_TIERS[3]} or higher.`,
 		// lore: 'TODO',
-		get_status: (state: State) => _get_combined_equipped_items_power(state) > POWER_TIERS[3]
+		get_status: (state: State) => _get_combined_equipped_items_power(state) >= POWER_TIERS[3]
 			? AchievementStatus.unlocked
-			: _get_combined_equipped_items_power(state) > POWER_TIERS[2]
+			: _get_combined_equipped_items_power(state) >= POWER_TIERS[2]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
 		get_completion_rate: (state: State) => ([_get_combined_equipped_items_power(state), POWER_TIERS[3]])
@@ -534,9 +764,9 @@ const RAW_ENTRIES_PROGRESSION_EQUIPMENT: Readonly<Partial<AchievementDefinition<
 		name: 'King-looking Adventurer',
 		description: `Having a combined equipment’s power of ${POWER_TIERS[4]} or higher.`,
 		// lore: 'TODO',
-		get_status: (state: State) => _get_combined_equipped_items_power(state) > POWER_TIERS[4]
+		get_status: (state: State) => _get_combined_equipped_items_power(state) >= POWER_TIERS[4]
 			? AchievementStatus.unlocked
-			: _get_combined_equipped_items_power(state) > POWER_TIERS[3]
+			: _get_combined_equipped_items_power(state) >= POWER_TIERS[3]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
 		get_completion_rate: (state: State) => ([_get_combined_equipped_items_power(state), POWER_TIERS[4]])
@@ -546,9 +776,9 @@ const RAW_ENTRIES_PROGRESSION_EQUIPMENT: Readonly<Partial<AchievementDefinition<
 		name: 'Emperor-Looking Adventurer',
 		description: `Having a combined equipment’s power of ${POWER_TIERS[5]} or higher.`,
 		// lore: 'TODO',
-		get_status: (state: State) => _get_combined_equipped_items_power(state) > POWER_TIERS[5]
+		get_status: (state: State) => _get_combined_equipped_items_power(state) >= POWER_TIERS[5]
 			? AchievementStatus.unlocked
-			: _get_combined_equipped_items_power(state) > POWER_TIERS[4]
+			: _get_combined_equipped_items_power(state) >= POWER_TIERS[4]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
 		get_completion_rate: (state: State) => ([_get_combined_equipped_items_power(state), POWER_TIERS[5]])
@@ -1102,9 +1332,12 @@ const RAW_ENTRIES: Readonly<Partial<AchievementDefinition<State>>>[] = [
 	},
 
 	...RAW_ENTRIES_PRIMARY_CTA,
-	...RAW_ENTRIES_COUNTER_CTA,
-	...RAW_ENTRIES_SECONDARY_CTAS,
 	...RAW_ENTRIES_ENGAGEMENT,
+	...RAW_ENTRIES_ADVENTURING,
+	...RAW_ENTRIES_ADVENTURES_SETS,
+	...RAW_ENTRIES_SECONDARY_CTAS,
+	...RAW_ENTRIES_FIGHT_ENCOUNTERS,
+	...RAW_ENTRIES_COUNTER_CTA,
 
 	...RAW_ENTRIES_PROGRESSION_EQUIPMENT,
 	...RAW_ENTRIES_PROGRESSION_ATTRIBUTES,
@@ -1115,9 +1348,13 @@ const RAW_ENTRIES: Readonly<Partial<AchievementDefinition<State>>>[] = [
 	...RAW_ENTRIES_TEST,
 ]
 
+const UID_CHECK: Set<string> = new Set()
 const ENTRIES: Readonly<AchievementDefinition<State>>[] = RAW_ENTRIES
 	.filter(raw => raw.name && raw.description && raw.get_status)
 	.map(({name, icon, description, lore, get_status, get_completion_rate}, index) => {
+		if (UID_CHECK.has(name!))
+			throw new Error(`Achievements: duplicate definition for "${name}"!`)
+		UID_CHECK.add(name!)
 		const session_uuid = [`${index}`.padStart(4, '0'), name].join(' ')
 		return {
 			session_uuid,

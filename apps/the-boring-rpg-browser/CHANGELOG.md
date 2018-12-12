@@ -21,7 +21,7 @@ Next
 2018/12/XX v0.55.
 - 🤩 feature: X new adventures (now totalling X!)
 - 😍 feature: X new backgrounds (now totalling X!)
-- 🤩 feature: 15 new achievements (now totalling X!)
+- 🤩 feature: 70 new achievements!! (now totalling 97)
 - 😅 fix (hopefully!): autoplay/reborn no longer discards all the armors (now balanced)
 - 😷 chore: some internal refactors
 

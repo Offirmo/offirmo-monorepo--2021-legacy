@@ -71,6 +71,8 @@ interface State {
 		encountered_adventures: { [key: string]: true }
 		good_play_count_by_active_class: { [klass: string]: number }
 		bad_play_count_by_active_class: { [klass: string]: number }
+		fight_won_count: number
+		fight_lost_count: number
 		coins_gained: number
 		tokens_gained: number
 		items_gained: number
