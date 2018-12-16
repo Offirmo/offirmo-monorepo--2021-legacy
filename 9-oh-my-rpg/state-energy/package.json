@@ -14,6 +14,7 @@
 		"@oh-my-rpg/definitions": "^0.0.1",
 		"@offirmo/timestamps": "^0.0.1",
 		"deep-freeze-strict": "^1",
+		"fraction.js": "^4",
 		"typescript-string-enums": "^0.3"
 	},
 	"devDependencies": {

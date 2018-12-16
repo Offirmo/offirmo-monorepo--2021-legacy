@@ -7,8 +7,8 @@
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "UNLICENSED",
 	"dependencies": {
-		"favico.js": "^0.3.10",
-		"piecon": "^0.5.0"
+		"favico.js": "^0.3",
+		"piecon": "^0.5"
 	},
 	"devDependencies": {
 		"npm-run-all": "^4"
