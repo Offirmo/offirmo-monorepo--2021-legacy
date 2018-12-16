@@ -420,7 +420,7 @@ const RAW_ENTRIES_PRIMARY_CTA: Readonly<Partial<AchievementDefinition<State>>>[]
 		icon: '🥇',
 		// https://www.urbandictionary.com/define.php?term=Turn%20it%20up%20to%20eleven
 		name: 'Turn it up to eleven',
-		description: `Having played 11 times.`,
+		description: `Having played ${GOOD_CLICKS_TIERS[2]} times.`,
 		lore: 'You step onto the road, and there’s no telling where you might be swept off to…',
 		get_status: (state: State) => state.progress.statistics.good_play_count >= GOOD_CLICKS_TIERS[2]
 			? AchievementStatus.unlocked
@@ -504,38 +504,38 @@ const RAW_ENTRIES_COUNTER_CTA: Readonly<Partial<AchievementDefinition<State>>>[]
 	{
 		icon: '😼',
 		name: 'I’m not that innocent',
-		description: `Having played too soon 10 times.`,
+		description: `Having played too soon ${BAD_CLICKS_TIERS[3]} times.`,
 		lore: 'There is no such thing as accident; it is fate misnamed.',
 		get_status: (state: State) => state.progress.statistics.bad_play_count >= BAD_CLICKS_TIERS[3]
 			? AchievementStatus.unlocked
 			: state.progress.statistics.bad_play_count >= BAD_CLICKS_TIERS[2]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (state: State) => ([state.progress.statistics.bad_play_count, BAD_CLICKS_TIERS[2]])
+		get_completion_rate: (state: State) => ([state.progress.statistics.bad_play_count, BAD_CLICKS_TIERS[3]])
 	},
 	{
 		icon: '😈',
 		name: 'It’s good to be bad',
-		description: `Having played too soon 66 times.`,
+		description: `Having played too soon ${BAD_CLICKS_TIERS[4]} times.`,
 		lore: 'Never retreat, never retract… never admit a mistake…',
 		get_status: (state: State) => state.progress.statistics.bad_play_count >= BAD_CLICKS_TIERS[4]
 			? AchievementStatus.unlocked
 			: state.progress.statistics.bad_play_count >= BAD_CLICKS_TIERS[3]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (state: State) => ([state.progress.statistics.bad_play_count, BAD_CLICKS_TIERS[3]])
+		get_completion_rate: (state: State) => ([state.progress.statistics.bad_play_count, BAD_CLICKS_TIERS[4]])
 	},
 	{
 		icon: '👻',
 		name: 'Hello darkness my old friend',
-		description: `Having played too soon 666 times.`,
+		description: `Having played too soon ${BAD_CLICKS_TIERS[5]} times.`,
 		lore: 'Give yourself to the dark side…',
 		get_status: (state: State) => state.progress.statistics.bad_play_count >= BAD_CLICKS_TIERS[5]
 			? AchievementStatus.unlocked
 			: state.progress.statistics.bad_play_count >= BAD_CLICKS_TIERS[4]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (state: State) => ([state.progress.statistics.bad_play_count, BAD_CLICKS_TIERS[4]])
+		get_completion_rate: (state: State) => ([state.progress.statistics.bad_play_count, BAD_CLICKS_TIERS[5]])
 	},
 ]
 
@@ -641,7 +641,7 @@ const RAW_ENTRIES_ENGAGEMENT: Readonly<Partial<AchievementDefinition<State>>>[] 
 	},
 ]
 
-const POWER_TIERS = [0, 1000, 5000, 10_000, 40_000, 80_000]
+const POWER_TIERS = [0, 5_000, 10_000, 30_000, 60_000, 90_000]
 const RAW_ENTRIES_PROGRESSION_EQUIPMENT: Readonly<Partial<AchievementDefinition<State>>>[] = [
 	{
 		icon: '🥄',

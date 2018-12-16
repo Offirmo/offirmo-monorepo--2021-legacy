@@ -12,6 +12,8 @@ interface State {
 	email: string | null
 	allow_telemetry: boolean
 	//creation_date: XXX TODO
+
+	//has firefox
 }
 
 /////////////////////

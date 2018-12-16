@@ -18,12 +18,9 @@ Next
 - 😷 chore: some internal refactors
 
 
-2018/12/XX v0.55.
-- 🤩 feature: X new adventures (now totalling X!)
-- 😍 feature: X new backgrounds (now totalling X!)
+2018/12/XX v0.54.11
 - 🤩 feature: 70 new achievements!! (now totalling 97)
 - 😅 fix (hopefully!): autoplay/reborn no longer discards all the armors (now balanced)
-- 😷 chore: some internal refactors
 
 
 2018/12/03 v0.54.4

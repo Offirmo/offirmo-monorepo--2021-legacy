@@ -589,15 +589,18 @@ You gain {{coin}} and +{{attr}} {{attr_name}}.
 		`,
 
 	// Colossal Cave Adventure
+	// http://rickadams.org/adventure/d_hints/index.html
 	colossal_cave: `
 You discover and explore a colossal cave! Undeads, goblins...
 You emerge victoriously, with loot ({{item}}) and experience (+{{attr}} {{attr_name}})!
 		`,
+	// http://rickadams.org/adventure/d_hints/hint009.html
 	colossal_cave_maze: `
 You explore yet another cave.
 You are in a maze of twisty little passages, all alike.
 You find a {{item}} on the ground and manage to find an exit after a while.
 `,
+	// You are in a twisty maze of passageways, all different,
 
 	// nethack
 	gehennom: `

@@ -1,6 +1,11 @@
 
 import { dump_pretty_json } from "@offirmo/prettify-json" // TODO remove
 
++++ skill system https://en.uesp.net/wiki/Oblivion:Leveling
+
+music https://www.steven-obrien.net/
+
+pit https://www.news.com.au/technology/science/monstrous-unexplored-cave-found-in-remote-canada-nicknamed-after-star-wars-beast/news-story/f101a66a7b8414a00e6e59bbac25a8f8
 
 https://fr.wikipedia.org/wiki/Si%C3%A8ge_(militaire)
 
@@ -28,6 +33,8 @@ make luck active
 - hammer of smith-> increase item improvements
 
 Sets
+
+font https://dribbble.com/shots/5683493-Free-Font-Scotland
 
 https://developer.mozilla.org/en-US/docs/Games/Techniques/Audio_for_Web_Games
 

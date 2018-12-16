@@ -152,7 +152,8 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<
 						type: EngagementState.EngagementType.flow,
 						key: EngagementKey['just-some-text'],
 					}, {
-						text: 'Nothing happens.', // TODO
+						// http://rickadams.org/adventure/d_hints/hint024.html
+						text: 'fee fie foe foo ;)',
 					}),
 				}
 				break
