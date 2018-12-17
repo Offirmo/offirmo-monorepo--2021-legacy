@@ -1,23 +1,36 @@
 import deepFreeze from 'deep-freeze-strict'
 
-import { State } from './types'
+import { UState, TState } from './types'
 
 /////////////////////
-
 // a full featured, non-trivial demo state
 // useful for demos and unit tests
-const DEMO_STATE: Readonly<State> = deepFreeze({
-	schema_version: 1,
-	revision: 450,
+
+const DEMO_U_STATE: Readonly<UState> = deepFreeze({
+	schema_version: 2,
+	revision: 1,
 
 	max_energy: 7,
-	base_energy_refilling_rate_per_day: 7,
-	last_date: 'ts1_20181103_08h15:14.490',
-	last_available_energy_float: 3.0009140000000000814,
+	energy_refilling_rate_per_ms: {
+		numerator: 7,
+		denominator: 24 * 3600 * 1000,
+	},
+})
+
+const DEMO_T_STATE: Readonly<TState> = deepFreeze({
+	schema_version: 2,
+
+	timestamp_ms: 1545016005762,
+
+	available_energy: {
+		numerator: 7,
+		denominator: 2,
+	},
 })
 
 /////////////////////
 
 export {
-	DEMO_STATE,
+	DEMO_U_STATE,
+	DEMO_T_STATE,
 }

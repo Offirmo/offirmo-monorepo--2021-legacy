@@ -7,6 +7,8 @@ TODO https://segment.com/product/connections/
 
 TODO https://frontarm.com/articles/react-context-performance/
 
+TODO https://developers.google.com/web/updates/2018/10/intl-relativetimeformat
+
 transitions https://css-tricks.com/animate-images-and-videos-with-curtains-js/
 
 https://pusher.com/features

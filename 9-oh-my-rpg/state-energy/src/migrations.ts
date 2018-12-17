@@ -1,7 +1,7 @@
 import deepFreeze from 'deep-freeze-strict'
 
 import { LIB, SCHEMA_VERSION } from './consts'
-import { State } from './types'
+import { UState, TState } from './types'
 import { SoftExecutionContext, OMRContext, get_lib_SEC } from './sec'
 
 // some hints may be needed to migrate to demo state
@@ -11,8 +11,12 @@ const MIGRATION_HINTS_FOR_TESTS: any = deepFreeze({
 
 /////////////////////
 
-function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any> = {}): State {
-	const existing_version = (legacy_state && legacy_state.schema_version) || 0
+function migrate_to_latest(
+	SEC: SoftExecutionContext,
+	[legacy_u_state, legacy_t_state]: [ Readonly<any>, Readonly<any> ],
+	hints: Readonly<any> = {}
+): [ Readonly<UState>, Readonly<TState> ] {
+	const existing_version = (legacy_u_state && legacy_u_state.schema_version) || 0
 
 	SEC = get_lib_SEC(SEC)
 		.setAnalyticsAndErrorDetails({
@@ -25,14 +29,16 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any
 		if (existing_version > SCHEMA_VERSION)
 			throw new Error('Your data is from a more recent version of this lib. Please update!')
 
-		let state: State = legacy_state as State // for starter
+		// for starter
+		let u_state: UState = legacy_u_state as UState
+		let t_state: TState = legacy_t_state as TState
 
 		if (existing_version < SCHEMA_VERSION) {
 			logger.warn(`${LIB}: attempting to migrate schema from v${existing_version} to v${SCHEMA_VERSION}:`)
 			SEC.fireAnalyticsEvent('schema_migration.began')
 
 			try {
-				state = migrate_to_2(SEC, legacy_state, hints)
+				[ u_state, t_state ] = migrate_to_2(SEC, [ legacy_u_state, legacy_t_state ], hints)
 			}
 			catch (err) {
 				SEC.fireAnalyticsEvent('schema_migration.failed')
@@ -45,13 +51,17 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any
 
 		// migrate sub-reducers if any...
 
-		return state
+		return [ u_state, t_state ]
 	})
 }
 
 /////////////////////
 
-function migrate_to_2(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any>): State {
+function migrate_to_2(
+	SEC: SoftExecutionContext,
+	[legacy_u_state, legacy_t_state]: [ Readonly<any>, Readonly<any> ],
+	hints: Readonly<any> = {}
+): [ Readonly<UState>, Readonly<TState> ] {
 	throw new Error('Schema is too old (pre-beta), can’t migrate!')
 }
 

@@ -17,6 +17,12 @@ https://wiki.openstreetmap.org/wiki/Servers/Name_Ideas
 
 "They reckon you get ice in your veins, that's what they call it," she said.
 
+Idées (blogs)
+- http://www.necropraxis.com/
+- http://www.lulu.com/shop/matthew-finch/quick-primer-for-old-school-gaming/ebook/product-3159558.html
+- http://questingblog.com/
+
+
 Idées
 https://worldofwarcraft.judgehype.com/news/world-boss-assemblage-de-grelons-est-de-retour-en-drustvar-157658/
 https://worldofwarcraft.judgehype.com/news/guide-du-14eme-anniversaire-de-wow-world-boss-objets-et-nouveautes-pour-2018-157688/

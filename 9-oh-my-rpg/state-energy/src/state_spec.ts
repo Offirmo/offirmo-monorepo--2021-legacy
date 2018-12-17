@@ -3,12 +3,13 @@ import { expect } from 'chai'
 import { LIB, SCHEMA_VERSION } from './consts'
 
 import {
-	State,
+	UState,
+	TState,
 	create,
 	use_energy,
 	restore_energy,
 
-	get_snapshot,
+	get_derived,
 } from '.'
 import { get_human_readable_UTC_timestamp_ms } from '@offirmo/timestamps'
 
@@ -17,9 +18,19 @@ describe('@oh-my-rpg/state-energy - reducer', function() {
 	describe('🆕  initial state', function() {
 
 		it('should have correct defaults', function() {
-			let state = create()
+			let [ u_state, t_state ] = create()
 
-			expect(state).to.deep.equal({
+			expect(u_state, 'u').to.deep.equal({
+				schema_version: SCHEMA_VERSION,
+				revision: 0,
+
+				max_energy: 7,
+				base_energy_refilling_rate_per_day: 7,
+
+				last_date: 'ts1_19700101_00h00:00.000',
+				last_available_energy_float: 7.,
+			})
+			expect(t_state, 't').to.deep.equal({
 				schema_version: SCHEMA_VERSION,
 				revision: 0,
 
@@ -37,24 +48,24 @@ describe('@oh-my-rpg/state-energy - reducer', function() {
 		context('when having enough energy', function() {
 
 			it('should decrement energy correctly', function() {
-				let state = create()
+				let [ u_state, t_state ] = create()
 
-				state = use_energy(state, 1)
-				state = use_energy(state, 1)
-				state = use_energy(state, 1)
+				t_state = use_energy([ u_state, t_state ], 1)
+				t_state = use_energy([ u_state, t_state ], 1)
+				t_state = use_energy([ u_state, t_state ], 1)
 
-				const snapshot = get_snapshot(state)
+				const derived = get_derived([ u_state, t_state ])
 
-				expect(snapshot.available_energy).to.equal(4)
+				expect(derived.available_energy).to.equal(4)
 			})
 
 			it('should memorize the usage', function() {
-				let state = create()
+				let [ u_state, t_state ] = create()
 
 				const date = new Date()
-				state = use_energy(state, 1, date)
-				state = use_energy(state, 2, date)
-				state = use_energy(state, 3, date)
+				t_state = use_energy([ u_state, t_state ], 1, date)
+				t_state = use_energy([ u_state, t_state ], 1, date)
+				t_state = use_energy([ u_state, t_state ], 1, date)
 
 				expect(state.last_available_energy_float).to.equal(1)
 				expect(state.last_date).to.equal(get_human_readable_UTC_timestamp_ms(date))

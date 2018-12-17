@@ -1,39 +1,40 @@
 import { Enum } from 'typescript-string-enums'
+import { NumeratorDenominator } from 'fraction.js'
 
-import { HumanReadableTimestampUTCMs } from '@offirmo/timestamps'
+import { TimestampUTCMs } from '@offirmo/timestamps'
 
 /////////////////////
 
-interface State {
+interface UState {
 	schema_version: number
 	revision: number
 
 	max_energy: number
-	// TODO review (store a bonus instead ?)
-	base_energy_refilling_rate_per_day: number // ex. 7 = will refill 7 energy in 24h
 
-	last_date: HumanReadableTimestampUTCMs
-	last_available_energy_float: number
+	// ex. 7 / 24h will refill 7 energy in 24h
+	energy_refilling_rate_per_ms: NumeratorDenominator
 }
 
-// only valid on a specific date
-interface Snapshot {
-	available_energy: number
-	available_energy_float: number
-	total_energy_refilling_ratio: number // 0-1, 1 = fully refilled
+interface TState {
+	schema_version: number
 
-	next_energy_refilling_ratio: number // 0-1, 1 = n/a (fully refilled)
-	human_time_to_next: string
+	timestamp_ms: TimestampUTCMs
 
-	//is_well_rested: boolean
-	//good_rest_refilling_ratio: number // 0-1, 1 = fully rested
+	available_energy: NumeratorDenominator
+}
+
+////////////
+
+interface Derived {
+	// TODO
 }
 
 /////////////////////
 
 export {
-	State,
-	Snapshot,
+	UState,
+	TState,
+	Derived,
 }
 
 /////////////////////

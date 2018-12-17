@@ -5,7 +5,7 @@ import { test_migrations } from '@oh-my-rpg/migration-tester'
 
 import { SCHEMA_VERSION } from './consts'
 import { migrate_to_latest, MIGRATION_HINTS_FOR_TESTS } from './migrations'
-import { DEMO_STATE } from './examples'
+import { DEMO_U_STATE, DEMO_T_STATE } from './examples'
 import { get_lib_SEC } from './sec'
 import { create } from './state'
 
@@ -17,7 +17,6 @@ describe('@oh-my-rpg/state-energy - migration', function() {
 
 		const new_state = migrate_to_latest(get_lib_SEC(), old_state)
 
-		//expect(new_state).to.equal(old_state)
 		expect(new_state).to.deep.equal(old_state)
 	})
 
@@ -42,7 +41,7 @@ describe('@oh-my-rpg/state-energy - migration', function() {
 			//read_only: false, // XXX
 			migration_hints_for_chaining: MIGRATION_HINTS_FOR_TESTS,
 			SCHEMA_VERSION,
-			LATEST_EXPECTED_DATA: DEMO_STATE,
+			LATEST_EXPECTED_DATA: [ DEMO_U_STATE, DEMO_T_STATE ],
 			migrate_to_latest: migrate_to_latest.bind(null, get_lib_SEC()),
 			absolute_dir_path: require('path').join(__dirname, '../../src/migrations_of_active_state_specs'),
 			describe, context, it, expect,

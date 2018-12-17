@@ -3,6 +3,10 @@ TODO https://hackernoon.com/package-lambda-functions-the-easy-way-with-npm-e38fc
 
 HOWTO publish
 
+TODO
+- https://zeit.co/blog/ncc
+
+
 https://github.com/terkelg/prompts
 
 ``` bash

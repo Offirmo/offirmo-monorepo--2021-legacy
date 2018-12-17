@@ -11,8 +11,8 @@ import {
 	HumanReadableTimestampUTCMs,
 } from './types'
 
-function get_UTC_timestamp_ms(): TimestampUTCMs {
-	return (+ Date.now())
+function get_UTC_timestamp_ms(now: Readonly<Date> = new Date()): TimestampUTCMs {
+	return (+now)
 }
 
 /////////////////////

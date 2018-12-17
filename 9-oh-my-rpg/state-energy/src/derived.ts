@@ -2,9 +2,31 @@ import { parse_human_readable_UTC_timestamp_ms } from '@offirmo/timestamps'
 
 import { LIB } from './consts'
 
+
+
+// only valid on a specific date
+/*interface Snapshot {
+	available_energy: number
+	available_energy_float: number
+	total_energy_refilling_ratio: number // 0-1, 1 = fully refilled
+
+	next_energy_refilling_ratio: number // 0-1, 1 = n/a (fully refilled)
+	human_time_to_next: string
+
+	//is_well_rested: boolean
+	//good_rest_refilling_ratio: number // 0-1, 1 = fully rested
+}
+
+/*
+
+	last_date: HumanReadableTimestampUTCMs
+	last_available_energy_float: number
+	*/
+
 import {
-	State,
-	Snapshot,
+	UState,
+	TState,
+	Derived,
 } from './types'
 
 import { round_float } from './utils'
@@ -32,9 +54,13 @@ function time_to_human(seconds: number): string {
 }
 
 const DEBUG = false
-function get_snapshot(state: Readonly<State>, now: Readonly<Date> = new Date()): Readonly<Snapshot> {
-	if (DEBUG) console.log('\nstarting snapshot computation', state, {now})
+function get_derived(
+	u_state: Readonly<UState>,
+	t_state: Readonly<TState>,
+): Readonly<Derived> {
+	if (DEBUG) console.log('\nstarting derived computation', { u_state, t_state })
 
+	/*
 	// base = all max
 	const MAX_ENERGY_FLOAT = parseFloat(state.max_energy as any)
 	const snapshot: Snapshot = {
@@ -74,11 +100,12 @@ function get_snapshot(state: Readonly<State>, now: Readonly<Date> = new Date()):
 		snapshot.next_energy_refilling_ratio = round_float(dec, ENERGY_ROUNDING)
 	}
 
-	return snapshot
+	return snapshot*/
+	return {}
 }
 
 
 export {
 	ENERGY_ROUNDING,
-	get_snapshot,
+	get_derived,
 }
