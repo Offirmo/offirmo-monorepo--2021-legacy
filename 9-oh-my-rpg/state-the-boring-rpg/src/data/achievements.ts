@@ -276,6 +276,7 @@ const RAW_ENTRIES_ADVENTURES_SETS: Readonly<Partial<AchievementDefinition<State>
 			: _eaten_mushroom_count(state) >= 1
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
+		get_completion_rate: (state: State) => ([_eaten_mushroom_count(state), 3])
 	},
 	{
 		icon: '🍡',
@@ -286,6 +287,7 @@ const RAW_ENTRIES_ADVENTURES_SETS: Readonly<Partial<AchievementDefinition<State>
 			: _eaten_mushroom_count(state) >= 3
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
+		get_completion_rate: (state: State) => ([_eaten_mushroom_count(state), 8])
 	},
 
 	{
@@ -297,6 +299,7 @@ const RAW_ENTRIES_ADVENTURES_SETS: Readonly<Partial<AchievementDefinition<State>
 			: _drunk_potion_count(state) >= 1
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
+		get_completion_rate: (state: State) => ([_drunk_potion_count(state), 3])
 	},
 	{
 		icon: '🍹',
@@ -307,6 +310,7 @@ const RAW_ENTRIES_ADVENTURES_SETS: Readonly<Partial<AchievementDefinition<State>
 			: _drunk_potion_count(state) >= 3
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
+		get_completion_rate: (state: State) => ([_drunk_potion_count(state), 6])
 	},
 
 	{
@@ -318,6 +322,7 @@ const RAW_ENTRIES_ADVENTURES_SETS: Readonly<Partial<AchievementDefinition<State>
 			: _helped_village_count(state) >= 1
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
+		get_completion_rate: (state: State) => ([_helped_village_count(state), 6])
 	},
 
 	{
@@ -329,6 +334,7 @@ const RAW_ENTRIES_ADVENTURES_SETS: Readonly<Partial<AchievementDefinition<State>
 			: _famous_stones_count(state) >= 1
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
+		get_completion_rate: (state: State) => ([_famous_stones_count(state), 4])
 	},
 
 	// all class master
@@ -550,6 +556,7 @@ const RAW_ENTRIES_SECONDARY_CTAS: Readonly<Partial<AchievementDefinition<State>>
 		get_status: (state: State) => state.progress.statistics.active_day_count >= REGULARITY_TIERS[1]
 			? AchievementStatus.unlocked
 			: AchievementStatus.revealed,
+		get_completion_rate: (state: State) => ([state.progress.statistics.active_day_count, REGULARITY_TIERS[1]])
 	},
 	{
 		icon: '🌿',
@@ -669,6 +676,11 @@ const RAW_ENTRIES_PROGRESSION_EQUIPMENT: Readonly<Partial<AchievementDefinition<
 		get_status: (state: State) => _equipped_armor_matches(state, STARTING_ARMOR_SPEC) || _equipped_weapon_matches(state, STARTING_WEAPON_SPEC)
 			? AchievementStatus.revealed
 			: AchievementStatus.unlocked,
+		get_completion_rate: (state: State) => ([
+			(_equipped_armor_matches(state, STARTING_ARMOR_SPEC) ? 0 : 1)
+			+ (_equipped_weapon_matches(state, STARTING_WEAPON_SPEC) ? 0 : 1),
+			2
+		])
 	},
 
 	// - quality

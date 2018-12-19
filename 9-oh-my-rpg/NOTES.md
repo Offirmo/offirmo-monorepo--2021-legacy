@@ -1,4 +1,12 @@
 
+how to negotiate
+https://www.linkedin.com/pulse/how-negotiate-jo-owen/
+
+royal anthem of France https://www.youtube.com/watch?v=TXXdOqaI4mc
+                       https://www.youtube.com/watch?v=298cdANN2Q8
+triomphe baroque https://www.youtube.com/watch?v=snxUHRaGTuA
+
+
 import { dump_pretty_json } from "@offirmo/prettify-json" // TODO remove
 
 +++ skill system https://en.uesp.net/wiki/Oblivion:Leveling

@@ -414,7 +414,7 @@ You explore some ruins of an ancient civilisation the world.{{br}}
 You find a {{item}} and worth {{coin}} of coins!`,
 	inspect_sewers: `
 You inspect the city’s sewers and clean the vermin.{{br}}
-You worth {{coin}} of coins and polish your skills: +{{attr}} {{attr_name}}!`,
+You find worth {{coin}} of coins and polish your skills: +{{attr}} {{attr_name}}!`,
 	explore_catacombs: `
 You explore the city’s old catacombs and put the undeads to rest.{{br}}
 You find a {{item}} and worth {{coin}} of coins!`,
