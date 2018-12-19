@@ -26,7 +26,18 @@ interface TState {
 ////////////
 
 interface Derived {
-	// TODO
+	available_energy_int: number
+	available_energy_float: number
+	human_time_to_next: string // ex. "3h" until next energy
+	next_energy_refilling_ratio: number // to be able to display "53%"
+
+	/*
+	available_energy: number
+	total_energy_refilling_ratio: number // 0-1, 1 = fully refilled
+
+	last_date: HumanReadableTimestampUTCMs
+	last_available_energy_float: number
+	*/
 }
 
 /////////////////////

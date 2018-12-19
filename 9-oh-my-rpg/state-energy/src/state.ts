@@ -28,8 +28,8 @@ function create(): [ Readonly<UState>, Readonly<TState> ] {
 
 		energy_refilling_rate_per_ms: {
 			// 7/24h, in ms
-			numerator: 7,
-			denominator: 24 * 3600 * 1000,
+			n: 7,
+			d: 24 * 3600 * 1000,
 		}
 	}
 
@@ -38,8 +38,8 @@ function create(): [ Readonly<UState>, Readonly<TState> ] {
 
 		timestamp_ms: get_UTC_timestamp_ms(new Date(0)),
 		available_energy: {
-			numerator: u_state.max_energy,
-			denominator: 1,
+			n: u_state.max_energy,
+			d: 1,
 		}
 	}
 
@@ -49,15 +49,17 @@ function create(): [ Readonly<UState>, Readonly<TState> ] {
 /////////////////////
 // date can be forced for testing reasons,
 
-
 function update_to_now(
 	[ u_state, t_state ]: [ Readonly<UState>, Readonly<TState> ],
 	now_ms: TimestampUTCMs = get_UTC_timestamp_ms()
 ): Readonly<TState> {
 	const elapsed_time_ms = now_ms - t_state.timestamp_ms
 
-	if (elapsed_time_ms < 0)
-		throw new Error(`${LIB}: time went backward! (cheating attempt?)`)
+	if (elapsed_time_ms < 0) {
+		// time went backward? Must be a time saving.
+		// just do nothing while time is note positive again
+		return t_state
+	}
 
 	if (elapsed_time_ms < TICK_MS)
 		return t_state
@@ -75,8 +77,8 @@ function update_to_now(
 		timestamp_ms: t_state.timestamp_ms + elapsed_time_ms,
 
 		available_energy: {
-			numerator: energy.n,
-			denominator: energy.d,
+			n: energy.n,
+			d: energy.d,
 		}
 	}
 }
@@ -102,13 +104,14 @@ function use_energy(
 		...t_state,
 
 		available_energy: {
-			numerator: available_energy.n,
-			denominator: available_energy.d,
+			n: available_energy.n,
+			d: available_energy.d,
 		}
 	}
 
 	return t_state
 }
+
 
 // can be used as a punishment
 function loose_all_energy(
@@ -122,15 +125,16 @@ function loose_all_energy(
 		timestamp_ms: now_ms,
 
 		available_energy: {
-			numerator: 0,
-			denominator: 1,
+			n: 0,
+			d: 1,
 		}
 	}
 
 	return t_state
 }
 
-// seldom used, with secret codes or for tests
+
+// seldom used, for ex. by secret codes or for tests
 function restore_energy(
 	[ u_state, t_state ]: [ Readonly<UState>, Readonly<TState> ],
 	qty: number = 1,
@@ -147,13 +151,14 @@ function restore_energy(
 		...t_state,
 
 		available_energy: {
-			numerator: available_energy.n,
-			denominator: available_energy.d,
+			n: available_energy.n,
+			d: available_energy.d,
 		}
 	}
 
 	return t_state
 }
+
 
 /////////////////////
 

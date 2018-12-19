@@ -6,14 +6,13 @@ import {
 	UState,
 	TState,
 	create,
+	update_to_now,
 	use_energy,
 	restore_energy,
-
 	get_derived,
 } from '.'
-import { get_human_readable_UTC_timestamp_ms } from '@offirmo/timestamps'
 
-describe('@oh-my-rpg/state-energy - reducer', function() {
+describe(`${LIB} - reducer`, function() {
 
 	describe('🆕  initial state', function() {
 
@@ -25,20 +24,20 @@ describe('@oh-my-rpg/state-energy - reducer', function() {
 				revision: 0,
 
 				max_energy: 7,
-				base_energy_refilling_rate_per_day: 7,
 
-				last_date: 'ts1_19700101_00h00:00.000',
-				last_available_energy_float: 7.,
+				energy_refilling_rate_per_ms: {
+					n: 7,
+					d: 24 * 3600 * 1000,
+				}
 			})
 			expect(t_state, 't').to.deep.equal({
 				schema_version: SCHEMA_VERSION,
-				revision: 0,
 
-				max_energy: 7,
-				base_energy_refilling_rate_per_day: 7,
-
-				last_date: 'ts1_19700101_00h00:00.000',
-				last_available_energy_float: 7.,
+				timestamp_ms: 0, // 1970
+				available_energy: {
+					n: u_state.max_energy,
+					d: 1,
+				}
 			})
 		})
 	})
@@ -54,61 +53,52 @@ describe('@oh-my-rpg/state-energy - reducer', function() {
 				t_state = use_energy([ u_state, t_state ], 1)
 				t_state = use_energy([ u_state, t_state ], 1)
 
-				const derived = get_derived([ u_state, t_state ])
+				const derived = get_derived(u_state, t_state)
 
-				expect(derived.available_energy).to.equal(4)
+				expect(derived.available_energy_int).to.equal(4)
 			})
 
-			it('should memorize the usage', function() {
+			it('should not change on abnormal date', function() {
 				let [ u_state, t_state ] = create()
 
-				const date = new Date()
-				t_state = use_energy([ u_state, t_state ], 1, date)
-				t_state = use_energy([ u_state, t_state ], 1, date)
-				t_state = use_energy([ u_state, t_state ], 1, date)
-
-				expect(state.last_available_energy_float).to.equal(1)
-				expect(state.last_date).to.equal(get_human_readable_UTC_timestamp_ms(date))
-			})
-
-			it('should discard irrelevant usages if any', function() {
-				let state = create()
-
 				// outdated usages
-				state = use_energy(state, 4, new Date(2017, 1, 1))
-				state = use_energy(state, 4, new Date(2017, 1, 2))
-				state = use_energy(state, 4, new Date(2017, 1, 3))
-				state = use_energy(state, 4, new Date(2017, 1, 4))
-				state = use_energy(state, 4, new Date(2017, 1, 5))
-				state = use_energy(state, 4, new Date(2017, 1, 6))
-				state = use_energy(state, 4, new Date(2017, 1, 7))
+				t_state = use_energy([ u_state, t_state ], 4, +new Date(2017, 1, 1))
+				t_state = use_energy([ u_state, t_state ], 4, +new Date(2017, 1, 2))
+				t_state = use_energy([ u_state, t_state ], 4, +new Date(2017, 1, 3))
+				t_state = use_energy([ u_state, t_state ], 4, +new Date(2017, 1, 4))
+				t_state = use_energy([ u_state, t_state ], 4, +new Date(2017, 1, 5))
+				t_state = use_energy([ u_state, t_state ], 4, +new Date(2017, 1, 6))
+				t_state = use_energy([ u_state, t_state ], 4, +new Date(2017, 1, 7))
 
 				// now let's do it
-				state = use_energy(state, 1, new Date(Date.UTC(2018, 1, 1, 1)))
-				state = use_energy(state, 1, new Date(Date.UTC(2018, 1, 1, 2)))
-				state = use_energy(state, 1, new Date(Date.UTC(2018, 1, 1, 3)))
+				t_state = use_energy([ u_state, t_state ], 1, +Date.UTC(3000, 1, 1, 1))
+				t_state = use_energy([ u_state, t_state ], 1, +Date.UTC(3000, 1, 1, 2))
+				t_state = use_energy([ u_state, t_state ], 1, +Date.UTC(3000, 1, 1, 3))
 
-				expect(get_snapshot(state, new Date(Date.UTC(2018, 1, 1, 3))).available_energy).to.equal(4)
-				expect(state.last_available_energy_float).to.be.above(4.)
-				expect(state.last_available_energy_float).to.be.below(5.)
-				expect(state.last_date).to.equal('ts1_20180201_03h00:00.000')
+				t_state = update_to_now([ u_state, t_state ], +Date.UTC(3000, 1, 1, 4))
+				const derived = get_derived(u_state, t_state)
+
+				expect(derived.available_energy_int).to.equal(4)
+				expect(derived.available_energy_float).to.be.above(4.)
+				expect(derived.available_energy_float).to.be.below(5.)
+				expect(t_state.timestamp_ms).to.equal(+Date.UTC(3000, 1, 1, 4))
 			})
 		})
 
 		context('when not having enough energy', function() {
 
 			it('should throw', function() {
-				let state = create()
+				let [ u_state, t_state ] = create()
 
-				state = use_energy(state, 1)
-				state = use_energy(state, 1)
-				state = use_energy(state, 1)
-				state = use_energy(state, 1)
-				state = use_energy(state, 1)
-				state = use_energy(state, 1)
-				state = use_energy(state, 1)
+				t_state = use_energy([ u_state, t_state ], 1)
+				t_state = use_energy([ u_state, t_state ], 1)
+				t_state = use_energy([ u_state, t_state ], 1)
+				t_state = use_energy([ u_state, t_state ], 1)
+				t_state = use_energy([ u_state, t_state ], 1)
+				t_state = use_energy([ u_state, t_state ], 1)
+				t_state = use_energy([ u_state, t_state ], 1)
 
-				expect(() => use_energy(state, 1)).to.throw('not enough energy')
+				expect(() => use_energy([ u_state, t_state ], 1)).to.throw('not enough energy')
 			})
 		})
 	})
@@ -118,34 +108,34 @@ describe('@oh-my-rpg/state-energy - reducer', function() {
 		context('when not going over the limit', function() {
 
 			it('should increment energy correctly', function() {
-				let state = create()
+				let [ u_state, t_state ] = create()
 
-				state = use_energy(state, 1)
-				state = use_energy(state, 1)
-				state = use_energy(state, 1)
+				t_state = use_energy([ u_state, t_state ], 1)
+				t_state = use_energy([ u_state, t_state ], 1)
+				t_state = use_energy([ u_state, t_state ], 1)
 
-				expect(get_snapshot(state).available_energy).to.equal(4)
+				expect(get_derived(u_state, t_state).available_energy_int).to.equal(4)
 
-				state = restore_energy(state, 2)
+				t_state = restore_energy([ u_state, t_state ], 2)
 
-				expect(get_snapshot(state).available_energy).to.equal(6)
+				expect(get_derived(u_state, t_state).available_energy_int).to.equal(6)
 			})
 		})
 
 		context('when going over the limit', function() {
 
 			it('should increment but cap', function() {
-				let state = create()
+				let [ u_state, t_state ] = create()
 
-				state = use_energy(state, 1)
-				state = use_energy(state, 1)
-				state = use_energy(state, 1)
+				t_state = use_energy([ u_state, t_state ], 1)
+				t_state = use_energy([ u_state, t_state ], 1)
+				t_state = use_energy([ u_state, t_state ], 1)
 
-				expect(get_snapshot(state).available_energy).to.equal(4)
+				expect(get_derived(u_state, t_state).available_energy_int).to.equal(4)
 
-				state = restore_energy(state)
+				t_state = restore_energy([ u_state, t_state ], 10)
 
-				expect(get_snapshot(state).available_energy).to.equal(7) // max
+				expect(get_derived(u_state, t_state).available_energy_int).to.equal(7) // max
 			})
 		})
 	})
@@ -153,88 +143,98 @@ describe('@oh-my-rpg/state-energy - reducer', function() {
 	describe('natural replenishment', function() {
 
 		it('should not allow playing more than X times in 24 hours - case 1', function() {
+			let [ u_state, t_state ] = create()
 
-				let state = create()
-
-				// all at once
-				state = use_energy(state, 1, new Date(2017, 1, 1, 0))
-				state = use_energy(state, 1, new Date(2017, 1, 1, 0))
-				state = use_energy(state, 1, new Date(2017, 1, 1, 0))
-				state = use_energy(state, 1, new Date(2017, 1, 1, 0))
-				state = use_energy(state, 1, new Date(2017, 1, 1, 0))
-				state = use_energy(state, 1, new Date(2017, 1, 1, 0))
-				state = use_energy(state, 1, new Date(2017, 1, 1, 0))
-
-				// not yet
-				expect(get_snapshot(state, new Date(2017, 1, 1, 23)).available_energy).to.be.below(7)
-				// 24h elapsed
-				expect(get_snapshot(state, new Date(2017, 1, 2, 0)).available_energy).to.equal(7)
-			})
-
-		it('should not allow playing more than X times in 24 hours - case 2', function() {
-
-			let state = create()
-
-			// time to time but less than full reload
-			state = use_energy(state, 1, new Date(2017, 1, 1, 0))
-			state = use_energy(state, 1, new Date(2017, 1, 1, 1))
-			state = use_energy(state, 1, new Date(2017, 1, 1, 2))
-
-			state = use_energy(state, 1, new Date(2017, 1, 1, 5))
-			state = use_energy(state, 1, new Date(2017, 1, 1, 6))
-
-			state = use_energy(state, 1, new Date(2017, 1, 1, 9))
-			state = use_energy(state, 1, new Date(2017, 1, 1, 10))
+			// all in short sequence
+			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 1, 1, 1))
+			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 1, 1, 2))
+			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 1, 1, 3))
+			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 1, 1, 4))
+			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 1, 1, 5))
+			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 1, 1, 6))
+			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 1, 1, 7))
 
 			// not yet
-			expect(get_snapshot(state, new Date(2017, 1, 1, 23)).available_energy).to.be.below(7)
-			// 24h elapsed +1min for rounding reasons
-			expect(get_snapshot(state, new Date(2017, 1, 2, 0, 1)).available_energy).to.equal(7)
+			t_state = update_to_now([ u_state, t_state ], +new Date(2017, 1, 1, 23))
+			expect(get_derived(u_state, t_state).available_energy_int).to.be.below(7)
+
+			// 24h elapsed since 1st play
+			t_state = update_to_now([ u_state, t_state ], +new Date(2017, 1, 2, 2))
+			expect(get_derived(u_state, t_state).available_energy_int).to.equal(7)
+		})
+
+		it('should not allow playing more than X times in 24 hours - case 2', function() {
+			let [ u_state, t_state ] = create()
+
+			// time to time but less than full reload
+			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 1, 1, 1))
+			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 1, 1, 2))
+			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 1, 1, 3))
+
+			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 3, 1, 4))
+			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 3, 1, 5))
+
+			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 7, 1, 6))
+
+			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 8, 1, 7))
+
+			// not yet
+			t_state = update_to_now([ u_state, t_state ], +new Date(2017, 1, 1, 23))
+			expect(get_derived(u_state, t_state).available_energy_int).to.be.below(7)
+
+			// 24h elapsed since 1st play
+			t_state = update_to_now([ u_state, t_state ], +new Date(2017, 1, 2, 2))
+			expect(get_derived(u_state, t_state).available_energy_int).to.equal(7)
 		})
 
 		it('should not allow playing more than X times in 24 hours - case 3', function() {
-
-				let state = create()
+			let [ u_state, t_state ] = create()
 
 				// inefficient play, last one too late
-				state = use_energy(state, 1, new Date(2017, 1, 1, 0))
-				state = use_energy(state, 1, new Date(2017, 1, 1, 3, 30))
-				state = use_energy(state, 1, new Date(2017, 1, 1, 7))
-				state = use_energy(state, 1, new Date(2017, 1, 1, 10, 30))
-				state = use_energy(state, 1, new Date(2017, 1, 1, 14))
-				state = use_energy(state, 1, new Date(2017, 1, 1, 17, 30))
-				state = use_energy(state, 1, new Date(2017, 1, 1, 21))
+			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 0))
+			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 3, 30))
+			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 7))
+			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 10, 30))
+			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 14))
+			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 17, 30))
+			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 21))
 
-				// not yet
-				expect(get_snapshot(state, new Date(2017, 1, 1, 23)).available_energy).to.be.below(7)
-				// 24h elapsed
-				expect(get_snapshot(state, new Date(2017, 1, 2, 0)).available_energy).to.be.below(7)
-			})
+
+			// not yet
+			t_state = update_to_now([ u_state, t_state ], +new Date(2017, 1, 1, 23))
+			expect(get_derived(u_state, t_state).available_energy_int).to.be.below(7)
+
+			// 24h elapsed since 1st play
+			t_state = update_to_now([ u_state, t_state ], +new Date(2017, 1, 2, 0))
+			expect(get_derived(u_state, t_state).available_energy_int).to.be.below(7)
+		})
 
 		// case 1 = a wrong implementation I did first
 		it('should not be exploitable - case 1', function() {
-			let state = create()
+			let [ u_state, t_state ] = create()
 
 			// burst to 0
-			state = use_energy(state, 1, new Date(2017, 1, 1, 0))
-			state = use_energy(state, 1, new Date(2017, 1, 1, 0))
-			state = use_energy(state, 1, new Date(2017, 1, 1, 0))
-			state = use_energy(state, 1, new Date(2017, 1, 1, 0))
-			state = use_energy(state, 1, new Date(2017, 1, 1, 0))
-			state = use_energy(state, 1, new Date(2017, 1, 1, 0))
-			state = use_energy(state, 1, new Date(2017, 1, 1, 0))
+			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 0))
+			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 0))
+			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 0))
+			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 0))
+			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 0))
+			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 0))
+			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 0))
 
 			// the play as soon as energy is restored, 7 times
-			state = use_energy(state, 1, new Date(2017, 1, 1, 3, 30))
-			state = use_energy(state, 1, new Date(2017, 1, 1, 7))
-			state = use_energy(state, 1, new Date(2017, 1, 1, 10, 30))
-			state = use_energy(state, 1, new Date(2017, 1, 1, 14))
-			state = use_energy(state, 1, new Date(2017, 1, 1, 17, 30))
-			state = use_energy(state, 1, new Date(2017, 1, 1, 21))
-			state = use_energy(state, 1, new Date(2017, 1, 2, 0, 30))
+			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 3, 30))
+			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 7))
+			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 10, 30))
+			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 14))
+			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 17, 30))
+			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 21))
+			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 2, 0, 30))
 
-			// bingo, energy is at 7 again
-			expect(get_snapshot(state, new Date(2017, 1, 2, 4)).available_energy).to.be.below(7)
+			expect(get_derived(u_state, t_state).available_energy_int).to.equal(0)
+
+			t_state = update_to_now([ u_state, t_state ], +new Date(2017, 1, 2, 4))
+			expect(get_derived(u_state, t_state).available_energy_int).to.be.below(7)
 		})
 	})
 })

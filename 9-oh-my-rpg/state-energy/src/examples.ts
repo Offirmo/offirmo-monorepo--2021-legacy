@@ -12,8 +12,8 @@ const DEMO_U_STATE: Readonly<UState> = deepFreeze({
 
 	max_energy: 7,
 	energy_refilling_rate_per_ms: {
-		numerator: 7,
-		denominator: 24 * 3600 * 1000,
+		n: 7,
+		d: 24 * 3600 * 1000,
 	},
 })
 
@@ -23,8 +23,8 @@ const DEMO_T_STATE: Readonly<TState> = deepFreeze({
 	timestamp_ms: 1545016005762,
 
 	available_energy: {
-		numerator: 7,
-		denominator: 2,
+		n: 7,
+		d: 2,
 	},
 })
 
