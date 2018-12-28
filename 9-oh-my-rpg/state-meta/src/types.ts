@@ -7,13 +7,12 @@ interface State {
 	schema_version: number
 	revision: number
 
-	uuid: string
-	name: string // user name, not character name
-	email: string | null
-	allow_telemetry: boolean
-	//creation_date: XXX TODO
+	is_web_diversity_supporter: boolean
 
-	//has firefox
+	is_logged_in: boolean
+	roles: string[]
+	
+	//allow_telemetry: boolean
 }
 
 /////////////////////

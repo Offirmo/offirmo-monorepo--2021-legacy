@@ -1,11 +1,4 @@
-Meta data: data not related to gameplay itself.
-Usually shared between apps on the site, though a copy makes sense in savegames (really? will be overwritten each time)
-* internal user id
-* user name
-* some prefs
-* user rights regarding the game
-* ...
+Meta data: data that does not originate from the gameplay
+but may affect it, ex. is the user logged in? We may want to reward that.
 
-
-TODO: redo entirely. Not related to the boring rpg, this is generic.
-TODO switch that to an account, separated
+May be overwritten each session.
