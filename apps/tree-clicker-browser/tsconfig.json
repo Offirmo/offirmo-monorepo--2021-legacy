@@ -1,0 +1,11 @@
+{
+	"extends": "../../meta/tsconfig.json",
+	"compilerOptions": {
+		"allowJs": true,
+		"jsx": "react"
+	},
+	"include": [
+		"../../typings-custom/**/*.ts",
+		"src/**/*.ts"
+	]
+}

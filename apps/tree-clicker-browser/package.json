@@ -46,6 +46,9 @@
 	"devDependencies": {
 		"@babel/core": "^7",
 		"@offirmo/timestamps": "^0.0.1",
+		"@types/prop-types": "^15",
+		"@types/react": "^16",
+		"@types/react-dom": "^16",
 		"npm-run-all": "^4"
 	}
 }

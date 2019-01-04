@@ -6,6 +6,7 @@ import ReactDOM from 'react-dom'
 import './index.css'
 //import Root from './components/root'
 
+console.log('Hello from ts!')
 ReactDOM.render(
 	<p>
 		Hello
