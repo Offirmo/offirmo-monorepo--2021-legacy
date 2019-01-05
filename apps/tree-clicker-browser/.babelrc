@@ -1,0 +1,19 @@
+{
+	"plugins": [
+		"@babel/plugin-proposal-class-properties",
+		"@babel/plugin-proposal-export-default-from"
+	],
+	"presets": [
+		[
+			"@babel/env",
+			{
+				"targets": {
+					"browsers": [
+						"last 2 Chrome versions",
+						"last 2 Firefox versions"
+					]
+				}
+			}
+		]
+	]
+}

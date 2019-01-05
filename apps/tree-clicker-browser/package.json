@@ -36,6 +36,7 @@
 		"@oh-my-rpg/view-browser-react": "^0.0.1",
 		"@oh-my-rpg/view-rich-text": "^0.0.1",
 		"classnames": "^2",
+		"lodash": "^4",
 		"prop-types": "^15",
 		"raven-js": "^3",
 		"react": "^16",
