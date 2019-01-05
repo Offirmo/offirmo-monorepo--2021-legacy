@@ -24,11 +24,13 @@ body.user-is-tabbing *:focus {
  * https://fdossena.com/?p=html5cool/buttons/i.frag
  */
 button {
+	--border--thickness: var(--o⋄border--thickness__override, var(--o⋄border--thickness));
+
 	/* TODO fit-content ? https://developer.mozilla.org/en-US/docs/Web/CSS/fit-content */
 	display: inline-block;
 	padding: .3em 2.1em;
 	margin: .1em;
-	border: solid calc(var(--o⋄border--thickness) * 2) var(--o⋄color--transparent);
+	border: solid calc(var(--border--thickness) * 2) var(--o⋄color--fg⁚main);
 
 	background-color: var(--o⋄color--bg⁚highlight--1);
 	color: var(--o⋄color--fg⁚main);
@@ -39,7 +41,7 @@ button {
 	/*xxbox-shadow: 0 4px 6px rgba(50,50,93,.11),0 1px 3px rgba(0,0,0,.08);*/
 }
 button:hover {
-	border-color: var(--o⋄color--fg⁚main);
+	border-color: var(--o⋄color--fg⁚accent);
 	/*xxbox-shadow: 0 0 .3em 0 var(--o⋄color--bg⁚main--backdrop);*/
 }
 button:active {
@@ -48,6 +50,7 @@ button:active {
 
 /* special "inline" button */
 button.o⋄button--inline {
+	--o⋄border--thickness__override: calc(var(--o⋄border--thickness) * .5);
 	padding: .1em .3em;
 	border-radius: .25em;
 }
