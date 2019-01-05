@@ -1,12 +1,14 @@
-import React from 'react'
 import 'babel-polyfill'
+import React from 'react'
 import ReactDOM from 'react-dom'
 
 //import './services/raven'
 import './index.css'
 //import Root from './components/root'
 
-console.log('Hello from ts!')
+const foo: string = 1
+
+console.log('Hello from ts2!', foo)
 ReactDOM.render(
 	<p>
 		Hello

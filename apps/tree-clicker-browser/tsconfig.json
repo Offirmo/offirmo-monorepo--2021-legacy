@@ -2,6 +2,7 @@
 	"extends": "../../meta/tsconfig.json",
 	"compilerOptions": {
 		"allowJs": true,
+		"noEmitOnError": true,
 		"jsx": "react"
 	},
 	"include": [
