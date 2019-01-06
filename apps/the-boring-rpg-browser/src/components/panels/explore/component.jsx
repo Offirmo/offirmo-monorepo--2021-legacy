@@ -83,7 +83,7 @@ export default class PanelView extends React.Component {
 					})
 				}
 				else {
-					let CTA = `Play! (1⚡)`
+					let CTA = `Play! (-1⚡)`
 					steps.push({
 						msg_main: 'What do you want to do?',
 						choices: [
@@ -108,7 +108,7 @@ export default class PanelView extends React.Component {
 		const { game_instance } = this.props
 		const view_state = game_instance.view.get_state()
 		return (
-			<div className={'o⋄top-container tbrpg-panel tbrpg-panel--explore'}>
+			<div className="o⋄top-container tbrpg-panel tbrpg-panel--explore">
 				<div key="chat">
 					<div>
 						<ErrorBoundary name={'chat:explore'}>
@@ -125,8 +125,10 @@ export default class PanelView extends React.Component {
 					</div>
 				</div>
 				<div key="energy-indicator">
-					⚡ Energy: {'TODO'}<br/>
-					You can play again in: {'TODO'}
+					<div className="o⋄box">
+						⚡ Energy: {'TODO'}<br/>
+						You can play again in: {'TODO'}
+					</div>
 				</div>
 			</div>
 		)
