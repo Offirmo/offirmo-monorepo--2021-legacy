@@ -1,0 +1,9 @@
+.tbrpg-panel--explore {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto 50px;
+}
+
+.tbrpg-panel--explore > div {
+    xxborder: solid 1px cyan;
+}

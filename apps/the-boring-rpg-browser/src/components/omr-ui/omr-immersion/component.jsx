@@ -57,7 +57,7 @@ export default class MainArea extends Component {
 
 		const bg_class = `tbrpg⋄bg-image⁚${background}`
 		return (
-			<div className="omr⋄content-area main-area">
+			<div className="omr⋄content-area o⋄top-container main-area">
 
 				<div key="background" className="omr⋄full-size-fixed-layer omr⋄bg-image⁚tiled-marble_black">
 					<div key="background-picture"

@@ -62,16 +62,18 @@ function Main({children, logo, universeAnchor, bottomMenuItems, bottomMarkerInde
 
 						<TopLeftHud {...{isBurgerMenuOpen, openBurgerMenu, logo, toggleAbout, universeAnchor}} />
 
-						<ErrorBoundary name={'omr:content'}>
-							{children}
-						</ErrorBoundary>
+						<div className="o⋄top-container omr⋄content">
+							<ErrorBoundary name={'omr:content'}>
+								{children}
+							</ErrorBoundary>
+						</div>
 
 						<BottomRightHud {...{bottomMenuItems, bottomMarkerIndex}} />
 
 						{isAboutOpen && <div
 							key="aboutBlanket"
 							id="about-panel"
-							className="o⋄top-container omr⋄content-area omr⋄plane⁚meta"
+							className="omr⋄about o⋄top-container omr⋄content-area omr⋄plane⁚meta"
 							onClick={toggleAbout}>
 							<ErrorBoundary name={'omr:about-blanket'}>
 								<div className="omr-auto-logo">{logo}</div>

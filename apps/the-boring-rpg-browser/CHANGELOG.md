@@ -18,6 +18,12 @@ Next
 - 😷 chore: some internal refactors
 
 
+2019/01/XX v0.55
+- new energy display
+- internal refactors around energy
+- new button style to make them more visible
+
+
 2018/12/XX v0.54.11
 - 🤩 feature: 70 new achievements!! (now totalling 97)
 - 😅 fix (hopefully!): autoplay/reborn no longer discards all the armors (now balanced)
