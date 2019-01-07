@@ -35,14 +35,7 @@
 	/* background only here since we don't want bg between buttons */
 	background-color: rgba(0,0,0,0.42);
 }
-.chat__choices button {
-	margin: .3em;
-	/= make it round like the bubbles */
-	border-radius: .4em;
-	/* force border to differentiate with a bubble */
-	border: solid calc(var(--o⋄border--thickness) * 2) var(--o⋄color--fg⁚main);
-}
-/* redefine active and hover since we altered the border and bg */
+/* redefine active and hover since we altered the bg */
 .chat__choices button:hover {
 	background-color: rgba(0,0,0,0.6);
 }

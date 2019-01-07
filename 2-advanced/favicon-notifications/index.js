@@ -18,12 +18,16 @@ function create_favicon() {
 }
 let favicon = create_favicon()
 
-let piecon_on = false
+// experimentally needed...
+Piecon.setProgress(0.0001)
+
+let piecon_on = true
 let favicon_on = false
 let last_favicon_number = NaN
 
+const DEBUG = false
 function set_number_in_favicon(x) {
-    console.log('set_number_in_favicon', x)
+    if (DEBUG) console.log('set_number_in_favicon', x)
 
     x = Number(x)
 
@@ -37,11 +41,11 @@ function set_number_in_favicon(x) {
 
         if (piecon_on) {
             Piecon.reset()
-            //console.log('Piecon.reset')
+            if (DEBUG) console.log('Piecon.reset')
 
             // experimentally needed...
             favicon = create_favicon()
-            //console.log('new favicon')
+            if (DEBUG) console.log('new favicon')
 
             piecon_on = false
         }
@@ -53,7 +57,7 @@ function set_number_in_favicon(x) {
         }
         favicon_on = true
 
-        //console.log('favicon.badge', x)
+        if (DEBUG) console.log('favicon.badge', x)
     }
     else {
         x = Math.trunc(x * 100)
@@ -65,13 +69,13 @@ function set_number_in_favicon(x) {
             favicon.reset()
             favicon_on = false
             last_favicon_number = NaN
-            //console.log('favicon.reset')
+            if (DEBUG) console.log('favicon.reset')
         }
         
         Piecon.setProgress(x)
         piecon_on = true
 
-        //console.log('piecon.setProgress', x)
+        if (DEBUG) console.log('piecon.setProgress', x)
     }
 }
 

@@ -7,7 +7,7 @@ const { get_snapshot: get_energy_snapshot } = require('@oh-my-rpg/state-energy')
 import { Chat } from '../../utils/chat-interface'
 //import PlayButton from '../../play-button'
 import rich_text_to_react from '../../../services/rich-text-to-react'
-
+import Infobox from './infobox'
 import './index.css'
 
 const tbrpg = require('@oh-my-rpg/state-the-boring-rpg')
@@ -125,10 +125,7 @@ export default class PanelView extends React.Component {
 					</div>
 				</div>
 				<div key="energy-indicator">
-					<div className="o⋄box">
-						⚡ Energy: {'TODO'}<br/>
-						You can play again in: {'TODO'}
-					</div>
+					<Infobox />
 				</div>
 			</div>
 		)

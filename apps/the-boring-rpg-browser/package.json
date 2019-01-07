@@ -26,6 +26,7 @@
 	},
 	"dependencies": {
 		"@offirmo/ensure-device-uuid-browser": "^0.0.1",
+		"@offirmo/favicon-notifications": "^0.0.1",
 		"@offirmo/features-detection-browser": "^0.0.1",
 		"@offirmo/marketing-rsrc": "^0.0.1",
 		"@offirmo/poll-window-variable": "^0.0.1",
@@ -44,9 +45,11 @@
 		"@oh-my-rpg/view-rich-text": "^0.0.1",
 		"classnames": "^2",
 		"fetch-inject": "^2",
+		"lodash": "^4",
 		"prop-types": "^15",
 		"raven-js": "^3",
 		"react": "^16",
+		"react-animation-frame": "^1",
 		"react-dom": "^16",
 		"react-router-dom": "^4",
 		"tslib": "^1"
