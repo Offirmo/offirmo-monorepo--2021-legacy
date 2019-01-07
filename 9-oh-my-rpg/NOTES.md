@@ -11,6 +11,8 @@ import { dump_pretty_json } from "@offirmo/prettify-json" // TODO remove
 
 +++ skill system https://en.uesp.net/wiki/Oblivion:Leveling
 
+TODO copy torchlight
+
 music https://www.steven-obrien.net/
 
 pit https://www.news.com.au/technology/science/monstrous-unexplored-cave-found-in-remote-canada-nicknamed-after-star-wars-beast/news-story/f101a66a7b8414a00e6e59bbac25a8f8
@@ -22,6 +24,8 @@ https://twitter.com/i/moments/1059210757869572096
 TODO optimise with tiny-invariant
 
 https://wiki.openstreetmap.org/wiki/Servers/Name_Ideas
+
+https://blog.prototypr.io/what-should-designers-know-about-the-roboto-typeface-b98f6b83c57e
 
 "They reckon you get ice in your veins, that's what they call it," she said.
 

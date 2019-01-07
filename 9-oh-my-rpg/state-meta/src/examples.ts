@@ -10,13 +10,12 @@ import { State } from './types'
 // needed for demos
 
 const DEMO_STATE: Readonly<State> = deepFreeze({
-	schema_version: 1,
+	schema_version: 2,
 	revision: 5,
 
-	uuid: 'uu1dgqu3h0FydqWyQ~6cYv3g',
-	name: 'Offirmo',
-	email: 'offirmo.net@gmail.com',
-	allow_telemetry: false,
+	is_web_diversity_supporter: true,
+	is_logged_in: true,
+	roles: [ 'tbrpg:alpha' ],
 })
 
 /////////////////////
