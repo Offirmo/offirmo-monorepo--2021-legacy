@@ -138,7 +138,7 @@ const DEMO_STATE: Readonly<State> = deepFreeze({
 	inventory: Inventory.DEMO_STATE,
 	wallet: Wallet.DEMO_STATE,
 	prng: PRNG.DEMO_STATE,
-	energy: Energy.DEMO_STATE,
+	energy: [ Energy.DEMO_U_STATE, Energy.DEMO_T_STATE ] as State["energy"],
 	engagement: Engagement.DEMO_STATE,
 	codes: Codes.DEMO_STATE,
 	progress: Progress.DEMO_STATE,

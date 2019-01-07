@@ -71,7 +71,7 @@ import {
 	_receive_coins,
 	_receive_tokens,
 	_receive_item,
-} from '../base'
+} from '../internal'
 
 /////////////////////
 

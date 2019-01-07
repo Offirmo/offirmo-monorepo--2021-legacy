@@ -6,7 +6,7 @@ import { State } from '../types'
 import {
 	is_alpha,
 	is_registered_alpha_player,
-	get_energy_snapshot,
+	get_available_energy,
 } from '../selectors'
 
 ////////////
@@ -51,7 +51,7 @@ const POWER_CODES: Readonly<{ [key: string]: Readonly<Partial<CodeSpec<State>>> 
 	BORED: {
 		redeem_limit: null,
 		is_redeemable: (state: Readonly<State>, progress_state: Readonly<ProgressState>) => {
-			const has_energy_depleted = get_energy_snapshot(state).available_energy < 1
+			const has_energy_depleted = get_available_energy(state) < 1
 			if (!has_energy_depleted)
 				return false
 

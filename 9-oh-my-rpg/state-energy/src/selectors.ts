@@ -1,8 +1,5 @@
 
 
-import { UState } from "./types"
+import { UState, TState } from "./types"
 
-/*function get_energy_gain_per_ms(u_state: Readonly<UState>): number {
-
-}
-*/
+// TODO

@@ -10,7 +10,6 @@ const { iterables_unslotted, get_item_in_slot } = require('@oh-my-rpg/state-inve
 const { create: create_tty_chat_ui } = require('@offirmo/view-chat-ui-tty')
 const { create: create_chat } = require('@offirmo/view-chat')
 const { CHARACTER_CLASSES } = require('@oh-my-rpg/state-character')
-const { get_snapshot: get_energy_snapshot } = require('@oh-my-rpg/state-energy')
 const {
 	render_item_short,
 	render_item_detailed,

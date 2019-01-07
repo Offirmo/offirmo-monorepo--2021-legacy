@@ -1,4 +1,5 @@
 import Fraction from 'fraction.js'
+import memoizeOne from 'memoize-one'
 
 import { LIB } from './consts'
 
@@ -12,13 +13,14 @@ import { round_float, time_to_human } from './utils'
 
 const ENERGY_ROUNDING = 1_000_000
 
-
-const DEBUG = false
-function get_derived(
+type GetDerived = (
 	// no array to ease memoization
 	u_state: Readonly<UState>,
 	t_state: Readonly<TState>,
-): Readonly<Derived> {
+) => Readonly<Derived>
+
+const DEBUG = false
+const get_derived_unmemoized: GetDerived = (u_state: Readonly<UState>, t_state: Readonly<TState>) => {
 	if (DEBUG) console.log('\nstarting derived computation', { u_state, t_state })
 
 	const ENERGY_REFILLING_RATE_PER_S = (new Fraction(u_state.energy_refilling_rate_per_ms)).mul(1000).valueOf()
@@ -76,8 +78,10 @@ function get_derived(
 	}
 }
 
+const get_derived: GetDerived = memoizeOne(get_derived_unmemoized)
 
 export {
 	ENERGY_ROUNDING,
+	get_derived_unmemoized,
 	get_derived,
 }

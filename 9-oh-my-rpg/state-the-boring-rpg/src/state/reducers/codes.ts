@@ -4,16 +4,13 @@ import { Random, Engine } from '@offirmo/random'
 
 /////////////////////
 
-import { ItemQuality } from "@oh-my-rpg/definitions";
-
-import * as WalletState from '@oh-my-rpg/state-wallet'
-import * as InventoryState from '@oh-my-rpg/state-inventory'
 import * as EnergyState from '@oh-my-rpg/state-energy'
 import * as EngagementState from '@oh-my-rpg/state-engagement'
 import * as PRNGState from '@oh-my-rpg/state-prng'
 import * as CodesState from '@oh-my-rpg/state-codes'
 import * as ProgressState from '@oh-my-rpg/state-progress'
 
+import { ItemQuality } from "@oh-my-rpg/definitions";
 import { get_prng } from '@oh-my-rpg/state-prng'
 import { create as create_weapon } from '@oh-my-rpg/logic-weapons'
 import { create as create_armor } from '@oh-my-rpg/logic-armors'
@@ -26,18 +23,18 @@ import { State } from '../../types'
 import { EngagementKey } from '../../engagement'
 import { CODE_SPECS_BY_KEY } from '../../data/codes'
 
-import { _receive_item } from './base'
+import {
+	_update_to_now,
+	_receive_item,
+	_auto_make_room,
+} from './internal'
+
 import { _refresh_achievements } from './achievements'
 import { reset_and_salvage } from '../migrations/salvage'
-import {reseed} from "./create";
-import { _auto_make_room } from './autoplay'
+import { reseed } from "./create";
 
 /////////////////////
 
-/*
-	if (!is_code_redeemable(state, code, infos))
-		throw new Error(`This code is either non-existing or non redeemable at the moment!`)
- */
 function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<State> {
 	let engagement_key: EngagementKey = EngagementKey['code_redemption--failed']
 	let engagement_params: any = {}
@@ -50,6 +47,7 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<
 		// nothing to do, will trigger an engagement rejection
 	}
 	else {
+		state = _update_to_now(state)
 		state = {
 			...state,
 			codes: CodesState.attempt_to_redeem_code(state.codes, code_spec, state),
@@ -137,12 +135,16 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<
 				}
 				break
 
-			case 'BORED':
+			case 'BORED': {
+				let [ u_state, t_state ] = state.energy
+				t_state = EnergyState.restore_energy(state.energy, 1.)
+
 				state = {
 					...state,
-					energy: EnergyState.restore_energy(state.energy, 1.),
+					energy: [ u_state, t_state ],
 				}
 				break
+			}
 
 			case 'XYZZY':
 				// http://www.plover.net/~davidw/sol/xyzzy.html

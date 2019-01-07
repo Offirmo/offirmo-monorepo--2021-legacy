@@ -6,16 +6,9 @@ import { get_human_readable_UTC_timestamp_days } from '@offirmo/timestamps'
 
 /////////////////////
 
-import {
-	ItemQuality,
-	Item,
-	InventorySlot,
-} from '@oh-my-rpg/definitions'
-
 import { appraise_power_normalized } from '@oh-my-rpg/logic-shop'
 
 import * as CharacterState from '@oh-my-rpg/state-character'
-import * as EngagementState from '@oh-my-rpg/state-engagement'
 import * as EnergyState from '@oh-my-rpg/state-energy'
 
 import {
@@ -34,118 +27,38 @@ import {
 	generate_random_seed,
 } from '@oh-my-rpg/state-prng'
 
-import { Weapon, matches as matches_weapon } from '@oh-my-rpg/logic-weapons'
-import { Armor, matches as matches_armor } from '@oh-my-rpg/logic-armors'
+import { Weapon } from '@oh-my-rpg/logic-weapons'
+import { Armor } from '@oh-my-rpg/logic-armors'
 
 /////////////////////
 
 import { State } from '../../types'
 
 import {
-	get_energy_snapshot,
-	is_inventory_full,
+	get_available_energy,
 	find_better_unequipped_armor,
 	find_better_unequipped_weapon,
 } from '../../selectors'
 
 import {
+	_loose_all_energy,
+	_auto_make_room,
+	_ack_all_engagements,
+} from './internal'
+
+import {
 	rename_avatar,
 	change_avatar_class,
 	equip_item,
-	sell_item,
 } from './base'
 
 import {
 	play,
 } from './play'
 
-import {
-	STARTING_WEAPON_SPEC,
-	STARTING_ARMOR_SPEC,
-} from './create'
-import {LIB} from "@oh-my-rpg/state-inventory/src/consts";
+import { _refresh_achievements } from './achievements'
 
 /////////////////////
-
-function compare_items_by_normalized_power(a: Readonly<Item>, b: Readonly<Item>): number {
-	const power_a = appraise_power_normalized(a)
-	const power_b = appraise_power_normalized(b)
-
-	return power_b - power_a
-}
-
-function _ack_all_engagements(state: Readonly<State>): Readonly<State> {
-	if (!state.engagement.queue.length) return state
-
-	return {
-		...state,
-
-		engagement: EngagementState.acknowledge_all_seen(state.engagement),
-
-		revision: state.revision + 1,
-	}
-}
-
-function _auto_make_room(state: Readonly<State>, options: { DEBUG?: boolean } = {}): Readonly<State> {
-	const { DEBUG } = options
-
-	if (DEBUG) console.log(`  - _auto_make_room()… (inventory holding ${state.inventory.unslotted.length} items)`)
-
-	// inventory full
-	if (is_inventory_full(state)) {
-		if (DEBUG) console.log(`    Inventory is full (${state.inventory.unslotted.length} items)`)
-		let freed_count = 0
-
-		// sell stuff, starting from the worst, but keeping the starting items (for sentimental reasons)
-		Array.from(state.inventory.unslotted)
-			.filter((e: Readonly<Item>) => {
-				switch (e.slot) {
-					case InventorySlot.armor:
-						if (matches_armor(e as Armor, STARTING_ARMOR_SPEC))
-							return false
-						break
-					case InventorySlot.weapon:
-						if (matches_weapon(e as Weapon, STARTING_WEAPON_SPEC))
-							return false
-						break
-					default:
-						break
-				}
-				return true
-			})
-			.sort(compare_items_by_normalized_power)
-			.reverse() // to put the lowest quality items first
-			.forEach((e: Readonly<Item>) => {
-				//console.log(e.quality, e.slot, appraise_power_normalized(e))
-				switch(e.slot) {
-					case InventorySlot.armor:
-						if (matches_armor(e as Armor, STARTING_ARMOR_SPEC))
-							return
-						break
-					case InventorySlot.weapon:
-						if (matches_weapon(e as Weapon, STARTING_WEAPON_SPEC))
-							return
-						break
-					default:
-						break
-				}
-
-				if (e.quality === ItemQuality.common || freed_count === 0) {
-					//console.log('    - selling:', e)
-					state = sell_item(state, e.uuid)
-					freed_count++
-					return
-				}
-			})
-
-		if (freed_count === 0)
-			throw new Error('Internal error: _auto_make_room(): inventory is full and couldn’t free stuff!')
-
-		if (DEBUG) console.log(`    Freed ${freed_count} items, inventory now holding ${state.inventory.unslotted.length} items.`)
-	}
-
-	return state
-}
 
 function _autogroom(state: Readonly<State>, options: { DEBUG?: boolean } = {}): Readonly<State> {
 	const { DEBUG } = options
@@ -225,16 +138,12 @@ function autoplay(state: Readonly<State>, options: Readonly<{ target_good_play_c
 	state = _autogroom(state, options)
 
 	// do we have energy?
-	let energy_snapshot = EnergyState.get_snapshot(state.energy)
-	let have_energy = energy_snapshot.available_energy >= 1
+	let available_energy = get_available_energy(state)
+	let have_energy = available_energy >= 1
 
 	if (target_bad_play_count > state.progress.statistics.bad_play_count) {
 		if (have_energy) {
-			// deplete it
-			state = {
-				...state,
-				energy: EnergyState.loose_all_energy(state.energy),
-			}
+			state = _loose_all_energy(state)
 		}
 
 		// play bad
@@ -248,15 +157,17 @@ function autoplay(state: Readonly<State>, options: Readonly<{ target_good_play_c
 	if (target_good_play_count > state.progress.statistics.good_play_count) {
 		// play good
 		for (let i = state.progress.statistics.good_play_count; i < target_good_play_count; ++i) {
-			energy_snapshot = EnergyState.get_snapshot(state.energy)
-			have_energy = energy_snapshot.available_energy >= 1
+			let available_energy = get_available_energy(state)
+			have_energy = available_energy >= 1
 
 			if (!have_energy) {
 				// replenish and pretend one day has passed
+				let [ u_state, t_state ] = state.energy
+				t_state = EnergyState.restore_energy(state.energy)
 				last_visited_timestamp_num++
 				state = {
 					...state,
-					energy: EnergyState.restore_energy(state.energy),
+					energy: [ u_state, t_state ],
 					progress: {
 						...state.progress,
 						statistics: {
@@ -273,7 +184,9 @@ function autoplay(state: Readonly<State>, options: Readonly<{ target_good_play_c
 		}
 	}
 
-	// misc: ack the possible notifications
+	// misc: refresh achievements one last time
+	// and ack the possible notifications
+	state = _refresh_achievements(state)
 	state = _ack_all_engagements(state)
 
 	return state
@@ -282,7 +195,6 @@ function autoplay(state: Readonly<State>, options: Readonly<{ target_good_play_c
 /////////////////////
 
 export {
-	_auto_make_room,
 	_autogroom,
 	autoplay,
 }

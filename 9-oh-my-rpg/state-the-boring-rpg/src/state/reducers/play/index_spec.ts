@@ -16,6 +16,14 @@ import {
 import { LIB } from '../../../consts'
 
 import {
+	get_available_energy,
+} from '../../../selectors'
+
+import {
+	_loose_all_energy
+} from '../internal'
+
+import {
 	create,
 	play,
 } from '..'
@@ -30,12 +38,7 @@ describe(`${LIB} - reducer`, function() {
 			it('should generate a negative adventure', () => {
 				let state = create()
 
-				// force deplete energy
-				state = {
-					...state,
-					energy: EnergyState.loose_all_energy(state.energy)
-				}
-				expect(state.energy.last_available_energy_float).to.be.below(1)
+				state = _loose_all_energy(state)
 
 				state = play(state)
 				expect(state.last_adventure).not.to.be.null
@@ -52,10 +55,7 @@ describe(`${LIB} - reducer`, function() {
 			it('should correctly increment counters', () => {
 				let state = create()
 
-				state = {
-					...state,
-					energy: EnergyState.loose_all_energy(state.energy)
-				}
+				state = _loose_all_energy(state)
 
 				state = play(state)
 
@@ -71,19 +71,16 @@ describe(`${LIB} - reducer`, function() {
 			it('should punish a bit the user (ex. by increasing the cooldown)', () => {
 				let state = create()
 
-				state = {
-					...state,
-					energy: EnergyState.loose_all_energy(state.energy)
-				}
+				state = _loose_all_energy(state)
 
 				// force (for tests)
-				state.energy.last_available_energy_float = .8
+				state.energy[1].available_energy = { n: 8, d: 10 }
 
 				state = play(state)
 				expect(state.last_adventure).not.to.be.null
 				expect(state.last_adventure!.good).to.be.false
 
-				expect(state.energy.last_available_energy_float).to.be.below(0.0001)
+				expect(get_available_energy(state)).to.equal(0) // was force depleted
 			})
 		})
 
@@ -147,7 +144,7 @@ describe(`${LIB} - reducer`, function() {
 					state.avatar.attributes.level = 500
 
 					for(let i = 0; i < 100; ++i) {
-						state.energy.last_available_energy_float = 7. // for tests
+						state.energy[1].available_energy = { n: 7, d: 1 } // force replenish for tests
 						state = play(state)
 						if (state.last_adventure!.hid.startsWith('fight_'))
 							break
@@ -168,13 +165,9 @@ describe(`${LIB} - reducer`, function() {
 				it('should be playable', () => {
 					let state = create()
 
-					if (!good) {
-						// force deplete energy
-						state = {
-							...state,
-							energy: EnergyState.loose_all_energy(state.energy)
-						}
-					}
+					if (!good)
+						state = _loose_all_energy(state)
+
 					state = play(state, hid)
 				})
 			})

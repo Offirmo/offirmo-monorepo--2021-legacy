@@ -12,7 +12,6 @@ import * as ProgressState from '@oh-my-rpg/state-progress'
 
 import { LIB, SCHEMA_VERSION } from '../../consts'
 import { State } from '../../types'
-import { create } from '../reducers'
 import { SoftExecutionContext, OMRContext, get_lib_SEC } from '../../sec'
 import { reset_and_salvage } from './salvage'
 
@@ -41,7 +40,7 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any
 			SEC.fireAnalyticsEvent('schema_migration.began')
 
 			try {
-				state = migrate_to_7(SEC, legacy_state, hints)
+				state = migrate_to_8(SEC, legacy_state, hints)
 			}
 			catch (err) {
 				SEC.fireAnalyticsEvent('schema_migration.failed', { step: 'main' })
@@ -103,9 +102,25 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any
 
 /////////////////////
 
+function migrate_to_8(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any>): any {
+	if (legacy_state.schema_version >= 8)
+		throw new Error('migrate_to_8 was called from an outdated root code, please update!')
+
+	if (legacy_state.schema_version < 8)
+		legacy_state = migrate_to_7(SEC, legacy_state, hints)
+
+	let state: any = { ...legacy_state, schema_version: 8 }
+
+	// modified entries
+	// jackpot, everyone will get an energy replenishment
+	state.energy = EnergyState.create()
+
+	return state
+}
+
 function migrate_to_7(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any>): any {
 	if (legacy_state.schema_version >= 7)
-		throw new Error('migrate_to_X src (3) is outdated, please update!')
+		throw new Error('migrate_to_7 was called from an outdated root code, please update!')
 
 	if (legacy_state.schema_version < 4)
 		legacy_state = migrate_to_4(SEC, legacy_state, hints)
@@ -137,7 +152,7 @@ function migrate_to_7(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hi
 }
 
 function migrate_to_4(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any>): any {
-	throw new Error('Alpha release schema, won\'t migrate, would take too much time and schema is still unstable!')
+	throw new Error('Alpha release outdated schema, won’t migrate, would take too much time and schema is still unstable!')
 }
 
 /////////////////////

@@ -54,6 +54,7 @@
 		"@types/chai-as-promised": "^7",
 		"@types/deep-freeze-strict": "^1",
 		"@types/lodash": "^4",
+		"@types/memoize-one": "^4.1.0",
 		"@types/mocha": "^5",
 		"@types/node": "^10",
 		"@types/prettyjson": "^0.0.28",

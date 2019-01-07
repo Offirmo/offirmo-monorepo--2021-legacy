@@ -40,7 +40,12 @@ import { SCHEMA_VERSION } from '../../consts'
 import { SoftExecutionContext, OMRContext, get_lib_SEC } from '../../sec'
 import { State } from '../../types'
 import { EngagementKey } from '../../engagement'
-import { _receive_item, equip_item } from './base'
+import {
+	_update_to_now,
+	_receive_item,
+	_ack_all_engagements,
+} from './internal'
+import { equip_item } from './base'
 import { _refresh_achievements } from './achievements'
 
 /////////////////////
@@ -93,13 +98,7 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 
 		state = _refresh_achievements(state) // there are some initial achievements
 		// reset engagements that may have been created by noisy initial achievements
-		state = {
-			...state,
-			engagement: {
-				...state.engagement,
-				queue: [],
-			}
-		}
+		state = _ack_all_engagements(state)
 
 		// now insert some relevant start engagements
 		state = {
@@ -115,9 +114,11 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 		state = {
 			...state,
 
-			// to compensate sub-functions use during build
+			// to compensate sub-functions used during build
 			revision: 0,
 		}
+
+		state = _update_to_now(state) // not sure needed but doesn't hurt
 
 		return enforce_immutability(state)
 	})
