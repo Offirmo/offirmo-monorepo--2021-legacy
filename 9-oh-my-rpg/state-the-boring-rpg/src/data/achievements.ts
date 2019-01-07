@@ -345,6 +345,11 @@ const RAW_ENTRIES_ADVENTURES_SETS: Readonly<Partial<AchievementDefinition<State>
 /* TODO
 exploration
 
+defeats
+fled
+secret: so much to do
+here you go
+
 Adventures
 - having found the 4 rare gems
 - having met X NPC

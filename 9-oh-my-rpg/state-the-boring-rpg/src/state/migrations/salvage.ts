@@ -67,9 +67,6 @@ function reset_and_salvage(legacy_state: Readonly<JSONObject>): Readonly<State> 
 	xxx_internal_reset_prng_cache() // don't do this at home, kids!
 	let state = create()
 
-	// TODO salvage prng?
-	// TODO reseed?
-
 	const seed = get_seed(legacy_state)
 	if (!Number.isInteger(seed as any)) {
 		console.warn(`${LIB}: salvaging: may need to update the seed salvaging!`)
