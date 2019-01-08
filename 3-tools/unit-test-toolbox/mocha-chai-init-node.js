@@ -1,5 +1,7 @@
 "use strict";
 
+const path = require('path')
+
 const Mocha = require('mocha')
 const sinon = require('sinon')
 const chai = require('chai')
@@ -21,4 +23,4 @@ chai.use(chai_subset)
 chai.use(chai_moment)
 
 // convenience
-console.log('* Starting tests... [powered by @offirmo/unit-test-toolbox]')
+console.log(`* Starting tests for "${path.basename(process.cwd())}"... [powered by @offirmo/unit-test-toolbox]`)

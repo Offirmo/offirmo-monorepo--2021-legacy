@@ -60,6 +60,7 @@ interface State {
 	// TODO rename as "last_known_achievement_status" ?
 	achievements: { [key: string]: AchievementStatus }
 
+	// TODO externalize?
 	statistics: {
 		last_visited_timestamp: HumanReadableTimestampUTCDays
 		active_day_count: number

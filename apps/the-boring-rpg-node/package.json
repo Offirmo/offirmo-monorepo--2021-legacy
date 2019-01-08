@@ -18,7 +18,6 @@
 		"bump": "npm version patch",
 		"build:prod": "cross-env NODE_ENV=development webpack --config meta/webpack.config.ts",
 		"start": "node src/index.js",
-		"test": "echo 'TODO'",
 		"__helpers": "----------- Helpers -----------",
 		"build": "run-s clean bump build:prod",
 		"bin": "bin/index.js"

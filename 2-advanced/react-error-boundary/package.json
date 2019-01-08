@@ -6,7 +6,7 @@
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "UNLICENSED",
 	"scripts": {
-		"test": "echo 'TODO'",
+		"test": "echo '@offirmo/react-error-boundary TODO unit tests'",
 		"clean": "node ../../scripts/clean.js dist cache",
 		"start:parcel": "parcel --out-dir .parcel --no-autoinstall doc/demo/index.html",
 		"demo": "run-s clean start:parcel"

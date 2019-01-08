@@ -42,6 +42,8 @@ describe('@oh-my-rpg/state-progress - reducer', function() {
 					encountered_monsters: {},
 					good_play_count_by_active_class: {},
 					bad_play_count_by_active_class: {},
+					fight_won_count: 0,
+					fight_lost_count: 0,
 					coins_gained: 0,
 					tokens_gained: 0,
 					items_gained: 0,
@@ -82,6 +84,8 @@ describe('@oh-my-rpg/state-progress - reducer', function() {
 					bad_play_count_by_active_class: {
 						'foo': 1,
 					},
+					fight_won_count: 0,
+					fight_lost_count: 0,
 					coins_gained: 12,
 					tokens_gained: 34,
 					items_gained: 56,
@@ -120,6 +124,8 @@ describe('@oh-my-rpg/state-progress - reducer', function() {
 					},
 					bad_play_count_by_active_class: {
 					},
+					fight_won_count: 0,
+					fight_lost_count: 0,
 					coins_gained: 12,
 					tokens_gained: 34,
 					items_gained: 56,
@@ -129,8 +135,8 @@ describe('@oh-my-rpg/state-progress - reducer', function() {
 
 				state = on_played(state, {
 					good: true,
-					adventure_key: 'foo_adv',
-					encountered_monster_key: 'foo_mon',
+					adventure_key: 'fight_won_foo',
+					encountered_monster_key: 'foo_monster',
 					active_class: 'foo',
 					coins_gained: 12,
 					tokens_gained: 34,
@@ -144,15 +150,18 @@ describe('@oh-my-rpg/state-progress - reducer', function() {
 					bad_play_count: 0,
 					encountered_adventures: {
 						'foo_adv': true,
+						'fight_won_foo': true,
 					},
 					encountered_monsters: {
-						'foo_mon': true,
+						'foo_monster': true,
 					},
 					good_play_count_by_active_class: {
 						'foo': 2,
 					},
 					bad_play_count_by_active_class: {
 					},
+					fight_won_count: 1,
+					fight_lost_count: 0,
 					coins_gained: 24,
 					tokens_gained: 68,
 					items_gained: 112,
