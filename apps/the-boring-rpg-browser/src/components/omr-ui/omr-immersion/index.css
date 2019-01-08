@@ -111,11 +111,12 @@
 	overflow-y: auto;
 }
 
+/* TODO move to OMR ? */
 .main-area {
 	z-index: calc(10 + var(--omr⋄ui__immersion-view--z-index));
 }
 
-/* override */
+/* override. TODO review */
 .o⋄centered-article {
 	padding: 0;
 }

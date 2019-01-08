@@ -3,15 +3,16 @@
 	--omr⋄ui__universe-anchor--padding_: 3px;
 }
 
-.universe-anchor__klass {
-	text-transform: capitalize;
-}
-
 .status⁚avatar--details {
 	line-height: 12px;
 	font-size: 12px;
 }
 
+.status⁚avatar--klass {
+	text-transform: capitalize;
+}
+
+/* TODO clean
 .status⁚energy {
 	position: relative;
 	margin: 0 4px;
@@ -28,7 +29,6 @@
 	line-height: 12px;
 }
 
-/* TODO clean
 .status⁚energy .CircularProgressbar-path       { stroke: var(--o⋄color--fg⁚main); }
 .status⁚energy .CircularProgressbar-trail      { stroke: var(--o⋄color__co212__brown); }
 .status⁚energy .CircularProgressbar-text       { fill: orange; }

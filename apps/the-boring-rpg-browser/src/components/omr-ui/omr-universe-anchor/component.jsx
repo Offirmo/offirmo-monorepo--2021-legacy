@@ -8,7 +8,7 @@ export default function OMRUniverseAnchor({onClick, name, klass, level}) {
 			<span className="icomoon-user status⁚avatar--icon" />
 			<div className="status⁚avatar--details o⋄flex--column">
 				<span>{name}</span>
-				<span className="universe-anchor__klass">{klass} L.{level}</span>
+				<span className="status⁚avatar--klass">{klass} L.{level}</span>
 			</div>
 		</div>
 	)

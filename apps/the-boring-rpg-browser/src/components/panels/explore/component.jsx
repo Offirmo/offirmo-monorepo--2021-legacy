@@ -5,6 +5,8 @@ import { render_adventure } from '@oh-my-rpg/view-rich-text'
 
 import { Chat } from '../../utils/chat-interface'
 import rich_text_to_react from '../../../services/rich-text-to-react'
+import Infobox from './infobox'
+import './index.css'
 
 const tbrpg = require('@oh-my-rpg/state-the-boring-rpg')
 
@@ -78,9 +80,7 @@ export default class PanelView extends React.Component {
 					})
 				}
 				else {
-					let CTA = `Play! ⚡${energy_snapshot.available_energy}/${state.energy.max_energy}`
-					if (energy_snapshot.human_time_to_next)
-						CTA += ` (next in ${energy_snapshot.human_time_to_next})`
+					let CTA = `Play! (-1⚡)`
 					steps.push({
 						msg_main: 'What do you want to do?',
 						choices: [
@@ -105,18 +105,25 @@ export default class PanelView extends React.Component {
 		const { game_instance } = this.props
 		const view_state = game_instance.view.get_state()
 		return (
-			<div className={'o⋄top-container tbrpg-panel'}>
-				<ErrorBoundary name={'chat:explore'}>
-					<Chat
-						initial_bubbles={view_state.home_bubbles}
-						gen_next_step={this.gen_next_step()}
-						on_unmount={(bubbles) => {
-							game_instance.view.set_state(() => ({
-								home_bubbles: bubbles,
-							}))
-						}}
-					/>
-				</ErrorBoundary>
+			<div className="o⋄top-container tbrpg-panel tbrpg-panel--explore">
+				<div key="chat">
+					<div>
+						<ErrorBoundary name={'chat:explore'}>
+							<Chat
+								initial_bubbles={view_state.home_bubbles}
+								gen_next_step={this.gen_next_step()}
+								on_unmount={(bubbles) => {
+									game_instance.view.set_state(() => ({
+										home_bubbles: bubbles,
+									}))
+								}}
+							/>
+						</ErrorBoundary>
+					</div>
+				</div>
+				<div key="energy-indicator">
+					<Infobox />
+				</div>
 			</div>
 		)
 	}
