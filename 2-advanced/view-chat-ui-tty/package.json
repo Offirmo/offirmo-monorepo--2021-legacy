@@ -11,7 +11,7 @@
 		"chalk": "^2",
 		"gauge": "^2",
 		"linewrap": "^0.2",
-		"ora": "^2",
+		"ora": "^3",
 		"p-finally": "^1",
 		"p-progress": "^0.2",
 		"strip-ansi": "^5",

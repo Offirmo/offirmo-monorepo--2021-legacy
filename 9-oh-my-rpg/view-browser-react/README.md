@@ -27,5 +27,5 @@ Remember to tweak the body and root! (see demo)
 * https://github.com/oliviertassinari/react-swipeable-views
 * https://github.com/javierbyte/react-blur
 
-		"react-swipeable-views": "^0.12",
-		"react-swipeable-views-utils": "^0.12"
+		"react-swipeable-views": "^0.13",
+		"react-swipeable-views-utils": "^0.13"

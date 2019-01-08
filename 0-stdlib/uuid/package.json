@@ -9,7 +9,7 @@
 	"license": "UNLICENSED",
 	"dependencies": {
 		"@offirmo/random": "^2",
-		"nanoid": "^1"
+		"nanoid": "^2"
 	},
 	"devDependencies": {
 		"npm-run-all": "^4",

@@ -15,7 +15,7 @@
 		"@offirmo/timestamps": "^0.0.1",
 		"deep-freeze-strict": "^1",
 		"fraction.js": "^4",
-		"memoize-one": "^4",
+		"memoize-one": "^5",
 		"typescript-string-enums": "^0.3"
 	},
 	"devDependencies": {

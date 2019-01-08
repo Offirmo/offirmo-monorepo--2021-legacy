@@ -6,7 +6,7 @@
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "UNLICENSED",
 	"dependencies": {
-		"memoize-one": "^4"
+		"memoize-one": "^5"
 	},
 	"devDependencies": {
 	},
