@@ -17,6 +17,7 @@ node_modules
 9-oh-my-rpg/view-browser/dist/
 apps/the-boring-rpg-browser/dist/
 apps/the-boring-rpg-node/dist/
+apps/tree-clicker-browser/dist/
 
 # caches
 .cache
