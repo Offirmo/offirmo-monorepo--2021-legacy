@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import ErrorBoundary from '@offirmo/react-error-boundary'
+import ErrorBoundary from '../../../../../2-advanced/react-error-boundary/src/error-boundary'
 
 import './index.css';
 

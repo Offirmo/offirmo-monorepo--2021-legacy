@@ -9,7 +9,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const DashboardPlugin = require('webpack-dashboard/plugin')
 
-const { get_human_readable_UTC_timestamp_minutes } = require('@offirmo/timestamps')
+const { get_human_readable_UTC_timestamp_minutes } = require('../../../../0-stdlib/timestamps/dist/src.es7.cjs')
 
 /*********************/
 
