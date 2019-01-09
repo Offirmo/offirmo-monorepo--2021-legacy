@@ -3,10 +3,6 @@ import * as RichText from '@offirmo/rich-text-format'
 
 import { ITEM_SLOTS, InventorySlot, Element } from '@oh-my-rpg/definitions'
 import { is_full } from '@oh-my-rpg/state-inventory'
-import {
-	Derived as DerivedEnergy,
-	get_derived as get_derived_energy
-} from '@oh-my-rpg/state-energy'
 import { appraise_value, appraise_power } from '@oh-my-rpg/logic-shop'
 import { Weapon } from '@oh-my-rpg/logic-weapons'
 import { Armor } from '@oh-my-rpg/logic-armors'
@@ -30,11 +26,6 @@ import { get_engagement_message } from '../engagement'
 import {get_achievement_snapshot_by_uuid} from "./achievements";
 
 /////////////////////
-
-function get_available_energy(state: Readonly<State>): number {
-	const derived = get_derived_energy(...state.energy)
-	return derived.available_energy_int
-}
 
 // TODO
 function appraise_player_power(state: Readonly<State>): number {
@@ -91,7 +82,6 @@ function get_oldest_pending_non_flow_engagement(state: Readonly<State>): { uid: 
 /////////////////////
 
 export {
-	get_available_energy,
 	find_element,
 	appraise_player_power,
 	get_oldest_pending_flow_engagement,

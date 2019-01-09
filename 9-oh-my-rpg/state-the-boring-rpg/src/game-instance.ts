@@ -73,17 +73,23 @@ function create_game_instance<T>({SEC, get_latest_state, persist_state, view_sta
 
 		const gi = {
 			reducers: {
-				play() {
-					let state = get_latest_state()
-					state = state_fns.play(state)
-					persist_state(state)
-					emitter.emit('model_change', 'play()')
-				},
 				on_start_session() {
 					let state = get_latest_state()
 					state = state_fns.on_start_session(state)
 					persist_state(state)
 					emitter.emit('model_change', 'on_start_session()')
+				},
+				update_to_now() {
+					let state = get_latest_state()
+					state = state_fns.update_to_now(state)
+					//persist_state(state)
+					emitter.emit('model_change', 'on_start_session()')
+				},
+				play() {
+					let state = get_latest_state()
+					state = state_fns.play(state)
+					persist_state(state)
+					emitter.emit('model_change', 'play()')
 				},
 				equip_item(uuid: UUID) {
 					let state = get_latest_state()
@@ -161,6 +167,14 @@ function create_game_instance<T>({SEC, get_latest_state, persist_state, view_sta
 				get_achievements_snapshot(): Readonly<AchievementSnapshot>[] {
 					let state = get_latest_state()
 					return selectors.get_achievements_snapshot(state)
+				},
+				get_available_energy_float(): number {
+					let state = get_latest_state()
+					return selectors.get_available_energy_float(state)
+				},
+				get_human_time_to_next_energy(): string {
+					let state = get_latest_state()
+					return selectors.get_human_time_to_next_energy(state)
 				}
 			},
 

@@ -16,7 +16,7 @@ import {
 import { LIB } from '../../consts'
 
 import {
-	get_available_energy
+	get_available_energy_float
 } from '../../selectors'
 
 import {
@@ -34,10 +34,10 @@ describe(`${LIB} - reducer - internals`, function() {
 	describe('_loose_all_energy', function() {
 		let state = create()
 
-		expect(get_available_energy(state)).to.equal(7)
+		expect(get_available_energy_float(state)).to.equal(7.)
 
 		state = _loose_all_energy(state)
 
-		expect(get_available_energy(state)).to.equal(0)
+		expect(get_available_energy_float(state)).to.equal(0.)
 	})
 })

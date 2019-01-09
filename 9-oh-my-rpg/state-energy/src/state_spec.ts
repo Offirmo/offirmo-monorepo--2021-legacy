@@ -5,11 +5,13 @@ import { LIB, SCHEMA_VERSION } from './consts'
 import {
 	UState,
 	TState,
+
 	create,
 	update_to_now,
 	use_energy,
 	restore_energy,
-	get_derived,
+
+	get_available_energy_float,
 } from '.'
 
 describe(`${LIB} - reducer`, function() {
@@ -53,9 +55,7 @@ describe(`${LIB} - reducer`, function() {
 				t_state = use_energy([ u_state, t_state ], 1)
 				t_state = use_energy([ u_state, t_state ], 1)
 
-				const derived = get_derived(u_state, t_state)
-
-				expect(derived.available_energy_int).to.equal(4)
+				expect(get_available_energy_float(t_state)).to.equal(4.)
 			})
 
 			it('should not change on abnormal date', function() {
@@ -76,11 +76,11 @@ describe(`${LIB} - reducer`, function() {
 				t_state = use_energy([ u_state, t_state ], 1, +Date.UTC(3000, 1, 1, 3))
 
 				t_state = update_to_now([ u_state, t_state ], +Date.UTC(3000, 1, 1, 4))
-				const derived = get_derived(u_state, t_state)
 
-				expect(derived.available_energy_int).to.equal(4)
-				expect(derived.available_energy_float).to.be.above(4.)
-				expect(derived.available_energy_float).to.be.below(5.)
+				expect(Math.trunc(get_available_energy_float(t_state))).to.equal(4)
+				expect(get_available_energy_float(t_state)).to.be.above(4.)
+				expect(get_available_energy_float(t_state)).to.be.below(5.)
+
 				expect(t_state.timestamp_ms).to.equal(+Date.UTC(3000, 1, 1, 4))
 			})
 		})
@@ -114,11 +114,11 @@ describe(`${LIB} - reducer`, function() {
 				t_state = use_energy([ u_state, t_state ], 1)
 				t_state = use_energy([ u_state, t_state ], 1)
 
-				expect(get_derived(u_state, t_state).available_energy_int).to.equal(4)
+				expect(get_available_energy_float(t_state)).to.equal(4.)
 
 				t_state = restore_energy([ u_state, t_state ], 2)
 
-				expect(get_derived(u_state, t_state).available_energy_int).to.equal(6)
+				expect(get_available_energy_float(t_state)).to.equal(6.)
 			})
 		})
 
@@ -131,11 +131,11 @@ describe(`${LIB} - reducer`, function() {
 				t_state = use_energy([ u_state, t_state ], 1)
 				t_state = use_energy([ u_state, t_state ], 1)
 
-				expect(get_derived(u_state, t_state).available_energy_int).to.equal(4)
+				expect(get_available_energy_float(t_state)).to.equal(4.)
 
 				t_state = restore_energy([ u_state, t_state ], 10)
 
-				expect(get_derived(u_state, t_state).available_energy_int).to.equal(7) // max
+				expect(get_available_energy_float(t_state)).to.equal(7.) // max
 			})
 		})
 	})
@@ -156,11 +156,11 @@ describe(`${LIB} - reducer`, function() {
 
 			// not yet
 			t_state = update_to_now([ u_state, t_state ], +new Date(2017, 1, 1, 23))
-			expect(get_derived(u_state, t_state).available_energy_int).to.be.below(7)
+			expect(get_available_energy_float(t_state)).to.be.below(7.)
 
 			// 24h elapsed since 1st play
 			t_state = update_to_now([ u_state, t_state ], +new Date(2017, 1, 2, 2))
-			expect(get_derived(u_state, t_state).available_energy_int).to.equal(7)
+			expect(get_available_energy_float(t_state)).to.equal(7.)
 		})
 
 		it('should not allow playing more than X times in 24 hours - case 2', function() {
@@ -180,17 +180,17 @@ describe(`${LIB} - reducer`, function() {
 
 			// not yet
 			t_state = update_to_now([ u_state, t_state ], +new Date(2017, 1, 1, 23))
-			expect(get_derived(u_state, t_state).available_energy_int).to.be.below(7)
+			expect(get_available_energy_float(t_state)).to.be.below(7.)
 
 			// 24h elapsed since 1st play
 			t_state = update_to_now([ u_state, t_state ], +new Date(2017, 1, 2, 2))
-			expect(get_derived(u_state, t_state).available_energy_int).to.equal(7)
+			expect(get_available_energy_float(t_state)).to.equal(7.)
 		})
 
 		it('should not allow playing more than X times in 24 hours - case 3', function() {
 			let [ u_state, t_state ] = create()
 
-				// inefficient play, last one too late
+			// inefficient play, always too late
 			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 0))
 			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 3, 30))
 			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 7))
@@ -199,14 +199,17 @@ describe(`${LIB} - reducer`, function() {
 			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 17, 30))
 			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 21))
 
-
 			// not yet
 			t_state = update_to_now([ u_state, t_state ], +new Date(2017, 1, 1, 23))
-			expect(get_derived(u_state, t_state).available_energy_int).to.be.below(7)
+			expect(get_available_energy_float(t_state), 'A').to.be.below(7.)
 
-			// 24h elapsed since 1st play
+			// 24h elapsed since 1st play, still not regenerated
 			t_state = update_to_now([ u_state, t_state ], +new Date(2017, 1, 2, 0))
-			expect(get_derived(u_state, t_state).available_energy_int).to.be.below(7)
+			expect(get_available_energy_float(t_state), 'B').to.be.below(7.)
+
+			// 3h25+ elapsed since last play
+			t_state = update_to_now([ u_state, t_state ], +new Date(2017, 1, 2, 0, 30))
+			expect(get_available_energy_float(t_state), 'C').to.equal(7.)
 		})
 
 		// case 1 = a wrong implementation I did first
@@ -222,7 +225,11 @@ describe(`${LIB} - reducer`, function() {
 			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 0))
 			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 0))
 
-			// the play as soon as energy is restored, 7 times
+			// then play as soon as energy is restored, waiting 7 times x 3h25+
+			// check
+			t_state = update_to_now([ u_state, t_state ], +new Date(2017, 1, 1, 3, 30))
+			expect(get_available_energy_float(t_state), 'A').to.be.above(1.)
+
 			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 3, 30))
 			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 7))
 			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 10, 30))
@@ -231,10 +238,10 @@ describe(`${LIB} - reducer`, function() {
 			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 21))
 			t_state = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 2, 0, 30))
 
-			expect(get_derived(u_state, t_state).available_energy_int).to.equal(0)
+			expect(get_available_energy_float(t_state), 'B').to.be.below(1.) // but not 0 since extra time passed
 
 			t_state = update_to_now([ u_state, t_state ], +new Date(2017, 1, 2, 4))
-			expect(get_derived(u_state, t_state).available_energy_int).to.be.below(7)
+			expect(get_available_energy_float(t_state), 'C').to.be.below(7.)
 		})
 	})
 })

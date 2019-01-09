@@ -96,7 +96,6 @@ function use_energy(
 
 	const available_energy = new Fraction(t_state.available_energy).sub(qty)
 	if (available_energy.s < 0) {
-		//console.error({state, qty, snapshot})
 		throw new Error(`${LIB}: not enough energy left!`)
 	}
 

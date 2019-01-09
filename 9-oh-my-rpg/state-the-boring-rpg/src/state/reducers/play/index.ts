@@ -11,7 +11,7 @@ import * as ProgressState from '@oh-my-rpg/state-progress'
 
 import { State } from '../../../types'
 
-import { get_available_energy } from '../../../selectors'
+import { get_available_energy_float } from '../../../selectors'
 import { _update_to_now } from '../internal'
 import { play_good } from './play_good'
 import { play_bad } from './play_bad'
@@ -23,9 +23,8 @@ import { _refresh_achievements } from '../achievements'
 function play(state: Readonly<State>, explicit_adventure_archetype_hid?: string): Readonly<State> {
 	state = _update_to_now(state)
 
-	const available_energy = get_available_energy(state)
-
-	const is_good_play = available_energy >= 1
+	const available_energy = get_available_energy_float(state)
+	const is_good_play = available_energy >= 1.
 
 	// consume energy
 	let [ u_state, t_state ] = state.energy

@@ -35,7 +35,7 @@ import { Armor } from '@oh-my-rpg/logic-armors'
 import { State } from '../../types'
 
 import {
-	get_available_energy,
+	get_available_energy_float,
 	find_better_unequipped_armor,
 	find_better_unequipped_weapon,
 } from '../../selectors'
@@ -138,8 +138,8 @@ function autoplay(state: Readonly<State>, options: Readonly<{ target_good_play_c
 	state = _autogroom(state, options)
 
 	// do we have energy?
-	let available_energy = get_available_energy(state)
-	let have_energy = available_energy >= 1
+	let available_energy = get_available_energy_float(state)
+	let have_energy = available_energy >= 1.
 
 	if (target_bad_play_count > state.progress.statistics.bad_play_count) {
 		if (have_energy) {
@@ -157,8 +157,8 @@ function autoplay(state: Readonly<State>, options: Readonly<{ target_good_play_c
 	if (target_good_play_count > state.progress.statistics.good_play_count) {
 		// play good
 		for (let i = state.progress.statistics.good_play_count; i < target_good_play_count; ++i) {
-			let available_energy = get_available_energy(state)
-			have_energy = available_energy >= 1
+			let available_energy = get_available_energy_float(state)
+			have_energy = available_energy >= 1.
 
 			if (!have_energy) {
 				// replenish and pretend one day has passed
