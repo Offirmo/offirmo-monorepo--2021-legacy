@@ -1,7 +1,7 @@
 .tbrpg-panel--explore {
 	display: grid;
 	grid-template-columns: auto;
-	grid-template-rows: auto 100px;
+	grid-template-rows: auto 120px;
 }
 
 .tbrpg-panel--explore > div {

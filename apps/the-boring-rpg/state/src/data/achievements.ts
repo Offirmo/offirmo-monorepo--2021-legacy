@@ -86,8 +86,8 @@ const RAW_ENTRIES_TEST: Readonly<Partial<AchievementDefinition<State>>>[] = [
 	{
 		icon: '🍪',
 		name: 'TEST',
-		description: `This secret achievement can only be obtained through debug commands, to test the achievements system.',
-		lore: '…and a piece of lore should appear here`,
+		description: `This secret achievement can only be obtained through debug commands, to test the achievements system.`,
+		lore: `…and a piece of lore should appear here`,
 		get_status: (state: State) => state.progress.achievements['TEST'] === undefined || state.progress.achievements['TEST'] === AchievementStatus.secret
 			? AchievementStatus.secret // keep it secret
 			: AchievementStatus.unlocked, // unlock it ASAP

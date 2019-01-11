@@ -28,8 +28,11 @@ const BACKGROUNDS = [
 	'cloud_city',
 	'kvasir_fortress',
 	'barren_landscape',
+	'lost_island',
+	'monoliths',
 	'snowcapped_environment',
 	'viking_ambush',
+
 ]
 
 export default props => (

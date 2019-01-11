@@ -16,7 +16,7 @@ const InfoboxC1 = React.memo(
 	function InfoboxC1({m_state}) {
 		console.log('🔄 InfoboxC1' /*, m_state*/)
 
-		const ach_completion = (new Fraction(game_instance.selectors.get_achievements_completion())).floor(2).valueOf()
+		const ach_completion = (new Fraction(game_instance.selectors.get_achievements_completion())).floor(4).valueOf()
 
 		return (
 			<InfoboxView

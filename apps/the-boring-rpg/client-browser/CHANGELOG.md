@@ -15,16 +15,18 @@ Next
 - 🤩 feature: X new adventures (now totalling X!)
 - 😍 feature: X new backgrounds (now totalling X!)
 - 🤩 feature: X new achievements (now totalling X!)
+- 😅 fix: tweaks, typos, small bugs…
 - 😷 chore: some internal refactors
 
 
-2019/01/XX v0.55
-- new energy display
-- internal refactors around energy
-- new button style to make them more visible
+2019/01/11 v0.55
+- 😍 feature: 2 new backgrounds (now totalling 24!)
+- 🤩 new energy display with favicon
+- 😅 fix: tweaks, typos, small bugs…
+- 😷 internal refactors around energy
 
 
-2018/12/XX v0.54.11
+2018/12/13 v0.54.11
 - 🤩 feature: 70 new achievements!! (now totalling 97)
 - 😅 fix (hopefully!): autoplay/reborn no longer discards all the armors (now balanced)
 
@@ -34,7 +36,7 @@ Next
 - 😍 improved good drops distribution! Now 20x times more chance to get legendary drops! (computed to get ~one every 1.5 month)
 - 🤩 feature: reborn! When I make internal changes to the savegame format, instead of resetting the game, it will now triggers an auto-replay so you won't loose your hard work!
   - You can trigger a rebirth now (to benefit from the new drop rate) by using the code "reborn"
- - 😍 feature: 1 new background (now totalling 22!)
+- 😍 feature: 1 new background (now totalling 22!)
 - 🤩 added an update notification with a link to Reddit
 - 😎 a secret code to get "artifact" level items (as a reward to alpha players)
 - 😅 fix: tweaks, typos, small bugs…

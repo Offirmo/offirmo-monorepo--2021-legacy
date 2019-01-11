@@ -85,6 +85,16 @@
 	background-position: 17%;
 }
 
+.tbrpg⋄bg-image⁚lost_island {
+	background-image: url('backgrounds/lost_island-raphael_lacoste.jpg');
+	background-position: 2%;
+}
+
+.tbrpg⋄bg-image⁚monoliths {
+	background-image: url('backgrounds/monoliths-raphael_lacoste.jpg');
+	background-position: 0%;
+}
+
 .tbrpg⋄bg-image⁚return_of_the_knight {
 	background-image: url('backgrounds/return_of_the_knight-raphael_lacoste.jpg');
 	background-position: 79%;

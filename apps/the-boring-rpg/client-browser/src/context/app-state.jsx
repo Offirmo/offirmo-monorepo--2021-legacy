@@ -36,8 +36,8 @@ class AppStateListenerAndProviderX1 extends React.Component {
 		//console.log({MIN_FPS_FRAME_PERIOD_MS, MAX_FPS_FRAME_PERIOD_MS})
 
 
-		if (this.id > 1)
-			throw new Error('Incorrect duplicate AppStateListenerAndProviderX1!')
+		/*if (this.id > 1)
+			throw new Error('Incorrect duplicate AppStateListenerAndProviderX1!')*/
 
 		// we use Animation Frame for a smooth, adaptable framerate
 		// however, since AF pauses when background, we need to back it up

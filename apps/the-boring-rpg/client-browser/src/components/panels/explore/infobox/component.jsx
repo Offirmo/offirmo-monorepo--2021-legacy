@@ -12,8 +12,8 @@ export default React.memo(
 
 		return (
 			<div className="o⋄box">
-				⚡ Energy: {energy_float} → You can play again {energy_float >= 1 ? 'right now!' : `in ${human_time_to_next}`}<br/>
-				🏆 Achievements: {achievement_rate}%
+				⚡ Energy: {energy_float} → You can play {energy_float >= 1 ? 'right now!' : `in ${human_time_to_next}`}<br/>
+				🏆 Achievements: {achievement_rate * 100}%
 			</div>
 		)
 	}
