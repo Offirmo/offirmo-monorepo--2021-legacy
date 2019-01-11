@@ -104,23 +104,25 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any
 
 function migrate_to_8(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any>): any {
 	if (legacy_state.schema_version >= 8)
-		throw new Error('migrate_to_8 was called from an outdated root code, please update!')
+		throw new Error('migrate_to_8 was called from an outdated/buggy root code, please update!')
 
-	if (legacy_state.schema_version < 8)
+	if (legacy_state.schema_version < 7)
 		legacy_state = migrate_to_7(SEC, legacy_state, hints)
 
 	let state: any = { ...legacy_state, schema_version: 8 }
 
-	// modified entries
+	// modified entries:
 	// jackpot, everyone will get an energy replenishment
 	state.energy = EnergyState.create()
+	if (hints && hints.to_v8 && hints.to_v8.energy_t_state)
+		state.energy[1] = hints.to_v8.energy_t_state
 
 	return state
 }
 
 function migrate_to_7(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any>): any {
 	if (legacy_state.schema_version >= 7)
-		throw new Error('migrate_to_7 was called from an outdated root code, please update!')
+		throw new Error('migrate_to_7 was called from an outdated/buggy root code, please update!')
 
 	if (legacy_state.schema_version < 4)
 		legacy_state = migrate_to_4(SEC, legacy_state, hints)

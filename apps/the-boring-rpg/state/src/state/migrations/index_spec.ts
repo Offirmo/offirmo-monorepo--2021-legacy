@@ -23,6 +23,14 @@ import { DEMO_STATE } from '../../examples'
 // some hints may be needed to migrate to demo state
 const MIGRATION_HINTS_FOR_TESTS: any = deepFreeze({
 	to_v8: {
+		energy_t_state: {
+			"schema_version": 2,
+			"timestamp_ms": 1545016005762,
+			"available_energy": {
+				"n": 7,
+				"d": 2
+			},
+		},
 	},
 
 	avatar: CharacterState.MIGRATION_HINTS_FOR_TESTS,

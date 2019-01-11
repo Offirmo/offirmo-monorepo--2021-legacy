@@ -38,14 +38,15 @@ button {
 	text-align: center;
 
 	/* stripe.com */
-	/*xxbox-shadow: 0 4px 6px rgba(50,50,93,.11),0 1px 3px rgba(0,0,0,.08);*/
+	box-shadow: 0 4px 6px rgba(50,50,93,.11),0 1px 3px rgba(0,0,0,.08);
 }
 button:hover {
-	border-color: var(--o⋄color--fg⁚accent);
-	/*xxbox-shadow: 0 0 .3em 0 var(--o⋄color--bg⁚main--backdrop);*/
+	background-color: var(--o⋄color--bg⁚highlight--2);
+	box-shadow: 0 0 .3em 0 var(--o⋄color--bg⁚main--backdrop);
 }
 button:active {
 	background-color: var(--o⋄color--bg⁚highlight--2);
+	border-color: var(--o⋄color--fg⁚accent);
 }
 
 /* special "inline" button */

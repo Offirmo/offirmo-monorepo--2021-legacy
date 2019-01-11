@@ -7,6 +7,8 @@ royal anthem of France https://www.youtube.com/watch?v=TXXdOqaI4mc
 triomphe baroque https://www.youtube.com/watch?v=snxUHRaGTuA
 
 https://sciencepost.fr/2019/01/australie-propagation-dune-bacterie-infectieuse-mangeuse-de-chair/
+https://sciencepost.fr/2018/12/voici-la-plus-ancienne-table-de-trigonometrie-de-lhistoire/
+https://sciencepost.fr/2019/01/voie-lactee-une-collision-programmee-dans-2-milliards-dannees/
 
 import { dump_pretty_json } from "@offirmo/prettify-json" // TODO remove
 
