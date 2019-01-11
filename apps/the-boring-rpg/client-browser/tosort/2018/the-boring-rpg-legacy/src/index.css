@@ -1,0 +1,245 @@
+@import '/the-boring-rpg/node_modules/@oh-my-rpg/view-browser/src/style.css';
+
+/*******/
+
+.o⋄centered-article {
+	padding: 0;
+	min-width: 100%;
+}
+
+
+/*******/
+
+input {
+	margin: 4px 0;
+	font-size: 12px;
+}
+button {
+	margin: 3px;
+	padding: 5px 9px;
+	border: solid 1px black;
+	border-radius: 3px;
+	background-color: white;
+	font-family: "Spectral", "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	font-size: 16px;
+	letter-spacing: -0.6px;
+}
+
+/* TODO no longer use this */
+ul, ol {
+	margin: 3px 0;
+	padding-left: 18px;
+}
+
+
+/*********************/
+.auto-scroll-down {
+	height: 100%;
+}
+
+.chat {
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	padding: 0;
+}
+
+.chat__element {
+	margin: 6px 7px;
+	position: relative; /* to allow absolute positioning of content */
+	max-width: 70%;
+
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+	align-content: flex-start;
+}
+.chat__element--ltr {
+	align-self: flex-start;
+}
+.chat__element--rtl {
+	align-self: flex-end;
+}
+
+.chat__bubble {
+	border: solid 1px black;
+	padding: 3px 6px;
+	border-right: 0;
+	border-top: 0;
+	width: fit-content;
+	background-color: rgba(255,255,255,0.3);
+}
+.chat__bubble.chat__element--ltr::before {
+	content: '◤';
+	font-family: sans-serif;
+	font-size: 9px;
+	position: absolute;
+	bottom: -12px;
+	left: 6px;
+}
+.chat__bubble.chat__element--rtl::before {
+	content: '◥';
+	font-family: sans-serif;
+	font-size: 9px;
+	position: absolute;
+	bottom: -12px;
+	left: 6px;
+}
+
+.chat__spinner {
+	background-image: url("./spin-1s-42px.svg");
+	background-repeat: no-repeat;
+	background-position: 10px 0;
+	height: 42px;
+}
+
+.chat__choices {
+	padding-right: 10px;
+	padding-bottom: 12px;
+	text-align: end;
+	justify-content: flex-end;
+}
+.chat__choices button {
+	text-align: left;
+}
+
+.chat__input {
+	height: 26px;
+	border: solid 1px #00000038;
+	margin-right: 2px;
+}
+
+/* https://stackoverflow.com/a/8185290/587407 */
+/*.chat__choices > * + * {
+	margin-left: 5px;
+}*/
+
+/*********************/
+
+:root {
+	--tbrpg__header--height: 80px;
+	--tbrpg__header--height-compensation: 20px;
+
+	border-color: green;
+}
+
+
+/*********************/
+.tbrpg-container {
+	border-color: blue;
+}
+
+.tbrpg__header {
+	position: sticky;
+	top: 0;
+	padding: 5px;
+	z-index: 1; /* needed to make it clickable above the content */
+	height: var(--tbrpg__header--height);
+	margin-bottom: calc(-1 * var(--tbrpg__header--height-compensation)); /* compensate the nice gradient going further */
+	/* https://css-tricks.com/easing-linear-gradients/
+	 * https://larsenwork.com/easing-gradients/
+	 */
+	background-image: linear-gradient(to bottom, hsl(0, 0%, 0%) 0%, hsla(0, 0%, 0%, 0.98) 9.9%, hsla(0, 0%, 0%, 0.948) 19.4%, hsla(0, 0%, 0%, 0.904) 28.4%, hsla(0, 0%, 0%, 0.845) 36.6%, hsla(0, 0%, 0%, 0.775) 43.8%, hsla(0, 0%, 0%, 0.695) 50%, hsla(0, 0%, 0%, 0.61) 55.2%, hsla(0, 0%, 0%, 0.52) 59.7%, hsla(0, 0%, 0%, 0.427) 63.8%, hsla(0, 0%, 0%, 0.335) 67.7%, hsla(0, 0%, 0%, 0.242) 71.9%, hsla(0, 0%, 0%, 0.155) 76.8%, hsla(0, 0%, 0%, 0.077) 83.2%, hsla(0, 0%, 0%, 0.022) 91.6%, hsla(0, 0%, 0%, 0) 100%);
+	display: flex;
+	flex-direction: column;
+}
+.tbrpg__header__logo {
+}
+.tbrpg__header__title {
+	font-size: 25px;
+	color: #f7efb2;
+	margin-left: 7px;
+}
+
+/*********************/
+.tbrpg__nav {
+	display: flex;
+	flex-direction: row;
+}
+
+.tbrpg__nav__list {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+}
+
+/* https://stackoverflow.com/a/8185290/587407 */
+.tbrpg__nav__list li + li  {
+	margin-left: 16px;
+}
+
+
+/* #f7efb2e0 */
+
+.tbrpg__nav a {
+	color: white;
+	text-decoration: none;
+}
+.tbrpg__nav a.active {
+	color: #ffe74b;
+	font-weight: bold;
+	border-bottom: solid 2px;
+}
+.tbrpg__nav a.active:before {
+	content: '';
+}
+
+/*********************/
+
+.page {
+	height: 100%;
+
+	box-sizing: border-box;
+	xxborder: solid 1px orange;
+}
+
+.page-top-content {
+	padding: 7px;
+}
+
+
+.page--inventory,
+.page--character,
+.page--about {
+	display: flex;
+	flex-direction: column;
+}
+
+.page--home .chat {
+	min-height: calc(
+		100vh
+		- var(--tbrpg__header--height)
+		+ var(--tbrpg__header--height-compensation)
+		- 4px /* don't know why */
+	);
+}
+
+pre.export_savegame {
+	font-family: monospace;
+	font-size: 10px;
+}
+
+/*********************/
+
+
+/******/
+/*
+.action-btn {
+	background: #d98c34;
+	background-image: linear-gradient(to bottom, #d98c34, #b8772c);
+	border-radius: 4px;
+	color: #000000;
+	padding: 2px 4px 2px 4px;
+	border: solid #8c591f 2px;
+	text-decoration: none;
+}
+
+.action-btn:hover {
+	background: #f2ae3a;
+	background-image: linear-gradient(to bottom, #f2ae3a, #b87427);
+	text-decoration: none;
+}
+*/

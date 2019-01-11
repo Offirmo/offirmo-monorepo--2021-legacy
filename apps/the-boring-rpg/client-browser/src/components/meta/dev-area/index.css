@@ -1,0 +1,42 @@
+
+
+.dev-area {
+	z-index: 50000;
+	position: fixed;
+	top: 0;
+	right: 0;
+	border-collapse: collapse;
+	border: solid 1px black;
+
+	color: black;
+	background-color: rgba(255, 255, 255, 0.5);
+
+	font-family: "Consolas", "Lucida Console", monospace;
+	font-size: 14px;
+}
+.dev-area button {
+	border: 0;
+	font-size: inherit;
+	padding: 0;
+	box-shadow: none;
+	color: black;
+	background-color: transparent;
+}
+.dev-area td {
+	border: solid 1px black;
+	text-align: center;
+	padding: 1px;
+	padding-bottom: 3px;
+}
+.dev-area .DA-environment {
+	background-color: #FC8227;
+}
+.dev-area .DA-controls {
+	font-size: 20px;
+	padding-left: 4px;
+	padding-bottom: 0;
+}
+.dev-area .DA-refresh {
+	font-size: 22px;
+	padding-bottom: 0;
+}

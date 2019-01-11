@@ -1,0 +1,129 @@
+{
+	"schema_version": 7,
+	"revision": 0,
+	"uuid": "uu1n4LU6GIMkpY2oVzXSPl9x",
+	"creation_date": "20181114_01h06",
+	"avatar": {
+		"schema_version": 2,
+		"revision": 0,
+		"name": "[anonymous]",
+		"klass": "novice",
+		"attributes": {
+			"level": 1,
+			"health": 1,
+			"mana": 0,
+			"strength": 1,
+			"agility": 1,
+			"charisma": 1,
+			"wisdom": 1,
+			"luck": 1
+		}
+	},
+	"inventory": {
+		"schema_version": 1,
+		"revision": 4,
+		"unslotted_capacity": 20,
+		"slotted": {
+			"weapon": {
+				"element_type": "item",
+				"uuid": "uu1m04UBFkcNSbWnnMtNL~Mt",
+				"slot": "weapon",
+				"quality": "common",
+				"base_hid": "spoon",
+				"qualifier1_hid": "used",
+				"qualifier2_hid": "noob",
+				"base_strength": 1,
+				"enhancement_level": 0
+			},
+			"armor": {
+				"base_hid": "socks",
+				"qualifier1_hid": "used",
+				"qualifier2_hid": "noob",
+				"element_type": "item",
+				"uuid": "uu1xnTGfLTW9uLrnIvtBW8VZ",
+				"slot": "armor",
+				"quality": "common",
+				"base_strength": 1,
+				"enhancement_level": 0
+			}
+		},
+		"unslotted": []
+	},
+	"wallet": {
+		"schema_version": 1,
+		"revision": 0,
+		"coin_count": 0,
+		"token_count": 0
+	},
+	"prng": {
+		"schema_version": 2,
+		"revision": 0,
+		"seed": 1234,
+		"use_count": 0,
+		"recently_encountered_by_id": {}
+	},
+	"energy": {
+		"schema_version": 1,
+		"revision": 0,
+		"max_energy": 7,
+		"base_energy_refilling_rate_per_day": 7,
+		"last_date": "ts1_19700101_00h00:00.000",
+		"last_available_energy_float": 7
+	},
+	"engagement": {
+		"schema_version": 1,
+		"revision": 3,
+		"queue": [
+			{
+				"uid": 3,
+				"engagement": {
+					"type": "flow",
+					"key": "tip--first_play"
+				},
+				"params": {}
+			}
+		]
+	},
+	"codes": {
+		"schema_version": 1,
+		"revision": 0,
+		"redeemed_codes": {}
+	},
+	"progress": {
+		"schema_version": 1,
+		"revision": 18,
+		"wiki": null,
+		"flags": null,
+		"achievements": {
+			"TEST": "secret",
+			"Summoned": "unlocked",
+			"Alpha player": "unlocked",
+			"Beta player": "secret",
+			"I am bored": "revealed",
+			"I am very bored": "revealed",
+			"Turn it up to eleven": "hidden",
+			"I am dead bored": "hidden",
+			"did I mention I was bored?": "hidden",
+			"king of boredom": "hidden",
+			"No-life except for boredom": "hidden",
+			"Sorry my hand slipped": "hidden",
+			"Oops!... I Did It Again": "hidden",
+			"I’m not that innocent": "hidden",
+			"It’s good to be bad": "hidden",
+			"Hello darkness my old friend": "hidden",
+			"What’s in a name?": "revealed",
+			"Graduated": "revealed"
+		},
+		"statistics": {
+			"good_play_count": 0,
+			"bad_play_count": 0,
+			"encountered_adventures": {},
+			"encountered_monsters": {},
+			"good_play_count_by_active_class": {},
+			"bad_play_count_by_active_class": {},
+			"has_account": false,
+			"is_registered_alpha_player": false
+		}
+	},
+	"last_adventure": null
+}

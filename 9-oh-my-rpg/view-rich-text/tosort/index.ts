@@ -11,7 +11,7 @@ import { MonsterRank, Monster } from '@oh-my-rpg/logic-monsters'
 import { State as InventoryState, iterables_unslotted, get_item_in_slot } from '@oh-my-rpg/state-inventory'
 import { State as WalletState, Currency, get_currency_amount } from '@oh-my-rpg/state-wallet'
 import { State as CharacterState, CharacterAttribute, CHARACTER_STATS } from '@oh-my-rpg/state-character'
-import { Adventure, GainType } from '@oh-my-rpg/state-the-boring-rpg'
+import { Adventure, GainType } from '@tbrpg/state'
 
 import { TextStyle, RenderingOptions } from './types'
 

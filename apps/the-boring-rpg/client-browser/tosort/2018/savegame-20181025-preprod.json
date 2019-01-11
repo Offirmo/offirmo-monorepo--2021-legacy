@@ -1,0 +1,270 @@
+{
+	"schema_version": 6,
+	"revision": 225,
+	"uuid": "uu14KZJb9EvCVVA8E4xUGrRz",
+	"creation_date": "20180625_22h42",
+	"avatar": {
+		"schema_version": 2,
+		"revision": 143,
+		"name": "Perte",
+		"klass": "hunter",
+		"attributes": {
+			"level": 15,
+			"health": 20,
+			"mana": 26,
+			"strength": 14,
+			"agility": 16,
+			"charisma": 20,
+			"wisdom": 28,
+			"luck": 10
+		}
+	},
+	"inventory": {
+		"schema_version": 1,
+		"revision": 24,
+		"unslotted_capacity": 20,
+		"slotted": {
+			"weapon": {
+				"element_type": "item",
+				"uuid": "uu1FOR_cIjFdOlwzbRUtnIgz",
+				"slot": "weapon",
+				"quality": "uncommon",
+				"base_hid": "knife",
+				"qualifier1_hid": "steel",
+				"qualifier2_hid": "cruel_tyrant",
+				"base_strength": 18,
+				"enhancement_level": 1
+			},
+			"armor": {
+				"base_hid": "mantle",
+				"qualifier1_hid": "practical",
+				"qualifier2_hid": "warfield_king",
+				"element_type": "item",
+				"uuid": "uu1TI0Jo1wVKmpilUU5N28r3",
+				"slot": "armor",
+				"quality": "rare",
+				"base_strength": 18,
+				"enhancement_level": 2
+			}
+		},
+		"unslotted": [
+			{
+				"element_type": "item",
+				"uuid": "uu1SFCbWu20BeiPLbYJJBvE4",
+				"slot": "weapon",
+				"quality": "uncommon",
+				"base_hid": "bow",
+				"qualifier1_hid": "steel",
+				"qualifier2_hid": "pilgrim",
+				"base_strength": 13,
+				"enhancement_level": 0
+			},
+			{
+				"slot": "weapon",
+				"base_hid": "axe",
+				"qualifier1_hid": "brass",
+				"qualifier2_hid": "pirate",
+				"element_type": "item",
+				"uuid": "uu1Ifmd8Tb0eHm_UumvPo_ZW",
+				"quality": "uncommon",
+				"base_strength": 11,
+				"enhancement_level": 0
+			},
+			{
+				"element_type": "item",
+				"uuid": "uu16WnhJOTTrXN346eBpoRvs",
+				"slot": "weapon",
+				"quality": "uncommon",
+				"base_hid": "spoon",
+				"qualifier1_hid": "used",
+				"qualifier2_hid": "goddess",
+				"base_strength": 10,
+				"enhancement_level": 0
+			},
+			{
+				"element_type": "item",
+				"uuid": "uu1cZpXI45r4Cgpa65az3aNi",
+				"slot": "weapon",
+				"quality": "uncommon",
+				"base_hid": "harp",
+				"qualifier1_hid": "golden",
+				"qualifier2_hid": "tyrant",
+				"base_strength": 10,
+				"enhancement_level": 0
+			},
+			{
+				"element_type": "item",
+				"uuid": "uu1jIVxjY9yGGvNgODIeUz12",
+				"slot": "weapon",
+				"quality": "uncommon",
+				"base_hid": "longsword",
+				"qualifier1_hid": "old",
+				"qualifier2_hid": "ambassador",
+				"base_strength": 7,
+				"enhancement_level": 0
+			},
+			{
+				"element_type": "item",
+				"uuid": "uu1UVieelW1cFAqFTvjUy8S8",
+				"slot": "weapon",
+				"quality": "uncommon",
+				"base_hid": "spear",
+				"qualifier1_hid": "heavy",
+				"qualifier2_hid": "traveler",
+				"base_strength": 6,
+				"enhancement_level": 0
+			},
+			{
+				"element_type": "item",
+				"uuid": "uu18tkMiJ9KwItOg4kBy1xlu",
+				"slot": "weapon",
+				"quality": "uncommon",
+				"base_hid": "harp",
+				"qualifier1_hid": "steel",
+				"qualifier2_hid": "apprentice",
+				"base_strength": 2,
+				"enhancement_level": 0
+			},
+			{
+				"element_type": "item",
+				"uuid": "uu1CpyZpMpqpQsbiumyxYKG2",
+				"slot": "weapon",
+				"quality": "common",
+				"base_hid": "sword",
+				"qualifier1_hid": "crafted",
+				"qualifier2_hid": "woodsman",
+				"base_strength": 17,
+				"enhancement_level": 0
+			},
+			{
+				"element_type": "item",
+				"uuid": "uu1rdcIp1hE7AiTNGON5kFqz",
+				"slot": "weapon",
+				"quality": "common",
+				"base_hid": "grimoire",
+				"qualifier1_hid": "raging",
+				"qualifier2_hid": "executioner",
+				"base_strength": 15,
+				"enhancement_level": 0
+			},
+			{
+				"base_hid": "crown",
+				"qualifier1_hid": "embroidered",
+				"qualifier2_hid": "elven",
+				"element_type": "item",
+				"uuid": "uu1cBLD~kS39CrxMFN3tv3TP",
+				"slot": "armor",
+				"quality": "rare",
+				"base_strength": 7,
+				"enhancement_level": 0
+			},
+			{
+				"base_hid": "leggings",
+				"qualifier1_hid": "onyx",
+				"qualifier2_hid": "tyrant",
+				"element_type": "item",
+				"uuid": "uu1dFaoFAeI6boSBPpRn5x~Z",
+				"slot": "armor",
+				"quality": "common",
+				"base_strength": 19,
+				"enhancement_level": 0
+			},
+			{
+				"base_hid": "cloak",
+				"qualifier1_hid": "bone",
+				"qualifier2_hid": "gladiator",
+				"element_type": "item",
+				"uuid": "uu1ETX561BPIh4UCHlLFgS73",
+				"slot": "armor",
+				"quality": "common",
+				"base_strength": 20,
+				"enhancement_level": 0
+			},
+			{
+				"base_hid": "cloak",
+				"qualifier1_hid": "used",
+				"qualifier2_hid": "warrior",
+				"element_type": "item",
+				"uuid": "uu1R2qH~MtCDJZeZHtk47ZMV",
+				"slot": "armor",
+				"quality": "common",
+				"base_strength": 7,
+				"enhancement_level": 0
+			}
+		]
+	},
+	"wallet": {
+		"schema_version": 1,
+		"revision": 24,
+		"coin_count": 27996,
+		"token_count": 16
+	},
+	"prng": {
+		"schema_version": 2,
+		"revision": 227,
+		"seed": -1163955302,
+		"use_count": 1298,
+		"recently_encountered_by_id": {
+			"adventure_archetype--good": [
+				"class_grimoire",
+				"stare_cup",
+				"famous_stone_diamond",
+				"fight_lost_any",
+				"castle_summon",
+				"sword_in_rock",
+				"lost",
+				"village_lost_kid",
+				"meteor",
+				"ate_bacon",
+				"found_random_mushroom",
+				"lost_mine",
+				"bored_log",
+				"erika",
+				"nuclear_fusion_paper",
+				"fight_won_loot",
+				"gold_nugget",
+				"side_quests",
+				"king_reward",
+				"meet_old_wizard"
+			],
+			"adventure_archetype--bad": []
+		}
+	},
+	"energy": {
+		"schema_version": 1,
+		"revision": 198,
+		"max_energy": 7,
+		"base_energy_refilling_rate_per_day": 7,
+		"last_date": "ts1_20181025_01h57:45.565",
+		"last_available_energy_float": 6
+	},
+	"last_adventure": {
+		"uuid": "uu1RhEMnVR2h4BgBPm4f_qU4",
+		"hid": "meet_old_wizard",
+		"good": true,
+		"gains": {
+			"level": 0,
+			"health": 0,
+			"mana": 0,
+			"strength": 0,
+			"agility": 0,
+			"charisma": 0,
+			"wisdom": 1,
+			"luck": 0,
+			"coin": 0,
+			"token": 0,
+			"armor": null,
+			"weapon": null,
+			"armor_improvement": false,
+			"weapon_improvement": false
+		}
+	},
+	"click_count": 198,
+	"good_click_count": 194,
+	"meaningful_interaction_count": 225,
+	"codes": {
+		"schema_version": 1,
+		"revision": 0,
+		"redeemed_codes": {}
+	}
+}

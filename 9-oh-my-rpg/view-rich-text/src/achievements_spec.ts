@@ -8,7 +8,7 @@ import {
 	create,
 	play,
 	get_achievements_snapshot,
-} from '@oh-my-rpg/state-the-boring-rpg'
+} from '@tbrpg/state'
 
 const { rich_text_to_ansi } = require('../../../../apps/the-boring-rpg-node/src/services/rich_text_to_ansi')
 

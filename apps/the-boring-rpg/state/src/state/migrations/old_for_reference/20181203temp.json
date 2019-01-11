@@ -1,0 +1,368 @@
+{
+	"schema_version": 7,
+	"revision": 512,
+	"uuid": "uu14KZJb9EvCVVA8E4xUGrRz",
+	"creation_date": "20180625_22h42",
+	"avatar": {
+		"schema_version": 2,
+		"revision": 207,
+		"name": "PerteDev",
+		"klass": "sculptor",
+		"attributes": {
+			"level": 18,
+			"health": 27,
+			"mana": 31,
+			"strength": 23,
+			"agility": 27,
+			"charisma": 26,
+			"wisdom": 35,
+			"luck": 21
+		}
+	},
+	"inventory": {
+		"schema_version": 1,
+		"revision": 52,
+		"unslotted_capacity": 20,
+		"slotted": {
+			"weapon": {
+				"element_type": "item",
+				"uuid": "uu1FOR_cIjFdOlwzbRUtnIgz",
+				"slot": "weapon",
+				"quality": "uncommon",
+				"base_hid": "knife",
+				"qualifier1_hid": "steel",
+				"qualifier2_hid": "cruel_tyrant",
+				"base_strength": 18,
+				"enhancement_level": 2
+			},
+			"armor": {
+				"base_hid": "mantle",
+				"qualifier1_hid": "practical",
+				"qualifier2_hid": "warfield_king",
+				"element_type": "item",
+				"uuid": "uu1TI0Jo1wVKmpilUU5N28r3",
+				"slot": "armor",
+				"quality": "rare",
+				"base_strength": 18,
+				"enhancement_level": 4
+			}
+		},
+		"unslotted": [
+			{
+				"element_type": "item",
+				"uuid": "uu1SFCbWu20BeiPLbYJJBvE4",
+				"slot": "weapon",
+				"quality": "uncommon",
+				"base_hid": "bow",
+				"qualifier1_hid": "steel",
+				"qualifier2_hid": "pilgrim",
+				"base_strength": 13,
+				"enhancement_level": 0
+			},
+			{
+				"slot": "weapon",
+				"base_hid": "axe",
+				"qualifier1_hid": "brass",
+				"qualifier2_hid": "pirate",
+				"element_type": "item",
+				"uuid": "uu1Ifmd8Tb0eHm_UumvPo_ZW",
+				"quality": "uncommon",
+				"base_strength": 11,
+				"enhancement_level": 0
+			},
+			{
+				"element_type": "item",
+				"uuid": "uu16WnhJOTTrXN346eBpoRvs",
+				"slot": "weapon",
+				"quality": "uncommon",
+				"base_hid": "spoon",
+				"qualifier1_hid": "used",
+				"qualifier2_hid": "goddess",
+				"base_strength": 10,
+				"enhancement_level": 0
+			},
+			{
+				"element_type": "item",
+				"uuid": "uu1O6~~FzyRoF~MTCNtJUFVn",
+				"slot": "weapon",
+				"quality": "rare",
+				"base_hid": "dagger",
+				"qualifier1_hid": "emerald",
+				"qualifier2_hid": "assaulting",
+				"base_strength": 3,
+				"enhancement_level": 0
+			},
+			{
+				"base_hid": "crown",
+				"qualifier1_hid": "embroidered",
+				"qualifier2_hid": "elven",
+				"element_type": "item",
+				"uuid": "uu1cBLD~kS39CrxMFN3tv3TP",
+				"slot": "armor",
+				"quality": "rare",
+				"base_strength": 7,
+				"enhancement_level": 0
+			},
+			{
+				"element_type": "item",
+				"uuid": "uu1fgCBoOxYQkPwm_W9vGlEH",
+				"slot": "armor",
+				"quality": "uncommon",
+				"base_hid": "belt",
+				"qualifier1_hid": "embroidered",
+				"qualifier2_hid": "king",
+				"base_strength": 17,
+				"enhancement_level": 0
+			},
+			{
+				"base_hid": "armguards",
+				"qualifier1_hid": "powerful",
+				"qualifier2_hid": "king",
+				"element_type": "item",
+				"uuid": "uu1VTjweZFTTUCuQYyppPW~9",
+				"slot": "armor",
+				"quality": "uncommon",
+				"base_strength": 10,
+				"enhancement_level": 0
+			}
+		]
+	},
+	"wallet": {
+		"schema_version": 1,
+		"revision": 59,
+		"coin_count": 49040,
+		"token_count": 21
+	},
+	"prng": {
+		"schema_version": 2,
+		"revision": 565,
+		"seed": -1163955302,
+		"use_count": 1855,
+		"recently_encountered_by_id": {
+			"adventure_archetype--good": [
+				"random_blessing",
+				"keep_watch",
+				"fight_lost_any",
+				"pet_black_cat",
+				"lost",
+				"wise_wisewood_tree",
+				"fight_won_loot",
+				"always_keep_potions",
+				"clean_wizard_tower",
+				"village_farmwork",
+				"sentients_killing",
+				"class_grimoire",
+				"nuclear_fusion_paper",
+				"found_swirling_potion",
+				"fight_won_any",
+				"chasm_leap",
+				"murderer",
+				"high_level_zone_1",
+				"pet_red_eyed_unicorn",
+				"demon_king",
+				"fight_won_coins",
+				"drown_in_holy_water",
+				"class_master_coolidge",
+				"found_green_mushroom",
+				"princess_castle",
+				"fight_lost_shortcoming",
+				"village_gifts_blacksmith",
+				"escort",
+				"rematch",
+				"king_reward"
+			],
+			"adventure_archetype--bad": [
+				"bad_1",
+				"bad_4"
+			]
+		}
+	},
+	"energy": {
+		"schema_version": 1,
+		"revision": 315,
+		"max_energy": 7,
+		"base_energy_refilling_rate_per_day": 7,
+		"last_date": "ts1_20181203_04h41:13.898",
+		"last_available_energy_float": 5.078237
+	},
+	"last_adventure": {
+		"uuid": "uu1MD4gza~btPnQYwLUrjrs2",
+		"hid": "king_reward",
+		"good": true,
+		"gains": {
+			"level": 0,
+			"health": 0,
+			"mana": 0,
+			"strength": 0,
+			"agility": 0,
+			"charisma": 0,
+			"wisdom": 0,
+			"luck": 0,
+			"coin": 0,
+			"token": 1,
+			"armor": null,
+			"weapon": {
+				"element_type": "item",
+				"uuid": "uu1O6~~FzyRoF~MTCNtJUFVn",
+				"slot": "weapon",
+				"quality": "rare",
+				"base_hid": "dagger",
+				"qualifier1_hid": "emerald",
+				"qualifier2_hid": "assaulting",
+				"base_strength": 3,
+				"enhancement_level": 0
+			},
+			"armor_improvement": false,
+			"weapon_improvement": false
+		}
+	},
+	"codes": {
+		"schema_version": 1,
+		"revision": 19,
+		"redeemed_codes": {
+			"TESTNOTIFS": {
+				"redeem_count": 9,
+				"last_redeem_date_minutes": "20181202_22h50"
+			},
+			"BORED": {
+				"redeem_count": 3,
+				"last_redeem_date_minutes": "20181201_20h44"
+			},
+			"TESTACH": {
+				"redeem_count": 5,
+				"last_redeem_date_minutes": "20181114_00h05"
+			},
+			"XYZZY": {
+				"redeem_count": 1,
+				"last_redeem_date_minutes": "20181203_09h47"
+			},
+			"PLUGH": {
+				"redeem_count": 1,
+				"last_redeem_date_minutes": "20181203_09h47"
+			}
+		}
+	},
+	"engagement": {
+		"schema_version": 1,
+		"revision": 192,
+		"queue": []
+	},
+	"progress": {
+		"schema_version": 1,
+		"revision": 142,
+		"flags": null,
+		"achievements": {
+			"TEST": "unlocked",
+			"Summoned": "unlocked",
+			"Alpha player": "unlocked",
+			"Beta player": "revealed",
+			"I am bored": "unlocked",
+			"I am very bored": "unlocked",
+			"Turn it up to eleven": "unlocked",
+			"I am dead bored": "revealed",
+			"did I mention I was bored?": "hidden",
+			"king of boredom": "hidden",
+			"No-life except for boredom": "hidden",
+			"Sorry my hand slipped": "unlocked",
+			"Oops!... I Did It Again": "unlocked",
+			"I’m not that innocent": "unlocked",
+			"It’s good to be bad": "revealed",
+			"Hello darkness my old friend": "hidden",
+			"What’s in a name?": "unlocked",
+			"Graduated": "unlocked",
+			"I’ll be back": "unlocked",
+			"Regular": "unlocked",
+			"Faithful": "revealed",
+			"Hooked": "hidden",
+			"Addicted": "hidden",
+			"Registered": "hidden",
+			"Usurper": "unlocked",
+			"Just plain lucky": "secret",
+			"Cheater": "unlocked",
+			"Reborn!": "secret"
+		},
+		"statistics": {
+			"good_play_count": 57,
+			"bad_play_count": 32,
+			"encountered_adventures": {
+				"found_blue_mushroom": true,
+				"bad_2": true,
+				"bad_6": true,
+				"bad_5": true,
+				"fight_won_any": true,
+				"class_grimoire": true,
+				"keep_watch": true,
+				"class_master_primary_attr_1": true,
+				"princess": true,
+				"sentients_killing": true,
+				"village_nice_daughter": true,
+				"fight_lost_any": true,
+				"found_rainbow_mushroom": true,
+				"chilies": true,
+				"talk_to_all_villagers": true,
+				"fight_lost_shortcoming": true,
+				"sword_in_rock": true,
+				"caravan_success": true,
+				"meet_old_wizard": true,
+				"fight_won_coins": true,
+				"weird_duck": true,
+				"riddle_of_steel": true,
+				"king_reward": true,
+				"busking": true,
+				"found_orange_mushroom": true,
+				"vampire_castle": true,
+				"refreshing_nap": true,
+				"magical_cooking_ragnaros": true,
+				"sword_in_a_lake": true,
+				"village_lost_kid": true,
+				"random_blessing": true,
+				"pet_black_cat": true,
+				"lost": true,
+				"wise_wisewood_tree": true,
+				"fight_won_loot": true,
+				"always_keep_potions": true,
+				"clean_wizard_tower": true,
+				"village_farmwork": true,
+				"nuclear_fusion_paper": true,
+				"found_swirling_potion": true,
+				"chasm_leap": true,
+				"murderer": true,
+				"high_level_zone_1": true,
+				"pet_red_eyed_unicorn": true,
+				"demon_king": true,
+				"bad_4": true,
+				"bad_3": true,
+				"bad_1": true,
+				"drown_in_holy_water": true,
+				"class_master_coolidge": true,
+				"found_green_mushroom": true,
+				"princess_castle": true,
+				"village_gifts_blacksmith": true,
+				"escort": true,
+				"rematch": true
+			},
+			"encountered_monsters": {
+				"gorilla": true,
+				"fox": true,
+				"crab": true,
+				"lizard": true,
+				"boar": true,
+				"cat": true,
+				"baby chick": true,
+				"joint snake": true,
+				"chicken": true
+			},
+			"good_play_count_by_active_class": {
+				"sculptor": 10,
+				"ninja": 47
+			},
+			"bad_play_count_by_active_class": {
+				"ninja": 32
+			},
+			"has_account": false,
+			"is_registered_alpha_player": false,
+			"last_visited_timestamp": "20181203",
+			"active_day_count": 7
+		}
+	}
+}

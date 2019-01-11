@@ -11,7 +11,7 @@ import {
 	DEMO_ADVENTURE_02,
 	DEMO_ADVENTURE_03,
 	DEMO_ADVENTURE_04,
-} from '@oh-my-rpg/state-the-boring-rpg'
+} from '@tbrpg/state'
 
 const { rich_text_to_ansi } = require('../../../../apps/the-boring-rpg-node/src/services/rich_text_to_ansi')
 

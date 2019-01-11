@@ -1,0 +1,14 @@
+.tbrpg-panel--explore {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto 100px;
+}
+
+.tbrpg-panel--explore > div {
+    xxborder: solid 1px cyan;
+}
+
+.tbrpg-panel--explore > div:last-child > div.o⋄box {
+    margin-bottom: 10px;
+    background-color: rgba(0,0,0,0.42);
+}

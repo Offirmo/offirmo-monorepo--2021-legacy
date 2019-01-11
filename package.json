@@ -27,7 +27,7 @@
 			"3-tools/*",
 			"4-incubator/*",
 			"9-oh-my-rpg/*",
-			"apps/*"
+			"apps/the-boring-rpg/*"
 		]
 	},
 	"dependencies": {

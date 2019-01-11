@@ -1,0 +1,368 @@
+import React from 'react'
+import classNames from 'classnames'
+const promiseFinally = require('p-finally')
+
+import ErrorBoundary from '@offirmo/react-error-boundary'
+import { create as create_chat } from '@offirmo/view-chat'
+
+import { AutoScrollDown } from '../auto-scroll-down'
+import { is_likely_to_be_mobile } from '../../../services/mobile-detection'
+import './index.css'
+
+
+class ChatBubble extends React.Component {
+	render() {
+		const {direction = 'ltr', children} = this.props
+		const classes = classNames(
+			'chat__element',
+			{ 'chat__element--ltr': direction === 'ltr'},
+			{ 'chat__element--rtl': direction === 'rtl'},
+			'chat__bubble'
+		)
+		return (
+			<div className={classes}>
+				<ErrorBoundary name="chat-bubble">
+					{children}
+				</ErrorBoundary>
+			</div>
+		)
+	}
+}
+
+class Chat extends React.Component {
+
+	constructor (props) {
+		super(props)
+
+		// rekey backupped bubbles to avoid key conflicts
+		let initial_bubbles = React.Children.map(this.props.initial_bubbles, (child, index) => {
+			return (typeof child === 'string')
+				? child
+				: React.cloneElement(child, {key: `restored-${index}`})
+		})
+
+		this.state = {
+			bubble_key: this.props.initial_bubbles.length + 1,
+			bubbles: initial_bubbles,
+			spinning: false,
+			progressing: false,
+			progress_value: 0,
+			reading_string: false,
+			mobile_keyboard_likely_present_notified: false,
+			choices: [],
+			input_resolve_fn: null,
+		}
+		this.mounted = false // need to track to avoid errors before mount and during/after unmounting
+	}
+
+	addBubble(element, {direction = 'ltr'} = {}) {
+		if (!element) return
+
+		const key = this.state.bubble_key + 1
+		const bubble = (
+			<ChatBubble key={key} direction={direction}>
+				{element}
+			</ChatBubble>
+		)
+
+		if (!this.mounted) {
+			this.state.bubbles.push(bubble)
+			this.state.bubble_key++
+		}
+		else {
+			this.setState(state => {
+				let bubbles = state.bubbles.concat(bubble).slice(-this.props.max_displayed_bubbles)
+
+				// special unclean behavior, I will rewrite everything anyway
+				if (element === 'Let’s go adventuring!') {
+					bubbles = []
+				}
+
+				return {
+					bubbles,
+					bubble_key: state.bubble_key + 1,
+				}
+			})
+		}
+	}
+
+	componentDidMount() {
+		this.mounted = true
+
+		if (!this.props.gen_next_step)
+			return
+
+		const DEBUG = false
+
+		const display_message = async ({msg, choices = [], side = '→'}) => {
+			let direction = 'ltr'
+			switch(side) {
+				case '→':
+					direction = 'ltr'
+					break
+				case '←':
+					direction = 'rtl'
+					break
+				case '↔':
+				default:
+					throw new Error(`display_message(): incorrect side!`)
+			}
+
+			this.addBubble(
+				msg,
+				{ direction },
+			)
+		}
+
+		const spin_until_resolution = anything => {
+			if (this.mounted) this.setState(s => {spinning: true})
+			return promiseFinally(
+				Promise.resolve(anything),
+				() => { if (this.mounted)  this.setState(s => {spinning: false}) },
+			)
+		}
+
+		const pretend_to_think = duration_ms => {
+			return spin_until_resolution(new Promise(resolve => {
+				setTimeout(resolve, duration_ms)
+			}))
+		}
+
+		const display_progress = async ({progress_promise, msg = 'loading', msgg_acknowledge} = {}) => {
+			this.setState(state => ({progressing: true}))
+
+			await display_message({msg})
+
+			if (progress_promise.onProgress) {
+				progress_promise.onProgress(progress_value => {
+					this.setState(state => ({progress_value}))
+				})
+			}
+
+			progress_promise
+				.then(() => true, () => false)
+				.then(success => {
+					this.setState(state => ({
+						progress_value: 0,
+						progressing: false,
+					}))
+
+					const final_msg = msgg_acknowledge
+						? msgg_acknowledge(success)
+						: 'Done.'
+
+					this.setState(state => ({bubbles: state.bubbles.slice(0, -1)}))
+
+					return display_message({msg: (
+						<span>
+							{msg} {final_msg}
+						</span>
+					)})
+				})
+				.catch(err => {
+					// display? TODO
+					console.error('unexpected', err)
+					return false
+				})
+
+			return progress_promise
+		}
+
+		const read_string = (step) => {
+			if (DEBUG) console.log(`↘ read_string()`, step)
+
+			return new Promise(resolve => {
+					this.setState(state => ({
+						reading_string: true,
+						input_resolve_fn: resolve,
+					}))
+					this.props.on_input_begin()
+				})
+				.then(raw_answer => {
+					this.setState(state => ({
+						reading_string: false,
+						input_resolve_fn: null,
+					}))
+					this.props.on_input_end()
+					const answer = raw_answer
+						? String(raw_answer).trim()
+						: undefined // to not stringify to "null" or "undefined"!
+					if (DEBUG) console.log(`[You entered: "${answer}"]`)
+
+					if (step.msgg_as_user)
+						return display_message({
+							msg: step.msgg_as_user(answer),
+							side: '←'
+						})
+							.then(() => answer)
+
+					return answer
+				})
+		}
+
+		const read_choice = async (step) => {
+			if (DEBUG) console.log('↘ read_choice()')
+
+			return new Promise(resolve => {
+					this.setState(state => ({
+						choices: step.choices.map((choice, index) => {
+							return (
+								<button type="button"
+									key={index}
+									className="chat__button"
+									onClick={() => resolve(choice)}
+								>{choice.msg_cta}</button>
+							)
+						})
+					}))
+				})
+				.then(async (choice) => {
+
+					this.setState(state => ({
+						choices: []
+					}))
+
+					const answer = choice.value
+					await display_message({
+						msg: (choice.msgg_as_user || step.msgg_as_user || (() => choice.msg_cta))(answer),
+						side: '←'
+					})
+
+					return answer
+				})
+		}
+
+		const read_answer = async (step) => {
+			if (DEBUG) console.log('↘ read_answer()')
+			switch (step.type) {
+				case 'ask_for_string':
+					return read_string(step)
+				case 'ask_for_choice':
+					return read_choice(step)
+				default:
+					throw new Error(`Unsupported step type: "${step.type}"!`)
+			}
+		}
+
+		const chat_ui_callbacks = {
+			setup: () => {},
+			display_message,
+			read_answer,
+			spin_until_resolution,
+			pretend_to_think,
+			display_progress,
+			teardown: () => {},
+		}
+
+		const chat = create_chat({
+			DEBUG,
+			gen_next_step: this.props.gen_next_step,
+			ui: chat_ui_callbacks,
+		})
+
+		return chat.start()
+			.then(() => console.log('bye'))
+			.catch(err => {
+				if (this.componentDidCatch) {
+					this.componentDidCatch(err)
+					return
+				}
+
+				// don't know how to handle, rethrow
+				throw err
+			})
+	}
+
+	componentWillUnmount () {
+		//console.info('chat-ui: componentWillUnmount', arguments)
+		this.mounted = false
+
+		let bubles_to_backup = [].concat(this.state.bubbles)
+		if (this.state.choices)
+			bubles_to_backup.pop() // remove the choice prompt, unneeded
+		if (bubles_to_backup.length < 4)
+			bubles_to_backup = [] // just the welcome prompts, no need to back it up
+		this.props.on_unmount(bubles_to_backup)
+	}
+
+	onErrorBoundaryMount = (componentDidCatch) => {
+		//console.log('chat-interface onErrorBoundaryMount')
+		this.componentDidCatch = componentDidCatch
+	}
+
+	render() {
+		//console.log('rendering chat', this.state)
+
+		const spinner = this.state.spinning && <div className="chat__spinner" />
+		const progress_bar = this.state.progressing && (
+			<div className="chat__element chat__element--ltr">
+				<progress className="chat__progress" value={this.state.progress_value}>XXX</progress>
+			</div>
+		)
+		const user_input = this.state.reading_string && (
+			<div className="chat__element chat__element--rtl">
+				<form onSubmit={e => e.preventDefault()}>
+					<input type="text" autoFocus
+						className="chat__input"
+						ref={el => this.input = el}
+					/>
+					<button type="submit"
+						className="chat__button clickable-area"
+						onClick={() => {
+							this.state.input_resolve_fn(this.input.value)
+						}}
+					>↩</button>
+					<button type="button"
+						className="chat__button clickable-area"
+						onClick={() => {
+							this.state.input_resolve_fn(undefined)
+						}}
+					>cancel</button>
+				</form>
+			</div>
+		)
+
+		if (this.state.reading_string) {
+			setTimeout(() => {
+				if (this.input) this.input.focus()
+			}, 100)
+		}
+
+		const penultimate_bubble = this.state.bubbles.slice(0, -1)
+		const ultimate_bubble = this.state.bubbles.slice(-1)
+
+		const is_mobile_keyboard_likely_to_be_displayed =
+			this.state.reading_string && is_likely_to_be_mobile()
+
+		return (
+			<ErrorBoundary name={'chat-interface'} onMount={this.onErrorBoundaryMount}>
+				<AutoScrollDown classname='flex-column'>
+					<div className="chat">
+						{this.props.children}
+						{!is_mobile_keyboard_likely_to_be_displayed && penultimate_bubble}
+						{ultimate_bubble}
+						{progress_bar}
+						{spinner}
+						<div className="chat__element chat__element--rtl chat__choices">
+							{this.state.choices}
+						</div>
+						{user_input}
+					</div>
+				</AutoScrollDown>
+			</ErrorBoundary>
+		)
+	}
+}
+
+Chat.defaultProps = {
+	max_displayed_bubbles: 20,
+	on_input_begin: () => {},
+	on_input_end: () => {},
+	on_unmount: () => {},
+	initial_bubbles: [],
+}
+
+export {
+	ChatBubble,
+	Chat,
+}

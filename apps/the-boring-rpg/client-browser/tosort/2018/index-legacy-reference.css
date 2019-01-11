@@ -1,0 +1,99 @@
+
+.chat {
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	padding: 0;
+}
+
+.chat__element {
+	margin: 6px 7px;
+	position: relative; /* to allow absolute positioning of content */
+	max-width: 70%;
+
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+	align-content: flex-start;
+}
+.chat__element--ltr {
+	align-self: flex-start;
+}
+.chat__element--rtl {
+	align-self: flex-end;
+}
+
+.chat__bubble {
+	border: solid 1px black;
+	padding: 3px 6px;
+	border-right: 0;
+	border-top: 0;
+	width: fit-content;
+	background-color: rgba(255,255,255,0.3);
+}
+.chat__bubble.chat__element--ltr::before {
+	content: '◤';
+	font-family: sans-serif;
+	font-size: 9px;
+	position: absolute;
+	bottom: -12px;
+	left: 6px;
+}
+.chat__bubble.chat__element--rtl::before {
+	content: '◥';
+	font-family: sans-serif;
+	font-size: 9px;
+	position: absolute;
+	bottom: -12px;
+	left: 6px;
+}
+
+.chat__spinner {
+	background-image: url("./Spinner-1s-42px.svg");
+	background-repeat: no-repeat;
+	background-position: 10px 0;
+	height: 42px;
+}
+
+.chat__choices {
+	padding-right: 10px;
+	padding-bottom: 12px;
+	text-align: end;
+	justify-content: flex-end;
+}
+.chat__choices button {
+	text-align: left;
+}
+
+.chat__input {
+	height: 26px;
+	border: solid 1px #00000038;
+	margin-right: 2px;
+}
+
+/* https://stackoverflow.com/a/8185290/587407 */
+/*.chat__choices > * + * {
+	margin-left: 5px;
+}*/
+
+/*********************/
+
+:root {
+	--tbrpg__header--height: 80px;
+	--tbrpg__header--height-compensation: 20px;
+
+	border-color: green;
+}
+
+.top-container {
+	box-sizing: border-box;
+	border-style: solid;
+	border-width: 0;
+
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+

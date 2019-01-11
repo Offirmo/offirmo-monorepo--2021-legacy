@@ -1,0 +1,14 @@
+
+body {
+	width: -webkit-fill-available;
+	width: -moz-available;
+	width: fill-available;
+
+	--o⋄font-size--default: 15px;
+
+	overflow-y: hidden; /* for case when tooltip overflow up/down */
+}
+
+iframe#netlify-identity-widget {
+	z-index: 2000 !important;
+}

@@ -1,0 +1,14 @@
+
+.page--savegame h2 {
+	margin: 7px;
+	display: inline;
+}
+
+/* https://ace.c9.io/#nav=embedding */
+#ace-editor {
+	xxposition: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+}

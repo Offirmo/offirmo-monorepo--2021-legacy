@@ -1,0 +1,63 @@
+
+body {
+	xxbackground-image: url('pattern.png');
+}
+
+:root {
+	/* greens
+	 * https://colorhunt.co/palette/41482
+	 */
+	 --o⋄color__co41482__green1: #00ad7c;
+	 --o⋄color__co41482__green2: #52d681;
+	 --o⋄color__co41482__green3: #b5ff7d;
+	 --o⋄color__co41482__sand: #fff8b5;
+
+	/* browns
+	 * https://colorhunt.co/palette/136145
+	 */
+	 --o⋄color__co136145__brown1: #5c4d4d;
+	 --o⋄color__co136145__brown2: #915b4a;
+	 --o⋄color__co136145__brown3: #a96851;
+	 --o⋄color__co136145__beige: #f2f1e7;
+
+	/* http://www.colorhunt.co/c/44658
+	 */
+	 --o⋄color__co44658__brown:   #8c7676;
+	 --o⋄color__co44658__green:   #99f0ca;
+	 --o⋄color__co44658__lightgreen:   #c9fdd7;
+	 --o⋄color__co44658__yellow:   #fdffe7;
+
+	outline-color: var(--o⋄color__co44658__yellow);
+}
+
+/* Offirmo view theme
+ */
+[data-o-theme="dol--tree-clicker"] {
+	--o⋄color--bg⁚main: var(--o⋄color__co41482__green3);
+	--o⋄color--bg⁚main--backdrop: rgba(98%, 98%, 98%, .88); /* TODO review */
+	--o⋄color--bg⁚highlight--1: rgba(0, 0, 0, .1);
+	--o⋄color--bg⁚highlight--2: rgba(0, 0, 0, .3);
+
+	--o⋄color--fg⁚main: var(--o⋄color__co136145__brown3);
+	--o⋄color--fg⁚secondary: rgba(255, 235, 188, 0.66);
+	--o⋄color--fg⁚ancillary: rgba(255, 235, 188, 0.33);
+
+	--o⋄color--fg⁚accent: var(--o⋄color__co41482__sand);
+
+	/* levels */
+	/*--o⋄color--fg⁚error: hsl(19, 81%, 56%);
+	--o⋄color--fg⁚warning: var(--o⋄color__boz__yellow);
+	--o⋄color--fg⁚info: var(--o⋄color__boz__blue);
+	--o⋄color--fg⁚success: var(--o⋄color__boz__green);
+
+	/* https://wow.gamepedia.com/Quality
+	 */
+	/*--o⋄color__quality--poor:      hsl(0, 0%, 62%);
+	--o⋄color__quality--common:    hsl(0, 100%, 100%);
+	--o⋄color__quality--uncommon:  hsl(113, 100%, 50%);
+	--o⋄color__quality--rare:      hsl(210, 100%, 43%);
+	--o⋄color__quality--epic:      hsl(276, 84%, 57%);
+	--o⋄color__quality--legendary: hsl(30, 100%, 50%);
+	--o⋄color__quality--artifact:  hsl(360, 100%, 75%);
+	*/
+}
