@@ -12,14 +12,17 @@ function get_backup_ls_key(v) {
 }
 
 SEC.xTry('loading savegame + creating game instance', ({logger}) => {
-	logger.verbose(`Storage key: "${LS_KEYS.savegame}"`)
-
-	let ls_content = localStorage.getItem(LS_KEYS.savegame)
+	logger.verbose(`State storage key = "${LS_KEYS.savegame}"`)
 
 	let state = null
+
+	// LS access can throw
 	try {
+		let ls_content = localStorage.getItem(LS_KEYS.savegame)
 		if (ls_content)
 			state = JSON.parse(ls_content)
+
+		// backup
 		localStorage.setItem(LS_KEYS.savegame_backup, JSON.stringify(state))
 		if (state && state.schema_version) {
 			localStorage.setItem(get_backup_ls_key(state.schema_version), JSON.stringify(state))
@@ -44,14 +47,16 @@ SEC.xTry('loading savegame + creating game instance', ({logger}) => {
 			localStorage.setItem(LS_KEYS.savegame, JSON.stringify(state))
 		},
 	})
-	game_instance.reducers.on_start_session()
+
+	game_instance.reducers.on_start_session(
+		// TODO params
+	)
 })
 
 SEC.xTry('init client state', () => {
 	//const netlifyIdentity = poll_window_variable('netlifyIdentity', { timeoutMs: 30 * 1000 })
 
 	game_instance.view.set_state(() => ({
-		//netlifyIdentity, // TODO check (SEC ?)
 		// can change:
 		mode: 'explore',
 		recap_displayed: false,
@@ -59,6 +64,7 @@ SEC.xTry('init client state', () => {
 			const { last_adventure } = game_instance.model.get_state()
 			return last_adventure && last_adventure.uuid
 		})(),
+		// TODO improve to a new react-like chat
 		changing_character_class: false,
 		changing_character_name: false,
 		redeeming_code: false,

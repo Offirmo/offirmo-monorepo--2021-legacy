@@ -26,23 +26,27 @@ import { Currency } from '@oh-my-rpg/state-wallet'
 
 import { State } from '../../types'
 
-import {
-	appraise_item_value,
-} from '../../selectors'
-
 import { get_lib_SEC } from '../../sec'
 
 import { _refresh_achievements } from './achievements'
 import {
 	_sell_item,
+	_update_to_now,
 } from './internal'
 
 /////////////////////
 
 function on_start_session(state: Readonly<State>): Readonly<State> {
+	// update energy (not 100% needed but good safety)
+	state = _update_to_now(state)
+
 	// new achievements may have appeared
 	// (new content = not the same as a migration)
 	return _refresh_achievements(state)
+}
+
+function update_to_now(state: Readonly<State>): Readonly<State> {
+	return _update_to_now(state)
 }
 
 function equip_item(state: Readonly<State>, uuid: UUID): Readonly<State> {
@@ -101,6 +105,7 @@ function acknowledge_engagement_msg_seen(state: Readonly<State>, uid: number): R
 export {
 	acknowledge_engagement_msg_seen,
 	on_start_session,
+	update_to_now,
 	equip_item,
 	sell_item,
 	rename_avatar,

@@ -19,6 +19,7 @@
 		"typescript-string-enums": "^0.3"
 	},
 	"devDependencies": {
+		"@offirmo/prettify-json": "^0.0.1",
 		"@oh-my-rpg/migration-tester": "^0.0.1",
 		"npm-run-all": "^4",
 		"tslib": "^1"

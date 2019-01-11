@@ -17,13 +17,15 @@ if (Object.keys(ActionType).join(';') !== Object.keys(ACTION_TYPE_TO_CTA).join('
 
 /////////////////////
 
-const ActionButton = React.memo(function ActionButton({action, onClick}) {
-	console.log('🔄 ActionButton');
-	return (
-		<button className={'tbrpg-action-btn'} onClick={onClick}>
-			{ACTION_TYPE_TO_CTA[action.type]}
-		</button>
-	)
-})
+const ActionButtonView = React.memo(
+	function ActionButton({action, onClick}) {
+		console.log('🔄 ActionButtonView');
+		return (
+			<button className={'tbrpg-action-btn'} onClick={onClick}>
+				{ACTION_TYPE_TO_CTA[action.type]}
+			</button>
+		)
+	}
+)
 
-export default ActionButton
+export default ActionButtonView

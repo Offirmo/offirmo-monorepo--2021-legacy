@@ -68,6 +68,10 @@ function _loose_all_energy(state: Readonly<State>): Readonly<State> {
 function _update_to_now(state: Readonly<State>, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Readonly<State> {
 	let [ u_state, t_state ] = state.energy
 	t_state = EnergyState.update_to_now(state.energy, now_ms)
+
+	if (t_state === state.energy[1])
+		return state // no change
+
 	return {
 		...state,
 		energy: [ u_state, t_state ],

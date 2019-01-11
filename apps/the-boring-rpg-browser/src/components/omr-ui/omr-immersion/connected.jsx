@@ -37,7 +37,7 @@ export default props => (
 		{omr => (
 			<GameContextConsumerListener>
 				{game_instance => {
-					console.log('OMR-UI imm refresh')
+					console.log('🔄 OMR-UI immersion')
 
 					const {mode} = game_instance.view.get_state()
 					const state = game_instance.model.get_state()

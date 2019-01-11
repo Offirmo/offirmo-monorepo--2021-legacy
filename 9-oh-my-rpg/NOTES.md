@@ -6,6 +6,7 @@ royal anthem of France https://www.youtube.com/watch?v=TXXdOqaI4mc
                        https://www.youtube.com/watch?v=298cdANN2Q8
 triomphe baroque https://www.youtube.com/watch?v=snxUHRaGTuA
 
+https://sciencepost.fr/2019/01/australie-propagation-dune-bacterie-infectieuse-mangeuse-de-chair/
 
 import { dump_pretty_json } from "@offirmo/prettify-json" // TODO remove
 

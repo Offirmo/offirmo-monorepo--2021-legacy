@@ -11,6 +11,7 @@ import { CODE_SPECS_BY_KEY } from '../data/codes'
 
 /////////////////////
 
+// TODO used?
 function is_code_redeemable(state: Readonly<State>, code: string): boolean {
 	code = normalize_code(code)
 	const code_spec = CODE_SPECS_BY_KEY[code]

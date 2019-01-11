@@ -22,6 +22,8 @@ TODO ui npm
 items
 https://opengameart.org/content/flare-item-variation-60x60-only
 
+effects https://yoksel.github.io/svg-gradient-map/#/
+text effect http://www.brutalistframework.com/bfx#curved
 
 fonts
  https://pixelbuddha.net/freebie/jelani-display-font

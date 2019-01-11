@@ -82,8 +82,8 @@ function create_game_instance<T>({SEC, get_latest_state, persist_state, view_sta
 				update_to_now() {
 					let state = get_latest_state()
 					state = state_fns.update_to_now(state)
-					//persist_state(state)
-					emitter.emit('model_change', 'on_start_session()')
+					persist_state(state) // TODO refine that
+					emitter.emit('model_change', 'update_to_now()')
 				},
 				play() {
 					let state = get_latest_state()
@@ -175,6 +175,10 @@ function create_game_instance<T>({SEC, get_latest_state, persist_state, view_sta
 				get_human_time_to_next_energy(): string {
 					let state = get_latest_state()
 					return selectors.get_human_time_to_next_energy(state)
+				},
+				get_achievements_completion(): [number, number] {
+					let state = get_latest_state()
+					return selectors.get_achievements_completion(state)
 				}
 			},
 
@@ -189,9 +193,9 @@ function create_game_instance<T>({SEC, get_latest_state, persist_state, view_sta
 				},
 
 				// TODO clean
-				subscribe(fn: () => void): () => void {
+				subscribe(id: string, fn: () => void): () => void {
 					const unbind = emitter.on('model_change', (src: string) => {
-						console.log(`🌀 model change reported to a subscriber (source: ${src})`)
+						console.log(`🌀 model change reported to subscriber "${id}" (source: ${src})`)
 						fn()
 					})
 					return unbind
@@ -215,9 +219,9 @@ function create_game_instance<T>({SEC, get_latest_state, persist_state, view_sta
 				},
 			},
 
-			subscribe(fn: () => void): () => void {
+			subscribe(id: string, fn: () => void): () => void {
 				const unbind = emitter.on('view_change', (src: string) => {
-					console.log(`🌀 uber state change reported to a subscriber (source: view/${src})`)
+					console.log(`🌀 root state change reported to subscriber "${id}" (source: view/${src})`)
 					fn()
 				})
 				return unbind

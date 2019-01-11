@@ -83,6 +83,41 @@ describe(`${LIB} - reducer`, function() {
 
 				expect(t_state.timestamp_ms).to.equal(+Date.UTC(3000, 1, 1, 4))
 			})
+
+			describe('depleting in one shot', function() {
+
+				it('should yield a correct final energy value', function() {
+					let [ u_state, t_state ] = create()
+
+					t_state = use_energy([u_state, t_state], 7)
+
+					expect(get_available_energy_float(t_state)).to.equal(0.)
+				})
+			})
+
+			describe('depleting in consecutive shots', function() {
+
+				it('should yield a correct final energy value', function() {
+					let [ u_state, t_state ] = create()
+
+					expect(get_available_energy_float(t_state)).to.equal(7.)
+
+					t_state = use_energy([u_state, t_state], 1)
+					expect(get_available_energy_float(t_state)).to.equal(6.)
+					t_state = use_energy([u_state, t_state], 1)
+					expect(get_available_energy_float(t_state)).to.equal(5.)
+					t_state = use_energy([u_state, t_state], 1)
+					expect(get_available_energy_float(t_state)).to.equal(4.)
+					t_state = use_energy([u_state, t_state], 1)
+					expect(get_available_energy_float(t_state)).to.equal(3.)
+					t_state = use_energy([u_state, t_state], 1)
+					expect(get_available_energy_float(t_state)).to.equal(2.)
+					t_state = use_energy([u_state, t_state], 1)
+					expect(get_available_energy_float(t_state)).to.equal(1.)
+					t_state = use_energy([u_state, t_state], 1)
+					expect(get_available_energy_float(t_state)).to.equal(0.)
+				})
+			})
 		})
 
 		context('when not having enough energy', function() {

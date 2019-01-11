@@ -1,3 +1,5 @@
+// TODO clean!!!
+
 import React from 'react'
 import poll_window_variable from '@offirmo/poll-window-variable'
 import { create_game_instance } from '@oh-my-rpg/state-the-boring-rpg'
@@ -14,7 +16,7 @@ class GameContextAsPropsListener extends React.Component {
 	componentDidMount() {
 		//console.info('~~ GameContextListener componentDidMount')
 		// subscribe to future state changes
-		this.unsubscribe = game_instance.subscribe(() => {
+		this.unsubscribe = game_instance.subscribe('LEG-game-context', () => {
 			//console.log('forcing update on game state change')
 			this.forceUpdate()
 		})

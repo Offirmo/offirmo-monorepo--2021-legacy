@@ -3,7 +3,7 @@
 import Fraction from 'fraction.js'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo/timestamps'
 
-import { LIB, SCHEMA_VERSION } from './consts'
+import { LIB, SCHEMA_VERSION, TICK_MS } from './consts'
 
 import {
 	UState,
@@ -11,11 +11,6 @@ import {
 } from './types'
 
 //import { parse_human_readable_UTC_timestamp_ms } from '@offirmo/timestamps'
-
-/////////////////////
-
-// roughly the amount of time for a change to be worth a display
-const TICK_MS = 500
 
 /////////////////////
 
@@ -56,20 +51,33 @@ function update_to_now(
 	const elapsed_time_ms = now_ms - t_state.timestamp_ms
 
 	if (elapsed_time_ms < 0) {
-		// time went backward? Must be a time saving.
-		// just do nothing while time is note positive again
+		// time went backward? Must be a "daylight saving".
+		console.warn('E.update_to_now: Time went backward. Daylight saving?')
+		// just do nothing while time is not positive again
 		return t_state
 	}
 
-	if (elapsed_time_ms < TICK_MS)
+	if (elapsed_time_ms < TICK_MS) {
+		//console.warn('E.update_to_now: high frequency, skipping')
 		return t_state
+	}
 
-	// TODO derived?
+	let available_energy = new Fraction(t_state.available_energy)
+	/* NOOOOOOO
+	if (available_energy.compare(u_state.max_energy) >= 0) {
+		console.log('E.update_to_now: energy already max', available_energy.compare(u_state.max_energy))
+		return t_state
+	}
+	 update_to_now is prelude to energy manipulation
+	 if not updating the "now" prop, removing energy while keeping an old time may yield full energy immediately
+	 this is not what we want!!!
+	*/
+
 	const energy_gain_per_ms = new Fraction(u_state.energy_refilling_rate_per_ms)
 	const energy_gained_since_last_time = energy_gain_per_ms.mul(elapsed_time_ms)
-	let energy = (new Fraction(t_state.available_energy)).add(energy_gained_since_last_time)
-	if (energy.compare(u_state.max_energy) > 0)
-		energy = new Fraction(u_state.max_energy)
+	available_energy = available_energy.add(energy_gained_since_last_time)
+	if (available_energy.compare(u_state.max_energy) > 0)
+		available_energy = new Fraction(u_state.max_energy)
 
 	return {
 		...t_state,
@@ -77,8 +85,8 @@ function update_to_now(
 		timestamp_ms: t_state.timestamp_ms + elapsed_time_ms,
 
 		available_energy: {
-			n: energy.n,
-			d: energy.d,
+			n: available_energy.n,
+			d: available_energy.d,
 		}
 	}
 }

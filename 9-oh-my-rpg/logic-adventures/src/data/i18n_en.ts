@@ -116,7 +116,7 @@ You gain +{{level}} level!`,
 
 	good_end: `Oh, THAT end is the one you hit them with! +{{wisdom}} wisdom!`,
 
-	waterfall: `You sit under a pounding waterfall! +{{health}} vitality!`,
+	waterfall: `You sit under a pounding waterfall. +{{health}} vitality!`,
 
 	meteor: `A meteor JUST misses you! +{{luck}} luck!`,
 
