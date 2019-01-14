@@ -16,13 +16,13 @@ const InfoboxC1 = React.memo(
 	function InfoboxC1({m_state}) {
 		console.log('🔄 InfoboxC1' /*, m_state*/)
 
-		const ach_completion = (new Fraction(game_instance.selectors.get_achievements_completion())).floor(4).valueOf()
+		const achievements_completion_pct = (new Fraction(game_instance.selectors.get_achievements_completion())).mul(100).floor(2).valueOf()
 
 		return (
 			<InfoboxView
 				energy_float={game_instance.selectors.get_available_energy_float()}
 				human_time_to_next={game_instance.selectors.get_human_time_to_next_energy()}
-				achievement_rate={ach_completion}
+				achievements_completion_pct={achievements_completion_pct}
 			/>
 		)
 	}
