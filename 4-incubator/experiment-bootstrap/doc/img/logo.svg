@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   viewBox="0 0 100 125"
+   version="1.1"
+   x="0px"
+   y="0px"
+   id="svg14"
+   sodipodi:docname="logo.svg"
+   inkscape:version="0.92.2 5c3e80d, 2017-08-06"
+   inkscape:export-filename="/Users/yjutard/work/src/growthkit/packages/incubator/doc/logo.png"
+   inkscape:export-xdpi="258.83545"
+   inkscape:export-ydpi="258.83545">
+  <metadata
+     id="metadata20">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>puzzle</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs18">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 62.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="100 : 62.5 : 1"
+       inkscape:persp3d-origin="50 : 41.666667 : 1"
+       id="perspective835" />
+  </defs>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1633"
+     inkscape:window-height="1026"
+     id="namedview16"
+     showgrid="false"
+     inkscape:zoom="3.776"
+     inkscape:cx="-31.807712"
+     inkscape:cy="55.271388"
+     inkscape:window-x="51"
+     inkscape:window-y="35"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg14" />
+  <title
+     id="title2">puzzle</title>
+  <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+  <g
+     sketch:type="MSPage"
+     id="g8"
+     transform="matrix(0,0.89607917,-0.87455397,0,100.60292,22.248954)"
+     style="opacity:0.87999998;fill:#0052cc;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1.12962294"
+     inkscape:export-xdpi="258.83545"
+     inkscape:export-ydpi="258.83545">
+    <g
+       sketch:type="MSArtboardGroup"
+       id="g6"
+       style="fill:#0052cc;fill-opacity:1;stroke-width:1.12962294">
+      <path
+         d="m 21.994297,65.335498 c 0,-3.997 -0.229517,-5.32996 -1.0634,-6.388045 C 19.302166,56.887765 16.91407,60.22205 11.946262,60.22205 6.4532852,60.22205 2,55.494557 2,49.663796 2,43.833034 6.4550594,39.107425 11.94981,39.107425 c 4.96426,0 7.35413,3.336167 8.982862,1.274597 0.833882,-1.058085 1.0225,-2.391046 1.0225,-6.388045 V 10 H 97 V 89 L 68.198475,88.97769 c -1.942768,-1.72833 1.201145,-5.264345 1.201145,-10.532175 0,-5.830762 -4.453285,-10.558254 -9.948036,-10.558254 -5.49475,0 -9.94981,4.725609 -9.94981,10.554488 0,5.271596 3.142139,7.805728 1.201145,9.534058 -0.99711,0.884875 -2.253256,1.022313 -6.019919,1.022313 H 21.994297 Z"
+         sketch:type="MSShapeGroup"
+         transform="matrix(0,1,1,0,0,0)"
+         id="path4"
+         inkscape:connector-curvature="0"
+         style="fill:#0052cc;fill-opacity:1;stroke-width:1.12962294" />
+    </g>
+  </g>
+  <flowRoot
+     xml:space="preserve"
+     id="flowRoot837"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:1.25;font-family:'Charlie Display';-inkscape-font-specification:'Charlie Display';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"><flowRegion
+       id="flowRegion839"><rect
+         id="rect841"
+         width="76.80085"
+         height="52.43644"
+         x="12.447034"
+         y="29.661016" /></flowRegion><flowPara
+       id="flowPara843">XBLa</flowPara></flowRoot>  <flowRoot
+     xml:space="preserve"
+     id="flowRoot845"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:1.25;font-family:'Charlie Display';-inkscape-font-specification:'Charlie Display';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.17876625"
+     transform="matrix(0.85100469,0,0,0.84569285,7.2073898,20.092514)"><flowRegion
+       id="flowRegion847"
+       style="stroke-width:1.17876625"><rect
+         id="rect849"
+         width="75.005707"
+         height="78.998116"
+         x="12.858051"
+         y="24.300848"
+         style="stroke-width:1.17876625" /></flowRegion><flowPara
+       id="flowPara851"
+       style="font-size:32px;line-height:0px;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:1.17876625">XBL</flowPara></flowRoot></svg>

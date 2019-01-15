@@ -1,0 +1,33 @@
+{
+	"name": "@atlassian/experiment-bootstrap",
+	"version": "0.2.0",
+	"description": "Growth experiments bootstrap logic",
+	"xxmain": "dist/esm/index.js",
+	"xxmodule": "dist/esm/index.js",
+	"xxjs:next": "dist/esm/index.js",
+	"xxsource": "src/index.js",
+	"author": "Yves Jutard <yjutard@atlassian.com>",
+	"license": "UNLICENSED",
+	"private": true,
+	"scripts": {
+		"clean": "node ../../scripts/clean.js dist",
+		"build:dev:watch": "node ../../scripts/build-typescript.js --watch",
+		"build:prod": "node ../../scripts/build-typescript.js",
+		"dev": "run-s clean build:dev:watch",
+		"xbuild": "run-s clean build:prod",
+		"demo": "parcel doc/demo/index.html"
+	},
+	"dependencies": {
+		"memoize-one": "^5",
+		"tiny-invariant": "^1",
+		"typescript-string-enums": "^0.3"
+	},
+	"devDependencies": {
+		"bowser": "^1",
+		"@offirmo/practical-logger-browser": "^0.0.1",
+		"@offirmo/prettify-json": "^0.0.1",
+		"npm-run-all": "^4",
+		"tiny-invariant": "^1",
+		"tslib": "^1"
+	}
+}
