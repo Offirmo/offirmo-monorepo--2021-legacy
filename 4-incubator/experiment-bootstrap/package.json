@@ -23,10 +23,11 @@
 		"typescript-string-enums": "^0.3"
 	},
 	"devDependencies": {
-		"bowser": "^1",
 		"@offirmo/practical-logger-browser": "^0.0.1",
 		"@offirmo/prettify-json": "^0.0.1",
+		"bowser": "^1",
 		"npm-run-all": "^4",
+		"react-loadable": "^5",
 		"tiny-invariant": "^1",
 		"tslib": "^1"
 	}

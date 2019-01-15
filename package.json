@@ -137,6 +137,7 @@
 		"react-circular-progressbar": "^1",
 		"react-crouton": "^1",
 		"react-dom": "^16",
+		"react-loadable": "^5",
 		"react-notification-system": "^0.2",
 		"react-overlays": "^1",
 		"react-portal-tooltip": "^2",

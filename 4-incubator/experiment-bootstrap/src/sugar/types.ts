@@ -9,6 +9,8 @@ interface Experiment {
 	createTouchpoint: Function,
 
 	resolve: () => Promise<ResolvedExperiment>
+
+	resolveSync: () => ResolvedExperiment | undefined
 }
 
 export {

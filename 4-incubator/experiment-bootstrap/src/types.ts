@@ -15,11 +15,12 @@ type Cohort = Enum<typeof Cohort> // eslint-disable-line no-redeclare
 interface Feedback {
 	type: 'error' | 'warning',
 	msg: string
+	details: Object
 }
 
 interface Requirement<T> {
 	key: string
-	resolver: (params: T) => Promise<boolean>
+	resolver: (params: Partial<T>) => Promise<boolean>
 }
 
 interface ResolvedExperiment {

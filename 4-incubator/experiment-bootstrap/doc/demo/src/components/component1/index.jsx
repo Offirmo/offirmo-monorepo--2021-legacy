@@ -1,10 +1,12 @@
-// @flow
+import React, {Component} from 'react'
+import Loadable from 'react-loadable'
 
-import React, {Component} from 'react';
-
-import { createExperiment } from '../../../../../src'
+import { createExperiment, Cohort } from '../../../../../src'
+import Loader from '../loader'
 
 const trivialExperiment = createExperiment('KERBAL-723_trivial')
+	.withCohortPicker(() => Cohort['control'])
+
 
 /*
 import { isAdmin } from '../../common/experiments/requirements';
@@ -28,8 +30,9 @@ const fundleTouchpoint = fundleExperiment.declareTouchpoint({
 });
 */
 
-export default class C1 extends Component {
+export class C1 extends Component {
 	render() {
+		const { shouldRun, cohort } = trivialExperiment.resolveSync()
 
 		/*const { shouldRun: fundleShouldRun } = fundleTouchpoint.resolve();
      const { shouldRun: megatronShouldRun } = megatronTouchpoint.resolve();
@@ -44,17 +47,27 @@ export default class C1 extends Component {
        <button>Try Confluence!</button>
      ) : null;
  */
-		const copy = 'Some boring info';
+		const copy = shouldRun
+			? 'Some better info'
+			: 'Some boring info';
 
-		const className = 'c1';
-
-		const extraCta = null;
+		const extraCta = shouldRun
+			? <button>New CTA!</button>
+			: null;
 
 		return (
-			<div className={className}>
-				Component1: {copy}
+			<div className="c1">
+				[Component1/{cohort}]
+				{copy}
 				{extraCta}
 			</div>
 		);
 	}
 }
+
+const LC1 = Loadable({
+	loader: () => trivialExperiment.resolve().then(() => C1),
+	loading: Loader,
+});
+
+export default LC1

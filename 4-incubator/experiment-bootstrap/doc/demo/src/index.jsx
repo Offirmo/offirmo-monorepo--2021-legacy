@@ -7,7 +7,7 @@ import ReactDOM from 'react-dom';
 import Root from './components/root';
 
 function start() {
-  console.log('hello world');
+  console.log('starting…');
 
   //attachDevToolsUI();
 
