@@ -11,7 +11,7 @@ const MAX_FPS = 1. // TODO load from prefs
 const MIN_FPS = .1 // ex. for a background tab
 const MIN_FPS_FRAME_PERIOD_MS = Math.trunc(1000. / MIN_FPS)
 const MAX_FPS_FRAME_PERIOD_MS = Math.trunc(1000. / MAX_FPS)
-const MAX_ITERATIONS = 10000 // debug TODO remove
+//const MAX_ITERATIONS = 10000 // debug
 
 // https://reactjs.org/docs/context.html
 const DEFAULT_VALUE = { init: 'initial AppState pending...'}

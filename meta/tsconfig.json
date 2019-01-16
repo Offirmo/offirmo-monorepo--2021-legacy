@@ -2,7 +2,7 @@
 	"compileOnSave": false,
 	"compilerOptions": {
 		"allowJs": false,
-		"lib": [ "ES2017" ],
+		"lib": [ "ES2018" ],
 		"moduleResolution": "node",
 
 		"listEmittedFiles": false,
