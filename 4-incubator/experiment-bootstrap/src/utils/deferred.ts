@@ -33,11 +33,9 @@ export default class Deferred<T> {
 		return this._reject(reason)
 	}
 
-	/*
 	finally(onfinally?: (() => void) | undefined | null): Promise<T> {
 		return this.promise.finally(onfinally)
 	}
-	*/
 
 	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/toStringTag
 	get [Symbol.toStringTag]() {

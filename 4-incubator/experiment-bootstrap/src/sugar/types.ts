@@ -10,7 +10,7 @@ interface Experiment {
 
 	resolve: () => Promise<ResolvedExperiment>
 
-	resolveSync: () => ResolvedExperiment | undefined
+	resolveSync: () => ResolvedExperiment
 }
 
 export {

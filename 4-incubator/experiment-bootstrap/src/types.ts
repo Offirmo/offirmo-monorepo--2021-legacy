@@ -24,14 +24,16 @@ interface Requirement<T> {
 }
 
 interface ResolvedExperiment {
+	/*
 	isOn: boolean
 	initialCohort?: Cohort
+*/
 
 	shouldRun: boolean
 	cohort: Cohort
-	ineligibilityReasons: string[];
+	ineligibilityReasons: Set<string>
 
-	feedback: Feedback[]
+	feedback: Feedback[] // TODO move to private?
 }
 
 

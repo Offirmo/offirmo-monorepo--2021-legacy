@@ -4,8 +4,9 @@ import Loadable from 'react-loadable'
 import { createExperiment, Cohort } from '../../../../../src'
 import Loader from '../loader'
 
-const trivialExperiment = createExperiment('KERBAL-723_trivial')
-	.withCohortPicker(() => Cohort['control'])
+const trivialExperiment = createExperiment('KERBAL-723/trivial')
+	//.withKillSwitch(() => true)
+	.withCohortPicker(() => Cohort['variation'])
 
 
 /*
@@ -47,11 +48,11 @@ export class C1 extends Component {
        <button>Try Confluence!</button>
      ) : null;
  */
-		const copy = shouldRun
+		const copy = (cohort === 'variation')
 			? 'Some better info'
 			: 'Some boring info';
 
-		const extraCta = shouldRun
+		const extraCta = (cohort === 'variation')
 			? <button>New CTA!</button>
 			: null;
 

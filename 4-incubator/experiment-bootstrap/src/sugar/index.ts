@@ -6,12 +6,14 @@ import {
 	create,
 	setKillSwitch,
 	setCohortPicker,
+	addRequirement,
+	initiateResolution,
 
 	getPromisedResult,
-} from './state'
+	getResultSync,
+} from '../experiment'
 
 
-//import EventEmitter from 'emittery'
 
 /////////////////////
 
@@ -35,9 +37,10 @@ export function createExperiment<T>(key: string): Experiment {
 			return experiment
 		},
 
-		withRequirement(f: ExperimentSpec<T>['isOn']): Experiment {
-			throw new Error('NIMP')
-			//return experiment
+		withRequirement(r: Requirement<T>): Experiment {
+			state = addRequirement(state, r)
+
+			return experiment
 		},
 
 		createTouchpoint(key: string): any {
@@ -45,13 +48,18 @@ export function createExperiment<T>(key: string): Experiment {
 		},
 
 		resolve(): Promise<ResolvedExperiment> {
+			state = initiateResolution(state)
 			return getPromisedResult(state)
 		},
 
-		resolveSync(): ResolvedExperiment | undefined {
-			return state.result
+		resolveSync(): ResolvedExperiment {
+			return getResultSync(state)
 		},
 	}
 
 	return experiment
 }
+
+export {
+	ERROR_MSG_MISSING_INFOS
+} from '../experiment'

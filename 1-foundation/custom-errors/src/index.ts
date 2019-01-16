@@ -38,6 +38,7 @@ function ExtendedError(message_or_error) {
 		// we are wrapping an existing error
 		err = message_or_error
 		message = err.message
+		// TODO other fields!
 	}
 	else {
 		// we must create an error to have an up-to-date stacktrace
