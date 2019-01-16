@@ -1,5 +1,6 @@
-import {Cohort, Feedback, Requirement, ResolvedExperiment} from '../types';
-import { Experiment } from './types';
+import { Requirement, ResolvedExperiment } from '../types'
+import { LIB } from '../consts'
+import { Experiment } from './types'
 import {
 	ExperimentSpec,
 
@@ -7,44 +8,46 @@ import {
 	setKillSwitch,
 	setCohortPicker,
 	addRequirement,
+	setInfos,
 	initiateResolution,
 
 	getPromisedResult,
 	getResultSync,
+	getKey,
 } from '../experiment'
 
 
-
-/////////////////////
-
-
-export function createExperiment<T>(key: string): Experiment {
-	console.log('creating experiment', key)
-
+export function createExperiment<T>(key: string): Experiment<T> {
 	let state = create<T>(key)
 
-	let experiment: Experiment = {
+	let experiment: Experiment<T> = {
 
-		withKillSwitch(isOn: ExperimentSpec<T>['isOn']): Experiment {
+		withKillSwitch(isOn: ExperimentSpec<T>['isOn']): Experiment<T> {
 			state = setKillSwitch(state, isOn)
 
 			return experiment
 		},
 
-		withCohortPicker(cohortPicker: ExperimentSpec<T>['cohortPicker']): Experiment {
+		withCohortPicker(cohortPicker: ExperimentSpec<T>['cohortPicker']): Experiment<T> {
 			state = setCohortPicker(state, cohortPicker)
 
 			return experiment
 		},
 
-		withRequirement(r: Requirement<T>): Experiment {
+		withRequirement(r: Requirement<T>): Experiment<T> {
 			state = addRequirement(state, r)
 
 			return experiment
 		},
 
-		createTouchpoint(key: string): any {
-			throw new Error('NIMP')
+		setInfos(infos: Partial<T>): Experiment<T> {
+			state = setInfos(state, infos)
+
+			return experiment
+		},
+
+		createTouchpoint(key: string): Experiment<T> {
+			throw new Error(`[${LIB}/${getKey(state)}] NIMP`)
 		},
 
 		resolve(): Promise<ResolvedExperiment> {

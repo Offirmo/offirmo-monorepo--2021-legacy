@@ -1,15 +1,17 @@
 
-import { ResolvedExperiment } from '../types'
+import {Requirement, ResolvedExperiment} from '../types'
+import {ExperimentSpec} from '../experiment'
 
-interface Experiment {
-	withKillSwitch: Function,
-	withCohortPicker: Function,
-	withRequirement: Function,
+interface Experiment<T> {
+	withKillSwitch: (isOn: ExperimentSpec<T>['isOn']) => Experiment<T>
+	withCohortPicker: (cohortPicker: ExperimentSpec<T>['cohortPicker']) => Experiment<T>
+	withRequirement: (r: Requirement<T>) => Experiment<T>
 
-	createTouchpoint: Function,
+	setInfos: (infos: Partial<T>) => Experiment<T>
+
+	createTouchpoint: (key: string) => Experiment<T>
 
 	resolve: () => Promise<ResolvedExperiment>
-
 	resolveSync: () => ResolvedExperiment
 }
 

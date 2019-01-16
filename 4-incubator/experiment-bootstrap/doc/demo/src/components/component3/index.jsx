@@ -9,23 +9,26 @@ import {
 
 import Loader from '../loader'
 
-const standardExperiment = createExperiment('KERBAL-723/standard')
+const standardExperiment = createExperiment('KERBAL-723/advanced')
 	.withKillSwitch(() => true)
 	.withCohortPicker(() => Cohort['variation'])
 	.withRequirement({
 		key: 'browser',
-		resolver: () => false,
+		resolver: () => true,
 	})
 	.withRequirement({
-		key: 'test',
-		resolver: () => (new Promise((resolve) => { setTimeout(() => resolve(true), 4000)})),
-		//resolver: () => (new Promise(() => {})), // XXX will never resolve
+		key: 'admin',
+		resolver: ({isAdmin}) => {
+			if (typeof isAdmin !== 'boolean')
+				throw new Error(ERROR_MSG_MISSING_INFOS)
+
+			return isAdmin
+		},
 	})
 
-export class C2 extends Component {
+export class C extends Component {
 	render() {
 		const { cohort } = standardExperiment.resolveSync()
-		console.log('C2 render', cohort)
 
 		const copy = (cohort === 'variation')
 			? 'Some better info'
@@ -36,8 +39,8 @@ export class C2 extends Component {
 			: null;
 
 		return (
-			<div className="c2">
-				[Component2/{cohort}]
+			<div className="c3">
+				[Component3/{cohort}]
 				{copy}
 				{extraCta}
 			</div>
@@ -45,9 +48,12 @@ export class C2 extends Component {
 	}
 }
 
-const LC2 = Loadable({
-	loader: () => standardExperiment.resolve().then(() => C2),
+const LC = Loadable({
+	loader: () => {
+		standardExperiment.setInfos({isAdmin: true})
+		return standardExperiment.resolve().then(() => C)
+	},
 	loading: Loader,
 });
 
-export default LC2
+export default LC

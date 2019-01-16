@@ -33,21 +33,8 @@ const fundleTouchpoint = fundleExperiment.declareTouchpoint({
 
 export class C1 extends Component {
 	render() {
-		const { shouldRun, cohort } = trivialExperiment.resolveSync()
+		const { cohort } = trivialExperiment.resolveSync()
 
-		/*const { shouldRun: fundleShouldRun } = fundleTouchpoint.resolve();
-     const { shouldRun: megatronShouldRun } = megatronTouchpoint.resolve();
-
-     const copy = fundleShouldRun
-       ? 'Some better written critical info'
-       : 'Some boring info';
-
-     const className = fundleShouldRun ? 'c1b' : 'c1';
-
-     const extraCta = megatronShouldRun ? (
-       <button>Try Confluence!</button>
-     ) : null;
- */
 		const copy = (cohort === 'variation')
 			? 'Some better info'
 			: 'Some boring info';
