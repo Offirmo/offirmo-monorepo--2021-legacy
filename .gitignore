@@ -13,8 +13,8 @@ node_modules
 # regenerable
 **/dist/src.es7/
 **/dist/src.es7.cjs/
-2-advanced/view-css/dist/
-9-oh-my-rpg/view-browser/dist/
+#2-advanced/view-css/dist/
+#9-oh-my-rpg/view-browser/dist/
 4-incubator/experiment-bootstrap/dist/
 
 
