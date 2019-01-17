@@ -1,7 +1,6 @@
 import {
 	CodeSpec,
 	normalize_code,
-	State as ProgressState,
 	is_code_redeemable as _is_code_redeemable,
 } from '@oh-my-rpg/state-codes'
 
@@ -18,7 +17,7 @@ function is_code_redeemable(state: Readonly<State>, code: string): boolean {
 	if (!code_spec)
 		throw new Error(`This code doesn't exist!`)
 
-	return _is_code_redeemable(state.codes, code_spec, state)
+	return _is_code_redeemable(state.u_state.codes, code_spec, state)
 }
 
 /////////////////////

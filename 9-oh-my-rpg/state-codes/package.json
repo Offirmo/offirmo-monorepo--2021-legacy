@@ -4,7 +4,7 @@
 	"private": true,
 	"description": "cheat/reward codes state and reducer",
 	"main": "dist/src.es7.cjs/index.js",
-	"typings": "dist/src.es7.cjs/index.js",
+	"typings": "dist/src.es7.cjs/index.d.ts",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "UNLICENSED",
 	"peerDependencies": {

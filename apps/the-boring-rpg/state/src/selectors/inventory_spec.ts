@@ -29,9 +29,9 @@ describe(`${LIB} - selectors / inventory`, function() {
 			it('should find it and appraise its value', () => {
 				const state = create()
 
-				const armor = state.inventory.slotted.armor
+				const armor = state.u_state.inventory.slotted.armor
 
-				const price = appraise_item_value(state, armor!.uuid)
+				const price = appraise_item_value(state.u_state, armor!.uuid)
 
 				expect(price).to.equal(5)
 			})
@@ -42,7 +42,7 @@ describe(`${LIB} - selectors / inventory`, function() {
 			it('should throw', () => {
 				const state = create()
 
-				const attempt_appraise = () => void appraise_item_value(state, 'foo')
+				const attempt_appraise = () => void appraise_item_value(state.u_state, 'foo')
 
 				expect(attempt_appraise).to.throw('No item')
 			})

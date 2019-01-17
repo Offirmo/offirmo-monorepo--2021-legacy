@@ -1,4 +1,4 @@
 # Redirects from what the browser requests to what we serve
 # https://www.netlify.com/docs/redirects/
 
-/apps/the-boring-rpg-browser/dist/*   /apps/the-boring-rpg-browser/dist/   200
+/apps/the-boring-rpg/client-browser/dist/*   /apps/the-boring-rpg/client-browser/dist/   200

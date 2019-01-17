@@ -14,7 +14,7 @@ describe('@tbrpg/state - engagement messages', function() {
 
 		it('should suggest to play', () => {
 			const state = create()
-			const doc = get_engagement_message(state, {
+			const doc = get_engagement_message({
 				uid: 0,
 				engagement: {
 					key: EngagementKey['tip--first_play'],

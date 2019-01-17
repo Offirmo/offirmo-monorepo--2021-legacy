@@ -1,11 +1,10 @@
 import * as RichText from '@offirmo/rich-text-format'
 import {PendingEngagement} from '@oh-my-rpg/state-engagement'
-import { State } from '../types'
 import {
 	EngagementKey,
 } from './types'
 
-function get_engagement_message(state: Readonly<State>, pe: Readonly<PendingEngagement>): RichText.Document {
+function get_engagement_message(pe: Readonly<PendingEngagement>): RichText.Document {
 	const { engagement: {key}, params} = pe
 
 	switch(key) {

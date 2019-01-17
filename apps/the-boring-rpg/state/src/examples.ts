@@ -128,22 +128,30 @@ const DEMO_ADVENTURE_04: Adventure = deepFreeze({
 })
 
 const DEMO_STATE: Readonly<State> = deepFreeze({
-	uuid: "uu1EO9VgTjPlR1YPj0yfdWjG",
-	creation_date: "20180813_00h33",
+	u_state: {
+		schema_version: SCHEMA_VERSION,
+		revision: 203,
 
-	schema_version: SCHEMA_VERSION,
-	revision: 203,
+		uuid: "uu1EO9VgTjPlR1YPj0yfdWjG",
+		creation_date: "20180813_00h33",
 
-	avatar: Character.DEMO_STATE,
-	inventory: Inventory.DEMO_STATE,
-	wallet: Wallet.DEMO_STATE,
-	prng: PRNG.DEMO_STATE,
-	energy: [ Energy.DEMO_U_STATE, Energy.DEMO_T_STATE ] as State["energy"],
-	engagement: Engagement.DEMO_STATE,
-	codes: Codes.DEMO_STATE,
-	progress: Progress.DEMO_STATE,
+		avatar: Character.DEMO_STATE,
+		inventory: Inventory.DEMO_STATE,
+		wallet: Wallet.DEMO_STATE,
+		prng: PRNG.DEMO_STATE,
+		energy: Energy.DEMO_U_STATE,
+		engagement: Engagement.DEMO_STATE,
+		codes: Codes.DEMO_STATE,
+		progress: Progress.DEMO_STATE,
 
-	last_adventure: DEMO_ADVENTURE_01,
+		last_adventure: DEMO_ADVENTURE_01,
+	},
+
+	t_state: {
+		schema_version: SCHEMA_VERSION,
+
+		energy: Energy.DEMO_T_STATE,
+	}
 })
 
 /////////////////////

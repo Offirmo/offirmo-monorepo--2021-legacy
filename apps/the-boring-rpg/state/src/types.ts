@@ -68,7 +68,7 @@ interface Adventure {
 
 /////////////////////
 
-interface State {
+interface UState {
 	schema_version: number
 	revision: number
 
@@ -79,7 +79,7 @@ interface State {
 	inventory: InventoryState
 	wallet: WalletState
 	prng: PRNGState
-	energy: [ EnergyUState, EnergyTState ],
+	energy: EnergyUState,
 	engagement: EngagementState
 	codes: CodesState
 	progress: ProgressState
@@ -87,11 +87,25 @@ interface State {
 	last_adventure: Adventure | null
 }
 
+interface TState {
+	schema_version: number
+
+	energy: EnergyTState,
+}
+
+interface State {
+	u_state: UState
+
+	t_state: TState
+}
+
 /////////////////////
 
 export {
 	GainType,
 	Adventure,
+	UState,
+	TState,
 	State,
 }
 
