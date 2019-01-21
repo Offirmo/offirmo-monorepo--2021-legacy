@@ -51,7 +51,7 @@ const POWER_CODES: Readonly<{ [key: string]: Readonly<Partial<CodeSpec<State>>> 
 	BORED: {
 		redeem_limit: null,
 		is_redeemable: (state: Readonly<State>, progress_state: Readonly<ProgressState>) => {
-			const has_energy_depleted = get_available_energy_float(state) < 1.
+			const has_energy_depleted = get_available_energy_float(state.t_state) < 1.
 			if (!has_energy_depleted)
 				return false
 

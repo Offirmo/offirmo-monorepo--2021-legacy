@@ -4,13 +4,8 @@ import { expect } from 'chai'
 import { AchievementStatus, AchievementDefinition } from '@oh-my-rpg/state-progress'
 import { xxx_internal_reset_prng_cache } from '@oh-my-rpg/state-prng'
 
-import {
-	Currency,
-	get_currency_amount,
-} from '@oh-my-rpg/state-wallet'
-
 import { LIB } from '../../../consts'
-import { State } from '../../../types'
+import { State, UState } from '../../../types'
 import { create } from '..'
 import { _refresh_achievements } from '.'
 import ACHIEVEMENT_DEFINITIONS from '../../../data/achievements'
@@ -40,9 +35,12 @@ describe(`${LIB} - reducer`, function() {
 				// trigger an achievement out of band (would never happen for real)
 				state = {
 					...state,
-					avatar: {
-						...state.avatar,
-						name: 'Foo',
+					u_state: {
+						...state.u_state,
+						avatar: {
+							...state.u_state.avatar,
+							name: 'Foo',
+						},
 					}
 				}
 
@@ -54,12 +52,12 @@ describe(`${LIB} - reducer`, function() {
 	})
 
 	describe('achievements', function() {
-		ACHIEVEMENT_DEFINITIONS.forEach((definition: AchievementDefinition<State>) => {
+		ACHIEVEMENT_DEFINITIONS.forEach((definition: AchievementDefinition<UState>) => {
 			describe(`achievements "${definition.name}"`, function() {
 				it('should be testable and not throw', () => {
 					let state = create()
 
-					const status = definition.get_status(state)
+					const status = definition.get_status(state.u_state)
 					expect(Enum.isType(AchievementStatus, status)).to.be.true
 				})
 			})

@@ -26,7 +26,7 @@ import {
 function reduce_action(state: Readonly<State>, action: Readonly<Action>): Readonly<State> {
 	const { expected_state_revision } = (action as any)
 	if (expected_state_revision) {
-		if (state.revision !== expected_state_revision)
+		if (state.u_state.revision !== expected_state_revision)
 			throw new Error('Trying to execute an outdated action!')
 	}
 

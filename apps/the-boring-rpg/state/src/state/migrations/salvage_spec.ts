@@ -40,10 +40,10 @@ describe(`${LIB} - schema migration`, function() {
 
 			const salvaged_state = reset_and_salvage(PSEUDO_V4)
 
-			expect(salvaged_state.avatar.name).to.equal(NAME)
-			expect(salvaged_state.avatar.klass).to.equal(CLASS)
-			expect(salvaged_state.progress.statistics.good_play_count).to.equal(GOOD_PLAY_COUNT)
-			expect(salvaged_state.progress.statistics.bad_play_count).to.equal(BAD_PLAY_COUNT)
+			expect(salvaged_state.u_state.avatar.name).to.equal(NAME)
+			expect(salvaged_state.u_state.avatar.klass).to.equal(CLASS)
+			expect(salvaged_state.u_state.progress.statistics.good_play_count).to.equal(GOOD_PLAY_COUNT)
+			expect(salvaged_state.u_state.progress.statistics.bad_play_count).to.equal(BAD_PLAY_COUNT)
 		})
 
 		it('should be able to salvage a v6+ savegame', () => {
@@ -86,28 +86,28 @@ describe(`${LIB} - schema migration`, function() {
 
 			const salvaged_state = reset_and_salvage(PSEUDO_V4)
 
-			expect(salvaged_state.avatar.name).to.equal(NAME)
-			expect(salvaged_state.avatar.klass).to.equal(CLASS)
-			expect(salvaged_state.progress.statistics.good_play_count).to.equal(GOOD_PLAY_COUNT)
-			expect(salvaged_state.progress.statistics.bad_play_count).to.equal(BAD_PLAY_COUNT)
+			expect(salvaged_state.u_state.avatar.name).to.equal(NAME)
+			expect(salvaged_state.u_state.avatar.klass).to.equal(CLASS)
+			expect(salvaged_state.u_state.progress.statistics.good_play_count).to.equal(GOOD_PLAY_COUNT)
+			expect(salvaged_state.u_state.progress.statistics.bad_play_count).to.equal(BAD_PLAY_COUNT)
 		})
 
 		it('should be able to salvage a v7+ savegame', () => {
 			const salvaged_state = reset_and_salvage(DEMO_STATE as any)
 
-			expect(salvaged_state.avatar.name).to.equal('Perte')
-			expect(salvaged_state.avatar.klass).to.equal("paladin")
-			expect(salvaged_state.progress.statistics.good_play_count).to.equal(12)
-			expect(salvaged_state.progress.statistics.bad_play_count).to.equal(3)
+			expect(salvaged_state.u_state.avatar.name).to.equal('Perte')
+			expect(salvaged_state.u_state.avatar.klass).to.equal("paladin")
+			expect(salvaged_state.u_state.progress.statistics.good_play_count).to.equal(12)
+			expect(salvaged_state.u_state.progress.statistics.bad_play_count).to.equal(3)
 		})
 
 		it('should be able to salvage total crap', () => {
 			const salvaged_state = reset_and_salvage({foo: 42})
 
-			expect(salvaged_state.avatar.name.startsWith('A')).to.be.true
-			expect(salvaged_state.avatar.klass).not.to.equal('novice')
-			expect(salvaged_state.progress.statistics.good_play_count, 'good').to.equal(1)
-			expect(salvaged_state.progress.statistics.bad_play_count, 'bad').to.equal(0)
+			expect(salvaged_state.u_state.avatar.name.startsWith('A')).to.be.true
+			expect(salvaged_state.u_state.avatar.klass).not.to.equal('novice')
+			expect(salvaged_state.u_state.progress.statistics.good_play_count, 'good').to.equal(1)
+			expect(salvaged_state.u_state.progress.statistics.bad_play_count, 'bad').to.equal(0)
 		})
 
 		it('should be able to salvage a specifically buggy savegame', () => {
@@ -385,10 +385,10 @@ describe(`${LIB} - schema migration`, function() {
 
 			const salvaged_state = reset_and_salvage(BUGGY)
 
-			expect(salvaged_state.avatar.name).to.equal('Perte')
-			expect(salvaged_state.avatar.klass).to.equal("paladin")
-			expect(salvaged_state.progress.statistics.good_play_count).to.equal(13)
-			expect(salvaged_state.progress.statistics.bad_play_count).to.equal(3)
+			expect(salvaged_state.u_state.avatar.name).to.equal('Perte')
+			expect(salvaged_state.u_state.avatar.klass).to.equal("paladin")
+			expect(salvaged_state.u_state.progress.statistics.good_play_count).to.equal(13)
+			expect(salvaged_state.u_state.progress.statistics.bad_play_count).to.equal(3)
 		})
 	})
 })

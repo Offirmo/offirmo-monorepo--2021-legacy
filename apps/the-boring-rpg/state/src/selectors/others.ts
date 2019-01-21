@@ -21,14 +21,13 @@ import { AchievementSnapshot } from "@oh-my-rpg/state-progress";
 
 /////////////////////
 
-import { State, UState } from '../types'
+import { UState } from '../types'
 import { get_engagement_message } from '../engagement'
 import { get_achievement_snapshot_by_uuid } from "./achievements";
 
 /////////////////////
 
 // TODO
-/*
 function appraise_player_power(u_state: Readonly<UState>): number {
 	let power: number = 1
 
@@ -42,7 +41,7 @@ function appraise_player_power(u_state: Readonly<UState>): number {
 	// TODO appraise attributes relative to class
 
 	return power
-}*/
+}
 
 
 function find_element(u_state: Readonly<UState>, uuid: UUID): Readonly<Element> | Readonly<AchievementSnapshot> | null {
@@ -65,7 +64,7 @@ function get_oldest_pending_flow_engagement(u_state: Readonly<UState>): { uid: n
 
 	return {
 		uid: pe.uid,
-		$doc: get_engagement_message(u_state, pe),
+		$doc: get_engagement_message(pe),
 		pe,
 	}
 }
@@ -76,7 +75,7 @@ function get_oldest_pending_non_flow_engagement(u_state: Readonly<UState>): { ui
 
 	return {
 		uid: pe.uid,
-		$doc: get_engagement_message(u_state, pe),
+		$doc: get_engagement_message(pe),
 		pe,
 	}
 }

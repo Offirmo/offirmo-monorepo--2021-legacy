@@ -38,8 +38,8 @@ describe(`${LIB} - reducer`, function() {
 			}
 
 			//dump_pretty_json('success', state)
-			expect(state.progress.statistics.good_play_count).to.equal(1000)
-			expect(state.progress.statistics.bad_play_count).to.equal(0)
+			expect(state.u_state.progress.statistics.good_play_count).to.equal(1000)
+			expect(state.u_state.progress.statistics.bad_play_count).to.equal(0)
 		})
 
 		it('should automatically make good decisions (interface 2)', () => {
@@ -56,10 +56,10 @@ describe(`${LIB} - reducer`, function() {
 			}
 
 			//dump_pretty_json('success', state)
-			expect(state.avatar.klass).not.to.equal('novice')
-			expect(is_inventory_full(state)).to.be.false
-			const equipped_armor: Armor = state.inventory.slotted[InventorySlot.armor]!
-			const equipped_weapon: Weapon = state.inventory.slotted[InventorySlot.weapon]!
+			expect(state.u_state.avatar.klass).not.to.equal('novice')
+			expect(is_inventory_full(state.u_state)).to.be.false
+			const equipped_armor: Armor = state.u_state.inventory.slotted[InventorySlot.armor]!
+			const equipped_weapon: Weapon = state.u_state.inventory.slotted[InventorySlot.weapon]!
 			expect(matches_armor(equipped_armor, STARTING_ARMOR_SPEC)).to.be.false
 			expect(matches_weapon(equipped_weapon, STARTING_WEAPON_SPEC)).to.be.false
 		})
@@ -79,8 +79,8 @@ describe(`${LIB} - reducer`, function() {
 			}
 
 			//dump_pretty_json('success', state)
-			expect(state.progress.statistics.good_play_count).to.equal(2000)
-			expect(state.progress.statistics.bad_play_count).to.equal(100)
+			expect(state.u_state.progress.statistics.good_play_count).to.equal(2000)
+			expect(state.u_state.progress.statistics.bad_play_count).to.equal(100)
 		})
 	})
 })

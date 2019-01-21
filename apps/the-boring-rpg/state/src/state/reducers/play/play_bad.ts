@@ -24,7 +24,7 @@ import {
 /////////////////////
 
 import { LIB } from '../../../consts'
-import { State } from '../../../types'
+import { State, UState } from '../../../types'
 import { play_adventure } from './play_adventure'
 
 /////////////////////
@@ -32,7 +32,7 @@ import { play_adventure } from './play_adventure'
 const ADVENTURE_BAD_NON_REPETITION_ID = 'adventure_archetype--bad'
 const ADVENTURE_BAD_NON_REPETITION_COUNT = 2
 
-function pick_random_non_repetitive_bad_archetype(state: Readonly<State>, rng: Engine): Readonly<AdventureArchetype> {
+function pick_random_non_repetitive_bad_archetype(u_state: Readonly<UState>, rng: Engine): Readonly<AdventureArchetype> {
 	let archetype: AdventureArchetype
 
 	regenerate_until_not_recently_encountered({
@@ -41,7 +41,7 @@ function pick_random_non_repetitive_bad_archetype(state: Readonly<State>, rng: E
 			archetype = pick_random_bad_archetype(rng)
 			return archetype.hid
 		},
-		state: state.prng,
+		state: u_state.prng,
 		max_tries: ADVENTURE_BAD_NON_REPETITION_COUNT * 10,
 	})
 
@@ -49,12 +49,14 @@ function pick_random_non_repetitive_bad_archetype(state: Readonly<State>, rng: E
 }
 
 function play_bad(state: Readonly<State>, explicit_adventure_archetype_hid?: string): Readonly<State> {
-	let prng_state = state.prng
+	let { u_state, t_state } = state
+
+	let prng_state = u_state.prng
 	const rng = get_prng(prng_state)
 
 	const aa: AdventureArchetype = explicit_adventure_archetype_hid
 		? get_archetype(explicit_adventure_archetype_hid)
-		: pick_random_non_repetitive_bad_archetype(state, rng)
+		: pick_random_non_repetitive_bad_archetype(u_state, rng)
 
 	if (!aa)
 		throw new Error(`${LIB}: play_bad(): hinted adventure archetype "${explicit_adventure_archetype_hid}" could not be found!`)
@@ -63,22 +65,23 @@ function play_bad(state: Readonly<State>, explicit_adventure_archetype_hid?: str
 		throw new Error(`${LIB}: play_bad(): hinted adventure archetype "${explicit_adventure_archetype_hid}" is a "good click" one!`)
 
 	if (!explicit_adventure_archetype_hid) {
-		prng_state = PRNGState.update_use_count(state.prng, rng)
+		prng_state = PRNGState.update_use_count(u_state.prng, rng)
 	}
 
 	state = {
 		...state,
-		prng: register_recently_used(
-			prng_state,
-			ADVENTURE_BAD_NON_REPETITION_ID,
-			aa.hid,
-			ADVENTURE_BAD_NON_REPETITION_COUNT,
-		),
+		u_state: {
+			...u_state,
+			prng: register_recently_used(
+				prng_state,
+				ADVENTURE_BAD_NON_REPETITION_ID,
+				aa.hid,
+				ADVENTURE_BAD_NON_REPETITION_COUNT,
+			),
+		},
 	}
 
-	state = {
-		...play_adventure(state, aa),
-	}
+	state = play_adventure(state, aa)
 
 	return state
 }

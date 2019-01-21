@@ -23,41 +23,46 @@ import { _refresh_achievements } from '../achievements'
 function play(state: Readonly<State>, explicit_adventure_archetype_hid?: string): Readonly<State> {
 	state = _update_to_now(state)
 
-	const available_energy = get_available_energy_float(state)
+	let { u_state, t_state } = state
+
+	const available_energy = get_available_energy_float(t_state)
 	const is_good_play = available_energy >= 1.
 
 	// consume energy
-	let [ u_state, t_state ] = state.energy
-	t_state = is_good_play
-		? EnergyState.use_energy(state.energy)
-		: EnergyState.loose_all_energy(state.energy) // punishment
 	state = {
-			...state,
-			energy: [ u_state, t_state ],
+		...state,
+		t_state: {
+			...t_state,
+			energy: is_good_play
+				? EnergyState.use_energy([u_state.energy, t_state.energy])
+				: EnergyState.loose_all_energy([u_state.energy, t_state.energy]) // punishment
 		}
+	}
 
-		// actual play
+	// actual play
 	state = is_good_play
 		? play_good(state, explicit_adventure_archetype_hid)
 		: play_bad(state, explicit_adventure_archetype_hid)
 
 	// final updates
+	u_state = state.u_state
 	state = {
 		...state,
-
-		progress: ProgressState.on_played(state.progress, {
-			good: is_good_play,
-			adventure_key: state.last_adventure!.hid,
-			encountered_monster_key: state.last_adventure!.encounter
-				? state.last_adventure!.encounter!.name
-				: null,
-			active_class: state.avatar.klass,
-			coins_gained: state.last_adventure!.gains.coin,
-			tokens_gained: state.last_adventure!.gains.token,
-			items_gained: (state.last_adventure!.gains.armor ? 1 : 0) + (state.last_adventure!.gains.weapon ? 1 : 0),
-		}),
-
-		revision: state.revision + 1,
+		u_state: {
+			...u_state,
+			progress: ProgressState.on_played(u_state.progress, {
+				good: is_good_play,
+				adventure_key: u_state.last_adventure!.hid,
+				encountered_monster_key: u_state.last_adventure!.encounter
+					? u_state.last_adventure!.encounter!.name
+					: null,
+				active_class: u_state.avatar.klass,
+				coins_gained: u_state.last_adventure!.gains.coin,
+				tokens_gained: u_state.last_adventure!.gains.token,
+				items_gained: (u_state.last_adventure!.gains.armor ? 1 : 0) + (u_state.last_adventure!.gains.weapon ? 1 : 0),
+			}),
+			revision: state.u_state.revision + 1,
+		}
 	}
 
 	return _refresh_achievements(state)

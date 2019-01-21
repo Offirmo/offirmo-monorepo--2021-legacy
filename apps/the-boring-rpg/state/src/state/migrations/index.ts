@@ -1,5 +1,3 @@
-/////////////////////
-import { JSONObject, JSONAny } from '@offirmo/ts-types'
 
 import * as CharacterState from '@oh-my-rpg/state-character'
 import * as WalletState from '@oh-my-rpg/state-wallet'
@@ -17,30 +15,45 @@ import { reset_and_salvage } from './salvage'
 
 /////////////////////
 
-const SUB_REDUCERS_COUNT = 8
-const OTHER_KEYS_COUNT = 5
+const SUB_U_REDUCERS_COUNT = 8
+const SUB_U_OTHER_KEYS_COUNT = 5
+
+const SUB_T_REDUCERS_COUNT = 1
+const SUB_T_OTHER_KEYS_COUNT = 1
+
 
 function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any> = {}): State {
-	const existing_version = (legacy_state && legacy_state.schema_version) || 0
+	const legacy_version = (() => {
+		if (!legacy_state)
+			return 0
+
+		if (legacy_state.schema_version)
+			return legacy_state.schema_version
+
+		if (legacy_state.u_state)
+			return legacy_state.u_state.schema_version
+
+		return 0
+	})()
 
 	SEC = get_lib_SEC(SEC)
 		.setAnalyticsAndErrorDetails({
-			version_from: existing_version,
+			version_from: legacy_version,
 			version_to: SCHEMA_VERSION,
 		})
 
 	return SEC.xTry('migrate_to_latest', ({SEC, logger}: OMRContext) => {
-		if (existing_version > SCHEMA_VERSION)
+		if (legacy_version > SCHEMA_VERSION)
 			throw new Error('Your data is from a more recent version of this lib. Please update!')
 
 		let state: State = legacy_state as State // for starter
 
-		if (existing_version < SCHEMA_VERSION) {
-			logger.warn(`${LIB}: attempting to migrate schema from v${existing_version} to v${SCHEMA_VERSION}:`)
+		if (legacy_version < SCHEMA_VERSION) {
+			logger.warn(`${LIB}: attempting to migrate schema from v${legacy_version} to v${SCHEMA_VERSION}:`)
 			SEC.fireAnalyticsEvent('schema_migration.began')
 
 			try {
-				state = migrate_to_8(SEC, legacy_state, hints)
+				state = migrate_to_9(SEC, legacy_state, hints)
 			}
 			catch (err) {
 				SEC.fireAnalyticsEvent('schema_migration.failed', { step: 'main' })
@@ -57,34 +70,59 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any
 			// TODO migrate items
 
 			// migrate sub-reducers if any...
-			state = { ...state } // TODO remove this mutation if possible
+			let { u_state, t_state } = state
 
-			if (Object.keys(state).length !== SUB_REDUCERS_COUNT + OTHER_KEYS_COUNT) {
-				logger.error('migrate_to_latest', {SUB_REDUCERS_COUNT, OTHER_KEYS_COUNT, actual_count: Object.keys(state).length, keys: Object.keys(state)})
-				throw new Error('migrate_to_latest src (1) is outdated, please update!')
+			;(function migrate_u_state() {
+				if (Object.keys(u_state).length !== SUB_U_REDUCERS_COUNT + SUB_U_OTHER_KEYS_COUNT) {
+					logger.error('migrate_to_latest', {SUB_REDUCERS_COUNT: SUB_U_REDUCERS_COUNT, OTHER_KEYS_COUNT: SUB_U_OTHER_KEYS_COUNT, actual_count: Object.keys(u_state).length, keys: Object.keys(u_state)})
+					throw new Error('migrate_to_latest src [S.U.1] is outdated, please update!')
+				}
+
+				u_state = { ...u_state } // TODO remove this mutation if possible
+
+				let sub_reducer_migrated = []
+				u_state.avatar = CharacterState.migrate_to_latest(SEC, u_state.avatar, hints.avatar)
+				sub_reducer_migrated.push('avatar')
+				u_state.inventory = InventoryState.migrate_to_latest(SEC, u_state.inventory, hints.inventory)
+				sub_reducer_migrated.push('inventory')
+				u_state.wallet = WalletState.migrate_to_latest(SEC, u_state.wallet, hints.wallet)
+				sub_reducer_migrated.push('wallet')
+				u_state.prng = PRNGState.migrate_to_latest(SEC, u_state.prng, hints.prng)
+				sub_reducer_migrated.push('prng')
+				u_state.energy = EnergyState.migrate_to_latest(SEC, [ u_state.energy, t_state.energy ], hints.energy)[0]
+				sub_reducer_migrated.push('energy')
+				u_state.engagement = EngagementState.migrate_to_latest(SEC, u_state.engagement, hints.engagement)
+				sub_reducer_migrated.push('engagement')
+				u_state.codes = CodesState.migrate_to_latest(SEC, u_state.codes, hints.codes)
+				sub_reducer_migrated.push('codes')
+				u_state.progress = ProgressState.migrate_to_latest(SEC, u_state.progress, hints.progress)
+				sub_reducer_migrated.push('progress')
+
+				if (sub_reducer_migrated.length !== SUB_U_REDUCERS_COUNT)
+					throw new Error('migrate_to_latest src [S.U.2] is outdated, please update!')
+			})()
+
+			;(function migrate_t_state() {
+				if (Object.keys(t_state).length !== SUB_T_REDUCERS_COUNT + SUB_T_OTHER_KEYS_COUNT) {
+					logger.error('migrate_to_latest', {SUB_REDUCERS_COUNT: SUB_T_REDUCERS_COUNT, OTHER_KEYS_COUNT: SUB_T_OTHER_KEYS_COUNT, actual_count: Object.keys(t_state).length, keys: Object.keys(t_state)})
+					throw new Error('migrate_to_latest src [S.T.1] is outdated, please update!')
+				}
+
+				t_state = { ...t_state } // TODO remove this mutation if possible
+
+				let sub_reducer_migrated = []
+				t_state.energy = EnergyState.migrate_to_latest(SEC, [ t_state.energy, t_state.energy ], hints.energy)[1]
+				sub_reducer_migrated.push('energy')
+
+				if (sub_reducer_migrated.length !== SUB_T_REDUCERS_COUNT)
+					throw new Error('migrate_to_latest src [S.T.2] is outdated, please update!')
+			})()
+
+			state = {
+				...state,
+				u_state,
+				t_state,
 			}
-
-			let sub_reducer_migrated = []
-			state.avatar = CharacterState.migrate_to_latest(SEC, state.avatar, hints.avatar)
-			sub_reducer_migrated.push('avatar')
-			state.inventory = InventoryState.migrate_to_latest(SEC, state.inventory, hints.inventory)
-			sub_reducer_migrated.push('inventory')
-			state.wallet = WalletState.migrate_to_latest(SEC, state.wallet, hints.wallet)
-			sub_reducer_migrated.push('wallet')
-			state.prng = PRNGState.migrate_to_latest(SEC, state.prng, hints.prng)
-			sub_reducer_migrated.push('prng')
-			state.energy = EnergyState.migrate_to_latest(SEC, state.energy, hints.energy)
-			sub_reducer_migrated.push('energy')
-			state.engagement = EngagementState.migrate_to_latest(SEC, state.engagement, hints.engagement)
-			sub_reducer_migrated.push('engagement')
-			state.codes = CodesState.migrate_to_latest(SEC, state.codes, hints.codes)
-			sub_reducer_migrated.push('codes')
-			state.progress = ProgressState.migrate_to_latest(SEC, state.progress, hints.progress)
-			sub_reducer_migrated.push('progress')
-
-			if (sub_reducer_migrated.length !== SUB_REDUCERS_COUNT)
-				throw new Error('migrate_to_latest src (2) is outdated, please update!')
-
 			logger.info(`${LIB}: schema migration successful.`)
 			SEC.fireAnalyticsEvent('schema migration.ended')
 		}
@@ -102,64 +140,16 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any
 
 /////////////////////
 
-function migrate_to_8(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any>): any {
-	if (legacy_state.schema_version >= 8)
+function migrate_to_9(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any>): any {
+	if (legacy_state.schema_version >= 9)
 		throw new Error('migrate_to_8 was called from an outdated/buggy root code, please update!')
 
-	if (legacy_state.schema_version < 7)
-		legacy_state = migrate_to_7(SEC, legacy_state, hints)
-
-	let state: any = { ...legacy_state, schema_version: 8 }
-
-	// modified entries:
-	// jackpot, everyone will get an energy replenishment
-	state.energy = EnergyState.create()
-	if (hints && hints.to_v8 && hints.to_v8.energy_t_state)
-		state.energy[1] = hints.to_v8.energy_t_state
-
-	return state
-}
-
-function migrate_to_7(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any>): any {
-	if (legacy_state.schema_version >= 7)
-		throw new Error('migrate_to_7 was called from an outdated/buggy root code, please update!')
-
-	if (legacy_state.schema_version < 4)
-		legacy_state = migrate_to_4(SEC, legacy_state, hints)
-
-	let state: any = { ...legacy_state, schema_version: 7 }
-
-	// new entries
-	if (!state.codes)
-		state.codes = CodesState.create(SEC)
-	if (!state.progress)
-		state.progress = ProgressState.create(SEC)
-	if (!state.engagement)
-		state.engagement = EngagementState.create(SEC)
-
-	if (state.meaningful_interaction_count)
-		delete state.meaningful_interaction_count
-
-	if (state.good_click_count) {
-		state.progress.statistics.good_play_count = state.good_click_count
-		delete state.good_click_count
-	}
-
-	if (state.click_count) {
-		state.progress.statistics.bad_play_count = state.click_count - state.progress.statistics.good_play_count
-		delete state.click_count
-	}
-
-	return state
-}
-
-function migrate_to_4(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any>): any {
 	throw new Error('Alpha release outdated schema, won’t migrate, would take too much time and schema is still unstable!')
 }
 
 /////////////////////
 
 export {
-	SUB_REDUCERS_COUNT,
+	SUB_U_REDUCERS_COUNT,
 	migrate_to_latest,
 }

@@ -52,9 +52,12 @@ function update_to_now(state: Readonly<State>): Readonly<State> {
 function equip_item(state: Readonly<State>, uuid: UUID): Readonly<State> {
 	state = {
 		...state,
-		inventory: InventoryState.equip_item(state.inventory, uuid),
+		u_state: {
+			...state.u_state,
+			inventory: InventoryState.equip_item(state.u_state.inventory, uuid),
 
-		revision: state.revision + 1,
+			revision: state.u_state.revision + 1,
+		},
 	}
 
 	return _refresh_achievements(state)
@@ -64,16 +67,22 @@ function sell_item(state: Readonly<State>, uuid: UUID): Readonly<State> {
 	state = _sell_item(state, uuid)
 	return _refresh_achievements({
 		...state,
-		revision: state.revision + 1,
+		u_state: {
+			...state.u_state,
+			revision: state.u_state.revision + 1,
+		},
 	})
 }
 
 function rename_avatar(state: Readonly<State>, new_name: string): Readonly<State> {
 	state = {
 		...state,
-		avatar: rename(get_lib_SEC(), state.avatar, new_name),
 
-		revision: state.revision + 1,
+		u_state: {
+			...state.u_state,
+			avatar: rename(get_lib_SEC(), state.u_state.avatar, new_name),
+			revision: state.u_state.revision + 1,
+		},
 	}
 
 	return _refresh_achievements(state)
@@ -82,9 +91,12 @@ function rename_avatar(state: Readonly<State>, new_name: string): Readonly<State
 function change_avatar_class(state: Readonly<State>, new_class: CharacterClass): Readonly<State> {
 	state = {
 		...state,
-		avatar: switch_class(get_lib_SEC(), state.avatar, new_class),
 
-		revision: state.revision + 1,
+		u_state: {
+			...state.u_state,
+			avatar: switch_class(get_lib_SEC(), state.u_state.avatar, new_class),
+			revision: state.u_state.revision + 1,
+		},
 	}
 
 	return _refresh_achievements(state)
@@ -94,9 +106,11 @@ function acknowledge_engagement_msg_seen(state: Readonly<State>, uid: number): R
 	return {
 		...state,
 
-		engagement: EngagementState.acknowledge_seen(state.engagement, uid),
-
-		revision: state.revision + 1,
+		u_state: {
+			...state.u_state,
+			engagement: EngagementState.acknowledge_seen(state.u_state.engagement, uid),
+			revision: state.u_state.revision + 1,
+		},
 	}
 }
 

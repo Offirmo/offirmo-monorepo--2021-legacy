@@ -1,9 +1,9 @@
 import * as RichText from '@offirmo/rich-text-format'
 
-import { State } from '../types'
+import { UState } from '../types'
 
-function get_recap(state: Readonly<State>): RichText.Document {
-	const isNewGame = (state.revision === 0)
+function get_recap(u_state: Readonly<UState>): RichText.Document {
+	const isNewGame = (u_state.revision === 0)
 	if (isNewGame) {
 		return RichText.inline_fragment()
 			.pushText('You are an ')
@@ -19,12 +19,12 @@ function get_recap(state: Readonly<State>): RichText.Document {
 
 	return RichText.block_fragment()
 		.pushText('You are ')
-		.pushInlineFragment(state.avatar.name, {
+		.pushInlineFragment(u_state.avatar.name, {
 			id: 'name',
 			classes: [ 'avatar__name'],
 		})
 		.pushText(', the ')
-		.pushInlineFragment(state.avatar.klass, {
+		.pushInlineFragment(u_state.avatar.klass, {
 			id: 'class',
 			classes: ['avatar__class'],
 		})

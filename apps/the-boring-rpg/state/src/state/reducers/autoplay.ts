@@ -63,30 +63,33 @@ import { _refresh_achievements } from './achievements'
 function _autogroom(state: Readonly<State>, options: { DEBUG?: boolean } = {}): Readonly<State> {
 	const { DEBUG } = options
 
-	if (DEBUG) console.log(`  - Autogroom… (inventory holding ${state.inventory.unslotted.length} items)`)
+	let { u_state, t_state } = state
+
+	if (DEBUG) console.log(`  - Autogroom… (inventory holding ${u_state.inventory.unslotted.length} items)`)
+
 
 	// User
 	// User class
-	if (state.avatar.klass === CharacterClass.novice) {
+	if (u_state.avatar.klass === CharacterClass.novice) {
 		// change class
 		let new_class: CharacterClass = Random.pick(Random.engines.nativeMath, Enum.values(CharacterClass))
 		if (DEBUG) console.log(`    - Changing class to ${new_class}…`)
 		state = change_avatar_class(state, new_class)
 	}
 	// User name
-	if (state.avatar.name === CharacterState.DEFAULT_AVATAR_NAME) {
-		let new_name = 'A' + state.uuid.slice(3)
+	if (u_state.avatar.name === CharacterState.DEFAULT_AVATAR_NAME) {
+		let new_name = 'A' + u_state.uuid.slice(3)
 		if (DEBUG) console.log(`    - renaming to ${new_name}…`)
 		state = rename_avatar(state, new_name)
 	}
 
 	// inventory
 	// equip best gear
-	const better_weapon = find_better_unequipped_weapon(state)
+	const better_weapon = find_better_unequipped_weapon(u_state)
 	if (better_weapon) {
 		state = equip_item(state, better_weapon.uuid)
 	}
-	const better_armor = find_better_unequipped_armor(state)
+	const better_armor = find_better_unequipped_armor(u_state)
 	if (better_armor) {
 		state = equip_item(state, better_armor.uuid)
 	}
@@ -109,6 +112,8 @@ function autoplay(state: Readonly<State>, options: Readonly<{ target_good_play_c
 
 	if (DEBUG) console.log(`- Autoplay...`)
 
+	let { u_state, t_state } = state
+
 	target_good_play_count = target_good_play_count || 0
 	target_bad_play_count = target_bad_play_count || 0
 	if (target_good_play_count < 0)
@@ -116,65 +121,76 @@ function autoplay(state: Readonly<State>, options: Readonly<{ target_good_play_c
 	if (target_bad_play_count < 0)
 		throw new Error('invalid target_bad_play_count!')
 	if (target_good_play_count === 0 && target_bad_play_count === 0)
-		target_good_play_count = state.progress.statistics.good_play_count + 1
+		target_good_play_count = u_state.progress.statistics.good_play_count + 1
 
 	let last_visited_timestamp_num = (() => {
-		const days_needed = Math.ceil((target_good_play_count - state.progress.statistics.good_play_count) / 8)
+		const days_needed = Math.ceil((target_good_play_count - u_state.progress.statistics.good_play_count) / 8)
 		const from_now = Number(get_human_readable_UTC_timestamp_days()) - days_needed
-		return Math.min(from_now, Number(state.progress.statistics.last_visited_timestamp))
+		return Math.min(from_now, Number(u_state.progress.statistics.last_visited_timestamp))
 	})()
-	if (last_visited_timestamp_num !== Number(state.progress.statistics.last_visited_timestamp)) {
-		state = {
-			...state,
+	if (last_visited_timestamp_num !== Number(u_state.progress.statistics.last_visited_timestamp)) {
+		u_state = {
+			...u_state,
 			progress: {
-				...state.progress,
+				...u_state.progress,
 				statistics: {
-					...state.progress.statistics,
+					...u_state.progress.statistics,
 					last_visited_timestamp: String(last_visited_timestamp_num)
 				}
 			}
+		}
+		state = {
+			...state,
+			u_state,
 		}
 	}
 	state = _autogroom(state, options)
 
 	// do we have energy?
-	let available_energy = get_available_energy_float(state)
+	let available_energy = get_available_energy_float(t_state)
 	let have_energy = available_energy >= 1.
 
-	if (target_bad_play_count > state.progress.statistics.bad_play_count) {
+	if (target_bad_play_count > u_state.progress.statistics.bad_play_count) {
 		if (have_energy) {
 			state = _loose_all_energy(state)
 		}
 
 		// play bad
-		for (let i = state.progress.statistics.bad_play_count; i < target_bad_play_count; ++i) {
+		for (let i = u_state.progress.statistics.bad_play_count; i < target_bad_play_count; ++i) {
 			if (DEBUG) console.log('  - playing bad...')
 			state = play(state)
 			state = _autogroom(state, options)
 		}
 	}
 
-	if (target_good_play_count > state.progress.statistics.good_play_count) {
+	if (target_good_play_count > u_state.progress.statistics.good_play_count) {
 		// play good
-		for (let i = state.progress.statistics.good_play_count; i < target_good_play_count; ++i) {
-			let available_energy = get_available_energy_float(state)
+		for (let i = u_state.progress.statistics.good_play_count; i < target_good_play_count; ++i) {
+			let available_energy = get_available_energy_float(t_state)
 			have_energy = available_energy >= 1.
 
 			if (!have_energy) {
 				// replenish and pretend one day has passed
-				let [ u_state, t_state ] = state.energy
-				t_state = EnergyState.restore_energy(state.energy)
+				const t_state_e = EnergyState.restore_energy([u_state.energy, t_state.energy])
 				last_visited_timestamp_num++
-				state = {
-					...state,
-					energy: [ u_state, t_state ],
+				u_state = {
+					...u_state,
 					progress: {
-						...state.progress,
+						...u_state.progress,
 						statistics: {
-							...state.progress.statistics,
+							...u_state.progress.statistics,
 							last_visited_timestamp: String(last_visited_timestamp_num)
 						}
 					}
+				}
+				t_state = {
+					...t_state,
+					energy: t_state_e
+				}
+				state = {
+					...state,
+					u_state,
+					t_state,
 				}
 			}
 

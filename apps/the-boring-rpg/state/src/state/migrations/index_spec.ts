@@ -14,7 +14,7 @@ import * as CodesState from '@oh-my-rpg/state-codes'
 import * as ProgressState from '@oh-my-rpg/state-progress'
 
 import {LIB, SCHEMA_VERSION} from '../../consts'
-import {migrate_to_latest, SUB_REDUCERS_COUNT} from '.'
+import {migrate_to_latest, SUB_U_REDUCERS_COUNT} from '.'
 import {get_lib_SEC} from '../../sec'
 
 import {create} from '..'
@@ -44,7 +44,7 @@ const MIGRATION_HINTS_FOR_TESTS: any = deepFreeze({
 })
 if (Object.keys(MIGRATION_HINTS_FOR_TESTS)
 	.filter(k => !k.startsWith('to_'))
-	.length !== SUB_REDUCERS_COUNT)
+	.length !== SUB_U_REDUCERS_COUNT)
 	throw new Error('the-boring-rpg migrations: MIGRATION_HINTS_FOR_TESTS is outdated!')
 
 function advanced_diff_json(a: JSONObject, b: JSONObject, { diff }: { diff?: JSONObject } = {}) {
@@ -85,7 +85,7 @@ describe(`${LIB} - schema migration`, function() {
 	describe('migration of a new state', function () {
 		const new_state = create()
 		// alter seed to avoid migration
-		new_state.prng.seed = 1234 // should match blank state spec
+		new_state.u_state.prng.seed = 1234 // should match blank state spec
 		// TODO ALPHA remove skip
 		test_migrations.skip({
 			use_hints: false,
@@ -232,8 +232,8 @@ describe(`${LIB} - schema migration`, function() {
 
 			// this state is too old
 			// we just check that it resets without crashing
-			expect(new_state.progress.statistics.good_play_count, 'good').to.equal(11)
-			expect(new_state.progress.statistics.bad_play_count, 'bad').to.equal(0)
+			expect(new_state.u_state.progress.statistics.good_play_count, 'good').to.equal(11)
+			expect(new_state.u_state.progress.statistics.bad_play_count, 'bad').to.equal(0)
 		})
 
 		it('should migrate v6 LiddiLidd 20181029', () => {
@@ -504,8 +504,8 @@ describe(`${LIB} - schema migration`, function() {
 			}
 
 			const new_state = migrate_to_latest(get_lib_SEC(), old_state)
-			expect(new_state.progress.statistics.good_play_count).to.equal(429)
-			expect(new_state.progress.statistics.bad_play_count).to.equal(433 - 429)
+			expect(new_state.u_state.progress.statistics.good_play_count).to.equal(429)
+			expect(new_state.u_state.progress.statistics.bad_play_count).to.equal(433 - 429)
 		})
 	})
 })

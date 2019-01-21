@@ -11,7 +11,7 @@ import { Document } from '@offirmo/rich-text-format'
 
 import { Element } from '@oh-my-rpg/definitions'
 import { CharacterClass } from '@oh-my-rpg/state-character'
-import { Item, get_item } from '@oh-my-rpg/state-inventory'
+import { Item } from '@oh-my-rpg/state-inventory'
 import { PendingEngagement } from "@oh-my-rpg/state-engagement"
 import * as PRNGState from '@oh-my-rpg/state-prng'
 import { AchievementSnapshot } from '@oh-my-rpg/state-progress'
@@ -56,7 +56,7 @@ function create_game_instance<T>({SEC, get_latest_state, persist_state, view_sta
 			}
 
 			// re-seed outside of the unit test path
-			if (state.prng.seed === PRNGState.DEFAULT_SEED) {
+			if (state.u_state.prng.seed === PRNGState.DEFAULT_SEED) {
 				// TODO still needed ? Report as error to check.
 				state = state_fns.reseed(state)
 				logger.warn('re-seeding that shouldn’t be needed!')
@@ -138,39 +138,39 @@ function create_game_instance<T>({SEC, get_latest_state, persist_state, view_sta
 			selectors: {
 				get_item(uuid: UUID): Item | null {
 					let state = get_latest_state()
-					return get_item(state.inventory, uuid)
+					return selectors.get_item(state.u_state, uuid)
 				},
 				appraise_item_value(uuid: UUID): number {
 					let state = get_latest_state()
-					return selectors.appraise_item_value(state, uuid)
+					return selectors.appraise_item_value(state.u_state, uuid)
 				},
 				appraise_item_power(uuid: UUID): number {
 					let state = get_latest_state()
-					return selectors.appraise_item_power(state, uuid)
+					return selectors.appraise_item_power(state.u_state, uuid)
 				},
 				find_element(uuid: UUID): Readonly<Element> | Readonly<AchievementSnapshot> | null {
 					let state = get_latest_state()
-					return selectors.find_element(state, uuid)
+					return selectors.find_element(state.u_state, uuid)
 				},
 				get_actions_for_element(uuid: UUID): Action[] {
 					let state = get_latest_state()
-					return get_actions_for_element(state, uuid)
+					return get_actions_for_element(state.u_state, uuid)
 				},
 				get_oldest_pending_flow_engagement(): { uid: number, $doc: Document, pe: PendingEngagement } | null {
 					let state = get_latest_state()
-					return selectors.get_oldest_pending_flow_engagement(state)
+					return selectors.get_oldest_pending_flow_engagement(state.u_state)
 				},
 				get_oldest_pending_non_flow_engagement(): { uid: number, $doc: Document, pe: PendingEngagement } | null {
 					let state = get_latest_state()
-					return selectors.get_oldest_pending_non_flow_engagement(state)
+					return selectors.get_oldest_pending_non_flow_engagement(state.u_state)
 				},
 				get_achievements_snapshot(): Readonly<AchievementSnapshot>[] {
 					let state = get_latest_state()
-					return selectors.get_achievements_snapshot(state)
+					return selectors.get_achievements_snapshot(state.u_state)
 				},
 				get_available_energy_float(): number {
 					let state = get_latest_state()
-					return selectors.get_available_energy_float(state)
+					return selectors.get_available_energy_float(state.t_state)
 				},
 				get_human_time_to_next_energy(): string {
 					let state = get_latest_state()
@@ -178,7 +178,7 @@ function create_game_instance<T>({SEC, get_latest_state, persist_state, view_sta
 				},
 				get_achievements_completion(): [number, number] {
 					let state = get_latest_state()
-					return selectors.get_achievements_completion(state)
+					return selectors.get_achievements_completion(state.u_state)
 				}
 			},
 

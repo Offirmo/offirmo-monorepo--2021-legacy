@@ -27,11 +27,11 @@ describe(`${LIB} - selectors / others`, function() {
 		context('when the element refers to an item', function() {
 
 			it('should find it', () => {
-				const state = create()
+				const { u_state } = create()
 
-				const armor = state.inventory.slotted.armor
+				const armor = u_state.inventory.slotted.armor
 
-				const element = find_element(state, armor!.uuid)
+				const element = find_element(u_state, armor!.uuid)
 
 				expect(element).to.deep.equal(armor)
 			})
@@ -40,9 +40,9 @@ describe(`${LIB} - selectors / others`, function() {
 		context('when the uuid refers to nothing', function() {
 
 			it('should return null', () => {
-				const state = create()
+				const { u_state } = create()
 
-				const element = find_element(state, 'foo')
+				const element = find_element(u_state, 'foo')
 
 				expect(element).to.be.null
 			})

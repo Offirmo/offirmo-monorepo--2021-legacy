@@ -41,13 +41,13 @@ describe(`${LIB} - reducer`, function() {
 				state = _loose_all_energy(state)
 
 				state = play(state)
-				expect(state.last_adventure).not.to.be.null
-				expect(state.last_adventure!.good).to.be.false
+				expect(state.u_state.last_adventure).not.to.be.null
+				expect(state.u_state.last_adventure!.good).to.be.false
 
 				// again
 				state = play(state)
-				expect(state.last_adventure).not.to.be.null
-				expect(state.last_adventure!.good).to.be.false
+				expect(state.u_state.last_adventure).not.to.be.null
+				expect(state.u_state.last_adventure!.good).to.be.false
 			})
 
 			it('should not decrease user stats')
@@ -74,13 +74,13 @@ describe(`${LIB} - reducer`, function() {
 				state = _loose_all_energy(state)
 
 				// force (for tests)
-				state.energy[1].available_energy = { n: 8, d: 10 }
+				state.t_state.energy.available_energy = { n: 8, d: 10 }
 
 				state = play(state)
-				expect(state.last_adventure).not.to.be.null
-				expect(state.last_adventure!.good).to.be.false
+				expect(state.u_state.last_adventure).not.to.be.null
+				expect(state.u_state.last_adventure!.good).to.be.false
 
-				expect(get_available_energy_float(state)).to.equal(0.) // was force depleted
+				expect(get_available_energy_float(state.t_state)).to.equal(0.) // was force depleted
 			})
 		})
 
@@ -89,8 +89,8 @@ describe(`${LIB} - reducer`, function() {
 			it('should sometime generate a story adventure', () => {
 				const state = play(create())
 
-				expect(state.last_adventure).not.to.be.null
-				expect(state.last_adventure!.good).to.be.true
+				expect(state.u_state.last_adventure).not.to.be.null
+				expect(state.u_state.last_adventure!.good).to.be.true
 			})
 
 			it('should correctly increment counters', () => {
@@ -117,7 +117,7 @@ describe(`${LIB} - reducer`, function() {
 						state = play(state, 'dying_man')
 
 						// we got money
-						expect(get_currency_amount(state.wallet, Currency.coin)).to.be.above(0)
+						expect(get_currency_amount(state.u_state.wallet, Currency.coin)).to.be.above(0)
 					})
 
 					it('should sometime be a token gain')
@@ -127,11 +127,11 @@ describe(`${LIB} - reducer`, function() {
 						state = play(state, 'rare_goods_seller')
 
 						// check our 2 predefined items are still present and equipped
-						expect(get_equipped_item_count(state.inventory), 'equipped').to.equal(2)
+						expect(get_equipped_item_count(state.u_state.inventory), 'equipped').to.equal(2)
 						// a new item is present
-						expect(get_unequipped_item_count(state.inventory), 'unequipped').to.equal(1)
+						expect(get_unequipped_item_count(state.u_state.inventory), 'unequipped').to.equal(1)
 						// it's a weapon !
-						expect(state.inventory.unslotted[0]).to.have.property('slot', 'armor')
+						expect(state.u_state.inventory.unslotted[0]).to.have.property('slot', 'armor')
 					})
 					it('should sometime be an item improvement')
 				})
@@ -141,19 +141,19 @@ describe(`${LIB} - reducer`, function() {
 
 				it('should generate a suitable enemy', () => {
 					let state = create()
-					state.avatar.attributes.level = 500
+					state.u_state.avatar.attributes.level = 500
 
 					for(let i = 0; i < 100; ++i) {
-						state.energy[1].available_energy = { n: 7, d: 1 } // force replenish for tests
+						state.t_state.energy.available_energy = { n: 7, d: 1 } // force replenish for tests
 						state = play(state)
-						if (state.last_adventure!.hid.startsWith('fight_'))
+						if (state.u_state.last_adventure!.hid.startsWith('fight_'))
 							break
 					}
 
 					//console.log(state.last_adventure)
-					expect(state.last_adventure, 'fight adventure').to.exist
-					expect(state.last_adventure!.encounter, 'encounter field').to.exist
-					expect(state.last_adventure!.encounter!.level).to.be.within(400, 600)
+					expect(state.u_state.last_adventure, 'fight adventure').to.exist
+					expect(state.u_state.last_adventure!.encounter, 'encounter field').to.exist
+					expect(state.u_state.last_adventure!.encounter!.level).to.be.within(400, 600)
 				})
 			})
 		})

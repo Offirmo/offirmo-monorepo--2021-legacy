@@ -67,26 +67,34 @@ const STARTING_ARMOR_SPEC: Readonly<Partial<Armor>> = {
 
 function create(SEC?: SoftExecutionContext): Readonly<State> {
 	return get_lib_SEC(SEC).xTry('create', ({enforce_immutability}: OMRContext) => {
+		let [ u_state_energy, t_state_energy ] = EnergyState.create()
+
 		let state: Readonly<State> = {
-			schema_version: SCHEMA_VERSION,
-			revision: 0,
+			u_state: {
+				schema_version: SCHEMA_VERSION,
+				revision: 0,
 
-			uuid: generate_uuid(),
-			creation_date: get_human_readable_UTC_timestamp_minutes(),
+				uuid: generate_uuid(),
+				creation_date: get_human_readable_UTC_timestamp_minutes(),
 
-			avatar: CharacterState.create(SEC),
-			inventory: InventoryState.create(SEC),
-			wallet: WalletState.create(),
-			prng: PRNGState.create(),
-			energy: EnergyState.create(),
-			engagement: EngagementState.create(SEC),
-			codes: CodesState.create(SEC),
-			progress: ProgressState.create(SEC),
+				avatar: CharacterState.create(SEC),
+				inventory: InventoryState.create(SEC),
+				wallet: WalletState.create(),
+				prng: PRNGState.create(),
+				energy: u_state_energy,
+				engagement: EngagementState.create(SEC),
+				codes: CodesState.create(SEC),
+				progress: ProgressState.create(SEC),
 
-			last_adventure: null,
+				last_adventure: null,
+			},
+			t_state: {
+				schema_version: SCHEMA_VERSION,
+				energy: t_state_energy,
+			},
 		}
 
-		let rng = get_prng(state.prng)
+		let rng = get_prng(state.u_state.prng)
 
 		const starting_weapon = create_weapon(rng, STARTING_WEAPON_SPEC)
 		state = _receive_item(state, starting_weapon)
@@ -103,19 +111,24 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 		// now insert some relevant start engagements
 		state = {
 			...state,
-			engagement: EngagementState.enqueue(state.engagement, {
-				type: EngagementState.EngagementType.flow,
-				key: EngagementKey['tip--first_play']
-			}),
+			u_state: {
+				...state.u_state,
+				engagement: EngagementState.enqueue(state.u_state.engagement, {
+					type: EngagementState.EngagementType.flow,
+					key: EngagementKey['tip--first_play']
+				}),
+			},
 		}
 
 		//state.prng = PRNGState.update_use_count(state.prng, rng)
 
 		state = {
 			...state,
-
-			// to compensate sub-functions used during build
-			revision: 0,
+			u_state: {
+				...state.u_state,
+				// to compensate sub-functions used during build
+				revision: 0,
+			},
 		}
 
 		state = _update_to_now(state) // not sure needed but doesn't hurt
@@ -127,9 +140,14 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 function reseed(state: Readonly<State>, seed?: number): Readonly<State> {
 	seed = seed || generate_random_seed()
 
+	let { u_state } = state
+
 	state = {
 		...state,
-		prng: PRNGState.set_seed(state.prng, seed),
+		u_state: {
+			...u_state,
+			prng: PRNGState.set_seed(u_state.prng, seed),
+		},
 	}
 
 	return state

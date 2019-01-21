@@ -47,8 +47,10 @@ const get_seed = mb('prng', 'seed')
 
 const get_good_play_count_v4 = mb('good_click_count')
 const get_good_play_count_v7 = mb('progress', 'statistics', 'good_play_count')
+const get_good_play_count_v9 = mb('u_state', 'progress', 'statistics', 'good_play_count')
 const get_good_play_count = (ls: any) => coerce_to_number_or_zero(
-	get_good_play_count_v7(ls)
+	get_good_play_count_v9(ls)
+	|| get_good_play_count_v7(ls)
 	|| get_good_play_count_v4(ls)
 )
 
@@ -56,8 +58,10 @@ const get_play_count_v4 = mb('click_count')
 const get_bad_play_count_v4 = (ls: any) =>
 	coerce_to_number_or_zero(get_play_count_v4(ls)) - coerce_to_number_or_zero(get_good_play_count_v4(ls))
 const get_bad_play_count_v7 = mb('progress', 'statistics', 'bad_play_count')
+const get_bad_play_count_v9 = mb('u_state', 'progress', 'statistics', 'bad_play_count')
 const get_bad_play_count = (ls: any) => coerce_to_number_or_zero(
-	get_bad_play_count_v7(ls)
+	get_bad_play_count_v9(ls)
+	|| get_bad_play_count_v7(ls)
 	|| get_bad_play_count_v4(ls)
 )
 

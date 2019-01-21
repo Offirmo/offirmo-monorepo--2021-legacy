@@ -57,89 +57,129 @@ function __compare_items_by_normalized_power(a: Readonly<Item>, b: Readonly<Item
 // note: some are mainly used in tests
 
 function _loose_all_energy(state: Readonly<State>): Readonly<State> {
-	let [ u_state, t_state ] = state.energy
-	t_state = EnergyState.loose_all_energy(state.energy)
+	let { u_state, t_state } = state
+
+	const t_state_e = EnergyState.loose_all_energy([u_state.energy, t_state.energy])
+
 	return {
 		...state,
-		energy: [ u_state, t_state ],
+		t_state: {
+			...t_state,
+			energy: t_state_e,
+		}
 	}
 }
 
 function _update_to_now(state: Readonly<State>, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Readonly<State> {
-	let [ u_state, t_state ] = state.energy
-	t_state = EnergyState.update_to_now(state.energy, now_ms)
+	let { u_state, t_state } = state
 
-	if (t_state === state.energy[1])
+	const t_state_e = EnergyState.update_to_now([u_state.energy, t_state.energy], now_ms)
+
+	if (t_state_e === t_state.energy)
 		return state // no change
 
 	return {
 		...state,
-		energy: [ u_state, t_state ],
+		t_state: {
+			...t_state,
+			energy: t_state_e,
+		}
 	}
 }
 
 function _receive_stat_increase(state: Readonly<State>, stat: CharacterAttribute, amount = 1): Readonly<State> {
+	let { u_state } = state
+
 	return {
 		...state,
-		avatar: increase_stat(get_lib_SEC(), state.avatar, stat, amount),
+		u_state: {
+			...u_state,
+			avatar: increase_stat(get_lib_SEC(), u_state.avatar, stat, amount),
+		}
 	}
 }
 
 function _receive_item(state: Readonly<State>, item: Item): Readonly<State> {
 	// inventory shouldn't be full since we prevent playing in this case
+	let { u_state } = state
+
 	return {
 		...state,
-		inventory: InventoryState.add_item(state.inventory, item),
+		u_state: {
+			...u_state,
+			inventory: InventoryState.add_item(u_state.inventory, item),
+		}
 	}
 }
 
 function _sell_item(state: Readonly<State>, uuid: UUID): Readonly<State> {
-	const price = appraise_item_value(state, uuid)
+	let { u_state } = state
+
+	const price = appraise_item_value(u_state, uuid)
 
 	return {
 		...state,
-		inventory: InventoryState.remove_item_from_unslotted(state.inventory, uuid),
-		wallet: WalletState.add_amount(state.wallet, Currency.coin, price),
+		u_state: {
+			...u_state,
+			inventory: InventoryState.remove_item_from_unslotted(u_state.inventory, uuid),
+			wallet: WalletState.add_amount(u_state.wallet, Currency.coin, price),
+		}
 	}
 }
 
 function _receive_coins(state: Readonly<State>, amount: number): Readonly<State> {
+	let { u_state } = state
+
 	return {
 		...state,
-		wallet: WalletState.add_amount(state.wallet, Currency.coin, amount),
+		u_state: {
+			...u_state,
+			wallet: WalletState.add_amount(u_state.wallet, Currency.coin, amount),
+		}
 	}
 }
 
 function _receive_tokens(state: Readonly<State>, amount: number): Readonly<State> {
+	let { u_state } = state
+
 	return {
 		...state,
-		wallet: WalletState.add_amount(state.wallet, Currency.token, amount),
+		u_state: {
+			...u_state,
+			wallet: WalletState.add_amount(u_state.wallet, Currency.token, amount),
+		}
 	}
 }
 
 ////////////
 
 function _ack_all_engagements(state: Readonly<State>): Readonly<State> {
-	if (!state.engagement.queue.length) return state
+	let { u_state } = state
+
+	if (!u_state.engagement.queue.length) return state
 
 	return {
 		...state,
-		engagement: EngagementState.acknowledge_all_seen(state.engagement),
+		u_state: {
+			...u_state,
+			engagement: EngagementState.acknowledge_all_seen(u_state.engagement),
+		}
 	}
 }
 
 function _auto_make_room(state: Readonly<State>, options: { DEBUG?: boolean } = {}): Readonly<State> {
 	const { DEBUG } = options
+	let { u_state } = state
 
-	if (DEBUG) console.log(`  - _auto_make_room()… (inventory holding ${state.inventory.unslotted.length} items)`)
+	if (DEBUG) console.log(`  - _auto_make_room()… (inventory holding ${u_state.inventory.unslotted.length} items)`)
 
 	// inventory full
-	if (is_inventory_full(state)) {
-		if (DEBUG) console.log(`    Inventory is full (${state.inventory.unslotted.length} items)`)
+	if (is_inventory_full(u_state)) {
+		if (DEBUG) console.log(`    Inventory is full (${u_state.inventory.unslotted.length} items)`)
 		let freed_count = 0
 
 		// sell stuff, starting from the worst, but keeping the starting items (for sentimental reasons)
-		Array.from(state.inventory.unslotted)
+		Array.from(u_state.inventory.unslotted)
 			.filter((e: Readonly<Item>) => {
 				switch (e.slot) {
 					case InventorySlot.armor:
@@ -183,7 +223,7 @@ function _auto_make_room(state: Readonly<State>, options: { DEBUG?: boolean } = 
 		if (freed_count === 0)
 			throw new Error('Internal error: _auto_make_room(): inventory is full and couldn’t free stuff!')
 
-		if (DEBUG) console.log(`    Freed ${freed_count} items, inventory now holding ${state.inventory.unslotted.length} items.`)
+		if (DEBUG) console.log(`    Freed ${freed_count} items, inventory now holding ${u_state.inventory.unslotted.length} items.`)
 	}
 
 	return state

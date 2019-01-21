@@ -10,7 +10,7 @@ import {
 	EngagementType,
 } from '@oh-my-rpg/state-engagement'
 
-import { State } from '../../../types'
+import { State, UState } from '../../../types'
 
 import ACHIEVEMENT_DEFINITIONS from '../../../data/achievements'
 import {EngagementKey} from "../../../engagement";
@@ -18,15 +18,16 @@ import {EngagementKey} from "../../../engagement";
 /////////////////////
 
 function _refresh_achievements(state: Readonly<State>): Readonly<State> {
+	let { u_state, t_state } = state
 	let changed = false
 	let progress: ProgressState = {
-		...state.progress
+		...u_state.progress
 	}
 
-	ACHIEVEMENT_DEFINITIONS.forEach((definition: AchievementDefinition<State>) => {
+	ACHIEVEMENT_DEFINITIONS.forEach((definition: AchievementDefinition<UState>) => {
 		const { icon, name } = definition
 		const last_known_status = get_last_known_achievement_status(progress, name)
-		const current_status = definition.get_status(state)
+		const current_status = definition.get_status(u_state)
 
 		// Don't remove an achievement
 		// if it was a bug, it should be revoked in a migration
@@ -39,9 +40,9 @@ function _refresh_achievements(state: Readonly<State>): Readonly<State> {
 		progress = on_achieved(progress, name, current_status)
 		// need to tell the user?
 		if (current_status === AchievementStatus.unlocked) {
-			state = {
-				...state,
-				engagement: enqueueEngagement(state.engagement, {
+			u_state = {
+			...u_state,
+					engagement: enqueueEngagement(u_state.engagement, {
 					type: EngagementType.aside,
 					key: EngagementKey['achievement-unlocked'],
 				}, {
@@ -59,7 +60,10 @@ function _refresh_achievements(state: Readonly<State>): Readonly<State> {
 
 	return {
 		...state,
-		progress,
+		u_state: {
+			...u_state,
+			progress,
+		}
 	}
 }
 

@@ -42,24 +42,27 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<
 	code = CodesState.normalize_code(code)
 	const code_spec = CODE_SPECS_BY_KEY[code]
 
-	if (!code_spec || !CodesState.is_code_redeemable(state.codes, code_spec, state)) {
+	let { u_state, t_state } = state
+	if (!code_spec || !CodesState.is_code_redeemable(state.u_state.codes, code_spec, state)) {
 		// this should not having been called
 		// nothing to do, will trigger an engagement rejection
 	}
 	else {
 		state = _update_to_now(state)
-		state = {
-			...state,
-			codes: CodesState.attempt_to_redeem_code(state.codes, code_spec, state),
+		u_state = state.u_state
+		t_state = state.t_state
+		u_state = {
+			...u_state,
+			codes: CodesState.attempt_to_redeem_code(u_state.codes, code_spec, state),
 		}
 
 		engagement_key = EngagementKey['code_redemption--succeeded']
 		engagement_params.code = code
 		switch(code) {
 			case 'TESTNOTIFS':
-				state = {
-					...state,
-					engagement: EngagementState.enqueue(state.engagement, {
+				u_state = {
+					...u_state,
+					engagement: EngagementState.enqueue(u_state.engagement, {
 						type: EngagementState.EngagementType.flow,
 						key: EngagementKey['hello_world--flow'],
 					}, {
@@ -67,18 +70,18 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<
 						name: 'flow from TESTNOTIFS',
 					}),
 				}
-				state = {
-					...state,
-					engagement: EngagementState.enqueue(state.engagement, {
+				u_state = {
+					...u_state,
+					engagement: EngagementState.enqueue(u_state.engagement, {
 						type: EngagementState.EngagementType.aside,
 						key: EngagementKey['hello_world--aside'],
 					}, {
 						name: 'aside default from TESTNOTIFS',
 					}),
 				}
-				state = {
-					...state,
-					engagement: EngagementState.enqueue(state.engagement, {
+				u_state = {
+					...u_state,
+					engagement: EngagementState.enqueue(u_state.engagement, {
 						type: EngagementState.EngagementType.aside,
 						key: EngagementKey['hello_world--aside'],
 					}, {
@@ -86,9 +89,9 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<
 						name: 'aside error from TESTNOTIFS',
 					}),
 				}
-				state = {
-					...state,
-					engagement: EngagementState.enqueue(state.engagement, {
+				u_state = {
+					...u_state,
+					engagement: EngagementState.enqueue(u_state.engagement, {
 						type: EngagementState.EngagementType.aside,
 						key: EngagementKey['hello_world--aside'],
 					}, {
@@ -96,9 +99,9 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<
 						name: 'aside warning from TESTNOTIFS',
 					}),
 				}
-				state = {
-					...state,
-					engagement: EngagementState.enqueue(state.engagement, {
+				u_state = {
+					...u_state,
+					engagement: EngagementState.enqueue(u_state.engagement, {
 						type: EngagementState.EngagementType.aside,
 						key: EngagementKey['hello_world--aside'],
 					}, {
@@ -106,9 +109,9 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<
 						name: 'aside info from TESTNOTIFS',
 					}),
 				}
-				state = {
-					...state,
-					engagement: EngagementState.enqueue(state.engagement, {
+				u_state = {
+					...u_state,
+					engagement: EngagementState.enqueue(u_state.engagement, {
 						type: EngagementState.EngagementType.aside,
 						key: EngagementKey['hello_world--aside'],
 					}, {
@@ -116,9 +119,9 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<
 						name: 'aside success from TESTNOTIFS',
 					}),
 				}
-				state = {
-					...state,
-					engagement: EngagementState.enqueue(state.engagement, {
+				u_state = {
+					...u_state,
+					engagement: EngagementState.enqueue(u_state.engagement, {
 						type: EngagementState.EngagementType.warning,
 						key: EngagementKey['hello_world--warning'],
 					}, {
@@ -129,28 +132,27 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<
 
 			case 'TESTACH':
 				// complicated, but will auto-re-gain this achievement
-				state = {
-					...state,
-					progress: ProgressState.on_achieved(state.progress, 'TEST', ProgressState.AchievementStatus.revealed)
+				u_state = {
+					...u_state,
+					progress: ProgressState.on_achieved(u_state.progress, 'TEST', ProgressState.AchievementStatus.revealed)
 				}
 				break
 
 			case 'BORED': {
-				let [ u_state, t_state ] = state.energy
-				t_state = EnergyState.restore_energy(state.energy, 1.)
+				const t_state_e = EnergyState.restore_energy([u_state.energy, t_state.energy], 1.)
 
-				state = {
-					...state,
-					energy: [ u_state, t_state ],
+				t_state = {
+					...t_state,
+					energy: t_state_e,
 				}
 				break
 			}
 
 			case 'XYZZY':
 				// http://www.plover.net/~davidw/sol/xyzzy.html
-				state = {
-					...state,
-					engagement: EngagementState.enqueue(state.engagement, {
+				u_state = {
+					...u_state,
+					engagement: EngagementState.enqueue(u_state.engagement, {
 						type: EngagementState.EngagementType.flow,
 						key: EngagementKey['just-some-text'],
 					}, {
@@ -162,9 +164,9 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<
 
 			case 'PLUGH':
 				// http://www.plover.net/~davidw/sol/plugh.html
-				state = {
-					...state,
-					engagement: EngagementState.enqueue(state.engagement, {
+				u_state = {
+					...u_state,
+					engagement: EngagementState.enqueue(u_state.engagement, {
 						type: EngagementState.EngagementType.flow,
 						key: EngagementKey['just-some-text'],
 					}, {
@@ -176,30 +178,36 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<
 			case 'REBORNX':
 				state = reseed(state) // force random reseed to see new stuff
 				state = reset_and_salvage(state as any)
-				state = {
-					...state,
-					progress: ProgressState.on_achieved(state.progress, 'Reborn!', ProgressState.AchievementStatus.unlocked)
+				u_state = state.u_state
+				t_state = state.t_state
+				u_state = {
+					...u_state,
+					progress: ProgressState.on_achieved(u_state.progress, 'Reborn!', ProgressState.AchievementStatus.unlocked)
 				}
 				break
 			case 'REBORN':
 				state = reset_and_salvage(state as any)
-				state = {
-					...state,
-					progress: ProgressState.on_achieved(state.progress, 'Reborn!', ProgressState.AchievementStatus.unlocked)
+				u_state = state.u_state
+				t_state = state.t_state
+				u_state = {
+					...u_state,
+					progress: ProgressState.on_achieved(u_state.progress, 'Reborn!', ProgressState.AchievementStatus.unlocked)
 				}
 				break
 
 			case 'ALPHATWINK': {
-				const rng = get_prng(state.prng)
+				const rng = get_prng(u_state.prng)
 				const weapon = create_weapon(rng, { quality: ItemQuality.artifact })
 				const armor = create_armor(rng, { quality: ItemQuality.artifact })
 				state = _auto_make_room(state)
 				state = _receive_item(state, weapon)
 				state = _auto_make_room(state)
 				state = _receive_item(state, armor)
-				state = {
-					...state,
-					prng: PRNGState.update_use_count(state.prng, rng, 8),
+				u_state = state.u_state
+				t_state = state.t_state
+				u_state = {
+					...u_state,
+					prng: PRNGState.update_use_count(u_state.prng, rng, 8),
 				}
 				break
 			}
@@ -207,15 +215,25 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<
 			default:
 				throw new Error(`Internal error: code "${code}" not implemented!`)
 		}
+
+		state = {
+			...state,
+			u_state,
+			t_state,
+		}
 	}
 
 	return _refresh_achievements({
 		...state,
-		engagement: EngagementState.enqueue(state.engagement, {
-			type: EngagementState.EngagementType.flow,
-			key: engagement_key,
-		}, engagement_params),
-		revision: state.revision + 1,
+		u_state: {
+			...u_state,
+			engagement: EngagementState.enqueue(u_state.engagement, {
+				type: EngagementState.EngagementType.flow,
+				key: engagement_key,
+			}, engagement_params),
+			revision: u_state.revision + 1,
+		},
+		t_state,
 	})
 }
 
