@@ -4,7 +4,7 @@ import * as RichText from '@offirmo/rich-text-format'
 
 import { generate_random_demo_weapon, DEMO_WEAPON_1, DEMO_WEAPON_2 } from '@oh-my-rpg/logic-weapons'
 
-const { rich_text_to_ansi } = require('../../../../apps/the-boring-rpg-node/src/services/rich_text_to_ansi')
+const { rich_text_to_ansi } = require('../../../../apps/the-boring-rpg/client-node/src/services/rich_text_to_ansi')
 
 import { render_weapon_detailed } from '.'
 

@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 
 import { DEMO_STATE } from '@oh-my-rpg/state-meta'
-const { rich_text_to_ansi } = require('../../../../apps/the-boring-rpg-node/src/services/rich_text_to_ansi')
+const { rich_text_to_ansi } = require('../../../../apps/the-boring-rpg/client-node/src/services/rich_text_to_ansi')
 
 import {
 	render_account_info,

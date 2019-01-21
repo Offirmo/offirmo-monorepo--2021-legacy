@@ -9,7 +9,7 @@ import {
 	add_amount,
 } from '@oh-my-rpg/state-wallet'
 
-const { rich_text_to_ansi } = require('../../../../apps/the-boring-rpg-node/src/services/rich_text_to_ansi')
+const { rich_text_to_ansi } = require('../../../../apps/the-boring-rpg/client-node/src/services/rich_text_to_ansi')
 
 import {
 	render_wallet,
