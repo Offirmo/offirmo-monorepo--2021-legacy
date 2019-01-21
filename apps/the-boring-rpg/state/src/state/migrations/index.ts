@@ -16,10 +16,10 @@ import { reset_and_salvage } from './salvage'
 /////////////////////
 
 const SUB_U_REDUCERS_COUNT = 8
-const SUB_U_OTHER_KEYS_COUNT = 5
+const SUB_U_OTHER_KEYS_COUNT = 4
 
 const SUB_T_REDUCERS_COUNT = 1
-const SUB_T_OTHER_KEYS_COUNT = 1
+const SUB_T_OTHER_KEYS_COUNT = 0
 
 
 function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any> = {}): State {
@@ -29,9 +29,6 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any
 
 		if (legacy_state.schema_version)
 			return legacy_state.schema_version
-
-		if (legacy_state.u_state)
-			return legacy_state.u_state.schema_version
 
 		return 0
 	})()
@@ -111,7 +108,7 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any
 				t_state = { ...t_state } // TODO remove this mutation if possible
 
 				let sub_reducer_migrated = []
-				t_state.energy = EnergyState.migrate_to_latest(SEC, [ t_state.energy, t_state.energy ], hints.energy)[1]
+				t_state.energy = EnergyState.migrate_to_latest(SEC, [ u_state.energy, t_state.energy ], hints.energy)[1]
 				sub_reducer_migrated.push('energy')
 
 				if (sub_reducer_migrated.length !== SUB_T_REDUCERS_COUNT)
@@ -123,7 +120,7 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any
 				u_state,
 				t_state,
 			}
-			logger.info(`${LIB}: schema migration successful.`)
+			logger.info(`${LIB}: schema migration from v${legacy_version} to v${SCHEMA_VERSION} successful.`)
 			SEC.fireAnalyticsEvent('schema migration.ended')
 		}
 		catch (err) {

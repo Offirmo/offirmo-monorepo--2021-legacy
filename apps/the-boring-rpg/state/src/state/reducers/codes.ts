@@ -43,7 +43,7 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<
 	const code_spec = CODE_SPECS_BY_KEY[code]
 
 	let { u_state, t_state } = state
-	if (!code_spec || !CodesState.is_code_redeemable(state.u_state.codes, code_spec, state)) {
+	if (!code_spec || !CodesState.is_code_redeemable(u_state.codes, code_spec, state)) {
 		// this should not having been called
 		// nothing to do, will trigger an engagement rejection
 	}
@@ -139,11 +139,9 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<
 				break
 
 			case 'BORED': {
-				const t_state_e = EnergyState.restore_energy([u_state.energy, t_state.energy], 1.)
-
 				t_state = {
 					...t_state,
-					energy: t_state_e,
+					energy: EnergyState.restore_energy([u_state.energy, t_state.energy], 1.),
 				}
 				break
 			}
@@ -214,12 +212,6 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<
 
 			default:
 				throw new Error(`Internal error: code "${code}" not implemented!`)
-		}
-
-		state = {
-			...state,
-			u_state,
-			t_state,
 		}
 	}
 

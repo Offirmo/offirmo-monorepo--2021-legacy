@@ -49,14 +49,12 @@ function pick_random_non_repetitive_bad_archetype(u_state: Readonly<UState>, rng
 }
 
 function play_bad(state: Readonly<State>, explicit_adventure_archetype_hid?: string): Readonly<State> {
-	let { u_state, t_state } = state
-
-	let prng_state = u_state.prng
+	let prng_state = state.u_state.prng
 	const rng = get_prng(prng_state)
 
 	const aa: AdventureArchetype = explicit_adventure_archetype_hid
 		? get_archetype(explicit_adventure_archetype_hid)
-		: pick_random_non_repetitive_bad_archetype(u_state, rng)
+		: pick_random_non_repetitive_bad_archetype(state.u_state, rng)
 
 	if (!aa)
 		throw new Error(`${LIB}: play_bad(): hinted adventure archetype "${explicit_adventure_archetype_hid}" could not be found!`)
@@ -65,13 +63,13 @@ function play_bad(state: Readonly<State>, explicit_adventure_archetype_hid?: str
 		throw new Error(`${LIB}: play_bad(): hinted adventure archetype "${explicit_adventure_archetype_hid}" is a "good click" one!`)
 
 	if (!explicit_adventure_archetype_hid) {
-		prng_state = PRNGState.update_use_count(u_state.prng, rng)
+		prng_state = PRNGState.update_use_count(state.u_state.prng, rng)
 	}
 
 	state = {
 		...state,
 		u_state: {
-			...u_state,
+			...state.u_state,
 			prng: register_recently_used(
 				prng_state,
 				ADVENTURE_BAD_NON_REPETITION_ID,

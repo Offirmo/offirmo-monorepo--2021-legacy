@@ -35,15 +35,14 @@ describe(`${LIB} - schema migration`, function() {
 				},
 				"click_count": GOOD_PLAY_COUNT + BAD_PLAY_COUNT,
 				"good_click_count": GOOD_PLAY_COUNT,
-				"meaningful_interaction_count": GOOD_PLAY_COUNT + BAD_PLAY_COUNT,
 			})
 
 			const salvaged_state = reset_and_salvage(PSEUDO_V4)
 
 			expect(salvaged_state.u_state.avatar.name).to.equal(NAME)
 			expect(salvaged_state.u_state.avatar.klass).to.equal(CLASS)
-			expect(salvaged_state.u_state.progress.statistics.good_play_count).to.equal(GOOD_PLAY_COUNT)
-			expect(salvaged_state.u_state.progress.statistics.bad_play_count).to.equal(BAD_PLAY_COUNT)
+			expect(salvaged_state.u_state.progress.statistics.good_play_count, 'good').to.equal(GOOD_PLAY_COUNT)
+			expect(salvaged_state.u_state.progress.statistics.bad_play_count, 'bad').to.equal(BAD_PLAY_COUNT)
 		})
 
 		it('should be able to salvage a v6+ savegame', () => {
@@ -93,6 +92,57 @@ describe(`${LIB} - schema migration`, function() {
 		})
 
 		it('should be able to salvage a v7+ savegame', () => {
+			const NAME = 'LiddiLidd'
+			const CLASS = "warrior"
+			const GOOD_PLAY_COUNT = 429
+			const BAD_PLAY_COUNT = 433 - 429
+
+			const PSEUDO_V7 = deepFreeze({
+				"schema_version": 6,
+				"revision": 485,
+				"uuid": "uu1EO9VgTjPlR1YPj0yfdWjG",
+				"creation_date": "20180813_00h33",
+				"avatar": {
+					"schema_version": 2,
+					"revision": 326,
+					"name": NAME,
+					"klass": CLASS,
+					"attributes": {
+						"level": 19,
+						"health": 51,
+						"mana": 41,
+						"strength": 83,
+						"agility": 30,
+						"charisma": 30,
+						"wisdom": 46,
+						"luck": 31
+					}
+				},
+				"prng": {
+					"schema_version": 2,
+					"revision": 452,
+					"seed": 1425674993,
+					"use_count": 2867,
+				},
+				"progress": {
+					"statistics": {
+						"last_visited_timestamp": "20180813",
+						"active_day_count": 12,
+						"good_play_count": GOOD_PLAY_COUNT,
+						"bad_play_count": BAD_PLAY_COUNT,
+					},
+				},
+			})
+
+			const salvaged_state = reset_and_salvage(PSEUDO_V7 as any)
+
+			expect(salvaged_state.u_state.avatar.name).to.equal(NAME)
+			expect(salvaged_state.u_state.avatar.klass).to.equal(CLASS)
+			expect(salvaged_state.u_state.progress.statistics.good_play_count).to.equal(GOOD_PLAY_COUNT)
+			expect(salvaged_state.u_state.progress.statistics.bad_play_count).to.equal(BAD_PLAY_COUNT)
+		})
+
+		it('should be able to salvage a v9+ savegame', () => {
 			const salvaged_state = reset_and_salvage(DEMO_STATE as any)
 
 			expect(salvaged_state.u_state.avatar.name).to.equal('Perte')

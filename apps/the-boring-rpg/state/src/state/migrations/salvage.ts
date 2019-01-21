@@ -41,9 +41,17 @@ function coerce_to_number_or_zero(x: any): number {
 	return Number.isNaN(res) ? 0 : res
 }
 
-const get_name = mb('avatar', 'name')
-const get_class = mb('avatar', 'klass')
-const get_seed = mb('prng', 'seed')
+const get_name_v4 = mb('avatar', 'name')
+const get_name_v9 = mb('u_state', 'avatar', 'name')
+const get_name = (ls: any) => get_name_v9(ls) || get_name_v4(ls)
+
+const get_class_v4 = mb('avatar', 'klass')
+const get_class_v9 = mb('u_state', 'avatar', 'klass')
+const get_class = (ls: any) => get_class_v9(ls) || get_class_v4(ls)
+
+const get_seed_v4 = mb('prng', 'seed')
+const get_seed_v9 = mb('u_state', 'prng', 'seed')
+const get_seed = (ls: any) => get_seed_v9(ls) || get_seed_v4(ls)
 
 const get_good_play_count_v4 = mb('good_click_count')
 const get_good_play_count_v7 = mb('progress', 'statistics', 'good_play_count')
@@ -68,6 +76,8 @@ const get_bad_play_count = (ls: any) => coerce_to_number_or_zero(
 /////////////////////
 
 function reset_and_salvage(legacy_state: Readonly<JSONObject>): Readonly<State> {
+	console.info(`${LIB}: salvaging some data from a v${legacy_state && legacy_state.schema_version} legacy savegame.`)
+
 	xxx_internal_reset_prng_cache() // don't do this at home, kids!
 	let state = create()
 
@@ -96,12 +106,19 @@ function reset_and_salvage(legacy_state: Readonly<JSONObject>): Readonly<State> 
 		state = change_avatar_class(state, klass as CharacterClass)
 	}
 
+	const good_play_count = get_good_play_count(legacy_state)
+	if (good_play_count === 0) {
+		console.warn(`${LIB}: salvaging: may need to update the good play count salvaging!`)
+	}
+
+	const bad_play_count = get_bad_play_count(legacy_state)
+
 	state = autoplay(state, {
-		target_good_play_count: get_good_play_count(legacy_state),
-		target_bad_play_count: get_bad_play_count(legacy_state),
+		target_good_play_count: good_play_count,
+		target_bad_play_count: bad_play_count,
 	})
 
-	console.info(`${LIB}: salvaging: salvaged some savegame data.`)
+	console.info(`${LIB}: salvaged some data from a v${legacy_state && legacy_state.schema_version} legacy savegame.`)
 
 	return state
 }

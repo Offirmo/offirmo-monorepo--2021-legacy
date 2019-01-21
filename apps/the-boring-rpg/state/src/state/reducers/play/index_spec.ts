@@ -6,7 +6,6 @@ import {
 	get_unequipped_item_count,
 	get_equipped_item_count,
 } from '@oh-my-rpg/state-inventory'
-import * as EnergyState from '@oh-my-rpg/state-energy'
 
 import {
 	Currency,
@@ -28,7 +27,7 @@ import {
 	play,
 } from '..'
 
-describe(`${LIB} - reducer`, function() {
+describe(`${LIB} - reducer - play`, function() {
 	beforeEach(() => xxx_internal_reset_prng_cache())
 
 	describe('🤘🏽 play', function() {
@@ -59,13 +58,13 @@ describe(`${LIB} - reducer`, function() {
 
 				state = play(state)
 
-				expect(state).to.have.nested.property('progress.statistics.bad_play_count', 1)
-				expect(state).to.have.nested.property('progress.statistics.bad_play_count_by_active_class.novice', 1)
+				expect(state.u_state.progress.statistics.bad_play_count).to.equal(1)
+				expect(state.u_state.progress.statistics.bad_play_count_by_active_class.novice).to.equal(1)
 
 				state = play(state)
 
-				expect(state).to.have.nested.property('progress.statistics.bad_play_count', 2)
-				expect(state).to.have.nested.property('progress.statistics.bad_play_count_by_active_class.novice', 2)
+				expect(state.u_state.progress.statistics.bad_play_count).to.equal(2)
+				expect(state.u_state.progress.statistics.bad_play_count_by_active_class.novice).to.equal(2)
 			})
 
 			it('should punish a bit the user (ex. by increasing the cooldown)', () => {
@@ -96,13 +95,13 @@ describe(`${LIB} - reducer`, function() {
 			it('should correctly increment counters', () => {
 				let state = play(create())
 
-				expect(state).to.have.nested.property('progress.statistics.good_play_count', 1)
-				expect(state).to.have.nested.property('progress.statistics.good_play_count_by_active_class.novice', 1)
+				expect(state.u_state.progress.statistics.good_play_count).to.equal(1)
+				expect(state.u_state.progress.statistics.good_play_count_by_active_class.novice).to.equal(1)
 
 				state = play(state)
 
-				expect(state).to.have.nested.property('progress.statistics.good_play_count', 2)
-				expect(state).to.have.nested.property('progress.statistics.good_play_count_by_active_class.novice', 2)
+				expect(state.u_state.progress.statistics.good_play_count).to.equal(2)
+				expect(state.u_state.progress.statistics.good_play_count_by_active_class.novice).to.equal(2)
 			})
 
 			// hard to test

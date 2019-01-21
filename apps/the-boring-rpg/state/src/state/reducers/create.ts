@@ -70,8 +70,8 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 		let [ u_state_energy, t_state_energy ] = EnergyState.create()
 
 		let state: Readonly<State> = {
+			schema_version: SCHEMA_VERSION,
 			u_state: {
-				schema_version: SCHEMA_VERSION,
 				revision: 0,
 
 				uuid: generate_uuid(),
@@ -89,7 +89,6 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 				last_adventure: null,
 			},
 			t_state: {
-				schema_version: SCHEMA_VERSION,
 				energy: t_state_energy,
 			},
 		}
@@ -140,13 +139,11 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 function reseed(state: Readonly<State>, seed?: number): Readonly<State> {
 	seed = seed || generate_random_seed()
 
-	let { u_state } = state
-
 	state = {
 		...state,
 		u_state: {
-			...u_state,
-			prng: PRNGState.set_seed(u_state.prng, seed),
+			...state.u_state,
+			prng: PRNGState.set_seed(state.u_state.prng, seed),
 		},
 	}
 

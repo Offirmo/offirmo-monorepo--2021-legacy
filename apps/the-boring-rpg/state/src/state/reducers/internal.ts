@@ -57,15 +57,11 @@ function __compare_items_by_normalized_power(a: Readonly<Item>, b: Readonly<Item
 // note: some are mainly used in tests
 
 function _loose_all_energy(state: Readonly<State>): Readonly<State> {
-	let { u_state, t_state } = state
-
-	const t_state_e = EnergyState.loose_all_energy([u_state.energy, t_state.energy])
-
 	return {
 		...state,
 		t_state: {
-			...t_state,
-			energy: t_state_e,
+			...state.t_state,
+			energy: EnergyState.loose_all_energy([state.u_state.energy, state.t_state.energy])
 		}
 	}
 }
@@ -169,17 +165,17 @@ function _ack_all_engagements(state: Readonly<State>): Readonly<State> {
 
 function _auto_make_room(state: Readonly<State>, options: { DEBUG?: boolean } = {}): Readonly<State> {
 	const { DEBUG } = options
-	let { u_state } = state
 
-	if (DEBUG) console.log(`  - _auto_make_room()… (inventory holding ${u_state.inventory.unslotted.length} items)`)
+	if (DEBUG) console.log(`  - _auto_make_room()… (inventory holding ${state.u_state.inventory.unslotted.length} items)`)
 
 	// inventory full
-	if (is_inventory_full(u_state)) {
-		if (DEBUG) console.log(`    Inventory is full (${u_state.inventory.unslotted.length} items)`)
+	if (is_inventory_full(state.u_state)) {
+		if (DEBUG) console.log(`    Inventory is full (${state.u_state.inventory.unslotted.length} items)`)
 		let freed_count = 0
 
 		// sell stuff, starting from the worst, but keeping the starting items (for sentimental reasons)
-		Array.from(u_state.inventory.unslotted)
+		const original_unslotted = state.u_state.inventory.unslotted
+		Array.from(original_unslotted)
 			.filter((e: Readonly<Item>) => {
 				switch (e.slot) {
 					case InventorySlot.armor:
@@ -223,7 +219,7 @@ function _auto_make_room(state: Readonly<State>, options: { DEBUG?: boolean } = 
 		if (freed_count === 0)
 			throw new Error('Internal error: _auto_make_room(): inventory is full and couldn’t free stuff!')
 
-		if (DEBUG) console.log(`    Freed ${freed_count} items, inventory now holding ${u_state.inventory.unslotted.length} items.`)
+		if (DEBUG) console.log(`    Freed ${freed_count} items, inventory now holding ${state.u_state.inventory.unslotted.length} items.`)
 	}
 
 	return state

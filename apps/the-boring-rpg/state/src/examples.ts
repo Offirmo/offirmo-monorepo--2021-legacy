@@ -128,8 +128,9 @@ const DEMO_ADVENTURE_04: Adventure = deepFreeze({
 })
 
 const DEMO_STATE: Readonly<State> = deepFreeze({
+	schema_version: SCHEMA_VERSION,
+
 	u_state: {
-		schema_version: SCHEMA_VERSION,
 		revision: 203,
 
 		uuid: "uu1EO9VgTjPlR1YPj0yfdWjG",
@@ -148,8 +149,6 @@ const DEMO_STATE: Readonly<State> = deepFreeze({
 	},
 
 	t_state: {
-		schema_version: SCHEMA_VERSION,
-
 		energy: Energy.DEMO_T_STATE,
 	}
 })

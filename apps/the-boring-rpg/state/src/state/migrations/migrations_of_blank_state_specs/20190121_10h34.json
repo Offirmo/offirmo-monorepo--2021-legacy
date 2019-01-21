@@ -1,0 +1,228 @@
+{
+	"schema_version": 9,
+	"u_state": {
+		"revision": 0,
+		"uuid": "uu1vdeLIhRJ125aqkZfZw_vj",
+		"creation_date": "20190121_10h34",
+		"avatar": {
+			"schema_version": 2,
+			"revision": 0,
+			"name": "[anonymous]",
+			"klass": "novice",
+			"attributes": {
+				"level": 1,
+				"health": 1,
+				"mana": 0,
+				"strength": 1,
+				"agility": 1,
+				"charisma": 1,
+				"wisdom": 1,
+				"luck": 1
+			}
+		},
+		"inventory": {
+			"schema_version": 1,
+			"revision": 4,
+			"unslotted_capacity": 20,
+			"slotted": {
+				"weapon": {
+					"element_type": "item",
+					"uuid": "uu1qDOS7BcK-mHDrsL2ISL-V",
+					"slot": "weapon",
+					"quality": "common",
+					"base_hid": "spoon",
+					"qualifier1_hid": "used",
+					"qualifier2_hid": "noob",
+					"base_strength": 1,
+					"enhancement_level": 0
+				},
+				"armor": {
+					"element_type": "item",
+					"uuid": "uu1eWGp2EFBpCJvRbr-NOlXz",
+					"slot": "armor",
+					"quality": "common",
+					"base_hid": "socks",
+					"qualifier1_hid": "used",
+					"qualifier2_hid": "noob",
+					"base_strength": 1,
+					"enhancement_level": 0
+				}
+			},
+			"unslotted": []
+		},
+		"wallet": {
+			"schema_version": 1,
+			"revision": 0,
+			"coin_count": 0,
+			"token_count": 0
+		},
+		"prng": {
+			"schema_version": 2,
+			"revision": 0,
+			"seed": 1234,
+			"use_count": 0,
+			"recently_encountered_by_id": {}
+		},
+		"energy": {
+			"schema_version": 2,
+			"revision": 0,
+			"max_energy": 7,
+			"energy_refilling_rate_per_ms": {
+				"n": 7,
+				"d": 86400000
+			}
+		},
+		"engagement": {
+			"schema_version": 1,
+			"revision": 4,
+			"queue": [
+				{
+					"uid": 4,
+					"engagement": {
+						"type": "flow",
+						"key": "tip--first_play"
+					},
+					"params": {}
+				}
+			]
+		},
+		"codes": {
+			"schema_version": 1,
+			"revision": 0,
+			"redeemed_codes": {}
+		},
+		"progress": {
+			"schema_version": 2,
+			"revision": 97,
+			"wiki": null,
+			"flags": null,
+			"achievements": {
+				"Summoned": "unlocked",
+				"I am bored": "revealed",
+				"I am very bored": "revealed",
+				"Turn it up to eleven": "hidden",
+				"I am dead bored": "hidden",
+				"did I mention I was bored?": "hidden",
+				"king of boredom": "hidden",
+				"No-life except for boredom": "hidden",
+				"What’s in a name?": "revealed",
+				"Graduated": "revealed",
+				"Aspiring Explorer": "revealed",
+				"Rookie Explorer": "hidden",
+				"Young Explorer": "hidden",
+				"Master Explorer": "hidden",
+				"Senior Explorer": "hidden",
+				"Grandmaster Explorer": "hidden",
+				"Absolute Explorer": "hidden",
+				"Mushrooms Lover": "hidden",
+				"Mushrooms Gourmet": "hidden",
+				"Potions Taster": "hidden",
+				"Potions Sommelier": "hidden",
+				"Folk Hero": "hidden",
+				"Famous Gems Collector": "hidden",
+				"I’ll Be Back": "revealed",
+				"I Am Back": "hidden",
+				"Regular": "hidden",
+				"Faithful": "hidden",
+				"Hooked": "hidden",
+				"Addicted": "hidden",
+				"First Blood": "revealed",
+				"Into The Wild": "hidden",
+				"Born To Be Wild": "hidden",
+				"Wild Like The Wind": "hidden",
+				"The Wild One": "hidden",
+				"Alpha Of The Wilderness": "hidden",
+				"Sorry my hand slipped": "hidden",
+				"Oops!... I Did It Again": "hidden",
+				"I’m not that innocent": "hidden",
+				"It’s good to be bad": "hidden",
+				"Hello darkness my old friend": "hidden",
+				"There Is No Spoon": "revealed",
+				"They Weren’t Matched Anyway": "revealed",
+				"I Was Born Ready": "revealed",
+				"U Got The Look": "revealed",
+				"Rare Sight": "hidden",
+				"Epic Smile": "hidden",
+				"I Am A Legend": "hidden",
+				"Twinkle Twinkle Little Star": "hidden",
+				"Frog In A Well": "revealed",
+				"Looking Like something": "hidden",
+				"Formal Adventurer": "hidden",
+				"King-looking Adventurer": "hidden",
+				"Emperor-Looking Adventurer": "hidden",
+				"Tiny Adventurer": "revealed",
+				"Reasonable Adventurer": "hidden",
+				"Teenage Adventurer": "hidden",
+				"Newbie Adventurer": "hidden",
+				"Seasoned Adventurer": "hidden",
+				"Grey Haired Adventurer": "hidden",
+				"Spirit Of The Tortoise": "hidden",
+				"Long Lived Adventurer": "hidden",
+				"Light Punishment": "revealed",
+				"Bring It On": "hidden",
+				"I Can Handle It": "hidden",
+				"Spirit Of The Elephant": "hidden",
+				"Awoken": "revealed",
+				"The Power Of The Mind": "hidden",
+				"Vast Consciousness": "hidden",
+				"Spirit Of The Human": "hidden",
+				"Well Built": "revealed",
+				"Local Strongperson": "hidden",
+				"Titan": "hidden",
+				"Spirit Of The Gorilla": "hidden",
+				"Small One": "revealed",
+				"Swift One": "hidden",
+				"Untouchable": "hidden",
+				"Spirit Of The Monkey": "hidden",
+				"Sharp tongue": "revealed",
+				"Silver tongue": "hidden",
+				"Golden tongue": "hidden",
+				"Spirit Of The Cat": "hidden",
+				"Bright": "revealed",
+				"Smart": "hidden",
+				"Sage": "hidden",
+				"Spirit Of The Owl": "hidden",
+				"Sprinkled": "revealed",
+				"Blessed": "hidden",
+				"Divinely Touched": "hidden",
+				"Spirit Of The Rabbit": "hidden",
+				"I Like Swords!": "revealed",
+				"Alpha player": "unlocked",
+				"Beta player": "revealed",
+				"Usurper": "secret",
+				"Just plain lucky": "secret",
+				"Hacker": "secret",
+				"TEST": "secret",
+				"Reborn!": "secret"
+			},
+			"statistics": {
+				"last_visited_timestamp": "20190121",
+				"active_day_count": 1,
+				"good_play_count": 0,
+				"bad_play_count": 0,
+				"encountered_adventures": {},
+				"encountered_monsters": {},
+				"good_play_count_by_active_class": {},
+				"bad_play_count_by_active_class": {},
+				"fight_won_count": 0,
+				"fight_lost_count": 0,
+				"coins_gained": 0,
+				"tokens_gained": 0,
+				"items_gained": 0,
+				"has_account": false,
+				"is_registered_alpha_player": false
+			}
+		},
+		"last_adventure": null
+	},
+	"t_state": {
+		"energy": {
+			"schema_version": 2,
+			"timestamp_ms": 1548066891332,
+			"available_energy": {
+				"n": 7,
+				"d": 1
+			}
+		}
+	}
+}

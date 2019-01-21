@@ -69,7 +69,6 @@ interface Adventure {
 /////////////////////
 
 interface UState {
-	schema_version: number
 	revision: number
 
 	readonly uuid: UUID // TODO review
@@ -88,12 +87,12 @@ interface UState {
 }
 
 interface TState {
-	schema_version: number
-
 	energy: EnergyTState,
 }
 
 interface State {
+	schema_version: number
+
 	u_state: UState
 
 	t_state: TState

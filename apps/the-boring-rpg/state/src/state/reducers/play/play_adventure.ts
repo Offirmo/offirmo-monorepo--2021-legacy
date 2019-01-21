@@ -181,15 +181,13 @@ function _instantiate_adventure_archetype(
 /////////////////////
 
 function play_adventure(state: Readonly<State>, aa: Readonly<AdventureArchetype>): Readonly<State> {
-	let { u_state, t_state } = state
-
-	const rng = get_prng(u_state.prng)
+	const rng = get_prng(state.u_state.prng)
 
 	const adventure = _instantiate_adventure_archetype(
 		rng,
 		aa,
-		u_state.avatar,
-		u_state.inventory,
+		state.u_state.avatar,
+		state.u_state.inventory,
 	)
 
 	const {gains: gained} = adventure
@@ -252,7 +250,7 @@ function play_adventure(state: Readonly<State>, aa: Readonly<AdventureArchetype>
 
 	if (gained.weapon_improvement) {
 		gain_count++
-		let weapon_to_enhance = InventoryState.get_item_in_slot(u_state.inventory, InventorySlot.weapon) as Weapon
+		let weapon_to_enhance = InventoryState.get_item_in_slot(state.u_state.inventory, InventorySlot.weapon) as Weapon
 		if (weapon_to_enhance && weapon_to_enhance.enhancement_level < MAX_WEAPON_ENHANCEMENT_LEVEL)
 			enhance_weapon(weapon_to_enhance)
 		// TODO immutable instead of in-place
@@ -261,7 +259,7 @@ function play_adventure(state: Readonly<State>, aa: Readonly<AdventureArchetype>
 
 	if (gained.armor_improvement) {
 		gain_count++
-		const armor_to_enhance = InventoryState.get_item_in_slot(u_state.inventory, InventorySlot.armor) as Armor
+		const armor_to_enhance = InventoryState.get_item_in_slot(state.u_state.inventory, InventorySlot.armor) as Armor
 		if (armor_to_enhance && armor_to_enhance.enhancement_level < MAX_ARMOR_ENHANCEMENT_LEVEL)
 			enhance_armor(armor_to_enhance)
 		// TODO immutable instead of in-place
@@ -280,9 +278,9 @@ function play_adventure(state: Readonly<State>, aa: Readonly<AdventureArchetype>
 	state = {
 		...state,
 		u_state: {
-			...u_state,
+			...state.u_state,
 			last_adventure: adventure,
-			prng: PRNGState.update_use_count(u_state.prng, rng, {
+			prng: PRNGState.update_use_count(state.u_state.prng, rng, {
 				// we can't know because it depends on the adventure,
 				// ex. generate a random weapon
 				I_swear_I_really_cant_know_whether_the_rng_was_used: true
