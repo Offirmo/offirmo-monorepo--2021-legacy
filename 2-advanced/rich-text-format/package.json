@@ -2,8 +2,11 @@
 	"name": "@offirmo/rich-text-format",
 	"version": "0.0.1",
 	"description": "A rich text format for rendering to different platforms: ascii, html...",
+
 	"main": "dist/src.es7.cjs/index.js",
+	"jsnext:main": "dist/src.es7/index.js",
 	"typings": "dist/src.es7.cjs/index.d.ts",
+
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "UNLICENSED",
 	"scripts": {

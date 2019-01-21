@@ -3,8 +3,11 @@
 	"version": "0.0.1",
 	"private": true,
 	"description": "Oh My RPG global primitive definitions",
+
 	"main": "dist/src.es7.cjs/index.js",
+	"jsnext:main": "dist/src.es7/index.js",
 	"typings": "dist/src.es7.cjs/index.d.ts",
+
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "UNLICENSED",
 	"dependencies": {

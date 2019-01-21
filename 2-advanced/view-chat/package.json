@@ -2,8 +2,9 @@
 	"name": "@offirmo/view-chat",
 	"version": "0.0.1",
 	"description": "chat-like generic interface",
+
 	"main": "src/index.js",
-	"typings": "dist/src.es7.cjs/index.js",
+
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "UNLICENSED",
 	"dependencies": {
