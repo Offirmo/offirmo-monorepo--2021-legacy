@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 
-//import C1 from '../component1';
-//import C2 from '../component2';
+import C1 from '../component1';
+import C2 from '../component2';
 import C3 from '../component3';
 
 export default class Root extends Component {
@@ -9,8 +9,8 @@ export default class Root extends Component {
 		return (
 			<Fragment>
 				Hello, world!
-				{null && <C1/>}
-				{null && <C2/>}
+				{<C1/>}
+				{<C2/>}
 				{<C3/>}
 			</Fragment>
 		);
