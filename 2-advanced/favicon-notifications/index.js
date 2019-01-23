@@ -26,7 +26,7 @@ function ensure_libs_initialized() {
 	const pie_chart_color = body_styles.getPropertyValue('--o⋄color--fg⁚error') || '#ff0084'
 	const empty_pie_chart_color = body_styles.getPropertyValue('--o⋄color--fg⁚main') || 'lightgrey'
 	const outer_ring_color = body_styles.getPropertyValue('--o⋄color--bg⁚main') || 'white'
-	console.log({ pie_chart_color, empty_pie_chart_color, outer_ring_color })
+	//console.log({ pie_chart_color, empty_pie_chart_color, outer_ring_color })
 	Piecon.setOptions({
 		color: pie_chart_color, // Pie chart color
 		background: empty_pie_chart_color, // Empty pie chart color

@@ -40,6 +40,8 @@ function on_start_session(state: Readonly<State>): Readonly<State> {
 	// update energy (not 100% needed but good safety)
 	state = _update_to_now(state)
 
+	// TODO recap here ?
+
 	// new achievements may have appeared
 	// (new content = not the same as a migration)
 	return _refresh_achievements(state)
