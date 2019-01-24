@@ -7,13 +7,7 @@ import './services/raven'
 import './index.css'
 import Root from './components/root'
 
-// TODO remove
-import get_game_instance from './services/game-instance-browser'
-import GameContext from './game-context'
-
 ReactDOM.render(
-	<GameContext.Provider value={get_game_instance()}>
-		<Root />
-	</GameContext.Provider>,
+	<Root />,
 	document.getElementById('root'),
 )

@@ -3,8 +3,8 @@ import { set_number_in_favicon } from '@offirmo/favicon-notifications'
 
 import './index.css'
 
-export default React.memo(
-	function InfoboxView({energy_float, human_time_to_next, achievements_completion_pct}) {
+const InfoboxViewM = React.memo(
+	function InfoboxView({ energy_float, human_time_to_next, achievements_completion_pct }) {
 		console.log('🔄 InfoboxView', {energy_float})
 
 		set_number_in_favicon(energy_float)
@@ -18,6 +18,8 @@ export default React.memo(
 		)
 	}
 )
+
+export default InfoboxViewM
 
 /*
 import CircularProgressbar from 'react-circular-progressbar'

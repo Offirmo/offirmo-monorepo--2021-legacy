@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import './index.css'
 
@@ -6,6 +7,9 @@ const DELAY_MS = 150
 
 // https://stackoverflow.com/questions/37620694/how-to-scroll-to-bottom-in-react
 class AutoScrollDown extends React.Component {
+	static propTypes = {
+		children: PropTypes.node.isRequired,
+	}
 
 	scrollToBottom = () => {
 		if (this.messagesEnd)
@@ -21,6 +25,7 @@ class AutoScrollDown extends React.Component {
 	}
 
 	render() {
+		console.log('🔄 AutoScrollDown')
 		return (
 			<div className={'auto-scroll-down'}>
 

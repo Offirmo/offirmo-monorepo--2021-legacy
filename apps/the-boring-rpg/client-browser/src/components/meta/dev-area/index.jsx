@@ -1,10 +1,15 @@
 import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types'
 
 import { getRootSEC } from '@offirmo/soft-execution-context'
 
 import './index.css';
 
 export default class DevArea extends Component {
+	static propTypes = {
+		SEC: PropTypes.object,
+	}
+
 	constructor(props) {
 		super(props)
 
@@ -29,6 +34,7 @@ export default class DevArea extends Component {
 	render() {
 		this.logger.trace('🔄 DevArea')
 
+		// TODO activate those features
 		const media_controls = []
 		if (this.props.onPlayPause)
 			media_controls.push(<button onClick={this.props.onPlayPause}>{this.state.paused ? '▶️' : '⏸️'}</button>)

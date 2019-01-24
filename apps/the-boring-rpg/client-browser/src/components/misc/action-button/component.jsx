@@ -17,9 +17,9 @@ if (Object.keys(ActionType).join(';') !== Object.keys(ACTION_TYPE_TO_CTA).join('
 
 /////////////////////
 
-const ActionButtonView = React.memo(
-	function ActionButton({action, onClick}) {
-		console.log('🔄 ActionButtonView');
+const ActionButtonViewM = React.memo(
+	function ActionButtonView({action, onClick}) {
+		console.log('🔄 ActionButtonView')
 		return (
 			<button className={'tbrpg-action-btn'} onClick={onClick}>
 				{ACTION_TYPE_TO_CTA[action.type]}
@@ -28,4 +28,4 @@ const ActionButtonView = React.memo(
 	}
 )
 
-export default ActionButtonView
+export default ActionButtonViewM

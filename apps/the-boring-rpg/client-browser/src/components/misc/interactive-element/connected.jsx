@@ -1,36 +1,36 @@
 import React from 'react'
 
-import { GameContextConsumerListener } from '../../../game-context'
+import get_game_instance from '../../../services/game-instance-browser'
+
 import {
 	Short as UnconnectedShort,
 	Detailed as UnconnectedDetailed,
 	Interactive as UnconnectedInteractive,
 } from './component'
 
+const game_instance = get_game_instance()
+
 function with_element_and_action(Component) {
-	return (props) => (
-		<GameContextConsumerListener>
-			{game_instance => {
-				const { UUID } = props
-				const element = game_instance.selectors.find_element(UUID)
-				if (!element) {
-					console.warn(`interactive element not found!`, UUID, props)
-					// element disappeared. This happen transitively (ex. sold)
-					// due to my crappy change listening technique.
-					return props.children
-				}
+	return (props) => {
+		const { UUID } = props
+		const element = game_instance.selectors.find_element(UUID)
+		if (!element) {
+			console.warn(`interactive element not found!`, UUID, props)
+			// element disappeared. This happen transitively (ex. sold)
+			// due to my crappy change listening technique.
+			// TODO check if that still happen since the refactor
+			return props.children
+		}
 
-				const actions = game_instance.selectors.get_actions_for_element(UUID)
+		const actions = game_instance.selectors.get_actions_for_element(UUID)
 
-				props = {
-					...props,
-					element,
-					actions,
-				}
-				return <Component {...props} />
-			}}
-		</GameContextConsumerListener>
-	)
+		props = {
+			...props,
+			element,
+			actions,
+		}
+		return <Component {...props} />
+	}
 }
 
 const Short = with_element_and_action(UnconnectedShort)

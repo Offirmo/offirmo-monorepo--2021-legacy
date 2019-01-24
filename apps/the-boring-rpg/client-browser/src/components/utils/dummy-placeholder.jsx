@@ -1,6 +1,8 @@
 import React from 'react'
 
 function DummyPlaceholder({name}) {
+	console.log('🔄 DummyPlaceholder')
+
 	return (
 		<div>
 			Dummy placeholder for: "{name}"

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import classNames from 'classnames'
 const promiseFinally = require('p-finally')
 
@@ -11,7 +12,12 @@ import './index.css'
 
 
 class ChatBubble extends React.Component {
+	static propTypes = {
+		direction: PropTypes.string,
+		children: PropTypes.node.isRequired,
+	}
 	render() {
+		console.log('🔄 ChatBubble')
 		const {direction = 'ltr', children} = this.props
 		const classes = classNames(
 			'chat__element',
@@ -30,6 +36,15 @@ class ChatBubble extends React.Component {
 }
 
 class Chat extends React.Component {
+	static propTypes = {
+		initial_bubbles: PropTypes.arrayOf(PropTypes.element),
+		max_displayed_bubbles: PropTypes.number,
+		gen_next_step: PropTypes.object,
+		on_input_begin: PropTypes.func,
+		on_input_end: PropTypes.func,
+		on_unmount: PropTypes.func,
+		children: PropTypes.node,
+	}
 
 	constructor (props) {
 		super(props)
@@ -291,7 +306,7 @@ class Chat extends React.Component {
 	}
 
 	render() {
-		//console.log('rendering chat', this.state)
+		console.log('🔄 Chat')
 
 		const spinner = this.state.spinning && <div className="chat__spinner" />
 		const progress_bar = this.state.progressing && (

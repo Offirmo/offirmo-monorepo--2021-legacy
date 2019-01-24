@@ -61,7 +61,7 @@ SEC.xTry('init client state', () => {
 		mode: 'explore',
 		recap_displayed: false,
 		last_displayed_adventure_uuid: (() => {
-			const { last_adventure } = game_instance.model.get_state()
+			const { last_adventure } = game_instance.model.get_state().u_state
 			return last_adventure && last_adventure.uuid
 		})(),
 		// TODO improve to a new react-like chat

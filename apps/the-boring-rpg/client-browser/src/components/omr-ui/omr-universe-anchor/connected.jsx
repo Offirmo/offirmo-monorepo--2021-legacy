@@ -1,19 +1,17 @@
 import React from 'react'
 
-import {GameContextConsumerListener} from '../../../game-context'
 import OMRUniverseAnchor from './component'
 
-export default props => (
-	<GameContextConsumerListener>
-		{game_instance => {
-			const {avatar} = game_instance.model.get_state()
-			return (
-				<OMRUniverseAnchor
-					{...props}
-					name={avatar.name}
-					klass={avatar.klass}
-					level={avatar.attributes.level}
-				/>)
-		}}
-	</GameContextConsumerListener>
-)
+import get_game_instance from '../../../services/game-instance-browser'
+const game_instance = get_game_instance()
+
+export default props => {
+	const { u_state: {avatar}} = game_instance.model.get_state()
+	return (
+		<OMRUniverseAnchor
+			{...props}
+			name={avatar.name}
+			klass={avatar.klass}
+			level={avatar.attributes.level}
+		/>)
+}

@@ -1,8 +1,6 @@
 import React from 'react'
 import Fraction from 'fraction.js'
 
-import { get_available_energy_float } from '@tbrpg/state'
-
 import get_game_instance from '../../../../services/game-instance-browser'
 import AppStateContext from '../../../../context/app-state'
 
@@ -13,7 +11,7 @@ const game_instance = get_game_instance()
 
 
 const InfoboxC1 = React.memo(
-	function InfoboxC1({m_state}) {
+	function InfoboxC1({state}) {
 		console.log('🔄 InfoboxC1' /*, m_state*/)
 
 		const achievements_completion_pct = (new Fraction(game_instance.selectors.get_achievements_completion())).mul(100).floor(2).valueOf()

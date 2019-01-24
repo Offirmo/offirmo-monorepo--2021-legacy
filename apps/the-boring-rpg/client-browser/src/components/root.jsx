@@ -48,6 +48,7 @@ function render_diagnostic() {
 
 export default class Root extends Component {
 	render() {
+		console.log('🔄 Root')
 		return (
 			<Fragment>
 

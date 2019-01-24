@@ -28,6 +28,10 @@ import { get_achievement_snapshot_by_uuid } from "./achievements";
 /////////////////////
 
 // TODO
+// get_last_adventure (search for last_adventure)
+// get u reducer
+
+// TODO
 function appraise_player_power(u_state: Readonly<UState>): number {
 	let power: number = 1
 

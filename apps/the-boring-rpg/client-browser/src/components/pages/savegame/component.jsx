@@ -28,7 +28,7 @@ function ensureACE() {
 }
 
 
-export default class Savegame extends Component {
+export default class PageSavegameEditorView extends Component {
 	static propTypes = {
 		ls_key: PropTypes.string.isRequired,
 		navigate_home: PropTypes.func.isRequired,
@@ -111,6 +111,7 @@ export default class Savegame extends Component {
 	}
 
 	render = () => {
+		console.log('🔄 PageSavegameEditorView')
 		return (
 			<div className="o⋄top-container o⋄pad⁚0 page--savegame">
 				<div className="o⋄flex--row o⋄pad⁚7">

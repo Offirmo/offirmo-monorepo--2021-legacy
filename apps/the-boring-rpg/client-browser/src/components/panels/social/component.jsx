@@ -1,15 +1,16 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-//import { render_full_inventory } from '@oh-my-rpg/view-rich-text'
 
-//import rich_text_to_react from '../../../services/rich-text-to-react'
 import './index.css'
 
 
-export default class PanelView extends React.Component {
+export default class SocialPanelView extends React.Component {
+	static propTypes = {
+	}
+
 	render() {
-		const { game_instance } = this.props
-		const state = game_instance.model.get_state()
+		console.log('🔄 SocialPanelView')
 
 		return (
 			<div className={'tbrpg-panel tbrpg-panel--achievements o⋄flex--column'}>

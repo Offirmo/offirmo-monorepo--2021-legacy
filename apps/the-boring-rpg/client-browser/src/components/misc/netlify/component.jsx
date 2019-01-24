@@ -3,6 +3,9 @@ import PropTypes from 'prop-types'
 
 import poll_window_variable, { poll } from '@offirmo/poll-window-variable'
 
+import get_game_instance from '../../../services/game-instance-browser'
+import { set_user_context } from '../../../services/raven'
+
 import './index.css';
 
 const STATES = {
@@ -23,10 +26,11 @@ function request_redirect(url) {
 	localStorage.setItem(REDIRECT_LS_KEY, JSON.stringify(redirect_request))
 }
 
-class NetlifyLoggedIndicator extends Component {
+class NetlifyLoggedIndicatorView extends Component {
 	static propTypes = {
 		user: PropTypes.object.isRequired,
-	};
+		onRequestLogout: PropTypes.func.isRequired,
+	}
 
 	state = {
 		loaded: false,
@@ -44,13 +48,28 @@ class NetlifyLoggedIndicator extends Component {
 	constructor(props) {
 		super(props)
 
+		const { user } = this.props
+		const avatar_name = get_game_instance().model.get_state().u_state.avatar.name
+
+		set_user_context({
+			name: avatar_name,
+			id: avatar_name,
+		})
+
 		// user may not be fully populated immediately
 		// we need to refresh when it is
-		poll(() => !!this.props.user.user_metadata, { timeoutMs: 30 * 1000 })
+		poll(() => !!user.user_metadata, { timeoutMs: 30 * 1000 })
 			.then(() => {
 				//console.log('got metadata...')
 				this.setState({
 					loaded: true,
+				})
+
+				const { user } = this.props
+				set_user_context({
+					email: user.email,
+					name: avatar_name,
+					id: avatar_name,
 				})
 			})
 	}
@@ -68,6 +87,9 @@ class NetlifyLoggedIndicator extends Component {
 }
 
 export default class NetlifyIdentity extends Component {
+	static propTypes = {
+	}
+
 	state = {
 		state: STATES.WAITING_FOR_LIB,
 		user: null,
@@ -159,7 +181,7 @@ export default class NetlifyIdentity extends Component {
 	}
 
 	render() {
-		//console.log('<NetlifyIdentity /> Render')
+		console.log('🔄 NetlifyIdentity')
 
 		switch (this.state.state) {
 			case STATES.ERROR:

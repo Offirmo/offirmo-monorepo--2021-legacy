@@ -1,17 +1,14 @@
 import React from 'react'
 
-import { GameContextConsumerListener } from '../../../game-context'
-import PanelView from './component'
+import View from './component'
 
-export default props => (
-	<GameContextConsumerListener>
-		{game_instance => {
-			return (
-				<PanelView
-					{...props}
-					game_instance={game_instance}
-				/>
-			)
-		}}
-	</GameContextConsumerListener>
-)
+import get_game_instance from '../../../services/game-instance-browser'
+
+
+export default function CharacterPanel() {
+	const { u_state: { avatar } } = get_game_instance().model.get_state()
+
+	return (
+		<View avatar={avatar} />
+	)
+}

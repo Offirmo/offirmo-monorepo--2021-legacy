@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import PropTypes from 'prop-types'
 
 import { get_debug_snapshot } from '@offirmo/features-detection-browser'
 
@@ -19,8 +20,12 @@ function get_data() {
 }
 
 
-export default class Diagnostic extends Component {
+export default class PageDiagnostic extends Component {
+	static propTypes = {
+	}
+
 	render = () => {
+		console.log('🔄 PageDiagnostic')
 		return (
 			<div className="o⋄pad⁚7">
 				<button onClick={() => this.setState({})}>Refresh</button>

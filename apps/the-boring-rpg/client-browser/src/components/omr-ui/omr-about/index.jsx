@@ -1,9 +1,11 @@
 import React from 'react'
 
-import logo from '../tbrpg_logo_512x98.png'
 import './index.css'
 
-export default function About() {
+
+export default function OMRAbout() {
+	console.log('🔄 OMRAbout')
+
 	return (
 		<div>
 			<p>

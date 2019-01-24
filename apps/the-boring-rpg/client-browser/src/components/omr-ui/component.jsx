@@ -1,12 +1,17 @@
 import React, { Component, Fragment } from 'react'
+import PropTypes from 'prop-types'
 
 import OhMyRpg from '@oh-my-rpg/view-browser-react'
 
 import About from './omr-about'
 import UniverseAnchor from './omr-universe-anchor'
-import MainArea from './omr-immersion'
+import ImmersionArea from './omr-immersion'
 import HamburgerArea from './omr-hamburger'
 import * as GroupChat from './group-chat-tlkio'
+
+import get_game_instance from '../../services/game-instance-browser'
+const game_instance = get_game_instance()
+
 
 import './index.css'
 import logo from './tbrpg_logo_512x98.png'
@@ -20,13 +25,17 @@ const MODE_TO_INDEX = {
 }
 
 export default class OhMyRPGView extends Component {
+	static propTypes = {
+		avatar_name: PropTypes.string.isRequired,
+		mode: PropTypes.string.isRequired,
+	}
+
 	state = {
 		chat_nickname: 'anonymous',
 	}
 
 	static getDerivedStateFromProps(nextProps, prevState) {
-		const new_state = nextProps.game_instance.model.get_state()
-		const avatar_name = new_state.avatar.name
+		const avatar_name = nextProps.avatar_name
 		if (avatar_name === prevState.chat_nickname)
 			return null // no update needed
 
@@ -46,6 +55,7 @@ export default class OhMyRPGView extends Component {
 
 	componentDidUpdate(prevProps, prevState) {
 		if (prevState.chat_nickname !== this.state.chat_nickname) {
+			// TODO this doesn't seem to work
 			console.info('omr-root: componentDidUpdate: restarting group chat...')
 			GroupChat.restart({
 				channel_id: 'the-boring-rpg-reloaded',
@@ -55,18 +65,19 @@ export default class OhMyRPGView extends Component {
 	}
 
 	activate_panel = (panel_id) => {
-		this.props.game_instance.view.set_state(() => ({
+		game_instance.view.set_state(() => ({
 			mode: panel_id,
 		}))
 	}
 
 	toggle_character_panel = () => {
-		const { mode } = this.props.game_instance.view.get_state()
+		const { mode } = this.props
 		this.activate_panel(mode === 'explore' ? 'character' : 'explore')
 	}
 
 	render() {
-		const { mode } = this.props.game_instance.view.get_state()
+		const { mode } = this.props
+		console.log('🔄 OMRUI')
 
 		return (
 			<OhMyRpg
@@ -99,7 +110,7 @@ export default class OhMyRPGView extends Component {
 
 				bottomMarkerIndex={MODE_TO_INDEX[mode]}
 			>
-				<MainArea />
+				<ImmersionArea />
 			</OhMyRpg>
 		)
 	}

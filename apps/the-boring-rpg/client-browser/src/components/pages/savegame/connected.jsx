@@ -1,21 +1,22 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 
-import Savegame1 from './component'
+import View from './component'
 import { LS_KEYS } from '../../../services/consts'
 import { ROUTES } from '../../../services/routes'
 
 
-class Savegame2 extends Component {
+class PageSavegameEditorC1 extends Component {
 	navigate_home = () => {
 		this.props.history.push(ROUTES.home)
 	}
 
 	render() {
-		return <Savegame1 ls_key={LS_KEYS.savegame} navigate_home={this.navigate_home} />
+		return <View ls_key={LS_KEYS.savegame} navigate_home={this.navigate_home} />
 	}
 }
 
-const Savegame3 = withRouter(Savegame2)
+const PageSavegameEditorC2 = withRouter(PageSavegameEditorC1)
 
-export default Savegame3
+export default PageSavegameEditorC2

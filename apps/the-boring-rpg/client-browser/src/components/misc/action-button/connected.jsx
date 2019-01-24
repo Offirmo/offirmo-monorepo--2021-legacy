@@ -18,19 +18,16 @@ export default props => (
 
 import React from 'react'
 
+import View from './component'
+
 import get_game_instance from '../../../services/game-instance-browser'
-import ActionButtonView from './component'
-
-
 const game_instance = get_game_instance()
 
 
-const ActionButton = React.memo(
+const ActionButtonC1M = React.memo(
 	function ActionButtonC1({ action }) {
-		console.log('🔄 ActionButton', action)
-
 		return (
-			<ActionButtonView
+			<View
 				action={action}
 				onClick={() => game_instance.reducers.execute_serialized_action(action)}
 			/>
@@ -38,4 +35,4 @@ const ActionButton = React.memo(
 	}
 )
 
-export default ActionButton
+export default ActionButtonC1M

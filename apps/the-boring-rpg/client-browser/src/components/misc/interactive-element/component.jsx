@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import PropTypes from 'prop-types'
 
 import { ElementType } from '@oh-my-rpg/definitions'
 import { InteractiveRichTextFragment } from '@offirmo/rich-text-format-to-react'
@@ -44,17 +45,21 @@ function render_element_detailed(element) {
 }
 
 // = usually displayed inline (only used in dev for now TODO cleanup)
-function Short({children, element}) {
-	return (
-		<span>
-			{children || rich_text_to_react(render_element_short(element), {render_interactive: false})}
-		</span>
-	)
-}
+const Short = React.memo(
+	function ShortUM({children, element}) {
+		console.log('🔄 InteractiveElementShortUM')
+		return (
+			<span>
+				{children || rich_text_to_react(render_element_short(element), {render_interactive: false})}
+			</span>
+		)
+	}
+)
 
 // = displayed in tooltip
-function Detailed({element, actions = []}) {
-	//console.log('"🔄 Detailed', {element, actions})
+const Detailed = React.memo(
+	function DetailedUM({element, actions = []}) {
+		console.log('🔄 InteractiveElementDetailedUM')
 
 	return (
 		<Fragment>
@@ -63,9 +68,15 @@ function Detailed({element, actions = []}) {
 		</Fragment>
 	)
 }
+)
 
 // alternate from short to detailed
 class Interactive extends Component {
+	static propTypes = {
+		UUID: PropTypes.string.isRequired,
+		children: PropTypes.element.isRequired,
+	}
+
 	render_detailed = ({UUID, react_representation}) => {
 		const {element, actions} = this.props
 		return <Detailed {...{element, actions}} />
@@ -73,7 +84,7 @@ class Interactive extends Component {
 
 	render = () => {
 		const { UUID, children } = this.props
-		//console.log('"🔄 Interactive', { UUID, children })
+		console.log('🔄 InteractiveElement')
 
 		return (
 			<InteractiveRichTextFragment

@@ -85,14 +85,13 @@ error_reporter
 	})
 	//.install();
 
-/*
+
 // https://docs.sentry.io/clients/javascript/usage/#tracking-users
-// TODO
-Raven.setUserContext({
-	email: 'matt@example.com',
-	id: '123'
-})
-*/
+export function set_user_context({email, id, name}) {
+	Raven.setUserContext({
+		email, id, name,
+	})
+}
 
 /*
 Raven.captureException(new Error('Oops!')
