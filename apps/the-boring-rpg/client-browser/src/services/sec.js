@@ -1,12 +1,12 @@
 'use strict'
 
-const { getRootSEC } = require('@offirmo/soft-execution-context')
-const {
+import { getRootSEC } from '@offirmo/soft-execution-context'
+import {
 	listenToErrorEvents,
 	listenToUnhandledRejections,
 	decorateWithDetectedEnv,
-} = require('@offirmo/soft-execution-context-browser')
-const { decorate_SEC } = require('@oh-my-rpg/definitions')
+} from '@offirmo/soft-execution-context-browser'
+import { decorate_SEC } from '@oh-my-rpg/definitions'
 
 import { LIB } from './consts'
 import { VERSION, BUILD_DATE } from './build.json'

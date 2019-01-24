@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 
-const tbrpg = require('@tbrpg/state')
+import * as tbrpg from '@tbrpg/state'
 import { render_adventure, render_character_sheet, render_full_inventory, render_item_short } from '@oh-my-rpg/view-rich-text'
 
 import { Short, Detailed } from '../../misc/interactive-element'

@@ -1,11 +1,11 @@
 import React from 'react'
 
-const {
+import {
 	to_react,
 	generate_react_key,
 	intermediate_on_node_exit,
 	intermediate_assemble,
-} = require('@offirmo/rich-text-format-to-react')
+} from '@offirmo/rich-text-format-to-react'
 
 import { Interactive } from '../components/misc/interactive-element'
 import './rich-text-to-react.css'

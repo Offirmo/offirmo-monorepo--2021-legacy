@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 
-const { getRootSEC } = require('@offirmo/soft-execution-context')
+import { getRootSEC } from '@offirmo/soft-execution-context'
 
 import './index.css';
 

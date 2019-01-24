@@ -1,6 +1,6 @@
 import React from 'react'
 
-const { CHARACTER_CLASSES } = require('@oh-my-rpg/state-character')
+import { CHARACTER_CLASSES } from '@oh-my-rpg/state-character'
 import { render_character_sheet } from '@oh-my-rpg/view-rich-text'
 
 import { is_likely_to_be_mobile } from '../../../services/mobile-detection'

@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 
 import { ElementType } from '@oh-my-rpg/definitions'
-const { InteractiveRichTextFragment } = require('@offirmo/rich-text-format-to-react')
+import { InteractiveRichTextFragment } from '@offirmo/rich-text-format-to-react'
 import {
 	render_item_short,
 	render_item_detailed,

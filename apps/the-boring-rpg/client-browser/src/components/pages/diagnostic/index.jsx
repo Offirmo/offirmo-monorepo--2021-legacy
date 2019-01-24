@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 
 import { get_debug_snapshot } from '@offirmo/features-detection-browser'
 
-const { getRootSEC } = require('@offirmo/soft-execution-context')
+import { getRootSEC } from '@offirmo/soft-execution-context'
 
 
 function get_data() {
