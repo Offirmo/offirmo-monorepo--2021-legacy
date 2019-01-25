@@ -33,6 +33,8 @@ function InfoBoxC2() {
 	return (
 		<AppStateContext.Consumer>
 			{app_state => {
+				if (!app_state) return null
+
 				//console.log('InfoboxC2 context received:', app_state)
 				return <InfoboxC1 m_state={app_state.model} />
 			}}

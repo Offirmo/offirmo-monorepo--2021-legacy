@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-d
 
 import {BASE_ROUTE, ROUTES} from '../services/routes'
 import {CHANNEL} from '../services/channel'
-import { AppStateListenerAndProvider } from '../context/app-state'
+import { AppStateListenerAndProvider } from '../context'
 
 import Home from './pages/home'
 import Savegame from './pages/savegame'

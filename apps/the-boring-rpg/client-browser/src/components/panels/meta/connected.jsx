@@ -1,23 +1,32 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 
-import get_game_instance from '../../../services/game-instance-browser'
+import { UStateListenerAndProvider } from '../../../context'
 import {ROUTES} from "../../../services/routes";
 
 import View from './component'
 
 
 class MetaPanelC1 extends Component {
+
 	navigate_to_savegame_editor = () => {
 		const { history } = this.props
 		history.push(ROUTES.savegame)
 	}
 
+	render_view = (u_state) => {
+		return (
+			<View
+				u_state={u_state}
+				navigate_to_savegame_editor={this.navigate_to_savegame_editor}
+			/>
+		)
+	}
+
 	render() {
-		return <View
-			u_state={get_game_instance().model.get_state().u_state}
-			navigate_to_savegame_editor={this.navigate_to_savegame_editor}
-		/>
+		return (
+			<UStateListenerAndProvider render={this.render_view} />
+		)
 	}
 }
 const MetaPanelC2 = withRouter(MetaPanelC1)
