@@ -2,7 +2,6 @@ import { UUID } from '@offirmo/uuid'
 import * as RichText from '@offirmo/rich-text-format'
 
 import { ITEM_SLOTS, InventorySlot, Element } from '@oh-my-rpg/definitions'
-import { is_full } from '@oh-my-rpg/state-inventory'
 import { appraise_value, appraise_power } from '@oh-my-rpg/logic-shop'
 import { Weapon } from '@oh-my-rpg/logic-weapons'
 import { Armor } from '@oh-my-rpg/logic-armors'
@@ -28,8 +27,9 @@ import { get_achievement_snapshot_by_uuid } from "./achievements";
 /////////////////////
 
 // TODO
-// get_last_adventure (search for last_adventure)
 // get u reducer
+
+
 
 // TODO
 function appraise_player_power(u_state: Readonly<UState>): number {

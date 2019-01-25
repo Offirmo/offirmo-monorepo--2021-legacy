@@ -16,7 +16,6 @@ export default class DevArea extends Component {
 		this.SEC = props.SEC || getRootSEC()
 		const { CHANNEL, IS_DEV_MODE, logger } = this.SEC.getInjectedDependencies()
 		this.logger = logger
-		this.logger.trace('🆕 DevArea')
 		this.channel = props.channel || CHANNEL || 'dev'
 		this.state = {
 			displayed: !this.channel.startsWith('prod') || IS_DEV_MODE,
@@ -32,7 +31,7 @@ export default class DevArea extends Component {
 	}
 
 	render() {
-		this.logger.trace('🔄 DevArea')
+		console.log('🔄 DevArea')
 
 		// TODO activate those features
 		const media_controls = []

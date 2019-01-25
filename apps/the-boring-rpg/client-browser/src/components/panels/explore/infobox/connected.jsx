@@ -2,7 +2,7 @@ import React from 'react'
 import Fraction from 'fraction.js'
 
 import get_game_instance from '../../../../services/game-instance-browser'
-import AppStateContext from '../../../../context/app-state'
+import { AppStateContext } from '../../../../context'
 
 import InfoboxView from './component'
 

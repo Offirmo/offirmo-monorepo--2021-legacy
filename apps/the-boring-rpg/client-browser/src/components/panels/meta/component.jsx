@@ -10,7 +10,6 @@ import { Chat } from '../../utils/chat-interface'
 import rich_text_to_react from '../../../services/rich-text-to-react'
 import { VERSION, BUILD_DATE } from '../../../services/build.json'
 import SEC from '../../../services/sec'
-import { ROUTES } from '../../../services/routes'
 import ErrorBoundary from '@offirmo/react-error-boundary'
 import get_game_instance from '../../../services/game-instance-browser'
 

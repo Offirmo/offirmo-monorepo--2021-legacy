@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 
-import View from './component'
-
 import get_game_instance from '../../../services/game-instance-browser'
 import {ROUTES} from "../../../services/routes";
+
+import View from './component'
 
 
 class MetaPanelC1 extends Component {
