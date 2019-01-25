@@ -16,12 +16,13 @@ import { PendingEngagement } from "@oh-my-rpg/state-engagement"
 import * as PRNGState from '@oh-my-rpg/state-prng'
 import { AchievementSnapshot } from '@oh-my-rpg/state-progress'
 
-import { State } from './types'
+import { Adventure, State } from './types'
 import * as state_fns from './state'
 import * as selectors from './selectors'
 import { migrate_to_latest } from './state/migrations'
 import { SoftExecutionContext } from './sec'
 import { Action, reduce_action, get_actions_for_element } from './serialization'
+import { get_recap } from './engagement'
 
 interface CreateParams<T> {
 	SEC: SoftExecutionContext
@@ -179,6 +180,18 @@ function create_game_instance<T>({SEC, get_latest_state, persist_state, view_sta
 				get_achievements_completion(): [number, number] {
 					let state = get_latest_state()
 					return selectors.get_achievements_completion(state.u_state)
+				},
+				get_last_adventure(): Readonly<Adventure> | null {
+					let state = get_latest_state()
+					return state.u_state.last_adventure
+				},
+				get_recap(): Document {
+					let state = get_latest_state()
+					return get_recap(state.u_state)
+				},
+				is_inventory_full(): boolean {
+					let state = get_latest_state()
+					return selectors.is_inventory_full(state.u_state)
 				}
 			},
 

@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react'
 
-import * as tbrpg from '@tbrpg/state'
 import { render_adventure, render_character_sheet, render_full_inventory, render_item_short } from '@oh-my-rpg/view-rich-text'
 
 import { Short, Detailed } from '../../misc/interactive-element'
 import rich_text_to_react from '../../../services/rich-text-to-react'
+import get_game_instance from '../../../services/game-instance-browser'
 import { render_meta } from '../../panels/meta/component'
 import './index.css'
 
@@ -21,9 +21,9 @@ const PageDevViewM = React.memo(
 			<div className="dev-page">
 				<h1>Dev area</h1>
 				<hr key="recap" />
-				{rich_text_to_react(tbrpg.get_recap(state.u_state)) /* TODO move to state? */}
+				{rich_text_to_react(get_game_instance().selectors.get_recap())}
 				<hr key="last_adventure" />
-				{rich_text_to_react(render_adventure(state.u_state.last_adventure))}
+				{rich_text_to_react(render_adventure(get_game_instance().selectors.get_last_adventure()))}
 				<hr key="pending" />
 				{/* TODO */}
 				<hr key="avatar" />

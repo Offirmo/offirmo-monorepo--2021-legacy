@@ -33,12 +33,12 @@ function * gen_next_step() {
 			const state = game_instance.model.get_state()
 			const ui_state = game_instance.view.get_state()
 			const { u_state } = state
-			const { last_adventure } = u_state
+			const last_adventure = game_instance.selectors.get_last_adventure()
 
 			if (!ui_state.recap_displayed) {
 				steps.push({
 					type: 'simple_message',
-					msg_main: rich_text_to_react(tbrpg.get_recap(u_state)), // TODO move to state
+					msg_main: rich_text_to_react(get_game_instance().selectors.get_recap()),
 				})
 				game_instance.view.set_state(() => ({
 					recap_displayed: true,
@@ -69,7 +69,7 @@ function * gen_next_step() {
 				}))
 			}
 
-			if (tbrpg.is_inventory_full(u_state)) {
+			if (game_instance.selectors.is_inventory_full()) {
 				steps.push({
 					msg_main: 'Your inventory is full! You can’t play until you make some space.',
 					choices: [
