@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import View from './component'
 
@@ -14,7 +15,7 @@ function render() {
 	)
 }
 
-export default function AchievementsPanelC2() {
+export default function AchievementsPanel() {
 
 	return (
 		<UStateProvider>

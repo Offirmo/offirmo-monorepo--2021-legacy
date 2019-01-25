@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import PropTypes from 'prop-types'
 
 import { OhMyRPGUIContext } from '@oh-my-rpg/view-browser-react'
 

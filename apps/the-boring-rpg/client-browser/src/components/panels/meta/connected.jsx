@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 
 import { UStateListenerAndProvider } from '../../../context'
-import {ROUTES} from "../../../services/routes";
+import {ROUTES} from '../../../services/routes'
 
 import View from './component'
 

@@ -107,13 +107,14 @@ function * gen_next_step() {
 
 export default class ExplorePanelView extends React.Component {
 	static propTypes = {
-		view_state: PropTypes.object.isRequired,
+		//view_state: PropTypes.object.isRequired,
 	}
 
 	render() {
 		console.log('🔄 ExplorePanelView')
 
-		const { view_state } = this.props
+		//const { view_state } = this.props
+		const view_state = {} // TODO clean
 
 		return (
 			<div className="o⋄top-container tbrpg-panel tbrpg-panel--explore">
@@ -124,9 +125,9 @@ export default class ExplorePanelView extends React.Component {
 								initial_bubbles={view_state.home_bubbles}
 								gen_next_step={gen_next_step()}
 								on_unmount={(bubbles) => {
-									get_game_instance().view.set_state(() => ({
+									/*get_game_instance().view.set_state(() => ({
 										home_bubbles: bubbles,
-									}))
+									}))*/
 								}}
 							/>
 						</ErrorBoundary>

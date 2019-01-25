@@ -1,8 +1,10 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import View from './component'
 
 import get_game_instance from '../../../services/game-instance-browser'
+import { UStateProvider } from '../../../context'
 
 
 export default function CharacterPanel() {
