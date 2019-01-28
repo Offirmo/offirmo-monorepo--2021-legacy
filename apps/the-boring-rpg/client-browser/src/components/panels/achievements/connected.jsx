@@ -1,25 +1,27 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import View from './component'
 
 import get_game_instance from '../../../services/game-instance-browser'
-import { UStateProvider } from '../../../context'
+import { UStateListenerAndProvider } from '../../../context'
 
 
-function render() {
-	const achievements_snapshot = get_game_instance().selectors.get_achievements_snapshot()
 
-	return (
-		<View achievements_snapshot={achievements_snapshot} />
-	)
+class AchievementsPanel extends Component {
+	render_view = (u_state) => {
+		const achievements_snapshot = get_game_instance().selectors.get_achievements_snapshot()
+
+		return (
+			<View achievements_snapshot={achievements_snapshot} />
+		)
+	}
+
+	render() {
+		return (
+			<UStateListenerAndProvider render={this.render_view} />
+		)
+	}
 }
 
-export default function AchievementsPanel() {
-
-	return (
-		<UStateProvider>
-			{render}
-		</UStateProvider>
-	)
-}
+export default AchievementsPanel

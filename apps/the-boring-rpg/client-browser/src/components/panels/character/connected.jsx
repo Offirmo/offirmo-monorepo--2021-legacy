@@ -1,16 +1,26 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+
+import { UStateListenerAndProvider } from '../../../context'
+import get_game_instance from '../../../services/game-instance-browser'
 
 import View from './component'
 
-import get_game_instance from '../../../services/game-instance-browser'
-import { UStateProvider } from '../../../context'
 
+class CharacterPanel extends Component {
+	render_view = (u_state) => {
+		const { avatar } = u_state
 
-export default function CharacterPanel() {
-	const { u_state: { avatar } } = get_game_instance().model.get_state()
+		return (
+			<View avatar={avatar} />
+		)
+	}
 
-	return (
-		<View avatar={avatar} />
-	)
+	render() {
+		return (
+			<UStateListenerAndProvider render={this.render_view} />
+		)
+	}
 }
+
+export default CharacterPanel
