@@ -122,7 +122,7 @@ function render_achievement_snapshot_detailed(achievement_snapshot: Readonly<Ach
 		if (percentage > 100)
 			throw new Error(`Invalid achievement completion rate for "${name}"!`)
 		builder
-			.pushWeak(`Progress: ${Math.round(percentage)}% (${done}/${to_do})`)
+			.pushWeak(`Progress: ${Math.floor(percentage)}% (${done}/${to_do})`)
 			.pushLineBreak()
 	}
 

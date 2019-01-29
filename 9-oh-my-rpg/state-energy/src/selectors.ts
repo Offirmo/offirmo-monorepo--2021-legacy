@@ -18,7 +18,7 @@ function get_available_energy_float(t_state: Readonly<TState>): number {
 	}
 
 	const available_energy = new Fraction(t_state.available_energy)
-	return available_energy.round(2).valueOf()
+	return available_energy.floor(2).valueOf()
 }
 
 function get_human_time_to_next(u_state: Readonly<UState>, t_state: Readonly<TState>): string {
