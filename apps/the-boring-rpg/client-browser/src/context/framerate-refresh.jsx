@@ -13,7 +13,7 @@ const MAX_FPS = 1. // TODO load from prefs
 const MIN_FPS = .1 // ex. for a background tab
 const MIN_FPS_FRAME_PERIOD_MS = Math.trunc(1000. / MIN_FPS)
 const MAX_FPS_FRAME_PERIOD_MS = Math.trunc(1000. / MAX_FPS)
-const MAX_ITERATIONS = 1 //10000 // debug
+const MAX_ITERATIONS = 0 //10 // debug
 
 
 class AppStateListenerAndProviderRAF extends React.Component {
@@ -39,6 +39,8 @@ class AppStateListenerAndProviderRAF extends React.Component {
 	}
 
 	update_to_now = throttle((time) => {
+		if (window.XOFF.is_paused) return
+
 		const now_ms = this.time_last_iteration = get_UTC_timestamp_ms()
 
 		if (!this.time_1st_iteration) {

@@ -111,11 +111,12 @@ function * gen_next_step(navigate_to_savegame_editor) {
 }
 
 
-export function render_meta(u_state) {
+export function render_meta(statistics) {
 	const { CHANNEL, ENV } = SEC.getInjectedDependencies()
+
 	const $doc_list_builder = RichText.unordered_list()
 	$doc_list_builder.pushRawNode(
-		RichText.inline_fragment().pushText(`Play count: ${u_state.progress.statistics.good_play_count}`).done(),
+		RichText.inline_fragment().pushText(`Play count: ${statistics.good_play_count}`).done(),
 		'01-playcount'
 	)
 	$doc_list_builder.pushRawNode(
@@ -152,8 +153,8 @@ export function render_meta(u_state) {
 }
 
 const MetaPanelViewM = React.memo(
-	function MetaPanelView({u_state, navigate_to_savegame_editor}) {
-		console.log('🔄 MetaPanelView')
+	function MetaPanelView({statistics, navigate_to_savegame_editor}) {
+		console.log('🔄 MetaPanelView', {statistics, navigate_to_savegame_editor})
 
 		return (
 			<div className={'tbrpg-panel o⋄flex--column'}>
@@ -161,7 +162,7 @@ const MetaPanelViewM = React.memo(
 				<NetlifyWidget />
 				<hr/>
 				<div className='panel-top-content o⋄flex-element--nogrow'>
-					{rich_text_to_react(render_meta(u_state))}
+					{rich_text_to_react(render_meta(statistics))}
 				</div>
 				<hr/>
 				<div className='o⋄flex-element--grow o⋄overflow-y⁚auto'>

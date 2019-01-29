@@ -32,7 +32,6 @@ function * gen_next_step() {
 		else {
 			const state = game_instance.model.get_state()
 			const ui_state = game_instance.view.get_state()
-			const { u_state } = state
 			const last_adventure = game_instance.selectors.get_last_adventure()
 
 			if (!ui_state.recap_displayed) {

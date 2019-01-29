@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Fraction from 'fraction.js'
 
 import get_game_instance from '../../../../services/game-instance-browser'

@@ -123,14 +123,16 @@ export default () => (
 			console.log('🔄 OMR-UI immersion')
 
 			const { mode } = game_instance.view.get_state()
-			const { u_state } = game_instance.model.get_state()
+			const { good_play_count } = get_game_instance()
+				.selectors.get_sub_state('progress')
+				.statistics
 
 			return (
 				<Fragment>
 					<Notifier omr={omr}/>
 					<View
 						mode={mode}
-						background={BACKGROUNDS[u_state.progress.statistics.good_play_count % BACKGROUNDS.length]}
+						background={BACKGROUNDS[good_play_count % BACKGROUNDS.length]}
 					/>
 				</Fragment>
 			)

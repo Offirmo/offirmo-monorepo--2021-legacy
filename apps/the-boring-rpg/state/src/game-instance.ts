@@ -16,7 +16,7 @@ import { PendingEngagement } from "@oh-my-rpg/state-engagement"
 import * as PRNGState from '@oh-my-rpg/state-prng'
 import { AchievementSnapshot } from '@oh-my-rpg/state-progress'
 
-import { Adventure, State } from './types'
+import { Adventure, State, UState } from './types'
 import * as state_fns from './state'
 import * as selectors from './selectors'
 import { migrate_to_latest } from './state/migrations'
@@ -192,6 +192,11 @@ function create_game_instance<T>({SEC, get_latest_state, persist_state, view_sta
 				is_inventory_full(): boolean {
 					let state = get_latest_state()
 					return selectors.is_inventory_full(state.u_state)
+				},
+				// https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-1.html
+				get_sub_state<K extends keyof UState>(key: K): UState[K] {
+					let state = get_latest_state()
+					return state.u_state[key]
 				}
 			},
 
@@ -234,7 +239,7 @@ function create_game_instance<T>({SEC, get_latest_state, persist_state, view_sta
 
 			subscribe(id: string, fn: () => void): () => void {
 				const unbind = emitter.on('view_change', (src: string) => {
-					console.log(`🌀 root state change reported to subscriber "${id}" (source: view/${src})`)
+					console.log(`🌀🌀🌀🌀🌀🌀🌀 root state change reported to subscriber "${id}" (source: view/${src})`)
 					fn()
 				})
 				return unbind

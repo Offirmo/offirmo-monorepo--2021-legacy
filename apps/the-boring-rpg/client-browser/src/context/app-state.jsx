@@ -13,8 +13,8 @@ class AppStateListenerAndProvider extends React.Component {
 	static propTypes = {
 		children: PropTypes.node.isRequired,
 	}
-	state = {}
 
+	state = {}
 	unsubscribeAppStateListener = null
 
 	componentDidMount() {
@@ -31,7 +31,7 @@ class AppStateListenerAndProvider extends React.Component {
 	}
 
 	render() {
-		console.log(`🔄 AppStateListenerAndProvider`, {app_state: this.state.app_state});
+		console.log(`🔄 AppStateListenerAndProvider`/*, {app_state: this.state.app_state}*/);
 
 		return (
 			<AppStateContext.Provider value={this.state.app_state}>

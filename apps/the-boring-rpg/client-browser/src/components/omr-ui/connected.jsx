@@ -1,20 +1,34 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import OhMyRPGView from './component'
-
 import get_game_instance from '../../services/game-instance-browser'
-const game_instance = get_game_instance()
+import { AppStateContext } from '../../context'
 
-export default props => {
-	const { mode } = game_instance.view.get_state()
-	const avatar_name = game_instance.model.get_state().u_state.avatar.name
+import View from './component'
+
+
+
+function OMRUI() {
+	console.log('🔄 OMRUI')
 
 	return (
-		<OhMyRPGView
-			mode={mode}
-			avatar_name={avatar_name}
-			game_instance={game_instance}
-		/>
+		<AppStateContext.Consumer>
+			{app_state => {
+				if (!app_state) return null
+
+				const { mode } = get_game_instance().view.get_state()
+				const avatar_name = get_game_instance().selectors.get_sub_state('avatar').name
+
+				return (
+					<View
+						mode={mode}
+						avatar_name={avatar_name}
+					/>
+				)
+			}}
+		</AppStateContext.Consumer>
 	)
 }
+
+
+export default OMRUI

@@ -6,6 +6,7 @@ import { UStateListenerAndProvider } from '../../../context'
 import {ROUTES} from '../../../services/routes'
 
 import View from './component'
+import get_game_instance from '../../../services/game-instance-browser'
 
 
 class MetaPanelC1 extends Component {
@@ -16,15 +17,19 @@ class MetaPanelC1 extends Component {
 	}
 
 	render_view = (u_state) => {
+		console.log('🔄 MetaPanelC1.render_view')
+		const { statistics } = get_game_instance().selectors.get_sub_state('progress')
+
 		return (
 			<View
-				u_state={u_state}
+				statistics={statistics}
 				navigate_to_savegame_editor={this.navigate_to_savegame_editor}
 			/>
 		)
 	}
 
 	render() {
+		console.log('🔄 MetaPanelC1')
 		return (
 			<UStateListenerAndProvider render={this.render_view} />
 		)

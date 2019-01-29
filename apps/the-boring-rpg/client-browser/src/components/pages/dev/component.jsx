@@ -12,9 +12,10 @@ const PageDevViewM = React.memo(
 	function PageDevView({state, view_state}) {
 		console.log('🔄 PageDevView')
 
+		const inventory = get_game_instance().selectors.get_sub_state('inventory')
 		const interactive_items = [
-			...Object.values(state.u_state.inventory.slotted),
-			...state.u_state.inventory.unslotted,
+			...Object.values(inventory.slotted),
+			...inventory.unslotted,
 		]
 
 		return (
@@ -27,9 +28,9 @@ const PageDevViewM = React.memo(
 				<hr key="pending" />
 				{/* TODO */}
 				<hr key="avatar" />
-				{rich_text_to_react(render_character_sheet(state.u_state.avatar))}
+				{rich_text_to_react(render_character_sheet(get_game_instance().selectors.get_sub_state('avatar')))}
 				<hr key="inventory" />
-				{rich_text_to_react(render_full_inventory(state.u_state.inventory, state.u_state.wallet))}
+				{rich_text_to_react(render_full_inventory(inventory, get_game_instance().selectors.get_sub_state('wallet')))}
 				<hr key="meta" />
 				{rich_text_to_react(render_meta(state, view_state))}
 				<hr key="items" />

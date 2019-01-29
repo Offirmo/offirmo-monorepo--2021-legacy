@@ -1,37 +1,26 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { render_any_m } from '@offirmo/react-error-boundary'
 
-import {AppStateContext} from "./app-state"
+import { AppStateContext } from './app-state'
 
 
-const UStateListenerAndProviderM = React.memo(
-	function UStateListenerAndProvider({ u_state, children, render }) {
-		const ComponentOrFunctionOrAny = children | render | '[UStateProviderM error]'
 
-		if (ComponentOrFunctionOrAny.propTypes || ComponentOrFunctionOrAny.render || (ComponentOrFunctionOrAny.prototype && ComponentOrFunctionOrAny.prototype.render))
-			return <ComponentOrFunctionOrAny u_state={u_state} />
-
-		if (typeof ComponentOrFunctionOrAny === 'function')
-			return ComponentOrFunctionOrAny({ u_state })
-
-		return ComponentOrFunctionOrAny
-	}
-)
-
-function UStateListenerAndProviderC1({ children, render }) {
+function UStateListenerAndProvider({ children, render }) {
 	return (
 		<AppStateContext.Consumer>
 			{app_state => {
+				console.log('🔄 UStateListenerAndProvider'/*, { app_state, children, render }*/)
 				if (!app_state) return null
 
-				return (
-					<UStateListenerAndProviderM u_state={app_state.u_state} render={render}>
-						{children}
-					</UStateListenerAndProviderM>
-				)
+				return render_any_m({
+					u_state: app_state.model.u_state,
+					render,
+					children,
+				})
 			}}
 		</AppStateContext.Consumer>
 	)
 }
 
-export default UStateListenerAndProviderC1
+export default UStateListenerAndProvider

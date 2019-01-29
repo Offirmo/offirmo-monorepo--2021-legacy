@@ -10,7 +10,6 @@ import HamburgerArea from './omr-hamburger'
 import * as GroupChat from './group-chat-tlkio'
 
 import get_game_instance from '../../services/game-instance-browser'
-const game_instance = get_game_instance()
 
 
 import './index.css'
@@ -26,8 +25,8 @@ const MODE_TO_INDEX = {
 
 export default class OhMyRPGView extends Component {
 	static propTypes = {
-		avatar_name: PropTypes.string.isRequired,
 		mode: PropTypes.string.isRequired,
+		avatar_name: PropTypes.string.isRequired,
 	}
 
 	state = {
@@ -65,7 +64,7 @@ export default class OhMyRPGView extends Component {
 	}
 
 	activate_panel = (panel_id) => {
-		game_instance.view.set_state(() => ({
+		get_game_instance().view.set_state(() => ({
 			mode: panel_id,
 		}))
 	}
