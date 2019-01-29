@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import assert from 'tiny-invariant'
 
 import { get_lib_SEC } from './sec'
+import { render_any } from './render-any'
 
 
 class ErrorBoundary extends React.Component {
@@ -15,7 +17,7 @@ class ErrorBoundary extends React.Component {
 		super(props)
 
 		const {name, SEC} = props
-		if (!name) throw new Error('ErrorBoundary must have a name!!!')
+		assert(name, 'ErrorBoundary must have a name!!!')
 		this.SEC = get_lib_SEC(SEC).createChild()
 			.setLogicalStack({module: `EB:${name}`})
 			.setAnalyticsAndErrorDetails({
@@ -82,28 +84,7 @@ class ErrorBoundary extends React.Component {
 		}
 
 		try {
-			// inspired from render-props:
-			// https://github.com/donavon/render-props/blob/develop/src/index.js
-			// but enhanced.
-			const { children, render, ...props } = this.props
-			const ComponentOrFunctionOrAny = children || render || (
-				<span className={`o⋄error-report error-boundary-report--${name}`}>
-					ErrorBoundary: no children nor render prop!
-				</span>
-			)
-
-			//console.log('render', { 'this.props': this.props, props, ComponentOrFunctionOrAny })
-
-			if (ComponentOrFunctionOrAny.propTypes || ComponentOrFunctionOrAny.render || (ComponentOrFunctionOrAny.prototype && ComponentOrFunctionOrAny.prototype.render))
-				return <ComponentOrFunctionOrAny key={name} {...props} />
-
-			if (typeof ComponentOrFunctionOrAny === 'function')
-				return ComponentOrFunctionOrAny({
-					...(ComponentOrFunctionOrAny.defaultProps || {}),
-					...props,
-				})
-
-			return ComponentOrFunctionOrAny
+			return render_any(this.props)
 		}
 		catch (err) {
 			setTimeout(() => this.componentDidCatch(err, 'crash in ErrorBoundary.render()'))

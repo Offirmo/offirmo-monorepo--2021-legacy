@@ -39,7 +39,7 @@ class ContextProvider extends React.Component {
 			this.resolveNotificationSystem = resolve
 			this.rejectNotificationSystem = reject
 		})
-		this.notificationSystem.then(() => console.info('OMR notifications system ready ✅'))
+		//this.notificationSystem.then(() => console.info('OMR notifications system ready ✅'))
 
 		// TODO clean up in future iterations
 		this.state._registerNotificationSystem = (notificationSystem) => {
@@ -55,7 +55,7 @@ class ContextProvider extends React.Component {
 					this.resolveNotificationSystem = resolve
 					this.rejectNotificationSystem = reject
 				})
-				this.notificationSystem.then(() => console.info('OMR notifications system ready ✅'))
+				//this.notificationSystem.then(() => console.info('OMR notifications system ready ✅'))
 			}
 
 			if (!notificationSystem) return
@@ -72,7 +72,7 @@ class ContextProvider extends React.Component {
 
 		this.state.enqueueNotification = (options = {}) => {
 			flag_count++
-			console.log(`OMR enqueueNotification #${flag_count}`, options)
+			//console.log(`OMR enqueueNotification #${flag_count}`, options)
 			let {level, title, message, children, position, auto_dismiss_delay_ms, uid = flag_count} = {
 				...DEFAULT_FLAG_SETTINGS,
 				...options,
@@ -114,9 +114,14 @@ class ContextProvider extends React.Component {
 		// called by react-burger-menu
 		this.state.onUpdateBurgerMenu = (state) => {
 			//console.log('onUpdateBurgerMenu', state)
-			this.setState(state => ({
-				isBurgerMenuOpen: state.isOpen,
-			}))
+			// Note:
+			// 1. state is not immutable (shame on react-burger-menu) that's why we copy the value ASAP (or bug)
+			const new_value = state.isOpen
+			// 2. when opening, it may be unneeded, causing an extra render
+			if (new_value === this.state.isBurgerMenuOpen) return // not 100% orthodox but ok
+			this.setState({
+				isBurgerMenuOpen: new_value,
+			})
 		}
 
 		this.state.toggleAbout = () => {
@@ -133,6 +138,7 @@ class ContextProvider extends React.Component {
 	}
 
 	render() {
+		//console.log(`--- Provider ---`, JSON.parse(JSON.stringify(this.state)))
 		return (
 			<OhMyRPGUIContext.Provider value={this.state}>
 				{this.props.children}

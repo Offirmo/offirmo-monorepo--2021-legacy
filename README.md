@@ -49,6 +49,12 @@ yarn global add bolt
 ```
 TODO https://www.npmjs.com/package/eslint-import-resolver-typescript
 
+Fragments
+```js
+		"memoize-one": "^5",
+		"tiny-invariant": "^1",
+
+```
 ## Hat tips
 
 Tools

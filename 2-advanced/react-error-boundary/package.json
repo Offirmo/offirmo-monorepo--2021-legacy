@@ -1,8 +1,8 @@
 {
 	"name": "@offirmo/react-error-boundary",
 	"version": "0.0.1",
-	"main": "src/error-boundary.jsx",
-	"source": "src/error-boundary.jsx",
+	"main": "src/index.js",
+	"source": "src/index.js",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "UNLICENSED",
 	"scripts": {
@@ -17,6 +17,8 @@
 		"react": "^16"
 	},
 	"dependencies": {
+		"memoize-one": "^5",
+		"tiny-invariant": "^1"
 	},
 	"devDependencies": {
 		"@babel/core": "^7",
