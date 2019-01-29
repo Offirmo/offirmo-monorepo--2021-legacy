@@ -9,7 +9,7 @@ import View from './component'
 
 
 function OMRUI() {
-	console.log('🔄 OMRUI')
+	//console.log('🔄 OMRUI')
 
 	return (
 		<AppStateContext.Consumer>

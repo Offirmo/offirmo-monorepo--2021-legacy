@@ -33,6 +33,21 @@ export default class OhMyRPGView extends Component {
 		chat_nickname: 'anonymous',
 	}
 
+	bottomMenuItems = [
+		<span key="explore" className="omr⋄bottom-menu⁚icon icomoon-treasure-map"
+				onClick={() => this.activate_panel('explore')}/>,
+		<span key="inventory" className="omr⋄bottom-menu⁚icon icomoon-cash"
+				onClick={() => this.activate_panel('inventory')}/>,
+		<span key="character" className="omr⋄bottom-menu⁚icon icomoon-battle-gear"
+				onClick={() => this.activate_panel('character')}/>,
+		<span key="achievements" className="omr⋄bottom-menu⁚icon icomoon-laurel-crown"
+				onClick={() => this.activate_panel('achievements')}/>,
+		<span key="social" className="omr⋄bottom-menu⁚icon icomoon-eagle-emblem"
+				onClick={() => this.activate_panel('social')}/>,
+		<span key="chat" className="omr⋄bottom-menu⁚icon icomoon-conversation"
+				onClick={() => GroupChat.toggle()}/>,
+	]
+
 	static getDerivedStateFromProps(nextProps, prevState) {
 		const avatar_name = nextProps.avatar_name
 		if (avatar_name === prevState.chat_nickname)
@@ -76,7 +91,7 @@ export default class OhMyRPGView extends Component {
 
 	render() {
 		const { mode } = this.props
-		console.log('🔄 OMRUI')
+		console.log('🔄 OhMyRPGView')
 
 		return (
 			<OhMyRpg
@@ -92,20 +107,7 @@ export default class OhMyRPGView extends Component {
 
 				burgerPanelContent={<HamburgerArea />}
 
-				bottomMenuItems={[
-					<span key="explore" className="omr⋄bottom-menu⁚icon icomoon-treasure-map"
-							onClick={() => this.activate_panel('explore')} />,
-					<span key="inventory" className="omr⋄bottom-menu⁚icon icomoon-cash"
-							onClick={() => this.activate_panel('inventory')} />,
-					<span key="character" className="omr⋄bottom-menu⁚icon icomoon-battle-gear"
-							onClick={() => this.activate_panel('character')} />,
-					<span key="achievements" className="omr⋄bottom-menu⁚icon icomoon-laurel-crown"
-							onClick={() => this.activate_panel('achievements')} />,
-					<span key="social" className="omr⋄bottom-menu⁚icon icomoon-eagle-emblem"
-							onClick={() => this.activate_panel('social')} />,
-					<span key="chat" className="omr⋄bottom-menu⁚icon icomoon-conversation"
-							onClick={() => GroupChat.toggle()} />,
-				]}
+				bottomMenuItems={this.bottomMenuItems}
 
 				bottomMarkerIndex={MODE_TO_INDEX[mode]}
 			>
