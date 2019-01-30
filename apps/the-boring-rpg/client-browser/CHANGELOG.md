@@ -21,11 +21,11 @@ Next
 
 2019/01/30 v0.56
 - 🤩 feature: X new adventures (now totalling X!)
-- 😍 feature: X new backgrounds (now totalling X!)
+- 😍 feature: 4 new backgrounds (now totalling 27!)
 - 🤩 feature: X new achievements (now totalling X!)
 - 😅 fix: a rounding error on energy display
-- 😅 fix: a temporary limitation on energy refresh
-- 😷 chore: big internal refactors (React) that were painful but now the game UI is smooth and refreshes parts only when it should
+- 😅 fix: a temporary limitation on UI refresh
+- 😷 chore: big internal refactor (React) that was painful but now the game UI is smooth and refreshes parts only when it should
 
 
 2019/01/11 v0.55

@@ -22,6 +22,10 @@ const BACKGROUNDS = [
 	'castle_phantom',
 	'city_gates',
 	'civilization',
+	'dmitry-kremiansky-a_secret_place_alps',
+	'dmitry-kremiansky-street',
+	'dmitry-kremiansky-depth_needed',
+	'dmitry-kremiansky-ship',
 	'fields_of_gold',
 	'gnomon',
 	'gothic_choir',
@@ -38,7 +42,6 @@ const BACKGROUNDS = [
 	'monoliths',
 	'snowcapped_environment',
 	'viking_ambush',
-
 ]
 
 
