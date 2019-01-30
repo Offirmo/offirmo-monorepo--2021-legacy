@@ -18,6 +18,7 @@ import {
 import { State as EngagementState } from '@oh-my-rpg/state-engagement'
 import { State as CodesState } from '@oh-my-rpg/state-codes'
 import { State as ProgressState } from '@oh-my-rpg/state-progress'
+import { State as MetaState } from '@oh-my-rpg/state-meta'
 
 import { AchievementStatus } from '@oh-my-rpg/state-progress'
 
@@ -75,13 +76,14 @@ interface UState {
 	creation_date: HumanReadableTimestampUTCMinutes
 
 	avatar: CharacterState
-	inventory: InventoryState
-	wallet: WalletState
-	prng: PRNGState
+	codes: CodesState
 	energy: EnergyUState,
 	engagement: EngagementState
-	codes: CodesState
+	inventory: InventoryState
+	meta: MetaState
+	prng: PRNGState
 	progress: ProgressState
+	wallet: WalletState
 
 	last_adventure: Adventure | null
 }

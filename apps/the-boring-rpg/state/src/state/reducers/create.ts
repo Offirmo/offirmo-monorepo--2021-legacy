@@ -16,6 +16,7 @@ import * as EngagementState from '@oh-my-rpg/state-engagement'
 import * as PRNGState from '@oh-my-rpg/state-prng'
 import * as CodesState from '@oh-my-rpg/state-codes'
 import * as ProgressState from '@oh-my-rpg/state-progress'
+import * as MetaState from '@oh-my-rpg/state-meta'
 
 import { Currency } from '@oh-my-rpg/state-wallet'
 
@@ -85,6 +86,7 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 				engagement: EngagementState.create(SEC),
 				codes: CodesState.create(SEC),
 				progress: ProgressState.create(SEC),
+				meta: MetaState.create(),
 
 				last_adventure: null,
 			},

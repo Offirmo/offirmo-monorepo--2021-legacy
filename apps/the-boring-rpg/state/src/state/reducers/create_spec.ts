@@ -27,14 +27,15 @@ describe(`${LIB} - reducer - create`, function() {
 
 			// check presence of sub-states
 			expect(u_state, 'avatar').to.have.property('avatar')
-			expect(u_state, 'inventory').to.have.property('inventory')
-			expect(u_state, 'wallet').to.have.property('wallet')
-			expect(u_state, 'prng').to.have.property('prng')
+			expect(u_state, 'codes').to.have.property('codes')
 			expect(u_state, 'energy').to.have.property('energy')
 			expect(u_state, 'engagement').to.have.property('engagement')
-			expect(u_state, 'codes').to.have.property('codes')
-			expect(u_state, 'codes').to.have.property('progress')
-			expect(Object.keys(u_state), 'quick key count check U').to.have.lengthOf(12) // because this test should be updated if that changes
+			expect(u_state, 'inventory').to.have.property('inventory')
+			expect(u_state, 'meta').to.have.property('meta')
+			expect(u_state, 'prng').to.have.property('prng')
+			expect(u_state, 'progress').to.have.property('progress')
+			expect(u_state, 'wallet').to.have.property('wallet')
+			expect(Object.keys(u_state), 'quick key count check U').to.have.lengthOf(13) // because this test should be updated if that changes
 
 			const { t_state } = state
 			expect(t_state, 'energy').to.have.property('energy')

@@ -7,6 +7,7 @@ import * as EnergyState from '@oh-my-rpg/state-energy'
 import * as EngagementState from '@oh-my-rpg/state-engagement'
 import * as CodesState from '@oh-my-rpg/state-codes'
 import * as ProgressState from '@oh-my-rpg/state-progress'
+import * as MetaState from '@oh-my-rpg/state-meta'
 
 import { LIB, SCHEMA_VERSION } from '../../consts'
 import { State } from '../../types'
@@ -15,7 +16,7 @@ import { reset_and_salvage } from './salvage'
 
 /////////////////////
 
-const SUB_U_REDUCERS_COUNT = 8
+const SUB_U_REDUCERS_COUNT = 9
 const SUB_U_OTHER_KEYS_COUNT = 4
 
 const SUB_T_REDUCERS_COUNT = 1
@@ -94,6 +95,8 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any
 				sub_reducer_migrated.push('codes')
 				u_state.progress = ProgressState.migrate_to_latest(SEC, u_state.progress, hints.progress)
 				sub_reducer_migrated.push('progress')
+				u_state.meta = MetaState.migrate_to_latest(SEC, u_state.meta, hints.meta)
+				sub_reducer_migrated.push('meta')
 
 				if (sub_reducer_migrated.length !== SUB_U_REDUCERS_COUNT)
 					throw new Error('migrate_to_latest src [S.U.2] is outdated, please update!')

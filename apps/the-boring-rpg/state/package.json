@@ -31,6 +31,7 @@
 		"@oh-my-rpg/state-energy": "^0.0.1",
 		"@oh-my-rpg/state-engagement": "^0.0.1",
 		"@oh-my-rpg/state-inventory": "^0.0.1",
+		"@oh-my-rpg/state-meta": "^0.0.1",
 		"@oh-my-rpg/state-prng": "^0.0.1",
 		"@oh-my-rpg/state-progress": "^0.0.1",
 		"@oh-my-rpg/state-wallet": "^0.0.1",

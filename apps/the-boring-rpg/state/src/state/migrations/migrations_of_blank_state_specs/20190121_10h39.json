@@ -213,7 +213,15 @@
 				"is_registered_alpha_player": false
 			}
 		},
-		"last_adventure": null
+		"last_adventure": null,
+		"meta": {
+			"schema_version": 2,
+			"revision": 0,
+
+			"is_web_diversity_supporter": false,
+			"is_logged_in": false,
+			"roles": [ ]
+		}
 	},
 	"t_state": {
 		"energy": {

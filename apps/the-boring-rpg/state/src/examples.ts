@@ -23,6 +23,7 @@ import * as Energy from '@oh-my-rpg/state-energy'
 import * as Engagement from '@oh-my-rpg/state-engagement'
 import * as Codes from '@oh-my-rpg/state-codes'
 import * as Progress from '@oh-my-rpg/state-progress'
+import * as MetaState from '@oh-my-rpg/state-meta'
 
 import { DEMO_WEAPON_1 } from '@oh-my-rpg/logic-weapons'
 import { DEMO_MONSTER_01 } from '@oh-my-rpg/logic-monsters'
@@ -144,6 +145,7 @@ const DEMO_STATE: Readonly<State> = deepFreeze({
 		engagement: Engagement.DEMO_STATE,
 		codes: Codes.DEMO_STATE,
 		progress: Progress.DEMO_STATE,
+		meta: MetaState.DEMO_STATE,
 
 		last_adventure: DEMO_ADVENTURE_01,
 	},

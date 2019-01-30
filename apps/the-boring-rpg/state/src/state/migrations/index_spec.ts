@@ -12,6 +12,7 @@ import * as EnergyState from '@oh-my-rpg/state-energy'
 import * as EngagementState from '@oh-my-rpg/state-engagement'
 import * as CodesState from '@oh-my-rpg/state-codes'
 import * as ProgressState from '@oh-my-rpg/state-progress'
+import * as MetaState from '@oh-my-rpg/state-meta'
 
 import {LIB, SCHEMA_VERSION} from '../../consts'
 import {migrate_to_latest, SUB_U_REDUCERS_COUNT} from '.'
@@ -33,6 +34,7 @@ const MIGRATION_HINTS_FOR_TESTS: any = deepFreeze({
 	engagement: EngagementState.MIGRATION_HINTS_FOR_TESTS,
 	codes: CodesState.MIGRATION_HINTS_FOR_TESTS,
 	progress: ProgressState.MIGRATION_HINTS_FOR_TESTS,
+	meta: MetaState.MIGRATION_HINTS_FOR_TESTS,
 })
 if (Object.keys(MIGRATION_HINTS_FOR_TESTS)
 	.filter(k => !k.startsWith('to_'))
