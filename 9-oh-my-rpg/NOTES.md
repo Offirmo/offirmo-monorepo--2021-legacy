@@ -2,6 +2,10 @@
 how to negotiate
 https://www.linkedin.com/pulse/how-negotiate-jo-owen/
 
+transferable skills https://dev.to/alex_barashkov/how-games-can-improve-your-skills-in-the-real-world-5gk8
+
+https://science.slashdot.org/story/19/01/30/1559228/mind-altering-cat-parasite-linked-to-schizophrenia-in-largest-study-yet
+
 skeletons:
 - wolf
 - human

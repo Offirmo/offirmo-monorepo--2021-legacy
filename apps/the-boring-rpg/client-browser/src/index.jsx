@@ -9,7 +9,7 @@ import Root from './components/root'
 
 
 window.XOFF = {
-	is_paused: true,
+	is_paused: false,
 	debug_render: true,
 }
 

@@ -70,6 +70,12 @@ class Chat extends React.Component {
 		this.mounted = false // need to track to avoid errors before mount and during/after unmounting
 	}
 
+	set_state = (param) => {
+		if (!this.mounted) return
+
+		return this.setState(param)
+	}
+
 	addBubble(element, {direction = 'ltr'} = {}) {
 		if (!element) return
 
@@ -85,7 +91,7 @@ class Chat extends React.Component {
 			this.state.bubble_key++
 		}
 		else {
-			this.setState(state => {
+			this.set_state(state => {
 				let bubbles = state.bubbles.concat(bubble).slice(-this.props.max_displayed_bubbles)
 
 				// special unclean behavior, I will rewrite everything anyway
@@ -130,10 +136,10 @@ class Chat extends React.Component {
 		}
 
 		const spin_until_resolution = anything => {
-			if (this.mounted) this.setState(s => {spinning: true})
+			this.set_state(s => {spinning: true})
 			return promiseFinally(
 				Promise.resolve(anything),
-				() => { if (this.mounted)  this.setState(s => {spinning: false}) },
+				() => { this.set_state(s => {spinning: false}) },
 			)
 		}
 
@@ -144,20 +150,20 @@ class Chat extends React.Component {
 		}
 
 		const display_progress = async ({progress_promise, msg = 'loading', msgg_acknowledge} = {}) => {
-			this.setState(state => ({progressing: true}))
+			this.set_state(state => ({progressing: true}))
 
 			await display_message({msg})
 
 			if (progress_promise.onProgress) {
 				progress_promise.onProgress(progress_value => {
-					this.setState(state => ({progress_value}))
+					this.set_state(state => ({progress_value}))
 				})
 			}
 
 			progress_promise
 				.then(() => true, () => false)
 				.then(success => {
-					this.setState(state => ({
+					this.set_state(state => ({
 						progress_value: 0,
 						progressing: false,
 					}))
@@ -166,7 +172,7 @@ class Chat extends React.Component {
 						? msgg_acknowledge(success)
 						: 'Done.'
 
-					this.setState(state => ({bubbles: state.bubbles.slice(0, -1)}))
+					this.set_state(state => ({bubbles: state.bubbles.slice(0, -1)}))
 
 					return display_message({msg: (
 						<span>
@@ -187,14 +193,14 @@ class Chat extends React.Component {
 			if (DEBUG) console.log(`↘ read_string()`, step)
 
 			return new Promise(resolve => {
-					this.setState(state => ({
+					this.set_state(state => ({
 						reading_string: true,
 						input_resolve_fn: resolve,
 					}))
 					this.props.on_input_begin()
 				})
 				.then(raw_answer => {
-					this.setState(state => ({
+					this.set_state(state => ({
 						reading_string: false,
 						input_resolve_fn: null,
 					}))
@@ -219,7 +225,7 @@ class Chat extends React.Component {
 			if (DEBUG) console.log('↘ read_choice()')
 
 			return new Promise(resolve => {
-					this.setState(state => ({
+					this.set_state(state => ({
 						choices: step.choices.map((choice, index) => {
 							return (
 								<button type="button"
@@ -233,7 +239,7 @@ class Chat extends React.Component {
 				})
 				.then(async (choice) => {
 
-					this.setState(state => ({
+					this.set_state(state => ({
 						choices: []
 					}))
 
