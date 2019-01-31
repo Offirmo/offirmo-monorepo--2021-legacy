@@ -23,8 +23,9 @@ Next
 - 🤩 feature: X new adventures (now totalling X!)
 - 😍 feature: 4 new backgrounds (now totalling 27!)
 - 🤩 feature: X new achievements (now totalling X!)
-- 😅 fix: a rounding error on energy display
+- 😅 fix: a rounding error on energy display (thanks LiddiLidd)
 - 😅 fix: a temporary limitation on UI refresh
+- 😅 fix: the savegame editor no longer need a page refresh after edit
 - 😷 chore: big internal refactor (React) that was painful but now the game UI is smooth and refreshes parts only when it should
 
 

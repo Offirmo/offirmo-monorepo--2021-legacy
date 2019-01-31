@@ -26,7 +26,7 @@ function request_redirect(url) {
 	localStorage.setItem(REDIRECT_LS_KEY, JSON.stringify(redirect_request))
 }
 
-class NetlifyLoggedIndicatorView extends Component {
+class NetlifyLoggedIndicator extends Component {
 	static propTypes = {
 		user: PropTypes.object.isRequired,
 		onRequestLogout: PropTypes.func.isRequired,

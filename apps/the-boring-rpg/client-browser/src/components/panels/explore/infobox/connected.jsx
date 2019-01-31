@@ -13,7 +13,7 @@ const game_instance = get_game_instance()
 
 const InfoboxC1 = React.memo(
 	function InfoboxC1({state}) {
-		console.log('🔄 InfoboxC1' /*, m_state*/)
+		//onsole.log('🔄 InfoboxC1' /*, m_state*/)
 
 		const achievements_completion_pct = (new Fraction(game_instance.selectors.get_achievements_completion())).mul(100).floor(2).valueOf()
 
@@ -29,7 +29,7 @@ const InfoboxC1 = React.memo(
 
 
 function InfoBoxC2() {
-	console.log('🔄 InfoboxC2'/*, this.context, get_available_energy_float(this.context.model)*/)
+	//console.log('🔄 InfoboxC2'/*, this.context, get_available_energy_float(this.context.model)*/)
 
 	return (
 		<AppStateContext.Consumer>

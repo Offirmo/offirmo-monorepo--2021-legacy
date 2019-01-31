@@ -47,9 +47,13 @@ SEC.xTry('loading savegame + creating game instance', ({logger}) => {
 		},
 	})
 
+	let last_saved_ls = {}
 	game_instance.model.subscribe('local-storage', () => {
-		console.info('💾 saving to LocalSortage...')
+		if (last_saved_ls.u_state === state.u_state) return // no need
+
+		console.info('💾 saving to LocalStorage...')
 		localStorage.setItem(LS_KEYS.savegame, JSON.stringify(state))
+		last_saved_ls = state
 	})
 
 	game_instance.reducers.on_start_session(
