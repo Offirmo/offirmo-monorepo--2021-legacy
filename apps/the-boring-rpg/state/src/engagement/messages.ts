@@ -47,6 +47,13 @@ function get_engagement_message(pe: Readonly<PendingEngagement>): RichText.Docum
 				.pushText(`“${params.icon} ${params.name}“`)
 				.done()
 
+		case EngagementKey['reborn']:
+			return RichText.block_fragment()
+				.pushStrong(`You got reborn`)
+				.pushLineBreak()
+				.pushText(`Sorry, I changed the data format 😰.`)
+				.done()
+
 		default:
 			throw new Error(`Missing engagement message for "${key}"! (not implemented?)`)
 	}

@@ -203,6 +203,11 @@ function create_game_instance<T>({SEC, get_latest_state, persist_state, view_sta
 			model: {
 				get_state: get_latest_state,
 
+				set_state(state: State) {
+					persist_state(state)
+					emitter.emit('model_change', 'set_state()')
+				},
+
 				reset_state() {
 					const state = state_fns.reseed(state_fns.create())
 					persist_state(state)

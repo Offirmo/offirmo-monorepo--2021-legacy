@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import fetch_inject from 'fetch-inject'
 
+import get_game_instance from '../../../services/game-instance-browser'
 import './index.css'
 
 const ACE_BASE_PATH = 'https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.1/'
@@ -70,7 +71,8 @@ export default class PageSavegameEditorView extends Component {
 		try {
 			const data = JSON.parse(this.editor.getValue())
 			console.log('Replacing current data =', localStorage.getItem(this.props.ls_key))
-			localStorage.setItem(this.props.ls_key, JSON.stringify(data))
+			get_game_instance().model.set_state(data)
+			//localStorage.setItem(this.props.ls_key, JSON.stringify(data))
 		}
 		catch (err) {
 			window.alert('Invalid JSON, save aborted. ' + err)
@@ -81,7 +83,9 @@ export default class PageSavegameEditorView extends Component {
 		if (!window.confirm('💀 Do you really really want to reset your savegame, loose all progression and start over?'))
 			return
 
-		localStorage.removeItem(this.props.ls_key)
+		get_game_instance().model.reset_state()
+
+		//localStorage.removeItem(this.props.ls_key)
 		this.props.navigate_home()
 	}
 

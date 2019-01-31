@@ -44,8 +44,12 @@ SEC.xTry('loading savegame + creating game instance', ({logger}) => {
 		get_latest_state: () => state,
 		persist_state: new_state => {
 			state = new_state // we are responsible for storing current state, see get_latest_state()
-			localStorage.setItem(LS_KEYS.savegame, JSON.stringify(state))
 		},
+	})
+
+	game_instance.model.subscribe('local-storage', () => {
+		console.info('💾 saving to LocalSortage...')
+		localStorage.setItem(LS_KEYS.savegame, JSON.stringify(state))
 	})
 
 	game_instance.reducers.on_start_session(

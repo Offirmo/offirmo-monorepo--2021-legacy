@@ -27,6 +27,7 @@ import {
 	change_avatar_class,
 	autoplay,
 } from '../reducers'
+import {EngagementKey} from "../../engagement";
 
 /////////////////////
 
@@ -117,6 +118,18 @@ function reset_and_salvage(legacy_state: Readonly<JSONObject>): Readonly<State> 
 		target_good_play_count: good_play_count,
 		target_bad_play_count: bad_play_count,
 	})
+
+	// now insert some relevant start engagements
+	state = {
+		...state,
+		u_state: {
+			...state.u_state,
+			engagement: EngagementState.enqueue(state.u_state.engagement, {
+				type: EngagementState.EngagementType.warning,
+				key: EngagementKey['reborn']
+			}),
+		},
+	}
 
 	console.info(`${LIB}: salvaged some data from a v${legacy_state && legacy_state.schema_version} legacy savegame.`)
 
