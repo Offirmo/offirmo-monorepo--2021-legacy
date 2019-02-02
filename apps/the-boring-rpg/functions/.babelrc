@@ -1,0 +1,14 @@
+{
+	"plugins": [
+
+	],
+	"presets": [
+		[
+			"@babel/env", {
+			"targets": {
+					"node": "8.10"
+				}
+			}
+		]
+	]
+}

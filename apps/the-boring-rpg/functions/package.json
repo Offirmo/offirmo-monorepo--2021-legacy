@@ -1,0 +1,34 @@
+{
+	"name": "hello-world-netlify-pro",
+	"version": "0.0.1",
+	"description": "Netlify functions for online-adventures.",
+	"repository": "https://github.com/Offirmo/hello-world-netlify-identity.git",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+
+	"dependencies": {
+		"lodash": "^4"
+	},
+
+	"scripts": {
+		"clean": "node ../../../scripts/clean.js dist functions",
+
+		"build:dev:watch": "node ../../../scripts/build-typescript.js --watch",
+		"build:prod": "node ../../../scripts/build-typescript.js",
+		"build:netlify-functions": "rm -rf ./functions && netlify-lambda build ./dist/src.es7.cjs",
+
+		"dev": "run-s clean build:dev:watch",
+		"start": "netlify-lambda serve ./dist/src.es7.cjs",
+		"test": "../../../node_modules/.bin/mocha --opts ../../../3-tools/unit-test-toolbox/mocha.opts ../../../3-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es7.cjs/**/*spec.js'",
+		"build": "run-s clean build:prod build:netlify-functions"
+	},
+	"devDependencies": {
+		"@types/aws-lambda": "^8",
+		"@types/lodash": "^4",
+		"netlify-lambda": "^1",
+		"npm-run-all": "^4",
+		"tslib": "^1",
+		"typescript": "^3"
+	}
+}
