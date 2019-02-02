@@ -19,17 +19,15 @@ Next
 - 😷 chore: some internal refactors
 
 
-2019/01/30 v0.56
-- 🤩 feature: X new adventures (now totalling X!)
+2019/01/30 v0.56.2
 - 😍 feature: 4 new backgrounds (now totalling 27!)
-- 🤩 feature: X new achievements (now totalling X!)
 - 😅 fix: a rounding error on energy display (thanks LiddiLidd)
 - 😅 fix: a temporary limitation on UI refresh
-- 😅 fix: the savegame editor no longer need a page refresh after edit
+- 😅 fix: the savegame editor no longer needs a page refresh after edit
 - 😷 chore: big internal refactor (React) that was painful but now the game UI is smooth and refreshes parts only when it should
 
 
-2019/01/11 v0.55
+2019/01/11 v0.55.1
 - 😍 feature: 2 new backgrounds (now totalling 24!)
 - 🤩 new energy display with favicon
 - 😅 fix: tweaks, typos, small bugs…
