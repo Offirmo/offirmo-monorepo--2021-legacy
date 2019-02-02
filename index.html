@@ -2,12 +2,13 @@
 <!-- html5_006 : WTE micro template -->
 
 <head>
-	<meta charset="utf-8" />
+	<meta charset="utf-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<title>Offirmo's monorepo</title>
 
-	<link rel="stylesheet" type="text/css" href="https://rawgit.com/Offirmo/offirmo-monorepo/master/2-advanced/view-css/dist/offirmo-reset%2Butils.css" />
+	<link rel="stylesheet" type="text/css"
+			href="https://rawgit.com/Offirmo/offirmo-monorepo/master/2-advanced/view-css/dist/offirmo-reset%2Butils.css"/>
 
 	<style type="text/css">
 	</style>
@@ -28,9 +29,102 @@
 <footer>
 	<a href="https://github.com/Offirmo/ama">Find me on GitHub</a>
 </footer>
+
+<aside>
+	<details>
+		<summary>Dev…</summary>
+		<!-- Add a menu:
+      Log in / Sign up - when the user is not logged in
+      Username / Log out - when the user is logged in
+     -->
+		<div data-netlify-identity-menu></div>
+
+		<!-- Add a simpler button:
+        Simple button that will open the modal.
+      -->
+		<div data-netlify-identity-button></div>
+
+		<ul>
+			<li>
+				<button onclick="netlifyIdentity.open()">auth</button>
+			<li><a>/.netlify/functions/hello</a>
+			<li><a>/.netlify/functions/echo?foo=bar&baz=42</a>
+			<li><a>/.netlify/functions/lodash</a>
+			<li><a>/.netlify/functions/me</a> (won't work without the headers, see below)
+			<li>
+				<button onclick="whoami('.netlify/functions/echo?foo=bar&baz=42')">echo with auth</button>
+			<li>
+				<button onclick="whoami()">whoami</button>
+		</ul>
+	</details>
+</aside>
+
 <script>
 	document.querySelector('h1').textContent = document.title
-	Array.prototype.forEach.call(document.querySelectorAll('a'), function(el) {
+	Array.prototype.forEach.call(document.querySelectorAll('a'), function (el) {
 		el.href || (el.href = el.text)
 	})
+</script>
+<script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+	// Bind to events
+	netlifyIdentity.on('init', user => console.log(user))
+	netlifyIdentity.on('login', user => console.log(user))
+	netlifyIdentity.on('logout', () => console.log('Logged out'))
+	netlifyIdentity.on('error', err => console.error('Logged out', err))
+	netlifyIdentity.on('open', () => console.log('Widget opened'))
+	netlifyIdentity.on('close', () => console.log('Widget closed'))
+
+	// Open the modal
+	//netlifyIdentity.open();
+
+	// Get the current user:
+	//const user = netlifyIdentity.currentUser();
+
+	// Close the modal
+	//netlifyIdentity.close();
+
+	// Log out the user
+	//netlifyIdentity.logout();
+
+	window.whoami = (url = '.netlify/functions/me') => {
+		const user = netlifyIdentity.currentUser()
+		if (!user)
+			throw new Error('Not logged in!')
+
+		let ok = false // so far
+		let errorMessage = 'Failed fetch' // so far
+		const headers = {
+			'Content-Type': 'application/json',
+			'Authorization': `Bearer ${user.token.access_token}`,
+		}
+		console.log('fetching', {url, headers})
+
+		fetch(url, {headers})
+			.then(response => {
+				// WARN: we can't destructure response because .json() needs a binding to response
+				ok = response.ok
+				if (!ok)
+					errorMessage += `, status="${response.status}"`
+				return response.json()
+			})
+			.then(responseData => {
+				console.log({url, responseData})
+
+				if (responseData && responseData.errors) {
+					ok = false // just in case
+					const messages = responseData.errors.map(errorData => `"${errorData.message}"`).join(', ')
+					errorMessage += `, error(s)="[${messages}]"`
+				}
+
+			})
+			.finally(() => {
+				if (!ok)
+					throw new Error(errorMessage)
+			})
+			.catch(e => {
+				console.error(url, e)
+				throw e
+			})
+	}
 </script>
