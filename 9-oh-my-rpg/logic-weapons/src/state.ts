@@ -20,11 +20,14 @@ import {
 } from './data'
 
 import {
+	LIB,
 	MIN_ENHANCEMENT_LEVEL,
 	MAX_ENHANCEMENT_LEVEL,
-	MIN_STRENGTH,
-	MAX_STRENGTH,
 } from './consts'
+
+import {
+	BASE_STRENGTH_INTERVAL_BY_QUALITY
+} from './selectors'
 
 /////////////////////
 
@@ -59,7 +62,9 @@ function pick_random_qualifier1(rng: Engine): string {
 function pick_random_qualifier2(rng: Engine): string {
 	return Random.pick(rng, WEAPON_QUALIFIERS2).hid
 }
-const pick_random_base_strength = Random.integer(MIN_STRENGTH, MAX_STRENGTH)
+function pick_random_base_strength(rng: Engine, quality: ItemQuality): number {
+	return Random.integer(...BASE_STRENGTH_INTERVAL_BY_QUALITY[quality])(rng)
+}
 
 /////////////////////
 
@@ -68,14 +73,21 @@ function create(rng: Engine, hints: Readonly<Partial<Weapon>> = {}): Weapon {
 
 	const base = create_item_base(InventorySlot.weapon, hints.quality || pick_random_quality(rng)) as Item & { slot: typeof InventorySlot.weapon }
 
-	return {
+	const temp: Weapon = {
 		...base,
 		base_hid: hints.base_hid || pick_random_base(rng),
 		qualifier1_hid: hints.qualifier1_hid || pick_random_qualifier1(rng),
 		qualifier2_hid: hints.qualifier2_hid || pick_random_qualifier2(rng),
-		base_strength: hints.base_strength || pick_random_base_strength(rng),
+		base_strength: hints.base_strength || pick_random_base_strength(rng, base.quality),
 		enhancement_level: hints.enhancement_level || MIN_ENHANCEMENT_LEVEL,
 	}
+
+	if (temp.base_strength < BASE_STRENGTH_INTERVAL_BY_QUALITY[temp.quality][0])
+		throw new Error(`${LIB}: create(): base_strength too low for this quality!`)
+	if (temp.base_strength > BASE_STRENGTH_INTERVAL_BY_QUALITY[temp.quality][1])
+		throw new Error(`${LIB}: create(): base_strength too high for this quality!`)
+
+	return temp
 }
 
 // TODO state, immu

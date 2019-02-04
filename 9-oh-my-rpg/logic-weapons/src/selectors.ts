@@ -1,50 +1,85 @@
 /////////////////////
 
-import { NumberHash } from '@offirmo/ts-types'
+import { Enum } from 'typescript-string-enums'
 
 import { ItemQuality, InventorySlot } from '@oh-my-rpg/definitions'
 
-import {LIB} from "./consts";
+import { LIB, MAX_ENHANCEMENT_LEVEL } from './consts'
 import { Weapon } from './types'
 
 /////////////////////
+// see spreadsheet for calculation
 
-// actualized strength
-// quality multipliers (see spreadsheet for calculation)
-const QUALITY_STRENGTH_MULTIPLIER: Readonly<NumberHash> = {
-	common:      1,
-	uncommon:   19,
-	rare:       46,
-	epic:       91,
-	legendary: 182,
-	artifact:  333,
+const ENHANCEMENT_MULTIPLIER = 0.1
+
+const MAX_POSSIBLE_ENHANCEMENT_RATIO = 1 + MAX_ENHANCEMENT_LEVEL * ENHANCEMENT_MULTIPLIER
+
+const OVERALL_STRENGTH_INTERVAL_BY_QUALITY: Readonly<{ [k: string]: [number, number] }> = {
+	[ItemQuality.common]:     [      1,    999 ],
+	[ItemQuality.uncommon]:   [   1000,   2999 ],
+	[ItemQuality.rare]:       [   3500,   9999 ],
+	[ItemQuality.epic]:       [ 11_000, 29_999 ],
+	[ItemQuality.legendary]:  [ 35_000, 99_999 ],
+	[ItemQuality.artifact]:   [ 35_000, 99_999 ],
 }
+if (Object.keys(OVERALL_STRENGTH_INTERVAL_BY_QUALITY).length !== Enum.keys(ItemQuality).length)
+	throw new Error(`${LIB} overall - outdated code!`)
 
-const QUALITY_STRENGTH_SPREAD: Readonly<NumberHash> = {
-	common:    6,
-	uncommon:  5,
-	rare:      4,
-	epic:      3,
-	legendary: 2,
-	artifact:  1,
+const SPREAD_PCT_BY_QUALITY: Readonly<{ [k: string]: number }> = {
+	[ItemQuality.common]:     0.10,
+	[ItemQuality.uncommon]:   0.09,
+	[ItemQuality.rare]:       0.08,
+	[ItemQuality.epic]:       0.07,
+	[ItemQuality.legendary]:  0.05,
+	[ItemQuality.artifact]:   0.05,
 }
+if (Object.keys(SPREAD_PCT_BY_QUALITY).length !== Enum.keys(ItemQuality).length)
+	throw new Error(`${LIB} spread - outdated code!`)
 
-const ENHANCEMENT_MULTIPLIER = 0.2
+const TEMP_BASE_STRENGTH_INTERVAL_BY_QUALITY: { [k: string]: [number, number] } = {}
+Object.keys(OVERALL_STRENGTH_INTERVAL_BY_QUALITY).forEach((k: string): void => {
+	const quality = k as ItemQuality
+	const [ overall_min, overall_max ] = OVERALL_STRENGTH_INTERVAL_BY_QUALITY[quality]
+	let spread_pct = SPREAD_PCT_BY_QUALITY[quality]
+
+	//console.log({quality, overall_min, overall_max})
+
+	const base_min = Math.floor(overall_min / (1 - spread_pct) / 1)
+	const base_max = Math.ceil(overall_max / (1 + spread_pct) / MAX_POSSIBLE_ENHANCEMENT_RATIO)
+
+	/*console.log({base_min, base_max})
+	for(let i = 0; i < 9; ++i) {
+		console.log({
+			i,
+			dmg_min: Math.round(base_min * (1 - spread_pct) * (1 + i * ENHANCEMENT_MULTIPLIER)),
+			dmg_max: Math.round(base_max * (1 + spread_pct) * (1 + i * ENHANCEMENT_MULTIPLIER)),
+		})
+	}*/
+	if (base_min >= base_max)
+		throw new Error(`${LIB}: range assertion failed for "${quality}"!`)
+
+	TEMP_BASE_STRENGTH_INTERVAL_BY_QUALITY[quality] = [ base_min, base_max ]
+})
+const BASE_STRENGTH_INTERVAL_BY_QUALITY: Readonly<{ [k: string]: [number, number] }> = TEMP_BASE_STRENGTH_INTERVAL_BY_QUALITY
 
 
-function get_interval(base_strength: number, quality: ItemQuality, enhancement_level: number, coef: number = 1): [number, number] {
-	const spread = QUALITY_STRENGTH_SPREAD[quality]
-	const strength_multiplier = QUALITY_STRENGTH_MULTIPLIER[quality]
-	const enhancement_multiplier = (1 + ENHANCEMENT_MULTIPLIER * enhancement_level)
+function get_interval(base_strength: number, quality: ItemQuality, enhancement_level: number): [number, number] {
+	const spread_pct = SPREAD_PCT_BY_QUALITY[quality]
+	const enhancement_ratio = (1 + ENHANCEMENT_MULTIPLIER * enhancement_level)
+	const [ overall_min, overall_max ] = OVERALL_STRENGTH_INTERVAL_BY_QUALITY[quality]
 
-	// constrain interval
-	const min_strength = Math.max(base_strength - spread, 1)
-	const max_strength = Math.min(base_strength + spread, 20)
+	// Constrain interval due to rounding.
+	// It shouldn't change the numbers a lot.
+	const min_strength = Math.max(
+		overall_min,
+		Math.round(base_strength * (1 - spread_pct) * enhancement_ratio)
+	)
+	const max_strength = Math.min(
+		overall_max,
+		Math.round(base_strength * (1 + spread_pct) * enhancement_ratio)
+	)
 
-	return [
-		Math.round(min_strength * strength_multiplier * enhancement_multiplier * coef),
-		Math.round(max_strength * strength_multiplier * enhancement_multiplier * coef)
-	]
+	return [ min_strength, max_strength ]
 }
 
 /////////////////////
@@ -53,13 +88,22 @@ function get_damage_interval(weapon: Readonly<Weapon>): [number, number] {
 	return get_interval(
 		weapon.base_strength,
 		weapon.quality,
-		weapon.enhancement_level
+		weapon.enhancement_level,
 	)
 }
 
 function get_medium_damage(weapon: Readonly<Weapon>): number {
 	const damage_range = get_damage_interval(weapon)
 	return Math.round((damage_range[0] + damage_range[1]) / 2)
+}
+
+function get_potential(weapon: Readonly<Weapon>): number {
+	const max_damage_range = get_interval(
+		weapon.base_strength,
+		weapon.quality,
+		MAX_ENHANCEMENT_LEVEL,
+	)
+	return Math.round((max_damage_range[0] + max_damage_range[1]) / 2)
 }
 
 function matches(weapon: Readonly<Weapon>, elements: Readonly<Partial<Weapon>>): boolean {
@@ -88,8 +132,12 @@ function matches(weapon: Readonly<Weapon>, elements: Readonly<Partial<Weapon>>):
 /////////////////////
 
 export {
+	OVERALL_STRENGTH_INTERVAL_BY_QUALITY,
+	BASE_STRENGTH_INTERVAL_BY_QUALITY,
+
 	get_damage_interval,
 	get_medium_damage,
+	get_potential,
 	matches,
 }
 

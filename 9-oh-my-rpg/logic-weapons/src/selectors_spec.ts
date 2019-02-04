@@ -1,10 +1,13 @@
 import { expect } from 'chai'
 
+import { Enum } from 'typescript-string-enums'
 import { ItemQuality, InventorySlot } from '@oh-my-rpg/definitions'
 import { Random, Engine } from '@offirmo/random'
 
 import { LIB } from './consts'
 import {
+	OVERALL_STRENGTH_INTERVAL_BY_QUALITY,
+	BASE_STRENGTH_INTERVAL_BY_QUALITY,
 	Weapon,
 	create,
 	get_damage_interval,
@@ -18,6 +21,15 @@ describe(`${LIB} - selectors`, function() {
 	describe('damage', function() {
 		const rng: Engine = Random.engines.mt19937().seed(789)
 
+		describe('BASE_STRENGTH_INTERVAL_BY_QUALITY', () => {
+			it('should be as expected', () => {
+				//console.log(BASE_STRENGTH_INTERVAL_BY_QUALITY)
+
+				if (Object.keys(BASE_STRENGTH_INTERVAL_BY_QUALITY).length !== Enum.keys(ItemQuality).length)
+					throw new Error(`${LIB} base - outdated code!`)
+			})
+		})
+
 		describe('interval', function() {
 
 			it('should work', () => {
@@ -26,22 +38,22 @@ describe(`${LIB} - selectors`, function() {
 					qualifier1_hid: 'simple',
 					qualifier2_hid: 'mercenary',
 					quality: 'legendary',
-					base_strength: 14,
+					base_strength: 45_000,
 					enhancement_level: 3,
 				}))
 				expect(min).to.be.a('number')
 				expect(max).to.be.a('number')
 				expect(max).to.be.above(min)
 
-				expect(min).to.be.above(291) // min for legend+3
-				expect(min).to.be.below(5824) // max for legend+3
-				expect(max).to.be.above(291) // min for legend+3
-				expect(max).to.be.below(5824) // max for legend+3
+				expect(min, 'overall min').to.be.above(OVERALL_STRENGTH_INTERVAL_BY_QUALITY[ItemQuality.legendary][0]) // min for legend+3
+				expect(max, 'base max').to.be.above(BASE_STRENGTH_INTERVAL_BY_QUALITY[ItemQuality.legendary][1]) // max for legend+3
+				expect(max, 'overall max').to.be.below(OVERALL_STRENGTH_INTERVAL_BY_QUALITY[ItemQuality.legendary][1]) // max for legend+3
 
-				expect(min).to.equal(3494)
-				expect(max).to.equal(4659)
+				expect(min).to.equal(55575)
+				expect(max).to.equal(61425)
 			});
 
+			/*
 			[
 				{
 					quality: 'common',
@@ -98,7 +110,7 @@ describe(`${LIB} - selectors`, function() {
 					expect(max).to.be.a('number')
 					expect(max).to.equal(quality_limits.max)
 				})
-			})
+			})*/
 		})
 
 		describe('medium', function() {
@@ -109,13 +121,16 @@ describe(`${LIB} - selectors`, function() {
 					qualifier1_hid: 'simple',
 					qualifier2_hid: 'mercenary',
 					quality: 'legendary',
-					base_strength: 14,
+					base_strength: 45000,
 					enhancement_level: 3,
 				}))
 				expect(med).to.be.a('number')
-				expect(med).to.be.above(291) // min for legend+3
-				expect(med).to.be.below(5824) // max for legend+3
-				expect(med).to.equal(Math.round((4659 + 3494) / 2))
+
+				expect(med, 'overall min').to.be.above(OVERALL_STRENGTH_INTERVAL_BY_QUALITY[ItemQuality.legendary][0])
+				expect(med, 'base min').to.be.above(BASE_STRENGTH_INTERVAL_BY_QUALITY[ItemQuality.legendary][0])
+				expect(med, 'overall max').to.be.below(OVERALL_STRENGTH_INTERVAL_BY_QUALITY[ItemQuality.legendary][1])
+
+				expect(med).to.equal(Math.round((55575 + 61425) / 2))
 			})
 		})
 	})
@@ -127,7 +142,7 @@ describe(`${LIB} - selectors`, function() {
 			base_hid: 'socks',
 			qualifier1_hid: 'onyx',
 			qualifier2_hid: 'tormentor',
-			base_strength: 17,
+			base_strength: 4000,
 		})
 
 		it('should correctly match when appropriate', function() {
@@ -147,7 +162,7 @@ describe(`${LIB} - selectors`, function() {
 				base_hid: 'socks',
 				qualifier1_hid: 'onyx',
 				qualifier2_hid: 'tormentor',
-				base_strength: 17,
+				base_strength: 4000,
 			}), '5').to.be.true
 		})
 
