@@ -1,51 +1,89 @@
 ////////////////////////////////////
 
-import { NumberHash } from '@offirmo/ts-types'
+import { Enum } from 'typescript-string-enums'
 
 import { ItemQuality, InventorySlot } from '@oh-my-rpg/definitions'
 
-import {Armor} from './types'
-import {LIB} from "./consts";
+import { LIB, MAX_ENHANCEMENT_LEVEL } from './consts'
+import { Armor } from './types'
 
 ////////////////////////////////////
 
-// actualized strength
-// quality multipliers (see spreadsheet for calculation)
-const QUALITY_STRENGTH_MULTIPLIER: Readonly<NumberHash> = {
-	common:      1,
-	uncommon:   19,
-	rare:       46,
-	epic:       91,
-	legendary: 182,
-	artifact:  333,
+export const ATTACK_VS_DEFENSE_RATIO = 1
+
+/////////////////////
+// see spreadsheet for calculation
+
+const ENHANCEMENT_MULTIPLIER = 0.1
+
+const MAX_POSSIBLE_ENHANCEMENT_RATIO = 1 + MAX_ENHANCEMENT_LEVEL * ENHANCEMENT_MULTIPLIER
+
+const OVERALL_STRENGTH_INTERVAL_BY_QUALITY: Readonly<{ [k: string]: [number, number] }> = {
+	[ItemQuality.common]:     [      1 * ATTACK_VS_DEFENSE_RATIO,    999 * ATTACK_VS_DEFENSE_RATIO ],
+	[ItemQuality.uncommon]:   [   1000 * ATTACK_VS_DEFENSE_RATIO,   2999 * ATTACK_VS_DEFENSE_RATIO ],
+	[ItemQuality.rare]:       [   3500 * ATTACK_VS_DEFENSE_RATIO,   9999 * ATTACK_VS_DEFENSE_RATIO ],
+	[ItemQuality.epic]:       [ 11_000 * ATTACK_VS_DEFENSE_RATIO, 29_999 * ATTACK_VS_DEFENSE_RATIO ],
+	[ItemQuality.legendary]:  [ 35_000 * ATTACK_VS_DEFENSE_RATIO, 99_999 * ATTACK_VS_DEFENSE_RATIO ],
+	[ItemQuality.artifact]:   [ 35_000 * ATTACK_VS_DEFENSE_RATIO, 99_999 * ATTACK_VS_DEFENSE_RATIO ],
 }
+if (Object.keys(OVERALL_STRENGTH_INTERVAL_BY_QUALITY).length !== Enum.keys(ItemQuality).length)
+	throw new Error(`${LIB} overall - outdated code!`)
 
-const QUALITY_STRENGTH_SPREAD: Readonly<NumberHash> = {
-	common:    6,
-	uncommon:  5,
-	rare:      4,
-	epic:      3,
-	legendary: 2,
-	artifact:  1,
+const SPREAD_PCT_BY_QUALITY: Readonly<{ [k: string]: number }> = {
+	[ItemQuality.common]:     0.10,
+	[ItemQuality.uncommon]:   0.09,
+	[ItemQuality.rare]:       0.08,
+	[ItemQuality.epic]:       0.07,
+	[ItemQuality.legendary]:  0.05,
+	[ItemQuality.artifact]:   0.05,
 }
+if (Object.keys(SPREAD_PCT_BY_QUALITY).length !== Enum.keys(ItemQuality).length)
+	throw new Error(`${LIB} spread - outdated code!`)
 
-const ENHANCEMENT_MULTIPLIER = 0.2
-export const ATTACK_VS_DEFENSE_RATIO = 0.5
+const TEMP_BASE_STRENGTH_INTERVAL_BY_QUALITY: { [k: string]: [number, number] } = {}
+Object.keys(OVERALL_STRENGTH_INTERVAL_BY_QUALITY).forEach((k: string): void => {
+	const quality = k as ItemQuality
+	const [ overall_min, overall_max ] = OVERALL_STRENGTH_INTERVAL_BY_QUALITY[quality]
+	let spread_pct = SPREAD_PCT_BY_QUALITY[quality]
+
+	//console.log({quality, overall_min, overall_max})
+
+	const base_min = Math.floor(overall_min / (1 - spread_pct) / 1)
+	const base_max = Math.ceil(overall_max / (1 + spread_pct) / MAX_POSSIBLE_ENHANCEMENT_RATIO)
+
+	/*console.log({base_min, base_max})
+	for(let i = 0; i < 9; ++i) {
+		console.log({
+			i,
+			dmg_min: Math.round(base_min * (1 - spread_pct) * (1 + i * ENHANCEMENT_MULTIPLIER)),
+			dmg_max: Math.round(base_max * (1 + spread_pct) * (1 + i * ENHANCEMENT_MULTIPLIER)),
+		})
+	}*/
+	if (base_min >= base_max)
+		throw new Error(`${LIB}: range assertion failed for "${quality}"!`)
+
+	TEMP_BASE_STRENGTH_INTERVAL_BY_QUALITY[quality] = [ base_min, base_max ]
+})
+const BASE_STRENGTH_INTERVAL_BY_QUALITY: Readonly<{ [k: string]: [number, number] }> = TEMP_BASE_STRENGTH_INTERVAL_BY_QUALITY
 
 
-function get_interval(base_strength: number, quality: ItemQuality, enhancement_level: number, coef: number = 1): [number, number] {
-	const spread = QUALITY_STRENGTH_SPREAD[quality]
-	const strength_multiplier = QUALITY_STRENGTH_MULTIPLIER[quality]
-	const enhancement_multiplier = (1 + ENHANCEMENT_MULTIPLIER * enhancement_level)
+function get_interval(base_strength: number, quality: ItemQuality, enhancement_level: number): [number, number] {
+	const spread_pct = SPREAD_PCT_BY_QUALITY[quality]
+	const enhancement_ratio = (1 + ENHANCEMENT_MULTIPLIER * enhancement_level)
+	const [ overall_min, overall_max ] = OVERALL_STRENGTH_INTERVAL_BY_QUALITY[quality]
 
-	// constrain interval
-	const min_strength = Math.max(base_strength - spread, 1)
-	const max_strength = Math.min(base_strength + spread, 20)
+	// Constrain interval due to rounding.
+	// It shouldn't change the numbers a lot.
+	const min_strength = Math.max(
+		overall_min,
+		Math.round(base_strength * (1 - spread_pct) * enhancement_ratio)
+	)
+	const max_strength = Math.min(
+		overall_max,
+		Math.round(base_strength * (1 + spread_pct) * enhancement_ratio)
+	)
 
-	return [
-		Math.round(min_strength * strength_multiplier * enhancement_multiplier * coef),
-		Math.round(max_strength * strength_multiplier * enhancement_multiplier * coef)
-	]
+	return [ min_strength, max_strength ]
 }
 
 /////////////////////
@@ -55,13 +93,21 @@ function get_damage_reduction_interval(armor: Readonly<Armor>): [number, number]
 		armor.base_strength,
 		armor.quality,
 		armor.enhancement_level,
-		ATTACK_VS_DEFENSE_RATIO,
 	)
 }
 
 function get_medium_damage_reduction(armor: Readonly<Armor>): number {
-	const reduction_range = get_damage_reduction_interval(armor)
-	return Math.round((reduction_range[0] + reduction_range[1]) / 2)
+	const damage_range = get_damage_reduction_interval(armor)
+	return Math.round((damage_range[0] + damage_range[1]) / 2)
+}
+
+function get_potential(armor: Readonly<Armor>): number {
+	const max_damage_range = get_interval(
+		armor.base_strength,
+		armor.quality,
+		MAX_ENHANCEMENT_LEVEL,
+	)
+	return Math.round((max_damage_range[0] + max_damage_range[1]) / 2)
 }
 
 function matches(armor: Readonly<Armor>, elements: Readonly<Partial<Armor>>): boolean {
@@ -75,7 +121,7 @@ function matches(armor: Readonly<Armor>, elements: Readonly<Partial<Armor>>): bo
 	if (armor.slot !== InventorySlot.armor)
 		return false
 
-	;(Object.keys(elements) as Array<keyof Armor>)
+			;(Object.keys(elements) as Array<keyof Armor>)
 		.forEach((k: keyof Armor) => {
 			if (!(k in armor))
 				throw new Error(`${LIB} matches: can't match on non-armor key "${k}"!`)
@@ -87,11 +133,16 @@ function matches(armor: Readonly<Armor>, elements: Readonly<Partial<Armor>>): bo
 	return matches
 }
 
-////////////////////////////////////
+/////////////////////
 
 export {
-	//get_interval,
+	OVERALL_STRENGTH_INTERVAL_BY_QUALITY,
+	BASE_STRENGTH_INTERVAL_BY_QUALITY,
+
 	get_damage_reduction_interval,
 	get_medium_damage_reduction,
+	get_potential,
 	matches,
 }
+
+/////////////////////

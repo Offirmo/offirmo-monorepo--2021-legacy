@@ -8,9 +8,26 @@ import {
 } from '@oh-my-rpg/definitions'
 import { Random, Engine } from '@offirmo/random'
 
-import { Armor } from './types'
-import { i18n_messages, ARMOR_BASES, ARMOR_QUALIFIERS1, ARMOR_QUALIFIERS2 } from './data'
-import { MIN_STRENGTH, MAX_STRENGTH, MIN_ENHANCEMENT_LEVEL, MAX_ENHANCEMENT_LEVEL } from './consts'
+import {
+	Armor
+} from './types'
+
+import {
+	i18n_messages,
+	ARMOR_BASES,
+	ARMOR_QUALIFIERS1,
+	ARMOR_QUALIFIERS2,
+} from './data'
+
+import {
+	LIB,
+	MIN_ENHANCEMENT_LEVEL,
+	MAX_ENHANCEMENT_LEVEL,
+} from './consts'
+
+import {
+	BASE_STRENGTH_INTERVAL_BY_QUALITY
+} from './selectors'
 
 /////////////////////
 
@@ -61,7 +78,9 @@ function pick_random_qualifier1(rng: Engine): string {
 function pick_random_qualifier2(rng: Engine): string {
 	return Random.pick(rng, ARMOR_QUALIFIERS2).hid
 }
-const pick_random_base_strength = Random.integer(MIN_STRENGTH, MAX_STRENGTH)
+function pick_random_base_strength(rng: Engine, quality: ItemQuality): number {
+	return Random.integer(...BASE_STRENGTH_INTERVAL_BY_QUALITY[quality])(rng)
+}
 
 /////////////////////
 
@@ -70,20 +89,27 @@ function create(rng: Engine, hints: Readonly<Partial<Armor>> = {}): Armor {
 
 	const base = create_item_base(InventorySlot.armor, hints.quality || pick_random_quality(rng)) as Item & { slot: typeof InventorySlot.armor }
 
-	return {
+	const temp: Armor = {
 		...base,
 		base_hid: hints.base_hid || pick_random_base(rng),
 		qualifier1_hid: hints.qualifier1_hid || pick_random_qualifier1(rng),
 		qualifier2_hid: hints.qualifier2_hid || pick_random_qualifier2(rng),
-		base_strength: hints.base_strength || pick_random_base_strength(rng),
+		base_strength: hints.base_strength || pick_random_base_strength(rng, base.quality),
 		enhancement_level: hints.enhancement_level || MIN_ENHANCEMENT_LEVEL,
 	}
+
+	if (temp.base_strength < BASE_STRENGTH_INTERVAL_BY_QUALITY[temp.quality][0])
+		throw new Error(`${LIB}: create(): base_strength too low for this quality!`)
+	if (temp.base_strength > BASE_STRENGTH_INTERVAL_BY_QUALITY[temp.quality][1])
+		throw new Error(`${LIB}: create(): base_strength too high for this quality!`)
+
+	return temp
 }
 
-// TODO immu! TODO state!
+// TODO state, immu
 function enhance(armor: Armor): Armor {
 	if (armor.enhancement_level >= MAX_ENHANCEMENT_LEVEL)
-		throw new Error('can’t enhance an armor above the maximal enhancement level!')
+		throw new Error('can’t enhance a armor above the maximal enhancement level!')
 
 	armor.enhancement_level++
 	return armor

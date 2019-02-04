@@ -1,59 +1,38 @@
 import { expect } from 'chai'
 
-import {
-	ItemQuality,
-} from '@oh-my-rpg/definitions'
 import { Random, Engine } from '@offirmo/random'
 
 import { LIB } from './consts'
 import {
 	create,
 	generate_random_demo_armor,
-	get_medium_damage_reduction,
-	compare_armors_by_strength,
+	compare_armors_by_potential,
+	get_potential,
 } from '.'
 
 
-describe(`${LIB} - comparison`, function() {
+describe(`${LIB} - compare`, function() {
 
-	it('should sort properly by strength', () => {
+	it('should sort properly by potential', () => {
 		const rng: Engine = Random.engines.mt19937().seed(789)
-		const armors = [
+		const items = [
 			generate_random_demo_armor(rng),
 			generate_random_demo_armor(rng),
 			generate_random_demo_armor(rng),
-		].sort(compare_armors_by_strength)
-		const [ s1, s2, s3 ] = armors.map(get_medium_damage_reduction)
+		].sort(compare_armors_by_potential)
+		const [ s1, s2, s3 ] = items.map(get_potential)
 		expect(s1).to.be.above(s2)
 		expect(s2).to.be.above(s3)
 	})
 
-	context('when strength is equal', () => {
+	// extremely rare cases, hard to compute, not even sure it's possible since quality impacts strength
+	context('when potential is equal', function () {
 
-		it('should take into account the potential', () => {
-			const rng: Engine = Random.engines.mt19937().seed(789)
-			const armors = [
-				create(rng, {base_strength: 1, quality: ItemQuality.common, enhancement_level: 4}),
-				create(rng, {base_strength: 1, quality: ItemQuality.common, enhancement_level: 3}),
-				create(rng, {base_strength: 1, quality: ItemQuality.common, enhancement_level: 5}),
-			].sort(compare_armors_by_strength)
-			const [ s1, s2, s3 ] = armors.map(get_medium_damage_reduction)
-			expect(s1).to.equal(s2)
-			expect(s1).to.equal(s3)
-			const [ a1, a2, a3 ] = armors
-			expect(a1.enhancement_level).to.be.below(a2.enhancement_level)
-			expect(a2.enhancement_level).to.be.below(a3.enhancement_level)
-		})
+		it('should take into account the quality')
 
-		// extremely rare cases, hard to compute, not even sure it's possible since quality impacts strength
-		context('when potential is also equal', function () {
+		context('when quality is also equal', function () {
 
-			it('should take into account the quality')
-
-			context('when quality is also equal', function () {
-
-				it('should fallback to uuid')
-			})
+			it('should fallback to uuid')
 		})
 	})
 })
