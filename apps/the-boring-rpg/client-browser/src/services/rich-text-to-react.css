@@ -26,10 +26,13 @@
 	color: #f571ff;
 }
 .item--quality--legendary {
-	color: #ff635c;
+	color: orange;
 }
 .item--quality--artifact {
 	color: #ffee62;
+}
+.item--quality--admin {
+	color: #ff3c3a;
 }
 
 .achievement__lore {
