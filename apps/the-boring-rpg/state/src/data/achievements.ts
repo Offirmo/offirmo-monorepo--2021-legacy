@@ -1,5 +1,5 @@
 import { ItemQuality, InventorySlot, ITEM_QUALITIES_TO_INT, ITEM_SLOTS } from '@oh-my-rpg/definitions'
-import { appraise_value, appraise_power } from '@oh-my-rpg/logic-shop'
+import { appraise_sell_value, appraise_power } from '@oh-my-rpg/logic-shop'
 import { AchievementStatus, AchievementDefinition } from '@oh-my-rpg/state-progress'
 import { CharacterClass, DEFAULT_AVATAR_NAME } from '@oh-my-rpg/state-character'
 import { get_item_in_slot } from '@oh-my-rpg/state-inventory'

@@ -101,7 +101,7 @@ function get_medium_damage_reduction(armor: Readonly<Armor>): number {
 	return Math.round((damage_range[0] + damage_range[1]) / 2)
 }
 
-function get_potential(armor: Readonly<Armor>): number {
+function get_ultimate_medium_damage_reduction(armor: Readonly<Armor>): number {
 	const max_damage_range = get_interval(
 		armor.base_strength,
 		armor.quality,
@@ -141,7 +141,7 @@ export {
 
 	get_damage_reduction_interval,
 	get_medium_damage_reduction,
-	get_potential,
+	get_ultimate_medium_damage_reduction,
 	matches,
 }
 

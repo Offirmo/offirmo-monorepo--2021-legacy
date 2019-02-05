@@ -8,20 +8,34 @@ import { LIB } from './consts'
 import {
 	OVERALL_STRENGTH_INTERVAL_BY_QUALITY,
 	BASE_STRENGTH_INTERVAL_BY_QUALITY,
+	MAX_ENHANCEMENT_LEVEL,
 	Weapon,
 	create,
 	get_damage_interval,
 	get_medium_damage,
+	get_ultimate_medium_damage,
 	matches,
 } from '.'
 
 
 describe(`${LIB} - selectors`, function() {
+	let rng: Engine = Random.engines.mt19937().seed(789)
+	let TEST_ITEM: Weapon = create(rng)
+	beforeEach(() => {
+		rng = Random.engines.mt19937().seed(789)
+		TEST_ITEM = create(rng, {
+			base_hid: 'luth',
+			qualifier1_hid: 'simple',
+			qualifier2_hid: 'mercenary',
+			quality: 'legendary',
+			base_strength: 45_000,
+			enhancement_level: 3,
+		})
+	})
 
-	describe('damage', function() {
-		const rng: Engine = Random.engines.mt19937().seed(789)
+	describe('internals', function() {
 
-		describe('BASE_STRENGTH_INTERVAL_BY_QUALITY', () => {
+		describe('BASE_STRENGTH_INTERVAL_BY_QUALITY', function() {
 			it('should be as expected', () => {
 				//console.log(BASE_STRENGTH_INTERVAL_BY_QUALITY)
 
@@ -29,18 +43,14 @@ describe(`${LIB} - selectors`, function() {
 					throw new Error(`${LIB} base - outdated code!`)
 			})
 		})
+	})
 
-		describe('interval', function() {
+	describe('damage', function() {
+
+		describe('get_damage_interval()', function() {
 
 			it('should work', () => {
-				const [min, max] = get_damage_interval(create(rng, {
-					base_hid: 'luth',
-					qualifier1_hid: 'simple',
-					qualifier2_hid: 'mercenary',
-					quality: 'legendary',
-					base_strength: 45_000,
-					enhancement_level: 3,
-				}))
+				const [min, max] = get_damage_interval(TEST_ITEM)
 				expect(min).to.be.a('number')
 				expect(max).to.be.a('number')
 				expect(max).to.be.above(min)
@@ -51,79 +61,13 @@ describe(`${LIB} - selectors`, function() {
 
 				expect(min).to.equal(55575)
 				expect(max).to.equal(61425)
-			});
-
-			/*
-			[
-				{
-					quality: 'common',
-					min: 1,
-					max: 60,
-				},
-				{
-					quality: 'uncommon',
-					min: 19,
-					max: 1140,
-				},
-				{
-					quality: 'rare',
-					min: 46,
-					max: 2760,
-				},
-				{
-					quality: 'epic',
-					min: 91,
-					max: 5460,
-				},
-				{
-					quality: 'legendary',
-					min: 182,
-					max: 10920,
-				},
-				{
-					quality: 'artifact',
-					min: 333,
-					max: 19980,
-				},
-			].forEach(quality_limits => {
-				it(`should have the correct minimal limit for quality "${quality_limits.quality}"`, () => {
-					const [min, max] = get_damage_interval(create(rng, {
-						base_hid: 'whatever',
-						qualifier1_hid: 'whatever',
-						qualifier2_hid: 'whatever',
-						quality: quality_limits.quality as ItemQuality,
-						base_strength: 1,
-						enhancement_level: 0,
-					}))
-					expect(min).to.be.a('number')
-					expect(min).to.equal(quality_limits.min)
-				})
-				it(`should have the correct maximal limit for quality "${quality_limits.quality}"`, () => {
-					const [min, max] = get_damage_interval(create(rng, {
-						base_hid: 'whatever',
-						qualifier1_hid: 'whatever',
-						qualifier2_hid: 'whatever',
-						quality: quality_limits.quality as ItemQuality,
-						base_strength: 20,
-						enhancement_level: 10,
-					}))
-					expect(max).to.be.a('number')
-					expect(max).to.equal(quality_limits.max)
-				})
-			})*/
+			})
 		})
 
-		describe('medium', function() {
+		describe('get_medium_damage()', function() {
 
 			it('should work', () => {
-				const med = get_medium_damage(create(rng, {
-					base_hid: 'luth',
-					qualifier1_hid: 'simple',
-					qualifier2_hid: 'mercenary',
-					quality: 'legendary',
-					base_strength: 45000,
-					enhancement_level: 3,
-				}))
+				const med = get_medium_damage(TEST_ITEM)
 				expect(med).to.be.a('number')
 
 				expect(med, 'overall min').to.be.above(OVERALL_STRENGTH_INTERVAL_BY_QUALITY[ItemQuality.legendary][0])
@@ -135,8 +79,26 @@ describe(`${LIB} - selectors`, function() {
 		})
 	})
 
-	describe('matches', function() {
-		const rng: Engine = Random.engines.mt19937().seed(789)
+	describe('get_ultimate_medium_damage()', function() {
+
+		it('should work', () => {
+			const umed = get_ultimate_medium_damage(TEST_ITEM)
+			expect(umed).to.be.a('number')
+
+			expect(umed, 'overall min').to.be.above(OVERALL_STRENGTH_INTERVAL_BY_QUALITY[ItemQuality.legendary][0])
+			expect(umed, 'base min').to.be.above(BASE_STRENGTH_INTERVAL_BY_QUALITY[ItemQuality.legendary][0])
+			expect(umed, 'current med').to.be.above(get_medium_damage(TEST_ITEM))
+			expect(umed, 'formula').to.equal(get_medium_damage({
+				...TEST_ITEM,
+				enhancement_level: MAX_ENHANCEMENT_LEVEL,
+			}))
+			expect(umed, 'overall max').to.be.below(OVERALL_STRENGTH_INTERVAL_BY_QUALITY[ItemQuality.legendary][1])
+
+			expect(umed).to.equal(81000)
+		})
+	})
+
+	describe('matches()', function() {
 		const REF: Readonly<Weapon> = create(rng, {
 			quality: ItemQuality.rare,
 			base_hid: 'socks',

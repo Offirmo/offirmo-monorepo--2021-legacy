@@ -5,4 +5,6 @@ A node module to conveniently print JSON.
 import prettify_json from '@offirmo/prettify-json'
 
 prettify_json({foo}, {outline: true})
+
+import { dump_pretty_json } from '@offirmo/prettify-json'
 ```

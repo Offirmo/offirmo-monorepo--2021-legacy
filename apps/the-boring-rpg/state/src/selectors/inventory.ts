@@ -2,7 +2,7 @@ import { UUID } from '@offirmo/uuid'
 
 import { InventorySlot, Element } from '@oh-my-rpg/definitions'
 import { is_full } from '@oh-my-rpg/state-inventory'
-import { appraise_value, appraise_power } from '@oh-my-rpg/logic-shop'
+import { appraise_sell_value, appraise_power } from '@oh-my-rpg/logic-shop'
 import { Weapon } from '@oh-my-rpg/logic-weapons'
 import { Armor } from '@oh-my-rpg/logic-armors'
 import {
@@ -22,7 +22,7 @@ function appraise_item_value(u_state: Readonly<UState>, uuid: UUID): number {
 	if (!item)
 		throw new Error('appraise_item_value(): No item!')
 
-	return appraise_value(item)
+	return appraise_sell_value(item)
 }
 
 function appraise_item_power(u_state: Readonly<UState>, uuid: UUID): number {

@@ -8,12 +8,12 @@ import {
 
 import {
 	Armor,
-	compare_armors_by_strength,
+	compare_armors_by_potential,
 } from '@oh-my-rpg/logic-armors'
 
 import {
 	Weapon,
-	compare_weapons_by_strength,
+	compare_weapons_by_potential,
 } from '@oh-my-rpg/logic-weapons'
 
 import {
@@ -28,13 +28,13 @@ function compare_items_by_slot_then_strength(a: Readonly<Item>, b: Readonly<Item
 
 	switch (a.slot) {
 	case InventorySlot.armor: {
-		const sort = compare_armors_by_strength(a as Armor, b as Armor)
+		const sort = compare_armors_by_potential(a as Armor, b as Armor)
 		if (!Number.isInteger(sort))
 			throw new Error(`${LIB}: compare():  error sorting armors!`)
 		return sort
 	}
 	case InventorySlot.weapon: {
-		const sort = compare_weapons_by_strength(a as Weapon, b as Weapon)
+		const sort = compare_weapons_by_potential(a as Weapon, b as Weapon)
 		if (!Number.isInteger(sort))
 			throw new Error(`${LIB}: compare():  error sorting weapons!`)
 		return sort

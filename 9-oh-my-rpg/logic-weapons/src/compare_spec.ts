@@ -7,7 +7,7 @@ import {
 	create,
 	generate_random_demo_weapon,
 	compare_weapons_by_potential,
-	get_potential,
+	get_ultimate_medium_damage,
 } from '.'
 
 
@@ -20,7 +20,7 @@ describe(`${LIB} - compare`, function() {
 			generate_random_demo_weapon(rng),
 			generate_random_demo_weapon(rng),
 		].sort(compare_weapons_by_potential)
-		const [ s1, s2, s3 ] = items.map(get_potential)
+		const [ s1, s2, s3 ] = items.map(get_ultimate_medium_damage)
 		expect(s1).to.be.above(s2)
 		expect(s2).to.be.above(s3)
 	})

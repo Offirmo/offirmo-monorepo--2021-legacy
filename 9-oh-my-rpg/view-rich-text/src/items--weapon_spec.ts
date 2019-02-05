@@ -1,6 +1,7 @@
 import { expect } from 'chai'
 
 import * as RichText from '@offirmo/rich-text-format'
+import { dump_pretty_json } from '@offirmo/prettify-json'
 
 import { generate_random_demo_weapon, DEMO_WEAPON_1, DEMO_WEAPON_2 } from '@oh-my-rpg/logic-weapons'
 
@@ -42,20 +43,21 @@ describe('🔠  view to @offirmo/rich-text-format -  weapon', function() {
 		it('shows off weapons', () => {
 
 			const doc1 = render_weapon_detailed(DEMO_WEAPON_1, 2000)
-			//console.log(prettify_json(doc1))
+			//dump_pretty_json(doc1)
 			let str = rich_text_to_ansi(doc1)
 			// should just not throw
 
 			const doc2 = render_weapon_detailed(DEMO_WEAPON_2, 2000)
-			//console.log(prettify_json(doc2))
+			//dump_pretty_json(doc2)
 			str = rich_text_to_ansi(doc2)
 			// should just not throw
 
 			for(let i = 0; i < 10; ++i) {
 				const item = generate_random_demo_weapon()
 				const $doc = render_weapon_detailed(item, 2000)
-				//console.log(prettify_json($doc))
+				//dump_pretty_json($doc)
 				const str = rich_text_to_ansi($doc)
+				//console.log(str)
 				// should just not throw
 			}
 		})

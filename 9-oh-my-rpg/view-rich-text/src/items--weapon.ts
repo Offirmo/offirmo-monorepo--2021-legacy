@@ -7,7 +7,7 @@ import {
 } from '@oh-my-rpg/logic-weapons'
 import * as RichText from '@offirmo/rich-text-format'
 import { i18n_messages as I18N_WEAPONS } from '@oh-my-rpg/logic-weapons'
-import { appraise_power, appraise_value } from '@oh-my-rpg/logic-shop'
+import { appraise_power, appraise_sell_value } from '@oh-my-rpg/logic-shop'
 
 import { RenderItemOptions } from './types'
 import { DEFAULT_RENDER_ITEM_OPTIONS } from './consts'
@@ -69,7 +69,7 @@ function push_power(builder: Builder, i: Readonly<Weapon>, options: Readonly<{sh
 function push_sell_value(builder: Builder, i: Readonly<Weapon>): Builder {
 	const $node = RichText.inline_fragment()
 		.addClass('value--coin')
-		.pushText(`${appraise_value(i)}`)
+		.pushText(`${appraise_sell_value(i)}`)
 		.done()
 	return builder.pushNode($node, { id: 'sell-value'})
 }

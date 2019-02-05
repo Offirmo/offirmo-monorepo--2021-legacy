@@ -4,16 +4,18 @@ import { InventorySlot, ItemQuality } from '@oh-my-rpg/definitions'
 
 import {
 	Armor,
+	DEMO_ARMOR_1,
 	get_medium_damage_reduction,
 } from '@oh-my-rpg/logic-armors'
 
 import {
 	Weapon,
+	DEMO_WEAPON_1,
 	get_medium_damage,
 } from '@oh-my-rpg/logic-weapons'
 
 import {
-	appraise_value,
+	appraise_sell_value,
 } from '.'
 
 describe('@oh-my-rpg/logic-shop - selectors:', function() {
@@ -22,31 +24,15 @@ describe('@oh-my-rpg/logic-shop - selectors:', function() {
 
 		context('of armors', function() {
 			it('should work', () => {
-				const price = appraise_value({
-					slot: InventorySlot.armor,
-					base_hid: 'whatever',
-					qualifier1_hid: 'whatever',
-					qualifier2_hid: 'whatever',
-					quality: ItemQuality.legendary,
-					base_strength: 14,
-					enhancement_level: 3,
-				} as Armor)
+				const price = appraise_sell_value(DEMO_ARMOR_1)
 				expect(price).to.be.a('number')
-				expect(price).to.equal(3670)
+				expect(price).to.equal(1978)
 			})
 		})
 
 		context('of weapons', function() {
 			it('should work', () => {
-				const price = appraise_value({
-					slot: InventorySlot.weapon,
-					base_hid: 'whatever',
-					qualifier1_hid: 'whatever',
-					qualifier2_hid: 'whatever',
-					quality: ItemQuality.legendary,
-					base_strength: 14,
-					enhancement_level: 3,
-				} as Weapon)
+				const price = appraise_sell_value(DEMO_WEAPON_1)
 				expect(price).to.be.a('number')
 				expect(price).to.equal(3262)
 			})

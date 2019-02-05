@@ -97,7 +97,7 @@ function get_medium_damage(weapon: Readonly<Weapon>): number {
 	return Math.round((damage_range[0] + damage_range[1]) / 2)
 }
 
-function get_potential(weapon: Readonly<Weapon>): number {
+function get_ultimate_medium_damage(weapon: Readonly<Weapon>): number {
 	const max_damage_range = get_interval(
 		weapon.base_strength,
 		weapon.quality,
@@ -137,7 +137,7 @@ export {
 
 	get_damage_interval,
 	get_medium_damage,
-	get_potential,
+	get_ultimate_medium_damage,
 	matches,
 }
 

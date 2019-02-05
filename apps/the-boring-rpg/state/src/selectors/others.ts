@@ -2,7 +2,7 @@ import { UUID } from '@offirmo/uuid'
 import * as RichText from '@offirmo/rich-text-format'
 
 import { ITEM_SLOTS, InventorySlot, Element } from '@oh-my-rpg/definitions'
-import { appraise_value, appraise_power } from '@oh-my-rpg/logic-shop'
+import { appraise_sell_value, appraise_power } from '@oh-my-rpg/logic-shop'
 import { Weapon } from '@oh-my-rpg/logic-weapons'
 import { Armor } from '@oh-my-rpg/logic-armors'
 import {
