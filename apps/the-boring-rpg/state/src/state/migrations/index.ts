@@ -51,7 +51,7 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any
 			SEC.fireAnalyticsEvent('schema_migration.began')
 
 			try {
-				state = migrate_to_9(SEC, legacy_state, hints)
+				state = migrate_to_10(SEC, legacy_state, hints)
 			}
 			catch (err) {
 				SEC.fireAnalyticsEvent('schema_migration.failed', { step: 'main' })
@@ -140,9 +140,9 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any
 
 /////////////////////
 
-function migrate_to_9(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any>): any {
-	if (legacy_state.schema_version >= 9)
-		throw new Error('migrate_to_8 was called from an outdated/buggy root code, please update!')
+function migrate_to_10(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any>): any {
+	if (legacy_state.schema_version >= 10)
+		throw new Error('migrate_to_10 was called from an outdated/buggy root code, please update!')
 
 	throw new Error('Alpha release outdated schema, won’t migrate, would take too much time and schema is still unstable!')
 }
