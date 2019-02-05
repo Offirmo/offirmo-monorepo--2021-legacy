@@ -715,7 +715,7 @@ const OFFIRMO_ORIGINAL: I18nMessages = {
 
 	// from H.
 	foodie_friend: `
-You meet with you foodie friend.
+You meet with your foodie friend.
 He convinces you to try the latest magic treats.
 You gain extra energy (+{{health}} health) and a bit of weight!
 	`,
