@@ -8,6 +8,7 @@
 	flex-direction: column;
 
 	height: 100%;
+	min-height: 0; /* Chrome 72 https://bugs.chromium.org/p/chromium/issues/detail?id=927066 TODO clean */
 }
 
 .o⋄centered-article {

@@ -29,7 +29,7 @@ const MainAreaViewM = React.memo(
 						  className={`omr⋄full-size-background-layer omr⋄bg⁚cover ${bg_class}`}/>
 				</div>
 
-				<div key="content-area" className="o⋄pos⁚rel o⋄top-container o⋄centered-article">
+				<div key="content-area" className="o⋄pos⁚rel o⋄top-container o⋄centered-article omr⋄content-area--inner">
 					{MODE_TO_PANEL[mode] || <ExplorePanel/>}
 				</div>
 			</div>

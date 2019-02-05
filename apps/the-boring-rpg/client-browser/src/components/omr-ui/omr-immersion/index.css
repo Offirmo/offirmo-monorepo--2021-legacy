@@ -147,3 +147,11 @@
 .o⋄centered-article {
 	padding: 0;
 }
+
+/* temporary bugfix for Chrome 72
+https://bugs.chromium.org/p/chromium/issues/detail?id=927066
+TODO clean after fix in Chrome
+ */
+.omr⋄content-area--inner {
+	overflow-y: scroll;
+}
