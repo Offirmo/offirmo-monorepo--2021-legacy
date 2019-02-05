@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 
 import get_game_instance from '../services/game-instance-browser'
 
-const game_instance = get_game_instance()
 
 // https://reactjs.org/docs/context.html
 const DEFAULT_VALUE = null
@@ -18,10 +17,10 @@ class AppStateListenerAndProvider extends React.Component {
 	unsubscribeAppStateListener = null
 
 	componentDidMount() {
-		this.unsubscribeAppStateListener = game_instance.subscribe(`app-state`, () => {
+		this.unsubscribeAppStateListener = get_game_instance().subscribe(`app-state`, () => {
 			console.log(`▶ AppStateListenerAndProvider: updating on app state change`/*, game_instance.view.get_state()*/)
 			this.setState({
-				app_state: game_instance.view.get_state()
+				app_state: get_game_instance().view.get_state()
 			})
 		})
 	}
@@ -31,10 +30,20 @@ class AppStateListenerAndProvider extends React.Component {
 	}
 
 	render() {
-		console.log(`🔄 AppStateListenerAndProvider`/*, {app_state: this.state.app_state}*/);
+		// yes, we shortcut React and make sure to pick the latest version
+		const latest_app_state = get_game_instance().view.get_state()
+		const latest_revision = latest_app_state ? latest_app_state.model.u_state.revision : -1
+
+		//console.log(`🔄 AppStateListenerAndProvider (model is #${latest_revision})`/*, {app_state: this.state.app_state}*/);
+
+		/*
+		const local_revision = this.state.app_state ? this.state.app_state.model.u_state.revision : -1
+		if (latest_revision !== local_revision)
+			console.warn(`App State Context discrepancy: local = ${local_revision}, latest = ${latest_revision}`)
+		*/
 
 		return (
-			<AppStateContext.Provider value={this.state.app_state}>
+			<AppStateContext.Provider value={latest_app_state}>
 				{this.props.children}
 			</AppStateContext.Provider>
 		)

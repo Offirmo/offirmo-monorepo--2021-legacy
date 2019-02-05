@@ -21,7 +21,6 @@ function get_actions_for_unslotted_item(u_state: Readonly<UState>, uuid: UUID): 
 	const equip: ActionEquipItem = {
 		type: ActionType.equip_item,
 		category: ActionCategory.inventory,
-		expected_state_revision: u_state.revision,
 		target_uuid: uuid,
 	}
 	actions.push(equip)
@@ -29,7 +28,6 @@ function get_actions_for_unslotted_item(u_state: Readonly<UState>, uuid: UUID): 
 	const sell: ActionSellItem = {
 		type: ActionType.sell_item,
 		category: ActionCategory.inventory,
-		expected_state_revision: u_state.revision,
 		target_uuid: uuid,
 	}
 	actions.push(sell)

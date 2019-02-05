@@ -34,35 +34,30 @@ interface ActionPlay {
 interface ActionEquipItem {
 	type: typeof ActionType.equip_item
 	category: typeof ActionCategory.inventory
-	expected_state_revision: number
 	target_uuid: UUID
 }
 
 interface ActionSellItem {
 	type: typeof ActionType.sell_item
 	category: typeof ActionCategory.inventory
-	expected_state_revision: number
 	target_uuid: UUID
 }
 
 interface ActionRenameAvatar {
 	type: typeof ActionType.rename_avatar
 	category: typeof ActionCategory.character
-	expected_state_revision: number
 	new_name: string
 }
 
 interface ActionChangeAvatarClass {
 	type: typeof ActionType.change_avatar_class
 	category: typeof ActionCategory.character
-	expected_state_revision: number
 	new_class: CharacterClass
 }
 
 interface ActionRedeemCode {
 	type: typeof ActionType.redeem_code
 	category: typeof ActionCategory.meta
-	expected_state_revision: number
 	code: string
 }
 

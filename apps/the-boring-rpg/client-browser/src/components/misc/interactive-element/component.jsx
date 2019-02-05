@@ -84,7 +84,7 @@ class Interactive extends Component {
 
 	render = () => {
 		const { UUID, children } = this.props
-		console.log('🔄 InteractiveElement')
+		//console.log(`🔄 InteractiveElement ${UUID}`)
 
 		return (
 			<InteractiveRichTextFragment

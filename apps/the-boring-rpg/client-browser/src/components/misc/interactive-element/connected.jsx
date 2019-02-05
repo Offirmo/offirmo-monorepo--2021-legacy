@@ -13,7 +13,10 @@ const game_instance = get_game_instance()
 
 function with_element_and_action(Component) {
 	return (props) => {
+
 		const { UUID } = props
+		//console.log('🔄 with_element_and_action', { UUID, revision: game_instance.model.get_state().u_state.revision })
+
 		const element = game_instance.selectors.find_element(UUID)
 		if (!element) {
 			console.warn(`interactive element not found!`, UUID, props)

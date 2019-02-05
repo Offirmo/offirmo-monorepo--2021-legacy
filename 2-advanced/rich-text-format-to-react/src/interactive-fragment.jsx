@@ -117,12 +117,13 @@ export class InteractiveRichTextFragment extends Component {
 	}
 
 	render = () => {
-		//console.log('render', this.element)
 		const {
 			UUID,
 			children,
 			render_detailed,
 		} = this.props
+
+		console.log(`🔄 InteractiveRichTextFragment ${UUID}`)
 
 		const base = (
 				<ActiveCard key='IF.content'

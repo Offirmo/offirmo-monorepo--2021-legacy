@@ -51,7 +51,7 @@ SEC.xTry('loading savegame + creating game instance', ({logger}) => {
 	game_instance.model.subscribe('local-storage', () => {
 		if (last_saved_ls.u_state === state.u_state) return // no need
 
-		console.info('💾 saving to LocalStorage...')
+		console.info(`💾 saving #${state.u_state.revision} to LocalStorage...`)
 		localStorage.setItem(LS_KEYS.savegame, JSON.stringify(state))
 		last_saved_ls = state
 	})

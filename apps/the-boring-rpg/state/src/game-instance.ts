@@ -215,11 +215,17 @@ function create_game_instance<T>({SEC, get_latest_state, persist_state, view_sta
 					emitter.emit('model_change', 'reset_state()')
 				},
 
-				// TODO clean
 				subscribe(id: string, fn: () => void): () => void {
+					let last_reported_revision = -1
 					const unbind = emitter.on('model_change', (src: string) => {
-						console.log(`🌀 model change reported to subscriber "${id}" (source: ${src})`)
+						const { revision } = get_latest_state().u_state
+						if (last_reported_revision === revision) {
+							//console.warn(`🌀🌀🌀 model change #${revision} deduped`)
+							return
+						}
+						console.log(`🌀🌀🌀 model change #${revision} reported to subscriber "${id}" (source: ${src})`)
 						fn()
+						last_reported_revision = revision
 					})
 					return unbind
 				},
@@ -244,7 +250,7 @@ function create_game_instance<T>({SEC, get_latest_state, persist_state, view_sta
 
 			subscribe(id: string, fn: () => void): () => void {
 				const unbind = emitter.on('view_change', (src: string) => {
-					console.log(`🌀🌀🌀🌀🌀🌀🌀 root state change reported to subscriber "${id}" (source: view/${src})`)
+					console.log(`🌀🌀🌀🌀🌀🌀🌀 root state change reported to subscriber "${id}" (model: #${get_latest_state().u_state.revision}, source: view/${src})`)
 					fn()
 				})
 				return unbind
