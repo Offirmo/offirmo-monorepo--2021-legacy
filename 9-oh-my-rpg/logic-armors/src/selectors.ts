@@ -9,7 +9,7 @@ import { Armor } from './types'
 
 ////////////////////////////////////
 
-export const ATTACK_VS_DEFENSE_RATIO = 1
+export const ATTACK_VS_DEFENSE_RATIO = 1.
 
 /////////////////////
 // see spreadsheet for calculation

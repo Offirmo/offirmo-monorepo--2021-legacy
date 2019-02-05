@@ -195,8 +195,14 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<
 
 			case 'ALPHATWINK': {
 				const rng = get_prng(u_state.prng)
-				const weapon = create_weapon(rng, { quality: ItemQuality.artifact })
-				const armor = create_armor(rng, { quality: ItemQuality.artifact })
+				const weapon = create_weapon(rng, {
+					quality: ItemQuality.artifact,
+					qualifier2_hid: 'twink',
+				})
+				const armor = create_armor(rng, {
+					quality: ItemQuality.artifact,
+					qualifier2_hid: 'twink',
+				})
 				state = _auto_make_room(state)
 				state = _receive_item(state, weapon)
 				state = _auto_make_room(state)
@@ -205,7 +211,7 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<
 				t_state = state.t_state
 				u_state = {
 					...u_state,
-					prng: PRNGState.update_use_count(u_state.prng, rng, 8),
+					prng: PRNGState.update_use_count(u_state.prng, rng, 6),
 				}
 				break
 			}

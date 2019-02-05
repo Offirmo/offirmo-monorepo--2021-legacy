@@ -653,7 +653,7 @@ const RAW_ENTRIES_ENGAGEMENT: Readonly<Partial<AchievementDefinition<UState>>>[]
 	},
 ]
 
-const POWER_TIERS = [0, 5_000, 10_000, 30_000, 60_000, 90_000]
+const POWER_TIERS = [0, 5_000, 20_000, 60_000, 120_000, 180_000]
 const RAW_ENTRIES_PROGRESSION_EQUIPMENT: Readonly<Partial<AchievementDefinition<UState>>>[] = [
 	{
 		icon: '🥄',

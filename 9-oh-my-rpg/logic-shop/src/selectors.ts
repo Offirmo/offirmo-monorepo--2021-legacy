@@ -13,12 +13,17 @@ import {
 
 /////////////////////
 
+/* NOTE
+ * the "normalized power" is used to sort the inventory
+ * AND to auto-discard items.
+ * Thus it should not be biased toward/against a certain type of item.
+ */
 const ARMOR_DMG_REDUCTION_TO_POWER_RATIO = 1.
 function appraise_armor_power(armor: Readonly<Armor>, potential: boolean): number {
 	return Math.round(get_ultimate_medium_damage_reduction(armor) * ARMOR_DMG_REDUCTION_TO_POWER_RATIO)
 }
 
-const WEAPON_DMG_TO_POWER_RATIO = 5.
+const WEAPON_DMG_TO_POWER_RATIO = 1.
 function appraise_weapon_power(weapon: Readonly<Weapon>, potential: boolean): number {
 	return Math.round(get_ultimate_medium_damage(weapon) * WEAPON_DMG_TO_POWER_RATIO)
 }
