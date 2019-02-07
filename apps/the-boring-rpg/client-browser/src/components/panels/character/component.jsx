@@ -121,7 +121,7 @@ export default class CharacterPanelView extends React.Component {
 		const { avatar } = this.props
 
 		return (
-			<div className={'tbrpg-panel tbrpg-panel--character o⋄flex--column'}>
+			<div className="tbrpg-panel tbrpg-panel--character o⋄flex--column">
 				{this.state.mobile_keyboard_likely_present
 					? '(temporarily hidden while you type on mobile)'
 					: <div className='panel-top-content o⋄flex-element--nogrow'>

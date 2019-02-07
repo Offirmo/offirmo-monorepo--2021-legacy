@@ -157,7 +157,7 @@ const MetaPanelViewM = React.memo(
 		console.log('🔄 MetaPanelView', {statistics, navigate_to_savegame_editor})
 
 		return (
-			<div className={'tbrpg-panel o⋄flex--column'}>
+			<div className="tbrpg-panel o⋄flex--column">
 				<hr/>
 				<NetlifyWidget />
 				<hr/>
@@ -176,3 +176,4 @@ const MetaPanelViewM = React.memo(
 )
 
 export default MetaPanelViewM
+

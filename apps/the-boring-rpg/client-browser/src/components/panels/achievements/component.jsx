@@ -11,7 +11,7 @@ const AchievementsPanelViewM = React.memo(
 		console.log('🔄 AchievementsPanelView')
 
 		return (
-			<div className={'tbrpg-panel tbrpg-panel--inventory o⋄flex--column'}>
+			<div className="o⋄top-container tbrpg-panel tbrpg-panel--inventory o⋄flex--column">
 				<div className='panel-top-content o⋄flex-element--nogrow'>
 					{rich_text_to_react(render_achievements_snapshot(achievements_snapshot))}
 				</div>
