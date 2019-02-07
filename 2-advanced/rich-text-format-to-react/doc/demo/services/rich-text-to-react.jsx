@@ -54,6 +54,11 @@ function on_node_exit(params, options) {
 
 ////////////
 
+const DEFAULT_OPTIONS = {
+	key: 'rich-text-to-react[DEMO]--root',
+	render_interactive: true,
+}
+
 export default function rich_text_to_react(doc, options = {}) {
 	//console.log(`${LIB} Rendering a rich text:`, doc)
 	return to_react(
@@ -62,8 +67,8 @@ export default function rich_text_to_react(doc, options = {}) {
 			on_node_exit,
 		},
 		{
+			...DEFAULT_OPTIONS,
 			...options,
-			key: options.key || 'rich-text-to-react[DEMO]--root'
 		},
 	)
 }

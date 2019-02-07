@@ -28,10 +28,13 @@ function indent(n: number): string {
 }
 
 const NODE_TYPE_TO_HTML_ELEMENT: { [k: string]: string } = {
+	// will default to own tag if not in this list (ex. strong => strong)
+	[NodeType.weak]: 'span',
 	[NodeType.heading]: 'h3',
-	[NodeType.inline_fragment]: 'div',
+	[NodeType.inline_fragment]: 'span',
 	[NodeType.block_fragment]: 'div',
 }
+
 
 const on_concatenate_sub_node: WalkerReducer<State, OnConcatenateSubNodeParams<State>, Options> = ({$node, state, sub_state}) => {
 	state.sub_nodes.push($node)

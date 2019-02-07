@@ -4,3 +4,4 @@ https://science.slashdot.org/story/19/01/04/1515255/once-considered-outlandish-t
 https://science.slashdot.org/story/19/01/03/2242259/scientists-have-hacked-photosynthesis-to-boost-crop-growth-by-40-percent
 
 https://science.slashdot.org/story/19/01/13/0446241/plants-can-hear-animals-using-their-flowers
+https://science.slashdot.org/story/19/02/01/082246/plants-and-animals-sometimes-take-genes-from-bacteria-study-suggests

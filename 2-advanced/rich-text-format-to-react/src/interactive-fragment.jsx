@@ -5,14 +5,20 @@ import { has_any_hover } from '@offirmo/features-detection-browser'
 import ErrorBoundary from '@offirmo/react-error-boundary'
 
 const modal_style = {
-	// this is mor the backdrop than the modal, beware!
+	zIndex: 1040,
+	/*position: 'fixed',
+	width: 400,
+	top: top + '%',
+	left: left + '%',
+	border: '1px solid #e5e5e5',
+	backgroundColor: 'white',
+	boxShadow: '0 5px 15px rgba(0,0,0,.5)',
+	padding: 20*/
+}
+const backdrop_style = {
 	position: 'fixed',
 	zIndex: 1040, // TODO var
 	top: 0, bottom: 0, left: 0, right: 0,
-}
-const backdrop_style = {
-	...modal_style,
-	zIndex: 'auto',
 	backgroundColor: '#000',
 	opacity: 0.5
 }
@@ -34,7 +40,8 @@ const tooltip_style = {
 		padding: '.5em',
 		backgroundColor: 'var(--o⋄color--bg⁚main)',
 		borderRadius: '0',
-		zIndex: 'auto',
+		//zIndex: 'auto',
+		zIndex: 1039,
 		border: 'solid calc(var(--o⋄border--thickness) * 1) var(--o⋄color--fg⁚main)',
 		boxShadow: '0 5px 15px rgba(0,0,0,.5)',
 		maxWidth: '400px',
@@ -112,9 +119,21 @@ export class InteractiveRichTextFragment extends Component {
 		this.setState({ show_tooltip: false, show_modal: true })
 	}
 
-	on_close_modal = () => {
+	on_request_close_modal = () => {
+		console.log('on_request_close_modal')
 		this.setState({ show_modal: false })
 	}
+
+	render_backdrop = (props) => {
+		return (
+			<div
+				{...props}
+				style={backdrop_style}
+				onClick={this.on_request_close_modal}
+			>Backdrop! </div>
+		)
+	}
+
 
 	render = () => {
 		const {
@@ -163,18 +182,18 @@ export class InteractiveRichTextFragment extends Component {
 			)
 
 		const modal = detailed && (
-			<ErrorBoundary key='IF.modal-wrapper' name={`IF-${UUID}-modal`} onError={this.on_close_modal}>
+			<ErrorBoundary key='IF.modal-wrapper' name={`IF-${UUID}-modal`} onError={this.on_request_close_modal}>
 				<Modal
 					key={UUID + '-modal'}
+					onHide={this.on_request_close_modal}
+					style={modal_style}
 					aria-labelledby='modal-label'
 					show={this.state.show_modal}
-					onHide={this.on_close_modal}
-					style={modal_style}
-					backdropStyle={backdrop_style}
+					renderBackdrop={this.render_backdrop}
 				>
 					<div className="o⋄box" style={dialog_style()} >
 						{detailed}
-						<button onClick={this.on_close_modal}>Close</button>
+						<button onClick={this.on_request_close_modal}>Close</button>
 					</div>
 				</Modal>
 			</ErrorBoundary>

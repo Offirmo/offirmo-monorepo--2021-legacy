@@ -29,10 +29,12 @@ export function generate_react_key({$id, $node}) {
 		$node = $node.$sub.content
 	}
 
-	if ($node.$hints.key)
-		key += `.aka:${$node.$hints.key}`
-	if ($node.$hints.uuid)
-		key += `.uuid:${$node.$hints.uuid}`
+	if ($node.$hints) {
+		if ($node.$hints.key)
+			key += `.aka:${$node.$hints.key}`
+		if ($node.$hints.uuid)
+			key += `.uuid:${$node.$hints.uuid}`
+	}
 
 	//console.log('generate_react_key', {$id, $node, key})
 
