@@ -344,10 +344,20 @@
 /************/
 
 .omr⋄content-area {
+	--hud--top__height: calc(var(--omr⋄ui__hamburger--visible-heigth_) * var(--omr⋄ui__scale));
+	--hud--bottom__height: calc(var(--omr⋄ui__bottom-menu--height_) * var(--omr⋄ui__scale));
+
 	display: flex;
 	flex-direction: column;
+
+	/* no, it pushes the content and sometimes we don't want that
+	 * ex. background
+
+	padding-top: var(--hud--top__height);
+	padding-bottom: var(--hud--bottom__height);
+	*/
 }
-.omr⋄content-area:before {
+/*.omr⋄content-area:before {
 	content: ' ';
 	height: calc(var(--omr⋄ui__hamburger--visible-heigth_) * var(--omr⋄ui__scale));
 	flex: none;
@@ -356,7 +366,7 @@
 	content: ' ';
 	height: calc(var(--omr⋄ui__bottom-menu--height_) * var(--omr⋄ui__scale));
 	flex: none;
-}
+}*/
 
 /************/
 

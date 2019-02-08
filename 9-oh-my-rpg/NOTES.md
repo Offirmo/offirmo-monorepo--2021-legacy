@@ -1,4 +1,7 @@
 
+https://blackbeltwiki.com/dynamic-tension
+https://en.wikipedia.org/wiki/Atropa_belladonna
+
 how to negotiate
 https://www.linkedin.com/pulse/how-negotiate-jo-owen/
 
