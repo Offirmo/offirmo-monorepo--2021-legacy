@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
 import OhMyRpg from '@oh-my-rpg/view-browser-react'
@@ -23,7 +23,7 @@ const MODE_TO_INDEX = {
 	'social': 4,
 }
 
-export default class OhMyRPGView extends Component {
+export default class OhMyRPGView extends PureComponent {
 	static propTypes = {
 		mode: PropTypes.string.isRequired,
 		avatar_name: PropTypes.string.isRequired,

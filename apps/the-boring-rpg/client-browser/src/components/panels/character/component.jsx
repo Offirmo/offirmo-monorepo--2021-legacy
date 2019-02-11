@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
 import { CHARACTER_CLASSES } from '@oh-my-rpg/state-character'
@@ -107,7 +107,7 @@ function * gen_next_step() {
 }
 
 
-export default class CharacterPanelView extends React.Component {
+export default class CharacterPanelView extends PureComponent {
 	static propTypes = {
 		avatar: PropTypes.object.isRequired,
 	}
