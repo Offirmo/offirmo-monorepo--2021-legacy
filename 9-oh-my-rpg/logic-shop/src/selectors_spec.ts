@@ -26,7 +26,7 @@ describe('@oh-my-rpg/logic-shop - selectors:', function() {
 			it('should work', () => {
 				const price = appraise_sell_value(DEMO_ARMOR_1)
 				expect(price).to.be.a('number')
-				expect(price).to.equal(1978)
+				expect(price).to.equal(495)
 			})
 		})
 
@@ -34,7 +34,7 @@ describe('@oh-my-rpg/logic-shop - selectors:', function() {
 			it('should work', () => {
 				const price = appraise_sell_value(DEMO_WEAPON_1)
 				expect(price).to.be.a('number')
-				expect(price).to.equal(3262)
+				expect(price).to.equal(742)
 			})
 		})
 	})
