@@ -5,3 +5,12 @@ https://science.slashdot.org/story/19/01/03/2242259/scientists-have-hacked-photo
 
 https://science.slashdot.org/story/19/01/13/0446241/plants-can-hear-animals-using-their-flowers
 https://science.slashdot.org/story/19/02/01/082246/plants-and-animals-sometimes-take-genes-from-bacteria-study-suggests
+
+https://science.slashdot.org/story/19/02/09/1843237/new-metallic-wood-is-as-strong-as-titanium-but-much-lighter
+
+dryades
+
+co-evolution
+
+fleurs, couleurs
+

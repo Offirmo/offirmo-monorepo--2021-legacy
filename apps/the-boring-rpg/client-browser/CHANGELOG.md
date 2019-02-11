@@ -18,13 +18,19 @@ Next
 - 😅 fix: tweaks, typos, small bugs…
 - 😷 chore: some internal refactors
 
+
+2019/02/11 v0.56.5
+- 🤩 feature: Firefox now has nicer scrolls
+- 😅 fix: unscrollable areas on Chrome and Firefox
+- 😅 fix: modal behaviour and modal blanket
+
+
 2019/02/06 v0.56.3
 - 🤩 feature: item qualities now no longer overlap
 - 😍 feature: items are now much more powerful (because everyone like big numbers ;)
 - 🤩 feature: "Artifact" quality is now equal in strength to "legendary". Rationale: Artifact quality is made for seasonal items. They should not be stronger than droppable items so that it won't imbalance the game.
 - 😅 fix: no longer outdated actions after being reborn (reported by LiddiLidd)
 - 😅 fix: temporary correction for the Chrome 72 change (reported by Raxon, LiddiLidd, IrdaRichbeth)
-
 
 
 2019/01/30 v0.56.2

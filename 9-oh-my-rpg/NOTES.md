@@ -2,6 +2,14 @@
 https://blackbeltwiki.com/dynamic-tension
 https://en.wikipedia.org/wiki/Atropa_belladonna
 
+https://www.pcgamer.com/au/how-blizzard-coped-with-world-of-warcrafts-blood-plague-and-other-early-disasters/
+https://hearthstone.judgehype.com/news/le-dos-de-carte-marque-d-hakkar-un-clin-d-oeil-a-l-epidemie-du-sang-vicie-sur-wow-158429/
+https://wow.gamepedia.com/Item_level
+
+https://hardware.slashdot.org/story/19/02/10/0615248/ask-slashdot-could-nikola-teslas-wardenclyffe-tower-have-worked
+https://writing.stackexchange.com/questions/26772/serious-real-life-problems-in-a-fantasy
+https://writing.stackexchange.com/questions/41333/how-to-present-an-alien-culture-with-different-morals-without-it-coming-across
+
 how to negotiate
 https://www.linkedin.com/pulse/how-negotiate-jo-owen/
 

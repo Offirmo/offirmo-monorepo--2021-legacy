@@ -9,7 +9,7 @@ function get_lib_SEC(parent?: SoftExecutionContext): SoftExecutionContext {
 			.createChild()
 			.setLogicalStack({module: LIB})
 			.setAnalyticsAndErrorDetails({
-				sub_product: 'state-the-boring-rpg',
+				sub_product: LIB,
 			})
 	)
 }
