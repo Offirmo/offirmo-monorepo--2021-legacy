@@ -1,0 +1,6 @@
+
+.tbrpg-panel {
+	margin: .5em .8em .4em;
+	margin-top: calc(var(--hud__top--height) + 5px);
+	margin-bottom: calc(var(--hud__bottom--height) + 5px);
+}

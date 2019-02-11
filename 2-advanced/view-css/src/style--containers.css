@@ -8,6 +8,12 @@
 	flex-direction: column;
 
 	height: 100%;
+
+	/* To be able to scroll inside a flexbox
+	 * https://medium.com/@stephenbunch/how-to-make-a-scrollable-container-with-dynamic-height-using-flexbox-5914a26ae336
+	 */
+	flex-grow: 1;
+	min-height: 0; /* or else min-height may be too big */
 }
 
 .o⋄centered-article {

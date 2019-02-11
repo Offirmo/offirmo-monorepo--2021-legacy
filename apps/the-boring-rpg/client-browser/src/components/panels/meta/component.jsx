@@ -13,6 +13,7 @@ import SEC from '../../../services/sec'
 import ErrorBoundary from '@offirmo/react-error-boundary'
 import get_game_instance from '../../../services/game-instance-browser'
 
+import '../index.css'
 
 function * gen_next_step(navigate_to_savegame_editor) {
 	const game_instance = get_game_instance()

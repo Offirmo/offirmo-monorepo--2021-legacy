@@ -142,7 +142,8 @@ export class InteractiveRichTextFragment extends Component {
 			render_detailed,
 		} = this.props
 
-		console.log(`🔄 InteractiveRichTextFragment ${UUID}`)
+		// TODO check re-render of this
+		//console.log(`🔄 InteractiveRichTextFragment ${UUID}`)
 
 		const base = (
 				<ActiveCard key='IF.content'

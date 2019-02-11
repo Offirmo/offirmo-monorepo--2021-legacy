@@ -1,3 +1,6 @@
+html, body {
+	overflow: hidden; /* for case when tooltip overflow up/down */
+}
 
 body {
 	width: -webkit-fill-available;
@@ -5,8 +8,6 @@ body {
 	width: fill-available;
 
 	--o⋄font-size--default: 15px;
-
-	overflow-y: hidden; /* for case when tooltip overflow up/down */
 }
 
 iframe#netlify-identity-widget {

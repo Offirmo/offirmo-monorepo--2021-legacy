@@ -344,8 +344,8 @@
 /************/
 
 .omr⋄content-area {
-	--hud--top__height: calc(var(--omr⋄ui__hamburger--visible-heigth_) * var(--omr⋄ui__scale));
-	--hud--bottom__height: calc(var(--omr⋄ui__bottom-menu--height_) * var(--omr⋄ui__scale));
+	--hud__top--height: calc(var(--omr⋄ui__hamburger--visible-heigth_) * var(--omr⋄ui__scale));
+	--hud__bottom--height: calc(var(--omr⋄ui__bottom-menu--height_) * var(--omr⋄ui__scale));
 
 	display: flex;
 	flex-direction: column;

@@ -104,3 +104,10 @@ progress::-ms-fill {
 	background-color: var(--o⋄color--bg⁚highlight--1);
 	xx-webkit-box-shadow: inset 0 0 .4em var(--o⋄color--bg⁚highlight--2);
 }
+/* Firefox
+ * https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Scrollbars
+ */
+html {
+	scrollbar-color: var(--o⋄color--bg⁚highlight--2) var(--o⋄color--bg⁚highlight--1);
+	scrollbar-width: thin;
+}

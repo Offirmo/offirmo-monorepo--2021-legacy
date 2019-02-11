@@ -10,6 +10,7 @@ import rich_text_to_react from '../../../services/rich-text-to-react'
 import get_game_instance from '../../../services/game-instance-browser'
 
 import Infobox from './infobox'
+import '../index.css'
 import './index.css'
 
 

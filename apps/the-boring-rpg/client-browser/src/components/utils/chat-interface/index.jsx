@@ -321,7 +321,7 @@ class Chat extends React.Component {
 			</div>
 		)
 		const user_input = this.state.reading_string && (
-			<div className="chat__element chat__element--rtl">
+			<div className="chat__element chat__element--rtl chat__bubble">
 				<form onSubmit={e => e.preventDefault()}>
 					<input type="text" autoFocus
 						className="chat__input"
