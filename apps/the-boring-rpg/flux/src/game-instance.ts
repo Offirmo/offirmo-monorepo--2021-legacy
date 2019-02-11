@@ -198,6 +198,10 @@ function create_game_instance<T>({SEC, get_latest_state, persist_state, view_sta
 					let state = get_latest_state()
 					return selectors.is_inventory_full(state.u_state)
 				},
+				get_available_classes(): string[] {
+					let state = get_latest_state()
+					return selectors.get_available_classes(state.u_state)
+				},
 				// https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-1.html
 				get_sub_state<K extends keyof UState>(key: K): UState[K] {
 					let state = get_latest_state()

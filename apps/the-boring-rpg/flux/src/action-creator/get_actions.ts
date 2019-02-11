@@ -1,3 +1,4 @@
+import { Enum } from 'typescript-string-enums'
 import { UUID } from '@offirmo/uuid'
 
 import { get_unslotted_item } from '@oh-my-rpg/state-inventory'
@@ -32,7 +33,6 @@ function get_actions_for_unslotted_item(u_state: Readonly<UState>, uuid: UUID): 
 	return actions
 }
 
-///////
 
 function get_actions_for_element(u_state: Readonly<UState>, uuid: UUID): Readonly<Action>[] {
 	const actions: Action[] = []
@@ -44,8 +44,16 @@ function get_actions_for_element(u_state: Readonly<UState>, uuid: UUID): Readonl
 	return actions
 }
 
+///////
+
+// needed for some validations
+function get_action_types(): string[] {
+	return Enum.keys(ActionType)
+}
+
 /////////////////////
 
 export {
 	get_actions_for_element,
+	get_action_types,
 }

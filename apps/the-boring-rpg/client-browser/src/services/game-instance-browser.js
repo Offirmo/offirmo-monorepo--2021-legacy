@@ -1,5 +1,5 @@
 //import poll_window_variable from '@offirmo/poll-window-variable'
-import { create_game_instance } from '@tbrpg/state'
+import { create_game_instance } from '@tbrpg/flux'
 
 import { LS_KEYS } from './consts'
 import SEC from './sec'

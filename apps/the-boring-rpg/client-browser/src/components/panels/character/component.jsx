@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
-import { CHARACTER_CLASSES } from '@oh-my-rpg/state-character'
 import { render_character_sheet } from '@oh-my-rpg/view-rich-text'
 import ErrorBoundary from '@offirmo/react-error-boundary'
 
@@ -37,7 +36,7 @@ function * gen_next_step() {
 			if (view_state.changing_character_class) {
 				steps.push({
 					msg_main: 'Choose your path wisely:',
-					choices: CHARACTER_CLASSES
+					choices: get_game_instance().selectors.get_available_classes()
 						.filter(klass => klass !== 'novice')
 						.map(klass => ({
 							msg_cta: klass,

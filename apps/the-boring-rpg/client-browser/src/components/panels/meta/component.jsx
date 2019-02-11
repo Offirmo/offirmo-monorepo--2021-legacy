@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import * as RichText from '@offirmo/rich-text-format'
 import { THE_BORING_RPG } from '@offirmo/marketing-rsrc'
-import { SCHEMA_VERSION, GAME_VERSION } from '@tbrpg/state'
+import { SCHEMA_VERSION, GAME_VERSION } from '@tbrpg/flux'
 
 import NetlifyWidget from '../../misc/netlify'
 import { Chat } from '../../utils/chat-interface'

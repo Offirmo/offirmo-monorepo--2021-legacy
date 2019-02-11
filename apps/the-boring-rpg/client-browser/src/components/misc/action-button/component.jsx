@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { ActionType } from '@tbrpg/state'
+import { get_action_types } from '@tbrpg/flux'
 
 /////////////////////
 
@@ -12,7 +12,7 @@ const ACTION_TYPE_TO_CTA = {
 	'change_avatar_class': 'Change class',
 	'redeem_code': 'Redeem code',
 }
-if (Object.keys(ActionType).join(';') !== Object.keys(ACTION_TYPE_TO_CTA).join(';'))
+if (get_action_types().join(';') !== Object.keys(ACTION_TYPE_TO_CTA).join(';'))
 	throw new Error('Internal error: ACTION_TYPE_TO_CTA needs an update!')
 
 /////////////////////

@@ -1,6 +1,9 @@
+import { Enum } from 'typescript-string-enums'
+
 import { UUID } from '@offirmo/uuid'
 import * as RichText from '@offirmo/rich-text-format'
 
+import { CharacterClass, CHARACTER_CLASSES } from '@oh-my-rpg/state-character'
 import { ITEM_SLOTS, InventorySlot, Element } from '@oh-my-rpg/definitions'
 import { appraise_sell_value, appraise_power } from '@oh-my-rpg/logic-shop'
 import { Weapon } from '@oh-my-rpg/logic-weapons'
@@ -84,6 +87,10 @@ function get_oldest_pending_non_flow_engagement(u_state: Readonly<UState>): { ui
 	}
 }
 
+function get_available_classes(u_state: Readonly<UState>): string[] {
+	return Enum.keys(CHARACTER_CLASSES)
+}
+
 /////////////////////
 
 export {
@@ -91,6 +98,7 @@ export {
 	appraise_player_power,
 	get_oldest_pending_flow_engagement,
 	get_oldest_pending_non_flow_engagement,
+	get_available_classes,
 }
 export * from './achievements'
 
