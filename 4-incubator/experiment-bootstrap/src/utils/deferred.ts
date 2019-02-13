@@ -1,8 +1,8 @@
 
 // 1. copied from https://github.com/Microsoft/TypeScript/issues/15202#issuecomment-318900991
-// 2. then improved to match latest Promise typings
+// 2. then improved to match the latest Promise typings
 
-export default class Deferred<T> {
+export class Deferred<T> {
 	private _resolve!: (value?: T | PromiseLike<T>) => void
 	private _reject!: (reason?: any) => void
 	private readonly promise: Promise<T>

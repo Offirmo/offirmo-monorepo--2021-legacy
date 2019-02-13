@@ -1,6 +1,7 @@
 import { Enum } from 'typescript-string-enums'
 
-import Deferred from '../utils/deferred'
+import { Deferred } from '../utils/deferred'
+import { getProperty } from '../utils/get-property'
 import { getUTCTimestampMs } from '../utils/timestamp'
 import {
 	Cohort,
@@ -162,12 +163,6 @@ export function addRequirement<T>(state: ExperimentInternal<T>, r: Requirement<T
 	state.privateResult.requirements[key] = false
 
 	return state
-}
-
-
-// https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-1.html
-function getProperty<T, K extends keyof T>(obj: T, key: K) {
-	return obj[key];  // Inferred type is T[K]
 }
 
 
