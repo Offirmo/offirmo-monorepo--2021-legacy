@@ -1,17 +1,22 @@
 {
 	"name": "@tbrpg/client-node",
-	"version": "0.54.7",
 	"description": "⚔🛡💰 The npm RPG, a command line RPG game. Just ⌨ `npx the-npm-rpg`!",
+	"repository": "https://github.com/Offirmo/offirmo-monorepo.git",
+	"version": "0.57.0",
 	"author": "Offirmo <offirmo.net@gmail.com>",
-	"license": "UNLICENSED",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/online-adventures/oh-my-rpg.git"
-	},
+	"private": true,
+	"license": "Unlicense",
+
 	"engines": {
 		"node": ">=8.5"
 	},
+
+	"dependencies": {
+		"conf": "^2"
+	},
+
 	"bin": "./bin/index.js",
+
 	"scripts": {
 		"__dev": "~~~~~~~ DEVELOPMENT ~~~~~~~",
 		"clean": "node ../../../scripts/clean.js dist cache",
@@ -21,9 +26,6 @@
 		"__helpers": "----------- Helpers -----------",
 		"build": "run-s clean bump build:prod",
 		"bin": "bin/index.js"
-	},
-	"dependencies": {
-		"conf": "^2"
 	},
 	"devDependencies": {
 		"@offirmo/loggers-types-and-stubs": "^0.2",

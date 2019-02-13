@@ -1,22 +1,22 @@
 {
 	"name": "@offirmo/unicode-data",
-	"version": "0.0.1",
-	"private": true,
 	"description": "Unicode static data featuring tags, ex. monster",
+	"version": "0.0.1",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"private": true,
+	"license": "Unlicense",
 
 	"main": "dist/src.es7.cjs/index.js",
 	"jsnext:main": "dist/src.es7/index.js",
 	"typings": "dist/src.es7.cjs/index.d.ts",
 
-	"author": "Offirmo <offirmo.net@gmail.com>",
-	"license": "UNLICENSED",
+	"peerDependencies": {
+		"tslib": "^1"
+	},
 	"dependencies": {
 		"typescript-string-enums": "^0.3"
 	},
-	"devDependencies": {
-		"npm-run-all": "^4",
-		"tslib": "^1"
-	},
+
 	"scripts": {
 		"clean": "node ../../scripts/clean.js dist",
 
@@ -25,5 +25,8 @@
 
 		"dev": "run-s clean build:dev:watch",
 		"build": "run-s clean build:prod"
+	},
+	"devDependencies": {
+		"npm-run-all": "^4"
 	}
 }

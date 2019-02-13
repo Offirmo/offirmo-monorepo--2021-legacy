@@ -1,11 +1,12 @@
 {
 	"name": "offirmo-monorepo",
-	"version": "0.0.1",
 	"description": "A monorepo for all my JavaScript / TypeScript projects. So convenient.",
 	"repository": "https://github.com/Offirmo/offirmo-monorepo.git",
+	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
-	"license": "Unlicense",
 	"private": true,
+	"license": "Unlicense",
+
 	"scripts": {
 		"clean": "bolt ws run clean && bolt ws exec -- rm -rf .cache .parcel dist node_modules yarn.lock package-lock.json yarn-error.log",
 		"test": "bolt ws run test",

@@ -1,15 +1,18 @@
 {
 	"name": "@oh-my-rpg/view-rich-text",
-	"version": "0.0.1",
-	"private": true,
 	"description": "view to string (using unicode and emojis)",
+	"version": "0.0.1",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"private": true,
+	"license": "Unlicense",
 
 	"main": "dist/src.es7.cjs/index.js",
 	"jsnext:main": "dist/src.es7/index.js",
 	"typings": "dist/src.es7.cjs/index.d.ts",
 
-	"author": "Offirmo <offirmo.net@gmail.com>",
-	"license": "UNLICENSED",
+	"peerDependencies": {
+		"tslib": "^1"
+	},
 	"dependencies": {
 		"@oh-my-rpg/definitions": "^0.0.1",
 		"@oh-my-rpg/logic-adventures": "^0.0.1",
@@ -33,8 +36,7 @@
 		"@oh-my-rpg/state-prng": "^0.0.1",
 		"@types/strip-ansi": "^3",
 		"npm-run-all": "^4",
-		"strip-ansi": "^5",
-		"tslib": "^1"
+		"strip-ansi": "^5"
 	},
 	"scripts": {
 		"clean": "node ../../scripts/clean.js dist",

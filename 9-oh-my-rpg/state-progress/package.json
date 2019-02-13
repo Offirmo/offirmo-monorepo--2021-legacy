@@ -1,17 +1,18 @@
 {
 	"name": "@oh-my-rpg/state-progress",
-	"version": "0.0.1",
-	"private": true,
 	"description": "flags, unlocks and extra statistics state and reducer",
+	"version": "0.0.1",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"private": true,
+	"license": "Unlicense",
 
 	"main": "dist/src.es7.cjs/index.js",
 	"jsnext:main": "dist/src.es7/index.js",
 	"typings": "dist/src.es7.cjs/index.d.ts",
 
-	"author": "Offirmo <offirmo.net@gmail.com>",
-	"license": "UNLICENSED",
 	"peerDependencies": {
-		"@offirmo/soft-execution-context": "^0.0.2"
+		"@offirmo/soft-execution-context": "^0.0.2",
+		"tslib": "^1"
 	},
 	"dependencies": {
 		"@offirmo/timestamps": "^0.0.1",
@@ -22,8 +23,7 @@
 	},
 	"devDependencies": {
 		"@oh-my-rpg/migration-tester": "^0.0.1",
-		"npm-run-all": "^4",
-		"tslib": "^1"
+		"npm-run-all": "^4"
 	},
 	"scripts": {
 		"clean": "node ../../scripts/clean.js dist",

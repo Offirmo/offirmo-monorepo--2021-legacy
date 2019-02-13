@@ -19,12 +19,12 @@
 		"@offirmo/react-error-boundary": "^0.0.1",
 		"@offirmo/rich-text-format": "^0.0.1",
 		"classnames": "^2",
-		"react-dom": "^16",
 		"react-overlays": "^1",
 		"react-portal-tooltip": "^2"
 	},
 	"devDependencies": {
 		"@babel/core": "^7",
-		"parcel-bundler": "^1"
+		"parcel-bundler": "^1",
+		"react-dom": "^16"
 	}
 }

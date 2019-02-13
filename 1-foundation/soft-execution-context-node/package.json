@@ -1,25 +1,28 @@
 {
 	"name": "@offirmo/soft-execution-context-node",
-	"author": "Offirmo <offirmo.net@gmail.com>",
-	"license": "Unlicense",
-	"private": true,
+	"description": "node-specific Software Execution Context",
 	"version": "0.0.2",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"private": true,
+	"license": "Unlicense",
+
 	"main": "src/index.js",
 	"engines": {
 		"node": ">=8.5"
 	},
 	"peerDependencies": {
-		"@offirmo/soft-execution-context": "^0.0.2"
+		"@offirmo/soft-execution-context": "^0.0.2",
+		"tslib": "^1"
 	},
 	"dependencies": {
 	},
-	"devDependencies": {
-		"@offirmo/practical-logger-node": "^0.0.1",
-		"npm-run-all": "^4",
-		"tslib": "^1"
-	},
+
 	"scripts": {
 		"cheatsheet": "node doc/cheatsheet.js",
 		"demo": "./doc/demo/demo.js"
+	},
+	"devDependencies": {
+		"@offirmo/practical-logger-node": "^0.0.1",
+		"npm-run-all": "^4"
 	}
 }

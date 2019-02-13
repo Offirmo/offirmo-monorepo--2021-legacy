@@ -1,12 +1,16 @@
 {
 	"name": "@offirmo/view-chat",
-	"version": "0.0.1",
 	"description": "chat-like generic interface",
+	"version": "0.0.1",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"private": true,
+	"license": "Unlicense",
 
 	"main": "src/index.js",
 
-	"author": "Offirmo <offirmo.net@gmail.com>",
-	"license": "UNLICENSED",
+	"peerDependencies": {
+		"tslib": "^1"
+	},
 	"dependencies": {
 		"caught": "^0.1",
 		"is-promise": "^2",
@@ -14,8 +18,7 @@
 		"p-progress": "^0.2"
 	},
 	"devDependencies": {
-		"npm-run-all": "^4",
-		"tslib": "^1"
+		"npm-run-all": "^4"
 	},
 	"scripts": {
 		"cheatsheet": "node doc/cheatsheet.js",

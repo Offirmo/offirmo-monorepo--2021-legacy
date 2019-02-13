@@ -1,6 +1,7 @@
 
 https://blackbeltwiki.com/dynamic-tension
 https://en.wikipedia.org/wiki/Atropa_belladonna
+https://bewarethewizard.com/2019/01/18/fantasy-cartography-and-the-suspension-of-disbelief/
 
 https://www.pcgamer.com/au/how-blizzard-coped-with-world-of-warcrafts-blood-plague-and-other-early-disasters/
 https://hearthstone.judgehype.com/news/le-dos-de-carte-marque-d-hakkar-un-clin-d-oeil-a-l-epidemie-du-sang-vicie-sur-wow-158429/

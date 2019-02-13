@@ -1,14 +1,17 @@
 {
 	"name": "hello-world-netlify-pro",
-	"version": "0.0.1",
 	"description": "Netlify functions for online-adventures.",
-	"repository": "https://github.com/Offirmo/hello-world-netlify-identity.git",
+	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
-	"license": "Unlicense",
 	"private": true,
+	"license": "Unlicense",
 
+	"engines": {
+		"node": "8.1"
+	},
 	"dependencies": {
-		"lodash": "^4"
+		"lodash": "^4",
+		"tslib": "^1"
 	},
 
 	"scripts": {

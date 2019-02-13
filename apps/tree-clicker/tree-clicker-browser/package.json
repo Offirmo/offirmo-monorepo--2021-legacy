@@ -1,25 +1,11 @@
 {
 	"name": "tree-clicker-browser",
+	"description": "A clicker game",
 	"version": "0.0.1",
-	"private": true,
-	"description": "TODO",
 	"author": "Offirmo <offirmo.net@gmail.com>",
-	"license": "UNLICENSED",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/Offirmo/offirmo-monorepo.git"
-	},
-	"engines": {
-		"node": ">=10"
-	},
-	"scripts": {
-		"refresh-build-variables": "node ../../scripts/update_build_variables.js",
-		"clean": "node ../../scripts/clean.js dist cache",
-		"start:parcel": "parcel --out-dir .parcel --no-autoinstall --port 8080 src/index.html",
-		"start": "run-s refresh-build-variables start:parcel",
-		"build:parcel": "parcel build src/index.html --public-url ./",
-		"build": "npm version patch && run-s clean refresh-build-variables build:parcel"
-	},
+	"private": true,
+	"license": "Unlicense",
+
 	"dependencies": {
 		"@offirmo/ensure-device-uuid-browser": "^0.0.1",
 		"@offirmo/features-detection-browser": "^0.0.1",
@@ -42,6 +28,15 @@
 		"react-dom": "^16",
 		"react-router-dom": "^4",
 		"tslib": "^1"
+	},
+
+	"scripts": {
+		"refresh-build-variables": "node ../../scripts/update_build_variables.js",
+		"clean": "node ../../scripts/clean.js dist cache",
+		"start:parcel": "parcel --out-dir .parcel --no-autoinstall --port 8080 src/index.html",
+		"start": "run-s refresh-build-variables start:parcel",
+		"build:parcel": "parcel build src/index.html --public-url ./",
+		"build": "npm version patch && run-s clean refresh-build-variables build:parcel"
 	},
 	"devDependencies": {
 		"@babel/core": "^7",
