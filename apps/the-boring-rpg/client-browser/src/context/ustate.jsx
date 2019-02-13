@@ -6,7 +6,6 @@ import get_game_instance from '../services/game-instance-browser'
 import { AppStateContext } from './app-state'
 
 
-
 function UStateListenerAndProvider({ children, render }) {
 	return (
 		<AppStateContext.Consumer>
@@ -23,9 +22,9 @@ function UStateListenerAndProvider({ children, render }) {
 				*/
 
 				return render_any_m({
-					u_state: latest_ustate,
-					render,
 					children,
+					render,
+					u_state: latest_ustate,
 				})
 			}}
 		</AppStateContext.Consumer>

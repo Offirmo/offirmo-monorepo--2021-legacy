@@ -13,7 +13,7 @@ const game_instance = get_game_instance()
 
 const InfoboxC1 = React.memo(
 	function InfoboxC1({state}) {
-		//onsole.log('🔄 InfoboxC1' /*, m_state*/)
+		//console.log('🔄 InfoboxC1' /*, m_state*/)
 
 		const achievements_completion_pct = (new Fraction(game_instance.selectors.get_achievements_completion())).mul(100).floor(2).valueOf()
 
@@ -34,8 +34,6 @@ function InfoBoxC2() {
 	return (
 		<AppStateContext.Consumer>
 			{app_state => {
-				if (!app_state) return null
-
 				//console.log('InfoboxC2 context received:', app_state)
 				return <InfoboxC1 m_state={app_state.model} />
 			}}

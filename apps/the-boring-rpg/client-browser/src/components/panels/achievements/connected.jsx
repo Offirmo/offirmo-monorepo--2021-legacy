@@ -20,9 +20,7 @@ const AchievementsPanelC1M = React.memo(
 
 
 class AchievementsPanel extends Component {
-	render_view = () => {
-		const { u_state } = get_game_instance().model.get_state()
-
+	render_view = ({ u_state }) => {
 		return (
 			<AchievementsPanelC1M u_state={u_state} />
 		)

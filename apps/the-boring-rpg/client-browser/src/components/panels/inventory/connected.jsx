@@ -8,7 +8,7 @@ import View from './component'
 
 
 class InventoryPanel extends Component {
-	render_view = (u_state) => {
+	render_view = ({ u_state }) => {
 		const inventory = get_game_instance().selectors.get_sub_state('inventory')
 		const wallet = get_game_instance().selectors.get_sub_state('wallet')
 

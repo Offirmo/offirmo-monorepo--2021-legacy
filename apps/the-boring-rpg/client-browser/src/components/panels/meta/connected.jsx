@@ -16,7 +16,7 @@ class MetaPanelC1 extends Component {
 		history.push(ROUTES.savegame)
 	}
 
-	render_view = (u_state) => {
+	render_view = ({ u_state }) => {
 		//console.log('🔄 MetaPanelC1.render_view')
 		const { statistics } = get_game_instance().selectors.get_sub_state('progress')
 

@@ -1,3 +1,28 @@
+
+function InfoBoxC2() {
+	return (
+		<AppStateContext.Consumer>
+			{app_state => {
+				...
+			}}
+		</AppStateContext.Consumer>
+	)
+}
+
+class Connected extends Component {
+	render_view = ({ u_state }) => {
+		return <View u_state={u_state} />
+	}
+
+	render() {
+		return (
+			<UStateListenerAndProvider render={this.render_view} />
+		)
+	}
+}
+
+
+
 https://www.schlockmercenary.com/2016-07-24
 
 http://craig-russell.co.uk/2016/01/29/service-worker-messaging.html

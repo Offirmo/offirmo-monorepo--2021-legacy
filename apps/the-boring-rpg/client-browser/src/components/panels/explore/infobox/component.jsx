@@ -5,7 +5,7 @@ import './index.css'
 
 const InfoboxViewM = React.memo(
 	function InfoboxView({ energy_float, human_time_to_next, achievements_completion_pct }) {
-		console.log('🔄 InfoboxView')
+		console.log('🔄 InfoboxView' /*, { energy_float }*/)
 
 		set_number_in_favicon(energy_float)
 		//window.set_number_in_favicon = set_number_in_favicon // debug
