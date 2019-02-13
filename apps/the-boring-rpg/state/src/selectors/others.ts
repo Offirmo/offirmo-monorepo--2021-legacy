@@ -29,10 +29,6 @@ import { get_achievement_snapshot_by_uuid } from "./achievements";
 
 /////////////////////
 
-// TODO
-// get u reducer
-
-
 
 // TODO
 function appraise_player_power(u_state: Readonly<UState>): number {

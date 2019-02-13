@@ -1,11 +1,10 @@
 {
 	"name": "@tbrpg/client-browser",
 	"description": "⚔🛡💰 The boring RPG browser game, reloaded!",
-	"version": "0.57.0",
+	"version": "0.57.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"private": true,
 	"license": "Unlicense",
-
 	"scripts": {
 		"refresh-build-variables": "node ../../../scripts/update_build_variables.js",
 		"clean": "node ../../../scripts/clean.js dist cache",
@@ -17,7 +16,6 @@
 		"leg-start": "cross-env NODE_ENV=development webpack-dev-server -d --config meta/webpack.config.ts",
 		"leg-build": "npm version patch && run-s clean build:prod"
 	},
-
 	"dependencies": {
 		"@offirmo/ensure-device-uuid-browser": "^0.0.1",
 		"@offirmo/favicon-notifications": "^0.0.1",

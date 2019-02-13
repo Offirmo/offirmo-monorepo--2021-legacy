@@ -1,6 +1,4 @@
 /* A helper for actual games using this model
- * TODO extract
- * TODO force refresh on client state change
  */
 
 import EventEmitter from 'emittery'

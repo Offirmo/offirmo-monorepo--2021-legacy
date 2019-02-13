@@ -20,13 +20,17 @@ ngrok http -subdomain=offirmo 8080
 
 ```bash
 yarn build
-(copy to oa TODO make a script!)
+(from the top)
+bolt deploy
 ```
 
 
 ## TODO
 
-`npx bundle-inspector "https://www.online-adventur.es/apps/the-boring-rpg/index.html"`
+```
+npx bundle-inspector "https://www.online-adventur.es/apps/the-boring-rpg/index.html"
+npx bundle-inspector "https://www.online-adventur.es/apps/the-boring-rpg-preprod/index.html"
+```
 
 ## doc
 * https://github.com/netlify/netlify-identity-widget

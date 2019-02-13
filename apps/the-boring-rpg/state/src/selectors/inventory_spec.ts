@@ -20,8 +20,6 @@ import {appraise_item_value} from "./inventory";
 describe(`${LIB} - selectors / inventory`, function() {
 	beforeEach(() => xxx_internal_reset_prng_cache())
 
-	// TODO
-
 	describe('appraise_item_value() by uuid', function() {
 
 		context('when the element refers to an item', function() {
