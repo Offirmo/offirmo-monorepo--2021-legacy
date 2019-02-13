@@ -17,6 +17,10 @@ transferable skills https://dev.to/alex_barashkov/how-games-can-improve-your-ski
 
 https://science.slashdot.org/story/19/01/30/1559228/mind-altering-cat-parasite-linked-to-schizophrenia-in-largest-study-yet
 
+War
+- https://history.stackexchange.com/questions/50989/operation-vengeance-and-individual-targeting-of-enemy-commanders
+
+
 skeletons:
 - wolf
 - human
