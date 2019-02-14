@@ -3,18 +3,12 @@ import PropTypes from 'prop-types'
 
 import { OhMyRPGUIContext } from '@oh-my-rpg/view-browser-react'
 
-import rich_text_to_react from '../../../services/rich-text-to-react'
-
-import View from './component'
-
+import { AppStateContext } from '../../../context'
 import get_game_instance from '../../../services/game-instance-browser'
 import OMRUINotifier from '../notifier'
+import View from './component'
 
-import SEC from "../../../services/sec";
-import {LS_KEYS} from "../../../services/consts";
-import {THE_BORING_RPG} from "@offirmo/marketing-rsrc";
 
-const game_instance = get_game_instance()
 
 const BACKGROUNDS = [
 	'ancient-castle',
@@ -46,25 +40,37 @@ const BACKGROUNDS = [
 	'viking_ambush',
 ]
 
+function render_c2(app_state) {
+	//console.log('🔄 OMR-UI immersion c2')
+
+	const { mode } = get_game_instance().view.get_state()
+	const { good_play_count } = get_game_instance()
+		.selectors.get_sub_state('progress')
+		.statistics
+
+	return (
+		<View
+			mode={mode}
+			background={BACKGROUNDS[good_play_count % BACKGROUNDS.length]}
+		/>
+	)
+}
+
+function render_c1(omr) {
+	//console.log('🔄 OMR-UI immersion c1')
+
+	return (
+		<Fragment>
+			<OMRUINotifier enqueueNotification={omr.enqueueNotification}/>
+			<AppStateContext.Consumer>
+				{render_c2}
+			</AppStateContext.Consumer>
+		</Fragment>
+	)
+}
+
 export default () => (
 	<OhMyRPGUIContext.Consumer>
-		{omr => {
-			console.log('🔄 OMR-UI immersion')
-
-			const { mode } = game_instance.view.get_state()
-			const { good_play_count } = get_game_instance()
-				.selectors.get_sub_state('progress')
-				.statistics
-
-			return (
-				<Fragment>
-					<OMRUINotifier enqueueNotification={omr.enqueueNotification}/>
-					<View
-						mode={mode}
-						background={BACKGROUNDS[good_play_count % BACKGROUNDS.length]}
-					/>
-				</Fragment>
-			)
-		}}
+		{render_c1}
 	</OhMyRPGUIContext.Consumer>
 )

@@ -9,7 +9,7 @@ import {
 	Interactive as UnconnectedInteractive,
 } from './component'
 
-const game_instance = get_game_instance()
+
 
 function with_element_and_action(Component) {
 	return (props) => {
@@ -17,7 +17,7 @@ function with_element_and_action(Component) {
 		const { UUID } = props
 		//console.log('🔄 with_element_and_action', { UUID, revision: game_instance.model.get_state().u_state.revision })
 
-		const element = game_instance.selectors.find_element(UUID)
+		const element = get_game_instance().selectors.find_element(UUID)
 		if (!element) {
 			console.warn(`interactive element not found!`, UUID, props)
 			// element disappeared. This happen transitively (ex. sold)
@@ -26,7 +26,7 @@ function with_element_and_action(Component) {
 			return props.children
 		}
 
-		const actions = game_instance.selectors.get_actions_for_element(UUID)
+		const actions = get_game_instance().selectors.get_actions_for_element(UUID)
 
 		props = {
 			...props,

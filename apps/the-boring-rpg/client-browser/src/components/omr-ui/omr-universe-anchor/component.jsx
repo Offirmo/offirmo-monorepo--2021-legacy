@@ -3,9 +3,9 @@ import React from 'react'
 import './index.css'
 
 
-const OMRUniverseAnchorViewM = React.memo(
+const OMRUniverseAnchorView = React.memo(
 	function OMRUniverseAnchorView({onClick, name, klass, level}) {
-		console.log('🔄 OMRUniverseAnchorViewM')
+		console.log('🔄 OMRUniverseAnchorView')
 
 		return (
 			<div className="o⋄flex--row" onClick={onClick}>
@@ -19,4 +19,4 @@ const OMRUniverseAnchorViewM = React.memo(
 	}
 )
 
-export default OMRUniverseAnchorViewM
+export default OMRUniverseAnchorView

@@ -3,13 +3,13 @@ import PropTypes from 'prop-types'
 
 import OhMyRpg from '@oh-my-rpg/view-browser-react'
 
+import get_game_instance from '../../services/game-instance-browser'
 import About from './omr-about'
 import UniverseAnchor from './omr-universe-anchor'
 import ImmersionArea from './omr-immersion'
 import HamburgerArea from './omr-hamburger'
 import * as GroupChat from './group-chat-tlkio'
 
-import get_game_instance from '../../services/game-instance-browser'
 
 
 import './index.css'

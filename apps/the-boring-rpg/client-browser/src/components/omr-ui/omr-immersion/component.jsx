@@ -16,7 +16,7 @@ const MODE_TO_PANEL = {
 	'social': <SocialPanel />,
 }
 
-const MainAreaViewM = React.memo(
+const MainAreaView = React.memo(
 	function MainAreaView({mode, background}) {
 		console.log('🔄 MainAreaView')
 
@@ -36,4 +36,4 @@ const MainAreaViewM = React.memo(
 		)
 	}
 )
-export default MainAreaViewM
+export default MainAreaView

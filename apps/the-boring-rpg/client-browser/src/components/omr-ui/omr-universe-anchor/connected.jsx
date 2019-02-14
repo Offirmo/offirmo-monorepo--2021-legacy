@@ -1,17 +1,30 @@
-import React from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
+import get_game_instance from '../../../services/game-instance-browser'
+import { UStateListenerAndProvider } from '../../../context'
 import View from './component'
 
-import get_game_instance from '../../../services/game-instance-browser'
 
-export default props => {
-	const avatar = get_game_instance().selectors.get_sub_state('avatar')
-	return (
-		<View
-			{...props}
-			name={avatar.name}
-			klass={avatar.klass}
-			level={avatar.attributes.level}
-		/>)
+
+class Connected extends Component {
+	render_view = ({ u_state }) => {
+		const { onClick } = this.props
+		const avatar = get_game_instance().selectors.get_sub_state('avatar')
+		return (
+			<View
+				onClick={onClick}
+				name={avatar.name}
+				klass={avatar.klass}
+				level={avatar.attributes.level}
+			/>)
+	}
+
+	render() {
+		return (
+			<UStateListenerAndProvider render={this.render_view} />
+		)
+	}
 }
+
+export default Connected

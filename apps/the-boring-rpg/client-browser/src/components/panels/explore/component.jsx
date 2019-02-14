@@ -112,16 +112,13 @@ export default class ExplorePanelView extends React.Component {
 	render() {
 		console.log('🔄 ExplorePanelView')
 
-		//const { view_state } = this.props
-		const view_state = {} // TODO clean
-
 		return (
 			<div className="o⋄top-container tbrpg-panel tbrpg-panel--explore">
 				<div key="chat">
 					<div>
 						<ErrorBoundary name={'chat:explore'}>
 							<Chat
-								initial_bubbles={view_state.home_bubbles}
+								initial_bubbles={[]}
 								gen_next_step={gen_next_step()}
 								on_unmount={(bubbles) => {
 									/*get_game_instance().view.set_state(() => ({

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
 import { ElementType } from '@oh-my-rpg/definitions'
@@ -46,8 +46,8 @@ function render_element_detailed(element) {
 
 // = usually displayed inline (only used in dev for now TODO cleanup)
 const Short = React.memo(
-	function ShortUM({children, element}) {
-		console.log('🔄 InteractiveElementShortUM')
+	function Short({children, element}) {
+		console.log('🔄 InteractiveElementShort')
 		return (
 			<span>
 				{children || rich_text_to_react(render_element_short(element), {render_interactive: false})}
@@ -58,8 +58,8 @@ const Short = React.memo(
 
 // = displayed in tooltip
 const Detailed = React.memo(
-	function DetailedUM({element, actions = []}) {
-		console.log('🔄 InteractiveElementDetailedUM')
+	function Detailed({element, actions = []}) {
+		console.log('🔄 InteractiveElementDetailed')
 
 	return (
 		<Fragment>
@@ -71,7 +71,7 @@ const Detailed = React.memo(
 )
 
 // alternate from short to detailed
-class Interactive extends Component {
+class Interactive extends PureComponent {
 	static propTypes = {
 		UUID: PropTypes.string.isRequired,
 		children: PropTypes.element.isRequired,
