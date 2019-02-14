@@ -22,7 +22,9 @@
 	},
 	"devDependencies": {
 		"@babel/core": "^7",
-		"parcel-bundler": "^1",
+		"parcel-bundler": "^1"
+	},
+	"xxdevDependencies": {
 		"react-dom": "^16"
 	}
 }
