@@ -1,6 +1,7 @@
 import React, { Component, Fragment, StrictMode } from 'react'
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
 
+import get_game_instance from '../services/game-instance-browser'
 import {BASE_ROUTE, ROUTES} from '../services/routes'
 import {CHANNEL} from '../services/channel'
 import { AppStateListenerAndProvider } from '../context'
@@ -64,7 +65,53 @@ export default class Root extends Component {
 					</Switch>
 				</Router>
 
-				<DevUI channel={CHANNEL}/>
+				<DevUI
+					channel={CHANNEL}
+					onPlayPause={is_paused => {
+						window.XOFF.is_paused = is_paused
+						if (is_paused)
+							console.warn('⏸ Game is now paused!')
+						else
+							console.info('▶ Game will now resume')
+					}}
+					onFastForward={() => get_game_instance().reducers.execute_custom_reducer(
+						'onFastForward',
+						state => {
+							const { n, d } = state.t_state.energy.available_energy
+							return {
+								...state,
+								t_state: {
+									...state.t_state,
+									energy: {
+										...state.t_state.energy,
+										available_energy: {
+											n: n+d,
+											d,
+										}
+									}
+								}
+							}
+						}
+					)}
+					onNext={() => get_game_instance().reducers.execute_custom_reducer(
+						'onNext',
+						state => {
+							return {
+								...state,
+								t_state: {
+									...state.t_state,
+									energy: {
+										...state.t_state.energy,
+										available_energy: {
+											n: 1000, // will be capped
+											d: 1,
+										}
+									}
+								}
+							}
+						}
+					)}
+				/>
 			</Fragment>
 		)
 	}

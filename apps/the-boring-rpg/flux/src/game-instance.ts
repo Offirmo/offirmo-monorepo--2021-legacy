@@ -137,6 +137,15 @@ function create_game_instance<T>({SEC, get_latest_state, persist_state, view_sta
 					persist_state(state)
 					emitter.emit('model_change', `execute_serialized_action(${action.type})`)
 				},
+				// for debug / hacks
+				execute_custom_reducer(debug_id: string, reducer: (s: Readonly<State>) => Readonly<State>) {
+					let state = get_latest_state()
+					state = state_fns.update_to_now(state) // to help
+					state = reducer(state)
+					state = state_fns.update_to_now(state) // just in case
+					persist_state(state)
+					emitter.emit('model_change', `execute_custom_reducer(${debug_id})`)
+				},
 			},
 
 			selectors: {

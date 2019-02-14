@@ -8,6 +8,9 @@ import './index.css';
 export default class DevArea extends Component {
 	static propTypes = {
 		SEC: PropTypes.object,
+		onPlayPause: PropTypes.func,
+		onFastForward: PropTypes.func,
+		onNext: PropTypes.func,
 	}
 
 	constructor(props) {
@@ -30,17 +33,36 @@ export default class DevArea extends Component {
 		})
 	}
 
+	onPlayPause = () => {
+		if (! this.props.onPlayPause) return
+
+		this.setState({ paused: !this.state.paused })
+		this.props.onPlayPause(!this.state.paused)
+	}
+
+	onFastForward = () => {
+		if (! this.props.onFastForward) return
+
+		this.props.onFastForward()
+	}
+
+	onNext = () => {
+		if (! this.props.onNext) return
+
+		this.props.onNext()
+	}
+
 	render() {
 		console.log('🔄 DevArea')
 
 		// TODO activate those features
 		const media_controls = []
 		if (this.props.onPlayPause)
-			media_controls.push(<button onClick={this.props.onPlayPause}>{this.state.paused ? '▶️' : '⏸️'}</button>)
+			media_controls.push(<button key="PlayPause" onClick={this.onPlayPause}>{this.state.paused ? '▶️' : '⏸️'}</button>)
 		if (this.props.onFastForward)
-			media_controls.push(<button onClick={this.props.onFastForward}>⏩</button>)
+			media_controls.push(<button key="FastForward" onClick={this.onFastForward}>⏩</button>)
 		if (this.props.onNext)
-			media_controls.push(<button onClick={this.props.onNext}>⏭</button>)
+			media_controls.push(<button key="Next" onClick={this.onNext}>⏭</button>)
 
 		const dev_controls = [
 			<tr key="refresh">
