@@ -19,6 +19,15 @@ Next
 - 😷 chore: some internal refactors
 
 
+2019/02/xx v0.57.0
+- 🤩 feature: X new adventures (now totalling X!)
+- 😍 feature: X new backgrounds (now totalling X!)
+- 🤩 feature: X new achievements (now totalling X!)
+- 😅 fix: tweaks, typos, small bugs…
+- 😷 chore: some internal refactors for the future server feature
+- 😷 chore: some internal refactors around React rendering
+
+
 2019/02/11 v0.56.5
 - 🤩 feature: Firefox now has nicer scrolls
 - 😅 fix: unscrollable areas on Chrome and Firefox

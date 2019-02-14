@@ -54,7 +54,7 @@ SEC.emitter.on('final-error', function onError({SEC, err}) {
 })
 
 SEC.emitter.on('analytics', function onAnalytics({SEC, eventId, details}) {
-	// TODO
+	// TODO analytics
 	console.groupCollapsed(`⚡  Analytics! ⚡  ${eventId}`)
 	console.log('details', details)
 	console.groupEnd()

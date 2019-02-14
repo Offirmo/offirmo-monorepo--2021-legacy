@@ -1,4 +1,5 @@
-
+```jsx
+import { AppStateContext } from '../../../../context'
 function InfoBoxC2() {
 	return (
 		<AppStateContext.Consumer>
@@ -8,6 +9,8 @@ function InfoBoxC2() {
 		</AppStateContext.Consumer>
 	)
 }
+
+import { UStateListenerAndProvider } from '../../../../context'
 
 class Connected extends Component {
 	render_view = ({ u_state }) => {
@@ -20,6 +23,8 @@ class Connected extends Component {
 		)
 	}
 }
+```
+
 
 
 

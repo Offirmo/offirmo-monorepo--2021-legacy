@@ -26,7 +26,7 @@ const PageDevViewM = React.memo(
 				<hr key="last_adventure" />
 				{rich_text_to_react(render_adventure(get_game_instance().selectors.get_last_adventure()))}
 				<hr key="pending" />
-				{/* TODO */}
+				{/* ... */}
 				<hr key="avatar" />
 				{rich_text_to_react(render_character_sheet(get_game_instance().selectors.get_sub_state('avatar')))}
 				<hr key="inventory" />
