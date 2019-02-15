@@ -10,7 +10,7 @@ import Root from './components/root'
 
 window.XOFF = {
 	is_paused: false,
-	debug_render: true,
+	debug_render: true, // TODO switch in dev area
 }
 
 ReactDOM.render(

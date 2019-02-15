@@ -3,6 +3,8 @@ https://blackbeltwiki.com/dynamic-tension
 https://en.wikipedia.org/wiki/Atropa_belladonna
 https://bewarethewizard.com/2019/01/18/fantasy-cartography-and-the-suspension-of-disbelief/
 
+https://the-mouse-trap.com/2017/09/09/the-four-needs-for-meaning/
+
 https://www.pcgamer.com/au/how-blizzard-coped-with-world-of-warcrafts-blood-plague-and-other-early-disasters/
 https://hearthstone.judgehype.com/news/le-dos-de-carte-marque-d-hakkar-un-clin-d-oeil-a-l-epidemie-du-sang-vicie-sur-wow-158429/
 https://wow.gamepedia.com/Item_level
@@ -22,6 +24,17 @@ War
 - https://history.stackexchange.com/questions/50989/operation-vengeance-and-individual-targeting-of-enemy-commanders
 
 
+followers https://github.com/sepehr500/vscode-discourage/blob/master/src/extension.ts
+    "That was pretty meh...",
+    "Uh... are you ok?",
+    "Not sure about what you just did there...",
+    "Do you want me to be nice... or honest?",
+    "Maybe you should take the rest of the day off...",
+    "I'm not going to say you made a mistake... but...",
+    "Was that a typo, or...",
+    "Yikes..."
+    
+    
 skeletons:
 - wolf
 - human
