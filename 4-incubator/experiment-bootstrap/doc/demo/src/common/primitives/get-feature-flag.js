@@ -1,9 +1,9 @@
 // @flow
 
-import invariant from 'tiny-invariant';
+import assert from 'tiny-assert';
 
 export function getFeatureFlag<T>(featureFlagName: string, defaultValue: T): T {
-  invariant(
+  assert(
     typeof defaultValue !== 'undefined',
     `getFeatureFlag: a default value must be provided when querying "${featureFlagName}"!`,
   );
@@ -14,7 +14,7 @@ export function getFeatureFlag<T>(featureFlagName: string, defaultValue: T): T {
 
   const isValid = typeof value === typeof defaultValue;
   if (!isValid) {
-    invariant(
+    assert(
       isValid,
       `getFeatureFlag: the value of "${featureFlagName}": "${String(
         value,
@@ -31,7 +31,7 @@ export function getBooleanFeatureFlag(
   featureFlagName: string,
   defaultValue: boolean,
 ): boolean {
-  invariant(
+  assert(
     typeof defaultValue !== 'undefined',
     `getBooleanFeatureFlag: a default value must be provided when querying "${featureFlagName}"!`,
   );
@@ -40,7 +40,7 @@ export function getBooleanFeatureFlag(
 
   const isValid = typeof value === 'boolean';
   if (!isValid) {
-    invariant(
+    assert(
       isValid,
       `getBooleanFeatureFlag: the value of "${featureFlagName}": "${String(
         value,
@@ -57,7 +57,7 @@ export function getMultivariateFeatureFlag(
   defaultValue: string,
   possibleValues: string[] = [],
 ): string {
-  invariant(
+  assert(
     typeof defaultValue !== 'undefined',
     `getMultivariateFeatureFlag: a default value must be provided when querying "${featureFlagName}"!`,
   );
@@ -66,7 +66,7 @@ export function getMultivariateFeatureFlag(
 
   const isValid = typeof value === 'string' && possibleValues.includes(value);
   if (!isValid) {
-    invariant(
+    assert(
       isValid,
       `getMultivariateFeatureFlag: the value of "${featureFlagName}": "${String(
         value,

@@ -1,6 +1,6 @@
 
-import {Requirement, ResolvedExperiment} from '../types'
-import {ExperimentSpec} from '../experiment'
+import { Requirement, ResolvedExperiment } from '../types'
+import { ExperimentSpec } from '../experiment'
 
 interface Experiment<T> {
 	withKillSwitch: (isOn: ExperimentSpec<T>['isOn']) => Experiment<T>

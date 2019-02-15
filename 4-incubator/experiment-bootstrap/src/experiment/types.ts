@@ -1,6 +1,6 @@
 import { Enum } from 'typescript-string-enums'
 
-import Deferred from '../utils/deferred'
+import { Deferred } from '../utils/deferred'
 import { TimestampUTCMs } from '../utils/timestamp'
 
 import {
