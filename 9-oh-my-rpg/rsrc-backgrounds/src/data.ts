@@ -402,8 +402,8 @@ const ELEMENTS: Readonly<Background>[] = [
 
 	{
 		author:       AUTHORS_BY_NAME['Cyril Labranche'],
-		source:       'TODO',
-		display_name: 'Pike',
+		source:       'https://www.artstation.com/artwork/k4EXb0',
+		display_name: 'Pikes',
 		keywords:     [],
 		css_class:    'tbrpg⋄bg-image⁚cyril_labranche-pike',
 		position_pct: { x: 50, y: 50 },
@@ -520,7 +520,7 @@ const ELEMENTS: Readonly<Background>[] = [
 
 	{
 		author:       AUTHORS_BY_NAME['Jorge Miguel Jacinto'],
-		source:       'TODO',
+		source:       'https://www.deviantart.com/jjcanvas/art/Civilization-127234207',
 		display_name: 'Civilization',
 		keywords:     [],
 		css_class:    'tbrpg⋄bg-image⁚jorge_miguel_jacinto-civilization',
@@ -529,7 +529,7 @@ const ELEMENTS: Readonly<Background>[] = [
 
 	{
 		author:       AUTHORS_BY_NAME['Jorge Miguel Jacinto'],
-		source:       'TODO',
+		source:       'https://www.deviantart.com/jjcanvas/art/Half-Remembered-Ruins-351880992',
 		display_name: 'Half Remembered Ruins',
 		keywords:     [],
 		css_class:    'tbrpg⋄bg-image⁚jorge_miguel_jacinto-half_remembered_ruins',
@@ -547,8 +547,8 @@ const ELEMENTS: Readonly<Background>[] = [
 
 	{
 		author:       AUTHORS_BY_NAME['Raphael Lacoste'],
-		source:       'TODO',
-		display_name: 'Castle Phantom',
+		source:       'https://www.artstation.com/artwork/wEAV',
+		display_name: 'Terry Goodkind French Cover',
 		keywords:     [],
 		css_class:    'tbrpg⋄bg-image⁚raphael_lacoste-castle_phantom',
 		position_pct: { x: 5, y: 50 },
@@ -556,7 +556,7 @@ const ELEMENTS: Readonly<Background>[] = [
 
 	{
 		author:       AUTHORS_BY_NAME['Raphael Lacoste'],
-		source:       'TODO',
+		source:       'https://www.artstation.com/artwork/Kz6G',
 		display_name: 'Gnomon',
 		keywords:     [],
 		css_class:    'tbrpg⋄bg-image⁚raphael_lacoste-gnomon',
@@ -565,8 +565,8 @@ const ELEMENTS: Readonly<Background>[] = [
 
 	{
 		author:       AUTHORS_BY_NAME['Raphael Lacoste'],
-		source:       'TODO',
-		display_name: 'Gothic Choir',
+		source:       'https://www.artstation.com/artwork/oJL3q',
+		display_name: 'Path To The Gothic Choir',
 		keywords:     [],
 		css_class:    'tbrpg⋄bg-image⁚raphael_lacoste-gothic_choir',
 		position_pct: { x: 30, y: 50 },
@@ -574,7 +574,7 @@ const ELEMENTS: Readonly<Background>[] = [
 
 	{
 		author:       AUTHORS_BY_NAME['Raphael Lacoste'],
-		source:       'TODO',
+		source:       'https://www.artstation.com/artwork/yE0n',
 		display_name: 'Journey To The Center Of The Earth',
 		keywords:     [],
 		css_class:    'tbrpg⋄bg-image⁚raphael_lacoste-journey_to_the_center_of_the_earth',
@@ -583,7 +583,7 @@ const ELEMENTS: Readonly<Background>[] = [
 
 	{
 		author:       AUTHORS_BY_NAME['Raphael Lacoste'],
-		source:       'TODO',
+		source:       'https://www.artstation.com/artwork/9By4Q',
 		display_name: 'Jungle',
 		keywords:     [],
 		css_class:    'tbrpg⋄bg-image⁚raphael_lacoste-jungle',
@@ -592,8 +592,8 @@ const ELEMENTS: Readonly<Background>[] = [
 
 	{
 		author:       AUTHORS_BY_NAME['Raphael Lacoste'],
-		source:       'TODO',
-		display_name: 'Kvasir Fortress',
+		source:       'https://www.artstation.com/artwork/xORGY',
+		display_name: 'Kvaslr Fortress',
 		keywords:     [],
 		css_class:    'tbrpg⋄bg-image⁚raphael_lacoste-kvasir_fortress',
 		position_pct: { x: 84, y: 50 },
@@ -601,8 +601,8 @@ const ELEMENTS: Readonly<Background>[] = [
 
 	{
 		author:       AUTHORS_BY_NAME['Raphael Lacoste'],
-		source:       'TODO',
-		display_name: 'Landscape',
+		source:       'https://www.artstation.com/artwork/1nrAe',
+		display_name: 'Landscape With Hats',
 		keywords:     [],
 		css_class:    'tbrpg⋄bg-image⁚raphael_lacoste-landscape',
 		position_pct: { x: 17, y: 50 },
@@ -610,7 +610,7 @@ const ELEMENTS: Readonly<Background>[] = [
 
 	{
 		author:       AUTHORS_BY_NAME['Raphael Lacoste'],
-		source:       'TODO',
+		source:       'https://www.artstation.com/artwork/dQOW',
 		display_name: 'Lost Island',
 		keywords:     [],
 		css_class:    'tbrpg⋄bg-image⁚raphael_lacoste-lost_island',
@@ -619,7 +619,7 @@ const ELEMENTS: Readonly<Background>[] = [
 
 	{
 		author:       AUTHORS_BY_NAME['Raphael Lacoste'],
-		source:       'TODO',
+		source:       'https://www.artstation.com/artwork/12ewZ',
 		display_name: 'Monoliths',
 		keywords:     [],
 		css_class:    'tbrpg⋄bg-image⁚raphael_lacoste-monoliths',
@@ -628,7 +628,7 @@ const ELEMENTS: Readonly<Background>[] = [
 
 	{
 		author:       AUTHORS_BY_NAME['Raphael Lacoste'],
-		source:       'TODO',
+		source:       'https://www.artstation.com/artwork/GmO4',
 		display_name: 'Return Of The Knight',
 		keywords:     [],
 		css_class:    'tbrpg⋄bg-image⁚raphael_lacoste-return_of_the_knight',
@@ -637,7 +637,7 @@ const ELEMENTS: Readonly<Background>[] = [
 
 	{
 		author:       AUTHORS_BY_NAME['Raphael Lacoste'],
-		source:       'TODO',
+		source:       'https://www.artstation.com/artwork/0EX4',
 		display_name: 'Ride At Dusk',
 		keywords:     [],
 		css_class:    'tbrpg⋄bg-image⁚raphael_lacoste-ride_at_dusk',
@@ -646,7 +646,7 @@ const ELEMENTS: Readonly<Background>[] = [
 
 	{
 		author:       AUTHORS_BY_NAME['Raphael Lacoste'],
-		source:       'TODO',
+		source:       'https://www.artstation.com/artwork/P2m1',
 		display_name: 'Santa Lucia Arrival',
 		keywords:     [],
 		css_class:    'tbrpg⋄bg-image⁚raphael_lacoste-santa_lucia_arrival',
@@ -655,8 +655,8 @@ const ELEMENTS: Readonly<Background>[] = [
 
 	{
 		author:       AUTHORS_BY_NAME['Raphael Lacoste'],
-		source:       'TODO',
-		display_name: 'Skye Land',
+		source:       'https://www.artstation.com/artwork/qJWeD',
+		display_name: 'Journey In The Skye Land',
 		keywords:     [],
 		css_class:    'tbrpg⋄bg-image⁚raphael_lacoste-skye_land',
 		position_pct: { x: 50, y: 50 },
@@ -664,7 +664,7 @@ const ELEMENTS: Readonly<Background>[] = [
 
 	{
 		author:       AUTHORS_BY_NAME['Raphael Lacoste'],
-		source:       'TODO',
+		source:       'https://www.artstation.com/artwork/8rln',
 		display_name: 'The Coast',
 		keywords:     [],
 		css_class:    'tbrpg⋄bg-image⁚raphael_lacoste-the_coast',
@@ -682,7 +682,7 @@ const ELEMENTS: Readonly<Background>[] = [
 
 	{
 		author:       AUTHORS_BY_NAME['Raphael Lacoste'],
-		source:       'TODO',
+		source:       'https://www.artstation.com/artwork/ODyy',
 		display_name: 'The Journey',
 		keywords:     [],
 		css_class:    'tbrpg⋄bg-image⁚raphael_lacoste-the_journey',
@@ -691,7 +691,7 @@ const ELEMENTS: Readonly<Background>[] = [
 
 	{
 		author:       AUTHORS_BY_NAME['Raphael Lacoste'],
-		source:       'TODO',
+		source:       'https://www.artstation.com/artwork/bVav',
 		display_name: 'The Mangrove',
 		keywords:     [],
 		css_class:    'tbrpg⋄bg-image⁚raphael_lacoste-the_mangrove',
@@ -700,7 +700,7 @@ const ELEMENTS: Readonly<Background>[] = [
 
 	{
 		author:       AUTHORS_BY_NAME['Raphael Lacoste'],
-		source:       'TODO',
+		source:       'https://www.artstation.com/artwork/nZvA4',
 		display_name: 'Viking Ambush',
 		keywords:     [],
 		css_class:    'tbrpg⋄bg-image⁚raphael_lacoste-viking_ambush',

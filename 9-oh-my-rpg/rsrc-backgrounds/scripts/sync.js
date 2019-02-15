@@ -14,8 +14,8 @@ const author_dirs = [
 	...fs.lsDirs(ROOT_DIR_2),
 ]
 
-const display_mode = 'review'
-//const display_mode = 'dump'
+//const display_mode = 'review'
+const display_mode = 'dump'
 let artworks = []
 
 //console.log(author_dirs)
