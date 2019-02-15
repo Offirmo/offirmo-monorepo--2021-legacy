@@ -30,6 +30,7 @@
 		"@offirmo/soft-execution-context-browser": "^0.0.2",
 		"@offirmo/view-chat": "^0.0.1",
 		"@oh-my-rpg/definitions": "^0.0.1",
+		"@oh-my-rpg/rsrc-backgrounds": "^0.0.1",
 		"@oh-my-rpg/view-browser-react": "^0.0.1",
 		"@oh-my-rpg/view-rich-text": "^0.0.1",
 		"@tbrpg/flux": "^0.0.1",
