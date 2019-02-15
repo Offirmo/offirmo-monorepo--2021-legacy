@@ -26,6 +26,7 @@ Next
 - 😅 fix: tweaks, typos, small bugs…
 - 😷 chore: some internal refactors for the future server feature
 - 😷 chore: some internal refactors around React rendering
+- 😷 chore: extra secret dev tools
 
 
 2019/02/11 v0.56.5
