@@ -15,9 +15,15 @@ class Scenery extends Component {
 			.selectors.get_sub_state('progress')
 			.statistics
 
-		const bg_class = ELEMENTS[good_play_count % ELEMENTS.length].css_class
+		/*
+		const model_state = get_game_instance().model.get_state()
+		const { good_play_count } = model_state.u_state.progress.statistics
+*/
 
-		return <View bg_class={bg_class} />
+		const bg = ELEMENTS[good_play_count % ELEMENTS.length]
+		const next_bg = ELEMENTS[(good_play_count + 1) % ELEMENTS.length]
+
+		return <View bg={bg} next_bg={next_bg} />
 	}
 
 	render() {

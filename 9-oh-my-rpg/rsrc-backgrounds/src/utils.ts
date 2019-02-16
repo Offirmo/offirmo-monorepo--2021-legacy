@@ -28,6 +28,7 @@ function render_artwork_legend(artwork: Readonly<Background>): RichText.Document
 
 	const builder = RichText.inline_fragment()
 		.pushNode(artwork_name)
+		.pushLineBreak()
 		.pushText(' by ')
 		.pushNode(author_name)
 
@@ -37,10 +38,10 @@ function render_artwork_legend(artwork: Readonly<Background>): RichText.Document
 		has_errors = true
 		errors.pushLineBreak().pushText('💣  missing source!')
 	}
-	/*if (position_pct.x === 50 && position_pct.y === 50) {
+	if (position_pct.x === 50 && position_pct.y === 50) {
 		has_errors = true
 		errors.pushLineBreak().pushText('💥  not centered!')
-	}*/
+	}
 	if (has_errors)
 		builder.pushNode(errors.done())
 

@@ -272,6 +272,10 @@ function create_game_instance<T>({SEC, get_latest_state, persist_state, view_sta
 				})
 				return unbind
 			},
+
+			_libs: {
+				'@tbrpg/state': state_fns
+			}
 		}
 
 		emitter.on('model_change', (src: string) => {

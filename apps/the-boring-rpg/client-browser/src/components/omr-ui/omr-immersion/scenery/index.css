@@ -1,0 +1,12 @@
+
+.scenery__legend {
+	position: absolute;
+	bottom: .3em;
+	left: .6em;
+	font-size: .7em;
+	opacity: .7;
+}
+
+.scenery__prefetch {
+	display: none;
+}
