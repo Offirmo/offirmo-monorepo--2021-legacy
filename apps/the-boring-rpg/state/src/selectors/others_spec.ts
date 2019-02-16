@@ -1,21 +1,12 @@
 import { expect } from 'chai'
 
 import { xxx_internal_reset_prng_cache } from '@oh-my-rpg/state-prng'
-import {
-	get_unequipped_item_count,
-	get_equipped_item_count,
-	get_item,
-} from '@oh-my-rpg/state-inventory'
-
-import {
-	Currency,
-	get_currency_amount,
-} from '@oh-my-rpg/state-wallet'
 
 import { LIB } from '../consts'
 import { create } from '..'
 import {
 	find_element,
+	get_available_classes,
 } from './others'
 
 
@@ -45,6 +36,20 @@ describe(`${LIB} - selectors / others`, function() {
 				const element = find_element(u_state, 'foo')
 
 				expect(element).to.be.null
+			})
+		})
+	})
+
+	describe('get_available_classes()', function() {
+		it('should return class strings', () => {
+			const { u_state } = create()
+
+			const klasses = get_available_classes(u_state)
+
+			expect(klasses).to.be.an('array')
+			klasses.forEach(k => {
+				expect(k).to.be.a('string')
+				expect(k.length).to.be.above(4)
 			})
 		})
 	})

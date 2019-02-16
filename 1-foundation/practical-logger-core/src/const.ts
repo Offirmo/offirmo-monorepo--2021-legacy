@@ -6,7 +6,6 @@ const LIB = '@offirmo/practical-logger-core'
 
 const ALL_LOG_LEVELS = Enum.keys(LogLevel)
 
-
 // level to a numerical value, for ordering and filtering
 const LEVEL_TO_INTEGER: { [k: string]: number } = {
 	[LogLevel.fatal]:   60,
@@ -31,7 +30,7 @@ const LEVEL_TO_INTEGER: { [k: string]: number } = {
 
 	[LogLevel.silly]:    1,
 }
-if (ALL_LOG_LEVELS.length !== Object.keys(LEVEL_TO_INTEGER).length)
+if (Object.keys(LEVEL_TO_INTEGER).length !== Enum.keys(LogLevel).length)
 	throw new Error('universal-logger-core: LEVEL_TO_INTEGER needs an update')
 
 
@@ -59,7 +58,7 @@ const LEVEL_TO_HUMAN: { [k: string]: string } = {
 
 	[LogLevel.silly]:   'silly',
 }
-if (ALL_LOG_LEVELS.length !== Object.keys(LEVEL_TO_HUMAN).length)
+if (Object.keys(LEVEL_TO_HUMAN).length !== Enum.keys(LogLevel).length)
 	throw new Error('universal-logger-core: LEVEL_TO_HUMAN needs an update')
 
 

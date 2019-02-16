@@ -33,7 +33,7 @@
 					"qualifier1_hid": "brass",
 					"qualifier2_hid": "apprentice",
 					"quality": "legendary",
-					"base_strength": 19,
+					"base_strength": 52909,
 					"enhancement_level": 8
 				},
 				"weapon": {
@@ -44,7 +44,7 @@
 					"qualifier1_hid": "admirable",
 					"qualifier2_hid": "adjudicator",
 					"quality": "uncommon",
-					"base_strength": 2,
+					"base_strength": 1099,
 					"enhancement_level": 0
 				}
 			},
@@ -57,7 +57,7 @@
 					"qualifier1_hid": "arcanic",
 					"qualifier2_hid": "ambassador",
 					"quality": "legendary",
-					"base_strength": 19,
+					"base_strength": 52909,
 					"enhancement_level": 8
 				},
 				{
@@ -68,7 +68,7 @@
 					"qualifier1_hid": "bone",
 					"qualifier2_hid": "ancients",
 					"quality": "uncommon",
-					"base_strength": 2,
+					"base_strength": 1099,
 					"enhancement_level": 0
 				}
 			]

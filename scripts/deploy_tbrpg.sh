@@ -11,7 +11,7 @@ pushd $PARENT_DIR > /dev/null
 FE_SRC_DIR="./apps/the-boring-rpg/client-browser/dist"
 FN_SRC_DIR="./apps/the-boring-rpg/functions/functions"
 
-FE_TARGET_DIR="../../oa/online-adventures.github.io/apps/the-boring-rpg"
+FE_TARGET_DIR="../../oa/online-adventures.github.io/apps/the-boring-rpg-preprod"
 FN_TARGET_DIR="../../oa/online-adventures.github.io/functions"
 
 FE_BKP_DIR="../../oa/online-adventures.github.io/apps/legacy/tbrpg-$DATE"
