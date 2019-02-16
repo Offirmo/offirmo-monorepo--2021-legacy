@@ -36,11 +36,11 @@ function render_artwork_legend(artwork: Readonly<Background>): RichText.Document
 	const errors = RichText.inline_fragment()
 	if (source.length < 12) {
 		has_errors = true
-		errors.pushLineBreak().pushText('💣  missing source!')
+		errors.pushLineBreak().pushText('💥  missing source!')
 	}
 	if (position_pct.x === 50 && position_pct.y === 50) {
 		has_errors = true
-		errors.pushLineBreak().pushText('💥  not centered!')
+		errors.pushLineBreak().pushText('💥  not aligned!')
 	}
 	if (has_errors)
 		builder.pushNode(errors.done())

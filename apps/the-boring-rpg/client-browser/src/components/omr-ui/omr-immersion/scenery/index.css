@@ -5,6 +5,8 @@
 	left: .6em;
 	font-size: .7em;
 	opacity: .7;
+
+	text-shadow: 1px 1px 0 #333333, 1px -1px 0 #333333, -1px 1px 0 #333333, -1px -1px 0 #333333, 1px 0px 0 #333333, 0px 1px 0 #333333, -1px 0px 0 #333333, 0px -1px 0 #333333;
 }
 
 .scenery__prefetch {

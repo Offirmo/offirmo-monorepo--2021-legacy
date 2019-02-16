@@ -1,7 +1,7 @@
 .tbrpg-panel--explore {
 	display: grid;
 	grid-template-columns: auto;
-	grid-template-rows: auto 110px;
+	grid-template-rows: auto 90px;
 }
 
 .tbrpg-panel--explore > div {
@@ -9,6 +9,7 @@
 }
 
 .tbrpg-panel--explore > div:last-child > div.o⋄box {
-	margin: 10px;
+	margin: 0;
+	padding: 0.5em;
 	background-color: rgba(0, 0, 0, 0.42);
 }

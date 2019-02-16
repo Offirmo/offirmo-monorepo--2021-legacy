@@ -3,6 +3,7 @@ import { Enum } from 'typescript-string-enums'
 
 // tslint:disable-next-line: variable-name
 const Tag = Enum(
+	'',
 
 	// features
 	'city',
