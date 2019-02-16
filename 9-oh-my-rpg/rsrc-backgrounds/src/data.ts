@@ -265,8 +265,8 @@ const ELEMENTS: Readonly<Background>[] = [
 
 	{
 		author:       AUTHORS_BY_NAME['Andreas Rocha'],
-		source:       'TODO',
-		display_name: 'Instagram Post 04',
+		source:       'https://www.instagram.com/p/BcmGYYkAeD9/?utm_source=ig_web_button_share_sheet',
+		display_name: 'The Emissary',
 		keywords:     [],
 		css_class:    'tbrpg⋄bg-image⁚andreas_rocha-instagram_post_04',
 		position_pct: { x: 31, y: 65 },
@@ -274,8 +274,8 @@ const ELEMENTS: Readonly<Background>[] = [
 
 	{
 		author:       AUTHORS_BY_NAME['Andreas Rocha'],
-		source:       'TODO',
-		display_name: 'Instagram Post 06',
+		source:       'https://www.instagram.com/p/Bco4R3jgJhR/?utm_source=ig_web_button_share_sheet',
+		display_name: 'Humble Abode',
 		keywords:     [],
 		css_class:    'tbrpg⋄bg-image⁚andreas_rocha-instagram_post_06',
 		position_pct: { x: 50, y: 72 },
@@ -287,7 +287,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name: 'Light Forest',
 		keywords:     [],
 		css_class:    'tbrpg⋄bg-image⁚andreas_rocha-light_forest',
-		position_pct: { x: 50, y: 50 },
+		position_pct: { x: 72, y: 50 },
 	},
 
 	{
@@ -296,7 +296,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Magic Hour',
 		keywords:         [],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-magic_hour',
-		position_pct:     {"x":50,"y":50},
+		position_pct:     {"x":81,"y":50},
 		position_pct_alt: undefined,
 	},
 
@@ -306,7 +306,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Mountain Pass',
 		keywords:         [],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-mountain_pass',
-		position_pct:     {"x":50,"y":50},
+		position_pct:     {"x":96,"y":50},
 		position_pct_alt: undefined,
 	},
 
@@ -316,7 +316,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Old Forest',
 		keywords:         [],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-old_forest',
-		position_pct:     {"x":50,"y":50},
+		position_pct:     {"x":61,"y":50},
 		position_pct_alt: undefined,
 	},
 
@@ -326,7 +326,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Path Of Wisdom',
 		keywords:         [],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-path_of_wisdom',
-		position_pct:     {"x":50,"y":50},
+		position_pct:     {"x":65,"y":50},
 		position_pct_alt: undefined,
 	},
 
@@ -336,7 +336,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Peace Of Mind',
 		keywords:         [],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-peace_of_mind',
-		position_pct:     {"x":50,"y":50},
+		position_pct:     {"x":45,"y":50},
 		position_pct_alt: undefined,
 	},
 
@@ -346,7 +346,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Safe Haven',
 		keywords:         [],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-safe_haven',
-		position_pct:     {"x":50,"y":50},
+		position_pct:     {"x":80,"y":50},
 		position_pct_alt: undefined,
 	},
 
@@ -356,7 +356,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name: 'Soul Searching',
 		keywords:     [],
 		css_class:    'tbrpg⋄bg-image⁚andreas_rocha-soul_searching',
-		position_pct: { x: 50, y: 50 },
+		position_pct: { x: 57, y: 50 },
 	},
 
 	{
