@@ -14,8 +14,8 @@ const author_dirs = [
 	...fs.lsDirs(ROOT_DIR_2),
 ]
 
-const display_mode = 'review'
-//const display_mode = 'dump'
+//const display_mode = 'review'
+const display_mode = 'dump'
 let artworks = []
 
 //console.log(author_dirs)
@@ -84,7 +84,7 @@ author_dirs.forEach(author_dir => {
 			background = {
 				...background,
 				source: `'${existing_bg.source}',`,
-				keywords: `[` + existing_bg.keywords.join(`', '`) + `],`,
+				keywords: `[ '` + existing_bg.keywords.join(`', '`) + `' ],`,
 				position_pct: `${JSON.stringify(existing_bg.position_pct)},`,
 				position_pct_alt: `${JSON.stringify(existing_bg.position_pct_alt)},`,
 			}
