@@ -5,8 +5,6 @@ import { UUID } from '@offirmo/uuid'
 
 /////////////////////
 
-import { Item } from '@oh-my-rpg/definitions'
-
 import {
 	CharacterAttribute,
 	CharacterAttributes,
@@ -16,17 +14,16 @@ import {
 	switch_class,
 } from '@oh-my-rpg/state-character'
 
-import * as WalletState from '@oh-my-rpg/state-wallet'
 import * as InventoryState from '@oh-my-rpg/state-inventory'
 import * as EngagementState from '@oh-my-rpg/state-engagement'
 
-import { Currency } from '@oh-my-rpg/state-wallet'
 
 /////////////////////
 
+import { LIB } from '../../consts'
 import { State } from '../../types'
-
 import { get_lib_SEC } from '../../sec'
+import { get_available_classes } from '../../selectors'
 
 import { _refresh_achievements } from './achievements'
 import {
@@ -91,6 +88,9 @@ function rename_avatar(state: Readonly<State>, new_name: string): Readonly<State
 }
 
 function change_avatar_class(state: Readonly<State>, new_class: CharacterClass): Readonly<State> {
+	if (!get_available_classes(state.u_state).includes(new_class))
+		throw new Error(`${LIB}: switch class: invalid class "${new_class}"!`)
+
 	state = {
 		...state,
 

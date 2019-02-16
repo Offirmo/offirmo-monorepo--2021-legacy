@@ -2,7 +2,7 @@
 
 import { Enum } from 'typescript-string-enums'
 
-import { SCHEMA_VERSION } from './consts'
+import { LIB, SCHEMA_VERSION } from './consts'
 
 import {
 	CharacterAttribute,
@@ -30,7 +30,7 @@ const CHARACTER_ATTRIBUTES_SORTED: Readonly<CharacterAttribute>[] = [
 
 get_lib_SEC().xTry('boot checks', () => {
 	if (CHARACTER_ATTRIBUTES.length !== CHARACTER_ATTRIBUTES_SORTED.length)
-		throw new Error('CHARACTER_ATTRIBUTES to update!')
+		throw new Error(`${LIB}: CHARACTER_ATTRIBUTES to update!`)
 })
 
 const CHARACTER_CLASSES = Enum.keys(CharacterClass)
@@ -68,7 +68,7 @@ function rename(SEC: SoftExecutionContext, state: Readonly<State>, new_name: str
 	return get_lib_SEC(SEC).xTry('rename', ({enforce_immutability}: OMRContext) => {
 		// TODO name normalization
 		if (!new_name)
-			throw new Error(`Error while renaming to "${new_name}: invalid target value!`) // TODO details
+			throw new Error(`${LIB}: Error while renaming to "${new_name}: invalid target value!`) // TODO details
 		if (new_name === state.name)
 			return state
 
@@ -85,6 +85,9 @@ function switch_class(SEC: SoftExecutionContext, state: Readonly<State>, klass: 
 		if (klass === state.klass)
 			return state
 
+		if (!Enum.isType(CharacterClass, klass))
+			throw new Error(`${LIB}: "${klass}" is not a valid class!`)
+
 		return enforce_immutability({
 			...state,
 			klass,
@@ -96,7 +99,7 @@ function switch_class(SEC: SoftExecutionContext, state: Readonly<State>, klass: 
 function increase_stat(SEC: SoftExecutionContext, state: Readonly<State>, stat: CharacterAttribute, amount = 1): Readonly<State> {
 	return get_lib_SEC(SEC).xTry('increase_stat', ({enforce_immutability}: OMRContext) => {
 		if (amount <= 0)
-			throw new Error(`Error while increasing stat "${stat}": invalid amount!`) // TODO details
+			throw new Error(`${LIB}: Error while increasing stat "${stat}": invalid amount!`) // TODO details
 
 		// TODO stats caps?
 
