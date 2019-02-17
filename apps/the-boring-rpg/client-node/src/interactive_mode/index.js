@@ -1,5 +1,7 @@
 'use strict'
 
+import get_game_instance from '../../../client-browser/src/services/game-instance-browser'
+
 const opn = require('opn')
 const prettify_json = require("@offirmo/prettify-json")
 
@@ -296,9 +298,7 @@ function start_loop(SEC, options, instance) {
 				if (chat_state.sub.character.changeClass) {
 					msg_main = 'Choose your path wisely:'
 
-					CHARACTER_CLASSES.forEach(klass => {
-						if (klass === 'novice') return
-
+					get_game_instance().selectors.get_available_classes().forEach(klass => {
 						choices.push({
 							msg_cta: `Switch class to ${klass}`,
 							value: klass,

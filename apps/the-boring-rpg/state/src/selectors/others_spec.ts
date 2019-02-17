@@ -8,6 +8,7 @@ import {
 	find_element,
 	get_available_classes,
 } from './others'
+import {CharacterClass} from "@oh-my-rpg/state-character/src";
 
 
 describe(`${LIB} - selectors / others`, function() {
@@ -51,6 +52,13 @@ describe(`${LIB} - selectors / others`, function() {
 				expect(k).to.be.a('string')
 				expect(k.length).to.be.above(4)
 			})
+		})
+		it('should filter out novice', () => {
+			const { u_state } = create()
+
+			const klasses = get_available_classes(u_state)
+
+			expect(klasses.includes(CharacterClass.novice)).to.be.false
 		})
 	})
 })

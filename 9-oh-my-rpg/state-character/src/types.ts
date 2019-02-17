@@ -15,20 +15,59 @@ const CharacterAttribute = Enum(
 )
 type CharacterAttribute = Enum<typeof CharacterAttribute> // eslint-disable-line no-redeclare
 
+// I arbitrarily skip the classes I find uncool / unclear / better fit for a "job"
 const CharacterClass = Enum(
-	// TODO more classes https://en.wikipedia.org/wiki/Character_class_(Dungeons_%26_Dragons)
+	// initial (also Korean game)
 	'novice',
-	'warrior',
+
+	// classic DnD
+	// https://www.dndbeyond.com/characters/classes
 	'barbarian',
+	//'bard',
+	//'cleric',
+	'druid',
+	'warrior', // fighter is too generic for my taste
+	// monk is unclear IMO
 	'paladin',
-	'sculptor',
+	//'ranger',
+	'rogue',
+	'sorcerer',
+	'warlock',
+	'wizard',
+	'darkness hunter', // better than blood
+
+	// additionals from WoW
+	// https://worldofwarcraft.com/en-us/game/classes
+	'hunter',
+	'priest',
+	//'shaman',
+	'death knight',
+	'mage',
+
+	// additionals, from GW2
+	// https://www.guildwars2.com/en/the-game/professions/
+	'engineer',
+	'thief',
+
+	// extra unofficial DnD
+	// https://en.wikipedia.org/wiki/Character_class_(Dungeons_%26_Dragons)
+	'assassin',
+	'illusionist',
+	//'witch',
+	//'witch doctor',
+
+	// extras, sometime from pop culture
+	'knight',
 	'pirate',
 	'ninja',
-	'rogue',
-	'wizard',
-	'hunter',
-	'druid',
-	'priest',
+	//'spy',
+	'corsair',
+	'necromancer',
+
+	// mangas
+	'sculptor',
+	'summoner',
+
 )
 type CharacterClass = Enum<typeof CharacterClass> // eslint-disable-line no-redeclare
 

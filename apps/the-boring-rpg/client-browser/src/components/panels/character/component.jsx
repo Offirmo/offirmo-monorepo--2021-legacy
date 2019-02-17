@@ -37,7 +37,6 @@ function * gen_next_step() {
 				steps.push({
 					msg_main: 'Choose your path wisely:',
 					choices: get_game_instance().selectors.get_available_classes()
-						.filter(klass => klass !== 'novice')
 						.map(klass => ({
 							msg_cta: klass,
 							value: klass,

@@ -1,23 +1,18 @@
 /////////////////////
 
+import { Enum } from 'typescript-string-enums'
+
 import { generate_uuid } from '@offirmo/uuid'
 import { Random, Engine } from '@offirmo/random'
-
-/////////////////////
 
 import { InventorySlot } from '@oh-my-rpg/definitions'
 
 import {
 	CharacterAttribute,
-	CharacterAttributes,
+	CHARACTER_ATTRIBUTES,
 	CharacterClass,
-	increase_stat,
-	rename,
-	switch_class,
 	State as CharacterState,
 } from '@oh-my-rpg/state-character'
-
-import { Currency } from '@oh-my-rpg/state-wallet'
 
 import * as InventoryState from '@oh-my-rpg/state-inventory'
 import * as PRNGState from '@oh-my-rpg/state-prng'
@@ -75,35 +70,84 @@ import {
 
 /////////////////////
 
-const STATS = [ 'health', 'mana', 'strength', 'agility', 'charisma', 'wisdom', 'luck' ]
-const PRIMARY_STATS_BY_CLASS = {
-	[CharacterClass.novice]:    ['health', 'mana', 'strength', 'agility', 'charisma', 'wisdom', 'luck'],
-	[CharacterClass.warrior]:   ['strength'],
-	[CharacterClass.barbarian]: ['strength'],
-	[CharacterClass.paladin]:   ['strength', 'mana'],
-	[CharacterClass.sculptor]:  ['agility'],
-	[CharacterClass.pirate]:    ['luck'],
-	[CharacterClass.ninja]:     ['agility'],
-	[CharacterClass.rogue]:     ['agility'],
-	[CharacterClass.wizard]:    ['mana'],
-	[CharacterClass.hunter]:    ['agility'],
-	[CharacterClass.druid]:     ['wisdom', 'mana'],
-	[CharacterClass.priest]:    ['charisma', 'mana'],
+type AttributesArray = CharacterAttribute[]
+
+const ALL_ATTRIBUTES_X_LVL: AttributesArray = [ 'health', 'mana', 'strength', 'agility', 'charisma', 'wisdom', 'luck' ]
+
+const WARRIOR_LIKE_PRIMARY_ATTRIBUTES: AttributesArray = ['strength']
+const ROGUE_LIKE_PRIMARY_ATTRIBUTES: AttributesArray = ['agility']
+const MAGE_LIKE_PRIMARY_ATTRIBUTES: AttributesArray = ['mana']
+const HYBRID_PALADIN_LIKE_PRIMARY_ATTRIBUTES: AttributesArray = ['strength', 'mana']
+
+const PRIMARY_STATS_BY_CLASS: { [k: string]: AttributesArray } = {
+	[CharacterClass.novice]:                ALL_ATTRIBUTES_X_LVL,
+
+	[CharacterClass.barbarian]:             WARRIOR_LIKE_PRIMARY_ATTRIBUTES,
+	[CharacterClass.druid]:                 ['wisdom', 'mana'],
+	[CharacterClass.warrior]:               WARRIOR_LIKE_PRIMARY_ATTRIBUTES,
+	[CharacterClass.paladin]:               HYBRID_PALADIN_LIKE_PRIMARY_ATTRIBUTES,
+	[CharacterClass.rogue]:                 ROGUE_LIKE_PRIMARY_ATTRIBUTES,
+	[CharacterClass.sorcerer]:              MAGE_LIKE_PRIMARY_ATTRIBUTES,
+	[CharacterClass.warlock]:               MAGE_LIKE_PRIMARY_ATTRIBUTES,
+	[CharacterClass.wizard]:                MAGE_LIKE_PRIMARY_ATTRIBUTES,
+	[CharacterClass['darkness hunter']]:    HYBRID_PALADIN_LIKE_PRIMARY_ATTRIBUTES,
+	[CharacterClass.hunter]:                ['agility'],
+	[CharacterClass.priest]:                ['charisma', 'mana'],
+	[CharacterClass['death knight']]:       HYBRID_PALADIN_LIKE_PRIMARY_ATTRIBUTES,
+	[CharacterClass.mage]:                  MAGE_LIKE_PRIMARY_ATTRIBUTES,
+	[CharacterClass.engineer]:              ['wisdom'],
+	[CharacterClass.thief]:                 ROGUE_LIKE_PRIMARY_ATTRIBUTES,
+	[CharacterClass.assassin]:              ROGUE_LIKE_PRIMARY_ATTRIBUTES,
+	[CharacterClass.illusionist]:           ['charisma', 'agility'],
+	[CharacterClass.knight]:                WARRIOR_LIKE_PRIMARY_ATTRIBUTES,
+	[CharacterClass.pirate]:                ['luck'],
+	[CharacterClass.ninja]:                 ROGUE_LIKE_PRIMARY_ATTRIBUTES,
+	[CharacterClass.corsair]:               ROGUE_LIKE_PRIMARY_ATTRIBUTES,
+	[CharacterClass.necromancer]:           MAGE_LIKE_PRIMARY_ATTRIBUTES,
+	[CharacterClass.sculptor]:              ['agility'],
+	[CharacterClass.summoner]:              MAGE_LIKE_PRIMARY_ATTRIBUTES,
 }
-const SECONDARY_STATS_BY_CLASS = {
-	[CharacterClass.novice]:    ['health', 'mana', 'strength', 'agility', 'charisma', 'wisdom', 'luck'],
-	[CharacterClass.warrior]:   ['health'],
-	[CharacterClass.barbarian]: ['health'],
-	[CharacterClass.paladin]:   ['health'],
-	[CharacterClass.sculptor]:  ['charisma'],
-	[CharacterClass.pirate]:    ['charisma'],
-	[CharacterClass.ninja]:     ['health'],
-	[CharacterClass.rogue]:     ['luck'],
-	[CharacterClass.wizard]:    ['wisdom'],
-	[CharacterClass.hunter]:    ['strength'],
-	[CharacterClass.druid]:     ['strength'],
-	[CharacterClass.priest]:    ['wisdom'],
+if (Object.keys(PRIMARY_STATS_BY_CLASS).length !== Enum.keys(CharacterClass).length)
+	throw new Error(`${LIB}: PRIMARY_STATS_BY_CLASS is out of date!`)
+
+
+const WARRIOR_LIKE_SECONDARY_ATTRIBUTES: AttributesArray = ['health']
+const ROGUE_LIKE_SECONDARY_ATTRIBUTES: AttributesArray = ['luck']
+const MAGE_LIKE_SECONDARY_ATTRIBUTES: AttributesArray = ['wisdom']
+const HYBRID_PALADIN_LIKE_SECONDARY_ATTRIBUTES: AttributesArray = ['health']
+
+
+const SECONDARY_STATS_BY_CLASS: { [k: string]: AttributesArray } = {
+	[CharacterClass.novice]:                ALL_ATTRIBUTES_X_LVL,
+
+	[CharacterClass.barbarian]:             WARRIOR_LIKE_SECONDARY_ATTRIBUTES,
+	[CharacterClass.druid]:                 ['strength', 'agility'],
+	[CharacterClass.warrior]:               WARRIOR_LIKE_SECONDARY_ATTRIBUTES,
+	[CharacterClass.paladin]:               HYBRID_PALADIN_LIKE_SECONDARY_ATTRIBUTES,
+	[CharacterClass.rogue]:                 ROGUE_LIKE_SECONDARY_ATTRIBUTES,
+	[CharacterClass.sorcerer]:              MAGE_LIKE_SECONDARY_ATTRIBUTES,
+	[CharacterClass.warlock]:               MAGE_LIKE_SECONDARY_ATTRIBUTES,
+	[CharacterClass.wizard]:                MAGE_LIKE_SECONDARY_ATTRIBUTES,
+	[CharacterClass['darkness hunter']]:    HYBRID_PALADIN_LIKE_SECONDARY_ATTRIBUTES,
+	[CharacterClass.hunter]:                ['strength'],
+	[CharacterClass.priest]:                ['wisdom'],
+	[CharacterClass['death knight']]:       HYBRID_PALADIN_LIKE_SECONDARY_ATTRIBUTES,
+	[CharacterClass.mage]:                  MAGE_LIKE_SECONDARY_ATTRIBUTES,
+	[CharacterClass.engineer]:              ['agility', 'luck'],
+	[CharacterClass.thief]:                 ROGUE_LIKE_SECONDARY_ATTRIBUTES,
+	[CharacterClass.assassin]:              ROGUE_LIKE_SECONDARY_ATTRIBUTES,
+	[CharacterClass.illusionist]:           ['luck'],
+	[CharacterClass.knight]:                WARRIOR_LIKE_SECONDARY_ATTRIBUTES,
+	[CharacterClass.pirate]:                ['charisma', 'agility'],
+	[CharacterClass.ninja]:                 ROGUE_LIKE_SECONDARY_ATTRIBUTES,
+	[CharacterClass.corsair]:               ['charisma', 'luck'],
+	[CharacterClass.necromancer]:           MAGE_LIKE_SECONDARY_ATTRIBUTES,
+	[CharacterClass.sculptor]:              ['wisdom', 'charisma'],
+	[CharacterClass.summoner]:              MAGE_LIKE_SECONDARY_ATTRIBUTES,
 }
+if (Object.keys(SECONDARY_STATS_BY_CLASS).length !== Enum.keys(CharacterClass).length)
+	throw new Error(`${LIB}: SECONDARY_STATS_BY_CLASS is out of date!`)
+
 
 function _instantiate_adventure_archetype(
 	rng: Engine,
@@ -118,11 +162,11 @@ function _instantiate_adventure_archetype(
 
 	// instantiate the special gains
 	if (should_gain.random_attribute) {
-		const stat: keyof OutcomeArchetype = Random.pick(rng, STATS) as keyof OutcomeArchetype
+		const stat: keyof OutcomeArchetype = Random.pick(rng, ALL_ATTRIBUTES_X_LVL) as keyof OutcomeArchetype
 		should_gain[stat] = true
 	}
 	if (should_gain.lowest_attribute) {
-		const lowest_stat: keyof OutcomeArchetype = STATS.reduce((acc, val) => {
+		const lowest_stat: keyof OutcomeArchetype = ALL_ATTRIBUTES_X_LVL.reduce((acc, val) => {
 			return (character.attributes as any)[acc] < (character.attributes as any)[val] ? acc : val
 		}, 'health') as keyof OutcomeArchetype
 		should_gain[lowest_stat] = true
