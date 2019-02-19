@@ -5,6 +5,9 @@ https://bewarethewizard.com/2019/01/18/fantasy-cartography-and-the-suspension-of
 
 https://the-mouse-trap.com/2017/09/09/the-four-needs-for-meaning/
 
+plein d'idées https://www.dndbeyond.com/characters/classes/blood-hunter
+https://www.dndbeyond.com/characters/classes/warlock
+
 https://www.pcgamer.com/au/how-blizzard-coped-with-world-of-warcrafts-blood-plague-and-other-early-disasters/
 https://hearthstone.judgehype.com/news/le-dos-de-carte-marque-d-hakkar-un-clin-d-oeil-a-l-epidemie-du-sang-vicie-sur-wow-158429/
 https://wow.gamepedia.com/Item_level

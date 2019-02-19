@@ -15,11 +15,6 @@ class Scenery extends Component {
 			.selectors.get_sub_state('progress')
 			.statistics
 
-		/*
-		const model_state = get_game_instance().model.get_state()
-		const { good_play_count } = model_state.u_state.progress.statistics
-*/
-
 		const bg = ELEMENTS[good_play_count % ELEMENTS.length]
 		const next_bg = ELEMENTS[(good_play_count + 1) % ELEMENTS.length]
 
