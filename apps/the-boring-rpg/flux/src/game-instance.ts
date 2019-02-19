@@ -61,7 +61,7 @@ function create_game_instance<T extends AppState>({SEC, app_state}: CreateParams
 			SEC,
 			app_state.model,
 			(state: Readonly<State>, debugId: string) => {
-				emitter.emit('model_change', `in-mem/${debugId}`)
+				emitter.emit(Event.model_change, `${debugId}[in-mem]`)
 			},
 		)
 
@@ -109,17 +109,10 @@ function create_game_instance<T extends AppState>({SEC, app_state}: CreateParams
 				},
 
 				subscribe(id: string, fn: () => void): () => void {
-					let last_reported_revision = -1
-					const unbind = emitter.on('model_change', (src: string) => {
+					const unbind = emitter.on(Event.model_change, (src: string) => {
 						const { revision } = in_memory_store.get().u_state
-						if (last_reported_revision === revision) {
-							// happen when ???
-							console.warn(`🌀🌀🌀 model change #${revision} deduped (source: ${src})`)
-							return
-						}
-						console.log(`🌀🌀🌀 model change #${revision} reported to subscriber "${id}" (source: ${src})`)
+						console.log(`🌀 model change #${revision} reported to subscriber "${id}" (source: ${src})`)
 						fn()
-						last_reported_revision = revision
 					})
 					return unbind
 				},
@@ -140,12 +133,12 @@ function create_game_instance<T extends AppState>({SEC, app_state}: CreateParams
 						...deep_merge(app_state, changed, { arrayMerge: overwriteMerge }),
 						model: in_memory_store.get(),
 					}
-					emitter.emit('view_change', 'set_state(…)')
+					emitter.emit(Event.view_change, 'set_state(…)')
 				},
 
 				subscribe(id: string, fn: () => void): () => void {
-					const unbind = emitter.on('view_change', (src: string) => {
-						console.log(`🌀🌀🌀🌀🌀🌀🌀 root/view state change reported to subscriber "${id}" (model: #${in_memory_store.get().u_state.revision}, source: view/${src})`)
+					const unbind = emitter.on(Event.view_change, (src: string) => {
+						console.log(`🌀🌀 root/view state change reported to subscriber "${id}" (model: #${in_memory_store.get().u_state.revision}, source: view/${src})`)
 						fn()
 					})
 					return unbind

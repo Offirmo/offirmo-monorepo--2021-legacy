@@ -74,8 +74,7 @@ export default class Root extends Component {
 						else
 							console.info('▶ Game will now resume')
 					}}
-					onFastForward={() => get_game_instance().commands.execute_custom_reducer(
-						'onFastForward',
+					onFastForward={() => get_game_instance().commands.custom(
 						state => {
 							const { n, d } = state.t_state.energy.available_energy
 							return {
@@ -93,8 +92,7 @@ export default class Root extends Component {
 							}
 						}
 					)}
-					onNext={() => get_game_instance().commands.execute_custom_reducer(
-						'onNext',
+					onNext={() => get_game_instance().commands.custom(
 						state => {
 							return {
 								...state,

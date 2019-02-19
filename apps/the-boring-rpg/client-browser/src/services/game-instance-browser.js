@@ -62,6 +62,7 @@ SEC.xTry('loading savegame + creating game instance', ({logger}) => {
 		}
 	})
 
+	// init
 	game_instance.view.set_state(state => {
 		const last_adventure = game_instance.queries.get_last_adventure()
 		return {
@@ -69,37 +70,18 @@ SEC.xTry('loading savegame + creating game instance', ({logger}) => {
 		}
 	})
 
-	let last_saved_ls = {}
+	let last_saved_ls = initial_model
 	game_instance.model.subscribe('local-storage', () => {
-		if (last_saved_ls.u_state === initial_model.u_state) return // no need
+		const state = game_instance.model.get()
+		if (state.u_state === last_saved_ls.u_state) return // no need
 
-		console.info(`💾 saving #${initial_model.u_state.revision} to LocalStorage...`)
-		localStorage.setItem(LS_KEYS.savegame, JSON.stringify(initial_model))
-		last_saved_ls = initial_model
+		console.info(`💾 saving #${state.u_state.revision} to LocalStorage...`)
+		localStorage.setItem(LS_KEYS.savegame, JSON.stringify(state))
+		last_saved_ls = state
 	})
 
 	const is_web_diversity_supporter = bowser.name === 'firefox'
 	game_instance.commands.on_start_session(is_web_diversity_supporter)
 })
-
-/*
-SEC.xTry('init client state', () => {
-	//const netlifyIdentity = poll_window_variable('netlifyIdentity', { timeoutMs: 30 * 1000 })
-
-	game_instance.view.set_state(() => ({
-		// can change:
-		mode: 'explore',
-		recap_displayed: false,
-		last_displayed_adventure_uuid: (() => {
-			const last_adventure = game_instance.queries.get_last_adventure()
-			return last_adventure && last_adventure.uuid
-		})(),
-		// TODO improve to a new react-like chat
-		changing_character_class: false,
-		changing_character_name: false,
-		redeeming_code: false,
-	}))
-})
-*/
 
 export default function get() { return game_instance }

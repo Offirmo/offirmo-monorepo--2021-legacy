@@ -19,6 +19,8 @@ function create(
 	return SEC.xTry(`creating ${LIB} in-memory store`, ({SEC, logger}: any) => {
 		let state: State = initial
 
+		const on_change_m = memoize_one(on_change)
+
 		SEC.xTry('auto creating/migrating', ({SEC, logger}: any) => {
 			// need this check due to some serializations returning {} for empty
 			const was_empty_state = !state || Object.keys(state).length === 0
@@ -40,10 +42,9 @@ function create(
 				logger.warn('re-seeding that shouldn’t be needed!')
 			}
 
-			on_change(state, 'migration')
+			on_change_m(state, 'migration')
 		})
 
-		const on_change_m = memoize_one(on_change)
 		function dispatch(action: Readonly<Action>): void {
 			state = reduce_action(state, action)
 			on_change_m(state, action.type)

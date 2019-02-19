@@ -34,7 +34,8 @@ function reduce_action(state: Readonly<State>, action: Readonly<Action>): Readon
 		case ActionType.update_to_now:
 			return TBRPGState.update_to_now(state /* TODO , action.time*/)
 		case ActionType.hack:
-			return action.custom_reducer(state)
+			// auto update-to-now for convenience
+			return action.custom_reducer(TBRPGState.update_to_now((state)))
 		default:
 			throw new Error(`reduce_action(): Unhandled switch value(s)!`)
 	}
