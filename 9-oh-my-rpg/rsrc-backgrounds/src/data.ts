@@ -863,16 +863,6 @@ const ELEMENTS: Readonly<Background>[] = [
 
 	{
 		author:           AUTHORS_BY_NAME['Raphael Lacoste'],
-		source:           'https://www.artstation.com/artwork/qJWeD',
-		display_name:     'Journey In The Skye Land',
-		keywords:         [ '' ],
-		css_class:        'tbrpg⋄bg-image⁚raphael_lacoste-journey_in_the_skye_land',
-		position_pct:     {"x":70,"y":50},
-		position_pct_alt: undefined,
-	},
-
-	{
-		author:           AUTHORS_BY_NAME['Raphael Lacoste'],
 		source:           'https://www.artstation.com/artwork/yE0n',
 		display_name:     'Journey To The Center Of The Earth',
 		keywords:         [ '' ],
@@ -903,31 +893,11 @@ const ELEMENTS: Readonly<Background>[] = [
 
 	{
 		author:           AUTHORS_BY_NAME['Raphael Lacoste'],
-		source:           'https://www.artstation.com/artwork/1nrAe',
-		display_name:     'Landscape With Hats',
-		keywords:         [ '' ],
-		css_class:        'tbrpg⋄bg-image⁚raphael_lacoste-landscape_with_hats',
-		position_pct:     {"x":17,"y":80},
-		position_pct_alt: undefined,
-	},
-
-	{
-		author:           AUTHORS_BY_NAME['Raphael Lacoste'],
 		source:           'https://www.artstation.com/artwork/dQOW',
 		display_name:     'Lost Island',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚raphael_lacoste-lost_island',
 		position_pct:     {"x":2,"y":50},
-		position_pct_alt: undefined,
-	},
-
-	{
-		author:           AUTHORS_BY_NAME['Raphael Lacoste'],
-		source:           'https://www.artstation.com/artwork/12ewZ',
-		display_name:     'Monoliths',
-		keywords:         [ '' ],
-		css_class:        'tbrpg⋄bg-image⁚raphael_lacoste-monoliths',
-		position_pct:     {"x":0,"y":80},
 		position_pct_alt: undefined,
 	},
 
