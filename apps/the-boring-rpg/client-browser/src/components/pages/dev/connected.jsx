@@ -11,8 +11,8 @@ const PageDev = React.memo(
 	function PageDevC1() {
 		console.log('🔄 PageDevC1')
 
-		const state = game_instance.model.get_state()
-		const view_state = game_instance.view.get_state()
+		const state = game_instance.model.get()
+		const view_state = game_instance.view.get()
 
 		return (
 			<View

@@ -16,71 +16,46 @@ import {getRootSEC} from "@offirmo/soft-execution-context";
 /////////////////////
 
 
-const logger = createLogger({
-	name: LIB,
-	level: 'info',
-})
 
-interface ViewState {
 
+interface AppState {
+	model: State
 }
 
 
 describe(`${LIB}`, function() {
-	let state: State = DEMO_STATE
+	const logger = createLogger({
+		name: LIB,
+		level: 'info',
+	})
 	let SEC = get_lib_SEC()
-	let game_instance
-	let get_latest_state = (): State => state
-	let persist_state = (new_state: State) => { state = new_state}
 
 	beforeEach(() => {
-		state = DEMO_STATE
 		SEC = get_lib_SEC()
 			.injectDependencies({ logger })
-
-		// the client is responsible for storing current state
-		get_latest_state = () => state
-		persist_state = (new_state: State) => {
-			state = new_state
-		}
-
-		game_instance = create_game_instance<ViewState>({
-			SEC,
-			get_latest_state,
-			persist_state,
-			view_state: {},
-		})
 	})
 
 	describe('init', function() {
 
 		context('when passed no game (1)', function() {
 			it('should create a new game', () => {
-				state = (null as any)
-
-				game_instance = create_game_instance<ViewState>({
+				const game_instance = create_game_instance<AppState>({
 					SEC,
-					get_latest_state,
-					persist_state,
-					view_state: {},
+					app_state: {} as any,
 				})
 
-				expect(state).to.have.property('schema_version')
+				expect(game_instance.model.get()).to.have.property('schema_version')
 			})
 		})
 
 		context('when passed no game (2)', function() {
 			it('should create a new game', () => {
-				state = ({} as any)
-
-				game_instance = create_game_instance<ViewState>({
+				const game_instance = create_game_instance<AppState>({
 					SEC,
-					get_latest_state,
-					persist_state,
-					view_state: {},
+					app_state: { model: {} as any },
 				})
 
-				expect(state).to.have.property('schema_version')
+				expect(game_instance.model.get()).to.have.property('schema_version')
 			})
 		})
 
@@ -93,7 +68,7 @@ describe(`${LIB}`, function() {
 
 	})
 
-	describe('model storage', function() {
+	describe('model in-memory storage', function() {
 
 	})
 })

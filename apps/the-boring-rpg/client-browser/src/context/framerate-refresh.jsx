@@ -59,7 +59,7 @@ class AppStateListenerAndProviderRAF extends React.Component {
 		})
 		this.iteration_count++
 
-		game_instance.reducers.update_to_now()
+		game_instance.commands.update_to_now()
 
 		if (MAX_ITERATIONS) {
 			if (this.iteration_count > MAX_ITERATIONS) {

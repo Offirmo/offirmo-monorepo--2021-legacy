@@ -45,7 +45,7 @@ const OMRUINotifierC1 = React.memo(
 
 		let pending_non_flow_engagement
 		do {
-			pending_non_flow_engagement = get_game_instance().selectors.get_oldest_pending_non_flow_engagement()
+			pending_non_flow_engagement = get_game_instance().queries.get_oldest_pending_non_flow_engagement()
 			if (pending_non_flow_engagement) {
 				const { uid, $doc, pe } = pending_non_flow_engagement
 				console.info('Dequeing engagement: ', {uid, $doc, pe, pending_non_flow_engagement})
@@ -76,7 +76,7 @@ const OMRUINotifierC1 = React.memo(
 					default:
 						throw new Error(`Engagement type not recognized: "${type}"!`)
 				}
-				get_game_instance().reducers.acknowledge_engagement_msg_seen(uid)
+				get_game_instance().commands.acknowledge_engagement_msg_seen(uid)
 			}
 		} while(pending_non_flow_engagement)
 

@@ -17,10 +17,10 @@ class AppStateListenerAndProvider extends React.Component {
 	unsubscribeAppStateListener = null
 
 	componentDidMount() {
-		this.unsubscribeAppStateListener = get_game_instance().subscribe(`app-state`, () => {
-			console.log(`▶ AppStateListenerAndProvider: updating on app state change`/*, game_instance.view.get_state()*/)
+		this.unsubscribeAppStateListener = get_game_instance().view.subscribe(`app-state`, () => {
+			console.log(`▶ AppStateListenerAndProvider: updating on app state change`/*, game_instance.view.get()*/)
 			this.setState({
-				app_state: get_game_instance().view.get_state()
+				app_state: get_game_instance().view.get()
 			})
 		})
 	}
@@ -31,7 +31,7 @@ class AppStateListenerAndProvider extends React.Component {
 
 	render() {
 		// yes, we shortcut React and make sure to pick the latest version
-		const latest_app_state = get_game_instance().view.get_state()
+		const latest_app_state = get_game_instance().view.get()
 		const latest_revision = latest_app_state ? latest_app_state.model.u_state.revision : -1
 
 		//console.log(`🔄 AppStateListenerAndProvider (model is #${latest_revision})`/*, {app_state: this.state.app_state}*/);

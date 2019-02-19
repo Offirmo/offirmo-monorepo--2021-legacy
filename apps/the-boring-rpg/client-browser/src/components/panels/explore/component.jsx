@@ -20,24 +20,24 @@ function * gen_next_step() {
 	do {
 		const steps = []
 
-		const engagement_msg = game_instance.selectors.get_oldest_pending_flow_engagement()
+		const engagement_msg = game_instance.queries.get_oldest_pending_flow_engagement()
 		if (engagement_msg) {
 			const { uid, $doc } = engagement_msg
 			steps.push({
 				type: 'simple_message',
 				msg_main: rich_text_to_react($doc),
 			})
-			game_instance.reducers.acknowledge_engagement_msg_seen(uid)
+			game_instance.commands.acknowledge_engagement_msg_seen(uid)
 		}
 		else {
-			const state = game_instance.model.get_state()
-			const ui_state = game_instance.view.get_state()
-			const last_adventure = game_instance.selectors.get_last_adventure()
+			const state = game_instance.model.get()
+			const ui_state = game_instance.view.get()
+			const last_adventure = game_instance.queries.get_last_adventure()
 
 			if (!ui_state.recap_displayed) {
 				steps.push({
 					type: 'simple_message',
-					msg_main: rich_text_to_react(get_game_instance().selectors.get_recap()),
+					msg_main: rich_text_to_react(get_game_instance().queries.get_recap()),
 				})
 				game_instance.view.set_state(() => ({
 					recap_displayed: true,
@@ -62,13 +62,23 @@ function * gen_next_step() {
 						</div>
 					),
 				})
+				if (!last_adventure.good) {
+					// https://developer.mozilla.org/en-US/docs/Web/API/Vibration_API
+					try {
+						if (window.navigator.vibrate)
+							window.navigator.vibrate(200);
+					}
+					catch (e) {
+						// swallow
+					}
+				}
 
 				game_instance.view.set_state(() => ({
 					last_displayed_adventure_uuid: last_adventure.uuid,
 				}))
 			}
 
-			if (game_instance.selectors.is_inventory_full()) {
+			if (game_instance.queries.is_inventory_full()) {
 				steps.push({
 					msg_main: 'Your inventory is full! You can’t play until you make some space.',
 					choices: [
@@ -91,7 +101,7 @@ function * gen_next_step() {
 							value: 'play',
 							msgg_as_user: () => 'Let’s go adventuring!',
 							callback: () => {
-								game_instance.reducers.play()
+								game_instance.commands.play()
 							},
 						},
 					],

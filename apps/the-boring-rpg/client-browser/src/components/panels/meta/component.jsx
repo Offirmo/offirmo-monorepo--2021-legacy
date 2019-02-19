@@ -21,19 +21,17 @@ function * gen_next_step(navigate_to_savegame_editor) {
 	do {
 		const steps = []
 
-		const engagement_msg = game_instance.selectors.get_oldest_pending_flow_engagement()
+		const engagement_msg = game_instance.queries.get_oldest_pending_flow_engagement()
 		if (engagement_msg) {
 			const { uid, $doc } = engagement_msg
 			steps.push({
 				type: 'simple_message',
 				msg_main: rich_text_to_react($doc),
 			})
-			game_instance.reducers.acknowledge_engagement_msg_seen(uid)
+			game_instance.commands.acknowledge_engagement_msg_seen(uid)
 		}
 		else {
-			//const state = game_instance.model.get_state()
-			const view_state = game_instance.view.get_state()
-			//console.log({view_state, state})
+			const view_state = game_instance.view.get()
 
 			if (view_state.redeeming_code) {
 				steps.push({
@@ -48,7 +46,7 @@ function * gen_next_step(navigate_to_savegame_editor) {
 					callback: value => {
 						//console.log({value, type: typeof value})
 						if (value)
-							game_instance.reducers.attempt_to_redeem_code(value)
+							game_instance.commands.attempt_to_redeem_code(value)
 						game_instance.view.set_state(() => ({
 							redeeming_code: false,
 						}))

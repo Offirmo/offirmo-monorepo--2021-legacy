@@ -12,7 +12,7 @@ import View from './component'
 class Scenery extends Component {
 	render_view = ({ u_state }) => {
 		const { good_play_count } = get_game_instance()
-			.selectors.get_sub_state('progress')
+			.queries.get_sub_state('progress')
 			.statistics
 
 		const bg = ELEMENTS[good_play_count % ELEMENTS.length]

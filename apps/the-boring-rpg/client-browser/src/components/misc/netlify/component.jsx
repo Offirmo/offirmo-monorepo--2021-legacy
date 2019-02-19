@@ -49,7 +49,7 @@ class NetlifyLoggedIndicator extends Component {
 		super(props)
 
 		const { user } = this.props
-		const avatar_name = get_game_instance().selectors.get_sub_state('avatar').name
+		const avatar_name = get_game_instance().queries.get_sub_state('avatar').name
 
 		set_user_context({
 			name: avatar_name,

@@ -12,7 +12,7 @@ function UStateListenerAndProvider({ children, render }) {
 			{local_app_state => {
 				const local_revision = local_app_state ? local_app_state.model.u_state.revision : -1
 
-				const latest_ustate = get_game_instance().model.get_state().u_state
+				const latest_ustate = get_game_instance().model.get().u_state
 				const latest_revision = latest_ustate.revision
 
 				//console.log(`🔄 UStateListenerAndProvider #${latest_revision}`/*, { app_state, children, render }*/)

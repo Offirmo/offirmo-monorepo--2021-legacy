@@ -14,8 +14,8 @@ function OMRUI() {
 	return (
 		<AppStateContext.Consumer>
 			{app_state => {
-				const { mode } = get_game_instance().view.get_state()
-				const avatar_name = get_game_instance().selectors.get_sub_state('avatar').name
+				const { mode } = get_game_instance().view.get()
+				const avatar_name = get_game_instance().queries.get_sub_state('avatar').name
 
 				return (
 					<View

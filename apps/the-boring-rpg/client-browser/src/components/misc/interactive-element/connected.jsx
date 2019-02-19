@@ -15,9 +15,9 @@ function with_element_and_action(Component) {
 	return (props) => {
 
 		const { UUID } = props
-		//console.log('🔄 with_element_and_action', { UUID, revision: game_instance.model.get_state().u_state.revision })
+		//console.log('🔄 with_element_and_action', { UUID, revision: game_instance.model.get().u_state.revision })
 
-		const element = get_game_instance().selectors.find_element(UUID)
+		const element = get_game_instance().queries.find_element(UUID)
 		if (!element) {
 			console.warn(`interactive element not found!`, UUID, props)
 			// element disappeared. This happen transitively (ex. sold)
@@ -26,7 +26,7 @@ function with_element_and_action(Component) {
 			return props.children
 		}
 
-		const actions = get_game_instance().selectors.get_actions_for_element(UUID)
+		const actions = get_game_instance().queries.get_actions_for_element(UUID)
 
 		props = {
 			...props,

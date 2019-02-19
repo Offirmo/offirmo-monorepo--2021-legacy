@@ -12,7 +12,7 @@ const PageDevViewM = React.memo(
 	function PageDevView({state, view_state}) {
 		console.log('🔄 PageDevView')
 
-		const inventory = get_game_instance().selectors.get_sub_state('inventory')
+		const inventory = get_game_instance().queries.get_sub_state('inventory')
 		const interactive_items = [
 			...Object.values(inventory.slotted),
 			...inventory.unslotted,
@@ -22,15 +22,15 @@ const PageDevViewM = React.memo(
 			<div className="dev-page">
 				<h1>Dev area</h1>
 				<hr key="recap" />
-				{rich_text_to_react(get_game_instance().selectors.get_recap())}
+				{rich_text_to_react(get_game_instance().queries.get_recap())}
 				<hr key="last_adventure" />
-				{rich_text_to_react(render_adventure(get_game_instance().selectors.get_last_adventure()))}
+				{rich_text_to_react(render_adventure(get_game_instance().queries.get_last_adventure()))}
 				<hr key="pending" />
 				{/* ... */}
 				<hr key="avatar" />
-				{rich_text_to_react(render_character_sheet(get_game_instance().selectors.get_sub_state('avatar')))}
+				{rich_text_to_react(render_character_sheet(get_game_instance().queries.get_sub_state('avatar')))}
 				<hr key="inventory" />
-				{rich_text_to_react(render_full_inventory(inventory, get_game_instance().selectors.get_sub_state('wallet')))}
+				{rich_text_to_react(render_full_inventory(inventory, get_game_instance().queries.get_sub_state('wallet')))}
 				<hr key="meta" />
 				{rich_text_to_react(render_meta(state, view_state))}
 				<hr key="items" />

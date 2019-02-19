@@ -18,7 +18,7 @@ class MetaPanelC1 extends Component {
 
 	render_view = ({ u_state }) => {
 		//console.log('🔄 MetaPanelC1.render_view')
-		const { statistics } = get_game_instance().selectors.get_sub_state('progress')
+		const { statistics } = get_game_instance().queries.get_sub_state('progress')
 
 		return (
 			<View

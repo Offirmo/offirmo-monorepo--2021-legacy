@@ -15,12 +15,12 @@ const InfoboxC1 = React.memo(
 	function InfoboxC1({state}) {
 		//console.log('🔄 InfoboxC1' /*, m_state*/)
 
-		const achievements_completion_pct = (new Fraction(game_instance.selectors.get_achievements_completion())).mul(100).floor(2).valueOf()
+		const achievements_completion_pct = (new Fraction(game_instance.queries.get_achievements_completion())).mul(100).floor(2).valueOf()
 
 		return (
 			<InfoboxView
-				energy_float={game_instance.selectors.get_available_energy_float()}
-				human_time_to_next={game_instance.selectors.get_human_time_to_next_energy()}
+				energy_float={game_instance.queries.get_available_energy_float()}
+				human_time_to_next={game_instance.queries.get_human_time_to_next_energy()}
 				achievements_completion_pct={achievements_completion_pct}
 			/>
 		)

@@ -12,7 +12,7 @@ import View from './component'
 function render_c2(app_state) {
 	//console.log('🔄 OMR-UI immersion c2')
 
-	const { mode } = get_game_instance().view.get_state()
+	const { mode } = get_game_instance().view.get()
 
 	return (
 		<View mode={mode} />

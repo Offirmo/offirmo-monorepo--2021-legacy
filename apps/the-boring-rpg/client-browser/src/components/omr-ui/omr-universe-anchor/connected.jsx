@@ -10,7 +10,7 @@ import View from './component'
 class Connected extends Component {
 	render_view = ({ u_state }) => {
 		const { onClick } = this.props
-		const avatar = get_game_instance().selectors.get_sub_state('avatar')
+		const avatar = get_game_instance().queries.get_sub_state('avatar')
 		return (
 			<View
 				onClick={onClick}

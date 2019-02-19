@@ -19,31 +19,29 @@ function * gen_next_step() {
 	do {
 		const steps = []
 
-		const engagement_msg = game_instance.selectors.get_oldest_pending_flow_engagement()
+		const engagement_msg = game_instance.queries.get_oldest_pending_flow_engagement()
 		if (engagement_msg) {
 			const { uid, $doc } = engagement_msg
 			steps.push({
 				type: 'simple_message',
 				msg_main: rich_text_to_react($doc),
 			})
-			game_instance.reducers.acknowledge_engagement_msg_seen(uid)
+			game_instance.commands.acknowledge_engagement_msg_seen(uid)
 		}
 		else {
-			//const state = game_instance.model.get_state()
-			const view_state = game_instance.view.get_state()
-			//console.log({view_state, state})
+			const view_state = game_instance.view.get()
 
 			if (view_state.changing_character_class) {
 				steps.push({
 					msg_main: 'Choose your path wisely:',
-					choices: get_game_instance().selectors.get_available_classes()
+					choices: get_game_instance().queries.get_available_classes()
 						.map(klass => ({
 							msg_cta: klass,
 							value: klass,
 							msgg_as_user: () => `I want to follow the path of the ${klass}!`,
 							msgg_acknowledge: () => `You’ll make an amazing ${klass}.`,
 							callback: value => {
-								game_instance.reducers.change_avatar_class(value)
+								game_instance.commands.change_avatar_class(value)
 								game_instance.view.set_state(() => ({
 									changing_character_class: false,
 								}))
@@ -64,7 +62,7 @@ function * gen_next_step() {
 					callback: value => {
 						console.log({value, type: typeof value})
 						if (value)
-							game_instance.reducers.rename_avatar(value)
+							game_instance.commands.rename_avatar(value)
 						game_instance.view.set_state(() => ({
 							changing_character_name: false,
 						}))

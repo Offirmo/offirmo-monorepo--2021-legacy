@@ -10,7 +10,7 @@ const ActionButtonC1 = React.memo(
 		return (
 			<View
 				action={action}
-				onClick={() => get_game_instance().reducers.execute_serialized_action(action)}
+				onClick={() => get_game_instance().commands.dispatch(action)}
 			/>
 		)
 	}

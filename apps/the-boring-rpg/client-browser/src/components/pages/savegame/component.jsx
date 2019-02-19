@@ -71,7 +71,7 @@ export default class PageSavegameEditorView extends Component {
 		try {
 			const data = JSON.parse(this.editor.getValue())
 			console.log('Replacing current data =', localStorage.getItem(this.props.ls_key))
-			get_game_instance().model.set_state(data)
+			get_game_instance().model.set(data)
 			//localStorage.setItem(this.props.ls_key, JSON.stringify(data))
 		}
 		catch (err) {
@@ -83,7 +83,7 @@ export default class PageSavegameEditorView extends Component {
 		if (!window.confirm('💀 Do you really really want to reset your savegame, loose all progression and start over?'))
 			return
 
-		get_game_instance().model.reset_state()
+		get_game_instance().model.reset()
 
 		//localStorage.removeItem(this.props.ls_key)
 		this.props.navigate_home()

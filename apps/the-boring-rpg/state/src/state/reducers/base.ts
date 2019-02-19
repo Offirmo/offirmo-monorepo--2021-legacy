@@ -16,6 +16,7 @@ import {
 
 import * as InventoryState from '@oh-my-rpg/state-inventory'
 import * as EngagementState from '@oh-my-rpg/state-engagement'
+import * as MetaState from '@oh-my-rpg/state-meta'
 
 
 /////////////////////
@@ -33,9 +34,21 @@ import {
 
 /////////////////////
 
-function on_start_session(state: Readonly<State>): Readonly<State> {
-	// update energy (not 100% needed but good safety)
+function on_start_session(state: Readonly<State>, is_web_diversity_supporter: boolean): Readonly<State> {
+	// update energy (not sure needed but good safety)
 	state = _update_to_now(state)
+
+	state = {
+		...state,
+		u_state: {
+			...state.u_state,
+			meta: MetaState.on_start_session(state.u_state.meta, is_web_diversity_supporter),
+
+			// meta changes don't count as a new revision
+			// because they are merely a way to pass infos from above;
+			// they are not tied to user actions.
+		}
+	}
 
 	// TODO recap here ?
 
