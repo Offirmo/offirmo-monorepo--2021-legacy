@@ -19,6 +19,15 @@ Next
 - 😷 chore: some internal refactors
 
 
+2019/02/16 v0.58.1
+- 🤩 feature: new classes! (now totalling 25!)
+- 😅 fix: removed 3 background pictures I didn't like that much
+- 😍 feature: X new backgrounds (now totalling X!)
+- 🤩 feature: X new achievements (now totalling X!)
+- 😅 fix: removed 3 background pictures I didn't like that much
+- 😷 chore: some internal refactors for preparing the server feature
+
+
 2019/02/16 v0.57.1
 - 😍 feature: ~76 new backgrounds (now totalling 101!)
 - 🤩 feature: background images are now credited to their author
