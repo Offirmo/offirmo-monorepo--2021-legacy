@@ -2,19 +2,51 @@ console.log('🧙️  Hello from update_build_variables.js!')
 
 const path = require('path')
 const write_json_file = require("write-json-file")
+const meow = require('meow')
+const fs = require('fs-extra')
 
 const { get_human_readable_UTC_timestamp_minutes } = require('../0-stdlib/timestamps')
 
-/*********************/
+/////////////////////
+
+const cli = meow(`build`, {
+	flags: {
+		mode: {
+			type: 'string',
+			default: 'json',
+		},
+	},
+})
+
+/////////////////////
 
 const PACKAGE_JSON_PATH = path.join(process.cwd(), 'package.json')
 const { version: VERSION } = require(PACKAGE_JSON_PATH)
-const PACKAGE_DIR = path.basename(path.resolve(process.cwd()))
 const BUILD_DATE = get_human_readable_UTC_timestamp_minutes()
 
-console.log('🧙️  Extracted variables:', {VERSION, PACKAGE_DIR, BUILD_DATE})
+//console.log('🧙️  mode:', cli.flags.mode)
+console.log('🧙️  Extracted variables:', { VERSION, BUILD_DATE })
 
-write_json_file(path.resolve(process.cwd(), './src/services/build.json'), {
-	VERSION,
-	BUILD_DATE,
-})
+switch(cli.flags.mode) {
+	case 'json': {
+		const target_path = path.resolve(process.cwd(), './src/build.json')
+		write_json_file(target_path, {
+			VERSION,
+			BUILD_DATE,
+		})
+		console.log('🧙️  wrote:', target_path)
+		break
+	}
+	case 'ts': {
+		const target_path = path.resolve(process.cwd(), './src/build.ts')
+		fs.writeFileSync(target_path, `
+// THIS FILE IS AUTO GENERATED!
+export const VERSION = '${VERSION}'
+export const BUILD_DATE = '${BUILD_DATE}'
+`);
+		console.log('🧙️  wrote:', target_path)
+		break
+	}
+	default:
+		throw new Error('Unrecognized mode!')
+}

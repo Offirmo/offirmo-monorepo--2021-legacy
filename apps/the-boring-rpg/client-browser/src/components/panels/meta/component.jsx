@@ -3,12 +3,12 @@ import PropTypes from 'prop-types'
 
 import * as RichText from '@offirmo/rich-text-format'
 import { THE_BORING_RPG } from '@offirmo/marketing-rsrc'
-import { SCHEMA_VERSION, GAME_VERSION } from '@tbrpg/flux'
+import { SCHEMA_VERSION, VERSION as MODEL_VERSION } from '@tbrpg/flux'
 
 import NetlifyWidget from '../../misc/netlify'
 import { Chat } from '../../utils/chat-interface'
 import rich_text_to_react from '../../../services/rich-text-to-react'
-import { VERSION, BUILD_DATE } from '../../../services/build.json'
+import { VERSION, BUILD_DATE } from '../../../build'
 import SEC from '../../../services/sec'
 import ErrorBoundary from '@offirmo/react-error-boundary'
 import get_game_instance from '../../../services/game-instance-browser'
@@ -135,7 +135,7 @@ export function render_meta(statistics) {
 		'05-env'
 	)
 	$doc_list_builder.pushRawNode(
-		RichText.inline_fragment().pushText(`Engine version: ${GAME_VERSION}`).done(),
+		RichText.inline_fragment().pushText(`Engine version: ${MODEL_VERSION}`).done(),
 		'06-engine'
 	)
 	$doc_list_builder.pushRawNode(

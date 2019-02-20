@@ -1,0 +1,4 @@
+
+// THIS FILE IS AUTO GENERATED!
+export const VERSION = '0.58.6'
+export const BUILD_DATE = '20190220_06h14'

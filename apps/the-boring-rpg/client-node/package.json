@@ -43,7 +43,7 @@
 		"@oh-my-rpg/state-energy": "^0.0.1",
 		"@oh-my-rpg/state-inventory": "^0.0.1",
 		"@oh-my-rpg/state-prng": "^0.0.1",
-		"@tbrpg/state": "^0.0.1",
+		"@tbrpg/state": "^0",
 		"@oh-my-rpg/view-rich-text": "^0.0.1",
 		"chalk": "^2",
 		"fetchival": "^0.3",

@@ -1,15 +1,13 @@
 {
 	"name": "@tbrpg/flux",
 	"description": "The Boring RPG flux engine",
-	"version": "0.0.1",
+	"version": "0.58.0",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"private": true,
 	"license": "Unlicense",
-
 	"main": "dist/src.es7.cjs/index.js",
 	"jsnext:main": "dist/src.es7/index.js",
 	"typings": "dist/src.es7.cjs/index.d.ts",
-
 	"peerDependencies": {
 		"@offirmo/soft-execution-context": "^0.0.2",
 		"tslib": "^1"
@@ -24,7 +22,7 @@
 		"@oh-my-rpg/state-inventory": "^0.0.1",
 		"@oh-my-rpg/state-prng": "^0.0.1",
 		"@oh-my-rpg/state-progress": "^0.0.1",
-		"@tbrpg/state": "^0.0.1",
+		"@tbrpg/state": "^0",
 		"tiny-invariant": "^1",
 		"typescript-string-enums": "^0.3"
 	},
@@ -34,12 +32,11 @@
 	},
 	"scripts": {
 		"clean": "node ../../../scripts/clean.js dist",
-
+		"refresh-build-variables": "node ../../../scripts/update_build_variables.js --mode=ts",
 		"build:dev:watch": "node ../../../scripts/build-typescript.js --watch",
 		"build:prod": "node ../../../scripts/build-typescript.js",
-
 		"dev": "run-s clean build:dev:watch",
 		"test": "../../../node_modules/.bin/mocha --opts ../../../3-tools/unit-test-toolbox/mocha.opts ../../../3-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es7.cjs/**/*spec.js'",
-		"build": "run-s clean build:prod"
+		"build": "npm version patch && run-s clean refresh-build-variables build:prod"
 	}
 }

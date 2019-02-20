@@ -3,7 +3,7 @@
 import { createLogger } from '@offirmo/practical-logger-browser'
 
 import { LIB } from './consts'
-import { VERSION, BUILD_DATE } from './build'
+import { VERSION, BUILD_DATE } from '../build'
 /////////////////////////////////////////////////
 
 const logger = createLogger({
