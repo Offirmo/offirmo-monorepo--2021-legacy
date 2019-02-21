@@ -88,9 +88,8 @@ error_reporter
 
 // https://docs.sentry.io/clients/javascript/usage/#tracking-users
 export function set_user_context({email, id, name}) {
-	Raven.setUserContext({
-		email, id, name,
-	})
+	console.info('set_user_context', {email, id, name})
+	Raven.setUserContext({email, id, name})
 }
 
 /*

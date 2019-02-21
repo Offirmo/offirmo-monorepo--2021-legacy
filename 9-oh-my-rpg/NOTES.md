@@ -3,6 +3,8 @@ https://blackbeltwiki.com/dynamic-tension
 https://en.wikipedia.org/wiki/Atropa_belladonna
 https://bewarethewizard.com/2019/01/18/fantasy-cartography-and-the-suspension-of-disbelief/
 
+https://science.slashdot.org/story/19/02/19/2345203/fda-warns-against-using-young-blood-as-medical-treatment
+
 https://the-mouse-trap.com/2017/09/09/the-four-needs-for-meaning/
 
 plein d'idées https://www.dndbeyond.com/characters/classes/blood-hunter

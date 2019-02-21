@@ -27,6 +27,7 @@
 		"build": "run-s clean build:prod build:netlify-functions"
 	},
 	"devDependencies": {
+		"@offirmo/ts-types": "^0.0.1",
 		"@types/aws-lambda": "^8",
 		"@types/lodash": "^4",
 		"netlify-lambda": "^1",
