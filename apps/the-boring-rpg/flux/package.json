@@ -1,7 +1,7 @@
 {
 	"name": "@tbrpg/flux",
 	"description": "The Boring RPG flux engine",
-	"version": "0.58.1",
+	"version": "0.58.2",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"private": true,
 	"license": "Unlicense",
