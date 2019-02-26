@@ -10,7 +10,7 @@ interface XError {
 	shouldRedirect?: boolean
 	framesToPop?: number
 
-	details?: { [k: string]: boolean | number | string }
+	details?: { [k: string]: boolean | number | string | null }
 	SEC?: any
 	_temp?: any
 }

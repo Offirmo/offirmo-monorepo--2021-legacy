@@ -1,4 +1,14 @@
 
+
+## dev
+doc:
+* https://www.netlify.com/docs/functions/
+* https://serverless.com/blog/common-node8-mistakes-in-lambda/
+
+`yarn start`
+
+
+## ...
 TODO https://hackernoon.com/package-lambda-functions-the-easy-way-with-npm-e38fc14613ba
 TODO https://httptoolkit.tech/blog/netlify-function-error-reporting-with-sentry/
 

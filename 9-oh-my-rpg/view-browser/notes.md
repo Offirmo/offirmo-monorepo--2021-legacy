@@ -35,3 +35,9 @@ Inspiration:
 - http://www.dungeonsurvivor.com/preregistration
 
 TODO inventory with https://github.com/drcmda/mauerwerk ?
+
+
+nice icons: https://www.unrealengine.com/marketplace/technology-and-skill-icons
+
+blob study https://codepen.io/shubniggurath/full/YBgGrw
+fake 3D https://tympanus.net/codrops/2019/02/20/how-to-create-a-fake-3d-image-effect-with-webgl/
