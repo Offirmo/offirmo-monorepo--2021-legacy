@@ -1,3 +1,4 @@
+import { VERSION } from '@tbrpg/flux'
 import { JSONRPCRequest, JSONRPCResponse } from '../../sub/types'
 import { TBRPGCall } from '../types'
 

@@ -1,37 +1,24 @@
 import { Enum } from 'typescript-string-enums'
 
 import {
-	JSONRPCRequest,
-	JSONRPCResponse,
-} from '@offirmo/ts-types'
-
-import {
 	APIGatewayEvent,
 	Context,
 	Response,
 	NetlifyHandler,
+
+	JSONRPCRequest,
+	JSONRPCResponse,
+	JSONRPC_CODE,
+	DEFAULT_JSONRPC_ERROR_PAYLOAD
 } from './sub/types'
 
 import { create_error, throw_new_error } from './sub/utils'
 
 import { TBRPGCall, Method } from './procs/types'
-
-const JSONRPC_CODE = {
-	parse_error: -32700, // Invalid JSON was received by the server.
-	                     // An error occurred on the server while parsing the JSON text.
-	invalid_request: -32600, // Invalid Request 	The JSON sent is not a valid Request object.
-	method_not_found: -32601, // Method not found 	The method does not exist / is not available.
-	invalid_params: -32602, // Invalid params 	Invalid method parameter(s).
-	internal_error: -32603, // Internal error 	Internal JSON-RPC error.
-	//-32000 to -32099 	Server error 	Reserved for implementation-defined server-errors.
-}
+import { process_rpc } from './procs'
 
 ////////////////////////////////////
-const DEFAULT_ERROR_PAYLOAD = {
-	code: JSONRPC_CODE.internal_error,
-	message: 'Internal error!',
-	data: {},
-}
+
 
 const handler: NetlifyHandler = async (
 	event: APIGatewayEvent,
@@ -43,7 +30,7 @@ const handler: NetlifyHandler = async (
 	let jsonrpc_response: JSONRPCResponse<TBRPGCall> = {
 		jsonrpc: '2.0',
 		id: '???',
-		error: DEFAULT_ERROR_PAYLOAD,
+		error: DEFAULT_JSONRPC_ERROR_PAYLOAD,
 		result: undefined,
 	}
 
@@ -54,22 +41,28 @@ const handler: NetlifyHandler = async (
 		const jsonrpc_request = parse_jsonrpc_requests(jsonrpc_response, event)
 
 		jsonrpc_response.error!.code = JSONRPC_CODE.internal_error
+		jsonrpc_response.error!.message = 'internal error while processing the request!'
 		statusCode = 500
-		// TODO extract Context
-		jsonrpc_response = process_rpc(jsonrpc_request, jsonrpc_response, context)
 
-		statusCode = 200 // was processed
+		// TODO extract Context
+		jsonrpc_response = process_rpc(jsonrpc_request, jsonrpc_response)
+
+		if (jsonrpc_response.error && jsonrpc_response.result)
+			throw new Error('Internal error: unclear result after handling!')
+
+		if (jsonrpc_response.result)
+			statusCode = 200 // was processed correctly
 	}
 	catch (err) {
-		statusCode = err.statusCode || 500
+		statusCode = err.statusCode || statusCode
 
-		if (err.jsonrpc_response)
-			jsonrpc_response = err.jsonrpc_response
+		jsonrpc_response.error = err.jsonrpc_response
+			? err.jsonrpc_response
+			: jsonrpc_response.error
+				? jsonrpc_response.error
+				: DEFAULT_JSONRPC_ERROR_PAYLOAD // it could have been deleted
 
-		if (!jsonrpc_response.error) {
-			jsonrpc_response.error = jsonrpc_response.error || DEFAULT_ERROR_PAYLOAD
-		}
-		jsonrpc_response.error!.message = err.message
+		jsonrpc_response.error!.message = err.message // forced, or wouldn't have needed to catch
 
 		delete jsonrpc_response.result
 	}
@@ -135,6 +128,7 @@ function parse_jsonrpc_requests(resp: JSONRPCResponse<TBRPGCall>, event: APIGate
 	}
 
 	resp.id = data.id
+	resp.error!.data.method = data.method // for convenience
 
 	if (Object.keys(data.params).length < 1) {
 		resp.error!.code = JSONRPC_CODE.invalid_params
@@ -152,32 +146,6 @@ function parse_jsonrpc_requests(resp: JSONRPCResponse<TBRPGCall>, event: APIGate
 
 	// ok, it looks like a real valid TBRPG RPC
 	return data
-}
-
-////////////
-
-function process_rpc(
-	req: JSONRPCRequest<TBRPGCall>,
-	resp: JSONRPCResponse<TBRPGCall>,
-	context: Context
-): JSONRPCResponse<TBRPGCall> {
-	resp.error!.code = JSONRPC_CODE.internal_error
-
-	const { id, method, params } = req
-	switch(method) {
-		case Method.echo: {
-			resp.result = { method, params }
-			delete resp.error
-			break
-		}
-		default: {
-			throw create_error('RPC method not implemented!', {
-				statusCode: 501,
-			})
-		}
-	}
-
-	return resp
 }
 
 ////////////////////////////////////

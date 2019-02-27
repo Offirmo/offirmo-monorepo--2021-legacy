@@ -8,6 +8,8 @@ import { CharacterClass } from '@oh-my-rpg/state-character'
 /////////////////////
 
 const ActionType = Enum(
+	'start_game',
+
 	'on_start_session',
 
 	'play',
@@ -29,6 +31,11 @@ type ActionType = Enum<typeof ActionType> // eslint-disable-line no-redeclare
 interface BaseAction {
 	time: TimestampUTCMs
 	expected_state_revision?: number // safety. TODO useful??
+}
+
+interface ActionStartGame extends BaseAction {
+	type: typeof ActionType.start_game
+	seed: number
 }
 
 interface ActionStartSession extends BaseAction {
@@ -82,6 +89,7 @@ interface ActionHack extends BaseAction {
 }
 
 type Action =
+	ActionStartGame |
 	ActionStartSession |
 	ActionPlay |
 	ActionEquipItem |
@@ -98,6 +106,7 @@ type Action =
 export {
 	ActionType,
 
+	ActionStartGame,
 	ActionStartSession,
 	ActionPlay,
 	ActionEquipItem,
