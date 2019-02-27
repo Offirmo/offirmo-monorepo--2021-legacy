@@ -11103,10 +11103,10 @@ typescript-estree@18.0.0:
     lodash.unescape "4.0.1"
     semver "5.5.0"
 
-typescript-string-enums@^0.3:
-  version "0.3.5"
-  resolved "https://registry.yarnpkg.com/typescript-string-enums/-/typescript-string-enums-0.3.5.tgz#00f5c30422ec5d8061ed49a0fe06610ae99f02a2"
-  integrity sha512-p1wjqMKghJ/3WVDgGsHnN2sFTEBgc7FB7HuyYl1HgiITBuDvtgaqwFPRayjgZgxms0tUZDgEcin5wmaXbjc4/A==
+typescript-string-enums@^1:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/typescript-string-enums/-/typescript-string-enums-1.0.0.tgz#4e6bf18e3c6ef02efc80bb35c7edf31b78953d2f"
+  integrity sha512-7ZtI+QpAihetJPm2qSEzH6P9m7cy3Fqa+Y9L3ONS0PStfjBgB2hiaS07qLmBolwGbPko2blakPfcgT3g+Mh7Fw==
 
 typescript@^3:
   version "3.3.3333"

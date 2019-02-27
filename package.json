@@ -167,7 +167,7 @@
 		"typeface-roboto-mono": "^0.0.54",
 		"typescript": "^3",
 		"typescript-eslint-parser": "^22",
-		"typescript-string-enums": "^0.3",
+		"typescript-string-enums": "^1",
 		"typography": "^0.16",
 		"universal-analytics": "^0.4",
 		"url-loader": "^1",

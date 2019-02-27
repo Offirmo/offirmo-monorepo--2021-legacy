@@ -18,7 +18,7 @@
 		"@offirmo/uuid": "^0.0.1",
 		"@oh-my-rpg/definitions": "^0.0.1",
 		"deep-freeze-strict": "^1",
-		"typescript-string-enums": "^0.3"
+		"typescript-string-enums": "^1"
 	},
 	"devDependencies": {
 		"@oh-my-rpg/migration-tester": "^0.0.1",

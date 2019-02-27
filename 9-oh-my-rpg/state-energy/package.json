@@ -21,7 +21,7 @@
 		"deep-freeze-strict": "^1",
 		"fraction.js": "^4",
 		"memoize-one": "^5",
-		"typescript-string-enums": "^0.3"
+		"typescript-string-enums": "^1"
 	},
 	"devDependencies": {
 		"@offirmo/prettify-json": "^0.0.1",

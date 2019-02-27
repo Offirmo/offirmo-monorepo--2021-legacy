@@ -17,7 +17,7 @@
 		"@oh-my-rpg/definitions": "^0.0.1",
 		"@offirmo/unicode-data": "^0.0.1",
 		"@offirmo/random": "^2",
-		"typescript-string-enums": "^0.3"
+		"typescript-string-enums": "^1"
 	},
 
 	"devDependencies": {

@@ -28,7 +28,7 @@
 		"@tbrpg/state": "^0",
 		"@oh-my-rpg/state-wallet": "^0.0.1",
 		"lodash": "^4",
-		"typescript-string-enums": "^0.3"
+		"typescript-string-enums": "^1"
 	},
 	"devDependencies": {
 		"@offirmo/rich-text-format-to-ansi": "^0.0.1",

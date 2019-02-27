@@ -24,7 +24,7 @@
 		"@oh-my-rpg/state-progress": "^0.0.1",
 		"@tbrpg/state": "^0",
 		"tiny-invariant": "^1",
-		"typescript-string-enums": "^0.3"
+		"typescript-string-enums": "^1"
 	},
 	"devDependencies": {
 		"@offirmo/practical-logger-node": "^0.0.1",
