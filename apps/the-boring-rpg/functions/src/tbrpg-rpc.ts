@@ -12,9 +12,9 @@ import {
 	DEFAULT_JSONRPC_ERROR_PAYLOAD
 } from './sub/types'
 
-import { create_error, throw_new_error } from './sub/utils'
+import { create_error } from './sub/utils'
 
-import { TBRPGCall, Method } from './procs/types'
+import { Method, TbrpgRpc, TbrpgRpcResponse} from './procs/types'
 import { process_rpc } from './procs'
 
 ////////////////////////////////////
@@ -27,7 +27,7 @@ const handler: NetlifyHandler = async (
 	console.log('\n*******\n* handling a tbrpg-rpc…')
 
 	let statusCode = 500
-	let jsonrpc_response: JSONRPCResponse<TBRPGCall> = {
+	let res: TbrpgRpcResponse = {
 		jsonrpc: '2.0',
 		id: '???',
 		error: DEFAULT_JSONRPC_ERROR_PAYLOAD,
@@ -35,41 +35,41 @@ const handler: NetlifyHandler = async (
 	}
 
 	try {
-		jsonrpc_response.error!.code = JSONRPC_CODE.invalid_request
+		res.error!.code = JSONRPC_CODE.invalid_request
 		statusCode = 400
 		check_sanity(event)
-		const jsonrpc_request = parse_jsonrpc_requests(jsonrpc_response, event)
+		const req: TbrpgRpc = parse_jsonrpc_requests(res, event)
 
-		jsonrpc_response.error!.code = JSONRPC_CODE.internal_error
-		jsonrpc_response.error!.message = 'internal error while processing the request!'
+		res.error!.code = JSONRPC_CODE.internal_error
+		res.error!.message = 'internal error while processing the request!'
 		statusCode = 500
 
 		// TODO extract Context
-		jsonrpc_response = process_rpc(jsonrpc_request, jsonrpc_response)
+		res = process_rpc(req, res)
 
-		if (jsonrpc_response.error && jsonrpc_response.result)
+		if (res.error && res.result)
 			throw new Error('Internal error: unclear result after handling!')
 
-		if (jsonrpc_response.result)
+		if (res.result)
 			statusCode = 200 // was processed correctly
 	}
 	catch (err) {
 		statusCode = err.statusCode || statusCode
 
-		jsonrpc_response.error = err.jsonrpc_response
+		res.error = err.jsonrpc_response
 			? err.jsonrpc_response
-			: jsonrpc_response.error
-				? jsonrpc_response.error
+			: res.error
+				? res.error
 				: DEFAULT_JSONRPC_ERROR_PAYLOAD // it could have been deleted
 
-		jsonrpc_response.error!.message = err.message // forced, or wouldn't have needed to catch
+		res.error!.message = err.message // forced, or wouldn't have needed to catch
 
-		delete jsonrpc_response.result
+		delete res.result
 	}
 
 	return {
 		statusCode,
-		body: JSON.stringify(jsonrpc_response),
+		body: JSON.stringify(res),
 	}
 }
 
@@ -96,14 +96,14 @@ function check_sanity(event: APIGatewayEvent) {
 
 ////////////
 
-function parse_jsonrpc_requests(resp: JSONRPCResponse<TBRPGCall>, event: APIGatewayEvent): JSONRPCRequest<TBRPGCall> {
+function parse_jsonrpc_requests(res: TbrpgRpcResponse, event: APIGatewayEvent): TbrpgRpc {
 	let data: any
 	try {
 		data = JSON.parse(event.body!)
 	}
 	catch(err) {
 		console.error(err)
-		resp.error!.code = JSONRPC_CODE.parse_error
+		res.error!.code = JSONRPC_CODE.parse_error
 		throw create_error('JSON.Parse error!', {
 			statusCode: 400,
 		})
@@ -111,7 +111,7 @@ function parse_jsonrpc_requests(resp: JSONRPCResponse<TBRPGCall>, event: APIGate
 
 	if (Array.isArray(data)) {
 		// we don't support batching
-		resp.error!.code = JSONRPC_CODE.parse_error
+		res.error!.code = JSONRPC_CODE.parse_error
 		throw create_error('Batch RPC not implemented!', {
 			statusCode: 501,
 		})
@@ -121,24 +121,24 @@ function parse_jsonrpc_requests(resp: JSONRPCResponse<TBRPGCall>, event: APIGate
 		|| data.jsonrpc !== '2.0'
 		|| !(Number.isInteger(data.id) || typeof data.id === 'string')
 	) {
-		resp.error!.code = JSONRPC_CODE.invalid_request
+		res.error!.code = JSONRPC_CODE.invalid_request
 		throw create_error('Bad JSON-RPC structure!', {
 			statusCode: 400,
 		})
 	}
 
-	resp.id = data.id
-	resp.error!.data.method = data.method // for convenience
+	res.id = data.id
+	res.error!.data.method = data.method // for convenience
 
 	if (Object.keys(data.params).length < 1) {
-		resp.error!.code = JSONRPC_CODE.invalid_params
+		res.error!.code = JSONRPC_CODE.invalid_params
 		throw create_error('Invalid params!', {
 			statusCode: 400,
 		})
 	}
 
 	if (!Enum.isType(Method, data.method)) {
-		resp.error!.code = JSONRPC_CODE.method_not_found
+		res.error!.code = JSONRPC_CODE.method_not_found
 		throw create_error('Invalid RPC method!', {
 			statusCode: 400,
 		})

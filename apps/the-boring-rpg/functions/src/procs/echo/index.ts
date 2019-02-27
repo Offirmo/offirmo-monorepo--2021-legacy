@@ -1,16 +1,16 @@
 import { JSONRPCRequest, JSONRPCResponse } from '../../sub/types'
-import { TBRPGCall } from '../types'
+import { RpcEcho, RpcEchoResponse } from '../types'
 
 function handle(
-	req: JSONRPCRequest<TBRPGCall>,
-	resp: JSONRPCResponse<TBRPGCall>,
-): JSONRPCResponse<TBRPGCall> {
+	req: RpcEcho,
+	res: RpcEchoResponse,
+): RpcEchoResponse {
 	const { method, params } = req
 
-	resp.result = { method, params }
-	delete resp.error
+	res.result = { method, params }
+	delete res.error
 
-	return resp
+	return res
 }
 
 ////////////////////////////////////

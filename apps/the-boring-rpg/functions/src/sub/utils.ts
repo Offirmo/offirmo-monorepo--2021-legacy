@@ -15,12 +15,12 @@ function create_error(message: string, data: XError['details'] = {}): XError {
 
 	return error
 }
-
+/*
 function throw_new_error(message: string, data: { [k: string]: boolean | number | string | null } = {}): void {
 	throw create_error(message, data)
 }
-
+*/
 export {
 	create_error,
-	throw_new_error,
+	//throw_new_error,
 }

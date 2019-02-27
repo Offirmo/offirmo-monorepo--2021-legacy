@@ -1,15 +1,15 @@
 import { VERSION } from '@tbrpg/flux'
-import { RpcSync, RpcSyncResponse } from '../types'
+import { RpcPlay, RpcPlayResponse } from '../types'
 
 ////////////////////////////////////
 
 function handle(
-	req: RpcSync,
-	res: RpcSyncResponse,
-): RpcSyncResponse {
+	req: RpcPlay,
+	res: RpcPlayResponse,
+): RpcPlayResponse {
 
 	res.result = {
-		v: VERSION,
+		// TODO
 	}
 	delete res.error
 

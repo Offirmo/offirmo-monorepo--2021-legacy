@@ -9,27 +9,36 @@ import {
 
 import { create_error } from '../sub/utils'
 
-import { TBRPGCall, Method } from './types'
+import {
+	TbrpgRpc,
+	TbrpgRpcResponse,
+	Method,
+	RpcEcho,
+	RpcEchoResponse,
+	RpcSync,
+	RpcSyncResponse,
+	RpcPlay,
+	RpcPlayResponse,
+} from './types'
 
 import process_rpc_echo from './echo'
 import process_rpc_sync from './sync'
-import process_rpc_play from './echo'
+import process_rpc_play from './play'
 
 function process_rpc(
-	req: JSONRPCRequest<TBRPGCall>,
-	res: JSONRPCResponse<TBRPGCall>,
-): JSONRPCResponse<TBRPGCall> {
-	const { method } = req
+	req: TbrpgRpc,
+	res: TbrpgRpcResponse,
+): TbrpgRpcResponse {
 
-	switch(method) {
+	switch(req.method) {
 		case Method.echo:
-			return process_rpc_echo(req, res)
+			return process_rpc_echo(req as RpcEcho, res as RpcEchoResponse)
 
 		case Method.sync:
-			return process_rpc_sync(req, res)
+			return process_rpc_sync(req as RpcSync, res as RpcSyncResponse)
 
 		case Method.play:
-			return process_rpc_play(req, res)
+			return process_rpc_play(req as RpcPlay, res as RpcPlayResponse)
 
 		default: {
 			throw create_error('RPC method not implemented!', {
