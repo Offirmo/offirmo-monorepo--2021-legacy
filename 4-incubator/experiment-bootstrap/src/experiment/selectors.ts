@@ -1,15 +1,16 @@
+import assert from 'tiny-invariant'
+
 import { LIB } from '../consts'
-
-import {
-	ExperimentStage,
-	ExperimentInternal
-} from './types'
-
-import {ResolvedExperiment} from "../types";
+import { ResolvedExperiment } from '../types'
+import { ExperimentStage, ExperimentInternal, Logger } from './types'
 
 
 export function getKey<T>(state: ExperimentInternal<T>): string {
 	return state.spec.key
+}
+
+export function getLogger<T>(state: ExperimentInternal<T>): Logger | undefined {
+	return state.meta.logger
 }
 
 export function getErrorCount<T>(state: ExperimentInternal<T>): number {
@@ -25,9 +26,7 @@ export function getPromisedResult<T>(state: ExperimentInternal<T>): Promise<Reso
 }
 
 export function getResultSync<T>(state: ExperimentInternal<T>): ResolvedExperiment {
-	if (state.stage !== ExperimentStage.resolved)
-		throw new Error(`[${LIB}/${getKey(state)}] getResultSync(): not resolved yet!`)
+	assert(state.stage === ExperimentStage.resolved, `[${LIB}/${getKey(state)}] getResultSync(): not resolved yet!`)
 
 	return state.publicResult
 }
-

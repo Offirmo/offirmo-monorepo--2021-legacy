@@ -1,6 +1,6 @@
 
 export const LIB = 'XBL'
-export const DEBUG = false // TODO move
+export const DEBUG = true // TODO move
 
 // https://browsehappy.com/
 // 14/01/2019

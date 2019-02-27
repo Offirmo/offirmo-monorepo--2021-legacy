@@ -176,7 +176,7 @@ describe(`${LIB} - sugar API`, function() {
 								assert_react_API_shape(result)
 
 								// TODO test resolution date
-								
+
 								if (behavior.startsWith('good_')) {
 									assert_enrolled_shape(result)
 									console.log({ resolved_at, result })

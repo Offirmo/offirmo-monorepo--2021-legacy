@@ -13,7 +13,7 @@ import {
 
 export const ExperimentStage = Enum(
 	'specifying',
-	// TODO extra state to force one spec time?
+	'specified',
 	'resolving',
 	'resolved',
 )
@@ -38,10 +38,20 @@ export interface ExperimentResolution<T> {
 }
 
 
+export interface Logger {
+	log: (...p: any[]) => void,
+	info: (...p: any[]) => void,
+	warn: (...p: any[]) => void,
+	error: (...p: any[]) => void,
+}
+
 export interface ExperimentInternal<T> {
 	stepCount: number // to help debugging
 	stage: ExperimentStage
 
+	meta: {
+		logger?: Logger,
+	}
 	spec: ExperimentSpec<T>
 
 	resolution: ExperimentResolution<T>
