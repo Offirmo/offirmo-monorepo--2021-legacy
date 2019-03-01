@@ -44,28 +44,6 @@ interface I18nMessages {
 
 type ImmutabilityEnforcer = <T>(x: T) => Readonly<T>
 
-/////////////////////
-// https://www.jsonrpc.org/specification
-
-interface JSONRPCRequest<T> {
-	jsonrpc: '2.0'
-	id: number | string
-	method: string
-	params: T
-}
-
-interface JSONRPCResponse<T> {
-	jsonrpc: '2.0'
-	id: number | string
-	error?: {
-		code: number
-		message: string
-		data?: any
-	}
-	result?: T
-}
-////////////////////////////////////
-
 export {
 	JSPrimitiveType,
 
@@ -79,7 +57,4 @@ export {
 	I18nMessages,
 
 	ImmutabilityEnforcer,
-
-	JSONRPCRequest,
-	JSONRPCResponse,
 }

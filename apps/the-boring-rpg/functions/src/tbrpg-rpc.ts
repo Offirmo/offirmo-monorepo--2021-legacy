@@ -6,15 +6,15 @@ import {
 	Response,
 	NetlifyHandler,
 
-	JSONRPCRequest,
-	JSONRPCResponse,
+	JSONRpcRequest,
+	JSONRpcResponse,
 	JSONRPC_CODE,
 	DEFAULT_JSONRPC_ERROR_PAYLOAD
 } from './sub/types'
 
 import { create_error } from './sub/utils'
 
-import { Method, TbrpgRpc, TbrpgRpcResponse} from './procs/types'
+import { Method, TbrpgRpc, TbrpgRpcResponse } from '@tbrpg/rpc-interface'
 import { process_rpc } from './procs'
 
 ////////////////////////////////////

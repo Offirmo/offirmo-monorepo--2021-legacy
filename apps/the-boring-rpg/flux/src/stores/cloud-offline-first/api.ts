@@ -1,8 +1,8 @@
 import {
 	ORequest,
 	OResponse,
-	JSONRPCRequest,
-	JSONRPCResponse,
+	JSONRpcRequest,
+	JSONRpcResponse,
 } from '../../utils/o-rest'
 import fetch_json from '../../utils/fetch-json'
 
@@ -74,13 +74,13 @@ function create(url_root: string) {
 		id: number | string = request_count++
 	): Promise<Result> {
 		// see http://www.simple-is-better.org/json-rpc/transport_http.html
-		const request: JSONRPCRequest<Params> = {
+		const request: JSONRpcRequest<Params> = {
 			jsonrpc: '2.0',
 			id,
 			method,
 			params,
 		}
-		return offirmo_request<JSONRPCRequest<Params>, JSONRPCResponse<Result>>(
+		return offirmo_request<JSONRpcRequest<Params>, JSONRpcResponse<Result>>(
 				rpc_url,
 				'PUT',
 				request,
@@ -88,7 +88,7 @@ function create(url_root: string) {
 			)
 			.then(
 				// format check
-				(response: JSONRPCResponse<Result>): Result => {
+				(response: JSONRpcResponse<Result>): Result => {
 					if (!response || response.jsonrpc !== '2.0')
 						throw new Error('NIMP!')
 

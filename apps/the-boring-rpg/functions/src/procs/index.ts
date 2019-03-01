@@ -1,8 +1,8 @@
 import { Enum } from 'typescript-string-enums'
 
 import {
-	JSONRPCRequest,
-	JSONRPCResponse,
+	JSONRpcRequest,
+	JSONRpcResponse,
 	JSONRPC_CODE,
 	DEFAULT_JSONRPC_ERROR_PAYLOAD
 } from '../sub/types'
@@ -19,7 +19,7 @@ import {
 	RpcSyncResponse,
 	RpcPlay,
 	RpcPlayResponse,
-} from './types'
+} from '@tbrpg/rpc-interface'
 
 import process_rpc_echo from './echo'
 import process_rpc_sync from './sync'

@@ -1,5 +1,5 @@
 import { VERSION } from '@tbrpg/flux'
-import { RpcPlay, RpcPlayResponse } from '../types'
+import { RpcPlay, RpcPlayResponse } from '@tbrpg/rpc-interface'
 
 ////////////////////////////////////
 

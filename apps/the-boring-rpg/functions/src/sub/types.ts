@@ -8,9 +8,9 @@ import {
 } from 'aws-lambda'
 
 import {
-	JSONRPCRequest,
-	JSONRPCResponse,
-} from '@offirmo/ts-types'
+	JSONRpcRequest,
+	JSONRpcResponse,
+} from '@tbrpg/rpc-interface'
 
 ////////////////////////////////////
 
@@ -37,7 +37,7 @@ const JSONRPC_CODE = {
 	//-32000 to -32099 	Server error 	Reserved for implementation-defined server-errors.
 }
 
-const DEFAULT_JSONRPC_ERROR_PAYLOAD: JSONRPCResponse<{}>['error'] = {
+const DEFAULT_JSONRPC_ERROR_PAYLOAD: JSONRpcResponse<{}>['error'] = {
 	code: JSONRPC_CODE.internal_error,
 	message: 'Internal error!',
 	data: {},
@@ -53,8 +53,8 @@ export {
 	NetlifyHandler,
 
 	// TODO move in a dedicated lib
-	JSONRPCRequest,
-	JSONRPCResponse,
+	JSONRpcRequest,
+	JSONRpcResponse,
 	JSONRPC_CODE,
 	DEFAULT_JSONRPC_ERROR_PAYLOAD,
 }

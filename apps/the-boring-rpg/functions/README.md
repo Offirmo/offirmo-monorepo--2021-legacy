@@ -4,6 +4,7 @@
 doc:
 * https://www.netlify.com/docs/functions/
 * https://serverless.com/blog/common-node8-mistakes-in-lambda/
+* status codes https://www.codetinkerer.com/2015/12/04/choosing-an-http-status-code.html
 
 `yarn start`
 
