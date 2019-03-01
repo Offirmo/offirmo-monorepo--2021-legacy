@@ -53,6 +53,16 @@ try {
 }
 catch {}
 
+
+
+const port = chrome.runtime.connect({name:"port-from-content-script"});
+port.postMessage({greeting: "hello from content script"});
+
+port.onMessage.addListener(function(m) {
+	console.log("In content script, received message from background script: ");
+	console.log(m);
+});
+
 runInPageContext(install_in_context)
 
 function install_in_context() {
@@ -81,12 +91,4 @@ function install_in_context() {
 	window.postMessage({
 		message: "Message from the page context"
 	}, "*");
-	/*
-	const port = chrome.runtime.connect({name:"port-from-content-script"});
-	port.postMessage({greeting: "hello from content script"});
-
-	port.onMessage.addListener(function(m) {
-		console.log("In content script, received message from background script: ");
-		console.log(m.greeting);
-	});*/
 }

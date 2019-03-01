@@ -1,0 +1,11 @@
+@import '../../../node_modules/@offirmo/view-css/src/style.css';
+
+:root {
+	--o⋄font-size--default: 14px;
+}
+
+body {
+	width: 400px;
+	padding: 0 10px 10px 10px;
+}
+

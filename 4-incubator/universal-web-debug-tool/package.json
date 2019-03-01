@@ -16,11 +16,11 @@
 	"scripts": {
 		"clean": "node ../../scripts/clean.js dist cache",
 
-		"dev:parcel": "parcel --no-autoinstall --port 8080 --no-hmr src/**/*.html src/background.js src/content-scripts/*.js",
+		"dev:parcel": "parcel --no-autoinstall --port 8080 --no-hmr src/**/*.html src/background/background.js src/content-scripts/*.js",
 		"dev:cpx": "cpx 'src/**/*.{json,png}' dist --watch --verbose",
 		"dev": "npm-run-all clean --parallel dev:parcel dev:cpx",
 
-		"build:parcel": "parcel build src/**/*.html --public-url ./",
+		"build:parcel": "parcel build --no-minify src/**/*.html --public-url ./",
 		"build": "npm version patch && run-s clean build:parcel"
 	}
 }
