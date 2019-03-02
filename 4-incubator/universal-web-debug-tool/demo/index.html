@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>[Universal web debug tool] TEST PAGE</title>
+	<script>
+		window._CONTEXT = 'final page'
+		window.foo = window.foo || 'the page!'
+		console.warn(`📄 [page/head-inline.${+Date.now()}] Hello! (I should NOT be displayed first!)`, {
+			foo_js: window.foo,
+			foo_ls: (() => {
+				try {
+					// local files may not have local storage
+					return localStorage.getItem('foo')
+				}
+				catch {}
+			})(),
+		})
+
+		// polyfill
+		function install() {
+			if (window._debug) return
+
+			console.warn(`📄 [page/head-inline.${+Date.now()}] installing null polyfill!`)
+
+			// https://devdocs.io/javascript/global_objects/proxy
+			const handler = {
+				get(obj, prop) {
+					return () => {}
+				}
+			}
+
+			window._debug = {
+				getLogLevel() { return [ 100, 'fatal' ] },
+				getLogger() {
+					return new Proxy({}, handler)
+				},
+				addCommand() {
+					// nothing
+				}
+			}
+		}
+		install()
+	</script>
+	<script type="application/javascript" src="./index.js"></script>
+</head>
+<body>
+	<h1>Hello from [Universal web debug tool] test page !</h1>
+</body>
+</html>

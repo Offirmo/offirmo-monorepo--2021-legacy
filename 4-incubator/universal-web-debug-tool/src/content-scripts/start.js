@@ -1,40 +1,51 @@
 import 'babel-polyfill'
 
-console.log(`🧩 [T=${+Date.now()}] Hello from hello-world-browser-extension (content-scripts/start)`)
+import runInPageContext from '../utils/run-in-page-context'
+//import install_debug_api from '../api/full'
+import lib from './start-incontext'
 
+const LIB = '🧩 UWDT/cs--start'
 
-// https://github.com/intoli/intoli-article-materials/blob/master/articles/sandbox-breakout/extension/sandbox-breakout.js
-// https://intoli.com/blog/sandbox-breakout/
-// Breaks out of the content script context by injecting a specially
-// constructed script tag and injecting it into the page.
-function runInPageContext(method, ...args) {
-	// The stringified method which will be parsed as a function object.
-	const stringifiedMethod = method instanceof Function
-		? method.toString()
-		: `() => { ${method} }`;
-
-	// The stringified arguments for the method as JS code that will reconstruct the array.
-	const stringifiedArgs = JSON.stringify(args);
-
-	// The full content of the script tag.
-	const scriptContent = `
-    // Parse and run the method with its arguments.
-    (${stringifiedMethod})(...${stringifiedArgs});
-    // Remove the script element to cover our tracks.
-    //document.currentScript.parentElement.removeChild(document.currentScript);
-  `;
-
-	// Create a script tag and inject it into the document.
-	const scriptElement = document.createElement('script');
-	//scriptElement.setAttribute("type", "module");
-	scriptElement.innerHTML = scriptContent;
-	document.documentElement.prepend(scriptElement);
+////////////////////////////////////
+// experiment modifying js env
+window.foo = window.foo || 'content-scripts/start v1'
+try {
+	// local files may not have local storage
+	localStorage.setItem('foo', 'content-scripts/start v1')
 }
+catch {}
 
+console.log(`[${LIB}.${+Date.now()}] Hello!`, {
+	chrome: chrome,
+	document,
+	foo_js: window.foo,
+	foo_ls: (() => {
+		try {
+			// local files may not have local storage
+			return localStorage.getItem('foo')
+		} catch {
+		}
+	})(),
+})
+
+////////////////////////////////////
+// experiment fetching and checking time
+fetch(chrome.runtime.getURL("api/full/index.js"))
+	.then(x => x.text())
+	.then(content => {
+		console.log(`[${LIB}.${+Date.now()}] got fetch result "${content.slice(0, 16)}…"`)
+	})
+	.catch(console.error)
+
+/*chrome.storage.StorageArea.get("api/full/index.js")
+	.then(res => {
+		console.log(`[${LIB}.${+Date.now()}] got storage result!`)
+	})*/
+////////////////////////////////////
 
 let sent = false
 window.addEventListener("message", (event) => {
-	console.log(`🧩 [T=${+Date.now()}] [content-scripts/start] received message:`, event);
+	console.log(`[🧩 UWDT/cs--start.${+Date.now()}] received message:`, event);
 
 	if(!sent) {
 		sent = true
@@ -44,33 +55,73 @@ window.addEventListener("message", (event) => {
 	}
 });
 
-
-// experiment modifying js env
-window.foo = window.foo || 'content-scripts/start v1'
-try {
-	// local files may not have local storage
-	localStorage.setItem('foo', 'content-scripts/start v1')
-}
-catch {}
-
-
-
 const port = chrome.runtime.connect({name:"port-from-content-script"});
 port.postMessage({greeting: "hello from content script"});
 
 port.onMessage.addListener(function(m) {
-	console.log("In content script, received message from background script: ");
+	console.log(`[🧩 UWDT/cs--start.${+Date.now()}] received message from background script: `);
 	console.log(m);
 });
 
-runInPageContext(install_in_context)
+////////////////////////////////////
 
+function do_stuff() {
+	// experiment modifying js env
+	window.foo = window.foo || 'content-scripts/start v1 in context'
+
+	console.log(`[🧩 UWDT/cs--start.${+Date.now()}] Hello from INJECTED!`, {
+		foo_js: window.foo,
+		foo_ls: (() => {
+			try {
+				// local files may not have local storage
+				return localStorage.getItem('foo')
+			} catch {
+			}
+		})(),
+	})
+}
+runInPageContext(do_stuff)
+
+////////////////////////////////////
+/*
+// Create a script tag and inject it into the document.
+const scriptElement = document.createElement('script')
+//scriptElement.setAttribute("type", "module");
+scriptElement.src = 'from-companion-extension/xdebug-api.js'
+document.documentElement.prepend(scriptElement);
+//document.head.insertBefore(scriptElement, document.head.firstElementChild);
+*/
+
+// Create a script tag and inject it into the document.
+const scriptElement2 = document.createElement('script')
+//scriptElement.setAttribute("type", "module");
+//scriptElement2.src = 'data:text/javascript;base64,' + lib
+scriptElement2.innerHTML = `
+// https://stackoverflow.com/a/30106551/587407
+function b64DecodeUnicode(str) {
+    // Going backwards: from bytestream, to percent-encoding, to original string.
+    return decodeURIComponent(atob(str).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+}
+
+eval(b64DecodeUnicode("${lib}"))
+`
+
+//scriptElement2.innerHTML = lib;
+document.documentElement.prepend(scriptElement2);
+//document.head.insertBefore(scriptElement, document.head.firstElementChild);
+
+
+
+/*
+runInPageContext(install_in_context)
 function install_in_context() {
 	// experiment modifying js env
 	window.foo = window.foo || 'content-scripts/start v1 in context'
 
 
-	console.log(`🧩 [T=${+Date.now()}] Hello from hello-world-browser-extension (content-scripts/start) IN PAGE CONTEXT`, {
+	console.log(`[🧩 UWDT/cs--start.${+Date.now()}] Hello!`, {
 		foo_js: window.foo,
 		foo_ls: (() => {
 			try {
@@ -82,13 +133,14 @@ function install_in_context() {
 	})
 
 	window.addEventListener("message", (event) => {
-		console.log(`🧩 [T=${+Date.now()}] [content-scripts/start/IN CONTEXT] received message:`, event);
+		console.log(`[🧩 UWDT/cs--start.${+Date.now()}] [IN CONTEXT] received message:`, event);
 	});
 
 
 	// experimenting communicating with the extension
-	console.log(`🧩 [T=${+Date.now()}] [content-scripts/start/IN CONTEXT] sending message...`);
+	console.log(`[🧩 UWDT/cs--start.${+Date.now()}] [IN CONTEXT] sending message...`);
 	window.postMessage({
 		message: "Message from the page context"
 	}, "*");
 }
+*/

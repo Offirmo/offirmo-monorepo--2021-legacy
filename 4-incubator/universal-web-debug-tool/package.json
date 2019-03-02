@@ -7,8 +7,9 @@
 	"license": "Unlicense",
 
 	"devDependencies": {
-		"@offirmo/view-css": "^0.0.1",
 		"@babel/core": "^7",
+		"@offirmo/practical-logger-browser": "^0.0.1",
+		"@offirmo/view-css": "^0.0.1",
 		"cross-env": "^5",
 		"npm-run-all": "^4",
 		"parcel-bundler": "^1"
@@ -16,7 +17,7 @@
 	"scripts": {
 		"clean": "node ../../scripts/clean.js dist cache",
 
-		"dev:parcel": "parcel --no-autoinstall --port 8080 --no-hmr src/**/*.html src/background/background.js src/content-scripts/*.js",
+		"dev:parcel": "parcel --no-autoinstall --port 8080 --no-hmr src/api/**/index.js src/**/*.html src/background/background.js src/content-scripts/*.js",
 		"dev:cpx": "cpx 'src/**/*.{json,png}' dist --watch --verbose",
 		"dev": "npm-run-all clean --parallel dev:parcel dev:cpx",
 

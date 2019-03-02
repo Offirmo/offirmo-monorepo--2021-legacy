@@ -1,4 +1,4 @@
-# hello-world-browser-extension
+# Universal web debug tool
 
 The simplest, most trivial browser extension, featuring:
 * content script (aka. injected)

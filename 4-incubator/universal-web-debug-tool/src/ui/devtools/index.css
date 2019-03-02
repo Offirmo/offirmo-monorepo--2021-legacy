@@ -5,6 +5,6 @@
 }
 
 body {
-	width: 400px;
-	padding: 0 10px 10px 10px;
+	max-width: unset;
 }
+

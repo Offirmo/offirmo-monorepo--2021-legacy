@@ -8,11 +8,11 @@ const ALL_LOG_LEVELS = Enum.keys(LogLevel)
 
 // level to a numerical value, for ordering and filtering
 const LEVEL_TO_INTEGER: { [k: string]: number } = {
-	[LogLevel.fatal]:   60,
-	[LogLevel.emerg]:   59,
+	[LogLevel.fatal]:   100,
+	[LogLevel.emerg]:   90,
 
-	[LogLevel.alert]:   52,
-	[LogLevel.crit]:    51,
+	[LogLevel.alert]:   80,
+	[LogLevel.crit]:    70,
 	[LogLevel.error]:   50,
 
 	[LogLevel.warning]: 40,
@@ -35,6 +35,7 @@ if (Object.keys(LEVEL_TO_INTEGER).length !== Enum.keys(LogLevel).length)
 
 
 // level to short, meaningful string to maybe be displayed on screen
+// TODO REVIEW the short string is longer!
 const LEVEL_TO_HUMAN: { [k: string]: string } = {
 	[LogLevel.fatal]:   'fatal',
 	[LogLevel.emerg]:   'emergency',

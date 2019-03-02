@@ -1,6 +1,8 @@
 import 'babel-polyfill'
 
-console.log(`🧩 [T=${+Date.now()}] Hello from devtools!`, {
+const LIB = '🧩 UWDT/devtools'
+
+console.log(`[${LIB}.${+Date.now()}]  Hello!`, {
 	panels: chrome.devtools.panels,
 })
 

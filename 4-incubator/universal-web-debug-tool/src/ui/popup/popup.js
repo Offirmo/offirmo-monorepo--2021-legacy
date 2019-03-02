@@ -1,5 +1,7 @@
 import 'babel-polyfill'
 
+const LIB = '🧩 UWDT/pop'
+
 console.log(`🧩 [T=${+Date.now()}] Hello from popup!`)
 
 async function get_current_tab() {
@@ -9,7 +11,7 @@ async function get_current_tab() {
 			resolve({
 				...current_tab,
 				url: new URL(current_tab.url),
-				index: undefined, // because dangerouns to use
+				index: undefined, // because dangerous to use
 			})
 		})
 	})
@@ -34,8 +36,8 @@ document.addEventListener('click', event => {
 					{
 						"type": "basic",
 						"iconUrl": chrome.extension.getURL("icons/icon_48x48.png"),
-						"title": "hello-world-browser-extension notification",
-						"message": "hello-world-browser-extension notif from background"
+						"title": "[Universal web debug tool] notification",
+						"message": "[Universal web debug tool] notif from background"
 					}
 				)
 				break

@@ -1,5 +1,5 @@
 //import 'babel-polyfill'
 
-console.log(`🧩 [T=${+Date.now()}] Hello from hello-world-browser-extension (content-scripts/idle)`)
+console.log(`[🧩 UWDT/cs--idle.${+Date.now()}] Hello!`)
 
-document.body.style.border = "5px solid red"
+//document.body.style.border = "5px solid red"
