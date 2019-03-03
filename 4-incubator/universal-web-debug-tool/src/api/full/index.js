@@ -2,12 +2,8 @@ import { createLogger } from '@offirmo/practical-logger-browser'
 
 console.log(`[🧩 UWDT/api/full.${+Date.now()}] Hello!`)
 
-export function install(shouldOverwrite = true) {
-	if (window._debug && !shouldOverwrite) return
-
-	console.log(`[🧩 UWDT/api/full.${+Date.now()}] injecting API...`)
-
-	const loggerCache = new Set()
+function create() {
+	const loggerCache = {}
 
 	function getLogLevel(id = 'root') {
 		return [ 1, 'silly' ]
@@ -22,16 +18,30 @@ export function install(shouldOverwrite = true) {
 	}
 
 	function addCommand() {
-		// nothing
+		// TODO
 	}
 
-	window._debug = {
+	return {
 		getLogLevel,
 		getLogger,
 		addCommand,
 	}
 }
 
-//export default install
+const instance = window._debug = (() => {
+	console.log(`[🧩 UWDT/api/full.${+Date.now()}] injecting _debug API...`)
 
-install()
+	return create()
+})()
+
+const {
+	getLogLevel,
+	getLogger,
+	addCommand,
+} = instance
+
+export {
+	getLogLevel,
+	getLogger,
+	addCommand,
+}
