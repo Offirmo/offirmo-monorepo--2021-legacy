@@ -9,7 +9,7 @@ import {
 
 import Loader from '../loader'
 
-const standardExperiment = createExperiment('KERBAL-723/advanced')
+const standardExperiment = createExperiment('go/advanced')
 	.withKillSwitch(() => true)
 	.withCohortPicker(() => Cohort['variation'])
 	.withRequirement({

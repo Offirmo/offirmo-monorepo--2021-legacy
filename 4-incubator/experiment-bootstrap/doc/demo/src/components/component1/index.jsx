@@ -4,7 +4,7 @@ import Loadable from 'react-loadable'
 import { createExperiment, Cohort } from '../../../../../src'
 import Loader from '../loader'
 
-const trivialExperiment = createExperiment('KERBAL-723/trivial')
+const trivialExperiment = createExperiment('go/trivial')
 	//.withKillSwitch(() => true)
 	.withCohortPicker(() => Cohort['variation'])
 
