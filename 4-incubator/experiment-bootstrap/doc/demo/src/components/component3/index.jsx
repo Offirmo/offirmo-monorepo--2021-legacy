@@ -25,6 +25,7 @@ const standardExperiment = createExperiment('go/advanced')
 			return isAdmin
 		},
 	})
+	.build()
 
 export class C extends Component {
 	render() {

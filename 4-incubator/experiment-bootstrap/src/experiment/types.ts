@@ -10,7 +10,6 @@ import {
 } from '../types'
 
 
-
 export const ExperimentStage = Enum(
 	'specifying',
 	'waiting_usage',
@@ -38,6 +37,7 @@ export interface ExperimentResolution<T> {
 }
 
 
+// TODO improve logger
 export interface Logger {
 	log: (...p: any[]) => void,
 	info: (...p: any[]) => void,
@@ -45,13 +45,16 @@ export interface Logger {
 	error: (...p: any[]) => void,
 }
 
-export interface ExperimentInternal<T> {
-	stepCount: number // to help debugging
-	stage: ExperimentStage
 
+export interface ExperimentInternal<T> {
+	stepCount: number // incremented at each change, to help debugging
 	meta: {
+		// TODO resolution timeout?
 		logger?: Logger,
 	}
+
+	stage: ExperimentStage
+
 	spec: ExperimentSpec<T>
 
 	resolution: ExperimentResolution<T>

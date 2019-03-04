@@ -21,6 +21,7 @@ const standardExperiment = createExperiment('go/standard')
 		resolver: () => (new Promise((resolve) => { setTimeout(() => resolve(true), 4000)})),
 		//resolver: () => (new Promise(() => {})), // XXX will never resolve
 	})
+	.build()
 
 export class C2 extends Component {
 	render() {

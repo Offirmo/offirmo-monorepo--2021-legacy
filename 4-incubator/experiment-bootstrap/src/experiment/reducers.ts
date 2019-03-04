@@ -4,6 +4,8 @@ import assert from 'tiny-invariant'
 import { Deferred } from '../utils/deferred'
 import { getProperty } from '../utils/get-property'
 import { getUTCTimestampMs } from '../utils/timestamp'
+import { create_error } from '../utils/create-error'
+
 import {
 	Cohort,
 	Requirement,
@@ -18,7 +20,6 @@ import {
 } from './types'
 
 import {
-	INELIGIBILITY_REASON_INCOMPLETE_SPEC, // TODO review
 	INELIGIBILITY_REASON_INTERNAL_ERROR,
 	INELIGIBILITY_REASON_KILL_SWITCHED,
 	INELIGIBILITY_REASON_COHORTED_OUT,
@@ -29,20 +30,75 @@ import {
 	getKey,
 	getLogger,
 	getErrorCount,
+	getWarningCount,
 	hasError,
 } from './selectors'
 
-// state reducers
-// reducers starting with "_" are internal, they don't increment "step"
+
+
+
+//////////// internal reducers ////////////
+// those don't increment "step"
+
+const MAX_ERRORS = 10 // to avoid large memory consumption
+function _reportError<T>(state: ExperimentInternal<T>, msg: string, details: Object = {}): ExperimentInternal<T> {
+	if (getLogger(state)) getLogger(state)!.error(`[${LIB}/${getKey(state)}]: Error: "${msg}"`, details)
+
+	if (getErrorCount(state) > MAX_ERRORS) return state
+
+	if (getErrorCount(state) === MAX_ERRORS) {
+		msg = '[too many errors, discarding…]'
+		details = {}
+	}
+
+	state.publicResult.feedback.push({
+		type: 'error',
+		msg,
+		details: {
+			...details,
+			step: state.stepCount
+		}
+	})
+
+	return state
+}
+
+
+const MAX_WARNINGS = 10 // to avoid large memory consumption
+function _reportWarning<T>(state: ExperimentInternal<T>, msg: string, details: Object = {}): ExperimentInternal<T> {
+	if (getLogger(state)) getLogger(state)!.warn(`[${LIB}/${getKey(state)}]: Warning: "${msg}"`, details)
+
+	if (getWarningCount(state) > MAX_WARNINGS) return state
+
+	if (getWarningCount(state) === MAX_WARNINGS) {
+		msg = '[too many warnings, discarding…]'
+		details = {}
+	}
+
+	state.publicResult.feedback.push({
+		type: 'warning',
+		msg,
+		details: {
+			...details,
+			step: state.stepCount
+		}
+	})
+
+	return state
+}
+
+
+//////////// Specification stage ////////////
+// we may throw here
 
 export function create<T>(key: string, { logger }: { logger?: ExperimentInternal<T>['meta']['logger']} = {}): ExperimentInternal<T> {
 	assert(key.startsWith && key.startsWith('go/'), `[${LIB}] invalid param: key should be a string and start with go/!`)
 
 	const state: ExperimentInternal<T> = {
-		stepCount: 0,
 		stage: ExperimentStage.specifying,
+		stepCount: 0,
 		meta: {
-			logger,
+			logger: logger || console,
 		},
 		spec: {
 			key,
@@ -79,7 +135,7 @@ export function create<T>(key: string, { logger }: { logger?: ExperimentInternal
 				if (state.publicResult.ineligibilityReasons.length)
 					details.ineligibilityReasons = state.publicResult.ineligibilityReasons
 
-				;((hasError(state) || state.publicResult.ineligibilityReasons.length)? logger.error : logger.info)(
+					;((hasError(state) || state.publicResult.ineligibilityReasons.length)? logger.error : logger.info)(
 					`[${LIB}/${getKey(state)}]: RESOLVED! to:`, cohort
 				)
 			})
@@ -88,38 +144,12 @@ export function create<T>(key: string, { logger }: { logger?: ExperimentInternal
 	return state
 }
 
-const MAX_ERR = 10 // to avoid large memory consumption
-function _reportError<T>(state: ExperimentInternal<T>, msg: string, details: Object = {}): ExperimentInternal<T> {
-	if (getLogger(state)) getLogger(state)!.error(`[${LIB}/${getKey(state)}]: Error: "${msg}"`, details)
-
-	if (getErrorCount(state) > MAX_ERR) return state
-
-	if (getErrorCount(state) === MAX_ERR) {
-		msg = '[too many errors, discarding…]'
-		details = {}
-	}
-
-	state.publicResult.feedback.push({
-		type: 'error',
-		msg,
-		details: {
-			...details,
-			step: state.stepCount
-		}
-	})
-
-	return state
-}
-
-
-// TODO warnings (if needed?)
-
 
 export function setKillSwitch<T>(state: ExperimentInternal<T>, isOn: ExperimentSpec<T>['isOn']): ExperimentInternal<T> {
 	if (getLogger(state)) getLogger(state)!.log(`[${LIB}/${getKey(state)}]: setKillSwitch(…)`, isOn)
 
-	assert(typeof isOn === 'function', `[${LIB}] invalid param: isOn!`)
 	assert(state.stage === ExperimentStage.specifying, `[${LIB}] Spec error: setting kill switch late!`)
+	assert(typeof isOn === 'function', `[${LIB}] invalid param: isOn!`)
 	assert(!state.spec.isOn, `[${LIB}] Spec error: duplicate kill switch!`)
 
 	state.stepCount++
@@ -132,8 +162,8 @@ export function setKillSwitch<T>(state: ExperimentInternal<T>, isOn: ExperimentS
 export function setCohortPicker<T>(state: ExperimentInternal<T>, cohortPicker: ExperimentSpec<T>['cohortPicker']): ExperimentInternal<T> {
 	if (getLogger(state)) getLogger(state)!.log(`[${LIB}/${getKey(state)}]: setCohortPicker(…)`, cohortPicker)
 
-	assert(typeof cohortPicker === 'function', `[${LIB}] invalid param: cohortPicker!`)
 	assert(state.stage === ExperimentStage.specifying, `[${LIB}] Spec error: setting cohort picker late!`)
+	assert(typeof cohortPicker === 'function', `[${LIB}] invalid param: cohortPicker!`)
 	assert(!state.spec.cohortPicker, `[${LIB}] Spec error: duplicate cohort picker!`)
 
 	state.stepCount++
@@ -146,8 +176,8 @@ export function setCohortPicker<T>(state: ExperimentInternal<T>, cohortPicker: E
 export function addRequirement<T>(state: ExperimentInternal<T>, r: Requirement<T>): ExperimentInternal<T> {
 	if (getLogger(state)) getLogger(state)!.log(`[${LIB}/${getKey(state)}]: addRequirement(…)`, r)
 
-	assert(r && typeof r.resolver === 'function', `[${LIB}] invalid param: requirement!`)
 	assert(state.stage === ExperimentStage.specifying, `[${LIB}] Spec error: setting a requirement late!`)
+	assert(r && typeof r.resolver === 'function', `[${LIB}] invalid param: requirement!`)
 	const { key, resolver }: Requirement<T> = r
 	assert(!state.spec.requirements[key], `[${LIB}] Spec error: duplicate requirement "${key}"!`)
 
@@ -162,11 +192,41 @@ export function addRequirement<T>(state: ExperimentInternal<T>, r: Requirement<T
 }
 
 
-export function setInfos<T>(state: ExperimentInternal<T>, infos: Partial<T>): ExperimentInternal<T> {
-	if (getLogger(state)) getLogger(state)!.log(`[${LIB}/${getKey(state)}]: setInfos(…)`, infos)
-	assert(state.stage !== ExperimentStage.resolved, `[${LIB}] Spec error: setting infos late!`)
+export function markSpecificationDone<T>(state: ExperimentInternal<T>): ExperimentInternal<T> {
+	assert(state.stage === ExperimentStage.specifying, `[${LIB}] Spec error: redundant specification end!`)
 
 	state.stepCount++
+	state.stage = ExperimentStage.waiting_usage
+
+	return state
+}
+
+
+//////////// later stages ////////////
+// TODO big try/catches around all reducers!
+
+export function setInfos<T>(state: ExperimentInternal<T>, infos: Partial<T>): ExperimentInternal<T> {
+	if (getLogger(state)) getLogger(state)!.log(`[${LIB}/${getKey(state)}]: setInfos(…)`, infos)
+
+	state.stepCount++
+
+	switch(state.stage) {
+		case ExperimentStage.specifying:
+			// user has forgotten to mark specifications as done.
+			state = _reportError(state, `Incorrect stage for calling setInfos()!`, {
+				stage: state.stage,
+			})
+			break
+		case ExperimentStage.waiting_usage:
+			break
+		case ExperimentStage.resolving:
+			break
+		case ExperimentStage.resolved:
+			// let it slide...
+			return _reportWarning(state, 'setInfos(): late re-attempt!', {step: state.stepCount})
+		default:
+			state = _reportError(state, 'setInfos(): internal error SI1!', {step: state.stepCount})
+	}
 
 	Object.keys(infos).forEach(untypedKey => {
 		const key: keyof T = untypedKey as any as keyof T
@@ -183,20 +243,34 @@ export function setInfos<T>(state: ExperimentInternal<T>, infos: Partial<T>): Ex
 		state.resolution.runtimeInfos[key] = value
 	})
 
-	state = initiateResolution(state)
+	if (state.stage === ExperimentStage.resolving) {
+		// those new infos may be expected, re-attempt to resolve
+		state = initiateResolution(state)
+	}
 
 	return state
 }
 
 
+// this function may be called many times, each time some info arrives.
 function _attemptResolution<T>(state: ExperimentInternal<T>, srcDebug: string): ExperimentInternal<T> {
 	if (getLogger(state)) getLogger(state)!.log(`[${LIB}/${getKey(state)}]: _attemptResolution(…) - due to: ${srcDebug}`)
 
-	if (state.stage === ExperimentStage.specifying)
-		throw new Error(`[${LIB}/${getKey(state)}] internal error: BPR1!`) // TODO review
-	if (state.stage === ExperimentStage.resolved) {
-		// ignore. May arrive when promises resolve late.
-		return state
+	switch(state.stage) {
+		case ExperimentStage.specifying:
+		case ExperimentStage.waiting_usage:
+			state = _reportError(state, '_attemptResolution(): AR1!', {step: state.stepCount})
+			state.stage = ExperimentStage.resolving // initiate early resolution to not-enrolled
+			break
+		case ExperimentStage.resolving:
+			break
+		case ExperimentStage.resolved:
+			// happens on late/duplicated requirements resolution
+			return state
+		default:
+			state = _reportError(state, '_attemptResolution(): AR2!', {step: state.stepCount})
+			state.stage = ExperimentStage.resolving // initiate early resolution to not-enrolled
+			break
 	}
 
 	let missingInfos = []
@@ -210,6 +284,9 @@ function _attemptResolution<T>(state: ExperimentInternal<T>, srcDebug: string): 
 	})
 
 	let isInfoMissing = missingInfos.length > 0
+
+	// note: we don't stop if some info are still missing,
+	// because existing infos may be enough to resolve the experiment: to not-enrolled
 
 	let ineligibilityReasons = []
 
@@ -259,13 +336,31 @@ export function initiateResolution<T>(state: ExperimentInternal<T>): ExperimentI
 
 	state.stepCount++
 
-	if (state.stage === ExperimentStage.resolved)
-		return _reportError(state, 'initiateResolution(): late re-attempt!', {step: state.stepCount})
+	switch(state.stage) {
+		case ExperimentStage.specifying:
+			state = _reportError(state, 'initiateResolution(): specification not complete!', {step: state.stepCount})
+			state.stage = ExperimentStage.resolving // initiate early resolution to not-enrolled
+			break
+		case ExperimentStage.waiting_usage:
+			state.stage = ExperimentStage.resolving
+			break
+		case ExperimentStage.resolving:
+			break
+		case ExperimentStage.resolved:
+			return _reportError(state, 'initiateResolution(): late re-attempt!', {step: state.stepCount})
+		default:
+			state = _reportError(state, 'initiateResolution(): internal error IR1!', {step: state.stepCount})
+			state.stage = ExperimentStage.resolving // initiate early resolution to not-enrolled
+			break
+	}
 
-	state.stage = ExperimentStage.resolving
+	// shortcut if we already have errors
+	if (hasError(state)) {
+		return _attemptResolution(state, 'initiate_spite')
+	}
 
-	// iterate on each resolution requirement
 	if (!state.resolution.startDateMs) {
+		if (DEBUG) console.log(`[${LIB}/${getKey(state)}]: initiating timeout…`)
 		state.resolution.startDateMs = getUTCTimestampMs()
 		setTimeout(() => {
 			if (state.stage === ExperimentStage.resolved) return // ok
@@ -275,17 +370,19 @@ export function initiateResolution<T>(state: ExperimentInternal<T>): ExperimentI
 		}, RESOLUTION_TIMEOUT_MS)
 	}
 
+	// iterate on each resolution requirement:
+
 	if (!state.resolution.isKillSwitchResolved) (() => {
 		if (!state.spec.isOn) {
-			// nothing to do
+			// nothing to do, default to true
 			state.resolution.isKillSwitchResolved = true
 			return
 		}
 
 		function onIsOnError(err: Error) {
-			if (err.message === ERROR_MSG_MISSING_INFOS) { // TODO improve detection?
-				// no problem.
-				if (DEBUG) console.log(`[${LIB}/${getKey(state)}]: kill switch reported it need more infos.`)
+			if (err.message === ERROR_MSG_MISSING_INFOS) {
+				// no problem. Will be re-triggered when setInfo() is called again.
+				if (DEBUG) console.log(`[${LIB}/${getKey(state)}]: kill switch reported it needs more infos.`)
 				return
 			}
 
@@ -293,16 +390,17 @@ export function initiateResolution<T>(state: ExperimentInternal<T>): ExperimentI
 		}
 
 		try {
+			if (DEBUG) console.log(`[${LIB}/${getKey(state)}]: initiating resolution of isOn…`)
 			Promise.resolve(state.spec.isOn(state.resolution.runtimeInfos))
 				.then(isOn => {
-					if (state.stage !== ExperimentStage.resolving) return // too late
-					if (state.resolution.isKillSwitchResolved) return // duplicate call
+					if (DEBUG) console.log(`[${LIB}/${getKey(state)}]: kill switch resolved to:`, isOn)
+					if (state.resolution.isKillSwitchResolved) return // duplicate resolution, possible on repeated setInfos() calls
+					if (state.stage !== ExperimentStage.resolving) return // too late, experiment already resolved to not-enrolled
 
-					if (typeof isOn !== 'boolean') throw new Error(`Incorrect value!`) // TODO pass as details
+					if (typeof isOn !== 'boolean') throw create_error(`Incorrect value!`, {value: isOn})
 
 					state.privateResult.isOn = isOn
 					state.resolution.isKillSwitchResolved = true
-					if (DEBUG) console.log(`[${LIB}/${getKey(state)}]: kill switch resolved to:`, isOn)
 				})
 				.catch(onIsOnError)
 				.finally(() => state = _attemptResolution(state, 'kill switch resolved'))
@@ -319,8 +417,8 @@ export function initiateResolution<T>(state: ExperimentInternal<T>): ExperimentI
 		}
 
 		function onCohortPickerError(err: Error) {
-			if (err.message === ERROR_MSG_MISSING_INFOS) { // TODO improve detection?
-				// no problem.
+			if (err.message === ERROR_MSG_MISSING_INFOS) {
+				// no problem. Will be re-triggered when setInfo() is called again.
 				if (DEBUG) console.log(`[${LIB}/${getKey(state)}]: cohort picker reported it need more infos.`)
 				return
 			}
@@ -329,16 +427,17 @@ export function initiateResolution<T>(state: ExperimentInternal<T>): ExperimentI
 		}
 
 		try {
+			if (DEBUG) console.log(`[${LIB}/${getKey(state)}]: initiating resolution of cohort…`)
 			Promise.resolve(state.spec.cohortPicker(state.resolution.runtimeInfos))
 				.then(initialCohort => {
-					if (state.stage !== ExperimentStage.resolving) return // too late
-					if (state.resolution.isInitialCohortResolved) return // duplicate call
+					if (DEBUG) console.log(`[${LIB}/${getKey(state)}]: cohort resolved to:`, initialCohort)
+					if (state.resolution.isInitialCohortResolved) return // duplicate resolution, possible on repeated setInfos() calls
+					if (state.stage !== ExperimentStage.resolving) return // too late, experiment already resolved to not-enrolled
 
-					if (!Enum.isType(Cohort, initialCohort)) throw new Error(`Incorrect value!`) // TODO pass as details
+					if (!Enum.isType(Cohort, initialCohort)) throw create_error(`Incorrect value!`, {value: initialCohort})
 
 					state.privateResult.initialCohort = initialCohort
 					state.resolution.isInitialCohortResolved = true
-					if (DEBUG) console.log(`[${LIB}/${getKey(state)}]: cohort resolved to:`, initialCohort)
 				})
 				.catch(onCohortPickerError)
 				.finally(() => state = _attemptResolution(state, 'cohort resolved'))
@@ -351,8 +450,8 @@ export function initiateResolution<T>(state: ExperimentInternal<T>): ExperimentI
 	Object.entries(state.spec.requirements).forEach(([key, resolver]) => {
 		if (!state.resolution.isRequirementResolved[key]) (() => {
 			function onRequirementError(err: Error) {
-				if (err.message === ERROR_MSG_MISSING_INFOS) { // TODO improve detection?
-					// no problem.
+				if (err.message === ERROR_MSG_MISSING_INFOS) {
+					// no problem. Will be re-triggered when setInfo() is called again.
 					if (DEBUG) console.log(`[${LIB}/${getKey(state)}]: requirement "${key}" reported it need more infos`)
 					return
 				}
@@ -361,16 +460,17 @@ export function initiateResolution<T>(state: ExperimentInternal<T>): ExperimentI
 			}
 
 			try {
+				if (DEBUG) console.log(`[${LIB}/${getKey(state)}]: initiating resolution of requirement "${key}"…`)
 				Promise.resolve(resolver(state.resolution.runtimeInfos))
 					.then(isReqOk => {
-						if (state.stage !== ExperimentStage.resolving) return // too late
-						if (state.resolution.isRequirementResolved[key]) return // duplicate call
+						if (DEBUG) console.log(`[${LIB}/${getKey(state)}]: requirement "${key}" resolved to:`, isReqOk)
+						if (state.resolution.isRequirementResolved[key]) return // duplicate resolution, possible on repeated setInfos() calls
+						if (state.stage !== ExperimentStage.resolving) return // too late, experiment already resolved to not-enrolled
 
-						if (typeof isReqOk !== 'boolean') throw new Error(`Incorrect value!`) // TODO pass as details
+						if (typeof isReqOk !== 'boolean') throw create_error(`Incorrect value!`, {value: isReqOk})
 
 						state.privateResult.requirements[key] = isReqOk
 						state.resolution.isRequirementResolved[key] = true
-						if (DEBUG) console.log(`[${LIB}/${getKey(state)}]: requirement "${key}" resolved to:`, isReqOk)
 					})
 					.catch(onRequirementError)
 					.finally(() => state = _attemptResolution(state, `requirement "${key}" resolved`))

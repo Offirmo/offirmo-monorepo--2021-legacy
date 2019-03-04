@@ -42,7 +42,6 @@
 		"bowser": "^1",
 		"npm-run-all": "^4",
 		"react-dom": "^16",
-		"react-loadable": "^5",
-		"tiny-invariant": "^1"
+		"react-loadable": "^5"
 	}
 }

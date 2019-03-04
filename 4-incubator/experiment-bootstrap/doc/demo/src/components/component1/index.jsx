@@ -7,6 +7,7 @@ import Loader from '../loader'
 const trivialExperiment = createExperiment('go/trivial')
 	//.withKillSwitch(() => true)
 	.withCohortPicker(() => Cohort['variation'])
+	.build()
 
 
 /*

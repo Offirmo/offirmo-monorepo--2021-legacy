@@ -7,6 +7,7 @@ import {
 	create,
 	setKillSwitch,
 	setCohortPicker,
+	markSpecificationDone,
 	addRequirement,
 	setInfos,
 	initiateResolution,
@@ -40,6 +41,12 @@ export function createExperiment<T>(key: string): Experiment<T> {
 			return experiment
 		},
 
+		build(): Experiment<T> {
+			state = markSpecificationDone(state)
+
+			return experiment
+		},
+
 		setInfos(infos: Partial<T>): Experiment<T> {
 			state = setInfos(state, infos)
 
@@ -47,7 +54,7 @@ export function createExperiment<T>(key: string): Experiment<T> {
 		},
 
 		createTouchpoint(key: string): Experiment<T> {
-			throw new Error(`[${LIB}/${getKey(state)}] NIMP`)
+			throw new Error(`[${LIB}/${getKey(state)}] NIMP!`) // TODO
 		},
 
 		resolve(): Promise<ResolvedExperiment> {

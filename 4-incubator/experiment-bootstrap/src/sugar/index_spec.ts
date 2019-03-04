@@ -107,7 +107,7 @@ function assert_not_enrolled_shape(result: Readonly<any>) {
 	expect(result.shouldRun).to.equal(false)
 	expect(result.feedback).to.have.lengthOf(1)
 
-	// TODO
+	// TODO more tests
 }
 
 function assert_enrolled_shape(result: Readonly<any>) {
@@ -142,7 +142,7 @@ describe(`${LIB} - sugar API`, function() {
 				context(`…${type} behaving as: ${behavior}`, function () {
 
 					it(`should ${behavior.startsWith('good_') ? 'work': 'default to not-enrolled'}`, async function () {
-						const experiment = createExperiment(`${type}/${behavior}`)
+						const experiment = createExperiment(`go/${type}/${behavior}`)
 							.withKillSwitch(
 								get_implementation(
 									ParamType.kill_switch,
@@ -168,6 +168,7 @@ describe(`${LIB} - sugar API`, function() {
 										: TestParamBehavior.good_returns_synchronously
 								)
 							})
+							.build()
 
 						const p = experiment.resolve()
 							.then(result => {
@@ -219,8 +220,9 @@ describe(`${LIB} - sugar API`, function() {
 
 			context('on a trivial experiment', function () {
 				it('should always work', () => {
-					const experiment = createExperiment('FOO-123/trivial')
+					const experiment = createExperiment('go/test')
 						.withCohortPicker(() => Cohort['variation'])
+						.build()
 
 					return experiment.resolve()
 						.then(assert_react_API_shape)
@@ -229,8 +231,9 @@ describe(`${LIB} - sugar API`, function() {
 
 			context('on an incorrect experiment - cohort picker throwing', function () {
 				it('should always work', () => {
-					const experiment = createExperiment('FOO-123/trivial')
+					const experiment = createExperiment('go/test')
 						.withCohortPicker(() => { throw new Error('foo!') })
+						.build()
 
 					return experiment.resolve()
 						.then(assert_react_API_shape)
@@ -242,8 +245,9 @@ describe(`${LIB} - sugar API`, function() {
 
 			context('on an unresolved experiment', function () {
 				it('should throw', () => {
-					const experiment = createExperiment('FOO-123/trivial')
+					const experiment = createExperiment('go/test')
 						.withCohortPicker(() => Cohort['variation'])
+						.build()
 
 					expect(experiment.resolveSync).to.throw('not resolved yet!')
 				})
@@ -251,8 +255,9 @@ describe(`${LIB} - sugar API`, function() {
 
 			context('on a resolved experiment', function () {
 				it('should work', () => {
-					const experiment = createExperiment('FOO-123/trivial')
+					const experiment = createExperiment('go/test')
 						.withCohortPicker(() => Cohort['variation'])
+						.build()
 
 					return experiment.resolve()
 						.then(() => {
@@ -265,8 +270,9 @@ describe(`${LIB} - sugar API`, function() {
 		describe('trivial experiment', function () {
 
 			it('should work', () => {
-				const experiment = createExperiment('FOO-123/trivial')
+				const experiment = createExperiment('go/test')
 					.withCohortPicker(() => Cohort['variation'])
+					.build()
 
 				return experiment.resolve()
 			})

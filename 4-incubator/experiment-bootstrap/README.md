@@ -1,9 +1,9 @@
 
 
 
-TODO obvious error = invariant
 TODO debug = dynamic
-TODO emittery
+TODO emittery?
+TODO remove all TODOs
 
 
 using https://github.com/jamiebuilds/react-loadable for demo
