@@ -1,5 +1,5 @@
 
-interface XError {
+interface XError extends Error {
 	name: string
 	message: string
 
