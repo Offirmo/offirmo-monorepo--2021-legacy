@@ -1,134 +1,186 @@
-import { Enum } from 'typescript-string-enums'
-
-import { get_human_readable_UTC_timestamp_ms_v1 } from '@offirmo/timestamps'
-
 import {
 	LogLevel,
-	InternalLoggerState,
+	BaseInternalLoggerState,
 	Logger,
-	LogParams,
-	Details,
-	Payload,
-	OutputFn,
-} from './types'
+	LoggerCreationParams,
+	LogDetails,
+	LogPayload,
+	LogPrimitive,
+} from '@offirmo/practical-logger-types'
 
 import {
 	LIB,
 	ALL_LOG_LEVELS,
 	LEVEL_TO_INTEGER,
-} from './const'
+	DEFAULT_LOG_LEVEL,
+} from './consts'
 
-declare const console: any
 
-function checkLevel(level: LogLevel) {
-	if (!Enum.isType(LogLevel, level))
-		throw new Error(`${LIB}: checkLevel(): Not a valid log level: "${level}"!`)
+export function checkLevel(level: LogLevel) {
+	if (!ALL_LOG_LEVELS.includes(level))
+		throw new Error(`[${LIB}] Not a valid log level: "${level}"!`)
 }
 
-interface CreateParams extends LogParams {
-	outputFn?: OutputFn,
+export function looksLikeAnError(x: any): boolean {
+	return !!(x.name && x.message && x.stack)
 }
 
-function createLogger({
-	name,
-	level = LogLevel.info,
-	details = {},
-	outputFn = console.log,
-}: CreateParams): Logger {
+// harmonize
+// also try to recover from some common errors
+// TODO assess whether it's really good to be that permissive (also: hurts perfs)
+export function normalizePrimitiveArguments(args: IArguments): [ string, LogDetails ] {
+	//console.log('>>> NPA', args)
 
-	if (!name)
-		throw new Error(`${LIB}.${createLogger.name}(): you must provide a name!`)
+	let message: string = ''
+	let details: LogDetails = {}
+	let err: Error | undefined = undefined
 
-	const internalState: InternalLoggerState = {
-		name,
-		level,
-		details: {...details},
-		outputFn: outputFn,
+	if (args.length > 2) {
+		//console.warn('NPA1', args)
+		// wrong invocation,
+		// most likely a "console.log" style invocation from an untyped codebase.
+		// "best effort" fallback:
+		message = Array.prototype.join.call(args, ' ')
+		details = {}
 	}
-	let level_int = 0
+	else {
+		message = args[0] || ''
+		details = args[1] || {}
 
-	const logger: Logger = ALL_LOG_LEVELS.reduce((logger: any, level: LogLevel) => {
-		logger[level] = (message?: string, details?: Details) => {
-			if (!isLevelEnabled(level)) return
-
-			if (!details && typeof message === 'object') {
-				details = (message as Details)
-				message = details.err
-					? details.err.message
-					: ''
+		if (typeof message !== 'string') {
+			//console.warn('NPA2', { message })
+			if (looksLikeAnError(message)) {
+				//console.warn('NPA2b')
+				// Another bad invocation
+				// "best effort" fallback:
+				err = message as Error
+				message = err.message
 			}
-			message = message || ''
-			outputFn(serializer(level, message as string, details as Details))
+			else if (typeof message === 'object' && !details) {
+				//console.warn('NPA2c')
+				details = message as LogDetails
+				message = ''
+			}
+			else {
+				message = String(message)
+			}
 		}
-		return logger
-	}, {
-		_: internalState,
-		isLevelEnabled,
-		setLevel,
-		getLevel,
-		addDetails,
-		//child,
-	}) as Logger
+
+		if (typeof details !== 'object') {
+			//console.warn('NPA3', { details })
+			// Another bad invocation
+			// "best effort" fallback:
+			message = [ message, String(details) ].join(' ')
+			details = {}
+		}
+
+		err = err || details.err
+		if (!err && looksLikeAnError(details)) {
+			// details is in fact an error, extract it
+			err = details as Error
+			details = { err }
+		}
+
+		if (err) {
+			err = {
+				// make sure we preserve fields, Error is a special object
+				...err,
+				name: err.name,
+				message: err.message,
+			}
+		}
+
+		details = {
+			...details,
+			err,
+		}
+
+		message = message || details.message || (details.err && details.err.message) || ''
+	}
+
+	return [ message, details ]
+}
+
+export function create({
+	name = '',
+	suggestedLevel = DEFAULT_LOG_LEVEL,
+	commonDetails = {},
+}: LoggerCreationParams): Logger {
+
+	const internalState: BaseInternalLoggerState = {
+		name,
+		level: suggestedLevel, // so far
+		commonDetails: {...commonDetails},
+		outputFn: console.log,
+	}
+
+	let levelAsInt = 100 // so far
+
+	const logger: Logger = ALL_LOG_LEVELS.reduce(
+		(logger: any, level: LogLevel) => {
+			const primitive: LogPrimitive = function (rawMessage?: string, rawDdetails?: LogDetails) {
+				if (!isLevelEnabled(level)) return
+
+				const [ message, details ] = normalizePrimitiveArguments(arguments)
+
+				internalState.outputFn(serializer(level, message, details))
+			}
+
+			logger[level] = primitive
+
+			return logger
+		},
+		{
+			setLevel,
+			getLevel,
+			addCommonDetails,
+		},
+	) as Logger
 
 	function setLevel(level: LogLevel) {
 		checkLevel(level)
 
 		internalState.level = level
-		level_int = LEVEL_TO_INTEGER[level]
+		levelAsInt = LEVEL_TO_INTEGER[level]
 	}
-	setLevel(level)
+	setLevel(suggestedLevel)
 
 	function isLevelEnabled(level: LogLevel) {
 		checkLevel(level)
 
-		return LEVEL_TO_INTEGER[level] >= level_int
+		return LEVEL_TO_INTEGER[level] <= levelAsInt
 	}
 
 	function getLevel() {
 		return internalState.level
 	}
 
-	function addDetails(details: Details): void {
-		internalState.details = {
-			...internalState.details,
+	function addCommonDetails(details: Readonly<LogDetails>): void {
+		if (details.err)
+			throw new Error(`[${LIB}] Can't set reserved property "err"!`)
+
+		internalState.commonDetails = {
+			...internalState.commonDetails,
 			...details,
 		}
 	}
 
-	// TODO child
-	/*
-	function child({name, level, details}: Partial<LogParams>): Logger {
-		return createChildLogger({
-			parent: logger,
-			name,
+	function serializer(level: LogLevel, msg: string, { err, ...details }: Readonly<LogDetails>): LogPayload {
+		const payload: LogPayload = {
 			level,
-			details,
-		})
-	}
-	*/
-
-	function serializer(level: LogLevel, msg: string, details: Readonly<Details>): Payload {
-		const payload: Payload = {
+			name,
+			msg,
+			time: +(new Date()), // UTC timestamp
 			details: {
-				...internalState.details,
+				...internalState.commonDetails,
 				...details,
 			},
-			level,
-			name,
-			time: get_human_readable_UTC_timestamp_ms_v1(),
-			//time: (new Date()).toISOString(),
-			msg,
 		}
+		if (err)
+			payload.err = err
 
 		return payload
 	}
 
 	return logger
-}
-
-
-
-export {
-	CreateParams,
-	createLogger,
 }

@@ -33,7 +33,7 @@ export interface LogPayload {
 	level: LogLevel
 	name: string
 	msg: string
-	time: string
+	time: number // UTC timestamp
 	err?: Error
 	details: LogDetails
 }
@@ -44,12 +44,10 @@ export interface BaseInternalLoggerState {
 	name: string
 	level: LogLevel // inclusive lower bound
 	commonDetails: LogDetails
-	outputFns: LogInternalPrimitive[]
+	outputFn: LogInternalPrimitive
 }
 
-export interface Logger<T extends BaseInternalLoggerState> {
-	_: T
-
+export interface Logger {
 	setLevel: (level: LogLevel) => void
 	getLevel: () => LogLevel
 
