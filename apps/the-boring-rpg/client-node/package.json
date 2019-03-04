@@ -24,7 +24,6 @@
 		"bin": "bin/index.js"
 	},
 	"devDependencies": {
-		"@offirmo/loggers-types-and-stubs": "^0.2",
 		"@offirmo/marketing-rsrc": "^0.0.1",
 		"@offirmo/practical-logger-node": "^0.0.1",
 		"@offirmo/prettify-json": "^0.0.1",
