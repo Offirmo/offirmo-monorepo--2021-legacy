@@ -5,7 +5,7 @@ const LIB = '@offirmo/practical-logger-core'
 // level to a numerical value, for ordering and filtering.
 // mnemonic:  100 = 100% = you will see 100% of the logs
 //              1 =   1% = you will see 1% of the logs (obviously the most important)
-const LEVEL_TO_INTEGER: { [k: string]: number } = {
+const LEVEL_TO_INTEGER: Readonly<{ [k: string]: number }> = {
 	fatal:    1,
 	emerg:    2,
 
@@ -30,7 +30,7 @@ const LEVEL_TO_INTEGER: { [k: string]: number } = {
 }
 
 // rationalization to a clear, human understandable string
-const LEVEL_TO_HUMAN: { [k: string]: string } = {
+const LEVEL_TO_HUMAN: Readonly<{ [k: string]: string }> = {
 	fatal:   'fatal',
 	emerg:   'emergency',
 
@@ -53,10 +53,15 @@ const LEVEL_TO_HUMAN: { [k: string]: string } = {
 
 	silly:   'silly',
 }
-if (Object.keys(LEVEL_TO_HUMAN).sort().join(',') !== Object.keys(LEVEL_TO_INTEGER).sort().join(','))
+if (Object.keys(LEVEL_TO_HUMAN).sort().join(',') !== Object.keys(LEVEL_TO_INTEGER).sort().join(',')) {
+	// TODO move to unit tests
 	throw new Error('practical-logger-core: needs an update!')
+}
 
-const ALL_LOG_LEVELS: LogLevel[] = Object.keys(LEVEL_TO_INTEGER) as LogLevel[]
+const ALL_LOG_LEVELS: Readonly<LogLevel[]> =
+	Object.keys(LEVEL_TO_INTEGER)
+	.map(s => s as LogLevel)
+	.sort((a: LogLevel, b: LogLevel) => LEVEL_TO_INTEGER[a] - LEVEL_TO_INTEGER[b])
 
 const DEFAULT_LOG_LEVEL: LogLevel = 'info'
 

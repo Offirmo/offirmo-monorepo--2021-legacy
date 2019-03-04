@@ -14,6 +14,7 @@ import {
 	LEVEL_TO_INTEGER,
 	DEFAULT_LOG_LEVEL,
 } from './consts'
+import {LogSink} from "@offirmo/practical-logger-types/src";
 
 
 export function checkLevel(level: LogLevel) {
@@ -101,17 +102,20 @@ export function normalizePrimitiveArguments(args: IArguments): [ string, LogDeta
 	return [ message, details ]
 }
 
-export function create({
-	name = '',
-	suggestedLevel = DEFAULT_LOG_LEVEL,
-	commonDetails = {},
-}: LoggerCreationParams): Logger {
+export function create(
+	{
+		name = '',
+		suggestedLevel = DEFAULT_LOG_LEVEL,
+		commonDetails = {},
+	}: LoggerCreationParams,
+	outputFn: LogSink = console.log,
+): Logger {
 
 	const internalState: BaseInternalLoggerState = {
 		name,
 		level: suggestedLevel, // so far
 		commonDetails: {...commonDetails},
-		outputFn: console.log,
+		outputFn,
 	}
 
 	let levelAsInt = 100 // so far

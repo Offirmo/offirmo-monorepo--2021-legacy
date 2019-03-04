@@ -1,14 +1,14 @@
-#!/bin/sh
-':' //# http://sambal.org/?p=1014 ; exec `dirname $0`/../../../../node_modules/.bin/babel-node "$0" "$@"
-'use strict'
-
+import { createLogger } from '../../src'
 const { ALL_LOG_LEVELS } = require('@offirmo/practical-logger-core')
-const { createLogger } = require('..')
+
+console.log('starting...')
 
 const logger = createLogger({
 	name: 'FOO',
 	suggestedLevel: 'silly',
 })
+
+logger.log('hello')
 
 const err = new Error('Some Error!')
 err.httpStatus = 418 // to check that custom props are preserved
@@ -29,7 +29,7 @@ logger.error(undefined, err)
 // all levels
 console.log('------------')
 ALL_LOG_LEVELS.forEach(level =>
-	logger[level](`test msg with level "${level}"`)
+	logger[level](`msg with level "${level}"`)
 )
 
 // incorrect - bunyan

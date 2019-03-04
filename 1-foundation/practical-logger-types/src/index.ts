@@ -38,13 +38,13 @@ export interface LogPayload {
 	details: LogDetails
 }
 
-export type LogInternalPrimitive = (payload: LogPayload) => void
+export type LogSink = (payload: LogPayload) => void
 
 export interface BaseInternalLoggerState {
 	name: string
 	level: LogLevel // inclusive lower bound
 	commonDetails: LogDetails
-	outputFn: LogInternalPrimitive
+	outputFn: LogSink
 }
 
 export interface Logger {

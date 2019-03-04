@@ -1,8 +1,4 @@
-#!/bin/sh
-':' //# http://sambal.org/?p=1014 ; exec `dirname $0`/../../../../node_modules/.bin/babel-node "$0" "$@"
-'use strict'
 
-const { ALL_LOG_LEVELS } = require('@offirmo/practical-logger-core')
 const { createLogger } = require('..')
 
 const logger = createLogger({
@@ -25,12 +21,6 @@ console.log('------------')
 logger.log('hello')
 logger.log('Bob created', { user: bob })
 logger.error(undefined, err)
-
-// all levels
-console.log('------------')
-ALL_LOG_LEVELS.forEach(level =>
-	logger[level](`test msg with level "${level}"`)
-)
 
 // incorrect - bunyan
 console.log('------------')

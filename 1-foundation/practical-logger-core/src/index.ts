@@ -1,7 +1,7 @@
 import {
 	LogLevel,
-	Logger,
 	LogDetails,
+	Logger,
 } from '@offirmo/practical-logger-types'
 
 import {
@@ -14,10 +14,11 @@ import {
 	create as createLogger
 } from './core'
 
+// export what's needed to create a final logger
 export {
-	LogLevel,
+	//LogLevel,
+	//LogDetails,
 	Logger,
-	LogDetails,
 
 	createLogger,
 

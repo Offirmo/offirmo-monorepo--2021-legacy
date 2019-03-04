@@ -36,3 +36,38 @@ Techniques
 Inspiration:
 - https://github.com/ianstormtaylor/browser-logger
 
+
+TODO experiment fonts
+```css
+
+:host-context(.platform-mac) .monospace,
+:host-context(.platform-mac) .source-code,
+.platform-mac .monospace,
+.platform-mac .source-code {
+    font-size: 11px !important;
+    font-family: Menlo, monospace;
+}
+
+:host-context(.platform-windows) .monospace,
+:host-context(.platform-windows) .source-code,
+.platform-windows .monospace,
+.platform-windows .source-code {
+    font-size: 12px !important;
+    font-family: Consolas, Lucida Console, Courier New, monospace;
+}
+
+:host-context(.platform-linux) .monospace,
+:host-context(.platform-linux) .source-code,
+.platform-linux .monospace,
+.platform-linux .source-code {
+    font-size: 11px !important;
+    font-family: dejavu sans mono, monospace;
+}
+
+.source-code {
+    font-family: monospace;
+    font-size: 11px !important;
+    white-space: pre-wrap;
+}
+
+```
