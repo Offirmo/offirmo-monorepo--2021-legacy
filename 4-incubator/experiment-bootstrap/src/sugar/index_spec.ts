@@ -6,7 +6,6 @@ import { LIB } from '../consts'
 
 import { createExperiment } from '.'
 import {Cohort, Requirement, ResolvedExperiment} from "../types";
-import {ExperimentSpec} from "../experiment";
 
 
 // tslint:disable-next-line: variable-name
