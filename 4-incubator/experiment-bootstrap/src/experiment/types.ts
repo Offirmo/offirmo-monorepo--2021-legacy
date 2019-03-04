@@ -13,7 +13,7 @@ import {
 
 export const ExperimentStage = Enum(
 	'specifying',
-	'specified',
+	'waiting_usage',
 	'resolving',
 	'resolved',
 )

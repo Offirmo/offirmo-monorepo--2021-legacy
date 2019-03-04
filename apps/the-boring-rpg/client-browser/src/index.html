@@ -22,6 +22,25 @@
 		<style type="text/css">
 			/* super early styles while the page is loading */
 
+			.blinking{
+				animation:blinkingText 1.2s infinite;
+			}
+
+			@keyframes blinkingText{
+				0%{     color: inherit;    }
+				33%{    color: transparent; }
+			}
+
+			html {
+				--o⋄color__co212__brown:   rgb(84, 61, 70);
+				--o⋄color__co212__beige:   rgb(255, 235, 188);
+				--o⋄font-family--fast_and_good_enough: -apple-system, BlinkMacSystemFont, "avenir next", avenir, "Segoe UI", "lucida grande", "helvetica neue", helvetica, "Fira Sans", roboto, noto, "Droid Sans", cantarell, oxygen, ubuntu, "franklin gothic medium", "century gothic", "Liberation Sans", sans-serif;
+
+				background-color: var(--o⋄color__co212__brown);
+				color: var(--o⋄color__co212__beige);
+				font-family: var(--o⋄font-family--fast_and_good_enough);
+			}
+
 			#group-chat-container {
 				/* note: minimal needed at load, overriden later */
 				position: fixed;
@@ -37,7 +56,10 @@
 	<body class="o⋄top-container o⋄body⁚full-page omr⋄font⁚pixantiqua" data-o-theme="lod--colorhunt212">
 		<noscript>You need to enable JavaScript to run this app.</noscript>
 
-		<div id="root" class="o⋄top-container"></div>
+		<div id="root" class="o⋄top-container">
+			<h1>The Boring RPG, reloaded</h1>
+			<h2 class="blinking">Loading<span class="blinking">...</span></h2>
+		</div>
 
 		<!-- group chat, outside of react control for DOM stability -->
 		<div id="group-chat-container" class="o⋄top-container">

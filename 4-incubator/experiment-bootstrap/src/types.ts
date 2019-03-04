@@ -11,9 +11,11 @@ const Cohort = Enum(
 )
 type Cohort = Enum<typeof Cohort> // eslint-disable-line no-redeclare
 
+type RequirementResolver<T> = (params: Partial<T>) => boolean | Promise<boolean>
+
 interface Requirement<T> {
 	key: string
-	resolver: (params: Partial<T>) => boolean | Promise<boolean>
+	resolver: RequirementResolver<T>
 }
 
 interface Feedback {
@@ -23,7 +25,6 @@ interface Feedback {
 }
 
 interface ResolvedExperiment {
-
 	// react interface
 	cohort: Cohort
 	isEligible: boolean
