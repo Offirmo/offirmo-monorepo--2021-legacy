@@ -5,7 +5,7 @@
 function get_shared_start(strs) {
 	if (strs.length <= 1) return ''
 
-	const A = strs.concat().sort()
+	const A = [...strs].sort()
 	const a1 = A[0]
 	const a2 = A[A.length - 1]
 	const L = a1.length

@@ -19,7 +19,7 @@ describe('@oh-my-rpg/definitions - item utilities', function() {
 				create_item_base(InventorySlot.weapon),
 			]
 			const [ w1, a1, a2, w2 ] = list
-			expect(list.sort(compare_items_by_slot)).to.deep.equal([
+			expect([...list].sort(compare_items_by_slot)).to.deep.equal([
 				w1,
 				w2,
 				a1,
@@ -40,7 +40,7 @@ describe('@oh-my-rpg/definitions - item utilities', function() {
 			]
 			const [ artifact, common, uncommon, legendary, rare, epic ] = list
 
-			expect(list.sort(compare_items_by_quality)).to.deep.equal([
+			expect([...list].sort(compare_items_by_quality)).to.deep.equal([
 				artifact,
 				legendary,
 				epic,

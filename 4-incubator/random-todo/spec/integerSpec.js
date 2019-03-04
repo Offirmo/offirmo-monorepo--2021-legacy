@@ -26,7 +26,7 @@
     }
 
     function sorted(array, comparer) {
-      return array.slice().sort(comparer || cmp);
+      return [...array].sort(comparer || cmp);
     }
 
     var primeCache = [2, 3];
