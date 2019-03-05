@@ -9,6 +9,10 @@ interface Experiment<T> {
 	withRequirement: (r: Requirement<T>) => Experiment<T>
 	build: () => Experiment<T> // TODO rename? endSpec()?
 
+	// callable any time
+	//onResolutionInitiated: (callback: () => void) => Experiment<T>,
+	onResolved: (callback: (result: ResolvedExperiment) => void) => Experiment<T>,
+
 	// callable only after spec phase
 	setInfos: (infos: Partial<T>) => Experiment<T>
 

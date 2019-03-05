@@ -32,7 +32,7 @@
 		"build:prod": "node ../../scripts/build-typescript.js",
 
 		"dev": "run-s clean build:dev:watch",
-		"xbuild": "run-s clean build:prod",
+		"build": "run-s clean build:prod",
 		"demo": "parcel doc/demo/index.html"
 	},
 

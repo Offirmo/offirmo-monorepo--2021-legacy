@@ -65,6 +65,12 @@ export function createExperiment<T>(key: string): Experiment<T> {
 		resolveSync(): ResolvedExperiment {
 			return getResultSync(state)
 		},
+
+		onResolved(callback: (result: ResolvedExperiment) => void): Experiment<T> {
+			state.deferredResult.then(callback)
+
+			return experiment
+		},
 	}
 
 	return experiment
