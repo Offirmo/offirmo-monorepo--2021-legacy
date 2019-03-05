@@ -26,7 +26,7 @@ interface AppState {
 describe(`${LIB}`, function() {
 	const logger = createLogger({
 		name: LIB,
-		level: 'info',
+		suggestedLevel: 'info',
 	})
 	let SEC = get_lib_SEC()
 

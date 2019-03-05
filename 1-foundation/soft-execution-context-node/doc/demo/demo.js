@@ -18,7 +18,7 @@ const APP = 'SEC_NODE_DEMO'
 
 const logger = createLogger({
 	name: APP,
-	level: 'silly',
+	suggestedLevel: 'silly',
 })
 
 logger.notice(`Hello from ${APP}...`)

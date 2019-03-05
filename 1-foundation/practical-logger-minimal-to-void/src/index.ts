@@ -1,32 +1,32 @@
-import { Logger } from '@offirmo/practical-logger-types'
+import { Logger } from '@offirmo/practical-logger-interface'
 
 
-const NOOP = () => {}
+const NO_OP = () => {}
 
-const VOID_LOGGER: Logger = {
-	setLevel: NOOP,
+const NO_OP_LOGGER: Logger = {
+	setLevel: NO_OP,
 	getLevel: () => 'silly',
 	
-	addCommonDetails: NOOP,
+	addCommonDetails: NO_OP,
 
-	fatal: NOOP,
-	emerg: NOOP,
-	alert: NOOP,
-	crit: NOOP,
-	error: NOOP,
-	warning: NOOP,
-	warn: NOOP,
-	notice: NOOP,
-	info: NOOP,
-	verbose: NOOP,
-	log: NOOP,
-	debug: NOOP,
-	trace: NOOP,
-	silly: NOOP,
+	fatal: NO_OP,
+	emerg: NO_OP,
+	alert: NO_OP,
+	crit: NO_OP,
+	error: NO_OP,
+	warning: NO_OP,
+	warn: NO_OP,
+	notice: NO_OP,
+	info: NO_OP,
+	verbose: NO_OP,
+	log: NO_OP,
+	debug: NO_OP,
+	trace: NO_OP,
+	silly: NO_OP,
 }
 
 export function createLogger(): Logger {
-	return VOID_LOGGER
+	return NO_OP_LOGGER
 }
 
 export {

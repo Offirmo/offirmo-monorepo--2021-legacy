@@ -1,4 +1,5 @@
 import { ImmutabilityEnforcer } from '@offirmo/ts-types'
+import { Logger } from '@offirmo/practical-logger-interface'
 import { PRODUCT } from './consts'
 
 /////////////////////
@@ -9,7 +10,7 @@ type SoftExecutionContext = any
 interface BaseContext {
 	SEC: SoftExecutionContext
 	ENV: string
-	logger: any
+	logger: Logger
 }
 
 /////////////////////

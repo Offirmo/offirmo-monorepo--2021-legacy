@@ -1,7 +1,7 @@
 import {
 	Logger,
 	LoggerCreationParams,
-} from '@offirmo/practical-logger-types'
+} from '@offirmo/practical-logger-interface'
 
 import {
 	createLogger as createLoggerCore,

@@ -8,7 +8,7 @@ import { VERSION, BUILD_DATE } from '../build'
 
 const logger = createLogger({
 	name: LIB,
-	level: 'silly',
+	suggestedLevel: 'silly',
 })
 
 

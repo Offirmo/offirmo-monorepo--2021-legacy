@@ -1,5 +1,5 @@
 {
-	"name": "@offirmo/practical-logger-types",
+	"name": "@offirmo/practical-logger-interface",
 	"description": "TypeScript types for a simple and practical logger (no code)",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
@@ -11,7 +11,6 @@
 	"typings": "dist/src.es7.cjs/index.d.ts",
 
 	"peerDependencies": {
-		"tslib": "^1"
 	},
 	"dependencies": {
 	},

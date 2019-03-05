@@ -15,8 +15,7 @@ const { APP } = require('../consts')
 
 const logger = createLogger({
 	name: APP,
-	level: 'silly',
-	//level: 'warn',
+	suggestedLevel: 'silly',
 })
 
 // test

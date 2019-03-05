@@ -9,7 +9,7 @@ const APP = 'SEC_DEMO_01'
 
 const logger = createLogger({
 	name: APP,
-	level: 'silly',
+	suggestedLevel: 'silly',
 })
 
 logger.log(`Hello from ${APP}...`)

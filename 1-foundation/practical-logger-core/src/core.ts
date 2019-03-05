@@ -6,7 +6,7 @@ import {
 	LogDetails,
 	LogPayload,
 	LogPrimitive,
-} from '@offirmo/practical-logger-types'
+} from '@offirmo/practical-logger-interface'
 
 import {
 	LIB,
@@ -14,7 +14,7 @@ import {
 	LEVEL_TO_INTEGER,
 	DEFAULT_LOG_LEVEL,
 } from './consts'
-import {LogSink} from "@offirmo/practical-logger-types/src";
+import {LogSink} from "@offirmo/practical-logger-interface/src";
 
 
 export function checkLevel(level: LogLevel) {

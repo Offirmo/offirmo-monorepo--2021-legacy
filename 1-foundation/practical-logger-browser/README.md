@@ -5,7 +5,7 @@ import { createLogger } from '@offirmo/practical-logger-browser'
 
 const logger = createLogger({
 	name: 'FOO',
-	level: 'silly',
+	suggestedLevel: 'silly', // optional
 })
 
 logger.log('hello')
@@ -71,3 +71,4 @@ TODO experiment fonts
 }
 
 ```
+,https://medium.com/@mattburgess/beyond-console-log-2400fdf4a9d8

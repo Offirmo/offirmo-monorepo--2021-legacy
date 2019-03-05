@@ -7,7 +7,7 @@ import {
 	LogLevel,
 	LogPayload,
 	LogSink,
-} from '@offirmo/practical-logger-types'
+} from '@offirmo/practical-logger-interface'
 
 
 const LEVEL_TO_CONSOLE_METHOD: Readonly<{ [k: string]: string }> = {

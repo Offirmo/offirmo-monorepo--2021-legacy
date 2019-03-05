@@ -2,7 +2,7 @@ import {
 	LogLevel,
 	LogDetails,
 	Logger,
-} from '@offirmo/practical-logger-types'
+} from '@offirmo/practical-logger-interface'
 
 import {
 	ALL_LOG_LEVELS,

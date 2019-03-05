@@ -14,7 +14,7 @@ const APP = 'SEC_BROWSER_DEMO'
 
 const logger = createLogger({
 	name: APP,
-	level: 'silly',
+	suggestedLevel: 'silly',
 })
 
 logger.notice(`Hello from ${APP}...`)

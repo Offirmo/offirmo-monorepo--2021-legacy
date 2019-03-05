@@ -13,7 +13,7 @@ function create() {
 	function getLogger(id = 'root') {
 		return createLogger({
 			name: id,
-			level: getLogLevel(id)[1],
+			suggestedLevel: getLogLevel(id)[1],
 		})
 	}
 

@@ -16,7 +16,7 @@ const APP = 'DEMO'
 
 const logger = createLogger({
 	name: APP,
-	level: 'silly',
+	suggestedLevel: 'silly',
 })
 
 const SEC = getRootSEC()
