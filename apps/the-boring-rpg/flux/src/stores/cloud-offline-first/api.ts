@@ -1,9 +1,3 @@
-import {
-	ORequest,
-	OResponse,
-	JSONRpcRequest,
-	JSONRpcResponse,
-} from '../../utils/o-rest'
 import fetch_json from '../../utils/fetch-json'
 
 let request_count = 0
@@ -25,6 +19,7 @@ interface HandShakeResponse {
 function create(url_root: string) {
 	const rpc_url = url_root + '/.netlify/functions/tbrpg-rpc/'
 
+	/*
 	function offirmo_request<Params, Result>(
 		url: string,
 		method: string,
@@ -67,7 +62,8 @@ function create(url_root: string) {
 				}
 			)
 	}
-
+*/
+	/*
 	function rpc<Params, Result>(
 		method: string,
 		params: Params,
@@ -114,7 +110,7 @@ function create(url_root: string) {
 
 	return {
 		handshake,
-	}
+	}*/
 }
 
 

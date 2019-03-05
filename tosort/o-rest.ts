@@ -1,27 +1,6 @@
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo/timestamps'
 
 ////////////////////////////////////
-// https://www.jsonrpc.org/specification
-
-interface JSONRpcRequest<T> {
-	jsonrpc: '2.0'
-	id: number | string
-	method: string
-	params: T
-}
-
-interface JSONRpcResponse<T> {
-	jsonrpc: '2.0'
-	id: number | string
-	error?: {
-		code: number
-		message: string
-		data?: any
-	}
-	result?: T
-}
-
-////////////////////////////////////
 // https://geemus.gitbooks.io/http-api-design/content/en/responses/
 
 interface ORequest<T> {
@@ -59,8 +38,6 @@ interface OResponse<T> {
 ////////////////////////////////////
 
 export {
-	JSONRpcRequest,
-	JSONRpcResponse,
 	ORequest,
 	OResponse,
 }

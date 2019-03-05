@@ -1,28 +1,9 @@
 import { Enum } from 'typescript-string-enums'
 
+import { JSONRpcRequest, JSONRpcResponse } from '@offirmo/json-rpc-types'
 import { TimestampUTCMs } from '@offirmo/timestamps'
 import { ActionType } from '@tbrpg/flux'
 
-/////////////////////
-// https://www.jsonrpc.org/specification
-
-interface JSONRpcRequest<T> {
-	jsonrpc: '2.0'
-	id: number | string
-	method: string
-	params: T // TODO maybe {}
-}
-
-interface JSONRpcResponse<T> {
-	jsonrpc: '2.0'
-	id: number | string
-	error?: {
-		code: number
-		message: string
-		data?: any // TODO maybe {}
-	}
-	result?: T // TODO maybe {}
-}
 ////////////////////////////////////
 
 const Method = Enum(
