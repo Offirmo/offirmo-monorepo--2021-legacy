@@ -1,0 +1,30 @@
+{
+	"name": "@offirmo/globalthis-ponyfill",
+	"description": "Ponyfill for globalThis",
+	"version": "0.0.1",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"private": true,
+	"license": "Unlicense",
+
+	"main": "dist/src.es7.cjs/index.js",
+	"source": "src/index.js",
+	"jsnext:main": "src/index.js",
+
+	"peerDependencies": {
+	},
+	"dependencies": {
+	},
+
+	"devDependencies": {
+		"npm-run-all": "^4"
+	},
+	"scripts": {
+		"clean": "node ../../scripts/clean.js dist",
+
+		"build:dev:watch": "node ../../scripts/build-typescript.js --watch",
+		"build:prod": "node ../../scripts/build-typescript.js",
+
+		"dev": "run-s clean build:dev:watch",
+		"build": "run-s clean build:prod"
+	}
+}
