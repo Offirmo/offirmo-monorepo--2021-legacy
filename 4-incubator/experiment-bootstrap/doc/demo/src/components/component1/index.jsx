@@ -34,7 +34,7 @@ const fundleTouchpoint = fundleExperiment.declareTouchpoint({
 
 export class C1 extends Component {
 	render() {
-		const { cohort } = trivialExperiment.resolveSync()
+		const { cohort } = trivialExperiment.getResultSync()
 
 		const copy = (cohort === 'variation')
 			? 'Some better info'

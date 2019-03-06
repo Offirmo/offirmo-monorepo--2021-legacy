@@ -29,7 +29,7 @@ const standardExperiment = createExperiment('go/advanced')
 
 export class C extends Component {
 	render() {
-		const { cohort } = standardExperiment.resolveSync()
+		const { cohort } = standardExperiment.getResultSync()
 
 		const copy = (cohort === 'variation')
 			? 'Some better info'

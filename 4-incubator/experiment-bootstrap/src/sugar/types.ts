@@ -22,7 +22,7 @@ interface Experiment<T> {
 	createTouchpoint: (key: string) => Experiment<T>
 
 	resolve: () => Promise<ResolvedExperiment>
-	resolveSync: () => ResolvedExperiment // TODO rename? getResolvedSync()?
+	getResultSync: () => ResolvedExperiment
 }
 
 export {

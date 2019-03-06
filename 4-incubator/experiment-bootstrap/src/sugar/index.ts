@@ -63,7 +63,7 @@ export function createExperiment<T>(key: string): Experiment<T> {
 			return getPromisedResult(state)
 		},
 
-		resolveSync(): ResolvedExperiment {
+		getResultSync(): ResolvedExperiment {
 			return getResultSync(state)
 		},
 

@@ -1,15 +1,16 @@
 import assert from 'tiny-invariant'
+import { Logger } from '@offirmo/universal-debug-api-minimal-to-void'
 
 import { LIB } from '../consts'
 import { ResolvedExperiment } from '../types'
-import { ExperimentStage, ExperimentInternal, Logger } from './types'
+import { ExperimentStage, ExperimentInternal } from './types'
 
 
 export function getKey<T>(state: ExperimentInternal<T>): string {
 	return state.spec.key
 }
 
-export function getLogger<T>(state: ExperimentInternal<T>): Logger | undefined {
+export function getLogger<T>(state: ExperimentInternal<T>): Logger {
 	return state.meta.logger
 }
 

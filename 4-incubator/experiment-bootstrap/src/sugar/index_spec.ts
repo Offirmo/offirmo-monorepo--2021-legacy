@@ -240,7 +240,7 @@ describe(`${LIB} - sugar API`, function() {
 			})
 		})
 
-		describe('resolveSync()', function () {
+		describe('getResultSync()', function () {
 
 			context('on an unresolved experiment', function () {
 				it('should throw', () => {
@@ -248,7 +248,7 @@ describe(`${LIB} - sugar API`, function() {
 						.withCohortPicker(() => Cohort['variation'])
 						.build()
 
-					expect(experiment.resolveSync).to.throw('not resolved yet!')
+					expect(experiment.getResultSync).to.throw('not resolved yet!')
 				})
 			})
 
@@ -260,7 +260,7 @@ describe(`${LIB} - sugar API`, function() {
 
 					return experiment.resolve()
 						.then(() => {
-							assert_react_API_shape(experiment.resolveSync())
+							assert_react_API_shape(experiment.getResultSync())
 						})
 				})
 			})

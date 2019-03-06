@@ -1,4 +1,5 @@
 import { Enum } from 'typescript-string-enums'
+import { Logger } from '@offirmo/universal-debug-api-minimal-to-void'
 
 import { Deferred } from '../utils/deferred'
 import { TimestampUTCMs } from '../utils/timestamp'
@@ -38,20 +39,11 @@ export interface ExperimentResolution<T> {
 }
 
 
-// TODO improve logger
-export interface Logger {
-	log: (...p: any[]) => void,
-	info: (...p: any[]) => void,
-	warn: (...p: any[]) => void,
-	error: (...p: any[]) => void,
-}
-
-
 export interface ExperimentInternal<T> {
 	stepCount: number // incremented at each change, to help debugging
 	meta: {
-		// TODO resolution timeout?
-		logger?: Logger,
+		// TODO configurable resolution timeout?
+		logger: Logger,
 	}
 
 	stage: ExperimentStage

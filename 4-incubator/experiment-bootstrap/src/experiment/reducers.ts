@@ -1,5 +1,6 @@
 import { Enum } from 'typescript-string-enums'
 import assert from 'tiny-invariant'
+import { getLogger as getLoggerFromAbove } from '@offirmo/universal-debug-api-minimal-to-void'
 
 import { Deferred } from '../utils/deferred'
 import { getProperty } from '../utils/get-property'
@@ -11,6 +12,7 @@ import {
 	Requirement,
 	ResolvedExperiment,
 } from "../types";
+
 import { LIB, DEBUG } from '../consts'
 
 import {
@@ -40,7 +42,7 @@ import {
 
 const MAX_ERRORS = 10 // to avoid large memory consumption
 function _reportError<T>(state: ExperimentInternal<T>, msg: string, details: Object = {}): ExperimentInternal<T> {
-	if (getLogger(state)) getLogger(state)!.error(`[${LIB}/${getKey(state)}]: Error: "${msg}"`, details)
+	getLogger(state).error(`[${getKey(state)}]: Error: "${msg}"`, details)
 
 	if (getErrorCount(state) > MAX_ERRORS) return state
 
@@ -64,7 +66,7 @@ function _reportError<T>(state: ExperimentInternal<T>, msg: string, details: Obj
 
 const MAX_WARNINGS = 10 // to avoid large memory consumption
 function _reportWarning<T>(state: ExperimentInternal<T>, msg: string, details: Object = {}): ExperimentInternal<T> {
-	if (getLogger(state)) getLogger(state)!.warn(`[${LIB}/${getKey(state)}]: Warning: "${msg}"`, details)
+	getLogger(state).warn(`[${getKey(state)}]: Warning: "${msg}"`, details)
 
 	if (getWarningCount(state) > MAX_WARNINGS) return state
 
@@ -89,14 +91,14 @@ function _reportWarning<T>(state: ExperimentInternal<T>, msg: string, details: O
 //////////// Specification stage ////////////
 // we may throw here
 
-export function create<T>(key: string, { logger }: { logger?: ExperimentInternal<T>['meta']['logger']} = {}): ExperimentInternal<T> {
+export function create<T>(key: string, { logger }: { logger: ExperimentInternal<T>['meta']['logger']} = { logger: getLoggerFromAbove(LIB)}): ExperimentInternal<T> {
 	assert(key.startsWith && key.startsWith('go/'), `[${LIB}] invalid param: key should be a string and start with go/!`)
 
 	const state: ExperimentInternal<T> = {
 		stage: ExperimentStage.specifying,
 		stepCount: 0,
 		meta: {
-			logger: logger || console, // TODO
+			logger,
 		},
 		spec: {
 			key,
@@ -126,26 +128,23 @@ export function create<T>(key: string, { logger }: { logger?: ExperimentInternal
 		deferredResult: new Deferred<ResolvedExperiment>(),
 	}
 
-	if (logger) {
-		logger.log(`[${LIB}/${getKey(state)}]: create(…)`, state)
-		state.deferredResult
-			.then(cohort => {
-				const details: any = { cohort }
-				if (state.publicResult.ineligibilityReasons.length)
-					details.ineligibilityReasons = state.publicResult.ineligibilityReasons
+	logger.trace(`[${getKey(state)}]: create(…)`, state)
 
-					;((hasError(state) || state.publicResult.ineligibilityReasons.length)? logger.error : logger.info)(
-					`[${LIB}/${getKey(state)}]: RESOLVED! to:`, cohort
-				)
-			})
-	}
+	state.deferredResult
+		.then(cohort => {
+			const details: any = { cohort }
+			if (state.publicResult.ineligibilityReasons.length)
+				details.ineligibilityReasons = state.publicResult.ineligibilityReasons
+
+			logger.info(`[${getKey(state)}]: RESOLVED! to:`, cohort)
+		})
 
 	return state
 }
 
 
 export function setKillSwitch<T>(state: ExperimentInternal<T>, isOn: ExperimentSpec<T>['isOn']): ExperimentInternal<T> {
-	if (getLogger(state)) getLogger(state)!.log(`[${LIB}/${getKey(state)}]: setKillSwitch(…)`, isOn)
+	getLogger(state).trace(`[${getKey(state)}]: setKillSwitch(…)`, isOn)
 
 	assert(state.stage === ExperimentStage.specifying, `[${LIB}] Spec error: setting kill switch late!`)
 	assert(typeof isOn === 'function', `[${LIB}] invalid param: isOn!`)
@@ -159,7 +158,7 @@ export function setKillSwitch<T>(state: ExperimentInternal<T>, isOn: ExperimentS
 
 
 export function setCohortPicker<T>(state: ExperimentInternal<T>, cohortPicker: ExperimentSpec<T>['cohortPicker']): ExperimentInternal<T> {
-	if (getLogger(state)) getLogger(state)!.log(`[${LIB}/${getKey(state)}]: setCohortPicker(…)`, cohortPicker)
+	getLogger(state).trace(`[${getKey(state)}]: setCohortPicker(…)`, cohortPicker)
 
 	assert(state.stage === ExperimentStage.specifying, `[${LIB}] Spec error: setting cohort picker late!`)
 	assert(typeof cohortPicker === 'function', `[${LIB}] invalid param: cohortPicker!`)
@@ -173,7 +172,7 @@ export function setCohortPicker<T>(state: ExperimentInternal<T>, cohortPicker: E
 
 
 export function addRequirement<T>(state: ExperimentInternal<T>, r: Requirement<T>): ExperimentInternal<T> {
-	if (getLogger(state)) getLogger(state)!.log(`[${LIB}/${getKey(state)}]: addRequirement(…)`, r)
+	getLogger(state).trace(`[${getKey(state)}]: addRequirement(…)`, r)
 
 	assert(state.stage === ExperimentStage.specifying, `[${LIB}] Spec error: setting a requirement late!`)
 	assert(r && typeof r.resolver === 'function', `[${LIB}] invalid param: requirement!`)
@@ -205,7 +204,7 @@ export function markSpecificationDone<T>(state: ExperimentInternal<T>): Experime
 // TODO big try/catches around all reducers!
 
 export function registerOnResolutionInitiated<T>(state: ExperimentInternal<T>, callback: () => void): ExperimentInternal<T> {
-	if (getLogger(state)) getLogger(state)!.log(`[${LIB}/${getKey(state)}]: onResolutionInitiated(…)`)
+	getLogger(state).trace(`[${getKey(state)}]: registerOnResolutionInitiated(…)`)
 
 	state.stepCount++
 
@@ -230,7 +229,7 @@ export function registerOnResolutionInitiated<T>(state: ExperimentInternal<T>, c
 
 
 export function setInfos<T>(state: ExperimentInternal<T>, infos: Partial<T>): ExperimentInternal<T> {
-	if (getLogger(state)) getLogger(state)!.log(`[${LIB}/${getKey(state)}]: setInfos(…)`, infos)
+	getLogger(state).trace(`[${getKey(state)}]: setInfos(…)`, infos)
 
 	state.stepCount++
 
@@ -283,7 +282,7 @@ export function setInfos<T>(state: ExperimentInternal<T>, infos: Partial<T>): Ex
 // Will just return if not enough info yet.
 // This function may be called many times, each time some new info arrives.
 function _attemptResolution<T>(state: ExperimentInternal<T>, srcDebug: string): ExperimentInternal<T> {
-	if (getLogger(state)) getLogger(state)!.log(`[${LIB}/${getKey(state)}]: _attemptResolution(…) - due to: ${srcDebug}`)
+	getLogger(state).trace(`[${getKey(state)}]: _attemptResolution(…) - due to: ${srcDebug}`)
 
 	switch(state.stage) {
 		case ExperimentStage.specifying:
@@ -340,7 +339,7 @@ function _attemptResolution<T>(state: ExperimentInternal<T>, srcDebug: string): 
 
 	if (!ineligibilityReasons.length && isInfoMissing) {
 		// not enough infos yet
-		if (DEBUG) console.log(`[${LIB}/${getKey(state)}]: _attemptResolution(…): still waiting for:`, missingInfos)
+		getLogger(state).debug(`[${getKey(state)}]: _attemptResolution(…): still waiting for:`, missingInfos)
 		return state
 	}
 
@@ -363,7 +362,7 @@ function _attemptResolution<T>(state: ExperimentInternal<T>, srcDebug: string): 
 // This function may be called many times, each time some new info arrives.
 const RESOLUTION_TIMEOUT_MS = 5_000
 export function initiateResolution<T>(state: ExperimentInternal<T>): ExperimentInternal<T> {
-	if (getLogger(state)) getLogger(state)!.log(`[${LIB}/${getKey(state)}]: initiateResolution(…)`)
+	getLogger(state).trace(`[${getKey(state)}]: initiateResolution(…)`)
 
 	state.stepCount++
 
@@ -384,10 +383,10 @@ export function initiateResolution<T>(state: ExperimentInternal<T>): ExperimentI
 	}
 
 	if (state.stage !== ExperimentStage.resolving) {
-		if (DEBUG) console.log(`[${LIB}/${getKey(state)}]: initiating resolution…`)
+		getLogger(state).verbose(`[${getKey(state)}]: initiating resolution…`)
 		state.stage = ExperimentStage.resolving
 
-		if (DEBUG) console.log(`[${LIB}/${getKey(state)}]: initiating timeout…`)
+		getLogger(state).verbose(`[${getKey(state)}]: initiating timeout…`)
 		state.resolution.startDateMs = getUTCTimestampMs()
 		setTimeout(() => {
 			if (state.stage === ExperimentStage.resolved) return // ok
@@ -417,7 +416,7 @@ export function initiateResolution<T>(state: ExperimentInternal<T>): ExperimentI
 		function onIsOnError(err: Error) {
 			if (err.message === ERROR_MSG_MISSING_INFOS) {
 				// no problem. Will be re-triggered when setInfo() is called again.
-				if (DEBUG) console.log(`[${LIB}/${getKey(state)}]: kill switch reported it needs more infos.`)
+				getLogger(state).verbose(`[${getKey(state)}]: kill switch reported it needs more infos.`)
 				return
 			}
 
@@ -425,10 +424,10 @@ export function initiateResolution<T>(state: ExperimentInternal<T>): ExperimentI
 		}
 
 		try {
-			if (DEBUG) console.log(`[${LIB}/${getKey(state)}]: initiating resolution of isOn…`)
+			getLogger(state).verbose(`[${getKey(state)}]: initiating resolution of isOn…`)
 			Promise.resolve(state.spec.isOn(state.resolution.runtimeInfos))
 				.then(isOn => {
-					if (DEBUG) console.log(`[${LIB}/${getKey(state)}]: kill switch resolved to:`, isOn)
+					getLogger(state).verbose(`[${getKey(state)}]: kill switch resolved to: ${isOn}`)
 					if (state.resolution.isKillSwitchResolved) return // duplicate resolution, possible on repeated setInfos() calls
 					if (state.stage !== ExperimentStage.resolving) return // too late, experiment already resolved to not-enrolled
 
@@ -454,7 +453,7 @@ export function initiateResolution<T>(state: ExperimentInternal<T>): ExperimentI
 		function onCohortPickerError(err: Error) {
 			if (err.message === ERROR_MSG_MISSING_INFOS) {
 				// no problem. Will be re-triggered when setInfo() is called again.
-				if (DEBUG) console.log(`[${LIB}/${getKey(state)}]: cohort picker reported it need more infos.`)
+				getLogger(state).verbose(`[${getKey(state)}]: cohort picker reported it need more infos.`)
 				return
 			}
 
@@ -462,10 +461,10 @@ export function initiateResolution<T>(state: ExperimentInternal<T>): ExperimentI
 		}
 
 		try {
-			if (DEBUG) console.log(`[${LIB}/${getKey(state)}]: initiating resolution of cohort…`)
+			getLogger(state).verbose(`[${getKey(state)}]: initiating resolution of cohort…`)
 			Promise.resolve(state.spec.cohortPicker(state.resolution.runtimeInfos))
 				.then(initialCohort => {
-					if (DEBUG) console.log(`[${LIB}/${getKey(state)}]: cohort resolved to:`, initialCohort)
+					getLogger(state).verbose(`[${getKey(state)}]: cohort resolved to: "${initialCohort}"`)
 					if (state.resolution.isInitialCohortResolved) return // duplicate resolution, possible on repeated setInfos() calls
 					if (state.stage !== ExperimentStage.resolving) return // too late, experiment already resolved to not-enrolled
 
@@ -487,7 +486,7 @@ export function initiateResolution<T>(state: ExperimentInternal<T>): ExperimentI
 			function onRequirementError(err: Error) {
 				if (err.message === ERROR_MSG_MISSING_INFOS) {
 					// no problem. Will be re-triggered when setInfo() is called again.
-					if (DEBUG) console.log(`[${LIB}/${getKey(state)}]: requirement "${key}" reported it need more infos`)
+					getLogger(state).verbose(`[${getKey(state)}]: requirement "${key}" reported it need more infos`)
 					return
 				}
 
@@ -495,10 +494,10 @@ export function initiateResolution<T>(state: ExperimentInternal<T>): ExperimentI
 			}
 
 			try {
-				if (DEBUG) console.log(`[${LIB}/${getKey(state)}]: initiating resolution of requirement "${key}"…`)
+				getLogger(state).verbose(`[${getKey(state)}]: initiating resolution of requirement "${key}"…`)
 				Promise.resolve(resolver(state.resolution.runtimeInfos))
 					.then(isReqOk => {
-						if (DEBUG) console.log(`[${LIB}/${getKey(state)}]: requirement "${key}" resolved to:`, isReqOk)
+						getLogger(state).verbose(`[${getKey(state)}]: requirement "${key}" resolved to: ${isReqOk}`)
 						if (state.resolution.isRequirementResolved[key]) return // duplicate resolution, possible on repeated setInfos() calls
 						if (state.stage !== ExperimentStage.resolving) return // too late, experiment already resolved to not-enrolled
 
