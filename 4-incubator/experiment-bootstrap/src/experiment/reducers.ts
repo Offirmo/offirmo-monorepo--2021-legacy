@@ -91,7 +91,7 @@ function _reportWarning<T>(state: ExperimentInternal<T>, msg: string, details: O
 //////////// Specification stage ////////////
 // we may throw here
 
-export function create<T>(key: string, { logger }: { logger: ExperimentInternal<T>['meta']['logger']} = { logger: getLoggerFromAbove(LIB)}): ExperimentInternal<T> {
+export function create<T>(key: string, { logger }: { logger: ExperimentInternal<T>['meta']['logger']} = { logger: getLoggerFromAbove({name: LIB})}): ExperimentInternal<T> {
 	assert(key.startsWith && key.startsWith('go/'), `[${LIB}] invalid param: key should be a string and start with go/!`)
 
 	const state: ExperimentInternal<T> = {

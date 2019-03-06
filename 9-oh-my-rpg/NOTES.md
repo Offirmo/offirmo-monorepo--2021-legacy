@@ -20,6 +20,10 @@ https://hardware.slashdot.org/story/19/02/10/0615248/ask-slashdot-could-nikola-t
 https://writing.stackexchange.com/questions/26772/serious-real-life-problems-in-a-fantasy
 https://writing.stackexchange.com/questions/41333/how-to-present-an-alien-culture-with-different-morals-without-it-coming-across
 
+https://wow.gamepedia.com/Necromancer
+https://wow.gamepedia.com/Realm_of_Shadows
+https://wow.gamepedia.com/Plane
+
 how to negotiate
 https://www.linkedin.com/pulse/how-negotiate-jo-owen/
 
