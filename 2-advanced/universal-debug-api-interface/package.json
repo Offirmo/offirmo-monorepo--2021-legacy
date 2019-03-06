@@ -1,6 +1,6 @@
 {
 	"name": "@offirmo/universal-debug-api-interface",
-	"description": "TypeScript types for a web debug API (no code)",
+	"description": "TypeScript types for a universal debug API (no code)",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"private": true,
@@ -26,8 +26,6 @@
 		"build:prod": "node ../../scripts/build-typescript.js",
 
 		"dev": "run-s clean build:dev:watch",
-		"build": "run-s clean build:prod",
-		"cheatsheet": "node doc/cheatsheet.js",
-		"demo": "node doc/demo.js"
+		"build": "run-s clean build:prod"
 	}
 }

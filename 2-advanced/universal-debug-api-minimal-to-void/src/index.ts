@@ -1,19 +1,15 @@
-import { WebDebugApi } from '@offirmo/web-debug-api-interface'
-import { WebDebugApi } from '@offirmo/universal-debug-api-interface'
+import { getGlobalThis } from '@offirmo/globalthis-ponyfill'
+import { WebDebugApi, Logger } from '@offirmo/universal-debug-api-interface'
+
+import { create } from './create'
 
 
-function create(): WebDebugApi {
-	const NO_OP = () => {}
-	const NO_OP_LOGGER = createLogger()
+// install globally if no other implementation already present
+const globalThis = getGlobalThis()
+globalThis._debug = globalThis._debug || create()
 
-	return {
-		getLogger: () => NO_OP_LOGGER,
-		addDebugCommand: NO_OP,
-	}
-}
-
-window._debug = window._debug || create()
-const instance: WebDebugApi = window._debug
+// expose the current implementation
+const instance: WebDebugApi = globalThis._debug
 
 const {
 	getLogger,
@@ -24,3 +20,5 @@ export {
 	getLogger,
 	addDebugCommand,
 }
+
+export { WebDebugApi, Logger } // for convenience

@@ -1,14 +1,7 @@
-import {
-	Logger,
-	LoggerCreationParams,
-} from '@offirmo/practical-logger-interface'
-
-import {
-	createLogger as createLoggerCore,
-} from '@offirmo/practical-logger-core'
+import { Logger, LoggerCreationParams } from '@offirmo/practical-logger-interface'
+import { createLogger as createLoggerCore } from '@offirmo/practical-logger-core'
 
 import { sink } from './sink'
-
 
 function createLogger(p: Readonly<LoggerCreationParams>): Logger {
 	return createLoggerCore({...p}, sink)
@@ -16,5 +9,6 @@ function createLogger(p: Readonly<LoggerCreationParams>): Logger {
 
 export {
 	Logger,
+	LoggerCreationParams,
 	createLogger,
 }

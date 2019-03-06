@@ -1,4 +1,4 @@
-import { Logger } from '@offirmo/practical-logger-interface'
+import { Logger, LoggerCreationParams } from '@offirmo/practical-logger-interface'
 
 
 const NO_OP = () => {}
@@ -25,10 +25,12 @@ const NO_OP_LOGGER: Logger = {
 	silly: NO_OP,
 }
 
-export function createLogger(): Logger {
+function createLogger(): Logger {
 	return NO_OP_LOGGER
 }
 
 export {
-	Logger
+	Logger,
+	LoggerCreationParams,
+	createLogger,
 }
