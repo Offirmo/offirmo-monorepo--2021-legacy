@@ -35,8 +35,6 @@ import {
 } from './selectors'
 
 
-
-
 //////////// internal reducers ////////////
 // those don't increment "step"
 
@@ -105,6 +103,7 @@ export function create<T>(key: string, { logger }: { logger?: ExperimentInternal
 			requirements: {},
 		},
 		resolution: {
+			pendingOnResolutionInitiatedCallbacks: [],
 			startDateMs: -1,
 			isKillSwitchResolved: false,
 			isInitialCohortResolved: false,
@@ -205,6 +204,31 @@ export function markSpecificationDone<T>(state: ExperimentInternal<T>): Experime
 //////////// later stages ////////////
 // TODO big try/catches around all reducers!
 
+export function registerOnResolutionInitiated<T>(state: ExperimentInternal<T>, callback: () => void): ExperimentInternal<T> {
+	if (getLogger(state)) getLogger(state)!.log(`[${LIB}/${getKey(state)}]: onResolutionInitiated(…)`)
+
+	state.stepCount++
+
+	switch(state.stage) {
+		case ExperimentStage.specifying:
+			break
+		case ExperimentStage.waiting_usage:
+			break
+		case ExperimentStage.resolving:
+			// too late! Reject immediately to not force waiting for the full timeout.
+			return _reportError(state, 'onResolutionInitiated(): late call!', {step: state.stepCount})
+		case ExperimentStage.resolved:
+			return _reportWarning(state, 'onResolutionInitiated(): late call!', {step: state.stepCount})
+		default:
+			return _reportError(state, 'onResolutionInitiated(): internal error ORI1!', {step: state.stepCount})
+	}
+
+	state.resolution.pendingOnResolutionInitiatedCallbacks.push(callback)
+
+	return state
+}
+
+
 export function setInfos<T>(state: ExperimentInternal<T>, infos: Partial<T>): ExperimentInternal<T> {
 	if (getLogger(state)) getLogger(state)!.log(`[${LIB}/${getKey(state)}]: setInfos(…)`, infos)
 
@@ -243,7 +267,10 @@ export function setInfos<T>(state: ExperimentInternal<T>, infos: Partial<T>): Ex
 		state.resolution.runtimeInfos[key] = value
 	})
 
-	if (state.stage === ExperimentStage.resolving) {
+	const isWaitingForReInitiate =
+		state.stage === ExperimentStage.resolving
+		&& state.resolution.pendingOnResolutionInitiatedCallbacks.length === 0 // special case: we know initiate is pending.
+	if (isWaitingForReInitiate) {
 		// those new infos may be expected, re-attempt to resolve
 		state = initiateResolution(state)
 	}
@@ -368,6 +395,9 @@ export function initiateResolution<T>(state: ExperimentInternal<T>): ExperimentI
 			state = _reportError(state, 'timeout')
 			state = _attemptResolution(state, 'timeout')
 		}, RESOLUTION_TIMEOUT_MS)
+
+		state.resolution.pendingOnResolutionInitiatedCallbacks.forEach(cb => cb())
+		state.resolution.pendingOnResolutionInitiatedCallbacks = []
 	}
 
 	// shortcut if we already have errors

@@ -11,6 +11,7 @@ import {
 	addRequirement,
 	setInfos,
 	initiateResolution,
+	registerOnResolutionInitiated,
 
 	getPromisedResult,
 	getResultSync,
@@ -68,6 +69,14 @@ export function createExperiment<T>(key: string): Experiment<T> {
 
 		onResolved(callback: (result: ResolvedExperiment) => void): Experiment<T> {
 			state.deferredResult.then(callback)
+
+			return experiment
+		},
+
+		onResolutionInitiated(callback: (experiment: Experiment<T>) => void): Experiment<T> {
+			state = registerOnResolutionInitiated(state, () => {
+				callback(experiment)
+			})
 
 			return experiment
 		},

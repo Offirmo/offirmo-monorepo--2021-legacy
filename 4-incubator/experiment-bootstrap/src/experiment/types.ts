@@ -29,6 +29,7 @@ export interface ExperimentSpec<T> {
 
 
 export interface ExperimentResolution<T> {
+	pendingOnResolutionInitiatedCallbacks: (() => void)[], // by contract, those callbacks will be executed BEFORE any spec callback is called
 	startDateMs: TimestampUTCMs // default at -1 = resolution not started
 	runtimeInfos: Partial<T>
 	isKillSwitchResolved: boolean

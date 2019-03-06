@@ -14,7 +14,7 @@ interface Experiment<T> {
 	build: () => Experiment<T> // TODO rename? endSpec()?
 
 	// callable only before resolution is initiated
-	//onResolutionInitiated: (callback: (experiment: Experiment<T>) => void) => Experiment<T>,
+	onResolutionInitiated: (callback: (experiment: Experiment<T>) => void) => Experiment<T>,
 
 	// callable only after spec phase
 	setInfos: (infos: Partial<T>) => Experiment<T>
