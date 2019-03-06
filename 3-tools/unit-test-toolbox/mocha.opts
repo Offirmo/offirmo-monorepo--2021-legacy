@@ -1,5 +1,3 @@
 --reporter spec
 --check-leaks
---es_staging
---full-trace
---harmony
+--recursive

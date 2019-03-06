@@ -8,3 +8,5 @@ https://github.com/Offirmo-team/wiki/wiki/mocha
 //mocha.checkLeaks()
 //mocha.fullTrace()
 //mocha.run()
+
+--full-trace
