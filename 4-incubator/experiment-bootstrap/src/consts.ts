@@ -10,4 +10,4 @@ export const DEBUG = true // TODO remove usages
 export const LATEST_CHROME_VERSION = 72
 export const LATEST_FIREFOX_VERSION = 65
 
-export const POSSIBLE_COHORTS = Enum.keys(Cohort)
+export const STANDARD_COHORTS = Enum.keys(Cohort)

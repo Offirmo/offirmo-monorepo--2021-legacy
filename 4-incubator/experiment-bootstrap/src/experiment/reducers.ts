@@ -96,7 +96,7 @@ export function create<T>(key: string, { logger }: { logger?: ExperimentInternal
 		stage: ExperimentStage.specifying,
 		stepCount: 0,
 		meta: {
-			logger: logger || console,
+			logger: logger || console, // TODO
 		},
 		spec: {
 			key,
