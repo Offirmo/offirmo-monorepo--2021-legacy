@@ -3,6 +3,8 @@ import chalk from 'chalk'
 
 import { COMMON_ERROR_FIELDS } from '@offirmo/common-error-fields'
 
+// TODO make it more pro!
+
 function displayErrProp(errLike: Readonly<any>, prop: string) {
 	if (prop === 'details') {
 		const details: { [key: string]: any} = errLike.details
@@ -17,6 +19,8 @@ function displayErrProp(errLike: Readonly<any>, prop: string) {
 
 function displayError(errLike: Readonly<Partial<Error>> = {}) {
 	console.error(chalk.red(`🔥🔥🔥🔥🔥🔥🔥  ${chalk.bold(errLike.name || 'Error')} 🔥🔥🔥🔥🔥🔥🔥`))
+
+	// TODO use normalize error?
 
 	const displayedProps = new Set()
 	displayedProps.add('name')

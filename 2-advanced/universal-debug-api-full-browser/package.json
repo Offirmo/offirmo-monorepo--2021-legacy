@@ -1,5 +1,5 @@
 {
-	"name": "@offirmo/web-debug-api-full",
+	"name": "@offirmo/universal-debug-api-full-browser",
 	"description": "An implementation.",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
@@ -15,7 +15,7 @@
 	},
 	"dependencies": {
 		"@offirmo/practical-logger-browser": "^0.0.1",
-		"@offirmo/web-debug-api-interface": "^0.0.1"
+		"@offirmo/universal-debug-api-interface": "^0.0.1"
 	},
 
 	"devDependencies": {

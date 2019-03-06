@@ -1,5 +1,5 @@
 {
-	"name": "@offirmo/universal-debug-extension",
+	"name": "@offirmo/universal-debug-api-companion-webextension",
 	"description": "A FF & Chrome webextension to add debug features",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
