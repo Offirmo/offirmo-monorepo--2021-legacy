@@ -15,7 +15,8 @@ let root_SEC = null
 
 if (typeof window !== 'undefined') {
 	if (window.hasOwnProperty(GLOBAL_VAR_NAME)) {
-		//console.log('root SEC: duplicate module?')
+		// Yes, we have duplicated modules with parcel + monorepo :cry:
+		//console.log('root SEC: duplicate module!')
 	}
 	else {
 		Object.defineProperty(window, GLOBAL_VAR_NAME, {

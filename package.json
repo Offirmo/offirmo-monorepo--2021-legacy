@@ -80,7 +80,6 @@
 		"classnames": "^2",
 		"clean-css-cli": "^4",
 		"conf": "^2",
-		"copy-webpack-plugin": "^4",
 		"cpx": "^1",
 		"cross-env": "^5",
 		"cross-spawn": "^6",
@@ -105,8 +104,6 @@
 		"fs-extra": "^7",
 		"gauge": "^2",
 		"hotkeys-js": "^3",
-		"html-webpack-include-assets-plugin": "^1",
-		"html-webpack-plugin": "^3",
 		"indent-string": "^3",
 		"is-promise": "^2",
 		"jsondiffpatch": "^0.3",
@@ -115,7 +112,7 @@
 		"load-json-file": "^5",
 		"lodash": "^4",
 		"memoize-one": "^5",
-		"mocha": "^5",
+		"mocha": "^6",
 		"nanoid": "^2",
 		"netlify-identity-widget": "^1",
 		"netlify-lambda": "^1",
@@ -174,15 +171,18 @@
 		"username": "^4",
 		"webpack": "^4",
 		"webpack-cli": "^3",
-		"wrap-ansi": "^4",
 		"write-json-file": "^3"
 	},
 	"tosort": {
-		"env-paths": "^2",
 		"boxen": "^2",
+		"copy-webpack-plugin": "^5",
+		"env-paths": "^2",
+		"html-webpack-include-assets-plugin": "^1",
+		"html-webpack-plugin": "^3",
 		"universal-analytics": "^0.4",
 		"webpack-dashboard": "^2",
 		"webpack-dev-server": "^3",
-		"webpack-serve": "^2"
+		"webpack-serve": "^2",
+		"wrap-ansi": "^4"
 	}
 }

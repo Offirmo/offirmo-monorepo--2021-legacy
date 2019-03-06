@@ -1,6 +1,6 @@
 {
 	"name": "@offirmo/unit-test-toolbox",
-	"version": "5.0.0",
+	"version": "6.0.0",
 	"description": "An aggregation of quality npm modules to be used for writing unit tests.",
 	"main": "index.js",
 	"scripts": {
@@ -35,7 +35,7 @@
 		"chai-subset": "^1",
 		"eslint-plugin-chai-expect": "^2",
 		"eslint-plugin-mocha": "^5",
-		"mocha": "^5",
+		"mocha": "^6",
 		"sinon": "^7",
 		"sinon-chai": "^3"
 	}
