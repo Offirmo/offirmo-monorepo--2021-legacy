@@ -105,7 +105,7 @@ export function create<T>(key: string, { logger }: { logger?: ExperimentInternal
 			requirements: {},
 		},
 		resolution: {
-			startDateMs: 0,
+			startDateMs: -1,
 			isKillSwitchResolved: false,
 			isInitialCohortResolved: false,
 			isRequirementResolved: {},
@@ -252,7 +252,9 @@ export function setInfos<T>(state: ExperimentInternal<T>, infos: Partial<T>): Ex
 }
 
 
-// this function may be called many times, each time some info arrives.
+// Evaluate all the infos in the state and attempt to come up with a resolution.
+// Will just return if not enough info yet.
+// This function may be called many times, each time some new info arrives.
 function _attemptResolution<T>(state: ExperimentInternal<T>, srcDebug: string): ExperimentInternal<T> {
 	if (getLogger(state)) getLogger(state)!.log(`[${LIB}/${getKey(state)}]: _attemptResolution(…) - due to: ${srcDebug}`)
 
@@ -330,6 +332,8 @@ function _attemptResolution<T>(state: ExperimentInternal<T>, srcDebug: string): 
 }
 
 
+// trigger resolutions calls for all specification callbacks that are not resolved yet.
+// This function may be called many times, each time some new info arrives.
 const RESOLUTION_TIMEOUT_MS = 5_000
 export function initiateResolution<T>(state: ExperimentInternal<T>): ExperimentInternal<T> {
 	if (getLogger(state)) getLogger(state)!.log(`[${LIB}/${getKey(state)}]: initiateResolution(…)`)
@@ -339,10 +343,8 @@ export function initiateResolution<T>(state: ExperimentInternal<T>): ExperimentI
 	switch(state.stage) {
 		case ExperimentStage.specifying:
 			state = _reportError(state, 'initiateResolution(): specification not complete!', {step: state.stepCount})
-			state.stage = ExperimentStage.resolving // initiate early resolution to not-enrolled
 			break
 		case ExperimentStage.waiting_usage:
-			state.stage = ExperimentStage.resolving
 			break
 		case ExperimentStage.resolving:
 			break
@@ -350,16 +352,14 @@ export function initiateResolution<T>(state: ExperimentInternal<T>): ExperimentI
 			return _reportError(state, 'initiateResolution(): late re-attempt!', {step: state.stepCount})
 		default:
 			state = _reportError(state, 'initiateResolution(): internal error IR1!', {step: state.stepCount})
-			state.stage = ExperimentStage.resolving // initiate early resolution to not-enrolled
+			// keep executing to initiate early resolution to not-enrolled
 			break
 	}
 
-	// shortcut if we already have errors
-	if (hasError(state)) {
-		return _attemptResolution(state, 'initiate_spite')
-	}
+	if (state.stage !== ExperimentStage.resolving) {
+		if (DEBUG) console.log(`[${LIB}/${getKey(state)}]: initiating resolution…`)
+		state.stage = ExperimentStage.resolving
 
-	if (!state.resolution.startDateMs) {
 		if (DEBUG) console.log(`[${LIB}/${getKey(state)}]: initiating timeout…`)
 		state.resolution.startDateMs = getUTCTimestampMs()
 		setTimeout(() => {
@@ -368,6 +368,11 @@ export function initiateResolution<T>(state: ExperimentInternal<T>): ExperimentI
 			state = _reportError(state, 'timeout')
 			state = _attemptResolution(state, 'timeout')
 		}, RESOLUTION_TIMEOUT_MS)
+	}
+
+	// shortcut if we already have errors
+	if (hasError(state)) {
+		return _attemptResolution(state, 'initiate_spite')
 	}
 
 	// iterate on each resolution requirement:

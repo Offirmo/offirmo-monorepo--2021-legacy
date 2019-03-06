@@ -29,7 +29,7 @@ export interface ExperimentSpec<T> {
 
 
 export interface ExperimentResolution<T> {
-	startDateMs: TimestampUTCMs
+	startDateMs: TimestampUTCMs // default at -1 = resolution not started
 	runtimeInfos: Partial<T>
 	isKillSwitchResolved: boolean
 	isInitialCohortResolved: boolean
