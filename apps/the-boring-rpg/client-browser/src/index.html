@@ -22,10 +22,19 @@
 		<style type="text/css">
 			/* super early styles while the page is loading */
 
+			.o⋄top-container {
+				display: flex;
+				flex-direction: column;
+				height: 100%;
+			}
+			.loader {
+				text-align: center;
+				margin: auto;
+				font-size: x-large;
+			}
 			.blinking{
 				animation:blinkingText 1.2s infinite;
 			}
-
 			@keyframes blinkingText{
 				0%{     color: inherit;    }
 				33%{    color: transparent; }
@@ -57,8 +66,10 @@
 		<noscript>You need to enable JavaScript to run this app.</noscript>
 
 		<div id="root" class="o⋄top-container">
-			<h1>The Boring RPG, reloaded</h1>
-			<h2 class="blinking">Loading<span class="blinking">...</span></h2>
+			<div class="loader">
+				<p>The Boring RPG, reloaded</p>
+				<p class="blinking">Loading<span class="blinking">...</span></p>
+			</div>
 		</div>
 
 		<!-- group chat, outside of react control for DOM stability -->

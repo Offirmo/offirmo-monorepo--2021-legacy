@@ -13,6 +13,7 @@ const ACTION_TYPE_TO_CTA = {
 	'change_avatar_class': 'Change class',
 	'redeem_code': 'Redeem code',
 
+	'start_game': INTERNAL,
 	'on_start_session': INTERNAL,
 	'acknowledge_engagement_msg_seen': INTERNAL,
 	'update_to_now': INTERNAL,

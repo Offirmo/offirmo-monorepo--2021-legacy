@@ -1,12 +1,13 @@
 'use strict'
 
-import { createLogger } from '@offirmo/practical-logger-browser'
+import { getLogger } from '@offirmo/universal-debug-api-full-browser'
 
 import { LIB } from './consts'
 import { VERSION, BUILD_DATE } from '../build'
+
 /////////////////////////////////////////////////
 
-const logger = createLogger({
+const logger = getLogger({
 	name: LIB,
 	suggestedLevel: 'silly',
 })
