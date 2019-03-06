@@ -35,7 +35,7 @@ document.addEventListener('click', event => {
 				chrome.notifications.create(
 					{
 						"type": "basic",
-						"iconUrl": chrome.extension.getURL("icons/icon_48x48.png"),
+						"iconUrl": chrome.extension.getURL("icons/auto-repair_64x64.png"),
 						"title": "[Universal web debug tool] notification",
 						"message": "[Universal web debug tool] notif from background"
 					}

@@ -18,7 +18,7 @@ function b64EncodeUnicode(str) {
 }
 
 
-const input_path = path.resolve(process.cwd(), './dist/api/full/index.js')
+const input_path = path.resolve(process.cwd(), '../../2-advanced/universal-debug-api-full-browser/dist/index-bundle.js')
 const target_path = path.resolve(process.cwd(), './src/content-scripts/start-incontext.js')
 
 fs.writeFileSync(target_path, `

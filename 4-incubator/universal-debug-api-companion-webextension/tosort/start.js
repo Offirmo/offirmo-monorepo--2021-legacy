@@ -1,6 +1,7 @@
 import 'babel-polyfill'
 
 import runInPageContext from '../utils/run-in-page-context'
+//import install_debug_api from '../api/full'
 import lib from './start-incontext'
 
 const LIB = '🧩 UWDT/cs--start'
@@ -12,8 +13,8 @@ window.foo = window.foo || 'content-scripts/start v1'
 try {
 	// local files may not have local storage
 	localStorage.setItem('foo', 'content-scripts/start v1')
-} catch {
 }
+catch {}
 
 if (DEBUG) console.log(`[${LIB}.${+Date.now()}] Hello!`, {
 	chrome: chrome,
@@ -29,37 +30,43 @@ if (DEBUG) console.log(`[${LIB}.${+Date.now()}] Hello!`, {
 })
 
 ////////////////////////////////////
+// experiment fetching and checking time
+fetch(chrome.runtime.getURL("api/full/index.js"))
+	.then(x => x.text())
+	.then(content => {
+		console.log(`[${LIB}.${+Date.now()}] got fetch result "${content.slice(0, 16)}…"`)
+	})
+	.catch(console.error)
 
 /*chrome.storage.StorageArea.get("api/full/index.js")
 	.then(res => {
 		console.log(`[${LIB}.${+Date.now()}] got storage result!`)
 	})*/
-
 ////////////////////////////////////
 
 let sent = false
-window.addEventListener('message', (event) => {
-	console.log(`[🧩 UWDT/cs--start.${+Date.now()}] received message:`, event)
+window.addEventListener("message", (event) => {
+	console.log(`[🧩 UWDT/cs--start.${+Date.now()}] received message:`, event);
 
-	if (!sent) {
+	if(!sent) {
 		sent = true
 		window.postMessage({
-			message: 'Message from content-scripts/start',
-		}, '*')
+           message: "Message from content-scripts/start"
+       }, "*");
 	}
-})
+});
 
-const port = chrome.runtime.connect({name: 'port-from-content-script'})
-port.postMessage({greeting: 'hello from content script'})
+const port = chrome.runtime.connect({name:"port-from-content-script"});
+port.postMessage({greeting: "hello from content script"});
 
-port.onMessage.addListener(function (m) {
-	console.log(`[🧩 UWDT/cs--start.${+Date.now()}] received message from background script: `)
-	console.log(m)
-})
+port.onMessage.addListener(function(m) {
+	console.log(`[🧩 UWDT/cs--start.${+Date.now()}] received message from background script: `);
+	console.log(m);
+});
 
 ////////////////////////////////////
 
-function do_stuff(DEBUG) {
+function do_stuff() {
 	// experiment modifying js env
 	window.foo = window.foo || 'content-scripts/start v1 in context'
 
@@ -74,10 +81,17 @@ function do_stuff(DEBUG) {
 		})(),
 	})
 }
-
-runInPageContext(do_stuff, DEBUG)
+runInPageContext(do_stuff)
 
 ////////////////////////////////////
+/*
+// Create a script tag and inject it into the document.
+const scriptElement = document.createElement('script')
+//scriptElement.setAttribute("type", "module");
+scriptElement.src = 'from-companion-extension/xdebug-api.js'
+document.documentElement.prepend(scriptElement);
+//document.head.insertBefore(scriptElement, document.head.firstElementChild);
+*/
 
 // Create a script tag and inject it into the document.
 const scriptElement2 = document.createElement('script')
@@ -92,5 +106,5 @@ function b64DecodeUnicode(str) {
 
 eval(b64DecodeUnicode("${lib}"))
 `
-document.documentElement.prepend(scriptElement2)
+document.documentElement.prepend(scriptElement2);
 

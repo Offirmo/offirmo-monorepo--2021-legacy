@@ -1,14 +1,14 @@
 {
 	"name": "@offirmo/universal-debug-api-companion-webextension",
 	"description": "A FF & Chrome webextension to add debug features",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"private": true,
 	"license": "Unlicense",
-
 	"devDependencies": {
 		"@babel/core": "^7",
 		"@offirmo/practical-logger-browser": "^0.0.1",
+		"@offirmo/universal-debug-api-minimal-to-void": "^0.0.1",
 		"@offirmo/view-css": "^0.0.1",
 		"cross-env": "^5",
 		"npm-run-all": "^4",
@@ -17,11 +17,13 @@
 	"scripts": {
 		"clean": "node ../../scripts/clean.js dist cache",
 
-		"dev:parcel": "parcel --no-autoinstall --port 8080 --no-hmr src/api/**/index.js src/**/*.html src/background/background.js src/content-scripts/*.js",
-		"dev:cpx": "cpx 'src/**/*.{json,png}' dist --watch --verbose",
-		"dev": "npm-run-all clean --parallel dev:parcel dev:cpx",
-
+		"dev:parcel": "parcel --no-autoinstall --port 8080 --no-hmr src/**/*.html src/background/background.js src/content-scripts/*.js",
+		"dev:cpx": "cpx 'src/**/*.{json,png,svg}' dist --watch --verbose",
 		"build:parcel": "parcel build --no-minify src/**/*.html --public-url ./",
-		"build": "npm version patch && run-s clean build:parcel"
+		"build:encode": "node ./scripts/encode.js",
+
+		"dev": "npm-run-all clean --parallel dev:parcel dev:cpx",
+		"build": "npm version patch && run-s clean build:parcel",
+		"demo": "parcel doc/demo/index.html"
 	}
 }

@@ -27,9 +27,10 @@
 
 		"build:dev:watch": "node ../../scripts/build-typescript.js --watch",
 		"build:prod": "node ../../scripts/build-typescript.js",
+		"build:bundle": "parcel build --no-autoinstall  --out-file index-bundle.js  src/index.ts",
 
 		"dev": "run-s clean build:dev:watch",
-		"build": "run-s clean build:prod",
+		"build": "npm-run-all clean --parallel build:prod build:bundle",
 		"cheatsheet": "node doc/cheatsheet.js",
 		"demo": "node doc/demo.js"
 	}

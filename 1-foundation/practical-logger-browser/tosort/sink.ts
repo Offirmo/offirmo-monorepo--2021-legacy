@@ -62,6 +62,26 @@ if (Object.keys(LEVEL_TO_STYLE).sort().join(',') !== [...ALL_LOG_LEVELS].sort().
 	throw new Error('practical-logger-browser: needs an update!')
 }
 
+
+/*export const sink1: LogSink = (payload: LogPayload): void => {
+	const { level, name, msg, time, details } = payload
+	let line = ''
+		//+ time
+		//+ ' '
+		+ `%c[${level}]`
+		+ '›'
+		+ name
+		+ ': '
+		//+ (msg ? ' ' : '')
+		+ msg
+
+	// TODO use console.groupCollapsed with an icon?
+	if (Object.keys(details).length)
+		(console as any)[LEVEL_TO_CONSOLE_METHOD[level]](line, LEVEL_TO_STYLE[level], details)
+	else
+		(console as any)[LEVEL_TO_CONSOLE_METHOD[level]](line, LEVEL_TO_STYLE[level])
+}*/
+
 //const MIN_WIDTH = 5
 export function to_aligned_ascii(level: LogLevel): string {
 	let str = LOG_LEVEL_TO_HUMAN[level] //.slice(0, MIN_WIDTH)
@@ -83,8 +103,10 @@ export const sink: LogSink = (payload: LogPayload): void => {
 		//+ time
 		//+ ' '
 		+ `%c[%c${to_aligned_ascii(level)}%c]`
-		+ name
 		+ '›'
+		+ name
+		+ ': '
+		//+ (msg ? ' ' : '')
 		+ msg
 
 	const styles = STYLES.map(s => LEVEL_TO_STYLE[level] + s)
