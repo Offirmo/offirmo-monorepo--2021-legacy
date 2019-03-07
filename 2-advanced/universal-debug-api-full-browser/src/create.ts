@@ -12,8 +12,8 @@ export function create(): WebDebugApi {
 				name: '',
 				...p
 			}
-			loggers[name] = loggers[name] || createLogger(p)
-			return loggers[name]
+			loggers[p.name] = loggers[p.name] || createLogger(p)
+			return loggers[p.name]
 		},
 		addDebugCommand(name: string, callback: () => void) {
 			debugCommands[name] = callback

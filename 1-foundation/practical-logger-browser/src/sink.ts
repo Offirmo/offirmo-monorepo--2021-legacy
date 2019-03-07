@@ -52,8 +52,8 @@ const LEVEL_TO_STYLE: Readonly<{ [k: string]: string }> = {
 	verbose: 'color: #659AD2;',
 
 	log:     '',
-	debug:   '',
 
+	debug:   'color: #9AA2AA;',
 	trace:   'color: #9AA2AA;',
 	silly:   'color: #9AA2AA;',
 }

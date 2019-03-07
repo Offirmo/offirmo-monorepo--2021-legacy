@@ -37,6 +37,7 @@ if (DEBUG) console.log(`[${LIB}.${+Date.now()}] Hello!`, {
 
 ////////////////////////////////////
 
+/*
 let sent = false
 window.addEventListener('message', (event) => {
 	console.log(`[🧩 UWDT/cs--start.${+Date.now()}] received message:`, event)
@@ -56,6 +57,7 @@ port.onMessage.addListener(function (m) {
 	console.log(`[🧩 UWDT/cs--start.${+Date.now()}] received message from background script: `)
 	console.log(m)
 })
+*/
 
 ////////////////////////////////////
 

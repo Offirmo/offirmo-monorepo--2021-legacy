@@ -4,7 +4,7 @@ import { createLogger as createLoggerCore } from '@offirmo/practical-logger-core
 import { sink } from './sink'
 
 function createLogger(p: Readonly<LoggerCreationParams>): Logger {
-	return createLoggerCore({...p}, sink)
+	return createLoggerCore(p, sink)
 }
 
 export {

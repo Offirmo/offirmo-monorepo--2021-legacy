@@ -25,7 +25,7 @@ chrome.devtools.inspectedWindow.eval(
 	function(result, isException) { }
 )
 
-const PANEL_NAME = 'Debug'
+const PANEL_NAME = '🛠'
 chrome.devtools.panels.create(
 	PANEL_NAME,
 	'/icons/auto-repair_32x32.png', // works only on FF

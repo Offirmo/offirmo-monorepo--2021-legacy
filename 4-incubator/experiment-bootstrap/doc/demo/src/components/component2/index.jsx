@@ -26,7 +26,7 @@ const standardExperiment = createExperiment('go/standard')
 export class C2 extends Component {
 	render() {
 		const { cohort } = standardExperiment.getResultSync()
-		console.log('C2 render', cohort)
+		//console.log('C2 render', cohort)
 
 		const copy = (cohort === 'variation')
 			? 'Some better info'

@@ -8103,7 +8103,7 @@ function get_browser() {
 
 
 chrome.devtools.inspectedWindow.eval("console.log(`🧩 [T=${+Date.now()}] Hello from injected from devtools!`)", function (result, isException) {});
-var PANEL_NAME = 'Debug';
+var PANEL_NAME = '🛠';
 chrome.devtools.panels.create(PANEL_NAME, '/icons/auto-repair_32x32.png', // works only on FF
 // Chrome and FF have different paths
 '/ui/devtools/devtools-panel.html',

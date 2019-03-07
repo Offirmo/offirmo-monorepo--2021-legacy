@@ -13,6 +13,7 @@ import {
 	ALL_LOG_LEVELS,
 	LEVEL_TO_INTEGER,
 	DEFAULT_LOG_LEVEL,
+	DEFAULT_LOGGER_KEY,
 } from './consts'
 import {LogSink} from "@offirmo/practical-logger-interface/src";
 
@@ -104,7 +105,7 @@ export function normalizePrimitiveArguments(args: IArguments): [ string, LogDeta
 
 export function create(
 	{
-		name = '',
+		name = DEFAULT_LOGGER_KEY,
 		suggestedLevel = DEFAULT_LOG_LEVEL,
 		commonDetails = {},
 	}: LoggerCreationParams,

@@ -13,7 +13,7 @@ import {
 	ResolvedExperiment,
 } from "../types";
 
-import { LIB, DEBUG } from '../consts'
+import { LIB } from '../consts'
 
 import {
 	ExperimentStage,
