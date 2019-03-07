@@ -20,3 +20,4 @@ var e=arguments[3];Object.defineProperty(exports,"__esModule",{value:!0});var o=
 },{"@offirmo/practical-logger-browser":"3HBi"}],"7QCb":[function(require,module,exports) {
 "use strict";exports.__esModule=!0;var e=require("@offirmo/globalthis-ponyfill"),r=require("@offirmo/universal-debug-api-interface");exports.WebDebugApi=r.WebDebugApi,exports.Logger=r.Logger;var g=require("./create"),o=e.getGlobalThis();o._debug=o._debug||g.create();var a=o._debug,i=a.getLogger,t=a.addDebugCommand;exports.getLogger=i,exports.addDebugCommand=t;
 },{"@offirmo/globalthis-ponyfill":"+CYW","@offirmo/universal-debug-api-interface":"sLmB","./create":"W7Tb"}]},{},["7QCb"], null)
+//# sourceMappingURL=/index-bundle.map

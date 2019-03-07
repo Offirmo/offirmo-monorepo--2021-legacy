@@ -21,8 +21,21 @@ function b64EncodeUnicode(str) {
 const input_path = path.resolve(process.cwd(), '../../2-advanced/universal-debug-api-full-browser/dist/index-bundle.js')
 const target_path = path.resolve(process.cwd(), './src/content-scripts/start-incontext.js')
 
+const lib_content = fs.readFileSync(input_path)
+console.log('\n', lib_content)
+const lib_cleaned = (() => {
+	let result = lib_content
+	/*
+	const TRAILING_PART_TO_REMOVE = ''//# sourceMappingURL=/index-bundle.map'
+	if (lib_content.endsWith(TRAILING_PART_TO_REMOVE))
+		result = result.slice(0, -TRAILING_PART_TO_REMOVE.length)
+	console.log('\n', result)*/
+	return result
+})()
+const lib_encoded = btoa(lib_cleaned)
+
 fs.writeFileSync(target_path, `
 // THIS FILE IS AUTO GENERATED!
-const lib = "${btoa(fs.readFileSync(input_path))}"
+const lib = "${lib_encoded}"
 export default lib
 `);
