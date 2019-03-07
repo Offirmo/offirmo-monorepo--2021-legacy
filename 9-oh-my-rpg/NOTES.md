@@ -24,6 +24,8 @@ https://wow.gamepedia.com/Necromancer
 https://wow.gamepedia.com/Realm_of_Shadows
 https://wow.gamepedia.com/Plane
 
+https://venturebeat.com/2019/03/04/this-chart-explains-why-publishers-are-chasing-live-service-games/
+
 how to negotiate
 https://www.linkedin.com/pulse/how-negotiate-jo-owen/
 

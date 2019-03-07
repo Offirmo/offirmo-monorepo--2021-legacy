@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>[Universal web debug tool] TEST PAGE</title>
+	<script>window._CONTEXT = 'final page';
+window.foo = window.foo || 'the page!';
+console.warn("\uD83D\uDCC4 [page/head-inline.".concat(+Date.now(), "] Hello, as early as I could!"), {
+  foo_js: window.foo,
+  foo_ls: function () {
+    try {
+      // local files may not have local storage
+      return localStorage.getItem('foo');
+    } catch (_unused) {}
+  }()
+});</script>
+	<script type="application/javascript" src="/demo.e31bb0bc.js"></script>
+</head>
+<body>
+	<h1>Hello from [Universal web debug tool] test page !</h1>
+</body>
+</html>
