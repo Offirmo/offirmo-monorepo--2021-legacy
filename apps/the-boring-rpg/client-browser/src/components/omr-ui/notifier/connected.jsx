@@ -13,7 +13,7 @@ import {THE_BORING_RPG} from "@offirmo/marketing-rsrc";
 let start_notifs_displayed = false
 const OMRUINotifierC1 = React.memo(
 	function OMRUINotifierC1({enqueueNotification, u_state}) {
-		console.log('🔄 OMRUINotifierC1')
+		if (window.XOFF.flags.debug_render) console.log('🔄 OMRUINotifierC1')
 
 		if (!start_notifs_displayed) {
 			enqueueNotification({

@@ -19,6 +19,14 @@ Next
 - 😷 chore: some internal refactors
 
 
+v0.59.1
+- 🤩 feature: a custom cursor
+- 😷 chore: some internal refactors and cleanups
+
+v0.58.3
+- 🤩 feature: a loader while the page downloads
+- 😷 chore: some internal refactors and cleanups
+
 2019/02/16 v0.58.1
 - 🤩 feature: new classes! (now totalling 25!)
 - 😅 fix: removed 3 background pictures I didn't like that much

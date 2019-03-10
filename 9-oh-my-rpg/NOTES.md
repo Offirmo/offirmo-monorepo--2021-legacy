@@ -33,6 +33,24 @@ transferable skills https://dev.to/alex_barashkov/how-games-can-improve-your-ski
 
 https://science.slashdot.org/story/19/01/30/1559228/mind-altering-cat-parasite-linked-to-schizophrenia-in-largest-study-yet
 
+https://www.dmsguild.com/product/254797 murder hobo class
+
+https://en.m.wikipedia.org/wiki/Outline_of_fencing
+https://en.m.wikipedia.org/wiki/French_school_of_fencing
+https://en.m.wikipedia.org/wiki/Archery
+https://en.m.wikipedia.org/wiki/Fencing_tactics
+https://fr.wikipedia.org/wiki/Indice_d%27explosivit%C3%A9_volcanique
+Gentle
+Explosive
+Catastrophic
+Cataclysmic
+Paroxysmic
+Colossal
+Super-colossal
+Mega-colossal
+
+
+
 War
 - https://history.stackexchange.com/questions/50989/operation-vengeance-and-individual-targeting-of-enemy-commanders
 

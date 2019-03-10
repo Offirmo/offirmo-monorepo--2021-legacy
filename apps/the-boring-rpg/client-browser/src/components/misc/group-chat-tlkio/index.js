@@ -47,15 +47,19 @@ function restart({channel_id, nickname} = {}) {
 	}, 5000)
 */
 
-	let optimization_delay_ms = 3000 // the chat has a lower priority and the browser should not try to load it asap
-	let anchor_elem = document.getElementById(ELEMENT_ID)
-	if (anchor_elem) {
-		console.warn(`${LIB}: replacing an existing instance. This may not work well!`)
-		anchor_elem.parentNode.removeChild(anchor_elem)
+	let optimization_delay_ms = 10 // the chat has a lower priority and the browser should not try to load it asap
+	if (document.getElementById(ELEMENT_ID))
 		optimization_delay_ms = 0 // no need
-	}
+
+
 
 	setTimeout(() => {
+		console.warn('starting the chat...')
+		let anchor_elem = document.getElementById(ELEMENT_ID)
+		if (anchor_elem) {
+			console.warn(`${LIB}: replacing an existing instance. This may not work well!`)
+			anchor_elem.parentNode.removeChild(anchor_elem)
+		}
 		anchor_elem = document.createElement('div')
 		anchor_elem.id = ELEMENT_ID
 		anchor_elem.className = 'o⋄top-container'

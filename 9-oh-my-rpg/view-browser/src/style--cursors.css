@@ -1,0 +1,12 @@
+.omr⋄cursor⁚sword {
+	/* from http://www.rw-designer.com/cursor-set/standard-rpg */
+	cursor: url('sword_cursor_1.5x.png'), auto !important;
+	cursor: -webkit-image-set(
+			url('sword_cursor_1.5x.png') 1x
+		), auto !important;
+}
+
+/* see also
+http://www.rw-designer.com/cursor-set/terraria
+http://www.rw-designer.com/cursor-set/my-ultimate-sword-collection
+ */

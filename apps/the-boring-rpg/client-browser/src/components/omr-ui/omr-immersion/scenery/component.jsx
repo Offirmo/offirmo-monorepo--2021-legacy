@@ -8,7 +8,7 @@ import './index.css'
 
 const SceneryView = React.memo(
 	function SceneryView({bg, next_bg}) {
-		console.log('🔄 SceneryView')
+		if (window.XOFF.flags.debug_render) console.log('🔄 SceneryView')
 
 		return (
 			<div key="background" className="omr⋄full-size-fixed-layer omr⋄bg-image⁚tiled-marble_black">

@@ -9,7 +9,7 @@ const game_instance = get_game_instance()
 
 const PageDev = React.memo(
 	function PageDevC1() {
-		console.log('🔄 PageDevC1')
+		if (window.XOFF.flags.debug_render) console.log('🔄 PageDevC1')
 
 		const state = game_instance.model.get()
 		const view_state = game_instance.view.get()

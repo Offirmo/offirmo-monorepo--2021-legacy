@@ -11,7 +11,7 @@ import Root from './components/root'
 window.XOFF = {
 	flags: {
 		is_paused: false,
-		debug_render: false, // TODO switch in dev area
+		debug_render: false,
 	}
 }
 
