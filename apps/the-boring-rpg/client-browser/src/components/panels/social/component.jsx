@@ -11,7 +11,7 @@ export default class SocialPanelView extends React.Component {
 	}
 
 	render() {
-		console.log('🔄 SocialPanelView')
+		if (window.XOFF.flags.debug_render) console.log('🔄 SocialPanelView')
 
 		return (
 			<div className="o⋄top-container tbrpg-panel tbrpg-panel--achievements o⋄flex--column">

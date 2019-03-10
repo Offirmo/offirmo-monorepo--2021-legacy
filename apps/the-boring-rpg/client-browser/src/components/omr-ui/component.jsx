@@ -8,7 +8,7 @@ import About from './omr-about'
 import UniverseAnchor from './omr-universe-anchor'
 import ImmersionArea from './omr-immersion'
 import HamburgerArea from './omr-hamburger'
-import * as GroupChat from './group-chat-tlkio'
+import * as GroupChat from '../misc/group-chat-tlkio'
 
 
 
@@ -91,7 +91,7 @@ export default class OhMyRPGView extends PureComponent {
 
 	render() {
 		const { mode } = this.props
-		console.log('🔄 OhMyRPGView')
+		if (window.XOFF.flags.debug_render) console.log('🔄 OhMyRPGView')
 
 		return (
 			<OhMyRpg

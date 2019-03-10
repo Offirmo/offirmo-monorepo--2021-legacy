@@ -29,6 +29,7 @@ function report_error() {
 	parent.appendChild(error_elem)
 }
 
+// TODO use an iframe!
 function restart({channel_id, nickname} = {}) {
 	if (!channel_id)
 		throw new Error(`${LIB}: can’t set up chat without a channel id!`)
@@ -37,36 +38,44 @@ function restart({channel_id, nickname} = {}) {
 	if (!parent)
 		throw new Error(`${LIB}: can’t set up chat without a #${PARENT_ID} parent!`)
 
+	/*
 	setTimeout(() => {
 		// check if there is an iframe
 		// TODO
 		if (false)
 			report_error()
 	}, 5000)
+*/
 
+	let optimization_delay_ms = 3000 // the chat has a lower priority and the browser should not try to load it asap
 	let anchor_elem = document.getElementById(ELEMENT_ID)
 	if (anchor_elem) {
 		console.warn(`${LIB}: replacing an existing instance. This may not work well!`)
 		anchor_elem.parentNode.removeChild(anchor_elem)
+		optimization_delay_ms = 0 // no need
 	}
-	anchor_elem = document.createElement('div')
-	anchor_elem.id = ELEMENT_ID
-	anchor_elem.className = 'o⋄top-container'
-	anchor_elem.setAttribute('data-theme', 'theme--night')
-	anchor_elem.setAttribute('data-channel', channel_id)
-	if (nickname)
-		anchor_elem.setAttribute('data-nickname', nickname)
 
-	parent.appendChild(anchor_elem)
+	setTimeout(() => {
+		anchor_elem = document.createElement('div')
+		anchor_elem.id = ELEMENT_ID
+		anchor_elem.className = 'o⋄top-container'
+		anchor_elem.setAttribute('data-theme', 'theme--night')
+		anchor_elem.setAttribute('data-channel', channel_id)
+		if (nickname)
+			anchor_elem.setAttribute('data-nickname', nickname)
 
-	// add script
-	// https://stackoverflow.com/a/26478358/587407
-	const script_elem = document.createElement('script')
-	script_elem.type = 'text/javascript'
-	script_elem.async = true
-	script_elem.src = `${document.location.protocol || 'https:'}//tlk.io/embed.js`
-	const scripts = document.getElementsByTagName('script')[0].parentNode
-	scripts.appendChild(script_elem)
+		parent.appendChild(anchor_elem)
+
+		// add script
+		// https://stackoverflow.com/a/26478358/587407
+		const script_elem = document.createElement('script')
+		script_elem.type = 'text/javascript'
+		script_elem.async = true
+		script_elem.importance = 'low'
+		script_elem.src = `${document.location.protocol || 'https:'}//tlk.io/embed.js`
+		const scripts = document.getElementsByTagName('script')[0].parentNode
+		scripts.appendChild(script_elem)
+	}, optimization_delay_ms)
 }
 
 function toggle() {

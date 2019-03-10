@@ -85,10 +85,10 @@
 		}
 	</script>
 
-	<script async src="./index.jsx"></script>
+	<script async importance="high" src="./index.jsx"></script>
 
 	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script defer src="https://www.googletagmanager.com/gtag/js?id=UA-103238291-2"></script>
+	<script defer importance="auto" src="https://www.googletagmanager.com/gtag/js?id=UA-103238291-2"></script>
 	<script>
 		window.dataLayer = window.dataLayer || [];
 		function gtag(){dataLayer.push(arguments);}
@@ -98,5 +98,5 @@
 	</script>
 
 	<!-- netlify identity, hard to embed in the bundle (babel issues) -->
-	<script defer type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+	<script defer importance="low" type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </html>

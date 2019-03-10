@@ -49,7 +49,7 @@ function render_diagnostic() {
 
 export default class Root extends Component {
 	render() {
-		console.log('🔄 Root')
+		if (window.XOFF.flags.debug_render) console.log('🔄 Root')
 		return (
 			<Fragment>
 
@@ -68,7 +68,7 @@ export default class Root extends Component {
 				<DevUI
 					channel={CHANNEL}
 					onPlayPause={is_paused => {
-						window.XOFF.is_paused = is_paused
+						window.XOFF.flags.is_paused = is_paused
 						if (is_paused)
 							console.warn('⏸ Game is now paused!')
 						else

@@ -29,7 +29,6 @@ class MetaPanelC1 extends Component {
 	}
 
 	render() {
-		//console.log('🔄 MetaPanelC1')
 		return (
 			<UStateListenerAndProvider render={this.render_view} />
 		)

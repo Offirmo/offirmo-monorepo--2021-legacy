@@ -9,8 +9,10 @@ import Root from './components/root'
 
 
 window.XOFF = {
-	is_paused: false,
-	debug_render: true, // TODO switch in dev area
+	flags: {
+		is_paused: false,
+		debug_render: false, // TODO switch in dev area
+	}
 }
 
 ReactDOM.render(

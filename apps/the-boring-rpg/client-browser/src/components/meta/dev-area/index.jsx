@@ -53,7 +53,7 @@ export default class DevArea extends Component {
 	}
 
 	render() {
-		console.log('🔄 DevArea')
+		if (window.XOFF.flags.debug_render) console.log('🔄 DevArea')
 
 		// TODO activate those features
 		const media_controls = []

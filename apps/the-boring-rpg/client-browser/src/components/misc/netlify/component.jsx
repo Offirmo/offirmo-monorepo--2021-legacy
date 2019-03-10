@@ -181,7 +181,7 @@ export default class NetlifyIdentity extends Component {
 	}
 
 	render() {
-		console.log('🔄 NetlifyIdentity')
+		if (window.XOFF.flags.debug_render) console.log('🔄 NetlifyIdentity')
 
 		switch (this.state.state) {
 			case STATES.ERROR:
