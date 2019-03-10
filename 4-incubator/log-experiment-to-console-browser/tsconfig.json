@@ -1,8 +1,5 @@
 {
 	"extends": "../../meta/tsconfig.json",
-	"compilerOptions": {
-		"lib": [ "DOM" ]
-	},
 	"include": [
 		"../../typings-custom/**/*.ts",
 		"src/**/*.ts"

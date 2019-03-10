@@ -4,6 +4,7 @@
 TODO debug = dynamic
 TODO emittery?
 TODO remove all TODOs
+TODO improve the logger!
 
 using https://github.com/jamiebuilds/react-loadable for demo
 

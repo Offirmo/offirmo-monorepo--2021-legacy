@@ -1,12 +1,17 @@
 import { WebDebugApi } from '@offirmo/universal-debug-api-interface'
 import { Logger, LoggerCreationParams, createLogger } from '@offirmo/practical-logger-browser'
+import { list as listExperiments } from '@atlassian/log-experiment-to-console-browser'
+
+import { attach } from './attach-listeners-to-debug-command'
 
 
 export function create(): WebDebugApi {
 	const loggers: { [name: string]: Logger } = {}
 	const debugCommands: { [name: string]: () => void } = {}
 
-	return {
+	attach(debugCommands)
+
+	const api: WebDebugApi = {
 		getLogger(p: Readonly<LoggerCreationParams>) {
 			p = {
 				name: '',
@@ -15,9 +20,15 @@ export function create(): WebDebugApi {
 			loggers[p.name] = loggers[p.name] || createLogger(p)
 			return loggers[p.name]
 		},
-		addDebugCommand(name: string, callback: () => void) {
-			debugCommands[name] = callback
-			// TODO attach to window
+		addDebugCommand(commandName: string, callback: () => void) {
+			debugCommands[commandName] = callback
 		},
 	}
+
+	api.addDebugCommand('list', () => {
+		console.log((window as any)._experiments)
+		//listExperiments((window as any)._experiments)
+	})
+
+	return api
 }

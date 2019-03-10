@@ -1,7 +1,6 @@
-import assert from 'tiny-invariant'
 import { Logger } from '@offirmo/universal-debug-api-minimal-to-void'
 
-import { LIB } from '../consts'
+import { INELIGIBILITY_REASON_NOT_RESOLVED_YET } from './consts'
 import { ResolvedExperiment } from '../types'
 import { ExperimentStage, ExperimentInternal } from './types'
 
@@ -26,13 +25,29 @@ export function hasError<T>(state: ExperimentInternal<T>): boolean {
 	return getErrorCount(state) > 0
 }
 
+export function isActive<T>(state: ExperimentInternal<T>): boolean {
+	return state.stage === ExperimentStage.resolving || state.stage === ExperimentStage.resolved
+}
+
+export function isResolved<T>(state: ExperimentInternal<T>): boolean {
+	return state.stage === ExperimentStage.resolved
+}
+
 export function getPromisedResult<T>(state: ExperimentInternal<T>): Promise<ResolvedExperiment> {
 	return state.deferredResult
 }
 
 export function getResultSync<T>(state: ExperimentInternal<T>): ResolvedExperiment {
-	// Yes, we may throw for this one. This is part of the API.
-	assert(state.stage === ExperimentStage.resolved, `[${LIB}/${getKey(state)}] getResultSync(): not resolved yet!`)
+	if (!isResolved(state)) {
+		// TODO warn? log error?
+		return {
+			...state.publicResult,
+			ineligibilityReasons: [
+				...state.publicResult.ineligibilityReasons,
+				INELIGIBILITY_REASON_NOT_RESOLVED_YET,
+			],
+		}
+	}
 
 	return state.publicResult
 }

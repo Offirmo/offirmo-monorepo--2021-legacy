@@ -1,6 +1,7 @@
 import { Enum } from 'typescript-string-enums'
 import assert from 'tiny-invariant'
 import { getLogger as getLoggerFromAbove } from '@offirmo/universal-debug-api-minimal-to-void'
+import { getGlobalThis } from '@offirmo/globalthis-ponyfill'
 
 import { Deferred } from '../utils/deferred'
 import { getProperty } from '../utils/get-property'
@@ -36,6 +37,10 @@ import {
 	hasError,
 } from './selectors'
 
+
+// install globally if no other implementation already present
+const globalThis = getGlobalThis()
+globalThis._experiments = globalThis._experiments || {}
 
 //////////// internal reducers ////////////
 // those don't increment "step"
@@ -103,6 +108,7 @@ export function create<T>(key: string, { logger }: { logger: ExperimentInternal<
 		spec: {
 			key,
 			requirements: {},
+			__overrideCohortForTest: null,
 		},
 		resolution: {
 			pendingOnResolutionInitiatedCallbacks: [],
@@ -127,6 +133,8 @@ export function create<T>(key: string, { logger }: { logger: ExperimentInternal<
 		},
 		deferredResult: new Deferred<ResolvedExperiment>(),
 	}
+
+	globalThis._experiments[getKey(state)] = state
 
 	logger.trace(`[${getKey(state)}]: create(…)`, state)
 
@@ -345,6 +353,13 @@ function _attemptResolution<T>(state: ExperimentInternal<T>, srcDebug: string): 
 
 	state.stage = ExperimentStage.resolved
 
+	if (state.spec.__overrideCohortForTest) {
+		ineligibilityReasons = []
+		if (state.spec.__overrideCohortForTest === 'not-enrolled')
+			ineligibilityReasons.push(INELIGIBILITY_REASON_COHORTED_OUT) // just to have one
+		state.privateResult.initialCohort = state.spec.__overrideCohortForTest
+	}
+
 	const isEligible = ineligibilityReasons.length === 0
 	state.publicResult.cohort = isEligible ? state.privateResult.initialCohort : Cohort['not-enrolled']
 	state.publicResult.isEligible = isEligible
@@ -386,7 +401,7 @@ export function initiateResolution<T>(state: ExperimentInternal<T>): ExperimentI
 		getLogger(state).verbose(`[${getKey(state)}]: initiating resolution…`)
 		state.stage = ExperimentStage.resolving
 
-		getLogger(state).verbose(`[${getKey(state)}]: initiating timeout…`)
+		getLogger(state).debug(`[${getKey(state)}]: initiating timeout…`)
 		state.resolution.startDateMs = getUTCTimestampMs()
 		setTimeout(() => {
 			if (state.stage === ExperimentStage.resolved) return // ok
@@ -397,6 +412,17 @@ export function initiateResolution<T>(state: ExperimentInternal<T>): ExperimentI
 
 		state.resolution.pendingOnResolutionInitiatedCallbacks.forEach(cb => cb())
 		state.resolution.pendingOnResolutionInitiatedCallbacks = []
+
+		// for test/QA only!
+		try {
+			if(!state.spec.__overrideCohortForTest) {
+				const overrideLSKey = `_debug.experiments.${getKey(state)}.testCohort`
+				const testCohort = localStorage.getItem(overrideLSKey)
+				if (testCohort)
+					state.spec.__overrideCohortForTest = testCohort as Cohort
+			}
+		}
+		catch { /* ignore */ }
 	}
 
 	// shortcut if we already have errors

@@ -16,7 +16,8 @@
 	"dependencies": {
 		"@offirmo/globalthis-ponyfill": "^0.0.1",
 		"@offirmo/practical-logger-browser": "^0.0.1",
-		"@offirmo/universal-debug-api-interface": "^0.0.1"
+		"@offirmo/universal-debug-api-interface": "^0.0.1",
+		"@atlassian/log-experiment-to-console-browser": "^0.0.1"
 	},
 
 	"devDependencies": {

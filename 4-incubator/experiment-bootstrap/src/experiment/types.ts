@@ -26,6 +26,8 @@ export interface ExperimentSpec<T> {
 	isOn?: (params: Partial<T>) => boolean | Promise<boolean>
 	cohortPicker?: (params: Partial<T>) => Cohort | Promise<Cohort>
 	requirements: { [key: string]: Requirement<T>['resolver'] }
+
+	__overrideCohortForTest: Cohort | null
 }
 
 
