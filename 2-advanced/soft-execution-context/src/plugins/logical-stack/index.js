@@ -1,5 +1,5 @@
 
-import {INTERNAL_PROP} from '../../constants'
+import {INTERNAL_PROP} from '../../consts'
 import * as TopState from '../../state'
 import {
 	LOGICAL_STACK_BEGIN_MARKER,
@@ -7,7 +7,7 @@ import {
 	LOGICAL_STACK_SEPARATOR,
 	LOGICAL_STACK_OPERATION_MARKER,
 	LOGICAL_STACK_SEPARATOR_NON_ADJACENT,
-} from './constants'
+} from './consts'
 import * as State from './state'
 import { _getSECStatePath } from '../../utils'
 

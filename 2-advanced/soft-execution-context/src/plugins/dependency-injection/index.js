@@ -1,4 +1,4 @@
-import { INTERNAL_PROP } from '../../constants'
+import { INTERNAL_PROP } from '../../consts'
 import * as TopState from '../../state'
 import * as State from './state'
 import { flattenToOwn } from '../../utils'

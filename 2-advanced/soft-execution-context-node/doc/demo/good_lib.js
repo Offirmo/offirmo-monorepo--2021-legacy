@@ -34,7 +34,7 @@ function create({SEC} = {}) {
 			'debug',
 			'trace',
 			'silly',
-		].forEach(level => logger[level]({level}))
+		].forEach(level => logger[level](`test: ${level}`, {level}))
 
 
 		function foo_sync({x} = {}) {

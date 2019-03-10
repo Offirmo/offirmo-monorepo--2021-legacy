@@ -1,4 +1,4 @@
-import { LIB, INTERNAL_PROP } from './constants'
+import { LIB, INTERNAL_PROP } from './consts'
 import { ROOT_PROTOTYPE } from './root-prototype'
 import * as State from './state'
 import { PLUGINS } from './plugins/index'

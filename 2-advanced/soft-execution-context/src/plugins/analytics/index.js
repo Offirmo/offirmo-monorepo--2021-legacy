@@ -1,6 +1,6 @@
 import { get_UTC_timestamp_ms } from '@offirmo/timestamps'
 
-import { INTERNAL_PROP } from '../../constants'
+import { INTERNAL_PROP } from '../../consts'
 import * as TopState from '../../state'
 import { flattenToOwn } from '../../utils'
 import * as State from './state'

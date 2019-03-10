@@ -3,7 +3,7 @@ import { promiseTry } from '@offirmo/promise-try'
 import { get_UTC_timestamp_ms } from '@offirmo/timestamps'
 
 
-import { INTERNAL_PROP } from '../../constants'
+import { INTERNAL_PROP } from '../../consts'
 import { flattenToOwn } from '../../utils'
 import * as State from './state'
 import { createCatcher } from './catch-factory'
