@@ -1,6 +1,6 @@
 {
-	"name": "@tbrpg/rpc-interface",
-	"description": "RPC interface for TBRPG cloud features",
+	"name": "@tbrpg/interfaces",
+	"description": "Interface for TBRPG (RPC for cloud features)",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"private": true,
