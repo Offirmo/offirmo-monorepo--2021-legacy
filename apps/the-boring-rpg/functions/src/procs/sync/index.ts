@@ -1,5 +1,5 @@
 import { VERSION } from '@tbrpg/flux'
-import { RpcSync, RpcSyncResponse } from '@tbrpg/rpc-interface'
+import { RpcSync, RpcSyncResponse } from '@tbrpg/interfaces'
 
 ////////////////////////////////////
 

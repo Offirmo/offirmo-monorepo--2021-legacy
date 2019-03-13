@@ -19,7 +19,7 @@ import {
 	RpcSyncResponse,
 	RpcPlay,
 	RpcPlayResponse,
-} from '@tbrpg/rpc-interface'
+} from '@tbrpg/interfaces'
 
 import process_rpc_echo from './echo'
 import process_rpc_sync from './sync'

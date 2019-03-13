@@ -15,7 +15,7 @@
 		"@offirmo/timestamps": "^0.0.1",
 		"@offirmo/uuid": "^0.0.1",
 		"@tbrpg/flux": "^0",
-		"@tbrpg/rpc-interface": "^0.0.1",
+		"@tbrpg/interfaces": "^0.0.1",
 		"tslib": "^1",
 		"typescript-string-enums": "^1"
 	},

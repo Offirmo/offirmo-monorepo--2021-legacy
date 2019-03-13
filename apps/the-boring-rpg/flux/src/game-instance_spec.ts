@@ -1,7 +1,7 @@
 /////////////////////
 
 import {expect} from 'chai'
-
+import { createLocalStorage } from 'localstorage-ponyfill'
 import { createLogger } from '@offirmo/practical-logger-node'
 
 
@@ -41,6 +41,7 @@ describe(`${LIB}`, function() {
 			it('should create a new game', () => {
 				const game_instance = create_game_instance<AppState>({
 					SEC,
+					local_storage: createLocalStorage({ mode : "memory" }),
 					app_state: {} as any,
 				})
 
@@ -52,6 +53,7 @@ describe(`${LIB}`, function() {
 			it('should create a new game', () => {
 				const game_instance = create_game_instance<AppState>({
 					SEC,
+					local_storage: createLocalStorage({ mode : "memory" }),
 					app_state: { model: {} as any },
 				})
 

@@ -9,10 +9,11 @@ import { UUID } from '@offirmo/uuid'
 import { Document } from '@offirmo/rich-text-format'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo/timestamps'
 
-import { Element } from '@oh-my-rpg/definitions'
+import { OMRContext } from '@oh-my-rpg/definitions'
 import { CharacterClass } from '@oh-my-rpg/state-character'
 import { Item } from '@oh-my-rpg/state-inventory'
 import { PendingEngagement } from "@oh-my-rpg/state-engagement"
+import * as TBRPGState from '@tbrpg/state'
 import * as PRNGState from '@oh-my-rpg/state-prng'
 import { AchievementSnapshot } from '@oh-my-rpg/state-progress'
 import {
@@ -24,11 +25,15 @@ import {
 import * as state_fns from '@tbrpg/state'
 import * as selectors from '@tbrpg/state'
 
+import { PersistentStorage } from './types'
 import { SoftExecutionContext } from './sec'
 import { Action } from './actions'
+import { create as create_local_storage_store } from './stores/local-storage'
 import { create as create_in_memory_store } from './stores/in-memory'
+import { create as create_cloud_store } from './stores/cloud-offline-first'
 import { get_commands } from './commands'
 import { get_queries } from './queries'
+import {LIB} from "./consts";
 
 // tslint:disable-next-line: variable-name
 const Event = Enum(
@@ -43,6 +48,7 @@ interface AppState {
 
 interface CreateParams<T extends AppState> {
 	SEC: SoftExecutionContext
+	local_storage: PersistentStorage
 	app_state: T
 }
 
@@ -50,18 +56,56 @@ function overwriteMerge<T>(destination: T, source: T): T {
 	return source
 }
 
-function create_game_instance<T extends AppState>({SEC, app_state}: CreateParams<T>) {
-	return SEC.xTry('creating tbrpg instance', ({SEC, logger}: any) => {
+
+function create_game_instance<T extends AppState>({SEC, local_storage, app_state}: CreateParams<T>) {
+	return SEC.xTry('creating tbrpg instance', ({SEC, logger}: OMRContext) => {
 
 		app_state = app_state || ({} as any as T)
 
 		const emitter = new EventEmitter()
 
+		// this special store will auto un-persist a potentially existing savegame
+		// but may end up empty if none existing so far
+		const local_storage_store = create_local_storage_store(
+			SEC,
+			local_storage,
+		)
+
+		SEC.xTry(`auto creating/migrating`, ({SEC, logger}: OMRContext): void => {
+			const last_persisted_state: State | null = local_storage_store.get()
+
+			// need this check due to some serializations returning {} for empty
+			const was_empty_state: boolean = !last_persisted_state || Object.keys(last_persisted_state).length === 0
+
+			let state: State = was_empty_state
+				? TBRPGState.reseed(TBRPGState.create(SEC))
+				: TBRPGState.migrate_to_latest(SEC, last_persisted_state!)
+
+			if (was_empty_state) {
+				logger.verbose(`[${LIB}/LSStore] Clean savegame created from scratch:`, {state})
+			} else {
+				logger.trace(`[${LIB}/LSStore] migrated state:`, {state})
+			}
+
+			local_storage_store.set(state)
+		})
+		// we are now sure that the LS store contains sth
+
 		const in_memory_store = create_in_memory_store(
 			SEC,
-			app_state.model,
+			local_storage_store.get()!,
 			(state: Readonly<State>, debugId: string) => {
+				local_storage_store.set(state) // LS is not maintaining a full copy, thus need this instead of dispatch()
 				emitter.emit(Event.model_change, `${debugId}[in-mem]`)
+			},
+		)
+
+		const cloud_store = create_cloud_store(
+			SEC,
+			local_storage,
+			in_memory_store.get()!,
+			(new_state: Readonly<State>): void => {
+				in_memory_store.set(new_state)
 			},
 		)
 
@@ -74,7 +118,9 @@ function create_game_instance<T extends AppState>({SEC, app_state}: CreateParams
 		})
 
 		function dispatch(action: Action) {
+			local_storage_store.dispatch(action) // useless but for coherency
 			in_memory_store.dispatch(action)
+			cloud_store.dispatch(action)
 		}
 
 		const gi = {
@@ -110,7 +156,7 @@ function create_game_instance<T extends AppState>({SEC, app_state}: CreateParams
 
 				subscribe(id: string, fn: () => void): () => void {
 					const unbind = emitter.on(Event.model_change, (src: string) => {
-						const { revision } = in_memory_store.get().u_state
+						const { revision } = in_memory_store.get()!.u_state
 						console.log(`🌀 model change #${revision} reported to subscriber "${id}" (source: ${src})`)
 						fn()
 					})
@@ -138,7 +184,7 @@ function create_game_instance<T extends AppState>({SEC, app_state}: CreateParams
 
 				subscribe(id: string, fn: () => void): () => void {
 					const unbind = emitter.on(Event.view_change, (src: string) => {
-						console.log(`🌀🌀 root/view state change reported to subscriber "${id}" (model: #${in_memory_store.get().u_state.revision}, source: view/${src})`)
+						console.log(`🌀🌀 root/view state change reported to subscriber "${id}" (model: #${in_memory_store.get()!.u_state.revision}, source: view/${src})`)
 						fn()
 					})
 					return unbind

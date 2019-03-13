@@ -22,21 +22,7 @@ import {
 
 function get_commands(
 	dispatch: (action: Action) => void
-	//on_change: (state: Readonly<State>, debugId: string) => void,
 ) {
-/*
-	function execute_action(action: Action, state: Readonly<State> = in_memory_store.get_latest()) {
-		state = reduce_action(state, action)
-		on_change(state, action.type)
-	}
-*/
-
-	/*
-      let state = get_latest_state()
-      state = state_fns.on_start_session(state)
-      persist_state(state)
-      emitter.emit('model_change', 'on_start_session()')
-      */
 	return {
 		on_start_session(is_web_diversity_supporter: boolean, time: TimestampUTCMs = get_UTC_timestamp_ms()) {
 			const action: ActionStartSession = {

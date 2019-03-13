@@ -11,6 +11,7 @@ const ActionType = Enum(
 	'start_game',
 
 	'on_start_session',
+	'on_logged_in_update',
 
 	'play',
 	'equip_item',
@@ -41,6 +42,12 @@ interface ActionStartGame extends BaseAction {
 interface ActionStartSession extends BaseAction {
 	type: typeof ActionType.on_start_session
 	is_web_diversity_supporter: boolean
+}
+
+interface ActionUpdateLoggedInInfos extends BaseAction {
+	type: typeof ActionType.on_logged_in_update
+	is_logged_in: boolean
+	roles: string[]
 }
 
 interface ActionPlay extends BaseAction {
@@ -91,6 +98,7 @@ interface ActionHack extends BaseAction {
 type Action =
 	ActionStartGame |
 	ActionStartSession |
+	ActionUpdateLoggedInInfos |
 	ActionPlay |
 	ActionEquipItem |
 	ActionSellItem |
@@ -108,6 +116,7 @@ export {
 
 	ActionStartGame,
 	ActionStartSession,
+	ActionUpdateLoggedInInfos,
 	ActionPlay,
 	ActionEquipItem,
 	ActionSellItem,

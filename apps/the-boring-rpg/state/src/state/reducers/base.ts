@@ -55,6 +55,28 @@ function on_start_session(state: Readonly<State>, is_web_diversity_supporter: bo
 	// new achievements may have appeared
 	// (new content = not the same as a migration)
 	return _refresh_achievements(state)
+	// TODO if achievements are updated, why not incrementing??
+}
+
+function on_logged_in_update(state: Readonly<State>, is_logged_in: boolean, roles: string[]): Readonly<State> {
+	// update energy (not sure needed but good safety)
+	state = _update_to_now(state)
+
+	state = {
+		...state,
+		u_state: {
+			...state.u_state,
+			meta: MetaState.on_logged_in_refresh(state.u_state.meta, is_logged_in, roles),
+
+			// meta changes don't count as a new revision
+			// because they are merely a way to pass infos from above;
+			// they are not tied to user actions.
+		}
+	}
+
+	// new achievements may have appeared
+	// (new content = not the same as a migration)
+	return _refresh_achievements(state)
 }
 
 function update_to_now(state: Readonly<State>): Readonly<State> {
@@ -134,6 +156,7 @@ function acknowledge_engagement_msg_seen(state: Readonly<State>, uid: number): R
 export {
 	acknowledge_engagement_msg_seen,
 	on_start_session,
+	on_logged_in_update,
 	update_to_now,
 	equip_item,
 	sell_item,

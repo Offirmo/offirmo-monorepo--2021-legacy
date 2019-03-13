@@ -110,6 +110,7 @@
 		"latest-version": "^4",
 		"linewrap": "^0.2",
 		"load-json-file": "^5",
+		"localstorage-ponyfill": "^1",
 		"lodash": "^4",
 		"memoize-one": "^5",
 		"mocha": "^6",

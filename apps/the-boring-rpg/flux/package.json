@@ -28,6 +28,7 @@
 	},
 	"devDependencies": {
 		"@offirmo/practical-logger-node": "^0.0.1",
+		"localstorage-ponyfill": "^1",
 		"npm-run-all": "^4"
 	},
 	"scripts": {

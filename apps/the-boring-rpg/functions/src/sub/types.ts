@@ -10,7 +10,7 @@ import {
 import {
 	JSONRpcRequest,
 	JSONRpcResponse,
-} from '@tbrpg/rpc-interface'
+} from '@tbrpg/interfaces'
 
 ////////////////////////////////////
 

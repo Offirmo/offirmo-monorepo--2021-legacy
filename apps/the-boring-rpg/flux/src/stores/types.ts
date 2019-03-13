@@ -6,17 +6,24 @@ import { Action} from '../actions'
 
 
 interface Store {
+	set: (state: Readonly<State>) => void // usually at init, or a secondary store overwritten by a primary one
 	dispatch: (action: Readonly<Action>) => void
-	get: () => Readonly<State>
+	get: () => Readonly<State> | null
 }
 
 interface InMemoryStore extends Store {
-	// rewrite from scratch. Useful for ex. when a sync from a more recent version from the server happens.
-	set: (state: Readonly<State>) => void
+}
+
+interface LocalStorageStore extends Store {
+}
+
+interface CloudStore extends Store {
 }
 
 
 export {
 	Store,
 	InMemoryStore,
+	LocalStorageStore,
+	CloudStore,
 }

@@ -1,5 +1,5 @@
 import { JSONRpcRequest, JSONRpcResponse } from '../../sub/types'
-import { RpcEcho, RpcEchoResponse } from '@tbrpg/rpc-interface'
+import { RpcEcho, RpcEchoResponse } from '@tbrpg/interfaces'
 
 function handle(
 	req: RpcEcho,

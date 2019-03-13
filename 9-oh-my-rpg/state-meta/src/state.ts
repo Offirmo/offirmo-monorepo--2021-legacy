@@ -13,10 +13,11 @@ function create(): Readonly<State> {
 		schema_version: SCHEMA_VERSION,
 		revision: 0,
 
-		// so far:
-		is_web_diversity_supporter: false,
-		is_logged_in: false,
-		roles: [],
+		persistence_id: undefined, // so far
+
+		is_web_diversity_supporter: false, // so far
+		is_logged_in: false, // so far
+		roles: [], // so far
 	}
 }
 
@@ -35,13 +36,14 @@ function on_start_session(state: Readonly<State>, is_web_diversity_supporter: bo
 }
 
 function on_logged_in_refresh(state: Readonly<State>, is_logged_in: boolean, roles: string[] = []): Readonly<State> {
+	// TODO ignore if no change
 	return {
 		...state,
 
 		is_logged_in,
 		roles,
 		
-		revision: state.revision + 1,
+		revision: state.revision + 1, // should we? TODO assess
 	}
 }
 

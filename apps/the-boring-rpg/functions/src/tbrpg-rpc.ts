@@ -14,7 +14,7 @@ import {
 
 import { create_error } from './sub/utils'
 
-import { Method, TbrpgRpc, TbrpgRpcResponse } from '@tbrpg/rpc-interface'
+import { Method, TbrpgRpc, TbrpgRpcResponse } from '@tbrpg/interfaces'
 import { process_rpc } from './procs'
 
 ////////////////////////////////////

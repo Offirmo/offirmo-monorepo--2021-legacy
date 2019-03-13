@@ -22,9 +22,7 @@ const INITIAL_APP_STATE = {
 	redeeming_code: false,
 }
 
-function get_backup_ls_key(v) {
-	return `${LS_KEYS.savegame_backup}.v${v}`
-}
+xxx to do new instance
 
 SEC.xTry('loading savegame + creating game instance', ({logger}) => {
 	logger.verbose(`State storage key = "${LS_KEYS.savegame}"`)
