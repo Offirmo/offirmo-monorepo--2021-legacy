@@ -1,13 +1,13 @@
 Useful TypeScript types
 
 ```js
-import { NumberHash } from '@offirmo/ts-types'
+import { NumberMap } from '@offirmo/ts-types'
 import { I18nMessages } from '@offirmo/ts-types'
 
 import {
 	JSPrimitiveType,
 
-	NumberHash,
+	NumberMap,
 
 	JSONPrimitiveType,
 	JSONArray,

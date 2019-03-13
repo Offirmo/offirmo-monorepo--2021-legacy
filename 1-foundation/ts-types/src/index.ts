@@ -6,7 +6,7 @@ type JSPrimitiveType = boolean | null | undefined | number | string
 
 /////////////////////
 
-interface NumberHash {
+interface NumberMap {
 	[k: string]: number
 }
 
@@ -44,10 +44,12 @@ interface I18nMessages {
 
 type ImmutabilityEnforcer = <T>(x: T) => Readonly<T>
 
+/////////////////////
+
 export {
 	JSPrimitiveType,
 
-	NumberHash,
+	NumberMap,
 
 	JSONAny,
 	JSONPrimitiveType,
