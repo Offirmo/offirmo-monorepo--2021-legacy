@@ -17,7 +17,8 @@
 	"dependencies": {
 		"@oh-my-rpg/definitions": "^0.0.1",
 		"@offirmo/random": "^2",
-		"deep-freeze-strict": "^1"
+		"deep-freeze-strict": "^1",
+		"tiny-invariant": "^1"
 	},
 	"devDependencies": {
 		"@oh-my-rpg/migration-tester": "^0.0.1",

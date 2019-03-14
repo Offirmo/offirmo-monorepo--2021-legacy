@@ -27,7 +27,7 @@
 		"@oh-my-rpg/state-progress": "^0.0.1",
 		"@tbrpg/state": "^0",
 		"@oh-my-rpg/state-wallet": "^0.0.1",
-		"lodash": "^4",
+		"tiny-invariant": "^1",
 		"typescript-string-enums": "^1"
 	},
 	"devDependencies": {

@@ -19,6 +19,7 @@
 		"@oh-my-rpg/logic-armors": "^0.0.1",
 		"@oh-my-rpg/logic-weapons": "^0.0.1",
 		"@offirmo/random": "^2",
+		"tiny-invariant": "^1",
 		"typescript-string-enums": "^1"
 	},
 

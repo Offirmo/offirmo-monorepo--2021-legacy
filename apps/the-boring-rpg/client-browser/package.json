@@ -46,6 +46,7 @@
 		"react-animation-frame": "^1",
 		"react-dom": "^16",
 		"react-router-dom": "^4",
+		"tiny-invariant": "^1",
 		"tslib": "^1"
 	},
 	"devDependencies": {

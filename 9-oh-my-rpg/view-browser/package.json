@@ -10,6 +10,8 @@
 		"build:cleancss": "mkdir -p dist && cleancss --skip-rebase -o dist/oh-my-rpg-browser.css src/style.css",
 		"build": "npm-run-all clean --parallel build:copy build:cleancss"
 	},
+	"dependencies": {
+	},
 	"devDependencies": {
 		"@offirmo/view-css": "^0.0.1",
 		"clean-css-cli": "^4",

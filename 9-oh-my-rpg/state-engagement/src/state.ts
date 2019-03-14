@@ -1,5 +1,7 @@
 /////////////////////
 
+import assert from 'tiny-invariant'
+
 import { SCHEMA_VERSION } from './consts'
 
 import {
@@ -50,11 +52,8 @@ function enqueue(state: Readonly<State>, engagement: Readonly<Engagement>, param
 }
 
 function acknowledge_seen(state: Readonly<State>, uid: number): Readonly<State> {
-
 	const is_in_queue = state.queue.some(queued => queued.uid === uid)
-	if (!is_in_queue) {
-		throw new Error(`Engagement: acknowledging a non-queued engagement "${uid}"!`)
-	}
+	assert(is_in_queue, `Engagement: acknowledging a non-queued engagement "${uid}"!`)
 
 	return {
 		...state,

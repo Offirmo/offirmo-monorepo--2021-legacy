@@ -18,6 +18,7 @@
 		"@offirmo/random": "^2",
 		"@offirmo/ts-types": "^0.0.1",
 		"@offirmo/uuid": "^0.0.1",
+		"tiny-invariant": "^1",
 		"typescript-string-enums": "^1"
 	},
 	"devDependencies": {

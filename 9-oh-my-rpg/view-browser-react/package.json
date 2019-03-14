@@ -18,7 +18,8 @@
 		"@oh-my-rpg/view-browser": "^0.0.1",
 		"classnames": "^2",
 		"react-burger-menu": "^2",
-		"react-notification-system": "^0.2"
+		"react-notification-system": "^0.2",
+		"tiny-invariant": "^1"
 	},
 	"devDependencies": {
 		"@babel/core": "^7",

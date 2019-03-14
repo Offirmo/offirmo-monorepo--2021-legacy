@@ -21,6 +21,7 @@
 		"deep-freeze-strict": "^1",
 		"fraction.js": "^4",
 		"memoize-one": "^5",
+		"tiny-invariant": "^1",
 		"typescript-string-enums": "^1"
 	},
 	"devDependencies": {
