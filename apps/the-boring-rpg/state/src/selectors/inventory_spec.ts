@@ -17,7 +17,7 @@ import {create} from "../state/reducers";
 import {appraise_item_value} from "./inventory";
 
 
-describe(`${LIB} - selectors / inventory`, function() {
+describe(`${LIB} - selectors - inventory`, function() {
 	beforeEach(() => xxx_internal_reset_prng_cache())
 
 	describe('appraise_item_value() by uuid', function() {
@@ -31,7 +31,7 @@ describe(`${LIB} - selectors / inventory`, function() {
 
 				const price = appraise_item_value(state.u_state, armor!.uuid)
 
-				expect(price).to.equal(5)
+				expect(price).to.equal(1)
 			})
 		})
 

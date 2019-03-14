@@ -52,6 +52,8 @@
 	"devDependencies": {
 		"@offirmo/prettify-json": "^0.0.1",
 		"@oh-my-rpg/migration-tester": "^0.0.1",
+		"@types/deep-freeze-strict": "^1",
+		"deep-freeze-strict": "^1",
 		"npm-run-all": "^4"
 	}
 }

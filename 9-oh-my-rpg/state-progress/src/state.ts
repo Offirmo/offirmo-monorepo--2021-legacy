@@ -1,16 +1,17 @@
 /////////////////////
 
+import assert from 'tiny-invariant'
 import { Enum } from 'typescript-string-enums'
 import { get_human_readable_UTC_timestamp_days } from '@offirmo/timestamps'
 
-import { SCHEMA_VERSION } from './consts'
+import { LIB, SCHEMA_VERSION } from './consts'
 
 import {
 	AchievementStatus,
 	State,
 } from './types'
 
-import { } from './selectors'
+import { get_last_known_achievement_status } from './selectors'
 
 import { SoftExecutionContext, OMRContext, get_lib_SEC } from './sec'
 
@@ -50,24 +51,24 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 /////////////////////
 
 function _on_activity(state: Readonly<State>, previous_revision: number): Readonly<State> {
-	const new_state = {
-		...state,
 
-		statistics: {
-			...state.statistics,
-			last_visited_timestamp: get_human_readable_UTC_timestamp_days(),
-		},
+	const current_timestamp = get_human_readable_UTC_timestamp_days()
+	const is_new_day = state.statistics.last_visited_timestamp !== current_timestamp
+	if (is_new_day) {
+		state = {
+			...state,
 
-		revision: previous_revision + 1,
+			statistics: {
+				...state.statistics,
+				last_visited_timestamp: current_timestamp,
+			},
+
+			revision: previous_revision + 1, // to avoid double increment
+		}
+		state.statistics.active_day_count = (state.statistics.active_day_count || 0) + 1
 	}
 
-	const is_new_day = state.statistics.last_visited_timestamp !== new_state.statistics.last_visited_timestamp
-	if (!is_new_day)
-		return state // FOR NOW?
-
-	new_state.statistics.active_day_count = (new_state.statistics.active_day_count || 0) + 1
-
-	return new_state
+	return state
 }
 
 interface PlayedDetails {
@@ -79,7 +80,8 @@ interface PlayedDetails {
 	tokens_gained: number
 	items_gained: number
 }
-function on_played(state: Readonly<State>, details: PlayedDetails): Readonly<State> {
+function on_played(previous_state: Readonly<State>, details: PlayedDetails): Readonly<State> {
+	let state = previous_state
 	const {
 		good,
 		adventure_key,
@@ -90,7 +92,7 @@ function on_played(state: Readonly<State>, details: PlayedDetails): Readonly<Sta
 		items_gained,
 	} = details
 
-	const new_state = {
+	state = {
 		...state,
 
 		// mutate the root of fields we'll change below
@@ -102,7 +104,7 @@ function on_played(state: Readonly<State>, details: PlayedDetails): Readonly<Sta
 	}
 
 	// shortcut
-	let stats = new_state.statistics
+	let stats = state.statistics
 
 	if(!stats.encountered_adventures[adventure_key]) {
 		stats.encountered_adventures = {
@@ -147,23 +149,33 @@ function on_played(state: Readonly<State>, details: PlayedDetails): Readonly<Sta
 	stats.tokens_gained += tokens_gained
 	stats.items_gained += items_gained
 
-	return _on_activity(new_state, state.revision)
+	return _on_activity(state, previous_state.revision)
 }
 
 /////////////////////
 
-function on_achieved(state: Readonly<State>, key: string, new_status: AchievementStatus): Readonly<State> {
-	const new_state = {
-		...state,
+function on_achieved(previous_state: Readonly<State>, key: string, new_status: AchievementStatus): Readonly<State> {
+	const last_known_status = get_last_known_achievement_status(previous_state, key)
+
+	if (last_known_status === new_status) return previous_state
+
+	if (last_known_status === AchievementStatus.unlocked) {
+		// Never remove an achievement, they are sticky.
+		// Even if it was a bug, it should be revoked in a migration
+		assert(last_known_status !== AchievementStatus.unlocked, `${LIB}: achievements are sticky, they can’t be removed!`)
+	}
+
+	let state = {
+		...previous_state,
 
 		achievements: {
-			...state.achievements,
+			...previous_state.achievements,
 			[key]: new_status,
 		},
 
-		revision: state.revision + 1,
+		revision: previous_state.revision + 1,
 	}
-	return _on_activity(new_state, state.revision)
+	return _on_activity(state, previous_state.revision)
 }
 
 /////////////////////

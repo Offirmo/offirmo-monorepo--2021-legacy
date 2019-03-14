@@ -24,6 +24,7 @@ import * as MetaState from '@oh-my-rpg/state-meta'
 import { LIB } from '../../consts'
 import { State } from '../../types'
 import { get_lib_SEC } from '../../sec'
+import { propagate_child_revision_increment_upward } from '../../utils/state'
 import { get_available_classes } from '../../selectors'
 
 import { _refresh_achievements } from './achievements'
@@ -34,31 +35,30 @@ import {
 
 /////////////////////
 
-function on_start_session(state: Readonly<State>, is_web_diversity_supporter: boolean): Readonly<State> {
+function on_start_session(previous_state: Readonly<State>, is_web_diversity_supporter: boolean): Readonly<State> {
 	// update energy (not sure needed but good safety)
-	state = _update_to_now(state)
+	let state = _update_to_now(previous_state)
 
 	state = {
 		...state,
 		u_state: {
 			...state.u_state,
 			meta: MetaState.on_start_session(state.u_state.meta, is_web_diversity_supporter),
-
-			// meta changes don't count as a new revision
-			// because they are merely a way to pass infos from above;
-			// they are not tied to user actions.
 		}
 	}
 
 	// TODO recap here ?
 
+	state = propagate_child_revision_increment_upward(previous_state, state)
+
 	// new achievements may have appeared
 	// (new content = not the same as a migration)
-	return _refresh_achievements(state)
-	// TODO if achievements are updated, why not incrementing??
+	return _refresh_achievements(state, previous_state.u_state.revision)
 }
 
-function on_logged_in_update(state: Readonly<State>, is_logged_in: boolean, roles: string[]): Readonly<State> {
+function on_logged_in_update(previous_state: Readonly<State>, is_logged_in: boolean, roles: string[]): Readonly<State> {
+	let state = previous_state
+
 	// update energy (not sure needed but good safety)
 	state = _update_to_now(state)
 
@@ -67,23 +67,25 @@ function on_logged_in_update(state: Readonly<State>, is_logged_in: boolean, role
 		u_state: {
 			...state.u_state,
 			meta: MetaState.on_logged_in_refresh(state.u_state.meta, is_logged_in, roles),
-
-			// meta changes don't count as a new revision
-			// because they are merely a way to pass infos from above;
-			// they are not tied to user actions.
 		}
 	}
 
+	// TODO engagement here ?
+
+	state = propagate_child_revision_increment_upward(previous_state, state)
+
 	// new achievements may have appeared
 	// (new content = not the same as a migration)
-	return _refresh_achievements(state)
+	// this may indeed cause a revision
+	return _refresh_achievements(state, previous_state.u_state.revision)
 }
 
 function update_to_now(state: Readonly<State>): Readonly<State> {
 	return _update_to_now(state)
 }
 
-function equip_item(state: Readonly<State>, uuid: UUID): Readonly<State> {
+function equip_item(previous_state: Readonly<State>, uuid: UUID): Readonly<State> {
+	let state = previous_state
 	state = {
 		...state,
 		u_state: {
@@ -94,21 +96,18 @@ function equip_item(state: Readonly<State>, uuid: UUID): Readonly<State> {
 		},
 	}
 
-	return _refresh_achievements(state)
+	return _refresh_achievements(state, previous_state.u_state.revision)
 }
 
-function sell_item(state: Readonly<State>, uuid: UUID): Readonly<State> {
+function sell_item(previous_state: Readonly<State>, uuid: UUID): Readonly<State> {
+	let state = previous_state
 	state = _sell_item(state, uuid)
-	return _refresh_achievements({
-		...state,
-		u_state: {
-			...state.u_state,
-			revision: state.u_state.revision + 1,
-		},
-	})
+	state = propagate_child_revision_increment_upward(previous_state, state)
+	return _refresh_achievements(state, previous_state.u_state.revision)
 }
 
-function rename_avatar(state: Readonly<State>, new_name: string): Readonly<State> {
+function rename_avatar(previous_state: Readonly<State>, new_name: string): Readonly<State> {
+	let state = previous_state
 	state = {
 		...state,
 
@@ -119,13 +118,14 @@ function rename_avatar(state: Readonly<State>, new_name: string): Readonly<State
 		},
 	}
 
-	return _refresh_achievements(state)
+	return _refresh_achievements(state, previous_state.u_state.revision)
 }
 
-function change_avatar_class(state: Readonly<State>, new_class: CharacterClass): Readonly<State> {
-	if (!get_available_classes(state.u_state).includes(new_class))
+function change_avatar_class(previous_state: Readonly<State>, new_class: CharacterClass): Readonly<State> {
+	if (!get_available_classes(previous_state.u_state).includes(new_class))
 		throw new Error(`${LIB}: switch class: invalid class "${new_class}"!`)
 
+	let state = previous_state
 	state = {
 		...state,
 
@@ -136,19 +136,23 @@ function change_avatar_class(state: Readonly<State>, new_class: CharacterClass):
 		},
 	}
 
-	return _refresh_achievements(state)
+	return _refresh_achievements(state, previous_state.u_state.revision)
 }
 
-function acknowledge_engagement_msg_seen(state: Readonly<State>, uid: number): Readonly<State> {
-	return {
+function acknowledge_engagement_msg_seen(previous_state: Readonly<State>, uid: number): Readonly<State> {
+	let state = previous_state
+	state = {
 		...state,
 
 		u_state: {
 			...state.u_state,
 			engagement: EngagementState.acknowledge_seen(state.u_state.engagement, uid),
-			revision: state.u_state.revision + 1,
 		},
 	}
+
+	state = propagate_child_revision_increment_upward(previous_state, state)
+
+	return state
 }
 
 /////////////////////

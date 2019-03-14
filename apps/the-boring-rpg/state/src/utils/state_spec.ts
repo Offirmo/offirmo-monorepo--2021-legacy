@@ -112,19 +112,6 @@ describe(`${LIB} - utils - state`, function() {
 				expect(() => propagate_child_revision_increment_upward(previous_base, current_base))
 					.to.throw('already incremented')
 			})
-
-			it('should throw if sub-incremented too much', () => {
-				const current_base = deepFreeze({
-					...previous_base,
-					sub1: {
-						...previous_base.sub1,
-						revision: 47, // bad
-						foo: 43,
-					}
-				})
-				expect(() => propagate_child_revision_increment_upward(previous_base, current_base))
-					.to.throw('Invalid increment')
-			})
 		})
 
 		context('on a root state', function() {
@@ -187,22 +174,6 @@ describe(`${LIB} - utils - state`, function() {
 				})
 				expect(() => propagate_child_revision_increment_upward(previous_root, current_root))
 					.to.throw('already incremented')
-			})
-
-			it('should throw if sub-incremented too much', () => {
-				const current_root = deepFreeze({
-					...previous_root,
-					u_state: {
-						...previous_root.u_state,
-						sub1: {
-							...previous_root.u_state.sub1,
-							revision: 47, // bad
-							foo: 43,
-						},
-					},
-				})
-				expect(() => propagate_child_revision_increment_upward(previous_root, current_root))
-					.to.throw('Invalid increment')
 			})
 		})
 

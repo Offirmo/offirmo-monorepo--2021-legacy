@@ -41,7 +41,7 @@ import {STARTING_ARMOR_SPEC, STARTING_WEAPON_SPEC} from "./create";
 
 /////////////////////
 
-function __compare_items_by_normalized_power(a: Readonly<Item>, b: Readonly<Item>): number {
+function compare_items_by_normalized_power(a: Readonly<Item>, b: Readonly<Item>): number {
 	const power_a = appraise_power_normalized(a)
 	const power_b = appraise_power_normalized(b)
 
@@ -52,9 +52,7 @@ function __compare_items_by_normalized_power(a: Readonly<Item>, b: Readonly<Item
 
 // XXX those internal reducers:
 // - do not refresh achievements or update the T-state
-// - do not increment the revision
-
-// note: some are mainly used in tests
+// - do not increment the root revision (but this has to be done by the parent)
 
 function _loose_all_energy(state: Readonly<State>): Readonly<State> {
 	return {
@@ -191,7 +189,7 @@ function _auto_make_room(state: Readonly<State>, options: { DEBUG?: boolean } = 
 				}
 				return true
 			})
-			.sort(__compare_items_by_normalized_power)
+			.sort(compare_items_by_normalized_power)
 			.reverse() // to put the lowest quality items first
 			.forEach((e: Readonly<Item>) => {
 				//console.log(e.quality, e.slot, appraise_power_normalized(e))

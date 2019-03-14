@@ -10,6 +10,7 @@ import * as ProgressState from '@oh-my-rpg/state-progress'
 /////////////////////
 
 import { State } from '../../../types'
+import { propagate_child_revision_increment_upward } from '../../../utils/state'
 
 import { get_available_energy_float } from '../../../selectors'
 import { _update_to_now } from '../internal'
@@ -20,8 +21,8 @@ import { _refresh_achievements } from '../achievements'
 /////////////////////
 
 // note: allows passing an explicit adventure archetype for testing
-function play(state: Readonly<State>, explicit_adventure_archetype_hid?: string): Readonly<State> {
-	state = _update_to_now(state)
+function play(previous_state: Readonly<State>, explicit_adventure_archetype_hid?: string): Readonly<State> {
+	let state = _update_to_now(previous_state)
 
 	let { u_state, t_state } = state
 
@@ -65,7 +66,7 @@ function play(state: Readonly<State>, explicit_adventure_archetype_hid?: string)
 		}
 	}
 
-	return _refresh_achievements(state)
+	return _refresh_achievements(state, previous_state.u_state.revision)
 }
 
 /////////////////////

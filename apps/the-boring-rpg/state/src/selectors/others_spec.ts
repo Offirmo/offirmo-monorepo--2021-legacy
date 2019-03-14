@@ -11,7 +11,7 @@ import {
 import { CharacterClass } from '@oh-my-rpg/state-character'
 
 
-describe(`${LIB} - selectors / others`, function() {
+describe(`${LIB} - selectors - others`, function() {
 	beforeEach(() => xxx_internal_reset_prng_cache())
 
 	describe('find_element() by uuid', function() {
@@ -49,8 +49,8 @@ describe(`${LIB} - selectors / others`, function() {
 
 			expect(klasses).to.be.an('array')
 			klasses.forEach(k => {
-				expect(k).to.be.a('string')
-				expect(k.length).to.be.above(4)
+				expect(k, k).to.be.a('string')
+				expect(k.length, k).to.be.above(3)
 			})
 		})
 		it('should filter out novice', () => {

@@ -1,3 +1,4 @@
+import assert from 'tiny-invariant'
 import { JSONAny } from '@offirmo/ts-types'
 
 export interface BaseState {
@@ -28,6 +29,8 @@ export function propagate_child_revision_increment_upward<S>(
 		// this is a more advanced state
 		let typed_previous: BaseRootState = previous as any
 		let typed_current: BaseRootState = current as any
+		assert(!Number.isInteger(typed_current.revision), 'revision should be on u_state (1)!')
+		assert(Number.isInteger(typed_current.u_state.revision as any), 'revision should be on u_state (2)!')
 		const final_u_state = propagate_child_revision_increment_upward(typed_previous.u_state, typed_current.u_state)
 		if (final_u_state === typed_current.u_state)
 			return current
@@ -55,8 +58,11 @@ export function propagate_child_revision_increment_upward<S>(
 				throw new Error(`propagate_child_revision_increment_upward(): Invalid revision for previous "${k}"!`)
 			if (!Number.isInteger(current_revision as any))
 				throw new Error(`propagate_child_revision_increment_upward(): Invalid revision for current "${k}"!`)
-			if (current_revision !== previous_revision + 1)
-				throw new Error(`propagate_child_revision_increment_upward(): Invalid increment for "${k}"!`)
+			if (current_revision !== previous_revision + 1) {
+				// NO! It may be normal for a sub to have been stimulated more than once,
+				// ex. gained 3 achievements
+				//throw new Error(`propagate_child_revision_increment_upward(): Invalid increment for "${k}"!`)
+			}
 
 			has_child_revision_increment = true
 			break

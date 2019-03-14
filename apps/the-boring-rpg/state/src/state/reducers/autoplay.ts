@@ -22,7 +22,7 @@ import { propagate_child_revision_increment_upward } from '../../utils/state'
 import {
 	get_available_energy_float,
 	find_better_unequipped_armor,
-	find_better_unequipped_weapon,
+	find_better_unequipped_weapon, get_available_classes,
 } from '../../selectors'
 
 import {
@@ -54,7 +54,8 @@ function _autogroom(state: Readonly<State>, options: { DEBUG?: boolean } = {}): 
 	// User class
 	if (state.u_state.avatar.klass === CharacterClass.novice) {
 		// change class
-		let new_class: CharacterClass = Random.pick(Random.engines.nativeMath, Enum.values(CharacterClass))
+		let available_classes = get_available_classes(state.u_state)
+		let new_class: CharacterClass = Random.pick(Random.engines.nativeMath, available_classes)
 		if (DEBUG) console.log(`    - Changing class to ${new_class}…`)
 		state = change_avatar_class(state, new_class)
 	}
@@ -76,7 +77,7 @@ function _autogroom(state: Readonly<State>, options: { DEBUG?: boolean } = {}): 
 		state = equip_item(state, better_armor.uuid)
 	}
 
-	// inventory full
+	// in case inventory full
 	state = _auto_make_room(state, options)
 
 	// misc: ack the possible notifications
@@ -89,8 +90,8 @@ function _autogroom(state: Readonly<State>, options: { DEBUG?: boolean } = {}): 
  * as efficiently as possible,
  * trying to restore as much achievements as possible
  */
-function autoplay(state: Readonly<State>, options: Readonly<{ target_good_play_count?: number, target_bad_play_count?: number, DEBUG?: boolean }> = {}): Readonly<State> {
-	const original_state = state
+function autoplay(previous_state: Readonly<State>, options: Readonly<{ target_good_play_count?: number, target_bad_play_count?: number, DEBUG?: boolean }> = {}): Readonly<State> {
+	let state = previous_state
 	let { target_good_play_count, target_bad_play_count, DEBUG } = options
 
 	if (DEBUG) console.log(`- Autoplay g=${target_good_play_count}, b=${target_bad_play_count}..`)
@@ -178,11 +179,15 @@ function autoplay(state: Readonly<State>, options: Readonly<{ target_good_play_c
 		}
 	}
 
-	// TODO make it so the remaining energy is the same as when we started
+	// make it so the remaining energy is the same as when we started, to not prevent immediate play
+	state.t_state.energy.available_energy = {
+		...previous_state.t_state.energy.available_energy,
+	}
 
-	state = _refresh_achievements(state)
+	state = _refresh_achievements(state, state.u_state.revision)
 	state = _ack_all_engagements(state)
-	state = propagate_child_revision_increment_upward(original_state, state)
+	if (state.u_state.revision === previous_state.u_state.revision)
+		state = propagate_child_revision_increment_upward(previous_state, state)
 
 	return state
 }

@@ -20,6 +20,7 @@ import { switch_class } from '@oh-my-rpg/state-character'
 /////////////////////
 
 import { State } from '../../types'
+import { propagate_child_revision_increment_upward } from '../../utils/state'
 import { EngagementKey } from '../../engagement'
 import { CODE_SPECS_BY_KEY } from '../../data/codes'
 
@@ -35,17 +36,18 @@ import { reseed } from "./create";
 
 /////////////////////
 
-function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<State> {
-	let engagement_key: EngagementKey = EngagementKey['code_redemption--failed']
+function attempt_to_redeem_code(previous_state: Readonly<State>, code: string): Readonly<State> {
+	let engagement_key: EngagementKey = EngagementKey['code_redemption--failed'] // so far
 	let engagement_params: any = {}
 
 	code = CodesState.normalize_code(code)
 	const code_spec = CODE_SPECS_BY_KEY[code]
 
+	let state = previous_state
 	let { u_state, t_state } = state
 	if (!code_spec || !CodesState.is_code_redeemable(u_state.codes, code_spec, state)) {
-		// this should not having been called
-		// nothing to do, will trigger an engagement rejection
+		// nothing to do,
+		// will trigger an engagement rejection below
 	}
 	else {
 		state = _update_to_now(state)
@@ -221,7 +223,8 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<
 		}
 	}
 
-	return _refresh_achievements({
+	// enqueue the result
+	state = {
 		...state,
 		u_state: {
 			...u_state,
@@ -229,10 +232,13 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<
 				type: EngagementState.EngagementType.flow,
 				key: engagement_key,
 			}, engagement_params),
-			revision: u_state.revision + 1,
 		},
 		t_state,
-	})
+	}
+
+	state = propagate_child_revision_increment_upward(previous_state, state)
+
+	return _refresh_achievements(state, previous_state.u_state.revision)
 }
 
 /////////////////////

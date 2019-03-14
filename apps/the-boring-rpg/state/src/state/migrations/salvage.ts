@@ -104,7 +104,8 @@ function reset_and_salvage(legacy_state: Readonly<JSONObject>): Readonly<State> 
 		console.warn(`${LIB}: salvaging: may need to update the avatar class salvaging!`)
 	}
 	else {
-		state = change_avatar_class(state, klass as CharacterClass)
+		if (klass !== state.u_state.avatar.klass)
+			state = change_avatar_class(state, klass as CharacterClass)
 	}
 
 	const good_play_count = get_good_play_count(legacy_state)

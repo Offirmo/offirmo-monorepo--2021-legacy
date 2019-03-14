@@ -149,7 +149,7 @@ if (Object.keys(SECONDARY_STATS_BY_CLASS).length !== Enum.keys(CharacterClass).l
 	throw new Error(`${LIB}: SECONDARY_STATS_BY_CLASS is out of date!`)
 
 
-function _instantiate_adventure_archetype(
+function instantiate_adventure_archetype(
 	rng: Engine,
 	aa: Readonly<AdventureArchetype>,
 	character: Readonly<CharacterState>,
@@ -227,7 +227,7 @@ function _instantiate_adventure_archetype(
 function play_adventure(state: Readonly<State>, aa: Readonly<AdventureArchetype>): Readonly<State> {
 	const rng = get_prng(state.u_state.prng)
 
-	const adventure = _instantiate_adventure_archetype(
+	const adventure = instantiate_adventure_archetype(
 		rng,
 		aa,
 		state.u_state.avatar,

@@ -83,7 +83,7 @@ function get_oldest_pending_non_flow_engagement(u_state: Readonly<UState>): { ui
 	}
 }
 
-function get_available_classes(u_state: Readonly<UState>): string[] {
+function get_available_classes(u_state: Readonly<UState>): CharacterClass[] {
 	return Enum.keys(CharacterClass)
 		.filter(klass => klass !== CharacterClass.novice)
 }

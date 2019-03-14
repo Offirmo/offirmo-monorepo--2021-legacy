@@ -18,6 +18,8 @@ describe(`${LIB} - reducer`, function() {
 				schema_version: SCHEMA_VERSION,
 				revision: 0,
 
+				persistence_id: undefined,
+
 				is_web_diversity_supporter: false,
 				is_logged_in: false,
 				roles: [],
