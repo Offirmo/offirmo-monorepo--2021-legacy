@@ -5,7 +5,7 @@ import { Enum } from 'typescript-string-enums'
 import { LIB } from '../consts'
 
 import { createExperiment } from '.'
-import {Cohort, Requirement, ResolvedExperiment} from "../types";
+import {Cohort, Requirement, ResolvedExperiment} from '../types'
 
 
 // tslint:disable-next-line: variable-name

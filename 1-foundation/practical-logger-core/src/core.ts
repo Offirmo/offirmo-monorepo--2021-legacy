@@ -15,7 +15,7 @@ import {
 	DEFAULT_LOG_LEVEL,
 	DEFAULT_LOGGER_KEY,
 } from './consts'
-import {LogSink} from "@offirmo/practical-logger-interface/src";
+import { LogSink } from '@offirmo/practical-logger-interface'
 
 
 export function checkLevel(level: LogLevel) {

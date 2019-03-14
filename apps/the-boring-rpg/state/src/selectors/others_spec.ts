@@ -8,7 +8,7 @@ import {
 	find_element,
 	get_available_classes,
 } from './others'
-import {CharacterClass} from "@oh-my-rpg/state-character/src";
+import { CharacterClass } from '@oh-my-rpg/state-character'
 
 
 describe(`${LIB} - selectors / others`, function() {

@@ -12,7 +12,7 @@ import {
 	Cohort,
 	Requirement,
 	ResolvedExperiment,
-} from "../types";
+} from '../types'
 
 import { LIB } from '../consts'
 

@@ -10,7 +10,7 @@ import {get_lib_SEC} from './sec'
 import { State, DEMO_STATE } from '@tbrpg/state'
 
 import { create_game_instance } from '.'
-import {getRootSEC} from "@offirmo/soft-execution-context";
+import {getRootSEC} from '@offirmo/soft-execution-context'
 
 
 /////////////////////

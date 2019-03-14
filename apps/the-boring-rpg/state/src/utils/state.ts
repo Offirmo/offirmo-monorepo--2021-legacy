@@ -45,12 +45,19 @@ export function propagate_child_revision_increment_upward<S>(
 		throw new Error('propagate_child_revision_increment_upward(): Invalid current state!')
 
 	if (Number.isInteger(typed_previous.revision as any) && typed_current.revision !== typed_previous.revision)
-		throw new Error('propagate_child_revision_increment_upward(): revision already increased!')
+		throw new Error('propagate_child_revision_increment_upward(): revision already incremented!')
 
 	for (let k in current) {
 		let previous_revision = (previous[k] as any || {}).revision
-		let current_revision =  (current[k] as any || {}).revision
+		let current_revision = (current[k] as any || {}).revision
 		if (current_revision !== previous_revision) {
+			if (!Number.isInteger(previous_revision as any))
+				throw new Error(`propagate_child_revision_increment_upward(): Invalid revision for previous "${k}"!`)
+			if (!Number.isInteger(current_revision as any))
+				throw new Error(`propagate_child_revision_increment_upward(): Invalid revision for current "${k}"!`)
+			if (current_revision !== previous_revision + 1)
+				throw new Error(`propagate_child_revision_increment_upward(): Invalid increment for "${k}"!`)
+
 			has_child_revision_increment = true
 			break
 		}

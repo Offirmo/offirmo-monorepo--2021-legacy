@@ -218,6 +218,8 @@
 			"schema_version": 2,
 			"revision": 0,
 
+			"persistence_id": null,
+
 			"is_web_diversity_supporter": false,
 			"is_logged_in": false,
 			"roles": [ ]

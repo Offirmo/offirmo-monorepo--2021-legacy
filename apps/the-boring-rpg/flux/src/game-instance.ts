@@ -33,7 +33,7 @@ import { create as create_in_memory_store } from './stores/in-memory'
 import { create as create_cloud_store } from './stores/cloud-offline-first'
 import { get_commands } from './commands'
 import { get_queries } from './queries'
-import {LIB} from "./consts";
+import {LIB} from './consts'
 
 // tslint:disable-next-line: variable-name
 const Event = Enum(
