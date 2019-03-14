@@ -20,7 +20,7 @@ import { State as CodesState } from '@oh-my-rpg/state-codes'
 import { State as ProgressState } from '@oh-my-rpg/state-progress'
 import { State as MetaState } from '@oh-my-rpg/state-meta'
 
-import { AchievementStatus } from '@oh-my-rpg/state-progress'
+//import { BaseState, BaseRootState } from './utils/state'
 
 /////////////////////
 
@@ -69,7 +69,7 @@ interface Adventure {
 
 /////////////////////
 
-interface UState {
+interface UState /*extends BaseState*/ {
 	revision: number
 
 	readonly uuid: UUID // TODO review
@@ -88,11 +88,11 @@ interface UState {
 	last_adventure: Adventure | null
 }
 
-interface TState {
+interface TState /*extends BaseState*/ {
 	energy: EnergyTState,
 }
 
-interface State {
+interface State /*extends BaseRootState*/ {
 	schema_version: number
 
 	u_state: UState

@@ -32,12 +32,14 @@ describe(`${LIB} - reducer - internals`, function() {
 	beforeEach(() => xxx_internal_reset_prng_cache())
 
 	describe('_loose_all_energy', function() {
-		let state = create()
+		it('should work', () => {
+			let state = create()
 
-		expect(get_available_energy_float(state.t_state)).to.equal(7.)
+			expect(get_available_energy_float(state.t_state)).to.equal(7.)
 
-		state = _loose_all_energy(state)
+			state = _loose_all_energy(state)
 
-		expect(get_available_energy_float(state.t_state)).to.equal(0.)
+			expect(get_available_energy_float(state.t_state)).to.equal(0.)
+		})
 	})
 })

@@ -17,6 +17,7 @@ import {
 /////////////////////
 
 import { State } from '../../types'
+import { propagate_child_revision_increment_upward } from '../../utils/state'
 
 import {
 	get_available_energy_float,
@@ -89,6 +90,7 @@ function _autogroom(state: Readonly<State>, options: { DEBUG?: boolean } = {}): 
  * trying to restore as much achievements as possible
  */
 function autoplay(state: Readonly<State>, options: Readonly<{ target_good_play_count?: number, target_bad_play_count?: number, DEBUG?: boolean }> = {}): Readonly<State> {
+	const original_state = state
 	let { target_good_play_count, target_bad_play_count, DEBUG } = options
 
 	if (DEBUG) console.log(`- Autoplay g=${target_good_play_count}, b=${target_bad_play_count}..`)
@@ -176,10 +178,11 @@ function autoplay(state: Readonly<State>, options: Readonly<{ target_good_play_c
 		}
 	}
 
-	// misc: refresh achievements one last time
-	// and ack the possible notifications
+	// TODO make it so the remaining energy is the same as when we started
+
 	state = _refresh_achievements(state)
 	state = _ack_all_engagements(state)
+	state = propagate_child_revision_increment_upward(original_state, state)
 
 	return state
 }
