@@ -7,3 +7,5 @@ TODO style select https://www.filamentgroup.com/lab/select-css.html
 https://www.dannyguo.com/blog/animated-multiline-link-underlines-with-css/
 
 crazy techniques https://twitter.com/innovati/status/1068998114491678720
+
+TODO https://emilkowalski.github.io/css-effects-snippets/

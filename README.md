@@ -5,10 +5,15 @@ A monorepo for all my JavaScript / TypeScript projects. So convenient.
 
 ## Contributing
 
-Doc:
-* https://github.com/boltpkg/bolt
-* https://www.typescriptlang.org/docs/handbook/compiler-options.html
+Unless exceptions, this repo follow those principles:
+- code in TypeScript
+- command / query separation
+- compatible with event sourcing (for offline first with server replay when back online)
 
+
+Doc:
+* monorepo managed by https://github.com/boltpkg/bolt
+* https://www.typescriptlang.org/docs/handbook/compiler-options.html
 
 
 ```bash
@@ -41,27 +46,10 @@ ngrok http -subdomain=offirmo 1234
 yarn puer
 ```
 
-## Notes
 
-```bash
-npm i -g yarn
-yarn global add bolt
-```
-TODO https://www.npmjs.com/package/eslint-import-resolver-typescript
-
-Fragments
-```js
-		"memoize-one": "^5",
-		"tiny-invariant": "^1",
-
-```
 ## Hat tips
 
 Tools
 - Color converter http://www.cssportal.com/css-color-converter/
 - favicon https://realfavicongenerator.net/
-* https://github.com/scottsidwell/bundle-inspector
-
-
-
-https://github.com/netlify/netlify-identity-widget
+- https://github.com/scottsidwell/bundle-inspector

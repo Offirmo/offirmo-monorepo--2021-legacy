@@ -19,6 +19,7 @@ const coerce_to_ascii: StringNormalizer = s => s
 	.replace(/[\u0300-\u036f]/g, '')
 
 // https://devdocs.io/javascript/global_objects/string/normalize
+// https://withblue.ink/2019/03/11/why-you-need-to-normalize-unicode-strings.html
 const normalize_unicode: StringNormalizer = s => s.normalize()
 
 // https://stackoverflow.com/a/1981366/587407
