@@ -2,6 +2,11 @@ import { Enum } from 'typescript-string-enums'
 
 import { HumanReadableTimestampUTCMinutes } from '@offirmo/timestamps'
 import { UUID } from '@offirmo/uuid'
+import {
+	BaseUState,
+	BaseTState,
+	BaseRootState,
+} from '@offirmo-private/state'
 
 import { Weapon } from '@oh-my-rpg/logic-weapons'
 import { Armor } from '@oh-my-rpg/logic-armors'
@@ -69,11 +74,9 @@ interface Adventure {
 
 /////////////////////
 
-interface UState /*extends BaseState*/ {
-	revision: number
-
+interface UState extends BaseUState {
 	readonly uuid: UUID // TODO review
-	creation_date: HumanReadableTimestampUTCMinutes
+	creation_date: HumanReadableTimestampUTCMinutes // TODO useful? move to progress?
 
 	avatar: CharacterState
 	codes: CodesState
@@ -88,15 +91,12 @@ interface UState /*extends BaseState*/ {
 	last_adventure: Adventure | null
 }
 
-interface TState /*extends BaseState*/ {
+interface TState extends BaseTState {
 	energy: EnergyTState,
 }
 
-interface State /*extends BaseRootState*/ {
-	schema_version: number
-
+interface State extends BaseRootState {
 	u_state: UState
-
 	t_state: TState
 }
 

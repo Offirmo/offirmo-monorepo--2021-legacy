@@ -1,3 +1,4 @@
+import { are_ustate_revision_requirements_met } from '@offirmo-private/state'
 import { State } from '@tbrpg/state'
 import * as TBRPGState from '@tbrpg/state'
 
@@ -8,10 +9,8 @@ import {
 
 
 function reduce_action(state: Readonly<State>, action: Readonly<Action>): Readonly<State> {
-	const { expected_state_revision } = action
-	if (expected_state_revision) {
-		if (state.u_state.revision !== expected_state_revision)
-			throw new Error('Trying to execute an outdated action!')
+	if (!are_ustate_revision_requirements_met(state, action.expected_sub_state_revisions)) {
+		throw new Error('Trying to execute an outdated action!')
 	}
 
 	switch (action.type) {

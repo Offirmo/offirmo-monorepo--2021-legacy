@@ -72,7 +72,9 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 
 		let state: Readonly<State> = {
 			schema_version: SCHEMA_VERSION,
+
 			u_state: {
+				schema_version: SCHEMA_VERSION,
 				revision: 0,
 
 				uuid: generate_uuid(),
@@ -91,6 +93,8 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 				last_adventure: null,
 			},
 			t_state: {
+				schema_version: SCHEMA_VERSION,
+				timestamp_ms: t_state_energy.timestamp_ms,
 				energy: t_state_energy,
 			},
 		}

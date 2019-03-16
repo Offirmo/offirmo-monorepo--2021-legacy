@@ -86,17 +86,14 @@ function create(
 
 		SEC.xTry(`restoring cloud store state from all bits`, ({logger}: OMRContext) => {
 			if (initial_state.u_state.meta.persistence_id === undefined) {
-				if (pending_actions.length && pending_actions.slice(-1)[0].expected_state_revision === initial_state.u_state.revision) {
-					// all good, old game still pending log in
-					return
-				}
+				// how to check if state and pending actions match?
 
 				if (pending_actions.length === 0 && initial_state.u_state.revision === 0) {
 					// new game freshly created
 					const action: ActionStartGame = {
-						time: get_UTC_timestamp_ms(),
-						expected_state_revision: 0,
 						type: ActionType.start_game,
+						time: get_UTC_timestamp_ms(),
+						expected_sub_state_revisions: {},
 						seed: initial_state.u_state.prng.seed,
 					}
 					dispatch(action)

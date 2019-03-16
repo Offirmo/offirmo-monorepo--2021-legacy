@@ -2,22 +2,18 @@ import { Enum } from 'typescript-string-enums'
 import { NumeratorDenominator } from 'fraction.js'
 
 import { TimestampUTCMs } from '@offirmo/timestamps'
+import { BaseUState, BaseTState } from '@offirmo-private/state'
 
 /////////////////////
 
-interface UState {
-	schema_version: number
-	revision: number
-
+interface UState extends BaseUState {
 	max_energy: number
 
 	// ex. 7 / 24h will refill 7 energy in 24h
 	energy_refilling_rate_per_ms: NumeratorDenominator
 }
 
-interface TState {
-	schema_version: number
-
+interface TState extends BaseTState {
 	timestamp_ms: TimestampUTCMs
 
 	available_energy: NumeratorDenominator

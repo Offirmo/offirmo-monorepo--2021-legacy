@@ -76,6 +76,7 @@ function _update_to_now(state: Readonly<State>, now_ms: TimestampUTCMs = get_UTC
 		...state,
 		t_state: {
 			...t_state,
+			timestamp_ms: t_state_e.timestamp_ms,
 			energy: t_state_e,
 		}
 	}

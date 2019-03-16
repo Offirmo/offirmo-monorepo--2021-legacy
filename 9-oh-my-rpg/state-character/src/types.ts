@@ -1,5 +1,7 @@
 import { Enum } from 'typescript-string-enums'
 
+import { BaseUState } from '@offirmo-private/state'
+
 /////////////////////
 
 const CharacterAttribute = Enum(
@@ -74,26 +76,23 @@ type CharacterClass = Enum<typeof CharacterClass> // eslint-disable-line no-rede
 /////////////////////
 
 interface CharacterAttributes {
-	level: number
+	[CharacterAttribute.level]: number
 
-	health: number
-	mana: number
+	[CharacterAttribute.health]: number
+	[CharacterAttribute.mana]: number
 
-	strength: number
-	agility: number
-	charisma: number
-	wisdom: number
-	luck: number
+	[CharacterAttribute.strength]: number
+	[CharacterAttribute.agility]: number
+	[CharacterAttribute.charisma]: number
+	[CharacterAttribute.wisdom]: number
+	[CharacterAttribute.luck]: number
 }
 
-interface State {
-	schema_version: number
-	revision: number
-
+interface State extends BaseUState {
 	name: string
 	klass: CharacterClass
 	attributes: CharacterAttributes
-	// TODO equipped inventory here ?
+	// TODO inventory here ? equipped inventory ?
 }
 
 /////////////////////

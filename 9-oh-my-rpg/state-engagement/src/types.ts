@@ -1,5 +1,7 @@
 import { Enum } from 'typescript-string-enums'
 
+import { BaseUState } from '@offirmo-private/state'
+
 /////////////////////
 
 const EngagementType = Enum(
@@ -34,10 +36,7 @@ interface PendingEngagement {
 
 /////////////////////
 
-interface State {
-	schema_version: number
-	revision: number
-
+interface State extends BaseUState {
 	// last in, last out
 	// newest are appended
 	queue: PendingEngagement[]

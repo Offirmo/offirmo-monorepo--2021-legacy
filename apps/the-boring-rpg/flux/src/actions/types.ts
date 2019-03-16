@@ -31,7 +31,9 @@ type ActionType = Enum<typeof ActionType> // eslint-disable-line no-redeclare
 
 interface BaseAction {
 	time: TimestampUTCMs
-	expected_state_revision?: number // safety. TODO useful??
+	expected_sub_state_revisions: {
+		[k:string]: number | undefined
+	}
 }
 
 interface ActionStartGame extends BaseAction {

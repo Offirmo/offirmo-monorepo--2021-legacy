@@ -1,11 +1,10 @@
 import { Enum } from 'typescript-string-enums'
 
+import { BaseUState } from '@offirmo-private/state'
+
 /////////////////////
 
-interface State {
-	schema_version: number
-	revision: number
-
+interface State extends BaseUState {
 	persistence_id: string | null | undefined
 
 	is_web_diversity_supporter: boolean

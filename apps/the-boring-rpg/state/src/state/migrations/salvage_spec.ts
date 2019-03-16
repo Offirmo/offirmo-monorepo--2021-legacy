@@ -3,7 +3,7 @@ import deepFreeze from 'deep-freeze-strict'
 
 import { xxx_internal_reset_prng_cache } from '@oh-my-rpg/state-prng'
 
-import {LIB} from '../../consts'
+import { LIB } from '../../consts'
 
 import { reset_and_salvage } from './salvage'
 import { DEMO_STATE } from '../../examples'
@@ -142,7 +142,7 @@ describe(`${LIB} - schema migration`, function() {
 			expect(salvaged_state.u_state.progress.statistics.bad_play_count).to.equal(BAD_PLAY_COUNT)
 		})
 
-		it('should be able to salvage a v9+ savegame', () => {
+		it('should be able to salvage a v.LATEST savegame', () => {
 			const salvaged_state = reset_and_salvage(DEMO_STATE as any)
 
 			expect(salvaged_state.u_state.avatar.name).to.equal('Perte')

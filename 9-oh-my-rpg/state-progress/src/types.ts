@@ -1,5 +1,7 @@
 import { Enum } from 'typescript-string-enums'
 
+import { BaseUState } from '@offirmo-private/state'
+
 import { Element } from '@oh-my-rpg/definitions'
 import { HumanReadableTimestampUTCDays } from '@offirmo/timestamps'
 //import { JSONObject } from "@offirmo/ts-types"
@@ -36,10 +38,7 @@ interface AchievementSnapshot extends Element {
 
 /////////////////////
 
-interface State {
-	schema_version: number
-	revision: number
-
+interface State extends BaseUState {
 	// NOTE: This state NOT contain stuff that can be inferred from the global state,
 	// that would be redundant!
 

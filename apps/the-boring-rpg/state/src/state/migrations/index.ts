@@ -17,10 +17,10 @@ import { reset_and_salvage } from './salvage'
 /////////////////////
 
 const SUB_U_REDUCERS_COUNT = 9
-const SUB_U_OTHER_KEYS_COUNT = 4
+const SUB_U_OTHER_KEYS_COUNT = 5
 
 const SUB_T_REDUCERS_COUNT = 1
-const SUB_T_OTHER_KEYS_COUNT = 0
+const SUB_T_OTHER_KEYS_COUNT = 2
 
 
 function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any> = {}): State {
@@ -51,7 +51,7 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any
 			SEC.fireAnalyticsEvent('schema_migration.began')
 
 			try {
-				state = migrate_to_10(SEC, legacy_state, hints)
+				state = migrate_to_11(SEC, legacy_state, hints)
 			}
 			catch (err) {
 				SEC.fireAnalyticsEvent('schema_migration.failed', { step: 'main' })
@@ -140,9 +140,9 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any
 
 /////////////////////
 
-function migrate_to_10(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any>): any {
-	if (legacy_state.schema_version >= 10)
-		throw new Error('migrate_to_10 was called from an outdated/buggy root code, please update!')
+function migrate_to_11(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any>): any {
+	if (legacy_state.schema_version >= 11)
+		throw new Error('migrate_to_11 was called from an outdated/buggy root code, please update!')
 
 	throw new Error('Alpha release outdated schema, won’t migrate, would take too much time and schema is still unstable!')
 }

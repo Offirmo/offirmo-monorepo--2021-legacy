@@ -1,6 +1,7 @@
 import { Enum } from 'typescript-string-enums'
 
 import { HumanReadableTimestampUTCMinutes } from '@offirmo/timestamps'
+import { BaseUState } from '@offirmo-private/state'
 
 /////////////////////
 
@@ -18,10 +19,7 @@ interface CodeRedemption {
 }
 /////////////////////
 
-interface State {
-	schema_version: number
-	revision: number
-
+interface State extends BaseUState {
 	redeemed_codes: { [key: string]: CodeRedemption }
 }
 
