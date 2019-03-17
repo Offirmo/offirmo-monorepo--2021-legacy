@@ -46,7 +46,7 @@ function create(SEC: SoftExecutionContext, local_storage: PersistentStorage): Lo
 		function persist(new_state: State): void {
 			if (last_persisted_state && new_state.u_state === last_persisted_state.u_state) return // no need
 
-			logger.info(`[${LIB}/LSStore] 💾 saving #${new_state.u_state.revision}...`)
+			logger.log(`[${LIB}/LSStore] 💾 saving #${new_state.u_state.revision}...`)
 			local_storage.setItem(LS_KEYS.savegame, JSON.stringify(new_state))
 			last_persisted_state = new_state
 		}

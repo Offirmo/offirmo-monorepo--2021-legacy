@@ -86,6 +86,10 @@ const OMRUINotifierC1 = React.memo(
 
 
 class OMRUINotifier extends Component {
+	static propTypes = {
+		enqueueNotification: PropTypes.func.isRequired,
+	}
+
 	render_view = ({ u_state }) => {
 		const { enqueueNotification } = this.props
 

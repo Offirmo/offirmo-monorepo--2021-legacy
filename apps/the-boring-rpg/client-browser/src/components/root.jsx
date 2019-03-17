@@ -1,4 +1,6 @@
 import React, { Component, Fragment, StrictMode } from 'react'
+import PropTypes from 'prop-types'
+
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
 
 import get_game_instance from '../services/game-instance-browser'
@@ -48,6 +50,9 @@ function render_diagnostic() {
 }
 
 export default class Root extends Component {
+	static propTypes = {
+	}
+
 	render() {
 		if (window.XOFF.flags.debug_render) console.log('🔄 Root')
 		return (

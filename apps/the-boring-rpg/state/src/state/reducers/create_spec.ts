@@ -22,7 +22,6 @@ describe(`${LIB} - reducer - create`, function() {
 
 			const { u_state } = state
 
-			expect(u_state.uuid).to.be.a('string')
 			expect(u_state.creation_date).to.be.a('string')
 
 			// check presence of sub-states

@@ -3,11 +3,15 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 
 import View from './component'
-import { LS_KEYS } from '../../../services/consts'
+import { LS_KEYS } from '@tbrpg/flux'
 import { ROUTES } from '../../../services/routes'
 
 
 class PageSavegameEditorC1 extends Component {
+	static propTypes = {
+		history: PropTypes.object.isRequired,
+	}
+
 	navigate_home = () => {
 		this.props.history.push(ROUTES.home)
 	}

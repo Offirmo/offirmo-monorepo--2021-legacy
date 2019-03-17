@@ -6,6 +6,7 @@ import { UState } from '@tbrpg/state'
 /////////////////////
 
 import {
+	ACTIONS_SCHEMA_VERSION,
 	Action,
 	ActionEquipItem,
 	ActionSellItem,
@@ -18,8 +19,9 @@ function get_actions_for_unslotted_item(u_state: Readonly<UState>, uuid: UUID): 
 	const actions: Action[] = []
 
 	const equip: ActionEquipItem = {
-		type: ActionType.equip_item,
+		v: ACTIONS_SCHEMA_VERSION,
 		time: 0, // to indicate that action time is pending
+		type: ActionType.equip_item,
 		expected_sub_state_revisions: {
 			inventory: u_state.inventory.revision,
 		},
@@ -28,8 +30,9 @@ function get_actions_for_unslotted_item(u_state: Readonly<UState>, uuid: UUID): 
 	actions.push(equip)
 
 	const sell: ActionSellItem = {
-		type: ActionType.sell_item,
+		v: ACTIONS_SCHEMA_VERSION,
 		time: 0, // to indicate that action time is pending
+		type: ActionType.sell_item,
 		expected_sub_state_revisions: {
 			inventory: u_state.inventory.revision,
 		},

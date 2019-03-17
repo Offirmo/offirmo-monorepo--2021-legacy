@@ -33,9 +33,7 @@ https://www.schlockmercenary.com/2016-07-24
 http://craig-russell.co.uk/2016/01/29/service-worker-messaging.html
 
 TODO https://developers.google.com/web/updates/2018/10/intl-relativetimeformat
-
 TODO https://segment.com/product/connections/
-
 TODO https://frontarm.com/articles/react-context-performance/
 
 transitions https://css-tricks.com/animate-images-and-videos-with-curtains-js/

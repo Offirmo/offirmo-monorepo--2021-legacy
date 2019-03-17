@@ -8,6 +8,9 @@ import View from './component'
 
 
 class CharacterPanel extends Component {
+	static propTypes = {
+	}
+
 	render_view = ({ u_state }) => {
 		const avatar = get_game_instance().queries.get_sub_state('avatar')
 

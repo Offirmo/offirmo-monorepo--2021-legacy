@@ -10,6 +10,9 @@ import View from './component'
 
 
 class Scenery extends Component {
+	static propTypes = {
+	}
+
 	render_view = ({ u_state }) => {
 		const { good_play_count } = get_game_instance()
 			.queries.get_sub_state('progress')

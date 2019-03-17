@@ -10,6 +10,9 @@ import get_game_instance from '../../../services/game-instance-browser'
 
 
 class MetaPanelC1 extends Component {
+	static propTypes = {
+		history: PropTypes.object.isRequired,
+	}
 
 	navigate_to_savegame_editor = () => {
 		const { history } = this.props

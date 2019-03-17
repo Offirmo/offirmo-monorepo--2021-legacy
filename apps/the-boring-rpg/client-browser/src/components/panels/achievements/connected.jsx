@@ -20,6 +20,9 @@ const AchievementsPanelC1M = React.memo(
 
 
 class AchievementsPanel extends Component {
+	static propTypes = {
+	}
+
 	render_view = ({ u_state }) => {
 		return (
 			<AchievementsPanelC1M u_state={u_state} />

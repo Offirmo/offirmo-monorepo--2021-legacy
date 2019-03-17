@@ -53,8 +53,6 @@ export {
 	NetlifyHandler,
 
 	// TODO move in a dedicated lib
-	JSONRpcRequest,
-	JSONRpcResponse,
 	JSONRPC_CODE,
 	DEFAULT_JSONRPC_ERROR_PAYLOAD,
 }

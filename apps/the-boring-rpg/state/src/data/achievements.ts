@@ -1302,6 +1302,18 @@ https://en.wikipedia.org/wiki/All_that_is_gold_does_not_glitter
 https://www.brainyquote.com/search_results?q=adventure
  */
 
+const RAW_ENTRIES_META: Readonly<Partial<AchievementDefinition<UState>>>[] = [
+	{
+		icon: '😇',
+		name: 'Supporter of web diversity',
+		description: `Having played on Firefox once.`,
+		lore: 'Let’s defend the weak against the strong!',
+		get_status: (u_state: UState) => u_state.meta.is_web_diversity_supporter
+			? AchievementStatus.unlocked
+			: AchievementStatus.revealed,
+	},
+]
+
 const RAW_ENTRIES_SECRETS: Readonly<Partial<AchievementDefinition<UState>>>[] = [
 	{
 		icon: '👑',
@@ -1361,6 +1373,7 @@ const RAW_ENTRIES: Readonly<Partial<AchievementDefinition<UState>>>[] = [
 	...RAW_ENTRIES_MISC,
 
 	...RAW_ENTRIES_GAME_PHASES,
+	...RAW_ENTRIES_META,
 	...RAW_ENTRIES_SECRETS,
 	...RAW_ENTRIES_TEST,
 ]

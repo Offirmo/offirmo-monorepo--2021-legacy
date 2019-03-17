@@ -1,7 +1,5 @@
 import './index.css'
 
-// TODO move file
-
 const LIB = 'group chat SaaS (tlk.io)'
 const PARENT_ID = 'group-chat-container'
 const PARENT_OPEN_CLASS = 'group-chat-container--open'

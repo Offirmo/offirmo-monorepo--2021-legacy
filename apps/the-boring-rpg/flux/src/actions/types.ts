@@ -8,19 +8,17 @@ import { CharacterClass } from '@oh-my-rpg/state-character'
 /////////////////////
 
 const ActionType = Enum(
-	'start_game',
-
-	'on_start_session',
-	'on_logged_in_update',
-
 	'play',
 	'equip_item',
 	'sell_item',
 	'rename_avatar',
 	'change_avatar_class',
 	'redeem_code',
-	'acknowledge_engagement_msg_seen',
 
+	'start_game',
+	'on_start_session',
+	'on_logged_in_update',
+	'acknowledge_engagement_msg_seen',
 	'update_to_now',
 
 	'hack',
@@ -29,10 +27,13 @@ type ActionType = Enum<typeof ActionType> // eslint-disable-line no-redeclare
 
 /////////////////////
 
+const ACTIONS_SCHEMA_VERSION = 1
+
 interface BaseAction {
+	v: number
 	time: TimestampUTCMs
 	expected_sub_state_revisions: {
-		[k:string]: number | undefined
+		[k:string]: number
 	}
 }
 
@@ -114,6 +115,7 @@ type Action =
 /////////////////////
 
 export {
+	ACTIONS_SCHEMA_VERSION,
 	ActionType,
 
 	ActionStartGame,

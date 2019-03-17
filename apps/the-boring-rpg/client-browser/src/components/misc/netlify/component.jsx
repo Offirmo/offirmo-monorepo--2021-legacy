@@ -1,35 +1,25 @@
+import { Enum } from 'typescript-string-enums'
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types'
 
 import poll_window_variable, { poll } from '@offirmo/poll-window-variable'
 
 import get_game_instance from '../../../services/game-instance-browser'
-import { set_user_context } from '../../../services/raven'
 
 import './index.css';
 
-const STATES = {
-	WAITING_FOR_LIB: 'WAITING_FOR_LIB',
-	NOT_LOGGED_IN: 'NOT_LOGGED_IN',
-	LOGGED_IN: 'LOGGED_IN',
-	ERROR: 'ERROR',
-}
-
-
-const REDIRECT_LS_KEY = 'OA.pending_redirect'
-function request_redirect(url) {
-	const redirect_request = {
-		url,
-		timestamp_ms: Date.now(),
-	}
-
-	localStorage.setItem(REDIRECT_LS_KEY, JSON.stringify(redirect_request))
-}
+const STATES = Enum(
+	'WAITING_FOR_LIB',
+	'NOT_LOGGED_IN',
+	'LOGGED_IN',
+	'ERROR',
+)
 
 class NetlifyLoggedIndicator extends Component {
 	static propTypes = {
 		user: PropTypes.object.isRequired,
-		onRequestLogout: PropTypes.func.isRequired,
+		on_logged_in: PropTypes.func.isRequired,
+		on_request_logout: PropTypes.func.isRequired,
 	}
 
 	state = {
@@ -51,11 +41,6 @@ class NetlifyLoggedIndicator extends Component {
 		const { user } = this.props
 		const avatar_name = get_game_instance().queries.get_sub_state('avatar').name
 
-		set_user_context({
-			name: avatar_name,
-			id: avatar_name,
-		})
-
 		// user may not be fully populated immediately
 		// we need to refresh when it is
 		poll(() => !!user.user_metadata, { timeoutMs: 30 * 1000 })
@@ -65,22 +50,18 @@ class NetlifyLoggedIndicator extends Component {
 					loaded: true,
 				})
 
-				const { user } = this.props
-				set_user_context({
-					email: user.email,
-					name: avatar_name,
-					id: avatar_name,
-				})
+				const { user, on_logged_in } = this.props
+				on_logged_in(user)
 			})
 	}
 
 	render() {
-		const { onRequestLogout } = this.props
-		// TODO we could display a loader, but not worth it.
+		const { on_request_logout } = this.props
+		// we could display a loader, but not worth it.
 		return (
 			<div className="netlify-widget">
 				Logged in as: {this.getName() || '(pending…)'}
-				<button onClick={onRequestLogout}>log out</button>
+				<button onClick={on_request_logout}>log out</button>
 			</div>
 		)
 	}
@@ -88,6 +69,8 @@ class NetlifyLoggedIndicator extends Component {
 
 export default class NetlifyIdentity extends Component {
 	static propTypes = {
+		on_logged_in: PropTypes.func.isRequired,
+		request_redirect: PropTypes.func.isRequired,
 	}
 
 	state = {
@@ -171,27 +154,33 @@ export default class NetlifyIdentity extends Component {
 			})
 	}
 
-	onClickOnSignInUpButton = () => {
-		request_redirect(window.location.href)
+	on_click_on_signin_button = () => {
+		this.props.request_redirect(window.location.href)
 		this.NetlifyIdentity.open()
 	}
 
-	onRequestLogout = () => {
+	on_request_logout = () => {
 		this.NetlifyIdentity.logout()
 	}
 
 	render() {
 		if (window.XOFF.flags.debug_render) console.log('🔄 NetlifyIdentity')
 
+		const { on_logged_in } = this.props
+
 		switch (this.state.state) {
 			case STATES.ERROR:
 				return <div>(login error. Disable ad blocker?)</div>
 			case STATES.WAITING_FOR_LIB:
-				return <div>...</div>
+				return <div className='blinking'>...</div>
 			case STATES.NOT_LOGGED_IN:
-				return <button onClick={this.onClickOnSignInUpButton}>Sign in / sign up...</button>
+				return <button onClick={this.on_click_on_signin_button}>Sign in / sign up...</button>
 			case STATES.LOGGED_IN:
-				return <NetlifyLoggedIndicator user={this.state.user} onRequestLogout={this.onRequestLogout}/>
+				return <NetlifyLoggedIndicator
+					user={this.state.user}
+					on_logged_in={on_logged_in}
+					on_request_logout={this.on_request_logout}
+				/>
 		}
 	}
 }

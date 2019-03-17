@@ -82,14 +82,17 @@ function create_game_instance<T extends AppState>({SEC, local_storage, app_state
 				: TBRPGState.migrate_to_latest(SEC, last_persisted_state!)
 
 			if (was_empty_state) {
-				logger.verbose(`[${LIB}/LSStore] Clean savegame created from scratch:`, {state})
+				logger.verbose(`[${LIB}] Clean savegame created from scratch.`)
 			} else {
-				logger.trace(`[${LIB}/LSStore] migrated state:`, {state})
+				logger.trace(`[${LIB}] automigrated state.`)
 			}
+			logger.silly(`[${LIB}] state:`, {state})
 
 			local_storage_store.set(state)
 		})
 		// we are now sure that the LS store contains sth
+
+		app_state.model = local_storage_store.get()!
 
 		const in_memory_store = create_in_memory_store(
 			SEC,
@@ -131,6 +134,14 @@ function create_game_instance<T extends AppState>({SEC, local_storage, app_state
 						...action,
 						time: action.time || get_UTC_timestamp_ms(),
 					}
+
+					const state: State = in_memory_store.get()!
+					Object.keys(action.expected_sub_state_revisions).forEach(sub_state_key => {
+						if (action.expected_sub_state_revisions[sub_state_key] === -1) {
+							action.expected_sub_state_revisions[sub_state_key] =
+								(state.u_state as any)[sub_state_key].revision
+						}
+					})
 					dispatch(action)
 				}
 			},

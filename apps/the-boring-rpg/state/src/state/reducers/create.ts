@@ -77,7 +77,6 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 				schema_version: SCHEMA_VERSION,
 				revision: 0,
 
-				uuid: generate_uuid(),
 				creation_date: get_human_readable_UTC_timestamp_minutes(),
 
 				avatar: CharacterState.create(SEC),

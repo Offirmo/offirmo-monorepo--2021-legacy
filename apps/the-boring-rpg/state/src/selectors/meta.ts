@@ -3,11 +3,11 @@ import { State } from '../types'
 /////////////////////
 
 function has_account(state: Readonly<State>): boolean {
-	return false // TODO
+	return state.u_state.meta.is_logged_in
 }
 
 function is_alpha(): boolean {
-	return true
+	return true // TODO alpha
 }
 
 function is_player_since_alpha(state: Readonly<State>): boolean {
@@ -15,7 +15,7 @@ function is_player_since_alpha(state: Readonly<State>): boolean {
 }
 
 function is_registered_alpha_player(state: Readonly<State>): boolean {
-	return true // TODO
+	return state.u_state.meta.roles.includes('tbrpg:alpha')
 }
 
 

@@ -75,7 +75,6 @@ interface Adventure {
 /////////////////////
 
 interface UState extends BaseUState {
-	readonly uuid: UUID // TODO review
 	creation_date: HumanReadableTimestampUTCMinutes // TODO useful? move to progress?
 
 	avatar: CharacterState

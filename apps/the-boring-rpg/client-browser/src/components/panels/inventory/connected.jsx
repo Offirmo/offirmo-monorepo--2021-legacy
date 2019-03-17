@@ -8,6 +8,9 @@ import View from './component'
 
 
 class InventoryPanel extends Component {
+	static propTypes = {
+	}
+
 	render_view = ({ u_state }) => {
 		const inventory = get_game_instance().queries.get_sub_state('inventory')
 		const wallet = get_game_instance().queries.get_sub_state('wallet')

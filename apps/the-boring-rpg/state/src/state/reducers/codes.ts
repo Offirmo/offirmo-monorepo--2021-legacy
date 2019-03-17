@@ -170,7 +170,7 @@ function attempt_to_redeem_code(previous_state: Readonly<State>, code: string): 
 						type: EngagementState.EngagementType.flow,
 						key: EngagementKey['just-some-text'],
 					}, {
-						text: 'A hollow voice says "Ahhhhhhh".', // TODO
+						text: 'A hollow voice says "Ahhhhhhh".', // TODO more
 					}),
 				}
 				break

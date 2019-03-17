@@ -61,7 +61,7 @@ function _autogroom(state: Readonly<State>, options: { DEBUG?: boolean } = {}): 
 	}
 	// User name
 	if (state.u_state.avatar.name === CharacterState.DEFAULT_AVATAR_NAME) {
-		let new_name = 'A' + state.u_state.uuid.slice(3)
+		let new_name = 'A' + Math.abs(state.u_state.prng.seed)
 		if (DEBUG) console.log(`    - renaming to ${new_name}…`)
 		state = rename_avatar(state, new_name)
 	}

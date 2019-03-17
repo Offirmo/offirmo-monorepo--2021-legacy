@@ -55,7 +55,6 @@ export default class DevArea extends Component {
 	render() {
 		if (window.XOFF.flags.debug_render) console.log('🔄 DevArea')
 
-		// TODO activate those features
 		const media_controls = []
 		if (this.props.onPlayPause)
 			media_controls.push(<button key="PlayPause" onClick={this.onPlayPause}>{this.state.paused ? '▶️' : '⏸️'}</button>)

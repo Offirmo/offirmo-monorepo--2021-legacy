@@ -8,6 +8,10 @@ import View from './component'
 
 
 class Connected extends Component {
+	static propTypes = {
+		onClick: PropTypes.func.isRequired,
+	}
+
 	render_view = ({ u_state }) => {
 		const { onClick } = this.props
 		const avatar = get_game_instance().queries.get_sub_state('avatar')
