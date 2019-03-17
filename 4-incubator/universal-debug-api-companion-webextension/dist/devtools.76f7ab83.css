@@ -348,6 +348,7 @@ template {
   display: none;
 }
 
+
 /*********************/
 
 :root {
@@ -435,6 +436,7 @@ hr {
 	border-top: var(--o⋄border--thickness) solid;
 	background-color: var(--o⋄color--fg⁚ancillary);
 }
+
 /******* misc *******/
 
 /* Alter the ugly focus ring
@@ -548,6 +550,7 @@ html {
 	scrollbar-color: var(--o⋄color--bg⁚highlight--2) var(--o⋄color--bg⁚highlight--1);
 	scrollbar-width: thin;
 }
+
 /* Good tools:
  * http://www.cssportal.com/css-color-converter/
  * https://picular.co/quality
@@ -653,6 +656,7 @@ html.color-theme-in-transition *:after {
 }
 */
 
+
 /* very convenient container to propagate full height
  * NOTE: full height applied by default on <html> and <body>
  * but adding this activates the debug markings
@@ -711,6 +715,7 @@ html.color-theme-in-transition *:after {
 	border: solid calc(var(--o⋄border--thickness) * 1) var(--o⋄color--fg⁚main);
 }
 
+
 /*********************/
 
 :root {
@@ -762,7 +767,7 @@ html.color-theme-in-transition *:after {
 		local('Roboto'),
 		local('Roboto-Regular'),
 		url(https://fonts.gstatic.com/s/roboto/v18/KFOmCnqEu92Fr1Mu4mxKKTU1Kg.woff2) format('woff2'),
-		url('font--roboto_regular--latin.v18.b801d9b9.woff2') format('woff2');
+		url('font--roboto_regular--latin.v18.0f7dd874.woff2') format('woff2');
 	/* latin */
 	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
@@ -774,7 +779,7 @@ html.color-theme-in-transition *:after {
 		local('Roboto'),
 		local('Roboto-Regular'),
 		url(https://fonts.gstatic.com/s/roboto/v18/KFOmCnqEu92Fr1Mu7GxKKTU1Kvnz.woff2) format('woff2'),
-		url('font--roboto_regular--latin-ext.v18.c39d597a.woff2') format('woff2');
+		url('font--roboto_regular--latin-ext.v18.2026f26a.woff2') format('woff2');
 	/* latin-ext */
 	unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
@@ -802,7 +807,7 @@ html.color-theme-in-transition *:after {
 		local('Roboto Condensed'),
 		local('RobotoCondensed-Regular'),
 		url(https://fonts.gstatic.com/s/robotocondensed/v16/ieVl2ZhZI2eCN5jzbjEETS9weq8-19K7DQk6YvM.woff2) format('woff2'),
-		url('font--roboto_condensed_regular--latin.v16.4a34ce43.woff2') format('woff2');
+		url('font--roboto_condensed_regular--latin.v16.9f4a566b.woff2') format('woff2');
 	/* latin */
 	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
@@ -814,7 +819,7 @@ html.color-theme-in-transition *:after {
 		local('Roboto Condensed'),
 		local('RobotoCondensed-Regular'),
 		url(https://fonts.gstatic.com/s/robotocondensed/v16/ieVl2ZhZI2eCN5jzbjEETS9weq8-19y7DQk6YvNkeg.woff2) format('woff2'),
-		url('font--roboto_condensed_regular--latin-ext.v16.6c036157.woff2') format('woff2');
+		url('font--roboto_condensed_regular--latin-ext.v16.e7d95ce9.woff2') format('woff2');
 	/* latin-ext */
 	unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
@@ -842,6 +847,7 @@ html.color-theme-in-transition *:after {
 	/* latin-ext */
 	unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
+
 
 .o⋄text-noselect {
 	cursor:  pointer;
@@ -880,6 +886,7 @@ html.color-theme-in-transition *:after {
 .o⋄nav-list li + li  {
 	margin-left: 2em;
 }
+
 
 .o⋄text-align⁚center {
 	text-align: center;
@@ -961,6 +968,7 @@ html.color-theme-in-transition *:after {
 	height: 100%;
 }
 
+
 /******* emojis as icons *******
  * https://preethisam.com/2018/06/25/how-to-use-emojis-as-icons/
  */
@@ -1021,6 +1029,7 @@ progress.o⋄animated::-ms-fill {
 }
 */
 
+
 /*********************/
 /* borders for debug, display only if debug activated */
 
@@ -1051,7 +1060,9 @@ body .o⋄top-container:nth-child(even) { border-color: red; }
 #app > .o⋄top-container:first-child
                     { border-color: coral; }
 */
+
 /*! @offirmo/view-css UNLICENSED */
+
 :root {
 	--o⋄font-size--default: 14px;
 }
@@ -1060,3 +1071,6 @@ body {
 	max-width: unset;
 }
 
+
+
+/*# sourceMappingURL=devtools.76f7ab83.css.map */
