@@ -1,58 +1,40 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { set_user_context } from '../../../services/raven'
+
+import get_game_instance, { request_redirect } from '../../../services/game-instance-browser'
+import { AppStateContext } from '../../../context'
 
 import View from './component'
-import get_game_instance from '../../../services/game-instance-browser'
 
-const REDIRECT_LS_KEY = 'OA.pending_redirect'
-function request_redirect(url) {
-	const redirect_request = {
-		url,
-		timestamp_ms: Date.now(),
-	}
 
-	localStorage.setItem(REDIRECT_LS_KEY, JSON.stringify(redirect_request))
+function on_click_on_signin_button() {
+	request_redirect(window.location.href)
+	this.NetlifyIdentity.open()
 }
 
-function on_logged_in(user) {
-	const avatar_name = get_game_instance().queries.get_sub_state('avatar').name
+function on_request_logout() {
+	this.NetlifyIdentity.logout()
+}
 
-	set_user_context({
-		email: user.email,
-		name: avatar_name,
-		id: avatar_name,
-	})
 
-	get_game_instance().commands.on_logged_in_update(
-		true,
-		user.app_metadata.roles || [],
+export default function NetlifyIndicator() {
+	//console.log('🔄 NetlifyIndicator')
+
+	return (
+		<AppStateContext.Consumer>
+			{app_state => {
+				const { login_state, logged_in_user } = get_game_instance().view.get()
+
+				return (
+					<View
+						state={login_state}
+						user={logged_in_user}
+						on_click_on_signin_button={on_click_on_signin_button}
+						on_request_logout={on_request_logout}
+					/>
+				)
+			}}
+		</AppStateContext.Consumer>
 	)
-}
-
-export default class NetlifyIdentity extends Component {
-	static propTypes = {
-	}
-
-	constructor(props) {
-		super(props)
-
-		const avatar_name = get_game_instance().queries.get_sub_state('avatar').name
-
-		// initial call when not logged in
-		set_user_context({
-			name: avatar_name,
-			id: avatar_name,
-		})
-	}
-
-	render() {
-		return (
-			<View
-				on_logged_in={on_logged_in}
-				request_redirect={request_redirect}
-			/>
-		)
-	}
 }

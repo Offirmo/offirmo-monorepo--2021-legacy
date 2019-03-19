@@ -195,7 +195,7 @@ function create_game_instance<T extends AppState>({SEC, local_storage, app_state
 
 				subscribe(id: string, fn: () => void): () => void {
 					const unbind = emitter.on(Event.view_change, (src: string) => {
-						console.log(`🌀🌀 root/view state change reported to subscriber "${id}" (model: #${in_memory_store.get()!.u_state.revision}, source: view/${src})`)
+						console.log(`🌀🌀 root/view change reported to subscriber "${id}" (model: #${in_memory_store.get()!.u_state.revision}, source: view/${src})`)
 						fn()
 					})
 					return unbind

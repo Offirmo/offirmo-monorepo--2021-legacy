@@ -39,7 +39,7 @@ function persist_pending_actions(SEC: SoftExecutionContext, local_storage: Persi
 }
 
 interface SyncResult {
-
+	// TODO
 }
 
 
@@ -50,7 +50,7 @@ function create(
 	set: (new_state: Readonly<State>) => void, // useful for the cloud store to overwrite the mem store
 ): CloudStore {
 	return SEC.xTry(`creating ${LIB} offline-first cloud store`, ({SEC, logger}: OMRContext): CloudStore => {
-		let is_cloud_store_ok = true // so far
+		let is_cloud_store_ok = false // so far
 
 		function get(): Readonly<State> | null {
 			throw new Error('Unexpected cloud store get!')
@@ -62,17 +62,12 @@ function create(
 			get,
 		}
 
-		if (initial_state.u_state.meta.persistence_id === null) {
-			// intentionally not handled by cloud
-			is_cloud_store_ok = false
-		}
-
 		let is_logged_in: boolean = false // so far
 		const pending_actions = get_persisted_pending_actions(SEC, local_storage)
 		let last_sync_result: Promise<SyncResult> // TODO
 
 		function dispatch(action: Readonly<Action>): void {
-			logger.trace(`Cloud store: was dispatched a new action: ${action.type}`, {
+			logger.trace(`Cloud store: was dispatched an action: "${action.type}"`, {
 				action,
 				pending_actions,
 			})
@@ -97,11 +92,18 @@ function create(
 			if (is_logged_in) {
 				// TODO not just sync from here, sync from server!
 				// TODO system of re-arming
-				throw new Error(`Cloud store: TODO sync!`)
+				logger.error(`Cloud store: TODO sync!`)
 			}
 		}
 
-		SEC.xTry(`restoring cloud store state from all bits`, ({logger}: OMRContext) => {
+		SEC.xTryCatch(`restoring cloud store state from all bits`, ({logger}: OMRContext) => {
+			if (initial_state.u_state.meta.persistence_id === null) {
+				// intentionally not handled by cloud
+				is_cloud_store_ok = false
+				logger.info(`${LIB} cloud store: opted out of cloud sync.`)
+				return
+			}
+
 			if (initial_state.u_state.meta.persistence_id === undefined) {
 				if (pending_actions.length === 0 && initial_state.u_state.revision === 0) {
 					// new game freshly created
@@ -131,17 +133,30 @@ function create(
 				}
 
 				// looks ok...
+				logger.info(`${LIB} cloud store: never persisted yet, some pending actions`, {
+					'pending_actions.length': pending_actions.length,
+					revision: initial_state.u_state.revision
+				})
+
+				is_cloud_store_ok = true
+				return
 			}
 
 			// we have a remote persistence id.
-
 			// we can't do anything for new, need to wait for the user to be logged in
+			logger.info(`${LIB} cloud store: cloud sync enabled!`, {
+				'pending_actions.length': pending_actions.length,
+				revision: initial_state.u_state.revision
+			})
+			is_cloud_store_ok = true
 		})
 
 		// TODO check that we can write in LS
 		// TODO send messages if data not synced
 
-		// TODO sync!!
+		if (!is_cloud_store_ok)
+			return no_op_store
+
 		return {
 			set: () => { throw new Error('NIMP!!')},
 			dispatch,

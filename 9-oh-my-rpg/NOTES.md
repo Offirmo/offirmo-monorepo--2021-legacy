@@ -48,8 +48,12 @@ Paroxysmic
 Colossal
 Super-colossal
 Mega-colossal
+Cosmic? https://en.wikipedia.org/wiki/Cosmic_entity_(Marvel_Comics)
 
+infinity gems https://en.wikipedia.org/wiki/Infinity_Gems
 
+https://science.slashdot.org/story/19/03/13/020257/radioactive-particles-from-huge-solar-storm-found-in-greenland
+https://science.slashdot.org/story/19/03/13/024246/scientists-reawaken-cells-from-a-28000-year-old-mammoth
 
 War
 - https://history.stackexchange.com/questions/50989/operation-vengeance-and-individual-targeting-of-enemy-commanders
