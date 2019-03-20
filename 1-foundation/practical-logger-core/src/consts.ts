@@ -41,7 +41,7 @@ const LEVEL_TO_HUMAN: Readonly<{ [k: string]: string }> = {
 	warning: 'warn',
 	warn:    'warn',
 
-	notice:  'note',
+	notice:  'notice',
 
 	info:    'info',
 

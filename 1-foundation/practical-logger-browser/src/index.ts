@@ -1,7 +1,13 @@
 import { LogLevel, Logger, LoggerCreationParams } from '@offirmo/practical-logger-interface'
 import { createLogger as createLoggerCore, DEFAULT_LOGGER_KEY, DEFAULT_LOG_LEVEL, checkLevel } from '@offirmo/practical-logger-core'
 
-import { sink } from './sink'
+
+
+import sink_firefox from './sinks/advanced/firefox'
+import sink_chromium from './sinks/advanced/chromium'
+import sink_safari from './sinks/advanced/safari'
+import sink_basic from './sinks/basic'
+import { create } from './sinks/advanced'
 
 
 function getLogLevelLocalStorageKeyForLogger(name: string): string {
@@ -32,6 +38,7 @@ function getLevelFromAboveForLogger(name: string): LogLevel | null {
 
 function createLogger(p: Readonly<LoggerCreationParams>): Logger {
 	const { name = DEFAULT_LOGGER_KEY } = p
+	const sink = (p as any).sink || create()
 	const logger = createLoggerCore(p, sink)
 
 	const logLevelFromAbove = getLevelFromAboveForLogger(name)
@@ -47,4 +54,8 @@ export {
 	Logger,
 	LoggerCreationParams,
 	createLogger,
+	sink_firefox,
+	sink_chromium,
+	sink_safari,
+	sink_basic,
 }

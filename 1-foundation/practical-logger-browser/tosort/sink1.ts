@@ -63,7 +63,7 @@ if (Object.keys(LEVEL_TO_STYLE).sort().join(',') !== [...ALL_LOG_LEVELS].sort().
 }
 
 //const MIN_WIDTH = 5
-export function to_aligned_ascii(level: LogLevel): string {
+export function to_better_level(level: LogLevel): string {
 	let str = LOG_LEVEL_TO_HUMAN[level] //.slice(0, MIN_WIDTH)
 	/*if (str.length < MIN_WIDTH)
 		str = (str + '         ').slice(0, MIN_WIDTH)*/
@@ -82,7 +82,7 @@ export const sink: LogSink = (payload: LogPayload): void => {
 	let line = ''
 		//+ time
 		//+ ' '
-		+ `%c[%c${to_aligned_ascii(level)}%c]`
+		+ `%c[%c${to_better_level(level)}%c]`
 		+ name
 		+ '›'
 		+ msg

@@ -15,7 +15,9 @@
 	},
 	"dependencies": {
 		"@offirmo/practical-logger-core": "^0.0.1",
-		"@offirmo/practical-logger-interface": "^0.0.1"
+		"@offirmo/practical-logger-interface": "^0.0.1",
+		"memoize-one": "^5",
+		"tiny-invariant": "^1"
 	},
 
 	"devDependencies": {
