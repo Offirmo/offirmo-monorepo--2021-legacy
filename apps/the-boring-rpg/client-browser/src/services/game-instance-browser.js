@@ -50,7 +50,7 @@ SEC.xTry('creating game instance', ({SEC, logger}) => {
 		}
 	})
 
-	const is_web_diversity_supporter = bowser.name === 'firefox'
+	const is_web_diversity_supporter = bowser.name === 'Firefox'
 	game_instance.commands.on_start_session(is_web_diversity_supporter)
 
 	init(SEC, game_instance)

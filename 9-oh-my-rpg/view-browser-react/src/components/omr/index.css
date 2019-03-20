@@ -78,3 +78,11 @@
 		padding-bottom: calc(var(--omr⋄ui__bottom-menu--height_) * var(--omr⋄ui__scale) * 1.2) !important;
 	}
 }
+
+/* solve the bug of notif blanket preventing from clicking */
+.notifications-wrapper > div {
+	pointer-events: none;
+}
+.notifications-wrapper > div > div.notification {
+	pointer-events: initial;
+}

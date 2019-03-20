@@ -24,11 +24,15 @@ v0.59.1
 - 🤩 feature: a custom cursor
 - 😅 fix: (hopefully) fixed a few crashes cases when selling or equipping items
 - 😅 fix: autoplay now ends up with as much energy you previously had 
+- 😅 fix: the notifications no longer prevent click through
+- 😅 fix: (hopefully) on Safari mobile, the screen won't stay zoomed after an input
 - 😷 chore: some internal refactors and cleanups (revision, stores, etc.)
+
 
 v0.58.3
 - 🤩 feature: a loader while the page downloads
 - 😷 chore: some internal refactors and cleanups
+
 
 2019/02/16 v0.58.1
 - 🤩 feature: new classes! (now totalling 25!)

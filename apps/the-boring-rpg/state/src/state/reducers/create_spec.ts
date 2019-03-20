@@ -38,7 +38,7 @@ describe(`${LIB} - reducer - create`, function() {
 
 			const { t_state } = state
 			expect(t_state, 'energy').to.have.property('energy')
-			expect(Object.keys(t_state), 'quick key count check T').to.have.lengthOf(1) // because this test should be updated if that changes
+			expect(Object.keys(t_state), 'quick key count check T').to.have.lengthOf(3) // because this test should be updated if that changes
 
 			// init of custom values
 			expect(u_state).to.have.property('revision', 0)

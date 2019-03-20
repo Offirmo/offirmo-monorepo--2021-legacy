@@ -136,7 +136,14 @@ function attempt_to_redeem_code(previous_state: Readonly<State>, code: string): 
 				// complicated, but will auto-re-gain this achievement
 				u_state = {
 					...u_state,
-					progress: ProgressState.on_achieved(u_state.progress, 'TEST', ProgressState.AchievementStatus.revealed)
+//					progress: ProgressState.on_achieved(u_state.progress, 'TEST', ProgressState.AchievementStatus.revealed)
+					progress: {
+						...u_state.progress,
+						achievements: {
+							...u_state.progress.achievements,
+							'TEST': ProgressState.AchievementStatus.revealed,
+						}
+					}
 				}
 				break
 

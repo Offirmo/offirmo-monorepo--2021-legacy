@@ -17,7 +17,7 @@ import { reset_and_salvage } from './salvage'
 /////////////////////
 
 const SUB_U_REDUCERS_COUNT = 9
-const SUB_U_OTHER_KEYS_COUNT = 5
+const SUB_U_OTHER_KEYS_COUNT = 4
 
 const SUB_T_REDUCERS_COUNT = 1
 const SUB_T_OTHER_KEYS_COUNT = 2
@@ -72,11 +72,18 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any
 
 			;(function migrate_u_state() {
 				if (Object.keys(u_state).length !== SUB_U_REDUCERS_COUNT + SUB_U_OTHER_KEYS_COUNT) {
-					logger.error('migrate_to_latest', {SUB_REDUCERS_COUNT: SUB_U_REDUCERS_COUNT, OTHER_KEYS_COUNT: SUB_U_OTHER_KEYS_COUNT, actual_count: Object.keys(u_state).length, keys: Object.keys(u_state)})
+					logger.error('migrate_to_latest', {
+						SUB_U_REDUCERS_COUNT,
+						SUB_U_OTHER_KEYS_COUNT,
+						expected_count: SUB_U_REDUCERS_COUNT + SUB_U_OTHER_KEYS_COUNT,
+						actual_count: Object.keys(u_state).length,
+						actual_keys: Object.keys(u_state),
+					})
 					throw new Error('migrate_to_latest src [S.U.1] is outdated, please update!')
 				}
 
 				u_state = { ...u_state } // TODO remove this mutation if possible
+				delete (u_state as any).uuid
 
 				let sub_reducer_migrated = []
 				u_state.avatar = CharacterState.migrate_to_latest(SEC, u_state.avatar, hints.avatar)
@@ -104,7 +111,13 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any
 
 			;(function migrate_t_state() {
 				if (Object.keys(t_state).length !== SUB_T_REDUCERS_COUNT + SUB_T_OTHER_KEYS_COUNT) {
-					logger.error('migrate_to_latest', {SUB_REDUCERS_COUNT: SUB_T_REDUCERS_COUNT, OTHER_KEYS_COUNT: SUB_T_OTHER_KEYS_COUNT, actual_count: Object.keys(t_state).length, keys: Object.keys(t_state)})
+					logger.error('migrate_to_latest', {
+						SUB_T_REDUCERS_COUNT,
+						SUB_T_OTHER_KEYS_COUNT,
+						expected_count: SUB_T_REDUCERS_COUNT + SUB_T_OTHER_KEYS_COUNT,
+						actual_count: Object.keys(t_state).length,
+						actual_keys: Object.keys(t_state),
+					})
 					throw new Error('migrate_to_latest src [S.T.1] is outdated, please update!')
 				}
 

@@ -103,14 +103,14 @@ function create_game_instance<T extends AppState>({SEC, local_storage, app_state
 			},
 		)
 
-		const cloud_store = create_cloud_store(
+		/*const cloud_store = create_cloud_store(
 			SEC,
 			local_storage,
 			in_memory_store.get()!,
 			(new_state: Readonly<State>): void => {
 				in_memory_store.set(new_state)
 			},
-		)
+		)*/
 
 		emitter.on(Event.model_change, (src: string) => {
 			app_state = {
@@ -121,29 +121,29 @@ function create_game_instance<T extends AppState>({SEC, local_storage, app_state
 		})
 
 		function dispatch(action: Action) {
+			(console.groupCollapsed as any)(`———————————— ⚡ action dispatched: ${action.type} ⚡ ————————————`)
+			setTimeout(() => console.groupEnd(), 0)
+			logger.log('⚡ action dispatched:', { action })
+
+			// complete action parts that may be missing
+			action.time = action.time || get_UTC_timestamp_ms()
+			const state: State = in_memory_store.get()!
+			Object.keys(action.expected_sub_state_revisions).forEach(sub_state_key => {
+				if (action.expected_sub_state_revisions[sub_state_key] === -1) {
+					action.expected_sub_state_revisions[sub_state_key] =
+						(state.u_state as any)[sub_state_key].revision
+				}
+			})
+
 			local_storage_store.dispatch(action) // useless but for coherency
 			in_memory_store.dispatch(action)
-			cloud_store.dispatch(action)
+			//cloud_store.dispatch(action)
 		}
 
 		const gi = {
 			commands: {
 				...get_commands(dispatch),
-				dispatch(action: Action) {
-					action = {
-						...action,
-						time: action.time || get_UTC_timestamp_ms(),
-					}
-
-					const state: State = in_memory_store.get()!
-					Object.keys(action.expected_sub_state_revisions).forEach(sub_state_key => {
-						if (action.expected_sub_state_revisions[sub_state_key] === -1) {
-							action.expected_sub_state_revisions[sub_state_key] =
-								(state.u_state as any)[sub_state_key].revision
-						}
-					})
-					dispatch(action)
-				}
+				dispatch,
 			},
 
 			queries: {

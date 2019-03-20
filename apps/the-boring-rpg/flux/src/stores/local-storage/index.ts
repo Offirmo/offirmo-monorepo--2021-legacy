@@ -33,7 +33,7 @@ function create(SEC: SoftExecutionContext, local_storage: PersistentStorage): Lo
 			local_storage.setItem(LS_KEYS.savegame_backup, JSON.stringify(last_persisted_state))
 			if (last_persisted_state && last_persisted_state.schema_version) {
 				local_storage.setItem(get_backup_ls_key(last_persisted_state.schema_version), JSON.stringify(last_persisted_state))
-				for (let i = last_persisted_state.schema_version - 2; i > 0; --i) {
+				for (let i = last_persisted_state.schema_version - 3; i > 0; --i) {
 					const key = get_backup_ls_key(i)
 					if (local_storage.getItem(key)) {
 						logger.log(`[${LIB}/LSStore] cleaning old backup`, {v: i})
@@ -43,7 +43,7 @@ function create(SEC: SoftExecutionContext, local_storage: PersistentStorage): Lo
 			}
 		})
 
-		function persist(new_state: State): void {
+		function do_persist(new_state: State): void {
 			if (last_persisted_state && new_state.u_state === last_persisted_state.u_state) return // no need
 
 			logger.log(`[${LIB}/LSStore] 💾 saving #${new_state.u_state.revision}...`)
@@ -51,8 +51,16 @@ function create(SEC: SoftExecutionContext, local_storage: PersistentStorage): Lo
 			last_persisted_state = new_state
 		}
 
+		function optimized_persist(new_state: State): void {
+			// small optim for it seems accessing LS is blocking the event loop
+			if (!last_persisted_state)
+				return do_persist(new_state)
+
+			setTimeout(do_persist, 1100, new_state)
+		}
+
 		return {
-			set: persist,
+			set: optimized_persist,
 			dispatch() { /* unneeded */ },
 			get: () => last_persisted_state!
 		}

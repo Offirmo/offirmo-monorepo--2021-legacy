@@ -135,7 +135,6 @@ const DEMO_STATE: Readonly<State> = deepFreeze({
 		schema_version: SCHEMA_VERSION,
 		revision: 203,
 
-		uuid: "uu1EO9VgTjPlR1YPj0yfdWjG",
 		creation_date: "20180813_00h33",
 
 		avatar: Character.DEMO_STATE,

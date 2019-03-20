@@ -150,7 +150,10 @@ class Chat extends React.Component {
 		}
 
 		const display_progress = async ({progress_promise, msg = 'loading', msgg_acknowledge} = {}) => {
-			this.set_state(state => ({progressing: true}))
+			this.set_state(state => ({
+				progress_value: 0,
+				progressing: true,
+			}))
 
 			await display_message({msg})
 

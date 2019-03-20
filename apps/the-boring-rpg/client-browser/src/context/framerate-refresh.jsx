@@ -52,12 +52,14 @@ class AppStateListenerAndProviderRAF extends React.Component {
 			})
 		}
 
-		console.log(`———————————— onInterval/onAnimationFrame #${this.iteration_count} ————————————`, {
+		console.groupCollapsed(`———————————— onInterval/onAnimationFrame #${this.iteration_count} ————————————`)
+		console.log({
 			//tsms: get_UTC_timestamp_ms(),
 			//time,
 			now_ms,
 		})
 		this.iteration_count++
+		setTimeout(() => console.groupEnd())
 
 		game_instance.commands.update_to_now()
 
