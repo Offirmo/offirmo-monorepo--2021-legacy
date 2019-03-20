@@ -5,5 +5,12 @@ Fragments
 ```js
 		"memoize-one": "^5",
 		"tiny-invariant": "^1",
-
 ```
+
+import memoize_one from 'memoize-one'
+import assert from 'tiny-invariant'
+
+
+https://github.com/mohsinulhaq/react-popper-tooltip
+
+		"ts-node": "^5",

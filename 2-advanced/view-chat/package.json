@@ -15,7 +15,7 @@
 		"caught": "^0.1",
 		"is-promise": "^2",
 		"p-finally": "^1",
-		"p-progress": "^0.2"
+		"p-progress": "^0.3"
 	},
 	"devDependencies": {
 		"npm-run-all": "^4"

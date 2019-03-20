@@ -39,7 +39,7 @@
 		"build": "npm version patch && run-s clean refresh-build-variables build:parcel"
 	},
 	"devDependencies": {
-		"@babel/core": "^7",
+		"@babel/core": "~7.3",
 		"@offirmo/timestamps": "^0.0.1",
 		"@types/prop-types": "^15",
 		"@types/react": "^16",

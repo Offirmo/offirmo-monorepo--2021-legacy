@@ -51,7 +51,7 @@
 		"typescript-string-enums": "^1"
 	},
 	"devDependencies": {
-		"@babel/core": "^7",
+		"@babel/core": "~7.3",
 		"@offirmo/timestamps": "^0.0.1",
 		"cross-env": "^5",
 		"npm-run-all": "^4"

@@ -22,7 +22,7 @@
 		"tiny-invariant": "^1"
 	},
 	"devDependencies": {
-		"@babel/core": "^7",
+		"@babel/core": "~7.3",
 		"parcel-bundler": "^1"
 	},
 	"xxdevDependencies": {

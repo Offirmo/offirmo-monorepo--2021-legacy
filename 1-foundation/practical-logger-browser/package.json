@@ -21,7 +21,7 @@
 	},
 
 	"devDependencies": {
-		"@babel/core": "^7",
+		"@babel/core": "~7.3",
 		"npm-run-all": "^4"
 	},
 	"scripts": {

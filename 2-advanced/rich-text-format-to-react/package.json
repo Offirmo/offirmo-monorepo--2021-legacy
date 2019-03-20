@@ -23,7 +23,7 @@
 		"react-portal-tooltip": "^2"
 	},
 	"devDependencies": {
-		"@babel/core": "^7",
+		"@babel/core": "~7.3",
 		"parcel-bundler": "^1"
 	},
 	"xxdevDependencies": {

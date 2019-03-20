@@ -16,7 +16,7 @@
 		"demo": "run-s clean start:parcel"
 	},
 	"devDependencies": {
-		"@babel/core": "^7",
+		"@babel/core": "~7.3",
 		"npm-run-all": "^4",
 		"parcel-bundler": "^1"
 	}
