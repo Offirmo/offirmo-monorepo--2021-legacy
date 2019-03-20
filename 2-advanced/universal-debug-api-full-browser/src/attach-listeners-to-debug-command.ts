@@ -3,7 +3,7 @@ const ENTRY_POINT = '_dc'
 
 
 export function attach(debugCommands: { [name: string]: () => void }) {
-	console.log('DEBUG attaching...');
+	console.log('[@offirmo/universal-debug-api-full-browser attaching debug commands…]');
 
 	const experiments = (function spyAccessors(x) {
 		const handler = {

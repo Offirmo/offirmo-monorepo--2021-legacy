@@ -44,3 +44,10 @@ API
 ,
 		"96": "icons/icon_96x96.png",
 		"48": "icons/icon_48x48.png"
+
+
+possible icons:
+* https://thenounproject.com/term/spanner/1151516/
+* https://thenounproject.com/term/debugging/1053402/
+* https://thenounproject.com/term/debugging/1053401/
+* https://thenounproject.com/term/breaking-point/1053394/
