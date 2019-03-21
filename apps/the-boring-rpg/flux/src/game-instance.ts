@@ -71,7 +71,7 @@ function create_game_instance<T extends AppState>({SEC, local_storage, app_state
 			local_storage,
 		)
 
-		SEC.xTry(`auto creating/migrating`, ({SEC, logger}: OMRContext): void => {
+		const migrated_state = SEC.xTry(`auto creating/migrating`, ({SEC, logger}: OMRContext): State => {
 			const last_persisted_state: State | null = local_storage_store.get()
 
 			// need this check due to some serializations returning {} for empty
@@ -88,15 +88,15 @@ function create_game_instance<T extends AppState>({SEC, local_storage, app_state
 			}
 			logger.silly(`[${LIB}] state:`, {state})
 
-			local_storage_store.set(state)
+			return state
 		})
-		// we are now sure that the LS store contains sth
 
-		app_state.model = local_storage_store.get()!
+		// update LS after auto-migrating
+		local_storage_store.set(migrated_state)
 
 		const in_memory_store = create_in_memory_store(
 			SEC,
-			local_storage_store.get()!,
+			migrated_state,
 			(state: Readonly<State>, debugId: string) => {
 				local_storage_store.set(state) // LS is not maintaining a full copy, thus need this instead of dispatch()
 				emitter.emit(Event.model_change, `${debugId}[in-mem]`)
@@ -119,6 +119,8 @@ function create_game_instance<T extends AppState>({SEC, local_storage, app_state
 			}
 			emitter.emit(Event.view_change, `model.${src}`)
 		})
+
+		emitter.emit(Event.model_change, `init`)
 
 		function dispatch(action: Action) {
 			(console.groupCollapsed as any)(`———————————— ⚡ action dispatched: ${action.type} ⚡ ————————————`)

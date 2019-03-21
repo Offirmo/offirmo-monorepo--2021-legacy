@@ -26,8 +26,10 @@ function create(SEC: SoftExecutionContext, local_storage: PersistentStorage): Lo
 
 			// LS access can throw
 			let ls_content = local_storage.getItem(LS_KEYS.savegame)
-			if (ls_content)
+			if (ls_content) {
 				last_persisted_state = JSON.parse(ls_content)
+				logger.verbose(`[${LIB}/LSStore] restored state =`, { snapshot: JSON.parse(ls_content) })
+			}
 
 			// backup
 			local_storage.setItem(LS_KEYS.savegame_backup, JSON.stringify(last_persisted_state))
@@ -43,20 +45,23 @@ function create(SEC: SoftExecutionContext, local_storage: PersistentStorage): Lo
 			}
 		})
 
-		function do_persist(new_state: State): void {
+		function persist(new_state: State): void {
 			if (last_persisted_state && new_state.u_state === last_persisted_state.u_state) return // no need
 
-			logger.log(`[${LIB}/LSStore] 💾 saving #${new_state.u_state.revision}...`)
-			local_storage.setItem(LS_KEYS.savegame, JSON.stringify(new_state))
+			const storage_value = JSON.stringify(new_state)
+			logger.log(`[${LIB}/LSStore] 💾 saving #${new_state.u_state.revision}...`, { snapshot: JSON.parse(storage_value) })
+			local_storage.setItem(LS_KEYS.savegame, storage_value)
 			last_persisted_state = new_state
 		}
 
+		// small optim for it seems accessing LS is blocking the event loop
+		let pending_persist_state: State | null = null
 		function optimized_persist(new_state: State): void {
-			// small optim for it seems accessing LS is blocking the event loop
 			if (!last_persisted_state)
-				return do_persist(new_state)
+				return persist(new_state)
 
-			setTimeout(do_persist, 1100, new_state)
+			pending_persist_state = new_state
+			setTimeout(() => persist(pending_persist_state!), 1100)
 		}
 
 		return {
