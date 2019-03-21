@@ -20,7 +20,7 @@ import {
 ```
 
 
-TODO merge with https://github.com/krzkaczor/ts-essentials ?
-
 TODO deep https://gist.github.com/masterkidan/7322752f569b1bba53e0426266768623
           https://github.com/Microsoft/TypeScript/issues/13923
+
+See similar projects listed here https://github.com/sindresorhus/type-fest/issues/3

@@ -35,6 +35,7 @@
 		"bolt": "^0.22"
 	},
 	"devDependencies": {
+		"@atlaskit/build-releases": "^3.0.3",
 		"@babel/cli": "^7",
 		"@babel/core": "~7.3",
 		"@babel/node": "^7",

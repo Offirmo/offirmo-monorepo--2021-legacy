@@ -1305,10 +1305,19 @@ https://www.brainyquote.com/search_results?q=adventure
 const RAW_ENTRIES_META: Readonly<Partial<AchievementDefinition<UState>>>[] = [
 	{
 		icon: '😇',
-		name: 'Supporter of web diversity',
-		description: `Having played on Firefox once.`,
-		lore: 'Let’s defend the weak against the strong!',
+		name: 'Supporter of diversity',
+		description: `Having supported web diversity by playing on Firefox once.`,
+		lore: 'The more the merrier!',
 		get_status: (u_state: UState) => u_state.meta.is_web_diversity_supporter
+			? AchievementStatus.unlocked
+			: AchievementStatus.revealed,
+	},
+	{
+		icon: '📃',
+		name: 'Registered adventurer',
+		description: `Being logged in.`,
+		lore: 'You are now a registered adventurer.',
+		get_status: (u_state: UState) => u_state.meta.is_logged_in
 			? AchievementStatus.unlocked
 			: AchievementStatus.revealed,
 	},

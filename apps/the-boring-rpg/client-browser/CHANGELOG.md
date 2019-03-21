@@ -20,7 +20,7 @@ Next
 
 
 v0.59.1
-- 🤩 feature: 1 new achievements (now totalling 98!)
+- 🤩 feature: 2 new achievements (now totalling 99!)
 - 🤩 feature: a custom cursor
 - 😅 fix: (hopefully) fixed a few crashes cases when selling or equipping items
 - 😅 fix: autoplay now ends up with as much energy you previously had 

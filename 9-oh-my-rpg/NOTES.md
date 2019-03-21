@@ -1,4 +1,6 @@
 
+https://roll20.net/compendium/dnd5e/Spells%20List#content
+
 https://blackbeltwiki.com/dynamic-tension
 https://en.wikipedia.org/wiki/Atropa_belladonna
 https://bewarethewizard.com/2019/01/18/fantasy-cartography-and-the-suspension-of-disbelief/

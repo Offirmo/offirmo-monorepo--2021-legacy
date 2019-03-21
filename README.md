@@ -13,7 +13,8 @@ Unless exceptions, this repo follow those principles:
 
 Doc:
 * monorepo managed by https://github.com/boltpkg/bolt
-* https://www.typescriptlang.org/docs/handbook/compiler-options.html
+  * TODO use https://www.npmjs.com/package/@atlaskit/build-releases as well
+* stable code is in TypeScript https://www.typescriptlang.org/docs/handbook/compiler-options.html
 
 
 ```bash
