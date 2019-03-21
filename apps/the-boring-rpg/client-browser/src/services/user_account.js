@@ -23,6 +23,7 @@ function request_redirect(url) {
 
 	localStorage.setItem(REDIRECT_LS_KEY, JSON.stringify(redirect_request))
 }
+const NetlifyIdentity = poll_window_variable('netlifyIdentity', { timeoutMs: 5 * 60 * 1000 })
 
 function init(SEC, game_instance) {
 	SEC.xTry('initializing user account', ({logger}) => {
@@ -31,8 +32,6 @@ function init(SEC, game_instance) {
 				...props,
 			}))
 		}
-
-		const NetlifyIdentity = poll_window_variable('netlifyIdentity', { timeoutMs: 5 * 60 * 1000 })
 
 		NetlifyIdentity.then(() => {
 			logger.verbose('NetlifyIdentity lib loaded ✅')
@@ -124,7 +123,7 @@ function init(SEC, game_instance) {
 						// TODO ??
 						/*
                       // clean up
-                      this.NetlifyIdentity.logout()
+                      NetlifyIdentity.logout()
                       */
 					})
 					.then(() => {
@@ -141,5 +140,7 @@ function init(SEC, game_instance) {
 
 export {
 	get_name,
+	request_redirect,
+	NetlifyIdentity,
 	init,
 }

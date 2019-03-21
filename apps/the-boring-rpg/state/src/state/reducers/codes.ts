@@ -36,14 +36,14 @@ import { reseed } from "./create";
 
 /////////////////////
 
-function attempt_to_redeem_code(previous_state: Readonly<State>, code: string): Readonly<State> {
+function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<State> {
+	let previous_state: State | null = state
 	let engagement_key: EngagementKey = EngagementKey['code_redemption--failed'] // so far
 	let engagement_params: any = {}
 
 	code = CodesState.normalize_code(code)
 	const code_spec = CODE_SPECS_BY_KEY[code]
 
-	let state = previous_state
 	let { u_state, t_state } = state
 	if (!code_spec || !CodesState.is_code_redeemable(u_state.codes, code_spec, state)) {
 		// nothing to do,
@@ -183,6 +183,7 @@ function attempt_to_redeem_code(previous_state: Readonly<State>, code: string): 
 				break
 
 			case 'REBORNX':
+				previous_state = null // since we completely recreate the state
 				state = reseed(state) // force random reseed to see new stuff
 				state = reset_and_salvage(state as any)
 				u_state = state.u_state
@@ -193,6 +194,7 @@ function attempt_to_redeem_code(previous_state: Readonly<State>, code: string): 
 				}
 				break
 			case 'REBORN':
+				previous_state = null // since we completely recreate the state
 				state = reset_and_salvage(state as any)
 				u_state = state.u_state
 				t_state = state.t_state
@@ -245,7 +247,7 @@ function attempt_to_redeem_code(previous_state: Readonly<State>, code: string): 
 
 	state = propagate_child_revision_increment_upward(previous_state, state)
 
-	return _refresh_achievements(state, previous_state.u_state.revision)
+	return _refresh_achievements(state, (previous_state || state).u_state.revision)
 }
 
 /////////////////////

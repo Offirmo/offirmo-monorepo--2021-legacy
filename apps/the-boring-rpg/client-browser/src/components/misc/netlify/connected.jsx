@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 
-import get_game_instance, { request_redirect } from '../../../services/game-instance-browser'
+import get_game_instance from '../../../services/game-instance-browser'
+import { NetlifyIdentity, request_redirect } from '../../../services/user_account'
 import { AppStateContext } from '../../../context'
 
 import View from './component'
@@ -10,17 +11,15 @@ import View from './component'
 
 function on_click_on_signin_button() {
 	request_redirect(window.location.href)
-	this.NetlifyIdentity.open()
+	NetlifyIdentity.then(NetlifyIdentity => NetlifyIdentity.open())
 }
 
 function on_request_logout() {
-	this.NetlifyIdentity.logout()
+	NetlifyIdentity.then(NetlifyIdentity => NetlifyIdentity.logout())
 }
 
 
 export default function NetlifyIndicator() {
-	//console.log('🔄 NetlifyIndicator')
-
 	return (
 		<AppStateContext.Consumer>
 			{app_state => {

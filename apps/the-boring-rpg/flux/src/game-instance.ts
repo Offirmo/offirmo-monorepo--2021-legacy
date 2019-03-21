@@ -123,7 +123,8 @@ function create_game_instance<T extends AppState>({SEC, local_storage, app_state
 		emitter.emit(Event.model_change, `init`)
 
 		function dispatch(action: Action) {
-			(console.groupCollapsed as any)(`———————————— ⚡ action dispatched: ${action.type} ⚡ ————————————`)
+			if (action.type !== 'update_to_now') console.groupEnd()
+			;(console.groupCollapsed as any)(`———————————— ⚡ action dispatched: ${action.type} ⚡ ————————————`)
 			setTimeout(() => console.groupEnd(), 0)
 			logger.log('⚡ action dispatched:', { action })
 

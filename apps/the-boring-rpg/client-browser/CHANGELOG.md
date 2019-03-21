@@ -19,12 +19,12 @@ Next
 - 😷 chore: some internal refactors
 
 
-v0.59.1
+v0.59.2
 - 🤩 feature: 2 new achievements (now totalling 99!)
-- 🤩 feature: a custom cursor
+- 😍 feature: a custom cursor
 - 😅 fix: (hopefully) fixed a few crashes cases when selling or equipping items
 - 😅 fix: autoplay now ends up with as much energy you previously had 
-- 😅 fix: the notifications no longer prevent click through
+- 😅 fix: the notifications no longer prevent clicking below / above
 - 😅 fix: (hopefully) on Safari mobile, the screen won't stay zoomed after an input
 - 😷 chore: some internal refactors and cleanups (revision, stores, etc.)
 

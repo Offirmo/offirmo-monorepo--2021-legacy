@@ -830,19 +830,19 @@ This is a curious but effective training: +{{attr}} {{attr_name}}!
 
 	// famous stones
 	famous_stone_ruby: `
-In a lost city, you looted the famous lost striped candy-pink ruby!
+In a lost city, you loot the famous lost striped candy-pink ruby!
 Your fame increases: +{{charisma}} charisma, +{{token}}.
 		`,
 	famous_stone_diamond: `
-In a meteor crater, you looted an incredible rare black diamond!
+In a meteor crater, you loot an incredible rare black diamond!
 Your wisdom increases: +{{wisdom}} wisdom, +{{token}}.
 		`,
 	famous_stone_sapphire: `
-In a secret cave below the ocean, you looted the forgotten sapphire of Atlantis!
+In a secret cave below the ocean, you loot the forgotten sapphire of Atlantis!
 Your mana increases: +{{mana}} mana, +{{token}}.
 		`,
 	famous_stone_emerald: `
-On a lost altar deep in the jungle, you looted the mysterious emerald of Shapeshifting!
+On a lost altar deep in the jungle, you loot the mysterious emerald of Shapeshifting!
 Your agility increases: +{{agility}} agility, +{{token}}.
 		`,
 

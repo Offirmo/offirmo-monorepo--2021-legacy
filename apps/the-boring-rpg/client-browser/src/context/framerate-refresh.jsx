@@ -52,6 +52,7 @@ class AppStateListenerAndProviderRAF extends React.Component {
 			})
 		}
 
+		console.groupEnd()
 		console.groupCollapsed(`———————————— onInterval/onAnimationFrame #${this.iteration_count} ————————————`)
 		console.log({
 			//tsms: get_UTC_timestamp_ms(),
