@@ -1,8 +1,7 @@
 import { Enum } from 'typescript-string-enums'
 
 import { JSONRpcRequest, JSONRpcResponse } from '@offirmo/json-rpc-types'
-import { TimestampUTCMs } from '@offirmo/timestamps'
-import { ActionType } from '@tbrpg/flux'
+import { ActionType } from './actions'
 
 ////////////////////////////////////
 

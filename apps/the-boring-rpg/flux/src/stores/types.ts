@@ -1,6 +1,5 @@
 import { State } from '@tbrpg/state'
-
-import { Action} from '../actions'
+import { Action } from '@tbrpg/interfaces'
 
 
 interface Store {
@@ -12,7 +11,7 @@ interface Store {
 interface InMemoryStore extends Store {
 }
 
-interface LocalStorageStore extends Store {
+interface PersistentStore extends Store {
 }
 
 interface CloudStore extends Store {
@@ -22,6 +21,6 @@ interface CloudStore extends Store {
 export {
 	Store,
 	InMemoryStore,
-	LocalStorageStore,
+	PersistentStore,
 	CloudStore,
 }

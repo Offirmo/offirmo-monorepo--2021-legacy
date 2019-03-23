@@ -2,15 +2,13 @@ import { Enum } from 'typescript-string-enums'
 import { are_ustate_revision_requirements_met } from '@offirmo-private/state'
 import { State } from '@tbrpg/state'
 import * as TBRPGState from '@tbrpg/state'
+import { Action, ActionType } from '@tbrpg/interfaces'
 
 import { LIB } from '../consts'
-import {
-	Action,
-	ActionType,
-} from '../actions'
 
-const HANDLED_ACTIONS = 12
-if (HANDLED_ACTIONS !== Enum.keys(ActionType).length)
+
+const KNOWN_ACTIONS = 12
+if (KNOWN_ACTIONS !== Enum.keys(ActionType).length)
 	throw new Error(`${LIB}: reduce_action() is outdated!`)
 
 function reduce_action(state: Readonly<State>, action: Readonly<Action>): Readonly<State> {

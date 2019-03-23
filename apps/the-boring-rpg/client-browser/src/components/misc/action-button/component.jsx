@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { get_action_types } from '@tbrpg/flux'
+import { get_action_types } from '@tbrpg/interfaces'
 
 /////////////////////
 

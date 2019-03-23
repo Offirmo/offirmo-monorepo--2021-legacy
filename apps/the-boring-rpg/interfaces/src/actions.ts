@@ -114,6 +114,13 @@ type Action =
 
 /////////////////////
 
+// needed for some validations
+function get_action_types(): string[] {
+	return Enum.keys(ActionType)
+}
+
+/////////////////////
+
 export {
 	ACTIONS_SCHEMA_VERSION,
 	ActionType,
@@ -132,4 +139,6 @@ export {
 	ActionHack,
 
 	Action,
+
+	get_action_types,
 }

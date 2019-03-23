@@ -11,6 +11,7 @@
 	},
 	"dependencies": {
 		"@offirmo/common-error-fields": "^0.0.1",
+		"@offirmo/json-rpc-types": "^0.0.1",
 		"@offirmo/practical-logger-node": "^0.0.1",
 		"@offirmo/timestamps": "^0.0.1",
 		"@offirmo/uuid": "^0.0.1",

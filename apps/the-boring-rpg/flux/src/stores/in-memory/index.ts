@@ -2,10 +2,10 @@ import memoize_one from 'memoize-one'
 
 import { OMRContext } from '@oh-my-rpg/definitions'
 import { State } from '@tbrpg/state'
+import { Action } from '@tbrpg/interfaces'
 
 import { LIB } from '../../consts'
 import { SoftExecutionContext } from '../../sec'
-import { Action } from '../../actions'
 import { reduce_action } from '../../utils/reduce-action'
 import { InMemoryStore } from '../types'
 
@@ -30,7 +30,7 @@ function create(
 			get: () => state,
 			set: (new_state: Readonly<State>) => {
 				state = new_state
-				on_change_m(state, 'forced set()')
+				on_change_m(state, 'forced in-memory store set()')
 			},
 		}
 	})

@@ -34,6 +34,7 @@
 		"@oh-my-rpg/view-browser-react": "^0.0.1",
 		"@oh-my-rpg/view-rich-text": "^0.0.1",
 		"@tbrpg/flux": "^0",
+		"@tbrpg/interfaces": "^0.0.1",
 		"@tbrpg/state": "^0",
 		"bowser": "^1",
 		"classnames": "^2",

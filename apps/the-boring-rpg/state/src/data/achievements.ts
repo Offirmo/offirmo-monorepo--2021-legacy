@@ -199,13 +199,13 @@ const RAW_ENTRIES_ADVENTURING: Readonly<Partial<AchievementDefinition<UState>>>[
 	},
 ]
 
-const FIGHT_ENCOUNTER_TIERS = [1, 3, 10, 50, 100, 500]
+const FIGHT_ENCOUNTER_TIERS = [1, 3, 10, 49, 50, 100, 500]
 const RAW_ENTRIES_FIGHT_ENCOUNTERS: Readonly<Partial<AchievementDefinition<UState>>>[] = [
 	{
 		icon: '🥄',
 		name: 'First Blood',
 		description: `Having experienced your first random fight encounter.`,
-		get_status: (u_state: UState) => _encountered_fight_adventures_count(u_state) >= 1
+		get_status: (u_state: UState) => _encountered_fight_adventures_count(u_state) >= FIGHT_ENCOUNTER_TIERS[0]
 			? AchievementStatus.unlocked
 			: AchievementStatus.revealed,
 	},
@@ -215,7 +215,7 @@ const RAW_ENTRIES_FIGHT_ENCOUNTERS: Readonly<Partial<AchievementDefinition<UStat
 		description: `Having experienced ${FIGHT_ENCOUNTER_TIERS[1]} random fight encounters.`,
 		get_status: (u_state: UState) => _encountered_fight_adventures_count(u_state) >= FIGHT_ENCOUNTER_TIERS[1]
 			? AchievementStatus.unlocked
-			: _encountered_fight_adventures_count(u_state) >= 1
+			: _encountered_fight_adventures_count(u_state) >= FIGHT_ENCOUNTER_TIERS[0]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
 		get_completion_rate: (u_state: UState) => ([_encountered_fight_adventures_count(u_state), FIGHT_ENCOUNTER_TIERS[1]])
@@ -233,8 +233,9 @@ const RAW_ENTRIES_FIGHT_ENCOUNTERS: Readonly<Partial<AchievementDefinition<UStat
 	},
 	{
 		icon: '🔪',
-		name: 'Wild Like The Wind',
-		description: `Having experienced ${FIGHT_ENCOUNTER_TIERS[3]} random fight encounters.`,
+		name: '49 times… It was 49 times…',
+		description: `Having experienced 49 random fight encounters.`,
+		lore: `49 times… We fought that beast. Something's waiting in the bushes for us…`,
 		get_status: (u_state: UState) => _encountered_fight_adventures_count(u_state) >= FIGHT_ENCOUNTER_TIERS[3]
 			? AchievementStatus.unlocked
 			: _encountered_fight_adventures_count(u_state) >= FIGHT_ENCOUNTER_TIERS[2]
@@ -243,8 +244,8 @@ const RAW_ENTRIES_FIGHT_ENCOUNTERS: Readonly<Partial<AchievementDefinition<UStat
 		get_completion_rate: (u_state: UState) => ([_encountered_fight_adventures_count(u_state), FIGHT_ENCOUNTER_TIERS[3]])
 	},
 	{
-		icon: '🗡',
-		name: 'The Wild One',
+		icon: '🔪',
+		name: 'Wild Like The Wind',
 		description: `Having experienced ${FIGHT_ENCOUNTER_TIERS[4]} random fight encounters.`,
 		get_status: (u_state: UState) => _encountered_fight_adventures_count(u_state) >= FIGHT_ENCOUNTER_TIERS[4]
 			? AchievementStatus.unlocked
@@ -254,8 +255,8 @@ const RAW_ENTRIES_FIGHT_ENCOUNTERS: Readonly<Partial<AchievementDefinition<UStat
 		get_completion_rate: (u_state: UState) => ([_encountered_fight_adventures_count(u_state), FIGHT_ENCOUNTER_TIERS[4]])
 	},
 	{
-		icon: '⚔',
-		name: 'Alpha Of The Wilderness',
+		icon: '🗡',
+		name: 'The Wild One',
 		description: `Having experienced ${FIGHT_ENCOUNTER_TIERS[5]} random fight encounters.`,
 		get_status: (u_state: UState) => _encountered_fight_adventures_count(u_state) >= FIGHT_ENCOUNTER_TIERS[5]
 			? AchievementStatus.unlocked
@@ -263,6 +264,17 @@ const RAW_ENTRIES_FIGHT_ENCOUNTERS: Readonly<Partial<AchievementDefinition<UStat
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
 		get_completion_rate: (u_state: UState) => ([_encountered_fight_adventures_count(u_state), FIGHT_ENCOUNTER_TIERS[5]])
+	},
+	{
+		icon: '⚔',
+		name: 'Alpha Of The Wilderness',
+		description: `Having experienced ${FIGHT_ENCOUNTER_TIERS[5]} random fight encounters.`,
+		get_status: (u_state: UState) => _encountered_fight_adventures_count(u_state) >= FIGHT_ENCOUNTER_TIERS[6]
+			? AchievementStatus.unlocked
+			: _encountered_fight_adventures_count(u_state) >= FIGHT_ENCOUNTER_TIERS[5]
+				? AchievementStatus.revealed
+				: AchievementStatus.hidden,
+		get_completion_rate: (u_state: UState) => ([_encountered_fight_adventures_count(u_state), FIGHT_ENCOUNTER_TIERS[6]])
 	},
 ]
 

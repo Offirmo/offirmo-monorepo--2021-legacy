@@ -4,14 +4,13 @@ import { expect } from 'chai'
 import { createLocalStorage } from 'localstorage-ponyfill'
 import { createLogger } from '@offirmo/practical-logger-node'
 import { getRootSEC } from '@offirmo/soft-execution-context'
-
 import { State, DEMO_STATE } from '@tbrpg/state'
+import { StorageKey } from '@tbrpg/interfaces'
 
 import { LIB } from './consts'
 import { get_lib_SEC } from './sec'
-import { LS_KEYS } from './stores/consts'
 import { create_game_instance } from '.'
-
+import create_in_mem_tbrpg_storage from './utils/in-mem-tbrpg-storage'
 
 /////////////////////
 
@@ -20,7 +19,7 @@ interface AppState {
 }
 
 describe(`${LIB}`, function() {
-	const local_storage = createLocalStorage({ mode : "memory" })
+	let storage = create_in_mem_tbrpg_storage()
 	const logger = createLogger({
 		name: LIB,
 		suggestedLevel: 'trace',
@@ -30,7 +29,7 @@ describe(`${LIB}`, function() {
 	beforeEach(() => {
 		SEC = get_lib_SEC()
 			.injectDependencies({ logger })
-		local_storage.clear()
+		storage = create_in_mem_tbrpg_storage()
 	})
 
 	describe('init', function() {
@@ -39,7 +38,7 @@ describe(`${LIB}`, function() {
 			it('should create a new game', () => {
 				const game_instance = create_game_instance<AppState>({
 					SEC,
-					local_storage,
+					storage,
 					app_state: {} as any,
 				})
 
@@ -49,10 +48,10 @@ describe(`${LIB}`, function() {
 
 		context('when passed no game ({})', function() {
 			it('should create a new game', () => {
-				local_storage.setItem(LS_KEYS.savegame, '{}')
+				storage.set_item(StorageKey.savegame, '{}')
 				const game_instance = create_game_instance<AppState>({
 					SEC,
-					local_storage,
+					storage,
 					app_state: {} as any,
 				})
 
@@ -62,10 +61,10 @@ describe(`${LIB}`, function() {
 
 		context('when passed an existing game', function() {
 			it('should use it and automatically migrate to latest', () => {
-				local_storage.setItem(LS_KEYS.savegame, JSON.stringify(DEMO_STATE))
+				storage.set_item(StorageKey.savegame, JSON.stringify(DEMO_STATE))
 				const game_instance = create_game_instance<AppState>({
 					SEC,
-					local_storage,
+					storage,
 					app_state: {} as any,
 				})
 
@@ -81,6 +80,6 @@ describe(`${LIB}`, function() {
 	})
 
 	describe('arch-state handling', function() {
-
+		// TODO
 	})
 })

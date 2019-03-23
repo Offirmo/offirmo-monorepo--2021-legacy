@@ -2,8 +2,6 @@ import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo/timestamps'
 import { UUID } from '@offirmo/uuid'
 import { CharacterClass } from '@oh-my-rpg/state-character'
 import { State } from '@tbrpg/state'
-
-import { LIB } from '../consts'
 import {
 	ACTIONS_SCHEMA_VERSION,
 	ActionType,
@@ -21,9 +19,12 @@ import {
 	ActionHack,
 
 	Action,
-} from '../actions'
+} from '@tbrpg/interfaces'
 
-const HANDLED_ACTIONS = 12
+import { LIB } from '../consts'
+
+
+const KNOWN_ACTIONS = 12
 
 function get_commands(
 	dispatch: (action: Action) => void
@@ -153,7 +154,7 @@ function get_commands(
 		},
 	}
 
-	if (Object.keys(commands).length !== HANDLED_ACTIONS)
+	if (Object.keys(commands).length !== KNOWN_ACTIONS)
 		throw new Error(`${LIB}: commands are outdated!`)
 
 	return commands

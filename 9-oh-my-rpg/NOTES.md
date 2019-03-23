@@ -1,6 +1,8 @@
 
 https://roll20.net/compendium/dnd5e/Spells%20List#content
 
+Map! https://codepen.io/oliviale/pen/moLrBq
+
 https://blackbeltwiki.com/dynamic-tension
 https://en.wikipedia.org/wiki/Atropa_belladonna
 https://bewarethewizard.com/2019/01/18/fantasy-cartography-and-the-suspension-of-disbelief/
@@ -41,6 +43,8 @@ https://en.m.wikipedia.org/wiki/Outline_of_fencing
 https://en.m.wikipedia.org/wiki/French_school_of_fencing
 https://en.m.wikipedia.org/wiki/Archery
 https://en.m.wikipedia.org/wiki/Fencing_tactics
+
+Échelle
 https://fr.wikipedia.org/wiki/Indice_d%27explosivit%C3%A9_volcanique
 Gentle
 Explosive
@@ -51,6 +55,9 @@ Colossal
 Super-colossal
 Mega-colossal
 Cosmic? https://en.wikipedia.org/wiki/Cosmic_entity_(Marvel_Comics)
+https://en.m.wikipedia.org/wiki/International_Nuclear_Event_Scale
+https://en.wikipedia.org/wiki/Richter_magnitude_scale
+
 
 infinity gems https://en.wikipedia.org/wiki/Infinity_Gems
 

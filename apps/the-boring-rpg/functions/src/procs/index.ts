@@ -1,8 +1,6 @@
 import { Enum } from 'typescript-string-enums'
 
 import {
-	JSONRpcRequest,
-	JSONRpcResponse,
 	JSONRPC_CODE,
 	DEFAULT_JSONRPC_ERROR_PAYLOAD
 } from '../sub/types'

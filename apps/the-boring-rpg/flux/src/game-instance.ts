@@ -4,31 +4,15 @@
 import EventEmitter from 'emittery'
 import deep_merge from 'deepmerge'
 import { Enum } from 'typescript-string-enums'
-
-import { UUID } from '@offirmo/uuid'
-import { Document } from '@offirmo/rich-text-format'
-import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo/timestamps'
-
+import { get_UTC_timestamp_ms } from '@offirmo/timestamps'
 import { OMRContext } from '@oh-my-rpg/definitions'
-import { CharacterClass } from '@oh-my-rpg/state-character'
-import { Item } from '@oh-my-rpg/state-inventory'
-import { PendingEngagement } from "@oh-my-rpg/state-engagement"
-import * as TBRPGState from '@tbrpg/state'
-import * as PRNGState from '@oh-my-rpg/state-prng'
-import { AchievementSnapshot } from '@oh-my-rpg/state-progress'
-import {
-	Adventure,
-	State,
-	UState,
-	migrate_to_latest,
-} from '@tbrpg/state'
-import * as state_fns from '@tbrpg/state'
-import * as selectors from '@tbrpg/state'
 
-import { PersistentStorage } from './types'
+import * as TBRPGState from '@tbrpg/state'
+import { State } from '@tbrpg/state'
+import { Action, TbrpgStorage } from '@tbrpg/interfaces'
+
 import { SoftExecutionContext } from './sec'
-import { Action } from './actions'
-import { create as create_local_storage_store } from './stores/local-storage'
+import { create as create_persistent_store } from './stores/persistent'
 import { create as create_in_memory_store } from './stores/in-memory'
 import { create as create_cloud_store } from './stores/cloud-offline-first'
 import { get_commands } from './commands'
@@ -46,18 +30,16 @@ interface AppState {
 	model: State,
 }
 
-interface CreateParams<T extends AppState> {
-	SEC: SoftExecutionContext
-	local_storage: PersistentStorage
-	app_state: T
-}
-
 function overwriteMerge<T>(destination: T, source: T): T {
 	return source
 }
 
-
-function create_game_instance<T extends AppState>({SEC, local_storage, app_state}: CreateParams<T>) {
+interface CreateParams<T extends AppState> {
+	SEC: SoftExecutionContext
+	storage: TbrpgStorage,
+	app_state: T
+}
+function create_game_instance<T extends AppState>({SEC, storage, app_state}: CreateParams<T>) {
 	return SEC.xTry('creating tbrpg instance', ({SEC, logger}: OMRContext) => {
 
 		app_state = app_state || ({} as any as T)
@@ -66,51 +48,48 @@ function create_game_instance<T extends AppState>({SEC, local_storage, app_state
 
 		// this special store will auto un-persist a potentially existing savegame
 		// but may end up empty if none existing so far
-		const local_storage_store = create_local_storage_store(
-			SEC,
-			local_storage,
-		)
+		const persistent_store = create_persistent_store(SEC, storage)
 
-		const migrated_state = SEC.xTry(`auto creating/migrating`, ({SEC, logger}: OMRContext): State => {
-			const last_persisted_state: State | null = local_storage_store.get()
+		const initial_state = SEC.xTry(`auto creating/migrating`, ({SEC, logger}: OMRContext): State => {
+			const recovered_state: State | null = persistent_store.get()
 
-			// need this check due to some serializations returning {} for empty
-			const was_empty_state: boolean = !last_persisted_state || Object.keys(last_persisted_state).length === 0
-
-			let state: State = was_empty_state
-				? TBRPGState.reseed(TBRPGState.create(SEC))
-				: TBRPGState.migrate_to_latest(SEC, last_persisted_state!)
-
-			if (was_empty_state) {
-				logger.verbose(`[${LIB}] Clean savegame created from scratch.`)
-			} else {
+			if (recovered_state) {
+				const state = TBRPGState.migrate_to_latest(SEC, recovered_state)
 				logger.trace(`[${LIB}] automigrated state.`)
+				return state
 			}
-			logger.silly(`[${LIB}] state:`, {state})
 
+			const state = TBRPGState.reseed(TBRPGState.create(SEC))
+			logger.verbose(`[${LIB}] Clean savegame created from scratch.`)
 			return state
 		})
+		logger.silly(`[${LIB}] initial state:`, {state: initial_state})
 
-		// update LS after auto-migrating
-		local_storage_store.set(migrated_state)
+		// update after auto-migrating
+		persistent_store.set(initial_state)
 
 		const in_memory_store = create_in_memory_store(
 			SEC,
-			migrated_state,
+			initial_state,
 			(state: Readonly<State>, debugId: string) => {
-				local_storage_store.set(state) // LS is not maintaining a full copy, thus need this instead of dispatch()
 				emitter.emit(Event.model_change, `${debugId}[in-mem]`)
 			},
 		)
+		emitter.on(Event.model_change, (src: string) => {
+			const state = in_memory_store.get()!
+			// this store is not maintaining a full copy (cheaper)
+			// thus need this instead of dispatch()
+			persistent_store.set(state)
+		})
 
-		/*const cloud_store = create_cloud_store(
+		const cloud_store = create_cloud_store(
 			SEC,
-			local_storage,
-			in_memory_store.get()!,
+			storage,
+			initial_state,
 			(new_state: Readonly<State>): void => {
 				in_memory_store.set(new_state)
 			},
-		)*/
+		)
 
 		emitter.on(Event.model_change, (src: string) => {
 			app_state = {
@@ -138,7 +117,7 @@ function create_game_instance<T extends AppState>({SEC, local_storage, app_state
 				}
 			})
 
-			local_storage_store.dispatch(action) // useless but for coherency
+			persistent_store.dispatch(action) // useless but for coherency
 			in_memory_store.dispatch(action)
 			//cloud_store.dispatch(action)
 		}
@@ -163,7 +142,7 @@ function create_game_instance<T extends AppState>({SEC, local_storage, app_state
 				// currently used by the savegame editor
 				// TODO handle server case
 				reset() {
-					const new_state = state_fns.reseed(state_fns.create())
+					const new_state = TBRPGState.reseed(TBRPGState.create())
 					logger.verbose('Savegame reseted:', {new_state})
 					in_memory_store.set(new_state)
 				},
@@ -206,7 +185,7 @@ function create_game_instance<T extends AppState>({SEC, local_storage, app_state
 			},
 
 			_libs: {
-				'@tbrpg/state': state_fns
+				'@tbrpg/state': TBRPGState
 			}
 		}
 

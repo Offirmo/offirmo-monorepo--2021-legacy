@@ -5,9 +5,6 @@ import {
 	Context,
 	Response,
 	NetlifyHandler,
-
-	JSONRpcRequest,
-	JSONRpcResponse,
 	JSONRPC_CODE,
 	DEFAULT_JSONRPC_ERROR_PAYLOAD
 } from './sub/types'

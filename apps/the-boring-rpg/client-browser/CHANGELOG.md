@@ -19,7 +19,12 @@ Next
 - 😷 chore: some internal refactors
 
 
-v0.59.2
+v0.60.1
+- 🤩 feature: 1 new achievement (now totalling 100!)
+- 😷 chore: some internal refactors and cleanups (revision, stores, etc.)
+
+
+v0.59.1
 - 🤩 feature: 2 new achievements (now totalling 99!)
 - 😍 feature: a custom cursor
 - 😅 fix: (hopefully) fixed a few crashes cases when selling or equipping items

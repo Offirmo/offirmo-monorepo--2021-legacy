@@ -1,14 +1,14 @@
 import { Enum } from 'typescript-string-enums'
 import bowser from 'bowser'
 
-//import poll_window_variable from '@offirmo/poll-window-variable'
 import { create_game_instance } from '@tbrpg/flux'
 
 import SEC from './sec'
 import { init } from './user_account'
+import {StorageKey} from '../../../interfaces/src'
 
 
-let game_instance
+let game_instance = null
 
 export const ACCOUNT_STATE = Enum(
 	'waiting_for_lib', // needed?
@@ -33,10 +33,32 @@ const INITIAL_APP_STATE = {
 	redeeming_code: false,
 }
 
+const storage = {
+	//TbrpgStorage {
+	async warm_up() {},
+	async cool_down() {},
+	set_item(key, value) {
+		window.localStorage.setItem(`the-boring-rpg.${key}`, value)
+	},
+	get_item(key) {
+		return window.localStorage.getItem(`the-boring-rpg.${key}`)
+	},
+}
+
+// migration TODO
+/*
+window.localStorage.removeItem('the-boring-rpg.savegame-bkp.v11')
+window.localStorage.removeItem('the-boring-rpg.savegame-bkp.v10')
+window.localStorage.removeItem('the-boring-rpg.savegame-bkp.v9')
+window.localStorage.removeItem('the-boring-rpg.savegame-bkp.v8')
+window.localStorage.removeItem('the-boring-rpg.savegame-bkp.v7')
+window.localStorage.removeItem('the-boring-rpg.savegame-bkp.v6')
+*/
+
 SEC.xTry('creating game instance', ({SEC, logger}) => {
 	game_instance = create_game_instance({
 		SEC,
-		local_storage: window.localStorage,
+		storage,
 		app_state: {
 			...INITIAL_APP_STATE,
 		},

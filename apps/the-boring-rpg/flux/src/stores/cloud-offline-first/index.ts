@@ -1,22 +1,27 @@
 import memoize_one from 'memoize-one'
 import assert from 'tiny-invariant'
 import { get_UTC_timestamp_ms } from '@offirmo/timestamps'
-
 import { OMRContext } from '@oh-my-rpg/definitions'
 import { State } from '@tbrpg/state'
+import {
+	ACTIONS_SCHEMA_VERSION,
+	Action,
+	ActionStartGame,
+	ActionType,
+	TbrpgStorage,
+	StorageKey,
+} from '@tbrpg/interfaces'
 
 import { LIB } from '../../consts'
-import { LS_KEYS } from '../consts'
 import { SoftExecutionContext } from '../../sec'
-import { ACTIONS_SCHEMA_VERSION, Action, ActionStartGame, ActionType } from '../../actions'
 import { CloudStore } from '../types'
-import { PersistentStorage } from '../../types'
+import stable_stringify from "json-stable-stringify";
 
 
-function get_persisted_pending_actions(SEC: SoftExecutionContext, local_storage: PersistentStorage): Action[] {
+function get_persisted_pending_actions(SEC: SoftExecutionContext, storage: TbrpgStorage): Action[] {
 	try {
 		return SEC.xTry(`creating ${LIB} offline-first cloud store`, ({}: OMRContext): Action[] => {
-			let raw = local_storage.getItem(LS_KEYS.cloud_sync_pending_actions)
+			let raw = storage.get_item(StorageKey['cloud.pending-actions'])
 			if (!raw) return []
 
 			let pending_actions = JSON.parse(raw)
@@ -29,11 +34,11 @@ function get_persisted_pending_actions(SEC: SoftExecutionContext, local_storage:
 		return []
 	}
 }
-function persist_pending_actions(SEC: SoftExecutionContext, local_storage: PersistentStorage, pending_actions: Action[]): Action[] {
+function persist_pending_actions(SEC: SoftExecutionContext, storage: TbrpgStorage, pending_actions: Action[]): Action[] {
 	return SEC.xTryCatch(`persisting ${LIB} offline-first cloud store`, ({}: OMRContext): void => {
-		local_storage.setItem(
-			LS_KEYS.cloud_sync_pending_actions,
-			JSON.stringify(pending_actions),
+		storage.set_item(
+			StorageKey['cloud.pending-actions'],
+			stable_stringify(pending_actions),
 		)
 	})
 }
@@ -45,7 +50,7 @@ interface SyncResult {
 
 function create(
 	SEC: SoftExecutionContext,
-	local_storage: PersistentStorage,
+	storage: TbrpgStorage,
 	initial_state: State,
 	set: (new_state: Readonly<State>) => void, // useful for the cloud store to overwrite the mem store
 ): CloudStore {
@@ -63,7 +68,7 @@ function create(
 		}
 
 		let is_logged_in: boolean = false // so far
-		const pending_actions = get_persisted_pending_actions(SEC, local_storage)
+		const pending_actions = get_persisted_pending_actions(SEC, storage)
 		let last_sync_result: Promise<SyncResult> // TODO
 
 		function dispatch(action: Readonly<Action>): void {
@@ -86,7 +91,7 @@ function create(
 			}
 			else {
 				pending_actions.push(action)
-				persist_pending_actions(SEC, local_storage, pending_actions)
+				persist_pending_actions(SEC, storage, pending_actions)
 			}
 
 			if (is_logged_in) {

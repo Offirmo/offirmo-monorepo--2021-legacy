@@ -7,10 +7,7 @@ import {
 	APIGatewayEvent,
 } from 'aws-lambda'
 
-import {
-	JSONRpcRequest,
-	JSONRpcResponse,
-} from '@tbrpg/interfaces'
+import { JSONRpcResponse } from '@offirmo/json-rpc-types'
 
 ////////////////////////////////////
 
