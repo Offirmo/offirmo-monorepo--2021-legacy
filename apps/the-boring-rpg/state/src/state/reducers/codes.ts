@@ -1,6 +1,7 @@
 /////////////////////
 
 import { Random, Engine } from '@offirmo/random'
+import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo/timestamps'
 
 /////////////////////
 
@@ -36,7 +37,7 @@ import { reseed } from "./create";
 
 /////////////////////
 
-function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<State> {
+function attempt_to_redeem_code(state: Readonly<State>, code: string, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Readonly<State> {
 	let previous_state: State | null = state
 	let engagement_key: EngagementKey = EngagementKey['code_redemption--failed'] // so far
 	let engagement_params: any = {}
@@ -50,7 +51,7 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string): Readonly<
 		// will trigger an engagement rejection below
 	}
 	else {
-		state = _update_to_now(state)
+		state = _update_to_now(state, now_ms)
 		u_state = state.u_state
 		t_state = state.t_state
 		u_state = {

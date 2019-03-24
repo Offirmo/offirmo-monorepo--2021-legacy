@@ -112,6 +112,14 @@ type Action =
 	ActionUpdateToNow |
 	ActionHack
 
+// represent a passed action
+interface PlayedAction {
+	action: Action
+
+	previous_last_user_action_tms: TimestampUTCMs
+	previous_revision: number
+}
+
 /////////////////////
 
 // needed for some validations

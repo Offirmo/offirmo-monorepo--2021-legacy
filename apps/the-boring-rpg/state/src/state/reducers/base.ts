@@ -2,6 +2,7 @@
 
 import { Random, Engine } from '@offirmo/random'
 import { UUID } from '@offirmo/uuid'
+import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo/timestamps'
 
 /////////////////////
 
@@ -35,14 +36,15 @@ import {
 
 /////////////////////
 
-function on_start_session(previous_state: Readonly<State>, is_web_diversity_supporter: boolean): Readonly<State> {
+function on_start_session(previous_state: Readonly<State>, is_web_diversity_supporter: boolean, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Readonly<State> {
 	// update energy (not sure needed but good safety)
-	let state = _update_to_now(previous_state)
+	let state = _update_to_now(previous_state, now_ms)
 
 	state = {
 		...state,
 		u_state: {
 			...state.u_state,
+			last_user_action_tms: now_ms,
 			meta: MetaState.on_start_session(state.u_state.meta, is_web_diversity_supporter),
 		}
 	}
@@ -56,16 +58,17 @@ function on_start_session(previous_state: Readonly<State>, is_web_diversity_supp
 	return _refresh_achievements(state, previous_state.u_state.revision)
 }
 
-function on_logged_in_update(previous_state: Readonly<State>, is_logged_in: boolean, roles: string[]): Readonly<State> {
+function on_logged_in_update(previous_state: Readonly<State>, is_logged_in: boolean, roles: string[], now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Readonly<State> {
 	let state = previous_state
 
 	// update energy (not sure needed but good safety)
-	state = _update_to_now(state)
+	state = _update_to_now(state, now_ms)
 
 	state = {
 		...state,
 		u_state: {
 			...state.u_state,
+			//last_user_action_tms: now_ms, // XXX this is NOT a user action
 			meta: MetaState.on_logged_in_refresh(state.u_state.meta, is_logged_in, roles),
 		}
 	}
@@ -80,18 +83,18 @@ function on_logged_in_update(previous_state: Readonly<State>, is_logged_in: bool
 	return _refresh_achievements(state, previous_state.u_state.revision)
 }
 
-function update_to_now(state: Readonly<State>): Readonly<State> {
-	return _update_to_now(state)
+function update_to_now(state: Readonly<State>, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Readonly<State> {
+	return _update_to_now(state, now_ms)
 }
 
-function equip_item(previous_state: Readonly<State>, uuid: UUID): Readonly<State> {
+function equip_item(previous_state: Readonly<State>, uuid: UUID, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Readonly<State> {
 	let state = previous_state
 	state = {
 		...state,
 		u_state: {
 			...state.u_state,
+			last_user_action_tms: now_ms,
 			inventory: InventoryState.equip_item(state.u_state.inventory, uuid),
-
 			revision: state.u_state.revision + 1,
 		},
 	}
@@ -99,20 +102,28 @@ function equip_item(previous_state: Readonly<State>, uuid: UUID): Readonly<State
 	return _refresh_achievements(state, previous_state.u_state.revision)
 }
 
-function sell_item(previous_state: Readonly<State>, uuid: UUID): Readonly<State> {
+function sell_item(previous_state: Readonly<State>, uuid: UUID, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Readonly<State> {
 	let state = previous_state
 	state = _sell_item(state, uuid)
+	state = {
+		...state,
+		u_state: {
+			...state.u_state,
+			last_user_action_tms: now_ms,
+		}
+	}
 	state = propagate_child_revision_increment_upward(previous_state, state)
 	return _refresh_achievements(state, previous_state.u_state.revision)
 }
 
-function rename_avatar(previous_state: Readonly<State>, new_name: string): Readonly<State> {
+function rename_avatar(previous_state: Readonly<State>, new_name: string, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Readonly<State> {
 	let state = previous_state
 	state = {
 		...state,
 
 		u_state: {
 			...state.u_state,
+			last_user_action_tms: now_ms,
 			avatar: rename(get_lib_SEC(), state.u_state.avatar, new_name),
 			revision: state.u_state.revision + 1,
 		},
@@ -121,7 +132,7 @@ function rename_avatar(previous_state: Readonly<State>, new_name: string): Reado
 	return _refresh_achievements(state, previous_state.u_state.revision)
 }
 
-function change_avatar_class(previous_state: Readonly<State>, new_class: CharacterClass): Readonly<State> {
+function change_avatar_class(previous_state: Readonly<State>, new_class: CharacterClass, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Readonly<State> {
 	if (!get_available_classes(previous_state.u_state).includes(new_class))
 		throw new Error(`${LIB}: switch class: invalid class "${new_class}"!`)
 
@@ -131,6 +142,7 @@ function change_avatar_class(previous_state: Readonly<State>, new_class: Charact
 
 		u_state: {
 			...state.u_state,
+			last_user_action_tms: now_ms,
 			avatar: switch_class(get_lib_SEC(), state.u_state.avatar, new_class),
 			revision: state.u_state.revision + 1,
 		},
@@ -139,13 +151,14 @@ function change_avatar_class(previous_state: Readonly<State>, new_class: Charact
 	return _refresh_achievements(state, previous_state.u_state.revision)
 }
 
-function acknowledge_engagement_msg_seen(previous_state: Readonly<State>, uid: number): Readonly<State> {
+function acknowledge_engagement_msg_seen(previous_state: Readonly<State>, uid: number, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Readonly<State> {
 	let state = previous_state
 	state = {
 		...state,
 
 		u_state: {
 			...state.u_state,
+			last_user_action_tms: now_ms,
 			engagement: EngagementState.acknowledge_seen(state.u_state.engagement, uid),
 		},
 	}

@@ -1,8 +1,7 @@
 /////////////////////
 
 import { Random, Engine } from '@offirmo/random'
-import { get_human_readable_UTC_timestamp_minutes } from '@offirmo/timestamps'
-import { generate_uuid } from '@offirmo/uuid'
+import { TimestampUTCMs, get_UTC_timestamp_ms, get_human_readable_UTC_timestamp_minutes } from '@offirmo/timestamps'
 
 /////////////////////
 
@@ -17,8 +16,6 @@ import * as PRNGState from '@oh-my-rpg/state-prng'
 import * as CodesState from '@oh-my-rpg/state-codes'
 import * as ProgressState from '@oh-my-rpg/state-progress'
 import * as MetaState from '@oh-my-rpg/state-meta'
-
-import { Currency } from '@oh-my-rpg/state-wallet'
 
 import {
 	get_prng,
@@ -66,7 +63,7 @@ const STARTING_ARMOR_SPEC: Readonly<Partial<Armor>> = {
 	base_strength: 1,
 }
 
-function create(SEC?: SoftExecutionContext): Readonly<State> {
+function create(SEC?: SoftExecutionContext, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Readonly<State> {
 	return get_lib_SEC(SEC).xTry('create', ({enforce_immutability}: OMRContext) => {
 		let [ u_state_energy, t_state_energy ] = EnergyState.create()
 
@@ -76,9 +73,9 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 			u_state: {
 				schema_version: SCHEMA_VERSION,
 				revision: 0,
-				last_user_action_tms: 0,
+				last_user_action_tms: now_ms,
 
-				creation_date: get_human_readable_UTC_timestamp_minutes(),
+				creation_date: get_human_readable_UTC_timestamp_minutes(new Date(now_ms)),
 
 				avatar: CharacterState.create(SEC),
 				inventory: InventoryState.create(SEC),
@@ -131,12 +128,13 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 			...state,
 			u_state: {
 				...state.u_state,
+				last_user_action_tms: now_ms,
 				// to compensate sub-functions used during build
 				revision: 0,
 			},
 		}
 
-		state = _update_to_now(state) // not sure needed but doesn't hurt
+		state = _update_to_now(state, now_ms) // not sure needed but doesn't hurt
 
 		return enforce_immutability(state)
 	})

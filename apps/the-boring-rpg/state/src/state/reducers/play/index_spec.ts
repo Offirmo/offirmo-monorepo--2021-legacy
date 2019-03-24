@@ -113,7 +113,7 @@ describe(`${LIB} - reducer - play`, function() {
 
 					it('should sometime be a coin gain', () => {
 						let state = create()
-						state = play(state, 'dying_man')
+						state = play(state, undefined,'dying_man')
 
 						// we got money
 						expect(get_currency_amount(state.u_state.wallet, Currency.coin)).to.be.above(0)
@@ -123,7 +123,7 @@ describe(`${LIB} - reducer - play`, function() {
 					it('should sometime be a stat gain')
 					it('should sometime be an item gain', () => {
 						let state = create()
-						state = play(state, 'rare_goods_seller')
+						state = play(state, undefined, 'rare_goods_seller')
 
 						// check our 2 predefined items are still present and equipped
 						expect(get_equipped_item_count(state.u_state.inventory), 'equipped').to.equal(2)
@@ -167,7 +167,7 @@ describe(`${LIB} - reducer - play`, function() {
 					if (!good)
 						state = _loose_all_energy(state)
 
-					state = play(state, hid)
+					state = play(state, undefined, hid)
 				})
 			})
 		})

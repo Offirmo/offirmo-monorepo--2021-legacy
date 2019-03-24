@@ -1,6 +1,7 @@
 /////////////////////
 
 import { Random, Engine } from '@offirmo/random'
+import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo/timestamps'
 
 /////////////////////
 
@@ -21,8 +22,8 @@ import { _refresh_achievements } from '../achievements'
 /////////////////////
 
 // note: allows passing an explicit adventure archetype for testing
-function play(previous_state: Readonly<State>, explicit_adventure_archetype_hid?: string): Readonly<State> {
-	let state = _update_to_now(previous_state)
+function play(previous_state: Readonly<State>, now_ms: TimestampUTCMs = get_UTC_timestamp_ms(), explicit_adventure_archetype_hid?: string): Readonly<State> {
+	let state = _update_to_now(previous_state, now_ms)
 
 	let { u_state, t_state } = state
 
@@ -51,6 +52,7 @@ function play(previous_state: Readonly<State>, explicit_adventure_archetype_hid?
 		...state,
 		u_state: {
 			...u_state,
+			last_user_action_tms: now_ms,
 			progress: ProgressState.on_played(u_state.progress, {
 				good: is_good_play,
 				adventure_key: u_state.last_adventure!.hid,

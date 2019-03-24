@@ -121,8 +121,10 @@ function test_migrations({
 			throw err
 		}
 
-		const ALL_FILES = fs.lsFiles(absolute_dir_path).sort()
+		const ALL_FILES = fs.lsFiles(absolute_dir_path)
 			.filter(snap_path => !snap_path.startsWith('.')) // skip .DS_STORE and like
+			.filter(snap_path => snap_path.endsWith('.json')) // allows README :)
+			.sort()
 			.map(snap_path => path.join(absolute_dir_path, snap_path))
 
 		// note: may not exist

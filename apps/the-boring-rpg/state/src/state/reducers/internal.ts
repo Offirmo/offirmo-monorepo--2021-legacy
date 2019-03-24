@@ -2,7 +2,7 @@
 
 import { Random, Engine } from '@offirmo/random'
 import { UUID } from '@offirmo/uuid'
-import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo/timestamps'
+import { TimestampUTCMs } from '@offirmo/timestamps'
 
 /////////////////////
 
@@ -64,7 +64,7 @@ function _loose_all_energy(state: Readonly<State>): Readonly<State> {
 	}
 }
 
-function _update_to_now(state: Readonly<State>, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Readonly<State> {
+function _update_to_now(state: Readonly<State>, now_ms: TimestampUTCMs): Readonly<State> {
 	let { u_state, t_state } = state
 
 	const t_state_e = EnergyState.update_to_now([u_state.energy, t_state.energy], now_ms)
