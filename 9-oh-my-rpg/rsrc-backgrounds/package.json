@@ -29,7 +29,7 @@
 		"build:dev:watch": "node ../../scripts/build-typescript.js --watch",
 		"build:prod": "node ../../scripts/build-typescript.js",
 
-		"build": "run-s clean build:prod",
+		"build": "run-s build:prod",
 		"cheatsheet": "node doc/cheatsheet.js"
 	},
 	"devDependencies": {

@@ -76,6 +76,7 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 			u_state: {
 				schema_version: SCHEMA_VERSION,
 				revision: 0,
+				last_user_action_tms: 0,
 
 				creation_date: get_human_readable_UTC_timestamp_minutes(),
 

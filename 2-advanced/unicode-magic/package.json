@@ -25,7 +25,7 @@
 
 		"demo": "node ./doc/demo.js",
 		"dev": "run-s clean build:dev:watch",
-		"build": "run-s clean build:prod"
+		"build": "run-s build:prod"
 	},
 	"devDependencies": {
 		"npm-run-all": "^4"

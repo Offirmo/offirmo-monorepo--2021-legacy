@@ -134,6 +134,7 @@ const DEMO_STATE: Readonly<State> = deepFreeze({
 	u_state: {
 		schema_version: SCHEMA_VERSION,
 		revision: 203,
+		last_user_action_tms: 123456,
 
 		creation_date: "20180813_00h33",
 

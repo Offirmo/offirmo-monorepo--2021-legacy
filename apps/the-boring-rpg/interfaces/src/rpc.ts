@@ -25,11 +25,12 @@ interface RpcEcho extends JSONRpcRequest<any> {
 
 interface RpcSync extends JSONRpcRequest<{}> {
 	method: typeof Method.sync
+
+	pending_actions: ActionType[]
+	current_state_hash: string
 }
 
-interface RpcPlay extends JSONRpcRequest<{
-	actions: ActionType[]
-}> {
+interface RpcPlay extends JSONRpcRequest<{ actions: ActionType[] }> {
 	method: typeof Method.play
 }
 

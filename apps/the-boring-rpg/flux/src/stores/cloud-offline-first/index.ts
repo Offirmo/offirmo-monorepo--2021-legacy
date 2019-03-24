@@ -15,7 +15,7 @@ import {
 import { LIB } from '../../consts'
 import { SoftExecutionContext } from '../../sec'
 import { CloudStore } from '../types'
-import stable_stringify from "json-stable-stringify";
+import stable_stringify from 'json-stable-stringify'
 
 
 function get_persisted_pending_actions(SEC: SoftExecutionContext, storage: TbrpgStorage): Action[] {
@@ -170,6 +170,8 @@ function create(
 	})
 }
 
+export default create
 export {
+	CloudStore,
 	create,
 }

@@ -17,7 +17,7 @@ import { reset_and_salvage } from './salvage'
 /////////////////////
 
 const SUB_U_REDUCERS_COUNT = 9
-const SUB_U_OTHER_KEYS_COUNT = 4
+const SUB_U_OTHER_KEYS_COUNT = 5
 
 const SUB_T_REDUCERS_COUNT = 1
 const SUB_T_OTHER_KEYS_COUNT = 2
@@ -70,6 +70,7 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any
 			// migrate sub-reducers if any...
 			let { u_state, t_state } = state
 
+
 			;(function migrate_u_state() {
 				if (Object.keys(u_state).length !== SUB_U_REDUCERS_COUNT + SUB_U_OTHER_KEYS_COUNT) {
 					logger.error('migrate_to_latest', {
@@ -83,7 +84,10 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any
 				}
 
 				u_state = { ...u_state } // TODO remove this mutation if possible
+
+				// micro migrations TODO clean
 				delete (u_state as any).uuid
+				u_state.last_user_action_tms = u_state.last_user_action_tms || 0
 
 				let sub_reducer_migrated = []
 				u_state.avatar = CharacterState.migrate_to_latest(SEC, u_state.avatar, hints.avatar)

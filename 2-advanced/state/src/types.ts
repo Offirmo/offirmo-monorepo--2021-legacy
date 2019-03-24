@@ -5,6 +5,7 @@ export interface BaseUState {
 	schema_version: number
 	revision: number
 
+	//last_user_action_tms: TimestampUTCMs
 	//[k: string]: JSONAny | BaseUState
 }
 

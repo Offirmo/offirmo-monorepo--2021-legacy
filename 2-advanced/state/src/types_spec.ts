@@ -34,6 +34,7 @@ interface State extends BaseUState {
 const state: State = {
 	schema_version: 3,
 	revision: 7,
+
 	name: 'foo',
 	//klass: 'foo',
 	klass: 'wizard',

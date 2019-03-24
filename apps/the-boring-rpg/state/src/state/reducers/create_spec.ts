@@ -34,7 +34,7 @@ describe(`${LIB} - reducer - create`, function() {
 			expect(u_state, 'prng').to.have.property('prng')
 			expect(u_state, 'progress').to.have.property('progress')
 			expect(u_state, 'wallet').to.have.property('wallet')
-			expect(Object.keys(u_state), 'quick key count check U').to.have.lengthOf(13) // because this test should be updated if that changes
+			expect(Object.keys(u_state), 'quick key count check U').to.have.lengthOf(14) // because this test should be updated if that changes
 
 			const { t_state } = state
 			expect(t_state, 'energy').to.have.property('energy')

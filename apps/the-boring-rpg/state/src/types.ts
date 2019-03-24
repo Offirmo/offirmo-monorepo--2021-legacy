@@ -1,6 +1,6 @@
 import { Enum } from 'typescript-string-enums'
 
-import { HumanReadableTimestampUTCMinutes } from '@offirmo/timestamps'
+import { TimestampUTCMs, HumanReadableTimestampUTCMinutes } from '@offirmo/timestamps'
 import { UUID } from '@offirmo/uuid'
 import {
 	BaseUState,
@@ -76,6 +76,7 @@ interface Adventure {
 
 interface UState extends BaseUState {
 	creation_date: HumanReadableTimestampUTCMinutes // TODO useful? move to progress?
+	last_user_action_tms: TimestampUTCMs
 
 	avatar: CharacterState
 	codes: CodesState

@@ -23,7 +23,7 @@
 		"build:prod": "node ../../scripts/build-typescript.js",
 
 		"dev": "run-s clean build:dev:watch",
-		"build": "run-s clean build:prod",
+		"build": "run-s build:prod",
 		"cheatsheet": "node doc/cheatsheet.js",
 		"demo": "node doc/demo-node/index.js"
 	},

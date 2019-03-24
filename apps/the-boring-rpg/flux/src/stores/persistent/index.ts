@@ -74,6 +74,8 @@ function create(SEC: SoftExecutionContext, storage: TbrpgStorage): PersistentSto
 	})
 }
 
+export default create
 export {
+	PersistentStore,
 	create,
 }

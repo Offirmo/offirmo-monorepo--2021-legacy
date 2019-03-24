@@ -1,0 +1,30 @@
+{
+	"name": "@offirmo-private/murmurhash",
+	"version": "0.0.1",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+
+	"main": "dist/src.es7.cjs/index.js",
+	"jsnext:main": "dist/src.es7/index.js",
+	"typings": "dist/src.es7.cjs/index.d.ts",
+
+	"dependencies": {
+		"json-stable-stringify": "^1",
+		"murmurhash3js-revisited": "^3"
+	},
+	"devDependencies": {
+		"npm-run-all": "^4"
+	},
+	"scripts": {
+		"clean": "node ../../scripts/clean.js dist",
+
+		"build:dev:watch": "node ../../scripts/build-typescript.js --watch",
+		"build:prod": "node ../../scripts/build-typescript.js",
+
+		"dev": "run-s clean build:dev:watch",
+		"test": "../../node_modules/.bin/mocha --opts ../../3-tools/unit-test-toolbox/mocha.opts ../../3-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es7.cjs/**/*spec.js'",
+		"build": "run-s build:prod",
+		"cheatsheet": "node doc/cheatsheet.js"
+	}
+}

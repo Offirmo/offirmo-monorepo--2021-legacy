@@ -34,6 +34,6 @@
 
 		"dev": "run-s clean build:dev:watch",
 		"test": "../../node_modules/.bin/mocha --opts ../../3-tools/unit-test-toolbox/mocha.opts ../../3-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es7.cjs/**/*spec.js'",
-		"build": "run-s clean build:prod"
+		"build": "run-s build:prod"
 	}
 }

@@ -4,6 +4,7 @@
 		"schema_version": 11,
 		"revision": 203,
 		"creation_date": "20180813_00h33",
+		"last_user_action_tms": 123456,
 		"avatar": {
 			"schema_version": 2,
 			"revision": 42,

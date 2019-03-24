@@ -36,6 +36,7 @@ function create(
 	})
 }
 
+export default create
 export {
 	InMemoryStore,
 	create,
