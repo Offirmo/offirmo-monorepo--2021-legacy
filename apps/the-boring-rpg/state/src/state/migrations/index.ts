@@ -72,6 +72,13 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any
 
 
 			;(function migrate_u_state() {
+				u_state = { ...u_state } // TODO remove this systematic mutation if possible
+
+				// micro migrations TODO clean
+				delete (u_state as any).uuid
+				u_state.last_user_action_tms = u_state.last_user_action_tms || 0
+
+				// up-to-date check
 				if (Object.keys(u_state).length !== SUB_U_REDUCERS_COUNT + SUB_U_OTHER_KEYS_COUNT) {
 					logger.error('migrate_to_latest', {
 						SUB_U_REDUCERS_COUNT,
@@ -82,12 +89,6 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any
 					})
 					throw new Error('migrate_to_latest src [S.U.1] is outdated, please update!')
 				}
-
-				u_state = { ...u_state } // TODO remove this mutation if possible
-
-				// micro migrations TODO clean
-				delete (u_state as any).uuid
-				u_state.last_user_action_tms = u_state.last_user_action_tms || 0
 
 				let sub_reducer_migrated = []
 				u_state.avatar = CharacterState.migrate_to_latest(SEC, u_state.avatar, hints.avatar)

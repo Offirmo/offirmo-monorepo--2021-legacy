@@ -6,7 +6,7 @@ import { UStateListenerAndProvider } from '../../../context'
 
 import get_game_instance from '../../../services/game-instance-browser'
 import SEC from '../../../services/sec'
-import {LS_KEYS} from '../../../services/consts'
+import { LS_KEYS } from '../../../services/consts'
 import {THE_BORING_RPG} from '@offirmo/marketing-rsrc'
 
 

@@ -32,7 +32,7 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 /////////////////////
 
 function attempt_to_redeem_code<T>(state: Readonly<State>, code_spec: Readonly<CodeSpec<T>>, infos: Readonly<T>): Readonly<State> {
-	return get_lib_SEC().xTry('redeem_code', ({enforce_immutability}: OMRContext) => {
+	return get_lib_SEC().xTry('redeem_code', ({enforce_immutability}: OMRContext): Readonly<State> => {
 		if (!is_code_redeemable(state, code_spec, infos))
 			throw new Error(`This code is either non-existing or non redeemable at the moment!`)
 

@@ -45,22 +45,27 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string, now_ms: Ti
 	code = CodesState.normalize_code(code)
 	const code_spec = CODE_SPECS_BY_KEY[code]
 
-	let { u_state, t_state } = state
-	if (!code_spec || !CodesState.is_code_redeemable(u_state.codes, code_spec, state)) {
+	if (!code_spec || !CodesState.is_code_redeemable(state.u_state.codes, code_spec, state)) {
 		// nothing to do,
 		// will trigger an engagement rejection below
 	}
 	else {
 		state = _update_to_now(state, now_ms)
-		u_state = state.u_state
-		t_state = state.t_state
-		u_state = {
-			...u_state,
-			codes: CodesState.attempt_to_redeem_code(u_state.codes, code_spec, state),
+		state = {
+			...state,
+			u_state: {
+				...state.u_state,
+				codes: CodesState.attempt_to_redeem_code(state.u_state.codes, code_spec, state),
+			}
 		}
 
 		engagement_key = EngagementKey['code_redemption--succeeded']
 		engagement_params.code = code
+
+		// spread them for convenience
+		// BE CAREFUL!
+		let { u_state, t_state } = state
+
 		switch(code) {
 			case 'TESTNOTIFS':
 				u_state = {
@@ -231,19 +236,25 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string, now_ms: Ti
 			default:
 				throw new Error(`Internal error: code "${code}" not implemented!`)
 		}
+
+		// re-assemble
+		state = {
+			...state,
+			u_state,
+			t_state,
+		}
 	}
 
 	// enqueue the result
 	state = {
 		...state,
 		u_state: {
-			...u_state,
-			engagement: EngagementState.enqueue(u_state.engagement, {
+			...state.u_state,
+			engagement: EngagementState.enqueue(state.u_state.engagement, {
 				type: EngagementState.EngagementType.flow,
 				key: engagement_key,
 			}, engagement_params),
 		},
-		t_state,
 	}
 
 	state = propagate_child_revision_increment_upward(previous_state, state)

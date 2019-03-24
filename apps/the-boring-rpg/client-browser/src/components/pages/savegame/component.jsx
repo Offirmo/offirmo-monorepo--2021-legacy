@@ -31,66 +31,50 @@ function ensureACE() {
 
 export default class PageSavegameEditorView extends Component {
 	static propTypes = {
-		ls_key: PropTypes.string.isRequired,
+		initial_data: PropTypes.object.isRequired,
 		navigate_home: PropTypes.func.isRequired,
 	}
 	editor = null
 
-	getCurrentSavegameContent() {
+	get_formatted_ace_data = () => {
+		const { initial_data } = this.props
+
 		return JSON.stringify(
-			JSON.parse(
-				localStorage.getItem(this.props.ls_key)
-			),
+			initial_data,
 			null,
 			3
 		)
 	}
-
-	onRefresh = () => {
+	on_save = () => {
 		if (!this.editor) return
 
-		this.editor.setValue(this.getCurrentSavegameContent())
-
-		// https://stackoverflow.com/questions/12823456/programmatically-fold-code-in-ace-editor#comment17377281_12840753
-		setTimeout(() => {
-			this.editor.session.foldAll()
-			this.editor.session.unfold(1)
-		}, 500)
-
-		/* or ?
-		https://stackoverflow.com/a/37796568/587407
-		editor.renderer.on('afterRender', function() {
-    // Your code...
-		 */
-	}
-
-	onSave = () => {
-		if (!this.editor) return
-
-		//
 		try {
 			const data = JSON.parse(this.editor.getValue())
-			console.log('Replacing current data =', localStorage.getItem(this.props.ls_key))
+			const { initial_data } = this.props
+			console.log('Replacing current data =', { initial_data })
 			get_game_instance().model.set(data)
-			//localStorage.setItem(this.props.ls_key, JSON.stringify(data))
 		}
 		catch (err) {
 			window.alert('Invalid JSON, save aborted. ' + err)
 		}
 	}
 
-	onReset = () => {
-		if (!window.confirm('💀 Do you really really want to reset your savegame, loose all progression and start over?'))
+	on_reset = () => {
+		if (!window.confirm(''
++ '💀 Do you really really want to reset your savegame, '
++ 'loose all progression and start over? '
++ 'This will also reset your cloud game if you have one.'
+		))
 			return
 
 		get_game_instance().model.reset()
 
-		//localStorage.removeItem(this.props.ls_key)
 		this.props.navigate_home()
 	}
 
 	componentDidMount() {
 		//console.log('Savegame did mount')
+		const { initial_data } = this.props
 		ensureACE()
 			.then(ace => {
 				const editor = window.ace.edit('ace-editor')
@@ -104,11 +88,24 @@ export default class PageSavegameEditorView extends Component {
 				})
 				this.editor = editor
 
-				this.onRefresh()
+				if (!this.editor) return
+
+				this.editor.setValue(this.get_formatted_ace_data())
+
+				// https://stackoverflow.com/questions/12823456/programmatically-fold-code-in-ace-editor#comment17377281_12840753
+				setTimeout(() => {
+					this.editor.session.foldAll()
+					this.editor.session.unfold(1)
+				}, 500)
+				// or ?
+				// https://stackoverflow.com/a/37796568/587407
+				// editor.renderer.on('afterRender', function() { ... })
 			})
 	}
 
 	componentWillUnmount() {
+		if (!this.editor) return
+
 		//console.log('cleaning ACE editor')
 		this.editor.destroy()
 		this.editor = null
@@ -116,16 +113,17 @@ export default class PageSavegameEditorView extends Component {
 
 	render = () => {
 		console.log('🔄 PageSavegameEditorView')
+
 		return (
 			<div className="o⋄top-container o⋄pad⁚0 page--savegame">
 				<div className="o⋄flex--row o⋄pad⁚7">
 					<h2>Savegame editor</h2>
 					<button onClick={this.props.navigate_home}>Back to game</button>
-					<button onClick={this.onRefresh}>Refresh</button>
-					<button onClick={this.onSave}>💀 Save changes</button>
-					<button onClick={this.onReset}>💀 Reset</button>
+					{ /* <button onClick={this.onRefresh}>Refresh</button> */ }
+					<button onClick={this.on_save}>💀 Save changes</button>
+					<button onClick={this.on_reset}>💀 Reset</button>
 				</div>
-				<div id="ace-editor" className="o⋄top-container">{this.getCurrentSavegameContent()}</div>
+				<div id="ace-editor" className="o⋄top-container">{this.get_formatted_ace_data()}</div>
 			</div>
 		)
 	}
