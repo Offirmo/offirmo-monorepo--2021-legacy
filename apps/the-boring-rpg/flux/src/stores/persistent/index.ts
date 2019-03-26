@@ -29,7 +29,8 @@ function create(SEC: SoftExecutionContext, storage: TbrpgStorage): PersistentSto
 			if (is_empty_state)
 				return null
 
-			logger.verbose(`[${LIB}/LSStore] restored state =`, { snapshot: JSON.parse(ls_content) })
+			logger.verbose(`[${LIB}/LSStore] restored state`)
+			logger.trace(`[${LIB}/LSStore] restored state =`, { snapshot: JSON.parse(ls_content) })
 
 			// backup before imminent changes
 			storage.set_item(StorageKey['savegame-bkp'], stable_stringify(recovered_state))
@@ -51,9 +52,10 @@ function create(SEC: SoftExecutionContext, storage: TbrpgStorage): PersistentSto
 			}
 
 			const storage_value = stable_stringify(new_state)
-			logger.log(`[${LIB}/PersistentStore] 💾 saving #${new_state.u_state.revision}...`, { snapshot: JSON.parse(storage_value) })
+			logger.log(`[${LIB}/PersistentStore] 💾 saving #${new_state.u_state.revision}...`)
 			storage.set_item(StorageKey.savegame, storage_value)
 			last_persisted_state = new_state
+			logger.trace(`[${LIB}/PersistentStore] 💾 saved #${new_state.u_state.revision}`, { snapshot: JSON.parse(storage_value) })
 		}
 
 		// small optim for it seems accessing LS is blocking the event loop

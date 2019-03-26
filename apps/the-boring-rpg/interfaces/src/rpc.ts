@@ -1,19 +1,17 @@
 import { Enum } from 'typescript-string-enums'
-
 import { JSONRpcRequest, JSONRpcResponse } from '@offirmo/json-rpc-types'
-import { ActionType } from './actions'
+import { State } from '@tbrpg/state'
+
+import { PlayedAction } from './actions'
 
 ////////////////////////////////////
 
 const Method = Enum(
-	// utils
 	'echo',
 
-	// tbrpg meta
 	'sync',
 
-	// tbrpg actions
-	'play',
+	//'play',
 )
 type Method = Enum<typeof Method> // eslint-disable-line no-redeclare
 
@@ -23,15 +21,16 @@ interface RpcEcho extends JSONRpcRequest<any> {
 	method: typeof Method.echo
 }
 
-interface RpcSync extends JSONRpcRequest<{}> {
-	method: typeof Method.sync
-
-	pending_actions: ActionType[]
+interface SyncParams {
+	engine_v: string
+	pending_actions: PlayedAction[]
 	current_state_hash: string
 }
-
-interface RpcPlay extends JSONRpcRequest<{ actions: ActionType[] }> {
-	method: typeof Method.play
+interface RpcSyncParams extends SyncParams {
+	rpc_v: 1,
+}
+interface RpcSync extends JSONRpcRequest<RpcSyncParams> {
+	method: typeof Method.sync
 }
 
 /////////////////////
@@ -39,25 +38,25 @@ interface RpcPlay extends JSONRpcRequest<{ actions: ActionType[] }> {
 interface RpcEchoResponse extends JSONRpcResponse<any> {
 }
 
-interface RpcSyncResponse extends JSONRpcResponse<{
-	v: string
-}> {}
+interface RpcSyncResult {
+	rpc_v: 1,
+	engine_v: string
+	authoritative_state?: State // only if not matching
+}
+interface RpcSyncResponse extends JSONRpcResponse<RpcSyncResult> {
+	result: RpcSyncResult
+}
 
-interface RpcPlayResponse extends JSONRpcResponse<{
-
-}> {}
 
 /////////////////////
 
 type TbrpgRpc =
 	RpcEcho |
-	RpcSync |
-	RpcPlay
+	RpcSync
 
 type TbrpgRpcResponse =
 	RpcEchoResponse |
-	RpcSyncResponse |
-	RpcPlayResponse
+	RpcSyncResponse
 
 /////////////////////
 
@@ -69,11 +68,12 @@ export {
 
 	RpcEcho,
 	RpcSync,
-	RpcPlay,
 	TbrpgRpc,
+
+	SyncParams,
+	RpcSyncParams,
 
 	RpcEchoResponse,
 	RpcSyncResponse,
-	RpcPlayResponse,
 	TbrpgRpcResponse,
 }

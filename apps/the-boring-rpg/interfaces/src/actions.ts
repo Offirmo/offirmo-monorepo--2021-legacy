@@ -147,6 +147,7 @@ export {
 	ActionHack,
 
 	Action,
+	PlayedAction,
 
 	get_action_types,
 }

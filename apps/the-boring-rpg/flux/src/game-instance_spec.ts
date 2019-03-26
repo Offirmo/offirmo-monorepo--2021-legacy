@@ -22,7 +22,7 @@ describe(`${LIB}`, function() {
 	let storage = create_in_mem_tbrpg_storage()
 	const logger = createLogger({
 		name: LIB,
-		suggestedLevel: 'trace',
+		suggestedLevel: 'log', // change here if bug
 	})
 	let SEC = get_lib_SEC()
 
@@ -79,7 +79,56 @@ describe(`${LIB}`, function() {
 		})
 	})
 
-	describe('arch-state handling', function() {
+	describe('event emitter', function() {
 		// TODO
+	})
+
+	describe('arch-state handling', function() {
+
+		describe('basic use', function() {
+
+			it('should work properly', function() {
+				const game_instance = create_game_instance<AppState>({
+					SEC,
+					storage,
+					app_state: {} as any,
+				})
+
+				game_instance.commands.on_start_session(false)
+				game_instance.commands.play()
+				game_instance.commands.play()
+				game_instance.commands.rename_avatar('Test')
+				game_instance.commands.change_avatar_class('warrior')
+
+				const state = game_instance.model.get()
+				expect(state.u_state.avatar.name).to.equal('Test')
+				expect(game_instance.queries.get_sub_state('avatar').name).to.equal('Test')
+
+				expect(game_instance.queries.get_sub_state('avatar').klass).to.equal('warrior')
+			})
+		})
+
+		describe('basic mistakes', function() {
+
+			it('should throw properly', function() {
+				const game_instance = create_game_instance<AppState>({
+					SEC,
+					storage,
+					app_state: {} as any,
+				})
+
+				// TODO double alphatwink
+				// TODO bad class change
+				// TODO bad play
+				game_instance.commands.on_start_session(false)
+				game_instance.commands.play()
+				game_instance.commands.play()
+				game_instance.commands.rename_avatar('Test')
+				game_instance.commands.change_avatar_class('warrior')
+
+				expect(game_instance.model.get()).to.have.property('schema_version')
+
+			})
+		})
 	})
 })

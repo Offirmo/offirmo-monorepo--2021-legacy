@@ -17,35 +17,34 @@ function reduce_action(state: Readonly<State>, action: Readonly<Action>): Readon
 	}
 
 	switch (action.type) {
-
 		case ActionType.play:
-			return TBRPGState.play(state)
+			return TBRPGState.play(state, action.time)
 		case ActionType.equip_item:
-			return TBRPGState.equip_item(state, action.target_uuid)
+			return TBRPGState.equip_item(state, action.target_uuid, action.time)
 		case ActionType.sell_item:
-			return TBRPGState.sell_item(state, action.target_uuid)
+			return TBRPGState.sell_item(state, action.target_uuid, action.time)
 		case ActionType.rename_avatar:
-			return TBRPGState.rename_avatar(state, action.new_name)
+			return TBRPGState.rename_avatar(state, action.new_name, action.time)
 		case ActionType.change_avatar_class:
-			return TBRPGState.change_avatar_class(state, action.new_class)
+			return TBRPGState.change_avatar_class(state, action.new_class, action.time)
 		case ActionType.redeem_code:
-			return TBRPGState.attempt_to_redeem_code(state, action.code)
+			return TBRPGState.attempt_to_redeem_code(state, action.code, action.time)
 
 		case ActionType.start_game: {
 			throw new Error('Unexpected start game action dispatched!')
 		}
 		case ActionType.on_start_session:
-			return TBRPGState.on_start_session(state, action.is_web_diversity_supporter)
+			return TBRPGState.on_start_session(state, action.is_web_diversity_supporter, action.time)
 		case ActionType.on_logged_in_update:
-			return TBRPGState.on_logged_in_update(state, action.is_logged_in, action.roles)
+			return TBRPGState.on_logged_in_update(state, action.is_logged_in, action.roles, action.time)
 		case ActionType.acknowledge_engagement_msg_seen:
-			return TBRPGState.acknowledge_engagement_msg_seen(state, action.uid)
+			return TBRPGState.acknowledge_engagement_msg_seen(state, action.uid, action.time)
 		case ActionType.update_to_now:
-			return TBRPGState.update_to_now(state /* TODO , action.time*/)
+			return TBRPGState.update_to_now(state, action.time)
 
 		case ActionType.hack:
 			// auto update-to-now for convenience
-			return action.custom_reducer(TBRPGState.update_to_now((state)))
+			return action.custom_reducer(TBRPGState.update_to_now(state, action.time))
 
 		default:
 			throw new Error(`reduce_action(): Unhandled switch value(s)!`)

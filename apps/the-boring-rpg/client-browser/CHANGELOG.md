@@ -22,6 +22,8 @@ Next
 v0.60.1
 - 🤩 feature: 1 new achievement (now totalling 100!)
 - 😷 chore: some internal refactors and cleanups (revision, stores, etc.)
+- 😅 fix: codes could be redeemed infinitely…
+- 😅 fix: tweaks, typos, small bugs…
 
 
 v0.59.1

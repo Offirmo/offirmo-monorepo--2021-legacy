@@ -119,7 +119,17 @@ function create_game_instance<T extends AppState>({SEC, storage, app_state}: Cre
 
 			persistent_store.dispatch(action) // useless but for coherency
 			in_memory_store.dispatch(action)
-			//cloud_store.dispatch(action)
+			cloud_store.dispatch(action)
+		}
+
+		// currently used by the savegame editor
+		function set(new_state: State) {
+			// re-force persistence id to null in case s/o played with it in the editor
+			// this also double down as a structure check
+			new_state.u_state.meta.persistence_id = null
+			in_memory_store.set(new_state)
+			cloud_store.set(new_state)
+			// note: persistent store is listening to in_memory
 		}
 
 		const gi = {
@@ -135,16 +145,14 @@ function create_game_instance<T extends AppState>({SEC, storage, app_state}: Cre
 			model: {
 				get: in_memory_store.get,
 
-				// currently used by the savegame editor
-				// TODO handle server case
-				set: in_memory_store.set,
+				set,
 
 				// currently used by the savegame editor
-				// TODO handle server case
 				reset() {
 					const new_state = TBRPGState.reseed(TBRPGState.create())
-					logger.verbose('Savegame reseted:', {new_state})
-					in_memory_store.set(new_state)
+					logger.info('Savegame reseted:', {new_state})
+
+					set(new_state)
 				},
 
 				subscribe(id: string, fn: () => void): () => void {
