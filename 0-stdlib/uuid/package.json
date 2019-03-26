@@ -1,5 +1,5 @@
 {
-	"name": "@offirmo/uuid",
+	"name": "@offirmo-private/uuid",
 	"description": "UUID primitive definitions",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",

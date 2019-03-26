@@ -1,4 +1,4 @@
-import { generate_uuid } from '@offirmo/uuid'
+import { generate_uuid } from '@offirmo-private/uuid'
 
 export const LS_KEY = 'XOF.device_uuid'
 

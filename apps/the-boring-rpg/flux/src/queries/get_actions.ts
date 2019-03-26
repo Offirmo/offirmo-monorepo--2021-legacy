@@ -1,4 +1,4 @@
-import { UUID } from '@offirmo/uuid'
+import { UUID } from '@offirmo-private/uuid'
 import { get_unslotted_item } from '@oh-my-rpg/state-inventory'
 import { UState } from '@tbrpg/state'
 import {

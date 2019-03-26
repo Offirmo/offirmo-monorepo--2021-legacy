@@ -2,7 +2,7 @@
 
 import { Enum } from 'typescript-string-enums'
 
-import { generate_uuid } from '@offirmo/uuid'
+import { generate_uuid } from '@offirmo-private/uuid'
 import { Random, Engine } from '@offirmo/random'
 
 import { InventorySlot } from '@oh-my-rpg/definitions'

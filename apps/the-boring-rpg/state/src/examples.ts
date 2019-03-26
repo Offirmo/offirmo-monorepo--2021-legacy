@@ -41,7 +41,7 @@ import { State, Adventure } from './types'
 // with dev gain
 const DEMO_ADVENTURE_01: Readonly<Adventure> = deepFreeze({
 	hid: 'fight_lost_any',
-	uuid: 'uu1de1~EVAdXlW5_p23Ro4OH',
+	uuid: 'uu1~example~adventure~01',
 	good: true,
 	encounter: DEMO_MONSTER_01,
 	gains: {
@@ -64,7 +64,7 @@ const DEMO_ADVENTURE_01: Readonly<Adventure> = deepFreeze({
 // with coin gain
 const DEMO_ADVENTURE_02: Readonly<Adventure> = deepFreeze({
 	hid: 'dying_man',
-	uuid: 'uu1de2~p23Ro4OH_EVAdXlW5',
+	uuid: 'uu1~example~adventure~02',
 	good: true,
 	gains: {
 		level: 0,
@@ -86,7 +86,7 @@ const DEMO_ADVENTURE_02: Readonly<Adventure> = deepFreeze({
 // with loot gain
 const DEMO_ADVENTURE_03: Readonly<Adventure> = deepFreeze({
 	hid: 'rare_goods_seller',
-	uuid: 'uu1de2~p23Ro4OH_EVAdXlW5',
+	uuid: 'uu1~example~adventure~03',
 	good: true,
 	gains: {
 		level: 0,
@@ -108,7 +108,7 @@ const DEMO_ADVENTURE_03: Readonly<Adventure> = deepFreeze({
 // with weapon enhancement gain
 const DEMO_ADVENTURE_04: Adventure = deepFreeze({
 	hid: 'princess',
-	uuid: 'uu1de2~p23Ro4OH_EVAdXlW5',
+	uuid: 'uu1~example~adventure~04',
 	good: true,
 	gains: {
 		level: 0,

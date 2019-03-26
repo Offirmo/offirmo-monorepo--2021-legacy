@@ -1,4 +1,4 @@
-import { UUID } from '@offirmo/uuid'
+import { UUID } from '@offirmo-private/uuid'
 
 import { InventorySlot, Element } from '@oh-my-rpg/definitions'
 import { is_full } from '@oh-my-rpg/state-inventory'

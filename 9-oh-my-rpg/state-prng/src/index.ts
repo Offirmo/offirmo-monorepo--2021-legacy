@@ -1,5 +1,6 @@
 export * from './types'
 export * from './examples'
+export * from './get_prng'
 export * from './state'
 export * from './utils'
 export * from './migrations'

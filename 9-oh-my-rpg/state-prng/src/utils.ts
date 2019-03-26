@@ -2,14 +2,14 @@
 
 import { Random, MT19937 } from '@offirmo/random'
 
-import { MTEngineWithSeed, State } from './types'
+import { MT19937WithSeed, State } from './types'
 import { LIB } from './consts'
 
 /////////////////////
 
 // useful for re-seeding
 function generate_random_seed(): number {
-	const rng: MTEngineWithSeed = Random.engines.mt19937().autoSeed()
+	const rng: MT19937WithSeed = Random.engines.mt19937().autoSeed()
 	return Random.integer(-2147483646, 2147483647)(rng) // doc is unclear about allowed bounds...
 }
 

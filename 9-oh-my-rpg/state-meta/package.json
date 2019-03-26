@@ -16,7 +16,7 @@
 	},
 	"dependencies": {
 		"@offirmo-private/state": "^0.0.1",
-		"@offirmo/uuid": "^0.0.1",
+		"@offirmo-private/uuid": "^0.0.1",
 		"@oh-my-rpg/definitions": "^0.0.1",
 		"deep-freeze-strict": "^1",
 		"tiny-invariant": "^1",

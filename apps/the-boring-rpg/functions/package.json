@@ -14,7 +14,7 @@
 		"@offirmo/json-rpc-types": "^0.0.1",
 		"@offirmo/practical-logger-node": "^0.0.1",
 		"@offirmo/timestamps": "^0.0.1",
-		"@offirmo/uuid": "^0.0.1",
+		"@offirmo-private/uuid": "^0.0.1",
 		"@tbrpg/flux": "^0",
 		"@tbrpg/interfaces": "^0.0.1",
 		"tiny-invariant": "^1",

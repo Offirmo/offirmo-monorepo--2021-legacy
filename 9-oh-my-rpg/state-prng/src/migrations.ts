@@ -1,4 +1,5 @@
 import deepFreeze from 'deep-freeze-strict'
+import { generate_uuid } from '@offirmo-private/uuid'
 
 import { LIB, SCHEMA_VERSION } from './consts'
 import { State } from './types'
@@ -32,7 +33,7 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any
 			SEC.fireAnalyticsEvent('schema_migration.began')
 
 			try {
-				state = migrate_to_2(SEC, legacy_state, hints)
+				state = migrate_to_3(SEC, legacy_state, hints)
 			}
 			catch (err) {
 				SEC.fireAnalyticsEvent('schema_migration.failed')
@@ -50,6 +51,19 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any
 }
 
 /////////////////////
+
+function migrate_to_3(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any>): State {
+	let state: State = (legacy_state.schema_version < 2)
+		? migrate_to_2(SEC, legacy_state, hints)
+		: legacy_state as State
+
+	state = {
+		...state,
+		uuid: generate_uuid(),
+	}
+
+	return state
+}
 
 function migrate_to_2(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any>): State {
 	throw new Error('Schema is too old (pre-beta), can’t migrate!')

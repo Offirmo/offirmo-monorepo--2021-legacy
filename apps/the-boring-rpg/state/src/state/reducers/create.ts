@@ -2,6 +2,7 @@
 
 import { Random, Engine } from '@offirmo/random'
 import { TimestampUTCMs, get_UTC_timestamp_ms, get_human_readable_UTC_timestamp_minutes } from '@offirmo/timestamps'
+import assert from 'tiny-invariant'
 
 /////////////////////
 
@@ -122,13 +123,17 @@ function create(SEC?: SoftExecutionContext, now_ms: TimestampUTCMs = get_UTC_tim
 			},
 		}
 
+		assert(
+			state.u_state.prng.use_count === 0,
+			'prng never used yet'
+		)
 		//state.prng = PRNGState.update_use_count(state.prng, rng)
 
 		state = {
 			...state,
 			u_state: {
 				...state.u_state,
-				last_user_action_tms: now_ms,
+				last_user_action_tms: now_ms, // creating ~= user action
 				// to compensate sub-functions used during build
 				revision: 0,
 			},

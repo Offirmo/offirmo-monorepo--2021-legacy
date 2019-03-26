@@ -43,17 +43,44 @@ describe(`${LIB} - reducer - codes`, function() {
 					)
 				)
 
-				let final_state = attempt_to_redeem_code(initial_state, code)
+				let state = initial_state
+				state = attempt_to_redeem_code(state, code)
 
-				expect(final_state.u_state.engagement.queue.length).to.be.above(0)
-				let notif = final_state.u_state.engagement.queue.slice(-1)[0]
+				expect(state.u_state.engagement.queue.length).to.be.above(0)
+				let notif = state.u_state.engagement.queue.slice(-1)[0]
 				if (notif.engagement.key === EngagementKey['achievement-unlocked'])
-					notif = final_state.u_state.engagement.queue.slice(-2)[0]
+					notif = state.u_state.engagement.queue.slice(-2)[0]
 				//console.log(notif)
 				expect(notif).to.have.nested.property('engagement.type', 'flow')
 				expect(notif).to.have.nested.property('engagement.key', EngagementKey['code_redemption--succeeded'])
 				expect(notif).to.have.nested.property('params.code', code)
+
+				// 2nd attempt, sometimes shows bugs
+				state = attempt_to_redeem_code(state, code)
 			})
+		})
+	})
+
+	describe(`good code with redemption limit`, function() {
+		// bug seen, v0.59
+		it('should correctly crash on second attempt', () => {
+			const initial_state = deepFreeze(
+				_ack_all_engagements(
+					reseed(
+						create()
+					)
+				)
+			)
+
+			let state = initial_state
+			//console.log('attempt #1')
+			state = attempt_to_redeem_code(state, 'alphatwink')
+			//console.log('attempt #2')
+			state = attempt_to_redeem_code(state, 'alphatwink')
+			let notif = state.u_state.engagement.queue.slice(-1)[0]
+			//console.log(notif)
+			expect(notif).to.have.nested.property('engagement.type', 'flow')
+			expect(notif).to.have.nested.property('engagement.key', EngagementKey['code_redemption--failed'])
 		})
 	})
 
@@ -67,10 +94,11 @@ describe(`${LIB} - reducer - codes`, function() {
 				)
 			)
 
-			let final_state = attempt_to_redeem_code(initial_state, 'irsetuisretuisrt')
+			let state = initial_state
+			state = attempt_to_redeem_code(state, 'irsetuisretuisrt')
 
-			expect(final_state.u_state.engagement.queue.length).to.be.above(0)
-			let notif = final_state.u_state.engagement.queue.slice(-1)[0]
+			expect(state.u_state.engagement.queue.length).to.be.above(0)
+			let notif = state.u_state.engagement.queue.slice(-1)[0]
 			//console.log(notif)
 			expect(notif).to.have.nested.property('engagement.type', 'flow')
 			expect(notif).to.have.nested.property('engagement.key', EngagementKey['code_redemption--failed'])

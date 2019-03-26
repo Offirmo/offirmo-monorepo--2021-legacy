@@ -1,6 +1,6 @@
 /////////////////////
 
-import { UUID } from '@offirmo/uuid'
+import { UUID } from '@offirmo-private/uuid'
 
 import { InventorySlot } from '@oh-my-rpg/definitions'
 

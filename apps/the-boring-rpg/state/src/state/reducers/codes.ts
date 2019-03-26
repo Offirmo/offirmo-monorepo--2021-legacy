@@ -220,16 +220,21 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string, now_ms: Ti
 					quality: ItemQuality.artifact,
 					qualifier2_hid: 'twink',
 				})
+				u_state = {
+					...u_state,
+					prng: PRNGState.update_use_count(u_state.prng, rng, 6),
+				}
+				state = {
+					...state,
+					u_state,
+					t_state,
+				}
 				state = _auto_make_room(state)
 				state = _receive_item(state, weapon)
 				state = _auto_make_room(state)
 				state = _receive_item(state, armor)
 				u_state = state.u_state
 				t_state = state.t_state
-				u_state = {
-					...u_state,
-					prng: PRNGState.update_use_count(u_state.prng, rng, 6),
-				}
 				break
 			}
 

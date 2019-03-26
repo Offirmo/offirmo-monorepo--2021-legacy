@@ -1,4 +1,4 @@
-import { UUID } from '@offirmo/uuid'
+import { UUID } from '@offirmo-private/uuid'
 import { Document } from '@offirmo/rich-text-format'
 import { Element } from '@oh-my-rpg/definitions'
 import { Item } from '@oh-my-rpg/state-inventory'

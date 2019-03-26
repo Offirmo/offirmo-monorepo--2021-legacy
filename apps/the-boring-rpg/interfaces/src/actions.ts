@@ -1,6 +1,6 @@
 import { Enum } from 'typescript-string-enums'
 
-import { UUID } from '@offirmo/uuid'
+import { UUID } from '@offirmo-private/uuid'
 import { TimestampUTCMs } from '@offirmo/timestamps'
 import { State } from '@tbrpg/state'
 import { CharacterClass } from '@oh-my-rpg/state-character'

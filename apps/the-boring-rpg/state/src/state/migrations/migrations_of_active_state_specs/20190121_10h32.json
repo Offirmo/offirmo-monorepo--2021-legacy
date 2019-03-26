@@ -81,7 +81,8 @@
 			"token_count": 89
 		},
 		"prng": {
-			"schema_version": 2,
+			"uuid": "uu1~example~state~PRNG~~",
+			"schema_version": 3,
 			"revision": 108,
 			"seed": 1234,
 			"use_count": 107,

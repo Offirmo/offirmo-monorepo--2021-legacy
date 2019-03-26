@@ -1,5 +1,6 @@
 {
-	"schema_version": 2,
+	"schema_version": 3,
+	"uuid": "uu1~state~PRNG~mig~blank",
 	"revision": 0,
 	"seed": 987,
 	"use_count": 0,

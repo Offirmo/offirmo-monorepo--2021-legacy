@@ -1,5 +1,5 @@
 import { Enum } from 'typescript-string-enums'
-import { UUID } from '@offirmo/uuid'
+import { WithUUID } from '@offirmo-private/uuid'
 
 /////////////////////
 
@@ -15,8 +15,7 @@ const ElementType = Enum(
 )
 type ElementType = Enum<typeof ElementType> // eslint-disable-line no-redeclare
 
-interface Element {
-	readonly uuid: UUID
+interface Element extends WithUUID {
 	element_type: ElementType
 	// TODO add schema version ?
 }
