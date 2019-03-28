@@ -17,7 +17,7 @@ const ActionType = Enum(
 
 	'start_game',
 	'on_start_session',
-	'on_logged_in_update',
+	'on_logged_in_refresh',
 	'acknowledge_engagement_msg_seen',
 	'update_to_now',
 
@@ -32,7 +32,7 @@ const ACTIONS_SCHEMA_VERSION = 1
 interface BaseAction {
 	v: number
 	time: TimestampUTCMs
-	expected_sub_state_revisions: {
+	expected_revisions: {
 		[k:string]: number
 	}
 }
@@ -48,7 +48,7 @@ interface ActionStartSession extends BaseAction {
 }
 
 interface ActionUpdateLoggedInInfos extends BaseAction {
-	type: typeof ActionType.on_logged_in_update
+	type: typeof ActionType.on_logged_in_refresh
 	is_logged_in: boolean
 	roles: string[]
 }

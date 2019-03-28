@@ -68,7 +68,7 @@ function rename(SEC: SoftExecutionContext, state: Readonly<State>, new_name: str
 	return get_lib_SEC(SEC).xTry('rename', ({enforce_immutability}: OMRContext) => {
 		// TODO name normalization
 		if (!new_name)
-			throw new Error(`${LIB}: Error while renaming to "${new_name}: invalid target value!`) // TODO details
+			throw new Error(`${LIB}: Error while renaming to "${new_name}": invalid target value!`) // TODO details
 		if (new_name === state.name)
 			return state
 

@@ -15,7 +15,7 @@ const ACTION_TYPE_TO_CTA = {
 
 	'start_game': INTERNAL,
 	'on_start_session': INTERNAL,
-	'on_logged_in_update': INTERNAL,
+	'on_logged_in_refresh': INTERNAL,
 	'acknowledge_engagement_msg_seen': INTERNAL,
 	'update_to_now': INTERNAL,
 	'hack': INTERNAL,

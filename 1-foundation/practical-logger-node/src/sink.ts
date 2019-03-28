@@ -1,3 +1,5 @@
+import chalk from 'chalk'
+import indent_string from 'indent-string'
 import {
 	ALL_LOG_LEVELS,
 	LOG_LEVEL_TO_HUMAN,
@@ -10,7 +12,6 @@ import {
 
 import { displayError } from '@offirmo/print-error-to-ansi'
 import prettifyJson from '@offirmo/prettify-json'
-import chalk from 'chalk'
 
 
 const MIN_WIDTH = 7
@@ -79,6 +80,10 @@ if (Object.keys(LEVEL_TO_STYLIZE).sort().join(',') !== [...ALL_LOG_LEVELS].sort(
 
 export const sink: LogSink = (payload: LogPayload): void => {
 	const { level, name, msg, time, details, err } = payload
+
+	let prettified_details = prettifyJson(details)
+	let is_prettified_details_multiline = prettified_details.includes('\n')
+
 	let line = ''
 		+ chalk.dim(String(time))
 		+ ' '
@@ -89,8 +94,13 @@ export const sink: LogSink = (payload: LogPayload): void => {
 			+ '›'
 			+ (msg ? ' ' : '')
 			+ msg
-			+ ' '
-			+ prettifyJson(details)
+		)
+		+ (
+			prettified_details
+				? is_prettified_details_multiline
+				? ' {\n' + indent_string(prettifyJson(details), 2) + '\n}'
+				: ' { ' + prettified_details + ' }'
+				: ''
 		)
 	console.log(line) // eslint-disable-line no-console
 	if (err)

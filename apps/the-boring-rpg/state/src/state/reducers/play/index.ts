@@ -13,7 +13,7 @@ import * as ProgressState from '@oh-my-rpg/state-progress'
 import { State } from '../../../types'
 import { propagate_child_revision_increment_upward } from '../../../utils/state'
 
-import { get_available_energy_float } from '../../../selectors'
+import { will_next_play_be_good_at } from '../../../selectors'
 import { _update_to_now } from '../internal'
 import { play_good } from './play_good'
 import { play_bad } from './play_bad'
@@ -27,8 +27,7 @@ function play(previous_state: Readonly<State>, now_ms: TimestampUTCMs = get_UTC_
 
 	let { u_state, t_state } = state
 
-	const available_energy = get_available_energy_float(t_state)
-	const is_good_play = available_energy >= 1.
+	const is_good_play = will_next_play_be_good_at(state, now_ms)
 
 	// consume energy
 	state = {

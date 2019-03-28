@@ -58,7 +58,7 @@ function on_start_session(previous_state: Readonly<State>, is_web_diversity_supp
 	return _refresh_achievements(state, previous_state.u_state.revision)
 }
 
-function on_logged_in_update(previous_state: Readonly<State>, is_logged_in: boolean, roles: string[], now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Readonly<State> {
+function on_logged_in_refresh(previous_state: Readonly<State>, is_logged_in: boolean, roles: string[] = [], now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Readonly<State> {
 	let state = previous_state
 
 	// update energy (not sure needed but good safety)
@@ -173,7 +173,7 @@ function acknowledge_engagement_msg_seen(previous_state: Readonly<State>, uid: n
 export {
 	acknowledge_engagement_msg_seen,
 	on_start_session,
-	on_logged_in_update,
+	on_logged_in_refresh,
 	update_to_now,
 	equip_item,
 	sell_item,

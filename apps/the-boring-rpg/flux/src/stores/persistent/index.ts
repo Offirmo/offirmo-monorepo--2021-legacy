@@ -1,21 +1,21 @@
-// this is not really a store, but close enough
-
+import assert from 'tiny-invariant'
 import stable_stringify from 'json-stable-stringify'
 import { OMRContext } from '@oh-my-rpg/definitions'
 import { State } from '@tbrpg/state'
-import { TbrpgStorage, StorageKey } from '@tbrpg/interfaces'
+import { Action, TbrpgStorage, StorageKey } from '@tbrpg/interfaces'
 
-import { LIB } from '../../consts'
+import { LIB as ROOT_LIB } from '../../consts'
 import { PersistentStore } from '../types'
 import { SoftExecutionContext } from '../../sec'
 
 
 function create(SEC: SoftExecutionContext, storage: TbrpgStorage): PersistentStore {
-	return SEC.xTry(`[${LIB}/PersistentStore] creating`, ({SEC, logger}: OMRContext) => {
+	const LIB = `${ROOT_LIB}/PersistentStore`
+	return SEC.xTry(`[${LIB}] creating`, ({SEC, logger}: OMRContext) => {
 		let last_persisted_state: State | null = null
 
 		last_persisted_state = SEC.xTryCatch(`loading existing savegame`, ({logger}: OMRContext): State | null => {
-			logger.verbose(`[${LIB}/LSStore] savegame storage key = "${StorageKey.savegame}"`)
+			logger.verbose(`[${LIB}] savegame storage key = "${StorageKey.savegame}"`)
 
 			// LS access can throw
 			let ls_content = storage.get_item(StorageKey.savegame)
@@ -29,8 +29,8 @@ function create(SEC: SoftExecutionContext, storage: TbrpgStorage): PersistentSto
 			if (is_empty_state)
 				return null
 
-			logger.verbose(`[${LIB}/LSStore] restored state`)
-			logger.trace(`[${LIB}/LSStore] restored state =`, { snapshot: JSON.parse(ls_content) })
+			logger.verbose(`[${LIB}] restored state`)
+			logger.trace(`[${LIB}] restored state =`, { snapshot: JSON.parse(ls_content) })
 
 			// backup before imminent changes
 			storage.set_item(StorageKey['savegame-bkp'], stable_stringify(recovered_state))
@@ -52,10 +52,10 @@ function create(SEC: SoftExecutionContext, storage: TbrpgStorage): PersistentSto
 			}
 
 			const storage_value = stable_stringify(new_state)
-			logger.log(`[${LIB}/PersistentStore] 💾 saving #${new_state.u_state.revision}...`)
+			logger.log(`[${LIB}] 💾 saving #${new_state.u_state.revision}...`)
 			storage.set_item(StorageKey.savegame, storage_value)
 			last_persisted_state = new_state
-			logger.trace(`[${LIB}/PersistentStore] 💾 saved #${new_state.u_state.revision}`, { snapshot: JSON.parse(storage_value) })
+			logger.trace(`[${LIB}] 💾 saved #${new_state.u_state.revision}`, { snapshot: JSON.parse(storage_value) })
 		}
 
 		// small optim for it seems accessing LS is blocking the event loop
@@ -70,7 +70,11 @@ function create(SEC: SoftExecutionContext, storage: TbrpgStorage): PersistentSto
 
 		return {
 			set: optimized_persist,
-			dispatch() { /* unneeded */ },
+			dispatch(action: Readonly<Action>, eventual_state_hint?: Readonly<State>) {
+				logger.log(`[${LIB}] ⚡ action dispatched: ${action.type}`)
+				assert(eventual_state_hint, 'persistent dispatch hint')
+				optimized_persist(eventual_state_hint!)
+			},
 			get: () => last_persisted_state!
 		}
 	})

@@ -108,9 +108,9 @@ function init(SEC, game_instance) {
 						logger.info('NetlifyIdentity: user refreshed', user)
 
 
-						get_game_instance().commands.on_logged_in_update(
+						get_game_instance().commands.on_logged_in_refresh(
 							true,
-							user.app_metadata.roles || [],
+							user.app_metadata.roles,
 						)
 
 						// user may not be fully populated immediately

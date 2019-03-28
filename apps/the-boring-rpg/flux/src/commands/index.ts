@@ -36,7 +36,7 @@ function get_commands(
 				v: ACTIONS_SCHEMA_VERSION,
 				time,
 				type: ActionType.play,
-				expected_sub_state_revisions: {
+				expected_revisions: {
 					// no need for this one
 				},
 			}
@@ -47,7 +47,7 @@ function get_commands(
 				v: ACTIONS_SCHEMA_VERSION,
 				time,
 				type: ActionType.equip_item,
-				expected_sub_state_revisions: {
+				expected_revisions: {
 					inventory: -1, // will be filled at a later stage
 				},
 				target_uuid
@@ -59,7 +59,7 @@ function get_commands(
 				v: ACTIONS_SCHEMA_VERSION,
 				time,
 				type: ActionType.sell_item,
-				expected_sub_state_revisions: {
+				expected_revisions: {
 					inventory: -1, // will be filled at a later stage
 				},
 				target_uuid,
@@ -71,7 +71,7 @@ function get_commands(
 				v: ACTIONS_SCHEMA_VERSION,
 				time,
 				type: ActionType.rename_avatar,
-				expected_sub_state_revisions: {
+				expected_revisions: {
 					avatar: -1, // will be filled at a later stage
 				},
 				new_name,
@@ -83,7 +83,7 @@ function get_commands(
 				v: ACTIONS_SCHEMA_VERSION,
 				time,
 				type: ActionType.change_avatar_class,
-				expected_sub_state_revisions: {
+				expected_revisions: {
 					avatar: -1, // will be filled at a later stage
 				},
 				new_class,
@@ -95,7 +95,7 @@ function get_commands(
 				v: ACTIONS_SCHEMA_VERSION,
 				time,
 				type: ActionType.redeem_code,
-				expected_sub_state_revisions: {},
+				expected_revisions: {},
 				code,
 			}
 			dispatch(action)
@@ -107,17 +107,17 @@ function get_commands(
 				v: ACTIONS_SCHEMA_VERSION,
 				time,
 				type: ActionType.on_start_session,
-				expected_sub_state_revisions: {},
+				expected_revisions: {},
 				is_web_diversity_supporter,
 			}
 			dispatch(action)
 		},
-		on_logged_in_update(is_logged_in: boolean, roles: string[], time: TimestampUTCMs = get_UTC_timestamp_ms()) {
+		on_logged_in_refresh(is_logged_in: boolean, roles: string[] = [], time: TimestampUTCMs = get_UTC_timestamp_ms()) {
 			const action: ActionUpdateLoggedInInfos = {
 				v: ACTIONS_SCHEMA_VERSION,
 				time,
-				type: ActionType.on_logged_in_update,
-				expected_sub_state_revisions: {},
+				type: ActionType.on_logged_in_refresh,
+				expected_revisions: {},
 				is_logged_in,
 				roles,
 			}
@@ -128,7 +128,7 @@ function get_commands(
 				v: ACTIONS_SCHEMA_VERSION,
 				time,
 				type: ActionType.acknowledge_engagement_msg_seen,
-				expected_sub_state_revisions: {},
+				expected_revisions: {},
 				uid,
 			}
 			dispatch(action)
@@ -138,7 +138,7 @@ function get_commands(
 				v: ACTIONS_SCHEMA_VERSION,
 				time,
 				type: ActionType.update_to_now,
-				expected_sub_state_revisions: {},
+				expected_revisions: {},
 			}
 			dispatch(action)
 		},
@@ -147,7 +147,7 @@ function get_commands(
 				v: ACTIONS_SCHEMA_VERSION,
 				time,
 				type: ActionType.hack,
-				expected_sub_state_revisions: {},
+				expected_revisions: {},
 				custom_reducer,
 			}
 			dispatch(action)

@@ -83,10 +83,6 @@ function get_oldest_pending_non_flow_engagement(u_state: Readonly<UState>): { ui
 	}
 }
 
-function get_available_classes(u_state: Readonly<UState>): CharacterClass[] {
-	return Enum.keys(CharacterClass)
-		.filter(klass => klass !== CharacterClass.novice)
-}
 
 /////////////////////
 
@@ -95,8 +91,6 @@ export {
 	appraise_player_power,
 	get_oldest_pending_flow_engagement,
 	get_oldest_pending_non_flow_engagement,
-	get_available_classes,
 }
-export * from './achievements'
 
 /////////////////////

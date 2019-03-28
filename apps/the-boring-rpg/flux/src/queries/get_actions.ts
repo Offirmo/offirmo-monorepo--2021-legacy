@@ -18,7 +18,7 @@ function get_actions_for_unslotted_item(u_state: Readonly<UState>, uuid: UUID): 
 		v: ACTIONS_SCHEMA_VERSION,
 		time: 0, // to indicate that action time is pending
 		type: ActionType.equip_item,
-		expected_sub_state_revisions: {
+		expected_revisions: {
 			inventory: u_state.inventory.revision,
 		},
 		target_uuid: uuid,
@@ -29,7 +29,7 @@ function get_actions_for_unslotted_item(u_state: Readonly<UState>, uuid: UUID): 
 		v: ACTIONS_SCHEMA_VERSION,
 		time: 0, // to indicate that action time is pending
 		type: ActionType.sell_item,
-		expected_sub_state_revisions: {
+		expected_revisions: {
 			inventory: u_state.inventory.revision,
 		},
 		target_uuid: uuid,

@@ -32,6 +32,7 @@ Techniques
 - https://stackoverflow.com/questions/7505623/colors-in-javascript-console
 - https://hackernoon.com/styling-logs-in-browser-console-2ec0807dc91a
 - https://medium.com/@mattburgess/beyond-console-log-2400fdf4a9d8
+- https://konklone.com/post/how-to-hack-the-developer-console-to-be-needlessly-interactive
 - ...
 
 Inspiration:

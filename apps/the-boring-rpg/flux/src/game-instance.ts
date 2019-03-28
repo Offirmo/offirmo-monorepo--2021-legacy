@@ -6,6 +6,7 @@ import deep_merge from 'deepmerge'
 import { Enum } from 'typescript-string-enums'
 import { get_UTC_timestamp_ms } from '@offirmo/timestamps'
 import { OMRContext } from '@oh-my-rpg/definitions'
+import { Storage } from '@offirmo/ts-types'
 
 import * as TBRPGState from '@tbrpg/state'
 import { State } from '@tbrpg/state'
@@ -36,10 +37,11 @@ function overwriteMerge<T>(destination: T, source: T): T {
 
 interface CreateParams<T extends AppState> {
 	SEC: SoftExecutionContext
+	local_storage: Storage,
 	storage: TbrpgStorage,
 	app_state: T
 }
-function create_game_instance<T extends AppState>({SEC, storage, app_state}: CreateParams<T>) {
+function create_game_instance<T extends AppState>({SEC, local_storage, storage, app_state}: CreateParams<T>) {
 	return SEC.xTry('creating tbrpg instance', ({SEC, logger}: OMRContext) => {
 
 		app_state = app_state || ({} as any as T)
@@ -75,16 +77,10 @@ function create_game_instance<T extends AppState>({SEC, storage, app_state}: Cre
 				emitter.emit(Event.model_change, `${debugId}[in-mem]`)
 			},
 		)
-		emitter.on(Event.model_change, (src: string) => {
-			const state = in_memory_store.get()!
-			// this store is not maintaining a full copy (cheaper)
-			// thus need this instead of dispatch()
-			persistent_store.set(state)
-		})
 
 		const cloud_store = create_cloud_store(
 			SEC,
-			storage,
+			local_storage,
 			initial_state,
 			(new_state: Readonly<State>): void => {
 				in_memory_store.set(new_state)
@@ -105,21 +101,22 @@ function create_game_instance<T extends AppState>({SEC, storage, app_state}: Cre
 			if (action.type !== 'update_to_now') console.groupEnd()
 			;(console.groupCollapsed as any)(`———————————— ⚡ action dispatched: ${action.type} ⚡ ————————————`)
 			setTimeout(() => console.groupEnd(), 0)
-			logger.log('⚡ action dispatched:', { action })
+			const { v, time, ...debug } = action
+			logger.log('⚡ action dispatched:', { action: debug })
 
 			// complete action parts that may be missing
 			action.time = action.time || get_UTC_timestamp_ms()
 			const state: State = in_memory_store.get()!
-			Object.keys(action.expected_sub_state_revisions).forEach(sub_state_key => {
-				if (action.expected_sub_state_revisions[sub_state_key] === -1) {
-					action.expected_sub_state_revisions[sub_state_key] =
+			Object.keys(action.expected_revisions).forEach(sub_state_key => {
+				if (action.expected_revisions[sub_state_key] === -1) {
+					action.expected_revisions[sub_state_key] =
 						(state.u_state as any)[sub_state_key].revision
 				}
 			})
 
-			persistent_store.dispatch(action) // useless but for coherency
 			in_memory_store.dispatch(action)
-			cloud_store.dispatch(action)
+			persistent_store.dispatch(action, in_memory_store.get()!)
+			cloud_store.dispatch(action, in_memory_store.get()!)
 		}
 
 		// currently used by the savegame editor
@@ -128,8 +125,8 @@ function create_game_instance<T extends AppState>({SEC, storage, app_state}: Cre
 			// this also double down as a structure check
 			new_state.u_state.meta.persistence_id = null
 			in_memory_store.set(new_state)
+			persistent_store.set(new_state)
 			cloud_store.set(new_state)
-			// note: persistent store is listening to in_memory
 		}
 
 		const gi = {

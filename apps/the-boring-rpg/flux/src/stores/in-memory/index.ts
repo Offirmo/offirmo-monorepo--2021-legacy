@@ -1,5 +1,5 @@
 import memoize_one from 'memoize-one'
-
+import assert from 'tiny-invariant'
 import { OMRContext } from '@oh-my-rpg/definitions'
 import { State } from '@tbrpg/state'
 import { Action } from '@tbrpg/interfaces'
@@ -20,7 +20,10 @@ function create(
 
 		const on_change_m = memoize_one(on_change)
 
-		function dispatch(action: Readonly<Action>): void {
+		function dispatch(action: Readonly<Action>, eventual_state_hint?: Readonly<State>): void {
+			logger.log(`[${LIB}/in-mem] ⚡ action dispatched: ${action.type}`)
+
+			assert(!eventual_state_hint, 'in mem dispatch hint')
 			state = reduce_action(state, action)
 			on_change_m(state, action.type)
 		}

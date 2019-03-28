@@ -29,7 +29,7 @@ logger.error(undefined, err)
 // all levels
 console.log('------------')
 ALL_LOG_LEVELS.forEach(level =>
-	logger[level](`test msg with level "${level}"`)
+	logger[level](`test msg with level "${level}"`, { level })
 )
 
 // incorrect - bunyan

@@ -12,7 +12,7 @@ if (KNOWN_ACTIONS !== Enum.keys(ActionType).length)
 	throw new Error(`${LIB}: reduce_action() is outdated!`)
 
 function reduce_action(state: Readonly<State>, action: Readonly<Action>): Readonly<State> {
-	if (!are_ustate_revision_requirements_met(state, action.expected_sub_state_revisions)) {
+	if (!are_ustate_revision_requirements_met(state, action.expected_revisions)) {
 		throw new Error('Trying to execute an outdated action!')
 	}
 
@@ -35,8 +35,8 @@ function reduce_action(state: Readonly<State>, action: Readonly<Action>): Readon
 		}
 		case ActionType.on_start_session:
 			return TBRPGState.on_start_session(state, action.is_web_diversity_supporter, action.time)
-		case ActionType.on_logged_in_update:
-			return TBRPGState.on_logged_in_update(state, action.is_logged_in, action.roles, action.time)
+		case ActionType.on_logged_in_refresh:
+			return TBRPGState.on_logged_in_refresh(state, action.is_logged_in, action.roles, action.time)
 		case ActionType.acknowledge_engagement_msg_seen:
 			return TBRPGState.acknowledge_engagement_msg_seen(state, action.uid, action.time)
 		case ActionType.update_to_now:
