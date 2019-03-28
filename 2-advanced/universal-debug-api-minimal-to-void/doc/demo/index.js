@@ -1,30 +1,32 @@
-import { getLogger, addDebugCommand } from '../..'
+import { getLogger, addDebugCommand } from './logger'
 const { ALL_LOG_LEVELS } = require('@offirmo/practical-logger-core')
 
-console.log('starting...')
+console.warn(`📄 [page/script.${+Date.now()}] page’s js starting…`)
+
+const standard_console = false
+
+if (standard_console) console.log('------------ standard console ------------')
+if (standard_console) console.error('Standard console "error"')
+if (standard_console) console.warn('Standard console "warn"')
+if (standard_console) console.info('Standard console "info"')
+if (standard_console) console.log('Standard console "log"')
+if (standard_console) console.debug('Standard console "debug"')
 
 
-console.log('------------ standard console ------------')
-console.error('Standard console "error"')
-console.warn('Standard console "warn"')
-console.info('Standard console "info"')
-console.log('Standard console "log"')
-console.debug('Standard console "debug"')
-
-
-console.log('------------ logger creation and basic usage ------------')
+if (standard_console) console.log('------------ logger creation and basic usage ------------')
 const root_logger = getLogger({
 	suggestedLevel: 'silly',
 })
-root_logger.log('hello from root logger')
+root_logger.log('Starting up')
 
 const logger = getLogger({
-	name: 'Foo',
+	name: 'Persistence',
 	suggestedLevel: 'silly',
 })
-logger.log('hello from a sub-logger')
+logger.verbose('Restoring state…')
+logger.warn('Restoration is taking more time than usual', { elapsedMs: 3000 })
 
-const err = new Error('Some Error!')
+const err = new Error('Timeout loading state!')
 err.httpStatus = 418 // to check that custom props are preserved
 
 const bob = {
@@ -34,21 +36,23 @@ const bob = {
 }
 const more = 'some stuff'
 
-logger.log('Bob created', { user: bob })
+logger.verbose('Current user loaded', { user: bob })
 logger.error(undefined, err)
 
-
-console.log('------------ testing all levels, in order ------------')
+if (standard_console) console.log('------------ testing all levels, in order ------------')
 ALL_LOG_LEVELS.forEach(level =>
-	logger[level](`msg with level "${level}"`)
+	logger[level](`msg with level "${level}"`, { level })
 )
-console.groupCollapsed('in group')
-ALL_LOG_LEVELS.forEach(level =>
-	logger[level](`msg with level "${level}"`)
-)
-console.groupEnd()
+if (standard_console) console.groupCollapsed('in group')
+// TODO support groupX()
+if (standard_console) {
+	ALL_LOG_LEVELS.forEach(level =>
+		logger[level](`msg with level "${level}"`, { level })
+	)
+}
+if (standard_console) console.groupEnd()
 
-console.log('------------ incorrect invocation (bunyan style) ------------')
+if (standard_console) console.log('------------ incorrect invocation (bunyan style) ------------')
 logger.info()
 
 logger.info('hi')

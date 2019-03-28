@@ -4,10 +4,10 @@
 
 	/* http://www.colorhunt.co/c/212
 	 */
-	--o⋄color__co212__beige:   rgb(255, 235, 188);
-	--o⋄color__co212__blue:    rgb(93, 167, 174);
-	--o⋄color__co212__brown:   rgb(84, 61, 70);
-	--o⋄color__co212__dark:    rgb(41, 40, 48);
+	--o⋄color__co212__beige:   rgb(255, 235, 188); /* #FFEBBC */
+	--o⋄color__co212__blue:    rgb(93, 167, 174); /* #5DA7AE */
+	--o⋄color__co212__brown:   rgb(84, 61, 70); /* #543D46 */
+	--o⋄color__co212__dark:    rgb(41, 40, 48); /* #292830 */
 
 	outline-color: var(--o⋄color__co212__beige);
 }

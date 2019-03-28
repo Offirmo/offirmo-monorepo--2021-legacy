@@ -28,7 +28,7 @@ chrome.devtools.inspectedWindow.eval(
 const PANEL_NAME = '🛠'
 chrome.devtools.panels.create(
 	PANEL_NAME,
-	'/icons/auto-repair_32x32.png', // works only on FF
+	'/icons/icon_32x32.png', // works only on FF
 	// Chrome and FF have different paths
 	'/ui/devtools/devtools-panel.html',
 /*	get_browser() === 'Firefox'

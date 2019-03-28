@@ -1,5 +1,5 @@
 import { getGlobalThis } from '@offirmo/globalthis-ponyfill'
-import { WebDebugApiRoot, WebDebugApi, Logger } from '@offirmo/universal-debug-api-interface'
+import { WebDebugApiRoot, WebDebugApi } from '@offirmo/universal-debug-api-interface'
 
 import createV1 from './v1'
 
@@ -11,7 +11,7 @@ const root: WebDebugApiRoot = globalThis._debug
 // install globally if no other implementation already present
 root.v1 = root.v1 || createV1()
 
-// expose the current implementation
+// expose the latest implementation known to this lib
 const instance: WebDebugApi = root.v1
 
 const {

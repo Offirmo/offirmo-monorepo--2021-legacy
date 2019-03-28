@@ -21,6 +21,7 @@
 
 	"devDependencies": {
 		"@babel/core": "~7.3",
+		"@offirmo/practical-logger-core": "^0.0.1",
 		"npm-run-all": "^4",
 		"ts-node": "^8"
 	},
@@ -29,6 +30,7 @@
 
 		"build:dev:watch": "node ../../scripts/build-typescript.js --watch",
 		"build:prod": "node ../../scripts/build-typescript.js",
+		"build:bundle": "parcel build --no-autoinstall --no-source-maps --out-file index-bundle.js  src/index.ts",
 
 		"dev": "run-s clean build:dev:watch",
 		"build": "run-s build:prod",

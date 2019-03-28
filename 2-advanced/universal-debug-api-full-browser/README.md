@@ -1,7 +1,5 @@
-## Common code for a simple and practical logger
+## Universal debug API companion webextension
 
-This is not what you are looking for!
+TODO doc...
 
-See final interfaces:
-- browser TODO
-- node TODO
+https://docs.google.com/presentation/d/1XP_vWvsLgM27s-KgVFamWy3BpSSi4jFCSjnT1_jdiYs/

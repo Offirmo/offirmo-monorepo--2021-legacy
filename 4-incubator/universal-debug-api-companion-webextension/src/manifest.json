@@ -6,13 +6,13 @@
 	"homepage_url": "https://github.com/Offirmo/hello-world-browser-extension",
 	"short_name": "hello world browser ext.",
 	"icons": {
-		"64": "icons/auto-repair_64x64.png",
-		"32": "icons/auto-repair_32x32.png",
-		"16": "icons/auto-repair_16x16.png"
+		"64": "icons/icon_64x64.png",
+		"32": "icons/icon_32x32.png",
+		"16": "icons/icon_16x16.png"
 	},
 
 	"browser_action": {
-		"default_icon": "icons/auto-repair_32x32.png",
+		"default_icon": "icons/icon_32x32.png",
 		"default_title": "Universal web debug tool",
 		"default_popup": "ui/popup/popup.html"
 	},
