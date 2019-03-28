@@ -162,6 +162,7 @@
 		"term-size": "^1",
 		"tildify": "^1",
 		"tiny-invariant": "^1",
+		"ts-node": "^8",
 		"tslib": "^1",
 		"typeface-roboto": "^0.0.54",
 		"typeface-roboto-condensed": "^0.0.54",

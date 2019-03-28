@@ -38,7 +38,7 @@ const LEVEL_TO_HUMAN: Readonly<{ [k: string]: string }> = {
 	crit:    'critical',
 	error:   'error',
 
-	warning: 'warn',
+	warning: 'warn', // warn is a word, shorter is better
 	warn:    'warn',
 
 	notice:  'notice',
@@ -53,6 +53,8 @@ const LEVEL_TO_HUMAN: Readonly<{ [k: string]: string }> = {
 
 	silly:   'silly',
 }
+
+// TODO move to unit tests
 if (Object.keys(LEVEL_TO_HUMAN).sort().join(',') !== Object.keys(LEVEL_TO_INTEGER).sort().join(',')) {
 	// TODO move to unit tests
 	throw new Error('practical-logger-core: needs an update!')

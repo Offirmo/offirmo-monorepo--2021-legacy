@@ -1,12 +1,18 @@
-import { Logger, LoggerCreationParams } from '@offirmo/practical-logger-interface'
+import { WebDebugApi as WebDebugApiV1 } from './v1'
 
-interface WebDebugApi {
-	getLogger: (p: Readonly<LoggerCreationParams>) => Logger
-	addDebugCommand: (name: string, callback: () => void) => void
+interface WebDebugApiRoot {
+	v1: WebDebugApiV1,
 }
+
+type WebDebugApi = WebDebugApiV1
 
 export {
-	Logger,
-	LoggerCreationParams,
+	WebDebugApiV1,
+
+	// v latest
 	WebDebugApi,
+	WebDebugApiRoot,
 }
+
+// for convenience
+export { Logger, LoggerCreationParams } from '@offirmo/practical-logger-interface'

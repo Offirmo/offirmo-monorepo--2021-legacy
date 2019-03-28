@@ -21,6 +21,8 @@
 	},
 
 	"devDependencies": {
+		"@babel/core": "~7.3",
+		"@offirmo/practical-logger-core": "^0.0.1",
 		"npm-run-all": "^4"
 	},
 	"scripts": {
@@ -31,8 +33,7 @@
 		"build:bundle": "parcel build --no-autoinstall --no-source-maps --out-file index-bundle.js  src/index.ts",
 
 		"dev": "run-s clean build:dev:watch",
-		"build": "npm-run-all clean --parallel build:prod build:bundle",
-		"cheatsheet": "node doc/cheatsheet.js",
-		"demo": "node doc/demo.js"
+		"build": "npm-run-all --parallel build:prod build:bundle",
+		"demo": "parcel --out-dir .parcel --no-autoinstall doc/demo/index.html"
 	}
 }

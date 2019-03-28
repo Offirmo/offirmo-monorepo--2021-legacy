@@ -1,17 +1,18 @@
 import { getGlobalThis } from '@offirmo/globalthis-ponyfill'
-import { WebDebugApi, Logger } from '@offirmo/universal-debug-api-interface'
+import { WebDebugApiRoot, WebDebugApi, Logger } from '@offirmo/universal-debug-api-interface'
 
-import { create } from './create'
+import createV1 from './v1'
 
-
-// install globally if no other implementation already present
+// ensure the root is present
 const globalThis = getGlobalThis()
 globalThis._debug = globalThis._debug || {}
-globalThis._debug.v1 = globalThis._debug.v1 || create()
+const root: WebDebugApiRoot = globalThis._debug
 
+// install globally if no other implementation already present
+root.v1 = root.v1 || createV1()
 
 // expose the current implementation
-const instance: WebDebugApi = globalThis._debug.v1
+const instance: WebDebugApi = root.v1
 
 const {
 	getLogger,
@@ -21,17 +22,22 @@ const {
 export {
 	getLogger,
 	addDebugCommand,
+
+	createV1,
+
+	globalThis,
 }
 
-export { WebDebugApi, Logger } // for convenience
+// for convenience
+export * from '@offirmo/universal-debug-api-interface'
+
 
 // TS declaration
 // XXX to check, how does it works with minimal to void?
-// should be cross-env declared by root interface
+// XXX should be cross-env declared by root interface?
+// XXX is it even needed?
 declare global {
 	interface Window {
-		_debug: {
-			v1: WebDebugApi
-		}
+		_debug: WebDebugApiRoot
 	}
 }

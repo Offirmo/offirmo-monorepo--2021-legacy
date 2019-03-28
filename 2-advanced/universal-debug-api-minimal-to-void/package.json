@@ -20,7 +20,9 @@
 	},
 
 	"devDependencies": {
-		"npm-run-all": "^4"
+		"@babel/core": "~7.3",
+		"npm-run-all": "^4",
+		"ts-node": "^8"
 	},
 	"scripts": {
 		"clean": "node ../../scripts/clean.js dist",
@@ -31,6 +33,7 @@
 		"dev": "run-s clean build:dev:watch",
 		"build": "run-s build:prod",
 		"cheatsheet": "node doc/cheatsheet.js",
-		"demo": "node doc/demo.js"
+		"demo:node": "./doc/demo.ts",
+		"demo": "parcel --out-dir .parcel --no-autoinstall doc/demo/index.html"
 	}
 }

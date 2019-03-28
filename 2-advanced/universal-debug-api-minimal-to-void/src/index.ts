@@ -1,15 +1,17 @@
 import { getGlobalThis } from '@offirmo/globalthis-ponyfill'
-import { WebDebugApi, Logger } from '@offirmo/universal-debug-api-interface'
+import { WebDebugApiRoot, WebDebugApi, Logger } from '@offirmo/universal-debug-api-interface'
 
-import { create } from './create'
+import createV1 from './v1'
 
+// ensure the root is present
+const globalThis = getGlobalThis()
+globalThis._debug = globalThis._debug || {} as WebDebugApiRoot
 
 // install globally if no other implementation already present
-const globalThis = getGlobalThis()
-globalThis._debug = globalThis._debug || create()
+globalThis._debug.v1 = globalThis._debug.v1 || createV1()
 
 // expose the current implementation
-const instance: WebDebugApi = globalThis._debug
+const instance: WebDebugApi = globalThis._debug.v1
 
 const {
 	getLogger,
@@ -19,6 +21,11 @@ const {
 export {
 	getLogger,
 	addDebugCommand,
+
+	createV1,
+
+	globalThis,
 }
 
-export { WebDebugApi, Logger } // for convenience
+// for convenience
+export * from '@offirmo/universal-debug-api-interface'

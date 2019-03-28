@@ -23,7 +23,7 @@
 		"build:update-encoded-full-api": "node ./scripts/encode.js",
 		"build:extension": "run-s  build:update-encoded-full-api  build:parcel",
 		"dev": "npm-run-all clean --parallel dev:parcel dev:cpx",
-		"build": "npm version patch && run-s clean build:extension",
+		"build": "npm version patch && run-s build:extension",
 		"demo": "parcel doc/demo/index.html"
 	}
 }

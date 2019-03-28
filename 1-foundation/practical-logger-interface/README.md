@@ -9,6 +9,6 @@ This is to allow declaring various implementations of those interface:
 
 
 ## Design
-TODO
+TODO explain
 
 * Log levels: https://docs.google.com/spreadsheets/d/1Bc32plQTswNdCqXS99deB0n7Te7FfD7uepGAOOlPbvY/

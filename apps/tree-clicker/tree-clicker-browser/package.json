@@ -36,7 +36,7 @@
 		"start:parcel": "parcel --out-dir .parcel --no-autoinstall --port 8080 src/index.html",
 		"start": "run-s refresh-build-variables start:parcel",
 		"build:parcel": "parcel build src/index.html --public-url ./",
-		"build": "npm version patch && run-s clean refresh-build-variables build:parcel"
+		"build": "npm version patch && run-s refresh-build-variables build:parcel"
 	},
 	"devDependencies": {
 		"@babel/core": "~7.3",
