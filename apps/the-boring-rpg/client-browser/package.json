@@ -58,7 +58,7 @@
 		"npm-run-all": "^4"
 	},
 	"tosort": {
-		"semver": "^5",
+		"semver": "^6",
 		"typescript": "^3",
 		"@types/node": "^10",
 		"@oh-my-rpg/logic-adventures": "^0.0.1",

@@ -60,7 +60,7 @@ fonts
 TODO bg switching effects https://tympanus.net/codrops/2018/04/10/webgl-distortion-hover-effects/
 
 		"fetchival": "^0.3",
-		"semver": "^5",
+		"semver": "^6",
 		"style-loader": "^0.23",
 		"tslib": "^1",
 		"universal-analytics": "^0.4",
