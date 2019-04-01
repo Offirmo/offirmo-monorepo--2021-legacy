@@ -1,7 +1,7 @@
 {
 	"name": "@offirmo/globalthis-ponyfill",
 	"description": "Ponyfill for globalThis",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 

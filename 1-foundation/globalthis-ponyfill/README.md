@@ -1,5 +1,8 @@
-[![NPM version](https://badge.fury.io/js/network-constants.png)](http://badge.fury.io/js/@offirmo/globalthis-ponyfill)
+[![npm (scoped)](https://img.shields.io/npm/v/@offirmo/globalthis-ponyfill.svg)](https://www.npmjs.com/package/@offirmo/globalthis-ponyfill)
+[![npm bundle size (scoped)](https://img.shields.io/bundlephobia/minzip/@offirmo/globalthis-ponyfill.svg)](https://bundlephobia.com/result?p=@offirmo/globalthis-ponyfill)
 [![license](http://img.shields.io/badge/license-public_domain-brightgreen.svg)](http://unlicense.org/)
+![Maintenance](https://img.shields.io/maintenance/yes/2019.svg)
+
 
 ## A trivial, TypeScript-compatible [ponyfill](https://ponyfill.com/) for [`globalThis`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/globalThis)
 
