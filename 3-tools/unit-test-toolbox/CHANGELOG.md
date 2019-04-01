@@ -1,21 +1,28 @@
 
-v5
-* bumped all to latest major (as usual)
-* engines now enforce node and npm
+## v5.0.1
+2019/04/01
+* [doc] updated the repo url in `package.json`
+* [doc] cleaned this CHANGELOG
 
-v4.0.1
+## v5
+2019/04/01
+* bumped all to latest major (as usual)
+* engines now enforce node and npm minimum version
+
+## v4.0.1
 * republish after repo move, to check everything is still ok
 
-v4
+## v4
 * bumped all to latest major (as usual)
 * dropped legacy node compatibility (<2) may still work but didn't try and won't maintain.
 * added eslint plugins
 
-v1, v2, v3
-bump of the underlying packages
+## v1, v2, v3
+* bump of the underlying packages
 
-v0.0.1 2016/09/19
+## v0.0.1
+2016/09/19
 - released to npm
 
-2016/08/09
-- this module's development is actively in progress
+## 2016/08/09
+- this module's development is actively in progress…

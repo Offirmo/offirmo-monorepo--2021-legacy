@@ -1,6 +1,6 @@
 {
 	"name": "@offirmo/unit-test-toolbox",
-	"version": "5.0.0",
+	"version": "5.0.1",
 	"description": "An aggregation of quality npm modules to be used for writing unit tests.",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
@@ -35,7 +35,7 @@
 
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/Offirmo/unit-test-toolbox.git"
+		"url": "git+https://github.com/Offirmo/offirmo-monorepo.git"
 	},
 	"keywords": [
 		"unit",
@@ -44,8 +44,5 @@
 		"module",
 		"npm"
 	],
-	"bugs": {
-		"url": "https://github.com/Offirmo/unit-test-toolbox/issues"
-	},
-	"homepage": "https://github.com/Offirmo/unit-test-toolbox#readme"
+	"homepage": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-tools/unit-test-toolbox#readme"
 }
