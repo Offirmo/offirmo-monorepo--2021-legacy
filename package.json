@@ -83,6 +83,7 @@
 		"chalk": "^2",
 		"classnames": "^2",
 		"clean-css-cli": "^4",
+		"clean-publish": "^1.1.1",
 		"cpx": "^1",
 		"cross-env": "^5",
 		"cross-spawn": "^6",

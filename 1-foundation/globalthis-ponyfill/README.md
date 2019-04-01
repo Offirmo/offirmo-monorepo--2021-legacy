@@ -1,13 +1,36 @@
-[![npm (scoped)](https://img.shields.io/npm/v/@offirmo/globalthis-ponyfill.svg)](https://www.npmjs.com/package/@offirmo/globalthis-ponyfill)
-[![npm bundle size (scoped)](https://img.shields.io/bundlephobia/minzip/@offirmo/globalthis-ponyfill.svg)](https://bundlephobia.com/result?p=@offirmo/globalthis-ponyfill)
-[![license](http://img.shields.io/badge/license-public_domain-brightgreen.svg)](http://unlicense.org/)
-![Maintenance](https://img.shields.io/maintenance/yes/2019.svg)
+
+<h1 align="center">
+	globalThis ponyfill<br>
+	<img src="../../doc/quality-seal/offirmos_quality_seal.svg" alt="Offirmo’s quality seal">
+</h1>
+
+<p align="center">
+	<a alt="npm package page"
+	  href="https://www.npmjs.com/package/@offirmo/globalthis-ponyfill">
+		<img alt="npm badge"
+		  src="https://img.shields.io/npm/v/@offirmo/globalthis-ponyfill.svg">
+	</a>
+	<a alt="dependencies analysis"
+	  href="https://david-dm.org/offirmo/offirmo-monorepo?path=1-foundation%2Fglobalthis-ponyfill">
+		<img alt="dependencies badge"
+		  src="https://img.shields.io/david/offirmo/offirmo-monorepo.svg?path=1-foundation%2Fglobalthis-ponyfill">
+	</a>
+	<a alt="bundle size evaluation"
+	  href="https://bundlephobia.com/result?p=@offirmo/globalthis-ponyfill">
+		<img alt="bundle size badge"
+		  src="https://img.shields.io/bundlephobia/minzip/@offirmo/globalthis-ponyfill.svg">
+	</a>
+	<a alt="license"
+	  href="http://unlicense.org/">
+		<img alt="license badge"
+		  src="http://img.shields.io/badge/license-public_domain-brightgreen.svg">
+	</a>
+	<img alt="maintenance status badge"
+	  src="https://img.shields.io/maintenance/yes/2019.svg">
+</p>
 
 
-## A trivial, TypeScript-compatible [ponyfill](https://ponyfill.com/) for [`globalThis`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/globalThis)
-
-
-This is a trivial TypeScript-compatible [`globalThis`](https://github.com/tc39/proposal-global) [ponyfill](https://ponyfill.com/).
+This is a trivial TypeScript-compatible [`globalThis`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/globalThis) [ponyfill](https://ponyfill.com/).
 * ~141b minified and gzipped
 * NO dependencies
 
@@ -26,12 +49,12 @@ const globalThis = getGlobalThis()
  which is [already supported by Firefox and Chrome](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/globalThis).
 * a [ponyfill](https://ponyfill.com/) is a better polyfill that doesn't patch the environment.
 
-There are existing ponyfill/polyfill [out there](https://github.com/ljharb/globalThis), but they didn't work for me:
+There are existing ponyfills/polyfills [out there](https://github.com/ljharb/globalThis), but they didn't work for me:
 * too complicated: mine is a single TS file of 5 lines
 * I needed TypeScript
 
 
 ## Credits
 
-**YES** I had a look at [ljharb/globalThis](https://github.com/ljharb/globalThis)'s [implementation](https://github.com/ljharb/globalThis/blob/master/implementation.js)
+**YES** I had a look at [ljharb/globalThis](https://github.com/ljharb/globalThis)'s [implementation](https://github.com/ljharb/globalThis/blob/master/implementation.js) (MIT)
 and started my implementation from it! Thanks a lot and all credits due!

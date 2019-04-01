@@ -4,6 +4,10 @@ A monorepo for all my JavaScript / TypeScript projects. So convenient.
 
 Public modules:
 * [@offirmo/unit-test-toolbox](https://www.npmjs.com/package/@offirmo/unit-test-toolbox)
+* [@offirmo/globalthis-ponyfill](https://www.npmjs.com/package/@offirmo/globalthis-ponyfill)
+
+Public apps:
+* TODO
 
 
 ## Contributing
