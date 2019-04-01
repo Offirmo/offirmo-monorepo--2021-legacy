@@ -17,10 +17,10 @@
 	 * dark-on-light theme, good default, but can also be used in reverse on light-on-dark
 	 * https://medium.com/refactoring-ui/7-practical-tips-for-cheating-at-design-40c736799886
 	 */
-	--o⋄color__dolt__quasi-black: hsl(0, 0%, 17%); /* 17 or 26 ? */
+	--o⋄color__dolt__quasi-black: hsl(0, 0%, 17%); /* #2B2B2B */
 	--o⋄color__dolt__dark-grey:   hsl(0, 0%, 33%);
 	--o⋄color__dolt__medium-grey: hsl(0, 0%, 66%);
-	--o⋄color__dolt__quasi-white: hsl(0, 0%, 98%);
+	--o⋄color__dolt__quasi-white: hsl(0, 0%, 98%); /* #FAFAFA */
 
 	/* accent on tab, seldom used */
 	--o⋄color--fg⁚accent: #7AACFE; /* classic blue */

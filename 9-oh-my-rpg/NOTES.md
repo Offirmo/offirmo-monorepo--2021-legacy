@@ -99,6 +99,8 @@ https://sciencepost.fr/2019/01/voie-lactee-une-collision-programmee-dans-2-milli
 
 import { dump_pretty_json } from '@offirmo-private/prettify-json' // TODO remove
 
+https://yro.slashdot.org/story/19/03/31/175226/in-massive-breach-ex-nsa-contractor-pleads-guilty-to-hoarding-highly-classified-secrets
+
 +++ skill system https://en.uesp.net/wiki/Oblivion:Leveling
 
 TODO copy torchlight

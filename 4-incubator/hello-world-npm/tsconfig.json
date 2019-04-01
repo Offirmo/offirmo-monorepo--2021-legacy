@@ -1,0 +1,30 @@
+{
+	"compileOnSave": false,
+	"compilerOptions": {
+		"listFiles": true,
+		"pretty": true,
+
+		"allowJs": false,
+		"forceConsistentCasingInFileNames": true,
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitAny": true,
+		"noImplicitReturns": true,
+		"noImplicitThis": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"strictNullChecks": true,
+
+		"target": "es6",
+		"noEmitOnError": true,
+		"declaration": true,
+		"sourceMap": true,
+		"outDir": "dist/es6"
+	},
+	"exclude": [
+		"dist",
+		"node_modules",
+		"scripts",
+		"test",
+		"tosort"
+	]
+}

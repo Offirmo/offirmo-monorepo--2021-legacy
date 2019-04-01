@@ -1,0 +1,11 @@
+{
+	"ignore": [
+		"**/node_modules/**",
+		"**/dist/**"
+	],
+	"test": [
+		"**/scripts/**",
+		"**/test/**",
+		"**/*.spec.ts"
+	]
+}

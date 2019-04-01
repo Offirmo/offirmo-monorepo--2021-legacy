@@ -1,0 +1,45 @@
+{
+  "name": "hello-world-emo",
+  "version": "2.1.4",
+  "description": "A hello world npm module whose main purpose is to experiment a 'modern' (typescript / ES6) module declaration and its consumption by various environments, including legacy.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Offirmo/hello-world-npm.git"
+  },
+  "keywords": [
+    "hello"
+  ],
+  "author": "Offirmo <offirmo.net@gmail.com>",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/Offirmo/hello-world-npm/issues"
+  },
+  "homepage": "https://github.com/Offirmo/hello-world-npm#readme",
+  "engines": {
+    "node": ">=4",
+    "npm": ">=3"
+  },
+  "main": "dist/index.node-stable.js",
+  "jsnext:main": "dist/es6/index.js",
+  "typings": "dist/es6/index.d.ts",
+  "browser": "dist/hello_world_emo.umd.js",
+  "scripts": {
+    "__prod": "~~~~~~~ PRODUCTION ~~~~~~~",
+    "test": "echo 'should write tests ;-)'",
+    "test:quick": "test/quick/index.ts",
+    "test:interactive": "test/interactive/index.js",
+    "build": "node scripts/build.js",
+    "np": "np",
+    "__dev": "~~~~~~~ DEVELOPMENT ~~~~~~~",
+    "dev1": "tsc --watch",
+    "tslint": "npm run _all_own_ts_files -- tslint",
+    "__misc": "~~~~~~~ MISC ~~~~~~~",
+    "tsc": "tsc",
+    "__helpers": "----------- Helpers -----------",
+    "_all_own_ts_files": "find-glob -0 '**/*.{ts,tsx}' '!{dist,node_modules,scripts}/**' | xargs -0"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+  }
+}
