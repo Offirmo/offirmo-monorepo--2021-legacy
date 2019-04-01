@@ -2,15 +2,15 @@
 	"name": "@offirmo/rich-text-format-to-react",
 	"version": "0.0.1",
 	"description": "Rendering rich text format to React",
-	"main": "src/index.js",
-	"source": "src/index.js",
 	"author": "Offirmo <offirmo.net@gmail.com>",
-	"license": "UNLICENSED",
-	"scripts": {
-		"clean": "node ../../scripts/clean.js dist cache",
-		"start:parcel": "parcel --out-dir .parcel --no-autoinstall --no-hmr doc/demo/index.html doc/demo/index-iframe.html",
-		"demo": "run-s clean start:parcel"
-	},
+	"license": "Unlicense",
+	"private": true,
+
+	"esnext": "src/index.js",
+	"module": "src/index.js",
+	"source": "src/index.js",
+	"sideEffects": false,
+
 	"peerDependencies": {
 		"react": "^16"
 	},
@@ -22,11 +22,14 @@
 		"react-overlays": "^1",
 		"react-portal-tooltip": "^2"
 	},
+
+	"scripts": {
+		"clean": "node ../../scripts/clean.js dist cache",
+		"start:parcel": "parcel --out-dir .parcel --no-autoinstall --no-hmr doc/demo/index.html doc/demo/index-iframe.html",
+		"demo": "run-s clean start:parcel"
+	},
 	"devDependencies": {
 		"@babel/core": "~7.3",
 		"parcel-bundler": "^1"
-	},
-	"xxdevDependencies": {
-		"react-dom": "^16"
 	}
 }

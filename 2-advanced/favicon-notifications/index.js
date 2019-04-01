@@ -41,7 +41,6 @@ function ensure_libs_initialized() {
 	piecon_on = true
 }
 
-
 function set_number_in_favicon(x) {
 	if (DEBUG) console.log('set_number_in_favicon', x)
 	ensure_libs_initialized()

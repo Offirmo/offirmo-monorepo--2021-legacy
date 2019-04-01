@@ -3,13 +3,18 @@
 	"description": "node-specific Software Execution Context",
 	"version": "0.0.2",
 	"author": "Offirmo <offirmo.net@gmail.com>",
-	"private": true,
 	"license": "Unlicense",
+	"private": true,
 
-	"main": "src/index.js",
 	"engines": {
 		"node": ">=8.5"
 	},
+
+	"esnext": "src/index.js",
+	"module": "src/index.js",
+	"source": "src/index.js",
+	"sideEffects": true,
+
 	"peerDependencies": {
 		"@offirmo/soft-execution-context": "^0.0.2",
 		"tslib": "^1"

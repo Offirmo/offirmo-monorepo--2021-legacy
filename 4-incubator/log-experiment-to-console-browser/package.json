@@ -6,13 +6,12 @@
 	"license": "UNLICENSED",
 	"private": true,
 
+	"esnext": "dist/src.es7/index.js",
+	"module": "dist/src.es7/index.js",
 	"main": "dist/src.es7.cjs/index.js",
-	"jsnext:main": "dist/src.es7/index.js",
 	"typings": "dist/src.es7.cjs/index.d.ts",
 	"source": "src/index.ts",
-
-	"xxmodule": "dist/esm/index.js",
-	"xxjs:next": "dist/esm/index.js",
+	"sideEffects": false,
 
 	"peerDependencies": {
 		"tslib": "^1"
@@ -24,13 +23,13 @@
 	"scripts": {
 		"clean": "node ../../scripts/clean.js dist",
 
-		"test": "../../node_modules/.bin/mocha --opts ../../3-tools/unit-test-toolbox/mocha.opts ../../3-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es7.cjs/**/*spec.js'",
+		"xxtest": "../../node_modules/.bin/mocha --opts ../../3-tools/unit-test-toolbox/mocha.opts ../../3-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es7.cjs/**/*spec.js'",
 
 		"build:dev:watch": "node ../../scripts/build-typescript.js --watch",
 		"build:prod": "node ../../scripts/build-typescript.js",
 
 		"dev": "run-s clean build:dev:watch",
-		"build": "run-s build:prod",
+		"xxbuild": "run-s build:prod",
 		"demo": "parcel doc/demo/index.html"
 	},
 

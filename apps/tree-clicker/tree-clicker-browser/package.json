@@ -3,8 +3,8 @@
 	"description": "A clicker game",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
-	"private": true,
 	"license": "Unlicense",
+	"private": true,
 
 	"dependencies": {
 		"@offirmo/ensure-device-uuid-browser": "^0.0.1",

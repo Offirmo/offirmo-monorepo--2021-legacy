@@ -1,39 +1,42 @@
 {
-  "name": "@offirmo/random-todo",
-  "description": "A mathematically correct and serializable random number generator library for JavaScript.",
-  "version": "2.0.4",
-  "author": {
-    "name": "Cameron Kenneth Knight",
-    "email": "ckknight@gmail.com"
-  },
-  "keywords": [
-    "random",
-    "prng"
-  ],
-  "license": "MIT",
-  "main": "lib/random",
-  "typings": "lib/random.d.ts",
-  "scripts": {
-    "xxtest": "jasmine-node lib/random.js spec/",
-    "xxbuild": "uglifyjs --compress --mangle --screw-ie8 --output lib/random.min.js --source-map lib/random.min.js.map -- lib/random.js",
-    "xxnp": "np"
-  },
-  "devDependencies": {
-  },
-  "xxxdevDependencies": {
-    "jasmine-node": "^1.14.5",
-    "karma": "^1.2.0",
-    "karma-chrome-launcher": "^2.0.0",
-    "karma-coffee-preprocessor": "^1.0.1",
-    "karma-coverage": "^1.1.1",
-    "karma-firefox-launcher": "^1.0.0",
-    "karma-html2js-preprocessor": "^1.0.0",
-    "karma-jasmine": "^1.0.2",
-    "karma-phantomjs-launcher": "^1.0.1",
-    "karma-requirejs": "^1.0.0",
-    "karma-script-launcher": "^1.0.0",
-    "np": "^2.9.0",
-    "requirejs": "^2.1.10",
-    "uglify-js": "^2.7.3"
-  }
+	"name": "@offirmo/random-todo",
+	"description": "A mathematically correct and serializable random number generator library for JavaScript.",
+	"version": "2.0.4",
+	"author": {
+		"name": "Cameron Kenneth Knight",
+		"email": "ckknight@gmail.com"
+	},
+	"keywords": [
+		"random",
+		"prng"
+	],
+	"license": "MIT",
+
+	"main": "lib/random.js",
+	"typings": "lib/random.d.ts",
+	"sideEffects": false,
+
+	"scripts": {
+		"xxtest": "jasmine-node lib/random.js spec/",
+		"xxbuild": "uglifyjs --compress --mangle --screw-ie8 --output lib/random.min.js --source-map lib/random.min.js.map -- lib/random.js",
+		"xxnp": "np"
+	},
+	"devDependencies": {
+	},
+	"xxxdevDependencies": {
+		"jasmine-node": "^1.14.5",
+		"karma": "^1.2.0",
+		"karma-chrome-launcher": "^2.0.0",
+		"karma-coffee-preprocessor": "^1.0.1",
+		"karma-coverage": "^1.1.1",
+		"karma-firefox-launcher": "^1.0.0",
+		"karma-html2js-preprocessor": "^1.0.0",
+		"karma-jasmine": "^1.0.2",
+		"karma-phantomjs-launcher": "^1.0.1",
+		"karma-requirejs": "^1.0.0",
+		"karma-script-launcher": "^1.0.0",
+		"np": "^2.9.0",
+		"requirejs": "^2.1.10",
+		"uglify-js": "^2.7.3"
+	}
 }

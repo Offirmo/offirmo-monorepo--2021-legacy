@@ -3,13 +3,15 @@
 	"description": "replenishing, discrete energy bar like Candy Crush",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
-	"private": true,
 	"license": "Unlicense",
+	"private": true,
 
+	"esnext": "dist/src.es7/index.js",
+	"module": "dist/src.es7/index.js",
 	"main": "dist/src.es7.cjs/index.js",
-	"jsnext:main": "dist/src.es7/index.js",
 	"typings": "dist/src.es7.cjs/index.d.ts",
-
+	"source": "src/index.ts",
+	"sideEffects": false,
 
 	"peerDependencies": {
 		"@offirmo/soft-execution-context": "^0.0.2",
@@ -25,6 +27,7 @@
 		"tiny-invariant": "^1",
 		"typescript-string-enums": "^1"
 	},
+
 	"devDependencies": {
 		"@offirmo/prettify-json": "^0.0.1",
 		"@oh-my-rpg/migration-tester": "^0.0.1",

@@ -4,8 +4,8 @@
 	"repository": "https://github.com/Offirmo/offirmo-monorepo.git",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
-	"private": true,
 	"license": "Unlicense",
+	"private": true,
 	"scripts": {
 		"clean": "bolt ws run clean && bolt ws exec -- rm -rf .cache .parcel dist node_modules yarn.lock package-lock.json yarn-error.log",
 		"test": "bolt ws run test",

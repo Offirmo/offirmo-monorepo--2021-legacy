@@ -1,16 +1,17 @@
 {
 	"name": "@oh-my-rpg/view-browser-react",
 	"version": "0.0.1",
-	"main": "src/index.jsx",
-	"source": "src/index.jsx",
 	"author": "Offirmo <offirmo.net@gmail.com>",
-	"license": "UNLICENSED",
-	"scripts": {
-		"clean": "node ../../scripts/clean.js dist cache",
-		"start:parcel": "parcel --out-dir .parcel --no-autoinstall doc/demo/index.html",
-		"demo": "run-s clean start:parcel"
-	},
+	"license": "Unlicense",
+	"private": true,
+
+	"esnext": "src/index.jsx",
+	"module": "src/index.jsx",
+	"source": "src/index.jsx",
+	"sideEffects": false,
+
 	"peerDependencies": {
+		"@offirmo/soft-execution-context": "^0.0.2",
 		"react": "^16"
 	},
 	"dependencies": {
@@ -21,11 +22,14 @@
 		"react-notification-system": "^0.2",
 		"tiny-invariant": "^1"
 	},
+
+	"scripts": {
+		"clean": "node ../../scripts/clean.js dist cache",
+		"start:parcel": "parcel --out-dir .parcel --no-autoinstall doc/demo/index.html",
+		"demo": "run-s clean start:parcel"
+	},
 	"devDependencies": {
 		"@babel/core": "~7.3",
 		"parcel-bundler": "^1"
-	},
-	"xxdevDependencies": {
-		"react-dom": "^16"
 	}
 }

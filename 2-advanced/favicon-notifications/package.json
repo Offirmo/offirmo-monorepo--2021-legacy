@@ -1,15 +1,21 @@
 {
 	"name": "@offirmo/favicon-notifications",
-	"version": "0.0.1",
-	"private": true,
 	"description": "Dynamic notifications in your favicon",
-	"main": "src/index.js",
+	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
-	"license": "UNLICENSED",
+	"license": "Unlicense",
+	"private": true,
+
+	"esnext": "index.js",
+	"module": "index.js",
+	"source": "index.js",
+	"sideEffects": false,
+
 	"dependencies": {
 		"favico.js": "^0.3",
 		"piecon": "^0.5"
 	},
+
 	"scripts": {
 		"clean": "node ../../scripts/clean.js dist cache",
 		"start:parcel": "parcel --out-dir .parcel --no-autoinstall doc/demo/index.html",

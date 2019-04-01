@@ -4,10 +4,16 @@
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 	"private": true,
-	"main": "index.js",
+
+	"esnext": "index.js",
+	"module": "index.js",
+	"source": "index.js",
+	"sideEffects": false,
+
 	"dependencies": {
 		"@offirmo/poll": "^0.0.1"
 	},
+
 	"scripts": {
 	}
 }

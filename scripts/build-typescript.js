@@ -77,7 +77,7 @@ function build_compatible() {
 	)
 }
 
-function build_jsnext() {
+function build_esnext() {
 	return tsc.compile(
 		{
 			...compilerOptions,
@@ -97,7 +97,7 @@ build_compatible()
 	.then(() => {
 		if (cli.flags.dev) return
 
-		return build_jsnext()
+		return build_esnext()
 	})
 	.then(() => console.log(`🛠  🔺 building ${stylize_string.bold(PKG_NAME)} done ✔`))
 	/*.catch(err => {

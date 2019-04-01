@@ -3,8 +3,8 @@
 	"description": "⚔🛡💰 The boring RPG browser game, reloaded!",
 	"version": "0.60.0",
 	"author": "Offirmo <offirmo.net@gmail.com>",
-	"private": true,
 	"license": "Unlicense",
+	"private": true,
 	"scripts": {
 		"refresh-build-variables": "node ../../../scripts/update_build_variables.js --mode=json",
 		"clean": "node ../../../scripts/clean.js dist cache",

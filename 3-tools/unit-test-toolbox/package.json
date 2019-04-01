@@ -2,27 +2,11 @@
 	"name": "@offirmo/unit-test-toolbox",
 	"version": "6.0.0",
 	"description": "An aggregation of quality npm modules to be used for writing unit tests.",
-	"main": "index.js",
-	"scripts": {
-		"test": "echo \"* @offirmo/unit-test-toolbox: no need for unit tests for this kind of repo (meta)\""
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/Offirmo/unit-test-toolbox.git"
-	},
-	"keywords": [
-		"unit",
-		"test",
-		"aggregation",
-		"module",
-		"npm"
-	],
 	"author": "Offirmo <offirmo.net@gmail.com>",
-	"license": "UNLICENSED",
-	"bugs": {
-		"url": "https://github.com/Offirmo/unit-test-toolbox/issues"
-	},
-	"homepage": "https://github.com/Offirmo/unit-test-toolbox#readme",
+	"license": "Unlicense",
+
+	"sideEffects": true,
+
 	"dependencies": {
 		"@types/chai": "^4",
 		"@types/chai-as-promised": "^7",
@@ -38,5 +22,25 @@
 		"mocha": "^6",
 		"sinon": "^7",
 		"sinon-chai": "^3"
-	}
+	},
+
+	"scripts": {
+		"test": "echo \"* @offirmo/unit-test-toolbox: no need for unit tests for this kind of repo (meta)\""
+	},
+
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Offirmo/unit-test-toolbox.git"
+	},
+	"keywords": [
+		"unit",
+		"test",
+		"aggregation",
+		"module",
+		"npm"
+	],
+	"bugs": {
+		"url": "https://github.com/Offirmo/unit-test-toolbox/issues"
+	},
+	"homepage": "https://github.com/Offirmo/unit-test-toolbox#readme"
 }

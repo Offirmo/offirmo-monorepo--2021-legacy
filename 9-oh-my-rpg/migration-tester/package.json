@@ -2,15 +2,13 @@
 	"name": "@oh-my-rpg/migration-tester",
 	"version": "0.0.1",
 	"description": "helper for testing migrations",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
 
 	"main": "src/index.js",
+	"sideEffects": false,
 
-	"author": "Offirmo <offirmo.net@gmail.com>",
-	"license": "UNLICENSED",
-	"scripts": {
-		"test": "../../node_modules/.bin/mocha --opts ../../3-tools/unit-test-toolbox/mocha.opts ../../3-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es7.cjs/**/*spec.js'",
-		"demo": "./demo/demo.js"
-	},
 	"dependencies": {
 		"@offirmo/prettify-json": "^0.0.1",
 		"@offirmo/timestamps": "^0.0.1",
@@ -18,6 +16,11 @@
 		"load-json-file": "^5",
 		"lodash": "^4",
 		"write-json-file": "^3"
+	},
+
+	"scripts": {
+		"test": "../../node_modules/.bin/mocha --opts ../../3-tools/unit-test-toolbox/mocha.opts ../../3-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es7.cjs/**/*spec.js'",
+		"demo": "./demo/demo.js"
 	},
 	"devDependencies": {
 	}

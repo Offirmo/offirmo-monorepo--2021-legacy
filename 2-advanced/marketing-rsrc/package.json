@@ -2,11 +2,18 @@
 	"name": "@offirmo/marketing-rsrc",
 	"version": "0.0.1",
 	"description": "Marketing resources",
-	"main": "index.js",
 	"author": "Offirmo <offirmo.net@gmail.com>",
-	"license": "UNLICENSED",
+	"license": "Unlicense",
+	"private": true,
+
+	"esnext": "index.js",
+	"module": "index.js",
+	"source": "index.js",
+	"sideEffects": false,
+
 	"dependencies": {
 	},
+
 	"devDependencies": {
 	},
 	"scripts": {

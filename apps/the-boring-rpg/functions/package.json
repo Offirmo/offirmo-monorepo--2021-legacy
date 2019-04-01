@@ -3,8 +3,8 @@
 	"description": "Netlify functions for online-adventures.",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
-	"private": true,
 	"license": "Unlicense",
+	"private": true,
 
 	"engines": {
 		"node": "8.1"

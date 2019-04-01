@@ -1,16 +1,15 @@
 {
 	"name": "@offirmo/react-error-boundary",
 	"version": "0.0.1",
-	"main": "src/index.js",
-	"source": "src/index.js",
 	"author": "Offirmo <offirmo.net@gmail.com>",
-	"license": "UNLICENSED",
-	"scripts": {
-		"test": "echo '@offirmo/react-error-boundary TODO unit tests'",
-		"clean": "node ../../scripts/clean.js dist cache",
-		"start:parcel": "parcel --out-dir .parcel --no-autoinstall doc/demo/index.html",
-		"demo": "run-s clean start:parcel"
-	},
+	"license": "Unlicense",
+	"private": true,
+
+	"esnext": "src/index.js",
+	"module": "src/index.js",
+	"source": "src/index.js",
+	"sideEffects": false,
+
 	"peerDependencies": {
 		"@offirmo/soft-execution-context": "^0.0.2",
 		"prop-types": "^15",
@@ -19,6 +18,13 @@
 	"dependencies": {
 		"memoize-one": "^5",
 		"tiny-invariant": "^1"
+	},
+
+	"scripts": {
+		"test": "echo '@offirmo/react-error-boundary TODO unit tests'",
+		"clean": "node ../../scripts/clean.js dist cache",
+		"start:parcel": "parcel --out-dir .parcel --no-autoinstall doc/demo/index.html",
+		"demo": "run-s clean start:parcel"
 	},
 	"devDependencies": {
 		"@babel/core": "~7.3",

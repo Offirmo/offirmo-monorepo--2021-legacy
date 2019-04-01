@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"private": true,
 	"description": "Graphical css and assets for an RPG UI",
-	"license": "UNLICENSED",
+	"license": "Unlicense",
 	"scripts": {
 		"clean": "node ../../scripts/clean.js dist",
 		"build:copy": "mkdir -p dist && cpx 'src/**/*.{woff,woff2,eot,svg,ttf,png,jpg}' dist --verbose",

@@ -1,6 +1,5 @@
 {
-  "name": "esl",
-  "version": "0.0.1",
-  "main": "index.js",
-  "license": "MIT"
+	"name": "esl",
+	"version": "0.0.1",
+	"sideEffects": false
 }

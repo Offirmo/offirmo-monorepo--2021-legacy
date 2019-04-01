@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"private": true,
 	"description": "Small reusable CSS classes",
-	"license": "UNLICENSED",
+	"license": "Unlicense",
 	"scripts": {
 		"clean": "node ../../scripts/clean.js dist cache",
 		"start:parcel": "parcel --out-dir .parcel --no-autoinstall doc/demo/index.html doc/demo/index-iframe-advanced.html doc/demo/index-iframe-base.html doc/demo/index-iframe-controls.html doc/demo/index-iframe-fonts.html doc/demo/index-iframe-rpg-elements.html",

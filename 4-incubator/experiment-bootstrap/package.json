@@ -6,13 +6,12 @@
 	"license": "UNLICENSED",
 	"private": true,
 
+	"esnext": "dist/src.es7/index.js",
+	"module": "dist/src.es7/index.js",
 	"main": "dist/src.es7.cjs/index.js",
-	"jsnext:main": "dist/src.es7/index.js",
 	"typings": "dist/src.es7.cjs/index.d.ts",
 	"source": "src/index.ts",
-
-	"xxmodule": "dist/esm/index.js",
-	"xxjs:next": "dist/esm/index.js",
+	"sideEffects": false,
 
 	"peerDependencies": {
 		"tslib": "^1"

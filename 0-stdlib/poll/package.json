@@ -4,9 +4,15 @@
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 	"private": true,
-	"main": "index.js",
-	"devDependencies": {
+
+	"esnext": "index.js",
+	"module": "index.js",
+	"source": "index.js",
+	"sideEffects": false,
+
+	"dependencies": {
 	},
+
 	"scripts": {
 	}
 }

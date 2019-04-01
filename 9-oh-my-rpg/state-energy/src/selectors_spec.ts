@@ -17,7 +17,7 @@ describe(`${LIB} - selectors`, function() {
 	describe.only('get_current_energy_refilling_rate_per_ms()', function() {
 
 		it('should slowly ramp-up for onboarding', () => {
-			xxx
+			throw new Error('TODO')
 		})
 	})
 

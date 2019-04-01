@@ -3,11 +3,16 @@
 	"description": "The Boring RPG flux engine",
 	"version": "0.60.0",
 	"author": "Offirmo <offirmo.net@gmail.com>",
-	"private": true,
 	"license": "Unlicense",
+	"private": true,
+
+	"esnext": "dist/src.es7/index.js",
+	"module": "dist/src.es7/index.js",
 	"main": "dist/src.es7.cjs/index.js",
-	"jsnext:main": "dist/src.es7/index.js",
 	"typings": "dist/src.es7.cjs/index.d.ts",
+	"source": "src/index.ts",
+	"sideEffects": false,
+
 	"peerDependencies": {
 		"@offirmo/soft-execution-context": "^0.0.2",
 		"tslib": "^1"
@@ -31,6 +36,7 @@
 		"tiny-invariant": "^1",
 		"typescript-string-enums": "^1"
 	},
+
 	"devDependencies": {
 		"@offirmo/practical-logger-node": "^0.0.1",
 		"localstorage-ponyfill": "^1",

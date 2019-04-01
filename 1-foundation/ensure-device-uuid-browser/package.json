@@ -4,7 +4,12 @@
 	"license": "Unlicense",
 	"private": true,
 	"version": "0.0.1",
-	"main": "index.js",
+
+	"esnext": "index.js",
+	"module": "index.js",
+	"source": "index.js",
+	"sideEffects": false,
+
 	"devDependencies": {
 		"@offirmo-private/uuid": "0.0.1"
 	}
