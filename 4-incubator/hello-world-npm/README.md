@@ -1,7 +1,9 @@
 
 <h1 align="center">
 	Hello World Npm<br>
-	<img src="../../doc/quality-seal/offirmos_quality_seal.svg" alt="Offirmo’s quality seal">
+	<a href="https://www.offirmo.net/offirmo-monorepo/doc/modules-directory/index.html">
+		<img src="../../doc/quality-seal/offirmos_quality_seal.svg" alt="Offirmo’s quality seal">
+	</a>
 </h1>
 
 [![npm (scoped)](https://img.shields.io/npm/v/hello-world-emo.svg)](https://www.npmjs.com/package/hello-world-emo)
