@@ -1,5 +1,5 @@
 {
-	"name": "@offirmo-private/globalthis-ponyfill",
+	"name": "@offirmo/globalthis-ponyfill",
 	"description": "Ponyfill for globalThis",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
@@ -13,19 +13,30 @@
 	"source": "src/index.ts",
 	"sideEffects": false,
 
+	"size-limit": [
+		{
+			"path": "dist/src.es7/index.js"
+		},
+		{
+			"path": "dist/src.es7.cjs/index.js"
+		}
+	],
+
 	"peerDependencies": {
 	},
 	"dependencies": {
 	},
 
 	"devDependencies": {
-		"npm-run-all": "^4"
+		"npm-run-all": "^4",
+		"size-limit": "^1"
 	},
 	"scripts": {
 		"clean": "node ../../scripts/clean.js dist",
 
 		"build:dev:watch": "node ../../scripts/build-typescript.js --watch",
 		"build:prod": "node ../../scripts/build-typescript.js",
+		"ensure-size": "size-limit",
 
 		"dev": "run-s clean build:dev:watch",
 		"build": "run-s build:prod"

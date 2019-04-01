@@ -1,4 +1,4 @@
-import { getGlobalThis } from '@offirmo-private/globalthis-ponyfill'
+import { getGlobalThis } from '@offirmo/globalthis-ponyfill'
 import { WebDebugApiRoot, WebDebugApi, Logger } from '@offirmo-private/universal-debug-api-interface'
 
 import createV1 from './v1'

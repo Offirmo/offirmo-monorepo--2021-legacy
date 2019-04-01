@@ -15,7 +15,7 @@
 		"tslib": "^1"
 	},
 	"dependencies": {
-		"@offirmo-private/globalthis-ponyfill": "^0.0.1",
+		"@offirmo/globalthis-ponyfill": "^0.0.1",
 		"@offirmo-private/normalize-error": "^0.0.1",
 		"@offirmo-private/promise-try": "^0.0.1",
 		"@offirmo-private/timestamps": "^0.0.1",
