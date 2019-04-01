@@ -10,7 +10,7 @@ import {
 } from '.'
 
 
-describe('🔠  view to @offirmo/rich-text-format - attributes', function() {
+describe('🔠  view to @offirmo-private/rich-text-format - attributes', function() {
 
 	describe('full character sheet rendering', function() {
 

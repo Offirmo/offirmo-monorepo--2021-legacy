@@ -1,2 +1,2 @@
 // TODO
-declare module '@offirmo/soft-execution-context'
+declare module '@offirmo-private/soft-execution-context'

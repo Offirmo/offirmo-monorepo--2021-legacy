@@ -1,4 +1,4 @@
-import { Storage } from '@offirmo/ts-types'
+import { Storage } from '@offirmo-private/ts-types'
 import { TbrpgStorage, StorageKey } from '@tbrpg/interfaces'
 
 import create_in_memory_store from '../in-memory'

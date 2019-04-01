@@ -1,5 +1,5 @@
 import assert from "tiny-invariant"
-import { LogLevel, ALL_LOG_LEVELS, LOG_LEVEL_TO_HUMAN } from '@offirmo/practical-logger-core'
+import { LogLevel, ALL_LOG_LEVELS, LOG_LEVEL_TO_HUMAN } from '@offirmo-private/practical-logger-core'
 
 import { LIB } from "../../consts";
 

@@ -1,5 +1,5 @@
 import assert from 'tiny-invariant'
-import { JSONAny } from '@offirmo/ts-types'
+import { JSONAny } from '@offirmo-private/ts-types'
 
 export interface BaseState {
 	schema_version?: number // may not have it if sub-state

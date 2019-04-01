@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import NotificationSystem from 'react-notification-system'
 
-import ErrorBoundary from '@offirmo/react-error-boundary'
+import ErrorBoundary from '@offirmo-private/react-error-boundary'
 
 import { OhMyRPGUIContext } from '../state-context'
 import './index.css';

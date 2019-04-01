@@ -1,5 +1,5 @@
 {
-	"name": "@offirmo/soft-execution-context-node",
+	"name": "@offirmo-private/soft-execution-context-node",
 	"description": "node-specific Software Execution Context",
 	"version": "0.0.2",
 	"author": "Offirmo <offirmo.net@gmail.com>",
@@ -16,7 +16,7 @@
 	"sideEffects": true,
 
 	"peerDependencies": {
-		"@offirmo/soft-execution-context": "^0.0.2",
+		"@offirmo-private/soft-execution-context": "^0.0.2",
 		"tslib": "^1"
 	},
 	"dependencies": {
@@ -27,7 +27,7 @@
 		"demo": "./doc/demo/demo.js"
 	},
 	"devDependencies": {
-		"@offirmo/practical-logger-node": "^0.0.1",
+		"@offirmo-private/practical-logger-node": "^0.0.1",
 		"npm-run-all": "^4"
 	}
 }

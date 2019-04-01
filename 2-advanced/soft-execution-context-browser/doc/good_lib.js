@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { getRootSEC } from '@offirmo/soft-execution-context'
+import { getRootSEC } from '@offirmo-private/soft-execution-context'
 
 const LIB = 'GOOD_LIB'
 

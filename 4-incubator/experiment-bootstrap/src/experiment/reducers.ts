@@ -1,7 +1,7 @@
 import { Enum } from 'typescript-string-enums'
 import assert from 'tiny-invariant'
-import { getLogger as getLoggerFromAbove } from '@offirmo/universal-debug-api-minimal-to-void'
-import { getGlobalThis } from '@offirmo/globalthis-ponyfill'
+import { getLogger as getLoggerFromAbove } from '@offirmo-private/universal-debug-api-minimal-to-void'
+import { getGlobalThis } from '@offirmo-private/globalthis-ponyfill'
 
 import { Deferred } from '../utils/deferred'
 import { getProperty } from '../utils/get-property'

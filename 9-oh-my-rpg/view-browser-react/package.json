@@ -11,11 +11,11 @@
 	"sideEffects": false,
 
 	"peerDependencies": {
-		"@offirmo/soft-execution-context": "^0.0.2",
+		"@offirmo-private/soft-execution-context": "^0.0.2",
 		"react": "^16"
 	},
 	"dependencies": {
-		"@offirmo/react-error-boundary": "^0.0.1",
+		"@offirmo-private/react-error-boundary": "^0.0.1",
 		"@oh-my-rpg/view-browser": "^0.0.1",
 		"classnames": "^2",
 		"react-burger-menu": "^2",

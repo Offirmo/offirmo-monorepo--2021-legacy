@@ -1,4 +1,4 @@
-import { I18nMessages } from '@offirmo/ts-types'
+import { I18nMessages } from '@offirmo-private/ts-types'
 
 const messages: Readonly<I18nMessages> = {
 	weapon: {

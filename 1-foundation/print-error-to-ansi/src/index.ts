@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import chalk from 'chalk'
 
-import { COMMON_ERROR_FIELDS } from '@offirmo/common-error-fields'
+import { COMMON_ERROR_FIELDS } from '@offirmo-private/common-error-fields'
 
 // TODO make it more pro!
 

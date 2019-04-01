@@ -3,7 +3,7 @@ import { expect } from 'chai'
 
 import create from '.'
 
-describe('@offirmo/murmurhash', function() {
+describe('@offirmo-private/murmurhash', function() {
 
 	describe('v3', function() {
 

@@ -1,4 +1,6 @@
-"@offirmo/ensure-device-uuid-browser": "^0.0.1",
+```js
+// "@offirmo-private/ensure-device-uuid-browser": "^0.0.1",
 
-import ensureDeviceUUID from '@offirmo/ensure-device-uuid-browser'
+import ensureDeviceUUID from '@offirmo-private/ensure-device-uuid-browser'
 const deviceUUID = ensureDeviceUUID()
+```

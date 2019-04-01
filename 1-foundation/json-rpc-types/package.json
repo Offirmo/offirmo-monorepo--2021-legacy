@@ -1,5 +1,5 @@
 {
-	"name": "@offirmo/json-rpc-types",
+	"name": "@offirmo-private/json-rpc-types",
 	"description": "TypeScript types definitions for JSON RPC",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",

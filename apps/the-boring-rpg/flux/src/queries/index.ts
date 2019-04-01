@@ -1,5 +1,5 @@
 import { UUID } from '@offirmo-private/uuid'
-import { Document } from '@offirmo/rich-text-format'
+import { Document } from '@offirmo-private/rich-text-format'
 import { Element } from '@oh-my-rpg/definitions'
 import { Item } from '@oh-my-rpg/state-inventory'
 import { PendingEngagement } from "@oh-my-rpg/state-engagement"

@@ -8,7 +8,7 @@ import {
 } from '.'
 
 
-describe('🔠  view to @offirmo/rich-text-format - meta', function() {
+describe('🔠  view to @offirmo-private/rich-text-format - meta', function() {
 
 	describe('demo', function() {
 		it('shows off', () => {

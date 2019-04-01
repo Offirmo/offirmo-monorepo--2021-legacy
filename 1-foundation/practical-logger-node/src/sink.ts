@@ -3,15 +3,15 @@ import indent_string from 'indent-string'
 import {
 	ALL_LOG_LEVELS,
 	LOG_LEVEL_TO_HUMAN,
-} from '@offirmo/practical-logger-core'
+} from '@offirmo-private/practical-logger-core'
 
 import {
 	LogPayload,
 	LogSink,
-} from '@offirmo/practical-logger-interface'
+} from '@offirmo-private/practical-logger-interface'
 
-import { displayError } from '@offirmo/print-error-to-ansi'
-import prettifyJson from '@offirmo/prettify-json'
+import { displayError } from '@offirmo-private/print-error-to-ansi'
+import prettifyJson from '@offirmo-private/prettify-json'
 
 
 const MIN_WIDTH = 7

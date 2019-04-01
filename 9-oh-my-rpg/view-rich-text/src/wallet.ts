@@ -1,6 +1,6 @@
 import { State as WalletState, ALL_CURRENCIES, Currency, get_currency_amount } from '@oh-my-rpg/state-wallet'
 
-import * as RichText from '@offirmo/rich-text-format'
+import * as RichText from '@offirmo-private/rich-text-format'
 
 function render_currency_amount(currency: Currency, amount: number): RichText.Document {
 	return RichText.inline_fragment()

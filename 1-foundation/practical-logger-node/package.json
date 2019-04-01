@@ -1,5 +1,5 @@
 {
-	"name": "@offirmo/practical-logger-node",
+	"name": "@offirmo-private/practical-logger-node",
 	"description": "node-specific practical logger",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
@@ -17,10 +17,10 @@
 		"tslib": "^1"
 	},
 	"dependencies": {
-		"@offirmo/practical-logger-core": "^0.0.1",
-		"@offirmo/practical-logger-interface": "^0.0.1",
-		"@offirmo/prettify-json": "^0.0.1",
-		"@offirmo/print-error-to-ansi": "^0.0.1",
+		"@offirmo-private/practical-logger-core": "^0.0.1",
+		"@offirmo-private/practical-logger-interface": "^0.0.1",
+		"@offirmo-private/prettify-json": "^0.0.1",
+		"@offirmo-private/print-error-to-ansi": "^0.0.1",
 		"chalk": "^2",
 		"indent-string": "^3"
 	},

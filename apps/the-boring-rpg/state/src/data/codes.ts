@@ -1,4 +1,4 @@
-import { get_human_readable_UTC_timestamp_minutes } from '@offirmo/timestamps'
+import { get_human_readable_UTC_timestamp_minutes } from '@offirmo-private/timestamps'
 
 import { CodeSpec, normalize_code, State as ProgressState } from '@oh-my-rpg/state-codes'
 

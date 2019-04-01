@@ -1,5 +1,5 @@
-//import { JSONAny } from '@offirmo/ts-types'
-import { TimestampUTCMs } from '@offirmo/timestamps'
+//import { JSONAny } from '@offirmo-private/ts-types'
+import { TimestampUTCMs } from '@offirmo-private/timestamps'
 
 export interface BaseUState {
 	schema_version: number

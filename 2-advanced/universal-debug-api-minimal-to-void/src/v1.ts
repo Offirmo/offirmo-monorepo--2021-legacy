@@ -1,5 +1,5 @@
-import { WebDebugApiV1 } from '@offirmo/universal-debug-api-interface'
-import { createLogger } from '@offirmo/practical-logger-minimal-to-void'
+import { WebDebugApiV1 } from '@offirmo-private/universal-debug-api-interface'
+import { createLogger } from '@offirmo-private/practical-logger-minimal-to-void'
 
 
 export default function create(): WebDebugApiV1 {

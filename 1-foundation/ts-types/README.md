@@ -1,8 +1,8 @@
 Useful TypeScript types
 
 ```js
-import { NumberMap } from '@offirmo/ts-types'
-import { I18nMessages } from '@offirmo/ts-types'
+import { NumberMap } from '@offirmo-private/ts-types'
+import { I18nMessages } from '@offirmo-private/ts-types'
 
 import {
 	JSPrimitiveType,
@@ -16,7 +16,7 @@ import {
 	I18nMessages,
 
 	ImmutabilityEnforcer,
-} from '@offirmo/ts-types'
+} from '@offirmo-private/ts-types'
 ```
 
 

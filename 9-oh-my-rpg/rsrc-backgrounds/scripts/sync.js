@@ -1,8 +1,8 @@
 const path = require('path')
 
 const _ = require('lodash')
-const { dump_pretty_json } = require('@offirmo/prettify-json')
-const rich_text_to_ansi = require('@offirmo/rich-text-format-to-ansi')
+const { dump_pretty_json } = require('@offirmo-private/prettify-json')
+const rich_text_to_ansi = require('@offirmo-private/rich-text-format-to-ansi')
 const fs = require('../../../../cli-toolbox/fs/extra')
 
 const { AUTHORS_BY_NAME, ELEMENTS, render_artwork_legend } = require('../dist/src.es7.cjs')

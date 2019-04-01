@@ -1,5 +1,5 @@
 import { Enum } from 'typescript-string-enums'
-import { JSONRpcRequest, JSONRpcResponse } from '@offirmo/json-rpc-types'
+import { JSONRpcRequest, JSONRpcResponse } from '@offirmo-private/json-rpc-types'
 import { State } from '@tbrpg/state'
 
 import { PlayedAction } from './actions'

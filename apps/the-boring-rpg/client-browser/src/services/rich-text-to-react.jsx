@@ -5,7 +5,7 @@ import {
 	generate_react_key,
 	intermediate_on_node_exit,
 	intermediate_assemble,
-} from '@offirmo/rich-text-format-to-react'
+} from '@offirmo-private/rich-text-format-to-react'
 
 import { Interactive } from '../components/misc/interactive-element'
 import './rich-text-to-react.css'

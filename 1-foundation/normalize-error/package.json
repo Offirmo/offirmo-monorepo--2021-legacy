@@ -1,5 +1,5 @@
 {
-	"name": "@offirmo/normalize-error",
+	"name": "@offirmo-private/normalize-error",
 	"description": "normalize a thrown thingy, ensuring it's a proper error instance",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
@@ -17,7 +17,7 @@
 		"tslib": "^1"
 	},
 	"dependencies": {
-		"@offirmo/common-error-fields": "^0.0.1"
+		"@offirmo-private/common-error-fields": "^0.0.1"
 	},
 
 	"devDependencies": {

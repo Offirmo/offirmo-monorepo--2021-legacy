@@ -1,4 +1,4 @@
-import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo/timestamps'
+import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import { UUID } from '@offirmo-private/uuid'
 import { CharacterClass } from '@oh-my-rpg/state-character'
 import { State } from '@tbrpg/state'

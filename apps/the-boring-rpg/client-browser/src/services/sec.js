@@ -1,11 +1,11 @@
 'use strict'
 
-import { getRootSEC } from '@offirmo/soft-execution-context'
+import { getRootSEC } from '@offirmo-private/soft-execution-context'
 import {
 	listenToErrorEvents,
 	listenToUnhandledRejections,
 	decorateWithDetectedEnv,
-} from '@offirmo/soft-execution-context-browser'
+} from '@offirmo-private/soft-execution-context-browser'
 import { decorate_SEC } from '@oh-my-rpg/definitions'
 
 import { LIB } from './consts'

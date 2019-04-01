@@ -1,6 +1,6 @@
 import { expect } from 'chai'
-import { get_UTC_timestamp_ms } from '@offirmo/timestamps'
-import { dump_pretty_json } from '@offirmo/prettify-json'
+import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
+import { dump_pretty_json } from '@offirmo-private/prettify-json'
 
 import { LIB } from './consts'
 import {

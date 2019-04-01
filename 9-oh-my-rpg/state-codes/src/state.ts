@@ -1,7 +1,7 @@
 /////////////////////
 
 import { Enum } from 'typescript-string-enums'
-import { get_human_readable_UTC_timestamp_minutes } from '@offirmo/timestamps'
+import { get_human_readable_UTC_timestamp_minutes } from '@offirmo-private/timestamps'
 
 import { SCHEMA_VERSION } from './consts'
 

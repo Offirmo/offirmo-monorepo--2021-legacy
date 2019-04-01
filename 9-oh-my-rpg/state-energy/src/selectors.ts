@@ -1,6 +1,6 @@
 import Fraction from 'fraction.js'
 
-import { get_UTC_timestamp_ms } from '@offirmo/timestamps'
+import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 
 import { LIB, TICK_MS } from './consts'
 import { UState, TState } from './types'

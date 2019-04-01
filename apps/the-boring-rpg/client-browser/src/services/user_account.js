@@ -1,4 +1,4 @@
-import poll_window_variable, { poll } from '@offirmo/poll-window-variable'
+import poll_window_variable, { poll } from '@offirmo-private/poll-window-variable'
 
 import SEC from './sec'
 import { ACCOUNT_STATE } from './game-instance-browser'

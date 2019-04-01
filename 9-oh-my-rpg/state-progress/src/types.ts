@@ -3,8 +3,7 @@ import { Enum } from 'typescript-string-enums'
 import { BaseUState } from '@offirmo-private/state'
 
 import { Element } from '@oh-my-rpg/definitions'
-import { HumanReadableTimestampUTCDays } from '@offirmo/timestamps'
-//import { JSONObject } from "@offirmo/ts-types"
+import { HumanReadableTimestampUTCDays } from '@offirmo-private/timestamps'
 
 /////////////////////
 

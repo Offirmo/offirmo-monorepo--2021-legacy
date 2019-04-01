@@ -7,7 +7,7 @@ import {
 
 //declare const console: any
 
-describe('@offirmo/timestamps', function() {
+describe('@offirmo-private/timestamps', function() {
 
 	describe('parse_human_readable_UTC_timestamp_ms()', function() {
 

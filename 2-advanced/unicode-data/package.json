@@ -1,5 +1,5 @@
 {
-	"name": "@offirmo/unicode-data",
+	"name": "@offirmo-private/unicode-data",
 	"description": "Unicode static data featuring tags, ex. monster",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 
-import ErrorBoundary from '@offirmo/react-error-boundary'
+import ErrorBoundary from '@offirmo-private/react-error-boundary'
 
 ////////////
 

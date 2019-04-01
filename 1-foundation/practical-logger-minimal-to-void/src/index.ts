@@ -1,4 +1,4 @@
-import { Logger, LoggerCreationParams } from '@offirmo/practical-logger-interface'
+import { Logger, LoggerCreationParams } from '@offirmo-private/practical-logger-interface'
 
 
 const NO_OP = () => {}

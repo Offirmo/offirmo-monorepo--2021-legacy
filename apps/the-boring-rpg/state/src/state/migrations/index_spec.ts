@@ -2,7 +2,7 @@ import {expect} from 'chai'
 import deepFreeze from 'deep-freeze-strict'
 import sinon from 'sinon'
 
-import { JSONObject } from '@offirmo/ts-types'
+import { JSONObject } from '@offirmo-private/ts-types'
 import {test_migrations} from '@oh-my-rpg/migration-tester'
 import * as CharacterState from '@oh-my-rpg/state-character'
 import * as WalletState from '@oh-my-rpg/state-wallet'

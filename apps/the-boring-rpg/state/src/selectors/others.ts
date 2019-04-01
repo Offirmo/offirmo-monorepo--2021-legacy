@@ -1,7 +1,7 @@
 import { Enum } from 'typescript-string-enums'
 
 import { UUID } from '@offirmo-private/uuid'
-import * as RichText from '@offirmo/rich-text-format'
+import * as RichText from '@offirmo-private/rich-text-format'
 
 import { CharacterClass } from '@oh-my-rpg/state-character'
 import { ITEM_SLOTS, InventorySlot, Element } from '@oh-my-rpg/definitions'

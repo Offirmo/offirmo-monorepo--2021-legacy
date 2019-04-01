@@ -3,7 +3,7 @@ Based on [render-props](https://github.com/donavon/render-props) to allow any ty
 
 
 ```jsx
-import ErrorBoundary from '@offirmo/react-error-boundary'
+import ErrorBoundary from '@offirmo-private/react-error-boundary'
 
 <ErrorBoundary name={'omr:logo'}>
 	{this.props.logo}
@@ -20,7 +20,7 @@ WARNING !!!!
 You MAY have to use an intermediate component to really catch errors. Ex.
 
 ```jsx
-import ErrorBoundary from '@offirmo/react-error-boundary'
+import ErrorBoundary from '@offirmo-private/react-error-boundary'
 
 // Will NOT work!!!
 <ErrorBoundary name={'foo'}>

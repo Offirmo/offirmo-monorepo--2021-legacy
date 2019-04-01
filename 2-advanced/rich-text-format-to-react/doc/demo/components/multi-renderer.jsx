@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import ErrorBoundary from '@offirmo/react-error-boundary'
+import ErrorBoundary from '@offirmo-private/react-error-boundary'
 
 const RichText = require('../../../../rich-text-format')
 import rich_text_to_react from '../services/rich-text-to-react'

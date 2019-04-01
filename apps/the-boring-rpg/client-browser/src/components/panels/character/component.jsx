@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
 import { render_character_sheet } from '@oh-my-rpg/view-rich-text'
-import ErrorBoundary from '@offirmo/react-error-boundary'
+import ErrorBoundary from '@offirmo-private/react-error-boundary'
 
 import { is_likely_to_be_mobile } from '../../../services/mobile-detection'
 import { Chat } from '../../utils/chat-interface'

@@ -1,4 +1,4 @@
-import poll from '@offirmo/poll'
+import poll from '@offirmo-private/poll'
 
 function pollWindowVariable(varname, options) {
 	options = Object.assign({}, {debugId: `window.${varname}`}, options || {});

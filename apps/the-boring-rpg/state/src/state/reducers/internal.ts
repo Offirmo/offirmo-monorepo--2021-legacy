@@ -2,7 +2,7 @@
 
 import { Random, Engine } from '@offirmo/random'
 import { UUID } from '@offirmo-private/uuid'
-import { TimestampUTCMs } from '@offirmo/timestamps'
+import { TimestampUTCMs } from '@offirmo-private/timestamps'
 
 /////////////////////
 

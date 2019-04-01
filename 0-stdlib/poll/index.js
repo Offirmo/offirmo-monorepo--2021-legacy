@@ -23,7 +23,7 @@ function poll(predicate, options) {
 
 		const waitForTimeout = setTimeout(() => {
 			clearInterval(waitForElement)
-			reject(new Error(`@offirmo/poll: Timed out while waiting for "${debugId}"`))
+			reject(new Error(`@offirmo-private/poll: Timed out while waiting for "${debugId}"`))
 		}, timeoutMs)
 	})
 }

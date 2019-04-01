@@ -1,6 +1,6 @@
-import { LogLevel } from '@offirmo/practical-logger-interface'
+import { LogLevel } from '@offirmo-private/practical-logger-interface'
 
-const LIB = '@offirmo/practical-logger-core'
+const LIB = '@offirmo-private/practical-logger-core'
 
 // level to a numerical value, for ordering and filtering.
 // mnemonic:  100 = 100% = you will see 100% of the logs

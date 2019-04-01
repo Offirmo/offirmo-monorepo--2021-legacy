@@ -1,5 +1,5 @@
 {
-	"name": "@offirmo/features-detection-browser",
+	"name": "@offirmo-private/features-detection-browser",
 	"description": "My own feature detection lib",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",

@@ -1,6 +1,6 @@
 import { Enum } from 'typescript-string-enums'
 
-import { HumanReadableTimestampUTCMinutes } from '@offirmo/timestamps'
+import { HumanReadableTimestampUTCMinutes } from '@offirmo-private/timestamps'
 import { BaseUState } from '@offirmo-private/state'
 
 /////////////////////

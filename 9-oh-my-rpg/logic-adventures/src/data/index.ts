@@ -1,4 +1,4 @@
-import { I18nMessages } from '@offirmo/ts-types'
+import { I18nMessages } from '@offirmo-private/ts-types'
 
 import { messages as en } from './i18n_en'
 

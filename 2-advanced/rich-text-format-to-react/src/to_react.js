@@ -1,8 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
 
-import { Enum, NodeType, walk, is_list, is_uuid_list, is_KVP_list } from '@offirmo/rich-text-format'
-import '@offirmo/rich-text-format/src/renderers/style.css'
+import { Enum, NodeType, walk, is_list, is_uuid_list, is_KVP_list } from '@offirmo-private/rich-text-format'
+import '@offirmo-private/rich-text-format/src/renderers/style.css'
 
 const LIB = 'rich_text_to_react'
 

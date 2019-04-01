@@ -1,5 +1,5 @@
 {
-	"name": "@offirmo/universal-debug-api-interface",
+	"name": "@offirmo-private/universal-debug-api-interface",
 	"description": "TypeScript types for a universal debug API (no code)",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
@@ -16,7 +16,7 @@
 	"peerDependencies": {
 	},
 	"dependencies": {
-		"@offirmo/practical-logger-interface": "^0.0.1"
+		"@offirmo-private/practical-logger-interface": "^0.0.1"
 	},
 
 	"devDependencies": {

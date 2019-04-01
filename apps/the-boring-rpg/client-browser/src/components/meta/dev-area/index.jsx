@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types'
 
-import { getRootSEC } from '@offirmo/soft-execution-context'
+import { getRootSEC } from '@offirmo-private/soft-execution-context'
 
 import './index.css';
 

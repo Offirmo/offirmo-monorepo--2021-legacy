@@ -1,5 +1,5 @@
 import { Enum } from 'typescript-string-enums'
-import { Logger } from '@offirmo/universal-debug-api-minimal-to-void'
+import { Logger } from '@offirmo-private/universal-debug-api-minimal-to-void'
 
 import { Deferred } from '../utils/deferred'
 import { TimestampUTCMs } from '../utils/timestamp'

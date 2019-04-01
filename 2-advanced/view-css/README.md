@@ -1,4 +1,4 @@
-## @offirmo/view-css
+## @offirmo-private/view-css
 
 A micro CSS framework (like Bootstrap but with minimal features), mostly for my personal use.
 **[live demo on CodePen](https://codepen.io/Offirmo/pen/qYYWVy)** (Thanks [rawgit](https://rawgit.com/))

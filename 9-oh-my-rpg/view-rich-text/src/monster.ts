@@ -1,6 +1,6 @@
 import { MonsterRank, Monster } from '@oh-my-rpg/logic-monsters'
 
-import * as RichText from '@offirmo/rich-text-format'
+import * as RichText from '@offirmo-private/rich-text-format'
 
 function render_monster(m: Readonly<Monster>): RichText.Document {
 	const $doc = RichText.inline_fragment()

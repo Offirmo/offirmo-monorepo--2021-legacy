@@ -1,5 +1,5 @@
 {
-	"name": "@offirmo/soft-execution-context-browser",
+	"name": "@offirmo-private/soft-execution-context-browser",
 	"description": "browser-specific Software Execution Context",
 	"version": "0.0.2",
 	"author": "Offirmo <offirmo.net@gmail.com>",
@@ -12,18 +12,18 @@
 	"sideEffects": true,
 
 	"peerDependencies": {
-		"@offirmo/soft-execution-context": "^0.0.2",
+		"@offirmo-private/soft-execution-context": "^0.0.2",
 		"tslib": "^1"
 	},
 	"dependencies": {
-		"@offirmo/ensure-device-uuid-browser": "^0.0.1"
+		"@offirmo-private/ensure-device-uuid-browser": "^0.0.1"
 	},
 
 	"scripts": {
 	},
 	"devDependencies": {
 		"@babel/core": "~7.3",
-		"@offirmo/practical-logger-browser": "^0.0.1",
+		"@offirmo-private/practical-logger-browser": "^0.0.1",
 		"bowser": "^1",
 		"npm-run-all": "^4"
 	}

@@ -1,5 +1,5 @@
 import { createLogger } from '../../src'
-const { ALL_LOG_LEVELS } = require('@offirmo/practical-logger-core')
+const { ALL_LOG_LEVELS } = require('@offirmo-private/practical-logger-core')
 
 console.log('starting...')
 

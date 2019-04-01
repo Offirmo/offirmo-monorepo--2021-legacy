@@ -1,4 +1,4 @@
-import * as RichText from '@offirmo/rich-text-format'
+import * as RichText from '@offirmo-private/rich-text-format'
 import { State as CharacterState, CharacterAttribute, CHARACTER_ATTRIBUTES_SORTED } from '@oh-my-rpg/state-character'
 
 function render_avatar(state: Readonly<CharacterState>): RichText.Document {

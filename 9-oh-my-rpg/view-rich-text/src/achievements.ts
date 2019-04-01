@@ -3,7 +3,7 @@ import {
 	AchievementSnapshot,
 } from '@oh-my-rpg/state-progress'
 
-import * as RichText from '@offirmo/rich-text-format'
+import * as RichText from '@offirmo-private/rich-text-format'
 
 
 function render_achievement_snapshot_short(achievement_snapshot: Readonly<AchievementSnapshot>): RichText.Document {

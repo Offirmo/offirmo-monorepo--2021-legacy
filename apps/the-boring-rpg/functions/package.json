@@ -10,10 +10,10 @@
 		"node": "8.1"
 	},
 	"dependencies": {
-		"@offirmo/common-error-fields": "^0.0.1",
-		"@offirmo/json-rpc-types": "^0.0.1",
-		"@offirmo/practical-logger-node": "^0.0.1",
-		"@offirmo/timestamps": "^0.0.1",
+		"@offirmo-private/common-error-fields": "^0.0.1",
+		"@offirmo-private/json-rpc-types": "^0.0.1",
+		"@offirmo-private/practical-logger-node": "^0.0.1",
+		"@offirmo-private/timestamps": "^0.0.1",
 		"@offirmo-private/uuid": "^0.0.1",
 		"@tbrpg/flux": "^0",
 		"@tbrpg/interfaces": "^0.0.1",

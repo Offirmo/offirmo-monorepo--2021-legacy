@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { render_any_m } from '@offirmo/react-error-boundary'
+import { render_any_m } from '@offirmo-private/react-error-boundary'
 
 import get_game_instance from '../services/game-instance-browser'
 import { AppStateContext } from './app-state'

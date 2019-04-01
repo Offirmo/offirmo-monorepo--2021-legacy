@@ -2,7 +2,7 @@
 
 Usage:
 ```js
-import { getGlobalThis } from '@offirmo/globalthis-ponyfill'
+import { getGlobalThis } from '@offirmo-private/globalthis-ponyfill'
 
 const globalThis = getGlobalThis()
 ```

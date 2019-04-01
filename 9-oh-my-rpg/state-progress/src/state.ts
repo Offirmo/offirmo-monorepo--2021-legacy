@@ -2,7 +2,7 @@
 
 import assert from 'tiny-invariant'
 import { Enum } from 'typescript-string-enums'
-import { get_human_readable_UTC_timestamp_days } from '@offirmo/timestamps'
+import { get_human_readable_UTC_timestamp_days } from '@offirmo-private/timestamps'
 
 import { LIB, SCHEMA_VERSION } from './consts'
 

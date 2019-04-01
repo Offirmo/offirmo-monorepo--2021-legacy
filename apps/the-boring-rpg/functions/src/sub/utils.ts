@@ -1,4 +1,4 @@
-import { XError, COMMON_ERROR_FIELDS } from '@offirmo/common-error-fields'
+import { XError, COMMON_ERROR_FIELDS } from '@offirmo-private/common-error-fields'
 
 
 function create_error(message: string, data: XError['details'] = {}): XError {

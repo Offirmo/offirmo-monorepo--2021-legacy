@@ -4,8 +4,8 @@ const boxify = require('@offirmo/cli-toolbox/string/boxify')
 const PKG_JSON = require('../package.json')
 
 console.log(boxify(`
-const { createLogger } = require('@offirmo/practical-logger-node')
-const { getRootSEC } = require('@offirmo/soft-execution-context')
+const { createLogger } = require('@offirmo-private/practical-logger-node')
+const { getRootSEC } = require('@offirmo-private/soft-execution-context')
 const {
 	listenToUncaughtErrors,
 	listenToUnhandledRejections,

@@ -1,5 +1,5 @@
-import { getGlobalThis } from '@offirmo/globalthis-ponyfill'
-import { WebDebugApiRoot, WebDebugApi } from '@offirmo/universal-debug-api-interface'
+import { getGlobalThis } from '@offirmo-private/globalthis-ponyfill'
+import { WebDebugApiRoot, WebDebugApi } from '@offirmo-private/universal-debug-api-interface'
 
 import createV1 from './v1'
 
@@ -29,7 +29,7 @@ export {
 }
 
 // for convenience
-export * from '@offirmo/universal-debug-api-interface'
+export * from '@offirmo-private/universal-debug-api-interface'
 
 
 // TS declaration

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ErrorBoundary from '@offirmo/react-error-boundary'
+import ErrorBoundary from '@offirmo-private/react-error-boundary'
 import { render_adventure } from '@oh-my-rpg/view-rich-text'
 
 import { Chat } from '../../utils/chat-interface'

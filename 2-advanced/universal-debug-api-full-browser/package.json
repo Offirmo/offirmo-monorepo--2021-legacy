@@ -1,5 +1,5 @@
 {
-	"name": "@offirmo/universal-debug-api-full-browser",
+	"name": "@offirmo-private/universal-debug-api-full-browser",
 	"description": "An implementation.",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
@@ -17,15 +17,15 @@
 		"tslib": "^1"
 	},
 	"dependencies": {
-		"@offirmo/globalthis-ponyfill": "^0.0.1",
-		"@offirmo/practical-logger-browser": "^0.0.1",
-		"@offirmo/universal-debug-api-interface": "^0.0.1",
+		"@offirmo-private/globalthis-ponyfill": "^0.0.1",
+		"@offirmo-private/practical-logger-browser": "^0.0.1",
+		"@offirmo-private/universal-debug-api-interface": "^0.0.1",
 		"@atlassian/log-experiment-to-console-browser": "^0.0.1"
 	},
 
 	"devDependencies": {
 		"@babel/core": "~7.3",
-		"@offirmo/practical-logger-core": "^0.0.1",
+		"@offirmo-private/practical-logger-core": "^0.0.1",
 		"npm-run-all": "^4"
 	},
 	"scripts": {

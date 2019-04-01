@@ -156,13 +156,13 @@ In your project, run the following command:
 
 In your code:
 
-    import { Random } from "@offirmo/random-js";
+    import { Random } from '@offirmo/random-js';
     const random = Random(); // uses the nativeMath engine
     var value = random.integer(1, 100);
 
 Or to have more control:
 
-    import { Random } from "@offirmo/random-js";
+    import { Random } from '@offirmo/random-js';
     var random = new Random(Random.engines.mt19937().autoSeed());
     var value = random.integer(1, 100);
 

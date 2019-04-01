@@ -1,5 +1,5 @@
-import { WebDebugApiV1 } from '@offirmo/universal-debug-api-interface'
-import { Logger, LoggerCreationParams, createLogger } from '@offirmo/practical-logger-browser'
+import { WebDebugApiV1 } from '@offirmo-private/universal-debug-api-interface'
+import { Logger, LoggerCreationParams, createLogger } from '@offirmo-private/practical-logger-browser'
 //import { list as listExperiments } from '@atlassian/log-experiment-to-console-browser'
 
 //import { attach } from './attach-listeners-to-debug-command'

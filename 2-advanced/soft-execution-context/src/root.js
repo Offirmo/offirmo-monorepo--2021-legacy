@@ -1,4 +1,4 @@
-import { getGlobalThis } from '@offirmo/globalthis-ponyfill'
+import { getGlobalThis } from '@offirmo-private/globalthis-ponyfill'
 
 import { LIB } from './consts'
 import { createSEC } from './core'

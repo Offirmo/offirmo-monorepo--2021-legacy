@@ -1,4 +1,4 @@
-import * as RichText from '@offirmo/rich-text-format'
+import * as RichText from '@offirmo-private/rich-text-format'
 import {PendingEngagement} from '@oh-my-rpg/state-engagement'
 import {
 	EngagementKey,

@@ -1,4 +1,4 @@
-import { Logger } from '@offirmo/universal-debug-api-minimal-to-void'
+import { Logger } from '@offirmo-private/universal-debug-api-minimal-to-void'
 
 import { INELIGIBILITY_REASON_NOT_RESOLVED_YET } from './consts'
 import { ResolvedExperiment } from '../types'

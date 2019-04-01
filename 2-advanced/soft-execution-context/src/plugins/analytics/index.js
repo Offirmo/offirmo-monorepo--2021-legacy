@@ -1,4 +1,4 @@
-import { get_UTC_timestamp_ms } from '@offirmo/timestamps'
+import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 
 import { INTERNAL_PROP } from '../../consts'
 import * as TopState from '../../state'

@@ -25,12 +25,12 @@ bolt
 bolt ws run build
 bolt ws run test
 bolt ws run cheatsheet
-bolt ws run cheatsheet --only @offirmo/*
+bolt ws run cheatsheet --only @offirmo-private/*
 bolt ws run cheatsheet --only @oh-my-rpg/*
 
 
-bolt ws run build --only @offirmo/*
-bolt ws run test --only @offirmo/*
+bolt ws run build --only @offirmo-private/*
+bolt ws run test --only @offirmo-private/*
 bolt ws run build --only @oh-my-rpg/*
 bolt ws run test --only @oh-my-rpg/*
 bolt ws run build

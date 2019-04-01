@@ -1,6 +1,6 @@
 import bowser from 'bowser'
-import { getRootSEC } from '@offirmo/soft-execution-context'
-import ensureDeviceUUID from '@offirmo/ensure-device-uuid-browser'
+import { getRootSEC } from '@offirmo-private/soft-execution-context'
+import ensureDeviceUUID from '@offirmo-private/ensure-device-uuid-browser'
 import { LS_KEYS } from './consts'
 
 

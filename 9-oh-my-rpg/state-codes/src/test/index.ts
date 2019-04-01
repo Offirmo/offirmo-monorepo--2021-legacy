@@ -1,4 +1,4 @@
-import { get_human_readable_UTC_timestamp_minutes } from '@offirmo/timestamps'
+import { get_human_readable_UTC_timestamp_minutes } from '@offirmo-private/timestamps'
 
 import normalize_code from '../normalize-code'
 import { CodeSpec, State } from '../types'

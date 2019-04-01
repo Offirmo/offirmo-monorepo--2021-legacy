@@ -1,5 +1,5 @@
 {
-	"name": "@offirmo/rich-text-format",
+	"name": "@offirmo-private/rich-text-format",
 	"description": "A rich text format for rendering to different platforms: ascii, html...",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
@@ -31,9 +31,9 @@
 		"demo": "node doc/demo-node/index.js"
 	},
 	"devDependencies": {
-		"@offirmo/practical-logger-browser": "^0.0.1",
-		"@offirmo/prettify-json": "^0.0.1",
-		"@offirmo/ts-types": "^0.0.1",
+		"@offirmo-private/practical-logger-browser": "^0.0.1",
+		"@offirmo-private/prettify-json": "^0.0.1",
+		"@offirmo-private/ts-types": "^0.0.1",
 		"npm-run-all": "^4",
 		"tiny-invariant": "^1"
 	}

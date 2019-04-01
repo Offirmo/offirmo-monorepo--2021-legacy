@@ -1,5 +1,5 @@
 {
-	"name": "@offirmo/view-chat-ui-tty",
+	"name": "@offirmo-private/view-chat-ui-tty",
 	"description": "A TTY ui for the generic @oh-my-rpg/view-chat micro-framework.",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
@@ -15,7 +15,7 @@
 		"tslib": "^1"
 	},
 	"dependencies": {
-		"@offirmo/prettify-json": "^0.0.1",
+		"@offirmo-private/prettify-json": "^0.0.1",
 		"ansi-escapes": "^4",
 		"chalk": "^2",
 		"gauge": "^2",
@@ -28,7 +28,7 @@
 	},
 
 	"devDependencies": {
-		"@offirmo/view-chat": "^0.0.1",
+		"@offirmo-private/view-chat": "^0.0.1",
 		"npm-run-all": "^4"
 	},
 	"scripts": {

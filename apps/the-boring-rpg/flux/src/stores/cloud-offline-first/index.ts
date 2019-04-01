@@ -1,6 +1,6 @@
 import memoize_one from 'memoize-one'
 import assert from 'tiny-invariant'
-import { get_UTC_timestamp_ms } from '@offirmo/timestamps'
+import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import { OMRContext } from '@oh-my-rpg/definitions'
 import { State } from '@tbrpg/state'
 import {
@@ -11,7 +11,7 @@ import {
 	TbrpgStorage,
 	StorageKey,
 } from '@tbrpg/interfaces'
-import { Storage } from '@offirmo/ts-types'
+import { Storage } from '@offirmo-private/ts-types'
 
 import { LIB as ROOT_LIB } from '../../consts'
 import { SoftExecutionContext } from '../../sec'

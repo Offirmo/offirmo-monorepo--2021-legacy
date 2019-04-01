@@ -1,5 +1,5 @@
 {
-	"name": "@offirmo/prettify-json",
+	"name": "@offirmo-private/prettify-json",
 	"description": "Intelligently pretty-print a JSON, on node or browser",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",

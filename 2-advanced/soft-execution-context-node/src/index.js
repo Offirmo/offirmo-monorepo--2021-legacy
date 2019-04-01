@@ -1,6 +1,6 @@
 const os = require('os')
 
-const { getRootSEC } = require('@offirmo/soft-execution-context')
+const { getRootSEC } = require('@offirmo-private/soft-execution-context')
 
 // TODO protect from double install
 

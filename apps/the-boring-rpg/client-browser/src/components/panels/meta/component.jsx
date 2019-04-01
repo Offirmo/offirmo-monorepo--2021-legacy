@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import * as RichText from '@offirmo/rich-text-format'
-import { THE_BORING_RPG } from '@offirmo/marketing-rsrc'
+import * as RichText from '@offirmo-private/rich-text-format'
+import { THE_BORING_RPG } from '@offirmo-private/marketing-rsrc'
 import { SCHEMA_VERSION, VERSION as MODEL_VERSION } from '@tbrpg/flux'
 
 import NetlifyWidget from '../../misc/netlify'
@@ -10,7 +10,7 @@ import { Chat } from '../../utils/chat-interface'
 import rich_text_to_react from '../../../services/rich-text-to-react'
 import { VERSION, BUILD_DATE } from '../../../build'
 import SEC from '../../../services/sec'
-import ErrorBoundary from '@offirmo/react-error-boundary'
+import ErrorBoundary from '@offirmo-private/react-error-boundary'
 import get_game_instance from '../../../services/game-instance-browser'
 
 import '../index.css'

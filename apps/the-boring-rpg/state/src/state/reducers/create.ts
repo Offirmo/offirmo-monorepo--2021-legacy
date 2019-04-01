@@ -1,7 +1,7 @@
 /////////////////////
 
 import { Random, Engine } from '@offirmo/random'
-import { TimestampUTCMs, get_UTC_timestamp_ms, get_human_readable_UTC_timestamp_minutes } from '@offirmo/timestamps'
+import { TimestampUTCMs, get_UTC_timestamp_ms, get_human_readable_UTC_timestamp_minutes } from '@offirmo-private/timestamps'
 import assert from 'tiny-invariant'
 
 /////////////////////

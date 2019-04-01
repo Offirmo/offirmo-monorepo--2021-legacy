@@ -10,7 +10,7 @@ import {
 
 declare const console: any
 
-describe('@offirmo/timestamps', function() {
+describe('@offirmo-private/timestamps', function() {
 
 	describe('get_UTC_timestamp_ms()', function() {
 

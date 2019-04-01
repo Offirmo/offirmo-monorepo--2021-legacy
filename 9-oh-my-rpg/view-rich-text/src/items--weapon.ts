@@ -1,11 +1,11 @@
-import {Builder} from "@offirmo/rich-text-format"
+import {Builder} from '@offirmo-private/rich-text-format'
 import { InventorySlot } from '@oh-my-rpg/definitions'
 import {
 	Weapon,
 	get_damage_interval as get_weapon_damage_interval,
 	MAX_ENHANCEMENT_LEVEL,
 } from '@oh-my-rpg/logic-weapons'
-import * as RichText from '@offirmo/rich-text-format'
+import * as RichText from '@offirmo-private/rich-text-format'
 import { i18n_messages as I18N_WEAPONS } from '@oh-my-rpg/logic-weapons'
 import { appraise_power, appraise_sell_value } from '@oh-my-rpg/logic-shop'
 

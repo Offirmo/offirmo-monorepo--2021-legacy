@@ -1,7 +1,7 @@
 
 
 ```js
-import { createLogger } from '@offirmo/practical-logger-browser'
+import { createLogger } from '@offirmo-private/practical-logger-browser'
 
 const logger = createLogger({
 	name: 'FOO',

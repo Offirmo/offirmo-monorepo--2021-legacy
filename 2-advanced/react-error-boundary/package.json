@@ -1,5 +1,5 @@
 {
-	"name": "@offirmo/react-error-boundary",
+	"name": "@offirmo-private/react-error-boundary",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
@@ -11,7 +11,7 @@
 	"sideEffects": false,
 
 	"peerDependencies": {
-		"@offirmo/soft-execution-context": "^0.0.2",
+		"@offirmo-private/soft-execution-context": "^0.0.2",
 		"prop-types": "^15",
 		"react": "^16"
 	},
@@ -21,7 +21,7 @@
 	},
 
 	"scripts": {
-		"test": "echo '@offirmo/react-error-boundary TODO unit tests'",
+		"test": "echo '@offirmo-private/react-error-boundary TODO unit tests'",
 		"clean": "node ../../scripts/clean.js dist cache",
 		"start:parcel": "parcel --out-dir .parcel --no-autoinstall doc/demo/index.html",
 		"demo": "run-s clean start:parcel"

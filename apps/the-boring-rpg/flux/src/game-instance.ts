@@ -4,9 +4,9 @@
 import EventEmitter from 'emittery'
 import deep_merge from 'deepmerge'
 import { Enum } from 'typescript-string-enums'
-import { get_UTC_timestamp_ms } from '@offirmo/timestamps'
+import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import { OMRContext } from '@oh-my-rpg/definitions'
-import { Storage } from '@offirmo/ts-types'
+import { Storage } from '@offirmo-private/ts-types'
 
 import * as TBRPGState from '@tbrpg/state'
 import { State } from '@tbrpg/state'

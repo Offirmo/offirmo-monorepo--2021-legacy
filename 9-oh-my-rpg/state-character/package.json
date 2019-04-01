@@ -14,7 +14,7 @@
 	"sideEffects": false,
 
 	"peerDependencies": {
-		"@offirmo/soft-execution-context": "^0.0.2",
+		"@offirmo-private/soft-execution-context": "^0.0.2",
 		"tslib": "^1"
 	},
 	"dependencies": {

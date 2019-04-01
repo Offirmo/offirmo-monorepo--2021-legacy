@@ -97,7 +97,7 @@ https://sciencepost.fr/2019/01/australie-propagation-dune-bacterie-infectieuse-m
 https://sciencepost.fr/2018/12/voici-la-plus-ancienne-table-de-trigonometrie-de-lhistoire/
 https://sciencepost.fr/2019/01/voie-lactee-une-collision-programmee-dans-2-milliards-dannees/
 
-import { dump_pretty_json } from "@offirmo/prettify-json" // TODO remove
+import { dump_pretty_json } from '@offirmo-private/prettify-json' // TODO remove
 
 +++ skill system https://en.uesp.net/wiki/Oblivion:Leveling
 

@@ -17,7 +17,7 @@ const { rich_text_to_ansi } = require('../../../../apps/the-boring-rpg/client-no
 
 import { render_adventure } from '.'
 
-describe('🔠  view to @offirmo/rich-text-format - adventure', function() {
+describe('🔠  view to @offirmo-private/rich-text-format - adventure', function() {
 
 	it('should render properly - with gain of skills', () => {
 		const $doc = render_adventure(DEMO_ADVENTURE_01)

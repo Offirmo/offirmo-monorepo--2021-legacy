@@ -17,7 +17,7 @@
 		"tslib": "^1"
 	},
 	"dependencies": {
-		"@offirmo/rich-text-format": "^0.0.1",
+		"@offirmo-private/rich-text-format": "^0.0.1",
 		"tiny-invariant": "^1",
 		"typescript-string-enums": "^1"
 	},
@@ -36,8 +36,8 @@
 		"cheatsheet": "node doc/cheatsheet.js"
 	},
 	"devDependencies": {
-		"@offirmo/prettify-json": "^0.0.1",
-		"@offirmo/rich-text-format-to-ansi": "^0.0.1",
+		"@offirmo-private/prettify-json": "^0.0.1",
+		"@offirmo-private/rich-text-format-to-ansi": "^0.0.1",
 		"fs-extra": "^7",
 		"lodash": "^4",
 		"npm-run-all": "^4"

@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 
-import * as RichText from '@offirmo/rich-text-format'
+import * as RichText from '@offirmo-private/rich-text-format'
 
 import {
 	Currency,
@@ -16,7 +16,7 @@ import {
 } from '.'
 
 
-describe('🔠  view to @offirmo/rich-text-format - wallet', function() {
+describe('🔠  view to @offirmo-private/rich-text-format - wallet', function() {
 
 	context('when empty', function() {
 

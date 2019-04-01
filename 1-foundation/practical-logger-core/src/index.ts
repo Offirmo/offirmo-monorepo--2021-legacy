@@ -3,7 +3,7 @@ export {
 	LogLevel,
 	LogDetails,
 	Logger,
-} from '@offirmo/practical-logger-interface'
+} from '@offirmo-private/practical-logger-interface'
 
 export {
 	ALL_LOG_LEVELS,

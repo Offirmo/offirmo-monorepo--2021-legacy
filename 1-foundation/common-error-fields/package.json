@@ -1,5 +1,5 @@
 {
-	"name": "@offirmo/common-error-fields",
+	"name": "@offirmo-private/common-error-fields",
 	"description": "known properties of an error object",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",

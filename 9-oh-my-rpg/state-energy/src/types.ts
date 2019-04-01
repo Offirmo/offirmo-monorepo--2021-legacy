@@ -1,7 +1,7 @@
 import { Enum } from 'typescript-string-enums'
 import { NumeratorDenominator } from 'fraction.js'
 
-import { TimestampUTCMs } from '@offirmo/timestamps'
+import { TimestampUTCMs } from '@offirmo-private/timestamps'
 import { BaseUState, BaseTState } from '@offirmo-private/state'
 
 /////////////////////

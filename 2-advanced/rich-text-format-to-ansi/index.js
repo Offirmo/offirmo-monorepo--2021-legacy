@@ -2,7 +2,7 @@
 
 const stylize_string = require('chalk')
 
-const { to_text_callbacks, to_text, Enum, NodeType, walk, is_list, is_uuid_list, is_KVP_list } = require('@offirmo/rich-text-format')
+const { to_text_callbacks, to_text, Enum, NodeType, walk, is_list, is_uuid_list, is_KVP_list } = require('@offirmo-private/rich-text-format')
 
 const LIB = 'rich_text_to_ansi'
 

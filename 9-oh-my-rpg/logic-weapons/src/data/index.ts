@@ -1,6 +1,6 @@
 /////////////////////
 
-import { I18nMessages } from '@offirmo/ts-types'
+import { I18nMessages } from '@offirmo-private/ts-types'
 
 import { WeaponPartType } from '../types'
 import en from './i18n_en'

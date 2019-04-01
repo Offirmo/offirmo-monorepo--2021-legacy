@@ -1,5 +1,5 @@
 {
-	"name": "@offirmo/practical-logger-interface",
+	"name": "@offirmo-private/practical-logger-interface",
 	"description": "TypeScript types for a simple and practical logger (no code)",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",

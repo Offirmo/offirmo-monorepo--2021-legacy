@@ -12,7 +12,7 @@ import {
 } from '@oh-my-rpg/state-inventory'
 
 import { State as WalletState } from '@oh-my-rpg/state-wallet'
-import * as RichText from '@offirmo/rich-text-format'
+import * as RichText from '@offirmo-private/rich-text-format'
 import { appraise_power } from '@oh-my-rpg/logic-shop'
 
 import { render_item_short } from './items'

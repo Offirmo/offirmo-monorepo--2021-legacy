@@ -17,8 +17,8 @@
 		"tslib": "^1"
 	},
 	"dependencies": {
-		"@offirmo/unicode-data": "^0.0.1",
-		"@offirmo/ts-types": "^0.0.1",
+		"@offirmo-private/unicode-data": "^0.0.1",
+		"@offirmo-private/ts-types": "^0.0.1",
 		"@oh-my-rpg/definitions": "^0.0.1",
 		"@offirmo/random": "^2",
 		"tiny-invariant": "^1",

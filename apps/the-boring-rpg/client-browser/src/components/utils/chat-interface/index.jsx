@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 const promiseFinally = require('p-finally')
 
-import ErrorBoundary from '@offirmo/react-error-boundary'
-import { create as create_chat } from '@offirmo/view-chat'
+import ErrorBoundary from '@offirmo-private/react-error-boundary'
+import { create as create_chat } from '@offirmo-private/view-chat'
 
 import { AutoScrollDown } from '../auto-scroll-down'
 import { is_likely_to_be_mobile } from '../../../services/mobile-detection'

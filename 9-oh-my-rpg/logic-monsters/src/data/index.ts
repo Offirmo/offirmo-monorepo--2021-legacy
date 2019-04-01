@@ -1,7 +1,7 @@
 import {
 	UnicodeCharDetails,
 	UNICODE_CHARS,
-} from '@offirmo/unicode-data'
+} from '@offirmo-private/unicode-data'
 
 interface RawMonsterEntry {
 	name: string

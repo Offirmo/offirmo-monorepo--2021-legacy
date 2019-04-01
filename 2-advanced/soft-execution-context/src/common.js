@@ -1,5 +1,5 @@
 /* global NODE_ENV process */
-import { get_UTC_timestamp_ms } from '@offirmo/timestamps'
+import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 
 function decorateWithDetectedEnv(SEC) {
 

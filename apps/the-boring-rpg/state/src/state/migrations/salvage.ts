@@ -2,7 +2,7 @@
 
 import { Enum } from 'typescript-string-enums'
 
-import { JSONObject, JSONAny } from '@offirmo/ts-types'
+import { JSONObject, JSONAny } from '@offirmo-private/ts-types'
 import { Random, Engine } from '@offirmo/random'
 
 import { xxx_internal_reset_prng_cache } from '@oh-my-rpg/state-prng'

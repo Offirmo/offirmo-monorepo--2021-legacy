@@ -1,7 +1,7 @@
 /////////////////////
 
 import { Random, Engine } from '@offirmo/random'
-import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo/timestamps'
+import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 
 /////////////////////
 

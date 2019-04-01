@@ -7,7 +7,7 @@ Can be rendered in ascii, html, react...
 See /demos/*
 
 ```js
-import * as RichText from '@offirmo/rich-text-format'
+import * as RichText from '@offirmo-private/rich-text-format'
 
 const $doc = RichText.block_fragment()
 		.pushNode(RichText.heading().pushText('Identity:').done(), {id: 'header'})

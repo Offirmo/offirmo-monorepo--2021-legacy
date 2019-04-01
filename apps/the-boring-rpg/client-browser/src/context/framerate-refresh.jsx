@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import ReactAnimationFrame from 'react-animation-frame';
-import {get_UTC_timestamp_ms} from '@offirmo/timestamps'
+import {get_UTC_timestamp_ms} from '@offirmo-private/timestamps'
 
 import get_game_instance from '../services/game-instance-browser'
 import { AppStateListenerAndProvider } from './app-state'
