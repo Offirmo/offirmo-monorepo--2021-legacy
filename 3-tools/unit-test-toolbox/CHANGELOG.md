@@ -1,4 +1,8 @@
 
+v5
+* bumped all to latest major (as usual)
+* engines now enforce node and npm
+
 v4.0.1
 * republish after repo move, to check everything is still ok
 
