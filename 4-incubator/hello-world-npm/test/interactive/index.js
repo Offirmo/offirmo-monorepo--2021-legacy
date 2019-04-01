@@ -4,9 +4,9 @@
 
 ////////////////////////////////////////////////////////////
 
-const { hello, goodbye } = require('../../dist/index.node-stable')
-const _ = require('lodash');
-const vorpal = require('vorpal')();
+const { hello, goodbye } = require('../..')
+const _ = require('lodash')
+const vorpal = require('vorpal')()
 
 ////////////////////////////////////////////////////////////
 

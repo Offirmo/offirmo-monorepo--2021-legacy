@@ -1,6 +1,6 @@
 
 <h1 align="center">
-	Hello World Npm<br>
+	globalThis ponyfill<br>
 	<a href="https://www.offirmo.net/offirmo-monorepo/doc/modules-directory/index.html">
 		<img src="../../doc/quality-seal/offirmos_quality_seal.svg" alt="Offirmo’s quality seal">
 	</a>
