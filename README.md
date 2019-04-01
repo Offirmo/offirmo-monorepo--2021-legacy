@@ -2,6 +2,9 @@
 
 A monorepo for all my JavaScript / TypeScript projects. So convenient.
 
+Public modules:
+* [@offirmo/unit-test-toolbox](https://www.npmjs.com/package/@offirmo/unit-test-toolbox)
+
 
 ## Contributing
 
@@ -45,6 +48,11 @@ npx yarn-tools list-duplicates yarn.lock
 bolt w @oh-my-rpg/definitions run build
 ngrok http -subdomain=offirmo 1234
 yarn puer
+
+npm adduser
+user: offirmo
+email: offirmo.net@gmail.com
+npm publish
 ```
 
 

@@ -21,9 +21,11 @@ Next
 
 v0.60.1
 - 🤩 feature: 1 new achievement (now totalling 100!)
+- 😍 feature: energy is refill faster at the beginning of the game (similar to the original)
 - 😷 chore: some internal refactors and cleanups (revision, stores, etc.)
 - 😅 fix: codes could be redeemed infinitely…
 - 😅 fix: tweaks, typos, small bugs…
+- 😷 chore: some internal refactors and cleanups (renamings, server-related)
 
 
 v0.59.1

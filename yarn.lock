@@ -10193,7 +10193,7 @@ sinon@^7:
     nise "^1.4.10"
     supports-color "^5.5.0"
 
-size-limit@^1.0.0:
+size-limit@^1:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/size-limit/-/size-limit-1.0.0.tgz#8eb0dd5be239f04c4f0115ab2b0a64107c539b1e"
   integrity sha512-qaGCgzZX5NStjnT1yKW9TgnerHkGQJA8xHmLdrfLP8yTdACBuspIIwwFKDDG1HoKEPcpk+kB+rFGAbWu858QWA==
