@@ -4,24 +4,25 @@ import Fraction from 'fraction.js'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo/timestamps'
 
 import { LIB, SCHEMA_VERSION, TICK_MS } from './consts'
-
+import { UState, TState } from './types'
 import {
-	UState,
-	TState,
-} from './types'
-
-//import { parse_human_readable_UTC_timestamp_ms } from '@offirmo/timestamps'
+	get_milliseconds_to_next,
+	get_current_energy_refilling_rate_per_ms,
+} from './selectors'
 
 /////////////////////
 
-function create(): [ Readonly<UState>, Readonly<TState> ] {
+function create(now_ms?: TimestampUTCMs): [ Readonly<UState>, Readonly<TState> ] {
 	const u_state: UState = {
 		schema_version: SCHEMA_VERSION,
 		revision: 0,
 
 		max_energy: 7,
+		C1: 10, // https://www.desmos.com/calculator/uhama6fxja
 
-		energy_refilling_rate_per_ms: {
+		total_energy_consumed_so_far: 0,
+
+		final_energy_refilling_rate_per_ms: {
 			// 7/24h, in ms
 			n: 7,
 			d: 24 * 3600 * 1000,
@@ -31,7 +32,7 @@ function create(): [ Readonly<UState>, Readonly<TState> ] {
 	const t_state: TState = {
 		schema_version: SCHEMA_VERSION,
 
-		timestamp_ms: get_UTC_timestamp_ms(new Date(0)),
+		timestamp_ms: now_ms ? now_ms : get_UTC_timestamp_ms(new Date(0)), // 0 makes it easier for unit tests
 		available_energy: {
 			n: u_state.max_energy,
 			d: 1,
@@ -52,7 +53,7 @@ function update_to_now(
 
 	if (elapsed_time_ms < 0) {
 		// time went backward? Must be a "daylight saving".
-		console.warn('E.update_to_now: Time went backward. Daylight saving?')
+		console.warn(`[${LIB}] update_to_now(): Time went backward. Daylight saving?`)
 		// just do nothing while time is not positive again
 		return t_state
 	}
@@ -63,7 +64,7 @@ function update_to_now(
 	}
 
 	let available_energy = new Fraction(t_state.available_energy)
-	/* NOOOOOOO
+	/* NOOOOOOO!
 	if (available_energy.compare(u_state.max_energy) >= 0) {
 		console.log('E.update_to_now: energy already max', available_energy.compare(u_state.max_energy))
 		return t_state
@@ -73,17 +74,38 @@ function update_to_now(
 	 this is not what we want!!!
 	*/
 
-	const energy_gain_per_ms = new Fraction(u_state.energy_refilling_rate_per_ms)
-	const energy_gained_since_last_time = energy_gain_per_ms.mul(elapsed_time_ms)
-	available_energy = available_energy.add(energy_gained_since_last_time)
+	t_state = {
+		...t_state,
+		timestamp_ms: t_state.timestamp_ms + elapsed_time_ms,
+	}
+
+	// due to onboarding,
+	// energy refill rate may change at each rounded energy re-gained.
+	// we need to refill energy 1 by 1
+	let time_left_to_process_ms = elapsed_time_ms
+	while(time_left_to_process_ms > 0) {
+		const time_to_next_ms = get_milliseconds_to_next(u_state, t_state)
+		let time_handled_in_this_iteration_ms = Math.min(time_left_to_process_ms, time_to_next_ms.floor(0).valueOf())
+
+		const energy_gain_per_ms = get_current_energy_refilling_rate_per_ms(u_state, t_state)
+		const energy_gained_in_this_iteration = energy_gain_per_ms.mul(time_handled_in_this_iteration_ms)
+		available_energy = available_energy.add(energy_gained_in_this_iteration)
+		time_left_to_process_ms -= time_handled_in_this_iteration_ms
+
+		t_state = {
+			...t_state,
+			available_energy: {
+				n: available_energy.n,
+				d: available_energy.d,
+			}
+		}
+	}
+
 	if (available_energy.compare(u_state.max_energy) > 0)
 		available_energy = new Fraction(u_state.max_energy)
 
 	return {
 		...t_state,
-
-		timestamp_ms: t_state.timestamp_ms + elapsed_time_ms,
-
 		available_energy: {
 			n: available_energy.n,
 			d: available_energy.d,

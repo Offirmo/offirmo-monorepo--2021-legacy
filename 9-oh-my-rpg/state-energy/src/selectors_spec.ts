@@ -14,12 +14,19 @@ import {
 
 describe(`${LIB} - selectors`, function() {
 
+	describe.only('get_current_energy_refilling_rate_per_ms()', function() {
+
+		it('should slowly ramp-up for onboarding', () => {
+			xxx
+		})
+	})
+
 	describe('get_available_energy_float()', function () {
 
 		context('on initial state', function() {
 
 			it('should yield a correct value', function() {
-				const [ u_state, t_state ] = create()
+				const [ u_state, t_state ] = create(get_UTC_timestamp_ms())
 
 				expect(get_available_energy_float(t_state)).to.equal(7)
 			})
@@ -30,9 +37,15 @@ describe(`${LIB} - selectors`, function() {
 			context('depleted in one shot', function() {
 
 				it('should yield a correct value', function() {
-					let [ u_state, t_state ] = create()
+					let [ u_state, t_state ] = create(get_UTC_timestamp_ms())
 
-					t_state = use_energy([u_state, t_state], 7)
+					t_state = {
+						...t_state,
+						available_energy: {
+							n: 0,
+							d: 1,
+						}
+					}
 
 					expect(get_available_energy_float(t_state)).to.equal(0.)
 				})
@@ -41,7 +54,7 @@ describe(`${LIB} - selectors`, function() {
 			context('depleted in consecutive shots', function() {
 
 				it('should yield a correct value', function() {
-					let [ u_state, t_state ] = create()
+					let [ u_state, t_state ] = create(get_UTC_timestamp_ms())
 
 					expect(get_available_energy_float(t_state)).to.equal(7.)
 
@@ -65,14 +78,32 @@ describe(`${LIB} - selectors`, function() {
 
 		context('on an intermediate state', function() {
 
-			it('should yield a correct value', function() {
-				let [ u_state, t_state ] = create()
+			it('should yield a correct value - rounded', function() {
+				let [ u_state, t_state ] = create(get_UTC_timestamp_ms())
 
-				t_state = use_energy([u_state, t_state], 1)
-				t_state = use_energy([u_state, t_state], 1)
-				t_state = use_energy([u_state, t_state], 1)
+				t_state = {
+					...t_state,
+					available_energy: {
+						n: 4,
+						d: 1,
+					}
+				}
 
 				expect(get_available_energy_float(t_state)).to.equal(4.)
+			})
+
+			it('should yield a correct value - unrounded', function() {
+				let [ u_state, t_state ] = create(get_UTC_timestamp_ms())
+
+				t_state = {
+					...t_state,
+					available_energy: {
+						n: 1234567,
+						d: 333333,
+					}
+				}
+
+				expect(get_available_energy_float(t_state)).to.equal(3.7)
 			})
 		})
 	})

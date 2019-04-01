@@ -38,7 +38,7 @@ function migrate_to_latest(
 			SEC.fireAnalyticsEvent('schema_migration.began')
 
 			try {
-				[ u_state, t_state ] = migrate_to_2(SEC, [ legacy_u_state, legacy_t_state ], hints)
+				[ u_state, t_state ] = migrate_to_3(SEC, [ legacy_u_state, legacy_t_state ], hints)
 			}
 			catch (err) {
 				SEC.fireAnalyticsEvent('schema_migration.failed')
@@ -57,10 +57,10 @@ function migrate_to_latest(
 
 /////////////////////
 
-function migrate_to_2(
+function migrate_to_3(
 	SEC: SoftExecutionContext,
 	[legacy_u_state, legacy_t_state]: [ Readonly<any>, Readonly<any> ],
-	hints: Readonly<any> = {}
+	hints: Readonly<any>,
 ): [ Readonly<UState>, Readonly<TState> ] {
 	throw new Error('Schema is too old (pre-beta), can’t migrate!')
 }

@@ -9,6 +9,7 @@ import {
 	create,
 	update_to_now,
 	use_energy,
+	loose_all_energy,
 	restore_energy,
 
 	get_available_energy_float,
@@ -44,7 +45,7 @@ describe(`${LIB} - reducer`, function() {
 		})
 	})
 
-	describe('energy usage', function() {
+	describe('use_energy()', function() {
 
 		context('when having enough energy', function() {
 
@@ -138,7 +139,19 @@ describe(`${LIB} - reducer`, function() {
 		})
 	})
 
-	describe('energy replenishment', function() {
+	describe('loose_all_energy()', function() {
+		it('should work on a full state', function() {
+			let [ u_state, t_state ] = create()
+
+			expect(get_available_energy_float(t_state)).to.equal(7.)
+
+			t_state = loose_all_energy([u_state, t_state])
+
+			expect(get_available_energy_float(t_state)).to.equal(0.)
+		})
+	})
+
+	describe('restore_energy() = artificial energy replenishment', function() {
 
 		context('when not going over the limit', function() {
 
@@ -175,7 +188,7 @@ describe(`${LIB} - reducer`, function() {
 		})
 	})
 
-	describe('natural replenishment', function() {
+	describe('update_to_now() = natural replenishment', function() {
 
 		it('should not allow playing more than X times in 24 hours - case 1', function() {
 			let [ u_state, t_state ] = create()

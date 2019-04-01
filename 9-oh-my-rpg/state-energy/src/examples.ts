@@ -7,18 +7,22 @@ import { UState, TState } from './types'
 // useful for demos and unit tests
 
 const DEMO_U_STATE: Readonly<UState> = deepFreeze({
-	schema_version: 2,
-	revision: 0,
+	schema_version: 3,
+	revision: 3,
 
 	max_energy: 7,
-	energy_refilling_rate_per_ms: {
+	C1: 10,
+
+	total_energy_consumed_so_far: 3,
+
+	final_energy_refilling_rate_per_ms: {
 		n: 7,
 		d: 24 * 3600 * 1000,
 	},
 })
 
 const DEMO_T_STATE: Readonly<TState> = deepFreeze({
-	schema_version: 2,
+	schema_version: 3,
 
 	timestamp_ms: 1545016005762,
 

@@ -9,8 +9,15 @@ import { BaseUState, BaseTState } from '@offirmo-private/state'
 interface UState extends BaseUState {
 	max_energy: number
 
-	// ex. 7 / 24h will refill 7 energy in 24h
-	energy_refilling_rate_per_ms: NumeratorDenominator
+	// allow an "onboarding" regeneration rate:
+	// where energy regenerates faster at the beginning
+	// Formula: https://www.desmos.com/calculator/g98bdj8vll
+	//                                     C1
+	// refilling rate = floor(---------------------------- + final_energy_refilling_rate_per_ms)
+	//                        total_energy_refilled_so_far
+	C1: number
+	total_energy_consumed_so_far: number
+	final_energy_refilling_rate_per_ms: NumeratorDenominator // ex. 7 / 24h will refill 7 energy in 24h
 }
 
 interface TState extends BaseTState {
@@ -19,29 +26,11 @@ interface TState extends BaseTState {
 	available_energy: NumeratorDenominator
 }
 
-////////////
-
-interface Derived {
-	available_energy_int: number
-	available_energy_float: number
-	human_time_to_next: string // ex. "3h" until next energy
-	next_energy_refilling_ratio: number // to be able to display "53%"
-
-	/*
-	available_energy: number
-	total_energy_refilling_ratio: number // 0-1, 1 = fully refilled
-
-	last_date: HumanReadableTimestampUTCMs
-	last_available_energy_float: number
-	*/
-}
-
 /////////////////////
 
 export {
 	UState,
 	TState,
-	Derived,
 }
 
 /////////////////////
