@@ -182,7 +182,7 @@
        clip-path="url(#clipPath1006)"
        transform="matrix(0.75757581,0,0,0.75757578,9.9419166,8.8034086)" />
     <circle
-       style="opacity:0.95;fill:none;fill-opacity:1;stroke:#909090;stroke-width:0.079375;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.079375,0.47625001;stroke-opacity:1;paint-order:normal;stroke-dashoffset:0"
+       style="opacity:0.95;fill:none;fill-opacity:1;stroke:#909090;stroke-width:0.07900001;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal;stroke-dashoffset:0"
        id="path5464"
        cx="41.010418"
        cy="28.045834"
@@ -283,7 +283,7 @@
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944451px;line-height:1.85208333px;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans';text-align:start;text-anchor:start;stroke-width:0.26458332"
          id="tspan29143">or typings included</tspan></text>
     <g
-       id="logo-7"
+       id="logo-79"
        transform="matrix(0.01385913,0,0,0.01385913,70.643749,11.377081)">
       <rect
          style="fill:#030303;fill-opacity:1"
@@ -291,65 +291,65 @@
          width="630"
          y="0"
          x="0"
-         id="background-9" />
+         id="background-3" />
       <text
-         id="text2253"
-         y="321.34048"
-         x="30.701822"
+         id="text2253-8"
+         y="311.34048"
+         x="37.317707"
          style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#fcfcfc;fill-opacity:1;stroke:#ffffff;stroke-width:10;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          xml:space="preserve"><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:266.66665649px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#fcfcfc;fill-opacity:1;stroke:#ffffff;stroke-width:10;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-           y="321.34048"
-           x="30.701822"
-           id="tspan2251"
+           y="311.34048"
+           x="37.317707"
+           id="tspan2251-0"
            sodipodi:role="line">x</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-weight:normal;font-size:133.33332825px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#fcfcfc;fill-opacity:1;stroke:none"
          x="43.768234"
-         y="525.112"
-         id="text2257"><tspan
+         y="515.112"
+         id="text2257-2"><tspan
            sodipodi:role="line"
-           id="tspan2255"
+           id="tspan2255-4"
            x="43.768234"
-           y="525.112"
+           y="515.112"
            style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:133.33332825px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#fcfcfc;fill-opacity:1">semver</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#fcfcfc;fill-opacity:1;stroke:none;stroke-width:10;stroke-miterlimit:4;stroke-dasharray:none"
-         x="253.62695"
-         y="321.34048"
-         id="text2261"><tspan
+         x="249.62695"
+         y="311.34048"
+         id="text2261-8"><tspan
            sodipodi:role="line"
-           id="tspan2259"
-           x="253.62695"
-           y="321.34048"
+           id="tspan2259-3"
+           x="249.62695"
+           y="311.34048"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:266.66665649px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#fcfcfc;fill-opacity:1;stroke:#ffffff;stroke-width:10;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1">y</tspan></text>
       <text
-         id="text2265"
-         y="321.34048"
-         x="468.54166"
+         id="text2265-9"
+         y="311.34048"
+         x="461.54166"
          style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#fcfcfc;fill-opacity:1;stroke:none;stroke-width:10;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
          xml:space="preserve"><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:266.66665649px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#fcfcfc;fill-opacity:1;stroke:#ffffff;stroke-width:10;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-           y="321.34048"
-           x="468.54166"
-           id="tspan2263"
+           y="311.34048"
+           x="461.54166"
+           id="tspan2263-0"
            sodipodi:role="line">z</tspan></text>
       <rect
-         y="292.55756"
-         x="224.54498"
+         y="282.55756"
+         x="226.54498"
          height="33.368645"
          width="33.368645"
-         id="rect2267"
+         id="rect2267-5"
          style="fill:#fcfcfc;fill-opacity:1;stroke:none;stroke-width:1.92307687;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal" />
       <rect
          style="fill:#fcfcfc;fill-opacity:1;stroke:none;stroke-width:1.92307687;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
-         id="rect2859"
+         id="rect2859-2"
          width="33.368645"
          height="33.368645"
-         x="398.54498"
-         y="292.55756" />
+         x="394.54498"
+         y="282.55756" />
     </g>
   </g>
   <g

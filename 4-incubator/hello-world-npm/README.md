@@ -10,9 +10,18 @@
 [![license](http://img.shields.io/badge/license-public_domain-brightgreen.svg)](http://unlicense.org/)
 ![Maintenance](https://img.shields.io/maintenance/yes/2019.svg)
 
-<center>
-	<a href="https://www.npmjs.com/package/hello-world-emo" alt="npm (scoped)"><img src="https://img.shields.io/npm/v/hello-world-emo.svg"></a>
-</center>
+<p align="center">
+	<a alt="npm package page"
+	  href="https://www.npmjs.com/package/hello-world-emo">
+		<img alt="npm badge"
+		  src="https://img.shields.io/npm/v/hello-world-emo.svg">
+	</a>
+	<a alt="dependencies analysis"
+	  href="https://david-dm.org/offirmo/offirmo-monorepo?path=4-incubator%2Fhello-world-npm">
+		<img alt="dependencies badge"
+		  src="https://img.shields.io/david/offirmo/offirmo-monorepo.svg?path=4-incubator%2Fhello-world-npm">
+	</a>
+</p>
 
 
 A hello world npm module whose real purpose is to experiment a 'modern' (typescript / ES6)
