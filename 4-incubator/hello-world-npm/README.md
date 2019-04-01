@@ -4,11 +4,16 @@
 	<img src="../../doc/quality-seal/offirmos_quality_seal.svg" alt="Offirmo’s quality seal">
 </h1>
 
-[![npm (scoped)](https://img.shields.io/npm/v/hello-world-emo.svg)](https://www.npmjs.com/package/@offirmo/hello-world-emo)
-![David (path)](https://img.shields.io/david/offirmo/offirmo-monorepo.svg?path=4-incubator%2Fhello-world-npm)
+[![npm (scoped)](https://img.shields.io/npm/v/hello-world-emo.svg)](https://www.npmjs.com/package/hello-world-emo)
+[![David (path)](https://img.shields.io/david/offirmo/offirmo-monorepo.svg?path=4-incubator%2Fhello-world-npm)](https://david-dm.org/offirmo/offirmo-monorepo?path=4-incubator%2Fhello-world-npm)
 [![npm bundle size (scoped)](https://img.shields.io/bundlephobia/minzip/hello-world-emo.svg)](https://bundlephobia.com/result?p=hello-world-emo)
 [![license](http://img.shields.io/badge/license-public_domain-brightgreen.svg)](http://unlicense.org/)
 ![Maintenance](https://img.shields.io/maintenance/yes/2019.svg)
+
+<center>
+	<a href="https://www.npmjs.com/package/hello-world-emo" alt="npm (scoped)"><img src="https://img.shields.io/npm/v/hello-world-emo.svg"></a>
+</center>
+
 
 A hello world npm module whose real purpose is to experiment a 'modern' (typescript / ES6)
 module declaration and its consumption by various environments, including legacy.

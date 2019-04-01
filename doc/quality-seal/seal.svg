@@ -17,7 +17,7 @@
    id="svg8"
    inkscape:version="0.92.2 5c3e80d, 2017-08-06"
    sodipodi:docname="seal.svg"
-   inkscape:export-filename="/Users/yjutard/work/src/off/offirmo-monorepo/doc/- logos/offirmos_module.png"
+   inkscape:export-filename="/Users/yjutard/work/src/off/offirmo-monorepo/doc/quality-seal/offirmos_quality_seal.png"
    inkscape:export-xdpi="96.019997"
    inkscape:export-ydpi="96.019997">
   <defs
@@ -41,7 +41,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4142136"
-     inkscape:cx="276.19314"
+     inkscape:cx="148.91392"
      inkscape:cy="189.54899"
      inkscape:document-units="px"
      inkscape:current-layer="layer2"
@@ -50,7 +50,7 @@
      inkscape:pagecheckerboard="true"
      inkscape:window-width="1680"
      inkscape:window-height="1028"
-     inkscape:window-x="0"
+     inkscape:window-x="1680"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
      inkscape:snap-bbox="true"
@@ -71,7 +71,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
