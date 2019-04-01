@@ -1,10 +1,9 @@
 {
 	"name": "@offirmo/globalthis-ponyfill",
 	"description": "Ponyfill for globalThis",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
-	"private": true,
 
 	"esnext": "dist/src.es7/index.js",
 	"module": "dist/src.es7/index.js",
@@ -15,9 +14,11 @@
 
 	"size-limit": [
 		{
+			"limit": "200B",
 			"path": "dist/src.es7/index.js"
 		},
 		{
+			"limit": "200B",
 			"path": "dist/src.es7.cjs/index.js"
 		}
 	],
@@ -39,6 +40,19 @@
 		"ensure-size": "size-limit",
 
 		"dev": "run-s clean build:dev:watch",
-		"build": "run-s build:prod"
-	}
+		"build": "run-s build:prod",
+
+		"prepublishOnly": "run-s clean build:prod ensure-size"
+	},
+
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Offirmo/offirmo-monorepo.git"
+	},
+	"keywords": [
+		"globalThis",
+		"ponyfill",
+		"typescript"
+	],
+	"homepage": "https://github.com/Offirmo/offirmo-monorepo/tree/master/1-foundation/globalthis-ponyfill"
 }
