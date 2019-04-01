@@ -1,4 +1,5 @@
 [![NPM version](https://badge.fury.io/js/network-constants.png)](http://badge.fury.io/js/@offirmo/globalthis-ponyfill)
+[![license](http://img.shields.io/badge/license-public_domain-brightgreen.svg)](http://unlicense.org/)
 
 ## A trivial, TypeScript-compatible [ponyfill](https://ponyfill.com/) for [`globalThis`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/globalThis)
 
