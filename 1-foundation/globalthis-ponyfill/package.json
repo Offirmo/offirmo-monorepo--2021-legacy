@@ -1,7 +1,7 @@
 {
 	"name": "@offirmo/globalthis-ponyfill",
 	"description": "Ponyfill for globalThis",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 
@@ -45,6 +45,10 @@
 		"prepublishOnly": "run-s clean build:prod ensure-size"
 	},
 
+	"files": [
+		"dist",
+		"src"
+	],
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/Offirmo/offirmo-monorepo.git"

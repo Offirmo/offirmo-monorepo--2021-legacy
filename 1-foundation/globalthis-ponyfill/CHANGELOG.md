@@ -1,4 +1,10 @@
 
+## v0.0.4
+2019/04/02
+* [doc] README++
+* [chore] corrected es7 to es9
+* [chore] smaller npm footprint
+
 ## v0.0.3
 2019/04/01
 * [doc] playing with badges ;)
