@@ -25,6 +25,7 @@ export const LEVEL_TO_CONSOLE_METHOD: Readonly<{ [k: string]: string }> = {
 	trace:   'debug',
 	silly:   'debug',
 }
+// TODO move to unit tests
 assert(
 	Object.keys(LEVEL_TO_CONSOLE_METHOD).sort().join(',') === [...ALL_LOG_LEVELS].sort().join(','),
 	`${LIB}: LEVEL_TO_CONSOLE_METHOD needs an update!`

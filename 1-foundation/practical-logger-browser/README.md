@@ -1,76 +1,39 @@
 
+<h1 align="center">
+	Offirmo’s practical logger - browser implementation<br>
+	<a href="https://www.offirmo.net/offirmo-monorepo/doc/modules-directory/index.html">
+		<img src="https://www.offirmo.net/offirmo-monorepo/doc/quality-seal/offirmos_quality_seal.svg" alt="Offirmo’s quality seal">
+	</a>
+</h1>
 
-```js
-import { createLogger } from '@offirmo-private/practical-logger-browser'
+<p align="center">
+	<a alt="npm package page"
+	  href="https://www.npmjs.com/package/@offirmo/practical-logger-browser">
+		<img alt="npm badge"
+		  src="https://img.shields.io/npm/v/@offirmo/practical-logger-browser.svg">
+	</a>
+	<a alt="dependencies analysis"
+	  href="https://david-dm.org/offirmo/offirmo-monorepo?path=1-foundation%2Fpractical-logger-browser">
+		<img alt="dependencies badge"
+		  src="https://img.shields.io/david/offirmo/offirmo-monorepo.svg?path=1-foundation%2Fpractical-logger-browser">
+	</a>
+	<a alt="bundle size evaluation"
+	  href="https://bundlephobia.com/result?p=@offirmo/practical-logger-browser">
+		<img alt="bundle size badge"
+		  src="https://img.shields.io/bundlephobia/minzip/@offirmo/practical-logger-browser.svg">
+	</a>
+	<a alt="license"
+	  href="https://unlicense.org/">
+		<img alt="license badge"
+		  src="https://img.shields.io/badge/license-public_domain-brightgreen.svg">
+	</a>
+	<img alt="maintenance status badge"
+	  src="https://img.shields.io/maintenance/yes/2019.svg">
+</p>
 
-const logger = createLogger({
-	name: 'FOO',
-	suggestedLevel: 'silly', // optional
-})
+**This is a minimal, no-operation implementation of Offirmo’s practical logger.**
 
-logger.log('hello')
-
-;[
-	'fatal',
-	'emerg',
-	'alert',
-	'crit',
-	'error',
-	'warning',
-	'warn',
-	'notice',
-	'info',
-	'verbose',
-	'log',
-	'debug',
-	'trace',
-	'silly',
-].forEach(level => logger[level]({level}))
-
-```
-Techniques
-- https://stackoverflow.com/questions/7505623/colors-in-javascript-console
-- https://hackernoon.com/styling-logs-in-browser-console-2ec0807dc91a
-- https://medium.com/@mattburgess/beyond-console-log-2400fdf4a9d8
-- https://konklone.com/post/how-to-hack-the-developer-console-to-be-needlessly-interactive
-- ...
-
-Inspiration:
-- https://github.com/ianstormtaylor/browser-logger
-
-
-TODO experiment fonts
-```css
-
-:host-context(.platform-mac) .monospace,
-:host-context(.platform-mac) .source-code,
-.platform-mac .monospace,
-.platform-mac .source-code {
-    font-size: 11px !important;
-    font-family: Menlo, monospace;
-}
-
-:host-context(.platform-windows) .monospace,
-:host-context(.platform-windows) .source-code,
-.platform-windows .monospace,
-.platform-windows .source-code {
-    font-size: 12px !important;
-    font-family: Consolas, Lucida Console, Courier New, monospace;
-}
-
-:host-context(.platform-linux) .monospace,
-:host-context(.platform-linux) .source-code,
-.platform-linux .monospace,
-.platform-linux .source-code {
-    font-size: 11px !important;
-    font-family: dejavu sans mono, monospace;
-}
-
-.source-code {
-    font-family: monospace;
-    font-size: 11px !important;
-    white-space: pre-wrap;
-}
-
-```
-,https://medium.com/@mattburgess/beyond-console-log-2400fdf4a9d8
+Use this lib if you want to provide a default implementation,
+for example as a default value in a dependency injection mechanism,
+ready to be replaced by an actual version if the caller wants it,
+but not hurting the bundle size if the user opts out.

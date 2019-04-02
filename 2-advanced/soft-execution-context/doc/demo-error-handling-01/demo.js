@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import 'babel-polyfill'
-import { createLogger } from '@offirmo-private/practical-logger-browser'
+import { createLogger } from '@offirmo/practical-logger-browser'
 
 import {getRootSEC} from '../../src/index.js'
 import * as good_lib from './good_lib.js'

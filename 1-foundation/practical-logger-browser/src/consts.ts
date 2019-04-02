@@ -1,5 +1,5 @@
 
-const LIB = '@offirmo-private/practical-logger-browser'
+const LIB = '@offirmo/practical-logger-browser'
 
 export {
 	LIB,

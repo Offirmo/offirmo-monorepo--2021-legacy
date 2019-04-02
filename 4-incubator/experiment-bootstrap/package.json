@@ -2,9 +2,12 @@
 	"name": "@atlassian/experiment-bootstrap",
 	"description": "Growth experiments bootstrap logic",
 	"version": "0.2.0",
-	"author": "Yves Jutard <yjutard@atlassian.com>",
 	"license": "UNLICENSED",
 	"private": true,
+	"author": "Atlassian Pty Ltd",
+	"maintainers": [
+		"Yves J"
+	],
 
 	"esnext": "dist/src.es9/index.js",
 	"module": "dist/src.es9/index.js",

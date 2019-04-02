@@ -1,8 +1,6 @@
 import { LogLevel, Logger, LoggerCreationParams } from '@offirmo/practical-logger-interface'
 import { createLogger as createLoggerCore, DEFAULT_LOGGER_KEY, DEFAULT_LOG_LEVEL, checkLevel } from '@offirmo/practical-logger-core'
 
-
-
 import sink_firefox from './sinks/advanced/firefox'
 import sink_chromium from './sinks/advanced/chromium'
 import sink_safari from './sinks/advanced/safari'

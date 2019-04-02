@@ -7,7 +7,7 @@
 	"private": true,
 	"devDependencies": {
 		"@babel/core": "~7.3",
-		"@offirmo-private/practical-logger-browser": "^0.0.1",
+		"@offirmo/practical-logger-browser": "^0.0.1",
 		"@offirmo-private/universal-debug-api-minimal-to-void": "^0.0.1",
 		"@offirmo-private/universal-debug-api-full-browser": "^0.0.1",
 		"@offirmo-private/view-css": "^0.0.1",
