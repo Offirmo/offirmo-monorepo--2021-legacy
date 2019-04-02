@@ -32,7 +32,7 @@
 </p>
 
 
-**Common code for a simple and practical logger**
+**Internal common code for a simple and practical logger**
 
 TODO explain more
 

@@ -6,7 +6,7 @@ const NO_OP = () => {}
 const NO_OP_LOGGER: Logger = {
 	setLevel: NO_OP,
 	getLevel: () => 'silly',
-	
+
 	addCommonDetails: NO_OP,
 
 	fatal: NO_OP,
