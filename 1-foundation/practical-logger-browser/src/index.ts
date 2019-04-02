@@ -1,4 +1,4 @@
-import { LogLevel, Logger, LoggerCreationParams } from '@offirmo-private/practical-logger-interface'
+import { LogLevel, Logger, LoggerCreationParams } from '@offirmo/practical-logger-interface'
 import { createLogger as createLoggerCore, DEFAULT_LOGGER_KEY, DEFAULT_LOG_LEVEL, checkLevel } from '@offirmo-private/practical-logger-core'
 
 

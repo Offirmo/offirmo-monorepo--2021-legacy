@@ -57,6 +57,7 @@ npm adduser
 user: offirmo
 email: offirmo.net@gmail.com
 npm publish
+npm publish --access public
 ```
 
 

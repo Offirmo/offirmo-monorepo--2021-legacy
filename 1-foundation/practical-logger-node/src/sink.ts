@@ -8,7 +8,7 @@ import {
 import {
 	LogPayload,
 	LogSink,
-} from '@offirmo-private/practical-logger-interface'
+} from '@offirmo/practical-logger-interface'
 
 import { displayError } from '@offirmo-private/print-error-to-ansi'
 import prettifyJson from '@offirmo-private/prettify-json'

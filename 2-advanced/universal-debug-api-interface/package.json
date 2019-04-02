@@ -16,7 +16,7 @@
 	"peerDependencies": {
 	},
 	"dependencies": {
-		"@offirmo-private/practical-logger-interface": "^0.0.1"
+		"@offirmo/practical-logger-interface": "^0.0.1"
 	},
 
 	"devDependencies": {

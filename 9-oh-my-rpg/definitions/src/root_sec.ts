@@ -1,5 +1,5 @@
 import { ImmutabilityEnforcer } from '@offirmo-private/ts-types'
-import { Logger } from '@offirmo-private/practical-logger-interface'
+import { Logger } from '@offirmo/practical-logger-interface'
 import { PRODUCT } from './consts'
 
 /////////////////////
