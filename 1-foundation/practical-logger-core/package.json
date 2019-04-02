@@ -1,6 +1,6 @@
 {
 	"name": "@offirmo/practical-logger-core",
-	"description": "Common code for a simple and practical logger",
+	"description": "Common internal code for Offirmo’s practical logger",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",

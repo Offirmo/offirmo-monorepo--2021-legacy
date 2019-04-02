@@ -1,7 +1,7 @@
 {
 	"name": "@offirmo/practical-logger-interface",
 	"version": "0.0.1",
-	"description": "TypeScript types for a simple and practical logger (no code)",
+	"description": "TypeScript types for Offirmo’s practical logger (no code)",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 

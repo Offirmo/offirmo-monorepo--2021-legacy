@@ -4,6 +4,7 @@
 - TODO assess the arguments normalization
 - TODO link to other modules
 - TODO shareable demo
+* [doc] README++
 
 ## v0.0.1
 2019/04/02
