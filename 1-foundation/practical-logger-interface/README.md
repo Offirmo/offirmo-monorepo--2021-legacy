@@ -31,20 +31,22 @@
 	  src="https://img.shields.io/maintenance/yes/2019.svg">
 </p>
 
-**No js code, 0 bytes** = will do nothing to your bundle size.
+**No code, 0 bytes** = will do nothing to your bundle size.
 
 TODO explain more
 
 TODO explain the interface pattern
 
 
-This is to allow declaring various implementations of those interface:
-* minimal to null
-* browser
-* node
-
 ## Usage
-TODO
+
+**This is most likely not what you are looking for!**
+
+See the actual implementations of those interfaces:
+* minimal no-op: [@offirmo/practical-logger-minimal-noop](https://www.npmjs.com/package/@offirmo/practical-logger-minimal-noop)
+* browser: [@offirmo/practical-logger-browser](https://www.npmjs.com/package/@offirmo/practical-logger-browser)
+* node: TODO publish to npm
+
 
 ## Design
 TODO explain

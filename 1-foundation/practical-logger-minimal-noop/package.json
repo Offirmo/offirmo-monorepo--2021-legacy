@@ -1,6 +1,6 @@
 {
 	"name": "@offirmo/practical-logger-minimal-noop",
-	"description": "An implementation of Offirmo’s practical logger doing nothing at all",
+	"description": "Implementation of Offirmo’s practical logger doing nothing at all",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",

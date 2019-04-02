@@ -37,3 +37,9 @@ Use this lib if you want to provide a default implementation,
 for example as a default value in a dependency injection mechanism,
 ready to be replaced by an actual version if the caller wants it,
 but not hurting the bundle size if the user opts out.
+
+```javascript
+import { TODO } from ''
+
+TODO
+```
