@@ -23,9 +23,9 @@
 			src="https://img.shields.io/bundlephobia/minzip/hello-world-emo.svg">
 	</a>
 	<a alt="license"
-		href="http://unlicense.org/">
+		href="https://unlicense.org/">
 		<img alt="license badge"
-			src="http://img.shields.io/badge/license-public_domain-brightgreen.svg">
+			src="https://img.shields.io/badge/license-public_domain-brightgreen.svg">
 	</a>
 		<img alt="maintenance status badge"
 			src="https://img.shields.io/maintenance/yes/2019.svg">
@@ -45,10 +45,10 @@ yarn add hello-world-emo
 ```
 
 ```js
-import { hello } from 'hello-world-emo
+import { hello } from 'hello-world-emo'
 
-hello()           --> Hello, World :-(
-hello('Offirmo')  --> Hello, Offirmo :-(
+hello()           // --> Hello, World :-(
+hello('Offirmo')  // --> Hello, Offirmo :-(
 ```
 What did you expect ?
 

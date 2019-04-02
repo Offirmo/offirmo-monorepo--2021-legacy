@@ -1,6 +1,6 @@
 {
 	"name": "hello-world-emo",
-	"version": "3.0.0",
+	"version": "3.0.2",
 	"description": "A hello world npm module whose main purpose is to experiment a 'modern' (typescript / ES6) module declaration and its consumption by various environments, including legacy.",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
@@ -56,6 +56,10 @@
 		"size-limit": "^1"
 	},
 
+	"files": [
+		"dist",
+		"src"
+	],
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/Offirmo/offirmo-monorepo.git"

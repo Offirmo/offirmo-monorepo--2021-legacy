@@ -1,4 +1,9 @@
 
+## v3.0.2
+2019/04/02
+* [chore] attempt to whitelist the files uploaded to npm
+* [doc] improved README
+
 ## v3.0.1
 2019/04/02
 * [doc] improved README
