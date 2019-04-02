@@ -7,7 +7,7 @@ import {
 	isActive,
 	isResolved,
 	hasError,
-} from '@atlassian/experiment-bootstrap/dist/src.es7.cjs/experiment'
+} from '@atlassian/experiment-bootstrap/dist/src.es9.cjs/experiment'
 
 type ExperimentDB = { [k: string]: Readonly<ExperimentInternal<any>> }
 

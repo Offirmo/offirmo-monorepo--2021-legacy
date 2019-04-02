@@ -2,7 +2,7 @@
 <h1 align="center">
 	globalThis ponyfill<br>
 	<a href="https://www.offirmo.net/offirmo-monorepo/doc/modules-directory/index.html">
-		<img src="../../doc/quality-seal/offirmos_quality_seal.svg" alt="Offirmo’s quality seal">
+		<img src="https://www.offirmo.net/offirmo-monorepo/doc/quality-seal/offirmos_quality_seal.svg" alt="Offirmo’s quality seal">
 	</a>
 </h1>
 
@@ -23,9 +23,9 @@
 		  src="https://img.shields.io/bundlephobia/minzip/@offirmo/globalthis-ponyfill.svg">
 	</a>
 	<a alt="license"
-	  href="http://unlicense.org/">
+	  href="https://unlicense.org/">
 		<img alt="license badge"
-		  src="http://img.shields.io/badge/license-public_domain-brightgreen.svg">
+		  src="https://img.shields.io/badge/license-public_domain-brightgreen.svg">
 	</a>
 	<img alt="maintenance status badge"
 	  src="https://img.shields.io/maintenance/yes/2019.svg">

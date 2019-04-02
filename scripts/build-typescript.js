@@ -67,7 +67,7 @@ function build_compatible() {
 		{
 			...compilerOptions,
 			module: 'commonjs',
-			outDir: path.join(DIST_DIR, 'src.es7.cjs'),
+			outDir: path.join(DIST_DIR, 'src.es9.cjs'),
 			project: PKG_PATH,
 		},
 		null,
@@ -81,7 +81,7 @@ function build_esnext() {
 	return tsc.compile(
 		{
 			...compilerOptions,
-			outDir: path.join(DIST_DIR, 'src.es7'),
+			outDir: path.join(DIST_DIR, 'src.es9'),
 			project: PKG_PATH,
 		},
 		null,

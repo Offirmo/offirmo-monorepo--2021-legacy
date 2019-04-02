@@ -15,8 +15,8 @@ node_modules
 
 ## regenerable
 ## standard dist
-**/dist/src.es7/
-**/dist/src.es7.cjs/
+**/dist/src.es9/
+**/dist/src.es9.cjs/
 ## non-standard dist
 #2-advanced/view-css/dist/
 #9-oh-my-rpg/view-browser/dist/
