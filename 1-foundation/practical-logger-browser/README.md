@@ -31,9 +31,38 @@
 	  src="https://img.shields.io/maintenance/yes/2019.svg">
 </p>
 
-**This is a minimal, no-operation implementation of Offirmo’s practical logger.**
+## Demo
 
-Use this lib if you want to provide a default implementation,
-for example as a default value in a dependency injection mechanism,
-ready to be replaced by an actual version if the caller wants it,
-but not hurting the bundle size if the user opts out.
+TODO codepen
+
+On Firefox:
+
+![firefox demo](./doc/screen/firefox_20190402.png)
+
+On Chrome:
+
+![firefox demo](./doc/screen/chromium_20190402.png)
+
+On Safari:
+
+![firefox demo](./doc/screen/safari_20190402.png)
+
+
+## Usage
+
+**Note: for even more power, you may want to use TODO dev API instead of directly this lib!**
+
+```javascript
+import { createLogger } from '@offirmo/practical-logger-browser'
+
+const logger = createLogger()
+logger.log('hello from logger!')
+
+const fooLogger = createLogger({
+	name: 'Foo',
+	suggestedLevel: 'silly',
+})
+fooLogger.log('hello from fooLogger!', { bar: 42, baz: 33 })
+```
+
+TODO explanation

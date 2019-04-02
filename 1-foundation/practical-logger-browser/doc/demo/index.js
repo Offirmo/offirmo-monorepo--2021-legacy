@@ -1,4 +1,4 @@
-import { createLogger } from '../../src'
+import { createLogger } from '../..'
 const { ALL_LOG_LEVELS } = require('@offirmo/practical-logger-core')
 
 console.log('starting...')
@@ -40,7 +40,7 @@ logger.error(undefined, err)
 
 console.log('------------ testing all levels, in order ------------')
 ALL_LOG_LEVELS.forEach(level =>
-	logger[level](`msg with level "${level}"`)
+	logger[level](`msg with level "${level}"`, { level })
 )
 console.groupCollapsed('in group')
 ALL_LOG_LEVELS.forEach(level =>
