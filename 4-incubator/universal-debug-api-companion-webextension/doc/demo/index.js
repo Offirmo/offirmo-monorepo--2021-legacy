@@ -1,4 +1,4 @@
-import { getLogger } from '@offirmo-private/universal-debug-api-minimal-to-void'
+import { getLogger } from '@offirmo/universal-debug-api-minimal-noop'
 
 console.warn(`📄 [page/head-script.${+Date.now()}] Hello, more standard!`, {
 	foo_js: window.foo,

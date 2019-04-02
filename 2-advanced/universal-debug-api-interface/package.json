@@ -1,5 +1,5 @@
 {
-	"name": "@offirmo-private/universal-debug-api-interface",
+	"name": "@offirmo/universal-debug-api-interface",
 	"description": "TypeScript types for a universal debug API (no code)",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
@@ -13,6 +13,17 @@
 	"source": "src/index.ts",
 	"sideEffects": false,
 
+	"size-limit": [
+		{
+			"limit": "100b",
+			"path": "dist/src.es9/index.js"
+		},
+		{
+			"limit": "100b",
+			"path": "dist/src.es9.cjs/index.js"
+		}
+	],
+
 	"peerDependencies": {
 	},
 	"dependencies": {
@@ -20,15 +31,34 @@
 	},
 
 	"devDependencies": {
-		"npm-run-all": "^4"
+		"npm-run-all": "^4",
+		"size-limit": "^1"
 	},
 	"scripts": {
 		"clean": "node ../../scripts/clean.js dist",
 
 		"build:dev:watch": "node ../../scripts/build-typescript.js --watch",
 		"build:prod": "node ../../scripts/build-typescript.js",
+		"ensure-size": "size-limit",
 
 		"dev": "run-s clean build:dev:watch",
-		"build": "run-s build:prod"
-	}
+		"build": "run-s build:prod",
+
+		"prepublishOnly": "run-s clean build:prod ensure-size"
+	},
+
+	"files": [
+		"dist",
+		"src"
+	],
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Offirmo/offirmo-monorepo.git"
+	},
+	"keywords": [
+		"logger",
+		"debug",
+		"typescript"
+	],
+	"homepage": "https://github.com/Offirmo/offirmo-monorepo/tree/master/2-advanced/universal-debug-api-interface"
 }

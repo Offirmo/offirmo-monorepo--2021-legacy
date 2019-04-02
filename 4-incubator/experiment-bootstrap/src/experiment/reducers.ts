@@ -1,6 +1,6 @@
 import { Enum } from 'typescript-string-enums'
 import assert from 'tiny-invariant'
-import { getLogger as getLoggerFromAbove } from '@offirmo-private/universal-debug-api-minimal-to-void'
+import { getLogger as getLoggerFromAbove } from '@offirmo/universal-debug-api-minimal-noop'
 import { getGlobalThis } from '@offirmo/globalthis-ponyfill'
 
 import { Deferred } from '../utils/deferred'
