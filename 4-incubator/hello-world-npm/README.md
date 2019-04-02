@@ -2,7 +2,7 @@
 <h1 align="center">
 	Hello World Npm<br>
 	<a href="https://www.offirmo.net/offirmo-monorepo/doc/modules-directory/index.html">
-		<img src="../../doc/quality-seal/offirmos_quality_seal.svg" alt="Offirmo’s quality seal">
+		<img src="https://www.offirmo.net/offirmo-monorepo/doc/quality-seal/offirmos_quality_seal.svg" alt="Offirmo’s quality seal">
 	</a>
 </h1>
 
