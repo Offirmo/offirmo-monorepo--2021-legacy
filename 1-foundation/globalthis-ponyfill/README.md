@@ -37,7 +37,7 @@ This is a trivial TypeScript-compatible [`globalThis`](https://developer.mozilla
 * NO dependencies
 
 
-## Usage:
+## Usage
 ```js
 import { getGlobalThis } from '@offirmo/globalthis-ponyfill'
 
