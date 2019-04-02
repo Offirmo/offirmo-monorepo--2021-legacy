@@ -31,17 +31,20 @@
 	  src="https://img.shields.io/maintenance/yes/2019.svg">
 </p>
 
+**No js code, 0 bytes** = will do nothing to your bundle size.
+
 TODO explain more
 
 TODO explain the interface pattern
 
-**No js code, 0 bytes** = will do nothing to your bundle size.
 
 This is to allow declaring various implementations of those interface:
 * minimal to null
 * browser
 * node
 
+## Usage
+TODO
 
 ## Design
 TODO explain

@@ -1,4 +1,6 @@
 
+* [chore] corrected es7 to es9
+
 ## v3.0.2
 2019/04/02
 * [chore] attempt to whitelist the files uploaded to npm

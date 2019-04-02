@@ -68,8 +68,5 @@
 		"hello",
 		"typescript"
 	],
-	"bugs": {
-		"url": "https://github.com/Offirmo/hello-world-npm/issues"
-	},
 	"homepage": "https://github.com/Offirmo/offirmo-monorepo/tree/master/4-incubator/hello-world-npm"
 }
