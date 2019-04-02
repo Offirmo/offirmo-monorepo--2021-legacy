@@ -1,7 +1,7 @@
 import assert from 'tiny-invariant'
 
 import { LIB } from '../consts'
-import { ALL_LOG_LEVELS } from '@offirmo-private/practical-logger-core'
+import { ALL_LOG_LEVELS } from '@offirmo/practical-logger-core'
 
 
 export const LEVEL_TO_CONSOLE_METHOD: Readonly<{ [k: string]: string }> = {

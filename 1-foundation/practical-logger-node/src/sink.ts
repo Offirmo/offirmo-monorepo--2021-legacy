@@ -3,7 +3,7 @@ import indent_string from 'indent-string'
 import {
 	ALL_LOG_LEVELS,
 	LOG_LEVEL_TO_HUMAN,
-} from '@offirmo-private/practical-logger-core'
+} from '@offirmo/practical-logger-core'
 
 import {
 	LogPayload,

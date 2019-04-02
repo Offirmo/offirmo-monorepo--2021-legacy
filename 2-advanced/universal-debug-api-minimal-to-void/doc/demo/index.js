@@ -1,5 +1,5 @@
 import { getLogger, addDebugCommand } from './logger'
-const { ALL_LOG_LEVELS } = require('@offirmo-private/practical-logger-core')
+const { ALL_LOG_LEVELS } = require('@offirmo/practical-logger-core')
 
 console.warn(`📄 [page/script.${+Date.now()}] page’s js starting…`)
 

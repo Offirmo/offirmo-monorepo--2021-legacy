@@ -1,5 +1,5 @@
 import { Logger, LoggerCreationParams } from '@offirmo/practical-logger-interface'
-import { createLogger as createLoggerCore } from '@offirmo-private/practical-logger-core'
+import { createLogger as createLoggerCore } from '@offirmo/practical-logger-core'
 
 import { sink } from './sink'
 

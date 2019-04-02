@@ -25,7 +25,7 @@
 
 	"devDependencies": {
 		"@babel/core": "~7.3",
-		"@offirmo-private/practical-logger-core": "^0.0.1",
+		"@offirmo/practical-logger-core": "^0.0.1",
 		"npm-run-all": "^4"
 	},
 	"scripts": {
