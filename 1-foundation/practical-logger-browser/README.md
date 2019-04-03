@@ -39,15 +39,15 @@ TODO codepen
 
 On Firefox:
 
-![firefox demo](https://www.offirmo.net/offirmo-monorepo/doc/screen/firefox_20190402.png)
+![firefox demo](https://www.offirmo.net/offirmo-monorepo/doc/practical-logger/screens/firefox_20190402.png)
 
 On Chrome:
 
-![firefox demo](https://www.offirmo.net/offirmo-monorepo/doc/screen/chromium_20190402.png)
+![firefox demo](https://www.offirmo.net/offirmo-monorepo/doc/practical-logger/screens/chromium_20190402.png)
 
 On Safari:
 
-![firefox demo](https://www.offirmo.net/offirmo-monorepo/doc/screen/safari_20190402.png)
+![firefox demo](https://www.offirmo.net/offirmo-monorepo/doc/practical-logger/screens/safari_20190402.png)
 
 
 ## Usage
