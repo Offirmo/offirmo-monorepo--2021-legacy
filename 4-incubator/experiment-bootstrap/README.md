@@ -1,17 +1,11 @@
 
+# [go/xbl](http://go/xbl)
 
-
-TODO debug = dynamic
-TODO emittery?
-TODO remove all TODOs
-TODO check React.lazy https://itnext.io/react-code-splitting-in-2019-9a5d2776c502
-
-using https://github.com/jamiebuilds/react-loadable for demo
-
+README TODOOO
 
 ## Concepts
 
-### kill switch, cohort picker, requirement
+kill switch, cohort picker, requirement
 
 ## API
 
@@ -24,4 +18,3 @@ using https://github.com/jamiebuilds/react-loadable for demo
 
 This lib will never throw and always default to "not-enrolled" EXCEPT during the spec phase,
 where errors are thrown on bad use. The rationale is that those early errors can only happen during local dev.
-

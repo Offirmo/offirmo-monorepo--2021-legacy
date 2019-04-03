@@ -31,21 +31,23 @@
 	  src="https://img.shields.io/maintenance/yes/2019.svg">
 </p>
 
+https://github.com/Offirmo/offirmo-monorepo/wiki/Offirmo%E2%80%99s-Practical-Logger
+
 ## Demo
 
 TODO codepen
 
 On Firefox:
 
-![firefox demo](./doc/screen/firefox_20190402.png)
+![firefox demo](https://www.offirmo.net/offirmo-monorepo/doc/screen/firefox_20190402.png)
 
 On Chrome:
 
-![firefox demo](./doc/screen/chromium_20190402.png)
+![firefox demo](https://www.offirmo.net/offirmo-monorepo/doc/screen/chromium_20190402.png)
 
 On Safari:
 
-![firefox demo](./doc/screen/safari_20190402.png)
+![firefox demo](https://www.offirmo.net/offirmo-monorepo/doc/screen/safari_20190402.png)
 
 
 ## Usage

@@ -3,7 +3,6 @@
 	"description": "Growth experiments bootstrap logic",
 	"version": "0.2.0",
 	"license": "UNLICENSED",
-	"private": true,
 	"author": "Atlassian Pty Ltd",
 	"maintainers": [
 		"Yves J"
@@ -16,6 +15,17 @@
 	"source": "src/index.ts",
 	"sideEffects": false,
 
+	"size-limit": [
+		{
+			"limit": "5kb",
+			"path": "dist/src.es9/index.js"
+		},
+		{
+			"limit": "5kb",
+			"path": "dist/src.es9.cjs/index.js"
+		}
+	],
+
 	"peerDependencies": {
 		"tslib": "^1"
 	},
@@ -25,6 +35,13 @@
 		"tiny-invariant": "^1"
 	},
 
+	"devDependencies": {
+		"npm-run-all": "^4",
+		"parcel-bundler": "^1",
+		"react-dom": "^16",
+		"react-loadable": "^5",
+		"size-limit": "^1"
+	},
 	"scripts": {
 		"clean": "node ../../scripts/clean.js dist",
 
@@ -32,16 +49,26 @@
 
 		"build:dev:watch": "node ../../scripts/build-typescript.js --watch",
 		"build:prod": "node ../../scripts/build-typescript.js",
+		"ensure-size": "size-limit",
 
 		"dev": "run-s clean build:dev:watch",
 		"build": "run-s build:prod",
-		"demo": "parcel doc/demo/index.html"
+		"demo": "parcel doc/demo/index.html",
+
+		"prepublishOnly": "run-s clean build:prod ensure-size"
 	},
 
-	"devDependencies": {
-		"npm-run-all": "^4",
-		"parcel-bundler": "^1",
-		"react-dom": "^16",
-		"react-loadable": "^5"
-	}
+	"files": [
+		"dist",
+		"src"
+	],
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Offirmo/offirmo-monorepo.git"
+	},
+	"keywords": [
+		"logger",
+		"typescript"
+	],
+	"homepage": "https://github.com/Offirmo/offirmo-monorepo/tree/master/4-incubator/experiment-bootstrap"
 }
