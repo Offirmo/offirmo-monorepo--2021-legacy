@@ -27,12 +27,13 @@
 	],
 
 	"peerDependencies": {
-		"tslib": "^1"
 	},
 	"dependencies": {
 		"@offirmo/globalthis-ponyfill": "^0.0.4",
 		"@offirmo/universal-debug-api-minimal-noop": "^0.0.1",
-		"tiny-invariant": "^1"
+		"tiny-invariant": "^1",
+		"tslib": "^1",
+		"typescript-string-enums": "^1"
 	},
 
 	"devDependencies": {

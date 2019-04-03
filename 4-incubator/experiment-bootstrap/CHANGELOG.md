@@ -4,6 +4,8 @@
 ## PENDING
 * [doc] README++
 * [chore] bumped deps
+* [chore] declared missing dep
+* [chore] tslib no longer a peerDependency
 
 ## v0.0.2
 2019/04/03
