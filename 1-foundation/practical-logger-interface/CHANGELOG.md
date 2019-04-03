@@ -5,6 +5,7 @@
 * [doc] README++
 * TODO groupStart groupEnd
 * [chore] tweaked tsconfig
+* [chore] bumped deps
 
 ## v0.0.1
 2019/04/02

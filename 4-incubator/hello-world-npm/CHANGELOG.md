@@ -1,5 +1,10 @@
+# CHANGELOG
+**This package follows [semver](https://semver.org/).**
 
+## PENDING
 * [chore] corrected es7 to es9
+* [doc] improved README
+* [chore] bumped deps
 
 ## v3.0.2
 2019/04/02

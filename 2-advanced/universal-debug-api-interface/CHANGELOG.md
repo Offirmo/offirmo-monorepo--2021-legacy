@@ -5,6 +5,7 @@
 * [doc] README++
 * TODO the extra API
 * [chore] tweaked tsconfig
+* [chore] bumped deps
 
 ## v0.0.1
 2019/04/03

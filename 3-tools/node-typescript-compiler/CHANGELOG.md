@@ -1,6 +1,10 @@
 # CHANGELOG
 **This package follows [semver](https://semver.org/).**
 
+## PENDING
+* [doc] README++
+* [chore] bumped deps
+
 ## 1.2.0
 2018/01/08
 - verbose option

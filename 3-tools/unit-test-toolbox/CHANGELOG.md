@@ -1,8 +1,11 @@
+# CHANGELOG
+**This package follows [semver](https://semver.org/).**
 
 ## v5.0.1
 2019/04/01
 * [doc] updated the repo url in `package.json`
 * [doc] cleaned this CHANGELOG
+* [chore] bumped deps
 
 ## v5
 2019/04/01

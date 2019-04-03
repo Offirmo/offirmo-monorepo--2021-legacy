@@ -19,7 +19,7 @@ This file is just for taking notes for the next Reddit post.
 - 😍 feature: X new backgrounds (now totalling X!)
 - 🤩 feature: X new achievements (now totalling X!)
 - 😅 fix: tweaks, typos, small bugs…
-- 😷 chore: some internal refactors
+- 😷 chore: some internal refactors (bump deps)
 
 
 ## v0.60.1

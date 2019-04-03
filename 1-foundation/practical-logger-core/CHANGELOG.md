@@ -8,6 +8,7 @@
 - TODO shareable demo
 * [doc] README++
 * [chore] tweaked tsconfig
+* [chore] bumped deps
 
 ## v0.0.1
 2019/04/02
