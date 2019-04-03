@@ -31,17 +31,18 @@
 	  src="https://img.shields.io/maintenance/yes/2019.svg">
 </p>
 
-**This is a minimal, no-operation implementation of Offirmo’s Universal Debug API.**
+**This is a minimal, no-operation implementation of [Offirmo’s Universal Debug API](https://github.com/Offirmo/offirmo-monorepo/wiki/Offirmo%E2%80%99s-Universal-Debug-Api).**
 
-isomorphic, for node and browser.
+Isomorphic, for node and browser.
 
-TODO explain the whole setup
+**This no-op code will be magically hot-swapped if you use the companion FF/Chrome webextension!**
+
+See overall explanation: [Offirmo’s Universal Debug API](https://github.com/Offirmo/offirmo-monorepo/wiki/Offirmo%E2%80%99s-Universal-Debug-Api).
 
 
 ## Usage
 
-Use this lib **to not bloat your webapp/npx bundle**. This no-op lib can be dynamically swapped later
-thanks to the companion webextension (TODO)
+Use this lib **to not bloat your webapp/npx bundle**. This no-op implementation will do nothing: display nothing, compute nothing.
 
 
 ```javascript

@@ -1,7 +1,7 @@
 {
 	"name": "@offirmo/universal-debug-api-minimal-noop",
 	"description": "Implementation of Offirmo’s Universal Debug Api doing nothing at all",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 
@@ -27,13 +27,13 @@
 	},
 	"dependencies": {
 		"@offirmo/globalthis-ponyfill": "^0.0.4",
-		"@offirmo/practical-logger-minimal-noop": "^0.0.1",
-		"@offirmo/universal-debug-api-interface": "^0.0.1"
+		"@offirmo/practical-logger-minimal-noop": "^0.0.2",
+		"@offirmo/universal-debug-api-interface": "^0.0.2"
 	},
 
 	"devDependencies": {
 		"@babel/core": "~7.3",
-		"@offirmo/practical-logger-core": "^0.0.1",
+		"@offirmo/practical-logger-core": "^0.0.2",
 		"npm-run-all": "^4",
 		"ts-node": "^8",
 		"size-limit": "^1"

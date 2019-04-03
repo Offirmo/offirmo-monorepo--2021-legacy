@@ -31,11 +31,16 @@
 	  src="https://img.shields.io/maintenance/yes/2019.svg">
 </p>
 
+This is an **internal** component of [Offirmo’s practical logger](https://github.com/Offirmo/offirmo-monorepo/wiki/Offirmo%E2%80%99s-Practical-Logger). 
+* declares only internal code common to node and browser
+* TODO explain the interface pattern
 
-**Internal common code for a simple and practical logger**
 
-TODO explain more
+## Usage
 
-**This is not what you are looking for! See final interfaces:**
-- browser TODO
-- node TODO
+**This is most likely not what you are looking for!**
+
+See the actual implementations using this module:
+* minimal no-op: [@offirmo/practical-logger-minimal-noop](https://www.npmjs.com/package/@offirmo/practical-logger-minimal-noop)
+* browser: [@offirmo/practical-logger-browser](https://www.npmjs.com/package/@offirmo/practical-logger-browser)
+* node: TODO publish to npm

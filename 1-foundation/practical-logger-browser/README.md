@@ -31,7 +31,7 @@
 	  src="https://img.shields.io/maintenance/yes/2019.svg">
 </p>
 
-https://github.com/Offirmo/offirmo-monorepo/wiki/Offirmo%E2%80%99s-Practical-Logger
+**This is a browser implementation of [Offirmo’s practical logger](https://github.com/Offirmo/offirmo-monorepo/wiki/Offirmo%E2%80%99s-Practical-Logger).**
 
 ## Demo
 
@@ -52,7 +52,7 @@ On Safari:
 
 ## Usage
 
-**Note: for even more power, you may want to use TODO dev API instead of directly this lib!**
+**Note: for even more power, you may want to use [Offirmo’s Universal Debug API](https://github.com/Offirmo/offirmo-monorepo/wiki/Offirmo%E2%80%99s-Universal-Debug-Api) which wraps this lib!**
 
 ```javascript
 import { createLogger } from '@offirmo/practical-logger-browser'

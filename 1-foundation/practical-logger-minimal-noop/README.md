@@ -31,7 +31,7 @@
 	  src="https://img.shields.io/maintenance/yes/2019.svg">
 </p>
 
-**This is a minimal, no-operation implementation of Offirmo’s practical logger.**
+**This is a minimal, no-operation implementation of [Offirmo’s practical logger](https://github.com/Offirmo/offirmo-monorepo/wiki/Offirmo%E2%80%99s-Practical-Logger).**
 
 Use this lib if you want to provide a default implementation,
 for example as a default value in a dependency injection mechanism,
