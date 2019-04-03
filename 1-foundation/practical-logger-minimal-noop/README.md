@@ -1,6 +1,6 @@
 
 <h1 align="center">
-	Offirmo’s practical logger - [no op](https://api.jquery.com/jquery.noop/) implementation<br>
+	Offirmo’s practical logger - <a href="https://en.wikipedia.org/wiki/NOP_(code)">no op</a> implementation<br>
 	<a href="https://www.offirmo.net/offirmo-monorepo/doc/modules-directory/index.html">
 		<img src="https://www.offirmo.net/offirmo-monorepo/doc/quality-seal/offirmos_quality_seal.svg" alt="Offirmo’s quality seal">
 	</a>

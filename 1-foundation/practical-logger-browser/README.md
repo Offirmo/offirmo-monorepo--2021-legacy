@@ -52,7 +52,7 @@ On Safari:
 
 ## Usage
 
-**Note: for even more power, you may want to use [Offirmo’s Universal Debug API](https://github.com/Offirmo/offirmo-monorepo/wiki/Offirmo%E2%80%99s-Universal-Debug-Api) which wraps this lib!**
+**Magic ✨ you may not have to bundle this lib! You may want to use [Offirmo’s Universal Debug API](https://github.com/Offirmo/offirmo-monorepo/wiki/Offirmo%E2%80%99s-Universal-Debug-Api) which wraps this lib!**
 
 ```javascript
 import { createLogger } from '@offirmo/practical-logger-browser'

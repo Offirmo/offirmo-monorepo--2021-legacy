@@ -1,3 +1,6 @@
+
+Magic ✨ you may not have to bundle this lib!
+
 ## Universal debug API companion webextension
 
 TODO doc...
