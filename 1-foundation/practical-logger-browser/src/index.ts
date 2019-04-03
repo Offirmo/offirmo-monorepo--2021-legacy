@@ -4,7 +4,6 @@ import { createLogger as createLoggerCore, DEFAULT_LOGGER_KEY, DEFAULT_LOG_LEVEL
 import sink_firefox from './sinks/advanced/firefox'
 import sink_chromium from './sinks/advanced/chromium'
 import sink_safari from './sinks/advanced/safari'
-import sink_basic from './sinks/basic'
 import { create } from './sinks/advanced'
 
 
@@ -55,5 +54,4 @@ export {
 	sink_firefox,
 	sink_chromium,
 	sink_safari,
-	sink_basic,
 }

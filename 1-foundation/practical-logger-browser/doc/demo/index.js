@@ -95,5 +95,5 @@ if (false) {
 		'"Lucida Console"',
 		'"Courier New"',
 		'monospace',
-	].forEach(font => console.log(`%c${font}: ABCdefi012 %cABCdefi012`, `font-family: ${font};`, `font-family: unset;`))
+	].forEach(font => console.log(`%c${font}: ABCdefi012 %cABCdefi012`, `font-family: ${font};`, 'font-family: unset;'))
 }

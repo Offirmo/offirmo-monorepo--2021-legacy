@@ -4,7 +4,7 @@ import { Random, Engine } from '@offirmo/random'
 import { generate_uuid, UUID_LENGTH } from '.'
 
 
-describe(`@offirmo-private/uuid - generate`, function() {
+describe('@offirmo-private/uuid - generate', function() {
 	describe('generate_uuid()', function() {
 		context('when provided a random generator', function() {
 

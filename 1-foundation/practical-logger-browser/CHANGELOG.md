@@ -2,6 +2,8 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
+* TODO lower size by removing duplication + useless sink
+* TODO test EDGE, IE
 * [doc] README++
 * [chore] tweaked tsconfig
 * [chore] bumped deps

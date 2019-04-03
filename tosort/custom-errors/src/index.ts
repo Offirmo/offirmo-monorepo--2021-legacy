@@ -129,6 +129,3 @@ extended_exceptions.IllegalState = create_custom_error('IllegalState', extended_
 // https://en.wikipedia.org/wiki/Invariant_%28computer_science%29
 extended_exceptions.InvariantNotMet = create_custom_error('InvariantNotMet', extended_exceptions.LogicError)
 
-
-return extended_exceptions
-}) // requirejs module

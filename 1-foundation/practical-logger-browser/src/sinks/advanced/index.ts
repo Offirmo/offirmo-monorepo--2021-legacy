@@ -19,11 +19,11 @@ function quick_detect_browser() {
 
 export function create(): LogSink {
 	switch(quick_detect_browser()) {
-		case 'firefox':
-			return sink_firefox
-		case 'safari':
-			return sink_safari
-		default:
-			return sink_chromium
+	case 'firefox':
+		return sink_firefox
+	case 'safari':
+		return sink_safari
+	default:
+		return sink_chromium
 	}
 }

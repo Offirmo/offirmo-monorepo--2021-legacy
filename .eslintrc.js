@@ -96,12 +96,21 @@ module.exports = {
 			'rules': {
 				// override of main
 				'no-undef': 'off', // bug https://github.com/nzakas/eslint-plugin-typescript/issues/110
+				'no-unused-vars': 'off', // superseded by @typescript-eslint/no-unused-vars
 
 				// TS overrides
 				'@typescript-eslint/no-explicit-any': 'off', // TODO
 				'@typescript-eslint/explicit-function-return-type': 'off', // TODO low prio
 				'@typescript-eslint/ban-types': 'off', // TODO low prio
 				'@typescript-eslint/no-non-null-assertion': 'off', // TODO
+				'@typescript-eslint/no-use-before-define': 'off', // TODO
+				'@typescript-eslint/no-inferrable-types': 'off', // types are spec, I disagree with this one
+				'@typescript-eslint/no-unused-vars': ['error', {
+					'vars': 'all',
+					'args': 'none', // TODO
+					'ignoreRestSiblings': true,
+					'caughtErrors': 'all',
+				}]
 				/*
 				'no-unused-vars': 'off', // bug https://github.com/nzakas/eslint-plugin-typescript/issues/150
 				//'import/no-unresolved': 'off', // bug on resolving .ts
@@ -122,22 +131,23 @@ module.exports = {
 				'@typescript-eslint/no-triple-slash-reference': 'error',
 				'@typescript-eslint/no-type-alias': 'off',
 				'@typescript-eslint/no-unused-vars': 'error',
-				'@typescript-eslint/no-use-before-define': 'off', // TODO
 				'@typescript-eslint/prefer-namespace-keyword': 'error',
 				'@typescript-eslint/type-annotation-spacing': 'error',
 				*/
 			},
 		},
 		{
-			'files': ['**/doc/**/*.{ts,js,jsx}', 'webpack.config.ts'],
+			'files': ['**/doc/**/*.{ts,tsx,js,jsx}', 'webpack.config.ts'],
 			'rules': {
 				'no-unused-vars': 'off',
 				'no-console': 'off',
+				'no-constant-condition': 'off',
+				'node/no-unsupported-features/node-builtins': 'off',
 				'typescript/no-var-requires': 'off',
 			},
 		},
 		{
-			'files': ['**/*_spec.ts'],
+			'files': ['**/*_spec.{ts,tsx}'],
 			'rules': {
 				'typescript/explicit-function-return-type': 'off',
 			},
@@ -153,7 +163,7 @@ module.exports = {
 			},
 		},
 		{
-			'files': ['\\.eslintrc.js', 'prettier.config.js', 'webpack.config.ts'],
+			'files': ['\\.eslintrc.js', '\\prettierrc.js', 'webpack.config.ts'],
 			'env': {
 				'node': true,
 			},

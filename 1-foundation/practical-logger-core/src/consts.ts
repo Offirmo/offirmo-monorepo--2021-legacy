@@ -62,11 +62,11 @@ if (Object.keys(LEVEL_TO_HUMAN).sort().join(',') !== Object.keys(LEVEL_TO_INTEGE
 
 const ALL_LOG_LEVELS: Readonly<LogLevel[]> =
 	Object.keys(LEVEL_TO_INTEGER)
-	.map(s => s as LogLevel)
-	.sort((a: LogLevel, b: LogLevel) => LEVEL_TO_INTEGER[a] - LEVEL_TO_INTEGER[b])
+		.map(s => s as LogLevel)
+		.sort((a: LogLevel, b: LogLevel) => LEVEL_TO_INTEGER[a] - LEVEL_TO_INTEGER[b])
 
 const DEFAULT_LOG_LEVEL: LogLevel = 'error'
-const DEFAULT_LOGGER_KEY: string = ''
+const DEFAULT_LOGGER_KEY = ''
 
 export {
 	LIB,

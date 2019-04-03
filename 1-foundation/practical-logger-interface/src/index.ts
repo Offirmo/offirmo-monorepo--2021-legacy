@@ -18,7 +18,7 @@ export type LogLevel = 'fatal'
 	| 'trace'
 	| 'silly'
 
-export type LogDetails = { [k: string]: any }
+export interface LogDetails { [k: string]: any }
 
 // We INTENTIONALLY restrict to a structured primitive with no overloading.
 // for ex. we do NOT follow bunyan with its multiple overloads (https://github.com/trentm/node-bunyan#log-method-api)

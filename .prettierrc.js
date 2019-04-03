@@ -4,4 +4,14 @@ module.exports = {
 	semi: false,
 	singleQuote: true,
 	trailingComma: 'all',
+	endOfLine: 'lf',
+
+	'overrides': [
+		{
+			'files': '*.{ts,tsx}',
+			'options': {
+				'parser': 'typescript'
+			}
+		}
+	]
 }

@@ -32,7 +32,7 @@ type JSONPrimitiveType = boolean | null | undefined | number | string
 interface JSONObject {
 	[k: string]: JSONAny
 }
-interface JSONArray extends Array<JSONAny> { }
+interface JSONArray extends Array<JSONAny> { } // eslint-disable-line @typescript-eslint/no-empty-interface
 
 /////////////////////
 

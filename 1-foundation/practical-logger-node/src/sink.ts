@@ -98,8 +98,8 @@ export const sink: LogSink = (payload: LogPayload): void => {
 		+ (
 			prettified_details
 				? is_prettified_details_multiline
-				? ' {\n' + indent_string(prettifyJson(details), 2) + '\n}'
-				: ' { ' + prettified_details + ' }'
+					? ' {\n' + indent_string(prettifyJson(details), 2) + '\n}'
+					: ' { ' + prettified_details + ' }'
 				: ''
 		)
 	console.log(line) // eslint-disable-line no-console

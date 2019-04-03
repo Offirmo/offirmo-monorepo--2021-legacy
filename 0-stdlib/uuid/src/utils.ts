@@ -4,7 +4,7 @@ function xxx_test_unrandomize_element<T extends WithUUID>(x: Readonly<T>, hint?:
 	return {
 		...x,
 		uuid: hint || 'uu1~test~test~test~test~'
-	} as T
+	}
 }
 
 export {

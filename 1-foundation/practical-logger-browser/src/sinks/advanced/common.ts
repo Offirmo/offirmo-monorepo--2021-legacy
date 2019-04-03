@@ -1,7 +1,7 @@
-import assert from "tiny-invariant"
+import assert from 'tiny-invariant'
 import { LogLevel, ALL_LOG_LEVELS, LOG_LEVEL_TO_HUMAN } from '@offirmo/practical-logger-core'
 
-import { LIB } from "../../consts";
+import { LIB } from '../../consts'
 
 const FONT_FAMILY_BETTER_PROPORTIONAL = 'font-family: ' + [
 	'-apple-system',

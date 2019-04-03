@@ -18,7 +18,7 @@ function has_details_indicator(console_method_name: string, details: any): boole
 
 const HEADER_FONT_SIZE_STYLE = 'font-size: 9px'
 export const sink: LogSink = (payload: LogPayload): void => {
-	const { level, name, msg, time, details } = payload
+	const { level, name, msg, details } = payload
 	const console_method_name: string = LEVEL_TO_CONSOLE_METHOD[level]
 	const console_method: Console['log'] = (console as any)[console_method_name]
 
