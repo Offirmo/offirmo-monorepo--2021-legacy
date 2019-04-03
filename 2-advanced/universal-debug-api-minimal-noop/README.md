@@ -33,6 +33,8 @@
 
 **This is a minimal, no-operation implementation of Offirmo’s Universal Debug API.**
 
+isomorphic, for node and browser.
+
 TODO explain the whole setup
 
 ## Usage

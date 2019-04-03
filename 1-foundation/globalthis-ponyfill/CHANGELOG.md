@@ -1,6 +1,9 @@
+# CHANGELOG
+**This package follows [semver](https://semver.org/).**
 
 ## PENDING
 * [doc] README++
+* [chore] tweaked tsconfig
 
 ## v0.0.4
 2019/04/02

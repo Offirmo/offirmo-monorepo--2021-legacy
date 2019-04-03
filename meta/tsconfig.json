@@ -2,14 +2,16 @@
 	"compileOnSave": false,
 	"compilerOptions": {
 		"allowJs": false,
+		"checkJs": false,
 		"lib": [ "ES2018" ],
 		"moduleResolution": "node",
 
 		"listEmittedFiles": false,
 		"listFiles": false,
-		"skipDefaultLibCheck": true,
+		"skipLibCheck": true,
 		"noEmitOnError": true,
 		"pretty": true,
+		"extendedDiagnostics": false,
 
 		"strict": true,
 		"keyofStringsOnly": true,
@@ -20,14 +22,15 @@
 		"noImplicitAny": true,
 		"noImplicitReturns": true,
 		"noImplicitThis": true,
-		"strictNullChecks": true,
+		"strictBindCallApply": true,
 		"strictFunctionTypes": true,
+		"strictNullChecks": true,
 		"strictPropertyInitialization": true,
 
 		"alwaysStrict": true,
 		"declaration": true,
-		"emitDecoratorMetadata": true,
-		"experimentalDecorators": true,
+		"experimentalDecorators": false,
+		"emitDecoratorMetadata": false,
 		"importHelpers": true,
 		"noEmitHelpers": true,
 
@@ -36,8 +39,9 @@
 		"target": "ES2017",
 		"newLine": "lf",
 		"sourceMap": true,
+		"resolveJsonModule": true,
 
-		"preserveSymlinks": true
+		"preserveSymlinks": false
 	},
 	"include": [
 		"./typings-custom/**/*.ts"

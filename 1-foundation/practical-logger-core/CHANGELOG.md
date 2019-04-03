@@ -1,3 +1,5 @@
+# CHANGELOG
+**This package follows [semver](https://semver.org/).**
 
 ## Pending
 - TODO use tiny-invariant
@@ -5,6 +7,7 @@
 - TODO link to other modules
 - TODO shareable demo
 * [doc] README++
+* [chore] tweaked tsconfig
 
 ## v0.0.1
 2019/04/02
