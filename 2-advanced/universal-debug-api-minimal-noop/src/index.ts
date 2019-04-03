@@ -1,7 +1,7 @@
 import { getGlobalThis } from '@offirmo/globalthis-ponyfill'
-import { WebDebugApiRoot, WebDebugApi, Logger } from '@offirmo/universal-debug-api-interface'
+import { WebDebugApiRoot, WebDebugApi } from '@offirmo/universal-debug-api-interface'
 
-import createV1 from './v1'
+import { create as createV1 } from './v1'
 
 // ensure the root is present
 const globalThis = getGlobalThis()
