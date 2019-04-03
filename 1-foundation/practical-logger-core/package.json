@@ -14,7 +14,7 @@
 
 	"size-limit": [
 		{
-			"limit": "1kb",
+			"limit": "1.5kb",
 			"path": "dist/src.es9/index.js"
 		},
 		{
@@ -26,8 +26,7 @@
 	"peerDependencies": {
 	},
 	"dependencies": {
-		"@offirmo/practical-logger-interface": "^0.0.2",
-		"tslib": "^1"
+		"@offirmo/practical-logger-interface": "^0.0.2"
 	},
 
 	"devDependencies": {
