@@ -21,7 +21,6 @@
 	],
 
 	"peerDependencies": {
-		"tslib": "^1"
 	},
 	"dependencies": {
 		"@offirmo/practical-logger-core": "^0.0.1",
@@ -29,7 +28,8 @@
 		"@offirmo-private/prettify-json": "^0.0.1",
 		"@offirmo-private/print-error-to-ansi": "^0.0.1",
 		"chalk": "^2",
-		"indent-string": "^3"
+		"indent-string": "^3",
+		"tslib": "^1"
 	},
 
 	"devDependencies": {

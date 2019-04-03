@@ -18,11 +18,11 @@
 	"sideEffects": false,
 
 	"peerDependencies": {
-		"tslib": "^1"
 	},
 	"dependencies": {
 		"@offirmo-private/common-error-fields": "^0.0.1",
-		"chalk": "^2"
+		"chalk": "^2",
+		"tslib": "^1"
 	},
 
 	"devDependencies": {

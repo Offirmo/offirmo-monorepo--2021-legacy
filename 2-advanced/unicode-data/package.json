@@ -14,7 +14,6 @@
 	"sideEffects": false,
 
 	"peerDependencies": {
-		"tslib": "^1"
 	},
 	"dependencies": {
 		"typescript-string-enums": "^1"

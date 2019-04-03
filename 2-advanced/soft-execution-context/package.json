@@ -12,14 +12,14 @@
 	"sideEffects": true,
 
 	"peerDependencies": {
-		"tslib": "^1"
 	},
 	"dependencies": {
 		"@offirmo/globalthis-ponyfill": "^0.0.4",
 		"@offirmo-private/normalize-error": "^0.0.1",
 		"@offirmo-private/promise-try": "^0.0.1",
 		"@offirmo-private/timestamps": "^0.0.1",
-		"emittery": "^0.4"
+		"emittery": "^0.4",
+		"tslib": "^1"
 	},
 
 	"devDependencies": {

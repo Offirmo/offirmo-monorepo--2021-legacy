@@ -5,6 +5,7 @@
 * [doc] README++
 * [chore] tweaked tsconfig
 * [chore] bumped deps
+* [chore] tslib no longer a peerDependency
 
 ## v0.0.1
 2019/04/02

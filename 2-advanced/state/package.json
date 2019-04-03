@@ -14,11 +14,11 @@
 	"sideEffects": false,
 
 	"peerDependencies": {
-		"tslib": "^1"
 	},
 	"dependencies": {
 		"@offirmo-private/timestamps": "^0.0.1",
 		"@offirmo-private/ts-types": "^0.0.1",
+		"tslib": "^1",
 		"typescript-string-enums": "^1"
 	},
 

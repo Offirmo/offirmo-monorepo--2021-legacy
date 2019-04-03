@@ -24,10 +24,10 @@
 	],
 
 	"peerDependencies": {
-		"tslib": "^1"
 	},
 	"dependencies": {
-		"@offirmo/practical-logger-interface": "^0.0.1"
+		"@offirmo/practical-logger-interface": "^0.0.1",
+		"tslib": "^1"
 	},
 
 	"devDependencies": {

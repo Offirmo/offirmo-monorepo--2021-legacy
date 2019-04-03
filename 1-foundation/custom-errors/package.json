@@ -13,9 +13,9 @@
 	"sideEffects": false,
 
 	"peerDependencies": {
-		"tslib": "^1"
 	},
 	"dependencies": {
+		"tslib": "^1"
 	},
 
 	"devDependencies": {
