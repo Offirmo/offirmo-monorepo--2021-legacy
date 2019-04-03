@@ -37,9 +37,10 @@ isomorphic, for node and browser.
 
 TODO explain the whole setup
 
+
 ## Usage
 
-Use this lib **to not bloat your webapp bundle**. This no-op lib can be dynamically swapped later
+Use this lib **to not bloat your webapp/npx bundle**. This no-op lib can be dynamically swapped later
 thanks to the companion webextension (TODO)
 
 
@@ -48,3 +49,5 @@ import { } from '@offirmo/universal-debug-api-minimal-noop'
 
 TODO
 ```
+
+Note: no bundled version provided, for this lib is targeted at lib authors, not end users.
