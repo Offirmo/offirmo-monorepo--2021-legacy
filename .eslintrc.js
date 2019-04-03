@@ -60,11 +60,17 @@ module.exports = {
 	'rules': {
 		'camelcase': 'off',
 
-		// those rules are covered by prettier
-		'indent': ['error', 'tab'],
+		// stylistic rules (may also be covered by prettier)
+		'indent': ['error', 'tab', {
+			'SwitchCase': 1,
+		}],
 		'quotes': ['error', 'single'],
 		'semi': ['error', 'never'],
 		'linebreak-style': ['error', 'unix'],
+		'comma-dangle': ['error', 'always-multiline'],
+		'eol-last': ['error', 'always'],
+		'jsx-quotes': ['error', 'prefer-double'], // like html
+		'no-trailing-spaces': 'error',
 
 		'no-console': 'off',  // TODO, too much noise for now
 		'no-unused-vars': 'off',  // TODO, too much noise for now
@@ -140,6 +146,7 @@ module.exports = {
 			'files': ['**/doc/**/*.{ts,tsx,js,jsx}', 'webpack.config.ts'],
 			'rules': {
 				'no-unused-vars': 'off',
+				'@typescript-eslint/no-unused-vars': 'off',
 				'no-console': 'off',
 				'no-constant-condition': 'off',
 				'node/no-unsupported-features/node-builtins': 'off',

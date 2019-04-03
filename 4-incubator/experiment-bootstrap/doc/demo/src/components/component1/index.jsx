@@ -38,11 +38,11 @@ export class C1 extends Component {
 
 		const copy = (cohort === 'variation')
 			? 'Some better info'
-			: 'Some boring info';
+			: 'Some boring info'
 
 		const extraCta = (cohort === 'variation')
 			? <button>New CTA!</button>
-			: null;
+			: null
 
 		return (
 			<div className="c1">
@@ -50,13 +50,13 @@ export class C1 extends Component {
 				{copy}
 				{extraCta}
 			</div>
-		);
+		)
 	}
 }
 
 const LC1 = Loadable({
 	loader: () => trivialExperiment.resolve().then(() => C1),
 	loading: Loader,
-});
+})
 
 export default LC1

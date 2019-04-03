@@ -1,4 +1,4 @@
-
+/*
 function get(raw_word) {
 
 	const words = db.findWords(raw_word)
@@ -13,3 +13,4 @@ function get(raw_word) {
 		// etc.
 	})
 }
+*/

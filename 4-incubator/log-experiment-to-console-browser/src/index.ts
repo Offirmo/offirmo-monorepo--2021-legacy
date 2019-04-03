@@ -1,4 +1,4 @@
-import { STYLES } from './consts';
+import { STYLES } from './consts'
 
 import {
 	ExperimentInternal,
@@ -22,7 +22,7 @@ const COHORT_TO_EMOTICON: { [k: string]: string } = {
 	'variation-2': '✅2️⃣',
 	'variation-3': '✅3️⃣',
 	'variation-4': '✅4️⃣',
-};
+}
 
 
 function getIconForExperiment(state: Readonly<ExperimentInternal<any>>) {
@@ -137,7 +137,7 @@ function printExperiment(db: ExperimentDB, state: Readonly<ExperimentInternal<an
 		STYLES.reset,
 		STYLES.strong,
 		STYLES.reset,
-	);
+	)
 
 	/*
 		console.groupCollapsed(
@@ -177,29 +177,29 @@ function printExperiment(db: ExperimentDB, state: Readonly<ExperimentInternal<an
 	);
 	console.groupEnd();
 	*/
-	console.groupEnd();
+	console.groupEnd()
 }
 
 
 export function list(db: ExperimentDB) {
-	console.log('list', db);
+	console.log('list', db)
 	const experiments: Readonly<ExperimentInternal<any>>[] = Object.values(db)
 
 	const aggregatedData = experiments.reduce(
 		(acc, experiment) => {
-			acc.experimentCount++;
+			acc.experimentCount++
 			if (isActive(experiment))
-				acc.activeExperimentCount++;
+				acc.activeExperimentCount++
 			if (isResolved(experiment) && experiment.publicResult.cohort !== 'not-enrolled')
-				acc.enrolledExperimentCount++;
-			return acc;
+				acc.enrolledExperimentCount++
+			return acc
 		},
 		{
 			experimentCount: 0,
 			activeExperimentCount: 0,
 			enrolledExperimentCount: 0,
 		},
-	);
+	)
 	console.group(
 		`%cExperiments: %c${aggregatedData.experimentCount}%c declared, %c${
 			aggregatedData.activeExperimentCount
@@ -211,7 +211,7 @@ export function list(db: ExperimentDB) {
 		STYLES.reset,
 		STYLES.strong,
 		STYLES.reset,
-	);
-	experiments.forEach(e => printExperiment(db, e));
-	console.groupEnd();
+	)
+	experiments.forEach(e => printExperiment(db, e))
+	console.groupEnd()
 }

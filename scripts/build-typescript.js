@@ -7,7 +7,7 @@ const tsc = require('../3-tools/node-typescript-compiler')
 
 /////////////////////
 
-const cli = meow(`build`, {
+const cli = meow('build', {
 	flags: {
 		watch: {
 			type: 'boolean',

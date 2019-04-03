@@ -12,7 +12,7 @@ const { LIB } = require('./consts')
 ///////////////////////////////////////////////////////
 
 const spawn_options = {
-	env: process.env
+	env: process.env,
 }
 const RADIX = 'tsc'
 
@@ -132,7 +132,7 @@ function compile(params, files, options) {
 ///////////////////////////////////////////////////////
 
 module.exports = {
-	compile
+	compile,
 }
 
 ///////////////////////////////////////////////////////

@@ -34,10 +34,10 @@ document.addEventListener('click', event => {
 			case 'notify': {
 				chrome.notifications.create(
 					{
-						"type": "basic",
-						"iconUrl": chrome.extension.getURL("icons/icon_64x64.png"),
-						"title": "[Universal web debug tool] notification",
-						"message": "[Universal web debug tool] notif from background"
+						'type': 'basic',
+						'iconUrl': chrome.extension.getURL('icons/icon_64x64.png'),
+						'title': '[Universal web debug tool] notification',
+						'message': '[Universal web debug tool] notif from background',
 					}
 				)
 				break
@@ -55,5 +55,5 @@ document.addEventListener('click', event => {
 function do_sth() {
 	chrome.tabs.query({active: true, currentWindow: true}, ([current_tab]) => {
 		console.log('current tab')
-	});
+	})
 }

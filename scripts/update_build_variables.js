@@ -1,7 +1,7 @@
 console.log('🧙️  Hello from update_build_variables.js!')
 
 const path = require('path')
-const write_json_file = require("write-json-file")
+const write_json_file = require('write-json-file')
 const meow = require('meow')
 const fs = require('fs-extra')
 
@@ -9,7 +9,7 @@ const { get_human_readable_UTC_timestamp_minutes } = require('../0-stdlib/timest
 
 /////////////////////
 
-const cli = meow(`build`, {
+const cli = meow('build', {
 	flags: {
 		mode: {
 			type: 'string',

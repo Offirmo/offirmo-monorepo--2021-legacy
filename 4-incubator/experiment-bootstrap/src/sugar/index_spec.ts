@@ -165,7 +165,7 @@ describe(`${LIB} - sugar API`, function() {
 									type === ParamType.requirement
 										? behavior
 										: TestParamBehavior.good_returns_synchronously
-								)
+								),
 							})
 							.build()
 

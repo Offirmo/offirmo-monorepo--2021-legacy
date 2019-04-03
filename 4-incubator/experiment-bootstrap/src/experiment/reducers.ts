@@ -19,7 +19,7 @@ import { LIB } from '../consts'
 import {
 	ExperimentStage,
 	ExperimentSpec,
-	ExperimentInternal
+	ExperimentInternal,
 } from './types'
 
 import {
@@ -61,8 +61,8 @@ function _reportError<T>(state: ExperimentInternal<T>, msg: string, details: Obj
 		msg,
 		details: {
 			...details,
-			step: state.stepCount
-		}
+			step: state.stepCount,
+		},
 	})
 
 	return state
@@ -85,8 +85,8 @@ function _reportWarning<T>(state: ExperimentInternal<T>, msg: string, details: O
 		msg,
 		details: {
 			...details,
-			step: state.stepCount
-		}
+			step: state.stepCount,
+		},
 	})
 
 	return state
@@ -222,7 +222,7 @@ export function registerOnResolutionInitiated<T>(state: ExperimentInternal<T>, c
 		case ExperimentStage.waiting_usage:
 			break
 		case ExperimentStage.resolving:
-			// too late! Reject immediately to not force waiting for the full timeout.
+		// too late! Reject immediately to not force waiting for the full timeout.
 			return _reportError(state, 'onResolutionInitiated(): late call!', {step: state.stepCount})
 		case ExperimentStage.resolved:
 			return _reportWarning(state, 'onResolutionInitiated(): late call!', {step: state.stepCount})
@@ -243,8 +243,8 @@ export function setInfos<T>(state: ExperimentInternal<T>, infos: Partial<T>): Ex
 
 	switch(state.stage) {
 		case ExperimentStage.specifying:
-			// user has forgotten to mark specifications as done.
-			state = _reportError(state, `Incorrect stage for calling setInfos()!`, {
+		// user has forgotten to mark specifications as done.
+			state = _reportError(state, 'Incorrect stage for calling setInfos()!', {
 				stage: state.stage,
 			})
 			break
@@ -253,7 +253,7 @@ export function setInfos<T>(state: ExperimentInternal<T>, infos: Partial<T>): Ex
 		case ExperimentStage.resolving:
 			break
 		case ExperimentStage.resolved:
-			// let it slide...
+		// let it slide...
 			return _reportWarning(state, 'setInfos(): late re-attempt!', {step: state.stepCount})
 		default:
 			state = _reportError(state, 'setInfos(): internal error SI1!', {step: state.stepCount})
@@ -301,7 +301,7 @@ function _attemptResolution<T>(state: ExperimentInternal<T>, srcDebug: string): 
 		case ExperimentStage.resolving:
 			break
 		case ExperimentStage.resolved:
-			// happens on late/duplicated requirements resolution
+		// happens on late/duplicated requirements resolution
 			return state
 		default:
 			state = _reportError(state, '_attemptResolution(): AR2!', {step: state.stepCount})
@@ -457,7 +457,7 @@ export function initiateResolution<T>(state: ExperimentInternal<T>): ExperimentI
 					if (state.resolution.isKillSwitchResolved) return // duplicate resolution, possible on repeated setInfos() calls
 					if (state.stage !== ExperimentStage.resolving) return // too late, experiment already resolved to not-enrolled
 
-					if (typeof isOn !== 'boolean') throw create_error(`Incorrect value!`, {value: isOn})
+					if (typeof isOn !== 'boolean') throw create_error('Incorrect value!', {value: isOn})
 
 					state.privateResult.isOn = isOn
 					state.resolution.isKillSwitchResolved = true
@@ -494,7 +494,7 @@ export function initiateResolution<T>(state: ExperimentInternal<T>): ExperimentI
 					if (state.resolution.isInitialCohortResolved) return // duplicate resolution, possible on repeated setInfos() calls
 					if (state.stage !== ExperimentStage.resolving) return // too late, experiment already resolved to not-enrolled
 
-					if (!Enum.isType(Cohort, initialCohort)) throw create_error(`Incorrect value!`, {value: initialCohort})
+					if (!Enum.isType(Cohort, initialCohort)) throw create_error('Incorrect value!', {value: initialCohort})
 
 					state.privateResult.initialCohort = initialCohort
 					state.resolution.isInitialCohortResolved = true
@@ -527,7 +527,7 @@ export function initiateResolution<T>(state: ExperimentInternal<T>): ExperimentI
 						if (state.resolution.isRequirementResolved[key]) return // duplicate resolution, possible on repeated setInfos() calls
 						if (state.stage !== ExperimentStage.resolving) return // too late, experiment already resolved to not-enrolled
 
-						if (typeof isReqOk !== 'boolean') throw create_error(`Incorrect value!`, {value: isReqOk})
+						if (typeof isReqOk !== 'boolean') throw create_error('Incorrect value!', {value: isReqOk})
 
 						state.privateResult.requirements[key] = isReqOk
 						state.resolution.isRequirementResolved[key] = true

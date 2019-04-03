@@ -1,23 +1,23 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'
+import ReactDOM from 'react-dom'
 
 // TODO
 //import { attachDevToolsUI } from '../../../src';
 
-import Root from './components/root';
+import Root from './components/root'
 
 function start() {
-  console.log('starting…');
+	console.log('starting…')
 
-  //attachDevToolsUI();
+	//attachDevToolsUI();
 
-  // $FlowFixMe
-  ReactDOM.render(<Root />, document.getElementById('root'));
+	// $FlowFixMe
+	ReactDOM.render(<Root />, document.getElementById('root'))
 }
 
-start();
+start()
 
-export { start };
+export { start }
 
 
 // TODO helper to coerce a feature flag value

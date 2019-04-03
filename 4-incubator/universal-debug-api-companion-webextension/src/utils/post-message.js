@@ -1,4 +1,4 @@
-const POST_MSG_NAMESPACE = '_OUDT';
+const POST_MSG_NAMESPACE = '_OUDT'
 
 function listenForSafePostMessages({
 	logger = console,
@@ -12,8 +12,8 @@ function listenForSafePostMessages({
 			// no big deal, some browser extensions and some libs (ex. google) send postMessage
 			logger.log(
 				`${debugId} → postMessage: Ignoring, wrong origin: "${event.origin}".`,
-			);
-			return;
+			)
+			return
 		}
 
 		if (
@@ -25,28 +25,28 @@ function listenForSafePostMessages({
 			logger.log(
 				`${debugId} → postMessage: Ignoring, unrecognized data format.`,
 				event.data,
-			);
-			return;
+			)
+			return
 		}
 
-		logger.log(`${debugId} → postMessage: received valid message:`, event.data);
+		logger.log(`${debugId} → postMessage: received valid message:`, event.data)
 
 		onMessage({
 			origin: event.origin,
 			source: event.source,
 			data: event.data[POST_MSG_NAMESPACE],
-		});
+		})
 	}
 
 	const listenerOptions = {
 		capture: false, // http://devdocs.io/dom/window/postmessage
-	};
+	}
 
-	window.addEventListener('message', onMessageInternal, listenerOptions);
+	window.addEventListener('message', onMessageInternal, listenerOptions)
 
 	return function removeListener() {
-		window.removeEventListener('message', onMessageInternal, listenerOptions);
-	};
+		window.removeEventListener('message', onMessageInternal, listenerOptions)
+	}
 }
 
-export { POST_MSG_NAMESPACE, listenForSafePostMessages };
+export { POST_MSG_NAMESPACE, listenForSafePostMessages }

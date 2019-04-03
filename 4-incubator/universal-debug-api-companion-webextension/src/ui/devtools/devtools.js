@@ -21,7 +21,7 @@ function get_browser() {
 // https://developer.chrome.com/extensions/devtools
 
 chrome.devtools.inspectedWindow.eval(
-	"console.log(`🧩 [T=${+Date.now()}] Hello from injected from devtools!`)",
+	'console.log(`🧩 [T=${+Date.now()}] Hello from injected from devtools!`)',
 	function(result, isException) { }
 )
 
@@ -31,7 +31,7 @@ chrome.devtools.panels.create(
 	'/icons/icon_32x32.png', // works only on FF
 	// Chrome and FF have different paths
 	'/ui/devtools/devtools-panel.html',
-/*	get_browser() === 'Firefox'
+	/*	get_browser() === 'Firefox'
 		? './devtools-panel.html'
 		: 'ui/devtools-panel.html',*/
 	(panel) => {

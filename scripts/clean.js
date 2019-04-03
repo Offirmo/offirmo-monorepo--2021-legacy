@@ -7,7 +7,7 @@ const fs = require('@offirmo/cli-toolbox/fs/extra')
 
 /////////////////////
 
-const cli = meow(`clean`, {
+const cli = meow('clean', {
 })
 
 /////////////////////

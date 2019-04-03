@@ -6,10 +6,10 @@ export default function runInPageContext(method, ...args) {
 	// The stringified method which will be parsed as a function object.
 	const stringifiedMethod = method instanceof Function
 		? method.toString()
-		: `() => { ${method} }`;
+		: `() => { ${method} }`
 
 	// The stringified arguments for the method as JS code that will reconstruct the array.
-	const stringifiedArgs = JSON.stringify(args);
+	const stringifiedArgs = JSON.stringify(args)
 
 	// The full content of the script tag.
 	const scriptContent = `
@@ -17,11 +17,11 @@ export default function runInPageContext(method, ...args) {
     (${stringifiedMethod})(...${stringifiedArgs});
     // Remove the script element to cover our tracks.
     //document.currentScript.parentElement.removeChild(document.currentScript);
-  `;
+  `
 
 	// Create a script tag and inject it into the document.
-	const scriptElement = document.createElement('script');
+	const scriptElement = document.createElement('script')
 	//scriptElement.setAttribute("type", "module");
-	scriptElement.innerHTML = scriptContent;
-	document.documentElement.prepend(scriptElement);
+	scriptElement.innerHTML = scriptContent
+	document.documentElement.prepend(scriptElement)
 }

@@ -4,5 +4,5 @@ export default [
 		references: [
 			'video:GeorgieHarding/CommonlyMispronouncedWords',
 		],
-	}
+	},
 ]

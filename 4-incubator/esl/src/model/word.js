@@ -1,4 +1,4 @@
-
+/*
 const WORD_TYPES = [
 	'noun',
 	'verb',
@@ -12,7 +12,7 @@ export function create({
 	score,
 	explicitStress,
 	phonetics,
-							  }) {
+}) {
 
 	content = content.trim()
 	if (!content)
@@ -23,6 +23,7 @@ export function create({
 
 	return {
 		content,
-		type
+		type,
 	}
 }
+*/

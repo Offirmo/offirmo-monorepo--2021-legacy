@@ -86,5 +86,5 @@ export function createExperiment<T>(key: string): Experiment<T> {
 }
 
 export {
-	ERROR_MSG_MISSING_INFOS
+	ERROR_MSG_MISSING_INFOS,
 } from '../experiment'

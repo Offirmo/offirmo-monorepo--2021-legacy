@@ -26,5 +26,5 @@ interface Experiment<T> {
 }
 
 export {
-	Experiment
+	Experiment,
 }

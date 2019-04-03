@@ -17,7 +17,7 @@ export const ExperimentStage = Enum(
 	'resolving',
 	'resolved',
 )
-export type ExperimentStage = Enum<typeof ExperimentStage> // eslint-disable-line no-redeclare
+export type ExperimentStage = Enum<typeof ExperimentStage> // eslint-disable-line no-redeclare import/export
 
 
 export interface ExperimentSpec<T> {
