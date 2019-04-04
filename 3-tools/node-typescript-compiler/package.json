@@ -1,6 +1,6 @@
 {
 	"name": "node-typescript-compiler",
-	"version": "1.1.1",
+	"version": "2.0.0",
 	"description": "Exposes typescript compiler (tsc) as a node.js module",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
@@ -25,7 +25,7 @@
 		"np": "^4"
 	},
 	"scripts": {
-		"np": "np",
+		"np": "np --no-publish",
 		"test": "./test/test.js"
 	},
 
