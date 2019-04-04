@@ -1,33 +1,28 @@
 {
 	"name": "@offirmo/practical-logger-browser",
 	"description": "Browser implementation of Offirmo’s practical logger",
-	"version": "0.0.2",
+	"version": "1.0.0",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
-
 	"esnext": "dist/src.es9/index.js",
 	"module": "dist/src.es9/index.js",
 	"main": "dist/src.es9.cjs/index.js",
 	"typings": "dist/src.es9.cjs/index.d.ts",
 	"source": "src/index.ts",
 	"sideEffects": false,
-
 	"size-limit": [
 		{
 			"limit": "2kb",
 			"path": "dist/src.es9/index.js"
 		}
 	],
-
-	"peerDependencies": {
-	},
+	"peerDependencies": {},
 	"dependencies": {
 		"@offirmo/practical-logger-core": "^1",
 		"@offirmo/practical-logger-interface": "^1",
 		"tiny-invariant": "^1",
 		"tslib": "^1"
 	},
-
 	"devDependencies": {
 		"@babel/core": "~7.3",
 		"np": "^4",
@@ -37,21 +32,17 @@
 	},
 	"scripts": {
 		"clean": "node ../../scripts/clean.js dist",
-
 		"build:dev:watch": "node ../../scripts/build-typescript.js --watch",
 		"build:prod": "node ../../scripts/build-typescript.js",
 		"build:bundle": "parcel build --no-autoinstall --no-source-maps --out-file index-bundle.js  src/index.ts",
 		"ensure-size": "size-limit",
-
 		"dev": "run-s clean build:dev:watch",
 		"build": "run-s build:prod",
 		"cheatsheet": "node doc/cheatsheet.js",
 		"demo": "parcel --out-dir .parcel --no-autoinstall doc/demo/index.html",
-
 		"np": "np --no-publish",
 		"prepublishOnly": "run-s clean build:prod ensure-size"
 	},
-
 	"files": [
 		"dist",
 		"src"
