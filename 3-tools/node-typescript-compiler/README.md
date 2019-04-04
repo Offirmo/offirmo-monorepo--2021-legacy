@@ -1,6 +1,31 @@
-# node-typescript-compiler
-[![NPM version](https://badge.fury.io/js/node-typescript-compiler.png)](http://badge.fury.io/js/node-typescript-compiler)
-[![license](http://img.shields.io/badge/license-public_domain-brightgreen.png)](http://unlicense.org/)
+
+<h1 align="center">
+	node-typescript-compiler<br>
+	<a href="https://www.offirmo.net/offirmo-monorepo/doc/modules-directory/index.html">
+		<img src="https://www.offirmo.net/offirmo-monorepo/doc/quality-seal/offirmos_quality_seal.svg" alt="Offirmo’s quality seal">
+	</a>
+</h1>
+
+<p align="center">
+	<a alt="npm package page"
+		href="https://www.npmjs.com/package/node-typescript-compiler">
+		<img alt="npm badge"
+			src="https://img.shields.io/npm/v/node-typescript-compiler.svg">
+	</a>
+	<a alt="dependencies analysis"
+		href="https://david-dm.org/offirmo/offirmo-monorepo?path=4-incubator%2Fhello-world-npm">
+		<img alt="dependencies badge"
+			src="https://img.shields.io/david/offirmo/offirmo-monorepo.svg?path=4-incubator%2Fhello-world-npm">
+	</a>
+	<a alt="license"
+		href="https://unlicense.org/">
+		<img alt="license badge"
+			src="https://img.shields.io/badge/license-public_domain-brightgreen.svg">
+	</a>
+		<img alt="maintenance status badge"
+			src="https://img.shields.io/maintenance/yes/2019.svg">
+</p>
+
 
 Exposes typescript compiler (tsc) as a node.js module
 

@@ -5,6 +5,13 @@
 * [doc] README++
 * [chore] bumped deps
 
+## 2.0.0
+2019/04/04
+* **breaking** [chore] typescript is now a `peerDependency`, thus requiring npm 3+
+* [doc] README++
+* [chore] bumped deps
+
+
 ## 1.2.0
 2018/01/08
 - verbose option
