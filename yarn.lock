@@ -7490,7 +7490,7 @@ normalize.css@^8:
   resolved "https://registry.yarnpkg.com/normalize.css/-/normalize.css-8.0.1.tgz#9b98a208738b9cc2634caacbc42d131c97487bf3"
   integrity sha512-qizSNPO93t1YUuUhP22btGOo3chcvDFqFaj2TRybP0DMxkHOCTYwp3n34fel4a31ORXy4m1Xq0Gyqpb5m33qIg==
 
-np@^4.0.2:
+np@^4:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/np/-/np-4.0.2.tgz#be164eab2159d6a45ce5fdaee276af71aaa27873"
   integrity sha512-TN9rLMeGeGKcpFKOMGVd/CvMSEFmifRSBi8iaM8iZwBS5IcdyBQLTNq2KclwN68k9VE5zgp5auK7NbFzXyYElw==
