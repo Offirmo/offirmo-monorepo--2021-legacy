@@ -2,8 +2,12 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
-* TODO the extra API
+
+## v0.0.3
+2019/04/05
+* **feature:** 2 new APIs: `exposeInternal(...)` and `overrideHook(...)`!
 * [test] enabled more eslint rules
+* [doc] README++
 
 ## v0.0.2
 2019/04/04

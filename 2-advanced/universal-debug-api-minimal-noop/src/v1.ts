@@ -8,6 +8,8 @@ export function create(): WebDebugApiV1 {
 
 	return {
 		getLogger: () => NO_OP_LOGGER,
+		exposeInternal: NO_OP,
+		overrideHook: (k, v) => v,
 		addDebugCommand: NO_OP,
 	}
 }

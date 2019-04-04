@@ -2,7 +2,17 @@ import { Logger, LoggerCreationParams } from '@offirmo/practical-logger-interfac
 
 interface WebDebugApi {
 	getLogger: (p?: Readonly<LoggerCreationParams>) => Logger
-	addDebugCommand: (name: string, callback: () => void) => void
+
+	exposeInternal: (path: string, value: any) => void
+
+	overrideHook: <T>(key: string, defaultValue: T) => T
+
+	addDebugCommand: (name: string, callback: ( /* todo common libs as params ? */ ) => void) => void
+
+	_?: {
+		exposed: any
+		overrides: { [k: string]: any }
+	}
 }
 
 export {
