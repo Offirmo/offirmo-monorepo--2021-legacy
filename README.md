@@ -1,6 +1,6 @@
 # Offirmo’s monorepo
 
-A monorepo for all my JavaScript / TypeScript projects. So convenient.
+A [bolt](https://github.com/boltpkg/bolt) monorepo for all my JavaScript / TypeScript projects. So convenient.
 
 Public modules:
 * [@offirmo/unit-test-toolbox](https://www.npmjs.com/package/@offirmo/unit-test-toolbox)

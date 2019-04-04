@@ -22,8 +22,8 @@
 	"peerDependencies": {
 	},
 	"dependencies": {
-		"@offirmo/practical-logger-core": "^0.0.2",
-		"@offirmo/practical-logger-interface": "^0.0.2",
+		"@offirmo/practical-logger-core": "^0",
+		"@offirmo/practical-logger-interface": "^0",
 		"tiny-invariant": "^1",
 		"tslib": "^1"
 	},

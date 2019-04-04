@@ -17,7 +17,7 @@
 		"caught": "^0.1",
 		"is-promise": "^2",
 		"p-finally": "^1",
-		"p-progress": "^0.3",
+		"p-progress": "^0.4",
 		"tslib": "^1"
 	},
 

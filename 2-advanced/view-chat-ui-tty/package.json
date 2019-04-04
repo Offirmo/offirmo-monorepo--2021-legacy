@@ -21,7 +21,7 @@
 		"linewrap": "^0.2",
 		"ora": "^3",
 		"p-finally": "^1",
-		"p-progress": "^0.3",
+		"p-progress": "^0.4",
 		"strip-ansi": "^5",
 		"term-size": "^1",
 		"tslib": "^1"

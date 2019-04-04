@@ -30,7 +30,7 @@
 	},
 	"dependencies": {
 		"@offirmo/globalthis-ponyfill": "^0.0.4",
-		"@offirmo/universal-debug-api-minimal-noop": "^0.0.2",
+		"@offirmo/universal-debug-api-minimal-noop": "^0",
 		"tiny-invariant": "^1",
 		"tslib": "^1",
 		"typescript-string-enums": "^1"

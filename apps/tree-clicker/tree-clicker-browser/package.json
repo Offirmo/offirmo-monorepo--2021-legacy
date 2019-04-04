@@ -11,7 +11,7 @@
 		"@offirmo-private/features-detection-browser": "^0.0.1",
 		"@offirmo-private/marketing-rsrc": "^0.0.1",
 		"@offirmo-private/poll-window-variable": "^0.0.1",
-		"@offirmo/practical-logger-browser": "^0.0.2",
+		"@offirmo/practical-logger-browser": "^0",
 		"@offirmo-private/react-error-boundary": "^0.0.1",
 		"@offirmo-private/rich-text-format": "^0.0.1",
 		"@offirmo-private/rich-text-format-to-react": "^0.0.1",

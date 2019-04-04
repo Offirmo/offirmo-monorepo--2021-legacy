@@ -27,13 +27,13 @@
 	},
 	"dependencies": {
 		"@offirmo/globalthis-ponyfill": "^0.0.4",
-		"@offirmo/practical-logger-minimal-noop": "^0.0.2",
-		"@offirmo/universal-debug-api-interface": "^0.0.2"
+		"@offirmo/practical-logger-minimal-noop": "^0",
+		"@offirmo/universal-debug-api-interface": "^0"
 	},
 
 	"devDependencies": {
 		"@babel/core": "~7.3",
-		"@offirmo/practical-logger-core": "^0.0.2",
+		"@offirmo/practical-logger-core": "^0",
 		"npm-run-all": "^4",
 		"ts-node": "^8",
 		"size-limit": "^1"
