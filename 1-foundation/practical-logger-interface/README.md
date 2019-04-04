@@ -46,7 +46,3 @@ See the actual implementations of those interfaces:
 * browser: [@offirmo/practical-logger-browser](https://www.npmjs.com/package/@offirmo/practical-logger-browser)
 * node: TODO publish to npm
 
-
-## Design
-TODO explain
-* Log levels: https://docs.google.com/spreadsheets/d/1Bc32plQTswNdCqXS99deB0n7Te7FfD7uepGAOOlPbvY/

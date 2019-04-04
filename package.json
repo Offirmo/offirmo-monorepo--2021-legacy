@@ -87,7 +87,7 @@
 		"deepmerge": "^3",
 		"emittery": "^0.4",
 		"eslint": "^5",
-		"eslint-config-prettier": "^4.1.0",
+		"eslint-config-prettier": "^4",
 		"eslint-import-resolver-typescript": "^1",
 		"eslint-plugin-chai-expect": "^2",
 		"eslint-plugin-eslint-comments": "^3",
