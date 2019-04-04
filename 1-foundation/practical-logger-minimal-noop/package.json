@@ -1,17 +1,15 @@
 {
 	"name": "@offirmo/practical-logger-minimal-noop",
 	"description": "Implementation of Offirmo’s practical logger doing nothing at all",
-	"version": "0.0.2",
+	"version": "1.0.0",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
-
 	"esnext": "dist/src.es9/index.js",
 	"module": "dist/src.es9/index.js",
 	"main": "dist/src.es9.cjs/index.js",
 	"typings": "dist/src.es9.cjs/index.d.ts",
 	"source": "src/index.ts",
 	"sideEffects": false,
-
 	"size-limit": [
 		{
 			"limit": "150b",
@@ -22,13 +20,10 @@
 			"path": "dist/src.es9.cjs/index.js"
 		}
 	],
-
-	"peerDependencies": {
-	},
+	"peerDependencies": {},
 	"dependencies": {
 		"@offirmo/practical-logger-interface": "^1"
 	},
-
 	"devDependencies": {
 		"np": "^4",
 		"npm-run-all": "^4",
@@ -36,20 +31,16 @@
 	},
 	"scripts": {
 		"clean": "node ../../scripts/clean.js dist",
-
 		"build:dev:watch": "node ../../scripts/build-typescript.js --watch",
 		"build:prod": "node ../../scripts/build-typescript.js",
 		"ensure-size": "size-limit",
-
 		"dev": "run-s clean build:dev:watch",
 		"build": "run-s build:prod",
 		"cheatsheet": "node doc/cheatsheet.js",
 		"demo": "node doc/demo.js",
-
 		"np": "np --no-publish",
 		"prepublishOnly": "run-s clean build:prod ensure-size"
 	},
-
 	"files": [
 		"dist",
 		"src"
