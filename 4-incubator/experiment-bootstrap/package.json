@@ -8,6 +8,10 @@
 		"Yves J"
 	],
 
+	"engines": {
+		"node": ">=7"
+	},
+
 	"esnext": "dist/src.es9/index.js",
 	"module": "dist/src.es9/index.js",
 	"main": "dist/src.es9.cjs/index.js",

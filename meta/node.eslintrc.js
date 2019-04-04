@@ -14,5 +14,7 @@ module.exports = {
 		'node/shebang': 'off', // off my lawn!
 		'node/no-unpublished-require': 'off', // monorepo
 		'node/no-unsupported-features/es-syntax': 'off',  // TODO, too much noise for now
+
+		'@typescript-eslint/no-var-requires': 'off', // irrelevant
 	},
 }

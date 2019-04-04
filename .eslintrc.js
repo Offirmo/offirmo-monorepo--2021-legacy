@@ -27,9 +27,6 @@ module.exports = {
 		'react': {
 			'version': '16', // React version, default to the latest React stable release
 		},
-		/*'import/parsers': {
-			'typescript-eslint-parser': ['.ts', '.tsx'],
-		},*/
 		'import/resolver': {
 			'node': {
 				'extensions': [
@@ -116,7 +113,8 @@ module.exports = {
 					'args': 'none', // TODO
 					'ignoreRestSiblings': true,
 					'caughtErrors': 'all',
-				}]
+				}],
+				'@typescript-eslint/explicit-member-accessibility': 'off', // TODO low prio
 				/*
 				'no-unused-vars': 'off', // bug https://github.com/nzakas/eslint-plugin-typescript/issues/150
 				//'import/no-unresolved': 'off', // bug on resolving .ts

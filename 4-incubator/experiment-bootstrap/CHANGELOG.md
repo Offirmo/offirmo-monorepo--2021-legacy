@@ -2,6 +2,7 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
+* TODO remove TS string enum
 * [doc] README++
 * [chore] bumped deps
 * [chore] declared missing dep

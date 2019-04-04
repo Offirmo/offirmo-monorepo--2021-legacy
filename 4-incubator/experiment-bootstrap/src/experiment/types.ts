@@ -11,7 +11,7 @@ import {
 } from '../types'
 
 
-export const ExperimentStage = Enum(
+export const ExperimentStage = Enum( // eslint-disable-line no-redeclare import/export
 	'specifying',
 	'waiting_usage',
 	'resolving',

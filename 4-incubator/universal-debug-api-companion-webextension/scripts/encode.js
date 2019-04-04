@@ -36,6 +36,6 @@ const lib_encoded = btoa(lib_cleaned)
 
 fs.writeFileSync(target_path, `
 // THIS FILE IS AUTO GENERATED!
-const lib = "${lib_encoded}"
+const lib = '${lib_encoded}'
 export default lib
 `);
