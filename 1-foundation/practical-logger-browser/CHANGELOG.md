@@ -5,6 +5,8 @@
 * TODO lower size by removing duplication + useless sink
 * TODO test EDGE, IE
 - TODO shareable demo
+* [chore] removed tslib dependency
+
 
 ## v1.0.0
 2019/04/04
