@@ -1,3 +1,4 @@
+/* global: _debug */
 import { getLogger } from '@offirmo/universal-debug-api-minimal-noop'
 
 console.warn(`📄 [page/head-script.${+Date.now()}] Hello, more standard!`, {
@@ -7,7 +8,7 @@ console.warn(`📄 [page/head-script.${+Date.now()}] Hello, more standard!`, {
 			// local files may not have local storage
 			return localStorage.getItem('foo')
 		}
-		catch {}
+		catch { /* ignore */ }
 	})(),
 })
 

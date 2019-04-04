@@ -9,9 +9,9 @@ import {
 	hasError,
 } from '@atlassian/experiment-bootstrap/dist/src.es9.cjs/experiment'
 
-type ExperimentDB = { [k: string]: Readonly<ExperimentInternal<any>> }
+interface ExperimentDB { [k: string]: Readonly<ExperimentInternal<any>> }
 
-const BUG_ICON = '💣💥';
+const BUG_ICON = '💣💥'
 const RESOLVING_ICON = '🔄'
 const INACTIVE_ICON = '⏸️'
 const COHORT_TO_EMOTICON: { [k: string]: string } = {
@@ -203,7 +203,7 @@ export function list(db: ExperimentDB) {
 	console.group(
 		`%cExperiments: %c${aggregatedData.experimentCount}%c declared, %c${
 			aggregatedData.activeExperimentCount
-			}%c active, %c${aggregatedData.enrolledExperimentCount}%c enrolled`,
+		}%c active, %c${aggregatedData.enrolledExperimentCount}%c enrolled`,
 		STYLES.reset,
 		STYLES.strong,
 		STYLES.reset,

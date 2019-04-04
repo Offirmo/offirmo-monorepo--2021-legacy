@@ -2,7 +2,6 @@ module.exports = {
 	'root': true,
 	'env': {
 		'es6': true,
-		'mocha': true,
 		'shared-node-browser': true,
 	},
 	'parser': '@typescript-eslint/parser',
@@ -93,9 +92,6 @@ module.exports = {
 			'plugins': [
 				'@typescript-eslint'
 			],
-			/*'extends': [
-				'plugin:@typescript-eslint/recommended'
-			],*/
 			'rules': {
 				// override of main
 				'no-undef': 'off', // bug https://github.com/nzakas/eslint-plugin-typescript/issues/110
@@ -116,7 +112,6 @@ module.exports = {
 				}],
 				'@typescript-eslint/explicit-member-accessibility': 'off', // TODO low prio
 				/*
-				'no-unused-vars': 'off', // bug https://github.com/nzakas/eslint-plugin-typescript/issues/150
 				//'import/no-unresolved': 'off', // bug on resolving .ts
 				'import/named': 'off', // bug on types
 				'@typescript-eslint/adjacent-overload-signatures': 'error',
@@ -152,7 +147,10 @@ module.exports = {
 			},
 		},
 		{
-			'files': ['**/*_spec.{ts,tsx}'],
+			'files': ['**/*_spec.{ts,tsx,js,jsx}'],
+			'env': {
+				'mocha': true,
+			},
 			'rules': {
 				'typescript/explicit-function-return-type': 'off',
 			},
