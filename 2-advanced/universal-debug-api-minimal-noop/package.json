@@ -26,8 +26,8 @@
 	"peerDependencies": {
 	},
 	"dependencies": {
-		"@offirmo/globalthis-ponyfill": "^0.0.4",
-		"@offirmo/practical-logger-minimal-noop": "^0",
+		"@offirmo/globalthis-ponyfill": "^1",
+		"@offirmo/practical-logger-minimal-noop": "^1",
 		"@offirmo/universal-debug-api-interface": "^0"
 	},
 
@@ -52,6 +52,7 @@
 		"demo:node": "./doc/demo.ts",
 		"demo": "parcel --out-dir .parcel --no-autoinstall doc/demo/index.html",
 
+		"np": "np --no-publish",
 		"prepublishOnly": "run-s clean build:prod ensure-size"
 	},
 
