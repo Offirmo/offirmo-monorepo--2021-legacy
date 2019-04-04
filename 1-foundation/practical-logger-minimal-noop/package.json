@@ -30,6 +30,7 @@
 	},
 
 	"devDependencies": {
+		"np": "^4",
 		"npm-run-all": "^4",
 		"size-limit": "^1"
 	},
@@ -45,6 +46,7 @@
 		"cheatsheet": "node doc/cheatsheet.js",
 		"demo": "node doc/demo.js",
 
+		"np": "np --no-publish",
 		"prepublishOnly": "run-s clean build:prod ensure-size"
 	},
 

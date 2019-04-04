@@ -29,6 +29,7 @@
 	},
 
 	"devDependencies": {
+		"np": "^4",
 		"npm-run-all": "^4",
 		"size-limit": "^1"
 	},
@@ -42,6 +43,7 @@
 		"dev": "run-s clean build:dev:watch",
 		"build": "run-s build:prod",
 
+		"np": "np --no-publish",
 		"prepublishOnly": "run-s clean build:prod ensure-size"
 	},
 

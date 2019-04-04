@@ -30,6 +30,7 @@
 
 	"devDependencies": {
 		"@babel/core": "~7.3",
+		"np": "^4",
 		"npm-run-all": "^4",
 		"parcel-bundler": "^1",
 		"size-limit": "^1"
@@ -46,6 +47,7 @@
 		"cheatsheet": "node doc/cheatsheet.js",
 		"demo": "parcel --out-dir .parcel --no-autoinstall doc/demo/index.html",
 
+		"np": "np --no-publish",
 		"prepublishOnly": "run-s clean build:prod ensure-size"
 	},
 
