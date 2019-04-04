@@ -14,7 +14,7 @@
 	"peerDependencies": {
 	},
 	"dependencies": {
-		"@offirmo/globalthis-ponyfill": "^0.0.4",
+		"@offirmo/globalthis-ponyfill": "^1",
 		"@offirmo-private/normalize-error": "^0.0.1",
 		"@offirmo-private/promise-try": "^0.0.1",
 		"@offirmo-private/timestamps": "^0.0.1",
@@ -24,7 +24,7 @@
 
 	"devDependencies": {
 		"@babel/core": "~7.3",
-		"@offirmo/practical-logger-browser": "^0",
+		"@offirmo/practical-logger-browser": "^1",
 		"npm-run-all": "^4"
 	},
 	"scripts": {

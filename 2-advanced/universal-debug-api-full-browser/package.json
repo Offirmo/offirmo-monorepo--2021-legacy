@@ -13,20 +13,34 @@
 	"source": "src/index.ts",
 	"sideEffects": true,
 
+	"size-limit": [
+	{
+		"limit": "5kb",
+		"path": "dist/src.es9/index.js"
+	},
+	{
+		"limit": "7kb",
+		"path": "dist/src.es9.cjs/index.js"
+	},
+	{
+		"limit": "5kb",
+		"path": "dist/index-bundle.js"
+	}
+],
+
 	"peerDependencies": {
 	},
 	"dependencies": {
-		"@offirmo/globalthis-ponyfill": "^0.0.4",
-		"@offirmo/practical-logger-browser": "^0",
-		"@offirmo/universal-debug-api-interface": "^0",
-		"@atlassian/log-experiment-to-console-browser": "^0.0.1",
-		"tslib": "^1"
+		"@offirmo/globalthis-ponyfill": "^1",
+		"@offirmo/practical-logger-browser": "^1",
+		"@offirmo/universal-debug-api-interface": "^0"
 	},
 
 	"devDependencies": {
 		"@babel/core": "~7.3",
 		"@offirmo/practical-logger-core": "^1",
-		"npm-run-all": "^4"
+		"npm-run-all": "^4",
+		"size-limit": "^1"
 	},
 	"scripts": {
 		"clean": "node ../../scripts/clean.js dist",
@@ -34,9 +48,13 @@
 		"build:dev:watch": "node ../../scripts/build-typescript.js --watch",
 		"build:prod": "node ../../scripts/build-typescript.js",
 		"build:bundle": "parcel build --no-autoinstall --no-source-maps --out-file index-bundle.js  src/index.ts",
+		"ensure-size": "size-limit",
 
 		"dev": "run-s clean build:dev:watch",
 		"build": "npm-run-all --parallel build:prod build:bundle",
-		"demo": "parcel --out-dir .parcel --no-autoinstall doc/demo/index.html"
+		"demo": "parcel --out-dir .parcel --no-autoinstall doc/demo/index.html",
+
+		"np": "np --no-publish",
+		"prepublishOnly": "run-s clean build:prod ensure-size"
 	}
 }
