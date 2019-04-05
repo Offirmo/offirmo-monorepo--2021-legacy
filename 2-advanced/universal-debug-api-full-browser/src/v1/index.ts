@@ -1,12 +1,10 @@
 import { WebDebugApiV1 } from '@offirmo/universal-debug-api-interface'
 import { Logger, LoggerCreationParams, createLogger } from '@offirmo/practical-logger-browser'
-//import { list as listExperiments } from '@atlassian/log-experiment-to-console-browser'
 
-//import { attach } from './attach-listeners-to-debug-command'
+const LIB = 'UWDA'
 
 interface OverrideStatus {
-	isSet: boolean
-	isLSQueried: boolean
+	isOn: boolean
 	value: any
 }
 
@@ -14,82 +12,105 @@ interface Overrides {
 	[k: string]: OverrideStatus
 }
 
-function ensureOverride(key: string, overrides: Overrides, publicOverrides: { [k: string]: any }): OverrideStatus {
-	overrides[key] = overrides[key] || {
-		isSet: false,
-		isLSQueried: false,
-		value: undefined,
-	}
-
-	const status: OverrideStatus = overrides[key]
-
-	if (!status.isLSQueried) {
-		try {
-			const LSKey = `_debug.override.${key}`
-			//console.log(`LSKey = "${LSKey}"`)
-			const value = localStorage.getItem(LSKey)
-			//console.log(`LSKey content = "${value}"`)
-			if (value) {
-				try {
-					status.value = value === 'undefined' ? undefined : JSON.parse(value)
-					//console.log(`LSKey content parsed = "${status.value}"`)
-					status.isSet = true
-					publicOverrides[key] = status.value
-				} catch (err) {
-					console.warn(`bad override for "${LSKey}"!`)
-				}
-			}
-		}
-		catch { /* ignore */ }
-		status.isLSQueried = true
-	}
-
-	return status
+function getOverrideKeyForLogger(name: string): string {
+	return `logger.${name}.level`
 }
 
 export default function create(root: any): WebDebugApiV1 {
+	// TODO weakmap ?
 	const loggers: { [name: string]: Logger } = {}
 	const debugCommands: { [name: string]: () => void } = {}
+	const ownLogger = createLogger({ name: LIB, suggestedLevel: 'silly' })
 
 	//attach(debugCommands)
 
 	const exposed: any = {}
 	const overrides: Overrides = {}
-	const publicOverrides: { [k: string]: any } = {}
+
+	function ensureOverride(key: string): OverrideStatus {
+		if (!overrides[key]) {
+			overrides[key] = {
+				isOn: false,
+				value: undefined,
+			}
+
+			try {
+				const LSKey = `_debug.override.${key}`
+				//console.log(`LSKey = "${LSKey}"`)
+				const rawValue = localStorage.getItem(LSKey)
+				//console.log(`LSKey content = "${value}"`)
+				if (rawValue) {
+					try {
+						const value = rawValue === 'undefined' ? undefined : JSON.parse(rawValue)
+						overrides[key].value = value
+						overrides[key].isOn = true
+						ownLogger.log(` 🔵 overriden "${key}"`, { value })
+					} catch (err) {
+						ownLogger.warn(`🔴 failed to override "${key}"!`, { badValue: rawValue, err })
+					}
+				}
+			}
+			catch (err) {
+				ownLogger.warn(`🔴 failed to setup override "${key}"!`, { err })
+			}
+		}
+
+		return overrides[key]
+	}
 
 	function overrideHook<T>(key: string, defaultValue: T): T {
-		const status = ensureOverride(key, overrides, publicOverrides)
-		if (status.isSet)
-			return status.value as T
+		try {
+			const status = ensureOverride(key)
+			if (status.isOn)
+				return status.value as T
+		}
+		catch (err) {
+			ownLogger.warn(`overrideHook(): error retrieving override!`, { key, err })
+		}
 
 		return defaultValue
 	}
 
 	function getLogger(p: Readonly<LoggerCreationParams> = {}) {
-		p = {
-			name: '', // we need a name immediately
-			...p
+		const name = p.name || 'root' // we need a name immediately
+
+		if (!loggers[name]) {
+			loggers[name] = createLogger(p)
+			try {
+				const overridenLevel = overrideHook(getOverrideKeyForLogger(name), p.suggestedLevel || null)
+				if (overridenLevel)
+					loggers[name].setLevel(overridenLevel)
+			}
+			catch (err) {
+				ownLogger.warn(`getLogger(): error overriding the level!`, { name, err })
+			}
 		}
-		loggers[p.name!] = loggers[p.name!] || createLogger(p) // TODO weakmap ?
-		return loggers[p.name!]
+
+		return loggers[name]
 	}
 
 	function exposeInternal(path: string, value: any): void {
-		const pathParts = path.split('.')
-		const lastIndex = pathParts.length - 1
-		let root: any = exposed
-		pathParts.forEach((p: string, index: number) => {
-			root[p] = root[p] || (
-				index === lastIndex
-					? value
-					: {}
-			)
-			root = root[p]
-		})
+		try {
+			const pathParts = path.split('.')
+			const lastIndex = pathParts.length - 1
+			let root: any = exposed
+			pathParts.forEach((p: string, index: number) => {
+				root[p] = root[p] || (
+					index === lastIndex
+						? value
+						: {}
+				)
+				root = root[p]
+			})
+		}
+		catch (err) {
+			ownLogger.warn(`[${LIB}] exposeInternal(): error exposing!`, { path, err })
+		}
 	}
 
 	function addDebugCommand(commandName: string, callback: () => void) {
 		// TODO
+		// TODO try catch
 		debugCommands[commandName] = callback
 	}
 
@@ -101,9 +122,8 @@ export default function create(root: any): WebDebugApiV1 {
 
 		_: {
 			exposed,
-			overrides: publicOverrides,
-			xx: overrides, // TODO remove
-		} as WebDebugApiV1['_']
+			overrides,
+		}
 	}
 
 	/*

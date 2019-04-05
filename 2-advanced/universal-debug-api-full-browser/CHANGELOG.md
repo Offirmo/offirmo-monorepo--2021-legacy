@@ -3,3 +3,5 @@
 
 ## PENDING
 * initial release to npm
+* TODO remove the console.log
+* release the extension
