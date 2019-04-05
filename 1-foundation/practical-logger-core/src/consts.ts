@@ -60,6 +60,7 @@ if (Object.keys(LEVEL_TO_HUMAN).sort().join(',') !== Object.keys(LEVEL_TO_INTEGE
 	throw new Error('practical-logger-core: needs an update!')
 }
 
+// TODO turn into a func
 const ALL_LOG_LEVELS: Readonly<LogLevel[]> =
 	Object.keys(LEVEL_TO_INTEGER)
 		.map(s => s as LogLevel)

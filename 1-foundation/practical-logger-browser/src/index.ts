@@ -6,7 +6,7 @@ import sink_chromium from './sinks/advanced/chromium'
 import sink_safari from './sinks/advanced/safari'
 import { create } from './sinks/advanced'
 
-
+// TODO remove and replace with UWDAPI!
 function getLogLevelLocalStorageKeyForLogger(name: string): string {
 	return `_debug.logger.${name}.level`
 }
