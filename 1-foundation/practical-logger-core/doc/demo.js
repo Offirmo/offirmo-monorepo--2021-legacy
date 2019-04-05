@@ -1,4 +1,4 @@
-const { ALL_LOG_LEVELS } = require('..')
+const { ALL_LOG_LEVELS } = require('../src')
 
 export function demo_standard_console() {
 	console.log('------------↓ demo: standard console ↓-----------')
