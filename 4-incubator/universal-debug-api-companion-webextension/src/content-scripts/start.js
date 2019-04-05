@@ -4,7 +4,7 @@ import runInPageContext from '../utils/run-in-page-context'
 import lib from './start-incontext'
 
 const LIB = '🧩 UWDT/cs--start'
-const DEBUG = false
+const DEBUG = true
 
 ////////////////////////////////////
 // experiment modifying js env

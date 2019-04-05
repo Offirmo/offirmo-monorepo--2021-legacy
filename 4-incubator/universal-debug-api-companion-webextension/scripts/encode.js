@@ -22,7 +22,8 @@ const input_path = path.resolve(process.cwd(), '../../2-advanced/universal-debug
 const target_path = path.resolve(process.cwd(), './src/content-scripts/start-incontext.js')
 
 const lib_content = fs.readFileSync(input_path)
-console.log('\n', lib_content)
+console.log('* lib content length =', lib_content.length)
+
 const lib_cleaned = (() => {
 	let result = lib_content
 	/*
@@ -33,6 +34,7 @@ const lib_cleaned = (() => {
 	return result
 })()
 const lib_encoded = btoa(lib_cleaned)
+console.log('* encoded lib content length =', lib_encoded.length)
 
 fs.writeFileSync(target_path, `
 // THIS FILE IS AUTO GENERATED!
