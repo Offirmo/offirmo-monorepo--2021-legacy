@@ -36,6 +36,8 @@ This is an **internal** component of [Offirmo’s Universal Debug API](https://g
 * **No code, 0 bytes** = will do nothing to your bundle size.
 * TODO explain the interface pattern
 
+See overall explanation: [Offirmo’s Universal Debug API](https://github.com/Offirmo/offirmo-monorepo/wiki/Offirmo%E2%80%99s-Universal-Debug-Api).
+
 
 ## Usage
 
@@ -45,11 +47,3 @@ See the actual implementations of those interfaces:
 * minimal no-op: [@offirmo/universal-debug-api-minimal-noop](https://www.npmjs.com/package/@offirmo/universal-debug-api-minimal-noop)
 * browser: TODO publish to npm
 * node: TODO publish to npm
-
-
-## Rationale
-TODO
-
-See efforts on APIs in browser
-- https://github.com/tc39/proposal-javascript-standard-library
-- "layered apis" https://github.com/drufball/layered-apis

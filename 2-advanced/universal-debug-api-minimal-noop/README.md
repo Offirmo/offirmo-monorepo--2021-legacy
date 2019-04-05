@@ -35,7 +35,7 @@
 
 Isomorphic, for node and browser.
 
-**This no-op code will be magically hot-swapped if you use the companion FF/Chrome webextension!**
+**In Chrome and Firefox, this no-op code can be magically hot-swapped with the companion [webextension](TODO)!**
 
 See overall explanation: [Offirmo’s Universal Debug API](https://github.com/Offirmo/offirmo-monorepo/wiki/Offirmo%E2%80%99s-Universal-Debug-Api).
 
