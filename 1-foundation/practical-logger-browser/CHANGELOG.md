@@ -6,6 +6,7 @@
 * TODO test EDGE, IE
 - TODO shareable demo
 * [chore] removed tslib dependency
+* [chore] removed non-public feature: level override through LS; moved to UWDA instead
 
 
 ## v1.0.0
