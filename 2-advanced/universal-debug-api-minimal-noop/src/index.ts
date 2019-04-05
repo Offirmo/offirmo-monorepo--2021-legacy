@@ -15,11 +15,15 @@ const instance: WebDebugApi = globalThis._debug.v1
 
 const {
 	getLogger,
+	exposeInternal,
+	overrideHook,
 	addDebugCommand,
 } = instance
 
 export {
 	getLogger,
+	exposeInternal,
+	overrideHook,
 	addDebugCommand,
 
 	createV1,

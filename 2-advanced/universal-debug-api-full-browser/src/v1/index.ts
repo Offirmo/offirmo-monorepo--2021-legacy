@@ -4,6 +4,48 @@ import { Logger, LoggerCreationParams, createLogger } from '@offirmo/practical-l
 
 //import { attach } from './attach-listeners-to-debug-command'
 
+interface OverrideStatus {
+	isSet: boolean
+	isLSQueried: boolean
+	value: any
+}
+
+interface Overrides {
+	[k: string]: OverrideStatus
+}
+
+function ensureOverride(key: string, overrides: Overrides, publicOverrides: { [k: string]: any }): OverrideStatus {
+	overrides[key] = overrides[key] || {
+		isSet: false,
+		isLSQueried: false,
+		value: undefined,
+	}
+
+	const status: OverrideStatus = overrides[key]
+
+	if (!status.isLSQueried) {
+		try {
+			const LSKey = `_debug.override.${key}`
+			//console.log(`LSKey = "${LSKey}"`)
+			const value = localStorage.getItem(LSKey)
+			//console.log(`LSKey content = "${value}"`)
+			if (value) {
+				try {
+					status.value = value === 'undefined' ? undefined : JSON.parse(value)
+					//console.log(`LSKey content parsed = "${status.value}"`)
+					status.isSet = true
+					publicOverrides[key] = status.value
+				} catch (err) {
+					console.warn(`bad override for "${LSKey}"!`)
+				}
+			}
+		}
+		catch { /* ignore */ }
+		status.isLSQueried = true
+	}
+
+	return status
+}
 
 export default function create(root: any): WebDebugApiV1 {
 	const loggers: { [name: string]: Logger } = {}
@@ -12,7 +54,16 @@ export default function create(root: any): WebDebugApiV1 {
 	//attach(debugCommands)
 
 	const exposed: any = {}
-	const overrides: { [k: string]: any } = {}
+	const overrides: Overrides = {}
+	const publicOverrides: { [k: string]: any } = {}
+
+	function overrideHook<T>(key: string, defaultValue: T): T {
+		const status = ensureOverride(key, overrides, publicOverrides)
+		if (status.isSet)
+			return status.value as T
+
+		return defaultValue
+	}
 
 	function getLogger(p: Readonly<LoggerCreationParams> = {}) {
 		p = {
@@ -37,13 +88,6 @@ export default function create(root: any): WebDebugApiV1 {
 		})
 	}
 
-	function overrideHook<T>(key: string, defaultValue: T): T {
-		if (overrides.hasOwnProperty(key))
-			return overrides[key] as T
-
-		return defaultValue
-	}
-
 	function addDebugCommand(commandName: string, callback: () => void) {
 		// TODO
 		debugCommands[commandName] = callback
@@ -57,8 +101,9 @@ export default function create(root: any): WebDebugApiV1 {
 
 		_: {
 			exposed,
-			overrides,
-		}
+			overrides: publicOverrides,
+			xx: overrides, // TODO remove
+		} as WebDebugApiV1['_']
 	}
 
 	/*
