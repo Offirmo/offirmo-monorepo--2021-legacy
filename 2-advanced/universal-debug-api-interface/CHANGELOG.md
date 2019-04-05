@@ -2,6 +2,7 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
+* TODO make local storage injectable? (what way?)
 
 ## v0.0.3
 2019/04/05
