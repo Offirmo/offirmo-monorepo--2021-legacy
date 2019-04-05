@@ -1,7 +1,7 @@
 {
 	"name": "@offirmo/universal-debug-api-minimal-noop",
 	"description": "Implementation of Offirmo’s Universal Debug Api doing nothing at all",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 
