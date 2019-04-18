@@ -63,6 +63,8 @@ https://en.m.wikipedia.org/wiki/International_Nuclear_Event_Scale
 https://en.wikipedia.org/wiki/Richter_magnitude_scale
 
 
+https://worldbuilding.stackexchange.com/questions/54976/how-long-would-it-take-to-create-a-windows-1-0-capable-machine-from-complete-scr
+
 infinity gems https://en.wikipedia.org/wiki/Infinity_Gems
 
 https://science.slashdot.org/story/19/03/13/020257/radioactive-particles-from-huge-solar-storm-found-in-greenland
@@ -71,6 +73,8 @@ https://science.slashdot.org/story/19/03/13/024246/scientists-reawaken-cells-fro
 War
 - https://history.stackexchange.com/questions/50989/operation-vengeance-and-individual-targeting-of-enemy-commanders
 
+police comics https://wildpicks.design/product/explorer-free-script-font/
+bel effet https://www.behance.net/gallery/77591279/EN-GARDE-FREE-FONT
 
 followers https://github.com/sepehr500/vscode-discourage/blob/master/src/extension.ts
     "That was pretty meh...",

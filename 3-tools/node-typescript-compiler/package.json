@@ -17,7 +17,7 @@
 	},
 	"dependencies": {
 		"lodash": "^4",
-		"path-exists": "^3",
+		"path-exists": "^4",
 		"tildify": "^1"
 	},
 

@@ -126,7 +126,7 @@
 		"p-finally": "^1",
 		"p-progress": "^0.4",
 		"parcel-bundler": "^1",
-		"path-exists": "^3",
+		"path-exists": "^4",
 		"piecon": "^0.5",
 		"prettier": "^1",
 		"prettyjson": "^1",
@@ -165,6 +165,7 @@
 		"typescript-string-enums": "^1",
 		"universal-analytics": "^0.4",
 		"username": "^4",
+		"why-did-you-update": "^1",
 		"write-json-file": "^3"
 	},
 	"tosort": {
