@@ -25,18 +25,33 @@ import { _refresh_achievements } from '../achievements'
 function play(previous_state: Readonly<State>, now_ms: TimestampUTCMs = get_UTC_timestamp_ms(), explicit_adventure_archetype_hid?: string): Readonly<State> {
 	let state = _update_to_now(previous_state, now_ms)
 
-	let { u_state, t_state } = state
+	//let { u_state, t_state } = state
 
 	const is_good_play = will_next_play_be_good_at(state, now_ms)
 
 	// consume energy
-	state = {
-		...state,
-		t_state: {
-			...t_state,
-			energy: is_good_play
-				? EnergyState.use_energy([u_state.energy, t_state.energy])
-				: EnergyState.loose_all_energy([u_state.energy, t_state.energy]) // punishment
+	if (!is_good_play) {
+		state = {
+			...state,
+			t_state: {
+				...state.t_state,
+				// punishment
+				energy: EnergyState.loose_all_energy([state.u_state.energy, state.t_state.energy])
+			}
+		}
+	}
+	else {
+		const [ u, t ] = EnergyState.use_energy([state.u_state.energy, state.t_state.energy])
+		state = {
+			...state,
+			u_state: {
+				...state.u_state,
+				energy: u,
+			},
+			t_state: {
+			...state.t_state,
+				energy: t
+			}
 		}
 	}
 
@@ -46,7 +61,7 @@ function play(previous_state: Readonly<State>, now_ms: TimestampUTCMs = get_UTC_
 		: play_bad(state, explicit_adventure_archetype_hid)
 
 	// final updates
-	u_state = state.u_state
+	let u_state = state.u_state
 	state = {
 		...state,
 		u_state: {

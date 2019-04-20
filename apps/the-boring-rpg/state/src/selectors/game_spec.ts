@@ -41,7 +41,7 @@ describe(`${LIB} - selectors - game`, function() {
 		})
 	})
 
-	describe.only('will_next_play_be_good_at()', function() {
+	describe('will_next_play_be_good_at()', function() {
 
 		it('should return a correct boolean', () => {
 			let state = deep_freeze(create())

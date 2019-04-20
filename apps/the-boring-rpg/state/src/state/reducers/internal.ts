@@ -57,6 +57,13 @@ function compare_items_by_normalized_power(a: Readonly<Item>, b: Readonly<Item>)
 function _loose_all_energy(state: Readonly<State>): Readonly<State> {
 	return {
 		...state,
+		u_state: {
+			...state.u_state,
+			energy: {
+				...state.u_state.energy,
+				total_energy_consumed_so_far: Math.max(7, state.u_state.energy.total_energy_consumed_so_far),
+			},
+		},
 		t_state: {
 			...state.t_state,
 			energy: EnergyState.loose_all_energy([state.u_state.energy, state.t_state.energy])

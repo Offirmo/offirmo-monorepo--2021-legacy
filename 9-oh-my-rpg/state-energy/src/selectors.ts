@@ -9,6 +9,7 @@ import { time_to_human } from './utils'
 
 ////////////////////////////////////
 
+const MIN_RESULT = new Fraction(1, 2.1) // must be smaller than .5 for rounding reasons
 function get_current_energy_refilling_rate_per_ms(u_state: Readonly<UState>, t_state: Readonly<TState>, ): Fraction {
 	if (t_state.timestamp_ms + TICK_MS < get_UTC_timestamp_ms()) {
 		console.warn(`${LIB}.get_current_energy_refilling_rate_per_ms() called on outdated state!`)
@@ -22,10 +23,13 @@ function get_current_energy_refilling_rate_per_ms(u_state: Readonly<UState>, t_s
 	//                        total_energy_refilled_so_far^onboarding_power
 
 	const { total_energy_consumed_so_far } = u_state
-	const total_energy_refilled_so_far = total_energy_consumed_so_far + get_available_energy_int(t_state)
+	const total_energy_refilled_so_far = total_energy_consumed_so_far + get_available_energy_int(t_state) - u_state.max_energy
+	assert(total_energy_refilled_so_far >= 0, `${LIB}.get_current_energy_refilling_rate_per_ms() total_energy_refilled_so_far = ${total_energy_refilled_so_far}!`)
 
-	if (total_energy_refilled_so_far === 0)
-		return new Fraction(1, 1) // = to avoid dividing by 0
+	if (total_energy_refilled_so_far <= 0) {
+		// <= 0 to avoid dividing by 0
+		return MIN_RESULT
+	}
 
 	const onboarding_coeff = 10
 	const onboarding_power = 4
@@ -40,13 +44,37 @@ function get_current_energy_refilling_rate_per_ms(u_state: Readonly<UState>, t_s
 		Math.pow(total_energy_refilled_so_far, onboarding_power)
 	)
 
-	return (
+	let rate = (
 		onboarding_energy_refilling_rate_per_ms
-		.add(established_energy_refilling_rate_per_ms)
-		// for rounding reasons, we floor() the result
-		// established = 7/day = ~0.000000081028970/ms
-		.floor(12) // seen dropping the /day rate at 10
-	)
+			.add(established_energy_refilling_rate_per_ms)
+			// for rounding reasons, we floor() the result
+			// established = 7/day = ~0.000000081028970/ms
+			.floor(12) // 12 because seen dropping the /day rate at 10
+		)
+
+	if (total_energy_refilled_so_far <= 10 && rate.compare(MIN_RESULT) > 0) {
+		rate = MIN_RESULT
+		// onboarding early values may be too big
+		// we don't use Math.max to check that it only happens during onboarding
+	}
+
+	if (rate.compare(MIN_RESULT) > 0) {
+		console.log({
+			rate,
+			rate_v: rate.valueOf(),
+			u_state,
+			t_state,
+			total_energy_refilled_so_far,
+			onboarding_coeff,
+			onboarding_power,
+			established_energy_refilling_rate_per_ms,
+			established_energy_refilling_rate_per_ms_v: established_energy_refilling_rate_per_ms.floor(12).valueOf(),
+			den: Math.pow(total_energy_refilled_so_far, onboarding_power),
+		})
+	}
+	assert(rate.compare(MIN_RESULT) <= 0, 'rate too big')
+
+	return rate
 }
 
 ////////////
@@ -68,11 +96,12 @@ function get_milliseconds_to_next(u_state: Readonly<UState>, t_state: Readonly<T
 
 	const energy_refilling_rate_per_ms = get_current_energy_refilling_rate_per_ms(u_state, t_state)
 	const fractional_available_energy = available_energy.mod(1)
+
 	//console.log('fractional_available_energy', fractional_available_energy.valueOf())
 	//console.log('remaining fractional_available_energy', (new Fraction(1)).sub(fractional_available_energy).valueOf())
 
 	// time to next = (1 - frac) / refilling
-	const ttn =(
+	const ttn = (
 		(new Fraction(1))
 			.sub(fractional_available_energy)
 			.div(energy_refilling_rate_per_ms)
@@ -81,6 +110,24 @@ function get_milliseconds_to_next(u_state: Readonly<UState>, t_state: Readonly<T
 	)
 
 	// if 0, sth is wrong
+	if (ttn <= 0) {
+		console.log({
+			u_state,
+			t_state,
+			available_energy,
+			available_energy_v: available_energy.valueOf(),
+			fractional_available_energy,
+			fractional_available_energy_v: fractional_available_energy.valueOf(),
+			energy_refilling_rate_per_ms,
+			energy_refilling_rate_per_ms_v: energy_refilling_rate_per_ms.valueOf(),
+			ttn,
+			ttn_f: (
+				(new Fraction(1))
+					.sub(fractional_available_energy)
+					.div(energy_refilling_rate_per_ms)
+			)
+		})
+	}
 	assert(ttn > 0, `${LIB}.get_milliseconds_to_next() should never return 0!`)
 
 	return ttn

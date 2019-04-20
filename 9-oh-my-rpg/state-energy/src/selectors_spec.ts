@@ -53,6 +53,20 @@ describe(`${LIB} - selectors`, function() {
 			}
 		}
 
+		it('should slowly ramp-up for onboarding - demo', () => {
+			let [ u_state, t_state ] = create(get_UTC_timestamp_ms())
+
+			/*for(let i = 0; i < 100 ; ++i) {
+				u_state = {
+					...u_state,
+					total_energy_consumed_so_far: i,
+				}
+				console.log(`#${i}: refilling rate = ${get_current_energy_refilling_rate_per_ms(u_state, t_state)}/ms`)
+				console.log(`                      = ${get_energy_refill_rate(u_state, t_state).per_s()}/s = ${get_energy_refill_rate(u_state, t_state).per_day()}/day`)
+				//console.log(`        TTN = ${get_milliseconds_to_next(u_state, t_state)}ms`)
+			}*/
+		})
+
 		it(`should tends towards ${EXPECTED_ESTABLISHED_ENERGY_REFILL_PER_DAY}`, () => {
 			let [ u_state, t_state ] = create(get_UTC_timestamp_ms())
 
@@ -67,33 +81,23 @@ describe(`${LIB} - selectors`, function() {
 		it('should slowly ramp-up for onboarding', () => {
 			let [ u_state, t_state ] = create(get_UTC_timestamp_ms())
 
-			/*
-			for(let i = 900; i < 1000 ; ++i) {
-				const u_state_x: UState = {
-					...u_state,
-					total_energy_consumed_so_far: i,
-				}
-				console.log(`#${i}: ${get_current_energy_refilling_rate_per_ms(u_state_x, t_state)}/ms`)
-				console.log(`      = ${get_energy_refill_rate(u_state_x, t_state).per_s()}/s = ${get_energy_refill_rate(u_state_x, t_state).per_day()}/day`)
-			}
-			*/
-
-			expect(get_energy_refill_rate(u_state, t_state).per_s()).to.be.above(1)
+			const rate_0 = get_energy_refill_rate(u_state, t_state)
+			expect(rate_0.per_s(), 'initial').to.be.at.least(1)
 
 			u_state = {
 				...u_state,
 				total_energy_consumed_so_far: 10,
 			}
-			expect(get_energy_refill_rate(u_state, t_state).per_s()).to.be.below(1)
-			expect(get_energy_refill_rate(u_state, t_state).per_min()).to.be.above(1)
+			const rate_10 = get_energy_refill_rate(u_state, t_state)
+			expect(rate_10.per_s(), '10a').to.be.below(rate_0.per_s())
+			expect(rate_10.per_min(), '10b').to.be.above(1)
 
 			u_state = {
 				...u_state,
 				total_energy_consumed_so_far: 30,
 			}
-			expect(get_energy_refill_rate(u_state, t_state).per_min()).to.be.below(1)
-			expect(get_energy_refill_rate(u_state, t_state).per_hour()).to.be.above(1)
-
+			expect(get_energy_refill_rate(u_state, t_state).per_min(), '30a').to.be.below(rate_10.per_s())
+			expect(get_energy_refill_rate(u_state, t_state).per_hour(), '30b').to.be.above(1)
 		})
 	})
 
