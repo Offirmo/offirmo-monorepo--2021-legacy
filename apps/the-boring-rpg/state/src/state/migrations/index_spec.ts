@@ -23,7 +23,7 @@ import { DEMO_STATE } from '../../examples'
 
 // some hints may be needed to migrate to demo state
 const MIGRATION_HINTS_FOR_TESTS: any = deepFreeze({
-	to_v11: {
+	to_v12: {
 	},
 
 	avatar: CharacterState.MIGRATION_HINTS_FOR_TESTS,

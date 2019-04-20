@@ -8,10 +8,12 @@ function handle(
 	res: RpcSyncResponse,
 ): RpcSyncResponse {
 
-	res.result = {
-		v: VERSION,
+	/*res.result = {
+		rpc_v: 1,
+		engine_v: VERSION,
+		//authoritative_state: null
 	}
-	delete res.error
+	delete res.error*/
 
 	return res
 }

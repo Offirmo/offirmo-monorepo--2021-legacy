@@ -1,7 +1,7 @@
 {
-	"schema_version": 11,
+	"schema_version": 12,
 	"u_state": {
-		"schema_version": 11,
+		"schema_version": 12,
 		"revision": 203,
 		"creation_date": "20180813_00h33",
 		"last_user_action_tms": 123456,
@@ -228,7 +228,7 @@
 		}
 	},
 	"t_state": {
-		"schema_version": 11,
+		"schema_version": 12,
 		"timestamp_ms": 1545016005762,
 		"energy": {
 			"schema_version": 3,

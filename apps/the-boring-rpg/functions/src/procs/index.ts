@@ -1,10 +1,3 @@
-import { Enum } from 'typescript-string-enums'
-
-import {
-	JSONRPC_CODE,
-	DEFAULT_JSONRPC_ERROR_PAYLOAD
-} from '../sub/types'
-
 import { create_error } from '../sub/utils'
 
 import {
@@ -15,13 +8,10 @@ import {
 	RpcEchoResponse,
 	RpcSync,
 	RpcSyncResponse,
-	RpcPlay,
-	RpcPlayResponse,
 } from '@tbrpg/interfaces'
 
 import process_rpc_echo from './echo'
 import process_rpc_sync from './sync'
-import process_rpc_play from './play'
 
 function process_rpc(
 	req: TbrpgRpc,
@@ -34,9 +24,6 @@ function process_rpc(
 
 		case Method.sync:
 			return process_rpc_sync(req as RpcSync, res as RpcSyncResponse)
-
-		case Method.play:
-			return process_rpc_play(req as RpcPlay, res as RpcPlayResponse)
 
 		default: {
 			throw create_error('RPC method not implemented!', {

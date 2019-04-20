@@ -48,12 +48,12 @@ function update_to_now(
 	const elapsed_time_ms = now_ms - t_state.timestamp_ms
 	if (DEBUG) console.log(`- UTN: starting...`)
 
-	assert(now_ms === 0 || now_ms > 100_000, 'Wrong new Date(value) usage?')
+	assert(now_ms === 0 || now_ms > 10_000, `${LIB}.update_to_now(): Wrong new Date(value) usage?`)
 
 	if (elapsed_time_ms < 0) {
 		if (DEBUG) console.log(`       back in time!`)
 		// time went backward? Must be a "daylight saving".
-		console.warn(`[${LIB}] update_to_now(): Time went backward. Daylight saving?`)
+		console.warn(`${LIB}.update_to_now(): Time went backward. Daylight saving?`)
 		// just do nothing while time is not positive again
 		return t_state
 	}

@@ -3,6 +3,7 @@ import React from 'react'
 import 'babel-polyfill'
 import ReactDOM from 'react-dom'
 //import 'react-circular-progressbar/dist/styles.css'
+import ErrorBoundary from '@offirmo-private/react-error-boundary'
 
 import './services/raven'
 import './index.css'
@@ -22,6 +23,8 @@ window.XOFF = {
 }
 
 ReactDOM.render(
-	<Root />,
+	<ErrorBoundary name={'tbrpg_root'}>
+		<Root />
+	</ErrorBoundary>,
 	document.getElementById('root'),
 )
