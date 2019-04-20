@@ -54,7 +54,7 @@
 		"leg-build": "npm version patch && run-s clean build:prod"
 	},
 	"devDependencies": {
-		"@babel/core": "~7.3",
+		"@babel/core": "^7",
 		"@offirmo-private/timestamps": "^0.0.1",
 		"cross-env": "^5",
 		"npm-run-all": "^4"

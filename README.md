@@ -3,11 +3,23 @@
 A [bolt](https://github.com/boltpkg/bolt) monorepo for all my JavaScript / TypeScript projects. So convenient.
 
 Public modules:
-* [@offirmo/unit-test-toolbox](https://www.npmjs.com/package/@offirmo/unit-test-toolbox)
 * [@offirmo/globalthis-ponyfill](https://www.npmjs.com/package/@offirmo/globalthis-ponyfill)
+* [@offirmo/practical-logger-browser](https://www.npmjs.com/package/@offirmo/practical-logger-browser)
+* [@offirmo/practical-logger-minimal-noop](https://www.npmjs.com/package/@offirmo/practical-logger-minimal-noop)
+* [@offirmo/unit-test-toolbox](https://www.npmjs.com/package/@offirmo/unit-test-toolbox)
+* [@offirmo/universal-debug-api-minimal-noop](https://www.npmjs.com/package/@offirmo/universal-debug-api-minimal-noop)
+* [node-typescript-compiler](https://www.npmjs.com/package/node-typescript-compiler)
+
+
+Internal packages
+* [@offirmo/practical-logger-core](https://www.npmjs.com/package/@offirmo/practical-logger-core)
+* [@offirmo/practical-logger-interface](https://www.npmjs.com/package/@offirmo/practical-logger-interface)
+* [@offirmo/universal-debug-api-interface](https://www.npmjs.com/package/@offirmo/universal-debug-api-interface)
+* [hello-world-emo](https://www.npmjs.com/package/hello-world-emo)
+
 
 Public apps:
-* TODO
+* [The Boring RPG, reloaded]()
 
 
 ## Contributing

@@ -23,7 +23,7 @@
 		"tiny-invariant": "^1"
 	},
 	"devDependencies": {
-		"@babel/core": "~7.3",
+		"@babel/core": "^7",
 		"np": "^4",
 		"npm-run-all": "^4",
 		"parcel-bundler": "^1",

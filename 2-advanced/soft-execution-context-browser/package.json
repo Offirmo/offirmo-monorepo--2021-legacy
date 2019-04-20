@@ -22,7 +22,7 @@
 	"scripts": {
 	},
 	"devDependencies": {
-		"@babel/core": "~7.3",
+		"@babel/core": "^7",
 		"@offirmo/practical-logger-browser": "^1",
 		"bowser": "^1",
 		"npm-run-all": "^4"
