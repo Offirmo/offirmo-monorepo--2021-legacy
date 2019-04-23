@@ -45,3 +45,8 @@ icon: derived from https://thenounproject.com/term/spanner/333486/
 		"webNavigation"
 	],
 ```
+
+
+Other extensions:
+- [Web Developer Toolbar](https://chrome.google.com/webstore/detail/web-developer-toolbar/deeboegbjcnfgidliakhpoapnpomphji)
+- [JavaScript Errors Notifier](https://chrome.google.com/webstore/detail/javascript-errors-notifie/jafmfknfnkoekkdocjiaipcnmkklaajd)

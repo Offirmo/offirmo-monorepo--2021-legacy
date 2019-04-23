@@ -1,26 +1,8 @@
+<!DOCTYPE html />
+	<meta charset="utf-8" />
+
 # CHANGELOG
 **This package follows [semver](https://semver.org/).**
-
-The most official change log is a non-formal one on Reddit: https://www.reddit.com/r/boringrpg/
-
-This file is just for taking notes for the next Reddit post.
-
-/////////////
-- 🤩 feature: 
-- 😍 feature: 
-- 😅 fix (hopefully!): 
-- 😷 chore: 
-/////////////
-
-- TODO 😷 chore: ESLINT
-
-## NEXT
-- 🤩 feature: X new adventures (now totalling X!)
-- 😍 feature: X new backgrounds (now totalling X!)
-- 🤩 feature: X new achievements (now totalling X!)
-- 😅 fix: tweaks, typos, small bugs…
-- 😷 chore: some internal refactors (bump deps)
-
 
 ## v0.60.1
 - 🤩 feature: 1 new achievement (now totalling 100!)
@@ -161,3 +143,22 @@ This file is just for taking notes for the next Reddit post.
 - 🤩 feature: the inventory now displays whether an item is better or worse than your currently equipped one
 - 🤩 feature: 2 new backgrounds
 - 🤩 feature: 3 new adventures (now totalling 95!)
+
+
+## Notes / template
+
+/////////////
+- 🤩 feature: 
+- 😍 feature: 
+- 😅 fix (hopefully!): 
+- 😷 chore: 
+/////////////
+
+- TODO 😷 chore: ESLINT
+
+## NEXT
+- 🤩 feature: X new adventures (now totalling X!)
+- 😍 feature: X new backgrounds (now totalling X!)
+- 🤩 feature: X new achievements (now totalling X!)
+- 😅 fix: tweaks, typos, small bugs…
+- 😷 chore: some internal refactors (bump deps)

@@ -1,29 +1,34 @@
 # Offirmo’s monorepo
 
-A [bolt](https://github.com/boltpkg/bolt) monorepo for all my JavaScript / TypeScript projects. So convenient.
+A monorepo for all my JavaScript / TypeScript projects. So convenient.
 
-Public modules:
-* [@offirmo/globalthis-ponyfill](https://www.npmjs.com/package/@offirmo/globalthis-ponyfill)
-* [@offirmo/practical-logger-browser](https://www.npmjs.com/package/@offirmo/practical-logger-browser)
-* [@offirmo/practical-logger-minimal-noop](https://www.npmjs.com/package/@offirmo/practical-logger-minimal-noop)
-* [@offirmo/unit-test-toolbox](https://www.npmjs.com/package/@offirmo/unit-test-toolbox)
-* [@offirmo/universal-debug-api-minimal-noop](https://www.npmjs.com/package/@offirmo/universal-debug-api-minimal-noop)
-* [node-typescript-compiler](https://www.npmjs.com/package/node-typescript-compiler)
-
-
-Internal packages
-* [@offirmo/practical-logger-core](https://www.npmjs.com/package/@offirmo/practical-logger-core)
-* [@offirmo/practical-logger-interface](https://www.npmjs.com/package/@offirmo/practical-logger-interface)
-* [@offirmo/universal-debug-api-interface](https://www.npmjs.com/package/@offirmo/universal-debug-api-interface)
-* [hello-world-emo](https://www.npmjs.com/package/hello-world-emo)
+Public npm modules:
+* final
+	* [@offirmo/globalthis-ponyfill](https://www.npmjs.com/package/@offirmo/globalthis-ponyfill)
+	* [@offirmo/practical-logger-browser](https://www.npmjs.com/package/@offirmo/practical-logger-browser)
+	* [@offirmo/practical-logger-minimal-noop](https://www.npmjs.com/package/@offirmo/practical-logger-minimal-noop)
+	* [@offirmo/unit-test-toolbox](https://www.npmjs.com/package/@offirmo/unit-test-toolbox)
+	* [@offirmo/universal-debug-api-minimal-noop](https://www.npmjs.com/package/@offirmo/universal-debug-api-minimal-noop)
+	* [node-typescript-compiler](https://www.npmjs.com/package/node-typescript-compiler)
+* internal
+	* [@offirmo/practical-logger-core](https://www.npmjs.com/package/@offirmo/practical-logger-core)
+	* [@offirmo/practical-logger-interface](https://www.npmjs.com/package/@offirmo/practical-logger-interface)
+	* [@offirmo/universal-debug-api-interface](https://www.npmjs.com/package/@offirmo/universal-debug-api-interface)
+	* [hello-world-emo](https://www.npmjs.com/package/hello-world-emo)
 
 
 Public apps:
-* [The Boring RPG, reloaded]()
+* [The Boring RPG, reloaded](https://www.online-adventur.es/apps/the-boring-rpg/)
+
+
+## Usage
+
+This repo is published on [Github Pages](), but this is most likely not what you're looking for.
 
 
 ## Contributing
 
+### 
 Unless exceptions, this repo follow those principles:
 - code in TypeScript
 - command / query separation
@@ -31,8 +36,8 @@ Unless exceptions, this repo follow those principles:
 
 
 Doc:
-* monorepo managed by https://github.com/boltpkg/bolt
-  * TODO use https://www.npmjs.com/package/@atlaskit/build-releases as well
+* monorepo managed through [bolt](https://github.com/boltpkg/bolt)
+  * TODO use [this tool](https://www.npmjs.com/package/@atlaskit/build-releases) as well?
 * stable code is in TypeScript https://www.typescriptlang.org/docs/handbook/compiler-options.html
 
 

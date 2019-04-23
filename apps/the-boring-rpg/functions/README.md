@@ -16,3 +16,6 @@ TODO https://httptoolkit.tech/blog/netlify-function-error-reporting-with-sentry/
 https://medium.com/braintree-product-technology/braintree-functions-18a5ceb27af4
 
 https://aws.amazon.com/blogs/compute/announcing-websocket-apis-in-amazon-api-gateway/
+
+
+https://docs.aws.amazon.com/lambda/latest/dg/nodejs-prog-model-handler.html#nodejs-prog-model-handler-callback
