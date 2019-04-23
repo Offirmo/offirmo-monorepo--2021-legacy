@@ -15,3 +15,18 @@ if (style.endsWith('lod'))
 	document.body.dataset.oTheme = 'light-on-dark'
 if (style.endsWith('lod--c212'))
 	document.body.dataset.oTheme = 'lod--colorhunt212'
+
+const bg = searchParams.get('bg_select')
+
+if (bg === 'gnomon')
+	style_once({ id: 'bg', css: `
+body {
+	background-size: cover;
+	background-image: url(//localhost:1981/9-oh-my-rpg/rsrc-backgrounds/src/rsrc/license-pending/Raphael_Lacoste/gnomon-raphael_lacoste.jpg);
+	background-position: 32% 50%;
+}
+
+.test-container {
+	background-color: var(--o⋄color--bg⁚main--backdrop);
+}
+` })

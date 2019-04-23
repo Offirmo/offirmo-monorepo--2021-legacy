@@ -1,6 +1,3 @@
-<!DOCTYPE html />
-	<meta charset="utf-8" />
-
 # CHANGELOG
 **This package follows [semver](https://semver.org/).**
 
