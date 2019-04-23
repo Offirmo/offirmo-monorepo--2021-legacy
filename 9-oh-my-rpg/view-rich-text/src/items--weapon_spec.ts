@@ -5,7 +5,7 @@ import { dump_pretty_json } from '@offirmo-private/prettify-json'
 
 import { generate_random_demo_weapon, DEMO_WEAPON_1, DEMO_WEAPON_2 } from '@oh-my-rpg/logic-weapons'
 
-const { rich_text_to_ansi } = require('../../../../apps/the-boring-rpg/client-node/src/services/rich_text_to_ansi')
+const rich_text_to_ansi = require('@offirmo-private/rich-text-format-to-ansi')
 
 import { render_weapon_detailed } from '.'
 

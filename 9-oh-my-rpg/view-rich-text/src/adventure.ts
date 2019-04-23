@@ -55,7 +55,7 @@ function render_adventure(a: Readonly<Adventure>, options: Readonly<RenderItemOp
 			//console.info('handling adventure outcome [l2]: ' + currency)
 			if (!gains[currency]) return
 
-			const $doc = render_currency_amount(currency, gains[currency])
+			const $doc = render_currency_amount(currency, gains[currency], { render_unit: false })
 
 			$loot_list.$sub[currency] = $story_sub_elements[currency] = $doc
 

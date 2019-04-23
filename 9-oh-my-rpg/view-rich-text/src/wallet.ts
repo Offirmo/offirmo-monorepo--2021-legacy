@@ -2,12 +2,15 @@ import { State as WalletState, ALL_CURRENCIES, Currency, get_currency_amount } f
 
 import * as RichText from '@offirmo-private/rich-text-format'
 
-function render_currency_amount(currency: Currency, amount: number): RichText.Document {
-	return RichText.inline_fragment()
+function render_currency_amount(currency: Currency, amount: number, { render_unit }: { render_unit: boolean} = { render_unit: true }): RichText.Document {
+	const doc = RichText.inline_fragment()
 		.addClass('currency--' + currency)
 		.pushInlineFragment('' + amount, {id: 'amount'}) // TODO format according to locale?
-		.pushText(' ' + currency + (amount === 1 ? '' : 's')) // TODO localize properly ;)
-		.done()
+
+	if (render_unit)
+		doc.pushText(' ' + currency + (amount === 1 ? '' : 's')) // TODO localize properly ;)
+
+	return doc.done()
 }
 
 function render_wallet(wallet: Readonly<WalletState>): RichText.Document {

@@ -1,7 +1,7 @@
 ## @offirmo-private/view-css
 
 A micro CSS framework (like Bootstrap but with minimal features), mostly for my personal use.
-**[live demo on CodePen](https://codepen.io/Offirmo/pen/qYYWVy)** (Thanks [rawgit](https://rawgit.com/))
+**[live demo on CodePen](https://codepen.io/Offirmo/pen/qYYWVy)**
 
 Can also be used as a base for more advanced CSS frameworks like @oh-my-rpg/view-browser
 

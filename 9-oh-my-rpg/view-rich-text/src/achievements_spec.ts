@@ -7,7 +7,7 @@ import {
 	get_achievements_snapshot,
 } from '@tbrpg/state'
 
-const { rich_text_to_ansi } = require('../../../../apps/the-boring-rpg/client-node/src/services/rich_text_to_ansi')
+const rich_text_to_ansi = require('@offirmo-private/rich-text-format-to-ansi')
 
 import { render_achievements_snapshot } from '.'
 

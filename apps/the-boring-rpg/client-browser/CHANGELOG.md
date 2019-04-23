@@ -6,6 +6,7 @@
 - 😍 feature: energy is refill faster at the beginning of the game (similar to the original)
 - 😷 chore: some internal refactors and cleanups (revision, stores, etc.)
 - 😅 fix: codes could be redeemed infinitely…
+- 😅 fix: in adventure messages, coins and tokens were displayed incorrectly
 - 😅 fix: tweaks, typos, small bugs…
 - 😷 chore: some internal refactors and cleanups (renamings, server-related)
 

@@ -29,7 +29,7 @@ you loose all your energy💀 !`,
 const FIGHT_ADVENTURES: I18nMessages = {
 	fight_won_coins: `
 You have defeated a {{encounter}} !{{br}}
-You loot {{coin}} from its corpse.`,
+You loot {{coin}} coins from its corpse.`,
 
 	fight_won_loot: `
 You have defeated a {{encounter}} !{{br}}
@@ -65,11 +65,11 @@ You gain +{{strength}} strength!`,
 
 	caravan_success: `
 You were hired to protect a caravan of merchants.
-Your presence repels them, the caravan arrives at its destination, you gain {{coin}}!`,
+Your presence repels them, the caravan arrives at its destination, you gain {{coin}} coins!`,
 
 	dying_man: `
 A dying man on the street left you everything he had.
-You gain {{coin}}!`,
+You gain {{coin}} coins!`,
 
 	ate_bacon: `
 You eat some delicious crispy bacon.
@@ -108,7 +108,7 @@ You gain +{{level}} level!`,
 	// https://www.reddit.com/r/boringrpg/comments/dloxe/event_messages/
 
 	// TODO loss
-	//eaten_by_a_grue: `You have been eaten by a grue. You lose {{coin}} coins`,
+	//eaten_by_a_grue: `You have been eaten by a grue. You lose {{coin}} coins.`,
 
 	walk_in_mordor: `You simply walk into Mordor. You gain +{{agility}} agility.`,
 
@@ -132,7 +132,7 @@ You gain +{{level}} level!`,
 
 	princess_castle: `The princess was actually in this castle! +{{luck}} luck!`,
 
-	//problem: `Problem? -{{coin}} coins`,
+	//problem: `Problem? -{{coin}} coins.`,
 
 	foreign_language: `You learn a foreign language. +{{charisma}} charisma!`,
 
@@ -140,7 +140,7 @@ You gain +{{level}} level!`,
 
 	chasm_leap: `You successfully leap over a chasm! +{{agility}} agility!`,
 
-	//luxurious_meal: `You cook the most luxurious meal! -{{coin}} coins`,
+	//luxurious_meal: `You cook the most luxurious meal! -{{coin}} coins.`,
 
 	//donate: `You donate {{coin}} coins. You gain +{{token}} token.`,
 
@@ -229,7 +229,7 @@ Well, it’s loot: {{item}}`,
 A hand holding a sword emerges from the lake:
 "take this blade and become the new king!"
 As you reach out, the lake monster emerges and try to devour you: it’s a trap!{{br}}
-You defeat it and find good loot from previous victims: {{item}}, +{{coin}} coin.
+You defeat it and find good loot from previous victims: {{item}}, +{{coin}} coins.
 	`,
 
 	// https://swordscomic.com/swords/XI/
@@ -268,7 +268,7 @@ Although your head aches from discussing so much.
 	fate_sword: `
 To thank you for saving his wife and his children, a farmer offers you "Destiny",
 the heirloom sword passed down in his family for generations.{{br}}
-30 minutes later, the merchant buys it off you for only {{coin}}… some heirloom!`,
+30 minutes later, the merchant buys it off you for only {{coin}} coins… some heirloom!`,
 
 	// cad-comic.com
 	rematch: `
@@ -315,14 +315,14 @@ Your name is whispered across the land since you slayed the dragon and defeated 
 Bandits ambush you, aiming for your wealth. For their folly!
 They realize their mistake one moment
 before your fireball incinerates them.
-Fortunately, gold doesn’t burn: +{{coin}}!`,
+Fortunately, gold doesn’t burn: +{{coin}} coins!`,
 
 	// don't remember the source for this one
 	princess: `
 "You won’t take back the princess!" yells the fearsome black mage,
 as you reach his throne room.
 You reassure him: you are only here for loot.{{br}}
-He lets you help yourself to {{coin}}
+He lets you help yourself to {{coin}} coins
 and even enchants your weapon too!`,
 
 	// DM of the ring
@@ -371,7 +371,7 @@ Well, a new weapon is always welcome: {{weapon}}!
 	// https://starecat.com/when-a-piece-of-armor-doesnt-match-your-current-set-but-its-stats-are-too-good-to-pass-up-hello-kitty-shield-pink/
 	unmatched_set: `
 You loot a powerful piece of armor but unfortunately its appearance doesn’t match with your existing ones...
-No way, style is important for a hero! You sell this piece of armor for coin: +{{coin}} coin!`,
+No way, style is important for a hero! You sell this piece of armor for coin: +{{coin}} coins!`,
 
 }
 
@@ -561,7 +561,7 @@ They have a magical effect: you gain +{{attr}} {{attr_name}}!
 	// Zelda reference
 	treasure_in_pots: `
 You enter a pottery shop and destroy every jug, vase and item in the store.
-You collect +{{coin}} in coin, precious stones and other treasures found!`,
+You collect +{{coin}} in coins, precious stones and other treasures found!`,
 
 	// Oblivion dangerous chicken
 	chicken_slayer: `
@@ -585,7 +585,7 @@ You feel enlightened: +{{wisdom}} wisdom!
 	sentients_killing: `
 You introduce yourself to the captain of the guard. Your mission: kill 10 kobolds.
 After a brief hesitation on the ethics of the extermination of thinking creatures, you accept: you need loot and XP too badly.
-You gain {{coin}} and +{{attr}} {{attr_name}}.
+You gain {{coin}} coins and +{{attr}} {{attr_name}}.
 		`,
 
 	// Colossal Cave Adventure
@@ -605,7 +605,7 @@ You find a {{item}} on the ground and manage to find an exit after a while.
 	// nethack
 	gehennom: `
 You enter the dark Cavities of Gehennom. You don’t find the Amulet of Yendor,
-but still ends up with good loot: +{{coin}}, {{item}}...
+but still ends up with good loot: +{{coin}} coins, {{item}}...
 		`,
 	// TODO book of Tyr
 	// TODO Amulet of Yendor
@@ -687,7 +687,7 @@ Nevermind, it’s good loot!
 	// the lost mine
 	lost_mine: `
 You discover a mysterious lost mine, filled with strange tools
-and glowing with mana crystals. You pick some: +{{token}}.
+and glowing with mana crystals. You pick some: +{{token}} token.
 		`,
 
 	// mission sydney (escape room)
@@ -696,7 +696,7 @@ and glowing with mana crystals. You pick some: +{{token}}.
 Lost in the Dark Forest at night, you come across a gloomy castle.
 The owner welcomes you politely, but you spot his teeth fangs. A vampire!
 After an intense battle, you earned the castle and its riches!{{br}}
-+{{coin}} and a {{item}}
++{{coin}} coins and a {{item}}
 		`,
 
 	// muppets
@@ -731,7 +731,7 @@ Once the pain is gone (one day later!) you feel better than ever, you gained +{{
 	caravan_failure: `
 You were hired to protect a caravan of merchants.
 The bandits and monsters aren’t impressed, they keep harassing the caravan until no one is left alive except you.
-You nevertheless gain some loot and gold from the remains of both the caravan and the attackers: +{{coin}} coin and a {{item}}!`,
+You nevertheless gain some loot and gold from the remains of both the caravan and the attackers: +{{coin}} coins and a {{item}}!`,
 
 	// classic fantasy/rpg
 	meet_old_wizard: `
@@ -755,7 +755,7 @@ But it pays off: +{{level}} level!`,
 	keep_watch: `
 You are hired to keep the watch. Boring, but lives are depending on you!
 The night pass without any trouble.
-You gain {{coin}} as agreed. Good job!
+You gain {{coin}} coins as agreed. Good job!
 		`,
 	critters: `
 You hunt critters to get XP and improve your skills.
@@ -771,7 +771,7 @@ It’s worth reading: +{{attr}} {{attr_name}}!
 	village_farmwork: `
 The villagers hire you to do their errands.
 You gather firewood, draw water from the well, chase pests.
-You gain {{coin}} as agreed, +{{strength}} strength as a bonus and hopefully gain the people’s trust for better quests in the future!
+You gain {{coin}} coins as agreed, +{{strength}} strength as a bonus and hopefully gain the people’s trust for better quests in the future!
 		`,
 	village_lost_kid: `
 A villager runs after you "Please find my kid lost in the forest! I heard about goblins and fear the worst!".{{br}}
@@ -831,19 +831,19 @@ This is a curious but effective training: +{{attr}} {{attr_name}}!
 	// famous stones
 	famous_stone_ruby: `
 In a lost city, you loot the famous lost striped candy-pink ruby!
-Your fame increases: +{{charisma}} charisma, +{{token}}.
+Your fame increases: +{{charisma}} charisma, +{{token}} token.
 		`,
 	famous_stone_diamond: `
 In a meteor crater, you loot an incredible rare black diamond!
-Your wisdom increases: +{{wisdom}} wisdom, +{{token}}.
+Your wisdom increases: +{{wisdom}} wisdom, +{{token}} token.
 		`,
 	famous_stone_sapphire: `
 In a secret cave below the ocean, you loot the forgotten sapphire of Atlantis!
-Your mana increases: +{{mana}} mana, +{{token}}.
+Your mana increases: +{{mana}} mana, +{{token}} token.
 		`,
 	famous_stone_emerald: `
 On a lost altar deep in the jungle, you loot the mysterious emerald of Shapeshifting!
-Your agility increases: +{{agility}} agility, +{{token}}.
+Your agility increases: +{{agility}} agility, +{{token}} token.
 		`,
 
 
@@ -990,7 +990,7 @@ Nice enhancement!
 	king_reward: `
 You did well to help the kingdom.
 King Gallus welcomes you again in the throne room in front of all the court assembled.
-You are rewarded with weapons and honors: {{item}}, {{token}}...
+You are rewarded with weapons and honors: {{item}}, {{token}} token...
 `,
 
 	// pets

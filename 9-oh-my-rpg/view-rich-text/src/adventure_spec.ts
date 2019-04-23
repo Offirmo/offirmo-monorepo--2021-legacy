@@ -13,7 +13,8 @@ import {
 	DEMO_ADVENTURE_04,
 } from '@tbrpg/state'
 
-const { rich_text_to_ansi } = require('../../../../apps/the-boring-rpg/client-node/src/services/rich_text_to_ansi')
+const rich_text_to_ansi = require('@offirmo-private/rich-text-format-to-ansi')
+
 
 import { render_adventure } from '.'
 
@@ -80,9 +81,10 @@ describe('🔠  view to @offirmo-private/rich-text-format - adventure', function
 
 						const $doc = render_adventure(state.u_state.last_adventure!)
 						//console.log(prettify_json($doc))
+
+						// should just not throw
 						const str = rich_text_to_ansi($doc)
-					//console.log(str)
-					// should just not throw
+						//console.log(str)
 					})
 				})
 			})
