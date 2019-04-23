@@ -319,7 +319,7 @@ class Chat extends React.Component {
 
 		const spinner = this.state.spinning && <div className="chat__spinner" />
 		const progress_bar = this.state.progressing && (
-			<div className="chat__element chat__element--ltr">
+			<div className="chat__element chat__element--ltr chat__bubble">
 				<progress className="chat__progress" value={this.state.progress_value} />
 			</div>
 		)

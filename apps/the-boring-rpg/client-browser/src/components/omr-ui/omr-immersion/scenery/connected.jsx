@@ -8,6 +8,8 @@ import { UStateListenerAndProvider } from '../../../../context'
 import get_game_instance from '../../../../services/game-instance-browser'
 import View from './component'
 
+const FILTERED_ELEMENTS = ELEMENTS
+//	.filter(({display_name}) => display_name === "Path To The Gothic Choir")
 
 class Scenery extends Component {
 	static propTypes = {
@@ -18,8 +20,8 @@ class Scenery extends Component {
 			.queries.get_sub_state('progress')
 			.statistics
 
-		const bg = ELEMENTS[good_play_count % ELEMENTS.length]
-		const next_bg = ELEMENTS[(good_play_count + 1) % ELEMENTS.length]
+		const bg = FILTERED_ELEMENTS[good_play_count % FILTERED_ELEMENTS.length]
+		const next_bg = FILTERED_ELEMENTS[(good_play_count + 1) % FILTERED_ELEMENTS.length]
 
 		return <View bg={bg} next_bg={next_bg} />
 	}

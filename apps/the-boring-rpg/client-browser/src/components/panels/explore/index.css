@@ -11,5 +11,5 @@
 .tbrpg-panel--explore > div:last-child > div.o⋄box {
 	margin: 0;
 	padding: 0.5em;
-	background-color: rgba(0, 0, 0, 0.42);
+	background-color: var(--color--bg--backdrop);
 }

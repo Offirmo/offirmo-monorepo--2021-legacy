@@ -9,6 +9,6 @@
 
 .tbrpg-panel--inventory .panel-top-content {
 	padding: .5em .8em .4em;
-	background-color: rgba(0,0,0,0.5);
+	background-color: var(--color--bg--backdrop);
 	border-radius: .4em;
 }

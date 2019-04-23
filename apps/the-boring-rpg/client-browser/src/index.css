@@ -8,6 +8,8 @@ body {
 	width: fill-available;
 
 	--o⋄font-size--default: 15px;
+
+	--color--bg--backdrop: var(--o⋄color--bg⁚main--backdrop);
 }
 
 iframe#netlify-identity-widget {

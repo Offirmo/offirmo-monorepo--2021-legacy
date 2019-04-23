@@ -33,15 +33,16 @@
 	padding: .5em .8em .4em;
 	width: fit-content;
 	/* background only here since we don't want bg between buttons */
-	background-color: rgba(0,0,0,0.42);
+	background-color: var(--color--bg--backdrop);
 }
 /* redefine active and hover since we altered the bg */
 .chat__choices button:hover {
-	background-color: rgba(0,0,0,0.6);
+	background-color: rgba(33%, 33%, 33%, .9);
 }
+/*
 .chat__choices button:active {
 	background-color: var(--o⋄color--bg⁚highlight--2);
-}
+}*/
 
 .chat__spinner {
 	background-image: url("./Spinner-1s-42px.svg");
@@ -59,4 +60,8 @@
 	height: 26px;
 	border: solid 1px #00000038;
 	margin-right: 2px;
+}
+
+.chat__progress {
+
 }
