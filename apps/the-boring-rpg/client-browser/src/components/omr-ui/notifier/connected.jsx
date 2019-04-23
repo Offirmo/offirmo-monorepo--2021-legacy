@@ -26,7 +26,7 @@ const OMRUINotifierC1 = React.memo(
 			// update notification
 			SEC.xTry('update last seen version', ({ VERSION: current_version }) => {
 				const last_version_seen = localStorage.getItem(LS_KEYS.last_version_seen)
-				if (current_version === last_version_seen) return
+				if (!last_version_seen || current_version === last_version_seen) return
 				enqueueNotification({
 					level: 'success',
 					children: (

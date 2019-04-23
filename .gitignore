@@ -18,11 +18,10 @@ node_modules
 **/dist/src.es9/
 **/dist/src.es9.cjs/
 ## non-standard dist
-#2-advanced/view-css/dist/
-#9-oh-my-rpg/view-browser/dist/
 4-incubator/experiment-bootstrap/dist/
 4-incubator/universal-web-debug-tool/dist/
 4-incubator/universal-debug-api-companion-webextension/dist/
+apps/the-boring-rpg/functions/functions
 ## misc
 #*\-index\-html.html
 
