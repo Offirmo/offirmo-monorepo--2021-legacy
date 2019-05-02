@@ -33,7 +33,7 @@
 	},
 
 	"devDependencies": {
-		"@types/node": "^10",
+		"@types/node": "^11",
 		"npm-run-all": "^4",
 		"size-limit": "^1"
 	},
