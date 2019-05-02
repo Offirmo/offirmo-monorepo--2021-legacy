@@ -2,7 +2,7 @@ import { Enum } from 'typescript-string-enums'
 import { JSONRpcRequest, JSONRpcResponse } from '@offirmo-private/json-rpc-types'
 import { State } from '@tbrpg/state'
 
-import { PlayedAction } from './actions'
+import { Action, PlayedAction } from './actions'
 
 ////////////////////////////////////
 
@@ -22,8 +22,9 @@ interface RpcEcho extends JSONRpcRequest<any> {
 }
 
 interface SyncParams {
-	engine_v: string
-	pending_actions: PlayedAction[]
+	engine_v: number
+	pending_actions: Action[]
+	//pending_actions: PlayedAction[]
 	current_state_hash: string
 }
 interface RpcSyncParams extends SyncParams {

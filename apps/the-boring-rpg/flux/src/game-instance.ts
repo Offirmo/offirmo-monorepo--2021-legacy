@@ -50,10 +50,11 @@ function create_game_instance<T extends AppState>({SEC, local_storage, storage, 
 
 		// this special store will auto un-persist a potentially existing savegame
 		// but may end up empty if none existing so far
+		// the savegame may also be outdated.
 		const persistent_store = create_persistent_store(SEC, storage)
 
 		const initial_state = SEC.xTry(`auto creating/migrating`, ({SEC, logger}: OMRContext): State => {
-			const recovered_state: State | null = persistent_store.get()
+			const recovered_state: any | null = persistent_store.get()
 
 			if (recovered_state) {
 				const state = TBRPGState.migrate_to_latest(SEC, recovered_state)
@@ -62,12 +63,13 @@ function create_game_instance<T extends AppState>({SEC, local_storage, storage, 
 			}
 
 			const state = TBRPGState.reseed(TBRPGState.create(SEC))
+			state.u_state.meta.persistence_id = null // TODO alpha remove this!
 			logger.verbose(`[${LIB}] Clean savegame created from scratch.`)
 			return state
 		})
 		logger.silly(`[${LIB}] initial state:`, {state: initial_state})
 
-		// update after auto-migrating
+		// update after auto-migrating/creating
 		persistent_store.set(initial_state)
 
 		const in_memory_store = create_in_memory_store(
@@ -104,7 +106,7 @@ function create_game_instance<T extends AppState>({SEC, local_storage, storage, 
 			const { v, time, ...debug } = action
 			logger.log('⚡ action dispatched:', { action: debug })
 
-			// complete action parts that may be missing
+			// complete "action" object that may be missing some parts
 			action.time = action.time || get_UTC_timestamp_ms()
 			const state: State = in_memory_store.get()!
 			Object.keys(action.expected_revisions).forEach(sub_state_key => {

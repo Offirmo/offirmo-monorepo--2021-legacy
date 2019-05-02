@@ -30,7 +30,7 @@ type ActionType = Enum<typeof ActionType> // eslint-disable-line no-redeclare
 const ACTIONS_SCHEMA_VERSION = 1
 
 interface BaseAction {
-	v: number
+	v: 1
 	time: TimestampUTCMs
 	expected_revisions: {
 		[k:string]: number
@@ -113,9 +113,11 @@ type Action =
 	ActionHack
 
 // represent a passed action
+// XXX useful?
 interface PlayedAction {
 	action: Action
 
+	// XXX  TODO usage??
 	previous_last_user_action_tms: TimestampUTCMs
 	previous_revision: number
 }

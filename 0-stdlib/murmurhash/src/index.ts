@@ -2,8 +2,16 @@
 import MurmurHash3 from 'murmurhash3js-revisited'
 import stable_stringify from 'json-stable-stringify'
 
+type TextEncoderConstructor = any
+let tec: TextEncoderConstructor | undefined = undefined
+function setTextEncoder(c: any) {
+	tec = c
+}
 
-function create(TextEncoder: any) {
+function create(TextEncoder: TextEncoderConstructor = tec) {
+	if (!TextEncoder)
+		throw new Error(`@offirmo-private/murmurhash: a textEncoder implementation must be provided!`)
+
 	return {
 		v3: {
 			x64: {
@@ -24,5 +32,7 @@ function create(TextEncoder: any) {
 export default create
 export {
 	create,
+	setTextEncoder,
+
 	MurmurHash3,
 }

@@ -39,9 +39,9 @@ function create(SEC: SoftExecutionContext, storage: TbrpgStorage): PersistentSto
 		})
 
 		function persist(new_state: State): void {
-			if (last_persisted_state && new_state.u_state === last_persisted_state.u_state) return // no need
+			if (last_persisted_state && new_state.u_state && new_state.u_state === last_persisted_state.u_state) return // no need
 
-			// by version
+			// backup by version
 			if (last_persisted_state && last_persisted_state.schema_version !== new_state.schema_version) {
 				const minus1 = stable_stringify(last_persisted_state)
 				const minus2 = storage.get_item(StorageKey['savegame-bkp-m1'])
@@ -58,6 +58,7 @@ function create(SEC: SoftExecutionContext, storage: TbrpgStorage): PersistentSto
 			logger.trace(`[${LIB}] 💾 saved #${new_state.u_state.revision}`, { snapshot: JSON.parse(storage_value) })
 		}
 
+		// TODO evaluate
 		// small optim for it seems accessing LS is blocking the event loop
 		let pending_persist_state: State | null = null
 		function optimized_persist(new_state: State): void {
@@ -72,7 +73,7 @@ function create(SEC: SoftExecutionContext, storage: TbrpgStorage): PersistentSto
 			set: optimized_persist,
 			dispatch(action: Readonly<Action>, eventual_state_hint?: Readonly<State>) {
 				logger.log(`[${LIB}] ⚡ action dispatched: ${action.type}`)
-				assert(eventual_state_hint, 'persistent dispatch hint')
+				assert(eventual_state_hint, `[${LIB}] need dispatch hint!`)
 				optimized_persist(eventual_state_hint!)
 			},
 			get: () => last_persisted_state!

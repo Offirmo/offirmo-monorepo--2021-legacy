@@ -20,6 +20,7 @@ interface AppState {
 }
 
 describe(`${LIB} - game-instance`, function() {
+
 	let local_storage = createLocalStorage({ mode : "memory" })
 	let storage = create_in_mem_tbrpg_storage()
 	const logger = createLogger({

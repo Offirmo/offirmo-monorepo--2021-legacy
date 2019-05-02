@@ -5,6 +5,9 @@ import { BaseUState } from '@offirmo-private/state'
 /////////////////////
 
 interface State extends BaseUState {
+
+	// undefined = no created yet
+	// null = opted out
 	persistence_id: string | null | undefined
 
 	is_web_diversity_supporter: boolean
