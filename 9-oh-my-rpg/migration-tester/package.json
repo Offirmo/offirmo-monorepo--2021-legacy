@@ -13,7 +13,7 @@
 		"@offirmo-private/prettify-json": "^0.0.1",
 		"@offirmo-private/timestamps": "^0.0.1",
 		"jsondiffpatch": "^0.3",
-		"load-json-file": "^5",
+		"load-json-file": "^6",
 		"lodash": "^4",
 		"write-json-file": "^3"
 	},

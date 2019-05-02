@@ -18,11 +18,11 @@
 	"dependencies": {
 		"lodash": "^4",
 		"path-exists": "^4",
-		"tildify": "^1"
+		"tildify": "^2"
 	},
 
 	"devDependencies": {
-		"np": "^4"
+		"np": "^5"
 	},
 	"scripts": {
 		"np": "np --no-publish",

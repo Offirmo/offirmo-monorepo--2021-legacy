@@ -30,7 +30,7 @@
 	},
 
 	"devDependencies": {
-		"np": "^4",
+		"np": "^5",
 		"npm-run-all": "^4",
 		"size-limit": "^1"
 	},

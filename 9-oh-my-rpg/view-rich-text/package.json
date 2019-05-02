@@ -38,7 +38,6 @@
 		"@offirmo-private/rich-text-format-to-ansi": "^0.0.1",
 		"@offirmo-private/prettify-json": "^0.0.1",
 		"@oh-my-rpg/state-prng": "^0.0.1",
-		"@types/strip-ansi": "^3",
 		"npm-run-all": "^4",
 		"strip-ansi": "^5"
 	},
