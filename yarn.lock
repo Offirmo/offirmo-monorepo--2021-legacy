@@ -2495,7 +2495,7 @@ chai-as-promised@^7:
   dependencies:
     check-error "^1.0.2"
 
-chai-fetch-mock@^2.0.0:
+chai-fetch-mock@^2:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/chai-fetch-mock/-/chai-fetch-mock-2.0.0.tgz#d6ca7e509b0773d41706e4330456714d186e14d6"
   integrity sha512-S+ibhwg/xwp+1YFUNUQz4FYVBBXedOCZA4DT2cnWxpNDgxyFVojhhjdpBiu4siqF6tKtA0GrmXPaYI2whebu6A==
@@ -4765,7 +4765,7 @@ fetch-inject@^2:
   resolved "https://registry.yarnpkg.com/fetch-inject/-/fetch-inject-2.0.4.tgz#6b73401d10c3ea0c40571f4beb48b48bf4bc9126"
   integrity sha512-pUXrJWsXjuti4H2mVEIIz+CMxId/iQ1Uj4U6Bqv3pvg63FbrN/9V9Reqrb86MYGWzUYAe3en4tN8gj+4FahmdQ==
 
-fetch-mock@^7.3.3:
+fetch-mock@^7:
   version "7.3.3"
   resolved "https://registry.yarnpkg.com/fetch-mock/-/fetch-mock-7.3.3.tgz#d1abdf309cdef8adb4b0fc0596d3f97fcfbd4528"
   integrity sha512-MHKcwZ4n9TmnfnVfelUBrrfxtC9tztafIR+F8l/Yu9N+y48fU1BAwj3iSxhYFYELVw73rCZh2DPWtWCekY/t+w==
@@ -4775,7 +4775,7 @@ fetch-mock@^7.3.3:
     path-to-regexp "^2.2.1"
     whatwg-url "^6.5.0"
 
-fetch-ponyfill@^6.0.2:
+fetch-ponyfill@^6:
   version "6.0.2"
   resolved "https://registry.yarnpkg.com/fetch-ponyfill/-/fetch-ponyfill-6.0.2.tgz#bc2d92afd0140e39518beccd2fd0682ab4491cb6"
   integrity sha512-hBWVb6Z0chjr9r0g4N5uknldAnyFstWTnX6oFxMsL9ZlSL7fa66Keis3y4SCMgpTggY4GeGbB4z3z5g5SmrgkQ==

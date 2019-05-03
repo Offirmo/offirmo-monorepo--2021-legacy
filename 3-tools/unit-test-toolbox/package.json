@@ -28,6 +28,9 @@
 		"sinon": "^7",
 		"sinon-chai": "^3"
 	},
+	"optionalDependencies": {
+		"chai-fetch-mock": "^2"
+	},
 
 	"scripts": {
 		"test": "echo \"* @offirmo/unit-test-toolbox: no need for unit tests for this kind of repo (meta)\""

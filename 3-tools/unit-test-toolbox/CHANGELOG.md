@@ -1,6 +1,9 @@
 # CHANGELOG
 **This package follows [semver](https://semver.org/).**
 
+## NEXT
+* [feat] added *optional* installation of [chai-fetch-mock](https://github.com/gakimball/chai-fetch-mock)
+
 ## v5.0.1
 2019/04/01
 * [doc] updated the repo url in `package.json`
