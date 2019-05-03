@@ -73,6 +73,7 @@ export {
 
 	SyncParams,
 	RpcSyncParams,
+	RpcSyncResult,
 
 	RpcEchoResponse,
 	RpcSyncResponse,

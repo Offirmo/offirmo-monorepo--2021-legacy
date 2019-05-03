@@ -164,15 +164,24 @@ describe(`${LIB} - game-instance`, function() {
 				game_instance.commands.play()
 				this.clock.tick(1_000);
 				game_instance.commands.play()
-				expect(game_instance.queries.get_sub_state('progress').statistics.good_play_count).to.equal(7)
-				expect(game_instance.queries.get_sub_state('progress').statistics.bad_play_count).to.equal(0)
+				expect(game_instance.queries.get_sub_state('progress').statistics.good_play_count, 'play count 1a').to.equal(7)
+				expect(game_instance.queries.get_sub_state('progress').statistics.bad_play_count, 'play count 1b').to.equal(0)
 
 				// bad play
-				this.clock.tick(1_000);
+				// finish empty the fill due to onboarding
 				game_instance.commands.play()
-				expect(game_instance.model.get().u_state.last_user_action_tms).to.equal(100_000 + 10_000)
-				expect(game_instance.queries.get_sub_state('progress').statistics.good_play_count).to.equal(7)
-				expect(game_instance.queries.get_sub_state('progress').statistics.bad_play_count).to.equal(1)
+				game_instance.commands.play()
+				game_instance.commands.play()
+				game_instance.commands.play()
+				game_instance.commands.play()
+				game_instance.commands.play()
+				expect(game_instance.model.get().u_state.last_user_action_tms).to.equal(100_000 + 9_000)
+				expect(game_instance.queries.get_sub_state('progress').statistics.good_play_count, 'play count 2a').to.equal(13)
+				expect(game_instance.queries.get_sub_state('progress').statistics.bad_play_count, 'play count 2b').to.equal(0)
+
+				game_instance.commands.play()
+				expect(game_instance.queries.get_sub_state('progress').statistics.good_play_count, 'play count 2c').to.equal(13)
+				expect(game_instance.queries.get_sub_state('progress').statistics.bad_play_count, 'play count 2d').to.equal(1)
 
 				// bad misc
 				this.clock.tick(1_000);
@@ -197,7 +206,7 @@ describe(`${LIB} - game-instance`, function() {
 
 		describe('standard new user journey with eventual login', function() {
 
-			it.only('should work properly', function() {
+			it('should work properly', function() {
 				const game_instance = create_game_instance<AppState>({
 					SEC,
 					local_storage,
