@@ -17,8 +17,9 @@ function process_rpc(
 	req: TbrpgRpc,
 	res: TbrpgRpcResponse,
 ): TbrpgRpcResponse {
+	const { method } = req
 
-	switch(req.method) {
+	switch(method) {
 		case Method.echo:
 			return process_rpc_echo(req as RpcEcho, res as RpcEchoResponse)
 
@@ -27,6 +28,7 @@ function process_rpc(
 
 		default: {
 			throw create_error('RPC method not implemented!', {
+				method,
 				statusCode: 501,
 			})
 		}

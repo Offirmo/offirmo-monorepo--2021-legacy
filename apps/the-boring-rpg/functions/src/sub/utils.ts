@@ -1,6 +1,7 @@
 import { XError, COMMON_ERROR_FIELDS } from '@offirmo-private/common-error-fields'
 
 
+// TODO extern
 function create_error(message: string, data: XError['details'] = {}): XError {
 	const error: XError = new Error(message)
 	Object.keys(data).forEach(k => {

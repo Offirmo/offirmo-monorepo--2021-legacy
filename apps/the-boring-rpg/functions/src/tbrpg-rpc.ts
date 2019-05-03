@@ -38,7 +38,7 @@ const handler: NetlifyHandler = async (
 		const req: TbrpgRpc = parse_jsonrpc_requests(res, event)
 
 		res.error!.code = JSONRPC_CODE.internal_error
-		res.error!.message = 'internal error while processing the request!'
+		res.error!.message = 'Unknown internal error while processing the request!'
 		statusCode = 500
 
 		// TODO extract Context

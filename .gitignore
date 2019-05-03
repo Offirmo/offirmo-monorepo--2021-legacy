@@ -21,7 +21,7 @@ node_modules
 4-incubator/experiment-bootstrap/dist/
 4-incubator/universal-web-debug-tool/dist/
 4-incubator/universal-debug-api-companion-webextension/dist/
-apps/the-boring-rpg/functions/functions
+#apps/the-boring-rpg/functions/functions -> NO, to make them available in staging!
 ## misc
 #*\-index\-html.html
 

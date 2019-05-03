@@ -8,6 +8,7 @@ function handle(
 	res: RpcSyncResponse,
 ): RpcSyncResponse {
 
+	res.error!.message = 'not implemented!'
 	/*res.result = {
 		rpc_v: 1,
 		engine_v: VERSION,
