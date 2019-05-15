@@ -1,3 +1,6 @@
+@import './themes/dark-on-light.css';
+@import './themes/light-on-dark.css';
+
 /* Good tools:
  * http://www.cssportal.com/css-color-converter/
  * https://picular.co/quality
@@ -37,47 +40,6 @@
 	--o⋄color__boz__purple:   hsl(269, 83%, 77%);
 }
 
-/******* themes *******/
-/* TODO hue based https://medium.com/@mwichary/dark-theme-in-a-day-3518dde2955a */
-
-:root, /* this theme is the default */
-[data-o-theme="dark-on-light"] {
-	--o⋄color--bg⁚main: var(--o⋄color__dolt__quasi-white);
-	--o⋄color--bg⁚main--backdrop: rgba(98%, 98%, 98%, .88); /* TODO review */
-	--o⋄color--bg⁚highlight--1: rgba(0, 0, 0, .1);
-	--o⋄color--bg⁚highlight--2: rgba(0, 0, 0, .3);
-
-	--o⋄color--fg⁚main: var(--o⋄color__dolt__quasi-black);
-	--o⋄color--fg⁚secondary: hsla(0, 0%, 17%, .66);
-	--o⋄color--fg⁚ancillary: hsla(0, 0%, 17%, .33);
-
-	/* levels TODO improve */
-	--o⋄color--fg⁚error: hsl(360, 100%, 64%);
-	--o⋄color--fg⁚warning: var(--o⋄color__boz__yellow);
-	--o⋄color--fg⁚info: var(--o⋄color__boz__blue);
-	--o⋄color--fg⁚success: var(--o⋄color__boz__green);
-}
-
-/* light on dark theme */
-[data-o-theme="light-on-dark"] {
-	--o⋄color--bg⁚main: var(--o⋄color__dolt__quasi-black);
-	--o⋄color--bg⁚main--backdrop: rgba(17%, 17%, 17%, .9); /* TODO review */
-	--o⋄color--bg⁚highlight--1: rgba(100%, 100%, 100%, .1);
-	--o⋄color--bg⁚highlight--2: rgba(100%, 100%, 100%, .2);
-
-	--o⋄color--fg⁚main: var(--o⋄color__dolt__quasi-white);
-	--o⋄color--fg⁚secondary: hsla(0, 0%, 98%, .66);
-	--o⋄color--fg⁚ancillary: hsla(0, 0%, 98%, .33);
-
-	/* levels */
-	--o⋄color--fg⁚error: hsl(19, 81%, 56%);
-	--o⋄color--fg⁚warning: var(--o⋄color__boz__yellow);
-	--o⋄color--fg⁚info: var(--o⋄color__boz__blue);
-	--o⋄color--fg⁚success: var(--o⋄color__boz__green);
-}
-
-/******* themes *******/
-
 .o⋄color⁚main {
 	color: var(--o⋄color--fg⁚main);
 }
@@ -89,16 +51,3 @@
 .o⋄color⁚ancillary {
 	color: var(--o⋄color--fg⁚ancillary);
 }
-
-/******* utils *******/
-/* temporary class to transition themes smoothly
- * https://medium.com/@mwichary/dark-theme-in-a-day-3518dde2955a
- * TODO
-html.color-theme-in-transition,
-html.color-theme-in-transition *,
-html.color-theme-in-transition *:before,
-html.color-theme-in-transition *:after {
-	transition: all 750ms !important;
-	transition-delay: 0 !important;
-}
-*/

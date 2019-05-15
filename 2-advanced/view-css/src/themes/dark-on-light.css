@@ -1,0 +1,23 @@
+
+:root {
+
+}
+
+
+:root, /* this theme is the default */
+[data-o-theme="dark-on-light"] {
+	--o⋄color--bg⁚main: var(--o⋄color__dolt__quasi-white);
+	--o⋄color--bg⁚main--backdrop: rgba(98%, 98%, 98%, .88); /* TODO review */
+	--o⋄color--bg⁚highlight--1: rgba(0, 0, 0, .1);
+	--o⋄color--bg⁚highlight--2: rgba(0, 0, 0, .3);
+
+	--o⋄color--fg⁚main: var(--o⋄color__dolt__quasi-black);
+	--o⋄color--fg⁚secondary: hsla(0, 0%, 17%, .66);
+	--o⋄color--fg⁚ancillary: hsla(0, 0%, 17%, .33);
+
+	/* levels TODO improve */
+	--o⋄color--fg⁚error: hsl(360, 100%, 64%);
+	--o⋄color--fg⁚warning: var(--o⋄color__boz__yellow);
+	--o⋄color--fg⁚info: var(--o⋄color__boz__blue);
+	--o⋄color--fg⁚success: var(--o⋄color__boz__green);
+}
