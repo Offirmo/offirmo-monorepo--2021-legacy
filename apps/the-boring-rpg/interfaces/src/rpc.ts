@@ -1,17 +1,16 @@
 import { Enum } from 'typescript-string-enums'
+import { TimestampUTCMs } from '@offirmo-private/timestamps'
 import { JSONRpcRequest, JSONRpcResponse } from '@offirmo-private/json-rpc-types'
+
 import { State } from '@tbrpg/state'
 
-import { Action, PlayedAction } from './actions'
+import { Action } from './actions'
 
 ////////////////////////////////////
 
 const Method = Enum(
-	'echo',
-
+	'echo', // for tests
 	'sync',
-
-	//'play',
 )
 type Method = Enum<typeof Method> // eslint-disable-line no-redeclare
 
@@ -20,34 +19,30 @@ type Method = Enum<typeof Method> // eslint-disable-line no-redeclare
 interface RpcEcho extends JSONRpcRequest<any> {
 	method: typeof Method.echo
 }
+interface RpcEchoResponse extends JSONRpcResponse<any> {
+}
+
+///////
 
 interface SyncParams {
-	engine_v: number
+	engine_v: string
 	pending_actions: Action[]
 	//pending_actions: PlayedAction[]
 	current_state_hash: string
 }
-interface RpcSyncParams extends SyncParams {
-	rpc_v: 1,
+interface SyncResult {
+	engine_v: string // to force an update if needed
+	processed_up_to_time: TimestampUTCMs
+	authoritative_state?: State // only if hash not matching
+	// TODO more stuff: message, recent good drops...
 }
-interface RpcSync extends JSONRpcRequest<RpcSyncParams> {
+
+interface RpcSync extends JSONRpcRequest<SyncParams> {
 	method: typeof Method.sync
 }
-
-/////////////////////
-
-interface RpcEchoResponse extends JSONRpcResponse<any> {
+interface RpcSyncResponse extends JSONRpcResponse<SyncResult> {
+	result: SyncResult
 }
-
-interface RpcSyncResult {
-	rpc_v: 1,
-	engine_v: string
-	authoritative_state?: State // only if not matching
-}
-interface RpcSyncResponse extends JSONRpcResponse<RpcSyncResult> {
-	result: RpcSyncResult
-}
-
 
 /////////////////////
 
@@ -72,8 +67,7 @@ export {
 	TbrpgRpc,
 
 	SyncParams,
-	RpcSyncParams,
-	RpcSyncResult,
+	SyncResult,
 
 	RpcEchoResponse,
 	RpcSyncResponse,

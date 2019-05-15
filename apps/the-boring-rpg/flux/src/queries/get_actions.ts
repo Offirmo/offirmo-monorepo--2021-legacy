@@ -2,7 +2,6 @@ import { UUID } from '@offirmo-private/uuid'
 import { get_unslotted_item } from '@oh-my-rpg/state-inventory'
 import { UState } from '@tbrpg/state'
 import {
-	ACTIONS_SCHEMA_VERSION,
 	Action,
 	ActionEquipItem,
 	ActionSellItem,
@@ -15,7 +14,6 @@ function get_actions_for_unslotted_item(u_state: Readonly<UState>, uuid: UUID): 
 	const actions: Action[] = []
 
 	const equip: ActionEquipItem = {
-		v: ACTIONS_SCHEMA_VERSION,
 		time: 0, // to indicate that action time is pending
 		type: ActionType.equip_item,
 		expected_revisions: {
@@ -26,7 +24,6 @@ function get_actions_for_unslotted_item(u_state: Readonly<UState>, uuid: UUID): 
 	actions.push(equip)
 
 	const sell: ActionSellItem = {
-		v: ACTIONS_SCHEMA_VERSION,
 		time: 0, // to indicate that action time is pending
 		type: ActionType.sell_item,
 		expected_revisions: {

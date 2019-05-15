@@ -2,12 +2,15 @@ import memoize_one from 'memoize-one'
 import assert from 'tiny-invariant'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import { OMRContext } from '@oh-my-rpg/definitions'
-import { State } from '@tbrpg/state'
 import {
-	ACTIONS_SCHEMA_VERSION,
+	ENGINE_VERSION,
+	State,
+} from '@tbrpg/state'
+import {
 	Action,
 	ActionStartGame,
 	ActionType,
+	SyncResult,
 	TbrpgStorage,
 	StorageKey,
 } from '@tbrpg/interfaces'
@@ -17,6 +20,8 @@ import { LIB as ROOT_LIB } from '../../consts'
 import { SoftExecutionContext } from '../../sec'
 import { CloudStore } from '../types'
 import stable_stringify from 'json-stable-stringify'
+import { Synchronizer, create as create_synchronizer } from './synchonizer'
+import { JsonRpcCaller, create as create_jsonrpc_fetch } from './json-rpc-fetch'
 
 const LIB = `${ROOT_LIB}/CloudStore`
 
@@ -48,10 +53,6 @@ function reset_pending_actions(SEC: SoftExecutionContext, local_storage: Storage
 	return persist_pending_actions(SEC, local_storage, [])
 }
 
-interface SyncResult {
-	// TODO
-}
-
 
 function create(
 	SEC: SoftExecutionContext,
@@ -76,11 +77,47 @@ function create(
 				}
 
 				let is_logged_in: boolean = false // so far
-				const pending_actions = get_persisted_pending_actions(SEC, local_storage)
-				let last_sync_result: Promise<SyncResult> // TODO
+				let pending_actions = get_persisted_pending_actions(SEC, local_storage)
+				//let last_sync_result: Promise<SyncResult> // TODO
+
+				let call_remote_procedure = create_jsonrpc_fetch({
+					// TODO auto depending to env
+					rpc_url: 'http://localhost:9000/tbrpg-rpc'
+				})
+
+				let _synchronizer: Synchronizer | null = null
+				function get_synchronizer(): Synchronizer {
+					if (!_synchronizer) {
+						_synchronizer = create_synchronizer({
+							SEC,
+							call_remote_procedure,
+							on_successful_sync: (result: SyncResult) => {
+								const { engine_v, processed_up_to_time, authoritative_state } = result
+
+								if (engine_v !== ENGINE_VERSION) {
+									// TODO trigger a refresh to update
+									opt_out_reason = 'We are outdated!'
+									return
+								}
+
+								pending_actions = pending_actions.filter(action => action.time > processed_up_to_time)
+								persist_pending_actions(ROOT_SEC, local_storage, pending_actions)
+
+								if (authoritative_state) {
+									set(authoritative_state)
+								}
+							},
+							initial_pending_actions: pending_actions,
+							initial_state,
+						})
+					}
+
+					return _synchronizer
+				}
 
 				function dispatch(action: Readonly<Action>, eventual_state_hint?: Readonly<State>): void {
-					const { v, time, ...debug } = action
+					assert(eventual_state_hint, 'state MUST be hinted!')
+					const { time, ...debug } = action
 					logger.log(`[${LIB}] ⚡ action dispatched: ${action.type}`, {
 						//action: debug,
 						//pending_actions: pending_actions.length,
@@ -103,10 +140,8 @@ function create(
 						persist_pending_actions(ROOT_SEC, local_storage, pending_actions)
 					}
 
-					if (is_logged_in) {
-						// TODO not just sync from here, sync from server!
-						// TODO system of re-arming
-						logger.error(`Cloud store: TODO sync!`)
+					if (is_logged_in && !opt_out_reason) {
+						get_synchronizer().sync(pending_actions, eventual_state_hint!)
 					}
 				}
 
@@ -126,7 +161,6 @@ function create(
 							logger.info(`[${LIB}] new game, never persisted yet, could be in the future.`)
 
 							const action: ActionStartGame = {
-								v: ACTIONS_SCHEMA_VERSION,
 								time: get_UTC_timestamp_ms(),
 								type: ActionType.start_game,
 								expected_revisions: {},
@@ -177,7 +211,7 @@ function create(
 				}
 
 				return {
-					set: () => { throw new Error('NIMP in direct cloud store!!')},
+					set: () => { throw new Error('set() NIMP in direct cloud store!!')},
 					dispatch,
 					get,
 				}

@@ -1,6 +1,6 @@
 
-// copied from https://github.com/Microsoft/TypeScript/issues/15202#issuecomment-318900991
-// improved to match latest Promise typings
+// 1. copied from https://github.com/Microsoft/TypeScript/issues/15202#issuecomment-318900991
+// 2. then improved to match the latest Promise typings
 
 export default class Deferred<T> {
 	private _resolve!: (value?: T | PromiseLike<T>) => void
@@ -33,11 +33,9 @@ export default class Deferred<T> {
 		return this._reject(reason)
 	}
 
-	/*
 	finally(onfinally?: (() => void) | undefined | null): Promise<T> {
 		return this.promise.finally(onfinally)
 	}
-	*/
 
 	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/toStringTag
 	get [Symbol.toStringTag]() {

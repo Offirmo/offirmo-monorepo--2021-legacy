@@ -6,7 +6,7 @@ import {
 	Response,
 	NetlifyHandler,
 	JSONRPC_CODE,
-	DEFAULT_JSONRPC_ERROR_PAYLOAD
+	DEFAULT_JSONRPC_ERROR_PAYLOAD, NetlifyIdentityContext
 } from './sub/types'
 
 import { create_error } from './sub/utils'
@@ -21,7 +21,14 @@ const handler: NetlifyHandler = async (
 	event: APIGatewayEvent,
 	context: Context,
 ): Promise<Response> => {
-	console.log('\n*******\n* handling a tbrpg-rpc…')
+	console.log('\n******* handling a tbrpg-rpc… *******')
+
+
+	if (!context.clientContext)
+		throw new Error('No/bad/outdated token!')
+	const identity_context: NetlifyIdentityContext = context.clientContext as any
+	if (!identity_context.user)
+		throw new Error('No/bad/outdated token!')
 
 	let statusCode = 500
 	let res: TbrpgRpcResponse = {

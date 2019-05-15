@@ -3,7 +3,6 @@ import { UUID } from '@offirmo-private/uuid'
 import { CharacterClass } from '@oh-my-rpg/state-character'
 import { State } from '@tbrpg/state'
 import {
-	ACTIONS_SCHEMA_VERSION,
 	ActionType,
 
 	ActionStartSession,
@@ -33,7 +32,6 @@ function get_commands(
 	const commands = {
 		play(time: TimestampUTCMs = get_UTC_timestamp_ms()) {
 			const action: ActionPlay = {
-				v: ACTIONS_SCHEMA_VERSION,
 				time,
 				type: ActionType.play,
 				expected_revisions: {
@@ -44,7 +42,6 @@ function get_commands(
 		},
 		equip_item(target_uuid: UUID, time: TimestampUTCMs = get_UTC_timestamp_ms()) {
 			const action: ActionEquipItem = {
-				v: ACTIONS_SCHEMA_VERSION,
 				time,
 				type: ActionType.equip_item,
 				expected_revisions: {
@@ -56,7 +53,6 @@ function get_commands(
 		},
 		sell_item(target_uuid: UUID, time: TimestampUTCMs = get_UTC_timestamp_ms()) {
 			const action: ActionSellItem = {
-				v: ACTIONS_SCHEMA_VERSION,
 				time,
 				type: ActionType.sell_item,
 				expected_revisions: {
@@ -68,7 +64,6 @@ function get_commands(
 		},
 		rename_avatar(new_name: string, time: TimestampUTCMs = get_UTC_timestamp_ms()) {
 			const action: ActionRenameAvatar = {
-				v: ACTIONS_SCHEMA_VERSION,
 				time,
 				type: ActionType.rename_avatar,
 				expected_revisions: {
@@ -80,7 +75,6 @@ function get_commands(
 		},
 		change_avatar_class(new_class: CharacterClass, time: TimestampUTCMs = get_UTC_timestamp_ms()) {
 			const action: ActionChangeAvatarClass = {
-				v: ACTIONS_SCHEMA_VERSION,
 				time,
 				type: ActionType.change_avatar_class,
 				expected_revisions: {
@@ -92,7 +86,6 @@ function get_commands(
 		},
 		attempt_to_redeem_code(code: string, time: TimestampUTCMs = get_UTC_timestamp_ms()) {
 			const action: ActionRedeemCode = {
-				v: ACTIONS_SCHEMA_VERSION,
 				time,
 				type: ActionType.redeem_code,
 				expected_revisions: {},
@@ -104,7 +97,6 @@ function get_commands(
 		start_game() { throw new Error(`${LIB}: unexpected command !`)},
 		on_start_session(is_web_diversity_supporter: boolean, time: TimestampUTCMs = get_UTC_timestamp_ms()) {
 			const action: ActionStartSession = {
-				v: ACTIONS_SCHEMA_VERSION,
 				time,
 				type: ActionType.on_start_session,
 				expected_revisions: {},
@@ -114,7 +106,6 @@ function get_commands(
 		},
 		on_logged_in_refresh(is_logged_in: boolean, roles: string[] = [], time: TimestampUTCMs = get_UTC_timestamp_ms()) {
 			const action: ActionUpdateLoggedInInfos = {
-				v: ACTIONS_SCHEMA_VERSION,
 				time,
 				type: ActionType.on_logged_in_refresh,
 				expected_revisions: {},
@@ -125,7 +116,6 @@ function get_commands(
 		},
 		acknowledge_engagement_msg_seen(uid: number, time: TimestampUTCMs = get_UTC_timestamp_ms()) {
 			const action: ActionAcknowledgeEngagementMsgSeen = {
-				v: ACTIONS_SCHEMA_VERSION,
 				time,
 				type: ActionType.acknowledge_engagement_msg_seen,
 				expected_revisions: {},
@@ -135,7 +125,6 @@ function get_commands(
 		},
 		update_to_now(time: TimestampUTCMs = get_UTC_timestamp_ms()) {
 			const action: ActionUpdateToNow = {
-				v: ACTIONS_SCHEMA_VERSION,
 				time,
 				type: ActionType.update_to_now,
 				expected_revisions: {},
@@ -144,7 +133,6 @@ function get_commands(
 		},
 		custom(custom_reducer: (state: Readonly<State>) => Readonly<State>, time: TimestampUTCMs = get_UTC_timestamp_ms()) {
 			const action: ActionHack = {
-				v: ACTIONS_SCHEMA_VERSION,
 				time,
 				type: ActionType.hack,
 				expected_revisions: {},

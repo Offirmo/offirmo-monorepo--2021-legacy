@@ -27,10 +27,10 @@ type ActionType = Enum<typeof ActionType> // eslint-disable-line no-redeclare
 
 /////////////////////
 
-const ACTIONS_SCHEMA_VERSION = 1
+//const ACTIONS_SCHEMA_VERSION = 1
 
 interface BaseAction {
-	v: 1
+	//v: 1 // not sure needed
 	time: TimestampUTCMs
 	expected_revisions: {
 		[k:string]: number
@@ -114,6 +114,7 @@ type Action =
 
 // represent a passed action
 // XXX useful?
+/*
 interface PlayedAction {
 	action: Action
 
@@ -121,6 +122,7 @@ interface PlayedAction {
 	previous_last_user_action_tms: TimestampUTCMs
 	previous_revision: number
 }
+*/
 
 /////////////////////
 
@@ -132,7 +134,7 @@ function get_action_types(): string[] {
 /////////////////////
 
 export {
-	ACTIONS_SCHEMA_VERSION,
+	//ACTIONS_SCHEMA_VERSION,
 	ActionType,
 
 	ActionStartGame,
@@ -149,7 +151,6 @@ export {
 	ActionHack,
 
 	Action,
-	PlayedAction,
 
 	get_action_types,
 }
