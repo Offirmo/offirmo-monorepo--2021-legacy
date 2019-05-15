@@ -21,8 +21,13 @@ function get_browser() {
 // https://developer.chrome.com/extensions/devtools
 
 chrome.devtools.inspectedWindow.eval(
-	'console.log(`🧩 [T=${+Date.now()}] Hello from injected from devtools!`)',
-	function(result, isException) { }
+	`console.log('[${LIB}.${+Date.now()}] Hello injected from the devtools panel!')`,
+	function(result, isException) {
+		console.log({
+			result,
+			isException,
+		})
+	}
 )
 
 const PANEL_NAME = '🛠'
@@ -36,7 +41,7 @@ chrome.devtools.panels.create(
 		: 'ui/devtools-panel.html',*/
 	(panel) => {
 		// code invoked on panel creation
-		console.log(`🧩 [T=${+Date.now()}] Hello from devtools panel "${PANEL_NAME}" creation!`, panel)
+		console.log(`[${LIB}.${+Date.now()}] Hello from devtools panel "${PANEL_NAME}" creation!`, panel)
 
 		setTimeout(() => {
 			console.log('devtools panels = ', chrome.devtools.panels)

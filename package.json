@@ -37,6 +37,11 @@
 		"bolt": "^0.23"
 	},
 	"devDependencies": {
+		"@atlaskit/range": "^2",
+		"@atlaskit/select": "^9",
+		"@atlaskit/textfield": "^2",
+		"@atlaskit/theme": "^9",
+		"@atlaskit/toggle": "^7",
 		"@babel/cli": "^7",
 		"@babel/core": "^7",
 		"@babel/node": "^7",
@@ -154,6 +159,7 @@
 		"size-limit": "^1",
 		"strip-ansi": "^5",
 		"strip-ansi-stream": "^1",
+		"styled-components": "^3",
 		"term-size": "^2",
 		"tildify": "^2",
 		"tiny-invariant": "^1",

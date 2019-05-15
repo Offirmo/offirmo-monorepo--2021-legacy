@@ -1,0 +1,2 @@
+		"webRequest",
+		"webRequestBlocking",

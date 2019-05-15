@@ -4,7 +4,7 @@ import runInPageContext from '../utils/run-in-page-context'
 import lib from './start-incontext'
 
 const LIB = '🧩 UWDT/cs--start'
-const DEBUG = false
+const DEBUG = true
 
 ////////////////////////////////////
 // experiment modifying js env
@@ -37,6 +37,15 @@ if (DEBUG) console.log(`[${LIB}.${+Date.now()}] Hello!`, {
 
 ////////////////////////////////////
 
+function onMessage(event) {
+	console.log(`[${LIB}.${+Date.now()}] → postMessage: received message:`, event.data)
+}
+const listenerOptions = {
+	capture: false, // http://devdocs.io/dom/window/postmessage
+}
+window.addEventListener('message', onMessage, listenerOptions)
+window.postMessage({msg: `${LIB} - test`}, '*')
+
 /*
 let sent = false
 window.addEventListener('message', (event) => {
@@ -59,13 +68,22 @@ port.onMessage.addListener(function (m) {
 })
 */
 
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+	console.log(`[${LIB}.${+Date.now()}] → chrome.runtime.onMessage()`, {
+		from: sender.tab ?
+			"from a content script:" + sender.tab.url :
+			"from the extension",
+		request,
+	})
+})
+
 ////////////////////////////////////
 
-function do_stuff(DEBUG) {
+function do_stuff(DEBUG, LIB) {
 	// experiment modifying js env
 	window.foo = window.foo || 'content-scripts/start v1 in context'
 
-	if (DEBUG) console.log(`[🧩 UWDT/cs--start.${+Date.now()}] Hello from INJECTED!`, {
+	if (DEBUG) console.log(`[${LIB}.${+Date.now()}] Hello from INJECTED!`, {
 		foo_js: window.foo,
 		foo_ls: (() => {
 			try {
@@ -75,9 +93,18 @@ function do_stuff(DEBUG) {
 			}
 		})(),
 	})
+
+	/*function onMessage(event) {
+		console.log(`[${LIB}.IC.${+Date.now()}] → postMessage: received message:`, event.data)
+	}
+	const listenerOptions = {
+		capture: false, // http://devdocs.io/dom/window/postmessage
+	}
+	window.addEventListener('message', onMessage, listenerOptions)
+	window.postMessage({msg: `${LIB}.IC - test`}, '*')*/
 }
 
-runInPageContext(do_stuff, DEBUG)
+runInPageContext(do_stuff, DEBUG, LIB)
 
 ////////////////////////////////////
 
@@ -95,4 +122,3 @@ function b64DecodeUnicode(str) {
 eval(b64DecodeUnicode("${lib}"))
 `
 document.documentElement.prepend(scriptElement2)
-

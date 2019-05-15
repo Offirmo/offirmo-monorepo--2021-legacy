@@ -1,10 +1,10 @@
 {
 	"manifest_version": 2,
 	"name": "Universal Web Debug Tool",
-	"description": "Test of a webextension",
+	"description": "A companion webextension to control the Universal Debug API.",
 	"version": "0.1",
-	"homepage_url": "https://github.com/Offirmo/hello-world-browser-extension",
-	"short_name": "hello world browser ext.",
+	"homepage_url": "https://github.com/Offirmo/offirmo-monorepo/tree/master/4-incubator/universal-debug-api-companion-webextension",
+	"short_name": "Universal Debug API companion webextension",
 	"icons": {
 		"64": "icons/icon_64x64.png",
 		"32": "icons/icon_32x32.png",
@@ -13,7 +13,7 @@
 
 	"browser_action": {
 		"default_icon": "icons/icon_32x32.png",
-		"default_title": "Universal web debug tool",
+		"default_title": "Universal Debug Tool",
 		"default_popup": "ui/popup/popup.html"
 	},
 
@@ -21,8 +21,6 @@
 		"debugger",
 		"notifications",
 		"storage",
-		"webRequest",
-		"webRequestBlocking",
 		"<all_urls>"
 	],
 	"background": {

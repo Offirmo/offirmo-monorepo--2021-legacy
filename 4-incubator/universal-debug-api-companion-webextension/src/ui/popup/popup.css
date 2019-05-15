@@ -8,3 +8,26 @@ body {
 	width: 400px;
 	padding: 0 10px 10px 10px;
 }
+
+
+.box-sizing-reset {
+	/* https://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/ */
+	box-sizing: initial;
+}
+
+
+.left-right-aligned
+{
+	display: table;
+	width: 100%;
+}
+.left-right-aligned > div:first-child
+{
+	display: table-cell;
+	text-align: left;
+}
+.left-right-aligned > div:last-child
+{
+	display: table-cell;
+	text-align: right;
+}

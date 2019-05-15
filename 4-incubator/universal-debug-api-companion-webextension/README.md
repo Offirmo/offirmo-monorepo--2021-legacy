@@ -21,31 +21,8 @@ API
 icon: derived from https://thenounproject.com/term/spanner/333486/
 
 ## TODO
-```json
-	"permissions": [
-		"alarms",
-		"background",
-		"bookmarks",
-		"clipboardRead",
-		"clipboardWrite",
-		"contentSettings",
-		"contextMenus",
-		"cookies",
-		"debugger",
-		"downloads",
-		"geolocation",
-		"history",
-		"idle",
-		"management",
-		"nativeMessaging",
-		"notifications",
-		"storage",
-		"tabs",
-		"unlimitedStorage",
-		"webNavigation"
-	],
-```
 
+review
 
 Other extensions:
 - [Web Developer Toolbar](https://chrome.google.com/webstore/detail/web-developer-toolbar/deeboegbjcnfgidliakhpoapnpomphji)

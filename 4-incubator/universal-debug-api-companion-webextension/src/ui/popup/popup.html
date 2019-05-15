@@ -1,16 +1,50 @@
 <!DOCTYPE html>
 <html lang="en" class="o⋄top-container">
-<head>
-	<meta charset="UTF-8">
-	<link rel="stylesheet" type="text/css" href="popup.css" />
-</head>
-<body class="o⋄top-container">
-	<h3>Universal Dev Tool</h3>
+	<head>
+		<meta charset="UTF-8">
+		<title>webextension</title>
 
-	<p>Work in progress!</p>
+		<style type="text/css">
+			/* super early styles while the page is loading */
 
-	<button id="notify">notify</button>
+			.o⋄top-container {
+				display: flex;
+				flex-direction: column;
+				height: 100%;
+			}
+			.loader {
+				text-align: center;
+				margin: auto;
+				font-size: x-large;
+			}
+			.blinking{
+				animation:blinkingText 1.2s infinite;
+			}
+			@keyframes blinkingText{
+				0%{     color: inherit;    }
+				33%{    color: transparent; }
+			}
 
-	<script src="popup.js"></script>
-</body>
+			html {
+				--o⋄color__co212__brown:   rgb(84, 61, 70);
+				--o⋄color__co212__beige:   rgb(255, 235, 188);
+				--o⋄font-family--fast_and_good_enough: -apple-system, BlinkMacSystemFont, "avenir next", avenir, "Segoe UI", "lucida grande", "helvetica neue", helvetica, "Fira Sans", roboto, noto, "Droid Sans", cantarell, oxygen, ubuntu, "franklin gothic medium", "century gothic", "Liberation Sans", sans-serif;
+
+				background-color: var(--o⋄color__co212__brown);
+				color: var(--o⋄color__co212__beige);
+				font-family: var(--o⋄font-family--fast_and_good_enough);
+			}
+		</style>
+	</head>
+
+	<body class="o⋄top-container" data-o-theme="lod--colorhunt212">
+		<div id="root" class="o⋄top-container">
+			<div class="loader">
+				<p>Universal Web Dev Tool</p>
+				<p class="blinking">Loading<span class="blinking">...</span></p>
+			</div>
+		</div>
+
+		<script async importance="high" src="./popup.jsx"></script>
+	</body>
 </html>

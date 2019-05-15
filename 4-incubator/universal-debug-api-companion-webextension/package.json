@@ -6,14 +6,21 @@
 	"license": "Unlicense",
 	"private": true,
 	"devDependencies": {
+		"@atlaskit/range": "^2",
+		"@atlaskit/select": "^9",
+		"@atlaskit/textfield": "^2",
+		"@atlaskit/theme": "^9",
+		"@atlaskit/toggle": "^7",
 		"@babel/core": "^7",
-		"@offirmo/practical-logger-browser": "^1",
-		"@offirmo/universal-debug-api-minimal-noop": "^0",
+		"@offirmo-private/react-error-boundary": "^0.0.1",
 		"@offirmo-private/universal-debug-api-full-browser": "^0",
 		"@offirmo-private/view-css": "^0.0.1",
+		"@offirmo/practical-logger-browser": "^1",
+		"@offirmo/universal-debug-api-minimal-noop": "^0",
 		"cross-env": "^5",
 		"npm-run-all": "^4",
-		"parcel-bundler": "^1"
+		"parcel-bundler": "^1",
+		"styled-components": "^3"
 	},
 	"scripts": {
 		"clean": "node ../../scripts/clean.js dist cache",

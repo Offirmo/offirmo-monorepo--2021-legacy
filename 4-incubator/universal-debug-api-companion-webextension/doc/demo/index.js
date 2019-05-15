@@ -1,7 +1,16 @@
 /* global: _debug */
-import { getLogger } from '@offirmo/universal-debug-api-minimal-noop'
+import {
+	getLogger,
+	exposeInternal,
+	overrideHook,
+	addDebugCommand,
+	globalThis,
+} from '@offirmo/universal-debug-api-minimal-noop'
 
-console.warn(`📄 [page/head-script.${+Date.now()}] Hello, more standard!`, {
+const LIB = `📄 page/head-script`
+
+
+console.warn(`[${LIB}.${+Date.now()}] Hello, more standard!`, {
 	foo_js: window.foo,
 	foo_ls: (() => {
 		try {
@@ -10,9 +19,20 @@ console.warn(`📄 [page/head-script.${+Date.now()}] Hello, more standard!`, {
 		}
 		catch { /* ignore */ }
 	})(),
+	_debug,
 })
 
 
+//
+
+function onMessage(event) {
+	console.log(`[${LIB}.${+Date.now()}] → postMessage: received message:`, event.data)
+}
+const listenerOptions = {
+	capture: false, // http://devdocs.io/dom/window/postmessage
+}
+window.addEventListener('message', onMessage, listenerOptions)
+window.postMessage({msg: `${LIB} - test`}, '*')
 
 // usage
 const logger = getLogger()
@@ -41,6 +61,8 @@ if (true) {
 	console.groupEnd()
 }
 
-_debug.addDebugCommand('pause', () => {
+_debug.v1.addDebugCommand('pause', () => {
 	console.log('paused')
 })
+
+
