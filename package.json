@@ -37,6 +37,7 @@
 		"bolt": "^0.23"
 	},
 	"devDependencies": {
+		"@atlaskit/form": "^6",
 		"@atlaskit/range": "^2",
 		"@atlaskit/select": "^9",
 		"@atlaskit/textfield": "^2",

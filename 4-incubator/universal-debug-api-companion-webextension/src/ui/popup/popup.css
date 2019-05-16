@@ -31,3 +31,8 @@ body {
 	display: table-cell;
 	text-align: right;
 }
+
+
+.override-co {
+	min-width: 100px;
+}

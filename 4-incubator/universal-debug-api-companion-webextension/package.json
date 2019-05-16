@@ -6,6 +6,7 @@
 	"license": "Unlicense",
 	"private": true,
 	"devDependencies": {
+		"@atlaskit/form": "^6",
 		"@atlaskit/range": "^2",
 		"@atlaskit/select": "^9",
 		"@atlaskit/textfield": "^2",

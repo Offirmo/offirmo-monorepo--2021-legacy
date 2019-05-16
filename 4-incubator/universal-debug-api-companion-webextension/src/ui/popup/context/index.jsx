@@ -6,7 +6,7 @@ import { render_any_m } from '@offirmo-private/react-error-boundary'
 
 // https://reactjs.org/docs/context.html
 const DEFAULT_VALUE = {
-	is_enabled: false,
+	is_enabled: true,
 	overrides: {
 		'root.logLevel': {
 			type: 'll',

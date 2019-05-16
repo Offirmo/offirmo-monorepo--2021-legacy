@@ -7,9 +7,9 @@ import { AppStateConsumer } from '../../context'
 
 
 const OverrideC1M = React.memo(
-	function OverrideC1M({is_enabled, on_change, label, type, value}) {
+	function OverrideC1M({is_enabled, on_change, override_key, type, value}) {
 		return (
-			<View {...{is_enabled, on_change, label, type, value}} />
+			<View {...{is_enabled, on_change, override_key, type, value}} />
 		)
 	}
 )
@@ -27,8 +27,13 @@ class Override extends Component {
 		const override = overrides[override_key]
 		const { type, value } = override
 		// TODO onchange wrapper
+
+		function on_key_change(value) {
+			on_change({key: override_key, value})
+		}
+
 		return (
-			<OverrideC1M {...{is_enabled, on_change, label: override_key, type, value}} />
+			<OverrideC1M {...{is_enabled, on_change: on_key_change, override_key, type, value}} />
 		)
 	}
 
