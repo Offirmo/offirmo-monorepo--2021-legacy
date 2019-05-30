@@ -5,7 +5,7 @@
 }
 
 body {
-	width: 400px;
+	width: 500px;
 	padding: 0 10px 10px 10px;
 }
 
@@ -30,9 +30,4 @@ body {
 {
 	display: table-cell;
 	text-align: right;
-}
-
-
-.override-co {
-	min-width: 100px;
 }

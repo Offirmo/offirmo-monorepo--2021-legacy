@@ -24,7 +24,7 @@ const OPTIONS = STANDARD_COHORTS.map(cohort => ({
 
 export default class Switch extends Component {
 	static propTypes = {
-		is_enabled: PropTypes.bool.isRequired,
+		is_injection_enabled: PropTypes.bool.isRequired,
 		on_change: PropTypes.func.isRequired,
 		label: PropTypes.string.isRequired,
 		type: PropTypes.string.isRequired,
@@ -32,14 +32,14 @@ export default class Switch extends Component {
 	}
 
 	get_input() {
-		const { is_enabled, on_change, type, value } = this.props
+		const { is_injection_enabled, on_change, type, value } = this.props
 
 		switch (type) {
 			case 'b':
 				return (
 					<Toggle
 						size="large"
-						isDisabled={!is_enabled}
+						isDisabled={!is_injection_enabled}
 						isDefaultChecked={value}
 						onChange={on_change}
 					/>
@@ -47,7 +47,7 @@ export default class Switch extends Component {
 			case 'co':
 				return (
 					<Select
-						isDisabled={!is_enabled}
+						isDisabled={!is_injection_enabled}
 						className="single-select"
 						classNamePrefix="react-select"
 						value={value}

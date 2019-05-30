@@ -6,27 +6,31 @@ import { render_any_m } from '@offirmo-private/react-error-boundary'
 
 // https://reactjs.org/docs/context.html
 const DEFAULT_VALUE = {
-	is_enabled: true,
+	is_injection_enabled: true,
 	overrides: {
 		'root.logLevel': {
-			type: 'll',
-			value: undefined,
-			isActive: false,
-		},
-		'fooExperiment.cohort': {
-			type: 'co',
-			value: 'not-enrolled',
-			isActive: true,
-		},
-		'fooExperiment.logLevel': {
+			is_enabled: false,
 			type: 'll',
 			value: 'error',
-			isActive: true,
+			is_queried_in_code: false,
+		},
+		'fooExperiment.cohort': {
+			is_enabled: true,
+			type: 'co',
+			value: 'not-enrolled',
+			is_queried_in_code: true,
+		},
+		'fooExperiment.logLevel': {
+			is_enabled: true,
+			type: 'll',
+			value: 'error',
+			is_queried_in_code: true,
 		},
 		'fooExperiment.isSwitchedOn': {
+			is_enabled: true,
 			type: 'b',
 			value: true,
-			isActive: true,
+			is_queried_in_code: true,
 		},
 	}
 }

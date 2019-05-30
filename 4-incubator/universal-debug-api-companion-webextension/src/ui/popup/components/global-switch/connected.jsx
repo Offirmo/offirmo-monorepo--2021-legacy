@@ -7,9 +7,9 @@ import { AppStateConsumer, set_app_state } from '../../context'
 
 
 const GlobalSwitchC1M = React.memo(
-	function GlobalSwitchC1M({is_enabled, on_change}) {
+	function GlobalSwitchC1M({is_injection_enabled, on_change}) {
 		return (
-			<View {...{is_enabled, on_change}} />
+			<View {...{is_injection_enabled, on_change}} />
 		)
 	}
 )
@@ -21,14 +21,14 @@ class GlobalSwitch extends Component {
 
 	on_change = (event) => {
 		console.log('GlobalSwitch on_change', event)
-		set_app_state(state => ({is_enabled: !state.is_enabled}))
+		set_app_state(state => ({is_injection_enabled: !state.is_injection_enabled}))
 	}
 
 	render_view = ({app_state}) => {
 		console.log(`🔄 Overrides render_view`, {app_state})
-		const { is_enabled } = app_state
+		const { is_injection_enabled } = app_state
 		return (
-			<GlobalSwitchC1M {...{is_enabled, on_change: this.on_change}} />
+			<GlobalSwitchC1M {...{is_injection_enabled, on_change: this.on_change}} />
 		)
 	}
 

@@ -1,0 +1,44 @@
+
+.override-line {
+}
+
+.override-enable-toggle {
+	vertical-align: middle;
+}
+
+.override-enable-toggle > div {
+	display: inline-block;
+}
+
+.override-label {
+	font-size: 1em;
+}
+
+.override-input {
+}
+
+
+.override-input-co {
+	min-width: 80px;
+}
+
+.override-input-ll {
+	width: 200px;
+}
+.override-input-b > div > label {
+	vertical-align: middle;
+}
+
+.override-input-label {
+	font-size: .9em;
+}
+.override-input-ll-label {
+	position: relative;
+	top: -20px;
+}
+
+.override-input-co .single-select {
+	min-width: 130px;
+	display: inline-block;
+	vertical-align: middle;
+}

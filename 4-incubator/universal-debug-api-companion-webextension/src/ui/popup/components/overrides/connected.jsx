@@ -17,8 +17,8 @@ class Overrides extends Component {
 	static propTypes = {
 	}
 
-	on_change = ({key, value}) => {
-		console.log('Overrides on_change TODO', {key, value})
+	on_change = ({key, value, is_enabled}) => {
+		console.log('Overrides on_change TODO', {key, value, is_enabled})
 	}
 
 	render_view = ({app_state}) => {

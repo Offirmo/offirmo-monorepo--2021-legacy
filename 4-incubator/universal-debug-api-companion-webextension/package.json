@@ -16,6 +16,7 @@
 		"@offirmo-private/react-error-boundary": "^0.0.1",
 		"@offirmo-private/universal-debug-api-full-browser": "^0",
 		"@offirmo-private/view-css": "^0.0.1",
+		"@offirmo/practical-logger-core": "^1",
 		"@offirmo/practical-logger-browser": "^1",
 		"@offirmo/universal-debug-api-minimal-noop": "^0",
 		"cross-env": "^5",
