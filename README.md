@@ -4,6 +4,7 @@ A monorepo for all my JavaScript / TypeScript projects. So convenient.
 
 Public npm modules:
 * final
+	* [@offirmo/deferred](https://www.npmjs.com/package/@offirmo/deferred)
 	* [@offirmo/globalthis-ponyfill](https://www.npmjs.com/package/@offirmo/globalthis-ponyfill)
 	* [@offirmo/practical-logger-browser](https://www.npmjs.com/package/@offirmo/practical-logger-browser)
 	* [@offirmo/practical-logger-minimal-noop](https://www.npmjs.com/package/@offirmo/practical-logger-minimal-noop)

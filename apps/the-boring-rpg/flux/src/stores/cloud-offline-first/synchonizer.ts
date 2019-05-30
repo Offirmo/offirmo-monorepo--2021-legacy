@@ -1,5 +1,5 @@
 import assert from 'tiny-invariant'
-import Deferred from '@offirmo-private/deferred'
+import Deferred from '@offirmo/deferred'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from "@offirmo-private/timestamps";
 import { JSONRpcRequest, JSONRpcResponse } from '@offirmo-private/json-rpc-types'
 
