@@ -1,6 +1,7 @@
 import { Logger, LoggerCreationParams } from '@offirmo/practical-logger-interface'
 import { createLogger as createLoggerCore } from '@offirmo/practical-logger-core'
 
+
 import sink_firefox from './sinks/advanced/firefox'
 import sink_chromium from './sinks/advanced/chromium'
 import sink_safari from './sinks/advanced/safari'
@@ -14,9 +15,12 @@ function createLogger(p: Readonly<LoggerCreationParams>): Logger {
 
 
 export {
+	// common exports
 	Logger,
 	LoggerCreationParams,
 	createLogger,
+
+	// specific
 	sink_firefox,
 	sink_chromium,
 	sink_safari,

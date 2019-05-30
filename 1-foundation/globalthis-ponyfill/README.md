@@ -60,3 +60,5 @@ There are existing ponyfills/polyfills [out there](https://github.com/ljharb/glo
 
 **YES** I had a look at [ljharb/globalThis](https://github.com/ljharb/globalThis)'s [implementation](https://github.com/ljharb/globalThis/blob/master/implementation.js) (MIT)
 and started my implementation from it! Thanks a lot and all credits due!
+
+TODO look at https://mathiasbynens.be/notes/globalthis

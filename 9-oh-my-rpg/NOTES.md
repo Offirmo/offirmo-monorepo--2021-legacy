@@ -37,6 +37,17 @@ transferable skills https://dev.to/alex_barashkov/how-games-can-improve-your-ski
 
 https://science.slashdot.org/story/19/01/30/1559228/mind-altering-cat-parasite-linked-to-schizophrenia-in-largest-study-yet
 
+https://science.slashdot.org/story/19/05/15/1858236/a-bizarre-form-of-water-may-exist-all-over-the-universe
+
+https://en.wikipedia.org/wiki/Dark_matter
+https://en.wikipedia.org/wiki/Dark_flow
+https://en.wikipedia.org/wiki/Dark_fluid
+https://en.wikipedia.org/wiki/Dark_energy
+https://en.wikipedia.org/wiki/Antimatter
+https://wow.gamepedia.com/Arcane
+
+https://www.icy-veins.com/wow/
+
 https://www.dmsguild.com/product/254797 murder hobo class
 
 https://itunes.apple.com/au/story/id1451650690 divinity original sin
