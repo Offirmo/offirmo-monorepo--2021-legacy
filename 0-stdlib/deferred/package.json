@@ -1,7 +1,7 @@
 {
 	"name": "@offirmo/deferred",
 	"description": "Implementation of the deferred pattern on top of a Promise",
-	"version": "0.0.1",
+	"version": "1.0.0",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 
@@ -14,11 +14,11 @@
 
 	"size-limit": [
 		{
-			"limit": "1.5kb",
+			"limit": "250b",
 			"path": "dist/src.es9/index.js"
 		},
 		{
-			"limit": "1.5kb",
+			"limit": "250b",
 			"path": "dist/src.es9.cjs/index.js"
 		}
 	],
