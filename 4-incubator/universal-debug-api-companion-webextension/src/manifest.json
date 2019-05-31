@@ -1,8 +1,8 @@
 {
 	"manifest_version": 2,
-	"name": "Universal Debug API companion",
-	"description": "A companion webextension to control the Universal Debug API.",
-	"version": "0.1",
+	"name": "Offirmo’s Universal Debug API companion",
+	"description": "A companion webextension to control Offirmo’s Universal Debug API.",
+	"version": "0.0.1",
 	"homepage_url": "https://github.com/Offirmo/offirmo-monorepo/tree/master/4-incubator/universal-debug-api-companion-webextension",
 	"short_name": "Universal Debug API companion webextension",
 	"icons": {
