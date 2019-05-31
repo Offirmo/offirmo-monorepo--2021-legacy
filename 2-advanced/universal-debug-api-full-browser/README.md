@@ -1,10 +1,10 @@
 
-Magic ✨ you may not have to bundle this lib!
+EXPERIMENTAL, DEV IN PROGRESS
 
-## Universal debug API companion webextension
+## Universal debug API - browser version
 
-TODO doc...
+Magic ✨ you may not have to bundle this lib if you use the companion webextension!
+
+TODO more doc...
 
 https://docs.google.com/presentation/d/1XP_vWvsLgM27s-KgVFamWy3BpSSi4jFCSjnT1_jdiYs/
-
-		"@atlassian/log-experiment-to-console-browser": "^0.0.1",

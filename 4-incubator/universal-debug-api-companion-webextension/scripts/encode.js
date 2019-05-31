@@ -26,18 +26,17 @@ console.log('* lib content length =', lib_content.length)
 
 const lib_cleaned = (() => {
 	let result = lib_content
-	/*
-	const TRAILING_PART_TO_REMOVE = ''//# sourceMappingURL=/index-bundle.map'
-	if (lib_content.endsWith(TRAILING_PART_TO_REMOVE))
-		result = result.slice(0, -TRAILING_PART_TO_REMOVE.length)
-	console.log('\n', result)*/
+	// nothing for now
 	return result
 })()
 const lib_encoded = btoa(lib_cleaned)
 console.log('* encoded lib content length =', lib_encoded.length)
+console.assert(lib_encoded.length < 25 * 1000, 'lib is too big and won’t get injected!')
 
 fs.writeFileSync(target_path, `
 // THIS FILE IS AUTO GENERATED!
+// This is a base64 version of the Universal Web Debug API:
+// https://github.com/Offirmo/offirmo-monorepo/tree/master/2-advanced/universal-debug-api-full-browser
 const lib = '${lib_encoded}'
 export default lib
 `);

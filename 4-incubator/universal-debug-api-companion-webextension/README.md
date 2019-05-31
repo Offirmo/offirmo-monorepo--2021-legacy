@@ -1,4 +1,9 @@
-# Universal web debug tool
+
+EXPERIMENTAL, DEV IN PROGRESS
+
+# Universal Debug API companion webextension
+
+A **companion webextension** to the Universal Debug API for browser.
 
 The simplest, most trivial browser extension, featuring:
 * content script (aka. injected)

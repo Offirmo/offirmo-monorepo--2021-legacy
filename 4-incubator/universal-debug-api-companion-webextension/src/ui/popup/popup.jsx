@@ -9,13 +9,14 @@ import './popup.css'
 const LIB = '🧩 UWDT/popup'
 console.log(`[${LIB}.${+Date.now()}] Hello!`)
 
+/*
 ReactDOM.render(
 	<ErrorBoundary name={LIB}>
 		<Root />
 	</ErrorBoundary>,
 	document.getElementById('root'),
 )
-
+*/
 
 /*
 document.addEventListener('click', event => {
