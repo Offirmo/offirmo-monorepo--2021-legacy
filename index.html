@@ -99,6 +99,7 @@
 
 		let ok = false // so far
 		let errorMessage = 'Failed fetch' // so far
+		let err = null // so far
 		const headers = {
 			'Content-Type': 'application/json',
 			'Authorization': `Bearer ${user.token.access_token}`,
@@ -121,11 +122,15 @@
 					const messages = responseData.errors.map(errorData => `"${errorData.message}"`).join(', ')
 					errorMessage += `, error(s)="[${messages}]"`
 				}
-
+			})
+			.catch(e => {
+				err = e // store it
+				ok = false // just in case
+				throw err
 			})
 			.finally(() => {
 				if (!ok)
-					throw new Error(errorMessage)
+					throw err || new Error(errorMessage)
 			})
 			.catch(err => {
 				console.error('error fetching:', {url, err})
