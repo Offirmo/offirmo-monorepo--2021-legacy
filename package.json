@@ -103,6 +103,7 @@
 		"eslint-plugin-prettier": "^3",
 		"eslint-plugin-promise": "^4",
 		"eslint-plugin-react": "^7",
+		"exif-parser": "^0.1.12",
 		"favico.js": "^0.3",
 		"fetch-inject": "^2",
 		"fetch-mock": "^7",

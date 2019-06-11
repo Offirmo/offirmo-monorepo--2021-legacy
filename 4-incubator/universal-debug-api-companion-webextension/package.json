@@ -26,14 +26,17 @@
 	},
 	"scripts": {
 		"clean": "node ../../scripts/clean.js dist cache",
+
 		"dev:parcel": "parcel --no-autoinstall --port 8080 --no-hmr src/**/*.html src/background/background.js src/content-scripts/*.js",
 		"dev:cpx": "cpx 'src/**/*.{json,png,svg}' dist --watch --verbose",
+
 		"build:parcel": "parcel build --no-minify src/**/*.html src/background/background.js src/content-scripts/*.js --public-url ./",
 		"build:update-encoded-full-api": "node ./scripts/encode.js",
 		"build:cpx": "cpx 'src/**/*.{json,png,svg}' dist",
 		"build:extension": "run-s  build:update-encoded-full-api  build:parcel  build:cpx",
+
 		"dev": "npm-run-all clean --parallel dev:parcel dev:cpx",
-		"build": "npm version patch && run-s clean build:extension",
+		"build": "run-s clean build:extension",
 		"demo": "parcel doc/demo/index.html"
 	}
 }

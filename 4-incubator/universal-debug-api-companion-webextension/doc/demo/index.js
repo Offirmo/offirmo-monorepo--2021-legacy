@@ -22,19 +22,7 @@ console.warn(`[${LIB}.${+Date.now()}] Hello, more standard!`, {
 	_debug,
 })
 
-
-//
-
-function onMessage(event) {
-	console.log(`[${LIB}.${+Date.now()}] → postMessage: received message:`, event.data)
-}
-const listenerOptions = {
-	capture: false, // http://devdocs.io/dom/window/postmessage
-}
-window.addEventListener('message', onMessage, listenerOptions)
-window.postMessage({msg: `${LIB} - test`}, '*')
-
-// usage
+//////////// usage
 const logger = getLogger()
 logger.info('Hello from logger!')
 
@@ -65,4 +53,15 @@ _debug.v1.addDebugCommand('pause', () => {
 	console.log('paused')
 })
 
+//////////// communication ////////////
 
+function onMessage(event) {
+	console.log(`[${LIB}.${+Date.now()}] received postMessage:`, event.data)
+}
+const listenerOptions = {
+	capture: false, // http://devdocs.io/dom/window/postmessage
+}
+window.addEventListener('message', onMessage, listenerOptions)
+
+console.log(`[${LIB}.${+Date.now()}] sending a test postMessage...`)
+window.postMessage({msg: `${LIB} - test`}, '*')

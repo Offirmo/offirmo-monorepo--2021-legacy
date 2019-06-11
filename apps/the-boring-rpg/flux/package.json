@@ -18,7 +18,7 @@
 		"tslib": "^1"
 	},
 	"dependencies": {
-		"@offirmo/deferred": "^0.0.1",
+		"@offirmo/deferred": "^1",
 		"@offirmo-private/json-rpc-types": "^0.0.1",
 		"@offirmo-private/state": "^0.0.1",
 		"@offirmo-private/murmurhash": "0.0.1",

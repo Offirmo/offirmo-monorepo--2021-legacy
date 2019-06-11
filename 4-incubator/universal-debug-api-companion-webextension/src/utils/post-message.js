@@ -1,4 +1,4 @@
-const POST_MSG_NAMESPACE = '_OUDT'
+const POST_MSG_NAMESPACE = '_OUDAC'
 
 function listenForSafePostMessages({
 	logger = console,

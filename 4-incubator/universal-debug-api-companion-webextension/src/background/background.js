@@ -14,6 +14,19 @@ console.log(`[${LIB}.${+Date.now()}] Hello from background!`, {
 //chrome.browserAction.setBadgeBackgroundColor({ color: "#00AA00"})
 
 ////////////////////////////////////
+// https://developer.chrome.com/extensions/messaging#simple
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+	console.log(`[${LIB}.${+Date.now()}] received a simple message from`, {
+		sender,
+		sender_x: sender.tab ?
+			"from a content script:" + sender.tab.url :
+			"from the extension",
+		request,
+	})
+})
+
+////////////////////////////////////
 
 chrome.runtime.onConnect.addListener(port => {
 	console.log(`[${LIB}.${+Date.now()}] received connection`)
@@ -25,5 +38,3 @@ chrome.runtime.onConnect.addListener(port => {
 		console.log(m.greeting)
 	})
 })
-
-

@@ -27,13 +27,14 @@ To develop locally:
 ```bash
 yarn dev
 ```
-Will continually rebuild the extension in `./dist`
+Will continually rebuild the extension in `./dist` + serve the UI on :8080.
+This is to develop and serve the react pages directly without the need to reload the extension.
 
-To develop and serve the react pages only (no need to reload the extension):
+
 ```bash
 yarn demo
 ```
-TODO clarify this command
+Serves a test page on :1234 which uses the Universal Debug API.
 
 
 ## TODO

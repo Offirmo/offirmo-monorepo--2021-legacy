@@ -1,0 +1,24 @@
+{
+	"name": "@offirmo-private/photos-renamer",
+	"version": "0.0.1",
+	"description": "TODO",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+
+	"engines": {
+		"node": ">=8",
+		"npm": ">=3"
+	},
+
+	"dependencies": {
+		"@offirmo-private/prettify-json": "0.0.1",
+		"@offirmo-private/timestamps": "^0.0.1"
+	},
+	"optionalDependencies": {
+	},
+
+	"scripts": {
+		"start": "node index.js"
+	}
+}

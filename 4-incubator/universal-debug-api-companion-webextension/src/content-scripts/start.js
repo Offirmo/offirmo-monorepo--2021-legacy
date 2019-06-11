@@ -3,29 +3,13 @@ import 'babel-polyfill'
 import runInPageContext from '../utils/run-in-page-context'
 import lib from './start-incontext'
 
-const LIB = '🧩 UWDT/cs--start'
+const LIB = '🧩 UWDT/CS--start'
 const DEBUG = true
 
-////////////////////////////////////
-// experiment modifying js env
-window.foo = window.foo || 'content-scripts/start v1'
-try {
-	// local files may not have local storage
-	localStorage.setItem('foo', 'content-scripts/start v1')
-} catch {
-}
 
 if (DEBUG) console.log(`[${LIB}.${+Date.now()}] Hello!`, {
 	chrome: chrome,
 	document,
-	foo_js: window.foo,
-	foo_ls: (() => {
-		try {
-			// local files may not have local storage
-			return localStorage.getItem('foo')
-		} catch {
-		}
-	})(),
 })
 
 ////////////////////////////////////
@@ -38,7 +22,7 @@ if (DEBUG) console.log(`[${LIB}.${+Date.now()}] Hello!`, {
 ////////////////////////////////////
 
 function onMessage(event) {
-	console.log(`[${LIB}.${+Date.now()}] → postMessage: received message:`, event.data)
+	console.log(`[${LIB}.${+Date.now()}] received postMessage:`, event.data)
 }
 const listenerOptions = {
 	capture: false, // http://devdocs.io/dom/window/postmessage
@@ -46,19 +30,13 @@ const listenerOptions = {
 window.addEventListener('message', onMessage, listenerOptions)
 window.postMessage({msg: `${LIB} - test`}, '*')
 
+setTimeout(() => {
+	window.postMessage({
+		message: 'Message from content-scripts/start',
+	}, '*')
+}, 2000)
+
 /*
-let sent = false
-window.addEventListener('message', (event) => {
-	console.log(`[🧩 UWDT/cs--start.${+Date.now()}] received message:`, event)
-
-	if (!sent) {
-		sent = true
-		window.postMessage({
-			message: 'Message from content-scripts/start',
-		}, '*')
-	}
-})
-
 const port = chrome.runtime.connect({name: 'port-from-content-script'})
 port.postMessage({greeting: 'hello from content script'})
 
@@ -68,9 +46,13 @@ port.onMessage.addListener(function (m) {
 })
 */
 
+////////////////////////////////////
+// https://developer.chrome.com/extensions/messaging#simple
+
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-	console.log(`[${LIB}.${+Date.now()}] → chrome.runtime.onMessage()`, {
-		from: sender.tab ?
+	console.log(`[${LIB}.${+Date.now()}] received a simple message from`, {
+		sender,
+		sender_x: sender.tab ?
 			"from a content script:" + sender.tab.url :
 			"from the extension",
 		request,
@@ -79,6 +61,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 ////////////////////////////////////
 
+/*
 function do_stuff(DEBUG, LIB) {
 	// experiment modifying js env
 	window.foo = window.foo || 'content-scripts/start v1 in context'
@@ -93,18 +76,10 @@ function do_stuff(DEBUG, LIB) {
 			}
 		})(),
 	})
-
-	/*function onMessage(event) {
-		console.log(`[${LIB}.IC.${+Date.now()}] → postMessage: received message:`, event.data)
-	}
-	const listenerOptions = {
-		capture: false, // http://devdocs.io/dom/window/postmessage
-	}
-	window.addEventListener('message', onMessage, listenerOptions)
-	window.postMessage({msg: `${LIB}.IC - test`}, '*')*/
 }
 
 runInPageContext(do_stuff, DEBUG, LIB)
+*/
 
 ////////////////////////////////////
 

@@ -3,6 +3,8 @@ https://roll20.net/compendium/dnd5e/Spells%20List#content
 
 Map! https://codepen.io/oliviale/pen/moLrBq
 
+https://science.slashdot.org/story/19/06/05/2215210/exotic-particles-called-pentaquarks-may-be-less-weird-than-previously-thought
+
 https://blackbeltwiki.com/dynamic-tension
 https://en.wikipedia.org/wiki/Atropa_belladonna
 https://bewarethewizard.com/2019/01/18/fantasy-cartography-and-the-suspension-of-disbelief/
@@ -47,6 +49,8 @@ https://en.wikipedia.org/wiki/Antimatter
 https://wow.gamepedia.com/Arcane
 
 https://www.icy-veins.com/wow/
+
+WoW classic class list https://www.millenium.org/guide/333630.html?page=2
 
 https://www.dmsguild.com/product/254797 murder hobo class
 

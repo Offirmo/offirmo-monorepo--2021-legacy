@@ -32,6 +32,12 @@ function get_human_readable_UTC_timestamp_minutes(now: Readonly<Date> = new Date
 	return get_human_readable_UTC_timestamp_days(now) + `_${hh}h${mm}`
 }
 
+function get_human_readable_UTC_timestamp_seconds(now: Readonly<Date> = new Date()): HumanReadableTimestampUTCMinutes {
+	const ss = ('0' + now.getUTCSeconds()).slice(-2)
+
+	return get_human_readable_UTC_timestamp_minutes(now) + `.${ss}`
+}
+
 function get_human_readable_UTC_timestamp_ms_v1(now: Readonly<Date> = new Date()): HumanReadableTimestampUTCMs {
 	const ss = ('0' + now.getUTCSeconds()).slice(-2)
 	const mmm = ('00' + now.getUTCMilliseconds()).slice(-3)
@@ -51,6 +57,7 @@ export {
 	get_UTC_timestamp_ms,
 
 	get_human_readable_UTC_timestamp_ms,
+	get_human_readable_UTC_timestamp_seconds,
 	get_human_readable_UTC_timestamp_minutes,
 	get_human_readable_UTC_timestamp_days,
 }

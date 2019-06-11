@@ -23,7 +23,7 @@ Public webapps:
 
 Public webextensions:
 * [Universal Debug API companion](4-incubator/universal-debug-api-companion-webextension/README.md)
-  * Firefox: pending
+  * [Firefox](https://addons.mozilla.org/en-US/firefox/addon/universal-debug-api-companion/)
   * Chrome: pending
 
 

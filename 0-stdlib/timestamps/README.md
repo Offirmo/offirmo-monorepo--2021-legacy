@@ -1,5 +1,6 @@
 # human readable timestamps
 
+`import {} from '@offirmo-private/timestamps'`
 
 Examples:
 get_UTC_timestamp_ms()
@@ -10,6 +11,9 @@ get_human_readable_UTC_timestamp_ms_v1()
 
 get_human_readable_UTC_timestamp_ms()
 ts1_20181121_06h00:45.634
+
+get_human_readable_UTC_timestamp_seconds()
+20190608_04h23.15
 
 get_human_readable_UTC_timestamp_minutes()
 20181121_06h00
