@@ -8,7 +8,7 @@ neverending
 unknown
 
 
-       name: yjutard                                                               Pick a role or profession
+       name: xxx                                                               Pick a role or profession
        role:  choosing now                                                         
        race:  not yet specified                                                    a - an Archeologist
      gender:  not yet specified                                                    b - a Barbarian

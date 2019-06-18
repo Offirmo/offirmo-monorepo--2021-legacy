@@ -80,7 +80,7 @@ bolt clean
   bolt ws run clean
   bolt ws exec -- rm -rf .cache .parcel dist node_modules yarn.lock package-lock.json yarn-error.log
 ## updates dependencies (minor + patch)
-bolt clean && rm -rf node_modules yarn.lock package-lock.json && bolt && yarn outdated && bolt build
+bolt clean && rm -rf node_modules yarn.lock package-lock.json && bolt && yarn outdated     && bolt build
 npx yarn-tools list-duplicates yarn.lock
 
 ## serve for dev

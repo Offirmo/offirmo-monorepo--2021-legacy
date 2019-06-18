@@ -48,3 +48,5 @@ const err = createError(`Foo API: bar is incorrect!`)
 const err = createError(`Foo API: bar is incorrect!`, { status: })
 
 ```
+
+See https://github.com/jshttp/http-errors

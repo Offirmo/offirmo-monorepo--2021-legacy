@@ -1,12 +1,11 @@
 
-https://roll20.net/compendium/dnd5e/Spells%20List#content
 
-Map! https://codepen.io/oliviale/pen/moLrBq
 
-https://science.slashdot.org/story/19/06/05/2215210/exotic-particles-called-pentaquarks-may-be-less-weird-than-previously-thought
 
-https://blackbeltwiki.com/dynamic-tension
-https://en.wikipedia.org/wiki/Atropa_belladonna
+
+
+https://arstechnica.com/gaming/2019/06/everquests-long-strange-20-year-trip-still-has-no-end-in-sight/
+
 https://bewarethewizard.com/2019/01/18/fantasy-cartography-and-the-suspension-of-disbelief/
 
 https://science.slashdot.org/story/19/02/19/2345203/fda-warns-against-using-young-blood-as-medical-treatment
@@ -50,7 +49,9 @@ https://wow.gamepedia.com/Arcane
 
 https://www.icy-veins.com/wow/
 
-WoW classic class list https://www.millenium.org/guide/333630.html?page=2
+WoW classic class list
+https://www.millenium.org/guide/333630.html?page=2
+https://www.millenium.org/guide/334185.html
 
 https://www.dmsguild.com/product/254797 murder hobo class
 
@@ -214,12 +215,6 @@ books:
 // https://www.reddit.com/r/Morrowind/comments/1s1emv/i_find_the_levelup_messages_very_inspirational/
 
 
-Icons:
-- https://thenounproject.com/monjin.friends/collection/fantasy-kit/
-- https://thenounproject.com/gegebe/collection/common-rpg-icons/
-
-fontes
-- https://www.behance.net/gallery/67861589/Sangha-Kali-typeface-(free)
 
 Story
 - shlock gate keepers

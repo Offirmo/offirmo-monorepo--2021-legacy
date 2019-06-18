@@ -110,8 +110,3 @@ WithdrawExperimentException.prototype.constructor = WithdrawExperimentException;
 
 export default WithdrawExperimentException;
 
-
-
-{"name":"xflow","hostname":"CLI-24440","pid":44999,"level":30,"msg":"Starting xflow in env \"dev\"...","time":"2017-12-04T03:39:35.124Z","v":0}
-{"name":"xflow","hostname":"CLI-24440","pid":44999,"level":60,"err":{"message":"listen EADDRINUSE :::8080","name":"Error","stack":"Error: listen EADDRINUSE :::8080\n    at Object._errnoException (util.js:1024:11)\n    at _exceptionWithHostPort (util.js:1046:20)\n    at Server.setupListenHandle [as _listen2] (net.js:1351:14)\n    at listenInCluster (net.js:1392:12)\n    at Server.listen (net.js:1476:7)\n    at Function.listen (/Users/yjutard/work/src/xflow/node_modules/express/lib/application.js:618:24)\n    at expressAppFactory.then (/Users/yjutard/work/src/xflow/lib/index.js:38:24)\n    at <anonymous>\n    at process._tickCallback (internal/process/next_tick.js:188:7)\n    at Function.Module.runMain (module.js:678:11)","code":"EADDRINUSE"},"msg":"Uncaught exception!","time":"2017-12-04T03:39:35.545Z","v":0}
-
