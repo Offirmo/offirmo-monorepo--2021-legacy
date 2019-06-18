@@ -16,7 +16,7 @@
 	"dependencies": {
 		"caught": "^0.1",
 		"is-promise": "^2",
-		"p-finally": "^1",
+		"p-finally": "^2",
 		"p-progress": "^0.4",
 		"tslib": "^1"
 	},

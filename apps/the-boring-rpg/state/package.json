@@ -42,7 +42,7 @@
 		"@oh-my-rpg/state-wallet": "^0.0.1",
 		"deepmerge": "^3",
 		"emittery": "^0.4",
-		"p-finally": "^1",
+		"p-finally": "^2",
 		"tiny-invariant": "^1",
 		"typescript-string-enums": "^1"
 	},

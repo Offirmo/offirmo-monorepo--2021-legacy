@@ -15,7 +15,7 @@
 		"jsondiffpatch": "^0.3",
 		"load-json-file": "^6",
 		"lodash": "^4",
-		"write-json-file": "^3"
+		"write-json-file": "^4"
 	},
 
 	"scripts": {

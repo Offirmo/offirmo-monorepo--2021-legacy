@@ -6,9 +6,6 @@
 	"license": "Unlicense",
 	"private": true,
 
-	"engines": {
-		"node": "8.1"
-	},
 	"dependencies": {
 		"@offirmo-private/common-error-fields": "^0.0.1",
 		"@offirmo-private/json-rpc-types": "^0.0.1",
