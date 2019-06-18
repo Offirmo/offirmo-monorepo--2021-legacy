@@ -7,13 +7,13 @@
 
 console.log('Hello world !')
 
+const util = require('util');
+const path = require('path')
+const fs = require('../../../cli-toolbox/fs/extra')
 
 const assert = require('tiny-invariant')
-const path = require('path')
-const fse = require('../../../cli-toolbox/fs/extra')
-const fs = require('fs')
 //const _ = require('@offirmo/cli-toolbox/lodash')
-//const stylize_string = require('@offirmo/cli-toolbox/string/stylize')
+const stylize_string = require('../../../cli-toolbox/string/stylize')
 //const log_symbols = require('@offirmo/cli-toolbox/string/log-symbols')
 //const meow = require('@offirmo/cli-toolbox/framework/meow')
 const tildify = require('../../../cli-toolbox/string/tildify')
@@ -27,28 +27,63 @@ const exif_parser = require('exif-parser')
 const DATE_TS_LENGTH = '20xxMMDD'.length
 const NOW = +(new Date())
 
-const { prettify_json } = require('@offirmo-private/prettify-json')
+const { prettify_json, dump_pretty_json } = require('@offirmo-private/prettify-json')
 
-//const root = '/Users/yjutard/Documents/- photos/02 - en cours/00000000 - inbox'
-const root = '/Users/yjutard/Documents/- photos/xxTESTxx/inbox'
+const root = `/Users/${process.env.USER}/Documents/- photos/02 - en cours/00000000 - inbox`
+//const root = `/Users/${process.env.USER}/Documents/- photos/xxTESTxx/inbox`
 
 const root_dirname = path.basename(root)
 const parent = path.resolve(root, '..')
-console.log('* input:\n' + prettify_json({ root, root_dirname, parent }))
+const existing_siblings = fs.lsDirsSync(parent, {full_path: false})
+const existing_dated_dirs = {}
+existing_siblings
+	.filter(s => s.startsWith('20'))
+	.forEach(sib => existing_dated_dirs[sib.slice(0, 8)] = sib
+)
 //console.log(fs.constants)
 
 const USEFUL_BYTES = 65635
+const dry_run = false
 
-//console.log(fse.readdirSync(path.resolve(root)))
+dump_pretty_json('* input:', {
+	user: process.env.USER,
+	root,
+	root_dirname,
+	parent,
+	dry_run,
+	//existing_dated_dirs,
+}, { indent: 2 })
+
+//console.log(fs.readdirSync(path.resolve(root)))
 
 /*console.log({
 	d1: get_ideal_directory_name()
 })*/
 
+async function ensure_dir(full_dir_path) {
+	const base = path.basename(full_dir_path)
+	const radix = base.slice(0, 8)
+	const is_existing = !!existing_dated_dirs[radix]
+
+	/*dump_pretty_json('  * ensuring new dir:',{
+		full_dir_path,
+		//base,
+		//radix,
+		//existing_dated_dirs,
+		//is_existing,
+		//obj: existing_dated_dirs[radix],
+	}, { indent: 6 })*/
+
+	if (is_existing) return
+
+	await util.promisify(fs.mkdirp)(full_dir_path)
+	existing_dated_dirs[radix] = base
+}
+
 function get_ideal_directory_name(timestamp) {
 	let date = new Date(timestamp)
 
-	if (date.getDay() === 0) {
+	if (date.getUTCDay() === 0) {
 		// sunday is coalesced to sat = start of weekend
 		const timestamp_one_day_before = timestamp - (1000 * 3600 * 24)
 		date = new Date(timestamp_one_day_before)
@@ -56,7 +91,7 @@ function get_ideal_directory_name(timestamp) {
 
 	const radix = get_human_readable_UTC_timestamp_days(date)
 
-	return radix + ' - ' + (date.getDay() === 6 ? 'weekend' : 'life')
+	return existing_dated_dirs[radix] || (radix + ' - ' + (date.getUTCDay() === 6 ? 'weekend' : 'life'))
 }
 
 function get_best_creation_timestamp(full_path) {
@@ -79,13 +114,14 @@ function get_best_creation_timestamp(full_path) {
 					fs.read(fd, Buffer.from(b), 0, USEFUL_BYTES, null, (err, bytesRead, buffer) => {
 						if (err) return reject(err)
 
+						let extra = ''
 						//console.log({bytesRead})
 						const parser = exif_parser.create(buffer)
 						try {
 							const result = parser.parse()
 							//console.log(prettify_json(result))
 
-							const { CreateDate: _CreateDate, DateTimeOriginal: _DateTimeOriginal} = result.tags || {}
+							const { CreateDate: _CreateDate, DateTimeOriginal: _DateTimeOriginal, Model} = result.tags || {}
 							if (_CreateDate)
 								CreateDate = _CreateDate * 1000
 							else if (_DateTimeOriginal)
@@ -95,12 +131,17 @@ function get_best_creation_timestamp(full_path) {
 								DateTimeOriginal = _DateTimeOriginal * 1000
 							else if (_CreateDate)
 								DateTimeOriginal = _CreateDate * 1000
+
+							if (Model.toLowerCase() === 'iphone 6')
+								extra = 'i6'
+							else if (Model.toLowerCase() === 'iphone 7')
+								extra = 'i7'
 						}
 						catch (err) {
 							// ignore
 						}
 
-						let final_tms = CreateDate || birthtime
+						let final_ts = CreateDate || birthtime
 
 						/*
 						console.log(prettify_json({
@@ -112,7 +153,7 @@ function get_best_creation_timestamp(full_path) {
 							//birthtimeMs: birthtimeMs ? `${birthtimeMs} = ${get_human_readable_UTC_timestamp_seconds(new Date(birthtimeMs))}` : 'n/a',
 							//DateTimeOriginal: DateTimeOriginal ? `${DateTimeOriginal} = ${get_human_readable_UTC_timestamp_seconds(new Date(DateTimeOriginal))}` : 'n/a',
 							//CreateDate: CreateDate ? `${CreateDate} = ${get_human_readable_UTC_timestamp_seconds(new Date(CreateDate))}` : 'n/a',
-							final_tms: final_tms ? `${final_tms} = ${get_human_readable_UTC_timestamp_seconds(new Date(final_tms))}` : 'n/a',
+							final_ts: final_ts ? `${final_ts} = ${get_human_readable_UTC_timestamp_seconds(new Date(final_ts))}` : 'n/a',
 						}))
 						*/
 
@@ -121,10 +162,13 @@ function get_best_creation_timestamp(full_path) {
 							assert(CreateDate <= birthtime, 'exif vs. file creation')
 							//assert((CreateDate + 1000 * 3600 * 24) > birthtime, '3')
 						}
-						assert(final_tms > 946684800000, 'final > 2000/01/01')
-						assert(final_tms < NOW, 'final < now')
+						assert(final_ts > 946684800000, 'final > 2000/01/01')
+						assert(final_ts < NOW, 'final < now')
 
-						resolve(final_tms)
+						resolve({
+							final_ts,
+							extra,
+						})
 					})
 				}
 			)
@@ -132,36 +176,46 @@ function get_best_creation_timestamp(full_path) {
 	})
 }
 
-function process_file(fp, parent_path) {
-	return new Promise((resolve, reject) => {
-		const full_path = path.join(parent_path, fp)
+async function process_file(file_name, parent_path) {
+	try {
+		const full_path = path.join(parent_path, file_name)
+		const {final_ts, extra} = await get_best_creation_timestamp(full_path)
+		const date = new Date(final_ts)
+		const new_name = get_human_readable_UTC_timestamp_seconds(date) + (extra ? `-${extra}` : '') + '-' + file_name
+		const new_dir = path.resolve(parent, get_ideal_directory_name(final_ts))
+		const to_file = path.resolve(new_dir, new_name)
+		dump_pretty_json(`  * handling ${file_name} = "${full_path}"`,{
 
-		return get_best_creation_timestamp(full_path)
-			.then(final_ts => {
+			//parent_path,
+			//stats,
+			//birthtime: birthtime ? `${birthtime} = ${get_human_readable_UTC_timestamp_seconds(new Date(birthtime))}` : 'n/a',
+			//birthtimeMs: birthtimeMs ? `${birthtimeMs} = ${get_human_readable_UTC_timestamp_seconds(new Date(birthtimeMs))}` : 'n/a',
+			//DateTimeOriginal: DateTimeOriginal ? `${DateTimeOriginal} = ${get_human_readable_UTC_timestamp_seconds(new Date(DateTimeOriginal))}` : 'n/a',
+			//CreateDate: CreateDate ? `${CreateDate} = ${get_human_readable_UTC_timestamp_seconds(new Date(CreateDate))}` : 'n/a',
+			final_ts: `${final_ts} = ${get_human_readable_UTC_timestamp_seconds(date)} = ${['Sun', 'Mon', 'Tues', 'Wednes', 'Thurs', 'Fri', 'Satur'][date.getUTCDay()] + 'day'}`,
+			new_name,
+			new_dir,
+		}, { indent: 4 })
 
-				console.log(prettify_json({
-					path: fp,
-					full_path,
-					//parent_path,
-					//stats,
-					//birthtime: birthtime ? `${birthtime} = ${get_human_readable_UTC_timestamp_seconds(new Date(birthtime))}` : 'n/a',
-					//birthtimeMs: birthtimeMs ? `${birthtimeMs} = ${get_human_readable_UTC_timestamp_seconds(new Date(birthtimeMs))}` : 'n/a',
-					//DateTimeOriginal: DateTimeOriginal ? `${DateTimeOriginal} = ${get_human_readable_UTC_timestamp_seconds(new Date(DateTimeOriginal))}` : 'n/a',
-					//CreateDate: CreateDate ? `${CreateDate} = ${get_human_readable_UTC_timestamp_seconds(new Date(CreateDate))}` : 'n/a',
-					final_ts: `${final_ts} = ${get_human_readable_UTC_timestamp_seconds(new Date(final_ts))}`,
-					target_dir: get_ideal_directory_name(final_ts),
-				}))
-			})
-	})
-	.catch(err => {
-		console.error(`While processing "${fp}":`, err)
-	})
+		dump_pretty_json('    * will now rename:',{
+			from: full_path,
+			to: to_file,
+		}, { indent: 6 })
+
+		await ensure_dir(new_dir)
+
+		if (dry_run) return
+
+		await util.promisify(fs.rename)(full_path, to_file)
+	} catch (err) {
+		console.error(stylize_string.red(`\n\nXXXXXXXX\nWhile processing "${file_name}":`), err)
+	}
 }
 
 function process_dir(dir, options) {
 	console.log(`* processing dir "${dir}"…`)
 
-	const all_files = fse.lsFiles(dir, { full_path: false })
+	const all_files = fs.lsFilesSync(dir, { full_path: false })
 	const interesting_files = all_files
 		.filter(f => f[0] !== '.')
 		.filter(f => !(f.startsWith('IMG_20') && f.length >= DATE_TS_LENGTH + 4 + 4))
@@ -172,12 +226,11 @@ function process_dir(dir, options) {
 		.filter(f => !f.endsWith('.AAE'))
 		//.filter(f => f.startsWith('HOBU'))
 
-
 	const data = {}
 	const in_progress = []
 	interesting_files.forEach(f => process_file(f, dir))
 
-	const sub_dirs = fse.lsDirs(dir).map(sub_dir => process_dir(sub_dir, options))
+	const sub_dirs = fs.lsDirsSync(dir).map(sub_dir => process_dir(sub_dir, options))
 }
 
 
