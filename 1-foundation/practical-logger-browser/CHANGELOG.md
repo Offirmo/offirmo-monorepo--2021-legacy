@@ -9,6 +9,7 @@
 * [chore] removed non-public feature: level override through LS; moved to UWDA instead
 - [test] improved demo ~ "unit test"
 * [feat] new API: group() groupCollapsed() groupEnd()
+* [feat] BREAKING localstorage key now mentions the version
 
 ## v1.0.0
 2019/04/04

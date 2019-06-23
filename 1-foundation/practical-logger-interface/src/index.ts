@@ -3,7 +3,8 @@
 
 // List of all known logging primitives, in order of criticity.
 // https://docs.google.com/spreadsheets/d/1Bc32plQTswNdCqXS99deB0n7Te7FfD7uepGAOOlPbvY/edit?usp=sharing
-export type LogLevel = 'fatal'
+export type LogLevel =
+	  'fatal'
 	| 'emerg'
 	| 'alert'
 	| 'crit'
@@ -23,15 +24,15 @@ export interface LogDetails { [k: string]: any }
 // We INTENTIONALLY restrict to a structured primitive with no overloading.
 // for ex. we do NOT follow bunyan with its multiple overloads (https://github.com/trentm/node-bunyan#log-method-api)
 // Rationale: multiple overloads prove hard to type and force to use complex normalization code.
-// Still, we allow omitting the message: it will be extracted from details.message.
+// Still, we tolerate omitting the message: it will be extracted from details.message.
 // This is to allow the simple logging of an error.
 export type LogPrimitive = (message?: string, details?: Readonly<LogDetails>) => void
+
 
 // The top-level interface
 export interface Logger {
 	setLevel: (level: LogLevel) => void
 	getLevel: () => LogLevel
-
 	addCommonDetails: (hash: Readonly<LogDetails>) => void
 
 	fatal: LogPrimitive,

@@ -35,7 +35,7 @@ export default function create(root: any): WebDebugApiV1 {
 			}
 
 			try {
-				const LSKey = `_debug.override.${key}`
+				const LSKey = `_debug.v1.override.${key}`
 				//console.log(`LSKey = "${LSKey}"`)
 				const rawValue = localStorage.getItem(LSKey)
 				//console.log(`LSKey content = "${value}"`)
