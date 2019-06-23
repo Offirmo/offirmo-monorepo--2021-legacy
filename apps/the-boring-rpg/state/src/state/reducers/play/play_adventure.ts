@@ -156,28 +156,28 @@ function instantiate_adventure_archetype(
 	inventory: Readonly<InventoryState.State>
 ): Readonly<Adventure> {
 	let {hid, good, type, outcome} = aa
-	let should_gain = {
+	let should_gain: OutcomeArchetype = {
 		...outcome
 	}
 
 	// instantiate the special gains
 	if (should_gain.random_attribute) {
 		const stat: keyof OutcomeArchetype = Random.pick(rng, ALL_ATTRIBUTES_X_LVL) as keyof OutcomeArchetype
-		should_gain[stat] = true
+		(should_gain as any)[stat] = true
 	}
 	if (should_gain.lowest_attribute) {
 		const lowest_stat: keyof OutcomeArchetype = ALL_ATTRIBUTES_X_LVL.reduce((acc, val) => {
 			return (character.attributes as any)[acc] < (character.attributes as any)[val] ? acc : val
 		}, 'health') as keyof OutcomeArchetype
-		should_gain[lowest_stat] = true
+		(should_gain as any)[lowest_stat] = true
 	}
 	if (should_gain.class_primary_attribute) {
 		const stat: keyof OutcomeArchetype = Random.pick(rng, PRIMARY_STATS_BY_CLASS[character.klass]) as keyof OutcomeArchetype
-		should_gain[stat] = true
+		(should_gain as any)[stat] = true
 	}
 	if (should_gain.class_secondary_attribute) {
 		const stat: keyof OutcomeArchetype = Random.pick(rng, SECONDARY_STATS_BY_CLASS[character.klass]) as keyof OutcomeArchetype
-		should_gain[stat] = true
+		(should_gain as any)[stat] = true
 	}
 
 	if (should_gain.armor_or_weapon) {
