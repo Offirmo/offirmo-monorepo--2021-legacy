@@ -2,47 +2,28 @@
 ':' //# http://sambal.org/?p=1014 ; exec `dirname $0`/../../../../node_modules/.bin/babel-node "$0" "$@"
 'use strict'
 
-const { ALL_LOG_LEVELS } = require('@offirmo/practical-logger-core')
 const { createLogger } = require('..')
 
+const {
+	demo_standard_console,
+	demo_logger_basic_usage,
+	demo_logger_levels,
+	demo_group,
+	demo_incorrect_logger_invocations,
+	demo_logger_api,
+	demo_devtools_fonts,
+} = require('../../practical-logger-core/doc/shared-demo')
+
 const logger = createLogger({
-	name: 'FOO',
+	name: 'demo',
 	suggestedLevel: 'silly',
 })
 
-const err = new Error('Some Error!')
-err.httpStatus = 418 // to check that custom props are preserved
+demo_standard_console()
+demo_logger_api(createLogger)
 
-const bob = {
-	firstName: 'Bob',
-	lastName: 'Dupont',
-	age: 42,
-}
-const more = 'some stuff'
-
-// standard
-console.log('------------')
-logger.log('hello')
-logger.log('Bob created', { user: bob })
-logger.error(undefined, err)
-
-// all levels
-console.log('------------')
-ALL_LOG_LEVELS.forEach(level =>
-	logger[level](`test msg with level "${level}"`, { level })
-)
-
-// incorrect - bunyan
-console.log('------------')
-logger.info()
-
-logger.info('hi')
-logger.info('hi %s', bob, more)
-
-logger.info({foo: 'bar'}, 'hi')
-
-logger.info(err)
-logger.info(err, 'more on this: %s', more)
-
-logger.info({foo: 'bar', err: err}, 'some msg about this error')
-logger.warn('foo', 'bar', 42)
+//demo_logger_basic_usage(logger)
+//demo_logger_levels(logger)
+//demo_group(logger)
+//demo_incorrect_logger_invocations(logger)
+//demo_devtools_fonts(logger)

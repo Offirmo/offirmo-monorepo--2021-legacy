@@ -2,7 +2,7 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
-...
+- [test] improved demo ~ "unit test"
 
 ## v1.0.0
 2019/04/04

@@ -5,7 +5,7 @@
 - TODO use tiny-invariant
 - TODO assess the arguments normalization
 - TODO link to other modules
-- TODO re-evaluate tslib
+- [test] improved demo ~ "unit test"
 
 ## v1.0.0
 2019/04/04

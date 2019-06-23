@@ -7,7 +7,7 @@
 - TODO shareable demo
 * [chore] removed tslib dependency
 * [chore] removed non-public feature: level override through LS; moved to UWDA instead
-
+- [test] improved demo ~ "unit test"
 
 ## v1.0.0
 2019/04/04
