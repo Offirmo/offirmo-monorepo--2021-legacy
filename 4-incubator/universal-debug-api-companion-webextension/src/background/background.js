@@ -1,4 +1,10 @@
 import 'babel-polyfill'
+import assert from 'tiny-invariant'
+
+import * as State from './state'
+import './render'
+
+import { ENTRY, MSG_TYPE__LIB_INJECTED } from '../common/messages'
 
 const LIB = '🧩 UWDT/bg'
 
@@ -9,32 +15,90 @@ console.log(`[${LIB}.${+Date.now()}] Hello from background!`, {
 
 ////////////////////////////////////
 
-// set it for ALL tabs
-//chrome.browserAction.setBadgeText({ text: 'OK' })
-//chrome.browserAction.setBadgeBackgroundColor({ color: "#00AA00"})
+// https://developer.chrome.com/extensions/tabs
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+	console.log('⚡ tabs.onUpdated ', { tabId, changeInfo, tab })
+	if (changeInfo.status === 'loading')
+		State.question_lib_injection(tabId)
+})
+chrome.tabs.onActivated.addListener(({tabId, windowId}) => {
+	console.log('⚡ tabs.onActivated', { tabId, windowId })
+	State.on_tab_activated(tabId)
+})
 
 ////////////////////////////////////
 // https://developer.chrome.com/extensions/messaging#simple
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-	console.log(`[${LIB}.${+Date.now()}] received a simple message from`, {
+	console.group(`📩 received a simple message`)
+	console.log(sender.tab ?
+		"from a content script: " + sender.tab.url :
+		"from the extension"
+	)
+	console.log({
 		sender,
-		sender_x: sender.tab ?
-			"from a content script:" + sender.tab.url :
-			"from the extension",
 		request,
 	})
+
+	assert(request[ENTRY], 'ENTRY')
+
+	const { type } = request[ENTRY]
+	switch (type) {
+		case MSG_TYPE__LIB_INJECTED: {
+			assert(sender.tab, 'MSG_TYPE__LIB_INJECTED')
+			const tab_id = sender.tab.id
+			console.log({MSG_TYPE__LIB_INJECTED, tab_id})
+			State.on_lib_injected(tab_id)
+			//sendResponse()
+			break
+		}
+		default:
+			console.error(`Unhandled msg type "${type}"!`)
+			break
+	}
+
+	console.groupEnd()
 })
 
 ////////////////////////////////////
 
-chrome.runtime.onConnect.addListener(port => {
-	console.log(`[${LIB}.${+Date.now()}] received connection`)
 
-	const portFromCS = port
-	portFromCS.postMessage({greeting: 'hi from background script!'})
-	portFromCS.onMessage.addListener(m => {
-		console.log(`[${LIB}.${+Date.now()}] received message from content script`)
-		console.log(m.greeting)
-	})
+const ports = {
+	popup: null,
+	options: null,
+	devtools: null,
+}
+
+chrome.runtime.onConnect.addListener(port => {
+	const { name } = port
+	console.log(`[${LIB}.${+Date.now()}] received connection "${name}"`, {port})
+
+	if (ports[name])
+		console.error(`duplicated connection "${name}"??`)
+
+	ports[name] = port
+
+	switch (name) {
+		case 'devtools':
+			// TODO
+			break
+		case 'content-script':
+			//port.onMessage.addListener(on_content_script_message)
+			break
+		default:
+			console.error(`Unrecognized port name: "${name}"!`)
+			break
+	}
 })
+
+function on_content_script_message(msg) {
+	console.group(`📩 internal message received from content-script`)
+	console.log(msg)
+
+	assert(msg[ENTRY], 'ENTRY')
+	console.error('unexpected!')
+	console.groupEnd()
+}
+
+
+//    chrome.storage.local.set({'address': req.address})

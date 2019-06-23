@@ -41,3 +41,47 @@ if (false) {
 	})
 	.catch(console.error)
 */
+
+
+
+chrome.runtime.sendMessage({message: `Test message from ${LIB}`}, function(response) {
+	console.log(response);
+});
+
+/*
+function do_stuff(DEBUG, LIB) {
+	// experiment modifying js env
+	window.foo = window.foo || 'content-scripts/start v1 in context'
+
+	if (DEBUG) console.log(`[${LIB}.${+Date.now()}] Hello from INJECTED!`, {
+		foo_js: window.foo,
+		foo_ls: (() => {
+			try {
+				// local files may not have local storage
+				return localStorage.getItem('foo')
+			} catch {
+			}
+		})(),
+	})
+}
+
+runInPageContext(do_stuff, DEBUG, LIB)
+*/
+
+
+
+/*
+const port = chrome.runtime.connect({name: 'port-from-content-script'})
+port.postMessage({greeting: 'hello from content script'})
+
+port.onMessage.addListener(function (m) {
+	console.log(`[🧩 UWDT/cs--start.${+Date.now()}] received message from background script: `)
+	console.log(m)
+})
+*/
+
+
+/*chrome.storage.StorageArea.get("api/full/index.js")
+	.then(res => {
+		console.log(`[${LIB}.${+Date.now()}] got storage result!`)
+	})*/

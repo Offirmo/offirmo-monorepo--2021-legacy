@@ -20,6 +20,7 @@
 		"@offirmo/practical-logger-browser": "^1",
 		"@offirmo/universal-debug-api-minimal-noop": "^0",
 		"cross-env": "^5",
+		"emittery": "^0.4",
 		"npm-run-all": "^4",
 		"parcel-bundler": "^1",
 		"styled-components": "^3"
@@ -30,12 +31,15 @@
 		"dev:parcel": "parcel --no-autoinstall --port 8080 --no-hmr src/**/*.html src/background/background.js src/content-scripts/*.js",
 		"dev:cpx": "cpx 'src/**/*.{json,png,svg}' dist --watch --verbose",
 
-		"build:parcel": "parcel build --no-minify src/**/*.html src/background/background.js src/content-scripts/*.js --public-url ./",
-		"build:update-encoded-full-api": "node ./scripts/encode.js",
-		"build:cpx": "cpx 'src/**/*.{json,png,svg}' dist",
-		"build:extension": "run-s  build:update-encoded-full-api  build:parcel  build:cpx",
+		"build:lib-bundle": "parcel build --no-autoinstall --no-source-maps --out-file injected-api-bundle.js  src/universal-debug-api-from-webext/index.ts",
+		"build:encode-injectable-lib": "node ./scripts/encode.js",
+		"build:refresh-injectable-lib": "run-s  build:lib-bundle  build:encode-injectable-lib",
 
-		"dev": "npm-run-all clean --parallel dev:parcel dev:cpx",
+		"build:parcel": "parcel build --no-minify src/**/*.html src/background/background.js src/content-scripts/*.js --public-url ./",
+		"build:cpx": "cpx 'src/**/*.{json,png,svg}' dist",
+		"build:extension": "run-s  build:refresh-injectable-lib  build:parcel  build:cpx",
+
+		"dev": "npm-run-all  clean  build:refresh-injectable-lib  --parallel dev:parcel dev:cpx",
 		"build": "run-s clean build:extension",
 		"demo": "parcel doc/demo/index.html"
 	}

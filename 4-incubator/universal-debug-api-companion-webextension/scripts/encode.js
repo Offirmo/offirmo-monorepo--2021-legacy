@@ -18,8 +18,8 @@ function b64EncodeUnicode(str) {
 }
 
 
-const input_path = path.resolve(process.cwd(), '../../2-advanced/universal-debug-api-full-browser/dist/index-bundle.js')
-const target_path = path.resolve(process.cwd(), './src/content-scripts/start-incontext.js')
+const input_path = path.resolve(process.cwd(), './dist/injected-api-bundle.js')
+const target_path = path.resolve(process.cwd(), './src/content-scripts/lib-to-inject.js')
 
 const lib_content = fs.readFileSync(input_path)
 console.log('* lib content length =', lib_content.length)

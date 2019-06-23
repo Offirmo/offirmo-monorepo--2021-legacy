@@ -68,3 +68,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 		request,
 	})
 })
+
+const port = chrome.runtime.connect({name: "devtools"});
+port.onMessage.addListener((msg) => {
+	console.log(`[${LIB}.${+Date.now()}] received a port message`, msg)
+});
+port.postMessage({hello: "test"});

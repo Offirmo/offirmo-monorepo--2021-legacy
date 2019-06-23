@@ -12,6 +12,10 @@ console.log(`[${LIB}.${+Date.now()}] Hello!`)
 ////////////////////////////////////
 // https://developer.chrome.com/extensions/messaging#simple
 
+chrome.runtime.sendMessage({message: `Test message from ${LIB}`}, function(response) {
+	console.log(response);
+});
+
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	console.log(`[${LIB}.${+Date.now()}] received a simple message from`, {
 		sender,
@@ -22,14 +26,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	})
 })
 
-/*
 ReactDOM.render(
 	<ErrorBoundary name={LIB}>
 		<Root />
 	</ErrorBoundary>,
 	document.getElementById('root'),
 )
-*/
 
 /*
 document.addEventListener('click', event => {
@@ -67,3 +69,9 @@ function do_sth() {
 	})
 }
 */
+
+const port = chrome.runtime.connect({name: "popup"});
+port.onMessage.addListener((msg) => {
+	console.log(`[${LIB}.${+Date.now()}] received a port message`, msg)
+});
+port.postMessage({hello: "test"});

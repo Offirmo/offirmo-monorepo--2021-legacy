@@ -64,4 +64,4 @@ const listenerOptions = {
 window.addEventListener('message', onMessage, listenerOptions)
 
 console.log(`[${LIB}.${+Date.now()}] sending a test postMessage...`)
-window.postMessage({msg: `${LIB} - test`}, '*')
+window.postMessage({msg: `Test message from ${LIB}`}, '*')
