@@ -139,8 +139,11 @@ export function create(
 			setLevel,
 			getLevel,
 			addCommonDetails,
+			group() {},
+			groupCollapsed() {},
+			groupEnd() {},
 		},
-	) as Logger
+	)
 
 	function setLevel(level: LogLevel) {
 		checkLevel(level)

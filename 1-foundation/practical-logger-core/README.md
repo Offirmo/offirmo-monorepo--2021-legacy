@@ -51,7 +51,6 @@ While this module was made to be a component in a final logger sink,
 it is a perfectly working logger
 which will output JSON lines to stdout, corresponding to log lines,
 in the same way [bunyan](https://github.com/trentm/node-bunyan) does.
-In fact, the output should be compatible (not tested)
 
 ```javascript
 import { createLogger } from '@offirmo/practical-logger-core'

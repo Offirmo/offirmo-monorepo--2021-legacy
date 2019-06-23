@@ -3,6 +3,7 @@
 
 ## PENDING
 - [test] improved demo ~ "unit test"
+* [feat] new API: group() groupCollapsed() groupEnd()
 
 ## v1.0.0
 2019/04/04

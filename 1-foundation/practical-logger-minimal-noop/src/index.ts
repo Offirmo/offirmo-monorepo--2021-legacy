@@ -23,6 +23,10 @@ const NO_OP_LOGGER: Logger = {
 	debug: NO_OP,
 	trace: NO_OP,
 	silly: NO_OP,
+
+	group: NO_OP,
+	groupCollapsed: NO_OP,
+	groupEnd: NO_OP,
 }
 
 function createLogger(): Logger {

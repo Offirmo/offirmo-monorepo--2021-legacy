@@ -2,7 +2,7 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
-* TODO groupStart groupEnd
+* [feat] new API: group() groupCollapsed() groupEnd()
 
 ## v1.0.0
 2019/04/04

@@ -48,6 +48,11 @@ export interface Logger {
 	debug: LogPrimitive,
 	trace: LogPrimitive,
 	silly: LogPrimitive,
+
+	// for convenience. Not guaranteed to do anything.
+	group(groupTitle?: string): void;
+	groupCollapsed(groupTitle?: string): void;
+	groupEnd(): void;
 }
 
 //////////// Private interface (for logger implementations) ////////////

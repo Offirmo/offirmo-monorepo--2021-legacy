@@ -8,6 +8,7 @@
 * [chore] removed tslib dependency
 * [chore] removed non-public feature: level override through LS; moved to UWDA instead
 - [test] improved demo ~ "unit test"
+* [feat] new API: group() groupCollapsed() groupEnd()
 
 ## v1.0.0
 2019/04/04
