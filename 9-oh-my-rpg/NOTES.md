@@ -49,6 +49,13 @@ https://wow.gamepedia.com/Arcane
 
 https://www.icy-veins.com/wow/
 
+
+https://en.wikipedia.org/wiki/Hero%27s_journey
+www.geek-it.org/monomythe-de-campbell/
+https://en.wikipedia.org/wiki/The_Hero_with_a_Thousand_Faces
+https://fr.wikipedia.org/wiki/Monomythe
+
+
 WoW classic class list
 https://www.millenium.org/guide/333630.html?page=2
 https://www.millenium.org/guide/334185.html

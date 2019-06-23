@@ -11,3 +11,14 @@ fontes
 
 Map
 - Grid https://codepen.io/oliviale/pen/moLrBq
+
+
+Filters
+div {
+    filter: progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);
+    -webkit-filter: grayscale(1);
+    filter: grayscale(1);
+}
+
+Charts
+- https://github.com/Ajaxy/lovely-chart

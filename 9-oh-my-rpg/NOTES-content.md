@@ -11,6 +11,8 @@ LHB
 
 ### formation
 * https://science.slashdot.org/story/19/05/30/0257253/brown-dwarf-atmospheres-as-the-potentially-most-detectable-and-abundant-sites-for-life
+* https://www.cnews.fr/monde/2019-06-18/la-terre-menacee-par-une-eruption-solaire-de-grande-ampleur-850052
+* https://en.wikipedia.org/wiki/Abiogenesis
 
 ### terrestre
 * https://www.news.com.au/technology/science/animals/giant-severed-ice-age-wolfs-head-discovered-in-siberian-permafrost/news-story/2d910feaef04ac5b807808af4b578f4b
