@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 
 import View from './view'
 
-import { AppStateConsumer, set_app_state } from '../../context'
+import { AppStateConsumer } from '../../context'
+import { create_msg_toggle_lib_injection } from '../../../../common/messages'
 
 
 const GlobalSwitchC1M = React.memo(
@@ -21,7 +22,7 @@ class GlobalSwitch extends Component {
 
 	on_change = (event) => {
 		console.log('GlobalSwitch on_change', event)
-		set_app_state(state => ({is_injection_enabled: !state.is_injection_enabled}))
+		chrome.runtime.sendMessage(create_msg_toggle_lib_injection())
 	}
 
 	render_view = ({app_state}) => {

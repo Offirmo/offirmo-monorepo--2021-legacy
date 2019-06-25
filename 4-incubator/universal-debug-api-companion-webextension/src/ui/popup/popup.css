@@ -1,18 +1,19 @@
 @import '../../../node_modules/@offirmo-private/view-css/src/style.css';
+@import '../../../node_modules/@offirmo-private/view-css/src/style--theme--lod-colorhunt212.css';
 
 :root {
 	--o⋄font-size--default: 14px;
 }
 
+
+/* adjustments */
+[data-o-theme="lod--colorhunt212"] {
+	--o⋄color--bg⁚main: var(--o⋄color__co212__brown);
+}
+
 body {
 	width: 500px;
 	padding: 0 10px 10px 10px;
-}
-
-
-.box-sizing-reset {
-	/* https://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/ */
-	box-sizing: initial;
 }
 
 

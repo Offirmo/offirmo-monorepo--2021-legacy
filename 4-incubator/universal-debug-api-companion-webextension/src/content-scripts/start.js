@@ -1,9 +1,10 @@
 //import 'babel-polyfill'
 
-import { create_msg_report_lib_injected } from '../common/messages'
+import {create_msg_report_lib_injected, ENTRY} from '../common/messages'
 
 //import runInPageContext from '../utils/run-in-page-context'
 import lib from './lib-to-inject'
+import assert from "tiny-invariant"
 
 const LIB = '🧩 UWDT/CS--start'
 const DEBUG = true
@@ -27,12 +28,13 @@ const listenerOptions = {
 window.addEventListener('message', onMessage, listenerOptions)
 //window.postMessage({msg: `${LIB} - test`}, '*')
 
+/*
 setTimeout(() => {
 	window.postMessage({
 		message: `Test message from ${LIB}`,
 	}, '*')
 }, 2000)
-
+*/
 
 ////////////////////////////////////
 // https://developer.chrome.com/extensions/messaging#simple
@@ -77,3 +79,12 @@ eval(b64DecodeUnicode("${lib}"))
 	//port_to_bg.postMessage(create_msg_report_lib_injected())
 	chrome.runtime.sendMessage(create_msg_report_lib_injected())
 }
+
+////////////////////////////////////
+
+const port_to_bg = chrome.runtime.connect({name: "content-script"});
+port_to_bg.onMessage.addListener((msg) => {
+	console.log(`received a port message`, msg)
+	assert(msg[ENTRY], 'ENTRY')
+});
+//port.postMessage({hello: "test"});

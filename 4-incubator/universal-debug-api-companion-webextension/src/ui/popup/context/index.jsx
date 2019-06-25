@@ -1,40 +1,13 @@
+import assert from 'tiny-invariant'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-
 import { render_any_m } from '@offirmo-private/react-error-boundary'
 
+import { ENTRY } from '../../../common/messages'
+import { create_default_origin_state, create_demo_origin_state } from '../../../common/origin-state'
 
 // https://reactjs.org/docs/context.html
-const DEFAULT_VALUE = {
-	is_injection_enabled: true,
-	overrides: {
-		'root.logLevel': {
-			is_enabled: false,
-			type: 'll',
-			value: 'error',
-			is_queried_in_code: false,
-		},
-		'fooExperiment.cohort': {
-			is_enabled: true,
-			type: 'co',
-			value: 'not-enrolled',
-			is_queried_in_code: true,
-		},
-		'fooExperiment.logLevel': {
-			is_enabled: true,
-			type: 'll',
-			value: 'error',
-			is_queried_in_code: true,
-		},
-		'fooExperiment.isSwitchedOn': {
-			is_enabled: true,
-			type: 'b',
-			value: true,
-			is_queried_in_code: true,
-		},
-	}
-}
-const AppStateContext = React.createContext(DEFAULT_VALUE)
+const AppStateContext = React.createContext(create_default_origin_state())
 
 let set_app_state = null
 
@@ -43,7 +16,7 @@ class AppStateListenerAndProvider extends React.Component {
 		children: PropTypes.node.isRequired,
 	}
 
-	state = DEFAULT_VALUE
+	state = create_default_origin_state()
 
 	render() {
 		set_app_state = set_app_state || this.setState.bind(this)
@@ -81,6 +54,23 @@ export {
 	AppStateContext,
 	AppStateListenerAndProvider,
 	AppStateConsumer,
+}
 
-	set_app_state, // TODO review
+////////////////////////////////////
+
+if (!chrome.tabs) {
+	setTimeout(
+		() => set_app_state(create_demo_origin_state()),
+		1
+	)
+}
+else {
+	const port_to_bg = chrome.runtime.connect({name: "popup"});
+	port_to_bg.onMessage.addListener((msg) => {
+		console.log(`received a port message`, msg)
+		assert(msg[ENTRY], 'ENTRY')
+
+		set_app_state(msg[ENTRY].state)
+	});
+//port.postMessage({hello: "test"});
 }

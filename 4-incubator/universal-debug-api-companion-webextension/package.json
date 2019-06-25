@@ -7,17 +7,18 @@
 	"private": true,
 	"devDependencies": {
 		"@atlaskit/form": "^6",
-		"@atlaskit/range": "^2",
+		"@atlaskit/range": "^3",
 		"@atlaskit/select": "^9",
 		"@atlaskit/textfield": "^2",
 		"@atlaskit/theme": "^9",
 		"@atlaskit/toggle": "^7",
 		"@babel/core": "^7",
 		"@offirmo-private/react-error-boundary": "^0.0.1",
+		"@offirmo-private/timestamps": "^0",
 		"@offirmo-private/universal-debug-api-full-browser": "^0",
 		"@offirmo-private/view-css": "^0.0.1",
-		"@offirmo/practical-logger-core": "^1",
 		"@offirmo/practical-logger-browser": "^1",
+		"@offirmo/practical-logger-core": "^1",
 		"@offirmo/universal-debug-api-minimal-noop": "^0",
 		"cross-env": "^5",
 		"emittery": "^0.4",
@@ -28,7 +29,7 @@
 	"scripts": {
 		"clean": "node ../../scripts/clean.js dist cache",
 
-		"dev:parcel": "parcel --no-autoinstall --port 8080 --no-hmr src/**/*.html src/background/background.js src/content-scripts/*.js",
+		"dev:parcel": "parcel --no-autoinstall --port 9090 --no-hmr src/**/*.html src/background/background.js src/content-scripts/*.js",
 		"dev:cpx": "cpx 'src/**/*.{json,png,svg}' dist --watch --verbose",
 
 		"build:lib-bundle": "parcel build --no-autoinstall --no-source-maps --out-file injected-api-bundle.js  src/universal-debug-api-from-webext/index.ts",

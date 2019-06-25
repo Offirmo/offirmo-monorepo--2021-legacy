@@ -17,6 +17,11 @@ export default class LogLevelRange extends Component {
 
 	render() {
 		const { isDisabled, value, onChange, ...field_props } = this.props
+		console.log(`🔄 LogLevelRange`, {
+			isDisabled,
+			value,
+		})
+
 		const value_int = ALL_LOG_LEVELS.findIndex(v => v === value) || DEFAULT_LEVEL
 		return (
 			<Fragment>

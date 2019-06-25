@@ -42,3 +42,13 @@
 	display: inline-block;
 	vertical-align: middle;
 }
+
+
+.activity-indicator {
+	font-size: 1em;
+	color: var(--o⋄color__boz__gray)
+}
+
+.activity-indicator--with-activity {
+	color: var(--o⋄color--fg⁚success)
+}

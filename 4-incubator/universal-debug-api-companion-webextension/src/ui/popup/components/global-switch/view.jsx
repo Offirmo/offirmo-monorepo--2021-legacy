@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
-import Toggle from '@atlaskit/toggle'
+import { ToggleStateless } from '@atlaskit/toggle'
 
 export default class Switch extends Component {
 	static propTypes = {
@@ -12,15 +12,22 @@ export default class Switch extends Component {
 	render() {
 		const { is_injection_enabled, on_change } = this.props
 		return (
-			<div className="left-right-aligned">
-				<div>Inject the Universal Debug API library</div>
-				<div className="box-sizing-reset">
-					<Toggle
-						size="large"
-						isDefaultChecked={is_injection_enabled}
-						onChange={on_change}
-					/>
+			<div className={`left-right-aligned override-line`}>
+				<div>
+					<span className={`box-sizing-reset override-enable-toggle`}>
+						<ToggleStateless
+							size="large"
+							isChecked={is_injection_enabled}
+							onChange={on_change}
+						/>
+					</span>
+
+					<span className={`override-label`}>
+						Inject the Universal Debug API library
+					</span>
 				</div>
+
+				<div />
 			</div>
 		)
 	}

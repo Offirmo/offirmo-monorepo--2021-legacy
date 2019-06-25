@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
 import { Field } from '@atlaskit/form'
-import Toggle from '@atlaskit/toggle'
+import { ToggleStateless } from '@atlaskit/toggle'
 import Select from '@atlaskit/select'
 import LogLevelRange from './log-level-range'
 
@@ -25,6 +25,14 @@ const COHORT_SELECT_OPTIONS = STANDARD_COHORTS.map(cohort => ({
 	//selected: cohort === 'not-enrolled',
 }))
 
+function ActivityIndicator({has_activity}) {
+	// TODO yellow on reload needed
+	let classes = ['activity-indicator']
+	if (has_activity) classes.push('activity-indicator--with-activity')
+	return (
+		<span className={classes.join(' ')}>●</span>
+	)
+}
 
 export default class Switch extends Component {
 	static propTypes = {
@@ -34,22 +42,22 @@ export default class Switch extends Component {
 		type: PropTypes.string.isRequired,
 		value: PropTypes.any, // TODO refine
 		is_enabled: PropTypes.bool.isRequired,
-		is_queried_in_code: PropTypes.bool.isRequired,
+		has_activity: PropTypes.bool.isRequired,
 	}
 
 
 	get_enable_toggle(field_props) {
 		const { is_injection_enabled, is_enabled, on_change } = this.props
 
-		const is_disabled = !is_injection_enabled || !is_enabled
+		const is_disabled = !is_injection_enabled
 
 		return (
-			<Toggle
+			<ToggleStateless
 				{...field_props}
 				size="large"
+				isChecked={is_enabled}
 				isDisabled={is_disabled}
 				onChange={(event) => on_change({is_enabled: !is_enabled})}
-				isDefaultChecked={is_enabled}
 			/>
 		)
 	}
@@ -65,12 +73,12 @@ export default class Switch extends Component {
 				return (
 					<Fragment>
 						{ is_disabled ? '' : <span className={'o⋄font⁚roboto-condensed override-input-label'}>forced to <b>{`${value}`}</b></span> }
-						<Toggle
+						<ToggleStateless
 							{...field_props}
 							size="large"
 							isDisabled={is_disabled}
+							isChecked={value}
 							onChange={(event) => on_change({value: !value})}
-							isDefaultChecked={value}
 						/>
 					</Fragment>
 				)
@@ -104,7 +112,7 @@ export default class Switch extends Component {
 	}
 
 	render() {
-		const { override_key, type, value, is_enabled, is_queried_in_code } = this.props
+		const { override_key, type, value, is_enabled, has_activity } = this.props
 
 		let default_value = value
 		if (type === 'co')
@@ -118,7 +126,8 @@ export default class Switch extends Component {
 		return (
 			<div className={`left-right-aligned override-line`}>
 				<div>
-					{ /* TODO usage indicator */ }
+					<ActivityIndicator has_activity={has_activity} />
+
 					<span className={`box-sizing-reset override-enable-toggle`}>
 						<Field name={override_key + '_enabled'} defaultValue={is_enabled} isRequired>
 							{({ fieldProps, error }) => error? error : this.get_enable_toggle(fieldProps) }
@@ -132,7 +141,7 @@ export default class Switch extends Component {
 
 				<div className={`box-sizing-reset override-input override-input-${type}`}>
 					<Field name={override_key} defaultValue={default_value} isRequired>
-						{({ fieldProps, error }) => error? error : this.get_input(fieldProps) }
+						{({ fieldProps, error }) => error ? error : this.get_input(fieldProps) }
 					</Field>
 				</div>
 			</div>

@@ -62,12 +62,10 @@ export default class Switch extends Component {
 	}
 
 	render() {
-		console.log(`🔄 Override`, this.props)
+		console.log(`🔄 Switch`, this.props)
 		const { label, type } = this.props
 		return (
 			<div>
-				{ /* TODO usage indicator */ }
-
 				<div className="left-right-aligned">
 					<div>{label}</div>
 					<div className={`box-sizing-reset override-${type}`}>
