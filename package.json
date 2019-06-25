@@ -38,7 +38,7 @@
 	},
 	"devDependencies": {
 		"@atlaskit/form": "^6",
-		"@atlaskit/range": "^2",
+		"@atlaskit/range": "^3",
 		"@atlaskit/select": "^9",
 		"@atlaskit/textfield": "^2",
 		"@atlaskit/theme": "^9",
@@ -91,7 +91,7 @@
 		"deep-freeze-strict": "^1",
 		"deepmerge": "^3",
 		"emittery": "^0.4",
-		"eslint": "^5",
+		"eslint": "^6",
 		"eslint-config-prettier": "^5",
 		"eslint-import-resolver-typescript": "^1",
 		"eslint-plugin-chai-expect": "^2",
