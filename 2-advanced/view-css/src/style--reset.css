@@ -13,6 +13,13 @@
 html                 { box-sizing: border-box; }
 *, *:before, *:after { box-sizing: inherit; }
 
+/* but allow to reset it if needed
+ * https://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/
+ */
+.box-sizing-reset {
+	box-sizing: initial;
+}
+
 /*********************/
 
 html {

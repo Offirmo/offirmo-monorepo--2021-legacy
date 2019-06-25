@@ -1,5 +1,5 @@
-@import './themes/dark-on-light.css';
-@import './themes/light-on-dark.css';
+@import './style--theme--dark-on-light.css';
+@import './style--theme--light-on-dark.css';
 
 /* Good tools:
  * http://www.cssportal.com/css-color-converter/
