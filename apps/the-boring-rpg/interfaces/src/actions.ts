@@ -27,8 +27,6 @@ type ActionType = Enum<typeof ActionType> // eslint-disable-line no-redeclare
 
 /////////////////////
 
-//const ACTIONS_SCHEMA_VERSION = 1
-
 interface BaseAction {
 	//v: 1 // not sure needed
 	time: TimestampUTCMs
@@ -134,7 +132,6 @@ function get_action_types(): string[] {
 /////////////////////
 
 export {
-	//ACTIONS_SCHEMA_VERSION,
 	ActionType,
 
 	ActionStartGame,

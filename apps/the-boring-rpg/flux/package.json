@@ -1,7 +1,7 @@
 {
 	"name": "@tbrpg/flux",
 	"description": "The Boring RPG flux engine",
-	"version": "0.60.1",
+	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 	"private": true,
@@ -48,11 +48,10 @@
 	},
 	"scripts": {
 		"clean": "node ../../../scripts/clean.js dist",
-		"refresh-build-variables": "node ../../../scripts/update_build_variables.js --mode=ts",
 		"build:dev:watch": "node ../../../scripts/build-typescript.js --watch",
 		"build:prod": "node ../../../scripts/build-typescript.js",
 		"dev": "run-s clean build:dev:watch",
 		"test": "../../../node_modules/.bin/mocha --opts ../../../3-tools/unit-test-toolbox/mocha.opts ../../../3-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es9.cjs/**/*spec.js'",
-		"build": "npm version patch && run-s refresh-build-variables build:prod"
+		"build": "run-s build:prod"
 	}
 }

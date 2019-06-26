@@ -3,7 +3,7 @@
 import { getLogger } from '@offirmo-private/universal-debug-api-full-browser'
 
 import { LIB } from './consts'
-import { VERSION, BUILD_DATE } from '../build'
+import { ENGINE_VERSION, BUILD_DATE } from '@tbrpg/flux'
 
 /////////////////////////////////////////////////
 
@@ -13,7 +13,7 @@ const logger = getLogger({
 })
 
 
-logger.notice(`Hello from "${LIB}", v${VERSION} ${BUILD_DATE}! Logger up with level = "${logger.getLevel()}".`)
+logger.notice(`Hello from "${LIB}", v${ENGINE_VERSION} ${BUILD_DATE}! Logger up with level = "${logger.getLevel()}".`)
 
 // test
 if (false) {

@@ -1,7 +1,7 @@
 {
 	"name": "@tbrpg/client-browser",
 	"description": "⚔🛡💰 The boring RPG browser game, reloaded!",
-	"version": "0.60.1",
+	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 	"private": true,
@@ -43,15 +43,11 @@
 	},
 
 	"scripts": {
-		"refresh-build-variables": "node ../../../scripts/update_build_variables.js --mode=json",
 		"clean": "node ../../../scripts/clean.js dist cache",
 		"start:parcel": "parcel --out-dir .parcel --no-autoinstall --port 8080 --no-hmr src/index.html",
 		"start": "run-s refresh-build-variables start:parcel",
 		"build:parcel": "parcel build src/index.html --public-url ./",
-		"build": "npm version patch && run-s refresh-build-variables build:parcel",
-		"leg-build:prod": "cross-env NODE_ENV=production webpack --config meta/webpack.config.ts",
-		"leg-start": "cross-env NODE_ENV=development webpack-dev-server -d --config meta/webpack.config.ts",
-		"leg-build": "npm version patch && run-s clean build:prod"
+		"build": "run-s build:parcel"
 	},
 	"devDependencies": {
 		"@babel/core": "^7",

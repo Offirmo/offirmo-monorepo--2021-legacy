@@ -9,7 +9,7 @@ import {
 import { decorate_SEC } from '@oh-my-rpg/definitions'
 
 import { LIB } from './consts'
-import { VERSION } from '../build'
+import { VERSION } from '@tbrpg/flux'
 import { CHANNEL } from './channel'
 import logger from './logger'
 import raven_client, { set_imminent_captured_error } from './raven'

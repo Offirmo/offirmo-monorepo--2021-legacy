@@ -1,6 +1,6 @@
 const LIB = '@tbrpg/flux'
 
-import { VERSION } from './build'
+import { VERSION } from '@tbrpg/state'
 
 export {
 	LIB,

@@ -3,12 +3,11 @@ import PropTypes from 'prop-types'
 
 import * as RichText from '@offirmo-private/rich-text-format'
 import { THE_BORING_RPG } from '@offirmo-private/marketing-rsrc'
-import { SCHEMA_VERSION, VERSION as MODEL_VERSION } from '@tbrpg/flux'
+import { SCHEMA_VERSION, ENGINE_VERSION, BUILD_DATE } from '@tbrpg/flux'
 
 import NetlifyWidget from '../../misc/netlify'
 import { Chat } from '../../utils/chat-interface'
 import rich_text_to_react from '../../../services/rich-text-to-react'
-import { VERSION, BUILD_DATE } from '../../../build'
 import SEC from '../../../services/sec'
 import ErrorBoundary from '@offirmo-private/react-error-boundary'
 import get_game_instance from '../../../services/game-instance-browser'
@@ -119,7 +118,7 @@ export function render_meta(statistics) {
 		'01-playcount'
 	)
 	$doc_list_builder.pushRawNode(
-		RichText.inline_fragment().pushText(`Game version: ${VERSION}`).done(),
+		RichText.inline_fragment().pushText(`Game version: ${ENGINE_VERSION}`).done(),
 		'02-version'
 	)
 	$doc_list_builder.pushRawNode(
@@ -133,10 +132,6 @@ export function render_meta(statistics) {
 	$doc_list_builder.pushRawNode(
 		RichText.inline_fragment().pushText(`Exec env: ${ENV}`).done(),
 		'05-env'
-	)
-	$doc_list_builder.pushRawNode(
-		RichText.inline_fragment().pushText(`Engine version: ${MODEL_VERSION}`).done(),
-		'06-engine'
 	)
 	$doc_list_builder.pushRawNode(
 		RichText.inline_fragment().pushText(`Savegame version: ${SCHEMA_VERSION}`).done(),
