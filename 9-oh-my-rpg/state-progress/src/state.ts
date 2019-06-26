@@ -51,7 +51,6 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 /////////////////////
 
 function _on_activity(state: Readonly<State>, previous_revision: number): Readonly<State> {
-
 	const current_timestamp = get_human_readable_UTC_timestamp_days()
 	const is_new_day = state.statistics.last_visited_timestamp !== current_timestamp
 	if (is_new_day) {

@@ -21,6 +21,10 @@ LHB
 ### marin
 * https://fr.sputniknews.com/societe/201906101041400348-dinosaure-marin-antarctique-fossile/
 
+### matières
+* https://rpg.stackexchange.com/questions/149477/what-differences-exist-between-adamantine-and-adamantite-in-all-editions-of-dd#149481
+
+
 
 ## people
 * https://en.wikipedia.org/wiki/Marriage_of_the_Sea_ceremony
