@@ -6,11 +6,8 @@ Examples:
 get_UTC_timestamp_ms()
 1542780045627
 
-get_human_readable_UTC_timestamp_ms_v1()
-20181121_06h00:45.632
-
 get_human_readable_UTC_timestamp_ms()
-ts1_20181121_06h00:45.634
+20181121_06h00:45.632
 
 get_human_readable_UTC_timestamp_seconds()
 20190608_04h23.15

@@ -2,8 +2,8 @@ import { expect } from 'chai'
 
 import {
 	get_UTC_timestamp_ms,
-	get_human_readable_UTC_timestamp_ms_v1,
 	get_human_readable_UTC_timestamp_ms,
+	get_human_readable_UTC_timestamp_seconds,
 	get_human_readable_UTC_timestamp_minutes,
 	get_human_readable_UTC_timestamp_days,
 } from '.'
@@ -27,17 +27,6 @@ describe('@offirmo-private/timestamps', function() {
 		})
 	})
 
-	describe('get_human_readable_UTC_timestamp_ms_v1()', function() {
-
-		it('should return correct UTC timestamps', function() {
-			for(let i = 0; i < 10; ++i) {
-				const stamp = get_human_readable_UTC_timestamp_ms_v1()
-				console.log(stamp)
-				expect(stamp).to.be.a('string')
-			}
-		})
-	})
-
 	describe('get_human_readable_UTC_timestamp_ms()', function() {
 
 		it('should return correct UTC timestamps up to the millisecond', function() {
@@ -45,6 +34,19 @@ describe('@offirmo-private/timestamps', function() {
 				const stamp = get_human_readable_UTC_timestamp_ms()
 				console.log(stamp)
 				expect(stamp).to.be.a('string')
+				expect(stamp.length).to.equal(21)
+			}
+		})
+	})
+
+	describe('get_human_readable_UTC_timestamp_seconds()', function() {
+
+		it('should return correct UTC timestamps up to the second', function() {
+			for(let i = 0; i < 10; ++i) {
+				const stamp = get_human_readable_UTC_timestamp_seconds()
+				console.log(stamp)
+				expect(stamp).to.be.a('string')
+				expect(stamp.length).to.equal(17)
 			}
 		})
 	})
@@ -56,6 +58,7 @@ describe('@offirmo-private/timestamps', function() {
 				const stamp = get_human_readable_UTC_timestamp_minutes()
 				console.log(stamp)
 				expect(stamp).to.be.a('string')
+				expect(stamp.length).to.equal(14)
 			}
 		})
 	})
@@ -67,6 +70,7 @@ describe('@offirmo-private/timestamps', function() {
 				const stamp = get_human_readable_UTC_timestamp_days()
 				console.log(stamp)
 				expect(stamp).to.be.a('string')
+				expect(stamp.length).to.equal(8)
 			}
 		})
 	})

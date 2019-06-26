@@ -8,6 +8,7 @@ import {
 	TimestampUTCMs,
 	HumanReadableTimestampUTCDays,
 	HumanReadableTimestampUTCMinutes,
+	HumanReadableTimestampUTCSeconds,
 	HumanReadableTimestampUTCMs,
 } from './types'
 
@@ -32,28 +33,36 @@ function get_human_readable_UTC_timestamp_minutes(now: Readonly<Date> = new Date
 	return get_human_readable_UTC_timestamp_days(now) + `_${hh}h${mm}`
 }
 
-function get_human_readable_UTC_timestamp_seconds(now: Readonly<Date> = new Date()): HumanReadableTimestampUTCMinutes {
+function get_human_readable_UTC_timestamp_seconds(now: Readonly<Date> = new Date()): HumanReadableTimestampUTCSeconds {
 	const ss = ('0' + now.getUTCSeconds()).slice(-2)
 
-	return get_human_readable_UTC_timestamp_minutes(now) + `.${ss}`
-}
-
-function get_human_readable_UTC_timestamp_ms_v1(now: Readonly<Date> = new Date()): HumanReadableTimestampUTCMs {
-	const ss = ('0' + now.getUTCSeconds()).slice(-2)
-	const mmm = ('00' + now.getUTCMilliseconds()).slice(-3)
-
-	return get_human_readable_UTC_timestamp_minutes(now) + `:${ss}.${mmm}`
+	return get_human_readable_UTC_timestamp_minutes(now) + `+${ss}`
 }
 
 function get_human_readable_UTC_timestamp_ms(now: Readonly<Date> = new Date()): HumanReadableTimestampUTCMs {
-	return 'ts1_' + get_human_readable_UTC_timestamp_ms_v1(now)
+	const mmm = ('00' + now.getUTCMilliseconds()).slice(-3)
+
+	return get_human_readable_UTC_timestamp_seconds(now) + `.${mmm}`
 }
 
 /////////////////////
 
-export {
-	get_human_readable_UTC_timestamp_ms_v1,
+// https://space.stackexchange.com/questions/36628/utc-timestamp-format-for-launch-vehicles
+/*function get_space_timestamp_ms(now: Readonly<Date> = new Date()): string {
+	const YYYY = now.getUTCFullYear()
+	const MM = now.getUTCMonth()
+	const DD = ('0' + now.getUTCDate()).slice(-2)
+	const hh = ('0' + now.getUTCHours()).slice(-2)
+	const mm = ('0' + now.getUTCMinutes()).slice(-2)
+	const ss = ('0' + now.getUTCSeconds()).slice(-2)
+	const mmm = ('00' + now.getUTCMilliseconds()).slice(-3)
 
+	return `${DD} ${hh}:${mm}:${ss}.${mmm}`
+}*/
+
+/////////////////////
+
+export {
 	get_UTC_timestamp_ms,
 
 	get_human_readable_UTC_timestamp_ms,
