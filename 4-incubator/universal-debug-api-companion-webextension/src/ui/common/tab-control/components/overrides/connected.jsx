@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 
 import { AppStateConsumer } from '../../context'
 import Override from '../override'
-import { create_msg_override_change } from '../../../../common/messages'
-import send_message from '../../utils/send-message'
+import { create_msg_override_change } from '../../../../../common/messages'
+import send_message from '../../../utils/send-message'
 
 const OverridesC1M = React.memo(
 	function OverridesC1M({on_change, overrides}) {

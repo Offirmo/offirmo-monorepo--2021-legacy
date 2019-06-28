@@ -14,7 +14,7 @@ const state = {
 	ports: {},
 
 	active_tab_id: -1,
-	active_tab: get_active_tab(),
+	active_tab: query_active_tab(),
 	is_tab_injected: {},
 
 	tab_url: {},
@@ -31,28 +31,38 @@ export function get() {
 	return state
 }
 
+export function get_tab_origin(tab_id) {
+	return state.tab_origin[tab_id] || '???' // TODO const for default origin
+}
 export function get_active_origin_state({should_assert = true} = {}) {
 	const current_tab_id = state.active_tab_id
 	if (current_tab_id < 0 && !should_assert) return
 	assert(current_tab_id >= 0, 'get_active_origin_state: current_tab_id')
 
-	const current_tab_origin = state.tab_origin[current_tab_id]
+	const current_tab_origin = get_tab_origin(current_tab_id)
 	if (!current_tab_origin && !should_assert) return
 	assert(current_tab_origin, 'get_active_origin_state: current_tab_origin')
 
 	return state.origins[current_tab_origin]
 }
 
-function get_active_tab() {
+export function is_current_tab_injected() {
+	const current_tab_id = state.active_tab_id
+	assert(current_tab_id >= 0, 'is_current_tab_injected: current_tab_id')
+
+	return state.is_tab_injected[current_tab_id]
+}
+
+export function get_port(channel_id) {
+	return state.ports[channel_id]
+}
+
+function query_active_tab() {
 	return new Promise(resolve => {
 		chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
 			resolve(tabs[0])
 		});
 	})
-}
-
-export function get_port(channel_id) {
-	return state.ports[channel_id]
 }
 
 ////////////////////////////////////
@@ -77,7 +87,7 @@ export function update_port(channel_id, port) {
 export function on_init() {
 	console.log('🌀 on_init', state)
 
-	get_active_tab().then(tab => {
+	query_active_tab().then(tab => {
 		console.log('🌀 on_init (2)', tab)
 		on_tab_activated(tab.id, tab)
 	})
@@ -89,7 +99,7 @@ export function on_tab_activated(id, tab_hint) {
 	console.log('🌀 on_tab_activated', {id, tab_hint}, state)
 
 	state.active_tab_id = id
-	state.active_tab = tab_hint ? Promise.resolve(tab_hint) : get_active_tab()
+	state.active_tab = tab_hint ? Promise.resolve(tab_hint) : query_active_tab()
 	state.active_tab.then(tab => {
 		const { id: active_tab_id, url } = tab
 		if (active_tab_id !== id) {
@@ -135,10 +145,10 @@ export function question_lib_injection(tab_id) {
 }
 
 // the content script reports that it injected the lib
-export function on_lib_injected(tab_id) {
+export function on_lib_injected(tab_id, is_injected) {
 	console.log('🌀 on_lib_injected', {tab_id}, state)
 
-	state.is_tab_injected[tab_id] = true
+	state.is_tab_injected[tab_id] = is_injected
 	if (state.active_tab_id === tab_id)
 		icon_emitter.emit('change', state)
 }

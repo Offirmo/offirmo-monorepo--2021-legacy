@@ -55,7 +55,10 @@ ui_emitter.on('change', () => {
 
 function propagate_lib_config() {
 	const port = get_port('content-script')
-	if (!port) return
+	if (!port) {
+		console.warn('couldnt find content script port')
+		return
+	}
 
 	const origin_state = get_active_origin_state()
 

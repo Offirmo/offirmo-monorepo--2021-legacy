@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import View from './view'
 
 import { AppStateConsumer } from '../../context'
-import { create_msg_toggle_lib_injection } from '../../../../common/messages'
+import { create_msg_toggle_lib_injection } from '../../../../../common/messages'
 
 
 const GlobalSwitchC1M = React.memo(

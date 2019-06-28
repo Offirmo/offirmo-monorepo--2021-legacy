@@ -7,7 +7,7 @@ function btoa(s) {
 }
 
 // https://stackoverflow.com/a/30106551/587407
-function b64EncodeUnicode(str) {
+/*function b64EncodeUnicode(str) {
 	// first we use encodeURIComponent to get percent-encoded UTF-8,
 	// then we convert the percent encodings into raw bytes which
 	// can be fed into btoa.
@@ -15,28 +15,46 @@ function b64EncodeUnicode(str) {
 		function toSolidBytes(match, p1) {
 			return String.fromCharCode('0x' + p1);
 		}));
-}
+}*/
 
+/////////////////////
 
-const input_path = path.resolve(process.cwd(), './dist/injected-api-bundle.js')
-const target_path = path.resolve(process.cwd(), './src/content-scripts/lib-to-inject.js')
+const lib1_input_path = path.resolve(process.cwd(), './dist/injected-api-bundle-1.js')
+const lib1_target_path = path.resolve(process.cwd(), './src/content-scripts/lib-to-inject-1.js')
 
-const lib_content = fs.readFileSync(input_path)
-console.log('* lib content length =', lib_content.length)
+const lib1_content = fs.readFileSync(lib1_input_path)
+console.log('* lib1 content length =', lib1_content.length)
 
-const lib_cleaned = (() => {
-	let result = lib_content
-	// nothing for now
-	return result
-})()
-const lib_encoded = btoa(lib_cleaned)
-console.log('* encoded lib content length =', lib_encoded.length)
-console.assert(lib_encoded.length < 25 * 1000, 'lib is too big and won’t get injected!')
+const lib1_encoded = btoa(lib1_content)
+console.log('* encoded lib1 content length =', lib1_encoded.length)
+console.assert(lib1_encoded.length < 25 * 1000, 'lib1 is too big and won’t get injected!')
 
-fs.writeFileSync(target_path, `
+fs.writeFileSync(lib1_target_path, `
 // THIS FILE IS AUTO GENERATED!
 // This is a base64 version of the Universal Web Debug API:
 // https://github.com/Offirmo/offirmo-monorepo/tree/master/2-advanced/universal-debug-api-full-browser
-const lib = '${lib_encoded}'
+const lib = '${lib1_encoded}'
 export default lib
 `);
+
+/////////////////////
+
+const lib2_input_path = path.resolve(process.cwd(), './dist/injected-api-bundle-2.js')
+const lib2_target_path = path.resolve(process.cwd(), './src/content-scripts/lib-to-inject-2.js')
+
+const lib2_content = fs.readFileSync(lib2_input_path)
+console.log('* lib2 content length =', lib2_content.length)
+
+const lib2_encoded = btoa(lib2_content)
+console.log('* encoded lib2 content length =', lib2_encoded.length)
+console.assert(lib2_encoded.length < 25 * 1000, 'lib1 is too big and won’t get injected!')
+
+fs.writeFileSync(lib2_target_path, `
+// THIS FILE IS AUTO GENERATED!
+// This is a base64 version of a content script to communicate with UWDT webextension
+// https://github.com/Offirmo/offirmo-monorepo/tree/master/2-advanced/universal-debug-api-full-browser
+const lib = '${lib2_encoded}'
+export default lib
+`);
+
+/////////////////////
