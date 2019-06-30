@@ -18,7 +18,7 @@ function has_details_indicator(console_method_name: string): boolean {
 
 const HEADER_FONT_SIZE_STYLE = 'font-size: 8px'
 export const sink: LogSink = (payload: LogPayload): void => {
-	const { level, name, msg, details } = payload
+	const { level, name, msg, err, details } = payload
 	const console_method_name: string = LEVEL_TO_CONSOLE_METHOD[level]
 	const console_method: Console['log'] = (console as any)[console_method_name]
 
@@ -40,6 +40,9 @@ export const sink: LogSink = (payload: LogPayload): void => {
 	const args: any[] = line
 	if (Object.keys(details).length)
 		args.push(details)
+	// err should be last because it takes a lot of room and "hides" further args
+	if (err)
+		args.push(err)
 
 	console_method(...args)
 }

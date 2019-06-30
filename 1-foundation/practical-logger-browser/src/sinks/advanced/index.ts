@@ -4,7 +4,6 @@ import sink_firefox from './firefox'
 import sink_chromium from './chromium'
 import sink_safari from './safari'
 
-
 function quick_detect_browser() {
 	// https://stackoverflow.com/a/9851769/587407
 

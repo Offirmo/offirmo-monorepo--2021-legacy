@@ -9,6 +9,9 @@
 * [chore] removed non-public feature: level override through LS; moved to UWDA instead
 - [test] improved demo ~ "unit test"
 * [feat] new API: group() groupCollapsed() groupEnd()
+* [fix] now properly display the error if present
+* [test] a few unit tests instead of runtime checks
+* [chore] removed a dependency
 * [feat] BREAKING localstorage key now mentions the version
 
 ## v1.0.0

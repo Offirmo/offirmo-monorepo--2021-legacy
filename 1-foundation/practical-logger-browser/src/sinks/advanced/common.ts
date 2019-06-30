@@ -1,7 +1,4 @@
-import assert from 'tiny-invariant'
-import { LogLevel, ALL_LOG_LEVELS, LOG_LEVEL_TO_HUMAN } from '@offirmo/practical-logger-core'
-
-import { LIB } from '../../consts'
+import { LogLevel, LOG_LEVEL_TO_HUMAN } from '@offirmo/practical-logger-core'
 
 const FONT_FAMILY_BETTER_PROPORTIONAL = 'font-family: ' + [
 	'-apple-system',
@@ -42,10 +39,6 @@ const LEVEL_TO_COLOR_STYLE: Readonly<{ [k: string]: string }> = {
 	trace:   'color: #9AA2AA',
 	silly:   'color: #9AA2AA',
 }
-assert(
-	Object.keys(LEVEL_TO_COLOR_STYLE).sort().join(',') === [...ALL_LOG_LEVELS].sort().join(','),
-	`${LIB}: LEVEL_TO_COLOR_STYLE needs an update!`
-)
 
 
 function add_styled_string(line: string[], chunk: string, ...styles: string[]): string[] {
