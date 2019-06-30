@@ -1,7 +1,7 @@
 
 //////////// Public interface (for logger usage) ////////////
 
-// List of all known logging primitives, in order of criticity.
+// List of all known logging primitives, in order of criticity
 // https://docs.google.com/spreadsheets/d/1Bc32plQTswNdCqXS99deB0n7Te7FfD7uepGAOOlPbvY/edit?usp=sharing
 export type LogLevel =
 	  'fatal'
@@ -22,12 +22,16 @@ export type LogLevel =
 export interface LogDetails { [k: string]: any }
 
 // We INTENTIONALLY restrict to a structured primitive with no overloading.
-// for ex. we do NOT follow bunyan with its multiple overloads (https://github.com/trentm/node-bunyan#log-method-api)
-// Rationale: multiple overloads prove hard to type and force to use complex normalization code.
-// Still, we tolerate omitting the message: it will be extracted from details.message.
-// This is to allow the simple logging of an error.
+// - we do NOT follow bunyan with its multiple overloads (https://github.com/trentm/node-bunyan#log-method-api)
+//   Rationale: multiple overloads prove hard to type and force to use complex normalization code.
+// - we do not attempt to mirror console.x() API:
+//   it's not relevant since the introduction of string templates literals.
+// Still, we MAY tolerate a few simplifying cases:
+// - omitting the message: it will be extracted from details.message
+// - passing an error directly, either as the only arg or as details
+//   (to allow the simple logging of an error)
+// Those "tolerances" are non standard and may not be handled!
 export type LogPrimitive = (message?: string, details?: Readonly<LogDetails>) => void
-
 
 // The top-level interface
 export interface Logger {
@@ -84,6 +88,6 @@ export interface BaseInternalLoggerState {
 // suggested creation params
 export interface LoggerCreationParams {
 	name?: string
-	suggestedLevel?: LogLevel // suggested because can be overriden during a debug session
+	suggestedLevel?: LogLevel // suggested because can be overridden during a debug session
 	commonDetails?: Readonly<LogDetails>
 }

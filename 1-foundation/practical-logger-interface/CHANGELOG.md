@@ -1,8 +1,12 @@
 # CHANGELOG
 **This package follows [semver](https://semver.org/).**
 
-## PENDING
+## v1.1.0
+2019/06/30
 * [feat] new API: group() groupCollapsed() groupEnd()
+* [doc] improve API doc (comments)
+* [chore] upgraded build target to latest stable JS (ES2019)
+  but it doesn't matter since there is no code in this lib.
 
 ## v1.0.0
 2019/04/04
@@ -22,3 +26,8 @@
 ## v0.0.1
 2019/04/02
 * initial release to npm
+
+## template
+* [doc] README++
+* [chore] bumped deps
+* [chore] upgraded pre-built code target to latest stable JS (ES2019)
