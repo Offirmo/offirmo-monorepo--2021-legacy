@@ -1,7 +1,7 @@
 {
 	"name": "@offirmo/practical-logger-minimal-noop",
 	"description": "Implementation of Offirmo’s practical logger doing nothing at all",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 	"esnext": "dist/src.es9/index.js",
