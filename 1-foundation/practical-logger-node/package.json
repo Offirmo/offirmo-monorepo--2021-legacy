@@ -23,7 +23,7 @@
 	"peerDependencies": {
 	},
 	"dependencies": {
-		"@offirmo/practical-logger-core": "^1",
+		"@offirmo/practical-logger-core": "^1.1",
 		"@offirmo/practical-logger-interface": "^1.1",
 		"@offirmo-private/prettify-json": "^0.0.1",
 		"@offirmo-private/print-error-to-ansi": "^0.0.1",
