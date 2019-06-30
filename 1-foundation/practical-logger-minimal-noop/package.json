@@ -22,7 +22,7 @@
 	],
 	"peerDependencies": {},
 	"dependencies": {
-		"@offirmo/practical-logger-interface": "^1"
+		"@offirmo/practical-logger-interface": "^1.1"
 	},
 	"devDependencies": {
 		"np": "^5",

@@ -19,8 +19,8 @@
 	"peerDependencies": {},
 	"dependencies": {
 		"@offirmo/practical-logger-core": "^1",
-		"@offirmo/practical-logger-interface": "^1",
 		"tiny-invariant": "^1"
+		"@offirmo/practical-logger-interface": "^1.1"
 	},
 	"devDependencies": {
 		"@babel/core": "^7",
