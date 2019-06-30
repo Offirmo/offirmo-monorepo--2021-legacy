@@ -4,15 +4,19 @@
 ## PENDING
 * TODO lower size by removing duplication + useless sink
 * TODO test EDGE, IE
-- TODO shareable demo
-* [chore] removed tslib dependency
-* [chore] removed non-public feature: level override through LS; moved to UWDA instead
-- [test] improved demo ~ "unit test"
-* [feat] new API: group() groupCollapsed() groupEnd()
 * [fix] now properly display the error if present
 * [test] a few unit tests instead of runtime checks
 * [chore] removed a dependency
 * [feat] BREAKING localstorage key now mentions the version
+
+## v1.1.0
+2019/06/30
+* [feat] new 1.1 API: group() groupCollapsed() groupEnd()
+* [doc] README++
+* [chore] bumped deps
+* [chore] removed tslib dependency
+* [chore] removed non-public feature: level override through LS; moved to UWDT instead
+* [chore] upgraded pre-built code target to latest stable JS (ES2019)
 
 ## v1.0.0
 2019/04/04
@@ -33,3 +37,8 @@
 ## v0.0.1
 2019/04/02
 * initial release to npm
+
+## template
+* [doc] README++
+* [chore] bumped deps
+* [chore] upgraded pre-built code target to latest stable JS (ES2019)

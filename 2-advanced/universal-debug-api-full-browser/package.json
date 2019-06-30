@@ -32,7 +32,7 @@
 	},
 	"dependencies": {
 		"@offirmo/globalthis-ponyfill": "^1",
-		"@offirmo/practical-logger-browser": "^1",
+		"@offirmo/practical-logger-browser": "^1.1",
 		"@offirmo/universal-debug-api-interface": "^0"
 	},
 
