@@ -5,7 +5,7 @@ import {
 } from '../../../../1-foundation/practical-logger-core/doc/demo.js'
 
 
-export function demo_UWDAPI({ exposeInternal, overrideHook, addDebugCommand }) {
+export function demo_UDAPI({ exposeInternal, overrideHook, addDebugCommand }) {
 	addDebugCommand('demo_logger', demo_logger_api)
 
 	exposeInternal('foo.bar.baz', 42)
@@ -20,7 +20,7 @@ export function demo_full(api) {
 
 	demo_logger_api(api.getLogger)
 
-	demo_UWDAPI(api)
+	demo_UDAPI(api)
 
 	//demo_devtools_fonts()
 }

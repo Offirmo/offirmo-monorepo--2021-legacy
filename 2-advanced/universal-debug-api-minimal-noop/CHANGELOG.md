@@ -5,6 +5,10 @@
 * [doc] README++
 ...
 
+## v0.1
+2019/06/30
+* [chore] bumped deps
+
 ## v0.0.3
 2019/04/05
 * **feature:** implement the v0.0.3 new APIs: `exposeInternal(...)` and `overrideHook(...)`!
