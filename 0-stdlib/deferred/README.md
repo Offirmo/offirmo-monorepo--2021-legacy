@@ -38,6 +38,8 @@ This is seldom used but useful sometimes.
 
 Be sure to review your options before using the deferred pattern over a simple promise.
 
+Note: no dependencies!
+
 ### Usage
 ```typescript
 import Deferred from '@offirmo/deferred'
