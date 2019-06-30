@@ -12,8 +12,8 @@ Public npm modules:
 	* [@offirmo/universal-debug-api-minimal-noop](https://www.npmjs.com/package/@offirmo/universal-debug-api-minimal-noop)
 	* [node-typescript-compiler](https://www.npmjs.com/package/node-typescript-compiler)
 * internal
-	* [@offirmo/practical-logger-core](https://www.npmjs.com/package/@offirmo/practical-logger-core)
 	* [@offirmo/practical-logger-interface](https://www.npmjs.com/package/@offirmo/practical-logger-interface)
+	* [@offirmo/practical-logger-core](https://www.npmjs.com/package/@offirmo/practical-logger-core)
 	* [@offirmo/universal-debug-api-interface](https://www.npmjs.com/package/@offirmo/universal-debug-api-interface)
 	* [hello-world-emo](https://www.npmjs.com/package/hello-world-emo)
 
