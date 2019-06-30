@@ -4,6 +4,10 @@
 ## PENDING
 * TODO make local storage injectable? (what way?)
 
+## v0.1
+2019/06/30
+* [chore] bumped deps
+
 ## v0.0.3
 2019/04/05
 * **feature:** 2 new APIs: `exposeInternal(...)` and `overrideHook(...)`!
