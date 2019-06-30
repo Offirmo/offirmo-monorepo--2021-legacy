@@ -27,7 +27,7 @@
 	},
 	"dependencies": {
 		"@offirmo/globalthis-ponyfill": "^1",
-		"@offirmo/practical-logger-minimal-noop": "^1",
+		"@offirmo/practical-logger-minimal-noop": "^1.1",
 		"@offirmo/universal-debug-api-interface": "^0"
 	},
 
