@@ -3,7 +3,7 @@
 	"compilerOptions": {
 		"allowJs": false,
 		"checkJs": false,
-		"lib": [ "ES2018" ],
+		"lib": [ "ES2019" ],
 		"moduleResolution": "node",
 
 		"listEmittedFiles": false,
@@ -36,7 +36,7 @@
 
 		"module": "ES2015",
 		"esModuleInterop": true,
-		"target": "ES2017",
+		"target": "ES2019",
 		"newLine": "lf",
 		"sourceMap": true,
 		"resolveJsonModule": true,
