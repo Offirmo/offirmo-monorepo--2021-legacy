@@ -1,7 +1,8 @@
 import { WebDebugApiV1 } from '@offirmo/universal-debug-api-interface'
 import { Logger, LoggerCreationParams, createLogger } from '@offirmo/practical-logger-browser'
 
-const LIB = 'UWDA'
+import { getOverrideKeyForLogger, getLSKeyForOverride } from './keys'
+const LIB = 'UDAB'
 
 interface OverrideStatus {
 	isOn: boolean
@@ -12,9 +13,6 @@ interface Overrides {
 	[k: string]: OverrideStatus
 }
 
-function getOverrideKeyForLogger(name: string): string {
-	return `logger.${name}.level`
-}
 
 export default function create(root: any): WebDebugApiV1 {
 	// TODO weakmap ?
@@ -35,7 +33,7 @@ export default function create(root: any): WebDebugApiV1 {
 			}
 
 			try {
-				const LSKey = `_debug.v1.override.${key}`
+				const LSKey = getLSKeyForOverride(key)
 				//console.log(`LSKey = "${LSKey}"`)
 				const rawValue = localStorage.getItem(LSKey)
 				//console.log(`LSKey content = "${value}"`)
