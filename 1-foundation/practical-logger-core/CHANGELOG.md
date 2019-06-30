@@ -5,8 +5,9 @@
 - TODO use tiny-invariant
 - TODO assess the arguments normalization
 - TODO link to other modules
-- [test] improved demo ~ "unit test"
+
 * [feat] new API: group() groupCollapsed() groupEnd()
+* [test] improved demo ~ "unit test"
 
 ## v1.0.0
 2019/04/04

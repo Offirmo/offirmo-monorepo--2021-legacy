@@ -114,6 +114,40 @@ function demo_logger_api(getLogger) {
 	demo_incorrect_logger_invocations(logger)
 }
 
+function demo_error(logger) {
+	console.group('-----------↓ logger demo: error display ↓-----------')
+
+	function foo() {
+		function bar() {
+			const err = new Error('Test!')
+			err.statusCode = 1234
+			err.details = {
+				hello: 42,
+			}
+
+			throw err
+		}
+		bar()
+	}
+
+	try {
+		foo()
+	}
+	catch (err) {
+		logger.log(err)
+		logger.log('log', err)
+		logger.log('log', { some: 'stuff', err })
+		logger.error(err)
+		logger.error('message', err)
+		logger.error('message', { some: 'stuff', err })
+		logger.error('message', { some: 'stuff' }, err)
+		logger.error('message', err, { some: 'stuff' })
+		logger.error('message', { some: 'stuff' })
+	}
+
+	console.groupEnd()
+}
+
 function demo_devtools_fonts() {
 	console.group('-----------↓ available font styles ↓-----------')
 	console.log('default: ABCdef012')
@@ -153,6 +187,7 @@ module.exports = {
 	demo_standard_console,
 	demo_logger_basic_usage,
 	demo_logger_levels,
+	demo_error,
 	demo_group,
 	demo_incorrect_logger_invocations,
 	demo_logger_api,
