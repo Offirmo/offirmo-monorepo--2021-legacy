@@ -1,3 +1,5 @@
+import { create as createLogger } from './core'
+export { createLogger }
 
 export {
 	LogLevel,
@@ -7,13 +9,12 @@ export {
 
 export {
 	ALL_LOG_LEVELS,
-	LEVEL_TO_INTEGER as LOG_LEVEL_TO_INTEGER,
-	LEVEL_TO_HUMAN as LOG_LEVEL_TO_HUMAN,
+	LOG_LEVEL_TO_INTEGER,
+	LOG_LEVEL_TO_HUMAN,
 	DEFAULT_LOG_LEVEL,
 	DEFAULT_LOGGER_KEY,
 } from './consts'
 
 export { checkLevel } from './core'
+export * from './normalize-args'
 
-import { create as createLogger } from './core'
-export { createLogger }

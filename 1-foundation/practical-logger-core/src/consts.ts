@@ -1,11 +1,11 @@
 import { LogLevel } from '@offirmo/practical-logger-interface'
 
-const LIB = '@offirmo/practical-logger-core'
+export const LIB = '@offirmo/practical-logger-core'
 
 // level to a numerical value, for ordering and filtering.
 // mnemonic:  100 = 100% = you will see 100% of the logs
 //              1 =   1% = you will see 1% of the logs (obviously the most important)
-const LEVEL_TO_INTEGER: Readonly<{ [k: string]: number }> = {
+export const LOG_LEVEL_TO_INTEGER: Readonly<{ [k: string]: number }> = {
 	fatal:    1,
 	emerg:    2,
 
@@ -30,7 +30,7 @@ const LEVEL_TO_INTEGER: Readonly<{ [k: string]: number }> = {
 }
 
 // rationalization to a clear, human understandable string
-const LEVEL_TO_HUMAN: Readonly<{ [k: string]: string }> = {
+export const LOG_LEVEL_TO_HUMAN: Readonly<{ [k: string]: string }> = {
 	fatal:   'fatal',
 	emerg:   'emergency',
 
@@ -54,26 +54,10 @@ const LEVEL_TO_HUMAN: Readonly<{ [k: string]: string }> = {
 	silly:   'silly',
 }
 
-// TODO move to unit tests
-if (Object.keys(LEVEL_TO_HUMAN).sort().join(',') !== Object.keys(LEVEL_TO_INTEGER).sort().join(',')) {
-	// TODO move to unit tests
-	throw new Error('practical-logger-core: needs an update!')
-}
-
-// TODO turn into a func
-const ALL_LOG_LEVELS: Readonly<LogLevel[]> =
-	Object.keys(LEVEL_TO_INTEGER)
+export const ALL_LOG_LEVELS: Readonly<LogLevel[]> =
+	Object.keys(LOG_LEVEL_TO_INTEGER)
 		.map(s => s as LogLevel)
-		.sort((a: LogLevel, b: LogLevel) => LEVEL_TO_INTEGER[a] - LEVEL_TO_INTEGER[b])
+		.sort((a: LogLevel, b: LogLevel) => LOG_LEVEL_TO_INTEGER[a] - LOG_LEVEL_TO_INTEGER[b])
 
-const DEFAULT_LOG_LEVEL: LogLevel = 'error'
-const DEFAULT_LOGGER_KEY = ''
-
-export {
-	LIB,
-	LEVEL_TO_INTEGER,
-	LEVEL_TO_HUMAN,
-	ALL_LOG_LEVELS,
-	DEFAULT_LOG_LEVEL,
-	DEFAULT_LOGGER_KEY,
-}
+export const DEFAULT_LOG_LEVEL: LogLevel = 'error'
+export const DEFAULT_LOGGER_KEY = '' // TODO should be "root"?

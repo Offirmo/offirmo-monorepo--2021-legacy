@@ -30,6 +30,7 @@
 	},
 
 	"devDependencies": {
+		"@offirmo-private/common-error-fields": "^0",
 		"np": "^5",
 		"npm-run-all": "^4",
 		"size-limit": "^1"
@@ -42,12 +43,13 @@
 		"ensure-size": "size-limit",
 
 		"dev": "run-s clean build:dev:watch",
+		"test": "../../node_modules/.bin/mocha --opts ../../3-tools/unit-test-toolbox/mocha.opts ../../3-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es9.cjs/**/*spec.js'",
 		"build": "run-s build:prod",
 		"cheatsheet": "node doc/cheatsheet.js",
 		"demo": "node doc/demo.js",
 
 		"np": "np --no-publish",
-		"prepublishOnly": "run-s clean build:prod ensure-size"
+		"prepublishOnly": "run-s clean build:prod test ensure-size"
 	},
 
 	"files": [
