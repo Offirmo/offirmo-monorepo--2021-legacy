@@ -52,7 +52,7 @@ const globalThis = getGlobalThis()
 * a [ponyfill](https://ponyfill.com/) is a better polyfill that doesn't patch the environment.
 
 There are existing ponyfills/polyfills [out there](https://github.com/ljharb/globalThis), but they didn't work for me:
-* too complicated: mine is a single TS file of 5 lines
+* mine is much simpler: a single TS file of 6 meaningful lines
 * I needed TypeScript
 
 
@@ -61,4 +61,5 @@ There are existing ponyfills/polyfills [out there](https://github.com/ljharb/glo
 **YES** I had a look at [ljharb/globalThis](https://github.com/ljharb/globalThis)'s [implementation](https://github.com/ljharb/globalThis/blob/master/implementation.js) (MIT)
 and started my implementation from it! Thanks a lot and all credits due!
 
-TODO look at https://mathiasbynens.be/notes/globalthis
+About the proposed implementation here: https://mathiasbynens.be/notes/globalthis we can't use it: it creates a polyfill, not a ponyfill.
+However I took a line from the "naive implementation".

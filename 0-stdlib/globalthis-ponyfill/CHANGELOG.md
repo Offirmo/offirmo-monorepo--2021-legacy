@@ -2,7 +2,13 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
-...
+* ...
+
+## v1.0.1
+2019/06/30
+* [feat] default to `this` in last resort
+* [doc] README++
+* [chore] upgraded pre-built code target to latest stable JS (ES2019)
 
 ## v1.0.0
 2019/04/04
@@ -31,3 +37,8 @@
 ## v0.0.1
 2019/04/01
 * initial release to npm
+
+## template
+* [doc] README++
+* [chore] bumped deps
+* [chore] upgraded pre-built code target to latest stable JS (ES2019)

@@ -2,7 +2,7 @@
 
 const lastResort: { [k:string]: any } = {}
 
-export function getGlobalThis(): { [k:string]: any } {
+export function getGlobalThis(this: any): { [k:string]: any } {
 
 	// @ts-ignore
 	if (typeof globalThis !== 'undefined') return globalThis
@@ -16,6 +16,8 @@ export function getGlobalThis(): { [k:string]: any } {
 
 	// @ts-ignore
 	if (typeof window !== 'undefined') return window
+
+	if (typeof this !== 'undefined') return this;
 
 	return lastResort // should never happen
 }
