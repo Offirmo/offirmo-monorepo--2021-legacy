@@ -1,6 +1,4 @@
 import React from 'react'
-
-import 'babel-polyfill'
 import ReactDOM from 'react-dom'
 //import 'react-circular-progressbar/dist/styles.css'
 import ErrorBoundary from '@offirmo-private/react-error-boundary'

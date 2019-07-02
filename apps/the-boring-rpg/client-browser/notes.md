@@ -64,10 +64,3 @@ TODO bg switching effects https://tympanus.net/codrops/2018/04/10/webgl-distorti
 		"style-loader": "^0.23",
 		"tslib": "^1",
 		"universal-analytics": "^0.4",
-
-		"babel-core": "^6",
-		"babel-loader": "^8",
-		"babel-polyfill": "^6",
-		"babel-preset-env": "^1",
-		"babel-preset-react": "^6",
-		"babel-preset-stage-0": "^6",

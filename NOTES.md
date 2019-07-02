@@ -31,3 +31,14 @@ https://github.com/mohsinulhaq/react-popper-tooltip
 		"url-loader": "^1",
 		"webpack": "^4",
 		"webpack-cli": "^3",
+
+		"@babel/polyfill": "^7",
+
+warning @babel/node > @babel/polyfill@7.4.4: 🚨 As of Babel 7.4.0, this
+package has been deprecated in favor of directly
+including core-js/stable (to polyfill ECMAScript
+features) and regenerator-runtime/runtime
+(needed to use transpiled generator functions):
+
+  > import "core-js/stable";
+  > import "regenerator-runtime/runtime";

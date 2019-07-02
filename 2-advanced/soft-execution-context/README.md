@@ -9,6 +9,7 @@ WORK IN PROGRESS, COMPLETELY EXPERIMENTAL FOR NOW
 
 MVP v2 - 2018/05
 
+TODO remove full logger
 
 ## Introduction
 
@@ -47,7 +48,7 @@ However, this root SEC can be customized like any other SEC.
 
 
 ### requisites
-babel-polyfill may be needed
+babel-polyfill may be needed? TODO check
 
 ### Methods
 
