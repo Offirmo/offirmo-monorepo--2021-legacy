@@ -22,7 +22,7 @@ export function get(): Readonly<State.State> {
 	return state
 }
 
-export function get_tab_origin(tab_id) {
+export function get_tab_origin(tab_id: number) {
 	return state.tabs[tab_id].origin
 }
 
@@ -117,7 +117,7 @@ export function update_tab_origin(tab_id: number, url?: string): void {
 }
 
 // we need to store and share ports for sharing across files
-export function update_port(channel_id, port): void {
+export function update_port(channel_id: string, port: Readonly<Port> | null): void {
 	console.group('🌀 update_port', { channel_id, port })
 	console.log('before', state)
 
@@ -135,7 +135,7 @@ export function update_port(channel_id, port): void {
 }
 
 // we need to track tab origins and overall state (injected?)
-export function on_tab_loading(tab_id): void {
+export function on_tab_loading(tab_id: number): void {
 	console.group('🌀 on_tab_loading', {tab_id})
 	console.log('before', state)
 

@@ -44,7 +44,7 @@ class Overrides extends Component {
 	render_view = ({app_state}) => {
 		console.log(`🔄 Overrides render_view`, {app_state})
 
-		const { overrides } = app_state
+		const overrides = app_state
 		return (
 			<OverridesC1M {...{on_change: this.on_change, overrides}} />
 		)

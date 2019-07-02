@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import Form, { FormHeader, FormSection, FormFooter } from '@atlaskit/form';
 
 import { AppStateListenerAndProvider, AppStateConsumer } from '../context'
+import { is_eligible, get_overrides, is_injection_enabled } from '../context/state'
 import GlobalSwitch from './global-switch'
 import Overrides from './overrides'
 
@@ -14,7 +15,7 @@ export default class TabControl extends Component {
 	render_view = ({app_state}) => {
 		console.log(`🔄 TabControl render_view`, {app_state})
 
-		if (!app_state.is_eligible) {
+		if (!is_eligible(app_state)) {
 			return (
 				<Fragment>
 					<p>
@@ -27,9 +28,9 @@ export default class TabControl extends Component {
 			)
 		}
 
-		const { overrides } = app_state
+		const overrides = get_overrides(app_state)
 		const overrides_count = Object.keys(overrides).length
-		const show_overrides = !!overrides_count && app_state.is_injection_enabled
+		const show_overrides = is_injection_enabled(app_state) && overrides_count > 0
 			return (
 			<Fragment>
 				<GlobalSwitch />

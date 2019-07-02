@@ -1,5 +1,3 @@
-import 'babel-polyfill'
-
 const LIB = '🧩 UWDT/devtools'
 
 console.log(`[${LIB}.${+Date.now()}]  Hello!`, {

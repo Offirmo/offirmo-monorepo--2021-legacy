@@ -1,5 +1,3 @@
-import 'babel-polyfill'
-
 import runInPageContext from '../utils/run-in-page-context'
 //import install_debug_api from '../api/full'
 import lib from './start-incontext'

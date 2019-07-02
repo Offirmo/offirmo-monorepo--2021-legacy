@@ -1,4 +1,4 @@
-import { State as OriginState } from './origin'
+import * as OriginState from './origin'
 import { UNKNOWN_ORIGIN } from '../consts'
 
 ////////////////////////////////////
@@ -17,8 +17,32 @@ export interface State {
 
 ////////////////////////////////////
 
-export function needs_reload(origin_state: OriginState): boolean {
-	// TODO
+export function is_injection_enabled(state: Readonly<State>): boolean {
+	return state.last_reported_injection_status
+}
+
+export function needs_reload(state: Readonly<State>, origin_state: Readonly<OriginState.State>): boolean {
+	if (OriginState.should_injection_be_enabled(origin_state) !== is_injection_enabled(state))
+		return true
+
+	const keys_set = new Set<string>([
+			...Object.keys(origin_state.overrides),
+			...Object.keys(state.overrides),
+		]
+	)
+
+	for (let key of keys_set) {
+		const override_spec = origin_state.overrides[key]
+		const override = state.overrides[key]
+
+		if (!override_spec.is_enabled && override.last_reported_value)
+			return true
+
+		if (override_spec.is_enabled && override_spec.value !== override.last_reported_value)
+			return true
+	}
+
+	return false
 }
 
 ////////////////////////////////////

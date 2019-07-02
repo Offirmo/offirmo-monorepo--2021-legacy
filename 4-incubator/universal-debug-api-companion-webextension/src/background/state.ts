@@ -10,7 +10,7 @@ import { query_active_tab } from './utils'
 ////////////////////////////////////
 
 export interface State {
-	ports: { [tab_id: number]: Readonly<Port> },
+	ports: { [channel_id: string]: Readonly<Port> },
 
 	active_tab_id: number,
 	active_tab: Promise<Readonly<Tab>>,
@@ -77,9 +77,11 @@ export function create(): Readonly<State> {
 	}
 }
 
-export function update_port(state: Readonly<State>, channel_id, port): Readonly<State> {
-	// TODO immu / deep immu
-	state.ports[channel_id] = port
+export function update_port(state: Readonly<State>, channel_id: string, port: Readonly<Port> | null): Readonly<State> {
+	if (port)
+		state.ports[channel_id] = port
+	else
+		delete state.ports[channel_id]
 
 	return state
 }
@@ -118,7 +120,7 @@ export function update_tab_origin(state: Readonly<State>, tab_id: number, url: s
 		...state,
 		origins: {
 			...state.origins,
-			[origin]: state.origins[origin] || OriginX.create(origin),
+			[origin]: state.origins[origin] || OriginState.create(origin),
 		},
 	}
 

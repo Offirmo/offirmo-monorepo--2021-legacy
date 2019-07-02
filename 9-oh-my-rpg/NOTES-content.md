@@ -16,7 +16,10 @@ LHB
 
 ### terrestre
 * https://www.news.com.au/technology/science/animals/giant-severed-ice-age-wolfs-head-discovered-in-siberian-permafrost/news-story/2d910feaef04ac5b807808af4b578f4b
-
+* https://fr.wikipedia.org/wiki/An%C3%A9momorphose
+* https://fr.wikipedia.org/wiki/Thigmomorphogen%C3%A8se
+* https://fr.wikipedia.org/wiki/Krummholz
+* https://fr.wikipedia.org/wiki/Bois_tors
 
 ### marin
 * https://fr.sputniknews.com/societe/201906101041400348-dinosaure-marin-antarctique-fossile/
@@ -24,6 +27,8 @@ LHB
 ### matières
 * https://rpg.stackexchange.com/questions/149477/what-differences-exist-between-adamantine-and-adamantite-in-all-editions-of-dd#149481
 
+### maladies / virus
+* https://fr.wikipedia.org/wiki/Suette
 
 
 ## people

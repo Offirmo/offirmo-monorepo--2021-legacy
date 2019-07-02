@@ -1,4 +1,3 @@
-import 'babel-polyfill'
 import assert from 'tiny-invariant'
 
 import * as Flux from './flux'

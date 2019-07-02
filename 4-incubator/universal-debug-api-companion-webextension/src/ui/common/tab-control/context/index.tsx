@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import { render_any_m } from '@offirmo-private/react-error-boundary'
 
 import { State, create } from './state'
-import { MSG_ENTRY } from '../../../../common/messages'
 
 // https://reactjs.org/docs/context.html
 const AppStateContext = React.createContext(create())

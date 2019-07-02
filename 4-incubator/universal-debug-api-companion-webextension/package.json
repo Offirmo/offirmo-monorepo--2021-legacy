@@ -33,6 +33,7 @@
 
 		"dev:parcel": "parcel --no-autoinstall --port 9090 --no-hmr src/**/*.html src/background/background.js src/content-scripts/*.js",
 		"dev:cpx": "cpx 'src/**/*.{json,png,svg}' dist --watch --verbose",
+		"ts:dev:watch": "node ../../scripts/build-typescript.js --watch",
 
 		"build:lib1-bundle": "parcel build --no-autoinstall --no-source-maps --out-file injected-api-bundle-1.js  src/injected-libs/universal-debug-api-from-webext.ts",
 		"build:lib2-bundle": "parcel build --no-autoinstall --no-source-maps --out-file injected-api-bundle-2.js  src/injected-libs/universal-debug-api-control.ts",

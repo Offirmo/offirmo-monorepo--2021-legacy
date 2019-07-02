@@ -1,5 +1,3 @@
-//import 'babel-polyfill'
-
 import { LS_ROOT } from '@offirmo-private/universal-debug-api-full-browser/src/consts'
 import { MSG_ENTRY, create_msg_report_lib_injection, MSG_TYPE__UPDATE_ORIGIN_STATE } from '../common/messages'
 

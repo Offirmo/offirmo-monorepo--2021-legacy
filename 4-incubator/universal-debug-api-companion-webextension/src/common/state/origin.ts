@@ -11,6 +11,7 @@ export const OverrideType = Enum(
 	'boolean',
 	'string',
 	'URL',
+	// TODO more
 	'json',
 )
 export type OverrideType = Enum<typeof OverrideType> // eslint-disable-line no-redeclare
@@ -33,6 +34,10 @@ export interface State {
 
 export function is_eligible(state: Readonly<State>): boolean {
 	return state.origin !== UNKNOWN_ORIGIN
+}
+
+export function should_injection_be_enabled(state: Readonly<State>): boolean {
+	return state.is_injection_enabled
 }
 
 ////////////////////////////////////
