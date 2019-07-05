@@ -1,13 +1,4 @@
+import { Runtime, Tabs } from 'webextension-polyfill-ts'
 
-/*
-export interface Tab {
-	id: number
-	url: string
-}
-
-export interface Port {
-	onDisconnect: {
-		addListener: (cb: () => void) => void,
-	},
-}
-*/
+export type Tab = Tabs.Tab
+export type Port = Runtime.Port

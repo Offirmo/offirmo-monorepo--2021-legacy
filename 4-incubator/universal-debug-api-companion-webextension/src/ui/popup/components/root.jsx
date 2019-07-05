@@ -1,3 +1,4 @@
+import { browser } from "webextension-polyfill-ts"
 import React, { Component, Fragment, StrictMode } from 'react'
 import PropTypes from 'prop-types'
 
@@ -16,7 +17,7 @@ export default class Root extends Component {
 	render() {
 		return (
 			<StrictCheck>
-				<p> TODO! </p>
+				<TabControl />
 			</StrictCheck>
 		)
 	}
@@ -25,8 +26,8 @@ export default class Root extends Component {
 
 ////////////////////////////////////
 
-if (chrome.tabs) {
-	const port_to_bg = chrome.runtime.connect({name: "popup"});
+if (browser.tabs) {
+	const port_to_bg = browser.runtime.connect({name: "popup"});
 	port_to_bg.onMessage.addListener((msg) => {
 		console.group(`received a port message`, msg)
 		assert(msg[MSG_ENTRY], 'MSG_ENTRY')

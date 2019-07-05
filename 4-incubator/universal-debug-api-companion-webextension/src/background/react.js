@@ -1,3 +1,4 @@
+import { browser } from "webextension-polyfill-ts"
 import {
 	get as get_state,
 	get_port,
@@ -18,12 +19,12 @@ function render_webext_icon(state) {
 	// Note: it sets it for ALL tabs
 
 	if (state.is_tab_injected[current_tab_id] && origin_state && origin_state.is_eligible && origin_state.is_injection_enabled) {
-		chrome.browserAction.setBadgeText({ text: '✔' })
-		chrome.browserAction.setBadgeBackgroundColor({ color: "#00AA00"})
+		browser.browserAction.setBadgeText({ text: '✔' })
+		browser.browserAction.setBadgeBackgroundColor({ color: "#00AA00"})
 	}
 	else {
-		chrome.browserAction.setBadgeText({ text: '' })
-		chrome.browserAction.setBadgeBackgroundColor({ color: "#aaaaaa"})
+		browser.browserAction.setBadgeText({ text: '' })
+		browser.browserAction.setBadgeBackgroundColor({ color: "#aaaaaa"})
 	}
 }
 render_webext_icon(get_state())
@@ -48,7 +49,7 @@ ui_emitter.on('change', () => {
 	update_ui_state()
 })
 
-//    chrome.storage.local.set({'address': req.address})
+//    browser.storage.local.set({'address': req.address})
 
 
 ////////////////////////////////////

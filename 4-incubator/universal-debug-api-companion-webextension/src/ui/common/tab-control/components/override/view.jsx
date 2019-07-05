@@ -20,7 +20,7 @@ export const STANDARD_COHORTS = [
 
 const COHORT_SELECT_OPTIONS = STANDARD_COHORTS.map(cohort => ({
 	label: cohort,
-	value: cohort,
+	value: `"${cohort}"`,
 	//defaultSelected: cohort === 'not-enrolled',
 	//selected: cohort === 'not-enrolled',
 }))
@@ -38,16 +38,11 @@ export default class Switch extends Component {
 	static propTypes = {
 		is_injection_enabled: PropTypes.bool.isRequired,
 		on_change: PropTypes.func.isRequired,
-		override_key: PropTypes.string.isRequired,
-		type: PropTypes.string.isRequired,
-		value: PropTypes.any, // TODO refine
-		is_enabled: PropTypes.bool.isRequired,
-		has_activity: PropTypes.bool.isRequired,
+		override: PropTypes.any.isRequired, // TODO refine
 	}
 
-
-	get_enable_toggle(field_props) {
-		const { is_injection_enabled, is_enabled, on_change } = this.props
+	get_enable_toggle(field_props, is_enabled) {
+		const { is_injection_enabled, on_change, override } = this.props
 
 		const is_disabled = !is_injection_enabled
 
@@ -62,30 +57,36 @@ export default class Switch extends Component {
 		)
 	}
 
-	get_input(field_props) {
-		const { is_injection_enabled, on_change, type, value, is_enabled } = this.props
+	get_input(field_props, is_enabled) {
+		const { is_injection_enabled, on_change, override } = this.props
+		const { type, value_json } = override.spec
 
 		// bad API
 		const is_disabled = !is_injection_enabled || !is_enabled
 
 		switch (type) {
-			case 'b':
+			case 'boolean': {
+				const value = Boolean(value_json)
 				return (
 					<Fragment>
-						{ is_disabled ? '' : <span className={'o⋄font⁚roboto-condensed override-input-label'}>forced to <b>{`${value}`}</b></span> }
+						{is_disabled ? '' : <span
+							className={'o⋄font⁚roboto-condensed override-input-label'}>forced to <b>{`${value}`}</b></span>}
 						<ToggleStateless
 							{...field_props}
 							size="large"
 							isDisabled={is_disabled}
 							isChecked={value}
-							onChange={(event) => on_change({value: !value})}
+							onChange={(event) => on_change({value: value === 'true' ? 'false' : 'true'})}
 						/>
 					</Fragment>
 				)
-			case 'co':
+			}
+			case 'Cohort': {
+				const value = value_json
 				return (
 					<Fragment>
-						{ is_disabled ? '' : <span className={'o⋄font⁚roboto-condensed override-input-label'}>forced to </span> }
+						{is_disabled ? '' :
+							<span className={'o⋄font⁚roboto-condensed override-input-label'}>forced to </span>}
 						<Select
 							{...field_props}
 							isDisabled={is_disabled}
@@ -96,8 +97,10 @@ export default class Switch extends Component {
 							placeholder="Choose a cohort"
 						/>
 					</Fragment>
-					)
-			case 'll':
+				)
+			}
+			case 'LogLevel': {
+				const value = value_json
 				return (
 					<LogLevelRange
 						{...field_props}
@@ -106,22 +109,29 @@ export default class Switch extends Component {
 						onChange={(value) => on_change({value})}
 					/>
 				)
+			}
 			default:
 				return <span>Error! Unknown type "{type}"!</span>
 		}
 	}
 
 	render() {
-		const { override_key, type, value, is_enabled, has_activity } = this.props
+		const { override } = this.props
+		const { key } = override
+		const { type } = override.spec
 
-		let default_value = value
+		const requested_value_json = override.spec.value_json
+		let default_value_json = requested_value_json
 		if (type === 'co')
-			default_value = COHORT_SELECT_OPTIONS.find(({value: opt_value}) => value === opt_value)
+			default_value_json = COHORT_SELECT_OPTIONS.find(({value: opt_value}) => requested_value_json === `"${opt_value}"`)
 
-		console.log(`🔄 Override "${override_key}"`, {
+		console.log(`🔄 Override "${key}"`, {
 			props: this.props,
-			default_value,
+			default_value_json,
 		})
+
+		const has_activity = override.last_reported > 0
+		const is_enabled = override.spec.is_enabled
 
 		return (
 			<div className={`left-right-aligned override-line`}>
@@ -129,19 +139,19 @@ export default class Switch extends Component {
 					<ActivityIndicator has_activity={has_activity} />
 
 					<span className={`box-sizing-reset override-enable-toggle`}>
-						<Field name={override_key + '_enabled'} defaultValue={is_enabled} isRequired>
-							{({ fieldProps, error }) => error? error : this.get_enable_toggle(fieldProps) }
+						<Field name={key + '_enabled'} defaultValue={is_enabled} isRequired>
+							{({ fieldProps, error }) => error? error : this.get_enable_toggle(fieldProps, is_enabled) }
 						</Field>
 					</span>
 
 					<span className={`override-label`}>
-						{override_key}
+						{key}
 					</span>
 				</div>
 
 				<div className={`box-sizing-reset override-input override-input-${type}`}>
-					<Field name={override_key} defaultValue={default_value} isRequired>
-						{({ fieldProps, error }) => error ? error : this.get_input(fieldProps) }
+					<Field name={key} defaultValue={default_value_json} isRequired>
+						{({ fieldProps, error }) => error ? error : this.get_input(fieldProps, is_enabled) }
 					</Field>
 				</div>
 			</div>

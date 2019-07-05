@@ -1,7 +1,9 @@
+import { browser } from "webextension-polyfill-ts"
+
 const LIB = '🧩 UWDT/devtools'
 
 console.log(`[${LIB}.${+Date.now()}]  Hello!`, {
-	panels: chrome.devtools.panels,
+	panels: browser.devtools.panels,
 })
 
 function get_browser() {
@@ -16,9 +18,9 @@ function get_browser() {
 }
 
 // only this script has access to the devtools API
-// https://developer.chrome.com/extensions/devtools
+// https://developer.browser.com/extensions/devtools
 
-chrome.devtools.inspectedWindow.eval(
+browser.devtools.inspectedWindow.eval(
 	`console.log('[${LIB}.${+Date.now()}] Hello injected from the devtools panel!')`,
 	function(result, isException) {
 		console.log({
@@ -29,7 +31,7 @@ chrome.devtools.inspectedWindow.eval(
 )
 
 const PANEL_NAME = '🛠'
-chrome.devtools.panels.create(
+browser.devtools.panels.create(
 	PANEL_NAME,
 	'/icons/icon_32x32.png', // works only on FF
 	// Chrome and FF have different paths
@@ -42,7 +44,7 @@ chrome.devtools.panels.create(
 		console.log(`[${LIB}.${+Date.now()}] Hello from devtools panel "${PANEL_NAME}" creation!`, panel)
 
 		setTimeout(() => {
-			console.log('devtools panels = ', chrome.devtools.panels)
+			console.log('devtools panels = ', browser.devtools.panels)
 		}, 5000)
 		/*panel.createSidebarPane(
 				"Offirmo Sidebar",
@@ -55,9 +57,9 @@ chrome.devtools.panels.create(
 )
 
 ////////////////////////////////////
-// https://developer.chrome.com/extensions/messaging#simple
+// https://developer.browser.com/extensions/messaging#simple
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	console.log(`[${LIB}.${+Date.now()}] received a simple message from`, {
 		sender,
 		sender_x: sender.tab ?
@@ -67,7 +69,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	})
 })
 
-const port = chrome.runtime.connect({name: "devtools"});
+const port = browser.runtime.connect({name: "devtools"});
 port.onMessage.addListener((msg) => {
 	console.log(`[${LIB}.${+Date.now()}] received a port message`, msg)
 });

@@ -1,4 +1,5 @@
 import assert from 'tiny-invariant'
+import { browser } from "webextension-polyfill-ts"
 
 import * as Flux from './flux'
 //import './react'
@@ -19,14 +20,14 @@ console.log(`[${LIB}.${+Date.now()}] Hello from background!`, {
 
 ////////////////////////////////////
 // listen to some events
-// https://developer.chrome.com/extensions/tabs
+// https://developer.browser.com/extensions/tabs
 
-chrome.runtime.onInstalled.addListener(function() {
+browser.runtime.onInstalled.addListener(function() {
 	console.log('⚡  on extension installed')
 	Flux.on_init()
 });
 
-chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 	console.log('⚡ tabs.onUpdated ', { tabId, changeInfo, tab })
 	if (tab.url)
 		Flux.update_tab_origin(tabId, tab.url)
@@ -34,16 +35,16 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 		Flux.on_tab_loading(tabId)
 })
 
-chrome.tabs.onActivated.addListener(({tabId, windowId}) => {
+browser.tabs.onActivated.addListener(({tabId, windowId}) => {
 	console.log('⚡ tabs.onActivated', { tabId, windowId })
 	Flux.on_tab_activated(tabId)
 })
 
 ////////////////////////////////////
 // listen to simple messages from other parts of this extension
-// https://developer.chrome.com/extensions/messaging#simple
+// https://developer.browser.com/extensions/messaging#simple
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	console.group(`📥 received a simple message`)
 
 	try {
@@ -99,7 +100,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 ////////////////////////////////////
 // listen to "port" messages from other parts of the extension
 
-chrome.runtime.onConnect.addListener(port => {
+browser.runtime.onConnect.addListener(port => {
 	const { name } = port
 	console.log(`[${LIB}.${+Date.now()}] received connection "${name}"`, {port})
 

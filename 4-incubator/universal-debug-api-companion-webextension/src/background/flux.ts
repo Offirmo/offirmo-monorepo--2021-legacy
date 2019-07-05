@@ -5,8 +5,6 @@ import { query_active_tab } from './utils'
 import { Tab, Port } from '../common/types'
 import * as State from './state'
 
-import { UNKNOWN_ORIGIN } from '../common/consts'
-
 ////////////////////////////////////
 
 let state: State.State = State.create()
@@ -64,7 +62,7 @@ export function on_init(): void {
 	// will be detected and handled normally.
 	query_active_tab().then(tab => {
 		console.group('🌀 on_init (2)', tab)
-		on_tab_activated(tab.id, tab)
+		on_tab_activated(tab.id!, tab)
 		console.groupEnd()
 	})
 

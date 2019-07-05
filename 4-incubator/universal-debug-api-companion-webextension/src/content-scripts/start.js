@@ -1,3 +1,4 @@
+import { browser } from "webextension-polyfill-ts"
 import { LS_ROOT } from '@offirmo-private/universal-debug-api-full-browser/src/consts'
 import { MSG_ENTRY, create_msg_report_lib_injection, MSG_TYPE__UPDATE_ORIGIN_STATE } from '../common/messages'
 
@@ -67,14 +68,14 @@ else {
 	console.info(`[${LIB}.${+Date.now()}] UWDT frow webext is disabled ❎`)
 }
 
-chrome.runtime.sendMessage(create_msg_report_lib_injection(should_inject), (response) => {
+browser.runtime.sendMessage(create_msg_report_lib_injection(should_inject), (response) => {
 	console.log(`[${LIB}.${+Date.now()}] response from initial msg:`, response)
 })
 
 ////////////////////////////////////
 
 /*
-const port_to_bg = chrome.runtime.connect({name: "content-script"});
+const port_to_bg = browser.runtime.connect({name: "content-script"});
 port_to_bg.onMessage.addListener((msg) => {
 	console.group(`[${LIB}.${+Date.now()}] 📥 received a port message`, msg)
 	console.assert(msg[MSG_ENTRY], 'MSG_ENTRY')

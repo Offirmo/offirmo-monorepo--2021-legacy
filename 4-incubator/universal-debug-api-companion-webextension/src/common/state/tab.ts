@@ -1,10 +1,13 @@
+import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import * as OriginState from './origin'
 import { UNKNOWN_ORIGIN } from '../consts'
 
 ////////////////////////////////////
 
 export interface OverrideState {
-	last_reported_value: string
+	key: string
+	last_reported: TimestampUTCMs
+	last_reported_value_json: string | null
 }
 
 export interface State {
@@ -22,7 +25,7 @@ export function is_injection_enabled(state: Readonly<State>): boolean {
 }
 
 export function needs_reload(state: Readonly<State>, origin_state: Readonly<OriginState.State>): boolean {
-	if (OriginState.should_injection_be_enabled(origin_state) !== is_injection_enabled(state))
+	if (OriginState.is_injection_requested(origin_state) !== is_injection_enabled(state))
 		return true
 
 	const keys_set = new Set<string>([
@@ -35,10 +38,10 @@ export function needs_reload(state: Readonly<State>, origin_state: Readonly<Orig
 		const override_spec = origin_state.overrides[key]
 		const override = state.overrides[key]
 
-		if (!override_spec.is_enabled && override.last_reported_value)
+		if (!override_spec.is_enabled && override.last_reported_value_json)
 			return true
 
-		if (override_spec.is_enabled && override_spec.value !== override.last_reported_value)
+		if (override_spec.is_enabled && override_spec.value_json !== override.last_reported_value_json)
 			return true
 	}
 
@@ -90,6 +93,15 @@ export function report_lib_injection(state: Readonly<State>, is_injected: boolea
 	}
 }
 
+export function ensure_override(state: Readonly<State>, key: string): Readonly<State> {
+	state.overrides[key] = state.overrides[key] || {
+		key,
+		last_reported: 0,
+		last_reported_value_json: null,
+	}
+
+	return state
+}
 export function report_override_values(state: Readonly<State>, TODO: string): Readonly<State> {
 	return {
 		...state,

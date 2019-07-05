@@ -1,6 +1,7 @@
+import { browser } from "webextension-polyfill-ts"
 
 export default function send_message(msg) {
-	if (!chrome.tabs) return
+	if (!browser.tabs) return
 
-	chrome.runtime.sendMessage(msg)
+	browser.runtime.sendMessage(msg)
 }

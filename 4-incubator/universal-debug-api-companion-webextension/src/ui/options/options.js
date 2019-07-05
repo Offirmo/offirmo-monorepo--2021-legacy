@@ -1,9 +1,11 @@
+import { browser } from "webextension-polyfill-ts"
+
 console.log(`🧩 [T=${+Date.now()}] Hello from options!`)
 
 ////////////////////////////////////
-// https://developer.chrome.com/extensions/messaging#simple
+// https://developer.browser.com/extensions/messaging#simple
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	console.log(`[${LIB}.${+Date.now()}] received a simple message from`, {
 		sender,
 		sender_x: sender.tab ?
@@ -13,7 +15,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	})
 })
 
-const port = chrome.runtime.connect({name: "options"});
+const port = browser.runtime.connect({name: "options"});
 port.onMessage.addListener((msg) => {
 	console.log(`[${LIB}.${+Date.now()}] received a port message`, msg)
 });

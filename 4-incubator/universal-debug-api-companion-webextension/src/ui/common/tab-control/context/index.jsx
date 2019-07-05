@@ -3,12 +3,18 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { render_any_m } from '@offirmo-private/react-error-boundary'
 
-import { State, create } from './state'
+import { State, create, create_demo } from './state'
 
 // https://reactjs.org/docs/context.html
-const AppStateContext = React.createContext(create())
+const DEFAULT_STATE = create_demo()
+const AppStateContext = React.createContext(DEFAULT_STATE)
 
-export let set_app_state = (state: Readonly<State>) => void
+let set_app_state_internal = (state) => {}
+function set_app_state(state) {
+	console.log('set_app_state', {state})
+	set_app_state_internal(state)
+}
+
 
 ////////////////////////////////////
 
@@ -17,10 +23,10 @@ class AppStateListenerAndProvider extends React.Component {
 		children: PropTypes.node.isRequired,
 	}
 
-	state: Readonly<State> = create()
+	state = DEFAULT_STATE
 
 	render() {
-		set_app_state = set_app_state || this.setState.bind(this)
+		set_app_state_internal = set_app_state_internal || this.setState.bind(this)
 
 		console.log(`🔄 AppStateListenerAndProvider`, {state: this.state})
 
@@ -34,7 +40,7 @@ class AppStateListenerAndProvider extends React.Component {
 
 ////////////////////////////////////
 
-function AppStateConsumer({ children, render }: any) {
+function AppStateConsumer({ children, render }) {
 	return (
 		<AppStateContext.Consumer>
 			{app_state => {
@@ -50,11 +56,12 @@ function AppStateConsumer({ children, render }: any) {
 }
 
 export default AppStateContext
-
 export {
+	set_app_state,
 	AppStateContext,
 	AppStateListenerAndProvider,
 	AppStateConsumer,
 }
+export * from './state' // for convenience
 
 ////////////////////////////////////

@@ -46,3 +46,5 @@ See the actual implementations of those interfaces:
 * browser: [@offirmo/practical-logger-browser](https://www.npmjs.com/package/@offirmo/practical-logger-browser)
 * node: TODO publish to npm
 
+Other loggers:
+* http://getpino.io/#/docs/benchmarks

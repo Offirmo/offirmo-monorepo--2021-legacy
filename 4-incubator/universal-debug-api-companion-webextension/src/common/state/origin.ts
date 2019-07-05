@@ -17,9 +17,10 @@ export const OverrideType = Enum(
 export type OverrideType = Enum<typeof OverrideType> // eslint-disable-line no-redeclare
 
 export interface OverrideState {
+	key: string
 	is_enabled: boolean,
 	type: OverrideType,
-	value: any,
+	value_json: string | null,
 	last_reported: TimestampUTCMs, // to clean
 }
 
@@ -36,7 +37,7 @@ export function is_eligible(state: Readonly<State>): boolean {
 	return state.origin !== UNKNOWN_ORIGIN
 }
 
-export function should_injection_be_enabled(state: Readonly<State>): boolean {
+export function is_injection_requested(state: Readonly<State>): boolean {
 	return state.is_injection_enabled
 }
 
@@ -55,30 +56,34 @@ export function create_demo(origin: string): Readonly<State> {
 	return {
 		origin,
 		last_interacted: 0,
-		is_injection_enabled: false,
+		is_injection_enabled: true,
 		overrides: {
 			'root.logLevel': {
+				key: 'root.logLevel',
 				is_enabled: false,
 				type: OverrideType.LogLevel,
-				value: 'error',
+				value_json: '"error"',
 				last_reported: 123,
 			},
 			'fooExperiment.cohort': {
+				key: 'fooExperiment.cohort',
 				is_enabled: true,
 				type: OverrideType.Cohort,
-				value: 'not-enrolled',
+				value_json: '"not-enrolled"',
 				last_reported: 123,
 			},
 			'fooExperiment.logLevel': {
+				key: 'fooExperiment.logLevel',
 				is_enabled: true,
 				type: OverrideType.LogLevel,
-				value: 'error',
+				value_json: '"error"',
 				last_reported: 123,
 			},
 			'fooExperiment.isSwitchedOn': {
+				key: 'fooExperiment.isSwitchedOn',
 				is_enabled: true,
 				type: OverrideType.boolean,
-				value: true,
+				value_json: 'true',
 				last_reported: 123,
 			},
 		}
