@@ -2,6 +2,8 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
+* [chore] fixed dist folder name to match the target (ES2019)
+* [feat] also provide an ES5 pre-built version
 * TODO lower size by removing duplication + useless sink
 * TODO test EDGE, IE
 * [fix] now properly display the error if present

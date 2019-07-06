@@ -1,6 +1,15 @@
 # CHANGELOG
 **This package follows [semver](https://semver.org/).**
 
+
+## NEXT
+- 🤩 feature: X new adventures (now totalling X!)
+- 😍 feature: X new backgrounds (now totalling X!)
+- 🤩 feature: X new achievements (now totalling X!)
+- 😅 fix: tweaks, typos, small bugs…
+- 😷 chore: some internal refactors (bump dependencies)
+
+
 ## v0.60.1
 - 🤩 feature: 1 new achievement (now totalling 100!)
 - 😍 feature: energy is refill faster at the beginning of the game (similar to the original)
@@ -160,4 +169,4 @@
 - 😍 feature: X new backgrounds (now totalling X!)
 - 🤩 feature: X new achievements (now totalling X!)
 - 😅 fix: tweaks, typos, small bugs…
-- 😷 chore: some internal refactors (bump deps)
+- 😷 chore: some internal refactors (bump dependencies)

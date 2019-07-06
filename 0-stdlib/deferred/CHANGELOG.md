@@ -1,6 +1,10 @@
 # CHANGELOG
 **This package follows [semver](https://semver.org/).**
 
+## PENDING
+* [chore] fixed dist folder name to match the target (ES2019)
+* [feat] also provide an ES5 pre-built version
+
 ## 1.0.1
 2019/06/30
 * [feat] clearer Symbol.toStringTag
