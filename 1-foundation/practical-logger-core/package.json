@@ -1,32 +1,32 @@
 {
 	"name": "@offirmo/practical-logger-core",
 	"description": "Common internal code for Offirmo’s practical logger",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 
-	"esnext": "dist/src.es9/index.js",
-	"module": "dist/src.es9/index.js",
-	"main": "dist/src.es9.cjs/index.js",
-	"typings": "dist/src.es9.cjs/index.d.ts",
+	"esnext": "dist/src.es2019/index.js",
+	"module": "dist/src.es2019/index.js",
+	"main": "dist/src.es5.cjs/index.js",
+	"typings": "dist/src.es2019.cjs/index.d.ts",
 	"source": "src/index.ts",
 	"sideEffects": false,
 
 	"size-limit": [
 		{
 			"limit": "1.5kb",
-			"path": "dist/src.es9/index.js"
+			"path": "dist/src.es2019/index.js"
 		},
 		{
 			"limit": "1.5kb",
-			"path": "dist/src.es9.cjs/index.js"
+			"path": "dist/src.es2019.cjs/index.js"
 		}
 	],
 
 	"peerDependencies": {
 	},
 	"dependencies": {
-		"@offirmo/practical-logger-interface": "^1.1"
+		"@offirmo/practical-logger-interface": "^1.1.1"
 	},
 
 	"devDependencies": {
@@ -39,11 +39,11 @@
 		"clean": "node ../../scripts/clean.js dist",
 
 		"build:dev:watch": "node ../../scripts/build-typescript.js --watch",
-		"build:prod": "node ../../scripts/build-typescript.js",
+		"build:prod": "node ../../scripts/build-typescript.js --alsoLegacy",
 		"ensure-size": "size-limit",
 
 		"dev": "run-s clean build:dev:watch",
-		"test": "../../node_modules/.bin/mocha --opts ../../3-tools/unit-test-toolbox/mocha.opts ../../3-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es9.cjs/**/*spec.js'",
+		"test": "../../node_modules/.bin/mocha --opts ../../3-tools/unit-test-toolbox/mocha.opts ../../3-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2019.cjs/**/*spec.js'",
 		"build": "run-s build:prod",
 		"cheatsheet": "node doc/cheatsheet.js",
 		"demo": "node doc/demo.js",

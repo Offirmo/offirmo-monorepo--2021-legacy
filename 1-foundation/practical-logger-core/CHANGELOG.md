@@ -1,10 +1,15 @@
 # CHANGELOG
 **This package follows [semver](https://semver.org/).**
 
-## Pending
-- TODO link to other modules
+## PENDING
+* ...
 
-## v2.0.0
+## v1.1.1
+2019/07/07
+* [chore] fixed dist folder name to match the target (ES2019)
+* [feat] also provide an ES5 pre-built version
+
+## v1.1.0
 2019/06/30
 * [feat] new API: group() groupCollapsed() groupEnd()
 * [test] unit tests! especially on the argument normalizer!
