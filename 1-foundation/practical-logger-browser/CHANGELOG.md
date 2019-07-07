@@ -2,14 +2,16 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
-* [chore] fixed dist folder name to match the target (ES2019)
-* [feat] also provide an ES5 pre-built version
 * TODO lower size by removing duplication + useless sink
 * TODO test EDGE, IE
+
+## v1.1.1
+2019/07/07
 * [fix] now properly display the error if present
+* [chore] fixed dist folder name to match the target (ES2019)
+* [feat] also provide an ES5 pre-built version
 * [test] a few unit tests instead of runtime checks
 * [chore] removed a dependency
-* [feat] BREAKING localstorage key now mentions the version
 
 ## v1.1.0
 2019/06/30
