@@ -1,0 +1,6 @@
+@import '../../../../../node_modules/@offirmo-private/view-css/src/style.css';
+
+.tab-controls h1,
+.tab-controls h2 {
+	color: var(--o⋄color--fg⁚main) !important;
+}

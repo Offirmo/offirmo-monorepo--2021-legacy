@@ -17,30 +17,29 @@
 .override-input {
 }
 
-
-.override-input-co {
-	min-width: 80px;
-}
-
-.override-input-ll {
-	width: 200px;
-}
-.override-input-b > div > label {
-	vertical-align: middle;
-}
-
 .override-input-label {
 	font-size: .9em;
 }
-.override-input-ll-label {
-	position: relative;
-	top: -20px;
-}
 
-.override-input-co .single-select {
+.override-input-Cohort {
+	min-width: 80px;
+}
+.override-input-override-input-Cohort .single-select {
 	min-width: 130px;
 	display: inline-block;
 	vertical-align: middle;
+}
+
+.override-input-boolean > div > label {
+	vertical-align: middle;
+}
+
+.override-input-LogLevel {
+	width: 200px;
+}
+.override-input-LogLevel-label {
+	position: relative;
+	top: -20px;
 }
 
 

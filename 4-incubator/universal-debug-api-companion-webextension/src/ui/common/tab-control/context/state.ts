@@ -109,6 +109,10 @@ export function create_demo(): Readonly<State> {
 	Object.keys(origin_state.overrides).forEach(key => {
 		tab_state = TabState.ensure_override(tab_state, key)
 	})
+
+	tab_state.overrides['fooExperiment.cohort'].last_reported_value_json = '"variation-1"' // not up to date
+	tab_state.overrides['fooExperiment.isSwitchedOn'].last_reported_value_json = 'true' // up to date
+
 	return {
 		tab: tab_state,
 		origin: origin_state,

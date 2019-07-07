@@ -18,12 +18,15 @@ export const STANDARD_COHORTS = [
 	'variation-4',
 ]
 
-const COHORT_SELECT_OPTIONS = STANDARD_COHORTS.map(cohort => ({
-	label: cohort,
-	value: `"${cohort}"`,
-	//defaultSelected: cohort === 'not-enrolled',
-	//selected: cohort === 'not-enrolled',
-}))
+function build_cohort_select_option(cohort) {
+	return {
+		label: cohort,
+		value: `"${cohort}"`,
+		//defaultSelected: cohort === 'not-enrolled',
+		//selected: cohort === 'not-enrolled',
+	}
+}
+const COHORT_SELECT_OPTIONS = STANDARD_COHORTS.map(build_cohort_select_option)
 
 function ActivityIndicator({has_activity}) {
 	// TODO yellow on reload needed
@@ -55,6 +58,22 @@ export default class Switch extends Component {
 				onChange={(event) => on_change({is_enabled: !is_enabled})}
 			/>
 		)
+	}
+
+	get_default_value() {
+		const { override } = this.props
+		const { type, value_json } = override.spec
+
+		switch (type) {
+			case 'boolean':
+				return Boolean(value_json)
+			case 'Cohort':
+				return build_cohort_select_option(JSON.parse(value_json))
+			case 'LogLevel':
+				return 123
+			default:
+				return 'XXX'
+		}
 	}
 
 	get_input(field_props, is_enabled) {
@@ -150,7 +169,7 @@ export default class Switch extends Component {
 				</div>
 
 				<div className={`box-sizing-reset override-input override-input-${type}`}>
-					<Field name={key} defaultValue={default_value_json} isRequired>
+					<Field name={key} defaultValue={this.get_default_value()} isRequired>
 						{({ fieldProps, error }) => error ? error : this.get_input(fieldProps, is_enabled) }
 					</Field>
 				</div>

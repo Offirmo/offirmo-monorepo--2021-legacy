@@ -58,18 +58,18 @@ export function create_demo(origin: string): Readonly<State> {
 		last_interacted: 0,
 		is_injection_enabled: true,
 		overrides: {
-			'root.logLevel': {
-				key: 'root.logLevel',
-				is_enabled: false,
-				type: OverrideType.LogLevel,
-				value_json: '"error"',
-				last_reported: 123,
-			},
 			'fooExperiment.cohort': {
 				key: 'fooExperiment.cohort',
 				is_enabled: true,
 				type: OverrideType.Cohort,
 				value_json: '"not-enrolled"',
+				last_reported: 123,
+			},
+			'fooExperiment.isSwitchedOn': {
+				key: 'fooExperiment.isSwitchedOn',
+				is_enabled: true,
+				type: OverrideType.boolean,
+				value_json: 'true',
 				last_reported: 123,
 			},
 			'fooExperiment.logLevel': {
@@ -79,11 +79,11 @@ export function create_demo(origin: string): Readonly<State> {
 				value_json: '"error"',
 				last_reported: 123,
 			},
-			'fooExperiment.isSwitchedOn': {
-				key: 'fooExperiment.isSwitchedOn',
-				is_enabled: true,
-				type: OverrideType.boolean,
-				value_json: 'true',
+			'root.logLevel': {
+				key: 'root.logLevel',
+				is_enabled: false,
+				type: OverrideType.LogLevel,
+				value_json: '"error"',
 				last_reported: 123,
 			},
 		}
