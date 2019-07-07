@@ -1,6 +1,14 @@
 # CHANGELOG
 **This package follows [semver](https://semver.org/).**
 
+## PENDING
+* ...
+
+## v1.1.1
+* [chore] fixed dist folder name to match the target (ES2019)
+* [feat] also provide an ES5 pre-built version
+* [doc] README++
+
 ## v1.1.0
 2019/06/30
 * [feat] new API: group() groupCollapsed() groupEnd()

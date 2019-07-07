@@ -46,5 +46,31 @@ See the actual implementations of those interfaces:
 * browser: [@offirmo/practical-logger-browser](https://www.npmjs.com/package/@offirmo/practical-logger-browser)
 * node: TODO publish to npm
 
+### Interface
+A logger will have the following interface:
+* `setLevel(level: LogLevel): void`
+* `getLevel(): LogLevel`
+* `addCommonDetails(hash: Readonly<{ [k: string]: any }>): void`
+* Log primitives: (mirroring the log levels)
+  * `fatal(message?: string, details?: Readonly<{ [k: string]: any }>): void`
+  * `emerg(…) idem`
+  * `alert(…) idem`
+  * `crit(…) idem`
+  * `error(…) idem`
+  * `warning(…), warn(…) idem`
+  * `notice(…) idem`
+  * `info(…) idem`
+  * `verbose(…) idem`
+  * `log(…) idem`
+  * `debug(…) idem`
+  * `trace(…) idem`
+  * `silly(…) idem`
+* those functions may not do anything:
+  * `group(groupTitle?: string): void` 
+  * `groupCollapsed(groupTitle?: string): void`
+  * `groupEnd(): void`
+
+
+## Concept
 Other loggers:
 * http://getpino.io/#/docs/benchmarks

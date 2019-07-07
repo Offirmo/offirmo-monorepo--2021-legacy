@@ -1,25 +1,25 @@
 {
 	"name": "@offirmo/practical-logger-interface",
 	"description": "TypeScript types for Offirmo’s practical logger (no code)",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 
-	"esnext": "dist/src.es9/index.js",
-	"module": "dist/src.es9/index.js",
-	"main": "dist/src.es9.cjs/index.js",
-	"typings": "dist/src.es9.cjs/index.d.ts",
+	"esnext": "dist/src.es2019/index.js",
+	"module": "dist/src.es2019/index.js",
+	"main": "dist/src.es5.cjs/index.js",
+	"typings": "dist/src.es2019.cjs/index.d.ts",
 	"source": "src/index.ts",
 	"sideEffects": false,
 
 	"size-limit": [
 		{
 			"limit": "100B",
-			"path": "dist/src.es9/index.js"
+			"path": "dist/src.es2019/index.js"
 		},
 		{
 			"limit": "100B",
-			"path": "dist/src.es9.cjs/index.js"
+			"path": "dist/src.es2019.cjs/index.js"
 		}
 	],
 
@@ -37,7 +37,7 @@
 		"clean": "node ../../scripts/clean.js dist",
 
 		"build:dev:watch": "node ../../scripts/build-typescript.js --watch",
-		"build:prod": "node ../../scripts/build-typescript.js",
+		"build:prod": "node ../../scripts/build-typescript.js --alsoLegacy",
 		"ensure-size": "size-limit",
 
 		"dev": "run-s clean build:dev:watch",
