@@ -1,39 +1,39 @@
 {
 	"name": "@offirmo/universal-debug-api-minimal-noop",
 	"description": "Implementation of Offirmo’s Universal Debug Api doing nothing at all",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 
-	"esnext": "dist/src.es9/index.js",
-	"module": "dist/src.es9/index.js",
-	"main": "dist/src.es9.cjs/index.js",
-	"typings": "dist/src.es9.cjs/index.d.ts",
+	"esnext": "dist/src.es2019/index.js",
+	"module": "dist/src.es2019/index.js",
+	"main": "dist/src.es5.cjs/index.js",
+	"typings": "dist/src.es2019.cjs/index.d.ts",
 	"source": "src/index.ts",
 	"sideEffects": true,
 
 	"size-limit": [
 		{
 			"limit": "500b",
-			"path": "dist/src.es9/index.js"
+			"path": "dist/src.es2019/index.js"
 		},
 		{
 			"limit": "500b",
-			"path": "dist/src.es9.cjs/index.js"
+			"path": "dist/src.es2019.cjs/index.js"
 		}
 	],
 
 	"peerDependencies": {
 	},
 	"dependencies": {
-		"@offirmo/globalthis-ponyfill": "^1",
-		"@offirmo/practical-logger-minimal-noop": "^1.1",
-		"@offirmo/universal-debug-api-interface": "^0.1"
+		"@offirmo/globalthis-ponyfill": "^1.0.2",
+		"@offirmo/practical-logger-minimal-noop": "^1.1.1",
+		"@offirmo/universal-debug-api-interface": "^0.1.1"
 	},
 
 	"devDependencies": {
 		"@babel/core": "^7",
-		"@offirmo/practical-logger-core": "^1.1",
+		"@offirmo/practical-logger-core": "^1.1.1",
 		"npm-run-all": "^4",
 		"ts-node": "^8",
 		"size-limit": "^1"
@@ -42,7 +42,7 @@
 		"clean": "node ../../scripts/clean.js dist",
 
 		"build:dev:watch": "node ../../scripts/build-typescript.js --watch",
-		"build:prod": "node ../../scripts/build-typescript.js",
+		"build:prod": "node ../../scripts/build-typescript.js --alsoLegacy",
 		"build:bundle": "parcel build --no-autoinstall --no-source-maps --out-file index-bundle.js  src/index.ts",
 		"ensure-size": "size-limit",
 

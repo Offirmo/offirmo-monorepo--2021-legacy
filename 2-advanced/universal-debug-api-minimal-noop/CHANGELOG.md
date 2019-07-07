@@ -2,8 +2,13 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
-* [doc] README++
 ...
+
+## v0.1.1
+2019/07/07
+* [chore] fixed dist folder name to match the target (ES2019)
+* [feat] also provide an ES5 pre-built version
+* [doc] README++
 
 ## v0.1
 2019/06/30
