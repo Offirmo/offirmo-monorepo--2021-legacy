@@ -6,21 +6,21 @@
 	"license": "Unlicense",
 	"private": true,
 
-	"esnext": "dist/src.es9/index.js",
-	"module": "dist/src.es9/index.js",
-	"main": "dist/src.es9.cjs/index.js",
-	"typings": "dist/src.es9.cjs/index.d.ts",
+	"esnext": "dist/src.es2019/index.js",
+	"module": "dist/src.es2019/index.js",
+	"main": "dist/src.es2019.cjs/index.js",
+	"typings": "dist/src.es2019.cjs/index.d.ts",
 	"source": "src/index.ts",
 	"sideEffects": true,
 
 	"size-limit": [
 	{
 		"limit": "5kb",
-		"path": "dist/src.es9/index.js"
+		"path": "dist/src.es2019/index.js"
 	},
 	{
 		"limit": "7kb",
-		"path": "dist/src.es9.cjs/index.js"
+		"path": "dist/src.es2019.cjs/index.js"
 	},
 	{
 		"limit": "5kb",
@@ -31,14 +31,14 @@
 	"peerDependencies": {
 	},
 	"dependencies": {
-		"@offirmo/globalthis-ponyfill": "^1",
-		"@offirmo/practical-logger-browser": "^1.1",
+		"@offirmo/globalthis-ponyfill": "^1.0.2",
+		"@offirmo/practical-logger-browser": "^1.1.1",
 		"@offirmo/universal-debug-api-interface": "^0.1"
 	},
 
 	"devDependencies": {
 		"@babel/core": "^7",
-		"@offirmo/practical-logger-core": "^1.1",
+		"@offirmo/practical-logger-core": "^1.1.1",
 		"npm-run-all": "^4",
 		"size-limit": "^1"
 	},

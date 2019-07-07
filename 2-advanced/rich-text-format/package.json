@@ -31,7 +31,7 @@
 		"demo": "node doc/demo-node/index.js"
 	},
 	"devDependencies": {
-		"@offirmo/practical-logger-browser": "^1.1",
+		"@offirmo/practical-logger-browser": "^1.1.1",
 		"@offirmo-private/prettify-json": "^0.0.1",
 		"@offirmo-private/ts-types": "^0.0.1",
 		"npm-run-all": "^4",

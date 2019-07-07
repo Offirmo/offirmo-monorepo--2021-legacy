@@ -17,7 +17,7 @@
 		"tslib": "^1"
 	},
 	"dependencies": {
-		"@offirmo/practical-logger-interface": "^1.1",
+		"@offirmo/practical-logger-interface": "^1.1.1",
 		"@offirmo/random": "^2",
 		"@offirmo-private/ts-types": "^0.0.1",
 		"@offirmo-private/uuid": "^0.0.1",
