@@ -1,41 +1,52 @@
 import { browser } from "webextension-polyfill-ts"
-import {
-	get as get_state,
-	get_port,
-	icon_emitter,
-	ui_emitter,
-	cscript_emitter,
-	get_active_origin_state,
-} from './state'
+
+import * as Flux from './flux'
 import {create_msg_update_origin_state} from '../common/messages'
+import {SyncStatus} from "../common/state/tab";
 
 ////////////////////////////////////
 
-function render_webext_icon(state) {
-	console.log('🔄 render_webext_icon')
-	const current_tab_id = state.active_tab_id
-	const origin_state = get_active_origin_state({should_assert: false})
+// Note: it sets it for ALL tabs
+function render_webext_icon() {
+	const sync_status = Flux.get_active_tab_sync_status()
+	console.log('🔄 render_webext_icon', { sync_status })
 
-	// Note: it sets it for ALL tabs
+	let text = '✗'
+	let color = "#ff0000"
 
-	if (state.is_tab_injected[current_tab_id] && origin_state && origin_state.is_eligible && origin_state.is_injection_enabled) {
-		browser.browserAction.setBadgeText({ text: '✔' })
-		browser.browserAction.setBadgeBackgroundColor({ color: "#00AA00"})
+	switch(sync_status) {
+		case SyncStatus["needs-reload"]:
+			text = '↻'
+			color = '#f3b200'
+			break
+
+		case SyncStatus.inactive:
+			text = ''
+			break
+
+		case SyncStatus["active-and-up-to-date"]:
+			text = '✔'
+			color = "#00AA00"
+			break
+		default:
+			console.error('Unknown sync_status!', { sync_status })
+			break
 	}
-	else {
-		browser.browserAction.setBadgeText({ text: '' })
-		browser.browserAction.setBadgeBackgroundColor({ color: "#aaaaaa"})
-	}
+
+	// TODO memoize
+	browser.browserAction.setBadgeText({ text })
+	browser.browserAction.setBadgeBackgroundColor({ color })
 }
-render_webext_icon(get_state())
 
-icon_emitter.on('change', () => {
-	render_webext_icon(get_state())
+Flux.icon_emitter.on('change', () => {
+	render_webext_icon()
 })
 
 ////////////////////////////////////
 
 function update_ui_state() {
+	console.warn('TODO update_ui_state')
+	/*
 	const port = get_port('popup')
 	if (!port) return
 
@@ -43,9 +54,10 @@ function update_ui_state() {
 
 	console.log('📤 dispatching origin state to UI:', origin_state)
 	port.postMessage(create_msg_update_origin_state(origin_state))
+	 */
 }
 
-ui_emitter.on('change', () => {
+Flux.ui_emitter.on('change', () => {
 	update_ui_state()
 })
 
@@ -55,6 +67,8 @@ ui_emitter.on('change', () => {
 ////////////////////////////////////
 
 function propagate_lib_config() {
+	console.warn('TODO propagate_lib_config')
+	/*
 	const port = get_port('content-script')
 	if (!port) {
 		console.warn('couldnt find content script port')
@@ -65,9 +79,10 @@ function propagate_lib_config() {
 
 	console.log('📤 dispatching origin config to content-script:', origin_state)
 	port.postMessage(create_msg_update_origin_state(origin_state))
+	*/
 }
 
-cscript_emitter.on('change', () => {
+Flux.cscript_emitter.on('change', () => {
 	propagate_lib_config()
 })
 

@@ -4,6 +4,7 @@ import assert from 'tiny-invariant'
 import { query_active_tab } from './utils'
 import { Tab, Port } from '../common/types'
 import * as State from './state'
+import * as TabState from "../common/state/tab";
 
 ////////////////////////////////////
 
@@ -20,8 +21,18 @@ export function get(): Readonly<State.State> {
 	return state
 }
 
+export function get_port(channel_id: string): Readonly<Port> {
+	return State.get_port(state, channel_id)
+}
+
 export function get_tab_origin(tab_id: number) {
 	return state.tabs[tab_id].origin
+}
+
+export function get_active_tab_sync_status(): TabState.SyncStatus {
+	const t = State.get_active_tab_state(state)
+	const o = State.get_active_origin_state(state)
+	return TabState.get_sync_status(t, o)
 }
 
 /*
@@ -211,3 +222,6 @@ export function edit_override(override_id, value) {
 }
 */
 ////////////////////////////////////
+
+// convenience
+export { State } from './state'

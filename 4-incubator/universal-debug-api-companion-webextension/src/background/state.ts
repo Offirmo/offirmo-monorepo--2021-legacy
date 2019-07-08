@@ -46,6 +46,13 @@ export function get_active_origin_state(state: Readonly<State>, {should_assert =
 	return state.origins[current_tab_origin]
 }
 
+export function get_active_tab_state(state: Readonly<State>): TabState.State {
+	const { active_tab_id } = state
+	assert(active_tab_id >= 0, 'get_active_tab_state: active_tab_id')
+
+	return state.tabs[active_tab_id]
+}
+
 /*
 export function is_current_tab_injected() {
 	const current_tab_id = state.active_tab_id
@@ -53,11 +60,12 @@ export function is_current_tab_injected() {
 
 	return state.is_tab_injected[current_tab_id]
 }
+*/
 
-export function get_port(channel_id) {
+export function get_port(state: Readonly<State>, channel_id: string): Readonly<Port> {
+	assert(state.ports[channel_id], `port "${channel_id}"`)
 	return state.ports[channel_id]
 }
-*/
 
 ////////////////////////////////////
 

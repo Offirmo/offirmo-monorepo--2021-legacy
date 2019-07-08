@@ -39,22 +39,21 @@ browser.devtools.panels.create(
 	/*	get_browser() === 'Firefox'
 		? './devtools-panel.html'
 		: 'ui/devtools-panel.html',*/
-	(panel) => {
-		// code invoked on panel creation
-		console.log(`[${LIB}.${+Date.now()}] Hello from devtools panel "${PANEL_NAME}" creation!`, panel)
+).then(panel => {
+	console.log(`[${LIB}.${+Date.now()}] Hello from devtools panel "${PANEL_NAME}" creation!`, panel)
 
-		setTimeout(() => {
-			console.log('devtools panels = ', browser.devtools.panels)
-		}, 5000)
-		/*panel.createSidebarPane(
-				"Offirmo Sidebar",
-				function(sidebar) {
-					 // sidebar initialization code here
-					 sidebar.setObject({ some_data: "Some data to show" });
-				}
-		  );*/
-	}
-)
+	setTimeout(() => {
+		console.log('devtools panels = ', browser.devtools.panels)
+	}, 5000)
+	/*panel.createSidebarPane(
+			"Offirmo Sidebar",
+			function(sidebar) {
+				 // sidebar initialization code here
+				 sidebar.setObject({ some_data: "Some data to show" });
+			}
+	  );*/
+})
+
 
 ////////////////////////////////////
 // https://developer.browser.com/extensions/messaging#simple

@@ -2,10 +2,10 @@ import assert from 'tiny-invariant'
 import { browser } from "webextension-polyfill-ts"
 
 import * as Flux from './flux'
-//import './react'
+import './react'
 
+import { MSG_ENTRY } from '../common/consts'
 import {
-	MSG_ENTRY,
 	MSG_TYPE__REPORT_LIB_INJECTION,
 	MSG_TYPE__INJECTION_TOGGLED,
 	MSG_TYPE__OVERRIDE_CHANGED,
@@ -14,8 +14,7 @@ import {
 const LIB = '🧩 UWDT/bg'
 
 console.log(`[${LIB}.${+Date.now()}] Hello from background!`, {
-	browser: window.browser && window.browser.runtime,
-	chrome,
+	browser,
 })
 
 ////////////////////////////////////
@@ -28,7 +27,7 @@ browser.runtime.onInstalled.addListener(function() {
 });
 
 browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-	console.log('⚡ tabs.onUpdated ', { tabId, changeInfo, tab })
+	console.log('⚡ on tab updated', { tabId, changeInfo, tab })
 	if (tab.url)
 		Flux.update_tab_origin(tabId, tab.url)
 	if (changeInfo.status === 'loading')
@@ -36,7 +35,7 @@ browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 })
 
 browser.tabs.onActivated.addListener(({tabId, windowId}) => {
-	console.log('⚡ tabs.onActivated', { tabId, windowId })
+	console.log('⚡ on tabs activated', { tabId, windowId })
 	Flux.on_tab_activated(tabId)
 })
 
@@ -44,8 +43,9 @@ browser.tabs.onActivated.addListener(({tabId, windowId}) => {
 // listen to simple messages from other parts of this extension
 // https://developer.browser.com/extensions/messaging#simple
 
-browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
+browser.runtime.onMessage.addListener((request, sender): Promise<any> | void => {
 	console.group(`📥 received a simple message`)
+	let response: any
 
 	try {
 		console.log(
@@ -67,22 +67,24 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
 				break
 			}
 
-			case MSG_TYPE__OVERRIDE_CHANGED: {
+			/*case MSG_TYPE__OVERRIDE_CHANGED: {
 				const { key, partial } = request[MSG_ENTRY]
 				Flux.update_override(key, partial)
 				break
-			}
+			}*/
 
 			case MSG_TYPE__REPORT_LIB_INJECTION: {
-				assert(sender.tab, 'MSG_TYPE__REPORT_LIB_INJECTION')
-				const tab_id = sender.tab.id
+				assert(sender.tab, 'MSG_TYPE__REPORT_LIB_INJECTION 1')
+				assert(sender.tab!.id, 'MSG_TYPE__REPORT_LIB_INJECTION 2')
+
+				const tab_id = sender.tab!.id!
 				const { is_injected } = payload
 				console.log({MSG_TYPE__LIB_INJECTED: MSG_TYPE__REPORT_LIB_INJECTION, tab_id})
 				Flux.report_lib_injection(tab_id, is_injected)
-				sendResponse({
+				response = {
 					tab_id,
 					tab_origin: Flux.get_tab_origin(tab_id),
-				})
+				}
 				break
 			}
 			default:
@@ -95,6 +97,9 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	}
 
 	console.groupEnd()
+
+	if (response)
+		return Promise.resolve(response)
 })
 
 ////////////////////////////////////
@@ -119,7 +124,7 @@ browser.runtime.onConnect.addListener(port => {
 })
 
 ////////////////////////////////////
-
+/*
 function on_content_script_message(msg) {
 	console.group(`📥 internal message received from content-script`)
 	console.log(msg)
@@ -128,3 +133,4 @@ function on_content_script_message(msg) {
 	console.error('unexpected!')
 	console.groupEnd()
 }
+*/

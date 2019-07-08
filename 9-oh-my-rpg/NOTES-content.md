@@ -40,6 +40,8 @@ LHB
 ### origine
 https://science.slashdot.org/story/19/06/05/2215210/exotic-particles-called-pentaquarks-may-be-less-weird-than-previously-thought
 
+### métabolisme
+https://science.slashdot.org/story/19/07/02/0657238/researchers-identify-the-origins-of-metabolism
 
 ### sorts
 https://roll20.net/compendium/dnd5e/Spells%20List#content

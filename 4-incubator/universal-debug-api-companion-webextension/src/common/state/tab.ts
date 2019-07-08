@@ -1,8 +1,17 @@
+import { Enum } from 'typescript-string-enums'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import * as OriginState from './origin'
 import { UNKNOWN_ORIGIN } from '../consts'
-
 ////////////////////////////////////
+
+
+// tslint:disable-next-line: variable-name
+export const SyncStatus = Enum(
+	'active-and-up-to-date',
+	'needs-reload',
+	'inactive',
+)
+export type SyncStatus = Enum<typeof SyncStatus> // eslint-disable-line no-redeclare
 
 export interface OverrideState {
 	key: string
@@ -46,6 +55,16 @@ export function needs_reload(state: Readonly<State>, origin_state: Readonly<Orig
 	}
 
 	return false
+}
+
+export function get_sync_status(state: Readonly<State>, origin_state: Readonly<OriginState.State>): SyncStatus {
+	if (needs_reload(state, origin_state))
+		return SyncStatus["needs-reload"]
+
+	if (!origin_state.is_injection_enabled)
+		return SyncStatus.inactive
+
+	return SyncStatus["active-and-up-to-date"]
 }
 
 ////////////////////////////////////
