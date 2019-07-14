@@ -13,9 +13,7 @@ import {
 
 const LIB = '🧩 UWDT/bg'
 
-console.log(`[${LIB}.${+Date.now()}] Hello from background!`, {
-	browser,
-})
+console.log(`[${LIB}.${+Date.now()}] Hello from background!`, browser)
 
 ////////////////////////////////////
 // listen to some events
@@ -26,12 +24,12 @@ browser.runtime.onInstalled.addListener(function() {
 	Flux.on_init()
 });
 
-browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-	console.log('⚡ on tab updated', { tabId, changeInfo, tab })
+browser.tabs.onUpdated.addListener((tab_id, change_info, tab) => {
+	console.log('⚡ on tab updated', { tab_id, change_info, tab })
 	if (tab.url)
-		Flux.update_tab_origin(tabId, tab.url)
-	if (changeInfo.status === 'loading')
-		Flux.on_tab_loading(tabId)
+		Flux.update_tab_origin(tab_id, tab.url)
+	if (change_info.status === 'loading')
+		Flux.on_tab_loading(tab_id)
 })
 
 browser.tabs.onActivated.addListener(({tabId, windowId}) => {

@@ -20,7 +20,7 @@ function btoa(s) {
 /////////////////////
 
 const lib1_input_path = path.resolve(process.cwd(), './dist/injected-api-bundle-1.js')
-const lib1_target_path = path.resolve(process.cwd(), './src/content-scripts/lib-to-inject-1.js')
+const lib1_target_path = path.resolve(process.cwd(), './src/content-scripts/lib-to-inject-1.ts')
 
 const lib1_content = fs.readFileSync(lib1_input_path)
 console.log('* lib1 content length =', lib1_content.length)
@@ -40,7 +40,7 @@ export default lib
 /////////////////////
 
 const lib2_input_path = path.resolve(process.cwd(), './dist/injected-api-bundle-2.js')
-const lib2_target_path = path.resolve(process.cwd(), './src/content-scripts/lib-to-inject-2.js')
+const lib2_target_path = path.resolve(process.cwd(), './src/content-scripts/lib-to-inject-2.ts')
 
 const lib2_content = fs.readFileSync(lib2_input_path)
 console.log('* lib2 content length =', lib2_content.length)

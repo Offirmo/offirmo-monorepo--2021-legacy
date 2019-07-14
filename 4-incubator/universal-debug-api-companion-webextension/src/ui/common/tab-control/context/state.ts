@@ -1,15 +1,13 @@
 import { Enum } from 'typescript-string-enums'
+import { browser } from "webextension-polyfill-ts"
 
 import * as OriginState from '../../../../common/state/origin'
 import * as TabState from '../../../../common/state/tab'
 import { UNKNOWN_ORIGIN } from '../../../../common/consts'
+import { State } from '../../../../common/state/ui'
+export { State }
 
 ////////////////////////////////////
-
-export interface State {
-	tab: TabState.State
-	origin: OriginState.State
-}
 
 export interface OverrideState extends TabState.OverrideState {
 	spec: OriginState.OverrideState
@@ -53,8 +51,17 @@ export function get_origin(state: Readonly<State>): string {
 }
 
 export function get_override_status(state: Readonly<State>, key: string): OverrideStatus {
-	// TODO later
-	return OverrideStatus.inactive
+	const override = state.tab.overrides[key]
+	const override_spec = state.origin.overrides[key]
+
+	if (!override.last_reported)
+		return OverrideStatus.inactive
+
+	if (override_spec.value_json !== override.last_reported_value_json)
+		return OverrideStatus["active-but-needs-reload"]
+
+
+	return OverrideStatus["active-and-up-to-date"]
 }
 
 export function needs_reload(state: Readonly<State>): boolean {
@@ -96,7 +103,7 @@ export function is_override_enabled(state: Readonly<State>, key: string): boolea
 // base data for while we haven't received any yet from background
 export function create(): Readonly<State> {
 	return {
-		tab: TabState.create(123),
+		tab: TabState.create(-1),
 		origin: OriginState.create(UNKNOWN_ORIGIN),
 	}
 }
@@ -104,11 +111,8 @@ export function create(): Readonly<State> {
 // base data for for testing the UI in standalone mode
 export function create_demo(): Readonly<State> {
 	const { origin } = window.location
-	let tab_state = TabState.update_origin(TabState.create(123), origin)
 	const origin_state = OriginState.create_demo(origin)
-	Object.keys(origin_state.overrides).forEach(key => {
-		tab_state = TabState.ensure_override(tab_state, key)
-	})
+	let tab_state = TabState.update_origin(TabState.create(123), window.location.href, origin_state)
 
 	tab_state.overrides['fooExperiment.cohort'].last_reported_value_json = '"variation-1"' // not up to date
 	tab_state.overrides['fooExperiment.isSwitchedOn'].last_reported_value_json = 'true' // up to date

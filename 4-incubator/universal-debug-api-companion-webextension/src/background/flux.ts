@@ -1,10 +1,12 @@
 import EventEmitter from 'emittery'
 import assert from 'tiny-invariant'
+import { browser } from "webextension-polyfill-ts"
 
 import { query_active_tab } from './utils'
 import { Tab, Port } from '../common/types'
 import * as State from './state'
 import * as TabState from "../common/state/tab";
+import * as UIState from "../common/state/ui";
 
 ////////////////////////////////////
 
@@ -21,7 +23,11 @@ export function get(): Readonly<State.State> {
 	return state
 }
 
-export function get_port(channel_id: string): Readonly<Port> {
+export function get_current_tab_id(): number {
+	return State.get_current_tab_id(state)
+}
+
+export function get_port(channel_id: string): ReturnType<typeof State.get_port> {
 	return State.get_port(state, channel_id)
 }
 
@@ -33,6 +39,15 @@ export function get_active_tab_sync_status(): TabState.SyncStatus {
 	const t = State.get_active_tab_state(state)
 	const o = State.get_active_origin_state(state)
 	return TabState.get_sync_status(t, o)
+}
+
+export function get_current_tab_ui_state(): UIState.State {
+	const tab = State.get_active_tab_state(state)
+	const origin = State.get_active_origin_state(state)
+	return {
+		tab,
+		origin,
+	}
 }
 
 /*
@@ -48,15 +63,12 @@ export function get_active_origin_state({should_assert = true} = {}) {
 	return state.origins[current_tab_origin]
 }
 
+/*
 export function is_current_tab_injected() {
 	const current_tab_id = state.active_tab_id
 	assert(current_tab_id >= 0, 'is_current_tab_injected: current_tab_id')
 
 	return state.is_tab_injected[current_tab_id]
-}
-
-export function get_port(channel_id) {
-	return state.ports[channel_id]
 }
 */
 
@@ -159,13 +171,15 @@ export function on_tab_loading(tab_id: number): void {
 
 // the content script reports that it injected the lib
 export function report_lib_injection(tab_id: number, is_injected: boolean): void {
-	console.log('🌀 report_lib_injection', {tab_id})
+	console.log('🌀 report_lib_injection', {tab_id, active: state.active_tab_id})
 	console.log('before', state)
 
 	state = State.report_lib_injection(state, tab_id, is_injected)
 
-	if (state.active_tab_id === tab_id)
+	if (state.active_tab_id === tab_id) {
 		icon_emitter.emit('change', state)
+		ui_emitter.emit('change', state)
+	}
 
 	console.log('after', state)
 	console.groupEnd()
@@ -178,6 +192,7 @@ export function toggle_lib_injection(): void {
 
 	state = State.toggle_lib_injection(state)
 
+	icon_emitter.emit('change', state)
 	ui_emitter.emit('change', state)
 	cscript_emitter.emit('change', state)
 

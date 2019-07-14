@@ -41,3 +41,13 @@
 	position: relative;
 	top: -20px;
 }
+
+
+.activity-indicator {
+	font-size: 1em;
+	color: var(--o⋄color__boz__gray)
+}
+
+.activity-indicator--with-activity {
+	color: var(--o⋄color--fg⁚success)
+}

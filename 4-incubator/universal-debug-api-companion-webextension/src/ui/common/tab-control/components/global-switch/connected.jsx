@@ -8,15 +8,6 @@ import { AppStateConsumer, get_origin, is_injection_requested } from '../../cont
 import { create_msg_toggle_lib_injection } from '../../../../../common/messages'
 
 
-const GlobalSwitchC1M = React.memo(
-	function GlobalSwitchC1M({is_injection_requested, on_change, origin}) {
-		return (
-			<View {...{is_injection_requested, on_change, origin}} />
-		)
-	}
-)
-
-
 class GlobalSwitch extends Component {
 	static propTypes = {
 	}
@@ -29,11 +20,11 @@ class GlobalSwitch extends Component {
 	render_view = ({app_state}) => {
 		console.log(`🔄 Overrides render_view`, {app_state})
 		return (
-			<GlobalSwitchC1M {...{
-				is_injection_requested: is_injection_requested(app_state),
-				on_change: this.on_change,
-				origin: get_origin(app_state),
-			}} />
+			<View
+				is_injection_requested={is_injection_requested(app_state)}
+				on_change={this.on_change}
+				origin={get_origin(app_state)}
+			/>
 		)
 	}
 

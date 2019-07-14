@@ -1,5 +1,6 @@
 import assert from 'tiny-invariant'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
+import { browser } from "webextension-polyfill-ts"
 
 import { UNKNOWN_ORIGIN } from '../common/consts'
 import * as OriginState from '../common/state/origin'
@@ -29,6 +30,12 @@ export interface State {
 export const LOCAL_DEMO_ORIGIN = 'http://localhost:1234'
 
 ////////////////////////////////////
+
+export function get_current_tab_id(state: Readonly<State>): number {
+	const { active_tab_id } = state
+	assert(active_tab_id >= 0, 'get_current_tab_id: active_tab_id')
+	return active_tab_id
+}
 
 export function get_tab_origin(state: Readonly<State>, tab_id: number): string {
 	const tab_state: TabState.State = state.tabs[tab_id]
@@ -62,8 +69,7 @@ export function is_current_tab_injected() {
 }
 */
 
-export function get_port(state: Readonly<State>, channel_id: string): Readonly<Port> {
-	assert(state.ports[channel_id], `port "${channel_id}"`)
+export function get_port(state: Readonly<State>, channel_id: string): Readonly<Port> | undefined {
 	return state.ports[channel_id]
 }
 
@@ -114,21 +120,23 @@ export function on_tab_activated(state: Readonly<State>, id: number, tab_hint?: 
 export function update_tab_origin(state: Readonly<State>, tab_id: number, url: string = UNKNOWN_ORIGIN): Readonly<State> {
 	if (state.tabs[tab_id].url === url) return state // up to date
 
-	state = {
-		...state,
-		tabs: {
-			...state.tabs,
-			[tab_id]: TabState.update_origin(state.tabs[tab_id], url),
-		},
-	}
-
-	const { origin } = state.tabs[tab_id]
+	const origin = url === UNKNOWN_ORIGIN
+		? UNKNOWN_ORIGIN
+		: (new URL(url)).origin
 
 	state = {
 		...state,
 		origins: {
 			...state.origins,
 			[origin]: state.origins[origin] || OriginState.create(origin),
+		},
+	}
+
+	state = {
+		...state,
+		tabs: {
+			...state.tabs,
+			[tab_id]: TabState.update_origin(state.tabs[tab_id], url, state.origins[origin]),
 		},
 	}
 

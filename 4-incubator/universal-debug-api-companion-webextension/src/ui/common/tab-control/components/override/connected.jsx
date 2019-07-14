@@ -24,7 +24,7 @@ class Override extends Component {
 	render_view = ({app_state}) => {
 		const is_injection_enabled = is_injection_requested(app_state)
 		const { override, on_change } = this.props
-		const { key } = override
+		const { key } = override.spec
 		function on_key_change({value, is_enabled}) {
 			on_change({key, value, is_enabled })
 		}

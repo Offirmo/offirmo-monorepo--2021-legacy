@@ -1,28 +1,33 @@
 import { browser } from "webextension-polyfill-ts"
+import assert from 'tiny-invariant'
 import { LS_ROOT } from '@offirmo-private/universal-debug-api-full-browser/src/consts'
-import { MSG_ENTRY, create_msg_report_lib_injection, MSG_TYPE__UPDATE_ORIGIN_STATE } from '../common/messages'
 
-//import runInPageContext from '../utils/run-in-page-context'
+import { MSG_ENTRY } from '../common/consts'
+import {
+	create_msg_report_lib_injection,
+	MSG_TYPE__INJECTION_TOGGLED,
+	MSG_TYPE__REPORT_LIB_INJECTION
+} from '../common/messages'
+
 import lib1 from './lib-to-inject-1'
 import lib2 from './lib-to-inject-2'
 
 const LIB = '🧩 UWDT/CS--start'
 const DEBUG = true
 const LS_KEY_ENABLED = `${LS_ROOT}.enabled`
-let this_tab_origin = '???'
-let this_tab_id = -1
+//let this_tab_origin = '???'
+//let this_tab_id = browser.tabs.TAB_ID_NONE
 
 if (DEBUG) console.log(`[${LIB}.${+Date.now()}] Hello!`, {
-	chrome: chrome,
+	browser,
 	document,
 	'_debug.enabled': localStorage.getItem(LS_KEY_ENABLED) === 'true'
 })
 
 ////////////////////////////////////
 
-function onMessage(event) {
+function onMessage(event: MessageEvent) {
 	console.log(`[${LIB}.${+Date.now()}] received postMessage:`, event.data)
-
 	// TODO
 }
 const listenerOptions = {
@@ -68,34 +73,38 @@ else {
 	console.info(`[${LIB}.${+Date.now()}] UWDT frow webext is disabled ❎`)
 }
 
-browser.runtime.sendMessage(create_msg_report_lib_injection(should_inject), (response) => {
-	console.log(`[${LIB}.${+Date.now()}] response from initial msg:`, response)
-})
+browser.runtime.sendMessage(create_msg_report_lib_injection(should_inject))
+	.then(response => {
+		console.log(`[${LIB}.${+Date.now()}] response from initial msg:`, response)
+	})
 
 ////////////////////////////////////
 
-/*
-const port_to_bg = browser.runtime.connect({name: "content-script"});
-port_to_bg.onMessage.addListener((msg) => {
-	console.group(`[${LIB}.${+Date.now()}] 📥 received a port message`, msg)
-	console.assert(msg[MSG_ENTRY], 'MSG_ENTRY')
+browser.runtime.onMessage.addListener((request, sender): Promise<any> | void => {
+	console.group(`[${LIB}.${+Date.now()}] 📥 received a simple message`)
+	let response: any
 
-	const payload = msg[MSG_ENTRY]
-	const type = payload.type
-	switch (type) {
-		case MSG_TYPE__UPDATE_ORIGIN_STATE: {
-			const origin_state = payload.state
-			if (origin_state.is_injection_enabled)
-				localStorage.setItem(LS_KEY_ENABLED, 'true')
-			else
-				localStorage.removeItem(LS_KEY_ENABLED)
-			break
+	try {
+		console.log({ sender })
+
+		assert(request[MSG_ENTRY], 'MSG_ENTRY')
+		const payload = request[MSG_ENTRY]
+		const { type } = payload
+
+		console.log({type, payload})
+
+		switch (type) {
+			default:
+				console.error(`Unhandled msg type "${type}"!`)
+				break
 		}
-
-		default:
-			console.error(`Unhandled message "${type}"!`)
-			break
 	}
+	catch (err) {
+		console.error(err)
+	}
+
 	console.groupEnd()
+
+	if (response)
+		return Promise.resolve(response)
 })
-*/

@@ -3,15 +3,8 @@ import PropTypes from 'prop-types'
 
 import { ToggleStateless } from '@atlaskit/toggle'
 
-export default class Switch extends Component {
-	static propTypes = {
-		is_injection_requested: PropTypes.bool.isRequired,
-		on_change: PropTypes.func.isRequired,
-		origin: PropTypes.string.isRequired,
-	}
-
-	render() {
-		const { is_injection_requested, on_change } = this.props
+const GlobalSwitchVM = React.memo(
+	function GlobalSwitchV({ origin, is_injection_requested, on_change }) {
 		return (
 			<div className={`left-right-aligned override-line`}>
 				<div>
@@ -27,9 +20,14 @@ export default class Switch extends Component {
 						Inject the Universal Debug API library into {origin}
 					</span>
 				</div>
-
-				<div />
 			</div>
 		)
 	}
+)
+GlobalSwitchVM.propTypes = {
+	is_injection_requested: PropTypes.bool.isRequired,
+	on_change: PropTypes.func.isRequired,
+	origin: PropTypes.string.isRequired,
 }
+
+export default GlobalSwitchVM

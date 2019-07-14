@@ -88,21 +88,23 @@ export function on_load(state: Readonly<State>): Readonly<State> {
 	}
 }
 
-export function update_origin(state: Readonly<State>, url: string = UNKNOWN_ORIGIN): Readonly<State> {
-	if (url === state.url) return state
+export function update_origin(previous_state: Readonly<State>, url: string, origin_state: Readonly<OriginState.State>): Readonly<State> {
+	const { origin } = origin_state
 
-	const origin = url === UNKNOWN_ORIGIN
-		? UNKNOWN_ORIGIN
-		: (new URL(url)).origin
+	if (origin === previous_state.origin) return previous_state
 
-	if (origin === state.origin) return state
-
-	return {
-		...state,
+	const state = {
+		...previous_state,
 		url,
 		origin,
 		overrides: {}, // TODO check if needed
 	}
+
+	Object.keys(origin_state.overrides).forEach(key => {
+		ensure_override(state, origin_state.overrides[key])
+	})
+
+	return state
 }
 
 export function report_lib_injection(state: Readonly<State>, is_injected: boolean): Readonly<State> {
@@ -112,7 +114,9 @@ export function report_lib_injection(state: Readonly<State>, is_injected: boolea
 	}
 }
 
-export function ensure_override(state: Readonly<State>, key: string): Readonly<State> {
+export function ensure_override(state: Readonly<State>, override_spec: OriginState.OverrideState): Readonly<State> {
+	const { key } = override_spec
+
 	state.overrides[key] = state.overrides[key] || {
 		key,
 		last_reported: 0,

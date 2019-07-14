@@ -6,12 +6,13 @@ import { render_any_m } from '@offirmo-private/react-error-boundary'
 import { State, create, create_demo } from './state'
 
 // https://reactjs.org/docs/context.html
-const DEFAULT_STATE = create_demo()
+//const DEFAULT_STATE = create_demo()
+const DEFAULT_STATE = create()
 const AppStateContext = React.createContext(DEFAULT_STATE)
 
-let set_app_state_internal = (state) => {}
+let set_app_state_internal
 function set_app_state(state) {
-	console.log('set_app_state', {state})
+	console.log('set_app_state()', {state})
 	set_app_state_internal(state)
 }
 
@@ -25,8 +26,15 @@ class AppStateListenerAndProvider extends React.Component {
 
 	state = DEFAULT_STATE
 
+	set_state = (new_state) => {
+		console.log('set_state()', {new_state})
+		this.setState({
+			...new_state
+		})
+	}
+
 	render() {
-		set_app_state_internal = set_app_state_internal || this.setState.bind(this)
+		set_app_state_internal = set_app_state_internal || this.set_state
 
 		console.log(`🔄 AppStateListenerAndProvider`, {state: this.state})
 

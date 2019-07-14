@@ -1,12 +1,11 @@
 import { browser } from "webextension-polyfill-ts"
 
 import * as Flux from './flux'
-import {create_msg_update_origin_state} from '../common/messages'
+import { create_msg_update_ui_state, create_msg_update_ls_state } from '../common/messages'
 import {SyncStatus} from "../common/state/tab";
 
 ////////////////////////////////////
 
-// Note: it sets it for ALL tabs
 function render_webext_icon() {
 	const sync_status = Flux.get_active_tab_sync_status()
 	console.log('🔄 render_webext_icon', { sync_status })
@@ -33,7 +32,8 @@ function render_webext_icon() {
 			break
 	}
 
-	// TODO memoize
+	// Note: it sets it for ALL tabs
+	// TODO memoize?
 	browser.browserAction.setBadgeText({ text })
 	browser.browserAction.setBadgeBackgroundColor({ color })
 }
@@ -45,16 +45,21 @@ Flux.icon_emitter.on('change', () => {
 ////////////////////////////////////
 
 function update_ui_state() {
-	console.warn('TODO update_ui_state')
-	/*
-	const port = get_port('popup')
-	if (!port) return
+	console.log('🔄 update_ui_state')
 
-	const origin_state = get_active_origin_state()
+	const port = Flux.get_port('popup')
+	if (!port) return // UI must be down
 
-	console.log('📤 dispatching origin state to UI:', origin_state)
-	port.postMessage(create_msg_update_origin_state(origin_state))
-	 */
+	const ui_state = Flux.get_current_tab_ui_state()
+	console.log('📤 dispatching state to UI:', ui_state)
+	port.postMessage(
+			create_msg_update_ui_state(
+				ui_state,
+			)
+		)/*
+		.catch(err => {
+			console.erro('While dispatching state to UI:', err)
+		})*/
 }
 
 Flux.ui_emitter.on('change', () => {
@@ -67,7 +72,21 @@ Flux.ui_emitter.on('change', () => {
 ////////////////////////////////////
 
 function propagate_lib_config() {
-	console.warn('TODO propagate_lib_config')
+	console.log('🔄 propagate_lib_config')
+
+	browser.tabs.sendMessage(
+			Flux.get_current_tab_id(),
+			create_msg_update_ls_state(
+				{ /* TODO */ }
+			)
+		)
+		.catch(err => {
+			const { message } = err
+			if (message.contxx)
+			// the UI may not be open, no big deal
+				console.error('propagate_lib_config', err.message)
+		})
+
 	/*
 	const port = get_port('content-script')
 	if (!port) {
@@ -75,7 +94,6 @@ function propagate_lib_config() {
 		return
 	}
 
-	const origin_state = get_active_origin_state()
 
 	console.log('📤 dispatching origin config to content-script:', origin_state)
 	port.postMessage(create_msg_update_origin_state(origin_state))

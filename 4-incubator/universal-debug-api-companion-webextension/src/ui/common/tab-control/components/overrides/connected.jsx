@@ -11,8 +11,9 @@ const OverridesC1M = React.memo(
 		console.log(`🔄 OverridesC1M`, overrides)
 		return overrides
 			.map((override) => {
-			return <Override key={override.key} {...{on_change, override}} />
-		})
+				console.log('OverridesC1M -> Override', override)
+				return <Override key={override.key} {...{on_change, override}} />
+			})
 	}
 )
 

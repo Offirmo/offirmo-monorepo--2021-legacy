@@ -1,6 +1,7 @@
 
 import { MSG_ENTRY } from './consts'
-import { State, OverrideState } from './state/origin'
+import * as OriginState from './state/origin'
+import * as UIState from './state/ui'
 
 export const MSG_TYPE__INJECTION_TOGGLED = 'injection_toggled'
 export function create_msg_toggle_lib_injection(to: boolean) {
@@ -38,7 +39,7 @@ export function create_msg_report_api_activity() {
 }
 
 export const MSG_TYPE__OVERRIDE_CHANGED = 'override-changed'
-export function create_msg_override_change(key: string, partial: Readonly<Partial<OverrideState>>) {
+export function create_msg_override_change(key: string, partial: Readonly<Partial<OriginState.OverrideState>>) {
 	return {
 		[MSG_ENTRY]: {
 			type: MSG_TYPE__OVERRIDE_CHANGED,
@@ -48,11 +49,21 @@ export function create_msg_override_change(key: string, partial: Readonly<Partia
 	}
 }
 
-export const MSG_TYPE__UPDATE_ORIGIN_STATE = 'update-origin-state'
-export function create_msg_update_origin_state(state: Readonly<State>) {
+export const MSG_TYPE__UPDATE_UI_STATE = 'update-ui-state'
+export function create_msg_update_ui_state(state: Readonly<UIState.State>) {
 	return {
 		[MSG_ENTRY]: {
-			type: MSG_TYPE__UPDATE_ORIGIN_STATE,
+			type: MSG_TYPE__UPDATE_UI_STATE,
+			state,
+		}
+	}
+}
+
+export const MSG_TYPE__UPDATE_LS_STATE = 'update-ls-state'
+export function create_msg_update_ls_state(state: Readonly<{ [k: string]: string | null }>) {
+	return {
+		[MSG_ENTRY]: {
+			type: MSG_TYPE__UPDATE_LS_STATE,
 			state,
 		}
 	}

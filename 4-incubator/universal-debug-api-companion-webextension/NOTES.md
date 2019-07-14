@@ -123,3 +123,31 @@ function do_sth() {
 	})
 }
 */
+
+
+
+/*
+const port_to_bg = browser.runtime.connect({name: "content-script"});
+port_to_bg.onMessage.addListener((msg) => {
+	console.group(`[${LIB}.${+Date.now()}] 📥 received a port message`, msg)
+	console.assert(msg[MSG_ENTRY], 'MSG_ENTRY')
+
+	const payload = msg[MSG_ENTRY]
+	const type = payload.type
+	switch (type) {
+		case MSG_TYPE__UPDATE_ORIGIN_STATE: {
+			const origin_state = payload.state
+			if (origin_state.is_injection_enabled)
+				localStorage.setItem(LS_KEY_ENABLED, 'true')
+			else
+				localStorage.removeItem(LS_KEY_ENABLED)
+			break
+		}
+
+		default:
+			console.error(`Unhandled message "${type}"!`)
+			break
+	}
+	console.groupEnd()
+})
+*/
