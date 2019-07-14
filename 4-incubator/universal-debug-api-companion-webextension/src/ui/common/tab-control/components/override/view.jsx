@@ -5,6 +5,7 @@ import { Field } from '@atlaskit/form'
 import { ToggleStateless } from '@atlaskit/toggle'
 import Select from '@atlaskit/select'
 import LogLevelRange from './log-level-range'
+import SpecSyncIndicator from '../spec-sync-indicator'
 
 import './index.css'
 
@@ -28,20 +29,13 @@ function build_cohort_select_option(cohort) {
 }
 const COHORT_SELECT_OPTIONS = STANDARD_COHORTS.map(build_cohort_select_option)
 
-function ActivityIndicator({has_activity}) {
-	// TODO yellow on reload needed
-	let classes = ['activity-indicator']
-	if (has_activity) classes.push('activity-indicator--with-activity')
-	return (
-		<span className={classes.join(' ')}>●</span>
-	)
-}
 
 export default class Switch extends Component {
 	static propTypes = {
 		is_injection_enabled: PropTypes.bool.isRequired,
 		on_change: PropTypes.func.isRequired,
 		override: PropTypes.any.isRequired, // TODO refine
+		status: PropTypes.string.isRequired,
 	}
 
 	get_enable_toggle(field_props, is_enabled) {
@@ -70,8 +64,10 @@ export default class Switch extends Component {
 			case 'Cohort':
 				return build_cohort_select_option(JSON.parse(value_json))
 			case 'LogLevel':
+				/* TODO */
 				return 123
 			default:
+				/* TODO */
 				return 'XXX'
 		}
 	}
@@ -135,7 +131,7 @@ export default class Switch extends Component {
 	}
 
 	render() {
-		const { override } = this.props
+		const { override, status } = this.props
 		const { key } = override
 		const { type } = override.spec
 
@@ -149,13 +145,12 @@ export default class Switch extends Component {
 			default_value_json,
 		})
 
-		const has_activity = override.last_reported > 0
 		const is_enabled = override.spec.is_enabled
 
 		return (
 			<div className={`left-right-aligned override-line`}>
 				<div>
-					<ActivityIndicator has_activity={has_activity} />
+					<SpecSyncIndicator status={status} />
 
 					<span className={`box-sizing-reset override-enable-toggle`}>
 						<Field name={key + '_enabled'} defaultValue={is_enabled} isRequired>

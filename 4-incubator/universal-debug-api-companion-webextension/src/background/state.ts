@@ -84,7 +84,7 @@ export function create(): Readonly<State> {
 
 		origins: {
 			[UNKNOWN_ORIGIN]: OriginState.create(UNKNOWN_ORIGIN),
-			[LOCAL_DEMO_ORIGIN]: OriginState.create_demo(LOCAL_DEMO_ORIGIN),
+			//[LOCAL_DEMO_ORIGIN]: OriginState.create_demo(LOCAL_DEMO_ORIGIN),
 		},
 
 		tabs: {},

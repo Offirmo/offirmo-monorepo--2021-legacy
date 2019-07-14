@@ -32,7 +32,7 @@ export default class LogLevelRange extends Component {
 					value={value_int}
 					onChange={value_int => onChange(ALL_LOG_LEVELS[value_int])}
 				/>
-				<span className={'override-input-label override-input-ll-label o⋄font⁚roboto-condensed'}>
+				<span className={'override-input-label override-input-LogLevel-label o⋄font⁚roboto-condensed'}>
 					{isDisabled
 						? <Fragment>Nothing will be logged.</Fragment>
 						: <Fragment>Level <b>{ALL_LOG_LEVELS[value_int]}</b> and above will be logged</Fragment>

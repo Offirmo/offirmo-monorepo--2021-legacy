@@ -9,6 +9,7 @@ import {
 	MSG_TYPE__REPORT_LIB_INJECTION,
 	MSG_TYPE__INJECTION_TOGGLED,
 	MSG_TYPE__OVERRIDE_CHANGED,
+	MSG_TYPE__REQUEST_RELOAD,
 } from '../common/messages'
 
 const LIB = '🧩 UWDT/bg'
@@ -60,6 +61,11 @@ browser.runtime.onMessage.addListener((request, sender): Promise<any> | void => 
 		console.log({type, payload})
 
 		switch (type) {
+			case MSG_TYPE__REQUEST_RELOAD: {
+				browser.tabs.reload(Flux.get_current_tab_id())
+				break
+			}
+
 			case MSG_TYPE__INJECTION_TOGGLED: {
 				Flux.toggle_lib_injection()
 				break

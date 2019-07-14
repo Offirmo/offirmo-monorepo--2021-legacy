@@ -2,16 +2,18 @@ import { Enum } from 'typescript-string-enums'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import * as OriginState from './origin'
 import { UNKNOWN_ORIGIN } from '../consts'
+
 ////////////////////////////////////
 
-
 // tslint:disable-next-line: variable-name
-export const SyncStatus = Enum(
+export const SpecSyncStatus = Enum(
 	'active-and-up-to-date',
-	'needs-reload',
+	'changed-needs-reload',
 	'inactive',
+	'unexpected-error',
 )
-export type SyncStatus = Enum<typeof SyncStatus> // eslint-disable-line no-redeclare
+export type SpecSyncStatus = Enum<typeof SpecSyncStatus> // eslint-disable-line no-redeclare
+
 
 export interface OverrideState {
 	key: string
@@ -33,8 +35,35 @@ export function is_injection_enabled(state: Readonly<State>): boolean {
 	return state.last_reported_injection_status
 }
 
-export function needs_reload(state: Readonly<State>, origin_state: Readonly<OriginState.State>): boolean {
+export function get_global_switch_status(state: Readonly<State>, origin_state: Readonly<OriginState.State>): SpecSyncStatus {
 	if (OriginState.is_injection_requested(origin_state) !== is_injection_enabled(state))
+		return SpecSyncStatus['changed-needs-reload']
+
+	if (!origin_state.is_injection_enabled)
+		return SpecSyncStatus.inactive
+
+	return SpecSyncStatus['active-and-up-to-date']
+}
+
+export function get_override_status(state: Readonly<State>, override_spec: OriginState.OverrideState): SpecSyncStatus {
+	const { key } = override_spec
+	const override = state.overrides[key]
+
+	if (!override.last_reported)
+		return SpecSyncStatus.inactive
+
+	const changed__toggled_off = !override_spec.is_enabled && override.last_reported_value_json
+	if (changed__toggled_off)
+		return SpecSyncStatus['changed-needs-reload']
+
+	if (override_spec.value_json !== override.last_reported_value_json)
+		return SpecSyncStatus['changed-needs-reload']
+
+	return SpecSyncStatus['active-and-up-to-date']
+}
+
+export function needs_reload(state: Readonly<State>, origin_state: Readonly<OriginState.State>): boolean {
+	if (get_global_switch_status(state, origin_state) === SpecSyncStatus['changed-needs-reload'])
 		return true
 
 	const keys_set = new Set<string>([
@@ -45,26 +74,11 @@ export function needs_reload(state: Readonly<State>, origin_state: Readonly<Orig
 
 	for (let key of keys_set) {
 		const override_spec = origin_state.overrides[key]
-		const override = state.overrides[key]
-
-		if (!override_spec.is_enabled && override.last_reported_value_json)
-			return true
-
-		if (override_spec.is_enabled && override_spec.value_json !== override.last_reported_value_json)
+		if (get_override_status(state, override_spec) === SpecSyncStatus['changed-needs-reload'])
 			return true
 	}
 
 	return false
-}
-
-export function get_sync_status(state: Readonly<State>, origin_state: Readonly<OriginState.State>): SyncStatus {
-	if (needs_reload(state, origin_state))
-		return SyncStatus["needs-reload"]
-
-	if (!origin_state.is_injection_enabled)
-		return SyncStatus.inactive
-
-	return SyncStatus["active-and-up-to-date"]
 }
 
 ////////////////////////////////////

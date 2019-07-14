@@ -56,12 +56,14 @@ _debug.v1.addDebugCommand('pause', () => {
 //////////// communication ////////////
 
 function onMessage(event) {
-	console.log(`[${LIB}.${+Date.now()}] received postMessage:`, event.data)
+	console.log(`[${LIB}.${+Date.now()}] seen postMessage:`, event.data)
 }
 const listenerOptions = {
 	capture: false, // http://devdocs.io/dom/window/postmessage
 }
 window.addEventListener('message', onMessage, listenerOptions)
 
+/*
 console.log(`[${LIB}.${+Date.now()}] sending a test postMessage...`)
 window.postMessage({msg: `Test message from ${LIB}`}, '*')
+*/

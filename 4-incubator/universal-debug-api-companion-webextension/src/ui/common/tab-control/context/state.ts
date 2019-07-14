@@ -13,15 +13,6 @@ export interface OverrideState extends TabState.OverrideState {
 	spec: OriginState.OverrideState
 }
 
-// tslint:disable-next-line: variable-name
-const OverrideStatus = Enum(
-	'active-and-up-to-date',
-	'active-but-needs-reload',
-	'inactive',
-)
-type OverrideStatus = Enum<typeof OverrideStatus> // eslint-disable-line no-redeclare
-
-
 ////////////////////////////////////
 
 export function sort_overrides(o1: Readonly<OverrideState>, o2: Readonly<OverrideState>): number {
@@ -50,18 +41,13 @@ export function get_origin(state: Readonly<State>): string {
 	return state.tab.origin
 }
 
-export function get_override_status(state: Readonly<State>, key: string): OverrideStatus {
-	const override = state.tab.overrides[key]
+export function get_global_switch_status(state: Readonly<State>): TabState.SpecSyncStatus {
+	return TabState.get_global_switch_status(state.tab, state.origin)
+}
+
+export function get_override_status(state: Readonly<State>, key: string): TabState.SpecSyncStatus {
 	const override_spec = state.origin.overrides[key]
-
-	if (!override.last_reported)
-		return OverrideStatus.inactive
-
-	if (override_spec.value_json !== override.last_reported_value_json)
-		return OverrideStatus["active-but-needs-reload"]
-
-
-	return OverrideStatus["active-and-up-to-date"]
+	return TabState.get_override_status(state.tab, override_spec)
 }
 
 export function needs_reload(state: Readonly<State>): boolean {
@@ -112,10 +98,30 @@ export function create(): Readonly<State> {
 export function create_demo(): Readonly<State> {
 	const { origin } = window.location
 	const origin_state = OriginState.create_demo(origin)
-	let tab_state = TabState.update_origin(TabState.create(123), window.location.href, origin_state)
+	let tab_state =
+		TabState.report_lib_injection(
+			TabState.update_origin(
+				TabState.create(123),
+				window.location.href,
+				origin_state,
+			),
+			false,
+		)
 
-	tab_state.overrides['fooExperiment.cohort'].last_reported_value_json = '"variation-1"' // not up to date
-	tab_state.overrides['fooExperiment.isSwitchedOn'].last_reported_value_json = 'true' // up to date
+	// TODO use reducers
+	if (origin_state.overrides['fooExperiment.cohort']) {
+		tab_state.overrides['fooExperiment.cohort'].last_reported = 12345
+		tab_state.overrides['fooExperiment.cohort'].last_reported_value_json = '"variation-1"' // not up to date
+	}
+	if (origin_state.overrides['fooExperiment.isSwitchedOn']) {
+		tab_state.overrides['fooExperiment.isSwitchedOn'].last_reported = 12345
+		tab_state.overrides['fooExperiment.isSwitchedOn'].last_reported_value_json = 'true' // up to date
+	}
+	if (origin_state.overrides['fooExperiment.logLevel']) {
+		tab_state.overrides['fooExperiment.logLevel'].last_reported = 12345
+		tab_state.overrides['fooExperiment.logLevel'].last_reported_value_json = 'warning'
+	}
+
 
 	return {
 		tab: tab_state,

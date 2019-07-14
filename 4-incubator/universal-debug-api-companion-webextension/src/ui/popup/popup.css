@@ -12,7 +12,7 @@
 }
 
 body {
-	width: 500px;
+	width: 650px; /* needed to force popup size */
 	padding: 0 10px 10px 10px;
 }
 

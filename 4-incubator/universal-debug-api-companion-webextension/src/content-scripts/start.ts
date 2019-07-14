@@ -1,10 +1,10 @@
 import { browser } from "webextension-polyfill-ts"
 import assert from 'tiny-invariant'
-import { LS_ROOT } from '@offirmo-private/universal-debug-api-full-browser/src/consts'
 
-import { MSG_ENTRY } from '../common/consts'
+import { MSG_ENTRY, LS_KEY_ENABLED } from '../common/consts'
 import {
 	create_msg_report_lib_injection,
+	MSG_TYPE__UPDATE_LS_STATE,
 	MSG_TYPE__INJECTION_TOGGLED,
 	MSG_TYPE__REPORT_LIB_INJECTION
 } from '../common/messages'
@@ -14,7 +14,6 @@ import lib2 from './lib-to-inject-2'
 
 const LIB = '🧩 UWDT/CS--start'
 const DEBUG = true
-const LS_KEY_ENABLED = `${LS_ROOT}.enabled`
 //let this_tab_origin = '???'
 //let this_tab_id = browser.tabs.TAB_ID_NONE
 
@@ -67,10 +66,10 @@ function _UWDT_b64DecodeUnicode(str) {
 	scriptElement2.innerHTML = `eval(_UWDT_b64DecodeUnicode("${lib2}"))`
 	document.documentElement.prepend(scriptElement2)
 
-	console.info(`[${LIB}.${+Date.now()}] UWDT was injected from the webextension ✅`)
+	console.info(`[${LIB}.${+Date.now()}] UWDA was injected from the webextension ✅`)
 }
 else {
-	console.info(`[${LIB}.${+Date.now()}] UWDT frow webext is disabled ❎`)
+	console.info(`[${LIB}.${+Date.now()}] UWDA frow webext is disabled ❎`)
 }
 
 browser.runtime.sendMessage(create_msg_report_lib_injection(should_inject))
@@ -94,6 +93,16 @@ browser.runtime.onMessage.addListener((request, sender): Promise<any> | void => 
 		console.log({type, payload})
 
 		switch (type) {
+			case MSG_TYPE__UPDATE_LS_STATE: {
+				Object.entries(payload.kv as { [k: string]: string | null }).forEach(([k, v]) => {
+					console.log('updating LS entry:', {k, v})
+					if (v === null)
+						localStorage.removeItem(k)
+					else
+						localStorage.setItem(k, v)
+				})
+				break
+			}
 			default:
 				console.error(`Unhandled msg type "${type}"!`)
 				break
@@ -101,6 +110,7 @@ browser.runtime.onMessage.addListener((request, sender): Promise<any> | void => 
 	}
 	catch (err) {
 		console.error(err)
+		response = Promise.reject(err)
 	}
 
 	console.groupEnd()

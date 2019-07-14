@@ -35,10 +35,10 @@ export function get_tab_origin(tab_id: number) {
 	return state.tabs[tab_id].origin
 }
 
-export function get_active_tab_sync_status(): TabState.SyncStatus {
+export function get_active_tab_sync_status(): TabState.SpecSyncStatus {
 	const t = State.get_active_tab_state(state)
 	const o = State.get_active_origin_state(state)
-	return TabState.get_sync_status(t, o)
+	return TabState.get_global_switch_status(t, o)
 }
 
 export function get_current_tab_ui_state(): UIState.State {
@@ -50,14 +50,11 @@ export function get_current_tab_ui_state(): UIState.State {
 	}
 }
 
-/*
-export function get_active_origin_state({should_assert = true} = {}) {
+export function get_active_origin_state() {
 	const current_tab_id = state.active_tab_id
-	if (current_tab_id < 0 && !should_assert) return
 	assert(current_tab_id >= 0, 'get_active_origin_state: current_tab_id')
 
 	const current_tab_origin = get_tab_origin(current_tab_id)
-	if (!current_tab_origin && !should_assert) return
 	assert(current_tab_origin, 'get_active_origin_state: current_tab_origin')
 
 	return state.origins[current_tab_origin]

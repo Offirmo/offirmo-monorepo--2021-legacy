@@ -46,7 +46,7 @@ export function is_injection_requested(state: Readonly<State>): boolean {
 export function create(origin: string): Readonly<State> {
 	return {
 		origin,
-		last_interacted: 0,
+		last_interacted: get_UTC_timestamp_ms(),
 		is_injection_enabled: false,
 		overrides: {},
 	}
@@ -54,8 +54,7 @@ export function create(origin: string): Readonly<State> {
 
 export function create_demo(origin: string): Readonly<State> {
 	return {
-		origin,
-		last_interacted: 0,
+		...create(origin),
 		is_injection_enabled: true,
 		overrides: {
 			'fooExperiment.cohort': {

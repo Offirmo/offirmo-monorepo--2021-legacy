@@ -1,8 +1,11 @@
 import { browser } from "webextension-polyfill-ts"
 
 import * as Flux from './flux'
+import { LS_KEY_ENABLED } from '../common/consts'
 import { create_msg_update_ui_state, create_msg_update_ls_state } from '../common/messages'
-import {SyncStatus} from "../common/state/tab";
+import { SpecSyncStatus } from "../common/state/tab";
+import {OverrideType} from "../common/state/origin";
+import { getLSKeyForOverride } from '@offirmo-private/universal-debug-api-full-browser/src/v1/keys'
 
 ////////////////////////////////////
 
@@ -14,16 +17,16 @@ function render_webext_icon() {
 	let color = "#ff0000"
 
 	switch(sync_status) {
-		case SyncStatus["needs-reload"]:
+		case SpecSyncStatus["changed-needs-reload"]:
 			text = '↻'
 			color = '#f3b200'
 			break
 
-		case SyncStatus.inactive:
+		case SpecSyncStatus.inactive:
 			text = ''
 			break
 
-		case SyncStatus["active-and-up-to-date"]:
+		case SpecSyncStatus["active-and-up-to-date"]:
 			text = '✔'
 			color = "#00AA00"
 			break
@@ -72,32 +75,35 @@ Flux.ui_emitter.on('change', () => {
 ////////////////////////////////////
 
 function propagate_lib_config() {
-	console.log('🔄 propagate_lib_config')
+	const current_tab_id = Flux.get_current_tab_id()
+	const origin_state = Flux.get_active_origin_state()
+	console.log('🔄 propagate_lib_config', {current_tab_id, origin_state})
 
+	const kv: { [k: string]: string | null } = {}
+
+	kv[LS_KEY_ENABLED] = origin_state.is_injection_enabled ? 'true' : null
+
+	Object.values(origin_state.overrides).forEach(spec => {
+		const { key, is_enabled, value_json } = spec
+		const LSKey = getLSKeyForOverride(key)
+		kv[LSKey] = is_enabled
+			? value_json
+			: null
+	})
+
+	console.log('📤 dispatching origin config to content-script of tab#' + current_tab_id, kv)
 	browser.tabs.sendMessage(
 			Flux.get_current_tab_id(),
 			create_msg_update_ls_state(
-				{ /* TODO */ }
+				kv
 			)
 		)
 		.catch(err => {
 			const { message } = err
-			if (message.contxx)
+			//if (message.contxx)
 			// the UI may not be open, no big deal
-				console.error('propagate_lib_config', err.message)
+			console.error('TODO propagate_lib_config', err.message)
 		})
-
-	/*
-	const port = get_port('content-script')
-	if (!port) {
-		console.warn('couldnt find content script port')
-		return
-	}
-
-
-	console.log('📤 dispatching origin config to content-script:', origin_state)
-	port.postMessage(create_msg_update_origin_state(origin_state))
-	*/
 }
 
 Flux.cscript_emitter.on('change', () => {

@@ -60,11 +60,20 @@ export function create_msg_update_ui_state(state: Readonly<UIState.State>) {
 }
 
 export const MSG_TYPE__UPDATE_LS_STATE = 'update-ls-state'
-export function create_msg_update_ls_state(state: Readonly<{ [k: string]: string | null }>) {
+export function create_msg_update_ls_state(kv: Readonly<{ [k: string]: string | null }>) {
 	return {
 		[MSG_ENTRY]: {
 			type: MSG_TYPE__UPDATE_LS_STATE,
-			state,
+			kv,
+		}
+	}
+}
+
+export const MSG_TYPE__REQUEST_RELOAD = 'request-reload'
+export function create_msg_request_reload() {
+	return {
+		[MSG_ENTRY]: {
+			type: MSG_TYPE__REQUEST_RELOAD,
 		}
 	}
 }

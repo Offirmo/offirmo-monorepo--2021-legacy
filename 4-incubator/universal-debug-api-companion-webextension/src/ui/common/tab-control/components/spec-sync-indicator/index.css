@@ -1,0 +1,17 @@
+
+.spec-sync-indicator {
+	font-size: 1em;
+	color: var(--o⋄color__boz__gray)
+}
+
+.spec-sync-indicator--active-and-up-to-date {
+	color: var(--o⋄color--fg⁚success)
+}
+
+.spec-sync-indicator--changed-needs-reload {
+	color: var(--o⋄color--fg⁚warning)
+}
+
+.spec-sync-indicator--unexpected-error {
+	color: var(--o⋄color--fg⁚error)
+}
