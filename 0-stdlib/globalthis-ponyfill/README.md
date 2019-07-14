@@ -13,9 +13,9 @@
 		  src="https://img.shields.io/npm/v/@offirmo/globalthis-ponyfill.svg">
 	</a>
 	<a alt="dependencies analysis"
-	  href="https://david-dm.org/offirmo/offirmo-monorepo?path=1-foundation%2Fglobalthis-ponyfill">
+	  href="https://david-dm.org/offirmo/offirmo-monorepo?path=0-stdlib%2Fglobalthis-ponyfill">
 		<img alt="dependencies badge"
-		  src="https://img.shields.io/david/offirmo/offirmo-monorepo.svg?path=1-foundation%2Fglobalthis-ponyfill">
+		  src="https://img.shields.io/david/offirmo/offirmo-monorepo.svg?path=0-stdlib%2Fglobalthis-ponyfill">
 	</a>
 	<a alt="bundle size evaluation"
 	  href="https://bundlephobia.com/result?p=@offirmo/globalthis-ponyfill">

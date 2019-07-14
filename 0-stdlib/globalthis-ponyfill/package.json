@@ -60,5 +60,5 @@
 		"ponyfill",
 		"typescript"
 	],
-	"homepage": "https://github.com/Offirmo/offirmo-monorepo/tree/master/1-foundation/globalthis-ponyfill"
+	"homepage": "https://github.com/Offirmo/offirmo-monorepo/tree/master/0-stdlib/globalthis-ponyfill"
 }

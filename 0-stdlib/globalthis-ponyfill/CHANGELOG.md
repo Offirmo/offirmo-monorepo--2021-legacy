@@ -45,5 +45,5 @@
 
 ## template
 * [doc] README++
-* [chore] bumped deps
+* [chore] bumped dependencies
 * [chore] upgraded pre-built code target to latest stable JS (ES2019)
