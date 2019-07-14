@@ -102,3 +102,27 @@ Tools
 - Color converter http://www.cssportal.com/css-color-converter/
 - favicon https://realfavicongenerator.net/
 - https://github.com/scottsidwell/bundle-inspector
+
+## License
+
+`UNLICENSE` so far.
+
+I'm not an expert in licenses, so my work is **implicitly dual-licensed** as fully private for my own use.
+This is to allow me to change the license in the future if deemed needed.
+```
+                  UNLICENSE branch, may stop being updated at some point
+                 /
+private version ---------- (forever living private branch)
+                       \ (maybe in the future)
+                         CC0 branch
+```
+The general principle is that I want to give back,
+and I don't mind people reusing my code and creating jobs / value from it even without crediting me.
+
+However, I'd like the (small) marketing efforts I made to benefit only me,
+for ex. the name of the modules or the apps may not be re-usable.
+Also I don't want my name to be used as an endorsment.
+
+That's why I'm looking into [CC0](https://creativecommons.org/publicdomain/zero/1.0/).
+
+Not sure yet.

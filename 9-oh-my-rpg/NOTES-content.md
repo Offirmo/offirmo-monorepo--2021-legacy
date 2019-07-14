@@ -7,6 +7,15 @@ LHB
 * https://en.wikipedia.org/wiki/Mass_concentration_(astronomy)
 
 
+## humain
+
+### NPC
+https://fr.wikipedia.org/wiki/Malgven
+https://fr.wikipedia.org/wiki/Gradlon
+
+### architecture
+https://en.wikipedia.org/wiki/Martello_tower
+
 ## Faune & Flore
 
 ### formation
@@ -23,6 +32,7 @@ LHB
 
 ### marin
 * https://fr.sputniknews.com/societe/201906101041400348-dinosaure-marin-antarctique-fossile/
+* https://fr.wikipedia.org/wiki/%C3%8Ele-de-Sein
 
 ### matières
 * https://rpg.stackexchange.com/questions/149477/what-differences-exist-between-adamantine-and-adamantite-in-all-editions-of-dd#149481
@@ -57,3 +67,6 @@ https://blackbeltwiki.com/dynamic-tension
 
 https://en.wikipedia.org/wiki/Atropa_belladonna
 
+
+## tosort
+    Men wanted for hazardous journey. Small wages, bitter cold, long months of complete darkness, constant danger, safe return doubtful. Honour and recognition in case of success.[5][6] 
