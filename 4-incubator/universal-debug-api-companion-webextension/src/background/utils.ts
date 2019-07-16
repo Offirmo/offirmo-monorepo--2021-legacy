@@ -1,5 +1,5 @@
 import assert from 'tiny-invariant'
-import { browser } from "webextension-polyfill-ts"
+import { browser } from 'webextension-polyfill-ts'
 import { Tab } from '../common/types'
 
 export function query_active_tab(): Promise<Readonly<Tab>> {

@@ -1,12 +1,13 @@
 import EventEmitter from 'emittery'
 import assert from 'tiny-invariant'
-import { browser } from "webextension-polyfill-ts"
+import { browser } from 'webextension-polyfill-ts'
 
 import { query_active_tab } from './utils'
 import { Tab, Port } from '../common/types'
 import * as State from './state'
 import * as TabState from "../common/state/tab";
 import * as UIState from "../common/state/ui";
+import {UNKNOWN_ORIGIN} from "../common/consts";
 
 ////////////////////////////////////
 
@@ -38,7 +39,8 @@ export function get_tab_origin(tab_id: number) {
 export function get_active_tab_sync_status(): TabState.SpecSyncStatus {
 	const t = State.get_active_tab_state(state)
 	const o = State.get_active_origin_state(state)
-	return TabState.get_global_switch_status(t, o)
+
+	return TabState.get_sync_status(t, o)
 }
 
 export function get_current_tab_ui_state(): UIState.State {
@@ -168,7 +170,7 @@ export function on_tab_loading(tab_id: number): void {
 
 // the content script reports that it injected the lib
 export function report_lib_injection(tab_id: number, is_injected: boolean): void {
-	console.log('🌀 report_lib_injection', {tab_id, active: state.active_tab_id})
+	console.group('🌀 report_lib_injection', {tab_id, active: state.active_tab_id})
 	console.log('before', state)
 
 	state = State.report_lib_injection(state, tab_id, is_injected)

@@ -1,10 +1,11 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { browser } from "webextension-polyfill-ts"
+import { browser } from 'webextension-polyfill-ts'
 
 import { create_msg_request_reload } from '../../../../../common/messages'
-import { AppStateConsumer, needs_reload } from '../../context'
+import { AppStateConsumer, needs_reload, is_magic_installed, get_global_switch_status } from '../../context'
 import View from './view'
+import * as TabState from '../../../../../common/state/tab'
 
 
 
@@ -20,8 +21,13 @@ export default class ReloadButton extends Component {
 		console.log(`🔄 ReloadButton render_view`, props)
 		const { app_state } = props
 
+		const status = !is_magic_installed(app_state)
+			? TabState.SpecSyncStatus.unknown
+			: get_global_switch_status(app_state)
+//			needs_reload ? TabState.SpecSyncStatus['changed-needs-reload'] : TabState.SpecSyncStatus['active-and-up-to-date']
+
 		return (
-			<View needs_reload={needs_reload(app_state)} on_click={this.on_click} />
+			<View status={status} on_click={this.on_click} />
 		)
 	}
 

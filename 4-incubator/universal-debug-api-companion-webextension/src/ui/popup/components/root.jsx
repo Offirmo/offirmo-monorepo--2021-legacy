@@ -1,5 +1,5 @@
 import assert from 'tiny-invariant'
-import { browser } from "webextension-polyfill-ts"
+import { browser } from 'webextension-polyfill-ts'
 import React, { Component, Fragment, StrictMode } from 'react'
 import PropTypes from 'prop-types'
 

@@ -1,15 +1,15 @@
 import assert from 'tiny-invariant'
-import { browser } from "webextension-polyfill-ts"
+import { browser } from 'webextension-polyfill-ts'
 
 import * as Flux from './flux'
 import './react'
 
 import { MSG_ENTRY } from '../common/consts'
 import {
-	MSG_TYPE__REPORT_LIB_INJECTION,
-	MSG_TYPE__INJECTION_TOGGLED,
-	MSG_TYPE__OVERRIDE_CHANGED,
-	MSG_TYPE__REQUEST_RELOAD,
+	MSG_TYPE__REPORT_IS_LIB_INJECTED,
+	MSG_TYPE__TOGGLE_LIB_INJECTION,
+	MSG_TYPE__OVERRIDE_SPEC_CHANGED,
+	MSG_TYPE__REQUEST_CURRENT_PAGE_RELOAD,
 } from '../common/messages'
 
 const LIB = '🧩 UWDT/bg'
@@ -61,34 +61,31 @@ browser.runtime.onMessage.addListener((request, sender): Promise<any> | void => 
 		console.log({type, payload})
 
 		switch (type) {
-			case MSG_TYPE__REQUEST_RELOAD: {
+			case MSG_TYPE__REQUEST_CURRENT_PAGE_RELOAD: {
 				browser.tabs.reload(Flux.get_current_tab_id())
 				break
 			}
 
-			case MSG_TYPE__INJECTION_TOGGLED: {
+			case MSG_TYPE__TOGGLE_LIB_INJECTION: {
 				Flux.toggle_lib_injection()
 				break
 			}
 
-			/*case MSG_TYPE__OVERRIDE_CHANGED: {
+			/*case MSG_TYPE__OVERRIDE_SPEC_CHANGED: {
 				const { key, partial } = request[MSG_ENTRY]
 				Flux.update_override(key, partial)
 				break
 			}*/
 
-			case MSG_TYPE__REPORT_LIB_INJECTION: {
-				assert(sender.tab, 'MSG_TYPE__REPORT_LIB_INJECTION 1')
-				assert(sender.tab!.id, 'MSG_TYPE__REPORT_LIB_INJECTION 2')
+			case MSG_TYPE__REPORT_IS_LIB_INJECTED: {
+				assert(sender.tab, 'MSG_TYPE__REPORT_IS_LIB_INJECTED 1')
+				assert(sender.tab!.id, 'MSG_TYPE__REPORT_IS_LIB_INJECTED 2')
 
 				const tab_id = sender.tab!.id!
-				const { is_injected } = payload
-				console.log({MSG_TYPE__LIB_INJECTED: MSG_TYPE__REPORT_LIB_INJECTION, tab_id})
+				const { is_injected, url } = payload
+				console.log({tab_id, is_injected})
+				Flux.update_tab_origin(tab_id, url)
 				Flux.report_lib_injection(tab_id, is_injected)
-				response = {
-					tab_id,
-					tab_origin: Flux.get_tab_origin(tab_id),
-				}
 				break
 			}
 			default:

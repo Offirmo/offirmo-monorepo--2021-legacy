@@ -1,12 +1,12 @@
-import { browser } from "webextension-polyfill-ts"
+import { browser } from 'webextension-polyfill-ts'
 import assert from 'tiny-invariant'
 
 import { MSG_ENTRY, LS_KEY_ENABLED } from '../common/consts'
 import {
-	create_msg_report_lib_injection,
+	create_msg_report_is_lib_injected,
 	MSG_TYPE__UPDATE_LS_STATE,
-	MSG_TYPE__INJECTION_TOGGLED,
-	MSG_TYPE__REPORT_LIB_INJECTION
+	MSG_TYPE__TOGGLE_LIB_INJECTION,
+	MSG_TYPE__REPORT_IS_LIB_INJECTED
 } from '../common/messages'
 
 import lib1 from './lib-to-inject-1'
@@ -33,13 +33,7 @@ const listenerOptions = {
 	capture: false, // http://devdocs.io/dom/window/postmessage
 }
 window.addEventListener('message', onMessage, listenerOptions)
-/*
-setTimeout(() => {
-	window.postMessage({
-		message: `Test message from ${LIB}`,
-	}, '*')
-}, 2000)
-*/
+
 
 ////////////////////////////////////
 
@@ -47,14 +41,15 @@ const should_inject = localStorage.getItem(LS_KEY_ENABLED) === 'true'
 if (should_inject) {
 	// Create a script tag and inject it into the document.
 
+	// 1. de-stringifier
+	// https://stackoverflow.com/a/30106551/587407
 	const scriptElement0 = document.createElement('script')
 	scriptElement0.innerHTML = `
-// https://stackoverflow.com/a/30106551/587407
 function _UWDT_b64DecodeUnicode(str) {
-    // Going backwards: from bytestream, to percent-encoding, to original string.
-    return decodeURIComponent(atob(str).split('').map(function(c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
+	// Going backwards: from bytestream, to percent-encoding, to original string.
+	return decodeURIComponent(atob(str).split('').map(function(c) {
+	  return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+	}).join(''));
 }`
 	document.documentElement.prepend(scriptElement0)
 
@@ -72,10 +67,15 @@ else {
 	console.info(`[${LIB}.${+Date.now()}] UWDA frow webext is disabled ❎`)
 }
 
-browser.runtime.sendMessage(create_msg_report_lib_injection(should_inject))
-	.then(response => {
+browser.runtime.sendMessage(
+	create_msg_report_is_lib_injected(
+		document.location.href,
+		should_inject
+	)
+)
+/*	.then(response => {
 		console.log(`[${LIB}.${+Date.now()}] response from initial msg:`, response)
-	})
+	})*/
 
 ////////////////////////////////////
 

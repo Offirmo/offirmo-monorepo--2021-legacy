@@ -10,6 +10,7 @@ export const SpecSyncStatus = Enum(
 	'active-and-up-to-date',
 	'changed-needs-reload',
 	'inactive',
+	'unknown', // happens when we install the extension or reload it in dev
 	'unexpected-error',
 )
 export type SpecSyncStatus = Enum<typeof SpecSyncStatus> // eslint-disable-line no-redeclare
@@ -25,13 +26,13 @@ export interface State {
 	id: number,
 	url: string, // for quick equality check
 	origin: string,
-	last_reported_injection_status: boolean,
+	last_reported_injection_status: undefined | boolean,
 	overrides: { [key: string]: OverrideState }
 }
 
 ////////////////////////////////////
 
-export function is_injection_enabled(state: Readonly<State>): boolean {
+export function is_injection_enabled(state: Readonly<State>): State['last_reported_injection_status'] {
 	return state.last_reported_injection_status
 }
 
@@ -63,6 +64,11 @@ export function get_override_status(state: Readonly<State>, override_spec: Origi
 }
 
 export function needs_reload(state: Readonly<State>, origin_state: Readonly<OriginState.State>): boolean {
+	if (state.origin === UNKNOWN_ORIGIN) return false
+
+	if (OriginState.is_injection_requested(origin_state) === undefined)
+		return false // ext freshly installed = obviously no need to bother the user
+
 	if (get_global_switch_status(state, origin_state) === SpecSyncStatus['changed-needs-reload'])
 		return true
 
@@ -81,6 +87,19 @@ export function needs_reload(state: Readonly<State>, origin_state: Readonly<Orig
 	return false
 }
 
+export function get_sync_status(state: Readonly<State>, origin_state: Readonly<OriginState.State>): SpecSyncStatus {
+	if (state.origin === UNKNOWN_ORIGIN) return SpecSyncStatus.inactive
+
+	if (OriginState.is_injection_requested(origin_state) === undefined)
+		return SpecSyncStatus.unknown // ext freshly installed = obviously no need to bother the user
+
+	return needs_reload(state, origin_state)
+		? SpecSyncStatus["changed-needs-reload"]
+		: OriginState.is_injection_requested(origin_state)
+			? SpecSyncStatus["active-and-up-to-date"]
+			: SpecSyncStatus.inactive
+}
+
 ////////////////////////////////////
 
 export function create(tab_id: number): Readonly<State> {
@@ -88,7 +107,7 @@ export function create(tab_id: number): Readonly<State> {
 		id: tab_id,
 		url: UNKNOWN_ORIGIN,
 		origin: UNKNOWN_ORIGIN,
-		last_reported_injection_status: false,
+		last_reported_injection_status: undefined,
 		overrides: {},
 	}
 }
@@ -122,6 +141,8 @@ export function update_origin(previous_state: Readonly<State>, url: string, orig
 }
 
 export function report_lib_injection(state: Readonly<State>, is_injected: boolean): Readonly<State> {
+	if (state.last_reported_injection_status === is_injected) return state
+
 	return {
 		...state,
 		last_reported_injection_status: is_injected,

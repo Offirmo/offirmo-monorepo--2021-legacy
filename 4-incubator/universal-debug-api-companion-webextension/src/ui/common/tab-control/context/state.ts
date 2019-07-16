@@ -1,5 +1,5 @@
 import { Enum } from 'typescript-string-enums'
-import { browser } from "webextension-polyfill-ts"
+import { browser } from 'webextension-polyfill-ts'
 
 import * as OriginState from '../../../../common/state/origin'
 import * as TabState from '../../../../common/state/tab'
@@ -33,8 +33,12 @@ export function is_eligible(state: Readonly<State>): boolean {
 	return OriginState.is_eligible(state.origin)
 }
 
+export function is_magic_installed(state: Readonly<State>): boolean {
+	return typeof TabState.is_injection_enabled(state.tab) === 'boolean'
+}
+
 export function is_injection_requested(state: Readonly<State>): boolean {
-	return OriginState.is_injection_requested(state.origin)
+	return !!OriginState.is_injection_requested(state.origin)
 }
 
 export function get_origin(state: Readonly<State>): string {
@@ -98,7 +102,15 @@ export function create(): Readonly<State> {
 export function create_demo(): Readonly<State> {
 	const { origin } = window.location
 	const origin_state = OriginState.create_demo(origin)
-	let tab_state =
+
+	const tab_state_loading = TabState.create(-1)
+	const tab_state_not_installed =
+		TabState.update_origin(
+			TabState.create(123),
+			window.location.href,
+			origin_state,
+		)
+	const tab_state_installed =
 		TabState.report_lib_injection(
 			TabState.update_origin(
 				TabState.create(123),
@@ -108,20 +120,23 @@ export function create_demo(): Readonly<State> {
 			false,
 		)
 
-	// TODO use reducers
-	if (origin_state.overrides['fooExperiment.cohort']) {
-		tab_state.overrides['fooExperiment.cohort'].last_reported = 12345
-		tab_state.overrides['fooExperiment.cohort'].last_reported_value_json = '"variation-1"' // not up to date
-	}
-	if (origin_state.overrides['fooExperiment.isSwitchedOn']) {
-		tab_state.overrides['fooExperiment.isSwitchedOn'].last_reported = 12345
-		tab_state.overrides['fooExperiment.isSwitchedOn'].last_reported_value_json = 'true' // up to date
-	}
-	if (origin_state.overrides['fooExperiment.logLevel']) {
-		tab_state.overrides['fooExperiment.logLevel'].last_reported = 12345
-		tab_state.overrides['fooExperiment.logLevel'].last_reported_value_json = 'warning'
-	}
+	const tab_state = tab_state_not_installed
 
+	if (tab_state.id >= 0) {
+		// TODO use reducers
+		if (origin_state.overrides['fooExperiment.cohort']) {
+			tab_state.overrides['fooExperiment.cohort'].last_reported = 12345
+			tab_state.overrides['fooExperiment.cohort'].last_reported_value_json = '"variation-1"' // not up to date
+		}
+		if (origin_state.overrides['fooExperiment.isSwitchedOn']) {
+			tab_state.overrides['fooExperiment.isSwitchedOn'].last_reported = 12345
+			tab_state.overrides['fooExperiment.isSwitchedOn'].last_reported_value_json = 'true' // up to date
+		}
+		if (origin_state.overrides['fooExperiment.logLevel']) {
+			tab_state.overrides['fooExperiment.logLevel'].last_reported = 12345
+			tab_state.overrides['fooExperiment.logLevel'].last_reported_value_json = 'warning'
+		}
+	}
 
 	return {
 		tab: tab_state,

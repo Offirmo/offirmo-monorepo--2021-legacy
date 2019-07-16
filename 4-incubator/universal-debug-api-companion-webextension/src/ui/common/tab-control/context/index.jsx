@@ -6,8 +6,9 @@ import { render_any_m } from '@offirmo-private/react-error-boundary'
 import { State, create, create_demo } from './state'
 
 // https://reactjs.org/docs/context.html
-const DEFAULT_STATE = create_demo() // for UI dev
-//const DEFAULT_STATE = create()
+const DEFAULT_STATE = location.href === 'http://localhost:9090/ui/popup/popup.html'
+	? create_demo() // for UI dev
+	: create()
 const AppStateContext = React.createContext(DEFAULT_STATE)
 
 let set_app_state_internal

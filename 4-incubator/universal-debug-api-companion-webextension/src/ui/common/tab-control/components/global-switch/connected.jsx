@@ -1,4 +1,4 @@
-import { browser } from "webextension-polyfill-ts"
+import { browser } from 'webextension-polyfill-ts'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 

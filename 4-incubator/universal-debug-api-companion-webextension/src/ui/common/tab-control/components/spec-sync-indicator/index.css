@@ -4,6 +4,10 @@
 	color: var(--o⋄color__boz__gray)
 }
 
+.spec-sync-indicator--unknown {
+	/* stays gray */
+}
+
 .spec-sync-indicator--active-and-up-to-date {
 	color: var(--o⋄color--fg⁚success)
 }

@@ -1,4 +1,4 @@
-import { browser } from "webextension-polyfill-ts"
+import { browser } from 'webextension-polyfill-ts'
 
 import * as Flux from './flux'
 import { LS_KEY_ENABLED } from '../common/consts'
@@ -23,6 +23,7 @@ function render_webext_icon() {
 			break
 
 		case SpecSyncStatus.inactive:
+		case SpecSyncStatus.unknown: // because happen when the ext is freshly installed or reloaded in dev = most likely inactive
 			text = ''
 			break
 
@@ -48,10 +49,13 @@ Flux.icon_emitter.on('change', () => {
 ////////////////////////////////////
 
 function update_ui_state() {
-	console.log('🔄 update_ui_state')
-
 	const port = Flux.get_port('popup')
-	if (!port) return // UI must be down
+	if (!port) {
+		// popup was never open yet
+		console.log('🔄 update_ui_state: no UI yet')
+		return
+	}
+	console.log('🔄 update_ui_state…')
 
 	const ui_state = Flux.get_current_tab_ui_state()
 	console.log('📤 dispatching state to UI:', ui_state)
@@ -91,7 +95,7 @@ function propagate_lib_config() {
 			: null
 	})
 
-	console.log('📤 dispatching origin config to content-script of tab#' + current_tab_id, kv)
+	console.log(`📤 dispatching origin config to content-script of tab#${current_tab_id}`, kv)
 	browser.tabs.sendMessage(
 			Flux.get_current_tab_id(),
 			create_msg_update_ls_state(
@@ -100,9 +104,15 @@ function propagate_lib_config() {
 		)
 		.catch(err => {
 			const { message } = err
-			//if (message.contxx)
-			// the UI may not be open, no big deal
-			console.error('TODO propagate_lib_config', err.message)
+			if (message.includes('Receiving end does not exist')) {
+				// the content script wasn't executed
+				// most likely the extension just kot installed
+				// or reloaded (dev)
+				// ignore.
+			}
+			else {
+				console.error(`propagate_lib_config when dispatching to tab#${current_tab_id}`, err)
+			}
 		})
 }
 

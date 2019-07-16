@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import {AppStateConsumer, get_overrides_map, sort_overrides} from '../../context'
 import Override from '../override'
-import { create_msg_override_change } from '../../../../../common/messages'
+import { create_msg_change_override_spec } from '../../../../../common/messages'
 import send_message from '../../../utils/send-message'
 
 const OverridesC1M = React.memo(
@@ -35,7 +35,7 @@ class Overrides extends Component {
 
 	on_change = ({key, value, is_enabled}) => {
 		console.log('Overrides on_change', {key, value, is_enabled})
-		send_message(create_msg_override_change(key, {
+		send_message(create_msg_change_override_spec(key, {
 			value,
 			is_enabled,
 		}))

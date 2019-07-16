@@ -1,6 +1,6 @@
 import assert from 'tiny-invariant'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
-import { browser } from "webextension-polyfill-ts"
+import { browser } from 'webextension-polyfill-ts'
 
 import { UNKNOWN_ORIGIN } from '../common/consts'
 import * as OriginState from '../common/state/origin'
@@ -156,8 +156,13 @@ export function on_tab_loading(state: Readonly<State>, tab_id: number): Readonly
 }
 
 export function report_lib_injection(state: Readonly<State>, tab_id: number, is_injected: boolean): Readonly<State> {
+	const { origin } = state.tabs[tab_id]
 	return {
 		...state,
+		origins: {
+			...state.origins,
+			[origin]: OriginState.report_lib_injection(state.origins[origin], is_injected),
+		},
 		tabs: {
 			...state.tabs,
 			[tab_id]: TabState.report_lib_injection(state.tabs[tab_id], is_injected),

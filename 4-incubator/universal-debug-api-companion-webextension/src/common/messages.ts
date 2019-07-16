@@ -3,26 +3,28 @@ import { MSG_ENTRY } from './consts'
 import * as OriginState from './state/origin'
 import * as UIState from './state/ui'
 
-export const MSG_TYPE__INJECTION_TOGGLED = 'injection_toggled'
+export const MSG_TYPE__TOGGLE_LIB_INJECTION = 'toggle-lib-injection'
 export function create_msg_toggle_lib_injection(to: boolean) {
 	return {
 		[MSG_ENTRY]: {
-			type: MSG_TYPE__INJECTION_TOGGLED,
+			type: MSG_TYPE__TOGGLE_LIB_INJECTION,
 			to,
 		}
 	}
 }
 
-export const MSG_TYPE__REPORT_LIB_INJECTION = 'is-injected'
-export function create_msg_report_lib_injection(is_injected: boolean) {
+export const MSG_TYPE__REPORT_IS_LIB_INJECTED = 'report-is-lib-injected'
+export function create_msg_report_is_lib_injected(url: string, is_injected: boolean) {
 	return {
 		[MSG_ENTRY]: {
-			type: MSG_TYPE__REPORT_LIB_INJECTION,
+			type: MSG_TYPE__REPORT_IS_LIB_INJECTED,
+			url, // needed because this event predates the internal extension event "loaded" which gives the url
 			is_injected,
 		}
 	}
 }
 
+/*
 export const MSG_TYPE__API_ACTIVITY = 'activity'
 export function create_msg_report_api_activity() {
 	return {
@@ -37,12 +39,13 @@ export function create_msg_report_api_activity() {
 		}
 	}
 }
+*/
 
-export const MSG_TYPE__OVERRIDE_CHANGED = 'override-changed'
-export function create_msg_override_change(key: string, partial: Readonly<Partial<OriginState.OverrideState>>) {
+export const MSG_TYPE__OVERRIDE_SPEC_CHANGED = 'change-override-spec'
+export function create_msg_change_override_spec(key: string, partial: Readonly<Partial<OriginState.OverrideState>>) {
 	return {
 		[MSG_ENTRY]: {
-			type: MSG_TYPE__OVERRIDE_CHANGED,
+			type: MSG_TYPE__OVERRIDE_SPEC_CHANGED,
 			key,
 			partial,
 		}
@@ -69,11 +72,11 @@ export function create_msg_update_ls_state(kv: Readonly<{ [k: string]: string | 
 	}
 }
 
-export const MSG_TYPE__REQUEST_RELOAD = 'request-reload'
+export const MSG_TYPE__REQUEST_CURRENT_PAGE_RELOAD = 'request-current-page-reload'
 export function create_msg_request_reload() {
 	return {
 		[MSG_ENTRY]: {
-			type: MSG_TYPE__REQUEST_RELOAD,
+			type: MSG_TYPE__REQUEST_CURRENT_PAGE_RELOAD,
 		}
 	}
 }

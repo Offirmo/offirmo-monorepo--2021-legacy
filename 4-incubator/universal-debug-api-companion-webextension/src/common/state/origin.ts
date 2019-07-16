@@ -27,7 +27,7 @@ export interface OverrideState {
 export interface State {
 	origin: string,
 	last_interacted: TimestampUTCMs, // to clean old origins
-	is_injection_enabled: boolean,
+	is_injection_enabled: boolean | undefined,
 	overrides: { [key: string]: OverrideState }
 }
 
@@ -37,7 +37,7 @@ export function is_eligible(state: Readonly<State>): boolean {
 	return state.origin !== UNKNOWN_ORIGIN
 }
 
-export function is_injection_requested(state: Readonly<State>): boolean {
+export function is_injection_requested(state: Readonly<State>): State['is_injection_enabled'] {
 	return state.is_injection_enabled
 }
 
@@ -47,7 +47,7 @@ export function create(origin: string): Readonly<State> {
 	return {
 		origin,
 		last_interacted: get_UTC_timestamp_ms(),
-		is_injection_enabled: false,
+		is_injection_enabled: undefined, // the user may have enabled it in LS, we can't know...
 		overrides: {},
 	}
 }
@@ -86,6 +86,15 @@ export function create_demo(origin: string): Readonly<State> {
 				last_reported: 123,
 			},
 		}
+	}
+}
+
+export function report_lib_injection(state: Readonly<State>, is_injected: boolean): Readonly<State> {
+	if (state.is_injection_enabled === is_injected) return state
+
+	return {
+		...state,
+		is_injection_enabled: is_injected,
 	}
 }
 

@@ -7,11 +7,11 @@ import './index.css'
 
 
 const ReloadButtonVM = React.memo(
-	function ReloadButtonV({ needs_reload, on_click }) {
+	function ReloadButtonV({ status, on_click }) {
 		console.log(`🔄 ReloadButtonV`, {status})
 		return (
 			<button className="reload-button" onClick={on_click}>
-				<SpecSyncIndicator status={needs_reload ? TabState.SpecSyncStatus['changed-needs-reload'] : TabState.SpecSyncStatus['active-and-up-to-date']} />
+				<SpecSyncIndicator status={status} />
 				&thinsp;
 				Reload page
 			</button>
@@ -19,7 +19,7 @@ const ReloadButtonVM = React.memo(
 	}
 )
 ReloadButtonVM.propTypes = {
-	needs_reload: PropTypes.bool.isRequired,
+	status: PropTypes.string.isRequired,
 	on_click: PropTypes.func.isRequired,
 }
 

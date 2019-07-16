@@ -1,4 +1,4 @@
-import { browser } from "webextension-polyfill-ts"
+import { browser } from 'webextension-polyfill-ts'
 
 console.log(`🧩 [T=${+Date.now()}] Hello from options!`)
 
