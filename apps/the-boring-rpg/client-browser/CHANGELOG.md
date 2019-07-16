@@ -1,5 +1,4 @@
 # CHANGELOG
-**This package follows [semver](https://semver.org/).**
 
 
 ## NEXT

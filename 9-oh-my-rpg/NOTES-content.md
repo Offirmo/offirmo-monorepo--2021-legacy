@@ -7,7 +7,11 @@ LHB
 * https://en.wikipedia.org/wiki/Mass_concentration_(astronomy)
 
 
+
 ## humain
+
+### comportement
+* https://nerdist.com/article/read-body-language-fbi-expert-video/
 
 ### NPC
 https://fr.wikipedia.org/wiki/Malgven
@@ -16,7 +20,13 @@ https://fr.wikipedia.org/wiki/Gradlon
 ### architecture
 https://en.wikipedia.org/wiki/Martello_tower
 
+
+
+
 ## Faune & Flore
+
+### cosmique
+* https://science.slashdot.org/story/19/07/10/1824216/moons-that-escape-their-planets-could-become-ploonets
 
 ### formation
 * https://science.slashdot.org/story/19/05/30/0257253/brown-dwarf-atmospheres-as-the-potentially-most-detectable-and-abundant-sites-for-life
@@ -39,7 +49,7 @@ https://en.wikipedia.org/wiki/Martello_tower
 
 ### maladies / virus
 * https://fr.wikipedia.org/wiki/Suette
-
+* https://science.slashdot.org/story/19/07/07/1933255/researchers-awaken-ancient-lifeforms-exposed-by-thawing-ice-caps-and-permafrost
 
 ## people
 * https://en.wikipedia.org/wiki/Marriage_of_the_Sea_ceremony
