@@ -38,8 +38,11 @@ for example as a default value in a dependency injection mechanism,
 ready to be replaced by an actual version if the caller wants it,
 but not hurting the bundle size if the user opts out.
 
+### API
+Exact same API as `@offirmo/practical-logger-browser` and `@offirmo/practical-logger-node`:
 ```javascript
-import { TODO } from ''
+import { createLogger } from '@offirmo/practical-logger-minimal-noop'
 
-TODO
+const logger = createLogger()
+logger.log('hello from logger!') // absolutely nothing happens, no-op
 ```
