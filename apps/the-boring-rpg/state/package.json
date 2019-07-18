@@ -40,7 +40,7 @@
 		"@oh-my-rpg/state-prng": "^0.0.1",
 		"@oh-my-rpg/state-progress": "^0.0.1",
 		"@oh-my-rpg/state-wallet": "^0.0.1",
-		"deepmerge": "^3",
+		"deepmerge": "^4",
 		"emittery": "^0.4",
 		"p-finally": "^2",
 		"tiny-invariant": "^1",

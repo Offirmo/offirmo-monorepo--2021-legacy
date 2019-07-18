@@ -23,7 +23,7 @@
 		"chai-moment": "^0.1",
 		"chai-subset": "^1",
 		"eslint-plugin-chai-expect": "^2",
-		"eslint-plugin-mocha": "^5",
+		"eslint-plugin-mocha": "^6",
 		"mocha": "^6",
 		"sinon": "^7",
 		"sinon-chai": "^3"
