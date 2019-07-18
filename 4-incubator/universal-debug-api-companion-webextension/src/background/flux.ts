@@ -1,13 +1,12 @@
 import EventEmitter from 'emittery'
 import assert from 'tiny-invariant'
-import { browser } from 'webextension-polyfill-ts'
+import { browser, Tabs, Runtime } from 'webextension-polyfill-ts'
 
 import { query_active_tab } from './utils'
-import { Tab, Port } from '../common/types'
 import * as State from './state'
 import * as TabState from "../common/state/tab";
 import * as UIState from "../common/state/ui";
-import {UNKNOWN_ORIGIN} from "../common/consts";
+import { Report } from '../common/messages'
 
 ////////////////////////////////////
 
@@ -20,9 +19,11 @@ export const cscript_emitter = new EventEmitter()
 
 ////////////////////////////////////
 
+/*
 export function get(): Readonly<State.State> {
 	return state
 }
+*/
 
 export function get_current_tab_id(): number {
 	return State.get_current_tab_id(state)
@@ -43,15 +44,6 @@ export function get_active_tab_sync_status(): TabState.SpecSyncStatus {
 	return TabState.get_sync_status(t, o)
 }
 
-export function get_current_tab_ui_state(): UIState.State {
-	const tab = State.get_active_tab_state(state)
-	const origin = State.get_active_origin_state(state)
-	return {
-		tab,
-		origin,
-	}
-}
-
 export function get_active_origin_state() {
 	const current_tab_id = state.active_tab_id
 	assert(current_tab_id >= 0, 'get_active_origin_state: current_tab_id')
@@ -60,6 +52,15 @@ export function get_active_origin_state() {
 	assert(current_tab_origin, 'get_active_origin_state: current_tab_origin')
 
 	return state.origins[current_tab_origin]
+}
+
+export function get_active_tab_ui_state(): UIState.State {
+	const tab = State.get_active_tab_state(state)
+	const origin = State.get_active_origin_state(state)
+	return {
+		tab,
+		origin,
+	}
 }
 
 /*
@@ -92,8 +93,19 @@ export function on_init(): void {
 	console.groupEnd()
 }
 
-// we need to track the currently active tab
-export function on_tab_activated(id: number, tab_hint?: Readonly<Tab>): void {
+export function ensure_tab(id: number, tab_hint?: Readonly<Tabs.Tab>): void {
+	console.group('🌀 ensure_tab', {id, tab_hint})
+	console.log('before', state)
+
+	state = State.ensure_tab(state, id, tab_hint)
+
+	// no react, we'll get tab events soon
+
+	console.log('after', state)
+	console.groupEnd()
+}
+
+export function on_tab_activated(id: number, tab_hint?: Readonly<Tabs.Tab>): void {
 	console.group('🌀 on_tab_activated', {id, tab_hint})
 	console.log('before', state)
 
@@ -109,7 +121,8 @@ export function on_tab_activated(id: number, tab_hint?: Readonly<Tab>): void {
 		}
 
 		console.group('🌀 on_tab_activated (2b): updating origin', {active_tab_id, url})
-		update_tab_origin(id, url)
+		if (url)
+			update_tab_origin(id, url)
 		console.groupEnd()
 	})
 
@@ -119,8 +132,7 @@ export function on_tab_activated(id: number, tab_hint?: Readonly<Tab>): void {
 	console.groupEnd()
 }
 
-// we need to track tab origins
-export function update_tab_origin(tab_id: number, url?: string): void {
+export function update_tab_origin(tab_id: number, url: string): void {
 	console.group('🌀 update_tab_origin', {tabId: tab_id, url})
 	console.log('before', state)
 
@@ -136,8 +148,7 @@ export function update_tab_origin(tab_id: number, url?: string): void {
 	console.groupEnd()
 }
 
-// we need to store and share ports for sharing across files
-export function update_port(channel_id: string, port: Readonly<Port> | null): void {
+export function update_port(channel_id: string, port: Readonly<Runtime.Port> | null): void {
 	console.group('🌀 update_port', { channel_id, port })
 	console.log('before', state)
 
@@ -154,7 +165,6 @@ export function update_port(channel_id: string, port: Readonly<Port> | null): vo
 	console.groupEnd()
 }
 
-// we need to track tab origins and overall state (injected?)
 export function on_tab_loading(tab_id: number): void {
 	console.group('🌀 on_tab_loading', {tab_id})
 	console.log('before', state)
@@ -168,9 +178,8 @@ export function on_tab_loading(tab_id: number): void {
 	console.groupEnd()
 }
 
-// the content script reports that it injected the lib
 export function report_lib_injection(tab_id: number, is_injected: boolean): void {
-	console.group('🌀 report_lib_injection', {tab_id, active: state.active_tab_id})
+	console.group('🌀 report_lib_injection', {tab_id, is_injected, known_active_tab: state.active_tab_id})
 	console.log('before', state)
 
 	state = State.report_lib_injection(state, tab_id, is_injected)
@@ -184,7 +193,6 @@ export function report_lib_injection(tab_id: number, is_injected: boolean): void
 	console.groupEnd()
 }
 
-// user toggled it (for current tab)
 export function toggle_lib_injection(): void {
 	console.group('🌀 toggle_lib_injection')
 	console.log('before', state)
@@ -199,6 +207,20 @@ export function toggle_lib_injection(): void {
 	console.groupEnd()
 }
 
+export function report_debug_api_usage(tab_id: number, reports: Report[]): void {
+	console.group('🌀 report_debug_api_usage', { reports })
+	console.log('before', state)
+
+	state = State.report_debug_api_usage(state, tab_id, reports)
+
+	if (state.active_tab_id === tab_id) {
+		icon_emitter.emit('change', state)
+		ui_emitter.emit('change', state)
+	}
+
+	console.log('after', state)
+	console.groupEnd()
+}
 /*
 export function on_lib_activity(tab_id) {
 

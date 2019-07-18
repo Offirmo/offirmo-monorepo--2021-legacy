@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import View from './view'
 
-import {AppStateConsumer, get_override_status, is_injection_requested} from '../../context'
+import {AppStateConsumer, get_override_sync_status, should_inject_the_lib} from '../../context'
 
 
 
@@ -14,10 +14,10 @@ class Override extends Component {
 	}
 
 	render_view = ({app_state}) => {
-		const is_injection_enabled = is_injection_requested(app_state)
+		const is_injection_enabled = should_inject_the_lib(app_state)
 		const { override, on_change } = this.props
 		const { key } = override.spec
-		const status = get_override_status(app_state, key)
+		const status = get_override_sync_status(app_state, key)
 		function on_key_change({value, is_enabled}) {
 			on_change({key, value, is_enabled })
 		}

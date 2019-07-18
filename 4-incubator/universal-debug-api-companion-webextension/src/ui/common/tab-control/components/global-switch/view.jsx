@@ -7,6 +7,7 @@ import SpecSyncIndicator from '../spec-sync-indicator'
 
 const GlobalSwitchVM = React.memo(
 	function GlobalSwitchV({ origin, is_injection_requested, status, on_change }) {
+		console.log(`🔄 GlobalSwitchV`, { origin, is_injection_requested, status })
 
 		return (
 			<div className={`left-right-aligned override-line`}>
@@ -22,7 +23,7 @@ const GlobalSwitchVM = React.memo(
 					</span>
 
 					<span className={`override-label`}>
-						Inject the Universal Debug API library into {origin}
+						Inject the Universal Debug API library into: <span className="o⋄font⁚roboto-condensed">{origin}</span>
 					</span>
 				</div>
 

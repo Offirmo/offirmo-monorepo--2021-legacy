@@ -22,7 +22,13 @@ export default class LogLevelRange extends Component {
 			value,
 		})
 
-		const value_int = ALL_LOG_LEVELS.findIndex(v => v === value) || DEFAULT_LEVEL
+		const index = ALL_LOG_LEVELS.findIndex(v => v === value)
+		if (value && index === -1)
+			console.error(`LogLevelRange: unrecognised log level "${value}"!`)
+		const value_int = index === -1
+				? DEFAULT_LEVEL
+				: index
+
 		return (
 			<Fragment>
 				<Range
@@ -33,11 +39,7 @@ export default class LogLevelRange extends Component {
 					onChange={value_int => onChange(ALL_LOG_LEVELS[value_int])}
 				/>
 				<span className={'override-input-label override-input-LogLevel-label o⋄font⁚roboto-condensed'}>
-					{isDisabled
-						? <Fragment>Nothing will be logged.</Fragment>
-						: <Fragment>Level <b>{ALL_LOG_LEVELS[value_int]}</b> and above will be logged</Fragment>
-					}
-
+					<Fragment>Level <b>{ALL_LOG_LEVELS[value_int]}</b> and above will be logged</Fragment>
 				</span>
 			</Fragment>
 		);

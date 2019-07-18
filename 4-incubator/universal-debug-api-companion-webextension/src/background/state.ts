@@ -1,20 +1,21 @@
 import assert from 'tiny-invariant'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
-import { browser } from 'webextension-polyfill-ts'
+import { browser, Tabs, Runtime } from 'webextension-polyfill-ts'
 
 import { UNKNOWN_ORIGIN } from '../common/consts'
 import * as OriginState from '../common/state/origin'
 import * as TabState from '../common/state/tab'
-import { Tab, Port } from '../common/types'
 import { query_active_tab } from './utils'
+import {Report} from "../common/messages";
+import {icon_emitter, ui_emitter} from "./flux";
 
 ////////////////////////////////////
 
 export interface State {
-	ports: { [channel_id: string]: Readonly<Port> },
+	ports: { [channel_id: string]: Readonly<Runtime.Port> },
 
 	active_tab_id: number,
-	active_tab: Promise<Readonly<Tab>>,
+	active_tab: Promise<Readonly<Tabs.Tab>>,
 
 	origins: {
 		[origin: string]: OriginState.State,
@@ -69,7 +70,7 @@ export function is_current_tab_injected() {
 }
 */
 
-export function get_port(state: Readonly<State>, channel_id: string): Readonly<Port> | undefined {
+export function get_port(state: Readonly<State>, channel_id: string): Readonly<Runtime.Port> | undefined {
 	return state.ports[channel_id]
 }
 
@@ -91,7 +92,8 @@ export function create(): Readonly<State> {
 	}
 }
 
-export function update_port(state: Readonly<State>, channel_id: string, port: Readonly<Port> | null): Readonly<State> {
+// we need to store and share ports for sharing across files
+export function update_port(state: Readonly<State>, channel_id: string, port: Readonly<Runtime.Port> | null): Readonly<State> {
 	if (port)
 		state.ports[channel_id] = port
 	else
@@ -100,9 +102,25 @@ export function update_port(state: Readonly<State>, channel_id: string, port: Re
 	return state
 }
 
+// This should never happens if we listen to the tab events correctly,
+// but as a matter of fact it happens.
+// TODO investigate if we could do it better
+export function ensure_tab(state: Readonly<State>, id: number, tab_hint?: Readonly<Tabs.Tab>): Readonly<State> {
+	if (state.tabs[id]) return state
+
+	console.warn(`Tab #${id} discovered in ensure_tab()! [TODO improve?]`)
+	return {
+		...state,
+		tabs: {
+			...state.tabs,
+			[id]: TabState.create(id),
+		},
+	}
+}
+
 // we need to track the currently active tab,
 // mainly to update the extension icon
-export function on_tab_activated(state: Readonly<State>, id: number, tab_hint?: Readonly<Tab>): Readonly<State> {
+export function on_tab_activated(state: Readonly<State>, id: number, tab_hint?: Readonly<Tabs.Tab>): Readonly<State> {
 	return {
 		...state,
 		active_tab_id: id,
@@ -116,13 +134,23 @@ export function on_tab_activated(state: Readonly<State>, id: number, tab_hint?: 
 
 // we need to track tab origins
 // to properly apply the settings for this origin
-// ??? is for non-browsing tabs, ex. settings, which have no URL
+// UNKNOWN_ORIGIN is for non-browsing tabs, ex. browser settings, which have no URL
 export function update_tab_origin(state: Readonly<State>, tab_id: number, url: string = UNKNOWN_ORIGIN): Readonly<State> {
 	if (state.tabs[tab_id].url === url) return state // up to date
 
 	const origin = url === UNKNOWN_ORIGIN
 		? UNKNOWN_ORIGIN
-		: (new URL(url)).origin
+		: (() => {
+			try {
+				const origin = (new URL(url)).origin || UNKNOWN_ORIGIN
+				if (origin === 'null') // Firefox about:...
+					return UNKNOWN_ORIGIN
+				return origin
+			}
+			catch {
+				return UNKNOWN_ORIGIN
+			}
+			})()
 
 	state = {
 		...state,
@@ -143,8 +171,6 @@ export function update_tab_origin(state: Readonly<State>, tab_id: number, url: s
 	return state
 }
 
-// if a tab gets created, or a navigation happens inside a tab,
-// we may change domain and the current page state may switch to another origin
 export function on_tab_loading(state: Readonly<State>, tab_id: number): Readonly<State> {
 	return {
 		...state,
@@ -170,7 +196,6 @@ export function report_lib_injection(state: Readonly<State>, tab_id: number, is_
 	}
 }
 
-// user toggled it (for current tab)
 export function toggle_lib_injection(state: Readonly<State>): Readonly<State> {
 	const { active_tab_id } = state
 	assert(active_tab_id >= 0, 'toggle_lib_injection: active_tab_id')
@@ -182,6 +207,30 @@ export function toggle_lib_injection(state: Readonly<State>): Readonly<State> {
 		origins: {
 			...state.origins,
 			[current_tab_origin]: OriginState.toggle_lib_injection(state.origins[current_tab_origin]),
+		}
+	}
+}
+
+export function report_debug_api_usage(state: Readonly<State>, tab_id: number, reports: Report[]): Readonly<State> {
+	let tab_state = state.tabs[tab_id]
+	assert(!!tab_state, 'report_debug_api_usage: tab_state')
+	let origin_state = state.origins[tab_state.origin]
+	assert(!!origin_state, 'report_debug_api_usage: origin_state')
+
+	reports.forEach((report: Report) => {
+		origin_state = OriginState.report_debug_api_usage(origin_state, report)
+		tab_state = TabState.report_debug_api_usage(tab_state, report)
+	})
+
+	return {
+		...state,
+		origins: {
+			...state.origins,
+			[tab_state.origin]: origin_state,
+		},
+		tabs: {
+			...state.tabs,
+			[tab_id]: tab_state,
 		}
 	}
 }

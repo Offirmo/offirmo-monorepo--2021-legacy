@@ -2,6 +2,9 @@ import { Enum } from 'typescript-string-enums'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import * as OriginState from './origin'
 import { UNKNOWN_ORIGIN } from '../consts'
+import {Report} from "../messages";
+import assert from "tiny-invariant";
+import {infer_type_from_key} from "./origin";
 
 ////////////////////////////////////
 
@@ -10,21 +13,21 @@ export const SpecSyncStatus = Enum(
 	'active-and-up-to-date',
 	'changed-needs-reload',
 	'inactive',
-	'unknown', // happens when we install the extension or reload it in dev
+	'unknown', // happens when we install the extension or reload it during dev
 	'unexpected-error',
 )
 export type SpecSyncStatus = Enum<typeof SpecSyncStatus> // eslint-disable-line no-redeclare
 
-
+// what was reported the first time this override was used
 export interface OverrideState {
 	key: string
-	last_reported: TimestampUTCMs
-	last_reported_value_json: string | null
+	last_reported: TimestampUTCMs // -1 = never
+	last_reported_value_json: string | null | undefined
 }
 
 export interface State {
 	id: number,
-	url: string, // for quick equality check
+	url: string, // for quick equality check TODO really needed?
 	origin: string,
 	last_reported_injection_status: undefined | boolean,
 	overrides: { [key: string]: OverrideState }
@@ -32,12 +35,22 @@ export interface State {
 
 ////////////////////////////////////
 
-export function is_injection_enabled(state: Readonly<State>): State['last_reported_injection_status'] {
+export function is_sync_status_hinting_at_a_reload(status: SpecSyncStatus): boolean {
+	switch(status) {
+		case 'active-and-up-to-date':
+		case 'inactive':
+			return false
+		default:
+			return true
+	}
+}
+
+export function was_injection_enabled(state: Readonly<State>): State['last_reported_injection_status'] {
 	return state.last_reported_injection_status
 }
 
-export function get_global_switch_status(state: Readonly<State>, origin_state: Readonly<OriginState.State>): SpecSyncStatus {
-	if (OriginState.is_injection_requested(origin_state) !== is_injection_enabled(state))
+export function get_global_switch_sync_status(state: Readonly<State>, origin_state: Readonly<OriginState.State>): SpecSyncStatus {
+	if (OriginState.is_injection_requested(origin_state) !== was_injection_enabled(state))
 		return SpecSyncStatus['changed-needs-reload']
 
 	if (!origin_state.is_injection_enabled)
@@ -46,16 +59,21 @@ export function get_global_switch_status(state: Readonly<State>, origin_state: R
 	return SpecSyncStatus['active-and-up-to-date']
 }
 
-export function get_override_status(state: Readonly<State>, override_spec: OriginState.OverrideState): SpecSyncStatus {
+export function get_override_sync_status(state: Readonly<State>, override_spec: OriginState.OverrideState): SpecSyncStatus {
 	const { key } = override_spec
 	const override = state.overrides[key]
+	if (!override)
+		return SpecSyncStatus["unexpected-error"]
 
 	if (!override.last_reported)
 		return SpecSyncStatus.inactive
 
-	const changed__toggled_off = !override_spec.is_enabled && override.last_reported_value_json
-	if (changed__toggled_off)
+	const was_enabled = override.last_reported_value_json !== null
+	if (override_spec.is_enabled !== was_enabled)
 		return SpecSyncStatus['changed-needs-reload']
+
+	if (!override_spec.is_enabled)
+		return SpecSyncStatus['active-and-up-to-date'] // we don't care about the value if !enabled
 
 	if (override_spec.value_json !== override.last_reported_value_json)
 		return SpecSyncStatus['changed-needs-reload']
@@ -63,41 +81,40 @@ export function get_override_status(state: Readonly<State>, override_spec: Origi
 	return SpecSyncStatus['active-and-up-to-date']
 }
 
-export function needs_reload(state: Readonly<State>, origin_state: Readonly<OriginState.State>): boolean {
-	if (state.origin === UNKNOWN_ORIGIN) return false
-
-	if (OriginState.is_injection_requested(origin_state) === undefined)
-		return false // ext freshly installed = obviously no need to bother the user
-
-	if (get_global_switch_status(state, origin_state) === SpecSyncStatus['changed-needs-reload'])
-		return true
-
-	const keys_set = new Set<string>([
-			...Object.keys(origin_state.overrides),
-			...Object.keys(state.overrides),
-		]
-	)
-
-	for (let key of keys_set) {
-		const override_spec = origin_state.overrides[key]
-		if (get_override_status(state, override_spec) === SpecSyncStatus['changed-needs-reload'])
-			return true
-	}
-
-	return false
-}
-
 export function get_sync_status(state: Readonly<State>, origin_state: Readonly<OriginState.State>): SpecSyncStatus {
 	if (state.origin === UNKNOWN_ORIGIN) return SpecSyncStatus.inactive
 
-	if (OriginState.is_injection_requested(origin_state) === undefined)
-		return SpecSyncStatus.unknown // ext freshly installed = obviously no need to bother the user
+	if (OriginState.is_injection_requested(origin_state) === undefined) {
+		// ext freshly installed = we don't know what state is the tab in
+		return SpecSyncStatus.unknown
+	}
 
-	return needs_reload(state, origin_state)
-		? SpecSyncStatus["changed-needs-reload"]
-		: OriginState.is_injection_requested(origin_state)
-			? SpecSyncStatus["active-and-up-to-date"]
-			: SpecSyncStatus.inactive
+	if (was_injection_enabled(state) === undefined) {
+		// means the magic is not activated
+		// This happen on extension install / reinstall
+		return SpecSyncStatus.unknown
+	}
+
+	const global_switch_sync_status = get_global_switch_sync_status(state, origin_state)
+	if (global_switch_sync_status !== SpecSyncStatus["active-and-up-to-date"])
+		return global_switch_sync_status
+
+	let non_inactive_count = 0
+	for (let key of Object.keys(origin_state.overrides)) {
+		const override_spec = origin_state.overrides[key]
+		const sync_status = get_override_sync_status(state, override_spec)
+		if (sync_status !== SpecSyncStatus['active-and-up-to-date'] && sync_status !== SpecSyncStatus.inactive)
+			return sync_status
+		if (sync_status !== SpecSyncStatus.inactive) non_inactive_count++
+	}
+
+	return non_inactive_count || Object.keys(origin_state.overrides).length === 0
+		? SpecSyncStatus["active-and-up-to-date"]
+		: SpecSyncStatus.inactive
+}
+
+export function needs_reload(state: Readonly<State>, origin_state: Readonly<OriginState.State>): boolean {
+	return is_sync_status_hinting_at_a_reload(get_sync_status(state, origin_state))
 }
 
 ////////////////////////////////////
@@ -112,11 +129,16 @@ export function create(tab_id: number): Readonly<State> {
 	}
 }
 
+// if a tab gets created, or a navigation happens inside a tab.
+// If it's a navigation, the origin may change and the current page state may switch to another origin
+// thus we need to clear stuff
 export function on_load(state: Readonly<State>): Readonly<State> {
 	return {
 		...state,
+		// a navigation may have happened, invalidate origin
 		url: UNKNOWN_ORIGIN,
 		origin: UNKNOWN_ORIGIN,
+		// same, reset overrides
 		overrides: {},
 	}
 }
@@ -124,22 +146,23 @@ export function on_load(state: Readonly<State>): Readonly<State> {
 export function update_origin(previous_state: Readonly<State>, url: string, origin_state: Readonly<OriginState.State>): Readonly<State> {
 	const { origin } = origin_state
 
-	if (origin === previous_state.origin) return previous_state
+	//if (origin === previous_state.origin) return previous_state
 
-	const state = {
+	let state = {
 		...previous_state,
 		url,
 		origin,
-		overrides: {}, // TODO check if needed
+		overrides: {}, // extra-safety, but we should have had on_load()
 	}
 
 	Object.keys(origin_state.overrides).forEach(key => {
-		ensure_override(state, origin_state.overrides[key])
+		state = ensure_override(state, origin_state.overrides[key])
 	})
 
 	return state
 }
 
+// the content script reports that it injected the lib
 export function report_lib_injection(state: Readonly<State>, is_injected: boolean): Readonly<State> {
 	if (state.last_reported_injection_status === is_injected) return state
 
@@ -152,19 +175,63 @@ export function report_lib_injection(state: Readonly<State>, is_injected: boolea
 export function ensure_override(state: Readonly<State>, override_spec: OriginState.OverrideState): Readonly<State> {
 	const { key } = override_spec
 
+	state = {
+		...state,
+		overrides: {
+			...state.overrides
+		}
+	}
 	state.overrides[key] = state.overrides[key] || {
 		key,
-		last_reported: 0,
-		last_reported_value_json: null,
+		last_reported: -1,
+		last_reported_value_json: undefined,
 	}
 
 	return state
 }
-export function report_override_values(state: Readonly<State>, TODO: string): Readonly<State> {
+
+export function report_debug_api_usage(state: Readonly<State>, report: Report): Readonly<State> {
+	switch (report.type) {
+		case 'override': {
+			const { key, existing_override_json } = report
+			assert(!!key, 'T.report_debug_api_usage override key')
+			let override = {
+				...state.overrides[key],
+				key,
+				last_reported: get_UTC_timestamp_ms(),
+				last_reported_value_json: existing_override_json,
+			}
+			state = {
+				...state,
+				overrides: {
+					...state.overrides,
+					[key]: override,
+				}
+			}
+			break
+		}
+		default:
+			console.error(`T.report_debug_api_usage() unknown report type "${report.type}"!`)
+			break
+	}
+
+	return state
+}
+
+/*
+export function report_override_value(state: Readonly<State>, key: string, value_json: string | null): Readonly<State> {
 	return {
 		...state,
-		// TODO
+		overrides: {
+			...state.overrides,
+			[key]: {
+				...state.overrides[key],
+				last_reported: get_UTC_timestamp_ms(),
+				last_reported_value_json: value_json,
+			}
+		}
 	}
 }
+*/
 
 ////////////////////////////////////

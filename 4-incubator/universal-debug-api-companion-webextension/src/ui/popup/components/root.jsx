@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 
 import TabControl from '../../common/tab-control/components'
 import { set_app_state } from '../../common/tab-control/context'
-import {MSG_ENTRY} from '../../../common/consts-mini'
+import {MSG_ENTRY} from '../../../common/consts/entry'
 
 ////////////////////////////////////
 

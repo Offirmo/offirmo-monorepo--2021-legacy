@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
-import {AppStateConsumer, get_overrides_map, sort_overrides} from '../../context'
+import {AppStateConsumer, get_overrides_map, compare_overrides} from '../../context'
 import Override from '../override'
 import { create_msg_change_override_spec } from '../../../../../common/messages'
 import send_message from '../../../utils/send-message'
@@ -13,10 +13,10 @@ const OverridesC1M = React.memo(
 		if (!overrides.length)
 			return (
 				<Fragment>
-					<p className="o⋄color⁚secondary">No override usage detected for this origin so far.</p>
+					<p className="o⋄color⁚secondary">No override usage detected for this origin so far. Suggestions:</p>
 					<ol className="o⋄color⁚secondary">
+						<li>Use some in your code!</li>
 						<li>Try refreshing the page</li>
-						<li>Check your code</li>
 					</ol>
 				</Fragment>
 			)
@@ -45,7 +45,7 @@ class Overrides extends Component {
 		console.log(`🔄 Overrides render_view`, props)
 		const { app_state } = props
 
-		const overrides = Object.values(get_overrides_map(app_state)).sort(sort_overrides)
+		const overrides = Object.values(get_overrides_map(app_state)).sort(compare_overrides)
 		return (
 			<OverridesC1M {...{on_change: this.on_change, overrides}} />
 		)

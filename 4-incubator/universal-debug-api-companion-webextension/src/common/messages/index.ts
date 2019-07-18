@@ -1,7 +1,7 @@
 
-import { MSG_ENTRY } from './consts'
-import * as OriginState from './state/origin'
-import * as UIState from './state/ui'
+import { MSG_ENTRY } from '../consts'
+import * as OriginState from '../state/origin'
+import * as UIState from '../state/ui'
 
 export const MSG_TYPE__TOGGLE_LIB_INJECTION = 'toggle-lib-injection'
 export function create_msg_toggle_lib_injection(to: boolean) {
@@ -18,28 +18,11 @@ export function create_msg_report_is_lib_injected(url: string, is_injected: bool
 	return {
 		[MSG_ENTRY]: {
 			type: MSG_TYPE__REPORT_IS_LIB_INJECTED,
-			url, // needed because this event predates the internal extension event "loaded" which gives the url
+			url, // needed because this event may follow updated=loading which resets the url
 			is_injected,
 		}
 	}
 }
-
-/*
-export const MSG_TYPE__API_ACTIVITY = 'activity'
-export function create_msg_report_api_activity() {
-	return {
-		[MSG_ENTRY]: {
-			type: MSG_TYPE__API_ACTIVITY,
-			loggers: {
-				// TODO
-			},
-			overrides: {
-				// TODO
-			}
-		}
-	}
-}
-*/
 
 export const MSG_TYPE__OVERRIDE_SPEC_CHANGED = 'change-override-spec'
 export function create_msg_change_override_spec(key: string, partial: Readonly<Partial<OriginState.OverrideState>>) {
@@ -80,3 +63,5 @@ export function create_msg_request_reload() {
 		}
 	}
 }
+
+export * from './report-usage'

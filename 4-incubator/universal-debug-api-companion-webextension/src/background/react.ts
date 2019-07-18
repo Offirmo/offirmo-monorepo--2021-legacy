@@ -1,4 +1,5 @@
 import { browser } from 'webextension-polyfill-ts'
+import memoize_one from 'memoize-one'
 
 import * as Flux from './flux'
 import { LS_KEY_ENABLED } from '../common/consts'
@@ -9,17 +10,14 @@ import { getLSKeyForOverride } from '@offirmo-private/universal-debug-api-full-b
 
 ////////////////////////////////////
 
-function render_webext_icon() {
-	const sync_status = Flux.get_active_tab_sync_status()
+const render_webext_icon = memoize_one(function render_webext_icon(sync_status) {
 	console.log('🔄 render_webext_icon', { sync_status })
 
 	let text = '✗'
 	let color = "#ff0000"
 
 	switch(sync_status) {
-		case SpecSyncStatus["changed-needs-reload"]:
-			text = '↻'
-			color = '#f3b200'
+		case SpecSyncStatus["unexpected-error"]:
 			break
 
 		case SpecSyncStatus.inactive:
@@ -27,23 +25,30 @@ function render_webext_icon() {
 			text = ''
 			break
 
+		case SpecSyncStatus["changed-needs-reload"]:
+			text = '↻'
+			color = '#f3b200'
+			break
+
 		case SpecSyncStatus["active-and-up-to-date"]:
 			text = '✔'
 			color = "#00AA00"
 			break
+
 		default:
 			console.error('Unknown sync_status!', { sync_status })
 			break
 	}
 
 	// Note: it sets it for ALL tabs
-	// TODO memoize?
 	browser.browserAction.setBadgeText({ text })
 	browser.browserAction.setBadgeBackgroundColor({ color })
-}
+})
 
 Flux.icon_emitter.on('change', () => {
-	render_webext_icon()
+	const tab_sync_status = Flux.get_active_tab_sync_status()
+	console.log('🔄 icon_emitter.onChange', { tab_sync_status, tab_id: Flux.get_current_tab_id() })
+	render_webext_icon(tab_sync_status)
 })
 
 ////////////////////////////////////
@@ -51,28 +56,27 @@ Flux.icon_emitter.on('change', () => {
 function update_ui_state() {
 	const port = Flux.get_port('popup')
 	if (!port) {
-		// popup was never open yet
-		console.log('🔄 update_ui_state: no UI yet')
+		// popup is closed
+		console.log('🔄 update_ui_state: no UI')
 		return
 	}
-	console.log('🔄 update_ui_state…')
+	console.group('🔄 update_ui_state…')
 
-	const ui_state = Flux.get_current_tab_ui_state()
+	const ui_state = Flux.get_active_tab_ui_state()
 	console.log('📤 dispatching state to UI:', ui_state)
 	port.postMessage(
 			create_msg_update_ui_state(
 				ui_state,
 			)
-		)/*
-		.catch(err => {
-			console.erro('While dispatching state to UI:', err)
-		})*/
+		)
+	console.groupEnd()
 }
 
 Flux.ui_emitter.on('change', () => {
 	update_ui_state()
 })
 
+// TODO persist settings
 //    browser.storage.local.set({'address': req.address})
 
 
@@ -81,7 +85,7 @@ Flux.ui_emitter.on('change', () => {
 function propagate_lib_config() {
 	const current_tab_id = Flux.get_current_tab_id()
 	const origin_state = Flux.get_active_origin_state()
-	console.log('🔄 propagate_lib_config', {current_tab_id, origin_state})
+	console.group('🔄 propagate_lib_config', {current_tab_id, origin_state})
 
 	const kv: { [k: string]: string | null } = {}
 
@@ -91,7 +95,7 @@ function propagate_lib_config() {
 		const { key, is_enabled, value_json } = spec
 		const LSKey = getLSKeyForOverride(key)
 		kv[LSKey] = is_enabled
-			? value_json
+			? value_json || null
 			: null
 	})
 
@@ -114,6 +118,7 @@ function propagate_lib_config() {
 				console.error(`propagate_lib_config when dispatching to tab#${current_tab_id}`, err)
 			}
 		})
+	console.groupEnd()
 }
 
 Flux.cscript_emitter.on('change', () => {

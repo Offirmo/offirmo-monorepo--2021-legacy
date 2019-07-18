@@ -18,10 +18,12 @@
 	},
 
 	"permissions": [
+		"<all_urls>",
+		"activeTab",
 		"debugger",
 		"notifications",
 		"storage",
-		"<all_urls>"
+		"tabs"
 	],
 	"background": {
 		"scripts": ["background/background.js"]

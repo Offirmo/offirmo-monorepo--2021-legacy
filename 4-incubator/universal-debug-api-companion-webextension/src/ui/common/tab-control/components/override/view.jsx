@@ -6,6 +6,7 @@ import { ToggleStateless } from '@atlaskit/toggle'
 import Select from '@atlaskit/select'
 import LogLevelRange from './log-level-range'
 import SpecSyncIndicator from '../spec-sync-indicator'
+import { OverrideType } from '../../../../../common/state/origin'
 
 import './index.css'
 
@@ -54,7 +55,7 @@ export default class Switch extends Component {
 		)
 	}
 
-	get_default_value() {
+	get_field_default_value() {
 		const { override } = this.props
 		const { type, value_json } = override.spec
 
@@ -64,8 +65,7 @@ export default class Switch extends Component {
 			case 'Cohort':
 				return build_cohort_select_option(JSON.parse(value_json))
 			case 'LogLevel':
-				/* TODO */
-				return 123
+				return JSON.parse(value_json)
 			default:
 				/* TODO */
 				return 'XXX'
@@ -80,7 +80,7 @@ export default class Switch extends Component {
 		const is_disabled = !is_injection_enabled || !is_enabled
 
 		switch (type) {
-			case 'boolean': {
+			case OverrideType.boolean: {
 				const value = Boolean(value_json)
 				return (
 					<Fragment>
@@ -96,8 +96,8 @@ export default class Switch extends Component {
 					</Fragment>
 				)
 			}
-			case 'Cohort': {
-				const value = value_json
+			case OverrideType.Cohort: {
+				//const value = value_json
 				return (
 					<Fragment>
 						{is_disabled ? '' :
@@ -114,8 +114,8 @@ export default class Switch extends Component {
 					</Fragment>
 				)
 			}
-			case 'LogLevel': {
-				const value = value_json
+			case OverrideType.LogLevel: {
+				const value = JSON.parse(value_json)
 				return (
 					<LogLevelRange
 						{...field_props}
@@ -136,9 +136,7 @@ export default class Switch extends Component {
 		const { type } = override.spec
 
 		const requested_value_json = override.spec.value_json
-		let default_value_json = requested_value_json
-		if (type === 'co')
-			default_value_json = COHORT_SELECT_OPTIONS.find(({value: opt_value}) => requested_value_json === `"${opt_value}"`)
+		let default_value_json = this.get_field_default_value()
 
 		console.log(`🔄 Override "${key}"`, {
 			props: this.props,
@@ -164,7 +162,7 @@ export default class Switch extends Component {
 				</div>
 
 				<div className={`box-sizing-reset override-input override-input-${type}`}>
-					<Field name={key} defaultValue={this.get_default_value()} isRequired>
+					<Field name={key} defaultValue={default_value_json} isRequired>
 						{({ fieldProps, error }) => error ? error : this.get_input(fieldProps, is_enabled) }
 					</Field>
 				</div>

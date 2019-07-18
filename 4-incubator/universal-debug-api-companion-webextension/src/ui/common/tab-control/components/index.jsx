@@ -5,7 +5,7 @@ import { browser } from 'webextension-polyfill-ts'
 
 import './index.css'
 
-import { AppStateListenerAndProvider, AppStateConsumer, get_origin, is_eligible, is_magic_installed } from '../context'
+import { AppStateListenerAndProvider, AppStateConsumer, get_origin, is_eligible, was_magic_installed } from '../context'
 import GlobalSwitch from './global-switch'
 import Overrides from './overrides'
 import ReloadButton from './reload-button'
@@ -39,8 +39,9 @@ const NotInstalledVM = React.memo(
 	function NotInstalledV() {
 		return (
 			<Fragment>
-				<p>You just installed this extension.</p>
-				<p>You need to reload once to activate the magic.</p>
+				<p>The magic is not activated in this page!</p>
+				<p>Maybe you just installed the extension? Or the page failed to load?</p>
+				<p>Try to reload:</p>
 				<ReloadButton />
 				<p className="o⋄color⁚secondary">
 					If you think this is a mistake,
@@ -80,13 +81,13 @@ export default class TabControl extends Component {
 
 		const origin = get_origin(app_state)
 		return (
-			<div className="tab-controls">
+			<div className="tab-controls o⋄font⁚roboto">
 				<h1>Universal Web Dev Tool</h1>
 				{app_state.tab.id === -1
 					? <LoadingVM />
 					: !is_eligible(app_state)
 						? <NotEligibleVM />
-						: !is_magic_installed(app_state)
+						: !was_magic_installed(app_state)
 							? <NotInstalledVM/>
 							: <ControlsVM />
 				}
