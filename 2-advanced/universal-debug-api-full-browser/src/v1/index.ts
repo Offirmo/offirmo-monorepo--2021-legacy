@@ -1,8 +1,8 @@
 import { WebDebugApiV1 } from '@offirmo/universal-debug-api-interface'
 import { Logger, LoggerCreationParams, createLogger } from '@offirmo/practical-logger-browser'
 
-import { getOverrideKeyForLogger, getLSKeyForOverride } from './keys'
-const LIB = 'UDAB'
+import { LS_ROOT, getOverrideKeyForLogger, getLSKeyForOverride } from './keys'
+const LIB = LS_ROOT
 
 interface OverrideStatus {
 	isOn: boolean
@@ -44,6 +44,8 @@ export default function create(root: any): WebDebugApiV1 {
 						overrides[key].isOn = true
 						ownLogger.log(` 🔵 overriden "${key}"`, { value })
 					} catch (err) {
+						// TODO only complain once
+						// TODO seen crash, to check again
 						ownLogger.warn(`🔴 failed to override "${key}"!`, { badValue: rawValue, err })
 					}
 				}
