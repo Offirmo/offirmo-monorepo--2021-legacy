@@ -1,10 +1,6 @@
 
-LHB
-* https://en.wikipedia.org/wiki/Late_Heavy_Bombardment
 
-"mascons"
-* https://science.slashdot.org/story/19/06/11/2237253/scientists-discover-previously-unidentified-mass-beneath-surface-of-the-moon
-* https://en.wikipedia.org/wiki/Mass_concentration_(astronomy)
+
 
 
 
@@ -27,11 +23,16 @@ https://en.wikipedia.org/wiki/Martello_tower
 
 ### cosmique
 * https://science.slashdot.org/story/19/07/10/1824216/moons-that-escape-their-planets-could-become-ploonets
+* https://science.slashdot.org/story/19/06/11/2237253/scientists-discover-previously-unidentified-mass-beneath-surface-of-the-moon
+* https://en.wikipedia.org/wiki/Mass_concentration_(astronomy)
+
 
 ### formation
 * https://science.slashdot.org/story/19/05/30/0257253/brown-dwarf-atmospheres-as-the-potentially-most-detectable-and-abundant-sites-for-life
 * https://www.cnews.fr/monde/2019-06-18/la-terre-menacee-par-une-eruption-solaire-de-grande-ampleur-850052
 * https://en.wikipedia.org/wiki/Abiogenesis
+* https://en.wikipedia.org/wiki/Late_Heavy_Bombardment
+
 
 ### terrestre
 * https://www.news.com.au/technology/science/animals/giant-severed-ice-age-wolfs-head-discovered-in-siberian-permafrost/news-story/2d910feaef04ac5b807808af4b578f4b
@@ -80,3 +81,6 @@ https://en.wikipedia.org/wiki/Atropa_belladonna
 
 ## tosort
     Men wanted for hazardous journey. Small wages, bitter cold, long months of complete darkness, constant danger, safe return doubtful. Honour and recognition in case of success.[5][6] 
+
+
+mondes "virtuels" où les sorts sont limités sous peine de faire effondrer le monde
