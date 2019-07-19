@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
-import * as TabState from '../../../../../common/state/tab'
 import SpecSyncIndicator from '../spec-sync-indicator'
 import './index.css'
 

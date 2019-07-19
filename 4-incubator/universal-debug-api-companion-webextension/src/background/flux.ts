@@ -1,12 +1,13 @@
 import EventEmitter from 'emittery'
 import assert from 'tiny-invariant'
-import { browser, Tabs, Runtime } from 'webextension-polyfill-ts'
+import { Tabs, Runtime } from 'webextension-polyfill-ts'
 
-import { query_active_tab } from './utils'
-import * as State from './state'
+import * as OriginState from "../common/state/origin";
 import * as TabState from "../common/state/tab";
 import * as UIState from "../common/state/ui";
 import { Report } from '../common/messages'
+import { query_active_tab } from './utils'
+import * as State from './state'
 
 ////////////////////////////////////
 
@@ -18,12 +19,6 @@ export const ui_emitter = new EventEmitter()
 export const cscript_emitter = new EventEmitter()
 
 ////////////////////////////////////
-
-/*
-export function get(): Readonly<State.State> {
-	return state
-}
-*/
 
 export function get_current_tab_id(): number {
 	return State.get_current_tab_id(state)
@@ -63,14 +58,6 @@ export function get_active_tab_ui_state(): UIState.State {
 	}
 }
 
-/*
-export function is_current_tab_injected() {
-	const current_tab_id = state.active_tab_id
-	assert(current_tab_id >= 0, 'is_current_tab_injected: current_tab_id')
-
-	return state.is_tab_injected[current_tab_id]
-}
-*/
 
 ////////////////////////////////////
 
@@ -93,11 +80,11 @@ export function on_init(): void {
 	console.groupEnd()
 }
 
-export function ensure_tab(id: number, tab_hint?: Readonly<Tabs.Tab>): void {
+export function ensure_tab(source: string, id: number, tab_hint?: Readonly<Tabs.Tab>): void {
 	console.group('🌀 ensure_tab', {id, tab_hint})
 	console.log('before', state)
 
-	state = State.ensure_tab(state, id, tab_hint)
+	state = State.ensure_tab(state, source, id, tab_hint)
 
 	// no react, we'll get tab events soon
 
@@ -193,11 +180,11 @@ export function report_lib_injection(tab_id: number, is_injected: boolean): void
 	console.groupEnd()
 }
 
-export function toggle_lib_injection(): void {
+export function toggle_lib_injection(tab_id: number): void {
 	console.group('🌀 toggle_lib_injection')
 	console.log('before', state)
 
-	state = State.toggle_lib_injection(state)
+	state = State.toggle_lib_injection(state, tab_id)
 
 	icon_emitter.emit('change', state)
 	ui_emitter.emit('change', state)
@@ -221,26 +208,14 @@ export function report_debug_api_usage(tab_id: number, reports: Report[]): void 
 	console.log('after', state)
 	console.groupEnd()
 }
-/*
-export function on_lib_activity(tab_id) {
 
-	ui_emitter.emit('change', state)
+export function change_override_spec(tab_id: number, key: string, partial: Readonly<Partial<OriginState.OverrideState>>) {
+	console.group('🌀 change_override_spec', { tab_id, key, partial })
+	console.log('before', state)
 
-	console.log('after', state)
-	console.groupEnd()
-}
+	state = State.change_override_spec(state, tab_id, key, partial)
 
-export function update_override(override_id, partial) {
-	const current_tab_id = state.active_tab_id
-	assert(current_tab_id >= 0, 'update_override: current_tab_id')
-	const current_tab_origin = state.tab_origin[current_tab_id]
-	assert(current_tab_origin, 'update_override: current_tab_origin')
-
-	state.origins[current_tab_origin].overrides[override_id] = {
-		...state.origins[current_tab_origin].overrides[override_id],
-		...partial,
-	}
-
+	icon_emitter.emit('change', state)
 	ui_emitter.emit('change', state)
 	cscript_emitter.emit('change', state)
 
@@ -248,15 +223,6 @@ export function update_override(override_id, partial) {
 	console.groupEnd()
 }
 
-export function edit_override(override_id, value) {
-
-	ui_emitter.emit('change', state)
-	cscript_emitter.emit('change', state)
-
-	console.log('after', state)
-	console.groupEnd()
-}
-*/
 ////////////////////////////////////
 
 // convenience

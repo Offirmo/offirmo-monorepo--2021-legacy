@@ -77,7 +77,7 @@ function _UWDT_b64DecodeUnicode(str) {
 
 	const scriptElement2 = document.createElement('script')
 	scriptElement2.innerHTML = `eval(_UWDT_b64DecodeUnicode("${lib2}"))`
-	//document.documentElement.prepend(scriptElement2)
+	document.documentElement.prepend(scriptElement2)
 
 	if (DEBUG) console.info(`[${LIB},${Date.now()}] UWDA was injected from the webextension ✅`)
 }
@@ -110,8 +110,9 @@ browser.runtime.onMessage.addListener((request, sender): Promise<any> | void => 
 
 		if (DEBUG) console.log({type, payload})
 
-		// TODO only overwrite if like we believed?
-		// or rather TODO refresh infos on UI open
+		// TODO only overwrite if not changed in the meantime?
+		// TODO clean all overrides if disabled?
+		// TODO actively refresh infos on UI open?
 
 		switch (type) {
 			case MSG_TYPE__UPDATE_LS_STATE: {

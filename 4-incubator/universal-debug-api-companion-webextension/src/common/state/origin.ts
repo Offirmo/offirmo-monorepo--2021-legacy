@@ -1,10 +1,9 @@
-import { Enum } from 'typescript-string-enums'
-import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
+import {Enum} from 'typescript-string-enums'
+import {TimestampUTCMs, get_UTC_timestamp_ms} from '@offirmo-private/timestamps'
 
-import { UNKNOWN_ORIGIN } from '../consts'
+import {UNKNOWN_ORIGIN} from '../consts'
 import {Report} from "../messages";
 import assert from "tiny-invariant";
-import * as TabState from "./tab";
 
 ////////////////////////////////////
 // This state represents the "specification" of the debug API config we want
@@ -16,7 +15,7 @@ export const OverrideType = Enum(
 	'LogLevel',
 	'Cohort',
 	'boolean',
-	'string',
+	'string', // TODO useful?
 	//'URL', ?
 	// int ?
 	// TODO more
@@ -28,8 +27,10 @@ export interface OverrideState {
 	key: string
 	is_enabled: boolean,
 	type: OverrideType,
-	value_json: string | undefined, // for convenience, we remember the value even when not enabled
-	                                // undefined = no value was ever set TODO default compatible with type?
+	default_value_json: string, // useful for display when disabled
+	value_json: string | null | undefined, // for convenience, we remember the value even when not enabled
+														// null = no value was ever set
+														// undefined = we don't know yet (waiting for a report)
 	last_reported: TimestampUTCMs, // for cleaning
 }
 
@@ -53,15 +54,30 @@ export function is_injection_requested(state: Readonly<State>): State['is_inject
 
 export function infer_type_from_key(key: string, value_json: null | string): OverrideType {
 	const key_lc = key.toLowerCase()
+	//console.log('INF', {key, key_lc})
 
-	if (key_lc.endsWith('.loglevel') || key_lc.endsWith('_ll') || key_lc.endsWith('.ll'))
+	const suffix_lc = (() => {
+		const dot = key_lc.split('.').slice(-1)[0]
+		const un = key_lc.split('_').slice(-1)[0]
+		if (!dot)
+			return un
+		if (!un)
+			return dot
+		return (un.length < dot.length) ? un : dot
+	})()
+
+	if (suffix_lc === 'loglevel' || suffix_lc === 'll')
 		return OverrideType.LogLevel
 
-	if (key_lc.endsWith('.cohort') || key_lc.endsWith('_co') || key_lc.endsWith('.co'))
+	if (suffix_lc === 'cohort' || suffix_lc === 'co')
 		return OverrideType.Cohort
 
-	if (key_lc.endsWith('.str') || key_lc.endsWith('_str'))
+	/* TODO check if string is useful
+	if (suffix_lc === 'str')
 		return OverrideType.string
+	 */
+
+	//console.log('INF no suffix match')
 
 	let bool_hint_separator: string | undefined
 	if (key_lc.startsWith('is'))
@@ -75,28 +91,32 @@ export function infer_type_from_key(key: string, value_json: null | string): Ove
 	if (key_lc.startsWith('will'))
 		bool_hint_separator = key[4]
 
-	if (  bool_hint_separator
+	if (bool_hint_separator
 		&& (
-			   bool_hint_separator === '_'
+			bool_hint_separator === '_'
 			|| bool_hint_separator !== bool_hint_separator.toLowerCase()
 		))
 		return OverrideType.boolean
+
+	//console.log('INF no prefix match')
 
 	if (!value_json)
 		return OverrideType.any
 
 	try {
 		const value = JSON.parse(value_json)
+		//console.log('INF', {value, value_json, type: typeof value})
+
 		if (typeof value === 'boolean')
 			return OverrideType.boolean
 
-		if (typeof value === 'string')
-			return OverrideType.string
-
+		/* TODO check if string is useful
+           if (typeof value === 'string')
+               return OverrideType.string
+      */
 		if (value === 'not-enrolled')
 			return OverrideType.Cohort
-	}
-	catch {
+	} catch {
 		// ignore
 	}
 
@@ -139,14 +159,23 @@ export const DEMO_REPORTS: Report[] = [
 		key: 'root.logLevel',
 		default_value_json: '"error"',
 		existing_override_json: null, // not enabled
+	},
+	{
+		type: 'override',
+		key: 'some_url',
+		default_value_json: '"https://www.online-adventur.es/"',
+		//existing_override_json: null,
+		existing_override_json: '"https://offirmo-monorepo.netlify.com/"',
+		//existing_override_json: 'some bad json',
 	}
 ]
 export function create_demo(origin: string): Readonly<State> {
 	let state = create(origin)
 	state = report_lib_injection(state, true)
 	DEMO_REPORTS.forEach(report => state = report_debug_api_usage(state, report))
-	//state = TODO override change request
-	//fooExperiment.cohort to sth else!
+	state = change_override_spec(state, 'fooExperiment.cohort', {
+		value_json: 'variation-1'
+	})
 	return state
 }
 
@@ -173,14 +202,15 @@ export function toggle_lib_injection(state: Readonly<State>): Readonly<State> {
 export function report_debug_api_usage(state: Readonly<State>, report: Report): Readonly<State> {
 	switch (report.type) {
 		case 'override': {
-			const { key, default_value_json, existing_override_json } = report
+			const {key, default_value_json, existing_override_json} = report
 			assert(!!key, 'O.report_debug_api_usage override key')
 			let override = {
 				...state.overrides[key],
 				key,
 				is_enabled: !!existing_override_json,
 				type: infer_type_from_key(key, default_value_json),
-				value_json: existing_override_json || default_value_json,
+				default_value_json,
+				value_json: existing_override_json,
 				last_reported: get_UTC_timestamp_ms(),
 			}
 			state = {
@@ -198,6 +228,20 @@ export function report_debug_api_usage(state: Readonly<State>, report: Report): 
 	}
 
 	return state
+}
+
+export function change_override_spec(state: Readonly<State>, key: string, partial: Readonly<Partial<OverrideState>>): Readonly<State> {
+	return {
+		...state,
+		last_interacted_with: get_UTC_timestamp_ms(),
+		overrides: {
+			...state.overrides,
+			[key]: {
+				...state.overrides[key],
+				...partial,
+			}
+		}
+	}
 }
 
 ////////////////////////////////////

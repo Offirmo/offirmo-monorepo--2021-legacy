@@ -5,7 +5,6 @@
 	--o⋄font-size--default: 14px;
 }
 
-
 /* adjustments */
 [data-o-theme="lod--colorhunt212"] {
 	--o⋄color--bg⁚main: var(--o⋄color__co212__brown);
@@ -14,21 +13,4 @@
 body {
 	width: 650px; /* needed to force popup size */
 	padding: 0 10px 10px 10px;
-}
-
-
-.left-right-aligned
-{
-	display: table;
-	width: 100%;
-}
-.left-right-aligned > div:first-child
-{
-	display: table-cell;
-	text-align: left;
-}
-.left-right-aligned > div:last-child
-{
-	display: table-cell;
-	text-align: right;
 }

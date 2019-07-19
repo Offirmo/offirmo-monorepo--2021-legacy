@@ -5,7 +5,6 @@ import * as Flux from './flux'
 import { LS_KEY_ENABLED } from '../common/consts'
 import { create_msg_update_ui_state, create_msg_update_ls_state } from '../common/messages'
 import { SpecSyncStatus } from "../common/state/tab";
-import {OverrideType} from "../common/state/origin";
 import { getLSKeyForOverride } from '@offirmo-private/universal-debug-api-full-browser/src/v1/keys'
 
 ////////////////////////////////////

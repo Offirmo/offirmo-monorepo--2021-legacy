@@ -1,8 +1,6 @@
 import * as OriginState from './origin'
 import * as TabState from './tab'
 import { UNKNOWN_ORIGIN } from '../consts'
-import {DEMO_REPORTS} from "./origin";
-import {report_debug_api_usage} from "./origin";
 
 export interface State {
 	origin: OriginState.State,
@@ -68,11 +66,6 @@ export function get_override(state: Readonly<State>, key: string): Readonly<Over
 	}
 }
 
-/*
-export function get_overrides_spec_map(state: Readonly<State>): Readonly<OriginState.State['overrides']> {
-	return state.origin.overrides
-}
-*/
 export function get_overrides_map(state: Readonly<State>): { [k: string]: Readonly<OverrideState> } {
 	const keys_set = new Set<string>([
 			...Object.keys(state.origin.overrides),
@@ -87,11 +80,6 @@ export function get_overrides_map(state: Readonly<State>): { [k: string]: Readon
 		{} as ReturnType<typeof get_overrides_map>
 	)
 }
-
-/*
-export function is_override_enabled(state: Readonly<State>, key: string): boolean {
-	return state.origin.overrides[key].is_enabled
-}*/
 
 ////////////////////////////////////
 // no reducers: this state is derived from the global state

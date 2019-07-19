@@ -41,3 +41,11 @@
 	position: relative;
 	top: -20px;
 }
+
+.override-input-string input {
+	width: 195px;
+	margin: 0 2px 0 1px;
+}
+.override-input--error {
+	border: solid 2px var(--o⋄color--fg⁚error);
+}

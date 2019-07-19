@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import Form, { FormSection, FormFooter } from '@atlaskit/form';
-import { browser } from 'webextension-polyfill-ts'
 
 import './index.css'
 
@@ -82,7 +81,7 @@ export default class TabControl extends Component {
 		const origin = get_origin(app_state)
 		return (
 			<div className="tab-controls o⋄font⁚roboto">
-				<h1>Universal Web Dev Tool</h1>
+				<h1><span className="o⋄character-as-icon">🛠</span> Universal Web Dev Tool</h1>
 				{app_state.tab.id === -1
 					? <LoadingVM />
 					: !is_eligible(app_state)

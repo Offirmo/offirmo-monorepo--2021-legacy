@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { render_any_m } from '@offirmo-private/react-error-boundary'
 
-import { State, create_loading, create_demo } from '../../../../common/state/ui'
+import { create_loading, create_demo } from '../../../../common/state/ui'
 
 // https://reactjs.org/docs/context.html
 const DEFAULT_STATE = location.href === 'http://localhost:9090/ui/popup/popup.html'
@@ -35,9 +35,9 @@ class AppStateListenerAndProvider extends React.Component {
 	}
 
 	render() {
-		set_app_state_internal = set_app_state_internal || this.set_state
-
 		console.log(`🔄 AppStateListenerAndProvider`, {state: this.state})
+
+		set_app_state_internal = set_app_state_internal || this.set_state
 
 		return (
 			<AppStateContext.Provider value={this.state}>

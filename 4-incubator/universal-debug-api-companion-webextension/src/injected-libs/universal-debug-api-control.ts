@@ -37,7 +37,6 @@ function schedule_sync() {
 ////////////////////////////////////
 
 function overrideHook<T>(key: string, default_value: T): T {
-
 	if (!overrides.hasOwnProperty(key)) {
 		const LSKey = getLSKeyForOverride(key)
 		const existing_override_json = localStorage.getItem(LSKey)
@@ -82,6 +81,7 @@ function addDebugCommand(commandName: string, callback: () => void) {
 	return original_v1.addDebugCommand(commandName, callback)
 }
 
+// TODO check if this replacement is really compatible with the browser version, incl. getLogger
 // replace with the wrapped version
 (window as any)._debug.v1 = {
 	...original_v1,

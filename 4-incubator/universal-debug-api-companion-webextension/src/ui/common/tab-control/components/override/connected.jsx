@@ -1,9 +1,15 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+import { SpecSyncStatus } from '../../../../../common/state/tab'
 import View from './view'
 
-import {AppStateConsumer, get_override_sync_status, should_inject_the_lib} from '../../context'
+import {
+	AppStateConsumer,
+	get_global_switch_sync_status,
+	get_override_sync_status,
+	should_inject_the_lib,
+} from '../../context'
 
 
 
@@ -17,13 +23,21 @@ class Override extends Component {
 		const is_injection_enabled = should_inject_the_lib(app_state)
 		const { override, on_change } = this.props
 		const { key } = override.spec
-		const status = get_override_sync_status(app_state, key)
-		function on_key_change({value, is_enabled}) {
-			on_change({key, value, is_enabled })
+
+		const status = (() => {
+			const global_status = get_global_switch_sync_status(app_state)
+			if (global_status === SpecSyncStatus.inactive)
+				return global_status
+
+			return get_override_sync_status(app_state, key)
+		})()
+
+		function on_key_change({value_json, is_enabled}) {
+			on_change({key, value_json, is_enabled })
 		}
 
 		return (
-			<View {...{is_injection_enabled, on_change: on_key_change, override, status}} />
+			<View {...{is_injection_enabled, status, override, on_change: on_key_change}} />
 		)
 	}
 

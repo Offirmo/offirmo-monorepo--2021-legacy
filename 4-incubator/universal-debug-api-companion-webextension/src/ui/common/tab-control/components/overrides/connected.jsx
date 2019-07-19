@@ -13,8 +13,9 @@ const OverridesC1M = React.memo(
 		if (!overrides.length)
 			return (
 				<Fragment>
-					<p className="o⋄color⁚secondary">No override usage detected for this origin so far. Suggestions:</p>
+					<p className="o⋄color⁚secondary">No known overrides for this origin so far. Suggestions:</p>
 					<ol className="o⋄color⁚secondary">
+						<li>Ensure the injection is enabled (switch above)</li>
 						<li>Use some in your code!</li>
 						<li>Try refreshing the page</li>
 					</ol>
@@ -33,12 +34,14 @@ class Overrides extends Component {
 	static propTypes = {
 	}
 
-	on_change = ({key, value, is_enabled}) => {
-		console.log('Overrides on_change', {key, value, is_enabled})
-		send_message(create_msg_change_override_spec(key, {
-			value,
+	on_change = ({key, value_json, is_enabled}) => {
+		console.log('Overrides on_change', {key, value_json, is_enabled})
+		const msg = create_msg_change_override_spec(key, {
+			value_json,
 			is_enabled,
-		}))
+		})
+		console.log('📤 Sending msg:', msg)
+		send_message(msg)
 	}
 
 	render_view = (props) => {

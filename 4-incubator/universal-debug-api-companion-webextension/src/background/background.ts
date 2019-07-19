@@ -11,10 +11,12 @@ import {
 	MSG_TYPE__TOGGLE_LIB_INJECTION,
 	MSG_TYPE__REQUEST_CURRENT_PAGE_RELOAD,
 	MSG_TYPE__REPORT_DEBUG_API_USAGE,
+	MSG_TYPE__OVERRIDE_SPEC_CHANGED,
 } from '../common/messages'
 import {query_active_tab} from "./utils";
 
 const LIB = '🧩 UWDT/bg'
+// TODO clean logs!
 
 console.log(`[${LIB}.${+Date.now()}] Hello from background!`, browser)
 
@@ -50,13 +52,13 @@ browser.tabs.onCreated.addListener((tab) => {
 	if (!tab.id)
 		console.warn('tab without id???')
 	else
-		Flux.ensure_tab(tab.id, tab)
+		Flux.ensure_tab('onCreated event', tab.id, tab)
 	console.groupEnd()
 })
 
 browser.tabs.onUpdated.addListener((tab_id, change_info, tab) => {
 	console.group('⚡ on tab updated', { tab_id, change_info, tab })
-	Flux.ensure_tab(tab_id, tab)
+	Flux.ensure_tab('onUpdated event', tab_id, tab)
 	if (tab.url)
 		Flux.update_tab_origin(tab_id, tab.url)
 	if (change_info.status === 'loading')
@@ -95,41 +97,49 @@ browser.runtime.onMessage.addListener((request, sender): Promise<any> | void => 
 			console.log({type, payload})
 
 			switch (type) {
-				case MSG_TYPE__REQUEST_CURRENT_PAGE_RELOAD: {
-					browser.tabs.reload(Flux.get_current_tab_id())
-					break
-				}
-
-				case MSG_TYPE__TOGGLE_LIB_INJECTION: {
-					Flux.toggle_lib_injection()
-					break
-				}
-
-				case MSG_TYPE__REPORT_DEBUG_API_USAGE: {
-					assert(sender.tab, `MSG_TYPE__REPORT_DEBUG_API_USAGE is from a tab`)
-					assert(sender.tab!.id, `MSG_TYPE__REPORT_DEBUG_API_USAGE is from a tab (2)`)
-					Flux.report_debug_api_usage(sender.tab!.id!, payload.reports)
-					break
-				}
-
-				/*case MSG_TYPE__OVERRIDE_SPEC_CHANGED: {
-                   const { key, partial } = request[MSG_ENTRY]
-                   Flux.update_override(key, partial)
-                   break
-               }*/
-
+				/////// from content script ///////
 				case MSG_TYPE__REPORT_IS_LIB_INJECTED: {
-					assert(sender.tab, 'MSG_TYPE__REPORT_IS_LIB_INJECTED 1')
-					assert(sender.tab!.id, 'MSG_TYPE__REPORT_IS_LIB_INJECTED 2')
-
+					assert(sender.tab, `${type}: is from a tab`)
+					assert(sender.tab!.id, `${type}: is from a tab (2)`)
 					const tab_id = sender.tab!.id!
 					const { is_injected, url } = payload
-					console.log({tab_id, is_injected})
-					Flux.ensure_tab(tab_id, sender.tab)
+					Flux.ensure_tab(`${type}`, tab_id, sender.tab)
 					Flux.update_tab_origin(tab_id, url)
 					Flux.report_lib_injection(tab_id, is_injected)
 					break
 				}
+
+				case MSG_TYPE__REPORT_DEBUG_API_USAGE: {
+					assert(sender.tab, `${type}: is from a tab`)
+					assert(sender.tab!.id, `${type}: is from a tab (2)`)
+					const tab_id = sender.tab!.id!
+					Flux.ensure_tab(`${type}`, tab_id, sender.tab)
+					Flux.report_debug_api_usage(tab_id, payload.reports)
+					break
+				}
+
+				/////// from UI = popup ///////
+				// no tab infos available from popup
+				case MSG_TYPE__REQUEST_CURRENT_PAGE_RELOAD: {
+					const tab_id = Flux.get_current_tab_id()
+					browser.tabs.reload(tab_id)
+					break
+				}
+
+				case MSG_TYPE__TOGGLE_LIB_INJECTION: {
+					const tab_id = Flux.get_current_tab_id()
+					Flux.toggle_lib_injection(tab_id)
+					break
+				}
+
+				case MSG_TYPE__OVERRIDE_SPEC_CHANGED: {
+					const tab_id = Flux.get_current_tab_id()
+					const { key, partial } = payload
+					 Flux.change_override_spec(tab_id, key, partial)
+					 break
+				}
+
+				/////////////////////
 				default:
 					console.error(`Unhandled msg type "${type}"!`)
 					break
@@ -149,8 +159,8 @@ browser.runtime.onMessage.addListener((request, sender): Promise<any> | void => 
 })
 
 ////////////////////////////////////
-// listen to "port" messages from other parts of the extension
 
+// listen to "port" messages from other parts of the extension
 browser.runtime.onConnect.addListener(port => {
 	const { name } = port
 	console.log(`[${LIB}.${+Date.now()}] received connection "${name}"`, {port})
@@ -160,8 +170,6 @@ browser.runtime.onConnect.addListener(port => {
 	switch (name) {
 		case 'devtools':
 		case 'popup':
-			// nothing needed for now.
-			//port.onMessage.addListener(on_content_script_message)
 			break
 		default:
 			console.error(`Unrecognized port name: "${name}"!`)

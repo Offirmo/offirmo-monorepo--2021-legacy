@@ -1,5 +1,5 @@
 /* global: _debug */
-import '../../src/injected-libs/universal-debug-api-control'
+//import '../../src/injected-libs/universal-debug-api-control'
 import {
 	getLogger,
 	exposeInternal,
@@ -46,11 +46,22 @@ _debug.v1.addDebugCommand('pause', () => {
 	console.log('paused')
 })
 
-setInterval(() => {
+function render() {
+	const is_feature_x_on = overrideHook('is_feature_X_on', false)
+	const span_f = document.getElementById('feature-x')
+	span_f.innerText = is_feature_x_on ? '✅' : '❌'
+
 	const server = overrideHook('SERVER_URL', 'https://www.online-adventur.es/')
-	const link = document.getElementById('server_link')
+	const link = document.getElementById('server-url')
 	link.href = link.innerText = server
-}, 1000)
+
+	const variation = overrideHook('experiment_Y_cohort', 'not-enrolled')
+	const span_x = document.getElementById('experiment')
+	span_x.innerText = variation
+}
+setInterval(render, 1000)
+setTimeout(render, 1) // just for it not to be sync
+
 //////////// communication ////////////
 
 /*

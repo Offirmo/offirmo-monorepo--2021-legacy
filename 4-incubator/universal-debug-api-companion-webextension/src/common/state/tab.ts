@@ -1,10 +1,10 @@
+import assert from "tiny-invariant"
 import { Enum } from 'typescript-string-enums'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
-import * as OriginState from './origin'
+
 import { UNKNOWN_ORIGIN } from '../consts'
-import {Report} from "../messages";
-import assert from "tiny-invariant";
-import {infer_type_from_key} from "./origin";
+import {Report} from "../messages"
+import * as OriginState from './origin'
 
 ////////////////////////////////////
 
@@ -67,6 +67,15 @@ export function get_override_sync_status(state: Readonly<State>, override_spec: 
 
 	if (!override.last_reported)
 		return SpecSyncStatus.inactive
+
+	if (override_spec.is_enabled && override_spec.value_json) {
+		try {
+			JSON.parse(override_spec.value_json)
+		}
+		catch {
+			return SpecSyncStatus["unexpected-error"]
+		}
+	}
 
 	const was_enabled = override.last_reported_value_json !== null
 	if (override_spec.is_enabled !== was_enabled)
@@ -218,20 +227,5 @@ export function report_debug_api_usage(state: Readonly<State>, report: Report): 
 	return state
 }
 
-/*
-export function report_override_value(state: Readonly<State>, key: string, value_json: string | null): Readonly<State> {
-	return {
-		...state,
-		overrides: {
-			...state.overrides,
-			[key]: {
-				...state.overrides[key],
-				last_reported: get_UTC_timestamp_ms(),
-				last_reported_value_json: value_json,
-			}
-		}
-	}
-}
-*/
 
 ////////////////////////////////////

@@ -1,13 +1,11 @@
 import assert from 'tiny-invariant'
-import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
-import { browser, Tabs, Runtime } from 'webextension-polyfill-ts'
+import { Tabs, Runtime } from 'webextension-polyfill-ts'
 
 import { UNKNOWN_ORIGIN } from '../common/consts'
 import * as OriginState from '../common/state/origin'
 import * as TabState from '../common/state/tab'
+import { Report } from "../common/messages";
 import { query_active_tab } from './utils'
-import {Report} from "../common/messages";
-import {icon_emitter, ui_emitter} from "./flux";
 
 ////////////////////////////////////
 
@@ -25,10 +23,6 @@ export interface State {
 		[id: number]: TabState.State,
 	}
 }
-
-////////////////////////////////////
-
-export const LOCAL_DEMO_ORIGIN = 'http://localhost:1234'
 
 ////////////////////////////////////
 
@@ -60,15 +54,6 @@ export function get_active_tab_state(state: Readonly<State>): TabState.State {
 
 	return state.tabs[active_tab_id]
 }
-
-/*
-export function is_current_tab_injected() {
-	const current_tab_id = state.active_tab_id
-	assert(current_tab_id >= 0, 'is_current_tab_injected: current_tab_id')
-
-	return state.is_tab_injected[current_tab_id]
-}
-*/
 
 export function get_port(state: Readonly<State>, channel_id: string): Readonly<Runtime.Port> | undefined {
 	return state.ports[channel_id]
@@ -105,10 +90,10 @@ export function update_port(state: Readonly<State>, channel_id: string, port: Re
 // This should never happens if we listen to the tab events correctly,
 // but as a matter of fact it happens.
 // TODO investigate if we could do it better
-export function ensure_tab(state: Readonly<State>, id: number, tab_hint?: Readonly<Tabs.Tab>): Readonly<State> {
+export function ensure_tab(state: Readonly<State>, source: string, id: number, tab_hint?: Readonly<Tabs.Tab>): Readonly<State> {
 	if (state.tabs[id]) return state
 
-	console.warn(`Tab #${id} discovered in ensure_tab()! [TODO improve?]`)
+	console.warn(`Tab #${id} discovered in ensure_tab(from ${source})!]`)
 	return {
 		...state,
 		tabs: {
@@ -196,17 +181,16 @@ export function report_lib_injection(state: Readonly<State>, tab_id: number, is_
 	}
 }
 
-export function toggle_lib_injection(state: Readonly<State>): Readonly<State> {
-	const { active_tab_id } = state
-	assert(active_tab_id >= 0, 'toggle_lib_injection: active_tab_id')
-	const current_tab_origin = state.tabs[active_tab_id].origin
-	assert(!!current_tab_origin, 'toggle_lib_injection: current_tab_origin')
+export function toggle_lib_injection(state: Readonly<State>, tab_id: number): Readonly<State> {
+	assert(tab_id >= 0, 'toggle_lib_injection: tab_id')
+	const tab_origin = state.tabs[tab_id].origin
+	assert(!!tab_origin, 'toggle_lib_injection: tab_origin')
 
 	return {
 		...state,
 		origins: {
 			...state.origins,
-			[current_tab_origin]: OriginState.toggle_lib_injection(state.origins[current_tab_origin]),
+			[tab_origin]: OriginState.toggle_lib_injection(state.origins[tab_origin]),
 		}
 	}
 }
@@ -235,27 +219,18 @@ export function report_debug_api_usage(state: Readonly<State>, tab_id: number, r
 	}
 }
 
-/*
-export function update_override(override_id, partial) {
-	const current_tab_id = state.active_tab_id
-	assert(current_tab_id >= 0, 'update_override: current_tab_id')
-	const current_tab_origin = state.tab_origin[current_tab_id]
-	assert(current_tab_origin, 'update_override: current_tab_origin')
+export function change_override_spec(state: Readonly<State>, tab_id: number, key: string, partial: Readonly<Partial<OriginState.OverrideState>>): Readonly<State> {
+	assert(tab_id >= 0, 'change_override_spec: tab_id')
+	const tab_origin = state.tabs[tab_id].origin
+	assert(!!tab_origin, 'change_override_spec: tab_origin')
 
-	state.origins[current_tab_origin].overrides[override_id] = {
-		...state.origins[current_tab_origin].overrides[override_id],
-		...partial,
+	return {
+		...state,
+		origins: {
+			...state.origins,
+			[tab_origin]: OriginState.change_override_spec(state.origins[tab_origin], key, partial),
+		}
 	}
-
-	ui_emitter.emit('change', state)
-	cscript_emitter.emit('change', state)
 }
-
-export function edit_override(override_id, value) {
-
-	ui_emitter.emit('change', state)
-	cscript_emitter.emit('change', state)
-}
-*/
 
 ////////////////////////////////////

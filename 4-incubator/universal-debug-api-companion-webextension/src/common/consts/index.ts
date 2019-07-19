@@ -1,5 +1,3 @@
-
-
 export const UNKNOWN_ORIGIN = '???'
 
 export * from './entry'
