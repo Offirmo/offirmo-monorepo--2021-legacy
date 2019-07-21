@@ -158,33 +158,33 @@ export const DEMO_REPORTS: Report[] = [
 		type: 'override',
 		key: 'fooExperiment.cohort',
 		default_value_sjson: '"not-enrolled"',
-		existing_override_json: '"variation-1"'
+		existing_override_sjson: '"variation-1"'
 	},
 	{
 		type: 'override',
 		key: 'fooExperiment.isSwitchedOn',
 		default_value_sjson: 'true',
-		existing_override_json: 'true', // up to date
+		existing_override_sjson: 'true', // up to date
 	},
 	{
 		type: 'override',
 		key: 'fooExperiment.logLevel',
 		default_value_sjson: '"error"',
-		existing_override_json: '"warning"',
+		existing_override_sjson: '"warning"',
 	},
 	{
 		type: 'override',
 		key: 'root.logLevel',
 		default_value_sjson: '"error"',
-		existing_override_json: null, // not enabled
+		existing_override_sjson: null, // not enabled
 	},
 	{
 		type: 'override',
 		key: 'some_url',
 		default_value_sjson: '"https://www.online-adventur.es/"',
-		//existing_override_json: null,
-		existing_override_json: '"https://offirmo-monorepo.netlify.com/"',
-		//existing_override_json: 'some bad json',
+		//existing_override_sjson: null,
+		existing_override_sjson: '"https://offirmo-monorepo.netlify.com/"',
+		//existing_override_sjson: 'some bad json',
 	}
 ]
 export function create_demo(origin: string): Readonly<State> {
@@ -214,18 +214,18 @@ export function report_lib_injection(state: Readonly<State>, is_injected: boolea
 export function report_debug_api_usage(state: Readonly<State>, report: Report): Readonly<State> {
 	switch (report.type) {
 		case 'override': {
-			const { key, default_value_sjson, existing_override_json } = report
+			const { key, default_value_sjson, existing_override_sjson } = report
 			assert(!!key, 'O.report_debug_api_usage override key')
 			assert(typeof default_value_sjson === 'string', 'O.report_debug_api_usage default value string')
-			assert(existing_override_json === null || typeof existing_override_json === 'string', 'O.report_debug_api_usage existing value null or string')
+			assert(existing_override_sjson === null || typeof existing_override_sjson === 'string', 'O.report_debug_api_usage existing value null or string')
 
 			let override = {
 				...state.overrides[key],
 				key,
-				is_enabled: !!existing_override_json,
+				is_enabled: !!existing_override_sjson,
 				type: infer_override_type_from_key(key, default_value_sjson),
 				default_value_sjson,
-				value_sjson: existing_override_json,
+				value_sjson: existing_override_sjson,
 				last_reported: get_UTC_timestamp_ms(),
 			}
 			state = {

@@ -5,6 +5,7 @@ import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamp
 import { UNKNOWN_ORIGIN } from '../consts'
 import { Report } from '../messages'
 import * as OriginState from './origin'
+import is_valid_stringified_json from '../utils/is-valid-stringified-json'
 
 ////////////////////////////////////
 
@@ -72,12 +73,8 @@ export function get_override_sync_status(state: Readonly<State>, override_spec: 
 		return SpecSyncStatus.inactive
 
 	if (override_spec.is_enabled && override_spec.value_sjson) {
-		try {
-			JSON.parse(override_spec.value_sjson)
-		}
-		catch {
+		if (!is_valid_stringified_json(override_spec.value_sjson))
 			return SpecSyncStatus['unexpected-error']
-		}
 	}
 
 	const was_enabled = override.last_reported_value_sjson !== null
@@ -207,13 +204,13 @@ export function ensure_override(state: Readonly<State>, override_spec: OriginSta
 export function report_debug_api_usage(state: Readonly<State>, report: Report): Readonly<State> {
 	switch (report.type) {
 		case 'override': {
-			const { key, existing_override_json } = report
+			const { key, existing_override_sjson } = report
 			assert(!!key, 'T.report_debug_api_usage override key')
 			let override = {
 				...state.overrides[key],
 				key,
 				last_reported: get_UTC_timestamp_ms(),
-				last_reported_value_sjson: existing_override_json,
+				last_reported_value_sjson: existing_override_sjson,
 			}
 			state = {
 				...state,

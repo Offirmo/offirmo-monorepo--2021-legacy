@@ -1,6 +1,10 @@
+// TODO improve cascade of re-exports
+import { LogLevel } from '@offirmo/practical-logger-interface';
 import { LoggerCreationParams } from '@offirmo/universal-debug-api-interface'
+import { DEFAULT_LOG_LEVEL, DEFAULT_LOGGER_KEY } from '@offirmo/practical-logger-core/src/consts-base'
 import { getOverrideKeyForLogger, getLSKeyForOverride } from '@offirmo-private/universal-debug-api-full-browser/src/v1/keys'
-import { OverrideReport, Report, create_msg_report_debug_api_usage } from '../common/messages/report-usage'
+
+import { Report, create_msg_report_debug_api_usage } from '../common/messages/report-usage'
 
 ////////////////////////////////////
 
@@ -36,48 +40,66 @@ function schedule_sync() {
 
 ////////////////////////////////////
 
+function _getOverrideRequestedSJson(ovKey: string): null | string {
+	try {
+		const LSKey = getLSKeyForOverride(ovKey)
+		//console.log(`LSKey = "${LSKey}"`)
+		const rawValue = localStorage.getItem(LSKey)
+		//console.log(`LSKey content = "${rawValue}"`)
+		return rawValue
+	}
+	catch (err) {
+		// will be logged elsewhere
+		return null
+	}
+}
+
 function overrideHook<T>(key: string, default_value: T): T {
 	if (!overrides.hasOwnProperty(key)) {
-		const LSKey = getLSKeyForOverride(key)
-		const existing_override_json = localStorage.getItem(LSKey)
-		console.log('overrideHook()', {key, default_value, LSKey, existing_override_json})
-
+		let existing_override_sjson = _getOverrideRequestedSJson(key)
 		queue.push({
 			type: 'override',
 			key,
 			default_value_sjson: JSON.stringify(default_value),
-			existing_override_json,
+			existing_override_sjson,
 		})
 		schedule_sync()
-		overrides[key] = existing_override_json
+		overrides[key] = existing_override_sjson
 	}
 
 	return original_v1.overrideHook(key, default_value)
 }
 
 function getLogger(p: Readonly<LoggerCreationParams> = {}) {
-	const name = p.name || 'root'
-	console.log('getLogger()', {name})
+	const name = p.name || DEFAULT_LOGGER_KEY
+	console.log('getLogger()', {name}) // TODO clean the logs
 
-	/*const LSKey = getLSKeyForOverride(getOverrideKeyForLogger(name))
-	queue.push({
-		type: 'logger',
-		name,
-		default_level: p.suggestedLevel,
-		overriden_value: localStorage.getItem(LSKey),
-	})
-	console.log({LSKey})*/
-	//console.log({queue})
+	const ovKey = getOverrideKeyForLogger(name)
+	const ovDefaultLevel = p.suggestedLevel || DEFAULT_LOG_LEVEL
+	// systematically call overrideHook on creation to declare the override!
+	const ovForcedLevel = overrideHook<LogLevel>(
+		ovKey,
+		ovDefaultLevel
+	)
+	if (!p.forcedLevel && _getOverrideRequestedSJson(ovKey)) {
+		p = {
+			...p,
+			forcedLevel: ovForcedLevel,
+		}
+	}
+
 	return original_v1.getLogger(p)
 }
 
 function exposeInternal(path: string, value: any): void {
 	console.log('exposeInternal()', {path})
+	// TODO report
 	return original_v1.exposeInternal(path, value)
 }
 
 function addDebugCommand(commandName: string, callback: () => void) {
 	console.log('addDebugCommand()', {commandName})
+	// TODO report
 	return original_v1.addDebugCommand(commandName, callback)
 }
 

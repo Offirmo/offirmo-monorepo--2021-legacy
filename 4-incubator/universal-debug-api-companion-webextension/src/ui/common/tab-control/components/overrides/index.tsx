@@ -16,10 +16,12 @@ class Overrides extends Component {
 	on_change = ({key, value_sjson, is_enabled}: Partial<OriginOverrideState>) => {
 		assert(key, 'on change partial')
 		console.log('✨ Overrides on_change', {key, value_sjson, is_enabled})
-		const msg = create_msg_change_override_spec(key!, {
-			value_sjson,
-			is_enabled,
-		})
+		const partial: Partial<OriginOverrideState> = {}
+		if (is_enabled !== undefined)
+			partial.is_enabled = is_enabled
+		if (value_sjson !== undefined)
+			partial.value_sjson = value_sjson
+		const msg = create_msg_change_override_spec(key!, partial)
 		send_message(msg)
 	}
 

@@ -20,6 +20,7 @@
 		"@offirmo/deferred": "^1.0.1",
 		"@offirmo/practical-logger-browser": "^1.1.1",
 		"@offirmo/practical-logger-core": "^1.1.1",
+		"@offirmo/practical-logger-interface": "^1.1.1",
 		"@offirmo/universal-debug-api-interface": "^0.1.1",
 		"@offirmo/universal-debug-api-minimal-noop": "^0.1.1",
 		"cross-env": "^5",

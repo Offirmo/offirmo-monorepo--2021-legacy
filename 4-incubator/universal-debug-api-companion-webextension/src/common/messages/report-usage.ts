@@ -6,7 +6,7 @@ export interface OverrideReport {
 	type: 'override'
 	key: string
 	default_value_sjson: string
-	existing_override_json: string | null,
+	existing_override_sjson: string | null,
 }
 export interface LoggerReport { // TODO needed?
 	type: 'logger'
