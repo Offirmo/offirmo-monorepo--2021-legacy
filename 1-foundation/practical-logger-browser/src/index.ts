@@ -1,4 +1,4 @@
-import { Logger, LoggerCreationParams } from '@offirmo/practical-logger-interface'
+import { LogSink, Logger, LoggerCreationParams } from '@offirmo/practical-logger-interface'
 import { createLogger as createLoggerCore, LOG_LEVEL_TO_INTEGER } from '@offirmo/practical-logger-core'
 
 import sink_firefox from './sinks/advanced/firefox'
@@ -10,10 +10,11 @@ import { LogPayload } from "@offirmo/practical-logger-interface/src";
 const ORIGINAL_CONSOLE = console
 
 function createLogger(p: Readonly<LoggerCreationParams>): Logger {
-	const sink0 = (p as any).sink || create()
+	const sink0: LogSink = (p as any).sink || create() /// XXX declare sink?
 
 	let groupDepth = 0;
 	function sink1(payload: LogPayload): void {
+		// TODO share that code with the node version?
 		const shouldEscapeFromGroupCollapsedToMakeTheErrorVisible = LOG_LEVEL_TO_INTEGER[payload.level] <= 30 && groupDepth > 0
 		if (shouldEscapeFromGroupCollapsedToMakeTheErrorVisible) {
 			while(groupDepth > 0) {
@@ -43,9 +44,6 @@ function createLogger(p: Readonly<LoggerCreationParams>): Logger {
 
 
 export {
-	// common exports
-	Logger,
-	LoggerCreationParams,
 	createLogger,
 
 	// specific
@@ -53,3 +51,4 @@ export {
 	sink_chromium,
 	sink_safari,
 }
+export * from '@offirmo/practical-logger-interface'

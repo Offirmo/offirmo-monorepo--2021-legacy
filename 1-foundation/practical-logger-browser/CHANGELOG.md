@@ -4,6 +4,8 @@
 ## PENDING
 * TODO lower size by removing duplication + useless sink
 * TODO test EDGE, IE
+* [feat] now re-export the entire practical-logger-interface
+* ...
 
 ## v1.1.1
 2019/07/07
