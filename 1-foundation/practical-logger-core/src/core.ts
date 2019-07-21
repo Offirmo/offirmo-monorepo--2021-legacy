@@ -28,6 +28,7 @@ export function create(
 	{
 		name = DEFAULT_LOGGER_KEY,
 		suggestedLevel = DEFAULT_LOG_LEVEL,
+		forcedLevel,
 		commonDetails = {},
 	}: LoggerCreationParams,
 	outputFn: LogSink = console.log,
@@ -35,7 +36,7 @@ export function create(
 
 	const internalState: BaseInternalLoggerState = {
 		name,
-		level: suggestedLevel, // so far
+		level: forcedLevel || suggestedLevel,
 		commonDetails: {...commonDetails},
 		outputFn,
 	}
@@ -44,7 +45,7 @@ export function create(
 
 	const logger: Logger = ALL_LOG_LEVELS.reduce(
 		(logger: any, level: LogLevel) => {
-			const primitive: LogPrimitive = function (rawMessage?: string, rawDdetails?: LogDetails) {
+			const primitive: LogPrimitive = function (rawMessage?: string, rawDetails?: LogDetails) {
 				if (!isLevelEnabled(level)) return
 
 				const [ message, details ] = normalizeArguments(arguments)
@@ -72,7 +73,7 @@ export function create(
 		internalState.level = level
 		levelAsInt = LOG_LEVEL_TO_INTEGER[level]
 	}
-	setLevel(suggestedLevel)
+	setLevel(getLevel()) // to check it
 
 	function isLevelEnabled(level: LogLevel) {
 		checkLevel(level)

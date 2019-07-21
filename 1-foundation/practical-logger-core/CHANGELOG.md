@@ -3,6 +3,7 @@
 
 ## PENDING
 * [feat] split a file to allow pinpoint consumption in some rare cases
+* [feat] handle the new `forcedLevel` creation param (see interface)
 * ...
 
 ## v1.1.1
