@@ -3,6 +3,7 @@
 
 ## PENDING
 * [doc] README++
+* [doc] comments++
 * ...
 
 ## v1.1.1

@@ -26,9 +26,9 @@ export {
 	overrideHook,
 	addDebugCommand,
 
-	createV1,
+	createV1, // just in case
 
-	globalThis,
+	globalThis, // for convenience
 }
 
 // for convenience
