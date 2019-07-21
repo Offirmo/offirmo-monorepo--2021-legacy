@@ -6,8 +6,11 @@
 - 😍 feature: X new backgrounds (now totalling X!)
 - 🤩 feature: X new achievements (now totalling X!)
 - 😅 fix: tweaks, typos, small bugs…
-- 😷 chore: some internal refactors (bump dependencies)
+- 😷 chore: some internal refactors: bump dependencies
 
+
+## v0.60.2
+- 😷 chore: some internal refactors: bump dependencies, tweaked the colors
 
 ## v0.60.1
 - 🤩 feature: 1 new achievement (now totalling 100!)

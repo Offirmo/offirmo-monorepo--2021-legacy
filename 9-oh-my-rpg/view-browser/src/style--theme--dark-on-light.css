@@ -1,0 +1,13 @@
+@import '../node_modules/@offirmo-private/view-css/src/style--theme--dark-on-light.css';
+
+:root, /* this theme is the default */
+[data-o-theme="dark-on-light"] {
+	/* TODO redo following LOD212 */
+	--o⋄color__quality--poor:      hsl(0, 0%, 62%);
+	--o⋄color__quality--common:    hsl(0, 0%, 20%);
+	--o⋄color__quality--uncommon: hsl(123, 100%, 39%);
+	--o⋄color__quality--rare:      hsl(210, 100%, 43%);
+	--o⋄color__quality--epic:      hsl(276, 84%, 57%);
+	--o⋄color__quality--legendary: hsl(30, 100%, 50%);
+	--o⋄color__quality--artifact:  hsl(360, 100%, 64%);
+}

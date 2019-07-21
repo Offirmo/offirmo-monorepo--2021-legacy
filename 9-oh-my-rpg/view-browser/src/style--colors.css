@@ -1,44 +1,8 @@
-@import '../node_modules/@offirmo-private/view-css/src/style--theme--lod-colorhunt212.css';
+/* We are forced to follow our parent's default */
+@import './style--theme--dark-on-light.css';
 
-:root {
-}
+/* this one is the recommended */
+@import './style--theme--lod-colorhunt212.css';
 
-:root, /* this theme is the default */
-[data-o-theme="dark-on-light"] {
-	/* TODO adjust for light background */
-	--o⋄color__quality--poor:      hsl(0, 0%, 62%);
-	--o⋄color__quality--common:    hsl(0, 100%, 100%);
-	--o⋄color__quality--uncommon:  hsl(113, 100%, 50%);
-	--o⋄color__quality--rare:      hsl(210, 100%, 43%);
-	--o⋄color__quality--epic:      hsl(276, 84%, 57%);
-	--o⋄color__quality--legendary: hsl(30, 100%, 50%);
-	--o⋄color__quality--artifact:  hsl(360, 100%, 64%);
-}
-
-/* light on dark theme */
-[data-o-theme="light-on-dark"] {
-	/* List from https://wow.gamepedia.com/Quality
-	 * some colors taken from http://colorbrewer2.org/#type=qualitative&scheme=Set1&n=5
-	 * some colors inspired from http://boz.com/
-	 */
-	--o⋄color__quality--poor:      var(--o⋄color__boz__gray);
-	--o⋄color__quality--common:    white;
-	--o⋄color__quality--uncommon:  var(--o⋄color__boz__green);
-	--o⋄color__quality--rare:      hsl(210, 100%, 43%);
-	--o⋄color__quality--epic:      hsl(276, 84%, 57%);
-	--o⋄color__quality--legendary: hsl(30, 100%, 50%);
-	--o⋄color__quality--artifact:  hsl(360, 100%, 64%);
-}
-
-/* Offirmo view theme */
-[data-o-theme="lod--colorhunt212"] {
-	/* https://wow.gamepedia.com/Quality
-	 */
-	--o⋄color__quality--poor:      hsl(0, 0%, 62%);
-	--o⋄color__quality--common:    hsl(0, 100%, 100%);
-	--o⋄color__quality--uncommon:  hsl(113, 100%, 50%);
-	--o⋄color__quality--rare:      hsl(210, 100%, 43%);
-	--o⋄color__quality--epic:      hsl(276, 84%, 57%);
-	--o⋄color__quality--legendary: hsl(30, 100%, 50%);
-	--o⋄color__quality--artifact:  hsl(360, 100%, 75%);
-}
+/* other themes must be imported manually */
+/*@import './style--theme--light-on-dark.css';*/

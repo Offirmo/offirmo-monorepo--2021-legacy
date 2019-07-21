@@ -13,26 +13,27 @@
 	font-weight: bold;
 }
 
+
 .item--quality--common {
-	color: #d1d1d1;
+	color: var(--o⋄color__quality--common);
 }
 .item--quality--uncommon {
-	color: #a0f22b;
+	color: var(--o⋄color__quality--uncommon);
 }
 .item--quality--rare {
-	color: #749aee;
+	color: var(--o⋄color__quality--rare);
 }
 .item--quality--epic {
-	color: #f571ff;
+	color: var(--o⋄color__quality--epic);
 }
 .item--quality--legendary {
-	color: orange;
+	color: var(--o⋄color__quality--legendary);
 }
 .item--quality--artifact {
-	color: #ffee62;
+	color: var(--o⋄color__quality--artifact);
 }
 .item--quality--admin {
-	color: #ff3c3a;
+	color: #ff3c3a; /* TODO check if used */
 }
 
 .achievement__lore {
@@ -42,10 +43,10 @@
 .monster--rank--common {
 }
 .monster--rank--elite {
-	color: #ddba00;
+	color: var(--o⋄color--fg⁚warning)
 }
 .monster--rank--boss {
-	color: #d9534f;
+	color: var(--o⋄color--fg⁚error);
 }
 
 
@@ -64,43 +65,11 @@
 }
 
 .comparison--better {
-	color: #a0f22b;
+	color: var(--o⋄color--fg⁚success);
 }
 .comparison--worse {
-	color: #d9534f;
+	color: var(--o⋄color--fg⁚error);
 }
 .comparison--equal {
-	color: #d1d1d1;
+	/* TODO not used */
 }
-
-
-/*
-
-switch($class) {
-
-		case 'attribute--level':
-			return '👶 ' + WIDTH_COMPENSATION + str
-		case 'attribute--health':
-			return '💗 ' + WIDTH_COMPENSATION + str
-		case 'attribute--mana':
-			return '💙 ' + WIDTH_COMPENSATION + str
-		case 'attribute--agility':
-			return '🤸 ' + WIDTH_COMPENSATION + str
-		case 'attribute--luck':
-			return '🤹 ' + WIDTH_COMPENSATION + str
-		case 'attribute--strength':
-			return '🏋 ' + WIDTH_COMPENSATION + str
-		case 'attribute--charisma':
-			return '👨🎤 ' + WIDTH_COMPENSATION + str
-		case 'attribute--wisdom':
-			return '👵 ' + WIDTH_COMPENSATION + str
-
-		case 'monster':
-			return str + ' ' + hints.possible_emoji + WIDTH_COMPENSATION
-		case 'rank--common':
-			return str
-		case 'rank--elite':
-			return stylize_string.bold(str + '★')
-		case 'rank--boss':
-			return stylize_string.bold(str + ' 👑' + WIDTH_COMPENSATION)
- */
