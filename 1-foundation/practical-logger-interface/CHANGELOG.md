@@ -2,6 +2,7 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
+* [feat] new "forcedLevel" creation option
 * ...
 
 ## v1.1.1
