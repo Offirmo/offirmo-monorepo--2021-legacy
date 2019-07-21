@@ -42,7 +42,7 @@
 		"@atlaskit/select": "^10",
 		"@atlaskit/textfield": "^2",
 		"@atlaskit/theme": "^9",
-		"@atlaskit/toggle": "^7",
+		"@atlaskit/toggle": "^8",
 		"@babel/cli": "^7",
 		"@babel/core": "^7",
 		"@babel/node": "^7",
