@@ -74,7 +74,7 @@ class ErrorBoundary extends React.Component {
 			return (
 				<div key={name} className={`o⋄error-report error-boundary-report-${name}`}>
 					<h2>Boundary "{name}": Something went wrong</h2>
-					<details style={{ whiteSpace: 'pre-wrap' }}>
+					<details open={true} style={{ whiteSpace: 'pre-wrap' }}>
 						{this.state.error && this.state.error.toString()}
 						<br />
 						{this.state.errorInfo && this.state.errorInfo.componentStack}
