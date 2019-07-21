@@ -1,7 +1,6 @@
 import { WebDebugApiV1 } from '@offirmo/universal-debug-api-interface'
 import { Logger, LoggerCreationParams, createLogger } from '@offirmo/practical-logger-browser'
 import { DEFAULT_LOG_LEVEL, DEFAULT_LOGGER_KEY } from '@offirmo/practical-logger-core/src/consts-base'
-import { WebDebugApiRoot } from '@offirmo/universal-debug-api-interface'
 
 import { LS_ROOT, getOverrideKeyForLogger, getLSKeyForOverride } from './keys'
 
@@ -22,7 +21,7 @@ const LIB = LS_ROOT
 
 ////////////////////////////////////
 
-export default function create(root: WebDebugApiRoot): WebDebugApiV1 {
+export default function create(): WebDebugApiV1 {
 
 	////////////////////////////////////
 
@@ -37,9 +36,23 @@ export default function create(root: WebDebugApiRoot): WebDebugApiV1 {
 	// TODO allow off?
 	const _ownLogger: Logger = (() => {
 		const name = LIB
-		// TODO make the level adjustabl?
+		// TODO make the level adjustable?
 		return createLogger({ name, suggestedLevel: 'silly' })
 	})()
+
+	function _getOverrideRequestedSJson(ovKey: string): null | string {
+		try {
+			const LSKey = getLSKeyForOverride(ovKey)
+			//console.log(`LSKey = "${LSKey}"`)
+			const rawValue = localStorage.getItem(LSKey)
+			//console.log(`LSKey content = "${value}"`)
+			return rawValue
+		}
+		catch (err) {
+			_ownLogger.warn(`🔴 error reading LS for override "${ovKey}"!`, { err })
+			return null
+		}
+	}
 
 	function _getOverride(key: string): OverrideStatus {
 		if (!overrides[key]) {
@@ -50,27 +63,19 @@ export default function create(root: WebDebugApiRoot): WebDebugApiV1 {
 				value: undefined,
 			}
 
-			try {
-				const LSKey = getLSKeyForOverride(key)
-				//console.log(`LSKey = "${LSKey}"`)
-				const rawValue = localStorage.getItem(LSKey)
-				//console.log(`LSKey content = "${value}"`)
-				if (rawValue) {
-					try {
-						overrides[key].isOn = true
-						// we allow the non-JSON "undefined"
-						const value = rawValue === 'undefined' ? undefined : JSON.parse(rawValue)
-						overrides[key].value = value
-						_ownLogger.log(` 🔵 overriden "${key}"`, { value })
-					} catch (err) {
-						// TODO only complain once
-						// TODO seen crash, to check again
-						_ownLogger.warn(`🔴 failed to override "${key}"!`, { badValue: rawValue, err })
-					}
+			const rawValue = _getOverrideRequestedSJson(key)
+			if (rawValue) {
+				try {
+					overrides[key].isOn = true
+					// we allow the non-JSON "undefined"
+					const value = rawValue === 'undefined' ? undefined : JSON.parse(rawValue)
+					overrides[key].value = value
+					_ownLogger.log(` 🔵 overriden "${key}"`, { value })
+				} catch (err) {
+					// TODO only complain once
+					// TODO seen crash, to check again
+					_ownLogger.warn(`🔴 failed to override "${key}"!`, { badValue: rawValue, err })
 				}
-			}
-			catch (err) {
-				_ownLogger.warn(`🔴 failed to setup override "${key}"!`, { err })
 			}
 		}
 
@@ -100,9 +105,8 @@ export default function create(root: WebDebugApiRoot): WebDebugApiV1 {
 				return status.value as T
 		}
 		catch (err) {
-			// TODO warn once?
-			// should never happen?
-			// TODO not use the own logger???
+			// should never happen because _getOverride() already catch
+			// TODO check!
 			_ownLogger.warn(`overrideHook(): error retrieving override!`, { key, err })
 		}
 
@@ -113,16 +117,21 @@ export default function create(root: WebDebugApiRoot): WebDebugApiV1 {
 		const name = p.name || DEFAULT_LOGGER_KEY // we need a name immediately
 
 		if (!loggers[name]) {
-			loggers[name] = createLogger(p)
 			try {
-				const overridenLevel = (root.v1 || api).overrideHook(getOverrideKeyForLogger(name), p.suggestedLevel || DEFAULT_LOG_LEVEL)
-				if (overridenLevel)
-					loggers[name].setLevel(overridenLevel)
+				const ovKey = getOverrideKeyForLogger(name)
+				if (!p.forcedLevel && _getOverrideRequestedSJson(ovKey)) {
+					p = {
+						...p,
+						forcedLevel: overrideHook(ovKey, p.suggestedLevel || DEFAULT_LOG_LEVEL)
+					}
+				}
 			}
 			catch (err) {
 				// this warning should appear only once on creation ✔
 				_ownLogger.warn(`getLogger(): error overriding the level!`, { name, err })
 			}
+
+			loggers[name] = createLogger(p)
 		}
 
 		return loggers[name]

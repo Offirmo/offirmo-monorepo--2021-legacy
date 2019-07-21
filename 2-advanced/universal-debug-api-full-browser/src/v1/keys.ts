@@ -7,7 +7,6 @@ export function getOverrideKeyForLogger(name: string): string {
 }
 
 export function getLSKeyForOverride(key: string): string {
-	// TODO put v1 somewhere?
-	// most likely overkill.
+	// should we put v1 somewhere? no, most likely overkill.
 	return `${LS_ROOT}.override.${key}`
 }

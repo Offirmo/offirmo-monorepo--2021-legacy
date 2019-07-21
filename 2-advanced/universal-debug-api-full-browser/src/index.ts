@@ -16,7 +16,7 @@ const root: WebDebugApiRoot = globalThis._debug
 
 // install globally if no other implementation already present
 // TODO do a minor version check?
-root.v1 = root.v1 || createV1(root)
+root.v1 = root.v1 || createV1()
 
 //////////// latest ////////////
 
