@@ -1,9 +1,9 @@
 import { LS_ROOT } from '../consts'
 
-export { LS_ROOT } from	'../consts'
+export { LS_ROOT } from '../consts'
 
 export function getOverrideKeyForLogger(name: string): string {
-	return `logger.${name}.logLevel`
+	return `logger.${name || 'default'}.logLevel`
 }
 
 export function getLSKeyForOverride(key: string): string {

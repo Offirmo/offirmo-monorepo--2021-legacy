@@ -7,6 +7,7 @@ import createV1 from './v1'
 const globalThis = getGlobalThis()
 
 // ensure the root is present
+// TODO root should be a const?
 globalThis._debug = globalThis._debug || {}
 
 const root: WebDebugApiRoot = globalThis._debug
@@ -14,11 +15,12 @@ const root: WebDebugApiRoot = globalThis._debug
 //////////// v1 ////////////
 
 // install globally if no other implementation already present
+// TODO do a minor version check?
 root.v1 = root.v1 || createV1(root)
 
 //////////// latest ////////////
 
-// expose the latest implementation known to this lib
+// directly expose the latest implementation known to this lib
 const instance: WebDebugApi = root.v1
 
 const {
@@ -34,21 +36,14 @@ export {
 	overrideHook,
 	addDebugCommand,
 
-	createV1, // needed?
+	createV1, // just in case
 
-	globalThis, // needed?
+	globalThis, // for convenience
 }
 
-//////////// for convenience ////////////
-
-export {
-	WebDebugApiRoot,
-	WebDebugApi,
-	WebDebugApiV1,
-	Logger,
-	LoggerCreationParams,
-} from '@offirmo/universal-debug-api-interface'
-
+// for convenience
+// TODO how about versions?
+export * from '@offirmo/universal-debug-api-interface'
 
 // TS declaration
 // XXX to check, how does it works with minimal to void?

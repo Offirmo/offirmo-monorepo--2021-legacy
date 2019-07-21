@@ -1,8 +1,11 @@
 import { WebDebugApiV1 } from '@offirmo/universal-debug-api-interface'
 import { Logger, LoggerCreationParams, createLogger } from '@offirmo/practical-logger-browser'
+import { DEFAULT_LOG_LEVEL, DEFAULT_LOGGER_KEY } from '@offirmo/practical-logger-core/src/consts-base'
+import { WebDebugApiRoot } from '@offirmo/universal-debug-api-interface'
 
 import { LS_ROOT, getOverrideKeyForLogger, getLSKeyForOverride } from './keys'
-const LIB = LS_ROOT
+
+////////////////////////////////////
 
 interface OverrideStatus {
 	isOn: boolean
@@ -13,21 +16,36 @@ interface Overrides {
 	[k: string]: OverrideStatus
 }
 
+////////////////////////////////////
 
-export default function create(root: any): WebDebugApiV1 {
-	// TODO weakmap ?
-	const loggers: { [name: string]: Logger } = {}
-	const debugCommands: { [name: string]: () => void } = {}
-	const ownLogger = createLogger({ name: LIB, suggestedLevel: 'silly' })
+const LIB = LS_ROOT
 
-	//attach(debugCommands)
+////////////////////////////////////
 
+export default function create(root: WebDebugApiRoot): WebDebugApiV1 {
+
+	////////////////////////////////////
+
+	const loggers: { [name: string]: Logger } = {} // to avoid creating duplicates
+	const debugCommands: { [name: string]: () => void } = {} // TODO check
 	const exposed: any = {}
-	const overrides: Overrides = {}
+	const overrides: Overrides = {} // we'll expose them for clarity
 
-	function ensureOverride(key: string): OverrideStatus {
+	////////////////////////////////////
+
+	// TODO override?
+	// TODO allow off?
+	const _ownLogger: Logger = (() => {
+		const name = LIB
+		// TODO make the level adjustabl?
+		return createLogger({ name, suggestedLevel: 'silly' })
+	})()
+
+	function _getOverride(key: string): OverrideStatus {
 		if (!overrides[key]) {
+			// we only read the LS once for speed reason
 			overrides[key] = {
+				// so far:
 				isOn: false,
 				value: undefined,
 			}
@@ -39,50 +57,71 @@ export default function create(root: any): WebDebugApiV1 {
 				//console.log(`LSKey content = "${value}"`)
 				if (rawValue) {
 					try {
+						overrides[key].isOn = true
+						// we allow the non-JSON "undefined"
 						const value = rawValue === 'undefined' ? undefined : JSON.parse(rawValue)
 						overrides[key].value = value
-						overrides[key].isOn = true
-						ownLogger.log(` 🔵 overriden "${key}"`, { value })
+						_ownLogger.log(` 🔵 overriden "${key}"`, { value })
 					} catch (err) {
 						// TODO only complain once
 						// TODO seen crash, to check again
-						ownLogger.warn(`🔴 failed to override "${key}"!`, { badValue: rawValue, err })
+						_ownLogger.warn(`🔴 failed to override "${key}"!`, { badValue: rawValue, err })
 					}
 				}
 			}
 			catch (err) {
-				ownLogger.warn(`🔴 failed to setup override "${key}"!`, { err })
+				_ownLogger.warn(`🔴 failed to setup override "${key}"!`, { err })
 			}
 		}
 
 		return overrides[key]
 	}
 
+	////////////////////////////////////
+
+	const api: WebDebugApiV1 = {
+		getLogger,
+		exposeInternal,
+		overrideHook,
+		addDebugCommand,
+
+		_: {
+			exposed,
+			overrides,
+		}
+	}
+
+	////////////////////////////////////
+
 	function overrideHook<T>(key: string, defaultValue: T): T {
 		try {
-			const status = ensureOverride(key)
+			const status = _getOverride(key)
 			if (status.isOn)
 				return status.value as T
 		}
 		catch (err) {
-			ownLogger.warn(`overrideHook(): error retrieving override!`, { key, err })
+			// TODO warn once?
+			// should never happen?
+			// TODO not use the own logger???
+			_ownLogger.warn(`overrideHook(): error retrieving override!`, { key, err })
 		}
 
 		return defaultValue
 	}
 
 	function getLogger(p: Readonly<LoggerCreationParams> = {}) {
-		const name = p.name || 'root' // we need a name immediately
+		const name = p.name || DEFAULT_LOGGER_KEY // we need a name immediately
 
 		if (!loggers[name]) {
 			loggers[name] = createLogger(p)
 			try {
-				const overridenLevel = overrideHook(getOverrideKeyForLogger(name), p.suggestedLevel || null)
+				const overridenLevel = (root.v1 || api).overrideHook(getOverrideKeyForLogger(name), p.suggestedLevel || DEFAULT_LOG_LEVEL)
 				if (overridenLevel)
 					loggers[name].setLevel(overridenLevel)
 			}
 			catch (err) {
-				ownLogger.warn(`getLogger(): error overriding the level!`, { name, err })
+				// this warning should appear only once on creation ✔
+				_ownLogger.warn(`getLogger(): error overriding the level!`, { name, err })
 			}
 		}
 
@@ -104,7 +143,7 @@ export default function create(root: any): WebDebugApiV1 {
 			})
 		}
 		catch (err) {
-			ownLogger.warn(`[${LIB}] exposeInternal(): error exposing!`, { path, err })
+			_ownLogger.warn(`[${LIB}] exposeInternal(): error exposing!`, { path, err })
 		}
 	}
 
@@ -114,19 +153,7 @@ export default function create(root: any): WebDebugApiV1 {
 		debugCommands[commandName] = callback
 	}
 
-	const api: WebDebugApiV1 = {
-		getLogger,
-		exposeInternal,
-		overrideHook,
-		addDebugCommand,
-
-		_: {
-			exposed,
-			overrides,
-		}
-	}
-
-	/*
+	/* TODO ping
 	api.addDebugCommand('list', () => {
 		console.log((window as any)._experiments)
 		//listExperiments((window as any)._experiments)

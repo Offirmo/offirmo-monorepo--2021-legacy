@@ -1,7 +1,7 @@
 
 const ENTRY_POINT = '_dc'
 
-
+// TODO
 export function attach(debugCommands: { [name: string]: () => void }) {
 	console.log('[@offirmo-private/universal-debug-api-full-browser attaching debug commands…]');
 
