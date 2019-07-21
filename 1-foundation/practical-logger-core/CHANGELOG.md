@@ -2,6 +2,7 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
+* [feat] split a file to allow pinpoint consumption in some rare cases
 * ...
 
 ## v1.1.1

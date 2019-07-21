@@ -59,5 +59,4 @@ export const ALL_LOG_LEVELS: Readonly<LogLevel[]> =
 		.map(s => s as LogLevel)
 		.sort((a: LogLevel, b: LogLevel) => LOG_LEVEL_TO_INTEGER[a] - LOG_LEVEL_TO_INTEGER[b])
 
-export const DEFAULT_LOG_LEVEL: LogLevel = 'error'
-export const DEFAULT_LOGGER_KEY = '' // TODO should be "root"?
+export * from './consts-base'
