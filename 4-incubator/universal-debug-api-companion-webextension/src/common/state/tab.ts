@@ -1,9 +1,9 @@
-import assert from "tiny-invariant"
+import assert from 'tiny-invariant'
 import { Enum } from 'typescript-string-enums'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 
 import { UNKNOWN_ORIGIN } from '../consts'
-import {Report} from "../messages"
+import { Report } from '../messages'
 import * as OriginState from './origin'
 
 ////////////////////////////////////
@@ -22,7 +22,7 @@ export type SpecSyncStatus = Enum<typeof SpecSyncStatus> // eslint-disable-line 
 export interface OverrideState {
 	key: string
 	last_reported: TimestampUTCMs // -1 = never
-	last_reported_value_json: string | null | undefined
+	last_reported_value_sjson: string | null | undefined
 }
 
 export interface State {
@@ -35,6 +35,7 @@ export interface State {
 
 ////////////////////////////////////
 
+/*
 export function is_sync_status_hinting_at_a_reload(status: SpecSyncStatus): boolean {
 	switch(status) {
 		case 'active-and-up-to-date':
@@ -44,7 +45,9 @@ export function is_sync_status_hinting_at_a_reload(status: SpecSyncStatus): bool
 			return true
 	}
 }
+*/
 
+// at last (re)load
 export function was_injection_enabled(state: Readonly<State>): State['last_reported_injection_status'] {
 	return state.last_reported_injection_status
 }
@@ -63,28 +66,28 @@ export function get_override_sync_status(state: Readonly<State>, override_spec: 
 	const { key } = override_spec
 	const override = state.overrides[key]
 	if (!override)
-		return SpecSyncStatus["unexpected-error"]
+		return SpecSyncStatus['unexpected-error']
 
 	if (!override.last_reported)
 		return SpecSyncStatus.inactive
 
-	if (override_spec.is_enabled && override_spec.value_json) {
+	if (override_spec.is_enabled && override_spec.value_sjson) {
 		try {
-			JSON.parse(override_spec.value_json)
+			JSON.parse(override_spec.value_sjson)
 		}
 		catch {
-			return SpecSyncStatus["unexpected-error"]
+			return SpecSyncStatus['unexpected-error']
 		}
 	}
 
-	const was_enabled = override.last_reported_value_json !== null
+	const was_enabled = override.last_reported_value_sjson !== null
 	if (override_spec.is_enabled !== was_enabled)
 		return SpecSyncStatus['changed-needs-reload']
 
 	if (!override_spec.is_enabled)
 		return SpecSyncStatus['active-and-up-to-date'] // we don't care about the value if !enabled
 
-	if (override_spec.value_json !== override.last_reported_value_json)
+	if (override_spec.value_sjson !== override.last_reported_value_sjson)
 		return SpecSyncStatus['changed-needs-reload']
 
 	return SpecSyncStatus['active-and-up-to-date']
@@ -105,7 +108,7 @@ export function get_sync_status(state: Readonly<State>, origin_state: Readonly<O
 	}
 
 	const global_switch_sync_status = get_global_switch_sync_status(state, origin_state)
-	if (global_switch_sync_status !== SpecSyncStatus["active-and-up-to-date"])
+	if (global_switch_sync_status !== SpecSyncStatus['active-and-up-to-date'])
 		return global_switch_sync_status
 
 	let non_inactive_count = 0
@@ -118,13 +121,15 @@ export function get_sync_status(state: Readonly<State>, origin_state: Readonly<O
 	}
 
 	return non_inactive_count || Object.keys(origin_state.overrides).length === 0
-		? SpecSyncStatus["active-and-up-to-date"]
+		? SpecSyncStatus['active-and-up-to-date']
 		: SpecSyncStatus.inactive
 }
 
+/*
 export function needs_reload(state: Readonly<State>, origin_state: Readonly<OriginState.State>): boolean {
 	return is_sync_status_hinting_at_a_reload(get_sync_status(state, origin_state))
 }
+*/
 
 ////////////////////////////////////
 
@@ -193,7 +198,7 @@ export function ensure_override(state: Readonly<State>, override_spec: OriginSta
 	state.overrides[key] = state.overrides[key] || {
 		key,
 		last_reported: -1,
-		last_reported_value_json: undefined,
+		last_reported_value_sjson: undefined,
 	}
 
 	return state
@@ -208,7 +213,7 @@ export function report_debug_api_usage(state: Readonly<State>, report: Report): 
 				...state.overrides[key],
 				key,
 				last_reported: get_UTC_timestamp_ms(),
-				last_reported_value_json: existing_override_json,
+				last_reported_value_sjson: existing_override_json,
 			}
 			state = {
 				...state,
@@ -226,6 +231,5 @@ export function report_debug_api_usage(state: Readonly<State>, report: Report): 
 
 	return state
 }
-
 
 ////////////////////////////////////

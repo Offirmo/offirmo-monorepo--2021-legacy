@@ -20,8 +20,8 @@ export const cscript_emitter = new EventEmitter()
 
 ////////////////////////////////////
 
-export function get_current_tab_id(): number {
-	return State.get_current_tab_id(state)
+export function get_active_tab_id(from: string): number {
+	return State.get_active_tab_id(state, from)
 }
 
 export function get_port(channel_id: string): ReturnType<typeof State.get_port> {
@@ -33,6 +33,7 @@ export function get_tab_origin(tab_id: number) {
 }
 
 export function get_active_tab_sync_status(): TabState.SpecSyncStatus {
+	assert(get_active_tab_id('get_active_tab_sync_status()') !== undefined)
 	const t = State.get_active_tab_state(state)
 	const o = State.get_active_origin_state(state)
 
@@ -40,8 +41,7 @@ export function get_active_tab_sync_status(): TabState.SpecSyncStatus {
 }
 
 export function get_active_origin_state() {
-	const current_tab_id = state.active_tab_id
-	assert(current_tab_id >= 0, 'get_active_origin_state: current_tab_id')
+	const current_tab_id = get_active_tab_id('get_active_origin_state()')
 
 	const current_tab_origin = get_tab_origin(current_tab_id)
 	assert(current_tab_origin, 'get_active_origin_state: current_tab_origin')
@@ -50,6 +50,7 @@ export function get_active_origin_state() {
 }
 
 export function get_active_tab_ui_state(): UIState.State {
+	assert(get_active_tab_id('get_active_tab_ui_state()') !== undefined)
 	const tab = State.get_active_tab_state(state)
 	const origin = State.get_active_origin_state(state)
 	return {
@@ -57,7 +58,6 @@ export function get_active_tab_ui_state(): UIState.State {
 		origin,
 	}
 }
-
 
 ////////////////////////////////////
 
@@ -84,9 +84,9 @@ export function ensure_tab(source: string, id: number, tab_hint?: Readonly<Tabs.
 	console.group('🌀 ensure_tab', {id, tab_hint})
 	console.log('before', state)
 
-	state = State.ensure_tab(state, source, id, tab_hint)
+	state = State.ensure_tab(state, source, id)
 
-	// no react, we'll get tab events soon
+	// no react, we should get tab events soon
 
 	console.log('after', state)
 	console.groupEnd()
@@ -126,7 +126,7 @@ export function update_tab_origin(tab_id: number, url: string): void {
 	const old_state = state
 	state = State.update_tab_origin(state, tab_id, url)
 
-	if (old_state !== state) {
+	if (old_state !== state && state.active_tab_id !== undefined) {
 		icon_emitter.emit('change', state)
 		ui_emitter.emit('change', state)
 	}

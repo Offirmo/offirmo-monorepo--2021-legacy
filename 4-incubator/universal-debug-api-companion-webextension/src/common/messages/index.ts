@@ -3,11 +3,10 @@ import * as OriginState from '../state/origin'
 import * as UIState from '../state/ui'
 
 export const MSG_TYPE__TOGGLE_LIB_INJECTION = 'toggle-lib-injection'
-export function create_msg_toggle_lib_injection(to: boolean) {
+export function create_msg_toggle_lib_injection() {
 	return {
 		[MSG_ENTRY]: {
 			type: MSG_TYPE__TOGGLE_LIB_INJECTION,
-			to,
 		}
 	}
 }

@@ -4,15 +4,15 @@ import { Tabs, Runtime } from 'webextension-polyfill-ts'
 import { UNKNOWN_ORIGIN } from '../common/consts'
 import * as OriginState from '../common/state/origin'
 import * as TabState from '../common/state/tab'
-import { Report } from "../common/messages";
-import { query_active_tab } from './utils'
+import { Report } from '../common/messages'
+import { get_origin, query_active_tab } from './utils'
 
 ////////////////////////////////////
 
 export interface State {
 	ports: { [channel_id: string]: Readonly<Runtime.Port> },
 
-	active_tab_id: number,
+	active_tab_id: undefined | number,
 	active_tab: Promise<Readonly<Tabs.Tab>>,
 
 	origins: {
@@ -26,10 +26,10 @@ export interface State {
 
 ////////////////////////////////////
 
-export function get_current_tab_id(state: Readonly<State>): number {
+export function get_active_tab_id(state: Readonly<State>, from: string): number {
 	const { active_tab_id } = state
-	assert(active_tab_id >= 0, 'get_current_tab_id: active_tab_id')
-	return active_tab_id
+	assert(active_tab_id !== undefined, `get_active_tab_id() from "${from}"`)
+	return active_tab_id!
 }
 
 export function get_tab_origin(state: Readonly<State>, tab_id: number): string {
@@ -39,18 +39,15 @@ export function get_tab_origin(state: Readonly<State>, tab_id: number): string {
 }
 
 export function get_active_origin_state(state: Readonly<State>, {should_assert = true} = {}): OriginState.State {
-	const { active_tab_id } = state
-	assert(active_tab_id >= 0, 'get_active_origin_state: active_tab_id')
-
+	const active_tab_id = get_active_tab_id(state, 'get_active_origin_state()')
 	const current_tab_origin = get_tab_origin(state, active_tab_id)
-	assert(!!current_tab_origin, 'get_active_origin_state: current_tab_origin')
+	assert(!!current_tab_origin, 'get_active_origin_state(): current_tab_origin')
 
 	return state.origins[current_tab_origin]
 }
 
 export function get_active_tab_state(state: Readonly<State>): TabState.State {
-	const { active_tab_id } = state
-	assert(active_tab_id >= 0, 'get_active_tab_state: active_tab_id')
+	const active_tab_id = get_active_tab_id(state, 'get_active_tab_state()')
 
 	return state.tabs[active_tab_id]
 }
@@ -65,7 +62,7 @@ export function create(): Readonly<State> {
 	return {
 		ports: {},
 
-		active_tab_id: -1,
+		active_tab_id: undefined,
 		active_tab: new Promise(() => {}),
 
 		origins: {
@@ -87,13 +84,11 @@ export function update_port(state: Readonly<State>, channel_id: string, port: Re
 	return state
 }
 
-// This should never happens if we listen to the tab events correctly,
-// but as a matter of fact it happens.
-// TODO investigate if we could do it better
-export function ensure_tab(state: Readonly<State>, source: string, id: number, tab_hint?: Readonly<Tabs.Tab>): Readonly<State> {
+// tab lifecycle events happen in any order
+export function ensure_tab(state: Readonly<State>, source: string, id: number): Readonly<State> {
 	if (state.tabs[id]) return state
 
-	console.warn(`Tab #${id} discovered in ensure_tab(from ${source})!]`)
+	console.log(`✅ Tab #${id} discovered through ${source}`)
 	return {
 		...state,
 		tabs: {
@@ -123,19 +118,7 @@ export function on_tab_activated(state: Readonly<State>, id: number, tab_hint?: 
 export function update_tab_origin(state: Readonly<State>, tab_id: number, url: string = UNKNOWN_ORIGIN): Readonly<State> {
 	if (state.tabs[tab_id].url === url) return state // up to date
 
-	const origin = url === UNKNOWN_ORIGIN
-		? UNKNOWN_ORIGIN
-		: (() => {
-			try {
-				const origin = (new URL(url)).origin || UNKNOWN_ORIGIN
-				if (origin === 'null') // Firefox about:...
-					return UNKNOWN_ORIGIN
-				return origin
-			}
-			catch {
-				return UNKNOWN_ORIGIN
-			}
-			})()
+	const origin = get_origin(url)
 
 	state = {
 		...state,

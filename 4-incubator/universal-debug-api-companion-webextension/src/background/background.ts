@@ -26,7 +26,12 @@ extension_inited.then(() => {
 	is_extension_inited = true
 	console.log(`🙈🙉 extension inited!`)
 })
-setTimeout(() => extension_inited.reject(new Error('Timeout waiting for extension init!')), 15_000)
+// TODO this doesn't seems right
+// especially on browser restart
+setTimeout(() =>
+	extension_inited.reject(new Error('🙊 Timeout waiting for extension init!')),
+	30 * 60 * 1000
+)
 function once_extension_init_done<T>(cb: () => T): Promise<T> {
 	// we want sync as much as possible
 	if (is_extension_inited)
@@ -41,14 +46,14 @@ function once_extension_init_done<T>(cb: () => T): Promise<T> {
 // https://developer.browser.com/extensions/tabs
 
 browser.runtime.onInstalled.addListener(function() {
-	console.group('⚡  on extension installed')
+	console.group('⚡️ on extension installed')
 	Flux.on_init()
 	extension_inited.resolve(query_active_tab().then(() => {}))
 	console.groupEnd()
 });
 
 browser.tabs.onCreated.addListener((tab) => {
-	console.group('⚡ on tab created', { tab })
+	console.group('⚡️ on tab created', { tab })
 	if (!tab.id)
 		console.warn('tab without id???')
 	else
@@ -56,8 +61,12 @@ browser.tabs.onCreated.addListener((tab) => {
 	console.groupEnd()
 })
 
+// note that we can totally receive this event
+// without having received any create() or activated()
+// for ex. the extension just got installed
+// and then anon-active tab updates its favicon = we receive this event
 browser.tabs.onUpdated.addListener((tab_id, change_info, tab) => {
-	console.group('⚡ on tab updated', { tab_id, change_info, tab })
+	console.group('⚡️ on tab updated', { tab_id, change_info, tab })
 	Flux.ensure_tab('onUpdated event', tab_id, tab)
 	if (tab.url)
 		Flux.update_tab_origin(tab_id, tab.url)
@@ -67,7 +76,7 @@ browser.tabs.onUpdated.addListener((tab_id, change_info, tab) => {
 })
 
 browser.tabs.onActivated.addListener(({tabId, windowId}) => {
-	console.group('⚡ on tab activated', { tabId, windowId })
+	console.group('⚡️ on tab activated', { tabId, windowId })
 	Flux.on_tab_activated(tabId)
 	console.groupEnd()
 })
@@ -121,19 +130,19 @@ browser.runtime.onMessage.addListener((request, sender): Promise<any> | void => 
 				/////// from UI = popup ///////
 				// no tab infos available from popup
 				case MSG_TYPE__REQUEST_CURRENT_PAGE_RELOAD: {
-					const tab_id = Flux.get_current_tab_id()
+					const tab_id = Flux.get_active_tab_id(`from ${type}`)
 					browser.tabs.reload(tab_id)
 					break
 				}
 
 				case MSG_TYPE__TOGGLE_LIB_INJECTION: {
-					const tab_id = Flux.get_current_tab_id()
+					const tab_id = Flux.get_active_tab_id(`from ${type}`)
 					Flux.toggle_lib_injection(tab_id)
 					break
 				}
 
 				case MSG_TYPE__OVERRIDE_SPEC_CHANGED: {
-					const tab_id = Flux.get_current_tab_id()
+					const tab_id = Flux.get_active_tab_id(`from ${type}`)
 					const { key, partial } = payload
 					 Flux.change_override_spec(tab_id, key, partial)
 					 break
@@ -163,7 +172,7 @@ browser.runtime.onMessage.addListener((request, sender): Promise<any> | void => 
 // listen to "port" messages from other parts of the extension
 browser.runtime.onConnect.addListener(port => {
 	const { name } = port
-	console.log(`[${LIB}.${+Date.now()}] received connection "${name}"`, {port})
+	console.log(`⚡️ received connection "${name}"`, {port})
 
 	Flux.update_port(name, port)
 

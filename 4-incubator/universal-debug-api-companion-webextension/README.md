@@ -13,6 +13,10 @@ In the future, some UI will allow an easy control of the API.
 
 ## Contributing
 
+### concepts
+`sjson` = stringified JSON
+
+### local dev
 This package is part of a monorepo and uses other modules from this monorepo.
 Go to the [top README](../../README.md) and follow installation instructions.
 

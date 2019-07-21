@@ -2,9 +2,16 @@ import { browser } from 'webextension-polyfill-ts'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+import send_message from '../../../utils/send-message'
 import View from './view'
 
-import { AppStateConsumer, get_origin, should_inject_the_lib, get_global_switch_sync_status } from '../../context'
+import {
+	RenderParams,
+	AppStateConsumer,
+	get_origin,
+	should_inject_the_lib,
+	get_global_switch_sync_status,
+} from '../../context'
 import { create_msg_toggle_lib_injection } from '../../../../../common/messages'
 
 
@@ -12,13 +19,13 @@ class GlobalSwitch extends Component {
 	static propTypes = {
 	}
 
-	on_change = (event) => {
-		console.log('GlobalSwitch on_change', event)
-		browser.runtime.sendMessage(create_msg_toggle_lib_injection())
+	on_change = () => {
+		console.log('👆 GlobalSwitch on_change')
+		send_message(create_msg_toggle_lib_injection())
 	}
 
-	render_view = ({app_state}) => {
-		console.log(`🔄 GlobalSwitch render_view`, {app_state})
+	render_view = ({app_state}: RenderParams) => {
+		//console.log(`🔄 GlobalSwitch render_view`, {app_state})
 		return (
 			<View
 				origin={get_origin(app_state)}

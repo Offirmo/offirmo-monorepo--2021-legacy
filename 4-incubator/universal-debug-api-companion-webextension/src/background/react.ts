@@ -46,7 +46,7 @@ const render_webext_icon = memoize_one(function render_webext_icon(sync_status) 
 
 Flux.icon_emitter.on('change', () => {
 	const tab_sync_status = Flux.get_active_tab_sync_status()
-	console.log('🔄 icon_emitter.onChange', { tab_sync_status, tab_id: Flux.get_current_tab_id() })
+	console.log('🔄 icon_emitter.onChange', { tab_sync_status, tab_id: Flux.get_active_tab_id('Flux.icon_emitter') })
 	render_webext_icon(tab_sync_status)
 })
 
@@ -82,7 +82,7 @@ Flux.ui_emitter.on('change', () => {
 ////////////////////////////////////
 
 function propagate_lib_config() {
-	const current_tab_id = Flux.get_current_tab_id()
+	const current_tab_id = Flux.get_active_tab_id('from propagate_lib_config()')
 	const origin_state = Flux.get_active_origin_state()
 	console.group('🔄 propagate_lib_config', {current_tab_id, origin_state})
 
@@ -91,16 +91,16 @@ function propagate_lib_config() {
 	kv[LS_KEY_ENABLED] = origin_state.is_injection_enabled ? 'true' : null
 
 	Object.values(origin_state.overrides).forEach(spec => {
-		const { key, is_enabled, value_json } = spec
+		const { key, is_enabled, value_sjson } = spec
 		const LSKey = getLSKeyForOverride(key)
 		kv[LSKey] = is_enabled
-			? value_json || null
+			? value_sjson || null
 			: null
 	})
 
 	console.log(`📤 dispatching origin config to content-script of tab#${current_tab_id}`, kv)
 	browser.tabs.sendMessage(
-			Flux.get_current_tab_id(),
+			current_tab_id,
 			create_msg_update_ls_state(
 				kv
 			)

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 
 import TabControl from '../../common/tab-control/components'
 import { set_app_state } from '../../common/tab-control/context'
-import {MSG_ENTRY} from '../../../common/consts/entry'
+import { MSG_ENTRY } from '../../../common/consts'
 
 ////////////////////////////////////
 
@@ -29,16 +29,16 @@ export default class Root extends Component {
 ////////////////////////////////////
 
 if (browser.tabs) {
-	const port_to_bg = browser.runtime.connect({name: "popup"});
+	const port_to_bg = browser.runtime.connect(undefined, {name: "popup"});
 	port_to_bg.onMessage.addListener((msg) => {
-		console.group(`received a port message`, msg)
-
+		console.group(`📥 received a port message`, msg)
 		assert(msg[MSG_ENTRY], 'MSG_ENTRY')
+
 		const payload = msg[MSG_ENTRY]
 		const { type } = payload
 		console.log({type, payload})
-		//assert(msg[MSG_ENTRY], 'MSG_ENTRY')
 
+		// pure flux, we only ever expect one message type
 		set_app_state(msg[MSG_ENTRY].state)
 		console.groupEnd()
 	});

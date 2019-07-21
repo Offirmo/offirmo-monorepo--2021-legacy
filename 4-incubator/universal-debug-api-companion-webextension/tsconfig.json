@@ -5,6 +5,7 @@
 		"declaration": false,
 		"jsx": "react",
 		"lib": [ "DOM" ],
+		"allowJs": true,
 		"importHelpers": false,
 		"noEmitHelpers": false,
 		"allowSyntheticDefaultImports": true

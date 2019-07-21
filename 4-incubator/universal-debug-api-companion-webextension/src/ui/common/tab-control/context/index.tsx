@@ -3,7 +3,15 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { render_any_m } from '@offirmo-private/react-error-boundary'
 
-import { create_loading, create_demo } from '../../../../common/state/ui'
+import { State, create_loading, create_demo } from '../../../../common/state/ui'
+
+////////////////////////////////////
+
+export interface RenderParams {
+	app_state: State
+}
+
+////////////////////////////////////
 
 // https://reactjs.org/docs/context.html
 const DEFAULT_STATE = location.href === 'http://localhost:9090/ui/popup/popup.html'
@@ -11,9 +19,9 @@ const DEFAULT_STATE = location.href === 'http://localhost:9090/ui/popup/popup.ht
 	: create_loading() // temp
 const AppStateContext = React.createContext(DEFAULT_STATE)
 
-let set_app_state_internal
-function set_app_state(state) {
-	console.log('set_app_state()', {state})
+let set_app_state_internal: any
+function set_app_state(state: Readonly<State>) {
+	//console.log('set_app_state()', {state})
 	set_app_state_internal(state)
 }
 
@@ -27,15 +35,15 @@ class AppStateListenerAndProvider extends React.Component {
 
 	state = DEFAULT_STATE
 
-	set_state = (new_state) => {
-		console.log('set_state()', {new_state})
+	set_state = (new_state: Readonly<State>) => {
+		//console.log('set_state()', { new_state })
 		this.setState({
 			...new_state
 		})
 	}
 
 	render() {
-		console.log(`🔄 AppStateListenerAndProvider`, {state: this.state})
+		//console.log(`🔄 AppStateListenerAndProvider`, {state: this.state})
 
 		set_app_state_internal = set_app_state_internal || this.set_state
 
@@ -49,11 +57,11 @@ class AppStateListenerAndProvider extends React.Component {
 
 ////////////////////////////////////
 
-function AppStateConsumer({ children, render }) {
+function AppStateConsumer({ children, render }: any) {
 	return (
 		<AppStateContext.Consumer>
 			{app_state => {
-				console.log(`🔄 AppStateConsumer`, {app_state})
+				//console.log(`🔄 AppStateConsumer`, {app_state})
 				return render_any_m({
 					children,
 					render,

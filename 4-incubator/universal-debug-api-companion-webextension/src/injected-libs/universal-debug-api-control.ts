@@ -45,7 +45,7 @@ function overrideHook<T>(key: string, default_value: T): T {
 		queue.push({
 			type: 'override',
 			key,
-			default_value_json: JSON.stringify(default_value),
+			default_value_sjson: JSON.stringify(default_value),
 			existing_override_json,
 		})
 		schedule_sync()

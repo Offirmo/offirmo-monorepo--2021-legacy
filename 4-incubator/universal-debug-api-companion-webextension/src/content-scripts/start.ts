@@ -1,4 +1,7 @@
-import { browser } from 'webextension-polyfill-ts' // TODO smaller than loading the full polyfill?
+//import { browser } from 'webextension-polyfill-ts' // TODO smaller than loading the full polyfill?
+const browser = (globalThis as any).browser || (globalThis as any).chrome
+
+
 import assert from 'tiny-invariant'
 
 import { MSG_ENTRY, LS_KEY_ENABLED } from '../common/consts/content--start'
@@ -13,7 +16,6 @@ import lib2 from './lib-to-inject-2'
 
 const LIB = '🧩 UWDT/CS--start'
 const DEBUG = true
-
 if (DEBUG) {
 	console.log(`[${LIB},${Date.now()}] Hello!`, {
 		browser,
@@ -97,7 +99,7 @@ browser.runtime.sendMessage(
 
 ////////////////////////////////////
 
-browser.runtime.onMessage.addListener((request, sender): Promise<any> | void => {
+browser.runtime.onMessage.addListener((request: any, sender: any): Promise<any> | void => {
 	if (DEBUG) console.group(`[${LIB},${Date.now()}] 📥 received a simple message`)
 	let response: any
 

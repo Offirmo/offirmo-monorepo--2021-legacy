@@ -1,58 +1,76 @@
-import {Enum} from 'typescript-string-enums'
-import {TimestampUTCMs, get_UTC_timestamp_ms} from '@offirmo-private/timestamps'
+import { Enum } from 'typescript-string-enums'
+import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 
-import {UNKNOWN_ORIGIN} from '../consts'
-import {Report} from "../messages";
-import assert from "tiny-invariant";
+import { UNKNOWN_ORIGIN } from '../consts'
+import { Report } from '../messages'
+import assert from 'tiny-invariant'
 
 ////////////////////////////////////
 // This state represents the "specification" of the debug API config we want
-// 1. actual tab values may be different, pending a reload
-// 2. this is a temp copy for UI, the local storage is the real spec
+// - NOTE the local storage is the real spec!
+//   This is just a temporary copy.
+//   Hence some "undefined" = we haven't read the LS yet
+// - This is a SPEC but it may not have been applied,
+//   pending a reload to propagate the changes in the running code
 
 // tslint:disable-next-line: variable-name
 export const OverrideType = Enum(
 	'LogLevel',
 	'Cohort',
 	'boolean',
-	'string', // TODO useful?
+	//'string', // TODO useful?
 	//'URL', ?
 	// int ?
-	// TODO more
-	'any',
+	// more?
+	'any', // any JSON
 )
 export type OverrideType = Enum<typeof OverrideType> // eslint-disable-line no-redeclare
 
 export interface OverrideState {
 	key: string
-	is_enabled: boolean,
 	type: OverrideType,
-	default_value_json: string, // useful for display when disabled
-	value_json: string | null | undefined, // for convenience, we remember the value even when not enabled
-														// null = no value was ever set
-														// undefined = we don't know yet (waiting for a report)
-	last_reported: TimestampUTCMs, // for cleaning
+	// spec:
+	is_enabled: boolean, // does the user wants to override this value?
+	default_value_sjson: string, // useful for display when disabled
+	value_sjson: undefined | null | string, // for convenience, we remember the value even when not enabled
+	                                        // null = no value was ever set (dynamically default to default value)
+	                                        // undefined = pending reading the LS
+	// meta:
+	last_reported: TimestampUTCMs, // for cleaning TODO
 }
 
 export interface State {
 	origin: string,
 	last_visited: TimestampUTCMs, // for cleaning
 	last_interacted_with: TimestampUTCMs, // for cleaning
-	is_injection_enabled: boolean | undefined, // the user may have enabled it in LS, we can't know...
+	is_injection_enabled: boolean | undefined, // undefined = pending reading the LS
 	overrides: { [key: string]: OverrideState }
 }
 
 ////////////////////////////////////
 
+export function is_origin_eligible(origin: string): boolean {
+	if (origin === UNKNOWN_ORIGIN)
+		return false
+
+	if (origin.startsWith('chrome://'))
+		return false
+
+	if (origin === 'null') // Firefox about:...
+		return false
+
+	return true
+}
+
 export function is_eligible(state: Readonly<State>): boolean {
-	return state.origin !== UNKNOWN_ORIGIN && !state.origin.startsWith('chrome://')
+	return is_origin_eligible(state.origin)
 }
 
 export function is_injection_requested(state: Readonly<State>): State['is_injection_enabled'] {
 	return state.is_injection_enabled
 }
 
-export function infer_type_from_key(key: string, value_json: null | string): OverrideType {
+export function infer_override_type_from_key(key: string, value_sjson: null | string): OverrideType {
 	const key_lc = key.toLowerCase()
 	//console.log('INF', {key, key_lc})
 
@@ -100,12 +118,12 @@ export function infer_type_from_key(key: string, value_json: null | string): Ove
 
 	//console.log('INF no prefix match')
 
-	if (!value_json)
+	if (!value_sjson)
 		return OverrideType.any
 
 	try {
-		const value = JSON.parse(value_json)
-		//console.log('INF', {value, value_json, type: typeof value})
+		const value = JSON.parse(value_sjson)
+		//console.log('INF', {value, value_sjson, type: typeof value})
 
 		if (typeof value === 'boolean')
 			return OverrideType.boolean
@@ -139,31 +157,31 @@ export const DEMO_REPORTS: Report[] = [
 	{
 		type: 'override',
 		key: 'fooExperiment.cohort',
-		default_value_json: '"not-enrolled"',
+		default_value_sjson: '"not-enrolled"',
 		existing_override_json: '"variation-1"'
 	},
 	{
 		type: 'override',
 		key: 'fooExperiment.isSwitchedOn',
-		default_value_json: 'true',
+		default_value_sjson: 'true',
 		existing_override_json: 'true', // up to date
 	},
 	{
 		type: 'override',
 		key: 'fooExperiment.logLevel',
-		default_value_json: '"error"',
+		default_value_sjson: '"error"',
 		existing_override_json: '"warning"',
 	},
 	{
 		type: 'override',
 		key: 'root.logLevel',
-		default_value_json: '"error"',
+		default_value_sjson: '"error"',
 		existing_override_json: null, // not enabled
 	},
 	{
 		type: 'override',
 		key: 'some_url',
-		default_value_json: '"https://www.online-adventur.es/"',
+		default_value_sjson: '"https://www.online-adventur.es/"',
 		//existing_override_json: null,
 		existing_override_json: '"https://offirmo-monorepo.netlify.com/"',
 		//existing_override_json: 'some bad json',
@@ -171,18 +189,21 @@ export const DEMO_REPORTS: Report[] = [
 ]
 export function create_demo(origin: string): Readonly<State> {
 	let state = create(origin)
+
 	state = report_lib_injection(state, true)
+
 	DEMO_REPORTS.forEach(report => state = report_debug_api_usage(state, report))
+
 	state = change_override_spec(state, 'fooExperiment.cohort', {
-		value_json: 'variation-1'
+		value_sjson: '"variation-1"',
+		//value_sjson: 'variation-1' // TEST bad JSON
 	})
+
 	return state
 }
 
 // the content script reports that it injected the lib
 export function report_lib_injection(state: Readonly<State>, is_injected: boolean): Readonly<State> {
-	if (state.is_injection_enabled === is_injected) return state
-
 	return {
 		...state,
 		last_visited: get_UTC_timestamp_ms(),
@@ -190,27 +211,21 @@ export function report_lib_injection(state: Readonly<State>, is_injected: boolea
 	}
 }
 
-// user toggled it, for current tab
-export function toggle_lib_injection(state: Readonly<State>): Readonly<State> {
-	return {
-		...state,
-		is_injection_enabled: !state.is_injection_enabled,
-		last_interacted_with: get_UTC_timestamp_ms(),
-	}
-}
-
 export function report_debug_api_usage(state: Readonly<State>, report: Report): Readonly<State> {
 	switch (report.type) {
 		case 'override': {
-			const {key, default_value_json, existing_override_json} = report
+			const { key, default_value_sjson, existing_override_json } = report
 			assert(!!key, 'O.report_debug_api_usage override key')
+			assert(typeof default_value_sjson === 'string', 'O.report_debug_api_usage default value string')
+			assert(existing_override_json === null || typeof existing_override_json === 'string', 'O.report_debug_api_usage existing value null or string')
+
 			let override = {
 				...state.overrides[key],
 				key,
 				is_enabled: !!existing_override_json,
-				type: infer_type_from_key(key, default_value_json),
-				default_value_json,
-				value_json: existing_override_json,
+				type: infer_override_type_from_key(key, default_value_sjson),
+				default_value_sjson,
+				value_sjson: existing_override_json,
 				last_reported: get_UTC_timestamp_ms(),
 			}
 			state = {
@@ -230,17 +245,27 @@ export function report_debug_api_usage(state: Readonly<State>, report: Report): 
 	return state
 }
 
+// user toggled it, for current tab
+export function toggle_lib_injection(state: Readonly<State>): Readonly<State> {
+	return {
+		...state,
+		is_injection_enabled: !state.is_injection_enabled,
+		last_interacted_with: get_UTC_timestamp_ms(),
+	}
+}
+
+// user touched an override
 export function change_override_spec(state: Readonly<State>, key: string, partial: Readonly<Partial<OverrideState>>): Readonly<State> {
 	return {
 		...state,
-		last_interacted_with: get_UTC_timestamp_ms(),
 		overrides: {
 			...state.overrides,
 			[key]: {
 				...state.overrides[key],
 				...partial,
 			}
-		}
+		},
+		last_interacted_with: get_UTC_timestamp_ms(),
 	}
 }
 

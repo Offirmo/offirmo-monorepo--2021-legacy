@@ -5,7 +5,7 @@ import { MSG_ENTRY } from '../consts/entry'
 export interface OverrideReport {
 	type: 'override'
 	key: string
-	default_value_json: string
+	default_value_sjson: string
 	existing_override_json: string | null,
 }
 export interface LoggerReport { // TODO needed?

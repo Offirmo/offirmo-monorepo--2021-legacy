@@ -1,15 +1,16 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
+import is_valid_stringified_json from '../../../../../common/utils/is-valid-stringified-json'
 
-export default class AnyJson extends Component {
+export default class AnyJsonInput extends Component {
 	static propTypes = {
 		// mimic atlaskit
 		onChange: PropTypes.func.isRequired,
 		isDisabled: PropTypes.bool.isRequired,
-		// this control takes a direct JSON
+		// this control takes a direct SJSON
 		// so that it can do checks
-		value_json: PropTypes.string.isRequired,
+		value_sjson: PropTypes.string.isRequired,
 	}
 
 	constructor(props) {
@@ -20,25 +21,17 @@ export default class AnyJson extends Component {
 	on_change = () => {
 		const { onChange } = this.props
 		const raw_value = this.input.current.value
+		console.log('👆 AnyJsonInput on change', { raw_value })
 		onChange(raw_value)
 	}
 
 	render() {
-		const { isDisabled, value_json, ...field_props } = this.props
-		const has_error = (() => {
-			try {
-				JSON.parse(value_json)
-				return false
-			}
-			catch (err) {
-				//console.error(err, { value })
-				return true
-			}
-		})()
+		const { isDisabled, value_sjson, ...field_props } = this.props
+		const has_error = !is_valid_stringified_json(value_sjson)
 
-		console.log(`🔄 AnyJson`, {
+		console.log(`🔄 AnyJsonInput`, {
 			isDisabled,
-			value_json,
+			value_sjson,
 			has_error,
 		})
 
@@ -46,7 +39,7 @@ export default class AnyJson extends Component {
 			<Fragment>
 				{!isDisabled && <span>forced to </span>}
 				<input type="text" className={`o⋄font⁚roboto-condensed ${has_error ? 'override-input--error' : ''}`}
-					value={value_json}
+					value={value_sjson}
 					disabled={isDisabled}
 					onChange={this.on_change}
 					ref={this.input}

@@ -76,7 +76,7 @@ export default class TabControl extends Component {
 	}
 
 	render_view = ({app_state}) => {
-		console.log(`🔄 TabControl render_view`, {app_state})
+		//console.log(`🔄 TabControl render_view`, {app_state})
 
 		const origin = get_origin(app_state)
 		return (
@@ -96,7 +96,7 @@ export default class TabControl extends Component {
 	}
 
 	render() {
-		console.log(`🔄 TabControl render`)
+		//if (window._debug_render) console.log(`🔄 TabControl render`)
 
 		return (
 			<AppStateListenerAndProvider>

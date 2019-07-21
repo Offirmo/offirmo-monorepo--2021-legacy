@@ -4,8 +4,8 @@ import Range from '@atlaskit/range'
 import { ALL_LOG_LEVELS } from '@offirmo/practical-logger-core'
 
 const MIN_LEVEL = 0
-const DEFAULT_LEVEL = 4
 const MAX_LEVEL = ALL_LOG_LEVELS.length - 1
+const DEFAULT_LEVEL = 4
 
 export default class LogLevelRange extends Component {
 	static propTypes = {
@@ -15,12 +15,15 @@ export default class LogLevelRange extends Component {
 		isDisabled: PropTypes.bool.isRequired,
 	}
 
+	on_change = (value_int) => {
+		const { onChange } = this.props
+		const value = ALL_LOG_LEVELS[value_int]
+		console.log('👆 LogLevelRange on change', { value_int, value })
+		onChange(value)
+	}
+
 	render() {
 		const { isDisabled, value, onChange, ...field_props } = this.props
-		console.log(`🔄 LogLevelRange`, {
-			isDisabled,
-			value,
-		})
 
 		const index = ALL_LOG_LEVELS.findIndex(v => v === value)
 		if (value && index === -1)
@@ -29,6 +32,16 @@ export default class LogLevelRange extends Component {
 				? DEFAULT_LEVEL
 				: index
 
+		console.log(`🔄 LogLevelRange`, {
+			isDisabled,
+			value,
+			index,
+			MIN_LEVEL,
+			value_int,
+			MAX_LEVEL,
+			final_value: ALL_LOG_LEVELS[value_int],
+		})
+
 		return (
 			<Fragment>
 				<Range
@@ -36,7 +49,7 @@ export default class LogLevelRange extends Component {
 					isDisabled={isDisabled}
 					min={MIN_LEVEL} max={MAX_LEVEL} step={1}
 					value={value_int}
-					onChange={value_int => onChange(ALL_LOG_LEVELS[value_int])}
+					onChange={this.on_change}
 				/>
 				<span className={'override-input-label override-input-LogLevel-label o⋄font⁚roboto-condensed'}>
 					<Fragment>Level <b>{ALL_LOG_LEVELS[value_int]}</b> and above will be logged</Fragment>

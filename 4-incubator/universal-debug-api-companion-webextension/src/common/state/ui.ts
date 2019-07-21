@@ -1,6 +1,8 @@
 import * as OriginState from './origin'
 import * as TabState from './tab'
 import { UNKNOWN_ORIGIN } from '../consts'
+import {SpecSyncStatus} from "./tab";
+import {was_injection_enabled} from "./tab";
 
 export interface State {
 	origin: OriginState.State,
@@ -55,9 +57,15 @@ export function get_override_sync_status(state: Readonly<State>, key: string): T
 	return TabState.get_override_sync_status(state.tab, override_spec)
 }
 
+export function get_sync_status(state: Readonly<State>): SpecSyncStatus {
+	return TabState.get_sync_status(state.tab, state.origin)
+}
+
+/*
 export function needs_reload(state: Readonly<State>): boolean {
 	return TabState.needs_reload(state.tab, state.origin)
 }
+*/
 
 export function get_override(state: Readonly<State>, key: string): Readonly<OverrideState> {
 	return {
