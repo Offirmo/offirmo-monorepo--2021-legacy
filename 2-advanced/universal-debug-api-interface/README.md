@@ -39,7 +39,72 @@ This is an **internal** component of [Offirmo’s Universal Debug API](https://g
 See overall explanation: [Offirmo’s Universal Debug API](https://github.com/Offirmo/offirmo-monorepo/wiki/Offirmo%E2%80%99s-Universal-Debug-Api).
 
 
-## Usage
+## API
+
+This lib contains and exposes TypeScript types describing a Universal Debug API,
+to be used in any JS environment:
+
+```js
+import {
+	getLogger,
+	overrideHook,
+	exposeInternal,
+	addDebugCommand,
+} from '@offirmo/universal-debug-api-<pick an implementation>'
+```
+
+### Loggers
+
+Generic, basic loggers. See [@offirmo/practical-logger-interface](../../1-foundation/practical-logger-interface/README.md)
+
+Though a default level is set,
+it is expected that the level can be modified at load time
+(actual mechanism depending on the implementation)
+
+```js
+import { getLogger } from '@offirmo/universal-debug-api-<pick an implementation>'
+
+// trivial use
+const logger1 = createLogger()
+// ( msg = <string> , details = { <hash> } )
+logger1.log('Hello!', { target: 'world' })
+
+// advanced use
+const logger2 = createLogger({
+	name: 'cloud-sync',
+	suggestedLevel: 'info',
+	commonDetails: {
+		serverId: 'xyz987',
+	}
+})
+logger2.log('Hello!', { target: 'world' })
+```
+
+### Overrides
+
+Allows to "hook" the resolution of an information at load time.
+
+A default value must be provided.
+It is expected that the actual value can be replaced at load time
+(actual mechanism depending on the implementation)
+
+```js
+import { overrideHook } from '@offirmo/universal-debug-api-<pick an implementation>'
+
+// ( id = <string>, default_value = any )
+const is_debug_enabled = overrideHook('is-debug-enabled', false)
+const variation = overrideHook('experiment-cohort', 'not-enrolled')
+```
+
+
+### Debug commands
+TODO, considered in alpha / unstable for now.
+
+### Internal exposed for debug purposes
+TODO, considered in alpha / unstable for now.
+
+
+## Module usage
 
 **This is most likely not what you are looking for!**
 

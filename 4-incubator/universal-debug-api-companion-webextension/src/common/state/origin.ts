@@ -56,6 +56,9 @@ export function is_origin_eligible(origin: string): boolean {
 	if (origin.startsWith('chrome://'))
 		return false
 
+	if (origin.startsWith('chrome-extension://'))
+		return false
+
 	if (origin === 'null') // Firefox about:...
 		return false
 
