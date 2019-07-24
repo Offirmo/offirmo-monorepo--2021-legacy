@@ -18,17 +18,17 @@
 		"tslib": "^1"
 	},
 	"dependencies": {
-		"@offirmo-private/state": "^0.0.1",
-		"@offirmo-private/uuid": "^0.0.1",
-		"@oh-my-rpg/definitions": "^0.0.1",
-		"@oh-my-rpg/logic-armors": "^0.0.1",
-		"@oh-my-rpg/logic-weapons": "^0.0.1",
+		"@offirmo-private/state": "^0",
+		"@offirmo-private/uuid": "^0",
+		"@oh-my-rpg/definitions": "^0",
+		"@oh-my-rpg/logic-armors": "^0",
+		"@oh-my-rpg/logic-weapons": "^0",
 		"deep-freeze-strict": "^1",
 		"tiny-invariant": "^1"
 	},
 
 	"devDependencies": {
-		"@oh-my-rpg/migration-tester": "^0.0.1",
+		"@oh-my-rpg/migration-tester": "^0",
 		"npm-run-all": "^4"
 	},
 	"scripts": {

@@ -18,9 +18,9 @@
 		"tslib": "^1"
 	},
 	"dependencies": {
-		"@offirmo-private/state": "^0.0.1",
-		"@oh-my-rpg/definitions": "^0.0.1",
-		"@offirmo-private/timestamps": "^0.0.1",
+		"@offirmo-private/state": "^0",
+		"@oh-my-rpg/definitions": "^0",
+		"@offirmo-private/timestamps": "^0",
 		"deep-freeze-strict": "^1",
 		"fraction.js": "^4",
 		"memoize-one": "^5",
@@ -29,8 +29,8 @@
 	},
 
 	"devDependencies": {
-		"@offirmo-private/prettify-json": "^0.0.1",
-		"@oh-my-rpg/migration-tester": "^0.0.1",
+		"@offirmo-private/prettify-json": "^0",
+		"@oh-my-rpg/migration-tester": "^0",
 		"npm-run-all": "^4"
 	},
 	"scripts": {

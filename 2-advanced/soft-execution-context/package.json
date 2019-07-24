@@ -16,9 +16,9 @@
 	},
 	"dependencies": {
 		"@offirmo/globalthis-ponyfill": "^1.0.2",
-		"@offirmo-private/normalize-error": "^0.0.1",
-		"@offirmo-private/promise-try": "^0.0.1",
-		"@offirmo-private/timestamps": "^0.0.1",
+		"@offirmo-private/normalize-error": "^0",
+		"@offirmo-private/promise-try": "^0",
+		"@offirmo-private/timestamps": "^0",
 		"emittery": "^0.4",
 		"tslib": "^1"
 	},

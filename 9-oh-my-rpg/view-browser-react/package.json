@@ -15,8 +15,8 @@
 		"react": "^16"
 	},
 	"dependencies": {
-		"@offirmo-private/react-error-boundary": "^0.0.1",
-		"@oh-my-rpg/view-browser": "^0.0.1",
+		"@offirmo-private/react-error-boundary": "^0",
+		"@oh-my-rpg/view-browser": "^0",
 		"classnames": "^2",
 		"react-burger-menu": "^2",
 		"react-notification-system": "^0.2",

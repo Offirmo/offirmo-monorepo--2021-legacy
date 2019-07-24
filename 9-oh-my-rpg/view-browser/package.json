@@ -13,7 +13,7 @@
 	"dependencies": {
 	},
 	"devDependencies": {
-		"@offirmo-private/view-css": "^0.0.1",
+		"@offirmo-private/view-css": "^0",
 		"clean-css-cli": "^4",
 		"cpx": "^1",
 		"npm-run-all": "^4"

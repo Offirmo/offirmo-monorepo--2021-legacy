@@ -14,7 +14,7 @@
 	"peerDependencies": {
 	},
 	"dependencies": {
-		"@offirmo-private/prettify-json": "^0.0.1",
+		"@offirmo-private/prettify-json": "^0",
 		"ansi-escapes": "^4",
 		"chalk": "^2",
 		"gauge": "^2",
@@ -28,7 +28,7 @@
 	},
 
 	"devDependencies": {
-		"@offirmo-private/view-chat": "^0.0.1",
+		"@offirmo-private/view-chat": "^0",
 		"npm-run-all": "^4"
 	},
 	"scripts": {

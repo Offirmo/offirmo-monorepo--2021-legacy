@@ -32,8 +32,8 @@
 	},
 	"devDependencies": {
 		"@offirmo/practical-logger-browser": "^1.1.1",
-		"@offirmo-private/prettify-json": "^0.0.1",
-		"@offirmo-private/ts-types": "^0.0.1",
+		"@offirmo-private/prettify-json": "^0",
+		"@offirmo-private/ts-types": "^0",
 		"npm-run-all": "^4",
 		"tiny-invariant": "^1"
 	}

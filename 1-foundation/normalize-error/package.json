@@ -16,7 +16,7 @@
 	"peerDependencies": {
 	},
 	"dependencies": {
-		"@offirmo-private/common-error-fields": "^0.0.1",
+		"@offirmo-private/common-error-fields": "^0",
 		"tslib": "^1"
 	},
 

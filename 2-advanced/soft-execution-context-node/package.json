@@ -27,7 +27,7 @@
 		"demo": "./doc/demo/demo.js"
 	},
 	"devDependencies": {
-		"@offirmo-private/practical-logger-node": "^0.0.1",
+		"@offirmo-private/practical-logger-node": "^0",
 		"npm-run-all": "^4"
 	}
 }

@@ -19,8 +19,8 @@
 	"dependencies": {
 		"@offirmo/practical-logger-interface": "^1.1.1",
 		"@offirmo/random": "^2",
-		"@offirmo-private/ts-types": "^0.0.1",
-		"@offirmo-private/uuid": "^0.0.1",
+		"@offirmo-private/ts-types": "^0",
+		"@offirmo-private/uuid": "^0",
 		"tiny-invariant": "^1",
 		"typescript-string-enums": "^1"
 	},

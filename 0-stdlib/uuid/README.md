@@ -2,7 +2,7 @@ UUID
 
 ```js
 /*
-"@offirmo-private/uuid": "^0.0.1",
+"@offirmo-private/uuid": "^0",
  */
 
 import { UUID, generate_uuid } from '@offirmo-private/uuid'

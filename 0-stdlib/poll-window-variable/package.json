@@ -11,7 +11,7 @@
 	"sideEffects": false,
 
 	"dependencies": {
-		"@offirmo-private/poll": "^0.0.1"
+		"@offirmo-private/poll": "^0"
 	},
 
 	"scripts": {

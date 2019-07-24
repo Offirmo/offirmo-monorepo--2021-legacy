@@ -8,7 +8,7 @@ const {
 } = require('..')
 
 console.log(boxify(`
-"${stylizeString.bold(PKG_JSON.name)}": "^0.0.1",
+"${stylizeString.bold(PKG_JSON.name)}": "^0",
 
 import { UUID, generate_uuid } from '${stylizeString.bold(PKG_JSON.name)}'
 

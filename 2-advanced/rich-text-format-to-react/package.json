@@ -15,9 +15,9 @@
 		"react": "^16"
 	},
 	"dependencies": {
-		"@offirmo-private/features-detection-browser": "^0.0.1",
-		"@offirmo-private/react-error-boundary": "^0.0.1",
-		"@offirmo-private/rich-text-format": "^0.0.1",
+		"@offirmo-private/features-detection-browser": "^0",
+		"@offirmo-private/react-error-boundary": "^0",
+		"@offirmo-private/rich-text-format": "^0",
 		"classnames": "^2",
 		"react-overlays": "^1",
 		"react-portal-tooltip": "^2"

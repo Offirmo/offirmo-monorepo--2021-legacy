@@ -10,8 +10,8 @@
 	"sideEffects": false,
 
 	"dependencies": {
-		"@offirmo-private/prettify-json": "^0.0.1",
-		"@offirmo-private/timestamps": "^0.0.1",
+		"@offirmo-private/prettify-json": "^0",
+		"@offirmo-private/timestamps": "^0",
 		"jsondiffpatch": "^0.3",
 		"load-json-file": "^6",
 		"lodash": "^4",

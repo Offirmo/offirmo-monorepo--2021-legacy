@@ -15,7 +15,7 @@
 		"@offirmo-private/soft-execution-context": "^0.0.2"
 	},
 	"dependencies": {
-		"@offirmo-private/ensure-device-uuid-browser": "^0.0.1",
+		"@offirmo-private/ensure-device-uuid-browser": "^0",
 		"tslib": "^1"
 	},
 
