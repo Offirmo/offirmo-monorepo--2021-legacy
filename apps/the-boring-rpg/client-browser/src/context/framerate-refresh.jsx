@@ -8,7 +8,6 @@ import {get_UTC_timestamp_ms} from '@offirmo-private/timestamps'
 import get_game_instance from '../services/game-instance-browser'
 import { AppStateListenerAndProvider } from './app-state'
 
-const game_instance = get_game_instance()
 const MAX_FPS = 1. // TODO load from prefs
 const MIN_FPS = .1 // ex. for a background tab
 const MIN_FPS_FRAME_PERIOD_MS = Math.trunc(1000. / MIN_FPS)
@@ -62,7 +61,7 @@ class AppStateListenerAndProviderRAF extends React.Component {
 		this.iteration_count++
 		setTimeout(() => console.groupEnd())
 
-		game_instance.commands.update_to_now()
+		get_game_instance().commands.update_to_now()
 
 		if (MAX_ITERATIONS) {
 			if (this.iteration_count > MAX_ITERATIONS) {

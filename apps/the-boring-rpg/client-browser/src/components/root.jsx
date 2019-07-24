@@ -4,8 +4,8 @@ import PropTypes from 'prop-types'
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
 
 import get_game_instance from '../services/game-instance-browser'
-import {BASE_ROUTE, ROUTES} from '../services/routes'
-import {CHANNEL} from '../services/channel'
+import { BASE_ROUTE, ROUTES } from '../services/routes'
+import { CHANNEL } from '../services/channel'
 import { AppStateListenerAndProvider } from '../context'
 
 import Home from './pages/home'
@@ -13,6 +13,9 @@ import Savegame from './pages/savegame'
 import Dev from './pages/dev'
 import Diagnostic from './pages/diagnostic'
 import DevUI from './meta/dev-area'
+
+//console.log(__filename)
+/////////////////////////////////////////////////
 
 //const StrictCheck = StrictMode
 const StrictCheck = Fragment

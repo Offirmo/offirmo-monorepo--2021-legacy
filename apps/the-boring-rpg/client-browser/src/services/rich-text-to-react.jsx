@@ -10,7 +10,7 @@ import {
 import { Interactive } from '../components/misc/interactive-element'
 import './rich-text-to-react.css'
 
-////////////
+/////////////////////////////////////////////////
 
 function on_node_exit(params, options) {
 	const { children, classes, component, wrapper } = intermediate_on_node_exit(params, options)

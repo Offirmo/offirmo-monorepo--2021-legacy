@@ -3,7 +3,6 @@ import Deferred from '@offirmo/deferred'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from "@offirmo-private/timestamps";
 import { JSONRpcRequest, JSONRpcResponse } from '@offirmo-private/json-rpc-types'
 
-
 import { SoftExecutionContext } from '../../sec'
 import fetch from '../../utils/fetch'
 import { JsonRpcCaller } from './types'
@@ -26,7 +25,8 @@ function create({ rpc_url }: { rpc_url: string }): JsonRpcCaller {
 			SEC: SoftExecutionContext,
 			method: string,
 			params: Params,
-		}): Promise<Resp> {
+		}
+	): Promise<Resp> {
 		const request_id = ++id
 
 		const request: JSONRpcRequest<Params> = {

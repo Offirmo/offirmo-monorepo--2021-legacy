@@ -1,7 +1,141 @@
 
+## Retro
+Good
+* offline first
+* no redux
+
+Bad
+* https://slack.engineering/rebuilding-slack-on-the-desktop-308d6fe94ae4 Eager data loading. The data model was “complete”, meaning that each user session started by downloading everything relevant to the user. While great in theory, in practice this was prohibitively expensive for large workspaces
 
 
+## Achievements
 
+🍪🎂🏴🏳
+📦💰
+🥇🥈🥉
+🎖🏆🏅
+👑🎓
+💬
+https://www.wowhead.com/the-entitled-a-guide-to-titles
+https://www.wowhead.com/achievements
+http://cookieclicker.wikia.com/wiki/Achievement
+https://www.trueachievements.com/game/Diablo-III-Reaper-of-Souls-Ultimate-Evil-Edition/achievements
+
+https://www.begeek.fr/vous-galerez-sur-red-dead-redemption-ii-voici-les-codes-pour-tricher-298991
+https://www.trueachievements.com/game/Diablo-III-Reaper-of-Souls-Ultimate-Evil-Edition/achievements
+
+
+Classes
+- - having played X times as a X
+
+Social / virality
+-
+
+Misc
+- here you go - (see cookie clicker)
+
+Titles
+- class related (see WoW)
+- visitor -
+- explorer -
+- X, dragonslayer- having won a random encounter with a dragon
+- X from another world
+- X the bored
+- PvP
+
+https://www.imdb.com/title/tt0120737/quotes?ref_=tt_ql_trv_4
+https://www.imdb.com/title/tt0167261/quotes?ref_=tt_ql_trv_4
+https://www.imdb.com/title/tt0167260/quotes?ref_=tt_ql_trv_4
+
+The red pill
+The blue pill
+Free your mind
+You are the One
+What is best in life?
+the enigma of steel
+the jeweled crown of Aquilonia
+You cannot pass!
+A wizard is never late
+One does not simply walk into Mordor
+You have my sword...
+Legolas: And you have my bow.
+Gimli: And *my* axe.
+they are coming
+Such a little thing
+
+you've been officially labeled a 'disturber of the peace.'
+
+https://en.wikipedia.org/wiki/All_that_is_gold_does_not_glitter
+
+https://www.brainyquote.com/search_results?q=adventure
+
+
+/* TODO
+exploration
+
+defeats
+fled
+secret: so much to do
+here you go
+
+Adventures
+- having found the 4 rare gems
+- having met X NPC
+- having looted X items
+- having had  enhancements applied
+- - having had X different adventures
+-  - having won X random encounters
+- First Attempt In Learning - having lost X random encounters
+- live another day - having fled X random encounters
+
+
+		name: 'Happy Looter',
+		name: 'Grand Looter',
+		🔹🔷💠	large blue diamond	blue | diamond | geometric | large blue diamond
+1369	🔸🔶
+🥀
+
+🌱
+553	U+1F332	🌲	evergreen tree	evergreen tree | tree
+554	U+1F333	🌳	deciduous tree	deciduous | shedding | tree
+555	U+1F334	🌴	palm tree	palm | tree
+556	U+1F335	🌵	cactus	cactus | plant
+557	U+1F33E	🌾	sheaf of rice	ear | grain | rice | sheaf of rice
+558	U+1F33F	🌿	herb	herb | leaf
+559	U+2618	☘	shamrock	plant | shamrock
+560	U+1F340	🍀	four leaf clover	4 | clover | four | four-leaf clover | leaf
+561	U+1F341	🍁	maple leaf	falling | leaf | maple
+562	U+1F342	🍂	fallen leaf	fallen leaf | falling | leaf
+563	U+1F343	🍃	leaf fluttering in wind	blow | flutter | leaf | leaf fluttering in wind | wind
+
+🏔	snow-capped mountain	cold | mountain | snow | snow-capped mountain
+684	U+26F0	⛰	mountain	mountain
+685	U+1F30B	🌋	volcano	eruption | mountain | volcano
+686	U+1F5FB	🗻	mount fuji	fuji | mount fuji | mountain
+687	U+1F3D5	🏕	camping	camping
+688	U+1F3D6	🏖	beach with umbrella	beach | beach with umbrella | umbrella
+689	U+1F3DC	🏜	desert	desert
+690	U+1F3DD	🏝	desert island	desert | island
+691	U+1F3DE	🏞
+723	U+1F301	🌁	foggy	fog | foggy
+724	U+1F303	🌃	night with stars	night | night with stars | star
+725	U+1F3D9	🏙	cityscape	city | cityscape
+726	U+1F304	🌄	sunrise over mountains	morning | mountain | sun | sunrise | sunrise over mountains
+727	U+1F305	🌅	sunrise	morning | sun | sunrise
+728	U+1F306	🌆	cityscape at dusk	city | cityscape at dusk | dusk | evening | landscape | sunset
+729	U+1F307	🌇	sunset	dusk | sun | sunset
+730	U+1F309	🌉	bridge at night	bridge | bridge at night | night
+731	U+2668	♨	hot springs	hot | hotsprings | springs | steaming
+732	U+1F30C	🌌	milky way
+782	U+2693	⚓	anchor	anchor | ship | tool
+783	U+26F5	⛵	sailboat	boat | resort | sailboat | sea | yacht
+784	U+1F6F6	🛶	canoe
+882	U+1F386	🎆	fireworks	celebration | fireworks
+883	U+1F387	🎇	sparkler
+ */
+ 
+ 
+ 
 
 
 https://arstechnica.com/gaming/2019/06/everquests-long-strange-20-year-trip-still-has-no-end-in-sight/

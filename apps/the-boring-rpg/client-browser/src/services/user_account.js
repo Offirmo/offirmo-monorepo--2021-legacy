@@ -1,10 +1,11 @@
 import poll_window_variable, { poll } from '@offirmo-private/poll-window-variable'
 
-import SEC from './sec'
 import { ACCOUNT_STATE } from './game-instance-browser'
 import { set_user_context } from './raven'
 import get_game_instance from './game-instance-browser'
 
+//console.log(__filename)
+/////////////////////////////////////////////////
 
 
 function get_name(user) {
@@ -106,7 +107,6 @@ function init(SEC, game_instance) {
 				return user.jwt()
 					.then(() => {
 						logger.info('NetlifyIdentity: user refreshed', user)
-
 
 						get_game_instance().commands.on_logged_in_refresh(
 							true,

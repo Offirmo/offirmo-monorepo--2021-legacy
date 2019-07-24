@@ -1,6 +1,7 @@
 import memoize_one from 'memoize-one'
 import assert from 'tiny-invariant'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
+import { overrideHook } from '@offirmo/universal-debug-api-minimal-noop'
 import { OMRContext } from '@oh-my-rpg/definitions'
 import {
 	ENGINE_VERSION,
@@ -20,8 +21,8 @@ import { LIB as ROOT_LIB } from '../../consts'
 import { SoftExecutionContext } from '../../sec'
 import { CloudStore } from '../types'
 import stable_stringify from 'json-stable-stringify'
-import { Synchronizer, create as create_synchronizer } from './synchonizer'
-import { JsonRpcCaller, create as create_jsonrpc_fetch } from './json-rpc-fetch'
+import { create as create_synchronizer } from './synchonizer'
+import { create as create_jsonrpc_client } from './json-rpc-client'
 
 const LIB = `${ROOT_LIB}/CloudStore`
 
@@ -41,6 +42,7 @@ function get_persisted_pending_actions(SEC: SoftExecutionContext, local_storage:
 		return []
 	}
 }
+
 function persist_pending_actions(SEC: SoftExecutionContext, local_storage: Storage, pending_actions: Action[]): void {
 	return SEC.xTryCatch(`persisting ${pending_actions.length} action(s)`, ({}: OMRContext): void => {
 		local_storage.setItem(
@@ -49,8 +51,19 @@ function persist_pending_actions(SEC: SoftExecutionContext, local_storage: Stora
 		)
 	})
 }
+
 function reset_pending_actions(SEC: SoftExecutionContext, local_storage: Storage): void {
 	return persist_pending_actions(SEC, local_storage, [])
+}
+
+function get_json_rpc_url(SEC: SoftExecutionContext) {
+	// TODO auto depending to env
+	return overrideHook('tbrpg.json-rpc-endpoint', 'http://localhost:9000/tbrpg-rpc')
+}
+
+function forbidden_get(): Readonly<State> | null {
+	// this should never be called
+	throw new Error(`[${LIB}] Unexpected get()!`)
 }
 
 
@@ -62,58 +75,39 @@ function create(
 ): CloudStore {
 	return SEC.xTry(LIB, ({SEC: ROOT_SEC}: OMRContext): CloudStore => {
 
-		function re_create(initial_state: Readonly<State>) {
-			return ROOT_SEC.xTry(`re-creating store`, ({SEC, logger}: OMRContext): CloudStore => {
+		function re_create_cloud_store(initial_state: Readonly<State>) {
+			return ROOT_SEC.xTry(`re-creating cloud store`, ({SEC, logger}: OMRContext): CloudStore => {
 				let opt_out_reason: string | null = 'unknown!!' // so far
-
-				function get(): Readonly<State> | null {
-					throw new Error(`[${LIB}] Unexpected get()!`)
-				}
-
-				const no_op_store: CloudStore = {
-					set: () => {},
-					dispatch: () => {},
-					get,
-				}
-
 				let is_logged_in: boolean = false // so far
 				let pending_actions = get_persisted_pending_actions(SEC, local_storage)
 				//let last_sync_result: Promise<SyncResult> // TODO
 
-				let call_remote_procedure = create_jsonrpc_fetch({
-					// TODO auto depending to env
-					rpc_url: 'http://localhost:9000/tbrpg-rpc'
+				const call_json_rpc = create_jsonrpc_client({
+					rpc_url: get_json_rpc_url(SEC),
 				})
 
-				let _synchronizer: Synchronizer | null = null
-				function get_synchronizer(): Synchronizer {
-					if (!_synchronizer) {
-						_synchronizer = create_synchronizer({
-							SEC,
-							call_remote_procedure,
-							on_successful_sync: (result: SyncResult) => {
-								const { engine_v, processed_up_to_time, authoritative_state } = result
+				let synchronizer = create_synchronizer({
+					SEC,
+					call_remote_procedure: call_json_rpc,
+					on_successful_sync: (result: SyncResult) => {
+						const { engine_v, processed_up_to_time, authoritative_state } = result
 
-								if (engine_v !== ENGINE_VERSION) {
-									// TODO trigger a refresh to update
-									opt_out_reason = 'We are outdated!'
-									return
-								}
+						if (engine_v !== ENGINE_VERSION) {
+							// TODO trigger a refresh to update
+							opt_out_reason = 'We are outdated!'
+							return
+						}
 
-								pending_actions = pending_actions.filter(action => action.time > processed_up_to_time)
-								persist_pending_actions(ROOT_SEC, local_storage, pending_actions)
+						pending_actions = pending_actions.filter(action => action.time > processed_up_to_time)
+						persist_pending_actions(ROOT_SEC, local_storage, pending_actions)
 
-								if (authoritative_state) {
-									set(authoritative_state)
-								}
-							},
-							initial_pending_actions: pending_actions,
-							initial_state,
-						})
-					}
-
-					return _synchronizer
-				}
+						if (authoritative_state) {
+							set(authoritative_state)
+						}
+					},
+					initial_pending_actions: pending_actions,
+					initial_state,
+				})
 
 				function dispatch(action: Readonly<Action>, eventual_state_hint?: Readonly<State>): void {
 					assert(eventual_state_hint, 'state MUST be hinted!')
@@ -141,7 +135,7 @@ function create(
 					}
 
 					if (is_logged_in && !opt_out_reason) {
-						get_synchronizer().sync(pending_actions, eventual_state_hint!)
+						synchronizer.sync(pending_actions, eventual_state_hint!)
 					}
 				}
 
@@ -207,29 +201,34 @@ function create(
 
 				if (opt_out_reason !== null) {
 					logger.info(`[${LIB}] opted out of cloud sync.`, { opt_out_reason })
+					const no_op_store: CloudStore = {
+						set: () => {},
+						dispatch: () => {},
+						get: forbidden_get,
+					}
 					return no_op_store
 				}
 
 				return {
-					set: () => { throw new Error('set() NIMP in direct cloud store!!')},
+					set: () => { throw new Error(`[${LIB}] cloud store set() NIMP!`)}, // TODO?
 					dispatch,
-					get,
+					get: forbidden_get,
 				}
 			})
 		}
 
-		let real_store = re_create(initial_state)
+		let real_cloud_store = re_create_cloud_store(initial_state)
 
 		let indirect_store = {
 			set(new_state: Readonly<State>): void {
 				reset_pending_actions(ROOT_SEC, local_storage)
-				real_store = re_create(new_state)
+				real_cloud_store = re_create_cloud_store(new_state)
 			},
 			dispatch(action: Readonly<Action>, eventual_state_hint?: Readonly<State>): void {
-				return real_store.dispatch(action)
+				return real_cloud_store.dispatch(action)
 			},
 			get(): Readonly<State> | null {
-				return real_store.get()
+				return real_cloud_store.get()
 			},
 		}
 

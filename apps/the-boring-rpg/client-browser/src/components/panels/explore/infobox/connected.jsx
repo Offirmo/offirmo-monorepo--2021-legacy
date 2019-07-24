@@ -8,11 +8,11 @@ import { AppStateContext } from '../../../../context'
 import InfoboxView from './component'
 
 
-const game_instance = get_game_instance()
 
 
 const InfoboxC1 = React.memo(
 	function InfoboxC1({state}) {
+		const game_instance = get_game_instance()
 		const achievements_completion_pct = (new Fraction(game_instance.queries.get_achievements_completion())).mul(100).floor(2).valueOf()
 
 		return (

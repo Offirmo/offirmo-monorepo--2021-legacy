@@ -25,8 +25,6 @@ import { State as CodesState } from '@oh-my-rpg/state-codes'
 import { State as ProgressState } from '@oh-my-rpg/state-progress'
 import { State as MetaState } from '@oh-my-rpg/state-meta'
 
-//import { BaseState, BaseRootState } from './utils/state'
-
 /////////////////////
 
 const GainType = Enum(

@@ -6,8 +6,13 @@
 - 😍 feature: X new backgrounds (now totalling X!)
 - 🤩 feature: X new achievements (now totalling X!)
 - 😅 fix: tweaks, typos, small bugs…
-- 😷 chore: some internal refactors: bump dependencies
+- 😷 chore: some internal refactors, bump dependencies
 
+
+## v0.60.3
+- 😷 chore: fix early instantiation of the game instance
+- 😷 chore: use UWDA debug features
+- 😷 chore: some internal refactors, bump dependencies
 
 ## v0.60.2
 - 😷 chore: some internal refactors: bump dependencies, tweaked the colors

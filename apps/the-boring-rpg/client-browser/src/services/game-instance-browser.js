@@ -5,8 +5,9 @@ import { create_game_instance } from '@tbrpg/flux'
 
 import SEC from './sec'
 import { init } from './user_account'
-import {StorageKey} from '../../../interfaces/src'
 
+//console.log(__filename)
+/////////////////////////////////////////////////
 
 let game_instance = null
 
@@ -55,27 +56,33 @@ window.localStorage.removeItem('the-boring-rpg.savegame-bkp.v7')
 window.localStorage.removeItem('the-boring-rpg.savegame-bkp.v6')
 */
 
-SEC.xTry('creating game instance', ({SEC, logger}) => {
-	game_instance = create_game_instance({
-		SEC,
-		storage,
-		app_state: {
-			...INITIAL_APP_STATE,
-		},
-	})
 
-	// init
-	game_instance.view.set_state(state => {
-		const last_adventure = game_instance.queries.get_last_adventure()
-		return {
-			last_displayed_adventure_uuid: last_adventure && last_adventure.uuid,
-		}
-	})
 
-	const is_web_diversity_supporter = bowser.name === 'Firefox'
-	game_instance.commands.on_start_session(is_web_diversity_supporter)
+export default function get() {
+	if (!game_instance) {
+		SEC.xTry('creating game instance', ({SEC, logger}) => {
+			game_instance = create_game_instance({
+				SEC,
+				storage,
+				app_state: {
+					...INITIAL_APP_STATE,
+				},
+			})
 
-	init(SEC, game_instance)
-})
+			// init
+			game_instance.view.set_state(state => {
+				const last_adventure = game_instance.queries.get_last_adventure()
+				return {
+					last_displayed_adventure_uuid: last_adventure && last_adventure.uuid,
+				}
+			})
 
-export default function get() { return game_instance }
+			const is_web_diversity_supporter = bowser.name === 'Firefox'
+			game_instance.commands.on_start_session(is_web_diversity_supporter)
+
+			init(SEC, game_instance)
+		})
+	}
+
+	return game_instance
+}

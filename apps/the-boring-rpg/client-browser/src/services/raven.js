@@ -1,10 +1,10 @@
 import Raven from 'raven-js'
-import { CHANNEL } from './channel'
 import ensureDeviceUUID from '@offirmo-private/ensure-device-uuid-browser'
-
 import { VERSION, BUILD_DATE } from '@tbrpg/flux'
 
+import { CHANNEL } from './channel'
 
+//console.log(__filename)
 /////////////////////////////////////////////////
 
 const DEVICE_UUID = ensureDeviceUUID()

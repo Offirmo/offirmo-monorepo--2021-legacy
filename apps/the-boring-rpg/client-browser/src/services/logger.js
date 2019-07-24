@@ -9,7 +9,7 @@ import { ENGINE_VERSION, BUILD_DATE } from '@tbrpg/flux'
 
 const logger = getLogger({
 	name: LIB,
-	suggestedLevel: 'silly',
+	suggestedLevel: 'error',
 })
 
 
@@ -39,6 +39,5 @@ if (false) {
 	})
 	console.groupEnd()
 }
-
 
 export default logger

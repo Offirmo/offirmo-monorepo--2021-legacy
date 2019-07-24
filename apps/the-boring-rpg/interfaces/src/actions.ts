@@ -27,6 +27,7 @@ type ActionType = Enum<typeof ActionType> // eslint-disable-line no-redeclare
 
 /////////////////////
 
+// TODO all those actions should be in the state! (v2)
 interface BaseAction {
 	//v: 1 // not sure needed
 	time: TimestampUTCMs

@@ -1,18 +1,8 @@
 /////////////////////
 
-import { Random, Engine } from '@offirmo/random'
 import deepFreeze from 'deep-freeze-strict'
 
 /////////////////////
-
-import {
-	CharacterAttribute,
-	CharacterAttributes,
-	CharacterClass,
-	increase_stat,
-	rename,
-	switch_class,
-} from '@oh-my-rpg/state-character'
 
 
 import * as Character from '@oh-my-rpg/state-character'

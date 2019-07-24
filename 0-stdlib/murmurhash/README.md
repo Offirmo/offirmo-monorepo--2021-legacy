@@ -21,3 +21,9 @@ import create from '@offirmo-private/murmurhash'
 let Murmur = create(TextEncoder)
 const result = Murmur.v3.x64.hash_string_to_128(str)
 ```
+
+```js
+import { setTextEncoder } from '@offirmo-private/murmurhash'
+
+setTextEncoder(TextEncoder)
+```

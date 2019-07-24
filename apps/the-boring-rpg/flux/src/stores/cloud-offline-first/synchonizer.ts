@@ -45,7 +45,6 @@ function create({ SEC, call_remote_procedure, on_successful_sync, initial_pendin
 	initial_state: State,
  }): Readonly<Synchronizer> {
 	let state: CloudState = 'starting'
-
 	let pending_actions: Action[] = initial_pending_actions
 	let last_successful_sync: TimestampUTCMs = 0
 	let last_sync_attempt: TimestampUTCMs = 0
@@ -93,7 +92,7 @@ function create({ SEC, call_remote_procedure, on_successful_sync, initial_pendin
 	}
 
 	function pulse() {
-		console.group('pulse()')
+		console.group('📡 pulse()')
 
 		let has_work_left = true
 

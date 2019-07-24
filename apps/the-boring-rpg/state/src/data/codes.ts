@@ -11,7 +11,7 @@ import {
 
 ////////////
 
-// TODO move data outside!
+// TODO move data outside?
 
 // for test only
 const TEST_CODES: Readonly<{ [key: string]: Readonly<Partial<CodeSpec<State>>> }> = {

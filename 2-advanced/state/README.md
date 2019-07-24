@@ -1,4 +1,6 @@
 
+XXX purely experimental
+
 ```ts
 import { BaseUState } from '@offirmo-private/state'
 

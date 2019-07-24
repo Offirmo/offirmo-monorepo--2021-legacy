@@ -1,5 +1,3 @@
-'use strict'
-
 import { getRootSEC } from '@offirmo-private/soft-execution-context'
 import {
 	listenToErrorEvents,
@@ -14,6 +12,7 @@ import { CHANNEL } from './channel'
 import logger from './logger'
 import raven_client, { set_imminent_captured_error } from './raven'
 
+//console.log(__filename)
 /////////////////////////////////////////////////
 
 const SEC = getRootSEC()

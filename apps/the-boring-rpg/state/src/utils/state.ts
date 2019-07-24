@@ -1,6 +1,8 @@
 import assert from 'tiny-invariant'
 import { JSONAny } from '@offirmo-private/ts-types'
 
+// TODO external?
+
 export interface BaseState {
 	schema_version?: number // may not have it if sub-state
 	revision?: number // may not have it if not relevant = T-state
@@ -16,6 +18,7 @@ export interface BaseRootState {
 	t_state: BaseState
 }
 
+// XXX externalized!!
 export function propagate_child_revision_increment_upward<S>(
 	previous: Readonly<S> | null | undefined,
 	current: Readonly<S>
