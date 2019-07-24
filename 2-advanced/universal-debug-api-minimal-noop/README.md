@@ -42,13 +42,20 @@ See overall explanation: [Offirmo’s Universal Debug API](https://github.com/Of
 
 ## Usage
 
-Use this lib **to not bloat your webapp/npx bundle**. This no-op implementation will do nothing: display nothing, compute nothing.
+Use this lib **to not bloat your webapp/npx bundle**.
+This no-op implementation will do nothing = display nothing = compute nothing.
 
+However, when the companion webextension is used,
+the no-op implementation can be hot-swapped at load time to get the full featured Web Debug API.
 
 ```javascript
-import { } from '@offirmo/universal-debug-api-minimal-noop'
-
-TODO
+import {
+	getLogger,
+	exposeInternal,
+	overrideHook,
+	addDebugCommand,
+	globalThis, // exposed from sub-dependency for convenience
+} from '@offirmo/universal-debug-api-minimal-noop'
 ```
 
 Note: no bundled version provided, for this lib is targeted at lib authors, not end users.
