@@ -19,10 +19,8 @@
 	},
 	"dependencies": {
 		"@offirmo-private/json-rpc-types": "^0",
-		"@offirmo-private/common-error-fields": "^0",
 		"@offirmo-private/timestamps": "^0",
 		"@offirmo-private/uuid": "^0",
-		"@oh-my-rpg/state-character": "^0",
 		"@tbrpg/state": "^0",
 		"typescript-string-enums": "^1"
 	},
