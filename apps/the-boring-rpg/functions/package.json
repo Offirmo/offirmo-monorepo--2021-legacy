@@ -24,11 +24,11 @@
 
 		"build:dev:watch": "node ../../../scripts/build-typescript.js --watch",
 		"build:prod": "node ../../../scripts/build-typescript.js",
-		"build:netlify-functions": "rm -rf ./functions && netlify-lambda build ./dist/src.es2019.cjs",
+		"build:netlify-functions": "rm -rf ./functions && netlify-lambda build ./dist/src.es2018.cjs",
 
 		"dev": "run-s clean build:dev:watch",
-		"start": "netlify-lambda serve ./dist/src.es2019.cjs",
-		"test": "../../../node_modules/.bin/mocha --opts ../../../3-tools/unit-test-toolbox/mocha.opts ../../../3-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2019.cjs/**/*spec.js'",
+		"start": "netlify-lambda serve ./dist/src.es2018.cjs",
+		"test": "../../../node_modules/.bin/mocha --opts ../../../3-tools/unit-test-toolbox/mocha.opts ../../../3-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2018.cjs/**/*spec.js'",
 		"build": "run-s build:prod build:netlify-functions"
 	},
 	"devDependencies": {

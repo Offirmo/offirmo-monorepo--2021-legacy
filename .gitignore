@@ -16,8 +16,7 @@ node_modules
 ## regenerable
 ## standard dist
 **/dist/src.es2019/
-**/dist/src.es2019.cjs/
-**/dist/src.es5.cjs/
+**/dist/src.es2018.cjs/
 ## non-standard dist
 4-incubator/experiment-bootstrap/dist/
 4-incubator/universal-debug-api-companion-webextension/dist/

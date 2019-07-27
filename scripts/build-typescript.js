@@ -22,12 +22,23 @@ const cli = meow('build', {
 
 /////////////////////
 
+// 2019/07/27
+const LATEST_ES = 'ES2019'
+const LATEST_ES_MODULES = 'ES2015'
+const LATEST_NODE_LTS_ES = 'ES2018'
+
+
+
+
 const PKG_PATH = process.cwd()
 const DIST_DIR = path.join(PKG_PATH, 'dist')
 const PKG_JSON = require(path.join(PKG_PATH, 'package.json'))
 const PKG_NAME = PKG_JSON.name
 
 const TSCONFIG_JSON = require(path.join(__dirname, '..', 'meta', 'tsconfig.json'))
+console.assert(TSCONFIG_JSON.compilerOptions.target === LATEST_ES)
+console.assert(TSCONFIG_JSON.compilerOptions.lib.includes(LATEST_ES))
+console.assert(TSCONFIG_JSON.compilerOptions.module === LATEST_ES_MODULES)
 const target = TSCONFIG_JSON.compilerOptions.target.toLowerCase()
 
 /////////////////////
@@ -55,6 +66,7 @@ if (cli.flags.watch) {
 /////////////////////
 
 function build_legacy() {
+	throw new Error('Should not be used!')
 	const target = 'es5'
 	const out_dir = `src.${target}.cjs`
 	console.log(`      building ${PKG_NAME}/dist/${stylize_string.bold(out_dir)}`)
@@ -73,12 +85,14 @@ function build_legacy() {
 	)
 }
 
-function build_cjs() {
+function build_convenience_prebuilt() {
+	const target = LATEST_NODE_LTS_ES.toLowerCase()
 	const out_dir = `src.${target}.cjs`
 	console.log(`      building ${PKG_NAME}/dist/${stylize_string.bold(out_dir)}`)
 	return tsc.compile(
 		{
 			...compilerOptions,
+			target,
 			module: 'commonjs',
 			outDir: path.join(DIST_DIR, out_dir),
 			project: PKG_PATH,
@@ -90,7 +104,7 @@ function build_cjs() {
 	)
 }
 
-function build_esnext() {
+function build_latest_es() {
 	const out_dir = `src.${target}`
 	console.log(`      building ${PKG_NAME}/dist/${stylize_string.bold(out_dir)}`)
 	return tsc.compile(
@@ -114,17 +128,20 @@ console.log(`🛠  🔻 building ${stylize_string.bold(PKG_NAME)}...` + (cli.fla
 // build sequentially to not duplicate the errors if any.
 // CJS is usable in both node and bundled frontend,
 // thus we build only this one in watch = dev mode.
-build_cjs()
+Promise.resolve()
+	.then(() => {
+		return build_convenience_prebuilt()
+	})
+	.then(() => {
+		if (cli.flags.watch) return
+
+		return build_latest_es()
+	})
 	.then(() => {
 		if (cli.flags.watch) return
 		if (!cli.flags.alsoLegacy) return
 
 		return build_legacy()
-	})
-	.then(() => {
-		if (cli.flags.watch) return
-
-		return build_esnext()
 	})
 	.then(() => console.log(`🛠  🔺 building ${stylize_string.bold(PKG_NAME)} done ✔`))
 	/*.catch(err => {

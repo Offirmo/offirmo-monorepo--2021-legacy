@@ -4,17 +4,17 @@ const {
 	DEMO_WEAPON_1,
 	DEMO_WEAPON_2,
 	//generate_random_demo_weapon,
-} = require('../../../9-oh-my-rpg/logic-weapons/dist/src.es2019.cjs')
+} = require('../../../9-oh-my-rpg/logic-weapons/dist/src.es2018.cjs')
 const {
 	DEMO_ARMOR_1,
 	DEMO_ARMOR_2,
 	//generate_random_demo_armor,
-} = require('../../../9-oh-my-rpg/logic-armors/dist/src.es2019.cjs')
+} = require('../../../9-oh-my-rpg/logic-armors/dist/src.es2018.cjs')
 
 const {
 	render_item_short,
 	//render_item_detailed,
-} = require('../../../9-oh-my-rpg/view-rich-text/dist/src.es2019.cjs')
+} = require('../../../9-oh-my-rpg/view-rich-text/dist/src.es2018.cjs')
 
 /////// parts ///////
 
