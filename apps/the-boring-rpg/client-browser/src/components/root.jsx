@@ -80,7 +80,7 @@ export default class Root extends Component {
 						if (is_paused)
 							console.warn('⏸ Game is now paused!')
 						else
-							console.info('▶ Game will now resume')
+							console.info('▶️ Game will now resume')
 					}}
 					onFastForward={() => get_game_instance().commands.custom(
 						state => {

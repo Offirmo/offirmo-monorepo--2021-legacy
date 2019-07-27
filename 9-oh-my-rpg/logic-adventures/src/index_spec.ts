@@ -11,9 +11,32 @@ import {
 	pick_random_good_archetype,
 	pick_random_bad_archetype,
 	generate_random_coin_gain,
+	ALL_BAD_ADVENTURE_ARCHETYPES,
+	ALL_GOOD_ADVENTURE_ARCHETYPES,
+	GOOD_ADVENTURE_ARCHETYPES_BY_TYPE,
 } from '.'
 
 describe('@oh-my-rpg/logic-adventures - logic', function () {
+
+	describe('data', function () {
+
+		it('should be sane', () => {
+			if (ALL_ADVENTURE_ARCHETYPES.length < 100) {
+				console.error(ALL_ADVENTURE_ARCHETYPES)
+				throw new Error('Data sanity failure: ALL_ADVENTURE_ARCHETYPES')
+			}
+			if (ALL_BAD_ADVENTURE_ARCHETYPES.length < 6)
+				throw new Error('Data sanity failure: ALL_BAD_ADVENTURE_ARCHETYPES')
+			if (ALL_GOOD_ADVENTURE_ARCHETYPES.length < 100)
+				throw new Error('Data sanity failure: ALL_GOOD_ADVENTURE_ARCHETYPES')
+			if (GOOD_ADVENTURE_ARCHETYPES_BY_TYPE.fight.length !== 6) {
+				console.error(GOOD_ADVENTURE_ARCHETYPES_BY_TYPE.fight)
+				throw new Error('Data sanity failure: GOOD_ADVENTURE_ARCHETYPES_BY_TYPE.fight')
+			}
+			if (GOOD_ADVENTURE_ARCHETYPES_BY_TYPE.story.length < 100)
+				throw new Error('Data sanity failure: GOOD_ADVENTURE_ARCHETYPES_BY_TYPE.story')
+		})
+	})
 
 	describe('bad adventures picker', function () {
 

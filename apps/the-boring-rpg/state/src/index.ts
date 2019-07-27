@@ -5,3 +5,6 @@ export * from './examples'
 export * from './selectors'
 export * from './state'
 export * from './types'
+export * from './logger'
+
+export { CharacterClass } from '@oh-my-rpg/state-character'

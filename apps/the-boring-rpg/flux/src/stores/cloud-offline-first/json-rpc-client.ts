@@ -6,6 +6,7 @@ import { JSONRpcRequest, JSONRpcResponse } from '@offirmo-private/json-rpc-types
 import { SoftExecutionContext } from '../../sec'
 import fetch from '../../utils/fetch'
 import { JsonRpcCaller } from './types'
+import { get_logger } from '@tbrpg/state'
 
 ////////////////////////////////////
 
@@ -83,7 +84,7 @@ function create({ rpc_url }: { rpc_url: string }): JsonRpcCaller {
 				return result
 			})
 			.catch((err: Error) => {
-				console.error(`RPC failed!`, {rpc_url, method, params, request, err})
+				get_logger().error(`RPC failed!`, {rpc_url, method, params, request, err})
 				throw err
 			})
 	}

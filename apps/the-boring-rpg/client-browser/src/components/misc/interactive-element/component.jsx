@@ -10,6 +10,7 @@ import {
 	render_achievement_snapshot_detailed,
 } from '@oh-my-rpg/view-rich-text'
 
+import logger from '../../../services/logger'
 import rich_text_to_react from '../../../services/rich-text-to-react'
 
 import ActionButton from '../action-button'
@@ -25,7 +26,7 @@ function render_element_short(element) {
 			return render_achievement_snapshot_short(element)
 
 		default:
-			console.warn(element)
+			logger.warn('render_element_short', {element})
 			throw new Error(`Not implemented: add a short renderer for element type "${element.element_type}"!`)
 	}
 }
@@ -39,7 +40,7 @@ function render_element_detailed(element) {
 			return render_achievement_snapshot_detailed(element)
 
 		default:
-			console.warn(element)
+			logger.warn('render_element_detailed', {element})
 			throw new Error(`Not implemented: add a detailed renderer for element type "${element.element_type}"!`)
 	}
 }

@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import logger from '../../../services/logger'
 import get_game_instance from '../../../services/game-instance-browser'
 
 import {
@@ -19,7 +20,7 @@ function with_element_and_action(Component) {
 
 		const element = get_game_instance().queries.find_element(UUID)
 		if (!element) {
-			console.warn(`interactive element not found!`, UUID, props)
+			logger.warn(`interactive element not found!`, { UUID, props })
 			// element disappeared. This happen transitively (ex. sold)
 			// due to my crappy change listening technique.
 			// TODO check if that still happen since the refactor

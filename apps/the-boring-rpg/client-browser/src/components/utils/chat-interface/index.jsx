@@ -7,6 +7,7 @@ import ErrorBoundary from '@offirmo-private/react-error-boundary'
 import { create as create_chat } from '@offirmo-private/view-chat'
 
 import { AutoScrollDown } from '../auto-scroll-down'
+import logger from '../../../services/logger'
 import { is_likely_to_be_mobile } from '../../../services/mobile-detection'
 import './index.css'
 
@@ -185,7 +186,7 @@ class Chat extends React.Component {
 				})
 				.catch(err => {
 					// display? TODO
-					console.error('unexpected', err)
+					logger.error('display_progress: unexpected rejection', {err})
 					return false
 				})
 

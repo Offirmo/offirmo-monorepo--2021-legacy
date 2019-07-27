@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 
 import rich_text_to_react from '../../../services/rich-text-to-react'
 import { UStateListenerAndProvider } from '../../../context'
-
 import get_game_instance from '../../../services/game-instance-browser'
 import SEC from '../../../services/sec'
 import { LS_KEYS } from '../../../services/consts'

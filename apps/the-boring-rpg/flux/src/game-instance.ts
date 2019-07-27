@@ -7,6 +7,7 @@ import { Enum } from 'typescript-string-enums'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import { OMRContext } from '@oh-my-rpg/definitions'
 import { Storage } from '@offirmo-private/ts-types'
+import { overrideHook } from '@offirmo/universal-debug-api-minimal-noop'
 
 import * as TBRPGState from '@tbrpg/state'
 import { State } from '@tbrpg/state'
@@ -63,7 +64,12 @@ function create_game_instance<T extends AppState>({SEC, local_storage, storage, 
 			}
 
 			const state = TBRPGState.reseed(TBRPGState.create(SEC))
-			state.u_state.meta.persistence_id = null // TODO alpha remove this!
+			if (!overrideHook('should_start_with_cloud_sync', false)) {
+				// opt out
+				// TODO alpha remove this!
+				// TODO reducer
+				state.u_state.meta.persistence_id = null
+			}
 			logger.verbose(`[${LIB}] Clean savegame created from scratch.`)
 			return state
 		})

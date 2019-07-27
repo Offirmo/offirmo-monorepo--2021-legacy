@@ -7,6 +7,7 @@
 	"private": true,
 
 	"dependencies": {
+		"@offirmo-private/better-console-group": "^0",
 		"@offirmo-private/ensure-device-uuid-browser": "^0",
 		"@offirmo-private/favicon-notifications": "^0",
 		"@offirmo-private/features-detection-browser": "^0",
@@ -44,9 +45,12 @@
 
 	"scripts": {
 		"clean": "node ../../../scripts/clean.js dist cache",
-		"start:parcel": "parcel --out-dir .parcel --no-autoinstall --port 8080 --no-hmr src/index.html ../state/src/build.ts",
+
+		"start:parcel": "parcel --out-dir .parcel --no-autoinstall --port 8080 --no-hmr src/index.html",
+
+		"build:parcel": "parcel build src/index.html --public-url ./",
+
 		"start": "run-s start:parcel",
-		"build:parcel": "parcel build src/index.html ../state/src/build.ts --public-url ./",
 		"build": "run-s build:parcel"
 	},
 	"devDependencies": {

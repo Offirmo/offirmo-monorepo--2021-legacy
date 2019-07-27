@@ -1,6 +1,7 @@
 import assert from 'tiny-invariant'
 import Fraction from 'fraction.js'
 
+import { get_logger } from '@oh-my-rpg/definitions'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 
 import { LIB, TICK_MS } from './consts'
@@ -12,7 +13,7 @@ import { time_to_human } from './utils'
 const MIN_RESULT = new Fraction(1, 2.1) // must be smaller than .5 for rounding reasons
 function get_current_energy_refilling_rate_per_ms(u_state: Readonly<UState>, t_state: Readonly<TState>, ): Fraction {
 	if (t_state.timestamp_ms + TICK_MS < get_UTC_timestamp_ms()) {
-		console.warn(`${LIB}.get_current_energy_refilling_rate_per_ms() called on outdated state!`)
+		get_logger().warn(`${LIB}.get_current_energy_refilling_rate_per_ms() called on outdated state!`)
 	}
 
 	// allow an "onboarding" regeneration rate:
@@ -59,7 +60,7 @@ function get_current_energy_refilling_rate_per_ms(u_state: Readonly<UState>, t_s
 	}
 
 	if (rate.compare(MIN_RESULT) > 0) {
-		console.log({
+		get_logger().error('rate too big!', {
 			rate,
 			rate_v: rate.valueOf(),
 			u_state,
@@ -86,7 +87,7 @@ function get_milliseconds_to_next(u_state: Readonly<UState>, t_state: Readonly<T
 			't_state.timestamp_ms': t_state.timestamp_ms,
 			UTC_timestamp_ms: get_UTC_timestamp_ms()
 		})*/
-		console.warn(`${LIB}.get_milliseconds_to_next() called on outdated state!`)
+		get_logger().warn(`${LIB}.get_milliseconds_to_next() called on outdated state!`)
 	}
 
 	const available_energy = new Fraction(t_state.available_energy)
@@ -111,7 +112,7 @@ function get_milliseconds_to_next(u_state: Readonly<UState>, t_state: Readonly<T
 
 	// if 0, sth is wrong
 	if (ttn <= 0) {
-		console.log({
+		get_logger().log('ms 0!', {
 			u_state,
 			t_state,
 			available_energy,
@@ -135,7 +136,7 @@ function get_milliseconds_to_next(u_state: Readonly<UState>, t_state: Readonly<T
 
 function get_human_time_to_next(u_state: Readonly<UState>, t_state: Readonly<TState>): string {
 	if (t_state.timestamp_ms + TICK_MS < get_UTC_timestamp_ms()) {
-		console.warn(`${LIB}.get_human_time_to_next() called on outdated state!`)
+		get_logger().warn(`${LIB}.get_human_time_to_next() called on outdated state!`)
 	}
 
 	const energy = new Fraction(t_state.available_energy)
@@ -152,7 +153,7 @@ function get_human_time_to_next(u_state: Readonly<UState>, t_state: Readonly<TSt
 
 function get_available_energy_float(t_state: Readonly<TState>): number {
 	if (t_state.timestamp_ms + TICK_MS < get_UTC_timestamp_ms()) {
-		console.warn(`${LIB}.get_available_energy_float() called on outdated state!`)
+		get_logger().warn(`${LIB}.get_available_energy_float() called on outdated state!`)
 	}
 
 	const available_energy = new Fraction(t_state.available_energy)
@@ -161,7 +162,7 @@ function get_available_energy_float(t_state: Readonly<TState>): number {
 
 function get_available_energy_int(t_state: Readonly<TState>): number {
 	if (t_state.timestamp_ms + TICK_MS < get_UTC_timestamp_ms()) {
-		console.warn(`${LIB}.get_available_energy_int() called on outdated state!`)
+		get_logger().warn(`${LIB}.get_available_energy_int() called on outdated state!`)
 	}
 
 	return Math.floor(get_available_energy_float(t_state))

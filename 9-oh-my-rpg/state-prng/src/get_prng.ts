@@ -3,6 +3,8 @@
 import assert from 'tiny-invariant'
 import { Random, MT19937 } from '@offirmo/random'
 
+import { get_logger } from '@oh-my-rpg/definitions'
+
 import { LIB } from './consts'
 import { MT19937WithSeed, State } from './types'
 
@@ -68,7 +70,7 @@ function get_prng_dev(state: Readonly<State>): MT19937WithSeed {
 	if (cached_prng.getUseCount() !== state.use_count) {
 		// should never happen, this is the bug what we are after
 		const msg = `${LIB}: get_prng(): unexpected case: mismatching use_count!`
-		console.error(msg, {
+		get_logger().error(msg, {
 			cached_use_count: cached_prng.getUseCount(),
 			required_use_count: state.use_count,
 		})

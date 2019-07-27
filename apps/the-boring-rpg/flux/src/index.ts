@@ -1,4 +1,4 @@
-export { VERSION, SCHEMA_VERSION, ENGINE_VERSION, BUILD_DATE } from '@tbrpg/state'
+export { VERSION, SCHEMA_VERSION, ENGINE_VERSION, BUILD_DATE, get_logger } from '@tbrpg/state'
 export { StorageKey } from '@tbrpg/interfaces'
 
 export * from './game-instance'

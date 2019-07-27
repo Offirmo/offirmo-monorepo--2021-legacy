@@ -1,3 +1,5 @@
+import logger from '../../../services/logger'
+
 import './index.css'
 
 const LIB = 'group chat SaaS (tlk.io)'
@@ -6,6 +8,7 @@ const PARENT_OPEN_CLASS = 'group-chat-container--open'
 const ELEMENT_ID = 'tlkio'
 const ERROR_ELEMENT_ID = 'tlkio'
 
+/*
 function report_error() {
 	console.error(`${LIB}: error, timeout waiting for chat to load!`)
 
@@ -26,6 +29,7 @@ function report_error() {
 
 	parent.appendChild(error_elem)
 }
+*/
 
 // TODO use an iframe!
 function restart({channel_id, nickname} = {}) {
@@ -52,10 +56,10 @@ function restart({channel_id, nickname} = {}) {
 
 
 	setTimeout(() => {
-		console.warn('starting the chat...')
+		console.info('starting the chat...')
 		let anchor_elem = document.getElementById(ELEMENT_ID)
 		if (anchor_elem) {
-			console.warn(`${LIB}: replacing an existing instance. This may not work well!`)
+			logger.warn(`${LIB}: replacing an existing instance. This may not work well!`)
 			anchor_elem.parentNode.removeChild(anchor_elem)
 		}
 		anchor_elem = document.createElement('div')

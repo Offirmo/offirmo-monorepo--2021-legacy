@@ -6,6 +6,7 @@ import { JSONRpcRequest, JSONRpcResponse } from '@offirmo-private/json-rpc-types
 import {
 	ENGINE_VERSION,
 	State,
+	get_logger,
 } from '@tbrpg/state'
 
 import {

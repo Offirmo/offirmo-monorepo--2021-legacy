@@ -19,6 +19,7 @@ import * as ProgressState from '@oh-my-rpg/state-progress'
 
 import { LIB } from '../../consts'
 import { State } from '../../types'
+import { get_logger } from '../../logger'
 
 import {
 	create,
@@ -84,7 +85,7 @@ function reset_and_salvage(legacy_state: Readonly<JSONObject>): Readonly<State> 
 
 	const seed = get_seed(legacy_state)
 	if (!Number.isInteger(seed as any)) {
-		console.warn(`${LIB}: salvaging: may need to update the seed salvaging!`)
+		get_logger().warn(`${LIB}: salvaging: may need to update the seed salvaging!`)
 		state = reseed(state) // force random reseed to avoid pp having the same game
 	}
 	else {
@@ -93,7 +94,7 @@ function reset_and_salvage(legacy_state: Readonly<JSONObject>): Readonly<State> 
 
 	const name = get_name(legacy_state)
 	if (typeof name !== 'string') {
-		console.warn(`${LIB}: salvaging: may need to update the avatar name salvaging!`)
+		get_logger().warn(`${LIB}: salvaging: may need to update the avatar name salvaging!`)
 	}
 	else {
 		state = rename_avatar(state, name)
@@ -101,7 +102,7 @@ function reset_and_salvage(legacy_state: Readonly<JSONObject>): Readonly<State> 
 
 	const klass = get_class(legacy_state)
 	if (typeof klass !== 'string' || !Enum.isType(CharacterClass, klass)) {
-		console.warn(`${LIB}: salvaging: may need to update the avatar class salvaging!`)
+		get_logger().warn(`${LIB}: salvaging: may need to update the avatar class salvaging!`)
 	}
 	else {
 		if (klass !== state.u_state.avatar.klass)
@@ -110,7 +111,7 @@ function reset_and_salvage(legacy_state: Readonly<JSONObject>): Readonly<State> 
 
 	const good_play_count = get_good_play_count(legacy_state)
 	if (good_play_count === 0) {
-		console.warn(`${LIB}: salvaging: may need to update the good play count salvaging!`)
+		get_logger().warn(`${LIB}: salvaging: may need to update the good play count salvaging!`)
 	}
 
 	const bad_play_count = get_bad_play_count(legacy_state)

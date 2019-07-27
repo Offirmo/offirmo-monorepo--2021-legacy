@@ -112,7 +112,7 @@ export default class PageSavegameEditorView extends Component {
 	}
 
 	render = () => {
-		console.log('🔄 PageSavegameEditorView')
+		if (window.XOFF.flags.debug_render) console.log('🔄 PageSavegameEditorView')
 
 		return (
 			<div className="o⋄top-container o⋄pad⁚0 page--savegame">

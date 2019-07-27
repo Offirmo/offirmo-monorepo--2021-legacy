@@ -11,7 +11,6 @@ import HamburgerArea from './omr-hamburger'
 import * as GroupChat from '../misc/group-chat-tlkio'
 
 
-
 import './index.css'
 import logo from './tbrpg_logo_512x98.png'
 

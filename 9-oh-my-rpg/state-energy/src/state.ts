@@ -3,6 +3,7 @@
 import assert from 'tiny-invariant'
 import Fraction from 'fraction.js'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
+import { get_logger } from '@oh-my-rpg/definitions'
 
 import { LIB, SCHEMA_VERSION, TICK_MS } from './consts'
 import { UState, TState } from './types'
@@ -51,9 +52,8 @@ function update_to_now(
 	assert(now_ms === 0 || now_ms > 10_000, `${LIB}.update_to_now(): Wrong new Date(value) usage?`)
 
 	if (elapsed_time_ms < 0) {
-		if (DEBUG) console.log(`       back in time!`)
 		// time went backward? Must be a "daylight saving".
-		console.warn(`${LIB}.update_to_now(): Time went backward. Daylight saving?`)
+		get_logger().warn(`${LIB}.update_to_now(): Time went backward. Daylight saving?`)
 		// just do nothing while time is not positive again
 		return t_state
 	}

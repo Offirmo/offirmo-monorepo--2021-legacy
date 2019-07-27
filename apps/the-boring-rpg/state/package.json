@@ -18,13 +18,14 @@
 		"tslib": "^1"
 	},
 	"dependencies": {
-		"@offirmo-private/state": "^0",
-		"@offirmo/random": "^2",
 		"@offirmo-private/rich-text-format": "^0",
+		"@offirmo-private/state": "^0",
 		"@offirmo-private/timestamps": "^0",
 		"@offirmo-private/ts-types": "^0",
 		"@offirmo-private/unicode-data": "^0",
 		"@offirmo-private/uuid": "^0",
+		"@offirmo/random": "^2",
+		"@offirmo/universal-debug-api-minimal-noop": "^0.1.1",
 		"@oh-my-rpg/definitions": "^0",
 		"@oh-my-rpg/logic-adventures": "^0",
 		"@oh-my-rpg/logic-armors": "^0",

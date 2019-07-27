@@ -4,6 +4,8 @@ import assert from 'tiny-invariant'
 import { Random, MT19937 } from '@offirmo/random'
 import { generate_uuid } from '@offirmo-private/uuid'
 
+import { get_logger } from '@oh-my-rpg/definitions'
+
 import { LIB, SCHEMA_VERSION } from './consts'
 import { MT19937WithSeed, State } from './types'
 
@@ -47,8 +49,8 @@ function update_use_count(state: Readonly<State>, prng: MT19937, options: any = 
 
 	if (new_use_count === state.use_count) {
 		if (!options.I_swear_I_really_cant_know_whether_the_rng_was_used) {
-			const stack = new Error(`[Warning] ${LIB}: update PRNG state: count hasn't changed = no random was generated! This is most likely a bug, check your code!`).stack
-			console.warn(stack)
+			const err = new Error(`[Warning] ${LIB}: update PRNG state: count hasn't changed = no random was generated! This is most likely a bug, check your code!`).stack
+			get_logger().warn('update_use_count no change!', { err })
 		}
 		return state
 	}

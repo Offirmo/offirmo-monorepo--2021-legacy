@@ -39,10 +39,10 @@ const storage = {
 	async warm_up() {},
 	async cool_down() {},
 	set_item(key, value) {
-		window.localStorage.setItem(`the-boring-rpg.${key}`, value)
+		localStorage.setItem(`the-boring-rpg.${key}`, value)
 	},
 	get_item(key) {
-		return window.localStorage.getItem(`the-boring-rpg.${key}`)
+		return localStorage.getItem(`the-boring-rpg.${key}`)
 	},
 }
 
@@ -63,6 +63,7 @@ export default function get() {
 		SEC.xTry('creating game instance', ({SEC, logger}) => {
 			game_instance = create_game_instance({
 				SEC,
+				local_storage: localStorage,
 				storage,
 				app_state: {
 					...INITIAL_APP_STATE,
