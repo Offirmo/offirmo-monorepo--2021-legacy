@@ -14,6 +14,7 @@ import * as GroupChat from '../misc/group-chat-tlkio'
 import './index.css'
 import logo from './tbrpg_logo_512x98.png'
 
+const CHANNEL_ID = 'the-boring-rpg-reloaded'
 const MODE_TO_INDEX = {
 	'explore': 0,
 	'inventory': 1,
@@ -61,7 +62,7 @@ export default class OhMyRPGView extends PureComponent {
 	componentDidMount() {
 		//console.log('omr-root: componentDidMount')
 		GroupChat.restart({
-			channel_id: 'the-boring-rpg-reloaded',
+			channel_id: CHANNEL_ID,
 			nickname: this.state.chat_nickname,
 		})
 	}
@@ -71,7 +72,7 @@ export default class OhMyRPGView extends PureComponent {
 			// TODO this doesn't seem to work
 			console.info('omr-root: componentDidUpdate: restarting group chat...')
 			GroupChat.restart({
-				channel_id: 'the-boring-rpg-reloaded',
+				channel_id: CHANNEL_ID,
 				nickname: this.state.chat_nickname,
 			})
 		}

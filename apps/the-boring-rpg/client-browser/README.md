@@ -1,6 +1,6 @@
-## 🧙The Boring RPG, reloaded 👨🏻‍💻💰⚔🛡 - web version
+## 🧙The Boring RPG, reborn 👨🏻‍💻💰⚔🛡 - web version
 
-Source code for the browser game "The Boring RPG, reloaded"
+Source code for the browser game "The Boring RPG, reborn"
 
 The game is live here: https://www.online-adventur.es/apps/the-boring-rpg/
 

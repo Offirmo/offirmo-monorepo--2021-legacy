@@ -19,7 +19,7 @@ Public npm modules:
 
 
 Public webapps:
-* [The Boring RPG, reloaded](https://www.online-adventur.es/apps/the-boring-rpg/)
+* [The Boring RPG, reborn](https://www.online-adventur.es/apps/the-boring-rpg/)
 
 Public webextensions:
 * [Universal Debug API companion](4-incubator/universal-debug-api-companion-webextension/README.md)

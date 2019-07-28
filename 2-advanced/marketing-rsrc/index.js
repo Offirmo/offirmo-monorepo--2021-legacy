@@ -41,7 +41,7 @@ const THE_NPM_RPG = {
 }
 
 const THE_BORING_RPG = {
-	name: 'The Boring RPG reloaded',
+	name: 'The Boring RPG reborn',
 	maker: MAKER_OFFIRMO,
 	url: 'https://www.online-adventur.es/apps/the-boring-rpg',
 	cta: 'play',
