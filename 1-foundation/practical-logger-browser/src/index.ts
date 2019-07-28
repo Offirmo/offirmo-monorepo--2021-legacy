@@ -15,7 +15,7 @@ function createLogger(p: Readonly<LoggerCreationParams>): Logger {
 	let groupDepth = 0;
 	function sink1(payload: LogPayload): void {
 		// TODO share that code with the node version?
-		const shouldEscapeFromGroupCollapsedToMakeTheErrorVisible = LOG_LEVEL_TO_INTEGER[payload.level] <= 30 && groupDepth > 0
+		const shouldEscapeFromGroupCollapsedToMakeTheErrorVisible = LOG_LEVEL_TO_INTEGER[payload.level] <= 40 && groupDepth > 0
 		if (shouldEscapeFromGroupCollapsedToMakeTheErrorVisible) {
 			while(groupDepth > 0) {
 				ORIGINAL_CONSOLE.groupEnd()

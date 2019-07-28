@@ -56,7 +56,8 @@ function demo_group(logger) {
 
 	logger.groupCollapsed('level 2b')
 	logger.log('in level 2b')
-	logger.error(new Error('in level 2b!'))
+	logger.warn('warn from level 2b!')
+	logger.error(new Error('error from level 2b!'))
 	logger.groupEnd()
 
 	logger.log('where am I?')
