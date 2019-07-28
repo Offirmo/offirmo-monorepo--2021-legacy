@@ -4,6 +4,8 @@
 ## PENDING
 * [chore] fixed dist folder name to match the target (ES2019)
 * [feat] also provide an ES5 pre-built version
+* [chore] [breaking] no longer exporting ES5, reverted to [this more rationale export setup](../../CONTRIBUTING/module-exports.md)
+* ...
 
 ## 1.0.1
 2019/06/30

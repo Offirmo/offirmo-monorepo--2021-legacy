@@ -5,6 +5,7 @@
 * TODO lower size by removing duplication + useless sink
 * TODO test EDGE, IE
 * [feat] now re-export the entire practical-logger-interface
+* [chore] [breaking] no longer exporting ES5, reverted to [this more rationale export setup](../../CONTRIBUTING/module-exports.md)
 * [feat] [breaking] warnings and errors now break out from groups, to prevent them from being hidden in groupCollapsed()
 * ...
 

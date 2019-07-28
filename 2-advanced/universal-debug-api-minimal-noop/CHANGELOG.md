@@ -3,7 +3,8 @@
 
 ## PENDING
 * [doc] README++
-...
+* [chore] [breaking] no longer exporting ES5, reverted to [this more rationale export setup](../../CONTRIBUTING/module-exports.md)
+* ...
 
 ## v0.1.1
 2019/07/07
