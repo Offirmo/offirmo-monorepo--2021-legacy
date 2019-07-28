@@ -15,7 +15,7 @@ import lib1 from './lib-to-inject-1'
 import lib2 from './lib-to-inject-2'
 
 const LIB = '🧩 UWDT/CS--start'
-const DEBUG = true
+const DEBUG = false
 if (DEBUG) {
 	console.log(`[${LIB},${Date.now()}] Hello!`, {
 		browser,
@@ -33,7 +33,7 @@ function onMessage(event: MessageEvent) {
 
 	const payload = event.data[MSG_ENTRY]
 	const { type } = payload
-	console.log({ type, payload })
+	if (DEBUG) console.log('message =', { type, payload })
 
 	switch(type) {
 		case MSG_TYPE__REPORT_DEBUG_API_USAGE:

@@ -13,24 +13,36 @@ import {
 	MSG_TYPE__REPORT_DEBUG_API_USAGE,
 	MSG_TYPE__OVERRIDE_SPEC_CHANGED,
 } from '../common/messages'
-import {query_active_tab} from "./utils";
+import { query_active_tab } from './utils'
 
 const LIB = '🧩 UWDT/bg'
 // TODO clean logs!
 
 console.log(`[${LIB}.${+Date.now()}] Hello from background!`, browser)
 
-const extension_inited = new Deferred<void>()
+const extension_inited = new Deferred<string>()
 let is_extension_inited = false
-extension_inited.then(() => {
+extension_inited.then((from: string) => {
 	is_extension_inited = true
-	console.log(`🙈🙉 extension inited!`)
+	console.log(`🙈🙉 extension inited!`, {from})
 })
-// TODO this doesn't seems right
-// especially on browser restart
-setTimeout(() =>
-	extension_inited.reject(new Error('🙊 Timeout waiting for extension init!')),
-	30 * 60 * 1000
+setTimeout(() => {
+		if (is_extension_inited) return
+
+		// should never happen
+		console.error('🙊 Timeout (2) waiting for extension init!')
+		extension_inited.resolve('gave up')
+	},
+	120 * 1000
+)
+setTimeout(() => {
+		if (is_extension_inited) return
+
+		// should never happen
+		console.error('🙊 Timeout (1) waiting for extension init!')
+		extension_inited.resolve(query_active_tab().then(() => 'attempt 2'))
+	},
+	30 * 1000
 )
 function once_extension_init_done<T>(cb: () => T): Promise<T> {
 	// we want sync as much as possible
@@ -40,6 +52,8 @@ function once_extension_init_done<T>(cb: () => T): Promise<T> {
 	return extension_inited.then(cb)
 }
 
+Flux.on_init()
+extension_inited.resolve(query_active_tab().then(() => 'attempt 1'))
 
 ////////////////////////////////////
 // listen to some events
@@ -47,8 +61,8 @@ function once_extension_init_done<T>(cb: () => T): Promise<T> {
 
 browser.runtime.onInstalled.addListener(function() {
 	console.group('⚡️ on extension installed')
-	Flux.on_init()
-	extension_inited.resolve(query_active_tab().then(() => {}))
+	// we used to have some stuff here
+	// but this event is unreliable: not seen on browser (re)start
 	console.groupEnd()
 });
 

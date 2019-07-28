@@ -259,13 +259,26 @@ export function toggle_lib_injection(state: Readonly<State>): Readonly<State> {
 
 // user touched an override
 export function change_override_spec(state: Readonly<State>, key: string, partial: Readonly<Partial<OverrideState>>): Readonly<State> {
+	const current_override = state.overrides[key]
+	const partial2 = {
+		...partial
+	}
+	if (partial.is_enabled === true
+		&& current_override.type === OverrideType.boolean
+		&& !partial.hasOwnProperty('value_sjson')
+		&& current_override.value_sjson === undefined
+	) {
+		// convenience for booleans
+		// if toggled on, it's obvious the user wants to change the value = opposite of the default
+		partial2.value_sjson = JSON.stringify(!Boolean(current_override.default_value_sjson))
+	}
 	return {
 		...state,
 		overrides: {
 			...state.overrides,
 			[key]: {
 				...state.overrides[key],
-				...partial,
+				...partial2,
 			}
 		},
 		last_interacted_with: get_UTC_timestamp_ms(),

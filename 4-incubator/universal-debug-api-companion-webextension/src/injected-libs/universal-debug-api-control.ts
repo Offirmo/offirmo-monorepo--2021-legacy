@@ -8,6 +8,7 @@ import { Report, create_msg_report_debug_api_usage } from '../common/messages/re
 
 ////////////////////////////////////
 
+const DEBUG = false
 const original_v1 = (window as any)._debug.v1
 
 const overrides: { [k: string]: string | null } = {}
@@ -18,7 +19,7 @@ const queue: Report[] = []
 // - avoid hogging the current execution chunk, which may be the initial load
 let sync_in_flight = false
 function schedule_sync() {
-	console.log(`schedule_sync`, {
+	if (DEBUG) console.log(`UWDTi: schedule_sync`, {
 		last_queued: queue.slice(-1)[0],
 		queue_size: queue.length,
 		in_flight: sync_in_flight,
@@ -72,7 +73,7 @@ function overrideHook<T>(key: string, default_value: T): T {
 
 function getLogger(p: Readonly<LoggerCreationParams> = {}) {
 	const name = p.name || DEFAULT_LOGGER_KEY
-	console.log('getLogger()', {name}) // TODO clean the logs
+	if (DEBUG) console.log('UWDTi: getLogger()', {name}) // TODO clean the logs
 
 	const ovKey = getOverrideKeyForLogger(name)
 	const ovDefaultLevel = p.suggestedLevel || DEFAULT_LOG_LEVEL
@@ -92,13 +93,13 @@ function getLogger(p: Readonly<LoggerCreationParams> = {}) {
 }
 
 function exposeInternal(path: string, value: any): void {
-	console.log('exposeInternal()', {path})
+	if (DEBUG) console.log('UWDTi: exposeInternal()', {path})
 	// TODO report
 	return original_v1.exposeInternal(path, value)
 }
 
 function addDebugCommand(commandName: string, callback: () => void) {
-	console.log('addDebugCommand()', {commandName})
+	if (DEBUG) console.log('UWDTi: addDebugCommand()', {commandName})
 	// TODO report
 	return original_v1.addDebugCommand(commandName, callback)
 }
@@ -113,5 +114,5 @@ function addDebugCommand(commandName: string, callback: () => void) {
 	addDebugCommand,
 }
 
-console.log('Wrapped ✅')
+//console.log('UWDTi: Wrapped ✅')
 ////////////////////////////////////
