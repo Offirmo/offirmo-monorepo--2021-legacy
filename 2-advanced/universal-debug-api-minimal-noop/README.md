@@ -56,6 +56,8 @@ import {
 	addDebugCommand,
 	globalThis, // exposed from sub-dependency for convenience
 } from '@offirmo/universal-debug-api-minimal-noop'
+
+
 ```
 
 Note: no bundled version provided, for this lib is targeted at lib authors, not end users.

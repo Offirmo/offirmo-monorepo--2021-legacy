@@ -65,12 +65,12 @@ it is expected that the level can be modified at load time
 import { getLogger } from '@offirmo/universal-debug-api-<pick an implementation>'
 
 // trivial use
-const logger1 = createLogger()
+const logger1 = getLogger()
 // ( msg = <string> , details = { <hash> } )
 logger1.log('Hello!', { target: 'world' })
 
 // advanced use
-const logger2 = createLogger({
+const logger2 = getLogger({
 	name: 'cloud-sync',
 	suggestedLevel: 'info',
 	commonDetails: {
