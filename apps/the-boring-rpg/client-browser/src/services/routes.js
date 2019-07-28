@@ -1,3 +1,5 @@
+import logger from './logger'
+
 // auto-detect basename, correctly ignoring dynamic routes
 const BASE_ROUTE = (pathname => {
 	//console.log(`computing BASE_ROUTE from pathname = "${pathname}"…`)
@@ -32,7 +34,7 @@ const BASE_ROUTE = (pathname => {
 
 	return base_route
 })(window.location.pathname)
-console.log(`BASE_ROUTE = "${BASE_ROUTE}"`)
+logger.verbose(`BASE_ROUTE = "${BASE_ROUTE}"`)
 
 
 const ROUTES = {

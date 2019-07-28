@@ -16,7 +16,7 @@ function create_person(name: string, logger: Console = console): Person {
 	}
 }
 
-const get_person = tiny_singleton(create_person, 'Luke', console)
+const get_person = tiny_singleton(() => create_person('Luke', console))
 
 console.assert(get_person().ask_name() === 'Luke')
 console.assert(get_person().ask_name() === 'Luke')

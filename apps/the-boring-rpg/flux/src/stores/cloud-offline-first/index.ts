@@ -1,7 +1,10 @@
-import memoize_one from 'memoize-one'
 import assert from 'tiny-invariant'
+import stable_stringify from 'json-stable-stringify'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
+import tiny_singleton from '@offirmo-private/tiny-singleton'
 import { overrideHook } from '@offirmo/universal-debug-api-minimal-noop'
+import { Storage } from '@offirmo-private/ts-types'
+
 import { OMRContext } from '@oh-my-rpg/definitions'
 import {
 	ENGINE_VERSION,
@@ -15,12 +18,10 @@ import {
 	TbrpgStorage,
 	StorageKey,
 } from '@tbrpg/interfaces'
-import { Storage } from '@offirmo-private/ts-types'
 
 import { LIB as ROOT_LIB } from '../../consts'
 import { SoftExecutionContext } from '../../sec'
 import { CloudStore } from '../types'
-import stable_stringify from 'json-stable-stringify'
 import { create as create_synchronizer } from './synchonizer'
 import { create as create_jsonrpc_client } from './json-rpc-client'
 
@@ -66,7 +67,6 @@ function forbidden_get(): Readonly<State> | null {
 	throw new Error(`[${LIB}] Unexpected get()!`)
 }
 
-
 function create(
 	SEC: SoftExecutionContext,
 	local_storage: Storage,
@@ -86,7 +86,17 @@ function create(
 					rpc_url: get_json_rpc_url(SEC),
 				})
 
-				let synchronizer = create_synchronizer({
+				function opt_out(reason: string) {
+					opt_out_reason = reason
+					logger.info(`[${LIB}] opted out of cloud sync.`, { reason })
+				}
+
+				function set(authoritative_state: Readonly<State>) {
+					// TODO pushback!
+					throw new Error(`[${LIB}] cloud store set() NIMP!`)
+				}
+
+				const get_synchronizer = tiny_singleton(() => create_synchronizer({
 					SEC,
 					call_remote_procedure: call_json_rpc,
 					on_successful_sync: (result: SyncResult) => {
@@ -94,7 +104,8 @@ function create(
 
 						if (engine_v !== ENGINE_VERSION) {
 							// TODO trigger a refresh to update
-							opt_out_reason = 'We are outdated!'
+							// TODO stop the sync?
+							opt_out('We are outdated!')
 							return
 						}
 
@@ -107,10 +118,12 @@ function create(
 					},
 					initial_pending_actions: pending_actions,
 					initial_state,
-				})
+				}))
 
 				function dispatch(action: Readonly<Action>, eventual_state_hint?: Readonly<State>): void {
 					assert(eventual_state_hint, 'state MUST be hinted!')
+					if (opt_out_reason) return
+
 					const { time, ...debug } = action
 					logger.log(`[${LIB}] ⚡ action dispatched: ${action.type}`, {
 						//action: debug,
@@ -134,8 +147,8 @@ function create(
 						persist_pending_actions(ROOT_SEC, local_storage, pending_actions)
 					}
 
-					if (is_logged_in && !opt_out_reason) {
-						synchronizer.sync(pending_actions, eventual_state_hint!)
+					if (is_logged_in) {
+						get_synchronizer().sync(pending_actions, eventual_state_hint!)
 					}
 				}
 
@@ -143,8 +156,7 @@ function create(
 
 					if (initial_state.u_state.meta.persistence_id === null) {
 						// intentionally not handled by cloud
-						opt_out_reason = 'intentional (null)'
-						logger.info(`[${LIB}]: existing game intentionally opted out.`)
+						opt_out('intentional')
 						return
 					}
 
@@ -174,7 +186,7 @@ function create(
 							})
 
 							// what else can we do?
-							opt_out_reason = 'mismatching infos :('
+							opt_out('mismatching infos :(')
 							return
 						}
 
@@ -199,18 +211,8 @@ function create(
 				// TODO check that we can write in LS
 				// TODO send messages if data not synced
 
-				if (opt_out_reason !== null) {
-					logger.info(`[${LIB}] opted out of cloud sync.`, { opt_out_reason })
-					const no_op_store: CloudStore = {
-						set: () => {},
-						dispatch: () => {},
-						get: forbidden_get,
-					}
-					return no_op_store
-				}
-
 				return {
-					set: () => { throw new Error(`[${LIB}] cloud store set() NIMP!`)}, // TODO?
+					set,
 					dispatch,
 					get: forbidden_get,
 				}
@@ -225,7 +227,7 @@ function create(
 				real_cloud_store = re_create_cloud_store(new_state)
 			},
 			dispatch(action: Readonly<Action>, eventual_state_hint?: Readonly<State>): void {
-				return real_cloud_store.dispatch(action)
+				return real_cloud_store.dispatch(action, eventual_state_hint)
 			},
 			get(): Readonly<State> | null {
 				return real_cloud_store.get()

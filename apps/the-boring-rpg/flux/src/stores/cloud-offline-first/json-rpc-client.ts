@@ -49,7 +49,7 @@ function create({ rpc_url }: { rpc_url: string }): JsonRpcCaller {
 				headers: {
 					'Content-Type': 'application/json'
 				},
-				body: request,
+				body: JSON.stringify(request),
 			})
 		])
 			.then((response: any) => {

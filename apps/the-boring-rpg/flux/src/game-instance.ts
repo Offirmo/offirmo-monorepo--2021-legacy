@@ -36,6 +36,7 @@ function overwriteMerge<T>(destination: T, source: T): T {
 	return source
 }
 
+// TODO improve logging (too verbose)
 interface CreateParams<T extends AppState> {
 	SEC: SoftExecutionContext
 	local_storage: Storage,

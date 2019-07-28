@@ -1,5 +1,6 @@
 import { Enum } from 'typescript-string-enums'
 import bowser from 'bowser'
+import tiny_singleton from '@offirmo-private/tiny-singleton'
 
 import { create_game_instance } from '@tbrpg/flux'
 
@@ -8,8 +9,6 @@ import { init } from './user_account'
 
 //console.log(__filename)
 /////////////////////////////////////////////////
-
-let game_instance = null
 
 export const ACCOUNT_STATE = Enum(
 	'waiting_for_lib', // needed?
@@ -56,34 +55,29 @@ window.localStorage.removeItem('the-boring-rpg.savegame-bkp.v7')
 window.localStorage.removeItem('the-boring-rpg.savegame-bkp.v6')
 */
 
+const get = tiny_singleton(() => SEC.xTry('creating game instance', ({SEC, logger}) => {
+	let game_instance = create_game_instance({
+		SEC,
+		local_storage: localStorage,
+		storage,
+		app_state: {
+			...INITIAL_APP_STATE,
+		},
+	})
 
+	// init
+	game_instance.view.set_state(state => {
+		const last_adventure = game_instance.queries.get_last_adventure()
+		return {
+			last_displayed_adventure_uuid: last_adventure && last_adventure.uuid,
+		}
+	})
 
-export default function get() {
-	if (!game_instance) {
-		SEC.xTry('creating game instance', ({SEC, logger}) => {
-			game_instance = create_game_instance({
-				SEC,
-				local_storage: localStorage,
-				storage,
-				app_state: {
-					...INITIAL_APP_STATE,
-				},
-			})
+	const is_web_diversity_supporter = bowser.name === 'Firefox'
+	game_instance.commands.on_start_session(is_web_diversity_supporter)
 
-			// init
-			game_instance.view.set_state(state => {
-				const last_adventure = game_instance.queries.get_last_adventure()
-				return {
-					last_displayed_adventure_uuid: last_adventure && last_adventure.uuid,
-				}
-			})
-
-			const is_web_diversity_supporter = bowser.name === 'Firefox'
-			game_instance.commands.on_start_session(is_web_diversity_supporter)
-
-			init(SEC, game_instance)
-		})
-	}
+	init(SEC, game_instance)
 
 	return game_instance
-}
+}))
+export default get
