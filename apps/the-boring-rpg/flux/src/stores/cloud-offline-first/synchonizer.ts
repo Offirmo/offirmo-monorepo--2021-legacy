@@ -1,12 +1,9 @@
 import assert from 'tiny-invariant'
-import Deferred from '@offirmo/deferred'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from "@offirmo-private/timestamps";
-import { JSONRpcRequest, JSONRpcResponse } from '@offirmo-private/json-rpc-types'
 
 import {
 	ENGINE_VERSION,
 	State,
-	get_logger,
 } from '@tbrpg/state'
 
 import {
@@ -17,13 +14,8 @@ import {
 } from '@tbrpg/interfaces'
 
 import { SoftExecutionContext } from '../../sec'
-import fetch from '../../utils/fetch'
 import { hash_state } from '../../utils/hash-state'
 import { JsonRpcCaller } from './types'
-
-////////////////////////////////////
-
-
 
 ////////////////////////////////////
 
@@ -37,6 +29,10 @@ type CloudState =
 interface Synchronizer {
 	sync: (new_pending_actions: Action[], current_state: State) => void,
 }
+
+////////////////////////////////////
+
+const LIB = '📡 cloud sync'
 
 function create({ SEC, call_remote_procedure, on_successful_sync, initial_pending_actions, initial_state }: {
 	SEC: SoftExecutionContext,
@@ -64,7 +60,7 @@ function create({ SEC, call_remote_procedure, on_successful_sync, initial_pendin
 		})
 	}
 
-	function internal_sync(): void {
+	function do_sync(): void {
 		if (in_flight_sync)
 			return
 
@@ -93,7 +89,7 @@ function create({ SEC, call_remote_procedure, on_successful_sync, initial_pendin
 	}
 
 	function pulse() {
-		console.group('📡 pulse()')
+		console.group(`[${LIB}] pulse…`)
 
 		let has_work_left = true
 
@@ -107,8 +103,9 @@ function create({ SEC, call_remote_procedure, on_successful_sync, initial_pendin
 					assert(last_known_state_hash, 'state hash')
 					assert(!in_flight_sync, 'no sync yet')
 
-					// systematically force a sync all the time
-					internal_sync()
+					// systematically force a sync straight away
+					// so that we get the latest version of the state + version
+					do_sync()
 
 					state = pending_actions.length === 0 ? 'idle' : 'syncing'
 					has_work_left = true
@@ -123,7 +120,7 @@ function create({ SEC, call_remote_procedure, on_successful_sync, initial_pendin
 
 					if (get_UTC_timestamp_ms() - last_successful_sync > 60_000) {
 						// TODO periodically check for new infos
-						console.log('we could check for new infos...')
+						console.log(`[${LIB}] TODO: we could check for new infos...`)
 					}
 
 					break
@@ -135,7 +132,7 @@ function create({ SEC, call_remote_procedure, on_successful_sync, initial_pendin
 						break
 					}
 					if (!in_flight_sync)
-						internal_sync()
+						do_sync()
 					break
 
 				case 'defected':
@@ -158,7 +155,7 @@ function create({ SEC, call_remote_procedure, on_successful_sync, initial_pendin
 		sync(new_pending_actions: Action[], current_state: State): void {
 			pending_actions = new_pending_actions
 			last_known_state_hash = hash_state(current_state)
-			internal_sync()
+			pulse()
 		},
 	}
 }

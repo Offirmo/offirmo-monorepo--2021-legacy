@@ -42,3 +42,17 @@ features) and regenerator-runtime/runtime
 
   > import "core-js/stable";
   > import "regenerator-runtime/runtime";
+
+
+	"tosort": {
+		"boxen": "^2",
+		"copy-webpack-plugin": "^5",
+		"env-paths": "^2",
+		"html-webpack-include-assets-plugin": "^1",
+		"html-webpack-plugin": "^3",
+		"universal-analytics": "^0.4",
+		"webpack-dashboard": "^2",
+		"webpack-dev-server": "^3",
+		"webpack-serve": "^2",
+		"wrap-ansi": "^4"
+	}

@@ -119,6 +119,7 @@
 		"load-json-file": "^6",
 		"localstorage-ponyfill": "^1",
 		"lodash": "^4",
+		"massive": "^5",
 		"memoize-one": "^5",
 		"mocha": "^6",
 		"murmurhash3js-revisited": "^3",
@@ -155,6 +156,7 @@
 		"react-swipeable-views-utils": "^0.13",
 		"recompose": "^0.30",
 		"semver": "^6",
+		"ship-hold": "^2",
 		"sinon": "^7",
 		"sinon-chai": "^3",
 		"size-limit": "^1",
@@ -175,17 +177,5 @@
 		"username": "^5",
 		"webextension-polyfill-ts": "^0.9",
 		"write-json-file": "^4"
-	},
-	"tosort": {
-		"boxen": "^2",
-		"copy-webpack-plugin": "^5",
-		"env-paths": "^2",
-		"html-webpack-include-assets-plugin": "^1",
-		"html-webpack-plugin": "^3",
-		"universal-analytics": "^0.4",
-		"webpack-dashboard": "^2",
-		"webpack-dev-server": "^3",
-		"webpack-serve": "^2",
-		"wrap-ansi": "^4"
 	}
 }
