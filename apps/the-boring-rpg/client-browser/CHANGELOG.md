@@ -10,7 +10,7 @@
 
 
 ## v0.60.3
-- 😷 chore: fix early instantiation of the game instance
+- 😷 chore: fixed early instantiation of the game instance
 - 😷 chore: use UWDA debug features
 - 😷 chore: some internal refactors, bump dependencies
 

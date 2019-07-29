@@ -31,3 +31,6 @@ html.color-theme-in-transition *:after {
 	transition-delay: 0 !important;
 }
 */
+
+
+TODO https://stackoverflow.com/questions/5777210/how-to-write-hover-condition-for-abefore-and-aafter

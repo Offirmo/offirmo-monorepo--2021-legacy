@@ -68,13 +68,13 @@ function update_to_now(
 	const initial_available_energy = new Fraction(t_state.available_energy)
 
 	/* NOOOOOOO!
+	 * update_to_now is prelude to energy manipulation
+	 * if not updating the "now" prop, removing energy while keeping an old time may yield full energy immediately
+	 * this is not what we want!!!
 	if (available_energy.compare(u_state.max_energy) >= 0) {
 		console.log('E.update_to_now: energy already max', available_energy.compare(u_state.max_energy))
 		return t_state
 	}
-	 update_to_now is prelude to energy manipulation
-	 if not updating the "now" prop, removing energy while keeping an old time may yield full energy immediately
-	 this is not what we want!!!
 	*/
 
 	t_state = {

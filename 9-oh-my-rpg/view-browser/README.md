@@ -87,3 +87,5 @@ vNext maybe
 
 TODO glow effect ?
 https://designshack.net/articles/css/12-fun-css-text-shadows-you-can-copy-and-paste/
+
+https://nigelotoole.github.io/pixel-borders/

@@ -87,6 +87,10 @@ https://blackbeltwiki.com/dynamic-tension
 https://en.wikipedia.org/wiki/Atropa_belladonna
 
 
+
+## meta
+https://goblinscomic.com/dungeon-master-tips
+
 ## tosort
     Men wanted for hazardous journey. Small wages, bitter cold, long months of complete darkness, constant danger, safe return doubtful. Honour and recognition in case of success.[5][6] 
 

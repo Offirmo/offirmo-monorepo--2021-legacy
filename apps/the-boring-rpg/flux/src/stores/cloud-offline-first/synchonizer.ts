@@ -155,7 +155,7 @@ function create({ SEC, call_remote_procedure, on_successful_sync, initial_pendin
 		sync(new_pending_actions: Action[], current_state: State): void {
 			pending_actions = new_pending_actions
 			last_known_state_hash = hash_state(current_state)
-			pulse()
+			setTimeout(pulse, 0)
 		},
 	}
 }
