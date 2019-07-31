@@ -8,6 +8,23 @@
 
 * https://www.lifehack.org/articles/communication/what-are-the-differences-between-knowledge-wisdom-and-insight.html
 
+### groupes
+* sorcerer-kings ~sith
+* mage knights created by reaction https://boardgamegeek.com/boardgame/248562/mage-knight-ultimate-edition
+
+### places
+* https://en.wikipedia.org/wiki/List_of_mythological_places
+  * Avalon
+  * Acadia
+  * https://en.wikipedia.org/wiki/Hyperborea
+  * Atlantis
+  * Mu
+  * Thule
+  * Ys
+  * Zerzura
+  * Agartha https://en.wikipedia.org/wiki/Agartha
+  
+  
 ### comportement
 * https://nerdist.com/article/read-body-language-fbi-expert-video/
 
