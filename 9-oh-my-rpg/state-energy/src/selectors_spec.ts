@@ -1,5 +1,6 @@
 import { expect } from 'chai'
 import sinon from 'sinon'
+import Fraction from 'fraction.js'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import { dump_pretty_json } from '@offirmo-private/prettify-json'
 
@@ -53,18 +54,31 @@ describe(`${LIB} - selectors`, function() {
 			}
 		}
 
-		it('should slowly ramp-up for onboarding - demo', () => {
+		it.only('should slowly ramp-up for onboarding - demo', () => {
 			let [ u_state, t_state ] = create(get_UTC_timestamp_ms())
 
-			/*for(let i = 0; i < 100 ; ++i) {
+			for(let i = 0; i < 20 ; ++i) {
 				u_state = {
 					...u_state,
 					total_energy_consumed_so_far: i,
 				}
-				console.log(`#${i}: refilling rate = ${get_current_energy_refilling_rate_per_ms(u_state, t_state)}/ms`)
-				console.log(`                      = ${get_energy_refill_rate(u_state, t_state).per_s()}/s = ${get_energy_refill_rate(u_state, t_state).per_day()}/day`)
+				/*t_state = {
+					...t_state,
+					available_energy: {
+						n: 7,
+						d: 1,
+					},
+				}*/
+
+				const cerr = get_current_energy_refilling_rate_per_ms(u_state, t_state)
+				const ttn = (new Fraction(1))
+					.div(get_current_energy_refilling_rate_per_ms(u_state, t_state))
+					.round(0)
+				console.log(`#${`${i}`.padStart(3)}: refilling rate = ${cerr}/ms`)
+				console.log(`                     = ${get_energy_refill_rate(u_state, t_state).per_s()}/s = ${get_energy_refill_rate(u_state, t_state).per_day()}/day`)
 				//console.log(`        TTN = ${get_milliseconds_to_next(u_state, t_state)}ms`)
-			}*/
+				console.log(`        TTN = ${ttn.div(1000).round(3)}s = ${ttn}ms`)
+			}
 		})
 
 		it(`should tends towards ${EXPECTED_ESTABLISHED_ENERGY_REFILL_PER_DAY}`, () => {

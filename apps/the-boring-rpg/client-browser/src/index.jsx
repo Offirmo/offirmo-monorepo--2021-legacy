@@ -25,9 +25,10 @@ window.XOFF = {
 
 setTextEncoder(TextEncoder)
 
-ReactDOM.render(
+setTimeout(() => ReactDOM.render(
 	<ErrorBoundary name={'tbrpg_root'}>
 		<Root />
 	</ErrorBoundary>,
 	document.getElementById('root'),
+	)
 )

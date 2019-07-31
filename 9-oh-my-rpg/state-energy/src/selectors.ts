@@ -1,5 +1,6 @@
 import assert from 'tiny-invariant'
 import Fraction from 'fraction.js'
+import memoize_one from 'memoize-one'
 
 import { get_logger } from '@oh-my-rpg/definitions'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
@@ -20,8 +21,8 @@ function get_current_energy_refilling_rate_per_ms(u_state: Readonly<UState>, t_s
 	// where energy regenerates faster at the beginning
 	// Formula: https://www.desmos.com/calculator/s1kpakvnjw
 	//                                        onboarding_coeff
-	// refilling rate = floor(--------------------------------------------- + final_energy_refilling_rate_per_ms)
-	//                        total_energy_refilled_so_far^onboarding_power
+	// refilling rate = floor(--------------------------------------------- + established_energy_refilling_rate_per_ms)
+	//                        (total_energy_refilled_so_far + adjust)^onboarding_power
 
 	const { total_energy_consumed_so_far } = u_state
 	const total_energy_refilled_so_far = total_energy_consumed_so_far + get_available_energy_int(t_state) - u_state.max_energy
@@ -32,17 +33,18 @@ function get_current_energy_refilling_rate_per_ms(u_state: Readonly<UState>, t_s
 		return MIN_RESULT
 	}
 
-	const onboarding_coeff = 10
-	const onboarding_power = 4
 	const established_energy_refilling_rate_per_ms = new Fraction(
 		// 7/24h, in ms
 		7,
 		24 * 3600 * 1000,
 	)
+	const onboarding_adjustment = 30 // to skip the too many "0s" refill at the beginning
+	const onboarding_coeff = 10 // bigger = faster refill
+	const onboarding_power = 3 // bigger = slower refill
 
 	const onboarding_energy_refilling_rate_per_ms = new Fraction(
 		onboarding_coeff,
-		Math.pow(total_energy_refilled_so_far, onboarding_power)
+		Math.pow(total_energy_refilled_so_far + onboarding_adjustment, onboarding_power)
 	)
 
 	let rate = (
@@ -80,6 +82,20 @@ function get_current_energy_refilling_rate_per_ms(u_state: Readonly<UState>, t_s
 
 ////////////
 
+function debugTTNx(energy_refilling_rate_per_ms: number) {
+	const ttn = (
+		(new Fraction(1))
+			.div(energy_refilling_rate_per_ms)
+			.round(0)
+			.valueOf()
+	)
+	console.warn('debug', {
+		energy_refilling_rate_per_ms,
+		ttn,
+	})
+}
+const debugTTN = memoize_one(debugTTNx)
+
 function get_milliseconds_to_next(u_state: Readonly<UState>, t_state: Readonly<TState>): number {
 	if (t_state.timestamp_ms + TICK_MS < get_UTC_timestamp_ms()) {
 		/*console.log('outdated:', {
@@ -100,6 +116,7 @@ function get_milliseconds_to_next(u_state: Readonly<UState>, t_state: Readonly<T
 
 	//console.log('fractional_available_energy', fractional_available_energy.valueOf())
 	//console.log('remaining fractional_available_energy', (new Fraction(1)).sub(fractional_available_energy).valueOf())
+	debugTTN(energy_refilling_rate_per_ms.valueOf())
 
 	// time to next = (1 - frac) / refilling
 	const ttn = (

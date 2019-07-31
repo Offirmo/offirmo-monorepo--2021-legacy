@@ -12,7 +12,7 @@ const InfoboxViewM = React.memo(
 
 		return (
 			<div className="o⋄box">
-				⚡ Energy: {energy_float} → You can play {energy_float >= 1 ? 'right now!' : `in ${human_time_to_next}`}<br/>
+				⚡ You can play {energy_float >= 1 ? 'right now!' : `in ${human_time_to_next}`} - Energy: {energy_float}/7<br/>
 				🏆 Achievements: {achievements_completion_pct}%
 			</div>
 		)
