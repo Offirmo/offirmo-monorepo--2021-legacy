@@ -83,7 +83,7 @@ function get_current_energy_refilling_rate_per_ms(u_state: Readonly<UState>, t_s
 ////////////
 
 function debugTTNx(energy_refilling_rate_per_ms: number) {
-	const ttn = (
+	/*const ttn = (
 		(new Fraction(1))
 			.div(energy_refilling_rate_per_ms)
 			.round(0)
@@ -92,7 +92,7 @@ function debugTTNx(energy_refilling_rate_per_ms: number) {
 	console.warn('debug', {
 		energy_refilling_rate_per_ms,
 		ttn,
-	})
+	})*/
 }
 const debugTTN = memoize_one(debugTTNx)
 

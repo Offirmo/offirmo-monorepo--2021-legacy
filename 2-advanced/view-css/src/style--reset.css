@@ -11,7 +11,7 @@
  * https://www.paulirish.com/2012/box-sizing-border-box-ftw/
  */
 html                 { box-sizing: border-box; }
-*, *:before, *:after { box-sizing: inherit; }
+*, *::before, *::after { box-sizing: inherit; }
 
 /* but allow to reset it if needed
  * https://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/
