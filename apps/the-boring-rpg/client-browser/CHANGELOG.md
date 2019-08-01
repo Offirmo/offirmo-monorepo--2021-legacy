@@ -8,9 +8,11 @@
 - 😅 fix: tweaks, typos, small bugs…
 - 😷 chore: some internal refactors, bump dependencies
 
+## v0.60.4
+- 🤩 feature: better start experience: better refill rate easing, better starting adventures
+- 😷 chore: some internal refactors, bump dependencies
 
 ## v0.60.3
-- onboarding
 - 😷 chore: fixed early instantiation of the game instance
 - 😷 chore: use UWDA debug features
 - 😷 chore: some internal refactors, bump dependencies
