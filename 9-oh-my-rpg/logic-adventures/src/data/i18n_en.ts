@@ -261,8 +261,8 @@ Fortunately, you gain +{{agility}} agility while avoiding the stones thrown by t
 	// dorkly
 	talk_to_all_villagers: `
 You spoke to everyone in the village leaving no quest unanswered!{{br}}
-Although your head aches from discussing so much.
-+{{charisma}} charisma having met so many people!`,
+Although your head aches from discussing so much,
+you gain +{{charisma}} charisma having met so many people!`,
 
 	// DK
 	fate_sword: `

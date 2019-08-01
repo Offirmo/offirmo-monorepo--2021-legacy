@@ -38,9 +38,9 @@ function get_current_energy_refilling_rate_per_ms(u_state: Readonly<UState>, t_s
 		7,
 		24 * 3600 * 1000,
 	)
-	const onboarding_adjustment = 30 // to skip the too many "0s" refill at the beginning
-	const onboarding_coeff = 10 // bigger = faster refill
-	const onboarding_power = 3 // bigger = slower refill
+	const onboarding_coeff = 55 // bigger = faster refill
+	const onboarding_adjustment = 5 // to skip the too many "0s" refill at the beginning
+	const onboarding_power = 5 // bigger = slower refill
 
 	const onboarding_energy_refilling_rate_per_ms = new Fraction(
 		onboarding_coeff,

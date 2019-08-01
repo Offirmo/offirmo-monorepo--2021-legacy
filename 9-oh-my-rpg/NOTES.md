@@ -1,4 +1,198 @@
 
+ ] Ftl-like fantasy comme douluo dalu
+[ ] Halos
+[ ] Sculpture 
+[ ] Combats / arènes
+[ ] Cite des nuages
+[ ] World tree
+[ ] Haricot magique
+[ ] (Contes européens)
+[ ] Prairie infinie (Russie)
+[ ] Désert
+[ ] Pôle Nord
+[ ] Montagnes
+[ ] Lande
+[ ] Forêt de plage
+[ ] Dune du pila
+[ ] Auvergne
+[ ] Cote rocheuse
+[ ] Volcan
+[ ] Ville d’is
+[ ] Cités perdues
+[ ] Loups
+[ ] Ours
+[ ] Tigre à dents de sabre
+[ ] Animaux éteints bison mammouth 
+[ ] Survival level
+[ ] Forest of illusions
+[ ] Toxic forest
+[ ] Old forest
+[ ] Ents
+[ ] Cristaux = spell slots, better = stronger
+[ ] Cores
+[ ]
+
+https://en.wikipedia.org/wiki/Rosicrucianism
+https://en.wikipedia.org/wiki/Sylph
+https://en.wikipedia.org/wiki/Folklore
+https://en.wikisource.org/wiki/The_Decameron_(Rigg)/Proem,_1340s
+https://en.wikipedia.org/wiki/Superalloy
+https://en.wikipedia.org/wiki/Nimonic
+https://angrystaffofficer.com/2019/03/31/military-lessons-learned-from-the-battle-of-wakanda/
+
+Dark steel / blue steel
+
+Livre de classe avec un titre, intro et prez des skills (avec style caractéristique)
+
+Frost silver
+
+Choix de classe = choix de self- buff
+
+
+
+Magie
+
+Self buff inconscient
+
+Awakening
+
+
+
+Cross-training 
+
+Elven, dwarven Martial arts
+
+Martial arts against wild animals, giant anymals
+
+Dragonslayer arts
+
+
+
+Les îles mystérieuses 
+
+
+
+Réutiliser les brigands en armée 
+
+Okik
+
+http://goodriddlesnow.com/riddles/by/what-am-i-riddles/page:5/sort:id/direction:asc#
+
+Asgardia
+
+Tribu de Dana
+École du micro d'argent
+
+dungeons
+crafting (deep town)
+spirit stones, composable
+tiered items
+biomes
+power
+
+scrying spell to find lost people
+
+Fantasy interface http://homebrewery.naturalcrit.com/
+animal speech https://pets.stackexchange.com/questions/18822/what-is-this-street-cat-trying-to-ask-me-for
+
+https://www.ftc.gov/tips-advice/business-center/privacy-and-security/children's-privacy
+
+
+- interactive maps https://github.com/dphilipson/graphs-and-paths
+- talents https://github.com/dphilipson/graphito#toc0
+- tree view https://github.com/elbywan/bosket
+- pathfinding https://github.com/anvaka/ngraph.path
+
+
+https://www.behance.net/gallery/55668517/Arcanista-Free-Font
+https://www.behance.net/gallery/55249019/BIT-Free-Pixel-Typeface
+https://pixelbuddha.net/freebie/45-geometric-vector-shapes auras !!!
+
+https://codepen.io/nicoptere/full/awzbQW/ +++ basic isomorphic ?
+
+http://www.spritecow.com/  to generate CSS for sprites
+https://vxresource.wordpress.com/ RPG maker Vx resources
+http://game-icons.net/ +++ SVG game icons
+
+http://codepen.io/giana/pen/qmKNeE +++ superb shimmering effect
+
+https://www.openprocessing.org/ +++ superb graphic effects
+
+https://quickdraw.withgoogle.com/ doodles crayon
+
+Chat/adversaires simulés
+http://www.minecraftforum.net/forums/off-topic/forum-games/431299-big-list-of-minecraft-forum-usernames
+Filtrer mots
+https://github.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words
+comptes
+https://github.com/marteinn/The-Big-Username-Blacklist
+
+Algorithms
+* simple maze generator https://twitter.com/aemkei/status/889586022530658304
+
+
+Polices
+* https://www.behance.net/gallery/53874837/Carre-Typeface
+* 
+
+Inventaire
+* http://packery.metafizzy.co/draggable.html
+
+Graphisme
+* CutJS http://dailyjs.com/2014/04/10/cutjs/ http://cutjs.org/
+
+Son
+* http://keithwhor.com/music/
+* http://01org.github.io/jWebAudio/
+* http://flippinawesome.org/2013/10/28/audio-synthesis-in-javascript/
+* http://blog.jetienne.com/blog/2014/02/18/webaudiox-a-dry-library-for-webaudio-api/
+
+frameworks
+* http://weblog.bocoup.com/building-multiplayer-html5-games-with-cloak/
+* https://playcanvas.com/
+* https://www.scirra.com/construct2
+* http://impactjs.com/
+
+
+### à trier
+* http://js13kgames.com/
+* http://phaser.io/
+* http://creativejs.com/2013/06/physically-based-rendering-physics-simulation/
+* pathfinding : https://github.com/prettymuchbryce/easystarjs
+* http://www.sitepoint.com/the-wds-title-sequence-explained-html5-and-css3-in-action/
+* http://www.sitepoint.com/html5-video-cross-browser-fall-backs
+* http://sitepointcom.createsend1.com/t/y-l-trkkhtk-xhjdtydht-bl/
+* http://coquette.maryrosecook.com/
+* téléphone comme contrôleur : http://www.muzzley.com/
+* http://jster.net/blog/mienfield-author-interview#.UVwg3Fcto78
+* http://microjs.com/#games
+* http://www.impressivewebs.com/demo-files/question-mark-js/
+* https://github.com/EvanBurchard/tyranoscript
+
+
+
+
+Music
+http://www.steven-obrien.net/
+
+
+
+TOSORT
+plenty https://github.com/dphilipson
+
+typing https://github.com/akZhy/typebot
+https://github.com/lipka/piecon
+https://github.com/sindresorhus/is-online
+https://hub.openshift.com/quickstarts/128-node-js-0-12
+better manifest http://www.slideshare.net/brucelawson/bruce-lawson-progressive-web-apps-the-future-of-apps
+http://spin.js.org/
+http://masonry.desandro.com/layout.html
+http://getstream.io/features/
+
+
+
+
+
 ## Retro
 Good
 * offline first

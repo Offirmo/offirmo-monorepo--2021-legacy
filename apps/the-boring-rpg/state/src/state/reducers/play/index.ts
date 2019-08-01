@@ -53,6 +53,39 @@ function play(previous_state: Readonly<State>, now_ms: TimestampUTCMs = get_UTC_
 				energy: t
 			}
 		}
+
+		// onboarding
+		if (!explicit_adventure_archetype_hid) {
+			const { good_play_count } = state.u_state.progress.statistics
+			explicit_adventure_archetype_hid = [
+				'talk_to_all_villagers',
+				'rematch',
+				'fight_won_coins',
+				'high_level_zone_2',
+				'found_random_mushroom',
+				'class_grimoire',
+				'progress_loop',
+				'fight_won_any',
+				'found_swirling_potion',
+				'castle_summon',
+				'arrow_in_the_knee',
+				'inspect_sewers',
+				'side_quests',
+				'fight_won_coins',
+			][good_play_count]
+
+
+					//
+				//
+				//
+					//
+					//
+					//
+					//
+					//
+					//
+		}
+
 	}
 
 	// actual play

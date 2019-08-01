@@ -108,7 +108,7 @@ const RAW_ENTRIES_GAME_PHASES: Readonly<Partial<AchievementDefinition<UState>>>[
 	},
 ]
 
-const ADVENTURE_TIERS = [1, 7, 12, 20, 50, 100, 150]
+const ADVENTURE_TIERS = [1, 5, 10, 25, 50, 100, 150]
 const RAW_ENTRIES_ADVENTURING: Readonly<Partial<AchievementDefinition<UState>>>[] = [
 	{
 		icon: '🥉',
