@@ -20,13 +20,13 @@ const logger = createLogger({
 	suggestedLevel: 'silly',
 })
 
-demo_standard_console()
-//demo_logger_api(createLogger)
+//demo_standard_console()
+demo_logger_api(createLogger)
 
 //demo_logger_basic_usage(logger)
 //demo_logger_levels(logger)
-demo_error(console)
-demo_error(logger)
+//demo_error(console)
+//demo_error(logger)
 //demo_group(logger)
 //demo_incorrect_logger_invocations(logger)
 //demo_devtools_fonts(logger)

@@ -1,11 +1,12 @@
 import path from 'path'
 import fs from 'fs'
 
+import stylize_string from 'chalk'
 import { Enum } from 'typescript-string-enums'
 import { TimestampUTCMs } from '@offirmo-private/timestamps'
 
 import logger from '../services/logger'
-import * as Match from '../services/matching'
+import * as Match from '../services/matchers'
 import { Basename, AbsolutePath, RelativePath } from '../types'
 import * as Folder from './folder'
 import * as MediaFile from './media-file'
@@ -120,6 +121,12 @@ export function get_first_pending_action(state: Readonly<State>): Action {
 		throw new Error('No more pending actions!')
 
 	return state.queue[0]
+}
+
+export function get_all_eligible_file_ids(state: Readonly<State>): string[] {
+	return Object.keys(state.media_files)
+		.filter(k => state.media_files[k].is_eligible)
+		.sort()
 }
 
 ////////////////////////////////////
@@ -257,13 +264,48 @@ export function on_exploration_complete(state: Readonly<State>): Readonly<State>
 	}
 	state = enqueue_action(state, ENSURE_CANTSORT_FOLDER)
 
-	// TODO ensure all files correctly named
-	// TODO ensure all files correct utime
+	state = _ensure_all_eligible_files_are_correctly_named(state)
+	// TODO ensure all files have correct utime
 	// TODO ensure all files correct place + delete duplicates + rename conflicting
 	// TODO move files below root or a year folder
 	// TODO move unknown folders and files to CANTSORT
-	// TOTO jpeg lossless rotation
+	// TODO jpeg lossless rotation
+
 	return state
 }
 
 ////////////////////////////////////
+
+function _ensure_all_eligible_files_are_correctly_named(state: Readonly<State>): Readonly<State> {
+	const actions: Action[] = []
+
+	const all_file_ids = get_all_eligible_file_ids(state)
+	all_file_ids.forEach(id => {
+		const file_state = state.media_files[id]
+		const current_basename = MediaFile.get_basename(file_state)
+		const ideal_basename = MediaFile.get_ideal_basename(file_state)
+		if (current_basename !== ideal_basename) {
+			console.error(`TODO rename from "${current_basename}" to "${ideal_basename}"`)
+		}
+	})
+
+	return {
+		...state,
+		queue: [ ...state.queue, ...actions ]
+	}}
+
+////////////////////////////////////
+
+export function to_string(state: Readonly<State>) {
+	const { root, media_files, folders } = state
+
+	const all_file_ids = get_all_eligible_file_ids(state)
+	let str = `
+${stylize_string.blue('####### Photo sorter’s DB #######')}
+Root: "${root}"
+${stylize_string.blue('' + all_file_ids.length)} files in ${stylize_string.blue('' + Object.keys(folders).length)} folders:
+${all_file_ids.map(id => MediaFile.to_string(media_files[id])).join('\n')}
+`
+	return str
+}
+

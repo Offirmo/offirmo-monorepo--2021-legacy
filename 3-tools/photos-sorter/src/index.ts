@@ -7,11 +7,11 @@ import { exiftool } from 'exiftool-vendored'
 
 import { RelativePath } from './types'
 import * as DB from './state/db'
-import * as Match from './services/matching'
+import * as Match from './services/matchers'
 import logger from './services/logger'
 import fs_extra from './services/fs-extra'
 
-console.log('Hello world !')
+//console.log('Hello world !')
 
 const ROOT = path.normalize(`/Users/${process.env.USER}/Documents/- photos/- sorted`)
 logger.info('******* PHOTO SORTER *******', { ROOT })
@@ -70,6 +70,7 @@ async function sort_all_medias() {
 	logger.group('******* STARTING EXPLORATION PHASE *******')
 	await exec_all_pending_actions()
 	logger.groupEnd()
+	console.log(DB.to_string(db))
 
 	logger.group('******* STARTING SORTING PHASE *******')
 	db = DB.on_exploration_complete(db)

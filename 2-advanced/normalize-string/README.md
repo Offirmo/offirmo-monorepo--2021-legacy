@@ -1,5 +1,10 @@
 
+```ts
+import { NORMALIZERS } from '@offirmo-private/normalize-string'
 
+NORMALIZERS.coerce_to_redeemable_code(s)
+NORMALIZERS.
+```
 https://thread.engineering/2018-08-29-searching-and-sorting-text-with-diacritical-marks-in-javascript/
 
 
