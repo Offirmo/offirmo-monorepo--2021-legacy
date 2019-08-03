@@ -1,0 +1,38 @@
+{
+	"name": "@offirmo-private/photos-sorter",
+	"version": "0.0.1",
+	"description": "TODO",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+
+	"engines": {
+		"node": ">=12"
+	},
+
+	"dependencies": {
+		"@offirmo-private/practical-logger-node": "^0",
+		"@offirmo-private/prettify-json": "^0",
+		"@offirmo-private/timestamps": "^0",
+		"exiftool-vendored": "^8",
+		"fs-extra": "^8",
+		"tslib": "^1",
+		"typescript-string-enums": "^1"
+	},
+
+	"scripts": {
+		"clean": "node ../../scripts/clean.js dist",
+
+		"build:dev:watch": "node ../../scripts/build-typescript.js --watch",
+		"build:prod": "node ../../scripts/build-typescript.js",
+
+		"dev": "run-s clean build:dev:watch",
+		"build": "run-s build:prod",
+
+		"start": "node dist/src.es2018.cjs/index.js"
+	},
+	"devDependencies": {
+		"@types/node": "^12",
+		"npm-run-all": "^4"
+	}
+}

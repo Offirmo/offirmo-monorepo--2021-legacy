@@ -56,7 +56,6 @@
 		"@babel/runtime": "^7",
 		"@offirmo/cli-toolbox": "^1",
 		"@offirmo/random": "^2",
-		"@ronomon/utimes": "^2",
 		"@types/aws-lambda": "^8",
 		"@types/chai": "^4",
 		"@types/chai-as-promised": "^7",

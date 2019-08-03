@@ -1273,19 +1273,6 @@
     "@parcel/utils" "^1.11.0"
     physical-cpu-count "^2.0.0"
 
-"@ronomon/queue@^3.0.0":
-  version "3.0.1"
-  resolved "https://registry.npmjs.org/@ronomon/queue/-/queue-3.0.1.tgz#42613e8488289ad452f4cf2244064958fc08d370"
-  integrity sha512-STcqSvk+c7ArMrZgYxhM92p6O6F7t0SUbGr+zm8s9fJple5EdJAMwP3dXqgdXeF95xWhBpha5kjEqNAIdI0r4w==
-
-"@ronomon/utimes@^2":
-  version "2.3.1"
-  resolved "https://registry.npmjs.org/@ronomon/utimes/-/utimes-2.3.1.tgz#895ea53df7eba4cc20bf219b1033d0cab3840386"
-  integrity sha512-4a55ON+ZiNLWGoNHSmpDQdEriR+4o7PLiYn0caNl69i60siNtQajDMFxqjEgJWiceDhDzUwbfqfEzDnaxyzNow==
-  dependencies:
-    "@ronomon/queue" "^3.0.0"
-    nan "^2.11.0"
-
 "@samverschueren/stream-to-observable@^0.3.0":
   version "0.3.0"
   resolved "https://registry.npmjs.org/@samverschueren/stream-to-observable/-/stream-to-observable-0.3.0.tgz#ecdf48d532c58ea477acfcab80348424f8d0662f"
@@ -7972,7 +7959,7 @@ mute-stream@0.0.7:
   resolved "https://registry.npmjs.org/mute-stream/-/mute-stream-0.0.7.tgz#3075ce93bc21b8fab43e1bc4da7e8115ed1e7bab"
   integrity sha1-MHXOk7whuPq0PhvE2n6BFe0ee6s=
 
-nan@^2.11.0, nan@^2.12.1:
+nan@^2.12.1:
   version "2.14.0"
   resolved "https://registry.npmjs.org/nan/-/nan-2.14.0.tgz#7818f722027b2459a86f0295d434d1fc2336c52c"
   integrity sha512-INOFj37C7k3AfaNTtX8RhsTw7qRy7eLET14cROi9+5HAVbbHuIWUHEauBv5qT4Av2tWasiTY1Jw6puUNqRJXQg==

@@ -1,6 +1,6 @@
 
 <h1 align="center">
-	Offirmo’s practical logger - browser implementation<br>
+	Offirmo’s practical logger - node implementation<br>
 	<a href="https://www.offirmo.net/offirmo-monorepo/doc/modules-directory/index.html">
 		<img src="https://www.offirmo.net/offirmo-monorepo/doc/quality-seal/offirmos_quality_seal.svg" alt="Offirmo’s quality seal">
 	</a>
@@ -31,9 +31,26 @@
 	  src="https://img.shields.io/maintenance/yes/2019.svg">
 </p>
 
-**This is a minimal, no-operation implementation of Offirmo’s practical logger.**
+**This is a node implementation of [Offirmo’s practical logger](https://github.com/Offirmo/offirmo-monorepo/wiki/Offirmo%E2%80%99s-Practical-Logger).**
 
-Use this lib if you want to provide a default implementation,
-for example as a default value in a dependency injection mechanism,
-ready to be replaced by an actual version if the caller wants it,
-but not hurting the bundle size if the user opts out.
+## Demo
+
+TODO screen
+
+
+## Usage
+
+```javascript
+import { createLogger } from '@offirmo/practical-logger-node'
+
+const logger = createLogger()
+logger.log('hello from logger!')
+
+const fooLogger = createLogger({
+	name: 'Foo',
+	suggestedLevel: 'silly',
+})
+fooLogger.log('hello from fooLogger!', { bar: 42, baz: 33 })
+```
+
+TODO explanation
