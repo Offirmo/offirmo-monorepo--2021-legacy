@@ -17,7 +17,6 @@ type TimestampsHash = { [k: string]: TimestampUTCMs }
 export interface State {
 	id: RelativePath
 	is_eligible: boolean
-	has_date_in_name: boolean
 
 	cached: {
 		parsed: path.ParsedPath,
@@ -95,39 +94,6 @@ export function get_basename(state: Readonly<State>): Basename {
 	return state.cached.parsed.base
 }
 
-export function get_ideal_basename(state: Readonly<State>): Basename {
-	let { name, ext } = state.cached.parsed
-
-	ext = ext.toLowerCase()
-
-	if (!starts_with_human_timestamp_ms(name)) {
-		const bcd_ms = get_best_creation_date_ms(state)
-		const compact_date_from_name = extract_compact_date(name)
-		if (compact_date_from_name) {
-			// dont touch the name
-			if (_get_creation_date_from_exif(state)) { // condition for unit tests only
-				// ensure coherency
-				assert(
-					compact_date_from_name === get_compact_date_from_UTC_ts(_get_creation_date_from_exif(state)!),
-					'name in file matches exif name'
-				)
-			}
-		}
-		else {
-			// TODO handle screenshots Apple
-			const date_human = get_human_readable_UTC_timestamp_seconds(new Date(bcd_ms))
-			name = date_human + '-' + name // TODO clean possible existing date?
-		}
-	}
-
-	let ideal = name + ext
-	ideal = NORMALIZERS.normalize_unicode(ideal)
-	ideal = NORMALIZERS.trim(ideal)
-	ideal = NORMALIZERS.coerce_blanks_to_single_spaces(ideal)
-
-	return ideal
-}
-
 function _get_creation_date_from_name(id: string): TimestampUTCMs | null {
 	// TODO match regexp!
 	return null
@@ -194,6 +160,43 @@ export function get_best_compact_date(state: Readonly<State>) {
 	return get_compact_date_from_UTC_ts(get_best_creation_date_ms(state))
 }
 
+export function get_year(state: Readonly<State>) {
+	return Math.trunc(get_best_compact_date(state) / 10000)
+}
+
+export function get_ideal_basename(state: Readonly<State>): Basename {
+	let { name, ext } = state.cached.parsed
+
+	ext = ext.toLowerCase()
+
+	if (!starts_with_human_timestamp_ms(name)) {
+		const bcd_ms = get_best_creation_date_ms(state)
+		const compact_date_from_name = extract_compact_date(name)
+		if (compact_date_from_name) {
+			// dont touch the name
+			if (_get_creation_date_from_exif(state)) { // condition for unit tests only
+				// ensure coherency
+				assert(
+					compact_date_from_name === get_compact_date_from_UTC_ts(_get_creation_date_from_exif(state)!),
+					'name in file matches exif name'
+				)
+			}
+		}
+		else {
+			// TODO handle screenshots Apple
+			const date_human = get_human_readable_UTC_timestamp_seconds(new Date(bcd_ms))
+			name = date_human + '-' + name // TODO clean possible existing date?
+		}
+	}
+
+	let ideal = name + ext
+	ideal = NORMALIZERS.normalize_unicode(ideal)
+	ideal = NORMALIZERS.trim(ideal)
+	ideal = NORMALIZERS.coerce_blanks_to_single_spaces(ideal)
+
+	return ideal
+}
+
 ////////////////////////////////////
 
 export function create(id: RelativePath): Readonly<State> {
@@ -202,7 +205,6 @@ export function create(id: RelativePath): Readonly<State> {
 	const state = {
 		id,
 		is_eligible: is_eligible_media_file(id, parsed),
-		has_date_in_name: !!date_from_name,
 
 		cached: {
 			parsed,
@@ -244,6 +246,17 @@ export function on_exif_read(state: Readonly<State>, exif_data: State['exif_data
 	state.cached.best_creation_date_ms = get_best_creation_date_ms(state)
 
 	return state
+}
+
+export function on_moved(state: Readonly<State>, new_id: RelativePath): Readonly<State> {
+	return {
+		...state,
+		id: new_id,
+		cached: {
+			...state.cached,
+			parsed: path.parse(new_id),
+		}
+	}
 }
 
 ////////////////////////////////////

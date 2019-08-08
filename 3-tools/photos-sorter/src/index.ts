@@ -46,6 +46,16 @@ function dequeue_and_run_all_queued_actions(readonly = true): Promise<any>[] {
 				pending_actions.push(ensure_folder(id))
 				break
 
+			case DB.ActionType.move_folder:
+				assert(!readonly, 'no write action in readonly mode')
+				pending_actions.push(move_folder(id, (action as DB.ActionMoveFolder).target_id))
+				break
+
+			case DB.ActionType.move_file:
+				assert(!readonly, 'no write action in readonly mode')
+				pending_actions.push(move_file(id, (action as DB.ActionMoveFile).target_id))
+				break
+
 			default:
 				throw new Error(`TODO unsupported action "${type}"!`)
 		}
@@ -73,9 +83,20 @@ async function sort_all_medias() {
 	console.log(DB.to_string(db))
 
 	logger.group('******* STARTING SORTING PHASE *******')
-	db = DB.on_exploration_complete(db)
-	// TOTO do it
-	logger.warn('TODO')
+	db = DB.ensure_structural_dirs_are_present(db)
+	db = DB.ensure_existing_event_folders_are_organized(db)
+	db.queue.forEach(action => console.log(JSON.stringify(action)))
+	await exec_all_pending_actions(false)
+	console.log(DB.to_string(db))
+
+	db = DB.ensure_all_needed_events_folders_are_present_and_move_files_in_them(db)
+	db.queue.forEach(action => console.log(JSON.stringify(action)))
+	await exec_all_pending_actions(false)
+	console.log(DB.to_string(db))
+
+	//db = DB.ensure_all_eligible_files_are_correctly_named(db)
+	//db.queue.forEach(action => console.log(JSON.stringify(action)))
+	//logger.warn('TODO')
 
 	//await exec_all_pending_actions()
 	logger.groupEnd()
@@ -129,15 +150,32 @@ async function query_exif(id: RelativePath) {
 }
 
 async function ensure_folder(id: RelativePath) {
-	const is_existing_according_to_db = db.folders.hasOwnProperty(id)
-
-	logger.group(`- ensuring dir "${id}"…`)
-	logger.log('so far:', { is_existing_according_to_db })
-
-	if (is_existing_according_to_db) return
+	logger.trace(`- ensuring dir "${id}"…`)
+	//const is_existing_according_to_db = db.folders.hasOwnProperty(id)
+	//logger.log('so far:', { is_existing_according_to_db })
+	//if (is_existing_according_to_db) return
 
 	const abs_path = DB.get_absolute_path(db, id)
-
 	await util.promisify(fs_extra.mkdirp)(abs_path)
-	logger.groupEnd()
+	//logger.groupEnd()
+}
+
+async function move_folder(id: RelativePath, target_id: RelativePath) {
+	logger.trace(`- moving folder from "${id}" to "${target_id}"…`)
+
+	const abs_path = DB.get_absolute_path(db, id)
+	const abs_path_target = DB.get_absolute_path(db, target_id)
+
+	await util.promisify(fs.rename)(abs_path, abs_path_target)
+	db = DB.on_folder_moved(db, id, target_id)
+}
+
+async function move_file(id: RelativePath, target_id: RelativePath) {
+	logger.trace(`- moving file from "${id}" to "${target_id}"…`)
+
+	const abs_path = DB.get_absolute_path(db, id)
+	const abs_path_target = DB.get_absolute_path(db, target_id)
+
+	await util.promisify(fs.rename)(abs_path, abs_path_target)
+	db = DB.on_file_moved(db, id, target_id)
 }

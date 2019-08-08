@@ -1,13 +1,14 @@
 import path from 'path'
 import fs from 'fs'
 
+import assert from 'tiny-invariant'
 import stylize_string from 'chalk'
 import { Enum } from 'typescript-string-enums'
-import { TimestampUTCMs } from '@offirmo-private/timestamps'
+import { get_human_readable_UTC_timestamp_days } from '@offirmo-private/timestamps'
 
 import logger from '../services/logger'
 import * as Match from '../services/matchers'
-import { Basename, AbsolutePath, RelativePath } from '../types'
+import {Basename, AbsolutePath, RelativePath, SimpleYYYYMMDD} from '../types'
 import * as Folder from './folder'
 import * as MediaFile from './media-file'
 
@@ -19,7 +20,8 @@ export const ActionType = Enum(
 	'query_fs_stats',
 	'query_exif',
 	'ensure_folder',
-	'rename_file',
+	'move_folder',
+	'move_file',
 	'delete_file',
 )
 export type ActionType = Enum<typeof ActionType> // eslint-disable-line no-redeclare
@@ -49,13 +51,20 @@ export interface ActionEnsureFolder extends BaseAction {
 	id: string
 }
 
-export interface ActionRenameFile extends BaseAction {
-	type: typeof ActionType.rename_file
+export interface ActionMoveFile extends BaseAction {
+	type: typeof ActionType.move_file
 	id: string
+	target_id: string
+}
+
+export interface ActionMoveFolder extends BaseAction {
+	type: typeof ActionType.move_folder
+	id: string
+	target_id: string
 }
 
 export interface ActionDeleteFile extends BaseAction {
-	type: typeof ActionType.rename_file
+	type: typeof ActionType.move_file
 	id: string
 }
 
@@ -66,7 +75,8 @@ export type Action =
 	ActionQueryEXIF |
 	// write
 	ActionEnsureFolder |
-	ActionRenameFile |
+	ActionMoveFile |
+	ActionMoveFolder |
 	ActionDeleteFile
 
 function create_action_explore(id: RelativePath): ActionExploreFolder {
@@ -85,6 +95,26 @@ function create_action_query_exif(id: RelativePath): ActionQueryEXIF {
 	return {
 		type: ActionType.query_exif,
 		id,
+	}
+}
+function create_action_ensure_folder(id: RelativePath): ActionEnsureFolder {
+	return {
+		type: ActionType.ensure_folder,
+		id,
+	}
+}
+function create_action_move_folder(id: RelativePath, target_id: RelativePath): ActionMoveFolder {
+	return {
+		type: ActionType.move_folder,
+		id,
+		target_id,
+	}
+}
+function create_action_move_file(id: RelativePath, target_id: RelativePath): ActionMoveFile {
+	return {
+		type: ActionType.move_file,
+		id,
+		target_id,
 	}
 }
 
@@ -123,10 +153,19 @@ export function get_first_pending_action(state: Readonly<State>): Action {
 	return state.queue[0]
 }
 
-export function get_all_eligible_file_ids(state: Readonly<State>): string[] {
+export function get_all_file_ids(state: Readonly<State>): string[] {
 	return Object.keys(state.media_files)
-		.filter(k => state.media_files[k].is_eligible)
 		.sort()
+}
+
+export function get_all_eligible_file_ids(state: Readonly<State>): string[] {
+	return get_all_file_ids(state)
+		.filter(k => state.media_files[k].is_eligible)
+}
+
+export function get_all_event_folder_ids(state: Readonly<State>): string[] {
+	return Object.keys(state.folders)
+		.filter(k => state.folders[k].type === Folder.Type.event)
 }
 
 ////////////////////////////////////
@@ -160,8 +199,7 @@ export function discard_first_pending_action(state: Readonly<State>): Readonly<S
 	}
 }
 
-export function on_folder_found(state: Readonly<State>, parent_id: RelativePath, sub_id: RelativePath): Readonly<State> {
-	const id = path.join(parent_id, sub_id)
+function _register_folder(state: Readonly<State>, id: RelativePath, exists: boolean): Readonly<State> {
 	const folder_state = Folder.create(id)
 
 	state = {
@@ -171,6 +209,17 @@ export function on_folder_found(state: Readonly<State>, parent_id: RelativePath,
 			[id]: folder_state,
 		},
 	}
+
+	logger.info(`folder ${exists ? 'found' : 'registered'}`, {id, type: folder_state.type })
+
+	return state
+}
+
+export function on_folder_found(state: Readonly<State>, parent_id: RelativePath, sub_id: RelativePath): Readonly<State> {
+	const id = path.join(parent_id, sub_id)
+
+	state = _register_folder(state, id, true)
+	const folder_state = state.folders[id]
 
 	logger.info('folder found', {id, type: folder_state.type })
 
@@ -250,33 +299,152 @@ export function on_exif_read(state: Readonly<State>, file_id: RelativePath, exif
 	return _on_file_info_read(state, file_id)
 }
 
-export function on_exploration_complete(state: Readonly<State>): Readonly<State> {
-	// starts writing...
-	const ENSURE_INBOX_FOLDER: ActionEnsureFolder = {
-		type: ActionType.ensure_folder,
-		id: get_final_base(Folder.INBOX_BASENAME),
-	}
-	state = enqueue_action(state, ENSURE_INBOX_FOLDER)
+export function on_folder_moved(state: Readonly<State>, id: RelativePath, target_id: RelativePath): Readonly<State> {
+	assert(!state.folders[target_id])
 
-	const ENSURE_CANTSORT_FOLDER: ActionEnsureFolder = {
-		type: ActionType.ensure_folder,
-		id: get_final_base(Folder.CANTSORT_BASENAME),
-	}
-	state = enqueue_action(state, ENSURE_CANTSORT_FOLDER)
+	// TODO immu
+	let folder_state = state.folders[id]
+	folder_state = Folder.on_moved(folder_state, target_id)
+	delete state.folders[id]
+	state.folders[target_id] = folder_state
 
-	state = _ensure_all_eligible_files_are_correctly_named(state)
-	// TODO ensure all files have correct utime
-	// TODO ensure all files correct place + delete duplicates + rename conflicting
-	// TODO move files below root or a year folder
-	// TODO move unknown folders and files to CANTSORT
-	// TODO jpeg lossless rotation
+	get_all_file_ids(state).forEach(fid => {
+		let file_state = state.media_files[fid]
+		if (MediaFile.get_parent_folder_id(file_state) !== id) return
+
+		const new_file_id = path.join(target_id, MediaFile.get_basename(file_state))
+		state = on_file_moved(state, fid, new_file_id)
+	})
+
+	return state
+}
+
+export function on_file_moved(state: Readonly<State>, id: RelativePath, target_id: RelativePath): Readonly<State> {
+	assert(!state.media_files[target_id])
+
+	// TODO immu
+	let file_state = state.media_files[id]
+	file_state = MediaFile.on_moved(file_state, target_id)
+	delete state.media_files[id]
+	state.media_files[target_id] = file_state
 
 	return state
 }
 
 ////////////////////////////////////
 
-function _ensure_all_eligible_files_are_correctly_named(state: Readonly<State>): Readonly<State> {
+export function ensure_structural_dirs_are_present(state: Readonly<State>): Readonly<State> {
+	state = enqueue_action(state, create_action_ensure_folder(get_final_base(Folder.INBOX_BASENAME)))
+	state = enqueue_action(state, create_action_ensure_folder(get_final_base(Folder.CANTSORT_BASENAME)))
+
+	const years = new Set<number>()
+	const all_file_ids = get_all_eligible_file_ids(state)
+	all_file_ids.forEach(id => {
+		const file_state = state.media_files[id]
+		years.add(MediaFile.get_year(file_state))
+	})
+	for(let y of years) {
+		state = _register_folder(state, String(y), false)
+		state = enqueue_action(state, create_action_ensure_folder(String(y)))
+	}
+
+	return state
+}
+
+export function ensure_existing_event_folders_are_organized(state: Readonly<State>): Readonly<State> {
+	// first re-qualify some event folders
+	Object.keys(state.folders).forEach(id => {
+		const folder_state = state.folders[id]
+		if (folder_state.type !== Folder.Type.event) return
+
+		if (folder_state.start_date === Folder.now_simple
+			|| (folder_state.end_date - folder_state.start_date) > 28) {
+			// demote. Not immutable, I know :/
+			folder_state.type = Folder.Type.unknown
+		}
+	})
+
+	get_all_event_folder_ids(state).forEach(id => {
+		const folder_state = state.folders[id]
+		if (folder_state.type !== Folder.Type.event) return
+
+		const ideal_basename = Folder.get_ideal_basename(folder_state)
+		const year = Folder.get_year(folder_state)
+
+		const ideal_id = path.join(String(year), ideal_basename)
+		if (id === ideal_id) return // nothing to do
+
+		if (state.folders[ideal_id]) {
+			// conflict...
+			throw new Error('TODO dedupe folders')
+		}
+		else {
+			state = enqueue_action(state, create_action_move_folder(id, ideal_id))
+		}
+	})
+
+	return state
+}
+
+function _event_folder_matches(folder_state: Readonly<Folder.State>, compact_date: SimpleYYYYMMDD): boolean {
+	return compact_date >= folder_state.start_date && compact_date <= folder_state.end_date
+}
+
+export function ensure_all_needed_events_folders_are_present_and_move_files_in_them(state: Readonly<State>): Readonly<State> {
+	const actions: Action[] = []
+
+	const all_events_folder_ids = get_all_event_folder_ids(state)
+
+	const all_file_ids = get_all_eligible_file_ids(state)
+	all_file_ids.forEach(id => {
+		const file_state = state.media_files[id]
+		const current_parent_id = MediaFile.get_parent_folder_id(file_state)
+		const compact_date = MediaFile.get_best_compact_date(file_state)
+		if (all_events_folder_ids.includes(current_parent_id) && _event_folder_matches(state.folders[current_parent_id], compact_date))
+			return // all good
+
+		let compatible_event_folder_id = all_events_folder_ids.find(fid => _event_folder_matches(state.folders[fid], compact_date))
+		if (!compatible_event_folder_id) {
+			// need to create a new event folder!
+			// note: we group weekends together
+			compatible_event_folder_id = (() => {
+				const timestamp = MediaFile.get_best_creation_date_ms(file_state)
+				let date = new Date(timestamp)
+
+				if (date.getUTCDay() === 0) {
+					// sunday is coalesced to sat = start of weekend
+					const timestamp_one_day_before = timestamp - (1000 * 3600 * 24)
+					date = new Date(timestamp_one_day_before)
+				}
+
+				const radix = get_human_readable_UTC_timestamp_days(date)
+
+				return path.join(String(MediaFile.get_year(file_state)), radix + ' - ' + (date.getUTCDay() === 6 ? 'weekend' : 'life'))
+			})()
+
+			state = _register_folder(state, compatible_event_folder_id, false)
+			actions.push(create_action_ensure_folder(compatible_event_folder_id))
+			all_events_folder_ids.push(compatible_event_folder_id)
+		}
+
+		// now move the file there
+		const new_file_id = path.join(compatible_event_folder_id, MediaFile.get_ideal_basename(file_state))
+		if (state.media_files[new_file_id]) {
+			// conflict, TODO
+			throw new Error('NIMP file conflict!')
+		}
+		actions.push(create_action_move_file(id, new_file_id))
+	})
+
+	return {
+		...state,
+		queue: [ ...state.queue, ...actions ]
+	}
+}
+
+// TODO move non-event folders to cantsort, or delete them if empty
+
+export function ensure_all_eligible_files_are_correctly_named(state: Readonly<State>): Readonly<State> {
 	const actions: Action[] = []
 
 	const all_file_ids = get_all_eligible_file_ids(state)
@@ -285,7 +453,7 @@ function _ensure_all_eligible_files_are_correctly_named(state: Readonly<State>):
 		const current_basename = MediaFile.get_basename(file_state)
 		const ideal_basename = MediaFile.get_ideal_basename(file_state)
 		if (current_basename !== ideal_basename) {
-			console.error(`TODO rename from "${current_basename}" to "${ideal_basename}"`)
+			actions.push(create_action_move_file(id, path.join(MediaFile.get_parent_folder_id(file_state), ideal_basename)))
 		}
 	})
 
