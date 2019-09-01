@@ -74,6 +74,8 @@ export function is_eligible_media_file(id: RelativePath, parsed: path.ParsedPath
 	return true
 }
 
+// TODO compare function
+
 export function is_equal(state_l: Readonly<State>, state_r: Readonly<State>): boolean {
 	// TODO compare exif size and data
 	throw new Error('NIMP!')
@@ -221,9 +223,12 @@ export function create(id: RelativePath): Readonly<State> {
 	return state
 }
 
+/*
 function _precompute_then_cleanup(state: Readonly<State>): Readonly<State> {
+	// TODO ??
 	return state
 }
+*/
 
 export function on_fs_stats_read(state: Readonly<State>, fs_stats: State['fs_stats']): Readonly<State> {
 	return {
@@ -263,12 +268,13 @@ export function on_moved(state: Readonly<State>, new_id: RelativePath): Readonly
 
 export function to_string(state: Readonly<State>) {
 	const { is_eligible, id, original_id, cached: { parsed: { base, dir }}} = state
+
 	let str = `🏞  "${[dir, (is_eligible ? stylize_string.green : stylize_string.gray.dim)(base)].join(path.sep)}"`
 	if (state.cached.best_creation_date_ms) {
-		str += '  🆕 ' + get_human_readable_UTC_timestamp_seconds(new Date(state.cached.best_creation_date_ms))
+		str += '  📅 ' + get_human_readable_UTC_timestamp_seconds(new Date(state.cached.best_creation_date_ms))
 	}
 	else {
-		// TODO
+		str += '  📅 TODO'
 	}
 
 	if (id !== original_id) {

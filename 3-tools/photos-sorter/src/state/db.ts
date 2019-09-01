@@ -153,6 +153,11 @@ export function get_first_pending_action(state: Readonly<State>): Action {
 	return state.queue[0]
 }
 
+export function get_all_folder_ids(state: Readonly<State>): string[] {
+	return Object.keys(state.folders)
+		.sort()
+}
+
 export function get_all_file_ids(state: Readonly<State>): string[] {
 	return Object.keys(state.media_files)
 		.sort()
@@ -331,6 +336,43 @@ export function on_file_moved(state: Readonly<State>, id: RelativePath, target_i
 	return state
 }
 
+export function merge_folder(state: Readonly<State>, id: RelativePath, target_id: RelativePath): Readonly<State> {
+	logger.info(`merging folders: "${id}" into "${target_id}"`)
+	assert(id !== target_id)
+
+	const folder_state = state.folders[id]
+	const target_folder_state = state.folders[target_id]
+
+	assert(folder_state.type === Folder.Type.event, `NIMP merging folder from non-event!`)
+	assert(target_folder_state.type === Folder.Type.event, `NIMP merging folder into non-event target!`)
+
+	// merge the dates
+	// TODO reducer action ?
+	// TODO can dates be -1 at this point ?? (can they even be -1 at all?)
+	if (target_folder_state.start_date === -1)
+		target_folder_state.start_date = folder_state.start_date
+	if (target_folder_state.end_date === -1)
+		target_folder_state.end_date = folder_state.end_date
+	if (folder_state.start_date !== -1)
+		target_folder_state.start_date = Math.min(target_folder_state.start_date, folder_state.start_date)
+	if (folder_state.end_date !== -1)
+		target_folder_state.end_date = Math.min(target_folder_state.end_date, folder_state.end_date)
+
+	// merge the names
+	if (Folder.get_basename(target_folder_state) !== Folder.get_basename(folder_state)) {
+		throw new Error('TODO merge folders: merge basenames')
+	}
+
+	// move all img files to target (merge as well if needed)
+
+
+	// mark the src folder as no longer event
+
+	// clean it / move it away if needed
+
+		throw new Error('NIMP merging folders')
+}
+
 ////////////////////////////////////
 
 export function ensure_structural_dirs_are_present(state: Readonly<State>): Readonly<State> {
@@ -357,11 +399,14 @@ export function ensure_existing_event_folders_are_organized(state: Readonly<Stat
 		const folder_state = state.folders[id]
 		if (folder_state.type !== Folder.Type.event) return
 
+		// ensure dates look like an event
 		if (folder_state.start_date === Folder.now_simple
 			|| (folder_state.end_date - folder_state.start_date) > 28) {
 			// demote. Not immutable, I know :/
 			folder_state.type = Folder.Type.unknown
 		}
+
+		// TODO ensure the picture's dates spread is coherent with a single event
 	})
 
 	get_all_event_folder_ids(state).forEach(id => {
@@ -376,6 +421,35 @@ export function ensure_existing_event_folders_are_organized(state: Readonly<Stat
 
 		if (state.folders[ideal_id]) {
 			// conflict...
+			// TODO reducer action ?
+			logger.info(`deduping folders: "${id}" vs. "${ideal_id}"`)
+			const target_folder_state = state.folders[ideal_id]
+
+			if (target_folder_state.type !== Folder.Type.event) {
+				// shouldn't be here, move to inbox
+
+			}
+
+			// merge the dates
+			// TODO reducer action ?
+			// TODO can dates be -1 at this point ?? (can they even be -1 at all?)
+			if (target_folder_state.start_date === -1)
+				target_folder_state.start_date = folder_state.start_date
+			if (target_folder_state.end_date === -1)
+				target_folder_state.end_date = folder_state.end_date
+			if (folder_state.start_date !== -1)
+				target_folder_state.start_date = Math.min(target_folder_state.start_date, folder_state.start_date)
+			if (folder_state.end_date !== -1)
+				target_folder_state.end_date = Math.min(target_folder_state.end_date, folder_state.end_date)
+
+			// merge the names
+			if (Folder.get_basename(target_folder_state) !== Folder.get_basename(folder_state)) {
+				throw new Error('TODO dedupe folders: merge basenames')
+			}
+
+			// move all non-event files to inbox
+
+
 			throw new Error('TODO dedupe folders')
 		}
 		else {
@@ -467,13 +541,25 @@ export function ensure_all_eligible_files_are_correctly_named(state: Readonly<St
 export function to_string(state: Readonly<State>) {
 	const { root, media_files, folders } = state
 
-	const all_file_ids = get_all_eligible_file_ids(state)
 	let str = `
-${stylize_string.blue('####### Photo sorter’s DB #######')}
-Root: "${root}"
-${stylize_string.blue('' + all_file_ids.length)} files in ${stylize_string.blue('' + Object.keys(folders).length)} folders:
-${all_file_ids.map(id => MediaFile.to_string(media_files[id])).join('\n')}
+${stylize_string.blue.bold('####### Photo sorter’s DB #######')}
+Root: "${stylize_string.yellow.bold(root)}"
 `
+
+	const all_folder_ids = get_all_folder_ids(state)
+	str += stylize_string.bold(
+		`\n${stylize_string.blue('' + all_folder_ids.length)} folders:\n`
+	)
+	str += all_folder_ids.map(id => Folder.to_string(folders[id])).join('\n')
+
+
+	//const all_file_ids = get_all_eligible_file_ids(state)
+	const all_file_ids = get_all_file_ids(state)
+	str += stylize_string.bold(
+		`\n\n${stylize_string.blue(String(all_file_ids.length))} files in ${stylize_string.blue(String(all_folder_ids.length))} folders:\n`
+	)
+	str += all_file_ids.map(id => MediaFile.to_string(media_files[id])).join('\n')
+
 	return str
 }
 

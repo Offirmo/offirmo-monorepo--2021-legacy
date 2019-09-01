@@ -71,11 +71,15 @@ function _infer_start_date(base: Basename, now = now_simple): SimpleYYYYMMDD {
 	return now_simple
 }
 
-export function get_ideal_basename(state: Readonly<State>): Basename {
-	if (is_compact_date(state.cached.base.slice(0, 8)))
-		return state.cached.base // no need to change
+export function get_basename(state: Readonly<State>): Basename {
+	return state.cached.base
+}
 
-	return String(get_compact_date(state)) + ' - ' + state.cached.base
+export function get_ideal_basename(state: Readonly<State>): Basename {
+	if (is_compact_date(get_basename(state).slice(0, 8)))
+		return get_basename(state) // no need to change
+
+	return String(get_compact_date(state)) + ' - ' + get_basename(state)
 }
 
 export function get_compact_date(state: Readonly<State>) {
@@ -140,4 +144,35 @@ export function on_moved(state: Readonly<State>, new_id: RelativePath): Readonly
 			base: path.basename(new_id),
 		}
 	}
+}
+
+////////////////////////////////////
+
+export function to_string(state: Readonly<State>) {
+	const { id, type, start_date, end_date } = state
+
+	let str = `📓  [${String(type).padStart(8)}]`
+	switch(type) {
+		case Type.inbox:
+		case Type.cantsort:
+			str = stylize_string.blue(str)
+			break
+		case Type.year:
+			str = stylize_string.yellow(str)
+			break
+		case Type.event:
+			str = stylize_string.green(str)
+			break
+		default:
+			str = stylize_string.red(str)
+			break
+	}
+
+	str += stylize_string.yellow.bold(` "${id}"`)
+
+	if (start_date !== -1 || end_date !== -1) {
+		str += ` ${start_date} → ${end_date}`
+	}
+
+	return str
 }
