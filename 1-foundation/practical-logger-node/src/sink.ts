@@ -85,13 +85,14 @@ export const sink: LogSink = (payload: LogPayload): void => {
 	let is_prettified_details_multiline = prettified_details.includes('\n')
 
 	let line = ''
-		+ chalk.dim(String(time))
-		+ ' '
+		// TODO evaluate if time display is needed
+		//+ chalk.dim(String(time))
+		//+ ' '
 		+ LEVEL_TO_ASCII[level]
 		+ '› '
 		+ LEVEL_TO_STYLIZE[level](''
 			+ name
-			+ '›'
+			+ (name ? '›' : '')
 			+ (msg ? ' ' : '')
 			+ msg
 		)
