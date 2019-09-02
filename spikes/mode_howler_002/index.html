@@ -1,11 +1,11 @@
 <p>Hello, world!</p>
 <script src="../../node_modules/howler/dist/howler.js"></script>
 <script>
-	var sound = new Howl({
+	const buy_or_sell = new Howl({
 		src: ['sell-buy_item.wav']
 	});
 
-	sound.once('unlock', function() {
-		sound.play();
+	buy_or_sell.once('unlock', function() {
+		buy_or_sell.play();
 	});
 </script>
