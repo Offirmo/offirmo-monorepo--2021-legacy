@@ -60,6 +60,7 @@
 		"@types/chai": "^4",
 		"@types/chai-as-promised": "^7",
 		"@types/deep-freeze-strict": "^1",
+		"@types/howler": "^2",
 		"@types/json-stable-stringify": "^1",
 		"@types/lodash": "^4",
 		"@types/memoize-one": "^4",

@@ -1,0 +1,38 @@
+{
+	"name": "@oh-my-rpg/rsrc-audio",
+	"description": "RPG audio rsrcs with attribution",
+	"version": "0.0.1",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+
+	"esnext": "dist/src.es2019/index.js",
+	"module": "dist/src.es2019/index.js",
+	"main": "dist/src.es2018.cjs/index.js",
+	"typings": "dist/src.es2018.cjs/index.d.ts",
+	"source": "src/index.ts",
+	"sideEffects": false,
+
+	"peerDependencies": {
+		"tslib": "^1"
+	},
+	"dependencies": {
+		"tiny-invariant": "^1",
+		"typescript-string-enums": "^1"
+	},
+
+	"scripts": {
+		"clean": "node ../../scripts/clean.js dist",
+
+		"dev": "run-s clean build:dev:watch",
+		"test": "../../node_modules/.bin/mocha --opts ../../3-tools/unit-test-toolbox/mocha.opts ../../3-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2018.cjs/**/*spec.js'",
+
+		"build:dev:watch": "node ../../scripts/build-typescript.js --watch",
+		"build:prod": "node ../../scripts/build-typescript.js",
+
+		"build": "run-s build:prod"
+	},
+	"devDependencies": {
+		"npm-run-all": "^4"
+	}
+}
