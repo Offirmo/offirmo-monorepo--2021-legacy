@@ -27,7 +27,7 @@ const AUTHORS: Readonly<Author>[] = [
 	},
 	{
 		display_name: 'Jorge Miguel Jacinto',
-		url:          'http://www.jorgejacinto.com/',
+		url: 'http://www.jorgejacinto.com/',
 	},
 	{
 		display_name: 'Julius Camenzind',

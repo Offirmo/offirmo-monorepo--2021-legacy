@@ -80,7 +80,7 @@ function build_legacy() {
 		},
 		null,
 		{
-			banner: `node-typescript-compiler compiling ${PKG_NAME} to ./${out_dir}...`
+			banner: `(from build-typescript.js) node-typescript-compiler compiling ${PKG_NAME} to dist/${out_dir}...`
 		},
 	)
 }
@@ -99,7 +99,7 @@ function build_convenience_prebuilt() {
 		},
 		null,
 		{
-			banner: `node-typescript-compiler compiling ${PKG_NAME} to ./${out_dir}...`
+			banner: `(from build-typescript.js) node-typescript-compiler compiling ${PKG_NAME} to dist/${out_dir}...`
 		},
 	)
 }
@@ -115,7 +115,7 @@ function build_latest_es() {
 		},
 		null,
 		{
-			banner: `node-typescript-compiler compiling ${PKG_NAME} to ./${out_dir}...`
+			banner: `(from build-typescript.js) node-typescript-compiler compiling ${PKG_NAME} to dist/${out_dir}...`
 		},
 	)
 }

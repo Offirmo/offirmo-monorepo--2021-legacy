@@ -13,7 +13,7 @@ if (KNOWN_ACTIONS !== Enum.keys(ActionType).length)
 
 function reduce_action(state: Readonly<State>, action: Readonly<Action>): Readonly<State> {
 	if (!are_ustate_revision_requirements_met(state, action.expected_revisions)) {
-		throw new Error('Trying to execute an outdated action!')
+		throw new Error(`Failed to execute an action "${action.type}": outdated!`)
 	}
 
 	switch (action.type) {
