@@ -3,3 +3,5 @@
 * mortal martial arts -> useless for normal cultivators bc takes too much time, but becomes useful if no need to relearn on subs incarnations
 
 
+https://www.wuxiaworld.com/page/chinese-idiom-glossary
+

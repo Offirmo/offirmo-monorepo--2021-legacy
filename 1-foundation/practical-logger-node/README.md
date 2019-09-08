@@ -54,3 +54,5 @@ fooLogger.log('hello from fooLogger!', { bar: 42, baz: 33 })
 ```
 
 TODO explanation
+
+TODO https://www.stefanjudis.com/today-i-learned/node-js-has-a-built-in-debug-method/
