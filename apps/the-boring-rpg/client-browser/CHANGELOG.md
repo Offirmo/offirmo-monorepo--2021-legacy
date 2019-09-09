@@ -8,6 +8,12 @@
 - 😅 fix: tweaks, typos, small bugs…
 - 😷 chore: some internal refactors, bump dependencies
 
+
+## v0.60.5
+- 🤩 feature: A sound effect! (when selling stuff) I did it for fun, sound is not a priority
+- 😷 chore: tweaked an error to better interpret it in the reports
+- 😷 chore: some internal refactors, bump dependencies
+
 ## v0.60.4
 - 🤩 feature: better start experience: better refill rate easing, better starting adventures
 - 😷 chore: some internal refactors, bump dependencies

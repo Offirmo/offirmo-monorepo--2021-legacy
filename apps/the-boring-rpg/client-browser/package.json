@@ -21,6 +21,7 @@
 		"@offirmo-private/tiny-singleton": "^0",
 		"@offirmo-private/universal-debug-api-full-browser": "^0",
 		"@offirmo-private/view-chat": "^0",
+		"@oh-my-rpg/audio-browser": "^0",
 		"@oh-my-rpg/definitions": "^0",
 		"@oh-my-rpg/rsrc-backgrounds": "^0",
 		"@oh-my-rpg/view-browser-react": "^0",

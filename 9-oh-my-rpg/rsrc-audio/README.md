@@ -1,6 +1,8 @@
 
 
 ## Introduction
+Using mp3 because of https://caniuse.com/#search=mp3
+
 
 * [soundscapes](https://en.wikipedia.org/wiki/Soundscape)
 * [noise print / roomtone](http://soundfellas.com/game-audio/the-one-sound-all-games-need-and-how-to-use-it/)
