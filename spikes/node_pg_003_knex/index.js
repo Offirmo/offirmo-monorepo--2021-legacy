@@ -6,13 +6,14 @@
 // knex migrate:rollback --all
 
 
-//
 const db = require('./db')()
+//console.log(db)
 
-const test = db.schema.createTable('test', function (table) {
-	table.increments();
-	table.string('name');
-	table.timestamps();
-})
+db.select().from('users')
+	.map(function () {
+		console.log('result:', Array.from(arguments))
+	})
+	.catch(console.error)
+	.finally(() => db.destroy())
 
-console.log(test)
+
