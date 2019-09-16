@@ -80,7 +80,21 @@
 	netlifyIdentity.on('open', () => console.log('Netlify widget opened'))
 	netlifyIdentity.on('close', () => console.log('Netlify widget closed'))
 
-	// Open the modal
+	const user = netlifyIdentity.currentUser()
+
+	if (!user) {
+		console.log('Netlify: no user')
+	}
+	else {
+		// refresh token, https://github.com/netlify/netlify-identity-widget/issues/108
+		console.log('Netlify: refreshing token...')
+		user.jwt()
+			.then(() => {
+				console.info('Netlify: user refreshed', user)
+			})
+   }
+
+   // Open the modal
 	//netlifyIdentity.open();
 
 	// Get the current user:
