@@ -73,12 +73,12 @@
 <script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script>
 	// Bind to events
-	netlifyIdentity.on('init', user => console.log(user))
-	netlifyIdentity.on('login', user => console.log(user))
-	netlifyIdentity.on('logout', () => console.log('Logged out'))
-	netlifyIdentity.on('error', err => console.error('Logged out', err))
-	netlifyIdentity.on('open', () => console.log('Widget opened'))
-	netlifyIdentity.on('close', () => console.log('Widget closed'))
+	netlifyIdentity.on('init', user => console.log('Netlify init:', user))
+	netlifyIdentity.on('login', user => console.log('Netlify login:', user))
+	netlifyIdentity.on('logout', () => console.log('Netlify logged out'))
+	netlifyIdentity.on('error', err => console.error('Netlify error', err))
+	netlifyIdentity.on('open', () => console.log('Netlify widget opened'))
+	netlifyIdentity.on('close', () => console.log('Netlify widget closed'))
 
 	// Open the modal
 	//netlifyIdentity.open();
@@ -104,7 +104,7 @@
 			'Content-Type': 'application/json',
 			'Authorization': `Bearer ${user.token.access_token}`,
 		}
-		console.log('fetching', {url, headers})
+		console.log('fetching…', {url, headers})
 
 		fetch(url, {headers})
 			.then(response => {

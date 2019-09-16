@@ -61,19 +61,20 @@ function create_game_instance<T extends AppState>({SEC, local_storage, storage, 
 			if (recovered_state) {
 				const state = TBRPGState.migrate_to_latest(SEC, recovered_state)
 				logger.trace(`[${LIB}] automigrated state.`)
+
 				return state
 			}
 
 			const state = TBRPGState.reseed(TBRPGState.create(SEC))
-			if (!overrideHook('should_start_with_cloud_sync', false)) {
-				// opt out
-				// TODO alpha remove this!
-				// TODO reducer
-				state.u_state.meta.persistence_id = null
-			}
 			logger.verbose(`[${LIB}] Clean savegame created from scratch.`)
 			return state
 		})
+		if (initial_state.u_state.meta.persistence_id !== null && !overrideHook('allow_cloud_sync', false)) {
+			// opt out
+			// TODO alpha remove this!
+			// TODO reducer
+			initial_state.u_state.meta.persistence_id = null
+		}
 		logger.silly(`[${LIB}] initial state:`, {state: initial_state})
 
 		// update after auto-migrating/creating
