@@ -22,13 +22,15 @@ const cli = meow('build', {
 
 /////////////////////
 
-// 2019/07/27
+// Last updated 2019/09/16
+// https://en.wikipedia.org/wiki/ECMAScript#Versions
 const LATEST_ES = 'ES2019'
 const LATEST_ES_MODULES = 'ES2015'
+// https://nodejs.org/en/about/releases/
+// https://node.green/
 const LATEST_NODE_LTS_ES = 'ES2018'
 
-
-
+/////////////////////
 
 const PKG_PATH = process.cwd()
 const DIST_DIR = path.join(PKG_PATH, 'dist')

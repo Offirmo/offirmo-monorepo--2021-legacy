@@ -42,6 +42,14 @@ https://en.wikipedia.org/wiki/Martello_tower
 ### folklore
 * 
 
+### Histoires
+Fall of Roman Empire
+* https://en.wikipedia.org/wiki/Gothic_War_(535%E2%80%93554)
+* https://en.wikipedia.org/wiki/Migration_Period
+* https://en.wikipedia.org/wiki/Crisis_of_the_Third_Century
+
+https://www.1843magazine.com/design/rewind/when-potatoes-were-the-height-of-fashion
+
 
 ## Faune & Flore
 
@@ -107,6 +115,8 @@ https://en.wikipedia.org/wiki/Atropa_belladonna
 
 ## meta
 https://goblinscomic.com/dungeon-master-tips
+
+* https://en.wikipedia.org/wiki/Fiction-writing_mode
 
 ## tosort
     Men wanted for hazardous journey. Small wages, bitter cold, long months of complete darkness, constant danger, safe return doubtful. Honour and recognition in case of success.[5][6] 

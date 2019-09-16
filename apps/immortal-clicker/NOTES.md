@@ -5,3 +5,4 @@
 
 https://www.wuxiaworld.com/page/chinese-idiom-glossary
 
+https://immortalmountain.wordpress.com/glossary/wuxia-xianxia-xuanhuan-terms/

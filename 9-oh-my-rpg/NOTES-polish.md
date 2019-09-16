@@ -3,6 +3,12 @@ https://github.com/xobotyi/react-scrollbars-custom
 
 logo animé https://svgartista.net/
 
+3D et transitions three.js https://ykob.github.io/sketch-threejs/
+3D camera https://woodneck.github.io/css-camera/release/latest/docs/index.html
+
+lumière https://jaredforsyth.com/veoluz/gallery/
+
+procedural mountains https://codepen.io/kylewetton/pen/oNvEXYM
 
 Icons:
 - https://thenounproject.com/monjin.friends/collection/fantasy-kit/
@@ -30,3 +36,5 @@ Charts
 Effects
 - https://tympanus.net/codrops/2019/08/20/react-slider-with-parallax-hover-effects/
 - https://www.smashingmagazine.com/2019/08/faster-image-loading-embedded-previews/
+
+text to speech https://www.verby.co/
