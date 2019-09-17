@@ -1,6 +1,10 @@
 # CHANGELOG
 **This package follows [semver](https://semver.org/).**
 
+## v0.0.2
+2019/09/17
+* remove optionalDependencies to private package (it doesn't work)
+
 ## v0.0.1
 2019/09/17
 * initial release to npm

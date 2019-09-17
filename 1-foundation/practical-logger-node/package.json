@@ -1,10 +1,9 @@
 {
 	"name": "@offirmo/practical-logger-node",
 	"description": "node-specific practical logger",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
-	"private": true,
 
 	"esnext": "dist/src.es2019/index.js",
 	"module": "dist/src.es2019/index.js",
@@ -22,7 +21,7 @@
 		"chalk": "^2",
 		"indent-string": "^4"
 	},
-	"optionalDependencies": {
+	"xxxoptionalDependencies": {
 		"@offirmo-private/prettify-json": "^0",
 		"@offirmo-private/print-error-to-ansi": "^0"
 	},
