@@ -9,7 +9,7 @@
 	"dependencies": {
 		"@offirmo-private/common-error-fields": "^0",
 		"@offirmo-private/json-rpc-types": "^0",
-		"@offirmo-private/practical-logger-node": "^0",
+		"@offirmo/practical-logger-node": "^0",
 		"@offirmo-private/timestamps": "^0",
 		"@offirmo-private/uuid": "^0",
 		"@tbrpg/flux": "^0",

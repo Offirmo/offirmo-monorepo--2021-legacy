@@ -1,7 +1,17 @@
 import { Logger, LoggerCreationParams } from '@offirmo/practical-logger-interface'
 import { createLogger as createLoggerCore } from '@offirmo/practical-logger-core'
 
-import { sink } from './sink'
+const sink = (() => {
+	try {
+		// this version is for the author's own usage
+		// as it uses unpublished modules.
+		return require('./sinks/private').default
+	}
+	catch {
+		return require('./sinks/public').default
+	}
+})()
+
 
 const ORIGINAL_CONSOLE = console
 

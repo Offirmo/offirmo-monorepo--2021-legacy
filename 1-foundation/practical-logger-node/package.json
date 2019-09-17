@@ -1,5 +1,5 @@
 {
-	"name": "@offirmo-private/practical-logger-node",
+	"name": "@offirmo/practical-logger-node",
 	"description": "node-specific practical logger",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
@@ -13,43 +13,39 @@
 	"source": "src/index.ts",
 	"sideEffects": false,
 
-	"size-limit": [
-		{
-			"limit": "1.5kb",
-			"path": "dist/src.es2018.cjs/index.js"
-		}
-	],
-
 	"peerDependencies": {
+		"tslib": "^1"
 	},
 	"dependencies": {
 		"@offirmo/practical-logger-core": "^1.1.1",
 		"@offirmo/practical-logger-interface": "^1.1.1",
-		"@offirmo-private/prettify-json": "^0",
-		"@offirmo-private/print-error-to-ansi": "^0",
 		"chalk": "^2",
-		"indent-string": "^4",
-		"tslib": "^1"
+		"indent-string": "^4"
+	},
+	"optionalDependencies": {
+		"@offirmo-private/prettify-json": "^0",
+		"@offirmo-private/print-error-to-ansi": "^0"
 	},
 
 	"devDependencies": {
 		"@types/node": "^12",
-		"npm-run-all": "^4",
-		"size-limit": "^1"
+		"np": "^5",
+		"npm-run-all": "^4"
 	},
 	"scripts": {
 		"clean": "node ../../scripts/clean.js dist",
 
+		"test": "../../node_modules/.bin/mocha --opts ../../3-tools/unit-test-toolbox/mocha.opts ../../3-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2018.cjs/**/*spec.js'",
 		"build:dev:watch": "node ../../scripts/build-typescript.js --watch",
 		"build:prod": "node ../../scripts/build-typescript.js",
-		"ensure-size": "size-limit",
 
 		"dev": "run-s clean build:dev:watch",
 		"build": "run-s build:prod",
 		"cheatsheet": "node doc/cheatsheet.js",
 		"demo": "node doc/demo.js",
 
-		"prepublishOnly": "run-s clean build:prod ensure-size"
+		"np": "np --no-publish",
+		"prepublishOnly": "run-s clean build:prod"
 	},
 
 	"files": [

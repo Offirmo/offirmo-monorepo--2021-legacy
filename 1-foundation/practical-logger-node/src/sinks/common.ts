@@ -1,21 +1,11 @@
 import chalk from 'chalk'
-import indent_string from 'indent-string'
 import {
-	ALL_LOG_LEVELS,
 	LOG_LEVEL_TO_HUMAN,
 } from '@offirmo/practical-logger-core'
 
-import {
-	LogPayload,
-	LogSink,
-} from '@offirmo/practical-logger-interface'
-
-import { displayError } from '@offirmo-private/print-error-to-ansi'
-import prettifyJson from '@offirmo-private/prettify-json'
-
 
 const MIN_WIDTH = 7
-export function to_aligned_ascii(level: string): string {
+function to_aligned_ascii(level: string): string {
 	let lvl = level.toUpperCase()
 	/*while (lvl.length <= MIN_WIDTH - 2) {
 		lvl = ' ' + lvl + ' '
@@ -47,10 +37,7 @@ export const LEVEL_TO_ASCII: Readonly<{ [k: string]: string }> = {
 	trace:   chalk.dim(to_aligned_ascii(LOG_LEVEL_TO_HUMAN['trace'])),
 	silly:   chalk.dim(to_aligned_ascii(LOG_LEVEL_TO_HUMAN['silly'])),
 }
-if (Object.keys(LEVEL_TO_ASCII).sort().join(',') !== [...ALL_LOG_LEVELS].sort().join(',')) {
-	// TODO move to unit tests
-	throw new Error('practical-logger-node: needs an update!')
-}
+
 
 export const LEVEL_TO_STYLIZE: Readonly<{ [k: string]: (s: string) => string }> = {
 	fatal:   s => chalk.red.bold(s),
@@ -72,38 +59,4 @@ export const LEVEL_TO_STYLIZE: Readonly<{ [k: string]: (s: string) => string }> 
 
 	trace:   s => chalk.dim(s),
 	silly:   s => chalk.dim(s),
-}
-if (Object.keys(LEVEL_TO_STYLIZE).sort().join(',') !== [...ALL_LOG_LEVELS].sort().join(',')) {
-	// TODO move to unit tests
-	throw new Error('practical-logger-node: needs an update!')
-}
-
-export const sink: LogSink = (payload: LogPayload): void => {
-	const { level, name, msg, time, details, err } = payload
-
-	let prettified_details = prettifyJson(details)
-	let is_prettified_details_multiline = prettified_details.includes('\n')
-
-	let line = ''
-		// TODO evaluate if time display is needed
-		//+ chalk.dim(String(time))
-		//+ ' '
-		+ LEVEL_TO_ASCII[level]
-		+ '› '
-		+ LEVEL_TO_STYLIZE[level](''
-			+ name
-			+ (name ? '›' : '')
-			+ (msg ? ' ' : '')
-			+ msg
-		)
-		+ (
-			prettified_details
-				? is_prettified_details_multiline
-					? ' {\n' + indent_string(prettifyJson(details), 2) + '\n}'
-					: ' { ' + prettified_details + ' }'
-				: ''
-		)
-	console.log(line) // eslint-disable-line no-console
-	if (err)
-		displayError(err)
 }

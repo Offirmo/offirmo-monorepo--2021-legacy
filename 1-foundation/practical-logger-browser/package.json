@@ -45,6 +45,7 @@
 		"np": "np --no-publish",
 		"prepublishOnly": "run-s clean build:prod test ensure-size"
 	},
+
 	"files": [
 		"dist",
 		"src"
