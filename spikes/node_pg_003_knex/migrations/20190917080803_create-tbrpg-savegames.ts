@@ -1,32 +1,18 @@
 import * as Knex from "knex"
 
-export const NAME = 'users__netlify'
+export const NAME = 'savegames__tbrpg'
 
 export async function up(knex: Knex): Promise<any> {
 	return knex.schema.createTable(NAME, table => {
 		table.timestamps(true, true)
 
-		table
-			.string('own_id')
-			.notNullable()
-			.unique()
-			.index()
-
-		table
-			.integer('user_id')
+		table.integer('user_id')
 			.unsigned()
 			.notNullable()
 			.references('id').inTable('users').onDelete('CASCADE')
 			.index()
 
-		table
-			.string('email')
-
-		table
-			.string('avatar_url')
-
-		table
-			.specificType('roles', 'text[]')
+		table.jsonb('savegame')
 			.notNullable()
 	})
 }
