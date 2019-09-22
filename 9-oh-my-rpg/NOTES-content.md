@@ -50,6 +50,9 @@ Fall of Roman Empire
 
 https://www.1843magazine.com/design/rewind/when-potatoes-were-the-height-of-fashion
 
+### technologie
+https://worldbuilding.stackexchange.com/questions/156036/in-what-sequence-should-an-advanced-civilization-teach-technology-to-medieval-so
+
 
 ## Faune & Flore
 
