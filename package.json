@@ -30,6 +30,7 @@
 			"3-tools/*",
 			"4-incubator/*",
 			"9-oh-my-rpg/*",
+			"apps/shared/*",
 			"apps/the-boring-rpg/*"
 		]
 	},
@@ -118,7 +119,7 @@
 		"is-promise": "^2",
 		"json-stable-stringify": "^1",
 		"jsondiffpatch": "^0.3",
-		"knex": "^0.19.4",
+		"knex": "^0.19",
 		"linewrap": "^0.2",
 		"load-json-file": "^6",
 		"localstorage-ponyfill": "^1",
@@ -139,7 +140,7 @@
 		"p-progress": "^0.4",
 		"parcel-bundler": "^1",
 		"path-exists": "^4",
-		"pg": "^7.12.1",
+		"pg": "^7",
 		"piecon": "^0.5",
 		"prettier": "^1",
 		"prettyjson": "^1",

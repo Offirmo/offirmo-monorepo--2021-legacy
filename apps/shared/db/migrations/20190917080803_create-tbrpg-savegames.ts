@@ -1,15 +1,11 @@
-import * as Knex from "knex"
+import * as Knex from 'knex'
 
-export const NAME = 'users--netlify'
+export const NAME = 'savegames__tbrpg'
 
 export async function up(knex: Knex): Promise<any> {
 	return knex.schema.createTable(NAME, table => {
-		table.timestamps(true, true)
 
-		table.string('netlify_id')
-			.notNullable()
-			.unique()
-			.index()
+		table.timestamps(true, true)
 
 		table.integer('user_id')
 			.unsigned()
@@ -17,11 +13,7 @@ export async function up(knex: Knex): Promise<any> {
 			.references('id').inTable('users').onDelete('CASCADE')
 			.index()
 
-		table.string('email')
-
-		table.string('avatar_url')
-
-		table.specificType('roles', 'text[]')
+		table.jsonb('savegame')
 			.notNullable()
 	})
 }

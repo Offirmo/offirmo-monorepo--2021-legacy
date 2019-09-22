@@ -1,19 +1,26 @@
-import * as Knex from "knex"
+import * as Knex from 'knex'
 
-export const NAME = 'users'
-
-// postgres array:
-// https://stackoverflow.com/questions/50118196/how-to-insert-array-data-type-using-knex-and-potsgres
+export const NAME = 'users__netlify'
 
 export async function up(knex: Knex): Promise<any> {
 	return knex.schema.createTable(NAME, table => {
-		table.increments('id').primary()
-
 		table.timestamps(true, true)
 
-		table.string('called')
+		table
+			.string('own_id')
+			.notNullable()
+			.unique()
+			.index()
 
-		table.string('email')
+		table
+			.integer('user_id')
+			.unsigned()
+			.notNullable()
+			.references('id').inTable('users').onDelete('CASCADE')
+			.index()
+
+		table
+			.string('email')
 
 		table
 			.string('avatar_url')

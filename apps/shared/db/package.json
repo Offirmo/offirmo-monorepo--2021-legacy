@@ -1,0 +1,23 @@
+{
+	"name": "@offirmo-private/db",
+	"description": "Database declarations",
+	"version": "0.0.1",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+
+	"dependencies": {
+		"tiny-invariant": "^1",
+		"tslib": "^1"
+	},
+
+	"scripts": {
+		"migrate:up": "knex migrate:latest",
+		"migrate:reset": "knex migrate:rollback --all; knex migrate:latest",
+		"migrate:new": "knex migrate:make TODO -x ts"
+	},
+	"devDependencies": {
+		"knex": "^0.19",
+		"typescript": "*"
+	}
+}
