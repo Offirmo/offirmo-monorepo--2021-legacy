@@ -1,4 +1,10 @@
 
+offline
+* https://blog.logrocket.com/every-website-deserves-a-service-worker/
+* https://remysharp.com/2019/09/05/offline-listings
+
+Beaux contours https://medium.com/better-programming/augmented-ui-cyberpunk-inspired-web-ui-made-easy-d463c0371144
+
 https://github.com/xobotyi/react-scrollbars-custom
 
 logo animé https://svgartista.net/
