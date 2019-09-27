@@ -8,7 +8,7 @@ import { MSG_ENTRY, LS_KEY_ENABLED } from '../common/consts/content--start'
 import {
 	create_msg_report_is_lib_injected,
 	MSG_TYPE__UPDATE_LS_STATE,
-} from '../common/messages' // TODO smaller?
+} from '../common/messages' // TODO smaller import
 import { MSG_TYPE__REPORT_DEBUG_API_USAGE } from '../common/messages/report-usage'
 
 import lib1 from './lib-to-inject-1'

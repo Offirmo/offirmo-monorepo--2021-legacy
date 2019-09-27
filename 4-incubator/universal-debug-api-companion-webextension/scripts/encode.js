@@ -33,6 +33,8 @@ fs.writeFileSync(lib1_target_path, `
 // THIS FILE IS AUTO GENERATED!
 // This is a base64 version of the Universal Web Debug API:
 // https://github.com/Offirmo/offirmo-monorepo/tree/master/2-advanced/universal-debug-api-full-browser
+// bundled in a single file through this local file:
+// ../src/injected-libs/universal-debug-api-from-webext.ts
 const lib = '${lib1_encoded}'
 export default lib
 `);
@@ -47,12 +49,13 @@ console.log('* lib2 content length =', lib2_content.length)
 
 const lib2_encoded = btoa(lib2_content)
 console.log('* encoded lib2 content length =', lib2_encoded.length)
-console.assert(lib2_encoded.length < 25 * 1000, 'lib1 is too big and won’t get injected!')
+console.assert(lib2_encoded.length < 25 * 1000, 'lib2 is too big and won’t get injected!')
 
 fs.writeFileSync(lib2_target_path, `
 // THIS FILE IS AUTO GENERATED!
 // This is a base64 version of a content script to communicate with UWDT webextension
-// https://github.com/Offirmo/offirmo-monorepo/tree/master/2-advanced/universal-debug-api-full-browser
+// bundled in a single file through this local file:
+// ../src/injected-libs/universal-debug-api-control.ts
 const lib = '${lib2_encoded}'
 export default lib
 `);

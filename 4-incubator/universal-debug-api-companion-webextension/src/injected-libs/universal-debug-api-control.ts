@@ -4,11 +4,15 @@ import { LoggerCreationParams } from '@offirmo/universal-debug-api-interface'
 import { DEFAULT_LOG_LEVEL, DEFAULT_LOGGER_KEY } from '@offirmo/practical-logger-core/src/consts-base'
 import { getOverrideKeyForLogger, getLSKeyForOverride } from '@offirmo-private/universal-debug-api-full-browser/src/v1/keys'
 
-import { Report, create_msg_report_debug_api_usage } from '../common/messages/report-usage'
+import {Report, create_msg_report_debug_api_usage, OverrideReport} from '../common/messages/report-usage'
 
 ////////////////////////////////////
 
-const DEBUG = false
+let DEBUG = false
+try { // defensive!
+	DEBUG = DEBUG || !!window.localStorage.getItem(`🧩UWDTi.context.debug`);
+} catch { /* swallow */ }
+
 const original_v1 = (window as any)._debug.v1
 
 const overrides: { [k: string]: string | null } = {}
@@ -19,7 +23,7 @@ const queue: Report[] = []
 // - avoid hogging the current execution chunk, which may be the initial load
 let sync_in_flight = false
 function schedule_sync() {
-	if (DEBUG) console.log(`UWDTi: schedule_sync`, {
+	if (DEBUG) console.log(`🧩UWDTi: schedule_sync`, {
 		last_queued: queue.slice(-1)[0],
 		queue_size: queue.length,
 		in_flight: sync_in_flight,
@@ -30,10 +34,16 @@ function schedule_sync() {
 
 	sync_in_flight = true
 	setTimeout(() => {
-		window.postMessage(
-			create_msg_report_debug_api_usage(queue),
-			'*',
-		)
+		if (DEBUG) console.log(`🧩UWDTi: posting create_msg_report_debug_api_usage...`)
+		try {
+			window.postMessage(
+				create_msg_report_debug_api_usage(queue),
+				'*',
+			)
+		}
+		catch (err) {
+			if (DEBUG) console.error(`🧩UWDTi: error when syncing!`, err)
+		}
 		queue.length = 0
 		sync_in_flight = false
 	})
@@ -57,13 +67,14 @@ function _getOverrideRequestedSJson(ovKey: string): null | string {
 
 function overrideHook<T>(key: string, default_value: T): T {
 	if (!overrides.hasOwnProperty(key)) {
+		if (DEBUG) console.log('🧩UWDTi: overrideHook()', {key, default_value, sjson: JSON.stringify(default_value)})
 		let existing_override_sjson = _getOverrideRequestedSJson(key)
 		queue.push({
 			type: 'override',
 			key,
 			default_value_sjson: JSON.stringify(default_value),
 			existing_override_sjson,
-		})
+		} as OverrideReport)
 		schedule_sync()
 		overrides[key] = existing_override_sjson
 	}
@@ -73,10 +84,12 @@ function overrideHook<T>(key: string, default_value: T): T {
 
 function getLogger(p: Readonly<LoggerCreationParams> = {}) {
 	const name = p.name || DEFAULT_LOGGER_KEY
-	if (DEBUG) console.log('UWDTi: getLogger()', {name}) // TODO clean the logs
 
 	const ovKey = getOverrideKeyForLogger(name)
 	const ovDefaultLevel = p.suggestedLevel || DEFAULT_LOG_LEVEL
+
+	if (DEBUG) console.log('🧩UWDTi: getLogger()', {params: p, name, ovDefaultLevel, DEFAULT_LOG_LEVEL}) // TODO clean the logs
+
 	// systematically call overrideHook on creation to declare the override!
 	const ovForcedLevel = overrideHook<LogLevel>(
 		ovKey,
@@ -93,13 +106,13 @@ function getLogger(p: Readonly<LoggerCreationParams> = {}) {
 }
 
 function exposeInternal(path: string, value: any): void {
-	if (DEBUG) console.log('UWDTi: exposeInternal()', {path})
+	if (DEBUG) console.log('🧩UWDTi: exposeInternal()', {path})
 	// TODO report
 	return original_v1.exposeInternal(path, value)
 }
 
 function addDebugCommand(commandName: string, callback: () => void) {
-	if (DEBUG) console.log('UWDTi: addDebugCommand()', {commandName})
+	if (DEBUG) console.log('🧩UWDTi: addDebugCommand()', {commandName})
 	// TODO report
 	return original_v1.addDebugCommand(commandName, callback)
 }
@@ -114,5 +127,5 @@ function addDebugCommand(commandName: string, callback: () => void) {
 	addDebugCommand,
 }
 
-//console.log('UWDTi: Wrapped ✅')
+if (DEBUG) console.log('🧩UWDTi: all set up ✅')
 ////////////////////////////////////
