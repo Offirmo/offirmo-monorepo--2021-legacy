@@ -19,7 +19,7 @@ import create_in_memory_store from './stores/in-memory'
 import create_cloud_store from './stores/cloud-offline-first'
 import { get_commands } from './commands'
 import { get_queries } from './queries'
-import {LIB} from './consts'
+import { LIB } from './consts'
 
 // tslint:disable-next-line: variable-name
 const Event = Enum(
@@ -48,7 +48,10 @@ function create_game_instance<T extends AppState>({SEC, local_storage, storage, 
 
 		app_state = app_state || ({} as any as T)
 
-		const emitter = new EventEmitter()
+		const emitter = new EventEmitter.Typed<{
+			[Event.model_change]: string,
+			[Event.view_change]: string,
+		}>()
 
 		// this special store will auto un-persist a potentially existing savegame
 		// but may end up empty if none existing so far

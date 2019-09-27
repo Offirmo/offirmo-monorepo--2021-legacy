@@ -52,8 +52,8 @@
 		"prepublishOnly": "run-s clean build:prod ensure-size"
 	},
 	"devDependencies": {
-		"npm-run-all": "^4",
-		"size-limit": "^1"
+		"@size-limit/preset-small-lib": "^2",
+		"npm-run-all": "^4"
 	},
 
 	"files": [

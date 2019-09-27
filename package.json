@@ -35,7 +35,7 @@
 		]
 	},
 	"dependencies": {
-		"bolt": "^0.23"
+		"bolt": "^0.24"
 	},
 	"devDependencies": {
 		"@atlaskit/form": "^6",
@@ -57,6 +57,7 @@
 		"@babel/runtime": "^7",
 		"@offirmo/cli-toolbox": "^1",
 		"@offirmo/random": "^2",
+		"@size-limit/preset-small-lib": "^2",
 		"@types/aws-lambda": "^8",
 		"@types/chai": "^4",
 		"@types/chai-as-promised": "^7",
@@ -88,10 +89,9 @@
 		"classnames": "^2",
 		"clean-css-cli": "^4",
 		"cpx": "^1",
-		"cross-env": "^5",
 		"deep-freeze-strict": "^1",
 		"deepmerge": "^4",
-		"emittery": "^0.4",
+		"emittery": "^0.5",
 		"eslint": "^6",
 		"eslint-config-prettier": "^6",
 		"eslint-import-resolver-typescript": "^1",
@@ -165,7 +165,6 @@
 		"ship-hold": "^2",
 		"sinon": "^7",
 		"sinon-chai": "^3",
-		"size-limit": "^1",
 		"strip-ansi": "^5",
 		"strip-ansi-stream": "^1",
 		"styled-components": "^3",

@@ -4,6 +4,7 @@
 ## PENDING
 * TODO make local storage injectable? (what way?)
 * [chore] [breaking] no longer exporting ES5, reverted to [this more rationale export setup](../../CONTRIBUTING/module-exports.md)
+* [chore] bumped dependencies
 * ...
 
 ## v0.1.1

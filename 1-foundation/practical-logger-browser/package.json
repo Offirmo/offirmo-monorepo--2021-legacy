@@ -23,10 +23,10 @@
 	},
 	"devDependencies": {
 		"@babel/core": "^7",
+		"@size-limit/preset-small-lib": "^2",
 		"np": "^5",
 		"npm-run-all": "^4",
-		"parcel-bundler": "^1",
-		"size-limit": "^1"
+		"parcel-bundler": "^1"
 	},
 	"scripts": {
 		"clean": "node ../../scripts/clean.js dist",

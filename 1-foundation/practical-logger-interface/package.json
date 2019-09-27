@@ -29,9 +29,9 @@
 	},
 
 	"devDependencies": {
+		"@size-limit/preset-small-lib": "^2",
 		"np": "^5",
-		"npm-run-all": "^4",
-		"size-limit": "^1"
+		"npm-run-all": "^4"
 	},
 	"scripts": {
 		"clean": "node ../../scripts/clean.js dist",

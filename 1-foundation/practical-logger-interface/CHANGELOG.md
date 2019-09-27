@@ -4,6 +4,7 @@
 ## PENDING
 * [feat] new "forcedLevel" creation option
 * [chore] [breaking] no longer exporting ES5, reverted to [this more rationale export setup](../../CONTRIBUTING/module-exports.md)
+* [chore] bumped dependencies
 * ...
 
 ## v1.1.1

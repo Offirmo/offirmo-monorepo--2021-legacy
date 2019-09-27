@@ -3,6 +3,7 @@
 
 ## PENDING
 * [chore] [breaking] no longer exporting ES5, reverted to [this more rationale export setup](../../CONTRIBUTING/module-exports.md)
+* [chore] bumped dependencies
 * ...
 
 ## v1.0.2

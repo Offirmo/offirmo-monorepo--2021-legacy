@@ -58,7 +58,6 @@
 	"devDependencies": {
 		"@babel/core": "^7",
 		"@offirmo-private/timestamps": "^0",
-		"cross-env": "^5",
 		"npm-run-all": "^4"
 	}
 }
