@@ -1,4 +1,4 @@
-import { createLogger } from '@offirmo-private/practical-logger-node'
+import { createLogger } from '@offirmo/practical-logger-node'
 
 const logger = createLogger({
 	suggestedLevel: 'log',

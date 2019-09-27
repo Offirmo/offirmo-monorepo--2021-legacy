@@ -4,7 +4,7 @@
 
 /* eslint-disable no-unused-vars */
 
-const { createLogger } = require('@offirmo-private/practical-logger-node')
+const { createLogger } = require('@offirmo/practical-logger-node')
 const { getRootSEC } = require('@offirmo-private/soft-execution-context')
 
 const {

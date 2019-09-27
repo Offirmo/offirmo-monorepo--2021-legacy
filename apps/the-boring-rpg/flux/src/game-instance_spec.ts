@@ -3,7 +3,7 @@
 import { expect } from 'chai'
 import sinon from 'sinon'
 import { createLocalStorage } from 'localstorage-ponyfill'
-import { createLogger } from '@offirmo-private/practical-logger-node'
+import { createLogger } from '@offirmo/practical-logger-node'
 import { getRootSEC } from '@offirmo-private/soft-execution-context'
 import { State, DEMO_STATE, EngagementKey } from '@tbrpg/state'
 import { StorageKey } from '@tbrpg/interfaces'
