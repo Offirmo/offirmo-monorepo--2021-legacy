@@ -6,7 +6,7 @@ import { NAME as NETLIFY_USERS_TABLE } from './20190915181842_create-netlify-use
 export async function up(knex: Knex): Promise<any> {
 	await knex(USERS_TABLE).insert(
 		{
-			id: 1,
+			id: 0,
 			called: 'Admin',
 			email: 'offirmo.net@gmail.com',
 			roles: [ 'admin', 'tbrpg:admin']
@@ -14,8 +14,8 @@ export async function up(knex: Knex): Promise<any> {
 	)
 	await knex(NETLIFY_USERS_TABLE).insert(
 		{
-			own_id: 'xxx-demo-admin-netlify-id-xxx',
-			user_id: 1,
+			own_id: 'xxx-demo-admin-netlify-id-xxx', // XXX TODO
+			user_id: 0,
 			roles: []
 		},
 	)

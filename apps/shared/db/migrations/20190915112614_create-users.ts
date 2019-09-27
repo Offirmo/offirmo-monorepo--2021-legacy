@@ -7,19 +7,25 @@ export const NAME = 'users'
 
 export async function up(knex: Knex): Promise<any> {
 	return knex.schema.createTable(NAME, table => {
-		table.increments('id').primary()
+		table
+			.timestamps(true, true)
 
-		table.timestamps(true, true)
+		table
+			.increments('id').primary()
 
-		table.string('called')
+		table
+			.string('called')
 
-		table.string('email')
+		table
+			.string('email')
 
-		table.string('avatar_url')
+		table
+			.string('avatar_url')
 
 		table
 			.specificType('roles', 'text[]')
 			.notNullable()
+			.defaultTo(knex.raw('array[]::varchar[]'))
 	})
 }
 

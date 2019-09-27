@@ -4,7 +4,8 @@ export const NAME = 'users__netlify'
 
 export async function up(knex: Knex): Promise<any> {
 	return knex.schema.createTable(NAME, table => {
-		table.timestamps(true, true)
+		table
+			.timestamps(true, true)
 
 		table
 			.string('own_id')
@@ -20,6 +21,9 @@ export async function up(knex: Knex): Promise<any> {
 			.index()
 
 		table
+			.string('called')
+
+		table
 			.string('email')
 
 		table
@@ -28,6 +32,7 @@ export async function up(knex: Knex): Promise<any> {
 		table
 			.specificType('roles', 'text[]')
 			.notNullable()
+			.defaultTo(knex.raw('array[]::varchar[]'))
 	})
 }
 
