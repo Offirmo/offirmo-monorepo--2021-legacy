@@ -68,6 +68,7 @@ function _getOverrideRequestedSJson(ovKey: string): null | string {
 function overrideHook<T>(key: string, default_value: T): T {
 	if (!overrides.hasOwnProperty(key)) {
 		if (DEBUG) console.log('🧩UWDTi: overrideHook()', {key, default_value, sjson: JSON.stringify(default_value)})
+		if (DEBUG && default_value === undefined) console.error('🧩UWDTi: overrideHook() missing default value!', {key, default_value})
 		let existing_override_sjson = _getOverrideRequestedSJson(key)
 		queue.push({
 			type: 'override',
