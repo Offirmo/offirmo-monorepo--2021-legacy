@@ -2,6 +2,7 @@
 **This package follows [semver](https://semver.org/).**
 
 ## pending
+* TODO fix the "private" mode compatibility with bolt
 * [chore] bumped dependencies
 * ...
 
