@@ -4,12 +4,13 @@ module.exports = {
 
 	development: {
 		client: "postgresql",
-		connection: {
+		connection: 'postgres://postgres:@127.0.0.1:32768/postgres',
+		/*connection: {
 			host: '127.0.0.1',
 			port: 32768,
 			database: 'postgres',
 			user: 'postgres',
-		},
+		},*/
 		pool: {
 			min: 2,
 			max: 10

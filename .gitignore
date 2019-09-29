@@ -32,3 +32,6 @@ node_modules
 
 ## may be auto-generated (shouldn't), but not used
 package-lock.json
+
+# Local Netlify folder
+.netlify
