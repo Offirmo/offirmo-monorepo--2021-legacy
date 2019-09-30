@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
-import is_valid_stringified_json from '../../../../../common/utils/is-valid-stringified-json'
+import { is_valid_stringified_json } from '../../../../../common/utils/stringified-json'
 
 export default class AnyJsonInput extends Component {
 	static propTypes = {
@@ -10,7 +10,7 @@ export default class AnyJsonInput extends Component {
 		isDisabled: PropTypes.bool.isRequired,
 		// this control takes a direct SJSON
 		// so that it can do checks
-		value_sjson: PropTypes.string.isRequired,
+		value_sjson: PropTypes.any.isRequired,
 	}
 
 	constructor(props) {

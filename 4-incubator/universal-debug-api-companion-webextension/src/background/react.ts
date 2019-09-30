@@ -2,6 +2,7 @@ import { browser } from 'webextension-polyfill-ts'
 import memoize_one from 'memoize-one'
 
 import * as Flux from './flux'
+import { control_sjson } from '../common/utils/stringified-json'
 import { LS_KEY_ENABLED } from '../common/consts'
 import { create_msg_update_ui_state, create_msg_update_ls_state } from '../common/messages'
 import { SpecSyncStatus } from "../common/state/tab";
@@ -94,7 +95,9 @@ function propagate_lib_config() {
 		const { key, is_enabled, value_sjson } = spec
 		const LSKey = getLSKeyForOverride(key)
 		kv[LSKey] = is_enabled
-			? value_sjson || null
+			? value_sjson
+				? control_sjson(value_sjson)
+				: null
 			: null
 	})
 

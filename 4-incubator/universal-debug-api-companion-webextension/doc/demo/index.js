@@ -38,7 +38,7 @@ console.warn(`[${LIB}.${+Date.now()}] Hello, more standard!`, {
 const logger = getLogger()
 logger.info('Hello from root logger!')
 
-if (true) {
+if (false) {
 	demo_logger_levels(logger)
 }
 
@@ -58,6 +58,10 @@ function render() {
 	const variation = overrideHook('experiment_Y_cohort', 'not-enrolled')
 	const span_x = document.getElementById('experiment')
 	span_x.innerText = variation
+
+	const custom = overrideHook('custom', undefined)
+	const span_c = document.getElementById('custom')
+	span_c.innerText = String(custom)
 }
 setInterval(render, 1000)
 setTimeout(render, 1) // just for it not to be sync

@@ -4,7 +4,8 @@ import { LoggerCreationParams } from '@offirmo/universal-debug-api-interface'
 import { DEFAULT_LOG_LEVEL, DEFAULT_LOGGER_KEY } from '@offirmo/practical-logger-core/src/consts-base'
 import { getOverrideKeyForLogger, getLSKeyForOverride } from '@offirmo-private/universal-debug-api-full-browser/src/v1/keys'
 
-import {Report, create_msg_report_debug_api_usage, OverrideReport} from '../common/messages/report-usage'
+import { Report, create_msg_report_debug_api_usage, OverrideReport } from '../common/messages/report-usage'
+import { StringifiedJSON, sjson_stringify } from '../common/utils/stringified-json'
 
 ////////////////////////////////////
 
@@ -15,7 +16,7 @@ try { // defensive!
 
 const original_v1 = (window as any)._debug.v1
 
-const overrides: { [k: string]: string | null } = {}
+const overrides: { [k: string]: null | StringifiedJSON } = {}
 const queue: Report[] = []
 
 // "in flight" provides:
@@ -51,7 +52,7 @@ function schedule_sync() {
 
 ////////////////////////////////////
 
-function _getOverrideRequestedSJson(ovKey: string): null | string {
+function _getOverrideRequestedSJson(ovKey: string): null | StringifiedJSON {
 	try {
 		const LSKey = getLSKeyForOverride(ovKey)
 		//console.log(`LSKey = "${LSKey}"`)
@@ -67,13 +68,15 @@ function _getOverrideRequestedSJson(ovKey: string): null | string {
 
 function overrideHook<T>(key: string, default_value: T): T {
 	if (!overrides.hasOwnProperty(key)) {
-		if (DEBUG) console.log('🧩UWDTi: overrideHook()', {key, default_value, sjson: JSON.stringify(default_value)})
-		if (DEBUG && default_value === undefined) console.error('🧩UWDTi: overrideHook() missing default value!', {key, default_value})
+		// reminder: default_value === undefined is allowed, bc JSON doesn't encode undefined
+		// however we turn that into a special value
+		const default_value_sjson = sjson_stringify(default_value)
+		if (DEBUG) console.log('🧩UWDTi: overrideHook()', {key, default_value, default_value_sjson})
 		let existing_override_sjson = _getOverrideRequestedSJson(key)
 		queue.push({
 			type: 'override',
 			key,
-			default_value_sjson: JSON.stringify(default_value),
+			default_value_sjson,
 			existing_override_sjson,
 		} as OverrideReport)
 		schedule_sync()
@@ -89,7 +92,7 @@ function getLogger(p: Readonly<LoggerCreationParams> = {}) {
 	const ovKey = getOverrideKeyForLogger(name)
 	const ovDefaultLevel = p.suggestedLevel || DEFAULT_LOG_LEVEL
 
-	if (DEBUG) console.log('🧩UWDTi: getLogger()', {params: p, name, ovDefaultLevel, DEFAULT_LOG_LEVEL}) // TODO clean the logs
+	if (DEBUG) console.log('🧩UWDTi: getLogger()', {params: p, name, ovDefaultLevel, DEFAULT_LOG_LEVEL})
 
 	// systematically call overrideHook on creation to declare the override!
 	const ovForcedLevel = overrideHook<LogLevel>(

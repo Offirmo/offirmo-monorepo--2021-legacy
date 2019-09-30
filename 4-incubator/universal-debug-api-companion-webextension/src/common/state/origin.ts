@@ -1,6 +1,7 @@
 import { Enum } from 'typescript-string-enums'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 
+import { StringifiedJSON, sjson_parse, sjson_stringify, is_valid_stringified_json } from '../utils/stringified-json'
 import { UNKNOWN_ORIGIN } from '../consts'
 import { Report } from '../messages'
 import assert from 'tiny-invariant'
@@ -10,7 +11,7 @@ import assert from 'tiny-invariant'
 // - NOTE the local storage is the real spec!
 //   This is just a temporary copy.
 //   Hence some "undefined" = we haven't read the LS yet
-// - This is a SPEC but it may not have been applied,
+// - This is a SPEC so it may not have been applied yet,
 //   pending a reload to propagate the changes in the running code
 
 // tslint:disable-next-line: variable-name
@@ -31,10 +32,10 @@ export interface OverrideState {
 	type: OverrideType,
 	// spec:
 	is_enabled: boolean, // does the user wants to override this value?
-	default_value_sjson: string, // useful for display when disabled
-	value_sjson: undefined | null | string, // for convenience, we remember the value even when not enabled
-	                                        // null = no value was ever set (dynamically default to default value)
-	                                        // undefined = pending reading the LS
+	default_value_sjson: StringifiedJSON, // useful for display when disabled
+	value_sjson: undefined | null | StringifiedJSON, // for convenience, we remember the value even when not enabled
+	                                                 // null = no value was ever set (dynamically default to default value)
+	                                                 // undefined = pending reading the LS
 	// meta:
 	last_reported: TimestampUTCMs, // for cleaning TODO
 }
@@ -73,7 +74,7 @@ export function is_injection_requested(state: Readonly<State>): State['is_inject
 	return state.is_injection_enabled
 }
 
-export function infer_override_type_from_key(key: string, value_sjson: null | string): OverrideType {
+export function infer_override_type_from_key(key: string, value_sjson: null | StringifiedJSON): OverrideType {
 	const key_lc = key.toLowerCase()
 	//console.log('INF', {key, key_lc})
 
@@ -125,7 +126,7 @@ export function infer_override_type_from_key(key: string, value_sjson: null | st
 		return OverrideType.any
 
 	try {
-		const value = JSON.parse(value_sjson)
+		const value = sjson_parse(value_sjson)
 		//console.log('INF', {value, value_sjson, type: typeof value})
 
 		if (typeof value === 'boolean')
@@ -160,33 +161,33 @@ export const DEMO_REPORTS: Report[] = [
 	{
 		type: 'override',
 		key: 'fooExperiment.cohort',
-		default_value_sjson: '"not-enrolled"',
-		existing_override_sjson: '"variation-1"'
+		default_value_sjson: sjson_stringify('not-enrolled'),
+		existing_override_sjson: sjson_stringify('variation-1'),
 	},
 	{
 		type: 'override',
 		key: 'fooExperiment.isSwitchedOn',
-		default_value_sjson: 'true',
-		existing_override_sjson: 'true', // up to date
+		default_value_sjson: sjson_stringify(true),
+		existing_override_sjson: sjson_stringify(true), // up to date
 	},
 	{
 		type: 'override',
 		key: 'fooExperiment.logLevel',
-		default_value_sjson: '"error"',
-		existing_override_sjson: '"warning"',
+		default_value_sjson: sjson_stringify('error'),
+		existing_override_sjson: sjson_stringify('warning'),
 	},
 	{
 		type: 'override',
 		key: 'root.logLevel',
-		default_value_sjson: '"error"',
+		default_value_sjson: sjson_stringify('error'),
 		existing_override_sjson: null, // not enabled
 	},
 	{
 		type: 'override',
 		key: 'some_url',
-		default_value_sjson: '"https://www.online-adventur.es/"',
+		default_value_sjson: sjson_stringify('https://www.online-adventur.es/'),
 		//existing_override_sjson: null,
-		existing_override_sjson: '"https://offirmo-monorepo.netlify.com/"',
+		existing_override_sjson: sjson_stringify('https://offirmo-monorepo.netlify.com/'),
 		//existing_override_sjson: 'some bad json',
 	}
 ]
@@ -198,7 +199,7 @@ export function create_demo(origin: string): Readonly<State> {
 	DEMO_REPORTS.forEach(report => state = report_debug_api_usage(state, report))
 
 	state = change_override_spec(state, 'fooExperiment.cohort', {
-		value_sjson: '"variation-1"',
+		value_sjson: sjson_stringify('variation-1'),
 		//value_sjson: 'variation-1' // TEST bad JSON
 	})
 
@@ -219,10 +220,10 @@ export function report_debug_api_usage(state: Readonly<State>, report: Report): 
 		case 'override': {
 			const { key, default_value_sjson, existing_override_sjson } = report
 			assert(!!key, 'O.report_debug_api_usage override key')
-			assert(typeof default_value_sjson === 'string', 'O.report_debug_api_usage default value string')
-			assert(existing_override_sjson === null || typeof existing_override_sjson === 'string', 'O.report_debug_api_usage existing value null or string')
+			assert(is_valid_stringified_json(default_value_sjson), 'O.report_debug_api_usage default value !sjson')
+			assert(existing_override_sjson === null || is_valid_stringified_json(existing_override_sjson), 'O.report_debug_api_usage existing value null or string')
 
-			let override = {
+			let override: OverrideState = {
 				...state.overrides[key],
 				key,
 				is_enabled: !!existing_override_sjson,
@@ -231,6 +232,7 @@ export function report_debug_api_usage(state: Readonly<State>, report: Report): 
 				value_sjson: existing_override_sjson,
 				last_reported: get_UTC_timestamp_ms(),
 			}
+
 			state = {
 				...state,
 				overrides: {
@@ -270,7 +272,7 @@ export function change_override_spec(state: Readonly<State>, key: string, partia
 	) {
 		// convenience for booleans
 		// if toggled on, it's obvious the user wants to change the value = opposite of the default
-		partial2.value_sjson = JSON.stringify(!Boolean(current_override.default_value_sjson))
+		partial2.value_sjson = sjson_stringify(!Boolean(sjson_parse(current_override.default_value_sjson)))
 	}
 	return {
 		...state,

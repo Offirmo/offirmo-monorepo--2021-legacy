@@ -8,7 +8,7 @@ import { LogLevel, ALL_LOG_LEVELS } from '@offirmo/practical-logger-core'
 import { OverrideState as OriginOverrideState, OverrideType } from '../../../../../common/state/origin'
 import { SpecSyncStatus } from '../../../../../common/state/tab'
 import { OverrideState as FullOverrideState } from '../../../../../common/state/ui'
-import is_valid_stringified_json from '../../../../../common/utils/is-valid-stringified-json'
+import { StringifiedJSON, is_valid_stringified_json, sjson_stringify, sjson_parse } from '../../../../../common/utils/stringified-json'
 
 import SpecSyncIndicator from '../spec-sync-indicator'
 import LogLevelRange from './input-log-level'
@@ -28,7 +28,7 @@ export const STANDARD_COHORTS = [
 function build_cohort_select_option(cohort: string) {
 	return {
 		label: cohort,
-		value: JSON.stringify(cohort),
+		value: sjson_stringify(cohort),
 		//defaultSelected: cohort === 'not-enrolled',
 		//selected: cohort === 'not-enrolled',
 	}
@@ -75,10 +75,10 @@ export default class OverrideLine extends Component<Props> {
 		)
 	}
 
-	get_field_value_sjson(): string {
+	get_field_value_sjson(): StringifiedJSON {
 		const { is_injection_enabled, override } = this.props
 		const { type, is_enabled, default_value_sjson, value_sjson: requested_value_sjson } = override.spec
-		const value_sjson: string = (is_injection_enabled && is_enabled)
+		const value_sjson: StringifiedJSON = (is_injection_enabled && is_enabled)
 			? (requested_value_sjson === null || requested_value_sjson === undefined)
 				? default_value_sjson // if no manual override was ever requested, we start with the current default
 				: requested_value_sjson
@@ -99,12 +99,12 @@ export default class OverrideLine extends Component<Props> {
 				case 'any':
 					return value_sjson // direct JSON for this one
 				case 'Cohort':
-					return build_cohort_select_option(JSON.parse(value_sjson))
+					return build_cohort_select_option(sjson_parse(value_sjson))
 				case 'boolean':
-					return JSON.parse(value_sjson)
+					return sjson_parse(value_sjson)
 				case 'LogLevel':
 					//case 'string':
-					return JSON.parse(value_sjson)
+					return sjson_parse(value_sjson)
 				default:
 					throw new Error(`get_field_value() Error! Unknown type "${type}"!`)
 			}
@@ -129,7 +129,7 @@ export default class OverrideLine extends Component<Props> {
 					console.log('✨ OverrideLine on change any:', { value_sjson })
 					on_change({value_sjson})
 				}}
-				placeholder="Any JSON..."/>
+				placeholder="Any JSON or undefined..."/>
 		)
 	}
 
@@ -161,7 +161,7 @@ export default class OverrideLine extends Component<Props> {
 								isDisabled={is_disabled}
 								isChecked={value}
 								onChange={() => {
-									const value_sjson = JSON.stringify(!value)
+									const value_sjson = sjson_stringify(!value)
 									console.log('✨ OverrideLine on change boolean:', {value_sjson})
 									on_change({value_sjson})
 								}}
@@ -201,7 +201,7 @@ export default class OverrideLine extends Component<Props> {
 							isDisabled={is_disabled}
 							value={value}
 							onChange={(value: string) => {
-								const value_sjson = JSON.stringify(value)
+								const value_sjson = sjson_stringify(value)
 								console.log('✨ OverrideLine on change log level:', { value_sjson })
 								on_change({ value_sjson })
 							}}

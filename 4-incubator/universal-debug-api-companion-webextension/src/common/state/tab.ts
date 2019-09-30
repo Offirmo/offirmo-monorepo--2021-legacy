@@ -5,7 +5,7 @@ import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamp
 import { UNKNOWN_ORIGIN } from '../consts'
 import { Report } from '../messages'
 import * as OriginState from './origin'
-import is_valid_stringified_json from '../utils/is-valid-stringified-json'
+import { is_valid_stringified_json, StringifiedJSON }   from '../utils/stringified-json'
 
 ////////////////////////////////////
 
@@ -23,7 +23,7 @@ export type SpecSyncStatus = Enum<typeof SpecSyncStatus> // eslint-disable-line 
 export interface OverrideState {
 	key: string
 	last_reported: TimestampUTCMs // -1 = never
-	last_reported_value_sjson: string | null | undefined
+	last_reported_value_sjson: undefined | null | StringifiedJSON
 }
 
 export interface State {
@@ -206,12 +206,14 @@ export function report_debug_api_usage(state: Readonly<State>, report: Report): 
 		case 'override': {
 			const { key, existing_override_sjson } = report
 			assert(!!key, 'T.report_debug_api_usage override key')
-			let override = {
+
+			let override: OverrideState = {
 				...state.overrides[key],
 				key,
 				last_reported: get_UTC_timestamp_ms(),
 				last_reported_value_sjson: existing_override_sjson,
 			}
+
 			state = {
 				...state,
 				overrides: {

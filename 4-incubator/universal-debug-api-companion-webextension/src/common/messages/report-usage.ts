@@ -1,12 +1,13 @@
 import { MSG_ENTRY } from '../consts/entry'
+import { StringifiedJSON } from '../utils/stringified-json'
 
 ////////////////////////////////////
 
 export interface OverrideReport {
 	type: 'override'
 	key: string
-	default_value_sjson: string
-	existing_override_sjson: string | null,
+	default_value_sjson: StringifiedJSON
+	existing_override_sjson: null | StringifiedJSON,
 }
 export interface LoggerReport { // TODO needed?
 	type: 'logger'
