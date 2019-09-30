@@ -7,6 +7,7 @@
 ## humain
 
 * https://www.lifehack.org/articles/communication/what-are-the-differences-between-knowledge-wisdom-and-insight.html
+* https://en.wikipedia.org/wiki/Johari_window
 
 ### groupes
 * sorcerer-kings ~sith
@@ -88,6 +89,9 @@ https://worldbuilding.stackexchange.com/questions/156036/in-what-sequence-should
 ### maladies / virus
 * https://fr.wikipedia.org/wiki/Suette
 * https://science.slashdot.org/story/19/07/07/1933255/researchers-awaken-ancient-lifeforms-exposed-by-thawing-ice-caps-and-permafrost
+
+### animaux
+grizzli bataille https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fcari.mcgillivray%2Fvideos%2F10218072269532509%2F&show_text=0&width=560
 
 
 

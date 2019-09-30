@@ -22,8 +22,9 @@ node_modules
 4-incubator/universal-debug-api-companion-webextension/dist/
 #apps/the-boring-rpg/functions/functions -> NO, to make them available in staging!
 ## misc
-#*\-index\-html.html
-
+#...
+## tools folders
+.netlify
 
 ## caches
 .cache
@@ -33,5 +34,3 @@ node_modules
 ## may be auto-generated (shouldn't), but not used
 package-lock.json
 
-# Local Netlify folder
-.netlify
