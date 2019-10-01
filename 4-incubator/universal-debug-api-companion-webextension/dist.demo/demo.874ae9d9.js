@@ -877,4 +877,4 @@ console.log(`[${LIB}.${+Date.now()}] sending a test postMessage...`)
 window.postMessage({msg: `Test message from ${LIB}`}, '*')
 */
 },{"@offirmo/universal-debug-api-minimal-noop":"Az9r","../../../../1-foundation/practical-logger-core/doc/shared-demo":"K8Q0"}]},{},["Focm"], null)
-//# sourceMappingURL=/demo.874ae9d9.js.map
+//# sourceMappingURL=demo.874ae9d9.js.map
