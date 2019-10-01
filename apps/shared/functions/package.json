@@ -12,6 +12,7 @@
 		"@offirmo/practical-logger-node": "^0",
 		"@offirmo-private/timestamps": "^0",
 		"@offirmo-private/uuid": "^0",
+		"@offirmo-private/db": "^0",
 		"@tbrpg/flux": "^0",
 		"@tbrpg/interfaces": "^0",
 		"tiny-invariant": "^1",

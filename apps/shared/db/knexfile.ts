@@ -20,12 +20,12 @@ module.exports = {
 
 	staging: {
 		...COMMON,
-		connection: process.env.DATABASE_URL,
+		connection: process.env.SECRET_DATABASE_URL,
 	},
 
 	production: {
 		...COMMON,
-		connection: process.env.DATABASE_URL,
+		connection: process.env.SECRET_DATABASE_URL,
 	},
 
 };
