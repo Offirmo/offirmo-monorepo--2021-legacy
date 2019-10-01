@@ -11,8 +11,10 @@ const handler: NetlifyHandler = async (
 	event: APIGatewayEvent,
 	context: Context,
 ): Promise<Response> => {
+
 	if (!context.clientContext)
 		throw new Error('No/bad/outdated token!')
+
 	const identity_context: NetlifyIdentityContext = context.clientContext as any
 	if (!identity_context.user)
 		throw new Error('No/bad/outdated token!')

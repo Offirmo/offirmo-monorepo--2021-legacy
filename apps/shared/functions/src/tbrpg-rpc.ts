@@ -5,9 +5,12 @@ import {
 	Context,
 	Response,
 	NetlifyHandler,
-	JSONRPC_CODE,
-	DEFAULT_JSONRPC_ERROR_PAYLOAD, NetlifyIdentityContext
+	NetlifyIdentityContext
 } from './sub/types'
+import {
+	JSONRPC_CODE,
+	get_default_JsonRpc_payload,
+} from './sub/consts'
 
 import { create_error } from './sub/utils'
 
@@ -23,18 +26,18 @@ const handler: NetlifyHandler = async (
 ): Promise<Response> => {
 	console.log('\n******* handling a tbrpg-rpc… *******')
 
-
 	if (!context.clientContext)
-		throw new Error('No/bad/outdated token!')
+		throw new Error('No/bad/outdated token [1]!')
+
 	const identity_context: NetlifyIdentityContext = context.clientContext as any
 	if (!identity_context.user)
-		throw new Error('No/bad/outdated token!')
+		throw new Error('No/bad/outdated token [2]!')
 
 	let statusCode = 500
 	let res: TbrpgRpcResponse = {
 		jsonrpc: '2.0',
 		id: '???',
-		error: DEFAULT_JSONRPC_ERROR_PAYLOAD,
+		error: get_default_JsonRpc_payload(),
 		result: undefined,
 	}
 
@@ -64,7 +67,7 @@ const handler: NetlifyHandler = async (
 			? err.jsonrpc_response
 			: res.error
 				? res.error
-				: DEFAULT_JSONRPC_ERROR_PAYLOAD // it could have been deleted
+				: get_default_JsonRpc_payload() // it could have been deleted
 
 		res.error!.message = err.message // forced, or wouldn't have needed to catch
 
