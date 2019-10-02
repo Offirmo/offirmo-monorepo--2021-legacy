@@ -8,3 +8,8 @@ https://www.wuxiaworld.com/page/chinese-idiom-glossary
 https://immortalmountain.wordpress.com/glossary/wuxia-xianxia-xuanhuan-terms/
 
 https://www.reddit.com/r/incremental_games/comments/cvjrvt/an_incremental_game_based_on_chinese_xianxia/
+
+
+Inspiration:
+* http://www.lerpinglemur.com/arcanum/
+* XianXia incremental https://xi.khdev.ch/
