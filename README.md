@@ -1,5 +1,7 @@
 # Offirmo’s monorepo
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/25734112-d205-4789-ad2f-bfcdf8d65252/deploy-status)](https://app.netlify.com/sites/offirmo-monorepo/deploys)
+
 A monorepo for all my JavaScript / TypeScript projects. So convenient.
 
 Public npm modules:

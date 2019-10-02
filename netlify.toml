@@ -1,0 +1,50 @@
+## this file reference https://www.netlify.com/docs/netlify-toml-reference/
+
+
+# Settings in the [build] context are global and are applied to all contexts
+# unless otherwise overridden by more specific contexts.
+[build]
+	# Directory with the serverless Lambda functions to deploy to AWS.
+	## https://www.netlify.com/docs/functions/#tools-for-building-javascript-functions
+	functions = "./apps/shared/functions/functions"
+	[build.processing]
+		skip_processing = true
+	[build.environment]
+		TEST_ENV_VAR = "build"
+
+# Production context: All deploys from the main
+# repository branch will inherit these settings.
+[context.production]
+	[context.production.environment]
+		TEST_ENV_VAR = "production"
+		# https://www.netlify.com/docs/functions/#javascript-runtime-settings
+		AWS_LAMBDA_JS_RUNTIME = "nodejs10.x"
+
+# Deploy Preview context: All deploys generated from a pull/merge request
+# will inherit these settings.
+[context.deploy-preview]
+	[context.deploy-preview.environment]
+		TEST_ENV_VAR = "deploy-preview"
+
+# Branch deploy context: All deploys that are not from a pull/merge request
+# or from the production branch will inherit these settings.
+[context.branch-deploy]
+	[context.branch-deploy.environment]
+		TEST_ENV_VAR = "branch-deploy"
+
+
+# Redirects and headers are GLOBAL for all builds – they do not get scoped to
+# contexts no matter where you define them in the file.
+# For context-specific rules, use _headers or _redirects files, which are
+# PER-DEPLOY.
+
+# Redirects from what the browser requests to what we serve
+# https://www.netlify.com/docs/redirects/
+[[redirects]]
+	from = "/apps/the-boring-rpg/client-browser/dist/*"
+	to = "/apps/the-boring-rpg/client-browser/dist/"
+	# The default HTTP status code is 301, but you can define a different one.
+	status = 200
+
+
+#[[headers]]
