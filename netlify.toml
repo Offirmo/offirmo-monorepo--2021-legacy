@@ -11,14 +11,14 @@
 		skip_processing = true
 	[build.environment]
 		TEST_ENV_VAR = "build"
+		# https://www.netlify.com/docs/functions/#javascript-runtime-settings
+		AWS_LAMBDA_JS_RUNTIME = "nodejs10.x"
 
 # Production context: All deploys from the main
 # repository branch will inherit these settings.
 [context.production]
 	[context.production.environment]
 		TEST_ENV_VAR = "production"
-		# https://www.netlify.com/docs/functions/#javascript-runtime-settings
-		AWS_LAMBDA_JS_RUNTIME = "nodejs10.x"
 
 # Deploy Preview context: All deploys generated from a pull/merge request
 # will inherit these settings.

@@ -3,7 +3,7 @@
 const COMMON = {
 	client: "postgresql",
 	pool: {
-		min: 2,
+		min: 1,
 		max: 10
 	},
 	migrations: {

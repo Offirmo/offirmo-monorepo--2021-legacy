@@ -1,5 +1,3 @@
-//import { ensure_user_through_netlify } from '@offirmo-private/db'
-
 import {
 	APIGatewayEvent,
 	Context,
@@ -38,19 +36,23 @@ const handler: NetlifyHandler = async (
 		db_result: undefined
 	}
 
-	/*
 	try {
-		all_the_things.db_result = await ensure_user_through_netlify(netlify_id, {
+		const { ensure_user_through_netlify } = require('@offirmo-private/db')
+		const data = {
 			called: full_name,
 			avatar_url,
 			email,
 			roles: roles || [],
-		})
-
+		}
+		all_the_things.db_query = {
+			netlify_id,
+			data,
+		}
+		all_the_things.db_result = await ensure_user_through_netlify(netlify_id, data)
 	}
 	catch (err) {
 		all_the_things.db_result = `Err: ${err.message}!`
-	}*/
+	}
 
 	console.log(all_the_things)
 
