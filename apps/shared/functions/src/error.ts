@@ -11,6 +11,9 @@ const handler: NetlifyHandler = async (
 ): Promise<Response> => {
 	throw new Error('TEST ERROR!')
 
+	// https://devdocs.io/node/process#process_process_env
+	// process.setUncaughtExceptionCaptureCallback(fn)
+
 	//return new Error('TEST ERROR 2!')
 }
 

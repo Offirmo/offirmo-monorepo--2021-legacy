@@ -5,6 +5,7 @@ import {
 	NetlifyHandler,
 } from './sub/types'
 
+
 function filter_out_secrets(env: NodeJS.ProcessEnv): NodeJS.ProcessEnv {
 	return Object.fromEntries(
 		Object.entries(env)
@@ -23,7 +24,21 @@ const handler: NetlifyHandler = async (
 	const all_the_things = JSON.stringify({
 		context,
 		event,
-		env: filter_out_secrets(process.env),
+		// https://devdocs.io/node/process
+		process: {
+			argv: process.argv,
+			execArgv: process.execArgv,
+			execPath: process.execPath,
+			arch: process.arch,
+			platform: process.platform,
+			release: process.release,
+			config: process.config,
+			'cwd()': process.cwd(),
+			title: process.title,
+			version: process.version,
+			versions: process.versions,
+			env: filter_out_secrets(process.env),
+		},
 	}, null, 2)
 
 	console.log(all_the_things)

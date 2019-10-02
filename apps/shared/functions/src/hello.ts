@@ -9,14 +9,15 @@ const handler: NetlifyHandler = async (
 	event: APIGatewayEvent,
 	context: Context,
 ): Promise<Response> => {
-	console.log('hello')
-	console.info('hello')
-	console.warn('hello')
-	console.error('hello')
+	const msg = `Hello 20191001`
+	console.log(msg)
+	console.info(msg)
+	console.warn(msg)
+	console.error(msg)
 
 	return {
 		statusCode: 200,
-		body: "Hello, TypeScript World!"
+		body: msg,
 	}
 }
 

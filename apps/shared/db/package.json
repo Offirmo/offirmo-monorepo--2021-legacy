@@ -6,8 +6,17 @@
 	"license": "Unlicense",
 	"private": true,
 
+	"esnext": "dist/src.es2019/index.js",
+	"module": "dist/src.es2019/index.js",
+	"main": "dist/src.es2018.cjs/index.js",
+	"typings": "dist/src.es2018.cjs/index.d.ts",
+	"source": "src/index.ts",
+	"sideEffects": false,
+
 	"dependencies": {
 		"@offirmo-private/tiny-singleton": "^0",
+		"knex": "^0.19",
+		"pg": "^7",
 		"tiny-invariant": "^1",
 		"tslib": "^1"
 	},
@@ -28,7 +37,6 @@
 	},
 	"devDependencies": {
 		"@types/node": "^12",
-		"knex": "^0.19",
 		"npm-run-all": "^4",
 		"typescript": "*"
 	}

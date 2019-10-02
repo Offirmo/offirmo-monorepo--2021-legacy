@@ -1,3 +1,5 @@
+//import { ensure_user_through_netlify } from '@offirmo-private/db'
+
 import {
 	APIGatewayEvent,
 	Context,
@@ -21,25 +23,40 @@ const handler: NetlifyHandler = async (
 
 	const {
 		email,
-		sub,
+		sub: netlify_id,
 		app_metadata: { provider, roles },
 		user_metadata: { avatar_url, full_name },
 	} = identity_context.user;
 
-	const all_the_things = JSON.stringify({
-		uuid: sub,
+	const all_the_things: any = {
+		netlify_id,
 		email,
 		provider,
 		roles,
 		avatar_url,
 		full_name,
-	}, null, 2)
+		db_result: undefined
+	}
+
+	/*
+	try {
+		all_the_things.db_result = await ensure_user_through_netlify(netlify_id, {
+			called: full_name,
+			avatar_url,
+			email,
+			roles: roles || [],
+		})
+
+	}
+	catch (err) {
+		all_the_things.db_result = `Err: ${err.message}!`
+	}*/
 
 	console.log(all_the_things)
 
 	return {
 		statusCode: 200,
-		body: all_the_things,
+		body: JSON.stringify(all_the_things, null, 2),
 	}
 }
 

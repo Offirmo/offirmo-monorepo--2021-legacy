@@ -17,7 +17,20 @@ interface Response {
 type NetlifyHandler = Handler<APIGatewayEvent, Response>
 
 interface NetlifyIdentityContext {
-	user: any
+	custom: unknown
+	identity: unknown
+	user: {
+		app_metadata: {
+			provider: string
+			roles?: string[]
+		},
+		email: string,
+		sub: string // seems to be an UUID
+		user_metadata: {
+			avatar_url: string
+			full_name: string
+		}
+	}
 }
 
 ////////////////////////////////////
