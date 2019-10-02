@@ -27,17 +27,17 @@ const handler: NetlifyHandler = async (
 	} = identity_context.user;
 
 	const all_the_things: any = {
-		netlify_id,
-		email,
-		provider,
-		roles,
-		avatar_url,
-		full_name,
-		db_result: undefined
+		from_context: {
+			netlify_id,
+			email,
+			provider,
+			roles,
+			avatar_url,
+			full_name,
+		},
 	}
 
 	try {
-		const { ensure_user_through_netlify } = require('@offirmo-private/db')
 		const data = {
 			called: full_name,
 			avatar_url,
@@ -48,6 +48,7 @@ const handler: NetlifyHandler = async (
 			netlify_id,
 			data,
 		}
+		const { ensure_user_through_netlify } = require('@offirmo-private/db')
 		all_the_things.db_result = await ensure_user_through_netlify(netlify_id, data)
 	}
 	catch (err) {
