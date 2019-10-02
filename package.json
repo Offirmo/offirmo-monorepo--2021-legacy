@@ -181,6 +181,7 @@
 		"universal-analytics": "^0.4",
 		"username": "^5",
 		"webextension-polyfill-ts": "^0.10",
+		"webpack-node-externals": "^1.7.2",
 		"write-json-file": "^4"
 	}
 }

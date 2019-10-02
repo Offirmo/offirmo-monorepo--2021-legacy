@@ -1,9 +1,5 @@
-# Interesting links: https://www.netlify.com/docs/continuous-deployment/
+## This FAKE netlify.toml is needed by the "netlify-lambda" tool
+# No netlify.toml found. This is needed to configure the function settings. For more info: https://github.com/netlify/netlify-lambda#installation
 
-# Global settings applied to the whole site.
-# “publish” is the directory to publish (relative to root of your repo),
-# “command” is your build command,
 [build]
-	publish = "public"
 	functions = "./functions"
-	command = "yarn build"
