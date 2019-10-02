@@ -8444,6 +8444,11 @@ node-releases@^1.1.29:
   dependencies:
     semver "^5.3.0"
 
+noop2@^2:
+  version "2.0.0"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/noop2/-/noop2-2.0.0.tgz#4b636015e9882b54783c02b412f699d8c5cd0a5b"
+  integrity sha1-S2NgFemIK1R4PAK0EvaZ2MXNCls=
+
 nopt@3.0.x:
   version "3.0.6"
   resolved "https://packages.atlassian.com/api/npm/npm-remote/nopt/-/nopt-3.0.6.tgz#c6465dbf08abcd4db359317f79ac68a646b28ff9"

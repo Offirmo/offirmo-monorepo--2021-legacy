@@ -131,6 +131,7 @@
 		"nanoid": "^2",
 		"netlify-identity-widget": "^1",
 		"netlify-lambda": "^1",
+		"noop2": "^2",
 		"normalize.css": "^8",
 		"np": "^5",
 		"npm-run-all": "^4",
