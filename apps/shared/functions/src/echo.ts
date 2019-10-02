@@ -7,14 +7,16 @@ import {
 
 
 function filter_out_secrets(env: NodeJS.ProcessEnv): NodeJS.ProcessEnv {
-	return Object.fromEntries(
-		Object.entries(env)
-			.map(([k, v]) => {
-				const isSecret = k.toLowerCase().includes('secret')
-					|| k.toLowerCase().includes('token')
-				return [ k, isSecret ? '🙈' : v ]
-			})
-	)
+	return Object.entries(env)
+		.map(([k, v]) => {
+			const isSecret = k.toLowerCase().includes('secret')
+				|| k.toLowerCase().includes('token')
+			return [ k, isSecret ? '🙈' : v ]
+		})
+		.reduce((acc: any, [k, v]: any) => {
+			acc[k] = v
+			return acc
+		}, {} as any)
 }
 
 const handler: NetlifyHandler = async (
