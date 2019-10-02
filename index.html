@@ -38,28 +38,29 @@
 <aside>
 	<details>
 		<summary>Dev…</summary>
-		<!-- Add a menu:
-      Log in / Sign up - when the user is not logged in
-      Username / Log out - when the user is logged in
-     -->
-		<div data-netlify-identity-menu></div>
-
-		<!-- Add a simpler button:
-        Simple button that will open the modal.
-      -->
-		<div data-netlify-identity-button></div>
-
 		<ul>
 			<li>
+				<!-- Add a menu:
+				Log in / Sign up - when the user is not logged in
+				Username / Log out - when the user is logged in
+				-->
+				<div data-netlify-identity-menu></div>
+			<li>
+				<!-- Add a simpler button:
+				Simple button that will open the modal.
+				-->
+				<div data-netlify-identity-button></div>
+
+			<li>
 				<button onclick="netlifyIdentity.open()">auth interface…</button>
+			<li>
+				<button onclick="query('.netlify/functions/echo?foo=bar&baz=42')">echo (incl. env)</button>
+			<li>
+				<button onclick="query('.netlify/functions/whoami')">whoami</button>
 			<li><a>/.netlify/functions/hello</a>
 			<li><a>/.netlify/functions/echo?foo=bar&baz=42</a>
 			<li><a>/.netlify/functions/lodash</a>
 			<li><a>/.netlify/functions/whoami</a> (won't work without the headers, see below)
-			<li>
-				<button onclick="query('.netlify/functions/echo?foo=bar&baz=42')">echo with auth</button>
-			<li>
-				<button onclick="query('.netlify/functions/whoami')">whoami</button>
 		</ul>
 	</details>
 </aside>
