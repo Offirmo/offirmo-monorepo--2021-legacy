@@ -1,18 +1,32 @@
 
 ## title
-Offirmo’s Universal Debug API companion
+Offirmo’s Universal Web Dev Tool
 
 ## Summary
-A companion webextension to control Offirmo’s Universal Debug API.
+Get convenient dev features for your JavaScript code with no downsides
 
 ## Detailed Description
-WORK IN PROGRESS, EARLY RELEASE TO SHARE WITH PEERS FOR REVIEW.
+This is for web developers writing complex/semi-complex JavaScript.
 
-This extension is a companion to Offirmo’s Universal Debug API, which provides your webapp with loggers with controllable log level, override variables, debug commands...
+Remember the last time you had no clue about what your code was doing?
+Wishing you could just turn logs on on a 
+This extension is a companion to Offirmo’s Universal Debug API, which provides your webapp with:
+- loggers with controllable log level
+- local overrides of variables
+- debug commands (in beta)
+- exposition of internal data (in beta)
 
-It allows:
-- not having to bundle the debug API in your webapp (bundle an no-op version instead)
-- (coming soon) controlling the API features with a UI
+Along with a UI to conveniently control those features.
+
+You'll have to modify your source code to include and use "Offirmo’s Universal Debug API"
+but this comes at no cost since you only have to bundle/use a very small No-Op version, doing nothing at all.
+
+However, when this extension is used and active,
+the No-Op version will be dynamically replaced by an active version,
+served by the extension. The replacement is done synchronously before any other code can execute,
+so it just works without any complex setup.
+
+
 
 ## Screenshots
 > 1280x800 or 640x400
@@ -35,7 +49,9 @@ It allows:
 https://www.offirmo.net
 
 ## Homepage Url
-   
+https://github.com/Offirmo/offirmo-monorepo/wiki/Offirmo%E2%80%99s-Universal-Web-Debug-Tool
+https://github.com/Offirmo/offirmo-monorepo/tree/master/4-incubator/universal-debug-api-companion-webextension
+
 ## Support Url
 https://github.com/Offirmo/offirmo-monorepo/issues
 
