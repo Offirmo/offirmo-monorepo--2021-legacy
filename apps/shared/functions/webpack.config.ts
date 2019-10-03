@@ -1,35 +1,15 @@
 const webpack = require('webpack')
-const path = require('path')
 
 // https://github.com/netlify/netlify-lambda#webpack-configuration
 
-// https://github.com/liady/webpack-node-externals
-const nodeExternals = require('webpack-node-externals')
-
 module.exports = {
-	optimization: { minimize: false },
-	resolve: {
-		alias: {
-			//'./dialects/*/index.js': './dialects/postgres/index.js'
-		}
-	},
-	externals: [
-		/*
-		'tedious',
-		'mssql',
-		'mysql', 'mysql2',
-		'oracle', 'oracledb',
-		'redshift',
-		'sqlite3',
-		*/
-		/*nodeExternals({
-			whitelist: [ /^@offirmo/, /^@tbrpg/ ],
-		}),*/
-	],
+	optimization: { minimize: false }, // better errors
 	plugins: [
-		new webpack.NormalModuleReplacementPlugin(/pg-native/, 'noop2'),
+		// force unused dialects to resolve to the only one we use
+		// and for whom we have the dependencies installed
 		new webpack.ContextReplacementPlugin(/knex\/lib\/dialects/, /postgres\/index.js/),
-		//knexContextReplacement('lib/migrate/sources', './src/migrations'),
-		//knexContextReplacement('lib/seed', './src/seeds'),
+		// pg optionally tries to require pg-native
+		// replace it by a noop (real module from npm)
+		new webpack.NormalModuleReplacementPlugin(/pg-native/, 'noop2'),
 	],
 };
