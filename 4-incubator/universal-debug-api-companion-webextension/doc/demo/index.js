@@ -47,7 +47,7 @@ _debug.v1.addDebugCommand('pause', () => {
 })
 
 function render() {
-	const is_feature_x_on = overrideHook('is_feature_X_on', false)
+	const is_feature_x_on = overrideHook('is_feature_on', false)
 	const span_f = document.getElementById('feature-x')
 	span_f.innerText = is_feature_x_on ? '✅' : '❌'
 
@@ -55,7 +55,7 @@ function render() {
 	const link = document.getElementById('server-url')
 	link.href = link.innerText = server
 
-	const variation = overrideHook('experiment_Y_cohort', 'not-enrolled')
+	const variation = overrideHook('experiment_cohort', 'not-enrolled')
 	const span_x = document.getElementById('experiment')
 	span_x.innerText = variation
 

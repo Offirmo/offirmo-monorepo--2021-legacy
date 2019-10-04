@@ -1,5 +1,11 @@
+https://dev.to/shijiezhou/top-10-chrome-extensions-every-developer-likes-3ehk
+
 		"webRequest",
 		"webRequestBlocking",
+
+
+manefist:
+	"devtools_page": "ui/devtools/devtools.html",
 
 
 background.js

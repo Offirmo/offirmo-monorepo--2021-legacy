@@ -9,7 +9,9 @@ Get convenient dev features for your JavaScript code with no downsides
 This is for web developers writing complex/semi-complex JavaScript.
 
 Remember the last time you had no clue about what your code was doing?
-Wishing you could just turn logs on on a 
+
+Wishing you could just turn logs on on a prod version?
+
 This extension is a companion to Offirmo’s Universal Debug API, which provides your webapp with:
 - loggers with controllable log level
 - local overrides of variables
@@ -18,7 +20,7 @@ This extension is a companion to Offirmo’s Universal Debug API, which provides
 
 Along with a UI to conveniently control those features.
 
-You'll have to modify your source code to include and use "Offirmo’s Universal Debug API"
+You'll have to modify your source code to include and use "Offirmo’s Universal Debug API" (https://github.com/Offirmo/offirmo-monorepo/wiki/Offirmo%E2%80%99s-Universal-Debug-Api)
 but this comes at no cost since you only have to bundle/use a very small No-Op version, doing nothing at all.
 
 However, when this extension is used and active,

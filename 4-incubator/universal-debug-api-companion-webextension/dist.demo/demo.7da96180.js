@@ -844,13 +844,13 @@ _debug.v1.addDebugCommand('pause', () => {
 });
 
 function render() {
-  const is_feature_x_on = (0, _universalDebugApiMinimalNoop.overrideHook)('is_feature_X_on', false);
+  const is_feature_x_on = (0, _universalDebugApiMinimalNoop.overrideHook)('is_feature_on', false);
   const span_f = document.getElementById('feature-x');
   span_f.innerText = is_feature_x_on ? '✅' : '❌';
   const server = (0, _universalDebugApiMinimalNoop.overrideHook)('SERVER_URL', 'https://www.online-adventur.es/');
   const link = document.getElementById('server-url');
   link.href = link.innerText = server;
-  const variation = (0, _universalDebugApiMinimalNoop.overrideHook)('experiment_Y_cohort', 'not-enrolled');
+  const variation = (0, _universalDebugApiMinimalNoop.overrideHook)('experiment_cohort', 'not-enrolled');
   const span_x = document.getElementById('experiment');
   span_x.innerText = variation;
   const custom = (0, _universalDebugApiMinimalNoop.overrideHook)('custom', undefined);
@@ -877,4 +877,4 @@ console.log(`[${LIB}.${+Date.now()}] sending a test postMessage...`)
 window.postMessage({msg: `Test message from ${LIB}`}, '*')
 */
 },{"@offirmo/universal-debug-api-minimal-noop":"Az9r","../../../../1-foundation/practical-logger-core/doc/shared-demo":"K8Q0"}]},{},["Focm"], null)
-//# sourceMappingURL=demo.874ae9d9.js.map
+//# sourceMappingURL=demo.7da96180.js.map
