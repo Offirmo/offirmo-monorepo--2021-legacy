@@ -16,7 +16,6 @@ export async function up(knex: Knex): Promise<any> {
 		{
 			own_id: '546d79ab-5240-4dd0-af66-782afbc0a044',
 			user_id: 0,
-			roles: []
 		},
 	)
 }

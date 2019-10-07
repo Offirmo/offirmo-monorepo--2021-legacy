@@ -18,6 +18,10 @@ export async function up(knex: Knex): Promise<any> {
 			.index()
 
 		table
+			.string('summary')
+			.notNullable()
+
+		table
 			.jsonb('latest')
 			.notNullable()
 
@@ -31,7 +35,7 @@ export async function up(knex: Knex): Promise<any> {
 			.jsonb('v-3')
 
 		table
-			.jsonb('last_clean')
+			.jsonb('last_untouched')
 			.notNullable()
 	})
 }

@@ -20,6 +20,7 @@ export async function up(knex: Knex): Promise<any> {
 			.references('id').inTable('users').onDelete('CASCADE')
 			.index()
 
+		/* Nooo ! THis is redundant and duplicated!
 		table
 			.string('called')
 
@@ -33,6 +34,7 @@ export async function up(knex: Knex): Promise<any> {
 			.specificType('roles', 'text[]')
 			.notNullable()
 			.defaultTo(knex.raw('array[]::varchar[]'))
+		*/
 	})
 }
 

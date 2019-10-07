@@ -1,0 +1,25 @@
+{
+	"name": "@offirmo-private/db-migrations",
+	"description": "Database migrations",
+	"version": "0.0.1",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+
+	"dependencies": {
+	},
+
+	"scripts": {
+		"up": "knex migrate:latest",
+		"reset": "knex migrate:rollback --all && knex migrate:latest",
+		"new": "knex migrate:make TODO -x ts"
+	},
+	"devDependencies": {
+		"@types/node": "^12",
+		"knex": "^0.19",
+		"npm-run-all": "^4",
+		"pg": "^7",
+		"tslib": "^1",
+		"typescript": "*"
+	}
+}

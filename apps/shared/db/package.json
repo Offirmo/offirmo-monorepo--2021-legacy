@@ -15,6 +15,7 @@
 
 	"dependencies": {
 		"@offirmo-private/tiny-singleton": "^0",
+		"json-stable-stringify": "^1",
 		"knex": "^0.19",
 		"pg": "^7",
 		"tiny-invariant": "^1",
@@ -29,11 +30,7 @@
 		"build:prod": "node ../../../scripts/build-typescript.js",
 
 		"dev": "run-s clean build:dev:watch",
-		"build": "run-s build:prod",
-
-		"up": "knex migrate:latest",
-		"reset": "knex migrate:rollback --all; knex migrate:latest",
-		"new": "knex migrate:make TODO -x ts"
+		"build": "run-s build:prod"
 	},
 	"devDependencies": {
 		"@types/node": "^12",
