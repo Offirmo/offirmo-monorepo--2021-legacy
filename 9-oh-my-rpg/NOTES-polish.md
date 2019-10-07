@@ -1,4 +1,6 @@
 
+cloud storage https://github.com/vasanthv/jsonbox
+
 offline
 * https://blog.logrocket.com/every-website-deserves-a-service-worker/
 * https://remysharp.com/2019/09/05/offline-listings
