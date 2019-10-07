@@ -26,7 +26,8 @@ type ActionType = Enum<typeof ActionType> // eslint-disable-line no-redeclare
 
 /////////////////////
 
-// TODO all those actions should be in the state! (v2)
+// TODO all those actions should be in the state package! (v2)
+// TODO enrich actions with extra revert data
 interface BaseAction {
 	//v: 1 // not sure needed
 	time: TimestampUTCMs

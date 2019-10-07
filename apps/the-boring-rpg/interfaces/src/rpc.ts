@@ -26,15 +26,21 @@ interface RpcEchoResponse extends JSONRpcResponse<any> {
 
 interface SyncParams {
 	engine_v: string
-	pending_actions: Action[]
-	//pending_actions: PlayedAction[]
-	current_state_hash: string
+
+	// incremental mode
+	pending_actions?: Action[]
+	current_state_hash?: string
+
+	// full bkp mode
+	// this implies that the savegame may have been touched
+	state?: State
 }
 interface SyncResult {
 	engine_v: string // to force an update if needed
 	processed_up_to_time: TimestampUTCMs
-	authoritative_state?: State // only if hash not matching
+	authoritative_state?: State // only if needed (ex. more recent on server)
 	// TODO more stuff: message, recent good drops...
+	// Or TODO put the common stuff in a common type?
 }
 
 interface RpcSync extends JSONRpcRequest<SyncParams> {
