@@ -15,7 +15,12 @@ import lib1 from './lib-to-inject-1'
 import lib2 from './lib-to-inject-2'
 
 const LIB = '🧩 UWDT/CS--start'
-const DEBUG = false
+
+let DEBUG = false
+try { // defensive!
+	DEBUG = DEBUG || !!window.localStorage.getItem(`🧩UWDTi.context.debug`);
+} catch { /* swallow */ }
+
 if (DEBUG) {
 	console.log(`[${LIB},${Date.now()}] Hello!`, {
 		browser,
@@ -54,7 +59,11 @@ window.addEventListener('message', onMessage, listenerOptions)
 
 ////////////////////////////////////
 
-const should_inject = localStorage.getItem(LS_KEY_ENABLED) === 'true'
+let should_inject = false
+try { // defensive!
+	should_inject = should_inject || localStorage.getItem(LS_KEY_ENABLED) === 'true'
+} catch { /* swallow */ }
+
 if (should_inject) {
 	// Create a script tag and inject it into the document.
 
