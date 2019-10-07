@@ -20,7 +20,7 @@
 	This is my <a href="https://github.com/Offirmo/ama">personal</a> monorepo for all my JS/TS projects. <a href="https://github.com/Offirmo/offirmo-monorepo">Hosted on GitHub</a>.
 </p>
 <p>
-	<b>Note: ensure you access this page through <a href="https://offirmo-monorepo.netlify.com/">https://offirmo-monorepo.netlify.com/</a> instead.</b>
+	<b>Note: ensure you access this page through <a href="https://offirmo-monorepo.netlify.com/">https://offirmo-monorepo.netlify.com/</a></b>
 </p>
 
 <ul>
@@ -121,14 +121,14 @@
 	window.query = (url) => {
 		const user = netlifyIdentity.currentUser()
 		if (!user)
-			throw new Error('Not logged in!')
+			console.warn('Querying: Not logged in...')
 
 		let ok = false // so far
 		let errorMessage = 'Failed fetch' // so far
 		let err = null // so far
 		const headers = {
 			'Content-Type': 'application/json',
-			'Authorization': `Bearer ${user.token.access_token}`,
+			 ...(user && { 'Authorization': `Bearer ${user.token.access_token}`, }),
 		}
 		console.log('fetching…', {url, headers})
 
