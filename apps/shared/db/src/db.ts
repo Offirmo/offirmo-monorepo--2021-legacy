@@ -1,6 +1,5 @@
 import tiny_singleton from '@offirmo-private/tiny-singleton'
 import Knex from 'knex'
-// http://knexjs.org/
 
 export const get_db = tiny_singleton(() => Knex({
 		client: 'pg',

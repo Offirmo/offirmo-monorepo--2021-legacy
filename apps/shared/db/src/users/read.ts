@@ -1,6 +1,6 @@
 import get_db from '../db'
 
-import { BaseUser, User, NetlifyUser, MergedUser } from './types'
+import { NetlifyUser, MergedUser } from './types'
 import { DEFAULT_CALLED, DEFAULT_ROLES } from './consts'
 
 
@@ -26,6 +26,9 @@ export async function get_full_user_through_netlify(netlify_id: NetlifyUser['own
 		email: raw_u.email || raw_nu.email,
 		avatar_url: raw_u.avatar_url || raw_nu.avatar_url,
 		roles: Array.from(new Set([...raw_u.roles, ...raw_nu.roles, ...DEFAULT_ROLES])),
+		_: {
+			user: raw_result[0].user
+		}
 	}
 
 	return merged
