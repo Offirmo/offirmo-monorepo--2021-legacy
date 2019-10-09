@@ -256,7 +256,7 @@ const RAW_ENTRIES_FIGHT_ENCOUNTERS: Readonly<Partial<AchievementDefinition<UStat
 	{
 		icon: '⚔',
 		name: 'Alpha Of The Wilderness',
-		description: `Having experienced ${FIGHT_ENCOUNTER_TIERS[5]} random fight encounters.`,
+		description: `Having experienced ${FIGHT_ENCOUNTER_TIERS[6]} random fight encounters.`,
 		get_status: (u_state: UState) => _encountered_fight_adventures_count(u_state) >= FIGHT_ENCOUNTER_TIERS[6]
 			? AchievementStatus.unlocked
 			: _encountered_fight_adventures_count(u_state) >= FIGHT_ENCOUNTER_TIERS[5]
