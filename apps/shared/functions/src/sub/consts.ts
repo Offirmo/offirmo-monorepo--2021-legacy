@@ -4,6 +4,10 @@ import { JSONRpcResponse } from '@offirmo-private/json-rpc-types'
 
 ////////////////////////////////////
 
+const APP = 'online-adventur.es’ functions'
+
+////////////////////////////////////
+
 const JSONRPC_CODE = {
 	parse_error: -32700, // Invalid JSON was received by the server.
 								// An error occurred on the server while parsing the JSON text.
@@ -14,7 +18,7 @@ const JSONRPC_CODE = {
 	//-32000 to -32099 	Server error 	Reserved for implementation-defined server-errors.
 }
 
-function get_default_JsonRpc_payload(): JSONRpcResponse<{}>['error'] {
+function get_default_JsonRpc_error(): JSONRpcResponse<{}>['error'] {
 	return {
 		code: JSONRPC_CODE.internal_error,
 		message: 'Internal error!',
@@ -25,7 +29,8 @@ function get_default_JsonRpc_payload(): JSONRpcResponse<{}>['error'] {
 ////////////////////////////////////
 
 export {
+	APP,
 	// TODO move in a dedicated lib
 	JSONRPC_CODE,
-	get_default_JsonRpc_payload,
+	get_default_JsonRpc_error,
 }

@@ -11,7 +11,7 @@ const {
 	listenToUncaughtErrors,
 	listenToUnhandledRejections,
 	decorateWithDetectedEnv,
-} = require('../../src/index.js')
+} = require('../..')
 const good_lib  = require('./good_lib.js')
 
 const APP = 'SEC_NODE_DEMO'

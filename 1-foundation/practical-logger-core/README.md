@@ -1,6 +1,6 @@
 
 <h1 align="center">
-	Offirmo’s practical logger - JSON<br>
+	Offirmo’s practical logger - Core (internal, reusable)<br>
 	<a href="https://www.offirmo.net/offirmo-monorepo/doc/modules-directory/index.html">
 		<img src="https://www.offirmo.net/offirmo-monorepo/doc/quality-seal/offirmos_quality_seal.svg" alt="Offirmo’s quality seal">
 	</a>

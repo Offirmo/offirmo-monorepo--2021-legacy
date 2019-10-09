@@ -3,41 +3,42 @@ import { Enum } from 'typescript-string-enums'
 import {
 	APIGatewayEvent,
 	Context,
+	NetlifyContext,
 	Response,
 	NetlifyHandler,
-	NetlifyIdentityContext
+	NetlifyClientContext
 } from './sub/types'
 import {
 	JSONRPC_CODE,
-	get_default_JsonRpc_payload,
+	get_default_JsonRpc_error,
 } from './sub/consts'
 
 import { create_error } from './sub/utils'
 
 import { Method, TbrpgRpc, TbrpgRpcResponse } from '@tbrpg/interfaces'
-import { process_rpc } from './procs'
+import { process_rpc } from './sub/tbrpg'
 
 ////////////////////////////////////
 
 
 const handler: NetlifyHandler = async (
 	event: APIGatewayEvent,
-	context: Context,
+	badly_typed_context: Context,
 ): Promise<Response> => {
 	console.log('\n******* handling a tbrpg-rpc… *******')
+	const context: NetlifyContext = badly_typed_context as any
 
 	if (!context.clientContext)
 		throw new Error('No/bad/outdated token [1]!')
 
-	const identity_context: NetlifyIdentityContext = context.clientContext as any
-	if (!identity_context.user)
+	if (!context.clientContext.user)
 		throw new Error('No/bad/outdated token [2]!')
 
 	let statusCode = 500
 	let res: TbrpgRpcResponse = {
 		jsonrpc: '2.0',
 		id: '???',
-		error: get_default_JsonRpc_payload(),
+		error: get_default_JsonRpc_error(),
 		result: undefined,
 	}
 
@@ -66,8 +67,8 @@ const handler: NetlifyHandler = async (
 		res.error = err.jsonrpc_response
 			? err.jsonrpc_response
 			: res.error
-				? res.error
-				: get_default_JsonRpc_payload() // it could have been deleted
+				? res.error // the default one we put at the start
+				: get_default_JsonRpc_error() // it could have been deleted
 
 		res.error!.message = err.message // forced, or wouldn't have needed to catch
 
@@ -95,8 +96,13 @@ function check_sanity(event: APIGatewayEvent) {
 			statusCode: 422,
 		})
 
-	if (!body || body.length > 30_000)
-		throw create_error('Bad body!', {
+	if (!body)
+		throw create_error('Missing body!', {
+			statusCode: 413,
+		})
+
+	if (body.length > 32_000)
+		throw create_error('Body too big!', {
 			statusCode: 413,
 		})
 }

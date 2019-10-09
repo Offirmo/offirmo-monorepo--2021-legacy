@@ -3,6 +3,7 @@
 import {
 	Handler,
 	Context,
+	ClientContext,
 	Callback,
 	APIGatewayEvent,
 } from 'aws-lambda'
@@ -16,10 +17,15 @@ interface Response {
 
 type NetlifyHandler = Handler<APIGatewayEvent, Response>
 
-interface NetlifyIdentityContext {
+// Re-typing of the context according to what we really see
+interface NetlifyContext extends Omit<Omit<Context, 'identity'>, 'clientContext'> {
+	clientContext: NetlifyClientContext;
+}
+
+interface NetlifyClientContext extends Omit<ClientContext, 'env'> {
 	custom: unknown
 	identity: unknown
-	user: {
+	user?: {
 		app_metadata: {
 			provider: string
 			roles?: string[]
@@ -38,7 +44,8 @@ interface NetlifyIdentityContext {
 export {
 	APIGatewayEvent,
 	Context,
-	NetlifyIdentityContext,
+	NetlifyContext,
+	NetlifyClientContext,
 	Response,
 	NetlifyHandler,
 }

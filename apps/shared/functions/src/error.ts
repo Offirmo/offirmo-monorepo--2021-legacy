@@ -7,12 +7,9 @@ import {
 
 const handler: NetlifyHandler = async (
 	event: APIGatewayEvent,
-	context: Context,
+	badly_typed_context: Context,
 ): Promise<Response> => {
 	throw new Error('TEST ERROR!')
-
-	// https://devdocs.io/node/process#process_process_env
-	// process.setUncaughtExceptionCaptureCallback(fn)
 
 	//return new Error('TEST ERROR 2!')
 }

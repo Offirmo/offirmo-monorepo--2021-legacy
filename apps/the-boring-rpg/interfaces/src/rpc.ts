@@ -11,10 +11,19 @@ import { Action } from './actions'
 const Method = Enum(
 	'echo', // for tests
 	'sync',
+	'list_savegames',
 )
 type Method = Enum<typeof Method> // eslint-disable-line no-redeclare
 
 /////////////////////
+
+interface CommonResult {
+	common: {
+		numver: number
+		latest_notable: unknown[] // TODO social
+		admin_messages: unknown[] // TODO
+	}
+}
 
 interface RpcEcho extends JSONRpcRequest<any> {
 	method: typeof Method.echo
@@ -25,7 +34,7 @@ interface RpcEchoResponse extends JSONRpcResponse<any> {
 ///////
 
 interface SyncParams {
-	engine_v: string
+	numver: number
 
 	// incremental mode
 	pending_actions?: Action[]
@@ -35,8 +44,7 @@ interface SyncParams {
 	// this implies that the savegame may have been touched
 	state?: State
 }
-interface SyncResult {
-	engine_v: string // to force an update if needed
+interface SyncResult extends CommonResult {
 	processed_up_to_time: TimestampUTCMs
 	authoritative_state?: State // only if needed (ex. more recent on server)
 	// TODO more stuff: message, recent good drops...
@@ -50,15 +58,33 @@ interface RpcSyncResponse extends JSONRpcResponse<SyncResult> {
 	result: SyncResult
 }
 
+///////
+
+interface ListSavegamesParams {
+	numver: number
+}
+interface ListSavegamesResult extends CommonResult {
+	// TODO
+}
+
+interface RpcListSavegames extends JSONRpcRequest<ListSavegamesParams> {
+	method: typeof Method.list_savegames
+}
+interface RpcListSavegamesResponse extends JSONRpcResponse<ListSavegamesResult> {
+	result: ListSavegamesResult
+}
+
 /////////////////////
 
 type TbrpgRpc =
 	RpcEcho |
-	RpcSync
+	RpcSync |
+	RpcListSavegames
 
 type TbrpgRpcResponse =
 	RpcEchoResponse |
-	RpcSyncResponse
+	RpcSyncResponse |
+	RpcListSavegamesResponse
 
 /////////////////////
 
@@ -67,15 +93,17 @@ export {
 	JSONRpcResponse,
 
 	Method,
+/*
+	SyncParams,
+	SyncResult,*/
 
 	RpcEcho,
 	RpcSync,
+	RpcListSavegames,
 	TbrpgRpc,
-
-	SyncParams,
-	SyncResult,
 
 	RpcEchoResponse,
 	RpcSyncResponse,
+	RpcListSavegamesResponse,
 	TbrpgRpcResponse,
 }

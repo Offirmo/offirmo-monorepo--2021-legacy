@@ -8,11 +8,15 @@
 
 	"dependencies": {
 		"@offirmo-private/common-error-fields": "^0",
+		"@offirmo-private/db": "^0",
 		"@offirmo-private/json-rpc-types": "^0",
-		"@offirmo/practical-logger-node": "^0",
+		"@offirmo-private/soft-execution-context": "^0",
+		"@offirmo-private/soft-execution-context-node": "^0",
 		"@offirmo-private/timestamps": "^0",
 		"@offirmo-private/uuid": "^0",
-		"@offirmo-private/db": "^0",
+		"@offirmo/practical-logger-interface": "^1",
+		"@offirmo/practical-logger-core": "^1",
+		"@sentry/node": "^5",
 		"@tbrpg/flux": "^0",
 		"@tbrpg/interfaces": "^0",
 		"noop2": "^2",
@@ -29,7 +33,7 @@
 		"build:netlify-functions": "rm -rf ./functions && netlify-lambda build ./dist/src.es2018.cjs --config ./webpack.config.ts",
 
 		"dev": "run-s clean build:dev:watch",
-		"start": "netlify-lambda serve ./dist/src.es2018.cjs",
+		"start": "netlify-lambda serve ./dist/src.es2018.cjs --config ./webpack.config.ts",
 		"test": "../../../node_modules/.bin/mocha --opts ../../../3-tools/unit-test-toolbox/mocha.opts ../../../3-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2018.cjs/**/*spec.js'",
 		"build": "run-s build:prod build:netlify-functions"
 	},

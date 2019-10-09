@@ -9,6 +9,9 @@
 * https://www.lifehack.org/articles/communication/what-are-the-differences-between-knowledge-wisdom-and-insight.html
 * https://en.wikipedia.org/wiki/Johari_window
 
+From marketing of "Children of MORTA"
+> The story takes place in a distant land but copes with themes and emotions common to all of us: love and hope, longing and uncertainty, ultimately loss... and sacrifice we are willing to make to save the ones we care the most for. Ultimately, it's about a family of heroes standing against the encroaching darkness.
+
 ### groupes
 * sorcerer-kings ~sith
 * mage knights created by reaction https://boardgamegeek.com/boardgame/248562/mage-knight-ultimate-edition

@@ -1,25 +1,13 @@
 import {
 	APIGatewayEvent,
 	Context,
+	NetlifyContext,
 	Response,
 	NetlifyHandler,
 } from './sub/types'
 
 
-function filter_out_secrets(env: NodeJS.ProcessEnv): NodeJS.ProcessEnv {
-	return Object.entries(env)
-		.map(([k, v]) => {
-			const isSecret = k.toLowerCase().includes('secret')
-				|| k.toLowerCase().includes('token')
-			return [ k, isSecret ? '🙈' : v ]
-		})
-		.reduce((acc: any, [k, v]: any) => {
-			acc[k] = v
-			return acc
-		}, {} as any)
-}
-
-const handler: NetlifyHandler = async (
+export const handler: NetlifyHandler = async (
 	event: APIGatewayEvent,
 	context: Context,
 ): Promise<Response> => {
@@ -51,4 +39,16 @@ const handler: NetlifyHandler = async (
 	}
 }
 
-export { handler }
+
+function filter_out_secrets(env: NodeJS.ProcessEnv): NodeJS.ProcessEnv {
+	return Object.entries(env)
+		.map(([k, v]) => {
+			const isSecret = k.toLowerCase().includes('secret')
+				|| k.toLowerCase().includes('token')
+			return [ k, isSecret ? '🙈' : v ]
+		})
+		.reduce((acc: any, [k, v]: any) => {
+			acc[k] = v
+			return acc
+		}, {} as any)
+}

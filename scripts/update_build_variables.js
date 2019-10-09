@@ -4,6 +4,9 @@ const path = require('path')
 const write_json_file = require('write-json-file')
 const meow = require('meow')
 const fs = require('fs-extra')
+const semver = require('semver')
+const assert = require('tiny-invariant')
+
 
 const { get_human_readable_UTC_timestamp_minutes } = require('../0-stdlib/timestamps')
 
@@ -21,11 +24,18 @@ const cli = meow('build', {
 /////////////////////
 
 const PACKAGE_JSON_PATH = path.join(process.cwd(), 'package.json')
-const { version: VERSION } = require(PACKAGE_JSON_PATH)
+let { version: VERSION } = require(PACKAGE_JSON_PATH)
 const BUILD_DATE = get_human_readable_UTC_timestamp_minutes()
 
 //console.log('🧙️  mode:', cli.flags.mode)
 console.log('🧙️  Extracted variables:', { VERSION, BUILD_DATE })
+
+VERSION = semver.clean(VERSION)
+assert(VERSION, 'cleaned VERSION')
+const PARSED_VERSION = semver.parse(VERSION)
+const NUMERIC_VERSION = Number(`${PARSED_VERSION.major}${PARSED_VERSION.minor}.${PARSED_VERSION.patch}`)
+
+console.log('🧙️  Derived variables:', { VERSION, NUMERIC_VERSION })
 
 switch(cli.flags.mode) {
 	case 'json': {
@@ -42,6 +52,7 @@ switch(cli.flags.mode) {
 		fs.writeFileSync(target_path, `
 // THIS FILE IS AUTO GENERATED!
 export const VERSION = '${VERSION}'
+export const NUMERIC_VERSION = '${NUMERIC_VERSION}' // for easier comparisons
 export const BUILD_DATE = '${BUILD_DATE}'
 `);
 		console.log('🧙️  wrote:', target_path)
