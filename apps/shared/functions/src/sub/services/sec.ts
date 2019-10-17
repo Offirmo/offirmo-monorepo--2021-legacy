@@ -1,15 +1,16 @@
 import { Logger } from '@offirmo/practical-logger-interface'
-import { XError } from "@offirmo-private/common-error-fields"
 import { getRootSEC } from '@offirmo-private/soft-execution-context'
 import {
 	listenToUncaughtErrors,
 	listenToUnhandledRejections,
 	decorateWithDetectedEnv,
 } from '@offirmo-private/soft-execution-context-node'
+import { XError } from '../utils'
 
 import { APP } from '../consts'
-//import { CHANNEL } from './channel'
+import { CHANNEL } from './channel'
 import logger from './logger'
+import { on_error } from './sentry'
 
 /////////////////////////////////////////////////
 
@@ -23,6 +24,10 @@ interface BaseContext {
 	logger: Logger
 }
 
+interface SECContext extends BaseContext {
+	// TODO
+}
+
 /////////////////////
 
 const SEC = getRootSEC()
@@ -32,24 +37,21 @@ const SEC = getRootSEC()
 decorateWithDetectedEnv(SEC)
 
 SEC.injectDependencies({
-//	CHANNEL,
+	CHANNEL,
 //	VERSION,
 })
 SEC.setAnalyticsAndErrorDetails({
 	product: APP,
 //	VERSION,
-//	CHANNEL,
+	CHANNEL,
 })
 
 /////////////////////////////////////////////////
 
 SEC.emitter.on('final-error', function onError({SEC, err}: BaseContext & { err: XError }) {
-	// ignore some
-	console.log({err})
-	if (err.message === `the-boring-rpg›(browser/on error event): Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.`) {
-		logger.info('(↑ error in the ignore list)')
-		return
-	}
+	on_error(err)
+	//console.log({err})
+
 /*
 	if (CHANNEL === 'dev') {
 		logger.fatal('↑ error! (no report since dev)', {SEC, err})
@@ -83,3 +85,8 @@ if (ENV !== process.env.NODE_ENV) {
 /////////////////////////////////////////////////
 
 export default SEC
+export {
+	XError,
+	SECContext,
+	SEC,
+}

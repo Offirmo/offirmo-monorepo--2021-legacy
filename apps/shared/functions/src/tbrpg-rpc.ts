@@ -1,5 +1,8 @@
 import { Enum } from 'typescript-string-enums'
 
+import { decorate_SEC } from '@oh-my-rpg/definitions'
+import { Method, TbrpgRpc, TbrpgRpcResponse } from '@tbrpg/interfaces'
+
 import {
 	APIGatewayEvent,
 	Context,
@@ -15,7 +18,6 @@ import {
 
 import { create_error } from './sub/utils'
 
-import { Method, TbrpgRpc, TbrpgRpcResponse } from '@tbrpg/interfaces'
 import { process_rpc } from './sub/tbrpg'
 
 ////////////////////////////////////

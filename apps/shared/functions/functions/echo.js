@@ -81,12 +81,12 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 64);
+/******/ 	return __webpack_require__(__webpack_require__.s = 95);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 64:
+/***/ 95:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -96,17 +96,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-function filter_out_secrets(env) {
-  return Object.entries(env).map(([k, v]) => {
-    const isSecret = k.toLowerCase().includes('secret') || k.toLowerCase().includes('token');
-    return [k, isSecret ? '🙈' : v];
-  }).reduce((acc, [k, v]) => {
-    acc[k] = v;
-    return acc;
-  }, {});
-}
-
-const handler = async (event, context) => {
+exports.handler = async (event, context) => {
   const all_the_things = JSON.stringify({
     context,
     event,
@@ -133,7 +123,15 @@ const handler = async (event, context) => {
   };
 };
 
-exports.handler = handler;
+function filter_out_secrets(env) {
+  return Object.entries(env).map(([k, v]) => {
+    const isSecret = k.toLowerCase().includes('secret') || k.toLowerCase().includes('token');
+    return [k, isSecret ? '🙈' : v];
+  }).reduce((acc, [k, v]) => {
+    acc[k] = v;
+    return acc;
+  }, {});
+}
 
 /***/ })
 

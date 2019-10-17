@@ -81,71 +81,12 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 67);
+/******/ 	return __webpack_require__(__webpack_require__.s = 98);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 183:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-foundation/common-error-fields/dist/src.es2019/field-set.js
-function create() {
-  return new Set([// standard fields
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
-  'name', 'message', // quasi-standard
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
-  'stack', // standard in node
-  'code', // https://nodejs.org/dist/latest/docs/api/errors.html#errors_node_js_error_codes
-  // non standard but widely used
-  'statusCode', 'shouldRedirect', 'framesToPop', // My (Offirmo) extensions
-  'details', 'SEC', '_temp']);
-}
-
-const DEFAULT_INSTANCE = create();
-const COMMON_ERROR_FIELDS = DEFAULT_INSTANCE;
-
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-foundation/common-error-fields/dist/src.es2019/index.js
-/* concated harmony reexport COMMON_ERROR_FIELDS */__webpack_require__.d(__webpack_exports__, "COMMON_ERROR_FIELDS", function() { return COMMON_ERROR_FIELDS; });
-/* concated harmony reexport create */__webpack_require__.d(__webpack_exports__, "create", function() { return create; });
-
-
-/***/ }),
-
-/***/ 30:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-const common_error_fields_1 = __webpack_require__(183); // TODO extern
-
-
-function create_error(message, data = {}) {
-  const error = new Error(message);
-  Object.keys(data).forEach(k => {
-    if (common_error_fields_1.COMMON_ERROR_FIELDS.has(k) && k !== 'name' && k !== 'message' && k !== 'stack') {
-      error[k] = data[k];
-    } else {
-      error.details = error.details || {};
-      error.details[k] = data[k];
-    }
-  });
-  return error;
-}
-
-exports.create_error = create_error;
-
-/***/ }),
-
-/***/ 6:
+/***/ 0:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -370,62 +311,7 @@ function __importDefault(mod) {
 
 /***/ }),
 
-/***/ 63:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-
-// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/typescript-string-enums/dist/index.js
-var dist = __webpack_require__(9);
-
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/apps/the-boring-rpg/interfaces/dist/src.es2019/actions.js
- /////////////////////
-
-const ActionType = Object(dist["Enum"])('play', 'equip_item', 'sell_item', 'rename_avatar', 'change_avatar_class', 'redeem_code', 'start_game', 'on_start_session', 'on_logged_in_refresh', 'acknowledge_engagement_msg_seen', 'update_to_now', 'hack'); // represent a passed action
-// XXX useful?
-
-/*
-interface PlayedAction {
-    action: Action
-
-    // XXX  TODO usage??
-    previous_last_user_action_tms: TimestampUTCMs
-    previous_revision: number
-}
-*/
-/////////////////////
-// needed for some validations
-
-function get_action_types() {
-  return dist["Enum"].keys(ActionType);
-} /////////////////////
-
-
-
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/apps/the-boring-rpg/interfaces/dist/src.es2019/persistence.js
-
-const StorageKey = Object(dist["Enum"])('savegame', 'savegame-bkp', 'savegame-bkp-m1', 'savegame-bkp-m2', 'cloud.pending-actions');
-
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/apps/the-boring-rpg/interfaces/dist/src.es2019/rpc.js
- ////////////////////////////////////
-
-const Method = Object(dist["Enum"])('echo', // for tests
-'sync'); /////////////////////
-
-
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/apps/the-boring-rpg/interfaces/dist/src.es2019/index.js
-/* concated harmony reexport ActionType */__webpack_require__.d(__webpack_exports__, "ActionType", function() { return ActionType; });
-/* concated harmony reexport get_action_types */__webpack_require__.d(__webpack_exports__, "get_action_types", function() { return get_action_types; });
-/* concated harmony reexport StorageKey */__webpack_require__.d(__webpack_exports__, "StorageKey", function() { return StorageKey; });
-/* concated harmony reexport Method */__webpack_require__.d(__webpack_exports__, "Method", function() { return Method; });
-
-
-
-
-/***/ }),
-
-/***/ 67:
+/***/ 100:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -435,27 +321,344 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const typescript_string_enums_1 = __webpack_require__(9);
+const typescript_string_enums_1 = __webpack_require__(23);
 
-const consts_1 = __webpack_require__(68);
+const StorageKey = typescript_string_enums_1.Enum('savegame', 'savegame-bkp', 'savegame-bkp-m1', 'savegame-bkp-m2', 'cloud.pending-actions');
+exports.StorageKey = StorageKey;
 
-const utils_1 = __webpack_require__(30);
+/***/ }),
 
-const interfaces_1 = __webpack_require__(63);
+/***/ 101:
+/***/ (function(module, exports, __webpack_require__) {
 
-const procs_1 = __webpack_require__(69); ////////////////////////////////////
+"use strict";
 
 
-const handler = async (event, context) => {
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+const typescript_string_enums_1 = __webpack_require__(23); ////////////////////////////////////
+
+
+const Method = typescript_string_enums_1.Enum('echo', // for tests
+'sync', 'list_savegames');
+exports.Method = Method;
+
+/***/ }),
+
+/***/ 102:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+const tslib_1 = __webpack_require__(0);
+
+const utils_1 = __webpack_require__(25);
+
+const interfaces_1 = __webpack_require__(53);
+
+const echo_1 = tslib_1.__importDefault(__webpack_require__(103));
+
+const sync_1 = tslib_1.__importDefault(__webpack_require__(104));
+
+function process_rpc(req, res) {
+  const {
+    method
+  } = req;
+
+  switch (method) {
+    case interfaces_1.Method.echo:
+      return echo_1.default(req, res);
+
+    case interfaces_1.Method.sync:
+      return sync_1.default(req, res);
+
+    default:
+      {
+        throw utils_1.create_error('RPC method not implemented!', {
+          method,
+          statusCode: 501
+        });
+      }
+  }
+}
+
+exports.process_rpc = process_rpc;
+
+/***/ }),
+
+/***/ 103:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+function handle(req, res) {
+  const {
+    method,
+    params
+  } = req;
+  res.result = {
+    method,
+    params
+  };
+  delete res.error;
+  return res;
+} ////////////////////////////////////
+
+
+exports.default = handle;
+
+/***/ }),
+
+/***/ 104:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+}); ////////////////////////////////////
+
+function handle(req, res) {
+  res.error.message = 'not implemented!';
+  /*res.result = {
+      rpc_v: 1,
+      engine_v: VERSION,
+      //authoritative_state: null
+  }
+  delete res.error*/
+
+  return res;
+} ////////////////////////////////////
+
+
+exports.default = handle;
+
+/***/ }),
+
+/***/ 22:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return COMMON_ERROR_FIELDS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return create; });
+function create() {
+  return new Set([// standard fields
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
+  'name', 'message', // quasi-standard
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
+  'stack', // standard in node
+  'code', // https://nodejs.org/dist/latest/docs/api/errors.html#errors_node_js_error_codes
+  // non standard but widely used
+  'statusCode', 'shouldRedirect', 'framesToPop', // My (Offirmo) extensions
+  'details', 'SEC', '_temp']);
+}
+
+const DEFAULT_INSTANCE = create();
+const COMMON_ERROR_FIELDS = DEFAULT_INSTANCE;
+
+
+/***/ }),
+
+/***/ 23:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+function Enum() {
+    var values = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        values[_i] = arguments[_i];
+    }
+    if (typeof values[0] === "string") {
+        var result = {};
+        for (var _a = 0, values_1 = values; _a < values_1.length; _a++) {
+            var value = values_1[_a];
+            result[value] = value;
+        }
+        return result;
+    }
+    else {
+        return values[0];
+    }
+}
+exports.Enum = Enum;
+(function (Enum) {
+    function ofKeys(e) {
+        var result = {};
+        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
+            var key = _a[_i];
+            result[key] = key;
+        }
+        return result;
+    }
+    Enum.ofKeys = ofKeys;
+    function keys(e) {
+        return Object.keys(e);
+    }
+    Enum.keys = keys;
+    function values(e) {
+        var result = [];
+        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
+            var key = _a[_i];
+            result.push(e[key]);
+        }
+        return result;
+    }
+    Enum.values = values;
+    function isType(e, value) {
+        return values(e).indexOf(value) !== -1;
+    }
+    Enum.isType = isType;
+})(Enum = exports.Enum || (exports.Enum = {}));
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ 24:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+ ////////////////////////////////////
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+}); ////////////////////////////////////
+
+const APP = 'functions';
+exports.APP = APP; ////////////////////////////////////
+
+const JSONRPC_CODE = {
+  parse_error: -32700,
+  // An error occurred on the server while parsing the JSON text.
+  invalid_request: -32600,
+  method_not_found: -32601,
+  invalid_params: -32602,
+  internal_error: -32603
+};
+exports.JSONRPC_CODE = JSONRPC_CODE;
+
+function get_default_JsonRpc_error() {
+  return {
+    code: JSONRPC_CODE.internal_error,
+    message: 'Internal error!',
+    data: {}
+  };
+}
+
+exports.get_default_JsonRpc_error = get_default_JsonRpc_error;
+
+/***/ }),
+
+/***/ 25:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+const common_error_fields_1 = __webpack_require__(26); // TODO extern
+
+
+function create_error(message, data = {}) {
+  const error = new Error(message);
+  Object.keys(data).forEach(k => {
+    if (common_error_fields_1.COMMON_ERROR_FIELDS.has(k) && k !== 'name' && k !== 'message' && k !== 'stack') {
+      error[k] = data[k];
+    } else {
+      error.details = error.details || {};
+      error.details[k] = data[k];
+    }
+  });
+  error.framesToPop = error.framesToPop || 1;
+  return error;
+}
+
+exports.create_error = create_error;
+
+/***/ }),
+
+/***/ 26:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _field_set__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "COMMON_ERROR_FIELDS", function() { return _field_set__WEBPACK_IMPORTED_MODULE_0__["a"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "create", function() { return _field_set__WEBPACK_IMPORTED_MODULE_0__["b"]; });
+
+
+
+/***/ }),
+
+/***/ 53:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+const tslib_1 = __webpack_require__(0);
+
+tslib_1.__exportStar(__webpack_require__(99), exports);
+
+tslib_1.__exportStar(__webpack_require__(100), exports);
+
+tslib_1.__exportStar(__webpack_require__(101), exports);
+
+/***/ }),
+
+/***/ 98:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+const typescript_string_enums_1 = __webpack_require__(23);
+
+const interfaces_1 = __webpack_require__(53);
+
+const consts_1 = __webpack_require__(24);
+
+const utils_1 = __webpack_require__(25);
+
+const tbrpg_1 = __webpack_require__(102); ////////////////////////////////////
+
+
+const handler = async (event, badly_typed_context) => {
   console.log('\n******* handling a tbrpg-rpc… *******');
+  const context = badly_typed_context;
   if (!context.clientContext) throw new Error('No/bad/outdated token [1]!');
-  const identity_context = context.clientContext;
-  if (!identity_context.user) throw new Error('No/bad/outdated token [2]!');
+  if (!context.clientContext.user) throw new Error('No/bad/outdated token [2]!');
   let statusCode = 500;
   let res = {
     jsonrpc: '2.0',
     id: '???',
-    error: consts_1.get_default_JsonRpc_payload(),
+    error: consts_1.get_default_JsonRpc_error(),
     result: undefined
   };
 
@@ -468,12 +671,13 @@ const handler = async (event, context) => {
     res.error.message = 'Unknown internal error while processing the request!';
     statusCode = 500; // TODO extract Context
 
-    res = procs_1.process_rpc(req, res);
+    res = tbrpg_1.process_rpc(req, res);
     if (res.error && res.result) throw new Error('Internal error: unclear result after handling!');
     if (res.result) statusCode = 200; // was processed correctly
   } catch (err) {
     statusCode = err.statusCode || statusCode;
-    res.error = err.jsonrpc_response ? err.jsonrpc_response : res.error ? res.error : consts_1.get_default_JsonRpc_payload(); // it could have been deleted
+    res.error = err.jsonrpc_response ? err.jsonrpc_response : res.error ? res.error // the default one we put at the start
+    : consts_1.get_default_JsonRpc_error(); // it could have been deleted
 
     res.error.message = err.message; // forced, or wouldn't have needed to catch
 
@@ -500,7 +704,10 @@ function check_sanity(event) {
   if (isBase64Encoded) throw utils_1.create_error('Base 64 unexpected!', {
     statusCode: 422
   });
-  if (!body || body.length > 30000) throw utils_1.create_error('Bad body!', {
+  if (!body) throw utils_1.create_error('Missing body!', {
+    statusCode: 413
+  });
+  if (body.length > 32000) throw utils_1.create_error('Body too big!', {
     statusCode: 413
   });
 } ////////////
@@ -557,39 +764,7 @@ function parse_jsonrpc_requests(res, event) {
 
 /***/ }),
 
-/***/ 68:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
- ////////////////////////////////////
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-}); ////////////////////////////////////
-
-const JSONRPC_CODE = {
-  parse_error: -32700,
-  // An error occurred on the server while parsing the JSON text.
-  invalid_request: -32600,
-  method_not_found: -32601,
-  invalid_params: -32602,
-  internal_error: -32603
-};
-exports.JSONRPC_CODE = JSONRPC_CODE;
-
-function get_default_JsonRpc_payload() {
-  return {
-    code: JSONRPC_CODE.internal_error,
-    message: 'Internal error!',
-    data: {}
-  };
-}
-
-exports.get_default_JsonRpc_payload = get_default_JsonRpc_payload;
-
-/***/ }),
-
-/***/ 69:
+/***/ 99:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -599,150 +774,30 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const tslib_1 = __webpack_require__(6);
+const typescript_string_enums_1 = __webpack_require__(23); /////////////////////
 
-const utils_1 = __webpack_require__(30);
 
-const interfaces_1 = __webpack_require__(63);
+const ActionType = typescript_string_enums_1.Enum('play', 'equip_item', 'sell_item', 'rename_avatar', 'change_avatar_class', 'redeem_code', 'start_game', 'on_start_session', 'on_logged_in_refresh', 'acknowledge_engagement_msg_seen', 'update_to_now', 'hack');
+exports.ActionType = ActionType; // represent a passed action
+// XXX useful?
 
-const echo_1 = tslib_1.__importDefault(__webpack_require__(70));
+/*
+interface PlayedAction {
+    action: Action
 
-const sync_1 = tslib_1.__importDefault(__webpack_require__(71));
+    // XXX  TODO usage??
+    previous_last_user_action_tms: TimestampUTCMs
+    previous_revision: number
+}
+*/
+/////////////////////
+// needed for some validations
 
-function process_rpc(req, res) {
-  const {
-    method
-  } = req;
-
-  switch (method) {
-    case interfaces_1.Method.echo:
-      return echo_1.default(req, res);
-
-    case interfaces_1.Method.sync:
-      return sync_1.default(req, res);
-
-    default:
-      {
-        throw utils_1.create_error('RPC method not implemented!', {
-          method,
-          statusCode: 501
-        });
-      }
-  }
+function get_action_types() {
+  return typescript_string_enums_1.Enum.keys(ActionType);
 }
 
-exports.process_rpc = process_rpc;
-
-/***/ }),
-
-/***/ 70:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-function handle(req, res) {
-  const {
-    method,
-    params
-  } = req;
-  res.result = {
-    method,
-    params
-  };
-  delete res.error;
-  return res;
-} ////////////////////////////////////
-
-
-exports.default = handle;
-
-/***/ }),
-
-/***/ 71:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-}); ////////////////////////////////////
-
-function handle(req, res) {
-  res.error.message = 'not implemented!';
-  /*res.result = {
-      rpc_v: 1,
-      engine_v: VERSION,
-      //authoritative_state: null
-  }
-  delete res.error*/
-
-  return res;
-} ////////////////////////////////////
-
-
-exports.default = handle;
-
-/***/ }),
-
-/***/ 9:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-function Enum() {
-    var values = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        values[_i] = arguments[_i];
-    }
-    if (typeof values[0] === "string") {
-        var result = {};
-        for (var _a = 0, values_1 = values; _a < values_1.length; _a++) {
-            var value = values_1[_a];
-            result[value] = value;
-        }
-        return result;
-    }
-    else {
-        return values[0];
-    }
-}
-exports.Enum = Enum;
-(function (Enum) {
-    function ofKeys(e) {
-        var result = {};
-        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
-            var key = _a[_i];
-            result[key] = key;
-        }
-        return result;
-    }
-    Enum.ofKeys = ofKeys;
-    function keys(e) {
-        return Object.keys(e);
-    }
-    Enum.keys = keys;
-    function values(e) {
-        var result = [];
-        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
-            var key = _a[_i];
-            result.push(e[key]);
-        }
-        return result;
-    }
-    Enum.values = values;
-    function isType(e, value) {
-        return values(e).indexOf(value) !== -1;
-    }
-    Enum.isType = isType;
-})(Enum = exports.Enum || (exports.Enum = {}));
-//# sourceMappingURL=index.js.map
+exports.get_action_types = get_action_types;
 
 /***/ })
 

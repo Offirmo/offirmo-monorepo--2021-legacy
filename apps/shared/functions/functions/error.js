@@ -81,12 +81,12 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 65);
+/******/ 	return __webpack_require__(__webpack_require__.s = 96);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 65:
+/***/ 96:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -96,10 +96,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const handler = async (event, context) => {
-  throw new Error('TEST ERROR!'); // https://devdocs.io/node/process#process_process_env
-  // process.setUncaughtExceptionCaptureCallback(fn)
-  //return new Error('TEST ERROR 2!')
+const handler = async (event, badly_typed_context) => {
+  throw new Error('TEST ERROR!'); //return new Error('TEST ERROR 2!')
 };
 
 exports.handler = handler;
