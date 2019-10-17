@@ -3,6 +3,7 @@
 
 ## pending
 * TODO fix the "private" mode compatibility with bolt
+* TODO fix the "maximum call stack exceeded" when printing a SEC
 * [chore] bumped dependencies
 * ...
 

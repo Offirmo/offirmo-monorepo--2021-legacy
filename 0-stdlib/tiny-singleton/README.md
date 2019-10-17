@@ -5,6 +5,8 @@
 
 Note: lazily created on 1st use, of course!
 
+`"@offirmo-private/tiny-singleton": "^0"`
+ 	``
 ```typescript
 // "@offirmo-private/tiny-singleton": "^0",
 import tiny_singleton from '@offirmo-private/tiny-singleton'
