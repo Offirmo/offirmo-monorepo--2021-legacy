@@ -3,7 +3,7 @@
 import { getLogger } from '@offirmo-private/universal-debug-api-full-browser'
 
 import { LIB } from './consts'
-import { ENGINE_VERSION, BUILD_DATE } from '@tbrpg/flux'
+import { VERSION as ENGINE_VERSION, BUILD_DATE } from '@tbrpg/flux'
 
 /////////////////////////////////////////////////
 

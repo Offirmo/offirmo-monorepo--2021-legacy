@@ -7,7 +7,7 @@ import { Storage } from '@offirmo-private/ts-types'
 
 import { OMRContext } from '@oh-my-rpg/definitions'
 import {
-	ENGINE_VERSION,
+	NUMERIC_VERSION,
 	State,
 } from '@tbrpg/state'
 import {
@@ -100,9 +100,9 @@ function create(
 					SEC,
 					call_remote_procedure: call_json_rpc,
 					on_successful_sync: (result: SyncResult) => {
-						const { engine_v, processed_up_to_time, authoritative_state } = result
+						const { common: { numver }, processed_up_to_time, authoritative_state } = result
 
-						if (engine_v !== ENGINE_VERSION) {
+						if (numver !== NUMERIC_VERSION) {
 							// TODO trigger a refresh to update
 							// TODO stop the sync?
 							opt_out('We are outdated!')

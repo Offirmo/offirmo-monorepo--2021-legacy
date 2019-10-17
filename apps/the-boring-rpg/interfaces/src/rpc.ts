@@ -25,10 +25,12 @@ interface CommonResult {
 	}
 }
 
-interface RpcEcho extends JSONRpcRequest<any> {
+type EchoParams = any
+type EchoResult = any
+interface RpcEcho extends JSONRpcRequest<EchoParams> {
 	method: typeof Method.echo
 }
-interface RpcEchoResponse extends JSONRpcResponse<any> {
+interface RpcEchoResponse extends JSONRpcResponse<EchoResult> {
 }
 
 ///////
@@ -93,9 +95,14 @@ export {
 	JSONRpcResponse,
 
 	Method,
-/*
+
+	CommonResult,
+	EchoParams,
+	EchoResult,
 	SyncParams,
-	SyncResult,*/
+	SyncResult,
+	ListSavegamesParams,
+	ListSavegamesResult,
 
 	RpcEcho,
 	RpcSync,

@@ -51,9 +51,9 @@ switch(cli.flags.mode) {
 		const target_path = path.resolve(process.cwd(), './src/build.ts')
 		fs.writeFileSync(target_path, `
 // THIS FILE IS AUTO GENERATED!
-export const VERSION = '${VERSION}'
-export const NUMERIC_VERSION = '${NUMERIC_VERSION}' // for easier comparisons
-export const BUILD_DATE = '${BUILD_DATE}'
+export const VERSION: string = '${VERSION}'
+export const NUMERIC_VERSION: number = ${NUMERIC_VERSION} // for easy comparisons
+export const BUILD_DATE: string = '${BUILD_DATE}'
 `);
 		console.log('🧙️  wrote:', target_path)
 		break

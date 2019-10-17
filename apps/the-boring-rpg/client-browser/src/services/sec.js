@@ -63,7 +63,7 @@ listenToErrorEvents()
 listenToUnhandledRejections()
 
 SEC.xTry('SEC/init', ({logger}) => {
-	logger.trace('Soft Execution Context initialized.', {SEC})
+	logger.trace('Root Soft Execution Context initialized.', {SEC})
 })
 
 const { ENV } = SEC.getInjectedDependencies()

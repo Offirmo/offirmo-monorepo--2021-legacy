@@ -2,7 +2,7 @@ import assert from 'tiny-invariant'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from "@offirmo-private/timestamps";
 
 import {
-	ENGINE_VERSION,
+	NUMERIC_VERSION,
 	State,
 } from '@tbrpg/state'
 
@@ -53,7 +53,7 @@ function create({ SEC, call_remote_procedure, on_successful_sync, initial_pendin
 			SEC,
 			method: Method.sync,
 			params: {
-				engine_v: ENGINE_VERSION,
+				numver: NUMERIC_VERSION,
 				pending_actions,
 				current_state_hash,
 			}
@@ -70,7 +70,7 @@ function create({ SEC, call_remote_procedure, on_successful_sync, initial_pendin
 		in_flight_sync.then((result: SyncResult) => {
 				on_successful_sync(result)
 
-				if (result.engine_v !== ENGINE_VERSION) {
+				if (result.common.numver !== NUMERIC_VERSION) {
 					state = 'defected'
 					return
 				}

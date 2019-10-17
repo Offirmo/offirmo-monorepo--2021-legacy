@@ -117,7 +117,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"c/QP":[function(require,module,exports) {
+})({"cQPt":[function(require,module,exports) {
 var global = arguments[3];
 "use strict";
 /* global globalThis, self, window, global */
@@ -229,7 +229,7 @@ var practical_logger_interface_1 = require("@offirmo/practical-logger-interface"
 
 exports.Logger = practical_logger_interface_1.Logger;
 exports.LoggerCreationParams = practical_logger_interface_1.LoggerCreationParams;
-},{"@offirmo/practical-logger-interface":"pzxj"}],"k+YD":[function(require,module,exports) {
+},{"@offirmo/practical-logger-interface":"pzxj"}],"kYDl":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -278,7 +278,7 @@ exports.overrideHook = overrideHook;
 exports.addDebugCommand = addDebugCommand; // for convenience
 
 __export(require("@offirmo/universal-debug-api-interface"));
-},{"@offirmo/globalthis-ponyfill":"c/QP","./v1":"PZGy","@offirmo/universal-debug-api-interface":"k+YD"}],"Xw8P":[function(require,module,exports) {
+},{"@offirmo/globalthis-ponyfill":"cQPt","./v1":"PZGy","@offirmo/universal-debug-api-interface":"kYDl"}],"Xw8P":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -292,7 +292,7 @@ exports.DEFAULT_LOG_LEVEL = DEFAULT_LOG_LEVEL;
 const DEFAULT_LOGGER_KEY = ''; // yes, can be used as a key
 
 exports.DEFAULT_LOGGER_KEY = DEFAULT_LOGGER_KEY;
-},{}],"wO/n":[function(require,module,exports) {
+},{}],"wONe":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -360,7 +360,7 @@ const LOG_LEVEL_TO_HUMAN = {
 exports.LOG_LEVEL_TO_HUMAN = LOG_LEVEL_TO_HUMAN;
 const ALL_LOG_LEVELS = Object.keys(LOG_LEVEL_TO_INTEGER).map(s => s).sort((a, b) => LOG_LEVEL_TO_INTEGER[a] - LOG_LEVEL_TO_INTEGER[b]);
 exports.ALL_LOG_LEVELS = ALL_LOG_LEVELS;
-},{"./consts-base":"Xw8P"}],"6tCv":[function(require,module,exports) {
+},{"./consts-base":"Xw8P"}],"tCvj":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -555,7 +555,7 @@ function create({
 
   return logger;
 }
-},{"./consts":"wO/n","./normalize-args":"6tCv"}],"goqO":[function(require,module,exports) {
+},{"./consts":"wONe","./normalize-args":"tCvj"}],"goqO":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -629,7 +629,7 @@ Object.keys(_normalizeArgs).forEach(function (key) {
     }
   });
 });
-},{"./core":"lsLl","./consts":"wO/n","./normalize-args":"6tCv"}],"K8Q0":[function(require,module,exports) {
+},{"./core":"lsLl","./consts":"wONe","./normalize-args":"tCvj"}],"K8Q0":[function(require,module,exports) {
 const {
   ALL_LOG_LEVELS
 } = require('..');
