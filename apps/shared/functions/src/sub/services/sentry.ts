@@ -24,7 +24,7 @@ Sentry.init({
 })
 
 Sentry.configureScope((scope: any) => {
-	scope.setExtra('CHANNEL', CHANNEL)
+	scope.setExtra('channel', CHANNEL)
 	// TODO node version etc. ?
 });
 

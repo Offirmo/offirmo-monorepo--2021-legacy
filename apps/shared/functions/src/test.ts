@@ -38,12 +38,12 @@ const handler: NetlifyHandler = async (
 
 		return SEC.xPromiseTryCatch('/test', ({SEC, logger}: SECContext) => {
 			//throw new Error('Test sync!')
-			//throw create_error('Test sync!', { statusCode: 555 })
+			//throw create_error('TEST sync!', { statusCode: 555 })
 			/*new Promise(() => {
-				throw create_error('In uncaught promise!', { statusCode: 555 })
+				throw create_error('TEST in uncaught promise!', { statusCode: 555 })
 			})*/
 			setTimeout(() => {
-				throw create_error('In uncaught async!', { statusCode: 555 })
+				throw create_error('TEST in uncaught async!', { statusCode: 555 })
 			}, 100)
 		})
 	})
