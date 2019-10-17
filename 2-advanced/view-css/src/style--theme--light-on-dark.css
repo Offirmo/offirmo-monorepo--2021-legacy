@@ -4,6 +4,9 @@
 
 }
 
+/* TODO
+  https://blog.superhuman.com/how-to-design-delightful-dark-themes-7b3da644ff1f
+ */
 [data-o-theme="light-on-dark"] {
 	--o⋄color--bg⁚main: var(--o⋄color__dolt__quasi-black);
 	--o⋄color--bg⁚main--backdrop: rgba(17%, 17%, 17%, .9); /* TODO review */

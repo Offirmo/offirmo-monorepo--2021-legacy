@@ -13,6 +13,8 @@ interface XError extends Error {
 	details?: { [k: string]: boolean | number | string | null }
 	SEC?: any
 	_temp?: any
+
+	// TODO triage?
 }
 
 export {

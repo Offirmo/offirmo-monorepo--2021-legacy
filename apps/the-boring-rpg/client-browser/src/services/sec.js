@@ -62,7 +62,7 @@ SEC.emitter.on('analytics', function onAnalytics({SEC, eventId, details}) {
 listenToErrorEvents()
 listenToUnhandledRejections()
 
-SEC.xTry('SEC/browser/listenToUnhandledRejections', ({logger}) => {
+SEC.xTry('SEC/init', ({logger}) => {
 	logger.trace('Soft Execution Context initialized.', {SEC})
 })
 
