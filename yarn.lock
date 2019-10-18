@@ -12563,10 +12563,10 @@ typescript-string-enums@^1:
   resolved "https://packages.atlassian.com/api/npm/npm-remote/typescript-string-enums/-/typescript-string-enums-1.0.0.tgz#4e6bf18e3c6ef02efc80bb35c7edf31b78953d2f"
   integrity sha1-Tmvxjjxu8C78gLs1x+3zG3iVPS8=
 
-typescript@*:
-  version "3.6.4"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/typescript/-/typescript-3.6.4.tgz#b18752bb3792bc1a0281335f7f6ebf1bbfc5b91d"
-  integrity sha1-sYdSuzeSvBoCgTNff26/G7/FuR0=
+typescript@^3.7.0-beta:
+  version "3.7.0-beta"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/typescript/-/typescript-3.7.0-beta.tgz#4ad556e0eee14b90ecc39261001690e16e5eeba9"
+  integrity sha1-StVW4O7hS5Dsw5JhABaQ4W5e66k=
 
 typewise-core@^1.2, typewise-core@^1.2.0:
   version "1.2.0"

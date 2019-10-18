@@ -178,7 +178,7 @@
 		"typeface-roboto": "^0.0.75",
 		"typeface-roboto-condensed": "^0.0.75",
 		"typeface-roboto-mono": "^0.0.75",
-		"typescript": "*",
+		"typescript": "^3.7.0-beta",
 		"typescript-string-enums": "^1",
 		"universal-analytics": "^0.4",
 		"username": "^5",

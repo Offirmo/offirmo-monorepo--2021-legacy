@@ -15,10 +15,11 @@
 	"peerDependencies": {
 	},
 	"dependencies": {
-		"@offirmo/globalthis-ponyfill": "^1.0.2",
+		"@offirmo-private/common-error-fields": "^0",
 		"@offirmo-private/normalize-error": "^0",
 		"@offirmo-private/promise-try": "^0",
 		"@offirmo-private/timestamps": "^0",
+		"@offirmo/globalthis-ponyfill": "^1.0.2",
 		"emittery": "^0.5",
 		"tslib": "^1"
 	},

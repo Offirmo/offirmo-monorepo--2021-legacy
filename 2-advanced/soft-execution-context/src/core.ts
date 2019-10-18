@@ -1,10 +1,11 @@
 import { LIB, INTERNAL_PROP } from './consts'
+import { SoftExecutionContext } from './types'
 import { ROOT_PROTOTYPE } from './root-prototype'
 import * as State from './state'
 import { PLUGINS } from './plugins/index'
 import { decorateWithDetectedEnv } from './common'
 
-ROOT_PROTOTYPE.createChild = function createChild(args) {
+ROOT_PROTOTYPE.createChild = function createChild(args: any) {
 	return createSEC({
 		...args,
 		parent: this,
@@ -15,11 +16,11 @@ PLUGINS.forEach(PLUGIN => {
 	PLUGIN.augment(ROOT_PROTOTYPE)
 })
 
-function isSEC(SEC) {
+function isSEC(SEC: any): SEC is SoftExecutionContext {
 	return (SEC && SEC[INTERNAL_PROP])
 }
 
-function createSEC(args = {}) {
+function createSEC<Injections = {}, AnalyticsDetails = {}, ErrorDetails = {}>(args: any = {}): SoftExecutionContext<Injections, AnalyticsDetails, ErrorDetails> {
 	/////// PARAMS ///////
 
 	if (args.parent && !isSEC(args.parent))
@@ -35,7 +36,7 @@ function createSEC(args = {}) {
 	unhandled_args = unhandled_args.filter(arg => arg !== 'parent')
 
 	PLUGINS.forEach(PLUGIN => {
-		state = State.activate_plugin(state, PLUGIN, args)
+		state = State.activate_plugin(state, PLUGIN)
 	})
 
 	SEC[INTERNAL_PROP] = state

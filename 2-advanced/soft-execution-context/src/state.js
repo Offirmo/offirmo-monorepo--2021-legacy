@@ -12,7 +12,6 @@ function create(parent_state) {
 	}
 }
 
-
 function activate_plugin(state, PLUGIN/*, args*/) {
 	const plugin_parent_state = state.parent
 		? state.parent.plugins[PLUGIN.id]
@@ -31,7 +30,6 @@ function activate_plugin(state, PLUGIN/*, args*/) {
 		},
 	}
 }
-
 
 function reduce_plugin(state, PLUGIN_ID, reducer) {
 	const initial_plugin_state = state.plugins[PLUGIN_ID]

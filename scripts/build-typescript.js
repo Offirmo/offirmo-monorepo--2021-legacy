@@ -62,6 +62,7 @@ if (cli.flags.watch) {
 		// it's dev mode, relax a bit:
 		noUnusedLocals: false,
 		noUnusedParameters: false,
+		allowUnreachableCode: true,
 	}
 }
 
