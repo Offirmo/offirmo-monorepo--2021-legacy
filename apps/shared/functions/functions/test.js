@@ -2976,7 +2976,12 @@ SEC.emitter.on('analytics', function onAnalytics({
   console.groupCollapsed(`⚡  [TODO] Analytics! ⚡  ${eventId}`);
   console.table('details', details);
   console.groupEnd();
-});
+}); // inspect AWS setup
+
+console.log('uncaughtException Listeners:', process.listenerCount('uncaughtException'));
+console.log('unhandledRejection Listeners:', process.listenerCount('unhandledRejection'));
+process.listeners('uncaughtException').forEach(l => process.off('uncaughtException', l));
+process.listeners('unhandledRejection').forEach(l => process.off('unhandledRejection', l));
 soft_execution_context_node_1.listenToUncaughtErrors();
 soft_execution_context_node_1.listenToUnhandledRejections();
 SEC.xTry('SEC/init', ({

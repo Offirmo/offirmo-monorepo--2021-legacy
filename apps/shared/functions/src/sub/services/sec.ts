@@ -23,6 +23,7 @@ export type XSECEventDataMap = EventDataMap<Injections>
 
 /////////////////////
 
+
 const SEC: XSoftExecutionContext = getRootSEC<Injections>()
 	.setLogicalStack({ module: APP })
 	.injectDependencies({ logger })
@@ -46,6 +47,12 @@ SEC.emitter.on('analytics', function onAnalytics({SEC, eventId, details}) {
 	console.table('details', details)
 	console.groupEnd()
 })
+
+// inspect AWS setup
+console.log('uncaughtException Listeners:', process.listenerCount('uncaughtException'))
+console.log('unhandledRejection Listeners:', process.listenerCount('unhandledRejection'))
+process.listeners('uncaughtException').forEach(l => process.off('uncaughtException', l))
+process.listeners('unhandledRejection').forEach(l => process.off('unhandledRejection', l))
 
 listenToUncaughtErrors()
 listenToUnhandledRejections()
