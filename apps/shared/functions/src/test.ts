@@ -9,7 +9,7 @@ import {
 
 import { XSoftExecutionContext, XError, SEC, XSECEventDataMap } from './sub/services/sec'
 import { create_error } from './sub/utils'
-import { on_error } from './sub/services/sentry'
+import { on_error as report_to_sentry } from './sub/services/sentry'
 import { CHANNEL } from './sub/services/channel'
 import {
 	ensure_netlify_logged_in,
@@ -62,32 +62,32 @@ const handler: NetlifyHandler = (
 
 		///////////////////// Setup /////////////////////
 		SEC.xTry('SEC-MW-1', ({SEC, logger}) => {
-			logger.trace('Starting handling /'+ event.path+ '…')
+			logger.trace('Starting handling: '+ event.path+ '…')
 
 			let timeout_id: ReturnType<typeof setTimeout> | null = null
 
 			async function on_error({SEC, err}: XSECEventDataMap['final-error']) {
 				//console.error('on SEC final-error in MW', err.message)
-				logger.error('Final error!', err)
+
+				resolve(err_to_response(err))
+				if (timeout_id) {
+					clearTimeout(timeout_id)
+					timeout_id = null
+				}
+
+				logger.error('Final error:', err)
 
 				if (CHANNEL === 'dev') {
 					logger.fatal('↑ error! (no report since dev)')
 				}
 				else {
 					logger.fatal('↑ this error will be reported')
-					/*try {
-						await on_error(err)
+					try {
+						await report_to_sentry(err)
 					}
 					catch(err) {
 						console.error('XXX huge error in the error handler itself! XXX')
-					}*/
-				}
-
-				resolve(err_to_response(err))
-
-				if (timeout_id) {
-					clearTimeout(timeout_id)
-					timeout_id = null
+					}
 				}
 			}
 			logger.trace('Listening to errors…')
