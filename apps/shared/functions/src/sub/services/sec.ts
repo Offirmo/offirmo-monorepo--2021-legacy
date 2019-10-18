@@ -1,5 +1,5 @@
 import { Logger } from '@offirmo/practical-logger-interface'
-import { getRootSEC } from '@offirmo-private/soft-execution-context'
+import { getRootSEC, BaseInjections, SoftExecutionContext, WithSEC, EventDataMap } from '@offirmo-private/soft-execution-context'
 import {
 	listenToUncaughtErrors,
 	listenToUnhandledRejections,
@@ -10,27 +10,20 @@ import { XError } from '../utils'
 import { APP } from '../consts'
 import { CHANNEL } from './channel'
 import logger from './logger'
-import { on_error } from './sentry'
 
 /////////////////////////////////////////////////
 
-
-// TODO move to SEC lib when turned to TS
-type SoftExecutionContext = any
-
-interface BaseContext {
-	SEC: SoftExecutionContext
-	ENV: string
+export interface Injections extends BaseInjections {
 	logger: Logger
 }
 
-interface SECContext extends BaseContext {
-	// TODO
-}
+export type XSoftExecutionContext = SoftExecutionContext<Injections>
+export type WithXSEC = WithSEC<Injections>
+export type XSECEventDataMap = EventDataMap<Injections>
 
 /////////////////////
 
-const SEC = getRootSEC()
+const SEC: XSoftExecutionContext = getRootSEC<Injections>()
 	.setLogicalStack({ module: APP })
 	.injectDependencies({ logger })
 
@@ -48,23 +41,7 @@ SEC.setAnalyticsAndErrorDetails({
 
 /////////////////////////////////////////////////
 
-SEC.emitter.on('final-error', function onError({SEC, err}: BaseContext & { err: XError }) {
-	on_error(err)
-	//console.log({err})
-
-/*
-	if (CHANNEL === 'dev') {
-		logger.fatal('↑ error! (no report since dev)', {SEC, err})
-		return
-	}
-*/
-
-	console.log('(this error will be reported)')
-
-})
-
-SEC.emitter.on('analytics', function onAnalytics({SEC, eventId, details}: BaseContext & { eventId: string, details: any }) {
-	// TODO analytics
+SEC.emitter.on('analytics', function onAnalytics({SEC, eventId, details}) {
 	console.groupCollapsed(`⚡  [TODO] Analytics! ⚡  ${eventId}`)
 	console.table('details', details)
 	console.groupEnd()
@@ -73,8 +50,8 @@ SEC.emitter.on('analytics', function onAnalytics({SEC, eventId, details}: BaseCo
 listenToUncaughtErrors()
 listenToUnhandledRejections()
 
-SEC.xTry('SEC/init', ({logger}: BaseContext) => {
-	logger.trace('Soft Execution Context initialized.', {SEC})
+SEC.xTry('SEC/init', ({logger}) => {
+	logger.trace('Soft Execution Context initialized.')
 })
 
 const { ENV } = SEC.getInjectedDependencies()
@@ -87,6 +64,5 @@ if (ENV !== process.env.NODE_ENV) {
 export default SEC
 export {
 	XError,
-	SECContext,
 	SEC,
 }

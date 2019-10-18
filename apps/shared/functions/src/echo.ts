@@ -26,7 +26,7 @@ export const handler: NetlifyHandler = async (
 			//title: process.title,
 			version: process.version,
 			//release: process.release,
-			//versions: process.versions,
+			versions: process.versions,
 			env: filter_out_secrets(process.env),
 		},
 	}, null, 2)

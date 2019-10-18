@@ -1,4 +1,3 @@
-import {JSON_UNDEFINED} from "../../../../4-incubator/universal-debug-api-companion-webextension/src/common/utils/stringified-json";
 
 export interface WithTimestamps {
 	created_at: string

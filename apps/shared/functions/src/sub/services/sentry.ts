@@ -1,23 +1,25 @@
-import { XError } from "@offirmo-private/common-error-fields";
-
 // https://docs.sentry.io/error-reporting/quickstart/?platform=node
+// https://httptoolkit.tech/blog/netlify-function-error-reporting-with-sentry/
 const Sentry = require('@sentry/node')
 //Sentry.captureException(err)
 //Sentry.captureMessage(err.message)
 
+import { XError } from "@offirmo-private/common-error-fields";
+
 import { CHANNEL } from './channel'
 
-console.log(Object.keys(Sentry.Integrations))
 
 Sentry.init({
+	// http://getsentry.github.io/sentry-javascript/interfaces/node.nodeoptions.html
 	dsn: 'https://a86696dcd573448a8fcc3bd7151349b4@sentry.io/1772719',
 	debug: process.env.NODE_ENV === 'development',
 	//release TODO
 	environment: CHANNEL,
 	attachStacktrace: true, // why not?
 	//shutdownTimeout TODO needed ?
-	integrations: (integrations: any) => {
+	integrations: (default_integrations: any) => {
 		// please Sentry! I don't want your crappy integrations!
+		//console.log(default_integrations)
 		// https://docs.sentry.io/platforms/node/#removing-an-integration
 		return []
 	}
@@ -25,15 +27,21 @@ Sentry.init({
 
 Sentry.configureScope((scope: any) => {
 	scope.setExtra('channel', CHANNEL)
+	scope.setExtra('node', process.versions.node)
 	// TODO node version etc. ?
 });
 
-export function on_error(err: XError) {
+export async function on_error(err: XError): Promise<void> {
+	console.log('In Sentry on_error(): ', err.message)
+
 	// TODO inspect the SEC?
+
 	Sentry.captureException(err)
+	await Sentry.flush()
 }
 
 // https://docs.sentry.io/enriching-error-data/context/?platform=node#capturing-the-user
+// TODO shared across invocations??
 export function on_user_recognized(user: { id: string, username:string, email: string, ip_address: string }): void {
 	Sentry.configureScope((scope: any) => {
 		scope.setUser(user)

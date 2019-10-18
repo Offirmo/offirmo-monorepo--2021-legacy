@@ -81,12 +81,12 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 95);
+/******/ 	return __webpack_require__(__webpack_require__.s = 88);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 95:
+/***/ 88:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -112,7 +112,7 @@ exports.handler = async (event, context) => {
       //title: process.title,
       version: process.version,
       //release: process.release,
-      //versions: process.versions,
+      versions: process.versions,
       env: filter_out_secrets(process.env)
     }
   }, null, 2);
