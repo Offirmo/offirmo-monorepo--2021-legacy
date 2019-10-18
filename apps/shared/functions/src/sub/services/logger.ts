@@ -8,7 +8,7 @@ import { CHANNEL } from './channel'
 
 /////////////////////////////////////////////////
 
-const logger = (CHANNEL === 'dev' ? create_node : create_core)({
+const logger = (CHANNEL === 'dev' ? create_node : create_node)({
 	name: APP,
 	suggestedLevel: 'silly',
 })

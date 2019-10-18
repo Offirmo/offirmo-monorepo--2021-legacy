@@ -92,7 +92,7 @@ const handler: NetlifyHandler = (
 			}
 			logger.trace('Listening to errors…')
 			SEC.emitter.once('final-error').then(on_error)
-			//context.callbackWaitsForEmptyEventLoop = false
+			context.callbackWaitsForEmptyEventLoop = false
 
 			const remaining_time_ms = context.getRemainingTimeInMillis ? context.getRemainingTimeInMillis() : 10_000
 			logger.trace('Setting timeout...', {remaining_time_ms})

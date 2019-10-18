@@ -32,7 +32,7 @@ Sentry.configureScope((scope: any) => {
 });
 
 export async function on_error(err: XError): Promise<void> {
-	console.log('In Sentry on_error(): ', err.message)
+	console.log('Reporting to Sentry...', err.message)
 
 	// TODO inspect the SEC?
 
