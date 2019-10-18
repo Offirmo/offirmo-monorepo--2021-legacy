@@ -2824,6 +2824,7 @@ async function _handler(SEC, event, context) {
 }
 
 const handler = (event, badly_typed_context) => {
+  console.log('\n\n-----------------------------------------------------');
   return new Promise((resolve, reject) => {
     const context = badly_typed_context; ///////////////////// Setup /////////////////////
 
@@ -2831,9 +2832,7 @@ const handler = (event, badly_typed_context) => {
       SEC,
       logger
     }) => {
-      logger.trace('Starting handling…', {
-        path: event.path
-      });
+      logger.trace('Starting handling /' + event.path + '…');
       let timeout_id = null;
 
       async function on_error({
@@ -2949,8 +2948,10 @@ const consts_1 = __webpack_require__(26);
 
 const channel_1 = __webpack_require__(36);
 
-const logger_1 = tslib_1.__importDefault(__webpack_require__(115)); /////////////////////
+const logger_1 = tslib_1.__importDefault(__webpack_require__(115)); /////////////////////////////////////////////////
 
+
+console.log('\n\n--- init ----\n'); /////////////////////
 
 const SEC = soft_execution_context_1.getRootSEC().setLogicalStack({
   module: consts_1.APP

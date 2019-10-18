@@ -55,12 +55,14 @@ const handler: NetlifyHandler = (
 	event: APIGatewayEvent,
 	badly_typed_context: Context,
 ): Promise<Response> => {
+	console.log('\n\n-----------------------------------------------------')
+
 	return new Promise((resolve, reject) => {
 		const context: NetlifyContext = badly_typed_context as any
 
 		///////////////////// Setup /////////////////////
 		SEC.xTry('SEC-MW-1', ({SEC, logger}) => {
-			logger.trace('Starting handling…', {path: event.path})
+			logger.trace('Starting handling /'+ event.path+ '…')
 
 			let timeout_id: ReturnType<typeof setTimeout> | null = null
 

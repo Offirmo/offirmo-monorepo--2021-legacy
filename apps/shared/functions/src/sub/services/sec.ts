@@ -13,6 +13,8 @@ import logger from './logger'
 
 /////////////////////////////////////////////////
 
+console.log('\n\n--- init ----\n')
+
 export interface Injections extends BaseInjections {
 	logger: Logger
 }
