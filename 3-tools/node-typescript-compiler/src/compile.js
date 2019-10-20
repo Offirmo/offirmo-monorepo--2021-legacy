@@ -4,7 +4,7 @@
 
 const spawn = require('child_process').spawn
 const tildify = require('tildify')
-const _ = require('lodash')
+const { flatten, map, split, isArray } = require('lodash')
 
 const { find_tsc } = require('./find-tsc')
 const { LIB } = require('./consts')
@@ -25,12 +25,12 @@ function compile(params, files, options) {
 
 	return new Promise((resolve, reject) => {
 
-		const options_as_array = _.flatten(_.map(params, (value, key) => {
+		const options_as_array = flatten(map(params, (value, key) => {
 			if (value === false)
 				return []
 			if (value === true)
 				return [ `--${key}` ]
-			if (_.isArray(value))
+			if (isArray(value))
 				value = value.join(',')
 			return [ `--${key}`, value ]
 		}))
@@ -97,7 +97,7 @@ function compile(params, files, options) {
 
 				spawn_instance.stdout.on('data', data => {
 					display_banner_if_1st_output()
-					_.split(data, '\n').forEach(line => {
+					split(data, '\n').forEach(line => {
 						if (!line.length) return // convenience for more compact output
 
 						if (line[0] === '/')
@@ -117,7 +117,7 @@ function compile(params, files, options) {
 
 				spawn_instance.stderr.on('data', data => {
 					display_banner_if_1st_output()
-					_.split(data, '\n').forEach(line => console.log(RADIX + '! ' + line))
+					split(data, '\n').forEach(line => console.log(RADIX + '! ' + line))
 					stderr += data
 				})
 				// mandatory for correct error detection

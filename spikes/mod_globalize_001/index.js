@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 
-const _ = require('lodash')
+const { capitalize } = require('lodash')
 const Globalize = require('globalize')
 Globalize.load(require('cldr-data').entireSupplemental())
 Globalize.load(require('cldr-data').entireMainFor('en', 'fr'))
@@ -61,7 +61,7 @@ function format_weapon(g, w) {
 		return parts.join(' ')
 	}
 
-	const parts = [qual1, base].map(_.capitalize)
+	const parts = [qual1, base].map(capitalize)
 
 	/*
 	 if (libs._s.startsWith(parts[0], 'of')) {

@@ -6,6 +6,13 @@
 	"license": "Unlicense",
 	"private": true,
 
+	"size-limit": [
+		{
+			"limit": "1.5kb",
+			"path": "functions/whoami.js"
+		}
+	],
+
 	"dependencies": {
 		"@offirmo-private/common-error-fields": "^0",
 		"@offirmo-private/db": "^0",
@@ -34,6 +41,7 @@
 		"build:dev:watch": "node ../../../scripts/build-typescript.js --watch",
 		"build:prod": "node ../../../scripts/build-typescript.js",
 		"build:netlify-functions": "rm -rf ./functions && netlify-lambda build ./dist/src.es2018.cjs --config ./webpack.config.ts",
+		"ensure-size": "size-limit",
 
 		"dev": "run-s clean build:dev:watch",
 		"start": "NODE_ENV=development netlify-lambda serve ./dist/src.es2018.cjs --config ./webpack.config.ts",

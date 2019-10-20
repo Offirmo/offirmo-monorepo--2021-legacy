@@ -1,6 +1,6 @@
 const path = require('path')
 
-const _ = require('lodash')
+const { trim, replace, capitalize } = require('lodash')
 const { dump_pretty_json } = require('@offirmo-private/prettify-json')
 const rich_text_to_ansi = require('@offirmo-private/rich-text-format-to-ansi')
 const fs = require('../../../../cli-toolbox/fs/extra')
@@ -47,17 +47,17 @@ author_dirs.forEach(author_dir => {
 	artwork_paths.forEach(artwork_path => {
 
 		let display_name =
-			_.trim(
-				_.replace(
+			trim(
+				replace(
 					path.basename(artwork_path)
 						.slice(0, -4) // remove .jpg
 					.split('_').join(' ')
 					.split('-').join(' ')
 					.split(' ')
-						.map(_.trim)
-						.map(_.capitalize)
+						.map(trim)
+						.map(capitalize)
 					.join(' '),
-					author_name.split('.').join(' ').split(' ').map(_.capitalize).join(' '),
+					author_name.split('.').join(' ').split(' ').map(capitalize).join(' '),
 					''
 				)
 			)
