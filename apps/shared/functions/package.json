@@ -50,7 +50,6 @@
 	},
 	"devDependencies": {
 		"@types/aws-lambda": "^8",
-		"knex": "^0.19",
 		"netlify-lambda": "^1",
 		"npm-run-all": "^4"
 	}

@@ -32,7 +32,7 @@ Sentry.configureScope((scope: any) => {
 });
 
 export async function on_error(err: XError): Promise<void> {
-	console.log('Reporting to Sentry...', err.message)
+	console.log('💣 Reporting to Sentry...', err.message)
 
 	// TODO inspect the SEC?
 
@@ -50,3 +50,5 @@ export function on_user_recognized(user: { id: string, username:string, email: s
 
 // TODO self-triage?
 // https://docs.sentry.io/enriching-error-data/context/?platform=node#setting-the-level
+
+// TODO breadcrumb

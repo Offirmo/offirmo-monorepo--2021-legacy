@@ -13,8 +13,6 @@ import logger from './logger'
 
 /////////////////////////////////////////////////
 
-console.log('\n\n--- init ----\n')
-
 export interface Injections extends BaseInjections {
 	logger: Logger
 }
@@ -50,9 +48,9 @@ SEC.emitter.on('analytics', function onAnalytics({SEC, eventId, details}) {
 	console.groupEnd()
 })
 
-// inspect AWS setup
-console.log('uncaughtException Listeners:', process.listenerCount('uncaughtException'))
-console.log('unhandledRejection Listeners:', process.listenerCount('unhandledRejection'))
+// TODO externalize in SEC-node
+//console.log('uncaughtException Listeners:', process.listenerCount('uncaughtException'))
+//console.log('unhandledRejection Listeners:', process.listenerCount('unhandledRejection'))
 process.listeners('uncaughtException').forEach(l => process.off('uncaughtException', l))
 process.listeners('unhandledRejection').forEach(l => process.off('unhandledRejection', l))
 
@@ -60,7 +58,7 @@ listenToUncaughtErrors()
 listenToUnhandledRejections()
 
 SEC.xTry('SEC/init', ({logger}) => {
-	logger.trace('Soft Execution Context initialized.')
+	logger.trace('Root Soft Execution Context initialized ✔')
 })
 
 const { ENV } = SEC.getInjectedDependencies()

@@ -1948,7 +1948,7 @@ exports.CHANNEL = process.env.CHANNEL || (() => {
 "use strict";
 
 const os = __webpack_require__(22);
-const hasFlag = __webpack_require__(49);
+const hasFlag = __webpack_require__(50);
 
 const env = process.env;
 
@@ -2086,6 +2086,67 @@ module.exports = {
 /* 39 */,
 /* 40 */,
 /* 41 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/0-stdlib/timestamps/dist/src.es2019/generate.js
+/////////////////////
+function get_UTC_timestamp_ms(now = new Date()) {
+  return +now;
+} /////////////////////
+
+
+function get_human_readable_UTC_timestamp_days(now = new Date()) {
+  const YYYY = now.getUTCFullYear();
+  const MM = ('0' + (now.getUTCMonth() + 1)).slice(-2);
+  const DD = ('0' + now.getUTCDate()).slice(-2);
+  return `${YYYY}${MM}${DD}`;
+}
+
+function get_human_readable_UTC_timestamp_minutes(now = new Date()) {
+  const hh = ('0' + now.getUTCHours()).slice(-2);
+  const mm = ('0' + now.getUTCMinutes()).slice(-2);
+  return get_human_readable_UTC_timestamp_days(now) + `_${hh}h${mm}`;
+}
+
+function get_human_readable_UTC_timestamp_seconds(now = new Date()) {
+  const ss = ('0' + now.getUTCSeconds()).slice(-2);
+  return get_human_readable_UTC_timestamp_minutes(now) + `+${ss}`;
+}
+
+function get_human_readable_UTC_timestamp_ms(now = new Date()) {
+  const mmm = ('00' + now.getUTCMilliseconds()).slice(-3);
+  return get_human_readable_UTC_timestamp_seconds(now) + `.${mmm}`;
+} /////////////////////
+// https://space.stackexchange.com/questions/36628/utc-timestamp-format-for-launch-vehicles
+
+/*function get_space_timestamp_ms(now: Readonly<Date> = new Date()): string {
+    const YYYY = now.getUTCFullYear()
+    const MM = now.getUTCMonth()
+    const DD = ('0' + now.getUTCDate()).slice(-2)
+    const hh = ('0' + now.getUTCHours()).slice(-2)
+    const mm = ('0' + now.getUTCMinutes()).slice(-2)
+    const ss = ('0' + now.getUTCSeconds()).slice(-2)
+    const mmm = ('00' + now.getUTCMilliseconds()).slice(-3)
+
+    return `${DD} ${hh}:${mm}:${ss}.${mmm}`
+}*/
+/////////////////////
+
+
+ /////////////////////
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/0-stdlib/timestamps/dist/src.es2019/index.js
+/* concated harmony reexport get_UTC_timestamp_ms */__webpack_require__.d(__webpack_exports__, "get_UTC_timestamp_ms", function() { return get_UTC_timestamp_ms; });
+/* concated harmony reexport get_human_readable_UTC_timestamp_ms */__webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_ms", function() { return get_human_readable_UTC_timestamp_ms; });
+/* concated harmony reexport get_human_readable_UTC_timestamp_seconds */__webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_seconds", function() { return get_human_readable_UTC_timestamp_seconds; });
+/* concated harmony reexport get_human_readable_UTC_timestamp_minutes */__webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_minutes", function() { return get_human_readable_UTC_timestamp_minutes; });
+/* concated harmony reexport get_human_readable_UTC_timestamp_days */__webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_days", function() { return get_human_readable_UTC_timestamp_days; });
+
+
+/***/ }),
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2127,21 +2188,21 @@ module.exports = (string, count = 1, options) => {
 
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports) {
 
 module.exports = require("http");
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
  * Module dependencies.
  */
 
-var net = __webpack_require__(50);
-var tls = __webpack_require__(51);
+var net = __webpack_require__(51);
+var tls = __webpack_require__(52);
 var url = __webpack_require__(17);
 var events = __webpack_require__(8);
 var Agent = __webpack_require__(157);
@@ -2382,19 +2443,19 @@ function isDefaultPort(port, secure) {
 
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports) {
 
 module.exports = require("https");
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports) {
 
 module.exports = require("domain");
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2721,7 +2782,7 @@ function addGlobalEventProcessor(callback) {
 //# sourceMappingURL=scope.js.map
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2768,7 +2829,7 @@ const PLUGIN = {
 exports.PLUGIN = PLUGIN;
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -2796,7 +2857,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2811,25 +2872,24 @@ module.exports = (flag, argv) => {
 
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports) {
 
 module.exports = require("net");
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports) {
 
 module.exports = require("tls");
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports) {
 
 module.exports = require("tty");
 
 /***/ }),
-/* 53 */,
 /* 54 */,
 /* 55 */,
 /* 56 */,
@@ -2837,67 +2897,7 @@ module.exports = require("tty");
 /* 58 */,
 /* 59 */,
 /* 60 */,
-/* 61 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/0-stdlib/timestamps/dist/src.es2019/generate.js
-/////////////////////
-function get_UTC_timestamp_ms(now = new Date()) {
-  return +now;
-} /////////////////////
-
-
-function get_human_readable_UTC_timestamp_days(now = new Date()) {
-  const YYYY = now.getUTCFullYear();
-  const MM = ('0' + (now.getUTCMonth() + 1)).slice(-2);
-  const DD = ('0' + now.getUTCDate()).slice(-2);
-  return `${YYYY}${MM}${DD}`;
-}
-
-function get_human_readable_UTC_timestamp_minutes(now = new Date()) {
-  const hh = ('0' + now.getUTCHours()).slice(-2);
-  const mm = ('0' + now.getUTCMinutes()).slice(-2);
-  return get_human_readable_UTC_timestamp_days(now) + `_${hh}h${mm}`;
-}
-
-function get_human_readable_UTC_timestamp_seconds(now = new Date()) {
-  const ss = ('0' + now.getUTCSeconds()).slice(-2);
-  return get_human_readable_UTC_timestamp_minutes(now) + `+${ss}`;
-}
-
-function get_human_readable_UTC_timestamp_ms(now = new Date()) {
-  const mmm = ('00' + now.getUTCMilliseconds()).slice(-3);
-  return get_human_readable_UTC_timestamp_seconds(now) + `.${mmm}`;
-} /////////////////////
-// https://space.stackexchange.com/questions/36628/utc-timestamp-format-for-launch-vehicles
-
-/*function get_space_timestamp_ms(now: Readonly<Date> = new Date()): string {
-    const YYYY = now.getUTCFullYear()
-    const MM = now.getUTCMonth()
-    const DD = ('0' + now.getUTCDate()).slice(-2)
-    const hh = ('0' + now.getUTCHours()).slice(-2)
-    const mm = ('0' + now.getUTCMinutes()).slice(-2)
-    const ss = ('0' + now.getUTCSeconds()).slice(-2)
-    const mmm = ('00' + now.getUTCMilliseconds()).slice(-3)
-
-    return `${DD} ${hh}:${mm}:${ss}.${mmm}`
-}*/
-/////////////////////
-
-
- /////////////////////
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/0-stdlib/timestamps/dist/src.es2019/index.js
-/* concated harmony reexport get_UTC_timestamp_ms */__webpack_require__.d(__webpack_exports__, "get_UTC_timestamp_ms", function() { return get_UTC_timestamp_ms; });
-/* concated harmony reexport get_human_readable_UTC_timestamp_ms */__webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_ms", function() { return get_human_readable_UTC_timestamp_ms; });
-/* concated harmony reexport get_human_readable_UTC_timestamp_seconds */__webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_seconds", function() { return get_human_readable_UTC_timestamp_seconds; });
-/* concated harmony reexport get_human_readable_UTC_timestamp_minutes */__webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_minutes", function() { return get_human_readable_UTC_timestamp_minutes; });
-/* concated harmony reexport get_human_readable_UTC_timestamp_days */__webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_days", function() { return get_human_readable_UTC_timestamp_days; });
-
-
-/***/ }),
+/* 61 */,
 /* 62 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -5164,6 +5164,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+const timestamps_1 = __webpack_require__(41);
+
 const sec_1 = __webpack_require__(115);
 
 const utils_1 = __webpack_require__(33);
@@ -5203,13 +5205,16 @@ async function _handler(SEC, event, context) {
 const handler = (event, badly_typed_context) => {
   console.log('\n\n-----------------------------------------------------');
   return new Promise((resolve, reject) => {
-    const context = badly_typed_context; ///////////////////// Setup /////////////////////
+    const context = badly_typed_context;
+    sec_1.SEC.injectDependencies({
+      SESSION_START_TIME: timestamps_1.get_UTC_timestamp_ms()
+    }); ///////////////////// Setup /////////////////////
 
     sec_1.SEC.xTry('SEC-MW-1', ({
       SEC,
       logger
     }) => {
-      logger.trace('Starting handling: ' + event.path + '…');
+      logger.log('Starting handling: ' + event.path + '…');
       let timeout_id = null;
 
       async function on_error({
@@ -5217,8 +5222,6 @@ const handler = (event, badly_typed_context) => {
         err
       }) {
         //console.error('on SEC final-error in MW', err.message)
-        resolve(err_to_response(err));
-
         if (timeout_id) {
           clearTimeout(timeout_id);
           timeout_id = null;
@@ -5237,14 +5240,17 @@ const handler = (event, badly_typed_context) => {
             console.error('XXX huge error in the error handler itself! XXX');
           }
         }
-      }
 
-      logger.trace('Listening to errors…');
+        resolve(err_to_response(err));
+      } //logger.trace('Listening to errors…')
+
+
       SEC.emitter.once('final-error').then(on_error);
       context.callbackWaitsForEmptyEventLoop = false;
       const remaining_time_ms = context.getRemainingTimeInMillis ? context.getRemainingTimeInMillis() : 10000;
       logger.trace('Setting timeout...', {
-        remaining_time_ms
+        remaining_time_ms,
+        time: timestamps_1.get_UTC_timestamp_ms()
       });
       timeout_id = setTimeout(() => {
         const err = new Error('Timeout handling this request!');
@@ -5254,7 +5260,7 @@ const handler = (event, badly_typed_context) => {
         });
         timeout_id = null;
         throw err;
-      }, Math.max(remaining_time_ms - 500, 0)); ///////////////////// invoke /////////////////////
+      }, Math.max(remaining_time_ms - 1000, 0)); ///////////////////// invoke /////////////////////
 
       SEC.xPromiseTryCatch('SEC-MW-2', ({
         SEC,
@@ -5325,10 +5331,8 @@ const consts_1 = __webpack_require__(32);
 
 const channel_1 = __webpack_require__(34);
 
-const logger_1 = tslib_1.__importDefault(__webpack_require__(134)); /////////////////////////////////////////////////
+const logger_1 = tslib_1.__importDefault(__webpack_require__(134)); /////////////////////
 
-
-console.log('\n\n--- init ----\n'); /////////////////////
 
 const SEC = soft_execution_context_1.getRootSEC().setLogicalStack({
   module: consts_1.APP
@@ -5354,10 +5358,10 @@ SEC.emitter.on('analytics', function onAnalytics({
   console.groupCollapsed(`⚡  [TODO] Analytics! ⚡  ${eventId}`);
   console.table('details', details);
   console.groupEnd();
-}); // inspect AWS setup
+}); // TODO externalize in SEC-node
+//console.log('uncaughtException Listeners:', process.listenerCount('uncaughtException'))
+//console.log('unhandledRejection Listeners:', process.listenerCount('unhandledRejection'))
 
-console.log('uncaughtException Listeners:', process.listenerCount('uncaughtException'));
-console.log('unhandledRejection Listeners:', process.listenerCount('unhandledRejection'));
 process.listeners('uncaughtException').forEach(l => process.off('uncaughtException', l));
 process.listeners('unhandledRejection').forEach(l => process.off('unhandledRejection', l));
 soft_execution_context_node_1.listenToUncaughtErrors();
@@ -5365,7 +5369,7 @@ soft_execution_context_node_1.listenToUnhandledRejections();
 SEC.xTry('SEC/init', ({
   logger
 }) => {
-  logger.trace('Soft Execution Context initialized.');
+  logger.trace('Root Soft Execution Context initialized ✔');
 });
 const {
   ENV
@@ -5842,7 +5846,7 @@ Object.defineProperty(exports, "__esModule", {
 
 const index_1 = __webpack_require__(121);
 
-const index_2 = __webpack_require__(47);
+const index_2 = __webpack_require__(48);
 
 const index_3 = __webpack_require__(125);
 
@@ -6133,7 +6137,7 @@ const normalize_error_1 = tslib_1.__importDefault(__webpack_require__(126));
 
 const promise_try_1 = __webpack_require__(127);
 
-const timestamps_1 = __webpack_require__(61);
+const timestamps_1 = __webpack_require__(41);
 
 const consts_1 = __webpack_require__(19);
 
@@ -6143,7 +6147,7 @@ const State = tslib_1.__importStar(__webpack_require__(128));
 
 const catch_factory_1 = __webpack_require__(129);
 
-const index_1 = __webpack_require__(47);
+const index_1 = __webpack_require__(48);
 
 const TopState = tslib_1.__importStar(__webpack_require__(29));
 
@@ -6418,7 +6422,7 @@ Object.defineProperty(exports, "__esModule", {
 
 const tslib_1 = __webpack_require__(0);
 
-const timestamps_1 = __webpack_require__(61);
+const timestamps_1 = __webpack_require__(41);
 
 const consts_1 = __webpack_require__(19);
 
@@ -6428,7 +6432,7 @@ const utils_1 = __webpack_require__(30);
 
 const State = tslib_1.__importStar(__webpack_require__(131));
 
-const dependency_injection_1 = __webpack_require__(47);
+const dependency_injection_1 = __webpack_require__(48);
 
 const PLUGIN_ID = 'analytics';
 exports.PLUGIN_ID = PLUGIN_ID;
@@ -6529,7 +6533,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 /* global NODE_ENV process */
 
-const timestamps_1 = __webpack_require__(61);
+const timestamps_1 = __webpack_require__(41);
 
 function decorateWithDetectedEnv(SEC) {
   let ENV = (() => {
@@ -6637,13 +6641,15 @@ const practical_logger_node_1 = __webpack_require__(272);
 const consts_1 = __webpack_require__(32);
 
 const channel_1 = __webpack_require__(34); /////////////////////////////////////////////////
+//const logger = (CHANNEL === 'dev' ? create_node : create_core)({
 
 
-const logger = (channel_1.CHANNEL === 'dev' ? practical_logger_node_1.createLogger : practical_logger_node_1.createLogger)({
+const logger = practical_logger_node_1.createLogger({
   name: consts_1.APP,
-  suggestedLevel: 'silly'
+  suggestedLevel: channel_1.CHANNEL === 'dev' ? 'silly' : 'warning'
 });
-logger.notice(`Hello from "${consts_1.APP}", Logger up with level = ${logger.getLevel()}.`);
+console.log('\n\n');
+logger.info(`❄️ Cold start of "${consts_1.APP}", logger level = ${logger.getLevel()}.`);
 exports.default = logger;
 
 /***/ }),
@@ -7637,7 +7643,7 @@ Object.defineProperty(module, 'exports', {
 	get: assembleStyles
 });
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(48)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(49)(module)))
 
 /***/ }),
 /* 150 */
@@ -8238,7 +8244,7 @@ Sentry.configureScope(scope => {
 });
 
 async function on_error(err) {
-  console.log('Reporting to Sentry...', err.message); // TODO inspect the SEC?
+  console.log('💣 Reporting to Sentry...', err.message); // TODO inspect the SEC?
 
   Sentry.captureException(err);
   await Sentry.flush();
@@ -8255,6 +8261,7 @@ function on_user_recognized(user) {
 
 exports.on_user_recognized = on_user_recognized; // TODO self-triage?
 // https://docs.sentry.io/enriching-error-data/context/?platform=node#setting-the-level
+// TODO breadcrumb
 
 /***/ }),
 /* 156 */
@@ -8470,7 +8477,7 @@ Agent.prototype.freeSocket = function freeSocket(socket, opts) {
 "use strict";
 
 const url = __webpack_require__(17);
-const https = __webpack_require__(44);
+const https = __webpack_require__(45);
 
 /**
  * This currently needs to be applied to all Node.js versions
@@ -10254,7 +10261,7 @@ function plural(ms, msAbs, n, name) {
 /**
  * Module dependencies.
  */
-var tty = __webpack_require__(52);
+var tty = __webpack_require__(53);
 
 var util = __webpack_require__(6);
 /**
@@ -10662,7 +10669,7 @@ var Status;
 })(Status || (Status = {}));
 //# sourceMappingURL=status.js.map
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/hub/esm/scope.js
-var esm_scope = __webpack_require__(46);
+var esm_scope = __webpack_require__(47);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/hub/esm/hub.js
 var esm_hub = __webpack_require__(274);
@@ -12234,10 +12241,10 @@ var base_BaseTransport = /** @class */ (function () {
 
 //# sourceMappingURL=base.js.map
 // EXTERNAL MODULE: external "http"
-var external_http_ = __webpack_require__(42);
+var external_http_ = __webpack_require__(43);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/https-proxy-agent/index.js
-var https_proxy_agent = __webpack_require__(43);
+var https_proxy_agent = __webpack_require__(44);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/http.js
 
@@ -12274,7 +12281,7 @@ var http_HTTPTransport = /** @class */ (function (_super) {
 
 //# sourceMappingURL=http.js.map
 // EXTERNAL MODULE: external "https"
-var external_https_ = __webpack_require__(44);
+var external_https_ = __webpack_require__(45);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/https.js
 
@@ -12687,7 +12694,7 @@ function initAndBind(clientClass, options) {
 }
 //# sourceMappingURL=sdk.js.map
 // EXTERNAL MODULE: external "domain"
-var external_domain_ = __webpack_require__(45);
+var external_domain_ = __webpack_require__(46);
 
 // EXTERNAL MODULE: external "util"
 var external_util_ = __webpack_require__(6);
@@ -12808,7 +12815,7 @@ var http_Http = /** @class */ (function () {
         // this is because raven's transports are required before this instrumentation takes place, which loads https (and http)
         // so module cache will have uninstrumented http; proactively loading it here ensures instrumented version is in module cache
         // alternatively we could refactor to load our transports later, but this is easier and doesn't have much drawback
-        __webpack_require__(42);
+        __webpack_require__(43);
     };
     /**
      * @inheritDoc
@@ -13731,7 +13738,7 @@ var INTEGRATIONS = tslib_es6["__assign"]({}, integrations_namespaceObject, esm_i
 __webpack_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/indent-string/index.js
-var indent_string = __webpack_require__(41);
+var indent_string = __webpack_require__(42);
 var indent_string_default = /*#__PURE__*/__webpack_require__.n(indent_string);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/chalk/index.js
@@ -14181,7 +14188,7 @@ var logger = global.__SENTRY__.logger || (global.__SENTRY__.logger = new Logger(
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(273);
-/* harmony import */ var _scope__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(46);
+/* harmony import */ var _scope__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(47);
 
 
 

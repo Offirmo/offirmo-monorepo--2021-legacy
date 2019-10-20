@@ -17195,7 +17195,7 @@
   else {}
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(48)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(49)(module)))
 
 /***/ }),
 /* 3 */
@@ -17700,7 +17700,7 @@ const {
   isArray,
   isTypedArray,
 } = __webpack_require__(2);
-const { CLIENT_ALIASES } = __webpack_require__(53);
+const { CLIENT_ALIASES } = __webpack_require__(54);
 
 // Check if the first argument is an array, otherwise uses all arguments as an
 // array.
@@ -17941,7 +17941,7 @@ const {
   isUndefined,
   isNumber,
 } = __webpack_require__(2);
-const saveAsyncStack = __webpack_require__(54);
+const saveAsyncStack = __webpack_require__(55);
 const uuid = __webpack_require__(71);
 
 const debugBindings = debug('knex:bindings');
@@ -18114,7 +18114,7 @@ function replaceKeyBindings(raw, formatter) {
 
 // Allow the `Raw` object to be utilized with full access to the relevant
 // promise API.
-__webpack_require__(56)(Raw);
+__webpack_require__(57)(Raw);
 helpers.addQueryContext(Raw);
 
 module.exports = Raw;
@@ -18246,7 +18246,7 @@ if (typeof process === 'undefined' || process.type === 'renderer' || process.bro
 "use strict";
 
 const os = __webpack_require__(22);
-const hasFlag = __webpack_require__(49);
+const hasFlag = __webpack_require__(50);
 
 const env = process.env;
 
@@ -18403,7 +18403,7 @@ module.exports = require("assert");
  * README.md file in the root directory of this source tree.
  */
 
-const crypto = __webpack_require__(55)
+const crypto = __webpack_require__(56)
 
 const defaults = __webpack_require__(39)
 
@@ -18722,7 +18722,8 @@ binaryParsers.init(function(oid, converter) {
 /* 45 */,
 /* 46 */,
 /* 47 */,
-/* 48 */
+/* 48 */,
+/* 49 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -18750,7 +18751,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18765,25 +18766,25 @@ module.exports = (flag, argv) => {
 
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports) {
 
 module.exports = require("net");
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports) {
 
 module.exports = require("tls");
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports) {
 
 module.exports = require("tty");
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const { keys } = __webpack_require__(2);
@@ -18827,7 +18828,7 @@ module.exports = {
 
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports) {
 
 module.exports = function saveAsyncStack(instance, lines) {
@@ -18842,13 +18843,13 @@ module.exports = function saveAsyncStack(instance, lines) {
 
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports) {
 
 module.exports = require("crypto");
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const { isEmpty, map, clone, each } = __webpack_require__(2);
@@ -18964,7 +18965,7 @@ module.exports = function(Target) {
 
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Builder
@@ -18994,7 +18995,7 @@ const {
   last,
   isPlainObject,
 } = __webpack_require__(2);
-const saveAsyncStack = __webpack_require__(54);
+const saveAsyncStack = __webpack_require__(55);
 
 const { lockMode, waitMode } = __webpack_require__(209);
 
@@ -20237,7 +20238,7 @@ Builder.prototype.into = Builder.prototype.table;
 Builder.prototype.del = Builder.prototype.delete;
 
 // Attach all of the top level promise methods that should be chainable.
-__webpack_require__(56)(Builder);
+__webpack_require__(57)(Builder);
 helpers.addQueryContext(Builder);
 
 Builder.extend = (methodName, fn) => {
@@ -20254,7 +20255,7 @@ module.exports = Builder;
 
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports) {
 
 //Get schema-aware table name
@@ -20287,7 +20288,7 @@ module.exports = {
 
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const { isString, tail } = __webpack_require__(2);
@@ -20343,7 +20344,7 @@ module.exports = {
 
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20410,7 +20411,6 @@ exports.tryPromise = tryPromise;
 
 
 /***/ }),
-/* 61 */,
 /* 62 */,
 /* 63 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -20800,7 +20800,7 @@ module.exports = uuid;
 // Unique ID creation requires a high quality random # generator.  In node.js
 // this is pretty straight-forward - we use the crypto API.
 
-var crypto = __webpack_require__(55);
+var crypto = __webpack_require__(56);
 
 module.exports = function nodeRNG() {
   return crypto.randomBytes(16);
@@ -20849,7 +20849,7 @@ const Runner = __webpack_require__(208);
 const Formatter = __webpack_require__(78);
 const Transaction = __webpack_require__(210);
 
-const QueryBuilder = __webpack_require__(57);
+const QueryBuilder = __webpack_require__(58);
 const QueryCompiler = __webpack_require__(86);
 
 const SchemaBuilder = __webpack_require__(219);
@@ -20871,7 +20871,7 @@ const Logger = __webpack_require__(227);
 const debug = __webpack_require__(24)('knex:client');
 const debugQuery = __webpack_require__(24)('knex:query');
 const debugBindings = __webpack_require__(24)('knex:bindings');
-const { POOL_CONFIG_OPTIONS } = __webpack_require__(53);
+const { POOL_CONFIG_OPTIONS } = __webpack_require__(54);
 
 // The base client provides the general structure
 // for a dialect specific client object.
@@ -21344,7 +21344,7 @@ module.exports = nodebackForPromise;
 /* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const QueryBuilder = __webpack_require__(57);
+const QueryBuilder = __webpack_require__(58);
 const Raw = __webpack_require__(20);
 const { transform } = __webpack_require__(2);
 
@@ -22215,7 +22215,7 @@ const {
   getLockTableName,
   getLockTableNameWithSchema,
   getTableName,
-} = __webpack_require__(58);
+} = __webpack_require__(59);
 
 function ensureTable(tableName, schemaName, trxOrKnex) {
   const lockTable = getLockTableName(tableName);
@@ -23427,7 +23427,7 @@ module.exports = QueryCompiler;
 /* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const { pushQuery, pushAdditional, unshiftQuery } = __webpack_require__(59);
+const { pushQuery, pushAdditional, unshiftQuery } = __webpack_require__(60);
 
 const { isUndefined } = __webpack_require__(2);
 
@@ -23521,7 +23521,7 @@ module.exports = SchemaCompiler;
 
 // Table Compiler
 // -------
-const { pushAdditional, pushQuery, unshiftQuery } = __webpack_require__(59);
+const { pushAdditional, pushQuery, unshiftQuery } = __webpack_require__(60);
 const helpers = __webpack_require__(15);
 const {
   groupBy,
@@ -23834,7 +23834,7 @@ module.exports = TableCompiler;
 // during the table "create" / "alter" statements.
 // -------
 const Raw = __webpack_require__(20);
-const helpers = __webpack_require__(59);
+const helpers = __webpack_require__(60);
 const { groupBy, first, tail, has, isObject } = __webpack_require__(2);
 
 function ColumnCompiler(client, tableCompiler, columnBuilder) {
@@ -24713,7 +24713,7 @@ module.exports = Result
  * README.md file in the root directory of this source tree.
  */
 
-var net = __webpack_require__(50)
+var net = __webpack_require__(51)
 var EventEmitter = __webpack_require__(8).EventEmitter
 var util = __webpack_require__(6)
 
@@ -24797,7 +24797,7 @@ Connection.prototype.connect = function (port, host) {
       default: // Any other response byte, including 'E' (ErrorResponse) indicating a server error
         return self.emit('error', new Error('There was an error establishing an SSL connection'))
     }
-    var tls = __webpack_require__(51)
+    var tls = __webpack_require__(52)
     self.stream = tls.connect({
       socket: self.stream,
       servername: host,
@@ -25616,13 +25616,13 @@ module.exports = Knex;
 
 const Raw = __webpack_require__(20);
 const Client = __webpack_require__(74);
-const QueryBuilder = __webpack_require__(57);
+const QueryBuilder = __webpack_require__(58);
 const QueryInterface = __webpack_require__(85);
 
 const makeKnex = __webpack_require__(80);
 const parseConnection = __webpack_require__(229);
 const fakeClient = __webpack_require__(231);
-const { SUPPORTED_CLIENTS } = __webpack_require__(53);
+const { SUPPORTED_CLIENTS } = __webpack_require__(54);
 const { resolveClientNameWithAliases } = __webpack_require__(15);
 
 function Knex(config) {
@@ -26174,7 +26174,7 @@ function plural(ms, msAbs, n, name) {
  * Module dependencies.
  */
 
-const tty = __webpack_require__(52);
+const tty = __webpack_require__(53);
 const util = __webpack_require__(6);
 
 /**
@@ -32529,7 +32529,7 @@ const {
   getLockTableNameWithSchema,
   getTable,
   getTableName,
-} = __webpack_require__(58);
+} = __webpack_require__(59);
 const { getSchemaBuilder } = __webpack_require__(81);
 const migrationListResolver = __webpack_require__(212);
 const MigrationGenerator = __webpack_require__(213);
@@ -33102,7 +33102,7 @@ module.exports = {
 /***/ (function(module, exports, __webpack_require__) {
 
 const Bluebird = __webpack_require__(12);
-const { getTableName } = __webpack_require__(58);
+const { getTableName } = __webpack_require__(59);
 const { ensureTable } = __webpack_require__(81);
 
 // Lists all available migration versions, as a sorted array.
@@ -33691,7 +33691,7 @@ const inherits = __webpack_require__(11);
 const { EventEmitter } = __webpack_require__(8);
 const { each, toArray } = __webpack_require__(2);
 const { addQueryContext } = __webpack_require__(15);
-const saveAsyncStack = __webpack_require__(54);
+const saveAsyncStack = __webpack_require__(55);
 
 // Constructor for the builder instance, typically called from
 // `knex.builder`, accepting the current `knex` instance,
@@ -33755,7 +33755,7 @@ each(
   }
 );
 
-__webpack_require__(56)(SchemaBuilder);
+__webpack_require__(57)(SchemaBuilder);
 addQueryContext(SchemaBuilder);
 
 SchemaBuilder.prototype.withSchema = function(schemaName) {
@@ -34213,7 +34213,7 @@ module.exports = {
 Object.defineProperty(exports, "__esModule", { value: true });
 const PendingOperation_1 = __webpack_require__(224);
 const Resource_1 = __webpack_require__(226);
-const utils_1 = __webpack_require__(60);
+const utils_1 = __webpack_require__(61);
 const events_1 = __webpack_require__(8);
 class Pool {
     constructor(opt) {
@@ -34621,7 +34621,7 @@ function callbackOrPromise(func) {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const TimeoutError_1 = __webpack_require__(90);
-const utils_1 = __webpack_require__(60);
+const utils_1 = __webpack_require__(61);
 class PendingOperation {
     constructor(timeoutMillis) {
         this.timeoutMillis = timeoutMillis;
@@ -34701,7 +34701,7 @@ exports.PromiseInspection = PromiseInspection;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const utils_1 = __webpack_require__(60);
+const utils_1 = __webpack_require__(61);
 class Resource {
     constructor(resource) {
         this.resource = resource;
@@ -37529,7 +37529,7 @@ module.exports = {
 
 "use strict";
 
-const crypto = __webpack_require__(55)
+const crypto = __webpack_require__(56)
 
 function startSession (mechanisms) {
   if (mechanisms.indexOf('SCRAM-SHA-256') === -1) {

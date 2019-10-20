@@ -1,3 +1,5 @@
+import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
+
 import {
 	APIGatewayEvent,
 	Context,
@@ -59,17 +61,20 @@ const handler: NetlifyHandler = (
 
 	return new Promise((resolve, reject) => {
 		const context: NetlifyContext = badly_typed_context as any
-
+		SEC.injectDependencies({
+			SESSION_START_TIME: get_UTC_timestamp_ms()
+		})
+		
 		///////////////////// Setup /////////////////////
 		SEC.xTry('SEC-MW-1', ({SEC, logger}) => {
-			logger.trace('Starting handling: '+ event.path+ '…')
+			logger.log('Starting handling: '+ event.path+ '…')
+
 
 			let timeout_id: ReturnType<typeof setTimeout> | null = null
 
 			async function on_error({SEC, err}: XSECEventDataMap['final-error']) {
 				//console.error('on SEC final-error in MW', err.message)
 
-				resolve(err_to_response(err))
 				if (timeout_id) {
 					clearTimeout(timeout_id)
 					timeout_id = null
@@ -89,19 +94,21 @@ const handler: NetlifyHandler = (
 						console.error('XXX huge error in the error handler itself! XXX')
 					}
 				}
+
+				resolve(err_to_response(err))
 			}
-			logger.trace('Listening to errors…')
+			//logger.trace('Listening to errors…')
 			SEC.emitter.once('final-error').then(on_error)
 			context.callbackWaitsForEmptyEventLoop = false
 
 			const remaining_time_ms = context.getRemainingTimeInMillis ? context.getRemainingTimeInMillis() : 10_000
-			logger.trace('Setting timeout...', {remaining_time_ms})
+			logger.trace('Setting timeout...', {remaining_time_ms, time: get_UTC_timestamp_ms()})
 			timeout_id = setTimeout(() => {
 				const err = new Error('Timeout handling this request!')
 				logger.fatal('timeout', { err, remaining_time_ms })
 				timeout_id = null
 				throw err
-			}, Math.max(remaining_time_ms - 500, 0))
+			}, Math.max(remaining_time_ms - 1000, 0))
 
 			///////////////////// invoke /////////////////////
 
