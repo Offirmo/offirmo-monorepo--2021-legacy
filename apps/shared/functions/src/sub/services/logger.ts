@@ -14,6 +14,7 @@ const logger = create_node({
 
 console.log('\n\n')
 logger.info(`❄️ Cold start of "${APP}", logger level = ${logger.getLevel()}.`)
+logger.info(`❄️ Cold start of "${APP}", channel = ${CHANNEL}.`)
 
 
 export default logger

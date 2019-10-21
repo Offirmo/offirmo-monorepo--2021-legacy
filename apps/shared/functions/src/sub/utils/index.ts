@@ -1,3 +1,4 @@
+import { STATUS_CODES } from 'http'
 import { XError as _XError, COMMON_ERROR_FIELDS } from '@offirmo-private/common-error-fields'
 
 interface XError extends _XError {
@@ -5,7 +6,17 @@ interface XError extends _XError {
 }
 
 // TODO extern
-function create_error(message: string, data: XError['details'] = {}): XError {
+function create_error(message: string | number | undefined, data: XError['details'] = {}): XError {
+	if (message && STATUS_CODES[message]) {
+		message = STATUS_CODES[message]
+		data.statusCode = Number(message)
+	}
+
+	message = String(message || 'Unknown error!')
+	if (!(message.toLowerCase()).includes('error')) {
+		message = 'Error: ' + message
+	}
+
 	const error: XError = new Error(message)
 	Object.keys(data).forEach(k => {
 		if (COMMON_ERROR_FIELDS.has(k) && k !== 'name' && k !== 'message' && k !== 'stack') {
