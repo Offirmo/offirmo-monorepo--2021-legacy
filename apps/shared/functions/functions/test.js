@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 114);
+/******/ 	return __webpack_require__(__webpack_require__.s = 115);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -314,11 +314,11 @@ function __importDefault(mod) {
 
 "use strict";
 
-const escapeStringRegexp = __webpack_require__(148);
-const ansiStyles = __webpack_require__(149);
-const stdoutColor = __webpack_require__(35).stdout;
+const escapeStringRegexp = __webpack_require__(150);
+const ansiStyles = __webpack_require__(151);
+const stdoutColor = __webpack_require__(37).stdout;
 
-const template = __webpack_require__(153);
+const template = __webpack_require__(155);
 
 const isSimpleWindowsTerm = process.platform === 'win32' && !(process.env.TERM || '').toLowerCase().startsWith('xterm');
 
@@ -1044,15 +1044,70 @@ function isSyntheticEvent(wat) {
 module.exports = require("fs");
 
 /***/ }),
-/* 11 */,
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+function Enum() {
+    var values = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        values[_i] = arguments[_i];
+    }
+    if (typeof values[0] === "string") {
+        var result = {};
+        for (var _a = 0, values_1 = values; _a < values_1.length; _a++) {
+            var value = values_1[_a];
+            result[value] = value;
+        }
+        return result;
+    }
+    else {
+        return values[0];
+    }
+}
+exports.Enum = Enum;
+(function (Enum) {
+    function ofKeys(e) {
+        var result = {};
+        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
+            var key = _a[_i];
+            result[key] = key;
+        }
+        return result;
+    }
+    Enum.ofKeys = ofKeys;
+    function keys(e) {
+        return Object.keys(e);
+    }
+    Enum.keys = keys;
+    function values(e) {
+        var result = [];
+        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
+            var key = _a[_i];
+            result.push(e[key]);
+        }
+        return result;
+    }
+    Enum.values = values;
+    function isType(e, value) {
+        return values(e).indexOf(value) !== -1;
+    }
+    Enum.isType = isType;
+})(Enum = exports.Enum || (exports.Enum = {}));
+//# sourceMappingURL=index.js.map
+
+/***/ }),
 /* 12 */,
-/* 13 */
+/* 13 */,
+/* 14 */
 /***/ (function(module, exports) {
 
 module.exports = require("path");
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1118,7 +1173,7 @@ var Memo = /** @class */ (function () {
 var misc = __webpack_require__(7);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/string.js
-var string = __webpack_require__(62);
+var string = __webpack_require__(63);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/object.js
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return fill; });
@@ -1421,16 +1476,38 @@ function extractExceptionKeysForMessage(exception, maxLength) {
 //# sourceMappingURL=object.js.map
 
 /***/ }),
-/* 15 */,
 /* 16 */,
-/* 17 */
+/* 17 */,
+/* 18 */
 /***/ (function(module, exports) {
 
 module.exports = require("url");
 
 /***/ }),
-/* 18 */,
 /* 19 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var isProduction = "production" === 'production';
+var prefix = 'Invariant failed';
+function invariant(condition, message) {
+  if (condition) {
+    return;
+  }
+
+  if (isProduction) {
+    throw new Error(prefix);
+  } else {
+    throw new Error(prefix + ": " + (message || ''));
+  }
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (invariant);
+
+
+/***/ }),
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1445,17 +1522,23 @@ const INTERNAL_PROP = '_SEC';
 exports.INTERNAL_PROP = INTERNAL_PROP;
 
 /***/ }),
-/* 20 */,
 /* 21 */,
-/* 22 */
+/* 22 */,
+/* 23 */
 /***/ (function(module, exports) {
 
 module.exports = require("os");
 
 /***/ }),
-/* 23 */,
-/* 24 */,
-/* 25 */
+/* 24 */
+/***/ (function(module, exports) {
+
+module.exports = require("http");
+
+/***/ }),
+/* 25 */,
+/* 26 */,
+/* 27 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1478,7 +1561,7 @@ const COMMON_ERROR_FIELDS = DEFAULT_INSTANCE;
 
 
 /***/ }),
-/* 26 */
+/* 28 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1535,13 +1618,56 @@ const LEVEL_TO_STYLIZE = {
 };
 
 /***/ }),
-/* 27 */,
-/* 28 */
+/* 29 */,
+/* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+const http_1 = __webpack_require__(24);
+
+const common_error_fields_1 = __webpack_require__(31); // TODO extern
+
+
+function create_error(message, data = {}) {
+  if (message && http_1.STATUS_CODES[message]) {
+    message = http_1.STATUS_CODES[message];
+    data.statusCode = Number(message);
+  }
+
+  message = String(message || 'Unknown error!');
+
+  if (!message.toLowerCase().includes('error')) {
+    message = 'Error: ' + message;
+  }
+
+  const error = new Error(message);
+  Object.keys(data).forEach(k => {
+    if (common_error_fields_1.COMMON_ERROR_FIELDS.has(k) && k !== 'name' && k !== 'message' && k !== 'stack') {
+      error[k] = data[k];
+    } else {
+      error.details = error.details || {};
+      error.details[k] = data[k];
+    }
+  });
+  error.framesToPop = error.framesToPop || 1;
+  return error;
+}
+
+exports.create_error = create_error;
+
+/***/ }),
+/* 31 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _field_set__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
+/* harmony import */ var _field_set__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(27);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "COMMON_ERROR_FIELDS", function() { return _field_set__WEBPACK_IMPORTED_MODULE_0__["a"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "create", function() { return _field_set__WEBPACK_IMPORTED_MODULE_0__["b"]; });
@@ -1549,7 +1675,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /***/ }),
-/* 29 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1603,7 +1729,7 @@ function reduce_plugin(state, PLUGIN_ID, reducer) {
 exports.reduce_plugin = reduce_plugin;
 
 /***/ }),
-/* 30 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1613,7 +1739,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const consts_1 = __webpack_require__(19);
+const consts_1 = __webpack_require__(20);
 
 function flattenToOwn(object) {
   if (!object) return object;
@@ -1661,7 +1787,7 @@ function _flattenSEC(SEC) {
 exports._flattenSEC = _flattenSEC;
 
 /***/ }),
-/* 31 */
+/* 34 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1862,7 +1988,7 @@ var SyncPromise = /** @class */ (function () {
 //# sourceMappingURL=syncpromise.js.map
 
 /***/ }),
-/* 32 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1896,37 +2022,7 @@ function get_default_JsonRpc_error() {
 exports.get_default_JsonRpc_error = get_default_JsonRpc_error;
 
 /***/ }),
-/* 33 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-const common_error_fields_1 = __webpack_require__(28); // TODO extern
-
-
-function create_error(message, data = {}) {
-  const error = new Error(message);
-  Object.keys(data).forEach(k => {
-    if (common_error_fields_1.COMMON_ERROR_FIELDS.has(k) && k !== 'name' && k !== 'message' && k !== 'stack') {
-      error[k] = data[k];
-    } else {
-      error.details = error.details || {};
-      error.details[k] = data[k];
-    }
-  });
-  error.framesToPop = error.framesToPop || 1;
-  return error;
-}
-
-exports.create_error = create_error;
-
-/***/ }),
-/* 34 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1942,13 +2038,13 @@ exports.CHANNEL = process.env.CHANNEL || (() => {
 })();
 
 /***/ }),
-/* 35 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const os = __webpack_require__(22);
-const hasFlag = __webpack_require__(50);
+const os = __webpack_require__(23);
+const hasFlag = __webpack_require__(51);
 
 const env = process.env;
 
@@ -2080,12 +2176,12 @@ module.exports = {
 
 
 /***/ }),
-/* 36 */,
-/* 37 */,
 /* 38 */,
 /* 39 */,
 /* 40 */,
-/* 41 */
+/* 41 */,
+/* 42 */,
+/* 43 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2146,7 +2242,7 @@ function get_human_readable_UTC_timestamp_ms(now = new Date()) {
 
 
 /***/ }),
-/* 42 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2188,26 +2284,20 @@ module.exports = (string, count = 1, options) => {
 
 
 /***/ }),
-/* 43 */
-/***/ (function(module, exports) {
-
-module.exports = require("http");
-
-/***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
  * Module dependencies.
  */
 
-var net = __webpack_require__(51);
-var tls = __webpack_require__(52);
-var url = __webpack_require__(17);
+var net = __webpack_require__(52);
+var tls = __webpack_require__(53);
+var url = __webpack_require__(18);
 var events = __webpack_require__(8);
-var Agent = __webpack_require__(157);
+var Agent = __webpack_require__(159);
 var inherits = __webpack_require__(6).inherits;
-var debug = __webpack_require__(162)('https-proxy-agent');
+var debug = __webpack_require__(164)('https-proxy-agent');
 
 /**
  * Module exports.
@@ -2443,30 +2533,30 @@ function isDefaultPort(port, secure) {
 
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports) {
 
 module.exports = require("https");
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports) {
 
 module.exports = require("domain");
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Scope; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return addGlobalEventProcessor; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(31);
+/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(34);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(9);
-/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(14);
+/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(15);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(7);
-/* harmony import */ var _span__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(102);
+/* harmony import */ var _span__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(103);
 
 
 
@@ -2782,7 +2872,7 @@ function addGlobalEventProcessor(callback) {
 //# sourceMappingURL=scope.js.map
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2794,13 +2884,13 @@ Object.defineProperty(exports, "__esModule", {
 
 const tslib_1 = __webpack_require__(0);
 
-const consts_1 = __webpack_require__(19);
+const consts_1 = __webpack_require__(20);
 
-const TopState = tslib_1.__importStar(__webpack_require__(29));
+const TopState = tslib_1.__importStar(__webpack_require__(32));
 
-const State = tslib_1.__importStar(__webpack_require__(124));
+const State = tslib_1.__importStar(__webpack_require__(126));
 
-const utils_1 = __webpack_require__(30);
+const utils_1 = __webpack_require__(33);
 
 const PLUGIN_ID = 'dependency_injection';
 exports.PLUGIN_ID = PLUGIN_ID;
@@ -2829,7 +2919,7 @@ const PLUGIN = {
 exports.PLUGIN = PLUGIN;
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -2857,7 +2947,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2872,25 +2962,24 @@ module.exports = (flag, argv) => {
 
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports) {
 
 module.exports = require("net");
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports) {
 
 module.exports = require("tls");
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports) {
 
 module.exports = require("tty");
 
 /***/ }),
-/* 54 */,
 /* 55 */,
 /* 56 */,
 /* 57 */,
@@ -2898,7 +2987,8 @@ module.exports = require("tty");
 /* 59 */,
 /* 60 */,
 /* 61 */,
-/* 62 */
+/* 62 */,
+/* 63 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3000,26 +3090,7 @@ function isMatchingPattern(value, pattern) {
 //# sourceMappingURL=string.js.map
 
 /***/ }),
-/* 63 */,
-/* 64 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-const tslib_1 = __webpack_require__(0);
-
-tslib_1.__exportStar(__webpack_require__(116), exports);
-
-tslib_1.__exportStar(__webpack_require__(65), exports);
-
-tslib_1.__exportStar(__webpack_require__(30), exports);
-
-/***/ }),
+/* 64 */,
 /* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3032,17 +3103,36 @@ Object.defineProperty(exports, "__esModule", {
 
 const tslib_1 = __webpack_require__(0);
 
-const consts_1 = __webpack_require__(19);
+tslib_1.__exportStar(__webpack_require__(118), exports);
+
+tslib_1.__exportStar(__webpack_require__(66), exports);
+
+tslib_1.__exportStar(__webpack_require__(33), exports);
+
+/***/ }),
+/* 66 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+const tslib_1 = __webpack_require__(0);
+
+const consts_1 = __webpack_require__(20);
 
 exports.LIB = consts_1.LIB;
 
-const root_prototype_1 = __webpack_require__(118);
+const root_prototype_1 = __webpack_require__(120);
 
-const State = tslib_1.__importStar(__webpack_require__(29));
+const State = tslib_1.__importStar(__webpack_require__(32));
 
-const index_1 = __webpack_require__(120);
+const index_1 = __webpack_require__(122);
 
-const common_1 = __webpack_require__(132);
+const common_1 = __webpack_require__(134);
 
 root_prototype_1.ROOT_PROTOTYPE.createChild = function createChild(args) {
   return createSEC({ ...args,
@@ -3095,11 +3185,11 @@ function createSEC(args = {}) {
 exports.createSEC = createSEC;
 
 /***/ }),
-/* 66 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
-var cssKeywords = __webpack_require__(151);
+var cssKeywords = __webpack_require__(153);
 
 // NOTE: conversions should only return primitive values (i.e. arrays, or
 //       values that give correct `typeof` results).
@@ -3969,7 +4059,7 @@ convert.rgb.gray = function (rgb) {
 
 
 /***/ }),
-/* 67 */
+/* 68 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3981,7 +4071,7 @@ const DEFAULT_LOG_LEVEL = 'error';
 const DEFAULT_LOGGER_KEY = ''; // yes, can be used as a key
 
 /***/ }),
-/* 68 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3998,7 +4088,7 @@ function setup(env) {
   createDebug.disable = disable;
   createDebug.enable = enable;
   createDebug.enabled = enabled;
-  createDebug.humanize = __webpack_require__(164);
+  createDebug.humanize = __webpack_require__(166);
   Object.keys(env).forEach(function (key) {
     createDebug[key] = env[key];
   });
@@ -4237,13 +4327,12 @@ module.exports = setup;
 
 
 /***/ }),
-/* 69 */
+/* 70 */
 /***/ (function(module, exports) {
 
 module.exports = require("module");
 
 /***/ }),
-/* 70 */,
 /* 71 */,
 /* 72 */,
 /* 73 */,
@@ -4274,17 +4363,18 @@ module.exports = require("module");
 /* 98 */,
 /* 99 */,
 /* 100 */,
-/* 101 */
+/* 101 */,
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 // ### Module dependencies
-var colors = __webpack_require__(135);
-var Utils = __webpack_require__(146);
+var colors = __webpack_require__(137);
+var Utils = __webpack_require__(148);
 
-exports.version = __webpack_require__(147).version;
+exports.version = __webpack_require__(149).version;
 
 // Helper function to detect if an object can be directly serializable
 var isSerializable = function(input, onlyPrimitives, options) {
@@ -4544,7 +4634,7 @@ exports.renderString = function renderString(data, options, indentation) {
 
 
 /***/ }),
-/* 102 */
+/* 103 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4628,7 +4718,7 @@ var Span = /** @class */ (function () {
 //# sourceMappingURL=span.js.map
 
 /***/ }),
-/* 103 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -4943,7 +5033,7 @@ LRUMap.prototype.toString = function() {
 
 
 /***/ }),
-/* 104 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5145,7 +5235,6 @@ function tryDecode(str, decode) {
 
 
 /***/ }),
-/* 105 */,
 /* 106 */,
 /* 107 */,
 /* 108 */,
@@ -5154,7 +5243,8 @@ function tryDecode(str, decode) {
 /* 111 */,
 /* 112 */,
 /* 113 */,
-/* 114 */
+/* 114 */,
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5164,154 +5254,25 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const timestamps_1 = __webpack_require__(41);
+const runner_1 = __webpack_require__(116);
 
-const sec_1 = __webpack_require__(115);
+const require_http_method_1 = __webpack_require__(169);
 
-const utils_1 = __webpack_require__(33);
+const test_failure_1 = __webpack_require__(170);
 
-const sentry_1 = __webpack_require__(155);
-
-const channel_1 = __webpack_require__(34);
-
-function err_to_response(err) {
-  const statusCode = err.statusCode || 500;
-  const res = err.res || `[Error] ${err.message || 'Unknown error!'}`;
-  return {
-    statusCode,
-    body: JSON.stringify(res)
-  };
-}
-
-async function _handler(SEC, event, context) {
-  try {
-    throw new Error('TEST caught!');
-  } catch (err) {} // ignore
-  //return { statusCode: 200, body: 'nominal.' }
-  //throw new Error('Test sync!')
-  //throw create_error('TEST sync!', { statusCode: 555 })
-  //new Promise(() => { throw create_error('TEST in uncaught promise!', { statusCode: 555 }) })
-
-
-  return new Promise(resolve => {
-    setTimeout(() => {
-      throw utils_1.create_error('TEST in uncaught async!', {
-        statusCode: 555
-      });
-    }, 100);
-  });
+async function _handler(SEC, event, context, response, next) {
+  response.statusCode = 200;
+  response.body = 'Test ok!';
 }
 
 const handler = (event, badly_typed_context) => {
-  console.log('\n\n-----------------------------------------------------');
-  return new Promise((resolve, reject) => {
-    const context = badly_typed_context;
-    sec_1.SEC.injectDependencies({
-      SESSION_START_TIME: timestamps_1.get_UTC_timestamp_ms()
-    }); ///////////////////// Setup /////////////////////
-
-    sec_1.SEC.xTry('SEC-MW-1', ({
-      SEC,
-      logger
-    }) => {
-      logger.log('Starting handling: ' + event.path + '…');
-      let timeout_id = null;
-
-      async function on_error({
-        SEC,
-        err
-      }) {
-        //console.error('on SEC final-error in MW', err.message)
-        if (timeout_id) {
-          clearTimeout(timeout_id);
-          timeout_id = null;
-        }
-
-        logger.error('Final error:', err);
-
-        if (channel_1.CHANNEL === 'dev') {
-          logger.fatal('↑ error! (no report since dev)');
-        } else {
-          logger.fatal('↑ this error will be reported');
-
-          try {
-            await sentry_1.on_error(err);
-          } catch (err) {
-            console.error('XXX huge error in the error handler itself! XXX');
-          }
-        }
-
-        resolve(err_to_response(err));
-      } //logger.trace('Listening to errors…')
-
-
-      SEC.emitter.once('final-error').then(on_error);
-      context.callbackWaitsForEmptyEventLoop = false;
-      const remaining_time_ms = context.getRemainingTimeInMillis ? context.getRemainingTimeInMillis() : 10000;
-      logger.trace('Setting timeout...', {
-        remaining_time_ms,
-        time: timestamps_1.get_UTC_timestamp_ms()
-      });
-      timeout_id = setTimeout(() => {
-        const err = new Error('Timeout handling this request!');
-        logger.fatal('timeout', {
-          err,
-          remaining_time_ms
-        });
-        timeout_id = null;
-        throw err;
-      }, Math.max(remaining_time_ms - 1000, 0)); ///////////////////// invoke /////////////////////
-
-      SEC.xPromiseTryCatch('SEC-MW-2', ({
-        SEC,
-        logger
-      }) => {
-        return SEC.xPromiseTry('SEC-MW-handler', () => {
-          logger.trace('Invoking_');
-          return _handler(SEC, event, context);
-        }).then(response => {
-          logger.trace('FYI _handler resolved with:', {
-            status: response.statusCode
-          });
-          return response;
-        }).catch(err => {
-          logger.error('FYI _handler rejected! with:', err);
-          throw err;
-        }).then(response => {
-          if (!response || !response.statusCode || !response.body) throw new Error('Incorrect response returned by the handler!!');
-          logger.info('FYI resolving with:', {
-            status: response.statusCode
-          });
-          resolve(response);
-
-          if (timeout_id) {
-            clearTimeout(timeout_id);
-            timeout_id = null;
-          }
-
-          SEC.emitter.off('final-error', on_error);
-        });
-      }).then(response => {
-        logger.trace('FYI MW resolved', response);
-        return response;
-      }).catch(err => {
-        logger.error('FYI MW rejected! with:', err);
-        throw err;
-      });
-    });
-  }).then(response => {
-    console.error('FYI Overall promise resolved with:', response);
-    return response;
-  }).catch(err => {
-    console.error('FYI Overall promise rejected with:', err);
-    throw err;
-  });
+  return runner_1.use_middlewares_with_error_safety_net(event, badly_typed_context, [require_http_method_1.require_http_method(require_http_method_1.HttpMethod.GET), test_failure_1.test_failure, _handler]);
 };
 
 exports.handler = handler;
 
 /***/ }),
-/* 115 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5323,15 +5284,194 @@ Object.defineProperty(exports, "__esModule", {
 
 const tslib_1 = __webpack_require__(0);
 
-const soft_execution_context_1 = __webpack_require__(64);
+const tiny_invariant_1 = tslib_1.__importDefault(__webpack_require__(19));
 
-const soft_execution_context_node_1 = __webpack_require__(133);
+const timestamps_1 = __webpack_require__(43);
 
-const consts_1 = __webpack_require__(32);
+const sec_1 = __webpack_require__(117);
 
-const channel_1 = __webpack_require__(34);
+const sentry_1 = __webpack_require__(157);
 
-const logger_1 = tslib_1.__importDefault(__webpack_require__(134)); /////////////////////
+const channel_1 = __webpack_require__(36);
+
+const MARGIN_AND_SENTRY_BUDGET_MS = channel_1.CHANNEL === 'dev' ? 5000 : 1000;
+
+function err_to_response(err) {
+  const statusCode = err.statusCode || 500;
+  const body = err.res || `[Error] ${err.message || 'Unknown error!'}`;
+  return {
+    statusCode,
+    body
+  };
+}
+
+function use_middlewares_with_error_safety_net(event, badly_typed_context, middlewares) {
+  console.log('\n\n → → → → → → → → → → → → → → → → → → → → →');
+  const SESSION_START_TIME = timestamps_1.get_UTC_timestamp_ms();
+  return new Promise(resolve => {
+    const context = badly_typed_context; // overwrite to match handling
+
+    sec_1.SEC.injectDependencies({
+      SESSION_START_TIME
+    }); ///////////////////// Setup /////////////////////
+
+    sec_1.SEC.xTry('MW1', ({
+      SEC,
+      logger
+    }) => {
+      logger.log('Starting handling: ' + event.path + '…', {
+        time: timestamps_1.get_UTC_timestamp_ms()
+      }); // TODO breadcrumb
+
+      tiny_invariant_1.default(middlewares.length >= 1, 'please provide some middlewares!');
+      let timeout_id = null;
+      let is_emitter_waiting = false;
+
+      function clean() {
+        if (timeout_id) {
+          clearTimeout(timeout_id);
+          timeout_id = null;
+        }
+
+        if (is_emitter_waiting) {
+          SEC.emitter.off('final-error', on_final_error_h);
+          is_emitter_waiting = false;
+        }
+      }
+
+      async function on_final_error(err) {
+        clean();
+        logger.fatal('⚰️ Final error:', err);
+
+        if (channel_1.CHANNEL === 'dev') {
+          logger.info('(not reported since dev)');
+        } else {
+          logger.info('(this error will be reported)');
+
+          try {
+            await sentry_1.on_error(err);
+          } catch (err) {
+            console.error('XXX huge error in the error handler itself! XXX');
+          }
+        } // note: once resolved, the code will be frozen by AWS lambda
+        // so this must be last
+
+
+        const response = err_to_response(err);
+        logger.info('FYI resolving with:', {
+          status: response.statusCode
+        });
+        resolve(response);
+      }
+
+      async function on_final_error_h({
+        err
+      }) {
+        logger.trace('on_final_error_h');
+        is_emitter_waiting = false;
+        await on_final_error(err);
+      }
+
+      SEC.emitter.once('final-error').then(on_final_error_h);
+      is_emitter_waiting = true;
+      context.callbackWaitsForEmptyEventLoop = false; // cf. https://httptoolkit.tech/blog/netlify-function-error-reporting-with-sentry/
+
+      const remaining_time_ms = context.getRemainingTimeInMillis ? context.getRemainingTimeInMillis() : 10000;
+      const time_budget_ms = Math.max(remaining_time_ms - MARGIN_AND_SENTRY_BUDGET_MS, 0);
+      logger.info('Setting timeout...', {
+        time_budget_ms
+      });
+      timeout_id = setTimeout(() => {
+        timeout_id = null;
+        SEC.xTryCatch('timeout', ({
+          logger
+        }) => {
+          logger.fatal('⏰ timeout!');
+          throw new Error('Timeout handling this request!');
+        });
+      }, time_budget_ms); ///////////////////// invoke /////////////////////
+
+      SEC.xPromiseTry('MW2', async ({
+        SEC,
+        logger
+      }) => {
+        logger.trace('Invoking MW(s)_');
+        const response = {
+          statusCode: 500,
+          body: 'Bad handler: response unmodified!'
+        };
+
+        async function next(index) {
+          if (index >= middlewares.length) return;
+          return middlewares[index](SEC, event, context, response, next.bind(null, index + 1));
+        }
+
+        try {
+          await next(0);
+        } catch (err) {
+          logger.error('FYI MW rejected with:', err);
+          throw err;
+        }
+
+        if (!response.statusCode || Math.trunc(Number(response.statusCode)) !== response.statusCode) throw new Error('The middleware(s) returned an invalid response (statusCode)!');
+        if (!response.body) throw new Error('The middleware(s) returned an invalid response (body)!');
+        logger.trace('FYI MW resolved with:', {
+          status: response.statusCode
+        }); // as a convenience, stringify the body automatically
+
+        try {
+          try {
+            if (typeof response.body !== 'string') throw new Error('Internal');else JSON.parse(response.body);
+          } catch (_a) {
+            response.body = JSON.stringify(response.body); // TODO stable
+          }
+        } catch (_b) {
+          throw new Error('The middleware(s) returned a non-JSON-stringified body and it couldn’t be fixed automatically!');
+        }
+
+        return response;
+      }).then(response => {
+        // success!
+        clean(); // must be last,
+
+        resolve(response);
+      }).catch(on_final_error);
+    });
+  }).then(response => {
+    console.log('FYI Overall promise resolved with:', response);
+    return response;
+  }).catch(err => {
+    console.error('FYI Overall promise rejected with:', err);
+    throw err;
+  }).finally(() => {
+    console.log(`FYI processed in ${(timestamps_1.get_UTC_timestamp_ms() - SESSION_START_TIME) / 1000.}s`);
+  });
+}
+
+exports.use_middlewares_with_error_safety_net = use_middlewares_with_error_safety_net;
+
+/***/ }),
+/* 117 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+const tslib_1 = __webpack_require__(0);
+
+const soft_execution_context_1 = __webpack_require__(65);
+
+const soft_execution_context_node_1 = __webpack_require__(135);
+
+const consts_1 = __webpack_require__(35);
+
+const channel_1 = __webpack_require__(36);
+
+const logger_1 = tslib_1.__importDefault(__webpack_require__(136)); /////////////////////
 
 
 const SEC = soft_execution_context_1.getRootSEC().setLogicalStack({
@@ -5386,7 +5526,7 @@ if (ENV !== "production") {
 exports.default = SEC;
 
 /***/ }),
-/* 116 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5396,11 +5536,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const globalthis_ponyfill_1 = __webpack_require__(117);
+const globalthis_ponyfill_1 = __webpack_require__(119);
 
-const consts_1 = __webpack_require__(19);
+const consts_1 = __webpack_require__(20);
 
-const core_1 = __webpack_require__(65); /////////////////////
+const core_1 = __webpack_require__(66); /////////////////////
 
 
 const GLOBAL_VAR_NAME = '__global_root_sec';
@@ -5420,7 +5560,7 @@ function getRootSEC() {
 exports.getRootSEC = getRootSEC;
 
 /***/ }),
-/* 117 */
+/* 119 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5443,7 +5583,7 @@ function getGlobalThis() {
 }
 
 /***/ }),
-/* 118 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5455,7 +5595,7 @@ Object.defineProperty(exports, "__esModule", {
 
 const tslib_1 = __webpack_require__(0);
 
-const emittery_1 = tslib_1.__importDefault(__webpack_require__(119)); /////////////////////
+const emittery_1 = tslib_1.__importDefault(__webpack_require__(121)); /////////////////////
 
 
 const ROOT_PROTOTYPE = Object.create(null);
@@ -5470,7 +5610,7 @@ ROOT_PROTOTYPE.setAnalyticsAndErrorDetails = function setAnalyticsAndErrorDetail
 };
 
 /***/ }),
-/* 119 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5834,7 +5974,7 @@ module.exports = Emittery;
 
 
 /***/ }),
-/* 120 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5844,13 +5984,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const index_1 = __webpack_require__(121);
+const index_1 = __webpack_require__(123);
 
-const index_2 = __webpack_require__(48);
+const index_2 = __webpack_require__(49);
 
-const index_3 = __webpack_require__(125);
+const index_3 = __webpack_require__(127);
 
-const index_4 = __webpack_require__(130);
+const index_4 = __webpack_require__(132);
 
 const PLUGINS_BY_ID = {
   [index_4.PLUGIN]: index_4.PLUGIN,
@@ -5863,7 +6003,7 @@ const PLUGINS = Object.values(PLUGINS_BY_ID);
 exports.PLUGINS = PLUGINS;
 
 /***/ }),
-/* 121 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5875,15 +6015,15 @@ Object.defineProperty(exports, "__esModule", {
 
 const tslib_1 = __webpack_require__(0);
 
-const consts_1 = __webpack_require__(19);
+const consts_1 = __webpack_require__(20);
 
-const TopState = tslib_1.__importStar(__webpack_require__(29));
+const TopState = tslib_1.__importStar(__webpack_require__(32));
 
-const consts_2 = __webpack_require__(122);
+const consts_2 = __webpack_require__(124);
 
-const State = tslib_1.__importStar(__webpack_require__(123));
+const State = tslib_1.__importStar(__webpack_require__(125));
 
-const utils_1 = __webpack_require__(30);
+const utils_1 = __webpack_require__(33);
 
 const PLUGIN_ID = 'logical_stack';
 const BRANCH_JUMP_PSEUDO_STATE = {
@@ -6011,7 +6151,7 @@ const PLUGIN = {
 exports.PLUGIN = PLUGIN;
 
 /***/ }),
-/* 122 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6036,7 +6176,7 @@ const LOGICAL_STACK_SEPARATOR_NON_ADJACENT = '…';
 exports.LOGICAL_STACK_SEPARATOR_NON_ADJACENT = LOGICAL_STACK_SEPARATOR_NON_ADJACENT;
 
 /***/ }),
-/* 123 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6088,7 +6228,7 @@ function set_operation(state, operation) {
 exports.set_operation = set_operation;
 
 /***/ }),
-/* 124 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6121,7 +6261,7 @@ function injectDependencies(state, key, value) {
 exports.injectDependencies = injectDependencies;
 
 /***/ }),
-/* 125 */
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6133,23 +6273,23 @@ Object.defineProperty(exports, "__esModule", {
 
 const tslib_1 = __webpack_require__(0);
 
-const normalize_error_1 = tslib_1.__importDefault(__webpack_require__(126));
+const normalize_error_1 = tslib_1.__importDefault(__webpack_require__(128));
 
-const promise_try_1 = __webpack_require__(127);
+const promise_try_1 = __webpack_require__(129);
 
-const timestamps_1 = __webpack_require__(41);
+const timestamps_1 = __webpack_require__(43);
 
-const consts_1 = __webpack_require__(19);
+const consts_1 = __webpack_require__(20);
 
-const utils_1 = __webpack_require__(30);
+const utils_1 = __webpack_require__(33);
 
-const State = tslib_1.__importStar(__webpack_require__(128));
+const State = tslib_1.__importStar(__webpack_require__(130));
 
-const catch_factory_1 = __webpack_require__(129);
+const catch_factory_1 = __webpack_require__(131);
 
-const index_1 = __webpack_require__(48);
+const index_1 = __webpack_require__(49);
 
-const TopState = tslib_1.__importStar(__webpack_require__(29));
+const TopState = tslib_1.__importStar(__webpack_require__(32));
 
 const PLUGIN_ID = 'error_handling';
 
@@ -6297,12 +6437,12 @@ const PLUGIN = {
 exports.PLUGIN = PLUGIN;
 
 /***/ }),
-/* 126 */
+/* 128 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _offirmo_private_common_error_fields__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
+/* harmony import */ var _offirmo_private_common_error_fields__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(27);
  // Anything can be thrown: undefined, string, number...)
 // But that's obviously not a good practice.
 // Normalize any thrown object into a true, normal error.
@@ -6322,7 +6462,7 @@ function normalizeError(err_like = {}) {
 /* harmony default export */ __webpack_exports__["default"] = (normalizeError);
 
 /***/ }),
-/* 127 */
+/* 129 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6336,7 +6476,7 @@ function promiseTry(fn) {
 
 
 /***/ }),
-/* 128 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6369,7 +6509,7 @@ function addDetail(state, key, value) {
 exports.addDetail = addDetail;
 
 /***/ }),
-/* 129 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6410,7 +6550,7 @@ function createCatcher({
 exports.createCatcher = createCatcher;
 
 /***/ }),
-/* 130 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6422,17 +6562,17 @@ Object.defineProperty(exports, "__esModule", {
 
 const tslib_1 = __webpack_require__(0);
 
-const timestamps_1 = __webpack_require__(41);
+const timestamps_1 = __webpack_require__(43);
 
-const consts_1 = __webpack_require__(19);
+const consts_1 = __webpack_require__(20);
 
-const TopState = tslib_1.__importStar(__webpack_require__(29));
+const TopState = tslib_1.__importStar(__webpack_require__(32));
 
-const utils_1 = __webpack_require__(30);
+const utils_1 = __webpack_require__(33);
 
-const State = tslib_1.__importStar(__webpack_require__(131));
+const State = tslib_1.__importStar(__webpack_require__(133));
 
-const dependency_injection_1 = __webpack_require__(48);
+const dependency_injection_1 = __webpack_require__(49);
 
 const PLUGIN_ID = 'analytics';
 exports.PLUGIN_ID = PLUGIN_ID;
@@ -6489,7 +6629,7 @@ const PLUGIN = {
 exports.PLUGIN = PLUGIN;
 
 /***/ }),
-/* 131 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6522,7 +6662,7 @@ function addDetail(state, key, value) {
 exports.addDetail = addDetail;
 
 /***/ }),
-/* 132 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6533,7 +6673,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 /* global NODE_ENV process */
 
-const timestamps_1 = __webpack_require__(41);
+const timestamps_1 = __webpack_require__(43);
 
 function decorateWithDetectedEnv(SEC) {
   let ENV = (() => {
@@ -6571,14 +6711,14 @@ function decorateWithDetectedEnv(SEC) {
 exports.decorateWithDetectedEnv = decorateWithDetectedEnv;
 
 /***/ }),
-/* 133 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const os = __webpack_require__(22);
+const os = __webpack_require__(23);
 
 const {
   getRootSEC
-} = __webpack_require__(64); // TODO protect from double install
+} = __webpack_require__(65); // TODO protect from double install
 
 
 function listenToUncaughtErrors() {
@@ -6626,7 +6766,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 134 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6636,11 +6776,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const practical_logger_node_1 = __webpack_require__(272);
+const practical_logger_node_1 = __webpack_require__(276);
 
-const consts_1 = __webpack_require__(32);
+const consts_1 = __webpack_require__(35);
 
-const channel_1 = __webpack_require__(34); /////////////////////////////////////////////////
+const channel_1 = __webpack_require__(36); /////////////////////////////////////////////////
 //const logger = (CHANNEL === 'dev' ? create_node : create_core)({
 
 
@@ -6650,10 +6790,11 @@ const logger = practical_logger_node_1.createLogger({
 });
 console.log('\n\n');
 logger.info(`❄️ Cold start of "${consts_1.APP}", logger level = ${logger.getLevel()}.`);
+logger.info(`❄️ Cold start of "${consts_1.APP}", channel = ${channel_1.CHANNEL}.`);
 exports.default = logger;
 
 /***/ }),
-/* 135 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //
@@ -6664,12 +6805,12 @@ exports.default = logger;
 //   colors.red("foo")
 //
 //
-var colors = __webpack_require__(136);
+var colors = __webpack_require__(138);
 module['exports'] = colors;
 
 
 /***/ }),
-/* 136 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -6708,11 +6849,11 @@ module['exports'] = colors;
 colors.themes = {};
 
 var util = __webpack_require__(6);
-var ansiStyles = colors.styles = __webpack_require__(137);
+var ansiStyles = colors.styles = __webpack_require__(139);
 var defineProps = Object.defineProperties;
 var newLineRegex = new RegExp(/[\r\n]+/g);
 
-colors.supportsColor = __webpack_require__(138).supportsColor;
+colors.supportsColor = __webpack_require__(140).supportsColor;
 
 if (typeof colors.enabled === 'undefined') {
   colors.enabled = colors.supportsColor() !== false;
@@ -6864,15 +7005,15 @@ var sequencer = function sequencer(map, str) {
 };
 
 // custom formatter methods
-colors.trap = __webpack_require__(140);
-colors.zalgo = __webpack_require__(141);
+colors.trap = __webpack_require__(142);
+colors.zalgo = __webpack_require__(143);
 
 // maps
 colors.maps = {};
-colors.maps.america = __webpack_require__(142)(colors);
-colors.maps.zebra = __webpack_require__(143)(colors);
-colors.maps.rainbow = __webpack_require__(144)(colors);
-colors.maps.random = __webpack_require__(145)(colors);
+colors.maps.america = __webpack_require__(144)(colors);
+colors.maps.zebra = __webpack_require__(145)(colors);
+colors.maps.rainbow = __webpack_require__(146)(colors);
+colors.maps.random = __webpack_require__(147)(colors);
 
 for (var map in colors.maps) {
   (function(map) {
@@ -6886,7 +7027,7 @@ defineProps(colors, init());
 
 
 /***/ }),
-/* 137 */
+/* 139 */
 /***/ (function(module, exports) {
 
 /*
@@ -6987,7 +7128,7 @@ Object.keys(codes).forEach(function(key) {
 
 
 /***/ }),
-/* 138 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7018,8 +7159,8 @@ THE SOFTWARE.
 
 
 
-var os = __webpack_require__(22);
-var hasFlag = __webpack_require__(139);
+var os = __webpack_require__(23);
+var hasFlag = __webpack_require__(141);
 
 var env = process.env;
 
@@ -7145,7 +7286,7 @@ module.exports = {
 
 
 /***/ }),
-/* 139 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7187,7 +7328,7 @@ module.exports = function(flag, argv) {
 
 
 /***/ }),
-/* 140 */
+/* 142 */
 /***/ (function(module, exports) {
 
 module['exports'] = function runTheTrap(text, options) {
@@ -7239,7 +7380,7 @@ module['exports'] = function runTheTrap(text, options) {
 
 
 /***/ }),
-/* 141 */
+/* 143 */
 /***/ (function(module, exports) {
 
 // please no
@@ -7355,7 +7496,7 @@ module['exports'] = function zalgo(text, options) {
 
 
 /***/ }),
-/* 142 */
+/* 144 */
 /***/ (function(module, exports) {
 
 module['exports'] = function(colors) {
@@ -7371,7 +7512,7 @@ module['exports'] = function(colors) {
 
 
 /***/ }),
-/* 143 */
+/* 145 */
 /***/ (function(module, exports) {
 
 module['exports'] = function(colors) {
@@ -7382,7 +7523,7 @@ module['exports'] = function(colors) {
 
 
 /***/ }),
-/* 144 */
+/* 146 */
 /***/ (function(module, exports) {
 
 module['exports'] = function(colors) {
@@ -7400,7 +7541,7 @@ module['exports'] = function(colors) {
 
 
 /***/ }),
-/* 145 */
+/* 147 */
 /***/ (function(module, exports) {
 
 module['exports'] = function(colors) {
@@ -7417,7 +7558,7 @@ module['exports'] = function(colors) {
 
 
 /***/ }),
-/* 146 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7449,13 +7590,13 @@ exports.getMaxIndexLength = function(input) {
 
 
 /***/ }),
-/* 147 */
+/* 149 */
 /***/ (function(module) {
 
 module.exports = JSON.parse("{\"author\":\"Rafael de Oleza <rafeca@gmail.com> (https://github.com/rafeca)\",\"name\":\"prettyjson\",\"description\":\"Package for formatting JSON data in a coloured YAML-style, perfect for CLI output\",\"version\":\"1.2.1\",\"homepage\":\"http://rafeca.com/prettyjson\",\"keywords\":[\"json\",\"cli\",\"formatting\",\"colors\"],\"repository\":{\"type\":\"git\",\"url\":\"https://github.com/rafeca/prettyjson.git\"},\"bugs\":{\"url\":\"https://github.com/rafeca/prettyjson/issues\"},\"main\":\"./lib/prettyjson\",\"license\":\"MIT\",\"scripts\":{\"test\":\"npm run jshint && mocha --reporter spec\",\"testwin\":\"node ./node_modules/mocha/bin/mocha --reporter spec\",\"jshint\":\"jshint lib/*.js test/*.js\",\"coverage\":\"istanbul cover _mocha --report lcovonly -- -R spec\",\"coveralls\":\"npm run coverage && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage\",\"changelog\":\"git log $(git describe --tags --abbrev=0)..HEAD --pretty='* %s' --first-parent\"},\"bin\":{\"prettyjson\":\"./bin/prettyjson\"},\"dependencies\":{\"colors\":\"^1.1.2\",\"minimist\":\"^1.2.0\"},\"devDependencies\":{\"coveralls\":\"^2.11.15\",\"istanbul\":\"^0.4.5\",\"jshint\":\"^2.9.4\",\"mocha\":\"^3.1.2\",\"mocha-lcov-reporter\":\"^1.2.0\",\"should\":\"^11.1.1\"}}");
 
 /***/ }),
-/* 148 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7473,12 +7614,12 @@ module.exports = function (str) {
 
 
 /***/ }),
-/* 149 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(module) {
-const colorConvert = __webpack_require__(150);
+const colorConvert = __webpack_require__(152);
 
 const wrapAnsi16 = (fn, offset) => function () {
 	const code = fn.apply(colorConvert, arguments);
@@ -7643,14 +7784,14 @@ Object.defineProperty(module, 'exports', {
 	get: assembleStyles
 });
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(49)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(50)(module)))
 
 /***/ }),
-/* 150 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var conversions = __webpack_require__(66);
-var route = __webpack_require__(152);
+var conversions = __webpack_require__(67);
+var route = __webpack_require__(154);
 
 var convert = {};
 
@@ -7730,7 +7871,7 @@ module.exports = convert;
 
 
 /***/ }),
-/* 151 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7889,10 +8030,10 @@ module.exports = {
 
 
 /***/ }),
-/* 152 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var conversions = __webpack_require__(66);
+var conversions = __webpack_require__(67);
 
 /*
 	this function routes a model to all other models.
@@ -7992,7 +8133,7 @@ module.exports = function (fromModel) {
 
 
 /***/ }),
-/* 153 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8127,7 +8268,7 @@ module.exports = (chalk, tmp) => {
 
 
 /***/ }),
-/* 154 */
+/* 156 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8135,7 +8276,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sink", function() { return sink; });
 /* harmony import */ var chalk__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
 /* harmony import */ var chalk__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(chalk__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(26);
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(28);
 /* eslint-disable no-console */
 
 
@@ -8208,7 +8349,7 @@ const sink = payload => {
 /* harmony default export */ __webpack_exports__["default"] = (sink);
 
 /***/ }),
-/* 155 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8219,9 +8360,9 @@ Object.defineProperty(exports, "__esModule", {
 }); // https://docs.sentry.io/error-reporting/quickstart/?platform=node
 // https://httptoolkit.tech/blog/netlify-function-error-reporting-with-sentry/
 
-const Sentry = __webpack_require__(269);
+const Sentry = __webpack_require__(273);
 
-const channel_1 = __webpack_require__(34);
+const channel_1 = __webpack_require__(36);
 
 Sentry.init({
   // http://getsentry.github.io/sentry-javascript/interfaces/node.nodeoptions.html
@@ -8264,7 +8405,7 @@ exports.on_user_recognized = on_user_recognized; // TODO self-triage?
 // TODO breadcrumb
 
 /***/ }),
-/* 156 */
+/* 158 */
 /***/ (function(module, exports) {
 
 module.exports = function(originalModule) {
@@ -8294,14 +8435,14 @@ module.exports = function(originalModule) {
 
 
 /***/ }),
-/* 157 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-__webpack_require__(158);
+__webpack_require__(160);
 const inherits = __webpack_require__(6).inherits;
-const promisify = __webpack_require__(159);
+const promisify = __webpack_require__(161);
 const EventEmitter = __webpack_require__(8).EventEmitter;
 
 module.exports = Agent;
@@ -8471,13 +8612,13 @@ Agent.prototype.freeSocket = function freeSocket(socket, opts) {
 
 
 /***/ }),
-/* 158 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const url = __webpack_require__(17);
-const https = __webpack_require__(45);
+const url = __webpack_require__(18);
+const https = __webpack_require__(46);
 
 /**
  * This currently needs to be applied to all Node.js versions
@@ -8529,7 +8670,7 @@ https.get = function (_url, _options, cb) {
 
 
 /***/ }),
-/* 159 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8542,7 +8683,7 @@ module.exports = function () {
 
     // Get a promise object. This may be native, or it may be polyfilled
 
-    var ES6Promise = __webpack_require__(160);
+    var ES6Promise = __webpack_require__(162);
 
     /**
      * thatLooksLikeAPromiseToMe()
@@ -8620,7 +8761,7 @@ module.exports = function () {
 }();
 
 /***/ }),
-/* 160 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8695,11 +8836,11 @@ module.exports = function () {
     }
 
     //  Otherwise, return the es6-promise polyfill by @jaffathecake.
-    return __webpack_require__(161).Promise;
+    return __webpack_require__(163).Promise;
 }();
 
 /***/ }),
-/* 161 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -9878,7 +10019,7 @@ return Promise$1;
 
 
 /***/ }),
-/* 162 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9889,15 +10030,15 @@ return Promise$1;
  * treat as a browser.
  */
 if (typeof process === 'undefined' || process.type === 'renderer' || process.browser === true || process.__nwjs) {
-  module.exports = __webpack_require__(163);
-} else {
   module.exports = __webpack_require__(165);
+} else {
+  module.exports = __webpack_require__(167);
 }
 
 
 
 /***/ }),
-/* 163 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10067,7 +10208,7 @@ function localstorage() {
   }
 }
 
-module.exports = __webpack_require__(68)(exports);
+module.exports = __webpack_require__(69)(exports);
 var formatters = module.exports.formatters;
 /**
  * Map %j to `JSON.stringify()`, since no Web Inspectors do that by default.
@@ -10084,7 +10225,7 @@ formatters.j = function (v) {
 
 
 /***/ }),
-/* 164 */
+/* 166 */
 /***/ (function(module, exports) {
 
 /**
@@ -10252,7 +10393,7 @@ function plural(ms, msAbs, n, name) {
 
 
 /***/ }),
-/* 165 */
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10261,7 +10402,7 @@ function plural(ms, msAbs, n, name) {
 /**
  * Module dependencies.
  */
-var tty = __webpack_require__(53);
+var tty = __webpack_require__(54);
 
 var util = __webpack_require__(6);
 /**
@@ -10284,7 +10425,7 @@ exports.colors = [6, 2, 3, 4, 5, 1];
 try {
   // Optional dependency (as in, doesn't need to be installed, NOT like optionalDependencies in package.json)
   // eslint-disable-next-line import/no-extraneous-dependencies
-  var supportsColor = __webpack_require__(35);
+  var supportsColor = __webpack_require__(37);
 
   if (supportsColor && (supportsColor.stderr || supportsColor).level >= 2) {
     exports.colors = [20, 21, 26, 27, 32, 33, 38, 39, 40, 41, 42, 43, 44, 45, 56, 57, 62, 63, 68, 69, 74, 75, 76, 77, 78, 79, 80, 81, 92, 93, 98, 99, 112, 113, 128, 129, 134, 135, 148, 149, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 178, 179, 184, 185, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 214, 215, 220, 221];
@@ -10410,7 +10551,7 @@ function init(debug) {
   }
 }
 
-module.exports = __webpack_require__(68)(exports);
+module.exports = __webpack_require__(69)(exports);
 var formatters = module.exports.formatters;
 /**
  * Map %o to `util.inspect()`, all on a single line.
@@ -10433,16 +10574,120 @@ formatters.O = function (v) {
 
 
 /***/ }),
-/* 166 */
+/* 168 */
 /***/ (function(module, exports) {
 
 module.exports = require("console");
 
 /***/ }),
-/* 167 */,
-/* 168 */,
-/* 169 */,
-/* 170 */,
+/* 169 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+const typescript_string_enums_1 = __webpack_require__(11);
+
+const utils_1 = __webpack_require__(30);
+
+exports.HttpMethod = typescript_string_enums_1.Enum('GET', 'PUT');
+
+function require_http_method(required_method) {
+  return async (SEC, event, context, response, next) => {
+    if (event.httpMethod.toUpperCase() !== required_method) throw utils_1.create_error(405);
+    await next();
+  };
+}
+
+exports.require_http_method = require_http_method;
+
+/***/ }),
+/* 170 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+const tslib_1 = __webpack_require__(0);
+
+const typescript_string_enums_1 = __webpack_require__(11);
+
+const tiny_invariant_1 = tslib_1.__importDefault(__webpack_require__(19));
+
+const utils_1 = __webpack_require__(30);
+
+exports.FailureMode = typescript_string_enums_1.Enum('none', 'uncaught-sync', 'uncaught-async', 'timeout', 'unhandled-rejection', 'mess-with-response', 'non-stringified-body');
+
+async function test_failure(SEC, event, context, response, next) {
+  const mode = event.queryStringParameters && event.queryStringParameters.mode || undefined;
+  tiny_invariant_1.default(!mode || typescript_string_enums_1.Enum.isType(exports.FailureMode, mode), `Invalid mode, should be one of: ` + typescript_string_enums_1.Enum.values(exports.FailureMode).join(', '));
+  const test_err = utils_1.create_error(`TEST ${mode}!`, {
+    statusCode: 555
+  });
+
+  switch (mode) {
+    case undefined:
+      response.statusCode = 400;
+      response.body = 'Error: Failure test: Please provide a failure mode: ' + typescript_string_enums_1.Enum.values(exports.FailureMode).join(', ');
+      break;
+
+    case exports.FailureMode['none']:
+      response.statusCode = 200;
+      response.body = 'All good.';
+      await next();
+      break;
+
+    case exports.FailureMode['uncaught-sync']:
+      throw test_err;
+
+    case exports.FailureMode['uncaught-async']:
+      return new Promise(() => {
+        setTimeout(() => {
+          throw test_err;
+        }, 100);
+      });
+
+    case exports.FailureMode['timeout']:
+      return new Promise(() => {// nothing
+      });
+
+    case exports.FailureMode['unhandled-rejection']:
+      return new Promise(() => {
+        new Promise((resolve, reject) => {
+          reject(test_err);
+        });
+      });
+
+    case exports.FailureMode['mess-with-response']:
+      delete response.statusCode;
+      delete response.body;
+      response.statusCode = 'foo';
+      break;
+
+    case exports.FailureMode['non-stringified-body']:
+      response.body = {
+        test: 'ok'
+      };
+      break;
+
+    default:
+      response.statusCode = 501;
+      response.body = `Failure test: mode "${mode}" not implemented!`;
+      break;
+  }
+}
+
+exports.test_failure = test_failure;
+
+/***/ }),
 /* 171 */,
 /* 172 */,
 /* 173 */,
@@ -10541,7 +10786,11 @@ module.exports = require("console");
 /* 266 */,
 /* 267 */,
 /* 268 */,
-/* 269 */
+/* 269 */,
+/* 270 */,
+/* 271 */,
+/* 272 */,
+/* 273 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10669,10 +10918,10 @@ var Status;
 })(Status || (Status = {}));
 //# sourceMappingURL=status.js.map
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/hub/esm/scope.js
-var esm_scope = __webpack_require__(47);
+var esm_scope = __webpack_require__(48);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/hub/esm/hub.js
-var esm_hub = __webpack_require__(274);
+var esm_hub = __webpack_require__(278);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/minimal/esm/index.js
 
@@ -10840,19 +11089,19 @@ function _callOnClient(method) {
 }
 //# sourceMappingURL=index.js.map
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/hub/esm/span.js
-var esm_span = __webpack_require__(102);
+var esm_span = __webpack_require__(103);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/logger.js
-var logger = __webpack_require__(273);
+var logger = __webpack_require__(277);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/is.js
 var is = __webpack_require__(9);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/syncpromise.js
-var syncpromise = __webpack_require__(31);
+var syncpromise = __webpack_require__(34);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/string.js
-var string = __webpack_require__(62);
+var string = __webpack_require__(63);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/misc.js
 var misc = __webpack_require__(7);
@@ -11486,7 +11735,7 @@ var basebackend_BaseBackend = /** @class */ (function () {
 
 //# sourceMappingURL=basebackend.js.map
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/object.js + 1 modules
-var object = __webpack_require__(14);
+var object = __webpack_require__(15);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/path.js
 // Slightly modified (no IE8 support, ES6) and transcribed to TypeScript
@@ -11651,7 +11900,7 @@ function basename(path, ext) {
 var external_fs_ = __webpack_require__(10);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/lru_map/lru.js
-var lru = __webpack_require__(103);
+var lru = __webpack_require__(104);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/stacktrace.js
 /**
@@ -12241,10 +12490,10 @@ var base_BaseTransport = /** @class */ (function () {
 
 //# sourceMappingURL=base.js.map
 // EXTERNAL MODULE: external "http"
-var external_http_ = __webpack_require__(43);
+var external_http_ = __webpack_require__(24);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/https-proxy-agent/index.js
-var https_proxy_agent = __webpack_require__(44);
+var https_proxy_agent = __webpack_require__(45);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/http.js
 
@@ -12281,7 +12530,7 @@ var http_HTTPTransport = /** @class */ (function (_super) {
 
 //# sourceMappingURL=http.js.map
 // EXTERNAL MODULE: external "https"
-var external_https_ = __webpack_require__(45);
+var external_https_ = __webpack_require__(46);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/https.js
 
@@ -12694,7 +12943,7 @@ function initAndBind(clientClass, options) {
 }
 //# sourceMappingURL=sdk.js.map
 // EXTERNAL MODULE: external "domain"
-var external_domain_ = __webpack_require__(46);
+var external_domain_ = __webpack_require__(47);
 
 // EXTERNAL MODULE: external "util"
 var external_util_ = __webpack_require__(6);
@@ -12717,10 +12966,10 @@ var console_Console = /** @class */ (function () {
      * @inheritDoc
      */
     Console.prototype.setupOnce = function () {
-        var nativeModule = __webpack_require__(69);
+        var nativeModule = __webpack_require__(70);
         Object(object["b" /* fill */])(nativeModule, '_load', loadWrapper(nativeModule));
         // special case: since console is built-in and app-level code won't require() it, do that here
-        __webpack_require__(166);
+        __webpack_require__(168);
     };
     /**
      * @inheritDoc
@@ -12808,14 +13057,14 @@ var http_Http = /** @class */ (function () {
      * @inheritDoc
      */
     Http.prototype.setupOnce = function () {
-        var nativeModule = __webpack_require__(69);
+        var nativeModule = __webpack_require__(70);
         Object(object["b" /* fill */])(nativeModule, '_load', http_loadWrapper(nativeModule));
         // observation: when the https module does its own require('http'), it *does not* hit our hooked require to instrument http on the fly
         // but if we've previously instrumented http, https *does* get our already-instrumented version
         // this is because raven's transports are required before this instrumentation takes place, which loads https (and http)
         // so module cache will have uninstrumented http; proactively loading it here ensures instrumented version is in module cache
         // alternatively we could refactor to load our transports later, but this is easier and doesn't have much drawback
-        __webpack_require__(43);
+        __webpack_require__(24);
     };
     /**
      * @inheritDoc
@@ -12944,13 +13193,13 @@ function forget(promise) {
 }
 //# sourceMappingURL=async.js.map
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/cookie/index.js
-var cookie = __webpack_require__(104);
+var cookie = __webpack_require__(105);
 
 // EXTERNAL MODULE: external "os"
-var external_os_ = __webpack_require__(22);
+var external_os_ = __webpack_require__(23);
 
 // EXTERNAL MODULE: external "url"
-var external_url_ = __webpack_require__(17);
+var external_url_ = __webpack_require__(18);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/handlers.js
 
@@ -13449,7 +13698,7 @@ var linkederrors_LinkedErrors = /** @class */ (function () {
 
 //# sourceMappingURL=linkederrors.js.map
 // EXTERNAL MODULE: external "path"
-var external_path_ = __webpack_require__(13);
+var external_path_ = __webpack_require__(14);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/integrations/modules.js
 
@@ -13730,15 +13979,15 @@ var INTEGRATIONS = tslib_es6["__assign"]({}, integrations_namespaceObject, esm_i
 //# sourceMappingURL=index.js.map
 
 /***/ }),
-/* 270 */,
-/* 271 */
+/* 274 */,
+/* 275 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/indent-string/index.js
-var indent_string = __webpack_require__(42);
+var indent_string = __webpack_require__(44);
 var indent_string_default = /*#__PURE__*/__webpack_require__.n(indent_string);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/chalk/index.js
@@ -13746,7 +13995,7 @@ var chalk = __webpack_require__(1);
 var chalk_default = /*#__PURE__*/__webpack_require__.n(chalk);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-foundation/common-error-fields/dist/src.es2019/field-set.js
-var field_set = __webpack_require__(25);
+var field_set = __webpack_require__(27);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-foundation/print-error-to-ansi/dist/src.es2019/index.js
 /* eslint-disable no-console */
@@ -13793,7 +14042,7 @@ function displayError(errLike = {}) {
 
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/prettyjson/lib/prettyjson.js
-var prettyjson = __webpack_require__(101);
+var prettyjson = __webpack_require__(102);
 var prettyjson_default = /*#__PURE__*/__webpack_require__.n(prettyjson);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/0-stdlib/prettify-json/dist/src.es2019/indent-string.js
@@ -13847,7 +14096,7 @@ function dump_pretty_json(msg, data, options) {
 /* harmony default export */ var src_es2019 = (prettify_json);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-foundation/practical-logger-node/dist/src.es2019/sinks/common.js
-var common = __webpack_require__(26);
+var common = __webpack_require__(28);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-foundation/practical-logger-node/dist/src.es2019/sinks/private.js
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sink", function() { return sink; });
@@ -13877,7 +14126,7 @@ const sink = payload => {
 /* harmony default export */ var sinks_private = __webpack_exports__["default"] = (sink);
 
 /***/ }),
-/* 272 */
+/* 276 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13887,7 +14136,7 @@ __webpack_require__.r(__webpack_exports__);
 var consts = __webpack_require__(5);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-foundation/practical-logger-core/dist/src.es2019/consts-base.js
-var consts_base = __webpack_require__(67);
+var consts_base = __webpack_require__(68);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-foundation/practical-logger-core/dist/src.es2019/normalize-args.js
 function looksLikeAnError(x) {
@@ -14072,9 +14321,9 @@ const sink = (() => {
   try {
     // this version is for the author's own usage
     // as it uses unpublished modules.
-    return __webpack_require__(271).default;
+    return __webpack_require__(275).default;
   } catch {
-    return __webpack_require__(154).default;
+    return __webpack_require__(156).default;
   }
 })();
 
@@ -14101,7 +14350,7 @@ function createLogger(p) {
 
 
 /***/ }),
-/* 273 */
+/* 277 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -14174,7 +14423,7 @@ var logger = global.__SENTRY__.logger || (global.__SENTRY__.logger = new Logger(
 //# sourceMappingURL=logger.js.map
 
 /***/ }),
-/* 274 */
+/* 278 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -14187,8 +14436,8 @@ var logger = global.__SENTRY__.logger || (global.__SENTRY__.logger = new Logger(
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return setHubOnCarrier; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7);
-/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(273);
-/* harmony import */ var _scope__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(47);
+/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(277);
+/* harmony import */ var _scope__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(48);
 
 
 
@@ -14620,7 +14869,7 @@ function setHubOnCarrier(carrier, hub) {
     return true;
 }
 //# sourceMappingURL=hub.js.map
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(156)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(158)(module)))
 
 /***/ })
 /******/ ])));

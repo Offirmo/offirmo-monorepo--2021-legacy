@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 110);
+/******/ 	return __webpack_require__(__webpack_require__.s = 111);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -311,14 +311,14 @@ function __importDefault(mod) {
 
 /***/ }),
 
-/***/ 100:
+/***/ 101:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/typescript-string-enums/dist/index.js
-var dist = __webpack_require__(18);
+var dist = __webpack_require__(11);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/apps/the-boring-rpg/interfaces/dist/src.es2019/actions.js
  /////////////////////
@@ -366,7 +366,63 @@ const Method = Object(dist["Enum"])('echo', // for tests
 
 /***/ }),
 
-/***/ 110:
+/***/ 11:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+function Enum() {
+    var values = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        values[_i] = arguments[_i];
+    }
+    if (typeof values[0] === "string") {
+        var result = {};
+        for (var _a = 0, values_1 = values; _a < values_1.length; _a++) {
+            var value = values_1[_a];
+            result[value] = value;
+        }
+        return result;
+    }
+    else {
+        return values[0];
+    }
+}
+exports.Enum = Enum;
+(function (Enum) {
+    function ofKeys(e) {
+        var result = {};
+        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
+            var key = _a[_i];
+            result[key] = key;
+        }
+        return result;
+    }
+    Enum.ofKeys = ofKeys;
+    function keys(e) {
+        return Object.keys(e);
+    }
+    Enum.keys = keys;
+    function values(e) {
+        var result = [];
+        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
+            var key = _a[_i];
+            result.push(e[key]);
+        }
+        return result;
+    }
+    Enum.values = values;
+    function isType(e, value) {
+        return values(e).indexOf(value) !== -1;
+    }
+    Enum.isType = isType;
+})(Enum = exports.Enum || (exports.Enum = {}));
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ 111:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -376,15 +432,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const typescript_string_enums_1 = __webpack_require__(18);
+const typescript_string_enums_1 = __webpack_require__(11);
 
-const interfaces_1 = __webpack_require__(100);
+const interfaces_1 = __webpack_require__(101);
 
-const consts_1 = __webpack_require__(32);
+const consts_1 = __webpack_require__(35);
 
-const utils_1 = __webpack_require__(33);
+const utils_1 = __webpack_require__(30);
 
-const tbrpg_1 = __webpack_require__(111); ////////////////////////////////////
+const tbrpg_1 = __webpack_require__(112); ////////////////////////////////////
 
 
 const handler = async (event, badly_typed_context) => {
@@ -502,7 +558,7 @@ function parse_jsonrpc_requests(res, event) {
 
 /***/ }),
 
-/***/ 111:
+/***/ 112:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -514,13 +570,13 @@ Object.defineProperty(exports, "__esModule", {
 
 const tslib_1 = __webpack_require__(0);
 
-const utils_1 = __webpack_require__(33);
+const utils_1 = __webpack_require__(30);
 
-const interfaces_1 = __webpack_require__(100);
+const interfaces_1 = __webpack_require__(101);
 
-const echo_1 = tslib_1.__importDefault(__webpack_require__(112));
+const echo_1 = tslib_1.__importDefault(__webpack_require__(113));
 
-const sync_1 = tslib_1.__importDefault(__webpack_require__(113));
+const sync_1 = tslib_1.__importDefault(__webpack_require__(114));
 
 function process_rpc(req, res) {
   const {
@@ -548,7 +604,7 @@ exports.process_rpc = process_rpc;
 
 /***/ }),
 
-/***/ 112:
+/***/ 113:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -576,7 +632,7 @@ exports.default = handle;
 
 /***/ }),
 
-/***/ 113:
+/***/ 114:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -603,63 +659,14 @@ exports.default = handle;
 
 /***/ }),
 
-/***/ 18:
-/***/ (function(module, exports, __webpack_require__) {
+/***/ 24:
+/***/ (function(module, exports) {
 
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-function Enum() {
-    var values = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        values[_i] = arguments[_i];
-    }
-    if (typeof values[0] === "string") {
-        var result = {};
-        for (var _a = 0, values_1 = values; _a < values_1.length; _a++) {
-            var value = values_1[_a];
-            result[value] = value;
-        }
-        return result;
-    }
-    else {
-        return values[0];
-    }
-}
-exports.Enum = Enum;
-(function (Enum) {
-    function ofKeys(e) {
-        var result = {};
-        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
-            var key = _a[_i];
-            result[key] = key;
-        }
-        return result;
-    }
-    Enum.ofKeys = ofKeys;
-    function keys(e) {
-        return Object.keys(e);
-    }
-    Enum.keys = keys;
-    function values(e) {
-        var result = [];
-        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
-            var key = _a[_i];
-            result.push(e[key]);
-        }
-        return result;
-    }
-    Enum.values = values;
-    function isType(e, value) {
-        return values(e).indexOf(value) !== -1;
-    }
-    Enum.isType = isType;
-})(Enum = exports.Enum || (exports.Enum = {}));
-//# sourceMappingURL=index.js.map
+module.exports = require("http");
 
 /***/ }),
 
-/***/ 25:
+/***/ 27:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -683,12 +690,56 @@ const COMMON_ERROR_FIELDS = DEFAULT_INSTANCE;
 
 /***/ }),
 
-/***/ 28:
+/***/ 30:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+const http_1 = __webpack_require__(24);
+
+const common_error_fields_1 = __webpack_require__(31); // TODO extern
+
+
+function create_error(message, data = {}) {
+  if (message && http_1.STATUS_CODES[message]) {
+    message = http_1.STATUS_CODES[message];
+    data.statusCode = Number(message);
+  }
+
+  message = String(message || 'Unknown error!');
+
+  if (!message.toLowerCase().includes('error')) {
+    message = 'Error: ' + message;
+  }
+
+  const error = new Error(message);
+  Object.keys(data).forEach(k => {
+    if (common_error_fields_1.COMMON_ERROR_FIELDS.has(k) && k !== 'name' && k !== 'message' && k !== 'stack') {
+      error[k] = data[k];
+    } else {
+      error.details = error.details || {};
+      error.details[k] = data[k];
+    }
+  });
+  error.framesToPop = error.framesToPop || 1;
+  return error;
+}
+
+exports.create_error = create_error;
+
+/***/ }),
+
+/***/ 31:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _field_set__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
+/* harmony import */ var _field_set__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(27);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "COMMON_ERROR_FIELDS", function() { return _field_set__WEBPACK_IMPORTED_MODULE_0__["a"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "create", function() { return _field_set__WEBPACK_IMPORTED_MODULE_0__["b"]; });
@@ -697,7 +748,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 32:
+/***/ 35:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -729,37 +780,6 @@ function get_default_JsonRpc_error() {
 }
 
 exports.get_default_JsonRpc_error = get_default_JsonRpc_error;
-
-/***/ }),
-
-/***/ 33:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-const common_error_fields_1 = __webpack_require__(28); // TODO extern
-
-
-function create_error(message, data = {}) {
-  const error = new Error(message);
-  Object.keys(data).forEach(k => {
-    if (common_error_fields_1.COMMON_ERROR_FIELDS.has(k) && k !== 'name' && k !== 'message' && k !== 'stack') {
-      error[k] = data[k];
-    } else {
-      error.details = error.details || {};
-      error.details[k] = data[k];
-    }
-  });
-  error.framesToPop = error.framesToPop || 1;
-  return error;
-}
-
-exports.create_error = create_error;
 
 /***/ })
 
