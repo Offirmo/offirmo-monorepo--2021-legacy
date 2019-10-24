@@ -140,7 +140,16 @@
 				ok = response.ok
 				if (!ok)
 					errorMessage += `, status="${response.status}"`
-				return response.json()
+
+				return response.text() // not JSON, we are not sure, will check ourselves
+			})
+			.then(responseData => {
+				try {
+					return JSON.parse(responseData)
+				}
+				catch {
+					return responseData
+				}
 			})
 			.then(responseData => {
 				console.log({url, responseData})

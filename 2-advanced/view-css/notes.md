@@ -1,15 +1,20 @@
-Running the local demo:
+## Running the local demo:
+
+```bash
+mono233
+yarn demo
+
+# launch puer at the root
+p
+```
+visit http://localhost:1234/index.html
+
+then select sth in the last row !
+
 
 http://localhost:1981/2-advanced/view-css/doc/demo--base--alternate-colors.html
 
-
-mono233
-yarn demo
-http://localhost:1234/index.html
-
-launch puer at the root: p
-select sth in the last row !
-
+"58 bytes of css to look great nearly everywhere" https://jrl.ninja/etc/1/
 
 TODO steal themes from: https://github.com/gaearon/subliminal
 

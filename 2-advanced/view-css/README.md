@@ -81,6 +81,7 @@ Activated through classes:
   * `o⋄rotated⁚90deg`
   * `o⋄rotated⁚180deg`
   * `o⋄rotated⁚270deg`
+  * `o⋄auto-dark-mode`
   
 * data selectors
   * `data-o-theme="light-on-dark"` (dark-on-light being the default)
