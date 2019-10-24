@@ -10,13 +10,11 @@
 		"demo": "run-s clean start:parcel",
 
 		"build:copy": "mkdir -p dist && cpx 'src/**/*.woff2' dist --verbose",
-		"build:cleancss": "mkdir -p dist && cleancss --skip-rebase --output dist/offirmo-reset+utils.css src/style.css",
-		"build": "npm-run-all --parallel build:copy build:cleancss"
+		"build:cleancss:main": "mkdir -p dist && cleancss --skip-rebase --output dist/offirmo-reset+utils.css src/style.css",
+		"build:cleancss:theme--lod-colorhunt212": "mkdir -p dist && cleancss --skip-rebase --output dist/offirmo-theme--lod-colorhunt212.css src/style--theme--lod-colorhunt212.css",
+		"build": "npm-run-all --parallel build:copy build:cleancss:main build:cleancss:theme--lod-colorhunt212"
 	},
 	"dependencies": {
-		"typeface-roboto": "^0.0.75",
-		"typeface-roboto-condensed": "^0.0.75",
-		"typeface-roboto-mono": "^0.0.75"
 	},
 	"devDependencies": {
 		"clean-css-cli": "^4",

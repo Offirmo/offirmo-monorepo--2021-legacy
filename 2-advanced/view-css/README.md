@@ -22,7 +22,7 @@ Inspiration:
 ### automatic (reset)
 By default, this stylesheet will activate a page like "mother fucking website".
 ```html
-<link rel="stylesheet" type="text/css" href="https://rawgit.com/Offirmo/offirmo-monorepo/master/2-advanced/view-css/dist/offirmo-reset%2Butils.css" />
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/Offirmo/offirmo-monorepo@master/2-advanced/view-css/dist/offirmo-reset%2Butils.css" />
 ```
 alternatively:
 ```css
@@ -53,6 +53,7 @@ Activated through classes:
   * `o⋄font⁚system`
   * `o⋄font⁚roboto`
   * `o⋄font⁚roboto-condensed`
+  * `o⋄font⁚roboto-mono`
   
   * `o⋄color⁚main`
   * `o⋄color⁚secondary`
@@ -82,7 +83,8 @@ Activated through classes:
   * `o⋄rotated⁚270deg`
   
 * data selectors
-  * `data-o⋄theme="light-on-dark"` (dark-on-light being the default)
+  * `data-o-theme="light-on-dark"` (dark-on-light being the default)
+  * `data-o-theme="lod--colorhunt212"`
 
 There are also variables:
 * theme colors

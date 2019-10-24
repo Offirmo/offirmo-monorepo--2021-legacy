@@ -1,3 +1,16 @@
+Running the local demo:
+
+http://localhost:1981/2-advanced/view-css/doc/demo--base--alternate-colors.html
+
+
+mono233
+yarn demo
+http://localhost:1234/index.html
+
+launch puer at the root: p
+select sth in the last row !
+
+
 TODO steal themes from: https://github.com/gaearon/subliminal
 
 TODO https://24ways.org/2018/managing-flow-and-rhythm-with-css-custom-properties/
