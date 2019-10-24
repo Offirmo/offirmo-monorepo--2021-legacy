@@ -33,7 +33,7 @@ console.log('🧙️  Extracted variables:', { VERSION, BUILD_DATE })
 VERSION = semver.clean(VERSION)
 assert(VERSION, 'cleaned VERSION')
 const PARSED_VERSION = semver.parse(VERSION)
-const NUMERIC_VERSION = Number(`${PARSED_VERSION.major}${PARSED_VERSION.minor}.${PARSED_VERSION.patch}`)
+const NUMERIC_VERSION = Number(`${PARSED_VERSION.major}${String(PARSED_VERSION.minor).padStart(2, '0')}.${PARSED_VERSION.patch}`)
 
 console.log('🧙️  Derived variables:', { VERSION, NUMERIC_VERSION })
 

@@ -95,7 +95,7 @@
 		"emittery": "^0.5",
 		"eslint": "^6",
 		"eslint-config-prettier": "^6",
-		"eslint-import-resolver-typescript": "^1",
+		"eslint-import-resolver-typescript": "^2",
 		"eslint-plugin-chai-expect": "^2",
 		"eslint-plugin-eslint-comments": "^3",
 		"eslint-plugin-import": "^2",
