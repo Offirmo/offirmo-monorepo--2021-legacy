@@ -7,6 +7,7 @@ import { create_error } from '../utils'
 
 export const FailureMode = Enum(
 	'none',
+	'manual',
 	'uncaught-sync',
 	'uncaught-async',
 	'timeout',
@@ -29,6 +30,8 @@ export async function test_failure(
 
 	assert(!mode || Enum.isType(FailureMode, mode), `Invalid mode, should be one of: ` + Enum.values(FailureMode).join(', '))
 
+	console.log('Failure test:', mode)
+
 	const test_err = create_error(`TEST ${mode}!`, { statusCode: 555 })
 
 	switch (mode) {
@@ -41,6 +44,11 @@ export async function test_failure(
 			response.statusCode = 200
 			response.body = 'All good.'
 			await next()
+			break
+
+		case FailureMode['manual']:
+			response.statusCode = test_err.statusCode!
+			response.body = test_err.message
 			break
 
 		case FailureMode['uncaught-sync']:

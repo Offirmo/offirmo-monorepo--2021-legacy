@@ -8,7 +8,7 @@ interface XError extends _XError {
 // TODO extern
 function create_error(message: string | number | undefined, data: XError['details'] = {}): XError {
 	if (message && STATUS_CODES[message]) {
-		message = STATUS_CODES[message]
+		message = '(auto) '+ STATUS_CODES[message]
 		data.statusCode = Number(message)
 	}
 

@@ -12,6 +12,7 @@ import { XError, SEC, XSECEventDataMap } from '../services/sec'
 import { on_error as report_to_sentry } from '../services/sentry'
 import { CHANNEL } from '../services/channel'
 import { MiddleWare} from './types'
+import {create_error} from "../utils";
 
 
 const MARGIN_AND_SENTRY_BUDGET_MS = CHANNEL === 'dev' ? 5000 : 1000
@@ -131,31 +132,44 @@ export function use_middlewares_with_error_safety_net(
 						throw err
 					}
 
-					if (!response.statusCode || Math.trunc(Number(response.statusCode)) !== response.statusCode)
+					let { statusCode, body } = response
+					if (!statusCode || Math.trunc(Number(statusCode)) !== statusCode)
 						throw new Error('The middleware(s) returned an invalid response (statusCode)!')
 
-					if (!response.body)
+					if (!body)
 						throw new Error('The middleware(s) returned an invalid response (body)!')
 
-					logger.trace('FYI MW resolved with:', {status: response.statusCode})
+					logger.trace('FYI MW resolved with:', {status: statusCode, body_type: typeof body})
+
+					let pseudo_err: XError | null = null
+					if (statusCode >= 400) {
+						const is_body_err_message = typeof body === 'string' && body.toLowerCase().includes('error')
+						pseudo_err = create_error(is_body_err_message ? body : statusCode, { statusCode })
+					}
 
 					// as a convenience, stringify the body automatically
 					try {
 						try {
-							if (typeof response.body !== 'string')
+							if (typeof body !== 'string')
 								throw new Error('Internal')
 							else
-								JSON.parse(response.body)
+								JSON.parse(body)
 						}
 						catch {
-							response.body = JSON.stringify(response.body) // TODO stable
+							body = JSON.stringify(body) // TODO stable
 						}
 					}
 					catch {
 						throw new Error('The middleware(s) returned a non-JSON-stringified body and it couldn’t be fixed automatically!')
 					}
 
-					return response
+					if (pseudo_err)
+						throw pseudo_err // so that it get consistently reported
+
+					return {
+						statusCode,
+						body,
+					}
 				})
 				.then((response: Response) => {
 					// success!
