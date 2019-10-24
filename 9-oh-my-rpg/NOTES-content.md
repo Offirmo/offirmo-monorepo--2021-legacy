@@ -57,6 +57,11 @@ https://www.1843magazine.com/design/rewind/when-potatoes-were-the-height-of-fash
 ### technologie
 https://worldbuilding.stackexchange.com/questions/156036/in-what-sequence-should-an-advanced-civilization-teach-technology-to-medieval-so
 
+### organisations
+
+#### guilde
+https://en.wikipedia.org/wiki/International_Nuclear_Event_Scale
+
 
 ## Faune & Flore
 

@@ -11,6 +11,7 @@ visit http://localhost:1234/index.html
 
 then select sth in the last row !
 
+TODO evaluate https://hankchizljaw.com/wrote/a-modern-css-reset/
 
 http://localhost:1981/2-advanced/view-css/doc/demo--base--alternate-colors.html
 

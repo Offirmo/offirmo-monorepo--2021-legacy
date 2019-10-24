@@ -11,7 +11,7 @@
 
 ## v0.60.6
 - fix an achievement message (thanks LiddiLidd)
-
+- 😷 chore: some internal refactors, bump dependencies
 
 ## v0.60.5
 - 🤩 feature: A sound effect! (when selling stuff) I did it for fun, sound is not a priority

@@ -1,6 +1,9 @@
 
 cloud storage https://github.com/vasanthv/jsonbox
 
+variable fonts https://codepen.io/mandymichael/pen/vYYLByj
+
+https://tympanus.net/codrops/2019/10/08/creating-a-water-like-distortion-effect-with-three-js/
 offline
 * https://blog.logrocket.com/every-website-deserves-a-service-worker/
 * https://remysharp.com/2019/09/05/offline-listings
