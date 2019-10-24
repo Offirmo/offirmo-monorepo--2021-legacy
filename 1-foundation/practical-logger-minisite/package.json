@@ -1,0 +1,31 @@
+{
+	"name": "@offirmo/practical-logger-website",
+	"description": "website showcasing Offirmo's practical logger",
+	"version": "0.0.1",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+
+	"dependencies": {
+		"tslib": "^1"
+	},
+
+	"devDependencies": {
+		"np": "^5",
+		"npm-run-all": "^4"
+	},
+	"scripts": {
+		"clean": "node ../../scripts/clean.js dist",
+
+		"test": "../../node_modules/.bin/mocha --opts ../../3-tools/unit-test-toolbox/mocha.opts ../../3-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2018.cjs/**/*spec.js'",
+		"build:dev:watch": "node ../../scripts/build-typescript.js --watch",
+		"build:prod": "node ../../scripts/build-typescript.js",
+
+		"dev": "run-s clean build:dev:watch",
+		"xxbuild": "run-s build:prod",
+		"cheatsheet": "node doc/cheatsheet.js",
+		"demo": "node doc/demo.js",
+
+		"np": "np --no-publish",
+		"prepublishOnly": "run-s clean build:prod"
+	}
+}

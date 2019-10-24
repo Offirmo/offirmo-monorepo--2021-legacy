@@ -81,16 +81,12 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./error.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = 106);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./error.js":
-/*!******************!*\
-  !*** ./error.js ***!
-  \******************/
-/*! no static exports found */
+/***/ 106:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
