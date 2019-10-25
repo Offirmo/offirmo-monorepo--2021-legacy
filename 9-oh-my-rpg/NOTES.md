@@ -1,4 +1,6 @@
 
+CLE Credibility Logic Emotion
+
 TODO "task manager" https://hello.atlassian.net/wiki/spaces/JSP/pages/375832340/Clubhouse+Comp+Analysis
 
 [ ] Ftl-like fantasy comme douluo dalu

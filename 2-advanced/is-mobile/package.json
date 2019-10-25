@@ -1,0 +1,16 @@
+{
+	"name": "@offirmo-private/is-mobile",
+	"version": "0.0.1",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+
+	"source": "index.js",
+	"sideEffects": false,
+
+	"dependencies": {
+	},
+
+	"scripts": {
+	}
+}
