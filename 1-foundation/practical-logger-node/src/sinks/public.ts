@@ -4,7 +4,7 @@ import indent_string from 'indent-string'
 import {
 	LogPayload,
 	LogSink,
-} from '@offirmo/practical-logger-interface'
+} from '@offirmo/practical-logger-types'
 
 import {
 	LEVEL_TO_ASCII,

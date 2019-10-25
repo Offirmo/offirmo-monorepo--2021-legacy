@@ -5,6 +5,7 @@
 * [doc] README++
 * [doc] comments++
 * [chore] [breaking] no longer exporting ES5, reverted to [this more rationale export setup](../../CONTRIBUTING/module-exports.md)
+* [refactor] internal package @offirmo/practical-logger-interfaces renamed to @offirmo/practical-logger-types
 * [chore] bumped dependencies
 * ...
 

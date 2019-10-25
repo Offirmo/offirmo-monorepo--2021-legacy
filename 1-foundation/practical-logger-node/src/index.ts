@@ -1,4 +1,4 @@
-import { Logger, LoggerCreationParams } from '@offirmo/practical-logger-interface'
+import { Logger, LoggerCreationParams } from '@offirmo/practical-logger-types'
 import { createLogger as createLoggerCore } from '@offirmo/practical-logger-core'
 
 const sink = (() => {

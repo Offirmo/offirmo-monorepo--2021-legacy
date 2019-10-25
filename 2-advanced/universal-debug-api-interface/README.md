@@ -55,7 +55,7 @@ import {
 
 ### Loggers
 
-Generic, basic loggers. See [@offirmo/practical-logger-interface](../../1-foundation/practical-logger-interface/README.md)
+Generic, basic loggers. See [@offirmo/practical-logger-types](../../1-foundation/practical-logger-types/README.md)
 
 Though a default level is set,
 it is expected that the level can be modified at load time

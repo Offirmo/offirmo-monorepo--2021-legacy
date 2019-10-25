@@ -1,5 +1,5 @@
 // TODO improve cascade of re-exports
-import { LogLevel } from '@offirmo/practical-logger-interface';
+import { LogLevel } from '@offirmo/practical-logger-types';
 import { LoggerCreationParams } from '@offirmo/universal-debug-api-interface'
 import { DEFAULT_LOG_LEVEL, DEFAULT_LOGGER_KEY } from '@offirmo/practical-logger-core/src/consts-base'
 import { getOverrideKeyForLogger, getLSKeyForOverride } from '@offirmo-private/universal-debug-api-full-browser/src/v1/keys'

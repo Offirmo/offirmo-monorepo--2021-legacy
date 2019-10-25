@@ -1,6 +1,6 @@
 import {
 	LogDetails,
-} from '@offirmo/practical-logger-interface'
+} from '@offirmo/practical-logger-types'
 
 
 export function looksLikeAnError(x: any): boolean {

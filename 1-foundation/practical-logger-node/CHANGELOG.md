@@ -4,6 +4,7 @@
 ## pending
 * TODO fix the "private" mode compatibility with bolt
 * TODO fix the "maximum call stack exceeded" when printing a SEC
+* [refactor] internal package @offirmo/practical-logger-interfaces renamed to @offirmo/practical-logger-types
 * [chore] bumped dependencies
 * ...
 

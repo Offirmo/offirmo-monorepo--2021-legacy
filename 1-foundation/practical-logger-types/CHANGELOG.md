@@ -5,6 +5,7 @@
 * [feat] new "forcedLevel" creation option
 * [chore] [breaking] no longer exporting ES5, reverted to [this more rationale export setup](../../CONTRIBUTING/module-exports.md)
 * [chore] bumped dependencies
+* [chore] package renamed to @offirmo/practical-logger-types (not breaking, old version still exists. Warning set.)
 * ...
 
 ## v1.1.1

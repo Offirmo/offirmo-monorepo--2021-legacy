@@ -7,7 +7,7 @@ import {
 	LogPayload,
 	LogPrimitive,
 	LogSink,
-} from '@offirmo/practical-logger-interface'
+} from '@offirmo/practical-logger-types'
 
 import {
 	LIB,

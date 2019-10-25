@@ -1,4 +1,4 @@
-import { Logger } from '@offirmo/practical-logger-interface'
+import { Logger } from '@offirmo/practical-logger-types'
 import { getRootSEC, BaseInjections, SoftExecutionContext, WithSEC, EventDataMap } from '@offirmo-private/soft-execution-context'
 import {
 	listenToUncaughtErrors,

@@ -2,7 +2,7 @@ import indent_string from 'indent-string'
 import {
 	LogPayload,
 	LogSink,
-} from '@offirmo/practical-logger-interface'
+} from '@offirmo/practical-logger-types'
 import { displayError } from '@offirmo-private/print-error-to-ansi'
 import prettifyJson from '@offirmo-private/prettify-json'
 

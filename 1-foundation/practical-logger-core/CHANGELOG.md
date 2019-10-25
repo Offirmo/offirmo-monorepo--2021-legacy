@@ -6,6 +6,7 @@
 * [feat] handle the new `forcedLevel` creation param (see interface)
 * [chore] [breaking] no longer exporting ES5, reverted to [this more rationale export setup](../../CONTRIBUTING/module-exports.md)
 * [chore] bumped dependencies
+* [refactor] internal package @offirmo/practical-logger-interfaces renamed to @offirmo/practical-logger-types
 * ...
 
 ## v1.1.1

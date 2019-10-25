@@ -19,7 +19,7 @@
 	"dependencies": {
 		"@offirmo-private/ts-types": "^0",
 		"@offirmo-private/uuid": "^0",
-		"@offirmo/practical-logger-interface": "^1.1.1",
+		"@offirmo/practical-logger-types": "^1.1.1",
 		"@offirmo/random": "^2",
 		"@offirmo/universal-debug-api-minimal-noop": "^0.1.1",
 		"tiny-invariant": "^1",

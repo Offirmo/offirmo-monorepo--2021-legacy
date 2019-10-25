@@ -1,4 +1,4 @@
-import { LogSink } from '@offirmo/practical-logger-interface'
+import { LogSink } from '@offirmo/practical-logger-types'
 
 import sink_firefox from './firefox'
 import sink_chromium from './chromium'

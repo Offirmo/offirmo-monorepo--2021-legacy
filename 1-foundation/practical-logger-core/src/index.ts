@@ -1,7 +1,7 @@
 import { create as createLogger } from './core'
 export { createLogger }
 
-export * from '@offirmo/practical-logger-interface'
+export * from '@offirmo/practical-logger-types'
 
 export {
 	ALL_LOG_LEVELS,

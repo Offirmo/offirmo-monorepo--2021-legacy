@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { LogDetails } from '@offirmo/practical-logger-interface'
+import { LogDetails } from '@offirmo/practical-logger-types'
 
 import { LIB } from './consts'
 import { normalizeArguments } from './normalize-args'

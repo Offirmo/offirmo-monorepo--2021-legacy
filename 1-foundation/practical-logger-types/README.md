@@ -8,19 +8,19 @@
 
 <p align="center">
 	<a alt="npm package page"
-	  href="https://www.npmjs.com/package/@offirmo/practical-logger-interface">
+	  href="https://www.npmjs.com/package/@offirmo/practical-logger-types">
 		<img alt="npm badge"
-		  src="https://img.shields.io/npm/v/@offirmo/practical-logger-interface.svg">
+		  src="https://img.shields.io/npm/v/@offirmo/practical-logger-types.svg">
 	</a>
 	<a alt="dependencies analysis"
-	  href="https://david-dm.org/offirmo/offirmo-monorepo?path=1-foundation%2Fpractical-logger-interface">
+	  href="https://david-dm.org/offirmo/offirmo-monorepo?path=1-foundation%2Fpractical-logger-types">
 		<img alt="dependencies badge"
-		  src="https://img.shields.io/david/offirmo/offirmo-monorepo.svg?path=1-foundation%2Fpractical-logger-interface">
+		  src="https://img.shields.io/david/offirmo/offirmo-monorepo.svg?path=1-foundation%2Fpractical-logger-types">
 	</a>
 	<a alt="bundle size evaluation"
-	  href="https://bundlephobia.com/result?p=@offirmo/practical-logger-interface">
+	  href="https://bundlephobia.com/result?p=@offirmo/practical-logger-types">
 		<img alt="bundle size badge"
-		  src="https://img.shields.io/bundlephobia/minzip/@offirmo/practical-logger-interface.svg">
+		  src="https://img.shields.io/bundlephobia/minzip/@offirmo/practical-logger-types.svg">
 	</a>
 	<a alt="license"
 	  href="https://unlicense.org/">

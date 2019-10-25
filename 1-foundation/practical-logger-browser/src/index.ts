@@ -1,11 +1,11 @@
-import { LogSink, Logger, LoggerCreationParams } from '@offirmo/practical-logger-interface'
+import { LogSink, Logger, LoggerCreationParams } from '@offirmo/practical-logger-types'
 import { createLogger as createLoggerCore, LOG_LEVEL_TO_INTEGER } from '@offirmo/practical-logger-core'
 
 import sink_firefox from './sinks/advanced/firefox'
 import sink_chromium from './sinks/advanced/chromium'
 import sink_safari from './sinks/advanced/safari'
 import { create } from './sinks/advanced'
-import { LogPayload } from "@offirmo/practical-logger-interface/src";
+import { LogPayload } from "@offirmo/practical-logger-types/src";
 
 const ORIGINAL_CONSOLE = console
 
@@ -51,4 +51,4 @@ export {
 	sink_chromium,
 	sink_safari,
 }
-export * from '@offirmo/practical-logger-interface'
+export * from '@offirmo/practical-logger-types'

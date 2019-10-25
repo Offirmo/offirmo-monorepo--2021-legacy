@@ -15,4 +15,4 @@ export {
 }
 
 // for convenience
-export { Logger, LoggerCreationParams } from '@offirmo/practical-logger-interface'
+export { Logger, LoggerCreationParams } from '@offirmo/practical-logger-types'
