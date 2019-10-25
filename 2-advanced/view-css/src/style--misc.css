@@ -82,3 +82,11 @@ progress.o⋄animated::-ms-fill {
 	mix-blend-mode: difference;
 	filter: brightness(0.67) hue-rotate(180deg);
 }
+
+
+/* https://24ways.org/2018/managing-flow-and-rhythm-with-css-custom-properties/
+ * https://alistapart.com/article/axiomatic-css-and-lobotomized-owls/
+ */
+.o⋄flow > * + * {
+	margin-top: 1em;
+}

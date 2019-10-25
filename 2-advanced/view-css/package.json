@@ -11,8 +11,7 @@
 
 		"build:copy": "mkdir -p dist && cpx 'src/**/*.woff2' dist --verbose",
 		"build:cleancss:main": "mkdir -p dist && cleancss --skip-rebase --output dist/offirmo-reset+utils.css src/style.css",
-		"build:cleancss:theme--lod-colorhunt212": "mkdir -p dist && cleancss --skip-rebase --output dist/offirmo-theme--lod-colorhunt212.css src/style--theme--lod-colorhunt212.css",
-		"build": "npm-run-all --parallel build:copy build:cleancss:main build:cleancss:theme--lod-colorhunt212"
+		"build": "npm-run-all --parallel build:copy build:cleancss:main"
 	},
 	"dependencies": {
 	},

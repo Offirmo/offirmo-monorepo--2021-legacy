@@ -22,11 +22,17 @@ Inspiration:
 ### automatic (reset)
 By default, this stylesheet will activate a page like "mother fucking website".
 ```html
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/Offirmo/offirmo-monorepo@master/2-advanced/view-css/dist/offirmo-reset%2Butils.css" />
+
+	<link rel="stylesheet" type="text/css"
+			href="https://cdn.jsdelivr.net/gh/Offirmo/offirmo-monorepo@master/2-advanced/view-css/dist/offirmo-reset%2Butils.css"/>
+	<link rel="stylesheet" type="text/css"
+			href="https://cdn.jsdelivr.net/gh/Offirmo/offirmo-monorepo@master/2-advanced/view-css/src/style--theme--lod-colorhunt212.css"/>
 ```
 alternatively:
 ```css
-@import '../../node_modules/@oh-my-rpg/view-browser/src/style.css';
+@import '../../../2-advanced/view-css/src/style.css';
+@import '../../../2-advanced/view-css/src/style--theme--lod-colorhunt212.css';
+
 ```
 
 ### Full-page app
@@ -145,12 +151,4 @@ Solution: use a cascade of `class="o⋄top-container"` (optionally starting at `
 * https://hackernoon.com/removing-that-ugly-focus-ring-and-keeping-it-too-6c8727fefcd2
 * nice buttons https://fdossena.com/?p=html5cool/buttons/i.frag
 * https://github.com/mike-engel/a11y-css-reset
-
-
-## ideas TODO
-* currentColor https://css-tricks.com/currentcolor/
-* typography https://github.com/KyleAMathews/typography.js
-* https://github.com/KyleAMathews/typefaces/tree/master/packages
-* https://github.com/mozdevs/cssremedy
-* https://paulmillr.com/posts/using-dark-mode-in-css/
-* https://uxdesign.cc/leveling-framework-72f9296e6920
+* https://hankchizljaw.com/wrote/a-modern-css-reset/
