@@ -19,7 +19,7 @@ import {
 
 import { normalizeArguments } from './normalize-args'
 
-export function checkLevel(level: LogLevel) {
+export function checkLevel(level: any): asserts level is LogLevel {
 	if (!ALL_LOG_LEVELS.includes(level))
 		throw new Error(`[${LIB}] Not a valid log level: "${level}"!`)
 }
@@ -30,7 +30,7 @@ export function create(
 		suggestedLevel = DEFAULT_LOG_LEVEL,
 		forcedLevel,
 		commonDetails = {},
-	}: LoggerCreationParams,
+	}: LoggerCreationParams = {},
 	outputFn: LogSink = console.log,
 ): Logger {
 

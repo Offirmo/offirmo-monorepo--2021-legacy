@@ -1,5 +1,6 @@
 // base to be directly importable from other modules
-// without a full lib penalty
+// without a full lib penalty.
+// This a very very specific use case, don't mind.
 
 import { LogLevel } from '@offirmo/practical-logger-types'
 
