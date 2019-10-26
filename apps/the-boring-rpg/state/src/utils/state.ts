@@ -1,5 +1,5 @@
 import assert from 'tiny-invariant'
-import { JSONAny } from '@offirmo-private/ts-types'
+import { JSON } from '@offirmo-private/ts-types'
 
 // TODO external?
 
@@ -7,7 +7,7 @@ export interface BaseState {
 	schema_version?: number // may not have it if sub-state
 	revision?: number // may not have it if not relevant = T-state
 
-	[k: string]: JSONAny | BaseState
+	[k: string]: JSON | BaseState
 }
 
 export interface BaseRootState {

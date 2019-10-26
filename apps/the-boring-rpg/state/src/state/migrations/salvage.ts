@@ -2,7 +2,7 @@
 
 import { Enum } from 'typescript-string-enums'
 
-import { JSONObject, JSONAny } from '@offirmo-private/ts-types'
+import { JSONObject, JSON } from '@offirmo-private/ts-types'
 import { Random, Engine } from '@offirmo/random'
 
 import { xxx_internal_reset_prng_cache } from '@oh-my-rpg/state-prng'
@@ -35,7 +35,7 @@ import {EngagementKey} from "../../engagement";
 // https://github.com/burakcan/mb
 // Exception-free nested nullable attribute accessor
 const mb = (...p: string[]) =>
-	(o: JSONAny): JSONAny =>
+	(o: JSON): JSON =>
 		p.map((c: string) => (o = ((o || {}) as JSONObject)[c])) && o;
 
 function coerce_to_number_or_zero(x: any): number {
