@@ -1,10 +1,13 @@
 /* eslint-disable no-console */
 import chalk from 'chalk'
-import indent_string from 'indent-string'
+
 import {
 	LogPayload,
 	LogSink,
+	LogDetails,
 } from '@offirmo/practical-logger-types'
+
+import { SinkOptions } from '../types'
 
 import {
 	LEVEL_TO_ASCII,
@@ -39,7 +42,7 @@ const COMMON_ERROR_FIELDS = [
 
 function displayErrProp(errLike: Readonly<any>, prop: string) {
 	if (prop === 'details') {
-		const details: { [key: string]: any} = errLike.details
+		const details: LogDetails = errLike.details
 		console.error(chalk.red(chalk.dim(`🔥  ${prop}:`)))
 		Object.entries(details).forEach(([key, value]) => {
 			console.error(chalk.red(chalk.dim(`    ${key}: "`) + value + chalk.dim('"')))
@@ -75,33 +78,36 @@ function displayError(errLike: Readonly<Partial<Error>> = {}) {
 	})
 }
 
-console.log('public sink!')
+export function createSink(options: SinkOptions = {}): LogSink {
+	const displayTime = options.displayTime || false
 
-export const sink: LogSink = (payload: LogPayload): void => {
-	const { level, name, msg, time, details, err } = payload
+	return (payload: LogPayload): void => {
+		const { level, name, msg, time, details, err } = payload
 
-	const prettified_details = JSON.stringify(details)
+		const prettified_details = JSON.stringify(details)
 
-	const line = ''
-		// TODO evaluate if time display is needed
-		//+ chalk.dim(String(time))
-		//+ ' '
-		+ LEVEL_TO_ASCII[level]
-		+ '› '
-		+ LEVEL_TO_STYLIZE[level](''
-			+ name
-			+ (name ? '›' : '')
-			+ (msg ? ' ' : '')
-			+ msg
-		)
-		+ (
-			prettified_details !== '{}'
-				? (' ' + prettified_details)
-				: ''
-		)
-	console.log(line) // eslint-disable-line no-console
-	if (err)
-		displayError(err)
+		const line = ''
+			// TODO evaluate if time display is needed
+			+ (displayTime
+				? (chalk.dim(String(time)) + ' ')
+				: '')
+			+ LEVEL_TO_ASCII[level]
+			+ '› '
+			+ LEVEL_TO_STYLIZE[level](''
+				+ name
+				+ (name ? '›' : '')
+				+ (msg ? ' ' : '')
+				+ msg
+			)
+			+ (
+				prettified_details !== '{}'
+					? (' ' + prettified_details)
+					: ''
+			)
+		console.log(line) // eslint-disable-line no-console
+		if (err)
+			displayError(err)
+	}
 }
 
-export default sink
+export default createSink

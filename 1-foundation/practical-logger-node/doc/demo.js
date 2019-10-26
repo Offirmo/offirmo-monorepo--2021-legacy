@@ -4,6 +4,9 @@
 
 const { createLogger } = require('..')
 
+const logger_trivial = createLogger()
+logger_trivial.error('test!')
+
 const {
 	demo_standard_console,
 	demo_logger_basic_usage,

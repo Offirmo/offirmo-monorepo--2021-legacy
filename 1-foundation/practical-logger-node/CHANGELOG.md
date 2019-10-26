@@ -2,9 +2,11 @@
 **This package follows [semver](https://semver.org/).**
 
 ## pending
-* TODO fix the "private" mode compatibility with bolt
 * TODO fix the "maximum call stack exceeded" when printing a SEC
+* [fix] removed the "private" sink which was causing installation problems
 * [refactor] internal package @offirmo/practical-logger-interfaces renamed to @offirmo/practical-logger-types
+* [feat] now allows activating time display
+* [test] more unit tests
 * [chore] bumped dependencies
 * ...
 

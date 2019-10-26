@@ -1,3 +1,6 @@
+/* This is a private, non-exposed sink for my own (Offirmo) private usage.
+ * Nothing to see here.
+ */
 import indent_string from 'indent-string'
 import {
 	LogPayload,
@@ -19,7 +22,6 @@ export const sink: LogSink = (payload: LogPayload): void => {
 	const is_prettified_details_multiline = prettified_details.includes('\n')
 
 	const line = ''
-		// TODO evaluate if time display is needed
 		//+ chalk.dim(String(time))
 		//+ ' '
 		+ LEVEL_TO_ASCII[level]

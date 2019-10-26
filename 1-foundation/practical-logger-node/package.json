@@ -16,8 +16,6 @@
 		"tslib": "^1"
 	},
 	"dependencies": {
-		"@offirmo-private/prettify-json": "^0",
-		"@offirmo-private/print-error-to-ansi": "^0",
 		"@offirmo/practical-logger-core": "^1.1.1",
 		"@offirmo/practical-logger-types": "^1.1.1",
 		"chalk": "^2",
