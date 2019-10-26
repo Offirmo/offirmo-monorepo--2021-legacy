@@ -2,10 +2,13 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
-* [feat] new "forcedLevel" creation option
 * [chore] [breaking] no longer exporting ES5, reverted to [this more rationale export setup](../../CONTRIBUTING/module-exports.md)
-* [chore] bumped dependencies
+* [doc] README++
+* [test] added unit tests
+* [feat] new "forcedLevel" creation option
+* [feat] allow passing a custom sink or options to the sink (platform dependent)
 * [chore] package renamed to @offirmo/practical-logger-types (not breaking, old version still exists. Warning set.)
+* [chore] bumped dependencies
 * ...
 
 ## v1.1.1
@@ -42,5 +45,5 @@
 
 ## template
 * [doc] README++
-* [chore] bumped deps
+* [chore] bumped dependencies
 * [chore] upgraded pre-built code target to latest stable JS (ES2019)

@@ -32,9 +32,8 @@
 </p>
 
 This is an **internal** component of [Offirmo’s practical logger](https://github.com/Offirmo/offirmo-monorepo/wiki/Offirmo%E2%80%99s-Practical-Logger). 
-* declares only TypeScript types/interfaces
+* declares only TypeScript types
 * **No code, 0 bytes** = will do nothing to your bundle size.
-* TODO explain the interface pattern
 
 
 ## Usage
@@ -44,7 +43,7 @@ This is an **internal** component of [Offirmo’s practical logger](https://gith
 See the actual implementations of those interfaces:
 * minimal no-op: [@offirmo/practical-logger-minimal-noop](https://www.npmjs.com/package/@offirmo/practical-logger-minimal-noop)
 * browser: [@offirmo/practical-logger-browser](https://www.npmjs.com/package/@offirmo/practical-logger-browser)
-* node: TODO publish to npm
+* node: [@offirmo/practical-logger-node](https://www.npmjs.com/package/@offirmo/practical-logger-node)
 
 ### Interface
 A logger will have the following interface:
@@ -65,7 +64,7 @@ A logger will have the following interface:
   * `debug(…) idem`
   * `trace(…) idem`
   * `silly(…) idem`
-* those functions may not do anything:
+* those functions are present but may not do anything (platform-dependent):
   * `group(groupTitle?: string): void` 
   * `groupCollapsed(groupTitle?: string): void`
   * `groupEnd(): void`
