@@ -78,7 +78,7 @@ function displayError(errLike: Readonly<Partial<Error>> = {}) {
 	})
 }
 
-export function createSink(options: SinkOptions = {}): LogSink {
+export function createSink(options: Readonly<SinkOptions> = {}): LogSink {
 	const displayTime = options.displayTime || false
 
 	return (payload: LogPayload): void => {

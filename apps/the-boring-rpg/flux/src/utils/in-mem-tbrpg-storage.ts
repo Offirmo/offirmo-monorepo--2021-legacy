@@ -1,5 +1,4 @@
-import { TbrpgStorage } from '@tbrpg/interfaces'
-import { StorageKey } from "@tbrpg/interfaces/src";
+import { TbrpgStorage, StorageKey } from '@tbrpg/interfaces'
 
 function create(): TbrpgStorage {
 	const data: { [k: string]: string | null } = {}
