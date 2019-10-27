@@ -3,13 +3,17 @@
 
 ## pending
 * TODO fix the "maximum call stack exceeded" when printing a SEC
-* [fix] removed the "private" sink which was causing installation problems
-* [refactor] internal package @offirmo/practical-logger-interfaces renamed to @offirmo/practical-logger-types
-* [feat] now allows activating time display
-* [test] more unit tests
-* [chore] bumped dependencies
-* [fix] correctly allows passing no args to createLogger() (this was intended)
 * ...
+
+## v0.0.3
+2019/10/28
+* [feat] now implementing 2.0.0 interface
+* [feat] now allows activating time display
+* [fix] removed the "private" sink which was causing installation problems
+* [fix] correctly allows passing no args to createLogger() (this was intended)
+* [test] more unit tests
+* [refactor] internal package @offirmo/practical-logger-interfaces renamed to @offirmo/practical-logger-types
+* [chore] bumped dependencies
 
 ## v0.0.2
 2019/09/17
