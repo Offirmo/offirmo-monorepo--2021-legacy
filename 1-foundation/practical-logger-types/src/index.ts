@@ -94,5 +94,5 @@ export interface LoggerCreationParams<SinkOptions extends BaseSinkOptions = {}> 
 	suggestedLevel?: LogLevel // the code is free to suggest a default level, but can expect it to be dynamically overriden (see Universal Debug API)
 	forcedLevel?: LogLevel // use only if you provide your own mechanism for dynamically setting the level
 	commonDetails?: Readonly<LogDetails>
-	sinkOptions?: SinkOptions // options specifically targeted at the sink, platform dependent
+	sinkOptions?: SinkOptions // options specifically targeted at the sink, usually platform dependent
 }
