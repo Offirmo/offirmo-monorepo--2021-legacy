@@ -8,6 +8,7 @@
 * [feat] now allows activating time display
 * [test] more unit tests
 * [chore] bumped dependencies
+* [fix] correctly allows passing no args to createLogger() (this was intended)
 * ...
 
 ## v0.0.2

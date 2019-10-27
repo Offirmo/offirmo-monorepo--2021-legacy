@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { LogSink } from '@offirmo/practical-logger-types'
+import { LogSink, LogPayload } from '@offirmo/practical-logger-types'
 import { ALL_LOG_LEVELS } from '@offirmo/practical-logger-core'
 
 import {
@@ -9,7 +9,6 @@ import {
 import {
 	createLogger,
 } from '.'
-import {LogPayload} from "@offirmo/practical-logger-types/src";
 
 
 describe(`${LIB} - index`, () => {
