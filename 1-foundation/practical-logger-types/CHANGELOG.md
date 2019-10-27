@@ -12,7 +12,6 @@
 * [test] added unit tests
 * [doc] README++
 * [chore] package renamed to @offirmo/practical-logger-types (not breaking, old version still exists. Warning set.)
-* [chore] bumped dependencies
 
 ## v1.1.1
 2019/07/07
@@ -48,5 +47,4 @@
 
 ## template
 * [doc] README++
-* [chore] bumped dependencies
 * [chore] upgraded pre-built code target to latest stable JS (ES2019)

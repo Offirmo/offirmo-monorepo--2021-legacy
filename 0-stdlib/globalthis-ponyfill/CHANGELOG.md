@@ -3,7 +3,6 @@
 
 ## PENDING
 * [chore] [breaking] no longer exporting ES5, reverted to [this more rationale export setup](../../CONTRIBUTING/module-exports.md)
-* [chore] bumped dependencies
 * ...
 
 ## v1.0.2
@@ -22,7 +21,6 @@
 * no breaking change, just stable enough for 1.0
 * [doc] README++
 * [chore] tweaked tsconfig
-* [chore] bumped deps
 * [test] enabled more eslint rules
 
 ## v0.0.4
@@ -47,5 +45,4 @@
 
 ## template
 * [doc] README++
-* [chore] bumped dependencies
 * [chore] upgraded pre-built code target to latest stable JS (ES2019)

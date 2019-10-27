@@ -2,6 +2,7 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
+* [chore] bumped dependencies
 * ...
 
 ## v 2.0.0
