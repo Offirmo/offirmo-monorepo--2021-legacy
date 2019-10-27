@@ -1,6 +1,6 @@
 import { Enum } from 'typescript-string-enums'
 import bowser from 'bowser'
-import tiny_singleton from '@offirmo-private/tiny-singleton'
+import tiny_singleton from '@offirmo/tiny-singleton'
 
 import { create_game_instance } from '@tbrpg/flux'
 

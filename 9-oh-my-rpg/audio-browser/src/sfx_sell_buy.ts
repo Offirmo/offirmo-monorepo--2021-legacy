@@ -1,4 +1,4 @@
-import tiny_singleton from '@offirmo-private/tiny-singleton'
+import tiny_singleton from '@offirmo/tiny-singleton'
 import { Howl } from 'howler'
 import sfx_sell_buy from '@oh-my-rpg/rsrc-audio/src/sfx_sell_buy'
 

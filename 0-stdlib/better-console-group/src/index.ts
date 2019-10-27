@@ -1,4 +1,4 @@
-import tiny_singleton from '@offirmo-private/tiny-singleton'
+import tiny_singleton from '@offirmo/tiny-singleton'
 
 const PATCHED_METHODS = [ 'debug', 'log', 'info', 'warn', 'error', 'group', 'groupCollapsed', 'groupEnd' ]
 

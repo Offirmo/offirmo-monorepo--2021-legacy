@@ -1,5 +1,5 @@
 {
-	"name": "@offirmo-private/tiny-singleton",
+	"name": "@offirmo/tiny-singleton",
 	"description": "Typescript simple singleton",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
@@ -12,12 +12,24 @@
 	"source": "src/index.ts",
 	"sideEffects": false,
 
+	"size-limit": [
+		{
+			"limit": "200B",
+			"path": "dist/src.es2019/index.js"
+		},
+		{
+			"limit": "200B",
+			"path": "dist/src.es2018.cjs/index.js"
+		}
+	],
+
 	"peerDependencies": {
 	},
 	"dependencies": {
 	},
 
 	"devDependencies": {
+		"@size-limit/preset-small-lib": "^2",
 		"np": "^5",
 		"npm-run-all": "^4"
 	},
@@ -26,9 +38,27 @@
 
 		"build:dev:watch": "node ../../scripts/build-typescript.js --watch",
 		"build:prod": "node ../../scripts/build-typescript.js",
+		"ensure-size": "size-limit",
 
 		"dev": "run-s clean build:dev:watch",
 		"build": "run-s build:prod",
-		"demo": "node doc/demo/index.js"
-	}
+		"demo": "node doc/demo/index.js",
+
+		"np": "np --no-publish",
+		"prepublishOnly": "run-s clean build:prod ensure-size"
+	},
+
+	"files": [
+		"dist",
+		"src"
+	],
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Offirmo/offirmo-monorepo.git"
+	},
+	"keywords": [
+		"singleton",
+		"typescript"
+	],
+	"homepage": "https://github.com/Offirmo/offirmo-monorepo/tree/master/0-stdlib/tiny-singleton"
 }

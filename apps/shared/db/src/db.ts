@@ -1,4 +1,4 @@
-import tiny_singleton from '@offirmo-private/tiny-singleton'
+import tiny_singleton from '@offirmo/tiny-singleton'
 import Knex from 'knex'
 
 export const get_db = tiny_singleton(() => Knex({
