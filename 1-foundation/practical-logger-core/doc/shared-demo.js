@@ -2,11 +2,11 @@ const { ALL_LOG_LEVELS } = require('..')
 
 function demo_standard_console() {
 	console.log('------------↓ demo: standard console ↓-----------')
-	console.error('Standard console "error"')
-	console.warn('Standard console "warn"')
-	console.info('Standard console "info"')
-	console.log('Standard console "log"')
 	console.debug('Standard console "debug"')
+	console.log('Standard console "log"')
+	console.info('Standard console "info"')
+	console.warn('Standard console "warn"')
+	console.error('Standard console "error"')
 }
 
 function demo_logger_basic_usage(logger) {
@@ -31,7 +31,7 @@ function demo_logger_basic_usage(logger) {
 
 function demo_logger_levels(logger) {
 	console.log('-----------↓ logger demo: all levels, in order ↓-----------')
-	ALL_LOG_LEVELS.forEach(level =>
+	;[...ALL_LOG_LEVELS].reverse().forEach(level =>
 		logger[level](`demo with level "${level}"`, { level, foo: 42 })
 	)
 

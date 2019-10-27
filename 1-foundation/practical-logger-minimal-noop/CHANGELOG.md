@@ -2,14 +2,18 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
-* [doc] README++
-* [doc] comments++
+* ...
+
+## v2.0.0
+2019/10/28
+* [feat] [breaking] now implementing 2.0.0 interface
 * [chore] [breaking] no longer exporting ES5, reverted to [this more rationale export setup](../../CONTRIBUTING/module-exports.md)
-* [refactor] internal package @offirmo/practical-logger-interfaces renamed to @offirmo/practical-logger-types
-* [chore] bumped dependencies
 * [fix] correctly allows passing args to createLogger() (unused of course)
 * [test] added unit tests
-* ...
+* [doc] README++
+* [doc] comments++
+* [refactor] internal package @offirmo/practical-logger-interfaces renamed to @offirmo/practical-logger-types
+* [chore] [breaking] bumped dependencies, now implementing 2.0.0 interface
 
 ## v1.1.1
 2019/07/07

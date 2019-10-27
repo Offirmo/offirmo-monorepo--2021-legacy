@@ -1,15 +1,17 @@
 {
 	"name": "@offirmo/practical-logger-minimal-noop",
 	"description": "Implementation of Offirmo’s practical logger doing nothing at all",
-	"version": "1.1.1",
+	"version": "2.0.0",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
+
 	"esnext": "dist/src.es2019/index.js",
 	"module": "dist/src.es2019/index.js",
 	"main": "dist/src.es2018.cjs/index.js",
 	"typings": "dist/src.es2018.cjs/index.d.ts",
 	"source": "src/index.ts",
 	"sideEffects": false,
+
 	"size-limit": [
 		{
 			"limit": "150b",
@@ -20,10 +22,12 @@
 			"path": "dist/src.es2018.cjs/index.js"
 		}
 	],
+
 	"peerDependencies": {},
 	"dependencies": {
 		"@offirmo/practical-logger-types": "^2"
 	},
+
 	"devDependencies": {
 		"@offirmo/practical-logger-core": "^2",
 		"@size-limit/preset-small-lib": "^2",
@@ -46,6 +50,7 @@
 		"np": "np --no-publish",
 		"prepublishOnly": "run-s clean build:prod ensure-size"
 	},
+
 	"files": [
 		"dist",
 		"src"

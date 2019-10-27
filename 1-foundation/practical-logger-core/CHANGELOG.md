@@ -6,6 +6,7 @@
 
 ## v 2.0.0
 2019/10/27
+* [feat] [breaking] now implementing 2.0.0 interface
 * [chore] [breaking] no longer exporting ES5, reverted to [this more rationale export setup](../../CONTRIBUTING/module-exports.md)
 * [feat] handle the new `forcedLevel` creation param (see interface)
 * [feat] now using Typescript 3.7 assertions
