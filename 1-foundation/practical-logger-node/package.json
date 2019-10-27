@@ -17,7 +17,7 @@
 	},
 	"dependencies": {
 		"@offirmo/practical-logger-core": "^1.1.1",
-		"@offirmo/practical-logger-types": "^1.1.1",
+		"@offirmo/practical-logger-types": "^2",
 		"chalk": "^2",
 		"indent-string": "^4"
 	},

@@ -33,7 +33,8 @@
 
 This is an **internal** component of [Offirmo’s practical logger](https://github.com/Offirmo/offirmo-monorepo/wiki/Offirmo%E2%80%99s-Practical-Logger). 
 * declares only TypeScript types
-* **No code, 0 bytes** = will do nothing to your bundle size.
+* **No code, 0 bytes** = will do nothing to your bundle size
+* no dependencies
 
 
 ## Usage

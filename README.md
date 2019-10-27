@@ -123,7 +123,7 @@ and I don't mind people reusing my code and creating jobs / value from it even w
 
 However, I'd like the (small) marketing efforts I made to benefit only me,
 for ex. the name of the modules or the apps may not be re-usable.
-Also I don't want my name to be used as an endorsment.
+Also I don't want my name to be used as an endorsement.
 
 That's why I'm looking into [CC0](https://creativecommons.org/publicdomain/zero/1.0/).
 
