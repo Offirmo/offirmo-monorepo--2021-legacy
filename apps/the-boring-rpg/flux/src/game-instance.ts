@@ -112,7 +112,7 @@ function create_game_instance<T extends AppState>({SEC, local_storage, storage, 
 
 		function dispatch(action: Action) {
 			if (action.type !== 'update_to_now') console.groupEnd()
-			;(console.groupCollapsed as any)(`———————————— ⚡ action dispatched: ${action.type} ⚡ ————————————`)
+			;(console.groupCollapsed as any)(`——————— ⚡ action dispatched: ${action.type} ⚡ ———————`)
 			setTimeout(() => console.groupEnd(), 0)
 			const { time, ...debug } = action
 			logger.log('⚡ action dispatched:', { action: debug })
@@ -195,7 +195,7 @@ function create_game_instance<T extends AppState>({SEC, local_storage, storage, 
 
 				subscribe(id: string, fn: () => void): () => void {
 					const unbind = emitter.on(Event.view_change, (src: string) => {
-						console.log(`🌀🌀 root/view change reported to subscriber "${id}" (model: #${in_memory_store.get()!.u_state.revision}, source: view/${src})`)
+						logger.trace(`🌀🌀 root/view change reported to subscriber "${id}" (model: #${in_memory_store.get()!.u_state.revision}, source: view/${src})`)
 						fn()
 					})
 					return unbind

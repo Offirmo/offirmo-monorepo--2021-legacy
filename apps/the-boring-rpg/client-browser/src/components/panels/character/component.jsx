@@ -135,7 +135,7 @@ export default class CharacterPanelView extends PureComponent {
 								}))
 							}}
 							on_input_end={() => {
-								console.log('unput stop')
+								console.log('input stop')
 								this.setState(() => ({
 									mobile_keyboard_likely_present: false,
 								}))

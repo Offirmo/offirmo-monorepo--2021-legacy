@@ -47,9 +47,9 @@ SEC.emitter.on('final-error', function onError({SEC, err}) {
 		return
 	}
 
+	console.log('(this error will be reported)')
 	set_imminent_captured_error(err)
 	raven_client.captureException(err)
-	console.log('(this error will be reported)')
 })
 
 SEC.emitter.on('analytics', function onAnalytics({SEC, eventId, details}) {

@@ -14,11 +14,11 @@
 
 	"size-limit": [
 		{
-			"limit": "150b",
+			"limit": "155b",
 			"path": "dist/src.es2019/index.js"
 		},
 		{
-			"limit": "150b",
+			"limit": "155b",
 			"path": "dist/src.es2018.cjs/index.js"
 		}
 	],

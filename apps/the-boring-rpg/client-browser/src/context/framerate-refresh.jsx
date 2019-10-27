@@ -6,9 +6,10 @@ import ReactAnimationFrame from 'react-animation-frame';
 import {get_UTC_timestamp_ms} from '@offirmo-private/timestamps'
 
 import get_game_instance from '../services/game-instance-browser'
+import logger from '../services/logger'
 import { AppStateListenerAndProvider } from './app-state'
 
-const MAX_FPS = 1. // TODO load from prefs
+const MAX_FPS = 1. // TODO load from prefs?
 const MIN_FPS = .1 // ex. for a background tab
 const MIN_FPS_FRAME_PERIOD_MS = Math.trunc(1000. / MIN_FPS)
 const MAX_FPS_FRAME_PERIOD_MS = Math.trunc(1000. / MAX_FPS)
@@ -45,28 +46,23 @@ class AppStateListenerAndProviderRAF extends React.Component {
 		if (!this.time_1st_iteration) {
 			// debug
 			this.time_1st_iteration = now_ms
-			console.log('++++++++++++ starting animation frame ++++++++++++', {
+			logger.log('++++++++++++ starting animation frame ++++++++++++', {
 				now_ms,
 				time,
 			})
 		}
 
-		console.groupEnd()
-		console.groupCollapsed(`———————————— onInterval/onAnimationFrame #${this.iteration_count} ————————————`)
-		console.log({
-			//tsms: get_UTC_timestamp_ms(),
-			//time,
-			now_ms,
-		})
+		logger.groupEnd()
+		logger.groupCollapsed(`——————— onInterval/onAnimationFrame #${this.iteration_count} / ${now_ms} ———————`)
 		this.iteration_count++
-		setTimeout(() => console.groupEnd())
+		setTimeout(() => logger.groupEnd())
 
 		get_game_instance().commands.update_to_now()
 
 		if (MAX_ITERATIONS) {
 			if (this.iteration_count > MAX_ITERATIONS) {
 				const elapsed = now_ms - this.time_1st_iteration
-				console.log(`stopping animation frame for safety`, {
+				logger.warn(`stopping animation frame for safety`, {
 					raf_time_start: this.raf_time_start,
 					time_1st_iteration: this.time_1st_iteration,
 					now_ms,

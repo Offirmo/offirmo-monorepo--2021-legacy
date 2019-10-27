@@ -140,3 +140,4 @@ function install({ uncollapse_level = 'warn', lazy = true, original_console = co
 const install_singleton = tiny_singleton((options?: Options) => install(options))
 
 export { install_singleton as improve_console_groups }
+export default install_singleton
