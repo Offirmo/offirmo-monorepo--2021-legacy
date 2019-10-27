@@ -47,21 +47,39 @@ console.groupEnd()
 function demo_group(logger) {
 	console.log('-----------↓ logger demo: group ↓-----------')
 
-	logger.group('level 1')
-	logger.log('in level 1')
+	logger.group('level 1 (+)')
+		logger.log('in level 1')
 
-	logger.groupCollapsed('level 2a')
-	logger.log('in level 2a')
+		logger.groupCollapsed('level 2a (-)')
+			logger.log('in level 2a')
+		logger.groupEnd()
+
+		logger.groupCollapsed('level 2b (-)')
+			// no output
+			logger.group('level 3a (+)')
+				// no output
+			logger.groupEnd()
+		logger.groupEnd()
+
+		logger.groupCollapsed('level 2c (-)')
+			// no output
+			logger.warn('warn from level 2c!')
+			logger.error(new Error('error from level 2c!'))
+		logger.groupEnd()
+
+		logger.groupCollapsed('level 2d (-)')
+			logger.log('in level 2d')
+			logger.group('level 3b (+)')
+				logger.warn('warn from level 3b!')
+				logger.error(new Error('error from level 3b!'))
+				logger.log('in level 3b')
+			logger.groupEnd()
+			logger.log('in level 2d')
+		logger.groupEnd()
+
+		logger.log('where am I? (should be in level 1)')
 	logger.groupEnd()
 
-	logger.groupCollapsed('level 2b')
-	logger.log('in level 2b')
-	logger.warn('warn from level 2b!')
-	logger.error(new Error('error from level 2b!'))
-	logger.groupEnd()
-
-	logger.log('where am I?')
-	logger.groupEnd()
 	logger.groupEnd()
 	logger.groupEnd()
 }
