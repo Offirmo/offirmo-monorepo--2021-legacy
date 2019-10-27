@@ -25,7 +25,7 @@
 		"@offirmo/practical-logger-types": "^2"
 	},
 	"devDependencies": {
-		"@offirmo/practical-logger-core": "^1.1.1",
+		"@offirmo/practical-logger-core": "^2",
 		"@size-limit/preset-small-lib": "^2",
 		"np": "^5",
 		"npm-run-all": "^4"

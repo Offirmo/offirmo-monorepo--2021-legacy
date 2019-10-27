@@ -2,15 +2,18 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
-* [feat] now using Typescript 3.7 assertions
-* [fix] correctly allows passing no args to createLogger() (this was intended)
-* [feat] split a file to allow pinpoint consumption in some rare cases
-* [feat] handle the new `forcedLevel` creation param (see interface)
+* ...
+
+## v 2.0.0
+2019/10/27
 * [chore] [breaking] no longer exporting ES5, reverted to [this more rationale export setup](../../CONTRIBUTING/module-exports.md)
+* [feat] handle the new `forcedLevel` creation param (see interface)
+* [feat] now using Typescript 3.7 assertions
+* [feat] split a file to allow pinpoint consumption in some rare cases
+* [fix] correctly allows passing no args to createLogger() (this was intended)
+* [test] additional unit tests
 * [chore] bumped dependencies
 * [refactor] internal package @offirmo/practical-logger-interfaces renamed to @offirmo/practical-logger-types
-* [test] additional unit tests
-* ...
 
 ## v1.1.1
 2019/07/07
