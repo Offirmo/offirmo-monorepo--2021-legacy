@@ -25,19 +25,24 @@
 		"@offirmo/practical-logger-types": "^1.1.1"
 	},
 	"devDependencies": {
+		"@offirmo/practical-logger-core": "^1.1.1",
 		"@size-limit/preset-small-lib": "^2",
 		"np": "^5",
 		"npm-run-all": "^4"
 	},
 	"scripts": {
 		"clean": "node ../../scripts/clean.js dist",
+
+		"test": "../../node_modules/.bin/mocha --opts ../../3-tools/unit-test-toolbox/mocha.opts ../../3-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2018.cjs/**/*spec.js'",
 		"build:dev:watch": "node ../../scripts/build-typescript.js --watch",
 		"build:prod": "node ../../scripts/build-typescript.js",
 		"ensure-size": "size-limit",
+
 		"dev": "run-s clean build:dev:watch",
 		"build": "run-s build:prod",
 		"cheatsheet": "node doc/cheatsheet.js",
 		"demo": "node doc/demo.js",
+
 		"np": "np --no-publish",
 		"prepublishOnly": "run-s clean build:prod ensure-size"
 	},

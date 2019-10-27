@@ -29,7 +29,7 @@ const NO_OP_LOGGER: Logger = {
 	groupEnd: NO_OP,
 }
 
-function createLogger(): Logger {
+function createLogger(_?: any): Logger {
 	return NO_OP_LOGGER
 }
 

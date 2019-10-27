@@ -7,6 +7,8 @@
 * [chore] [breaking] no longer exporting ES5, reverted to [this more rationale export setup](../../CONTRIBUTING/module-exports.md)
 * [refactor] internal package @offirmo/practical-logger-interfaces renamed to @offirmo/practical-logger-types
 * [chore] bumped dependencies
+* [fix] correctly allows passing args to createLogger() (unused of course)
+* [test] added unit tests
 * ...
 
 ## v1.1.1
