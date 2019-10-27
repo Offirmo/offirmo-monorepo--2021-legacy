@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 108);
+/******/ 	return __webpack_require__(__webpack_require__.s = 103);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -311,7 +311,63 @@ function __importDefault(mod) {
 
 /***/ }),
 
-/***/ 108:
+/***/ 10:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+function Enum() {
+    var values = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        values[_i] = arguments[_i];
+    }
+    if (typeof values[0] === "string") {
+        var result = {};
+        for (var _a = 0, values_1 = values; _a < values_1.length; _a++) {
+            var value = values_1[_a];
+            result[value] = value;
+        }
+        return result;
+    }
+    else {
+        return values[0];
+    }
+}
+exports.Enum = Enum;
+(function (Enum) {
+    function ofKeys(e) {
+        var result = {};
+        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
+            var key = _a[_i];
+            result[key] = key;
+        }
+        return result;
+    }
+    Enum.ofKeys = ofKeys;
+    function keys(e) {
+        return Object.keys(e);
+    }
+    Enum.keys = keys;
+    function values(e) {
+        var result = [];
+        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
+            var key = _a[_i];
+            result.push(e[key]);
+        }
+        return result;
+    }
+    Enum.values = values;
+    function isType(e, value) {
+        return values(e).indexOf(value) !== -1;
+    }
+    Enum.isType = isType;
+})(Enum = exports.Enum || (exports.Enum = {}));
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ 103:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -321,15 +377,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const typescript_string_enums_1 = __webpack_require__(11);
+const typescript_string_enums_1 = __webpack_require__(10);
 
-const interfaces_1 = __webpack_require__(97);
+const interfaces_1 = __webpack_require__(93);
 
-const consts_1 = __webpack_require__(33);
+const consts_1 = __webpack_require__(30);
 
-const utils_1 = __webpack_require__(25);
+const utils_1 = __webpack_require__(23);
 
-const tbrpg_1 = __webpack_require__(109); ////////////////////////////////////
+const tbrpg_1 = __webpack_require__(104); ////////////////////////////////////
 
 
 const handler = async (event, badly_typed_context) => {
@@ -447,7 +503,7 @@ function parse_jsonrpc_requests(res, event) {
 
 /***/ }),
 
-/***/ 109:
+/***/ 104:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -459,13 +515,13 @@ Object.defineProperty(exports, "__esModule", {
 
 const tslib_1 = __webpack_require__(0);
 
-const utils_1 = __webpack_require__(25);
+const utils_1 = __webpack_require__(23);
 
-const interfaces_1 = __webpack_require__(97);
+const interfaces_1 = __webpack_require__(93);
 
-const echo_1 = tslib_1.__importDefault(__webpack_require__(110));
+const echo_1 = tslib_1.__importDefault(__webpack_require__(105));
 
-const sync_1 = tslib_1.__importDefault(__webpack_require__(111));
+const sync_1 = tslib_1.__importDefault(__webpack_require__(106));
 
 function process_rpc(req, res) {
   const {
@@ -493,63 +549,7 @@ exports.process_rpc = process_rpc;
 
 /***/ }),
 
-/***/ 11:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-function Enum() {
-    var values = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        values[_i] = arguments[_i];
-    }
-    if (typeof values[0] === "string") {
-        var result = {};
-        for (var _a = 0, values_1 = values; _a < values_1.length; _a++) {
-            var value = values_1[_a];
-            result[value] = value;
-        }
-        return result;
-    }
-    else {
-        return values[0];
-    }
-}
-exports.Enum = Enum;
-(function (Enum) {
-    function ofKeys(e) {
-        var result = {};
-        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
-            var key = _a[_i];
-            result[key] = key;
-        }
-        return result;
-    }
-    Enum.ofKeys = ofKeys;
-    function keys(e) {
-        return Object.keys(e);
-    }
-    Enum.keys = keys;
-    function values(e) {
-        var result = [];
-        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
-            var key = _a[_i];
-            result.push(e[key]);
-        }
-        return result;
-    }
-    Enum.values = values;
-    function isType(e, value) {
-        return values(e).indexOf(value) !== -1;
-    }
-    Enum.isType = isType;
-})(Enum = exports.Enum || (exports.Enum = {}));
-//# sourceMappingURL=index.js.map
-
-/***/ }),
-
-/***/ 110:
+/***/ 105:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -577,7 +577,7 @@ exports.default = handle;
 
 /***/ }),
 
-/***/ 111:
+/***/ 106:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -604,14 +604,14 @@ exports.default = handle;
 
 /***/ }),
 
-/***/ 23:
+/***/ 21:
 /***/ (function(module, exports) {
 
 module.exports = require("http");
 
 /***/ }),
 
-/***/ 25:
+/***/ 23:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -621,9 +621,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const http_1 = __webpack_require__(23);
+const http_1 = __webpack_require__(21);
 
-const common_error_fields_1 = __webpack_require__(30); // TODO extern
+const common_error_fields_1 = __webpack_require__(31); // TODO extern
 
 
 function create_error(message, data = {}) {
@@ -655,21 +655,7 @@ exports.create_error = create_error;
 
 /***/ }),
 
-/***/ 30:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _field_set__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(31);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "COMMON_ERROR_FIELDS", function() { return _field_set__WEBPACK_IMPORTED_MODULE_0__["a"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "create", function() { return _field_set__WEBPACK_IMPORTED_MODULE_0__["b"]; });
-
-
-
-/***/ }),
-
-/***/ 31:
+/***/ 28:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -693,7 +679,7 @@ const COMMON_ERROR_FIELDS = DEFAULT_INSTANCE;
 
 /***/ }),
 
-/***/ 33:
+/***/ 30:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -728,14 +714,28 @@ exports.get_default_JsonRpc_error = get_default_JsonRpc_error;
 
 /***/ }),
 
-/***/ 97:
+/***/ 31:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _field_set__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(28);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "COMMON_ERROR_FIELDS", function() { return _field_set__WEBPACK_IMPORTED_MODULE_0__["a"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "create", function() { return _field_set__WEBPACK_IMPORTED_MODULE_0__["b"]; });
+
+
+
+/***/ }),
+
+/***/ 93:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/typescript-string-enums/dist/index.js
-var dist = __webpack_require__(11);
+var dist = __webpack_require__(10);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/apps/the-boring-rpg/interfaces/dist/src.es2019/actions.js
  /////////////////////

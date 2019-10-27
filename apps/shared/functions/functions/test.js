@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 112);
+/******/ 	return __webpack_require__(__webpack_require__.s = 107);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -314,11 +314,11 @@ function __importDefault(mod) {
 
 "use strict";
 
-const escapeStringRegexp = __webpack_require__(130);
-const ansiStyles = __webpack_require__(131);
-const stdoutColor = __webpack_require__(36).stdout;
+const escapeStringRegexp = __webpack_require__(112);
+const ansiStyles = __webpack_require__(113);
+const stdoutColor = __webpack_require__(34).stdout;
 
-const template = __webpack_require__(135);
+const template = __webpack_require__(117);
 
 const isSimpleWindowsTerm = process.platform === 'win32' && !(process.env.TERM || '').toLowerCase().startsWith('xterm');
 
@@ -548,61 +548,12 @@ module.exports.default = module.exports; // For TypeScript
 /* 3 */,
 /* 4 */,
 /* 5 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return LIB; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return LOG_LEVEL_TO_INTEGER; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return LOG_LEVEL_TO_HUMAN; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ALL_LOG_LEVELS; });
-const LIB = '@offirmo/practical-logger-core'; // level to a numerical value, for ordering and filtering.
-// mnemonic:  100 = 100% = you will see 100% of the logs
-//              1 =   1% = you will see 1% of the logs (obviously the most important)
-
-const LOG_LEVEL_TO_INTEGER = {
-  fatal: 1,
-  emerg: 2,
-  alert: 10,
-  crit: 20,
-  error: 30,
-  warning: 40,
-  warn: 40,
-  notice: 45,
-  info: 50,
-  verbose: 70,
-  log: 80,
-  debug: 81,
-  trace: 90,
-  silly: 100
-}; // rationalization to a clear, human understandable string
-
-const LOG_LEVEL_TO_HUMAN = {
-  fatal: 'fatal',
-  emerg: 'emergency',
-  alert: 'alert',
-  crit: 'critical',
-  error: 'error',
-  warning: 'warn',
-  warn: 'warn',
-  notice: 'notice',
-  info: 'info',
-  verbose: 'verbose',
-  log: 'log',
-  debug: 'debug',
-  trace: 'trace',
-  silly: 'silly'
-};
-const ALL_LOG_LEVELS = Object.keys(LOG_LEVEL_TO_INTEGER).map(s => s).sort((a, b) => LOG_LEVEL_TO_INTEGER[a] - LOG_LEVEL_TO_INTEGER[b]);
-
-
-/***/ }),
-/* 6 */
 /***/ (function(module, exports) {
 
 module.exports = require("util");
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -617,7 +568,7 @@ module.exports = require("util");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addExceptionMechanism; });
 /* unused harmony export getLocationHref */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return htmlTreeAsString; });
-/* harmony import */ var _is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
+/* harmony import */ var _is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
 /// <reference lib="dom" />
 
 /**
@@ -881,13 +832,13 @@ function _htmlElementAsString(elem) {
 //# sourceMappingURL=misc.js.map
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, exports) {
 
 module.exports = require("events");
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1038,13 +989,13 @@ function isSyntheticEvent(wat) {
 //# sourceMappingURL=is.js.map
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, exports) {
 
 module.exports = require("fs");
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1099,21 +1050,21 @@ exports.Enum = Enum;
 //# sourceMappingURL=index.js.map
 
 /***/ }),
+/* 11 */,
 /* 12 */,
-/* 13 */,
-/* 14 */
+/* 13 */
 /***/ (function(module, exports) {
 
 module.exports = require("path");
 
 /***/ }),
-/* 15 */
+/* 14 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/is.js
-var is = __webpack_require__(9);
+var is = __webpack_require__(8);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/memo.js
 // tslint:disable:no-unsafe-any
@@ -1170,10 +1121,10 @@ var Memo = /** @class */ (function () {
 
 //# sourceMappingURL=memo.js.map
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/misc.js
-var misc = __webpack_require__(7);
+var misc = __webpack_require__(6);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/string.js
-var string = __webpack_require__(59);
+var string = __webpack_require__(56);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/object.js
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return fill; });
@@ -1476,15 +1427,15 @@ function extractExceptionKeysForMessage(exception, maxLength) {
 //# sourceMappingURL=object.js.map
 
 /***/ }),
+/* 15 */,
 /* 16 */,
-/* 17 */,
-/* 18 */
+/* 17 */
 /***/ (function(module, exports) {
 
 module.exports = require("url");
 
 /***/ }),
-/* 19 */
+/* 18 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1507,22 +1458,16 @@ function invariant(condition, message) {
 
 
 /***/ }),
+/* 19 */,
 /* 20 */,
-/* 21 */,
-/* 22 */
-/***/ (function(module, exports) {
-
-module.exports = require("os");
-
-/***/ }),
-/* 23 */
+/* 21 */
 /***/ (function(module, exports) {
 
 module.exports = require("http");
 
 /***/ }),
-/* 24 */,
-/* 25 */
+/* 22 */,
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1532,9 +1477,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const http_1 = __webpack_require__(23);
+const http_1 = __webpack_require__(21);
 
-const common_error_fields_1 = __webpack_require__(30); // TODO extern
+const common_error_fields_1 = __webpack_require__(31); // TODO extern
 
 
 function create_error(message, data = {}) {
@@ -1565,85 +1510,21 @@ function create_error(message, data = {}) {
 exports.create_error = create_error;
 
 /***/ }),
-/* 26 */
+/* 24 */
 /***/ (function(module, exports) {
 
 module.exports = require("assert");
 
 /***/ }),
+/* 25 */,
+/* 26 */
+/***/ (function(module, exports) {
+
+module.exports = require("os");
+
+/***/ }),
 /* 27 */,
 /* 28 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LEVEL_TO_ASCII; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return LEVEL_TO_STYLIZE; });
-/* harmony import */ var chalk__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-/* harmony import */ var chalk__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(chalk__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _offirmo_practical_logger_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(5);
-
-
-const MIN_WIDTH = 7;
-
-function to_aligned_ascii(level) {
-  let lvl = level.toUpperCase();
-  /*while (lvl.length <= MIN_WIDTH - 2) {
-      lvl = ' ' + lvl + ' '
-  }*/
-
-  if (lvl.length < MIN_WIDTH) lvl = (lvl + '         ').slice(0, MIN_WIDTH);
-  return lvl;
-}
-
-const LEVEL_TO_ASCII = {
-  fatal: chalk__WEBPACK_IMPORTED_MODULE_0___default.a.bgRed.white.bold(to_aligned_ascii(' ' + _offirmo_practical_logger_core__WEBPACK_IMPORTED_MODULE_1__[/* LOG_LEVEL_TO_HUMAN */ "c"]['fatal'])),
-  emerg: chalk__WEBPACK_IMPORTED_MODULE_0___default.a.bgRed.white.bold(to_aligned_ascii(_offirmo_practical_logger_core__WEBPACK_IMPORTED_MODULE_1__[/* LOG_LEVEL_TO_HUMAN */ "c"]['emerg'])),
-  alert: chalk__WEBPACK_IMPORTED_MODULE_0___default.a.bgRed.white.bold(to_aligned_ascii(' ' + _offirmo_practical_logger_core__WEBPACK_IMPORTED_MODULE_1__[/* LOG_LEVEL_TO_HUMAN */ "c"]['alert'])),
-  crit: chalk__WEBPACK_IMPORTED_MODULE_0___default.a.bgRed.white.bold(to_aligned_ascii(_offirmo_practical_logger_core__WEBPACK_IMPORTED_MODULE_1__[/* LOG_LEVEL_TO_HUMAN */ "c"]['crit'])),
-  error: chalk__WEBPACK_IMPORTED_MODULE_0___default.a.red.bold(to_aligned_ascii(_offirmo_practical_logger_core__WEBPACK_IMPORTED_MODULE_1__[/* LOG_LEVEL_TO_HUMAN */ "c"]['error'])),
-  warning: chalk__WEBPACK_IMPORTED_MODULE_0___default.a.yellow.bold(to_aligned_ascii(_offirmo_practical_logger_core__WEBPACK_IMPORTED_MODULE_1__[/* LOG_LEVEL_TO_HUMAN */ "c"]['warning'])),
-  warn: chalk__WEBPACK_IMPORTED_MODULE_0___default.a.yellow.bold(to_aligned_ascii(_offirmo_practical_logger_core__WEBPACK_IMPORTED_MODULE_1__[/* LOG_LEVEL_TO_HUMAN */ "c"]['warn'])),
-  notice: chalk__WEBPACK_IMPORTED_MODULE_0___default.a.blue(to_aligned_ascii(_offirmo_practical_logger_core__WEBPACK_IMPORTED_MODULE_1__[/* LOG_LEVEL_TO_HUMAN */ "c"]['notice'])),
-  info: chalk__WEBPACK_IMPORTED_MODULE_0___default.a.blue(to_aligned_ascii(_offirmo_practical_logger_core__WEBPACK_IMPORTED_MODULE_1__[/* LOG_LEVEL_TO_HUMAN */ "c"]['info'])),
-  verbose: to_aligned_ascii(_offirmo_practical_logger_core__WEBPACK_IMPORTED_MODULE_1__[/* LOG_LEVEL_TO_HUMAN */ "c"]['verbose']),
-  log: to_aligned_ascii(_offirmo_practical_logger_core__WEBPACK_IMPORTED_MODULE_1__[/* LOG_LEVEL_TO_HUMAN */ "c"]['log']),
-  debug: to_aligned_ascii(_offirmo_practical_logger_core__WEBPACK_IMPORTED_MODULE_1__[/* LOG_LEVEL_TO_HUMAN */ "c"]['debug']),
-  trace: chalk__WEBPACK_IMPORTED_MODULE_0___default.a.dim(to_aligned_ascii(_offirmo_practical_logger_core__WEBPACK_IMPORTED_MODULE_1__[/* LOG_LEVEL_TO_HUMAN */ "c"]['trace'])),
-  silly: chalk__WEBPACK_IMPORTED_MODULE_0___default.a.dim(to_aligned_ascii(_offirmo_practical_logger_core__WEBPACK_IMPORTED_MODULE_1__[/* LOG_LEVEL_TO_HUMAN */ "c"]['silly']))
-};
-const LEVEL_TO_STYLIZE = {
-  fatal: s => chalk__WEBPACK_IMPORTED_MODULE_0___default.a.red.bold(s),
-  emerg: s => chalk__WEBPACK_IMPORTED_MODULE_0___default.a.red.bold(s),
-  alert: s => chalk__WEBPACK_IMPORTED_MODULE_0___default.a.red.bold(s),
-  crit: s => chalk__WEBPACK_IMPORTED_MODULE_0___default.a.red.bold(s),
-  error: s => chalk__WEBPACK_IMPORTED_MODULE_0___default.a.red.bold(s),
-  warning: s => chalk__WEBPACK_IMPORTED_MODULE_0___default.a.yellow(s),
-  warn: s => chalk__WEBPACK_IMPORTED_MODULE_0___default.a.yellow(s),
-  notice: s => chalk__WEBPACK_IMPORTED_MODULE_0___default.a.blue(s),
-  info: s => chalk__WEBPACK_IMPORTED_MODULE_0___default.a.blue(s),
-  verbose: s => s,
-  log: s => s,
-  debug: s => s,
-  trace: s => chalk__WEBPACK_IMPORTED_MODULE_0___default.a.dim(s),
-  silly: s => chalk__WEBPACK_IMPORTED_MODULE_0___default.a.dim(s)
-};
-
-/***/ }),
-/* 29 */,
-/* 30 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _field_set__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(31);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "COMMON_ERROR_FIELDS", function() { return _field_set__WEBPACK_IMPORTED_MODULE_0__["a"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "create", function() { return _field_set__WEBPACK_IMPORTED_MODULE_0__["b"]; });
-
-
-
-/***/ }),
-/* 31 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1666,12 +1547,12 @@ const COMMON_ERROR_FIELDS = DEFAULT_INSTANCE;
 
 
 /***/ }),
-/* 32 */
+/* 29 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SyncPromise; });
-/* harmony import */ var _is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
+/* harmony import */ var _is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
 
 /** SyncPromise internal states */
 var States;
@@ -1867,7 +1748,7 @@ var SyncPromise = /** @class */ (function () {
 //# sourceMappingURL=syncpromise.js.map
 
 /***/ }),
-/* 33 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1901,12 +1782,25 @@ function get_default_JsonRpc_error() {
 exports.get_default_JsonRpc_error = get_default_JsonRpc_error;
 
 /***/ }),
-/* 34 */
+/* 31 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _generate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(61);
+/* harmony import */ var _field_set__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(28);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "COMMON_ERROR_FIELDS", function() { return _field_set__WEBPACK_IMPORTED_MODULE_0__["a"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "create", function() { return _field_set__WEBPACK_IMPORTED_MODULE_0__["b"]; });
+
+
+
+/***/ }),
+/* 32 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _generate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(58);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_UTC_timestamp_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["a"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["d"]; });
@@ -1920,7 +1814,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /***/ }),
-/* 35 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1936,13 +1830,13 @@ exports.CHANNEL = process.env.CHANNEL || (() => {
 })();
 
 /***/ }),
-/* 36 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const os = __webpack_require__(22);
-const hasFlag = __webpack_require__(47);
+const os = __webpack_require__(26);
+const hasFlag = __webpack_require__(44);
 
 const env = process.env;
 
@@ -2074,66 +1968,24 @@ module.exports = {
 
 
 /***/ }),
+/* 35 */,
+/* 36 */,
 /* 37 */,
 /* 38 */,
-/* 39 */,
-/* 40 */,
-/* 41 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = (string, count = 1, options) => {
-	options = {
-		indent: ' ',
-		includeEmptyLines: false,
-		...options
-	};
-
-	if (typeof string !== 'string') {
-		throw new TypeError(
-			`Expected \`input\` to be a \`string\`, got \`${typeof string}\``
-		);
-	}
-
-	if (typeof count !== 'number') {
-		throw new TypeError(
-			`Expected \`count\` to be a \`number\`, got \`${typeof count}\``
-		);
-	}
-
-	if (typeof options.indent !== 'string') {
-		throw new TypeError(
-			`Expected \`options.indent\` to be a \`string\`, got \`${typeof options.indent}\``
-		);
-	}
-
-	if (count === 0) {
-		return string;
-	}
-
-	const regex = options.includeEmptyLines ? /^/gm : /^(?!\s*$)/gm;
-
-	return string.replace(regex, options.indent.repeat(count));
-};
-
-
-/***/ }),
-/* 42 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
  * Module dependencies.
  */
 
-var net = __webpack_require__(48);
-var tls = __webpack_require__(49);
-var url = __webpack_require__(18);
-var assert = __webpack_require__(26);
-var Agent = __webpack_require__(139);
-var inherits = __webpack_require__(6).inherits;
-var debug = __webpack_require__(144)('https-proxy-agent');
+var net = __webpack_require__(45);
+var tls = __webpack_require__(46);
+var url = __webpack_require__(17);
+var assert = __webpack_require__(24);
+var Agent = __webpack_require__(120);
+var inherits = __webpack_require__(5).inherits;
+var debug = __webpack_require__(125)('https-proxy-agent');
 
 /**
  * Module exports.
@@ -2367,30 +2219,30 @@ function isDefaultPort(port, secure) {
 
 
 /***/ }),
-/* 43 */
+/* 40 */
 /***/ (function(module, exports) {
 
 module.exports = require("https");
 
 /***/ }),
-/* 44 */
+/* 41 */
 /***/ (function(module, exports) {
 
 module.exports = require("domain");
 
 /***/ }),
-/* 45 */
+/* 42 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Scope; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return addGlobalEventProcessor; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(32);
-/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(9);
-/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(15);
-/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(7);
-/* harmony import */ var _span__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(100);
+/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(29);
+/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(8);
+/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(14);
+/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6);
+/* harmony import */ var _span__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(95);
 
 
 
@@ -2706,7 +2558,7 @@ function addGlobalEventProcessor(callback) {
 //# sourceMappingURL=scope.js.map
 
 /***/ }),
-/* 46 */
+/* 43 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -2734,7 +2586,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 47 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2749,33 +2601,33 @@ module.exports = (flag, argv) => {
 
 
 /***/ }),
-/* 48 */
+/* 45 */
 /***/ (function(module, exports) {
 
 module.exports = require("net");
 
 /***/ }),
-/* 49 */
+/* 46 */
 /***/ (function(module, exports) {
 
 module.exports = require("tls");
 
 /***/ }),
-/* 50 */
+/* 47 */
 /***/ (function(module, exports) {
 
 module.exports = require("tty");
 
 /***/ }),
+/* 48 */,
+/* 49 */,
+/* 50 */,
 /* 51 */,
 /* 52 */,
 /* 53 */,
 /* 54 */,
 /* 55 */,
-/* 56 */,
-/* 57 */,
-/* 58 */,
-/* 59 */
+/* 56 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2783,7 +2635,7 @@ module.exports = require("tty");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return snipLine; });
 /* unused harmony export safeJoin */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return isMatchingPattern; });
-/* harmony import */ var _is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
+/* harmony import */ var _is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
 
 /**
  * Truncates given string to the maximum characters count
@@ -2877,8 +2729,8 @@ function isMatchingPattern(value, pattern) {
 //# sourceMappingURL=string.js.map
 
 /***/ }),
-/* 60 */,
-/* 61 */
+/* 57 */,
+/* 58 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2934,11 +2786,11 @@ function get_human_readable_UTC_timestamp_ms(now = new Date()) {
  /////////////////////
 
 /***/ }),
-/* 62 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
-var cssKeywords = __webpack_require__(133);
+var cssKeywords = __webpack_require__(115);
 
 // NOTE: conversions should only return primitive values (i.e. arrays, or
 //       values that give correct `typeof` results).
@@ -3808,19 +3660,7 @@ convert.rgb.gray = function (rgb) {
 
 
 /***/ }),
-/* 63 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return DEFAULT_LOG_LEVEL; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DEFAULT_LOGGER_KEY; });
-// base to be directly importable from other modules
-// without a full lib penalty
-const DEFAULT_LOG_LEVEL = 'error';
-const DEFAULT_LOGGER_KEY = ''; // yes, can be used as a key
-
-/***/ }),
-/* 64 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3837,7 +3677,7 @@ function setup(env) {
   createDebug.disable = disable;
   createDebug.enable = enable;
   createDebug.enabled = enabled;
-  createDebug.humanize = __webpack_require__(146);
+  createDebug.humanize = __webpack_require__(127);
   Object.keys(env).forEach(function (key) {
     createDebug[key] = env[key];
   });
@@ -4076,12 +3916,16 @@ module.exports = setup;
 
 
 /***/ }),
-/* 65 */
+/* 61 */
 /***/ (function(module, exports) {
 
 module.exports = require("module");
 
 /***/ }),
+/* 62 */,
+/* 63 */,
+/* 64 */,
+/* 65 */,
 /* 66 */,
 /* 67 */,
 /* 68 */,
@@ -4108,11 +3952,7 @@ module.exports = require("module");
 /* 89 */,
 /* 90 */,
 /* 91 */,
-/* 92 */,
-/* 93 */,
-/* 94 */,
-/* 95 */,
-/* 96 */
+/* 92 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4156,7 +3996,7 @@ const LIB = 'soft-execution-context';
 const INTERNAL_PROP = '_SEC';
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/emittery/index.js
-var emittery = __webpack_require__(98);
+var emittery = __webpack_require__(94);
 var emittery_default = /*#__PURE__*/__webpack_require__.n(emittery);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-advanced/soft-execution-context/dist/src.es2019/root-prototype.js
@@ -4490,7 +4330,7 @@ const dependency_injection_PLUGIN = {
 };
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-foundation/common-error-fields/dist/src.es2019/field-set.js
-var field_set = __webpack_require__(31);
+var field_set = __webpack_require__(28);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-foundation/normalize-error/dist/src.es2019/index.js
  // Anything can be thrown: undefined, string, number...)
@@ -4518,7 +4358,7 @@ function promiseTry(fn) {
 
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/0-stdlib/timestamps/dist/src.es2019/generate.js
-var generate = __webpack_require__(61);
+var generate = __webpack_require__(58);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-advanced/soft-execution-context/dist/src.es2019/plugins/error-handling/state.js
 /////////////////////
@@ -4945,8 +4785,8 @@ function getRootSEC() {
 
 
 /***/ }),
-/* 97 */,
-/* 98 */
+/* 93 */,
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5310,283 +5150,13 @@ module.exports = Emittery;
 
 
 /***/ }),
-/* 99 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-// ### Module dependencies
-var colors = __webpack_require__(117);
-var Utils = __webpack_require__(128);
-
-exports.version = __webpack_require__(129).version;
-
-// Helper function to detect if an object can be directly serializable
-var isSerializable = function(input, onlyPrimitives, options) {
-  if (
-    typeof input === 'boolean' ||
-    typeof input === 'number' ||
-    typeof input === 'function' ||
-    input === null ||
-    input instanceof Date
-  ) {
-    return true;
-  }
-  if (typeof input === 'string' && input.indexOf('\n') === -1) {
-    return true;
-  }
-
-  if (options.inlineArrays && !onlyPrimitives) {
-    if (Array.isArray(input) && isSerializable(input[0], true, options)) {
-      return true;
-    }
-  }
-
-  return false;
-};
-
-var addColorToData = function(input, options) {
-  if (options.noColor) {
-    return input;
-  }
-
-  if (typeof input === 'string') {
-    // Print strings in regular terminal color
-    return options.stringColor ? colors[options.stringColor](input) : input;
-  }
-
-  var sInput = input + '';
-
-  if (input === true) {
-    return colors.green(sInput);
-  }
-  if (input === false) {
-    return colors.red(sInput);
-  }
-  if (input === null) {
-    return colors.grey(sInput);
-  }
-  if (typeof input === 'number') {
-    return colors[options.numberColor](sInput);
-  }
-  if (typeof input === 'function') {
-    return 'function() {}';
-  }
-
-  if (Array.isArray(input)) {
-    return input.join(', ');
-  }
-
-  return sInput;
-};
-
-var indentLines = function(string, spaces){
-  var lines = string.split('\n');
-  lines = lines.map(function(line){
-    return Utils.indent(spaces) + line;
-  });
-  return lines.join('\n');
-};
-
-var renderToArray = function(data, options, indentation) {
-  if (isSerializable(data, false, options)) {
-    return [Utils.indent(indentation) + addColorToData(data, options)];
-  }
-
-  // Unserializable string means it's multiline
-  if (typeof data === 'string') {
-    return [
-      Utils.indent(indentation) + '"""',
-      indentLines(data, indentation + options.defaultIndentation),
-      Utils.indent(indentation) + '"""'
-    ];
-  }
-
-
-  if (Array.isArray(data)) {
-    // If the array is empty, render the `emptyArrayMsg`
-    if (data.length === 0) {
-      return [Utils.indent(indentation) + options.emptyArrayMsg];
-    }
-
-    var outputArray = [];
-
-    data.forEach(function(element) {
-      // Prepend the dash at the begining of each array's element line
-      var line = '- ';
-      if (!options.noColor) {
-        line = colors[options.dashColor](line);
-      }
-      line = Utils.indent(indentation) + line;
-
-      // If the element of the array is a string, bool, number, or null
-      // render it in the same line
-      if (isSerializable(element, false, options)) {
-        line += renderToArray(element, options, 0)[0];
-        outputArray.push(line);
-
-      // If the element is an array or object, render it in next line
-      } else {
-        outputArray.push(line);
-        outputArray.push.apply(
-          outputArray,
-          renderToArray(
-            element, options, indentation + options.defaultIndentation
-          )
-        );
-      }
-    });
-
-    return outputArray;
-  }
-
-  if (data instanceof Error) {
-    return renderToArray(
-      {
-        message: data.message,
-        stack: data.stack.split('\n')
-      },
-      options,
-      indentation
-    );
-  }
-
-  // If values alignment is enabled, get the size of the longest index
-  // to align all the values
-  var maxIndexLength = options.noAlign ? 0 : Utils.getMaxIndexLength(data);
-  var key;
-  var output = [];
-
-  Object.getOwnPropertyNames(data).forEach(function(i) {
-    // Prepend the index at the beginning of the line
-    key = (i + ': ');
-    if (!options.noColor) {
-      key = colors[options.keysColor](key);
-    }
-    key = Utils.indent(indentation) + key;
-
-    // Skip `undefined`, it's not a valid JSON value.
-    if (data[i] === undefined) {
-      return;
-    }
-
-    // If the value is serializable, render it in the same line
-    if (isSerializable(data[i], false, options)) {
-      var nextIndentation = options.noAlign ? 0 : maxIndexLength - i.length;
-      key += renderToArray(data[i], options, nextIndentation)[0];
-      output.push(key);
-
-      // If the index is an array or object, render it in next line
-    } else {
-      output.push(key);
-      output.push.apply(
-        output,
-        renderToArray(
-          data[i],
-          options,
-          indentation + options.defaultIndentation
-        )
-      );
-    }
-  });
-  return output;
-};
-
-// ### Render function
-// *Parameters:*
-//
-// * **`data`**: Data to render
-// * **`options`**: Hash with different options to configure the parser
-// * **`indentation`**: Base indentation of the parsed output
-//
-// *Example of options hash:*
-//
-//     {
-//       emptyArrayMsg: '(empty)', // Rendered message on empty strings
-//       keysColor: 'blue',        // Color for keys in hashes
-//       dashColor: 'red',         // Color for the dashes in arrays
-//       stringColor: 'grey',      // Color for strings
-//       defaultIndentation: 2     // Indentation on nested objects
-//     }
-exports.render = function render(data, options, indentation) {
-  // Default values
-  indentation = indentation || 0;
-  options = options || {};
-  options.emptyArrayMsg = options.emptyArrayMsg || '(empty array)';
-  options.keysColor = options.keysColor || 'green';
-  options.dashColor = options.dashColor || 'green';
-  options.numberColor = options.numberColor || 'blue';
-  options.defaultIndentation = options.defaultIndentation || 2;
-  options.noColor = !!options.noColor;
-  options.noAlign = !!options.noAlign;
-
-  options.stringColor = options.stringColor || null;
-
-  return renderToArray(data, options, indentation).join('\n');
-};
-
-// ### Render from string function
-// *Parameters:*
-//
-// * **`data`**: Data to render as a string
-// * **`options`**: Hash with different options to configure the parser
-// * **`indentation`**: Base indentation of the parsed output
-//
-// *Example of options hash:*
-//
-//     {
-//       emptyArrayMsg: '(empty)', // Rendered message on empty strings
-//       keysColor: 'blue',        // Color for keys in hashes
-//       dashColor: 'red',         // Color for the dashes in arrays
-//       defaultIndentation: 2     // Indentation on nested objects
-//     }
-exports.renderString = function renderString(data, options, indentation) {
-
-  var output = '';
-  var parsedData;
-  // If the input is not a string or if it's empty, just return an empty string
-  if (typeof data !== 'string' || data === '') {
-    return '';
-  }
-
-  // Remove non-JSON characters from the beginning string
-  if (data[0] !== '{' && data[0] !== '[') {
-    var beginingOfJson;
-    if (data.indexOf('{') === -1) {
-      beginingOfJson = data.indexOf('[');
-    } else if (data.indexOf('[') === -1) {
-      beginingOfJson = data.indexOf('{');
-    } else if (data.indexOf('{') < data.indexOf('[')) {
-      beginingOfJson = data.indexOf('{');
-    } else {
-      beginingOfJson = data.indexOf('[');
-    }
-    output += data.substr(0, beginingOfJson) + '\n';
-    data = data.substr(beginingOfJson);
-  }
-
-  try {
-    parsedData = JSON.parse(data);
-  } catch (e) {
-    // Return an error in case of an invalid JSON
-    return colors.red('Error:') + ' Not valid JSON!';
-  }
-
-  // Call the real render() method
-  output += exports.render(parsedData, options, indentation);
-  return output;
-};
-
-
-/***/ }),
-/* 100 */
+/* 95 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* unused harmony export TRACEPARENT_REGEXP */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Span; });
-/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7);
+/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
 
 var TRACEPARENT_REGEXP = /^[ \t]*([0-9a-f]{32})?-?([0-9a-f]{16})?-?([01])?[ \t]*$/;
 /**
@@ -5664,7 +5234,7 @@ var Span = /** @class */ (function () {
 //# sourceMappingURL=span.js.map
 
 /***/ }),
-/* 101 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -5979,7 +5549,7 @@ LRUMap.prototype.toString = function() {
 
 
 /***/ }),
-/* 102 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6181,16 +5751,16 @@ function tryDecode(str, decode) {
 
 
 /***/ }),
+/* 98 */,
+/* 99 */,
+/* 100 */,
+/* 101 */,
+/* 102 */,
 /* 103 */,
 /* 104 */,
 /* 105 */,
 /* 106 */,
-/* 107 */,
-/* 108 */,
-/* 109 */,
-/* 110 */,
-/* 111 */,
-/* 112 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6200,11 +5770,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const runner_1 = __webpack_require__(113);
+const runner_1 = __webpack_require__(108);
 
-const require_http_method_1 = __webpack_require__(149);
+const require_http_method_1 = __webpack_require__(130);
 
-const test_failure_1 = __webpack_require__(150);
+const test_failure_1 = __webpack_require__(131);
 
 async function _handler(SEC, event, context, response, next) {
   response.statusCode = 200;
@@ -6218,7 +5788,7 @@ const handler = (event, badly_typed_context) => {
 exports.handler = handler;
 
 /***/ }),
-/* 113 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6230,17 +5800,17 @@ Object.defineProperty(exports, "__esModule", {
 
 const tslib_1 = __webpack_require__(0);
 
-const tiny_invariant_1 = tslib_1.__importDefault(__webpack_require__(19));
+const tiny_invariant_1 = tslib_1.__importDefault(__webpack_require__(18));
 
-const timestamps_1 = __webpack_require__(34);
+const timestamps_1 = __webpack_require__(32);
 
-const sec_1 = __webpack_require__(114);
+const sec_1 = __webpack_require__(109);
 
-const sentry_1 = __webpack_require__(137);
+const sentry_1 = __webpack_require__(118);
 
-const channel_1 = __webpack_require__(35);
+const channel_1 = __webpack_require__(33);
 
-const utils_1 = __webpack_require__(25);
+const utils_1 = __webpack_require__(23);
 
 const MARGIN_AND_SENTRY_BUDGET_MS = channel_1.CHANNEL === 'dev' ? 5000 : 1000;
 
@@ -6418,7 +5988,7 @@ function use_middlewares_with_error_safety_net(event, badly_typed_context, middl
 exports.use_middlewares_with_error_safety_net = use_middlewares_with_error_safety_net;
 
 /***/ }),
-/* 114 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6430,15 +6000,15 @@ Object.defineProperty(exports, "__esModule", {
 
 const tslib_1 = __webpack_require__(0);
 
-const soft_execution_context_1 = __webpack_require__(96);
+const soft_execution_context_1 = __webpack_require__(92);
 
-const soft_execution_context_node_1 = __webpack_require__(115);
+const soft_execution_context_node_1 = __webpack_require__(110);
 
-const consts_1 = __webpack_require__(33);
+const consts_1 = __webpack_require__(30);
 
-const channel_1 = __webpack_require__(35);
+const channel_1 = __webpack_require__(33);
 
-const logger_1 = tslib_1.__importDefault(__webpack_require__(116)); /////////////////////
+const logger_1 = tslib_1.__importDefault(__webpack_require__(111)); /////////////////////
 
 
 const SEC = soft_execution_context_1.getRootSEC().setLogicalStack({
@@ -6493,14 +6063,14 @@ if (ENV !== "production") {
 exports.default = SEC;
 
 /***/ }),
-/* 115 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const os = __webpack_require__(22);
+const os = __webpack_require__(26);
 
 const {
   getRootSEC
-} = __webpack_require__(96); // TODO protect from double install
+} = __webpack_require__(92); // TODO protect from double install
 
 
 function listenToUncaughtErrors() {
@@ -6548,7 +6118,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 116 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6558,11 +6128,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const practical_logger_node_1 = __webpack_require__(256);
+const practical_logger_node_1 = __webpack_require__(236);
 
-const consts_1 = __webpack_require__(33);
+const consts_1 = __webpack_require__(30);
 
-const channel_1 = __webpack_require__(35); /////////////////////////////////////////////////
+const channel_1 = __webpack_require__(33); /////////////////////////////////////////////////
 //const logger = (CHANNEL === 'dev' ? create_node : create_core)({
 
 
@@ -6576,809 +6146,7 @@ logger.info(`❄️ Cold start of "${consts_1.APP}", channel = ${channel_1.CHANN
 exports.default = logger;
 
 /***/ }),
-/* 117 */
-/***/ (function(module, exports, __webpack_require__) {
-
-//
-// Remark: Requiring this file will use the "safe" colors API,
-// which will not touch String.prototype.
-//
-//   var colors = require('colors/safe');
-//   colors.red("foo")
-//
-//
-var colors = __webpack_require__(118);
-module['exports'] = colors;
-
-
-/***/ }),
-/* 118 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/*
-
-The MIT License (MIT)
-
-Original Library
-  - Copyright (c) Marak Squires
-
-Additional functionality
- - Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-
-*/
-
-var colors = {};
-module['exports'] = colors;
-
-colors.themes = {};
-
-var util = __webpack_require__(6);
-var ansiStyles = colors.styles = __webpack_require__(119);
-var defineProps = Object.defineProperties;
-var newLineRegex = new RegExp(/[\r\n]+/g);
-
-colors.supportsColor = __webpack_require__(120).supportsColor;
-
-if (typeof colors.enabled === 'undefined') {
-  colors.enabled = colors.supportsColor() !== false;
-}
-
-colors.enable = function() {
-  colors.enabled = true;
-};
-
-colors.disable = function() {
-  colors.enabled = false;
-};
-
-colors.stripColors = colors.strip = function(str) {
-  return ('' + str).replace(/\x1B\[\d+m/g, '');
-};
-
-// eslint-disable-next-line no-unused-vars
-var stylize = colors.stylize = function stylize(str, style) {
-  if (!colors.enabled) {
-    return str+'';
-  }
-
-  var styleMap = ansiStyles[style];
-
-  // Stylize should work for non-ANSI styles, too
-  if(!styleMap && style in colors){
-    // Style maps like trap operate as functions on strings;
-    // they don't have properties like open or close.
-    return colors[style](str);
-  }
-
-  return styleMap.open + str + styleMap.close;
-};
-
-var matchOperatorsRe = /[|\\{}()[\]^$+*?.]/g;
-var escapeStringRegexp = function(str) {
-  if (typeof str !== 'string') {
-    throw new TypeError('Expected a string');
-  }
-  return str.replace(matchOperatorsRe, '\\$&');
-};
-
-function build(_styles) {
-  var builder = function builder() {
-    return applyStyle.apply(builder, arguments);
-  };
-  builder._styles = _styles;
-  // __proto__ is used because we must return a function, but there is
-  // no way to create a function with a different prototype.
-  builder.__proto__ = proto;
-  return builder;
-}
-
-var styles = (function() {
-  var ret = {};
-  ansiStyles.grey = ansiStyles.gray;
-  Object.keys(ansiStyles).forEach(function(key) {
-    ansiStyles[key].closeRe =
-      new RegExp(escapeStringRegexp(ansiStyles[key].close), 'g');
-    ret[key] = {
-      get: function() {
-        return build(this._styles.concat(key));
-      },
-    };
-  });
-  return ret;
-})();
-
-var proto = defineProps(function colors() {}, styles);
-
-function applyStyle() {
-  var args = Array.prototype.slice.call(arguments);
-
-  var str = args.map(function(arg) {
-    // Use weak equality check so we can colorize null/undefined in safe mode
-    if (arg != null && arg.constructor === String) {
-      return arg;
-    } else {
-      return util.inspect(arg);
-    }
-  }).join(' ');
-
-  if (!colors.enabled || !str) {
-    return str;
-  }
-
-  var newLinesPresent = str.indexOf('\n') != -1;
-
-  var nestedStyles = this._styles;
-
-  var i = nestedStyles.length;
-  while (i--) {
-    var code = ansiStyles[nestedStyles[i]];
-    str = code.open + str.replace(code.closeRe, code.open) + code.close;
-    if (newLinesPresent) {
-      str = str.replace(newLineRegex, function(match) {
-        return code.close + match + code.open;
-      });
-    }
-  }
-
-  return str;
-}
-
-colors.setTheme = function(theme) {
-  if (typeof theme === 'string') {
-    console.log('colors.setTheme now only accepts an object, not a string.  ' +
-      'If you are trying to set a theme from a file, it is now your (the ' +
-      'caller\'s) responsibility to require the file.  The old syntax ' +
-      'looked like colors.setTheme(__dirname + ' +
-      '\'/../themes/generic-logging.js\'); The new syntax looks like '+
-      'colors.setTheme(require(__dirname + ' +
-      '\'/../themes/generic-logging.js\'));');
-    return;
-  }
-  for (var style in theme) {
-    (function(style) {
-      colors[style] = function(str) {
-        if (typeof theme[style] === 'object') {
-          var out = str;
-          for (var i in theme[style]) {
-            out = colors[theme[style][i]](out);
-          }
-          return out;
-        }
-        return colors[theme[style]](str);
-      };
-    })(style);
-  }
-};
-
-function init() {
-  var ret = {};
-  Object.keys(styles).forEach(function(name) {
-    ret[name] = {
-      get: function() {
-        return build([name]);
-      },
-    };
-  });
-  return ret;
-}
-
-var sequencer = function sequencer(map, str) {
-  var exploded = str.split('');
-  exploded = exploded.map(map);
-  return exploded.join('');
-};
-
-// custom formatter methods
-colors.trap = __webpack_require__(122);
-colors.zalgo = __webpack_require__(123);
-
-// maps
-colors.maps = {};
-colors.maps.america = __webpack_require__(124)(colors);
-colors.maps.zebra = __webpack_require__(125)(colors);
-colors.maps.rainbow = __webpack_require__(126)(colors);
-colors.maps.random = __webpack_require__(127)(colors);
-
-for (var map in colors.maps) {
-  (function(map) {
-    colors[map] = function(str) {
-      return sequencer(colors.maps[map], str);
-    };
-  })(map);
-}
-
-defineProps(colors, init());
-
-
-/***/ }),
-/* 119 */
-/***/ (function(module, exports) {
-
-/*
-The MIT License (MIT)
-
-Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-
-*/
-
-var styles = {};
-module['exports'] = styles;
-
-var codes = {
-  reset: [0, 0],
-
-  bold: [1, 22],
-  dim: [2, 22],
-  italic: [3, 23],
-  underline: [4, 24],
-  inverse: [7, 27],
-  hidden: [8, 28],
-  strikethrough: [9, 29],
-
-  black: [30, 39],
-  red: [31, 39],
-  green: [32, 39],
-  yellow: [33, 39],
-  blue: [34, 39],
-  magenta: [35, 39],
-  cyan: [36, 39],
-  white: [37, 39],
-  gray: [90, 39],
-  grey: [90, 39],
-
-  brightRed: [91, 39],
-  brightGreen: [92, 39],
-  brightYellow: [93, 39],
-  brightBlue: [94, 39],
-  brightMagenta: [95, 39],
-  brightCyan: [96, 39],
-  brightWhite: [97, 39],
-
-  bgBlack: [40, 49],
-  bgRed: [41, 49],
-  bgGreen: [42, 49],
-  bgYellow: [43, 49],
-  bgBlue: [44, 49],
-  bgMagenta: [45, 49],
-  bgCyan: [46, 49],
-  bgWhite: [47, 49],
-  bgGray: [100, 49],
-  bgGrey: [100, 49],
-
-  bgBrightRed: [101, 49],
-  bgBrightGreen: [102, 49],
-  bgBrightYellow: [103, 49],
-  bgBrightBlue: [104, 49],
-  bgBrightMagenta: [105, 49],
-  bgBrightCyan: [106, 49],
-  bgBrightWhite: [107, 49],
-
-  // legacy styles for colors pre v1.0.0
-  blackBG: [40, 49],
-  redBG: [41, 49],
-  greenBG: [42, 49],
-  yellowBG: [43, 49],
-  blueBG: [44, 49],
-  magentaBG: [45, 49],
-  cyanBG: [46, 49],
-  whiteBG: [47, 49],
-
-};
-
-Object.keys(codes).forEach(function(key) {
-  var val = codes[key];
-  var style = styles[key] = [];
-  style.open = '\u001b[' + val[0] + 'm';
-  style.close = '\u001b[' + val[1] + 'm';
-});
-
-
-/***/ }),
-/* 120 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/*
-The MIT License (MIT)
-
-Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-
-*/
-
-
-
-var os = __webpack_require__(22);
-var hasFlag = __webpack_require__(121);
-
-var env = process.env;
-
-var forceColor = void 0;
-if (hasFlag('no-color') || hasFlag('no-colors') || hasFlag('color=false')) {
-  forceColor = false;
-} else if (hasFlag('color') || hasFlag('colors') || hasFlag('color=true')
-           || hasFlag('color=always')) {
-  forceColor = true;
-}
-if ('FORCE_COLOR' in env) {
-  forceColor = env.FORCE_COLOR.length === 0
-    || parseInt(env.FORCE_COLOR, 10) !== 0;
-}
-
-function translateLevel(level) {
-  if (level === 0) {
-    return false;
-  }
-
-  return {
-    level: level,
-    hasBasic: true,
-    has256: level >= 2,
-    has16m: level >= 3,
-  };
-}
-
-function supportsColor(stream) {
-  if (forceColor === false) {
-    return 0;
-  }
-
-  if (hasFlag('color=16m') || hasFlag('color=full')
-      || hasFlag('color=truecolor')) {
-    return 3;
-  }
-
-  if (hasFlag('color=256')) {
-    return 2;
-  }
-
-  if (stream && !stream.isTTY && forceColor !== true) {
-    return 0;
-  }
-
-  var min = forceColor ? 1 : 0;
-
-  if (process.platform === 'win32') {
-    // Node.js 7.5.0 is the first version of Node.js to include a patch to
-    // libuv that enables 256 color output on Windows. Anything earlier and it
-    // won't work. However, here we target Node.js 8 at minimum as it is an LTS
-    // release, and Node.js 7 is not. Windows 10 build 10586 is the first
-    // Windows release that supports 256 colors. Windows 10 build 14931 is the
-    // first release that supports 16m/TrueColor.
-    var osRelease = os.release().split('.');
-    if (Number(process.versions.node.split('.')[0]) >= 8
-        && Number(osRelease[0]) >= 10 && Number(osRelease[2]) >= 10586) {
-      return Number(osRelease[2]) >= 14931 ? 3 : 2;
-    }
-
-    return 1;
-  }
-
-  if ('CI' in env) {
-    if (['TRAVIS', 'CIRCLECI', 'APPVEYOR', 'GITLAB_CI'].some(function(sign) {
-      return sign in env;
-    }) || env.CI_NAME === 'codeship') {
-      return 1;
-    }
-
-    return min;
-  }
-
-  if ('TEAMCITY_VERSION' in env) {
-    return (/^(9\.(0*[1-9]\d*)\.|\d{2,}\.)/.test(env.TEAMCITY_VERSION) ? 1 : 0
-    );
-  }
-
-  if ('TERM_PROGRAM' in env) {
-    var version = parseInt((env.TERM_PROGRAM_VERSION || '').split('.')[0], 10);
-
-    switch (env.TERM_PROGRAM) {
-      case 'iTerm.app':
-        return version >= 3 ? 3 : 2;
-      case 'Hyper':
-        return 3;
-      case 'Apple_Terminal':
-        return 2;
-      // No default
-    }
-  }
-
-  if (/-256(color)?$/i.test(env.TERM)) {
-    return 2;
-  }
-
-  if (/^screen|^xterm|^vt100|^rxvt|color|ansi|cygwin|linux/i.test(env.TERM)) {
-    return 1;
-  }
-
-  if ('COLORTERM' in env) {
-    return 1;
-  }
-
-  if (env.TERM === 'dumb') {
-    return min;
-  }
-
-  return min;
-}
-
-function getSupportLevel(stream) {
-  var level = supportsColor(stream);
-  return translateLevel(level);
-}
-
-module.exports = {
-  supportsColor: getSupportLevel,
-  stdout: getSupportLevel(process.stdout),
-  stderr: getSupportLevel(process.stderr),
-};
-
-
-/***/ }),
-/* 121 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/*
-MIT License
-
-Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in
-the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-of the Software, and to permit persons to whom the Software is furnished to do
-so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-*/
-
-
-
-module.exports = function(flag, argv) {
-  argv = argv || process.argv;
-
-  var terminatorPos = argv.indexOf('--');
-  var prefix = /^-{1,2}/.test(flag) ? '' : '--';
-  var pos = argv.indexOf(prefix + flag);
-
-  return pos !== -1 && (terminatorPos === -1 ? true : pos < terminatorPos);
-};
-
-
-/***/ }),
-/* 122 */
-/***/ (function(module, exports) {
-
-module['exports'] = function runTheTrap(text, options) {
-  var result = '';
-  text = text || 'Run the trap, drop the bass';
-  text = text.split('');
-  var trap = {
-    a: ['\u0040', '\u0104', '\u023a', '\u0245', '\u0394', '\u039b', '\u0414'],
-    b: ['\u00df', '\u0181', '\u0243', '\u026e', '\u03b2', '\u0e3f'],
-    c: ['\u00a9', '\u023b', '\u03fe'],
-    d: ['\u00d0', '\u018a', '\u0500', '\u0501', '\u0502', '\u0503'],
-    e: ['\u00cb', '\u0115', '\u018e', '\u0258', '\u03a3', '\u03be', '\u04bc',
-      '\u0a6c'],
-    f: ['\u04fa'],
-    g: ['\u0262'],
-    h: ['\u0126', '\u0195', '\u04a2', '\u04ba', '\u04c7', '\u050a'],
-    i: ['\u0f0f'],
-    j: ['\u0134'],
-    k: ['\u0138', '\u04a0', '\u04c3', '\u051e'],
-    l: ['\u0139'],
-    m: ['\u028d', '\u04cd', '\u04ce', '\u0520', '\u0521', '\u0d69'],
-    n: ['\u00d1', '\u014b', '\u019d', '\u0376', '\u03a0', '\u048a'],
-    o: ['\u00d8', '\u00f5', '\u00f8', '\u01fe', '\u0298', '\u047a', '\u05dd',
-      '\u06dd', '\u0e4f'],
-    p: ['\u01f7', '\u048e'],
-    q: ['\u09cd'],
-    r: ['\u00ae', '\u01a6', '\u0210', '\u024c', '\u0280', '\u042f'],
-    s: ['\u00a7', '\u03de', '\u03df', '\u03e8'],
-    t: ['\u0141', '\u0166', '\u0373'],
-    u: ['\u01b1', '\u054d'],
-    v: ['\u05d8'],
-    w: ['\u0428', '\u0460', '\u047c', '\u0d70'],
-    x: ['\u04b2', '\u04fe', '\u04fc', '\u04fd'],
-    y: ['\u00a5', '\u04b0', '\u04cb'],
-    z: ['\u01b5', '\u0240'],
-  };
-  text.forEach(function(c) {
-    c = c.toLowerCase();
-    var chars = trap[c] || [' '];
-    var rand = Math.floor(Math.random() * chars.length);
-    if (typeof trap[c] !== 'undefined') {
-      result += trap[c][rand];
-    } else {
-      result += c;
-    }
-  });
-  return result;
-};
-
-
-/***/ }),
-/* 123 */
-/***/ (function(module, exports) {
-
-// please no
-module['exports'] = function zalgo(text, options) {
-  text = text || '   he is here   ';
-  var soul = {
-    'up': [
-      '̍', '̎', '̄', '̅',
-      '̿', '̑', '̆', '̐',
-      '͒', '͗', '͑', '̇',
-      '̈', '̊', '͂', '̓',
-      '̈', '͊', '͋', '͌',
-      '̃', '̂', '̌', '͐',
-      '̀', '́', '̋', '̏',
-      '̒', '̓', '̔', '̽',
-      '̉', 'ͣ', 'ͤ', 'ͥ',
-      'ͦ', 'ͧ', 'ͨ', 'ͩ',
-      'ͪ', 'ͫ', 'ͬ', 'ͭ',
-      'ͮ', 'ͯ', '̾', '͛',
-      '͆', '̚',
-    ],
-    'down': [
-      '̖', '̗', '̘', '̙',
-      '̜', '̝', '̞', '̟',
-      '̠', '̤', '̥', '̦',
-      '̩', '̪', '̫', '̬',
-      '̭', '̮', '̯', '̰',
-      '̱', '̲', '̳', '̹',
-      '̺', '̻', '̼', 'ͅ',
-      '͇', '͈', '͉', '͍',
-      '͎', '͓', '͔', '͕',
-      '͖', '͙', '͚', '̣',
-    ],
-    'mid': [
-      '̕', '̛', '̀', '́',
-      '͘', '̡', '̢', '̧',
-      '̨', '̴', '̵', '̶',
-      '͜', '͝', '͞',
-      '͟', '͠', '͢', '̸',
-      '̷', '͡', ' ҉',
-    ],
-  };
-  var all = [].concat(soul.up, soul.down, soul.mid);
-
-  function randomNumber(range) {
-    var r = Math.floor(Math.random() * range);
-    return r;
-  }
-
-  function isChar(character) {
-    var bool = false;
-    all.filter(function(i) {
-      bool = (i === character);
-    });
-    return bool;
-  }
-
-
-  function heComes(text, options) {
-    var result = '';
-    var counts;
-    var l;
-    options = options || {};
-    options['up'] =
-      typeof options['up'] !== 'undefined' ? options['up'] : true;
-    options['mid'] =
-      typeof options['mid'] !== 'undefined' ? options['mid'] : true;
-    options['down'] =
-      typeof options['down'] !== 'undefined' ? options['down'] : true;
-    options['size'] =
-      typeof options['size'] !== 'undefined' ? options['size'] : 'maxi';
-    text = text.split('');
-    for (l in text) {
-      if (isChar(l)) {
-        continue;
-      }
-      result = result + text[l];
-      counts = {'up': 0, 'down': 0, 'mid': 0};
-      switch (options.size) {
-        case 'mini':
-          counts.up = randomNumber(8);
-          counts.mid = randomNumber(2);
-          counts.down = randomNumber(8);
-          break;
-        case 'maxi':
-          counts.up = randomNumber(16) + 3;
-          counts.mid = randomNumber(4) + 1;
-          counts.down = randomNumber(64) + 3;
-          break;
-        default:
-          counts.up = randomNumber(8) + 1;
-          counts.mid = randomNumber(6) / 2;
-          counts.down = randomNumber(8) + 1;
-          break;
-      }
-
-      var arr = ['up', 'mid', 'down'];
-      for (var d in arr) {
-        var index = arr[d];
-        for (var i = 0; i <= counts[index]; i++) {
-          if (options[index]) {
-            result = result + soul[index][randomNumber(soul[index].length)];
-          }
-        }
-      }
-    }
-    return result;
-  }
-  // don't summon him
-  return heComes(text, options);
-};
-
-
-
-/***/ }),
-/* 124 */
-/***/ (function(module, exports) {
-
-module['exports'] = function(colors) {
-  return function(letter, i, exploded) {
-    if (letter === ' ') return letter;
-    switch (i%3) {
-      case 0: return colors.red(letter);
-      case 1: return colors.white(letter);
-      case 2: return colors.blue(letter);
-    }
-  };
-};
-
-
-/***/ }),
-/* 125 */
-/***/ (function(module, exports) {
-
-module['exports'] = function(colors) {
-  return function(letter, i, exploded) {
-    return i % 2 === 0 ? letter : colors.inverse(letter);
-  };
-};
-
-
-/***/ }),
-/* 126 */
-/***/ (function(module, exports) {
-
-module['exports'] = function(colors) {
-  // RoY G BiV
-  var rainbowColors = ['red', 'yellow', 'green', 'blue', 'magenta'];
-  return function(letter, i, exploded) {
-    if (letter === ' ') {
-      return letter;
-    } else {
-      return colors[rainbowColors[i++ % rainbowColors.length]](letter);
-    }
-  };
-};
-
-
-
-/***/ }),
-/* 127 */
-/***/ (function(module, exports) {
-
-module['exports'] = function(colors) {
-  var available = ['underline', 'inverse', 'grey', 'yellow', 'red', 'green',
-    'blue', 'white', 'cyan', 'magenta', 'brightYellow', 'brightRed',
-    'brightGreen', 'brightBlue', 'brightWhite', 'brightCyan', 'brightMagenta'];
-  return function(letter, i, exploded) {
-    return letter === ' ' ? letter :
-      colors[
-          available[Math.round(Math.random() * (available.length - 2))]
-      ](letter);
-  };
-};
-
-
-/***/ }),
-/* 128 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Creates a string with the same length as `numSpaces` parameter
- **/
-exports.indent = function indent(numSpaces) {
-  return new Array(numSpaces+1).join(' ');
-};
-
-/**
- * Gets the string length of the longer index in a hash
- **/
-exports.getMaxIndexLength = function(input) {
-  var maxWidth = 0;
-
-  Object.getOwnPropertyNames(input).forEach(function(key) {
-    // Skip undefined values.
-    if (input[key] === undefined) {
-      return;
-    }
-
-    maxWidth = Math.max(maxWidth, key.length);
-  });
-  return maxWidth;
-};
-
-
-/***/ }),
-/* 129 */
-/***/ (function(module) {
-
-module.exports = JSON.parse("{\"author\":\"Rafael de Oleza <rafeca@gmail.com> (https://github.com/rafeca)\",\"name\":\"prettyjson\",\"description\":\"Package for formatting JSON data in a coloured YAML-style, perfect for CLI output\",\"version\":\"1.2.1\",\"homepage\":\"http://rafeca.com/prettyjson\",\"keywords\":[\"json\",\"cli\",\"formatting\",\"colors\"],\"repository\":{\"type\":\"git\",\"url\":\"https://github.com/rafeca/prettyjson.git\"},\"bugs\":{\"url\":\"https://github.com/rafeca/prettyjson/issues\"},\"main\":\"./lib/prettyjson\",\"license\":\"MIT\",\"scripts\":{\"test\":\"npm run jshint && mocha --reporter spec\",\"testwin\":\"node ./node_modules/mocha/bin/mocha --reporter spec\",\"jshint\":\"jshint lib/*.js test/*.js\",\"coverage\":\"istanbul cover _mocha --report lcovonly -- -R spec\",\"coveralls\":\"npm run coverage && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage\",\"changelog\":\"git log $(git describe --tags --abbrev=0)..HEAD --pretty='* %s' --first-parent\"},\"bin\":{\"prettyjson\":\"./bin/prettyjson\"},\"dependencies\":{\"colors\":\"^1.1.2\",\"minimist\":\"^1.2.0\"},\"devDependencies\":{\"coveralls\":\"^2.11.15\",\"istanbul\":\"^0.4.5\",\"jshint\":\"^2.9.4\",\"mocha\":\"^3.1.2\",\"mocha-lcov-reporter\":\"^1.2.0\",\"should\":\"^11.1.1\"}}");
-
-/***/ }),
-/* 130 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7396,12 +6164,12 @@ module.exports = function (str) {
 
 
 /***/ }),
-/* 131 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(module) {
-const colorConvert = __webpack_require__(132);
+const colorConvert = __webpack_require__(114);
 
 const wrapAnsi16 = (fn, offset) => function () {
 	const code = fn.apply(colorConvert, arguments);
@@ -7566,14 +6334,14 @@ Object.defineProperty(module, 'exports', {
 	get: assembleStyles
 });
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(46)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(43)(module)))
 
 /***/ }),
-/* 132 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var conversions = __webpack_require__(62);
-var route = __webpack_require__(134);
+var conversions = __webpack_require__(59);
+var route = __webpack_require__(116);
 
 var convert = {};
 
@@ -7653,7 +6421,7 @@ module.exports = convert;
 
 
 /***/ }),
-/* 133 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7812,10 +6580,10 @@ module.exports = {
 
 
 /***/ }),
-/* 134 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var conversions = __webpack_require__(62);
+var conversions = __webpack_require__(59);
 
 /*
 	this function routes a model to all other models.
@@ -7915,7 +6683,7 @@ module.exports = function (fromModel) {
 
 
 /***/ }),
-/* 135 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8050,88 +6818,7 @@ module.exports = (chalk, tmp) => {
 
 
 /***/ }),
-/* 136 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sink", function() { return sink; });
-/* harmony import */ var chalk__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-/* harmony import */ var chalk__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(chalk__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(28);
-/* eslint-disable no-console */
-
-
-const COMMON_ERROR_FIELDS = [// standard fields
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
-'name', 'message', // quasi-standard
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
-'stack', // standard in node
-'code', // https://nodejs.org/dist/latest/docs/api/errors.html#errors_node_js_error_codes
-// non standard but widely used
-'statusCode', 'shouldRedirect', 'framesToPop', // My (Offirmo) extensions
-'details', 'SEC', '_temp'];
-
-function displayErrProp(errLike, prop) {
-  if (prop === 'details') {
-    const details = errLike.details;
-    console.error(chalk__WEBPACK_IMPORTED_MODULE_0___default.a.red(chalk__WEBPACK_IMPORTED_MODULE_0___default.a.dim(`🔥  ${prop}:`)));
-    Object.entries(details).forEach(([key, value]) => {
-      console.error(chalk__WEBPACK_IMPORTED_MODULE_0___default.a.red(chalk__WEBPACK_IMPORTED_MODULE_0___default.a.dim(`    ${key}: "`) + value + chalk__WEBPACK_IMPORTED_MODULE_0___default.a.dim('"')));
-    });
-  } else console.error(chalk__WEBPACK_IMPORTED_MODULE_0___default.a.red(chalk__WEBPACK_IMPORTED_MODULE_0___default.a.dim(`🔥  ${prop}: "`) + errLike[prop] + chalk__WEBPACK_IMPORTED_MODULE_0___default.a.dim('"')));
-}
-
-function displayError(errLike = {}) {
-  console.error(chalk__WEBPACK_IMPORTED_MODULE_0___default.a.red(`🔥🔥🔥🔥🔥🔥🔥  ${chalk__WEBPACK_IMPORTED_MODULE_0___default.a.bold(errLike.name || 'Error')} 🔥🔥🔥🔥🔥🔥🔥`));
-  const displayedProps = new Set();
-  displayedProps.add('name');
-
-  if (errLike.message) {
-    displayErrProp(errLike, 'message');
-    displayedProps.add('message');
-  }
-
-  if (errLike.details) {
-    displayErrProp(errLike, 'details');
-    displayedProps.add('details');
-  }
-
-  if (errLike.logicalStack) {
-    displayErrProp(errLike, 'logicalStack');
-    displayedProps.add('logicalStack');
-  }
-
-  COMMON_ERROR_FIELDS.forEach(prop => {
-    if (prop in errLike && !displayedProps.has(prop)) {
-      displayErrProp(errLike, prop);
-    }
-  });
-}
-
-console.log('public sink!');
-const sink = payload => {
-  const {
-    level,
-    name,
-    msg,
-    time,
-    details,
-    err
-  } = payload;
-  const prettified_details = JSON.stringify(details);
-  const line = '' // TODO evaluate if time display is needed
-  //+ chalk.dim(String(time))
-  //+ ' '
-  + _common__WEBPACK_IMPORTED_MODULE_1__[/* LEVEL_TO_ASCII */ "a"][level] + '› ' + _common__WEBPACK_IMPORTED_MODULE_1__[/* LEVEL_TO_STYLIZE */ "b"][level]('' + name + (name ? '›' : '') + (msg ? ' ' : '') + msg) + (prettified_details !== '{}' ? ' ' + prettified_details : '');
-  console.log(line); // eslint-disable-line no-console
-
-  if (err) displayError(err);
-};
-/* harmony default export */ __webpack_exports__["default"] = (sink);
-
-/***/ }),
-/* 137 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8142,9 +6829,9 @@ Object.defineProperty(exports, "__esModule", {
 }); // https://docs.sentry.io/error-reporting/quickstart/?platform=node
 // https://httptoolkit.tech/blog/netlify-function-error-reporting-with-sentry/
 
-const Sentry = __webpack_require__(253);
+const Sentry = __webpack_require__(234);
 
-const channel_1 = __webpack_require__(35);
+const channel_1 = __webpack_require__(33);
 
 Sentry.init({
   // http://getsentry.github.io/sentry-javascript/interfaces/node.nodeoptions.html
@@ -8187,7 +6874,7 @@ exports.on_user_recognized = on_user_recognized; // TODO self-triage?
 // TODO breadcrumb
 
 /***/ }),
-/* 138 */
+/* 119 */
 /***/ (function(module, exports) {
 
 module.exports = function(originalModule) {
@@ -8217,15 +6904,15 @@ module.exports = function(originalModule) {
 
 
 /***/ }),
-/* 139 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-__webpack_require__(140);
-const inherits = __webpack_require__(6).inherits;
-const promisify = __webpack_require__(141);
-const EventEmitter = __webpack_require__(8).EventEmitter;
+__webpack_require__(121);
+const inherits = __webpack_require__(5).inherits;
+const promisify = __webpack_require__(122);
+const EventEmitter = __webpack_require__(7).EventEmitter;
 
 module.exports = Agent;
 
@@ -8394,13 +7081,13 @@ Agent.prototype.freeSocket = function freeSocket(socket, opts) {
 
 
 /***/ }),
-/* 140 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const url = __webpack_require__(18);
-const https = __webpack_require__(43);
+const url = __webpack_require__(17);
+const https = __webpack_require__(40);
 
 /**
  * This currently needs to be applied to all Node.js versions
@@ -8452,7 +7139,7 @@ https.get = function (_url, _options, cb) {
 
 
 /***/ }),
-/* 141 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8465,7 +7152,7 @@ module.exports = function () {
 
     // Get a promise object. This may be native, or it may be polyfilled
 
-    var ES6Promise = __webpack_require__(142);
+    var ES6Promise = __webpack_require__(123);
 
     /**
      * thatLooksLikeAPromiseToMe()
@@ -8543,7 +7230,7 @@ module.exports = function () {
 }();
 
 /***/ }),
-/* 142 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8618,11 +7305,11 @@ module.exports = function () {
     }
 
     //  Otherwise, return the es6-promise polyfill by @jaffathecake.
-    return __webpack_require__(143).Promise;
+    return __webpack_require__(124).Promise;
 }();
 
 /***/ }),
-/* 143 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -9801,7 +8488,7 @@ return Promise$1;
 
 
 /***/ }),
-/* 144 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9812,15 +8499,15 @@ return Promise$1;
  * treat as a browser.
  */
 if (typeof process === 'undefined' || process.type === 'renderer' || process.browser === true || process.__nwjs) {
-  module.exports = __webpack_require__(145);
+  module.exports = __webpack_require__(126);
 } else {
-  module.exports = __webpack_require__(147);
+  module.exports = __webpack_require__(128);
 }
 
 
 
 /***/ }),
-/* 145 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9990,7 +8677,7 @@ function localstorage() {
   }
 }
 
-module.exports = __webpack_require__(64)(exports);
+module.exports = __webpack_require__(60)(exports);
 var formatters = module.exports.formatters;
 /**
  * Map %j to `JSON.stringify()`, since no Web Inspectors do that by default.
@@ -10007,7 +8694,7 @@ formatters.j = function (v) {
 
 
 /***/ }),
-/* 146 */
+/* 127 */
 /***/ (function(module, exports) {
 
 /**
@@ -10175,7 +8862,7 @@ function plural(ms, msAbs, n, name) {
 
 
 /***/ }),
-/* 147 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10184,9 +8871,9 @@ function plural(ms, msAbs, n, name) {
 /**
  * Module dependencies.
  */
-var tty = __webpack_require__(50);
+var tty = __webpack_require__(47);
 
-var util = __webpack_require__(6);
+var util = __webpack_require__(5);
 /**
  * This is the Node.js implementation of `debug()`.
  */
@@ -10207,7 +8894,7 @@ exports.colors = [6, 2, 3, 4, 5, 1];
 try {
   // Optional dependency (as in, doesn't need to be installed, NOT like optionalDependencies in package.json)
   // eslint-disable-next-line import/no-extraneous-dependencies
-  var supportsColor = __webpack_require__(36);
+  var supportsColor = __webpack_require__(34);
 
   if (supportsColor && (supportsColor.stderr || supportsColor).level >= 2) {
     exports.colors = [20, 21, 26, 27, 32, 33, 38, 39, 40, 41, 42, 43, 44, 45, 56, 57, 62, 63, 68, 69, 74, 75, 76, 77, 78, 79, 80, 81, 92, 93, 98, 99, 112, 113, 128, 129, 134, 135, 148, 149, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 178, 179, 184, 185, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 214, 215, 220, 221];
@@ -10333,7 +9020,7 @@ function init(debug) {
   }
 }
 
-module.exports = __webpack_require__(64)(exports);
+module.exports = __webpack_require__(60)(exports);
 var formatters = module.exports.formatters;
 /**
  * Map %o to `util.inspect()`, all on a single line.
@@ -10356,13 +9043,13 @@ formatters.O = function (v) {
 
 
 /***/ }),
-/* 148 */
+/* 129 */
 /***/ (function(module, exports) {
 
 module.exports = require("console");
 
 /***/ }),
-/* 149 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10372,9 +9059,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const typescript_string_enums_1 = __webpack_require__(11);
+const typescript_string_enums_1 = __webpack_require__(10);
 
-const utils_1 = __webpack_require__(25);
+const utils_1 = __webpack_require__(23);
 
 exports.HttpMethod = typescript_string_enums_1.Enum('GET', 'PUT');
 
@@ -10388,7 +9075,7 @@ function require_http_method(required_method) {
 exports.require_http_method = require_http_method;
 
 /***/ }),
-/* 150 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10400,11 +9087,11 @@ Object.defineProperty(exports, "__esModule", {
 
 const tslib_1 = __webpack_require__(0);
 
-const typescript_string_enums_1 = __webpack_require__(11);
+const typescript_string_enums_1 = __webpack_require__(10);
 
-const tiny_invariant_1 = tslib_1.__importDefault(__webpack_require__(19));
+const tiny_invariant_1 = tslib_1.__importDefault(__webpack_require__(18));
 
-const utils_1 = __webpack_require__(25);
+const utils_1 = __webpack_require__(23);
 
 exports.FailureMode = typescript_string_enums_1.Enum('none', 'manual', 'uncaught-sync', 'uncaught-async', 'timeout', 'unhandled-rejection', 'mess-with-response', 'non-stringified-body');
 
@@ -10476,6 +9163,25 @@ async function test_failure(SEC, event, context, response, next) {
 exports.test_failure = test_failure;
 
 /***/ }),
+/* 132 */,
+/* 133 */,
+/* 134 */,
+/* 135 */,
+/* 136 */,
+/* 137 */,
+/* 138 */,
+/* 139 */,
+/* 140 */,
+/* 141 */,
+/* 142 */,
+/* 143 */,
+/* 144 */,
+/* 145 */,
+/* 146 */,
+/* 147 */,
+/* 148 */,
+/* 149 */,
+/* 150 */,
 /* 151 */,
 /* 152 */,
 /* 153 */,
@@ -10559,26 +9265,7 @@ exports.test_failure = test_failure;
 /* 231 */,
 /* 232 */,
 /* 233 */,
-/* 234 */,
-/* 235 */,
-/* 236 */,
-/* 237 */,
-/* 238 */,
-/* 239 */,
-/* 240 */,
-/* 241 */,
-/* 242 */,
-/* 243 */,
-/* 244 */,
-/* 245 */,
-/* 246 */,
-/* 247 */,
-/* 248 */,
-/* 249 */,
-/* 250 */,
-/* 251 */,
-/* 252 */,
-/* 253 */
+/* 234 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10706,10 +9393,10 @@ var Status;
 })(Status || (Status = {}));
 //# sourceMappingURL=status.js.map
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/hub/esm/scope.js
-var esm_scope = __webpack_require__(45);
+var esm_scope = __webpack_require__(42);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/hub/esm/hub.js
-var esm_hub = __webpack_require__(258);
+var esm_hub = __webpack_require__(238);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/minimal/esm/index.js
 
@@ -10877,22 +9564,22 @@ function _callOnClient(method) {
 }
 //# sourceMappingURL=index.js.map
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/hub/esm/span.js
-var esm_span = __webpack_require__(100);
+var esm_span = __webpack_require__(95);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/logger.js
-var logger = __webpack_require__(257);
+var logger = __webpack_require__(237);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/is.js
-var is = __webpack_require__(9);
+var is = __webpack_require__(8);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/syncpromise.js
-var syncpromise = __webpack_require__(32);
+var syncpromise = __webpack_require__(29);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/string.js
-var string = __webpack_require__(59);
+var string = __webpack_require__(56);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/misc.js
-var misc = __webpack_require__(7);
+var misc = __webpack_require__(6);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/polyfill.js
 var setPrototypeOf = Object.setPrototypeOf || ({ __proto__: [] } instanceof Array ? setProtoOf : mixinProperties); // tslint:disable-line:no-unbound-method
@@ -11523,7 +10210,7 @@ var basebackend_BaseBackend = /** @class */ (function () {
 
 //# sourceMappingURL=basebackend.js.map
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/object.js + 1 modules
-var object = __webpack_require__(15);
+var object = __webpack_require__(14);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/path.js
 // Slightly modified (no IE8 support, ES6) and transcribed to TypeScript
@@ -11685,10 +10372,10 @@ function basename(path, ext) {
 }
 //# sourceMappingURL=path.js.map
 // EXTERNAL MODULE: external "fs"
-var external_fs_ = __webpack_require__(10);
+var external_fs_ = __webpack_require__(9);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/lru_map/lru.js
-var lru = __webpack_require__(101);
+var lru = __webpack_require__(96);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/stacktrace.js
 /**
@@ -12278,10 +10965,10 @@ var base_BaseTransport = /** @class */ (function () {
 
 //# sourceMappingURL=base.js.map
 // EXTERNAL MODULE: external "http"
-var external_http_ = __webpack_require__(23);
+var external_http_ = __webpack_require__(21);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/https-proxy-agent/index.js
-var https_proxy_agent = __webpack_require__(42);
+var https_proxy_agent = __webpack_require__(39);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/http.js
 
@@ -12318,7 +11005,7 @@ var http_HTTPTransport = /** @class */ (function (_super) {
 
 //# sourceMappingURL=http.js.map
 // EXTERNAL MODULE: external "https"
-var external_https_ = __webpack_require__(43);
+var external_https_ = __webpack_require__(40);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/https.js
 
@@ -12731,10 +11418,10 @@ function initAndBind(clientClass, options) {
 }
 //# sourceMappingURL=sdk.js.map
 // EXTERNAL MODULE: external "domain"
-var external_domain_ = __webpack_require__(44);
+var external_domain_ = __webpack_require__(41);
 
 // EXTERNAL MODULE: external "util"
-var external_util_ = __webpack_require__(6);
+var external_util_ = __webpack_require__(5);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/integrations/console.js
 
@@ -12754,10 +11441,10 @@ var console_Console = /** @class */ (function () {
      * @inheritDoc
      */
     Console.prototype.setupOnce = function () {
-        var nativeModule = __webpack_require__(65);
+        var nativeModule = __webpack_require__(61);
         Object(object["b" /* fill */])(nativeModule, '_load', loadWrapper(nativeModule));
         // special case: since console is built-in and app-level code won't require() it, do that here
-        __webpack_require__(148);
+        __webpack_require__(129);
     };
     /**
      * @inheritDoc
@@ -12845,14 +11532,14 @@ var http_Http = /** @class */ (function () {
      * @inheritDoc
      */
     Http.prototype.setupOnce = function () {
-        var nativeModule = __webpack_require__(65);
+        var nativeModule = __webpack_require__(61);
         Object(object["b" /* fill */])(nativeModule, '_load', http_loadWrapper(nativeModule));
         // observation: when the https module does its own require('http'), it *does not* hit our hooked require to instrument http on the fly
         // but if we've previously instrumented http, https *does* get our already-instrumented version
         // this is because raven's transports are required before this instrumentation takes place, which loads https (and http)
         // so module cache will have uninstrumented http; proactively loading it here ensures instrumented version is in module cache
         // alternatively we could refactor to load our transports later, but this is easier and doesn't have much drawback
-        __webpack_require__(23);
+        __webpack_require__(21);
     };
     /**
      * @inheritDoc
@@ -12981,13 +11668,13 @@ function forget(promise) {
 }
 //# sourceMappingURL=async.js.map
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/cookie/index.js
-var cookie = __webpack_require__(102);
+var cookie = __webpack_require__(97);
 
 // EXTERNAL MODULE: external "os"
-var external_os_ = __webpack_require__(22);
+var external_os_ = __webpack_require__(26);
 
 // EXTERNAL MODULE: external "url"
-var external_url_ = __webpack_require__(18);
+var external_url_ = __webpack_require__(17);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/handlers.js
 
@@ -13486,7 +12173,7 @@ var linkederrors_LinkedErrors = /** @class */ (function () {
 
 //# sourceMappingURL=linkederrors.js.map
 // EXTERNAL MODULE: external "path"
-var external_path_ = __webpack_require__(14);
+var external_path_ = __webpack_require__(13);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/integrations/modules.js
 
@@ -13767,165 +12454,59 @@ var INTEGRATIONS = tslib_es6["__assign"]({}, integrations_namespaceObject, esm_i
 //# sourceMappingURL=index.js.map
 
 /***/ }),
-/* 254 */,
-/* 255 */
+/* 235 */,
+/* 236 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 
-// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/indent-string/index.js
-var indent_string = __webpack_require__(41);
-var indent_string_default = /*#__PURE__*/__webpack_require__.n(indent_string);
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-foundation/practical-logger-core/dist/src.es2019/consts.js
+const LIB = '@offirmo/practical-logger-core'; // level to a numerical value, for ordering and filtering.
+// mnemonic:  100 = 100% = you will see 100% of the logs
+//              1 =   1% = you will see 1% of the logs (obviously the most important)
 
-// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/chalk/index.js
-var chalk = __webpack_require__(1);
-var chalk_default = /*#__PURE__*/__webpack_require__.n(chalk);
+const LOG_LEVEL_TO_INTEGER = {
+  fatal: 1,
+  emerg: 2,
+  alert: 10,
+  crit: 20,
+  error: 30,
+  warning: 40,
+  warn: 40,
+  notice: 45,
+  info: 50,
+  verbose: 70,
+  log: 80,
+  debug: 81,
+  trace: 90,
+  silly: 100
+}; // rationalization to a clear, human understandable string
 
-// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-foundation/common-error-fields/dist/src.es2019/field-set.js
-var field_set = __webpack_require__(31);
-
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-foundation/print-error-to-ansi/dist/src.es2019/index.js
-/* eslint-disable no-console */
-
- // TODO make it more pro!
-
-function displayErrProp(errLike, prop) {
-  if (prop === 'details') {
-    const details = errLike.details;
-    console.error(chalk_default.a.red(chalk_default.a.dim(`🔥  ${prop}:`)));
-    Object.entries(details).forEach(([key, value]) => {
-      console.error(chalk_default.a.red(chalk_default.a.dim(`    ${key}: "`) + value + chalk_default.a.dim('"')));
-    });
-  } else console.error(chalk_default.a.red(chalk_default.a.dim(`🔥  ${prop}: "`) + errLike[prop] + chalk_default.a.dim('"')));
-}
-
-function displayError(errLike = {}) {
-  console.error(chalk_default.a.red(`🔥🔥🔥🔥🔥🔥🔥  ${chalk_default.a.bold(errLike.name || 'Error')} 🔥🔥🔥🔥🔥🔥🔥`)); // TODO use normalize error?
-
-  const displayedProps = new Set();
-  displayedProps.add('name');
-
-  if (errLike.message) {
-    displayErrProp(errLike, 'message');
-    displayedProps.add('message');
-  }
-
-  if (errLike.details) {
-    displayErrProp(errLike, 'details');
-    displayedProps.add('details');
-  }
-
-  if (errLike.logicalStack) {
-    displayErrProp(errLike, 'logicalStack');
-    displayedProps.add('logicalStack');
-  }
-
-  field_set["a" /* COMMON_ERROR_FIELDS */].forEach(prop => {
-    if (prop in errLike && !displayedProps.has(prop)) {
-      displayErrProp(errLike, prop);
-    }
-  });
-}
-
-
-// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/prettyjson/lib/prettyjson.js
-var prettyjson = __webpack_require__(99);
-var prettyjson_default = /*#__PURE__*/__webpack_require__.n(prettyjson);
-
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/0-stdlib/prettify-json/dist/src.es2019/indent-string.js
-// https://github.com/sindresorhus/indent-string
- // improved version but don't remember what was improved :-}
-
-function indent_string_indent_string(msg, indentation, options = {}) {
-  let result = indent_string_default()(msg, indentation, options);
-  if (!options || !options.indent || options.indent === ' ') return result;
-  const indent_str = Array(indentation).fill(options.indent).join('');
-  const lines = result.split('\n');
-  return lines.map(line => line.startsWith(indent_str) ? line : indent_str + line).join('\n');
-} ////////////
-
-
-/* harmony default export */ var src_es2019_indent_string = (indent_string_indent_string);
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/0-stdlib/prettify-json/dist/src.es2019/index.js
-
-
-
-function prettify_json(data, options = {}) {
-  if (!data) return String(data);
-  let {
-    outline,
-    indent,
-    ...prettyjson_options
-  } = options;
-  prettyjson_options = { //keysColor: 'dim',
-    ...prettyjson_options
-  };
-  let result = prettyjson_default.a.render(data, prettyjson_options);
-
-  if (outline) {
-    result = '\n{{{{{{{' + src_es2019_indent_string('\n' + result, 1, {
-      indent: '	'
-    }) + '\n}}}}}}}';
-  }
-
-  if (indent) {
-    result = src_es2019_indent_string(result, indent);
-  }
-
-  return result;
-}
-
-function dump_pretty_json(msg, data, options) {
-  console.log(msg);
-  console.log(prettify_json(data, options));
-}
-
-/* harmony default export */ var src_es2019 = (prettify_json);
-
-// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-foundation/practical-logger-node/dist/src.es2019/sinks/common.js
-var common = __webpack_require__(28);
-
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-foundation/practical-logger-node/dist/src.es2019/sinks/private.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sink", function() { return sink; });
-
-
-
-
-const sink = payload => {
-  const {
-    level,
-    name,
-    msg,
-    time,
-    details,
-    err
-  } = payload;
-  const prettified_details = src_es2019(details);
-  const is_prettified_details_multiline = prettified_details.includes('\n');
-  const line = '' // TODO evaluate if time display is needed
-  //+ chalk.dim(String(time))
-  //+ ' '
-  + common["a" /* LEVEL_TO_ASCII */][level] + '› ' + common["b" /* LEVEL_TO_STYLIZE */][level]('' + name + (name ? '›' : '') + (msg ? ' ' : '') + msg) + (prettified_details ? is_prettified_details_multiline ? ' {\n' + indent_string_default()(prettified_details, 2) + '\n}' : ' { ' + prettified_details + ' }' : '');
-  console.log(line); // eslint-disable-line no-console
-
-  if (err) displayError(err);
+const LOG_LEVEL_TO_HUMAN = {
+  fatal: 'fatal',
+  emerg: 'emergency',
+  alert: 'alert',
+  crit: 'critical',
+  error: 'error',
+  warning: 'warn',
+  warn: 'warn',
+  notice: 'notice',
+  info: 'info',
+  verbose: 'verbose',
+  log: 'log',
+  debug: 'debug',
+  trace: 'trace',
+  silly: 'silly'
 };
-/* harmony default export */ var sinks_private = __webpack_exports__["default"] = (sink);
+const ALL_LOG_LEVELS = Object.keys(LOG_LEVEL_TO_INTEGER).map(s => s).sort((a, b) => LOG_LEVEL_TO_INTEGER[a] - LOG_LEVEL_TO_INTEGER[b]);
 
-/***/ }),
-/* 256 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-
-// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-foundation/practical-logger-core/dist/src.es2019/consts.js
-var consts = __webpack_require__(5);
-
-// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-foundation/practical-logger-core/dist/src.es2019/consts-base.js
-var consts_base = __webpack_require__(63);
-
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-foundation/practical-logger-core/dist/src.es2019/consts-base.js
+// base to be directly importable from other modules
+// without a full lib penalty.
+// This a very very specific use case, don't mind.
+const DEFAULT_LOG_LEVEL = 'error';
+const DEFAULT_LOGGER_KEY = ''; // yes, can be used as a key
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-foundation/practical-logger-core/dist/src.es2019/normalize-args.js
 function looksLikeAnError(x) {
   return !!(x.name && x.message && x.stack);
@@ -14019,14 +12600,14 @@ function normalizeArguments(args) {
 
 
 function checkLevel(level) {
-  if (!consts["a" /* ALL_LOG_LEVELS */].includes(level)) throw new Error(`[${consts["b" /* LIB */]}] Not a valid log level: "${level}"!`);
+  if (!ALL_LOG_LEVELS.includes(level)) throw new Error(`[${LIB}] Not a valid log level: "${level}"!`);
 }
 function create({
-  name = consts_base["a" /* DEFAULT_LOGGER_KEY */],
-  suggestedLevel = consts_base["b" /* DEFAULT_LOG_LEVEL */],
+  name = DEFAULT_LOGGER_KEY,
+  suggestedLevel = DEFAULT_LOG_LEVEL,
   forcedLevel,
   commonDetails = {}
-}, outputFn = console.log) {
+} = {}, outputFn = console.log) {
   const internalState = {
     name,
     level: forcedLevel || suggestedLevel,
@@ -14036,7 +12617,7 @@ function create({
   };
   let levelAsInt = 100; // so far
 
-  const logger = consts["a" /* ALL_LOG_LEVELS */].reduce((logger, level) => {
+  const logger = ALL_LOG_LEVELS.reduce((logger, level) => {
     const primitive = function (rawMessage, rawDetails) {
       if (!isLevelEnabled(level)) return;
       const [message, details] = normalizeArguments(arguments);
@@ -14061,14 +12642,14 @@ function create({
   function setLevel(level) {
     checkLevel(level);
     internalState.level = level;
-    levelAsInt = consts["d" /* LOG_LEVEL_TO_INTEGER */][level];
+    levelAsInt = LOG_LEVEL_TO_INTEGER[level];
   }
 
   setLevel(getLevel()); // to check it
 
   function isLevelEnabled(level) {
     checkLevel(level);
-    return consts["d" /* LOG_LEVEL_TO_INTEGER */][level] <= levelAsInt;
+    return LOG_LEVEL_TO_INTEGER[level] <= levelAsInt;
   }
 
   function getLevel() {
@@ -14076,7 +12657,7 @@ function create({
   }
 
   function addCommonDetails(details) {
-    if (details.err) throw new Error(`[${consts["b" /* LIB */]}] Can't set reserved property "err"!`);
+    if (details.err) throw new Error(`[${LIB}] Can't set reserved property "err"!`);
     internalState.commonDetails = { ...internalState.commonDetails,
       ...details
     };
@@ -14101,24 +12682,138 @@ function create({
 
   return logger;
 }
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/chalk/index.js
+var chalk = __webpack_require__(1);
+var chalk_default = /*#__PURE__*/__webpack_require__.n(chalk);
+
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-foundation/practical-logger-node/dist/src.es2019/sinks/common.js
+
+
+const MIN_WIDTH = 7;
+
+function to_aligned_ascii(level) {
+  let lvl = level.toUpperCase();
+  /*while (lvl.length <= MIN_WIDTH - 2) {
+      lvl = ' ' + lvl + ' '
+  }*/
+
+  if (lvl.length < MIN_WIDTH) lvl = (lvl + '         ').slice(0, MIN_WIDTH);
+  return lvl;
+}
+
+const LEVEL_TO_ASCII = {
+  fatal: chalk_default.a.bgRed.white.bold(to_aligned_ascii(' ' + LOG_LEVEL_TO_HUMAN['fatal'])),
+  emerg: chalk_default.a.bgRed.white.bold(to_aligned_ascii(LOG_LEVEL_TO_HUMAN['emerg'])),
+  alert: chalk_default.a.bgRed.white.bold(to_aligned_ascii(' ' + LOG_LEVEL_TO_HUMAN['alert'])),
+  crit: chalk_default.a.bgRed.white.bold(to_aligned_ascii(LOG_LEVEL_TO_HUMAN['crit'])),
+  error: chalk_default.a.red.bold(to_aligned_ascii(LOG_LEVEL_TO_HUMAN['error'])),
+  warning: chalk_default.a.yellow.bold(to_aligned_ascii(LOG_LEVEL_TO_HUMAN['warning'])),
+  warn: chalk_default.a.yellow.bold(to_aligned_ascii(LOG_LEVEL_TO_HUMAN['warn'])),
+  notice: chalk_default.a.blue(to_aligned_ascii(LOG_LEVEL_TO_HUMAN['notice'])),
+  info: chalk_default.a.blue(to_aligned_ascii(LOG_LEVEL_TO_HUMAN['info'])),
+  verbose: to_aligned_ascii(LOG_LEVEL_TO_HUMAN['verbose']),
+  log: to_aligned_ascii(LOG_LEVEL_TO_HUMAN['log']),
+  debug: to_aligned_ascii(LOG_LEVEL_TO_HUMAN['debug']),
+  trace: chalk_default.a.dim(to_aligned_ascii(LOG_LEVEL_TO_HUMAN['trace'])),
+  silly: chalk_default.a.dim(to_aligned_ascii(LOG_LEVEL_TO_HUMAN['silly']))
+};
+const LEVEL_TO_STYLIZE = {
+  fatal: s => chalk_default.a.red.bold(s),
+  emerg: s => chalk_default.a.red.bold(s),
+  alert: s => chalk_default.a.red.bold(s),
+  crit: s => chalk_default.a.red.bold(s),
+  error: s => chalk_default.a.red.bold(s),
+  warning: s => chalk_default.a.yellow(s),
+  warn: s => chalk_default.a.yellow(s),
+  notice: s => chalk_default.a.blue(s),
+  info: s => chalk_default.a.blue(s),
+  verbose: s => s,
+  log: s => s,
+  debug: s => s,
+  trace: s => chalk_default.a.dim(s),
+  silly: s => chalk_default.a.dim(s)
+};
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-foundation/practical-logger-node/dist/src.es2019/sinks/to-console.js
+/* eslint-disable no-console */
+
+
+const COMMON_ERROR_FIELDS = [// standard fields
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
+'name', 'message', // quasi-standard
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
+'stack', // standard in node
+'code', // https://nodejs.org/dist/latest/docs/api/errors.html#errors_node_js_error_codes
+// non standard but widely used
+'statusCode', 'shouldRedirect', 'framesToPop', // My (Offirmo) extensions
+'details', 'SEC', '_temp'];
+
+function displayErrProp(errLike, prop) {
+  if (prop === 'details') {
+    const details = errLike.details;
+    console.error(chalk_default.a.red(chalk_default.a.dim(`🔥  ${prop}:`)));
+    Object.entries(details).forEach(([key, value]) => {
+      console.error(chalk_default.a.red(chalk_default.a.dim(`    ${key}: "`) + value + chalk_default.a.dim('"')));
+    });
+  } else console.error(chalk_default.a.red(chalk_default.a.dim(`🔥  ${prop}: "`) + errLike[prop] + chalk_default.a.dim('"')));
+}
+
+function displayError(errLike = {}) {
+  console.error(chalk_default.a.red(`🔥🔥🔥🔥🔥🔥🔥  ${chalk_default.a.bold(errLike.name || 'Error')} 🔥🔥🔥🔥🔥🔥🔥`));
+  const displayedProps = new Set();
+  displayedProps.add('name');
+
+  if (errLike.message) {
+    displayErrProp(errLike, 'message');
+    displayedProps.add('message');
+  }
+
+  if (errLike.details) {
+    displayErrProp(errLike, 'details');
+    displayedProps.add('details');
+  }
+
+  if (errLike.logicalStack) {
+    displayErrProp(errLike, 'logicalStack');
+    displayedProps.add('logicalStack');
+  }
+
+  COMMON_ERROR_FIELDS.forEach(prop => {
+    if (prop in errLike && !displayedProps.has(prop)) {
+      displayErrProp(errLike, prop);
+    }
+  });
+}
+
+function createSink(options = {}) {
+  const displayTime = options.displayTime || false;
+  return payload => {
+    const {
+      level,
+      name,
+      msg,
+      time,
+      details,
+      err
+    } = payload;
+    const prettified_details = JSON.stringify(details);
+    const line = '' // TODO evaluate if time display is needed
+    + (displayTime ? chalk_default.a.dim(String(time)) + ' ' : '') + LEVEL_TO_ASCII[level] + '› ' + LEVEL_TO_STYLIZE[level]('' + name + (name ? '›' : '') + (msg ? ' ' : '') + msg) + (prettified_details !== '{}' ? ' ' + prettified_details : '');
+    console.log(line); // eslint-disable-line no-console
+
+    if (err) displayError(err);
+  };
+}
+/* harmony default export */ var to_console = (createSink);
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-foundation/practical-logger-node/dist/src.es2019/index.js
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createLogger", function() { return createLogger; });
 
 
-const sink = (() => {
-  try {
-    // this version is for the author's own usage
-    // as it uses unpublished modules.
-    return __webpack_require__(255).default;
-  } catch {
-    return __webpack_require__(136).default;
-  }
-})();
-
 const ORIGINAL_CONSOLE = console;
 
-function createLogger(p) {
-  return { ...create(p, sink),
+function createLogger(p = {}) {
+  var _a;
+
+  return { ...create(p, ((_a = p.sinkOptions) === null || _a === void 0 ? void 0 : _a.sink) || to_console(p.sinkOptions)),
 
     group(groupTitle) {
       ORIGINAL_CONSOLE.group(groupTitle);
@@ -14138,12 +12833,12 @@ function createLogger(p) {
 
 
 /***/ }),
-/* 257 */
+/* 237 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return logger; });
-/* harmony import */ var _misc__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7);
+/* harmony import */ var _misc__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
 
 // TODO: Implement different loggers for different environments
 var global = Object(_misc__WEBPACK_IMPORTED_MODULE_0__[/* getGlobalObject */ "f"])();
@@ -14211,7 +12906,7 @@ var logger = global.__SENTRY__.logger || (global.__SENTRY__.logger = new Logger(
 //# sourceMappingURL=logger.js.map
 
 /***/ }),
-/* 258 */
+/* 238 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -14223,9 +12918,9 @@ var logger = global.__SENTRY__.logger || (global.__SENTRY__.logger = new Logger(
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getHubFromCarrier; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return setHubOnCarrier; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7);
-/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(257);
-/* harmony import */ var _scope__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(45);
+/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6);
+/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(237);
+/* harmony import */ var _scope__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(42);
 
 
 
@@ -14657,7 +13352,7 @@ function setHubOnCarrier(carrier, hub) {
     return true;
 }
 //# sourceMappingURL=hub.js.map
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(138)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(119)(module)))
 
 /***/ })
 /******/ ])));
