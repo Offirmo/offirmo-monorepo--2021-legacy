@@ -4,23 +4,27 @@
 	"version": "1.1.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
+
 	"esnext": "dist/src.es2019/index.js",
 	"module": "dist/src.es2019/index.js",
 	"main": "dist/src.es2018.cjs/index.js",
 	"typings": "dist/src.es2018.cjs/index.d.ts",
 	"source": "src/index.ts",
 	"sideEffects": false,
+
 	"size-limit": [
 		{
 			"limit": "2kb",
 			"path": "dist/src.es2019/index.js"
 		}
 	],
+
 	"peerDependencies": {},
 	"dependencies": {
 		"@offirmo/practical-logger-core": "^2",
 		"@offirmo/practical-logger-types": "^2"
 	},
+
 	"devDependencies": {
 		"@babel/core": "^7",
 		"@size-limit/preset-small-lib": "^2",

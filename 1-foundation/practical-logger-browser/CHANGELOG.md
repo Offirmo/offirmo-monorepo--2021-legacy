@@ -11,6 +11,9 @@
 * [refactor] internal package @offirmo/practical-logger-interfaces renamed to @offirmo/practical-logger-types
 * [test] more unit tests
 * [fix] correctly allows passing no args to createLogger() (this was intended)
+* [feat] better browser detection
+* [feat] (hopefully) support for non firefox/chromium/safari browsers (ex. msie)
+* [feat] ability to opt-out from fancy sinks
 * ...
 
 ## v1.1.1

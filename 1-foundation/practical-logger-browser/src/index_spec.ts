@@ -47,7 +47,7 @@ describe(`${LIB} - index`, () => {
 			const logger = createLogger({
 				name: 'test',
 				sinkOptions: {
-					fancy: false,
+					useCss: false,
 				},
 			})
 			logger.fatal('Hello!')

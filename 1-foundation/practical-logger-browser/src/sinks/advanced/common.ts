@@ -1,5 +1,3 @@
-import { LogLevel, LOG_LEVEL_TO_HUMAN } from '@offirmo/practical-logger-core'
-
 const FONT_FAMILY_BETTER_PROPORTIONAL = 'font-family: ' + [
 	'-apple-system',
 	'BlinkMacSystemFont', // good sans-serif available in blink = Chrome
@@ -50,19 +48,10 @@ function add_styled_string(line: string[], chunk: string, ...styles: string[]): 
 	]
 }
 
-const MIN_WIDTH = 5
-function to_uniform_level(level: LogLevel): string {
-	let str = LOG_LEVEL_TO_HUMAN[level] //.slice(0, MIN_WIDTH)
-	//if (str.length < MIN_WIDTH)
-	str = (str + '         ').slice(0, MIN_WIDTH)
-	return str
-}
-
 
 export {
 	FONT_FAMILY_BETTER_PROPORTIONAL,
 	FONT_FAMILY_BETTER_MONOSPACE,
 	LEVEL_TO_COLOR_STYLE,
 	add_styled_string,
-	to_uniform_level,
 }

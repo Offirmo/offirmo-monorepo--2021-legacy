@@ -3,13 +3,15 @@ import {
 	LogSink,
 } from '@offirmo/practical-logger-types'
 
-import { LEVEL_TO_CONSOLE_METHOD } from '../common'
+import {
+	LEVEL_TO_CONSOLE_METHOD,
+	to_uniform_level,
+} from '../common'
 import {
 	FONT_FAMILY_BETTER_PROPORTIONAL,
 	FONT_FAMILY_BETTER_MONOSPACE,
 	LEVEL_TO_COLOR_STYLE,
 	add_styled_string,
-	to_uniform_level,
 } from './common'
 
 function has_details_indicator(console_method_name: string): boolean {

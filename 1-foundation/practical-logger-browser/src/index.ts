@@ -2,15 +2,12 @@ import { LogSink, Logger, LoggerCreationParams, LogPayload } from '@offirmo/prac
 import { createLogger as createLoggerCore, LOG_LEVEL_TO_INTEGER } from '@offirmo/practical-logger-core'
 
 import { SinkOptions } from './types'
-import sink_firefox from './sinks/advanced/firefox'
-import sink_chromium from './sinks/advanced/chromium'
-import sink_safari from './sinks/advanced/safari'
-import { create } from './sinks/advanced'
+import { create } from './sinks'
 
 const ORIGINAL_CONSOLE = console
 
 function createLogger(p: Readonly<LoggerCreationParams<SinkOptions>> = {}): Logger {
-	const sink0: LogSink = (p as any).sink || create() /// XXX declare sink?
+	const sink0: LogSink = p.sinkOptions?.sink || create(p.sinkOptions)
 
 	let groupDepth = 0;
 	function sink1(payload: LogPayload): void {
@@ -44,10 +41,5 @@ function createLogger(p: Readonly<LoggerCreationParams<SinkOptions>> = {}): Logg
 
 export {
 	createLogger,
-
-	// specific
-	sink_firefox,
-	sink_chromium,
-	sink_safari,
 }
 export * from '@offirmo/practical-logger-types'
