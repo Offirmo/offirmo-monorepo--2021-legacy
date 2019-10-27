@@ -15,6 +15,7 @@
 	"peerDependencies": {
 	},
 	"dependencies": {
+		"@offirmo-private/tiny-singleton": "^0"
 	},
 
 	"devDependencies": {

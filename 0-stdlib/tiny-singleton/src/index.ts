@@ -1,11 +1,11 @@
 
-function tiny_singleton<T extends (...args: any) => any>(generator: T): () => ReturnType<T> {
+function tiny_singleton<T extends (...args: any) => any>(generator: T): (...args: Parameters<T>) => ReturnType<T> {
 	let instantiated = false
 	let instance: undefined | ReturnType<T>
 
-	return function get() {
+	return function get(...args: any) {
 			if (!instantiated) {
-				instance = generator()
+				instance = generator(...args)
 				instantiated = true
 			}
 

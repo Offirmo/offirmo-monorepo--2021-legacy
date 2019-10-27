@@ -8,8 +8,12 @@ const {
 
 console.log('starting...', { improve_console_groups })
 
+console.log('XXX Before improvement XXX')
 demo_group(console)
 
+improve_console_groups({lazy: true})
+improve_console_groups({lazy: false})
 improve_console_groups()
 
+console.log('XXX After improvement XXX')
 demo_group(console)
