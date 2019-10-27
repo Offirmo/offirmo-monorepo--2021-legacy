@@ -9,6 +9,8 @@
 * [feat] [breaking] warnings and errors now break out from groups, to prevent them from being hidden in groupCollapsed()
 * [chore] bumped dependencies
 * [refactor] internal package @offirmo/practical-logger-interfaces renamed to @offirmo/practical-logger-types
+* [test] more unit tests
+* [fix] correctly allows passing no args to createLogger() (this was intended)
 * ...
 
 ## v1.1.1

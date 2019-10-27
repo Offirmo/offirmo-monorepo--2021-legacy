@@ -11,10 +11,17 @@ function quick_detect_browser() {
 	if (typeof InstallTrigger !== 'undefined')
 		return 'firefox'
 
-	if (!(window as any).chrome)
-		return 'safari'
+	try {
+		if ((window as any).chrome)
+			return 'chromium'
 
-	return 'chromium'
+		return 'safari'
+	}
+	catch {
+
+	}
+
+	return 'unknown'
 }
 
 export function create(): LogSink {
@@ -25,5 +32,6 @@ export function create(): LogSink {
 		return sink_safari
 	default:
 		return sink_chromium
+		// TODO "safe sink"
 	}
 }
