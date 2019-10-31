@@ -78,7 +78,7 @@ progress.o⋄animated::-ms-fill {
 /* "Automatic" dark mode from a light theme
  * https://wgtwo.com/blog/hacking-dark-themes-with-css-blend-modes/
  */
-.o⋄auto-dark-mode {
+.o⋄invert-to-dark-mode {
 	mix-blend-mode: difference;
 	filter: brightness(0.67) hue-rotate(180deg);
 }

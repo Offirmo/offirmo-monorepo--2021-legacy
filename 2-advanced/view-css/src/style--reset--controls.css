@@ -49,13 +49,6 @@ button:active {
 	border-color: var(--o⋄color--fg⁚accent);
 }
 
-/* special "inline" button */
-button.o⋄button--inline {
-	--o⋄border--thickness__button: 0;
-	padding: .1em .3em;
-	border-radius: .25em;
-}
-
 /************ progress ************/
 
 /* Reset the default appearance

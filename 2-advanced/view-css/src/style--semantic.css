@@ -36,3 +36,20 @@
 .o⋄nav-list li + li  {
 	margin-left: 2em;
 }
+
+
+
+/* https://www.scottohara.me/blog/2019/01/12/lists-and-safari.html */
+.o⋄plain-list {
+	list-style: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E");
+	padding-left: 0;
+}
+
+
+
+/* special "inline" button */
+button.o⋄button--inline {
+	--o⋄border--thickness__button: 0;
+	padding: .1em .3em;
+	border-radius: .25em;
+}

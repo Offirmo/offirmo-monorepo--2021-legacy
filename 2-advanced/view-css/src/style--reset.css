@@ -73,13 +73,23 @@ h1, h2, h3, h4, p {
 }
 
 
+/* nicer lists */
+ul {
+	/* instead of fixed */
+	padding-inline-start: 2em;
+}
+
+
+/* nicer collapsibles */
+details > *:nth-child(n+2) { /* assuming the 1st child is the <summary> */
+	padding-left: 1.1em;
+}
+
 
 img {
 	/* src: ? */
 	image-rendering: -webkit-optimize-contrast;
 }
-
-
 
 
 /* Adapt links to the main color.
@@ -114,11 +124,4 @@ hr {
 		animation: none !important;
 		scroll-behavior: auto !important;
 	}
-}
-
-/* TODO check */
-/* https://www.scottohara.me/blog/2019/01/12/lists-and-safari.html */
-.plain-list {
-	list-style: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E");
-	padding-left: 0;
 }
