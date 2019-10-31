@@ -23,7 +23,7 @@
 <style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
 
 
-<nav>
+<nav style="position: sticky; top: 0; background-color: var(--o⋄color--bg⁚main); box-shadow: 0px 9px 10px -4px var(--o⋄color--bg⁚main--backdrop);">
 	<ul class="o⋄nav-list">
 		<li class="o⋄text-noselect o⋄color⁚secondary"><a href="#intro">Intro</a></li>
 		<li class="o⋄text-noselect o⋄color⁚secondary"><a href="#demo">Demo</a></li>
@@ -34,58 +34,106 @@
 	</ul>
 </nav>
 
+<article>
 <h1>Offirmo’s Practical Logger</h1>
-<div class="o⋄color⁚ancillary">for node and browsers</div>
+<div class="o⋄color⁚ancillary" style="margin-top: -20px; font-size: x-large;font-style: italic;">
+	for browsers & node & modules</div>
 
-<a alt="license"
-	href="https://unlicense.org/">
-	<img alt="license badge"
-		src="https://img.shields.io/badge/license-public_domain-brightgreen.svg">
-</a>
-<img alt="maintenance status badge"
-	src="https://img.shields.io/maintenance/yes/2019.svg">
+<aside>
+	<img src="https://badgen.net/badge/built%20for/TypeScript/blue?icon=typescript">
+	<img src="https://badgen.net/badge/built%20for/JavaScript/yellow">
+	<a alt="license" href="https://unlicense.org/"><img alt="license badge" src="https://img.shields.io/badge/license-public_domain-brightgreen.svg"/></a>
+	<img alt="maintenance status badge"
+		  src="https://img.shields.io/maintenance/yes/2019.svg">
+</aside>
 
 <section id="intro">
 	<h2>Intro</h2>
 	<p>
-		<strong>Offirmo's Practical Logger</strong> does only one thing and does it well:
-		<strong>logging locally<sup>(*)</sup> better than the built-in Console</strong>.
+		Offirmo's Practical Logger does only one thing and does it well:
+		<strong>logging locally<sup><a href="#faq-remote-stash">(*)</a></sup> better than the built-in Console</strong>.
 	</p>
+	<p>
+		<pre>
+<code>myLogger.warn('Server timeout, will retry...', { timeoutMs: 2000 })</code>
+<code>myLogger.warn('<string>', { <keys>: <values> })</code>
+
+<code>// group API is cool so it's forwarded from Console for convenience</code>
+<code>myLogger.group()</code>
+<code>myLogger.groupCollapsed()</code>
+<code>myLogger.groupEnd()</code>
+		</pre>
+	</p>
+	Log levels:
+	<ol>
+		<li>silly</li>
+	</ol>
 </section>
 
 <section id="demo">
 	<h2>Demo</h2>
-	<div>
-		<code>
-			myLogger.warn('hello from fooLogger!', { bar: 42, baz: 33 })
-		</code>
-	</div>
-	<p>
-		Lorem
-	</p>
-
+	<h3>Live demo: Open the dev tools!</h3>
+	<ul class="o⋄plain-list" style="padding-left: 1em;">
+		<li>
+			<details id="demo-all-levels">
+				<summary>All levels...<button id="btn-demo-all-levels">Run</button></summary>
+				<p>Hello world</p>
+			</details>
+		</li>
+		<li>
+			<details id="demo-basic">
+				<summary>Basic usage...<button id="btn-demo-basic">Run</button></summary>
+				<p>Hello world</p>
+			</details>
+		</li>
+		<li>
+			<details id="demo-error">
+				<summary>Errors...<button id="btn-demo-error">Run</button></summary>
+				<p>Hello world</p>
+			</details>
+		</li>
+		<li>
+			<details id="demo-groups">
+				<summary>Groups, lazy and auto-escape...<button id="btn-demo-groups">Run</button></summary>
+				<p>Hello world</p>
+			</details>
+		</li>
+	</ul>
+	<h3>Screenshots</h3>
+	<details>
+		<summary>Chromium screenshot...</summary>
+	</details>
+	<details>
+		<summary>Safari screenshot...</summary>
+	</details>
+	<details>
+		<summary>Firefox screenshot...</summary>
+	</details>
+	<details>
+		<summary>IE and others screenshot...</summary>
+	</details>
+	<details>
+		<summary>Terminal / Node screenshot (dark)...</summary>
+	</details>
+	<details>
+		<summary>Terminal / Node screenshot (light)...</summary>
+	</details>
 </section>
 
 <section id="advocacy">
 	<h2>Advocacy</h2>
 	<p>
-		…
+		Killer features:
 	</p>
 	<ul>
+		<li>nicer, more readable display</li>
 		<li>Coherent API <span class="o⋄color⁚secondary">only 2 params</span></li>
-		<li>TypeScript -></li>
+		<li>TypeScript first</li>
 		<li>Isomorphic <span class="o⋄color⁚secondary">in an non-bloated way</span></li>
-		<li>Aimed first at logging locally (terminal or devtools) but optionally streamable</li>
+		<li>Aimed first at logging locally (terminal or devtools) but optionally streamable <span class="o⋄color⁚secondary">ex. node server</span></li>
 		<li>Favorably open source <span class="o⋄color⁚secondary">(UNLICENSE)</span></li>
 		<li>Many many niceties…<span class="o⋄color⁚secondary"> (keep reading)</span></li>
 	</ul>
-	<div>
-		<code>
-			myLogger.warn('hello from fooLogger!', { bar: 42, baz: 33 })
-		</code>
-	</div>
-
-
 </section>
 
 <section id="setup">
@@ -93,24 +141,87 @@
 
 	recommend Full API
 	<p>
-		Ipsum
+		TODO
 	</p>
 </section>
 
-<section id="faq">
+<section id="FAQ">
 	<h2>FAQ</h2>
-	<p>
-		Dolor
-	</p>
+
+	<details>
+		<summary><strong>Is that used in production somewhere?</strong></summary>
+		<div>
+			<p>
+				I, the author, am using this lib in production for my pet project TODO link.
+			</p>
+		</div>
+	</details>
+
+	<details>
+		<summary><strong>Is it a drop-in replacement for Console?</strong></summary>
+		<div>
+			<p>
+			No, as this logger is not accepting multiple arguments.
+			</p>
+			<p>
+				Also, this logger encourages being semantic, keeping the console invocations for quick debugs.
+				This way, you can keep your eslint rules forbidding using console.
+			</p>
+		</div>
+	</details>
+
+	<details>
+		<summary><strong>What if I incorrectly call it like Console? (with more than 2 arguments)</strong></summary>
+		<div>
+			<p>
+				If you're using TypeScript, it should tell you.
+			</p>
+			<p>
+				If not, the lib will secretly try to handle it in an undocumented way.
+				(undocumented because you shouldn't rely on it)
+			</p>
+		</div>
+	</details>
+
+	<details>
+		<summary id="faq-remote-stash"><strong>I'm writing a server, can I send the logs to a remote stash?</strong></summary>
+		<div>
+			<p>
+				Yes. It's not a primary feature, but this logger took inspiration from Winston TODO link.
+				Two possible solutions:
+			</p>
+			<ul>
+				<li>If your remote stash is fed from your stdout, you may want to use a sink outputting JSON.
+				TODO elaborate
+				</li>
+				<li>If your remote stash is an API, write your custom sink to intercept logs and send them to the remote location</li>
+			</ul>
+		</div>
+	</details>
+
+	<details>
+		<summary><strong>Are there any tradeoffs?</strong></summary>
+		<div>
+			<p>
+				Yes, all solutions have tradeoffs. Here are the most notable one:
+			</p>
+			<ul>
+				<li>For browsers: You no longer get the call site in the dev tools.</li>
+				<li>Slower than Console.x for logged item, but faster for filtered out items</li>
+				<li>If you're using this lib directly, no built-in mechanism to change the log level at run time. Please use TODO</li>
+			</ul>
+		</div>
+	</details>
 </section>
 
 <section id="contributing">
 	<h2>Contributing</h2>
 	<p>
-		Dolor
+		TODO
 	</p>
 </section>
 
+</article>
 
 <script async importance="high" src="./index.ts"></script>
 
