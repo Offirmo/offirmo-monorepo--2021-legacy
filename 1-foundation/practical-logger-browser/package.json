@@ -22,7 +22,8 @@
 	"peerDependencies": {},
 	"dependencies": {
 		"@offirmo/practical-logger-core": "^2",
-		"@offirmo/practical-logger-types": "^2"
+		"@offirmo/practical-logger-types": "^2",
+		"@offirmo/tiny-singleton": "^0"
 	},
 
 	"devDependencies": {

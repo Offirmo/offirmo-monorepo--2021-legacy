@@ -7,7 +7,6 @@
 	"private": true,
 
 	"dependencies": {
-		"@offirmo-private/better-console-group": "^0",
 		"@offirmo-private/ensure-device-uuid-browser": "^0",
 		"@offirmo-private/favicon-notifications": "^0",
 		"@offirmo-private/features-detection-browser": "^0",

@@ -67,4 +67,6 @@ describe(`${LIB} - index`, () => {
 			logger.fatal('Hello!')
 		})
 	})
+
+	// TODO check that global group is sticky
 })

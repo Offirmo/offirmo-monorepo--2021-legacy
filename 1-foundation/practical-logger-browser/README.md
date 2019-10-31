@@ -49,10 +49,32 @@ On Safari:
 
 ![firefox demo](https://www.offirmo.net/offirmo-monorepo/doc/practical-logger/screens/safari_20190402.png)
 
+On IE11:
+
+TODO
+
 
 ## Usage
 
-**Magic ✨ you may not have to bundle this lib! You may want to use [Offirmo’s Universal Debug API](https://github.com/Offirmo/offirmo-monorepo/wiki/Offirmo%E2%80%99s-Universal-Debug-Api) which wraps this lib!**
+### Important note
+
+**This lib may not be what you're looking for!**
+It's a component of the much more complete (and awesome!!) **[Offirmo’s Universal Debug API](https://github.com/Offirmo/offirmo-monorepo/wiki/Offirmo%E2%80%99s-Universal-Debug-Api)** (which includes this lib)
+This lib does just one thing and does it well: logging in the console.
+However using the full [Offirmo’s Universal Debug API](https://github.com/Offirmo/offirmo-monorepo/wiki/Offirmo%E2%80%99s-Universal-Debug-Api) will gives you:
+- ability to locally override the log level (through localstorage, optional UI available)
+- singleton loggers (get API instead of create)
+- complementing extra dev features
+- lower bundle size, no need to bundle the full version!! can be injected locally it through a browser extension, Chrome+FF available
+- UI to control the dev features, in the web extension
+
+[Check it out!](https://github.com/Offirmo/offirmo-monorepo/wiki/Offirmo%E2%80%99s-Universal-Debug-Api)
+
+Killer feature: no visible logs for your customers, but logs can be enabled at run time if needed! 
+
+### basic usage
+
+If you're **really sure** you want to use this lib directly:
 
 ```javascript
 import { createLogger } from '@offirmo/practical-logger-browser'
@@ -61,10 +83,42 @@ const logger = createLogger()
 logger.log('hello from logger!')
 
 const fooLogger = createLogger({
-	name: 'Foo',
-	suggestedLevel: 'silly',
+	// all params are optional
+	name: 'Foo', // default: 'root'. This name is displayed on the log line and can be use for filtering
+	suggestedLevel: 'silly' // default: 'error'. Your code is free to suggest a level, but should expect it to be dynamically overriden (see Universal Debug API)
+	commonDetails: { channel: 'staging' }, // default: empty. details that'll be merged with all log invocations
+	sinkOptions: { sink: ...} // default: empty. options specifically targeted at the sink, usually platform dependent
+
+	// usage not recommended
+	forcedLevel: 'silly' // default: undef. use only if you provide your own mechanism for dynamically setting the level
 })
 fooLogger.log('hello from fooLogger!', { bar: 42, baz: 33 })
 ```
 
-TODO explanation
+### sink options
+
+```javascript
+const logger = createLogger({
+	name: 'Foo',
+	sinkOptions: {
+		useCss: false, // default: true. set to false to not use console styling, ex. if cause problem in a new browser version?
+		betterGroups: false, // default: true. See below
+		explicitBrowser: 'chromium', // default: (undef=auto) use this to force browser detection. Should never be needed.
+    }
+})
+fooLogger.log('hello from fooLogger!', { bar: 42, baz: 33 })
+```
+
+### Global magic: groups improvements
+
+Groups are great! However the default behavior is a bit crude.
+So when the 1st logger is created, it will globally improve
+the console.group(...)/groupCollapsed(...)/groupEnd() API,
+in order to bring:
+- errors can't be hidden in a collapsed group (will auto break out to be sure the error is visible)
+- groups won't appear until they have content. Vital to not pollute the console when filtering low-level traces
+
+The drawback: you can't easily reach the call site of a log line anymore.
+It's a tradeoff.
+
+You can disable this improvement by passing `sinkOptions: { betterGroups: false }` in the **first** logger creation.

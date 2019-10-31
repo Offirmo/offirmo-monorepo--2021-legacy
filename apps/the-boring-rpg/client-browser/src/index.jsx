@@ -2,7 +2,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import ErrorBoundary from '@offirmo-private/react-error-boundary'
 import { overrideHook } from '@offirmo-private/universal-debug-api-full-browser'
-import improve_console_groups from '@offirmo-private/better-console-group'
 
 import { setTextEncoder } from '@tbrpg/flux'
 
@@ -13,8 +12,6 @@ import './index.css'
 
 //console.log(__filename)
 /////////////////////////////////////////////////
-
-improve_console_groups()
 
 window.XOFF = {
 	flags: {

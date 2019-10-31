@@ -1,40 +1,26 @@
-import { LogSink, Logger, LoggerCreationParams, LogPayload } from '@offirmo/practical-logger-types'
-import { createLogger as createLoggerCore, LOG_LEVEL_TO_INTEGER } from '@offirmo/practical-logger-core'
+import tiny_singleton from '@offirmo/tiny-singleton'
+import { LogSink, Logger, LoggerCreationParams } from '@offirmo/practical-logger-types'
+import { createLogger as createLoggerCore } from '@offirmo/practical-logger-core'
 
 import { SinkOptions } from './types'
 import { create } from './sinks'
+import improve_console_groups from './better-console-groups'
 
 const ORIGINAL_CONSOLE = console
 
+const install_groups_or_not_once_for_all = tiny_singleton((active: boolean) => { if (active) improve_console_groups() })
+
 function createLogger(p: Readonly<LoggerCreationParams<SinkOptions>> = {}): Logger {
-	const sink0: LogSink = p.sinkOptions?.sink || create(p.sinkOptions)
+	install_groups_or_not_once_for_all(p.sinkOptions?.betterGroups !== false)
 
-	let groupDepth = 0;
-	function sink1(payload: LogPayload): void {
-		const shouldEscapeFromGroupCollapsedToMakeTheErrorVisible = LOG_LEVEL_TO_INTEGER[payload.level] <= 40 && groupDepth > 0
-		if (shouldEscapeFromGroupCollapsedToMakeTheErrorVisible) {
-			while(groupDepth > 0) {
-				ORIGINAL_CONSOLE.groupEnd()
-				groupDepth--
-			}
-		}
-		return sink0(payload)
-	}
+	const sink: LogSink = p.sinkOptions?.sink || create(p.sinkOptions)
 
+	const { group, groupCollapsed, groupEnd } = ORIGINAL_CONSOLE
 	return {
-		...createLoggerCore(p, sink1),
-		group(groupTitle?: string): void {
-			ORIGINAL_CONSOLE.group(groupTitle)
-			groupDepth++
-		},
-		groupCollapsed(groupTitle?: string): void {
-			ORIGINAL_CONSOLE.groupCollapsed(groupTitle)
-			groupDepth++
-		},
-		groupEnd(): void {
-			ORIGINAL_CONSOLE.groupEnd()
-			groupDepth = Math.max(0, groupDepth - 1)
-		}
+		...createLoggerCore(p, sink),
+		group,
+		groupCollapsed,
+		groupEnd,
 	}
 }
 
