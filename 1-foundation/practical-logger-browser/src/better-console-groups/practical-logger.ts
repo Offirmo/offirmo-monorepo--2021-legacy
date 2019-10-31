@@ -1,3 +1,4 @@
+// Note: the name of this file is because it appears in the dev tools!
 
 const PATCHED_METHODS = [ 'debug', 'log', 'info', 'warn', 'error', 'group', 'groupCollapsed', 'groupEnd' ]
 

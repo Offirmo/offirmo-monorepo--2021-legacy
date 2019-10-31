@@ -9,7 +9,7 @@ import {
 } from '@offirmo/universal-debug-api-minimal-noop'
 
 import {
-	demo_standard_console,
+	demo_legacy_console,
 	demo_logger_basic_usage,
 	demo_logger_levels,
 	demo_error,

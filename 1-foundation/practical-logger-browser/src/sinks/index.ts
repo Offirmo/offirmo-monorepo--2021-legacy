@@ -6,6 +6,7 @@ import sink_chromium from './advanced/chromium'
 import sink_safari from './advanced/safari'
 import create_sink_no_css from './no-css'
 
+// TODO export that?
 function quick_detect_browser(): Browser {
 	// https://stackoverflow.com/a/9851769/587407
 	// https://dev.to/_elmahdim/safe-reliable-browser-sniffing-39bp

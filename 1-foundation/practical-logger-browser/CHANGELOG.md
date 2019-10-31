@@ -7,13 +7,13 @@
 * [feat] now re-export the entire practical-logger-interface
 * [chore] [breaking] no longer exporting ES5, reverted to [this more rationale export setup](../../CONTRIBUTING/module-exports.md)
 * [feat] [breaking] warnings and errors now break out from groups, to prevent them from being hidden in groupCollapsed()
-* [chore] bumped dependencies
-* [refactor] internal package @offirmo/practical-logger-interfaces renamed to @offirmo/practical-logger-types
-* [test] more unit tests
-* [fix] correctly allows passing no args to createLogger() (this was intended)
-* [feat] better browser detection
-* [feat] (hopefully) support for non firefox/chromium/safari browsers (ex. msie)
+* [feat] [breaking] groups are now lazily created, only if they have some content
+* [feat] better browser detection + now supports non firefox/chromium/safari browsers (ex. msie)
 * [feat] ability to opt-out from fancy sinks
+* [fix] correctly allows passing no args to createLogger() (this was intended)
+* [test] more unit tests
+* [refactor] internal package @offirmo/practical-logger-interfaces renamed to @offirmo/practical-logger-types
+* [chore] bumped dependencies
 * ...
 
 ## v1.1.1

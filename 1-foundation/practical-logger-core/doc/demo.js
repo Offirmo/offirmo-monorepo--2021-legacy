@@ -1,7 +1,7 @@
 const { createLogger } = require('..')
 
 const {
-	demo_standard_console,
+	demo_legacy_console,
 	demo_logger_basic_usage,
 	demo_logger_levels,
 	demo_error,
@@ -16,7 +16,7 @@ const logger = createLogger({
 	suggestedLevel: 'silly',
 })
 
-demo_standard_console()
+demo_legacy_console()
 //demo_logger_api(createLogger)
 
 //demo_logger_basic_usage(logger)

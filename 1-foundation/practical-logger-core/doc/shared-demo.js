@@ -1,18 +1,17 @@
 const { ALL_LOG_LEVELS } = require('..')
 
-function demo_standard_console() {
-	console.log('------------↓ demo: standard console ↓-----------')
-	console.debug('Standard console "debug"')
-	console.log('Standard console "log"')
-	console.info('Standard console "info"')
-	console.warn('Standard console "warn"')
-	console.error('Standard console "error"')
+function demo_legacy_console() {
+	console.log('------------↓ Legacy console demo: all levels, in order ↓-----------')
+	console.debug('Legacy console > message with level "debug"', { level: "debug", foo: 42 })
+	console.log('Legacy console > message with level "log"', { level: "log", foo: 42 })
+	console.info('Legacy console > message with level "info"', { level: "info", foo: 42 })
+	console.warn('Legacy console > message with level "warn"', { level: "warn", foo: 42 })
+	console.error('Legacy console > message with level "error"', { level: "error", foo: 42 })
 }
 
-function demo_logger_basic_usage(logger) {
-	console.group('-----------↓ logger demo: basic usage ↓-----------')
-	logger.verbose('Restoring state…')
-	logger.warn('Restoration is taking more time than usual', { elapsedMs: 3000 })
+
+function demo_logger_basic_usage(logger, in_group = true) {
+	console[in_group ? 'group' : 'log']('------------↓ Practical logger demo: example real usage ↓------------')
 
 	const bob = {
 		firstName: 'Bob',
@@ -22,17 +21,21 @@ function demo_logger_basic_usage(logger) {
 
 	logger.verbose('Current user loaded', { user: bob })
 
+	logger.verbose('Restoring state…')
+
+	logger.warn('Restoration of state is taking more time than expected', { elapsedMs: 3000 })
+
 	const err = new Error('Timeout loading state!')
 	err.httpStatus = 418 // to check that custom props are preserved
 
 	logger.error(undefined, err)
-	console.groupEnd()
+	if (in_group) console.groupEnd()
 }
 
 function demo_logger_levels(logger) {
-	console.log('-----------↓ logger demo: all levels, in order ↓-----------')
+	console.log('------------↓ Practical logger demo: all levels, in order ↓------------')
 	;[...ALL_LOG_LEVELS].reverse().forEach(level =>
-		logger[level](`demo with level "${level}"`, { level, foo: 42 })
+		logger[level](`message with level "${level}"`, { level, foo: 42 })
 	)
 
 	/*
@@ -45,31 +48,31 @@ console.groupEnd()
 }
 
 function demo_group(logger) {
-	console.log('-----------↓ logger demo: group ↓-----------')
+	console.log('------------↓ logger demo: group ↓------------')
 
-	logger.group('level 1 (+)')
+	logger.group('level 1 (NOT collapsed)')
 		logger.log('in level 1')
 
-		logger.groupCollapsed('level 2a (-)')
+		logger.groupCollapsed('level 2a (collapsed)')
 			logger.log('in level 2a')
 		logger.groupEnd()
 
-		logger.groupCollapsed('level 2b (-)')
+		logger.groupCollapsed('level 2b (collapsed)')
 			// no output
-			logger.group('level 3a (+)')
+			logger.group('level 3a (NOT collapsed)')
 				// no output
 			logger.groupEnd()
 		logger.groupEnd()
 
-		logger.groupCollapsed('level 2c (-)')
+		logger.groupCollapsed('level 2c (collapsed)')
 			// no output
 			logger.warn('warn from level 2c!')
 			logger.error(new Error('error from level 2c!'))
 		logger.groupEnd()
 
-		logger.groupCollapsed('level 2d (-)')
+		logger.groupCollapsed('level 2d (collapsed)')
 			logger.log('in level 2d')
-			logger.group('level 3b (+)')
+			logger.group('level 3b (NOT collapsed)')
 				logger.warn('warn from level 3b!')
 				logger.error(new Error('error from level 3b!'))
 				logger.log('in level 3b')
@@ -96,7 +99,7 @@ function demo_incorrect_logger_invocations(logger) {
 	const err = new Error('Timeout loading state!')
 	err.httpStatus = 418 // to check that custom props are preserved
 
-	console.group('-----------↓ logger demo: incorrect invocation (bunyan style) ↓-----------')
+	console.group('------------↓ logger demo: incorrect invocation (bunyan style) ↓------------')
 	logger.info()
 
 	logger.info('hi')
@@ -113,7 +116,7 @@ function demo_incorrect_logger_invocations(logger) {
 }
 
 function demo_logger_api(getLogger) {
-	console.log('-----------↓ logger creation and basic usage ↓-----------')
+	console.log('------------↓ logger creation and basic usage ↓------------')
 	const root_logger = getLogger({
 		suggestedLevel: 'silly',
 	})
@@ -133,8 +136,8 @@ function demo_logger_api(getLogger) {
 	demo_incorrect_logger_invocations(logger)
 }
 
-function demo_error(logger) {
-	console.group('-----------↓ logger demo: error display ↓-----------')
+function demo_error(logger, in_group = true) {
+	console[in_group ? 'group' : 'log']('------------↓ logger demo: error display ↓------------')
 
 	function foo() {
 		function bar() {
@@ -154,21 +157,21 @@ function demo_error(logger) {
 	}
 	catch (err) {
 		logger.log(err)
-		logger.log('log', err)
-		logger.log('log', { some: 'stuff', err })
+		logger.log('message', err)
+		logger.log('message', { some: 'stuff', err })
 		logger.error(err)
 		logger.error('message', err)
 		logger.error('message', { some: 'stuff', err })
-		logger.error('message', { some: 'stuff' }, err)
-		logger.error('message', err, { some: 'stuff' })
+		//logger.error('message', { some: 'stuff' }, err)
+		//logger.error('message', err, { some: 'stuff' })
 		logger.error('message', { some: 'stuff' })
 	}
 
-	console.groupEnd()
+	if (in_group) console.groupEnd()
 }
 
 function demo_devtools_fonts() {
-	console.group('-----------↓ available font styles ↓-----------')
+	console.group('------------↓ available font styles ↓------------')
 	console.log('default: ABCdef012')
 
 	;[
@@ -203,7 +206,7 @@ function demo_devtools_fonts() {
 }
 
 module.exports = {
-	demo_standard_console,
+	demo_legacy_console,
 	demo_logger_basic_usage,
 	demo_logger_levels,
 	demo_error,
