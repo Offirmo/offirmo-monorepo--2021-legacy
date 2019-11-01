@@ -1,12 +1,13 @@
 {
-	"name": "@offirmo/practical-logger-minisite",
-	"description": "website showcasing Offirmo's practical logger",
+	"name": "@offirmo/universal-debug-api-minisite",
+	"description": "website showcasing Offirmo's univeral debug API",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 
 	"dependencies": {
-		"@offirmo/practical-logger-browser": "^1.1.1",
+		"@offirmo/universal-debug-api-minimal-noop": "^0",
+		"@offirmo-private/universal-debug-api-full-browser": "^0",
 		"tslib": "^1"
 	},
 

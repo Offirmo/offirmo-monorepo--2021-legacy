@@ -139,7 +139,7 @@ export default function create(): WebDebugApiV1 {
 
 	function exposeInternal(path: string, value: any): void {
 		try {
-			const pathParts = path.split('.')
+			const pathParts = path.split('.') // TODO switch to / ?
 			const lastIndex = pathParts.length - 1
 			let root: any = exposed
 			pathParts.forEach((p: string, index: number) => {

@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta content="width=device-width, initial-scale=1" name="viewport">
 
-	<title>Offirmo’s Practical Logger</title>
+	<title>Offirmo’s Universal Debug API</title>
 
 	<style type="text/css">
 		@import '../../../2-advanced/view-css/src/style.css';
@@ -42,7 +42,7 @@
 </nav>
 
 <article>
-<h1>Offirmo’s Practical Logger</h1>
+<h1>Offirmo’s Universal Debug API</h1>
 <div class="o⋄color⁚ancillary" style="margin-top: -20px; font-size: x-large;font-style: italic;">
 	for browsers & node & modules</div>
 
@@ -57,25 +57,32 @@
 <section id="intro">
 	<h2>Intro</h2>
 	<p>
-		Offirmo's Practical Logger does only one thing and does it well:
-		<strong>logging locally<sup><a href="#faq-remote-stash">(*)</a></sup> better than the built-in Console</strong>.
+		Offirmo's Universal Debug API is an awesome library to greatly help the development of medium/big TypeScript/JavaScript apps.
 	</p>
-		<pre><code class="language-js">// myLogger.log('message [string]', { key: 'values (optional)' })
-myLogger.trace('entering computeStuff()...')
-myLogger.verbose('Starting app...', { env: 'staging' })
+	<p>
+	Loggers, with dynamically settable level:
+	<pre><code class="language-js">import {
+	getLogger,
+	overrideHook,
+	exposeInternal,
+	addDebugCommand,
+} from '@offirmo/universal-debug-api-xxx'
+
+const logger = getLogger()
+logger.verbose('Starting up...')
 myLogger.warn('Server timeout, will retry...', { timeoutMs: 2000, attemptCount: 3 })
 
-// when logging an error, use the 'err' key in the details
-} catch (err) {
-	myLogger.error('Error processing X', { err })
-}
+const SERVER_URL = overrideHook('server-url', 'https://backend.com')
 
-// group API is cool so it's forwarded from Console for convenience
-myLogger.group()
-myLogger.groupCollapsed()
-myLogger.groupEnd()
+const state = {
+	foo: 42'
+}
+exposeInternal('app.state', state)
+
+// addDebugCommand is a feature still in progress
 </code></pre>
-	<p>Log levels:
+	</p>
+	<p>Logger levels:
 		<span style="color: red;">fatal</span>,
 		<span style="color: red;">emerg</span>,
 		<span style="color: red;">alert</span>,
@@ -100,7 +107,7 @@ myLogger.groupEnd()
 				<summary>All levels...<button id="btn-demo-all-levels">Run</button></summary>
 				<div>
 					<p>Levels are compatible with all standard log systems (TODO list TODO link)</p>
-					<img src="./demo-all-levels-20191101.png" />
+					<img src="./todo.png" />
 				</div>
 			</details>
 		</li>
@@ -109,7 +116,7 @@ myLogger.groupEnd()
 				<summary>Basic usage...<button id="btn-demo-basic">Run</button></summary>
 				<div>
 					<p>Note that levels lower than warn are much more differentiables</p>
-					<img src="./demo-usage-20191101.png" />
+					<img src="./todo.png" />
 				</div>
 			</details>
 		</li>
@@ -118,7 +125,7 @@ myLogger.groupEnd()
 				<summary>Errors...<button id="btn-demo-error">Run</button></summary>
 				<div>
 					<p>Correctly displaying errors is a first class feature, even when using lower levels.</p>
-					<img src="./demo-errors-20191101.png" />
+					<img src="./todo.png" />
 				</div>
 			</details>
 		</li>
@@ -128,7 +135,7 @@ myLogger.groupEnd()
 				<div>
 					<p class="o⋄color⁚secondary">(Browser only, node is not concerned.)</p>
 					<p>Without this feature, errors may have been hidden in a collapsed group. Also useless groups with no contents are skipped.</p>
-					<img src="./demo-groups-20191101.png" />
+					<img src="./todo.png" />
 				</div>
 			</details>
 		</li>
@@ -137,20 +144,20 @@ myLogger.groupEnd()
 	<details>
 		<summary>Firefox screenshot...</summary>
 		<div>
-			<img src="./screen-firefox-20191101.png" />
+			<img src="./todo.png" />
 		</div>
 	</details>
 	<details>
 		<summary>Chromium screenshot...</summary>
 		<div>
 			<p>Note how we compensate chromium's buggy "info" display:</p>
-			<img src="./screen-chromium-20191101.png" />
+			<img src="./todo.png" />
 		</div>
 	</details>
 	<details>
 		<summary>Safari screenshot...</summary>
 		<div>
-			<img src="./screen-safari-20191101.png" />
+			<img src="./todo.png" />
 		</div>
 	</details>
 	<details>
@@ -160,15 +167,13 @@ myLogger.groupEnd()
 	<details>
 		<summary>Terminal / Node screenshot (dark)...</summary>
 		<div>
-			<img src="./screen-term-dark.png" />
-			<img src="./screen-term-dark-alt.png" />
+			<img src="./todo.png" />
 		</div>
 	</details>
 	<details>
 		<summary>Terminal / Node screenshot (light)...</summary>
 		<div>
-			<img src="./screen-term-light.png" />
-			<img src="./screen-term-light-alt.png" />
+			<img src="./todo.png" />
 		</div>
 	</details>
 </section>
