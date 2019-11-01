@@ -16,7 +16,7 @@
 	},
 	"devDependencies": {
 		"@types/node": "^12",
-		"knex": "^0.19",
+		"knex": "^0.20",
 		"npm-run-all": "^4",
 		"pg": "^7",
 		"tslib": "^1",

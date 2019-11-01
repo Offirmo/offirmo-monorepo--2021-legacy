@@ -40,6 +40,7 @@ module.exports = {
 	// TODO try 'all'
 	'extends': [
 		'eslint:recommended',
+		'plugin:json/recommended',
 		'plugin:@typescript-eslint/recommended',
 		'plugin:eslint-comments/recommended',
 		'plugin:import/errors',

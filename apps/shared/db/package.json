@@ -16,7 +16,7 @@
 	"dependencies": {
 		"@offirmo/tiny-singleton": "^0",
 		"json-stable-stringify": "^1",
-		"knex": "^0.19",
+		"knex": "^0.20",
 		"pg": "^7",
 		"tiny-invariant": "^1",
 		"tslib": "^1"
