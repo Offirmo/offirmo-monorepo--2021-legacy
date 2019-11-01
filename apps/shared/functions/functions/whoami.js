@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 132);
+/******/ 	return __webpack_require__(__webpack_require__.s = 133);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -17195,7 +17195,7 @@
   else {}
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(43)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(44)(module)))
 
 /***/ }),
 /* 3 */
@@ -17203,7 +17203,7 @@
 
 "use strict";
 
-var es5 = __webpack_require__(20);
+var es5 = __webpack_require__(19);
 var canEvaluate = typeof navigator == "undefined";
 
 var errorObj = {e: {}};
@@ -17626,13 +17626,13 @@ module.exports = ret;
 
 
 /***/ }),
-/* 4 */,
-/* 5 */
+/* 4 */
 /***/ (function(module, exports) {
 
 module.exports = require("util");
 
 /***/ }),
+/* 5 */,
 /* 6 */,
 /* 7 */
 /***/ (function(module, exports) {
@@ -17640,55 +17640,37 @@ module.exports = require("util");
 module.exports = require("events");
 
 /***/ }),
-/* 8 */,
-/* 9 */
+/* 8 */
 /***/ (function(module, exports) {
 
 module.exports = require("fs");
 
 /***/ }),
+/* 9 */,
 /* 10 */,
 /* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 try {
-  var util = __webpack_require__(5);
+  var util = __webpack_require__(4);
   /* istanbul ignore next */
   if (typeof util.inherits !== 'function') throw '';
   module.exports = util.inherits;
 } catch (e) {
   /* istanbul ignore next */
-  module.exports = __webpack_require__(136);
+  module.exports = __webpack_require__(137);
 }
 
 
 /***/ }),
 /* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var old;
-if (typeof Promise !== "undefined") old = Promise;
-function noConflict() {
-    try { if (Promise === bluebird) Promise = old; }
-    catch (e) {}
-    return bluebird;
-}
-var bluebird = __webpack_require__(142)();
-bluebird.noConflict = noConflict;
-module.exports = bluebird;
-
-
-/***/ }),
-/* 13 */
 /***/ (function(module, exports) {
 
 module.exports = require("path");
 
 /***/ }),
-/* 14 */,
-/* 15 */
+/* 13 */,
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* eslint no-console:0 */
@@ -17700,7 +17682,7 @@ const {
   isArray,
   isTypedArray,
 } = __webpack_require__(2);
-const { CLIENT_ALIASES } = __webpack_require__(48);
+const { CLIENT_ALIASES } = __webpack_require__(49);
 
 // Check if the first argument is an array, otherwise uses all arguments as an
 // array.
@@ -17792,12 +17774,12 @@ module.exports = {
 
 
 /***/ }),
-/* 16 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var es5 = __webpack_require__(20);
+var es5 = __webpack_require__(19);
 var Objectfreeze = es5.freeze;
 var util = __webpack_require__(3);
 var inherits = util.inherits;
@@ -17915,13 +17897,13 @@ module.exports = {
 
 
 /***/ }),
-/* 17 */
+/* 16 */
 /***/ (function(module, exports) {
 
 module.exports = require("url");
 
 /***/ }),
-/* 18 */
+/* 17 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17944,15 +17926,15 @@ function invariant(condition, message) {
 
 
 /***/ }),
-/* 19 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Raw
 // -------
 const inherits = __webpack_require__(11);
-const helpers = __webpack_require__(15);
+const helpers = __webpack_require__(14);
 const { EventEmitter } = __webpack_require__(7);
-const debug = __webpack_require__(25);
+const debug = __webpack_require__(24);
 
 const {
   assign,
@@ -17962,7 +17944,7 @@ const {
   isUndefined,
   isNumber,
 } = __webpack_require__(2);
-const saveAsyncStack = __webpack_require__(49);
+const saveAsyncStack = __webpack_require__(50);
 const uuid = __webpack_require__(63);
 
 const debugBindings = debug('knex:bindings');
@@ -18135,14 +18117,14 @@ function replaceKeyBindings(raw, formatter) {
 
 // Allow the `Raw` object to be utilized with full access to the relevant
 // promise API.
-__webpack_require__(51)(Raw);
+__webpack_require__(52)(Raw);
 helpers.addQueryContext(Raw);
 
 module.exports = Raw;
 
 
 /***/ }),
-/* 20 */
+/* 19 */
 /***/ (function(module, exports) {
 
 var isES5 = (function(){
@@ -18228,16 +18210,16 @@ if (isES5) {
 
 
 /***/ }),
+/* 20 */,
 /* 21 */,
 /* 22 */,
-/* 23 */,
-/* 24 */
+/* 23 */
 /***/ (function(module, exports) {
 
 module.exports = require("assert");
 
 /***/ }),
-/* 25 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -18246,21 +18228,39 @@ module.exports = require("assert");
  */
 
 if (typeof process === 'undefined' || process.type === 'renderer' || process.browser === true || process.__nwjs) {
-	module.exports = __webpack_require__(137);
+	module.exports = __webpack_require__(138);
 } else {
-	module.exports = __webpack_require__(139);
+	module.exports = __webpack_require__(140);
 }
 
 
 /***/ }),
-/* 26 */
+/* 25 */
 /***/ (function(module, exports) {
 
 module.exports = require("os");
 
 /***/ }),
+/* 26 */,
 /* 27 */,
-/* 28 */,
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var old;
+if (typeof Promise !== "undefined") old = Promise;
+function noConflict() {
+    try { if (Promise === bluebird) Promise = old; }
+    catch (e) {}
+    return bluebird;
+}
+var bluebird = __webpack_require__(143)();
+bluebird.noConflict = noConflict;
+module.exports = bluebird;
+
+
+/***/ }),
 /* 29 */,
 /* 30 */,
 /* 31 */,
@@ -18271,8 +18271,8 @@ module.exports = require("os");
 
 "use strict";
 
-const os = __webpack_require__(26);
-const hasFlag = __webpack_require__(44);
+const os = __webpack_require__(25);
+const hasFlag = __webpack_require__(45);
 
 const env = process.env;
 
@@ -18413,585 +18413,14 @@ module.exports = require("stream");
 /* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-/**
- * Copyright (c) 2010-2017 Brian Carlson (brian.m.carlson@gmail.com)
- * All rights reserved.
- *
- * This source code is licensed under the MIT license found in the
- * README.md file in the root directory of this source tree.
- */
-
-const crypto = __webpack_require__(50)
-
-const defaults = __webpack_require__(37)
-
-function escapeElement (elementRepresentation) {
-  var escaped = elementRepresentation
-    .replace(/\\/g, '\\\\')
-    .replace(/"/g, '\\"')
-
-  return '"' + escaped + '"'
-}
-
-// convert a JS array to a postgres array literal
-// uses comma separator so won't work for types like box that use
-// a different array separator.
-function arrayString (val) {
-  var result = '{'
-  for (var i = 0; i < val.length; i++) {
-    if (i > 0) {
-      result = result + ','
-    }
-    if (val[i] === null || typeof val[i] === 'undefined') {
-      result = result + 'NULL'
-    } else if (Array.isArray(val[i])) {
-      result = result + arrayString(val[i])
-    } else if (val[i] instanceof Buffer) {
-      result += '\\\\x' + val[i].toString('hex')
-    } else {
-      result += escapeElement(prepareValue(val[i]))
-    }
-  }
-  result = result + '}'
-  return result
-}
-
-// converts values from javascript types
-// to their 'raw' counterparts for use as a postgres parameter
-// note: you can override this function to provide your own conversion mechanism
-// for complex types, etc...
-var prepareValue = function (val, seen) {
-  if (val instanceof Buffer) {
-    return val
-  }
-  if (ArrayBuffer.isView(val)) {
-    var buf = Buffer.from(val.buffer, val.byteOffset, val.byteLength)
-    if (buf.length === val.byteLength) {
-      return buf
-    }
-    return buf.slice(val.byteOffset, val.byteOffset + val.byteLength) // Node.js v4 does not support those Buffer.from params
-  }
-  if (val instanceof Date) {
-    if (defaults.parseInputDatesAsUTC) {
-      return dateToStringUTC(val)
-    } else {
-      return dateToString(val)
-    }
-  }
-  if (Array.isArray(val)) {
-    return arrayString(val)
-  }
-  if (val === null || typeof val === 'undefined') {
-    return null
-  }
-  if (typeof val === 'object') {
-    return prepareObject(val, seen)
-  }
-  return val.toString()
-}
-
-function prepareObject (val, seen) {
-  if (val && typeof val.toPostgres === 'function') {
-    seen = seen || []
-    if (seen.indexOf(val) !== -1) {
-      throw new Error('circular reference detected while preparing "' + val + '" for query')
-    }
-    seen.push(val)
-
-    return prepareValue(val.toPostgres(prepareValue), seen)
-  }
-  return JSON.stringify(val)
-}
-
-function pad (number, digits) {
-  number = '' + number
-  while (number.length < digits) { number = '0' + number }
-  return number
-}
-
-function dateToString (date) {
-  var offset = -date.getTimezoneOffset()
-
-  var year = date.getFullYear()
-  var isBCYear = year < 1
-  if (isBCYear) year = Math.abs(year) + 1 // negative years are 1 off their BC representation
-
-  var ret = pad(year, 4) + '-' +
-    pad(date.getMonth() + 1, 2) + '-' +
-    pad(date.getDate(), 2) + 'T' +
-    pad(date.getHours(), 2) + ':' +
-    pad(date.getMinutes(), 2) + ':' +
-    pad(date.getSeconds(), 2) + '.' +
-    pad(date.getMilliseconds(), 3)
-
-  if (offset < 0) {
-    ret += '-'
-    offset *= -1
-  } else { ret += '+' }
-
-  ret += pad(Math.floor(offset / 60), 2) + ':' + pad(offset % 60, 2)
-  if (isBCYear) ret += ' BC'
-  return ret
-}
-
-function dateToStringUTC (date) {
-  var year = date.getUTCFullYear()
-  var isBCYear = year < 1
-  if (isBCYear) year = Math.abs(year) + 1 // negative years are 1 off their BC representation
-
-  var ret = pad(year, 4) + '-' +
-    pad(date.getUTCMonth() + 1, 2) + '-' +
-    pad(date.getUTCDate(), 2) + 'T' +
-    pad(date.getUTCHours(), 2) + ':' +
-    pad(date.getUTCMinutes(), 2) + ':' +
-    pad(date.getUTCSeconds(), 2) + '.' +
-    pad(date.getUTCMilliseconds(), 3)
-
-  ret += '+00:00'
-  if (isBCYear) ret += ' BC'
-  return ret
-}
-
-function normalizeQueryConfig (config, values, callback) {
-  // can take in strings or config objects
-  config = (typeof (config) === 'string') ? { text: config } : config
-  if (values) {
-    if (typeof values === 'function') {
-      config.callback = values
-    } else {
-      config.values = values
-    }
-  }
-  if (callback) {
-    config.callback = callback
-  }
-  return config
-}
-
-const md5 = function (string) {
-  return crypto.createHash('md5').update(string, 'utf-8').digest('hex')
-}
-
-// See AuthenticationMD5Password at https://www.postgresql.org/docs/current/static/protocol-flow.html
-const postgresMd5PasswordHash = function (user, password, salt) {
-  var inner = md5(password + user)
-  var outer = md5(Buffer.concat([Buffer.from(inner), salt]))
-  return 'md5' + outer
-}
-
-module.exports = {
-  prepareValue: function prepareValueWrapper (value) {
-    // this ensures that extra arguments do not get passed into prepareValue
-    // by accident, eg: from calling values.map(utils.prepareValue)
-    return prepareValue(value)
-  },
-  normalizeQueryConfig,
-  postgresMd5PasswordHash,
-  md5
-}
-
-
-/***/ }),
-/* 37 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-/**
- * Copyright (c) 2010-2017 Brian Carlson (brian.m.carlson@gmail.com)
- * All rights reserved.
- *
- * This source code is licensed under the MIT license found in the
- * README.md file in the root directory of this source tree.
- */
-
-module.exports = {
-  // database host. defaults to localhost
-  host: 'localhost',
-
-  // database user's name
-  user: process.platform === 'win32' ? process.env.USERNAME : process.env.USER,
-
-  // name of database to connect
-  database: process.platform === 'win32' ? process.env.USERNAME : process.env.USER,
-
-  // database user's password
-  password: null,
-
-  // a Postgres connection string to be used instead of setting individual connection items
-  // NOTE:  Setting this value will cause it to override any other value (such as database or user) defined
-  // in the defaults object.
-  connectionString: undefined,
-
-  // database port
-  port: 5432,
-
-  // number of rows to return at a time from a prepared statement's
-  // portal. 0 will return all rows at once
-  rows: 0,
-
-  // binary result mode
-  binary: false,
-
-  // Connection pool options - see https://github.com/brianc/node-pg-pool
-
-  // number of connections to use in connection pool
-  // 0 will disable connection pooling
-  max: 10,
-
-  // max milliseconds a client can go unused before it is removed
-  // from the pool and destroyed
-  idleTimeoutMillis: 30000,
-
-  client_encoding: '',
-
-  ssl: false,
-
-  application_name: undefined,
-
-  fallback_application_name: undefined,
-
-  parseInputDatesAsUTC: false,
-
-  // max milliseconds any query using this connection will execute for before timing out in error.
-  // false=unlimited
-  statement_timeout: false,
-
-  // max milliseconds to wait for query to complete (client side)
-  query_timeout: false,
-
-  connect_timeout: 0,
-
-  keepalives: 1,
-
-  keepalives_idle: 0
-}
-
-var pgTypes = __webpack_require__(38)
-// save default parsers
-var parseBigInteger = pgTypes.getTypeParser(20, 'text')
-var parseBigIntegerArray = pgTypes.getTypeParser(1016, 'text')
-
-// parse int8 so you can get your count values as actual numbers
-module.exports.__defineSetter__('parseInt8', function (val) {
-  pgTypes.setTypeParser(20, 'text', val ? pgTypes.getTypeParser(23, 'text') : parseBigInteger)
-  pgTypes.setTypeParser(1016, 'text', val ? pgTypes.getTypeParser(1007, 'text') : parseBigIntegerArray)
-})
-
-
-/***/ }),
-/* 38 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var textParsers = __webpack_require__(204);
-var binaryParsers = __webpack_require__(209);
-var arrayParser = __webpack_require__(86);
-var builtinTypes = __webpack_require__(211);
-
-exports.getTypeParser = getTypeParser;
-exports.setTypeParser = setTypeParser;
-exports.arrayParser = arrayParser;
-exports.builtins = builtinTypes;
-
-var typeParsers = {
-  text: {},
-  binary: {}
-};
-
-//the empty parse function
-function noParse (val) {
-  return String(val);
-};
-
-//returns a function used to convert a specific type (specified by
-//oid) into a result javascript type
-//note: the oid can be obtained via the following sql query:
-//SELECT oid FROM pg_type WHERE typname = 'TYPE_NAME_HERE';
-function getTypeParser (oid, format) {
-  format = format || 'text';
-  if (!typeParsers[format]) {
-    return noParse;
-  }
-  return typeParsers[format][oid] || noParse;
-};
-
-function setTypeParser (oid, format, parseFn) {
-  if(typeof format == 'function') {
-    parseFn = format;
-    format = 'text';
-  }
-  typeParsers[format][oid] = parseFn;
-};
-
-textParsers.init(function(oid, converter) {
-  typeParsers.text[oid] = converter;
-});
-
-binaryParsers.init(function(oid, converter) {
-  typeParsers.binary[oid] = converter;
-});
-
-
-/***/ }),
-/* 39 */,
-/* 40 */,
-/* 41 */,
-/* 42 */,
-/* 43 */
-/***/ (function(module, exports) {
-
-module.exports = function(module) {
-	if (!module.webpackPolyfill) {
-		module.deprecate = function() {};
-		module.paths = [];
-		// module.parent = undefined by default
-		if (!module.children) module.children = [];
-		Object.defineProperty(module, "loaded", {
-			enumerable: true,
-			get: function() {
-				return module.l;
-			}
-		});
-		Object.defineProperty(module, "id", {
-			enumerable: true,
-			get: function() {
-				return module.i;
-			}
-		});
-		module.webpackPolyfill = 1;
-	}
-	return module;
-};
-
-
-/***/ }),
-/* 44 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-module.exports = (flag, argv) => {
-	argv = argv || process.argv;
-	const prefix = flag.startsWith('-') ? '' : (flag.length === 1 ? '-' : '--');
-	const pos = argv.indexOf(prefix + flag);
-	const terminatorPos = argv.indexOf('--');
-	return pos !== -1 && (terminatorPos === -1 ? true : pos < terminatorPos);
-};
-
-
-/***/ }),
-/* 45 */
-/***/ (function(module, exports) {
-
-module.exports = require("net");
-
-/***/ }),
-/* 46 */
-/***/ (function(module, exports) {
-
-module.exports = require("tls");
-
-/***/ }),
-/* 47 */
-/***/ (function(module, exports) {
-
-module.exports = require("tty");
-
-/***/ }),
-/* 48 */
-/***/ (function(module, exports, __webpack_require__) {
-
-const { keys } = __webpack_require__(2);
-
-// The client names we'll allow in the `{name: lib}` pairing.
-const CLIENT_ALIASES = Object.freeze({
-  pg: 'postgres',
-  postgresql: 'postgres',
-  sqlite: 'sqlite3',
-});
-
-const SUPPORTED_CLIENTS = Object.freeze(
-  [
-    'mssql',
-    'mysql',
-    'mysql2',
-    'oracledb',
-    'postgres',
-    'redshift',
-    'sqlite3',
-  ].concat(keys(CLIENT_ALIASES))
-);
-
-const POOL_CONFIG_OPTIONS = Object.freeze([
-  'maxWaitingClients',
-  'testOnBorrow',
-  'fifo',
-  'priorityRange',
-  'autostart',
-  'evictionRunIntervalMillis',
-  'numTestsPerRun',
-  'softIdleTimeoutMillis',
-  'Promise',
-]);
-
-module.exports = {
-  CLIENT_ALIASES,
-  SUPPORTED_CLIENTS,
-  POOL_CONFIG_OPTIONS,
-};
-
-
-/***/ }),
-/* 49 */
-/***/ (function(module, exports) {
-
-module.exports = function saveAsyncStack(instance, lines) {
-  if (instance.client.config.asyncStackTraces) {
-    // a hack to get a callstack into the client code despite this
-    // node.js bug https://github.com/nodejs/node/issues/11865
-    const stackByLines = new Error().stack.split('\n');
-    stackByLines.splice(0, lines);
-    instance._asyncStack = stackByLines;
-  }
-};
-
-
-/***/ }),
-/* 50 */
-/***/ (function(module, exports) {
-
-module.exports = require("crypto");
-
-/***/ }),
-/* 51 */
-/***/ (function(module, exports, __webpack_require__) {
-
-const { isEmpty, map, clone, each } = __webpack_require__(2);
-
-module.exports = function(Target) {
-  Target.prototype.toQuery = function(tz) {
-    let data = this.toSQL(this._method, tz);
-    if (!Array.isArray(data)) data = [data];
-    return map(data, (statement) => {
-      return this.client._formatQuery(statement.sql, statement.bindings, tz);
-    }).join(';\n');
-  };
-
-  // Create a new instance of the `Runner`, passing in the current object.
-  Target.prototype.then = function(/* onFulfilled, onRejected */) {
-    let result = this.client.runner(this).run();
-
-    if (this.client.config.asyncStackTraces) {
-      result = result.catch((err) => {
-        err.originalStack = err.stack;
-        const firstLine = err.stack.split('\n')[0];
-        this._asyncStack.unshift(firstLine);
-        // put the fake more helpful "async" stack on the thrown error
-        err.stack = this._asyncStack.join('\n');
-        throw err;
-      });
-    }
-
-    return result.then.apply(result, arguments);
-  };
-
-  // Add additional "options" to the builder. Typically used for client specific
-  // items, like the `mysql` and `sqlite3` drivers.
-  Target.prototype.options = function(opts) {
-    this._options = this._options || [];
-    this._options.push(clone(opts) || {});
-    return this;
-  };
-
-  // Sets an explicit "connection" we wish to use for this query.
-  Target.prototype.connection = function(connection) {
-    this._connection = connection;
-    return this;
-  };
-
-  // Set a debug flag for the current schema query stack.
-  Target.prototype.debug = function(enabled) {
-    this._debug = arguments.length ? enabled : true;
-    return this;
-  };
-
-  // Set the transaction object for this query.
-  Target.prototype.transacting = function(t) {
-    if (t && t.client) {
-      if (!t.client.transacting) {
-        t.client.logger.warn(`Invalid transaction value: ${t.client}`);
-      } else {
-        this.client = t.client;
-      }
-    }
-    if (isEmpty(t)) {
-      this.client.logger.error(
-        'Invalid value on transacting call, potential bug'
-      );
-      throw Error(
-        'Invalid transacting value (null, undefined or empty object)'
-      );
-    }
-    return this;
-  };
-
-  // Initializes a stream.
-  Target.prototype.stream = function(options) {
-    return this.client.runner(this).stream(options);
-  };
-
-  // Initialize a stream & pipe automatically.
-  Target.prototype.pipe = function(writable, options) {
-    return this.client.runner(this).pipe(
-      writable,
-      options
-    );
-  };
-
-  // Creates a method which "coerces" to a promise, by calling a
-  // "then" method on the current `Target`
-  each(
-    [
-      'bind',
-      'catch',
-      'finally',
-      'asCallback',
-      'spread',
-      'map',
-      'reduce',
-      'thenReturn',
-      'return',
-      'yield',
-      'ensure',
-      'reflect',
-      'get',
-      'mapSeries',
-      'delay',
-    ],
-    function(method) {
-      Target.prototype[method] = function() {
-        const promise = this.then();
-        return promise[method].apply(promise, arguments);
-      };
-    }
-  );
-};
-
-
-/***/ }),
-/* 52 */
-/***/ (function(module, exports, __webpack_require__) {
-
 // Builder
 // -------
-const assert = __webpack_require__(24);
+const assert = __webpack_require__(23);
 const inherits = __webpack_require__(11);
 const { EventEmitter } = __webpack_require__(7);
 
-const Raw = __webpack_require__(19);
-const helpers = __webpack_require__(15);
+const Raw = __webpack_require__(18);
+const helpers = __webpack_require__(14);
 const JoinClause = __webpack_require__(71);
 const {
   assign,
@@ -19000,6 +18429,7 @@ const {
   isBoolean,
   isEmpty,
   isFunction,
+  isNil,
   isNumber,
   isObject,
   isString,
@@ -19011,9 +18441,9 @@ const {
   last,
   isPlainObject,
 } = __webpack_require__(2);
-const saveAsyncStack = __webpack_require__(49);
+const saveAsyncStack = __webpack_require__(50);
 
-const { lockMode, waitMode } = __webpack_require__(174);
+const { lockMode, waitMode } = __webpack_require__(175);
 
 // Typically called from `knex.builder`,
 // start a new query building chain.
@@ -19842,7 +19272,17 @@ assign(Builder.prototype, {
 
   // Only allow a single "offset" to be set for the current query.
   offset(value) {
-    this._single.offset = value;
+    if (isNil(value) || value instanceof Raw || value instanceof Builder) {
+      // Builder for backward compatibility
+      this._single.offset = value;
+    } else {
+      const val = parseInt(value, 10);
+      if (isNaN(val)) {
+        this.client.logger.warn('A valid integer must be provided to offset');
+      } else {
+        this._single.offset = val;
+      }
+    }
     return this;
   },
 
@@ -20254,7 +19694,7 @@ Builder.prototype.into = Builder.prototype.table;
 Builder.prototype.del = Builder.prototype.delete;
 
 // Attach all of the top level promise methods that should be chainable.
-__webpack_require__(51)(Builder);
+__webpack_require__(52)(Builder);
 helpers.addQueryContext(Builder);
 
 Builder.extend = (methodName, fn) => {
@@ -20268,6 +19708,577 @@ Builder.extend = (methodName, fn) => {
 };
 
 module.exports = Builder;
+
+
+/***/ }),
+/* 37 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+/**
+ * Copyright (c) 2010-2017 Brian Carlson (brian.m.carlson@gmail.com)
+ * All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * README.md file in the root directory of this source tree.
+ */
+
+const crypto = __webpack_require__(51)
+
+const defaults = __webpack_require__(38)
+
+function escapeElement (elementRepresentation) {
+  var escaped = elementRepresentation
+    .replace(/\\/g, '\\\\')
+    .replace(/"/g, '\\"')
+
+  return '"' + escaped + '"'
+}
+
+// convert a JS array to a postgres array literal
+// uses comma separator so won't work for types like box that use
+// a different array separator.
+function arrayString (val) {
+  var result = '{'
+  for (var i = 0; i < val.length; i++) {
+    if (i > 0) {
+      result = result + ','
+    }
+    if (val[i] === null || typeof val[i] === 'undefined') {
+      result = result + 'NULL'
+    } else if (Array.isArray(val[i])) {
+      result = result + arrayString(val[i])
+    } else if (val[i] instanceof Buffer) {
+      result += '\\\\x' + val[i].toString('hex')
+    } else {
+      result += escapeElement(prepareValue(val[i]))
+    }
+  }
+  result = result + '}'
+  return result
+}
+
+// converts values from javascript types
+// to their 'raw' counterparts for use as a postgres parameter
+// note: you can override this function to provide your own conversion mechanism
+// for complex types, etc...
+var prepareValue = function (val, seen) {
+  if (val instanceof Buffer) {
+    return val
+  }
+  if (ArrayBuffer.isView(val)) {
+    var buf = Buffer.from(val.buffer, val.byteOffset, val.byteLength)
+    if (buf.length === val.byteLength) {
+      return buf
+    }
+    return buf.slice(val.byteOffset, val.byteOffset + val.byteLength) // Node.js v4 does not support those Buffer.from params
+  }
+  if (val instanceof Date) {
+    if (defaults.parseInputDatesAsUTC) {
+      return dateToStringUTC(val)
+    } else {
+      return dateToString(val)
+    }
+  }
+  if (Array.isArray(val)) {
+    return arrayString(val)
+  }
+  if (val === null || typeof val === 'undefined') {
+    return null
+  }
+  if (typeof val === 'object') {
+    return prepareObject(val, seen)
+  }
+  return val.toString()
+}
+
+function prepareObject (val, seen) {
+  if (val && typeof val.toPostgres === 'function') {
+    seen = seen || []
+    if (seen.indexOf(val) !== -1) {
+      throw new Error('circular reference detected while preparing "' + val + '" for query')
+    }
+    seen.push(val)
+
+    return prepareValue(val.toPostgres(prepareValue), seen)
+  }
+  return JSON.stringify(val)
+}
+
+function pad (number, digits) {
+  number = '' + number
+  while (number.length < digits) { number = '0' + number }
+  return number
+}
+
+function dateToString (date) {
+  var offset = -date.getTimezoneOffset()
+
+  var year = date.getFullYear()
+  var isBCYear = year < 1
+  if (isBCYear) year = Math.abs(year) + 1 // negative years are 1 off their BC representation
+
+  var ret = pad(year, 4) + '-' +
+    pad(date.getMonth() + 1, 2) + '-' +
+    pad(date.getDate(), 2) + 'T' +
+    pad(date.getHours(), 2) + ':' +
+    pad(date.getMinutes(), 2) + ':' +
+    pad(date.getSeconds(), 2) + '.' +
+    pad(date.getMilliseconds(), 3)
+
+  if (offset < 0) {
+    ret += '-'
+    offset *= -1
+  } else { ret += '+' }
+
+  ret += pad(Math.floor(offset / 60), 2) + ':' + pad(offset % 60, 2)
+  if (isBCYear) ret += ' BC'
+  return ret
+}
+
+function dateToStringUTC (date) {
+  var year = date.getUTCFullYear()
+  var isBCYear = year < 1
+  if (isBCYear) year = Math.abs(year) + 1 // negative years are 1 off their BC representation
+
+  var ret = pad(year, 4) + '-' +
+    pad(date.getUTCMonth() + 1, 2) + '-' +
+    pad(date.getUTCDate(), 2) + 'T' +
+    pad(date.getUTCHours(), 2) + ':' +
+    pad(date.getUTCMinutes(), 2) + ':' +
+    pad(date.getUTCSeconds(), 2) + '.' +
+    pad(date.getUTCMilliseconds(), 3)
+
+  ret += '+00:00'
+  if (isBCYear) ret += ' BC'
+  return ret
+}
+
+function normalizeQueryConfig (config, values, callback) {
+  // can take in strings or config objects
+  config = (typeof (config) === 'string') ? { text: config } : config
+  if (values) {
+    if (typeof values === 'function') {
+      config.callback = values
+    } else {
+      config.values = values
+    }
+  }
+  if (callback) {
+    config.callback = callback
+  }
+  return config
+}
+
+const md5 = function (string) {
+  return crypto.createHash('md5').update(string, 'utf-8').digest('hex')
+}
+
+// See AuthenticationMD5Password at https://www.postgresql.org/docs/current/static/protocol-flow.html
+const postgresMd5PasswordHash = function (user, password, salt) {
+  var inner = md5(password + user)
+  var outer = md5(Buffer.concat([Buffer.from(inner), salt]))
+  return 'md5' + outer
+}
+
+module.exports = {
+  prepareValue: function prepareValueWrapper (value) {
+    // this ensures that extra arguments do not get passed into prepareValue
+    // by accident, eg: from calling values.map(utils.prepareValue)
+    return prepareValue(value)
+  },
+  normalizeQueryConfig,
+  postgresMd5PasswordHash,
+  md5
+}
+
+
+/***/ }),
+/* 38 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+/**
+ * Copyright (c) 2010-2017 Brian Carlson (brian.m.carlson@gmail.com)
+ * All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * README.md file in the root directory of this source tree.
+ */
+
+module.exports = {
+  // database host. defaults to localhost
+  host: 'localhost',
+
+  // database user's name
+  user: process.platform === 'win32' ? process.env.USERNAME : process.env.USER,
+
+  // name of database to connect
+  database: process.platform === 'win32' ? process.env.USERNAME : process.env.USER,
+
+  // database user's password
+  password: null,
+
+  // a Postgres connection string to be used instead of setting individual connection items
+  // NOTE:  Setting this value will cause it to override any other value (such as database or user) defined
+  // in the defaults object.
+  connectionString: undefined,
+
+  // database port
+  port: 5432,
+
+  // number of rows to return at a time from a prepared statement's
+  // portal. 0 will return all rows at once
+  rows: 0,
+
+  // binary result mode
+  binary: false,
+
+  // Connection pool options - see https://github.com/brianc/node-pg-pool
+
+  // number of connections to use in connection pool
+  // 0 will disable connection pooling
+  max: 10,
+
+  // max milliseconds a client can go unused before it is removed
+  // from the pool and destroyed
+  idleTimeoutMillis: 30000,
+
+  client_encoding: '',
+
+  ssl: false,
+
+  application_name: undefined,
+
+  fallback_application_name: undefined,
+
+  parseInputDatesAsUTC: false,
+
+  // max milliseconds any query using this connection will execute for before timing out in error.
+  // false=unlimited
+  statement_timeout: false,
+
+  // max milliseconds to wait for query to complete (client side)
+  query_timeout: false,
+
+  connect_timeout: 0,
+
+  keepalives: 1,
+
+  keepalives_idle: 0
+}
+
+var pgTypes = __webpack_require__(39)
+// save default parsers
+var parseBigInteger = pgTypes.getTypeParser(20, 'text')
+var parseBigIntegerArray = pgTypes.getTypeParser(1016, 'text')
+
+// parse int8 so you can get your count values as actual numbers
+module.exports.__defineSetter__('parseInt8', function (val) {
+  pgTypes.setTypeParser(20, 'text', val ? pgTypes.getTypeParser(23, 'text') : parseBigInteger)
+  pgTypes.setTypeParser(1016, 'text', val ? pgTypes.getTypeParser(1007, 'text') : parseBigIntegerArray)
+})
+
+
+/***/ }),
+/* 39 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var textParsers = __webpack_require__(206);
+var binaryParsers = __webpack_require__(211);
+var arrayParser = __webpack_require__(87);
+var builtinTypes = __webpack_require__(213);
+
+exports.getTypeParser = getTypeParser;
+exports.setTypeParser = setTypeParser;
+exports.arrayParser = arrayParser;
+exports.builtins = builtinTypes;
+
+var typeParsers = {
+  text: {},
+  binary: {}
+};
+
+//the empty parse function
+function noParse (val) {
+  return String(val);
+};
+
+//returns a function used to convert a specific type (specified by
+//oid) into a result javascript type
+//note: the oid can be obtained via the following sql query:
+//SELECT oid FROM pg_type WHERE typname = 'TYPE_NAME_HERE';
+function getTypeParser (oid, format) {
+  format = format || 'text';
+  if (!typeParsers[format]) {
+    return noParse;
+  }
+  return typeParsers[format][oid] || noParse;
+};
+
+function setTypeParser (oid, format, parseFn) {
+  if(typeof format == 'function') {
+    parseFn = format;
+    format = 'text';
+  }
+  typeParsers[format][oid] = parseFn;
+};
+
+textParsers.init(function(oid, converter) {
+  typeParsers.text[oid] = converter;
+});
+
+binaryParsers.init(function(oid, converter) {
+  typeParsers.binary[oid] = converter;
+});
+
+
+/***/ }),
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */,
+/* 44 */
+/***/ (function(module, exports) {
+
+module.exports = function(module) {
+	if (!module.webpackPolyfill) {
+		module.deprecate = function() {};
+		module.paths = [];
+		// module.parent = undefined by default
+		if (!module.children) module.children = [];
+		Object.defineProperty(module, "loaded", {
+			enumerable: true,
+			get: function() {
+				return module.l;
+			}
+		});
+		Object.defineProperty(module, "id", {
+			enumerable: true,
+			get: function() {
+				return module.i;
+			}
+		});
+		module.webpackPolyfill = 1;
+	}
+	return module;
+};
+
+
+/***/ }),
+/* 45 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = (flag, argv) => {
+	argv = argv || process.argv;
+	const prefix = flag.startsWith('-') ? '' : (flag.length === 1 ? '-' : '--');
+	const pos = argv.indexOf(prefix + flag);
+	const terminatorPos = argv.indexOf('--');
+	return pos !== -1 && (terminatorPos === -1 ? true : pos < terminatorPos);
+};
+
+
+/***/ }),
+/* 46 */
+/***/ (function(module, exports) {
+
+module.exports = require("net");
+
+/***/ }),
+/* 47 */
+/***/ (function(module, exports) {
+
+module.exports = require("tls");
+
+/***/ }),
+/* 48 */
+/***/ (function(module, exports) {
+
+module.exports = require("tty");
+
+/***/ }),
+/* 49 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const { keys } = __webpack_require__(2);
+
+// The client names we'll allow in the `{name: lib}` pairing.
+const CLIENT_ALIASES = Object.freeze({
+  pg: 'postgres',
+  postgresql: 'postgres',
+  sqlite: 'sqlite3',
+});
+
+const SUPPORTED_CLIENTS = Object.freeze(
+  [
+    'mssql',
+    'mysql',
+    'mysql2',
+    'oracledb',
+    'postgres',
+    'redshift',
+    'sqlite3',
+  ].concat(keys(CLIENT_ALIASES))
+);
+
+const POOL_CONFIG_OPTIONS = Object.freeze([
+  'maxWaitingClients',
+  'testOnBorrow',
+  'fifo',
+  'priorityRange',
+  'autostart',
+  'evictionRunIntervalMillis',
+  'numTestsPerRun',
+  'softIdleTimeoutMillis',
+  'Promise',
+]);
+
+module.exports = {
+  CLIENT_ALIASES,
+  SUPPORTED_CLIENTS,
+  POOL_CONFIG_OPTIONS,
+};
+
+
+/***/ }),
+/* 50 */
+/***/ (function(module, exports) {
+
+module.exports = function saveAsyncStack(instance, lines) {
+  if (instance.client.config.asyncStackTraces) {
+    // a hack to get a callstack into the client code despite this
+    // node.js bug https://github.com/nodejs/node/issues/11865
+    const stackByLines = new Error().stack.split('\n');
+    stackByLines.splice(0, lines);
+    instance._asyncStack = stackByLines;
+  }
+};
+
+
+/***/ }),
+/* 51 */
+/***/ (function(module, exports) {
+
+module.exports = require("crypto");
+
+/***/ }),
+/* 52 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const { isEmpty, map, clone, each } = __webpack_require__(2);
+
+module.exports = function(Target) {
+  Target.prototype.toQuery = function(tz) {
+    let data = this.toSQL(this._method, tz);
+    if (!Array.isArray(data)) data = [data];
+    return map(data, (statement) => {
+      return this.client._formatQuery(statement.sql, statement.bindings, tz);
+    }).join(';\n');
+  };
+
+  // Create a new instance of the `Runner`, passing in the current object.
+  Target.prototype.then = function(/* onFulfilled, onRejected */) {
+    let result = this.client.runner(this).run();
+
+    if (this.client.config.asyncStackTraces) {
+      result = result.catch((err) => {
+        err.originalStack = err.stack;
+        const firstLine = err.stack.split('\n')[0];
+        this._asyncStack.unshift(firstLine);
+        // put the fake more helpful "async" stack on the thrown error
+        err.stack = this._asyncStack.join('\n');
+        throw err;
+      });
+    }
+
+    return result.then.apply(result, arguments);
+  };
+
+  // Add additional "options" to the builder. Typically used for client specific
+  // items, like the `mysql` and `sqlite3` drivers.
+  Target.prototype.options = function(opts) {
+    this._options = this._options || [];
+    this._options.push(clone(opts) || {});
+    return this;
+  };
+
+  // Sets an explicit "connection" we wish to use for this query.
+  Target.prototype.connection = function(connection) {
+    this._connection = connection;
+    return this;
+  };
+
+  // Set a debug flag for the current schema query stack.
+  Target.prototype.debug = function(enabled) {
+    this._debug = arguments.length ? enabled : true;
+    return this;
+  };
+
+  // Set the transaction object for this query.
+  Target.prototype.transacting = function(t) {
+    if (t && t.client) {
+      if (!t.client.transacting) {
+        t.client.logger.warn(`Invalid transaction value: ${t.client}`);
+      } else {
+        this.client = t.client;
+      }
+    }
+    if (isEmpty(t)) {
+      this.client.logger.error(
+        'Invalid value on transacting call, potential bug'
+      );
+      throw Error(
+        'Invalid transacting value (null, undefined or empty object)'
+      );
+    }
+    return this;
+  };
+
+  // Initializes a stream.
+  Target.prototype.stream = function(options) {
+    return this.client.runner(this).stream(options);
+  };
+
+  // Initialize a stream & pipe automatically.
+  Target.prototype.pipe = function(writable, options) {
+    return this.client.runner(this).pipe(
+      writable,
+      options
+    );
+  };
+
+  // Creates a method which "coerces" to a promise, by calling a
+  // "then" method on the current `Target`
+  each(
+    [
+      'bind',
+      'catch',
+      'finally',
+      'asCallback',
+      'spread',
+      'map',
+      'reduce',
+      'thenReturn',
+      'return',
+      'yield',
+      'ensure',
+      'reflect',
+      'get',
+      'mapSeries',
+      'delay',
+    ],
+    function(method) {
+      Target.prototype[method] = function() {
+        const promise = this.then();
+        return promise[method].apply(promise, arguments);
+      };
+    }
+  );
+};
 
 
 /***/ }),
@@ -20366,7 +20377,7 @@ module.exports = {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const PromiseInspection_1 = __webpack_require__(190);
+const PromiseInspection_1 = __webpack_require__(192);
 function defer() {
     let resolve = null;
     let reject = null;
@@ -20431,7 +20442,7 @@ exports.tryPromise = tryPromise;
 /* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var json = typeof JSON !== 'undefined' ? JSON : __webpack_require__(231);
+var json = typeof JSON !== 'undefined' ? JSON : __webpack_require__(233);
 
 module.exports = function (obj, opts) {
     if (!opts) opts = {};
@@ -20538,7 +20549,7 @@ function setup(env) {
 	createDebug.disable = disable;
 	createDebug.enable = enable;
 	createDebug.enabled = enabled;
-	createDebug.humanize = __webpack_require__(138);
+	createDebug.humanize = __webpack_require__(139);
 
 	Object.keys(env).forEach(key => {
 		createDebug[key] = env[key];
@@ -20797,8 +20808,8 @@ module.exports = setup;
 /* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var v1 = __webpack_require__(140);
-var v4 = __webpack_require__(141);
+var v1 = __webpack_require__(141);
+var v4 = __webpack_require__(142);
 
 var uuid = v4;
 uuid.v1 = v1;
@@ -20814,7 +20825,7 @@ module.exports = uuid;
 // Unique ID creation requires a high quality random # generator.  In node.js
 // this is pretty straight-forward - we use the crypto API.
 
-var crypto = __webpack_require__(50);
+var crypto = __webpack_require__(51);
 
 module.exports = function nodeRNG() {
   return crypto.randomBytes(16);
@@ -20855,37 +20866,38 @@ module.exports = bytesToUuid;
 /* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Bluebird = __webpack_require__(12);
+const Bluebird = __webpack_require__(28);
 
-const Raw = __webpack_require__(19);
-const Ref = __webpack_require__(172);
-const Runner = __webpack_require__(173);
+const Raw = __webpack_require__(18);
+const Ref = __webpack_require__(173);
+const Runner = __webpack_require__(174);
 const Formatter = __webpack_require__(70);
-const Transaction = __webpack_require__(175);
+const Transaction = __webpack_require__(176);
 
-const QueryBuilder = __webpack_require__(52);
-const QueryCompiler = __webpack_require__(78);
+const QueryBuilder = __webpack_require__(36);
+const QueryCompiler = __webpack_require__(79);
 
-const SchemaBuilder = __webpack_require__(184);
-const SchemaCompiler = __webpack_require__(79);
-const TableBuilder = __webpack_require__(185);
-const TableCompiler = __webpack_require__(80);
-const ColumnBuilder = __webpack_require__(186);
-const ColumnCompiler = __webpack_require__(81);
+const SchemaBuilder = __webpack_require__(186);
+const SchemaCompiler = __webpack_require__(80);
+const TableBuilder = __webpack_require__(187);
+const TableCompiler = __webpack_require__(81);
+const ColumnBuilder = __webpack_require__(188);
+const ColumnCompiler = __webpack_require__(82);
 
-const { Pool, TimeoutError } = __webpack_require__(187);
+const { Pool, TimeoutError } = __webpack_require__(189);
 const inherits = __webpack_require__(11);
 const { EventEmitter } = __webpack_require__(7);
+const { promisify } = __webpack_require__(4);
 
-const { makeEscape } = __webpack_require__(83);
+const { makeEscape } = __webpack_require__(84);
 const { uniqueId, cloneDeep, defaults } = __webpack_require__(2);
 
-const Logger = __webpack_require__(192);
+const Logger = __webpack_require__(194);
 
-const debug = __webpack_require__(25)('knex:client');
-const debugQuery = __webpack_require__(25)('knex:query');
-const debugBindings = __webpack_require__(25)('knex:bindings');
-const { POOL_CONFIG_OPTIONS } = __webpack_require__(48);
+const debug = __webpack_require__(24)('knex:client');
+const debugQuery = __webpack_require__(24)('knex:query');
+const debugBindings = __webpack_require__(24)('knex:bindings');
+const { POOL_CONFIG_OPTIONS } = __webpack_require__(49);
 
 // The base client provides the general structure
 // for a dialect specific client object.
@@ -20911,7 +20923,13 @@ function Client(config = {}) {
     this.version = config.version;
   }
 
-  this.connectionSettings = cloneDeep(config.connection || {});
+  if (config.connection && config.connection instanceof Function) {
+    this.connectionConfigProvider = config.connection;
+    this.connectionConfigExpirationChecker = () => true; // causes the provider to be called on first use
+  } else {
+    this.connectionSettings = cloneDeep(config.connection || {});
+    this.connectionConfigExpirationChecker = null;
+  }
   if (this.driverName && config.connection) {
     this.initializeDriver();
     if (!config.pool || (config.pool && config.pool.max !== 0)) {
@@ -21110,16 +21128,36 @@ Object.assign(Client.prototype, {
     // choose the smallest, positive timeout setting and set on poolConfig
     poolConfig.acquireTimeoutMillis = Math.min(...timeouts);
 
-    return Object.assign(poolConfig, {
-      create: () => {
-        return this.acquireRawConnection().then(async (connection) => {
-          connection.__knexUid = uniqueId('__knexUid');
+    const updatePoolConnectionSettingsFromProvider = async () => {
+      if (!this.connectionConfigProvider) {
+        return; // static configuration, nothing to update
+      }
+      if (
+        !this.connectionConfigExpirationChecker ||
+        !this.connectionConfigExpirationChecker()
+      ) {
+        return; // not expired, reuse existing connection
+      }
+      const providerResult = await this.connectionConfigProvider();
+      if (providerResult.expirationChecker) {
+        this.connectionConfigExpirationChecker =
+          providerResult.expirationChecker;
+        delete providerResult.expirationChecker; // MySQL2 driver warns on receiving extra properties
+      } else {
+        this.connectionConfigExpirationChecker = null;
+      }
+      this.connectionSettings = providerResult;
+    };
 
-          if (poolConfig.afterCreate) {
-            await Bluebird.promisify(poolConfig.afterCreate)(connection);
-          }
-          return connection;
-        });
+    return Object.assign(poolConfig, {
+      create: async () => {
+        await updatePoolConnectionSettingsFromProvider();
+        const connection = await this.acquireRawConnection();
+        connection.__knexUid = uniqueId('__knexUid');
+        if (poolConfig.afterCreate) {
+          await promisify(poolConfig.afterCreate)(connection);
+        }
+        return connection;
       },
 
       destroy: (connection) => {
@@ -21255,7 +21293,7 @@ module.exports = require("async_hooks");
 
 module.exports = function(NEXT_FILTER) {
 var util = __webpack_require__(3);
-var getKeys = __webpack_require__(20).keys;
+var getKeys = __webpack_require__(19).keys;
 var tryCatch = util.tryCatch;
 var errorObj = util.errorObj;
 
@@ -21304,9 +21342,9 @@ return catchFilter;
 
 var util = __webpack_require__(3);
 var maybeWrapAsError = util.maybeWrapAsError;
-var errors = __webpack_require__(16);
+var errors = __webpack_require__(15);
 var OperationalError = errors.OperationalError;
-var es5 = __webpack_require__(20);
+var es5 = __webpack_require__(19);
 
 function isUntypedError(obj) {
     return obj instanceof Error &&
@@ -21358,8 +21396,8 @@ module.exports = nodebackForPromise;
 /* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const QueryBuilder = __webpack_require__(52);
-const Raw = __webpack_require__(19);
+const QueryBuilder = __webpack_require__(36);
+const Raw = __webpack_require__(18);
 const { transform } = __webpack_require__(2);
 
 // Valid values for the `order by` clause generation.
@@ -21531,8 +21569,8 @@ class Formatter {
 
   // Puts the appropriate wrapper around a value depending on the database
   // engine, unless it's a knex.raw value, in which case it's left alone.
-  wrap(value) {
-    const raw = this.unwrapRaw(value);
+  wrap(value, isParameter) {
+    const raw = this.unwrapRaw(value, isParameter);
     if (raw) return raw;
     switch (typeof value) {
       case 'function':
@@ -21659,7 +21697,7 @@ module.exports = Formatter;
 /* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const assert = __webpack_require__(24);
+const assert = __webpack_require__(23);
 
 // JoinClause
 // -------
@@ -21938,12 +21976,12 @@ module.exports = JoinClause;
 
 const { EventEmitter } = __webpack_require__(7);
 
-const { Migrator } = __webpack_require__(176);
-const Seeder = __webpack_require__(181);
-const FunctionHelper = __webpack_require__(182);
-const QueryInterface = __webpack_require__(77);
+const { Migrator } = __webpack_require__(177);
+const Seeder = __webpack_require__(182);
+const FunctionHelper = __webpack_require__(183);
+const QueryInterface = __webpack_require__(78);
 const { merge } = __webpack_require__(2);
-const batchInsert = __webpack_require__(183);
+const batchInsert = __webpack_require__(184);
 
 function makeKnex(client) {
   // The object we're potentially using to kick off an initial chain.
@@ -22297,8 +22335,8 @@ module.exports = {
 /* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var path = __webpack_require__(13);
-var fs = __webpack_require__(9);
+var path = __webpack_require__(12);
+var fs = __webpack_require__(8);
 var _0777 = parseInt('0777', 8);
 
 module.exports = mkdirP.mkdirp = mkdirP.mkdirP = mkdirP;
@@ -22401,10 +22439,71 @@ mkdirP.sync = function sync (p, opts, made) {
 /* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
+const { template } = __webpack_require__(2);
+const { promisify } = __webpack_require__(4);
+const fs = __webpack_require__(8);
+
+/**
+ * Light wrapper over lodash templates making it safer to be used with javascript source code.
+ *
+ * In particular, doesn't interfere with use of interpolated strings in javascript.
+ *
+ * @param {string} content Template source
+ * @param {_.TemplateOptions} options Template options
+ */
+const jsSourceTemplate = (content, options) =>
+  template(content, {
+    interpolate: /<%=([\s\S]+?)%>/g,
+    ...options,
+  });
+
+const readFile = promisify(fs.readFile, { context: fs });
+const writeFile = promisify(fs.writeFile, { context: fs });
+
+/**
+ * Compile the contents of specified (javascript) file as a lodash template
+ *
+ * @param {string} filePath Path of file to be used as template
+ * @param {_.TemplateOptions} options Lodash template options
+ */
+const jsFileTemplate = async (filePath, options) => {
+  const contentBuffer = await readFile(filePath);
+  return jsSourceTemplate(contentBuffer.toString(), options);
+};
+
+/**
+ * Write a javascript file using another file as a (lodash) template
+ *
+ * @param {string} targetFilePath
+ * @param {string} sourceFilePath
+ * @param {_.TemplateOptions} options options passed to lodash templates
+ */
+const writeJsFileUsingTemplate = async (
+  targetFilePath,
+  sourceFilePath,
+  options,
+  variables
+) =>
+  writeFile(
+    targetFilePath,
+    (await jsFileTemplate(sourceFilePath, options))(variables)
+  );
+
+module.exports = {
+  jsSourceTemplate,
+  jsFileTemplate,
+  writeJsFileUsingTemplate,
+};
+
+
+/***/ }),
+/* 76 */
+/***/ (function(module, exports, __webpack_require__) {
+
 const {
   FsMigrations,
   DEFAULT_LOAD_EXTENSIONS,
-} = __webpack_require__(179);
+} = __webpack_require__(180);
 
 const CONFIG_DEFAULT = Object.freeze({
   extension: 'js',
@@ -22413,6 +22512,7 @@ const CONFIG_DEFAULT = Object.freeze({
   schemaName: null,
   directory: './migrations',
   disableTransactions: false,
+  disableMigrationsListValidation: false,
   sortDirsSeparately: false,
 });
 
@@ -22456,7 +22556,7 @@ module.exports = {
 
 
 /***/ }),
-/* 76 */
+/* 77 */
 /***/ (function(module, exports) {
 
 function webpackEmptyContext(req) {
@@ -22467,10 +22567,10 @@ function webpackEmptyContext(req) {
 webpackEmptyContext.keys = function() { return []; };
 webpackEmptyContext.resolve = webpackEmptyContext;
 module.exports = webpackEmptyContext;
-webpackEmptyContext.id = 76;
+webpackEmptyContext.id = 77;
 
 /***/ }),
-/* 77 */
+/* 78 */
 /***/ (function(module, exports) {
 
 // All properties we can use to start a query chain
@@ -22567,15 +22667,16 @@ module.exports = [
 
 
 /***/ }),
-/* 78 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Query Compiler
 // -------
-const helpers = __webpack_require__(15);
-const Raw = __webpack_require__(19);
+const helpers = __webpack_require__(14);
+const Raw = __webpack_require__(18);
+const QueryBuilder = __webpack_require__(36);
 const JoinClause = __webpack_require__(71);
-const debug = __webpack_require__(25);
+const debug = __webpack_require__(24);
 
 const {
   assign,
@@ -23395,16 +23496,24 @@ assign(QueryCompiler.prototype, {
     return vals;
   },
 
+  _formatGroupsItemValue(value) {
+    const { formatter } = this;
+    if (value instanceof Raw) {
+      return formatter.unwrapRaw(value);
+    } else if (value instanceof QueryBuilder) {
+      return '(' + formatter.columnize(value) + ')';
+    } else {
+      return formatter.columnize(value);
+    }
+  },
+
   // Compiles the `order by` statements.
   _groupsOrders(type) {
     const items = this.grouped[type];
     if (!items) return '';
     const { formatter } = this;
     const sql = items.map((item) => {
-      const column =
-        item.value instanceof Raw
-          ? formatter.unwrapRaw(item.value)
-          : formatter.columnize(item.value);
+      const column = this._formatGroupsItemValue(item.value);
       const direction =
         type === 'order' && item.type !== 'orderByRaw'
           ? ` ${formatter.direction(item.direction)}`
@@ -23428,7 +23537,10 @@ Object.defineProperty(QueryCompiler.prototype, 'tableName', {
 
       if (tableName && schemaName) tableName = `${schemaName}.${tableName}`;
 
-      this._tableName = tableName ? this.formatter.wrap(tableName) : '';
+      this._tableName = tableName
+        ? // Wrap subQuery with parenthesis, #3485
+          this.formatter.wrap(tableName, tableName instanceof QueryBuilder)
+        : '';
     }
     return this._tableName;
   },
@@ -23438,7 +23550,7 @@ module.exports = QueryCompiler;
 
 
 /***/ }),
-/* 79 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const { pushQuery, pushAdditional, unshiftQuery } = __webpack_require__(54);
@@ -23528,7 +23640,7 @@ module.exports = SchemaCompiler;
 
 
 /***/ }),
-/* 80 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* eslint max-len:0 */
@@ -23536,7 +23648,7 @@ module.exports = SchemaCompiler;
 // Table Compiler
 // -------
 const { pushAdditional, pushQuery, unshiftQuery } = __webpack_require__(54);
-const helpers = __webpack_require__(15);
+const helpers = __webpack_require__(14);
 const {
   groupBy,
   reduce,
@@ -23840,14 +23952,14 @@ module.exports = TableCompiler;
 
 
 /***/ }),
-/* 81 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Column Compiler
 // Used for designating column definitions
 // during the table "create" / "alter" statements.
 // -------
-const Raw = __webpack_require__(19);
+const Raw = __webpack_require__(18);
 const helpers = __webpack_require__(54);
 const { groupBy, first, tail, has, isObject } = __webpack_require__(2);
 
@@ -24019,7 +24131,7 @@ module.exports = ColumnCompiler;
 
 
 /***/ }),
-/* 82 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24031,7 +24143,7 @@ exports.TimeoutError = TimeoutError;
 
 
 /***/ }),
-/* 83 */
+/* 84 */
 /***/ (function(module, exports) {
 
 /*eslint max-len: 0, no-var:0 */
@@ -24227,7 +24339,7 @@ module.exports = {
 
 
 /***/ }),
-/* 84 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24240,11 +24352,11 @@ module.exports = {
  * README.md file in the root directory of this source tree.
  */
 
-var util = __webpack_require__(5)
-var Client = __webpack_require__(203)
-var defaults = __webpack_require__(37)
-var Connection = __webpack_require__(90)
-var Pool = __webpack_require__(223)
+var util = __webpack_require__(4)
+var Client = __webpack_require__(205)
+var defaults = __webpack_require__(38)
+var Connection = __webpack_require__(91)
+var Pool = __webpack_require__(225)
 
 const poolFactory = (Client) => {
   var BoundPool = function (options) {
@@ -24264,11 +24376,11 @@ var PG = function (clientConstructor) {
   this.Pool = poolFactory(this.Client)
   this._pools = []
   this.Connection = Connection
-  this.types = __webpack_require__(38)
+  this.types = __webpack_require__(39)
 }
 
 if (typeof process.env.NODE_PG_FORCE_NATIVE !== 'undefined') {
-  module.exports = new PG(__webpack_require__(91))
+  module.exports = new PG(__webpack_require__(92))
 } else {
   module.exports = new PG(Client)
 
@@ -24277,7 +24389,7 @@ if (typeof process.env.NODE_PG_FORCE_NATIVE !== 'undefined') {
     delete module.exports.native
     var native = null
     try {
-      native = new PG(__webpack_require__(91))
+      native = new PG(__webpack_require__(92))
     } catch (err) {
       if (err.code !== 'MODULE_NOT_FOUND') {
         throw err
@@ -24293,7 +24405,7 @@ if (typeof process.env.NODE_PG_FORCE_NATIVE !== 'undefined') {
 
 
 /***/ }),
-/* 85 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24397,10 +24509,10 @@ function identity (value) {
 
 
 /***/ }),
-/* 86 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var array = __webpack_require__(85);
+var array = __webpack_require__(86);
 
 module.exports = {
   create: function (source, transform) {
@@ -24414,7 +24526,7 @@ module.exports = {
 
 
 /***/ }),
-/* 87 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24427,7 +24539,7 @@ module.exports = {
  * README.md file in the root directory of this source tree.
  */
 
-var types = __webpack_require__(38)
+var types = __webpack_require__(39)
 
 function TypeOverrides (userTypes) {
   this._types = userTypes || types
@@ -24460,7 +24572,7 @@ module.exports = TypeOverrides
 
 
 /***/ }),
-/* 88 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24473,11 +24585,11 @@ module.exports = TypeOverrides
  * README.md file in the root directory of this source tree.
  */
 
-var dns = __webpack_require__(218)
+var dns = __webpack_require__(220)
 
-var defaults = __webpack_require__(37)
+var defaults = __webpack_require__(38)
 
-var parse = __webpack_require__(219).parse // parses a connection string
+var parse = __webpack_require__(221).parse // parses a connection string
 
 var val = function (key, config, envVar) {
   if (envVar === undefined) {
@@ -24604,7 +24716,7 @@ module.exports = ConnectionParameters
 
 
 /***/ }),
-/* 89 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24617,7 +24729,7 @@ module.exports = ConnectionParameters
  * README.md file in the root directory of this source tree.
  */
 
-var types = __webpack_require__(38)
+var types = __webpack_require__(39)
 
 // result object returned from query
 // in the 'end' event and also
@@ -24714,7 +24826,7 @@ module.exports = Result
 
 
 /***/ }),
-/* 90 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24727,12 +24839,12 @@ module.exports = Result
  * README.md file in the root directory of this source tree.
  */
 
-var net = __webpack_require__(45)
+var net = __webpack_require__(46)
 var EventEmitter = __webpack_require__(7).EventEmitter
-var util = __webpack_require__(5)
+var util = __webpack_require__(4)
 
-var Writer = __webpack_require__(221)
-var Reader = __webpack_require__(222)
+var Writer = __webpack_require__(223)
+var Reader = __webpack_require__(224)
 
 var TEXT_MODE = 0
 var BINARY_MODE = 1
@@ -24811,7 +24923,7 @@ Connection.prototype.connect = function (port, host) {
       default: // Any other response byte, including 'E' (ErrorResponse) indicating a server error
         return self.emit('error', new Error('There was an error establishing an SSL connection'))
     }
-    var tls = __webpack_require__(46)
+    var tls = __webpack_require__(47)
     self.stream = tls.connect({
       socket: self.stream,
       servername: host,
@@ -25426,22 +25538,22 @@ module.exports = Connection
 
 
 /***/ }),
-/* 91 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-module.exports = __webpack_require__(224)
+module.exports = __webpack_require__(226)
 
 
 /***/ }),
-/* 92 */,
 /* 93 */,
 /* 94 */,
 /* 95 */,
 /* 96 */,
 /* 97 */,
-/* 98 */
+/* 98 */,
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Knex.js
@@ -25451,11 +25563,10 @@ module.exports = __webpack_require__(224)
 //     For details and documentation:
 //     http://knexjs.org
 
-module.exports = __webpack_require__(134);
+module.exports = __webpack_require__(135);
 
 
 /***/ }),
-/* 99 */,
 /* 100 */,
 /* 101 */,
 /* 102 */,
@@ -25488,7 +25599,8 @@ module.exports = __webpack_require__(134);
 /* 129 */,
 /* 130 */,
 /* 131 */,
-/* 132 */
+/* 132 */,
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25498,7 +25610,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const netlify_1 = __webpack_require__(133);
+const netlify_1 = __webpack_require__(134);
 
 const handler = async (event, badly_typed_context) => {
   const who_am_i = {};
@@ -25528,7 +25640,7 @@ const handler = async (event, badly_typed_context) => {
 
     const {
       ensure_user_through_netlify
-    } = __webpack_require__(235);
+    } = __webpack_require__(237);
 
     who_am_i['3-DB_result'] = await ensure_user_through_netlify(netlify_id, data);
   } catch (err) {
@@ -25545,7 +25657,7 @@ const handler = async (event, badly_typed_context) => {
 exports.handler = handler;
 
 /***/ }),
-/* 133 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25589,28 +25701,28 @@ function get_netlify_user_data(context) {
 exports.get_netlify_user_data = get_netlify_user_data;
 
 /***/ }),
-/* 134 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Knex = __webpack_require__(135);
+const Knex = __webpack_require__(136);
 
 module.exports = Knex;
 
 
 /***/ }),
-/* 135 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Raw = __webpack_require__(19);
+const Raw = __webpack_require__(18);
 const Client = __webpack_require__(66);
-const QueryBuilder = __webpack_require__(52);
-const QueryInterface = __webpack_require__(77);
+const QueryBuilder = __webpack_require__(36);
+const QueryInterface = __webpack_require__(78);
 
 const makeKnex = __webpack_require__(72);
-const parseConnection = __webpack_require__(194);
-const fakeClient = __webpack_require__(196);
-const { SUPPORTED_CLIENTS } = __webpack_require__(48);
-const { resolveClientNameWithAliases } = __webpack_require__(15);
+const parseConnection = __webpack_require__(196);
+const fakeClient = __webpack_require__(198);
+const { SUPPORTED_CLIENTS } = __webpack_require__(49);
+const { resolveClientNameWithAliases } = __webpack_require__(14);
 
 function Knex(config) {
   // If config is a string, try to parse it
@@ -25643,7 +25755,7 @@ function Knex(config) {
     }
 
     const resolvedClientName = resolveClientNameWithAliases(clientName);
-    Dialect = __webpack_require__(197)(`./${resolvedClientName}/index.js`);
+    Dialect = __webpack_require__(199)(`./${resolvedClientName}/index.js`);
   }
 
   // If config connection parameter is passed as string, try to parse it
@@ -25683,7 +25795,7 @@ module.exports = Knex;
 
 
 /***/ }),
-/* 136 */
+/* 137 */
 /***/ (function(module, exports) {
 
 if (typeof Object.create === 'function') {
@@ -25716,7 +25828,7 @@ if (typeof Object.create === 'function') {
 
 
 /***/ }),
-/* 137 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* eslint-env browser */
@@ -25986,7 +26098,7 @@ formatters.j = function (v) {
 
 
 /***/ }),
-/* 138 */
+/* 139 */
 /***/ (function(module, exports) {
 
 /**
@@ -26154,15 +26266,15 @@ function plural(ms, msAbs, n, name) {
 
 
 /***/ }),
-/* 139 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
  * Module dependencies.
  */
 
-const tty = __webpack_require__(47);
-const util = __webpack_require__(5);
+const tty = __webpack_require__(48);
+const util = __webpack_require__(4);
 
 /**
  * This is the Node.js implementation of `debug()`.
@@ -26417,7 +26529,7 @@ formatters.O = function (v) {
 
 
 /***/ }),
-/* 140 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var rng = __webpack_require__(64);
@@ -26532,7 +26644,7 @@ module.exports = v1;
 
 
 /***/ }),
-/* 141 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var rng = __webpack_require__(64);
@@ -26567,7 +26679,7 @@ module.exports = v4;
 
 
 /***/ }),
-/* 142 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26622,11 +26734,11 @@ var disableAsyncHooks = function() {
     util.notEnumerableProp(Promise, "_getContext", getContextDomain);
 };
 
-var es5 = __webpack_require__(20);
-var Async = __webpack_require__(143);
+var es5 = __webpack_require__(19);
+var Async = __webpack_require__(144);
 var async = new Async();
 es5.defineProperty(Promise, "_async", {value: async});
-var errors = __webpack_require__(16);
+var errors = __webpack_require__(15);
 var TypeError = Promise.TypeError = errors.TypeError;
 Promise.RangeError = errors.RangeError;
 var CancellationError = Promise.CancellationError = errors.CancellationError;
@@ -26637,19 +26749,19 @@ Promise.AggregateError = errors.AggregateError;
 var INTERNAL = function(){};
 var APPLY = {};
 var NEXT_FILTER = {};
-var tryConvertToPromise = __webpack_require__(146)(Promise, INTERNAL);
+var tryConvertToPromise = __webpack_require__(147)(Promise, INTERNAL);
 var PromiseArray =
-    __webpack_require__(147)(Promise, INTERNAL,
+    __webpack_require__(148)(Promise, INTERNAL,
                                tryConvertToPromise, apiRejection, Proxyable);
-var Context = __webpack_require__(148)(Promise);
+var Context = __webpack_require__(149)(Promise);
  /*jshint unused:false*/
 var createContext = Context.create;
 
-var debug = __webpack_require__(149)(Promise, Context,
+var debug = __webpack_require__(150)(Promise, Context,
     enableAsyncHooks, disableAsyncHooks);
 var CapturedTrace = debug.CapturedTrace;
 var PassThroughHandlerContext =
-    __webpack_require__(150)(Promise, tryConvertToPromise, NEXT_FILTER);
+    __webpack_require__(151)(Promise, tryConvertToPromise, NEXT_FILTER);
 var catchFilter = __webpack_require__(68)(NEXT_FILTER);
 var nodebackForPromise = __webpack_require__(69);
 var errorObj = util.errorObj;
@@ -27341,31 +27453,31 @@ util.notEnumerableProp(Promise,
                        "_makeSelfResolutionError",
                        makeSelfResolutionError);
 
-__webpack_require__(151)(Promise, INTERNAL, tryConvertToPromise, apiRejection,
+__webpack_require__(152)(Promise, INTERNAL, tryConvertToPromise, apiRejection,
     debug);
-__webpack_require__(152)(Promise, INTERNAL, tryConvertToPromise, debug);
-__webpack_require__(153)(Promise, PromiseArray, apiRejection, debug);
-__webpack_require__(154)(Promise);
+__webpack_require__(153)(Promise, INTERNAL, tryConvertToPromise, debug);
+__webpack_require__(154)(Promise, PromiseArray, apiRejection, debug);
 __webpack_require__(155)(Promise);
-__webpack_require__(156)(
+__webpack_require__(156)(Promise);
+__webpack_require__(157)(
     Promise, PromiseArray, tryConvertToPromise, INTERNAL, async);
 Promise.Promise = Promise;
 Promise.version = "3.7.1";
-__webpack_require__(157)(Promise);
-__webpack_require__(158)(Promise, apiRejection, INTERNAL, tryConvertToPromise, Proxyable, debug);
-__webpack_require__(159)(Promise, PromiseArray, apiRejection, tryConvertToPromise, INTERNAL, debug);
-__webpack_require__(160)(Promise);
-__webpack_require__(161)(Promise, INTERNAL);
-__webpack_require__(162)(Promise, PromiseArray, tryConvertToPromise, apiRejection);
-__webpack_require__(163)(Promise, INTERNAL, tryConvertToPromise, apiRejection);
-__webpack_require__(164)(Promise, PromiseArray, apiRejection, tryConvertToPromise, INTERNAL, debug);
-__webpack_require__(165)(Promise, PromiseArray, debug);
-__webpack_require__(166)(Promise, PromiseArray, apiRejection);
-__webpack_require__(167)(Promise, INTERNAL, debug);
-__webpack_require__(168)(Promise, apiRejection, tryConvertToPromise, createContext, INTERNAL, debug);
-__webpack_require__(169)(Promise);
-__webpack_require__(170)(Promise, INTERNAL);
+__webpack_require__(158)(Promise);
+__webpack_require__(159)(Promise, apiRejection, INTERNAL, tryConvertToPromise, Proxyable, debug);
+__webpack_require__(160)(Promise, PromiseArray, apiRejection, tryConvertToPromise, INTERNAL, debug);
+__webpack_require__(161)(Promise);
+__webpack_require__(162)(Promise, INTERNAL);
+__webpack_require__(163)(Promise, PromiseArray, tryConvertToPromise, apiRejection);
+__webpack_require__(164)(Promise, INTERNAL, tryConvertToPromise, apiRejection);
+__webpack_require__(165)(Promise, PromiseArray, apiRejection, tryConvertToPromise, INTERNAL, debug);
+__webpack_require__(166)(Promise, PromiseArray, debug);
+__webpack_require__(167)(Promise, PromiseArray, apiRejection);
+__webpack_require__(168)(Promise, INTERNAL, debug);
+__webpack_require__(169)(Promise, apiRejection, tryConvertToPromise, createContext, INTERNAL, debug);
+__webpack_require__(170)(Promise);
 __webpack_require__(171)(Promise, INTERNAL);
+__webpack_require__(172)(Promise, INTERNAL);
                                                          
     util.toFastProperties(Promise);                                          
     util.toFastProperties(Promise.prototype);                                
@@ -27393,15 +27505,15 @@ __webpack_require__(171)(Promise, INTERNAL);
 
 
 /***/ }),
-/* 143 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var firstLineError;
 try {throw new Error(); } catch (e) {firstLineError = e;}
-var schedule = __webpack_require__(144);
-var Queue = __webpack_require__(145);
+var schedule = __webpack_require__(145);
+var Queue = __webpack_require__(146);
 
 function Async() {
     this._customScheduler = false;
@@ -27520,7 +27632,7 @@ module.exports.firstLineError = firstLineError;
 
 
 /***/ }),
-/* 144 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27589,7 +27701,7 @@ module.exports = schedule;
 
 
 /***/ }),
-/* 145 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27669,7 +27781,7 @@ module.exports = Queue;
 
 
 /***/ }),
-/* 146 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27762,7 +27874,7 @@ return tryConvertToPromise;
 
 
 /***/ }),
-/* 147 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27955,7 +28067,7 @@ return PromiseArray;
 
 
 /***/ }),
-/* 148 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28031,7 +28143,7 @@ return Context;
 
 
 /***/ }),
-/* 149 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28039,9 +28151,9 @@ return Context;
 module.exports = function(Promise, Context,
     enableAsyncHooks, disableAsyncHooks) {
 var async = Promise._async;
-var Warning = __webpack_require__(16).Warning;
+var Warning = __webpack_require__(15).Warning;
 var util = __webpack_require__(3);
-var es5 = __webpack_require__(20);
+var es5 = __webpack_require__(19);
 var canAttachTrace = util.canAttachTrace;
 var unhandledRejectionHandled;
 var possiblyUnhandledRejection;
@@ -29074,7 +29186,7 @@ return {
 
 
 /***/ }),
-/* 150 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29227,7 +29339,7 @@ return PassThroughHandlerContext;
 
 
 /***/ }),
-/* 151 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29289,7 +29401,7 @@ Promise.prototype._resolveFromSyncValue = function (value) {
 
 
 /***/ }),
-/* 152 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29363,7 +29475,7 @@ Promise.bind = function (thisArg, value) {
 
 
 /***/ }),
-/* 153 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29499,7 +29611,7 @@ Promise.prototype._resultCancelled = function() {
 
 
 /***/ }),
-/* 154 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29552,7 +29664,7 @@ Promise.prototype.catchReturn = function (value) {
 
 
 /***/ }),
-/* 155 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29662,7 +29774,7 @@ Promise.PromiseInspection = PromiseInspection;
 
 
 /***/ }),
-/* 156 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29834,7 +29946,7 @@ Promise.join = function () {
 
 
 /***/ }),
-/* 157 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29964,7 +30076,7 @@ Promise.prototype.get = function (propertyName) {
 
 
 /***/ }),
-/* 158 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29975,7 +30087,7 @@ module.exports = function(Promise,
                           tryConvertToPromise,
                           Proxyable,
                           debug) {
-var errors = __webpack_require__(16);
+var errors = __webpack_require__(15);
 var TypeError = errors.TypeError;
 var util = __webpack_require__(3);
 var errorObj = util.errorObj;
@@ -30194,7 +30306,7 @@ Promise.spawn = function (generatorFunction) {
 
 
 /***/ }),
-/* 159 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30376,7 +30488,7 @@ Promise.map = function (promises, fn, options, _filter) {
 
 
 /***/ }),
-/* 160 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30441,7 +30553,7 @@ Promise.prototype.asCallback = Promise.prototype.nodeify = function (nodeback,
 
 
 /***/ }),
-/* 161 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30453,7 +30565,7 @@ var nodebackForPromise = __webpack_require__(69);
 var withAppended = util.withAppended;
 var maybeWrapAsError = util.maybeWrapAsError;
 var canEvaluate = util.canEvaluate;
-var TypeError = __webpack_require__(16).TypeError;
+var TypeError = __webpack_require__(15).TypeError;
 var defaultSuffix = "Async";
 var defaultPromisified = {__isPromisified__: true};
 var noCopyProps = [
@@ -30762,7 +30874,7 @@ Promise.promisifyAll = function (target, options) {
 
 
 /***/ }),
-/* 162 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30771,7 +30883,7 @@ module.exports = function(
     Promise, PromiseArray, tryConvertToPromise, apiRejection) {
 var util = __webpack_require__(3);
 var isObject = util.isObject;
-var es5 = __webpack_require__(20);
+var es5 = __webpack_require__(19);
 var Es6Map;
 if (typeof Map === "function") Es6Map = Map;
 
@@ -30887,7 +30999,7 @@ Promise.props = function (promises) {
 
 
 /***/ }),
-/* 163 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30943,7 +31055,7 @@ Promise.prototype.race = function () {
 
 
 /***/ }),
-/* 164 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31133,7 +31245,7 @@ function gotValue(value) {
 
 
 /***/ }),
-/* 165 */
+/* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31187,7 +31299,7 @@ Promise.prototype.settle = function () {
 
 
 /***/ }),
-/* 166 */
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31195,8 +31307,8 @@ Promise.prototype.settle = function () {
 module.exports =
 function(Promise, PromiseArray, apiRejection) {
 var util = __webpack_require__(3);
-var RangeError = __webpack_require__(16).RangeError;
-var AggregateError = __webpack_require__(16).AggregateError;
+var RangeError = __webpack_require__(15).RangeError;
+var AggregateError = __webpack_require__(15).AggregateError;
 var isArray = util.isArray;
 var CANCELLATION = {};
 
@@ -31342,7 +31454,7 @@ Promise._SomePromiseArray = SomePromiseArray;
 
 
 /***/ }),
-/* 167 */
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31442,7 +31554,7 @@ Promise.prototype.timeout = function (ms, message) {
 
 
 /***/ }),
-/* 168 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31450,7 +31562,7 @@ Promise.prototype.timeout = function (ms, message) {
 module.exports = function (Promise, apiRejection, tryConvertToPromise,
     createContext, INTERNAL, debug) {
     var util = __webpack_require__(3);
-    var TypeError = __webpack_require__(16).TypeError;
+    var TypeError = __webpack_require__(15).TypeError;
     var inherits = __webpack_require__(3).inherits;
     var errorObj = util.errorObj;
     var tryCatch = util.tryCatch;
@@ -31675,7 +31787,7 @@ module.exports = function (Promise, apiRejection, tryConvertToPromise,
 
 
 /***/ }),
-/* 169 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31703,7 +31815,7 @@ Promise.prototype.any = function () {
 
 
 /***/ }),
-/* 170 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31740,7 +31852,7 @@ Promise.mapSeries = PromiseMapSeries;
 
 
 /***/ }),
-/* 171 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31759,10 +31871,10 @@ Promise.filter = function (promises, fn, options) {
 
 
 /***/ }),
-/* 172 */
+/* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Raw = __webpack_require__(19);
+const Raw = __webpack_require__(18);
 
 class Ref extends Raw {
   constructor(client, ref) {
@@ -31804,10 +31916,10 @@ module.exports = Ref;
 
 
 /***/ }),
-/* 173 */
+/* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Bluebird = __webpack_require__(12);
+const Bluebird = __webpack_require__(28);
 
 let PassThrough;
 
@@ -32028,17 +32140,16 @@ Object.assign(Runner.prototype, {
 
   // In the case of the "schema builder" we call `queryArray`, which runs each
   // of the queries in sequence.
-  queryArray(queries) {
-    return queries.length === 1
-      ? this.query(queries[0])
-      : Bluebird.bind(this)
-          .return(queries)
-          .reduce(function(memo, query) {
-            return this.query(query).then(function(resp) {
-              memo.push(resp);
-              return memo;
-            });
-          }, []);
+  async queryArray(queries) {
+    if (queries.length === 1) {
+      return this.query(queries[0]);
+    }
+
+    const results = [];
+    for (const query of queries) {
+      results.push(await this.query(query));
+    }
+    return results;
   },
 
   // Check whether there's a transaction flag, and that it has a connection.
@@ -32071,7 +32182,7 @@ module.exports = Runner;
 
 
 /***/ }),
-/* 174 */
+/* 175 */
 /***/ (function(module, exports) {
 
 /**
@@ -32090,14 +32201,14 @@ module.exports = {
 
 
 /***/ }),
-/* 175 */
+/* 176 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Transaction
 // -------
-const Bluebird = __webpack_require__(12);
+const Bluebird = __webpack_require__(28);
 const { EventEmitter } = __webpack_require__(7);
-const Debug = __webpack_require__(25);
+const Debug = __webpack_require__(24);
 
 const makeKnex = __webpack_require__(72);
 
@@ -32317,7 +32428,7 @@ class Transaction extends EventEmitter {
         connection.__knexTxId = txid;
 
         return (trx._previousSibling
-          ? trx._previousSibling.reflect()
+          ? trx._previousSibling.catch(() => {})
           : Promise.resolve()
         ).then(function() {
           return connection;
@@ -32493,12 +32604,11 @@ module.exports = Transaction;
 
 
 /***/ }),
-/* 176 */
+/* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Migrator
 // -------
-const Bluebird = __webpack_require__(12);
 const {
   differenceWith,
   each,
@@ -32518,9 +32628,9 @@ const {
   getTableName,
 } = __webpack_require__(53);
 const { getSchemaBuilder } = __webpack_require__(73);
-const migrationListResolver = __webpack_require__(177);
-const MigrationGenerator = __webpack_require__(178);
-const { getMergedConfig } = __webpack_require__(75);
+const migrationListResolver = __webpack_require__(178);
+const MigrationGenerator = __webpack_require__(179);
+const { getMergedConfig } = __webpack_require__(76);
 
 function LockError(msg) {
   this.name = 'MigrationLocked';
@@ -32563,7 +32673,9 @@ class Migrator {
     return migrationListResolver
       .listAllAndCompleted(this.config, this.knex)
       .then((value) => {
-        validateMigrationList(this.config.migrationSource, value);
+        if (!this.config.disableMigrationsListValidation) {
+          validateMigrationList(this.config.migrationSource, value);
+        }
         return value;
       })
       .then(([all, completed]) => {
@@ -32602,7 +32714,9 @@ class Migrator {
     return migrationListResolver
       .listAllAndCompleted(this.config, this.knex)
       .then((value) => {
-        validateMigrationList(this.config.migrationSource, value);
+        if (!this.config.disableMigrationsListValidation) {
+          validateMigrationList(this.config.migrationSource, value);
+        }
         return value;
       })
       .then(([all, completed]) => {
@@ -32668,7 +32782,9 @@ class Migrator {
       migrationListResolver
         .listAllAndCompleted(this.config, this.knex)
         .then((value) => {
-          validateMigrationList(this.config.migrationSource, value);
+          if (!this.config.disableMigrationsListValidation) {
+            validateMigrationList(this.config.migrationSource, value);
+          }
           return value;
         })
         .then((val) => {
@@ -32696,7 +32812,9 @@ class Migrator {
     return migrationListResolver
       .listAllAndCompleted(this.config, this.knex)
       .then((value) => {
-        validateMigrationList(this.config.migrationSource, value);
+        if (!this.config.disableMigrationsListValidation) {
+          validateMigrationList(this.config.migrationSource, value);
+        }
         return value;
       })
       .then(([all, completed]) => {
@@ -32765,7 +32883,10 @@ class Migrator {
       this.config,
       this.knex
     );
-    validateMigrationList(this.config.migrationSource, [all, completed]);
+
+    if (!this.config.disableMigrationsListValidation) {
+      validateMigrationList(this.config.migrationSource, [all, completed]);
+    }
 
     const newMigrations = getNewMigrations(
       this.config.migrationSource,
@@ -32934,14 +33055,18 @@ class Migrator {
         qb.max('batch').from(getTableName(tableName, schemaName));
       })
       .orderBy('id', 'desc')
-      .map((migration) => {
-        return allMigrations.find((entry) => {
-          return (
-            this.config.migrationSource.getMigrationName(entry) ===
-            migration.name
-          );
-        });
-      });
+      .then((migrations) =>
+        Promise.all(
+          migrations.map((migration) => {
+            return allMigrations.find((entry) => {
+              return (
+                this.config.migrationSource.getMigrationName(entry) ===
+                migration.name
+              );
+            });
+          })
+        )
+      );
   }
 
   // Returns the latest batch number.
@@ -32969,7 +33094,7 @@ class Migrator {
   _waterfallBatch(batchNo, migrations, direction, trx) {
     const trxOrKnex = trx || this.knex;
     const { tableName, schemaName, disableTransactions } = this.config;
-    let current = Bluebird.bind({ failed: false, failedOn: 0 });
+    let current = Promise.resolve();
     const log = [];
     each(migrations, (migration) => {
       const name = this.config.migrationSource.getMigrationName(migration);
@@ -33085,10 +33210,10 @@ module.exports = {
 
 
 /***/ }),
-/* 177 */
+/* 178 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Bluebird = __webpack_require__(12);
+const Bluebird = __webpack_require__(28);
 const { getTableName } = __webpack_require__(53);
 const { ensureTable } = __webpack_require__(73);
 
@@ -33131,15 +33256,15 @@ module.exports = {
 
 
 /***/ }),
-/* 178 */
+/* 179 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(__dirname) {const fs = __webpack_require__(9);
-const path = __webpack_require__(13);
+/* WEBPACK VAR INJECTION */(function(__dirname) {const fs = __webpack_require__(8);
+const path = __webpack_require__(12);
+const { promisify } = __webpack_require__(4);
 const mkdirp = __webpack_require__(74);
-const bluebird = __webpack_require__(12);
-const { template } = __webpack_require__(2);
-const { getMergedConfig } = __webpack_require__(75);
+const { writeJsFileUsingTemplate } = __webpack_require__(75);
+const { getMergedConfig } = __webpack_require__(76);
 
 class MigrationGenerator {
   constructor(migrationConfig) {
@@ -33147,17 +33272,16 @@ class MigrationGenerator {
   }
 
   // Creates a new migration, with a given name.
-  make(name, config) {
+  async make(name, config) {
     this.config = getMergedConfig(config, this.config);
     if (!name) {
       return Promise.reject(
         new Error('A name must be specified for the generated migration')
       );
     }
-
-    return this._ensureFolder(config)
-      .then((val) => this._generateStubTemplate(val))
-      .then((val) => this._writeNewMigration(name, val));
+    await this._ensureFolder();
+    const createdMigrationFilePath = await this._writeNewMigration(name);
+    return createdMigrationFilePath;
   }
 
   // Ensures a folder for the migrations exist, dependent on the migration
@@ -33166,42 +33290,42 @@ class MigrationGenerator {
     const dirs = this._absoluteConfigDirs();
 
     const promises = dirs.map((dir) => {
-      return bluebird
-        .promisify(fs.stat, { context: fs })(dir)
-        .catch(() => bluebird.promisify(mkdirp)(dir));
+      return promisify(fs.stat)(dir).catch(() => promisify(mkdirp)(dir));
     });
 
     return Promise.all(promises);
   }
 
-  // Generates the stub template for the current migration, returning a compiled
-  // template.
-  _generateStubTemplate() {
-    const stubPath =
+  _getStubPath() {
+    return (
       this.config.stub ||
-      path.join(__dirname, 'stub', this.config.extension + '.stub');
+      path.join(__dirname, 'stub', this.config.extension + '.stub')
+    );
+  }
 
-    return bluebird
-      .promisify(fs.readFile, { context: fs })(stubPath)
-      .then((stub) => template(stub.toString(), { variable: 'd' }));
+  _getNewMigrationName(name) {
+    if (name[0] === '-') name = name.slice(1);
+    return yyyymmddhhmmss() + '_' + name + '.' + this.config.extension;
+  }
+
+  _getNewMigrationPath(name) {
+    const fileName = this._getNewMigrationName(name);
+    const dirs = this._absoluteConfigDirs();
+    const dir = dirs.slice(-1)[0]; // Get last specified directory
+    return path.join(dir, fileName);
   }
 
   // Write a new migration to disk, using the config and generated filename,
   // passing any `variables` given in the config to the template.
-  _writeNewMigration(name, tmpl) {
-    const { config } = this;
-    const dirs = this._absoluteConfigDirs();
-    const dir = dirs.slice(-1)[0]; // Get last specified directory
-
-    if (name[0] === '-') name = name.slice(1);
-    const filename = yyyymmddhhmmss() + '_' + name + '.' + config.extension;
-
-    return bluebird
-      .promisify(fs.writeFile, { context: fs })(
-        path.join(dir, filename),
-        tmpl(config.variables || {})
-      )
-      .return(path.join(dir, filename));
+  async _writeNewMigration(name) {
+    const migrationPath = this._getNewMigrationPath(name);
+    await writeJsFileUsingTemplate(
+      migrationPath,
+      this._getStubPath(),
+      { variable: 'd' },
+      this.config.variables || {}
+    );
+    return migrationPath;
   }
 
   _absoluteConfigDirs() {
@@ -33245,16 +33369,15 @@ module.exports = MigrationGenerator;
 /* WEBPACK VAR INJECTION */}.call(this, "/"))
 
 /***/ }),
-/* 179 */
+/* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const fs = __webpack_require__(9);
-const path = __webpack_require__(13);
-const Bluebird = __webpack_require__(12);
+const fs = __webpack_require__(8);
+const path = __webpack_require__(12);
+const { promisify } = __webpack_require__(4);
 const { sortBy, filter } = __webpack_require__(2);
 
-const readDirAsync = (path) =>
-  Bluebird.promisify(fs.readdir, { context: fs })(path);
+const readDirAsync = promisify(fs.readdir);
 
 const DEFAULT_LOAD_EXTENSIONS = Object.freeze([
   '.co',
@@ -33331,7 +33454,7 @@ class FsMigrations {
 
   getMigration(migration) {
     const absoluteDir = path.resolve(process.cwd(), migration.directory);
-    return __webpack_require__(180)(path.join(absoluteDir, migration.file));
+    return __webpack_require__(181)(path.join(absoluteDir, migration.file));
   }
 }
 
@@ -33350,7 +33473,7 @@ module.exports = {
 
 
 /***/ }),
-/* 180 */
+/* 181 */
 /***/ (function(module, exports) {
 
 function webpackEmptyContext(req) {
@@ -33361,207 +33484,180 @@ function webpackEmptyContext(req) {
 webpackEmptyContext.keys = function() { return []; };
 webpackEmptyContext.resolve = webpackEmptyContext;
 module.exports = webpackEmptyContext;
-webpackEmptyContext.id = 180;
+webpackEmptyContext.id = 181;
 
 /***/ }),
-/* 181 */
+/* 182 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(__dirname) {// Seeder
 // -------
 
-const fs = __webpack_require__(9);
-const path = __webpack_require__(13);
+const fs = __webpack_require__(8);
+const path = __webpack_require__(12);
+const { promisify } = __webpack_require__(4);
 const mkdirp = __webpack_require__(74);
-const Bluebird = __webpack_require__(12);
-const {
-  filter,
-  includes,
-  map,
-  bind,
-  template,
-  each,
-  extend,
-} = __webpack_require__(2);
+const { filter, includes, extend } = __webpack_require__(2);
+const { writeJsFileUsingTemplate } = __webpack_require__(75);
 
 // The new seeds we're performing, typically called from the `knex.seed`
 // interface on the main `knex` object. Passes the `knex` instance performing
 // the seeds.
-function Seeder(knex) {
-  this.knex = knex;
-  this.config = this.setConfig(knex.client.config.seeds);
-}
+class Seeder {
+  constructor(knex) {
+    this.knex = knex;
+    this.config = this.setConfig(knex.client.config.seeds);
+  }
 
-// Runs seed files for the given environment.
-Seeder.prototype.run = async function(config) {
-  this.config = this.setConfig(config);
-  return this._seedData()
-    .bind(this)
-    .then(([all]) => {
-      const files =
-        config && config.specific
-          ? all.filter((file) => file === config.specific)
-          : all;
+  // Runs seed files for the given environment.
+  async run(config) {
+    this.config = this.setConfig(config);
+    const all = await this._listAll();
+    const files =
+      config && config.specific
+        ? all.filter((file) => file === config.specific)
+        : all;
+    return this._runSeeds(files);
+  }
 
-      return this._runSeeds(files);
-    });
-};
+  // Creates a new seed file, with a given name.
+  async make(name, config) {
+    this.config = this.setConfig(config);
+    if (!name)
+      throw new Error('A name must be specified for the generated seed');
+    await this._ensureFolder(config);
+    const seedPath = await this._writeNewSeed(name);
+    return seedPath;
+  }
 
-// Creates a new seed file, with a given name.
-Seeder.prototype.make = function(name, config) {
-  this.config = this.setConfig(config);
-  if (!name)
-    Bluebird.rejected(
-      new Error('A name must be specified for the generated seed')
-    );
-  return this._ensureFolder(config)
-    .bind(this)
-    .then(this._generateStubTemplate)
-    .then(this._writeNewSeed(name));
-};
-
-// Lists all available seed files as a sorted array.
-Seeder.prototype._listAll = async function(config) {
-  this.config = this.setConfig(config);
-  const loadExtensions = this.config.loadExtensions;
-  return Bluebird.promisify(fs.readdir, { context: fs })(
-    this._absoluteConfigDir()
-  )
-    .bind(this)
-    .then((seeds) =>
-      filter(seeds, function(value) {
+  // Lists all available seed files as a sorted array.
+  async _listAll(config) {
+    this.config = this.setConfig(config);
+    const loadExtensions = this.config.loadExtensions;
+    return promisify(fs.readdir)(this._absoluteConfigDir()).then((seeds) =>
+      filter(seeds, (value) => {
         const extension = path.extname(value);
         return includes(loadExtensions, extension);
       }).sort()
     );
-};
-
-// Gets the seed file list from the specified seed directory.
-Seeder.prototype._seedData = function() {
-  return Bluebird.join(this._listAll());
-};
-
-// Ensures a folder for the seeds exist, dependent on the
-// seed config settings.
-Seeder.prototype._ensureFolder = function() {
-  const dir = this._absoluteConfigDir();
-  return Bluebird.promisify(fs.stat, { context: fs })(dir).catch(() =>
-    Bluebird.promisify(mkdirp)(dir)
-  );
-};
-
-// Run seed files, in sequence.
-Seeder.prototype._runSeeds = function(seeds) {
-  return Bluebird.all(map(seeds, bind(this._validateSeedStructure, this)))
-    .bind(this)
-    .then(function(seeds) {
-      return Bluebird.bind(this).then(function() {
-        return this._waterfallBatch(seeds);
-      });
-    });
-};
-
-// Validates seed files by requiring and checking for a `seed` function.
-Seeder.prototype._validateSeedStructure = function(name) {
-  const seed = __webpack_require__(76)(path.join(this._absoluteConfigDir(), name));
-  if (typeof seed.seed !== 'function') {
-    throw new Error(`Invalid seed file: ${name} must have a seed function`);
   }
-  return name;
-};
 
-// Generates the stub template for the current seed file, returning a compiled template.
-Seeder.prototype._generateStubTemplate = function() {
-  const stubPath =
-    this.config.stub ||
-    path.join(__dirname, 'stub', this.config.extension + '.stub');
-  return Bluebird.promisify(fs.readFile, { context: fs })(stubPath).then(
-    (stub) => template(stub.toString(), { variable: 'd' })
-  );
-};
+  // Ensures a folder for the seeds exist, dependent on the
+  // seed config settings.
+  async _ensureFolder() {
+    const dir = this._absoluteConfigDir();
+    try {
+      await promisify(fs.stat)(dir);
+    } catch (e) {
+      await promisify(mkdirp)(dir);
+    }
+  }
 
-// Write a new seed to disk, using the config and generated filename,
-// passing any `variables` given in the config to the template.
-Seeder.prototype._writeNewSeed = function(name) {
-  const { config } = this;
-  const dir = this._absoluteConfigDir();
-  return function(tmpl) {
-    if (name[0] === '-') name = name.slice(1);
-    const filename = name + '.' + config.extension;
-    return Bluebird.promisify(fs.writeFile, { context: fs })(
-      path.join(dir, filename),
-      tmpl(config.variables || {})
-    ).return(path.join(dir, filename));
-  };
-};
+  // Run seed files, in sequence.
+  _runSeeds(seeds) {
+    seeds.forEach((seed) => this._validateSeedStructure(seed));
+    return this._waterfallBatch(seeds);
+  }
 
-// Runs a batch of seed files.
-Seeder.prototype._waterfallBatch = function(seeds) {
-  const { knex } = this;
-  const seedDirectory = this._absoluteConfigDir();
-  let current = Bluebird.bind({ failed: false, failedOn: 0 });
-  const log = [];
-  each(seeds, (seed) => {
-    const name = path.join(seedDirectory, seed);
-    seed = __webpack_require__(76)(name);
+  // Validates seed files by requiring and checking for a `seed` function.
+  _validateSeedStructure(name) {
+    const seed = __webpack_require__(77)(path.join(this._absoluteConfigDir(), name));
+    if (typeof seed.seed !== 'function') {
+      throw new Error(`Invalid seed file: ${name} must have a seed function`);
+    }
+    return name;
+  }
 
-    // Run each seed file.
-    current = current.then(() =>
-      // Nesting promise to prevent bubbling up of error on catch
-      Promise.resolve()
-        .then(() => seed.seed(knex))
-        .then(() => log.push(name))
-        .catch((originalError) => {
-          const error = new Error(
-            `Error while executing "${name}" seed: ${originalError.message}`
-          );
-          error.original = originalError;
-          error.stack =
-            error.stack
-              .split('\n')
-              .slice(0, 2)
-              .join('\n') +
-            '\n' +
-            originalError.stack;
-          throw error;
-        })
+  _getStubPath() {
+    return (
+      this.config.stub ||
+      path.join(__dirname, 'stub', this.config.extension + '.stub')
     );
-  });
+  }
 
-  return current.then(() => [log]);
-};
+  _getNewStubFileName(name) {
+    if (name[0] === '-') name = name.slice(1);
+    return name + '.' + this.config.extension;
+  }
 
-Seeder.prototype._absoluteConfigDir = function() {
-  return path.resolve(process.cwd(), this.config.directory);
-};
+  _getNewStubFilePath(name) {
+    return path.join(this._absoluteConfigDir(), this._getNewStubFileName(name));
+  }
 
-Seeder.prototype.setConfig = function(config) {
-  return extend(
-    {
-      extension: 'js',
-      directory: './seeds',
-      loadExtensions: [
-        '.co',
-        '.coffee',
-        '.eg',
-        '.iced',
-        '.js',
-        '.litcoffee',
-        '.ls',
-        '.ts',
-      ],
-    },
-    this.config || {},
-    config
-  );
-};
+  // Write a new seed to disk, using the config and generated filename,
+  // passing any `variables` given in the config to the template.
+  async _writeNewSeed(name) {
+    const seedPath = this._getNewStubFilePath(name);
+    await writeJsFileUsingTemplate(
+      seedPath,
+      this._getStubPath(),
+      { variable: 'd' },
+      this.config.variables || {}
+    );
+    return seedPath;
+  }
+
+  // Runs a batch of seed files.
+  async _waterfallBatch(seeds) {
+    const { knex } = this;
+    const seedDirectory = this._absoluteConfigDir();
+    const log = [];
+    for (const seedName of seeds) {
+      const seedPath = path.join(seedDirectory, seedName);
+      const seed = __webpack_require__(77)(seedPath);
+      try {
+        await seed.seed(knex);
+        log.push(seedPath);
+      } catch (originalError) {
+        const error = new Error(
+          `Error while executing "${seedPath}" seed: ${originalError.message}`
+        );
+        error.original = originalError;
+        error.stack =
+          error.stack
+            .split('\n')
+            .slice(0, 2)
+            .join('\n') +
+          '\n' +
+          originalError.stack;
+        throw error;
+      }
+    }
+    return [log];
+  }
+
+  _absoluteConfigDir() {
+    return path.resolve(process.cwd(), this.config.directory);
+  }
+
+  setConfig(config) {
+    return extend(
+      {
+        extension: 'js',
+        directory: './seeds',
+        loadExtensions: [
+          '.co',
+          '.coffee',
+          '.eg',
+          '.iced',
+          '.js',
+          '.litcoffee',
+          '.ls',
+          '.ts',
+        ],
+      },
+      this.config || {},
+      config
+    );
+  }
+}
 
 module.exports = Seeder;
 
 /* WEBPACK VAR INJECTION */}.call(this, "/"))
 
 /***/ }),
-/* 182 */
+/* 183 */
 /***/ (function(module, exports) {
 
 // FunctionHelper
@@ -33581,11 +33677,11 @@ module.exports = FunctionHelper;
 
 
 /***/ }),
-/* 183 */
+/* 184 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const { isNumber, chunk, flatten } = __webpack_require__(2);
-const Bluebird = __webpack_require__(12);
+const delay = __webpack_require__(185);
 
 module.exports = function batchInsert(
   client,
@@ -33594,63 +33690,38 @@ module.exports = function batchInsert(
   chunkSize = 1000
 ) {
   let returning = void 0;
-  let autoTransaction = true;
   let transaction = null;
 
-  const getTransaction = () =>
-    new Bluebird((resolve, reject) => {
-      if (transaction) {
-        autoTransaction = false;
-        return resolve(transaction);
-      }
+  const runInTransaction = (cb) => {
+    if (transaction) {
+      return cb(transaction);
+    }
+    return client.transaction(cb);
+  };
 
-      autoTransaction = true;
-      client.transaction(resolve).catch(reject);
-    });
-
-  const wrapper = Object.assign(
-    new Bluebird((resolve, reject) => {
-      const chunks = chunk(batch, chunkSize);
-
+  return Object.assign(
+    Promise.resolve().then(async () => {
       if (!isNumber(chunkSize) || chunkSize < 1) {
-        return reject(new TypeError(`Invalid chunkSize: ${chunkSize}`));
+        throw new TypeError(`Invalid chunkSize: ${chunkSize}`);
       }
 
       if (!Array.isArray(batch)) {
-        return reject(
-          new TypeError(`Invalid batch: Expected array, got ${typeof batch}`)
+        throw new TypeError(
+          `Invalid batch: Expected array, got ${typeof batch}`
         );
       }
 
+      const chunks = chunk(batch, chunkSize);
+
       //Next tick to ensure wrapper functions are called if needed
-      return Bluebird.delay(1)
-        .then(getTransaction)
-        .then((tr) => {
-          return Bluebird.mapSeries(chunks, (items) =>
-            tr(tableName).insert(items, returning)
-          )
-            .then((result) => {
-              result = flatten(result || []);
-
-              if (autoTransaction) {
-                //TODO: -- Oracle tr.commit() does not return a 'thenable' !? Ugly hack for now.
-                return (tr.commit(result) || Bluebird.resolve()).then(
-                  () => result
-                );
-              }
-
-              return result;
-            })
-            .catch((error) => {
-              if (autoTransaction) {
-                return tr.rollback(error).then(() => Bluebird.reject(error));
-              }
-
-              return Bluebird.reject(error);
-            });
-        })
-        .then(resolve)
-        .catch(reject);
+      await delay(1);
+      return runInTransaction(async (tr) => {
+        const chunksResults = [];
+        for (const items of chunks) {
+          chunksResults.push(await tr(tableName).insert(items, returning));
+        }
+        return flatten(chunksResults);
+      });
     }),
     {
       returning(columns) {
@@ -33665,20 +33736,27 @@ module.exports = function batchInsert(
       },
     }
   );
-
-  return wrapper;
 };
 
 
 /***/ }),
-/* 184 */
+/* 185 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const { promisify } = __webpack_require__(4);
+
+module.exports = promisify(setTimeout);
+
+
+/***/ }),
+/* 186 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const inherits = __webpack_require__(11);
 const { EventEmitter } = __webpack_require__(7);
 const { each, toArray } = __webpack_require__(2);
-const { addQueryContext } = __webpack_require__(15);
-const saveAsyncStack = __webpack_require__(49);
+const { addQueryContext } = __webpack_require__(14);
+const saveAsyncStack = __webpack_require__(50);
 
 // Constructor for the builder instance, typically called from
 // `knex.builder`, accepting the current `knex` instance,
@@ -33742,7 +33820,7 @@ each(
   }
 );
 
-__webpack_require__(51)(SchemaBuilder);
+__webpack_require__(52)(SchemaBuilder);
 addQueryContext(SchemaBuilder);
 
 SchemaBuilder.prototype.withSchema = function(schemaName) {
@@ -33762,7 +33840,7 @@ module.exports = SchemaBuilder;
 
 
 /***/ }),
-/* 185 */
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // TableBuilder
@@ -33774,7 +33852,7 @@ module.exports = SchemaBuilder;
 // which is then compiled into sql.
 // ------
 const { extend, each, toArray, isString, isFunction } = __webpack_require__(2);
-const helpers = __webpack_require__(15);
+const helpers = __webpack_require__(14);
 
 function TableBuilder(client, method, tableName, fn) {
   this.client = client;
@@ -34053,11 +34131,11 @@ module.exports = TableBuilder;
 
 
 /***/ }),
-/* 186 */
+/* 188 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const { extend, each, toArray } = __webpack_require__(2);
-const { addQueryContext } = __webpack_require__(15);
+const { addQueryContext } = __webpack_require__(14);
 
 // The chainable interface off the original "column" method.
 function ColumnBuilder(client, tableBuilder, type, args) {
@@ -34175,15 +34253,15 @@ module.exports = ColumnBuilder;
 
 
 /***/ }),
-/* 187 */
+/* 189 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const Pool_1 = __webpack_require__(188);
+const Pool_1 = __webpack_require__(190);
 exports.Pool = Pool_1.Pool;
-const TimeoutError_1 = __webpack_require__(82);
+const TimeoutError_1 = __webpack_require__(83);
 exports.TimeoutError = TimeoutError_1.TimeoutError;
 module.exports = {
     Pool: Pool_1.Pool,
@@ -34192,14 +34270,14 @@ module.exports = {
 
 
 /***/ }),
-/* 188 */
+/* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const PendingOperation_1 = __webpack_require__(189);
-const Resource_1 = __webpack_require__(191);
+const PendingOperation_1 = __webpack_require__(191);
+const Resource_1 = __webpack_require__(193);
 const utils_1 = __webpack_require__(55);
 const events_1 = __webpack_require__(7);
 class Pool {
@@ -34601,13 +34679,13 @@ function callbackOrPromise(func) {
 
 
 /***/ }),
-/* 189 */
+/* 191 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const TimeoutError_1 = __webpack_require__(82);
+const TimeoutError_1 = __webpack_require__(83);
 const utils_1 = __webpack_require__(55);
 class PendingOperation {
     constructor(timeoutMillis) {
@@ -34654,7 +34732,7 @@ function timeout(promise, time) {
 
 
 /***/ }),
-/* 190 */
+/* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34682,7 +34760,7 @@ exports.PromiseInspection = PromiseInspection;
 
 
 /***/ }),
-/* 191 */
+/* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34708,12 +34786,12 @@ exports.Resource = Resource;
 
 
 /***/ }),
-/* 192 */
+/* 194 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* eslint no-console:0 */
 
-const color = __webpack_require__(193);
+const color = __webpack_require__(195);
 const { isFunction, isNil } = __webpack_require__(2);
 
 function log(message, userFn, colorFn) {
@@ -34762,7 +34840,7 @@ module.exports = Logger;
 
 
 /***/ }),
-/* 193 */
+/* 195 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34845,11 +34923,11 @@ module.exports = {
 
 
 /***/ }),
-/* 194 */
+/* 196 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const url = __webpack_require__(17);
-const { parse } = __webpack_require__(195);
+const url = __webpack_require__(16);
+const { parse } = __webpack_require__(197);
 const parsePG = parse;
 
 module.exports = function parseConnectionString(str) {
@@ -34910,14 +34988,14 @@ function connectionObject(parsed) {
 
 
 /***/ }),
-/* 195 */
+/* 197 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var url = __webpack_require__(17);
-var fs = __webpack_require__(9);
+var url = __webpack_require__(16);
+var fs = __webpack_require__(8);
 
 //Parse method copied from https://github.com/brianc/node-postgres
 //Copyright (c) 2010-2014 Brian Carlson (brian.m.carlson@gmail.com)
@@ -34995,7 +35073,7 @@ parse.parse = parse;
 
 
 /***/ }),
-/* 196 */
+/* 198 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const Formatter = __webpack_require__(70);
@@ -35010,11 +35088,11 @@ module.exports = fakeClient;
 
 
 /***/ }),
-/* 197 */
+/* 199 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	"./postgres/index.js": 198
+	"./postgres/index.js": 200
 };
 
 
@@ -35035,24 +35113,25 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 197;
+webpackContext.id = 199;
 
 /***/ }),
-/* 198 */
+/* 200 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // PostgreSQL
 // -------
 const { map, extend, isString } = __webpack_require__(2);
+const { promisify } = __webpack_require__(4);
 const inherits = __webpack_require__(11);
 const Client = __webpack_require__(66);
-const Bluebird = __webpack_require__(12);
+const Bluebird = __webpack_require__(28);
 
-const QueryCompiler = __webpack_require__(199);
-const ColumnCompiler = __webpack_require__(200);
-const TableCompiler = __webpack_require__(201);
-const SchemaCompiler = __webpack_require__(202);
-const { makeEscape } = __webpack_require__(83);
+const QueryCompiler = __webpack_require__(201);
+const ColumnCompiler = __webpack_require__(202);
+const TableCompiler = __webpack_require__(203);
+const SchemaCompiler = __webpack_require__(204);
+const { makeEscape } = __webpack_require__(84);
 
 function Client_PG(config) {
   Client.apply(this, arguments);
@@ -35088,7 +35167,7 @@ Object.assign(Client_PG.prototype, {
   driverName: 'pg',
 
   _driver() {
-    return __webpack_require__(84);
+    return __webpack_require__(85);
   },
 
   _escapeBinding: makeEscape({
@@ -35176,8 +35255,9 @@ Object.assign(Client_PG.prototype, {
 
   // Used to explicitly close a connection, called internally by the pool
   // when a connection times out or the pool is shutdown.
-  destroyRawConnection(connection) {
-    return Bluebird.fromCallback(connection.end.bind(connection));
+  async destroyRawConnection(connection) {
+    const end = promisify((cb) => connection.end(cb));
+    return end();
   },
 
   // In PostgreSQL, we need to do a version check to do some feature
@@ -35243,7 +35323,7 @@ Object.assign(Client_PG.prototype, {
   _stream(connection, obj, stream, options) {
     const PGQueryStream = process.browser
       ? undefined
-      : __webpack_require__(229);
+      : __webpack_require__(231);
     const sql = obj.sql;
 
     return new Bluebird(function(resolver, rejecter) {
@@ -35363,14 +35443,14 @@ module.exports = Client_PG;
 
 
 /***/ }),
-/* 199 */
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // PostgreSQL Query Builder & Compiler
 // ------
 const inherits = __webpack_require__(11);
 
-const QueryCompiler = __webpack_require__(78);
+const QueryCompiler = __webpack_require__(79);
 
 const { reduce, identity } = __webpack_require__(2);
 
@@ -35531,14 +35611,14 @@ module.exports = QueryCompiler_PG;
 
 
 /***/ }),
-/* 200 */
+/* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // PostgreSQL Column Compiler
 // -------
 
 const inherits = __webpack_require__(11);
-const ColumnCompiler = __webpack_require__(81);
+const ColumnCompiler = __webpack_require__(82);
 const { isObject } = __webpack_require__(2);
 
 function ColumnCompiler_PG() {
@@ -35659,7 +35739,7 @@ module.exports = ColumnCompiler_PG;
 
 
 /***/ }),
-/* 201 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* eslint max-len: 0 */
@@ -35668,7 +35748,7 @@ module.exports = ColumnCompiler_PG;
 // -------
 
 const inherits = __webpack_require__(11);
-const TableCompiler = __webpack_require__(80);
+const TableCompiler = __webpack_require__(81);
 
 const { has } = __webpack_require__(2);
 
@@ -35848,14 +35928,14 @@ module.exports = TableCompiler_PG;
 
 
 /***/ }),
-/* 202 */
+/* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // PostgreSQL Schema Compiler
 // -------
 
 const inherits = __webpack_require__(11);
-const SchemaCompiler = __webpack_require__(79);
+const SchemaCompiler = __webpack_require__(80);
 
 function SchemaCompiler_PG() {
   SchemaCompiler.apply(this, arguments);
@@ -35963,7 +36043,7 @@ module.exports = SchemaCompiler_PG;
 
 
 /***/ }),
-/* 203 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35977,16 +36057,16 @@ module.exports = SchemaCompiler_PG;
  */
 
 var EventEmitter = __webpack_require__(7).EventEmitter
-var util = __webpack_require__(5)
-var utils = __webpack_require__(36)
-var sasl = __webpack_require__(212)
-var pgPass = __webpack_require__(213)
-var TypeOverrides = __webpack_require__(87)
+var util = __webpack_require__(4)
+var utils = __webpack_require__(37)
+var sasl = __webpack_require__(214)
+var pgPass = __webpack_require__(215)
+var TypeOverrides = __webpack_require__(88)
 
-var ConnectionParameters = __webpack_require__(88)
-var Query = __webpack_require__(220)
-var defaults = __webpack_require__(37)
-var Connection = __webpack_require__(90)
+var ConnectionParameters = __webpack_require__(89)
+var Query = __webpack_require__(222)
+var defaults = __webpack_require__(38)
+var Connection = __webpack_require__(91)
 
 var Client = function (config) {
   EventEmitter.call(this)
@@ -36531,14 +36611,14 @@ module.exports = Client
 
 
 /***/ }),
-/* 204 */
+/* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var array = __webpack_require__(85)
-var arrayParser = __webpack_require__(86);
-var parseDate = __webpack_require__(205);
-var parseInterval = __webpack_require__(206);
-var parseByteA = __webpack_require__(208);
+var array = __webpack_require__(86)
+var arrayParser = __webpack_require__(87);
+var parseDate = __webpack_require__(207);
+var parseInterval = __webpack_require__(208);
+var parseByteA = __webpack_require__(210);
 
 function allowNull (fn) {
   return function nullAllowed (value) {
@@ -36752,7 +36832,7 @@ module.exports = {
 
 
 /***/ }),
-/* 205 */
+/* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36869,13 +36949,13 @@ function is0To99 (num) {
 
 
 /***/ }),
-/* 206 */
+/* 208 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var extend = __webpack_require__(207)
+var extend = __webpack_require__(209)
 
 module.exports = PostgresInterval
 
@@ -37001,7 +37081,7 @@ function parse (interval) {
 
 
 /***/ }),
-/* 207 */
+/* 209 */
 /***/ (function(module, exports) {
 
 module.exports = extend
@@ -37024,7 +37104,7 @@ function extend(target) {
 
 
 /***/ }),
-/* 208 */
+/* 210 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37062,10 +37142,10 @@ module.exports = function parseBytea (input) {
 
 
 /***/ }),
-/* 209 */
+/* 211 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var parseInt64 = __webpack_require__(210);
+var parseInt64 = __webpack_require__(212);
 
 var parseBits = function(data, bits, offset, invert, callback) {
   offset = offset || 0;
@@ -37325,7 +37405,7 @@ module.exports = {
 
 
 /***/ }),
-/* 210 */
+/* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37432,7 +37512,7 @@ module.exports = readInt8;
 
 
 /***/ }),
-/* 211 */
+/* 213 */
 /***/ (function(module, exports) {
 
 /**
@@ -37511,12 +37591,12 @@ module.exports = {
 
 
 /***/ }),
-/* 212 */
+/* 214 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const crypto = __webpack_require__(50)
+const crypto = __webpack_require__(51)
 
 function startSession (mechanisms) {
   if (mechanisms.indexOf('SCRAM-SHA-256') === -1) {
@@ -37665,15 +37745,15 @@ module.exports = {
 
 
 /***/ }),
-/* 213 */
+/* 215 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var path = __webpack_require__(13)
-  , fs = __webpack_require__(9)
-  , helper = __webpack_require__(214)
+var path = __webpack_require__(12)
+  , fs = __webpack_require__(8)
+  , helper = __webpack_require__(216)
 ;
 
 
@@ -37695,16 +37775,16 @@ module.exports.warnTo = helper.warnTo;
 
 
 /***/ }),
-/* 214 */
+/* 216 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var path = __webpack_require__(13)
+var path = __webpack_require__(12)
   , Stream = __webpack_require__(35).Stream
-  , Split = __webpack_require__(215)
-  , util = __webpack_require__(5)
+  , Split = __webpack_require__(217)
+  , util = __webpack_require__(4)
   , defaultPort = 5432
   , isWin = (process.platform === 'win32')
   , warnStream = process.stderr
@@ -37935,7 +38015,7 @@ var isValidEntry = module.exports.isValidEntry = function(entry){
 
 
 /***/ }),
-/* 215 */
+/* 217 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //filter will reemit the data if cb(err,pass) pass is truthy
@@ -37945,8 +38025,8 @@ var isValidEntry = module.exports.isValidEntry = function(entry){
 // the most basic reduce just emits one 'data' event after it has recieved 'end'
 
 
-var through = __webpack_require__(216)
-var Decoder = __webpack_require__(217).StringDecoder
+var through = __webpack_require__(218)
+var Decoder = __webpack_require__(219).StringDecoder
 
 module.exports = split
 
@@ -38004,7 +38084,7 @@ function split (matcher, mapper, options) {
 
 
 /***/ }),
-/* 216 */
+/* 218 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Stream = __webpack_require__(35)
@@ -38118,25 +38198,25 @@ function through (write, end, opts) {
 
 
 /***/ }),
-/* 217 */
+/* 219 */
 /***/ (function(module, exports) {
 
 module.exports = require("string_decoder");
 
 /***/ }),
-/* 218 */
+/* 220 */
 /***/ (function(module, exports) {
 
 module.exports = require("dns");
 
 /***/ }),
-/* 219 */
+/* 221 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var url = __webpack_require__(17);
+var url = __webpack_require__(16);
 
 //Parse method copied from https://github.com/brianc/node-postgres
 //Copyright (c) 2010-2014 Brian Carlson (brian.m.carlson@gmail.com)
@@ -38199,7 +38279,7 @@ module.exports = {
 
 
 /***/ }),
-/* 220 */
+/* 222 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38213,10 +38293,10 @@ module.exports = {
  */
 
 var EventEmitter = __webpack_require__(7).EventEmitter
-var util = __webpack_require__(5)
+var util = __webpack_require__(4)
 
-var Result = __webpack_require__(89)
-var utils = __webpack_require__(36)
+var Result = __webpack_require__(90)
+var utils = __webpack_require__(37)
 
 var Query = function (config, values, callback) {
   // use of "new" optional
@@ -38435,7 +38515,7 @@ module.exports = Query
 
 
 /***/ }),
-/* 221 */
+/* 223 */
 /***/ (function(module, exports) {
 
 //binary data writer tuned for creating
@@ -38570,10 +38650,10 @@ Writer.prototype.flush = function (code) {
 
 
 /***/ }),
-/* 222 */
+/* 224 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var assert = __webpack_require__(24)
+var assert = __webpack_require__(23)
 
 var Reader = module.exports = function(options) {
   //TODO - remove for version 1.0
@@ -38641,7 +38721,7 @@ Reader.prototype.read = function() {
 
 
 /***/ }),
-/* 223 */
+/* 225 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38713,7 +38793,7 @@ class Pool extends EventEmitter {
     this.options = Object.assign({}, options)
     this.options.max = this.options.max || this.options.poolSize || 10
     this.log = this.options.log || function () { }
-    this.Client = this.options.Client || Client || __webpack_require__(84).Client
+    this.Client = this.options.Client || Client || __webpack_require__(85).Client
     this.Promise = this.options.Promise || global.Promise
 
     if (typeof this.options.idleTimeoutMillis === 'undefined') {
@@ -39014,7 +39094,7 @@ module.exports = Pool
 
 
 /***/ }),
-/* 224 */
+/* 226 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39028,19 +39108,19 @@ module.exports = Pool
  */
 
 // eslint-disable-next-line
-var Native = __webpack_require__(225)
-var TypeOverrides = __webpack_require__(87)
-var semver = __webpack_require__(226)
-var pkg = __webpack_require__(227)
-var assert = __webpack_require__(24)
+var Native = __webpack_require__(227)
+var TypeOverrides = __webpack_require__(88)
+var semver = __webpack_require__(228)
+var pkg = __webpack_require__(229)
+var assert = __webpack_require__(23)
 var EventEmitter = __webpack_require__(7).EventEmitter
-var util = __webpack_require__(5)
-var ConnectionParameters = __webpack_require__(88)
+var util = __webpack_require__(4)
+var ConnectionParameters = __webpack_require__(89)
 
 var msg = 'Version >= ' + pkg.minNativeVersion + ' of pg-native required.'
 assert(semver.gte(Native.version, pkg.minNativeVersion), msg)
 
-var NativeQuery = __webpack_require__(228)
+var NativeQuery = __webpack_require__(230)
 
 var Client = module.exports = function (config) {
   EventEmitter.call(this)
@@ -39316,7 +39396,7 @@ Client.prototype.getTypeParser = function (oid, format) {
 
 
 /***/ }),
-/* 225 */
+/* 227 */
 /***/ (function(module, exports) {
 
 module.exports = noop
@@ -39330,7 +39410,7 @@ noop()
 
 
 /***/ }),
-/* 226 */
+/* 228 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;// export the class if we are in a Node-like system.
@@ -40531,13 +40611,13 @@ if (true)
 
 
 /***/ }),
-/* 227 */
+/* 229 */
 /***/ (function(module) {
 
 module.exports = JSON.parse("{\"name\":\"pg\",\"version\":\"7.12.1\",\"description\":\"PostgreSQL client - pure javascript & libpq with the same API\",\"keywords\":[\"database\",\"libpq\",\"pg\",\"postgre\",\"postgres\",\"postgresql\",\"rdbms\"],\"homepage\":\"http://github.com/brianc/node-postgres\",\"repository\":{\"type\":\"git\",\"url\":\"git://github.com/brianc/node-postgres.git\"},\"author\":\"Brian Carlson <brian.m.carlson@gmail.com>\",\"main\":\"./lib\",\"dependencies\":{\"buffer-writer\":\"2.0.0\",\"packet-reader\":\"1.0.0\",\"pg-connection-string\":\"0.1.3\",\"pg-pool\":\"^2.0.4\",\"pg-types\":\"^2.1.0\",\"pgpass\":\"1.x\",\"semver\":\"4.3.2\"},\"devDependencies\":{\"async\":\"0.9.0\",\"bluebird\":\"3.5.2\",\"co\":\"4.6.0\",\"eslint\":\"^6.0.1\",\"eslint-config-standard\":\"^13.0.1\",\"eslint-plugin-import\":\"^2.18.1\",\"eslint-plugin-node\":\"^9.1.0\",\"eslint-plugin-promise\":\"^4.2.1\",\"eslint-plugin-standard\":\"^4.0.0\",\"pg-copy-streams\":\"0.3.0\"},\"minNativeVersion\":\"2.0.0\",\"scripts\":{\"test\":\"make test-all\"},\"license\":\"MIT\",\"engines\":{\"node\":\">= 4.5.0\"}}");
 
 /***/ }),
-/* 228 */
+/* 230 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40551,8 +40631,8 @@ module.exports = JSON.parse("{\"name\":\"pg\",\"version\":\"7.12.1\",\"descripti
  */
 
 var EventEmitter = __webpack_require__(7).EventEmitter
-var util = __webpack_require__(5)
-var utils = __webpack_require__(36)
+var util = __webpack_require__(4)
+var utils = __webpack_require__(37)
 
 var NativeQuery = module.exports = function (config, values, callback) {
   EventEmitter.call(this)
@@ -40711,12 +40791,12 @@ NativeQuery.prototype.submit = function (client) {
 
 
 /***/ }),
-/* 229 */
+/* 231 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var Cursor = __webpack_require__(230)
+var Cursor = __webpack_require__(232)
 var Readable = __webpack_require__(35).Readable
 
 class PgQueryStream extends Readable {
@@ -40779,15 +40859,15 @@ module.exports = PgQueryStream
 
 
 /***/ }),
-/* 230 */
+/* 232 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const Result = __webpack_require__(89)
-const prepare = __webpack_require__(36).prepareValue
+const Result = __webpack_require__(90)
+const prepare = __webpack_require__(37).prepareValue
 const EventEmitter = __webpack_require__(7).EventEmitter
-const util = __webpack_require__(5)
+const util = __webpack_require__(4)
 
 var nextUniqueID = 1 // concept borrowed from org.postgresql.core.v3.QueryExecutorImpl
 
@@ -40973,15 +41053,15 @@ module.exports = Cursor
 
 
 /***/ }),
-/* 231 */
+/* 233 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports.parse = __webpack_require__(232);
-exports.stringify = __webpack_require__(233);
+exports.parse = __webpack_require__(234);
+exports.stringify = __webpack_require__(235);
 
 
 /***/ }),
-/* 232 */
+/* 234 */
 /***/ (function(module, exports) {
 
 var at, // The index of the current character
@@ -41260,7 +41340,7 @@ module.exports = function (source, reviver) {
 
 
 /***/ }),
-/* 233 */
+/* 235 */
 /***/ (function(module, exports) {
 
 var cx = /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
@@ -41420,8 +41500,8 @@ module.exports = function (value, replacer, space) {
 
 
 /***/ }),
-/* 234 */,
-/* 235 */
+/* 236 */,
+/* 237 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -41444,7 +41524,7 @@ function tiny_singleton(generator) {
 /* harmony default export */ var src_es2019 = (tiny_singleton);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/knex/knex.js
-var knex = __webpack_require__(98);
+var knex = __webpack_require__(99);
 var knex_default = /*#__PURE__*/__webpack_require__.n(knex);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/apps/shared/db/dist/src.es2019/db.js
@@ -41467,7 +41547,7 @@ const TABLE_NETLIFY_USERS = 'users__netlify';
 const DEFAULT_ROLES = [];
 const DEFAULT_CALLED = 'anonymous';
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/tiny-invariant/dist/tiny-invariant.esm.js
-var tiny_invariant_esm = __webpack_require__(18);
+var tiny_invariant_esm = __webpack_require__(17);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/apps/shared/db/dist/src.es2019/users/create.js
 
