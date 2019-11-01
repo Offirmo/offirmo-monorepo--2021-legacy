@@ -19,6 +19,8 @@ function has_details_indicator(console_method_name: string): boolean {
 }
 
 const HEADER_FONT_SIZE_STYLE = 'font-size: 8px'
+const MESSAGE_FONT_SIZE_STYLE = 'font-size: 11px'
+
 export const sink: LogSink = (payload: LogPayload): void => {
 	const { level, name, msg, err, details } = payload
 	const console_method_name: string = LEVEL_TO_CONSOLE_METHOD[level]
@@ -35,9 +37,9 @@ export const sink: LogSink = (payload: LogPayload): void => {
 	line = add_styled_string(line, '', 'font-size: unset')
 
 	if (name) {
-		line = add_styled_string(line, `${name} › `, LEVEL_TO_COLOR_STYLE[level], FONT_FAMILY_BETTER_PROPORTIONAL)
+		line = add_styled_string(line, `${name} › `, LEVEL_TO_COLOR_STYLE[level], FONT_FAMILY_BETTER_PROPORTIONAL, MESSAGE_FONT_SIZE_STYLE)
 	}
-	line = add_styled_string(line, msg, LEVEL_TO_COLOR_STYLE[level], FONT_FAMILY_BETTER_PROPORTIONAL)
+	line = add_styled_string(line, msg, LEVEL_TO_COLOR_STYLE[level], FONT_FAMILY_BETTER_PROPORTIONAL, MESSAGE_FONT_SIZE_STYLE)
 
 	const args: any[] = line
 	if (Object.keys(details).length)

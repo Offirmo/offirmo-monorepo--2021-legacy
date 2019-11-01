@@ -53,6 +53,9 @@ Activated through classes:
   * `o⋄box`
   * `o⋄text-noselect`
   * `o⋄nav-list`
+  * `o⋄flow`
+  * `o⋄button--inline`
+  * `o⋄plain-list`
   
 * Technical classes (like`o⋄key⁚value`):
   * `o⋄font⁚fast-and-good-enough`

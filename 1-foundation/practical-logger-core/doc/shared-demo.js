@@ -1,7 +1,7 @@
 const { ALL_LOG_LEVELS } = require('..')
 
 function demo_legacy_console() {
-	console.log('------------↓ Legacy console demo: all levels, in order ↓-----------')
+	console.log('------------↓ For comparison: Legacy console: levels, in order ↓-----------')
 	console.debug('Legacy console > message with level "debug"', { level: "debug", foo: 42 })
 	console.log('Legacy console > message with level "log"', { level: "log", foo: 42 })
 	console.info('Legacy console > message with level "info"', { level: "info", foo: 42 })
@@ -13,15 +13,18 @@ function demo_legacy_console() {
 function demo_logger_basic_usage(logger, in_group = true) {
 	console[in_group ? 'group' : 'log']('------------↓ Practical logger demo: example real usage ↓------------')
 
+	logger.silly('Hi!')
+	logger.trace('App starting...', { version: '1.2.3' })
+
 	const bob = {
 		firstName: 'Bob',
 		lastName: 'Dupont',
 		age: 42,
 	}
 
-	logger.verbose('Current user loaded', { user: bob })
+	logger.verbose('Current user already logged in', { user: bob })
 
-	logger.verbose('Restoring state…')
+	logger.verbose('Restoring state from cloud…')
 
 	logger.warn('Restoration of state is taking more time than expected', { elapsedMs: 3000 })
 
@@ -29,6 +32,9 @@ function demo_logger_basic_usage(logger, in_group = true) {
 	err.httpStatus = 418 // to check that custom props are preserved
 
 	logger.error(undefined, err)
+
+	logger.info('Reverting to last known local state')
+
 	if (in_group) console.groupEnd()
 }
 

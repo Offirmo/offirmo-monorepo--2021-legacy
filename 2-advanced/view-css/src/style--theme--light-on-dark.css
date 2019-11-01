@@ -10,7 +10,7 @@
 [data-o-theme="light-on-dark"] {
 	--o⋄color--bg⁚main: var(--o⋄color__dolt__quasi-black);
 	--o⋄color--bg⁚main--backdrop: rgba(17%, 17%, 17%, .9); /* TODO review */
-	--o⋄color--bg⁚highlight--1: rgba(100%, 100%, 100%, .1);
+	--o⋄color--bg⁚highlight--1: rgba(100%, 100%, 100%, .1); /* TODO not different enough */
 	--o⋄color--bg⁚highlight--2: rgba(100%, 100%, 100%, .2);
 
 	--o⋄color--fg⁚main: var(--o⋄color__dolt__quasi-white);
