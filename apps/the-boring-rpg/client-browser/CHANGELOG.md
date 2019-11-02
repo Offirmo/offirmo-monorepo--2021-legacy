@@ -10,8 +10,9 @@
 - 😷 chore: some internal refactors, bump dependencies
 
 
-## v0.60.6
-- fix an achievement message (thanks LiddiLidd)
+## v0.60.12
+- 😅 fix an achievement message (thanks LiddiLidd)
+- 😅 fix: tweaks, typos, small bugs…
 - 😷 chore: some internal refactors, bump dependencies
 
 ## v0.60.5
