@@ -6,7 +6,7 @@ import { control_sjson } from '../common/utils/stringified-json'
 import { LS_KEY_ENABLED } from '../common/consts'
 import { create_msg_update_ui_state, create_msg_update_ls_state } from '../common/messages'
 import { SpecSyncStatus } from "../common/state/tab";
-import { getLSKeyForOverride } from '@offirmo-private/universal-debug-api-full-browser/src/v1/keys'
+import { getLSKeyForOverride } from '@offirmo-private/universal-debug-api-browser/src/v1/keys'
 
 ////////////////////////////////////
 

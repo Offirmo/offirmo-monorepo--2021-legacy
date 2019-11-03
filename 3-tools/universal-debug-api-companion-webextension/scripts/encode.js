@@ -32,7 +32,7 @@ console.assert(lib1_encoded.length < 25 * 1000, 'lib1 is too big and won’t get
 fs.writeFileSync(lib1_target_path, `
 // THIS FILE IS AUTO GENERATED!
 // This is a base64 version of the Universal Web Debug API:
-// https://github.com/Offirmo/offirmo-monorepo/tree/master/2-advanced/universal-debug-api-full-browser
+// https://github.com/Offirmo/offirmo-monorepo/tree/master/2-advanced/universal-debug-api-browser
 // bundled in a single file through this local file:
 // ../src/injected-libs/universal-debug-api-from-webext.ts
 const lib = '${lib1_encoded}'
