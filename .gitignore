@@ -18,8 +18,7 @@ node_modules
 **/dist/src.es2019/
 **/dist/src.es2018.cjs/
 ## non-standard dist
-4-incubator/experiment-bootstrap/dist/
-4-incubator/universal-debug-api-companion-webextension/dist/
+3-tools/universal-debug-api-companion-webextension/dist/
 #apps/the-boring-rpg/functions/functions -> NO, to make them available in staging!
 ## misc
 #...

@@ -1,0 +1,44 @@
+{
+	"manifest_version": 2,
+	"name": "Offirmo’s Universal Web Dev Tool",
+	"description": "Get convenient dev features for your JavaScript code with no downsides",
+	"version": "0.0.1",
+	"homepage_url": "https://github.com/Offirmo/offirmo-monorepo/tree/master/4-incubator/universal-debug-api-companion-webextension",
+	"short_name": "Offirmo’s Universal Web Dev Tool",
+	"icons": {
+		"64": "icons/icon_64x64.png",
+		"32": "icons/icon_32x32.png",
+		"16": "icons/icon_16x16.png"
+	},
+
+	"browser_action": {
+		"default_icon": "icons/icon_32x32.png",
+		"default_title": "Universal Debug Tool",
+		"default_popup": "ui/popup/popup.html"
+	},
+
+	"permissions": [
+		"<all_urls>",
+		"activeTab",
+		"debugger",
+		"notifications",
+		"storage",
+		"tabs"
+	],
+	"background": {
+		"scripts": ["background/background.js"]
+	},
+	"content_scripts": [
+		{
+			"matches": ["<all_urls>"],
+			"run_at": "document_start",
+			"js": ["content-scripts/start.js"]
+		}
+	],
+	"options_ui": {
+		"page": "ui/options/options.html"
+	},
+	"web_accessible_resources": [
+		"api/full/index.js"
+	]
+}
