@@ -52,7 +52,7 @@ https://www.offirmo.net
 
 ## Homepage Url
 https://github.com/Offirmo/offirmo-monorepo/wiki/Offirmo%E2%80%99s-Universal-Web-Debug-Tool
-https://github.com/Offirmo/offirmo-monorepo/tree/master/4-incubator/universal-debug-api-companion-webextension
+https://github.com/Offirmo/offirmo-monorepo/tree/master/3-tools/universal-debug-api-companion-webextension
 
 ## Support Url
 https://github.com/Offirmo/offirmo-monorepo/issues

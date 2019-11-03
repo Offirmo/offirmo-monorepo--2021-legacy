@@ -26,8 +26,8 @@ const demoLogger = createLogger({
 demoLogger.log('hello from demoLogger!', { bar: 42, baz: 33 })
 
 const state = {
-	target: undefined as undefined | 'browser' | 'node' | 'module'
-	last_demo_launched: null as null | string
+	target: undefined as undefined | 'browser' | 'node' | 'module',
+	last_demo_launched: null as null | string,
 }
 
 const target_envs = [
@@ -37,11 +37,14 @@ const target_envs = [
 ]
 
 const demos = {
-	'all-levels': (l) => { demo_legacy_console(); demo_logger_levels(l) },
+	'all-levels': (l) => {
+		demo_legacy_console();
+		demo_logger_levels(l)
+	},
 	'basic': (l) => demo_logger_basic_usage(l, false),
 	'error': (l) => demo_error(l, false),
 	'groups': demo_group,
-]
+}
 
 function run_demo(demo_id: string) {
 	demos[demo_id](demoLogger)

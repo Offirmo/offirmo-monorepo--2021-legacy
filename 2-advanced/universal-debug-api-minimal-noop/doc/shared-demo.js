@@ -2,7 +2,7 @@ import {
 	demo_legacy_console,
 	demo_logger_api,
 	demo_devtools_fonts,
-} from '../../../../1-foundation/practical-logger-core/doc/demo.js'
+} from '../../../1-foundation/practical-logger-core/doc/shared-demo'
 
 
 export function demo_UDAPI({ exposeInternal, overrideHook, addDebugCommand }) {

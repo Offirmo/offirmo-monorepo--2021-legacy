@@ -50,7 +50,7 @@
 		"build": "run-s build:prod",
 		"cheatsheet": "node doc/cheatsheet.js",
 		"demo:node": "./doc/demo.ts",
-		"demo": "parcel --out-dir .parcel --no-autoinstall doc/demo/index.html",
+		"demo": "parcel --out-dir .parcel --no-autoinstall doc/demo-web/index.html",
 
 		"np": "np --no-publish",
 		"prepublishOnly": "run-s clean build:prod ensure-size"

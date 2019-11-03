@@ -24,7 +24,7 @@ Public webapps:
 * [The Boring RPG, reborn](https://www.online-adventur.es/apps/the-boring-rpg/)
 
 Public webextensions:
-* [Universal Debug API companion](4-incubator/universal-debug-api-companion-webextension/README.md)
+* [Universal Debug API companion](3-tools/universal-debug-api-companion-webextension/README.md)
   * [Firefox](https://addons.mozilla.org/en-US/firefox/addon/universal-debug-api-companion/)
   * Chrome: pending
 

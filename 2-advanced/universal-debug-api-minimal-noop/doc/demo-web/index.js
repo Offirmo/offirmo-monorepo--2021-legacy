@@ -1,6 +1,6 @@
 import * as api from '../..'
 
-import { demo_full } from './demo'
+import { demo_full } from '../shared-demo'
 
 /////////////////////
 
