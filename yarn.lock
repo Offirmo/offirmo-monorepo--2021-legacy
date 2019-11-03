@@ -3925,9 +3925,9 @@ defaults@^1.0.3:
     clone "^1.0.2"
 
 defer-to-connect@^1.0.1:
-  version "1.0.2"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/defer-to-connect/-/defer-to-connect-1.0.2.tgz#4bae758a314b034ae33902b5aac25a8dd6a8633e"
-  integrity sha1-S651ijFLA0rjOQK1qsJajdaoYz4=
+  version "1.1.0"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/defer-to-connect/-/defer-to-connect-1.1.0.tgz#b41bd7efa8508cef13f8456975f7a278c72833fd"
+  integrity sha1-tBvX76hQjO8T+EVpdfeieMcoM/0=
 
 define-properties@^1.1.2, define-properties@^1.1.3:
   version "1.1.3"
@@ -4199,9 +4199,9 @@ ejs@^2.3.1, ejs@^2.6.1:
   integrity sha1-W1q1f3GLedSsqSVEV6/s02+oAig=
 
 electron-to-chromium@^1.3.295:
-  version "1.3.299"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/electron-to-chromium/-/electron-to-chromium-1.3.299.tgz#9113b733247c68b87e07cb7c940a22913fb74d38"
-  integrity sha1-kRO3MyR8aLh+B8t8lAoikT+3TTg=
+  version "1.3.302"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/electron-to-chromium/-/electron-to-chromium-1.3.302.tgz#4c7ba3d56166507a56f7eb603fdde1ed701f5ac8"
+  integrity sha1-THuj1WFmUHpW9+tgP93h7XAfWsg=
 
 elegant-spinner@^1.0.1:
   version "1.0.1"
@@ -5050,9 +5050,9 @@ fetch-inject@^2:
   integrity sha1-a3NAHRDD6gxAVx9L60i0i/S8kSY=
 
 fetch-mock@^7:
-  version "7.7.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/fetch-mock/-/fetch-mock-7.7.0.tgz#28c4cef45739b29419e9324637c84965abab979a"
-  integrity sha1-KMTO9Fc5spQZ6TJGN8hJZaurl5o=
+  version "7.7.2"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/fetch-mock/-/fetch-mock-7.7.2.tgz#ea72e5aff753493fd4ccf67cbdae6aa1ff52d5ff"
+  integrity sha1-6nLlr/dTST/UzPZ8va5qof9S1f8=
   dependencies:
     babel-polyfill "^6.26.0"
     core-js "^2.6.9"
