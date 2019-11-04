@@ -90,10 +90,10 @@ function _UWDT_b64DecodeUnicode(str) {
 	scriptElement2.innerHTML = `eval(_UWDT_b64DecodeUnicode("${lib2}"))`
 	document.documentElement.prepend(scriptElement2)
 
-	if (DEBUG) console.info(`[${LIB},${Date.now()}] UWDA was injected from the webextension ✅`)
+	if (DEBUG) console.info(`[${LIB},${Date.now()}] UDA was injected from the webextension ✅`)
 }
 else {
-	if (DEBUG) console.info(`[${LIB},${Date.now()}] UWDA frow webext is disabled ❎`)
+	if (DEBUG) console.info(`[${LIB},${Date.now()}] UDA frow webext is disabled ❎`)
 }
 
 browser.runtime.sendMessage(

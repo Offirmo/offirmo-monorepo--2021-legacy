@@ -27,7 +27,7 @@ console.log('* lib1 content length =', lib1_content.length)
 
 const lib1_encoded = btoa(lib1_content)
 console.log('* encoded lib1 content length =', lib1_encoded.length)
-console.assert(lib1_encoded.length < 25 * 1000, 'lib1 is too big and won’t get injected!')
+console.assert(lib1_encoded.length < 32 * 1000, 'lib1 is too big and won’t get injected!')
 
 fs.writeFileSync(lib1_target_path, `
 // THIS FILE IS AUTO GENERATED!
