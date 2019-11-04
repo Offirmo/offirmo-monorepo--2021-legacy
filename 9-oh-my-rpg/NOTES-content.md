@@ -4,7 +4,7 @@
 
 
 
-## humain
+## Sophont
 
 * https://www.lifehack.org/articles/communication/what-are-the-differences-between-knowledge-wisdom-and-insight.html
 * https://en.wikipedia.org/wiki/Johari_window
@@ -15,6 +15,7 @@ From marketing of "Children of MORTA"
 ### groupes
 * sorcerer-kings ~sith
 * mage knights created by reaction https://boardgamegeek.com/boardgame/248562/mage-knight-ultimate-edition
+* rangs https://www.theloadout.com/csgo/ranks
 
 ### places
 * https://en.wikipedia.org/wiki/List_of_mythological_places
@@ -76,6 +77,8 @@ https://en.wikipedia.org/wiki/International_Nuclear_Event_Scale
 * https://www.cnews.fr/monde/2019-06-18/la-terre-menacee-par-une-eruption-solaire-de-grande-ampleur-850052
 * https://en.wikipedia.org/wiki/Abiogenesis
 * https://en.wikipedia.org/wiki/Late_Heavy_Bombardment
+* https://science.slashdot.org/story/19/10/23/2342242/some-of-the-universes-heavier-elements-are-created-by-neutron-star-collisions
+* https://science.slashdot.org/story/19/10/24/1953228/the-universe-is-made-of-tiny-bubbles-containing-mini-universes-scientists-say
 
 ### terrestre
 * https://www.news.com.au/technology/science/animals/giant-severed-ice-age-wolfs-head-discovered-in-siberian-permafrost/news-story/2d910feaef04ac5b807808af4b578f4b
@@ -113,8 +116,8 @@ https://science.slashdot.org/story/19/06/05/2215210/exotic-particles-called-pent
 * possible de diminuer de niveau si blessé = plus possible d'utiliser des sorts de haut niveau (peut expliquer pourquoi les puissants mages ont besoin du joueur)
 
 ### sorts
-https://roll20.net/compendium/dnd5e/Spells%20List#content
-
+* https://roll20.net/compendium/dnd5e/Spells%20List#content
+* https://www.pcgamesn.com/diablo-4/druid-skills-talents-best
 
 
 ## arts martiaux

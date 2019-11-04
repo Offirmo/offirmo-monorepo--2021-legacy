@@ -15,7 +15,7 @@
 		"@offirmo/practical-logger-node": "^0",
 		"@offirmo-private/prettify-json": "^0",
 		"@offirmo-private/timestamps": "^0",
-		"exiftool-vendored": "^8",
+		"exiftool-vendored": "^9",
 		"fs-extra": "^8",
 		"tslib": "^1",
 		"typescript-string-enums": "^1"

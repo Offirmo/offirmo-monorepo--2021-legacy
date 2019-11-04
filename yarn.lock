@@ -2,14 +2,6 @@
 # yarn lockfile v1
 
 
-"@atlaskit/analytics-next@^5.1.2":
-  version "5.4.1"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/analytics-next/-/analytics-next-5.4.1.tgz#f62d721f8bc994064ddebe4533bd91091b5107d4"
-  integrity sha1-9i1yH4vJlAZN3r5FM72RCRtRB9Q=
-  dependencies:
-    "@babel/runtime" "^7.0.0"
-    prop-types "^15.5.10"
-
 "@atlaskit/analytics-next@^6.3.1":
   version "6.3.1"
   resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/analytics-next/-/analytics-next-6.3.1.tgz#72d54950b0834915cab174ec7c2b359c1d9b5a46"
@@ -80,16 +72,17 @@
     react-transition-group "^2.2.1"
     tslib "^1.9.3"
 
-"@atlaskit/textfield@^2":
-  version "2.0.5"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/textfield/-/textfield-2.0.5.tgz#1ff8171efdb0e56143a2a52857510fbd895d0f99"
-  integrity sha1-H/gXHv2w5WFDoqUoV1EPvYldD5k=
+"@atlaskit/textfield@^3":
+  version "3.1.2"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/textfield/-/textfield-3.1.2.tgz#32dae1e5575cc1898a057cea1f1520dae6e100e3"
+  integrity sha1-Mtrh5VdcwYmKBXzqHxUg2ubhAOM=
   dependencies:
-    "@atlaskit/analytics-next" "^5.1.2"
-    "@atlaskit/theme" "^9.1.1"
-    "@babel/runtime" "^7.0.0"
+    "@atlaskit/analytics-next" "^6.3.1"
+    "@atlaskit/theme" "^9.2.4"
+    "@emotion/core" "^10.0.9"
+    tslib "^1.9.3"
 
-"@atlaskit/theme@^9", "@atlaskit/theme@^9.1.1", "@atlaskit/theme@^9.1.6", "@atlaskit/theme@^9.2.4", "@atlaskit/theme@^9.2.6":
+"@atlaskit/theme@^9", "@atlaskit/theme@^9.1.6", "@atlaskit/theme@^9.2.4", "@atlaskit/theme@^9.2.6":
   version "9.2.6"
   resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/theme/-/theme-9.2.6.tgz#e379756d9cb8eb79104028dd65b0405e1bae530a"
   integrity sha1-43l1bZy463kQQCjdZbBAXhuuUwo=
@@ -2211,7 +2204,7 @@ base@^0.11.1:
     mixin-deep "^1.2.0"
     pascalcase "^0.1.1"
 
-batch-cluster@^5.6.8:
+batch-cluster@^5.7.1:
   version "5.7.1"
   resolved "https://packages.atlassian.com/api/npm/npm-remote/batch-cluster/-/batch-cluster-5.7.1.tgz#51479fd676069890ed4a778faa13ff76c13eb333"
   integrity sha1-UUef1nYGmJDtSnePqhP/dsE+szM=
@@ -4771,27 +4764,27 @@ exif-parser@^0.1:
   resolved "https://packages.atlassian.com/api/npm/npm-remote/exif-parser/-/exif-parser-0.1.12.tgz#58a9d2d72c02c1f6f02a0ef4a9166272b7760922"
   integrity sha1-WKnS1ywCwfbwKg70qRZicrd2CSI=
 
-exiftool-vendored.exe@11.65.0:
-  version "11.65.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/exiftool-vendored.exe/-/exiftool-vendored.exe-11.65.0.tgz#4a3df5b3eda086b308130cfe6c0a9e538c3cc4a7"
-  integrity sha1-Sj31s+2ghrMIEwz+bAqeU4w8xKc=
+exiftool-vendored.exe@^11.73.0:
+  version "11.73.0"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/exiftool-vendored.exe/-/exiftool-vendored.exe-11.73.0.tgz#5f16806d6b76da42be949769b371d0ab6b5c17bd"
+  integrity sha1-XxaAbWt22kK+lJdps3HQq2tcF70=
 
-exiftool-vendored.pl@11.65.0:
-  version "11.65.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/exiftool-vendored.pl/-/exiftool-vendored.pl-11.65.0.tgz#df82220e2c2b8cdcb6289fe15ad9707f2068c0fd"
-  integrity sha1-34IiDiwrjNy2KJ/hWtlwfyBowP0=
+exiftool-vendored.pl@^11.73.0:
+  version "11.73.0"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/exiftool-vendored.pl/-/exiftool-vendored.pl-11.73.0.tgz#49ab1855f5fbe3ca1ad0137959c0bc38d4fd18a8"
+  integrity sha1-SasYVfX748oa0BN5WcC8ONT9GKg=
 
-exiftool-vendored@^8:
-  version "8.22.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/exiftool-vendored/-/exiftool-vendored-8.22.0.tgz#7b430801e1529a5b9224a92a5a084c4731a2de22"
-  integrity sha1-e0MIAeFSmluSJKkqWghMRzGi3iI=
+exiftool-vendored@^9:
+  version "9.1.0"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/exiftool-vendored/-/exiftool-vendored-9.1.0.tgz#7e32068c3e3ef5ee84d9d37be15d4dcfc51d0141"
+  integrity sha1-fjIGjD4+9e6E2dN74V1Nz8UdAUE=
   dependencies:
-    batch-cluster "^5.6.8"
-    luxon "^1.17.2"
+    batch-cluster "^5.7.1"
+    luxon "^1.19.3"
     tz-lookup "^6.1.24"
   optionalDependencies:
-    exiftool-vendored.exe "11.65.0"
-    exiftool-vendored.pl "11.65.0"
+    exiftool-vendored.exe "^11.73.0"
+    exiftool-vendored.pl "^11.73.0"
 
 exit-hook@^1.0.0:
   version "1.1.1"
@@ -7552,10 +7545,10 @@ lru_map@^0.3.3:
   resolved "https://packages.atlassian.com/api/npm/npm-remote/lru_map/-/lru_map-0.3.3.tgz#b5c8351b9464cbd750335a79650a0ec0e56118dd"
   integrity sha1-tcg1G5Rky9dQM1p5ZQoOwOVhGN0=
 
-luxon@^1.17.2:
-  version "1.21.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/luxon/-/luxon-1.21.0.tgz#290b5ced5379c130a31f52d1ebc0da483dc91b38"
-  integrity sha1-KQtc7VN5wTCjH1LR68DaSD3JGzg=
+luxon@^1.19.3:
+  version "1.21.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/luxon/-/luxon-1.21.1.tgz#00c9c9e624e66cfef745a8476c4ead14a3966a61"
+  integrity sha1-AMnJ5iTmbP73RahHbE6tFKOWamE=
 
 magic-string@^0.22.4:
   version "0.22.5"
