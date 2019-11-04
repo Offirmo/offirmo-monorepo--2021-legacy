@@ -14,8 +14,12 @@
 
 	"size-limit": [
 		{
-			"limit": "2kb",
+			"limit": "3kb",
 			"path": "dist/src.es2019/index.js"
+		},
+		{
+			"limit": "3kb",
+			"path": "dist/src.es2018.cjs/index.js"
 		}
 	],
 
