@@ -48,7 +48,7 @@
 
 		"dev": "run-s clean build:dev:watch",
 		"build": "run-s build:prod",
-		"demo:node": "./doc/demo.ts",
+		"demo": "UDA_OVERRIDE__LOGGER_FOO_LOGLEVEL=verbose UDA_OVERRIDE__DB_URL=localhost:1234 node ./doc/demo.js",
 
 		"np": "np --no-publish",
 		"prepublishOnly": "run-s clean build:prod ensure-size"

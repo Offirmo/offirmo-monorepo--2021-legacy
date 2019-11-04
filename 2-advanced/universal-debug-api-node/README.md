@@ -1,6 +1,6 @@
 
 <h1 align="center">
-	Offirmo’s Universal Debug API - no op implementation<br>
+	Offirmo’s Universal Debug API - node implementation<br>
 	<a href="https://www.offirmo.net/offirmo-monorepo/doc/modules-directory/index.html">
 		<img src="https://www.offirmo.net/offirmo-monorepo/doc/quality-seal/offirmos_quality_seal.svg" alt="Offirmo’s quality seal">
 	</a>
@@ -8,19 +8,19 @@
 
 <p align="center">
 	<a alt="npm package page"
-	  href="https://www.npmjs.com/package/@offirmo/universal-debug-api-minimal-noop">
+	  href="https://www.npmjs.com/package/@offirmo/universal-debug-api-node">
 		<img alt="npm badge"
-		  src="https://img.shields.io/npm/v/@offirmo/universal-debug-api-minimal-noop.svg">
+		  src="https://img.shields.io/npm/v/@offirmo/universal-debug-api-node.svg">
 	</a>
 	<a alt="dependencies analysis"
-	  href="https://david-dm.org/offirmo/offirmo-monorepo?path=2-advanced%2Funiversal-debug-api-minimal-noop">
+	  href="https://david-dm.org/offirmo/offirmo-monorepo?path=2-advanced%2Funiversal-debug-api-node">
 		<img alt="dependencies badge"
-		  src="https://img.shields.io/david/offirmo/offirmo-monorepo.svg?path=2-advanced%2Funiversal-debug-api-minimal-noop">
+		  src="https://img.shields.io/david/offirmo/offirmo-monorepo.svg?path=2-advanced%2Funiversal-debug-api-node">
 	</a>
 	<a alt="bundle size evaluation"
-	  href="https://bundlephobia.com/result?p=@offirmo/universal-debug-api-minimal-noop">
+	  href="https://bundlephobia.com/result?p=@offirmo/universal-debug-api-node">
 		<img alt="bundle size badge"
-		  src="https://img.shields.io/bundlephobia/minzip/@offirmo/universal-debug-api-minimal-noop.svg">
+		  src="https://img.shields.io/bundlephobia/minzip/@offirmo/universal-debug-api-node.svg">
 	</a>
 	<a alt="license"
 	  href="https://unlicense.org/">
@@ -31,33 +31,56 @@
 	  src="https://img.shields.io/maintenance/yes/2019.svg">
 </p>
 
-**This is a minimal, no-operation implementation of [Offirmo’s Universal Debug API](https://github.com/Offirmo/offirmo-monorepo/wiki/Offirmo%E2%80%99s-Universal-Debug-Api).**
-
-Isomorphic, for node and browser.
-
-**In Chrome and Firefox, this no-op code can be magically hot-swapped with the companion [webextension](TODO)!**
-
-See overall explanation: [Offirmo’s Universal Debug API](https://github.com/Offirmo/offirmo-monorepo/wiki/Offirmo%E2%80%99s-Universal-Debug-Api).
-
+**This is the node implementation of [Offirmo’s Universal Debug API](https://github.com/Offirmo/offirmo-monorepo/wiki/Offirmo%E2%80%99s-Universal-Debug-Api).**
 
 ## Usage
 
-Use this lib **to not bloat your webapp/npx bundle**.
-This no-op implementation will do nothing = display nothing = compute nothing.
-
-However, when the companion webextension is used,
-the no-op implementation can be hot-swapped at load time to get the full featured Web Debug API.
+The Universal Debug API is exposed as expected:
 
 ```javascript
 import {
 	getLogger,
-	exposeInternal,
 	overrideHook,
-	addDebugCommand,
-	globalThis, // exposed from sub-dependency for convenience
-} from '@offirmo/universal-debug-api-minimal-noop'
+} from '@offirmo/universal-debug-api-node'
 
+const logger = getLogger({ name: 'foo', suggestedLevel: 'info' })
+logger.silly('Hello')
+logger.verbose('Hello')
+logger.fatal('Hello')
 
+const DB_URL = overrideHook('db-url', 'https://prod.dev')
+logger.info('DB URL=', {DB_URL})
 ```
 
-Note: no bundled version provided, for this lib is targeted at lib authors, not end users.
+Specific to the node version, overrides are set through ENV vars:
+
+```bash
+UDA_OVERRIDE__LOGGER_FOO_LOGLEVEL=verbose \
+UDA_OVERRIDE__DB_URL=localhost:1234 \
+node ./doc/demo.js
+```
+
+Because ENV vars format is restricted, keys are automatically normalized:
+- to upper case
+- separators '.' and '-' are converted to '_'
+
+Though overrides values accept JSON (correctly escaped),
+as a convenience because escaping is hard in shell and text files,
+numbers are auto-converted and non-JSON values are defaulted to strings:
+
+```bash
+UDA_OVERRIDE__LOGGER_FOO_LOGLEVEL=\"verbose\" \
+## equivalent to
+UDA_OVERRIDE__LOGGER_FOO_LOGLEVEL=verbose \
+```
+
+## Notes
+
+> Why would I use a mechanism such as `overrideHook()` when I can simply read ENV vars?
+
+Sure you can if your code is node only.
+The point of the Universal Debug API is to be isomorphic,
+for shared code.
+
+For ex. an API SDK/client can now be fully be isomorphic, using the fetch() API to query
+and the Universal Debug API to optionally log / allow overrides.

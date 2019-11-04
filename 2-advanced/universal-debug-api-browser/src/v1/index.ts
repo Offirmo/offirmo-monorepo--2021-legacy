@@ -162,12 +162,5 @@ export default function create(): DebugApiV1 {
 		debugCommands[commandName] = callback
 	}
 
-	/* TODO ping
-	api.addDebugCommand('list', () => {
-		console.log((window as any)._experiments)
-		//listExperiments((window as any)._experiments)
-	})
-*/
-
 	return api
 }

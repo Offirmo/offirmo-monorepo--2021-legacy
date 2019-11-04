@@ -35,28 +35,30 @@ export default function create(): DebugApiV1 {
 	// TODO override?
 	// TODO allow off?
 	const _ownLogger: Logger = (() => {
-		const name = LIB
-		// TODO make the level adjustable?
-		return createLogger({ name, suggestedLevel: 'silly' })
+		return createLogger({
+			name: LIB,
+			// TODO make the level adjustable?
+			//suggestedLevel: 'silly'
+		})
 	})()
 
 	function _getOverrideRequestedSJson(ovKey: string): null | string {
 		try {
-			const LSKey = getEnvKeyForOverride(ovKey)
-			//console.log(`LSKey = "${LSKey}"`)
-			const rawValue = localStorage.getItem(LSKey)
-			//console.log(`LSKey content = "${value}"`)
+			const EnvKey = getEnvKeyForOverride(ovKey)
+			//console.log(`EnvKey = "${EnvKey}"`)
+			const rawValue = process.env[EnvKey] || null
+			//console.log(`EnvKey "${EnvKey}" content = "${rawValue}"`)
 			return rawValue
 		}
 		catch (err) {
-			_ownLogger.warn(`🔴 error reading LS for override "${ovKey}"!`, { err })
+			_ownLogger.warn(`🔴 error reading ENV for override "${ovKey}"!`, { err })
 			return null
 		}
 	}
 
 	function _getOverride(key: string): OverrideStatus {
 		if (!overrides[key]) {
-			// we only read the LS once for speed reason
+			// we only read the env once for speed reason
 			overrides[key] = {
 				// so far:
 				isOn: false,
@@ -65,17 +67,26 @@ export default function create(): DebugApiV1 {
 
 			const rawValue = _getOverrideRequestedSJson(key)
 			if (rawValue) {
-				try {
-					overrides[key].isOn = true
+				overrides[key].isOn = true
+				// for the node version where escaping is hard, as a convenience, we auto-type common cases
+				const value = (() => {
 					// we allow the non-JSON "undefined"
-					const value = rawValue === 'undefined' ? undefined : JSON.parse(rawValue)
-					overrides[key].value = value
-					_ownLogger.log(` 🔵 overriden "${key}"`, { value })
-				} catch (err) {
-					// TODO only complain once
-					// TODO seen crash, to check again
-					_ownLogger.warn(`🔴 failed to override "${key}"!`, { badValue: rawValue, err })
-				}
+					if (rawValue === 'undefined')
+						return undefined
+
+					if (String(Number(rawValue)) === rawValue)
+						return Number(rawValue)
+
+					try {
+						return JSON.parse(rawValue)
+					}
+					catch {
+						return rawValue // as a string
+					}
+				})()
+
+				overrides[key].value = value
+				_ownLogger.log(` 🔵 overriden "${key}"`, { value })
 			}
 		}
 
@@ -161,13 +172,6 @@ export default function create(): DebugApiV1 {
 		// TODO try catch
 		debugCommands[commandName] = callback
 	}
-
-	/* TODO ping
-	api.addDebugCommand('list', () => {
-		console.log((window as any)._experiments)
-		//listExperiments((window as any)._experiments)
-	})
-*/
 
 	return api
 }

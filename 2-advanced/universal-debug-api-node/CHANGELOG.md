@@ -2,10 +2,7 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
-* ...
-
-## v0.0.1
-TODO
+* TODO fix all TODOs
 * initial release to npm
 
 ## TEMPLATE
