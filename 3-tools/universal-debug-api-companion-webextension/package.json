@@ -9,7 +9,7 @@
 		"@atlaskit/form": "^6",
 		"@atlaskit/range": "^3",
 		"@atlaskit/select": "^10",
-		"@atlaskit/textfield": "^2",
+		"@atlaskit/textfield": "^3",
 		"@atlaskit/theme": "^9",
 		"@atlaskit/toggle": "^8",
 		"@babel/core": "^7",

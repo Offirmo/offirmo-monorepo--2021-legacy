@@ -238,7 +238,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var v1_1 = require("./v1");
 
-exports.WebDebugApiV1 = v1_1.WebDebugApi; // for convenience
+exports.DebugApiV1 = v1_1.DebugApi; // for convenience
 
 var practical_logger_types_1 = require("@offirmo/practical-logger-types");
 
@@ -302,10 +302,10 @@ Object.defineProperty(exports, "__esModule", {
 var _exportNames = {
   LIB: true,
   LOG_LEVEL_TO_INTEGER: true,
-  LOG_LEVEL_TO_HUMAN: true,
-  ALL_LOG_LEVELS: true
+  ALL_LOG_LEVELS: true,
+  LOG_LEVEL_TO_HUMAN: true
 };
-exports.ALL_LOG_LEVELS = exports.LOG_LEVEL_TO_HUMAN = exports.LOG_LEVEL_TO_INTEGER = exports.LIB = void 0;
+exports.LOG_LEVEL_TO_HUMAN = exports.ALL_LOG_LEVELS = exports.LOG_LEVEL_TO_INTEGER = exports.LIB = void 0;
 
 var _constsBase = require("./consts-base");
 
@@ -339,28 +339,19 @@ const LOG_LEVEL_TO_INTEGER = {
   debug: 81,
   trace: 90,
   silly: 100
-}; // rationalization to a clear, human understandable string
-
-exports.LOG_LEVEL_TO_INTEGER = LOG_LEVEL_TO_INTEGER;
-const LOG_LEVEL_TO_HUMAN = {
-  fatal: 'fatal',
-  emerg: 'emergency',
-  alert: 'alert',
-  crit: 'critical',
-  error: 'error',
-  warning: 'warn',
-  warn: 'warn',
-  notice: 'notice',
-  info: 'info',
-  verbose: 'verbose',
-  log: 'log',
-  debug: 'debug',
-  trace: 'trace',
-  silly: 'silly'
 };
-exports.LOG_LEVEL_TO_HUMAN = LOG_LEVEL_TO_HUMAN;
-const ALL_LOG_LEVELS = Object.keys(LOG_LEVEL_TO_INTEGER).map(s => s).sort((a, b) => LOG_LEVEL_TO_INTEGER[a] - LOG_LEVEL_TO_INTEGER[b]);
+exports.LOG_LEVEL_TO_INTEGER = LOG_LEVEL_TO_INTEGER;
+const ALL_LOG_LEVELS = Object.keys(LOG_LEVEL_TO_INTEGER).map(s => s).sort((a, b) => LOG_LEVEL_TO_INTEGER[a] - LOG_LEVEL_TO_INTEGER[b]); // rationalization to a clear, human understandable string
+
 exports.ALL_LOG_LEVELS = ALL_LOG_LEVELS;
+const LOG_LEVEL_TO_HUMAN = // generated to shave a few bytes
+Object.fromEntries(ALL_LOG_LEVELS.map(ll => {
+  return [ll, {
+    em: 'emergency',
+    wa: 'warn'
+  }[ll.slice(0, 1)] || ll];
+}));
+exports.LOG_LEVEL_TO_HUMAN = LOG_LEVEL_TO_HUMAN;
 },{"./consts-base":"Xw8P"}],"tCvj":[function(require,module,exports) {
 "use strict";
 
@@ -371,91 +362,48 @@ exports.looksLikeAnError = looksLikeAnError;
 exports.normalizeArguments = normalizeArguments;
 
 function looksLikeAnError(x) {
-  return !!(x.name && x.message && x.stack);
+  return !!(x && x.name && x.message && x.stack);
 } // harmonize
-// also try to recover from some common errors
-// TODO assess whether it's really good to be that permissive (also: hurts perfs)
+// also try to recover from incorrect invocations
 
 
-function normalizeArguments(args) {
-  //console.log('>>> NA', Array.from(args))
-  let message = '';
+function normalizeArguments(raw_args) {
+  var _a;
+
+  let message_parts = [];
   let details = {};
   let err = undefined;
+  Array.from(raw_args).forEach(arg => {
+    if (!arg) return; // errors are first class, look for them first
 
-  if (args.length > 2) {
-    //console.warn('NA 1', args)
-    // wrong invocation,
-    // most likely a "console.log" style invocation from an untyped codebase.
-    // "best effort" fallback:
-    message = Array.prototype.join.call(args, ' ');
-    details = {};
-  } else {
-    //console.log('NA 2')
-    message = args[0] || '';
-    details = args[1] || {}; // optimization
+    if (looksLikeAnError(arg)) {
+      if (!err) err = arg; // extract it
 
-    if (!message || typeof args[0] !== 'string' || typeof details !== 'object') {
-      // non-nominal call
-      //console.warn('NA 2.1')
-      // try to fix message (attempt 1)
-      if (typeof message !== 'string') {
-        //console.warn('NA 2.1.1', { message, details })
-        if (looksLikeAnError(message)) {
-          //console.warn('NA 2.1.1.1')
-          // Another bad invocation
-          // "best effort" fallback:
-          err = message;
-          message = err.message;
-        } else if (typeof message === 'object' && !args[1]) {
-          // no message, direct details
-          //console.warn('NA 2.1.1.2')
-          details = message;
-          message = '';
-        } else {
-          //console.warn('NA 2.1.1.3')
-          message = String(message);
-        }
-      } // try to fix details
-
-
-      if (typeof details !== 'object') {
-        //console.warn('NA 2.1.2', { details })
-        // Another bad invocation
-        // "best effort" fallback:
-        message = [message, String(details)].join(' ');
-        details = {};
-      } // ensure we picked up err
-
-
-      err = err || details.err; // attempt to fix message (attempt 2, after uniformizing details)
-
-      if (!message && details.message) {
-        //console.warn('NA 2.1.3', { details })
-        const {
-          message: m2,
-          ...d2
-        } = details;
-        message = m2;
-        details = d2;
-      }
-
-      message = message || err && err.message || '(no message)';
+      return;
     }
 
-    if (!err && looksLikeAnError(details)) {
-      //console.warn('NA 2.2', { details })
-      // details is in fact an error, extract it
-      err = details;
-      details = {
-        err
+    if (!err && looksLikeAnError(arg.err)) {
+      err = arg.err; // extract it
+      // don't return, still stuff to pick
+    }
+
+    if (typeof arg === 'object') {
+      details = { ...details,
+        ...arg
       };
-    } else if (err) details = {
-      err,
-      ...details
-    };else details = { ...details
-    };
+      return;
+    }
+
+    message_parts.push(String(arg));
+  });
+
+  if (typeof details.message === 'string' && !message_parts.length) {
+    message_parts.push(details.message);
+    delete details.message;
   }
+
+  const message = message_parts.join(' ') || ((_a = err) === null || _a === void 0 ? void 0 : _a.message) || '(no message)';
+  if (err) details.err = err;else delete details.err; // because could be present but not be a correct err type
 
   return [message, details];
 }
@@ -909,4 +857,4 @@ console.log(`[${LIB}.${+Date.now()}] sending a test postMessage...`)
 window.postMessage({msg: `Test message from ${LIB}`}, '*')
 */
 },{"@offirmo/universal-debug-api-minimal-noop":"Az9r","../../../../1-foundation/practical-logger-core/doc/shared-demo":"K8Q0"}]},{},["Focm"], null)
-//# sourceMappingURL=demo.4d9bdcb7.js.map
+//# sourceMappingURL=demo.e8a7a26d.js.map

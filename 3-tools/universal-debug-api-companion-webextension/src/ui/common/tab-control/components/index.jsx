@@ -23,8 +23,8 @@ const NotEligibleVM = React.memo(
 	function NotEligibleV() {
 		return (
 			<Fragment>
-				<p>This tab is not eligible.</p>
-				<p>Only normal web pages can be manipulated. Local files aren’t supported either.</p>
+				<p>This tab is not eligible (yet?).</p>
+				<p>Only normal, correctly loading, non-local web pages can be manipulated.</p>
 				<p className="o⋄color⁚secondary">
 					If you think this is a mistake,
 					please <a href="https://github.com/Offirmo/offirmo-monorepo/issues" target="_blank">report here</a>.

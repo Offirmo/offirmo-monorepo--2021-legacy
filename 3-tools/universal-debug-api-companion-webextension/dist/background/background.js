@@ -1909,7 +1909,7 @@ Object.defineProperty(exports, "__esModule", {
 
 __export(require("./entry"));
 
-exports.LS_ROOT = '🧩UWDT'; // !== UWDA
+exports.LS_ROOT = '🧩UWDT'; // !== UDA
 
 exports.LS_KEY_ENABLED = exports.LS_ROOT + ".enabled";
 },{"./entry":"IGJP"}],"FRId":[function(require,module,exports) {
@@ -2034,6 +2034,8 @@ function is_origin_eligible(origin) {
   if (origin === consts_1.UNKNOWN_ORIGIN) return false;
   if (origin.startsWith('chrome://')) return false;
   if (origin.startsWith('chrome-extension://')) return false;
+  if (origin.startsWith('file://')) return false; // because no access to LS
+
   if (origin === 'null') // Firefox about:...
     return false;
   return true;
@@ -3183,14 +3185,14 @@ function create_msg_request_reload() {
 exports.create_msg_request_reload = create_msg_request_reload;
 
 __export(require("./report-usage"));
-},{"../consts":"FRId","./report-usage":"dBNx"}],"E6oj":[function(require,module,exports) {
+},{"../consts":"FRId","./report-usage":"dBNx"}],"S1PM":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.LS_ROOT = '🛠UWDA';
-},{}],"SxsC":[function(require,module,exports) {
+exports.LS_ROOT = '🛠UDA';
+},{}],"Joet":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3215,7 +3217,7 @@ function getLSKeyForOverride(key) {
 }
 
 exports.getLSKeyForOverride = getLSKeyForOverride;
-},{"../consts":"E6oj"}],"h2o3":[function(require,module,exports) {
+},{"../consts":"S1PM"}],"h2o3":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -3250,7 +3252,7 @@ var messages_1 = require("../common/messages");
 
 var tab_1 = require("../common/state/tab");
 
-var keys_1 = require("@offirmo-private/universal-debug-api-full-browser/src/v1/keys"); ////////////////////////////////////
+var keys_1 = require("@offirmo-private/universal-debug-api-browser/src/v1/keys"); ////////////////////////////////////
 
 
 var render_webext_icon = memoize_one_1.default(function render_webext_icon(sync_status) {
@@ -3360,7 +3362,7 @@ function propagate_lib_config() {
 Flux.cscript_emitter.on('change', function () {
   propagate_lib_config();
 }); ////////////////////////////////////
-},{"webextension-polyfill-ts":"c2lp","memoize-one":"xHCB","./flux":"lK5q","../common/utils/stringified-json":"qun1","../common/consts":"FRId","../common/messages":"sEPV","../common/state/tab":"VPdt","@offirmo-private/universal-debug-api-full-browser/src/v1/keys":"SxsC"}],"shBX":[function(require,module,exports) {
+},{"webextension-polyfill-ts":"c2lp","memoize-one":"xHCB","./flux":"lK5q","../common/utils/stringified-json":"qun1","../common/consts":"FRId","../common/messages":"sEPV","../common/state/tab":"VPdt","@offirmo-private/universal-debug-api-browser/src/v1/keys":"Joet"}],"shBX":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
