@@ -2,6 +2,8 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
+* [feat] better bad invocation recovery, also smaller code
+* [feat] shaved a few bytes of size here and there 6.87k -> 6k
 * [chore] bumped dependencies
 * ...
 

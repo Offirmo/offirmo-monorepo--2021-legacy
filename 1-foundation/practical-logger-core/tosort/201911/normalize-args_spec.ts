@@ -42,30 +42,10 @@ describe(`${LIB} - normalize args`, () => {
 
 		context('on bad calls', () => {
 			it('should work', () => {
-				expect(
-					getNormalizedMessage()
-					, '<- none'
-				).to.equal('(no message)')
-				expect(
-					getNormalizedMessage('hello', 'world!'),
-					'<- 2 str args'
-				).to.equal('hello world!')
-				expect(
-					getNormalizedMessage('hello', 'world!', {err, bar: 42}, 42),
-					'<- many args'
-				).to.equal('hello world! 42')
-				expect(
-					getNormalizedMessage({bar: 42}, {baz: 33}),
-					'<- double details'
-				).to.deep.equal('(no message)')
-				expect(
-					getNormalizedMessage({bar: 42}, { baz: 33 }, err),
-					'<- error anywhere - 1'
-				).to.deep.equal('err_msg!')
-				expect(
-					getNormalizedMessage({bar: 42}, { baz: 33 }, { err }),
-					'<- error anywhere - 2'
-				).to.deep.equal('err_msg!')
+				expect(getNormalizedMessage(), 'none').to.equal('(no message)')
+				expect(getNormalizedMessage('hello', 'world!'), '2 str args').to.equal('hello world!')
+				expect(getNormalizedMessage('hello', 'world!', 42, {err, bar: 42}), 'many args').to.equal('hello world! 42 [object Object]')
+				expect(getNormalizedMessage({bar: 42}, {baz: 33}), 'double details').to.deep.equal('[object Object]')
 			})
 		})
 	})
@@ -94,44 +74,10 @@ describe(`${LIB} - normalize args`, () => {
 
 		context('on bad calls', () => {
 			it('should work', () => {
-				expect(
-					getNormalizedDetails(),
-					'<- none'
-				).to.deep.equal({})
-				expect(
-					getNormalizedDetails('hello', 'world!')
-					, '<- 2 str args'
-				).to.deep.equal({})
-				expect(
-					getNormalizedDetails('hello', 'world!', 42, {err, bar: 42})
-					, '<- many args'
-				).to.deep.equal({
-					bar: 42,
-					err,
-				})
-				expect(
-					getNormalizedDetails({bar: 42}, {baz: 33})
-					, '<- double details'
-				).to.deep.equal({
-					bar: 42,
-					baz: 33,
-				})
-				expect(
-					getNormalizedDetails({bar: 42}, { baz: 33 }, err),
-					'<- error anywhere - 1'
-				).to.deep.equal({
-					bar: 42,
-					baz: 33,
-					err,
-				})
-				expect(
-					getNormalizedDetails({bar: 42}, { baz: 33 }, { err }),
-					'<- error anywhere - 2'
-				).to.deep.equal({
-					bar: 42,
-					baz: 33,
-					err,
-				})
+				expect(getNormalizedDetails(), 'none').to.deep.equal({})
+				expect(getNormalizedDetails('hello', 'world!'), '2 str args').to.deep.equal({})
+				expect(getNormalizedDetails('hello', 'world!', 42, {err, bar: 42}), 'many args').to.deep.equal({})
+				expect(getNormalizedDetails({bar: 42}, {baz: 33}), 'double details').to.deep.equal({baz: 33})
 			})
 		})
 	})
