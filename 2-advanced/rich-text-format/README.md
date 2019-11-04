@@ -25,6 +25,11 @@ Inspiration:
 * https://developer.atlassian.com/cloud/stride/apis/document/structure/
 * https://bitbucket.org/atlassian/adf-builder-javascript#readme
 
+Related, discovered after I made mine:
+* https://api.slack.com/block-kit
+  * https://api.slack.com/tools/block-kit-builder
+
+
 
 Tosort
 * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl
