@@ -1,6 +1,6 @@
 import * as api from '../..'
 
-import { demo_full } from '../../../../2-advanced/universal-debug-api-minimal-noop/doc/demo/demo.js'
+import { demo_full } from '../../../../2-advanced/universal-debug-api-minimal-noop/doc/shared-demo'
 
 /////////////////////
 

@@ -1,1 +1,1 @@
-export const LS_ROOT = '🛠UWDA'
+export const LS_ROOT = '🛠UDA'
