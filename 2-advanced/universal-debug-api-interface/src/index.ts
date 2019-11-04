@@ -1,17 +1,17 @@
-import { WebDebugApi as WebDebugApiV1 } from './v1'
+import { DebugApi as DebugApiV1 } from './v1'
 
-interface WebDebugApiRoot {
-	v1: WebDebugApiV1,
+interface DebugApiRoot {
+	v1: DebugApiV1,
 }
 
-type WebDebugApi = WebDebugApiV1
+type DebugApi = DebugApiV1
 
 export {
-	WebDebugApiV1,
+	DebugApiV1,
 
 	// v latest
-	WebDebugApi,
-	WebDebugApiRoot,
+	DebugApi,
+	DebugApiRoot,
 }
 
 // for convenience

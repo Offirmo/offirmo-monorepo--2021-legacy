@@ -1,6 +1,6 @@
 import { Logger, LoggerCreationParams } from '@offirmo/practical-logger-types'
 
-interface WebDebugApi {
+interface DebugApi {
 	getLogger: (p?: Readonly<LoggerCreationParams>) => Logger
 
 	overrideHook: <T>(key: string, defaultValue: T) => T
@@ -18,5 +18,5 @@ interface WebDebugApi {
 export {
 	Logger,
 	LoggerCreationParams,
-	WebDebugApi,
+	DebugApi,
 }

@@ -1,6 +1,6 @@
 import { getGlobalThis } from '@offirmo/globalthis-ponyfill'
 
-import { WebDebugApiRoot, WebDebugApi } from '@offirmo/universal-debug-api-interface'
+import { DebugApiRoot, DebugApi } from '@offirmo/universal-debug-api-interface'
 
 import createV1 from './v1'
 
@@ -10,7 +10,7 @@ const globalThis = getGlobalThis()
 // TODO root should be a const?
 globalThis._debug = globalThis._debug || {}
 
-const root: WebDebugApiRoot = globalThis._debug
+const root: DebugApiRoot = globalThis._debug
 
 //////////// v1 ////////////
 
@@ -21,7 +21,7 @@ root.v1 = root.v1 || createV1()
 //////////// latest ////////////
 
 // directly expose the latest implementation known to this lib
-const instance: WebDebugApi = root.v1
+const instance: DebugApi = root.v1
 
 const {
 	getLogger,
@@ -52,7 +52,7 @@ export * from '@offirmo/universal-debug-api-interface'
 /*
 declare global {
 	interface Window {
-		_debug: WebDebugApiRoot
+		_debug: DebugApiRoot
 	}
 }
 */

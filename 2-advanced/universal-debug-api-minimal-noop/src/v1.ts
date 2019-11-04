@@ -1,8 +1,8 @@
-import { WebDebugApiV1 } from '@offirmo/universal-debug-api-interface'
+import { DebugApiV1 } from '@offirmo/universal-debug-api-interface'
 import { createLogger } from '@offirmo/practical-logger-minimal-noop'
 
 
-export function create(): WebDebugApiV1 {
+export function create(): DebugApiV1 {
 	const NO_OP = () => {}
 	const NO_OP_LOGGER = createLogger()
 

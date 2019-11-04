@@ -1,4 +1,4 @@
-import { WebDebugApiV1 } from '@offirmo/universal-debug-api-interface'
+import { DebugApiV1 } from '@offirmo/universal-debug-api-interface'
 import { Logger, LoggerCreationParams, createLogger } from '@offirmo/practical-logger-browser'
 import { DEFAULT_LOG_LEVEL, DEFAULT_LOGGER_KEY } from '@offirmo/practical-logger-core'
 
@@ -21,7 +21,7 @@ const LIB = LS_ROOT
 
 ////////////////////////////////////
 
-export default function create(): WebDebugApiV1 {
+export default function create(): DebugApiV1 {
 
 	////////////////////////////////////
 
@@ -84,7 +84,7 @@ export default function create(): WebDebugApiV1 {
 
 	////////////////////////////////////
 
-	const api: WebDebugApiV1 = {
+	const api: DebugApiV1 = {
 		getLogger,
 		exposeInternal,
 		overrideHook,
