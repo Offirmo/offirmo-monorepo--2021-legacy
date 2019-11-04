@@ -26,10 +26,10 @@ export {
 	overrideHook,
 	addDebugCommand,
 
-	createV1, // just in case
-
 	globalThis, // for convenience
+
+	createV1, // special cases
 }
 
-// for convenience
+// types & sub-types
 export * from '@offirmo/universal-debug-api-interface'

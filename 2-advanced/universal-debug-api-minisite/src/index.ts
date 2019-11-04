@@ -3,7 +3,7 @@ import {
 	overrideHook,
 	exposeInternal,
 	addDebugCommand,
-} from '@offirmo/universal-debug-api-minimal-noop'
+} from '@offirmo/universal-debug-api-placeholder'
 
 
 import {

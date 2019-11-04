@@ -7,7 +7,7 @@ import { Enum } from 'typescript-string-enums'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import { OMRContext } from '@oh-my-rpg/definitions'
 import { Storage } from '@offirmo-private/ts-types'
-import { overrideHook } from '@offirmo/universal-debug-api-minimal-noop'
+import { overrideHook } from '@offirmo/universal-debug-api-placeholder'
 
 import * as TBRPGState from '@tbrpg/state'
 import { State } from '@tbrpg/state'

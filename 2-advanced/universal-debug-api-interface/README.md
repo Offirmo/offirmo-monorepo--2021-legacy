@@ -109,6 +109,6 @@ TODO, considered in alpha / unstable for now.
 **This is most likely not what you are looking for!**
 
 See the actual implementations of those interfaces:
-* minimal no-op: [@offirmo/universal-debug-api-minimal-noop](https://www.npmjs.com/package/@offirmo/universal-debug-api-minimal-noop)
+* minimal no-op: [@offirmo/universal-debug-api-placeholder](https://www.npmjs.com/package/@offirmo/universal-debug-api-placeholder)
 * browser: TODO publish to npm
 * node: TODO publish to npm

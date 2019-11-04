@@ -2,6 +2,7 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
+* [refactor] [breaking] renamed to "placeholder"
 * [refactor] [breaking] remove mentions of "web" since this lib is not restricted to the web
 * [doc] README++
 * [chore] [breaking] no longer exporting ES5, reverted to [this more rationale export setup](../../CONTRIBUTING/module-exports.md)

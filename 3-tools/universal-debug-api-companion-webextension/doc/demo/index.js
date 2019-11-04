@@ -6,7 +6,7 @@ import {
 	overrideHook,
 	addDebugCommand,
 	globalThis,
-} from '@offirmo/universal-debug-api-minimal-noop'
+} from '@offirmo/universal-debug-api-placeholder'
 
 import {
 	demo_legacy_console,

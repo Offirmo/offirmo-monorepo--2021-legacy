@@ -8,6 +8,8 @@ const globalThis = getGlobalThis()
 globalThis._debug = globalThis._debug || {} as DebugApiRoot
 
 // install globally if no other implementation already present
+// TODO do a minor version check?
+// TODO always override since final?
 globalThis._debug.v1 = globalThis._debug.v1 || createV1()
 
 // expose the current implementation
@@ -26,10 +28,10 @@ export {
 	overrideHook,
 	addDebugCommand,
 
-	createV1, // just in case
-
 	globalThis, // for convenience
+
+	createV1, // special cases
 }
 
-// for convenience
+// types
 export * from '@offirmo/universal-debug-api-interface'

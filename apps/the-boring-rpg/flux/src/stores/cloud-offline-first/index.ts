@@ -2,7 +2,7 @@ import assert from 'tiny-invariant'
 import stable_stringify from 'json-stable-stringify'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import tiny_singleton from '@offirmo/tiny-singleton'
-import { overrideHook } from '@offirmo/universal-debug-api-minimal-noop'
+import { overrideHook } from '@offirmo/universal-debug-api-placeholder'
 import { Storage } from '@offirmo-private/ts-types'
 
 import { OMRContext } from '@oh-my-rpg/definitions'

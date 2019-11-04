@@ -16,6 +16,7 @@ const root: DebugApiRoot = globalThis._debug
 
 // install globally if no other implementation already present
 // TODO do a minor version check?
+// TODO always override since final?
 root.v1 = root.v1 || createV1()
 
 //////////// latest ////////////
@@ -36,23 +37,10 @@ export {
 	overrideHook,
 	addDebugCommand,
 
-	createV1, // just in case
-
 	globalThis, // for convenience
+
+	createV1, // special cases
 }
 
-// for convenience
-// TODO how about versions?
+// types
 export * from '@offirmo/universal-debug-api-interface'
-
-// TS declaration
-// XXX to check, how does it works with minimal to void?
-// XXX should be cross-env declared by root interface?
-// XXX is it even needed?
-/*
-declare global {
-	interface Window {
-		_debug: DebugApiRoot
-	}
-}
-*/
