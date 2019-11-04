@@ -5,17 +5,20 @@
 * TODO lower size by removing duplication + useless sink
 * TODO test EDGE, IE
 = NOTE bigger size but not a problem since you're not supposed to bundle this lib
-* [feat] now re-export the entire practical-logger-interface
+* ...
+
+## v2.0.0
+2019/11/05
+* [feat] [breaking] (opt out) warnings and errors now break out from groups, to prevent them from being hidden in groupCollapsed()
+* [feat] [breaking] (opt out) groups are now lazily created, only if they have some content
 * [chore] [breaking] no longer exporting ES5, reverted to [this more rationale export setup](../../CONTRIBUTING/module-exports.md)
-* [feat] [breaking] warnings and errors now break out from groups, to prevent them from being hidden in groupCollapsed()
-* [feat] [breaking] groups are now lazily created, only if they have some content
+* [feat] now re-export the entire practical-logger-interface
 * [feat] better browser detection + now supports non firefox/chromium/safari browsers (ex. msie)
 * [feat] ability to opt-out from fancy sinks
 * [fix] correctly allows passing no args to createLogger() (this was intended)
 * [test] more unit tests
 * [refactor] internal package @offirmo/practical-logger-interfaces renamed to @offirmo/practical-logger-types
 * [chore] bumped dependencies
-* ...
 
 ## v1.1.1
 2019/07/07
