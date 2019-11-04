@@ -2,12 +2,16 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
-* [feat] better bad invocation recovery, also smaller code
-* [feat] shaved a few bytes of size here and there 6.87k -> 6k
-* [chore] bumped dependencies
 * ...
 
-## v 2.0.0
+
+## v2.0.1
+2019/11/05
+* [feat] better recovery of bad invocations, also smaller code
+* [feat] shaved a few bytes of size here and there 6.87k -> 6k
+* [chore] bumped dependencies
+
+## v2.0.0
 2019/10/27
 * [feat] [breaking] now implementing 2.0.0 interface
 * [chore] [breaking] no longer exporting ES5, reverted to [this more rationale export setup](../../CONTRIBUTING/module-exports.md)
