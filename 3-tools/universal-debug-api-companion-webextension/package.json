@@ -21,7 +21,7 @@
 		"@offirmo/practical-logger-browser": "^2.1",
 		"@offirmo/practical-logger-core": "^2",
 		"@offirmo/practical-logger-types": "^2",
-		"@offirmo/universal-debug-api-interface": "^0.1.1",
+		"@offirmo/universal-debug-api-interface": "^0",
 		"@offirmo/universal-debug-api-placeholder": "^0.1.1",
 		"emittery": "^0.5",
 		"memoize-one": "^5",

@@ -28,7 +28,7 @@
 	"dependencies": {
 		"@offirmo/globalthis-ponyfill": "^1.0.2",
 		"@offirmo/practical-logger-minimal-noop": "^2",
-		"@offirmo/universal-debug-api-interface": "^0.1.1"
+		"@offirmo/universal-debug-api-interface": "^0"
 	},
 
 	"devDependencies": {
