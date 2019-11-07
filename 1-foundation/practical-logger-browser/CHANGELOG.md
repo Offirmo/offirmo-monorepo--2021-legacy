@@ -5,6 +5,7 @@
 * TODO lower size by removing duplication + useless sink
 * TODO test EDGE, IE
 = NOTE bigger size but not a problem since you're not supposed to bundle this lib
+* [feat] re-export defaults from core
 * ...
 
 ## v2.0.0

@@ -8,6 +8,7 @@ import improve_console_groups from './better-console-groups/practical-logger'
 
 const ORIGINAL_CONSOLE = console
 
+
 const install_groups_or_not_once_for_all = tiny_singleton((active: boolean) => { if (active) improve_console_groups() })
 
 function createLogger(p: Readonly<LoggerCreationParams<SinkOptions>> = {}): Logger {
@@ -28,4 +29,6 @@ function createLogger(p: Readonly<LoggerCreationParams<SinkOptions>> = {}): Logg
 export {
 	createLogger,
 }
+
 export * from '@offirmo/practical-logger-types'
+export { DEFAULT_LOG_LEVEL, DEFAULT_LOGGER_KEY } from '@offirmo/practical-logger-core'
