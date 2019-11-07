@@ -26,6 +26,53 @@ class Connected extends Component {
 ```
 
 
+## tags
+top tags https://itch.io/tags
+
+adventure
+singleplayer
+rpg
+fantasy
+touch-friendly
+boring
+casual
+classes
+clicker
+parody
+minimalist
+
+exploration
+
+
+mmorpg
+non-linear
+open-source
+open-world
+pvp
+real-time
+satire
+swords
+text-based
+upgrades
+
+not yet:
+crafting
+dragons
+skeletons
+slime
+fishing
+food
+magic
+pirates
+secrets
+procedural
+
+to investigate:
+fairy-tale
+one-button
+touhou
+
+
 
 
 https://www.schlockmercenary.com/2016-07-24

@@ -1,0 +1,58 @@
+graph RL
+	classDef className fill:#f9f,stroke:#333,stroke-width:4px;
+
+	subgraph practical-logger
+		practical-logger-types
+		practical-logger-types --> practical-logger-browser
+
+		practical-logger-core
+		practical-logger-types --> practical-logger-core
+
+		practical-logger-minimal-noop
+		practical-logger-types --> practical-logger-minimal-noop
+
+		practical-logger-browser
+		practical-logger-core --> practical-logger-browser
+
+
+		practical-logger-node
+		practical-logger-core --> practical-logger-node
+		practical-logger-types --> practical-logger-node
+	end
+
+	subgraph universal-debug-api
+		universal-debug-api-interface
+		practical-logger-types --> universal-debug-api-interface
+
+		universal-debug-api-placeholder
+		universal-debug-api-interface --> universal-debug-api-placeholder
+		practical-logger-minimal-noop --> universal-debug-api-placeholder
+
+		universal-debug-api-browser
+		universal-debug-api-interface --> universal-debug-api-browser
+		practical-logger-browser --> universal-debug-api-browser
+
+		universal-debug-api-node
+		universal-debug-api-interface --> universal-debug-api-node
+		practical-logger-node --> universal-debug-api-node
+	end
+
+
+
+   universal-debug-api-companion-webextension
+   unit-test-toolbox
+   node-typescript-compiler
+
+
+   globalthis-ponyfill
+   deferred
+   tiny-singleton
+
+
+   tiny-singleton --> practical-logger-browser
+
+   globalthis-ponyfill --> universal-debug-api-placeholder
+
+   globalthis-ponyfill --> universal-debug-api-browser
+
+   globalthis-ponyfill --> universal-debug-api-node

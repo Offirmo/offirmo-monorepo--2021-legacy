@@ -43,6 +43,10 @@ Serves a test page on :1234 which uses the Universal Debug API.
 #### Debug
 `localStorage.setItem('🧩UWDTi.context.debug', true)`
 
+## Credits and hat tips
+* Herbert Spencer "spanner" icon https://thenounproject.com/term/spanner/333486/
+
+
 ## TODO
 
 review other extensions:

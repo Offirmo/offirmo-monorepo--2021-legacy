@@ -1,5 +1,5 @@
 {
-	"name": "@offirmo/universal-debug-api-minimal-node",
+	"name": "@offirmo/universal-debug-api-node",
 	"description": "Implementation of Offirmo’s Universal Debug Api for node",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",

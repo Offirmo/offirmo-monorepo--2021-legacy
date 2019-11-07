@@ -98,7 +98,11 @@ npm publish --access public
 ```
 
 
-## Hat tips
+## Credits and Hat tips
+
+Credits:
+- Adriano Emerick "Mobile Security" icon
+- José Hernandez "Weight" icon https://thenounproject.com/search/?q=weight&i=9409
 
 Tools
 - Color converter http://www.cssportal.com/css-color-converter/
