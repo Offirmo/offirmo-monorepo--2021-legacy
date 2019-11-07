@@ -3,10 +3,14 @@
 
 ## pending
 * TODO fix the "maximum call stack exceeded" when printing a SEC
+* ...
+
+## v0.0.4
+2019/11/08
 * [feat] now export types and defaults
+* [doc] README++
 * [chore] bumped dependencies
 * [chore] better internal typings
-* ...
 
 ## v0.0.3
 2019/10/28

@@ -35,7 +35,7 @@
 
 ## Demo
 
-TODO screen
+![dark terminal demo](./doc/screen-term-dark-alt.png)
 
 
 ## Usage
