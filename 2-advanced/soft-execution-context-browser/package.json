@@ -23,7 +23,7 @@
 	},
 	"devDependencies": {
 		"@babel/core": "^7",
-		"@offirmo/practical-logger-browser": "^2",
+		"@offirmo/practical-logger-browser": "^2.1",
 		"bowser": "^1",
 		"npm-run-all": "^4"
 	}

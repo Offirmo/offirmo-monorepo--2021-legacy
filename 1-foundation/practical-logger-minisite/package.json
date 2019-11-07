@@ -6,7 +6,7 @@
 	"license": "Unlicense",
 
 	"dependencies": {
-		"@offirmo/practical-logger-browser": "^2",
+		"@offirmo/practical-logger-browser": "^2.1",
 		"tslib": "^1"
 	},
 

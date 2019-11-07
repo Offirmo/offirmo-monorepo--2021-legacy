@@ -1,7 +1,7 @@
 {
 	"name": "@offirmo/practical-logger-browser",
 	"description": "Browser implementation of Offirmo’s practical logger",
-	"version": "2.0.0",
+	"version": "2.1.0",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 

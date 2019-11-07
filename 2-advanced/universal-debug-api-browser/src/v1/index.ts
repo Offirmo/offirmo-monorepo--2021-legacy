@@ -1,6 +1,11 @@
 import { DebugApiV1 } from '@offirmo/universal-debug-api-interface'
-import { Logger, LoggerCreationParams, createLogger } from '@offirmo/practical-logger-browser'
-import { DEFAULT_LOG_LEVEL, DEFAULT_LOGGER_KEY } from '@offirmo/practical-logger-core'
+import {
+	DEFAULT_LOG_LEVEL,
+	DEFAULT_LOGGER_KEY,
+	Logger,
+	LoggerCreationParams,
+	createLogger,
+} from '@offirmo/practical-logger-browser'
 
 import { LS_ROOT, getOverrideKeyForLogger, getLSKeyForOverride } from './keys'
 
