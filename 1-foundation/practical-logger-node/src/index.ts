@@ -7,24 +7,20 @@ import createSink from './sinks/to-console'
 const ORIGINAL_CONSOLE = console
 
 
-
 function createLogger(p: Readonly<LoggerCreationParams<SinkOptions>> = {}): Logger {
+	const { group, groupCollapsed, groupEnd } = ORIGINAL_CONSOLE
 	return {
 		...createLoggerCore(p, p.sinkOptions?.sink || createSink(p.sinkOptions)),
-		group(groupTitle?: string): void {
-			ORIGINAL_CONSOLE.group(groupTitle)
-		},
-		groupCollapsed(groupTitle?: string): void {
-			ORIGINAL_CONSOLE.groupCollapsed(groupTitle)
-		},
-		groupEnd(): void {
-			ORIGINAL_CONSOLE.groupEnd()
-		}
+		group,
+		groupCollapsed,
+		groupEnd,
 	}
 }
 
+
 export {
-	Logger,
-	LoggerCreationParams,
 	createLogger,
 }
+
+export * from '@offirmo/practical-logger-types'
+export { DEFAULT_LOG_LEVEL, DEFAULT_LOGGER_KEY } from '@offirmo/practical-logger-core'

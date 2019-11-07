@@ -3,6 +3,7 @@
 
 ## pending
 * TODO fix the "maximum call stack exceeded" when printing a SEC
+* [feat] now export types and defaults
 * [chore] bumped dependencies
 * [chore] better internal typings
 * ...
