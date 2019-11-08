@@ -27,7 +27,7 @@
 		"@offirmo-private/ts-types": "^0",
 		"@offirmo-private/uuid": "^0",
 		"@offirmo/deferred": "^1.0.1",
-		"@offirmo/universal-debug-api-placeholder": "^0.1.1",
+		"@offirmo/universal-debug-api-placeholder": "^0",
 		"@oh-my-rpg/definitions": "^0",
 		"@oh-my-rpg/state-character": "^0",
 		"@oh-my-rpg/state-engagement": "^0",
