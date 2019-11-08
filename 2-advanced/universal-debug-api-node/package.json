@@ -15,10 +15,6 @@
 	"size-limit": [
 		{
 			"limit": "1500b",
-			"path": "dist/src.es2019/index.js"
-		},
-		{
-			"limit": "1500b",
 			"path": "dist/src.es2018.cjs/index.js"
 		}
 	],

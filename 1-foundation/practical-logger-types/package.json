@@ -45,7 +45,7 @@
 		"build": "run-s build:prod",
 
 		"np": "np --no-publish",
-		"prepublishOnly": "run-s clean build:prod ensure-size"
+		"prepublishOnly": "run-s clean build ensure-size"
 	},
 
 	"files": [

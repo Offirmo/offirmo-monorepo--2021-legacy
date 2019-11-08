@@ -6,3 +6,9 @@
 * initial release to npm
 * TODO remove the console.log
 * release the extension
+
+## TEMPLATE
+* [doc] README++
+* [chore] [breaking] no longer exporting ES5, reverted to [this more rationale export setup](../../CONTRIBUTING/module-exports.md)
+* [chore] bumped dependencies
+* ...

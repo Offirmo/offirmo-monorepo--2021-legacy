@@ -2,6 +2,8 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
+* [doc] fix README related to the renaming
+* [feat] now provides a pre-bundled version (beta)
 * ...
 
 ## v0.2

@@ -49,7 +49,7 @@
 		"demo": "node doc/demo.js",
 
 		"np": "np --no-publish",
-		"prepublishOnly": "run-s clean build:prod test ensure-size"
+		"prepublishOnly": "run-s clean build test ensure-size"
 	},
 
 	"files": [

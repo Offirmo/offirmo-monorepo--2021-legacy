@@ -4,6 +4,7 @@
 ## PENDING
 * TODO lower size by removing duplication + useless sink
 * TODO test EDGE, IE
+* TODO local pictures
 = NOTE bigger size but not a problem since you're not supposed to bundle this lib
 * ...
 

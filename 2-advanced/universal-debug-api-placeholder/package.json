@@ -20,6 +20,10 @@
 		{
 			"limit": "500b",
 			"path": "dist/src.es2018.cjs/index.js"
+		},
+		{
+			"limit": "500b",
+			"path": "dist/index-bundle.js"
 		}
 	],
 
@@ -47,13 +51,13 @@
 		"ensure-size": "size-limit",
 
 		"dev": "run-s clean build:dev:watch",
-		"build": "run-s build:prod",
+		"build": "run-p build:prod build:bundle",
 		"cheatsheet": "node doc/cheatsheet.js",
 		"demo:node": "./doc/demo.ts",
 		"demo": "parcel --out-dir .parcel --no-autoinstall doc/demo-web/index.html",
 
 		"np": "np --no-publish",
-		"prepublishOnly": "run-s clean build:prod ensure-size"
+		"prepublishOnly": "run-s clean build ensure-size"
 	},
 
 	"files": [

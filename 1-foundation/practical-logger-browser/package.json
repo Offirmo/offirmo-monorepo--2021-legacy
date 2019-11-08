@@ -43,7 +43,6 @@
 		"test": "../../node_modules/.bin/mocha --opts ../../3-tools/unit-test-toolbox/mocha.opts ../../3-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2018.cjs/**/*spec.js'",
 		"build:dev:watch": "node ../../scripts/build-typescript.js --watch",
 		"build:prod": "node ../../scripts/build-typescript.js",
-		"build:bundle": "parcel build --no-autoinstall --no-source-maps --out-file index-bundle.js  src/index.ts",
 		"ensure-size": "size-limit",
 
 		"dev": "run-s clean build:dev:watch",
@@ -52,7 +51,7 @@
 		"demo": "parcel --out-dir .parcel --no-autoinstall doc/demo/index.html",
 
 		"np": "np --no-publish",
-		"prepublishOnly": "run-s clean build:prod test ensure-size"
+		"prepublishOnly": "run-s clean build test ensure-size"
 	},
 
 	"files": [
