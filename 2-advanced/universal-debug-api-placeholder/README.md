@@ -13,9 +13,9 @@
 		  src="https://img.shields.io/npm/v/@offirmo/universal-debug-api-placeholder.svg">
 	</a>
 	<a alt="dependencies analysis"
-	  href="https://david-dm.org/offirmo/offirmo-monorepo?path=2-advanced%2Funiversal-debug-api-minimal-noop">
+	  href="https://david-dm.org/offirmo/offirmo-monorepo?path=2-advanced%2Funiversal-debug-api-placeholder">
 		<img alt="dependencies badge"
-		  src="https://img.shields.io/david/offirmo/offirmo-monorepo.svg?path=2-advanced%2Funiversal-debug-api-minimal-noop">
+		  src="https://img.shields.io/david/offirmo/offirmo-monorepo.svg?path=2-advanced%2Funiversal-debug-api-placeholder">
 	</a>
 	<a alt="bundle size evaluation"
 	  href="https://bundlephobia.com/result?p=@offirmo/universal-debug-api-placeholder">
@@ -38,7 +38,7 @@ Isomorphic, for node and browser.
 Does nothing, minimal code footprint.
 
 Will transparently yield to any other previously required/imported effective version such as [node](../universal-debug-api-node/README.md) or [browser](../universal-debug-api-browser/README.md).
-**Pro tip: for browser, hot-swap this placeholder with the [companion webextension](../../3-tools/universal-debug-api-companion-webextension/README.md)!**
+**Pro tip: for browser, hot-swap this placeholder at run time with the [companion webextension](../../3-tools/universal-debug-api-companion-webextension/README.md)!**
 
 See overall explanation: [Offirmo’s Universal Debug API](https://universal-debug-api-js.netlify.com/).
 
