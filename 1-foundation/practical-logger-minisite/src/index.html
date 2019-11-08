@@ -227,11 +227,12 @@ myLogger.groupEnd()
 		<summary><strong>What if I incorrectly call it like Console? (with more than 2 arguments)</strong></summary>
 		<div>
 			<p>
-				If you're using TypeScript, it should tell you.
+				If you're using TypeScript, it should tell you ✔
 			</p>
 			<p>
 				If not, the lib will secretly try to handle it in an undocumented way.
 				(undocumented because you shouldn't rely on it)
+				Just be assured that any error object will be correctly detected ✔
 			</p>
 		</div>
 	</details>
@@ -249,6 +250,19 @@ myLogger.groupEnd()
 				</li>
 				<li>If your remote stash is an API, write your custom sink to intercept logs and send them to the remote location</li>
 			</ul>
+		</div>
+	</details>
+
+	<details>
+		<summary><strong>Can we have child loggers?</strong></summary>
+		<div>
+			<p>
+				I decided that this feature, while nice, was complicated to get right (should inherit log lovels? details? Dynamically?)
+				and would greatly increase the complexity and bundle size.
+			</p>
+			<p>
+				IMO a logger should have a "safe" and straightforward behavior, hence simplicity as a feature.
+			</p>
 		</div>
 	</details>
 
