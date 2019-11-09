@@ -40,7 +40,7 @@
 	"devDependencies": {
 		"@atlaskit/form": "^6",
 		"@atlaskit/range": "^3",
-		"@atlaskit/select": "^10",
+		"@atlaskit/select": "^11",
 		"@atlaskit/textfield": "^3",
 		"@atlaskit/theme": "^9",
 		"@atlaskit/toggle": "^8",
@@ -66,7 +66,6 @@
 		"@types/howler": "^2",
 		"@types/json-stable-stringify": "^1",
 		"@types/lodash": "^4",
-		"@types/memoize-one": "^5",
 		"@types/mocha": "^5",
 		"@types/nanoid": "^2",
 		"@types/node": "^12",

@@ -1,9 +1,9 @@
 {
 	"manifest_version": 2,
 	"name": "Offirmo’s Universal Web Dev Tool",
-	"description": "Get convenient dev features for your JavaScript code with no downsides",
-	"version": "0.0.1",
-	"homepage_url": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-tools/universal-debug-api-companion-webextension",
+	"description": "Get convenient dev and debug features for your JavaScript code",
+	"version": "0.0.2",
+	"homepage_url": "https://universal-debug-api-js.netlify.com/",
 	"short_name": "Offirmo’s Universal Web Dev Tool",
 	"icons": {
 		"64": "icons/icon_64x64.png",
@@ -20,7 +20,6 @@
 	"permissions": [
 		"<all_urls>",
 		"activeTab",
-		"debugger",
 		"notifications",
 		"storage",
 		"tabs"

@@ -30,6 +30,9 @@ By default, this stylesheet will activate a page like "mother fucking website".
 ```
 alternatively:
 ```css
+@import 'https://cdn.jsdelivr.net/gh/Offirmo/offirmo-monorepo@master/2-advanced/view-css/dist/offirmo-reset%2Butils.css';
+@import 'https://cdn.jsdelivr.net/gh/Offirmo/offirmo-monorepo@master/2-advanced/view-css/src/style--theme--lod-colorhunt212.css';
+
 @import '../../../2-advanced/view-css/src/style.css';
 @import '../../../2-advanced/view-css/src/style--theme--lod-colorhunt212.css';
 
