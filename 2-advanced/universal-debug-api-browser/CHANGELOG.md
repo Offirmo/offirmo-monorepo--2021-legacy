@@ -3,9 +3,12 @@
 
 ## PENDING
 * TODO fix all TODOs
+* TODO better handle no local storage
+* TODO handle iframes?
+
+## v0.0.1
+2019/11/11
 * initial release to npm
-* TODO remove the console.log
-* release the extension
 
 ## TEMPLATE
 * [doc] README++

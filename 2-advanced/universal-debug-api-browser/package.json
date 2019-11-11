@@ -4,7 +4,6 @@
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
-	"private": true,
 
 	"esnext": "dist/src.es2019/index.js",
 	"module": "dist/src.es2019/index.js",
@@ -15,15 +14,15 @@
 
 	"size-limit": [
 	{
-		"limit": "5kb",
+		"limit": "3kb",
 		"path": "dist/src.es2019/index.js"
 	},
 	{
-		"limit": "7kb",
+		"limit": "4kb",
 		"path": "dist/src.es2018.cjs/index.js"
 	},
 	{
-		"limit": "5kb",
+		"limit": "6kb",
 		"path": "dist/index-bundle.js"
 	}
 ],
