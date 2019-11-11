@@ -31,12 +31,12 @@
 	  src="https://img.shields.io/maintenance/yes/2019.svg">
 </p>
 
-This is an **internal** component of [Offirmo’s Universal Debug API](https://github.com/Offirmo/offirmo-monorepo/wiki/Offirmo%E2%80%99s-Universal-Debug-Api). 
+This is an **internal** component of [Offirmo’s Universal Debug API](https://universal-debug-api-js.netlify.com/).
 * declares only TypeScript types/interfaces
 * **No code, 0 bytes** = will do nothing to your bundle size.
 * TODO explain the interface pattern
 
-See overall explanation: [Offirmo’s Universal Debug API](https://github.com/Offirmo/offirmo-monorepo/wiki/Offirmo%E2%80%99s-Universal-Debug-Api).
+See overall explanation: [Offirmo’s Universal Debug API](https://universal-debug-api-js.netlify.com/).
 
 
 ## API
