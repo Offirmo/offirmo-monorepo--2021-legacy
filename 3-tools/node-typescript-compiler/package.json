@@ -13,7 +13,7 @@
 	"sideEffects": false,
 
 	"peerDependencies": {
-		"typescript": "^3.7.0-beta"
+		"typescript": "^3"
 	},
 	"dependencies": {
 		"lodash": "^4",

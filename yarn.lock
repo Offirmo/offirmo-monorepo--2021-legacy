@@ -12498,7 +12498,7 @@ typescript-string-enums@^1:
   resolved "https://packages.atlassian.com/api/npm/npm-remote/typescript-string-enums/-/typescript-string-enums-1.0.0.tgz#4e6bf18e3c6ef02efc80bb35c7edf31b78953d2f"
   integrity sha1-Tmvxjjxu8C78gLs1x+3zG3iVPS8=
 
-typescript@^3.7.0-beta:
+typescript@^3:
   version "3.7.2"
   resolved "https://packages.atlassian.com/api/npm/npm-remote/typescript/-/typescript-3.7.2.tgz#27e489b95fa5909445e9fef5ee48d81697ad18fb"
   integrity sha1-J+SJuV+lkJRF6f717kjYFpetGPs=

@@ -35,6 +35,6 @@
 	"devDependencies": {
 		"@types/node": "^12",
 		"npm-run-all": "^4",
-		"typescript": "^3.7.0-beta"
+		"typescript": "^3"
 	}
 }
