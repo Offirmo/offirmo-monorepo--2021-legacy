@@ -1,6 +1,14 @@
 
 
 ## dev
+
+* Insomnia
+* pg 10.10
+* pgAdmin
+* `yarn dev` + `yarn start`
+
+
+## Tosort
 doc:
 * https://www.netlify.com/docs/functions/
   * Selecting the JS runtime: https://www.netlify.com/docs/functions/#javascript-runtime-settings

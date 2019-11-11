@@ -1,5 +1,7 @@
-import { createLogger as create_core } from '@offirmo/practical-logger-core'
-import { createLogger as create_node } from '@offirmo/practical-logger-node'
+const { shim } = require('object.fromentries')
+shim()
+
+import { getLogger } from '@offirmo/universal-debug-api-node'
 
 import { APP } from '../consts'
 import { CHANNEL } from './channel'
@@ -7,7 +9,7 @@ import { CHANNEL } from './channel'
 /////////////////////////////////////////////////
 
 //const logger = (CHANNEL === 'dev' ? create_node : create_core)({
-const logger = create_node({
+const logger = getLogger({
 	name: APP,
 	suggestedLevel: CHANNEL === 'dev' ? 'silly' : 'warning',
 })

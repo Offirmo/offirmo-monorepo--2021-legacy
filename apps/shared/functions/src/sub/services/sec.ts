@@ -1,4 +1,4 @@
-import { Logger } from '@offirmo/practical-logger-types'
+import { Logger } from '@offirmo/universal-debug-api-node'
 import { getRootSEC, BaseInjections, SoftExecutionContext, WithSEC, EventDataMap } from '@offirmo-private/soft-execution-context'
 import {
 	listenToUncaughtErrors,
