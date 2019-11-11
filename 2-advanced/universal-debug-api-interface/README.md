@@ -31,11 +31,10 @@
 	  src="https://img.shields.io/maintenance/yes/2019.svg">
 </p>
 
-This is an **internal** component of [Offirmo’s Universal Debug API](https://universal-debug-api-js.netlify.com/).
-* declares only TypeScript types/interfaces
+This lib declares only TypeScript types/interfaces
 * **No code, 0 bytes** = will do nothing to your bundle size.
-* TODO explain the interface pattern
-
+* shared between several implementations
+* you should most likely not use/interact with this lib directly
 See overall explanation: [Offirmo’s Universal Debug API](https://universal-debug-api-js.netlify.com/).
 
 
@@ -110,5 +109,5 @@ TODO, considered in alpha / unstable for now.
 
 See the actual implementations of those interfaces:
 * minimal no-op: [@offirmo/universal-debug-api-placeholder](https://www.npmjs.com/package/@offirmo/universal-debug-api-placeholder)
-* browser: TODO publish to npm
-* node: TODO publish to npm
+* browser: [@offirmo/universal-debug-api-browser](https://www.npmjs.com/package/@offirmo/universal-debug-api-browser)
+* node: [@offirmo/universal-debug-api-node](https://www.npmjs.com/package/@offirmo/universal-debug-api-node)
