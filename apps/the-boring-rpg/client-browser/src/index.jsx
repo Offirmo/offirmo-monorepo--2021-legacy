@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import ErrorBoundary from '@offirmo-private/react-error-boundary'
-import { overrideHook } from '@offirmo-private/universal-debug-api-browser'
+import { overrideHook } from '@offirmo/universal-debug-api-browser'
 
 import { setTextEncoder } from '@tbrpg/flux'
 

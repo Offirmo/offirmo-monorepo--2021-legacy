@@ -1,6 +1,6 @@
 'use strict'
 
-import { getLogger } from '@offirmo-private/universal-debug-api-browser'
+import { getLogger } from '@offirmo/universal-debug-api-browser'
 
 import { LIB } from './consts'
 import { VERSION as ENGINE_VERSION, BUILD_DATE } from '@tbrpg/flux'

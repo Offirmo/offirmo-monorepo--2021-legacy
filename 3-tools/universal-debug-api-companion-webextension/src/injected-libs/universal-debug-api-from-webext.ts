@@ -1,1 +1,1 @@
-import '@offirmo-private/universal-debug-api-browser'
+import '@offirmo/universal-debug-api-browser'
