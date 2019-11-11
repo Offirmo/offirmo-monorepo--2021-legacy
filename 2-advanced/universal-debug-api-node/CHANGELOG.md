@@ -3,6 +3,9 @@
 
 ## PENDING
 * TODO fix all TODOs
+
+## v0.0.1
+2019/11/11
 * initial release to npm
 
 ## TEMPLATE

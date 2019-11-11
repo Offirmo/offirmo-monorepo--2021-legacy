@@ -31,7 +31,7 @@
 	  src="https://img.shields.io/maintenance/yes/2019.svg">
 </p>
 
-**This is the node implementation of [Offirmo’s Universal Debug API](https://github.com/Offirmo/offirmo-monorepo/wiki/Offirmo%E2%80%99s-Universal-Debug-Api).**
+**This is the node implementation of [Offirmo’s Universal Debug API](https://universal-debug-api-js.netlify.com/).**
 
 ## Usage
 
@@ -82,5 +82,4 @@ Sure you can if your code is node only.
 The point of the Universal Debug API is to be isomorphic,
 for shared code.
 
-For ex. an API SDK/client can now be fully be isomorphic, using the fetch() API to query
-and the Universal Debug API to optionally log / allow overrides.
+For ex. the same code running on a browser will get its overrides from local storage.

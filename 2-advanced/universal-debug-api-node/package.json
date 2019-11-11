@@ -14,7 +14,7 @@
 
 	"size-limit": [
 		{
-			"limit": "1500b",
+			"limit": "15kb",
 			"path": "dist/src.es2018.cjs/index.js"
 		}
 	],
