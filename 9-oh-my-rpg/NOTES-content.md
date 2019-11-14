@@ -48,6 +48,12 @@ https://en.wikipedia.org/wiki/Martello_tower
 * 
 
 ### Histoires
+Hunter gatherer
+* https://www.nationalgeographic.com/history/2019/11/7000-year-old-woman-reconstruction-sweden-hunter-gatherer/
+
+Shift to agriculture
+* https://www.nationalgeographic.com/culture/topics/reference/neolithic-agricultural-revolution/
+
 Fall of Roman Empire
 * https://en.wikipedia.org/wiki/Gothic_War_(535%E2%80%93554)
 * https://en.wikipedia.org/wiki/Migration_Period
@@ -60,6 +66,10 @@ https://worldbuilding.stackexchange.com/questions/156036/in-what-sequence-should
 
 ### organisations
 
+#### méchants
+* https://www.heraldsun.com.au/truecrimeaustralia/mexico-cop-shot-155-times-after-arresting-el-chapos-son/news-story/05f1098c218dea88c74e9994cb1756e0
+* traffic of life energy https://news.slashdot.org/story/19/11/08/1614246/ambrosia-the-young-blood-transfusion-startup-is-quietly-back-in-business
+
 #### guilde
 https://en.wikipedia.org/wiki/International_Nuclear_Event_Scale
 
@@ -70,7 +80,7 @@ https://en.wikipedia.org/wiki/International_Nuclear_Event_Scale
 * https://science.slashdot.org/story/19/07/10/1824216/moons-that-escape-their-planets-could-become-ploonets
 * https://science.slashdot.org/story/19/06/11/2237253/scientists-discover-previously-unidentified-mass-beneath-surface-of-the-moon
 * https://en.wikipedia.org/wiki/Mass_concentration_(astronomy)
-
+* https://www.nationalgeographic.com/science/2019/11/interstellar-space-weirder-than-expected-nasa-voyager-2-reveals/
 
 ### formation
 * https://science.slashdot.org/story/19/05/30/0257253/brown-dwarf-atmospheres-as-the-potentially-most-detectable-and-abundant-sites-for-life

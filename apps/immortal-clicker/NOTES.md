@@ -16,3 +16,17 @@ Inspiration:
 
 
 * pocket garden in a bag
+
+
+* Cool https://knowyourmeme.com/photos/1317233-virgin-vs-chad
+
+
+daoist nicknames
+
+
+Cave
+Split in 3000 soul, hidden in other friendly souls
+
+strongest material dark gold
+
+golden light / golden charm

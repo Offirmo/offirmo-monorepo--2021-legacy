@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<!-- WTE micro template v9 -->
+<html lang="en" xml:lang="en" class="o⋄top-container">
+
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Language" content="en" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link rel="preload" as="script" href="./index.ts">
+
+	<title>Immortal Clicker</title>
+
+	<!-- TODO https://realfavicongenerator.net/ -->
+
+	<!-- TODO social -->
+
+	<style type="text/css">
+		/* super early styles while the page is loading */
+
+		/* hand pick of Offirmo's CSS reset */
+		:root {
+			--o⋄color--bg⁚main: #222831;
+			--o⋄color--fg⁚main: #00adb5;
+			--o⋄font-family--roboto: "Roboto", -apple-system, BlinkMacSystemFont, "avenir next", avenir, "Segoe UI", "lucida grande", "helvetica neue", helvetica, "Fira Sans", roboto, noto, "Droid Sans", cantarell, oxygen, ubuntu, "franklin gothic medium", "century gothic", "Liberation Sans", sans-serif;
+		}
+		.o⋄top-container {
+			display: flex;
+			flex-direction: column;
+			height: 100%;
+		}
+		html {
+			background-color: var(--o⋄color--bg⁚main);
+			color: var(--o⋄color--fg⁚main);
+			font-family: var(--o⋄font-family--roboto);
+		}
+		button {
+			color: inherit;
+		}
+
+		.loader {
+			text-align: center;
+			margin: auto;
+			font-size: x-large;
+		}
+		.blinking {
+			animation: blinkingText 1.2s infinite;
+		}
+		.timeout {
+			animation: blinkingText 90s ;
+			animation-delay: -60s;
+			animation-timing-function: steps(1, end);
+		}
+		@keyframes blinkingText{
+			0%  { color: inherit;     }
+			33% { color: transparent; }
+		}
+	</style>
+
+	<script>
+		window.game_frame = {
+			options: {
+				savegame_main_LS_key: null,
+				savegame_secondary_LS_keys: [],
+				rsrc_to_preload: [],
+				bug_report_url: 'https://github.com/Offirmo/offirmo-monorepo/issues',
+				social_urls: [
+					{
+						url: null,
+						icon: null,
+					}
+					// insta discord reddit
+				],
+			}
+		}
+	</script>
+</head>
+
+<body class="o⋄top-container o⋄body⁚full-page" data-o-theme="lod--colorhunt212">
+<noscript>You need to enable JavaScript to run this game!</noscript>
+
+<div id="root" class="o⋄top-container">
+	<div class="loader">
+		<h1 class="title"></h1>
+		<p class="blinking">Loading…</p>
+		<p class="timeout" style="display: none"><small>Still loading?<button>Report a bug.</button></small></p>
+	</div>
+</div>
+
+<script type="module">
+	document.querySelector('.loader > .title').textContent = document.title
+</script>
+<script async importance="high" src="./index.ts"></script>
+
+</html>

@@ -1,0 +1,30 @@
+{
+	"name": "@immortal-clicker/name-generator",
+	"description": "Xanxia name generator",
+	"version": "0.0.1",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+
+	"esnext": "dist/src.es2019/index.js",
+	"module": "dist/src.es2019/index.js",
+	"main": "dist/src.es2018.cjs/index.js",
+	"typings": "dist/src.es2018.cjs/index.d.ts",
+	"source": "src/index.ts",
+	"sideEffects": false,
+
+	"peerDependencies": {
+		"tslib": "^1"
+	},
+	"dependencies": {
+		"@offirmo/universal-debug-api-placeholder": "^0",
+		"tiny-invariant": "^1",
+		"typescript-string-enums": "^1"
+	},
+	"scripts": {
+	},
+	"devDependencies": {
+		"@offirmo-private/prettify-json": "^0",
+		"npm-run-all": "^4"
+	}
+}

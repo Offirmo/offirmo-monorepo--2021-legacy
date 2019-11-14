@@ -31,7 +31,8 @@
 			"4-incubator/*",
 			"9-oh-my-rpg/*",
 			"apps/shared/*",
-			"apps/the-boring-rpg/*"
+			"apps/the-boring-rpg/*",
+			"apps/immortal-clicker/*"
 		]
 	},
 	"dependencies": {
