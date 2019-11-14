@@ -192,6 +192,12 @@ export const DEMO_REPORTS: Report[] = [
 		//existing_override_sjson: null,
 		existing_override_sjson: sjson_stringify('https://offirmo-monorepo.netlify.com/'),
 		//existing_override_sjson: 'some bad json',
+	},
+	{
+		type: 'override',
+		key: 'some_url_undef',
+		default_value_sjson: 'undefined',
+		existing_override_sjson: null, // not enabled
 	}
 ]
 export function create_demo(origin: string): Readonly<State> {
@@ -268,15 +274,35 @@ export function change_override_spec(state: Readonly<State>, key: string, partia
 	const partial2 = {
 		...partial
 	}
-	if (partial.is_enabled === true
-		&& current_override.type === OverrideType.boolean
+
+	// convenience: default value on activation for some fields
+	if (  partial.is_enabled === true
 		&& !partial.hasOwnProperty('value_sjson')
-		&& current_override.value_sjson === undefined
+		&& current_override.value_sjson === null
 	) {
-		// convenience for booleans
-		// if toggled on, it's obvious the user wants to change the value = opposite of the default
-		partial2.value_sjson = sjson_stringify(!Boolean(sjson_parse(current_override.default_value_sjson)))
+		switch(current_override.type) {
+			case OverrideType.boolean:
+				// if toggled on, it's obvious the user wants to change the value = opposite of the default
+				partial2.value_sjson = sjson_stringify(!Boolean(sjson_parse(current_override.default_value_sjson)))
+				break
+			case OverrideType.LogLevel:
+				// if toggled on, we usually want more logs
+				partial2.value_sjson = sjson_stringify('silly')
+				break
+			case OverrideType.Cohort:
+				// if toggled on, we usually want sth different
+				if (current_override.default_value_sjson.startsWith('"variation'))
+					partial2.value_sjson = sjson_stringify('not-enrolled')
+				else
+					partial2.value_sjson = sjson_stringify('variation')
+				break
+			default:
+				if (current_override.key.toLowerCase().endsWith('url'))
+					partial2.value_sjson = sjson_stringify('https://localhost:8080')
+				break
+		}
 	}
+
 	return {
 		...state,
 		overrides: {

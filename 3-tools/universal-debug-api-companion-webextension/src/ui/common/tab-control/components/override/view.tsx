@@ -16,6 +16,32 @@ import AnyJson from './input-any-json'
 
 import './index.css'
 
+
+
+function style_fn_color(base, { isDisabled }) {
+	return {
+		...base,
+		color: isDisabled
+			? 'var(--o⋄color--fg⁚secondary)'
+			: 'var(--o⋄color--fg⁚main)',
+	}
+}
+function style_fn_bgcolor(base, { isDisabled, isSelected }) {
+	return {
+		...base,
+		backgroundColor: isDisabled
+			? 'var(--o⋄color--bg⁚main)'
+			: isSelected
+				? 'var(--o⋄color--fg⁚accent)'
+				: 'var(--o⋄color--bg⁚main)',
+		':hover': {
+			...base[':hover'],
+			backgroundColor: 'var(--o⋄color--fg⁚accent)',
+		},
+		//cursor: isDisabled ? 'not-allowed' : 'default',
+	};
+}
+
 export const STANDARD_COHORTS = [
 	'not-enrolled',
 	'control',
@@ -64,10 +90,6 @@ export default class OverrideLine extends Component<Props> {
 				onChange={() => {
 					const p: Partial<OriginOverrideState> = {
 						is_enabled: !is_enabled,
-					}
-					if (p.is_enabled) {
-						// ensure a starter value if not already one
-						p.value_sjson = this.get_field_value_sjson()
 					}
 					on_change(p)
 				}}
@@ -142,9 +164,22 @@ export default class OverrideLine extends Component<Props> {
 
 		const value_sjson = this.get_field_value_sjson()
 		const value = this.get_field_value()
+
+		console.log(`   🔄 get_input()`, {
+			is_injection_enabled,
+			override,
+			type,
+			is_disabled,
+			value_sjson,
+			value,
+		})
+
 		try {
 			if (!is_valid_stringified_json(value_sjson))
 				throw new Error('Invalid JSON!')
+
+			if (is_disabled && value_sjson === "undefined")
+				return <span>(undefined)</span>
 
 			switch (type) {
 				case OverrideType.boolean: {
@@ -170,7 +205,11 @@ export default class OverrideLine extends Component<Props> {
 					)
 				}
 				case OverrideType.Cohort: {
-					if (typeof value.label !== 'string' || typeof value.value !== 'string' || !STANDARD_COHORTS.includes(value.label))
+					if (value.label && (
+						   typeof value.label !== 'string'
+						|| typeof value.value !== 'string'
+						|| !STANDARD_COHORTS.includes(value.label)
+					))
 						throw new Error('Incorrect cohort value!')
 					// note that the select is giving back a JSON.stringified version already
 					return (
@@ -188,6 +227,13 @@ export default class OverrideLine extends Component<Props> {
 								}}
 								options={COHORT_SELECT_OPTIONS}
 								placeholder="Choose a cohort"
+								styles={{
+									control: (base, state) => style_fn_color(style_fn_bgcolor(base, state), state),
+									container: style_fn_color,
+									singleValue: style_fn_color,
+									dropdownIndicator: style_fn_color,
+									option: (base, state) => style_fn_color(style_fn_bgcolor(base, state), state),
+								}}
 							/>
 						</Fragment>
 					)

@@ -55,7 +55,8 @@ function render() {
 	const link = document.getElementById('server-url')
 	link.href = link.innerText = server
 
-	const variation = overrideHook('experiment_cohort', 'not-enrolled')
+	const forced_variation = overrideHook('experiment_cohort', undefined)
+	const variation = forced_variation || localStorage.getItem('variation') || 'not-enrolled'
 	const span_x = document.getElementById('experiment')
 	span_x.innerText = variation
 

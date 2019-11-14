@@ -31,7 +31,7 @@ To develop locally:
 ```bash
 yarn dev
 ```
-Will continually rebuild the extension in `./dist` + serve the UI on :8080. Ex. http://localhost:9090/ui/popup/popup.html
+Will continually rebuild the extension in `./dist` + serve the UI on :9090. Ex. http://localhost:9090/ui/popup/popup.html
 This is to develop and serve the react pages directly without the need to reload the extension.
 
 
