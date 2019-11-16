@@ -1,15 +1,13 @@
+import { game_frame } from './consts'
+import logger from './logger'
 
 const { options } = game_frame
 
-const logger = getLogger({
-	name: LIB,
-	suggestedLevel: 'warn',
-})
-logger.log('Starting the game frame...', options)
-
 
 function open_url(url: string) {
-
+	const newWindow = window.open()
+	newWindow.opener = null
+	newWindow.location.replace(url)
 }
 
 

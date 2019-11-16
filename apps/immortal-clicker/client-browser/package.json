@@ -39,11 +39,11 @@
 	"scripts": {
 		"clean": "node ../../../scripts/clean.js dist cache",
 
-		"start:parcel": "PARCEL_AUTOINSTALL=false parcel src/frame/index.html --out-dir .parcel --no-autoinstall --port 8080 --no-hmr",
+		"start:parcel": "PARCEL_AUTOINSTALL=false parcel src/frame/index.html --out-dir .parcel --no-autoinstall --port 8080",
 
 		"build:parcel": "parcel build src/index.html --public-url ./",
 
-		"start": "run-s start:parcel",
+		"dev": "run-s start:parcel",
 		"build": "run-s build:parcel"
 	},
 	"devDependencies": {

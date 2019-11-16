@@ -3,7 +3,6 @@ import NotificationSystem from 'react-notification-system'
 
 import ErrorBoundary from '@offirmo-private/react-error-boundary'
 
-import { OhMyRPGUIContext } from '../state-context'
 import './index.css';
 
 

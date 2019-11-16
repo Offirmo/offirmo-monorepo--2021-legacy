@@ -1,6 +1,3 @@
-const { shim } = require('object.fromentries')
-shim()
-
 import { getLogger } from '@offirmo/universal-debug-api-node'
 
 import { APP } from '../consts'

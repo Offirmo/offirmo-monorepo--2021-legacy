@@ -10,7 +10,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	<link rel="preload" as="script" href="./index.ts">
 
-	<title>Immortal Clicker</title>
+	<title>App</title>
 
 	<!-- TODO https://realfavicongenerator.net/ -->
 
@@ -81,12 +81,31 @@
 <noscript>You need to enable JavaScript to run this game!</noscript>
 
 <div id="root" class="o⋄top-container">
+
 	<div class="loader">
 		<h1 class="title"></h1>
 		<p class="blinking">Loading…</p>
 		<p class="timeout" style="display: none"><small>Still loading?<button>Report a bug.</button></small></p>
 	</div>
+
+	<main id="inner-frame">
+		TODO iframe
+	</main>
+
+	<aside id="links">
+		TODO links
+	</aside>
+
+	<aside id="chat-container">
+		TODO chat
+	</aside>
+
+	<aside id="settings">
+		TODO settings
+	</aside>
 </div>
+
+
 
 <script type="module">
 	document.querySelector('.loader > .title').textContent = document.title

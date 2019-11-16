@@ -51,7 +51,7 @@
 
 		"build:parcel": "parcel build src/index.html --public-url ./",
 
-		"start": "run-s start:parcel",
+		"dev": "run-s start:parcel",
 		"build": "run-s build:parcel"
 	},
 	"devDependencies": {

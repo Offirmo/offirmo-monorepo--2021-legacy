@@ -65,6 +65,7 @@ https://www.1843magazine.com/design/rewind/when-potatoes-were-the-height-of-fash
 https://worldbuilding.stackexchange.com/questions/156036/in-what-sequence-should-an-advanced-civilization-teach-technology-to-medieval-so
 
 ### organisations
+* currencies https://en.bitcoinwiki.org/wiki/List_of_fictional_currencies
 
 #### méchants
 * https://www.heraldsun.com.au/truecrimeaustralia/mexico-cop-shot-155-times-after-arresting-el-chapos-son/news-story/05f1098c218dea88c74e9994cb1756e0
