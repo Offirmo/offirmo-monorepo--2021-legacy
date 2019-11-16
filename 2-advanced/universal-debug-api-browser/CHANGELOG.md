@@ -5,6 +5,7 @@
 * TODO fix all TODOs
 * TODO better handle no local storage
 * TODO handle iframes?
+* [fix] silence the internal logger
 
 ## v0.0.1
 2019/11/11

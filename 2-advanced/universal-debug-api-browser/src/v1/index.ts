@@ -8,6 +8,7 @@ import {
 } from '@offirmo/practical-logger-browser'
 
 import { LS_ROOT, getOverrideKeyForLogger, getLSKeyForOverride } from './keys'
+import {LogLevel} from "../../../../1-foundation/practical-logger-types/src";
 
 ////////////////////////////////////
 
@@ -42,7 +43,7 @@ export default function create(): DebugApiV1 {
 	const _ownLogger: Logger = (() => {
 		const name = LIB
 		// TODO make the level adjustable?
-		return createLogger({ name, suggestedLevel: 'silly' })
+		return createLogger({ name, suggestedLevel: 'fatal' })
 	})()
 
 	function _getOverrideRequestedSJson(ovKey: string): null | string {
@@ -58,6 +59,10 @@ export default function create(): DebugApiV1 {
 			return null
 		}
 	}
+
+	const forcedLevel = _getOverrideRequestedSJson('_UWDA_internal')
+	if (forcedLevel)
+		_ownLogger.setLevel(forcedLevel as LogLevel)
 
 	function _getOverride(key: string): OverrideStatus {
 		if (!overrides[key]) {
@@ -112,7 +117,7 @@ export default function create(): DebugApiV1 {
 		catch (err) {
 			// should never happen because _getOverride() already catch
 			// TODO check!
-			_ownLogger.warn(`overrideHook(): error retrieving override!`, { key, err })
+			_ownLogger.error(`overrideHook(): error retrieving override!`, { key, err })
 		}
 
 		return defaultValue
@@ -133,7 +138,7 @@ export default function create(): DebugApiV1 {
 			}
 			catch (err) {
 				// this warning should appear only once on creation ✔
-				_ownLogger.warn(`getLogger(): error overriding the level!`, { name, err })
+				_ownLogger.error(`getLogger(): error overriding the level!`, { name, err })
 			}
 
 			loggers[name] = createLogger(p)
@@ -157,7 +162,7 @@ export default function create(): DebugApiV1 {
 			})
 		}
 		catch (err) {
-			_ownLogger.warn(`[${LIB}] exposeInternal(): error exposing!`, { path, err })
+			_ownLogger.error(`[${LIB}] exposeInternal(): error exposing!`, { path, err })
 		}
 	}
 
