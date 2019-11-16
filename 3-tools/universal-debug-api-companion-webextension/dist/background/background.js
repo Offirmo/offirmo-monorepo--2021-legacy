@@ -2139,6 +2139,11 @@ exports.DEMO_REPORTS = [{
   default_value_sjson: stringified_json_1.sjson_stringify('https://www.online-adventur.es/'),
   //existing_override_sjson: null,
   existing_override_sjson: stringified_json_1.sjson_stringify('https://offirmo-monorepo.netlify.com/')
+}, {
+  type: 'override',
+  key: 'some_url_undef',
+  default_value_sjson: 'undefined',
+  existing_override_sjson: null
 }];
 
 function create_demo(origin) {
@@ -2216,12 +2221,30 @@ function change_override_spec(state, key, partial) {
 
   var current_override = state.overrides[key];
 
-  var partial2 = __assign({}, partial);
+  var partial2 = __assign({}, partial); // convenience: default value on activation for some fields
 
-  if (partial.is_enabled === true && current_override.type === exports.OverrideType.boolean && !partial.hasOwnProperty('value_sjson') && current_override.value_sjson === undefined) {
-    // convenience for booleans
-    // if toggled on, it's obvious the user wants to change the value = opposite of the default
-    partial2.value_sjson = stringified_json_1.sjson_stringify(!Boolean(stringified_json_1.sjson_parse(current_override.default_value_sjson)));
+
+  if (partial.is_enabled === true && !partial.hasOwnProperty('value_sjson') && current_override.value_sjson === null) {
+    switch (current_override.type) {
+      case exports.OverrideType.boolean:
+        // if toggled on, it's obvious the user wants to change the value = opposite of the default
+        partial2.value_sjson = stringified_json_1.sjson_stringify(!Boolean(stringified_json_1.sjson_parse(current_override.default_value_sjson)));
+        break;
+
+      case exports.OverrideType.LogLevel:
+        // if toggled on, we usually want more logs
+        partial2.value_sjson = stringified_json_1.sjson_stringify('silly');
+        break;
+
+      case exports.OverrideType.Cohort:
+        // if toggled on, we usually want sth different
+        if (current_override.default_value_sjson.startsWith('"variation')) partial2.value_sjson = stringified_json_1.sjson_stringify('not-enrolled');else partial2.value_sjson = stringified_json_1.sjson_stringify('variation');
+        break;
+
+      default:
+        if (current_override.key.toLowerCase().endsWith('url')) partial2.value_sjson = stringified_json_1.sjson_stringify('https://localhost:8080');
+        break;
+    }
   }
 
   return __assign(__assign({}, state), {
@@ -3185,14 +3208,14 @@ function create_msg_request_reload() {
 exports.create_msg_request_reload = create_msg_request_reload;
 
 __export(require("./report-usage"));
-},{"../consts":"FRId","./report-usage":"dBNx"}],"S1PM":[function(require,module,exports) {
+},{"../consts":"FRId","./report-usage":"dBNx"}],"fewX":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.LS_ROOT = '🛠UDA';
-},{}],"Joet":[function(require,module,exports) {
+},{}],"Hb3e":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3217,7 +3240,7 @@ function getLSKeyForOverride(key) {
 }
 
 exports.getLSKeyForOverride = getLSKeyForOverride;
-},{"../consts":"S1PM"}],"h2o3":[function(require,module,exports) {
+},{"../consts":"fewX"}],"h2o3":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -3252,7 +3275,7 @@ var messages_1 = require("../common/messages");
 
 var tab_1 = require("../common/state/tab");
 
-var keys_1 = require("@offirmo-private/universal-debug-api-browser/src/v1/keys"); ////////////////////////////////////
+var keys_1 = require("@offirmo/universal-debug-api-browser/src/v1/keys"); ////////////////////////////////////
 
 
 var render_webext_icon = memoize_one_1.default(function render_webext_icon(sync_status) {
@@ -3362,7 +3385,7 @@ function propagate_lib_config() {
 Flux.cscript_emitter.on('change', function () {
   propagate_lib_config();
 }); ////////////////////////////////////
-},{"webextension-polyfill-ts":"c2lp","memoize-one":"xHCB","./flux":"lK5q","../common/utils/stringified-json":"qun1","../common/consts":"FRId","../common/messages":"sEPV","../common/state/tab":"VPdt","@offirmo-private/universal-debug-api-browser/src/v1/keys":"Joet"}],"shBX":[function(require,module,exports) {
+},{"webextension-polyfill-ts":"c2lp","memoize-one":"xHCB","./flux":"lK5q","../common/utils/stringified-json":"qun1","../common/consts":"FRId","../common/messages":"sEPV","../common/state/tab":"VPdt","@offirmo/universal-debug-api-browser/src/v1/keys":"Hb3e"}],"shBX":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {

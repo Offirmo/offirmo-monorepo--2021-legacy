@@ -830,7 +830,8 @@ function render() {
   const server = (0, _universalDebugApiPlaceholder.overrideHook)('SERVER_URL', 'https://www.online-adventur.es/');
   const link = document.getElementById('server-url');
   link.href = link.innerText = server;
-  const variation = (0, _universalDebugApiPlaceholder.overrideHook)('experiment_cohort', 'not-enrolled');
+  const forced_variation = (0, _universalDebugApiPlaceholder.overrideHook)('experiment_cohort', undefined);
+  const variation = forced_variation || localStorage.getItem('variation') || 'not-enrolled';
   const span_x = document.getElementById('experiment');
   span_x.innerText = variation;
   const custom = (0, _universalDebugApiPlaceholder.overrideHook)('custom', undefined);
@@ -857,4 +858,4 @@ console.log(`[${LIB}.${+Date.now()}] sending a test postMessage...`)
 window.postMessage({msg: `Test message from ${LIB}`}, '*')
 */
 },{"@offirmo/universal-debug-api-placeholder":"N08m","../../../../1-foundation/practical-logger-core/doc/shared-demo":"K8Q0"}]},{},["Focm"], null)
-//# sourceMappingURL=demo.e77a2624.js.map
+//# sourceMappingURL=demo.5959bfb5.js.map
