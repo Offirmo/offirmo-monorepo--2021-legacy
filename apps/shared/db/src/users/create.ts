@@ -1,12 +1,18 @@
 import Knex from 'knex'
 import assert from 'tiny-invariant'
 
-import get_db from '../db'
 import { WithoutTimestamps } from '../types'
+import { normalize_email } from '../utils'
+import get_db from '../db'
 import { BaseUser, User, NetlifyUser } from './types'
 
 
 export async function create_user(data: Readonly<BaseUser>, trx: ReturnType<typeof get_db> = get_db()): Promise<User['id']> {
+	data = {
+		...data,
+		email: normalize_email(data.email)
+	}
+
 	const [ id ] = await trx('users')
 		.insert(data)
 		.returning('id')
@@ -24,6 +30,7 @@ export async function create_netlify_user(data: Readonly<WithoutTimestamps<Netli
 
 export async function create_user_through_netlify(netlify_id: NetlifyUser['own_id'], base_data: Readonly<BaseUser>): Promise<void> {
 	return get_db().transaction(async (trx) => {
+		//let user_id =
 		const user_id = await create_user(base_data, trx)
 		const netlify_user: WithoutTimestamps<NetlifyUser> = {
 			user_id,

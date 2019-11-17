@@ -8372,6 +8372,11 @@ nopt@^4.0.1:
     abbrev "1"
     osenv "^0.1.4"
 
+normalize-email@^1:
+  version "1.1.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/normalize-email/-/normalize-email-1.1.1.tgz#7f7e495950b67be3ecc788ba72ef7df951e9f32e"
+  integrity sha1-f35JWVC2e+Psx4i6cu99+VHp8y4=
+
 normalize-html-whitespace@^1.0.0:
   version "1.0.0"
   resolved "https://packages.atlassian.com/api/npm/npm-remote/normalize-html-whitespace/-/normalize-html-whitespace-1.0.0.tgz#5e3c8e192f1b06c3b9eee4b7e7f28854c7601e34"
@@ -8616,7 +8621,7 @@ object.entries@^1.1.0:
     function-bind "^1.1.1"
     has "^1.0.3"
 
-object.fromentries@^2, object.fromentries@^2.0.0:
+object.fromentries@^2.0.0:
   version "2.0.1"
   resolved "https://packages.atlassian.com/api/npm/npm-remote/object.fromentries/-/object.fromentries-2.0.1.tgz#050f077855c7af8ae6649f45c80b16ee2d31e704"
   integrity sha1-BQ8HeFXHr4rmZJ9FyAsW7i0x5wQ=

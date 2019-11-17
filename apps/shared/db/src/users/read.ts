@@ -4,6 +4,10 @@ import { NetlifyUser, MergedUser } from './types'
 import { DEFAULT_CALLED, DEFAULT_ROLES } from './consts'
 
 
+/*export async function get_user_by_email(email: string): Promise<null | MergedUser> {
+
+}*/
+
 export async function get_full_user_through_netlify(netlify_id: NetlifyUser['own_id']): Promise<null | MergedUser> {
 	const raw_result = await get_db()
 		.select(get_db().raw('row_to_json("users__netlify".*) AS "netlify_user", row_to_json("users".*) AS "user"'))

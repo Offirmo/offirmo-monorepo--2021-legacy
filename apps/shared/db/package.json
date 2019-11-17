@@ -14,9 +14,11 @@
 	"sideEffects": false,
 
 	"dependencies": {
+		"@offirmo-private/normalize-string": "^0",
 		"@offirmo/tiny-singleton": "^0",
 		"json-stable-stringify": "^1",
 		"knex": "^0.20",
+		"normalize-email": "^1",
 		"pg": "^7",
 		"tiny-invariant": "^1",
 		"tslib": "^1"

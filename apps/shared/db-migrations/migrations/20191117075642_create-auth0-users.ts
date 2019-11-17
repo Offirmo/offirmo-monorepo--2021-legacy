@@ -1,9 +1,6 @@
 import * as Knex from 'knex'
 
-export const NAME = 'users'
-
-// postgres array:
-// https://stackoverflow.com/questions/50118196/how-to-insert-array-data-type-using-knex-and-potsgres
+export const NAME = 'users__auth0'
 
 export async function up(knex: Knex): Promise<any> {
 	return knex.schema.createTable(NAME, table => {
@@ -11,15 +8,24 @@ export async function up(knex: Knex): Promise<any> {
 			.timestamps(true, true)
 
 		table
-			.increments('id').primary()
+			.string('own_id')
+			.notNullable()
+			.unique()
+			.index()
 
+		table
+			.integer('user_id')
+			.unsigned()
+			.notNullable()
+			.references('id').inTable('users').onDelete('CASCADE')
+			.index()
+
+		/* Nooo ! THis is redundant and duplicated!
 		table
 			.string('called')
 
 		table
 			.string('email')
-			.unique()
-			.index()
 
 		table
 			.string('avatar_url')
@@ -28,6 +34,7 @@ export async function up(knex: Knex): Promise<any> {
 			.specificType('roles', 'text[]')
 			.notNullable()
 			.defaultTo(knex.raw('array[]::varchar[]'))
+		*/
 	})
 }
 
