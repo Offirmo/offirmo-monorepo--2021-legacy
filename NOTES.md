@@ -6,6 +6,8 @@ Fragments
 		"memoize-one": "^5",
 		"tiny-invariant": "^1",
 		
+			"apps/immortal-clicker/*"
+
 ```
 
 import memoize_one from 'memoize-one'
