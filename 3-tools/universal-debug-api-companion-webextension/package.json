@@ -17,7 +17,7 @@
 		"@offirmo-private/timestamps": "^0",
 		"@offirmo/universal-debug-api-browser": "^0",
 		"@offirmo-private/view-css": "^0",
-		"@offirmo/deferred": "^1.0.1",
+		"@offirmo/deferred": "^2",
 		"@offirmo/practical-logger-browser": "^2.1",
 		"@offirmo/practical-logger-core": "^2",
 		"@offirmo/practical-logger-types": "^2",
