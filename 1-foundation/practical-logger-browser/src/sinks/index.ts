@@ -21,7 +21,9 @@ function quick_detect_browser(): Browser {
 		if ((window as any).chrome)
 			return 'chromium'
 	}
-	catch {}
+	catch {
+		/* ignore */
+	}
 
 	return 'other'
 }
