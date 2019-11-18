@@ -4,7 +4,7 @@ import {
 
 
 export function looksLikeAnError(x: any): boolean {
-	return !!(x && x.name && x.message && x.stack)
+	return !!(x?.name && x?.message && x?.stack)
 }
 
 // harmonize

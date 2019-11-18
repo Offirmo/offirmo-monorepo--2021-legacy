@@ -35,11 +35,11 @@ export const ALL_LOG_LEVELS: Readonly<LogLevel[]> =
 		.sort((a: LogLevel, b: LogLevel) => LOG_LEVEL_TO_INTEGER[a] - LOG_LEVEL_TO_INTEGER[b])
 
 // rationalization to a clear, human understandable string
-export const LOG_LEVEL_TO_HUMAN: Readonly<{ [k: string]: string }> =
-	// generated to shave a few bytes
-	Object.fromEntries(
-		ALL_LOG_LEVELS
-			.map((ll) => { return [ ll, ({ em: 'emergency', wa: 'warn'} as any)[ll.slice(0, 1)] || ll ]})
-	);
+// generated to shave a few bytes
+// not using fromEntries bc not available in node <12
+export const LOG_LEVEL_TO_HUMAN: Readonly<{ [k: string]: string }> = ALL_LOG_LEVELS.reduce((acc, ll) => {
+	acc[ll] = ({ em: 'emergency', wa: 'warn'} as any)[ll.slice(0, 1)] || ll
+	return acc
+}, {} as any)
 
 export * from './consts-base'
