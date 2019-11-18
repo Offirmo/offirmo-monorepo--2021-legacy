@@ -2,11 +2,13 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
+* ...
+
+## v2.1.0
+2019/11/18
 * [feat] remove .fromEntries() usage which requires a polyfill with current oldest node LTS
 * [chore] use TypeScript 3.7 features
 * [chore] linted automatically (no logic change)
-* ...
-
 
 ## v2.0.1
 2019/11/05
