@@ -22,7 +22,7 @@ describe('@offirmo-private/murmurhash', function() {
 				Object.entries(TEST_CASES).forEach(([str, expected_hash], index) => {
 
 					it(`should work - #${index}`, () => {
-						let Murmur = create(TextEncoder)
+						const Murmur = create(TextEncoder)
 
 						const result = Murmur.v3.x64.hash_string_to_128(str)
 						expect(result).to.be.a('string')
@@ -35,7 +35,7 @@ describe('@offirmo-private/murmurhash', function() {
 			describe('hash_object_to_128()', function() {
 
 				it('should work', () => {
-					let Murmur = create(TextEncoder)
+					const Murmur = create(TextEncoder)
 
 					const result = Murmur.v3.x64.hash_object_to_128({foo: 'bar'})
 					expect(result).to.be.a('string')
@@ -44,7 +44,7 @@ describe('@offirmo-private/murmurhash', function() {
 				})
 
 				it('should be stable', () => {
-					let Murmur = create(TextEncoder)
+					const Murmur = create(TextEncoder)
 
 					const result1 = Murmur.v3.x64.hash_object_to_128({foo: 42, bar: 'baz'})
 					expect(result1).to.be.a('string')

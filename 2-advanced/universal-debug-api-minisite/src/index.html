@@ -15,6 +15,22 @@
 			max-width: 500px;
 			xxmax-width: -webkit-fill-available;
 		}
+
+		nav {
+			position: relative;
+		}
+		#feat-selector li {
+			background-color: var(--o⋄color--bg⁚main);
+			border: solid 1px;
+			margin: 0;
+			padding: 0 12px;
+		}
+		#feat-selector li:hover {
+			background-color: var(--o⋄color--fg⁚accent);
+		}
+		section#intro section {
+			border: solid 1px;
+		}
 	</style>
 	<!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.17.1/themes/prism.css" crossorigin="anonymous">-->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.17.1/themes/prism-twilight.css" crossorigin="anonymous">
@@ -49,9 +65,18 @@
 <aside>
 	<img src="https://badgen.net/badge/built%20for/TypeScript/blue?icon=typescript">
 	<img src="https://badgen.net/badge/built%20for/JavaScript/yellow">
-	<a alt="license" href="https://unlicense.org/"><img alt="license badge" src="https://img.shields.io/badge/license-public_domain-brightgreen.svg"/></a>
-	<img alt="maintenance status badge"
-		  src="https://img.shields.io/maintenance/yes/2019.svg">
+	<a alt="license" href="https://unlicense.org/">
+		<img alt="license badge" src="https://img.shields.io/badge/license-public_domain-brightgreen.svg"/></a>
+	<a alt="maintenance status badge" href="https://github.com/Offirmo/offirmo-monorepo">
+		<img src="https://img.shields.io/maintenance/yes/2019.svg"></a>
+	<a alt="link to npm" href="https://www.npmjs.com/package/@offirmo/universal-debug-api-placeholder">
+		<img src="https://badgen.net/npm/v/@offirmo/universal-debug-api-placeholder"></a>
+	<a alt="link to bundle analysis" href="https://www.npmjs.com/package/@offirmo/universal-debug-api-placeholder">
+		<img src="https://badgen.net/bundlephobia/minzip/@offirmo/universal-debug-api-placeholder"></a>
+	<a alt="link to companion extension in chrome store" href="https://chrome.google.com/webstore/detail/offirmo%E2%80%99s-universal-web-d/cnbgbjmliafldggmfijmnbpdiikcalnl">
+		<img src="https://badgen.net/chrome-web-store/v/cnbgbjmliafldggmfijmnbpdiikcalnl"></a>
+	<a alt="link to companion extension in firefox store" href="https://TODO">
+		<img src="https://badgen.net/amo/v/cnbgbjmliafldggmfijmnbpdiikcalnl"></a>
 </aside>
 
 <section id="intro">
@@ -59,145 +84,68 @@
 	<p>
 		Offirmo's Universal Debug API is an awesome library to greatly help the development of medium/big TypeScript/JavaScript apps.
 	</p>
-	<p>
-	Loggers, with dynamically settable level:
-	<pre><code class="language-js">import {
-	getLogger,
-	overrideHook,
-	exposeInternal,
-	addDebugCommand,
-} from '@offirmo/universal-debug-api-xxx'
 
-const logger = getLogger()
-logger.verbose('Starting up...')
-myLogger.warn('Server timeout, will retry...', { timeoutMs: 2000, attemptCount: 3 })
+	<nav id="feat-selector" style="position: sticky; top: 20px; background-color: var(--o⋄color--bg⁚main); box-shadow: 0px 9px 10px -4px var(--o⋄color--bg⁚main--backdrop);">
+		<ul class="o⋄nav-list">
+			<li id="tab-feat-loggers" class="o⋄text-noselect">Loggers</li>
+			<li id="feat-overrides" class="o⋄text-noselect">Local overrides</li>
+			<li id="feat-expose" class="o⋄text-noselect">Exposure of internals</li>
+			<li id="feat-commands" class="o⋄text-noselect">Debug commands</li>
+		</ul>
+	</nav>
 
-const SERVER_URL = overrideHook('server-url', 'https://backend.com')
+	<section id="feat-loggers">
+		<p>
+			Loggers, with dynamically settable level:
+			<pre><code class="language-js">import {
+		getLogger,
+		overrideHook,
+		exposeInternal,
+		addDebugCommand,
+	} from '@offirmo/universal-debug-api-xxx'
 
-const state = {
-	foo: 42'
-}
-exposeInternal('app.state', state)
+	const logger = getLogger()
+	logger.verbose('Starting up...')
+	myLogger.warn('Server timeout, will retry...', { timeoutMs: 2000, attemptCount: 3 })
 
-// addDebugCommand is a feature still in progress
-</code></pre>
-	</p>
-	<p>Logger levels:
-		<span style="color: red;">fatal</span>,
-		<span style="color: red;">emerg</span>,
-		<span style="color: red;">alert</span>,
-		<span style="color: red;">crit</span>,
-		<span style="color: red;">error</span>,
-		<span style="color: yellow;">warn(ing)</span>,
-		<span style="color: cyan;">notice</span>,
-		<span style="color: cyan;">info</span>,
-		<span style="color: cyan;">verbose</span>,
-		<span style="color: grey;">log</span>,
-		<span style="color: grey;">debug</span>,
-		<span style="color: grey;">trace</span>,
-		<span style="color: grey;">silly</span>
+	const SERVER_URL = overrideHook('server-url', 'https://backend.com')
+
+	const state = {
+		foo: 42'
+	}
+	exposeInternal('app.state', state)
+
+	// addDebugCommand is a feature still in progress
+			</code></pre>
+		</p>
+		<p>Logger levels:
+			<span style="color: red;">fatal</span>,
+			<span style="color: red;">emerg</span>,
+			<span style="color: red;">alert</span>,
+			<span style="color: red;">crit</span>,
+			<span style="color: red;">error</span>,
+			<span style="color: yellow;">warn(ing)</span>,
+			<span style="color: cyan;">notice</span>,
+			<span style="color: cyan;">info</span>,
+			<span style="color: cyan;">verbose</span>,
+			<span style="color: grey;">log</span>,
+			<span style="color: grey;">debug</span>,
+			<span style="color: grey;">trace</span>,
+			<span style="color: grey;">silly</span>
+		</p>
+	</section>
 </section>
 
-<section id="demo">
-	<h2>Demo</h2>
-	<h3>Live demo: Open the dev tools!</h3>
-	<ul class="o⋄plain-list" style="padding-left: 1em;">
-		<li>
-			<details id="demo-all-levels">
-				<summary>All levels...<button id="btn-demo-all-levels">Run</button></summary>
-				<div>
-					<p>Levels are compatible with all standard log systems (TODO list TODO link)</p>
-					<img src="./todo.png" />
-				</div>
-			</details>
-		</li>
-		<li>
-			<details id="demo-basic">
-				<summary>Basic usage...<button id="btn-demo-basic">Run</button></summary>
-				<div>
-					<p>Note that levels lower than warn are much more differentiables</p>
-					<img src="./todo.png" />
-				</div>
-			</details>
-		</li>
-		<li>
-			<details id="demo-error">
-				<summary>Errors...<button id="btn-demo-error">Run</button></summary>
-				<div>
-					<p>Correctly displaying errors is a first class feature, even when using lower levels.</p>
-					<img src="./todo.png" />
-				</div>
-			</details>
-		</li>
-		<li>
-			<details id="demo-groups">
-				<summary>Groups, lazy and auto-escape...<button id="btn-demo-groups">Run</button></summary>
-				<div>
-					<p class="o⋄color⁚secondary">(Browser only, node is not concerned.)</p>
-					<p>Without this feature, errors may have been hidden in a collapsed group. Also useless groups with no contents are skipped.</p>
-					<img src="./todo.png" />
-				</div>
-			</details>
-		</li>
-	</ul>
-	<h3>Screenshots</h3>
-	<details>
-		<summary>Firefox screenshot...</summary>
-		<div>
-			<img src="./todo.png" />
-		</div>
-	</details>
-	<details>
-		<summary>Chromium screenshot...</summary>
-		<div>
-			<p>Note how we compensate chromium's buggy "info" display:</p>
-			<img src="./todo.png" />
-		</div>
-	</details>
-	<details>
-		<summary>Safari screenshot...</summary>
-		<div>
-			<img src="./todo.png" />
-		</div>
-	</details>
-	<details>
-		<summary>IE and others screenshot...</summary>
-		TODO
-	</details>
-	<details>
-		<summary>Terminal / Node screenshot (dark)...</summary>
-		<div>
-			<img src="./todo.png" />
-		</div>
-	</details>
-	<details>
-		<summary>Terminal / Node screenshot (light)...</summary>
-		<div>
-			<img src="./todo.png" />
-		</div>
-	</details>
-</section>
 
 <section id="advocacy">
 	<h2>Advocacy</h2>
 	<p>
-		Killer features:
+		TODO
 	</p>
-	<ul>
-		<li>nicer, more readable display</li>
-		<li>Coherent API <span class="o⋄color⁚secondary">only 2 params</span></li>
-		<li>TypeScript first</li>
-		<li>Isomorphic <span class="o⋄color⁚secondary">in an non-bloated way</span></li>
-		<li>Aimed first at logging locally (terminal or devtools) but optionally streamable <span class="o⋄color⁚secondary">ex. node server</span></li>
-		<li>Favorably open source <span class="o⋄color⁚secondary">(UNLICENSE)</span></li>
-		<li>Many many niceties…<span class="o⋄color⁚secondary"> (keep reading)</span></li>
-	</ul>
 </section>
 
 <section id="setup">
 	<h2>Setup</h2>
-
-	recommend Full API
 	<p>
 		TODO
 	</p>
@@ -216,57 +164,13 @@ exposeInternal('app.state', state)
 	</details>
 
 	<details>
-		<summary><strong>Is it a drop-in replacement for Console?</strong></summary>
-		<div>
-			<p>
-			No, as this logger is not accepting multiple arguments.
-			</p>
-			<p>
-				Also, this logger encourages being semantic, keeping the console invocations for quick debugs.
-				This way, you can keep your eslint rules forbidding using console.
-			</p>
-		</div>
-	</details>
-
-	<details>
-		<summary><strong>What if I incorrectly call it like Console? (with more than 2 arguments)</strong></summary>
-		<div>
-			<p>
-				If you're using TypeScript, it should tell you.
-			</p>
-			<p>
-				If not, the lib will secretly try to handle it in an undocumented way.
-				(undocumented because you shouldn't rely on it)
-			</p>
-		</div>
-	</details>
-
-	<details>
-		<summary id="faq-remote-stash"><strong>I'm writing a server, can I send the logs to a remote stash?</strong></summary>
-		<div>
-			<p>
-				Yes. It's not a primary feature, but this logger took inspiration from Winston TODO link.
-				Two possible solutions:
-			</p>
-			<ul>
-				<li>If your remote stash is fed from your stdout, you may want to use a sink outputting JSON.
-				TODO elaborate
-				</li>
-				<li>If your remote stash is an API, write your custom sink to intercept logs and send them to the remote location</li>
-			</ul>
-		</div>
-	</details>
-
-	<details>
 		<summary><strong>Are there any tradeoffs?</strong></summary>
 		<div>
 			<p>
 				Yes, all solutions have tradeoffs. Here are the most notable one:
 			</p>
 			<ul>
-				<li>For browsers: You no longer get the call site in the dev tools.</li>
-				<li>Slower than Console.x for logged item, but faster for filtered out items</li>
-				<li>If you're using this lib directly, no built-in mechanism to change the log level at run time. Please use TODO</li>
+				<li>TODO</li>
 			</ul>
 		</div>
 	</details>

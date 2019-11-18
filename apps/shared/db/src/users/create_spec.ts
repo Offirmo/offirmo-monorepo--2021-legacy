@@ -3,13 +3,20 @@
 import {expect} from 'chai'
 
 import { LIB } from '../consts'
-import { BaseUser } from './types'
-import { create_user } from './create'
+import {BaseUser, NetlifyUser} from './types'
 import { delete_user_by_email } from './delete'
+import {
+	create_netlify_user,
+	create_user,
+	create_user_through_netlify,
+} from './create'
+import get_db from "../db";
+import {WithoutTimestamps} from "../types";
 
 /////////////////////
 
-describe(`${LIB} - create`, function() {
+describe(`${LIB} - users - create`, function() {
+	const TEST_NETLIFY_ID: NetlifyUser['own_id'] = 'netlify-#foo'
 
 	function get_test_base_user(p: Partial<BaseUser> = {}): Readonly<BaseUser> {
 		return {
@@ -22,6 +29,7 @@ describe(`${LIB} - create`, function() {
 	}
 
 	async function cleanup() {
+		// REM: this will cascade users--xxx deletion
 		await delete_user_by_email(get_test_base_user().email)
 	}
 
@@ -49,5 +57,25 @@ describe(`${LIB} - create`, function() {
 			expect(create_user(get_test_base_user({email: 'Test@Test. Io'})))
 				.to.be.rejectedWith('duplicate')
 		})
+	})
+
+	describe('create_user_through_netlify()', () => {
+
+		context.only('when its a new user', () => {
+
+			it('should work', async () => {
+				await create_user_through_netlify(TEST_NETLIFY_ID, get_test_base_user())
+			})
+		})
+
+		context('when this netlify user already exists', () => {
+
+		})
+
+		context('when a user with this email already exists', () => {
+
+		})
+
+
 	})
 })
