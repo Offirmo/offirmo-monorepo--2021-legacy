@@ -4,6 +4,7 @@
 ## PENDING
 * [doc] fix README related to the renaming
 * [feat] now provides a pre-bundled version (beta)
+* [chore] bumped dependencies
 * ...
 
 ## v0.2

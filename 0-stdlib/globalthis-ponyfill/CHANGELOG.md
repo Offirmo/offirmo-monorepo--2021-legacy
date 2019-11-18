@@ -2,9 +2,12 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
+* ...
+
+## v2.0.0
+2019/11/18
 * [chore] [breaking] no longer exporting ES5, reverted to [this more rationale export setup](../../CONTRIBUTING/module-exports.md)
 * [chore] linted automatically (no logic change)
-* ...
 
 ## v1.0.2
 2019/07/07

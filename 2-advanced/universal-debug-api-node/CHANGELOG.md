@@ -4,6 +4,7 @@
 ## PENDING
 * TODO fix all TODOs
 * [chore] linted automatically (no logic change)
+* [chore] bumped dependencies
 
 ## v0.0.1
 2019/11/11
