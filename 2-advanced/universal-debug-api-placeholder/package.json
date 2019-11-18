@@ -1,7 +1,7 @@
 {
 	"name": "@offirmo/universal-debug-api-placeholder",
 	"description": "Implementation of Offirmo’s Universal Debug Api doing nothing at all, yielding to any other effective implementation",
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 
@@ -22,7 +22,7 @@
 			"path": "dist/src.es2018.cjs/index.js"
 		},
 		{
-			"limit": "500b",
+			"limit": "1.1kb",
 			"path": "dist/index-bundle.js"
 		}
 	],

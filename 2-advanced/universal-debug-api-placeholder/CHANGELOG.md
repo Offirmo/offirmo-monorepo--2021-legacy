@@ -2,10 +2,13 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
-* [doc] fix README related to the renaming
-* [feat] now provides a pre-bundled version (beta)
-* [chore] bumped dependencies
 * ...
+
+## v0.3
+2019/11/18
+* [feat] now provides a pre-bundled version (beta)
+* [doc] fix README related to the renaming
+* [chore] bumped dependencies
 
 ## v0.2
 2019/11/08
