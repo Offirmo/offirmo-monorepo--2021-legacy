@@ -107,7 +107,7 @@ function create({
 		if (DEBUG) console.log('↘ ask_user(\n', prettify_json(step, {outline: true}), '\n)')
 
 		let answer = ''
-		let ok = true // TODO used for confirmation
+		const ok = true // TODO used for confirmation
 		do {
 			await ui.display_message({msg: step.msg_main, choices: step.choices})
 			answer = await ui.read_answer(step)
@@ -139,52 +139,52 @@ function create({
 		if (DEBUG) console.log('↘ execute_step(\n', prettify_json(step, {outline: true}), '\n)')
 
 		switch (step.type) {
-		case 'simple_message':
-			await ui.pretend_to_think(inter_msg_delay_ms)
-			await ui.display_message({ msg: step.msg_main })
-			break
+			case 'simple_message':
+				await ui.pretend_to_think(inter_msg_delay_ms)
+				await ui.display_message({ msg: step.msg_main })
+				break
 
-		case 'progress':
-			await ui.display_progress({
-				progress_promise: step.progress_promise
+			case 'progress':
+				await ui.display_progress({
+					progress_promise: step.progress_promise
 							|| create_dummy_progress_promise({ DURATION_MS: step.duration_ms }),
-				msg: step.msg_main,
-				msgg_acknowledge: step.msgg_acknowledge
-			})
-				.then(() => true, () => false)
-				.then(success => {
-					if (step.callback)
-						step.callback(success)
+					msg: step.msg_main,
+					msgg_acknowledge: step.msgg_acknowledge,
 				})
-			break
+					.then(() => true, () => false)
+					.then(success => {
+						if (step.callback)
+							step.callback(success)
+					})
+				break
 
-		case 'ask_for_confirmation':
-		case 'ask_for_string':
-		case 'ask_for_choice': {
-			await ui.pretend_to_think(inter_msg_delay_ms)
-			const answer = await ask_user(step)
+			case 'ask_for_confirmation':
+			case 'ask_for_string':
+			case 'ask_for_choice': {
+				await ui.pretend_to_think(inter_msg_delay_ms)
+				const answer = await ask_user(step)
 
-			let reported = false
-			if (step.choices.length) {
-				const selected_choice = step.choices.find(choice => choice.value === answer)
-				if (selected_choice.callback) {
-					await selected_choice.callback(answer)
+				let reported = false
+				if (step.choices.length) {
+					const selected_choice = step.choices.find(choice => choice.value === answer)
+					if (selected_choice.callback) {
+						await selected_choice.callback(answer)
+						reported = true
+					}
+				}
+				if (!reported && step.callback) {
+					await step.callback(answer)
 					reported = true
 				}
+				if (!reported) {
+					const err = new Error('CNF reporting callback in ask for result!')
+					err.step = step
+					throw err
+				}
+				return answer
 			}
-			if (!reported && step.callback) {
-				await step.callback(answer)
-				reported = true
-			}
-			if (!reported) {
-				const err = new Error('CNF reporting callback in ask for result!')
-				err.step = step
-				throw err
-			}
-			return answer
-		}
-		default:
-			throw new Error(`Unsupported step type: "${step.type}"!`)
+			default:
+				throw new Error(`Unsupported step type: "${step.type}"!`)
 		}
 	}
 

@@ -32,7 +32,7 @@ const PLUGIN = {
 		prototype.fireAnalyticsEvent = function fireAnalyticsEvent(eventId, details = {}) {
 			const SEC = this
 			const now = get_UTC_timestamp_ms()
-			let root_state = SEC[INTERNAL_PROP]
+			const root_state = SEC[INTERNAL_PROP]
 
 			if (!eventId)
 				throw new Error('Incorrect eventId!')
@@ -63,7 +63,7 @@ const PLUGIN = {
 			return flattenToOwn(plugin_state.details)
 		}
 
-	}
+	},
 }
 
 export {

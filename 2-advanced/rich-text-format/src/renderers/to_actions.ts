@@ -5,7 +5,7 @@ import {
 	OnTypeParams,
 	walk,
 	WalkerCallbacks,
-	WalkerReducer
+	WalkerReducer,
 } from '../walk'
 import { Node, CheckedNode } from '../types'
 

@@ -67,7 +67,7 @@ const on_node_exit: WalkerReducer<State, OnNodeExitParams<State>, Options> = ({$
 
 
 // when walking inside the content
-const on_concatenate_str: WalkerReducer<State, OnConcatenateStringParams<State>, Options> = ({str, state, $node, depth,}) => {
+const on_concatenate_str: WalkerReducer<State, OnConcatenateStringParams<State>, Options> = ({str, state, $node, depth}) => {
 	console.log(indent(depth) + `+ [on_concatenate_str] "${str}"`)
 	state = state + str
 	console.log(indent(depth) + `  [state="${state}"]`)

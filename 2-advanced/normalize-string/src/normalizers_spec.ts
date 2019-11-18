@@ -67,7 +67,7 @@ describe('normalize-string - built-in normalizers', function() {
 			'	 		': ' ',
 			'foo bar': 'foo bar',
 			'foo	 bar': 'foo bar',
-			'Lord	Mok': 'Lord Mok'
+			'Lord	Mok': 'Lord Mok',
 		},
 
 		coerce_delimiters_to_space: {
@@ -78,7 +78,7 @@ describe('normalize-string - built-in normalizers', function() {
 			'-+-?': '    ',
 			'foo-bar': 'foo bar',
 			'++foo/bar++': '  foo bar  ',
-			'Lord_Mok': 'Lord Mok'
+			'Lord_Mok': 'Lord Mok',
 		},
 
 		convert_spaces_to_camel_case: {
@@ -104,7 +104,7 @@ describe('normalize-string - built-in normalizers', function() {
 			'a': 'A',
 			'bored ': 'BORED',
 			'ALPH-Art': 'ALPHART',
-		}
+		},
 	}
 
 	Object.keys(TEST_CASES).forEach(key => {

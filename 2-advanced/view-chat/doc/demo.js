@@ -34,14 +34,14 @@ function* get_next_step1(skip_to_index = 0) {
 			//validator: null, // TODO
 			msgg_as_user: value => `My name is "${value}".`,
 			msgg_acknowledge: name => `Thanks for the answer, ${name}!`,
-			callback: value => { state.name = value }
+			callback: value => { state.name = value },
 		},
 		{
 			type: 'ask_for_string',
 			msg_main: 'What city do you live in?',
 			msgg_as_user: value => `I live in "${value}".`,
 			msgg_acknowledge: value => `${value}, a fine city indeed!`,
-			callback: value => { state.city = value }
+			callback: value => { state.city = value },
 		},
 		{
 			type: 'simple_message',
@@ -64,7 +64,7 @@ function* get_next_step1(skip_to_index = 0) {
 					msg_cta: 'Choice 2',
 					value: 2,
 				},
-			]
+			],
 		},
 		{
 			type: 'simple_message',

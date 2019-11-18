@@ -104,7 +104,7 @@ export default function create(): DebugApiV1 {
 		_: {
 			exposed,
 			overrides,
-		}
+		},
 	}
 
 	////////////////////////////////////
@@ -118,7 +118,7 @@ export default function create(): DebugApiV1 {
 		catch (err) {
 			// should never happen because _getOverride() already catch
 			// TODO check!
-			_ownLogger.warn(`overrideHook(): error retrieving override!`, { key, err })
+			_ownLogger.warn('overrideHook(): error retrieving override!', { key, err })
 		}
 
 		return defaultValue
@@ -133,13 +133,13 @@ export default function create(): DebugApiV1 {
 				if (!p.forcedLevel && _getOverrideRequestedSJson(ovKey)) {
 					p = {
 						...p,
-						forcedLevel: overrideHook(ovKey, p.suggestedLevel || DEFAULT_LOG_LEVEL)
+						forcedLevel: overrideHook(ovKey, p.suggestedLevel || DEFAULT_LOG_LEVEL),
 					}
 				}
 			}
 			catch (err) {
 				// this warning should appear only once on creation ✔
-				_ownLogger.warn(`getLogger(): error overriding the level!`, { name, err })
+				_ownLogger.warn('getLogger(): error overriding the level!', { name, err })
 			}
 
 			loggers[name] = createLogger(p)

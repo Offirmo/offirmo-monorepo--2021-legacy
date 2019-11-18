@@ -20,9 +20,9 @@ const BRANCH_JUMP_PSEUDO_STATE = {
 			stack: {
 				// NO module
 				operation: LOGICAL_STACK_SEPARATOR_NON_ADJACENT,
-			}
-		}
-	}
+			},
+		},
+	},
 }
 
 function _reduceStatePathToLogicalStack(statePath) {
@@ -76,7 +76,7 @@ const PLUGIN = {
 			const SEC = this
 
 			return _reduceStatePathToLogicalStack(
-				_getSECStatePath(SEC)
+				_getSECStatePath(SEC),
 			)
 		}
 
@@ -127,7 +127,7 @@ const PLUGIN = {
 					let improvedStatePath = [].concat(current_path)
 					improvedStatePath.push(BRANCH_JUMP_PSEUDO_STATE)
 					improvedStatePath = improvedStatePath.concat(
-						other_path.slice(last_common_index + 1)
+						other_path.slice(last_common_index + 1),
 					)
 
 					err._temp.statePath = improvedStatePath
@@ -159,7 +159,7 @@ const PLUGIN = {
 
 			return err
 		}
-	}
+	},
 }
 
 export {

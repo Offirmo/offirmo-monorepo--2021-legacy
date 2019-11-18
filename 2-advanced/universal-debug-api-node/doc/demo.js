@@ -11,7 +11,7 @@ const {
 console.log('Stuff may on may not be displayed:')
 
 const root_logger = getLogger({
-	suggestedLevel: 'silly'
+	suggestedLevel: 'silly',
 })
 root_logger.silly('Hello')
 root_logger.verbose('Hello')
@@ -26,7 +26,7 @@ const DB_URL = overrideHook('db-url', 'https://prod.dev:123')
 logger.info('DB URL=', {DB_URL})
 
 const user = {
-	name: 'John Smith'
+	name: 'John Smith',
 }
 exposeInternal('user', user)
 

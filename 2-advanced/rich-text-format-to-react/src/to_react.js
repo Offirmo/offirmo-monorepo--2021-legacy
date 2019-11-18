@@ -50,7 +50,7 @@ export function intermediate_on_node_exit({$node, $id, state}, options) {
 		children: null,
 		classes: [...$classes],
 		component: NODE_TYPE_TO_COMPONENT[$type] || $type,
-		wrapper: children => children
+		wrapper: children => children,
 	}
 
 	result.children = state.children.map(c => c.element)
@@ -95,12 +95,12 @@ export function intermediate_on_node_exit({$node, $id, state}, options) {
 		}
 
 		switch($hints.bullets_style) {
-		case 'none':
-			result.classes.push('o⋄rich-text⋄list--no-bullet')
-			break
+			case 'none':
+				result.classes.push('o⋄rich-text⋄list--no-bullet')
+				break
 
-		default:
-			break
+			default:
+				break
 		}
 
 		if (is_KVP_list($node)) {
@@ -118,7 +118,7 @@ export function intermediate_on_node_exit({$node, $id, state}, options) {
 				href: $hints.href,
 				target: '_blank',
 			},
-			children
+			children,
 		)
 	else if (!Enum.isType(NodeType, $type)) {
 		console.error(`Unknown node type "${$type}"!`)
@@ -131,8 +131,8 @@ export function intermediate_on_node_exit({$node, $id, state}, options) {
 			},
 			[
 				`[Unknown type "${$type}"]`, // extra inline text
-				children
-			]
+				children,
+			],
 		)
 	}
 
@@ -151,8 +151,8 @@ export function intermediate_assemble({ $id, $node, children, classes, component
 				key: generate_react_key({$id, $node}),
 				className: classNames(...classes),
 			},
-			children
-		)
+			children,
+		),
 	)
 }
 
@@ -171,7 +171,7 @@ function on_node_exit(params, options) {
 
 function on_concatenate_str({state, str}) {
 	state.children.push({
-		element: str
+		element: str,
 	})
 	return state
 }
@@ -202,7 +202,7 @@ const callbacks = {
 					(child) => (typeof child === 'string')
 						? child[0].toUpperCase() + child.slice(1)
 						: child,
-				)
+				),
 			},
 		)
 
@@ -221,7 +221,7 @@ export function to_react(doc, callback_overrides = {}, options = {}) {
 			...callbacks,
 			...callback_overrides,
 		},
-		options
+		options,
 	).element
 
 	return React.createElement('div', {

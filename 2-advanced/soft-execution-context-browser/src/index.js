@@ -36,7 +36,7 @@ function listenToErrorEvents() {
 			// https://developer.mozilla.org/en-US/docs/Web/API/ErrorEvent
 			//console.log('DEBUG SEC browser debug: error event', arguments)
 			const err = (evt && evt.message === 'Script error.')
-				? new Error(`Unreadable error from another origin!`)
+				? new Error('Unreadable error from another origin!')
 				: evt.error || new Error(`Error "${evt.message}" from "${evt.filename}", line ${evt.lineno}.${evt.colno}!`)
 
 			SEC._handleError({

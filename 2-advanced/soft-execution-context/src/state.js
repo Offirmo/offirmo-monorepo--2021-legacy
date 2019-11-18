@@ -17,7 +17,7 @@ function activate_plugin(state, PLUGIN/*, args*/) {
 		? state.parent.plugins[PLUGIN.id]
 		: null
 
-	let plugin_state = PLUGIN.state.create(plugin_parent_state)
+	const plugin_state = PLUGIN.state.create(plugin_parent_state)
 
 	return {
 		...state,

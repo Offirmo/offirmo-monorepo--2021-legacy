@@ -96,7 +96,7 @@ const DOC_WEAPON_01 = {
 	},
 	$hints: {
 		uuid: '1234',
-	}
+	},
 }
 
 const DOC_PLACE_01 = {
@@ -107,11 +107,11 @@ const DOC_PLACE_01 = {
 		name: {
 			$classes: ['place--name'],
 			$content: 'Foo',
-		}
+		},
 	},
 	$hints: {
 		uuid: '2345',
-	}
+	},
 }
 
 const DOC_NPC_01 = {
@@ -120,7 +120,7 @@ const DOC_NPC_01 = {
 	$content: 'John Smith',
 	$hints: {
 		uuid: '3456',
-	}
+	},
 }
 
 function render_item(i) {
@@ -257,7 +257,7 @@ const DOC_DEMO_RPG_02 = {
 	$sub: {
 		'001': DOC_WEAPON_01,
 		'002': DOC_PLACE_01,
-		'003': DOC_NPC_01
+		'003': DOC_NPC_01,
 	},
 }
 
@@ -266,7 +266,7 @@ const DOC_DEMO_RPG_03 = RichText.block_fragment()
 		+ 'Great sages prophetized your coming,{{br}}'
 		+ 'commoners are waiting for their hero{{br}}'
 		+ 'and kings are trembling from fear of change...{{br}}'
-		+ '…undoubtly, you’ll make a name in this world and fulfill your destiny!{{br}}'
+		+ '…undoubtly, you’ll make a name in this world and fulfill your destiny!{{br}}',
 	)
 	.pushStrong('A great saga just started.')
 	.pushText('{{br}}loot:')
@@ -291,13 +291,13 @@ const DOC_DEMO_INVENTORY = {
 					'$classes': [],
 					'$content': 'Active equipment:',
 					'$sub': {},
-					'$hints': {}
+					'$hints': {},
 				},
 				'list': {
 					'$v': 1,
 					'$type': 'ol',
 					'$classes': [
-						'inventory--equipment'
+						'inventory--equipment',
 					],
 					'$content': '',
 					'$sub': {
@@ -313,7 +313,7 @@ const DOC_DEMO_INVENTORY = {
 									'$classes': [
 										'item--weapon',
 										'item--quality--common',
-										'item'
+										'item',
 									],
 									'$content': '{{quality}} {{name}} {{values}}',
 									'$sub': {
@@ -323,13 +323,13 @@ const DOC_DEMO_INVENTORY = {
 											'$classes': [],
 											'$content': 'common',
 											'$sub': {},
-											'$hints': {}
+											'$hints': {},
 										},
 										'name': {
 											'$v': 1,
 											'$type': 'inline_fragment',
 											'$classes': [
-												'item__name'
+												'item__name',
 											],
 											'$content': '{{q2|Capitalize}} {{q1|Capitalize}} {{base|Capitalize}}',
 											'$sub': {
@@ -339,7 +339,7 @@ const DOC_DEMO_INVENTORY = {
 													'$classes': [],
 													'$content': 'spear',
 													'$sub': {},
-													'$hints': {}
+													'$hints': {},
 												},
 												'q1': {
 													'$v': 1,
@@ -347,7 +347,7 @@ const DOC_DEMO_INVENTORY = {
 													'$classes': [],
 													'$content': 'heavy',
 													'$sub': {},
-													'$hints': {}
+													'$hints': {},
 												},
 												'q2': {
 													'$v': 1,
@@ -355,28 +355,28 @@ const DOC_DEMO_INVENTORY = {
 													'$classes': [],
 													'$content': 'woodsman’s',
 													'$sub': {},
-													'$hints': {}
-												}
+													'$hints': {},
+												},
 											},
-											'$hints': {}
+											'$hints': {},
 										},
 										'values': {
 											'$v': 1,
 											'$type': 'inline_fragment',
 											'$classes': [
-												'weapon--values'
+												'weapon--values',
 											],
 											'$content': '[deals 9 to 20 damage]',
 											'$sub': {},
-											'$hints': {}
-										}
+											'$hints': {},
+										},
 									},
 									'$hints': {
-										'uuid': 'uu1JemeGpESJh8tGT3kfVqdm'
-									}
-								}
+										'uuid': 'uu1JemeGpESJh8tGT3kfVqdm',
+									},
+								},
 							},
-							'$hints': {}
+							'$hints': {},
 						},
 						'002': {
 							'$v': 1,
@@ -390,7 +390,7 @@ const DOC_DEMO_INVENTORY = {
 									'$classes': [
 										'item--armor',
 										'item--quality--common',
-										'item'
+										'item',
 									],
 									'$content': '{{quality}} {{name}} {{values}}',
 									'$sub': {
@@ -400,13 +400,13 @@ const DOC_DEMO_INVENTORY = {
 											'$classes': [],
 											'$content': 'common',
 											'$sub': {},
-											'$hints': {}
+											'$hints': {},
 										},
 										'name': {
 											'$v': 1,
 											'$type': 'inline_fragment',
 											'$classes': [
-												'item__name'
+												'item__name',
 											],
 											'$content': '{{q1|Capitalize}} {{base|Capitalize}} {{q2|Capitalize}}',
 											'$sub': {
@@ -416,7 +416,7 @@ const DOC_DEMO_INVENTORY = {
 													'$classes': [],
 													'$content': 'socks',
 													'$sub': {},
-													'$hints': {}
+													'$hints': {},
 												},
 												'q1': {
 													'$v': 1,
@@ -424,7 +424,7 @@ const DOC_DEMO_INVENTORY = {
 													'$classes': [],
 													'$content': 'used',
 													'$sub': {},
-													'$hints': {}
+													'$hints': {},
 												},
 												'q2': {
 													'$v': 1,
@@ -432,34 +432,34 @@ const DOC_DEMO_INVENTORY = {
 													'$classes': [],
 													'$content': 'of the noob',
 													'$sub': {},
-													'$hints': {}
-												}
+													'$hints': {},
+												},
 											},
-											'$hints': {}
+											'$hints': {},
 										},
 										'values': {
 											'$v': 1,
 											'$type': 'inline_fragment',
 											'$classes': [
-												'armor--values'
+												'armor--values',
 											],
 											'$content': '[absorbs 1 to 4 damage]',
 											'$sub': {},
-											'$hints': {}
-										}
+											'$hints': {},
+										},
 									},
 									'$hints': {
-										'uuid': 'uu18tX6IviEJpYNTWdCl7nxL'
-									}
-								}
+										'uuid': 'uu18tX6IviEJpYNTWdCl7nxL',
+									},
+								},
 							},
-							'$hints': {}
-						}
+							'$hints': {},
+						},
 					},
-					'$hints': {}
-				}
+					'$hints': {},
+				},
 			},
-			'$hints': {}
+			'$hints': {},
 		},
 		'wallet': {
 			'$v': 1,
@@ -473,13 +473,13 @@ const DOC_DEMO_INVENTORY = {
 					'$classes': [],
 					'$content': 'Wallet:',
 					'$sub': {},
-					'$hints': {}
+					'$hints': {},
 				},
 				'list': {
 					'$v': 1,
 					'$type': 'ul',
 					'$classes': [
-						'inventory--wallet'
+						'inventory--wallet',
 					],
 					'$content': '',
 					'$sub': {
@@ -487,7 +487,7 @@ const DOC_DEMO_INVENTORY = {
 							'$v': 1,
 							'$type': 'inline_fragment',
 							'$classes': [
-								'currency--coin'
+								'currency--coin',
 							],
 							'$content': '{{amount}} coins',
 							'$sub': {
@@ -497,16 +497,16 @@ const DOC_DEMO_INVENTORY = {
 									'$classes': [],
 									'$content': '17',
 									'$sub': {},
-									'$hints': {}
-								}
+									'$hints': {},
+								},
 							},
-							'$hints': {}
+							'$hints': {},
 						},
 						'token': {
 							'$v': 1,
 							'$type': 'inline_fragment',
 							'$classes': [
-								'currency--token'
+								'currency--token',
 							],
 							'$content': '{{amount}} tokens',
 							'$sub': {
@@ -516,16 +516,16 @@ const DOC_DEMO_INVENTORY = {
 									'$classes': [],
 									'$content': '0',
 									'$sub': {},
-									'$hints': {}
-								}
+									'$hints': {},
+								},
 							},
-							'$hints': {}
-						}
+							'$hints': {},
+						},
 					},
-					'$hints': {}
-				}
+					'$hints': {},
+				},
 			},
-			'$hints': {}
+			'$hints': {},
 		},
 		'backpack': {
 			'$v': 1,
@@ -539,13 +539,13 @@ const DOC_DEMO_INVENTORY = {
 					'$classes': [],
 					'$content': 'Backpack:',
 					'$sub': {},
-					'$hints': {}
+					'$hints': {},
 				},
 				'list': {
 					'$v': 1,
 					'$type': 'ul',
 					'$classes': [
-						'inventory--backpack'
+						'inventory--backpack',
 					],
 					'$content': '',
 					'$sub': {
@@ -555,16 +555,16 @@ const DOC_DEMO_INVENTORY = {
 							'$classes': [],
 							'$content': '(empty)',
 							'$sub': {},
-							'$hints': {}
-						}
+							'$hints': {},
+						},
 					},
-					'$hints': {}
-				}
+					'$hints': {},
+				},
 			},
-			'$hints': {}
-		}
+			'$hints': {},
+		},
 	},
-	'$hints': {}
+	'$hints': {},
 }
 
 ////////////

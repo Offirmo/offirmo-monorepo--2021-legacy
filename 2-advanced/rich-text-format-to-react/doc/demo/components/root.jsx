@@ -15,7 +15,7 @@ const DATA = [
 
 export default class Root extends Component {
 	state = {
-		selected: localStorage.getItem('XOF.richtext.demo.select') || 0
+		selected: localStorage.getItem('XOF.richtext.demo.select') || 0,
 	}
 
 	select = (n) => {

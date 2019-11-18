@@ -59,14 +59,14 @@ describe(`${LIB} - utils - state`, function() {
 			revision: 67,
 			fizz: 33,
 			buzz: 'hello',
-		}
+		},
 	}) as any
 
 	const ROOT_EXAMPLE: Readonly<TestRootState> = deepFreeze({
 		schema_version: 7,
 
 		u_state: BASE_EXAMPLE,
-		t_state: {}
+		t_state: {},
 	}) as any
 
 
@@ -86,7 +86,7 @@ describe(`${LIB} - utils - state`, function() {
 					sub1: {
 						...previous_base.sub1,
 						foo: 43,
-					}
+					},
 				})
 				const new_state = propagate_child_revision_increment_upward(previous_base, current_base)
 				expect(new_state).to.equal(current_base)
@@ -99,7 +99,7 @@ describe(`${LIB} - utils - state`, function() {
 						...previous_base.sub1,
 						revision: 46,
 						foo: 43,
-					}
+					},
 				})
 				const expected = deepFreeze({
 					...current_base,
@@ -118,7 +118,7 @@ describe(`${LIB} - utils - state`, function() {
 						...previous_base.sub1,
 						revision: 46,
 						foo: 43,
-					}
+					},
 				})
 				expect(() => propagate_child_revision_increment_upward(previous_base, current_base))
 					.to.throw('already incremented')
@@ -139,8 +139,8 @@ describe(`${LIB} - utils - state`, function() {
 						sub1: {
 							...previous_root.u_state.sub1,
 							foo: 43,
-						}
-					}
+						},
+					},
 				})
 				const new_state = propagate_child_revision_increment_upward(previous_root, current_root)
 				expect(new_state).to.equal(current_root)

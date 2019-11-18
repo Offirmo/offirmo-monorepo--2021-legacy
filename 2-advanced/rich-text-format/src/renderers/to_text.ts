@@ -6,7 +6,7 @@ import {
 	OnNodeEnterParams, OnNodeExitParams,
 	walk,
 	WalkerCallbacks,
-	WalkerReducer
+	WalkerReducer,
 } from '../walk'
 
 import { is_link, is_KVP_list } from './common'
@@ -15,7 +15,7 @@ export type Options = {
 	style: 'basic' | 'advanced' | 'markdown'
 }
 export const DEFAULT_OPTIONS: Options = {
-	style: 'advanced'
+	style: 'advanced',
 }
 
 type State = {
@@ -39,12 +39,12 @@ const on_node_exit: WalkerReducer<State, OnNodeExitParams<State>, Options> = ({s
 	//console.log('[on_type]', { $type, state })
 
 	switch ($node.$type) {
-	case 'br':
-		state.ends_with_block = true
-		break
+		case 'br':
+			state.ends_with_block = true
+			break
 
-	default:
-		break
+		default:
+			break
 	}
 
 	if (style === 'markdown') {
@@ -81,16 +81,16 @@ const on_node_exit: WalkerReducer<State, OnNodeExitParams<State>, Options> = ({s
 	}
 	else {
 		switch ($node.$type) {
-		case 'heading':
-			state.margin_top = Math.max(state.margin_top, 1)
-			break
+			case 'heading':
+				state.margin_top = Math.max(state.margin_top, 1)
+				break
 
-		case 'hr':
-			state.str = '------------------------------------------------------------'
-			break
+			case 'hr':
+				state.str = '------------------------------------------------------------'
+				break
 
-		default:
-			break
+			default:
+				break
 		}
 
 		if (style === 'advanced' && is_KVP_list($node)) {
@@ -136,32 +136,32 @@ const on_concatenate_sub_node: WalkerReducer<State, OnConcatenateSubNodeParams<S
 	state.sub_nodes.push($node)
 
 	switch ($parent_node.$type) {
-	case 'ul': {
+		case 'ul': {
 		// automake sub-state a ul > li
-		const bullet: string = (() => {
-			if ($parent_node.$hints.bullets_style === 'none' && style === 'advanced')
-				return ''
+			const bullet: string = (() => {
+				if ($parent_node.$hints.bullets_style === 'none' && style === 'advanced')
+					return ''
 
-			return '- '
-		})()
-		sub_starts_with_block = true
-		sub_str = bullet + sub_str
-		break
-	}
-	case 'ol': {
+				return '- '
+			})()
+			sub_starts_with_block = true
+			sub_str = bullet + sub_str
+			break
+		}
+		case 'ol': {
 		// automake sub-state a ol > li
-		const bullet: string = (() => {
-			if (style === 'markdown')
-				return `${$id}. `
+			const bullet: string = (() => {
+				if (style === 'markdown')
+					return `${$id}. `
 
-			return `${(' ' + $id).slice(-2)}. `
-		})()
-		sub_starts_with_block = true
-		sub_str = bullet + sub_str
-		break
-	}
-	default:
-		break
+				return `${(' ' + $id).slice(-2)}. `
+			})()
+			sub_starts_with_block = true
+			sub_str = bullet + sub_str
+			break
+		}
+		default:
+			break
 	}
 
 	/*console.log('on_concatenate_sub_node()', {
@@ -217,11 +217,11 @@ const callbacks: Partial<WalkerCallbacks<State, Options>> = {
 function to_text(
 	$doc: Node,
 	options: Options = DEFAULT_OPTIONS,
-	callback_overrides: Partial<WalkerCallbacks<State, Options>> = {}
+	callback_overrides: Partial<WalkerCallbacks<State, Options>> = {},
 ): string {
 	return walk<State, Options>($doc, {
 		...callbacks,
-		...callback_overrides
+		...callback_overrides,
 	}, options).str
 }
 

@@ -169,7 +169,7 @@ const PLUGIN = {
 					}, err)
 				})
 		}
-	}
+	},
 }
 
 export {

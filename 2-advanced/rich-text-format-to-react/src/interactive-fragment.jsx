@@ -20,11 +20,11 @@ const backdrop_style = {
 	zIndex: 1040, // TODO var
 	top: 0, bottom: 0, left: 0, right: 0,
 	backgroundColor: '#000',
-	opacity: 0.5
+	opacity: 0.5,
 }
 const dialog_style = function() {
-	let top = 50
-	let left = 50
+	const top = 50
+	const left = 50
 
 	return {
 		position: 'absolute',
@@ -84,10 +84,10 @@ class ActiveCard extends Component {
 		}
 
 		return (
-			<button key='AC.content'
-					ref={forward_ref}
-					className="o⋄button--inline o⋄rich-text⋄interactive"
-					{...props}
+			<button key="AC.content"
+				ref={forward_ref}
+				className="o⋄button--inline o⋄rich-text⋄interactive"
+				{...props}
 			>
 				{children}
 			</button>
@@ -146,49 +146,49 @@ export class InteractiveRichTextFragment extends Component {
 		//console.log(`🔄 InteractiveRichTextFragment ${UUID}`)
 
 		const base = (
-				<ActiveCard key='IF.content'
-					forward_ref={this.card_ref}
-					on_click={this.on_card_click}
-					on_mouse_over={this.on_mouse_over}
-					on_mouse_out={this.on_mouse_out}
+			<ActiveCard key="IF.content"
+				forward_ref={this.card_ref}
+				on_click={this.on_card_click}
+				on_mouse_over={this.on_mouse_over}
+				on_mouse_out={this.on_mouse_out}
+			>
+				{children}
+			</ActiveCard>
+		)
+
+		const detailed = <ErrorBoundary key="IF.detailed" name={`IF-${UUID}-detailed`}
+			render={
+				render_detailed
+					? render_detailed.bind(null, {UUID, react_representation: children})
+					: () => null
+			}
+		/>
+
+		const tooltip = detailed && this.card_ref.current && (
+			<ErrorBoundary key="IF.tooltip-wrapper"
+				name={`IF-${UUID}-tooltip-wrapper`}
+				onError={this.on_mouse_out}>
+				<ToolTip key={UUID + '-tooltip-wrapper'}
+					className="o⋄box"
+					active={this.state.show_tooltip}
+					parent={this.card_ref.current}
+					xxtooltipTimeout={0}
+					position="left"
+					align="left"
+					style={tooltip_style}
 				>
-					{children}
-				</ActiveCard>
-			)
-
-		let detailed = <ErrorBoundary key='IF.detailed' name={`IF-${UUID}-detailed`}
-				render={
-					render_detailed
-						? render_detailed.bind(null, {UUID, react_representation: children})
-						: () => null
-				}
-			/>
-
-		let tooltip = detailed && this.card_ref.current && (
-				<ErrorBoundary key='IF.tooltip-wrapper'
-									name={`IF-${UUID}-tooltip-wrapper`}
-									onError={this.on_mouse_out}>
-					<ToolTip key={UUID + '-tooltip-wrapper'}
-						className="o⋄box"
-						active={this.state.show_tooltip}
-						parent={this.card_ref.current}
-						xxtooltipTimeout={0}
-						position="left"
-						align="left"
-						style={tooltip_style}
-					>
-						{detailed}
-					</ToolTip>
-				</ErrorBoundary>
-			)
+					{detailed}
+				</ToolTip>
+			</ErrorBoundary>
+		)
 
 		const modal = detailed && (
-			<ErrorBoundary key='IF.modal-wrapper' name={`IF-${UUID}-modal`} onError={this.on_request_close_modal}>
+			<ErrorBoundary key="IF.modal-wrapper" name={`IF-${UUID}-modal`} onError={this.on_request_close_modal}>
 				<Modal
 					key={UUID + '-modal'}
 					onHide={this.on_request_close_modal}
 					style={modal_style}
-					aria-labelledby='modal-label'
+					aria-labelledby="modal-label"
 					show={this.state.show_modal}
 					renderBackdrop={this.render_backdrop}
 				>

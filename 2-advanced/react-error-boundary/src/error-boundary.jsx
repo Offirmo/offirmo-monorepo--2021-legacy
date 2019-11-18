@@ -98,7 +98,7 @@ ErrorBoundary.propTypes = {
 	onMount: PropTypes.func,
 	onError: PropTypes.func,
 	logger: PropTypes.any,
-};
+}
 ErrorBoundary.defaultProps = {
 	onMount: () => {},
 	onError: () => {},

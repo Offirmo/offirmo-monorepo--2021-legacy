@@ -28,10 +28,10 @@ function createSEC<Injections = {}, AnalyticsDetails = {}, ErrorDetails = {}>(ar
 
 	let unhandled_args = Object.keys(args)
 
-	let SEC = Object.create(ROOT_PROTOTYPE)
+	const SEC = Object.create(ROOT_PROTOTYPE)
 
 	/////// STATE ///////
-	let parent_state = args.parent ? args.parent[INTERNAL_PROP] : undefined
+	const parent_state = args.parent ? args.parent[INTERNAL_PROP] : undefined
 	let state = State.create(parent_state)
 	unhandled_args = unhandled_args.filter(arg => arg !== 'parent')
 

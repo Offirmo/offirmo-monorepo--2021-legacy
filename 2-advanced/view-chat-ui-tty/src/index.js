@@ -136,7 +136,7 @@ function create({DEBUG, shouldCenter}) {
 		// naive affectation for unhinted ones (may collide)
 		unhinted_choices.forEach(choice => {
 			choice._ui_tty.key = {
-				name: choice._ui_tty.clean_cta[0]
+				name: choice._ui_tty.clean_cta[0],
 			}
 		})
 
@@ -146,8 +146,8 @@ function create({DEBUG, shouldCenter}) {
 			hintstr = hintstr.split(' ').join('')
 			hintstr = (hintstr + 'abcdefghijklmnopqrstuvwxyz1234567890').toLowerCase()
 			for (let i=0; i < hintstr.length; i++) {
-				let candidate_key = {
-					name: hintstr.charAt(i)
+				const candidate_key = {
+					name: hintstr.charAt(i),
 				}
 
 				// https://stackoverflow.com/a/25352300/587407
@@ -157,7 +157,7 @@ function create({DEBUG, shouldCenter}) {
 					continue
 				}
 
-				let candidate_keystr = key_to_string(candidate_key)
+				const candidate_keystr = key_to_string(candidate_key)
 				if (!affected_keys.has(candidate_keystr))
 					return candidate_key
 			}
@@ -195,7 +195,7 @@ function create({DEBUG, shouldCenter}) {
 				const common_value_part = get_shared_start(colliding_choices.map(choice => choice._ui_tty.clean_cta))
 				colliding_choices.forEach(choice => {
 					let candidate_key = {
-						name: choice._ui_tty.clean_cta.slice(common_value_part.length)[0]
+						name: choice._ui_tty.clean_cta.slice(common_value_part.length)[0],
 					}
 					let candidate_key_hash = key_to_string(candidate_key)
 
@@ -315,20 +315,20 @@ function create({DEBUG, shouldCenter}) {
 
 		let indent_col_count = 0
 		switch(side) {
-		case '→':
-			indent_col_count = MSG_L_INDENT
-			break
-		case '←':
-			indent_col_count = MSG_R_INDENT
-			break
-		case '↔':
-		default:
-			throw new Error('display_message(): incorrect side!')
+			case '→':
+				indent_col_count = MSG_L_INDENT
+				break
+			case '←':
+				indent_col_count = MSG_R_INDENT
+				break
+			case '↔':
+			default:
+				throw new Error('display_message(): incorrect side!')
 		}
 		msg = indent_string(
 			msg,
 			indent_col_count,
-			{indent: ' '}
+			{indent: ' '},
 		)
 
 		console.log(msg)
@@ -351,7 +351,7 @@ function create({DEBUG, shouldCenter}) {
 				if (step.msgg_as_user)
 					return display_message({
 						msg: step.msgg_as_user(answer),
-						side: '←'
+						side: '←',
 					})
 						.then(() => answer)
 
@@ -391,7 +391,7 @@ function create({DEBUG, shouldCenter}) {
 					msg: (choice.msgg_as_user || step.msgg_as_user || (() => choice.msg_cta))(answer),
 					// () => choice.msg_cta
 					// x => String(x)
-					side: '←'
+					side: '←',
 				})
 			}
 		}
@@ -401,10 +401,10 @@ function create({DEBUG, shouldCenter}) {
 	async function read_answer(step) {
 		if (DEBUG) console.log('↘ read_answer()')
 		switch (step.type) {
-		case 'ask_for_string':
-			return read_string(step)
-		case 'ask_for_choice':
-			return read_choice(step)
+			case 'ask_for_string':
+				return read_string(step)
+			case 'ask_for_choice':
+				return read_choice(step)
 			/*
 			case 'confirm':
 
@@ -413,8 +413,8 @@ function create({DEBUG, shouldCenter}) {
 				if (DEBUG) console.log(`↖ ask_user(…) confirmation = "${ok}"`)
 			}
 			 */
-		default:
-			throw new Error(`Unsupported step type: "${step.type}"!`)
+			default:
+				throw new Error(`Unsupported step type: "${step.type}"!`)
 		}
 	}
 

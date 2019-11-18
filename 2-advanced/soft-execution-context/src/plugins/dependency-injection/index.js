@@ -31,7 +31,7 @@ const PLUGIN = {
 			return flattenToOwn(plugin_state.context)
 		}
 
-	}
+	},
 }
 
 export {

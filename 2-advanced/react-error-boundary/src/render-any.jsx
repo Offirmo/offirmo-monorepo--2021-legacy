@@ -6,17 +6,17 @@ import memoize_one from 'memoize-one'
 // from React doc
 // https://reactjs.org/docs/higher-order-components.html#convention-wrap-the-display-name-for-easy-debugging
 function getDisplayName(WrappedComponent) {
-	return WrappedComponent.displayName || WrappedComponent.name || 'ComponentX';
+	return WrappedComponent.displayName || WrappedComponent.name || 'ComponentX'
 }
 
 
 // inspired from render-props:
 // https://github.com/donavon/render-props/blob/develop/src/index.js
 // but enhanced.
-let id = 0
+const id = 0
 function render_any(xprops) {
 	const { children, render, ...props } = xprops
-	let id = props.key || props.name || `ra#{id++}`
+	const id = props.key || props.name || 'ra#{id++}'
 
 	//console.log(`render_any "${id}"`, { children, render, props })
 

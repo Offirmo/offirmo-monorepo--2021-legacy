@@ -5,7 +5,7 @@ import { SoftExecutionContext } from './types'
 
 
 function decorateWithDetectedEnv(SEC: SoftExecutionContext<any>) {
-	let ENV = (() => {
+	const ENV = (() => {
 		try {
 			/*
 			if (typeof NODE_ENV === 'string')

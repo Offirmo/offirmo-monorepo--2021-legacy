@@ -51,19 +51,19 @@ window.addEventListener('touchstart', on_touch_start)
 // https://developer.mozilla.org/en-US/docs/Web/Events/pointerover
 function on_pointer_over(evt) {
 	switch(evt.pointerType) {
-	case 'touch':
-		has_seen_touch_usage = true
-		break
+		case 'touch':
+			has_seen_touch_usage = true
+			break
 
-	case 'pen':
-		break
+		case 'pen':
+			break
 
-	case 'mouse':
-		has_seen_mouse_usage = true
-		break
+		case 'mouse':
+			has_seen_mouse_usage = true
+			break
 
-	default:
-		break
+		default:
+			break
 	}
 
 	// TODO cleanup some time?

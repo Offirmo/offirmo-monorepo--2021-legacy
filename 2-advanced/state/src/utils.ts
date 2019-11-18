@@ -20,7 +20,7 @@ interface AnyRootState extends BaseRootState {
 
 export function propagate_child_revision_increment_upward<S extends BaseUState | BaseRootState>(
 	previous: Readonly<S> | null | undefined,
-	current: Readonly<S>
+	current: Readonly<S>,
 ): Readonly<S> {
 	if (!previous)
 		return current
@@ -29,8 +29,8 @@ export function propagate_child_revision_increment_upward<S extends BaseUState |
 
 	if ((current as any).u_state) {
 		// this is a more advanced state
-		let typed_previous: BaseRootState = previous as any
-		let typed_current: BaseRootState = current as any
+		const typed_previous: BaseRootState = previous as any
+		const typed_current: BaseRootState = current as any
 		assert(!Number.isInteger((typed_current as any).revision), 'revision should be on u_state (1)!')
 		assert(Number.isInteger(typed_current.u_state.revision as any), 'revision should be on u_state (2)!')
 		const final_u_state = propagate_child_revision_increment_upward(typed_previous.u_state, typed_current.u_state)
@@ -43,8 +43,8 @@ export function propagate_child_revision_increment_upward<S extends BaseUState |
 		}
 	}
 
-	let typed_previous: BaseUState = previous as any
-	let typed_current: BaseUState = current as any
+	const typed_previous: BaseUState = previous as any
+	const typed_current: BaseUState = current as any
 
 	if (!Number.isInteger(typed_current.revision as any))
 		throw new Error('propagate_child_revision_increment_upward(): Invalid current state!')
@@ -52,9 +52,9 @@ export function propagate_child_revision_increment_upward<S extends BaseUState |
 	if (Number.isInteger(typed_previous.revision as any) && typed_current.revision !== typed_previous.revision)
 		throw new Error('propagate_child_revision_increment_upward(): revision already incremented!')
 
-	for (let k in current) {
-		let previous_revision = (previous[k] as any || {}).revision
-		let current_revision = (current[k] as any || {}).revision
+	for (const k in current) {
+		const previous_revision = (previous[k] as any || {}).revision
+		const current_revision = (current[k] as any || {}).revision
 		if (current_revision !== previous_revision) {
 			if (!Number.isInteger(previous_revision as any))
 				throw new Error(`propagate_child_revision_increment_upward(): Invalid revision for previous "${k}"!`)
@@ -76,15 +76,15 @@ export function propagate_child_revision_increment_upward<S extends BaseUState |
 
 	return {
 		...current,
-		revision: ((current as any as BaseUState).revision || 0) + 1
+		revision: ((current as any as BaseUState).revision || 0) + 1,
 	}
 }
 
 
 export function are_ustate_revision_requirements_met<S extends BaseRootState>(state: Readonly<S>, requirements: { [k: string]: number } = {}): boolean {
-	for(let k in requirements) {
+	for(const k in requirements) {
 		assert((state as AnyRootState).u_state[k], `are_ustate_revision_requirements_met(): sub state not found: "${k}"!`)
-		let current_revision = ((state as AnyRootState).u_state[k]! as any).revision
+		const current_revision = ((state as AnyRootState).u_state[k]! as any).revision
 		assert(Number.isInteger(current_revision), `are_ustate_revision_requirements_met(): sub state has no/invalid revision: "${k}"!`)
 		if (current_revision !== requirements[k])
 			return false

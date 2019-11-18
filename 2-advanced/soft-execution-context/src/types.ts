@@ -1,5 +1,5 @@
 import Emittery from 'emittery'
-import { TimestampUTCMs } from "@offirmo-private/timestamps"
+import { TimestampUTCMs } from '@offirmo-private/timestamps'
 import { XError } from '@offirmo-private/common-error-fields'
 
 

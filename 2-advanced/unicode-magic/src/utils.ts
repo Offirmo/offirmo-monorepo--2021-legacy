@@ -34,12 +34,12 @@ function render(spec: Readonly<AvatarSpec>): [ string, Message[] ] {
 
 	let result: string = ''
 	let is_gender_applied: boolean = false
-	let is_age_applied: boolean = false
+	const is_age_applied: boolean = false
 	let is_skin_tone_applied: boolean = false
 	let is_hair_applied: boolean = false
 	const notes: Message[] = []
 
-	let base: string = (() => {
+	const base: string = (() => {
 		switch (age) {
 			case Age.baby:
 				is_gender_applied = true // can't show it with this base

@@ -95,7 +95,7 @@ function get_default_callbacks<State, RenderingOptions = any>(): WalkerCallbacks
 				const str = '' + generic_state.str
 				return {
 					...(generic_state as any),
-					str: str[0].toUpperCase() + str.slice(1)
+					str: str[0].toUpperCase() + str.slice(1),
 				} as State
 			}
 
@@ -171,7 +171,7 @@ function walk_content<State, RenderingOptions>(
 						$filters,
 						state,
 						$node,
-						depth
+						depth,
 					}, options)
 
 				return callbacks.on_filter({
@@ -258,9 +258,9 @@ function walk<State, RenderingOptions>(
 			$class,
 			state,
 			$node,
-			depth
+			depth,
 		}, options),
-		state
+		state,
 	)
 
 	if ($type === 'ul' || $type === 'ol') {
@@ -276,7 +276,7 @@ function walk<State, RenderingOptions>(
 					{
 						$node,
 						sorted_keys,
-					}
+					},
 				)
 			}
 		})
@@ -286,9 +286,9 @@ function walk<State, RenderingOptions>(
 				$content: '{{content}}',
 				$sub: {
 					content: $sub_nodes[key],
-				}
+				},
 			}
-			let sub_state = walk( $sub_node, callbacks, options, {
+			const sub_state = walk( $sub_node, callbacks, options, {
 				$parent_node: $node,
 				depth: depth +1,
 				$id: key,
@@ -308,7 +308,7 @@ function walk<State, RenderingOptions>(
 
 	state = $classes.reduce(
 		(state, $class) => callbacks.on_class_after({ $class, state, $node, depth }, options),
-		state
+		state,
 	)
 
 	const fine_type_cb_id = `on_type_${$type}`
