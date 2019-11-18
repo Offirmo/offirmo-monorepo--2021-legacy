@@ -4,7 +4,7 @@ module.exports = {
 		'es6': true,
 		'shared-node-browser': true,
 	},
-	'parser': '@typescript-eslint/parser',
+	//'parser': '@typescript-eslint/parser',
 	'parserOptions': {
 		'ecmaVersion': 2018,
 		'sourceType': 'module',
@@ -14,7 +14,7 @@ module.exports = {
 	},
 	'plugins': [
 		'import',
-		'node',
+		//'node',
 		'json',
 		'mocha',
 		'chai-expect',
@@ -49,7 +49,7 @@ module.exports = {
 		//'plugin:prettier/recommended', // TODO
 		'prettier',
 		'prettier/@typescript-eslint',
-		'plugin:node/recommended',
+		//'plugin:node/recommended',
 	],
 	'globals': {
 		'require': true, // recognized by webpack / parcel, so always allowed.
@@ -85,6 +85,7 @@ module.exports = {
 		// typescript globals
 		'@typescript-eslint/camelcase': 'off',
 		'@typescript-eslint/no-var-requires': 'off', // TODO low prio
+		'@typescript-eslint/explicit-function-return-type': 'off',
 	},
 	'overrides': [
 		{
@@ -144,7 +145,7 @@ module.exports = {
 				'no-console': 'off',
 				'no-constant-condition': 'off',
 				'node/no-unsupported-features/node-builtins': 'off',
-				'typescript/no-var-requires': 'off',
+				'@typescript-eslint/no-var-requires': 'off',
 			},
 		},
 		{
@@ -153,7 +154,6 @@ module.exports = {
 				'mocha': true,
 			},
 			'rules': {
-				'typescript/explicit-function-return-type': 'off',
 			},
 		},
 		{
