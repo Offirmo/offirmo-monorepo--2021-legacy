@@ -21,7 +21,7 @@ function generate_uuid({length = NANOID_LENGTH_FOR_1BTH_COLLISION_CHANCES, rng}:
 	return UUID_RADIX + (
 		rng
 			? format((size: number) => {
-				let result = []
+				const result = []
 				const gen = Random.integer(0, 255)
 				for (let i = 0; i < size; i++) result.push(gen(rng!))
 				return result

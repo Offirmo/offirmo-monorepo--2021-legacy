@@ -13,7 +13,7 @@ export default function create(options: Readonly<SinkOptions> = {}): LogSink {
 		const console_method_name: string = LEVEL_TO_CONSOLE_METHOD[level]
 		const console_method: Console['log'] = (console as any)[console_method_name]
 
-		let line = ['[', to_uniform_level(level), '] ']
+		const line = ['[', to_uniform_level(level), '] ']
 
 		if (name) {
 			line.push(`${name} › `)

@@ -10,7 +10,7 @@ export function looksLikeAnError(x: any): boolean {
 // harmonize
 // also try to recover from incorrect invocations
 export function normalizeArguments(raw_args: IArguments): [ string, LogDetails ] {
-	let message_parts: string[] = []
+	const message_parts: string[] = []
 	let details: LogDetails = {}
 	let err: Error | undefined = undefined
 

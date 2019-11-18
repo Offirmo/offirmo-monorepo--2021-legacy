@@ -2,11 +2,11 @@ const { ALL_LOG_LEVELS } = require('..')
 
 function demo_legacy_console() {
 	console.log('------------↓ For comparison: Legacy console: levels, in order ↓-----------')
-	console.debug('Legacy console > message with level "debug"', { level: "debug", foo: 42 })
-	console.log('Legacy console > message with level "log"', { level: "log", foo: 42 })
-	console.info('Legacy console > message with level "info"', { level: "info", foo: 42 })
-	console.warn('Legacy console > message with level "warn"', { level: "warn", foo: 42 })
-	console.error('Legacy console > message with level "error"', { level: "error", foo: 42 })
+	console.debug('Legacy console > message with level "debug"', { level: 'debug', foo: 42 })
+	console.log('Legacy console > message with level "log"', { level: 'log', foo: 42 })
+	console.info('Legacy console > message with level "info"', { level: 'info', foo: 42 })
+	console.warn('Legacy console > message with level "warn"', { level: 'warn', foo: 42 })
+	console.error('Legacy console > message with level "error"', { level: 'error', foo: 42 })
 }
 
 
@@ -41,7 +41,7 @@ function demo_logger_basic_usage(logger, in_group = true) {
 function demo_logger_levels(logger) {
 	console.log('------------↓ Practical logger demo: all levels, in order ↓------------')
 	;[...ALL_LOG_LEVELS].reverse().forEach(level =>
-		logger[level](`message with level "${level}"`, { level, foo: 42 })
+		logger[level](`message with level "${level}"`, { level, foo: 42 }),
 	)
 
 	/*
@@ -207,7 +207,7 @@ function demo_devtools_fonts() {
 		'"Lucida Console"',
 		'"Courier New"',
 		'monospace',
-	].forEach(font => console.log(`%c${font}: ABCdefi012 %cABCdefi012`, `font-family: ${font};`, `font-family: unset;`))
+	].forEach(font => console.log(`%c${font}: ABCdefi012 %cABCdefi012`, `font-family: ${font};`, 'font-family: unset;'))
 	console.groupEnd()
 }
 

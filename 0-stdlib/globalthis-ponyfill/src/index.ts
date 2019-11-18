@@ -17,7 +17,7 @@ export function getGlobalThis(this: any): { [k:string]: any } {
 	// @ts-ignore
 	if (typeof window !== 'undefined') return window
 
-	if (typeof this !== 'undefined') return this;
+	if (typeof this !== 'undefined') return this
 
 	return lastResort // should never happen
 }

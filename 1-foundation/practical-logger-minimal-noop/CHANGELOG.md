@@ -3,6 +3,7 @@
 
 ## PENDING
 * [chore] bumped dependencies
+* [chore] linted automatically (no logic change)
 * ...
 
 ## v2.0.0

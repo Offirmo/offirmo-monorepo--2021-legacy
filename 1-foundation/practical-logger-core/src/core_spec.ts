@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 
 import {
-	LIB
+	LIB,
 } from './consts'
 
 import {

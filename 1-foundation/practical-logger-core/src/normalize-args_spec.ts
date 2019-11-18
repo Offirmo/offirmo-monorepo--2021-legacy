@@ -3,7 +3,7 @@ import { LogDetails } from '@offirmo/practical-logger-types'
 
 import { LIB } from './consts'
 import { normalizeArguments } from './normalize-args'
-import { XError } from "@offirmo-private/common-error-fields"
+import { XError } from '@offirmo-private/common-error-fields'
 
 describe(`${LIB} - normalize args`, () => {
 	function getNormalizedMessage(...args: any[]): string {
@@ -44,27 +44,27 @@ describe(`${LIB} - normalize args`, () => {
 			it('should work', () => {
 				expect(
 					getNormalizedMessage()
-					, '<- none'
+					, '<- none',
 				).to.equal('(no message)')
 				expect(
 					getNormalizedMessage('hello', 'world!'),
-					'<- 2 str args'
+					'<- 2 str args',
 				).to.equal('hello world!')
 				expect(
 					getNormalizedMessage('hello', 'world!', {err, bar: 42}, 42),
-					'<- many args'
+					'<- many args',
 				).to.equal('hello world! 42')
 				expect(
 					getNormalizedMessage({bar: 42}, {baz: 33}),
-					'<- double details'
+					'<- double details',
 				).to.deep.equal('(no message)')
 				expect(
 					getNormalizedMessage({bar: 42}, { baz: 33 }, err),
-					'<- error anywhere - 1'
+					'<- error anywhere - 1',
 				).to.deep.equal('err_msg!')
 				expect(
 					getNormalizedMessage({bar: 42}, { baz: 33 }, { err }),
-					'<- error anywhere - 2'
+					'<- error anywhere - 2',
 				).to.deep.equal('err_msg!')
 			})
 		})
@@ -96,29 +96,29 @@ describe(`${LIB} - normalize args`, () => {
 			it('should work', () => {
 				expect(
 					getNormalizedDetails(),
-					'<- none'
+					'<- none',
 				).to.deep.equal({})
 				expect(
 					getNormalizedDetails('hello', 'world!')
-					, '<- 2 str args'
+					, '<- 2 str args',
 				).to.deep.equal({})
 				expect(
 					getNormalizedDetails('hello', 'world!', 42, {err, bar: 42})
-					, '<- many args'
+					, '<- many args',
 				).to.deep.equal({
 					bar: 42,
 					err,
 				})
 				expect(
 					getNormalizedDetails({bar: 42}, {baz: 33})
-					, '<- double details'
+					, '<- double details',
 				).to.deep.equal({
 					bar: 42,
 					baz: 33,
 				})
 				expect(
 					getNormalizedDetails({bar: 42}, { baz: 33 }, err),
-					'<- error anywhere - 1'
+					'<- error anywhere - 1',
 				).to.deep.equal({
 					bar: 42,
 					baz: 33,
@@ -126,7 +126,7 @@ describe(`${LIB} - normalize args`, () => {
 				})
 				expect(
 					getNormalizedDetails({bar: 42}, { baz: 33 }, { err }),
-					'<- error anywhere - 2'
+					'<- error anywhere - 2',
 				).to.deep.equal({
 					bar: 42,
 					baz: 33,

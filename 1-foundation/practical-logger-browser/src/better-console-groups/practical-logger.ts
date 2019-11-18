@@ -107,16 +107,16 @@ function install({ uncollapse_level = 'warn', lazy = true, original_console = co
 
 		// uncollapse parents if needed
 		if (uncollapse) {
-			let lowest_uncollapsed_index = group_invocations.findIndex(
-				({ is_deployed }) => !is_deployed
+			const lowest_uncollapsed_index = group_invocations.findIndex(
+				({ is_deployed }) => !is_deployed,
 			)
 			while (
 				lowest_uncollapsed_index >= 0
 				&& group_invocations.length
 				&& group_invocations.length > lowest_uncollapsed_index
-				) {
+			) {
 				better_groupEnd()
-				ORIGINAL_METHODS.debug(`(forced break out of group ↑ due to error)`)
+				ORIGINAL_METHODS.debug('(forced break out of group ↑ due to error)')
 			}
 		}
 

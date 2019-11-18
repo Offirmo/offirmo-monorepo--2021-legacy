@@ -21,7 +21,7 @@ describe('@offirmo-private/timestamps', function() {
 				expect(stamp).to.be.a('number')
 				expect(stamp).to.be.within(
 					1510177449000, // 2017
-					4665851049000 // 2117
+					4665851049000, // 2117
 				)
 			}
 		})

@@ -7,6 +7,7 @@
 * TODO local pictures
 * NOTE bigger size but not a problem since you're not supposed to bundle this lib
 * [doc] README++
+* [chore] linted automatically (no logic change)
 * ...
 
 ## v2.1.0

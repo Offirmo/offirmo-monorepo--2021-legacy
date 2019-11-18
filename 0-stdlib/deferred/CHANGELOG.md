@@ -5,6 +5,7 @@
 * [chore] fixed dist folder name to match the target (ES2019)
 * [feat] also provide an ES5 pre-built version
 * [chore] [breaking] no longer exporting ES5, reverted to [this more rationale export setup](../../CONTRIBUTING/module-exports.md)
+* [chore] linted automatically (no logic change)
 * ...
 
 ## 1.0.1

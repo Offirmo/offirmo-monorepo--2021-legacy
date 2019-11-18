@@ -12,7 +12,7 @@ function create_person(name: string, logger: Console = console): Person {
 		name,
 		ask_name() {
 			return name
-		}
+		},
 	}
 }
 

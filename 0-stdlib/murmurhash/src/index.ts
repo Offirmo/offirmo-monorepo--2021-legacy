@@ -10,7 +10,7 @@ function setTextEncoder(c: any) {
 
 function create(TextEncoder: TextEncoderConstructor = tec) {
 	if (!TextEncoder)
-		throw new Error(`@offirmo-private/murmurhash: a textEncoder implementation must be provided!`)
+		throw new Error('@offirmo-private/murmurhash: a textEncoder implementation must be provided!')
 
 	return {
 		v3: {
@@ -23,9 +23,9 @@ function create(TextEncoder: TextEncoderConstructor = tec) {
 					const str = stable_stringify(o)
 					const bytes = new TextEncoder().encode(str)
 					return MurmurHash3.x64.hash128(bytes)
-				}
-			}
-		}
+				},
+			},
+		},
 	}
 }
 

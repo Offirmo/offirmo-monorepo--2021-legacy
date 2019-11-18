@@ -8,7 +8,7 @@ function normalizeError(err_like: Readonly<Partial<Error>> = {}): XError {
 
 	// create a true, safe, writable error object
 	const true_err: XError = new Error(
-		err_like.message || `(non-error caught: "${err_like}")`
+		err_like.message || `(non-error caught: "${err_like}")`,
 	)
 
 	// copy fields if they exist

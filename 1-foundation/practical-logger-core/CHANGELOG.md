@@ -4,6 +4,7 @@
 ## PENDING
 * [feat] remove .fromEntries() usage which requires a polyfill with current oldest node LTS
 * [chore] use TypeScript 3.7 features
+* [chore] linted automatically (no logic change)
 * ...
 
 

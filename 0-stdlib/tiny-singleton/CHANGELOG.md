@@ -3,6 +3,7 @@
 
 ## pending
 * TODO unit tests
+* [chore] linted automatically (no logic change)
 * ...
 
 ## v0.0.1

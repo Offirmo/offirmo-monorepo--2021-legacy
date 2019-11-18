@@ -23,7 +23,7 @@ describe(`${LIB} - index`, () => {
 				suggestedLevel: 'error',
 				forcedLevel: 'silly',
 				commonDetails: {
-					foo: 'bar'
+					foo: 'bar',
 				},
 				sinkOptions: {},
 			})

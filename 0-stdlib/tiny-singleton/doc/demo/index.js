@@ -9,7 +9,7 @@ function create_person(name, logger = console) {
 		name,
 		ask_name() {
 			return name
-		}
+		},
 	}
 }
 

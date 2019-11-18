@@ -3,7 +3,7 @@ import indent_string_bad from 'indent-string'
 
 // improved version but don't remember what was improved :-}
 function indent_string(msg: string, indentation: number, options: any = {}): string {
-	let result = indent_string_bad(msg, indentation, options)
+	const result = indent_string_bad(msg, indentation, options)
 
 	if (!options || !options.indent || options.indent === ' ')
 		return result
