@@ -16,13 +16,13 @@
 	"dependencies": {
 		"@offirmo-private/prettify-json": "^0",
 		"ansi-escapes": "^4",
-		"chalk": "^2",
+		"chalk": "^3",
 		"gauge": "^2",
 		"linewrap": "^0.2",
 		"ora": "^3",
 		"p-finally": "^2",
 		"p-progress": "^0.4",
-		"strip-ansi": "^5",
+		"strip-ansi": "^6",
 		"term-size": "^2",
 		"tslib": "^1"
 	},

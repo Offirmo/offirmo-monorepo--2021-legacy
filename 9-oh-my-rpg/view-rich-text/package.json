@@ -39,7 +39,7 @@
 		"@offirmo-private/prettify-json": "^0",
 		"@oh-my-rpg/state-prng": "^0",
 		"npm-run-all": "^4",
-		"strip-ansi": "^5"
+		"strip-ansi": "^6"
 	},
 	"scripts": {
 		"clean": "node ../../scripts/clean.js dist",

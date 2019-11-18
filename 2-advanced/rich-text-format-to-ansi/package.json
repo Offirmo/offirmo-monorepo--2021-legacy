@@ -13,7 +13,7 @@
 
 	"dependencies": {
 		"@offirmo-private/rich-text-format": "^0",
-		"chalk": "^2"
+		"chalk": "^3"
 	},
 
 	"devDependencies": {

@@ -152,3 +152,5 @@ https://goblinscomic.com/dungeon-master-tips
 
 
 mondes "virtuels" où les sorts sont limités sous peine de faire effondrer le monde
+
+https://games.slashdot.org/story/19/11/17/029240/doom-creator-john-romero-explains-whats-wrong-with-todays-shooter-games
