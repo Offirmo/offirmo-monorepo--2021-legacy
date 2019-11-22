@@ -1,5 +1,6 @@
 import { DebugApiV1 } from '@offirmo/universal-debug-api-interface'
 import {
+	LogLevel,
 	DEFAULT_LOG_LEVEL,
 	DEFAULT_LOGGER_KEY,
 	Logger,
@@ -8,7 +9,6 @@ import {
 } from '@offirmo/practical-logger-browser'
 
 import { LS_ROOT, getOverrideKeyForLogger, getLSKeyForOverride } from './keys'
-import {LogLevel} from '../../../../1-foundation/practical-logger-types/src'
 
 ////////////////////////////////////
 
