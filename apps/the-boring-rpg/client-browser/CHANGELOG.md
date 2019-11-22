@@ -9,6 +9,9 @@
 - 😅 fix: tweaks, typos, small bugs…
 - 😷 chore: some internal refactors, bump dependencies
 
+## v0.61.0
+- 😅 fix: wrong english loose -> lose
+- 😷 chore: some internal refactors, bump dependencies
 
 ## v0.60.12
 - 😅 fix an achievement message (thanks LiddiLidd)

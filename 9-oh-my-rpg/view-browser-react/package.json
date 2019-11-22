@@ -19,7 +19,7 @@
 		"@oh-my-rpg/view-browser": "^0",
 		"classnames": "^2",
 		"react-burger-menu": "^2",
-		"react-notification-system": "^0.2",
+		"react-notification-system": "^0.3",
 		"tiny-invariant": "^1"
 	},
 
