@@ -280,6 +280,11 @@ export function change_override_spec(state: Readonly<State>, key: string, partia
 		&& !partial.hasOwnProperty('value_sjson')
 		&& current_override.value_sjson === null
 	) {
+		console.log('Smart default value on override activation:', {
+			type: current_override.type,
+			default_value_sjson: current_override.default_value_sjson,
+			current_override,
+		})
 		switch(current_override.type) {
 			case OverrideType.boolean:
 				// if toggled on, it's obvious the user wants to change the value = opposite of the default

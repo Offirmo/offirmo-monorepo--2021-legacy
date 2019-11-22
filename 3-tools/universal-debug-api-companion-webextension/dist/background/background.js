@@ -117,14 +117,14 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"XpeU":[function(require,module,exports) {
+})({"../../../node_modules/tiny-invariant/dist/tiny-invariant.esm.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var isProduction = "production" === 'production';
+var isProduction = "development" === 'production';
 var prefix = 'Invariant failed';
 
 function invariant(condition, message) {
@@ -141,7 +141,7 @@ function invariant(condition, message) {
 
 var _default = invariant;
 exports.default = _default;
-},{}],"UnN1":[function(require,module,exports) {
+},{}],"../../../node_modules/webextension-polyfill/dist/browser-polyfill.js":[function(require,module,exports) {
 var define;
 var global = arguments[3];
 (function (global, factory) {
@@ -157,7 +157,7 @@ var global = arguments[3];
     global.browser = mod.exports;
   }
 })(this, function (module) {
-  /* webextension-polyfill - v0.4.0 - Wed Feb 06 2019 11:58:31 */
+  /* webextension-polyfill - v0.5.0 - Thu Sep 26 2019 22:22:26 */
   /* -*- Mode: indent-tabs-mode: nil; js-indent-level: 2 -*- */
   /* vim: set sts=2 sw=2 et tw=80: */
   /* This Source Code Form is subject to the terms of the Mozilla Public
@@ -599,10 +599,6 @@ var global = arguments[3];
         },
         "runtime": {
           "getBackgroundPage": {
-            "minArgs": 0,
-            "maxArgs": 0
-          },
-          "getBrowserInfo": {
             "minArgs": 0,
             "maxArgs": 0
           },
@@ -1323,6 +1319,10 @@ var global = arguments[3];
       return wrapObject(extensionAPIs, staticWrappers, apiMetadata);
     };
 
+    if (typeof chrome != "object" || !chrome || !chrome.runtime || !chrome.runtime.id) {
+      throw new Error("This script should only be loaded in a browser extension.");
+    }
+
     // The build process adds a UMD wrapper around this file, which makes the
     // `module` variable available.
     module.exports = wrapAPIs(chrome);
@@ -1332,7 +1332,7 @@ var global = arguments[3];
 });
 
 
-},{}],"c2lp":[function(require,module,exports) {
+},{}],"../../../node_modules/webextension-polyfill-ts/dist/index.js":[function(require,module,exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function getBrowser() {
@@ -1346,7 +1346,7 @@ function getBrowser() {
 }
 exports.browser = getBrowser();
 
-},{"webextension-polyfill":"UnN1"}],"GhkJ":[function(require,module,exports) {
+},{"webextension-polyfill":"../../../node_modules/webextension-polyfill/dist/browser-polyfill.js"}],"../node_modules/@offirmo/deferred/src/index.ts":[function(require,module,exports) {
 "use strict"; // 1. copied from https://github.com/Microsoft/TypeScript/issues/15202#issuecomment-318900991
 // 2. then improved to match the latest Promise typings
 
@@ -1398,7 +1398,7 @@ function () {
 }();
 
 exports.default = Deferred;
-},{}],"hmGQ":[function(require,module,exports) {
+},{}],"../node_modules/emittery/index.js":[function(require,module,exports) {
 'use strict';
 
 const anyMap = new WeakMap();
@@ -1756,7 +1756,7 @@ Object.defineProperty(Emittery.Typed, 'Typed', {
   value: undefined
 });
 module.exports = Emittery;
-},{}],"Wne5":[function(require,module,exports) {
+},{}],"../node_modules/typescript-string-enums/dist/index.js":[function(require,module,exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function Enum() {
@@ -1806,13 +1806,13 @@ exports.Enum = Enum;
     Enum.isType = isType;
 })(Enum = exports.Enum || (exports.Enum = {}));
 
-},{}],"vw0P":[function(require,module,exports) {
+},{}],"../node_modules/@offirmo-private/timestamps/src/types.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-},{}],"dXjU":[function(require,module,exports) {
+},{}],"../node_modules/@offirmo-private/timestamps/src/generate.ts":[function(require,module,exports) {
 "use strict"; /////////////////////
 
 Object.defineProperty(exports, "__esModule", {
@@ -1875,7 +1875,7 @@ function get_human_readable_UTC_timestamp_ms(now) {
 }
 
 exports.get_human_readable_UTC_timestamp_ms = get_human_readable_UTC_timestamp_ms; /////////////////////
-},{}],"ah7l":[function(require,module,exports) {
+},{}],"../node_modules/@offirmo-private/timestamps/src/index.ts":[function(require,module,exports) {
 "use strict";
 
 function __export(m) {
@@ -1889,14 +1889,14 @@ Object.defineProperty(exports, "__esModule", {
 __export(require("./types"));
 
 __export(require("./generate"));
-},{"./types":"vw0P","./generate":"dXjU"}],"IGJP":[function(require,module,exports) {
+},{"./types":"../node_modules/@offirmo-private/timestamps/src/types.ts","./generate":"../node_modules/@offirmo-private/timestamps/src/generate.ts"}],"common/consts/entry.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.MSG_ENTRY = '🧩UWDT.v0'; // TODO v1 one day!
-},{}],"Sx64":[function(require,module,exports) {
+},{}],"common/consts/content--start.ts":[function(require,module,exports) {
 "use strict";
 
 function __export(m) {
@@ -1912,7 +1912,7 @@ __export(require("./entry"));
 exports.LS_ROOT = '🧩UWDT'; // !== UDA
 
 exports.LS_KEY_ENABLED = exports.LS_ROOT + ".enabled";
-},{"./entry":"IGJP"}],"FRId":[function(require,module,exports) {
+},{"./entry":"common/consts/entry.ts"}],"common/consts/index.ts":[function(require,module,exports) {
 "use strict";
 
 function __export(m) {
@@ -1927,7 +1927,7 @@ exports.UNKNOWN_ORIGIN = '???';
 __export(require("./entry"));
 
 __export(require("./content--start"));
-},{"./entry":"IGJP","./content--start":"Sx64"}],"qun1":[function(require,module,exports) {
+},{"./entry":"common/consts/entry.ts","./content--start":"common/consts/content--start.ts"}],"common/utils/stringified-json.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1979,7 +1979,7 @@ function control_sjson(sjson) {
 }
 
 exports.control_sjson = control_sjson;
-},{}],"W5qc":[function(require,module,exports) {
+},{}],"common/state/origin.ts":[function(require,module,exports) {
 "use strict";
 
 var __assign = this && this.__assign || function () {
@@ -2225,6 +2225,12 @@ function change_override_spec(state, key, partial) {
 
 
   if (partial.is_enabled === true && !partial.hasOwnProperty('value_sjson') && current_override.value_sjson === null) {
+    console.log('Smart default value on override activation:', {
+      type: current_override.type,
+      default_value_sjson: current_override.default_value_sjson,
+      current_override: current_override
+    });
+
     switch (current_override.type) {
       case exports.OverrideType.boolean:
         // if toggled on, it's obvious the user wants to change the value = opposite of the default
@@ -2254,7 +2260,7 @@ function change_override_spec(state, key, partial) {
 }
 
 exports.change_override_spec = change_override_spec; ////////////////////////////////////
-},{"typescript-string-enums":"Wne5","@offirmo-private/timestamps":"ah7l","../utils/stringified-json":"qun1","../consts":"FRId","tiny-invariant":"XpeU"}],"VPdt":[function(require,module,exports) {
+},{"typescript-string-enums":"../node_modules/typescript-string-enums/dist/index.js","@offirmo-private/timestamps":"../node_modules/@offirmo-private/timestamps/src/index.ts","../utils/stringified-json":"common/utils/stringified-json.ts","../consts":"common/consts/index.ts","tiny-invariant":"../../../node_modules/tiny-invariant/dist/tiny-invariant.esm.js"}],"common/state/tab.ts":[function(require,module,exports) {
 "use strict";
 
 var __assign = this && this.__assign || function () {
@@ -2488,7 +2494,7 @@ function report_debug_api_usage(state, report) {
 }
 
 exports.report_debug_api_usage = report_debug_api_usage; ////////////////////////////////////
-},{"tiny-invariant":"XpeU","typescript-string-enums":"Wne5","@offirmo-private/timestamps":"ah7l","../consts":"FRId","./origin":"W5qc","../utils/stringified-json":"qun1"}],"aO2m":[function(require,module,exports) {
+},{"tiny-invariant":"../../../node_modules/tiny-invariant/dist/tiny-invariant.esm.js","typescript-string-enums":"../node_modules/typescript-string-enums/dist/index.js","@offirmo-private/timestamps":"../node_modules/@offirmo-private/timestamps/src/index.ts","../consts":"common/consts/index.ts","./origin":"common/state/origin.ts","../utils/stringified-json":"common/utils/stringified-json.ts"}],"background/utils.ts":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -2543,7 +2549,7 @@ function get_origin(url) {
 }
 
 exports.get_origin = get_origin;
-},{"tiny-invariant":"XpeU","webextension-polyfill-ts":"c2lp","../common/consts":"FRId","../common/state/origin":"W5qc"}],"a6N1":[function(require,module,exports) {
+},{"tiny-invariant":"../../../node_modules/tiny-invariant/dist/tiny-invariant.esm.js","webextension-polyfill-ts":"../../../node_modules/webextension-polyfill-ts/dist/index.js","../common/consts":"common/consts/index.ts","../common/state/origin":"common/state/origin.ts"}],"background/state.ts":[function(require,module,exports) {
 "use strict";
 
 var __assign = this && this.__assign || function () {
@@ -2764,7 +2770,7 @@ function change_override_spec(state, tab_id, key, partial) {
 }
 
 exports.change_override_spec = change_override_spec; ////////////////////////////////////
-},{"tiny-invariant":"XpeU","../common/consts":"FRId","../common/state/origin":"W5qc","../common/state/tab":"VPdt","./utils":"aO2m"}],"lK5q":[function(require,module,exports) {
+},{"tiny-invariant":"../../../node_modules/tiny-invariant/dist/tiny-invariant.esm.js","../common/consts":"common/consts/index.ts","../common/state/origin":"common/state/origin.ts","../common/state/tab":"common/state/tab.ts","./utils":"background/utils.ts"}],"background/flux.ts":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -3044,7 +3050,7 @@ exports.change_override_spec = change_override_spec; ///////////////////////////
 var state_1 = require("./state");
 
 exports.State = state_1.State;
-},{"emittery":"hmGQ","tiny-invariant":"XpeU","../common/state/tab":"VPdt","./utils":"aO2m","./state":"a6N1"}],"xHCB":[function(require,module,exports) {
+},{"emittery":"../node_modules/emittery/index.js","tiny-invariant":"../../../node_modules/tiny-invariant/dist/tiny-invariant.esm.js","../common/state/tab":"common/state/tab.ts","./utils":"background/utils.ts","./state":"background/state.ts"}],"../node_modules/memoize-one/dist/memoize-one.esm.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3099,7 +3105,7 @@ function memoizeOne(resultFn, isEqual) {
 
 var _default = memoizeOne;
 exports.default = _default;
-},{}],"dBNx":[function(require,module,exports) {
+},{}],"common/messages/report-usage.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3121,7 +3127,7 @@ function create_msg_report_debug_api_usage(reports) {
 }
 
 exports.create_msg_report_debug_api_usage = create_msg_report_debug_api_usage;
-},{"../consts/entry":"IGJP"}],"sEPV":[function(require,module,exports) {
+},{"../consts/entry":"common/consts/entry.ts"}],"common/messages/index.ts":[function(require,module,exports) {
 "use strict";
 
 function __export(m) {
@@ -3208,14 +3214,14 @@ function create_msg_request_reload() {
 exports.create_msg_request_reload = create_msg_request_reload;
 
 __export(require("./report-usage"));
-},{"../consts":"FRId","./report-usage":"dBNx"}],"fewX":[function(require,module,exports) {
+},{"../consts":"common/consts/index.ts","./report-usage":"common/messages/report-usage.ts"}],"../node_modules/@offirmo/universal-debug-api-browser/src/consts.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.LS_ROOT = '🛠UDA';
-},{}],"Hb3e":[function(require,module,exports) {
+},{}],"../node_modules/@offirmo/universal-debug-api-browser/src/v1/keys.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3240,7 +3246,7 @@ function getLSKeyForOverride(key) {
 }
 
 exports.getLSKeyForOverride = getLSKeyForOverride;
-},{"../consts":"fewX"}],"h2o3":[function(require,module,exports) {
+},{"../consts":"../node_modules/@offirmo/universal-debug-api-browser/src/consts.ts"}],"background/react.ts":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -3385,7 +3391,7 @@ function propagate_lib_config() {
 Flux.cscript_emitter.on('change', function () {
   propagate_lib_config();
 }); ////////////////////////////////////
-},{"webextension-polyfill-ts":"c2lp","memoize-one":"xHCB","./flux":"lK5q","../common/utils/stringified-json":"qun1","../common/consts":"FRId","../common/messages":"sEPV","../common/state/tab":"VPdt","@offirmo/universal-debug-api-browser/src/v1/keys":"Hb3e"}],"shBX":[function(require,module,exports) {
+},{"webextension-polyfill-ts":"../../../node_modules/webextension-polyfill-ts/dist/index.js","memoize-one":"../node_modules/memoize-one/dist/memoize-one.esm.js","./flux":"background/flux.ts","../common/utils/stringified-json":"common/utils/stringified-json.ts","../common/consts":"common/consts/index.ts","../common/messages":"common/messages/index.ts","../common/state/tab":"common/state/tab.ts","@offirmo/universal-debug-api-browser/src/v1/keys":"../node_modules/@offirmo/universal-debug-api-browser/src/v1/keys.ts"}],"background/background.ts":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -3603,5 +3609,5 @@ webextension_polyfill_ts_1.browser.runtime.onConnect.addListener(function (port)
       break;
   }
 }); ////////////////////////////////////
-},{"tiny-invariant":"XpeU","webextension-polyfill-ts":"c2lp","@offirmo/deferred":"GhkJ","./flux":"lK5q","./react":"h2o3","../common/consts":"FRId","../common/messages":"sEPV","./utils":"aO2m"}]},{},["shBX"], null)
+},{"tiny-invariant":"../../../node_modules/tiny-invariant/dist/tiny-invariant.esm.js","webextension-polyfill-ts":"../../../node_modules/webextension-polyfill-ts/dist/index.js","@offirmo/deferred":"../node_modules/@offirmo/deferred/src/index.ts","./flux":"background/flux.ts","./react":"background/react.ts","../common/consts":"common/consts/index.ts","../common/messages":"common/messages/index.ts","./utils":"background/utils.ts"}]},{},["background/background.ts"], null)
 //# sourceMappingURL=/background/background.js.map
