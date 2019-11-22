@@ -1,5 +1,14 @@
 
 
+# content
+
+## mini-games to add
+- pets
+- mounts
+- slimes
+- craft
+- main quest
+
 # Marketing
 
 ## Reddit
