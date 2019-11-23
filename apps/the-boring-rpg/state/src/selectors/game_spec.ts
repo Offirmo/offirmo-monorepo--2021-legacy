@@ -12,7 +12,7 @@ import {
 } from './game'
 import { CharacterClass } from '@oh-my-rpg/state-character'
 import {
-	_loose_all_energy
+	_lose_all_energy
 } from '../state/reducers/internal'
 
 describe(`${LIB} - selectors - game`, function() {
@@ -48,13 +48,13 @@ describe(`${LIB} - selectors - game`, function() {
 
 			expect(will_next_play_be_good_at(state, get_UTC_timestamp_ms())).to.be.true
 
-			state = _loose_all_energy(state)
+			state = _lose_all_energy(state)
 			expect(will_next_play_be_good_at(state, get_UTC_timestamp_ms())).to.be.false
 		})
 
 		it('should properly take into account the given time', () => {
 			let state = deep_freeze(create())
-			state = _loose_all_energy(state)
+			state = _lose_all_energy(state)
 			expect(will_next_play_be_good_at(state, get_UTC_timestamp_ms())).to.be.false
 
 			expect(will_next_play_be_good_at(state, get_UTC_timestamp_ms() + 4 * 3600 * 1000)).to.be.true

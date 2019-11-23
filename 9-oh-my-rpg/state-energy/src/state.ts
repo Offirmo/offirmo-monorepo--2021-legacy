@@ -192,7 +192,7 @@ function use_energy(
 
 
 // can be used as a punishment
-function loose_all_energy(
+function lose_all_energy(
 	[ u_state, t_state ]: [ Readonly<UState>, Readonly<TState> ],
 	qty: number = 1,
 	now_ms: TimestampUTCMs = get_UTC_timestamp_ms()
@@ -246,7 +246,7 @@ export {
 	update_to_now,
 
 	use_energy,
-	loose_all_energy,
+	lose_all_energy,
 	restore_energy,
 }
 

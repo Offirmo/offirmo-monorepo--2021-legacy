@@ -9,7 +9,7 @@
 - 😅 fix: tweaks, typos, small bugs…
 - 😷 chore: some internal refactors, bump dependencies
 
-## v0.61.0
+## v0.61.1
 - 😅 fix: wrong english loose -> lose
 - 😷 chore: some internal refactors, bump dependencies
 

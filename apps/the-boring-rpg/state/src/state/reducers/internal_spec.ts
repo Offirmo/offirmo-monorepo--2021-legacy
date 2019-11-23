@@ -20,7 +20,7 @@ import {
 } from '../../selectors'
 
 import {
-	_loose_all_energy
+	_lose_all_energy
 } from './internal'
 
 import {
@@ -31,13 +31,13 @@ import {
 describe(`${LIB} - reducer - internals`, function() {
 	beforeEach(() => xxx_internal_reset_prng_cache())
 
-	describe('_loose_all_energy', function() {
+	describe('_lose_all_energy', function() {
 		it('should work', () => {
 			let state = create()
 
 			expect(get_available_energy_float(state.t_state)).to.equal(7.)
 
-			state = _loose_all_energy(state)
+			state = _lose_all_energy(state)
 
 			expect(get_available_energy_float(state.t_state)).to.equal(0.)
 		})

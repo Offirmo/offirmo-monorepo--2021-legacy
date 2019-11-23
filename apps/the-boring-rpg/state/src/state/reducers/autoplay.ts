@@ -26,7 +26,7 @@ import {
 } from '../../selectors'
 
 import {
-	_loose_all_energy,
+	_lose_all_energy,
 	_auto_make_room,
 	_ack_all_engagements,
 } from './internal'
@@ -133,7 +133,7 @@ function autoplay(previous_state: Readonly<State>, options: Readonly<{ target_go
 
 	if (target_bad_play_count > state.u_state.progress.statistics.bad_play_count) {
 		if (have_energy) {
-			state = _loose_all_energy(state)
+			state = _lose_all_energy(state)
 		}
 
 		// play bad

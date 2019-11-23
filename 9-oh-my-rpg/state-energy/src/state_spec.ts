@@ -8,7 +8,7 @@ import {
 	create,
 	update_to_now,
 	use_energy,
-	loose_all_energy,
+	lose_all_energy,
 	restore_energy,
 
 	get_available_energy_float,
@@ -320,13 +320,13 @@ describe(`${LIB} - reducer`, function() {
 		})
 	})
 
-	describe('loose_all_energy()', function() {
+	describe('lose_all_energy()', function() {
 		it('should work on a full state', function() {
 			let [ u_state, t_state ] = create()
 
 			expect(get_available_energy_float(t_state)).to.equal(7.)
 
-			t_state = loose_all_energy([u_state, t_state])
+			t_state = lose_all_energy([u_state, t_state])
 
 			expect(get_available_energy_float(t_state)).to.equal(0.)
 		})

@@ -54,7 +54,7 @@ function compare_items_by_normalized_power(a: Readonly<Item>, b: Readonly<Item>)
 // - do not refresh achievements or update the T-state
 // - do not increment the root revision (but this has to be done by the parent)
 
-function _loose_all_energy(state: Readonly<State>): Readonly<State> {
+function _lose_all_energy(state: Readonly<State>): Readonly<State> {
 	return {
 		...state,
 		u_state: {
@@ -66,7 +66,7 @@ function _loose_all_energy(state: Readonly<State>): Readonly<State> {
 		},
 		t_state: {
 			...state.t_state,
-			energy: EnergyState.loose_all_energy([state.u_state.energy, state.t_state.energy])
+			energy: EnergyState.lose_all_energy([state.u_state.energy, state.t_state.energy])
 		}
 	}
 }
@@ -236,7 +236,7 @@ function _auto_make_room(state: Readonly<State>, options: { DEBUG?: boolean } = 
 export {
 	_update_to_now,
 
-	_loose_all_energy,
+	_lose_all_energy,
 
 	_receive_stat_increase,
 	_receive_item,

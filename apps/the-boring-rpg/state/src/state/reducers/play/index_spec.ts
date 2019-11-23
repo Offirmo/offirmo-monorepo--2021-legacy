@@ -19,7 +19,7 @@ import {
 } from '../../../selectors'
 
 import {
-	_loose_all_energy
+	_lose_all_energy
 } from '../internal'
 
 import {
@@ -37,7 +37,7 @@ describe(`${LIB} - reducer - play`, function() {
 			it('should generate a negative adventure', () => {
 				let state = create()
 
-				state = _loose_all_energy(state)
+				state = _lose_all_energy(state)
 
 				state = play(state)
 				expect(state.u_state.last_adventure).not.to.be.null
@@ -54,7 +54,7 @@ describe(`${LIB} - reducer - play`, function() {
 			it('should correctly increment counters', () => {
 				let state = create()
 
-				state = _loose_all_energy(state)
+				state = _lose_all_energy(state)
 
 				state = play(state)
 
@@ -70,7 +70,7 @@ describe(`${LIB} - reducer - play`, function() {
 			it('should punish a bit the user (ex. by increasing the cooldown)', () => {
 				let state = create()
 
-				state = _loose_all_energy(state)
+				state = _lose_all_energy(state)
 
 				// force (for tests)
 				state.t_state.energy.available_energy = { n: 8, d: 10 }
@@ -165,7 +165,7 @@ describe(`${LIB} - reducer - play`, function() {
 					let state = create()
 
 					if (!good)
-						state = _loose_all_energy(state)
+						state = _lose_all_energy(state)
 
 					state = play(state, undefined, hid)
 				})

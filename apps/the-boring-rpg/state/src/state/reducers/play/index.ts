@@ -36,7 +36,7 @@ function play(previous_state: Readonly<State>, now_ms: TimestampUTCMs = get_UTC_
 			t_state: {
 				...state.t_state,
 				// punishment
-				energy: EnergyState.loose_all_energy([state.u_state.energy, state.t_state.energy])
+				energy: EnergyState.lose_all_energy([state.u_state.energy, state.t_state.energy])
 			}
 		}
 	}

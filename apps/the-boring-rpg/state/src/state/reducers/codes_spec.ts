@@ -12,7 +12,7 @@ import {
 } from '.'
 
 import {
-	_loose_all_energy,
+	_lose_all_energy,
 	_ack_all_engagements
 } from './internal'
 
@@ -35,7 +35,7 @@ describe(`${LIB} - reducer - codes`, function() {
 			it('should not cause a crash', function() {
 				const initial_state = deepFreeze(
 					_ack_all_engagements(
-						_loose_all_energy( // for BORED
+						_lose_all_energy( // for BORED
 							reseed(
 								create()
 							)
