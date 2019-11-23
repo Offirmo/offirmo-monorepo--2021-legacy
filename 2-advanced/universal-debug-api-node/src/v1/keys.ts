@@ -5,6 +5,8 @@ export { ENV_ROOT } from '../consts'
 function normalizeKey(key: string): string {
 	key = key.split('-').join('_')
 	key = key.split('.').join('_')
+	key = key.split('⋄').join('_')
+
 	return key
 }
 

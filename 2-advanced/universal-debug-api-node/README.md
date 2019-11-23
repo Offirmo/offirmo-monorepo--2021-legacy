@@ -62,7 +62,7 @@ node ./doc/demo.js
 
 Because ENV vars format is restricted, keys are automatically normalized:
 - to upper case
-- separators '.' and '-' are converted to '_'
+- separators '.', '-' and '⋄' are converted to '_'
 
 Though overrides values accept JSON (correctly escaped),
 as a convenience because escaping is hard in shell and text files,

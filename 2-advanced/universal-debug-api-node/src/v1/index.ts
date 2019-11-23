@@ -22,6 +22,7 @@ const LIB = ENV_ROOT
 ////////////////////////////////////
 
 export default function create(): DebugApiV1 {
+	//console.log('[UDA-node installed]') // XX
 
 	////////////////////////////////////
 
