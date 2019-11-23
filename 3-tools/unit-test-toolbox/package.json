@@ -13,6 +13,7 @@
 	"sideEffects": true,
 
 	"dependencies": {
+		"@offirmo/universal-debug-api-node": "^0",
 		"@types/chai": "^4",
 		"@types/chai-as-promised": "^7",
 		"@types/mocha": "^5",

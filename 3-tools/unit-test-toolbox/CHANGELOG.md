@@ -4,6 +4,7 @@
 ## NEXT
 * [feat] added *optional* installation of [chai-fetch-mock](https://github.com/gakimball/chai-fetch-mock)
 * [chore] bumped deps (eslint mocha 6)
+* [feat] now preloads UDA node
 
 ## v5.0.1
 2019/04/01

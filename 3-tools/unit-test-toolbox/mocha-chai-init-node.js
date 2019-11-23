@@ -1,5 +1,7 @@
 "use strict";
 
+require('@offirmo/universal-debug-api-node')
+
 const path = require('path')
 
 const Mocha = require('mocha')
