@@ -4,7 +4,6 @@ import {expect} from 'chai'
 
 import { LIB } from '../consts'
 import { normalize_email } from '.'
-import {create_user} from "../users";
 
 /////////////////////
 
@@ -26,7 +25,15 @@ describe(`${LIB} - utils`, function() {
 
 			it('should reject - case 3', () => {
 				const TEST_EMAIL = '@'
-				expect(() => normalize_email(TEST_EMAIL)).to.throw('Invalid email: bad structure')
+				expect(() => normalize_email(TEST_EMAIL)).to.throw('Invalid email: bad domain')
+			})
+		})
+
+		context('when correct', () => {
+
+			it('should normalize', () => {
+				const TEST_EMAIL = 'Abcd.Efgh+ijkl@Googlemail.Com'
+				expect(normalize_email(TEST_EMAIL)).to.equal('abcdefgh@gmail.com')
 			})
 		})
 	})

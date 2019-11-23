@@ -1,7 +1,7 @@
 import { WithTimestamps } from '../types'
 
 /////////////////////
-// Code data
+// NOTE: This is CODE data
 
 export interface BaseUser {
 	called: string
@@ -17,7 +17,7 @@ export interface User extends Partial<BaseUser>, WithTimestamps {
 	id: string
 }
 
-export interface NetlifyUser extends Partial<BaseUser>, WithTimestamps {
+export interface NetlifyUser extends /*Partial<BaseUser>,*/ WithTimestamps {
 	own_id: string
 	user_id: string
 }

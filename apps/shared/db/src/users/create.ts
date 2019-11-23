@@ -5,13 +5,14 @@ import { WithoutTimestamps } from '../types'
 import { normalize_email } from '../utils'
 import get_db from '../db'
 import { BaseUser, User, NetlifyUser } from './types'
-
+import logger from '../utils/logger'
 
 export async function create_user(data: Readonly<BaseUser>, trx: ReturnType<typeof get_db> = get_db()): Promise<User['id']> {
 	data = {
 		...data,
 		email: normalize_email(data.email)
 	}
+	logger.log('creating user...', data)
 
 	const [ id ] = await trx('users')
 		.insert(data)
@@ -19,18 +20,26 @@ export async function create_user(data: Readonly<BaseUser>, trx: ReturnType<type
 
 	assert(id >= 0, 'created user id')
 
+	logger.log('created user ✔', { id })
+
 	return id
 }
 
-export async function create_netlify_user(data: Readonly<WithoutTimestamps<NetlifyUser>>, trx: ReturnType<typeof get_db> = get_db()): Promise<void> {
+export async function create_netlify_user(data: Readonly<WithoutTimestamps<NetlifyUser>>, trx: ReturnType<typeof get_db> = get_db()): Promise<Readonly<WithoutTimestamps<NetlifyUser>>> {
+	logger.log('creating Netlify user...', data)
+
 	await trx('users__netlify')
 		.insert(data)
-}
+		// no auto id, the id is from Netlify itself
 
+	const { own_id, user_id } = data
+	logger.log('created user ✔', { own_id, user_id })
+
+	return { own_id, user_id }
+}
 
 export async function create_user_through_netlify(netlify_id: NetlifyUser['own_id'], base_data: Readonly<BaseUser>): Promise<void> {
 	return get_db().transaction(async (trx) => {
-		//let user_id =
 		const user_id = await create_user(base_data, trx)
 		const netlify_user: WithoutTimestamps<NetlifyUser> = {
 			user_id,

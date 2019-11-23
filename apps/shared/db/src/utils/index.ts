@@ -5,6 +5,8 @@ import { combine_normalizers, NORMALIZERS } from '@offirmo-private/normalize-str
 function validate_structure(possible_email: string): void {
 	const [ before, after, ...rest] = possible_email.split('@')
 
+	//console.log({before, after, rest, ta: typeof after})
+
 	if (rest.length)
 		throw new Error('Invalid email: more than one @!')
 	if (typeof after !== 'string')

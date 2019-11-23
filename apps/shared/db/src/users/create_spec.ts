@@ -3,15 +3,13 @@
 import {expect} from 'chai'
 
 import { LIB } from '../consts'
-import {BaseUser, NetlifyUser} from './types'
+import { BaseUser, NetlifyUser } from './types'
 import { delete_user_by_email } from './delete'
 import {
 	create_netlify_user,
 	create_user,
 	create_user_through_netlify,
 } from './create'
-import get_db from "../db";
-import {WithoutTimestamps} from "../types";
 
 /////////////////////
 
@@ -29,6 +27,7 @@ describe(`${LIB} - users - create`, function() {
 	}
 
 	async function cleanup() {
+		//console.log('>>> user create test cleanup')
 		// REM: this will cascade users--xxx deletion
 		await delete_user_by_email(get_test_base_user().email)
 	}
@@ -61,19 +60,33 @@ describe(`${LIB} - users - create`, function() {
 
 	describe('create_user_through_netlify()', () => {
 
-		context.only('when its a new user', () => {
+		context('when its a new user', () => {
 
 			it('should work', async () => {
-				await create_user_through_netlify(TEST_NETLIFY_ID, get_test_base_user())
+				const ids = await create_user_through_netlify(TEST_NETLIFY_ID, get_test_base_user())
 			})
 		})
 
-		context('when this netlify user already exists', () => {
+		context('when this netlify user already exists', async () => {
 
+			it('should crash and not create duplicate data (transaction)', async () => {
+				await create_user_through_netlify(TEST_NETLIFY_ID, get_test_base_user())
+				expect(create_user_through_netlify(TEST_NETLIFY_ID, get_test_base_user()))
+					.to.be.rejectedWith('duplicate')
+
+				// TODO read
+			})
 		})
 
-		context('when a user with this email already exists', () => {
+		context('when a user with this email already exists', async () => {
 
+			it('should crash and not create duplicate data (transaction)', async () => {
+				await create_user(get_test_base_user())
+				expect(create_user_through_netlify(TEST_NETLIFY_ID, get_test_base_user()))
+					.to.be.rejectedWith('duplicate')
+
+				// TODO read
+			})
 		})
 
 

@@ -1,1 +1,1 @@
-export const LIB = 'OA-DB'
+export const LIB = 'OA⋄DB'
