@@ -1319,6 +1319,11 @@
   resolved "https://packages.atlassian.com/api/npm/npm-remote/@types/events/-/events-3.0.0.tgz#2862f3f58a9a7f7c3e78d79f130dd4d71c25c2a7"
   integrity sha1-KGLz9Yqaf3w+eNefEw3U1xwlwqc=
 
+"@types/geojson@^7946":
+  version "7946.0.7"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@types/geojson/-/geojson-7946.0.7.tgz#c8fa532b60a0042219cdf173ca21a975ef0666ad"
+  integrity sha1-yPpTK2CgBCIZzfFzyiGpde8GZq0=
+
 "@types/glob@^7.1.1":
   version "7.1.1"
   resolved "https://packages.atlassian.com/api/npm/npm-remote/@types/glob/-/glob-7.1.1.tgz#aa59a1c6e3fbc421e07ccd31a944c30eba521575"
@@ -3859,6 +3864,11 @@ csstype@^2.2.0, csstype@^2.5.7, csstype@^2.6.7:
   version "2.6.7"
   resolved "https://packages.atlassian.com/api/npm/npm-remote/csstype/-/csstype-2.6.7.tgz#20b0024c20b6718f4eda3853a1f5a1cce7f5e4a5"
   integrity sha1-ILACTCC2cY9O2jhTofWhzOf15KU=
+
+csv-parse@^4:
+  version "4.8.2"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/csv-parse/-/csv-parse-4.8.2.tgz#c717cc8d87f619dbd556d5a15222a83b6d7a6d06"
+  integrity sha1-xxfMjYf2GdvVVtWhUiKoO216bQY=
 
 currently-unhandled@^0.4.1:
   version "0.4.1"
@@ -7207,6 +7217,11 @@ lcid@^1.0.0:
   integrity sha1-MIrMr6C8SDo4Z7S28rlQYlHRuDU=
   dependencies:
     invert-kv "^1.0.0"
+
+leaflet@^1:
+  version "1.6.0"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/leaflet/-/leaflet-1.6.0.tgz#aecbb044b949ec29469eeb31c77a88e2f448f308"
+  integrity sha1-rsuwRLlJ7ClGnusxx3qI4vRI8wg=
 
 levn@^0.3.0, levn@~0.3.0:
   version "0.3.0"
