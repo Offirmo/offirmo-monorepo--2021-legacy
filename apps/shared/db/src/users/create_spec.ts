@@ -3,35 +3,16 @@
 import {expect} from 'chai'
 
 import { LIB } from '../consts'
-import { BaseUser, NetlifyUser } from './types'
-import { delete_user_by_email } from './delete'
 import {
 	create_netlify_user,
 	create_user,
 	create_user_through_netlify,
 } from './create'
+import { TEST_NETLIFY_ID, get_test_base_user, cleanup } from './_shared_spec'
 
 /////////////////////
 
 describe(`${LIB} - users - create`, function() {
-	const TEST_NETLIFY_ID: NetlifyUser['own_id'] = 'netlify-#foo'
-
-	function get_test_base_user(p: Partial<BaseUser> = {}): Readonly<BaseUser> {
-		return {
-			called: 'The Tester',
-			email: 'test@test.io',
-			avatar_url: 'https://some.gravatar/test',
-			roles: [],
-			...p,
-		}
-	}
-
-	async function cleanup() {
-		//console.log('>>> user create test cleanup')
-		// REM: this will cascade users--xxx deletion
-		await delete_user_by_email(get_test_base_user().email)
-	}
-
 	before(cleanup)
 	afterEach(cleanup)
 
@@ -56,6 +37,10 @@ describe(`${LIB} - users - create`, function() {
 			expect(create_user(get_test_base_user({email: 'Test@Test. Io'})))
 				.to.be.rejectedWith('duplicate')
 		})
+	})
+
+	describe('create_netlify_user()', () => {
+		// TODO
 	})
 
 	describe('create_user_through_netlify()', () => {

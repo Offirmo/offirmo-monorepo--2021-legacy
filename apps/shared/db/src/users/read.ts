@@ -1,17 +1,24 @@
 import get_db from '../db'
 
-import { NetlifyUser, MergedUser } from './types'
-import { DEFAULT_CALLED, DEFAULT_ROLES } from './consts'
+import { User, NetlifyUser, MergedUser } from './types'
+import { TABLE_USERS, DEFAULT_CALLED, DEFAULT_ROLES } from './consts'
+import logger from '../utils/logger'
 
 
-/*export async function get_user_by_email(email: string): Promise<null | MergedUser> {
+export async function get_user_by_email(email: string, trx: ReturnType<typeof get_db> = get_db()): Promise<null | User> {
+	const raw_result = await trx()
+		.select()
+		.table(TABLE_USERS)
+		.where('email', email)
 
-}*/
+	return raw_result[0]
+}
 
+// returns null bc one should use "ensure user…" in actual code
 export async function get_full_user_through_netlify(netlify_id: NetlifyUser['own_id']): Promise<null | MergedUser> {
 	const raw_result = await get_db()
 		.select(get_db().raw('row_to_json("users__netlify".*) AS "netlify_user", row_to_json("users".*) AS "user"'))
-		.from('users')
+		.from(TABLE_USERS)
 		.fullOuterJoin('users__netlify', {'users.id': 'users__netlify.user_id'})
 		.where('users__netlify.own_id', netlify_id)
 
@@ -26,10 +33,10 @@ export async function get_full_user_through_netlify(netlify_id: NetlifyUser['own
 		created_at: raw_u.created_at,
 		updated_at: raw_u.updated_at,
 		id: raw_u.id,
-		called: raw_u.called || raw_nu.called || DEFAULT_CALLED,
-		email: raw_u.email || raw_nu.email,
-		avatar_url: raw_u.avatar_url || raw_nu.avatar_url,
-		roles: Array.from(new Set([...raw_u.roles, ...raw_nu.roles, ...DEFAULT_ROLES])),
+		called: raw_u.called || DEFAULT_CALLED,
+		email: raw_u.email,
+		avatar_url: raw_u.avatar_url,
+		roles: Array.from(new Set([...raw_u.roles, ...DEFAULT_ROLES])),
 		_: {
 			user: raw_result[0].user
 		}

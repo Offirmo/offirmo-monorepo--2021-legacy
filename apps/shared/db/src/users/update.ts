@@ -6,6 +6,8 @@ import { BaseUser, User, NetlifyUser, MergedUser } from './types'
 import { TABLE_USERS } from './consts'
 import { create_user_through_netlify } from './create'
 import { get_full_user_through_netlify } from './read'
+import logger from '../utils/logger'
+import {WithoutTimestamps} from "../types";
 
 
 export async function ensure_user_up_to_date(merged_user: Readonly<MergedUser>): Promise<void> {
@@ -15,7 +17,6 @@ export async function ensure_user_up_to_date(merged_user: Readonly<MergedUser>):
 			...fields
 		}
 	})()
-
 
 	const candidate_data: Partial<User> = (() => {
 		const { id, created_at, updated_at, _, ...fields } = merged_user
@@ -36,25 +37,34 @@ export async function ensure_user_up_to_date(merged_user: Readonly<MergedUser>):
 	}
 }
 
-
-
 export async function ensure_user_through_netlify(netlify_id: NetlifyUser['own_id'], data: Readonly<BaseUser>): Promise<MergedUser> {
-	let result = await get_full_user_through_netlify(netlify_id)
-	if (result) console.log('get_full_user_through_netlify #1', {result})
+	logger.log('ensuring user from its netlify data...', { netlify_id, data })
 
-	if (!result) {
-		// rare case of 1st time play
-		// TODO one day try to hook into an existing player if not using netlify anymore!
-		console.log('not found, creating a new user...')
-		await create_user_through_netlify(netlify_id, data)
+	let result: MergedUser | null = null
 
+	await get_db().transaction(async (trx) => {
 		result = await get_full_user_through_netlify(netlify_id)
-		console.log('get_full_user_through_netlify #2', {result})
-	}
+		if (result) console.log('get_full_user_through_netlify #1', {result})
 
-	assert(result)
+		if (!result) {
+			// rare case of 1st time play
+			// OR new login with a different system
 
-	await ensure_user_up_to_date(result!)
+			// Do we have a matching user already?
+
+			// TODO one day try to hook into an existing player if not using netlify anymore!
+			console.log('not found, creating a new user...')
+			await create_user_through_netlify(netlify_id, data)
+
+			result = await get_full_user_through_netlify(netlify_id)
+			console.log('get_full_user_through_netlify #2', {result})
+		}
+
+		assert(result)
+
+		await ensure_user_up_to_date(result!)
+
+	})
 
 	return result!
 }
