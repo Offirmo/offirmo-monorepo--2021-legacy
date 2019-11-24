@@ -10,11 +10,12 @@
 		"@offirmo-private/ensure-device-uuid-browser": "^0",
 		"@offirmo-private/features-detection-browser": "^0",
 		"@offirmo-private/poll-window-variable": "^0",
+		"@offirmo-private/prettify-json": "^0",
 		"@offirmo-private/view-css": "^0",
 		"@offirmo/tiny-singleton": "^0",
 		"@offirmo/universal-debug-api-placeholder": "^0",
-		"tiny-invariant": "^1",
 		"leaflet": "^1",
+		"tiny-invariant": "^1",
 		"tslib": "^1",
 		"typescript-string-enums": "^1"
 	},

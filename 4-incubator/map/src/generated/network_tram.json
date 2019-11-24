@@ -1,0 +1,1369 @@
+{
+	"type": "FeatureCollection",
+	"features": [
+		{
+			"id": "10594",
+			"geometry": {
+				"coordinates": [
+					151.193964623279,
+					-33.874351064911
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Wentworth Park Light Rail",
+				"stop_I": "17153"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "9717",
+			"geometry": {
+				"coordinates": [
+					151.192283967672,
+					-33.8709125059412
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Fish Market Light Rail",
+				"stop_I": "15808"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "3888",
+			"geometry": {
+				"coordinates": [
+					151.199548753583,
+					-33.8772058986931
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Exhibition Centre Light Rail",
+				"stop_I": "6408"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "3891",
+			"geometry": {
+				"coordinates": [
+					151.197992458547,
+					-33.8725648702906
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Convention Centre Light Rail",
+				"stop_I": "6411"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "5008",
+			"geometry": {
+				"coordinates": [
+					151.172707099218,
+					-33.8719204518768
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Rozelle Bay Light Rail",
+				"stop_I": "8201"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "12191",
+			"geometry": {
+				"coordinates": [
+					151.164869618336,
+					-33.8742313107313
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Lilyfield Light Rail",
+				"stop_I": "19747"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "13514",
+			"geometry": {
+				"coordinates": [
+					151.197405424297,
+					-33.8694044101621
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Pyrmont Bay Light Rail",
+				"stop_I": "21905"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "3892",
+			"geometry": {
+				"coordinates": [
+					151.198114164108,
+					-33.8726237862708
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Convention Centre Light Rail",
+				"stop_I": "6412"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "3889",
+			"geometry": {
+				"coordinates": [
+					151.199699287665,
+					-33.8771917495554
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Exhibition Centre Light Rail",
+				"stop_I": "6409"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "6162",
+			"geometry": {
+				"coordinates": [
+					151.195022891047,
+					-33.8675125065857
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "The Star Light Rail",
+				"stop_I": "10025"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "13517",
+			"geometry": {
+				"coordinates": [
+					151.192048802448,
+					-33.8674336826443
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "John Street Square Light Rail",
+				"stop_I": "21908"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "14142",
+			"geometry": {
+				"coordinates": [
+					151.145350368722,
+					-33.8887211053343
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Taverners Hill Light Rail",
+				"stop_I": "22931"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "20686",
+			"geometry": {
+				"coordinates": [
+					151.143674339144,
+					-33.8935979895496
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Lewisham West Light Rail",
+				"stop_I": "33725"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "2714",
+			"geometry": {
+				"coordinates": [
+					151.192510416381,
+					-33.8709047889794
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Fish Market Light Rail",
+				"stop_I": "4391"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "13518",
+			"geometry": {
+				"coordinates": [
+					151.197546683368,
+					-33.8692013729745
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Pyrmont Bay Light Rail",
+				"stop_I": "21909"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "15331",
+			"geometry": {
+				"coordinates": [
+					151.145157721047,
+					-33.88385313035
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Marion Light Rail",
+				"stop_I": "24793"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "7757",
+			"geometry": {
+				"coordinates": [
+					151.172658264273,
+					-33.8718049782897
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Rozelle Bay Light Rail",
+				"stop_I": "12568"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "5679",
+			"geometry": {
+				"coordinates": [
+					151.17879569225,
+					-33.8753898552469
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Jubilee Park Light Rail",
+				"stop_I": "9326"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "13060",
+			"geometry": {
+				"coordinates": [
+					151.202635551855,
+					-33.8793529433767
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Paddy's Markets Light Rail",
+				"stop_I": "21147"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "13062",
+			"geometry": {
+				"coordinates": [
+					151.205597136855,
+					-33.8798283530131
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Capitol Square Light Rail",
+				"stop_I": "21149"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "13063",
+			"geometry": {
+				"coordinates": [
+					151.206685610356,
+					-33.8824129971333
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Central Station Light Rail",
+				"stop_I": "21150"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "19903",
+			"geometry": {
+				"coordinates": [
+					151.140166992275,
+					-33.8988158359767
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Waratah Mills Light Rail",
+				"stop_I": "32417"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "19905",
+			"geometry": {
+				"coordinates": [
+					151.138162625757,
+					-33.9018296089499
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Arlington Light Rail",
+				"stop_I": "32420"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "17551",
+			"geometry": {
+				"coordinates": [
+					151.154504117541,
+					-33.874987253025
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Leichhardt North Light Rail",
+				"stop_I": "28512"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "7316",
+			"geometry": {
+				"coordinates": [
+					151.139105605464,
+					-33.905014486663
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Dulwich Grove Light Rail",
+				"stop_I": "11816"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "9716",
+			"geometry": {
+				"coordinates": [
+					151.194087210718,
+					-33.8744279746377
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Wentworth Park Light Rail",
+				"stop_I": "15807"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "7318",
+			"geometry": {
+				"coordinates": [
+					151.140076400731,
+					-33.9103338135538
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Dulwich Hill Light Rail",
+				"stop_I": "11818"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "7317",
+			"geometry": {
+				"coordinates": [
+					151.139030522874,
+					-33.9050260240183
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Dulwich Grove Light Rail",
+				"stop_I": "11817"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "4991",
+			"geometry": {
+				"coordinates": [
+					151.138054746656,
+					-33.9018332390885
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Arlington Light Rail",
+				"stop_I": "8158"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "14152",
+			"geometry": {
+				"coordinates": [
+					151.14521647277,
+					-33.8893022646229
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Taverners Hill Light Rail",
+				"stop_I": "22941"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "14143",
+			"geometry": {
+				"coordinates": [
+					151.145049865534,
+					-33.8838567649271
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Marion Light Rail",
+				"stop_I": "22932"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "17549",
+			"geometry": {
+				"coordinates": [
+					151.187410288823,
+					-33.8772683136698
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Glebe Light Rail",
+				"stop_I": "28510"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "18998",
+			"geometry": {
+				"coordinates": [
+					151.178702588598,
+					-33.8754741076012
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Jubilee Park Light Rail",
+				"stop_I": "30936"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "5161",
+			"geometry": {
+				"coordinates": [
+					151.2027385344,
+					-33.8792503163849
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Paddy's Markets Light Rail",
+				"stop_I": "8443"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "9713",
+			"geometry": {
+				"coordinates": [
+					151.191877370531,
+					-33.8672413056787
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "John Street Square Light Rail",
+				"stop_I": "15802"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "13516",
+			"geometry": {
+				"coordinates": [
+					151.195198264862,
+					-33.8673443483383
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "The Star Light Rail",
+				"stop_I": "21907"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "20688",
+			"geometry": {
+				"coordinates": [
+					151.143228372547,
+					-33.8939824285432
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Lewisham West Light Rail",
+				"stop_I": "33727"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "15328",
+			"geometry": {
+				"coordinates": [
+					151.147172999601,
+					-33.8797396655861
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Hawthorne Light Rail",
+				"stop_I": "24776"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "23204",
+			"geometry": {
+				"coordinates": [
+					151.15387775429,
+					-33.8749903842045
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Leichhardt North Light Rail",
+				"stop_I": "37929"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "19904",
+			"geometry": {
+				"coordinates": [
+					151.140121664717,
+					-33.8987723113423
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Waratah Mills Light Rail",
+				"stop_I": "32419"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "18999",
+			"geometry": {
+				"coordinates": [
+					151.18735064667,
+					-33.8771532148258
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Glebe Light Rail",
+				"stop_I": "30937"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "12095",
+			"geometry": {
+				"coordinates": [
+					151.147347947732,
+					-33.8793373228722
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Hawthorne Light Rail",
+				"stop_I": "19565"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "15343",
+			"geometry": {
+				"coordinates": [
+					151.165102052822,
+					-33.874124331077
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Lilyfield Light Rail",
+				"stop_I": "24812"
+			},
+			"type": "Feature"
+		},
+		{
+			"id": "5162",
+			"geometry": {
+				"coordinates": [
+					151.205647079243,
+					-33.8797455568346
+				],
+				"type": "Point"
+			},
+			"properties": {
+				"name": "Capitol Square Light Rail",
+				"stop_I": "8444"
+			},
+			"type": "Feature"
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.193964623279,
+						-33.874351064911
+					],
+					[
+						151.192283967672,
+						-33.8709125059412
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.199548753583,
+						-33.8772058986931
+					],
+					[
+						151.197992458547,
+						-33.8725648702906
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.172707099218,
+						-33.8719204518768
+					],
+					[
+						151.164869618336,
+						-33.8742313107313
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.197992458547,
+						-33.8725648702906
+					],
+					[
+						151.197405424297,
+						-33.8694044101621
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.198114164108,
+						-33.8726237862708
+					],
+					[
+						151.199699287665,
+						-33.8771917495554
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.195022891047,
+						-33.8675125065857
+					],
+					[
+						151.192048802448,
+						-33.8674336826443
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.197405424297,
+						-33.8694044101621
+					],
+					[
+						151.195022891047,
+						-33.8675125065857
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.145350368722,
+						-33.8887211053343
+					],
+					[
+						151.143674339144,
+						-33.8935979895496
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.192048802448,
+						-33.8674336826443
+					],
+					[
+						151.192510416381,
+						-33.8709047889794
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.197546683368,
+						-33.8692013729745
+					],
+					[
+						151.198114164108,
+						-33.8726237862708
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.145157721047,
+						-33.88385313035
+					],
+					[
+						151.145350368722,
+						-33.8887211053343
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.172658264273,
+						-33.8718049782897
+					],
+					[
+						151.17879569225,
+						-33.8753898552469
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.202635551855,
+						-33.8793529433767
+					],
+					[
+						151.199548753583,
+						-33.8772058986931
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.205597136855,
+						-33.8798283530131
+					],
+					[
+						151.202635551855,
+						-33.8793529433767
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.206685610356,
+						-33.8824129971333
+					],
+					[
+						151.205597136855,
+						-33.8798283530131
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.140166992275,
+						-33.8988158359767
+					],
+					[
+						151.138162625757,
+						-33.9018296089499
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.164869618336,
+						-33.8742313107313
+					],
+					[
+						151.154504117541,
+						-33.874987253025
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.138162625757,
+						-33.9018296089499
+					],
+					[
+						151.139105605464,
+						-33.905014486663
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.192510416381,
+						-33.8709047889794
+					],
+					[
+						151.194087210718,
+						-33.8744279746377
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.139105605464,
+						-33.905014486663
+					],
+					[
+						151.140076400731,
+						-33.9103338135538
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.139030522874,
+						-33.9050260240183
+					],
+					[
+						151.138054746656,
+						-33.9018332390885
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.140076400731,
+						-33.9103338135538
+					],
+					[
+						151.139030522874,
+						-33.9050260240183
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.14521647277,
+						-33.8893022646229
+					],
+					[
+						151.145049865534,
+						-33.8838567649271
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.187410288823,
+						-33.8772683136698
+					],
+					[
+						151.178702588598,
+						-33.8754741076012
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.199699287665,
+						-33.8771917495554
+					],
+					[
+						151.2027385344,
+						-33.8792503163849
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.191877370531,
+						-33.8672413056787
+					],
+					[
+						151.195198264862,
+						-33.8673443483383
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.143674339144,
+						-33.8935979895496
+					],
+					[
+						151.140166992275,
+						-33.8988158359767
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.143228372547,
+						-33.8939824285432
+					],
+					[
+						151.14521647277,
+						-33.8893022646229
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.192283967672,
+						-33.8709125059412
+					],
+					[
+						151.191877370531,
+						-33.8672413056787
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.147172999601,
+						-33.8797396655861
+					],
+					[
+						151.15387775429,
+						-33.8749903842045
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.140121664717,
+						-33.8987723113423
+					],
+					[
+						151.143228372547,
+						-33.8939824285432
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.194087210718,
+						-33.8744279746377
+					],
+					[
+						151.187410288823,
+						-33.8772683136698
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.178702588598,
+						-33.8754741076012
+					],
+					[
+						151.172707099218,
+						-33.8719204518768
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.18735064667,
+						-33.8771532148258
+					],
+					[
+						151.193964623279,
+						-33.874351064911
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.138054746656,
+						-33.9018332390885
+					],
+					[
+						151.140121664717,
+						-33.8987723113423
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.154504117541,
+						-33.874987253025
+					],
+					[
+						151.147347947732,
+						-33.8793373228722
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.165102052822,
+						-33.874124331077
+					],
+					[
+						151.172658264273,
+						-33.8718049782897
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.147347947732,
+						-33.8793373228722
+					],
+					[
+						151.145157721047,
+						-33.88385313035
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.17879569225,
+						-33.8753898552469
+					],
+					[
+						151.18735064667,
+						-33.8771532148258
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.195198264862,
+						-33.8673443483383
+					],
+					[
+						151.197546683368,
+						-33.8692013729745
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.15387775429,
+						-33.8749903842045
+					],
+					[
+						151.165102052822,
+						-33.874124331077
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.145049865534,
+						-33.8838567649271
+					],
+					[
+						151.147172999601,
+						-33.8797396655861
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.2027385344,
+						-33.8792503163849
+					],
+					[
+						151.205647079243,
+						-33.8797455568346
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						151.205647079243,
+						-33.8797455568346
+					],
+					[
+						151.206685610356,
+						-33.8824129971333
+					]
+				]
+			}
+		}
+	]
+}

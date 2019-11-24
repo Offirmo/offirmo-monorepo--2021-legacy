@@ -1,0 +1,4 @@
+Original data downloaded on 2016-12-14 from:
+    new_south_wales: https://transitfeeds.com/p/transport-for-nsw/237/latest/download
+Extract timezone: Australia/Sydney (+1100)
+The data should cover all relevant modes of intra-city public transport.

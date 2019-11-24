@@ -1,0 +1,6 @@
+This work "Sydney public transport extract", is provided under Creative Commons Attribution 4.0 International License.
+The original public transport schedule data has been provided by Transport for New South Wales under the same license.
+You should have received a copy of the license along with this work. If not, please see <https://creativecommons.org/licenses/by/4.0/>.
+The walking distances between stops have been computed based on information from OpenStreetMap (www.openstreetmap.org) which is licensed under the Open Data Commons Open Database License (https://opendatacommons.org/licenses/odbl/) by the OpenStreetMap Foundation.
+The adapted versions of the schedule data have been been created by Rainer Kujala, Christoffer Weckström and Richard Darst.
+No warranties are given.
