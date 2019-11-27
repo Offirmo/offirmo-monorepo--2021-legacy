@@ -2,15 +2,21 @@ import Knex from 'knex'
 import assert from 'tiny-invariant'
 
 import { WithoutTimestamps } from '../types'
-import { normalize_email } from '../utils'
+import { normalize_email, get_gravatar_url } from '../utils/email'
 import get_db from '../db'
 import { BaseUser, User, NetlifyUser } from './types'
 import logger from '../utils/logger'
 
-export async function create_user(data: Readonly<BaseUser>, trx: ReturnType<typeof get_db> = get_db()): Promise<User['id']> {
+
+
+export async function create_user(
+	data: Readonly<BaseUser>,
+	trx: ReturnType<typeof get_db> = get_db()
+): Promise<User['id']> {
 	data = {
 		...data,
-		email: normalize_email(data.email)
+		email: normalize_email(data.email),
+		avatar_url: data.avatar_url || get_gravatar_url(data.email),
 	}
 	logger.log('creating user...', { data })
 
@@ -25,7 +31,10 @@ export async function create_user(data: Readonly<BaseUser>, trx: ReturnType<type
 	return id
 }
 
-export async function create_netlify_user(data: Readonly<WithoutTimestamps<NetlifyUser>>, trx: ReturnType<typeof get_db> = get_db()): Promise<Readonly<WithoutTimestamps<NetlifyUser>>> {
+export async function create_netlify_user(
+	data: Readonly<WithoutTimestamps<NetlifyUser>>,
+	trx: ReturnType<typeof get_db> = get_db()
+): Promise<Readonly<WithoutTimestamps<NetlifyUser>>> {
 	logger.log('creating Netlify user...', { data })
 
 	await trx('users__netlify')
@@ -38,25 +47,20 @@ export async function create_netlify_user(data: Readonly<WithoutTimestamps<Netli
 	return { own_id, user_id }
 }
 
-export async function create_user_through_netlify(netlify_id: NetlifyUser['own_id'], data: Readonly<BaseUser>): Promise<Readonly<WithoutTimestamps<NetlifyUser>>> {
+export async function create_user_through_netlify(
+	netlify_id: NetlifyUser['own_id'],
+	data: Readonly<BaseUser>,
+	trx: ReturnType<typeof get_db>
+): Promise<Readonly<WithoutTimestamps<NetlifyUser>>> {
 	logger.log('creating user through Netlify...', { netlify_id, data })
-	return get_db().transaction<WithoutTimestamps<NetlifyUser>>(async (trx): Promise<WithoutTimestamps<NetlifyUser>> => {
 
-		const user_id = await create_user(data, trx)
-		const netlify_user: WithoutTimestamps<NetlifyUser> = {
-			user_id,
-			own_id: netlify_id,
-		}
+	const user_id = await create_user(data, trx)
+	const netlify_user: WithoutTimestamps<NetlifyUser> = {
+		user_id,
+		own_id: netlify_id,
+	}
 
-		try {
-			const res = await create_netlify_user(netlify_user, trx)
-			await trx.commit()
-			logger.log('created user through Netlify ✔', res)
-			return res
-		}
-		catch (err) {
-			trx.rollback(err)
-			throw err // TODO ensure needed
-		}
-	})
+	const res = await create_netlify_user(netlify_user, trx)
+	logger.log('created user through Netlify ✔', res)
+	return res
 }

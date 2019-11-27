@@ -3,7 +3,7 @@
 import {expect} from 'chai'
 
 import { LIB } from '../consts'
-import { normalize_email } from '.'
+import { normalize_email } from './email'
 
 /////////////////////
 

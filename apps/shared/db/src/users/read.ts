@@ -2,22 +2,28 @@ import get_db from '../db'
 
 import { User, NetlifyUser, MergedUser } from './types'
 import { TABLE_USERS, DEFAULT_CALLED, DEFAULT_ROLES } from './consts'
+import { normalize_email } from '../utils/email'
 import logger from '../utils/logger'
 
 
-export async function get_user_by_email(email: string, trx: ReturnType<typeof get_db> = get_db()): Promise<null | User> {
-	const raw_result = await trx()
+export async function get_user_by_email(
+	email: string,
+	trx: ReturnType<typeof get_db> = get_db()
+): Promise<null | User> {
+	const raw_result = await trx(TABLE_USERS)
 		.select()
-		.table(TABLE_USERS)
-		.where('email', email)
+		.where('email', normalize_email(email))
 
 	return raw_result[0]
 }
 
 // returns null bc one should use "ensure user…" in actual code
-export async function get_full_user_through_netlify(netlify_id: NetlifyUser['own_id']): Promise<null | MergedUser> {
-	const raw_result = await get_db()
-		.select(get_db().raw('row_to_json("users__netlify".*) AS "netlify_user", row_to_json("users".*) AS "user"'))
+export async function get_full_user_through_netlify(
+	netlify_id: NetlifyUser['own_id'],
+	trx: ReturnType<typeof get_db> = get_db()
+): Promise<null | MergedUser> {
+	const raw_result = await trx
+		.select(trx.raw('row_to_json("users__netlify".*) AS "netlify_user", row_to_json("users".*) AS "user"'))
 		.from(TABLE_USERS)
 		.fullOuterJoin('users__netlify', {'users.id': 'users__netlify.user_id'})
 		.where('users__netlify.own_id', netlify_id)

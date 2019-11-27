@@ -14,16 +14,16 @@ export interface BaseUser {
 // corresponding DB data
 
 export interface User extends Partial<BaseUser>, WithTimestamps {
-	id: string
+	id: number
 }
 
 export interface NetlifyUser extends /*Partial<BaseUser>,*/ WithTimestamps {
 	own_id: string
-	user_id: string
+	user_id: number
 }
 
 export interface MergedUser extends BaseUser, WithTimestamps {
-	id: string
+	id: number
 	_: {
 		user: User
 	}
