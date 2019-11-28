@@ -1,4 +1,4 @@
-import deepFreeze from "deep-freeze-strict"
+import deepFreeze from 'deep-freeze-strict'
 import { expect } from 'chai'
 
 import { LIB, SCHEMA_VERSION } from './consts'
@@ -37,7 +37,7 @@ describe(`${LIB} - reducer`, function() {
 
 			// no need to test detailed, see selectors
 			it('should reject and not update the state', () => {
-				let state = create()
+				const state = create()
 				const code_spec = CODESPECS_BY_KEY['TESTNEVER']
 
 				const do_it = () => attempt_to_redeem_code(state, code_spec, BASE_INFOS)

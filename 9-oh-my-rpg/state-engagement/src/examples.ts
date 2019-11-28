@@ -22,7 +22,7 @@ const DEMO_STATE: Readonly<State> = deepFreeze({
 			},
 			queue_time_root_revision: 0,
 			params: {},
-		}
+		},
 	],
 })
 

@@ -14,7 +14,7 @@ const MIGRATION_HINTS_FOR_TESTS: any = deepFreeze({
 function migrate_to_latest(
 	SEC: SoftExecutionContext,
 	[legacy_u_state, legacy_t_state]: [ Readonly<any>, Readonly<any> ],
-	hints: Readonly<any> = {}
+	hints: Readonly<any> = {},
 ): [ Readonly<UState>, Readonly<TState> ] {
 	const existing_version = (legacy_u_state && legacy_u_state.schema_version) || 0
 

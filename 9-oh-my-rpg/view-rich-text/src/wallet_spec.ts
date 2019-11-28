@@ -21,7 +21,7 @@ describe('🔠  view to @offirmo-private/rich-text-format - wallet', function() 
 	context('when empty', function() {
 
 		it('should render properly', () => {
-			let wallet = create_wallet()
+			const wallet = create_wallet()
 			const $doc = render_wallet(wallet)
 			const str = RichText.to_text($doc)
 

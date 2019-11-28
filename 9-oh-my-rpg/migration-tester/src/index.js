@@ -150,7 +150,7 @@ function test_migrations({
 				return hints_from_params
 			}
 
-			let hints = ALL_FILES.find(snap_path => snap_path === HINTS_FILE)
+			const hints = ALL_FILES.find(snap_path => snap_path === HINTS_FILE)
 				? fs.json.readSync(HINTS_FILE)
 				: {}
 
@@ -171,9 +171,9 @@ function test_migrations({
 		;(function create_or_update_latest_if_allowed() {
 			if (skip) return
 
-			let latest_snapshot_path = ALL_SNAPSHOTS.slice(-1)[0]
+			const latest_snapshot_path = ALL_SNAPSHOTS.slice(-1)[0]
 
-			let latest_snapshot_data = latest_snapshot_path
+			const latest_snapshot_data = latest_snapshot_path
 				? fs.json.readSync(latest_snapshot_path)
 				: undefined
 

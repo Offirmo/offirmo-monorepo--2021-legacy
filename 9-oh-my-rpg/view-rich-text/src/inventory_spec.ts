@@ -34,7 +34,7 @@ describe('🔠  view to @offirmo-private/rich-text-format - inventory', function
 		context('when empty', function() {
 
 			it('should render properly', () => {
-				let inventory = create_inventory()
+				const inventory = create_inventory()
 				const $doc = render_backpack(inventory)
 				const str = RichText.to_text($doc)
 
@@ -104,7 +104,7 @@ describe('🔠  view to @offirmo-private/rich-text-format - inventory', function
 		context('when empty', function() {
 
 			it('should render properly', () => {
-				let inventory = create_inventory()
+				const inventory = create_inventory()
 				const $doc = render_equipment(inventory)
 				const str = RichText.to_text($doc)
 				expect(str).to.be.a('string')

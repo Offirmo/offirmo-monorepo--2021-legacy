@@ -10,7 +10,7 @@ function lsDirs(srcpath) {
 	return fs
 		.readdirSync(srcpath)
 		.filter(file => fs.statSync(
-			path.join(srcpath, file)
+			path.join(srcpath, file),
 		).isDirectory())
 }
 
@@ -18,7 +18,7 @@ function lsFiles(srcpath) {
 	return fs
 		.readdirSync(srcpath)
 		.filter(file => !fs.statSync(
-			path.join(srcpath, file)
+			path.join(srcpath, file),
 		).isDirectory())
 }
 
@@ -31,7 +31,7 @@ fs = {
 		readSync: loadJsonFile.sync,
 		write: writeJsonFile,
 		writeSync: writeJsonFile.sync,
-	}
+	},
 }
 
 module.exports = fs

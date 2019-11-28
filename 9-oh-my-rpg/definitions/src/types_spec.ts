@@ -21,7 +21,7 @@ const state: State = {
 
 	statistics: {
 		bad_play_count: 0,
-		encountered_monsters: { foo: true }
+		encountered_monsters: { foo: true },
 	},
 
 	//foo: 'bar',

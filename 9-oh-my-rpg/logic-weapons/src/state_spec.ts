@@ -78,7 +78,7 @@ describe(`${LIB} - logic`, function() {
 				qualifier2_hid: 'twink',
 				quality: ItemQuality.artifact,
 				base_strength: 38351,
-				enhancement_level: 0
+				enhancement_level: 0,
 			})
 			expect((rng as any).getUseCount(), '# rng draws').to.equal(3) // 2 less random picks
 		})

@@ -30,7 +30,7 @@ function get_item_count(state: Readonly<State>): number {
 }
 
 function get_unslotted_item(state: Readonly<State>, uuid: UUID): Readonly<Item> | null {
-	let item: Item | undefined | null = state.unslotted.find(i => i.uuid === uuid)
+	const item: Item | undefined | null = state.unslotted.find(i => i.uuid === uuid)
 	return item ? item : null
 }
 

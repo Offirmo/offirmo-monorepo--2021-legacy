@@ -37,7 +37,7 @@ function on_start_session(state: Readonly<State>, is_web_diversity_supporter: bo
 
 function on_logged_in_refresh(previous_state: Readonly<State>, is_logged_in: boolean, roles: string[] = []): Readonly<State> {
 	let state = previous_state
-	let sorted_roles = [...roles].sort()
+	const sorted_roles = [...roles].sort()
 
 	if (previous_state.is_logged_in === is_logged_in
 		&& previous_state.roles.join(',') === sorted_roles.join(','))
@@ -59,7 +59,7 @@ function on_logged_in_refresh(previous_state: Readonly<State>, is_logged_in: boo
 
 export {
 	create,
-	
+
 	on_start_session,
 	on_logged_in_refresh,
 }

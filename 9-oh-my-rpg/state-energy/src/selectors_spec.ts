@@ -32,7 +32,7 @@ describe(`${LIB} - selectors`, function() {
 		const EXPECTED_ESTABLISHED_ENERGY_REFILL_PER_DAY = 7
 
 		// simple wrapper for tests
-		function get_energy_refill_rate(u_state: Readonly<UState>, t_state: Readonly<TState>, ) {
+		function get_energy_refill_rate(u_state: Readonly<UState>, t_state: Readonly<TState> ) {
 			const per_ms = get_current_energy_refilling_rate_per_ms(u_state, t_state)
 
 			return {
@@ -140,7 +140,7 @@ describe(`${LIB} - selectors`, function() {
 						available_energy: {
 							n: 0,
 							d: 1,
-						}
+						},
 					}
 
 					expect(get_available_energy_float(t_state)).to.equal(0.)
@@ -182,7 +182,7 @@ describe(`${LIB} - selectors`, function() {
 					available_energy: {
 						n: 4,
 						d: 1,
-					}
+					},
 				}
 
 				expect(get_available_energy_float(t_state)).to.equal(4.)
@@ -196,7 +196,7 @@ describe(`${LIB} - selectors`, function() {
 					available_energy: {
 						n: 1234567,
 						d: 333333,
-					}
+					},
 				}
 
 				expect(get_available_energy_float(t_state)).to.equal(3.7)
@@ -227,7 +227,7 @@ describe(`${LIB} - selectors`, function() {
 						available_energy: {
 							n: 0,
 							d: 1,
-						}
+						},
 					}
 
 					expect(get_available_energy_float(t_state)).to.equal(0.)
@@ -269,7 +269,7 @@ describe(`${LIB} - selectors`, function() {
 					available_energy: {
 						n: 4,
 						d: 1,
-					}
+					},
 				}
 
 				expect(get_available_energy_float(t_state)).to.equal(4.)
@@ -283,7 +283,7 @@ describe(`${LIB} - selectors`, function() {
 					available_energy: {
 						n: 1234567,
 						d: 333333,
-					}
+					},
 				}
 
 				expect(get_available_energy_float(t_state)).to.equal(3.7)

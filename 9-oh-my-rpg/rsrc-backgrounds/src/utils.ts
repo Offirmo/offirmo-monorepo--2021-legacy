@@ -7,22 +7,22 @@ function render_artwork_legend(artwork: Readonly<Background>): RichText.Document
 	const { author, source, display_name, keywords, position_pct } = artwork
 
 	const artwork_name = RichText.inline_fragment()
-		.pushText(`« `)
+		.pushText('« ')
 		.pushText(
 			display_name.endsWith('Ii')
 				? display_name.slice(0, -1) + 'I'
-				: display_name
+				: display_name,
 		)
-		.pushText(` »`)
+		.pushText(' »')
 		.addHints({
-			href: source
+			href: source,
 		})
 		.done()
 
 	const author_name = RichText.inline_fragment()
 		.pushText(author.display_name)
 		.addHints({
-			href: author.url
+			href: author.url,
 		})
 		.done()
 

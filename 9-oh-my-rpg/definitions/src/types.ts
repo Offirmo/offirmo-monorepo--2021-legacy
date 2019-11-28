@@ -35,7 +35,7 @@ type ItemQuality = Enum<typeof ItemQuality> // eslint-disable-line no-redeclare
 const InventorySlot = Enum(
 	'weapon',
 	'armor',
-	'none' // = non slottable (TODO)
+	'none', // = non slottable (TODO)
 )
 type InventorySlot = Enum<typeof InventorySlot> // eslint-disable-line no-redeclare
 

@@ -28,7 +28,7 @@ describe(`${LIB} - reducer`, function() {
 	describe('🆕  initial state', function() {
 
 		it('should have correct defaults', function() {
-			let [ u_state, t_state ] = create()
+			const [ u_state, t_state ] = create()
 
 			expect(u_state, 'u').to.deep.equal({
 				schema_version: SCHEMA_VERSION,
@@ -44,7 +44,7 @@ describe(`${LIB} - reducer`, function() {
 				available_energy: {
 					n: u_state.max_energy,
 					d: 1,
-				}
+				},
 			})
 		})
 	})
@@ -131,7 +131,7 @@ describe(`${LIB} - reducer`, function() {
 
 			// not yet
 			this.clock.tick(+new Date(2017, 1, 1, 23) - this.clock.now)
-			t_state = update_to_now([ u_state, t_state ], )
+			t_state = update_to_now([ u_state, t_state ] )
 			expect(get_available_energy_float(t_state)).to.be.below(7.)
 
 			// 24h elapsed since 1st play
@@ -148,7 +148,7 @@ describe(`${LIB} - reducer`, function() {
 				total_energy_consumed_so_far: 1000,
 			}
 
-				// inefficient play, always too late
+			// inefficient play, always too late
 			;[ u_state, t_state ] = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 0))
 			;[ u_state, t_state ] = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 3, 30))
 			;[ u_state, t_state ] = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 7))
@@ -180,7 +180,7 @@ describe(`${LIB} - reducer`, function() {
 				total_energy_consumed_so_far: 1000,
 			}
 
-				// burst to 0
+			// burst to 0
 			;[ u_state, t_state ] = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 0))
 			;[ u_state, t_state ] = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 0))
 			;[ u_state, t_state ] = use_energy([ u_state, t_state ], 1, +new Date(2017, 1, 1, 0))
@@ -237,7 +237,7 @@ describe(`${LIB} - reducer`, function() {
 					total_energy_consumed_so_far: 1000,
 				}
 
-					// all good, we are consuming less than 7/day
+				// all good, we are consuming less than 7/day
 				;[ u_state, t_state ] = use_energy([ u_state, t_state ], 4, +new Date(2017, 1, 1))
 				;[ u_state, t_state ] = use_energy([ u_state, t_state ], 4, +new Date(2017, 1, 2))
 				;[ u_state, t_state ] = use_energy([ u_state, t_state ], 4, +new Date(2017, 1, 3))
@@ -261,7 +261,7 @@ describe(`${LIB} - reducer`, function() {
 			})
 
 			it('should not change on abnormal date', function() {
-				let [ u_state, t_state ] = create(+new Date(2018, 0))
+				const [ u_state, t_state ] = create(+new Date(2018, 0))
 
 				expect(() => use_energy([ u_state, t_state ], 4, +new Date(2017, 1, 1))).to.throw('time went backward')
 			})

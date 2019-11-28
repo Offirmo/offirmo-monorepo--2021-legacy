@@ -33,7 +33,7 @@ function create(now_ms?: TimestampUTCMs): [ Readonly<UState>, Readonly<TState> ]
 		available_energy: {
 			n: u_state.max_energy,
 			d: 1,
-		}
+		},
 	}
 
 	return [ u_state, t_state ]
@@ -44,10 +44,10 @@ function create(now_ms?: TimestampUTCMs): [ Readonly<UState>, Readonly<TState> ]
 
 function update_to_now(
 	[ u_state, t_state ]: [ Readonly<UState>, Readonly<TState> ],
-	now_ms: TimestampUTCMs = get_UTC_timestamp_ms()
+	now_ms: TimestampUTCMs = get_UTC_timestamp_ms(),
 ): Readonly<TState> {
 	const elapsed_time_ms = now_ms - t_state.timestamp_ms
-	if (DEBUG) console.log(`- UTN: starting...`)
+	if (DEBUG) console.log('- UTN: starting...')
 
 	assert(now_ms === 0 || now_ms > 10_000, `${LIB}.update_to_now(): Wrong new Date(value) usage?`)
 
@@ -59,7 +59,7 @@ function update_to_now(
 	}
 
 	if (elapsed_time_ms < TICK_MS) {
-		if (DEBUG) console.log(`       less than a tick.`)
+		if (DEBUG) console.log('       less than a tick.')
 		//console.warn('E.update_to_now: high frequency, skipping')
 		return t_state
 	}
@@ -103,7 +103,7 @@ function update_to_now(
 		if (DEBUG) console.log(`         available energy: ${available_energy.valueOf()}`)
 
 		if (available_energy.compare(u_state.max_energy) >= 0) {
-			if (DEBUG) console.log(`         energy is full, no need to refill further`)
+			if (DEBUG) console.log('         energy is full, no need to refill further')
 			time_left_to_process_ms = 0
 			continue
 		}
@@ -114,11 +114,11 @@ function update_to_now(
 		if (DEBUG) console.log(`         time to next = ${time_to_next_ms}ms`)
 		if (DEBUG) console.log(`                      = ${get_human_time_to_next(u_state, t_state)}`)
 
-		let time_handled_in_this_iteration_ms = Math.min(time_left_to_process_ms, time_to_next_ms)
+		const time_handled_in_this_iteration_ms = Math.min(time_left_to_process_ms, time_to_next_ms)
 
 		if (time_handled_in_this_iteration_ms === time_to_next_ms) {
 			// try to avoid rounding issues
-			let new_energy = (new Fraction(available_energy)).add(1).floor(0)
+			const new_energy = (new Fraction(available_energy)).add(1).floor(0)
 			energy_gained_in_this_iteration = (new Fraction(new_energy)).sub(available_energy)
 			available_energy = new_energy
 		}
@@ -129,7 +129,7 @@ function update_to_now(
 		}
 		if (DEBUG) console.log(`         time handled = ${time_handled_in_this_iteration_ms}ms`)
 		if (DEBUG) console.log(`         refilled energy = +${energy_gained_in_this_iteration.valueOf()}`)
-		assert(energy_gained_in_this_iteration.valueOf() > 0, `UTN: no energy gain in a loop!`)
+		assert(energy_gained_in_this_iteration.valueOf() > 0, 'UTN: no energy gain in a loop!')
 		time_left_to_process_ms -= time_handled_in_this_iteration_ms
 		if (DEBUG) console.log(`         energy refilled to: ${available_energy.valueOf()}`)
 		t_state = {
@@ -137,7 +137,7 @@ function update_to_now(
 			available_energy: {
 				n: available_energy.n,
 				d: available_energy.d,
-			}
+			},
 		}
 	}
 
@@ -154,7 +154,7 @@ function update_to_now(
 		available_energy: {
 			n: available_energy.n,
 			d: available_energy.d,
-		}
+		},
 	}
 }
 
@@ -162,7 +162,7 @@ function update_to_now(
 function use_energy(
 	[ u_state, t_state ]: [ Readonly<UState>, Readonly<TState> ],
 	qty: number = 1,
-	now_ms: TimestampUTCMs = get_UTC_timestamp_ms()
+	now_ms: TimestampUTCMs = get_UTC_timestamp_ms(),
 ): [ Readonly<UState>, Readonly<TState> ] {
 	if (now_ms < t_state.timestamp_ms)
 		throw new Error(`${LIB}: time went backward! (cheating attempt?)`)
@@ -184,7 +184,7 @@ function use_energy(
 		available_energy: {
 			n: available_energy.n,
 			d: available_energy.d,
-		}
+		},
 	}
 
 	return [ u_state, t_state ]
@@ -195,7 +195,7 @@ function use_energy(
 function lose_all_energy(
 	[ u_state, t_state ]: [ Readonly<UState>, Readonly<TState> ],
 	qty: number = 1,
-	now_ms: TimestampUTCMs = get_UTC_timestamp_ms()
+	now_ms: TimestampUTCMs = get_UTC_timestamp_ms(),
 ): Readonly<TState> {
 	t_state = {
 		...t_state,
@@ -205,7 +205,7 @@ function lose_all_energy(
 		available_energy: {
 			n: 0,
 			d: 1,
-		}
+		},
 	}
 
 	return t_state
@@ -216,7 +216,7 @@ function lose_all_energy(
 function restore_energy(
 	[ u_state, t_state ]: [ Readonly<UState>, Readonly<TState> ],
 	qty: number = 1,
-	now_ms: TimestampUTCMs = get_UTC_timestamp_ms()
+	now_ms: TimestampUTCMs = get_UTC_timestamp_ms(),
 ): Readonly<TState> {
 
 	t_state = update_to_now([u_state, t_state], now_ms)
@@ -231,7 +231,7 @@ function restore_energy(
 		available_energy: {
 			n: available_energy.n,
 			d: available_energy.d,
-		}
+		},
 	}
 
 	return t_state

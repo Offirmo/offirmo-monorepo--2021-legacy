@@ -1,10 +1,10 @@
 import { expect } from 'chai'
 
 import {
-	generate_random_demo_armor
+	generate_random_demo_armor,
 } from '@oh-my-rpg/logic-armors'
 import {
-	generate_random_demo_weapon
+	generate_random_demo_weapon,
 } from '@oh-my-rpg/logic-weapons'
 
 import {

@@ -9,7 +9,7 @@ import {
 import { Random, Engine } from '@offirmo/random'
 
 import {
-	Armor
+	Armor,
 } from './types'
 
 import {
@@ -26,7 +26,7 @@ import {
 } from './consts'
 
 import {
-	BASE_STRENGTH_INTERVAL_BY_QUALITY
+	BASE_STRENGTH_INTERVAL_BY_QUALITY,
 } from './selectors'
 
 /////////////////////

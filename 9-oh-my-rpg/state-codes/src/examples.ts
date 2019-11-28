@@ -12,9 +12,9 @@ const DEMO_STATE: Readonly<State> = deepFreeze({
 
 	redeemed_codes: {
 		BORED: {
-			"redeem_count": 1,
-			"last_redeem_date_minutes": "20181030_21h23"
-		}
+			'redeem_count': 1,
+			'last_redeem_date_minutes': '20181030_21h23',
+		},
 	},
 })
 

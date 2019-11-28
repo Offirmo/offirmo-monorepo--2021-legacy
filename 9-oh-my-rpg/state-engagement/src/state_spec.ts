@@ -1,4 +1,4 @@
-import deepFreeze from "deep-freeze-strict"
+import deepFreeze from 'deep-freeze-strict'
 import { expect } from 'chai'
 
 import { SCHEMA_VERSION } from './consts'

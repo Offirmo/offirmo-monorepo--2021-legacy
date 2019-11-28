@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { OhMyRPGUIContext } from '../state-context'
 
 import View from './component'
-import './index.css';
+import './index.css'
 
 
 function Main({children, logo, universeAnchor, bottomMenuItems, bottomMarkerIndex, aboutContent}) {
@@ -20,7 +20,7 @@ function Main({children, logo, universeAnchor, bottomMenuItems, bottomMarkerInde
 				const css_selected_bottom_menu_value = -bottomMenuItems.length + 1 + ((bottomMarkerIndex >= 0) ? bottomMarkerIndex : -1)
 				document.documentElement.style.setProperty(
 					'--omr⋄ui__bottom-menu--selected-reverse-index',
-					css_selected_bottom_menu_value
+					css_selected_bottom_menu_value,
 				)
 
 				return (
@@ -35,7 +35,7 @@ Main.defaultProps = {
 	immersionSlides: [],
 	bottomMenuItems: [],
 	aboutContent: <span>This game was made by [x]...</span>,
-	burgerPanelContent: <span>put some settings here</span>
+	burgerPanelContent: <span>put some settings here</span>,
 }
 
 export default Main

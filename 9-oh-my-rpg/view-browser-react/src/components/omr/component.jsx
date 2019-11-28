@@ -3,7 +3,7 @@ import NotificationSystem from 'react-notification-system'
 
 import ErrorBoundary from '@offirmo-private/react-error-boundary'
 
-import './index.css';
+import './index.css'
 
 
 const TopLeftHudViewM = React.memo(
@@ -29,7 +29,7 @@ const TopLeftHudViewM = React.memo(
 				</div>}
 			</div>
 		)
-	}
+	},
 )
 
 const BottomRightHudViewM = React.memo(
@@ -46,7 +46,7 @@ const BottomRightHudViewM = React.memo(
 				</div>
 			</div>
 		)
-	}
+	},
 )
 
 const MainViewM = React.memo(
@@ -94,7 +94,7 @@ const MainViewM = React.memo(
 				</ErrorBoundary>
 			</div>
 		)
-	}
+	},
 )
 
 export default MainViewM

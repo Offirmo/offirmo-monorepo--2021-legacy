@@ -72,5 +72,5 @@ const CODESPECS_BY_KEY: { [key: string]: Readonly<CodeSpec<CodesConditions>> } =
 export {
 	CodesConditions,
 	CODESPECS_BY_KEY,
-	ALL_CODESPECS
+	ALL_CODESPECS,
 }

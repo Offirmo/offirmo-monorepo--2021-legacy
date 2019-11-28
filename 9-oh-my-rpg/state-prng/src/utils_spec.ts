@@ -43,7 +43,7 @@ describe('@oh-my-rpg/state-prng - utils', function() {
 			const prng = get_prng(state)
 
 			function gen() {
-				let val = regenerate_until_not_recently_encountered({
+				const val = regenerate_until_not_recently_encountered({
 					id,
 					generate: () => 42,
 					state,
@@ -70,7 +70,7 @@ describe('@oh-my-rpg/state-prng - utils', function() {
 			const prng = get_prng(state)
 
 			function gen() {
-				let val = regenerate_until_not_recently_encountered({
+				const val = regenerate_until_not_recently_encountered({
 					id,
 					generate: () => Random.integer(0, 1)(prng),
 					state,
@@ -106,7 +106,7 @@ describe('@oh-my-rpg/state-prng - utils', function() {
 			state = register_recently_used(state, id, 8, 9)
 
 			function gen() {
-				let val = regenerate_until_not_recently_encountered({
+				const val = regenerate_until_not_recently_encountered({
 					id,
 					generate: () => Random.integer(0, 9)(prng),
 					state,

@@ -52,7 +52,7 @@ describe(`${LIB} - selectors`, function() {
 
 				expect(min).to.equal(55575)
 				expect(max).to.equal(61425)
-			});
+			})
 
 			/*
 			[

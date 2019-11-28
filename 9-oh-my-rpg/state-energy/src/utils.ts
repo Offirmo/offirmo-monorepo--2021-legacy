@@ -1,7 +1,7 @@
 
 function time_to_human(seconds: number): string {
 	//console.log(`time_to_human(${seconds})`)
-	let human_time_parts = []
+	const human_time_parts = []
 
 	const s = seconds % 60
 	seconds -= s

@@ -3,7 +3,7 @@ import { InventorySlot } from '@oh-my-rpg/definitions'
 import {
 	MAX_ENHANCEMENT_LEVEL,
 	Armor,
-	get_damage_reduction_interval as get_armor_damage_reduction_interval
+	get_damage_reduction_interval as get_armor_damage_reduction_interval,
 } from '@oh-my-rpg/logic-armors'
 import * as RichText from '@offirmo-private/rich-text-format'
 import { i18n_messages as I18N_ARMORS } from '@oh-my-rpg/logic-armors'
@@ -43,21 +43,21 @@ function push_power(builder: Builder, i: Readonly<Armor>, options: Readonly<{sho
 		if (power > options.reference_power) {
 			const $node = RichText.inline_fragment()
 				.addClass('comparison--better')
-				.pushText(`⬆`)
+				.pushText('⬆')
 				.done()
 			builder.pushNode($node, {id: 'comparision'})
 		}
 		else if (power < options.reference_power) {
 			const $node = RichText.inline_fragment()
 				.addClass('comparison--worse')
-				.pushText(`⬇`)
+				.pushText('⬇')
 				.done()
 			builder.pushNode($node, {id: 'comparision'})
 		}
 		else if (power < options.reference_power) {
 			const $node = RichText.inline_fragment()
 				.addClass('comparison--equal')
-				.pushText(`=`)
+				.pushText('=')
 				.done()
 			builder.pushNode($node, {id: 'comparision'})
 		}
@@ -87,7 +87,7 @@ function render_armor_name(i: Readonly<Armor>): RichText.Document {
 		.pushText(
 			q2.startsWith('of')
 				? '{{q1|Capitalize}} {{base|Capitalize}} {{q2|Capitalize}}'
-				: '{{q2|Capitalize}} {{q1|Capitalize}} {{base|Capitalize}}'
+				: '{{q2|Capitalize}} {{q1|Capitalize}} {{base|Capitalize}}',
 		)
 
 	if (i.enhancement_level) {
@@ -129,7 +129,7 @@ function render_armor_short(i: Readonly<Armor>, options: Readonly<RenderItemOpti
 		builder.pushText(' ')
 		push_power(builder, i, {
 			short: !options.display_power,
-			reference_power: options.reference_power
+			reference_power: options.reference_power,
 		})
 	}
 

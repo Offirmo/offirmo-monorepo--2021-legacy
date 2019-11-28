@@ -12,7 +12,7 @@ import { time_to_human } from './utils'
 ////////////////////////////////////
 
 const MIN_RESULT = new Fraction(1, 2.1) // must be smaller than .5 for rounding reasons
-function get_current_energy_refilling_rate_per_ms(u_state: Readonly<UState>, t_state: Readonly<TState>, ): Fraction {
+function get_current_energy_refilling_rate_per_ms(u_state: Readonly<UState>, t_state: Readonly<TState> ): Fraction {
 	if (t_state.timestamp_ms + TICK_MS < get_UTC_timestamp_ms()) {
 		get_logger().warn(`${LIB}.get_current_energy_refilling_rate_per_ms() called on outdated state!`)
 	}
@@ -44,7 +44,7 @@ function get_current_energy_refilling_rate_per_ms(u_state: Readonly<UState>, t_s
 
 	const onboarding_energy_refilling_rate_per_ms = new Fraction(
 		onboarding_coeff,
-		Math.pow(total_energy_refilled_so_far + onboarding_adjustment, onboarding_power)
+		Math.pow(total_energy_refilled_so_far + onboarding_adjustment, onboarding_power),
 	)
 
 	let rate = (
@@ -53,7 +53,7 @@ function get_current_energy_refilling_rate_per_ms(u_state: Readonly<UState>, t_s
 			// for rounding reasons, we floor() the result
 			// established = 7/day = ~0.000000081028970/ms
 			.floor(12) // 12 because seen dropping the /day rate at 10
-		)
+	)
 
 	if (total_energy_refilled_so_far <= 10 && rate.compare(MIN_RESULT) > 0) {
 		rate = MIN_RESULT
@@ -143,7 +143,7 @@ function get_milliseconds_to_next(u_state: Readonly<UState>, t_state: Readonly<T
 				(new Fraction(1))
 					.sub(fractional_available_energy)
 					.div(energy_refilling_rate_per_ms)
-			)
+			),
 		})
 	}
 	assert(ttn > 0, `${LIB}.get_milliseconds_to_next() should never return 0!`)

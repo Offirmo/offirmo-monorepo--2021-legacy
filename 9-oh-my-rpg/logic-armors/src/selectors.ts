@@ -44,7 +44,7 @@ const TEMP_BASE_STRENGTH_INTERVAL_BY_QUALITY: { [k: string]: [number, number] } 
 Object.keys(OVERALL_STRENGTH_INTERVAL_BY_QUALITY).forEach((k: string): void => {
 	const quality = k as ItemQuality
 	const [ overall_min, overall_max ] = OVERALL_STRENGTH_INTERVAL_BY_QUALITY[quality]
-	let spread_pct = SPREAD_PCT_BY_QUALITY[quality]
+	const spread_pct = SPREAD_PCT_BY_QUALITY[quality]
 
 	//console.log({quality, overall_min, overall_max})
 
@@ -76,11 +76,11 @@ function get_interval(base_strength: number, quality: ItemQuality, enhancement_l
 	// It shouldn't change the numbers a lot.
 	const min_strength = Math.max(
 		overall_min,
-		Math.round(base_strength * (1 - spread_pct) * enhancement_ratio)
+		Math.round(base_strength * (1 - spread_pct) * enhancement_ratio),
 	)
 	const max_strength = Math.min(
 		overall_max,
-		Math.round(base_strength * (1 + spread_pct) * enhancement_ratio)
+		Math.round(base_strength * (1 + spread_pct) * enhancement_ratio),
 	)
 
 	return [ min_strength, max_strength ]
@@ -121,7 +121,7 @@ function matches(armor: Readonly<Armor>, elements: Readonly<Partial<Armor>>): bo
 	if (armor.slot !== InventorySlot.armor)
 		return false
 
-			;(Object.keys(elements) as Array<keyof Armor>)
+		;(Object.keys(elements) as Array<keyof Armor>)
 		.forEach((k: keyof Armor) => {
 			if (!(k in armor))
 				throw new Error(`${LIB} matches: can't match on non-armor key "${k}"!`)

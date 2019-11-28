@@ -36,7 +36,7 @@ const BurgerMenuWrapperViewM = React.memo(
 				</div>
 			</div>
 		)
-	}
+	},
 )
 
 export default BurgerMenuWrapperViewM

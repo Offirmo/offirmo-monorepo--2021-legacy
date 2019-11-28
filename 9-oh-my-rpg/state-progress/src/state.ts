@@ -43,7 +43,7 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 				items_gained: 0,
 				has_account: false,
 				is_registered_alpha_player: false,
-			}
+			},
 		})
 	})
 }
@@ -103,7 +103,7 @@ function on_played(previous_state: Readonly<State>, details: PlayedDetails): Rea
 	}
 
 	// shortcut
-	let stats = state.statistics
+	const stats = state.statistics
 
 	if(!stats.encountered_adventures[adventure_key]) {
 		stats.encountered_adventures = {
@@ -164,7 +164,7 @@ function on_achieved(previous_state: Readonly<State>, key: string, new_status: A
 		assert(last_known_status !== AchievementStatus.unlocked, `${LIB}: achievements are sticky, they can’t be removed!`)
 	}
 
-	let state = {
+	const state = {
 		...previous_state,
 
 		achievements: {

@@ -47,7 +47,7 @@ const AUTHORS: Readonly<Author>[] = [
 	},
 	{
 		display_name: 'Jaecheol Park',
-		url: 'https://www.artstation.com/paperblue'
+		url: 'https://www.artstation.com/paperblue',
 	},
 	/*
 	{
@@ -61,7 +61,7 @@ const AUTHORS_BY_NAME: AuthorHash = AUTHORS.reduce(
 		acc[val.display_name] = val
 		return acc
 	},
-	{}
+	{},
 )
 
 
@@ -73,7 +73,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Ar Nat Village',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-ar_nat_village',
-		position_pct:     {"x":79,"y":20},
+		position_pct:     {'x':79,'y':20},
 		position_pct_alt: undefined,
 	},
 
@@ -83,7 +83,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'At The Gate',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-at_the_gate',
-		position_pct:     {"x":85,"y":62},
+		position_pct:     {'x':85,'y':62},
 		position_pct_alt: undefined,
 	},
 
@@ -93,7 +93,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Blue Valley',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-blue_valley',
-		position_pct:     {"x":74,"y":50},
+		position_pct:     {'x':74,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -103,7 +103,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Castlerock',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-castlerock',
-		position_pct:     {"x":32,"y":50},
+		position_pct:     {'x':32,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -113,7 +113,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'City Gates',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-city_gates',
-		position_pct:     {"x":63,"y":50},
+		position_pct:     {'x':63,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -123,7 +123,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Dangerous Roads',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-dangerous_roads',
-		position_pct:     {"x":64,"y":50},
+		position_pct:     {'x':64,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -133,7 +133,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Dark Times',
 		keywords:         [ 'dungeon' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-dark_times',
-		position_pct:     {"x":78,"y":60},
+		position_pct:     {'x':78,'y':60},
 		position_pct_alt: undefined,
 	},
 
@@ -143,7 +143,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Deep In The Jungle',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-deep_in_the_jungle',
-		position_pct:     {"x":65,"y":50},
+		position_pct:     {'x':65,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -153,7 +153,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Deep In The Woods',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-deep_in_the_woods',
-		position_pct:     {"x":30,"y":80},
+		position_pct:     {'x':30,'y':80},
 		position_pct_alt: undefined,
 	},
 
@@ -163,7 +163,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Deep Shadows',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-deep_shadows',
-		position_pct:     {"x":23,"y":50},
+		position_pct:     {'x':23,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -173,7 +173,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Dome City',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-dome_city',
-		position_pct:     {"x":19,"y":50},
+		position_pct:     {'x':19,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -183,7 +183,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Dragons Pass',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-dragons_pass',
-		position_pct:     {"x":0,"y":27},
+		position_pct:     {'x':0,'y':27},
 		position_pct_alt: undefined,
 	},
 
@@ -193,7 +193,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Enchanted Forest Ii',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-enchanted_forest_ii',
-		position_pct:     {"x":66,"y":50},
+		position_pct:     {'x':66,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -203,7 +203,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Fiery Path',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-fiery_path',
-		position_pct:     {"x":78,"y":50},
+		position_pct:     {'x':78,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -213,7 +213,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'First Rays',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-first_rays',
-		position_pct:     {"x":41,"y":50},
+		position_pct:     {'x':41,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -223,7 +223,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Forbidden Kingdom',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-forbidden_kingdom',
-		position_pct:     {"x":26,"y":50},
+		position_pct:     {'x':26,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -233,8 +233,8 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Foundation',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-foundation',
-		position_pct:     {"x":50,"y":46},
-		position_pct_alt: {"x":50,"y":0},
+		position_pct:     {'x':50,'y':46},
+		position_pct_alt: {'x':50,'y':0},
 	},
 
 	{
@@ -243,7 +243,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Hidden Treasures',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-hidden_treasures',
-		position_pct:     {"x":73,"y":50},
+		position_pct:     {'x':73,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -253,7 +253,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Homage To Sintra',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-homage_to_sintra',
-		position_pct:     {"x":75,"y":50},
+		position_pct:     {'x':75,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -263,7 +263,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Humble Abode',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-humble_abode',
-		position_pct:     {"x":50,"y":72},
+		position_pct:     {'x':50,'y':72},
 		position_pct_alt: undefined,
 	},
 
@@ -273,7 +273,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Ice Temple',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-ice_temple',
-		position_pct:     {"x":78,"y":50},
+		position_pct:     {'x':78,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -283,7 +283,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Light Forest',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-light_forest',
-		position_pct:     {"x":72,"y":50},
+		position_pct:     {'x':72,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -293,7 +293,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Magic Hour',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-magic_hour',
-		position_pct:     {"x":81,"y":50},
+		position_pct:     {'x':81,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -303,7 +303,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Mountain Pass',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-mountain_pass',
-		position_pct:     {"x":96,"y":80},
+		position_pct:     {'x':96,'y':80},
 		position_pct_alt: undefined,
 	},
 
@@ -313,7 +313,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Old Forest',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-old_forest',
-		position_pct:     {"x":61,"y":50},
+		position_pct:     {'x':61,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -323,7 +323,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Path Of Wisdom',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-path_of_wisdom',
-		position_pct:     {"x":65,"y":50},
+		position_pct:     {'x':65,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -333,7 +333,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Peace Of Mind',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-peace_of_mind',
-		position_pct:     {"x":45,"y":50},
+		position_pct:     {'x':45,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -343,7 +343,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Safe Haven',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-safe_haven',
-		position_pct:     {"x":80,"y":50},
+		position_pct:     {'x':80,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -353,7 +353,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Soul Searching',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-soul_searching',
-		position_pct:     {"x":57,"y":50},
+		position_pct:     {'x':57,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -363,7 +363,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Spring Is Coming',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-spring_is_coming',
-		position_pct:     {"x":68,"y":50},
+		position_pct:     {'x':68,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -373,7 +373,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Student Vs Teacher',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-student_vs_teacher',
-		position_pct:     {"x":45,"y":50},
+		position_pct:     {'x':45,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -383,7 +383,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'The Citadel Ii',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-the_citadel_ii',
-		position_pct:     {"x":98,"y":25},
+		position_pct:     {'x':98,'y':25},
 		position_pct_alt: undefined,
 	},
 
@@ -393,7 +393,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'The Dark Citadel',
 		keywords:         [ 'dungeon' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-the_dark_citadel',
-		position_pct:     {"x":60,"y":51},
+		position_pct:     {'x':60,'y':51},
 		position_pct_alt: undefined,
 	},
 
@@ -403,7 +403,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'The Emissary',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-the_emissary',
-		position_pct:     {"x":31,"y":65},
+		position_pct:     {'x':31,'y':65},
 		position_pct_alt: undefined,
 	},
 
@@ -413,7 +413,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'The Fiery Forest',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-the_fiery_forest',
-		position_pct:     {"x":84,"y":1},
+		position_pct:     {'x':84,'y':1},
 		position_pct_alt: undefined,
 	},
 
@@ -423,7 +423,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'The Gathering',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-the_gathering',
-		position_pct:     {"x":51,"y":99},
+		position_pct:     {'x':51,'y':99},
 		position_pct_alt: undefined,
 	},
 
@@ -433,7 +433,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'The Hidden Village Ii',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-the_hidden_village_ii',
-		position_pct:     {"x":67,"y":50},
+		position_pct:     {'x':67,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -443,7 +443,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'The Last Fortress',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-the_last_fortress',
-		position_pct:     {"x":66,"y":50},
+		position_pct:     {'x':66,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -453,7 +453,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'The Message',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-the_message',
-		position_pct:     {"x":91,"y":50},
+		position_pct:     {'x':91,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -463,7 +463,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'The Treehouse',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-the_treehouse',
-		position_pct:     {"x":75,"y":50},
+		position_pct:     {'x':75,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -473,7 +473,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Unnamed 2',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-unnamed_2',
-		position_pct:     {"x":63,"y":50},
+		position_pct:     {'x':63,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -483,7 +483,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Warm Mist',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-warm_mist',
-		position_pct:     {"x":24,"y":71},
+		position_pct:     {'x':24,'y':71},
 		position_pct_alt: undefined,
 	},
 
@@ -493,7 +493,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Waterfall Memories',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-waterfall_memories',
-		position_pct:     {"x":64,"y":50},
+		position_pct:     {'x':64,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -503,7 +503,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'We Found This Amazing Place',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-we_found_this_amazing_place',
-		position_pct:     {"x":60,"y":90},
+		position_pct:     {'x':60,'y':90},
 		position_pct_alt: undefined,
 	},
 
@@ -513,7 +513,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Winter Lights',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-winter_lights',
-		position_pct:     {"x":74,"y":50},
+		position_pct:     {'x':74,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -523,7 +523,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Winter Travellers',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-winter_travellers',
-		position_pct:     {"x":55,"y":50},
+		position_pct:     {'x':55,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -533,7 +533,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Wizards Tower',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-wizards_tower',
-		position_pct:     {"x":18,"y":1},
+		position_pct:     {'x':18,'y':1},
 		position_pct_alt: undefined,
 	},
 
@@ -543,7 +543,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Cold March',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-cold_march',
-		position_pct:     {"x":26,"y":50},
+		position_pct:     {'x':26,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -553,7 +553,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Morning Arrival',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-morning_arrival',
-		position_pct:     {"x":49,"y":50},
+		position_pct:     {'x':49,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -563,7 +563,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Fields Of Gold',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚andreas_rocha-fields_of_gold',
-		position_pct:     {"x":63,"y":70},
+		position_pct:     {'x':63,'y':70},
 		position_pct_alt: undefined,
 	},
 
@@ -573,7 +573,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Pikes',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚cyril_labranche-pikes',
-		position_pct:     {"x":80,"y":60},
+		position_pct:     {'x':80,'y':60},
 		position_pct_alt: undefined,
 	},
 
@@ -583,7 +583,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'A Cabin In The Cave',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚dan_zhao-a_cabin_in_the_cave',
-		position_pct:     {"x":57,"y":50},
+		position_pct:     {'x':57,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -593,7 +593,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'A Practice',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚dan_zhao-a_practice',
-		position_pct:     {"x":66,"y":50},
+		position_pct:     {'x':66,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -603,7 +603,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Ancient Castle',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚dan_zhao-ancient_castle',
-		position_pct:     {"x":34,"y":50},
+		position_pct:     {'x':34,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -613,7 +613,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Barbacan',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚dan_zhao-barbacan',
-		position_pct:     {"x":39,"y":50},
+		position_pct:     {'x':39,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -623,8 +623,8 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Canyon',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚dan_zhao-canyon',
-		position_pct:     {"x":26,"y":50},
-		position_pct_alt: {"x":59,"y":50},
+		position_pct:     {'x':26,'y':50},
+		position_pct_alt: {'x':59,'y':50},
 	},
 
 	{
@@ -633,7 +633,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Secluded Valley',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚dan_zhao-secluded_valley',
-		position_pct:     {"x":75,"y":50},
+		position_pct:     {'x':75,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -643,7 +643,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Albion Lymhurst',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚daniel_alekow-albion_lymhurst',
-		position_pct:     {"x":37,"y":50},
+		position_pct:     {'x':37,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -653,7 +653,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Inside Caerleon',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚daniel_alekow-inside_caerleon',
-		position_pct:     {"x":48,"y":50},
+		position_pct:     {'x':48,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -663,7 +663,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'A Secret Place Alps',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚dmitry_kremiansky-a_secret_place_alps',
-		position_pct:     {"x":47,"y":30},
+		position_pct:     {'x':47,'y':30},
 		position_pct_alt: undefined,
 	},
 
@@ -673,7 +673,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Ships And Seagulls',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚dmitry_kremiansky-ships_and_seagulls',
-		position_pct:     {"x":52,"y":50},
+		position_pct:     {'x':52,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -683,7 +683,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Thames',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚dmitry_kremiansky-thames',
-		position_pct:     {"x":74,"y":50},
+		position_pct:     {'x':74,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -693,7 +693,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Victorian Street',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚dmitry_kremiansky-victorian_street',
-		position_pct:     {"x":79,"y":50},
+		position_pct:     {'x':79,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -703,7 +703,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Bank',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚jaecheol_park-bank',
-		position_pct:     {"x":70,"y":70},
+		position_pct:     {'x':70,'y':70},
 		position_pct_alt: undefined,
 	},
 
@@ -713,7 +713,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Bl F',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚jaecheol_park-bl_f',
-		position_pct:     {"x":90,"y":50},
+		position_pct:     {'x':90,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -723,7 +723,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Castle',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚jaecheol_park-castle',
-		position_pct:     {"x":31,"y":50},
+		position_pct:     {'x':31,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -760,7 +760,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Forest Gr Up',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚jaecheol_park-forest_gr_up',
-		position_pct:     {"x":37,"y":50},
+		position_pct:     {'x':37,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -797,7 +797,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Sea R W',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚jaecheol_park-sea_r_w',
-		position_pct:     {"x":19,"y":50},
+		position_pct:     {'x':19,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -807,7 +807,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Shop',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚jaecheol_park-shop',
-		position_pct:     {"x":10,"y":28},
+		position_pct:     {'x':10,'y':28},
 		position_pct_alt: undefined,
 	},
 
@@ -817,7 +817,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Civilization',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚jorge_miguel_jacinto-civilization',
-		position_pct:     {"x":41,"y":50},
+		position_pct:     {'x':41,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -827,7 +827,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Half Remembered Ruins',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚jorge_miguel_jacinto-half_remembered_ruins',
-		position_pct:     {"x":60,"y":50},
+		position_pct:     {'x':60,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -837,7 +837,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Snowcapped Environment',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚julius_camenzind-snowcapped_environment',
-		position_pct:     {"x":74,"y":50},
+		position_pct:     {'x':74,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -847,7 +847,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Terry Goodkind French Cover',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚raphael_lacoste-terry_goodkind_french_cover',
-		position_pct:     {"x":5,"y":50},
+		position_pct:     {'x':5,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -857,7 +857,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Gnomon',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚raphael_lacoste-gnomon',
-		position_pct:     {"x":32,"y":50},
+		position_pct:     {'x':32,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -867,7 +867,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Journey To The Center Of The Earth',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚raphael_lacoste-journey_to_the_center_of_the_earth',
-		position_pct:     {"x":55,"y":50},
+		position_pct:     {'x':55,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -877,7 +877,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Jungle',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚raphael_lacoste-jungle',
-		position_pct:     {"x":15,"y":50},
+		position_pct:     {'x':15,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -887,7 +887,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Kvaslr Fortress',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚raphael_lacoste-kvaslr_fortress',
-		position_pct:     {"x":84,"y":1},
+		position_pct:     {'x':84,'y':1},
 		position_pct_alt: undefined,
 	},
 
@@ -897,7 +897,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Lost Island',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚raphael_lacoste-lost_island',
-		position_pct:     {"x":2,"y":50},
+		position_pct:     {'x':2,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -907,7 +907,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Path To The Gothic Choir',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚raphael_lacoste-path_to_the_gothic_choir',
-		position_pct:     {"x":30,"y":50},
+		position_pct:     {'x':30,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -917,7 +917,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Sentinels',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚raphael_lacoste-sentinels',
-		position_pct:     {"x":90,"y":10},
+		position_pct:     {'x':90,'y':10},
 		position_pct_alt: undefined,
 	},
 
@@ -927,7 +927,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Return Of The Knight',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚raphael_lacoste-return_of_the_knight',
-		position_pct:     {"x":79,"y":50},
+		position_pct:     {'x':79,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -937,7 +937,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Ride At Dusk',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚raphael_lacoste-ride_at_dusk',
-		position_pct:     {"x":60,"y":50},
+		position_pct:     {'x':60,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -947,7 +947,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Santa Lucia Arrival',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚raphael_lacoste-santa_lucia_arrival',
-		position_pct:     {"x":20,"y":50},
+		position_pct:     {'x':20,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -957,7 +957,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'The Coast',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚raphael_lacoste-the_coast',
-		position_pct:     {"x":100,"y":50},
+		position_pct:     {'x':100,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -967,7 +967,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'The Encounter',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚raphael_lacoste-the_encounter',
-		position_pct:     {"x":1,"y":50},
+		position_pct:     {'x':1,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -977,7 +977,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'The Journey',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚raphael_lacoste-the_journey',
-		position_pct:     {"x":70,"y":50},
+		position_pct:     {'x':70,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -987,7 +987,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'The Mangrove',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚raphael_lacoste-the_mangrove',
-		position_pct:     {"x":95,"y":50},
+		position_pct:     {'x':95,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -997,7 +997,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Viking Ambush',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚raphael_lacoste-viking_ambush',
-		position_pct:     {"x":25,"y":50},
+		position_pct:     {'x':25,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -1007,7 +1007,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Tangled Castle',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚robh_ruppel-tangled_castle',
-		position_pct:     {"x":45,"y":50},
+		position_pct:     {'x':45,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -1017,7 +1017,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Snow Forest 1',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚thomas_stoop-snow_forest_1',
-		position_pct:     {"x":70,"y":50},
+		position_pct:     {'x':70,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -1027,7 +1027,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Snow Forest 2',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚thomas_stoop-snow_forest_2',
-		position_pct:     {"x":69,"y":50},
+		position_pct:     {'x':69,'y':50},
 		position_pct_alt: undefined,
 	},
 
@@ -1037,7 +1037,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Snow Forest 3',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚thomas_stoop-snow_forest_3',
-		position_pct:     {"x":57,"y":1},
+		position_pct:     {'x':57,'y':1},
 		position_pct_alt: undefined,
 	},
 

@@ -55,7 +55,7 @@ function migrate_to_2(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hi
 	return {
 		...legacy_state,
 		schema_version: 2,
-		achievements: legacy_state.achievements || {}
+		achievements: legacy_state.achievements || {},
 	} as State
 }
 

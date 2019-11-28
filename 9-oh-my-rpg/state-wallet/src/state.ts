@@ -40,7 +40,7 @@ function currency_to_state_entry(currency: Currency): string {
 }
 
 function change_amount_by(state: Readonly<State>, currency: Currency, amount: number): Readonly<State> {
-	let state_entry = currency_to_state_entry(currency)
+	const state_entry = currency_to_state_entry(currency)
 
 	return {
 		...state,

@@ -132,12 +132,12 @@ describe('@oh-my-rpg/logic-adventures - data:', function () {
 		})
 
 		it('auto helps to fix the errors', () => {
-			let missing_descriptors: string[] = []
+			const missing_descriptors: string[] = []
 
 			Object.keys(_.adventures).forEach(function(key: string) {
-					if (!ARCHETYPES[key]) {
-						missing_descriptors.push(key)
-					}
+				if (!ARCHETYPES[key]) {
+					missing_descriptors.push(key)
+				}
 			})
 
 			if (missing_descriptors.length) {

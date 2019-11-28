@@ -10,7 +10,7 @@ function get_lib_SEC(parent?: SoftExecutionContext): SoftExecutionContext {
 			.setLogicalStack({module: LIB})
 			.setAnalyticsAndErrorDetails({
 				sub_product: 'state-energy',
-			})
+			}),
 	)
 }
 

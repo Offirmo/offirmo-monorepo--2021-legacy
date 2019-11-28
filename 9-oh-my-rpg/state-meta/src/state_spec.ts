@@ -12,7 +12,7 @@ describe(`${LIB} - reducer`, function() {
 	describe('🆕  initial state', function() {
 
 		it('should have correct defaults', function() {
-			let state = create()
+			const state = create()
 
 			expect(state).to.deep.equal({
 				schema_version: SCHEMA_VERSION,

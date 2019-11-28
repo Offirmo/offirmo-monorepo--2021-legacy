@@ -43,21 +43,21 @@ function push_power(builder: Builder, i: Readonly<Weapon>, options: Readonly<{sh
 		if (power > options.reference_power) {
 			const $node = RichText.inline_fragment()
 				.addClass('comparison--better')
-				.pushText(`⬆`)
+				.pushText('⬆')
 				.done()
 			builder.pushNode($node, { id: 'comparision'})
 		}
 		else if (power < options.reference_power) {
 			const $node = RichText.inline_fragment()
 				.addClass('comparison--worse')
-				.pushText(`⬇`)
+				.pushText('⬇')
 				.done()
 			builder.pushNode($node, { id: 'comparision'})
 		}
 		else if (power < options.reference_power) {
 			const $node = RichText.inline_fragment()
 				.addClass('comparison--equal')
-				.pushText(`=`)
+				.pushText('=')
 				.done()
 			builder.pushNode($node, { id: 'comparision'})
 		}
@@ -90,7 +90,7 @@ function render_weapon_name(i: Readonly<Weapon>): RichText.Document {
 		.pushText(
 			q2.startsWith('of')
 				? '{{q1|Capitalize}} {{base|Capitalize}} {{q2|Capitalize}}'
-				: '{{q2|Capitalize}} {{q1|Capitalize}} {{base|Capitalize}}'
+				: '{{q2|Capitalize}} {{q1|Capitalize}} {{base|Capitalize}}',
 		)
 
 	if (i.enhancement_level) {
@@ -132,7 +132,7 @@ function render_weapon_short(i: Readonly<Weapon>, options: Readonly<RenderItemOp
 		builder.pushText(' ')
 		push_power(builder, i, {
 			short: !options.display_power,
-			reference_power: options.reference_power
+			reference_power: options.reference_power,
 		})
 	}
 

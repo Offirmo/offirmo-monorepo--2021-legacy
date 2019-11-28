@@ -130,7 +130,7 @@ const messages: Readonly<I18nMessages> = {
 			'warrior': 'warrior’s',
 			'wise': 'of the wise',
 			'woodsman': 'woodsman’s',
-		}
+		},
 	},
 }
 

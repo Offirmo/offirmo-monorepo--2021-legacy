@@ -125,7 +125,7 @@ const ENTRIES: Readonly<RawArmorEntry>[] = [
 	{ type: 'qualifier2', hid: 'warfield' },
 	{ type: 'qualifier2', hid: 'warrior' },
 	{ type: 'qualifier2', hid: 'wise' },
-	{ type: 'qualifier2', hid: 'woodsman' }
+	{ type: 'qualifier2', hid: 'woodsman' },
 ]
 
 export {

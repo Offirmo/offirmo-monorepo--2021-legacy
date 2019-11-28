@@ -22,7 +22,7 @@ import {
 } from './data'
 
 import {
-	BASE_STRENGTH_INTERVAL_BY_QUALITY
+	BASE_STRENGTH_INTERVAL_BY_QUALITY,
 } from './selectors'
 
 import { create } from './state'
@@ -57,7 +57,7 @@ const DEMO_ARMOR_2: Readonly<Armor> = {
 function generate_random_demo_armor(rng?: Engine): Armor {
 	rng = rng || Random.engines.mt19937().autoSeed()
 	return create(rng!, {
-		enhancement_level: Random.integer(MIN_ENHANCEMENT_LEVEL, MAX_ENHANCEMENT_LEVEL)(rng)
+		enhancement_level: Random.integer(MIN_ENHANCEMENT_LEVEL, MAX_ENHANCEMENT_LEVEL)(rng),
 	})
 }
 

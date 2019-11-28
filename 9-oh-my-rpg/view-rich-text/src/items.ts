@@ -4,7 +4,7 @@ import { Weapon } from '@oh-my-rpg/logic-weapons'
 import * as RichText from '@offirmo-private/rich-text-format'
 
 import { render_armor_short, render_armor_detailed } from './items--armor'
-import { render_weapon_short, render_weapon_detailed, } from './items--weapon'
+import { render_weapon_short, render_weapon_detailed } from './items--weapon'
 import { RenderItemOptions } from './types'
 import { DEFAULT_RENDER_ITEM_OPTIONS } from './consts'
 
@@ -22,12 +22,12 @@ function render_item_short(i: Readonly<Item>, options: Readonly<RenderItemOption
 
 	const doc: RichText.Document = (function auto() {
 		switch (i.slot) {
-		case InventorySlot.armor:
-			return render_armor_short(i as Armor, options)
-		case InventorySlot.weapon:
-			return render_weapon_short(i as Weapon, options)
-		default:
-			throw new Error(`render_item_short(): don't know how to render a "${i.slot}" !`)
+			case InventorySlot.armor:
+				return render_armor_short(i as Armor, options)
+			case InventorySlot.weapon:
+				return render_weapon_short(i as Weapon, options)
+			default:
+				throw new Error(`render_item_short(): don't know how to render a "${i.slot}" !`)
 		}
 	})()
 
@@ -40,12 +40,12 @@ function render_item_detailed(i: Readonly<Item>): RichText.Document {
 
 	const doc: RichText.Document = (function auto() {
 		switch (i.slot) {
-		case InventorySlot.armor:
-			return render_armor_detailed(i as Armor)
-		case InventorySlot.weapon:
-			return render_weapon_detailed(i as Weapon)
-		default:
-			throw new Error(`render_item_detailed(): don't know how to render a "${i.slot}" !`)
+			case InventorySlot.armor:
+				return render_armor_detailed(i as Armor)
+			case InventorySlot.weapon:
+				return render_weapon_detailed(i as Weapon)
+			default:
+				throw new Error(`render_item_detailed(): don't know how to render a "${i.slot}" !`)
 		}
 	})()
 

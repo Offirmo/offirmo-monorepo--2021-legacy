@@ -9,7 +9,7 @@ import {
 } from './types'
 
 import {
-	ENTRIES
+	ENTRIES,
 } from './data'
 
 /////////////////////
@@ -43,7 +43,7 @@ function create(rng: Engine, hints: Readonly<Partial<Monster>> = {}): Monster {
 		const reference_level = hints.level
 		const variation = Math.round(Math.max(1, reference_level * MONSTER_RELATIVE_LEVEL_SPREAD))
 		level = Math.max(1, Math.min(MAX_LEVEL,
-			reference_level + Random.integer(-variation, variation)(rng)
+			reference_level + Random.integer(-variation, variation)(rng),
 		))
 	}
 

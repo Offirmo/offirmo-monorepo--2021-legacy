@@ -56,7 +56,7 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 				agility: 1,
 				charisma: 1,
 				wisdom: 1,
-				luck: 1
+				luck: 1,
 			},
 		})
 	})

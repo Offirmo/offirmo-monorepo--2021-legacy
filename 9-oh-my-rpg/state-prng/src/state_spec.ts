@@ -28,7 +28,7 @@ describe('@oh-my-rpg/state-prng - reducer', function() {
 
 			expect(state).to.deep.equal({
 				schema_version: SCHEMA_VERSION,
-				"uuid": "uu1~test~test~test~test~",
+				'uuid': 'uu1~test~test~test~test~',
 				revision: 0,
 
 				seed: DEFAULT_SEED,
@@ -49,7 +49,7 @@ describe('@oh-my-rpg/state-prng - reducer', function() {
 		it('should correctly persist prng state', function() {
 			let state = create()
 
-			let prng = get_prng(state)
+			const prng = get_prng(state)
 			expect(Random.integer(0, 10)(prng), 'random 1').to.equal(2)
 			expect(Random.integer(0, 10)(prng), 'random 2').to.equal(5)
 

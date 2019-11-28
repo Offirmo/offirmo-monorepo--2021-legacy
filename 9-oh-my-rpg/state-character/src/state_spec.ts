@@ -33,7 +33,7 @@ describe('@oh-my-rpg/state-character - reducer', function() {
 					agility: 1,
 					charisma: 1,
 					wisdom: 1,
-					luck: 1
+					luck: 1,
 				},
 			})
 		})
@@ -70,7 +70,7 @@ describe('@oh-my-rpg/state-character - reducer', function() {
 				agility: 2,
 				charisma: 1,
 				wisdom: 1,
-				luck: 1
+				luck: 1,
 			})
 
 			state = increase_stat(get_lib_SEC(), state, CharacterAttribute.agility, 2)
@@ -86,7 +86,7 @@ describe('@oh-my-rpg/state-character - reducer', function() {
 				agility: 4,
 				charisma: 1,
 				wisdom: 1,
-				luck: 1
+				luck: 1,
 			})
 
 			state = increase_stat(get_lib_SEC(), state, CharacterAttribute.agility)
@@ -102,7 +102,7 @@ describe('@oh-my-rpg/state-character - reducer', function() {
 				agility: 5,
 				charisma: 1,
 				wisdom: 1,
-				luck: 1
+				luck: 1,
 			})
 		})
 

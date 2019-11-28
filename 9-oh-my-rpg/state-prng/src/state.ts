@@ -42,7 +42,7 @@ function set_seed(state: Readonly<State>, seed: number): Readonly<State> {
 function update_use_count(state: Readonly<State>, prng: MT19937, options: any = {}): Readonly<State> {
 	assert(
 		(prng as MT19937WithSeed)._seed === state.seed,
-		`${LIB}: update PRNG state: different seed (different prng?)!`
+		`${LIB}: update PRNG state: different seed (different prng?)!`,
 	)
 
 	const new_use_count = prng.getUseCount()
@@ -57,7 +57,7 @@ function update_use_count(state: Readonly<State>, prng: MT19937, options: any = 
 
 	assert(
 		new_use_count > state.use_count,
-		`${LIB}: update PRNG state: count is <= previous count, this is unexpected! Check your code!`
+		`${LIB}: update PRNG state: count is <= previous count, this is unexpected! Check your code!`,
 	)
 
 	return {

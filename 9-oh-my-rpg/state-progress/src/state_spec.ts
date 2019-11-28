@@ -15,13 +15,13 @@ import { get_lib_SEC } from './sec'
 describe('@oh-my-rpg/state-progress - reducer', function() {
 
 	beforeEach(function () {
-		this.clock = sinon.useFakeTimers(); // needed to have a reproducible timestamp
+		this.clock = sinon.useFakeTimers() // needed to have a reproducible timestamp
 	})
 
 	describe('🆕  initial state', function() {
 
 		it('should have correct defaults', function() {
-			let state = create(get_lib_SEC())
+			const state = create(get_lib_SEC())
 
 			expect(state.statistics.last_visited_timestamp).to.have.lengthOf(8)
 
@@ -34,7 +34,7 @@ describe('@oh-my-rpg/state-progress - reducer', function() {
 				achievements: {},
 
 				statistics: {
-					last_visited_timestamp: "19700101",
+					last_visited_timestamp: '19700101',
 					active_day_count: 1,
 					good_play_count: 0,
 					bad_play_count: 0,
@@ -49,7 +49,7 @@ describe('@oh-my-rpg/state-progress - reducer', function() {
 					items_gained: 0,
 					has_account: false,
 					is_registered_alpha_player: false,
-				}
+				},
 			})
 		})
 	})
@@ -72,7 +72,7 @@ describe('@oh-my-rpg/state-progress - reducer', function() {
 				})
 
 				expect(state.statistics).to.deep.equal({
-					last_visited_timestamp: "19700101",
+					last_visited_timestamp: '19700101',
 					active_day_count: 1,
 					good_play_count: 0,
 					bad_play_count: 1,
@@ -111,7 +111,7 @@ describe('@oh-my-rpg/state-progress - reducer', function() {
 				})
 
 				expect(state.statistics).to.deep.equal({
-					last_visited_timestamp: "19700101",
+					last_visited_timestamp: '19700101',
 					active_day_count: 1,
 					good_play_count: 1,
 					bad_play_count: 0,
@@ -144,7 +144,7 @@ describe('@oh-my-rpg/state-progress - reducer', function() {
 				})
 
 				expect(state.statistics).to.deep.equal({
-					last_visited_timestamp: "19700101",
+					last_visited_timestamp: '19700101',
 					active_day_count: 1,
 					good_play_count: 2,
 					bad_play_count: 0,

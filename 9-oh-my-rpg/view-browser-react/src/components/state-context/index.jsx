@@ -31,7 +31,7 @@ class ContextProvider extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			...DEFAULT_STATE
+			...DEFAULT_STATE,
 		}
 
 		this._notificationSystem = null
@@ -99,7 +99,7 @@ class ContextProvider extends React.Component {
 					/*title, message,*/ children,
 					position,
 					autoDismiss: auto_dismiss_delay_ms / 1000.,
-				})
+				}),
 			)
 		}
 
@@ -150,5 +150,5 @@ class ContextProvider extends React.Component {
 export default ContextProvider
 
 export {
-	OhMyRPGUIContext
+	OhMyRPGUIContext,
 }

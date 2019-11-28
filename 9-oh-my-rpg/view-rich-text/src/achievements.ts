@@ -17,7 +17,7 @@ function render_achievement_snapshot_short(achievement_snapshot: Readonly<Achiev
 
 	switch(status) {
 		case AchievementStatus.secret:
-			throw new Error(`Secret achievements should never make it there!`)
+			throw new Error('Secret achievements should never make it there!')
 
 		case AchievementStatus.hidden:
 			break
@@ -75,7 +75,7 @@ function render_achievement_snapshot_detailed(achievement_snapshot: Readonly<Ach
 
 	switch(status) {
 		case AchievementStatus.secret:
-			throw new Error(`Secret achievements should never make it there!`)
+			throw new Error('Secret achievements should never make it there!')
 
 		case AchievementStatus.hidden:
 			description_text = '(this achievement is hidden at the moment. Try playing more!)'
@@ -99,7 +99,7 @@ function render_achievement_snapshot_detailed(achievement_snapshot: Readonly<Ach
 			break
 
 		default:
-			throw new Error(`Unknown achievement status!`)
+			throw new Error('Unknown achievement status!')
 	}
 
 	if (icon_text) {
@@ -112,7 +112,7 @@ function render_achievement_snapshot_detailed(achievement_snapshot: Readonly<Ach
 		.pushStrong(name_text, { classes: [ 'achievement__title' ]})
 		.pushHorizontalRule()
 
-		/* TODO
+	/* TODO
 		.pushWeak(element_tags.join(', '))
 		.()*/
 
@@ -153,30 +153,30 @@ function render_achievements_snapshot(ordered_achievement_snapshots: Readonly<Ac
 
 	const $doc_list = builder.done()
 
-	let stats = ordered_achievement_snapshots.reduce((acc, {status}) => {
-			switch(status) {
-				case AchievementStatus.secret:
-					break
+	const stats = ordered_achievement_snapshots.reduce((acc, {status}) => {
+		switch(status) {
+			case AchievementStatus.secret:
+				break
 
-				case AchievementStatus.hidden:
-				case AchievementStatus.revealed:
-					acc.visible_count++
-					break
+			case AchievementStatus.hidden:
+			case AchievementStatus.revealed:
+				acc.visible_count++
+				break
 
-				case AchievementStatus.unlocked:
-					acc.visible_count++
-					acc.unlocked_count++
-					break
+			case AchievementStatus.unlocked:
+				acc.visible_count++
+				acc.unlocked_count++
+				break
 
-				default:
-					throw new Error(`Unknown achievement status!`)
-			}
+			default:
+				throw new Error('Unknown achievement status!')
+		}
 
 		return acc
 	},
-		{
+	{
 		visible_count: 0,
-		unlocked_count: 0
+		unlocked_count: 0,
 	})
 
 	const $doc = RichText.block_fragment()

@@ -9,7 +9,7 @@ function render_meta_infos(metas: Readonly<{[k: string]: string | number | undef
 	Object.keys(metas).forEach((key: string) => {
 		$doc_list.pushRawNode(
 			RichText.inline_fragment().pushText(key + ': ' + metas[key]).done(),
-			{id: key}
+			{id: key},
 		)
 	})
 
@@ -30,7 +30,7 @@ function render_account_info(m: Readonly<State>, extra: Readonly<{[k: string]: s
 		.pushHeading('Account infos:', {id: 'header'})
 		.pushNode(
 			render_meta_infos(meta_infos),
-			{id: 'list'}
+			{id: 'list'},
 		)
 		.done()
 

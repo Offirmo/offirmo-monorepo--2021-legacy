@@ -3,7 +3,7 @@ import { expect } from 'chai'
 import { Random, Engine } from '@offirmo/random'
 
 import {
-	ENTRIES
+	ENTRIES,
 } from '.'
 
 describe('@oh-my-rpg/logic-monsters - data:', function() {

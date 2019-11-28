@@ -11,7 +11,7 @@ function render_avatar(state: Readonly<CharacterState>): RichText.Document {
 			RichText.unordered_list()
 				.pushKeyValue('name', $doc_name)
 				.pushKeyValue('class', $doc_class)
-				.done()
+				.done(),
 		)
 		.done()
 

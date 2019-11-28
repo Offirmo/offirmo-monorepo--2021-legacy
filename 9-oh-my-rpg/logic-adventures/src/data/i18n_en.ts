@@ -110,65 +110,65 @@ You gain +{{level}} level!`,
 	// TODO loss
 	//eaten_by_a_grue: `You have been eaten by a grue. You lose {{coin}} coins.`,
 
-	walk_in_mordor: `You simply walk into Mordor. You gain +{{agility}} agility.`,
+	walk_in_mordor: 'You simply walk into Mordor. You gain +{{agility}} agility.',
 
-	jig: `You see a guy doing a jig, and join him! +{{agility}} agility!`,
+	jig: 'You see a guy doing a jig, and join him! +{{agility}} agility!',
 
-	good_end: `Oh, THAT end is the one you hit them with! +{{wisdom}} wisdom!`,
+	good_end: 'Oh, THAT end is the one you hit them with! +{{wisdom}} wisdom!',
 
-	waterfall: `You sit under a pounding waterfall. +{{health}} vitality!`,
+	waterfall: 'You sit under a pounding waterfall. +{{health}} vitality!',
 
-	meteor: `A meteor JUST misses you! +{{luck}} luck!`,
+	meteor: 'A meteor JUST misses you! +{{luck}} luck!',
 
-	weird_duck: `Some weird duck is trying to swim in coins, so you take them! +{{coin}} coins!`,
+	weird_duck: 'Some weird duck is trying to swim in coins, so you take them! +{{coin}} coins!',
 
-	last_quest: `That last quest gave you just enough XP! Level Up!`,
+	last_quest: 'That last quest gave you just enough XP! Level Up!',
 
-	busking: `You wail on a guitar next to the inn, and it pays off! +{{token}} token!`,
+	busking: 'You wail on a guitar next to the inn, and it pays off! +{{token}} token!',
 
-	best_meal: `You eat the best meal you’ve ever had! +{{health}} health!`,
+	best_meal: 'You eat the best meal you’ve ever had! +{{health}} health!',
 
-	witch_riddle: `You successfully solve a riddle from a witch. You gain +{{wisdom}} wisdom!`,
+	witch_riddle: 'You successfully solve a riddle from a witch. You gain +{{wisdom}} wisdom!',
 
-	princess_castle: `The princess was actually in this castle! +{{luck}} luck!`,
+	princess_castle: 'The princess was actually in this castle! +{{luck}} luck!',
 
 	//problem: `Problem? -{{coin}} coins.`,
 
-	foreign_language: `You learn a foreign language. +{{charisma}} charisma!`,
+	foreign_language: 'You learn a foreign language. +{{charisma}} charisma!',
 
-	last_night: `...what happened last night? +{{luck}} luck!`,
+	last_night: '...what happened last night? +{{luck}} luck!',
 
-	chasm_leap: `You successfully leap over a chasm! +{{agility}} agility!`,
+	chasm_leap: 'You successfully leap over a chasm! +{{agility}} agility!',
 
 	//luxurious_meal: `You cook the most luxurious meal! -{{coin}} coins.`,
 
 	//donate: `You donate {{coin}} coins. You gain +{{token}} token.`,
 
-	coffee: `You drink a cup of coffee. +{{wisdom}} wisdom!`,
+	coffee: 'You drink a cup of coffee. +{{wisdom}} wisdom!',
 
 	//socks: `You buy some socks. -gold`,
 
-	gold_nugget: `You trip on a gold nugget: +{{coin}} gold!`,
+	gold_nugget: 'You trip on a gold nugget: +{{coin}} gold!',
 
 	//pileup: `You get into a 3 horse pileup: -{{coin}} gold!`,
 
 	//	You drink too much at the tavern, lose "x amount of" coins
 
-	magic_lamp: `You stumble upon a magic lamp! You gain +{{luck}} luck!`,
+	magic_lamp: 'You stumble upon a magic lamp! You gain +{{luck}} luck!',
 
-	rabbit_hole: `You find out just how deep the rabbit hole goes. You gain +{{wisdom}} wisdom.`,
+	rabbit_hole: 'You find out just how deep the rabbit hole goes. You gain +{{wisdom}} wisdom.',
 
-	cat_out_tree: `You help a little girl get her cat out a tree. You gain +{{agility}} agility!`,
+	cat_out_tree: 'You help a little girl get her cat out a tree. You gain +{{agility}} agility!',
 
-	green_food: `You somehow survive eating green eggs and ham. You gain +{{health}} health!`,
+	green_food: 'You somehow survive eating green eggs and ham. You gain +{{health}} health!',
 
 	//You try your luck at the wishing well. You lose 1 coin.
 
-	conscripted: `You are conscripted into the army, you gain +{{coin}} coins.`,
+	conscripted: 'You are conscripted into the army, you gain +{{coin}} coins.',
 
 	//Waylayed by brigands, -coins
 
-	duke_rescue: `You rescued a duke, you are rewarded +{{coin}} coins!`,
+	duke_rescue: 'You rescued a duke, you are rewarded +{{coin}} coins!',
 
 	//Bribed your way out of an arrest, -coins
 
@@ -357,7 +357,7 @@ Hopefully the loot ({{coin}} coins) and preparation (equipment enhanced) will he
 	`,
 
 	// https://starecat.com/gandalf-tells-them-to-run-to-get-all-the-xp-on-the-balrog-and-level-up/
-	balrog: `You tell your party members to run then kill the balrog and get all the XP. You level up!`,
+	balrog: 'You tell your party members to run then kill the balrog and get all the XP. You level up!',
 
 	// classic manga story
 	castle_summon: `
@@ -913,9 +913,9 @@ You drink a lot of milk! Your bones strengthen and your health increases!
 You gain +{{health}} health.
 	`,
 
-	clover: `You find a four-leaf clover. You gain +{{luck}} luck.`,
+	clover: 'You find a four-leaf clover. You gain +{{luck}} luck.',
 
-	horseshoe: `You find a horseshoe. You gain +{{luck}} luck.`,
+	horseshoe: 'You find a horseshoe. You gain +{{luck}} luck.',
 
 	rabbit_foot: `
 You kill a rabbit, eat it and keep one of its foot as a good luck charm.
@@ -1104,11 +1104,11 @@ const raw_messages: I18nMessages = {
 
 		...OFFIRMO_ORIGINAL,
 		...OFFIRMO_BLAND_REPARTITION_ADJUSTMENT,
-	}
+	},
 }
 
 const messages: I18nMessages = {
-	adventures: {}
+	adventures: {},
 }
 
 Object.keys(raw_messages.adventures)
@@ -1126,5 +1126,5 @@ function clean_multiline_string(str: string): string {
 }
 
 export {
-	messages
+	messages,
 }
