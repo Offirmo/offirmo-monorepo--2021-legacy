@@ -11,7 +11,7 @@ import * as PRNGState from '@oh-my-rpg/state-prng'
 import * as CodesState from '@oh-my-rpg/state-codes'
 import * as ProgressState from '@oh-my-rpg/state-progress'
 
-import { ItemQuality } from "@oh-my-rpg/definitions";
+import { ItemQuality } from '@oh-my-rpg/definitions'
 import { get_prng } from '@oh-my-rpg/state-prng'
 import { create as create_weapon } from '@oh-my-rpg/logic-weapons'
 import { create as create_armor } from '@oh-my-rpg/logic-armors'
@@ -33,14 +33,14 @@ import {
 
 import { _refresh_achievements } from './achievements'
 import { reset_and_salvage } from '../migrations/salvage'
-import { reseed } from "./create";
+import { reseed } from './create'
 
 /////////////////////
 
 function attempt_to_redeem_code(state: Readonly<State>, code: string, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Readonly<State> {
 	let previous_state: State | null = state
 	let engagement_key: EngagementKey = EngagementKey['code_redemption--failed'] // so far
-	let engagement_params: any = {}
+	const engagement_params: any = {}
 
 	code = CodesState.normalize_code(code)
 	const code_spec = CODE_SPECS_BY_KEY[code]
@@ -56,7 +56,7 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string, now_ms: Ti
 			u_state: {
 				...state.u_state,
 				codes: CodesState.attempt_to_redeem_code(state.u_state.codes, code_spec, state),
-			}
+			},
 		}
 
 		engagement_key = EngagementKey['code_redemption--succeeded']
@@ -142,14 +142,14 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string, now_ms: Ti
 				// complicated, but will auto-re-gain this achievement
 				u_state = {
 					...u_state,
-//					progress: ProgressState.on_achieved(u_state.progress, 'TEST', ProgressState.AchievementStatus.revealed)
+					//					progress: ProgressState.on_achieved(u_state.progress, 'TEST', ProgressState.AchievementStatus.revealed)
 					progress: {
 						...u_state.progress,
 						achievements: {
 							...u_state.progress.achievements,
 							'TEST': ProgressState.AchievementStatus.revealed,
-						}
-					}
+						},
+					},
 				}
 				break
 
@@ -196,7 +196,7 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string, now_ms: Ti
 				t_state = state.t_state
 				u_state = {
 					...u_state,
-					progress: ProgressState.on_achieved(u_state.progress, 'Reborn!', ProgressState.AchievementStatus.unlocked)
+					progress: ProgressState.on_achieved(u_state.progress, 'Reborn!', ProgressState.AchievementStatus.unlocked),
 				}
 				break
 			case 'REBORN':
@@ -206,7 +206,7 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string, now_ms: Ti
 				t_state = state.t_state
 				u_state = {
 					...u_state,
-					progress: ProgressState.on_achieved(u_state.progress, 'Reborn!', ProgressState.AchievementStatus.unlocked)
+					progress: ProgressState.on_achieved(u_state.progress, 'Reborn!', ProgressState.AchievementStatus.unlocked),
 				}
 				break
 

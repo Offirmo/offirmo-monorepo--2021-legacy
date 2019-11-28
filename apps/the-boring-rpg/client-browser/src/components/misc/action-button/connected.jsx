@@ -26,7 +26,7 @@ const ActionButtonC1 = React.memo(
 				}}
 			/>
 		)
-	}
+	},
 )
 
 export default ActionButtonC1

@@ -31,6 +31,6 @@ const MainAreaView = React.memo(
 				</div>
 			</div>
 		)
-	}
+	},
 )
 export default MainAreaView

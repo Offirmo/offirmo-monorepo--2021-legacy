@@ -26,7 +26,7 @@ import { LIB } from '../consts'
 const KNOWN_ACTIONS = 12
 
 function get_commands(
-	dispatch: (action: Action) => void
+	dispatch: (action: Action) => void,
 ) {
 
 	const commands = {
@@ -47,7 +47,7 @@ function get_commands(
 				expected_revisions: {
 					inventory: -1, // will be filled at a later stage
 				},
-				target_uuid
+				target_uuid,
 			}
 			dispatch(action)
 		},

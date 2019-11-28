@@ -17,10 +17,10 @@ class AppStateListenerAndProvider extends React.Component {
 	unsubscribeAppStateListener = null
 
 	componentDidMount() {
-		this.unsubscribeAppStateListener = get_game_instance().view.subscribe(`app-state`, () => {
+		this.unsubscribeAppStateListener = get_game_instance().view.subscribe('app-state', () => {
 			//console.log(`▶ AppStateListenerAndProvider: updating on app state change`/*, game_instance.view.get()*/)
 			this.setState({
-				app_state: get_game_instance().view.get()
+				app_state: get_game_instance().view.get(),
 			})
 		})
 	}

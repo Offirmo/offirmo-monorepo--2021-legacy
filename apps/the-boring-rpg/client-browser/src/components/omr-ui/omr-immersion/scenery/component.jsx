@@ -21,6 +21,6 @@ const SceneryView = React.memo(
 				<div key="next-background-picture" className={`scenery__prefetch ${next_bg.css_class}`} />
 			</div>
 		)
-	}
+	},
 )
 export default SceneryView

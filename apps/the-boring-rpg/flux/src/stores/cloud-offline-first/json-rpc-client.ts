@@ -1,6 +1,6 @@
 import assert from 'tiny-invariant'
 import Deferred from '@offirmo/deferred'
-import { TimestampUTCMs, get_UTC_timestamp_ms } from "@offirmo-private/timestamps";
+import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import { JSONRpcRequest, JSONRpcResponse } from '@offirmo-private/json-rpc-types'
 
 import { SoftExecutionContext } from '../../sec'
@@ -26,7 +26,7 @@ function create({ rpc_url }: { rpc_url: string }): JsonRpcCaller {
 			SEC: SoftExecutionContext,
 			method: string,
 			params: Params,
-		}
+		},
 	): Promise<Resp> {
 		const request_id = ++id
 
@@ -42,15 +42,15 @@ function create({ rpc_url }: { rpc_url: string }): JsonRpcCaller {
 
 		return Promise.race([
 			new Promise((resolve, reject) => setTimeout(() => {
-				reject(new Error(`Timeout!`))
+				reject(new Error('Timeout!'))
 			}, 5000)),
 			fetch(rpc_url, {
 				method: 'POST',
 				headers: {
-					'Content-Type': 'application/json'
+					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify(request),
-			})
+			}),
 		])
 			.then((response: any) => {
 				// WARN: we can't destructure response because .json() needs a binding to response
@@ -69,11 +69,11 @@ function create({ rpc_url }: { rpc_url: string }): JsonRpcCaller {
 
 				const {jsonrpc, id: response_id, error, result} = response
 				if (!jsonrpc)
-					throw new Error(`body is not a jsonRpc response!`)
+					throw new Error('body is not a jsonRpc response!')
 				if (jsonrpc !== '2.0')
-					throw new Error(`Invalid jsonRpc version!`)
+					throw new Error('Invalid jsonRpc version!')
 				if (response_id !== request_id)
-					throw new Error(`mismatched RPC id!`)
+					throw new Error('mismatched RPC id!')
 
 				if (error) {
 					// TODO create error with all details
@@ -84,7 +84,7 @@ function create({ rpc_url }: { rpc_url: string }): JsonRpcCaller {
 				return result
 			})
 			.catch((err: Error) => {
-				get_logger().error(`RPC failed!`, {rpc_url, method, params, request, err})
+				get_logger().error('RPC failed!', {rpc_url, method, params, request, err})
 				throw err
 			})
 	}

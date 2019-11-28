@@ -71,7 +71,7 @@ const DEMO_ADVENTURE_02: Readonly<Adventure> = deepFreeze({
 		armor: null,
 		weapon_improvement: false,
 		armor_improvement: false,
-	}
+	},
 })
 // with loot gain
 const DEMO_ADVENTURE_03: Readonly<Adventure> = deepFreeze({
@@ -93,7 +93,7 @@ const DEMO_ADVENTURE_03: Readonly<Adventure> = deepFreeze({
 		armor: null,
 		weapon_improvement: false,
 		armor_improvement: false,
-	}
+	},
 })
 // with weapon enhancement gain
 const DEMO_ADVENTURE_04: Adventure = deepFreeze({
@@ -115,7 +115,7 @@ const DEMO_ADVENTURE_04: Adventure = deepFreeze({
 		armor: null,
 		weapon_improvement: false,
 		armor_improvement: true,
-	}
+	},
 })
 
 const DEMO_STATE: Readonly<State> = deepFreeze({
@@ -126,7 +126,7 @@ const DEMO_STATE: Readonly<State> = deepFreeze({
 		revision: 203,
 		last_user_action_tms: 123456,
 
-		creation_date: "20180813_00h33",
+		creation_date: '20180813_00h33',
 
 		avatar: Character.DEMO_STATE,
 		inventory: Inventory.DEMO_STATE,
@@ -146,7 +146,7 @@ const DEMO_STATE: Readonly<State> = deepFreeze({
 		timestamp_ms: Energy.DEMO_T_STATE.timestamp_ms,
 
 		energy: Energy.DEMO_T_STATE,
-	}
+	},
 })
 
 /////////////////////

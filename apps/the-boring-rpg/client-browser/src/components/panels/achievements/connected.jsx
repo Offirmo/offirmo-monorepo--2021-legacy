@@ -15,7 +15,7 @@ const AchievementsPanelC1M = React.memo(
 		return (
 			<View achievements_snapshot={achievements_snapshot} />
 		)
-	}
+	},
 )
 
 

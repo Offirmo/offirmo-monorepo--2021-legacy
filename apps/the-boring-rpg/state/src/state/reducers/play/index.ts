@@ -36,8 +36,8 @@ function play(previous_state: Readonly<State>, now_ms: TimestampUTCMs = get_UTC_
 			t_state: {
 				...state.t_state,
 				// punishment
-				energy: EnergyState.lose_all_energy([state.u_state.energy, state.t_state.energy])
-			}
+				energy: EnergyState.lose_all_energy([state.u_state.energy, state.t_state.energy]),
+			},
 		}
 	}
 	else {
@@ -49,9 +49,9 @@ function play(previous_state: Readonly<State>, now_ms: TimestampUTCMs = get_UTC_
 				energy: u,
 			},
 			t_state: {
-			...state.t_state,
-				energy: t
-			}
+				...state.t_state,
+				energy: t,
+			},
 		}
 
 		// onboarding
@@ -75,15 +75,15 @@ function play(previous_state: Readonly<State>, now_ms: TimestampUTCMs = get_UTC_
 			][good_play_count]
 
 
-					//
-				//
-				//
-					//
-					//
-					//
-					//
-					//
-					//
+			//
+			//
+			//
+			//
+			//
+			//
+			//
+			//
+			//
 		}
 
 	}
@@ -94,7 +94,7 @@ function play(previous_state: Readonly<State>, now_ms: TimestampUTCMs = get_UTC_
 		: play_bad(state, explicit_adventure_archetype_hid)
 
 	// final updates
-	let u_state = state.u_state
+	const u_state = state.u_state
 	state = {
 		...state,
 		u_state: {
@@ -112,7 +112,7 @@ function play(previous_state: Readonly<State>, now_ms: TimestampUTCMs = get_UTC_
 				items_gained: (u_state.last_adventure!.gains.armor ? 1 : 0) + (u_state.last_adventure!.gains.weapon ? 1 : 0),
 			}),
 			revision: state.u_state.revision + 1,
-		}
+		},
 	}
 
 	return _refresh_achievements(state, previous_state.u_state.revision)

@@ -10,7 +10,7 @@ import { Armor, matches as matches_armor } from '@oh-my-rpg/logic-armors'
 
 import { LIB } from '../../consts'
 import {
-	is_inventory_full
+	is_inventory_full,
 } from '../../selectors'
 import {
 	STARTING_WEAPON_SPEC,

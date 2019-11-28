@@ -18,14 +18,14 @@ import {
 	PendingEngagement,
 	get_oldest_queued_flow,
 	get_oldest_queued_non_flow,
-} from "@oh-my-rpg/state-engagement"
-import { AchievementSnapshot } from "@oh-my-rpg/state-progress";
+} from '@oh-my-rpg/state-engagement'
+import { AchievementSnapshot } from '@oh-my-rpg/state-progress'
 
 /////////////////////
 
 import { UState } from '../types'
 import { get_engagement_message } from '../engagement'
-import { get_achievement_snapshot_by_uuid } from "./achievements";
+import { get_achievement_snapshot_by_uuid } from './achievements'
 
 /////////////////////
 

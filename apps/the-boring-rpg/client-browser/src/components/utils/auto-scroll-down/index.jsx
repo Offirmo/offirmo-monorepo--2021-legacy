@@ -31,7 +31,7 @@ class AutoScrollDown extends React.Component {
 
 				{this.props.children}
 
-				<div style={{ float:"left", clear: "both" }} ref={el => this.messagesEnd = el} />
+				<div style={{ float:'left', clear: 'both' }} ref={el => this.messagesEnd = el} />
 			</div>
 		)
 	}

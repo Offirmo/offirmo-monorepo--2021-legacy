@@ -57,13 +57,13 @@ function init(SEC, game_instance) {
 		})
 
 		NetlifyIdentity.then(function attach_listeners(NetlifyIdentity) {
-			NetlifyIdentity.on('init', user => logger.info('NetlifyIdentity⚡ init', user));
+			NetlifyIdentity.on('init', user => logger.info('NetlifyIdentity⚡ init', user))
 
 			// note: called only on FRESH login
 			NetlifyIdentity.on('login', user => {
 				logger.info('NetlifyIdentity⚡ login', user)
 				refresh_login_state()
-			});
+			})
 
 			NetlifyIdentity.on('logout', () => {
 				logger.info('NetlifyIdentity⚡ Logged out')
@@ -75,7 +75,7 @@ function init(SEC, game_instance) {
 				// TODO state to error?
 				throw err // rethrow, to be caught by Sentry
 				// let's see if Sentry reports this to happen
-			});
+			})
 
 			NetlifyIdentity.on('open', () => {
 				logger.info('NetlifyIdentity⚡ Widget opened')

@@ -2,7 +2,7 @@ import { UUID } from '@offirmo-private/uuid'
 import { Document } from '@offirmo-private/rich-text-format'
 import { Element } from '@oh-my-rpg/definitions'
 import { Item } from '@oh-my-rpg/state-inventory'
-import { PendingEngagement } from "@oh-my-rpg/state-engagement"
+import { PendingEngagement } from '@oh-my-rpg/state-engagement'
 import { AchievementSnapshot } from '@oh-my-rpg/state-progress'
 import {
 	Adventure,
@@ -117,7 +117,7 @@ function get_queries(in_memory_store: InMemoryStore): Queries {
 		// https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-1.html
 		get_sub_state<K extends keyof UState>(key: K, state: Readonly<State> = in_memory_store.get()!): UState[K] {
 			return state.u_state[key]
-		}
+		},
 	}
 }
 

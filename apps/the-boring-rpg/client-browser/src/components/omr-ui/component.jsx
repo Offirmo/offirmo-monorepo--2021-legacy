@@ -35,17 +35,17 @@ export default class OhMyRPGView extends PureComponent {
 
 	bottomMenuItems = [
 		<span key="explore" className="omr⋄bottom-menu⁚icon icomoon-treasure-map"
-				onClick={() => this.activate_panel('explore')}/>,
+			onClick={() => this.activate_panel('explore')}/>,
 		<span key="inventory" className="omr⋄bottom-menu⁚icon icomoon-cash"
-				onClick={() => this.activate_panel('inventory')}/>,
+			onClick={() => this.activate_panel('inventory')}/>,
 		<span key="character" className="omr⋄bottom-menu⁚icon icomoon-battle-gear"
-				onClick={() => this.activate_panel('character')}/>,
+			onClick={() => this.activate_panel('character')}/>,
 		<span key="achievements" className="omr⋄bottom-menu⁚icon icomoon-laurel-crown"
-				onClick={() => this.activate_panel('achievements')}/>,
+			onClick={() => this.activate_panel('achievements')}/>,
 		<span key="social" className="omr⋄bottom-menu⁚icon icomoon-eagle-emblem"
-				onClick={() => this.activate_panel('social')}/>,
+			onClick={() => this.activate_panel('social')}/>,
 		<span key="chat" className="omr⋄bottom-menu⁚icon icomoon-conversation"
-				onClick={() => GroupChat.toggle()}/>,
+			onClick={() => GroupChat.toggle()}/>,
 	]
 
 	static getDerivedStateFromProps(nextProps, prevState) {

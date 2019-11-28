@@ -16,7 +16,7 @@ const InfoboxViewM = React.memo(
 				🏆 Achievements: {achievements_completion_pct}%
 			</div>
 		)
-	}
+	},
 )
 
 export default InfoboxViewM

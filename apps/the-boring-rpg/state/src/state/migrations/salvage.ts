@@ -28,7 +28,7 @@ import {
 	change_avatar_class,
 	autoplay,
 } from '../reducers'
-import {EngagementKey} from "../../engagement";
+import {EngagementKey} from '../../engagement'
 
 /////////////////////
 
@@ -36,10 +36,10 @@ import {EngagementKey} from "../../engagement";
 // Exception-free nested nullable attribute accessor
 const mb = (...p: string[]) =>
 	(o: JSON): JSON =>
-		p.map((c: string) => (o = ((o || {}) as JSONObject)[c])) && o;
+		p.map((c: string) => (o = ((o || {}) as JSONObject)[c])) && o
 
 function coerce_to_number_or_zero(x: any): number {
-	let res = Number(x)
+	const res = Number(x)
 	return Number.isNaN(res) ? 0 : res
 }
 
@@ -61,7 +61,7 @@ const get_good_play_count_v9 = mb('u_state', 'progress', 'statistics', 'good_pla
 const get_good_play_count = (ls: any) => coerce_to_number_or_zero(
 	get_good_play_count_v9(ls)
 	|| get_good_play_count_v7(ls)
-	|| get_good_play_count_v4(ls)
+	|| get_good_play_count_v4(ls),
 )
 
 const get_play_count_v4 = mb('click_count')
@@ -72,7 +72,7 @@ const get_bad_play_count_v9 = mb('u_state', 'progress', 'statistics', 'bad_play_
 const get_bad_play_count = (ls: any) => coerce_to_number_or_zero(
 	get_bad_play_count_v9(ls)
 	|| get_bad_play_count_v7(ls)
-	|| get_bad_play_count_v4(ls)
+	|| get_bad_play_count_v4(ls),
 )
 
 /////////////////////
@@ -128,7 +128,7 @@ function reset_and_salvage(legacy_state: Readonly<JSONObject>): Readonly<State> 
 			...state.u_state,
 			engagement: EngagementState.enqueue(state.u_state.engagement, {
 				type: EngagementState.EngagementType.warning,
-				key: EngagementKey['reborn']
+				key: EngagementKey['reborn'],
 			}),
 		},
 	}

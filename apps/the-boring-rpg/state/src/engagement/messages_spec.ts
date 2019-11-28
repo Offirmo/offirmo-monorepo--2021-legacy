@@ -20,7 +20,7 @@ describe('@tbrpg/state - engagement messages', function() {
 					key: EngagementKey['tip--first_play'],
 					type: EngagementType.flow,
 				},
-				params: {}
+				params: {},
 			})
 			const str = RichText.to_text(doc!)
 			//console.log(`"${str}"`)

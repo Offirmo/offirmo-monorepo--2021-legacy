@@ -66,7 +66,7 @@ const STARTING_ARMOR_SPEC: Readonly<Partial<Armor>> = {
 
 function create(SEC?: SoftExecutionContext, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Readonly<State> {
 	return get_lib_SEC(SEC).xTry('create', ({enforce_immutability}: OMRContext) => {
-		let [ u_state_energy, t_state_energy ] = EnergyState.create()
+		const [ u_state_energy, t_state_energy ] = EnergyState.create()
 
 		let state: Readonly<State> = {
 			schema_version: SCHEMA_VERSION,
@@ -97,7 +97,7 @@ function create(SEC?: SoftExecutionContext, now_ms: TimestampUTCMs = get_UTC_tim
 			},
 		}
 
-		let rng = get_prng(state.u_state.prng)
+		const rng = get_prng(state.u_state.prng)
 
 		const starting_weapon = create_weapon(rng, STARTING_WEAPON_SPEC)
 		state = _receive_item(state, starting_weapon)
@@ -118,14 +118,14 @@ function create(SEC?: SoftExecutionContext, now_ms: TimestampUTCMs = get_UTC_tim
 				...state.u_state,
 				engagement: EngagementState.enqueue(state.u_state.engagement, {
 					type: EngagementState.EngagementType.flow,
-					key: EngagementKey['tip--first_play']
+					key: EngagementKey['tip--first_play'],
 				}),
 			},
 		}
 
 		assert(
 			state.u_state.prng.use_count === 0,
-			'prng never used yet'
+			'prng never used yet',
 		)
 		//state.prng = PRNGState.update_use_count(state.prng, rng)
 

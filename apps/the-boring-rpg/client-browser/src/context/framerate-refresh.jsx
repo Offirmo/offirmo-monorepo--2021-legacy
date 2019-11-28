@@ -2,7 +2,7 @@ import throttle from 'lodash/throttle'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import ReactAnimationFrame from 'react-animation-frame';
+import ReactAnimationFrame from 'react-animation-frame'
 import {get_UTC_timestamp_ms} from '@offirmo-private/timestamps'
 
 import get_game_instance from '../services/game-instance-browser'
@@ -62,7 +62,7 @@ class AppStateListenerAndProviderRAF extends React.Component {
 		if (MAX_ITERATIONS) {
 			if (this.iteration_count > MAX_ITERATIONS) {
 				const elapsed = now_ms - this.time_1st_iteration
-				logger.warn(`stopping animation frame for safety`, {
+				logger.warn('stopping animation frame for safety', {
 					raf_time_start: this.raf_time_start,
 					time_1st_iteration: this.time_1st_iteration,
 					now_ms,
@@ -77,7 +77,7 @@ class AppStateListenerAndProviderRAF extends React.Component {
 	onAnimationFrame = this.update_to_now
 
 	render() {
-		if (window.XOFF.flags.debug_render) console.log(`🔄 AppStateListenerAndProviderRAF`);
+		if (window.XOFF.flags.debug_render) console.log('🔄 AppStateListenerAndProviderRAF')
 
 		return (
 			<AppStateListenerAndProvider>

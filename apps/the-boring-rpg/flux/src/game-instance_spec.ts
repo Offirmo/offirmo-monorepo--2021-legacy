@@ -21,7 +21,7 @@ interface AppState {
 
 describe(`${LIB} - game-instance`, function() {
 
-	let local_storage = createLocalStorage({ mode : "memory" })
+	const local_storage = createLocalStorage({ mode : 'memory' })
 	let storage = create_in_mem_tbrpg_storage()
 	const logger = createLogger({
 		name: LIB,
@@ -85,7 +85,7 @@ describe(`${LIB} - game-instance`, function() {
 				expect(model).to.have.property('schema_version')
 
 				expect(model.u_state.avatar.name).to.equal('Perte')
-				expect(model.u_state.avatar.klass).to.equal("paladin")
+				expect(model.u_state.avatar.klass).to.equal('paladin')
 				expect(model.u_state.progress.statistics.good_play_count).to.equal(12)
 				expect(model.u_state.progress.statistics.bad_play_count).to.equal(3)
 			})
@@ -109,22 +109,22 @@ describe(`${LIB} - game-instance`, function() {
 				})
 
 				game_instance.commands.on_start_session(false)
-				this.clock.tick(500);
+				this.clock.tick(500)
 				game_instance.commands.on_logged_in_refresh(false)
 
-				this.clock.tick(1_500);
+				this.clock.tick(1_500)
 				game_instance.commands.play()
 				expect(game_instance.model.get().u_state.last_user_action_tms).to.equal(100_000 + 2_000)
 
-				this.clock.tick(2_000);
+				this.clock.tick(2_000)
 				game_instance.commands.play()
 				expect(game_instance.model.get().u_state.last_user_action_tms).to.equal(100_000 + 4_000)
 
-				this.clock.tick(10_000);
+				this.clock.tick(10_000)
 				game_instance.commands.rename_avatar('Test')
 				expect(game_instance.model.get().u_state.last_user_action_tms).to.equal(100_000 + 14_000)
 
-				this.clock.tick(5_000);
+				this.clock.tick(5_000)
 				game_instance.commands.change_avatar_class('warrior')
 				expect(game_instance.model.get().u_state.last_user_action_tms).to.equal(100_000 + 19_000)
 
@@ -146,23 +146,23 @@ describe(`${LIB} - game-instance`, function() {
 				})
 
 				game_instance.commands.on_start_session(false)
-				this.clock.tick(500);
+				this.clock.tick(500)
 				game_instance.commands.on_logged_in_refresh(false)
 
-				this.clock.tick(1_500);
+				this.clock.tick(1_500)
 				game_instance.commands.play()
 
-				this.clock.tick(2_000);
+				this.clock.tick(2_000)
 				game_instance.commands.play()
-				this.clock.tick(1_000);
+				this.clock.tick(1_000)
 				game_instance.commands.play()
-				this.clock.tick(1_000);
+				this.clock.tick(1_000)
 				game_instance.commands.play()
-				this.clock.tick(1_000);
+				this.clock.tick(1_000)
 				game_instance.commands.play()
-				this.clock.tick(1_000);
+				this.clock.tick(1_000)
 				game_instance.commands.play()
-				this.clock.tick(1_000);
+				this.clock.tick(1_000)
 				game_instance.commands.play()
 				expect(game_instance.queries.get_sub_state('progress').statistics.good_play_count, 'play count 1a').to.equal(7)
 				expect(game_instance.queries.get_sub_state('progress').statistics.bad_play_count, 'play count 1b').to.equal(0)
@@ -184,19 +184,19 @@ describe(`${LIB} - game-instance`, function() {
 				expect(game_instance.queries.get_sub_state('progress').statistics.bad_play_count, 'play count 2d').to.equal(1)
 
 				// bad misc
-				this.clock.tick(1_000);
+				this.clock.tick(1_000)
 				expect(() => game_instance.commands.rename_avatar('')).to.throw('renaming') // forbidden, shouldn't be possible
-				this.clock.tick(1_000);
+				this.clock.tick(1_000)
 				expect(() => game_instance.commands.change_avatar_class('novice')).to.throw('switch class') // forbidden, shouldn't be possible
 
 				// bad code redeem
-				this.clock.tick(1_000);
+				this.clock.tick(1_000)
 				game_instance.commands.attempt_to_redeem_code('alphatwink')
 				let notif = game_instance.queries.get_sub_state('engagement').queue.slice(-1)[0]
 				expect(notif).to.have.nested.property('engagement.type', 'flow')
 				expect(notif).to.have.nested.property('engagement.key', EngagementKey['code_redemption--succeeded'])
 
-				this.clock.tick(1_000);
+				this.clock.tick(1_000)
 				game_instance.commands.attempt_to_redeem_code('alphatwink')
 				notif = game_instance.queries.get_sub_state('engagement').queue.slice(-1)[0]
 				expect(notif).to.have.nested.property('engagement.type', 'flow')
@@ -215,30 +215,30 @@ describe(`${LIB} - game-instance`, function() {
 				})
 
 				game_instance.commands.on_start_session(false)
-				this.clock.tick(500);
+				this.clock.tick(500)
 				game_instance.commands.on_logged_in_refresh(false)
 
-				this.clock.tick(1_500);
+				this.clock.tick(1_500)
 				game_instance.commands.play()
 				expect(game_instance.model.get().u_state.last_user_action_tms).to.equal(100_000 + 2_000)
 
-				this.clock.tick(2_000);
+				this.clock.tick(2_000)
 				game_instance.commands.play()
 				expect(game_instance.model.get().u_state.last_user_action_tms).to.equal(100_000 + 4_000)
 
-				this.clock.tick(10_000);
+				this.clock.tick(10_000)
 				game_instance.commands.rename_avatar('Test')
 				expect(game_instance.model.get().u_state.last_user_action_tms).to.equal(100_000 + 14_000)
 
-				this.clock.tick(5_000);
+				this.clock.tick(5_000)
 				game_instance.commands.change_avatar_class('warrior')
 				expect(game_instance.model.get().u_state.last_user_action_tms).to.equal(100_000 + 19_000)
 
 				// wooo the user likes it!
-				this.clock.tick(5_000);
+				this.clock.tick(5_000)
 				game_instance.commands.on_logged_in_refresh(true)
 
-				this.clock.tick(1_000);
+				this.clock.tick(1_000)
 				game_instance.commands.play()
 
 				// TODO test more

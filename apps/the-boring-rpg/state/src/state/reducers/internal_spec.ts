@@ -16,11 +16,11 @@ import {
 import { LIB } from '../../consts'
 
 import {
-	get_available_energy_float
+	get_available_energy_float,
 } from '../../selectors'
 
 import {
-	_lose_all_energy
+	_lose_all_energy,
 } from './internal'
 
 import {

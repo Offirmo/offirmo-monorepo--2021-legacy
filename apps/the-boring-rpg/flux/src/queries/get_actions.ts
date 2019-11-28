@@ -5,7 +5,7 @@ import {
 	Action,
 	ActionEquipItem,
 	ActionSellItem,
-	ActionType
+	ActionType,
 } from '@tbrpg/interfaces'
 
 /////////////////////

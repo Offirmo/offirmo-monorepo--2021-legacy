@@ -32,13 +32,13 @@ const ActionButtonViewM = React.memo(
 		if (window.XOFF.flags.debug_render) console.log('🔄 ActionButtonView')
 		const cta = ACTION_TYPE_TO_CTA[action.type]
 		if (cta === INTERNAL)
-			throw new Error(`UI can't display an internal action!`)
+			throw new Error('UI can\'t display an internal action!')
 		return (
 			<button className={'tbrpg-action-btn'} onClick={onClick}>
 				{cta}
 			</button>
 		)
-	}
+	},
 )
 
 export default ActionButtonViewM

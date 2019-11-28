@@ -45,14 +45,14 @@ function * gen_next_step() {
 								game_instance.view.set_state(() => ({
 									changing_character_class: false,
 								}))
-							}
-						}))
+							},
+						})),
 				})
 			}
 			else if (view_state.changing_character_name) {
 				steps.push({
 					type: 'ask_for_string',
-					msg_main: `What’s your name?`,
+					msg_main: 'What’s your name?',
 					msgg_as_user: value => value
 						? `My name is "${value}".`
 						: 'Nevermind.',
@@ -81,7 +81,7 @@ function * gen_next_step() {
 								game_instance.view.set_state(() => ({
 									changing_character_class: true,
 								}))
-							}
+							},
 						},
 						{
 							msg_cta: 'Rename hero',
@@ -91,7 +91,7 @@ function * gen_next_step() {
 								game_instance.view.set_state(() => ({
 									changing_character_name: true,
 								}))
-							}
+							},
 						},
 					],
 				})
@@ -121,10 +121,10 @@ export default class CharacterPanelView extends PureComponent {
 			<div className="tbrpg-panel tbrpg-panel--character o⋄flex--column">
 				{this.state.mobile_keyboard_likely_present
 					? '(temporarily hidden while you type on mobile)'
-					: <div className='panel-top-content o⋄flex-element--nogrow'>
+					: <div className="panel-top-content o⋄flex-element--nogrow">
 						{rich_text_to_react(render_character_sheet(avatar))}
 					</div>}
-				<div className='o⋄flex-element--grow o⋄overflow-y⁚auto'>
+				<div className="o⋄flex-element--grow o⋄overflow-y⁚auto">
 					<ErrorBoundary name={'chat:character'}>
 						<Chat
 							gen_next_step={gen_next_step()}

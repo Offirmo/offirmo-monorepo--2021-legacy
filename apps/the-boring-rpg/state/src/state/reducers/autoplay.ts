@@ -54,14 +54,14 @@ function _autogroom(state: Readonly<State>, options: { DEBUG?: boolean } = {}): 
 	// User class
 	if (state.u_state.avatar.klass === CharacterClass.novice) {
 		// change class
-		let available_classes = get_available_classes(state.u_state)
-		let new_class: CharacterClass = Random.pick(Random.engines.nativeMath, available_classes)
+		const available_classes = get_available_classes(state.u_state)
+		const new_class: CharacterClass = Random.pick(Random.engines.nativeMath, available_classes)
 		if (DEBUG) console.log(`    - Changing class to ${new_class}…`)
 		state = change_avatar_class(state, new_class)
 	}
 	// User name
 	if (state.u_state.avatar.name === CharacterState.DEFAULT_AVATAR_NAME) {
-		let new_name = 'A' + Math.abs(state.u_state.prng.seed)
+		const new_name = 'A' + Math.abs(state.u_state.prng.seed)
 		if (DEBUG) console.log(`    - renaming to ${new_name}…`)
 		state = rename_avatar(state, new_name)
 	}
@@ -119,16 +119,16 @@ function autoplay(previous_state: Readonly<State>, options: Readonly<{ target_go
 					...state.u_state.progress,
 					statistics: {
 						...state.u_state.progress.statistics,
-						last_visited_timestamp: String(last_visited_timestamp_num)
-					}
-				}
-			}
+						last_visited_timestamp: String(last_visited_timestamp_num),
+					},
+				},
+			},
 		}
 	}
 	state = _autogroom(state, options)
 
 	// do we have energy?
-	let available_energy = get_available_energy_float(state.t_state)
+	const available_energy = get_available_energy_float(state.t_state)
 	let have_energy = available_energy >= 1.
 
 	if (target_bad_play_count > state.u_state.progress.statistics.bad_play_count) {
@@ -147,7 +147,7 @@ function autoplay(previous_state: Readonly<State>, options: Readonly<{ target_go
 	if (target_good_play_count > state.u_state.progress.statistics.good_play_count) {
 		// play good
 		for (let i = state.u_state.progress.statistics.good_play_count; i < target_good_play_count; ++i) {
-			let available_energy = get_available_energy_float(state.t_state)
+			const available_energy = get_available_energy_float(state.t_state)
 			have_energy = available_energy >= 1.
 
 			if (!have_energy) {
@@ -162,13 +162,13 @@ function autoplay(previous_state: Readonly<State>, options: Readonly<{ target_go
 							...state.u_state.progress,
 							statistics: {
 								...state.u_state.progress.statistics,
-								last_visited_timestamp: String(last_visited_timestamp_num)
-							}
-						}
+								last_visited_timestamp: String(last_visited_timestamp_num),
+							},
+						},
 					},
 					t_state: {
 						...state.t_state,
-						energy: t_state_e
+						energy: t_state_e,
 					},
 				}
 			}

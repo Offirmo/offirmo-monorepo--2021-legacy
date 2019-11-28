@@ -35,7 +35,7 @@ class PageSavegameEditorC1 extends Component {
 + '💀 Editing your game will turn off all social features, '
 + 'and your game will no longer be saved in the cloud. '
 + 'You’ll be responsible for backupping your game. '
-+ 'Are you sure?'
++ 'Are you sure?',
 			))
 				return this.navigate_home()
 		}

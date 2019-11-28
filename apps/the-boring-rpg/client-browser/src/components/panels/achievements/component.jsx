@@ -13,12 +13,12 @@ const AchievementsPanelViewM = React.memo(
 
 		return (
 			<div className="o⋄top-container tbrpg-panel tbrpg-panel--achievements o⋄flex--column">
-				<div className='panel-top-content o⋄flex-element--nogrow'>
+				<div className="panel-top-content o⋄flex-element--nogrow">
 					{rich_text_to_react(render_achievements_snapshot(achievements_snapshot))}
 				</div>
 			</div>
 		)
-	}
+	},
 )
 
 export default AchievementsPanelViewM

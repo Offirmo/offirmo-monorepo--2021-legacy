@@ -19,7 +19,7 @@ function get_available_classes(u_state: Readonly<UState>): CharacterClass[] {
 function will_next_play_be_good_at(state: Readonly<State>, now_ms: TimestampUTCMs): boolean {
 	state = _update_to_now(state, now_ms)
 
-	let { t_state } = state
+	const { t_state } = state
 
 	const available_energy = get_available_energy_float(t_state)
 	const is_good_play = available_energy >= 1.

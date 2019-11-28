@@ -24,7 +24,7 @@ class ChatBubble extends React.Component {
 			'chat__element',
 			{ 'chat__element--ltr': direction === 'ltr'},
 			{ 'chat__element--rtl': direction === 'rtl'},
-			'chat__bubble'
+			'chat__bubble',
 		)
 		return (
 			<div className={classes}>
@@ -51,7 +51,7 @@ class Chat extends React.Component {
 		super(props)
 
 		// rekey backupped bubbles to avoid key conflicts
-		let initial_bubbles = React.Children.map(this.props.initial_bubbles, (child, index) => {
+		const initial_bubbles = React.Children.map(this.props.initial_bubbles, (child, index) => {
 			return (typeof child === 'string')
 				? child
 				: React.cloneElement(child, {key: `restored-${index}`})
@@ -127,7 +127,7 @@ class Chat extends React.Component {
 					break
 				case '↔':
 				default:
-					throw new Error(`display_message(): incorrect side!`)
+					throw new Error('display_message(): incorrect side!')
 			}
 
 			this.addBubble(
@@ -137,10 +137,10 @@ class Chat extends React.Component {
 		}
 
 		const spin_until_resolution = anything => {
-			this.set_state(s => {spinning: true})
+			this.set_state(s => {true})
 			return promiseFinally(
 				Promise.resolve(anything),
-				() => { this.set_state(s => {spinning: false}) },
+				() => { this.set_state(s => {false}) },
 			)
 		}
 
@@ -194,15 +194,15 @@ class Chat extends React.Component {
 		}
 
 		const read_string = (step) => {
-			if (DEBUG) console.log(`↘ read_string()`, step)
+			if (DEBUG) console.log('↘ read_string()', step)
 
 			return new Promise(resolve => {
-					this.set_state(state => ({
-						reading_string: true,
-						input_resolve_fn: resolve,
-					}))
-					this.props.on_input_begin()
-				})
+				this.set_state(state => ({
+					reading_string: true,
+					input_resolve_fn: resolve,
+				}))
+				this.props.on_input_begin()
+			})
 				.then(raw_answer => {
 					this.set_state(state => ({
 						reading_string: false,
@@ -217,7 +217,7 @@ class Chat extends React.Component {
 					if (step.msgg_as_user)
 						return display_message({
 							msg: step.msgg_as_user(answer),
-							side: '←'
+							side: '←',
 						})
 							.then(() => answer)
 
@@ -229,28 +229,28 @@ class Chat extends React.Component {
 			if (DEBUG) console.log('↘ read_choice()')
 
 			return new Promise(resolve => {
-					this.set_state(state => ({
-						choices: step.choices.map((choice, index) => {
-							return (
-								<button type="button"
-									key={index}
-									className="chat__button"
-									onClick={() => resolve(choice)}
-								>{choice.msg_cta}</button>
-							)
-						})
-					}))
-				})
+				this.set_state(state => ({
+					choices: step.choices.map((choice, index) => {
+						return (
+							<button type="button"
+								key={index}
+								className="chat__button"
+								onClick={() => resolve(choice)}
+							>{choice.msg_cta}</button>
+						)
+					}),
+				}))
+			})
 				.then(async (choice) => {
 
 					this.set_state(state => ({
-						choices: []
+						choices: [],
 					}))
 
 					const answer = choice.value
 					await display_message({
 						msg: (choice.msgg_as_user || step.msgg_as_user || (() => choice.msg_cta))(answer),
-						side: '←'
+						side: '←',
 					})
 
 					return answer
@@ -361,7 +361,7 @@ class Chat extends React.Component {
 
 		return (
 			<ErrorBoundary name={'chat-interface'} onMount={this.onErrorBoundaryMount}>
-				<AutoScrollDown classname='flex-column'>
+				<AutoScrollDown classname="flex-column">
 					<div className="chat">
 						{this.props.children}
 						{!is_mobile_keyboard_likely_to_be_displayed && penultimate_bubble}

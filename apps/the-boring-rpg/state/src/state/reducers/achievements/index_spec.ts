@@ -41,7 +41,7 @@ describe(`${LIB} - reducer`, function() {
 							...state.u_state.avatar,
 							name: 'Foo',
 						},
-					}
+					},
 				}
 
 				const new_state = _refresh_achievements(state, state.u_state.revision)
@@ -55,7 +55,7 @@ describe(`${LIB} - reducer`, function() {
 		ACHIEVEMENT_DEFINITIONS.forEach((definition: AchievementDefinition<UState>) => {
 			describe(`achievements "${definition.name}"`, function() {
 				it('should be testable and not throw', () => {
-					let state = create()
+					const state = create()
 
 					const status = definition.get_status(state.u_state)
 					expect(Enum.isType(AchievementStatus, status)).to.be.true

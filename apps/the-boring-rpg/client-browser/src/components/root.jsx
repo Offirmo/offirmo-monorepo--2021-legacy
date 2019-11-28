@@ -94,11 +94,11 @@ export default class Root extends Component {
 										available_energy: {
 											n: n+d,
 											d,
-										}
-									}
-								}
+										},
+									},
+								},
 							}
-						}
+						},
 					)}
 					onNext={() => get_game_instance().commands.custom(
 						state => {
@@ -111,11 +111,11 @@ export default class Root extends Component {
 										available_energy: {
 											n: 1000, // will be capped
 											d: 1,
-										}
-									}
-								}
+										},
+									},
+								},
 							}
-						}
+						},
 					)}
 				/>
 			</Fragment>

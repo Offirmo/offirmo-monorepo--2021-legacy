@@ -22,7 +22,7 @@ const InfoboxC1 = React.memo(
 				achievements_completion_pct={achievements_completion_pct}
 			/>
 		)
-	}
+	},
 )
 
 

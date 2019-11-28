@@ -43,7 +43,7 @@ const PageDevViewM = React.memo(
 				{interactive_items.map(i => <Detailed UUID={i.uuid} />)}
 			</div>
 		)
-	}
+	},
 )
 
 export default PageDevViewM

@@ -19,7 +19,7 @@ function _are_all_slots_equipped_with_quality_higher_or_equal_than(u_state: Read
 		slot => {
 			const item = get_item_in_slot(u_state.inventory, slot)
 			return item ? ITEM_QUALITIES_TO_INT[item.quality] <= ITEM_QUALITIES_TO_INT[quality] : false
-		}
+		},
 	)
 }
 function _get_combined_equipped_items_power(u_state: Readonly<UState>): number {
@@ -28,7 +28,7 @@ function _get_combined_equipped_items_power(u_state: Readonly<UState>): number {
 			const item = get_item_in_slot(u_state.inventory, slot)
 			return acc + (item ? appraise_power(item) : 0)
 		},
-		0
+		0,
 	)
 }
 function _equipped_armor_matches(u_state: Readonly<UState>, spec: Readonly<Partial<Armor>>): boolean {
@@ -74,8 +74,8 @@ const RAW_ENTRIES_TEST: Readonly<Partial<AchievementDefinition<UState>>>[] = [
 	{
 		icon: '🍪',
 		name: 'TEST',
-		description: `This secret achievement can only be obtained through debug commands, to test the achievements system.`,
-		lore: `…and a piece of lore should appear here`,
+		description: 'This secret achievement can only be obtained through debug commands, to test the achievements system.',
+		lore: '…and a piece of lore should appear here',
 		get_status: (u_state: UState) => u_state.progress.achievements['TEST'] === undefined || u_state.progress.achievements['TEST'] === AchievementStatus.secret
 			? AchievementStatus.secret // keep it secret
 			: AchievementStatus.unlocked, // unlock it ASAP
@@ -83,7 +83,7 @@ const RAW_ENTRIES_TEST: Readonly<Partial<AchievementDefinition<UState>>>[] = [
 	{
 		icon: '🧒',
 		name: 'Reborn!',
-		description: `This secret achievement can only be obtained if you got "reborn" = your savegame was reinitialised with an autoplay due to a new format being introduced. This can only happen during the alpha.`,
+		description: 'This secret achievement can only be obtained if you got "reborn" = your savegame was reinitialised with an autoplay due to a new format being introduced. This can only happen during the alpha.',
 		lore: 'I won’t waste this new chance! I’ll live my life to the fullest!',
 		get_status: (u_state: UState) => u_state.progress.achievements['Reborn!'] === AchievementStatus.unlocked
 			? AchievementStatus.unlocked // keep it unlocked
@@ -95,14 +95,14 @@ const RAW_ENTRIES_GAME_PHASES: Readonly<Partial<AchievementDefinition<UState>>>[
 	{
 		icon: '🐺',
 		name: 'Alpha player',
-		description: `You started playing during the alpha or earlier.`,
+		description: 'You started playing during the alpha or earlier.',
 		lore: 'Let me tell you of a time of great adventure…',
 		get_status: () => AchievementStatus.unlocked, // TODO alpha
 	},
 	{
 		icon: '🦍',
 		name: 'Beta player',
-		description: `You played during the beta. (no beta yet, though)`,
+		description: 'You played during the beta. (no beta yet, though)',
 		lore: 'Those were the days my friend…',
 		get_status: () => AchievementStatus.revealed, // TODO beta
 	},
@@ -127,7 +127,7 @@ const RAW_ENTRIES_ADVENTURING: Readonly<Partial<AchievementDefinition<UState>>>[
 			: _encountered_good_adventures_count(u_state) >= ADVENTURE_TIERS[1]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([_encountered_good_adventures_count(u_state), ADVENTURE_TIERS[2]])
+		get_completion_rate: (u_state: UState) => ([_encountered_good_adventures_count(u_state), ADVENTURE_TIERS[2]]),
 	},
 	{
 		icon: '🥇',
@@ -138,7 +138,7 @@ const RAW_ENTRIES_ADVENTURING: Readonly<Partial<AchievementDefinition<UState>>>[
 			: _encountered_good_adventures_count(u_state) >= ADVENTURE_TIERS[2]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([_encountered_good_adventures_count(u_state), ADVENTURE_TIERS[3]])
+		get_completion_rate: (u_state: UState) => ([_encountered_good_adventures_count(u_state), ADVENTURE_TIERS[3]]),
 	},
 	{
 		icon: '🏅',
@@ -149,7 +149,7 @@ const RAW_ENTRIES_ADVENTURING: Readonly<Partial<AchievementDefinition<UState>>>[
 			: _encountered_good_adventures_count(u_state) >= ADVENTURE_TIERS[3]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([_encountered_good_adventures_count(u_state), ADVENTURE_TIERS[4]])
+		get_completion_rate: (u_state: UState) => ([_encountered_good_adventures_count(u_state), ADVENTURE_TIERS[4]]),
 	},
 	{
 		icon: '🎖',
@@ -160,7 +160,7 @@ const RAW_ENTRIES_ADVENTURING: Readonly<Partial<AchievementDefinition<UState>>>[
 			: _encountered_good_adventures_count(u_state) >= ADVENTURE_TIERS[4]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([_encountered_good_adventures_count(u_state), ADVENTURE_TIERS[5]])
+		get_completion_rate: (u_state: UState) => ([_encountered_good_adventures_count(u_state), ADVENTURE_TIERS[5]]),
 	},
 	{
 		icon: '🏆',
@@ -171,19 +171,19 @@ const RAW_ENTRIES_ADVENTURING: Readonly<Partial<AchievementDefinition<UState>>>[
 			: _encountered_good_adventures_count(u_state) >= ADVENTURE_TIERS[5]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([_encountered_good_adventures_count(u_state), ADVENTURE_TIERS[6]])
+		get_completion_rate: (u_state: UState) => ([_encountered_good_adventures_count(u_state), ADVENTURE_TIERS[6]]),
 	},
 
 	{
 		icon: '👑',
 		name: 'Absolute Explorer',
-		description: `Having experienced ALL the adventures`,
+		description: 'Having experienced ALL the adventures',
 		get_status: (u_state: UState) => _encountered_good_adventures_count(u_state) >= ALL_GOOD_ADVENTURE_ARCHETYPES.length
 			? AchievementStatus.unlocked
 			: _encountered_good_adventures_count(u_state) >= ADVENTURE_TIERS[6]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([_encountered_good_adventures_count(u_state), ALL_GOOD_ADVENTURE_ARCHETYPES.length])
+		get_completion_rate: (u_state: UState) => ([_encountered_good_adventures_count(u_state), ALL_GOOD_ADVENTURE_ARCHETYPES.length]),
 	},
 ]
 
@@ -192,7 +192,7 @@ const RAW_ENTRIES_FIGHT_ENCOUNTERS: Readonly<Partial<AchievementDefinition<UStat
 	{
 		icon: '🥄',
 		name: 'First Blood',
-		description: `Having experienced your first random fight encounter.`,
+		description: 'Having experienced your first random fight encounter.',
 		get_status: (u_state: UState) => _encountered_fight_adventures_count(u_state) >= FIGHT_ENCOUNTER_TIERS[0]
 			? AchievementStatus.unlocked
 			: AchievementStatus.revealed,
@@ -206,7 +206,7 @@ const RAW_ENTRIES_FIGHT_ENCOUNTERS: Readonly<Partial<AchievementDefinition<UStat
 			: _encountered_fight_adventures_count(u_state) >= FIGHT_ENCOUNTER_TIERS[0]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([_encountered_fight_adventures_count(u_state), FIGHT_ENCOUNTER_TIERS[1]])
+		get_completion_rate: (u_state: UState) => ([_encountered_fight_adventures_count(u_state), FIGHT_ENCOUNTER_TIERS[1]]),
 	},
 	{
 		icon: '⛏',
@@ -217,19 +217,19 @@ const RAW_ENTRIES_FIGHT_ENCOUNTERS: Readonly<Partial<AchievementDefinition<UStat
 			: _encountered_fight_adventures_count(u_state) >= FIGHT_ENCOUNTER_TIERS[1]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([_encountered_fight_adventures_count(u_state), FIGHT_ENCOUNTER_TIERS[2]])
+		get_completion_rate: (u_state: UState) => ([_encountered_fight_adventures_count(u_state), FIGHT_ENCOUNTER_TIERS[2]]),
 	},
 	{
 		icon: '🔪',
 		name: '49 times… It was 49 times…',
-		description: `Having experienced 49 random fight encounters.`,
-		lore: `49 times… We fought that beast. Something’s waiting in the bushes for us…`,
+		description: 'Having experienced 49 random fight encounters.',
+		lore: '49 times… We fought that beast. Something’s waiting in the bushes for us…',
 		get_status: (u_state: UState) => _encountered_fight_adventures_count(u_state) >= FIGHT_ENCOUNTER_TIERS[3]
 			? AchievementStatus.unlocked
 			: _encountered_fight_adventures_count(u_state) >= FIGHT_ENCOUNTER_TIERS[2]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([_encountered_fight_adventures_count(u_state), FIGHT_ENCOUNTER_TIERS[3]])
+		get_completion_rate: (u_state: UState) => ([_encountered_fight_adventures_count(u_state), FIGHT_ENCOUNTER_TIERS[3]]),
 	},
 	{
 		icon: '🔪',
@@ -240,7 +240,7 @@ const RAW_ENTRIES_FIGHT_ENCOUNTERS: Readonly<Partial<AchievementDefinition<UStat
 			: _encountered_fight_adventures_count(u_state) >= FIGHT_ENCOUNTER_TIERS[3]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([_encountered_fight_adventures_count(u_state), FIGHT_ENCOUNTER_TIERS[4]])
+		get_completion_rate: (u_state: UState) => ([_encountered_fight_adventures_count(u_state), FIGHT_ENCOUNTER_TIERS[4]]),
 	},
 	{
 		icon: '🗡',
@@ -251,7 +251,7 @@ const RAW_ENTRIES_FIGHT_ENCOUNTERS: Readonly<Partial<AchievementDefinition<UStat
 			: _encountered_fight_adventures_count(u_state) >= FIGHT_ENCOUNTER_TIERS[4]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([_encountered_fight_adventures_count(u_state), FIGHT_ENCOUNTER_TIERS[5]])
+		get_completion_rate: (u_state: UState) => ([_encountered_fight_adventures_count(u_state), FIGHT_ENCOUNTER_TIERS[5]]),
 	},
 	{
 		icon: '⚔',
@@ -262,7 +262,7 @@ const RAW_ENTRIES_FIGHT_ENCOUNTERS: Readonly<Partial<AchievementDefinition<UStat
 			: _encountered_fight_adventures_count(u_state) >= FIGHT_ENCOUNTER_TIERS[5]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([_encountered_fight_adventures_count(u_state), FIGHT_ENCOUNTER_TIERS[6]])
+		get_completion_rate: (u_state: UState) => ([_encountered_fight_adventures_count(u_state), FIGHT_ENCOUNTER_TIERS[6]]),
 	},
 ]
 
@@ -270,71 +270,71 @@ const RAW_ENTRIES_ADVENTURES_SETS: Readonly<Partial<AchievementDefinition<UState
 	{
 		icon: '🍄',
 		name: 'Mushrooms Lover',
-		description: `Having eaten 3 different mushrooms.`,
+		description: 'Having eaten 3 different mushrooms.',
 		get_status: (u_state: UState) => _eaten_mushroom_count(u_state) >= 3
 			? AchievementStatus.unlocked
 			: _eaten_mushroom_count(u_state) >= 1
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([_eaten_mushroom_count(u_state), 3])
+		get_completion_rate: (u_state: UState) => ([_eaten_mushroom_count(u_state), 3]),
 	},
 	{
 		icon: '🍡',
 		name: 'Mushrooms Gourmet',
-		description: `Having eaten all the different mushrooms.`,
+		description: 'Having eaten all the different mushrooms.',
 		get_status: (u_state: UState) => _eaten_mushroom_count(u_state) >= 8
 			? AchievementStatus.unlocked
 			: _eaten_mushroom_count(u_state) >= 3
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([_eaten_mushroom_count(u_state), 8])
+		get_completion_rate: (u_state: UState) => ([_eaten_mushroom_count(u_state), 8]),
 	},
 
 	{
 		icon: '🥤',
 		name: 'Potions Taster',
-		description: `Having drunk 3 different potions.`,
+		description: 'Having drunk 3 different potions.',
 		get_status: (u_state: UState) => _drunk_potion_count(u_state) >= 3
 			? AchievementStatus.unlocked
 			: _drunk_potion_count(u_state) >= 1
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([_drunk_potion_count(u_state), 3])
+		get_completion_rate: (u_state: UState) => ([_drunk_potion_count(u_state), 3]),
 	},
 	{
 		icon: '🍹',
 		name: 'Potions Sommelier',
-		description: `Having drunk all the different potions.`,
+		description: 'Having drunk all the different potions.',
 		get_status: (u_state: UState) => _drunk_potion_count(u_state) >= 6
 			? AchievementStatus.unlocked
 			: _drunk_potion_count(u_state) >= 3
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([_drunk_potion_count(u_state), 6])
+		get_completion_rate: (u_state: UState) => ([_drunk_potion_count(u_state), 6]),
 	},
 
 	{
 		icon: '👩‍🌾',
 		name: 'Folk Hero',
-		description: `Having completed all the village quests.`,
+		description: 'Having completed all the village quests.',
 		get_status: (u_state: UState) => _helped_village_count(u_state) >= 6
 			? AchievementStatus.unlocked
 			: _helped_village_count(u_state) >= 1
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([_helped_village_count(u_state), 6])
+		get_completion_rate: (u_state: UState) => ([_helped_village_count(u_state), 6]),
 	},
 
 	{
 		icon: '💎',
 		name: 'Famous Gems Collector',
-		description: `Having collected all the famous gems.`,
+		description: 'Having collected all the famous gems.',
 		get_status: (u_state: UState) => _famous_stones_count(u_state) >= 4
 			? AchievementStatus.unlocked
 			: _famous_stones_count(u_state) >= 1
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([_famous_stones_count(u_state), 4])
+		get_completion_rate: (u_state: UState) => ([_famous_stones_count(u_state), 4]),
 	},
 
 	// all class master
@@ -348,7 +348,7 @@ const RAW_ENTRIES_PRIMARY_CTA: Readonly<Partial<AchievementDefinition<UState>>>[
 	{
 		icon: '🥉',
 		name: 'I am bored',
-		description: `Having played for the first time.`,
+		description: 'Having played for the first time.',
 		lore: 'I am looking for someone to share in an adventure…',
 		get_status: (u_state: UState) => u_state.progress.statistics.good_play_count
 			? AchievementStatus.unlocked
@@ -362,7 +362,7 @@ const RAW_ENTRIES_PRIMARY_CTA: Readonly<Partial<AchievementDefinition<UState>>>[
 		get_status: (u_state: UState) => u_state.progress.statistics.good_play_count >= GOOD_CLICKS_TIERS[1]
 			? AchievementStatus.unlocked
 			: AchievementStatus.revealed,
-		get_completion_rate: (u_state: UState) => ([u_state.progress.statistics.good_play_count, GOOD_CLICKS_TIERS[1]])
+		get_completion_rate: (u_state: UState) => ([u_state.progress.statistics.good_play_count, GOOD_CLICKS_TIERS[1]]),
 	},
 	{
 		icon: '🥇',
@@ -375,7 +375,7 @@ const RAW_ENTRIES_PRIMARY_CTA: Readonly<Partial<AchievementDefinition<UState>>>[
 			: u_state.progress.statistics.good_play_count >= GOOD_CLICKS_TIERS[1]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([u_state.progress.statistics.good_play_count, GOOD_CLICKS_TIERS[2]])
+		get_completion_rate: (u_state: UState) => ([u_state.progress.statistics.good_play_count, GOOD_CLICKS_TIERS[2]]),
 	},
 	{
 		icon: '🏅',
@@ -387,7 +387,7 @@ const RAW_ENTRIES_PRIMARY_CTA: Readonly<Partial<AchievementDefinition<UState>>>[
 			: u_state.progress.statistics.good_play_count >= GOOD_CLICKS_TIERS[2]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([u_state.progress.statistics.good_play_count, GOOD_CLICKS_TIERS[3]])
+		get_completion_rate: (u_state: UState) => ([u_state.progress.statistics.good_play_count, GOOD_CLICKS_TIERS[3]]),
 	},
 	{
 		icon: '🎖',
@@ -399,7 +399,7 @@ const RAW_ENTRIES_PRIMARY_CTA: Readonly<Partial<AchievementDefinition<UState>>>[
 			: u_state.progress.statistics.good_play_count >= GOOD_CLICKS_TIERS[3]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([u_state.progress.statistics.good_play_count, GOOD_CLICKS_TIERS[4]])
+		get_completion_rate: (u_state: UState) => ([u_state.progress.statistics.good_play_count, GOOD_CLICKS_TIERS[4]]),
 	},
 	{
 		icon: '👑',
@@ -411,7 +411,7 @@ const RAW_ENTRIES_PRIMARY_CTA: Readonly<Partial<AchievementDefinition<UState>>>[
 			: u_state.progress.statistics.good_play_count >= GOOD_CLICKS_TIERS[4]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([u_state.progress.statistics.good_play_count, GOOD_CLICKS_TIERS[5]])
+		get_completion_rate: (u_state: UState) => ([u_state.progress.statistics.good_play_count, GOOD_CLICKS_TIERS[5]]),
 	},
 	{
 		icon: '🏆',
@@ -423,7 +423,7 @@ const RAW_ENTRIES_PRIMARY_CTA: Readonly<Partial<AchievementDefinition<UState>>>[
 			: u_state.progress.statistics.good_play_count >= GOOD_CLICKS_TIERS[5]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([u_state.progress.statistics.good_play_count, GOOD_CLICKS_TIERS[6]])
+		get_completion_rate: (u_state: UState) => ([u_state.progress.statistics.good_play_count, GOOD_CLICKS_TIERS[6]]),
 	},
 ]
 
@@ -433,7 +433,7 @@ const RAW_ENTRIES_COUNTER_CTA: Readonly<Partial<AchievementDefinition<UState>>>[
 	{
 		icon: '😱',
 		name: 'Sorry my hand slipped',
-		description: `Having played too soon for the 1st time.`,
+		description: 'Having played too soon for the 1st time.',
 		lore: 'each mistake teaches us something…',
 		get_status: (u_state: UState) => u_state.progress.statistics.bad_play_count
 			? AchievementStatus.unlocked
@@ -442,12 +442,12 @@ const RAW_ENTRIES_COUNTER_CTA: Readonly<Partial<AchievementDefinition<UState>>>[
 	{
 		icon: '🙀',
 		name: 'Oops!... I Did It Again',
-		description: `Having played too soon for the 2nd time.`,
+		description: 'Having played too soon for the 2nd time.',
 		lore: 'Anyone who has never made a mistake has never tried anything new.',
 		get_status: (u_state: UState) => u_state.progress.statistics.bad_play_count >= BAD_CLICKS_TIERS[2]
 			? AchievementStatus.unlocked
 			: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([u_state.progress.statistics.bad_play_count, BAD_CLICKS_TIERS[2]])
+		get_completion_rate: (u_state: UState) => ([u_state.progress.statistics.bad_play_count, BAD_CLICKS_TIERS[2]]),
 	},
 	{
 		icon: '😼',
@@ -459,7 +459,7 @@ const RAW_ENTRIES_COUNTER_CTA: Readonly<Partial<AchievementDefinition<UState>>>[
 			: u_state.progress.statistics.bad_play_count >= BAD_CLICKS_TIERS[2]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([u_state.progress.statistics.bad_play_count, BAD_CLICKS_TIERS[3]])
+		get_completion_rate: (u_state: UState) => ([u_state.progress.statistics.bad_play_count, BAD_CLICKS_TIERS[3]]),
 	},
 	{
 		icon: '😈',
@@ -471,7 +471,7 @@ const RAW_ENTRIES_COUNTER_CTA: Readonly<Partial<AchievementDefinition<UState>>>[
 			: u_state.progress.statistics.bad_play_count >= BAD_CLICKS_TIERS[3]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([u_state.progress.statistics.bad_play_count, BAD_CLICKS_TIERS[4]])
+		get_completion_rate: (u_state: UState) => ([u_state.progress.statistics.bad_play_count, BAD_CLICKS_TIERS[4]]),
 	},
 	{
 		icon: '👻',
@@ -483,7 +483,7 @@ const RAW_ENTRIES_COUNTER_CTA: Readonly<Partial<AchievementDefinition<UState>>>[
 			: u_state.progress.statistics.bad_play_count >= BAD_CLICKS_TIERS[4]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([u_state.progress.statistics.bad_play_count, BAD_CLICKS_TIERS[5]])
+		get_completion_rate: (u_state: UState) => ([u_state.progress.statistics.bad_play_count, BAD_CLICKS_TIERS[5]]),
 	},
 ]
 
@@ -498,7 +498,7 @@ const RAW_ENTRIES_SECONDARY_CTAS: Readonly<Partial<AchievementDefinition<UState>
 		get_status: (u_state: UState) => u_state.progress.statistics.active_day_count >= REGULARITY_TIERS[1]
 			? AchievementStatus.unlocked
 			: AchievementStatus.revealed,
-		get_completion_rate: (u_state: UState) => ([u_state.progress.statistics.active_day_count, REGULARITY_TIERS[1]])
+		get_completion_rate: (u_state: UState) => ([u_state.progress.statistics.active_day_count, REGULARITY_TIERS[1]]),
 	},
 	{
 		icon: '🌿',
@@ -510,7 +510,7 @@ const RAW_ENTRIES_SECONDARY_CTAS: Readonly<Partial<AchievementDefinition<UState>
 			: u_state.progress.statistics.active_day_count >= REGULARITY_TIERS[1]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([u_state.progress.statistics.active_day_count, REGULARITY_TIERS[2]])
+		get_completion_rate: (u_state: UState) => ([u_state.progress.statistics.active_day_count, REGULARITY_TIERS[2]]),
 	},
 	{
 		icon: '🌲',
@@ -522,7 +522,7 @@ const RAW_ENTRIES_SECONDARY_CTAS: Readonly<Partial<AchievementDefinition<UState>
 			: u_state.progress.statistics.active_day_count >= REGULARITY_TIERS[2]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([u_state.progress.statistics.active_day_count, REGULARITY_TIERS[3]])
+		get_completion_rate: (u_state: UState) => ([u_state.progress.statistics.active_day_count, REGULARITY_TIERS[3]]),
 	},
 	{
 		icon: '🌳',
@@ -534,7 +534,7 @@ const RAW_ENTRIES_SECONDARY_CTAS: Readonly<Partial<AchievementDefinition<UState>
 			: u_state.progress.statistics.active_day_count >= REGULARITY_TIERS[3]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([u_state.progress.statistics.active_day_count, REGULARITY_TIERS[4]])
+		get_completion_rate: (u_state: UState) => ([u_state.progress.statistics.active_day_count, REGULARITY_TIERS[4]]),
 	},
 	{
 		icon: '💉',
@@ -546,7 +546,7 @@ const RAW_ENTRIES_SECONDARY_CTAS: Readonly<Partial<AchievementDefinition<UState>
 			: u_state.progress.statistics.active_day_count >= REGULARITY_TIERS[4]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([u_state.progress.statistics.active_day_count, REGULARITY_TIERS[5]])
+		get_completion_rate: (u_state: UState) => ([u_state.progress.statistics.active_day_count, REGULARITY_TIERS[5]]),
 	},
 	{
 		icon: '🎂',
@@ -558,7 +558,7 @@ const RAW_ENTRIES_SECONDARY_CTAS: Readonly<Partial<AchievementDefinition<UState>
 			: u_state.progress.statistics.active_day_count >= REGULARITY_TIERS[5]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([u_state.progress.statistics.active_day_count, REGULARITY_TIERS[6]])
+		get_completion_rate: (u_state: UState) => ([u_state.progress.statistics.active_day_count, REGULARITY_TIERS[6]]),
 	},
 ]
 
@@ -566,7 +566,7 @@ const RAW_ENTRIES_ENGAGEMENT: Readonly<Partial<AchievementDefinition<UState>>>[]
 	{
 		icon: '🎫',
 		name: 'What’s in a name?',
-		description: `Having set one’s name.`,
+		description: 'Having set one’s name.',
 		// lore: 'TODO',
 		get_status: (u_state: UState) => u_state.avatar.name !== DEFAULT_AVATAR_NAME
 			? AchievementStatus.unlocked
@@ -575,7 +575,7 @@ const RAW_ENTRIES_ENGAGEMENT: Readonly<Partial<AchievementDefinition<UState>>>[]
 	{
 		icon: '🎓',
 		name: 'Graduated',
-		description: `Having selected a class.`,
+		description: 'Having selected a class.',
 		// lore: 'TODO',
 		get_status: (u_state: UState) => u_state.avatar.klass !== CharacterClass.novice
 			? AchievementStatus.unlocked
@@ -584,7 +584,7 @@ const RAW_ENTRIES_ENGAGEMENT: Readonly<Partial<AchievementDefinition<UState>>>[]
 	{
 		icon: '🆔',
 		name: 'Registered',
-		description: `Having signed up.`,
+		description: 'Having signed up.',
 		// lore: 'TODO',
 		// TODO make that unlock new adventures
 	},
@@ -595,7 +595,7 @@ const RAW_ENTRIES_PROGRESSION_EQUIPMENT: Readonly<Partial<AchievementDefinition<
 	{
 		icon: '🥄',
 		name: 'There Is No Spoon',
-		description: `Having replaced your starting "spoon of the noob" weapon.`,
+		description: 'Having replaced your starting "spoon of the noob" weapon.',
 		lore: 'A weapon isn’t good or bad, depends on the person who uses it.',
 		get_status: (u_state: UState) => (!u_state.inventory.slotted[InventorySlot.weapon] || _equipped_weapon_matches(u_state, STARTING_WEAPON_SPEC))
 			? AchievementStatus.revealed
@@ -604,7 +604,7 @@ const RAW_ENTRIES_PROGRESSION_EQUIPMENT: Readonly<Partial<AchievementDefinition<
 	{
 		icon: '🧦',
 		name: 'They Weren’t Matched Anyway',
-		description: `Having replaced your starting "socks of the noob" armor.`,
+		description: 'Having replaced your starting "socks of the noob" armor.',
 		lore: 'I’ll tell you one thing you can’t do: you can’t put your shoes on, then your socks on.',
 		get_status: (u_state: UState) => (!u_state.inventory.slotted[InventorySlot.armor] || _equipped_armor_matches(u_state, STARTING_ARMOR_SPEC))
 			? AchievementStatus.revealed
@@ -613,7 +613,7 @@ const RAW_ENTRIES_PROGRESSION_EQUIPMENT: Readonly<Partial<AchievementDefinition<
 	{
 		icon: '🎒',
 		name: 'I Was Born Ready',
-		description: `Having replaced all your starting "spoon+socks" equipment.`,
+		description: 'Having replaced all your starting "spoon+socks" equipment.',
 		// lore: 'TODO',
 		get_status: (u_state: UState) => _equipped_armor_matches(u_state, STARTING_ARMOR_SPEC) || _equipped_weapon_matches(u_state, STARTING_WEAPON_SPEC)
 			? AchievementStatus.revealed
@@ -621,24 +621,24 @@ const RAW_ENTRIES_PROGRESSION_EQUIPMENT: Readonly<Partial<AchievementDefinition<
 		get_completion_rate: (u_state: UState) => ([
 			(_equipped_armor_matches(u_state, STARTING_ARMOR_SPEC) ? 0 : 1)
 			+ (_equipped_weapon_matches(u_state, STARTING_WEAPON_SPEC) ? 0 : 1),
-			2
-		])
+			2,
+		]),
 	},
 
 	// - quality
 	{
 		icon: '🛍',
 		name: 'U Got The Look',
-		description: `All equipped items of quality uncommon or higher. 💚 `,
+		description: 'All equipped items of quality uncommon or higher. 💚 ',
 		lore: 'If there are cracks in your armor, your opponent is going to find them...',
 		get_status: (u_state: UState) => _are_all_slots_equipped_with_quality_higher_or_equal_than(u_state, ItemQuality.uncommon)
-				? AchievementStatus.unlocked
-				: AchievementStatus.revealed,
+			? AchievementStatus.unlocked
+			: AchievementStatus.revealed,
 	},
 	{
 		icon: '💅',
 		name: 'Rare Sight',
-		description: `All equipped items of quality rare or higher. 💙 `,
+		description: 'All equipped items of quality rare or higher. 💙 ',
 		// lore: 'TODO',
 		get_status: (u_state: UState) => _are_all_slots_equipped_with_quality_higher_or_equal_than(u_state, ItemQuality.rare)
 			? AchievementStatus.unlocked
@@ -649,7 +649,7 @@ const RAW_ENTRIES_PROGRESSION_EQUIPMENT: Readonly<Partial<AchievementDefinition<
 	{
 		icon: '🎩',
 		name: 'Epic Smile',
-		description: `All equipped items of quality epic or higher. 💜 `,
+		description: 'All equipped items of quality epic or higher. 💜 ',
 		// lore: 'TODO',
 		get_status: (u_state: UState) => _are_all_slots_equipped_with_quality_higher_or_equal_than(u_state, ItemQuality.epic)
 			? AchievementStatus.unlocked
@@ -660,7 +660,7 @@ const RAW_ENTRIES_PROGRESSION_EQUIPMENT: Readonly<Partial<AchievementDefinition<
 	{
 		icon: '👑',
 		name: 'I Am A Legend',
-		description: `All equipped items of quality legendary or higher. 🧡 `,
+		description: 'All equipped items of quality legendary or higher. 🧡 ',
 		// lore: 'TODO',
 		get_status: (u_state: UState) => _are_all_slots_equipped_with_quality_higher_or_equal_than(u_state, ItemQuality.legendary)
 			? AchievementStatus.unlocked
@@ -671,7 +671,7 @@ const RAW_ENTRIES_PROGRESSION_EQUIPMENT: Readonly<Partial<AchievementDefinition<
 	{
 		icon: '🌞',
 		name: 'Twinkle Twinkle Little Star',
-		description: `All equipped items of quality artifact or higher. 💛 `,
+		description: 'All equipped items of quality artifact or higher. 💛 ',
 		// lore: 'TODO',
 		get_status: (u_state: UState) => _are_all_slots_equipped_with_quality_higher_or_equal_than(u_state, ItemQuality.artifact)
 			? AchievementStatus.unlocked
@@ -687,7 +687,7 @@ const RAW_ENTRIES_PROGRESSION_EQUIPMENT: Readonly<Partial<AchievementDefinition<
 		get_status: (u_state: UState) => _get_combined_equipped_items_power(u_state) >= POWER_TIERS[1]
 			? AchievementStatus.unlocked
 			: AchievementStatus.revealed,
-		get_completion_rate: (u_state: UState) => ([_get_combined_equipped_items_power(u_state), POWER_TIERS[1]])
+		get_completion_rate: (u_state: UState) => ([_get_combined_equipped_items_power(u_state), POWER_TIERS[1]]),
 	},
 	{
 		icon: '👙',
@@ -699,7 +699,7 @@ const RAW_ENTRIES_PROGRESSION_EQUIPMENT: Readonly<Partial<AchievementDefinition<
 			: _get_combined_equipped_items_power(u_state) >= POWER_TIERS[1]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([_get_combined_equipped_items_power(u_state), POWER_TIERS[2]])
+		get_completion_rate: (u_state: UState) => ([_get_combined_equipped_items_power(u_state), POWER_TIERS[2]]),
 	},
 	{
 		icon: '🎁',
@@ -711,7 +711,7 @@ const RAW_ENTRIES_PROGRESSION_EQUIPMENT: Readonly<Partial<AchievementDefinition<
 			: _get_combined_equipped_items_power(u_state) >= POWER_TIERS[2]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([_get_combined_equipped_items_power(u_state), POWER_TIERS[3]])
+		get_completion_rate: (u_state: UState) => ([_get_combined_equipped_items_power(u_state), POWER_TIERS[3]]),
 	},
 	{
 		icon: '🔱',
@@ -723,7 +723,7 @@ const RAW_ENTRIES_PROGRESSION_EQUIPMENT: Readonly<Partial<AchievementDefinition<
 			: _get_combined_equipped_items_power(u_state) >= POWER_TIERS[3]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([_get_combined_equipped_items_power(u_state), POWER_TIERS[4]])
+		get_completion_rate: (u_state: UState) => ([_get_combined_equipped_items_power(u_state), POWER_TIERS[4]]),
 	},
 	{
 		icon: '⚜',
@@ -735,7 +735,7 @@ const RAW_ENTRIES_PROGRESSION_EQUIPMENT: Readonly<Partial<AchievementDefinition<
 			: _get_combined_equipped_items_power(u_state) >= POWER_TIERS[4]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([_get_combined_equipped_items_power(u_state), POWER_TIERS[5]])
+		get_completion_rate: (u_state: UState) => ([_get_combined_equipped_items_power(u_state), POWER_TIERS[5]]),
 	},
 ]
 
@@ -747,48 +747,48 @@ const RAW_ENTRIES_PROGRESSION_ATTRIBUTES: Readonly<Partial<AchievementDefinition
 	{
 		icon: '👶',
 		name: 'Tiny Adventurer',
-		description: `Having a level of 3 or higher.`,
+		description: 'Having a level of 3 or higher.',
 		lore: 'You realize that all your life you have been coasting along as if you were in a dream. Suddenly, facing the trials of the last few days, you have come alive.',
 		get_status: (u_state: UState) => u_state.avatar.attributes.level >= 3
 			? AchievementStatus.unlocked
 			: AchievementStatus.revealed,
-		get_completion_rate: (u_state: UState) => ([u_state.avatar.attributes.level, 3])
+		get_completion_rate: (u_state: UState) => ([u_state.avatar.attributes.level, 3]),
 	},
 	{
 		icon: '🧒',
 		name: 'Reasonable Adventurer',
-		description: `Having a level of 7 or higher.`,
+		description: 'Having a level of 7 or higher.',
 		lore: 'Today you wake up, full of energy and ideas, and you know, somehow, that overnight everything has changed. What a difference a day makes.',
 		get_status: (u_state: UState) => u_state.avatar.attributes.level >= 7
 			? AchievementStatus.unlocked
 			: u_state.avatar.attributes.level >= 3
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([u_state.avatar.attributes.level, 7])
+		get_completion_rate: (u_state: UState) => ([u_state.avatar.attributes.level, 7]),
 	},
 	{
 		icon: '👩‍🎤',
 		name: 'Teenage Adventurer',
-		description: `Having a level of 12 or higher.`,
+		description: 'Having a level of 12 or higher.',
 		lore: 'You’ve done things the hard way. But without taking risks, taking responsibility for failure... how could you have understood?',
 		get_status: (u_state: UState) => u_state.avatar.attributes.level >= 12
 			? AchievementStatus.unlocked
 			: u_state.avatar.attributes.level >= 7
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([u_state.avatar.attributes.level, 12])
+		get_completion_rate: (u_state: UState) => ([u_state.avatar.attributes.level, 12]),
 	},
 	{
 		icon: '🧑',
 		name: 'Newbie Adventurer',
-		description: `Having a level of 20 or higher.`,
+		description: 'Having a level of 20 or higher.',
 		lore: 'Being smart doesn’t hurt. And a little luck now and then is nice. But the key is patience and hard work.',
 		get_status: (u_state: UState) => u_state.avatar.attributes.level >= 20
 			? AchievementStatus.unlocked
 			: u_state.avatar.attributes.level >= 12
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([u_state.avatar.attributes.level, 20])
+		get_completion_rate: (u_state: UState) => ([u_state.avatar.attributes.level, 20]),
 	},
 	{
 		icon: '🧑',
@@ -800,7 +800,7 @@ const RAW_ENTRIES_PROGRESSION_ATTRIBUTES: Readonly<Partial<AchievementDefinition
 			: u_state.avatar.attributes.level >= 20
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([u_state.avatar.attributes.level, ATTRIBUTES_TIERS[2]])
+		get_completion_rate: (u_state: UState) => ([u_state.avatar.attributes.level, ATTRIBUTES_TIERS[2]]),
 	},
 	{
 		icon: '🧓',
@@ -812,7 +812,7 @@ const RAW_ENTRIES_PROGRESSION_ATTRIBUTES: Readonly<Partial<AchievementDefinition
 			: u_state.avatar.attributes.level >= ATTRIBUTES_TIERS[2]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([u_state.avatar.attributes.level, ATTRIBUTES_TIERS[3]])
+		get_completion_rate: (u_state: UState) => ([u_state.avatar.attributes.level, ATTRIBUTES_TIERS[3]]),
 	},
 	{
 		icon: '🐢',
@@ -824,19 +824,19 @@ const RAW_ENTRIES_PROGRESSION_ATTRIBUTES: Readonly<Partial<AchievementDefinition
 			: u_state.avatar.attributes.level >= ATTRIBUTES_TIERS[3]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([u_state.avatar.attributes.level, ATTRIBUTES_TIERS[4]])
+		get_completion_rate: (u_state: UState) => ([u_state.avatar.attributes.level, ATTRIBUTES_TIERS[4]]),
 	},
 	{
 		icon: '🧝',
 		name: 'Long Lived Adventurer',
-		description: `Having a level of 300 or higher.`,
+		description: 'Having a level of 300 or higher.',
 		lore: 'The results of hard work and dedication always look like luck. But you know you’ve earned every ounce of your success.',
 		get_status: (u_state: UState) => u_state.avatar.attributes.level >= 300
 			? AchievementStatus.unlocked
 			: u_state.avatar.attributes.level >= ATTRIBUTES_TIERS[4]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([u_state.avatar.attributes.level, 300])
+		get_completion_rate: (u_state: UState) => ([u_state.avatar.attributes.level, 300]),
 	},
 
 
@@ -850,7 +850,7 @@ const RAW_ENTRIES_PROGRESSION_ATTRIBUTES: Readonly<Partial<AchievementDefinition
 		get_status: (u_state: UState) => u_state.avatar.attributes.health >= ATTRIBUTES_TIERS[1]
 			? AchievementStatus.unlocked
 			: AchievementStatus.revealed,
-		get_completion_rate: (u_state: UState) => ([u_state.avatar.attributes.health, ATTRIBUTES_TIERS[1]])
+		get_completion_rate: (u_state: UState) => ([u_state.avatar.attributes.health, ATTRIBUTES_TIERS[1]]),
 	},
 	{
 		icon: '😤',
@@ -862,7 +862,7 @@ const RAW_ENTRIES_PROGRESSION_ATTRIBUTES: Readonly<Partial<AchievementDefinition
 			: u_state.avatar.attributes.health >= ATTRIBUTES_TIERS[1]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([u_state.avatar.attributes.health, ATTRIBUTES_TIERS[2]])
+		get_completion_rate: (u_state: UState) => ([u_state.avatar.attributes.health, ATTRIBUTES_TIERS[2]]),
 	},
 	{
 		icon: '🏋',
@@ -874,7 +874,7 @@ const RAW_ENTRIES_PROGRESSION_ATTRIBUTES: Readonly<Partial<AchievementDefinition
 			: u_state.avatar.attributes.health >= ATTRIBUTES_TIERS[2]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([u_state.avatar.attributes.health, ATTRIBUTES_TIERS[3]])
+		get_completion_rate: (u_state: UState) => ([u_state.avatar.attributes.health, ATTRIBUTES_TIERS[3]]),
 	},
 	{
 		icon: '🐘',
@@ -886,7 +886,7 @@ const RAW_ENTRIES_PROGRESSION_ATTRIBUTES: Readonly<Partial<AchievementDefinition
 			: u_state.avatar.attributes.health >= ATTRIBUTES_TIERS[3]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([u_state.avatar.attributes.health, ATTRIBUTES_TIERS[4]])
+		get_completion_rate: (u_state: UState) => ([u_state.avatar.attributes.health, ATTRIBUTES_TIERS[4]]),
 	},
 
 	/////// mana ///////
@@ -898,7 +898,7 @@ const RAW_ENTRIES_PROGRESSION_ATTRIBUTES: Readonly<Partial<AchievementDefinition
 		get_status: (u_state: UState) => u_state.avatar.attributes.mana >= ATTRIBUTES_TIERS[1]
 			? AchievementStatus.unlocked
 			: AchievementStatus.revealed,
-		get_completion_rate: (u_state: UState) => ([u_state.avatar.attributes.mana, ATTRIBUTES_TIERS[1]])
+		get_completion_rate: (u_state: UState) => ([u_state.avatar.attributes.mana, ATTRIBUTES_TIERS[1]]),
 	},
 	{
 		icon: '🥛',
@@ -910,7 +910,7 @@ const RAW_ENTRIES_PROGRESSION_ATTRIBUTES: Readonly<Partial<AchievementDefinition
 			: u_state.avatar.attributes.mana >= ATTRIBUTES_TIERS[1]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([u_state.avatar.attributes.mana, ATTRIBUTES_TIERS[2]])
+		get_completion_rate: (u_state: UState) => ([u_state.avatar.attributes.mana, ATTRIBUTES_TIERS[2]]),
 	},
 	{
 		icon: '☕',
@@ -922,7 +922,7 @@ const RAW_ENTRIES_PROGRESSION_ATTRIBUTES: Readonly<Partial<AchievementDefinition
 			: u_state.avatar.attributes.mana >= ATTRIBUTES_TIERS[2]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([u_state.avatar.attributes.mana, ATTRIBUTES_TIERS[3]])
+		get_completion_rate: (u_state: UState) => ([u_state.avatar.attributes.mana, ATTRIBUTES_TIERS[3]]),
 	},
 	{
 		icon: '🧙',
@@ -934,7 +934,7 @@ const RAW_ENTRIES_PROGRESSION_ATTRIBUTES: Readonly<Partial<AchievementDefinition
 			: u_state.avatar.attributes.mana >= ATTRIBUTES_TIERS[3]
 				? AchievementStatus.revealed
 				: AchievementStatus.hidden,
-		get_completion_rate: (u_state: UState) => ([u_state.avatar.attributes.mana, ATTRIBUTES_TIERS[4]])
+		get_completion_rate: (u_state: UState) => ([u_state.avatar.attributes.mana, ATTRIBUTES_TIERS[4]]),
 	},
 
 	/////// STRENGTH ///////
@@ -1185,7 +1185,7 @@ const RAW_ENTRIES_MISC: Readonly<Partial<AchievementDefinition<UState>>>[] = [
 	{
 		icon: '⚔',
 		name: 'I Like Swords!',
-		description: `Having equipped a sword once.`,
+		description: 'Having equipped a sword once.',
 		lore: 'Still sharp...',
 		get_status: (u_state: UState) => _equipped_weapon_matches(u_state, { base_hid: 'sword'}) || _equipped_weapon_matches(u_state, { base_hid: 'longsword'})
 			? AchievementStatus.unlocked
@@ -1197,7 +1197,7 @@ const RAW_ENTRIES_META: Readonly<Partial<AchievementDefinition<UState>>>[] = [
 	{
 		icon: '😇',
 		name: 'Supporter of diversity',
-		description: `Having supported web diversity by playing on Firefox once.`,
+		description: 'Having supported web diversity by playing on Firefox once.',
 		lore: 'The more the merrier!',
 		get_status: (u_state: UState) => u_state.meta.is_web_diversity_supporter
 			? AchievementStatus.unlocked
@@ -1206,7 +1206,7 @@ const RAW_ENTRIES_META: Readonly<Partial<AchievementDefinition<UState>>>[] = [
 	{
 		icon: '📃',
 		name: 'Registered adventurer',
-		description: `Being logged in.`,
+		description: 'Being logged in.',
 		lore: 'You are now a registered adventurer.',
 		get_status: (u_state: UState) => u_state.meta.is_logged_in
 			? AchievementStatus.unlocked
@@ -1218,7 +1218,7 @@ const RAW_ENTRIES_SECRETS: Readonly<Partial<AchievementDefinition<UState>>>[] = 
 	{
 		icon: '👑',
 		name: 'Usurper',
-		description: `Having set the name "Offirmo".`,
+		description: 'Having set the name "Offirmo".',
 		lore: 'I see you…',
 		get_status: (u_state: UState) => u_state.avatar.name === 'Offirmo'
 			? AchievementStatus.unlocked
@@ -1227,14 +1227,14 @@ const RAW_ENTRIES_SECRETS: Readonly<Partial<AchievementDefinition<UState>>>[] = 
 	{
 		icon: '💣',
 		name: 'Blown Away',
-		description: `Having encountered a crash...`,
+		description: 'Having encountered a crash...',
 		//lore: 'TODO',
 		// TODO
 	},
 	{
 		icon: '🍀',
 		name: 'Just plain lucky',
-		description: `You have 1/1000 chance to gain this on each activity.`,
+		description: 'You have 1/1000 chance to gain this on each activity.',
 		lore: 'The amount of good luck coming your way depends on your willingness to act.',
 		get_status: () => Math.floor(Math.random() * 1000) === 123
 			? AchievementStatus.unlocked
@@ -1243,7 +1243,7 @@ const RAW_ENTRIES_SECRETS: Readonly<Partial<AchievementDefinition<UState>>>[] = 
 	{
 		icon: '🏴‍☠️',
 		name: 'Hacker',
-		description: `You manipulated the threads of reality to obtain this achievement. (can’t be obtained by normal means)`,
+		description: 'You manipulated the threads of reality to obtain this achievement. (can’t be obtained by normal means)',
 		lore: 'Just a different way of looking at problems that no one’s thought of ;)',
 		get_status: (u_state: UState) => AchievementStatus.secret,
 	},
@@ -1255,7 +1255,7 @@ const RAW_ENTRIES: Readonly<Partial<AchievementDefinition<UState>>>[] = [
 	{
 		icon: '✨',
 		name: 'Summoned',
-		description: `You began your adventures in another world.`,
+		description: 'You began your adventures in another world.',
 		lore: 'Thanks for visiting!',
 		get_status: () => AchievementStatus.unlocked,
 	},

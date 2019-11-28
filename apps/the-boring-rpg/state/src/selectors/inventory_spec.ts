@@ -13,8 +13,8 @@ import {
 } from '@oh-my-rpg/state-wallet'
 
 import { LIB } from '../consts'
-import {create} from "../state/reducers";
-import {appraise_item_value} from "./inventory";
+import {create} from '../state/reducers'
+import {appraise_item_value} from './inventory'
 
 
 describe(`${LIB} - selectors - inventory`, function() {

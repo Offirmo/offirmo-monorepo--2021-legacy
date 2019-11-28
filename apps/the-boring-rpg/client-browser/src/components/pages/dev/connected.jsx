@@ -19,7 +19,7 @@ const PageDev = React.memo(
 				view_state={view_state}
 			/>
 		)
-	}
+	},
 )
 
 export default PageDev

@@ -47,10 +47,10 @@ function reduce_action(state: Readonly<State>, action: Readonly<Action>): Readon
 			return action.custom_reducer(TBRPGState.update_to_now(state, action.time))
 
 		default:
-			throw new Error(`reduce_action(): Unhandled switch value(s)!`)
+			throw new Error('reduce_action(): Unhandled switch value(s)!')
 	}
 }
 
 export {
-	reduce_action
+	reduce_action,
 }

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
 import './index.css'
 
@@ -34,7 +34,7 @@ export default class AppRoot extends Component {
 		// {this.frameCount}
 		*/
 		return (
-				<OmrRoot />
+			<OmrRoot />
 		)
 	}
 }

@@ -37,7 +37,7 @@ import {
 
 import { get_lib_SEC } from '../../sec'
 
-import {STARTING_ARMOR_SPEC, STARTING_WEAPON_SPEC} from "./create";
+import {STARTING_ARMOR_SPEC, STARTING_WEAPON_SPEC} from './create'
 
 /////////////////////
 
@@ -66,13 +66,13 @@ function _lose_all_energy(state: Readonly<State>): Readonly<State> {
 		},
 		t_state: {
 			...state.t_state,
-			energy: EnergyState.lose_all_energy([state.u_state.energy, state.t_state.energy])
-		}
+			energy: EnergyState.lose_all_energy([state.u_state.energy, state.t_state.energy]),
+		},
 	}
 }
 
 function _update_to_now(state: Readonly<State>, now_ms: TimestampUTCMs): Readonly<State> {
-	let { u_state, t_state } = state
+	const { u_state, t_state } = state
 
 	const t_state_e = EnergyState.update_to_now([u_state.energy, t_state.energy], now_ms)
 
@@ -85,37 +85,37 @@ function _update_to_now(state: Readonly<State>, now_ms: TimestampUTCMs): Readonl
 			...t_state,
 			timestamp_ms: t_state_e.timestamp_ms,
 			energy: t_state_e,
-		}
+		},
 	}
 }
 
 function _receive_stat_increase(state: Readonly<State>, stat: CharacterAttribute, amount = 1): Readonly<State> {
-	let { u_state } = state
+	const { u_state } = state
 
 	return {
 		...state,
 		u_state: {
 			...u_state,
 			avatar: increase_stat(get_lib_SEC(), u_state.avatar, stat, amount),
-		}
+		},
 	}
 }
 
 function _receive_item(state: Readonly<State>, item: Item): Readonly<State> {
 	// inventory shouldn't be full since we prevent playing in this case
-	let { u_state } = state
+	const { u_state } = state
 
 	return {
 		...state,
 		u_state: {
 			...u_state,
 			inventory: InventoryState.add_item(u_state.inventory, item),
-		}
+		},
 	}
 }
 
 function _sell_item(state: Readonly<State>, uuid: UUID): Readonly<State> {
-	let { u_state } = state
+	const { u_state } = state
 
 	const price = appraise_item_value(u_state, uuid)
 
@@ -125,38 +125,38 @@ function _sell_item(state: Readonly<State>, uuid: UUID): Readonly<State> {
 			...u_state,
 			inventory: InventoryState.remove_item_from_unslotted(u_state.inventory, uuid),
 			wallet: WalletState.add_amount(u_state.wallet, Currency.coin, price),
-		}
+		},
 	}
 }
 
 function _receive_coins(state: Readonly<State>, amount: number): Readonly<State> {
-	let { u_state } = state
+	const { u_state } = state
 
 	return {
 		...state,
 		u_state: {
 			...u_state,
 			wallet: WalletState.add_amount(u_state.wallet, Currency.coin, amount),
-		}
+		},
 	}
 }
 
 function _receive_tokens(state: Readonly<State>, amount: number): Readonly<State> {
-	let { u_state } = state
+	const { u_state } = state
 
 	return {
 		...state,
 		u_state: {
 			...u_state,
 			wallet: WalletState.add_amount(u_state.wallet, Currency.token, amount),
-		}
+		},
 	}
 }
 
 ////////////
 
 function _ack_all_engagements(state: Readonly<State>): Readonly<State> {
-	let { u_state } = state
+	const { u_state } = state
 
 	if (!u_state.engagement.queue.length) return state
 
@@ -165,7 +165,7 @@ function _ack_all_engagements(state: Readonly<State>): Readonly<State> {
 		u_state: {
 			...u_state,
 			engagement: EngagementState.acknowledge_all_seen(u_state.engagement),
-		}
+		},
 	}
 }
 

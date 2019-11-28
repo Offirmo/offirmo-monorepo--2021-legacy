@@ -14,11 +14,11 @@ function create(SEC: SoftExecutionContext, storage: TbrpgStorage): PersistentSto
 	return SEC.xTry(`[${LIB}] creating`, ({SEC, logger}: OMRContext) => {
 		let last_persisted_state: State | null = null
 
-		last_persisted_state = SEC.xTryCatch(`loading existing savegame`, ({logger}: OMRContext): State | null => {
+		last_persisted_state = SEC.xTryCatch('loading existing savegame', ({logger}: OMRContext): State | null => {
 			logger.verbose(`[${LIB}] savegame storage key = "${StorageKey.savegame}"`)
 
 			// LS access can throw
-			let ls_content = storage.get_item(StorageKey.savegame)
+			const ls_content = storage.get_item(StorageKey.savegame)
 			if (!ls_content)
 				return null
 
@@ -76,7 +76,7 @@ function create(SEC: SoftExecutionContext, storage: TbrpgStorage): PersistentSto
 				assert(eventual_state_hint, `[${LIB}] need dispatch hint!`)
 				optimized_persist(eventual_state_hint!)
 			},
-			get: () => last_persisted_state!
+			get: () => last_persisted_state!,
 		}
 	})
 }

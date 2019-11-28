@@ -42,16 +42,16 @@ function get_engagement_message(pe: Readonly<PendingEngagement>): RichText.Docum
 
 		case EngagementKey['achievement-unlocked']:
 			return RichText.block_fragment()
-				.pushStrong(`🏆 Achievement unlocked:`)
+				.pushStrong('🏆 Achievement unlocked:')
 				.pushLineBreak()
 				.pushText(`“${params.icon} ${params.name}“`)
 				.done()
 
 		case EngagementKey['reborn']:
 			return RichText.block_fragment()
-				.pushStrong(`You got reborn`)
+				.pushStrong('You got reborn')
 				.pushLineBreak()
-				.pushText(`Sorry, I changed the data format 😰.`)
+				.pushText('Sorry, I changed the data format 😰.')
 				.done()
 
 		default:

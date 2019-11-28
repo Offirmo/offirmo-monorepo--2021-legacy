@@ -56,7 +56,7 @@ window.localStorage.removeItem('the-boring-rpg.savegame-bkp.v6')
 */
 
 const get = tiny_singleton(() => SEC.xTry('creating game instance', ({SEC, logger}) => {
-	let game_instance = create_game_instance({
+	const game_instance = create_game_instance({
 		SEC,
 		local_storage: localStorage,
 		storage,

@@ -29,11 +29,11 @@ const LIB = `${ROOT_LIB}/CloudStore`
 
 function get_persisted_pending_actions(SEC: SoftExecutionContext, local_storage: Storage): Action[] {
 	try {
-		return SEC.xTry(`retrieving persisted actions`, ({}: OMRContext): Action[] => {
-			let raw = local_storage.getItem(StorageKey['cloud.pending-actions'])
+		return SEC.xTry('retrieving persisted actions', ({}: OMRContext): Action[] => {
+			const raw = local_storage.getItem(StorageKey['cloud.pending-actions'])
 			if (!raw) return []
 
-			let pending_actions = JSON.parse(raw)
+			const pending_actions = JSON.parse(raw)
 			assert(Array.isArray(pending_actions), 'get_persisted_pending_actions type check')
 
 			return pending_actions
@@ -76,7 +76,7 @@ function create(
 	return SEC.xTry(LIB, ({SEC: ROOT_SEC}: OMRContext): CloudStore => {
 
 		function re_create_cloud_store(initial_state: Readonly<State>) {
-			return ROOT_SEC.xTry(`re-creating cloud store`, ({SEC, logger}: OMRContext): CloudStore => {
+			return ROOT_SEC.xTry('re-creating cloud store', ({SEC, logger}: OMRContext): CloudStore => {
 				let opt_out_reason: string | null = 'unknown!!' // so far
 				let is_logged_in: boolean = false // so far
 				let pending_actions = get_persisted_pending_actions(SEC, local_storage)
@@ -152,7 +152,7 @@ function create(
 					}
 				}
 
-				SEC.xTryCatch(`restoring state from all bits`, ({logger}: OMRContext) => {
+				SEC.xTryCatch('restoring state from all bits', ({logger}: OMRContext) => {
 
 					if (initial_state.u_state.meta.persistence_id === null) {
 						// intentionally not handled by cloud
@@ -182,7 +182,7 @@ function create(
 							console.log({pending_actions})
 							logger.error(`${LIB} cloud store: never persisted yet but out of sync!`, {
 								'pending_actions.length': pending_actions.length,
-								revision: initial_state.u_state.revision
+								revision: initial_state.u_state.revision,
 							})
 
 							// what else can we do?
@@ -194,7 +194,7 @@ function create(
 						opt_out_reason = null
 						logger.info(`[${LIB}] existing game, never persisted yet, some pending actions`, {
 							'pending_actions.length': pending_actions.length,
-							revision: initial_state.u_state.revision
+							revision: initial_state.u_state.revision,
 						})
 						return
 					}
@@ -204,7 +204,7 @@ function create(
 					opt_out_reason = null
 					logger.info(`[${LIB}] cloud sync enabled!`, {
 						'pending_actions.length': pending_actions.length,
-						revision: initial_state.u_state.revision
+						revision: initial_state.u_state.revision,
 					})
 				})
 
@@ -221,7 +221,7 @@ function create(
 
 		let real_cloud_store = re_create_cloud_store(initial_state)
 
-		let indirect_store = {
+		const indirect_store = {
 			set(new_state: Readonly<State>): void {
 				reset_pending_actions(ROOT_SEC, local_storage)
 				real_cloud_store = re_create_cloud_store(new_state)

@@ -1,9 +1,9 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
 import { getRootSEC } from '@offirmo-private/soft-execution-context'
 
-import './index.css';
+import './index.css'
 
 export default class DevArea extends Component {
 	static propTypes = {
@@ -102,16 +102,16 @@ export default class DevArea extends Component {
 					<td className="DA-controls">
 						{media_controls}
 					</td>
-				</tr>
+				</tr>,
 			)
 
 		return (this.state.displayed &&
 			<table className="dev-area">
 				<tbody>
-				<tr key="main">
-					<td className="DA-environment"><button onClick={this.onToggle}>{this.channel}</button></td>
-				</tr>
-				{this.state.open && dev_controls}
+					<tr key="main">
+						<td className="DA-environment"><button onClick={this.onToggle}>{this.channel}</button></td>
+					</tr>
+					{this.state.open && dev_controls}
 				</tbody>
 			</table>
 		)

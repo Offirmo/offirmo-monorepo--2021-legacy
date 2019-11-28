@@ -54,7 +54,7 @@ const Short = React.memo(
 				{children || rich_text_to_react(render_element_short(element), {render_interactive: false})}
 			</span>
 		)
-	}
+	},
 )
 
 // = displayed in tooltip
@@ -62,13 +62,13 @@ const Detailed = React.memo(
 	function Detailed({element, actions = []}) {
 		if (window.XOFF.flags.debug_render) console.log('🔄 InteractiveElementDetailed')
 
-	return (
-		<Fragment>
-			{rich_text_to_react(render_element_detailed(element), {render_interactive: false})}
-			{actions.map(action => (<ActionButton key={action.type} action={action}/>))}
-		</Fragment>
-	)
-}
+		return (
+			<Fragment>
+				{rich_text_to_react(render_element_detailed(element), {render_interactive: false})}
+				{actions.map(action => (<ActionButton key={action.type} action={action}/>))}
+			</Fragment>
+		)
+	},
 )
 
 // alternate from short to detailed
@@ -89,7 +89,7 @@ class Interactive extends PureComponent {
 
 		return (
 			<InteractiveRichTextFragment
-				key='IRTF'
+				key="IRTF"
 				UUID={UUID}
 				render_detailed={this.render_detailed}
 			>

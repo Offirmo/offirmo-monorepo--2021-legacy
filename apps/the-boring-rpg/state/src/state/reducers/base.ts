@@ -46,7 +46,7 @@ function on_start_session(previous_state: Readonly<State>, is_web_diversity_supp
 			...state.u_state,
 			last_user_action_tms: now_ms,
 			meta: MetaState.on_start_session(state.u_state.meta, is_web_diversity_supporter),
-		}
+		},
 	}
 
 	// TODO recap here ?
@@ -70,7 +70,7 @@ function on_logged_in_refresh(previous_state: Readonly<State>, is_logged_in: boo
 			...state.u_state,
 			//last_user_action_tms: now_ms, // XXX this is NOT a user action
 			meta: MetaState.on_logged_in_refresh(state.u_state.meta, is_logged_in, roles),
-		}
+		},
 	}
 
 	// TODO engagement here ?
@@ -110,7 +110,7 @@ function sell_item(previous_state: Readonly<State>, uuid: UUID, now_ms: Timestam
 		u_state: {
 			...state.u_state,
 			last_user_action_tms: now_ms,
-		}
+		},
 	}
 	state = propagate_child_revision_increment_upward(previous_state, state)
 	return _refresh_achievements(state, previous_state.u_state.revision)

@@ -90,7 +90,7 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any
 					throw new Error('migrate_to_latest src [S.U.1] is outdated, please update!')
 				}
 
-				let sub_reducer_migrated = []
+				const sub_reducer_migrated = []
 				u_state.avatar = CharacterState.migrate_to_latest(SEC, u_state.avatar, hints.avatar)
 				sub_reducer_migrated.push('avatar')
 				u_state.inventory = InventoryState.migrate_to_latest(SEC, u_state.inventory, hints.inventory)
@@ -128,7 +128,7 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any
 
 				t_state = { ...t_state } // TODO remove this mutation if possible
 
-				let sub_reducer_migrated = []
+				const sub_reducer_migrated = []
 				t_state.energy = EnergyState.migrate_to_latest(SEC, [ u_state.energy, t_state.energy ], hints.energy)[1]
 				sub_reducer_migrated.push('energy')
 

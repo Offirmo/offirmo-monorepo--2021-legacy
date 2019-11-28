@@ -80,7 +80,7 @@ const OMRUINotifierC1 = React.memo(
 		} while(pending_non_flow_engagement)
 
 		return null
-	}
+	},
 )
 
 

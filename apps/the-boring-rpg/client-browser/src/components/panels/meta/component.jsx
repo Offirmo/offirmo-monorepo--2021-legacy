@@ -35,7 +35,7 @@ function * gen_next_step(navigate_to_savegame_editor) {
 			if (view_state.redeeming_code) {
 				steps.push({
 					type: 'ask_for_string',
-					msg_main: `Please enter a code…`,
+					msg_main: 'Please enter a code…',
 					msgg_as_user: value => value
 						? `Let's redeem "${value}".`
 						: 'Nevermind.',
@@ -70,7 +70,7 @@ function * gen_next_step(navigate_to_savegame_editor) {
 								game_instance.view.set_state(() => ({
 									redeeming_code: true,
 								}))
-							}
+							},
 						},
 						{
 							msg_cta: 'Report a bug 🐞',
@@ -90,7 +90,7 @@ function * gen_next_step(navigate_to_savegame_editor) {
 								// the chat doesn't try to advance until we're already unmounted.
 								// TODO improve further (intercept return of this func?)
 								return new Promise(resolve => setTimeout(resolve, 2000))
-							}
+							},
 						},
 						{
 							msg_cta: 'Reload page ↻',
@@ -115,27 +115,27 @@ export function render_meta(statistics) {
 	const $doc_list_builder = RichText.unordered_list()
 	$doc_list_builder.pushRawNode(
 		RichText.inline_fragment().pushText(`Play count: ${statistics.good_play_count}`).done(),
-		'01-playcount'
+		'01-playcount',
 	)
 	$doc_list_builder.pushRawNode(
 		RichText.inline_fragment().pushText(`Game version: ${ENGINE_VERSION}`).done(),
-		'02-version'
+		'02-version',
 	)
 	$doc_list_builder.pushRawNode(
 		RichText.inline_fragment().pushText(`Build date (UTC): ${BUILD_DATE}`).done(),
-		'03-builddate'
+		'03-builddate',
 	)
 	$doc_list_builder.pushRawNode(
 		RichText.inline_fragment().pushText(`Release channel: ${CHANNEL}`).done(),
-		'04-channel'
+		'04-channel',
 	)
 	$doc_list_builder.pushRawNode(
 		RichText.inline_fragment().pushText(`Exec env: ${ENV}`).done(),
-		'05-env'
+		'05-env',
 	)
 	$doc_list_builder.pushRawNode(
 		RichText.inline_fragment().pushText(`Savegame version: ${SCHEMA_VERSION}`).done(),
-		'07-savegame'
+		'07-savegame',
 	)
 
 	const $doc = RichText.inline_fragment()
@@ -155,18 +155,18 @@ const MetaPanelViewM = React.memo(
 				<hr/>
 				<NetlifyWidget />
 				<hr/>
-				<div className='panel-top-content o⋄flex-element--nogrow'>
+				<div className="panel-top-content o⋄flex-element--nogrow">
 					{rich_text_to_react(render_meta(statistics))}
 				</div>
 				<hr/>
-				<div className='o⋄flex-element--grow o⋄overflow-y⁚auto'>
+				<div className="o⋄flex-element--grow o⋄overflow-y⁚auto">
 					<ErrorBoundary name={'chat:meta'}>
 						<Chat gen_next_step={gen_next_step(navigate_to_savegame_editor)} />
 					</ErrorBoundary>
 				</div>
 			</div>
 		)
-	}
+	},
 )
 
 export default MetaPanelViewM

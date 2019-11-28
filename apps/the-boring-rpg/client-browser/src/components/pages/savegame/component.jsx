@@ -42,7 +42,7 @@ export default class PageSavegameEditorView extends Component {
 		return JSON.stringify(
 			initial_data,
 			null,
-			3
+			3,
 		)
 	}
 	on_save = () => {
@@ -63,7 +63,7 @@ export default class PageSavegameEditorView extends Component {
 		if (!window.confirm(''
 + '💀 Do you really really want to reset your savegame, '
 + 'loose all progression and start over? '
-+ 'This will also reset your cloud game if you have one.'
++ 'This will also reset your cloud game if you have one.',
 		))
 			return
 

@@ -16,7 +16,7 @@ const OMRUniverseAnchorView = React.memo(
 				</div>
 			</div>
 		)
-	}
+	},
 )
 
 export default OMRUniverseAnchorView

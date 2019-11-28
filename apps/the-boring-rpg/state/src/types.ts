@@ -18,7 +18,7 @@ import { State as WalletState } from '@oh-my-rpg/state-wallet'
 import { State as PRNGState } from '@oh-my-rpg/state-prng'
 import {
 	UState as EnergyUState,
-	TState as EnergyTState
+	TState as EnergyTState,
 } from '@oh-my-rpg/state-energy'
 import { State as EngagementState } from '@oh-my-rpg/state-engagement'
 import { State as CodesState } from '@oh-my-rpg/state-codes'

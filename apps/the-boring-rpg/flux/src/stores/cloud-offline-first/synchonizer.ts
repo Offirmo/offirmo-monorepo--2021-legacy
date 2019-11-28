@@ -1,5 +1,5 @@
 import assert from 'tiny-invariant'
-import { TimestampUTCMs, get_UTC_timestamp_ms } from "@offirmo-private/timestamps";
+import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 
 import {
 	NUMERIC_VERSION,
@@ -56,7 +56,7 @@ function create({ SEC, call_remote_procedure, on_successful_sync, initial_pendin
 				numver: NUMERIC_VERSION,
 				pending_actions,
 				current_state_hash,
-			}
+			},
 		})
 	}
 
@@ -68,16 +68,16 @@ function create({ SEC, call_remote_procedure, on_successful_sync, initial_pendin
 		last_sync_attempt = get_UTC_timestamp_ms()
 
 		in_flight_sync.then((result: SyncResult) => {
-				on_successful_sync(result)
+			on_successful_sync(result)
 
-				if (result.common.numver !== NUMERIC_VERSION) {
-					state = 'defected'
-					return
-				}
+			if (result.common.numver !== NUMERIC_VERSION) {
+				state = 'defected'
+				return
+			}
 
-				pending_actions = pending_actions.filter(action => action.time > result.processed_up_to_time)
-				last_successful_sync = get_UTC_timestamp_ms()
-			})
+			pending_actions = pending_actions.filter(action => action.time > result.processed_up_to_time)
+			last_successful_sync = get_UTC_timestamp_ms()
+		})
 			.catch(err => {
 				// TODO plan a retry after a while
 				throw err

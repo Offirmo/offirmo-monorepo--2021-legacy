@@ -17,7 +17,7 @@ window.XOFF = {
 	flags: {
 		is_paused: overrideHook('should_start_paused', false),
 		debug_render: overrideHook('should_trace_renders', false),
-	}
+	},
 }
 
 setTextEncoder(TextEncoder)
@@ -27,5 +27,5 @@ setTimeout(() => ReactDOM.render(
 		<Root />
 	</ErrorBoundary>,
 	document.getElementById('root'),
-	)
+),
 )

@@ -66,7 +66,7 @@ function * gen_next_step() {
 					// https://developer.mozilla.org/en-US/docs/Web/API/Vibration_API
 					try {
 						if (window.navigator.vibrate)
-							window.navigator.vibrate(200);
+							window.navigator.vibrate(200)
 					}
 					catch (e) {
 						// swallow
@@ -92,7 +92,7 @@ function * gen_next_step() {
 				})
 			}
 			else {
-				let CTA = `Play! (-1⚡)`
+				const CTA = 'Play! (-1⚡)'
 				steps.push({
 					msg_main: 'What do you want to do?',
 					choices: [

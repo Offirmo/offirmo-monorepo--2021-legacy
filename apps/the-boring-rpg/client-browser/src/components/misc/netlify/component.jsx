@@ -1,10 +1,10 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
 import { ACCOUNT_STATE } from '../../../services/game-instance-browser'
 import { get_name } from '../../../services/user_account'
 
-import './index.css';
+import './index.css'
 
 
 export default class NetlifyLoggedIndicator extends Component {
@@ -25,7 +25,7 @@ export default class NetlifyLoggedIndicator extends Component {
 			case ACCOUNT_STATE.waiting_for_lib:
 				/* fallthrough */
 			case ACCOUNT_STATE.pending:
-				content = <span className='blinking'>...</span>
+				content = <span className="blinking">...</span>
 				break
 			case ACCOUNT_STATE.not_logged_in:
 				content = <button onClick={on_click_on_signin_button}>Sign in / sign up...</button>

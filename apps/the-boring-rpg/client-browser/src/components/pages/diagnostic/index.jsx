@@ -31,8 +31,8 @@ export default class PageDiagnostic extends Component {
 				<button onClick={() => this.setState({})}>Refresh</button>
 				<h1>Diagnostic area</h1>
 				<pre>
-				{JSON.stringify(get_data(), null, 3)}
-			</pre>
+					{JSON.stringify(get_data(), null, 3)}
+				</pre>
 			</div>
 		)
 	}

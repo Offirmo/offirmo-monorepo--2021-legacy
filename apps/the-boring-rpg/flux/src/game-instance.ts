@@ -58,7 +58,7 @@ function create_game_instance<T extends AppState>({SEC, local_storage, storage, 
 		// the savegame may also be outdated.
 		const persistent_store = create_persistent_store(SEC, storage)
 
-		const initial_state = SEC.xTry(`auto creating/migrating`, ({SEC, logger}: OMRContext): State => {
+		const initial_state = SEC.xTry('auto creating/migrating', ({SEC, logger}: OMRContext): State => {
 			const recovered_state: any | null = persistent_store.get()
 
 			if (recovered_state) {
@@ -108,7 +108,7 @@ function create_game_instance<T extends AppState>({SEC, local_storage, storage, 
 			emitter.emit(Event.view_change, `model.${src}`)
 		})
 
-		emitter.emit(Event.model_change, `init`)
+		emitter.emit(Event.model_change, 'init')
 
 		function dispatch(action: Action) {
 			if (action.type !== 'update_to_now') console.groupEnd()
@@ -203,8 +203,8 @@ function create_game_instance<T extends AppState>({SEC, local_storage, storage, 
 			},
 
 			_libs: {
-				'@tbrpg/state': TBRPGState
-			}
+				'@tbrpg/state': TBRPGState,
+			},
 		}
 
 		return gi

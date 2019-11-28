@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
 import OhMyRpgUI from '@oh-my-rpg/view-browser-react'
 
@@ -12,11 +12,11 @@ export default class OhMyRPGUICall extends Component {
 		return (
 			<OhMyRpgUI
 
-				logo={"Tree Clicker 🌲 🌳 🌴 "}
+				logo={'Tree Clicker 🌲 🌳 🌴 '}
 
-				aboutContent={"TODO about"}
+				aboutContent={'TODO about'}
 
-				burgerPanelContent={"TODO MetaPanel"}
+				burgerPanelContent={'TODO MetaPanel'}
 
 				bottomMenuItems={[]}>
 

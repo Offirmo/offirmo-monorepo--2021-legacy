@@ -12,7 +12,7 @@ import {
 } from './game'
 import { CharacterClass } from '@oh-my-rpg/state-character'
 import {
-	_lose_all_energy
+	_lose_all_energy,
 } from '../state/reducers/internal'
 
 describe(`${LIB} - selectors - game`, function() {

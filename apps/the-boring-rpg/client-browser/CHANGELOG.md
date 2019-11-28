@@ -9,6 +9,9 @@
 - 😅 fix: tweaks, typos, small bugs…
 - 😷 chore: some internal refactors, bump dependencies
 
+
+auto lint
+
 ## v0.61.1
 - 😅 fix: wrong english loose -> lose
 - 😷 chore: some internal refactors, bump dependencies

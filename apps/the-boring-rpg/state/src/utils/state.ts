@@ -21,7 +21,7 @@ export interface BaseRootState {
 // XXX externalized!!
 export function propagate_child_revision_increment_upward<S>(
 	previous: Readonly<S> | null | undefined,
-	current: Readonly<S>
+	current: Readonly<S>,
 ): Readonly<S> {
 	if (!previous)
 		return current
@@ -30,8 +30,8 @@ export function propagate_child_revision_increment_upward<S>(
 
 	if ((current as any).u_state) {
 		// this is a more advanced state
-		let typed_previous: BaseRootState = previous as any
-		let typed_current: BaseRootState = current as any
+		const typed_previous: BaseRootState = previous as any
+		const typed_current: BaseRootState = current as any
 		assert(!Number.isInteger(typed_current.revision), 'revision should be on u_state (1)!')
 		assert(Number.isInteger(typed_current.u_state.revision as any), 'revision should be on u_state (2)!')
 		const final_u_state = propagate_child_revision_increment_upward(typed_previous.u_state, typed_current.u_state)
@@ -44,8 +44,8 @@ export function propagate_child_revision_increment_upward<S>(
 		}
 	}
 
-	let typed_previous: BaseState = previous as any
-	let typed_current: BaseState = current as any
+	const typed_previous: BaseState = previous as any
+	const typed_current: BaseState = current as any
 
 	if (!Number.isInteger(typed_current.revision as any))
 		throw new Error('propagate_child_revision_increment_upward(): Invalid current state!')
@@ -53,9 +53,9 @@ export function propagate_child_revision_increment_upward<S>(
 	if (Number.isInteger(typed_previous.revision as any) && typed_current.revision !== typed_previous.revision)
 		throw new Error('propagate_child_revision_increment_upward(): revision already incremented!')
 
-	for (let k in current) {
-		let previous_revision = (previous[k] as any || {}).revision
-		let current_revision = (current[k] as any || {}).revision
+	for (const k in current) {
+		const previous_revision = (previous[k] as any || {}).revision
+		const current_revision = (current[k] as any || {}).revision
 		if (current_revision !== previous_revision) {
 			if (!Number.isInteger(previous_revision as any))
 				throw new Error(`propagate_child_revision_increment_upward(): Invalid revision for previous "${k}"!`)
@@ -77,6 +77,6 @@ export function propagate_child_revision_increment_upward<S>(
 
 	return {
 		...current,
-		revision: ((current as any as BaseState).revision || 0) + 1
+		revision: ((current as any as BaseState).revision || 0) + 1,
 	}
 }

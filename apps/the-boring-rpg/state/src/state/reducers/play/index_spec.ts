@@ -19,7 +19,7 @@ import {
 } from '../../../selectors'
 
 import {
-	_lose_all_energy
+	_lose_all_energy,
 } from '../internal'
 
 import {

@@ -13,7 +13,7 @@ import {
 
 import {
 	_lose_all_energy,
-	_ack_all_engagements
+	_ack_all_engagements,
 } from './internal'
 
 describe(`${LIB} - reducer - codes`, function() {
@@ -27,7 +27,7 @@ describe(`${LIB} - reducer - codes`, function() {
 		'PLUGH',
 		'REBORNX',
 		'REBORN',
-		'ALPHATWINK'
+		'ALPHATWINK',
 	]
 
 	CODES.forEach(code => {
@@ -37,10 +37,10 @@ describe(`${LIB} - reducer - codes`, function() {
 					_ack_all_engagements(
 						_lose_all_energy( // for BORED
 							reseed(
-								create()
-							)
-						)
-					)
+								create(),
+							),
+						),
+					),
 				)
 
 				let state = initial_state
@@ -61,15 +61,15 @@ describe(`${LIB} - reducer - codes`, function() {
 		})
 	})
 
-	describe(`good code with redemption limit`, function() {
+	describe('good code with redemption limit', function() {
 		// bug seen, v0.59
 		it('should correctly crash on second attempt', () => {
 			const initial_state = deepFreeze(
 				_ack_all_engagements(
 					reseed(
-						create()
-					)
-				)
+						create(),
+					),
+				),
 			)
 
 			let state = initial_state
@@ -77,28 +77,28 @@ describe(`${LIB} - reducer - codes`, function() {
 			state = attempt_to_redeem_code(state, 'alphatwink')
 			//console.log('attempt #2')
 			state = attempt_to_redeem_code(state, 'alphatwink')
-			let notif = state.u_state.engagement.queue.slice(-1)[0]
+			const notif = state.u_state.engagement.queue.slice(-1)[0]
 			//console.log(notif)
 			expect(notif).to.have.nested.property('engagement.type', 'flow')
 			expect(notif).to.have.nested.property('engagement.key', EngagementKey['code_redemption--failed'])
 		})
 	})
 
-	describe(`bad code`, function() {
+	describe('bad code', function() {
 		it('should cause a crash', function() {
 			const initial_state = deepFreeze(
 				_ack_all_engagements(
 					reseed(
-						create()
-					)
-				)
+						create(),
+					),
+				),
 			)
 
 			let state = initial_state
 			state = attempt_to_redeem_code(state, 'irsetuisretuisrt')
 
 			expect(state.u_state.engagement.queue.length).to.be.above(0)
-			let notif = state.u_state.engagement.queue.slice(-1)[0]
+			const notif = state.u_state.engagement.queue.slice(-1)[0]
 			//console.log(notif)
 			expect(notif).to.have.nested.property('engagement.type', 'flow')
 			expect(notif).to.have.nested.property('engagement.key', EngagementKey['code_redemption--failed'])

@@ -153,11 +153,11 @@ function instantiate_adventure_archetype(
 	rng: Engine,
 	aa: Readonly<AdventureArchetype>,
 	character: Readonly<CharacterState>,
-	inventory: Readonly<InventoryState.State>
+	inventory: Readonly<InventoryState.State>,
 ): Readonly<Adventure> {
-	let {hid, good, type, outcome} = aa
-	let should_gain: OutcomeArchetype = {
-		...outcome
+	const {hid, good, type, outcome} = aa
+	const should_gain: OutcomeArchetype = {
+		...outcome,
 	}
 
 	// instantiate the special gains
@@ -218,7 +218,7 @@ function instantiate_adventure_archetype(
 			weapon:   should_gain.weapon   ? create_weapon(rng) : null,
 			armor_improvement:  should_gain.armor_improvement,
 			weapon_improvement: should_gain.weapon_improvement,
-		}
+		},
 	}
 }
 
@@ -294,7 +294,7 @@ function play_adventure(state: Readonly<State>, aa: Readonly<AdventureArchetype>
 
 	if (gained.weapon_improvement) {
 		gain_count++
-		let weapon_to_enhance = InventoryState.get_item_in_slot(state.u_state.inventory, InventorySlot.weapon) as Weapon
+		const weapon_to_enhance = InventoryState.get_item_in_slot(state.u_state.inventory, InventorySlot.weapon) as Weapon
 		if (weapon_to_enhance && weapon_to_enhance.enhancement_level < MAX_WEAPON_ENHANCEMENT_LEVEL)
 			enhance_weapon(weapon_to_enhance)
 		// TODO immutable instead of in-place
@@ -327,7 +327,7 @@ function play_adventure(state: Readonly<State>, aa: Readonly<AdventureArchetype>
 			prng: PRNGState.update_use_count(state.u_state.prng, rng, {
 				// we can't know because it depends on the adventure,
 				// ex. generate a random weapon
-				I_swear_I_really_cant_know_whether_the_rng_was_used: true
+				I_swear_I_really_cant_know_whether_the_rng_was_used: true,
 			}),
 		},
 	}

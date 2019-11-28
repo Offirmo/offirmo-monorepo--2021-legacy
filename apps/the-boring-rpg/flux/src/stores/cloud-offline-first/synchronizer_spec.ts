@@ -19,16 +19,16 @@ import { Synchronizer, create } from './synchonizer'
 
 
 describe.only(`${LIB} - cloud synchronizer`, function() {
-	let local_storage = createLocalStorage({mode: "memory"})
+	const local_storage = createLocalStorage({mode: 'memory'})
 	let storage = create_in_mem_tbrpg_storage()
 	const logger = createLogger({
 		name: LIB,
 		suggestedLevel: 'log', // change here if bug
 	})
 	let SEC = get_lib_SEC()
-	let out: Synchronizer = <any>null
-	let call_remote_procedure = sinon.spy()
-	let on_successful_sync = sinon.spy()
+	const out: Synchronizer = <any>null
+	const call_remote_procedure = sinon.spy()
+	const on_successful_sync = sinon.spy()
 
 	beforeEach(() => {
 		SEC = get_lib_SEC()
@@ -51,7 +51,7 @@ describe.only(`${LIB} - cloud synchronizer`, function() {
 				call_remote_procedure,
 				on_successful_sync,
 				initial_state: TBRPGState.create(SEC),
-				initial_pending_actions: []
+				initial_pending_actions: [],
 			})
 
 			expect(call_remote_procedure).to.have.been.calledOnce

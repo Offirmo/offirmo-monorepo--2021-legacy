@@ -15,7 +15,7 @@ const InventoryPanelViewM = React.memo(
 
 		return (
 			<div className="o⋄top-container tbrpg-panel tbrpg-panel--inventory o⋄flex--column">
-				<div className='panel-top-content o⋄flex-element--nogrow'>
+				<div className="panel-top-content o⋄flex-element--nogrow">
 					{rich_text_to_react(render_full_inventory(inventory, wallet))}
 				</div>
 				<div>
@@ -23,7 +23,7 @@ const InventoryPanelViewM = React.memo(
 				</div>
 			</div>
 		)
-	}
+	},
 )
 
 export default InventoryPanelViewM

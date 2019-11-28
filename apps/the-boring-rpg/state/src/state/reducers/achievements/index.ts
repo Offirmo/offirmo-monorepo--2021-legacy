@@ -13,7 +13,7 @@ import {
 import { State, UState } from '../../../types'
 
 import ACHIEVEMENT_DEFINITIONS from '../../../data/achievements'
-import {EngagementKey} from "../../../engagement";
+import {EngagementKey} from '../../../engagement'
 
 /////////////////////
 
@@ -21,7 +21,7 @@ function _refresh_achievements(state: Readonly<State>, previous_revision: number
 	let { u_state } = state
 	let has_change = false
 	let progress: ProgressState = {
-		...u_state.progress
+		...u_state.progress,
 	}
 
 	ACHIEVEMENT_DEFINITIONS.forEach((definition: AchievementDefinition<UState>) => {
@@ -38,8 +38,8 @@ function _refresh_achievements(state: Readonly<State>, previous_revision: number
 		// need to tell the user?
 		if (current_status === AchievementStatus.unlocked) {
 			u_state = {
-			...u_state,
-					engagement: enqueueEngagement(u_state.engagement, {
+				...u_state,
+				engagement: enqueueEngagement(u_state.engagement, {
 					type: EngagementType.aside,
 					key: EngagementKey['achievement-unlocked'],
 				}, {
@@ -60,7 +60,7 @@ function _refresh_achievements(state: Readonly<State>, previous_revision: number
 		u_state: {
 			...u_state,
 			progress,
-		}
+		},
 	}
 }
 
