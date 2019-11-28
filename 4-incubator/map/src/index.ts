@@ -4,32 +4,32 @@ import NETWORK_TRAM_GEOJSON from './generated/network_tram.json'
 const map = L.map('mapid').setView([
 	-33.8511997,
 	151.1450043,
-], 12);
+], 12)
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 	//attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
+}).addTo(map)
 
-var geojsonMarkerOptions = {
+const geojsonMarkerOptions = {
 	radius: 7,
-	fillColor: "#f5b602",
-	color: "#000",
+	fillColor: '#f5b602',
+	color: '#000',
 	weight: 1,
 	opacity: .7,
-	fillOpacity: 0.8
-};
+	fillOpacity: 0.8,
+}
 
 const network_rail = L.geoJSON(NETWORK_RAIL_GEOJSON, {
 	pointToLayer: function (feature, latlng) {
-		return L.circleMarker(latlng, geojsonMarkerOptions);
-	}
+		return L.circleMarker(latlng, geojsonMarkerOptions)
+	},
 }).addTo(map)
 
 
 const network_tram = L.geoJSON(NETWORK_TRAM_GEOJSON, {
 	pointToLayer: function (feature, latlng) {
-		return L.circleMarker(latlng, geojsonMarkerOptions);
-	}
+		return L.circleMarker(latlng, geojsonMarkerOptions)
+	},
 }).addTo(map)
 
 

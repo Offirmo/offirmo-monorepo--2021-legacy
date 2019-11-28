@@ -2,7 +2,7 @@ import path from 'path'
 
 ////////////////////////////////////
 
-import {Basename, RelativePath, SimpleYYYYMMDD} from "../types";
+import {Basename, RelativePath, SimpleYYYYMMDD} from '../types'
 
 export const YEAR_RE_STR = '((19|20)\\d\\d)'
 export const YEAR_RE = new RegExp(`^${YEAR_RE_STR}$`)

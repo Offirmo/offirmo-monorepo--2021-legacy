@@ -1,6 +1,6 @@
 import assert from 'tiny-invariant'
 
-import { TimestampUTCMs, get_human_readable_UTC_timestamp_days } from "@offirmo-private/timestamps"
+import { TimestampUTCMs, get_human_readable_UTC_timestamp_days } from '@offirmo-private/timestamps'
 
 import { SimpleYYYYMMDD } from '../types'
 

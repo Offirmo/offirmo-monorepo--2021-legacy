@@ -193,7 +193,7 @@ export function create(root: AbsolutePath): Readonly<State> {
 export function enqueue_action(state: Readonly<State>, action: Action): Readonly<State> {
 	return {
 		...state,
-		queue: [ ...state.queue, action ]
+		queue: [ ...state.queue, action ],
 	}
 }
 
@@ -314,7 +314,7 @@ export function on_folder_moved(state: Readonly<State>, id: RelativePath, target
 	state.folders[target_id] = folder_state
 
 	get_all_file_ids(state).forEach(fid => {
-		let file_state = state.media_files[fid]
+		const file_state = state.media_files[fid]
 		if (MediaFile.get_parent_folder_id(file_state) !== id) return
 
 		const new_file_id = path.join(target_id, MediaFile.get_basename(file_state))
@@ -343,8 +343,8 @@ export function merge_folder(state: Readonly<State>, id: RelativePath, target_id
 	const folder_state = state.folders[id]
 	const target_folder_state = state.folders[target_id]
 
-	assert(folder_state.type === Folder.Type.event, `NIMP merging folder from non-event!`)
-	assert(target_folder_state.type === Folder.Type.event, `NIMP merging folder into non-event target!`)
+	assert(folder_state.type === Folder.Type.event, 'NIMP merging folder from non-event!')
+	assert(target_folder_state.type === Folder.Type.event, 'NIMP merging folder into non-event target!')
 
 	// merge the dates
 	// TODO reducer action ?
@@ -370,7 +370,7 @@ export function merge_folder(state: Readonly<State>, id: RelativePath, target_id
 
 	// clean it / move it away if needed
 
-		throw new Error('NIMP merging folders')
+	throw new Error('NIMP merging folders')
 }
 
 ////////////////////////////////////
@@ -385,7 +385,7 @@ export function ensure_structural_dirs_are_present(state: Readonly<State>): Read
 		const file_state = state.media_files[id]
 		years.add(MediaFile.get_year(file_state))
 	})
-	for(let y of years) {
+	for(const y of years) {
 		state = _register_folder(state, String(y), false)
 		state = enqueue_action(state, create_action_ensure_folder(String(y)))
 	}
@@ -512,7 +512,7 @@ export function ensure_all_needed_events_folders_are_present_and_move_files_in_t
 
 	return {
 		...state,
-		queue: [ ...state.queue, ...actions ]
+		queue: [ ...state.queue, ...actions ],
 	}
 }
 
@@ -533,7 +533,7 @@ export function ensure_all_eligible_files_are_correctly_named(state: Readonly<St
 
 	return {
 		...state,
-		queue: [ ...state.queue, ...actions ]
+		queue: [ ...state.queue, ...actions ],
 	}}
 
 ////////////////////////////////////
@@ -548,7 +548,7 @@ Root: "${stylize_string.yellow.bold(root)}"
 
 	const all_folder_ids = get_all_folder_ids(state)
 	str += stylize_string.bold(
-		`\n${stylize_string.blue('' + all_folder_ids.length)} folders:\n`
+		`\n${stylize_string.blue('' + all_folder_ids.length)} folders:\n`,
 	)
 	str += all_folder_ids.map(id => Folder.to_string(folders[id])).join('\n')
 
@@ -556,7 +556,7 @@ Root: "${stylize_string.yellow.bold(root)}"
 	//const all_file_ids = get_all_eligible_file_ids(state)
 	const all_file_ids = get_all_file_ids(state)
 	str += stylize_string.bold(
-		`\n\n${stylize_string.blue(String(all_file_ids.length))} files in ${stylize_string.blue(String(all_folder_ids.length))} folders:\n`
+		`\n\n${stylize_string.blue(String(all_file_ids.length))} files in ${stylize_string.blue(String(all_folder_ids.length))} folders:\n`,
 	)
 	str += all_file_ids.map(id => MediaFile.to_string(media_files[id])).join('\n')
 

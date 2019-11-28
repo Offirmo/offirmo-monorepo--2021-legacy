@@ -4,12 +4,12 @@ import fs from 'fs'
 import stylize_string from 'chalk'
 import assert from 'tiny-invariant'
 import { Tags, ExifDateTime } from 'exiftool-vendored'
-import { TimestampUTCMs, get_UTC_timestamp_ms, get_human_readable_UTC_timestamp_seconds } from "@offirmo-private/timestamps"
+import { TimestampUTCMs, get_UTC_timestamp_ms, get_human_readable_UTC_timestamp_seconds } from '@offirmo-private/timestamps'
 import { NORMALIZERS } from '@offirmo-private/normalize-string'
 
 import {Basename, RelativePath, SimpleYYYYMMDD} from '../types'
 import { get_compact_date_from_UTC_ts } from '../services/utils'
-import logger from "../services/logger";
+import logger from '../services/logger'
 import {extract_compact_date, starts_with_human_timestamp_ms} from '../services/matchers'
 
 type TimestampsHash = { [k: string]: TimestampUTCMs }
@@ -39,7 +39,7 @@ const exif_date_fields: string[] = [
 	//'DigitalCreationDate',
 	//'DigitalCreationTime',
 	'DateTimeGenerated',
-	'MediaCreateDate'
+	'MediaCreateDate',
 ]
 
 ////////////////////////////////////
@@ -128,8 +128,8 @@ function _get_creation_date_from_exif({ id, exif_data, cached }: Readonly<State>
 			}
 
 			assert(tms, 'exif dates should have milli')
-				acc[field] = tms
-				min_date_ms = Math.min(min_date_ms, tms)
+			acc[field] = tms
+			min_date_ms = Math.min(min_date_ms, tms)
 			return acc
 		}, {} as TimestampsHash)
 
@@ -180,7 +180,7 @@ export function get_ideal_basename(state: Readonly<State>): Basename {
 				// ensure coherency
 				assert(
 					compact_date_from_name === get_compact_date_from_UTC_ts(_get_creation_date_from_exif(state)!),
-					'name in file matches exif name'
+					'name in file matches exif name',
 				)
 			}
 		}
@@ -260,7 +260,7 @@ export function on_moved(state: Readonly<State>, new_id: RelativePath): Readonly
 		cached: {
 			...state.cached,
 			parsed: path.parse(new_id),
-		}
+		},
 	}
 }
 

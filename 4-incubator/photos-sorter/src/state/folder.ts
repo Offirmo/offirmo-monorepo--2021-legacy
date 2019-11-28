@@ -3,15 +3,15 @@ import { Enum } from 'typescript-string-enums'
 
 import assert from 'tiny-invariant'
 import stylize_string from 'chalk'
-import { get_UTC_timestamp_ms } from "@offirmo-private/timestamps"
+import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 
 import { get_compact_date_from_UTC_ts } from '../services/utils'
-import { is_year, get_normalized_dirname, is_compact_date, extract_compact_date } from "../services/matchers"
+import { is_year, get_normalized_dirname, is_compact_date, extract_compact_date } from '../services/matchers'
 import {Basename, RelativePath, SimpleYYYYMMDD} from '../types'
 import * as MediaFile from './media-file'
-import logger from "../services/logger";
-import {get_best_compact_date} from "./media-file";
-import {get_best_creation_date_ms} from "./media-file";
+import logger from '../services/logger'
+import {get_best_compact_date} from './media-file'
+import {get_best_creation_date_ms} from './media-file'
 
 ////////////////////////////////////
 
@@ -49,7 +49,7 @@ function _infer_folder_type(id: RelativePath): Type {
 	if (!id) return Type.root
 
 	const parsed = path.parse(id)
-	let depth = parsed.dir.split(path.sep).length - 1
+	const depth = parsed.dir.split(path.sep).length - 1
 	//console.log('_infer_folder_type', { dir: parsed.dir, depth })
 	if (depth === 1 && is_year(parsed.base)) return Type.year
 	if (depth > 0) return Type.event
@@ -142,7 +142,7 @@ export function on_moved(state: Readonly<State>, new_id: RelativePath): Readonly
 		cached: {
 			...state.cached,
 			base: path.basename(new_id),
-		}
+		},
 	}
 }
 

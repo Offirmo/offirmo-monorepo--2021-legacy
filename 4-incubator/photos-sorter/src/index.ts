@@ -21,7 +21,7 @@ logger.info('******* PHOTO SORTER *******', { ROOT })
 let db = DB.create(ROOT)
 
 function dequeue_and_run_all_queued_actions(readonly = true): Promise<any>[] {
-	let pending_actions: Promise<any>[] = []
+	const pending_actions: Promise<any>[] = []
 
 	while(DB.has_pending_actions(db)) {
 		const action = DB.get_first_pending_action(db)
@@ -65,7 +65,7 @@ function dequeue_and_run_all_queued_actions(readonly = true): Promise<any>[] {
 }
 
 async function exec_all_pending_actions(readonly = true): Promise<void> {
-	let pending_actions: Promise<any>[] = [ Promise.resolve() ]
+	const pending_actions: Promise<any>[] = [ Promise.resolve() ]
 
 	function run_and_wait_for_queued_actions(): Promise<void> {
 		const pending_actions = dequeue_and_run_all_queued_actions(readonly)

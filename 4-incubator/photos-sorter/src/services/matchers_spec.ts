@@ -9,7 +9,7 @@ import {
 	extract_compact_date,
 	starts_with_human_timestamp_ms,
 } from './matchers'
-import {SimpleYYYYMMDD} from "../types";
+import {SimpleYYYYMMDD} from '../types'
 
 /////////////////////
 
