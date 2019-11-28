@@ -7,7 +7,7 @@ import './index.css'
 
 const ReloadButtonVM = React.memo(
 	function ReloadButtonV({ status, on_click }) {
-		console.log(`🔄 ReloadButtonV`, {status})
+		console.log('🔄 ReloadButtonV', {status})
 		return (
 			<button className="reload-button" onClick={on_click}>
 				<SpecSyncIndicator status={status} />
@@ -15,7 +15,7 @@ const ReloadButtonVM = React.memo(
 				Reload page
 			</button>
 		)
-	}
+	},
 )
 ReloadButtonVM.propTypes = {
 	status: PropTypes.string.isRequired,

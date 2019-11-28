@@ -2,9 +2,9 @@ import EventEmitter from 'emittery'
 import assert from 'tiny-invariant'
 import { Tabs, Runtime } from 'webextension-polyfill-ts'
 
-import * as OriginState from "../common/state/origin";
-import * as TabState from "../common/state/tab";
-import * as UIState from "../common/state/ui";
+import * as OriginState from '../common/state/origin'
+import * as TabState from '../common/state/tab'
+import * as UIState from '../common/state/ui'
 import { Report } from '../common/messages'
 import { query_active_tab } from './utils'
 import * as State from './state'

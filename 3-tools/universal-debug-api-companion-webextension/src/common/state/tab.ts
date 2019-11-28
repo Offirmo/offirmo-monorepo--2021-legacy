@@ -109,7 +109,7 @@ export function get_sync_status(state: Readonly<State>, origin_state: Readonly<O
 		return global_switch_sync_status
 
 	let non_inactive_count = 0
-	for (let key of Object.keys(origin_state.overrides)) {
+	for (const key of Object.keys(origin_state.overrides)) {
 		const override_spec = origin_state.overrides[key]
 		const sync_status = get_override_sync_status(state, override_spec)
 		if (sync_status !== SpecSyncStatus['active-and-up-to-date'] && sync_status !== SpecSyncStatus.inactive)
@@ -189,8 +189,8 @@ export function ensure_override(state: Readonly<State>, override_spec: OriginSta
 	state = {
 		...state,
 		overrides: {
-			...state.overrides
-		}
+			...state.overrides,
+		},
 	}
 	state.overrides[key] = state.overrides[key] || {
 		key,
@@ -207,7 +207,7 @@ export function report_debug_api_usage(state: Readonly<State>, report: Report): 
 			const { key, existing_override_sjson } = report
 			assert(!!key, 'T.report_debug_api_usage override key')
 
-			let override: OverrideState = {
+			const override: OverrideState = {
 				...state.overrides[key],
 				key,
 				last_reported: get_UTC_timestamp_ms(),
@@ -219,7 +219,7 @@ export function report_debug_api_usage(state: Readonly<State>, report: Report): 
 				overrides: {
 					...state.overrides,
 					[key]: override,
-				}
+				},
 			}
 			break
 		}

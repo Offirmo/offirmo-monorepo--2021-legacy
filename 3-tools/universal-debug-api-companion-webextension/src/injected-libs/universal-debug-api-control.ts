@@ -1,5 +1,5 @@
 // TODO improve cascade of re-exports
-import { LogLevel } from '@offirmo/practical-logger-types';
+import { LogLevel } from '@offirmo/practical-logger-types'
 import { LoggerCreationParams } from '@offirmo/universal-debug-api-interface'
 import { DEFAULT_LOG_LEVEL, DEFAULT_LOGGER_KEY } from '@offirmo/practical-logger-core/src/consts-base'
 import { getOverrideKeyForLogger, getLSKeyForOverride } from '@offirmo/universal-debug-api-browser/src/v1/keys'
@@ -11,7 +11,7 @@ import { StringifiedJSON, sjson_stringify } from '../common/utils/stringified-js
 
 let DEBUG = false
 try { // defensive!
-	DEBUG = DEBUG || !!window.localStorage.getItem(`🧩UWDTi.context.debug`);
+	DEBUG = DEBUG || !!window.localStorage.getItem('🧩UWDTi.context.debug')
 } catch { /* swallow */ }
 
 const original_v1 = (window as any)._debug.v1
@@ -24,7 +24,7 @@ const queue: Report[] = []
 // - avoid hogging the current execution chunk, which may be the initial load
 let sync_in_flight = false
 function schedule_sync() {
-	if (DEBUG) console.log(`🧩UWDTi: schedule_sync`, {
+	if (DEBUG) console.log('🧩UWDTi: schedule_sync', {
 		last_queued: queue.slice(-1)[0],
 		queue_size: queue.length,
 		in_flight: sync_in_flight,
@@ -35,7 +35,7 @@ function schedule_sync() {
 
 	sync_in_flight = true
 	setTimeout(() => {
-		if (DEBUG) console.log(`🧩UWDTi: posting create_msg_report_debug_api_usage...`)
+		if (DEBUG) console.log('🧩UWDTi: posting create_msg_report_debug_api_usage...')
 		try {
 			window.postMessage(
 				create_msg_report_debug_api_usage(queue),
@@ -43,7 +43,7 @@ function schedule_sync() {
 			)
 		}
 		catch (err) {
-			if (DEBUG) console.error(`🧩UWDTi: error when syncing!`, err)
+			if (DEBUG) console.error('🧩UWDTi: error when syncing!', err)
 		}
 		queue.length = 0
 		sync_in_flight = false
@@ -72,7 +72,7 @@ function overrideHook<T>(key: string, default_value: T): T {
 		// however we turn that into a special value
 		const default_value_sjson = sjson_stringify(default_value)
 		if (DEBUG) console.log('🧩UWDTi: overrideHook()', {key, default_value, default_value_sjson})
-		let existing_override_sjson = _getOverrideRequestedSJson(key)
+		const existing_override_sjson = _getOverrideRequestedSJson(key)
 		queue.push({
 			type: 'override',
 			key,
@@ -97,7 +97,7 @@ function getLogger(p: Readonly<LoggerCreationParams> = {}) {
 	// systematically call overrideHook on creation to declare the override!
 	const ovForcedLevel = overrideHook<LogLevel>(
 		ovKey,
-		ovDefaultLevel
+		ovDefaultLevel,
 	)
 	if (!p.forcedLevel && _getOverrideRequestedSJson(ovKey)) {
 		p = {

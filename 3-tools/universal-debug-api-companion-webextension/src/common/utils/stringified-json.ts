@@ -24,7 +24,7 @@ export function is_valid_stringified_json(sjson: StringifiedJSON): boolean {
 		return true
 
 	if (typeof sjson !== 'string') {
-		console.error(`is_valid_stringified_json failure 1!`, { sjson })
+		console.error('is_valid_stringified_json failure 1!', { sjson })
 		return false
 	}
 
@@ -33,7 +33,7 @@ export function is_valid_stringified_json(sjson: StringifiedJSON): boolean {
 		return true
 	}
 	catch {
-		console.error(`is_valid_stringified_json failure 2!`, { sjson })
+		console.error('is_valid_stringified_json failure 2!', { sjson })
 		return false
 	}
 }

@@ -174,7 +174,7 @@ export function toggle_lib_injection(state: Readonly<State>, tab_id: number): Re
 		origins: {
 			...state.origins,
 			[tab_origin]: OriginState.toggle_lib_injection(state.origins[tab_origin]),
-		}
+		},
 	}
 }
 
@@ -198,7 +198,7 @@ export function report_debug_api_usage(state: Readonly<State>, tab_id: number, r
 		tabs: {
 			...state.tabs,
 			[tab_id]: tab_state,
-		}
+		},
 	}
 }
 
@@ -212,7 +212,7 @@ export function change_override_spec(state: Readonly<State>, tab_id: number, key
 		origins: {
 			...state.origins,
 			[tab_origin]: OriginState.change_override_spec(state.origins[tab_origin], key, partial),
-		}
+		},
 	}
 }
 

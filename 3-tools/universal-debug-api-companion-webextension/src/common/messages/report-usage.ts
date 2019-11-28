@@ -25,6 +25,6 @@ export function create_msg_report_debug_api_usage(reports: Report[]) {
 		[MSG_ENTRY]: {
 			type: MSG_TYPE__REPORT_DEBUG_API_USAGE,
 			reports,
-		}
+		},
 	}
 }

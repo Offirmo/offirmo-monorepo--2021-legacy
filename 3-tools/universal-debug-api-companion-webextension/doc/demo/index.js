@@ -19,7 +19,7 @@ import {
 	demo_devtools_fonts,
 } from '../../../../1-foundation/practical-logger-core/doc/shared-demo'
 
-const LIB = `📄 demo/head-script`
+const LIB = '📄 demo/head-script'
 
 
 console.warn(`[${LIB}.${+Date.now()}] Hello, more standard!`, {

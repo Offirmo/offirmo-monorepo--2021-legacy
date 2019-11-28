@@ -39,7 +39,7 @@ function style_fn_bgcolor(base, { isDisabled, isSelected }) {
 			backgroundColor: 'var(--o⋄color--fg⁚accent)',
 		},
 		//cursor: isDisabled ? 'not-allowed' : 'default',
-	};
+	}
 }
 
 export const STANDARD_COHORTS = [
@@ -165,7 +165,7 @@ export default class OverrideLine extends Component<Props> {
 		const value_sjson = this.get_field_value_sjson()
 		const value = this.get_field_value()
 
-		console.log(`   🔄 get_input()`, {
+		console.log('   🔄 get_input()', {
 			is_injection_enabled,
 			override,
 			type,
@@ -178,7 +178,7 @@ export default class OverrideLine extends Component<Props> {
 			if (!is_valid_stringified_json(value_sjson))
 				throw new Error('Invalid JSON!')
 
-			if (is_disabled && value_sjson === "undefined")
+			if (is_disabled && value_sjson === 'undefined')
 				return <span>(undefined)</span>
 
 			switch (type) {
@@ -260,7 +260,7 @@ export default class OverrideLine extends Component<Props> {
 					throw new Error(`get_input() Error! Unknown type "${type}"!`)
 			}
 		} catch (err) {
-			console.error(`OverrideLine: get_input() Error! Defaulting to raw Json editor.`, { value_sjson, value, err })
+			console.error('OverrideLine: get_input() Error! Defaulting to raw Json editor.', { value_sjson, value, err })
 			return this.get_input_any(field_props, is_disabled)
 		}
 	}
@@ -270,7 +270,7 @@ export default class OverrideLine extends Component<Props> {
 		const { key } = override
 		const { type } = override.spec
 
-		let default_value = this.get_field_value()
+		const default_value = this.get_field_value()
 
 		console.log(`🔄 OverrideLine "${key}"`, {
 			props: this.props,
@@ -280,17 +280,17 @@ export default class OverrideLine extends Component<Props> {
 		const is_enabled = override.spec.is_enabled
 
 		return (
-			<div className={`left-right-aligned override-line`}>
+			<div className={'left-right-aligned override-line'}>
 				<div>
 					<SpecSyncIndicator status={status} />
 
-					<span className={`box-sizing-reset override-enable-toggle`}>
+					<span className={'box-sizing-reset override-enable-toggle'}>
 						<Field name={key + '_enabled'} defaultValue={is_enabled} isRequired>
 							{({ fieldProps, error }: any) => error ? error : this.get_enable_toggle(fieldProps, is_enabled) }
 						</Field>
 					</span>
 
-					<span className={`override-label`}>
+					<span className={'override-label'}>
 						{key}
 					</span>
 				</div>

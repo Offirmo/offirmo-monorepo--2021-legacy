@@ -27,7 +27,7 @@ browser.devtools.inspectedWindow.eval(
 			result,
 			isException,
 		})
-	}
+	},
 )
 
 const PANEL_NAME = '🛠'
@@ -62,14 +62,14 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	console.log(`[${LIB}.${+Date.now()}] received a simple message from`, {
 		sender,
 		sender_x: sender.tab ?
-			"from a content script:" + sender.tab.url :
-			"from the extension",
+			'from a content script:' + sender.tab.url :
+			'from the extension',
 		request,
 	})
 })
 
-const port = browser.runtime.connect({name: "devtools"});
+const port = browser.runtime.connect({name: 'devtools'})
 port.onMessage.addListener((msg) => {
 	console.log(`[${LIB}.${+Date.now()}] received a port message`, msg)
-});
-port.postMessage({hello: "test"});
+})
+port.postMessage({hello: 'test'})

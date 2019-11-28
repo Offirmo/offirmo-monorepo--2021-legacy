@@ -198,7 +198,7 @@ export const DEMO_REPORTS: Report[] = [
 		key: 'some_url_undef',
 		default_value_sjson: 'undefined',
 		existing_override_sjson: null, // not enabled
-	}
+	},
 ]
 export function create_demo(origin: string): Readonly<State> {
 	let state = create(origin)
@@ -232,7 +232,7 @@ export function report_debug_api_usage(state: Readonly<State>, report: Report): 
 			assert(is_valid_stringified_json(default_value_sjson), 'O.report_debug_api_usage default value !sjson')
 			assert(existing_override_sjson === null || is_valid_stringified_json(existing_override_sjson), 'O.report_debug_api_usage existing value null or string')
 
-			let override: OverrideState = {
+			const override: OverrideState = {
 				...state.overrides[key],
 				key,
 				is_enabled: !!existing_override_sjson,
@@ -247,7 +247,7 @@ export function report_debug_api_usage(state: Readonly<State>, report: Report): 
 				overrides: {
 					...state.overrides,
 					[key]: override,
-				}
+				},
 			}
 			break
 		}
@@ -272,7 +272,7 @@ export function toggle_lib_injection(state: Readonly<State>): Readonly<State> {
 export function change_override_spec(state: Readonly<State>, key: string, partial: Readonly<Partial<OverrideState>>): Readonly<State> {
 	const current_override = state.overrides[key]
 	const partial2 = {
-		...partial
+		...partial,
 	}
 
 	// convenience: default value on activation for some fields
@@ -288,7 +288,7 @@ export function change_override_spec(state: Readonly<State>, key: string, partia
 		switch(current_override.type) {
 			case OverrideType.boolean:
 				// if toggled on, it's obvious the user wants to change the value = opposite of the default
-				partial2.value_sjson = sjson_stringify(!Boolean(sjson_parse(current_override.default_value_sjson)))
+				partial2.value_sjson = sjson_stringify(!sjson_parse(current_override.default_value_sjson))
 				break
 			case OverrideType.LogLevel:
 				// if toggled on, we usually want more logs
@@ -315,7 +315,7 @@ export function change_override_spec(state: Readonly<State>, key: string, partia
 			[key]: {
 				...state.overrides[key],
 				...partial2,
-			}
+			},
 		},
 		last_interacted_with: get_UTC_timestamp_ms(),
 	}

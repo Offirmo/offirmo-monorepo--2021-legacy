@@ -5,7 +5,7 @@ import * as Flux from './flux'
 import { control_sjson } from '../common/utils/stringified-json'
 import { LS_KEY_ENABLED } from '../common/consts'
 import { create_msg_update_ui_state, create_msg_update_ls_state } from '../common/messages'
-import { SpecSyncStatus } from "../common/state/tab";
+import { SpecSyncStatus } from '../common/state/tab'
 import { getLSKeyForOverride } from '@offirmo/universal-debug-api-browser/src/v1/keys'
 
 ////////////////////////////////////
@@ -14,10 +14,10 @@ const render_webext_icon = memoize_one(function render_webext_icon(sync_status) 
 	console.log('🔄 render_webext_icon', { sync_status })
 
 	let text = '✗'
-	let color = "#ff0000"
+	let color = '#ff0000'
 
 	switch(sync_status) {
-		case SpecSyncStatus["unexpected-error"]:
+		case SpecSyncStatus['unexpected-error']:
 			break
 
 		case SpecSyncStatus.inactive:
@@ -25,14 +25,14 @@ const render_webext_icon = memoize_one(function render_webext_icon(sync_status) 
 			text = ''
 			break
 
-		case SpecSyncStatus["changed-needs-reload"]:
+		case SpecSyncStatus['changed-needs-reload']:
 			text = '↻'
 			color = '#f3b200'
 			break
 
-		case SpecSyncStatus["active-and-up-to-date"]:
+		case SpecSyncStatus['active-and-up-to-date']:
 			text = '✔'
-			color = "#00AA00"
+			color = '#00AA00'
 			break
 
 		default:
@@ -65,10 +65,10 @@ function update_ui_state() {
 	const ui_state = Flux.get_active_tab_ui_state()
 	console.log('📤 dispatching state to UI:', ui_state)
 	port.postMessage(
-			create_msg_update_ui_state(
-				ui_state,
-			)
-		)
+		create_msg_update_ui_state(
+			ui_state,
+		),
+	)
 	console.groupEnd()
 }
 
@@ -103,11 +103,11 @@ function propagate_lib_config() {
 
 	console.log(`📤 dispatching origin config to content-script of tab#${current_tab_id}`, kv)
 	browser.tabs.sendMessage(
-			current_tab_id,
-			create_msg_update_ls_state(
-				kv
-			)
-		)
+		current_tab_id,
+		create_msg_update_ls_state(
+			kv,
+		),
+	)
 		.catch(err => {
 			const { message } = err
 			if (message.includes('Receiving end does not exist')) {

@@ -18,14 +18,14 @@ const LIB = '🧩 UWDT/CS--start'
 
 let DEBUG = false
 try { // defensive!
-	DEBUG = DEBUG || !!window.localStorage.getItem(`🧩UWDTi.context.debug`);
+	DEBUG = DEBUG || !!window.localStorage.getItem('🧩UWDTi.context.debug')
 } catch { /* swallow */ }
 
 if (DEBUG) {
 	console.log(`[${LIB},${Date.now()}] Hello!`, {
 		browser,
 		document,
-		'_debug.enabled': localStorage.getItem(LS_KEY_ENABLED) === 'true'
+		'_debug.enabled': localStorage.getItem(LS_KEY_ENABLED) === 'true',
 	})
 }
 
@@ -99,8 +99,8 @@ else {
 browser.runtime.sendMessage(
 	create_msg_report_is_lib_injected(
 		document.location.href,
-		should_inject
-	)
+		should_inject,
+	),
 )
 // TODO in the response we could have:
 // extension debug mode?

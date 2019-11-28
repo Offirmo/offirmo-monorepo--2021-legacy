@@ -29,9 +29,9 @@ export default class Root extends Component {
 ////////////////////////////////////
 
 if (browser.tabs) {
-	const port_to_bg = browser.runtime.connect(undefined, {name: "popup"});
+	const port_to_bg = browser.runtime.connect(undefined, {name: 'popup'})
 	port_to_bg.onMessage.addListener((msg) => {
-		console.group(`📥 received a port message`, msg)
+		console.group('📥 received a port message', msg)
 		assert(msg[MSG_ENTRY], 'MSG_ENTRY')
 
 		const payload = msg[MSG_ENTRY]
@@ -41,6 +41,6 @@ if (browser.tabs) {
 		// pure flux, we only ever expect one message type
 		set_app_state(msg[MSG_ENTRY].state)
 		console.groupEnd()
-	});
+	})
 	//port_to_bg.postMessage({hello: "test"});
 }

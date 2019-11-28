@@ -24,25 +24,25 @@ const extension_inited = new Deferred<string>()
 let is_extension_inited = false
 extension_inited.then((from: string) => {
 	is_extension_inited = true
-	console.log(`🙈🙉 extension inited!`, {from})
+	console.log('🙈🙉 extension inited!', {from})
 })
 setTimeout(() => {
-		if (is_extension_inited) return
+	if (is_extension_inited) return
 
-		// should never happen
-		console.error('🙊 Timeout (2) waiting for extension init!')
-		extension_inited.resolve('gave up')
-	},
-	120 * 1000
+	// should never happen
+	console.error('🙊 Timeout (2) waiting for extension init!')
+	extension_inited.resolve('gave up')
+},
+120 * 1000,
 )
 setTimeout(() => {
-		if (is_extension_inited) return
+	if (is_extension_inited) return
 
-		// should never happen
-		console.error('🙊 Timeout (1) waiting for extension init!')
-		extension_inited.resolve(query_active_tab().then(() => 'attempt 2'))
-	},
-	30 * 1000
+	// should never happen
+	console.error('🙊 Timeout (1) waiting for extension init!')
+	extension_inited.resolve(query_active_tab().then(() => 'attempt 2'))
+},
+30 * 1000,
 )
 function once_extension_init_done<T>(cb: () => T): Promise<T> {
 	// we want sync as much as possible
@@ -64,7 +64,7 @@ browser.runtime.onInstalled.addListener(function() {
 	// we used to have some stuff here
 	// but this event is unreliable: not seen on browser (re)start
 	console.groupEnd()
-});
+})
 
 browser.tabs.onCreated.addListener((tab) => {
 	console.group('⚡️ on tab created', { tab })
@@ -102,15 +102,15 @@ browser.tabs.onActivated.addListener(({tabId, windowId}) => {
 browser.runtime.onMessage.addListener((request, sender): Promise<any> | void => {
 	// FF refreshes content script before the background script starts to receive events
 	return once_extension_init_done(() => {
-		console.group(`📥 bg received a simple message`)
-		let response: any = null
+		console.group('📥 bg received a simple message')
+		const response: any = null
 
 		try {
 			console.log(
 				sender.tab
 					? 'from a content script: ' + sender.tab.url
 					: 'from an extension part',
-				{ sender }
+				{ sender },
 			)
 
 			assert(request[MSG_ENTRY], 'MSG_ENTRY')

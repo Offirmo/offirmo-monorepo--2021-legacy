@@ -29,10 +29,10 @@ export default class LogLevelRange extends Component {
 		if (value && index === -1)
 			console.error(`LogLevelRange: unrecognised log level "${value}"!`)
 		const value_int = index === -1
-				? DEFAULT_LEVEL
-				: index
+			? DEFAULT_LEVEL
+			: index
 
-		console.log(`🔄 LogLevelRange`, {
+		console.log('🔄 LogLevelRange', {
 			isDisabled,
 			value,
 			index,
@@ -55,6 +55,6 @@ export default class LogLevelRange extends Component {
 					<Fragment>Level <b>{ALL_LOG_LEVELS[value_int]}</b> and above will be logged</Fragment>
 				</span>
 			</Fragment>
-		);
+		)
 	}
 }

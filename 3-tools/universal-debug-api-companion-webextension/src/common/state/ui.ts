@@ -1,8 +1,8 @@
 import * as OriginState from './origin'
 import * as TabState from './tab'
 import { UNKNOWN_ORIGIN } from '../consts'
-import {SpecSyncStatus} from "./tab";
-import {was_injection_enabled} from "./tab";
+import {SpecSyncStatus} from './tab'
+import {was_injection_enabled} from './tab'
 
 export interface State {
 	origin: OriginState.State,
@@ -76,16 +76,16 @@ export function get_override(state: Readonly<State>, key: string): Readonly<Over
 
 export function get_overrides_map(state: Readonly<State>): { [k: string]: Readonly<OverrideState> } {
 	const keys_set = new Set<string>([
-			...Object.keys(state.origin.overrides),
-			...Object.keys(state.tab.overrides),
-		]
+		...Object.keys(state.origin.overrides),
+		...Object.keys(state.tab.overrides),
+	],
 	)
 
 	return Array.from(keys_set.values()).reduce((acc: ReturnType<typeof get_overrides_map>, key: string) => {
-			acc[key] = get_override(state, key)
-			return acc
-		},
-		{} as ReturnType<typeof get_overrides_map>
+		acc[key] = get_override(state, key)
+		return acc
+	},
+		{} as ReturnType<typeof get_overrides_map>,
 	)
 }
 

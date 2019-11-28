@@ -29,7 +29,7 @@ export default class AnyJsonInput extends Component {
 		const { isDisabled, value_sjson, ...field_props } = this.props
 		const has_error = !is_valid_stringified_json(value_sjson)
 
-		console.log(`🔄 AnyJsonInput`, {
+		console.log('🔄 AnyJsonInput', {
 			isDisabled,
 			value_sjson,
 			has_error,
@@ -46,6 +46,6 @@ export default class AnyJsonInput extends Component {
 				/>
 				<span className="o⋄font⁚roboto-condensed">(JSON)</span>
 			</Fragment>
-		);
+		)
 	}
 }

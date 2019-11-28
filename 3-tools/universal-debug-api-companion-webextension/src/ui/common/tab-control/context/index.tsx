@@ -38,7 +38,7 @@ class AppStateListenerAndProvider extends React.Component {
 	set_state = (new_state: Readonly<State>) => {
 		//console.log('set_state()', { new_state })
 		this.setState({
-			...new_state
+			...new_state,
 		})
 	}
 

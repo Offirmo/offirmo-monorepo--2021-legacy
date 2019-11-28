@@ -7,7 +7,7 @@ export function create_msg_toggle_lib_injection() {
 	return {
 		[MSG_ENTRY]: {
 			type: MSG_TYPE__TOGGLE_LIB_INJECTION,
-		}
+		},
 	}
 }
 
@@ -18,7 +18,7 @@ export function create_msg_report_is_lib_injected(url: string, is_injected: bool
 			type: MSG_TYPE__REPORT_IS_LIB_INJECTED,
 			url, // needed because this event may follow updated=loading which resets the url
 			is_injected,
-		}
+		},
 	}
 }
 
@@ -29,7 +29,7 @@ export function create_msg_change_override_spec(key: string, partial: Readonly<P
 			type: MSG_TYPE__OVERRIDE_SPEC_CHANGED,
 			key,
 			partial,
-		}
+		},
 	}
 }
 
@@ -39,7 +39,7 @@ export function create_msg_update_ui_state(state: Readonly<UIState.State>) {
 		[MSG_ENTRY]: {
 			type: MSG_TYPE__UPDATE_UI_STATE,
 			state,
-		}
+		},
 	}
 }
 
@@ -49,7 +49,7 @@ export function create_msg_update_ls_state(kv: Readonly<{ [k: string]: string | 
 		[MSG_ENTRY]: {
 			type: MSG_TYPE__UPDATE_LS_STATE,
 			kv,
-		}
+		},
 	}
 }
 
@@ -58,7 +58,7 @@ export function create_msg_request_reload() {
 	return {
 		[MSG_ENTRY]: {
 			type: MSG_TYPE__REQUEST_CURRENT_PAGE_RELOAD,
-		}
+		},
 	}
 }
 

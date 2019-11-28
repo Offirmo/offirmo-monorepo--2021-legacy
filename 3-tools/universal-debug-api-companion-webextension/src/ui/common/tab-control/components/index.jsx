@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import Form, { FormSection, FormFooter } from '@atlaskit/form';
+import Form, { FormSection, FormFooter } from '@atlaskit/form'
 
 import './index.css'
 
@@ -16,7 +16,7 @@ const LoadingVM = React.memo(
 				<p>Loading...</p>
 			</Fragment>
 		)
-	}
+	},
 )
 
 const NotEligibleVM = React.memo(
@@ -31,7 +31,7 @@ const NotEligibleVM = React.memo(
 				</p>
 			</Fragment>
 		)
-	}
+	},
 )
 
 const NotInstalledVM = React.memo(
@@ -48,7 +48,7 @@ const NotInstalledVM = React.memo(
 				</p>
 			</Fragment>
 		)
-	}
+	},
 )
 
 const ControlsVM = React.memo(
@@ -68,7 +68,7 @@ const ControlsVM = React.memo(
 				)}
 			</Form>
 		)
-	}
+	},
 )
 
 export default class TabControl extends Component {
