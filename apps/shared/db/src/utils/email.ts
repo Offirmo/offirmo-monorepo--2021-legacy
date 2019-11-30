@@ -2,22 +2,98 @@ const crypto = require('crypto')
 const normalizeEmail = require('normalize-email')
 import { combine_normalizers, NORMALIZERS } from '@offirmo-private/normalize-string'
 
+////////////////////////////////////
+// fragments
 
-// not the same as normalize
-export const clean_email = combine_normalizers(
-	NORMALIZERS.trim,
-	s => s.split(' ').join(''), // remove spaces inside (autocomplete after typing ".")
-	NORMALIZERS.to_lower_case, // domains are case insensitive and nearly all systems are case-insensitive
-	(s: string): string => {
-		validate_email_structure(s)
-		return s
+// inspired by the spec of https://github.com/johno/normalize-email
+function remove_plus_fragment_from_local_part(email: string): string {
+	const [ local_part, domain ] = email.split('@')
+
+	return [ local_part.split('+')[0], domain ].join('@')
+}
+function remove_dots_from_local_part(email: string): string {
+	const [ local_part, domain ] = email.split('@')
+
+	return [ local_part.split('.').join(''), domain ].join('@')
+}
+function lowercase_domain(email: string): string {
+	const [ local_part, domain = '' ] = email.split('@')
+
+	return [ local_part, domain.toLowerCase() ].join('@')
+}
+function normalize_domain(email: string): string {
+	let [ local_part, domain = '' ] = email.split('@')
+
+	domain = domain.toLowerCase()
+	if (domain === 'googlemail.com') domain = 'gmail.com'
+
+	return [ local_part, domain ].join('@')
+}
+
+interface EmailHandlingRules {
+	local_part_case_sensitive?: boolean
+	plus_fragment_sensitive?: boolean
+	dots_sensitive?: boolean
+}
+const RULES: { [domain: string]: EmailHandlingRules } = {
+	'gmail.com': {
+		local_part_case_sensitive: false,
+		plus_fragment_sensitive: false,
+		dots_sensitive: false,
 	},
-)
+	'hotmail.com': {
+		local_part_case_sensitive: undefined,
+		plus_fragment_sensitive: false,
+		dots_sensitive: true,
+	},
+	'live.com': {
+		local_part_case_sensitive: undefined,
+		plus_fragment_sensitive: false,
+		dots_sensitive: false,
+	},
+	'outlook.com': {
+		local_part_case_sensitive: undefined,
+		plus_fragment_sensitive: false,
+		dots_sensitive: true,
+	},
+}
 
+function remove_plus_fragment_from_local_part_if_insensitive(email: string): string {
+	const [ local_part, domain ] = email.split('@')
+	//console.log('remove_plus_fragment_from_local_part_if_insensitive', domain, RULES[domain])
 
-export function validate_email_structure(possible_email: string): void {
+	if (RULES[domain]?.plus_fragment_sensitive === false)
+		return remove_plus_fragment_from_local_part(email)
+
+	return email
+}
+function remove_dots_from_local_part_if_insensitive(email: string): string {
+	const [ local_part, domain ] = email.split('@')
+
+	if (RULES[domain]?.dots_sensitive === false)
+		return remove_dots_from_local_part(email)
+
+	return email
+}
+function lowercase_local_part_if_insensitive(email: string): string {
+	const [ local_part, domain ] = email.split('@')
+
+	if (!RULES[domain]?.local_part_case_sensitive) // default to true
+		return email.toLowerCase()
+
+	return email
+}
+
+/////////////////////
+// extras from me
+
+// useful to fix autocomplete after typing "."
+function remove_all_spaces(email: string): string {
+	return email.split(' ').join('')
+}
+
+function validate_email_structure(possible_email: string): string {
 	const [ before, after, ...rest] = possible_email.split('@')
-
 	//console.log({before, after, rest, ta: typeof after})
 
 	if (rest.length)
@@ -28,17 +104,46 @@ export function validate_email_structure(possible_email: string): void {
 		throw new Error('Invalid email: bad domain!')
 	if (!before.length || !after.length)
 		throw new Error('Invalid email: bad structure!')
+
+	return possible_email
 }
 
+////////////////////////////////////
+// We need different levels of normalization
+// for ex. using "+" foo+test@gmail.com is not known and very likely to be an attempt to double register
+// however using "." foo.bar@gmail.com is well known and not all pp know it can be removed
+// normalizing too hard prevents us from using gravatar
+// ex. offirmo.net@gmail.com is not matching gravatar offirmonet@gmail.com
 
-export const normalize_email = combine_normalizers(
-	clean_email,
-	normalizeEmail,
+export const normalize_email_safe = combine_normalizers(
+	NORMALIZERS.normalize_unicode,
+	remove_all_spaces,
+	validate_email_structure,
+	lowercase_domain,
+)
+
+export const normalize_email_reasonable = combine_normalizers(
+	NORMALIZERS.normalize_unicode,
+	remove_all_spaces,
+	validate_email_structure,
+	normalize_domain,
+	remove_plus_fragment_from_local_part_if_insensitive,
+	lowercase_local_part_if_insensitive,
+)
+
+export const normalize_email_full = combine_normalizers(
+	NORMALIZERS.normalize_unicode,
+	remove_all_spaces,
+	validate_email_structure,
+	normalize_domain,
+	remove_plus_fragment_from_local_part_if_insensitive,
+	remove_dots_from_local_part_if_insensitive,
+	lowercase_local_part_if_insensitive,
 )
 
 
 export function get_gravatar_url(email: string): string {
-	email = clean_email(email)
+	email = normalize_email_reasonable(email)
 	const md5 = crypto.createHash('md5').update(email).digest('hex')
 	return `https://www.gravatar.com/avatar/${md5}?r=pg&d=retro`
 }

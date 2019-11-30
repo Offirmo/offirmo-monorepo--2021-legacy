@@ -34,8 +34,8 @@ const convert_spaces_to_camel_case: StringNormalizer = s => s.split(' ').map(cap
 
 // for user names, player names...
 const coerce_to_safe_nickname = combine_normalizers(
-	trim,
 	coerce_to_ascii,
+	trim,
 	to_lower_case,
 	coerce_delimiters_to_space,
 	coerce_blanks_to_single_spaces,

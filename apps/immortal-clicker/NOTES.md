@@ -30,3 +30,12 @@ Split in 3000 soul, hidden in other friendly souls
 strongest material dark gold
 
 golden light / golden charm
+
+
+Battle
+- stategy
+- momentum
+- opening
+- killing move
+- deception
+- escape

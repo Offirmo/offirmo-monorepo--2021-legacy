@@ -17,7 +17,12 @@ export async function up(knex: Knex): Promise<any> {
 			.string('called')
 
 		table
-			.string('email')
+			.string('usual_email')
+			.unique()
+			.index()
+
+		table
+			.string('normalized_email')
 			.unique()
 			.index()
 

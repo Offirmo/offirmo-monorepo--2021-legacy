@@ -12,29 +12,39 @@ Wu Hui "without wisdom"
 
 
 ## Renegade Immortal
-Wang Lin
-Wang Ping
+Cai Wei
+Chen Fan
+Dao Yi
+Dong Lin
+Du Qing
+Fan Shanmeng
+Gu Ya
+Han Dan
+Jiu Di
+Kang Ren
+Kun Peng
+Li Muwan
+Li Qianmei
+Lian Daofei
+Lian Yunjue
+Liu Jinbiao
 Liu Mei
-Xu Mu
-Situ Nan
-Tang Seng priest in Journey to the west
-Sun Wukong
-Su Dao
-Zhou Li bad guy
-Xie Qing
+Ming Dao
 Mu Bingmei
 Qin Mei girl
-Kun Peng
-Liu Jinbiao
 Qing Shui
-Li Qianmei
-Li Muwan
+Situ Nan
+Su Dao
+Sun Wukong
+Tang Seng priest in Journey to the west
+Wang Lin
+Wang Ping
+Wu Feng
+Xie Qing
 Xu Liguo
-Fan Shanmeng
+Xu Mu
 Yun Yifeng
-Du Qing
-Kang Ren
-
+Zhou Li bad guy
 
 ## Soul land
 Tang San hero

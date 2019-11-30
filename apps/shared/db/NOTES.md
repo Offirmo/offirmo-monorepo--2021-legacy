@@ -1,4 +1,15 @@
 
+## Principles
+
+### No mixing of persisted data and logic data
+
+- A conversion may be needed from persisted data to actual logic data
+- Defaults may be provided, however the persisted data shouldn't have them,
+  in order to preserve the fact that the data is missing in the first place
+- persisted data should really reflect what is in the persistence layer
+
+## Tosort
+
 postgres://someuser:somepassword@somehost:port/somedatabase
 
 dev:

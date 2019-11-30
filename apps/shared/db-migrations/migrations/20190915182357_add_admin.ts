@@ -8,7 +8,8 @@ export async function up(knex: Knex): Promise<any> {
 		{
 			id: 0,
 			called: 'Admin',
-			email: 'offirmo.net@gmail.com',
+			usual_email: 'offirmo.net@gmail.com',
+			normalized_email: 'offirmonet@gmail.com',
 			roles: [ 'admin', 'tbrpg:admin']
 		},
 	)

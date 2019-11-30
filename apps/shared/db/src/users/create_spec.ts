@@ -9,11 +9,15 @@ import {
 	create_user,
 	create_user_through_netlify,
 } from './create'
-import { TEST_NETLIFY_ID, get_test_base_user, get_test_base_netlify_user, cleanup } from './_shared_spec'
+import {
+	TEST_NETLIFY_ID,
+	get_test_base_netlify_user,
+	get_test_base_user_01,
+	get_test_netlify_user_01,
+	cleanup,
+} from './_common_spec'
 
-/////////////////////
-
-
+////////////////////////////////////
 
 describe(`${LIB} - users - create`, function() {
 
@@ -23,22 +27,22 @@ describe(`${LIB} - users - create`, function() {
 	describe('create_user()', function () {
 
 		it('should work in nominal condition', async () => {
-			const base = get_test_base_user()
+			const base = get_test_base_user_01()
 			const id = await create_user(base)
 			expect(id).not.to.be.null
 			expect(id).to.be.above(0)
 		})
 
 		it('should NOT work if duplicated email - normal', async () => {
-			const base = get_test_base_user()
+			const base = get_test_base_user_01()
 
 			await create_user(base)
 			expect(create_user(base)).to.be.rejectedWith('duplicate')
 		})
 
 		it('should NOT work if duplicated email - variant', async () => {
-			await create_user( get_test_base_user())
-			expect(create_user(get_test_base_user({email: 'Test@Test. Io'})))
+			await create_user(get_test_base_user_01())
+			expect(create_user(get_test_base_user_01({usual_email: 'Test@Test. Io'})))
 				.to.be.rejectedWith('duplicate')
 		})
 	})
@@ -46,7 +50,7 @@ describe(`${LIB} - users - create`, function() {
 	describe('create_netlify_user()', () => {
 		let test_user_id = -1
 		beforeEach(async () => {
-			test_user_id = await create_user(get_test_base_user())
+			test_user_id = await create_user(get_test_base_user_01())
 		})
 
 		it('should work in nominal condition', async () => {
@@ -66,7 +70,7 @@ describe(`${LIB} - users - create`, function() {
 		context('when it’s a new user', () => {
 
 			it('should work', async () => {
-				const { own_id, user_id } = await create_user_through_netlify(TEST_NETLIFY_ID, get_test_base_user(), get_db())
+				const { own_id, user_id } = await create_user_through_netlify(get_test_netlify_user_01(), get_db())
 				expect(own_id).to.equal(TEST_NETLIFY_ID)
 				expect(user_id).to.be.above(0)
 			})
@@ -75,8 +79,8 @@ describe(`${LIB} - users - create`, function() {
 		context('when this netlify user already exists', async () => {
 
 			it('should crash and not create duplicate data (transaction)', async () => {
-				await create_user_through_netlify(TEST_NETLIFY_ID, get_test_base_user(), get_db())
-				expect(create_user_through_netlify(TEST_NETLIFY_ID, get_test_base_user(), get_db()))
+				await create_user_through_netlify(get_test_netlify_user_01(), get_db())
+				expect(create_user_through_netlify(get_test_netlify_user_01(), get_db()))
 					.to.be.rejectedWith('duplicate')
 			})
 		})
@@ -85,8 +89,8 @@ describe(`${LIB} - users - create`, function() {
 
 			// REM: the "clever" implementation is "ensure_xxx"
 			it('should crash and not create duplicate data', async () => {
-				const existing_user_id = await create_user(get_test_base_user())
-				expect(create_user_through_netlify(TEST_NETLIFY_ID, get_test_base_user(), get_db()))
+				await create_user(get_test_base_user_01())
+				expect(create_user_through_netlify(get_test_netlify_user_01(), get_db()))
 					.to.be.rejectedWith('duplicate')
 			})
 		})

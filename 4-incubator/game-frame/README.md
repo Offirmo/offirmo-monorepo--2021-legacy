@@ -14,3 +14,8 @@ https://developers.google.com/web/tools/workbox/
 * TODO auto cloud save + QR code
 * TODO Google analytics
 * TODO chat
+
+
+https://tympanus.net/Development/SidebarTransitions/'
+https://github.com/codrops/OffCanvasMenuEffects
+https://tympanus.net/codrops/2014/09/16/off-canvas-menu-effects/
