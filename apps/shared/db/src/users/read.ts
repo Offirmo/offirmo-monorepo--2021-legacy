@@ -4,10 +4,8 @@ import get_db from '../db'
 
 import { NetlifyUser, PUser } from './types'
 import { TABLE_USERS } from './consts'
-import { normalize_email_full} from '../utils/email'
+import { normalize_email_full} from '../utils'
 import { sanitize_persisted } from './common'
-
-import logger from '../utils/logger'
 
 ////////////////////////////////////
 

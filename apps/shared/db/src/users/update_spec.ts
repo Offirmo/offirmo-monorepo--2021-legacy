@@ -2,19 +2,15 @@
 import {expect} from 'chai'
 
 import { LIB } from '../consts'
-import { BaseUser, PNetlifyUser } from './types'
 import get_db from '../db'
-import { delete_user_by_email } from './delete'
 import {
 	create_user,
 	netlify_to_base_user,
 } from './create'
 import {
 	ensure_user_through_netlify,
-	ensure_user_up_to_date,
 } from './update'
 import {
-	TEST_NETLIFY_ID,
 	get_test_base_user_01,
 	get_test_netlify_user_01,
 	cleanup,

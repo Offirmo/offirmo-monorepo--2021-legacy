@@ -2,7 +2,7 @@ import { NetlifyUser, BaseUser, PNetlifyUser } from "./types"
 import { delete_user_by_email } from "./delete"
 import { WithoutTimestamps } from "../types"
 import get_db from "../db"
-import { normalize_email_full, normalize_email_reasonable } from '../utils/email'
+import { normalize_email_reasonable } from '../utils'
 
 ////////////////////////////////////
 

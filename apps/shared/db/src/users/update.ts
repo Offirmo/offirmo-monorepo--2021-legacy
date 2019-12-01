@@ -1,7 +1,7 @@
 import assert from 'tiny-invariant'
 
 import get_db from '../db'
-import { BaseUser, NetlifyUser, PUser, PNetlifyUser } from './types'
+import { BaseUser, NetlifyUser, PUser } from './types'
 import { TABLE_USERS } from './consts'
 import { sanitize_persisted, extract_base_user } from './common'
 import { netlify_to_base_user, create_netlify_user, create_user_through_netlify } from './create'
@@ -10,7 +10,7 @@ import { logger, normalize_email_full, deep_equals } from "../utils";
 
 ////////////////////////////////////
 
-export function get_updated_user(
+function get_updated_user(
 	existing: Readonly<BaseUser>,
 	candidate: Readonly<BaseUser>,
 ): BaseUser {
@@ -36,7 +36,7 @@ export function get_updated_user(
 }
 
 
-export async function ensure_user_up_to_date(
+async function ensure_user_up_to_date(
 	existing_p: Readonly<PUser>,
 	candidate: Readonly<BaseUser>,
 	trx: ReturnType<typeof get_db>,
@@ -97,4 +97,3 @@ export async function ensure_user_through_netlify(
 
 	return ensure_user_up_to_date(user, netlify_to_base_user(data), trx)
 }
-

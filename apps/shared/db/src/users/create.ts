@@ -2,7 +2,7 @@ import Knex from 'knex'
 import assert from 'tiny-invariant'
 
 import { WithoutTimestamps } from '../types'
-import { normalize_email_reasonable, normalize_email_full, get_gravatar_url } from '../utils/email'
+import { normalize_email_reasonable, normalize_email_full } from '../utils/email'
 import get_db from '../db'
 import { NetlifyUser, BaseUser, PUser, PNetlifyUser, } from './types'
 import logger from '../utils/logger'

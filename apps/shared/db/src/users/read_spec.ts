@@ -3,10 +3,8 @@
 import {expect} from 'chai'
 
 import { LIB } from '../consts'
-import { BaseUser, PNetlifyUser } from './types'
 import get_db from '../db'
 import {
-	create_netlify_user,
 	create_user,
 	create_user_through_netlify,
 } from './create'

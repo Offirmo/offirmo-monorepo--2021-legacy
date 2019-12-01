@@ -84,6 +84,7 @@ bolt clean
 ## updates dependencies (minor + patch)
 bolt clean && rm -rf node_modules yarn.lock package-lock.json && bolt && yarn outdated     && bolt build
 npx yarn-tools list-duplicates yarn.lock
+yarn eslint:packages --fix
 
 ## serve for dev
 ngrok http -subdomain=offirmo 1234
