@@ -10,26 +10,47 @@ import { logger, normalize_email_full, deep_equals } from "../utils";
 
 ////////////////////////////////////
 
+export function get_updated_user(
+	existing: Readonly<BaseUser>,
+	candidate: Readonly<BaseUser>,
+): BaseUser {
+	existing = sanitize_persisted(existing)
+	candidate = sanitize_persisted(candidate)
+	//console.log('get_updated_user', { existing, candidate })
+
+	assert(
+		Object.keys(candidate).length === Object.keys(existing).length,
+		'get_updated_user: can’t compare, fields not matching!'
+	)
+
+	return extract_base_user({
+		...existing,
+		...candidate,
+		// those fields can be set but not replaced once set
+		called: existing.called || candidate.called,
+		usual_email: existing.usual_email || candidate.usual_email,
+		avatar_url: existing.avatar_url || candidate.avatar_url,
+		// this one is merged
+		roles: Array.from(new Set([...existing.roles, ...candidate.roles])),
+	})
+}
+
+
 export async function ensure_user_up_to_date(
 	existing_p: Readonly<PUser>,
 	candidate: Readonly<BaseUser>,
 	trx: ReturnType<typeof get_db>,
 ): Promise<PUser> {
 	const existing = extract_base_user(existing_p)
-	candidate = sanitize_persisted(candidate)
 	//console.log('ensure_user_up_to_date', { existing, candidate })
 
-	assert(
-		Object.keys(candidate).length === Object.keys(existing).length,
-		'ensure_user_up_to_date: can’t compare, fields not matching!'
-	)
+	candidate = get_updated_user(existing, candidate)
 
 	if (deep_equals(existing, candidate)) {
-		//console.log('ensure_user_up_to_date: all good ✔', deep_equals(existing, candidate))
+		//console.log('ensure_user_up_to_date: all good ✔')
 		return existing_p
 	}
 
-	//console.log('ensure_user_up_to_date: updating_', { id: existing_p.id, candidate })
 	await trx(TABLE_USERS)
 		.where({ id: existing_p.id })
 		.update(candidate)
@@ -37,7 +58,6 @@ export async function ensure_user_up_to_date(
 	return sanitize_persisted({
 		...existing_p,
 		...candidate,
-		roles: Array.from(new Set([...existing_p.roles, ...candidate.roles])),
 	})
 }
 
@@ -48,12 +68,12 @@ export async function ensure_user_through_netlify(
 	logger.log('ensuring user from its netlify data...', { data })
 
 	let user: PUser | null = await get_user_by_netlify(data, trx)
-	console.log('get_full_user_through_netlify #1', {user})
+	//console.log('ensure_user_through_netlify #1 / get_user_by_netlify', {user})
 
 	if (!user) {
 		// 1st time OR new login with a different system
 		user = await get_user_by_email(data.email, trx)
-		console.log('get_full_user_through_netlify #2', {user})
+		//console.log('ensure_user_through_netlify #2 / get_user_by_email', {user})
 	}
 
 	if (!user?.id) {

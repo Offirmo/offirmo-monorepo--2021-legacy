@@ -48,7 +48,7 @@ describe(`${LIB} - users - update`, function() {
 			expect(extract_base_user(user)).to.deep.equal(sanitize_persisted(base))
 		})
 
-		it.only('should update the existing user if any', async () => {
+		it('should update the existing user if any', async () => {
 			const old_base = get_test_base_user_01()
 			const existing_user_id = await create_user(old_base)
 
@@ -57,22 +57,29 @@ describe(`${LIB} - users - update`, function() {
 				roles: ['foo'],
 			})
 
+			const expected_final_data = {
+				...netlify_to_base_user(new_base_n),
+				called: sanitize_persisted(old_base).called, // not replaced once set
+				roles: [ 'foo', 'test' ] // merged
+			}
+
 			const user_through_netlify = await ensure_user_through_netlify(new_base_n, get_db())
+			// note: what is returned is inferred, must be = DB but technically not read from it
 			//console.log({ old_base, new_base_n, user_through_netlify })
 
 			expect(user_through_netlify.id).to.equal(existing_user_id)
 			expect(user_through_netlify.roles)
 				.to.deep.equal(Array.from(new Set([...old_base.roles, ...new_base_n.roles])).sort())
-			expect(extract_base_user(user_through_netlify), 'eu-nb').to.deep.equal(netlify_to_base_user(new_base_n))
+			expect(extract_base_user(user_through_netlify), 'eu-nb').to.deep.equal(expected_final_data)
 			expect(extract_base_user(user_through_netlify), 'eu-ob').not.to.deep.equal(sanitize_persisted(old_base))
 
+			// re-read from DB
 			const updated_user = await get_user_by_email(new_base_n.email)
-			console.log({user_through_netlify, updated_user})
+			//console.log('final test', {user_through_netlify, updated_user})
 			expect(updated_user).not.to.be.null
 			expect(updated_user!.id).to.equal(existing_user_id)
 			expect(extract_base_user(updated_user!), 'uu-ob').not.to.deep.equal(sanitize_persisted(old_base))
-			expect(extract_base_user(updated_user!), 'uu-nb').to.deep.equal(netlify_to_base_user(new_base_n))
-			expect(extract_base_user(updated_user!), 'uu-eu').to.deep.equal(extract_base_user(user_through_netlify))
+			expect(extract_base_user(updated_user!), 'uu-nb').to.deep.equal(expected_final_data)
 		})
 	})
 })

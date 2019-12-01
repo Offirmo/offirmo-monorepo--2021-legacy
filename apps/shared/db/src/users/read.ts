@@ -38,7 +38,7 @@ export async function get_user_by_netlify(
 		.from(TABLE_USERS)
 		.fullOuterJoin('users__netlify', {'users.id': 'users__netlify.user_id'})
 		.where('users__netlify.own_id', data.netlify_id)
-	console.log(`get_user_by_netlify(${data.netlify_id}): outer join raw result:`, raw_result)
+	//console.log(`get_user_by_netlify(${data.netlify_id}): outer join raw result:`, raw_result)
 
 	if (!raw_result || !raw_result.length) {
 		// don't check by email
