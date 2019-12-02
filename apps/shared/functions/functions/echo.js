@@ -81,12 +81,12 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 102);
+/******/ 	return __webpack_require__(__webpack_require__.s = 135);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 102:
+/***/ 135:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -96,10 +96,26 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-exports.handler = async (event, context) => {
+const netlify_1 = __webpack_require__(90);
+
+exports.handler = async (event, badly_typed_context) => {
+  const context = badly_typed_context;
+  let netlify_user_data;
+
+  try {
+    netlify_user_data = netlify_1.get_netlify_user_data(context);
+  } catch (err) {
+    netlify_user_data = {
+      err: {
+        message: err.message
+      }
+    };
+  }
+
   const all_the_things = JSON.stringify({
-    context,
+    badly_typed_context,
     event,
+    netlify_user_data,
     // https://devdocs.io/node/process
     process: {
       //argv: process.argv,
@@ -132,6 +148,92 @@ function filter_out_secrets(env) {
     return acc;
   }, {});
 }
+
+/***/ }),
+
+/***/ 18:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.CHANNEL = process.env.CHANNEL || (() => {
+  if (process.env.AWS_SECRET_ACCESS_KEY) return 'prod';
+  return  false ? undefined : 'prod';
+})();
+
+/***/ }),
+
+/***/ 90:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+const channel_1 = __webpack_require__(18);
+
+function ensure_netlify_logged_in(context) {
+  if (!context.clientContext) throw new Error('No/bad/outdated token [1]! (not logged in?)');
+
+  if (!context.clientContext.user) {
+    throw new Error('No/bad/outdated token [2]! (not logged in?)');
+  }
+}
+
+exports.ensure_netlify_logged_in = ensure_netlify_logged_in;
+
+function get_netlify_user_data(context) {
+  try {
+    ensure_netlify_logged_in(context);
+  } catch (err) {
+    if (err.message.includes('No/bad/outdated token') && channel_1.CHANNEL === 'dev') {
+      // pretend
+      context.clientContext.user = {
+        email: 'dev@online-adventur.es',
+        sub: 'fake-netlify-id',
+        app_metadata: {
+          provider: 'test',
+          roles: ['test']
+        },
+        user_metadata: {
+          avatar_url: undefined,
+          full_name: 'Fake User For Dev'
+        }
+      };
+    }
+  }
+
+  const {
+    email,
+    sub: netlify_id,
+    app_metadata: {
+      provider,
+      roles
+    },
+    user_metadata: {
+      avatar_url,
+      full_name
+    }
+  } = context.clientContext.user;
+  return {
+    netlify_id,
+    email,
+    provider,
+    roles: roles || [],
+    avatar_url,
+    full_name
+  };
+}
+
+exports.get_netlify_user_data = get_netlify_user_data;
 
 /***/ })
 
