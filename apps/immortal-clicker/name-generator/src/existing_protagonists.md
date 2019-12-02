@@ -1,5 +1,10 @@
 
+## Huaxia
+Sun Wukong
+Liu Ji commoner raised to emperor
+Zhang San = John Smith
 
+ 
 ## Iron Ladies
 Chang Pingbu bad guy
 Mu Siyun

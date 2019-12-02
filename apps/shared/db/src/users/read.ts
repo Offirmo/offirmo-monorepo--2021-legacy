@@ -9,7 +9,7 @@ import { sanitize_persisted } from './common'
 
 ////////////////////////////////////
 
-export async function get_user_by_email(
+export async function get_by_email(
 	email: string,
 	trx: ReturnType<typeof get_db> = get_db()
 ): Promise<null | PUser> {
@@ -20,15 +20,15 @@ export async function get_user_by_email(
 	if (!raw_result[0])
 		return null
 
-	return  sanitize_persisted(raw_result[0] as PUser)
+	return sanitize_persisted(raw_result[0] as PUser)
 }
 
 // returns null bc one should use "ensure user…" in actual code
-export async function get_user_by_netlify(
+export async function get_by_netlify(
 	data: Partial<NetlifyUser>, // partial as a convenience TODO review
 	trx: ReturnType<typeof get_db> = get_db()
 ): Promise<null | PUser> {
-	assert(data.netlify_id, 'get_user_by_netlify: Netlify Id is mandatory!') // can this be typed?
+	assert(data.netlify_id, 'get_by_netlify: Netlify Id is mandatory!') // can this be typed?
 
 	// TODO improve?
 	const raw_result = await trx
@@ -36,7 +36,7 @@ export async function get_user_by_netlify(
 		.from(TABLE_USERS)
 		.fullOuterJoin('users__netlify', {'users.id': 'users__netlify.user_id'})
 		.where('users__netlify.own_id', data.netlify_id)
-	//console.log(`get_user_by_netlify(${data.netlify_id}): outer join raw result:`, raw_result)
+	//console.log(`get_by_netlify(${data.netlify_id}): outer join raw result:`, raw_result)
 
 	if (!raw_result || !raw_result.length) {
 		// don't check by email

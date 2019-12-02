@@ -1,19 +1,31 @@
 import {
 	APIGatewayEvent,
 	Context,
-	NetlifyContext,
 	Response,
-	NetlifyHandler,
+	NetlifyHandler, NetlifyContext,
 } from './sub/types'
+import { get_netlify_user_data } from "./sub/netlify"
 
 
 export const handler: NetlifyHandler = async (
 	event: APIGatewayEvent,
-	context: Context,
+	badly_typed_context: Context,
 ): Promise<Response> => {
+	const context: NetlifyContext = badly_typed_context as any
+
+	let netlify_user_data: any
+	try {
+		netlify_user_data = get_netlify_user_data(context)
+	}
+	catch (err) {
+		netlify_user_data = { err: { message: err.message } }
+	}
+
+
 	const all_the_things = JSON.stringify({
-		context,
+		badly_typed_context,
 		event,
+		netlify_user_data,
 		// https://devdocs.io/node/process
 		process: {
 			//argv: process.argv,

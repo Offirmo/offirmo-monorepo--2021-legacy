@@ -1,5 +1,5 @@
 import { NetlifyUser, BaseUser, PNetlifyUser } from "./types"
-import { delete_user_by_email } from "./delete"
+import { delete_by_email } from "./delete"
 import { WithoutTimestamps } from "../types"
 import get_db from "../db"
 import { normalize_email_reasonable } from '../utils'
@@ -47,13 +47,14 @@ export function get_test_base_netlify_user(user_id: number, netlify_id: string =
 export async function cleanup() {
 	//console.log('>>> user create test cleanup')
 	// REM: this will cascade users--xxx deletion
-	await delete_user_by_email(get_test_base_user_01().usual_email)
+	await delete_by_email(get_test_base_user_01().usual_email)
 }
 
 ////////////////////////////////////
 
 // https://github.com/Vincit/objection.js/issues/534#issuecomment-334258236
 after(async () => {
+	await cleanup()
 	console.log('* All tests ended, terminating knex…')
 	await get_db().destroy()
 })

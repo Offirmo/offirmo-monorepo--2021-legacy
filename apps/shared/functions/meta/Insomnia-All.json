@@ -1,0 +1,421 @@
+{
+	"_type": "export",
+	"__export_format": 4,
+	"__export_date": "2019-12-02T07:22:21.676Z",
+	"__export_source": "insomnia.desktop.app:v7.0.3",
+	"resources": [
+		{
+			"_id": "req_59b46016a7d845be8ed139d9f5c6ad15",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\"hello\": true}"
+			},
+			"created": 1551064689162,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_42a8f6072f104eaa97a446c0cb11c4b7",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1551064689162,
+			"method": "POST",
+			"modified": 1551064735647,
+			"name": "mailer",
+			"parameters": [],
+			"parentId": "wrk_47a4e8650d5c4b3dbc01d9fbac480912",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "172.22.80.200:26949/v2/render?internalThymeleaf=true",
+			"_type": "request"
+		},
+		{
+			"_id": "wrk_47a4e8650d5c4b3dbc01d9fbac480912",
+			"created": 1549081940683,
+			"description": "",
+			"modified": 1549081940683,
+			"name": "Insomnia",
+			"parentId": null,
+			"_type": "workspace"
+		},
+		{
+			"_id": "req_2a6e0d508b4b4ba8bb5a5de978a4311b",
+			"authentication": {},
+			"body": {},
+			"created": 1549081986537,
+			"description": "",
+			"headers": [],
+			"isPrivate": false,
+			"metaSortKey": -1549081986537,
+			"method": "GET",
+			"modified": 1575256394696,
+			"name": "/hello",
+			"parameters": [],
+			"parentId": "fld_b42f47d22ddd49c6b720a114770da50d",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "{{ host  }}/hello",
+			"_type": "request"
+		},
+		{
+			"_id": "fld_b42f47d22ddd49c6b720a114770da50d",
+			"created": 1549081977241,
+			"description": "",
+			"environment": {},
+			"environmentPropertyOrder": null,
+			"metaSortKey": -1549081977241,
+			"modified": 1575253699567,
+			"name": "online-adventur.es",
+			"parentId": "wrk_47a4e8650d5c4b3dbc01d9fbac480912",
+			"_type": "request_group"
+		},
+		{
+			"_id": "req_d3066e06f46c489b8b7ceafc7a4a723f",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"hello\": 42\n}"
+			},
+			"created": 1549082956615,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_be6cba59ee224509b9b28c173365ce42",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1549081986487,
+			"method": "GET",
+			"modified": 1575256398145,
+			"name": "/echo",
+			"parameters": [
+				{
+					"id": "pair_9eb7f487ee0e4059968d0e97db480063",
+					"name": "foo",
+					"value": "bar"
+				}
+			],
+			"parentId": "fld_b42f47d22ddd49c6b720a114770da50d",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "{{ host  }}/echo",
+			"_type": "request"
+		},
+		{
+			"_id": "req_1a136093787a4d0ebe7d7ccf0862cb3b",
+			"authentication": {},
+			"body": {},
+			"created": 1549082974261,
+			"description": "",
+			"headers": [],
+			"isPrivate": false,
+			"metaSortKey": -1549081986437,
+			"method": "GET",
+			"modified": 1575266652213,
+			"name": "/report-error",
+			"parameters": [
+				{
+					"id": "pair_d5f717fef61a48938d173f3599cf04da",
+					"name": "message",
+					"value": "test"
+				}
+			],
+			"parentId": "fld_b42f47d22ddd49c6b720a114770da50d",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "{{ host  }}/report-error",
+			"_type": "request"
+		},
+		{
+			"_id": "req_6fa266be5f1749519e47b82900a150fa",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"jsonrpc\": \"2.0\",\n\t\"id\": \"foo\",\n\t\"method\": \"sync\",\n\t\"params\": {\n\t\t\"foo\": \"bar\"\n\t} \n}"
+			},
+			"created": 1549085431390,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_2828add8e4754169962e5f05fb10a7ac",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1549081986387,
+			"method": "PUT",
+			"modified": 1575256439241,
+			"name": "/tbrpg-rpc",
+			"parameters": [],
+			"parentId": "fld_b42f47d22ddd49c6b720a114770da50d",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "{{ host  }}/tbrpg-rpc",
+			"_type": "request"
+		},
+		{
+			"_id": "req_7bb8f280fe4a4646a0309a433196fa85",
+			"authentication": {},
+			"body": {},
+			"created": 1549085442134,
+			"description": "",
+			"headers": [],
+			"isPrivate": false,
+			"metaSortKey": -1549081986337,
+			"method": "GET",
+			"modified": 1575256435849,
+			"name": "/whoami",
+			"parameters": [],
+			"parentId": "fld_b42f47d22ddd49c6b720a114770da50d",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "{{ host  }}/whoami",
+			"_type": "request"
+		},
+		{
+			"_id": "req_67f4f029843040e4b3fa1d9f3f73f65c",
+			"authentication": {},
+			"body": {},
+			"created": 1570659190188,
+			"description": "",
+			"headers": [],
+			"isPrivate": false,
+			"metaSortKey": -1549081986412,
+			"method": "GET",
+			"modified": 1575256400960,
+			"name": "/test",
+			"parameters": [
+				{
+					"disabled": true,
+					"id": "pair_712d4ade147f4f6a90ec526dd185bb4e",
+					"name": "mode",
+					"value": "none"
+				},
+				{
+					"disabled": true,
+					"id": "pair_fb74ab02e43d4c7a93f4c15658f24e2b",
+					"name": "mode",
+					"value": "manual"
+				},
+				{
+					"disabled": true,
+					"id": "pair_cfc0483a98fb4f088346b1c42af498d4",
+					"name": "mode",
+					"value": "uncaught-sync"
+				},
+				{
+					"disabled": true,
+					"id": "pair_3b36675b07e4400692c21c606da870ed",
+					"name": "mode",
+					"value": "uncaught-async"
+				},
+				{
+					"disabled": true,
+					"id": "pair_9a0bbaf6e1234beaa8d71e0b143ff23d",
+					"name": "mode",
+					"value": "timeout"
+				},
+				{
+					"disabled": true,
+					"id": "pair_17ecce73621a4e3e97646667c294bf75",
+					"name": "mode",
+					"value": "unhandled-rejection"
+				},
+				{
+					"disabled": true,
+					"id": "pair_dfa3bfd05cee4d2aa3e5279918e2cd8c",
+					"name": "mode",
+					"value": "mess-with-response"
+				},
+				{
+					"disabled": false,
+					"id": "pair_672094f00ba045418b940d1814e9d957",
+					"name": "mode",
+					"value": "non-stringified-body"
+				}
+			],
+			"parentId": "fld_b42f47d22ddd49c6b720a114770da50d",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "{{ host  }}/test",
+			"_type": "request"
+		},
+		{
+			"_id": "req_96be3ce9fe2b4537bf2e876cc5ad9265",
+			"authentication": {},
+			"body": {},
+			"created": 1575256106131,
+			"description": "",
+			"headers": [],
+			"isPrivate": false,
+			"metaSortKey": -1549081986424.5,
+			"method": "GET",
+			"modified": 1575266658306,
+			"name": "/error",
+			"parameters": [
+				{
+					"disabled": true,
+					"id": "pair_712d4ade147f4f6a90ec526dd185bb4e",
+					"name": "mode",
+					"value": "none"
+				},
+				{
+					"disabled": false,
+					"id": "pair_fb74ab02e43d4c7a93f4c15658f24e2b",
+					"name": "mode",
+					"value": "manual"
+				},
+				{
+					"disabled": true,
+					"id": "pair_cfc0483a98fb4f088346b1c42af498d4",
+					"name": "mode",
+					"value": "uncaught-sync"
+				},
+				{
+					"disabled": true,
+					"id": "pair_3b36675b07e4400692c21c606da870ed",
+					"name": "mode",
+					"value": "uncaught-async"
+				},
+				{
+					"disabled": true,
+					"id": "pair_9a0bbaf6e1234beaa8d71e0b143ff23d",
+					"name": "mode",
+					"value": "timeout"
+				},
+				{
+					"disabled": true,
+					"id": "pair_17ecce73621a4e3e97646667c294bf75",
+					"name": "mode",
+					"value": "unhandled-rejection"
+				},
+				{
+					"disabled": true,
+					"id": "pair_dfa3bfd05cee4d2aa3e5279918e2cd8c",
+					"name": "mode",
+					"value": "mess-with-response"
+				},
+				{
+					"disabled": true,
+					"id": "pair_672094f00ba045418b940d1814e9d957",
+					"name": "mode",
+					"value": "non-stringified-body"
+				}
+			],
+			"parentId": "fld_b42f47d22ddd49c6b720a114770da50d",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "{{ host  }}/test",
+			"_type": "request"
+		},
+		{
+			"_id": "env_a8c453ab171e4ce28742f8fa5b86a97b",
+			"color": null,
+			"created": 1549081940729,
+			"data": {},
+			"dataPropertyOrder": null,
+			"isPrivate": false,
+			"metaSortKey": 1549081940729,
+			"modified": 1549081940729,
+			"name": "New Environment",
+			"parentId": "wrk_47a4e8650d5c4b3dbc01d9fbac480912",
+			"_type": "environment"
+		},
+		{
+			"_id": "jar_4e06183984fe40e3a8be135708fbebba",
+			"cookies": [],
+			"created": 1549081940731,
+			"modified": 1549081940731,
+			"name": "Default Jar",
+			"parentId": "wrk_47a4e8650d5c4b3dbc01d9fbac480912",
+			"_type": "cookie_jar"
+		},
+		{
+			"_id": "env_a1a8559184744c949154e301b6752873",
+			"color": null,
+			"created": 1549081956568,
+			"data": {
+				"host": "http://localhost:9000"
+			},
+			"dataPropertyOrder": {
+				"&": [
+					"host"
+				]
+			},
+			"isPrivate": false,
+			"metaSortKey": 1549081956568,
+			"modified": 1575255536946,
+			"name": "Dev (localhost)",
+			"parentId": "env_a8c453ab171e4ce28742f8fa5b86a97b",
+			"_type": "environment"
+		},
+		{
+			"_id": "env_43117254096c41f1ac6b332149e87fa1",
+			"color": null,
+			"created": 1575255511284,
+			"data": {
+				"host": "https://offirmo-monorepo.netlify.com/.netlify/functions"
+			},
+			"dataPropertyOrder": {
+				"&": [
+					"host"
+				]
+			},
+			"isPrivate": false,
+			"metaSortKey": 1575255511284,
+			"modified": 1575255543898,
+			"name": "Staging (monorepo)",
+			"parentId": "env_a8c453ab171e4ce28742f8fa5b86a97b",
+			"_type": "environment"
+		},
+		{
+			"_id": "env_04dd59e44d0b4a6c96f3530e5d8cc8a2",
+			"color": null,
+			"created": 1575255546348,
+			"data": {
+				"host": "https://www.online-adventur.es/.netlify/functions"
+			},
+			"dataPropertyOrder": {
+				"&": [
+					"host"
+				]
+			},
+			"isPrivate": false,
+			"metaSortKey": 1575255546348,
+			"modified": 1575255629222,
+			"name": "Prod (oa)",
+			"parentId": "env_a8c453ab171e4ce28742f8fa5b86a97b",
+			"_type": "environment"
+		}
+	]
+}

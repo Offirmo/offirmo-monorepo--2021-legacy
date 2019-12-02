@@ -55,19 +55,17 @@ export function sanitize_persisted<T extends BaseUser>(
 export function infer_defaults_from_persisted(
 	data: Readonly<PUser>,
 ): User {
-	const { id, created_at, updated_at, ...base } = data
+	const { id, created_at, updated_at, ...base } = sanitize_persisted(data)
 
 	return {
 		...base,
 		called: base.called || infer_called(base),
-		usual_email: normalize_email_reasonable(base.usual_email),
-		normalized_email: normalize_email_full(base.usual_email),
 		avatar_url: data.avatar_url || infer_avatar_url(base),
 		roles: Array.from(new Set([...data.roles, ...DEFAULT_ROLES])),
 	}
 }
 
-export function extract_base_user<T extends BaseUser>(user: Readonly<T>): BaseUser {
+export function extract_base<T extends BaseUser>(user: Readonly<T>): BaseUser {
 	const {
 		called,
 		usual_email,

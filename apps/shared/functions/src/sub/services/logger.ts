@@ -5,7 +5,6 @@ import { CHANNEL } from './channel'
 
 /////////////////////////////////////////////////
 
-//const logger = (CHANNEL === 'dev' ? create_node : create_core)({
 const logger = getLogger({
 	name: APP,
 	suggestedLevel: CHANNEL === 'dev' ? 'silly' : 'warning',

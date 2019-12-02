@@ -33,8 +33,8 @@ interface NetlifyClientContext extends Omit<ClientContext, 'env'> {
 		email: string,
 		sub: string // seems to be an UUID
 		user_metadata: {
-			avatar_url: string
-			full_name: string
+			avatar_url?: string
+			full_name?: string
 		}
 	}
 }

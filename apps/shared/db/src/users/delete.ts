@@ -1,11 +1,11 @@
 import { TABLE_USERS } from './consts'
-import { normalize_email_full } from '../utils/email'
+import { normalize_email_full } from '../utils'
 import get_db from '../db'
 import logger from '../utils/logger'
 
 ////////////////////////////////////
 
-export async function delete_user_by_email(
+export async function delete_by_email(
 	email: string,
 	trx: ReturnType<typeof get_db> = get_db()
 ): Promise<void> {

@@ -1,27 +1,41 @@
 import {
 	NetlifyContext,
-} from '../sub/types'
+} from './types'
+import { CHANNEL } from './services/channel'
+import { Users } from '@offirmo-private/db'
 
-
-export function ensure_netlify_logged_in(context: NetlifyContext) {
+export function ensure_netlify_logged_in(context: Readonly<NetlifyContext>) {
 	if (!context.clientContext)
 		throw new Error('No/bad/outdated token [1]! (not logged in?)')
 
-	if (!context.clientContext.user)
+	if (!context.clientContext.user) {
 		throw new Error('No/bad/outdated token [2]! (not logged in?)')
+	}
 }
 
-export interface NetlifyUserData {
-	netlify_id: string
-	email: string
-	provider: string
-	roles: string[]
-	avatar_url: undefined | string
-	full_name: string
-}
+export type NetlifyUserData = Users.NetlifyUser
 
 export function get_netlify_user_data(context: NetlifyContext): NetlifyUserData {
-	ensure_netlify_logged_in(context)
+	try {
+		ensure_netlify_logged_in(context)
+	}
+	catch (err ) {
+		if (err.message.includes('No/bad/outdated token') && CHANNEL === 'dev') {
+			// pretend
+			context.clientContext.user = {
+				email: 'dev@online-adventur.es',
+				sub: 'fake-netlify-id',
+				app_metadata: {
+					provider: 'test',
+					roles: [ 'test'],
+				},
+				user_metadata: {
+					avatar_url: undefined,
+					full_name: 'Fake User For Dev',
+				},
+			}
+		}
+	}
 
 	const {
 		email,

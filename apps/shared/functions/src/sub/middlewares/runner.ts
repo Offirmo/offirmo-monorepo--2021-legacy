@@ -15,6 +15,7 @@ import { MiddleWare} from './types'
 import {create_error} from "../utils";
 
 
+// note: deducted from the overall running budget
 const MARGIN_AND_SENTRY_BUDGET_MS = CHANNEL === 'dev' ? 5000 : 1000
 
 

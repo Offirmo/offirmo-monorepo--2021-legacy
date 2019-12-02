@@ -6,11 +6,11 @@ import { LIB } from '../consts'
 import get_db from '../db'
 import {
 	create_user,
-	create_user_through_netlify,
+	create_through_netlify,
 } from './create'
 import {
-	get_user_by_netlify,
-	get_user_by_email,
+	get_by_netlify,
+	get_by_email,
 } from './read'
 import {
 	TEST_NETLIFY_ID,
@@ -26,13 +26,13 @@ describe(`${LIB} - users - read`, () => {
 	before(cleanup)
 	afterEach(cleanup)
 
-	describe('get_user_by_email()', function () {
+	describe('get_by_email()', function () {
 
 		it('should work if existing', async () => {
 			const base = get_test_base_user_01()
 			const id = await create_user(base)
 
-			const user = await get_user_by_email(base.usual_email)
+			const user = await get_by_email(base.usual_email)
 			expect(user).not.to.be.null
 			//console.log(user)
 			expect(user!.id).to.equal(id)
@@ -56,25 +56,25 @@ describe(`${LIB} - users - read`, () => {
 		it('should work if NOT existing', async () => {
 			const base = get_test_base_user_01()
 
-			const user = await get_user_by_email(base.usual_email)
+			const user = await get_by_email(base.usual_email)
 			expect(user).to.be.null
 		})
 	})
 
-	describe('get_user_by_netlify()', function () {
+	describe('get_by_netlify()', function () {
 
 		it('should work when all existing', async () => {
 			const base = get_test_netlify_user_01()
-			const cres = await create_user_through_netlify(base, get_db())
+			const cres = await create_through_netlify(base, get_db())
 			console.log({ cres })
 
-			const user = await get_user_by_netlify({netlify_id: TEST_NETLIFY_ID})
+			const user = await get_by_netlify({netlify_id: TEST_NETLIFY_ID})
 			//console.log({ user })
 			expect(user?.id).to.equal(cres.user_id)
 		})
 
 		it('should return null when NO Netlify user NOR user', async () => {
-			const user = await get_user_by_netlify({netlify_id: TEST_NETLIFY_ID})
+			const user = await get_by_netlify({netlify_id: TEST_NETLIFY_ID})
 			expect(user).to.be.null
 		})
 
@@ -82,7 +82,7 @@ describe(`${LIB} - users - read`, () => {
 			const base = get_test_base_user_01()
 			const user_id = await create_user(base)
 
-			const user = await get_user_by_netlify({netlify_id: TEST_NETLIFY_ID, email: base.usual_email})
+			const user = await get_by_netlify({netlify_id: TEST_NETLIFY_ID, email: base.usual_email})
 			expect(user).to.be.null
 		})
 	})
@@ -92,7 +92,7 @@ describe(`${LIB} - users - read`, () => {
 			const base = get_test_base_user_01()
 			await create_user(base)
 
-			const user = await get_user_by_email(base.usual_email)
+			const user = await get_by_email(base.usual_email)
 
 			const {
 				called,

@@ -7,7 +7,7 @@ import get_db from '../db'
 import {
 	create_netlify_user,
 	create_user,
-	create_user_through_netlify,
+	create_through_netlify,
 } from './create'
 import {
 	TEST_NETLIFY_ID,
@@ -65,12 +65,12 @@ describe(`${LIB} - users - create`, function() {
 		})
 	})
 
-	describe('create_user_through_netlify()', () => {
+	describe('create_through_netlify()', () => {
 
 		context('when it’s a new user', () => {
 
 			it('should work', async () => {
-				const { own_id, user_id } = await create_user_through_netlify(get_test_netlify_user_01(), get_db())
+				const { own_id, user_id } = await create_through_netlify(get_test_netlify_user_01(), get_db())
 				expect(own_id).to.equal(TEST_NETLIFY_ID)
 				expect(user_id).to.be.above(0)
 			})
@@ -79,8 +79,8 @@ describe(`${LIB} - users - create`, function() {
 		context('when this netlify user already exists', async () => {
 
 			it('should crash and not create duplicate data (transaction)', async () => {
-				await create_user_through_netlify(get_test_netlify_user_01(), get_db())
-				expect(create_user_through_netlify(get_test_netlify_user_01(), get_db()))
+				await create_through_netlify(get_test_netlify_user_01(), get_db())
+				expect(create_through_netlify(get_test_netlify_user_01(), get_db()))
 					.to.be.rejectedWith('duplicate')
 			})
 		})
@@ -90,7 +90,7 @@ describe(`${LIB} - users - create`, function() {
 			// REM: the "clever" implementation is "ensure_xxx"
 			it('should crash and not create duplicate data', async () => {
 				await create_user(get_test_base_user_01())
-				expect(create_user_through_netlify(get_test_netlify_user_01(), get_db()))
+				expect(create_through_netlify(get_test_netlify_user_01(), get_db()))
 					.to.be.rejectedWith('duplicate')
 			})
 		})

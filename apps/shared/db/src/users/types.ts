@@ -20,10 +20,10 @@ export interface User extends NonNullable<BaseUser> {
 export interface NetlifyUser {
 	netlify_id: string
 	email: string
-	provider: string
+	provider?: string
 	roles: string[]
 	avatar_url?: string
-	full_name: string
+	full_name?: string
 }
 
 /////////////////////

@@ -5,8 +5,9 @@ import {
 	listenToUnhandledRejections,
 	decorateWithDetectedEnv,
 } from '@offirmo-private/soft-execution-context-node'
-import { XError } from '../utils'
+import { Users } from '@offirmo-private/db'
 
+import { XError } from '../utils'
 import { APP } from '../consts'
 import { CHANNEL } from './channel'
 import logger from './logger'
@@ -15,6 +16,8 @@ import logger from './logger'
 
 export interface Injections extends BaseInjections {
 	logger: Logger
+	user_p?: Users.PUser
+	user?: Users.User
 }
 
 export type XSoftExecutionContext = SoftExecutionContext<Injections>
@@ -53,7 +56,6 @@ SEC.emitter.on('analytics', function onAnalytics({SEC, eventId, details}) {
 //console.log('unhandledRejection Listeners:', process.listenerCount('unhandledRejection'))
 process.listeners('uncaughtException').forEach(l => process.off('uncaughtException', l))
 process.listeners('unhandledRejection').forEach(l => process.off('unhandledRejection', l))
-
 listenToUncaughtErrors()
 listenToUnhandledRejections()
 

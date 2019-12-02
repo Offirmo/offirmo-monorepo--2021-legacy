@@ -19,7 +19,6 @@ export function netlify_to_base_user(input: Readonly<NetlifyUser>): BaseUser {
 	})
 }
 
-
 export async function create_user(
 	data: Readonly<BaseUser>,
 	trx: ReturnType<typeof get_db> = get_db()
@@ -58,12 +57,12 @@ export async function create_netlify_user(
 	return { own_id, user_id }
 }
 
-export async function create_user_through_netlify(
+export async function create_through_netlify(
 	data: Readonly<NetlifyUser>,
 	trx: ReturnType<typeof get_db>
 ): Promise<Readonly<WithoutTimestamps<PNetlifyUser>>> {
 	logger.log('creating user through Netlify...', { data })
-	assert(data.netlify_id, 'create_user_through_netlify: Netlify Id is mandatory!') // can this be typed?
+	assert(data.netlify_id, 'create_through_netlify: Netlify Id is mandatory!') // can this be typed?
 
 	const user_id = await create_user(netlify_to_base_user(data), trx)
 	const netlify_user: WithoutTimestamps<PNetlifyUser> = {
