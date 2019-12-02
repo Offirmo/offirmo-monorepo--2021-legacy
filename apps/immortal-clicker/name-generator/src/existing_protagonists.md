@@ -3,6 +3,8 @@
 Sun Wukong
 Liu Ji commoner raised to emperor
 Zhang San = John Smith
+Gan Jiang
+Mo Ye
 
  
 ## Iron Ladies

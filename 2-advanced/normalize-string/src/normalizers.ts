@@ -3,6 +3,14 @@ import { combine_normalizers } from './normalize'
 
 /////////////////////
 
+function default_to(def = ''): StringNormalizer {
+	return (s: string): string => s ? s : ''
+}
+
+const default_to_empty = default_to('')
+
+const ensure_string: StringNormalizer = s => String(s)
+
 const capitalize: StringNormalizer = s => s.length === 0
 	? s
 	: s[0].toUpperCase() + s.slice(1)
@@ -53,6 +61,8 @@ const coerce_to_redeemable_code = combine_normalizers(
 /////////////////////
 
 const NORMALIZERS: Readonly<{ [key: string]: StringNormalizer }> = {
+	default_to_empty,
+	ensure_string,
 	capitalize,
 	to_lower_case,
 	to_upper_case,
@@ -70,4 +80,5 @@ const NORMALIZERS: Readonly<{ [key: string]: StringNormalizer }> = {
 
 export {
 	NORMALIZERS,
+	default_to,
 }

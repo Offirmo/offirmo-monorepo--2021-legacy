@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 138);
+/******/ 	return __webpack_require__(__webpack_require__.s = 144);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1404,7 +1404,7 @@ exports.CHANNEL = process.env.CHANNEL || (() => {
 var net = __webpack_require__(43);
 var tls = __webpack_require__(44);
 var url = __webpack_require__(14);
-var assert = __webpack_require__(32);
+var assert = __webpack_require__(31);
 var Agent = __webpack_require__(52);
 var inherits = __webpack_require__(5).inherits;
 var debug = __webpack_require__(57)('https-proxy-agent');
@@ -1664,7 +1664,7 @@ module.exports = require("domain");
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(3);
-/* harmony import */ var _span__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(35);
+/* harmony import */ var _span__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(34);
 
 
 
@@ -2088,20 +2088,19 @@ function isMatchingPattern(value, pattern) {
 /* 27 */,
 /* 28 */,
 /* 29 */,
-/* 30 */,
-/* 31 */
+/* 30 */
 /***/ (function(module, exports) {
 
 module.exports = require("tty");
 
 /***/ }),
-/* 32 */
+/* 31 */
 /***/ (function(module, exports) {
 
 module.exports = require("assert");
 
 /***/ }),
-/* 33 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2357,13 +2356,13 @@ module.exports = setup;
 
 
 /***/ }),
-/* 34 */
+/* 33 */
 /***/ (function(module, exports) {
 
 module.exports = require("module");
 
 /***/ }),
-/* 35 */
+/* 34 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2447,7 +2446,7 @@ var Span = /** @class */ (function () {
 //# sourceMappingURL=span.js.map
 
 /***/ }),
-/* 36 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -2762,7 +2761,7 @@ LRUMap.prototype.toString = function() {
 
 
 /***/ }),
-/* 37 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2964,6 +2963,7 @@ function tryDecode(str, decode) {
 
 
 /***/ }),
+/* 37 */,
 /* 38 */,
 /* 39 */,
 /* 40 */,
@@ -4982,7 +4982,7 @@ function localstorage() {
   }
 }
 
-module.exports = __webpack_require__(33)(exports);
+module.exports = __webpack_require__(32)(exports);
 var formatters = module.exports.formatters;
 /**
  * Map %j to `JSON.stringify()`, since no Web Inspectors do that by default.
@@ -5176,7 +5176,7 @@ function plural(ms, msAbs, n, name) {
 /**
  * Module dependencies.
  */
-var tty = __webpack_require__(31);
+var tty = __webpack_require__(30);
 
 var util = __webpack_require__(5);
 /**
@@ -5325,7 +5325,7 @@ function init(debug) {
   }
 }
 
-module.exports = __webpack_require__(33)(exports);
+module.exports = __webpack_require__(32)(exports);
 var formatters = module.exports.formatters;
 /**
  * Map %o to `util.inspect()`, all on a single line.
@@ -5502,7 +5502,7 @@ var Status;
 var esm_scope = __webpack_require__(22);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/hub/esm/hub.js
-var esm_hub = __webpack_require__(91);
+var esm_hub = __webpack_require__(92);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/minimal/esm/index.js
 
@@ -5670,7 +5670,7 @@ function _callOnClient(method) {
 }
 //# sourceMappingURL=index.js.map
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/hub/esm/span.js
-var esm_span = __webpack_require__(35);
+var esm_span = __webpack_require__(34);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/logger.js
 var logger = __webpack_require__(66);
@@ -6488,7 +6488,7 @@ function basename(path, ext) {
 var external_fs_ = __webpack_require__(7);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/lru_map/lru.js
-var lru = __webpack_require__(36);
+var lru = __webpack_require__(35);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/stacktrace.js
 /**
@@ -7565,7 +7565,7 @@ var console_Console = /** @class */ (function () {
      * @inheritDoc
      */
     Console.prototype.setupOnce = function () {
-        var nativeModule = __webpack_require__(34);
+        var nativeModule = __webpack_require__(33);
         Object(object["b" /* fill */])(nativeModule, '_load', loadWrapper(nativeModule));
         // special case: since console is built-in and app-level code won't require() it, do that here
         __webpack_require__(62);
@@ -7656,7 +7656,7 @@ var http_Http = /** @class */ (function () {
      * @inheritDoc
      */
     Http.prototype.setupOnce = function () {
-        var nativeModule = __webpack_require__(34);
+        var nativeModule = __webpack_require__(33);
         Object(object["b" /* fill */])(nativeModule, '_load', http_loadWrapper(nativeModule));
         // observation: when the https module does its own require('http'), it *does not* hit our hooked require to instrument http on the fly
         // but if we've previously instrumented http, https *does* get our already-instrumented version
@@ -7792,7 +7792,7 @@ function forget(promise) {
 }
 //# sourceMappingURL=async.js.map
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/cookie/index.js
-var cookie = __webpack_require__(37);
+var cookie = __webpack_require__(36);
 
 // EXTERNAL MODULE: external "os"
 var external_os_ = __webpack_require__(16);
@@ -8706,7 +8706,8 @@ var logger = global.__SENTRY__.logger || (global.__SENTRY__.logger = new Logger(
 /* 88 */,
 /* 89 */,
 /* 90 */,
-/* 91 */
+/* 91 */,
+/* 92 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9155,7 +9156,6 @@ function setHubOnCarrier(carrier, hub) {
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(51)(module)))
 
 /***/ }),
-/* 92 */,
 /* 93 */,
 /* 94 */,
 /* 95 */,
@@ -9201,7 +9201,13 @@ function setHubOnCarrier(carrier, hub) {
 /* 135 */,
 /* 136 */,
 /* 137 */,
-/* 138 */
+/* 138 */,
+/* 139 */,
+/* 140 */,
+/* 141 */,
+/* 142 */,
+/* 143 */,
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

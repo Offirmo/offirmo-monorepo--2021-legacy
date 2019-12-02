@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 139);
+/******/ 	return __webpack_require__(__webpack_require__.s = 145);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -318,7 +318,7 @@ module.exports = require("http");
 
 /***/ }),
 
-/***/ 132:
+/***/ 138:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -373,7 +373,7 @@ const Method = Object(dist["Enum"])('echo', // for tests
 
 /***/ }),
 
-/***/ 139:
+/***/ 145:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -385,13 +385,13 @@ Object.defineProperty(exports, "__esModule", {
 
 const typescript_string_enums_1 = __webpack_require__(23);
 
-const interfaces_1 = __webpack_require__(132);
+const interfaces_1 = __webpack_require__(138);
 
 const consts_1 = __webpack_require__(38);
 
-const utils_1 = __webpack_require__(28);
+const utils_1 = __webpack_require__(27);
 
-const tbrpg_1 = __webpack_require__(140); ////////////////////////////////////
+const tbrpg_1 = __webpack_require__(146); ////////////////////////////////////
 
 
 const handler = async (event, badly_typed_context) => {
@@ -509,7 +509,7 @@ function parse_jsonrpc_requests(res, event) {
 
 /***/ }),
 
-/***/ 140:
+/***/ 146:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -521,13 +521,13 @@ Object.defineProperty(exports, "__esModule", {
 
 const tslib_1 = __webpack_require__(0);
 
-const utils_1 = __webpack_require__(28);
+const utils_1 = __webpack_require__(27);
 
-const interfaces_1 = __webpack_require__(132);
+const interfaces_1 = __webpack_require__(138);
 
-const echo_1 = tslib_1.__importDefault(__webpack_require__(141));
+const echo_1 = tslib_1.__importDefault(__webpack_require__(147));
 
-const sync_1 = tslib_1.__importDefault(__webpack_require__(142));
+const sync_1 = tslib_1.__importDefault(__webpack_require__(148));
 
 function process_rpc(req, res) {
   const {
@@ -555,7 +555,7 @@ exports.process_rpc = process_rpc;
 
 /***/ }),
 
-/***/ 141:
+/***/ 147:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -583,7 +583,7 @@ exports.default = handle;
 
 /***/ }),
 
-/***/ 142:
+/***/ 148:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -666,7 +666,7 @@ exports.Enum = Enum;
 
 /***/ }),
 
-/***/ 28:
+/***/ 27:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -710,7 +710,7 @@ exports.create_error = create_error;
 
 /***/ }),
 
-/***/ 30:
+/***/ 29:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -774,7 +774,7 @@ exports.get_default_JsonRpc_error = get_default_JsonRpc_error;
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _field_set__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(30);
+/* harmony import */ var _field_set__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(29);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "COMMON_ERROR_FIELDS", function() { return _field_set__WEBPACK_IMPORTED_MODULE_0__["a"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "create", function() { return _field_set__WEBPACK_IMPORTED_MODULE_0__["b"]; });

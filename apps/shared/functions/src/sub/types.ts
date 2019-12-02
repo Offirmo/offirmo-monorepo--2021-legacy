@@ -29,8 +29,9 @@ interface NetlifyClientContext extends Omit<ClientContext, 'env'> {
 		app_metadata: {
 			provider: string
 			roles?: string[]
-		},
-		email: string,
+		}
+		email: string
+		exp: number // seems to be a timestamp
 		sub: string // seems to be an UUID
 		user_metadata: {
 			avatar_url?: string

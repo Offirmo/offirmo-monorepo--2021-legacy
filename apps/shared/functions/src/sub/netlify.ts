@@ -1,5 +1,6 @@
 import {
 	NetlifyContext,
+	NetlifyClientContext,
 } from './types'
 import { CHANNEL } from './services/channel'
 import { Users } from '@offirmo-private/db'
@@ -15,6 +16,21 @@ export function ensure_netlify_logged_in(context: Readonly<NetlifyContext>) {
 
 export type NetlifyUserData = Users.NetlifyUser
 
+export const TEST_CLIENT_CONTEXT_USER: Readonly<NonNullable<NetlifyClientContext['user']>> = {
+	email: 'dev@online-adventur.es',
+	sub: 'fake-netlify-id',
+	app_metadata: {
+		provider: 'test',
+		roles: [ 'test'],
+	},
+	user_metadata: {
+		avatar_url: undefined,
+		full_name: 'Fake User For Dev',
+	},
+	exp: -1,
+}
+
+
 export function get_netlify_user_data(context: NetlifyContext): NetlifyUserData {
 	try {
 		ensure_netlify_logged_in(context)
@@ -22,19 +38,10 @@ export function get_netlify_user_data(context: NetlifyContext): NetlifyUserData 
 	catch (err ) {
 		if (err.message.includes('No/bad/outdated token') && CHANNEL === 'dev') {
 			// pretend
-			context.clientContext.user = {
-				email: 'dev@online-adventur.es',
-				sub: 'fake-netlify-id',
-				app_metadata: {
-					provider: 'test',
-					roles: [ 'test'],
-				},
-				user_metadata: {
-					avatar_url: undefined,
-					full_name: 'Fake User For Dev',
-				},
-			}
+			context.clientContext.user = TEST_CLIENT_CONTEXT_USER
 		}
+		else
+			throw err
 	}
 
 	const {

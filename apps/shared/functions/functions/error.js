@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 136);
+/******/ 	return __webpack_require__(__webpack_require__.s = 142);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1643,7 +1643,7 @@ exports.CHANNEL = process.env.CHANNEL || (() => {
 var net = __webpack_require__(43);
 var tls = __webpack_require__(44);
 var url = __webpack_require__(14);
-var assert = __webpack_require__(32);
+var assert = __webpack_require__(31);
 var Agent = __webpack_require__(52);
 var inherits = __webpack_require__(5).inherits;
 var debug = __webpack_require__(57)('https-proxy-agent');
@@ -1903,7 +1903,7 @@ module.exports = require("domain");
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(3);
-/* harmony import */ var _span__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(35);
+/* harmony import */ var _span__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(34);
 
 
 
@@ -2418,29 +2418,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 /* 27 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-var isProduction = "production" === 'production';
-var prefix = 'Invariant failed';
-function invariant(condition, message) {
-  if (condition) {
-    return;
-  }
-
-  if (isProduction) {
-    throw new Error(prefix);
-  } else {
-    throw new Error(prefix + ": " + (message || ''));
-  }
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (invariant);
-
-
-/***/ }),
-/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2483,8 +2460,8 @@ function create_error(message, data = {}) {
 exports.create_error = create_error;
 
 /***/ }),
-/* 29 */,
-/* 30 */
+/* 28 */,
+/* 29 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2507,19 +2484,19 @@ const COMMON_ERROR_FIELDS = DEFAULT_INSTANCE;
 
 
 /***/ }),
-/* 31 */
+/* 30 */
 /***/ (function(module, exports) {
 
 module.exports = require("tty");
 
 /***/ }),
-/* 32 */
+/* 31 */
 /***/ (function(module, exports) {
 
 module.exports = require("assert");
 
 /***/ }),
-/* 33 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2775,13 +2752,13 @@ module.exports = setup;
 
 
 /***/ }),
-/* 34 */
+/* 33 */
 /***/ (function(module, exports) {
 
 module.exports = require("module");
 
 /***/ }),
-/* 35 */
+/* 34 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2865,7 +2842,7 @@ var Span = /** @class */ (function () {
 //# sourceMappingURL=span.js.map
 
 /***/ }),
-/* 36 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -3180,7 +3157,7 @@ LRUMap.prototype.toString = function() {
 
 
 /***/ }),
-/* 37 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3382,6 +3359,29 @@ function tryDecode(str, decode) {
 
 
 /***/ }),
+/* 37 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var isProduction = "production" === 'production';
+var prefix = 'Invariant failed';
+function invariant(condition, message) {
+  if (condition) {
+    return;
+  }
+
+  if (isProduction) {
+    throw new Error(prefix);
+  } else {
+    throw new Error(prefix + ": " + (message || ''));
+  }
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (invariant);
+
+
+/***/ }),
 /* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3421,7 +3421,7 @@ exports.get_default_JsonRpc_error = get_default_JsonRpc_error;
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _field_set__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(30);
+/* harmony import */ var _field_set__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(29);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "COMMON_ERROR_FIELDS", function() { return _field_set__WEBPACK_IMPORTED_MODULE_0__["a"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "create", function() { return _field_set__WEBPACK_IMPORTED_MODULE_0__["b"]; });
@@ -4848,7 +4848,7 @@ const dependency_injection_PLUGIN = {
 };
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-foundation/common-error-fields/dist/src.es2019/field-set.js
-var field_set = __webpack_require__(30);
+var field_set = __webpack_require__(29);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-foundation/normalize-error/dist/src.es2019/index.js
  // Anything can be thrown: undefined, string, number...)
@@ -7526,7 +7526,7 @@ function localstorage() {
   }
 }
 
-module.exports = __webpack_require__(33)(exports);
+module.exports = __webpack_require__(32)(exports);
 var formatters = module.exports.formatters;
 /**
  * Map %j to `JSON.stringify()`, since no Web Inspectors do that by default.
@@ -7720,7 +7720,7 @@ function plural(ms, msAbs, n, name) {
 /**
  * Module dependencies.
  */
-var tty = __webpack_require__(31);
+var tty = __webpack_require__(30);
 
 var util = __webpack_require__(5);
 /**
@@ -7869,7 +7869,7 @@ function init(debug) {
   }
 }
 
-module.exports = __webpack_require__(33)(exports);
+module.exports = __webpack_require__(32)(exports);
 var formatters = module.exports.formatters;
 /**
  * Map %o to `util.inspect()`, all on a single line.
@@ -8046,7 +8046,7 @@ var Status;
 var esm_scope = __webpack_require__(22);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/hub/esm/hub.js
-var esm_hub = __webpack_require__(91);
+var esm_hub = __webpack_require__(92);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/minimal/esm/index.js
 
@@ -8214,7 +8214,7 @@ function _callOnClient(method) {
 }
 //# sourceMappingURL=index.js.map
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/hub/esm/span.js
-var esm_span = __webpack_require__(35);
+var esm_span = __webpack_require__(34);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/logger.js
 var logger = __webpack_require__(66);
@@ -9032,7 +9032,7 @@ function basename(path, ext) {
 var external_fs_ = __webpack_require__(7);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/lru_map/lru.js
-var lru = __webpack_require__(36);
+var lru = __webpack_require__(35);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/stacktrace.js
 /**
@@ -10109,7 +10109,7 @@ var console_Console = /** @class */ (function () {
      * @inheritDoc
      */
     Console.prototype.setupOnce = function () {
-        var nativeModule = __webpack_require__(34);
+        var nativeModule = __webpack_require__(33);
         Object(object["b" /* fill */])(nativeModule, '_load', loadWrapper(nativeModule));
         // special case: since console is built-in and app-level code won't require() it, do that here
         __webpack_require__(62);
@@ -10200,7 +10200,7 @@ var http_Http = /** @class */ (function () {
      * @inheritDoc
      */
     Http.prototype.setupOnce = function () {
-        var nativeModule = __webpack_require__(34);
+        var nativeModule = __webpack_require__(33);
         Object(object["b" /* fill */])(nativeModule, '_load', http_loadWrapper(nativeModule));
         // observation: when the https module does its own require('http'), it *does not* hit our hooked require to instrument http on the fly
         // but if we've previously instrumented http, https *does* get our already-instrumented version
@@ -10336,7 +10336,7 @@ function forget(promise) {
 }
 //# sourceMappingURL=async.js.map
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/cookie/index.js
-var cookie = __webpack_require__(37);
+var cookie = __webpack_require__(36);
 
 // EXTERNAL MODULE: external "os"
 var external_os_ = __webpack_require__(16);
@@ -11267,7 +11267,7 @@ Object.defineProperty(exports, "__esModule", {
 
 const tslib_1 = __webpack_require__(0);
 
-const tiny_invariant_1 = tslib_1.__importDefault(__webpack_require__(27));
+const tiny_invariant_1 = tslib_1.__importDefault(__webpack_require__(37));
 
 const timestamps_1 = __webpack_require__(26);
 
@@ -11277,7 +11277,7 @@ const sentry_1 = __webpack_require__(50);
 
 const channel_1 = __webpack_require__(18);
 
-const utils_1 = __webpack_require__(28); // note: deducted from the overall running budget
+const utils_1 = __webpack_require__(27); // note: deducted from the overall running budget
 
 
 const MARGIN_AND_SENTRY_BUDGET_MS = channel_1.CHANNEL === 'dev' ? 5000 : 1000;
@@ -12139,7 +12139,7 @@ module.exports = function (fromModel) {
 "use strict";
 
 const os = __webpack_require__(16);
-const tty = __webpack_require__(31);
+const tty = __webpack_require__(30);
 const hasFlag = __webpack_require__(78);
 
 const {env} = process;
@@ -12493,7 +12493,7 @@ Object.defineProperty(exports, "__esModule", {
 
 const typescript_string_enums_1 = __webpack_require__(23);
 
-const utils_1 = __webpack_require__(28);
+const utils_1 = __webpack_require__(27);
 
 exports.HttpMethod = typescript_string_enums_1.Enum('GET', 'PUT');
 
@@ -13048,7 +13048,8 @@ const {
 /* 88 */,
 /* 89 */,
 /* 90 */,
-/* 91 */
+/* 91 */,
+/* 92 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13497,7 +13498,7 @@ function setHubOnCarrier(carrier, hub) {
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(51)(module)))
 
 /***/ }),
-/* 92 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13511,9 +13512,9 @@ const tslib_1 = __webpack_require__(0);
 
 const typescript_string_enums_1 = __webpack_require__(23);
 
-const tiny_invariant_1 = tslib_1.__importDefault(__webpack_require__(27));
+const tiny_invariant_1 = tslib_1.__importDefault(__webpack_require__(37));
 
-const utils_1 = __webpack_require__(28);
+const utils_1 = __webpack_require__(27);
 
 exports.FailureMode = typescript_string_enums_1.Enum('none', 'manual', 'uncaught-sync', 'uncaught-async', 'timeout', 'unhandled-rejection', 'mess-with-response', 'non-stringified-body');
 
@@ -13585,7 +13586,6 @@ async function test_failure(SEC, event, context, response, next) {
 exports.test_failure = test_failure;
 
 /***/ }),
-/* 93 */,
 /* 94 */,
 /* 95 */,
 /* 96 */,
@@ -13628,7 +13628,13 @@ exports.test_failure = test_failure;
 /* 133 */,
 /* 134 */,
 /* 135 */,
-/* 136 */
+/* 136 */,
+/* 137 */,
+/* 138 */,
+/* 139 */,
+/* 140 */,
+/* 141 */,
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13642,7 +13648,7 @@ const runner_1 = __webpack_require__(69);
 
 const require_http_method_1 = __webpack_require__(81);
 
-const test_failure_1 = __webpack_require__(92);
+const test_failure_1 = __webpack_require__(93);
 
 async function _handler(SEC, event, context, response, next) {
   response.statusCode = 200;

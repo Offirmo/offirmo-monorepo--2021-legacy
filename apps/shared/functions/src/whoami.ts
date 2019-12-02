@@ -49,7 +49,10 @@ async function require_authenticated(
 			)
 	}
 	catch (err) {
-		who_am_i.err = `Err: ${err.message}!`
+		who_am_i.err = {
+			message: err.message,
+			stack: err.stack,
+		}
 	}
 
 	console.log(who_am_i)

@@ -81,12 +81,12 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 135);
+/******/ 	return __webpack_require__(__webpack_require__.s = 141);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 135:
+/***/ 141:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -96,7 +96,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const netlify_1 = __webpack_require__(90);
+const netlify_1 = __webpack_require__(91);
 
 exports.handler = async (event, badly_typed_context) => {
   const context = badly_typed_context;
@@ -168,7 +168,7 @@ exports.CHANNEL = process.env.CHANNEL || (() => {
 
 /***/ }),
 
-/***/ 90:
+/***/ 91:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -189,6 +189,19 @@ function ensure_netlify_logged_in(context) {
 }
 
 exports.ensure_netlify_logged_in = ensure_netlify_logged_in;
+exports.TEST_CLIENT_CONTEXT_USER = {
+  email: 'dev@online-adventur.es',
+  sub: 'fake-netlify-id',
+  app_metadata: {
+    provider: 'test',
+    roles: ['test']
+  },
+  user_metadata: {
+    avatar_url: undefined,
+    full_name: 'Fake User For Dev'
+  },
+  exp: -1
+};
 
 function get_netlify_user_data(context) {
   try {
@@ -196,19 +209,8 @@ function get_netlify_user_data(context) {
   } catch (err) {
     if (err.message.includes('No/bad/outdated token') && channel_1.CHANNEL === 'dev') {
       // pretend
-      context.clientContext.user = {
-        email: 'dev@online-adventur.es',
-        sub: 'fake-netlify-id',
-        app_metadata: {
-          provider: 'test',
-          roles: ['test']
-        },
-        user_metadata: {
-          avatar_url: undefined,
-          full_name: 'Fake User For Dev'
-        }
-      };
-    }
+      context.clientContext.user = exports.TEST_CLIENT_CONTEXT_USER;
+    } else throw err;
   }
 
   const {
