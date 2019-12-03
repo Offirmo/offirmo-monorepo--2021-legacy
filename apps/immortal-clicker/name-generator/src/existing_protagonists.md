@@ -5,6 +5,8 @@ Liu Ji commoner raised to emperor
 Zhang San = John Smith
 Gan Jiang
 Mo Ye
+Tang Seng priest in Journey to the west
+
 
  
 ## Iron Ladies
@@ -16,6 +18,7 @@ Zhen Yuan
 Zhi Hui "with intelligence"
 Wu Zhi "without wisdom"
 Wu Hui "without wisdom"
+
 
 
 ## Renegade Immortal
@@ -43,7 +46,6 @@ Qing Shui
 Situ Nan
 Su Dao
 Sun Wukong
-Tang Seng priest in Journey to the west
 Wang Lin
 Wang Ping
 Wu Feng
@@ -52,6 +54,8 @@ Xu Liguo
 Xu Mu
 Yun Yifeng
 Zhou Li bad guy
+
+
 
 ## Soul land
 Tang San hero
