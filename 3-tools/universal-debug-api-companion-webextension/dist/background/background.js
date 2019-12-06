@@ -1953,7 +1953,7 @@ function is_valid_stringified_json(sjson) {
   if (sjson === exports.JSON_UNDEFINED) return true;
 
   if (typeof sjson !== 'string') {
-    console.error("is_valid_stringified_json failure 1!", {
+    console.error('is_valid_stringified_json failure 1!', {
       sjson: sjson
     });
     return false;
@@ -1963,7 +1963,7 @@ function is_valid_stringified_json(sjson) {
     JSON.parse(sjson);
     return true;
   } catch (_a) {
-    console.error("is_valid_stringified_json failure 2!", {
+    console.error('is_valid_stringified_json failure 2!', {
       sjson: sjson
     });
     return false;
@@ -2234,7 +2234,7 @@ function change_override_spec(state, key, partial) {
     switch (current_override.type) {
       case exports.OverrideType.boolean:
         // if toggled on, it's obvious the user wants to change the value = opposite of the default
-        partial2.value_sjson = stringified_json_1.sjson_stringify(!Boolean(stringified_json_1.sjson_parse(current_override.default_value_sjson)));
+        partial2.value_sjson = stringified_json_1.sjson_stringify(!stringified_json_1.sjson_parse(current_override.default_value_sjson));
         break;
 
       case exports.OverrideType.LogLevel:
@@ -3289,10 +3289,10 @@ var render_webext_icon = memoize_one_1.default(function render_webext_icon(sync_
     sync_status: sync_status
   });
   var text = '✗';
-  var color = "#ff0000";
+  var color = '#ff0000';
 
   switch (sync_status) {
-    case tab_1.SpecSyncStatus["unexpected-error"]:
+    case tab_1.SpecSyncStatus['unexpected-error']:
       break;
 
     case tab_1.SpecSyncStatus.inactive:
@@ -3301,14 +3301,14 @@ var render_webext_icon = memoize_one_1.default(function render_webext_icon(sync_
       text = '';
       break;
 
-    case tab_1.SpecSyncStatus["changed-needs-reload"]:
+    case tab_1.SpecSyncStatus['changed-needs-reload']:
       text = '↻';
       color = '#f3b200';
       break;
 
-    case tab_1.SpecSyncStatus["active-and-up-to-date"]:
+    case tab_1.SpecSyncStatus['active-and-up-to-date']:
       text = '✔';
-      color = "#00AA00";
+      color = '#00AA00';
       break;
 
     default:
@@ -3435,7 +3435,7 @@ var extension_inited = new deferred_1.default();
 var is_extension_inited = false;
 extension_inited.then(function (from) {
   is_extension_inited = true;
-  console.log("\uD83D\uDE48\uD83D\uDE49 extension inited!", {
+  console.log('🙈🙉 extension inited!', {
     from: from
   });
 });
@@ -3511,7 +3511,7 @@ webextension_polyfill_ts_1.browser.tabs.onActivated.addListener(function (_a) {
 webextension_polyfill_ts_1.browser.runtime.onMessage.addListener(function (request, sender) {
   // FF refreshes content script before the background script starts to receive events
   return once_extension_init_done(function () {
-    console.group("\uD83D\uDCE5 bg received a simple message");
+    console.group('📥 bg received a simple message');
     var response = null;
 
     try {

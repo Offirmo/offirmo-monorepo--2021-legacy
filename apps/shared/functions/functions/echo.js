@@ -81,12 +81,12 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 141);
+/******/ 	return __webpack_require__(__webpack_require__.s = 238);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 141:
+/***/ 18:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -96,7 +96,24 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const netlify_1 = __webpack_require__(91);
+exports.CHANNEL = process.env.CHANNEL || (() => {
+  if (process.env.AWS_SECRET_ACCESS_KEY) return 'prod';
+  return  false ? undefined : 'prod';
+})();
+
+/***/ }),
+
+/***/ 238:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+const netlify_1 = __webpack_require__(98);
 
 exports.handler = async (event, badly_typed_context) => {
   const context = badly_typed_context;
@@ -151,24 +168,7 @@ function filter_out_secrets(env) {
 
 /***/ }),
 
-/***/ 18:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-exports.CHANNEL = process.env.CHANNEL || (() => {
-  if (process.env.AWS_SECRET_ACCESS_KEY) return 'prod';
-  return  false ? undefined : 'prod';
-})();
-
-/***/ }),
-
-/***/ 91:
+/***/ 98:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

@@ -346,7 +346,7 @@ var DEBUG = false;
 
 try {
   // defensive!
-  DEBUG = DEBUG || !!window.localStorage.getItem("\uD83E\uDDE9UWDTi.context.debug");
+  DEBUG = DEBUG || !!window.localStorage.getItem('🧩UWDTi.context.debug');
 } catch (
 /* swallow */
 _a) {

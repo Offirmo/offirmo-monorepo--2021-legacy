@@ -81,11 +81,12 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 144);
+/******/ 	return __webpack_require__(__webpack_require__.s = 241);
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
+/******/ ({
+
+/***/ 0:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -309,851 +310,479 @@ function __importDefault(mod) {
 
 
 /***/ }),
-/* 1 */,
-/* 2 */,
-/* 3 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return dynamicRequire; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return isNodeEnv; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return getGlobalObject; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return uuid4; });
-/* unused harmony export parseUrl */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return getEventDescription; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return consoleSandbox; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return addExceptionTypeValue; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addExceptionMechanism; });
-/* unused harmony export getLocationHref */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return htmlTreeAsString; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return parseRetryAfterHeader; });
-/* harmony import */ var _is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
-
-/**
- * Requires a module which is protected _against bundler minification.
- *
- * @param request The module path to resolve
- */
-function dynamicRequire(mod, request) {
-    // tslint:disable-next-line: no-unsafe-any
-    return mod.require(request);
-}
-/**
- * Checks whether we're in the Node.js or Browser environment
- *
- * @returns Answer to given question
- */
-function isNodeEnv() {
-    // tslint:disable:strict-type-predicates
-    return Object.prototype.toString.call(typeof process !== 'undefined' ? process : 0) === '[object process]';
-}
-var fallbackGlobalObject = {};
-/**
- * Safely get global scope object
- *
- * @returns Global scope object
- */
-function getGlobalObject() {
-    return (isNodeEnv()
-        ? global
-        : typeof window !== 'undefined'
-            ? window
-            : typeof self !== 'undefined'
-                ? self
-                : fallbackGlobalObject);
-}
-/**
- * UUID4 generator
- *
- * @returns string Generated UUID4.
- */
-function uuid4() {
-    var global = getGlobalObject();
-    var crypto = global.crypto || global.msCrypto;
-    if (!(crypto === void 0) && crypto.getRandomValues) {
-        // Use window.crypto API if available
-        var arr = new Uint16Array(8);
-        crypto.getRandomValues(arr);
-        // set 4 in byte 7
-        // tslint:disable-next-line:no-bitwise
-        arr[3] = (arr[3] & 0xfff) | 0x4000;
-        // set 2 most significant bits of byte 9 to '10'
-        // tslint:disable-next-line:no-bitwise
-        arr[4] = (arr[4] & 0x3fff) | 0x8000;
-        var pad = function (num) {
-            var v = num.toString(16);
-            while (v.length < 4) {
-                v = "0" + v;
-            }
-            return v;
-        };
-        return (pad(arr[0]) + pad(arr[1]) + pad(arr[2]) + pad(arr[3]) + pad(arr[4]) + pad(arr[5]) + pad(arr[6]) + pad(arr[7]));
-    }
-    // http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript/2117523#2117523
-    return 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-        // tslint:disable-next-line:no-bitwise
-        var r = (Math.random() * 16) | 0;
-        // tslint:disable-next-line:no-bitwise
-        var v = c === 'x' ? r : (r & 0x3) | 0x8;
-        return v.toString(16);
-    });
-}
-/**
- * Parses string form of URL into an object
- * // borrowed from https://tools.ietf.org/html/rfc3986#appendix-B
- * // intentionally using regex and not <a/> href parsing trick because React Native and other
- * // environments where DOM might not be available
- * @returns parsed URL object
- */
-function parseUrl(url) {
-    if (!url) {
-        return {};
-    }
-    var match = url.match(/^(([^:\/?#]+):)?(\/\/([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?$/);
-    if (!match) {
-        return {};
-    }
-    // coerce to undefined values to empty string so we don't get 'undefined'
-    var query = match[6] || '';
-    var fragment = match[8] || '';
-    return {
-        host: match[4],
-        path: match[5],
-        protocol: match[2],
-        relative: match[5] + query + fragment,
-    };
-}
-/**
- * Extracts either message or type+value from an event that can be used for user-facing logs
- * @returns event's description
- */
-function getEventDescription(event) {
-    if (event.message) {
-        return event.message;
-    }
-    if (event.exception && event.exception.values && event.exception.values[0]) {
-        var exception = event.exception.values[0];
-        if (exception.type && exception.value) {
-            return exception.type + ": " + exception.value;
-        }
-        return exception.type || exception.value || event.event_id || '<unknown>';
-    }
-    return event.event_id || '<unknown>';
-}
-/** JSDoc */
-function consoleSandbox(callback) {
-    var global = getGlobalObject();
-    var levels = ['debug', 'info', 'warn', 'error', 'log', 'assert'];
-    if (!('console' in global)) {
-        return callback();
-    }
-    var originalConsole = global.console;
-    var wrappedLevels = {};
-    // Restore all wrapped console methods
-    levels.forEach(function (level) {
-        if (level in global.console && originalConsole[level].__sentry__) {
-            wrappedLevels[level] = originalConsole[level].__sentry_wrapped__;
-            originalConsole[level] = originalConsole[level].__sentry_original__;
-        }
-    });
-    // Perform callback manipulations
-    var result = callback();
-    // Revert restoration to wrapped state
-    Object.keys(wrappedLevels).forEach(function (level) {
-        originalConsole[level] = wrappedLevels[level];
-    });
-    return result;
-}
-/**
- * Adds exception values, type and value to an synthetic Exception.
- * @param event The event to modify.
- * @param value Value of the exception.
- * @param type Type of the exception.
- * @hidden
- */
-function addExceptionTypeValue(event, value, type) {
-    event.exception = event.exception || {};
-    event.exception.values = event.exception.values || [];
-    event.exception.values[0] = event.exception.values[0] || {};
-    event.exception.values[0].value = event.exception.values[0].value || value || '';
-    event.exception.values[0].type = event.exception.values[0].type || type || 'Error';
-}
-/**
- * Adds exception mechanism to a given event.
- * @param event The event to modify.
- * @param mechanism Mechanism of the mechanism.
- * @hidden
- */
-function addExceptionMechanism(event, mechanism) {
-    if (mechanism === void 0) { mechanism = {}; }
-    // TODO: Use real type with `keyof Mechanism` thingy and maybe make it better?
-    try {
-        // @ts-ignore
-        // tslint:disable:no-non-null-assertion
-        event.exception.values[0].mechanism = event.exception.values[0].mechanism || {};
-        Object.keys(mechanism).forEach(function (key) {
-            // @ts-ignore
-            event.exception.values[0].mechanism[key] = mechanism[key];
-        });
-    }
-    catch (_oO) {
-        // no-empty
-    }
-}
-/**
- * A safe form of location.href
- */
-function getLocationHref() {
-    try {
-        return document.location.href;
-    }
-    catch (oO) {
-        return '';
-    }
-}
-/**
- * Given a child DOM element, returns a query-selector statement describing that
- * and its ancestors
- * e.g. [HTMLElement] => body > div > input#foo.btn[name=baz]
- * @returns generated DOM path
- */
-function htmlTreeAsString(elem) {
-    // try/catch both:
-    // - accessing event.target (see getsentry/raven-js#838, #768)
-    // - `htmlTreeAsString` because it's complex, and just accessing the DOM incorrectly
-    // - can throw an exception in some circumstances.
-    try {
-        var currentElem = elem;
-        var MAX_TRAVERSE_HEIGHT = 5;
-        var MAX_OUTPUT_LEN = 80;
-        var out = [];
-        var height = 0;
-        var len = 0;
-        var separator = ' > ';
-        var sepLength = separator.length;
-        var nextStr = void 0;
-        while (currentElem && height++ < MAX_TRAVERSE_HEIGHT) {
-            nextStr = _htmlElementAsString(currentElem);
-            // bail out if
-            // - nextStr is the 'html' element
-            // - the length of the string that would be created exceeds MAX_OUTPUT_LEN
-            //   (ignore this limit if we are on the first iteration)
-            if (nextStr === 'html' || (height > 1 && len + out.length * sepLength + nextStr.length >= MAX_OUTPUT_LEN)) {
-                break;
-            }
-            out.push(nextStr);
-            len += nextStr.length;
-            currentElem = currentElem.parentNode;
-        }
-        return out.reverse().join(separator);
-    }
-    catch (_oO) {
-        return '<unknown>';
-    }
-}
-/**
- * Returns a simple, query-selector representation of a DOM element
- * e.g. [HTMLElement] => input#foo.btn[name=baz]
- * @returns generated DOM path
- */
-function _htmlElementAsString(el) {
-    var elem = el;
-    var out = [];
-    var className;
-    var classes;
-    var key;
-    var attr;
-    var i;
-    if (!elem || !elem.tagName) {
-        return '';
-    }
-    out.push(elem.tagName.toLowerCase());
-    if (elem.id) {
-        out.push("#" + elem.id);
-    }
-    className = elem.className;
-    if (className && Object(_is__WEBPACK_IMPORTED_MODULE_0__[/* isString */ "g"])(className)) {
-        classes = className.split(/\s+/);
-        for (i = 0; i < classes.length; i++) {
-            out.push("." + classes[i]);
-        }
-    }
-    var attrWhitelist = ['type', 'name', 'title', 'alt'];
-    for (i = 0; i < attrWhitelist.length; i++) {
-        key = attrWhitelist[i];
-        attr = elem.getAttribute(key);
-        if (attr) {
-            out.push("[" + key + "=\"" + attr + "\"]");
-        }
-    }
-    return out.join('');
-}
-var defaultRetryAfter = 60 * 1000; // 60 seconds
-/**
- * Extracts Retry-After value from the request header or returns default value
- * @param now current unix timestamp
- * @param header string representation of 'Retry-After' header
- */
-function parseRetryAfterHeader(now, header) {
-    if (!header) {
-        return defaultRetryAfter;
-    }
-    var headerDelay = parseInt("" + header, 10);
-    if (!isNaN(headerDelay)) {
-        return headerDelay * 1000;
-    }
-    var headerDate = Date.parse("" + header);
-    if (!isNaN(headerDate)) {
-        return headerDate - now;
-    }
-    return defaultRetryAfter;
-}
-//# sourceMappingURL=misc.js.map
-
-/***/ }),
-/* 4 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return isError; });
-/* unused harmony export isErrorEvent */
-/* unused harmony export isDOMError */
-/* unused harmony export isDOMException */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return isString; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return isPrimitive; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return isPlainObject; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return isEvent; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return isElement; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return isRegExp; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return isThenable; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return isSyntheticEvent; });
-/**
- * Checks whether given value's type is one of a few Error or Error-like
- * {@link isError}.
- *
- * @param wat A value to be checked.
- * @returns A boolean representing the result.
- */
-function isError(wat) {
-    switch (Object.prototype.toString.call(wat)) {
-        case '[object Error]':
-            return true;
-        case '[object Exception]':
-            return true;
-        case '[object DOMException]':
-            return true;
-        default:
-            return wat instanceof Error;
-    }
-}
-/**
- * Checks whether given value's type is ErrorEvent
- * {@link isErrorEvent}.
- *
- * @param wat A value to be checked.
- * @returns A boolean representing the result.
- */
-function isErrorEvent(wat) {
-    return Object.prototype.toString.call(wat) === '[object ErrorEvent]';
-}
-/**
- * Checks whether given value's type is DOMError
- * {@link isDOMError}.
- *
- * @param wat A value to be checked.
- * @returns A boolean representing the result.
- */
-function isDOMError(wat) {
-    return Object.prototype.toString.call(wat) === '[object DOMError]';
-}
-/**
- * Checks whether given value's type is DOMException
- * {@link isDOMException}.
- *
- * @param wat A value to be checked.
- * @returns A boolean representing the result.
- */
-function isDOMException(wat) {
-    return Object.prototype.toString.call(wat) === '[object DOMException]';
-}
-/**
- * Checks whether given value's type is a string
- * {@link isString}.
- *
- * @param wat A value to be checked.
- * @returns A boolean representing the result.
- */
-function isString(wat) {
-    return Object.prototype.toString.call(wat) === '[object String]';
-}
-/**
- * Checks whether given value's is a primitive (undefined, null, number, boolean, string)
- * {@link isPrimitive}.
- *
- * @param wat A value to be checked.
- * @returns A boolean representing the result.
- */
-function isPrimitive(wat) {
-    return wat === null || (typeof wat !== 'object' && typeof wat !== 'function');
-}
-/**
- * Checks whether given value's type is an object literal
- * {@link isPlainObject}.
- *
- * @param wat A value to be checked.
- * @returns A boolean representing the result.
- */
-function isPlainObject(wat) {
-    return Object.prototype.toString.call(wat) === '[object Object]';
-}
-/**
- * Checks whether given value's type is an Event instance
- * {@link isEvent}.
- *
- * @param wat A value to be checked.
- * @returns A boolean representing the result.
- */
-function isEvent(wat) {
-    // tslint:disable-next-line:strict-type-predicates
-    return typeof Event !== 'undefined' && wat instanceof Event;
-}
-/**
- * Checks whether given value's type is an Element instance
- * {@link isElement}.
- *
- * @param wat A value to be checked.
- * @returns A boolean representing the result.
- */
-function isElement(wat) {
-    // tslint:disable-next-line:strict-type-predicates
-    return typeof Element !== 'undefined' && wat instanceof Element;
-}
-/**
- * Checks whether given value's type is an regexp
- * {@link isRegExp}.
- *
- * @param wat A value to be checked.
- * @returns A boolean representing the result.
- */
-function isRegExp(wat) {
-    return Object.prototype.toString.call(wat) === '[object RegExp]';
-}
-/**
- * Checks whether given value has a then function.
- * @param wat A value to be checked.
- */
-function isThenable(wat) {
-    // tslint:disable:no-unsafe-any
-    return Boolean(wat && wat.then && typeof wat.then === 'function');
-    // tslint:enable:no-unsafe-any
-}
-/**
- * Checks whether given value's type is a SyntheticEvent
- * {@link isSyntheticEvent}.
- *
- * @param wat A value to be checked.
- * @returns A boolean representing the result.
- */
-function isSyntheticEvent(wat) {
-    // tslint:disable-next-line:no-unsafe-any
-    return isPlainObject(wat) && 'nativeEvent' in wat && 'preventDefault' in wat && 'stopPropagation' in wat;
-}
-//# sourceMappingURL=is.js.map
-
-/***/ }),
-/* 5 */
+/***/ 10:
 /***/ (function(module, exports) {
 
-module.exports = require("util");
+module.exports = require("events");
 
 /***/ }),
-/* 6 */
+
+/***/ 12:
+/***/ (function(module, exports) {
+
+module.exports = require("path");
+
+/***/ }),
+
+/***/ 13:
+/***/ (function(module, exports) {
+
+module.exports = require("url");
+
+/***/ }),
+
+/***/ 131:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* WEBPACK VAR INJECTION */(function(module) {/* unused harmony export API_VERSION */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Hub; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return getMainCarrier; });
+/* unused harmony export makeMain */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return getCurrentHub; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getHubFromCarrier; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return setHubOnCarrier; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
+/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(75);
+/* harmony import */ var _scope__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(22);
 
-// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/is.js
-var is = __webpack_require__(4);
 
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/memo.js
-// tslint:disable:no-unsafe-any
+
 /**
- * Memo class used for decycle json objects. Uses WeakSet if available otherwise array.
+ * API compatibility version of this hub.
+ *
+ * WARNING: This number should only be incresed when the global interface
+ * changes a and new methods are introduced.
+ *
+ * @hidden
  */
-var Memo = /** @class */ (function () {
-    function Memo() {
-        // tslint:disable-next-line
-        this._hasWeakSet = typeof WeakSet === 'function';
-        this._inner = this._hasWeakSet ? new WeakSet() : [];
+var API_VERSION = 3;
+/**
+ * Default maximum number of breadcrumbs added to an event. Can be overwritten
+ * with {@link Options.maxBreadcrumbs}.
+ */
+var DEFAULT_BREADCRUMBS = 30;
+/**
+ * Absolute maximum number of breadcrumbs added to an event. The
+ * `maxBreadcrumbs` option cannot be higher than this value.
+ */
+var MAX_BREADCRUMBS = 100;
+/**
+ * @inheritDoc
+ */
+var Hub = /** @class */ (function () {
+    /**
+     * Creates a new instance of the hub, will push one {@link Layer} into the
+     * internal stack on creation.
+     *
+     * @param client bound to the hub.
+     * @param scope bound to the hub.
+     * @param version number, higher number means higher priority.
+     */
+    function Hub(client, scope, _version) {
+        if (scope === void 0) { scope = new _scope__WEBPACK_IMPORTED_MODULE_3__[/* Scope */ "a"](); }
+        if (_version === void 0) { _version = API_VERSION; }
+        this._version = _version;
+        /** Is a {@link Layer}[] containing the client and scope */
+        this._stack = [];
+        this._stack.push({ client: client, scope: scope });
     }
     /**
-     * Sets obj to remember.
-     * @param obj Object to remember
+     * Internal helper function to call a method on the top client if it exists.
+     *
+     * @param method The method to call on the client.
+     * @param args Arguments to pass to the client function.
      */
-    Memo.prototype.memoize = function (obj) {
-        if (this._hasWeakSet) {
-            if (this._inner.has(obj)) {
-                return true;
-            }
-            this._inner.add(obj);
-            return false;
+    Hub.prototype._invokeClient = function (method) {
+        var _a;
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
         }
-        // tslint:disable-next-line:prefer-for-of
-        for (var i = 0; i < this._inner.length; i++) {
-            var value = this._inner[i];
-            if (value === obj) {
-                return true;
-            }
+        var top = this.getStackTop();
+        if (top && top.client && top.client[method]) {
+            (_a = top.client)[method].apply(_a, tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"](args, [top.scope]));
         }
-        this._inner.push(obj);
-        return false;
     };
     /**
-     * Removes object from internal storage.
-     * @param obj Object to forget
+     * @inheritDoc
      */
-    Memo.prototype.unmemoize = function (obj) {
-        if (this._hasWeakSet) {
-            this._inner.delete(obj);
+    Hub.prototype.isOlderThan = function (version) {
+        return this._version < version;
+    };
+    /**
+     * @inheritDoc
+     */
+    Hub.prototype.bindClient = function (client) {
+        var top = this.getStackTop();
+        top.client = client;
+    };
+    /**
+     * @inheritDoc
+     */
+    Hub.prototype.pushScope = function () {
+        // We want to clone the content of prev scope
+        var stack = this.getStack();
+        var parentScope = stack.length > 0 ? stack[stack.length - 1].scope : undefined;
+        var scope = _scope__WEBPACK_IMPORTED_MODULE_3__[/* Scope */ "a"].clone(parentScope);
+        this.getStack().push({
+            client: this.getClient(),
+            scope: scope,
+        });
+        return scope;
+    };
+    /**
+     * @inheritDoc
+     */
+    Hub.prototype.popScope = function () {
+        return this.getStack().pop() !== undefined;
+    };
+    /**
+     * @inheritDoc
+     */
+    Hub.prototype.withScope = function (callback) {
+        var scope = this.pushScope();
+        try {
+            callback(scope);
         }
-        else {
-            for (var i = 0; i < this._inner.length; i++) {
-                if (this._inner[i] === obj) {
-                    this._inner.splice(i, 1);
-                    break;
-                }
-            }
+        finally {
+            this.popScope();
         }
     };
-    return Memo;
+    /**
+     * @inheritDoc
+     */
+    Hub.prototype.getClient = function () {
+        return this.getStackTop().client;
+    };
+    /** Returns the scope of the top stack. */
+    Hub.prototype.getScope = function () {
+        return this.getStackTop().scope;
+    };
+    /** Returns the scope stack for domains or the process. */
+    Hub.prototype.getStack = function () {
+        return this._stack;
+    };
+    /** Returns the topmost scope layer in the order domain > local > process. */
+    Hub.prototype.getStackTop = function () {
+        return this._stack[this._stack.length - 1];
+    };
+    /**
+     * @inheritDoc
+     */
+    Hub.prototype.captureException = function (exception, hint) {
+        var eventId = (this._lastEventId = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* uuid4 */ "j"])());
+        var finalHint = hint;
+        // If there's no explicit hint provided, mimick the same thing that would happen
+        // in the minimal itself to create a consistent behavior.
+        // We don't do this in the client, as it's the lowest level API, and doing this,
+        // would prevent user from having full control over direct calls.
+        if (!hint) {
+            var syntheticException = void 0;
+            try {
+                throw new Error('Sentry syntheticException');
+            }
+            catch (exception) {
+                syntheticException = exception;
+            }
+            finalHint = {
+                originalException: exception,
+                syntheticException: syntheticException,
+            };
+        }
+        this._invokeClient('captureException', exception, tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, finalHint, { event_id: eventId }));
+        return eventId;
+    };
+    /**
+     * @inheritDoc
+     */
+    Hub.prototype.captureMessage = function (message, level, hint) {
+        var eventId = (this._lastEventId = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* uuid4 */ "j"])());
+        var finalHint = hint;
+        // If there's no explicit hint provided, mimick the same thing that would happen
+        // in the minimal itself to create a consistent behavior.
+        // We don't do this in the client, as it's the lowest level API, and doing this,
+        // would prevent user from having full control over direct calls.
+        if (!hint) {
+            var syntheticException = void 0;
+            try {
+                throw new Error(message);
+            }
+            catch (exception) {
+                syntheticException = exception;
+            }
+            finalHint = {
+                originalException: message,
+                syntheticException: syntheticException,
+            };
+        }
+        this._invokeClient('captureMessage', message, level, tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, finalHint, { event_id: eventId }));
+        return eventId;
+    };
+    /**
+     * @inheritDoc
+     */
+    Hub.prototype.captureEvent = function (event, hint) {
+        var eventId = (this._lastEventId = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* uuid4 */ "j"])());
+        this._invokeClient('captureEvent', event, tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, hint, { event_id: eventId }));
+        return eventId;
+    };
+    /**
+     * @inheritDoc
+     */
+    Hub.prototype.lastEventId = function () {
+        return this._lastEventId;
+    };
+    /**
+     * @inheritDoc
+     */
+    Hub.prototype.addBreadcrumb = function (breadcrumb, hint) {
+        var top = this.getStackTop();
+        if (!top.scope || !top.client) {
+            return;
+        }
+        var _a = (top.client.getOptions && top.client.getOptions()) || {}, _b = _a.beforeBreadcrumb, beforeBreadcrumb = _b === void 0 ? null : _b, _c = _a.maxBreadcrumbs, maxBreadcrumbs = _c === void 0 ? DEFAULT_BREADCRUMBS : _c;
+        if (maxBreadcrumbs <= 0) {
+            return;
+        }
+        var timestamp = new Date().getTime() / 1000;
+        var mergedBreadcrumb = tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({ timestamp: timestamp }, breadcrumb);
+        var finalBreadcrumb = beforeBreadcrumb
+            ? Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* consoleSandbox */ "c"])(function () { return beforeBreadcrumb(mergedBreadcrumb, hint); })
+            : mergedBreadcrumb;
+        if (finalBreadcrumb === null) {
+            return;
+        }
+        top.scope.addBreadcrumb(finalBreadcrumb, Math.min(maxBreadcrumbs, MAX_BREADCRUMBS));
+    };
+    /**
+     * @inheritDoc
+     */
+    Hub.prototype.setUser = function (user) {
+        var top = this.getStackTop();
+        if (!top.scope) {
+            return;
+        }
+        top.scope.setUser(user);
+    };
+    /**
+     * @inheritDoc
+     */
+    Hub.prototype.setTags = function (tags) {
+        var top = this.getStackTop();
+        if (!top.scope) {
+            return;
+        }
+        top.scope.setTags(tags);
+    };
+    /**
+     * @inheritDoc
+     */
+    Hub.prototype.setExtras = function (extras) {
+        var top = this.getStackTop();
+        if (!top.scope) {
+            return;
+        }
+        top.scope.setExtras(extras);
+    };
+    /**
+     * @inheritDoc
+     */
+    Hub.prototype.setTag = function (key, value) {
+        var top = this.getStackTop();
+        if (!top.scope) {
+            return;
+        }
+        top.scope.setTag(key, value);
+    };
+    /**
+     * @inheritDoc
+     */
+    Hub.prototype.setExtra = function (key, extra) {
+        var top = this.getStackTop();
+        if (!top.scope) {
+            return;
+        }
+        top.scope.setExtra(key, extra);
+    };
+    /**
+     * @inheritDoc
+     */
+    Hub.prototype.setContext = function (name, context) {
+        var top = this.getStackTop();
+        if (!top.scope) {
+            return;
+        }
+        top.scope.setContext(name, context);
+    };
+    /**
+     * @inheritDoc
+     */
+    Hub.prototype.configureScope = function (callback) {
+        var top = this.getStackTop();
+        if (top.scope && top.client) {
+            callback(top.scope);
+        }
+    };
+    /**
+     * @inheritDoc
+     */
+    Hub.prototype.run = function (callback) {
+        var oldHub = makeMain(this);
+        try {
+            callback(this);
+        }
+        finally {
+            makeMain(oldHub);
+        }
+    };
+    /**
+     * @inheritDoc
+     */
+    Hub.prototype.getIntegration = function (integration) {
+        var client = this.getClient();
+        if (!client) {
+            return null;
+        }
+        try {
+            return client.getIntegration(integration);
+        }
+        catch (_oO) {
+            _sentry_utils__WEBPACK_IMPORTED_MODULE_2__[/* logger */ "a"].warn("Cannot retrieve integration " + integration.id + " from the current Hub");
+            return null;
+        }
+    };
+    /**
+     * @inheritDoc
+     */
+    Hub.prototype.traceHeaders = function () {
+        var top = this.getStackTop();
+        if (top.scope && top.client) {
+            var span = top.scope.getSpan();
+            if (span) {
+                return {
+                    'sentry-trace': span.toTraceparent(),
+                };
+            }
+        }
+        return {};
+    };
+    return Hub;
 }());
 
-//# sourceMappingURL=memo.js.map
-// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/misc.js
-var misc = __webpack_require__(3);
-
-// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/string.js
-var string = __webpack_require__(25);
-
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/object.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return fill; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return urlEncode; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return normalizeToSize; });
-/* unused harmony export walk */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return normalize; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return extractExceptionKeysForMessage; });
-
-
-
-
-/**
- * Wrap a given object method with a higher-order function
- *
- * @param source An object that contains a method to be wrapped.
- * @param name A name of method to be wrapped.
- * @param replacement A function that should be used to wrap a given method.
- * @returns void
- */
-function fill(source, name, replacement) {
-    if (!(name in source)) {
-        return;
-    }
-    var original = source[name];
-    var wrapped = replacement(original);
-    // Make sure it's a function first, as we need to attach an empty prototype for `defineProperties` to work
-    // otherwise it'll throw "TypeError: Object.defineProperties called on non-object"
-    // tslint:disable-next-line:strict-type-predicates
-    if (typeof wrapped === 'function') {
-        try {
-            wrapped.prototype = wrapped.prototype || {};
-            Object.defineProperties(wrapped, {
-                __sentry__: {
-                    enumerable: false,
-                    value: true,
-                },
-                __sentry_original__: {
-                    enumerable: false,
-                    value: original,
-                },
-                __sentry_wrapped__: {
-                    enumerable: false,
-                    value: wrapped,
-                },
-            });
-        }
-        catch (_Oo) {
-            // This can throw if multiple fill happens on a global object like XMLHttpRequest
-            // Fixes https://github.com/getsentry/sentry-javascript/issues/2043
-        }
-    }
-    source[name] = wrapped;
+/** Returns the global shim registry. */
+function getMainCarrier() {
+    var carrier = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* getGlobalObject */ "f"])();
+    carrier.__SENTRY__ = carrier.__SENTRY__ || {
+        hub: undefined,
+    };
+    return carrier;
 }
 /**
- * Encodes given object into url-friendly format
+ * Replaces the current main hub with the passed one on the global object
  *
- * @param object An object that contains serializable values
- * @returns string Encoded
+ * @returns The old replaced hub
  */
-function urlEncode(object) {
-    return Object.keys(object)
-        .map(
-    // tslint:disable-next-line:no-unsafe-any
-    function (key) { return encodeURIComponent(key) + "=" + encodeURIComponent(object[key]); })
-        .join('&');
+function makeMain(hub) {
+    var registry = getMainCarrier();
+    var oldHub = getHubFromCarrier(registry);
+    setHubOnCarrier(registry, hub);
+    return oldHub;
 }
 /**
- * Transforms any object into an object literal with all it's attributes
- * attached to it.
+ * Returns the default hub instance.
  *
- * @param value Initial source that we have to transform in order to be usable by the serializer
+ * If a hub is already registered in the global carrier but this module
+ * contains a more recent version, it replaces the registered version.
+ * Otherwise, the currently registered hub will be returned.
  */
-function getWalkSource(value) {
-    if (Object(is["b" /* isError */])(value)) {
-        var error = value;
-        var err = {
-            message: error.message,
-            name: error.name,
-            stack: error.stack,
-        };
-        for (var i in error) {
-            if (Object.prototype.hasOwnProperty.call(error, i)) {
-                err[i] = error[i];
-            }
-        }
-        return err;
+function getCurrentHub() {
+    // Get main carrier (global for every environment)
+    var registry = getMainCarrier();
+    // If there's no hub, or its an old API, assign a new one
+    if (!hasHubOnCarrier(registry) || getHubFromCarrier(registry).isOlderThan(API_VERSION)) {
+        setHubOnCarrier(registry, new Hub());
     }
-    if (Object(is["c" /* isEvent */])(value)) {
-        var event_1 = value;
-        var source = {};
-        source.type = event_1.type;
-        // Accessing event.target can throw (see getsentry/raven-js#838, #768)
-        try {
-            source.target = Object(is["a" /* isElement */])(event_1.target)
-                ? Object(misc["g" /* htmlTreeAsString */])(event_1.target)
-                : Object.prototype.toString.call(event_1.target);
-        }
-        catch (_oO) {
-            source.target = '<unknown>';
-        }
-        try {
-            source.currentTarget = Object(is["a" /* isElement */])(event_1.currentTarget)
-                ? Object(misc["g" /* htmlTreeAsString */])(event_1.currentTarget)
-                : Object.prototype.toString.call(event_1.currentTarget);
-        }
-        catch (_oO) {
-            source.currentTarget = '<unknown>';
-        }
-        // tslint:disable-next-line:strict-type-predicates
-        if (typeof CustomEvent !== 'undefined' && value instanceof CustomEvent) {
-            source.detail = event_1.detail;
-        }
-        for (var i in event_1) {
-            if (Object.prototype.hasOwnProperty.call(event_1, i)) {
-                source[i] = event_1;
-            }
-        }
-        return source;
+    // Prefer domains over global if they are there (applicable only to Node environment)
+    if (Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* isNodeEnv */ "h"])()) {
+        return getHubFromActiveDomain(registry);
     }
-    return value;
-}
-/** Calculates bytes size of input string */
-function utf8Length(value) {
-    // tslint:disable-next-line:no-bitwise
-    return ~-encodeURI(value).split(/%..|./).length;
-}
-/** Calculates bytes size of input object */
-function jsonSize(value) {
-    return utf8Length(JSON.stringify(value));
-}
-/** JSDoc */
-function normalizeToSize(object, 
-// Default Node.js REPL depth
-depth, 
-// 100kB, as 200kB is max payload size, so half sounds reasonable
-maxSize) {
-    if (depth === void 0) { depth = 3; }
-    if (maxSize === void 0) { maxSize = 100 * 1024; }
-    var serialized = normalize(object, depth);
-    if (jsonSize(serialized) > maxSize) {
-        return normalizeToSize(object, depth - 1, maxSize);
-    }
-    return serialized;
-}
-/** Transforms any input value into a string form, either primitive value or a type of the input */
-function serializeValue(value) {
-    var type = Object.prototype.toString.call(value);
-    // Node.js REPL notation
-    if (typeof value === 'string') {
-        return value;
-    }
-    if (type === '[object Object]') {
-        return '[Object]';
-    }
-    if (type === '[object Array]') {
-        return '[Array]';
-    }
-    var normalized = normalizeValue(value);
-    return Object(is["e" /* isPrimitive */])(normalized) ? normalized : type;
+    // Return hub that lives on a global object
+    return getHubFromCarrier(registry);
 }
 /**
- * normalizeValue()
- *
- * Takes unserializable input and make it serializable friendly
- *
- * - translates undefined/NaN values to "[undefined]"/"[NaN]" respectively,
- * - serializes Error objects
- * - filter global objects
+ * Try to read the hub from an active domain, fallback to the registry if one doesnt exist
+ * @returns discovered hub
  */
-// tslint:disable-next-line:cyclomatic-complexity
-function normalizeValue(value, key) {
-    if (key === 'domain' && value && typeof value === 'object' && value._events) {
-        return '[Domain]';
-    }
-    if (key === 'domainEmitter') {
-        return '[DomainEmitter]';
-    }
-    if (typeof global !== 'undefined' && value === global) {
-        return '[Global]';
-    }
-    if (typeof window !== 'undefined' && value === window) {
-        return '[Window]';
-    }
-    if (typeof document !== 'undefined' && value === document) {
-        return '[Document]';
-    }
-    // React's SyntheticEvent thingy
-    if (Object(is["h" /* isSyntheticEvent */])(value)) {
-        return '[SyntheticEvent]';
-    }
-    // tslint:disable-next-line:no-tautology-expression
-    if (typeof value === 'number' && value !== value) {
-        return '[NaN]';
-    }
-    if (value === void 0) {
-        return '[undefined]';
-    }
-    if (typeof value === 'function') {
-        return "[Function: " + (value.name || '<unknown-function-name>') + "]";
-    }
-    return value;
-}
-/**
- * Walks an object to perform a normalization on it
- *
- * @param key of object that's walked in current iteration
- * @param value object to be walked
- * @param depth Optional number indicating how deep should walking be performed
- * @param memo Optional Memo class handling decycling
- */
-function walk(key, value, depth, memo) {
-    if (depth === void 0) { depth = +Infinity; }
-    if (memo === void 0) { memo = new Memo(); }
-    // If we reach the maximum depth, serialize whatever has left
-    if (depth === 0) {
-        return serializeValue(value);
-    }
-    // If value implements `toJSON` method, call it and return early
-    // tslint:disable:no-unsafe-any
-    if (value !== null && value !== undefined && typeof value.toJSON === 'function') {
-        return value.toJSON();
-    }
-    // tslint:enable:no-unsafe-any
-    // If normalized value is a primitive, there are no branches left to walk, so we can just bail out, as theres no point in going down that branch any further
-    var normalized = normalizeValue(value, key);
-    if (Object(is["e" /* isPrimitive */])(normalized)) {
-        return normalized;
-    }
-    // Create source that we will use for next itterations, either objectified error object (Error type with extracted keys:value pairs) or the input itself
-    var source = getWalkSource(value);
-    // Create an accumulator that will act as a parent for all future itterations of that branch
-    var acc = Array.isArray(value) ? [] : {};
-    // If we already walked that branch, bail out, as it's circular reference
-    if (memo.memoize(value)) {
-        return '[Circular ~]';
-    }
-    // Walk all keys of the source
-    for (var innerKey in source) {
-        // Avoid iterating over fields in the prototype if they've somehow been exposed to enumeration.
-        if (!Object.prototype.hasOwnProperty.call(source, innerKey)) {
-            continue;
-        }
-        // Recursively walk through all the child nodes
-        acc[innerKey] = walk(innerKey, source[innerKey], depth - 1, memo);
-    }
-    // Once walked through all the branches, remove the parent from memo storage
-    memo.unmemoize(value);
-    // Return accumulated values
-    return acc;
-}
-/**
- * normalize()
- *
- * - Creates a copy to prevent original input mutation
- * - Skip non-enumerablers
- * - Calls `toJSON` if implemented
- * - Removes circular references
- * - Translates non-serializeable values (undefined/NaN/Functions) to serializable format
- * - Translates known global objects/Classes to a string representations
- * - Takes care of Error objects serialization
- * - Optionally limit depth of final output
- */
-function normalize(input, depth) {
+function getHubFromActiveDomain(registry) {
     try {
-        // tslint:disable-next-line:no-unsafe-any
-        return JSON.parse(JSON.stringify(input, function (key, value) { return walk(key, value, depth); }));
+        // We need to use `dynamicRequire` because `require` on it's own will be optimized by webpack.
+        // We do not want this to happen, we need to try to `require` the domain node module and fail if we are in browser
+        // for example so we do not have to shim it and use `getCurrentHub` universally.
+        var domain = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* dynamicRequire */ "d"])(module, 'domain');
+        var activeDomain = domain.active;
+        // If there no active domain, just return global hub
+        if (!activeDomain) {
+            return getHubFromCarrier(registry);
+        }
+        // If there's no hub on current domain, or its an old API, assign a new one
+        if (!hasHubOnCarrier(activeDomain) || getHubFromCarrier(activeDomain).isOlderThan(API_VERSION)) {
+            var registryHubTopStack = getHubFromCarrier(registry).getStackTop();
+            setHubOnCarrier(activeDomain, new Hub(registryHubTopStack.client, _scope__WEBPACK_IMPORTED_MODULE_3__[/* Scope */ "a"].clone(registryHubTopStack.scope)));
+        }
+        // Return hub that lives on a domain
+        return getHubFromCarrier(activeDomain);
     }
-    catch (_oO) {
-        return '**non-serializable**';
+    catch (_Oo) {
+        // Return hub that lives on a global object
+        return getHubFromCarrier(registry);
     }
 }
 /**
- * Given any captured exception, extract its keys and create a sorted
- * and truncated list that will be used inside the event message.
- * eg. `Non-error exception captured with keys: foo, bar, baz`
+ * This will tell whether a carrier has a hub on it or not
+ * @param carrier object
  */
-function extractExceptionKeysForMessage(exception, maxLength) {
-    if (maxLength === void 0) { maxLength = 40; }
-    // tslint:disable:strict-type-predicates
-    var keys = Object.keys(getWalkSource(exception));
-    keys.sort();
-    if (!keys.length) {
-        return '[object has no keys]';
+function hasHubOnCarrier(carrier) {
+    if (carrier && carrier.__SENTRY__ && carrier.__SENTRY__.hub) {
+        return true;
     }
-    if (keys[0].length >= maxLength) {
-        return Object(string["c" /* truncate */])(keys[0], maxLength);
-    }
-    for (var includedKeys = keys.length; includedKeys > 0; includedKeys--) {
-        var serialized = keys.slice(0, includedKeys).join(', ');
-        if (serialized.length > maxLength) {
-            continue;
-        }
-        if (includedKeys === keys.length) {
-            return serialized;
-        }
-        return Object(string["c" /* truncate */])(serialized, maxLength);
-    }
-    return '';
+    return false;
 }
-//# sourceMappingURL=object.js.map
+/**
+ * This will create a new {@link Hub} and add to the passed object on
+ * __SENTRY__.hub.
+ * @param carrier object
+ * @hidden
+ */
+function getHubFromCarrier(carrier) {
+    if (carrier && carrier.__SENTRY__ && carrier.__SENTRY__.hub) {
+        return carrier.__SENTRY__.hub;
+    }
+    carrier.__SENTRY__ = carrier.__SENTRY__ || {};
+    carrier.__SENTRY__.hub = new Hub();
+    return carrier.__SENTRY__.hub;
+}
+/**
+ * This will set passed {@link Hub} on the passed object's __SENTRY__.hub attribute
+ * @param carrier object
+ * @param hub Hub
+ */
+function setHubOnCarrier(carrier, hub) {
+    if (!carrier) {
+        return false;
+    }
+    carrier.__SENTRY__ = carrier.__SENTRY__ || {};
+    carrier.__SENTRY__.hub = hub;
+    return true;
+}
+//# sourceMappingURL=hub.js.map
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(56)(module)))
 
 /***/ }),
-/* 7 */
-/***/ (function(module, exports) {
 
-module.exports = require("fs");
-
-/***/ }),
-/* 8 */,
-/* 9 */,
-/* 10 */,
-/* 11 */
-/***/ (function(module, exports) {
-
-module.exports = require("http");
-
-/***/ }),
-/* 12 */,
-/* 13 */
+/***/ 15:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1354,31 +983,22 @@ var SyncPromise = /** @class */ (function () {
 //# sourceMappingURL=syncpromise.js.map
 
 /***/ }),
-/* 14 */
+
+/***/ 16:
 /***/ (function(module, exports) {
 
-module.exports = require("url");
+module.exports = require("http");
 
 /***/ }),
-/* 15 */
-/***/ (function(module, exports) {
 
-module.exports = require("events");
-
-/***/ }),
-/* 16 */
+/***/ 17:
 /***/ (function(module, exports) {
 
 module.exports = require("os");
 
 /***/ }),
-/* 17 */
-/***/ (function(module, exports) {
 
-module.exports = require("path");
-
-/***/ }),
-/* 18 */
+/***/ 18:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1394,20 +1014,21 @@ exports.CHANNEL = process.env.CHANNEL || (() => {
 })();
 
 /***/ }),
-/* 19 */
+
+/***/ 19:
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
  * Module dependencies.
  */
 
-var net = __webpack_require__(43);
-var tls = __webpack_require__(44);
-var url = __webpack_require__(14);
-var assert = __webpack_require__(31);
-var Agent = __webpack_require__(52);
+var net = __webpack_require__(47);
+var tls = __webpack_require__(48);
+var url = __webpack_require__(13);
+var assert = __webpack_require__(28);
+var Agent = __webpack_require__(57);
 var inherits = __webpack_require__(5).inherits;
-var debug = __webpack_require__(57)('https-proxy-agent');
+var debug = __webpack_require__(62)('https-proxy-agent');
 
 /**
  * Module exports.
@@ -1641,30 +1262,33 @@ function isDefaultPort(port, secure) {
 
 
 /***/ }),
-/* 20 */
+
+/***/ 20:
 /***/ (function(module, exports) {
 
 module.exports = require("https");
 
 /***/ }),
-/* 21 */
+
+/***/ 21:
 /***/ (function(module, exports) {
 
 module.exports = require("domain");
 
 /***/ }),
-/* 22 */
+
+/***/ 22:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Scope; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return addGlobalEventProcessor; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(13);
+/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(15);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
-/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
+/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(3);
-/* harmony import */ var _span__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(34);
+/* harmony import */ var _span__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(39);
 
 
 
@@ -1980,9 +1604,34 @@ function addGlobalEventProcessor(callback) {
 //# sourceMappingURL=scope.js.map
 
 /***/ }),
-/* 23 */,
-/* 24 */,
-/* 25 */
+
+/***/ 241:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+const sentry_1 = __webpack_require__(55);
+
+const handler = async (event, badly_typed_context) => {
+  var _a, _b;
+
+  let message = ((_b = (_a = event) === null || _a === void 0 ? void 0 : _a.queryStringParameters) === null || _b === void 0 ? void 0 : _b.message) || 'Unknown error!';
+  if (!message.endsWith('!')) message = message + '!';
+  const err = new Error(message);
+  await sentry_1.on_error(err);
+  throw err;
+};
+
+exports.handler = handler;
+
+/***/ }),
+
+/***/ 27:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2084,23 +1733,323 @@ function isMatchingPattern(value, pattern) {
 //# sourceMappingURL=string.js.map
 
 /***/ }),
-/* 26 */,
-/* 27 */,
-/* 28 */,
-/* 29 */,
-/* 30 */
-/***/ (function(module, exports) {
 
-module.exports = require("tty");
-
-/***/ }),
-/* 31 */
+/***/ 28:
 /***/ (function(module, exports) {
 
 module.exports = require("assert");
 
 /***/ }),
-/* 32 */
+
+/***/ 3:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return dynamicRequire; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return isNodeEnv; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return getGlobalObject; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return uuid4; });
+/* unused harmony export parseUrl */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return getEventDescription; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return consoleSandbox; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return addExceptionTypeValue; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addExceptionMechanism; });
+/* unused harmony export getLocationHref */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return htmlTreeAsString; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return parseRetryAfterHeader; });
+/* harmony import */ var _is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
+
+/**
+ * Requires a module which is protected _against bundler minification.
+ *
+ * @param request The module path to resolve
+ */
+function dynamicRequire(mod, request) {
+    // tslint:disable-next-line: no-unsafe-any
+    return mod.require(request);
+}
+/**
+ * Checks whether we're in the Node.js or Browser environment
+ *
+ * @returns Answer to given question
+ */
+function isNodeEnv() {
+    // tslint:disable:strict-type-predicates
+    return Object.prototype.toString.call(typeof process !== 'undefined' ? process : 0) === '[object process]';
+}
+var fallbackGlobalObject = {};
+/**
+ * Safely get global scope object
+ *
+ * @returns Global scope object
+ */
+function getGlobalObject() {
+    return (isNodeEnv()
+        ? global
+        : typeof window !== 'undefined'
+            ? window
+            : typeof self !== 'undefined'
+                ? self
+                : fallbackGlobalObject);
+}
+/**
+ * UUID4 generator
+ *
+ * @returns string Generated UUID4.
+ */
+function uuid4() {
+    var global = getGlobalObject();
+    var crypto = global.crypto || global.msCrypto;
+    if (!(crypto === void 0) && crypto.getRandomValues) {
+        // Use window.crypto API if available
+        var arr = new Uint16Array(8);
+        crypto.getRandomValues(arr);
+        // set 4 in byte 7
+        // tslint:disable-next-line:no-bitwise
+        arr[3] = (arr[3] & 0xfff) | 0x4000;
+        // set 2 most significant bits of byte 9 to '10'
+        // tslint:disable-next-line:no-bitwise
+        arr[4] = (arr[4] & 0x3fff) | 0x8000;
+        var pad = function (num) {
+            var v = num.toString(16);
+            while (v.length < 4) {
+                v = "0" + v;
+            }
+            return v;
+        };
+        return (pad(arr[0]) + pad(arr[1]) + pad(arr[2]) + pad(arr[3]) + pad(arr[4]) + pad(arr[5]) + pad(arr[6]) + pad(arr[7]));
+    }
+    // http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript/2117523#2117523
+    return 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        // tslint:disable-next-line:no-bitwise
+        var r = (Math.random() * 16) | 0;
+        // tslint:disable-next-line:no-bitwise
+        var v = c === 'x' ? r : (r & 0x3) | 0x8;
+        return v.toString(16);
+    });
+}
+/**
+ * Parses string form of URL into an object
+ * // borrowed from https://tools.ietf.org/html/rfc3986#appendix-B
+ * // intentionally using regex and not <a/> href parsing trick because React Native and other
+ * // environments where DOM might not be available
+ * @returns parsed URL object
+ */
+function parseUrl(url) {
+    if (!url) {
+        return {};
+    }
+    var match = url.match(/^(([^:\/?#]+):)?(\/\/([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?$/);
+    if (!match) {
+        return {};
+    }
+    // coerce to undefined values to empty string so we don't get 'undefined'
+    var query = match[6] || '';
+    var fragment = match[8] || '';
+    return {
+        host: match[4],
+        path: match[5],
+        protocol: match[2],
+        relative: match[5] + query + fragment,
+    };
+}
+/**
+ * Extracts either message or type+value from an event that can be used for user-facing logs
+ * @returns event's description
+ */
+function getEventDescription(event) {
+    if (event.message) {
+        return event.message;
+    }
+    if (event.exception && event.exception.values && event.exception.values[0]) {
+        var exception = event.exception.values[0];
+        if (exception.type && exception.value) {
+            return exception.type + ": " + exception.value;
+        }
+        return exception.type || exception.value || event.event_id || '<unknown>';
+    }
+    return event.event_id || '<unknown>';
+}
+/** JSDoc */
+function consoleSandbox(callback) {
+    var global = getGlobalObject();
+    var levels = ['debug', 'info', 'warn', 'error', 'log', 'assert'];
+    if (!('console' in global)) {
+        return callback();
+    }
+    var originalConsole = global.console;
+    var wrappedLevels = {};
+    // Restore all wrapped console methods
+    levels.forEach(function (level) {
+        if (level in global.console && originalConsole[level].__sentry__) {
+            wrappedLevels[level] = originalConsole[level].__sentry_wrapped__;
+            originalConsole[level] = originalConsole[level].__sentry_original__;
+        }
+    });
+    // Perform callback manipulations
+    var result = callback();
+    // Revert restoration to wrapped state
+    Object.keys(wrappedLevels).forEach(function (level) {
+        originalConsole[level] = wrappedLevels[level];
+    });
+    return result;
+}
+/**
+ * Adds exception values, type and value to an synthetic Exception.
+ * @param event The event to modify.
+ * @param value Value of the exception.
+ * @param type Type of the exception.
+ * @hidden
+ */
+function addExceptionTypeValue(event, value, type) {
+    event.exception = event.exception || {};
+    event.exception.values = event.exception.values || [];
+    event.exception.values[0] = event.exception.values[0] || {};
+    event.exception.values[0].value = event.exception.values[0].value || value || '';
+    event.exception.values[0].type = event.exception.values[0].type || type || 'Error';
+}
+/**
+ * Adds exception mechanism to a given event.
+ * @param event The event to modify.
+ * @param mechanism Mechanism of the mechanism.
+ * @hidden
+ */
+function addExceptionMechanism(event, mechanism) {
+    if (mechanism === void 0) { mechanism = {}; }
+    // TODO: Use real type with `keyof Mechanism` thingy and maybe make it better?
+    try {
+        // @ts-ignore
+        // tslint:disable:no-non-null-assertion
+        event.exception.values[0].mechanism = event.exception.values[0].mechanism || {};
+        Object.keys(mechanism).forEach(function (key) {
+            // @ts-ignore
+            event.exception.values[0].mechanism[key] = mechanism[key];
+        });
+    }
+    catch (_oO) {
+        // no-empty
+    }
+}
+/**
+ * A safe form of location.href
+ */
+function getLocationHref() {
+    try {
+        return document.location.href;
+    }
+    catch (oO) {
+        return '';
+    }
+}
+/**
+ * Given a child DOM element, returns a query-selector statement describing that
+ * and its ancestors
+ * e.g. [HTMLElement] => body > div > input#foo.btn[name=baz]
+ * @returns generated DOM path
+ */
+function htmlTreeAsString(elem) {
+    // try/catch both:
+    // - accessing event.target (see getsentry/raven-js#838, #768)
+    // - `htmlTreeAsString` because it's complex, and just accessing the DOM incorrectly
+    // - can throw an exception in some circumstances.
+    try {
+        var currentElem = elem;
+        var MAX_TRAVERSE_HEIGHT = 5;
+        var MAX_OUTPUT_LEN = 80;
+        var out = [];
+        var height = 0;
+        var len = 0;
+        var separator = ' > ';
+        var sepLength = separator.length;
+        var nextStr = void 0;
+        while (currentElem && height++ < MAX_TRAVERSE_HEIGHT) {
+            nextStr = _htmlElementAsString(currentElem);
+            // bail out if
+            // - nextStr is the 'html' element
+            // - the length of the string that would be created exceeds MAX_OUTPUT_LEN
+            //   (ignore this limit if we are on the first iteration)
+            if (nextStr === 'html' || (height > 1 && len + out.length * sepLength + nextStr.length >= MAX_OUTPUT_LEN)) {
+                break;
+            }
+            out.push(nextStr);
+            len += nextStr.length;
+            currentElem = currentElem.parentNode;
+        }
+        return out.reverse().join(separator);
+    }
+    catch (_oO) {
+        return '<unknown>';
+    }
+}
+/**
+ * Returns a simple, query-selector representation of a DOM element
+ * e.g. [HTMLElement] => input#foo.btn[name=baz]
+ * @returns generated DOM path
+ */
+function _htmlElementAsString(el) {
+    var elem = el;
+    var out = [];
+    var className;
+    var classes;
+    var key;
+    var attr;
+    var i;
+    if (!elem || !elem.tagName) {
+        return '';
+    }
+    out.push(elem.tagName.toLowerCase());
+    if (elem.id) {
+        out.push("#" + elem.id);
+    }
+    className = elem.className;
+    if (className && Object(_is__WEBPACK_IMPORTED_MODULE_0__[/* isString */ "g"])(className)) {
+        classes = className.split(/\s+/);
+        for (i = 0; i < classes.length; i++) {
+            out.push("." + classes[i]);
+        }
+    }
+    var attrWhitelist = ['type', 'name', 'title', 'alt'];
+    for (i = 0; i < attrWhitelist.length; i++) {
+        key = attrWhitelist[i];
+        attr = elem.getAttribute(key);
+        if (attr) {
+            out.push("[" + key + "=\"" + attr + "\"]");
+        }
+    }
+    return out.join('');
+}
+var defaultRetryAfter = 60 * 1000; // 60 seconds
+/**
+ * Extracts Retry-After value from the request header or returns default value
+ * @param now current unix timestamp
+ * @param header string representation of 'Retry-After' header
+ */
+function parseRetryAfterHeader(now, header) {
+    if (!header) {
+        return defaultRetryAfter;
+    }
+    var headerDelay = parseInt("" + header, 10);
+    if (!isNaN(headerDelay)) {
+        return headerDelay * 1000;
+    }
+    var headerDate = Date.parse("" + header);
+    if (!isNaN(headerDate)) {
+        return headerDate - now;
+    }
+    return defaultRetryAfter;
+}
+//# sourceMappingURL=misc.js.map
+
+/***/ }),
+
+/***/ 33:
+/***/ (function(module, exports) {
+
+module.exports = require("tty");
+
+/***/ }),
+
+/***/ 37:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2117,7 +2066,7 @@ function setup(env) {
   createDebug.disable = disable;
   createDebug.enable = enable;
   createDebug.enabled = enabled;
-  createDebug.humanize = __webpack_require__(59);
+  createDebug.humanize = __webpack_require__(64);
   Object.keys(env).forEach(function (key) {
     createDebug[key] = env[key];
   });
@@ -2356,13 +2305,15 @@ module.exports = setup;
 
 
 /***/ }),
-/* 33 */
+
+/***/ 38:
 /***/ (function(module, exports) {
 
 module.exports = require("module");
 
 /***/ }),
-/* 34 */
+
+/***/ 39:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2446,7 +2397,159 @@ var Span = /** @class */ (function () {
 //# sourceMappingURL=span.js.map
 
 /***/ }),
-/* 35 */
+
+/***/ 4:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return isError; });
+/* unused harmony export isErrorEvent */
+/* unused harmony export isDOMError */
+/* unused harmony export isDOMException */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return isString; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return isPrimitive; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return isPlainObject; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return isEvent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return isElement; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return isRegExp; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return isThenable; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return isSyntheticEvent; });
+/**
+ * Checks whether given value's type is one of a few Error or Error-like
+ * {@link isError}.
+ *
+ * @param wat A value to be checked.
+ * @returns A boolean representing the result.
+ */
+function isError(wat) {
+    switch (Object.prototype.toString.call(wat)) {
+        case '[object Error]':
+            return true;
+        case '[object Exception]':
+            return true;
+        case '[object DOMException]':
+            return true;
+        default:
+            return wat instanceof Error;
+    }
+}
+/**
+ * Checks whether given value's type is ErrorEvent
+ * {@link isErrorEvent}.
+ *
+ * @param wat A value to be checked.
+ * @returns A boolean representing the result.
+ */
+function isErrorEvent(wat) {
+    return Object.prototype.toString.call(wat) === '[object ErrorEvent]';
+}
+/**
+ * Checks whether given value's type is DOMError
+ * {@link isDOMError}.
+ *
+ * @param wat A value to be checked.
+ * @returns A boolean representing the result.
+ */
+function isDOMError(wat) {
+    return Object.prototype.toString.call(wat) === '[object DOMError]';
+}
+/**
+ * Checks whether given value's type is DOMException
+ * {@link isDOMException}.
+ *
+ * @param wat A value to be checked.
+ * @returns A boolean representing the result.
+ */
+function isDOMException(wat) {
+    return Object.prototype.toString.call(wat) === '[object DOMException]';
+}
+/**
+ * Checks whether given value's type is a string
+ * {@link isString}.
+ *
+ * @param wat A value to be checked.
+ * @returns A boolean representing the result.
+ */
+function isString(wat) {
+    return Object.prototype.toString.call(wat) === '[object String]';
+}
+/**
+ * Checks whether given value's is a primitive (undefined, null, number, boolean, string)
+ * {@link isPrimitive}.
+ *
+ * @param wat A value to be checked.
+ * @returns A boolean representing the result.
+ */
+function isPrimitive(wat) {
+    return wat === null || (typeof wat !== 'object' && typeof wat !== 'function');
+}
+/**
+ * Checks whether given value's type is an object literal
+ * {@link isPlainObject}.
+ *
+ * @param wat A value to be checked.
+ * @returns A boolean representing the result.
+ */
+function isPlainObject(wat) {
+    return Object.prototype.toString.call(wat) === '[object Object]';
+}
+/**
+ * Checks whether given value's type is an Event instance
+ * {@link isEvent}.
+ *
+ * @param wat A value to be checked.
+ * @returns A boolean representing the result.
+ */
+function isEvent(wat) {
+    // tslint:disable-next-line:strict-type-predicates
+    return typeof Event !== 'undefined' && wat instanceof Event;
+}
+/**
+ * Checks whether given value's type is an Element instance
+ * {@link isElement}.
+ *
+ * @param wat A value to be checked.
+ * @returns A boolean representing the result.
+ */
+function isElement(wat) {
+    // tslint:disable-next-line:strict-type-predicates
+    return typeof Element !== 'undefined' && wat instanceof Element;
+}
+/**
+ * Checks whether given value's type is an regexp
+ * {@link isRegExp}.
+ *
+ * @param wat A value to be checked.
+ * @returns A boolean representing the result.
+ */
+function isRegExp(wat) {
+    return Object.prototype.toString.call(wat) === '[object RegExp]';
+}
+/**
+ * Checks whether given value has a then function.
+ * @param wat A value to be checked.
+ */
+function isThenable(wat) {
+    // tslint:disable:no-unsafe-any
+    return Boolean(wat && wat.then && typeof wat.then === 'function');
+    // tslint:enable:no-unsafe-any
+}
+/**
+ * Checks whether given value's type is a SyntheticEvent
+ * {@link isSyntheticEvent}.
+ *
+ * @param wat A value to be checked.
+ * @returns A boolean representing the result.
+ */
+function isSyntheticEvent(wat) {
+    // tslint:disable-next-line:no-unsafe-any
+    return isPlainObject(wat) && 'nativeEvent' in wat && 'preventDefault' in wat && 'stopPropagation' in wat;
+}
+//# sourceMappingURL=is.js.map
+
+/***/ }),
+
+/***/ 40:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -2761,7 +2864,8 @@ LRUMap.prototype.toString = function() {
 
 
 /***/ }),
-/* 36 */
+
+/***/ 41:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2963,31 +3067,28 @@ function tryDecode(str, decode) {
 
 
 /***/ }),
-/* 37 */,
-/* 38 */,
-/* 39 */,
-/* 40 */,
-/* 41 */,
-/* 42 */,
-/* 43 */
+
+/***/ 47:
 /***/ (function(module, exports) {
 
 module.exports = require("net");
 
 /***/ }),
-/* 44 */
+
+/***/ 48:
 /***/ (function(module, exports) {
 
 module.exports = require("tls");
 
 /***/ }),
-/* 45 */
+
+/***/ 49:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const os = __webpack_require__(16);
-const hasFlag = __webpack_require__(61);
+const os = __webpack_require__(17);
+const hasFlag = __webpack_require__(66);
 
 const env = process.env;
 
@@ -3119,11 +3220,15 @@ module.exports = {
 
 
 /***/ }),
-/* 46 */,
-/* 47 */,
-/* 48 */,
-/* 49 */,
-/* 50 */
+
+/***/ 5:
+/***/ (function(module, exports) {
+
+module.exports = require("util");
+
+/***/ }),
+
+/***/ 55:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3134,7 +3239,7 @@ Object.defineProperty(exports, "__esModule", {
 }); // https://docs.sentry.io/error-reporting/quickstart/?platform=node
 // https://httptoolkit.tech/blog/netlify-function-error-reporting-with-sentry/
 
-const Sentry = __webpack_require__(65);
+const Sentry = __webpack_require__(74);
 
 const channel_1 = __webpack_require__(18);
 
@@ -3179,7 +3284,8 @@ exports.on_user_recognized = on_user_recognized; // TODO self-triage?
 // TODO breadcrumb
 
 /***/ }),
-/* 51 */
+
+/***/ 56:
 /***/ (function(module, exports) {
 
 module.exports = function(originalModule) {
@@ -3209,15 +3315,16 @@ module.exports = function(originalModule) {
 
 
 /***/ }),
-/* 52 */
+
+/***/ 57:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-__webpack_require__(53);
+__webpack_require__(58);
 const inherits = __webpack_require__(5).inherits;
-const promisify = __webpack_require__(54);
-const EventEmitter = __webpack_require__(15).EventEmitter;
+const promisify = __webpack_require__(59);
+const EventEmitter = __webpack_require__(10).EventEmitter;
 
 module.exports = Agent;
 
@@ -3386,12 +3493,13 @@ Agent.prototype.freeSocket = function freeSocket(socket, opts) {
 
 
 /***/ }),
-/* 53 */
+
+/***/ 58:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const url = __webpack_require__(14);
+const url = __webpack_require__(13);
 const https = __webpack_require__(20);
 
 /**
@@ -3444,7 +3552,8 @@ https.get = function (_url, _options, cb) {
 
 
 /***/ }),
-/* 54 */
+
+/***/ 59:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3457,7 +3566,7 @@ module.exports = function () {
 
     // Get a promise object. This may be native, or it may be polyfilled
 
-    var ES6Promise = __webpack_require__(55);
+    var ES6Promise = __webpack_require__(60);
 
     /**
      * thatLooksLikeAPromiseToMe()
@@ -3535,7 +3644,8 @@ module.exports = function () {
 }();
 
 /***/ }),
-/* 55 */
+
+/***/ 60:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3610,11 +3720,12 @@ module.exports = function () {
     }
 
     //  Otherwise, return the es6-promise polyfill by @jaffathecake.
-    return __webpack_require__(56).Promise;
+    return __webpack_require__(61).Promise;
 }();
 
 /***/ }),
-/* 56 */
+
+/***/ 61:
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -4793,7 +4904,8 @@ return Promise$1;
 
 
 /***/ }),
-/* 57 */
+
+/***/ 62:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4804,15 +4916,16 @@ return Promise$1;
  * treat as a browser.
  */
 if (typeof process === 'undefined' || process.type === 'renderer' || process.browser === true || process.__nwjs) {
-  module.exports = __webpack_require__(58);
+  module.exports = __webpack_require__(63);
 } else {
-  module.exports = __webpack_require__(60);
+  module.exports = __webpack_require__(65);
 }
 
 
 
 /***/ }),
-/* 58 */
+
+/***/ 63:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4982,7 +5095,7 @@ function localstorage() {
   }
 }
 
-module.exports = __webpack_require__(32)(exports);
+module.exports = __webpack_require__(37)(exports);
 var formatters = module.exports.formatters;
 /**
  * Map %j to `JSON.stringify()`, since no Web Inspectors do that by default.
@@ -4999,7 +5112,8 @@ formatters.j = function (v) {
 
 
 /***/ }),
-/* 59 */
+
+/***/ 64:
 /***/ (function(module, exports) {
 
 /**
@@ -5167,7 +5281,8 @@ function plural(ms, msAbs, n, name) {
 
 
 /***/ }),
-/* 60 */
+
+/***/ 65:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5176,7 +5291,7 @@ function plural(ms, msAbs, n, name) {
 /**
  * Module dependencies.
  */
-var tty = __webpack_require__(30);
+var tty = __webpack_require__(33);
 
 var util = __webpack_require__(5);
 /**
@@ -5199,7 +5314,7 @@ exports.colors = [6, 2, 3, 4, 5, 1];
 try {
   // Optional dependency (as in, doesn't need to be installed, NOT like optionalDependencies in package.json)
   // eslint-disable-next-line import/no-extraneous-dependencies
-  var supportsColor = __webpack_require__(45);
+  var supportsColor = __webpack_require__(49);
 
   if (supportsColor && (supportsColor.stderr || supportsColor).level >= 2) {
     exports.colors = [20, 21, 26, 27, 32, 33, 38, 39, 40, 41, 42, 43, 44, 45, 56, 57, 62, 63, 68, 69, 74, 75, 76, 77, 78, 79, 80, 81, 92, 93, 98, 99, 112, 113, 128, 129, 134, 135, 148, 149, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 178, 179, 184, 185, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 214, 215, 220, 221];
@@ -5325,7 +5440,7 @@ function init(debug) {
   }
 }
 
-module.exports = __webpack_require__(32)(exports);
+module.exports = __webpack_require__(37)(exports);
 var formatters = module.exports.formatters;
 /**
  * Map %o to `util.inspect()`, all on a single line.
@@ -5348,7 +5463,8 @@ formatters.O = function (v) {
 
 
 /***/ }),
-/* 61 */
+
+/***/ 66:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5363,15 +5479,386 @@ module.exports = (flag, argv) => {
 
 
 /***/ }),
-/* 62 */
+
+/***/ 67:
 /***/ (function(module, exports) {
 
 module.exports = require("console");
 
 /***/ }),
-/* 63 */,
-/* 64 */,
-/* 65 */
+
+/***/ 7:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/is.js
+var is = __webpack_require__(4);
+
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/memo.js
+// tslint:disable:no-unsafe-any
+/**
+ * Memo class used for decycle json objects. Uses WeakSet if available otherwise array.
+ */
+var Memo = /** @class */ (function () {
+    function Memo() {
+        // tslint:disable-next-line
+        this._hasWeakSet = typeof WeakSet === 'function';
+        this._inner = this._hasWeakSet ? new WeakSet() : [];
+    }
+    /**
+     * Sets obj to remember.
+     * @param obj Object to remember
+     */
+    Memo.prototype.memoize = function (obj) {
+        if (this._hasWeakSet) {
+            if (this._inner.has(obj)) {
+                return true;
+            }
+            this._inner.add(obj);
+            return false;
+        }
+        // tslint:disable-next-line:prefer-for-of
+        for (var i = 0; i < this._inner.length; i++) {
+            var value = this._inner[i];
+            if (value === obj) {
+                return true;
+            }
+        }
+        this._inner.push(obj);
+        return false;
+    };
+    /**
+     * Removes object from internal storage.
+     * @param obj Object to forget
+     */
+    Memo.prototype.unmemoize = function (obj) {
+        if (this._hasWeakSet) {
+            this._inner.delete(obj);
+        }
+        else {
+            for (var i = 0; i < this._inner.length; i++) {
+                if (this._inner[i] === obj) {
+                    this._inner.splice(i, 1);
+                    break;
+                }
+            }
+        }
+    };
+    return Memo;
+}());
+
+//# sourceMappingURL=memo.js.map
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/misc.js
+var misc = __webpack_require__(3);
+
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/string.js
+var string = __webpack_require__(27);
+
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/object.js
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return fill; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return urlEncode; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return normalizeToSize; });
+/* unused harmony export walk */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return normalize; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return extractExceptionKeysForMessage; });
+
+
+
+
+/**
+ * Wrap a given object method with a higher-order function
+ *
+ * @param source An object that contains a method to be wrapped.
+ * @param name A name of method to be wrapped.
+ * @param replacement A function that should be used to wrap a given method.
+ * @returns void
+ */
+function fill(source, name, replacement) {
+    if (!(name in source)) {
+        return;
+    }
+    var original = source[name];
+    var wrapped = replacement(original);
+    // Make sure it's a function first, as we need to attach an empty prototype for `defineProperties` to work
+    // otherwise it'll throw "TypeError: Object.defineProperties called on non-object"
+    // tslint:disable-next-line:strict-type-predicates
+    if (typeof wrapped === 'function') {
+        try {
+            wrapped.prototype = wrapped.prototype || {};
+            Object.defineProperties(wrapped, {
+                __sentry__: {
+                    enumerable: false,
+                    value: true,
+                },
+                __sentry_original__: {
+                    enumerable: false,
+                    value: original,
+                },
+                __sentry_wrapped__: {
+                    enumerable: false,
+                    value: wrapped,
+                },
+            });
+        }
+        catch (_Oo) {
+            // This can throw if multiple fill happens on a global object like XMLHttpRequest
+            // Fixes https://github.com/getsentry/sentry-javascript/issues/2043
+        }
+    }
+    source[name] = wrapped;
+}
+/**
+ * Encodes given object into url-friendly format
+ *
+ * @param object An object that contains serializable values
+ * @returns string Encoded
+ */
+function urlEncode(object) {
+    return Object.keys(object)
+        .map(
+    // tslint:disable-next-line:no-unsafe-any
+    function (key) { return encodeURIComponent(key) + "=" + encodeURIComponent(object[key]); })
+        .join('&');
+}
+/**
+ * Transforms any object into an object literal with all it's attributes
+ * attached to it.
+ *
+ * @param value Initial source that we have to transform in order to be usable by the serializer
+ */
+function getWalkSource(value) {
+    if (Object(is["b" /* isError */])(value)) {
+        var error = value;
+        var err = {
+            message: error.message,
+            name: error.name,
+            stack: error.stack,
+        };
+        for (var i in error) {
+            if (Object.prototype.hasOwnProperty.call(error, i)) {
+                err[i] = error[i];
+            }
+        }
+        return err;
+    }
+    if (Object(is["c" /* isEvent */])(value)) {
+        var event_1 = value;
+        var source = {};
+        source.type = event_1.type;
+        // Accessing event.target can throw (see getsentry/raven-js#838, #768)
+        try {
+            source.target = Object(is["a" /* isElement */])(event_1.target)
+                ? Object(misc["g" /* htmlTreeAsString */])(event_1.target)
+                : Object.prototype.toString.call(event_1.target);
+        }
+        catch (_oO) {
+            source.target = '<unknown>';
+        }
+        try {
+            source.currentTarget = Object(is["a" /* isElement */])(event_1.currentTarget)
+                ? Object(misc["g" /* htmlTreeAsString */])(event_1.currentTarget)
+                : Object.prototype.toString.call(event_1.currentTarget);
+        }
+        catch (_oO) {
+            source.currentTarget = '<unknown>';
+        }
+        // tslint:disable-next-line:strict-type-predicates
+        if (typeof CustomEvent !== 'undefined' && value instanceof CustomEvent) {
+            source.detail = event_1.detail;
+        }
+        for (var i in event_1) {
+            if (Object.prototype.hasOwnProperty.call(event_1, i)) {
+                source[i] = event_1;
+            }
+        }
+        return source;
+    }
+    return value;
+}
+/** Calculates bytes size of input string */
+function utf8Length(value) {
+    // tslint:disable-next-line:no-bitwise
+    return ~-encodeURI(value).split(/%..|./).length;
+}
+/** Calculates bytes size of input object */
+function jsonSize(value) {
+    return utf8Length(JSON.stringify(value));
+}
+/** JSDoc */
+function normalizeToSize(object, 
+// Default Node.js REPL depth
+depth, 
+// 100kB, as 200kB is max payload size, so half sounds reasonable
+maxSize) {
+    if (depth === void 0) { depth = 3; }
+    if (maxSize === void 0) { maxSize = 100 * 1024; }
+    var serialized = normalize(object, depth);
+    if (jsonSize(serialized) > maxSize) {
+        return normalizeToSize(object, depth - 1, maxSize);
+    }
+    return serialized;
+}
+/** Transforms any input value into a string form, either primitive value or a type of the input */
+function serializeValue(value) {
+    var type = Object.prototype.toString.call(value);
+    // Node.js REPL notation
+    if (typeof value === 'string') {
+        return value;
+    }
+    if (type === '[object Object]') {
+        return '[Object]';
+    }
+    if (type === '[object Array]') {
+        return '[Array]';
+    }
+    var normalized = normalizeValue(value);
+    return Object(is["e" /* isPrimitive */])(normalized) ? normalized : type;
+}
+/**
+ * normalizeValue()
+ *
+ * Takes unserializable input and make it serializable friendly
+ *
+ * - translates undefined/NaN values to "[undefined]"/"[NaN]" respectively,
+ * - serializes Error objects
+ * - filter global objects
+ */
+// tslint:disable-next-line:cyclomatic-complexity
+function normalizeValue(value, key) {
+    if (key === 'domain' && value && typeof value === 'object' && value._events) {
+        return '[Domain]';
+    }
+    if (key === 'domainEmitter') {
+        return '[DomainEmitter]';
+    }
+    if (typeof global !== 'undefined' && value === global) {
+        return '[Global]';
+    }
+    if (typeof window !== 'undefined' && value === window) {
+        return '[Window]';
+    }
+    if (typeof document !== 'undefined' && value === document) {
+        return '[Document]';
+    }
+    // React's SyntheticEvent thingy
+    if (Object(is["h" /* isSyntheticEvent */])(value)) {
+        return '[SyntheticEvent]';
+    }
+    // tslint:disable-next-line:no-tautology-expression
+    if (typeof value === 'number' && value !== value) {
+        return '[NaN]';
+    }
+    if (value === void 0) {
+        return '[undefined]';
+    }
+    if (typeof value === 'function') {
+        return "[Function: " + (value.name || '<unknown-function-name>') + "]";
+    }
+    return value;
+}
+/**
+ * Walks an object to perform a normalization on it
+ *
+ * @param key of object that's walked in current iteration
+ * @param value object to be walked
+ * @param depth Optional number indicating how deep should walking be performed
+ * @param memo Optional Memo class handling decycling
+ */
+function walk(key, value, depth, memo) {
+    if (depth === void 0) { depth = +Infinity; }
+    if (memo === void 0) { memo = new Memo(); }
+    // If we reach the maximum depth, serialize whatever has left
+    if (depth === 0) {
+        return serializeValue(value);
+    }
+    // If value implements `toJSON` method, call it and return early
+    // tslint:disable:no-unsafe-any
+    if (value !== null && value !== undefined && typeof value.toJSON === 'function') {
+        return value.toJSON();
+    }
+    // tslint:enable:no-unsafe-any
+    // If normalized value is a primitive, there are no branches left to walk, so we can just bail out, as theres no point in going down that branch any further
+    var normalized = normalizeValue(value, key);
+    if (Object(is["e" /* isPrimitive */])(normalized)) {
+        return normalized;
+    }
+    // Create source that we will use for next itterations, either objectified error object (Error type with extracted keys:value pairs) or the input itself
+    var source = getWalkSource(value);
+    // Create an accumulator that will act as a parent for all future itterations of that branch
+    var acc = Array.isArray(value) ? [] : {};
+    // If we already walked that branch, bail out, as it's circular reference
+    if (memo.memoize(value)) {
+        return '[Circular ~]';
+    }
+    // Walk all keys of the source
+    for (var innerKey in source) {
+        // Avoid iterating over fields in the prototype if they've somehow been exposed to enumeration.
+        if (!Object.prototype.hasOwnProperty.call(source, innerKey)) {
+            continue;
+        }
+        // Recursively walk through all the child nodes
+        acc[innerKey] = walk(innerKey, source[innerKey], depth - 1, memo);
+    }
+    // Once walked through all the branches, remove the parent from memo storage
+    memo.unmemoize(value);
+    // Return accumulated values
+    return acc;
+}
+/**
+ * normalize()
+ *
+ * - Creates a copy to prevent original input mutation
+ * - Skip non-enumerablers
+ * - Calls `toJSON` if implemented
+ * - Removes circular references
+ * - Translates non-serializeable values (undefined/NaN/Functions) to serializable format
+ * - Translates known global objects/Classes to a string representations
+ * - Takes care of Error objects serialization
+ * - Optionally limit depth of final output
+ */
+function normalize(input, depth) {
+    try {
+        // tslint:disable-next-line:no-unsafe-any
+        return JSON.parse(JSON.stringify(input, function (key, value) { return walk(key, value, depth); }));
+    }
+    catch (_oO) {
+        return '**non-serializable**';
+    }
+}
+/**
+ * Given any captured exception, extract its keys and create a sorted
+ * and truncated list that will be used inside the event message.
+ * eg. `Non-error exception captured with keys: foo, bar, baz`
+ */
+function extractExceptionKeysForMessage(exception, maxLength) {
+    if (maxLength === void 0) { maxLength = 40; }
+    // tslint:disable:strict-type-predicates
+    var keys = Object.keys(getWalkSource(exception));
+    keys.sort();
+    if (!keys.length) {
+        return '[object has no keys]';
+    }
+    if (keys[0].length >= maxLength) {
+        return Object(string["c" /* truncate */])(keys[0], maxLength);
+    }
+    for (var includedKeys = keys.length; includedKeys > 0; includedKeys--) {
+        var serialized = keys.slice(0, includedKeys).join(', ');
+        if (serialized.length > maxLength) {
+            continue;
+        }
+        if (includedKeys === keys.length) {
+            return serialized;
+        }
+        return Object(string["c" /* truncate */])(serialized, maxLength);
+    }
+    return '';
+}
+//# sourceMappingURL=object.js.map
+
+/***/ }),
+
+/***/ 74:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5502,7 +5989,7 @@ var Status;
 var esm_scope = __webpack_require__(22);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/hub/esm/hub.js
-var esm_hub = __webpack_require__(92);
+var esm_hub = __webpack_require__(131);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/minimal/esm/index.js
 
@@ -5670,19 +6157,19 @@ function _callOnClient(method) {
 }
 //# sourceMappingURL=index.js.map
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/hub/esm/span.js
-var esm_span = __webpack_require__(34);
+var esm_span = __webpack_require__(39);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/logger.js
-var logger = __webpack_require__(66);
+var logger = __webpack_require__(75);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/is.js
 var is = __webpack_require__(4);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/syncpromise.js
-var syncpromise = __webpack_require__(13);
+var syncpromise = __webpack_require__(15);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/string.js
-var string = __webpack_require__(25);
+var string = __webpack_require__(27);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/misc.js
 var misc = __webpack_require__(3);
@@ -6323,7 +6810,7 @@ var basebackend_BaseBackend = /** @class */ (function () {
 
 //# sourceMappingURL=basebackend.js.map
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/object.js + 1 modules
-var object = __webpack_require__(6);
+var object = __webpack_require__(7);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/path.js
 // Slightly modified (no IE8 support, ES6) and transcribed to TypeScript
@@ -6485,10 +6972,10 @@ function basename(path, ext) {
 }
 //# sourceMappingURL=path.js.map
 // EXTERNAL MODULE: external "fs"
-var external_fs_ = __webpack_require__(7);
+var external_fs_ = __webpack_require__(8);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/lru_map/lru.js
-var lru = __webpack_require__(35);
+var lru = __webpack_require__(40);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/stacktrace.js
 /**
@@ -7088,7 +7575,7 @@ var base_BaseTransport = /** @class */ (function () {
 
 //# sourceMappingURL=base.js.map
 // EXTERNAL MODULE: external "http"
-var external_http_ = __webpack_require__(11);
+var external_http_ = __webpack_require__(16);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/https-proxy-agent/index.js
 var https_proxy_agent = __webpack_require__(19);
@@ -7565,10 +8052,10 @@ var console_Console = /** @class */ (function () {
      * @inheritDoc
      */
     Console.prototype.setupOnce = function () {
-        var nativeModule = __webpack_require__(33);
+        var nativeModule = __webpack_require__(38);
         Object(object["b" /* fill */])(nativeModule, '_load', loadWrapper(nativeModule));
         // special case: since console is built-in and app-level code won't require() it, do that here
-        __webpack_require__(62);
+        __webpack_require__(67);
     };
     /**
      * @inheritDoc
@@ -7656,14 +8143,14 @@ var http_Http = /** @class */ (function () {
      * @inheritDoc
      */
     Http.prototype.setupOnce = function () {
-        var nativeModule = __webpack_require__(33);
+        var nativeModule = __webpack_require__(38);
         Object(object["b" /* fill */])(nativeModule, '_load', http_loadWrapper(nativeModule));
         // observation: when the https module does its own require('http'), it *does not* hit our hooked require to instrument http on the fly
         // but if we've previously instrumented http, https *does* get our already-instrumented version
         // this is because raven's transports are required before this instrumentation takes place, which loads https (and http)
         // so module cache will have uninstrumented http; proactively loading it here ensures instrumented version is in module cache
         // alternatively we could refactor to load our transports later, but this is easier and doesn't have much drawback
-        __webpack_require__(11);
+        __webpack_require__(16);
     };
     /**
      * @inheritDoc
@@ -7792,13 +8279,13 @@ function forget(promise) {
 }
 //# sourceMappingURL=async.js.map
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/cookie/index.js
-var cookie = __webpack_require__(36);
+var cookie = __webpack_require__(41);
 
 // EXTERNAL MODULE: external "os"
-var external_os_ = __webpack_require__(16);
+var external_os_ = __webpack_require__(17);
 
 // EXTERNAL MODULE: external "url"
-var external_url_ = __webpack_require__(14);
+var external_url_ = __webpack_require__(13);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/handlers.js
 
@@ -8328,7 +8815,7 @@ var linkederrors_LinkedErrors = /** @class */ (function () {
 
 //# sourceMappingURL=linkederrors.js.map
 // EXTERNAL MODULE: external "path"
-var external_path_ = __webpack_require__(17);
+var external_path_ = __webpack_require__(12);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/integrations/modules.js
 
@@ -8609,7 +9096,8 @@ var INTEGRATIONS = tslib_es6["__assign"]({}, integrations_namespaceObject, esm_i
 //# sourceMappingURL=index.js.map
 
 /***/ }),
-/* 66 */
+
+/***/ 75:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8682,554 +9170,12 @@ var logger = global.__SENTRY__.logger || (global.__SENTRY__.logger = new Logger(
 //# sourceMappingURL=logger.js.map
 
 /***/ }),
-/* 67 */,
-/* 68 */,
-/* 69 */,
-/* 70 */,
-/* 71 */,
-/* 72 */,
-/* 73 */,
-/* 74 */,
-/* 75 */,
-/* 76 */,
-/* 77 */,
-/* 78 */,
-/* 79 */,
-/* 80 */,
-/* 81 */,
-/* 82 */,
-/* 83 */,
-/* 84 */,
-/* 85 */,
-/* 86 */,
-/* 87 */,
-/* 88 */,
-/* 89 */,
-/* 90 */,
-/* 91 */,
-/* 92 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-"use strict";
-/* WEBPACK VAR INJECTION */(function(module) {/* unused harmony export API_VERSION */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Hub; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return getMainCarrier; });
-/* unused harmony export makeMain */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return getCurrentHub; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getHubFromCarrier; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return setHubOnCarrier; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
-/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(66);
-/* harmony import */ var _scope__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(22);
+/***/ 8:
+/***/ (function(module, exports) {
 
-
-
-/**
- * API compatibility version of this hub.
- *
- * WARNING: This number should only be incresed when the global interface
- * changes a and new methods are introduced.
- *
- * @hidden
- */
-var API_VERSION = 3;
-/**
- * Default maximum number of breadcrumbs added to an event. Can be overwritten
- * with {@link Options.maxBreadcrumbs}.
- */
-var DEFAULT_BREADCRUMBS = 30;
-/**
- * Absolute maximum number of breadcrumbs added to an event. The
- * `maxBreadcrumbs` option cannot be higher than this value.
- */
-var MAX_BREADCRUMBS = 100;
-/**
- * @inheritDoc
- */
-var Hub = /** @class */ (function () {
-    /**
-     * Creates a new instance of the hub, will push one {@link Layer} into the
-     * internal stack on creation.
-     *
-     * @param client bound to the hub.
-     * @param scope bound to the hub.
-     * @param version number, higher number means higher priority.
-     */
-    function Hub(client, scope, _version) {
-        if (scope === void 0) { scope = new _scope__WEBPACK_IMPORTED_MODULE_3__[/* Scope */ "a"](); }
-        if (_version === void 0) { _version = API_VERSION; }
-        this._version = _version;
-        /** Is a {@link Layer}[] containing the client and scope */
-        this._stack = [];
-        this._stack.push({ client: client, scope: scope });
-    }
-    /**
-     * Internal helper function to call a method on the top client if it exists.
-     *
-     * @param method The method to call on the client.
-     * @param args Arguments to pass to the client function.
-     */
-    Hub.prototype._invokeClient = function (method) {
-        var _a;
-        var args = [];
-        for (var _i = 1; _i < arguments.length; _i++) {
-            args[_i - 1] = arguments[_i];
-        }
-        var top = this.getStackTop();
-        if (top && top.client && top.client[method]) {
-            (_a = top.client)[method].apply(_a, tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"](args, [top.scope]));
-        }
-    };
-    /**
-     * @inheritDoc
-     */
-    Hub.prototype.isOlderThan = function (version) {
-        return this._version < version;
-    };
-    /**
-     * @inheritDoc
-     */
-    Hub.prototype.bindClient = function (client) {
-        var top = this.getStackTop();
-        top.client = client;
-    };
-    /**
-     * @inheritDoc
-     */
-    Hub.prototype.pushScope = function () {
-        // We want to clone the content of prev scope
-        var stack = this.getStack();
-        var parentScope = stack.length > 0 ? stack[stack.length - 1].scope : undefined;
-        var scope = _scope__WEBPACK_IMPORTED_MODULE_3__[/* Scope */ "a"].clone(parentScope);
-        this.getStack().push({
-            client: this.getClient(),
-            scope: scope,
-        });
-        return scope;
-    };
-    /**
-     * @inheritDoc
-     */
-    Hub.prototype.popScope = function () {
-        return this.getStack().pop() !== undefined;
-    };
-    /**
-     * @inheritDoc
-     */
-    Hub.prototype.withScope = function (callback) {
-        var scope = this.pushScope();
-        try {
-            callback(scope);
-        }
-        finally {
-            this.popScope();
-        }
-    };
-    /**
-     * @inheritDoc
-     */
-    Hub.prototype.getClient = function () {
-        return this.getStackTop().client;
-    };
-    /** Returns the scope of the top stack. */
-    Hub.prototype.getScope = function () {
-        return this.getStackTop().scope;
-    };
-    /** Returns the scope stack for domains or the process. */
-    Hub.prototype.getStack = function () {
-        return this._stack;
-    };
-    /** Returns the topmost scope layer in the order domain > local > process. */
-    Hub.prototype.getStackTop = function () {
-        return this._stack[this._stack.length - 1];
-    };
-    /**
-     * @inheritDoc
-     */
-    Hub.prototype.captureException = function (exception, hint) {
-        var eventId = (this._lastEventId = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* uuid4 */ "j"])());
-        var finalHint = hint;
-        // If there's no explicit hint provided, mimick the same thing that would happen
-        // in the minimal itself to create a consistent behavior.
-        // We don't do this in the client, as it's the lowest level API, and doing this,
-        // would prevent user from having full control over direct calls.
-        if (!hint) {
-            var syntheticException = void 0;
-            try {
-                throw new Error('Sentry syntheticException');
-            }
-            catch (exception) {
-                syntheticException = exception;
-            }
-            finalHint = {
-                originalException: exception,
-                syntheticException: syntheticException,
-            };
-        }
-        this._invokeClient('captureException', exception, tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, finalHint, { event_id: eventId }));
-        return eventId;
-    };
-    /**
-     * @inheritDoc
-     */
-    Hub.prototype.captureMessage = function (message, level, hint) {
-        var eventId = (this._lastEventId = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* uuid4 */ "j"])());
-        var finalHint = hint;
-        // If there's no explicit hint provided, mimick the same thing that would happen
-        // in the minimal itself to create a consistent behavior.
-        // We don't do this in the client, as it's the lowest level API, and doing this,
-        // would prevent user from having full control over direct calls.
-        if (!hint) {
-            var syntheticException = void 0;
-            try {
-                throw new Error(message);
-            }
-            catch (exception) {
-                syntheticException = exception;
-            }
-            finalHint = {
-                originalException: message,
-                syntheticException: syntheticException,
-            };
-        }
-        this._invokeClient('captureMessage', message, level, tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, finalHint, { event_id: eventId }));
-        return eventId;
-    };
-    /**
-     * @inheritDoc
-     */
-    Hub.prototype.captureEvent = function (event, hint) {
-        var eventId = (this._lastEventId = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* uuid4 */ "j"])());
-        this._invokeClient('captureEvent', event, tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, hint, { event_id: eventId }));
-        return eventId;
-    };
-    /**
-     * @inheritDoc
-     */
-    Hub.prototype.lastEventId = function () {
-        return this._lastEventId;
-    };
-    /**
-     * @inheritDoc
-     */
-    Hub.prototype.addBreadcrumb = function (breadcrumb, hint) {
-        var top = this.getStackTop();
-        if (!top.scope || !top.client) {
-            return;
-        }
-        var _a = (top.client.getOptions && top.client.getOptions()) || {}, _b = _a.beforeBreadcrumb, beforeBreadcrumb = _b === void 0 ? null : _b, _c = _a.maxBreadcrumbs, maxBreadcrumbs = _c === void 0 ? DEFAULT_BREADCRUMBS : _c;
-        if (maxBreadcrumbs <= 0) {
-            return;
-        }
-        var timestamp = new Date().getTime() / 1000;
-        var mergedBreadcrumb = tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({ timestamp: timestamp }, breadcrumb);
-        var finalBreadcrumb = beforeBreadcrumb
-            ? Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* consoleSandbox */ "c"])(function () { return beforeBreadcrumb(mergedBreadcrumb, hint); })
-            : mergedBreadcrumb;
-        if (finalBreadcrumb === null) {
-            return;
-        }
-        top.scope.addBreadcrumb(finalBreadcrumb, Math.min(maxBreadcrumbs, MAX_BREADCRUMBS));
-    };
-    /**
-     * @inheritDoc
-     */
-    Hub.prototype.setUser = function (user) {
-        var top = this.getStackTop();
-        if (!top.scope) {
-            return;
-        }
-        top.scope.setUser(user);
-    };
-    /**
-     * @inheritDoc
-     */
-    Hub.prototype.setTags = function (tags) {
-        var top = this.getStackTop();
-        if (!top.scope) {
-            return;
-        }
-        top.scope.setTags(tags);
-    };
-    /**
-     * @inheritDoc
-     */
-    Hub.prototype.setExtras = function (extras) {
-        var top = this.getStackTop();
-        if (!top.scope) {
-            return;
-        }
-        top.scope.setExtras(extras);
-    };
-    /**
-     * @inheritDoc
-     */
-    Hub.prototype.setTag = function (key, value) {
-        var top = this.getStackTop();
-        if (!top.scope) {
-            return;
-        }
-        top.scope.setTag(key, value);
-    };
-    /**
-     * @inheritDoc
-     */
-    Hub.prototype.setExtra = function (key, extra) {
-        var top = this.getStackTop();
-        if (!top.scope) {
-            return;
-        }
-        top.scope.setExtra(key, extra);
-    };
-    /**
-     * @inheritDoc
-     */
-    Hub.prototype.setContext = function (name, context) {
-        var top = this.getStackTop();
-        if (!top.scope) {
-            return;
-        }
-        top.scope.setContext(name, context);
-    };
-    /**
-     * @inheritDoc
-     */
-    Hub.prototype.configureScope = function (callback) {
-        var top = this.getStackTop();
-        if (top.scope && top.client) {
-            callback(top.scope);
-        }
-    };
-    /**
-     * @inheritDoc
-     */
-    Hub.prototype.run = function (callback) {
-        var oldHub = makeMain(this);
-        try {
-            callback(this);
-        }
-        finally {
-            makeMain(oldHub);
-        }
-    };
-    /**
-     * @inheritDoc
-     */
-    Hub.prototype.getIntegration = function (integration) {
-        var client = this.getClient();
-        if (!client) {
-            return null;
-        }
-        try {
-            return client.getIntegration(integration);
-        }
-        catch (_oO) {
-            _sentry_utils__WEBPACK_IMPORTED_MODULE_2__[/* logger */ "a"].warn("Cannot retrieve integration " + integration.id + " from the current Hub");
-            return null;
-        }
-    };
-    /**
-     * @inheritDoc
-     */
-    Hub.prototype.traceHeaders = function () {
-        var top = this.getStackTop();
-        if (top.scope && top.client) {
-            var span = top.scope.getSpan();
-            if (span) {
-                return {
-                    'sentry-trace': span.toTraceparent(),
-                };
-            }
-        }
-        return {};
-    };
-    return Hub;
-}());
-
-/** Returns the global shim registry. */
-function getMainCarrier() {
-    var carrier = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* getGlobalObject */ "f"])();
-    carrier.__SENTRY__ = carrier.__SENTRY__ || {
-        hub: undefined,
-    };
-    return carrier;
-}
-/**
- * Replaces the current main hub with the passed one on the global object
- *
- * @returns The old replaced hub
- */
-function makeMain(hub) {
-    var registry = getMainCarrier();
-    var oldHub = getHubFromCarrier(registry);
-    setHubOnCarrier(registry, hub);
-    return oldHub;
-}
-/**
- * Returns the default hub instance.
- *
- * If a hub is already registered in the global carrier but this module
- * contains a more recent version, it replaces the registered version.
- * Otherwise, the currently registered hub will be returned.
- */
-function getCurrentHub() {
-    // Get main carrier (global for every environment)
-    var registry = getMainCarrier();
-    // If there's no hub, or its an old API, assign a new one
-    if (!hasHubOnCarrier(registry) || getHubFromCarrier(registry).isOlderThan(API_VERSION)) {
-        setHubOnCarrier(registry, new Hub());
-    }
-    // Prefer domains over global if they are there (applicable only to Node environment)
-    if (Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* isNodeEnv */ "h"])()) {
-        return getHubFromActiveDomain(registry);
-    }
-    // Return hub that lives on a global object
-    return getHubFromCarrier(registry);
-}
-/**
- * Try to read the hub from an active domain, fallback to the registry if one doesnt exist
- * @returns discovered hub
- */
-function getHubFromActiveDomain(registry) {
-    try {
-        // We need to use `dynamicRequire` because `require` on it's own will be optimized by webpack.
-        // We do not want this to happen, we need to try to `require` the domain node module and fail if we are in browser
-        // for example so we do not have to shim it and use `getCurrentHub` universally.
-        var domain = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* dynamicRequire */ "d"])(module, 'domain');
-        var activeDomain = domain.active;
-        // If there no active domain, just return global hub
-        if (!activeDomain) {
-            return getHubFromCarrier(registry);
-        }
-        // If there's no hub on current domain, or its an old API, assign a new one
-        if (!hasHubOnCarrier(activeDomain) || getHubFromCarrier(activeDomain).isOlderThan(API_VERSION)) {
-            var registryHubTopStack = getHubFromCarrier(registry).getStackTop();
-            setHubOnCarrier(activeDomain, new Hub(registryHubTopStack.client, _scope__WEBPACK_IMPORTED_MODULE_3__[/* Scope */ "a"].clone(registryHubTopStack.scope)));
-        }
-        // Return hub that lives on a domain
-        return getHubFromCarrier(activeDomain);
-    }
-    catch (_Oo) {
-        // Return hub that lives on a global object
-        return getHubFromCarrier(registry);
-    }
-}
-/**
- * This will tell whether a carrier has a hub on it or not
- * @param carrier object
- */
-function hasHubOnCarrier(carrier) {
-    if (carrier && carrier.__SENTRY__ && carrier.__SENTRY__.hub) {
-        return true;
-    }
-    return false;
-}
-/**
- * This will create a new {@link Hub} and add to the passed object on
- * __SENTRY__.hub.
- * @param carrier object
- * @hidden
- */
-function getHubFromCarrier(carrier) {
-    if (carrier && carrier.__SENTRY__ && carrier.__SENTRY__.hub) {
-        return carrier.__SENTRY__.hub;
-    }
-    carrier.__SENTRY__ = carrier.__SENTRY__ || {};
-    carrier.__SENTRY__.hub = new Hub();
-    return carrier.__SENTRY__.hub;
-}
-/**
- * This will set passed {@link Hub} on the passed object's __SENTRY__.hub attribute
- * @param carrier object
- * @param hub Hub
- */
-function setHubOnCarrier(carrier, hub) {
-    if (!carrier) {
-        return false;
-    }
-    carrier.__SENTRY__ = carrier.__SENTRY__ || {};
-    carrier.__SENTRY__.hub = hub;
-    return true;
-}
-//# sourceMappingURL=hub.js.map
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(51)(module)))
-
-/***/ }),
-/* 93 */,
-/* 94 */,
-/* 95 */,
-/* 96 */,
-/* 97 */,
-/* 98 */,
-/* 99 */,
-/* 100 */,
-/* 101 */,
-/* 102 */,
-/* 103 */,
-/* 104 */,
-/* 105 */,
-/* 106 */,
-/* 107 */,
-/* 108 */,
-/* 109 */,
-/* 110 */,
-/* 111 */,
-/* 112 */,
-/* 113 */,
-/* 114 */,
-/* 115 */,
-/* 116 */,
-/* 117 */,
-/* 118 */,
-/* 119 */,
-/* 120 */,
-/* 121 */,
-/* 122 */,
-/* 123 */,
-/* 124 */,
-/* 125 */,
-/* 126 */,
-/* 127 */,
-/* 128 */,
-/* 129 */,
-/* 130 */,
-/* 131 */,
-/* 132 */,
-/* 133 */,
-/* 134 */,
-/* 135 */,
-/* 136 */,
-/* 137 */,
-/* 138 */,
-/* 139 */,
-/* 140 */,
-/* 141 */,
-/* 142 */,
-/* 143 */,
-/* 144 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-const sentry_1 = __webpack_require__(50);
-
-const handler = async (event, badly_typed_context) => {
-  var _a, _b;
-
-  let message = ((_b = (_a = event) === null || _a === void 0 ? void 0 : _a.queryStringParameters) === null || _b === void 0 ? void 0 : _b.message) || 'Unknown error!';
-  if (!message.endsWith('!')) message = message + '!';
-  const err = new Error(message);
-  await sentry_1.on_error(err);
-  throw err;
-};
-
-exports.handler = handler;
+module.exports = require("fs");
 
 /***/ })
-/******/ ])));
+
+/******/ })));

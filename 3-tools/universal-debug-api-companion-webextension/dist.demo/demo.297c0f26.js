@@ -802,7 +802,7 @@ var _sharedDemo = require("../../../../1-foundation/practical-logger-core/doc/sh
 
 /* global: _debug */
 //import '../../src/injected-libs/universal-debug-api-control'
-const LIB = `📄 demo/head-script`;
+const LIB = '📄 demo/head-script';
 console.warn(`[${LIB}.${+Date.now()}] Hello, more standard!`, {
   foo_js: window.foo,
   foo_ls: (() => {
@@ -862,4 +862,4 @@ console.log(`[${LIB}.${+Date.now()}] sending a test postMessage...`)
 window.postMessage({msg: `Test message from ${LIB}`}, '*')
 */
 },{"@offirmo/universal-debug-api-placeholder":"N08m","../../../../1-foundation/practical-logger-core/doc/shared-demo":"K8Q0"}]},{},["Focm"], null)
-//# sourceMappingURL=demo.c4e33d3e.js.map
+//# sourceMappingURL=demo.297c0f26.js.map
