@@ -1,5 +1,6 @@
 import { Logger } from '@offirmo/universal-debug-api-node'
 import { getRootSEC, BaseInjections, SoftExecutionContext, WithSEC, EventDataMap } from '@offirmo-private/soft-execution-context'
+import { JSONRpcRequest, JSONRpcResponse } from '@offirmo-private/json-rpc-types'
 import {
 	listenToUncaughtErrors,
 	listenToUnhandledRejections,
@@ -18,6 +19,8 @@ export interface Injections extends BaseInjections {
 	logger: Logger
 	user_p?: Users.PUser
 	user?: Users.User
+	jsonrpc_request?: JSONRpcRequest<{}>,
+	jsonrpc_response?: JSONRpcResponse<{}>,
 }
 
 export type XSoftExecutionContext = SoftExecutionContext<Injections>

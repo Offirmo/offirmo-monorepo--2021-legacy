@@ -13,10 +13,10 @@ import {
 import process_rpc_echo from './echo'
 import process_rpc_sync from './sync'
 
-function process_rpc(
-	req: TbrpgRpc,
+async function process_rpc(
+	req: Readonly<TbrpgRpc>,
 	res: TbrpgRpcResponse,
-): TbrpgRpcResponse {
+): Promise<void> {
 	const { method } = req
 
 	switch(method) {

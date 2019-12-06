@@ -19,9 +19,15 @@ logo animé https://svgartista.net/
 3D et transitions three.js https://ykob.github.io/sketch-threejs/
 3D camera https://woodneck.github.io/css-camera/release/latest/docs/index.html
 
+transitions https://tympanus.net/Development/webGLImageTransitions/index.html
+
 lumière https://jaredforsyth.com/veoluz/gallery/
 
 procedural mountains https://codepen.io/kylewetton/pen/oNvEXYM
+
+dweets http://frankforce.com/?p=7160#shattered
+
+potions https://codepen.io/chrisgannon/pen/WNNJqXz
 
 Icons:
 - https://thenounproject.com/monjin.friends/collection/fantasy-kit/

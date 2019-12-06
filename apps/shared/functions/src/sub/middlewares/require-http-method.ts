@@ -1,12 +1,19 @@
 import { Enum } from 'typescript-string-enums'
 
-import { MiddleWare, APIGatewayEvent, XSoftExecutionContext, NetlifyContext, Response} from './types'
 import { create_error } from '../utils'
+import {
+	MiddleWare,
+	APIGatewayEvent,
+	XSoftExecutionContext,
+	NetlifyContext,
+	Response,
+} from './types'
 
 
 export const HttpMethod = Enum(
 	'GET',
 	'PUT',
+	'PATCH',
 )
 export type HttpMethod = Enum<typeof HttpMethod> // eslint-disable-line no-redeclare
 

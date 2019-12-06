@@ -1,6 +1,17 @@
 
 
+## universes
 
+### western
+Mounts!!!
+ships (flying or sea)
+gothic / churches
+
+### chinese
+flying swords
+palaces
+temples
+pagodas
 
 
 
@@ -28,10 +39,19 @@ From marketing of "Children of MORTA"
   * Ys
   * Zerzura
   * Agartha https://en.wikipedia.org/wiki/Agartha
-  
-  
+
+
 ### comportement
 * https://nerdist.com/article/read-body-language-fbi-expert-video/
+
+#### coutumes / traditions
+* https://fr.wikipedia.org/wiki/Wergeld
+* https://en.wikipedia.org/wiki/Rite_of_passage
+* https://en.wikipedia.org/wiki/Marriage_of_the_Sea_ceremony
+
+#### coopération
+* https://en.wikipedia.org/wiki/Baqt
+
 
 ### NPC
 https://fr.wikipedia.org/wiki/Malgven
@@ -40,12 +60,9 @@ https://fr.wikipedia.org/wiki/Gradlon
 ### architecture
 https://en.wikipedia.org/wiki/Martello_tower
 
-### traditions
-* https://en.wikipedia.org/wiki/Rite_of_passage
-* https://en.wikipedia.org/wiki/Marriage_of_the_Sea_ceremony
 
 ### folklore
-* 
+*
 
 ### Histoires
 Hunter gatherer
@@ -76,6 +93,7 @@ https://en.wikipedia.org/wiki/International_Nuclear_Event_Scale
 
 
 ## Faune & Flore
+
 
 ### cosmique
 * https://science.slashdot.org/story/19/07/10/1824216/moons-that-escape-their-planets-could-become-ploonets
@@ -116,7 +134,6 @@ https://en.wikipedia.org/wiki/International_Nuclear_Event_Scale
 grizzli bataille https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fcari.mcgillivray%2Fvideos%2F10218072269532509%2F&show_text=0&width=560
 
 
-
 ## magic system
 
 ### origine
@@ -148,9 +165,13 @@ https://goblinscomic.com/dungeon-master-tips
 * https://en.wikipedia.org/wiki/Fiction-writing_mode
 
 ## tosort
-    Men wanted for hazardous journey. Small wages, bitter cold, long months of complete darkness, constant danger, safe return doubtful. Honour and recognition in case of success.[5][6] 
+    Men wanted for hazardous journey. Small wages, bitter cold, long months of complete darkness, constant danger, safe return doubtful. Honour and recognition in case of success.[5][6]
+https://www.campaignlive.com/article/history-advertising-no-137-sir-ernest-shackletons-men-wanted-ad/1351657
 
 
 mondes "virtuels" où les sorts sont limités sous peine de faire effondrer le monde
 
 https://games.slashdot.org/story/19/11/17/029240/doom-creator-john-romero-explains-whats-wrong-with-todays-shooter-games
+
+
+https://news.slashdot.org/story/19/11/25/1548207/why-536-was-the-worst-year-to-be-alive

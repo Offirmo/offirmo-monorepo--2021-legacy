@@ -3,10 +3,10 @@ import { RpcSync, RpcSyncResponse } from '@tbrpg/interfaces'
 
 ////////////////////////////////////
 
-function handle(
-	req: RpcSync,
+async function handle(
+	req: Readonly<RpcSync>,
 	res: RpcSyncResponse,
-): RpcSyncResponse {
+): Promise<void> {
 
 
 	res.error!.message = 'not implemented!'
@@ -16,8 +16,6 @@ function handle(
 		//authoritative_state: null
 	}
 	delete res.error*/
-
-	return res
 }
 
 ////////////////////////////////////

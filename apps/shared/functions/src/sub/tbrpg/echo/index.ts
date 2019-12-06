@@ -1,16 +1,15 @@
 //import { JSONRpcRequest, JSONRpcResponse } from '@offirmo-private/json-rpc-types'
 import { RpcEcho, RpcEchoResponse } from '@tbrpg/interfaces'
 
-function handle(
-	req: RpcEcho,
+async function handle(
+	req: Readonly<RpcEcho>,
 	res: RpcEchoResponse,
-): RpcEchoResponse {
+): Promise<void> {
 	const { method, params } = req
 
 	res.result = { method, params }
 	delete res.error
 
-	return res
 }
 
 ////////////////////////////////////

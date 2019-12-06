@@ -19,22 +19,21 @@ import {
 import { create_error } from './sub/utils'
 
 import { process_rpc } from './sub/tbrpg'
+import { use_middlewares_with_error_safety_net } from "./sub/middlewares/runner";
+import { HttpMethod, require_http_method } from "./sub/middlewares/require-http-method";
+import { require_authenticated } from "./sub/middlewares/require-authenticated";
+import {MiddleWare, XSoftExecutionContext} from "./sub/middlewares/types";
 
 ////////////////////////////////////
 
-
-const handler: NetlifyHandler = async (
-	event: APIGatewayEvent,
-	badly_typed_context: Context,
-): Promise<Response> => {
-	console.log('\n******* handling a tbrpg-rpc… *******')
-	const context: NetlifyContext = badly_typed_context as any
-
-	if (!context.clientContext)
-		throw new Error('No/bad/outdated token [1]!')
-
-	if (!context.clientContext.user)
-		throw new Error('No/bad/outdated token [2]!')
+async function using_json_rpc(
+	SEC: XSoftExecutionContext,
+	event: Readonly<APIGatewayEvent>,
+	context: Readonly<NetlifyContext>,
+	response: Response,
+	next: Function
+): Promise<void> {
+	console.log('\n******* handling a json-rpc msg… *******')
 
 	let statusCode = 500
 	let res: TbrpgRpcResponse = {
@@ -54,8 +53,12 @@ const handler: NetlifyHandler = async (
 		res.error!.message = 'Unknown internal error while processing the request!'
 		statusCode = 500
 
-		// TODO extract Context
-		res = process_rpc(req, res)
+		SEC.injectDependencies({
+			jsonrpc_request: req,
+			jsonrpc_response: res,
+		})
+
+		await next()
 
 		if (res.error && res.result)
 			throw new Error('Internal error: unclear result after handling!')
@@ -77,21 +80,33 @@ const handler: NetlifyHandler = async (
 		delete res.result
 	}
 
-	return {
-		statusCode,
-		body: JSON.stringify(res),
-	}
+	response.statusCode = statusCode
+	response.body = JSON.stringify(res)
+}
+
+async function _handler(
+	SEC: XSoftExecutionContext,
+	event: Readonly<APIGatewayEvent>,
+	context: Readonly<NetlifyContext>,
+	response: Response,
+	next: Function
+): Promise<void> {
+	await SEC.xTry('/tbrpg-rpc', async ({ SEC, jsonrpc_request, jsonrpc_response }) => {
+		console.log('\n******* handling a tbrpg-rpc… *******')
+
+		const req: TbrpgRpc = jsonrpc_request as any
+		const res: TbrpgRpcResponse = jsonrpc_response as any
+
+		await process_rpc(req, res)
+
+		await next()
+	})
 }
 
 ////////////
 
 function check_sanity(event: APIGatewayEvent) {
-	const { httpMethod, body, isBase64Encoded } = event
-
-	if (httpMethod !== 'PUT')
-		throw create_error('Wrong HTTP method!', {
-			statusCode: 405,
-		})
+	const { body, isBase64Encoded } = event
 
 	if (isBase64Encoded)
 		throw create_error('Base 64 unexpected!', {
@@ -165,4 +180,21 @@ function parse_jsonrpc_requests(res: TbrpgRpcResponse, event: APIGatewayEvent): 
 
 ////////////////////////////////////
 
+const handler: NetlifyHandler = (
+	event: APIGatewayEvent,
+	badly_typed_context: Context,
+): Promise<Response> => {
+	return use_middlewares_with_error_safety_net(
+		event,
+		badly_typed_context,
+		[
+			require_http_method(HttpMethod.PATCH),
+			require_authenticated,
+			using_json_rpc,
+			_handler,
+		]
+	)
+}
+
 export { handler }
+

@@ -5,7 +5,17 @@ https://medium.com/better-programming/7-essential-books-for-programmers-869bca83
 http://www.crackingthecodinginterview.com/
 
 https://en.wikipedia.org/wiki/Robustness_principle
+https://en.wikipedia.org/wiki/Design_smell
 
 dry run
 
 merge queues https://engineering.shopify.com/blogs/engineering/successfully-merging-work-1000-developers
+
+
+https://bastianallgeier.com/notes/simplicity-part-2
+dependency hell
+
+CAP ACID https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed/
+
+shaving the yak
+

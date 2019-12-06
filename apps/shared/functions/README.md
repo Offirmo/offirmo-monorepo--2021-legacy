@@ -12,7 +12,7 @@
 doc:
 * https://www.netlify.com/docs/functions/
   * Selecting the JS runtime: https://www.netlify.com/docs/functions/#javascript-runtime-settings
-  * 2019/10/01 latest Allowed = 10.16.3
+  * 2019/12 seen 10.17
 * https://serverless.com/blog/common-node8-mistakes-in-lambda/
 * status codes https://www.codetinkerer.com/2015/12/04/choosing-an-http-status-code.html
 
@@ -22,7 +22,7 @@ Tools
 * https://insomnia.rest/
 * https://www.getpostman.com/downloads/
 
-TODO  Access-Control-Allow-Origin header with the value https://oa XXX 
+TODO  Access-Control-Allow-Origin header with the value https://oa XXX
 
 
 
