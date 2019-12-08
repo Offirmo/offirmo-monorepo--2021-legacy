@@ -21,7 +21,7 @@
 	},
 
 	"scripts": {
-		"clean": "node ../../../scripts/clean.js dist cache",
+		"clean": "node ../../scripts/clean.js dist cache",
 
 		"start:parcel": "PARCEL_AUTOINSTALL=false parcel src/index.html --out-dir .parcel --no-autoinstall",
 
