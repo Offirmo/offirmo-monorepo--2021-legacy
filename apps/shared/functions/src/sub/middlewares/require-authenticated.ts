@@ -18,9 +18,9 @@ export const require_authenticated: MiddleWare = async (
 	response: Response,
 	next: () => Promise<void>
 ): Promise<void> => {
-	const netlify_user_data = get_netlify_user_data(context)
-
 	try {
+		const netlify_user_data = get_netlify_user_data(context)
+
 		await get_db().transaction(async trx => {
 			const user_p = await Users.ensure_through_netlify(netlify_user_data, trx)
 			SEC.injectDependencies({

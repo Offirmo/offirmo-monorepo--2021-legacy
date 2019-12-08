@@ -1,17 +1,18 @@
+import { Users } from '@offirmo-private/db'
+
 import {
 	NetlifyContext,
 	NetlifyClientContext,
 } from './types'
 import { CHANNEL } from './services/channel'
-import { Users } from '@offirmo-private/db'
+import { create_error } from './utils'
 
 export function ensure_netlify_logged_in(context: Readonly<NetlifyContext>) {
 	if (!context.clientContext)
-		throw new Error('No/bad/outdated token [1]! (not logged in?)')
+		throw create_error('No/bad/outdated token [1]! (not logged in?)', { statusCode: 401 })
 
-	if (!context.clientContext.user) {
-		throw new Error('No/bad/outdated token [2]! (not logged in?)')
-	}
+	if (!context.clientContext.user)
+		throw create_error('No/bad/outdated token [2]! (not logged in?)', { statusCode: 401 })
 }
 
 export type NetlifyUserData = Users.NetlifyUser
