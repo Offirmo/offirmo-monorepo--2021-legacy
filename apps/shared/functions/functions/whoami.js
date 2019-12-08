@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 248);
+/******/ 	return __webpack_require__(__webpack_require__.s = 247);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -314,12 +314,12 @@ function __importDefault(mod) {
 
 "use strict";
 
-const ansiStyles = __webpack_require__(80);
-const {stdout: stdoutColor, stderr: stderrColor} = __webpack_require__(84);
+const ansiStyles = __webpack_require__(78);
+const {stdout: stdoutColor, stderr: stderrColor} = __webpack_require__(82);
 const {
 	stringReplaceAll,
 	stringEncaseCRLFWithFirstIndex
-} = __webpack_require__(86);
+} = __webpack_require__(84);
 
 // `supportsColor.level` → `ansiStyles.color[name]` mapping
 const levelMapping = [
@@ -520,7 +520,7 @@ const chalkTag = (chalk, ...strings) => {
 	}
 
 	if (template === undefined) {
-		template = __webpack_require__(87);
+		template = __webpack_require__(85);
 	}
 
 	return template(chalk, parts.join(''));
@@ -555,17 +555,20 @@ module.exports = chalk;
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return dynamicRequire; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return isNodeEnv; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return getGlobalObject; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return uuid4; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return isNodeEnv; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return getGlobalObject; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return uuid4; });
 /* unused harmony export parseUrl */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return getEventDescription; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return consoleSandbox; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return addExceptionTypeValue; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addExceptionMechanism; });
 /* unused harmony export getLocationHref */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return htmlTreeAsString; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return parseRetryAfterHeader; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return htmlTreeAsString; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return timestampWithMs; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return parseSemver; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return parseRetryAfterHeader; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return getFunctionName; });
 /* harmony import */ var _is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
 
 /**
@@ -811,7 +814,7 @@ function _htmlElementAsString(el) {
         out.push("#" + elem.id);
     }
     className = elem.className;
-    if (className && Object(_is__WEBPACK_IMPORTED_MODULE_0__[/* isString */ "g"])(className)) {
+    if (className && Object(_is__WEBPACK_IMPORTED_MODULE_0__[/* isString */ "h"])(className)) {
         classes = className.split(/\s+/);
         for (i = 0; i < classes.length; i++) {
             out.push("." + classes[i]);
@@ -826,6 +829,31 @@ function _htmlElementAsString(el) {
         }
     }
     return out.join('');
+}
+/**
+ * Returns a timestamp in seconds with milliseconds precision.
+ */
+function timestampWithMs() {
+    return new Date().getTime() / 1000;
+}
+// https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
+var SEMVER_REGEXP = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/;
+/**
+ * Parses input into a SemVer interface
+ * @param input string representation of a semver version
+ */
+function parseSemver(input) {
+    var match = input.match(SEMVER_REGEXP) || [];
+    var major = parseInt(match[1], 10);
+    var minor = parseInt(match[2], 10);
+    var patch = parseInt(match[3], 10);
+    return {
+        buildmetadata: match[5],
+        major: isNaN(major) ? undefined : major,
+        minor: isNaN(minor) ? undefined : minor,
+        patch: isNaN(patch) ? undefined : patch,
+        prerelease: match[4],
+    };
 }
 var defaultRetryAfter = 60 * 1000; // 60 seconds
 /**
@@ -847,6 +875,23 @@ function parseRetryAfterHeader(now, header) {
     }
     return defaultRetryAfter;
 }
+var defaultFunctionName = '<anonymous>';
+/**
+ * Safely extract function name from itself
+ */
+function getFunctionName(fn) {
+    try {
+        if (!fn || typeof fn !== 'function') {
+            return defaultFunctionName;
+        }
+        return fn.name || defaultFunctionName;
+    }
+    catch (e) {
+        // Just accessing custom props in some Selenium environments
+        // can cause a "Permission denied" exception (see raven-js#495).
+        return defaultFunctionName;
+    }
+}
 //# sourceMappingURL=misc.js.map
 
 /***/ }),
@@ -858,14 +903,15 @@ function parseRetryAfterHeader(now, header) {
 /* unused harmony export isErrorEvent */
 /* unused harmony export isDOMError */
 /* unused harmony export isDOMException */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return isString; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return isPrimitive; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return isPlainObject; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return isString; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return isPrimitive; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return isPlainObject; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return isEvent; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return isElement; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return isRegExp; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return isThenable; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return isSyntheticEvent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return isRegExp; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return isThenable; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return isSyntheticEvent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return isInstanceOf; });
 /**
  * Checks whether given value's type is one of a few Error or Error-like
  * {@link isError}.
@@ -882,7 +928,7 @@ function isError(wat) {
         case '[object DOMException]':
             return true;
         default:
-            return wat instanceof Error;
+            return isInstanceOf(wat, Error);
     }
 }
 /**
@@ -954,7 +1000,7 @@ function isPlainObject(wat) {
  */
 function isEvent(wat) {
     // tslint:disable-next-line:strict-type-predicates
-    return typeof Event !== 'undefined' && wat instanceof Event;
+    return typeof Event !== 'undefined' && isInstanceOf(wat, Event);
 }
 /**
  * Checks whether given value's type is an Element instance
@@ -965,7 +1011,7 @@ function isEvent(wat) {
  */
 function isElement(wat) {
     // tslint:disable-next-line:strict-type-predicates
-    return typeof Element !== 'undefined' && wat instanceof Element;
+    return typeof Element !== 'undefined' && isInstanceOf(wat, Element);
 }
 /**
  * Checks whether given value's type is an regexp
@@ -996,6 +1042,23 @@ function isThenable(wat) {
 function isSyntheticEvent(wat) {
     // tslint:disable-next-line:no-unsafe-any
     return isPlainObject(wat) && 'nativeEvent' in wat && 'preventDefault' in wat && 'stopPropagation' in wat;
+}
+/**
+ * Checks whether given value's type is an instance of provided constructor.
+ * {@link isInstanceOf}.
+ *
+ * @param wat A value to be checked.
+ * @param base A constructor to be used in a check.
+ * @returns A boolean representing the result.
+ */
+function isInstanceOf(wat, base) {
+    try {
+        // tslint:disable-next-line:no-unsafe-any
+        return wat instanceof base;
+    }
+    catch (_e) {
+        return false;
+    }
 }
 //# sourceMappingURL=is.js.map
 
@@ -18114,7 +18177,7 @@ module.exports = require("util");
   else {}
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(54)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(53)(module)))
 
 /***/ }),
 /* 7 */
@@ -18217,17 +18280,9 @@ function fill(source, name, replacement) {
         try {
             wrapped.prototype = wrapped.prototype || {};
             Object.defineProperties(wrapped, {
-                __sentry__: {
-                    enumerable: false,
-                    value: true,
-                },
                 __sentry_original__: {
                     enumerable: false,
                     value: original,
-                },
-                __sentry_wrapped__: {
-                    enumerable: false,
-                    value: wrapped,
                 },
             });
         }
@@ -18279,7 +18334,7 @@ function getWalkSource(value) {
         // Accessing event.target can throw (see getsentry/raven-js#838, #768)
         try {
             source.target = Object(is["a" /* isElement */])(event_1.target)
-                ? Object(misc["g" /* htmlTreeAsString */])(event_1.target)
+                ? Object(misc["h" /* htmlTreeAsString */])(event_1.target)
                 : Object.prototype.toString.call(event_1.target);
         }
         catch (_oO) {
@@ -18287,14 +18342,14 @@ function getWalkSource(value) {
         }
         try {
             source.currentTarget = Object(is["a" /* isElement */])(event_1.currentTarget)
-                ? Object(misc["g" /* htmlTreeAsString */])(event_1.currentTarget)
+                ? Object(misc["h" /* htmlTreeAsString */])(event_1.currentTarget)
                 : Object.prototype.toString.call(event_1.currentTarget);
         }
         catch (_oO) {
             source.currentTarget = '<unknown>';
         }
         // tslint:disable-next-line:strict-type-predicates
-        if (typeof CustomEvent !== 'undefined' && value instanceof CustomEvent) {
+        if (typeof CustomEvent !== 'undefined' && Object(is["d" /* isInstanceOf */])(value, CustomEvent)) {
             source.detail = event_1.detail;
         }
         for (var i in event_1) {
@@ -18343,7 +18398,7 @@ function serializeValue(value) {
         return '[Array]';
     }
     var normalized = normalizeValue(value);
-    return Object(is["e" /* isPrimitive */])(normalized) ? normalized : type;
+    return Object(is["f" /* isPrimitive */])(normalized) ? normalized : type;
 }
 /**
  * normalizeValue()
@@ -18372,7 +18427,7 @@ function normalizeValue(value, key) {
         return '[Document]';
     }
     // React's SyntheticEvent thingy
-    if (Object(is["h" /* isSyntheticEvent */])(value)) {
+    if (Object(is["i" /* isSyntheticEvent */])(value)) {
         return '[SyntheticEvent]';
     }
     // tslint:disable-next-line:no-tautology-expression
@@ -18383,7 +18438,7 @@ function normalizeValue(value, key) {
         return '[undefined]';
     }
     if (typeof value === 'function') {
-        return "[Function: " + (value.name || '<unknown-function-name>') + "]";
+        return "[Function: " + Object(misc["f" /* getFunctionName */])(value) + "]";
     }
     return value;
 }
@@ -18410,7 +18465,7 @@ function walk(key, value, depth, memo) {
     // tslint:enable:no-unsafe-any
     // If normalized value is a primitive, there are no branches left to walk, so we can just bail out, as theres no point in going down that branch any further
     var normalized = normalizeValue(value, key);
-    if (Object(is["e" /* isPrimitive */])(normalized)) {
+    if (Object(is["f" /* isPrimitive */])(normalized)) {
         return normalized;
     }
     // Create source that we will use for next itterations, either objectified error object (Error type with extracted keys:value pairs) or the input itself
@@ -18498,7 +18553,7 @@ module.exports = require("fs");
 
 "use strict";
 
-var es5 = __webpack_require__(36);
+var es5 = __webpack_require__(35);
 var canEvaluate = typeof navigator == "undefined";
 
 var errorObj = {e: {}};
@@ -18906,7 +18961,7 @@ ret.isRecentNode = ret.isNode && (function() {
 ret.nodeSupportsAsyncResource = ret.isNode && (function() {
     var supportsAsync = false;
     try {
-        var res = __webpack_require__(104).AsyncResource;
+        var res = __webpack_require__(101).AsyncResource;
         supportsAsync = typeof res.prototype.runInAsyncScope === "function";
     } catch (e) {
         supportsAsync = false;
@@ -18928,20 +18983,32 @@ module.exports = require("events");
 
 /***/ }),
 /* 11 */,
-/* 12 */
+/* 12 */,
+/* 13 */
 /***/ (function(module, exports) {
 
 module.exports = require("path");
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports) {
 
 module.exports = require("url");
 
 /***/ }),
-/* 14 */,
 /* 15 */
+/***/ (function(module, exports) {
+
+module.exports = require("http");
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports) {
+
+module.exports = require("https");
+
+/***/ }),
+/* 17 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18980,7 +19047,7 @@ var SyncPromise = /** @class */ (function () {
             if (_this._state !== States.PENDING) {
                 return;
             }
-            if (Object(_is__WEBPACK_IMPORTED_MODULE_0__[/* isThenable */ "i"])(value)) {
+            if (Object(_is__WEBPACK_IMPORTED_MODULE_0__[/* isThenable */ "j"])(value)) {
                 value.then(_this._resolve, _this._reject);
                 return;
             }
@@ -19142,19 +19209,13 @@ var SyncPromise = /** @class */ (function () {
 //# sourceMappingURL=syncpromise.js.map
 
 /***/ }),
-/* 16 */
-/***/ (function(module, exports) {
-
-module.exports = require("http");
-
-/***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports) {
 
 module.exports = require("os");
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19170,20 +19231,1168 @@ exports.CHANNEL = process.env.CHANNEL || (() => {
 })();
 
 /***/ }),
-/* 19 */
+/* 20 */
+/***/ (function(module, exports) {
+
+module.exports = require("domain");
+
+/***/ }),
+/* 21 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Scope; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return addGlobalEventProcessor; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(17);
+/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
+/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7);
+/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(3);
+
+
+/**
+ * Holds additional event information. {@link Scope.applyToEvent} will be
+ * called by the client before an event will be sent.
+ */
+var Scope = /** @class */ (function () {
+    function Scope() {
+        /** Flag if notifiying is happening. */
+        this._notifyingListeners = false;
+        /** Callback for client to receive scope changes. */
+        this._scopeListeners = [];
+        /** Callback list that will be called after {@link applyToEvent}. */
+        this._eventProcessors = [];
+        /** Array of breadcrumbs. */
+        this._breadcrumbs = [];
+        /** User */
+        this._user = {};
+        /** Tags */
+        this._tags = {};
+        /** Extra */
+        this._extra = {};
+        /** Contexts */
+        this._context = {};
+    }
+    /**
+     * Add internal on change listener. Used for sub SDKs that need to store the scope.
+     * @hidden
+     */
+    Scope.prototype.addScopeListener = function (callback) {
+        this._scopeListeners.push(callback);
+    };
+    /**
+     * @inheritDoc
+     */
+    Scope.prototype.addEventProcessor = function (callback) {
+        this._eventProcessors.push(callback);
+        return this;
+    };
+    /**
+     * This will be called on every set call.
+     */
+    Scope.prototype._notifyScopeListeners = function () {
+        var _this = this;
+        if (!this._notifyingListeners) {
+            this._notifyingListeners = true;
+            setTimeout(function () {
+                _this._scopeListeners.forEach(function (callback) {
+                    callback(_this);
+                });
+                _this._notifyingListeners = false;
+            });
+        }
+    };
+    /**
+     * This will be called after {@link applyToEvent} is finished.
+     */
+    Scope.prototype._notifyEventProcessors = function (processors, event, hint, index) {
+        var _this = this;
+        if (index === void 0) { index = 0; }
+        return new _sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* SyncPromise */ "a"](function (resolve, reject) {
+            var processor = processors[index];
+            // tslint:disable-next-line:strict-type-predicates
+            if (event === null || typeof processor !== 'function') {
+                resolve(event);
+            }
+            else {
+                var result = processor(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, event), hint);
+                if (Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_2__[/* isThenable */ "j"])(result)) {
+                    result
+                        .then(function (final) { return _this._notifyEventProcessors(processors, final, hint, index + 1).then(resolve); })
+                        .then(null, reject);
+                }
+                else {
+                    _this._notifyEventProcessors(processors, result, hint, index + 1)
+                        .then(resolve)
+                        .then(null, reject);
+                }
+            }
+        });
+    };
+    /**
+     * @inheritDoc
+     */
+    Scope.prototype.setUser = function (user) {
+        this._user = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_3__[/* normalize */ "c"])(user);
+        this._notifyScopeListeners();
+        return this;
+    };
+    /**
+     * @inheritDoc
+     */
+    Scope.prototype.setTags = function (tags) {
+        this._tags = tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, this._tags, Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_3__[/* normalize */ "c"])(tags));
+        this._notifyScopeListeners();
+        return this;
+    };
+    /**
+     * @inheritDoc
+     */
+    Scope.prototype.setTag = function (key, value) {
+        var _a;
+        this._tags = tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, this._tags, (_a = {}, _a[key] = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_3__[/* normalize */ "c"])(value), _a));
+        this._notifyScopeListeners();
+        return this;
+    };
+    /**
+     * @inheritDoc
+     */
+    Scope.prototype.setExtras = function (extra) {
+        this._extra = tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, this._extra, Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_3__[/* normalize */ "c"])(extra));
+        this._notifyScopeListeners();
+        return this;
+    };
+    /**
+     * @inheritDoc
+     */
+    Scope.prototype.setExtra = function (key, extra) {
+        var _a;
+        this._extra = tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, this._extra, (_a = {}, _a[key] = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_3__[/* normalize */ "c"])(extra), _a));
+        this._notifyScopeListeners();
+        return this;
+    };
+    /**
+     * @inheritDoc
+     */
+    Scope.prototype.setFingerprint = function (fingerprint) {
+        this._fingerprint = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_3__[/* normalize */ "c"])(fingerprint);
+        this._notifyScopeListeners();
+        return this;
+    };
+    /**
+     * @inheritDoc
+     */
+    Scope.prototype.setLevel = function (level) {
+        this._level = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_3__[/* normalize */ "c"])(level);
+        this._notifyScopeListeners();
+        return this;
+    };
+    /**
+     * @inheritDoc
+     */
+    Scope.prototype.setTransaction = function (transaction) {
+        this._transaction = transaction;
+        this._notifyScopeListeners();
+        return this;
+    };
+    /**
+     * @inheritDoc
+     */
+    Scope.prototype.setContext = function (name, context) {
+        this._context[name] = context ? Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_3__[/* normalize */ "c"])(context) : undefined;
+        this._notifyScopeListeners();
+        return this;
+    };
+    /**
+     * @inheritDoc
+     */
+    Scope.prototype.setSpan = function (span) {
+        this._span = span;
+        this._notifyScopeListeners();
+        return this;
+    };
+    /**
+     * Internal getter for Span, used in Hub.
+     * @hidden
+     */
+    Scope.prototype.getSpan = function () {
+        return this._span;
+    };
+    /**
+     * Inherit values from the parent scope.
+     * @param scope to clone.
+     */
+    Scope.clone = function (scope) {
+        var newScope = new Scope();
+        if (scope) {
+            newScope._breadcrumbs = tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"](scope._breadcrumbs);
+            newScope._tags = tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, scope._tags);
+            newScope._extra = tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, scope._extra);
+            newScope._context = tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, scope._context);
+            newScope._user = scope._user;
+            newScope._level = scope._level;
+            newScope._span = scope._span;
+            newScope._transaction = scope._transaction;
+            newScope._fingerprint = scope._fingerprint;
+            newScope._eventProcessors = tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"](scope._eventProcessors);
+        }
+        return newScope;
+    };
+    /**
+     * @inheritDoc
+     */
+    Scope.prototype.clear = function () {
+        this._breadcrumbs = [];
+        this._tags = {};
+        this._extra = {};
+        this._user = {};
+        this._context = {};
+        this._level = undefined;
+        this._transaction = undefined;
+        this._fingerprint = undefined;
+        this._span = undefined;
+        this._notifyScopeListeners();
+        return this;
+    };
+    /**
+     * @inheritDoc
+     */
+    Scope.prototype.addBreadcrumb = function (breadcrumb, maxBreadcrumbs) {
+        var timestamp = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_4__[/* timestampWithMs */ "l"])();
+        var mergedBreadcrumb = tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({ timestamp: timestamp }, breadcrumb);
+        this._breadcrumbs =
+            maxBreadcrumbs !== undefined && maxBreadcrumbs >= 0
+                ? tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"](this._breadcrumbs, [Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_3__[/* normalize */ "c"])(mergedBreadcrumb)]).slice(-maxBreadcrumbs)
+                : tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"](this._breadcrumbs, [Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_3__[/* normalize */ "c"])(mergedBreadcrumb)]);
+        this._notifyScopeListeners();
+        return this;
+    };
+    /**
+     * @inheritDoc
+     */
+    Scope.prototype.clearBreadcrumbs = function () {
+        this._breadcrumbs = [];
+        this._notifyScopeListeners();
+        return this;
+    };
+    /**
+     * Applies fingerprint from the scope to the event if there's one,
+     * uses message if there's one instead or get rid of empty fingerprint
+     */
+    Scope.prototype._applyFingerprint = function (event) {
+        // Make sure it's an array first and we actually have something in place
+        event.fingerprint = event.fingerprint
+            ? Array.isArray(event.fingerprint)
+                ? event.fingerprint
+                : [event.fingerprint]
+            : [];
+        // If we have something on the scope, then merge it with event
+        if (this._fingerprint) {
+            event.fingerprint = event.fingerprint.concat(this._fingerprint);
+        }
+        // If we have no data at all, remove empty array default
+        if (event.fingerprint && !event.fingerprint.length) {
+            delete event.fingerprint;
+        }
+    };
+    /**
+     * Applies the current context and fingerprint to the event.
+     * Note that breadcrumbs will be added by the client.
+     * Also if the event has already breadcrumbs on it, we do not merge them.
+     * @param event Event
+     * @param hint May contain additional informartion about the original exception.
+     * @hidden
+     */
+    Scope.prototype.applyToEvent = function (event, hint) {
+        if (this._extra && Object.keys(this._extra).length) {
+            event.extra = tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, this._extra, event.extra);
+        }
+        if (this._tags && Object.keys(this._tags).length) {
+            event.tags = tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, this._tags, event.tags);
+        }
+        if (this._user && Object.keys(this._user).length) {
+            event.user = tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, this._user, event.user);
+        }
+        if (this._context && Object.keys(this._context).length) {
+            event.contexts = tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, this._context, event.contexts);
+        }
+        if (this._level) {
+            event.level = this._level;
+        }
+        if (this._transaction) {
+            event.transaction = this._transaction;
+        }
+        if (this._span) {
+            event.contexts = event.contexts || {};
+            event.contexts.trace = this._span.getTraceContext();
+        }
+        this._applyFingerprint(event);
+        event.breadcrumbs = tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"]((event.breadcrumbs || []), this._breadcrumbs);
+        event.breadcrumbs = event.breadcrumbs.length > 0 ? event.breadcrumbs : undefined;
+        return this._notifyEventProcessors(tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"](getGlobalEventProcessors(), this._eventProcessors), event, hint);
+    };
+    return Scope;
+}());
+
+/**
+ * Retruns the global event processors.
+ */
+function getGlobalEventProcessors() {
+    var global = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_4__[/* getGlobalObject */ "g"])();
+    global.__SENTRY__ = global.__SENTRY__ || {};
+    global.__SENTRY__.globalEventProcessors = global.__SENTRY__.globalEventProcessors || [];
+    return global.__SENTRY__.globalEventProcessors;
+}
+/**
+ * Add a EventProcessor to be kept globally.
+ * @param callback EventProcessor to add
+ */
+function addGlobalEventProcessor(callback) {
+    getGlobalEventProcessors().push(callback);
+}
+//# sourceMappingURL=scope.js.map
+
+/***/ }),
+/* 22 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var isProduction = "production" === 'production';
+var prefix = 'Invariant failed';
+function invariant(condition, message) {
+  if (condition) {
+    return;
+  }
+
+  if (isProduction) {
+    throw new Error(prefix);
+  } else {
+    throw new Error(prefix + ": " + (message || ''));
+  }
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (invariant);
+
+
+/***/ }),
+/* 23 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getGlobalThis; });
+/* global globalThis, self, window, global */
+const lastResort = {};
+function getGlobalThis() {
+  // @ts-ignore
+  if (typeof globalThis !== 'undefined') return globalThis; // check node first https://github.com/ljharb/globalThis/issues/2
+  // @ts-ignore
+
+  if (typeof global !== 'undefined') return global; // @ts-ignore
+
+  if (typeof self !== 'undefined') return self; // @ts-ignore
+
+  if (typeof window !== 'undefined') return window;
+  if (typeof this !== 'undefined') return this;
+  return lastResort; // should never happen
+}
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+try {
+  var util = __webpack_require__(5);
+  /* istanbul ignore next */
+  if (typeof util.inherits !== 'function') throw '';
+  module.exports = util.inherits;
+} catch (e) {
+  /* istanbul ignore next */
+  module.exports = __webpack_require__(135);
+}
+
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+const http_1 = __webpack_require__(15);
+
+const common_error_fields_1 = __webpack_require__(42); // TODO extern
+
+
+function create_error(message, data = {}) {
+  if (message && http_1.STATUS_CODES[message]) {
+    message = '(auto) ' + http_1.STATUS_CODES[message];
+    data.statusCode = Number(message);
+  }
+
+  message = String(message || 'Unknown error!');
+
+  if (!message.toLowerCase().includes('error')) {
+    message = 'Error: ' + message;
+  }
+
+  const error = new Error(message);
+  Object.keys(data).forEach(k => {
+    if (common_error_fields_1.COMMON_ERROR_FIELDS.has(k) && k !== 'name' && k !== 'message' && k !== 'stack') {
+      error[k] = data[k];
+    } else {
+      error.details = error.details || {};
+      error.details[k] = data[k];
+    }
+  });
+  error.framesToPop = error.framesToPop || 1;
+  return error;
+}
+
+exports.create_error = create_error;
+
+/***/ }),
+/* 26 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _generate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(46);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_UTC_timestamp_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["a"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["d"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_seconds", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["e"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_minutes", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["c"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_days", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["b"]; });
+
+
+
+/***/ }),
+/* 27 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return truncate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return snipLine; });
+/* unused harmony export safeJoin */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return isMatchingPattern; });
+/* harmony import */ var _is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
+
+/**
+ * Truncates given string to the maximum characters count
+ *
+ * @param str An object that contains serializable values
+ * @param max Maximum number of characters in truncated string
+ * @returns string Encoded
+ */
+function truncate(str, max) {
+    if (max === void 0) { max = 0; }
+    // tslint:disable-next-line:strict-type-predicates
+    if (typeof str !== 'string' || max === 0) {
+        return str;
+    }
+    return str.length <= max ? str : str.substr(0, max) + "...";
+}
+/**
+ * This is basically just `trim_line` from
+ * https://github.com/getsentry/sentry/blob/master/src/sentry/lang/javascript/processor.py#L67
+ *
+ * @param str An object that contains serializable values
+ * @param max Maximum number of characters in truncated string
+ * @returns string Encoded
+ */
+function snipLine(line, colno) {
+    var newLine = line;
+    var ll = newLine.length;
+    if (ll <= 150) {
+        return newLine;
+    }
+    if (colno > ll) {
+        colno = ll; // tslint:disable-line:no-parameter-reassignment
+    }
+    var start = Math.max(colno - 60, 0);
+    if (start < 5) {
+        start = 0;
+    }
+    var end = Math.min(start + 140, ll);
+    if (end > ll - 5) {
+        end = ll;
+    }
+    if (end === ll) {
+        start = Math.max(end - 140, 0);
+    }
+    newLine = newLine.slice(start, end);
+    if (start > 0) {
+        newLine = "'{snip} " + newLine;
+    }
+    if (end < ll) {
+        newLine += ' {snip}';
+    }
+    return newLine;
+}
+/**
+ * Join values in array
+ * @param input array of values to be joined together
+ * @param delimiter string to be placed in-between values
+ * @returns Joined values
+ */
+function safeJoin(input, delimiter) {
+    if (!Array.isArray(input)) {
+        return '';
+    }
+    var output = [];
+    // tslint:disable-next-line:prefer-for-of
+    for (var i = 0; i < input.length; i++) {
+        var value = input[i];
+        try {
+            output.push(String(value));
+        }
+        catch (e) {
+            output.push('[value cannot be serialized]');
+        }
+    }
+    return output.join(delimiter);
+}
+/**
+ * Checks if the value matches a regex or includes the string
+ * @param value The string value to be checked against
+ * @param pattern Either a regex or a string that must be contained in value
+ */
+function isMatchingPattern(value, pattern) {
+    if (Object(_is__WEBPACK_IMPORTED_MODULE_0__[/* isRegExp */ "g"])(pattern)) {
+        return pattern.test(value);
+    }
+    if (typeof pattern === 'string') {
+        return value.indexOf(pattern) !== -1;
+    }
+    return false;
+}
+//# sourceMappingURL=string.js.map
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports) {
+
+module.exports = require("assert");
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* eslint no-console:0 */
+
+const {
+  isFunction,
+  isUndefined,
+  isPlainObject,
+  isArray,
+  isTypedArray,
+} = __webpack_require__(6);
+const { CLIENT_ALIASES } = __webpack_require__(87);
+
+// Check if the first argument is an array, otherwise uses all arguments as an
+// array.
+
+function normalizeArr() {
+  const args = new Array(arguments.length);
+  for (let i = 0; i < args.length; i++) {
+    args[i] = arguments[i];
+  }
+  if (Array.isArray(args[0])) {
+    return args[0];
+  }
+  return args;
+}
+
+function containsUndefined(mixed) {
+  let argContainsUndefined = false;
+
+  if (isTypedArray(mixed)) return false;
+
+  if (mixed && isFunction(mixed.toSQL)) {
+    //Any QueryBuilder or Raw will automatically be validated during compile.
+    return argContainsUndefined;
+  }
+
+  if (isArray(mixed)) {
+    for (let i = 0; i < mixed.length; i++) {
+      if (argContainsUndefined) break;
+      argContainsUndefined = containsUndefined(mixed[i]);
+    }
+  } else if (isPlainObject(mixed)) {
+    Object.keys(mixed).forEach((key) => {
+      if (!argContainsUndefined) {
+        argContainsUndefined = containsUndefined(mixed[key]);
+      }
+    });
+  } else {
+    argContainsUndefined = isUndefined(mixed);
+  }
+
+  return argContainsUndefined;
+}
+
+function getUndefinedIndices(mixed) {
+  const indices = [];
+
+  if (Array.isArray(mixed)) {
+    mixed.forEach((item, index) => {
+      if (containsUndefined(item)) {
+        indices.push(index);
+      }
+    });
+  } else if (isPlainObject(mixed)) {
+    Object.keys(mixed).forEach((key) => {
+      if (containsUndefined(mixed[key])) {
+        indices.push(key);
+      }
+    });
+  } else {
+    indices.push(0);
+  }
+
+  return indices;
+}
+
+function addQueryContext(Target) {
+  // Stores or returns (if called with no arguments) context passed to
+  // wrapIdentifier and postProcessResponse hooks
+  Target.prototype.queryContext = function(context) {
+    if (isUndefined(context)) {
+      return this._queryContext;
+    }
+    this._queryContext = context;
+    return this;
+  };
+}
+
+function resolveClientNameWithAliases(clientName) {
+  return CLIENT_ALIASES[clientName] || clientName;
+}
+
+module.exports = {
+  addQueryContext,
+  containsUndefined,
+  normalizeArr,
+  resolveClientNameWithAliases,
+  getUndefinedIndices,
+};
+
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var es5 = __webpack_require__(35);
+var Objectfreeze = es5.freeze;
+var util = __webpack_require__(9);
+var inherits = util.inherits;
+var notEnumerableProp = util.notEnumerableProp;
+
+function subError(nameProperty, defaultMessage) {
+    function SubError(message) {
+        if (!(this instanceof SubError)) return new SubError(message);
+        notEnumerableProp(this, "message",
+            typeof message === "string" ? message : defaultMessage);
+        notEnumerableProp(this, "name", nameProperty);
+        if (Error.captureStackTrace) {
+            Error.captureStackTrace(this, this.constructor);
+        } else {
+            Error.call(this);
+        }
+    }
+    inherits(SubError, Error);
+    return SubError;
+}
+
+var _TypeError, _RangeError;
+var Warning = subError("Warning", "warning");
+var CancellationError = subError("CancellationError", "cancellation error");
+var TimeoutError = subError("TimeoutError", "timeout error");
+var AggregateError = subError("AggregateError", "aggregate error");
+try {
+    _TypeError = TypeError;
+    _RangeError = RangeError;
+} catch(e) {
+    _TypeError = subError("TypeError", "type error");
+    _RangeError = subError("RangeError", "range error");
+}
+
+var methods = ("join pop push shift unshift slice filter forEach some " +
+    "every map indexOf lastIndexOf reduce reduceRight sort reverse").split(" ");
+
+for (var i = 0; i < methods.length; ++i) {
+    if (typeof Array.prototype[methods[i]] === "function") {
+        AggregateError.prototype[methods[i]] = Array.prototype[methods[i]];
+    }
+}
+
+es5.defineProperty(AggregateError.prototype, "length", {
+    value: 0,
+    configurable: false,
+    writable: true,
+    enumerable: true
+});
+AggregateError.prototype["isOperational"] = true;
+var level = 0;
+AggregateError.prototype.toString = function() {
+    var indent = Array(level * 4 + 1).join(" ");
+    var ret = "\n" + indent + "AggregateError of:" + "\n";
+    level++;
+    indent = Array(level * 4 + 1).join(" ");
+    for (var i = 0; i < this.length; ++i) {
+        var str = this[i] === this ? "[Circular AggregateError]" : this[i] + "";
+        var lines = str.split("\n");
+        for (var j = 0; j < lines.length; ++j) {
+            lines[j] = indent + lines[j];
+        }
+        str = lines.join("\n");
+        ret += str + "\n";
+    }
+    level--;
+    return ret;
+};
+
+function OperationalError(message) {
+    if (!(this instanceof OperationalError))
+        return new OperationalError(message);
+    notEnumerableProp(this, "name", "OperationalError");
+    notEnumerableProp(this, "message", message);
+    this.cause = message;
+    this["isOperational"] = true;
+
+    if (message instanceof Error) {
+        notEnumerableProp(this, "message", message.message);
+        notEnumerableProp(this, "stack", message.stack);
+    } else if (Error.captureStackTrace) {
+        Error.captureStackTrace(this, this.constructor);
+    }
+
+}
+inherits(OperationalError, Error);
+
+var errorTypes = Error["__BluebirdErrorTypes__"];
+if (!errorTypes) {
+    errorTypes = Objectfreeze({
+        CancellationError: CancellationError,
+        TimeoutError: TimeoutError,
+        OperationalError: OperationalError,
+        RejectionError: OperationalError,
+        AggregateError: AggregateError
+    });
+    es5.defineProperty(Error, "__BluebirdErrorTypes__", {
+        value: errorTypes,
+        writable: false,
+        enumerable: false,
+        configurable: false
+    });
+}
+
+module.exports = {
+    Error: Error,
+    TypeError: _TypeError,
+    RangeError: _RangeError,
+    CancellationError: errorTypes.CancellationError,
+    OperationalError: errorTypes.OperationalError,
+    TimeoutError: errorTypes.TimeoutError,
+    AggregateError: errorTypes.AggregateError,
+    Warning: Warning
+};
+
+
+/***/ }),
+/* 31 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+function Enum() {
+    var values = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        values[_i] = arguments[_i];
+    }
+    if (typeof values[0] === "string") {
+        var result = {};
+        for (var _a = 0, values_1 = values; _a < values_1.length; _a++) {
+            var value = values_1[_a];
+            result[value] = value;
+        }
+        return result;
+    }
+    else {
+        return values[0];
+    }
+}
+exports.Enum = Enum;
+(function (Enum) {
+    function ofKeys(e) {
+        var result = {};
+        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
+            var key = _a[_i];
+            result[key] = key;
+        }
+        return result;
+    }
+    Enum.ofKeys = ofKeys;
+    function keys(e) {
+        return Object.keys(e);
+    }
+    Enum.keys = keys;
+    function values(e) {
+        var result = [];
+        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
+            var key = _a[_i];
+            result.push(e[key]);
+        }
+        return result;
+    }
+    Enum.values = values;
+    function isType(e, value) {
+        return values(e).indexOf(value) !== -1;
+    }
+    Enum.isType = isType;
+})(Enum = exports.Enum || (exports.Enum = {}));
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+/* 32 */,
+/* 33 */
+/***/ (function(module, exports) {
+
+module.exports = require("tty");
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// Raw
+// -------
+const inherits = __webpack_require__(24);
+const helpers = __webpack_require__(29);
+const { EventEmitter } = __webpack_require__(10);
+const debug = __webpack_require__(43);
+
+const {
+  assign,
+  reduce,
+  isPlainObject,
+  isObject,
+  isUndefined,
+  isNumber,
+} = __webpack_require__(6);
+const saveAsyncStack = __webpack_require__(88);
+const uuid = __webpack_require__(98);
+
+const debugBindings = debug('knex:bindings');
+
+function Raw(client) {
+  this.client = client;
+
+  this.sql = '';
+  this.bindings = [];
+
+  // Todo: Deprecate
+  this._wrappedBefore = undefined;
+  this._wrappedAfter = undefined;
+  if (client && client.config) {
+    this._debug = client.config.debug;
+    saveAsyncStack(this, 4);
+  }
+}
+
+inherits(Raw, EventEmitter);
+
+assign(Raw.prototype, {
+  set(sql, bindings) {
+    this.sql = sql;
+    this.bindings =
+      (isObject(bindings) && !bindings.toSQL) || isUndefined(bindings)
+        ? bindings
+        : [bindings];
+
+    return this;
+  },
+
+  timeout(ms, { cancel } = {}) {
+    if (isNumber(ms) && ms > 0) {
+      this._timeout = ms;
+      if (cancel) {
+        this.client.assertCanCancelQuery();
+        this._cancelOnTimeout = true;
+      }
+    }
+    return this;
+  },
+
+  // Wraps the current sql with `before` and `after`.
+  wrap(before, after) {
+    this._wrappedBefore = before;
+    this._wrappedAfter = after;
+    return this;
+  },
+
+  // Calls `toString` on the Knex object.
+  toString() {
+    return this.toQuery();
+  },
+
+  // Returns the raw sql for the query.
+  toSQL(method, tz) {
+    let obj;
+    const formatter = this.client.formatter(this);
+
+    if (Array.isArray(this.bindings)) {
+      obj = replaceRawArrBindings(this, formatter);
+    } else if (this.bindings && isPlainObject(this.bindings)) {
+      obj = replaceKeyBindings(this, formatter);
+    } else {
+      obj = {
+        method: 'raw',
+        sql: this.sql,
+        bindings: isUndefined(this.bindings) ? [] : [this.bindings],
+      };
+    }
+
+    if (this._wrappedBefore) {
+      obj.sql = this._wrappedBefore + obj.sql;
+    }
+    if (this._wrappedAfter) {
+      obj.sql = obj.sql + this._wrappedAfter;
+    }
+
+    obj.options = reduce(this._options, assign, {});
+
+    if (this._timeout) {
+      obj.timeout = this._timeout;
+      if (this._cancelOnTimeout) {
+        obj.cancelOnTimeout = this._cancelOnTimeout;
+      }
+    }
+
+    obj.bindings = obj.bindings || [];
+    if (helpers.containsUndefined(obj.bindings)) {
+      const undefinedBindingIndices = helpers.getUndefinedIndices(
+        this.bindings
+      );
+      debugBindings(obj.bindings);
+      throw new Error(
+        `Undefined binding(s) detected for keys [${undefinedBindingIndices}] when compiling RAW query: ${obj.sql}`
+      );
+    }
+
+    obj.__knexQueryUid = uuid.v4();
+
+    return obj;
+  },
+});
+
+function replaceRawArrBindings(raw, formatter) {
+  const expectedBindings = raw.bindings.length;
+  const values = raw.bindings;
+  let index = 0;
+
+  const sql = raw.sql.replace(/\\?\?\??/g, function(match) {
+    if (match === '\\?') {
+      return match;
+    }
+
+    const value = values[index++];
+
+    if (match === '??') {
+      return formatter.columnize(value);
+    }
+    return formatter.parameter(value);
+  });
+
+  if (expectedBindings !== index) {
+    throw new Error(`Expected ${expectedBindings} bindings, saw ${index}`);
+  }
+
+  return {
+    method: 'raw',
+    sql,
+    bindings: formatter.bindings,
+  };
+}
+
+function replaceKeyBindings(raw, formatter) {
+  const values = raw.bindings;
+  const regex = /\\?(:(\w+):(?=::)|:(\w+):(?!:)|:(\w+))/g;
+
+  const sql = raw.sql.replace(regex, function(match, p1, p2, p3, p4) {
+    if (match !== p1) {
+      return p1;
+    }
+
+    const part = p2 || p3 || p4;
+    const key = match.trim();
+    const isIdentifier = key[key.length - 1] === ':';
+    const value = values[part];
+
+    if (value === undefined) {
+      if (Object.prototype.hasOwnProperty.call(values, part)) {
+        formatter.bindings.push(value);
+      }
+
+      return match;
+    }
+
+    if (isIdentifier) {
+      return match.replace(p1, formatter.columnize(value));
+    }
+
+    return match.replace(p1, formatter.parameter(value));
+  });
+
+  return {
+    method: 'raw',
+    sql,
+    bindings: formatter.bindings,
+  };
+}
+
+// Allow the `Raw` object to be utilized with full access to the relevant
+// promise API.
+__webpack_require__(89)(Raw);
+helpers.addQueryContext(Raw);
+
+module.exports = Raw;
+
+
+/***/ }),
+/* 35 */
+/***/ (function(module, exports) {
+
+var isES5 = (function(){
+    "use strict";
+    return this === undefined;
+})();
+
+if (isES5) {
+    module.exports = {
+        freeze: Object.freeze,
+        defineProperty: Object.defineProperty,
+        getDescriptor: Object.getOwnPropertyDescriptor,
+        keys: Object.keys,
+        names: Object.getOwnPropertyNames,
+        getPrototypeOf: Object.getPrototypeOf,
+        isArray: Array.isArray,
+        isES5: isES5,
+        propertyIsWritable: function(obj, prop) {
+            var descriptor = Object.getOwnPropertyDescriptor(obj, prop);
+            return !!(!descriptor || descriptor.writable || descriptor.set);
+        }
+    };
+} else {
+    var has = {}.hasOwnProperty;
+    var str = {}.toString;
+    var proto = {}.constructor.prototype;
+
+    var ObjectKeys = function (o) {
+        var ret = [];
+        for (var key in o) {
+            if (has.call(o, key)) {
+                ret.push(key);
+            }
+        }
+        return ret;
+    };
+
+    var ObjectGetDescriptor = function(o, key) {
+        return {value: o[key]};
+    };
+
+    var ObjectDefineProperty = function (o, key, desc) {
+        o[key] = desc.value;
+        return o;
+    };
+
+    var ObjectFreeze = function (obj) {
+        return obj;
+    };
+
+    var ObjectGetPrototypeOf = function (obj) {
+        try {
+            return Object(obj).constructor.prototype;
+        }
+        catch (e) {
+            return proto;
+        }
+    };
+
+    var ArrayIsArray = function (obj) {
+        try {
+            return str.call(obj) === "[object Array]";
+        }
+        catch(e) {
+            return false;
+        }
+    };
+
+    module.exports = {
+        isArray: ArrayIsArray,
+        keys: ObjectKeys,
+        names: ObjectKeys,
+        defineProperty: ObjectDefineProperty,
+        getDescriptor: ObjectGetDescriptor,
+        freeze: ObjectFreeze,
+        getPrototypeOf: ObjectGetPrototypeOf,
+        isES5: isES5,
+        propertyIsWritable: function() {
+            return true;
+        }
+    };
+}
+
+
+/***/ }),
+/* 36 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return COMMON_ERROR_FIELDS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return create; });
+function create() {
+  return new Set([// standard fields
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
+  'name', 'message', // quasi-standard
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
+  'stack', // standard in node
+  'code', // https://nodejs.org/dist/latest/docs/api/errors.html#errors_node_js_error_codes
+  // non standard but widely used
+  'statusCode', 'shouldRedirect', 'framesToPop', // My (Offirmo) extensions
+  'details', 'SEC', '_temp']);
+}
+
+const DEFAULT_INSTANCE = create();
+const COMMON_ERROR_FIELDS = DEFAULT_INSTANCE;
+
+
+/***/ }),
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
  * Module dependencies.
  */
 
-var net = __webpack_require__(47);
-var tls = __webpack_require__(48);
-var url = __webpack_require__(13);
+var net = __webpack_require__(48);
+var tls = __webpack_require__(49);
+var url = __webpack_require__(14);
 var assert = __webpack_require__(28);
-var Agent = __webpack_require__(57);
+var Agent = __webpack_require__(56);
 var inherits = __webpack_require__(5).inherits;
-var debug = __webpack_require__(62)('https-proxy-agent');
+var debug = __webpack_require__(61)('https-proxy-agent');
 
 /**
  * Module exports.
@@ -19417,1149 +20626,7 @@ function isDefaultPort(port, secure) {
 
 
 /***/ }),
-/* 20 */
-/***/ (function(module, exports) {
-
-module.exports = require("https");
-
-/***/ }),
-/* 21 */
-/***/ (function(module, exports) {
-
-module.exports = require("domain");
-
-/***/ }),
-/* 22 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Scope; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return addGlobalEventProcessor; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(15);
-/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
-/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7);
-/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(3);
-/* harmony import */ var _span__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(39);
-
-
-
-/**
- * Holds additional event information. {@link Scope.applyToEvent} will be
- * called by the client before an event will be sent.
- */
-var Scope = /** @class */ (function () {
-    function Scope() {
-        /** Flag if notifiying is happening. */
-        this._notifyingListeners = false;
-        /** Callback for client to receive scope changes. */
-        this._scopeListeners = [];
-        /** Callback list that will be called after {@link applyToEvent}. */
-        this._eventProcessors = [];
-        /** Array of breadcrumbs. */
-        this._breadcrumbs = [];
-        /** User */
-        this._user = {};
-        /** Tags */
-        this._tags = {};
-        /** Extra */
-        this._extra = {};
-        /** Contexts */
-        this._context = {};
-    }
-    /**
-     * Add internal on change listener. Used for sub SDKs that need to store the scope.
-     * @hidden
-     */
-    Scope.prototype.addScopeListener = function (callback) {
-        this._scopeListeners.push(callback);
-    };
-    /**
-     * @inheritDoc
-     */
-    Scope.prototype.addEventProcessor = function (callback) {
-        this._eventProcessors.push(callback);
-        return this;
-    };
-    /**
-     * This will be called on every set call.
-     */
-    Scope.prototype._notifyScopeListeners = function () {
-        var _this = this;
-        if (!this._notifyingListeners) {
-            this._notifyingListeners = true;
-            setTimeout(function () {
-                _this._scopeListeners.forEach(function (callback) {
-                    callback(_this);
-                });
-                _this._notifyingListeners = false;
-            });
-        }
-    };
-    /**
-     * This will be called after {@link applyToEvent} is finished.
-     */
-    Scope.prototype._notifyEventProcessors = function (processors, event, hint, index) {
-        var _this = this;
-        if (index === void 0) { index = 0; }
-        return new _sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* SyncPromise */ "a"](function (resolve, reject) {
-            var processor = processors[index];
-            // tslint:disable-next-line:strict-type-predicates
-            if (event === null || typeof processor !== 'function') {
-                resolve(event);
-            }
-            else {
-                var result = processor(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, event), hint);
-                if (Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_2__[/* isThenable */ "i"])(result)) {
-                    result
-                        .then(function (final) { return _this._notifyEventProcessors(processors, final, hint, index + 1).then(resolve); })
-                        .then(null, reject);
-                }
-                else {
-                    _this._notifyEventProcessors(processors, result, hint, index + 1)
-                        .then(resolve)
-                        .then(null, reject);
-                }
-            }
-        });
-    };
-    /**
-     * @inheritDoc
-     */
-    Scope.prototype.setUser = function (user) {
-        this._user = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_3__[/* normalize */ "c"])(user);
-        this._notifyScopeListeners();
-        return this;
-    };
-    /**
-     * @inheritDoc
-     */
-    Scope.prototype.setTags = function (tags) {
-        this._tags = tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, this._tags, Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_3__[/* normalize */ "c"])(tags));
-        this._notifyScopeListeners();
-        return this;
-    };
-    /**
-     * @inheritDoc
-     */
-    Scope.prototype.setTag = function (key, value) {
-        var _a;
-        this._tags = tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, this._tags, (_a = {}, _a[key] = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_3__[/* normalize */ "c"])(value), _a));
-        this._notifyScopeListeners();
-        return this;
-    };
-    /**
-     * @inheritDoc
-     */
-    Scope.prototype.setExtras = function (extra) {
-        this._extra = tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, this._extra, Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_3__[/* normalize */ "c"])(extra));
-        this._notifyScopeListeners();
-        return this;
-    };
-    /**
-     * @inheritDoc
-     */
-    Scope.prototype.setExtra = function (key, extra) {
-        var _a;
-        this._extra = tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, this._extra, (_a = {}, _a[key] = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_3__[/* normalize */ "c"])(extra), _a));
-        this._notifyScopeListeners();
-        return this;
-    };
-    /**
-     * @inheritDoc
-     */
-    Scope.prototype.setFingerprint = function (fingerprint) {
-        this._fingerprint = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_3__[/* normalize */ "c"])(fingerprint);
-        this._notifyScopeListeners();
-        return this;
-    };
-    /**
-     * @inheritDoc
-     */
-    Scope.prototype.setLevel = function (level) {
-        this._level = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_3__[/* normalize */ "c"])(level);
-        this._notifyScopeListeners();
-        return this;
-    };
-    /**
-     * @inheritDoc
-     */
-    Scope.prototype.setTransaction = function (transaction) {
-        this._transaction = transaction;
-        this._notifyScopeListeners();
-        return this;
-    };
-    /**
-     * @inheritDoc
-     */
-    Scope.prototype.setContext = function (name, context) {
-        this._context[name] = context ? Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_3__[/* normalize */ "c"])(context) : undefined;
-        this._notifyScopeListeners();
-        return this;
-    };
-    /**
-     * @inheritDoc
-     */
-    Scope.prototype.setSpan = function (span) {
-        this._span = span;
-        this._notifyScopeListeners();
-        return this;
-    };
-    /**
-     * @inheritDoc
-     */
-    Scope.prototype.startSpan = function (parentSpan) {
-        var span = new _span__WEBPACK_IMPORTED_MODULE_5__[/* Span */ "a"]();
-        span.setParent(parentSpan);
-        this.setSpan(span);
-        return span;
-    };
-    /**
-     * Internal getter for Span, used in Hub.
-     * @hidden
-     */
-    Scope.prototype.getSpan = function () {
-        return this._span;
-    };
-    /**
-     * Inherit values from the parent scope.
-     * @param scope to clone.
-     */
-    Scope.clone = function (scope) {
-        var newScope = new Scope();
-        if (scope) {
-            newScope._breadcrumbs = tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"](scope._breadcrumbs);
-            newScope._tags = tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, scope._tags);
-            newScope._extra = tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, scope._extra);
-            newScope._context = tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, scope._context);
-            newScope._user = scope._user;
-            newScope._level = scope._level;
-            newScope._span = scope._span;
-            newScope._transaction = scope._transaction;
-            newScope._fingerprint = scope._fingerprint;
-            newScope._eventProcessors = tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"](scope._eventProcessors);
-        }
-        return newScope;
-    };
-    /**
-     * @inheritDoc
-     */
-    Scope.prototype.clear = function () {
-        this._breadcrumbs = [];
-        this._tags = {};
-        this._extra = {};
-        this._user = {};
-        this._context = {};
-        this._level = undefined;
-        this._transaction = undefined;
-        this._fingerprint = undefined;
-        this._span = undefined;
-        this._notifyScopeListeners();
-        return this;
-    };
-    /**
-     * @inheritDoc
-     */
-    Scope.prototype.addBreadcrumb = function (breadcrumb, maxBreadcrumbs) {
-        var timestamp = new Date().getTime() / 1000;
-        var mergedBreadcrumb = tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({ timestamp: timestamp }, breadcrumb);
-        this._breadcrumbs =
-            maxBreadcrumbs !== undefined && maxBreadcrumbs >= 0
-                ? tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"](this._breadcrumbs, [Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_3__[/* normalize */ "c"])(mergedBreadcrumb)]).slice(-maxBreadcrumbs)
-                : tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"](this._breadcrumbs, [Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_3__[/* normalize */ "c"])(mergedBreadcrumb)]);
-        this._notifyScopeListeners();
-        return this;
-    };
-    /**
-     * @inheritDoc
-     */
-    Scope.prototype.clearBreadcrumbs = function () {
-        this._breadcrumbs = [];
-        this._notifyScopeListeners();
-        return this;
-    };
-    /**
-     * Applies fingerprint from the scope to the event if there's one,
-     * uses message if there's one instead or get rid of empty fingerprint
-     */
-    Scope.prototype._applyFingerprint = function (event) {
-        // Make sure it's an array first and we actually have something in place
-        event.fingerprint = event.fingerprint
-            ? Array.isArray(event.fingerprint)
-                ? event.fingerprint
-                : [event.fingerprint]
-            : [];
-        // If we have something on the scope, then merge it with event
-        if (this._fingerprint) {
-            event.fingerprint = event.fingerprint.concat(this._fingerprint);
-        }
-        // If we have no data at all, remove empty array default
-        if (event.fingerprint && !event.fingerprint.length) {
-            delete event.fingerprint;
-        }
-    };
-    /**
-     * Applies the current context and fingerprint to the event.
-     * Note that breadcrumbs will be added by the client.
-     * Also if the event has already breadcrumbs on it, we do not merge them.
-     * @param event Event
-     * @param hint May contain additional informartion about the original exception.
-     * @hidden
-     */
-    Scope.prototype.applyToEvent = function (event, hint) {
-        if (this._extra && Object.keys(this._extra).length) {
-            event.extra = tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, this._extra, event.extra);
-        }
-        if (this._tags && Object.keys(this._tags).length) {
-            event.tags = tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, this._tags, event.tags);
-        }
-        if (this._user && Object.keys(this._user).length) {
-            event.user = tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, this._user, event.user);
-        }
-        if (this._context && Object.keys(this._context).length) {
-            event.contexts = tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, this._context, event.contexts);
-        }
-        if (this._level) {
-            event.level = this._level;
-        }
-        if (this._transaction) {
-            event.transaction = this._transaction;
-        }
-        if (this._span) {
-            event.contexts = event.contexts || {};
-            event.contexts.trace = this._span;
-        }
-        this._applyFingerprint(event);
-        event.breadcrumbs = tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"]((event.breadcrumbs || []), this._breadcrumbs);
-        event.breadcrumbs = event.breadcrumbs.length > 0 ? event.breadcrumbs : undefined;
-        return this._notifyEventProcessors(tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"](getGlobalEventProcessors(), this._eventProcessors), event, hint);
-    };
-    return Scope;
-}());
-
-/**
- * Retruns the global event processors.
- */
-function getGlobalEventProcessors() {
-    var global = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_4__[/* getGlobalObject */ "f"])();
-    global.__SENTRY__ = global.__SENTRY__ || {};
-    global.__SENTRY__.globalEventProcessors = global.__SENTRY__.globalEventProcessors || [];
-    return global.__SENTRY__.globalEventProcessors;
-}
-/**
- * Add a EventProcessor to be kept globally.
- * @param callback EventProcessor to add
- */
-function addGlobalEventProcessor(callback) {
-    getGlobalEventProcessors().push(callback);
-}
-//# sourceMappingURL=scope.js.map
-
-/***/ }),
-/* 23 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-var isProduction = "production" === 'production';
-var prefix = 'Invariant failed';
-function invariant(condition, message) {
-  if (condition) {
-    return;
-  }
-
-  if (isProduction) {
-    throw new Error(prefix);
-  } else {
-    throw new Error(prefix + ": " + (message || ''));
-  }
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (invariant);
-
-
-/***/ }),
-/* 24 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getGlobalThis; });
-/* global globalThis, self, window, global */
-const lastResort = {};
-function getGlobalThis() {
-  // @ts-ignore
-  if (typeof globalThis !== 'undefined') return globalThis; // check node first https://github.com/ljharb/globalThis/issues/2
-  // @ts-ignore
-
-  if (typeof global !== 'undefined') return global; // @ts-ignore
-
-  if (typeof self !== 'undefined') return self; // @ts-ignore
-
-  if (typeof window !== 'undefined') return window;
-  if (typeof this !== 'undefined') return this;
-  return lastResort; // should never happen
-}
-
-/***/ }),
-/* 25 */
-/***/ (function(module, exports, __webpack_require__) {
-
-try {
-  var util = __webpack_require__(5);
-  /* istanbul ignore next */
-  if (typeof util.inherits !== 'function') throw '';
-  module.exports = util.inherits;
-} catch (e) {
-  /* istanbul ignore next */
-  module.exports = __webpack_require__(136);
-}
-
-
-/***/ }),
-/* 26 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _generate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(44);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_UTC_timestamp_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["a"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["d"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_seconds", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["e"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_minutes", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["c"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_days", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["b"]; });
-
-
-
-/***/ }),
-/* 27 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return truncate; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return snipLine; });
-/* unused harmony export safeJoin */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return isMatchingPattern; });
-/* harmony import */ var _is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
-
-/**
- * Truncates given string to the maximum characters count
- *
- * @param str An object that contains serializable values
- * @param max Maximum number of characters in truncated string
- * @returns string Encoded
- */
-function truncate(str, max) {
-    if (max === void 0) { max = 0; }
-    // tslint:disable-next-line:strict-type-predicates
-    if (typeof str !== 'string' || max === 0) {
-        return str;
-    }
-    return str.length <= max ? str : str.substr(0, max) + "...";
-}
-/**
- * This is basically just `trim_line` from
- * https://github.com/getsentry/sentry/blob/master/src/sentry/lang/javascript/processor.py#L67
- *
- * @param str An object that contains serializable values
- * @param max Maximum number of characters in truncated string
- * @returns string Encoded
- */
-function snipLine(line, colno) {
-    var newLine = line;
-    var ll = newLine.length;
-    if (ll <= 150) {
-        return newLine;
-    }
-    if (colno > ll) {
-        colno = ll; // tslint:disable-line:no-parameter-reassignment
-    }
-    var start = Math.max(colno - 60, 0);
-    if (start < 5) {
-        start = 0;
-    }
-    var end = Math.min(start + 140, ll);
-    if (end > ll - 5) {
-        end = ll;
-    }
-    if (end === ll) {
-        start = Math.max(end - 140, 0);
-    }
-    newLine = newLine.slice(start, end);
-    if (start > 0) {
-        newLine = "'{snip} " + newLine;
-    }
-    if (end < ll) {
-        newLine += ' {snip}';
-    }
-    return newLine;
-}
-/**
- * Join values in array
- * @param input array of values to be joined together
- * @param delimiter string to be placed in-between values
- * @returns Joined values
- */
-function safeJoin(input, delimiter) {
-    if (!Array.isArray(input)) {
-        return '';
-    }
-    var output = [];
-    // tslint:disable-next-line:prefer-for-of
-    for (var i = 0; i < input.length; i++) {
-        var value = input[i];
-        try {
-            output.push(String(value));
-        }
-        catch (e) {
-            output.push('[value cannot be serialized]');
-        }
-    }
-    return output.join(delimiter);
-}
-/**
- * Checks if the value matches a regex or includes the string
- * @param value The string value to be checked against
- * @param pattern Either a regex or a string that must be contained in value
- */
-function isMatchingPattern(value, pattern) {
-    if (Object(_is__WEBPACK_IMPORTED_MODULE_0__[/* isRegExp */ "f"])(pattern)) {
-        return pattern.test(value);
-    }
-    if (typeof pattern === 'string') {
-        return value.indexOf(pattern) !== -1;
-    }
-    return false;
-}
-//# sourceMappingURL=string.js.map
-
-/***/ }),
-/* 28 */
-/***/ (function(module, exports) {
-
-module.exports = require("assert");
-
-/***/ }),
-/* 29 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* eslint no-console:0 */
-
-const {
-  isFunction,
-  isUndefined,
-  isPlainObject,
-  isArray,
-  isTypedArray,
-} = __webpack_require__(6);
-const { CLIENT_ALIASES } = __webpack_require__(89);
-
-// Check if the first argument is an array, otherwise uses all arguments as an
-// array.
-
-function normalizeArr() {
-  const args = new Array(arguments.length);
-  for (let i = 0; i < args.length; i++) {
-    args[i] = arguments[i];
-  }
-  if (Array.isArray(args[0])) {
-    return args[0];
-  }
-  return args;
-}
-
-function containsUndefined(mixed) {
-  let argContainsUndefined = false;
-
-  if (isTypedArray(mixed)) return false;
-
-  if (mixed && isFunction(mixed.toSQL)) {
-    //Any QueryBuilder or Raw will automatically be validated during compile.
-    return argContainsUndefined;
-  }
-
-  if (isArray(mixed)) {
-    for (let i = 0; i < mixed.length; i++) {
-      if (argContainsUndefined) break;
-      argContainsUndefined = containsUndefined(mixed[i]);
-    }
-  } else if (isPlainObject(mixed)) {
-    Object.keys(mixed).forEach((key) => {
-      if (!argContainsUndefined) {
-        argContainsUndefined = containsUndefined(mixed[key]);
-      }
-    });
-  } else {
-    argContainsUndefined = isUndefined(mixed);
-  }
-
-  return argContainsUndefined;
-}
-
-function getUndefinedIndices(mixed) {
-  const indices = [];
-
-  if (Array.isArray(mixed)) {
-    mixed.forEach((item, index) => {
-      if (containsUndefined(item)) {
-        indices.push(index);
-      }
-    });
-  } else if (isPlainObject(mixed)) {
-    Object.keys(mixed).forEach((key) => {
-      if (containsUndefined(mixed[key])) {
-        indices.push(key);
-      }
-    });
-  } else {
-    indices.push(0);
-  }
-
-  return indices;
-}
-
-function addQueryContext(Target) {
-  // Stores or returns (if called with no arguments) context passed to
-  // wrapIdentifier and postProcessResponse hooks
-  Target.prototype.queryContext = function(context) {
-    if (isUndefined(context)) {
-      return this._queryContext;
-    }
-    this._queryContext = context;
-    return this;
-  };
-}
-
-function resolveClientNameWithAliases(clientName) {
-  return CLIENT_ALIASES[clientName] || clientName;
-}
-
-module.exports = {
-  addQueryContext,
-  containsUndefined,
-  normalizeArr,
-  resolveClientNameWithAliases,
-  getUndefinedIndices,
-};
-
-
-/***/ }),
-/* 30 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var es5 = __webpack_require__(36);
-var Objectfreeze = es5.freeze;
-var util = __webpack_require__(9);
-var inherits = util.inherits;
-var notEnumerableProp = util.notEnumerableProp;
-
-function subError(nameProperty, defaultMessage) {
-    function SubError(message) {
-        if (!(this instanceof SubError)) return new SubError(message);
-        notEnumerableProp(this, "message",
-            typeof message === "string" ? message : defaultMessage);
-        notEnumerableProp(this, "name", nameProperty);
-        if (Error.captureStackTrace) {
-            Error.captureStackTrace(this, this.constructor);
-        } else {
-            Error.call(this);
-        }
-    }
-    inherits(SubError, Error);
-    return SubError;
-}
-
-var _TypeError, _RangeError;
-var Warning = subError("Warning", "warning");
-var CancellationError = subError("CancellationError", "cancellation error");
-var TimeoutError = subError("TimeoutError", "timeout error");
-var AggregateError = subError("AggregateError", "aggregate error");
-try {
-    _TypeError = TypeError;
-    _RangeError = RangeError;
-} catch(e) {
-    _TypeError = subError("TypeError", "type error");
-    _RangeError = subError("RangeError", "range error");
-}
-
-var methods = ("join pop push shift unshift slice filter forEach some " +
-    "every map indexOf lastIndexOf reduce reduceRight sort reverse").split(" ");
-
-for (var i = 0; i < methods.length; ++i) {
-    if (typeof Array.prototype[methods[i]] === "function") {
-        AggregateError.prototype[methods[i]] = Array.prototype[methods[i]];
-    }
-}
-
-es5.defineProperty(AggregateError.prototype, "length", {
-    value: 0,
-    configurable: false,
-    writable: true,
-    enumerable: true
-});
-AggregateError.prototype["isOperational"] = true;
-var level = 0;
-AggregateError.prototype.toString = function() {
-    var indent = Array(level * 4 + 1).join(" ");
-    var ret = "\n" + indent + "AggregateError of:" + "\n";
-    level++;
-    indent = Array(level * 4 + 1).join(" ");
-    for (var i = 0; i < this.length; ++i) {
-        var str = this[i] === this ? "[Circular AggregateError]" : this[i] + "";
-        var lines = str.split("\n");
-        for (var j = 0; j < lines.length; ++j) {
-            lines[j] = indent + lines[j];
-        }
-        str = lines.join("\n");
-        ret += str + "\n";
-    }
-    level--;
-    return ret;
-};
-
-function OperationalError(message) {
-    if (!(this instanceof OperationalError))
-        return new OperationalError(message);
-    notEnumerableProp(this, "name", "OperationalError");
-    notEnumerableProp(this, "message", message);
-    this.cause = message;
-    this["isOperational"] = true;
-
-    if (message instanceof Error) {
-        notEnumerableProp(this, "message", message.message);
-        notEnumerableProp(this, "stack", message.stack);
-    } else if (Error.captureStackTrace) {
-        Error.captureStackTrace(this, this.constructor);
-    }
-
-}
-inherits(OperationalError, Error);
-
-var errorTypes = Error["__BluebirdErrorTypes__"];
-if (!errorTypes) {
-    errorTypes = Objectfreeze({
-        CancellationError: CancellationError,
-        TimeoutError: TimeoutError,
-        OperationalError: OperationalError,
-        RejectionError: OperationalError,
-        AggregateError: AggregateError
-    });
-    es5.defineProperty(Error, "__BluebirdErrorTypes__", {
-        value: errorTypes,
-        writable: false,
-        enumerable: false,
-        configurable: false
-    });
-}
-
-module.exports = {
-    Error: Error,
-    TypeError: _TypeError,
-    RangeError: _RangeError,
-    CancellationError: errorTypes.CancellationError,
-    OperationalError: errorTypes.OperationalError,
-    TimeoutError: errorTypes.TimeoutError,
-    AggregateError: errorTypes.AggregateError,
-    Warning: Warning
-};
-
-
-/***/ }),
-/* 31 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-function Enum() {
-    var values = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        values[_i] = arguments[_i];
-    }
-    if (typeof values[0] === "string") {
-        var result = {};
-        for (var _a = 0, values_1 = values; _a < values_1.length; _a++) {
-            var value = values_1[_a];
-            result[value] = value;
-        }
-        return result;
-    }
-    else {
-        return values[0];
-    }
-}
-exports.Enum = Enum;
-(function (Enum) {
-    function ofKeys(e) {
-        var result = {};
-        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
-            var key = _a[_i];
-            result[key] = key;
-        }
-        return result;
-    }
-    Enum.ofKeys = ofKeys;
-    function keys(e) {
-        return Object.keys(e);
-    }
-    Enum.keys = keys;
-    function values(e) {
-        var result = [];
-        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
-            var key = _a[_i];
-            result.push(e[key]);
-        }
-        return result;
-    }
-    Enum.values = values;
-    function isType(e, value) {
-        return values(e).indexOf(value) !== -1;
-    }
-    Enum.isType = isType;
-})(Enum = exports.Enum || (exports.Enum = {}));
-//# sourceMappingURL=index.js.map
-
-/***/ }),
-/* 32 */,
-/* 33 */
-/***/ (function(module, exports) {
-
-module.exports = require("tty");
-
-/***/ }),
-/* 34 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-const http_1 = __webpack_require__(16);
-
-const common_error_fields_1 = __webpack_require__(50); // TODO extern
-
-
-function create_error(message, data = {}) {
-  if (message && http_1.STATUS_CODES[message]) {
-    message = '(auto) ' + http_1.STATUS_CODES[message];
-    data.statusCode = Number(message);
-  }
-
-  message = String(message || 'Unknown error!');
-
-  if (!message.toLowerCase().includes('error')) {
-    message = 'Error: ' + message;
-  }
-
-  const error = new Error(message);
-  Object.keys(data).forEach(k => {
-    if (common_error_fields_1.COMMON_ERROR_FIELDS.has(k) && k !== 'name' && k !== 'message' && k !== 'stack') {
-      error[k] = data[k];
-    } else {
-      error.details = error.details || {};
-      error.details[k] = data[k];
-    }
-  });
-  error.framesToPop = error.framesToPop || 1;
-  return error;
-}
-
-exports.create_error = create_error;
-
-/***/ }),
-/* 35 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// Raw
-// -------
-const inherits = __webpack_require__(25);
-const helpers = __webpack_require__(29);
-const { EventEmitter } = __webpack_require__(10);
-const debug = __webpack_require__(42);
-
-const {
-  assign,
-  reduce,
-  isPlainObject,
-  isObject,
-  isUndefined,
-  isNumber,
-} = __webpack_require__(6);
-const saveAsyncStack = __webpack_require__(90);
-const uuid = __webpack_require__(100);
-
-const debugBindings = debug('knex:bindings');
-
-function Raw(client) {
-  this.client = client;
-
-  this.sql = '';
-  this.bindings = [];
-
-  // Todo: Deprecate
-  this._wrappedBefore = undefined;
-  this._wrappedAfter = undefined;
-  if (client && client.config) {
-    this._debug = client.config.debug;
-    saveAsyncStack(this, 4);
-  }
-}
-
-inherits(Raw, EventEmitter);
-
-assign(Raw.prototype, {
-  set(sql, bindings) {
-    this.sql = sql;
-    this.bindings =
-      (isObject(bindings) && !bindings.toSQL) || isUndefined(bindings)
-        ? bindings
-        : [bindings];
-
-    return this;
-  },
-
-  timeout(ms, { cancel } = {}) {
-    if (isNumber(ms) && ms > 0) {
-      this._timeout = ms;
-      if (cancel) {
-        this.client.assertCanCancelQuery();
-        this._cancelOnTimeout = true;
-      }
-    }
-    return this;
-  },
-
-  // Wraps the current sql with `before` and `after`.
-  wrap(before, after) {
-    this._wrappedBefore = before;
-    this._wrappedAfter = after;
-    return this;
-  },
-
-  // Calls `toString` on the Knex object.
-  toString() {
-    return this.toQuery();
-  },
-
-  // Returns the raw sql for the query.
-  toSQL(method, tz) {
-    let obj;
-    const formatter = this.client.formatter(this);
-
-    if (Array.isArray(this.bindings)) {
-      obj = replaceRawArrBindings(this, formatter);
-    } else if (this.bindings && isPlainObject(this.bindings)) {
-      obj = replaceKeyBindings(this, formatter);
-    } else {
-      obj = {
-        method: 'raw',
-        sql: this.sql,
-        bindings: isUndefined(this.bindings) ? [] : [this.bindings],
-      };
-    }
-
-    if (this._wrappedBefore) {
-      obj.sql = this._wrappedBefore + obj.sql;
-    }
-    if (this._wrappedAfter) {
-      obj.sql = obj.sql + this._wrappedAfter;
-    }
-
-    obj.options = reduce(this._options, assign, {});
-
-    if (this._timeout) {
-      obj.timeout = this._timeout;
-      if (this._cancelOnTimeout) {
-        obj.cancelOnTimeout = this._cancelOnTimeout;
-      }
-    }
-
-    obj.bindings = obj.bindings || [];
-    if (helpers.containsUndefined(obj.bindings)) {
-      const undefinedBindingIndices = helpers.getUndefinedIndices(
-        this.bindings
-      );
-      debugBindings(obj.bindings);
-      throw new Error(
-        `Undefined binding(s) detected for keys [${undefinedBindingIndices}] when compiling RAW query: ${obj.sql}`
-      );
-    }
-
-    obj.__knexQueryUid = uuid.v4();
-
-    return obj;
-  },
-});
-
-function replaceRawArrBindings(raw, formatter) {
-  const expectedBindings = raw.bindings.length;
-  const values = raw.bindings;
-  let index = 0;
-
-  const sql = raw.sql.replace(/\\?\?\??/g, function(match) {
-    if (match === '\\?') {
-      return match;
-    }
-
-    const value = values[index++];
-
-    if (match === '??') {
-      return formatter.columnize(value);
-    }
-    return formatter.parameter(value);
-  });
-
-  if (expectedBindings !== index) {
-    throw new Error(`Expected ${expectedBindings} bindings, saw ${index}`);
-  }
-
-  return {
-    method: 'raw',
-    sql,
-    bindings: formatter.bindings,
-  };
-}
-
-function replaceKeyBindings(raw, formatter) {
-  const values = raw.bindings;
-  const regex = /\\?(:(\w+):(?=::)|:(\w+):(?!:)|:(\w+))/g;
-
-  const sql = raw.sql.replace(regex, function(match, p1, p2, p3, p4) {
-    if (match !== p1) {
-      return p1;
-    }
-
-    const part = p2 || p3 || p4;
-    const key = match.trim();
-    const isIdentifier = key[key.length - 1] === ':';
-    const value = values[part];
-
-    if (value === undefined) {
-      if (Object.prototype.hasOwnProperty.call(values, part)) {
-        formatter.bindings.push(value);
-      }
-
-      return match;
-    }
-
-    if (isIdentifier) {
-      return match.replace(p1, formatter.columnize(value));
-    }
-
-    return match.replace(p1, formatter.parameter(value));
-  });
-
-  return {
-    method: 'raw',
-    sql,
-    bindings: formatter.bindings,
-  };
-}
-
-// Allow the `Raw` object to be utilized with full access to the relevant
-// promise API.
-__webpack_require__(91)(Raw);
-helpers.addQueryContext(Raw);
-
-module.exports = Raw;
-
-
-/***/ }),
-/* 36 */
-/***/ (function(module, exports) {
-
-var isES5 = (function(){
-    "use strict";
-    return this === undefined;
-})();
-
-if (isES5) {
-    module.exports = {
-        freeze: Object.freeze,
-        defineProperty: Object.defineProperty,
-        getDescriptor: Object.getOwnPropertyDescriptor,
-        keys: Object.keys,
-        names: Object.getOwnPropertyNames,
-        getPrototypeOf: Object.getPrototypeOf,
-        isArray: Array.isArray,
-        isES5: isES5,
-        propertyIsWritable: function(obj, prop) {
-            var descriptor = Object.getOwnPropertyDescriptor(obj, prop);
-            return !!(!descriptor || descriptor.writable || descriptor.set);
-        }
-    };
-} else {
-    var has = {}.hasOwnProperty;
-    var str = {}.toString;
-    var proto = {}.constructor.prototype;
-
-    var ObjectKeys = function (o) {
-        var ret = [];
-        for (var key in o) {
-            if (has.call(o, key)) {
-                ret.push(key);
-            }
-        }
-        return ret;
-    };
-
-    var ObjectGetDescriptor = function(o, key) {
-        return {value: o[key]};
-    };
-
-    var ObjectDefineProperty = function (o, key, desc) {
-        o[key] = desc.value;
-        return o;
-    };
-
-    var ObjectFreeze = function (obj) {
-        return obj;
-    };
-
-    var ObjectGetPrototypeOf = function (obj) {
-        try {
-            return Object(obj).constructor.prototype;
-        }
-        catch (e) {
-            return proto;
-        }
-    };
-
-    var ArrayIsArray = function (obj) {
-        try {
-            return str.call(obj) === "[object Array]";
-        }
-        catch(e) {
-            return false;
-        }
-    };
-
-    module.exports = {
-        isArray: ArrayIsArray,
-        keys: ObjectKeys,
-        names: ObjectKeys,
-        defineProperty: ObjectDefineProperty,
-        getDescriptor: ObjectGetDescriptor,
-        freeze: ObjectFreeze,
-        getPrototypeOf: ObjectGetPrototypeOf,
-        isES5: isES5,
-        propertyIsWritable: function() {
-            return true;
-        }
-    };
-}
-
-
-/***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20576,7 +20643,7 @@ function setup(env) {
   createDebug.disable = disable;
   createDebug.enable = enable;
   createDebug.enabled = enabled;
-  createDebug.humanize = __webpack_require__(64);
+  createDebug.humanize = __webpack_require__(63);
   Object.keys(env).forEach(function (key) {
     createDebug[key] = env[key];
   });
@@ -20815,97 +20882,7 @@ module.exports = setup;
 
 
 /***/ }),
-/* 38 */
-/***/ (function(module, exports) {
-
-module.exports = require("module");
-
-/***/ }),
 /* 39 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export TRACEPARENT_REGEXP */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Span; });
-/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
-
-var TRACEPARENT_REGEXP = /^[ \t]*([0-9a-f]{32})?-?([0-9a-f]{16})?-?([01])?[ \t]*$/;
-/**
- * Span containg all data about a span
- */
-var Span = /** @class */ (function () {
-    function Span(_traceId, _spanId, _sampled, _parent) {
-        if (_traceId === void 0) { _traceId = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_0__[/* uuid4 */ "j"])(); }
-        if (_spanId === void 0) { _spanId = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_0__[/* uuid4 */ "j"])().substring(16); }
-        this._traceId = _traceId;
-        this._spanId = _spanId;
-        this._sampled = _sampled;
-        this._parent = _parent;
-    }
-    /**
-     * Setter for parent
-     */
-    Span.prototype.setParent = function (parent) {
-        this._parent = parent;
-        return this;
-    };
-    /**
-     * Setter for sampled
-     */
-    Span.prototype.setSampled = function (sampled) {
-        this._sampled = sampled;
-        return this;
-    };
-    /**
-     * Continues a trace
-     * @param traceparent Traceparent string
-     */
-    Span.fromTraceparent = function (traceparent) {
-        var matches = traceparent.match(TRACEPARENT_REGEXP);
-        if (matches) {
-            var sampled = void 0;
-            if (matches[3] === '1') {
-                sampled = true;
-            }
-            else if (matches[3] === '0') {
-                sampled = false;
-            }
-            var parent_1 = new Span(matches[1], matches[2], sampled);
-            return new Span(matches[1], undefined, sampled, parent_1);
-        }
-        return undefined;
-    };
-    /**
-     * @inheritDoc
-     */
-    Span.prototype.toTraceparent = function () {
-        var sampled = '';
-        if (this._sampled === true) {
-            sampled = '-1';
-        }
-        else if (this._sampled === false) {
-            sampled = '-0';
-        }
-        return this._traceId + "-" + this._spanId + sampled;
-    };
-    /**
-     * @inheritDoc
-     */
-    Span.prototype.toJSON = function () {
-        return {
-            parent: (this._parent && this._parent.toJSON()) || undefined,
-            sampled: this._sampled,
-            span_id: this._spanId,
-            trace_id: this._traceId,
-        };
-    };
-    return Span;
-}());
-
-//# sourceMappingURL=span.js.map
-
-/***/ }),
-/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -21220,7 +21197,7 @@ LRUMap.prototype.toString = function() {
 
 
 /***/ }),
-/* 41 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21422,7 +21399,93 @@ function tryDecode(str, decode) {
 
 
 /***/ }),
+/* 41 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return logger; });
+/* harmony import */ var _misc__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+
+// TODO: Implement different loggers for different environments
+var global = Object(_misc__WEBPACK_IMPORTED_MODULE_0__[/* getGlobalObject */ "g"])();
+/** Prefix for logging strings */
+var PREFIX = 'Sentry Logger ';
+/** JSDoc */
+var Logger = /** @class */ (function () {
+    /** JSDoc */
+    function Logger() {
+        this._enabled = false;
+    }
+    /** JSDoc */
+    Logger.prototype.disable = function () {
+        this._enabled = false;
+    };
+    /** JSDoc */
+    Logger.prototype.enable = function () {
+        this._enabled = true;
+    };
+    /** JSDoc */
+    Logger.prototype.log = function () {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i] = arguments[_i];
+        }
+        if (!this._enabled) {
+            return;
+        }
+        Object(_misc__WEBPACK_IMPORTED_MODULE_0__[/* consoleSandbox */ "c"])(function () {
+            global.console.log(PREFIX + "[Log]: " + args.join(' ')); // tslint:disable-line:no-console
+        });
+    };
+    /** JSDoc */
+    Logger.prototype.warn = function () {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i] = arguments[_i];
+        }
+        if (!this._enabled) {
+            return;
+        }
+        Object(_misc__WEBPACK_IMPORTED_MODULE_0__[/* consoleSandbox */ "c"])(function () {
+            global.console.warn(PREFIX + "[Warn]: " + args.join(' ')); // tslint:disable-line:no-console
+        });
+    };
+    /** JSDoc */
+    Logger.prototype.error = function () {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i] = arguments[_i];
+        }
+        if (!this._enabled) {
+            return;
+        }
+        Object(_misc__WEBPACK_IMPORTED_MODULE_0__[/* consoleSandbox */ "c"])(function () {
+            global.console.error(PREFIX + "[Error]: " + args.join(' ')); // tslint:disable-line:no-console
+        });
+    };
+    return Logger;
+}());
+// Ensure we only have a single logger instance, even if multiple versions of @sentry/utils are being used
+global.__SENTRY__ = global.__SENTRY__ || {};
+var logger = global.__SENTRY__.logger || (global.__SENTRY__.logger = new Logger());
+
+//# sourceMappingURL=logger.js.map
+
+/***/ }),
 /* 42 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _field_set__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(36);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "COMMON_ERROR_FIELDS", function() { return _field_set__WEBPACK_IMPORTED_MODULE_0__["a"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "create", function() { return _field_set__WEBPACK_IMPORTED_MODULE_0__["b"]; });
+
+
+
+/***/ }),
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -21431,14 +21494,32 @@ function tryDecode(str, decode) {
  */
 
 if (typeof process === 'undefined' || process.type === 'renderer' || process.browser === true || process.__nwjs) {
-	module.exports = __webpack_require__(137);
+	module.exports = __webpack_require__(136);
 } else {
-	module.exports = __webpack_require__(139);
+	module.exports = __webpack_require__(138);
 }
 
 
 /***/ }),
-/* 43 */
+/* 44 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var old;
+if (typeof Promise !== "undefined") old = Promise;
+function noConflict() {
+    try { if (Promise === bluebird) Promise = old; }
+    catch (e) {}
+    return bluebird;
+}
+var bluebird = __webpack_require__(141)();
+bluebird.noConflict = noConflict;
+module.exports = bluebird;
+
+
+/***/ }),
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21472,7 +21553,7 @@ function get_default_JsonRpc_error() {
 exports.get_default_JsonRpc_error = get_default_JsonRpc_error;
 
 /***/ }),
-/* 44 */
+/* 46 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -21528,35 +21609,12 @@ function get_human_readable_UTC_timestamp_ms(now = new Date()) {
  /////////////////////
 
 /***/ }),
-/* 45 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return COMMON_ERROR_FIELDS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return create; });
-function create() {
-  return new Set([// standard fields
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
-  'name', 'message', // quasi-standard
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
-  'stack', // standard in node
-  'code', // https://nodejs.org/dist/latest/docs/api/errors.html#errors_node_js_error_codes
-  // non standard but widely used
-  'statusCode', 'shouldRedirect', 'framesToPop', // My (Offirmo) extensions
-  'details', 'SEC', '_temp']);
-}
-
-const DEFAULT_INSTANCE = create();
-const COMMON_ERROR_FIELDS = DEFAULT_INSTANCE;
-
-
-/***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
 /* eslint-disable no-mixed-operators */
-const cssKeywords = __webpack_require__(82);
+const cssKeywords = __webpack_require__(80);
 
 // NOTE: conversions should only return primitive values (i.e. arrays, or
 //       values that give correct `typeof` results).
@@ -22396,25 +22454,25 @@ convert.rgb.gray = function (rgb) {
 
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, exports) {
 
 module.exports = require("net");
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, exports) {
 
 module.exports = require("tls");
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const os = __webpack_require__(17);
-const hasFlag = __webpack_require__(66);
+const os = __webpack_require__(18);
+const hasFlag = __webpack_require__(65);
 
 const env = process.env;
 
@@ -22546,38 +22604,7 @@ module.exports = {
 
 
 /***/ }),
-/* 50 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _field_set__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(45);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "COMMON_ERROR_FIELDS", function() { return _field_set__WEBPACK_IMPORTED_MODULE_0__["a"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "create", function() { return _field_set__WEBPACK_IMPORTED_MODULE_0__["b"]; });
-
-
-
-/***/ }),
 /* 51 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var old;
-if (typeof Promise !== "undefined") old = Promise;
-function noConflict() {
-    try { if (Promise === bluebird) Promise = old; }
-    catch (e) {}
-    return bluebird;
-}
-var bluebird = __webpack_require__(142)();
-bluebird.noConflict = noConflict;
-module.exports = bluebird;
-
-
-/***/ }),
-/* 52 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22601,14 +22628,14 @@ __webpack_require__.d(analytics_state_namespaceObject, "create", function() { re
 __webpack_require__.d(analytics_state_namespaceObject, "addDetail", function() { return state_addDetail; });
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/0-stdlib/globalthis-ponyfill/dist/src.es2019/index.js
-var src_es2019 = __webpack_require__(24);
+var src_es2019 = __webpack_require__(23);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-advanced/soft-execution-context/dist/src.es2019/consts.js
 const LIB = 'soft-execution-context';
 const INTERNAL_PROP = '_SEC';
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/emittery/index.js
-var emittery = __webpack_require__(53);
+var emittery = __webpack_require__(52);
 var emittery_default = /*#__PURE__*/__webpack_require__.n(emittery);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-advanced/soft-execution-context/dist/src.es2019/root-prototype.js
@@ -22942,7 +22969,7 @@ const dependency_injection_PLUGIN = {
 };
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-foundation/common-error-fields/dist/src.es2019/field-set.js
-var field_set = __webpack_require__(45);
+var field_set = __webpack_require__(36);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-foundation/normalize-error/dist/src.es2019/index.js
  // Anything can be thrown: undefined, string, number...)
@@ -22970,7 +22997,7 @@ function promiseTry(fn) {
 
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/0-stdlib/timestamps/dist/src.es2019/generate.js
-var generate = __webpack_require__(44);
+var generate = __webpack_require__(46);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-advanced/soft-execution-context/dist/src.es2019/plugins/error-handling/state.js
 /////////////////////
@@ -23397,7 +23424,7 @@ function getRootSEC() {
 
 
 /***/ }),
-/* 53 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23761,7 +23788,7 @@ module.exports = Emittery;
 
 
 /***/ }),
-/* 54 */
+/* 53 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -23789,7 +23816,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 55 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23800,9 +23827,9 @@ Object.defineProperty(exports, "__esModule", {
 }); // https://docs.sentry.io/error-reporting/quickstart/?platform=node
 // https://httptoolkit.tech/blog/netlify-function-error-reporting-with-sentry/
 
-const Sentry = __webpack_require__(74);
+const Sentry = __webpack_require__(73);
 
-const channel_1 = __webpack_require__(18);
+const channel_1 = __webpack_require__(19);
 
 Sentry.init({
   // http://getsentry.github.io/sentry-javascript/interfaces/node.nodeoptions.html
@@ -23845,7 +23872,7 @@ exports.on_user_recognized = on_user_recognized; // TODO self-triage?
 // TODO breadcrumb
 
 /***/ }),
-/* 56 */
+/* 55 */
 /***/ (function(module, exports) {
 
 module.exports = function(originalModule) {
@@ -23875,14 +23902,14 @@ module.exports = function(originalModule) {
 
 
 /***/ }),
-/* 57 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-__webpack_require__(58);
+__webpack_require__(57);
 const inherits = __webpack_require__(5).inherits;
-const promisify = __webpack_require__(59);
+const promisify = __webpack_require__(58);
 const EventEmitter = __webpack_require__(10).EventEmitter;
 
 module.exports = Agent;
@@ -24052,13 +24079,13 @@ Agent.prototype.freeSocket = function freeSocket(socket, opts) {
 
 
 /***/ }),
-/* 58 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const url = __webpack_require__(13);
-const https = __webpack_require__(20);
+const url = __webpack_require__(14);
+const https = __webpack_require__(16);
 
 /**
  * This currently needs to be applied to all Node.js versions
@@ -24110,7 +24137,7 @@ https.get = function (_url, _options, cb) {
 
 
 /***/ }),
-/* 59 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24123,7 +24150,7 @@ module.exports = function () {
 
     // Get a promise object. This may be native, or it may be polyfilled
 
-    var ES6Promise = __webpack_require__(60);
+    var ES6Promise = __webpack_require__(59);
 
     /**
      * thatLooksLikeAPromiseToMe()
@@ -24201,7 +24228,7 @@ module.exports = function () {
 }();
 
 /***/ }),
-/* 60 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24276,11 +24303,11 @@ module.exports = function () {
     }
 
     //  Otherwise, return the es6-promise polyfill by @jaffathecake.
-    return __webpack_require__(61).Promise;
+    return __webpack_require__(60).Promise;
 }();
 
 /***/ }),
-/* 61 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -25459,7 +25486,7 @@ return Promise$1;
 
 
 /***/ }),
-/* 62 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25470,15 +25497,15 @@ return Promise$1;
  * treat as a browser.
  */
 if (typeof process === 'undefined' || process.type === 'renderer' || process.browser === true || process.__nwjs) {
-  module.exports = __webpack_require__(63);
+  module.exports = __webpack_require__(62);
 } else {
-  module.exports = __webpack_require__(65);
+  module.exports = __webpack_require__(64);
 }
 
 
 
 /***/ }),
-/* 63 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25648,7 +25675,7 @@ function localstorage() {
   }
 }
 
-module.exports = __webpack_require__(37)(exports);
+module.exports = __webpack_require__(38)(exports);
 var formatters = module.exports.formatters;
 /**
  * Map %j to `JSON.stringify()`, since no Web Inspectors do that by default.
@@ -25665,7 +25692,7 @@ formatters.j = function (v) {
 
 
 /***/ }),
-/* 64 */
+/* 63 */
 /***/ (function(module, exports) {
 
 /**
@@ -25833,7 +25860,7 @@ function plural(ms, msAbs, n, name) {
 
 
 /***/ }),
-/* 65 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25865,7 +25892,7 @@ exports.colors = [6, 2, 3, 4, 5, 1];
 try {
   // Optional dependency (as in, doesn't need to be installed, NOT like optionalDependencies in package.json)
   // eslint-disable-next-line import/no-extraneous-dependencies
-  var supportsColor = __webpack_require__(49);
+  var supportsColor = __webpack_require__(50);
 
   if (supportsColor && (supportsColor.stderr || supportsColor).level >= 2) {
     exports.colors = [20, 21, 26, 27, 32, 33, 38, 39, 40, 41, 42, 43, 44, 45, 56, 57, 62, 63, 68, 69, 74, 75, 76, 77, 78, 79, 80, 81, 92, 93, 98, 99, 112, 113, 128, 129, 134, 135, 148, 149, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 178, 179, 184, 185, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 214, 215, 220, 221];
@@ -25991,7 +26018,7 @@ function init(debug) {
   }
 }
 
-module.exports = __webpack_require__(37)(exports);
+module.exports = __webpack_require__(38)(exports);
 var formatters = module.exports.formatters;
 /**
  * Map %o to `util.inspect()`, all on a single line.
@@ -26014,7 +26041,7 @@ formatters.O = function (v) {
 
 
 /***/ }),
-/* 66 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26029,36 +26056,36 @@ module.exports = (flag, argv) => {
 
 
 /***/ }),
-/* 67 */
+/* 66 */
 /***/ (function(module, exports) {
 
 module.exports = require("console");
 
 /***/ }),
-/* 68 */
+/* 67 */
 /***/ (function(module, exports) {
 
 module.exports = require("crypto");
 
 /***/ }),
-/* 69 */
+/* 68 */
 /***/ (function(module, exports) {
 
 module.exports = require("stream");
 
 /***/ }),
-/* 70 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Builder
 // -------
 const assert = __webpack_require__(28);
-const inherits = __webpack_require__(25);
+const inherits = __webpack_require__(24);
 const { EventEmitter } = __webpack_require__(10);
 
-const Raw = __webpack_require__(35);
+const Raw = __webpack_require__(34);
 const helpers = __webpack_require__(29);
-const JoinClause = __webpack_require__(108);
+const JoinClause = __webpack_require__(106);
 const {
   assign,
   clone,
@@ -26078,9 +26105,9 @@ const {
   last,
   isPlainObject,
 } = __webpack_require__(6);
-const saveAsyncStack = __webpack_require__(90);
+const saveAsyncStack = __webpack_require__(88);
 
-const { lockMode, waitMode } = __webpack_require__(174);
+const { lockMode, waitMode } = __webpack_require__(173);
 
 // Typically called from `knex.builder`,
 // start a new query building chain.
@@ -27344,7 +27371,7 @@ Builder.prototype.into = Builder.prototype.table;
 Builder.prototype.del = Builder.prototype.delete;
 
 // Attach all of the top level promise methods that should be chainable.
-__webpack_require__(91)(Builder);
+__webpack_require__(89)(Builder);
 helpers.addQueryContext(Builder);
 
 Builder.extend = (methodName, fn) => {
@@ -27361,7 +27388,7 @@ module.exports = Builder;
 
 
 /***/ }),
-/* 71 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27374,9 +27401,9 @@ module.exports = Builder;
  * README.md file in the root directory of this source tree.
  */
 
-const crypto = __webpack_require__(68)
+const crypto = __webpack_require__(67)
 
-const defaults = __webpack_require__(72)
+const defaults = __webpack_require__(71)
 
 function escapeElement (elementRepresentation) {
   var escaped = elementRepresentation
@@ -27545,7 +27572,7 @@ module.exports = {
 
 
 /***/ }),
-/* 72 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27620,7 +27647,7 @@ module.exports = {
   keepalives_idle: 0
 }
 
-var pgTypes = __webpack_require__(73)
+var pgTypes = __webpack_require__(72)
 // save default parsers
 var parseBigInteger = pgTypes.getTypeParser(20, 'text')
 var parseBigIntegerArray = pgTypes.getTypeParser(1016, 'text')
@@ -27633,13 +27660,13 @@ module.exports.__defineSetter__('parseInt8', function (val) {
 
 
 /***/ }),
-/* 73 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var textParsers = __webpack_require__(205);
-var binaryParsers = __webpack_require__(210);
-var arrayParser = __webpack_require__(124);
-var builtinTypes = __webpack_require__(212);
+var textParsers = __webpack_require__(204);
+var binaryParsers = __webpack_require__(209);
+var arrayParser = __webpack_require__(122);
+var builtinTypes = __webpack_require__(211);
 
 exports.getTypeParser = getTypeParser;
 exports.setTypeParser = setTypeParser;
@@ -27686,7 +27713,7 @@ binaryParsers.init(function(oid, converter) {
 
 
 /***/ }),
-/* 74 */
+/* 73 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -27702,6 +27729,7 @@ __webpack_require__.d(integrations_namespaceObject, "FunctionToString", function
 __webpack_require__.d(integrations_namespaceObject, "InboundFilters", function() { return inboundfilters_InboundFilters; });
 var handlers_namespaceObject = {};
 __webpack_require__.r(handlers_namespaceObject);
+__webpack_require__.d(handlers_namespaceObject, "tracingHandler", function() { return tracingHandler; });
 __webpack_require__.d(handlers_namespaceObject, "parseRequest", function() { return parseRequest; });
 __webpack_require__.d(handlers_namespaceObject, "requestHandler", function() { return requestHandler; });
 __webpack_require__.d(handlers_namespaceObject, "errorHandler", function() { return errorHandler; });
@@ -27814,10 +27842,10 @@ var Status;
 })(Status || (Status = {}));
 //# sourceMappingURL=status.js.map
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/hub/esm/scope.js
-var esm_scope = __webpack_require__(22);
+var esm_scope = __webpack_require__(21);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/hub/esm/hub.js
-var esm_hub = __webpack_require__(131);
+var esm_hub = __webpack_require__(130);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/minimal/esm/index.js
 
@@ -27975,6 +28003,7 @@ function withScope(callback) {
  *
  * @param method The method to call on the client/client.
  * @param args Arguments to pass to the client/fontend.
+ * @hidden
  */
 function _callOnClient(method) {
     var args = [];
@@ -27984,24 +28013,6 @@ function _callOnClient(method) {
     callOnHub.apply(void 0, tslib_es6["__spread"](['_invokeClient', method], args));
 }
 //# sourceMappingURL=index.js.map
-// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/hub/esm/span.js
-var esm_span = __webpack_require__(39);
-
-// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/logger.js
-var logger = __webpack_require__(75);
-
-// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/is.js
-var is = __webpack_require__(4);
-
-// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/syncpromise.js
-var syncpromise = __webpack_require__(15);
-
-// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/string.js
-var string = __webpack_require__(27);
-
-// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/misc.js
-var misc = __webpack_require__(3);
-
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/polyfill.js
 var setPrototypeOf = Object.setPrototypeOf || ({ __proto__: [] } instanceof Array ? setProtoOf : mixinProperties); // tslint:disable-line:no-unbound-method
 /**
@@ -28044,7 +28055,7 @@ var error_SentryError = /** @class */ (function (_super) {
 }(Error));
 
 //# sourceMappingURL=error.js.map
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/dsn.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/dsn.js
 
 
 /** Regular expression used to parse a Dsn. */
@@ -28124,6 +28135,21 @@ var dsn_Dsn = /** @class */ (function () {
 }());
 
 //# sourceMappingURL=dsn.js.map
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/logger.js
+var logger = __webpack_require__(41);
+
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/is.js
+var is = __webpack_require__(4);
+
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/syncpromise.js
+var syncpromise = __webpack_require__(17);
+
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/string.js
+var string = __webpack_require__(27);
+
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/misc.js
+var misc = __webpack_require__(3);
+
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/integration.js
 
 
@@ -28193,7 +28219,6 @@ function setupIntegrations(options) {
 }
 //# sourceMappingURL=integration.js.map
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/baseclient.js
-
 
 
 
@@ -28278,7 +28303,7 @@ var baseclient_BaseClient = /** @class */ (function () {
         var _this = this;
         var eventId = hint && hint.event_id;
         this._processing = true;
-        var promisedEvent = Object(is["e" /* isPrimitive */])(message)
+        var promisedEvent = Object(is["f" /* isPrimitive */])(message)
             ? this._getBackend().eventFromMessage("" + message, level, hint)
             : this._getBackend().eventFromException(message, hint);
         promisedEvent
@@ -28439,7 +28464,7 @@ var baseclient_BaseClient = /** @class */ (function () {
             request.url = Object(string["c" /* truncate */])(request.url, maxValueLength);
         }
         if (prepared.event_id === undefined) {
-            prepared.event_id = Object(misc["j" /* uuid4 */])();
+            prepared.event_id = Object(misc["m" /* uuid4 */])();
         }
         this._addIntegrations(prepared.sdk);
         // We prepare the result here with a resolved Event.
@@ -28506,7 +28531,7 @@ var baseclient_BaseClient = /** @class */ (function () {
                     if (typeof beforeSendResult === 'undefined') {
                         logger["a" /* logger */].error('`beforeSend` method has to return `null` or a valid event.');
                     }
-                    else if (Object(is["i" /* isThenable */])(beforeSendResult)) {
+                    else if (Object(is["j" /* isThenable */])(beforeSendResult)) {
                         _this._handleAsyncBeforeSend(beforeSendResult, resolve, reject);
                     }
                     else {
@@ -28803,7 +28828,7 @@ function basename(path, ext) {
 var external_fs_ = __webpack_require__(8);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/lru_map/lru.js
-var lru = __webpack_require__(40);
+var lru = __webpack_require__(39);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/stacktrace.js
 /**
@@ -29128,7 +29153,6 @@ function prepareFramesForEvent(stack) {
 //# sourceMappingURL=parsers.js.map
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/api.js
 
-
 var SENTRY_API_VERSION = '7';
 /** Helper class to provide urls to different Sentry endpoints. */
 var api_API = /** @class */ (function () {
@@ -29172,7 +29196,7 @@ var api_API = /** @class */ (function () {
     API.prototype.getRequestHeaders = function (clientName, clientVersion) {
         var dsn = this._dsnObject;
         var header = ["Sentry sentry_version=" + SENTRY_API_VERSION];
-        header.push("sentry_timestamp=" + new Date().getTime());
+        header.push("sentry_timestamp=" + Object(misc["l" /* timestampWithMs */])()); // TODO: This can be removed
         header.push("sentry_client=" + clientName + "/" + clientVersion);
         header.push("sentry_key=" + dsn.user);
         if (dsn.pass) {
@@ -29301,7 +29325,7 @@ var promisebuffer_PromiseBuffer = /** @class */ (function () {
 //# sourceMappingURL=promisebuffer.js.map
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/version.js
 var SDK_NAME = 'sentry.javascript.node';
-var SDK_VERSION = '5.9.0';
+var SDK_VERSION = '5.10.1';
 //# sourceMappingURL=version.js.map
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/base.js
 
@@ -29363,7 +29387,7 @@ var base_BaseTransport = /** @class */ (function () {
                                     var now = Date.now();
                                     var header = res.headers ? res.headers['Retry-After'] : '';
                                     header = Array.isArray(header) ? header[0] : header;
-                                    _this._disabledUntil = new Date(now + Object(misc["i" /* parseRetryAfterHeader */])(now, header));
+                                    _this._disabledUntil = new Date(now + Object(misc["j" /* parseRetryAfterHeader */])(now, header));
                                     logger["a" /* logger */].warn("Too many requests, backing off till: " + _this._disabledUntil);
                                 }
                                 var rejectionMessage = "HTTP Error (" + statusCode + ")";
@@ -29403,13 +29427,9 @@ var base_BaseTransport = /** @class */ (function () {
 
 //# sourceMappingURL=base.js.map
 // EXTERNAL MODULE: external "http"
-var external_http_ = __webpack_require__(16);
-
-// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/https-proxy-agent/index.js
-var https_proxy_agent = __webpack_require__(19);
+var external_http_ = __webpack_require__(15);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/http.js
-
 
 
 
@@ -29421,11 +29441,10 @@ var http_HTTPTransport = /** @class */ (function (_super) {
     function HTTPTransport(options) {
         var _this = _super.call(this, options) || this;
         _this.options = options;
-        _this.module = external_http_;
         var proxy = options.httpProxy || process.env.http_proxy;
+        _this.module = external_http_;
         _this.client = proxy
-            ? // tslint:disable-next-line:no-unsafe-any
-                new https_proxy_agent(proxy)
+            ? new (__webpack_require__(37))(proxy) // tslint:disable-line:no-unsafe-any
             : new external_http_["Agent"]({ keepAlive: false, maxSockets: 30, timeout: 2000 });
         return _this;
     }
@@ -29443,10 +29462,9 @@ var http_HTTPTransport = /** @class */ (function (_super) {
 
 //# sourceMappingURL=http.js.map
 // EXTERNAL MODULE: external "https"
-var external_https_ = __webpack_require__(20);
+var external_https_ = __webpack_require__(16);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/https.js
-
 
 
 
@@ -29458,11 +29476,10 @@ var https_HTTPSTransport = /** @class */ (function (_super) {
     function HTTPSTransport(options) {
         var _this = _super.call(this, options) || this;
         _this.options = options;
-        _this.module = external_https_;
         var proxy = options.httpsProxy || options.httpProxy || process.env.https_proxy || process.env.http_proxy;
+        _this.module = external_https_;
         _this.client = proxy
-            ? // tslint:disable-next-line:no-unsafe-any
-                new https_proxy_agent(proxy)
+            ? new (__webpack_require__(37))(proxy) // tslint:disable-line:no-unsafe-any
             : new external_https_["Agent"]({ keepAlive: false, maxSockets: 30, timeout: 2000 });
         return _this;
     }
@@ -29529,7 +29546,7 @@ var backend_NodeBackend = /** @class */ (function (_super) {
             type: 'generic',
         };
         if (!Object(is["b" /* isError */])(exception)) {
-            if (Object(is["d" /* isPlainObject */])(exception)) {
+            if (Object(is["e" /* isPlainObject */])(exception)) {
                 // This will allow us to group events based on top-level keys
                 // which is much better than creating new group when any key/value change
                 var message = "Non-Error exception captured with keys: " + Object(object["a" /* extractExceptionKeysForMessage */])(exception);
@@ -29837,7 +29854,6 @@ var inboundfilters_InboundFilters = /** @class */ (function () {
 
 
 
-
 //# sourceMappingURL=index.js.map
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/sdk.js
 
@@ -29857,7 +29873,7 @@ function initAndBind(clientClass, options) {
 }
 //# sourceMappingURL=sdk.js.map
 // EXTERNAL MODULE: external "domain"
-var external_domain_ = __webpack_require__(21);
+var external_domain_ = __webpack_require__(20);
 
 // EXTERNAL MODULE: external "util"
 var external_util_ = __webpack_require__(5);
@@ -29880,10 +29896,21 @@ var console_Console = /** @class */ (function () {
      * @inheritDoc
      */
     Console.prototype.setupOnce = function () {
-        var nativeModule = __webpack_require__(38);
-        Object(object["b" /* fill */])(nativeModule, '_load', loadWrapper(nativeModule));
-        // special case: since console is built-in and app-level code won't require() it, do that here
-        __webpack_require__(67);
+        var e_1, _a;
+        var consoleModule = __webpack_require__(66);
+        try {
+            for (var _b = tslib_es6["__values"](['debug', 'info', 'warn', 'error', 'log']), _c = _b.next(); !_c.done; _c = _b.next()) {
+                var level = _c.value;
+                Object(object["b" /* fill */])(consoleModule, level, createConsoleWrapper(level));
+            }
+        }
+        catch (e_1_1) { e_1 = { error: e_1_1 }; }
+        finally {
+            try {
+                if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+            }
+            finally { if (e_1) throw e_1.error; }
+        }
     };
     /**
      * @inheritDoc
@@ -29893,92 +29920,81 @@ var console_Console = /** @class */ (function () {
 }());
 
 /**
- * Wrapper function for internal _load calls within `require`
- */
-function loadWrapper(nativeModule) {
-    // We need to use some functional-style currying to pass values around
-    // as we cannot rely on `bind`, because this has to preserve correct
-    // context for native calls
-    return function (originalLoad) {
-        return function (moduleId) {
-            var originalModule = originalLoad.apply(nativeModule, arguments);
-            if (moduleId !== 'console' || originalModule.__sentry__) {
-                return originalModule;
-            }
-            ['debug', 'info', 'warn', 'error', 'log'].forEach(consoleWrapper(originalModule));
-            originalModule.__sentry__ = true;
-            return originalModule;
-        };
-    };
-}
-/**
  * Wrapper function that'll be used for every console level
  */
-function consoleWrapper(originalModule) {
-    return function (level) {
-        if (!(level in originalModule)) {
-            return;
+function createConsoleWrapper(level) {
+    return function consoleWrapper(originalConsoleMethod) {
+        var sentryLevel;
+        switch (level) {
+            case 'debug':
+                sentryLevel = Severity.Debug;
+                break;
+            case 'error':
+                sentryLevel = Severity.Error;
+                break;
+            case 'info':
+                sentryLevel = Severity.Info;
+                break;
+            case 'warn':
+                sentryLevel = Severity.Warning;
+                break;
+            default:
+                sentryLevel = Severity.Log;
         }
-        Object(object["b" /* fill */])(originalModule, level, function (originalConsoleLevel) {
-            var sentryLevel;
-            switch (level) {
-                case 'debug':
-                    sentryLevel = Severity.Debug;
-                    break;
-                case 'error':
-                    sentryLevel = Severity.Error;
-                    break;
-                case 'info':
-                    sentryLevel = Severity.Info;
-                    break;
-                case 'warn':
-                    sentryLevel = Severity.Warning;
-                    break;
-                default:
-                    sentryLevel = Severity.Log;
+        return function () {
+            if (Object(esm_hub["b" /* getCurrentHub */])().getIntegration(console_Console)) {
+                Object(esm_hub["b" /* getCurrentHub */])().addBreadcrumb({
+                    category: 'console',
+                    level: sentryLevel,
+                    message: external_util_["format"].apply(undefined, arguments),
+                }, {
+                    input: tslib_es6["__spread"](arguments),
+                    level: level,
+                });
             }
-            return function () {
-                if (Object(esm_hub["b" /* getCurrentHub */])().getIntegration(console_Console)) {
-                    Object(esm_hub["b" /* getCurrentHub */])().addBreadcrumb({
-                        category: 'console',
-                        level: sentryLevel,
-                        message: external_util_["format"].apply(undefined, arguments),
-                    }, {
-                        input: tslib_es6["__spread"](arguments),
-                        level: level,
-                    });
-                }
-                originalConsoleLevel.apply(originalModule, arguments);
-            };
-        });
+            originalConsoleMethod.apply(this, arguments);
+        };
     };
 }
 //# sourceMappingURL=console.js.map
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/integrations/http.js
 
 
-
-var lastResponse;
+var NODE_VERSION = Object(misc["k" /* parseSemver */])(process.versions.node);
 /** http module integration */
 var http_Http = /** @class */ (function () {
-    function Http() {
+    /**
+     * @inheritDoc
+     */
+    function Http(options) {
+        if (options === void 0) { options = {}; }
         /**
          * @inheritDoc
          */
         this.name = Http.id;
+        this._breadcrumbs = typeof options.breadcrumbs === 'undefined' ? true : options.breadcrumbs;
+        this._tracing = typeof options.tracing === 'undefined' ? false : options.tracing;
     }
     /**
      * @inheritDoc
      */
     Http.prototype.setupOnce = function () {
-        var nativeModule = __webpack_require__(38);
-        Object(object["b" /* fill */])(nativeModule, '_load', http_loadWrapper(nativeModule));
-        // observation: when the https module does its own require('http'), it *does not* hit our hooked require to instrument http on the fly
-        // but if we've previously instrumented http, https *does* get our already-instrumented version
-        // this is because raven's transports are required before this instrumentation takes place, which loads https (and http)
-        // so module cache will have uninstrumented http; proactively loading it here ensures instrumented version is in module cache
-        // alternatively we could refactor to load our transports later, but this is easier and doesn't have much drawback
-        __webpack_require__(16);
+        // No need to instrument if we don't want to track anything
+        if (!this._breadcrumbs && !this._tracing) {
+            return;
+        }
+        var handlerWrapper = createHandlerWrapper(this._breadcrumbs, this._tracing);
+        var httpModule = __webpack_require__(15);
+        Object(object["b" /* fill */])(httpModule, 'get', handlerWrapper);
+        Object(object["b" /* fill */])(httpModule, 'request', handlerWrapper);
+        // NOTE: Prior to Node 9, `https` used internals of `http` module, thus we don't patch it.
+        // If we do, we'd get double breadcrumbs and double spans for `https` calls.
+        // It has been changed in Node 9, so for all versions equal and above, we patch `https` separately.
+        if (NODE_VERSION.major && NODE_VERSION.major > 8) {
+            var httpsModule = __webpack_require__(16);
+            Object(object["b" /* fill */])(httpsModule, 'get', handlerWrapper);
+            Object(object["b" /* fill */])(httpsModule, 'request', handlerWrapper);
+        }
     };
     /**
      * @inheritDoc
@@ -29988,15 +30004,73 @@ var http_Http = /** @class */ (function () {
 }());
 
 /**
+ * Wrapper function for internal `request` and `get` calls within `http` and `https` modules
+ */
+function createHandlerWrapper(breadcrumbsEnabled, tracingEnabled) {
+    return function handlerWrapper(originalHandler) {
+        return function (options) {
+            var requestUrl = extractUrl(options);
+            if (isSentryRequest(requestUrl)) {
+                return originalHandler.apply(this, arguments);
+            }
+            var span;
+            if (tracingEnabled) {
+                span = Object(esm_hub["b" /* getCurrentHub */])().startSpan({
+                    description: (typeof options === 'string' || !options.method ? 'GET' : options.method) + "|" + requestUrl,
+                    op: 'request',
+                });
+            }
+            return originalHandler
+                .apply(this, arguments)
+                .once('response', function (res) {
+                if (breadcrumbsEnabled) {
+                    addRequestBreadcrumb('response', requestUrl, this, res);
+                }
+                if (tracingEnabled && span) {
+                    span.setHttpStatus(res.statusCode);
+                    span.finish();
+                }
+            })
+                .once('error', function () {
+                if (breadcrumbsEnabled) {
+                    addRequestBreadcrumb('error', requestUrl, this);
+                }
+                if (tracingEnabled && span) {
+                    span.setHttpStatus(500);
+                    span.finish();
+                }
+            });
+        };
+    };
+}
+/**
+ * Captures Breadcrumb based on provided request/response pair
+ */
+function addRequestBreadcrumb(event, url, req, res) {
+    if (!Object(esm_hub["b" /* getCurrentHub */])().getIntegration(http_Http)) {
+        return;
+    }
+    Object(esm_hub["b" /* getCurrentHub */])().addBreadcrumb({
+        category: 'http',
+        data: {
+            method: req.method,
+            status_code: res && res.statusCode,
+            url: url,
+        },
+        type: 'http',
+    }, {
+        event: event,
+        request: req,
+        response: res,
+    });
+}
+/**
  * Function that can combine together a url that'll be used for our breadcrumbs.
  *
  * @param options url that should be returned or an object containing it's parts.
  * @returns constructed url
  */
-function createBreadcrumbUrl(options) {
-    // We could just always reconstruct this from this.agent, this._headers, this.path, etc
-    // but certain other http-instrumenting libraries (like nock, which we use for tests) fail to
-    // maintain the guarantee that after calling origClientRequest, those fields will be populated
+function extractUrl(options) {
     if (typeof options === 'string') {
         return options;
     }
@@ -30008,92 +30082,378 @@ function createBreadcrumbUrl(options) {
     return protocol + "//" + hostname + port + path;
 }
 /**
- * Wrapper function for internal _load calls within `require`
+ * Checks whether given url points to Sentry server
+ * @param url url to verify
  */
-function http_loadWrapper(nativeModule) {
-    // We need to use some functional-style currying to pass values around
-    // as we cannot rely on `bind`, because this has to preserve correct
-    // context for native calls
-    return function (originalLoad) {
-        return function (moduleId) {
-            var originalModule = originalLoad.apply(nativeModule, arguments);
-            if (moduleId !== 'http' || originalModule.__sentry__) {
-                return originalModule;
-            }
-            var origClientRequest = originalModule.ClientRequest;
-            var clientRequest = function (options, callback) {
-                // Note: this won't capture a breadcrumb if a response never comes
-                // It would be useful to know if that was the case, though, so
-                // TODO: revisit to see if we can capture sth indicating response never came
-                // possibility: capture one breadcrumb for "req sent" and one for "res recvd"
-                // seems excessive but solves the problem and *is* strictly more information
-                // could be useful for weird response sequencing bug scenarios
-                origClientRequest.call(this, options, callback);
-                this.__ravenBreadcrumbUrl = createBreadcrumbUrl(options);
-            };
-            external_util_["inherits"](clientRequest, origClientRequest);
-            Object(object["b" /* fill */])(clientRequest.prototype, 'emit', emitWrapper);
-            Object(object["b" /* fill */])(originalModule, 'ClientRequest', function () {
-                return clientRequest;
-            });
-            // http.request orig refs module-internal ClientRequest, not exported one, so
-            // it still points at orig ClientRequest after our monkeypatch; these reimpls
-            // just get that reference updated to use our new ClientRequest
-            Object(object["b" /* fill */])(originalModule, 'request', function () {
-                return function (options, callback) {
-                    return new originalModule.ClientRequest(options, callback);
-                };
-            });
-            Object(object["b" /* fill */])(originalModule, 'get', function () {
-                return function (options, callback) {
-                    var req = originalModule.request(options, callback);
-                    req.end();
-                    return req;
-                };
-            });
-            originalModule.__sentry__ = true;
-            return originalModule;
-        };
-    };
-}
-/**
- * Wrapper function for request's `emit` calls
- */
-function emitWrapper(origEmit) {
-    return function (event, response) {
-        // I'm not sure why but Node.js (at least in v8.X)
-        // is emitting all events twice :|
-        if (lastResponse === undefined || lastResponse !== response) {
-            lastResponse = response;
-        }
-        else {
-            return origEmit.apply(this, arguments);
-        }
-        var client = Object(esm_hub["b" /* getCurrentHub */])().getClient();
-        if (client) {
-            var dsn = client.getDsn();
-            var isInterestingEvent = event === 'response' || event === 'error';
-            var isNotSentryRequest = dsn && this.__ravenBreadcrumbUrl && this.__ravenBreadcrumbUrl.indexOf(dsn.host) === -1;
-            if (isInterestingEvent && isNotSentryRequest && Object(esm_hub["b" /* getCurrentHub */])().getIntegration(http_Http)) {
-                Object(esm_hub["b" /* getCurrentHub */])().addBreadcrumb({
-                    category: 'http',
-                    data: {
-                        method: this.method,
-                        status_code: response.statusCode,
-                        url: this.__ravenBreadcrumbUrl,
-                    },
-                    type: 'http',
-                }, {
-                    event: event,
-                    request: this,
-                    response: response,
-                });
-            }
-        }
-        return origEmit.apply(this, arguments);
-    };
+function isSentryRequest(url) {
+    var client = Object(esm_hub["b" /* getCurrentHub */])().getClient();
+    if (!url || !client) {
+        return false;
+    }
+    var dsn = client.getDsn();
+    if (!dsn) {
+        return false;
+    }
+    return url.indexOf(dsn.host) !== -1;
 }
 //# sourceMappingURL=http.js.map
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/types/esm/span.js
+/** The status of an Span. */
+var SpanStatus;
+(function (SpanStatus) {
+    /** The operation completed successfully. */
+    SpanStatus["Ok"] = "ok";
+    /** Deadline expired before operation could complete. */
+    SpanStatus["DealineExceeded"] = "deadline_exceeded";
+    /** 401 Unauthorized (actually does mean unauthenticated according to RFC 7235) */
+    SpanStatus["Unauthenticated"] = "unauthenticated";
+    /** 403 Forbidden */
+    SpanStatus["PermissionDenied"] = "permission_denied";
+    /** 404 Not Found. Some requested entity (file or directory) was not found. */
+    SpanStatus["NotFound"] = "not_found";
+    /** 429 Too Many Requests */
+    SpanStatus["ResourceExhausted"] = "resource_exhausted";
+    /** Client specified an invalid argument. 4xx. */
+    SpanStatus["InvalidArgument"] = "invalid_argument";
+    /** 501 Not Implemented */
+    SpanStatus["Unimplemented"] = "unimplemented";
+    /** 503 Service Unavailable */
+    SpanStatus["Unavailable"] = "unavailable";
+    /** Other/generic 5xx. */
+    SpanStatus["InternalError"] = "internal_error";
+    /** Unknown. Any non-standard HTTP status code. */
+    SpanStatus["UnknownError"] = "unknown_error";
+    /** The operation was cancelled (typically by the user). */
+    SpanStatus["Cancelled"] = "cancelled";
+    /** Already exists (409) */
+    SpanStatus["AlreadyExists"] = "already_exists";
+    /** Operation was rejected because the system is not in a state required for the operation's */
+    SpanStatus["FailedPrecondition"] = "failed_precondition";
+    /** The operation was aborted, typically due to a concurrency issue. */
+    SpanStatus["Aborted"] = "aborted";
+    /** Operation was attempted past the valid range. */
+    SpanStatus["OutOfRange"] = "out_of_range";
+    /** Unrecoverable data loss or corruption */
+    SpanStatus["DataLoss"] = "data_loss";
+})(SpanStatus || (SpanStatus = {}));
+// tslint:disable:no-unnecessary-qualifier no-namespace
+(function (SpanStatus) {
+    /**
+     * Converts a HTTP status code into a {@link SpanStatus}.
+     *
+     * @param httpStatus The HTTP response status code.
+     * @returns The span status or {@link SpanStatus.UnknownError}.
+     */
+    // tslint:disable-next-line:completed-docs
+    function fromHttpCode(httpStatus) {
+        if (httpStatus < 400) {
+            return SpanStatus.Ok;
+        }
+        if (httpStatus >= 400 && httpStatus < 500) {
+            switch (httpStatus) {
+                case 401:
+                    return SpanStatus.Unauthenticated;
+                case 403:
+                    return SpanStatus.PermissionDenied;
+                case 404:
+                    return SpanStatus.NotFound;
+                case 409:
+                    return SpanStatus.AlreadyExists;
+                case 413:
+                    return SpanStatus.FailedPrecondition;
+                case 429:
+                    return SpanStatus.ResourceExhausted;
+                default:
+                    return SpanStatus.InvalidArgument;
+            }
+        }
+        if (httpStatus >= 500 && httpStatus < 600) {
+            switch (httpStatus) {
+                case 501:
+                    return SpanStatus.Unimplemented;
+                case 503:
+                    return SpanStatus.Unavailable;
+                case 504:
+                    return SpanStatus.DealineExceeded;
+                default:
+                    return SpanStatus.InternalError;
+            }
+        }
+        return SpanStatus.UnknownError;
+    }
+    SpanStatus.fromHttpCode = fromHttpCode;
+})(SpanStatus || (SpanStatus = {}));
+//# sourceMappingURL=span.js.map
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/apm/esm/span.js
+// tslint:disable:max-classes-per-file
+
+
+
+
+// TODO: Should this be exported?
+var TRACEPARENT_REGEXP = new RegExp('^[ \\t]*' + // whitespace
+    '([0-9a-f]{32})?' + // trace_id
+    '-?([0-9a-f]{16})?' + // span_id
+    '-?([01])?' + // sampled
+    '[ \\t]*$');
+/**
+ * Keeps track of finished spans for a given transaction
+ */
+var SpanRecorder = /** @class */ (function () {
+    function SpanRecorder(maxlen) {
+        this._openSpanCount = 0;
+        this.finishedSpans = [];
+        this._maxlen = maxlen;
+    }
+    /**
+     * This is just so that we don't run out of memory while recording a lot
+     * of spans. At some point we just stop and flush out the start of the
+     * trace tree (i.e.the first n spans with the smallest
+     * start_timestamp).
+     */
+    SpanRecorder.prototype.startSpan = function (span) {
+        this._openSpanCount += 1;
+        if (this._openSpanCount > this._maxlen) {
+            span.spanRecorder = undefined;
+        }
+    };
+    /**
+     * Appends a span to finished spans table
+     * @param span Span to be added
+     */
+    SpanRecorder.prototype.finishSpan = function (span) {
+        this.finishedSpans.push(span);
+    };
+    return SpanRecorder;
+}());
+/**
+ * Span contains all data about a span
+ */
+var span_Span = /** @class */ (function () {
+    function Span(spanContext, hub) {
+        /**
+         * The reference to the current hub.
+         */
+        this._hub = Object(esm_hub["b" /* getCurrentHub */])();
+        /**
+         * @inheritDoc
+         */
+        this._traceId = Object(misc["m" /* uuid4 */])();
+        /**
+         * @inheritDoc
+         */
+        this._spanId = Object(misc["m" /* uuid4 */])().substring(16);
+        /**
+         * Timestamp when the span was created.
+         */
+        this.startTimestamp = Object(misc["l" /* timestampWithMs */])();
+        /**
+         * @inheritDoc
+         */
+        this.tags = {};
+        /**
+         * @inheritDoc
+         */
+        this.data = {};
+        if (Object(is["d" /* isInstanceOf */])(hub, esm_hub["a" /* Hub */])) {
+            this._hub = hub;
+        }
+        if (!spanContext) {
+            return this;
+        }
+        if (spanContext.traceId) {
+            this._traceId = spanContext.traceId;
+        }
+        if (spanContext.spanId) {
+            this._spanId = spanContext.spanId;
+        }
+        if (spanContext.parentSpanId) {
+            this._parentSpanId = spanContext.parentSpanId;
+        }
+        // We want to include booleans as well here
+        if ('sampled' in spanContext) {
+            this.sampled = spanContext.sampled;
+        }
+        if (spanContext.transaction) {
+            this.transaction = spanContext.transaction;
+        }
+        if (spanContext.op) {
+            this.op = spanContext.op;
+        }
+        if (spanContext.description) {
+            this.description = spanContext.description;
+        }
+        if (spanContext.data) {
+            this.data = spanContext.data;
+        }
+        if (spanContext.tags) {
+            this.tags = spanContext.tags;
+        }
+    }
+    /**
+     * Attaches SpanRecorder to the span itself
+     * @param maxlen maximum number of spans that can be recorded
+     */
+    Span.prototype.initFinishedSpans = function (maxlen) {
+        if (maxlen === void 0) { maxlen = 1000; }
+        if (!this.spanRecorder) {
+            this.spanRecorder = new SpanRecorder(maxlen);
+        }
+        this.spanRecorder.startSpan(this);
+    };
+    /**
+     * Creates a new `Span` while setting the current `Span.id` as `parentSpanId`.
+     * Also the `sampled` decision will be inherited.
+     */
+    Span.prototype.child = function (spanContext) {
+        var span = new Span(tslib_es6["__assign"]({}, spanContext, { parentSpanId: this._spanId, sampled: this.sampled, traceId: this._traceId }));
+        span.spanRecorder = this.spanRecorder;
+        return span;
+    };
+    /**
+     * Continues a trace from a string (usually the header).
+     * @param traceparent Traceparent string
+     */
+    Span.fromTraceparent = function (traceparent, spanContext) {
+        var matches = traceparent.match(TRACEPARENT_REGEXP);
+        if (matches) {
+            var sampled = void 0;
+            if (matches[3] === '1') {
+                sampled = true;
+            }
+            else if (matches[3] === '0') {
+                sampled = false;
+            }
+            return new Span(tslib_es6["__assign"]({}, spanContext, { parentSpanId: matches[2], sampled: sampled, traceId: matches[1] }));
+        }
+        return undefined;
+    };
+    /**
+     * @inheritDoc
+     */
+    Span.prototype.setTag = function (key, value) {
+        var _a;
+        this.tags = tslib_es6["__assign"]({}, this.tags, (_a = {}, _a[key] = value, _a));
+        return this;
+    };
+    /**
+     * @inheritDoc
+     */
+    Span.prototype.setData = function (key, value) {
+        var _a;
+        this.data = tslib_es6["__assign"]({}, this.data, (_a = {}, _a[key] = value, _a));
+        return this;
+    };
+    /**
+     * @inheritDoc
+     */
+    Span.prototype.setStatus = function (value) {
+        this.setTag('status', value);
+        return this;
+    };
+    /**
+     * @inheritDoc
+     */
+    Span.prototype.setHttpStatus = function (httpStatus) {
+        this.setTag('http.status_code', String(httpStatus));
+        this.setStatus(SpanStatus.fromHttpCode(httpStatus));
+        return this;
+    };
+    /**
+     * @inheritDoc
+     */
+    Span.prototype.isSuccess = function () {
+        return this.tags.status === SpanStatus.Ok;
+    };
+    /**
+     * Sets the finish timestamp on the current span
+     */
+    Span.prototype.finish = function (useLastSpanTimestamp) {
+        var _this = this;
+        if (useLastSpanTimestamp === void 0) { useLastSpanTimestamp = false; }
+        // This transaction is already finished, so we should not flush it again.
+        if (this.timestamp !== undefined) {
+            return undefined;
+        }
+        this.timestamp = Object(misc["l" /* timestampWithMs */])();
+        if (this.spanRecorder === undefined) {
+            return undefined;
+        }
+        this.spanRecorder.finishSpan(this);
+        if (this.transaction === undefined) {
+            // If this has no transaction set we assume there's a parent
+            // transaction for this span that would be flushed out eventually.
+            return undefined;
+        }
+        if (this.sampled === undefined) {
+            // At this point a `sampled === undefined` should have already been
+            // resolved to a concrete decision. If `sampled` is `undefined`, it's
+            // likely that somebody used `Sentry.startSpan(...)` on a
+            // non-transaction span and later decided to make it a transaction.
+            logger["a" /* logger */].warn('Discarding transaction Span without sampling decision');
+            return undefined;
+        }
+        var finishedSpans = this.spanRecorder ? this.spanRecorder.finishedSpans.filter(function (s) { return s !== _this; }) : [];
+        if (useLastSpanTimestamp && finishedSpans.length > 0) {
+            this.timestamp = finishedSpans[finishedSpans.length - 1].timestamp;
+        }
+        return this._hub.captureEvent({
+            spans: finishedSpans,
+            start_timestamp: this.startTimestamp,
+            tags: this.tags,
+            timestamp: this.timestamp,
+            transaction: this.transaction,
+            type: 'transaction',
+        });
+    };
+    /**
+     * @inheritDoc
+     */
+    Span.prototype.toTraceparent = function () {
+        var sampledString = '';
+        if (this.sampled !== undefined) {
+            sampledString = this.sampled ? '-1' : '-0';
+        }
+        return this._traceId + "-" + this._spanId + sampledString;
+    };
+    /**
+     * @inheritDoc
+     */
+    Span.prototype.getTraceContext = function () {
+        return {
+            data: this.data,
+            description: this.description,
+            op: this.op,
+            parent_span_id: this._parentSpanId,
+            span_id: this._spanId,
+            // Undefined status will be dropped by `JSON.stringify` anyway so it's safe to read it directly like that
+            status: this.tags.status,
+            tags: this.tags,
+            trace_id: this._traceId,
+        };
+    };
+    /**
+     * @inheritDoc
+     */
+    Span.prototype.toJSON = function () {
+        return {
+            data: this.data,
+            description: this.description,
+            op: this.op,
+            parent_span_id: this._parentSpanId,
+            sampled: this.sampled,
+            span_id: this._spanId,
+            start_timestamp: this.startTimestamp,
+            tags: this.tags,
+            timestamp: this.timestamp,
+            trace_id: this._traceId,
+            transaction: this.transaction,
+        };
+    };
+    return Span;
+}());
+
+//# sourceMappingURL=span.js.map
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/async.js
 /**
  * Consumes the promise and logs the error when it rejects.
@@ -30107,13 +30467,13 @@ function forget(promise) {
 }
 //# sourceMappingURL=async.js.map
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/cookie/index.js
-var cookie = __webpack_require__(41);
+var cookie = __webpack_require__(40);
 
 // EXTERNAL MODULE: external "os"
-var external_os_ = __webpack_require__(17);
+var external_os_ = __webpack_require__(18);
 
 // EXTERNAL MODULE: external "url"
-var external_url_ = __webpack_require__(13);
+var external_url_ = __webpack_require__(14);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/handlers.js
 
@@ -30126,6 +30486,30 @@ var external_url_ = __webpack_require__(13);
 
 
 var DEFAULT_SHUTDOWN_TIMEOUT = 2000;
+/**
+ * Express compatible tracing handler.
+ * @see Exposed as `Handlers.tracingHandler`
+ */
+function tracingHandler() {
+    return function sentryTracingMiddleware(req, res, next) {
+        // TODO: At this point req.route.path we use in `extractTransaction` is not available
+        // but `req.path` or `req.url` should do the job as well. We could unify this here.
+        var reqMethod = (req.method || '').toUpperCase();
+        var reqUrl = req.url;
+        var hub = Object(esm_hub["b" /* getCurrentHub */])();
+        var transaction = hub.startSpan({
+            transaction: reqMethod + "|" + reqUrl,
+        });
+        hub.configureScope(function (scope) {
+            scope.setSpan(transaction);
+        });
+        res.once('finish', function () {
+            transaction.setHttpStatus(res.statusCode);
+            transaction.finish();
+        });
+        next();
+    };
+}
 /** JSDoc */
 function extractTransaction(req, type) {
     try {
@@ -30211,7 +30595,7 @@ function extractRequestData(req, keys) {
                         data = '<unavailable>';
                     }
                 }
-                if (data && !Object(is["g" /* isString */])(data)) {
+                if (data && !Object(is["h" /* isString */])(data)) {
                     // Make sure the request body is a string
                     data = JSON.stringify(Object(object["c" /* normalize */])(data));
                 }
@@ -30324,16 +30708,16 @@ function defaultShouldHandleError(error) {
  * @see Exposed as `Handlers.errorHandler`
  */
 function errorHandler(options) {
-    return function sentryErrorMiddleware(error, _req, _res, next) {
+    return function sentryErrorMiddleware(error, req, res, next) {
         var shouldHandleError = (options && options.shouldHandleError) || defaultShouldHandleError;
         if (shouldHandleError(error)) {
             withScope(function (scope) {
-                if (_req.headers && Object(is["g" /* isString */])(_req.headers['sentry-trace'])) {
-                    var span = esm_span["a" /* Span */].fromTraceparent(_req.headers['sentry-trace']);
+                if (req.headers && Object(is["h" /* isString */])(req.headers['sentry-trace'])) {
+                    var span = span_Span.fromTraceparent(req.headers['sentry-trace']);
                     scope.setSpan(span);
                 }
                 var eventId = captureException(error);
-                _res.sentry = eventId;
+                res.sentry = eventId;
                 next(error);
             });
             return;
@@ -30595,7 +30979,7 @@ var linkederrors_LinkedErrors = /** @class */ (function () {
      */
     LinkedErrors.prototype.handler = function (event, hint) {
         var _this = this;
-        if (!event.exception || !event.exception.values || !hint || !(hint.originalException instanceof Error)) {
+        if (!event.exception || !event.exception.values || !hint || !Object(is["d" /* isInstanceOf */])(hint.originalException, Error)) {
             return syncpromise["a" /* SyncPromise */].resolve(event);
         }
         return new syncpromise["a" /* SyncPromise */](function (resolve) {
@@ -30617,7 +31001,7 @@ var linkederrors_LinkedErrors = /** @class */ (function () {
     LinkedErrors.prototype.walkErrorTree = function (error, key, stack) {
         var _this = this;
         if (stack === void 0) { stack = []; }
-        if (!(error[key] instanceof Error) || stack.length + 1 >= this._limit) {
+        if (!Object(is["d" /* isInstanceOf */])(error[key], Error) || stack.length + 1 >= this._limit) {
             return syncpromise["a" /* SyncPromise */].resolve(stack);
         }
         return new syncpromise["a" /* SyncPromise */](function (resolve, reject) {
@@ -30643,7 +31027,7 @@ var linkederrors_LinkedErrors = /** @class */ (function () {
 
 //# sourceMappingURL=linkederrors.js.map
 // EXTERNAL MODULE: external "path"
-var external_path_ = __webpack_require__(12);
+var external_path_ = __webpack_require__(13);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/integrations/modules.js
 
@@ -30814,7 +31198,7 @@ function init(options) {
         options.dsn = process.env.SENTRY_DSN;
     }
     if (options.release === undefined) {
-        var global_1 = Object(misc["f" /* getGlobalObject */])();
+        var global_1 = Object(misc["g" /* getGlobalObject */])();
         // Prefer env var over global
         if (process.env.SENTRY_RELEASE) {
             options.release = process.env.SENTRY_RELEASE;
@@ -30887,8 +31271,8 @@ function sdk_close(timeout) {
 /* concated harmony reexport captureEvent */__webpack_require__.d(__webpack_exports__, "captureEvent", function() { return captureEvent; });
 /* concated harmony reexport captureMessage */__webpack_require__.d(__webpack_exports__, "captureMessage", function() { return captureMessage; });
 /* concated harmony reexport configureScope */__webpack_require__.d(__webpack_exports__, "configureScope", function() { return configureScope; });
-/* concated harmony reexport getCurrentHub */__webpack_require__.d(__webpack_exports__, "getCurrentHub", function() { return esm_hub["b" /* getCurrentHub */]; });
 /* concated harmony reexport getHubFromCarrier */__webpack_require__.d(__webpack_exports__, "getHubFromCarrier", function() { return esm_hub["c" /* getHubFromCarrier */]; });
+/* concated harmony reexport getCurrentHub */__webpack_require__.d(__webpack_exports__, "getCurrentHub", function() { return esm_hub["b" /* getCurrentHub */]; });
 /* concated harmony reexport Hub */__webpack_require__.d(__webpack_exports__, "Hub", function() { return esm_hub["a" /* Hub */]; });
 /* concated harmony reexport Scope */__webpack_require__.d(__webpack_exports__, "Scope", function() { return esm_scope["a" /* Scope */]; });
 /* concated harmony reexport setContext */__webpack_require__.d(__webpack_exports__, "setContext", function() { return setContext; });
@@ -30897,7 +31281,6 @@ function sdk_close(timeout) {
 /* concated harmony reexport setTag */__webpack_require__.d(__webpack_exports__, "setTag", function() { return setTag; });
 /* concated harmony reexport setTags */__webpack_require__.d(__webpack_exports__, "setTags", function() { return setTags; });
 /* concated harmony reexport setUser */__webpack_require__.d(__webpack_exports__, "setUser", function() { return setUser; });
-/* concated harmony reexport Span */__webpack_require__.d(__webpack_exports__, "Span", function() { return esm_span["a" /* Span */]; });
 /* concated harmony reexport withScope */__webpack_require__.d(__webpack_exports__, "withScope", function() { return withScope; });
 /* concated harmony reexport NodeClient */__webpack_require__.d(__webpack_exports__, "NodeClient", function() { return client_NodeClient; });
 /* concated harmony reexport defaultIntegrations */__webpack_require__.d(__webpack_exports__, "defaultIntegrations", function() { return sdk_defaultIntegrations; });
@@ -30924,80 +31307,7 @@ var INTEGRATIONS = tslib_es6["__assign"]({}, integrations_namespaceObject, esm_i
 //# sourceMappingURL=index.js.map
 
 /***/ }),
-/* 75 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return logger; });
-/* harmony import */ var _misc__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
-
-// TODO: Implement different loggers for different environments
-var global = Object(_misc__WEBPACK_IMPORTED_MODULE_0__[/* getGlobalObject */ "f"])();
-/** Prefix for logging strings */
-var PREFIX = 'Sentry Logger ';
-/** JSDoc */
-var Logger = /** @class */ (function () {
-    /** JSDoc */
-    function Logger() {
-        this._enabled = false;
-    }
-    /** JSDoc */
-    Logger.prototype.disable = function () {
-        this._enabled = false;
-    };
-    /** JSDoc */
-    Logger.prototype.enable = function () {
-        this._enabled = true;
-    };
-    /** JSDoc */
-    Logger.prototype.log = function () {
-        var args = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            args[_i] = arguments[_i];
-        }
-        if (!this._enabled) {
-            return;
-        }
-        Object(_misc__WEBPACK_IMPORTED_MODULE_0__[/* consoleSandbox */ "c"])(function () {
-            global.console.log(PREFIX + "[Log]: " + args.join(' ')); // tslint:disable-line:no-console
-        });
-    };
-    /** JSDoc */
-    Logger.prototype.warn = function () {
-        var args = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            args[_i] = arguments[_i];
-        }
-        if (!this._enabled) {
-            return;
-        }
-        Object(_misc__WEBPACK_IMPORTED_MODULE_0__[/* consoleSandbox */ "c"])(function () {
-            global.console.warn(PREFIX + "[Warn]: " + args.join(' ')); // tslint:disable-line:no-console
-        });
-    };
-    /** JSDoc */
-    Logger.prototype.error = function () {
-        var args = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            args[_i] = arguments[_i];
-        }
-        if (!this._enabled) {
-            return;
-        }
-        Object(_misc__WEBPACK_IMPORTED_MODULE_0__[/* consoleSandbox */ "c"])(function () {
-            global.console.error(PREFIX + "[Error]: " + args.join(' ')); // tslint:disable-line:no-console
-        });
-    };
-    return Logger;
-}());
-// Ensure we only have a single logger instance, even if multiple versions of @sentry/utils are being used
-global.__SENTRY__ = global.__SENTRY__ || {};
-var logger = global.__SENTRY__.logger || (global.__SENTRY__.logger = new Logger());
-
-//# sourceMappingURL=logger.js.map
-
-/***/ }),
-/* 76 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31009,17 +31319,17 @@ Object.defineProperty(exports, "__esModule", {
 
 const tslib_1 = __webpack_require__(0);
 
-const tiny_invariant_1 = tslib_1.__importDefault(__webpack_require__(23));
+const tiny_invariant_1 = tslib_1.__importDefault(__webpack_require__(22));
 
 const timestamps_1 = __webpack_require__(26);
 
-const sec_1 = __webpack_require__(77);
+const sec_1 = __webpack_require__(75);
 
-const sentry_1 = __webpack_require__(55);
+const sentry_1 = __webpack_require__(54);
 
-const channel_1 = __webpack_require__(18);
+const channel_1 = __webpack_require__(19);
 
-const utils_1 = __webpack_require__(34); // note: deducted from the overall running budget
+const utils_1 = __webpack_require__(25); // note: deducted from the overall running budget
 
 
 const MARGIN_AND_SENTRY_BUDGET_MS = channel_1.CHANNEL === 'dev' ? 5000 : 1000;
@@ -31198,7 +31508,7 @@ function use_middlewares_with_error_safety_net(event, badly_typed_context, middl
 exports.use_middlewares_with_error_safety_net = use_middlewares_with_error_safety_net;
 
 /***/ }),
-/* 77 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31210,15 +31520,15 @@ Object.defineProperty(exports, "__esModule", {
 
 const tslib_1 = __webpack_require__(0);
 
-const soft_execution_context_1 = __webpack_require__(52);
+const soft_execution_context_1 = __webpack_require__(51);
 
-const soft_execution_context_node_1 = __webpack_require__(78);
+const soft_execution_context_node_1 = __webpack_require__(76);
 
-const consts_1 = __webpack_require__(43);
+const consts_1 = __webpack_require__(45);
 
-const channel_1 = __webpack_require__(18);
+const channel_1 = __webpack_require__(19);
 
-const logger_1 = tslib_1.__importDefault(__webpack_require__(79)); /////////////////////
+const logger_1 = tslib_1.__importDefault(__webpack_require__(77)); /////////////////////
 
 
 const SEC = soft_execution_context_1.getRootSEC().setLogicalStack({
@@ -31273,14 +31583,14 @@ if (ENV !== "production") {
 exports.default = SEC;
 
 /***/ }),
-/* 78 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const os = __webpack_require__(17);
+const os = __webpack_require__(18);
 
 const {
   getRootSEC
-} = __webpack_require__(52); // TODO protect from double install
+} = __webpack_require__(51); // TODO protect from double install
 
 
 function listenToUncaughtErrors() {
@@ -31328,7 +31638,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 79 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31338,11 +31648,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const universal_debug_api_node_1 = __webpack_require__(95);
+const universal_debug_api_node_1 = __webpack_require__(93);
 
-const consts_1 = __webpack_require__(43);
+const consts_1 = __webpack_require__(45);
 
-const channel_1 = __webpack_require__(18); /////////////////////////////////////////////////
+const channel_1 = __webpack_require__(19); /////////////////////////////////////////////////
 
 
 const logger = universal_debug_api_node_1.getLogger({
@@ -31355,7 +31665,7 @@ logger.info(`❄️ Cold start of "${consts_1.APP}", channel = ${channel_1.CHANN
 exports.default = logger;
 
 /***/ }),
-/* 80 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31401,7 +31711,7 @@ const setLazyProperty = (object, property, get) => {
 let colorConvert;
 const makeDynamicStyles = (wrap, targetSpace, identity, isBackground) => {
 	if (colorConvert === undefined) {
-		colorConvert = __webpack_require__(81);
+		colorConvert = __webpack_require__(79);
 	}
 
 	const offset = isBackground ? 10 : 0;
@@ -31523,14 +31833,14 @@ Object.defineProperty(module, 'exports', {
 	get: assembleStyles
 });
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(54)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(53)(module)))
 
 /***/ }),
-/* 81 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const conversions = __webpack_require__(46);
-const route = __webpack_require__(83);
+const conversions = __webpack_require__(47);
+const route = __webpack_require__(81);
 
 const convert = {};
 
@@ -31613,7 +31923,7 @@ module.exports = convert;
 
 
 /***/ }),
-/* 82 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31772,10 +32082,10 @@ module.exports = {
 
 
 /***/ }),
-/* 83 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const conversions = __webpack_require__(46);
+const conversions = __webpack_require__(47);
 
 /*
 	This function routes a model to all other models.
@@ -31875,14 +32185,14 @@ module.exports = function (fromModel) {
 
 
 /***/ }),
-/* 84 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const os = __webpack_require__(17);
+const os = __webpack_require__(18);
 const tty = __webpack_require__(33);
-const hasFlag = __webpack_require__(85);
+const hasFlag = __webpack_require__(83);
 
 const {env} = process;
 
@@ -32021,7 +32331,7 @@ module.exports = {
 
 
 /***/ }),
-/* 85 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32036,7 +32346,7 @@ module.exports = (flag, argv = process.argv) => {
 
 
 /***/ }),
-/* 86 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32082,7 +32392,7 @@ module.exports = {
 
 
 /***/ }),
-/* 87 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32223,7 +32533,7 @@ module.exports = (chalk, temporary) => {
 
 
 /***/ }),
-/* 88 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32235,7 +32545,7 @@ Object.defineProperty(exports, "__esModule", {
 
 const typescript_string_enums_1 = __webpack_require__(31);
 
-const utils_1 = __webpack_require__(34);
+const utils_1 = __webpack_require__(25);
 
 exports.HttpMethod = typescript_string_enums_1.Enum('GET', 'PUT', 'PATCH');
 
@@ -32249,7 +32559,7 @@ function require_http_method(required_method) {
 exports.require_http_method = require_http_method;
 
 /***/ }),
-/* 89 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const { keys } = __webpack_require__(6);
@@ -32293,7 +32603,7 @@ module.exports = {
 
 
 /***/ }),
-/* 90 */
+/* 88 */
 /***/ (function(module, exports) {
 
 module.exports = function saveAsyncStack(instance, lines) {
@@ -32308,10 +32618,11 @@ module.exports = function saveAsyncStack(instance, lines) {
 
 
 /***/ }),
-/* 91 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const { isEmpty, map, clone, each } = __webpack_require__(6);
+const Bluebird = __webpack_require__(44);
 
 module.exports = function(Target) {
   Target.prototype.toQuery = function(tz) {
@@ -32337,7 +32648,7 @@ module.exports = function(Target) {
       });
     }
 
-    return result.then.apply(result, arguments);
+    return Bluebird.resolve(result.then.apply(result, arguments));
   };
 
   // Add additional "options" to the builder. Typically used for client specific
@@ -32424,7 +32735,7 @@ module.exports = function(Target) {
 
 
 /***/ }),
-/* 92 */
+/* 90 */
 /***/ (function(module, exports) {
 
 //Get schema-aware table name
@@ -32457,7 +32768,7 @@ module.exports = {
 
 
 /***/ }),
-/* 93 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const { isString, tail } = __webpack_require__(6);
@@ -32513,13 +32824,13 @@ module.exports = {
 
 
 /***/ }),
-/* 94 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const PromiseInspection_1 = __webpack_require__(191);
+const PromiseInspection_1 = __webpack_require__(190);
 function defer() {
     let resolve = null;
     let reject = null;
@@ -32580,14 +32891,14 @@ exports.tryPromise = tryPromise;
 
 
 /***/ }),
-/* 95 */
+/* 93 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/0-stdlib/globalthis-ponyfill/dist/src.es2019/index.js
-var src_es2019 = __webpack_require__(24);
+var src_es2019 = __webpack_require__(23);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-foundation/practical-logger-core/dist/src.es2019/consts.js
 const LIB = '@offirmo/practical-logger-core'; // level to a numerical value, for ordering and filtering.
@@ -33113,10 +33424,10 @@ const {
 
 
 /***/ }),
-/* 96 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var json = typeof JSON !== 'undefined' ? JSON : __webpack_require__(233);
+var json = typeof JSON !== 'undefined' ? JSON : __webpack_require__(232);
 
 module.exports = function (obj, opts) {
     if (!opts) opts = {};
@@ -33203,8 +33514,8 @@ var objectKeys = Object.keys || function (obj) {
 
 
 /***/ }),
-/* 97 */,
-/* 98 */
+/* 95 */,
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33214,14 +33525,17 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const channel_1 = __webpack_require__(18);
+const channel_1 = __webpack_require__(19);
+
+const utils_1 = __webpack_require__(25);
 
 function ensure_netlify_logged_in(context) {
-  if (!context.clientContext) throw new Error('No/bad/outdated token [1]! (not logged in?)');
-
-  if (!context.clientContext.user) {
-    throw new Error('No/bad/outdated token [2]! (not logged in?)');
-  }
+  if (!context.clientContext) throw utils_1.create_error('No/bad/outdated token [1]! (not logged in?)', {
+    statusCode: 401
+  });
+  if (!context.clientContext.user) throw utils_1.create_error('No/bad/outdated token [2]! (not logged in?)', {
+    statusCode: 401
+  });
 }
 
 exports.ensure_netlify_logged_in = ensure_netlify_logged_in;
@@ -33274,7 +33588,7 @@ function get_netlify_user_data(context) {
 exports.get_netlify_user_data = get_netlify_user_data;
 
 /***/ }),
-/* 99 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -33290,7 +33604,7 @@ function setup(env) {
 	createDebug.disable = disable;
 	createDebug.enable = enable;
 	createDebug.enabled = enabled;
-	createDebug.humanize = __webpack_require__(138);
+	createDebug.humanize = __webpack_require__(137);
 
 	Object.keys(env).forEach(key => {
 		createDebug[key] = env[key];
@@ -33546,11 +33860,11 @@ module.exports = setup;
 
 
 /***/ }),
-/* 100 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var v1 = __webpack_require__(140);
-var v4 = __webpack_require__(141);
+var v1 = __webpack_require__(139);
+var v4 = __webpack_require__(140);
 
 var uuid = v4;
 uuid.v1 = v1;
@@ -33560,13 +33874,13 @@ module.exports = uuid;
 
 
 /***/ }),
-/* 101 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Unique ID creation requires a high quality random # generator.  In node.js
 // this is pretty straight-forward - we use the crypto API.
 
-var crypto = __webpack_require__(68);
+var crypto = __webpack_require__(67);
 
 module.exports = function nodeRNG() {
   return crypto.randomBytes(16);
@@ -33574,7 +33888,7 @@ module.exports = function nodeRNG() {
 
 
 /***/ }),
-/* 102 */
+/* 100 */
 /***/ (function(module, exports) {
 
 /**
@@ -33604,41 +33918,157 @@ module.exports = bytesToUuid;
 
 
 /***/ }),
+/* 101 */
+/***/ (function(module, exports) {
+
+module.exports = require("async_hooks");
+
+/***/ }),
+/* 102 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function(NEXT_FILTER) {
+var util = __webpack_require__(9);
+var getKeys = __webpack_require__(35).keys;
+var tryCatch = util.tryCatch;
+var errorObj = util.errorObj;
+
+function catchFilter(instances, cb, promise) {
+    return function(e) {
+        var boundTo = promise._boundValue();
+        predicateLoop: for (var i = 0; i < instances.length; ++i) {
+            var item = instances[i];
+
+            if (item === Error ||
+                (item != null && item.prototype instanceof Error)) {
+                if (e instanceof item) {
+                    return tryCatch(cb).call(boundTo, e);
+                }
+            } else if (typeof item === "function") {
+                var matchesPredicate = tryCatch(item).call(boundTo, e);
+                if (matchesPredicate === errorObj) {
+                    return matchesPredicate;
+                } else if (matchesPredicate) {
+                    return tryCatch(cb).call(boundTo, e);
+                }
+            } else if (util.isObject(e)) {
+                var keys = getKeys(item);
+                for (var j = 0; j < keys.length; ++j) {
+                    var key = keys[j];
+                    if (item[key] != e[key]) {
+                        continue predicateLoop;
+                    }
+                }
+                return tryCatch(cb).call(boundTo, e);
+            }
+        }
+        return NEXT_FILTER;
+    };
+}
+
+return catchFilter;
+};
+
+
+/***/ }),
 /* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Bluebird = __webpack_require__(51);
+"use strict";
 
-const Raw = __webpack_require__(35);
-const Ref = __webpack_require__(172);
-const Runner = __webpack_require__(173);
-const Formatter = __webpack_require__(107);
-const Transaction = __webpack_require__(175);
+var util = __webpack_require__(9);
+var maybeWrapAsError = util.maybeWrapAsError;
+var errors = __webpack_require__(30);
+var OperationalError = errors.OperationalError;
+var es5 = __webpack_require__(35);
 
-const QueryBuilder = __webpack_require__(70);
-const QueryCompiler = __webpack_require__(116);
+function isUntypedError(obj) {
+    return obj instanceof Error &&
+        es5.getPrototypeOf(obj) === Error.prototype;
+}
 
-const SchemaBuilder = __webpack_require__(185);
-const SchemaCompiler = __webpack_require__(117);
-const TableBuilder = __webpack_require__(186);
-const TableCompiler = __webpack_require__(118);
-const ColumnBuilder = __webpack_require__(187);
-const ColumnCompiler = __webpack_require__(119);
+var rErrorKey = /^(?:name|message|stack|cause)$/;
+function wrapAsOperationalError(obj) {
+    var ret;
+    if (isUntypedError(obj)) {
+        ret = new OperationalError(obj);
+        ret.name = obj.name;
+        ret.message = obj.message;
+        ret.stack = obj.stack;
+        var keys = es5.keys(obj);
+        for (var i = 0; i < keys.length; ++i) {
+            var key = keys[i];
+            if (!rErrorKey.test(key)) {
+                ret[key] = obj[key];
+            }
+        }
+        return ret;
+    }
+    util.markAsOriginatingFromRejection(obj);
+    return obj;
+}
 
-const { Pool, TimeoutError } = __webpack_require__(188);
-const inherits = __webpack_require__(25);
+function nodebackForPromise(promise, multiArgs) {
+    return function(err, value) {
+        if (promise === null) return;
+        if (err) {
+            var wrapped = wrapAsOperationalError(maybeWrapAsError(err));
+            promise._attachExtraTrace(wrapped);
+            promise._reject(wrapped);
+        } else if (!multiArgs) {
+            promise._fulfill(value);
+        } else {
+            var $_len = arguments.length;var args = new Array(Math.max($_len - 1, 0)); for(var $_i = 1; $_i < $_len; ++$_i) {args[$_i - 1] = arguments[$_i];};
+            promise._fulfill(args);
+        }
+        promise = null;
+    };
+}
+
+module.exports = nodebackForPromise;
+
+
+/***/ }),
+/* 104 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const Bluebird = __webpack_require__(44);
+
+const Raw = __webpack_require__(34);
+const Ref = __webpack_require__(171);
+const Runner = __webpack_require__(172);
+const Formatter = __webpack_require__(105);
+const Transaction = __webpack_require__(174);
+
+const QueryBuilder = __webpack_require__(69);
+const QueryCompiler = __webpack_require__(114);
+
+const SchemaBuilder = __webpack_require__(184);
+const SchemaCompiler = __webpack_require__(115);
+const TableBuilder = __webpack_require__(185);
+const TableCompiler = __webpack_require__(116);
+const ColumnBuilder = __webpack_require__(186);
+const ColumnCompiler = __webpack_require__(117);
+
+const { Pool, TimeoutError } = __webpack_require__(187);
+const inherits = __webpack_require__(24);
 const { EventEmitter } = __webpack_require__(10);
 const { promisify } = __webpack_require__(5);
 
-const { makeEscape } = __webpack_require__(121);
+const { makeEscape } = __webpack_require__(119);
 const { uniqueId, cloneDeep, defaults } = __webpack_require__(6);
 
-const Logger = __webpack_require__(193);
+const Logger = __webpack_require__(192);
 
-const debug = __webpack_require__(42)('knex:client');
-const debugQuery = __webpack_require__(42)('knex:query');
-const debugBindings = __webpack_require__(42)('knex:bindings');
-const { POOL_CONFIG_OPTIONS } = __webpack_require__(89);
+const debug = __webpack_require__(43)('knex:client');
+const _debugQuery = __webpack_require__(43)('knex:query');
+const debugBindings = __webpack_require__(43)('knex:bindings');
+
+const debugQuery = (sql, txId) => _debugQuery(sql.replace(/%/g, '%%'), txId)
+
+const { POOL_CONFIG_OPTIONS } = __webpack_require__(87);
 
 // The base client provides the general structure
 // for a dialect specific client object.
@@ -34021,124 +34451,11 @@ module.exports = Client;
 
 
 /***/ }),
-/* 104 */
-/***/ (function(module, exports) {
-
-module.exports = require("async_hooks");
-
-/***/ }),
 /* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-module.exports = function(NEXT_FILTER) {
-var util = __webpack_require__(9);
-var getKeys = __webpack_require__(36).keys;
-var tryCatch = util.tryCatch;
-var errorObj = util.errorObj;
-
-function catchFilter(instances, cb, promise) {
-    return function(e) {
-        var boundTo = promise._boundValue();
-        predicateLoop: for (var i = 0; i < instances.length; ++i) {
-            var item = instances[i];
-
-            if (item === Error ||
-                (item != null && item.prototype instanceof Error)) {
-                if (e instanceof item) {
-                    return tryCatch(cb).call(boundTo, e);
-                }
-            } else if (typeof item === "function") {
-                var matchesPredicate = tryCatch(item).call(boundTo, e);
-                if (matchesPredicate === errorObj) {
-                    return matchesPredicate;
-                } else if (matchesPredicate) {
-                    return tryCatch(cb).call(boundTo, e);
-                }
-            } else if (util.isObject(e)) {
-                var keys = getKeys(item);
-                for (var j = 0; j < keys.length; ++j) {
-                    var key = keys[j];
-                    if (item[key] != e[key]) {
-                        continue predicateLoop;
-                    }
-                }
-                return tryCatch(cb).call(boundTo, e);
-            }
-        }
-        return NEXT_FILTER;
-    };
-}
-
-return catchFilter;
-};
-
-
-/***/ }),
-/* 106 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var util = __webpack_require__(9);
-var maybeWrapAsError = util.maybeWrapAsError;
-var errors = __webpack_require__(30);
-var OperationalError = errors.OperationalError;
-var es5 = __webpack_require__(36);
-
-function isUntypedError(obj) {
-    return obj instanceof Error &&
-        es5.getPrototypeOf(obj) === Error.prototype;
-}
-
-var rErrorKey = /^(?:name|message|stack|cause)$/;
-function wrapAsOperationalError(obj) {
-    var ret;
-    if (isUntypedError(obj)) {
-        ret = new OperationalError(obj);
-        ret.name = obj.name;
-        ret.message = obj.message;
-        ret.stack = obj.stack;
-        var keys = es5.keys(obj);
-        for (var i = 0; i < keys.length; ++i) {
-            var key = keys[i];
-            if (!rErrorKey.test(key)) {
-                ret[key] = obj[key];
-            }
-        }
-        return ret;
-    }
-    util.markAsOriginatingFromRejection(obj);
-    return obj;
-}
-
-function nodebackForPromise(promise, multiArgs) {
-    return function(err, value) {
-        if (promise === null) return;
-        if (err) {
-            var wrapped = wrapAsOperationalError(maybeWrapAsError(err));
-            promise._attachExtraTrace(wrapped);
-            promise._reject(wrapped);
-        } else if (!multiArgs) {
-            promise._fulfill(value);
-        } else {
-            var $_len = arguments.length;var args = new Array(Math.max($_len - 1, 0)); for(var $_i = 1; $_i < $_len; ++$_i) {args[$_i - 1] = arguments[$_i];};
-            promise._fulfill(args);
-        }
-        promise = null;
-    };
-}
-
-module.exports = nodebackForPromise;
-
-
-/***/ }),
-/* 107 */
-/***/ (function(module, exports, __webpack_require__) {
-
-const QueryBuilder = __webpack_require__(70);
-const Raw = __webpack_require__(35);
+const QueryBuilder = __webpack_require__(69);
+const Raw = __webpack_require__(34);
 const { transform } = __webpack_require__(6);
 
 // Valid values for the `order by` clause generation.
@@ -34435,7 +34752,7 @@ module.exports = Formatter;
 
 
 /***/ }),
-/* 108 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const assert = __webpack_require__(28);
@@ -34712,17 +35029,17 @@ module.exports = JoinClause;
 
 
 /***/ }),
-/* 109 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const { EventEmitter } = __webpack_require__(10);
 
-const { Migrator } = __webpack_require__(176);
-const Seeder = __webpack_require__(181);
-const FunctionHelper = __webpack_require__(182);
-const QueryInterface = __webpack_require__(115);
+const { Migrator } = __webpack_require__(175);
+const Seeder = __webpack_require__(180);
+const FunctionHelper = __webpack_require__(181);
+const QueryInterface = __webpack_require__(113);
 const { merge } = __webpack_require__(6);
-const batchInsert = __webpack_require__(183);
+const batchInsert = __webpack_require__(182);
 
 function makeKnex(client) {
   // The object we're potentially using to kick off an initial chain.
@@ -35000,7 +35317,7 @@ module.exports = makeKnex;
 
 
 /***/ }),
-/* 110 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const {
@@ -35008,7 +35325,7 @@ const {
   getLockTableName,
   getLockTableNameWithSchema,
   getTableName,
-} = __webpack_require__(92);
+} = __webpack_require__(90);
 
 function ensureTable(tableName, schemaName, trxOrKnex) {
   const lockTable = getLockTableName(tableName);
@@ -35073,10 +35390,10 @@ module.exports = {
 
 
 /***/ }),
-/* 111 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var path = __webpack_require__(12);
+var path = __webpack_require__(13);
 var fs = __webpack_require__(8);
 var _0777 = parseInt('0777', 8);
 
@@ -35177,7 +35494,7 @@ mkdirP.sync = function sync (p, opts, made) {
 
 
 /***/ }),
-/* 112 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const { template } = __webpack_require__(6);
@@ -35238,13 +35555,13 @@ module.exports = {
 
 
 /***/ }),
-/* 113 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const {
   FsMigrations,
   DEFAULT_LOAD_EXTENSIONS,
-} = __webpack_require__(179);
+} = __webpack_require__(178);
 
 const CONFIG_DEFAULT = Object.freeze({
   extension: 'js',
@@ -35297,7 +35614,7 @@ module.exports = {
 
 
 /***/ }),
-/* 114 */
+/* 112 */
 /***/ (function(module, exports) {
 
 function webpackEmptyContext(req) {
@@ -35308,10 +35625,10 @@ function webpackEmptyContext(req) {
 webpackEmptyContext.keys = function() { return []; };
 webpackEmptyContext.resolve = webpackEmptyContext;
 module.exports = webpackEmptyContext;
-webpackEmptyContext.id = 114;
+webpackEmptyContext.id = 112;
 
 /***/ }),
-/* 115 */
+/* 113 */
 /***/ (function(module, exports) {
 
 // All properties we can use to start a query chain
@@ -35408,16 +35725,16 @@ module.exports = [
 
 
 /***/ }),
-/* 116 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Query Compiler
 // -------
 const helpers = __webpack_require__(29);
-const Raw = __webpack_require__(35);
-const QueryBuilder = __webpack_require__(70);
-const JoinClause = __webpack_require__(108);
-const debug = __webpack_require__(42);
+const Raw = __webpack_require__(34);
+const QueryBuilder = __webpack_require__(69);
+const JoinClause = __webpack_require__(106);
+const debug = __webpack_require__(43);
 
 const {
   assign,
@@ -35433,7 +35750,7 @@ const {
   has,
   keys,
 } = __webpack_require__(6);
-const uuid = __webpack_require__(100);
+const uuid = __webpack_require__(98);
 
 const debugBindings = debug('knex:bindings');
 
@@ -36301,10 +36618,10 @@ module.exports = QueryCompiler;
 
 
 /***/ }),
-/* 117 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const { pushQuery, pushAdditional, unshiftQuery } = __webpack_require__(93);
+const { pushQuery, pushAdditional, unshiftQuery } = __webpack_require__(91);
 
 const { isUndefined } = __webpack_require__(6);
 
@@ -36391,14 +36708,14 @@ module.exports = SchemaCompiler;
 
 
 /***/ }),
-/* 118 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* eslint max-len:0 */
 
 // Table Compiler
 // -------
-const { pushAdditional, pushQuery, unshiftQuery } = __webpack_require__(93);
+const { pushAdditional, pushQuery, unshiftQuery } = __webpack_require__(91);
 const helpers = __webpack_require__(29);
 const {
   groupBy,
@@ -36703,15 +37020,15 @@ module.exports = TableCompiler;
 
 
 /***/ }),
-/* 119 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Column Compiler
 // Used for designating column definitions
 // during the table "create" / "alter" statements.
 // -------
-const Raw = __webpack_require__(35);
-const helpers = __webpack_require__(93);
+const Raw = __webpack_require__(34);
+const helpers = __webpack_require__(91);
 const { groupBy, first, tail, has, isObject } = __webpack_require__(6);
 
 function ColumnCompiler(client, tableCompiler, columnBuilder) {
@@ -36882,7 +37199,7 @@ module.exports = ColumnCompiler;
 
 
 /***/ }),
-/* 120 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36894,7 +37211,7 @@ exports.TimeoutError = TimeoutError;
 
 
 /***/ }),
-/* 121 */
+/* 119 */
 /***/ (function(module, exports) {
 
 /*eslint max-len: 0, no-var:0 */
@@ -37090,7 +37407,7 @@ module.exports = {
 
 
 /***/ }),
-/* 122 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37104,10 +37421,10 @@ module.exports = {
  */
 
 var util = __webpack_require__(5)
-var Client = __webpack_require__(204)
-var defaults = __webpack_require__(72)
-var Connection = __webpack_require__(128)
-var Pool = __webpack_require__(224)
+var Client = __webpack_require__(203)
+var defaults = __webpack_require__(71)
+var Connection = __webpack_require__(126)
+var Pool = __webpack_require__(223)
 
 const poolFactory = (Client) => {
   var BoundPool = function (options) {
@@ -37127,11 +37444,11 @@ var PG = function (clientConstructor) {
   this.Pool = poolFactory(this.Client)
   this._pools = []
   this.Connection = Connection
-  this.types = __webpack_require__(73)
+  this.types = __webpack_require__(72)
 }
 
 if (typeof process.env.NODE_PG_FORCE_NATIVE !== 'undefined') {
-  module.exports = new PG(__webpack_require__(129))
+  module.exports = new PG(__webpack_require__(127))
 } else {
   module.exports = new PG(Client)
 
@@ -37140,7 +37457,7 @@ if (typeof process.env.NODE_PG_FORCE_NATIVE !== 'undefined') {
     delete module.exports.native
     var native = null
     try {
-      native = new PG(__webpack_require__(129))
+      native = new PG(__webpack_require__(127))
     } catch (err) {
       if (err.code !== 'MODULE_NOT_FOUND') {
         throw err
@@ -37156,7 +37473,7 @@ if (typeof process.env.NODE_PG_FORCE_NATIVE !== 'undefined') {
 
 
 /***/ }),
-/* 123 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37260,10 +37577,10 @@ function identity (value) {
 
 
 /***/ }),
-/* 124 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var array = __webpack_require__(123);
+var array = __webpack_require__(121);
 
 module.exports = {
   create: function (source, transform) {
@@ -37277,7 +37594,7 @@ module.exports = {
 
 
 /***/ }),
-/* 125 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37290,7 +37607,7 @@ module.exports = {
  * README.md file in the root directory of this source tree.
  */
 
-var types = __webpack_require__(73)
+var types = __webpack_require__(72)
 
 function TypeOverrides (userTypes) {
   this._types = userTypes || types
@@ -37323,7 +37640,7 @@ module.exports = TypeOverrides
 
 
 /***/ }),
-/* 126 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37336,11 +37653,11 @@ module.exports = TypeOverrides
  * README.md file in the root directory of this source tree.
  */
 
-var dns = __webpack_require__(219)
+var dns = __webpack_require__(218)
 
-var defaults = __webpack_require__(72)
+var defaults = __webpack_require__(71)
 
-var parse = __webpack_require__(220).parse // parses a connection string
+var parse = __webpack_require__(219).parse // parses a connection string
 
 var val = function (key, config, envVar) {
   if (envVar === undefined) {
@@ -37467,7 +37784,7 @@ module.exports = ConnectionParameters
 
 
 /***/ }),
-/* 127 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37480,7 +37797,7 @@ module.exports = ConnectionParameters
  * README.md file in the root directory of this source tree.
  */
 
-var types = __webpack_require__(73)
+var types = __webpack_require__(72)
 
 // result object returned from query
 // in the 'end' event and also
@@ -37577,7 +37894,7 @@ module.exports = Result
 
 
 /***/ }),
-/* 128 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37590,12 +37907,12 @@ module.exports = Result
  * README.md file in the root directory of this source tree.
  */
 
-var net = __webpack_require__(47)
+var net = __webpack_require__(48)
 var EventEmitter = __webpack_require__(10).EventEmitter
 var util = __webpack_require__(5)
 
-var Writer = __webpack_require__(222)
-var Reader = __webpack_require__(223)
+var Writer = __webpack_require__(221)
+var Reader = __webpack_require__(222)
 
 var TEXT_MODE = 0
 var BINARY_MODE = 1
@@ -37673,7 +37990,7 @@ Connection.prototype.connect = function (port, host) {
       default: // Any other response byte, including 'E' (ErrorResponse) indicating a server error
         return self.emit('error', new Error('There was an error establishing an SSL connection'))
     }
-    var tls = __webpack_require__(48)
+    var tls = __webpack_require__(49)
     const options = {
       socket: self.stream,
       checkServerIdentity: self.ssl.checkServerIdentity || tls.checkServerIdentity,
@@ -38291,16 +38608,16 @@ module.exports = Connection
 
 
 /***/ }),
-/* 129 */
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-module.exports = __webpack_require__(225)
+module.exports = __webpack_require__(224)
 
 
 /***/ }),
-/* 130 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Knex.js
@@ -38310,11 +38627,12 @@ module.exports = __webpack_require__(225)
 //     For details and documentation:
 //     http://knexjs.org
 
-module.exports = __webpack_require__(134);
+module.exports = __webpack_require__(133);
 
 
 /***/ }),
-/* 131 */
+/* 129 */,
+/* 130 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -38327,8 +38645,8 @@ module.exports = __webpack_require__(134);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return setHubOnCarrier; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
-/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(75);
-/* harmony import */ var _scope__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(22);
+/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(41);
+/* harmony import */ var _scope__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(21);
 
 
 
@@ -38455,7 +38773,7 @@ var Hub = /** @class */ (function () {
      * @inheritDoc
      */
     Hub.prototype.captureException = function (exception, hint) {
-        var eventId = (this._lastEventId = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* uuid4 */ "j"])());
+        var eventId = (this._lastEventId = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* uuid4 */ "m"])());
         var finalHint = hint;
         // If there's no explicit hint provided, mimick the same thing that would happen
         // in the minimal itself to create a consistent behavior.
@@ -38481,7 +38799,7 @@ var Hub = /** @class */ (function () {
      * @inheritDoc
      */
     Hub.prototype.captureMessage = function (message, level, hint) {
-        var eventId = (this._lastEventId = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* uuid4 */ "j"])());
+        var eventId = (this._lastEventId = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* uuid4 */ "m"])());
         var finalHint = hint;
         // If there's no explicit hint provided, mimick the same thing that would happen
         // in the minimal itself to create a consistent behavior.
@@ -38507,7 +38825,7 @@ var Hub = /** @class */ (function () {
      * @inheritDoc
      */
     Hub.prototype.captureEvent = function (event, hint) {
-        var eventId = (this._lastEventId = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* uuid4 */ "j"])());
+        var eventId = (this._lastEventId = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* uuid4 */ "m"])());
         this._invokeClient('captureEvent', event, tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, hint, { event_id: eventId }));
         return eventId;
     };
@@ -38529,7 +38847,7 @@ var Hub = /** @class */ (function () {
         if (maxBreadcrumbs <= 0) {
             return;
         }
-        var timestamp = new Date().getTime() / 1000;
+        var timestamp = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* timestampWithMs */ "l"])();
         var mergedBreadcrumb = tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({ timestamp: timestamp }, breadcrumb);
         var finalBreadcrumb = beforeBreadcrumb
             ? Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* consoleSandbox */ "c"])(function () { return beforeBreadcrumb(mergedBreadcrumb, hint); })
@@ -38639,25 +38957,41 @@ var Hub = /** @class */ (function () {
     /**
      * @inheritDoc
      */
+    Hub.prototype.startSpan = function (spanOrSpanContext, forceNoChild) {
+        if (forceNoChild === void 0) { forceNoChild = false; }
+        return this._callExtensionMethod('startSpan', spanOrSpanContext, forceNoChild);
+    };
+    /**
+     * @inheritDoc
+     */
     Hub.prototype.traceHeaders = function () {
-        var top = this.getStackTop();
-        if (top.scope && top.client) {
-            var span = top.scope.getSpan();
-            if (span) {
-                return {
-                    'sentry-trace': span.toTraceparent(),
-                };
-            }
+        return this._callExtensionMethod('traceHeaders');
+    };
+    /**
+     * Calls global extension method and binding current instance to the function call
+     */
+    // @ts-ignore
+    Hub.prototype._callExtensionMethod = function (method) {
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
         }
-        return {};
+        var carrier = getMainCarrier();
+        var sentry = carrier.__SENTRY__;
+        // tslint:disable-next-line: strict-type-predicates
+        if (sentry && sentry.extensions && typeof sentry.extensions[method] === 'function') {
+            return sentry.extensions[method].apply(this, args);
+        }
+        _sentry_utils__WEBPACK_IMPORTED_MODULE_2__[/* logger */ "a"].warn("Extension method " + method + " couldn't be found, doing nothing.");
     };
     return Hub;
 }());
 
 /** Returns the global shim registry. */
 function getMainCarrier() {
-    var carrier = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* getGlobalObject */ "f"])();
+    var carrier = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* getGlobalObject */ "g"])();
     carrier.__SENTRY__ = carrier.__SENTRY__ || {
+        extensions: {},
         hub: undefined,
     };
     return carrier;
@@ -38688,7 +39022,7 @@ function getCurrentHub() {
         setHubOnCarrier(registry, new Hub());
     }
     // Prefer domains over global if they are there (applicable only to Node environment)
-    if (Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* isNodeEnv */ "h"])()) {
+    if (Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* isNodeEnv */ "i"])()) {
         return getHubFromActiveDomain(registry);
     }
     // Return hub that lives on a global object
@@ -38760,32 +39094,32 @@ function setHubOnCarrier(carrier, hub) {
     return true;
 }
 //# sourceMappingURL=hub.js.map
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(56)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(55)(module)))
 
 /***/ }),
+/* 131 */,
 /* 132 */,
-/* 133 */,
-/* 134 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Knex = __webpack_require__(135);
+const Knex = __webpack_require__(134);
 
 module.exports = Knex;
 
 
 /***/ }),
-/* 135 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Raw = __webpack_require__(35);
-const Client = __webpack_require__(103);
-const QueryBuilder = __webpack_require__(70);
-const QueryInterface = __webpack_require__(115);
+const Raw = __webpack_require__(34);
+const Client = __webpack_require__(104);
+const QueryBuilder = __webpack_require__(69);
+const QueryInterface = __webpack_require__(113);
 
-const makeKnex = __webpack_require__(109);
-const parseConnection = __webpack_require__(195);
-const fakeClient = __webpack_require__(197);
-const { SUPPORTED_CLIENTS } = __webpack_require__(89);
+const makeKnex = __webpack_require__(107);
+const parseConnection = __webpack_require__(194);
+const fakeClient = __webpack_require__(196);
+const { SUPPORTED_CLIENTS } = __webpack_require__(87);
 const { resolveClientNameWithAliases } = __webpack_require__(29);
 
 function Knex(config) {
@@ -38819,7 +39153,7 @@ function Knex(config) {
     }
 
     const resolvedClientName = resolveClientNameWithAliases(clientName);
-    Dialect = __webpack_require__(198)(`./${resolvedClientName}/index.js`);
+    Dialect = __webpack_require__(197)(`./${resolvedClientName}/index.js`);
   }
 
   // If config connection parameter is passed as string, try to parse it
@@ -38859,7 +39193,7 @@ module.exports = Knex;
 
 
 /***/ }),
-/* 136 */
+/* 135 */
 /***/ (function(module, exports) {
 
 if (typeof Object.create === 'function') {
@@ -38892,7 +39226,7 @@ if (typeof Object.create === 'function') {
 
 
 /***/ }),
-/* 137 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* eslint-env browser */
@@ -39144,7 +39478,7 @@ function localstorage() {
 	}
 }
 
-module.exports = __webpack_require__(99)(exports);
+module.exports = __webpack_require__(97)(exports);
 
 const {formatters} = module.exports;
 
@@ -39162,7 +39496,7 @@ formatters.j = function (v) {
 
 
 /***/ }),
-/* 138 */
+/* 137 */
 /***/ (function(module, exports) {
 
 /**
@@ -39330,7 +39664,7 @@ function plural(ms, msAbs, n, name) {
 
 
 /***/ }),
-/* 139 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -39360,7 +39694,7 @@ exports.colors = [6, 2, 3, 4, 5, 1];
 try {
 	// Optional dependency (as in, doesn't need to be installed, NOT like optionalDependencies in package.json)
 	// eslint-disable-next-line import/no-extraneous-dependencies
-	const supportsColor = __webpack_require__(49);
+	const supportsColor = __webpack_require__(50);
 
 	if (supportsColor && (supportsColor.stderr || supportsColor).level >= 2) {
 		exports.colors = [
@@ -39568,7 +39902,7 @@ function init(debug) {
 	}
 }
 
-module.exports = __webpack_require__(99)(exports);
+module.exports = __webpack_require__(97)(exports);
 
 const {formatters} = module.exports;
 
@@ -39593,11 +39927,11 @@ formatters.O = function (v) {
 
 
 /***/ }),
-/* 140 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var rng = __webpack_require__(101);
-var bytesToUuid = __webpack_require__(102);
+var rng = __webpack_require__(99);
+var bytesToUuid = __webpack_require__(100);
 
 // **`v1()` - Generate time-based UUID**
 //
@@ -39708,11 +40042,11 @@ module.exports = v1;
 
 
 /***/ }),
-/* 141 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var rng = __webpack_require__(101);
-var bytesToUuid = __webpack_require__(102);
+var rng = __webpack_require__(99);
+var bytesToUuid = __webpack_require__(100);
 
 function v4(options, buf, offset) {
   var i = buf && offset || 0;
@@ -39743,7 +40077,7 @@ module.exports = v4;
 
 
 /***/ }),
-/* 142 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39780,7 +40114,7 @@ var getContextDomain = function() {
     };
 };
 var AsyncResource = util.isNode && util.nodeSupportsAsyncResource ?
-    __webpack_require__(104).AsyncResource : null;
+    __webpack_require__(101).AsyncResource : null;
 var getContextAsyncHooks = function() {
     return {
         domain: getDomain(),
@@ -39798,8 +40132,8 @@ var disableAsyncHooks = function() {
     util.notEnumerableProp(Promise, "_getContext", getContextDomain);
 };
 
-var es5 = __webpack_require__(36);
-var Async = __webpack_require__(143);
+var es5 = __webpack_require__(35);
+var Async = __webpack_require__(142);
 var async = new Async();
 es5.defineProperty(Promise, "_async", {value: async});
 var errors = __webpack_require__(30);
@@ -39813,21 +40147,21 @@ Promise.AggregateError = errors.AggregateError;
 var INTERNAL = function(){};
 var APPLY = {};
 var NEXT_FILTER = {};
-var tryConvertToPromise = __webpack_require__(146)(Promise, INTERNAL);
+var tryConvertToPromise = __webpack_require__(145)(Promise, INTERNAL);
 var PromiseArray =
-    __webpack_require__(147)(Promise, INTERNAL,
+    __webpack_require__(146)(Promise, INTERNAL,
                                tryConvertToPromise, apiRejection, Proxyable);
-var Context = __webpack_require__(148)(Promise);
+var Context = __webpack_require__(147)(Promise);
  /*jshint unused:false*/
 var createContext = Context.create;
 
-var debug = __webpack_require__(149)(Promise, Context,
+var debug = __webpack_require__(148)(Promise, Context,
     enableAsyncHooks, disableAsyncHooks);
 var CapturedTrace = debug.CapturedTrace;
 var PassThroughHandlerContext =
-    __webpack_require__(150)(Promise, tryConvertToPromise, NEXT_FILTER);
-var catchFilter = __webpack_require__(105)(NEXT_FILTER);
-var nodebackForPromise = __webpack_require__(106);
+    __webpack_require__(149)(Promise, tryConvertToPromise, NEXT_FILTER);
+var catchFilter = __webpack_require__(102)(NEXT_FILTER);
+var nodebackForPromise = __webpack_require__(103);
 var errorObj = util.errorObj;
 var tryCatch = util.tryCatch;
 function check(self, executor) {
@@ -40517,31 +40851,31 @@ util.notEnumerableProp(Promise,
                        "_makeSelfResolutionError",
                        makeSelfResolutionError);
 
-__webpack_require__(151)(Promise, INTERNAL, tryConvertToPromise, apiRejection,
+__webpack_require__(150)(Promise, INTERNAL, tryConvertToPromise, apiRejection,
     debug);
-__webpack_require__(152)(Promise, INTERNAL, tryConvertToPromise, debug);
-__webpack_require__(153)(Promise, PromiseArray, apiRejection, debug);
+__webpack_require__(151)(Promise, INTERNAL, tryConvertToPromise, debug);
+__webpack_require__(152)(Promise, PromiseArray, apiRejection, debug);
+__webpack_require__(153)(Promise);
 __webpack_require__(154)(Promise);
-__webpack_require__(155)(Promise);
-__webpack_require__(156)(
+__webpack_require__(155)(
     Promise, PromiseArray, tryConvertToPromise, INTERNAL, async);
 Promise.Promise = Promise;
-Promise.version = "3.7.1";
-__webpack_require__(157)(Promise);
-__webpack_require__(158)(Promise, apiRejection, INTERNAL, tryConvertToPromise, Proxyable, debug);
-__webpack_require__(159)(Promise, PromiseArray, apiRejection, tryConvertToPromise, INTERNAL, debug);
-__webpack_require__(160)(Promise);
-__webpack_require__(161)(Promise, INTERNAL);
-__webpack_require__(162)(Promise, PromiseArray, tryConvertToPromise, apiRejection);
-__webpack_require__(163)(Promise, INTERNAL, tryConvertToPromise, apiRejection);
-__webpack_require__(164)(Promise, PromiseArray, apiRejection, tryConvertToPromise, INTERNAL, debug);
-__webpack_require__(165)(Promise, PromiseArray, debug);
-__webpack_require__(166)(Promise, PromiseArray, apiRejection);
-__webpack_require__(167)(Promise, INTERNAL, debug);
-__webpack_require__(168)(Promise, apiRejection, tryConvertToPromise, createContext, INTERNAL, debug);
-__webpack_require__(169)(Promise);
+Promise.version = "3.7.2";
+__webpack_require__(156)(Promise);
+__webpack_require__(157)(Promise, apiRejection, INTERNAL, tryConvertToPromise, Proxyable, debug);
+__webpack_require__(158)(Promise, PromiseArray, apiRejection, tryConvertToPromise, INTERNAL, debug);
+__webpack_require__(159)(Promise);
+__webpack_require__(160)(Promise, INTERNAL);
+__webpack_require__(161)(Promise, PromiseArray, tryConvertToPromise, apiRejection);
+__webpack_require__(162)(Promise, INTERNAL, tryConvertToPromise, apiRejection);
+__webpack_require__(163)(Promise, PromiseArray, apiRejection, tryConvertToPromise, INTERNAL, debug);
+__webpack_require__(164)(Promise, PromiseArray, debug);
+__webpack_require__(165)(Promise, PromiseArray, apiRejection);
+__webpack_require__(166)(Promise, INTERNAL, debug);
+__webpack_require__(167)(Promise, apiRejection, tryConvertToPromise, createContext, INTERNAL, debug);
+__webpack_require__(168)(Promise);
+__webpack_require__(169)(Promise, INTERNAL);
 __webpack_require__(170)(Promise, INTERNAL);
-__webpack_require__(171)(Promise, INTERNAL);
                                                          
     util.toFastProperties(Promise);                                          
     util.toFastProperties(Promise.prototype);                                
@@ -40569,15 +40903,15 @@ __webpack_require__(171)(Promise, INTERNAL);
 
 
 /***/ }),
-/* 143 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var firstLineError;
 try {throw new Error(); } catch (e) {firstLineError = e;}
-var schedule = __webpack_require__(144);
-var Queue = __webpack_require__(145);
+var schedule = __webpack_require__(143);
+var Queue = __webpack_require__(144);
 
 function Async() {
     this._customScheduler = false;
@@ -40696,7 +41030,7 @@ module.exports.firstLineError = firstLineError;
 
 
 /***/ }),
-/* 144 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40765,7 +41099,7 @@ module.exports = schedule;
 
 
 /***/ }),
-/* 145 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40845,7 +41179,7 @@ module.exports = Queue;
 
 
 /***/ }),
-/* 146 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40938,7 +41272,7 @@ return tryConvertToPromise;
 
 
 /***/ }),
-/* 147 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41131,7 +41465,7 @@ return PromiseArray;
 
 
 /***/ }),
-/* 148 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41207,7 +41541,7 @@ return Context;
 
 
 /***/ }),
-/* 149 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41217,7 +41551,7 @@ module.exports = function(Promise, Context,
 var async = Promise._async;
 var Warning = __webpack_require__(30).Warning;
 var util = __webpack_require__(9);
-var es5 = __webpack_require__(36);
+var es5 = __webpack_require__(35);
 var canAttachTrace = util.canAttachTrace;
 var unhandledRejectionHandled;
 var possiblyUnhandledRejection;
@@ -41258,37 +41592,10 @@ var deferUnhandledRejectionCheck;
         promises.length = 0;
     }
 
-    if (typeof document === "object" && document.createElement) {
-        deferUnhandledRejectionCheck = (function() {
-            var iframeSetTimeout;
-
-            function checkIframe() {
-                if (document.body) {
-                    var iframe = document.createElement("iframe");
-                    document.body.appendChild(iframe);
-                    if (iframe.contentWindow &&
-                        iframe.contentWindow.setTimeout) {
-                        iframeSetTimeout = iframe.contentWindow.setTimeout;
-                    }
-                    document.body.removeChild(iframe);
-                }
-            }
-            checkIframe();
-            return function(promise) {
-                promises.push(promise);
-                if (iframeSetTimeout) {
-                    iframeSetTimeout(unhandledRejectionCheck, 1);
-                } else {
-                    checkIframe();
-                }
-            };
-        })();
-    } else {
-        deferUnhandledRejectionCheck = function(promise) {
-            promises.push(promise);
-            setTimeout(unhandledRejectionCheck, 1);
-        };
-    }
+    deferUnhandledRejectionCheck = function(promise) {
+        promises.push(promise);
+        setTimeout(unhandledRejectionCheck, 1);
+    };
 
     es5.defineProperty(Promise, "_unhandledRejectionCheck", {
         value: unhandledRejectionCheck
@@ -42250,7 +42557,7 @@ return {
 
 
 /***/ }),
-/* 150 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42259,7 +42566,7 @@ module.exports = function(Promise, tryConvertToPromise, NEXT_FILTER) {
 var util = __webpack_require__(9);
 var CancellationError = Promise.CancellationError;
 var errorObj = util.errorObj;
-var catchFilter = __webpack_require__(105)(NEXT_FILTER);
+var catchFilter = __webpack_require__(102)(NEXT_FILTER);
 
 function PassThroughHandlerContext(promise, type, handler) {
     this.promise = promise;
@@ -42403,7 +42710,7 @@ return PassThroughHandlerContext;
 
 
 /***/ }),
-/* 151 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42465,7 +42772,7 @@ Promise.prototype._resolveFromSyncValue = function (value) {
 
 
 /***/ }),
-/* 152 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42539,7 +42846,7 @@ Promise.bind = function (thisArg, value) {
 
 
 /***/ }),
-/* 153 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42675,7 +42982,7 @@ Promise.prototype._resultCancelled = function() {
 
 
 /***/ }),
-/* 154 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42728,7 +43035,7 @@ Promise.prototype.catchReturn = function (value) {
 
 
 /***/ }),
-/* 155 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42838,7 +43145,7 @@ Promise.PromiseInspection = PromiseInspection;
 
 
 /***/ }),
-/* 156 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43010,7 +43317,7 @@ Promise.join = function () {
 
 
 /***/ }),
-/* 157 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43140,7 +43447,7 @@ Promise.prototype.get = function (propertyName) {
 
 
 /***/ }),
-/* 158 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43370,7 +43677,7 @@ Promise.spawn = function (generatorFunction) {
 
 
 /***/ }),
-/* 159 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43552,7 +43859,7 @@ Promise.map = function (promises, fn, options, _filter) {
 
 
 /***/ }),
-/* 160 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43617,7 +43924,7 @@ Promise.prototype.asCallback = Promise.prototype.nodeify = function (nodeback,
 
 
 /***/ }),
-/* 161 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43625,7 +43932,7 @@ Promise.prototype.asCallback = Promise.prototype.nodeify = function (nodeback,
 module.exports = function(Promise, INTERNAL) {
 var THIS = {};
 var util = __webpack_require__(9);
-var nodebackForPromise = __webpack_require__(106);
+var nodebackForPromise = __webpack_require__(103);
 var withAppended = util.withAppended;
 var maybeWrapAsError = util.maybeWrapAsError;
 var canEvaluate = util.canEvaluate;
@@ -43938,7 +44245,7 @@ Promise.promisifyAll = function (target, options) {
 
 
 /***/ }),
-/* 162 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43947,7 +44254,7 @@ module.exports = function(
     Promise, PromiseArray, tryConvertToPromise, apiRejection) {
 var util = __webpack_require__(9);
 var isObject = util.isObject;
-var es5 = __webpack_require__(36);
+var es5 = __webpack_require__(35);
 var Es6Map;
 if (typeof Map === "function") Es6Map = Map;
 
@@ -44063,7 +44370,7 @@ Promise.props = function (promises) {
 
 
 /***/ }),
-/* 163 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44119,7 +44426,7 @@ Promise.prototype.race = function () {
 
 
 /***/ }),
-/* 164 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44309,7 +44616,7 @@ function gotValue(value) {
 
 
 /***/ }),
-/* 165 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44363,7 +44670,7 @@ Promise.prototype.settle = function () {
 
 
 /***/ }),
-/* 166 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44518,7 +44825,7 @@ Promise._SomePromiseArray = SomePromiseArray;
 
 
 /***/ }),
-/* 167 */
+/* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44618,7 +44925,7 @@ Promise.prototype.timeout = function (ms, message) {
 
 
 /***/ }),
-/* 168 */
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44851,7 +45158,7 @@ module.exports = function (Promise, apiRejection, tryConvertToPromise,
 
 
 /***/ }),
-/* 169 */
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44879,7 +45186,7 @@ Promise.prototype.any = function () {
 
 
 /***/ }),
-/* 170 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44916,7 +45223,7 @@ Promise.mapSeries = PromiseMapSeries;
 
 
 /***/ }),
-/* 171 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44935,10 +45242,10 @@ Promise.filter = function (promises, fn, options) {
 
 
 /***/ }),
-/* 172 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Raw = __webpack_require__(35);
+const Raw = __webpack_require__(34);
 
 class Ref extends Raw {
   constructor(client, ref) {
@@ -44980,10 +45287,10 @@ module.exports = Ref;
 
 
 /***/ }),
-/* 173 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Bluebird = __webpack_require__(51);
+const Bluebird = __webpack_require__(44);
 
 let PassThrough;
 
@@ -45007,7 +45314,7 @@ Object.assign(Runner.prototype, {
   run() {
     const runner = this;
     return (
-      Bluebird.using(this.ensureConnection(), function(connection) {
+      this.ensureConnection(function(connection) {
         runner.connection = connection;
 
         runner.client.emit('start', runner.builder);
@@ -45058,15 +45365,13 @@ Object.assign(Runner.prototype, {
     const hasHandler = typeof handler === 'function';
 
     // Lazy-load the "PassThrough" dependency.
-    PassThrough = PassThrough || __webpack_require__(69).PassThrough;
+    PassThrough = PassThrough || __webpack_require__(68).PassThrough;
 
     const runner = this;
     const stream = new PassThrough({ objectMode: true });
 
     let hasConnection = false;
-    const promise = Bluebird.using(this.ensureConnection(), function(
-      connection
-    ) {
+    const promise = this.ensureConnection(function(connection) {
       hasConnection = true;
       runner.connection = connection;
       try {
@@ -45090,7 +45395,7 @@ Object.assign(Runner.prototype, {
     // and the promise will take care of itself.
     if (hasHandler) {
       handler(stream);
-      return promise;
+      return Bluebird.resolve(promise);
     }
 
     // Emit errors on the stream if the error occurred before a connection
@@ -45217,14 +45522,14 @@ Object.assign(Runner.prototype, {
   },
 
   // Check whether there's a transaction flag, and that it has a connection.
-  ensureConnection() {
+  async ensureConnection(cb) {
     // Use override from a builder if passed
     if (this.builder._connection) {
-      return Bluebird.resolve(this.builder._connection);
+      return cb(this.builder._connection);
     }
 
     if (this.connection) {
-      return Bluebird.resolve(this.connection);
+      return cb(this.connection);
     }
     return this.client
       .acquireConnection()
@@ -45235,9 +45540,12 @@ Object.assign(Runner.prototype, {
         }
         throw error;
       })
-      .disposer(() => {
-        // need to return promise or null from handler to prevent warning from bluebird
-        return this.client.releaseConnection(this.connection);
+      .then(async (connection) => {
+        try {
+          return await cb(connection);
+        } finally {
+          await this.client.releaseConnection(this.connection);
+        }
       });
   },
 });
@@ -45246,7 +45554,7 @@ module.exports = Runner;
 
 
 /***/ }),
-/* 174 */
+/* 173 */
 /***/ (function(module, exports) {
 
 /**
@@ -45265,16 +45573,16 @@ module.exports = {
 
 
 /***/ }),
-/* 175 */
+/* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Transaction
 // -------
-const Bluebird = __webpack_require__(51);
+const Bluebird = __webpack_require__(44);
 const { EventEmitter } = __webpack_require__(10);
-const Debug = __webpack_require__(42);
+const Debug = __webpack_require__(43);
 
-const makeKnex = __webpack_require__(109);
+const makeKnex = __webpack_require__(107);
 
 const debug = Debug('knex:tx');
 
@@ -45324,62 +45632,59 @@ class Transaction extends EventEmitter {
       outerTx ? 'nested' : 'top level'
     );
 
-    this._promise = Bluebird.using(
-      this.acquireConnection(client, config, txid),
-      (connection) => {
-        const trxClient = (this.trxClient = makeTxClient(
-          this,
-          client,
-          connection
-        ));
-        const init = client.transacting
-          ? this.savepoint(connection)
-          : this.begin(connection);
-        const executionPromise = new Bluebird((resolver, rejecter) => {
-          this._resolver = resolver;
-          this._rejecter = rejecter;
+    this._promise = this.acquireConnection(config, (connection) => {
+      const trxClient = (this.trxClient = makeTxClient(
+        this,
+        client,
+        connection
+      ));
+      const init = client.transacting
+        ? this.savepoint(connection)
+        : this.begin(connection);
+      const executionPromise = new Bluebird((resolver, rejecter) => {
+        this._resolver = resolver;
+        this._rejecter = rejecter;
+      });
+
+      init
+        .then(() => {
+          return makeTransactor(this, connection, trxClient);
+        })
+        .then((transactor) => {
+          if (this.initPromise) {
+            transactor.executionPromise = executionPromise.catch((err) => {
+              throw err;
+            });
+          } else {
+            transactor.executionPromise = executionPromise;
+          }
+
+          // If we've returned a "thenable" from the transaction container, assume
+          // the rollback and commit are chained to this object's success / failure.
+          // Directly thrown errors are treated as automatic rollbacks.
+          let result;
+          try {
+            result = container(transactor);
+          } catch (err) {
+            result = Bluebird.reject(err);
+          }
+          if (result && result.then && typeof result.then === 'function') {
+            result
+              .then((val) => {
+                return transactor.commit(val);
+              })
+              .catch((err) => {
+                return transactor.rollback(err);
+              });
+          }
+          return null;
+        })
+        .catch((e) => {
+          return this._rejecter(e);
         });
 
-        init
-          .then(() => {
-            return makeTransactor(this, connection, trxClient);
-          })
-          .then((transactor) => {
-            if (this.initPromise) {
-              transactor.executionPromise = executionPromise.catch((err) => {
-                throw err;
-              });
-            } else {
-              transactor.executionPromise = executionPromise;
-            }
-
-            // If we've returned a "thenable" from the transaction container, assume
-            // the rollback and commit are chained to this object's success / failure.
-            // Directly thrown errors are treated as automatic rollbacks.
-            let result;
-            try {
-              result = container(transactor);
-            } catch (err) {
-              result = Bluebird.reject(err);
-            }
-            if (result && result.then && typeof result.then === 'function') {
-              result
-                .then((val) => {
-                  return transactor.commit(val);
-                })
-                .catch((err) => {
-                  return transactor.rollback(err);
-                });
-            }
-            return null;
-          })
-          .catch((e) => {
-            return this._rejecter(e);
-          });
-
-        return executionPromise;
-      }
-    ).catch((err) => {
+      return executionPromise;
+    }).catch((err) => {
       if (this.initRejectFn) {
         this.initRejectFn(err);
       } else {
@@ -45478,32 +45783,35 @@ class Transaction extends EventEmitter {
   // Acquire a connection and create a disposer - either using the one passed
   // via config or getting one off the client. The disposer will be called once
   // the original promise is marked completed.
-  acquireConnection(client, config, txid) {
+  acquireConnection(config, cb) {
     const configConnection = config && config.connection;
-    const trx = this;
     return new Bluebird((resolve, reject) => {
       try {
-        resolve(configConnection || client.acquireConnection());
+        resolve(configConnection || this.client.acquireConnection());
       } catch (e) {
         reject(e);
       }
     })
-      .then(function(connection) {
-        connection.__knexTxId = txid;
+      .then((connection) => {
+        connection.__knexTxId = this.txid;
 
-        return (trx._previousSibling
-          ? trx._previousSibling.catch(() => {})
+        return (this._previousSibling
+          ? this._previousSibling.catch(() => {})
           : Promise.resolve()
         ).then(function() {
           return connection;
         });
       })
-      .disposer(function(connection) {
-        if (!configConnection) {
-          debug('%s: releasing connection', txid);
-          client.releaseConnection(connection);
-        } else {
-          debug('%s: not releasing external connection', txid);
+      .then(async (connection) => {
+        try {
+          return await cb(connection);
+        } finally {
+          if (!configConnection) {
+            debug('%s: releasing connection', this.txid);
+            this.client.releaseConnection(connection);
+          } else {
+            debug('%s: not releasing external connection', this.txid);
+          }
         }
       });
   }
@@ -45668,7 +45976,7 @@ module.exports = Transaction;
 
 
 /***/ }),
-/* 176 */
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Migrator
@@ -45684,17 +45992,17 @@ const {
   isUndefined,
   max,
 } = __webpack_require__(6);
-const inherits = __webpack_require__(25);
+const inherits = __webpack_require__(24);
 const {
   getLockTableName,
   getLockTableNameWithSchema,
   getTable,
   getTableName,
-} = __webpack_require__(92);
-const { getSchemaBuilder } = __webpack_require__(110);
-const migrationListResolver = __webpack_require__(177);
-const MigrationGenerator = __webpack_require__(178);
-const { getMergedConfig } = __webpack_require__(113);
+} = __webpack_require__(90);
+const { getSchemaBuilder } = __webpack_require__(108);
+const migrationListResolver = __webpack_require__(176);
+const MigrationGenerator = __webpack_require__(177);
+const { getMergedConfig } = __webpack_require__(111);
 
 function LockError(msg) {
   this.name = 'MigrationLocked';
@@ -46274,12 +46582,12 @@ module.exports = {
 
 
 /***/ }),
-/* 177 */
+/* 176 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Bluebird = __webpack_require__(51);
-const { getTableName } = __webpack_require__(92);
-const { ensureTable } = __webpack_require__(110);
+const Bluebird = __webpack_require__(44);
+const { getTableName } = __webpack_require__(90);
+const { ensureTable } = __webpack_require__(108);
 
 // Lists all available migration versions, as a sorted array.
 function listAll(migrationSource, loadExtensions) {
@@ -46320,15 +46628,15 @@ module.exports = {
 
 
 /***/ }),
-/* 178 */
+/* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(__dirname) {const fs = __webpack_require__(8);
-const path = __webpack_require__(12);
+const path = __webpack_require__(13);
 const { promisify } = __webpack_require__(5);
-const mkdirp = __webpack_require__(111);
-const { writeJsFileUsingTemplate } = __webpack_require__(112);
-const { getMergedConfig } = __webpack_require__(113);
+const mkdirp = __webpack_require__(109);
+const { writeJsFileUsingTemplate } = __webpack_require__(110);
+const { getMergedConfig } = __webpack_require__(111);
 
 class MigrationGenerator {
   constructor(migrationConfig) {
@@ -46433,11 +46741,11 @@ module.exports = MigrationGenerator;
 /* WEBPACK VAR INJECTION */}.call(this, "/"))
 
 /***/ }),
-/* 179 */
+/* 178 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const fs = __webpack_require__(8);
-const path = __webpack_require__(12);
+const path = __webpack_require__(13);
 const { promisify } = __webpack_require__(5);
 const { sortBy, filter } = __webpack_require__(6);
 
@@ -46518,7 +46826,7 @@ class FsMigrations {
 
   getMigration(migration) {
     const absoluteDir = path.resolve(process.cwd(), migration.directory);
-    return __webpack_require__(180)(path.join(absoluteDir, migration.file));
+    return __webpack_require__(179)(path.join(absoluteDir, migration.file));
   }
 }
 
@@ -46537,7 +46845,7 @@ module.exports = {
 
 
 /***/ }),
-/* 180 */
+/* 179 */
 /***/ (function(module, exports) {
 
 function webpackEmptyContext(req) {
@@ -46548,21 +46856,21 @@ function webpackEmptyContext(req) {
 webpackEmptyContext.keys = function() { return []; };
 webpackEmptyContext.resolve = webpackEmptyContext;
 module.exports = webpackEmptyContext;
-webpackEmptyContext.id = 180;
+webpackEmptyContext.id = 179;
 
 /***/ }),
-/* 181 */
+/* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(__dirname) {// Seeder
 // -------
 
 const fs = __webpack_require__(8);
-const path = __webpack_require__(12);
+const path = __webpack_require__(13);
 const { promisify } = __webpack_require__(5);
-const mkdirp = __webpack_require__(111);
+const mkdirp = __webpack_require__(109);
 const { filter, includes, extend } = __webpack_require__(6);
-const { writeJsFileUsingTemplate } = __webpack_require__(112);
+const { writeJsFileUsingTemplate } = __webpack_require__(110);
 
 // The new seeds we're performing, typically called from the `knex.seed`
 // interface on the main `knex` object. Passes the `knex` instance performing
@@ -46625,7 +46933,7 @@ class Seeder {
 
   // Validates seed files by requiring and checking for a `seed` function.
   _validateSeedStructure(name) {
-    const seed = __webpack_require__(114)(path.join(this._absoluteConfigDir(), name));
+    const seed = __webpack_require__(112)(path.join(this._absoluteConfigDir(), name));
     if (typeof seed.seed !== 'function') {
       throw new Error(`Invalid seed file: ${name} must have a seed function`);
     }
@@ -46668,7 +46976,7 @@ class Seeder {
     const log = [];
     for (const seedName of seeds) {
       const seedPath = path.join(seedDirectory, seedName);
-      const seed = __webpack_require__(114)(seedPath);
+      const seed = __webpack_require__(112)(seedPath);
       try {
         await seed.seed(knex);
         log.push(seedPath);
@@ -46721,7 +47029,7 @@ module.exports = Seeder;
 /* WEBPACK VAR INJECTION */}.call(this, "/"))
 
 /***/ }),
-/* 182 */
+/* 181 */
 /***/ (function(module, exports) {
 
 // FunctionHelper
@@ -46741,11 +47049,11 @@ module.exports = FunctionHelper;
 
 
 /***/ }),
-/* 183 */
+/* 182 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const { isNumber, chunk, flatten } = __webpack_require__(6);
-const delay = __webpack_require__(184);
+const delay = __webpack_require__(183);
 
 module.exports = function batchInsert(
   client,
@@ -46804,7 +47112,7 @@ module.exports = function batchInsert(
 
 
 /***/ }),
-/* 184 */
+/* 183 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const { promisify } = __webpack_require__(5);
@@ -46813,14 +47121,14 @@ module.exports = promisify(setTimeout);
 
 
 /***/ }),
-/* 185 */
+/* 184 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const inherits = __webpack_require__(25);
+const inherits = __webpack_require__(24);
 const { EventEmitter } = __webpack_require__(10);
 const { each, toArray } = __webpack_require__(6);
 const { addQueryContext } = __webpack_require__(29);
-const saveAsyncStack = __webpack_require__(90);
+const saveAsyncStack = __webpack_require__(88);
 
 // Constructor for the builder instance, typically called from
 // `knex.builder`, accepting the current `knex` instance,
@@ -46884,7 +47192,7 @@ each(
   }
 );
 
-__webpack_require__(91)(SchemaBuilder);
+__webpack_require__(89)(SchemaBuilder);
 addQueryContext(SchemaBuilder);
 
 SchemaBuilder.prototype.withSchema = function(schemaName) {
@@ -46904,7 +47212,7 @@ module.exports = SchemaBuilder;
 
 
 /***/ }),
-/* 186 */
+/* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // TableBuilder
@@ -46986,14 +47294,12 @@ each(specialMethods, function(methods, dialect) {
   each(methods, function(method) {
     TableBuilder.prototype[method] = function(value) {
       if (this.client.dialect !== dialect) {
-        this.client.logger.warn(
-          `Knex only supports ${method} statement with ${dialect}.`
-        );
+        throw new Error(`Knex only supports ${method} statement with ${dialect}.`);
       }
       if (this._method === 'alter') {
-        this.client.logger.warn(
+        throw new Error(
           `Knex does not support altering the ${method} outside of create ` +
-            `table, please use knex.raw statement.`
+          `table, please use knex.raw statement.`
         );
       }
       this._single[method] = value;
@@ -47195,7 +47501,7 @@ module.exports = TableBuilder;
 
 
 /***/ }),
-/* 187 */
+/* 186 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const { extend, each, toArray } = __webpack_require__(6);
@@ -47317,15 +47623,15 @@ module.exports = ColumnBuilder;
 
 
 /***/ }),
-/* 188 */
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const Pool_1 = __webpack_require__(189);
+const Pool_1 = __webpack_require__(188);
 exports.Pool = Pool_1.Pool;
-const TimeoutError_1 = __webpack_require__(120);
+const TimeoutError_1 = __webpack_require__(118);
 exports.TimeoutError = TimeoutError_1.TimeoutError;
 module.exports = {
     Pool: Pool_1.Pool,
@@ -47334,15 +47640,15 @@ module.exports = {
 
 
 /***/ }),
-/* 189 */
+/* 188 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const PendingOperation_1 = __webpack_require__(190);
-const Resource_1 = __webpack_require__(192);
-const utils_1 = __webpack_require__(94);
+const PendingOperation_1 = __webpack_require__(189);
+const Resource_1 = __webpack_require__(191);
+const utils_1 = __webpack_require__(92);
 const events_1 = __webpack_require__(10);
 class Pool {
     constructor(opt) {
@@ -47743,14 +48049,14 @@ function callbackOrPromise(func) {
 
 
 /***/ }),
-/* 190 */
+/* 189 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const TimeoutError_1 = __webpack_require__(120);
-const utils_1 = __webpack_require__(94);
+const TimeoutError_1 = __webpack_require__(118);
+const utils_1 = __webpack_require__(92);
 class PendingOperation {
     constructor(timeoutMillis) {
         this.timeoutMillis = timeoutMillis;
@@ -47796,7 +48102,7 @@ function timeout(promise, time) {
 
 
 /***/ }),
-/* 191 */
+/* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47824,13 +48130,13 @@ exports.PromiseInspection = PromiseInspection;
 
 
 /***/ }),
-/* 192 */
+/* 191 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const utils_1 = __webpack_require__(94);
+const utils_1 = __webpack_require__(92);
 class Resource {
     constructor(resource) {
         this.resource = resource;
@@ -47850,53 +48156,60 @@ exports.Resource = Resource;
 
 
 /***/ }),
-/* 193 */
+/* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* eslint no-console:0 */
 
-const color = __webpack_require__(194);
-const { isFunction, isNil } = __webpack_require__(6);
-
-function log(message, userFn, colorFn) {
-  if (!isNil(userFn) && !isFunction(userFn)) {
-    throw new TypeError('Extensions to knex logger must be functions!');
-  }
-
-  if (isFunction(userFn)) {
-    userFn(message);
-    return;
-  }
-
-  console.log(colorFn ? colorFn(message) : message);
-}
+const color = __webpack_require__(193);
+const { inspect } = __webpack_require__(5);
+const { isFunction, isNil, isString } = __webpack_require__(6);
 
 class Logger {
   constructor(config) {
-    const { log: { debug, warn, error, deprecate } = {} } = config;
-
+    const {
+      log: { debug, warn, error, deprecate, inspectionDepth } = {},
+    } = config;
+    this._inspectionDepth = inspectionDepth || 5;
     this._debug = debug;
     this._warn = warn;
     this._error = error;
     this._deprecate = deprecate;
   }
 
+  _log(message, userFn, colorFn) {
+    if (!isNil(userFn) && !isFunction(userFn)) {
+      throw new TypeError('Extensions to knex logger must be functions!');
+    }
+
+    if (isFunction(userFn)) {
+      userFn(message);
+      return;
+    }
+
+    if (!isString(message)) {
+      message = inspect(message, { depth: this._inspectionDepth });
+    }
+
+    console.log(colorFn ? colorFn(message) : message);
+  }
+
   debug(message) {
-    log(message, this._debug);
+    this._log(message, this._debug);
   }
 
   warn(message) {
-    log(message, this._warn, color.yellow);
+    this._log(message, this._warn, color.yellow);
   }
 
   error(message) {
-    log(message, this._error, color.red);
+    this._log(message, this._error, color.red);
   }
 
   deprecate(method, alternative) {
     const message = `${method} is deprecated, please use ${alternative}`;
 
-    log(message, this._deprecate, color.yellow);
+    this._log(message, this._deprecate, color.yellow);
   }
 }
 
@@ -47904,7 +48217,7 @@ module.exports = Logger;
 
 
 /***/ }),
-/* 194 */
+/* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47987,15 +48300,15 @@ module.exports = {
 
 
 /***/ }),
-/* 195 */
+/* 194 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const url = __webpack_require__(13);
-const { parse } = __webpack_require__(196);
+const url = __webpack_require__(14);
+const { parse } = __webpack_require__(195);
 const parsePG = parse;
 
 module.exports = function parseConnectionString(str) {
-  const parsed = url.parse(str);
+  const parsed = url.parse(str, true);
   let { protocol } = parsed;
   if (protocol === null) {
     return {
@@ -48047,18 +48360,23 @@ function connectionObject(parsed) {
       connection.user = parsed.auth;
     }
   }
+  if (parsed.query) {
+    for (const key in parsed.query) {
+      connection[key] = parsed.query[key];
+    }
+  }
   return connection;
 }
 
 
 /***/ }),
-/* 196 */
+/* 195 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var url = __webpack_require__(13);
+var url = __webpack_require__(14);
 var fs = __webpack_require__(8);
 
 //Parse method copied from https://github.com/brianc/node-postgres
@@ -48137,10 +48455,10 @@ parse.parse = parse;
 
 
 /***/ }),
-/* 197 */
+/* 196 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Formatter = __webpack_require__(107);
+const Formatter = __webpack_require__(105);
 
 const fakeClient = {
   formatter(builder) {
@@ -48152,11 +48470,11 @@ module.exports = fakeClient;
 
 
 /***/ }),
-/* 198 */
+/* 197 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	"./postgres/index.js": 199
+	"./postgres/index.js": 198
 };
 
 
@@ -48177,25 +48495,25 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 198;
+webpackContext.id = 197;
 
 /***/ }),
-/* 199 */
+/* 198 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // PostgreSQL
 // -------
 const { map, extend, isString } = __webpack_require__(6);
 const { promisify } = __webpack_require__(5);
-const inherits = __webpack_require__(25);
-const Client = __webpack_require__(103);
-const Bluebird = __webpack_require__(51);
+const inherits = __webpack_require__(24);
+const Client = __webpack_require__(104);
+const Bluebird = __webpack_require__(44);
 
-const QueryCompiler = __webpack_require__(200);
-const ColumnCompiler = __webpack_require__(201);
-const TableCompiler = __webpack_require__(202);
-const SchemaCompiler = __webpack_require__(203);
-const { makeEscape } = __webpack_require__(121);
+const QueryCompiler = __webpack_require__(199);
+const ColumnCompiler = __webpack_require__(200);
+const TableCompiler = __webpack_require__(201);
+const SchemaCompiler = __webpack_require__(202);
+const { makeEscape } = __webpack_require__(119);
 
 function Client_PG(config) {
   Client.apply(this, arguments);
@@ -48231,7 +48549,7 @@ Object.assign(Client_PG.prototype, {
   driverName: 'pg',
 
   _driver() {
-    return __webpack_require__(122);
+    return __webpack_require__(120);
   },
 
   _escapeBinding: makeEscape({
@@ -48387,7 +48705,7 @@ Object.assign(Client_PG.prototype, {
   _stream(connection, obj, stream, options) {
     const PGQueryStream = process.browser
       ? undefined
-      : __webpack_require__(230);
+      : __webpack_require__(229);
     const sql = obj.sql;
 
     return new Bluebird(function(resolver, rejecter) {
@@ -48462,7 +48780,7 @@ Object.assign(Client_PG.prototype, {
     const acquiringConn = this.acquireConnection();
 
     // Error out if we can't acquire connection in time.
-    // Purposely not putting timeout on `pg_terminate_backend` execution because erroring
+    // Purposely not putting timeout on `pg_cancel_backend` execution because erroring
     // early there would release the `connectionToKill` back to the pool with
     // a `KILL QUERY` command yet to finish.
     return acquiringConn.then((conn) => {
@@ -48478,7 +48796,7 @@ Object.assign(Client_PG.prototype, {
   _wrappedCancelQueryCall(conn, connectionToKill) {
     return this.query(conn, {
       method: 'raw',
-      sql: 'SELECT pg_terminate_backend(?);',
+      sql: 'SELECT pg_cancel_backend(?);',
       bindings: [connectionToKill.processID],
       options: {},
     });
@@ -48507,14 +48825,14 @@ module.exports = Client_PG;
 
 
 /***/ }),
-/* 200 */
+/* 199 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // PostgreSQL Query Builder & Compiler
 // ------
-const inherits = __webpack_require__(25);
+const inherits = __webpack_require__(24);
 
-const QueryCompiler = __webpack_require__(116);
+const QueryCompiler = __webpack_require__(114);
 
 const { reduce, identity } = __webpack_require__(6);
 
@@ -48679,14 +48997,14 @@ module.exports = QueryCompiler_PG;
 
 
 /***/ }),
-/* 201 */
+/* 200 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // PostgreSQL Column Compiler
 // -------
 
-const inherits = __webpack_require__(25);
-const ColumnCompiler = __webpack_require__(119);
+const inherits = __webpack_require__(24);
+const ColumnCompiler = __webpack_require__(117);
 const { isObject } = __webpack_require__(6);
 
 function ColumnCompiler_PG() {
@@ -48807,7 +49125,7 @@ module.exports = ColumnCompiler_PG;
 
 
 /***/ }),
-/* 202 */
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* eslint max-len: 0 */
@@ -48815,8 +49133,8 @@ module.exports = ColumnCompiler_PG;
 // PostgreSQL Table Builder & Compiler
 // -------
 
-const inherits = __webpack_require__(25);
-const TableCompiler = __webpack_require__(118);
+const inherits = __webpack_require__(24);
+const TableCompiler = __webpack_require__(116);
 
 const { has } = __webpack_require__(6);
 
@@ -48996,14 +49314,14 @@ module.exports = TableCompiler_PG;
 
 
 /***/ }),
-/* 203 */
+/* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // PostgreSQL Schema Compiler
 // -------
 
-const inherits = __webpack_require__(25);
-const SchemaCompiler = __webpack_require__(117);
+const inherits = __webpack_require__(24);
+const SchemaCompiler = __webpack_require__(115);
 
 function SchemaCompiler_PG() {
   SchemaCompiler.apply(this, arguments);
@@ -49111,7 +49429,7 @@ module.exports = SchemaCompiler_PG;
 
 
 /***/ }),
-/* 204 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49126,15 +49444,15 @@ module.exports = SchemaCompiler_PG;
 
 var EventEmitter = __webpack_require__(10).EventEmitter
 var util = __webpack_require__(5)
-var utils = __webpack_require__(71)
-var sasl = __webpack_require__(213)
-var pgPass = __webpack_require__(214)
-var TypeOverrides = __webpack_require__(125)
+var utils = __webpack_require__(70)
+var sasl = __webpack_require__(212)
+var pgPass = __webpack_require__(213)
+var TypeOverrides = __webpack_require__(123)
 
-var ConnectionParameters = __webpack_require__(126)
-var Query = __webpack_require__(221)
-var defaults = __webpack_require__(72)
-var Connection = __webpack_require__(128)
+var ConnectionParameters = __webpack_require__(124)
+var Query = __webpack_require__(220)
+var defaults = __webpack_require__(71)
+var Connection = __webpack_require__(126)
 
 var Client = function (config) {
   EventEmitter.call(this)
@@ -49679,14 +49997,14 @@ module.exports = Client
 
 
 /***/ }),
-/* 205 */
+/* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var array = __webpack_require__(123)
-var arrayParser = __webpack_require__(124);
-var parseDate = __webpack_require__(206);
-var parseInterval = __webpack_require__(207);
-var parseByteA = __webpack_require__(209);
+var array = __webpack_require__(121)
+var arrayParser = __webpack_require__(122);
+var parseDate = __webpack_require__(205);
+var parseInterval = __webpack_require__(206);
+var parseByteA = __webpack_require__(208);
 
 function allowNull (fn) {
   return function nullAllowed (value) {
@@ -49900,7 +50218,7 @@ module.exports = {
 
 
 /***/ }),
-/* 206 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -50017,13 +50335,13 @@ function is0To99 (num) {
 
 
 /***/ }),
-/* 207 */
+/* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var extend = __webpack_require__(208)
+var extend = __webpack_require__(207)
 
 module.exports = PostgresInterval
 
@@ -50149,7 +50467,7 @@ function parse (interval) {
 
 
 /***/ }),
-/* 208 */
+/* 207 */
 /***/ (function(module, exports) {
 
 module.exports = extend
@@ -50172,7 +50490,7 @@ function extend(target) {
 
 
 /***/ }),
-/* 209 */
+/* 208 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -50210,10 +50528,10 @@ module.exports = function parseBytea (input) {
 
 
 /***/ }),
-/* 210 */
+/* 209 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var parseInt64 = __webpack_require__(211);
+var parseInt64 = __webpack_require__(210);
 
 var parseBits = function(data, bits, offset, invert, callback) {
   offset = offset || 0;
@@ -50473,7 +50791,7 @@ module.exports = {
 
 
 /***/ }),
-/* 211 */
+/* 210 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -50580,7 +50898,7 @@ module.exports = readInt8;
 
 
 /***/ }),
-/* 212 */
+/* 211 */
 /***/ (function(module, exports) {
 
 /**
@@ -50659,12 +50977,12 @@ module.exports = {
 
 
 /***/ }),
-/* 213 */
+/* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const crypto = __webpack_require__(68)
+const crypto = __webpack_require__(67)
 
 function startSession (mechanisms) {
   if (mechanisms.indexOf('SCRAM-SHA-256') === -1) {
@@ -50813,15 +51131,15 @@ module.exports = {
 
 
 /***/ }),
-/* 214 */
+/* 213 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var path = __webpack_require__(12)
+var path = __webpack_require__(13)
   , fs = __webpack_require__(8)
-  , helper = __webpack_require__(215)
+  , helper = __webpack_require__(214)
 ;
 
 
@@ -50843,15 +51161,15 @@ module.exports.warnTo = helper.warnTo;
 
 
 /***/ }),
-/* 215 */
+/* 214 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var path = __webpack_require__(12)
-  , Stream = __webpack_require__(69).Stream
-  , Split = __webpack_require__(216)
+var path = __webpack_require__(13)
+  , Stream = __webpack_require__(68).Stream
+  , Split = __webpack_require__(215)
   , util = __webpack_require__(5)
   , defaultPort = 5432
   , isWin = (process.platform === 'win32')
@@ -51083,7 +51401,7 @@ var isValidEntry = module.exports.isValidEntry = function(entry){
 
 
 /***/ }),
-/* 216 */
+/* 215 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //filter will reemit the data if cb(err,pass) pass is truthy
@@ -51093,8 +51411,8 @@ var isValidEntry = module.exports.isValidEntry = function(entry){
 // the most basic reduce just emits one 'data' event after it has recieved 'end'
 
 
-var through = __webpack_require__(217)
-var Decoder = __webpack_require__(218).StringDecoder
+var through = __webpack_require__(216)
+var Decoder = __webpack_require__(217).StringDecoder
 
 module.exports = split
 
@@ -51152,10 +51470,10 @@ function split (matcher, mapper, options) {
 
 
 /***/ }),
-/* 217 */
+/* 216 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Stream = __webpack_require__(69)
+var Stream = __webpack_require__(68)
 
 // through
 //
@@ -51266,25 +51584,25 @@ function through (write, end, opts) {
 
 
 /***/ }),
-/* 218 */
+/* 217 */
 /***/ (function(module, exports) {
 
 module.exports = require("string_decoder");
 
 /***/ }),
-/* 219 */
+/* 218 */
 /***/ (function(module, exports) {
 
 module.exports = require("dns");
 
 /***/ }),
-/* 220 */
+/* 219 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var url = __webpack_require__(13);
+var url = __webpack_require__(14);
 
 //Parse method copied from https://github.com/brianc/node-postgres
 //Copyright (c) 2010-2014 Brian Carlson (brian.m.carlson@gmail.com)
@@ -51347,7 +51665,7 @@ module.exports = {
 
 
 /***/ }),
-/* 221 */
+/* 220 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -51363,8 +51681,8 @@ module.exports = {
 var EventEmitter = __webpack_require__(10).EventEmitter
 var util = __webpack_require__(5)
 
-var Result = __webpack_require__(127)
-var utils = __webpack_require__(71)
+var Result = __webpack_require__(125)
+var utils = __webpack_require__(70)
 
 var Query = function (config, values, callback) {
   // use of "new" optional
@@ -51583,7 +51901,7 @@ module.exports = Query
 
 
 /***/ }),
-/* 222 */
+/* 221 */
 /***/ (function(module, exports) {
 
 //binary data writer tuned for creating
@@ -51718,7 +52036,7 @@ Writer.prototype.flush = function (code) {
 
 
 /***/ }),
-/* 223 */
+/* 222 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var assert = __webpack_require__(28)
@@ -51789,7 +52107,7 @@ Reader.prototype.read = function() {
 
 
 /***/ }),
-/* 224 */
+/* 223 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -51861,7 +52179,7 @@ class Pool extends EventEmitter {
     this.options = Object.assign({}, options)
     this.options.max = this.options.max || this.options.poolSize || 10
     this.log = this.options.log || function () { }
-    this.Client = this.options.Client || Client || __webpack_require__(122).Client
+    this.Client = this.options.Client || Client || __webpack_require__(120).Client
     this.Promise = this.options.Promise || global.Promise
 
     if (typeof this.options.idleTimeoutMillis === 'undefined') {
@@ -52162,7 +52480,7 @@ module.exports = Pool
 
 
 /***/ }),
-/* 225 */
+/* 224 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -52176,19 +52494,19 @@ module.exports = Pool
  */
 
 // eslint-disable-next-line
-var Native = __webpack_require__(226)
-var TypeOverrides = __webpack_require__(125)
-var semver = __webpack_require__(227)
-var pkg = __webpack_require__(228)
+var Native = __webpack_require__(225)
+var TypeOverrides = __webpack_require__(123)
+var semver = __webpack_require__(226)
+var pkg = __webpack_require__(227)
 var assert = __webpack_require__(28)
 var EventEmitter = __webpack_require__(10).EventEmitter
 var util = __webpack_require__(5)
-var ConnectionParameters = __webpack_require__(126)
+var ConnectionParameters = __webpack_require__(124)
 
 var msg = 'Version >= ' + pkg.minNativeVersion + ' of pg-native required.'
 assert(semver.gte(Native.version, pkg.minNativeVersion), msg)
 
-var NativeQuery = __webpack_require__(229)
+var NativeQuery = __webpack_require__(228)
 
 var Client = module.exports = function (config) {
   EventEmitter.call(this)
@@ -52464,7 +52782,7 @@ Client.prototype.getTypeParser = function (oid, format) {
 
 
 /***/ }),
-/* 226 */
+/* 225 */
 /***/ (function(module, exports) {
 
 module.exports = noop
@@ -52478,7 +52796,7 @@ noop()
 
 
 /***/ }),
-/* 227 */
+/* 226 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;// export the class if we are in a Node-like system.
@@ -53679,13 +53997,13 @@ if (true)
 
 
 /***/ }),
-/* 228 */
+/* 227 */
 /***/ (function(module) {
 
 module.exports = JSON.parse("{\"name\":\"pg\",\"version\":\"7.14.0\",\"description\":\"PostgreSQL client - pure javascript & libpq with the same API\",\"keywords\":[\"database\",\"libpq\",\"pg\",\"postgre\",\"postgres\",\"postgresql\",\"rdbms\"],\"homepage\":\"http://github.com/brianc/node-postgres\",\"repository\":{\"type\":\"git\",\"url\":\"git://github.com/brianc/node-postgres.git\"},\"author\":\"Brian Carlson <brian.m.carlson@gmail.com>\",\"main\":\"./lib\",\"dependencies\":{\"buffer-writer\":\"2.0.0\",\"packet-reader\":\"1.0.0\",\"pg-connection-string\":\"0.1.3\",\"pg-pool\":\"^2.0.7\",\"pg-types\":\"^2.1.0\",\"pgpass\":\"1.x\",\"semver\":\"4.3.2\"},\"devDependencies\":{\"async\":\"0.9.0\",\"bluebird\":\"3.5.2\",\"co\":\"4.6.0\",\"eslint\":\"^6.0.1\",\"eslint-config-standard\":\"^13.0.1\",\"eslint-plugin-import\":\"^2.18.1\",\"eslint-plugin-node\":\"^9.1.0\",\"eslint-plugin-promise\":\"^4.2.1\",\"eslint-plugin-standard\":\"^4.0.0\",\"pg-copy-streams\":\"0.3.0\"},\"minNativeVersion\":\"2.0.0\",\"scripts\":{\"test\":\"make test-all\"},\"files\":[\"lib\",\"SPONSORS.md\"],\"license\":\"MIT\",\"engines\":{\"node\":\">= 4.5.0\"}}");
 
 /***/ }),
-/* 229 */
+/* 228 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53700,7 +54018,7 @@ module.exports = JSON.parse("{\"name\":\"pg\",\"version\":\"7.14.0\",\"descripti
 
 var EventEmitter = __webpack_require__(10).EventEmitter
 var util = __webpack_require__(5)
-var utils = __webpack_require__(71)
+var utils = __webpack_require__(70)
 
 var NativeQuery = module.exports = function (config, values, callback) {
   EventEmitter.call(this)
@@ -53859,18 +54177,18 @@ NativeQuery.prototype.submit = function (client) {
 
 
 /***/ }),
-/* 230 */
+/* 229 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var Cursor = __webpack_require__(231)
-var Readable = __webpack_require__(69).Readable
+var Cursor = __webpack_require__(230)
+var Readable = __webpack_require__(68).Readable
 
 class PgQueryStream extends Readable {
   constructor (text, values, options) {
     super(Object.assign({ objectMode: true }, options))
-    this.cursor = new Cursor(text, values)
+    this.cursor = new Cursor(text, values, options)
     this._reading = false
     this._closed = false
     this.batchSize = (options || {}).batchSize || 100
@@ -53927,19 +54245,19 @@ module.exports = PgQueryStream
 
 
 /***/ }),
-/* 231 */
+/* 230 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const Result = __webpack_require__(127)
-const prepare = __webpack_require__(71).prepareValue
+const Result = __webpack_require__(125)
+const prepare = __webpack_require__(70).prepareValue
 const EventEmitter = __webpack_require__(10).EventEmitter
 const util = __webpack_require__(5)
 
-var nextUniqueID = 1 // concept borrowed from org.postgresql.core.v3.QueryExecutorImpl
+let nextUniqueID = 1 // concept borrowed from org.postgresql.core.v3.QueryExecutorImpl
 
-function Cursor (text, values, config) {
+function Cursor(text, values, config) {
   EventEmitter.call(this)
 
   this._conf = config || {}
@@ -53948,7 +54266,7 @@ function Cursor (text, values, config) {
   this.connection = null
   this._queue = []
   this.state = 'initialized'
-  this._result = new Result(this._conf.rowMode)
+  this._result = new Result(this._conf.rowMode, this._conf.types)
   this._cb = null
   this._rows = null
   this._portal = null
@@ -53956,25 +54274,34 @@ function Cursor (text, values, config) {
 
 util.inherits(Cursor, EventEmitter)
 
-Cursor.prototype.submit = function (connection) {
+Cursor.prototype.submit = function(connection) {
   this.connection = connection
-  this._portal = 'C_' + (nextUniqueID++)
+  this._portal = 'C_' + nextUniqueID++
 
   const con = connection
 
-  con.parse({
-    text: this.text
-  }, true)
+  con.parse(
+    {
+      text: this.text,
+    },
+    true
+  )
 
-  con.bind({
-    portal: this._portal,
-    values: this.values
-  }, true)
+  con.bind(
+    {
+      portal: this._portal,
+      values: this.values,
+    },
+    true
+  )
 
-  con.describe({
-    type: 'P',
-    name: this._portal // AWS Redshift requires a portal name
-  }, true)
+  con.describe(
+    {
+      type: 'P',
+      name: this._portal, // AWS Redshift requires a portal name
+    },
+    true
+  )
 
   con.flush()
 
@@ -53993,25 +54320,34 @@ Cursor.prototype.submit = function (connection) {
   })
 }
 
-Cursor.prototype._shiftQueue = function () {
+Cursor.prototype._shiftQueue = function() {
   if (this._queue.length) {
     this._getRows.apply(this, this._queue.shift())
   }
 }
 
-Cursor.prototype.handleRowDescription = function (msg) {
+Cursor.prototype._closePortal = function() {
+  // because we opened a named portal to stream results
+  // we need to close the same named portal.  Leaving a named portal
+  // open can lock tables for modification if inside a transaction.
+  // see https://github.com/brianc/node-pg-cursor/issues/56
+  this.connection.close({ type: 'P', name: this._portal })
+  this.connection.sync()
+}
+
+Cursor.prototype.handleRowDescription = function(msg) {
   this._result.addFields(msg.fields)
   this.state = 'idle'
   this._shiftQueue()
 }
 
-Cursor.prototype.handleDataRow = function (msg) {
+Cursor.prototype.handleDataRow = function(msg) {
   const row = this._result.parseRow(msg.fields)
   this.emit('row', row, this._result)
   this._rows.push(row)
 }
 
-Cursor.prototype._sendRows = function () {
+Cursor.prototype._sendRows = function() {
   this.state = 'idle'
   setImmediate(() => {
     const cb = this._cb
@@ -54027,26 +54363,26 @@ Cursor.prototype._sendRows = function () {
   })
 }
 
-Cursor.prototype.handleCommandComplete = function (msg) {
+Cursor.prototype.handleCommandComplete = function(msg) {
   this._result.addCommandComplete(msg)
-  this.connection.sync()
+  this._closePortal()
 }
 
-Cursor.prototype.handlePortalSuspended = function () {
+Cursor.prototype.handlePortalSuspended = function() {
   this._sendRows()
 }
 
-Cursor.prototype.handleReadyForQuery = function () {
+Cursor.prototype.handleReadyForQuery = function() {
   this._sendRows()
-  this.emit('end', this._result)
   this.state = 'done'
+  this.emit('end', this._result)
 }
 
-Cursor.prototype.handleEmptyQuery = function () {
+Cursor.prototype.handleEmptyQuery = function() {
   this.connection.sync()
 }
 
-Cursor.prototype.handleError = function (msg) {
+Cursor.prototype.handleError = function(msg) {
   this.state = 'error'
   this._error = msg
   // satisfy any waiting callback
@@ -54054,7 +54390,7 @@ Cursor.prototype.handleError = function (msg) {
     this._cb(msg)
   }
   // dispatch error to all waiting callbacks
-  for (var i = 0; i < this._queue.length; i++) {
+  for (let i = 0; i < this._queue.length; i++) {
     this._queue.pop()[1](msg)
   }
 
@@ -54066,41 +54402,42 @@ Cursor.prototype.handleError = function (msg) {
   this.connection.sync()
 }
 
-Cursor.prototype._getRows = function (rows, cb) {
+Cursor.prototype._getRows = function(rows, cb) {
   this.state = 'busy'
   this._cb = cb
   this._rows = []
   const msg = {
     portal: this._portal,
-    rows: rows
+    rows: rows,
   }
   this.connection.execute(msg, true)
   this.connection.flush()
 }
 
-Cursor.prototype.end = function (cb) {
+// users really shouldn't be calling 'end' here and terminating a connection to postgres
+// via the low level connection.end api
+Cursor.prototype.end = util.deprecate(function(cb) {
   if (this.state !== 'initialized') {
     this.connection.sync()
   }
   this.connection.once('end', cb)
   this.connection.end()
-}
+}, 'Cursor.end is deprecated. Call end on the client itself to end a connection to the database.')
 
-Cursor.prototype.close = function (cb) {
+Cursor.prototype.close = function(cb) {
   if (this.state === 'done') {
     return setImmediate(cb)
   }
-  this.connection.close({ type: 'P' })
-  this.connection.sync()
+  this._closePortal()
   this.state = 'done'
   if (cb) {
-    this.connection.once('closeComplete', function () {
+    this.connection.once('closeComplete', function() {
       cb()
     })
   }
 }
 
-Cursor.prototype.read = function (rows, cb) {
+Cursor.prototype.read = function(rows, cb) {
   if (this.state === 'idle') {
     return this._getRows(rows, cb)
   }
@@ -54121,7 +54458,7 @@ module.exports = Cursor
 
 
 /***/ }),
-/* 232 */
+/* 231 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -54177,15 +54514,15 @@ module.exports = function normalizeEmail(eMail) {
 
 
 /***/ }),
-/* 233 */
+/* 232 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports.parse = __webpack_require__(234);
-exports.stringify = __webpack_require__(235);
+exports.parse = __webpack_require__(233);
+exports.stringify = __webpack_require__(234);
 
 
 /***/ }),
-/* 234 */
+/* 233 */
 /***/ (function(module, exports) {
 
 var at, // The index of the current character
@@ -54464,7 +54801,7 @@ module.exports = function (source, reviver) {
 
 
 /***/ }),
-/* 235 */
+/* 234 */
 /***/ (function(module, exports) {
 
 var cx = /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
@@ -54624,7 +54961,7 @@ module.exports = function (value, replacer, space) {
 
 
 /***/ }),
-/* 236 */
+/* 235 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -54724,9 +55061,9 @@ const NORMALIZERS = {
 
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/apps/shared/db/dist/src.es2019/utils/email.js
-const email_crypto = __webpack_require__(68);
+const email_crypto = __webpack_require__(67);
 
-const normalizeEmail = __webpack_require__(232);
+const normalizeEmail = __webpack_require__(231);
 
  ////////////////////////////////////
 // fragments
@@ -54835,7 +55172,7 @@ function get_gravatar_url(email) {
   return `https://www.gravatar.com/avatar/${md5}?r=pg&d=retro`;
 }
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/json-stable-stringify/index.js
-var json_stable_stringify = __webpack_require__(96);
+var json_stable_stringify = __webpack_require__(94);
 var json_stable_stringify_default = /*#__PURE__*/__webpack_require__.n(json_stable_stringify);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/apps/shared/db/dist/src.es2019/utils/misc.js
@@ -54844,7 +55181,7 @@ function deep_equals(a, b) {
   return json_stable_stringify_default()(a) === json_stable_stringify_default()(b);
 }
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/0-stdlib/globalthis-ponyfill/dist/src.es2019/index.js
-var src_es2019 = __webpack_require__(24);
+var src_es2019 = __webpack_require__(23);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-foundation/practical-logger-minimal-noop/dist/src.es2019/index.js
 const src_es2019_NO_OP = () => {};
@@ -54982,7 +55319,7 @@ function extract_base(user) {
   });
 }
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/tiny-invariant/dist/tiny-invariant.esm.js
-var tiny_invariant_esm = __webpack_require__(23);
+var tiny_invariant_esm = __webpack_require__(22);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/0-stdlib/tiny-singleton/dist/src.es2019/index.js
 function tiny_singleton(generator) {
@@ -55001,7 +55338,7 @@ function tiny_singleton(generator) {
 /* harmony default export */ var dist_src_es2019 = (tiny_singleton);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/knex/knex.js
-var knex = __webpack_require__(130);
+var knex = __webpack_require__(128);
 var knex_default = /*#__PURE__*/__webpack_require__.n(knex);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/apps/shared/db/dist/src.es2019/db.js
@@ -55240,6 +55577,7 @@ async function ensure_through_netlify(data, trx) {
 
 
 /***/ }),
+/* 236 */,
 /* 237 */,
 /* 238 */,
 /* 239 */,
@@ -55250,8 +55588,7 @@ async function ensure_through_netlify(data, trx) {
 /* 244 */,
 /* 245 */,
 /* 246 */,
-/* 247 */,
-/* 248 */
+/* 247 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -55261,13 +55598,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const runner_1 = __webpack_require__(76);
+const runner_1 = __webpack_require__(74);
 
-const netlify_1 = __webpack_require__(98);
+const netlify_1 = __webpack_require__(96);
 
-const require_http_method_1 = __webpack_require__(88);
+const require_http_method_1 = __webpack_require__(86);
 
-const db_1 = __webpack_require__(236);
+const db_1 = __webpack_require__(235);
 
 async function require_authenticated(SEC, event, context, response, next) {
   const who_am_i = {};
