@@ -9,6 +9,16 @@ describe('normalize-string - built-in normalizers', function() {
 
 	const TEST_CASES: any = {
 
+		default_to_empty: {
+			'': '',
+			// TODO dedicated tests
+		},
+
+		ensure_string: {
+			'': '',
+			// TODO dedicated tests
+		},
+
 		capitalize: {
 			'': '',
 			' ': ' ',
@@ -44,19 +54,19 @@ describe('normalize-string - built-in normalizers', function() {
 			' 	a 	': 'a',
 		},
 
+		coerce_to_ascii: {
+			'': '',
+			' ': ' ',
+			'a': 'a',
+			'Côte et Ciel': 'Cote et Ciel',
+		},
+
 		normalize_unicode: {
 			'': '',
 			' ': ' ',
 			'a': 'a',
 			// TODO real cases!
 			'Côte et Ciel': 'Côte et Ciel',
-		},
-
-		coerce_to_ascii: {
-			'': '',
-			' ': ' ',
-			'a': 'a',
-			'Côte et Ciel': 'Cote et Ciel',
 		},
 
 		coerce_blanks_to_single_spaces: {

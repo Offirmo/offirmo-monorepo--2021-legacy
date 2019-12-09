@@ -67,7 +67,7 @@ interface Queries {
 		key: K, state: Readonly<State>
 	): UState[K]
 }
-function get_queries(in_memory_store: InMemoryStore): Queries {
+function get_queries(in_memory_store: InMemoryStore)/*: Queries*/ {
 	return {
 		get_item(uuid: UUID, state: Readonly<State> = in_memory_store.get()): Item | null {
 			return selectors.get_item(state.u_state, uuid)
