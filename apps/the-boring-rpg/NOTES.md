@@ -1,5 +1,8 @@
 
 
+decent backstory
+
+
 # content
 
 ## mini-games to add
@@ -20,36 +23,36 @@
 TODO TBRPG
 
 [ ] Onboarding
-[ ] Direct survey 
+[ ] Direct survey
 [ ] Your level of riches: beggar
 [ ] Ritual based on class
-[ ] Guilds! 
-[ ] Boost motivation 
+[ ] Guilds!
+[ ] Boost motivation
 [ ] Auto star on GitHub
 [ ] Optimized npx
 [ ] Analytics
 [ ] User name
 [ ] Virality
-[ ] Server sync 
+[ ] Server sync
 [ ] Web badges
-[ ] Json functions 
-[ ] Initial randomization (or only at sign-up?) 
-[ ] Geoloc ? (or auto through Google) 
+[ ] Json functions
+[ ] Initial randomization (or only at sign-up?)
+[ ] Geoloc ? (or auto through Google)
 [ ] Stars
 [ ] Overall "power level" going up
-[ ] "postures" affecting outcome 
-[ ] Fast launch and immediate feedback 
+[ ] "postures" affecting outcome
+[ ] Fast launch and immediate feedback
 [ ] Current title / next title (driving motivation)
 [ ] Growth template https://trello.com/b/kpPww9qv/growth-template
-[x] Name the world 
+[x] Name the world
 [x] Flatteries
 [x] Mana replenish
 [x] Your adventurer level : rookie
-[x] Ads for open source 
+[x] Ads for open source
 [x] Roulette
 [x] Power, badges gold, silver, bronze
 [x] Equip items
-[x] Fights (always win the first) 
+[x] Fights (always win the first)
 [x] Better UI
 [x] Event emitter
 [x] User uuid
@@ -68,36 +71,36 @@ TODO TBRPG
 TODO TBRPG
 
 [ ] Onboarding
-[ ] Direct survey 
+[ ] Direct survey
 [ ] Your level of riches: beggar
 [ ] Ritual based on class
-[ ] Guilds! 
-[ ] Boost motivation 
+[ ] Guilds!
+[ ] Boost motivation
 [ ] Auto star on GitHub
 [ ] Optimized npx
 [ ] Analytics
 [ ] User name
 [ ] Virality
-[ ] Server sync 
+[ ] Server sync
 [ ] Web badges
-[ ] Json functions 
-[ ] Initial randomization (or only at sign-up?) 
-[ ] Geoloc ? (or auto through Google) 
+[ ] Json functions
+[ ] Initial randomization (or only at sign-up?)
+[ ] Geoloc ? (or auto through Google)
 [ ] Stars
 [ ] Overall "power level" going up
-[ ] "postures" affecting outcome 
-[ ] Fast launch and immediate feedback 
+[ ] "postures" affecting outcome
+[ ] Fast launch and immediate feedback
 [ ] Current title / next title (driving motivation)
 [ ] Growth template https://trello.com/b/kpPww9qv/growth-template
-[x] Name the world 
+[x] Name the world
 [x] Flatteries
 [x] Mana replenish
 [x] Your adventurer level : rookie
-[x] Ads for open source 
+[x] Ads for open source
 [x] Roulette
 [x] Power, badges gold, silver, bronze
 [x] Equip items
-[x] Fights (always win the first) 
+[x] Fights (always win the first)
 [x] Better UI
 [x] Event emitter
 [x] User uuid

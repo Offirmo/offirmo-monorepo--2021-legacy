@@ -8,7 +8,7 @@ interface State extends BaseUState {
 
 	// undefined = no created yet
 	// null = opted out
-	persistence_id: undefined | string | null
+	persistence_id: undefined | string
 
 	is_web_diversity_supporter: boolean
 

@@ -40,7 +40,8 @@ class PageSavegameEditorC1 extends Component {
 				return this.navigate_home()
 		}
 
-		this.initial_data.u_state.meta.persistence_id = null // no longer sync with cloud
+		// TODO mark the game as edited in some safe way
+		//this.initial_data.u_state.meta.persistence_id = null // no longer sync with cloud
 	}
 
 	render() {

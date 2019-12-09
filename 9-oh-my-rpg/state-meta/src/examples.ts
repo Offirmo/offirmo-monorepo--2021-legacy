@@ -13,7 +13,7 @@ const DEMO_STATE: Readonly<State> = deepFreeze({
 	schema_version: 2,
 	revision: 5,
 
-	persistence_id: null,
+	persistence_id: undefined,
 
 	is_web_diversity_supporter: true,
 	is_logged_in: true,

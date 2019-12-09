@@ -8,13 +8,23 @@ export async function up(knex: Knex): Promise<any> {
 			.timestamps(true, true)
 
 		table
-			.increments('id').primary()
+			.increments('id')
+			.primary()
 
 		table
 			.integer('user_id')
 			.unsigned()
 			.notNullable()
 			.references('id').inTable('users').onDelete('CASCADE')
+			.index()
+
+		table
+			.string('user_private_nickname')
+			.notNullable()
+			.index()
+
+		table
+			.string('user_public_nickname')
 			.index()
 
 		table

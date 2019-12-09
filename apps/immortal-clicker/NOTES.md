@@ -24,6 +24,8 @@ Inspiration:
 daoist nicknames
 
 
+bloodline, need body rebirth = prestige
+
 Cave
 Split in 3000 soul, hidden in other friendly souls
 

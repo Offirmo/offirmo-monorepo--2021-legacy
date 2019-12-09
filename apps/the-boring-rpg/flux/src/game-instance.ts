@@ -64,7 +64,6 @@ function create_game_instance<T extends AppState>({SEC, local_storage, storage, 
 			if (recovered_state) {
 				const state = TBRPGState.migrate_to_latest(SEC, recovered_state)
 				logger.trace(`[${LIB}] automigrated state.`)
-
 				return state
 			}
 
@@ -72,12 +71,7 @@ function create_game_instance<T extends AppState>({SEC, local_storage, storage, 
 			logger.verbose(`[${LIB}] Clean savegame created from scratch.`)
 			return state
 		})
-		if (initial_state.u_state.meta.persistence_id !== null && !overrideHook('allow_cloud_sync', false)) {
-			// opt out
-			// TODO alpha remove this!
-			// TODO reducer
-			initial_state.u_state.meta.persistence_id = null
-		}
+
 		logger.silly(`[${LIB}] initial state:`, {state: initial_state})
 
 		// update after auto-migrating/creating
@@ -136,7 +130,6 @@ function create_game_instance<T extends AppState>({SEC, local_storage, storage, 
 		function set(new_state: State) {
 			// re-force persistence id to null in case s/o played with it in the editor
 			// this also double down as a structure check
-			new_state.u_state.meta.persistence_id = null
 			in_memory_store.set(new_state)
 			persistent_store.set(new_state)
 			cloud_store.set(new_state)

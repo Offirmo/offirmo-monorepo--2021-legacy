@@ -86,16 +86,6 @@ function create(
 					rpc_url: get_json_rpc_url(SEC),
 				})
 
-				function opt_out(reason: string) {
-					opt_out_reason = reason
-					logger.info(`[${LIB}] opted out of cloud sync.`, { reason })
-				}
-
-				function set(authoritative_state: Readonly<State>) {
-					// TODO pushback!
-					throw new Error(`[${LIB}] cloud store set() NIMP!`)
-				}
-
 				const get_synchronizer = tiny_singleton(() => create_synchronizer({
 					SEC,
 					call_remote_procedure: call_json_rpc,
@@ -119,6 +109,16 @@ function create(
 					initial_pending_actions: pending_actions,
 					initial_state,
 				}))
+
+				function opt_out(reason: string) {
+					opt_out_reason = reason
+					logger.info(`[${LIB}] opted out of cloud sync.`, { reason })
+				}
+
+				function set(authoritative_state: Readonly<State>) {
+					// TODO pushback!
+					throw new Error(`[${LIB}] cloud store set() NIMP!`)
+				}
 
 				function dispatch(action: Readonly<Action>, eventual_state_hint?: Readonly<State>): void {
 					assert(eventual_state_hint, 'state MUST be hinted!')
@@ -154,9 +154,8 @@ function create(
 
 				SEC.xTryCatch('restoring state from all bits', ({logger}: OMRContext) => {
 
-					if (initial_state.u_state.meta.persistence_id === null) {
-						// intentionally not handled by cloud
-						opt_out('intentional')
+					if (!overrideHook('cloud_sync_enabled', false)) {
+						opt_out('manually-disabled')
 						return
 					}
 
@@ -223,6 +222,7 @@ function create(
 
 		const indirect_store = {
 			set(new_state: Readonly<State>): void {
+				// XXX TODO check
 				reset_pending_actions(ROOT_SEC, local_storage)
 				real_cloud_store = re_create_cloud_store(new_state)
 			},
