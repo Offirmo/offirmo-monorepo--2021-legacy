@@ -1,6 +1,6 @@
-import { SoftExecutionContext } from '../../sec'
+import { OMRSoftExecutionContext } from '../../sec'
 
-type JsonRpcCaller = <Params, Resp>(p: { SEC: SoftExecutionContext, method: string, params: Params }) => Promise<Resp>
+type JsonRpcCaller = <Params, Resp>(p: { SEC: OMRSoftExecutionContext, method: string, params: Params }) => Promise<Resp>
 
 export {
 	JsonRpcCaller,

@@ -1,26 +1,16 @@
 import { ImmutabilityEnforcer } from '@offirmo-private/ts-types'
+import { BaseInjections, SoftExecutionContext } from '@offirmo-private/soft-execution-context'
 import { Logger } from '@offirmo/practical-logger-types'
 import { PRODUCT } from './consts'
 
 /////////////////////
-// TODO move to SEC lib when turned to TS
 
-type SoftExecutionContext = any
-
-interface BaseContext {
-	SEC: SoftExecutionContext
-	ENV: string
+interface OMRInjections extends BaseInjections {
 	logger: Logger
-}
-
-/////////////////////
-// TODO move in final app (new module?)
-
-interface OMRContext extends BaseContext {
 	enforce_immutability: ImmutabilityEnforcer
-	// TODO analytics ?
-	// TODO details ?
 }
+
+type OMRSoftExecutionContext = SoftExecutionContext<OMRInjections>
 
 /////////////////////
 
@@ -28,13 +18,13 @@ const enforce_immutability: ImmutabilityEnforcer = (x) => x
 //const enforce_immutability = (state: State) => deepFreeze(state) TODO
 
 
-function decorate_SEC(SEC: SoftExecutionContext): SoftExecutionContext {
+function decorate_SEC(SEC: OMRSoftExecutionContext): OMRSoftExecutionContext {
 	SEC.injectDependencies({
 		enforce_immutability,
 	})
 
 	SEC.setAnalyticsAndErrorDetails({
-		product: PRODUCT,
+		product: PRODUCT, // TODO LIB?
 		// TODO add more details
 	})
 
@@ -44,8 +34,7 @@ function decorate_SEC(SEC: SoftExecutionContext): SoftExecutionContext {
 /////////////////////
 
 export {
-	SoftExecutionContext,
-	BaseContext,
-	OMRContext,
+	OMRInjections,
+	OMRSoftExecutionContext,
 	decorate_SEC,
 }

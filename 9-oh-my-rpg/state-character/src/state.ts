@@ -11,7 +11,7 @@ import {
 	State,
 } from './types'
 
-import { SoftExecutionContext, OMRContext, get_lib_SEC } from './sec'
+import { OMRSoftExecutionContext, get_lib_SEC } from './sec'
 
 /////////////////////
 
@@ -37,8 +37,8 @@ const CHARACTER_CLASSES = Enum.keys(CharacterClass)
 
 ///////
 
-function create(SEC?: SoftExecutionContext): Readonly<State> {
-	return get_lib_SEC(SEC).xTry('create', ({enforce_immutability}: OMRContext) => {
+function create(SEC?: OMRSoftExecutionContext): Readonly<State> {
+	return get_lib_SEC(SEC).xTry('create', ({enforce_immutability}) => {
 		return enforce_immutability({
 			schema_version: SCHEMA_VERSION,
 			revision: 0,
@@ -64,8 +64,8 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 
 /////////////////////
 
-function rename(SEC: SoftExecutionContext, state: Readonly<State>, new_name: string): Readonly<State> {
-	return get_lib_SEC(SEC).xTry('rename', ({enforce_immutability}: OMRContext) => {
+function rename(SEC: OMRSoftExecutionContext, state: Readonly<State>, new_name: string): Readonly<State> {
+	return get_lib_SEC(SEC).xTry('rename', ({enforce_immutability}) => {
 		// TODO name normalization
 		if (!new_name)
 			throw new Error(`${LIB}: Error while renaming to "${new_name}": invalid target value!`) // TODO details
@@ -80,8 +80,8 @@ function rename(SEC: SoftExecutionContext, state: Readonly<State>, new_name: str
 	})
 }
 
-function switch_class(SEC: SoftExecutionContext, state: Readonly<State>, klass: CharacterClass): Readonly<State> {
-	return get_lib_SEC(SEC).xTry('switch_class', ({enforce_immutability}: OMRContext) => {
+function switch_class(SEC: OMRSoftExecutionContext, state: Readonly<State>, klass: CharacterClass): Readonly<State> {
+	return get_lib_SEC(SEC).xTry('switch_class', ({enforce_immutability}) => {
 		if (klass === state.klass)
 			return state
 
@@ -96,8 +96,8 @@ function switch_class(SEC: SoftExecutionContext, state: Readonly<State>, klass: 
 	})
 }
 
-function increase_stat(SEC: SoftExecutionContext, state: Readonly<State>, stat: CharacterAttribute, amount = 1): Readonly<State> {
-	return get_lib_SEC(SEC).xTry('increase_stat', ({enforce_immutability}: OMRContext) => {
+function increase_stat(SEC: OMRSoftExecutionContext, state: Readonly<State>, stat: CharacterAttribute, amount = 1): Readonly<State> {
+	return get_lib_SEC(SEC).xTry('increase_stat', ({enforce_immutability}) => {
 		if (amount <= 0)
 			throw new Error(`${LIB}: Error while increasing stat "${stat}": invalid amount!`) // TODO details
 

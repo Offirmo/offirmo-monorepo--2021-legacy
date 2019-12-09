@@ -36,7 +36,7 @@ import {
 /////////////////////
 
 import { SCHEMA_VERSION } from '../../consts'
-import { SoftExecutionContext, OMRContext, get_lib_SEC } from '../../sec'
+import { OMRSoftExecutionContext, get_lib_SEC } from '../../sec'
 import { State } from '../../types'
 import { EngagementKey } from '../../engagement'
 import {
@@ -64,8 +64,8 @@ const STARTING_ARMOR_SPEC: Readonly<Partial<Armor>> = {
 	base_strength: 1,
 }
 
-function create(SEC?: SoftExecutionContext, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Readonly<State> {
-	return get_lib_SEC(SEC).xTry('create', ({enforce_immutability}: OMRContext) => {
+function create(SEC?: OMRSoftExecutionContext, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Readonly<State> {
+	return get_lib_SEC(SEC).xTry('create', ({enforce_immutability}) => {
 		const [ u_state_energy, t_state_energy ] = EnergyState.create()
 
 		let state: Readonly<State> = {

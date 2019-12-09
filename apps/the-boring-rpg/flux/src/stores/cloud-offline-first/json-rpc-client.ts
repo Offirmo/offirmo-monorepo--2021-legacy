@@ -3,7 +3,7 @@ import Deferred from '@offirmo/deferred'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import { JSONRpcRequest, JSONRpcResponse } from '@offirmo-private/json-rpc-types'
 
-import { SoftExecutionContext } from '../../sec'
+import { OMRSoftExecutionContext } from '../../sec'
 import fetch from '../../utils/fetch'
 import { JsonRpcCaller } from './types'
 import { get_logger } from '@tbrpg/state'
@@ -23,7 +23,7 @@ function create({ rpc_url }: { rpc_url: string }): JsonRpcCaller {
 
 	return function call_remote_procedure<Params, Resp>(
 		{SEC, method, params}: {
-			SEC: SoftExecutionContext,
+			SEC: OMRSoftExecutionContext,
 			method: string,
 			params: Params,
 		},

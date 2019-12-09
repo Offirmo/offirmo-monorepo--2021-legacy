@@ -1,21 +1,20 @@
 import memoize_one from 'memoize-one'
 import assert from 'tiny-invariant'
-import { OMRContext } from '@oh-my-rpg/definitions'
 import { State } from '@tbrpg/state'
 import { Action } from '@tbrpg/interfaces'
 
 import { LIB } from '../../consts'
-import { SoftExecutionContext } from '../../sec'
+import { OMRSoftExecutionContext } from '../../sec'
 import { reduce_action } from '../../utils/reduce-action'
 import { InMemoryStore } from '../types'
 
 
 function create(
-	SEC: SoftExecutionContext,
+	SEC: OMRSoftExecutionContext,
 	initial_state: State, // can be an old version to be salvaged, can be null...
 	on_change: (s: Readonly<State>, debugId: string) => void,
 ): InMemoryStore {
-	return SEC.xTry(`creating ${LIB} in-memory store`, ({SEC, logger}: OMRContext) => {
+	return SEC.xTry(`creating ${LIB} in-memory store`, ({SEC, logger}) => {
 		let state: State = initial_state
 
 		const on_change_m = memoize_one(on_change)

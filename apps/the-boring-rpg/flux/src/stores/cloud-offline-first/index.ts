@@ -5,7 +5,6 @@ import tiny_singleton from '@offirmo/tiny-singleton'
 import { overrideHook } from '@offirmo/universal-debug-api-placeholder'
 import { Storage } from '@offirmo-private/ts-types'
 
-import { OMRContext } from '@oh-my-rpg/definitions'
 import {
 	NUMERIC_VERSION,
 	State,
@@ -20,16 +19,16 @@ import {
 } from '@tbrpg/interfaces'
 
 import { LIB as ROOT_LIB } from '../../consts'
-import { SoftExecutionContext } from '../../sec'
+import { OMRSoftExecutionContext } from '../../sec'
 import { CloudStore } from '../types'
 import { create as create_synchronizer } from './synchonizer'
 import { create as create_jsonrpc_client } from './json-rpc-client'
 
 const LIB = `${ROOT_LIB}/CloudStore`
 
-function get_persisted_pending_actions(SEC: SoftExecutionContext, local_storage: Storage): Action[] {
+function get_persisted_pending_actions(SEC: OMRSoftExecutionContext, local_storage: Storage): Action[] {
 	try {
-		return SEC.xTry('retrieving persisted actions', ({}: OMRContext): Action[] => {
+		return SEC.xTry('retrieving persisted actions', ({}): Action[] => {
 			const raw = local_storage.getItem(StorageKey['cloud.pending-actions'])
 			if (!raw) return []
 
@@ -44,8 +43,8 @@ function get_persisted_pending_actions(SEC: SoftExecutionContext, local_storage:
 	}
 }
 
-function persist_pending_actions(SEC: SoftExecutionContext, local_storage: Storage, pending_actions: Action[]): void {
-	return SEC.xTryCatch(`persisting ${pending_actions.length} action(s)`, ({}: OMRContext): void => {
+function persist_pending_actions(SEC: OMRSoftExecutionContext, local_storage: Storage, pending_actions: Action[]): void {
+	return SEC.xTryCatch(`persisting ${pending_actions.length} action(s)`, ({}): void => {
 		local_storage.setItem(
 			StorageKey['cloud.pending-actions'],
 			stable_stringify(pending_actions),
@@ -53,7 +52,7 @@ function persist_pending_actions(SEC: SoftExecutionContext, local_storage: Stora
 	})
 }
 
-function reset_pending_actions(SEC: SoftExecutionContext, local_storage: Storage): void {
+function reset_pending_actions(SEC: OMRSoftExecutionContext, local_storage: Storage): void {
 	return persist_pending_actions(SEC, local_storage, [])
 }
 
@@ -68,15 +67,15 @@ function forbidden_get(): Readonly<State> | null {
 }
 
 function create(
-	SEC: SoftExecutionContext,
+	SEC: OMRSoftExecutionContext,
 	local_storage: Storage,
 	initial_state: Readonly<State>,
 	set: (new_state: Readonly<State>) => void, // useful for the cloud store to overwrite the mem store
 ): CloudStore {
-	return SEC.xTry(LIB, ({SEC: ROOT_SEC}: OMRContext): CloudStore => {
+	return SEC.xTry(LIB, ({SEC: ROOT_SEC}): CloudStore => {
 
 		function re_create_cloud_store(initial_state: Readonly<State>) {
-			return ROOT_SEC.xTry('re-creating cloud store', ({SEC, logger}: OMRContext): CloudStore => {
+			return ROOT_SEC.xTry('re-creating cloud store', ({SEC, logger}): CloudStore => {
 				let opt_out_reason: string | null = 'unknown!!' // so far
 				let is_logged_in: boolean = false // so far
 				let pending_actions = get_persisted_pending_actions(SEC, local_storage)
@@ -152,7 +151,7 @@ function create(
 					}
 				}
 
-				SEC.xTryCatch('restoring state from all bits', ({logger}: OMRContext) => {
+				SEC.xTryCatch('restoring state from all bits', ({logger}) => {
 
 					if (!overrideHook('cloud_sync_enabled', false)) {
 						opt_out('manually-disabled')

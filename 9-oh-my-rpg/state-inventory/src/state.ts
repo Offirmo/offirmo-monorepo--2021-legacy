@@ -9,12 +9,12 @@ import { SCHEMA_VERSION } from './consts'
 import { Item, State } from './types'
 import { compare_items_by_slot_then_strength } from './compare'
 import { is_full, get_item_in_slot } from './selectors'
-import { SoftExecutionContext, OMRContext, get_lib_SEC } from './sec'
+import { OMRSoftExecutionContext, get_lib_SEC } from './sec'
 
 /////////////////////
 
-function create(SEC?: SoftExecutionContext): Readonly<State> {
-	return get_lib_SEC(SEC).xTry('rename', ({enforce_immutability}: OMRContext) => {
+function create(SEC?: OMRSoftExecutionContext): Readonly<State> {
+	return get_lib_SEC(SEC).xTry('rename', ({enforce_immutability}) => {
 		return enforce_immutability({
 			schema_version: SCHEMA_VERSION,
 			revision: 0,

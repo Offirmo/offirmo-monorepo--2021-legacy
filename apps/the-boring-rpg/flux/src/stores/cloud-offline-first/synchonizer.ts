@@ -13,7 +13,7 @@ import {
 	Method,
 } from '@tbrpg/interfaces'
 
-import { SoftExecutionContext } from '../../sec'
+import { OMRSoftExecutionContext } from '../../sec'
 import { hash_state } from '../../utils/hash-state'
 import { JsonRpcCaller } from './types'
 
@@ -35,7 +35,7 @@ interface Synchronizer {
 const LIB = '📡 cloud sync'
 
 function create({ SEC, call_remote_procedure, on_successful_sync, initial_pending_actions, initial_state }: {
-	SEC: SoftExecutionContext,
+	SEC: OMRSoftExecutionContext,
 	call_remote_procedure: JsonRpcCaller,
 	on_successful_sync: (result: SyncResult) => void,
 	initial_pending_actions: Action[],

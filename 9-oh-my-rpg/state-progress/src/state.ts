@@ -1,7 +1,6 @@
 /////////////////////
 
 import assert from 'tiny-invariant'
-import { Enum } from 'typescript-string-enums'
 import { get_human_readable_UTC_timestamp_days } from '@offirmo-private/timestamps'
 
 import { LIB, SCHEMA_VERSION } from './consts'
@@ -13,12 +12,12 @@ import {
 
 import { get_last_known_achievement_status } from './selectors'
 
-import { SoftExecutionContext, OMRContext, get_lib_SEC } from './sec'
+import { OMRSoftExecutionContext, get_lib_SEC } from './sec'
 
 /////////////////////
 
-function create(SEC?: SoftExecutionContext): Readonly<State> {
-	return get_lib_SEC(SEC).xTry('create', ({enforce_immutability}: OMRContext) => {
+function create(SEC?: OMRSoftExecutionContext): Readonly<State> {
+	return get_lib_SEC(SEC).xTry('create', ({enforce_immutability}) => {
 		return enforce_immutability({
 			schema_version: SCHEMA_VERSION,
 			revision: 0,

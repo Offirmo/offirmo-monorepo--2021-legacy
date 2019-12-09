@@ -17,6 +17,7 @@
 		"tslib": "^1"
 	},
 	"dependencies": {
+		"@offirmo-private/soft-execution-context": "^0",
 		"@offirmo-private/ts-types": "^0",
 		"@offirmo-private/uuid": "^0",
 		"@offirmo/practical-logger-types": "^2",

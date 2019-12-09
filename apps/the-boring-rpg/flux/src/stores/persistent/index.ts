@@ -1,20 +1,19 @@
 import assert from 'tiny-invariant'
 import stable_stringify from 'json-stable-stringify'
-import { OMRContext } from '@oh-my-rpg/definitions'
 import { State } from '@tbrpg/state'
 import { Action, TbrpgStorage, StorageKey } from '@tbrpg/interfaces'
 
 import { LIB as ROOT_LIB } from '../../consts'
 import { PersistentStore } from '../types'
-import { SoftExecutionContext } from '../../sec'
+import { OMRSoftExecutionContext } from '../../sec'
 
 
-function create(SEC: SoftExecutionContext, storage: TbrpgStorage): PersistentStore {
+function create(SEC: OMRSoftExecutionContext, storage: TbrpgStorage): PersistentStore {
 	const LIB = `${ROOT_LIB}/PersistentStore`
-	return SEC.xTry(`[${LIB}] creating`, ({SEC, logger}: OMRContext) => {
+	return SEC.xTry(`[${LIB}] creating`, ({SEC, logger}) => {
 		let last_persisted_state: State | null = null
 
-		last_persisted_state = SEC.xTryCatch('loading existing savegame', ({logger}: OMRContext): State | null => {
+		last_persisted_state = SEC.xTryCatch('loading existing savegame', ({logger}): State | null => {
 			logger.verbose(`[${LIB}] savegame storage key = "${StorageKey.savegame}"`)
 
 			// LS access can throw
@@ -76,7 +75,7 @@ function create(SEC: SoftExecutionContext, storage: TbrpgStorage): PersistentSto
 				assert(eventual_state_hint, `[${LIB}] need dispatch hint!`)
 				optimized_persist(eventual_state_hint!)
 			},
-			get: () => last_persisted_state!,
+			get: () => last_persisted_state,
 		}
 	})
 }

@@ -5,7 +5,6 @@ import EventEmitter from 'emittery'
 import deep_merge from 'deepmerge'
 import { Enum } from 'typescript-string-enums'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
-import { OMRContext } from '@oh-my-rpg/definitions'
 import { Storage } from '@offirmo-private/ts-types'
 import { overrideHook } from '@offirmo/universal-debug-api-placeholder'
 
@@ -13,7 +12,7 @@ import * as TBRPGState from '@tbrpg/state'
 import { State } from '@tbrpg/state'
 import { Action, TbrpgStorage } from '@tbrpg/interfaces'
 
-import { SoftExecutionContext } from './sec'
+import { OMRSoftExecutionContext } from './sec'
 import create_persistent_store from './stores/persistent'
 import create_in_memory_store from './stores/in-memory'
 import create_cloud_store from './stores/cloud-offline-first'
@@ -38,13 +37,13 @@ function overwriteMerge<T>(destination: T, source: T): T {
 
 // TODO improve logging (too verbose)
 interface CreateParams<T extends AppState> {
-	SEC: SoftExecutionContext
+	SEC: OMRSoftExecutionContext
 	local_storage: Storage,
 	storage: TbrpgStorage,
 	app_state: T
 }
 function create_game_instance<T extends AppState>({SEC, local_storage, storage, app_state}: CreateParams<T>) {
-	return SEC.xTry('creating tbrpg instance', ({SEC, logger}: OMRContext) => {
+	return SEC.xTry('creating tbrpg instance', ({SEC, logger}) => {
 
 		app_state = app_state || ({} as any as T)
 
@@ -58,7 +57,7 @@ function create_game_instance<T extends AppState>({SEC, local_storage, storage, 
 		// the savegame may also be outdated.
 		const persistent_store = create_persistent_store(SEC, storage)
 
-		const initial_state = SEC.xTry('auto creating/migrating', ({SEC, logger}: OMRContext): State => {
+		const initial_state = SEC.xTry('auto creating/migrating', ({SEC, logger}): State => {
 			const recovered_state: any | null = persistent_store.get()
 
 			if (recovered_state) {

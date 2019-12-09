@@ -11,7 +11,7 @@ import * as MetaState from '@oh-my-rpg/state-meta'
 
 import { LIB, SCHEMA_VERSION } from '../../consts'
 import { State } from '../../types'
-import { SoftExecutionContext, OMRContext, get_lib_SEC } from '../../sec'
+import { OMRSoftExecutionContext, get_lib_SEC } from '../../sec'
 import { reset_and_salvage } from './salvage'
 
 /////////////////////
@@ -23,7 +23,7 @@ const SUB_T_REDUCERS_COUNT = 1
 const SUB_T_OTHER_KEYS_COUNT = 2
 
 
-function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any> = {}): State {
+function migrate_to_latest(SEC: OMRSoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any> = {}): State {
 	const legacy_version = (() => {
 		if (!legacy_state)
 			return 0
@@ -40,7 +40,7 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any
 			version_to: SCHEMA_VERSION,
 		})
 
-	return SEC.xTry('migrate_to_latest', ({SEC, logger}: OMRContext) => {
+	return SEC.xTry('migrate_to_latest', ({SEC, logger}) => {
 		if (legacy_version > SCHEMA_VERSION)
 			throw new Error('Your data is from a more recent version of this lib. Please update!')
 
@@ -158,7 +158,7 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any
 
 /////////////////////
 
-function migrate_to_12(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any>): any {
+function migrate_to_12(SEC: OMRSoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any>): any {
 	if (legacy_state.schema_version >= 12)
 		throw new Error('migrate_to_12 was called from an outdated/buggy root code, please update!')
 

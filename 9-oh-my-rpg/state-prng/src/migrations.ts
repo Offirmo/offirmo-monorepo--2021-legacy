@@ -3,7 +3,7 @@ import { generate_uuid } from '@offirmo-private/uuid'
 
 import { LIB, SCHEMA_VERSION } from './consts'
 import { State } from './types'
-import { SoftExecutionContext, OMRContext, get_lib_SEC } from './sec'
+import { OMRSoftExecutionContext, get_lib_SEC } from './sec'
 
 // some hints may be needed to migrate to demo state
 // need to export them for composing tests
@@ -12,7 +12,7 @@ const MIGRATION_HINTS_FOR_TESTS: any = deepFreeze({
 
 /////////////////////
 
-function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any> = {}): State {
+function migrate_to_latest(SEC: OMRSoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any> = {}): State {
 	const existing_version = (legacy_state && legacy_state.schema_version) || 0
 
 	SEC = get_lib_SEC(SEC)
@@ -21,7 +21,7 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any
 			version_to: SCHEMA_VERSION,
 		})
 
-	return SEC.xTry('migrate_to_latest', ({SEC, logger}: OMRContext) => {
+	return SEC.xTry('migrate_to_latest', ({SEC, logger}) => {
 
 		if (existing_version > SCHEMA_VERSION)
 			throw new Error('Your data is from a more recent version of this lib. Please update!')
@@ -52,7 +52,7 @@ function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any
 
 /////////////////////
 
-function migrate_to_3(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any>): State {
+function migrate_to_3(SEC: OMRSoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any>): State {
 	let state: State = (legacy_state.schema_version < 2)
 		? migrate_to_2(SEC, legacy_state, hints)
 		: legacy_state as State
@@ -65,7 +65,7 @@ function migrate_to_3(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hi
 	return state
 }
 
-function migrate_to_2(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any>): State {
+function migrate_to_2(SEC: OMRSoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any>): State {
 	throw new Error('Schema is too old (pre-beta), can’t migrate!')
 }
 

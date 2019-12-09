@@ -2,7 +2,7 @@ import deepFreeze from 'deep-freeze-strict'
 
 import { LIB, SCHEMA_VERSION } from './consts'
 import { UState, TState } from './types'
-import { SoftExecutionContext, OMRContext, get_lib_SEC } from './sec'
+import { OMRSoftExecutionContext, get_lib_SEC } from './sec'
 
 // some hints may be needed to migrate to demo state
 // need to export them for composing tests
@@ -12,7 +12,7 @@ const MIGRATION_HINTS_FOR_TESTS: any = deepFreeze({
 /////////////////////
 
 function migrate_to_latest(
-	SEC: SoftExecutionContext,
+	SEC: OMRSoftExecutionContext,
 	[legacy_u_state, legacy_t_state]: [ Readonly<any>, Readonly<any> ],
 	hints: Readonly<any> = {},
 ): [ Readonly<UState>, Readonly<TState> ] {
@@ -24,7 +24,7 @@ function migrate_to_latest(
 			version_to: SCHEMA_VERSION,
 		})
 
-	return SEC.xTry('migrate_to_latest', ({SEC, logger}: OMRContext) => {
+	return SEC.xTry('migrate_to_latest', ({SEC, logger}) => {
 
 		if (existing_version > SCHEMA_VERSION)
 			throw new Error('Your data is from a more recent version of this lib. Please update!')
@@ -58,7 +58,7 @@ function migrate_to_latest(
 /////////////////////
 
 function migrate_to_3(
-	SEC: SoftExecutionContext,
+	SEC: OMRSoftExecutionContext,
 	[legacy_u_state, legacy_t_state]: [ Readonly<any>, Readonly<any> ],
 	hints: Readonly<any>,
 ): [ Readonly<UState>, Readonly<TState> ] {

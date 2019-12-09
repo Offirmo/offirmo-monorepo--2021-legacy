@@ -64,7 +64,7 @@ export interface SoftExecutionContext<Injections = {}, AnalyticsDetails = {}, Er
 	setAnalyticsDetails: (p: Partial<AnalyticsDetails>)
 		=> SoftExecutionContext<Injections, AnalyticsDetails, ErrorDetails>
 	getAnalyticsDetails: () => AnalyticsDetails & BaseAnalyticsDetails
-	fireAnalyticsEvent: (id: string, extraDetails: any)
+	fireAnalyticsEvent: (id: string, extraDetails?: any)
 		=> SoftExecutionContext<Injections, AnalyticsDetails, ErrorDetails>
 
 	// plugin: dependency injection

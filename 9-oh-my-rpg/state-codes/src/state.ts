@@ -1,6 +1,5 @@
 /////////////////////
 
-import { Enum } from 'typescript-string-enums'
 import { get_human_readable_UTC_timestamp_minutes } from '@offirmo-private/timestamps'
 
 import { SCHEMA_VERSION } from './consts'
@@ -13,13 +12,12 @@ import {
 
 import { is_code_redeemable } from './selectors'
 
-import { SoftExecutionContext, OMRContext, get_lib_SEC } from './sec'
-import normalize_code from './normalize-code'
+import { OMRSoftExecutionContext, get_lib_SEC } from './sec'
 
 /////////////////////
 
-function create(SEC?: SoftExecutionContext): Readonly<State> {
-	return get_lib_SEC(SEC).xTry('create', ({enforce_immutability}: OMRContext) => {
+function create(SEC?: OMRSoftExecutionContext): Readonly<State> {
+	return get_lib_SEC(SEC).xTry('create', ({enforce_immutability}) => {
 		return enforce_immutability({
 			schema_version: SCHEMA_VERSION,
 			revision: 0,
@@ -32,7 +30,7 @@ function create(SEC?: SoftExecutionContext): Readonly<State> {
 /////////////////////
 
 function attempt_to_redeem_code<T>(state: Readonly<State>, code_spec: Readonly<CodeSpec<T>>, infos: Readonly<T>): Readonly<State> {
-	return get_lib_SEC().xTry('redeem_code', ({enforce_immutability}: OMRContext): Readonly<State> => {
+	return get_lib_SEC().xTry('redeem_code', ({enforce_immutability}): Readonly<State> => {
 		if (!is_code_redeemable(state, code_spec, infos))
 			throw new Error('This code is either non-existing or non redeemable at the moment!')
 

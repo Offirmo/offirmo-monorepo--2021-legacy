@@ -10,12 +10,12 @@ import {
 	State,
 } from './types'
 
-import { SoftExecutionContext, OMRContext, get_lib_SEC } from './sec'
+import { OMRSoftExecutionContext, get_lib_SEC } from './sec'
 
 /////////////////////
 
-function create(SEC?: SoftExecutionContext): Readonly<State> {
-	return get_lib_SEC(SEC).xTry('create', ({enforce_immutability}: OMRContext) => {
+function create(SEC?: OMRSoftExecutionContext): Readonly<State> {
+	return get_lib_SEC(SEC).xTry('create', ({enforce_immutability}) => {
 		return enforce_immutability({
 			schema_version: SCHEMA_VERSION,
 			revision: 0,
