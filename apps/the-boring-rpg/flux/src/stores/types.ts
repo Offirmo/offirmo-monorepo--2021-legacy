@@ -9,6 +9,7 @@ interface Store {
 }
 
 interface InMemoryStore extends Store {
+	get: () => NonNullable<ReturnType<Store['get']>>
 }
 
 interface PersistentStore extends Store {

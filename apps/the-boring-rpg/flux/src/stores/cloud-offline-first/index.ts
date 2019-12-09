@@ -4,6 +4,7 @@ import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import tiny_singleton from '@offirmo/tiny-singleton'
 import { overrideHook } from '@offirmo/universal-debug-api-placeholder'
 import { Storage } from '@offirmo-private/ts-types'
+import { ReleaseChannel, get_base_url } from '@offirmo-private/functions-interface'
 
 import {
 	NUMERIC_VERSION,
@@ -56,9 +57,10 @@ function reset_pending_actions(SEC: OMRSoftExecutionContext, local_storage: Stor
 	return persist_pending_actions(SEC, local_storage, [])
 }
 
-function get_json_rpc_url(SEC: SoftExecutionContext) {
-	// TODO auto depending to env
-	return overrideHook('tbrpg.json-rpc-endpoint', 'http://localhost:9000/tbrpg-rpc')
+function get_json_rpc_url(SEC: OMRSoftExecutionContext) {
+	return SEC.xTry('get url', ({ CHANNEL }) => {
+		return get_base_url(CHANNEL as ReleaseChannel)
+	})
 }
 
 function forbidden_get(): Readonly<State> | null {

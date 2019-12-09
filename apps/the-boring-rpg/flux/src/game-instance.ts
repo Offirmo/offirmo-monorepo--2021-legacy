@@ -112,7 +112,7 @@ function create_game_instance<T extends AppState>({SEC, local_storage, storage, 
 
 			// complete "action" object that may be missing some parts
 			action.time = action.time || get_UTC_timestamp_ms()
-			const state: State = in_memory_store.get()!
+			const state: State = in_memory_store.get()
 			Object.keys(action.expected_revisions).forEach(sub_state_key => {
 				if (action.expected_revisions[sub_state_key] === -1) {
 					action.expected_revisions[sub_state_key] =
@@ -121,8 +121,8 @@ function create_game_instance<T extends AppState>({SEC, local_storage, storage, 
 			})
 
 			in_memory_store.dispatch(action)
-			persistent_store.dispatch(action, in_memory_store.get()!)
-			cloud_store.dispatch(action, in_memory_store.get()!)
+			persistent_store.dispatch(action, in_memory_store.get())
+			cloud_store.dispatch(action, in_memory_store.get())
 		}
 
 		// currently used by the savegame editor
@@ -159,7 +159,7 @@ function create_game_instance<T extends AppState>({SEC, local_storage, storage, 
 
 				subscribe(id: string, fn: () => void): () => void {
 					const unbind = emitter.on(Event.model_change, (src: string) => {
-						const { revision } = in_memory_store.get()!.u_state
+						const { revision } = in_memory_store.get().u_state
 						console.log(`🌀 model change #${revision} reported to subscriber "${id}" (source: ${src})`)
 						fn()
 					})
@@ -187,7 +187,7 @@ function create_game_instance<T extends AppState>({SEC, local_storage, storage, 
 
 				subscribe(id: string, fn: () => void): () => void {
 					const unbind = emitter.on(Event.view_change, (src: string) => {
-						logger.trace(`🌀🌀 root/view change reported to subscriber "${id}" (model: #${in_memory_store.get()!.u_state.revision}, source: view/${src})`)
+						logger.trace(`🌀🌀 root/view change reported to subscriber "${id}" (model: #${in_memory_store.get().u_state.revision}, source: view/${src})`)
 						fn()
 					})
 					return unbind
