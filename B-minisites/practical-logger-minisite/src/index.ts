@@ -10,7 +10,7 @@ import {
 	demo_incorrect_logger_invocations,
 	demo_legacy_console,
 	demo_devtools_fonts,
-} from '../../practical-logger-core/doc/shared-demo'
+} from '@offirmo/practical-logger-core/doc/shared-demo'
 
 //demo_legacy_console()
 
