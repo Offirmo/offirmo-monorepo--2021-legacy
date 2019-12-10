@@ -2,6 +2,7 @@
 **This tool follows [semver](https://semver.org/).**
 
 ## PENDING
+* [fix] changing window without changing tab = not detected!!
 * [fix] edition fields
 * [fix] restoring the previous value on re-enable
 * [feat] updated Universal Debug API (browser) with new features

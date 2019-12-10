@@ -47,6 +47,7 @@
 	"scripts": {
 		"clean": "node ../../../scripts/clean.js dist cache",
 
+		"refresh-build-variables": "node ../../../scripts/update_build_variables.js --inputDir=../state",
 		"start:parcel": "PARCEL_AUTOINSTALL=false parcel src/index.html --out-dir .parcel --no-autoinstall --port 8080 --no-hmr",
 
 		"build:parcel": "parcel build src/index.html --public-url ./",

@@ -6,21 +6,17 @@ import { JSONRpcRequest, JSONRpcResponse } from '@offirmo-private/json-rpc-types
 import { OMRSoftExecutionContext } from '../../sec'
 import fetch from '../../utils/fetch'
 import { JsonRpcCaller } from './types'
-import { get_logger } from '@tbrpg/state'
+import logger from './logger'
 
 ////////////////////////////////////
 
-
-//const url = 'http://localhost:9000/tbrpg-rpc'
-// http://localhost:9000/tbrpg-rpc
-// https://www.online-adventur.es/.netlify/functions/tbrpg-rpc
-// https://offirmo-monorepo.netlify.com/.netlify/functions/tbrpg-rpc
-
-function create({ rpc_url }: { rpc_url: string }): JsonRpcCaller {
+function create({ rpc_url, method = 'POST' }: { rpc_url: string, method: string }): JsonRpcCaller {
 	assert(rpc_url)
 
+	const http_method = method
 	let id = 0
 
+	// TODO cancellation token?
 	return function call_remote_procedure<Params, Resp>(
 		{SEC, method, params}: {
 			SEC: OMRSoftExecutionContext,
@@ -37,7 +33,11 @@ function create({ rpc_url }: { rpc_url: string }): JsonRpcCaller {
 			params,
 		}
 
+		logger.log(`RPC #${request_id}…`, { rpc_url, http_method, method, params, request })
+
 		let is_status_success = false // so far
+		let response_for_logging: any
+
 		//let error_messages = 'Failed fetch' // so far
 
 		return Promise.race([
@@ -45,7 +45,7 @@ function create({ rpc_url }: { rpc_url: string }): JsonRpcCaller {
 				reject(new Error('Timeout!'))
 			}, 5000)),
 			fetch(rpc_url, {
-				method: 'POST',
+				method: http_method,
 				headers: {
 					'Content-Type': 'application/json',
 				},
@@ -53,6 +53,8 @@ function create({ rpc_url }: { rpc_url: string }): JsonRpcCaller {
 			}),
 		])
 			.then((response: any) => {
+				response_for_logging = response
+
 				// WARN: we can't destructure response because .json() needs a binding to response
 				is_status_success = response.ok
 
@@ -64,8 +66,12 @@ function create({ rpc_url }: { rpc_url: string }): JsonRpcCaller {
 				throw new Error('No body in response!')
 			})
 			.then((response: JSONRpcResponse<any>) => {
+				response_for_logging = response
+
 				if (!response)
 					throw new Error('No response data!')
+
+				logger.log(`RPC #${request_id} answered:`, {rpc_url, http_method, method, params, request, response: response_for_logging})
 
 				const {jsonrpc, id: response_id, error, result} = response
 				if (!jsonrpc)
@@ -84,7 +90,7 @@ function create({ rpc_url }: { rpc_url: string }): JsonRpcCaller {
 				return result
 			})
 			.catch((err: Error) => {
-				get_logger().error('RPC failed!', {rpc_url, method, params, request, err})
+				logger.error(`RPC #${request_id} failed!`, {rpc_url, http_method, method, params, request, response: response_for_logging, err})
 				throw err
 			})
 	}

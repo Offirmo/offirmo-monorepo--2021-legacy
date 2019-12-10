@@ -4,12 +4,8 @@ import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import tiny_singleton from '@offirmo/tiny-singleton'
 import { overrideHook } from '@offirmo/universal-debug-api-placeholder'
 import { Storage } from '@offirmo-private/ts-types'
-import { ReleaseChannel, get_base_url } from '@offirmo-private/functions-interface'
-
-import {
-	NUMERIC_VERSION,
-	State,
-} from '@tbrpg/state'
+import { ReleaseChannel, get_base_url, Endpoint } from '@offirmo-private/functions-interface'
+import { NUMERIC_VERSION, State } from '@tbrpg/state'
 import {
 	Action,
 	ActionStartGame,
@@ -22,6 +18,7 @@ import {
 import { LIB as ROOT_LIB } from '../../consts'
 import { OMRSoftExecutionContext } from '../../sec'
 import { CloudStore } from '../types'
+import logger from './logger'
 import { create as create_synchronizer } from './synchonizer'
 import { create as create_jsonrpc_client } from './json-rpc-client'
 
@@ -59,7 +56,7 @@ function reset_pending_actions(SEC: OMRSoftExecutionContext, local_storage: Stor
 
 function get_json_rpc_url(SEC: OMRSoftExecutionContext) {
 	return SEC.xTry('get url', ({ CHANNEL }) => {
-		return get_base_url(CHANNEL as ReleaseChannel)
+		return get_base_url(CHANNEL as ReleaseChannel) + '/' + Endpoint["tbrpg-rpc"]
 	})
 }
 
@@ -77,7 +74,7 @@ function create(
 	return SEC.xTry(LIB, ({SEC: ROOT_SEC}): CloudStore => {
 
 		function re_create_cloud_store(initial_state: Readonly<State>) {
-			return ROOT_SEC.xTry('re-creating cloud store', ({SEC, logger}): CloudStore => {
+			return ROOT_SEC.xTry('re-creating cloud store', ({ SEC }): CloudStore => {
 				let opt_out_reason: string | null = 'unknown!!' // so far
 				let is_logged_in: boolean = false // so far
 				let pending_actions = get_persisted_pending_actions(SEC, local_storage)
@@ -153,7 +150,7 @@ function create(
 					}
 				}
 
-				SEC.xTryCatch('restoring state from all bits', ({logger}) => {
+				SEC.xTryCatch('restoring state from all bits', () => {
 
 					if (!overrideHook('cloud_sync_enabled', false)) {
 						opt_out('manually-disabled')

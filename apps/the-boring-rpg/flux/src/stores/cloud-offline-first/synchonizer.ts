@@ -16,6 +16,7 @@ import {
 import { OMRSoftExecutionContext } from '../../sec'
 import { hash_state } from '../../utils/hash-state'
 import { JsonRpcCaller } from './types'
+import logger from './logger'
 
 ////////////////////////////////////
 
@@ -80,6 +81,7 @@ function create({ SEC, call_remote_procedure, on_successful_sync, initial_pendin
 		})
 			.catch(err => {
 				// TODO plan a retry after a while
+				logger.error('sync failed, TODO schedule retry!')
 				throw err
 			})
 			.finally(() => {
@@ -89,12 +91,22 @@ function create({ SEC, call_remote_procedure, on_successful_sync, initial_pendin
 	}
 
 	function pulse() {
-		console.group(`[${LIB}] pulse…`)
+		logger.group(`pulse…`)
+		logger.log(`current state:`, {
+			state,
+			pending_actions,
+			last_successful_sync,
+			last_sync_attempt,
+			last_known_state_hash,
+			in_flight_sync,
+		})
 
 		let has_work_left = true
 
 		while (has_work_left) {
 			has_work_left = false
+
+			logger.log(`working…`, { state })
 
 			switch (state) {
 				case 'starting':
@@ -131,8 +143,8 @@ function create({ SEC, call_remote_procedure, on_successful_sync, initial_pendin
 						has_work_left = true
 						break
 					}
-					if (!in_flight_sync)
-						do_sync()
+
+					do_sync()
 					break
 
 				case 'defected':
@@ -144,7 +156,9 @@ function create({ SEC, call_remote_procedure, on_successful_sync, initial_pendin
 			}
 		}
 
-		console.groupEnd()
+		logger.log(`no more work.`, { state })
+
+		logger.groupEnd()
 	}
 
 	pulse()

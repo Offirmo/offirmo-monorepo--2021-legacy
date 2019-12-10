@@ -18,12 +18,22 @@ const cli = meow('build', {
 			type: 'string',
 			default: 'json',
 		},
+		inputDir: {
+			type: 'string',
+			default: process.cwd(),
+		},
+		outputDir: {
+			type: 'string',
+			default: process.cwd(),
+		},
 	},
 })
 
 /////////////////////
 
-const PACKAGE_JSON_PATH = path.join(process.cwd(), 'package.json')
+//console.log('🐈  meow', cli.flags)
+
+const PACKAGE_JSON_PATH = path.resolve(cli.flags.inputDir || process.cwd(), './package.json')
 let { version: VERSION } = require(PACKAGE_JSON_PATH)
 const BUILD_DATE = get_human_readable_UTC_timestamp_minutes()
 
@@ -37,18 +47,19 @@ const NUMERIC_VERSION = Number(`${PARSED_VERSION.major}${String(PARSED_VERSION.m
 
 console.log('🧙️  Derived variables:', { VERSION, NUMERIC_VERSION })
 
-switch(cli.flags.mode) {
+switch(cli.flags.mode || 'json') {
 	case 'json': {
-		const target_path = path.resolve(process.cwd(), './src/build.json')
+		const target_path = path.resolve(cli.flags.outputDir || process.cwd(), './src/build.json')
 		write_json_file(target_path, {
 			VERSION,
+			NUMERIC_VERSION,
 			BUILD_DATE,
 		})
 		console.log('🧙️  wrote:', target_path)
 		break
 	}
 	case 'ts': {
-		const target_path = path.resolve(process.cwd(), './src/build.ts')
+		const target_path = path.resolve(cli.flags.outputDir || process.cwd(), './src/build.ts')
 		fs.writeFileSync(target_path, `
 // THIS FILE IS AUTO GENERATED!
 export const VERSION: string = '${VERSION}'
