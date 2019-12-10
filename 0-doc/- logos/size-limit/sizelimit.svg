@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   viewBox="0 0 630 630"
+   id="svg1669"
+   sodipodi:docname="sizelimit.svg"
+   inkscape:version="0.92.2 5c3e80d, 2017-08-06"
+   inkscape:export-filename="/Users/yyy/work/src/off/offirmo-monorepo/0-doc/- logos/semver.png"
+   inkscape:export-xdpi="19.5"
+   inkscape:export-ydpi="19.5">
+  <metadata
+     id="metadata1675">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs1673" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1677"
+     inkscape:window-height="1026"
+     id="namedview1671"
+     showgrid="false"
+     inkscape:zoom="0.1767767"
+     inkscape:cx="-995.19272"
+     inkscape:cy="611.06561"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="logo"
+     inkscape:snap-bbox="true" />
+  <!--
+The MIT License (MIT)
+
+Copyright (c) 2011 Christopher Williams <chris@iterativedesigns.com>,
+                     Manuel Strehl <boldewyn@gmail.com>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
+  <g
+     id="logo">
+    <path
+       style="fill:#543d46;fill-opacity:1"
+       d="M 0,0 H 630 V 630 H 0 Z"
+       id="background" />
+    <g
+       aria-label="3kB"
+       transform="scale(1.375875,0.72681021)"
+       style="font-style:normal;font-weight:normal;font-size:96.90802002px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffebbc;fill-opacity:1;stroke:none;stroke-width:0.72681016"
+       id="text2257">
+      <path
+         d="m 126.17927,703.86011 q 12.75074,3.29323 19.33722,11.48411 6.67092,8.10644 6.67092,20.6883 0,18.74613 -14.35514,28.5414 -14.35515,9.71084 -41.883248,9.71084 -9.710833,0 -19.506108,-1.6044 -9.710833,-1.51996 -19.252782,-4.64431 v -25.07929 q 9.119739,4.55987 18.070594,6.92425 9.035297,2.27994 17.732826,2.27994 12.919628,0 19.759438,-4.47543 6.92424,-4.47543 6.92424,-12.83519 0,-8.61309 -7.09313,-13.00407 -7.00869,-4.47543 -20.772737,-4.47543 H 78.807291 v -20.94162 h 13.679608 q 12.244091,0 18.239481,-3.79989 5.99538,-3.88434 5.99538,-11.73745 0,-7.26201 -5.8265,-11.23079 -5.8265,-3.96877 -16.466194,-3.96877 -7.853109,0 -15.875101,1.77328 -8.021993,1.77328 -15.959543,5.23541 v -23.81265 q 9.626391,-2.70215 19.083898,-4.05322 9.457507,-1.35107 18.57725,-1.35107 24.57263,0 36.73228,8.10643 12.24409,8.02199 12.24409,24.23486 0,11.06191 -5.8265,18.15504 -5.8265,7.00869 -17.22617,9.87972 z"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:172.93727112px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#ffebbc;fill-opacity:1;stroke-width:0.72681016"
+         id="path818" />
+      <path
+         d="m 180.39105,640.44414 h 30.23024 v 71.5224 l 34.79012,-34.70567 h 35.12788 l -46.18979,43.4032 49.8208,51.17187 h -36.64784 l -36.90117,-39.43443 v 39.43443 h -30.23024 z"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:172.93727112px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#ffebbc;fill-opacity:1;stroke-width:0.72681016"
+         id="path820" />
+      <path
+         d="m 347.41738,694.57148 q 7.68423,0 11.653,-3.37768 3.96878,-3.37768 3.96878,-9.96416 0,-6.50203 -3.96878,-9.87971 -3.96877,-3.46213 -11.653,-3.46213 h -17.98615 v 26.68368 z m 1.09775,55.14065 q 9.79528,0 14.69291,-4.13766 4.98208,-4.13766 4.98208,-12.49742 0,-8.19088 -4.89763,-12.2441 -4.89764,-4.13766 -14.77736,-4.13766 h -19.0839 v 33.01684 z m 30.23025,-45.34537 q 10.47081,3.03991 16.21287,11.23079 5.74205,8.19087 5.74205,20.0972 0,18.23948 -12.32853,27.19033 -12.32854,8.95086 -37.49226,8.95086 H 296.92105 V 645.76399 h 48.80749 q 26.26147,0 37.99892,7.93755 11.82188,7.93755 11.82188,25.41705 0,9.20418 -4.30654,15.70622 -4.30655,6.41759 -12.49742,9.54195 z"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:172.93727112px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#ffebbc;fill-opacity:1;stroke-width:0.72681016"
+         id="path822" />
+    </g>
+    <g
+       style="fill:#ffebbc;fill-opacity:1"
+       id="g6329"
+       transform="matrix(3.6144379,0,0,3.6144379,134.30341,63.826289)">
+      <path
+         style="clip-rule:evenodd;fill:#ffebbc;fill-opacity:1;fill-rule:evenodd"
+         id="path6327"
+         d="M 81.344,34 H 57.001 l -0.246,-1.28 c 5.815,-2.598 9.883,-8.384 9.883,-15.152 0,-9.177 -7.467,-16.623 -16.645,-16.623 -9.177,0 -16.643,7.476 -16.643,16.653 0,6.769 4.068,12.52 9.882,15.118 L 42.987,34 H 18.642 L 3.986,99 H 96 Z M 40.138,17.608 c 0,-5.443 4.413,-9.856 9.855,-9.856 5.445,0 9.856,4.414 9.856,9.856 0,3.452 -1.777,6.486 -4.465,8.246 -0.989,-1.215 -3.02,-2.057 -5.392,-2.057 -2.37,0 -4.401,0.842 -5.39,2.057 -2.686,-1.761 -4.464,-4.794 -4.464,-8.246 z"
+         inkscape:connector-curvature="0" />
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,43 @@
+{
+	"name": "@offirmo-private/soft-execution-context",
+	"description": "graph of execution context to do amazing things!",
+	"version": "0.0.2",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+
+	"esnext": "dist/src.es2019/index.js",
+	"module": "dist/src.es2019/index.js",
+	"main": "dist/src.es2018.cjs/index.js",
+	"source": "src/index.js",
+	"sideEffects": true,
+
+	"peerDependencies": {
+	},
+	"dependencies": {
+		"@offirmo-private/common-error-fields": "^0",
+		"@offirmo-private/normalize-error": "^0",
+		"@offirmo-private/promise-try": "^0",
+		"@offirmo-private/timestamps": "^0",
+		"@offirmo/globalthis-ponyfill": "^2",
+		"emittery": "^0.5",
+		"tslib": "^1"
+	},
+
+	"devDependencies": {
+		"@babel/core": "^7",
+		"@offirmo/practical-logger-browser": "^2.1",
+		"npm-run-all": "^4"
+	},
+	"scripts": {
+		"clean": "node ../../0-scripts/clean.js dist",
+
+		"build:dev:watch": "node ../../0-scripts/build-typescript.js --watch",
+		"build:prod": "node ../../0-scripts/build-typescript.js",
+
+		"dev": "run-s clean build:dev:watch",
+		"build": "run-s build:prod",
+		"cheatsheet": "node doc/cheatsheet.js",
+		"demo": "echo '-> Open the pages in a browser'"
+	}
+}

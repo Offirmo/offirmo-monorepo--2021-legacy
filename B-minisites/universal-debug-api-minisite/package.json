@@ -1,0 +1,30 @@
+{
+	"name": "@offirmo/universal-debug-api-minisite",
+	"description": "website showcasing Offirmo's univeral debug API",
+	"version": "0.0.1",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+
+	"dependencies": {
+		"@offirmo/universal-debug-api-placeholder": "^0",
+		"@offirmo/universal-debug-api-browser": "^0",
+		"tslib": "^1"
+	},
+
+	"devDependencies": {
+		"@babel/core": "^7",
+		"np": "^5",
+		"npm-run-all": "^4",
+		"parcel-bundler": "^1"
+	},
+	"scripts": {
+		"clean": "node ../../0-scripts/clean.js dist cache",
+
+		"start:parcel": "PARCEL_AUTOINSTALL=false parcel src/index.html --out-dir .parcel --no-autoinstall",
+
+		"build:parcel": "parcel build src/index.html --public-url ./",
+
+		"dev": "run-s start:parcel",
+		"build": "run-s build:parcel"
+	}
+}

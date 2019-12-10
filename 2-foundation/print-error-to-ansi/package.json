@@ -1,0 +1,41 @@
+{
+	"name": "@offirmo-private/print-error-to-ansi",
+	"description": "nicely print an error object to ansi",
+	"version": "0.0.1",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+
+	"engines": {
+		"node": ">=8"
+	},
+
+	"esnext": "dist/src.es2019/index.js",
+	"module": "dist/src.es2019/index.js",
+	"main": "dist/src.es2018.cjs/index.js",
+	"typings": "dist/src.es2018.cjs/index.d.ts",
+	"source": "src/index.ts",
+	"sideEffects": false,
+
+	"peerDependencies": {
+	},
+	"dependencies": {
+		"@offirmo-private/common-error-fields": "^0",
+		"chalk": "^3",
+		"tslib": "^1"
+	},
+
+	"devDependencies": {
+		"@types/node": "^12",
+		"npm-run-all": "^4"
+	},
+	"scripts": {
+		"clean": "node ../../0-scripts/clean.js dist",
+		"build:dev:watch": "node ../../0-scripts/build-typescript.js --watch",
+		"build:prod": "node ../../0-scripts/build-typescript.js",
+
+		"dev": "run-s clean build:dev:watch",
+		"build": "run-s build:prod",
+		"demo": "node doc/demo.js"
+	}
+}

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xml:space="preserve"
+   version="1.1"
+   style="clip-rule:evenodd;fill-rule:evenodd;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision"
+   viewBox="0 0 821 821"
+   x="0px"
+   y="0px"
+   id="svg14"
+   sodipodi:docname="noun_1774767_cc.svg"
+   inkscape:export-filename="/Users/yyy/work/src/off/offirmo-monorepo/5-incubator/clicker/src2/noun_1774767_cc.png"
+   inkscape:export-xdpi="14.733813"
+   inkscape:export-ydpi="14.733813"
+   width="821"
+   height="821"
+   inkscape:version="0.92.2 5c3e80d, 2017-08-06"><metadata
+     id="metadata18"><rdf:RDF><cc:Work
+         rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1025"
+     inkscape:window-height="743"
+     id="namedview16"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:zoom="0.22290437"
+     inkscape:cx="-183.92532"
+     inkscape:cy="304.625"
+     inkscape:window-x="96"
+     inkscape:window-y="32"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg14" /><defs
+     id="defs4"><style
+       type="text/css"
+       id="style2">
+
+    .fil0 {fill:black}
+
+  </style></defs><g
+     id="g8"
+     transform="translate(-13,-13)"><path
+       class="fil0"
+       d="M 267,579 H 13 V 267 H 267 V 13 H 579 V 267 H 834 V 579 H 579 V 834 H 267 Z m 59,196 H 521 V 521 H 775 V 326 H 521 V 72 H 326 V 326 H 72 v 195 h 254 z"
+       id="path6"
+       inkscape:connector-curvature="0"
+       style="fill:#000000" /></g></svg>

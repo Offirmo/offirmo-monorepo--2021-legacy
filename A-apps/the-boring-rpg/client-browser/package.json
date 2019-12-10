@@ -1,0 +1,63 @@
+{
+	"name": "@tbrpg/client-browser",
+	"description": "⚔🛡💰 The boring RPG browser game, reborn!",
+	"version": "0.0.1",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+
+	"dependencies": {
+		"@offirmo-private/ensure-device-uuid-browser": "^0",
+		"@offirmo-private/favicon-notifications": "^0",
+		"@offirmo-private/features-detection-browser": "^0",
+		"@offirmo-private/marketing-rsrc": "^0",
+		"@offirmo-private/poll-window-variable": "^0",
+		"@offirmo-private/react-error-boundary": "^0",
+		"@offirmo-private/rich-text-format": "^0",
+		"@offirmo-private/rich-text-format-to-react": "^0",
+		"@offirmo-private/soft-execution-context": "^0.0.2",
+		"@offirmo-private/soft-execution-context-browser": "^0.0.2",
+		"@offirmo/tiny-singleton": "^0",
+		"@offirmo/universal-debug-api-browser": "^0",
+		"@offirmo-private/view-chat": "^0",
+		"@oh-my-rpg/audio-browser": "^0",
+		"@oh-my-rpg/definitions": "^0",
+		"@oh-my-rpg/rsrc-backgrounds": "^0",
+		"@oh-my-rpg/view-browser-react": "^0",
+		"@oh-my-rpg/view-rich-text": "^0",
+		"@tbrpg/flux": "^0",
+		"@tbrpg/interfaces": "^0",
+		"@tbrpg/state": "^0",
+		"bowser": "^1",
+		"classnames": "^2",
+		"fetch-inject": "^2",
+		"fraction.js": "^4",
+		"lodash": "^4",
+		"prop-types": "^15",
+		"raven-js": "^3",
+		"react": "^16",
+		"react-animation-frame": "^1",
+		"react-dom": "^16",
+		"react-router-dom": "^5",
+		"tiny-invariant": "^1",
+		"tslib": "^1",
+		"typescript-string-enums": "^1"
+	},
+
+	"scripts": {
+		"clean": "node ../../../0-scripts/clean.js dist cache",
+
+		"refresh-build-variables": "node ../../../0-scripts/update_build_variables.js --inputDir=../state",
+		"start:parcel": "PARCEL_AUTOINSTALL=false parcel src/index.html --out-dir .parcel --no-autoinstall --port 8080 --no-hmr",
+
+		"build:parcel": "parcel build src/index.html --public-url ./",
+
+		"dev": "run-s start:parcel",
+		"build": "run-s build:parcel"
+	},
+	"devDependencies": {
+		"@babel/core": "^7",
+		"@offirmo-private/timestamps": "^0",
+		"npm-run-all": "^4"
+	}
+}

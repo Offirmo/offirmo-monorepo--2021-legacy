@@ -1,0 +1,36 @@
+{
+	"name": "@offirmo-private/better-console-group",
+	"description": "Break out from collapsed console.group() on warn+",
+	"version": "0.0.1",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+
+	"esnext": "dist/src.es2019/index.js",
+	"module": "dist/src.es2019/index.js",
+	"main": "dist/src.es2018.cjs/index.js",
+	"typings": "dist/src.es2018.cjs/index.d.ts",
+	"source": "src/index.ts",
+	"sideEffects": false,
+
+	"peerDependencies": {
+	},
+	"dependencies": {
+		"@offirmo/tiny-singleton": "^0"
+	},
+
+	"devDependencies": {
+		"np": "^5",
+		"npm-run-all": "^4"
+	},
+	"scripts": {
+		"clean": "node ../../0-scripts/clean.js dist",
+
+		"build:dev:watch": "node ../../0-scripts/build-typescript.js --watch",
+		"build:prod": "node ../../0-scripts/build-typescript.js",
+
+		"dev": "run-s clean build:dev:watch",
+		"build": "run-s build:prod",
+		"demo:n": "node doc/demo/index.js",
+		"demo:b": "parcel --out-dir .parcel --no-autoinstall doc/demo/index.html"
+	}
+}

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   viewBox="0 0 630 630"
+   id="svg1669"
+   sodipodi:docname="sizelimit-editable-fonts.svg"
+   inkscape:version="0.92.2 5c3e80d, 2017-08-06"
+   inkscape:export-filename="/Users/yyy/work/src/off/offirmo-monorepo/0-doc/- logos/semver.png"
+   inkscape:export-xdpi="19.5"
+   inkscape:export-ydpi="19.5">
+  <metadata
+     id="metadata1675">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs1673" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1677"
+     inkscape:window-height="1026"
+     id="namedview1671"
+     showgrid="false"
+     inkscape:zoom="0.1767767"
+     inkscape:cx="23.04102"
+     inkscape:cy="611.06561"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="logo"
+     inkscape:snap-bbox="true" />
+  <!--
+The MIT License (MIT)
+
+Copyright (c) 2011 Christopher Williams <chris@iterativedesigns.com>,
+                     Manuel Strehl <boldewyn@gmail.com>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
+  <g
+     id="logo">
+    <rect
+       id="background"
+       x="0"
+       y="0"
+       width="630"
+       height="630"
+       style="fill:#543d46;fill-opacity:1" />
+    <text
+       id="text2257"
+       y="771.83594"
+       x="45.621574"
+       style="font-style:normal;font-weight:normal;font-size:96.90802002px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffebbc;fill-opacity:1;stroke:none;stroke-width:0.72681016"
+       xml:space="preserve"
+       transform="scale(1.375875,0.72681021)"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:172.93727112px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#ffebbc;fill-opacity:1;stroke-width:0.72681016"
+         y="771.83594"
+         x="45.621574"
+         id="tspan2255"
+         sodipodi:role="line">3kB</tspan></text>
+    <g
+       style="fill:#ffebbc;fill-opacity:1"
+       id="g6329"
+       transform="matrix(3.6144379,0,0,3.6144379,134.30341,63.826289)">
+      <path
+         style="clip-rule:evenodd;fill:#ffebbc;fill-opacity:1;fill-rule:evenodd"
+         id="path6327"
+         d="M 81.344,34 H 57.001 l -0.246,-1.28 c 5.815,-2.598 9.883,-8.384 9.883,-15.152 0,-9.177 -7.467,-16.623 -16.645,-16.623 -9.177,0 -16.643,7.476 -16.643,16.653 0,6.769 4.068,12.52 9.882,15.118 L 42.987,34 H 18.642 L 3.986,99 H 96 Z M 40.138,17.608 c 0,-5.443 4.413,-9.856 9.855,-9.856 5.445,0 9.856,4.414 9.856,9.856 0,3.452 -1.777,6.486 -4.465,8.246 -0.989,-1.215 -3.02,-2.057 -5.392,-2.057 -2.37,0 -4.401,0.842 -5.39,2.057 -2.686,-1.761 -4.464,-4.794 -4.464,-8.246 z"
+         inkscape:connector-curvature="0" />
+    </g>
+  </g>
+</svg>

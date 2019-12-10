@@ -6,17 +6,18 @@
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 	"private": true,
+
 	"scripts": {
 		"clean": "bolt ws run clean && bolt ws exec -- rm -rf .cache .parcel dist node_modules yarn.lock package-lock.json yarn-error.log",
 		"test": "bolt ws run test",
 		"build": "bolt ws run build",
-		"eslint:packages": "eslint '{0-stdlib,1-foundation,2-advanced,3-tools,4-incubator,9-oh-my-rpg,apps}/**/{src,doc}/**/*.{ts,tsx,js,jsx,json}'",
+		"eslint:packages": "eslint '{1-stdlib,2-foundation,3-advanced,4-tools,5-incubator,9-oh-my-rpg,A-apps}/**/{src,doc}/**/*.{ts,tsx,js,jsx,json}'",
 		"eslint:config": "eslint '**/{\\.eslintrc.js,\\.prettierrc.js,webpack.config.ts,*.json}'",
-		"eslint:misc": "eslint '{meta,scripts,typings-custom}/**/*.{ts,tsx,js,jsx,json}'",
-		"eslintxx": "eslint '4-incubator/**/{src,doc}/**/*.{ts,tsx,js,jsx,json}'",
+		"eslint:misc": "eslint '{0-meta,0-scripts,0-typings-custom}/**/*.{ts,tsx,js,jsx,json}'",
+		"eslintxx": "eslint '5-incubator/**/{src,doc}/**/*.{ts,tsx,js,jsx,json}'",
 		"lint": "run-s eslint:packages eslint:config eslint:misc",
 		"puer": "puer --no-launch --port 1981 --allow-cors",
-		"deploy": "./scripts/deploy_tbrpg.sh"
+		"deploy": "./0-scripts/deploy_tbrpg.sh"
 	},
 	"browserslist": [
 		"last 2 Chrome versions",
@@ -24,14 +25,15 @@
 	],
 	"bolt": {
 		"workspaces": [
-			"0-stdlib/*",
-			"1-foundation/*",
-			"2-advanced/*",
-			"3-tools/*",
-			"4-incubator/*",
+			"1-stdlib/*",
+			"2-foundation/*",
+			"3-advanced/*",
+			"4-tools/*",
+			"5-incubator/active/*",
 			"9-oh-my-rpg/*",
-			"apps/shared/*",
-			"apps/the-boring-rpg/*"
+			"A-apps/shared/*",
+			"A-apps/the-boring-rpg/*",
+			"B-minisites/*"
 		]
 	},
 	"dependencies": {

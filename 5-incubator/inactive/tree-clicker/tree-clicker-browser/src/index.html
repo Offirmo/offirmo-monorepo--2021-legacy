@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!-- html5_006 : WTE micro template -->
+<html lang="en" xml:lang="en" class="o⋄top-container">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="Content-Language" content="en" />
+
+		<title>Tree Clicker</title>
+
+		<!-- TODO https://realfavicongenerator.net/ -->
+
+		<style type="text/css">
+			/* super early styles while the page is loading */
+		</style>
+	</head>
+
+	<body class="o⋄top-container o⋄body⁚full-page o⋄font⁚roboto" data-o-theme="dol--tree-clicker">
+		<noscript>You need to enable JavaScript to run this app.</noscript>
+
+		<div id="root" class="o⋄top-container"></div>
+	</body>
+
+	<script>
+		// I absolutely don't understand this bug but nevermind, easy to fix
+		if (document.URL === 'https://www.online-adventur.es/A-apps/tree-clicker') {
+			console.log('strange non-/ case, redirecting...')
+			window.location = document.URL + '/'
+		}
+	</script>
+
+	<script async src="./index.tsx"></script>
+
+	<!-- TODO Global site tag (gtag.js) - Google Analytics -->
+
+	<!-- netlify identity, hard to embed in the bundle (babel issues) -->
+	<script defer type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</html>

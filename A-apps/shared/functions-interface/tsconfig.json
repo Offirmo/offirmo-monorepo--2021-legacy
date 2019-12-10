@@ -1,0 +1,7 @@
+{
+	"extends": "../../../0-meta/tsconfig.json",
+	"include": [
+		"../../../0-typings-custom/**/*.ts",
+		"src/**/*.ts"
+	]
+}

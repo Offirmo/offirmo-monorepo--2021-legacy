@@ -1,0 +1,32 @@
+{
+	"name": "@offirmo/loggers-types-and-stubs",
+	"description": "Typescript interfaces of common loggers + a \"do nothing\" implementation for each of them",
+	"version": "0.2.0",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"private": true,
+	"license": "Unlicense",
+
+	"main": "dist/src.es7.cjs/index.js",
+	"jsnext:main": "dist/src.es7/index.js",
+	"typings": "dist/src.es7.cjs/index.d.ts",
+
+	"peerDependencies": {
+		"tslib": "^1"
+	},
+	"dependencies": {
+		"@offirmo/common-error-fields": "^0.0.1"
+	},
+
+	"devDependencies": {
+		"npm-run-all": "^4",
+		"ts-node": "^5"
+	},
+	"scripts": {
+		"clean": "node ../../0-scripts/clean.js dist",
+		"build:dev:watch": "node ../../0-scripts/build-typescript.js --watch",
+		"build:prod": "node ../../0-scripts/build-typescript.js",
+		"dev": "run-s clean build:dev:watch",
+		"build": "run-s clean build:prod",
+		"demo": "ts-node doc/demo.ts"
+	}
+}

@@ -1,0 +1,63 @@
+{
+	"name": "@tbrpg/client-node",
+	"description": "⚔🛡💰 The npm RPG, a command line RPG game. Just ⌨ `npx the-npm-rpg`!",
+	"repository": "https://github.com/Offirmo/offirmo-monorepo.git",
+	"version": "0.57.3",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"private": true,
+	"license": "Unlicense",
+	"engines": {
+		"node": ">=8.5"
+	},
+	"dependencies": {
+		"conf": "^2"
+	},
+	"bin": "./bin/index.js",
+	"scripts": {
+		"__dev": "~~~~~~~ DEVELOPMENT ~~~~~~~",
+		"clean": "node ../../../0-scripts/clean.js dist cache",
+		"bump": "npm version patch",
+		"build:prod": "cross-env NODE_ENV=development webpack --config meta/webpack.config.ts",
+		"start": "node src/index.js",
+		"__helpers": "----------- Helpers -----------",
+		"build": "run-s clean bump build:prod",
+		"bin": "bin/index.js"
+	},
+	"devDependencies": {
+		"@offirmo/marketing-rsrc": "^0.0.1",
+		"@offirmo/practical-logger-node": "^0.0.1",
+		"@offirmo/prettify-json": "^0.0.1",
+		"@offirmo/rich-text-format": "^0.0.1",
+		"@offirmo/rich-text-format-to-ansi": "^0.0.1",
+		"@offirmo/soft-execution-context": "^0.0.2",
+		"@offirmo/soft-execution-context-node": "^0.0.2",
+		"@offirmo/unicode-data": "^0.0.1",
+		"@offirmo/view-chat": "^0.0.1",
+		"@offirmo/view-chat-ui-tty": "^0.0.1",
+		"@oh-my-rpg/definitions": "^0.0.1",
+		"@oh-my-rpg/logic-adventures": "^0.0.1",
+		"@oh-my-rpg/logic-armors": "^0.0.1",
+		"@oh-my-rpg/logic-weapons": "^0.0.1",
+		"@oh-my-rpg/state-character": "^0.0.1",
+		"@oh-my-rpg/state-energy": "^0.0.1",
+		"@oh-my-rpg/state-inventory": "^0.0.1",
+		"@oh-my-rpg/state-prng": "^0.0.1",
+		"@tbrpg/state": "^0",
+		"@oh-my-rpg/view-rich-text": "^0.0.1",
+		"chalk": "^2",
+		"fetchival": "^0.3",
+		"gauge": "^2",
+		"latest-version": "^4",
+		"npm-run-all": "^4",
+		"opn": "^5",
+		"package-json": "^6",
+		"semver": "^5",
+		"tslib": "^1",
+		"username": "^4",
+		"webpack": "^4"
+	},
+	"custom-field": "just curious",
+	"custom-object": {
+		"will": "it do something?"
+	}
+}

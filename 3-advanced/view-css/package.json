@@ -1,0 +1,24 @@
+{
+	"name": "@offirmo-private/view-css",
+	"version": "0.0.1",
+	"private": true,
+	"description": "Small reusable CSS classes",
+	"license": "Unlicense",
+	"scripts": {
+		"clean": "node ../../0-scripts/clean.js dist cache",
+		"start:parcel": "parcel --out-dir .parcel --no-autoinstall doc/demo/*.html",
+		"demo": "run-s clean start:parcel",
+
+		"build:copy": "mkdir -p dist && cpx 'src/**/*.woff2' dist --verbose",
+		"build:cleancss:main": "mkdir -p dist && cleancss --skip-rebase --output dist/offirmo-reset+utils.css src/style.css",
+		"build": "npm-run-all --parallel build:copy build:cleancss:main"
+	},
+	"dependencies": {
+	},
+	"devDependencies": {
+		"clean-css-cli": "^4",
+		"cpx": "^1",
+		"normalize.css": "^8",
+		"npm-run-all": "^4"
+	}
+}

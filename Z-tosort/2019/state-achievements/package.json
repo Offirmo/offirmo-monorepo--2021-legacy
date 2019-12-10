@@ -1,0 +1,33 @@
+{
+	"name": "@oh-my-rpg/state-achievements",
+	"version": "0.0.1",
+	"private": true,
+	"description": "achievements",
+	"main": "dist/src.es7.cjs/index.js",
+	"typings": "dist/src.es7.cjs/index.js",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "UNLICENSED",
+	"peerDependencies": {
+		"@offirmo/soft-execution-context": "^0.0.2"
+	},
+	"dependencies": {
+		"@oh-my-rpg/definitions": "^0.0.1",
+		"deep-freeze-strict": "^1",
+		"typescript-string-enums": "^0.3"
+	},
+	"devDependencies": {
+		"@oh-my-rpg/migration-tester": "^0.0.1",
+		"npm-run-all": "^4",
+		"tslib": "^1"
+	},
+	"scripts": {
+		"clean": "node ../../0-scripts/clean.js dist",
+
+		"build:dev:watch": "node ../../0-scripts/build-typescript.js --watch",
+		"build:prod": "node ../../0-scripts/build-typescript.js",
+
+		"dev": "run-s clean build:dev:watch",
+		"test": "../../node_modules/.bin/mocha --opts ../../4-tools/unit-test-toolbox/mocha.opts ../../4-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es7.cjs/**/*spec.js'",
+		"build": "run-s clean build:prod"
+	}
+}

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>[Universal Debug API companion] TEST PAGE</title>
+	<script>
+		window._CONTEXT = 'final page'
+		window.foo = window.foo || 'the page!'
+		console.warn(`[📄 demo/head-inline.${+Date.now()}] Hello, as early as I could!`, {
+			foo_js: window.foo,
+			foo_ls: (() => {
+				try {
+					// local files may not have local storage
+					return localStorage.getItem('foo')
+				}
+				catch {}
+			})(),
+			_debug: window._debug,
+		})
+	</script>
+	<link rel="stylesheet" type="text/css"
+			href="https://cdn.jsdelivr.net/gh/Offirmo/offirmo-monorepo@master/3-advanced/view-css/dist/offirmo-reset%2Butils.css" />
+</head>
+<body>
+	<h1>Hello from [Universal Debug API companion] test page !</h1>
+</body>
+</html>

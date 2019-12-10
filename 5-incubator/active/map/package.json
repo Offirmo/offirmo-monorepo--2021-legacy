@@ -1,0 +1,37 @@
+{
+	"name": "@offirmo-private/map",
+	"description": "map",
+	"version": "0.0.1",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+
+	"dependencies": {
+		"@offirmo-private/ensure-device-uuid-browser": "^0",
+		"@offirmo-private/features-detection-browser": "^0",
+		"@offirmo-private/poll-window-variable": "^0",
+		"@offirmo-private/prettify-json": "^0",
+		"@offirmo-private/view-css": "^0",
+		"@offirmo/tiny-singleton": "^0",
+		"@offirmo/universal-debug-api-placeholder": "^0",
+		"leaflet": "^1",
+		"tiny-invariant": "^1",
+		"tslib": "^1",
+		"typescript-string-enums": "^1"
+	},
+
+	"scripts": {
+		"clean": "node ../../../0-scripts/clean.js dist cache",
+
+		"start:parcel": "PARCEL_AUTOINSTALL=false parcel src/index.html --out-dir .parcel --no-autoinstall",
+
+		"build:parcel": "parcel build src/index.html --public-url ./",
+
+		"dev": "run-s start:parcel",
+		"build": "run-s build:parcel"
+	},
+	"devDependencies": {
+		"@babel/core": "^7",
+		"npm-run-all": "^4"
+	}
+}
