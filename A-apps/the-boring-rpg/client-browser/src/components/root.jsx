@@ -12,7 +12,7 @@ import Home from './pages/home'
 import Savegame from './pages/savegame'
 import Dev from './pages/dev'
 import Diagnostic from './pages/diagnostic'
-import DevUI from './0-meta/dev-area'
+import DevUI from './meta/dev-area'
 
 //console.log(__filename)
 /////////////////////////////////////////////////

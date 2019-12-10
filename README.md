@@ -21,12 +21,12 @@ Public npm modules:
 
 
 Public webapps:
-* [The Boring RPG, reborn](https://www.online-adventur.es/apps/the-boring-rpg/)
+* [The Boring RPG, reborn](https://www.online-adventur.es/A-apps/the-boring-rpg/)
 
 Public webextensions:
-* [Universal Debug API companion](3-tools/universal-debug-api-companion-webextension/README.md)
+* [Universal Debug API companion](4-tools/universal-debug-api-companion-webextension/README.md)
   * [Firefox](https://addons.mozilla.org/en-US/firefox/addon/universal-debug-api-companion/)
-  * Chrome: pending
+  * [Chrome](https://chrome.google.com/webstore/detail/offirmo%E2%80%99s-universal-web-d/cnbgbjmliafldggmfijmnbpdiikcalnl)
 
 
 ## Usage
@@ -67,13 +67,23 @@ bolt ws run cheatsheet
 bolt ws run cheatsheet --only @offirmo-private/*
 bolt ws run cheatsheet --only @oh-my-rpg/*
 
-
 ## build all or a subset
 bolt ws run build
 bolt ws run build --only @offirmo-private/*
 bolt ws run test --only @offirmo-private/*
+bolt ws run build --only-fs "1-stdlib/*"
+bolt ws run test --only-fs "1-stdlib/*"
+bolt ws run build --only-fs "2-foundation/*"
+bolt ws run test --only-fs "2-foundation/*"
+bolt ws run build --only-fs "3-advanced/*"
+bolt ws run test --only-fs "3-advanced/*"
+bolt ws run build --only-fs "4-tools/*"
+bolt ws run build --only-fs "5-incubator/*"
 bolt ws run build --only @oh-my-rpg/*
 bolt ws run test --only @oh-my-rpg/*
+bolt ws run build --only-fs "A-apps/**/*"
+bolt ws run test --only-fs "A-apps/**/*"
+bolt ws run build --only-fs "B-minisites/*"
 bolt w @oh-my-rpg/definitions run build
 
 

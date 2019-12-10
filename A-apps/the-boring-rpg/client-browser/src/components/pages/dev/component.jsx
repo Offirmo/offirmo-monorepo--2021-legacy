@@ -5,7 +5,7 @@ import { render_adventure, render_character_sheet, render_full_inventory, render
 import { Short, Detailed } from '../../misc/interactive-element'
 import rich_text_to_react from '../../../services/rich-text-to-react'
 import get_game_instance from '../../../services/game-instance-browser'
-import { render_meta } from '../../panels/0-meta/component'
+import { render_meta } from '../../panels/meta/component'
 import './index.css'
 
 const PageDevViewM = React.memo(

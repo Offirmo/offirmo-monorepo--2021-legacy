@@ -24,10 +24,10 @@
 	},
 
 	"scripts": {
-		"clean": "node ../../scripts/clean.js dist",
-		"test": "../../node_modules/.bin/mocha --opts ../../3-tools/unit-test-toolbox/mocha.opts ../../3-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2018.cjs/**/*spec.js'",
-		"build:dev:watch": "node ../../scripts/build-typescript.js --watch",
-		"build:prod": "node ../../scripts/build-typescript.js",
+		"clean": "node ../../0-scripts/clean.js dist",
+		"test": "../../node_modules/.bin/mocha --opts ../../4-tools/unit-test-toolbox/mocha.opts ../../4-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2018.cjs/**/*spec.js'",
+		"build:dev:watch": "node ../../0-scripts/build-typescript.js --watch",
+		"build:prod": "node ../../0-scripts/build-typescript.js",
 		"start:parcel": "parcel --out-dir .parcel --no-autoinstall doc/demo/index.html",
 
 		"build": "run-s build:prod",

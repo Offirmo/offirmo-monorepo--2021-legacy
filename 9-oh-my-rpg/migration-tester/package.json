@@ -19,7 +19,7 @@
 	},
 
 	"scripts": {
-		"test": "../../node_modules/.bin/mocha --opts ../../3-tools/unit-test-toolbox/mocha.opts ../../3-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2018.cjs/**/*spec.js'",
+		"test": "../../node_modules/.bin/mocha --opts ../../4-tools/unit-test-toolbox/mocha.opts ../../4-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2018.cjs/**/*spec.js'",
 		"demo": "./demo/demo.js"
 	},
 	"devDependencies": {

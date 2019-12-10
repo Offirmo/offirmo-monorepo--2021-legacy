@@ -18,12 +18,15 @@ node_modules
 **/dist/src.es2019/
 **/dist/src.es2018.cjs/
 ## non-standard dist
-3-tools/universal-debug-api-companion-webextension/dist/
+4-tools/universal-debug-api-companion-webextension/dist/
 #apps/the-boring-rpg/functions/functions -> NO, to make them available in staging!
 ## misc
 #...
+
+
 ## tools folders
 .netlify
+
 
 ## caches
 .cache
@@ -32,4 +35,3 @@ node_modules
 
 ## may be auto-generated (shouldn't), but not used
 package-lock.json
-

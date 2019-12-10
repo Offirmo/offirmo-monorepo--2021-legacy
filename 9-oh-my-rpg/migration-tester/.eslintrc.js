@@ -3,7 +3,7 @@ module.exports = {
 		'node': true,
 	},
 	'extends': [
-		'../../meta/node.eslintrc.js',
+		'../../0-meta/node.eslintrc.js',
 	],
 	'rules': {
 		'no-console': 'off',
