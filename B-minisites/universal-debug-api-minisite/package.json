@@ -1,6 +1,6 @@
 {
 	"name": "@offirmo/universal-debug-api-minisite",
-	"description": "website showcasing Offirmo's univeral debug API",
+	"description": "website showcasing Offirmo's universal debug API",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
@@ -13,6 +13,7 @@
 
 	"devDependencies": {
 		"@babel/core": "^7",
+		"@offirmo-private/view-css": "^0",
 		"np": "^5",
 		"npm-run-all": "^4",
 		"parcel-bundler": "^1"

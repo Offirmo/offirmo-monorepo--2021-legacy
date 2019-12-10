@@ -10,7 +10,7 @@ import logger from './logger'
 
 ////////////////////////////////////
 
-function create({ rpc_url, method = 'POST' }: { rpc_url: string, method: string }): JsonRpcCaller {
+function create({ rpc_url, method = 'POST' }: { rpc_url: string, method?: string }): JsonRpcCaller {
 	assert(rpc_url)
 
 	const http_method = method

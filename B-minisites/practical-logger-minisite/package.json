@@ -12,6 +12,7 @@
 
 	"devDependencies": {
 		"@babel/core": "^7",
+		"@offirmo-private/view-css": "^0",
 		"np": "^5",
 		"npm-run-all": "^4",
 		"parcel-bundler": "^1"

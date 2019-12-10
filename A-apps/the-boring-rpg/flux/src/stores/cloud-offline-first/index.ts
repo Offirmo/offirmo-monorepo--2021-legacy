@@ -82,6 +82,7 @@ function create(
 
 				const call_json_rpc = create_jsonrpc_client({
 					rpc_url: get_json_rpc_url(SEC),
+					method: 'PATCH',
 				})
 
 				const get_synchronizer = tiny_singleton(() => create_synchronizer({

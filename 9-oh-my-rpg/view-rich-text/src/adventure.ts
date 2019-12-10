@@ -1,7 +1,7 @@
 import { InventorySlot, ITEM_SLOTS } from '@oh-my-rpg/definitions'
 import { CHARACTER_ATTRIBUTES, CharacterAttribute } from '@oh-my-rpg/state-character'
 import { i18n_messages as I18N_ADVENTURES } from '@oh-my-rpg/logic-adventures'
-import { Adventure, GainType } from '@tbrpg/state'
+import { Adventure } from '@tbrpg/state'
 import { ALL_CURRENCIES, Currency, get_currency_amount } from '@oh-my-rpg/state-wallet'
 
 import * as RichText from '@offirmo-private/rich-text-format'

@@ -78,13 +78,14 @@ bolt ws run test --only-fs "2-foundation/*"
 bolt ws run build --only-fs "3-advanced/*"
 bolt ws run test --only-fs "3-advanced/*"
 bolt ws run build --only-fs "4-tools/*"
-bolt ws run build --only-fs "5-incubator/*"
+bolt ws run build --only-fs "5-incubator/**/*"
 bolt ws run build --only @oh-my-rpg/*
 bolt ws run test --only @oh-my-rpg/*
 bolt ws run build --only-fs "A-apps/**/*"
 bolt ws run test --only-fs "A-apps/**/*"
 bolt ws run build --only-fs "B-minisites/*"
 bolt w @oh-my-rpg/definitions run build
+
 
 
 ## clean
@@ -125,7 +126,9 @@ Tools
 
 ## License
 
-`UNLICENSE` so far.
+* WARNING: If present, an individual package's license overrides the root one!
+* WARNING: the code is free but not the *marketing efforts*, i.e. you are free to copy but must reasonably change the name if competing
+* by default: `UNLICENSE` so far.
 
 I'm not an expert in licenses, so my work is **implicitly dual-licensed** as fully private for my own use.
 This is to allow me to change the license in the future if deemed needed.
@@ -134,7 +137,7 @@ This is to allow me to change the license in the future if deemed needed.
                  /
 private version ---------- (forever living private branch)
                        \ (maybe in the future)
-                         CC0 branch
+                         CC0 branch (for ex.)
 ```
 The general principle is that I want to give back,
 and I don't mind people reusing my code and creating jobs / value from it even without crediting me.
@@ -143,6 +146,4 @@ However, I'd like the (small) marketing efforts I made to benefit only me,
 for ex. the name of the modules or the apps may not be re-usable.
 Also I don't want my name to be used as an endorsement.
 
-That's why I'm looking into [CC0](https://creativecommons.org/publicdomain/zero/1.0/).
-
-Not sure yet.
+That's why I'm looking into [CC0](https://creativecommons.org/publicdomain/zero/1.0/) but not decided yet.

@@ -1,3 +1,3 @@
 
 
-TODO remove the dependency on @tbrpg/state
+TODO remove the cyclic dependency on @tbrpg/state !

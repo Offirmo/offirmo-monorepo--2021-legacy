@@ -1,19 +1,6 @@
 ## Notes
 TODO https://www.npmjs.com/package/eslint-import-resolver-typescript
 
-Fragments
-```js
-		"memoize-one": "^5",
-		"tiny-invariant": "^1",
-		
-			"apps/immortal-clicker/*"
-
-```
-
-import memoize_one from 'memoize-one'
-import assert from 'tiny-invariant'
-
-
 https://github.com/mohsinulhaq/react-popper-tooltip
 
 		"@atlaskit/build-releases": "^3",
