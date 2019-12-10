@@ -693,8 +693,8 @@ function consoleSandbox(callback) {
     var wrappedLevels = {};
     // Restore all wrapped console methods
     levels.forEach(function (level) {
-        if (level in global.console && originalConsole[level].__sentry__) {
-            wrappedLevels[level] = originalConsole[level].__sentry_wrapped__;
+        if (level in global.console && originalConsole[level].__sentry_original__) {
+            wrappedLevels[level] = originalConsole[level];
             originalConsole[level] = originalConsole[level].__sentry_original__;
         }
     });
@@ -1075,10 +1075,10 @@ module.exports = require("util");
 
 "use strict";
 
-// EXTERNAL MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/is.js
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/is.js
 var is = __webpack_require__(4);
 
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/memo.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/memo.js
 // tslint:disable:no-unsafe-any
 /**
  * Memo class used for decycle json objects. Uses WeakSet if available otherwise array.
@@ -1132,13 +1132,13 @@ var Memo = /** @class */ (function () {
 }());
 
 //# sourceMappingURL=memo.js.map
-// EXTERNAL MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/misc.js
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/misc.js
 var misc = __webpack_require__(3);
 
-// EXTERNAL MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/string.js
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/string.js
 var string = __webpack_require__(27);
 
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/object.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/object.js
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return fill; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return urlEncode; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return normalizeToSize; });
@@ -1261,9 +1261,9 @@ function jsonSize(value) {
     return utf8Length(JSON.stringify(value));
 }
 /** JSDoc */
-function normalizeToSize(object,
+function normalizeToSize(object, 
 // Default Node.js REPL depth
-depth,
+depth, 
 // 100kB, as 200kB is max payload size, so half sounds reasonable
 maxSize) {
     if (depth === void 0) { depth = 3; }
@@ -4537,18 +4537,18 @@ __webpack_require__.r(analytics_state_namespaceObject);
 __webpack_require__.d(analytics_state_namespaceObject, "create", function() { return analytics_state_create; });
 __webpack_require__.d(analytics_state_namespaceObject, "addDetail", function() { return state_addDetail; });
 
-// EXTERNAL MODULE: /Users/yyy/work/src/off/offirmo-monorepo/1-stdlib/globalthis-ponyfill/dist/src.es2019/index.js
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-stdlib/globalthis-ponyfill/dist/src.es2019/index.js
 var src_es2019 = __webpack_require__(23);
 
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/consts.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/consts.js
 const LIB = 'soft-execution-context';
 const INTERNAL_PROP = '_SEC';
 
-// EXTERNAL MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/emittery/index.js
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/emittery/index.js
 var emittery = __webpack_require__(52);
 var emittery_default = /*#__PURE__*/__webpack_require__.n(emittery);
 
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/root-prototype.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/root-prototype.js
  /////////////////////
 
 const ROOT_PROTOTYPE = Object.create(null); // global bus shared by all SECs
@@ -4563,7 +4563,7 @@ ROOT_PROTOTYPE.setAnalyticsAndErrorDetails = function setAnalyticsAndErrorDetail
 
 
 
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/state.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/state.js
 // Note: let's keep everything immutable
 /////////////////////
 let instance_count = 0;
@@ -4605,7 +4605,7 @@ function reduce_plugin(state, PLUGIN_ID, reducer) {
 
 
 
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/logical-stack/consts.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/logical-stack/consts.js
 const LOGICAL_STACK_BEGIN_MARKER = '';
 const LOGICAL_STACK_END_MARKER = '';
 const LOGICAL_STACK_SEPARATOR = '›'; // '⋅' '↘' ':' '•' '›'
@@ -4615,7 +4615,7 @@ const LOGICAL_STACK_OPERATION_MARKER = ''; // '…'
 
 const LOGICAL_STACK_SEPARATOR_NON_ADJACENT = '…';
 
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/logical-stack/state.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/logical-stack/state.js
 /////////////////////
 function state_create(parent_state) {
   const stack = parent_state ? Object.create(parent_state.stack) : (() => {
@@ -4653,7 +4653,7 @@ function set_operation(state, operation) {
 }
 
 
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/utils.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/utils.js
 
 
 function flattenToOwn(object) {
@@ -4698,7 +4698,7 @@ function _flattenSEC(SEC) {
 }
 
 
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/logical-stack/index.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/logical-stack/index.js
 
 
 
@@ -4828,7 +4828,7 @@ const logical_stack_PLUGIN = {
   }
 };
 
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/dependency-injection/state.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/dependency-injection/state.js
 function dependency_injection_state_create(parent_state) {
   const context = parent_state ? Object.create(parent_state.context) : Object.create(null); // NO auto-injections here, let's keep it simple. See core.
 
@@ -4849,7 +4849,7 @@ function state_injectDependencies(state, key, value) {
 
 
 
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/dependency-injection/index.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/dependency-injection/index.js
 
 
 
@@ -4878,10 +4878,10 @@ const dependency_injection_PLUGIN = {
   }
 };
 
-// EXTERNAL MODULE: /Users/yyy/work/src/off/offirmo-monorepo/2-foundation/common-error-fields/dist/src.es2019/field-set.js
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-foundation/common-error-fields/dist/src.es2019/field-set.js
 var field_set = __webpack_require__(36);
 
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/2-foundation/normalize-error/dist/src.es2019/index.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-foundation/normalize-error/dist/src.es2019/index.js
  // Anything can be thrown: undefined, string, number...)
 // But that's obviously not a good practice.
 // Normalize any thrown object into a true, normal error.
@@ -4899,17 +4899,17 @@ function normalizeError(err_like = {}) {
 }
 
 /* harmony default export */ var dist_src_es2019 = (normalizeError);
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/1-stdlib/promise-try/dist/src.es2019/index.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-stdlib/promise-try/dist/src.es2019/index.js
 // http://2ality.com/2017/08/promise-try.html#work-arounds
 function promiseTry(fn) {
   return Promise.resolve().then(fn);
 }
 
 
-// EXTERNAL MODULE: /Users/yyy/work/src/off/offirmo-monorepo/1-stdlib/timestamps/dist/src.es2019/generate.js
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-stdlib/timestamps/dist/src.es2019/generate.js
 var generate = __webpack_require__(46);
 
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/error-handling/state.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/error-handling/state.js
 /////////////////////
 function error_handling_state_create(parent_state) {
   const details = parent_state ? Object.create(parent_state.details) : Object.create(null); // NO auto-details here, let's keep it simple + usually shared with analytics. See core or platform specific code.
@@ -4931,7 +4931,7 @@ function addDetail(state, key, value) {
 
 
 
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/error-handling/catch-factory.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/error-handling/catch-factory.js
 function createCatcher({
   decorators = [],
   onError,
@@ -4961,7 +4961,7 @@ function createCatcher({
 }
 
 
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/error-handling/index.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/error-handling/index.js
 
 
 
@@ -5115,7 +5115,7 @@ const error_handling_PLUGIN = {
   }
 };
 
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/analytics/state.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/analytics/state.js
 function analytics_state_create(parent_state) {
   const details = parent_state ? Object.create(parent_state.details) : Object.create(null); // NO auto-details here, let's keep it simple. See core or platform specific code.
 
@@ -5136,7 +5136,7 @@ function state_addDetail(state, key, value) {
 
 
 
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/analytics/index.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/analytics/index.js
 
 
 
@@ -5195,7 +5195,7 @@ const analytics_PLUGIN = {
   }
 };
 
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/index.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/index.js
 
 
 
@@ -5208,7 +5208,7 @@ const PLUGINS_BY_ID = {
 };
 const PLUGINS = Object.values(PLUGINS_BY_ID);
 
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/common.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/common.js
 /* global NODE_ENV process */
 
 
@@ -5246,7 +5246,7 @@ function decorateWithDetectedEnv(SEC) {
 }
 
 
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/core.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/core.js
 
 
 
@@ -5300,7 +5300,7 @@ function createSEC(args = {}) {
 }
 
 
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/root.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/root.js
 
 
  /////////////////////
@@ -5321,7 +5321,7 @@ function getRootSEC() {
 
 
 
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/index.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/index.js
 /* concated harmony reexport getRootSEC */__webpack_require__.d(__webpack_exports__, "getRootSEC", function() { return getRootSEC; });
 /* concated harmony reexport LIB */__webpack_require__.d(__webpack_exports__, "LIB", function() { return LIB; });
 /* concated harmony reexport isSEC */__webpack_require__.d(__webpack_exports__, "isSEC", function() { return isSEC; });
@@ -7280,9 +7280,9 @@ var Promise$1 = function () {
   /**
     `finally` will be invoked regardless of the promise's fate just as native
     try/catch/finally behaves
-
+  
     Synchronous example:
-
+  
     ```js
     findAuthor() {
       if (Math.random() > 0.5) {
@@ -7290,7 +7290,7 @@ var Promise$1 = function () {
       }
       return new Author();
     }
-
+  
     try {
       return findAuthor(); // succeed or fail
     } catch(error) {
@@ -7300,9 +7300,9 @@ var Promise$1 = function () {
       // doesn't affect the return value
     }
     ```
-
+  
     Asynchronous example:
-
+  
     ```js
     findAuthor().catch(function(reason){
       return findOtherAuther();
@@ -7310,7 +7310,7 @@ var Promise$1 = function () {
       // author was either found, or not
     });
     ```
-
+  
     @method finally
     @param {Function} callback
     @return {Promise}
@@ -8008,10 +8008,10 @@ __webpack_require__.d(esm_integrations_namespaceObject, "OnUnhandledRejection", 
 __webpack_require__.d(esm_integrations_namespaceObject, "LinkedErrors", function() { return linkederrors_LinkedErrors; });
 __webpack_require__.d(esm_integrations_namespaceObject, "Modules", function() { return modules_Modules; });
 
-// EXTERNAL MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/tslib/tslib.es6.js
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/tslib/tslib.es6.js
 var tslib_es6 = __webpack_require__(0);
 
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/types/esm/severity.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/types/esm/severity.js
 /** JSDoc */
 var Severity;
 (function (Severity) {
@@ -8062,7 +8062,7 @@ var Severity;
     Severity.fromString = fromString;
 })(Severity || (Severity = {}));
 //# sourceMappingURL=severity.js.map
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/types/esm/status.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/types/esm/status.js
 /** The status of an event. */
 var Status;
 (function (Status) {
@@ -8106,13 +8106,13 @@ var Status;
     Status.fromHttpCode = fromHttpCode;
 })(Status || (Status = {}));
 //# sourceMappingURL=status.js.map
-// EXTERNAL MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/hub/esm/scope.js
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/hub/esm/scope.js
 var esm_scope = __webpack_require__(21);
 
-// EXTERNAL MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/hub/esm/hub.js
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/hub/esm/hub.js
 var esm_hub = __webpack_require__(130);
 
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/minimal/esm/index.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/minimal/esm/index.js
 
 
 /**
@@ -8278,7 +8278,7 @@ function _callOnClient(method) {
     callOnHub.apply(void 0, tslib_es6["__spread"](['_invokeClient', method], args));
 }
 //# sourceMappingURL=index.js.map
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/polyfill.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/polyfill.js
 var setPrototypeOf = Object.setPrototypeOf || ({ __proto__: [] } instanceof Array ? setProtoOf : mixinProperties); // tslint:disable-line:no-unbound-method
 /**
  * setPrototypeOf polyfill using __proto__
@@ -8301,7 +8301,7 @@ function mixinProperties(obj, proto) {
     return obj;
 }
 //# sourceMappingURL=polyfill.js.map
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/error.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/error.js
 
 
 /** An error emitted by Sentry SDKs and related utilities. */
@@ -8320,7 +8320,7 @@ var error_SentryError = /** @class */ (function (_super) {
 }(Error));
 
 //# sourceMappingURL=error.js.map
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/dsn.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/dsn.js
 
 
 /** Regular expression used to parse a Dsn. */
@@ -8400,22 +8400,22 @@ var dsn_Dsn = /** @class */ (function () {
 }());
 
 //# sourceMappingURL=dsn.js.map
-// EXTERNAL MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/logger.js
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/logger.js
 var logger = __webpack_require__(41);
 
-// EXTERNAL MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/is.js
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/is.js
 var is = __webpack_require__(4);
 
-// EXTERNAL MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/syncpromise.js
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/syncpromise.js
 var syncpromise = __webpack_require__(17);
 
-// EXTERNAL MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/string.js
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/string.js
 var string = __webpack_require__(27);
 
-// EXTERNAL MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/misc.js
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/misc.js
 var misc = __webpack_require__(3);
 
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/integration.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/integration.js
 
 
 
@@ -8483,7 +8483,7 @@ function setupIntegrations(options) {
     return integrations;
 }
 //# sourceMappingURL=integration.js.map
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/baseclient.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/baseclient.js
 
 
 
@@ -8849,7 +8849,7 @@ var baseclient_BaseClient = /** @class */ (function () {
 }());
 
 //# sourceMappingURL=baseclient.js.map
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/transports/noop.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/transports/noop.js
 
 
 /** Noop transport */
@@ -8875,7 +8875,7 @@ var noop_NoopTransport = /** @class */ (function () {
 }());
 
 //# sourceMappingURL=noop.js.map
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/basebackend.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/basebackend.js
 
 
 /**
@@ -8927,10 +8927,10 @@ var basebackend_BaseBackend = /** @class */ (function () {
 }());
 
 //# sourceMappingURL=basebackend.js.map
-// EXTERNAL MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/object.js + 1 modules
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/object.js + 1 modules
 var object = __webpack_require__(7);
 
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/path.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/path.js
 // Slightly modified (no IE8 support, ES6) and transcribed to TypeScript
 // https://raw.githubusercontent.com/calvinmetcalf/rollup-plugin-node-builtins/master/src/es6/path.js
 /** JSDoc */
@@ -9092,10 +9092,10 @@ function basename(path, ext) {
 // EXTERNAL MODULE: external "fs"
 var external_fs_ = __webpack_require__(8);
 
-// EXTERNAL MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/lru_map/lru.js
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/lru_map/lru.js
 var lru = __webpack_require__(39);
 
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/stacktrace.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/stacktrace.js
 /**
  * stack-trace - Parses node.js stack traces
  *
@@ -9175,7 +9175,7 @@ function parse(err) {
         .filter(function (callSite) { return !!callSite; });
 }
 //# sourceMappingURL=stacktrace.js.map
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/parsers.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/parsers.js
 
 
 
@@ -9416,7 +9416,7 @@ function prepareFramesForEvent(stack) {
     return localStack.reverse();
 }
 //# sourceMappingURL=parsers.js.map
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/api.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/api.js
 
 var SENTRY_API_VERSION = '7';
 /** Helper class to provide urls to different Sentry endpoints. */
@@ -9504,7 +9504,7 @@ var api_API = /** @class */ (function () {
 }());
 
 //# sourceMappingURL=api.js.map
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/promisebuffer.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/promisebuffer.js
 
 
 /** A simple queue that holds promises. */
@@ -9588,11 +9588,11 @@ var promisebuffer_PromiseBuffer = /** @class */ (function () {
 }());
 
 //# sourceMappingURL=promisebuffer.js.map
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/version.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/version.js
 var SDK_NAME = 'sentry.javascript.node';
-var SDK_VERSION = '5.10.1';
+var SDK_VERSION = '5.10.2';
 //# sourceMappingURL=version.js.map
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/base.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/base.js
 
 
 
@@ -9694,7 +9694,7 @@ var base_BaseTransport = /** @class */ (function () {
 // EXTERNAL MODULE: external "http"
 var external_http_ = __webpack_require__(15);
 
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/http.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/http.js
 
 
 
@@ -9729,7 +9729,7 @@ var http_HTTPTransport = /** @class */ (function (_super) {
 // EXTERNAL MODULE: external "https"
 var external_https_ = __webpack_require__(16);
 
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/https.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/https.js
 
 
 
@@ -9761,12 +9761,12 @@ var https_HTTPSTransport = /** @class */ (function (_super) {
 }(base_BaseTransport));
 
 //# sourceMappingURL=https.js.map
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/index.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/index.js
 
 
 
 //# sourceMappingURL=index.js.map
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/backend.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/backend.js
 
 
 
@@ -9872,7 +9872,7 @@ var backend_NodeBackend = /** @class */ (function (_super) {
 }(basebackend_BaseBackend));
 
 //# sourceMappingURL=backend.js.map
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/client.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/client.js
 
 
 
@@ -9912,7 +9912,7 @@ var client_NodeClient = /** @class */ (function (_super) {
 }(baseclient_BaseClient));
 
 //# sourceMappingURL=client.js.map
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/integrations/functiontostring.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/integrations/functiontostring.js
 var originalFunctionToString;
 /** Patch toString calls to return proper name for wrapped functions */
 var FunctionToString = /** @class */ (function () {
@@ -9932,7 +9932,7 @@ var FunctionToString = /** @class */ (function () {
             for (var _i = 0; _i < arguments.length; _i++) {
                 args[_i] = arguments[_i];
             }
-            var context = this.__sentry__ ? this.__sentry_original__ : this;
+            var context = this.__sentry_original__ || this;
             // tslint:disable-next-line:no-unsafe-any
             return originalFunctionToString.apply(context, args);
         };
@@ -9945,7 +9945,7 @@ var FunctionToString = /** @class */ (function () {
 }());
 
 //# sourceMappingURL=functiontostring.js.map
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/integrations/inboundfilters.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/integrations/inboundfilters.js
 
 
 
@@ -10105,11 +10105,11 @@ var inboundfilters_InboundFilters = /** @class */ (function () {
 }());
 
 //# sourceMappingURL=inboundfilters.js.map
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/integrations/index.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/integrations/index.js
 
 
 //# sourceMappingURL=index.js.map
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/index.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/index.js
 
 
 
@@ -10120,7 +10120,7 @@ var inboundfilters_InboundFilters = /** @class */ (function () {
 
 
 //# sourceMappingURL=index.js.map
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/sdk.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/sdk.js
 
 
 /**
@@ -10143,7 +10143,7 @@ var external_domain_ = __webpack_require__(20);
 // EXTERNAL MODULE: external "util"
 var external_util_ = __webpack_require__(5);
 
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/integrations/console.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/integrations/console.js
 
 
 
@@ -10222,7 +10222,7 @@ function createConsoleWrapper(level) {
     };
 }
 //# sourceMappingURL=console.js.map
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/integrations/http.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/integrations/http.js
 
 
 var NODE_VERSION = Object(misc["k" /* parseSemver */])(process.versions.node);
@@ -10362,7 +10362,7 @@ function isSentryRequest(url) {
     return url.indexOf(dsn.host) !== -1;
 }
 //# sourceMappingURL=http.js.map
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/types/esm/span.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/types/esm/span.js
 /** The status of an Span. */
 var SpanStatus;
 (function (SpanStatus) {
@@ -10449,7 +10449,7 @@ var SpanStatus;
     SpanStatus.fromHttpCode = fromHttpCode;
 })(SpanStatus || (SpanStatus = {}));
 //# sourceMappingURL=span.js.map
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/apm/esm/span.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/apm/esm/span.js
 // tslint:disable:max-classes-per-file
 
 
@@ -10719,7 +10719,7 @@ var span_Span = /** @class */ (function () {
 }());
 
 //# sourceMappingURL=span.js.map
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/async.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/async.js
 /**
  * Consumes the promise and logs the error when it rejects.
  * @param promise A promise to forget.
@@ -10731,7 +10731,7 @@ function forget(promise) {
     });
 }
 //# sourceMappingURL=async.js.map
-// EXTERNAL MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/cookie/index.js
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/cookie/index.js
 var cookie = __webpack_require__(40);
 
 // EXTERNAL MODULE: external "os"
@@ -10740,7 +10740,7 @@ var external_os_ = __webpack_require__(18);
 // EXTERNAL MODULE: external "url"
 var external_url_ = __webpack_require__(14);
 
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/handlers.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/handlers.js
 
 
 
@@ -11012,7 +11012,7 @@ function logAndExitProcess(error) {
     }));
 }
 //# sourceMappingURL=handlers.js.map
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/integrations/onuncaughtexception.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/integrations/onuncaughtexception.js
 
 
 
@@ -11125,7 +11125,7 @@ var onuncaughtexception_OnUncaughtException = /** @class */ (function () {
 }());
 
 //# sourceMappingURL=onuncaughtexception.js.map
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/integrations/onunhandledrejection.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/integrations/onunhandledrejection.js
 
 
 
@@ -11206,7 +11206,7 @@ var onunhandledrejection_OnUnhandledRejection = /** @class */ (function () {
 }());
 
 //# sourceMappingURL=onunhandledrejection.js.map
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/integrations/linkederrors.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/integrations/linkederrors.js
 
 
 
@@ -11294,7 +11294,7 @@ var linkederrors_LinkedErrors = /** @class */ (function () {
 // EXTERNAL MODULE: external "path"
 var external_path_ = __webpack_require__(13);
 
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/integrations/modules.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/integrations/modules.js
 
 
 
@@ -11370,7 +11370,7 @@ var modules_Modules = /** @class */ (function () {
 }());
 
 //# sourceMappingURL=modules.js.map
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/integrations/index.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/integrations/index.js
 
 
 
@@ -11378,7 +11378,7 @@ var modules_Modules = /** @class */ (function () {
 
 
 //# sourceMappingURL=index.js.map
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/sdk.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/sdk.js
 
 
 
@@ -11526,7 +11526,7 @@ function sdk_close(timeout) {
     });
 }
 //# sourceMappingURL=sdk.js.map
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/index.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/index.js
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Integrations", function() { return INTEGRATIONS; });
 /* concated harmony reexport Severity */__webpack_require__.d(__webpack_exports__, "Severity", function() { return Severity; });
 /* concated harmony reexport Status */__webpack_require__.d(__webpack_exports__, "Status", function() { return Status; });
@@ -12836,10 +12836,10 @@ exports.require_http_method = require_http_method;
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 
-// EXTERNAL MODULE: /Users/yyy/work/src/off/offirmo-monorepo/1-stdlib/globalthis-ponyfill/dist/src.es2019/index.js
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-stdlib/globalthis-ponyfill/dist/src.es2019/index.js
 var src_es2019 = __webpack_require__(23);
 
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/2-foundation/practical-logger-core/dist/src.es2019/consts.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-foundation/practical-logger-core/dist/src.es2019/consts.js
 const LIB = '@offirmo/practical-logger-core'; // level to a numerical value, for ordering and filtering.
 // mnemonic:  100 = 100% = you will see 100% of the logs
 //              1 =   1% = you will see 1% of the logs (obviously the most important)
@@ -12872,13 +12872,13 @@ const LOG_LEVEL_TO_HUMAN = ALL_LOG_LEVELS.reduce((acc, ll) => {
   return acc;
 }, {});
 
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/2-foundation/practical-logger-core/dist/src.es2019/consts-base.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-foundation/practical-logger-core/dist/src.es2019/consts-base.js
 // base to be directly importable from other modules
 // without a full lib penalty.
 // This a very very specific use case, don't mind.
 const DEFAULT_LOG_LEVEL = 'error';
 const DEFAULT_LOGGER_KEY = ''; // yes, can be used as a key
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/2-foundation/practical-logger-core/dist/src.es2019/normalize-args.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-foundation/practical-logger-core/dist/src.es2019/normalize-args.js
 function looksLikeAnError(x) {
   var _a, _b, _c;
 
@@ -12926,7 +12926,7 @@ function normalizeArguments(raw_args) {
 
   return [message, details];
 }
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/2-foundation/practical-logger-core/dist/src.es2019/core.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-foundation/practical-logger-core/dist/src.es2019/core.js
 
 
 function checkLevel(level) {
@@ -13012,11 +13012,11 @@ function create({
 
   return logger;
 }
-// EXTERNAL MODULE: /Users/yyy/work/src/off/offirmo-monorepo/node_modules/chalk/source/index.js
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/chalk/source/index.js
 var source = __webpack_require__(1);
 var source_default = /*#__PURE__*/__webpack_require__.n(source);
 
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/2-foundation/practical-logger-node/dist/src.es2019/sinks/common.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-foundation/practical-logger-node/dist/src.es2019/sinks/common.js
 
 
 const MIN_WIDTH = 7;
@@ -13063,7 +13063,7 @@ const LEVEL_TO_STYLIZE = {
   trace: s => source_default.a.dim(s),
   silly: s => source_default.a.dim(s)
 };
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/2-foundation/practical-logger-node/dist/src.es2019/sinks/to-console.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-foundation/practical-logger-node/dist/src.es2019/sinks/to-console.js
 /* eslint-disable no-console */
 
 
@@ -13134,7 +13134,7 @@ function createSink(options = {}) {
   };
 }
 /* harmony default export */ var to_console = (createSink);
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/2-foundation/practical-logger-node/dist/src.es2019/index.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-foundation/practical-logger-node/dist/src.es2019/index.js
 
 
 const ORIGINAL_CONSOLE = console;
@@ -13156,9 +13156,9 @@ function createLogger(p = {}) {
 
 
 
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/3-advanced/universal-debug-api-node/dist/src.es2019/consts.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/universal-debug-api-node/dist/src.es2019/consts.js
 const ENV_ROOT = 'UDA';
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/3-advanced/universal-debug-api-node/dist/src.es2019/v1/keys.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/universal-debug-api-node/dist/src.es2019/v1/keys.js
 
 
 
@@ -13176,7 +13176,7 @@ function getEnvKeyForOverride(key) {
   // should we put v1 somewhere? no, most likely overkill.
   return `${ENV_ROOT}_override__${normalizeKey(key)}`.toUpperCase();
 }
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/3-advanced/universal-debug-api-node/dist/src.es2019/v1/index.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/universal-debug-api-node/dist/src.es2019/v1/index.js
 
 
  ////////////////////////////////////
@@ -13336,7 +13336,7 @@ function v1_create() {
 
   return api;
 }
-// CONCATENATED MODULE: /Users/yyy/work/src/off/offirmo-monorepo/3-advanced/universal-debug-api-node/dist/src.es2019/index.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/universal-debug-api-node/dist/src.es2019/index.js
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getLogger", function() { return src_es2019_getLogger; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "exposeInternal", function() { return src_es2019_exposeInternal; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "overrideHook", function() { return src_es2019_overrideHook; });
