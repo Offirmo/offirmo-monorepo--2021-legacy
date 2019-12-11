@@ -43,6 +43,7 @@ console.log('🧙️  Extracted variables:', { VERSION, BUILD_DATE })
 VERSION = semver.clean(VERSION)
 assert(VERSION, 'cleaned VERSION')
 const PARSED_VERSION = semver.parse(VERSION)
+assert(PARSED_VERSION.minor < 100, 'minor too big for numerical version!!!')
 const NUMERIC_VERSION = Number(`${PARSED_VERSION.major}${String(PARSED_VERSION.minor).padStart(2, '0')}.${PARSED_VERSION.patch}`)
 
 console.log('🧙️  Derived variables:', { VERSION, NUMERIC_VERSION })

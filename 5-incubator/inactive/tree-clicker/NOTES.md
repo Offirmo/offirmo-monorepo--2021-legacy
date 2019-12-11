@@ -29,3 +29,5 @@ https://theconversation.com/curious-kids-where-did-trees-come-from-92518
 https://theconversation.com/curious-kids-what-happens-when-fruit-gets-ripe-110797
 
 https://news.slashdot.org/story/19/06/10/2044255/worlds-largest-plant-survey-reveals-alarming-extinction-rate
+
+https://science.slashdot.org/story/19/12/06/2229202/recordings-reveal-that-plants-make-ultrasonic-squeals-when-stressed

@@ -48,12 +48,14 @@
 		"clean": "node ../../../0-scripts/clean.js dist cache",
 
 		"refresh-build-variables": "node ../../../0-scripts/update_build_variables.js --inputDir=../state",
+		"copy-build-data--dev": "mkdir -p .parcel && cp -f src/build.json .parcel",
 		"start:parcel": "PARCEL_AUTOINSTALL=false parcel src/index.html --out-dir .parcel --no-autoinstall --port 8080 --no-hmr",
 
+		"copy-build-data--prod": "cp -f src/build.json dist",
 		"build:parcel": "parcel build src/index.html --public-url ./",
 
-		"dev": "run-s start:parcel",
-		"build": "run-s build:parcel"
+		"dev": "run-p start:parcel copy-build-data--dev",
+		"build": "run-s build:parcel copy-build-data--prod"
 	},
 	"devDependencies": {
 		"@babel/core": "^7",

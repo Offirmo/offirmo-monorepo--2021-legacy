@@ -1,3 +1,6 @@
+repo of bite-sized programming concepts
+* https://lethain.com/distributed-systems-vocabulary/
+* https://github.com/labs42io/clean-code-typescript
 
 programming book:
 https://twitter.com/dan_abramov/status/1190762799338790913

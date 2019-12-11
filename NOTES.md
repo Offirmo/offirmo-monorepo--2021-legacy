@@ -20,7 +20,7 @@ https://github.com/mohsinulhaq/react-popper-tooltip
 		"url-loader": "^1",
 		"webpack": "^4",
 		"webpack-cli": "^3",
-
+		"puer": "^2",
 		"@babel/polyfill": "^7",
 
 warning @babel/node > @babel/polyfill@7.4.4: 🚨 As of Babel 7.4.0, this

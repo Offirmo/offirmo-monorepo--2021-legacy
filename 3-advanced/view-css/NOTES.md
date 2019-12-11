@@ -5,8 +5,8 @@
 mono233
 yarn demo
 
-# launch puer at the root
-p
+# serve the monorepo's root on 1981
+yarn serve
 ```
 visit http://localhost:1234/index.html
 

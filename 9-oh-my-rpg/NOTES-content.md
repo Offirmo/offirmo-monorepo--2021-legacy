@@ -96,6 +96,7 @@ https://en.wikipedia.org/wiki/International_Nuclear_Event_Scale
 
 
 ### cosmique
+* https://science.slashdot.org/story/19/11/23/2214255/hungarian-scientists-may-have-found-a-fifth-force-of-nature
 * https://science.slashdot.org/story/19/07/10/1824216/moons-that-escape-their-planets-could-become-ploonets
 * https://science.slashdot.org/story/19/06/11/2237253/scientists-discover-previously-unidentified-mass-beneath-surface-of-the-moon
 * https://en.wikipedia.org/wiki/Mass_concentration_(astronomy)
@@ -133,6 +134,9 @@ https://en.wikipedia.org/wiki/International_Nuclear_Event_Scale
 ### animaux
 grizzli bataille https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fcari.mcgillivray%2Fvideos%2F10218072269532509%2F&show_text=0&width=560
 
+### humain
+chimere https://science.slashdot.org/story/19/12/09/200204/when-a-dna-test-says-youre-a-younger-man-who-lives-5000-miles-away
+bloodlines
 
 ## magic system
 

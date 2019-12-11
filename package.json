@@ -6,7 +6,6 @@
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 	"private": true,
-
 	"scripts": {
 		"clean": "bolt ws run clean && bolt ws exec -- rm -rf .cache .parcel dist node_modules yarn.lock package-lock.json yarn-error.log",
 		"test": "bolt ws run test",
@@ -16,6 +15,7 @@
 		"eslint:misc": "eslint '{0-meta,0-scripts,0-typings-custom}/**/*.{ts,tsx,js,jsx,json}'",
 		"eslintxx": "eslint '5-incubator/**/{src,doc}/**/*.{ts,tsx,js,jsx,json}'",
 		"lint": "run-s eslint:packages eslint:config eslint:misc",
+		"serve": "serve -l 1981",
 		"puer": "puer --no-launch --port 1981 --allow-cors",
 		"deploy": "./0-scripts/deploy_tbrpg.sh"
 	},
@@ -152,7 +152,6 @@
 		"prettier": "^1",
 		"prettyjson": "^1",
 		"prop-types": "^15",
-		"puer": "^2",
 		"raven-js": "^3",
 		"react": "^16",
 		"react-animation-frame": "^1",
@@ -169,6 +168,7 @@
 		"react-swipeable-views-utils": "^0.13",
 		"recompose": "^0.30",
 		"semver": "^6",
+		"serve": "^11",
 		"ship-hold": "^2",
 		"sinon": "^7",
 		"sinon-chai": "^3",
