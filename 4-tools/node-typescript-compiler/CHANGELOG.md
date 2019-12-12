@@ -2,6 +2,11 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
+
+
+## v2.0.1
+2019/12/12
+* [chore] reorganized source paths = links update in the doc
 * [doc] README++
 * [chore] bumped deps
 
@@ -11,7 +16,6 @@
 * [doc] README++
 * [chore] bumped deps
 
-
 ## 1.2.0
 2018/01/08
 - verbose option
@@ -20,7 +24,7 @@
   They were unreadable and displaying stderr is sufficient
 - optionally display a custom msg before starting stderr,
   useful in case of concurrent builds in the same terminal
-  
+
 ## 1.1.1
 2016/08/15
 - handle new tsc 2.0 array params
