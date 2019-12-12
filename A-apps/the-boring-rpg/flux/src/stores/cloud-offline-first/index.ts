@@ -82,7 +82,7 @@ function create(
 
 				const call_json_rpc = create_jsonrpc_client({
 					rpc_url: get_json_rpc_url(SEC),
-					method: 'PATCH',
+					//method: 'PATCH',
 				})
 
 				const get_synchronizer = tiny_singleton(() => create_synchronizer({
@@ -124,7 +124,11 @@ function create(
 					if (opt_out_reason) return
 
 					const { time, ...debug } = action
-					logger.log(`[${LIB}] ⚡ action dispatched: ${action.type}`, {
+					const is_ignored_action =
+						action.type === ActionType.update_to_now
+						|| action.type === ActionType.on_start_session
+
+					logger[is_ignored_action ? 'silly' : 'log'](`[${LIB}] ⚡ action dispatched: ${action.type}`, {
 						//action: debug,
 						//pending_actions: pending_actions.length,
 					})
@@ -135,7 +139,7 @@ function create(
 					}
 
 					// ignore some actions
-					if (action.type === ActionType.update_to_now) {
+					if (is_ignored_action) {
 						return
 					}
 					else if (action.type === ActionType.on_logged_in_refresh) {

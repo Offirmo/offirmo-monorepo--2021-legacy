@@ -33,7 +33,7 @@ function create({ rpc_url, method = 'POST' }: { rpc_url: string, method?: string
 			params,
 		}
 
-		logger.log(`RPC #${request_id}…`, { rpc_url, http_method, method, params, request })
+		logger.trace(`RPC #${request_id}…`, { rpc_url, http_method, method, params, request })
 
 		let is_status_success = false // so far
 		let response_for_logging: any
@@ -71,7 +71,7 @@ function create({ rpc_url, method = 'POST' }: { rpc_url: string, method?: string
 				if (!response)
 					throw new Error('No response data!')
 
-				logger.log(`RPC #${request_id} answered:`, {rpc_url, http_method, method, params, request, response: response_for_logging})
+				logger.trace(`RPC #${request_id} answered:`, {rpc_url, http_method, method, params, request, response: response_for_logging})
 
 				const {jsonrpc, id: response_id, error, result} = response
 				if (!jsonrpc)
@@ -90,7 +90,7 @@ function create({ rpc_url, method = 'POST' }: { rpc_url: string, method?: string
 				return result
 			})
 			.catch((err: Error) => {
-				logger.error(`RPC #${request_id} failed!`, {rpc_url, http_method, method, params, request, response: response_for_logging, err})
+				logger.error(`RPC #${request_id} failed!`, {rpc_url, http_method, method, params, request, response: response_for_logging, err, err_message: err.message})
 				throw err
 			})
 	}
