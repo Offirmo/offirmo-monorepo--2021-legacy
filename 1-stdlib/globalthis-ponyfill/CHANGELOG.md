@@ -4,6 +4,10 @@
 ## PENDING
 * ...
 
+## v2.0.1
+2019/12/12
+* [chore] reorganized source paths = links updated in the doc
+
 ## v2.0.0
 2019/11/18
 * [chore] [breaking] no longer exporting ES5, reverted to [this more rationale export setup](../../CONTRIBUTING/module-exports.md)
