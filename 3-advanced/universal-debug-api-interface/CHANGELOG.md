@@ -2,8 +2,12 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
-* [doc] README++
 * ...
+
+## v0.2.1
+2019/12/12
+* [doc] README++
+* [chore] reorganized source paths = links updated in the doc
 
 ## v0.2.0
 2019/11/08

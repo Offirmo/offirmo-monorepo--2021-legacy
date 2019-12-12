@@ -4,6 +4,10 @@
 ## PENDING
 * ...
 
+## v0.3.1
+2019/12/12
+* [chore] reorganized source paths = links updated in the doc
+
 ## v0.3
 2019/11/18
 * [feat] now provides a pre-bundled version (beta)
