@@ -4,6 +4,10 @@
 ## PENDING
 * ...
 
+## v2.1.1
+2019/12/12
+* [chore] reorganized source paths = links updated in the doc
+
 ## v2.1.0
 2019/11/18
 * [feat] remove .fromEntries() usage which requires a polyfill with current oldest node LTS

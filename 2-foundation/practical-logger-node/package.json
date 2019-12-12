@@ -1,7 +1,7 @@
 {
 	"name": "@offirmo/practical-logger-node",
 	"description": "node-specific practical logger",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 
@@ -14,7 +14,7 @@
 
 	"size-limit": [
 		{
-			"limit": "3kb",
+			"limit": "10kb",
 			"path": "dist/src.es2018.cjs/index.js"
 		}
 	],

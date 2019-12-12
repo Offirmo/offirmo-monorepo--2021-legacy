@@ -2,9 +2,13 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
+* ...
+
+## v2.0.1
+2019/12/12
 * [chore] bumped dependencies
 * [chore] linted automatically (no logic change)
-* ...
+* [chore] reorganized source paths = links update in the doc
 
 ## v2.0.0
 2019/10/28

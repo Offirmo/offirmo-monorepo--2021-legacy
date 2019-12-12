@@ -3,9 +3,13 @@
 
 ## pending
 * TODO fix the "maximum call stack exceeded" when printing a SEC
+* ...
+
+## v0.0.5
+2019/12/12
 * [feat] now enforce a size limit (important for lambda/functions)
 * [chore] bumped dependencies
-* ...
+* [chore] reorganized source paths = links update in the doc
 
 ## v0.0.4
 2019/11/08

@@ -3,12 +3,16 @@
 
 ## PENDING
 * TODO lower size by removing duplication + useless sink
+  * NOTE bigger size but not a problem since you're not supposed to bundle this lib
 * TODO test EDGE, IE
 * TODO local pictures
-* NOTE bigger size but not a problem since you're not supposed to bundle this lib
+* ...
+
+## v2.1.1
+2019/12/12
+* [chore] reorganized source paths = links updated in the doc
 * [doc] README++
 * [chore] linted automatically (no logic change)
-* ...
 
 ## v2.1.0
 2019/11/08
