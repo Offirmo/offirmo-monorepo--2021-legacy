@@ -49,7 +49,7 @@
 		"dev": "run-s clean build:dev:watch",
 		"build": "run-s build:prod",
 
-		"prepublishOnly": "run-s clean build:prod ensure-size"
+		"prepublishOnly": "run-s clean build:prod test ensure-size"
 	},
 	"devDependencies": {
 		"@size-limit/preset-small-lib": "^2",

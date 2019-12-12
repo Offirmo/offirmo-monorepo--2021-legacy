@@ -188,7 +188,7 @@ const handler: NetlifyHandler = (
 		event,
 		badly_typed_context,
 		[
-			require_http_method(HttpMethod.PATCH),
+			require_http_method(HttpMethod.POST),
 			require_authenticated,
 			using_json_rpc,
 			_handler,

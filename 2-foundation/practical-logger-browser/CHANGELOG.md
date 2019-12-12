@@ -10,6 +10,7 @@
 
 ## v2.1.1
 2019/12/12
+* WARN accidentally published an experimental minor change in the Chrome sink. Will monitor if it's a problem.
 * [chore] reorganized source paths = links updated in the doc
 * [doc] README++
 * [chore] linted automatically (no logic change)

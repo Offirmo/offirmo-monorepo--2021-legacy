@@ -1,7 +1,8 @@
 # CHANGELOG
 **This package follows [semver](https://semver.org/).**
 
-## NEXT
+## PENDING
+* [chore] reorganized source paths = links update in the doc
 * [feat] added *optional* installation of [chai-fetch-mock](https://github.com/gakimball/chai-fetch-mock)
 * [chore] bumped deps (eslint mocha 6)
 * [feat] now preloads UDA node

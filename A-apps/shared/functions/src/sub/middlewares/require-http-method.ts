@@ -13,6 +13,7 @@ import {
 export const HttpMethod = Enum(
 	'GET',
 	'PUT',
+	'POST',
 	'PATCH',
 )
 export type HttpMethod = Enum<typeof HttpMethod> // eslint-disable-line no-redeclare
