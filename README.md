@@ -4,28 +4,14 @@
 
 A monorepo for all my JavaScript / TypeScript projects. So convenient.
 
-Public npm modules:
-* final
-	* [@offirmo/deferred](https://www.npmjs.com/package/@offirmo/deferred)
-	* [@offirmo/globalthis-ponyfill](https://www.npmjs.com/package/@offirmo/globalthis-ponyfill)
-	* [@offirmo/practical-logger-browser](https://www.npmjs.com/package/@offirmo/practical-logger-browser)
-	* [@offirmo/practical-logger-minimal-noop](https://www.npmjs.com/package/@offirmo/practical-logger-minimal-noop)
-	* [@offirmo/unit-test-toolbox](https://www.npmjs.com/package/@offirmo/unit-test-toolbox)
-	* [@offirmo/universal-debug-api-placeholder](https://www.npmjs.com/package/@offirmo/universal-debug-api-placeholder)
-	* [node-typescript-compiler](https://www.npmjs.com/package/node-typescript-compiler)
-* internal
-	* [@offirmo/practical-logger-types](https://www.npmjs.com/package/@offirmo/practical-logger-types)
-	* [@offirmo/practical-logger-core](https://www.npmjs.com/package/@offirmo/practical-logger-core)
-	* [@offirmo/universal-debug-api-interface](https://www.npmjs.com/package/@offirmo/universal-debug-api-interface)
-	* [hello-world-emo](https://www.npmjs.com/package/hello-world-emo)
-
+Public npm modules: [here](./0-doc/modules-directory)
 
 Public webapps:
-* [The Boring RPG, reborn](https://www.online-adventur.es/A-apps/the-boring-rpg/)
+* [The Boring RPG, reborn](https://www.online-adventur.es/apps/the-boring-rpg/)
 
 Public webextensions:
 * [Universal Debug API companion](4-tools/universal-debug-api-companion-webextension/README.md)
-  * [Firefox](https://addons.mozilla.org/en-US/firefox/addon/universal-debug-api-companion/)
+  * Firefox TODO
   * [Chrome](https://chrome.google.com/webstore/detail/offirmo%E2%80%99s-universal-web-d/cnbgbjmliafldggmfijmnbpdiikcalnl)
 
 

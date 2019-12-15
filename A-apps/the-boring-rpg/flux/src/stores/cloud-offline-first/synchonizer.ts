@@ -34,6 +34,11 @@ interface Synchronizer {
 
 ////////////////////////////////////
 
+const IDLE_SYNC_PERIOD_MS = 60_000
+const AUTO_PULSE_PERIOD_MS = 5_000
+
+const MAX_PERIOD_ANY_MS = 5_000 // can't spam more of
+
 function create({ SEC, call_remote_procedure, on_successful_sync, initial_pending_actions, initial_state }: {
 	SEC: OMRSoftExecutionContext,
 	call_remote_procedure: JsonRpcCaller,
@@ -46,6 +51,14 @@ function create({ SEC, call_remote_procedure, on_successful_sync, initial_pendin
 	let last_known_state_hash: string = hash_state(initial_state)
 	let in_flight: Promise<any> | null = null
 	let pulse_count = 0
+	logger.log(`synchronizer starting…`, { NUMERIC_VERSION })
+
+	function schedule_pulse(caller: string) {
+		setTimeout(pulse.bind(null, caller), 0)
+	}
+
+	// auto plan a periodic retry
+	let auto_pulse_timeout_id: ReturnType<typeof setInterval> | null = setInterval(() => schedule_pulse('periodic'), AUTO_PULSE_PERIOD_MS)
 
 	function call_remote_sync(pending_actions: Action[], current_state_hash: string): Promise<SyncResult> {
 		return call_remote_procedure<SyncParams, SyncResult>({
@@ -59,32 +72,44 @@ function create({ SEC, call_remote_procedure, on_successful_sync, initial_pendin
 		})
 	}
 
+	function on_version(numver: number): void {
+		if (numver !== NUMERIC_VERSION) {
+			// TODO UI!
+			logger.error(`a remote op reported we are outdated!`, { SERVER_NUMERIC_VERSION: numver, NUMERIC_VERSION })
+			state = 'defected'
+		}
+	}
+
 	let last_offline_check: TimestampUTCMs = 0
-	async function check_online(): Promise<number | undefined> {
+	async function check_online(): Promise<void> {
 		const now = get_UTC_timestamp_ms()
 		logger.trace(`check_online()…`, { in_flight: !!in_flight, now, elapsed_since_last_attempt: now - last_offline_check })
 		if (in_flight)
 			return
-		if (now - last_offline_check < 5000)
+		if (now - last_offline_check < MAX_PERIOD_ANY_MS)
 			return
 
 		const p = Promise.race([
 			new Promise((resolve, reject) => setTimeout(() => {
 				reject(new Error('Timeout!'))
 			}, 5000)),
-			fetch('./build.json'),
+			fetch(`./build.json?nocache=${now}`),
 		])
-
 		in_flight = p
 		last_offline_check = now
 
 		try {
 			const res0 = await p
 			const res = await res0.json()
-			return res.NUMERIC_VERSION
+			on_version(res.NUMERIC_VERSION)
+
+			if (state === 'offline') {
+				state = 'starting'
+				schedule_pulse('now online')
+			}
 		}
 		catch (err) {
-			logger.error('check_online() failed, waiting for auto retry!', { err })
+			logger.log('check_online() failed, will auto retry later...', { err })
 			throw err
 		}
 		finally {
@@ -95,12 +120,12 @@ function create({ SEC, call_remote_procedure, on_successful_sync, initial_pendin
 
 	let last_sync_attempt: TimestampUTCMs = 0
 	let last_successful_sync: TimestampUTCMs = 0
-	async function do_sync(): Promise<void> {
+	async function do_sync(force: boolean = false): Promise<void> {
 		const now = get_UTC_timestamp_ms()
 		logger.trace(`do_sync()…`, { in_flight: !!in_flight, now, elapsed_since_last_attempt: now - last_sync_attempt })
 		if (in_flight)
 			return
-		if (pending_actions.length === 0 && now - last_sync_attempt < 5000)
+		if (now - last_sync_attempt < MAX_PERIOD_ANY_MS && !force)
 			return
 
 		const p = call_remote_sync(pending_actions, last_known_state_hash)
@@ -109,22 +134,17 @@ function create({ SEC, call_remote_procedure, on_successful_sync, initial_pendin
 
 		try {
 			const result: SyncResult = await p
-			console.log('sync res', result)
+			logger.trace('do_sync() returned:', { result })
 
 			on_successful_sync(result)
-
-			if (result.common.numver !== NUMERIC_VERSION) {
-				// TODO UI!
-				state = 'defected'
-				return
-			}
+			on_version(result.common.numver)
 
 			pending_actions = pending_actions.filter(action => action.time > result.processed_up_to_time)
 			last_successful_sync = get_UTC_timestamp_ms()
-			setTimeout(pulse.bind(null, 'sync success'), 0)
+			schedule_pulse('sync success')
 		}
 		catch (err) {
-			logger.error('sync failed, waiting for auto retry!', { err })
+			logger.error('sync failed, waiting for auto retry! X', { err })
 			throw err
 		}
 		finally {
@@ -137,9 +157,9 @@ function create({ SEC, call_remote_procedure, on_successful_sync, initial_pendin
 		pulse_count++
 		if (pulse_count > 10) return // safety during dev TODO remove
 
-		logger.group(`——— 📡  pulse #${pulse_count} [${caller}]…`)
+		logger.group(`——— 📡 cloud sync pulse #${pulse_count}… ← ${caller}`)
 		const now = get_UTC_timestamp_ms()
-		logger.log(`current state:`, {
+		logger.trace(`current state:`, {
 			//pulse_count,
 			pending_actions,
 			last_offline_check,
@@ -149,30 +169,14 @@ function create({ SEC, call_remote_procedure, on_successful_sync, initial_pendin
 		})
 
 		let has_work_left = true
+		let last_state = state
 
 		while (has_work_left) {
-			has_work_left = false
+			has_work_left = false // so far
 
 			logger.trace(`working…`, { state, in_flight: !!in_flight, })
 
 			switch (state) {
-				case 'offline' :
-					check_online()
-						.then((SERVER_NUMERIC_VERSION: number | undefined) => {
-							if (!SERVER_NUMERIC_VERSION) return
-							logger.info(`check_online() success with result:`, { SERVER_NUMERIC_VERSION })
-							if (SERVER_NUMERIC_VERSION !== NUMERIC_VERSION) {
-								// TODO tell the user
-								logger.error(`check_online() reported we are outdated!`, { SERVER_NUMERIC_VERSION, NUMERIC_VERSION })
-								state = 'defected'
-							}
-							else if (state === 'offline') {
-								state = 'starting'
-								setTimeout(pulse.bind(null, 'now online'), 0)
-							}
-						})
-					break
-
 				case 'starting':
 					assert(last_known_state_hash, 'state hash')
 					assert(!in_flight, 'no sync yet')
@@ -184,8 +188,12 @@ function create({ SEC, call_remote_procedure, on_successful_sync, initial_pendin
 					has_work_left = true
 					break
 
+				case 'offline' :
+					check_online()
+					break
+
 				case 'idle':
-					if (pending_actions.length || now - last_successful_sync > 60_000) {
+					if (pending_actions.length || now - last_successful_sync >= IDLE_SYNC_PERIOD_MS) {
 						state = 'syncing'
 						has_work_left = true
 						break
@@ -194,7 +202,7 @@ function create({ SEC, call_remote_procedure, on_successful_sync, initial_pendin
 					break
 
 				case 'syncing':
-					if (pending_actions.length === 0 && now - last_successful_sync > 60_000 ) {
+					if (pending_actions.length === 0 && now - last_successful_sync < IDLE_SYNC_PERIOD_MS ) {
 						state = 'idle'
 						has_work_left = true
 						break
@@ -205,11 +213,19 @@ function create({ SEC, call_remote_procedure, on_successful_sync, initial_pendin
 
 				case 'defected':
 					// no longer do anything
+					if (auto_pulse_timeout_id) {
+						clearInterval(auto_pulse_timeout_id)
+						logger.info(`Will no longer try to sync.`)
+						auto_pulse_timeout_id = null
+					}
 					break
 
 				default:
 					throw new Error(`Cloud sync unknown state "${state}"!`)
 			}
+
+			if (state !== last_state)
+				logger.trace(`state changed…`, { from: last_state, to: state })
 		}
 
 		logger.trace(`no more work ✓`, { state, in_fligt: !!in_flight })
@@ -217,10 +233,7 @@ function create({ SEC, call_remote_procedure, on_successful_sync, initial_pendin
 		logger.groupEnd()
 	}
 
-	setTimeout(pulse.bind(null, 'init'), 0)
-
-	// auto plan a periodic retry
-	setInterval(pulse.bind(null, 'periodic'), 5000)
+	schedule_pulse('init')
 
 	////////////////////////////////////
 

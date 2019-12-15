@@ -90,7 +90,7 @@ function create({ rpc_url, method = 'POST' }: { rpc_url: string, method?: string
 				return result
 			})
 			.catch((err: Error) => {
-				logger.error(`RPC #${request_id} failed!`, {rpc_url, http_method, method, params, request, response: response_for_logging, err, err_message: err.message})
+				logger.warn(`RPC #${request_id} failed!`, {rpc_url, http_method, method, params, request, response: response_for_logging, err, err_message: err.message})
 				throw err
 			})
 	}

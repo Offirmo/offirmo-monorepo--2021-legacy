@@ -102,7 +102,7 @@
 		}
 		else {
 			// refresh token, https://github.com/netlify/netlify-identity-widget/issues/108
-			console.log('Netlify: refreshing token...')
+			console.log('Netlify: refreshing token…')
 			user.jwt()
 				.then(() => {
 					console.info('Netlify: user refreshed', user)
@@ -125,7 +125,7 @@
 	window.query = (url) => {
 		const user = netlifyIdentity.currentUser()
 		if (!user)
-			console.warn('Querying: Not logged in...')
+			console.warn('Querying: Not logged in…')
 
 		let ok = false // so far
 		let errorMessage = 'Failed fetch' // so far

@@ -18,6 +18,7 @@ Direct: http://localhost:1981/3-advanced/view-css/doc/demo--base--alternate-colo
 
 ## notes
 
+reset db https://browserdefaultstyles.com/
 
 ### Other resets
 

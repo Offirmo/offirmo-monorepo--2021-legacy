@@ -11,7 +11,6 @@ import {
 	ActionStartGame,
 	ActionType,
 	SyncResult,
-	TbrpgStorage,
 	StorageKey,
 } from '@tbrpg/interfaces'
 
@@ -80,10 +79,12 @@ function create(
 				let pending_actions = get_persisted_pending_actions(SEC, local_storage)
 				//let last_sync_result: Promise<SyncResult> // TODO
 
+				const rpc_url = get_json_rpc_url(SEC)
 				const call_json_rpc = create_jsonrpc_client({
-					rpc_url: get_json_rpc_url(SEC),
+					rpc_url,
 					//method: 'PATCH',
 				})
+				logger.info('re-creating the cloud store…', { rpc_url })
 
 				const get_synchronizer = tiny_singleton(() => create_synchronizer({
 					SEC,
@@ -94,6 +95,7 @@ function create(
 						if (numver !== NUMERIC_VERSION) {
 							// TODO trigger a refresh to update
 							// TODO stop the sync?
+							// TODO several places, take care!
 							opt_out('We are outdated!')
 							return
 						}
@@ -136,6 +138,7 @@ function create(
 					// snoop on some actions
 					if (action.type === ActionType.on_logged_in_refresh) {
 						is_logged_in = action.is_logged_in
+						logger.info('snooped the logged-in message!', { action })
 					}
 
 					// ignore some actions
@@ -201,13 +204,17 @@ function create(
 						return
 					}
 
-					// we have a remote persistence id.
+					// we have a remote persistence id and no reason to opt out
 					// we still need to wait for the user to be logged in
 					opt_out_reason = null
-					logger.info(`[${LIB}] cloud sync enabled!`, {
+					logger.info(`eligible to cloud sync (will wait for login)`, {
 						'pending_actions.length': pending_actions.length,
 						revision: initial_state.u_state.revision,
 					})
+					setTimeout(() => {
+						if (!is_logged_in)
+							logger.info('cloud store: still not logged in, no sync will happen until then.')
+					}, 5000)
 				})
 
 				// TODO check that we can write in LS

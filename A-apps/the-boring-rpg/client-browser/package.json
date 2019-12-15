@@ -54,12 +54,13 @@
 		"copy-build-data--prod": "cp -f src/build.json dist",
 		"build:parcel": "parcel build src/index.html --public-url ./",
 
-		"dev": "run-p start:parcel copy-build-data--dev",
+		"dev": "npm-run-all refresh-build-variables --parallel start:parcel copy-build-data--dev",
 		"build": "run-s build:parcel copy-build-data--prod"
 	},
 	"devDependencies": {
 		"@babel/core": "^7",
 		"@offirmo-private/timestamps": "^0",
+		"@offirmo/universal-debug-api-browser": "^0",
 		"npm-run-all": "^4"
 	}
 }

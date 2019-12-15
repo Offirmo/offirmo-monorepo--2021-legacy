@@ -1,4 +1,12 @@
 
+illus https://cgsociety.org/galleries/featured?category=2D
+
+open source https://www.peppercarrot.com/
+
+waves https://codepen.io/Mamboleoo/full/JjojgWw
+
+effets https://tympanus.net/codrops/2019/12/04/awesome-demos-roundup-11/ (et les autres)
+
 space https://typpo.github.io/spacekit/
 
 cloud storage https://github.com/vasanthv/jsonbox

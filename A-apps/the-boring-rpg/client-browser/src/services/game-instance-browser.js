@@ -1,12 +1,15 @@
 import { Enum } from 'typescript-string-enums'
 import bowser from 'bowser'
 import tiny_singleton from '@offirmo/tiny-singleton'
+import assert from 'tiny-invariant'
 
-import { create_game_instance } from '@tbrpg/flux'
+import { NUMERIC_VERSION, create_game_instance } from '@tbrpg/flux'
+//import { NUMERIC_VERSION as NUMERIC_VERSION_JSON } from './build'
 
 import SEC from './sec'
 import { init } from './user_account'
 
+//assert(NUMERIC_VERSION === NUMERIC_VERSION_JSON, 'Internal build error: mismatched numvers in source!')
 //console.log(__filename)
 /////////////////////////////////////////////////
 
