@@ -2,7 +2,11 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
-* TODO fix all TODOs
+* TODO node & browser should share a lot of logic
+* [chore] improved "attaching" logic with hints on setup error and improves some bad cases
+* [chore] node & browser now have the exact same "attaching" logic (as it should be)
+* [feat] better internal logging
+* [chore] bumped dependencies (incl. most recent interface)
 
 ## v0.0.2
 2019/12/12

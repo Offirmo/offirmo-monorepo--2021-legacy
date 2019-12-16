@@ -1,6 +1,6 @@
 import { DebugApiV1 } from '@offirmo/universal-debug-api-interface'
 import { Logger, LoggerCreationParams, createLogger } from '@offirmo/practical-logger-node'
-import { DEFAULT_LOG_LEVEL, DEFAULT_LOGGER_KEY } from '@offirmo/practical-logger-core'
+import { LogLevel, DEFAULT_LOG_LEVEL, DEFAULT_LOGGER_KEY } from '@offirmo/practical-logger-core'
 
 import { ENV_ROOT, getOverrideKeyForLogger, getEnvKeyForOverride } from './keys'
 
@@ -17,7 +17,8 @@ interface Overrides {
 
 ////////////////////////////////////
 
-const LIB = ENV_ROOT
+export const OWN_LOGGER_NAME = ENV_ROOT
+const REVISION = 1
 
 ////////////////////////////////////
 
@@ -35,13 +36,10 @@ export default function create(): DebugApiV1 {
 
 	// TODO override?
 	// TODO allow off?
-	const _ownLogger: Logger = (() => {
-		return createLogger({
-			name: LIB,
-			// TODO make the level adjustable?
-			//suggestedLevel: 'silly'
+	const _ownLogger: Logger = createLogger({
+			name: OWN_LOGGER_NAME,
+			suggestedLevel: 'fatal', // level adjustable, see below
 		})
-	})()
 
 	function _getOverrideRequestedSJson(ovKey: string): null | string {
 		try {
@@ -56,6 +54,16 @@ export default function create(): DebugApiV1 {
 			return null
 		}
 	}
+
+	const forcedLevel = _getOverrideRequestedSJson(getOverrideKeyForLogger('_UDA_internal'))
+	try {
+		if (forcedLevel)
+			_ownLogger.setLevel(JSON.parse(forcedLevel) as LogLevel)
+	}
+	catch (err) {
+		_ownLogger.fatal(`🔴 error setting internal logger forced level: "${forcedLevel}"!`)
+	}
+	_ownLogger.log(`Instantiated. (revision: ${REVISION})`)
 
 	function _getOverride(key: string): OverrideStatus {
 		if (!overrides[key]) {
@@ -105,6 +113,9 @@ export default function create(): DebugApiV1 {
 		_: {
 			exposed,
 			overrides,
+			minor: REVISION,
+			source: 'node-lib',
+			create,
 		},
 	}
 
@@ -150,6 +161,7 @@ export default function create(): DebugApiV1 {
 	}
 
 	function exposeInternal(path: string, value: any): void {
+		_ownLogger.warn(`exposeInternal(): alpha, not documented!`)
 		try {
 			const pathParts = path.split('.') // TODO switch to / ?
 			const lastIndex = pathParts.length - 1
@@ -164,12 +176,13 @@ export default function create(): DebugApiV1 {
 			})
 		}
 		catch (err) {
-			_ownLogger.warn(`[${LIB}] exposeInternal(): error exposing!`, { path, err })
+			_ownLogger.warn(`exposeInternal(): error exposing!`, { path, err })
 		}
 	}
 
 	function addDebugCommand(commandName: string, callback: () => void) {
 		// TODO
+		_ownLogger.warn(`addDebugCommand(): alpha, not documented!`)
 		// TODO try catch
 		debugCommands[commandName] = callback
 	}
