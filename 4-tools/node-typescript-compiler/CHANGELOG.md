@@ -2,7 +2,7 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
-
+* [feat] suppressed typescript as a peerDep to truly allow any version
 * [feat] improved error messages, clearer, now extracting from output if possible
 * [doc] README++ greatly improved, verbose option documented
 

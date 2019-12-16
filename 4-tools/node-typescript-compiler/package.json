@@ -13,7 +13,6 @@
 	"main": "src/index.js",
 
 	"peerDependencies": {
-		"typescript": "^3"
 	},
 	"dependencies": {
 		"lodash": "^4",
