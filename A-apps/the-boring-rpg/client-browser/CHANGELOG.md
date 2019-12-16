@@ -10,7 +10,11 @@
 - 😷 chore: some internal refactors, bump dependencies
 
 
-auto lint
+
+## v0.61.3
+- 😍 feature: snow for Christmas season!
+- 😅 progress on cloud save but still not there...
+- 😷 chore: some auto linting
 
 ## v0.61.1
 - 😅 fix: wrong english loose -> lose
@@ -53,7 +57,7 @@ auto lint
 - 🤩 feature: 2 new achievements (now totalling 99!)
 - 😍 feature: a custom cursor
 - 😅 fix: (hopefully) fixed a few crashes cases when selling or equipping items
-- 😅 fix: autoplay now ends up with as much energy you previously had 
+- 😅 fix: autoplay now ends up with as much energy you previously had
 - 😅 fix: the notifications no longer prevent clicking below / above
 - 😅 fix: (hopefully) on Safari mobile, the screen won't stay zoomed after an input
 - 😷 chore: some internal refactors and cleanups (revision, stores, etc.)
@@ -184,10 +188,10 @@ auto lint
 ## Notes / template
 
 /////////////
-- 🤩 feature: 
-- 😍 feature: 
-- 😅 fix (hopefully!): 
-- 😷 chore: 
+- 🤩 feature:
+- 😍 feature:
+- 😅 fix (hopefully!):
+- 😷 chore:
 /////////////
 
 - TODO 😷 chore: ESLINT

@@ -56,7 +56,7 @@
 		"build:parcel": "parcel build src/index.html --public-url ./",
 
 		"dev": "npm-run-all refresh-build-variables --parallel start:parcel copy-build-data--dev",
-		"build": "run-s build:parcel copy-build-data--prod"
+		"build": "run-s clean build:parcel copy-build-data--prod"
 	},
 	"devDependencies": {
 		"@babel/core": "^7",
