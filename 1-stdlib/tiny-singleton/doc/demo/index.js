@@ -2,7 +2,7 @@
 
 const tiny_singleton = require('../..').default
 
-console.log('starting...', { tiny_singleton })
+console.log('starting…', { tiny_singleton })
 
 function create_person(name, logger = console) {
 	return {
