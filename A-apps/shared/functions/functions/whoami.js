@@ -32547,7 +32547,7 @@ const typescript_string_enums_1 = __webpack_require__(31);
 
 const utils_1 = __webpack_require__(25);
 
-exports.HttpMethod = typescript_string_enums_1.Enum('GET', 'PUT', 'PATCH');
+exports.HttpMethod = typescript_string_enums_1.Enum('GET', 'PUT', 'POST', 'PATCH');
 
 function require_http_method(required_method) {
   return async (SEC, event, context, response, next) => {
@@ -33242,7 +33242,8 @@ function getEnvKeyForOverride(key) {
 
  ////////////////////////////////////
 
-const v1_LIB = ENV_ROOT; ////////////////////////////////////
+const OWN_LOGGER_NAME = ENV_ROOT;
+const REVISION = 1; ////////////////////////////////////
 
 function v1_create() {
   //console.log('[UDA-node installed]') // XX
@@ -33257,11 +33258,10 @@ function v1_create() {
   // TODO override?
   // TODO allow off?
 
-  const _ownLogger = (() => {
-    return createLogger({
-      name: v1_LIB
-    });
-  })();
+  const _ownLogger = createLogger({
+    name: OWN_LOGGER_NAME,
+    suggestedLevel: 'fatal'
+  });
 
   function _getOverrideRequestedSJson(ovKey) {
     try {
@@ -33278,6 +33278,16 @@ function v1_create() {
       return null;
     }
   }
+
+  const forcedLevel = _getOverrideRequestedSJson(getOverrideKeyForLogger('_UDA_internal'));
+
+  try {
+    if (forcedLevel) _ownLogger.setLevel(JSON.parse(forcedLevel));
+  } catch (err) {
+    _ownLogger.fatal(`🔴 error setting internal logger forced level: "${forcedLevel}"!`);
+  }
+
+  _ownLogger.log(`Instantiated. (revision: ${REVISION})`);
 
   function _getOverride(key) {
     if (!overrides[key]) {
@@ -33324,7 +33334,10 @@ function v1_create() {
     addDebugCommand,
     _: {
       exposed,
-      overrides
+      overrides,
+      minor: REVISION,
+      source: 'node-lib',
+      create: v1_create
     }
   }; ////////////////////////////////////
 
@@ -33372,6 +33385,8 @@ function v1_create() {
   }
 
   function exposeInternal(path, value) {
+    _ownLogger.warn(`exposeInternal(): alpha, not documented!`);
+
     try {
       const pathParts = path.split('.'); // TODO switch to / ?
 
@@ -33382,7 +33397,7 @@ function v1_create() {
         root = root[p];
       });
     } catch (err) {
-      _ownLogger.warn(`[${v1_LIB}] exposeInternal(): error exposing!`, {
+      _ownLogger.warn(`exposeInternal(): error exposing!`, {
         path,
         err
       });
@@ -33391,7 +33406,9 @@ function v1_create() {
 
   function addDebugCommand(commandName, callback) {
     // TODO
-    // TODO try catch
+    _ownLogger.warn(`addDebugCommand(): alpha, not documented!`); // TODO try catch
+
+
     debugCommands[commandName] = callback;
   }
 
@@ -33405,16 +33422,53 @@ function v1_create() {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "globalThis", function() { return globalThis; });
 /* concated harmony reexport createV1 */__webpack_require__.d(__webpack_exports__, "createV1", function() { return v1_create; });
 
- // ensure the root is present
 
-const globalThis = Object(src_es2019["a" /* getGlobalThis */])();
-globalThis._debug = globalThis._debug || {}; // install globally if no other implementation already present
-// TODO do a minor version check?
-// TODO always override since final?
+const globalThis = Object(src_es2019["a" /* getGlobalThis */])(); // ensure the root is present
 
-globalThis._debug.v1 = globalThis._debug.v1 || v1_create(); // expose the current implementation
+globalThis._debug = globalThis._debug || {};
+const root = globalThis._debug; //////////// v1 ////////////
+// install globally if no better implementation already present
 
-const instance = globalThis._debug.v1;
+root.v1 = (existing => {
+  // We CAN'T replace an existing one, even if we are more recent,
+  // because the existing one may already have been called
+  // and be having a state that can't be carried over.
+  // HOWEVER some hints may help the user:
+  const candidate = v1_create();
+  let ownLogger = candidate.getLogger({
+    name: OWN_LOGGER_NAME
+  });
+  ownLogger.log('as a candidate, attempting to attach…');
+
+  if (!existing) {
+    ownLogger.log('nominal install ✅');
+    return candidate; // nominal case, actual implementation is first
+  } // something is wrong,
+  // help the user figure it out
+
+
+  let isExistingAPlaceholder = !existing._; // we know that the placeholder doesn't define this optional prop
+
+  if (isExistingAPlaceholder) {
+    ownLogger.warn('install warning: a placeholder is already present, you may miss some calls! the true implementation should be imported earlier!'); // better than nothing, may still miss some calls
+
+    ownLogger.log('as a candidate, replacing existing ⚠');
+    return candidate;
+  }
+
+  ownLogger = existing.getLogger({
+    name: OWN_LOGGER_NAME
+  });
+  ownLogger.warn('install warning: several true implementation coexists, only the top module should import it. Check your submodules!');
+  const minVersion = Math.min(existing._.minor, candidate._.minor);
+  if (minVersion !== candidate._.minor) ownLogger.warn(`install warning: several true implementation coexists, including an outdated one: "v${minVersion}"!`);
+  ownLogger.log('as a candidate, discarding myself: existing is good enough ✅');
+  return existing; // don't replace
+})(root.v1); //////////// latest ////////////
+// directly expose the latest implementation known to this lib
+
+
+const instance = root.v1;
 const {
   getLogger: src_es2019_getLogger,
   exposeInternal: src_es2019_exposeInternal,
