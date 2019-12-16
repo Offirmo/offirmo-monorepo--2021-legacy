@@ -1,5 +1,5 @@
 import {
-	payload: LogPayload,
+	LogPayload,
 } from '@offirmo/practical-logger-types'
 
 const FONT_FAMILY_BETTER_PROPORTIONAL = 'font-family: ' + [
