@@ -1,7 +1,7 @@
 import React, { Component, Fragment, StrictMode } from 'react'
 import PropTypes from 'prop-types'
-
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
+import floating from 'floating.js'
 
 import get_game_instance from '../services/game-instance-browser'
 import { BASE_ROUTE, ROUTES } from '../services/routes'
@@ -19,6 +19,13 @@ import DevUI from './meta/dev-area'
 
 //const StrictCheck = StrictMode
 const StrictCheck = Fragment
+
+floating({
+	content: '<span style="color: snow;">❄</span>',
+	number: 25,
+	direction: 'reverse',
+	size: [1, 3].map(x => x * .5),
+})
 
 // TODO https://reactjs.org/docs/react-api.html#reactlazy
 function render_home() {

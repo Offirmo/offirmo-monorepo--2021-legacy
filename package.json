@@ -114,6 +114,7 @@
 		"fetch-inject": "^2",
 		"fetch-mock": "^8",
 		"fetch-ponyfill": "^6",
+		"floating.js": "^2",
 		"fraction.js": "^4",
 		"fs-extra": "^8",
 		"gauge": "^2",

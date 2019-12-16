@@ -15,3 +15,7 @@ body {
 iframe#netlify-identity-widget {
 	z-index: 2000 !important;
 }
+
+.float-container {
+	z-index: 111;
+}
