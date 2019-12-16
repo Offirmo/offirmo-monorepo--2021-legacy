@@ -4,24 +4,25 @@ TODO https://www.npmjs.com/package/eslint-import-resolver-typescript
 https://github.com/mohsinulhaq/react-popper-tooltip
 
 		"@atlaskit/build-releases": "^3",
-		"ts-node": "^5",
-		"babel-plugin-transform-class-properties": "^6",
-		"@types/webpack": "^4",
+		"@babel/polyfill": "^7",
 		"@babel/preset-stage-0": "^7",
+		"@types/webpack": "^4",
 		"babel-loader": "^8",
+		"babel-plugin-transform-class-properties": "^6",
 		"cross-spawn": "^6",
 		"fetchival": "^0.3",
-		"package-json-cleanup-loader": "^1",
+		"open": "^6",
 		"package-json": "^6",
+		"package-json-cleanup-loader": "^1",
+		"puer": "^2",
 		"spawn-sync": "^2",
 		"stacktrace-js": "^2",
 		"style-loader": "^0.23",
+		"ts-node": "^5",
 		"typography": "^0.16",
 		"url-loader": "^1",
 		"webpack": "^4",
 		"webpack-cli": "^3",
-		"puer": "^2",
-		"@babel/polyfill": "^7",
 
 warning @babel/node > @babel/polyfill@7.4.4: 🚨 As of Babel 7.4.0, this
 package has been deprecated in favor of directly
