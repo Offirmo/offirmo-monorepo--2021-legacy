@@ -4,7 +4,8 @@
 
 A monorepo for all my JavaScript / TypeScript projects. So convenient.
 
-Public npm modules: [here](./0-doc/modules-directory)
+Public npm modules:
+* listed [here](https://offirmo-monorepo.netlify.com/0-doc/modules-directory/index.html)
 
 Public webapps:
 * [The Boring RPG, reborn](https://www.online-adventur.es/apps/the-boring-rpg/)

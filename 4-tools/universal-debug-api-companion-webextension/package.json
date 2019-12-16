@@ -5,6 +5,7 @@
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 	"private": true,
+
 	"devDependencies": {
 		"@atlaskit/form": "^6",
 		"@atlaskit/range": "^3",
