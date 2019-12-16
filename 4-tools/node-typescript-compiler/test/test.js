@@ -4,13 +4,27 @@
 
 const tsc = require('..')
 
-console.log('tsc exported =', tsc)
+console.log('TEST: tsc exported =', tsc);
 
-tsc.compile({
-	'help': true
-})
-.then(() => console.log('OK'))
-.catch(err => {
-	console.log('FAILED', err.message, err)
-	process.exit(1)
-})
+(async () => {
+
+	try {
+		console.log('TEST: ************ 01 ************')
+		await tsc.compile({
+			'help': true
+		})
+		console.log('TEST: Promise resolved: OK')
+	}
+	catch (err) {
+		console.log('TEST: PROMISE REJECTED:', err)
+	}
+
+	try {
+		console.log('TEST: ************ 02 ************')
+		await tsc.compile({}, [ 'foo' ], { /*verbose: true*/ })
+		console.log('TEST: Promise resolved: OK')
+	}
+	catch (err) {
+		console.log('TEST: PROMISE REJECTED:', err)
+	}
+})()

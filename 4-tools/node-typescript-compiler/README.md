@@ -13,9 +13,9 @@
 			src="https://img.shields.io/npm/v/node-typescript-compiler.svg">
 	</a>
 	<a alt="dependencies analysis"
-		href="https://david-dm.org/offirmo/offirmo-monorepo?path=5-incubator%2Fhello-world-npm">
+		href="https://david-dm.org/offirmo/offirmo-monorepo?path=4-tools%2Fhello-world-npm">
 		<img alt="dependencies badge"
-			src="https://img.shields.io/david/offirmo/offirmo-monorepo.svg?path=5-incubator%2Fhello-world-npm">
+			src="https://img.shields.io/david/offirmo/offirmo-monorepo.svg?path=4-tools%2Fhello-world-npm">
 	</a>
 	<a alt="license"
 		href="https://unlicense.org/">
@@ -27,31 +27,42 @@
 </p>
 
 
-Exposes typescript compiler (tsc) as a node.js module
+Exposes the TypesScript compiler (tsc) as a node.js module
 
-Allows you to invoke `tsc` from a node program.
+Allows you to invoke `tsc` from a node script.
 
-This work trivially by spawning `tsc` from the sibling `node_modules/typescript` module.
+This work trivially by [spawning](https://devdocs.io/node/child_process#child_process_child_process_spawn_command_args_options) `tsc`
+from whenever it can be found, ideally a sibling `../node_modules/typescript` module.
 
 
 ## installation
-**node-typescript-compiler** requires the **typescript module** as a sibling, not included so you can choose version.
-(though node-typescript-compiler will intelligently try to locate global typescript if it can't be found as a sibling. but this is not recommended)
+
+**node-typescript-compiler** requires the **typescript module** as a sibling,
+not included so you can choose your version.
+(node-typescript-compiler will intelligently try
+to locate another typescript install if it can't be found as a sibling.
+This is not recommended)
 
 ```bash
 npm i --save-dev typescript
 npm i --save-dev node-typescript-compiler
 ```
 
+Node requirements: unknown. I'm using the latest LTS but I believe it should work for older node >=4,
+thus I'm not enforcing the node version. But not promising anything either.
+
+
 ## Usage
 
-The module exposes a unique function, `compile({options}, [files])`,
-`files` being an optional array,
-and `options` a hashmap of [tsc options](https://www.typescriptlang.org/docs/handbook/compiler-options.html)
+The module exposes a unique function, `compile({tscOptions}, [files], [{options}])`:
+* `tscOptions` is a hashmap of [tsc options](https://www.typescriptlang.org/docs/handbook/compiler-options.html)
+* `files` is an optional array of files to compile, if not implied through `tscOptions`
+* `options` is an optional hash of:
+  * `verbose: boolean` (default `false`) explain what's happening and display more detailed errors
+  * `banner: string` (default `node-typescript-compiler:`) what is displayed as the first line of stdout
 
-Example invocations:
 
-* Compile current project:
+### Example invocation: Compile current project:
 
 ```js
 const tsc = require('node-typescript-compiler')
@@ -62,44 +73,59 @@ tsc.compile({
 ```
 --> Will spawn `tsc --project .`
 
-* Compile current project with some options overridden:
+### Example invocation: Compile current project with some options overridden
 
 ```js
 const tsc = require('node-typescript-compiler')
 const tsconfig = { json: require('../tsconfig.json') }
 
 tsc.compile(
-	Object.assign({}, tsconfig.json.compilerOptions, {
-		'declaration': false,
-		'outDir': 'dist/es6.amd',
-		'module': 'amd'
-	}),
+	{
+		...tsconfig.json.compilerOptions,
+		declaration: false,
+		outDir: 'dist/es6.amd',
+		module: 'amd'
+	},
 	tsconfig.json.files,
 )
 ```
---> Will spawn `tsc <... non-overriden tsconfig options> --outDir dist/es6.amd --module amd`
+--> Will spawn `tsc <…non-overriden tsconfig options> --outDir dist/es6.amd --module amd`
  (boolean "false" values cause the corresponding option to not be added, this is the intended behaviour)
 
-* Get help:
+### Example invocation: Get help
 
 ```js
 const tsc = require('node-typescript-compiler')
 
 return tsc.compile({
-	'help': true
+	help: true
 })
 ```
 --> Will spawn `tsc --help` (boolean "true" values are not needed thus don't appear, option presence is enough)
 
-## design considerations
-It seems we could do that more elegantly and at a lower level by directly calling tsc code, as explained here: https://basarat.gitbooks.io/typescript/content/docs/compiler/overview.html
+### Usage notes
+
+Except the unclear node requirement, this module should be fairly stable.
+Its behaviour is straightforward and all possible error cases should be caught.
+
+This module will intelligently try to extract the error message from stdout/stderr if possible.
+
+Output is forwarded, with a radix: `tsc>`
+
+The output is monitored and on detection of an incremental recompilation,
+a convenient separator will be displayed.
+
+Also the `--listFiles` option should lead to a readable output.
+
+
+## Design considerations
+
+It seems we could do that more elegantly and at a lower level by directly calling tsc code,
+as explained here: https://basarat.gitbooks.io/typescript/content/docs/compiler/overview.html
 
 However, that would take a lot of time and effort, and I'm afraid of API changes. So *no*.
 
-## see also
-https://www.npmjs.com/package/ntypescript but they have poor doc and don't allow choosing the typescript version (ex. using the unstable "next")
 
-TODO note ts comp
-- option as array
-- newline filtering
-- reset screen on watch
+## See also
+
+https://www.npmjs.com/package/ntypescript but they have poor doc and don't allow choosing the typescript version (ex. using the unstable "next")

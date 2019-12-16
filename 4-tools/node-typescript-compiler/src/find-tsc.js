@@ -30,7 +30,7 @@ function find_tsc() {
 	function candidate_if_exists(candidate) {
 		return path_exists(candidate)
 			.then(exists => {
-				if (!exists) throw new Error(`[${LIB}] couldn't find "${candidate}"`)
+				if (!exists) throw new Error(`Couldn’t find "${candidate}"`)
 				return candidate
 			})
 	}
@@ -40,13 +40,13 @@ function find_tsc() {
 		.catch(() => candidate_if_exists(candidate_from_require))
 		.catch(() => candidate_if_exists(candidate_from_global))
 		.catch(() => {
-			console.error(`${LIB}: Unsuccessfully tested locations, by priority:
+			console.error(`${LIB}: Couldn’t find a typescript compiler in any expected locations. Unsuccessfully tested locations, by priority:
 - ${candidate_from_sibling_module}
 - ${candidate_from_caller_node_module}
 - ${candidate_from_require} (from require('typescript'))
 - ${candidate_from_global}
 			`)
-			throw new Error(`${LIB}: couldn't find typescript compiler in any expected locations!`)
+			throw new Error(`Couldn’t find a typescript compiler in any expected locations!`)
 		})
 }
 

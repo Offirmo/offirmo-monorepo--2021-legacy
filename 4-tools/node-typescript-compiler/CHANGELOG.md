@@ -3,6 +3,8 @@
 
 ## PENDING
 
+* [feat] improved error messages, clearer, now extracting from output if possible
+* [doc] README++ greatly improved, verbose option documented
 
 ## v2.0.1
 2019/12/12

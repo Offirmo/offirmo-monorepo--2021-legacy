@@ -4,13 +4,13 @@
 	"description": "Exposes typescript compiler (tsc) as a node.js module",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
+	"sideEffects": false,
 
 	"engines": {
 		"npm": ">=3"
 	},
 
 	"main": "src/index.js",
-	"sideEffects": false,
 
 	"peerDependencies": {
 		"typescript": "^3"
