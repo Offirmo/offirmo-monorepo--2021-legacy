@@ -4,6 +4,10 @@
 ## PENDING
 * ...
 
+## v2.1.1
+2019/12/16
+* [doc] README++ minor fix in badges
+
 ## v2.1.0
 2019/12/16
 * [feat] suppressed typescript as a peerDep to truly allow any version
