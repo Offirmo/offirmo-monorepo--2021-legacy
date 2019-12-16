@@ -33,7 +33,7 @@ const handler: NetlifyHandler = (
 		event,
 		badly_typed_context,
 		[
-			require_http_method(HttpMethod.GET),
+			require_http_method([ HttpMethod.GET ]),
 			test_failure,
 			_handler,
 		]

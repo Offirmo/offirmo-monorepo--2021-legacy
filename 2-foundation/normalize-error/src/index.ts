@@ -11,7 +11,7 @@ function normalizeError(err_like: Readonly<Partial<Error>> = {}): XError {
 		err_like.message || `(non-error caught: "${err_like}")`,
 	)
 
-	// copy fields if they exist
+	// properly attach fields if they exist
 	COMMON_ERROR_FIELDS.forEach(prop => {
 		//if (prop in err_like)
 		if ((err_like as any)[prop])

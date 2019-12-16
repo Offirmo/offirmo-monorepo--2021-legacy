@@ -22,3 +22,4 @@ CAP ACID https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-hav
 
 shaving the yak
 
+abstraction https://www.merrickchristensen.com/articles/abstraction/

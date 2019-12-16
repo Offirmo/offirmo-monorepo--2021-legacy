@@ -94,12 +94,11 @@ const PLUGIN = {
 			const SEC = this
 
 			err._temp = err._temp || {}
+			err.details = err.details || {}
 
 			const logicalStack = {
 				full: SEC.getLogicalStack(),
 			}
-
-			const details = {}
 
 			if (err._temp.SEC) {
 				// OK this error is already decorated.
@@ -131,7 +130,7 @@ const PLUGIN = {
 					)
 
 					err._temp.statePath = improvedStatePath
-					details.logicalStack = _reduceStatePathToLogicalStack(improvedStatePath)
+					err.details.logicalStack = _reduceStatePathToLogicalStack(improvedStatePath)
 				}
 			}
 			else {
@@ -149,12 +148,7 @@ const PLUGIN = {
 					err.message = logicalStack.short + ': ' + err.message
 				}
 
-				details.logicalStack = logicalStack.full
-			}
-
-			err.details = {
-				...(err.details || {}),
-				...details,
+				err.details.logicalStack = logicalStack.full
 			}
 
 			return err

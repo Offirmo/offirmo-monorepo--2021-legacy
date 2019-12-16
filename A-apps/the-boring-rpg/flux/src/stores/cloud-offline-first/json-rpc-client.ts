@@ -10,10 +10,9 @@ import logger from './logger'
 
 ////////////////////////////////////
 
-function create({ rpc_url, method = 'POST' }: { rpc_url: string, method?: string }): JsonRpcCaller {
+function create({ rpc_url, method: http_method = 'POST' }: { rpc_url: string, method?: string }): JsonRpcCaller {
 	assert(rpc_url)
 
-	const http_method = method
 	let id = 0
 
 	// TODO cancellation token?
@@ -33,7 +32,7 @@ function create({ rpc_url, method = 'POST' }: { rpc_url: string, method?: string
 			params,
 		}
 
-		logger.trace(`RPC #${request_id}…`, { rpc_url, http_method, method, params, request })
+		logger.trace(`RPC #${request_id}…`, { rpc_url, http_method, request })
 
 		let is_status_success = false // so far
 		let response_for_logging: any

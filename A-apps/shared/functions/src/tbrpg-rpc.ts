@@ -1,7 +1,7 @@
 import { Enum } from 'typescript-string-enums'
 
-import { decorate_SEC } from '@oh-my-rpg/definitions'
 import { Method, TbrpgRpc, TbrpgRpcResponse } from '@tbrpg/interfaces'
+import { ReleaseChannel, get_allowed_origin } from '@offirmo-private/functions-interface'
 
 import {
 	APIGatewayEvent,
@@ -19,12 +19,39 @@ import {
 import { create_error } from './sub/utils'
 
 import { process_rpc } from './sub/tbrpg'
-import { use_middlewares_with_error_safety_net } from "./sub/middlewares/runner";
-import { HttpMethod, require_http_method } from "./sub/middlewares/require-http-method";
-import { require_authenticated } from "./sub/middlewares/require-authenticated";
-import {MiddleWare, XSoftExecutionContext} from "./sub/middlewares/types";
+import { use_middlewares_with_error_safety_net } from "./sub/middlewares/runner"
+import { HttpMethod, require_http_method } from "./sub/middlewares/require-http-method"
+import { require_authenticated } from "./sub/middlewares/require-authenticated"
+import { XSoftExecutionContext} from "./sub/middlewares/types"
 
 ////////////////////////////////////
+
+async function handle_cors(
+	SEC: XSoftExecutionContext,
+	event: Readonly<APIGatewayEvent>,
+	context: Readonly<NetlifyContext>,
+	response: Response,
+	next: Function
+): Promise<void> {
+	if (event.httpMethod.toUpperCase() !== 'OPTIONS')
+		return next()
+
+	await SEC.xTry('handle_cors()', async ({ CHANNEL }) => {
+		console.log('\n******* handling a tbrpg-rpc… *******')
+
+		const origin = event.headers.origin
+		const expected_origin = get_allowed_origin(CHANNEL as ReleaseChannel)
+		if (origin !== expected_origin)
+			throw create_error(405, {
+				expected_origin,
+				origin,
+			})
+
+		response.statusCode = 200
+		response.headers['Access-Control-Allow-Origin'] = expected_origin
+		response.body = 'OK'
+	})
+}
 
 async function using_json_rpc(
 	SEC: XSoftExecutionContext,
@@ -188,7 +215,8 @@ const handler: NetlifyHandler = (
 		event,
 		badly_typed_context,
 		[
-			require_http_method(HttpMethod.POST),
+			require_http_method([ HttpMethod.POST ]),
+			handle_cors,
 			require_authenticated,
 			using_json_rpc,
 			_handler,

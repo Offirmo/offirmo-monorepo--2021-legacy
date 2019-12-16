@@ -18,6 +18,7 @@ const handler: NetlifyHandler = async (
 
 	return {
 		statusCode: 200,
+		headers: {},
 		body: msg,
 	}
 }

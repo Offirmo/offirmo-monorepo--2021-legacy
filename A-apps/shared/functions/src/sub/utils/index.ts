@@ -1,15 +1,16 @@
 import { STATUS_CODES } from 'http'
 import { XError as _XError, COMMON_ERROR_FIELDS } from '@offirmo-private/common-error-fields'
 
-interface XError extends _XError {
+export interface XError extends _XError {
 	res?: any
 }
 
 // TODO extern
-function create_error(message: string | number | undefined, data: XError['details'] = {}): XError {
+export function create_error(message: string | number | undefined, details: XError['details'] = {}): XError {
+	console.log('create_error', message, details)
 	if (message && STATUS_CODES[message]) {
-		message = '(auto) '+ STATUS_CODES[message]
-		data.statusCode = Number(message)
+		details.statusCode = Number(message)
+		message = STATUS_CODES[details.statusCode]
 	}
 
 	message = String(message || 'Unknown error!')
@@ -18,26 +19,17 @@ function create_error(message: string | number | undefined, data: XError['detail
 	}
 
 	const error: XError = new Error(message)
-	Object.keys(data).forEach(k => {
+	Object.keys(details).forEach(k => {
+		console.log(k)
 		if (COMMON_ERROR_FIELDS.has(k) && k !== 'name' && k !== 'message' && k !== 'stack') {
-			(error as any)[k] = data[k]
+			(error as any)[k] = details[k]
 		}
 		else {
 			error.details = error.details || {}
-			error.details[k] = data[k]
+			error.details[k] = details[k]
 		}
 	})
 	error.framesToPop = error.framesToPop || 1
 
 	return error
-}
-/*
-function throw_new_error(message: string, data: { [k: string]: boolean | number | string | null } = {}): void {
-	throw create_error(message, data)
-}
-*/
-
-export {
-	create_error,
-	XError,
 }

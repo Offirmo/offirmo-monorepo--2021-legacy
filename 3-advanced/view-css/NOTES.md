@@ -15,6 +15,8 @@ then select sth in the last row !
 Direct: http://localhost:1981/3-advanced/view-css/doc/demo--base--alternate-colors.html
 
 
+Dynamic Color Theme With CSS Vars https://codepen.io/una/pen/VJMBbx/
+Dynamic color theming https://una.im/css-color-theming/
 
 ## notes
 

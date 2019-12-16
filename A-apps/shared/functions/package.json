@@ -16,6 +16,7 @@
 	"dependencies": {
 		"@offirmo-private/common-error-fields": "^0",
 		"@offirmo-private/db": "^0",
+		"@offirmo-private/functions-interface": "^0",
 		"@offirmo-private/json-rpc-types": "^0",
 		"@offirmo-private/soft-execution-context": "^0",
 		"@offirmo-private/soft-execution-context-node": "^0",

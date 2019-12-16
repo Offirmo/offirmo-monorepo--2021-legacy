@@ -145,6 +145,8 @@ function create({ SEC, call_remote_procedure, on_successful_sync, initial_pendin
 		}
 		catch (err) {
 			logger.error('sync failed, waiting for auto retry! X', { err })
+			// ALPHA we immediatly bail out
+			state = 'defected'
 			throw err
 		}
 		finally {

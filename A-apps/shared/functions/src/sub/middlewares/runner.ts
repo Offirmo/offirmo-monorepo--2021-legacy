@@ -25,6 +25,7 @@ function err_to_response(err: XError): Response {
 
 	return {
 		statusCode,
+		headers: {},
 		body,
 	}
 }
@@ -115,6 +116,7 @@ export function use_middlewares_with_error_safety_net(
 
 					const response: Response = {
 						statusCode: 500,
+						headers: {},
 						body: 'Bad handler: response unmodified!'
 					}
 
@@ -138,7 +140,7 @@ export function use_middlewares_with_error_safety_net(
 						throw new Error('The middleware(s) returned an invalid response (statusCode)!')
 
 					if (!body)
-						throw new Error('The middleware(s) returned an invalid response (body)!')
+						throw new Error('The middleware(s) returned an invalid response (no body)!')
 
 					logger.trace('FYI MW resolved with:', {status: statusCode, body_type: typeof body})
 
@@ -169,6 +171,7 @@ export function use_middlewares_with_error_safety_net(
 
 					return {
 						statusCode,
+						headers: {},
 						body,
 					}
 				})

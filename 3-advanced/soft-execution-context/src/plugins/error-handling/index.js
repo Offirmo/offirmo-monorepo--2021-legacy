@@ -36,7 +36,8 @@ const PLUGIN = {
 			})(err)
 		}
 
-		prototype.throwNewError = function throwNewError(message, details) {
+		// TODO used?
+		prototype.throwNewError = function throwNewError(message, details = {}) {
 			const SEC = this
 			const err = new Error(message)
 			err.details = details

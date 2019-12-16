@@ -47,6 +47,7 @@ export const handler: NetlifyHandler = async (
 
 	return {
 		statusCode: 200,
+		headers: {},
 		body: all_the_things,
 	}
 }

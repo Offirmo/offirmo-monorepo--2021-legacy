@@ -2,11 +2,27 @@
 
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types
 // TODO Symbol?
-type JSPrimitiveType = boolean | null | undefined | number | string
+export type JSPrimitiveType = boolean | null | undefined | number | string
 
 /////////////////////
 
-interface NumberMap {
+// https://github.com/microsoft/TypeScript/issues/13923#issuecomment-557509399
+export type ImmutablePrimitive = undefined | null | boolean | string | number | Function;
+
+export type Immutable<T> =
+	T extends ImmutablePrimitive ? T :
+		T extends Array<infer U> ? ImmutableArray<U> :
+			T extends Map<infer K, infer V> ? ImmutableMap<K, V> :
+				T extends Set<infer M> ? ImmutableSet<M> : ImmutableObject<T>;
+
+export type ImmutableArray<T> = ReadonlyArray<Immutable<T>>;
+export type ImmutableMap<K, V> = ReadonlyMap<Immutable<K>, Immutable<V>>;
+export type ImmutableSet<T> = ReadonlySet<Immutable<T>>;
+export type ImmutableObject<T> = { readonly [K in keyof T]: Immutable<T[K]> };
+
+/////////////////////
+
+export interface NumberMap {
 	[k: string]: number
 }
 
@@ -14,38 +30,39 @@ interface NumberMap {
 
 /* JSON
  * https://devblogs.microsoft.com/typescript/announcing-typescript-3-7-rc/#more-recursive-type-aliases
+ * expanded for convenience / stricter typing
  */
-type JSONPrimitiveType =
+export type JSONPrimitiveType =
 	| null
 	| boolean
 	| number
 	| string
 	| undefined // technically not allowed but added for convenience
 
-interface JSONObject {
+export interface JSONObject {
 	[k: string]: JSON
 }
 
-type JSON =
+export type JSON =
 	| JSONPrimitiveType
 	| JSONObject
 	| JSON[]
 
 /////////////////////
 
-interface I18nMessages {
+export interface I18nMessages {
 	[k: string]: string | I18nMessages
 }
 
 /////////////////////
 
-type ImmutabilityEnforcer = <T>(x: T) => Readonly<T>
+export type ImmutabilityEnforcer = <T>(x: T) => Readonly<T>
 
 /////////////////////
 
 // isomorphic local storage
 // copied from TS libs
-interface Storage {
+export interface Storage {
 	readonly length: number
 	clear(): void
 	getItem(key: string): string | null
@@ -54,19 +71,3 @@ interface Storage {
 }
 
 /////////////////////
-
-export {
-	JSPrimitiveType,
-
-	NumberMap,
-
-	JSONPrimitiveType,
-	JSONObject,
-	JSON,
-
-	I18nMessages,
-
-	ImmutabilityEnforcer,
-
-	Storage,
-}

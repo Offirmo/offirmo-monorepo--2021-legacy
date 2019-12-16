@@ -4,15 +4,19 @@ import {
 	Handler,
 	Context,
 	ClientContext,
-	Callback,
 	APIGatewayEvent,
 } from 'aws-lambda'
 
 ////////////////////////////////////
 
+// https://docs.netlify.com/functions/build-with-javascript/#format
 interface Response {
-	statusCode: number;
-	body: string;
+	isBase64Encoded?: boolean
+	statusCode: number
+	headers: {
+		[k: string]: string
+	}
+	body: string
 }
 
 type NetlifyHandler = Handler<APIGatewayEvent, Response>
