@@ -2,6 +2,7 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
+* [chore] exposes some internal properties for debugging the setup
 * ...
 
 ## v0.2.1
