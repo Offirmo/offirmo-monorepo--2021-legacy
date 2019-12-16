@@ -14,7 +14,12 @@ try { // defensive!
 	DEBUG = DEBUG || !!window.localStorage.getItem('🧩UWDTi.context.debug')
 } catch { /* swallow */ }
 
-const original_v1 = (window as any)._debug.v1
+// re-create to allow
+// 1) picking a more recent version
+//    particularly useful during dev of a more recent browser version
+// 2) changing the source
+const original_v1 = (window as any)._debug.v1._.create()
+original_v1._.source = 'browser-ext'
 
 const overrides: { [k: string]: null | StringifiedJSON } = {}
 const queue: Report[] = []

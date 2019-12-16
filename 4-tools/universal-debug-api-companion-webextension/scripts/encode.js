@@ -18,6 +18,7 @@ function btoa(s) {
 }*/
 
 /////////////////////
+const MAX_INLINE_LIB_SIZE = 34000 // I don't know the actual limit, just know this one works so far
 
 const lib1_input_path = path.resolve(process.cwd(), './dist/injected-api-bundle-1.js')
 const lib1_target_path = path.resolve(process.cwd(), './src/content-scripts/lib-to-inject-1.ts')
@@ -27,7 +28,7 @@ console.log('* lib1 content length =', lib1_content.length)
 
 const lib1_encoded = btoa(lib1_content)
 console.log('* encoded lib1 content length =', lib1_encoded.length)
-console.assert(lib1_encoded.length < 32 * 1000, 'lib1 is too big and won’t get injected!')
+console.assert(lib1_encoded.length <= MAX_INLINE_LIB_SIZE, '❌❌ lib1 is too big and won’t get injected!')
 
 fs.writeFileSync(lib1_target_path, `
 // THIS FILE IS AUTO GENERATED!
@@ -49,7 +50,7 @@ console.log('* lib2 content length =', lib2_content.length)
 
 const lib2_encoded = btoa(lib2_content)
 console.log('* encoded lib2 content length =', lib2_encoded.length)
-console.assert(lib2_encoded.length < 25 * 1000, 'lib2 is too big and won’t get injected!')
+console.assert(lib2_encoded.length <= MAX_INLINE_LIB_SIZE, '❌❌ lib2 is too big and won’t get injected!')
 
 fs.writeFileSync(lib2_target_path, `
 // THIS FILE IS AUTO GENERATED!

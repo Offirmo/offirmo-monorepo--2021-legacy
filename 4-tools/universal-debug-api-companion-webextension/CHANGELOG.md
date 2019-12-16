@@ -2,9 +2,10 @@
 **This tool follows [semver](https://semver.org/).**
 
 ## PENDING
-* [fix] changing window without changing tab = not detected!!
-* [fix] edition fields
+* TODO [fix] changing window without changing tab = not detected!!
+* TODO [fix] edition fields
 * [fix] restoring the previous value on re-enable
+* somehow better UDA injection (TODO review...)
 * [chore] bumped dependencies
 * [doc] README++
 
