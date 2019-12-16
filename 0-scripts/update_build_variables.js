@@ -48,11 +48,11 @@ function to_numver(str) {
 	assert(PARSED_VERSION.minor < 100, 'minor too big for numerical version!!!')
 	assert(PARSED_VERSION.patch < 100, 'patch too big for numerical version!!!')
 
-	return Number(`${PARSED_VERSION.major}.${String(PARSED_VERSION.minor).padStart(2, '0')}${String(PARSED_VERSION.patch).padStart(3, '0')}`)
+	return Number(`${PARSED_VERSION.major}.${String(PARSED_VERSION.minor).padStart(2, '0')}${String(PARSED_VERSION.patch).padStart(2, '0')}`)
 }
-assert(to_numver('1.2.3') === 1.02003, '1.2.3')
+assert(to_numver('1.2.3') === 1.0203, '1.2.3')
 assert(to_numver('2.0.0') === 2., '2.0.0')
-assert(to_numver('345.67.89') === 345.67089, '345.67.89')
+assert(to_numver('345.67.89') === 345.6789, '345.67.89')
 const NUMERIC_VERSION = to_numver(VERSION)
 
 
