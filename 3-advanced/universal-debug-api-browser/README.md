@@ -55,11 +55,16 @@ logger.info('Server URL=', {SERVER_URL})
 Specific to the browser version, overrides are set through local storage:
 
 ```
-localStorage.setItem('🛠UWDA.override.logger.foo.logLevel', '"verbose"')
-localStorage.setItem('🛠UWDA.override.server-url', '"https://prod.dev"')
+localStorage.setItem('🛠UDA.override.logger.foo.logLevel', '"verbose"')
+localStorage.setItem('🛠UDA.override.server-url', '"https://prod.dev"')
 ```
 
 Don't forget that overrides accept only JSON!
+
+Debug:
+```
+localStorage.setItem('🛠UDA.override.logger._UDA_internal.logLevel', '"silly"')
+```
 
 ## Notes
 

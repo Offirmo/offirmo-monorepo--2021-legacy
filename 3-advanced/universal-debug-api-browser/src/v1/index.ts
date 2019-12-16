@@ -5,10 +5,13 @@ import {
 	DEFAULT_LOGGER_KEY,
 	Logger,
 	LoggerCreationParams,
+} from '@offirmo/practical-logger-core'
+import {
 	createLogger,
 } from '@offirmo/practical-logger-browser'
 
 import { LS_ROOT, getOverrideKeyForLogger, getLSKeyForOverride } from './keys'
+
 
 ////////////////////////////////////
 
@@ -23,7 +26,8 @@ interface Overrides {
 
 ////////////////////////////////////
 
-const LIB = LS_ROOT
+export const OWN_LOGGER_NAME = LS_ROOT
+const REVISION = 1
 
 ////////////////////////////////////
 
@@ -40,11 +44,10 @@ export default function create(): DebugApiV1 {
 
 	// TODO override?
 	// TODO allow off?
-	const _ownLogger: Logger = (() => {
-		const name = LIB
-		// TODO make the level adjustable?
-		return createLogger({ name, suggestedLevel: 'fatal' })
-	})()
+	const _ownLogger: Logger = loggers[OWN_LOGGER_NAME] = createLogger({
+			name: OWN_LOGGER_NAME,
+			suggestedLevel: 'fatal', // level adjustable, see below
+		})
 
 	function _getOverrideRequestedSJson(ovKey: string): null | string {
 		try {
@@ -60,9 +63,15 @@ export default function create(): DebugApiV1 {
 		}
 	}
 
-	const forcedLevel = _getOverrideRequestedSJson('_UWDA_internal')
-	if (forcedLevel)
-		_ownLogger.setLevel(forcedLevel as LogLevel)
+	const forcedLevel = _getOverrideRequestedSJson(getOverrideKeyForLogger('_UDA_internal'))
+	try {
+		if (forcedLevel)
+			_ownLogger.setLevel(JSON.parse(forcedLevel) as LogLevel)
+	}
+	catch (err) {
+		_ownLogger.fatal(`🔴 error setting internal logger forced level: "${forcedLevel}"!`)
+	}
+	_ownLogger.log(`Instantiated. (revision: ${REVISION})`)
 
 	function _getOverride(key: string): OverrideStatus {
 		if (!overrides[key]) {
@@ -103,6 +112,9 @@ export default function create(): DebugApiV1 {
 		_: {
 			exposed,
 			overrides,
+			minor: REVISION,
+			source: 'browser-lib',
+			create,
 		},
 	}
 
@@ -148,6 +160,7 @@ export default function create(): DebugApiV1 {
 	}
 
 	function exposeInternal(path: string, value: any): void {
+		_ownLogger.warn(`exposeInternal(): alpha, not documented!`)
 		try {
 			const pathParts = path.split('.') // TODO switch to / ?
 			const lastIndex = pathParts.length - 1
@@ -162,12 +175,13 @@ export default function create(): DebugApiV1 {
 			})
 		}
 		catch (err) {
-			_ownLogger.error(`[${LIB}] exposeInternal(): error exposing!`, { path, err })
+			_ownLogger.error(`exposeInternal(): error exposing!`, { path, err })
 		}
 	}
 
 	function addDebugCommand(commandName: string, callback: () => void) {
 		// TODO
+		_ownLogger.warn(`addDebugCommand(): alpha, not documented!`)
 		// TODO try catch
 		debugCommands[commandName] = callback
 	}

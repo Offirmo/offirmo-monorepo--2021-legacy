@@ -2,9 +2,13 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
-* TODO fix all TODOs
+* TODO extract core implementation common bw node & browser?
 * TODO better handle no local storage
 * TODO handle iframes?
+* [doc] README++
+* [chore] improved "attaching" logic with hints on setup error and improves some bad cases
+* [feat] better internal logging
+* [chore] bumped dependencies (incl. most recent interface)
 
 ## v0.1.1
 2019/12/12

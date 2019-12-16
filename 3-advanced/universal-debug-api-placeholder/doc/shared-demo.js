@@ -2,6 +2,7 @@ import {
 	demo_legacy_console,
 	demo_logger_api,
 	demo_devtools_fonts,
+	demo_error,
 } from '../../../2-foundation/practical-logger-core/doc/shared-demo'
 
 
@@ -19,6 +20,7 @@ export function demo_full(api) {
 	demo_legacy_console()
 
 	demo_logger_api(api.getLogger)
+	demo_error(api.getLogger())
 
 	demo_UDAPI(api)
 
