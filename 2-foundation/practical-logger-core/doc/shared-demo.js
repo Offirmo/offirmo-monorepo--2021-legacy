@@ -147,7 +147,7 @@ function demo_error(logger, in_group = true) {
 
 	function foo() {
 		function bar() {
-			const err = new Error('Test!')
+			const err = new Error('Test error!')
 			err.statusCode = 1234
 			err.details = {
 				hello: 42,

@@ -12,6 +12,7 @@ import {
 	FONT_FAMILY_BETTER_MONOSPACE,
 	LEVEL_TO_COLOR_STYLE,
 	add_styled_string,
+	build_args,
 } from './common'
 
 function has_details_indicator(console_method_name: string): boolean {
@@ -21,8 +22,8 @@ function has_details_indicator(console_method_name: string): boolean {
 const HEADER_FONT_SIZE_STYLE = 'font-size: 8px'
 const MESSAGE_FONT_SIZE_STYLE = 'font-size: 11px'
 
-export const sink: LogSink = (payload: LogPayload): void => {
-	const { level, name, msg, err, details } = payload
+export const sink: LogSink = (payload: Readonly<LogPayload>): void => {
+	const { level, name, msg, err, details: details_orginal } = payload
 	const console_method_name: string = LEVEL_TO_CONSOLE_METHOD[level]
 	const console_method: Console['log'] = (console as any)[console_method_name]
 
@@ -41,14 +42,7 @@ export const sink: LogSink = (payload: LogPayload): void => {
 	}
 	line = add_styled_string(line, msg, LEVEL_TO_COLOR_STYLE[level], FONT_FAMILY_BETTER_PROPORTIONAL, MESSAGE_FONT_SIZE_STYLE)
 
-	const args: any[] = line
-	if (Object.keys(details).length)
-		args.push(details)
-	// err should be last because it takes a lot of room and "hides" further args
-	if (err)
-		args.push(err)
-
-	console_method(...args)
+	console_method(...build_args(line, payload))
 }
 
 export default sink

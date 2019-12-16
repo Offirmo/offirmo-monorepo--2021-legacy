@@ -6,11 +6,13 @@
   * NOTE bigger size but not a problem since you're not supposed to bundle this lib
 * TODO test EDGE, IE
 * TODO local pictures
+* [feat] improved error display, now always printed as "details" so that the props are inspectable
 * ...
 
 ## v2.1.1
 2019/12/12
 * WARN accidentally published an experimental minor change in the Chrome sink. Will monitor if it's a problem.
+  (it's fine, officially shipped to all browsers in the next version)
 * [chore] reorganized source paths = links updated in the doc
 * [doc] README++
 * [chore] linted automatically (no logic change)
