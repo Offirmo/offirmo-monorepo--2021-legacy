@@ -1,4 +1,21 @@
 
+
+SNOW
+#snow {
+    display: block !important;
+    background-image: url('../images/snow1.png'), url('../images/snow2.png'), url('../images/snow3.png');
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+	position: fixed;
+    z-index: -1;
+    opacity: 1;
+    pointer-events: none;
+    animation: snow 10s linear infinite, snowFade 10s cubic-bezier(0,0.3,1,0.7) infinite;
+}
+
+
 effects https://yoksel.github.io/svg-gradient-map/#/
 text effect http://www.brutalistframework.com/bfx#curved
 
