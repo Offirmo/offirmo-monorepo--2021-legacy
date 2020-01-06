@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 242);
+/******/ 	return __webpack_require__(__webpack_require__.s = 248);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -374,7 +374,7 @@ module.exports = require("events");
 
 /***/ }),
 
-/***/ 132:
+/***/ 134:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -836,7 +836,7 @@ function setHubOnCarrier(carrier, hub) {
     return true;
 }
 //# sourceMappingURL=hub.js.map
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(57)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(58)(module)))
 
 /***/ }),
 
@@ -844,6 +844,7 @@ function setHubOnCarrier(carrier, hub) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* unused harmony export default */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getGlobalThis; });
 /* global globalThis, self, window, global */
 const lastResort = {};
@@ -860,6 +861,7 @@ function getGlobalThis() {
   if (typeof this !== 'undefined') return this;
   return lastResort; // should never happen
 }
+
 
 /***/ }),
 
@@ -1112,7 +1114,7 @@ Object.defineProperty(exports, "__esModule", {
 
 const typescript_string_enums_1 = __webpack_require__(10);
 
-const functions_interface_1 = __webpack_require__(46);
+const functions_interface_1 = __webpack_require__(48);
 
 exports.CHANNEL = (() => {
   if (typescript_string_enums_1.Enum.isType(functions_interface_1.ReleaseChannel, process.env.CHANNEL)) return process.env.CHANNEL;
@@ -1131,47 +1133,47 @@ exports.CHANNEL = (() => {
 var src_es2019 = __webpack_require__(14);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-foundation/practical-logger-minimal-noop/dist/src.es2019/index.js
-const src_es2019_NO_OP = () => {};
+function src_es2019_NOP() {}
 
-const src_es2019_NO_OP_LOGGER = {
-  setLevel: src_es2019_NO_OP,
+const src_es2019_NOP_LOGGER = {
+  setLevel: src_es2019_NOP,
   getLevel: () => 'silly',
-  addCommonDetails: src_es2019_NO_OP,
-  fatal: src_es2019_NO_OP,
-  emerg: src_es2019_NO_OP,
-  alert: src_es2019_NO_OP,
-  crit: src_es2019_NO_OP,
-  error: src_es2019_NO_OP,
-  warning: src_es2019_NO_OP,
-  warn: src_es2019_NO_OP,
-  notice: src_es2019_NO_OP,
-  info: src_es2019_NO_OP,
-  verbose: src_es2019_NO_OP,
-  log: src_es2019_NO_OP,
-  debug: src_es2019_NO_OP,
-  trace: src_es2019_NO_OP,
-  silly: src_es2019_NO_OP,
-  group: src_es2019_NO_OP,
-  groupCollapsed: src_es2019_NO_OP,
-  groupEnd: src_es2019_NO_OP
+  addCommonDetails: src_es2019_NOP,
+  fatal: src_es2019_NOP,
+  emerg: src_es2019_NOP,
+  alert: src_es2019_NOP,
+  crit: src_es2019_NOP,
+  error: src_es2019_NOP,
+  warning: src_es2019_NOP,
+  warn: src_es2019_NOP,
+  notice: src_es2019_NOP,
+  info: src_es2019_NOP,
+  verbose: src_es2019_NOP,
+  log: src_es2019_NOP,
+  debug: src_es2019_NOP,
+  trace: src_es2019_NOP,
+  silly: src_es2019_NOP,
+  group: src_es2019_NOP,
+  groupCollapsed: src_es2019_NOP,
+  groupEnd: src_es2019_NOP
 };
 
 function createLogger(_) {
-  return src_es2019_NO_OP_LOGGER;
+  return src_es2019_NOP_LOGGER;
 }
 
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/universal-debug-api-placeholder/dist/src.es2019/v1.js
 
 function create() {
-  const NO_OP = () => {};
+  function NOP() {}
 
-  const NO_OP_LOGGER = createLogger();
+  const NOP_LOGGER = createLogger();
   return {
-    getLogger: () => NO_OP_LOGGER,
-    exposeInternal: NO_OP,
+    getLogger: () => NOP_LOGGER,
     overrideHook: (k, v) => v,
-    addDebugCommand: NO_OP
+    exposeInternal: NOP,
+    addDebugCommand: NOP
   };
 }
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/universal-debug-api-placeholder/dist/src.es2019/index.js
@@ -1182,12 +1184,12 @@ function create() {
 /* unused harmony export globalThis */
 /* unused concated harmony import createV1 */
 
- // ensure the root is present
 
-const globalThis = Object(src_es2019["a" /* getGlobalThis */])();
+const globalThis = Object(src_es2019["a" /* getGlobalThis */])(); // ensure the root is present
+
 globalThis._debug = globalThis._debug || {}; // install globally if no other implementation already present
 
-globalThis._debug.v1 = globalThis._debug.v1 || create(); // expose the current implementation
+globalThis._debug.v1 = globalThis._debug.v1 || create(); // expose the installed implementation
 
 const instance = globalThis._debug.v1;
 const {
@@ -1524,7 +1526,7 @@ function addGlobalEventProcessor(callback) {
 
 /***/ }),
 
-/***/ 242:
+/***/ 248:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1534,7 +1536,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const sentry_1 = __webpack_require__(56);
+const sentry_1 = __webpack_require__(57);
 
 const handler = async (event, badly_typed_context) => {
   var _a, _b;
@@ -1551,105 +1553,9 @@ exports.handler = handler;
 /***/ }),
 
 /***/ 29:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return truncate; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return snipLine; });
-/* unused harmony export safeJoin */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return isMatchingPattern; });
-/* harmony import */ var _is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
-
-/**
- * Truncates given string to the maximum characters count
- *
- * @param str An object that contains serializable values
- * @param max Maximum number of characters in truncated string
- * @returns string Encoded
- */
-function truncate(str, max) {
-    if (max === void 0) { max = 0; }
-    // tslint:disable-next-line:strict-type-predicates
-    if (typeof str !== 'string' || max === 0) {
-        return str;
-    }
-    return str.length <= max ? str : str.substr(0, max) + "...";
-}
-/**
- * This is basically just `trim_line` from
- * https://github.com/getsentry/sentry/blob/master/src/sentry/lang/javascript/processor.py#L67
- *
- * @param str An object that contains serializable values
- * @param max Maximum number of characters in truncated string
- * @returns string Encoded
- */
-function snipLine(line, colno) {
-    var newLine = line;
-    var ll = newLine.length;
-    if (ll <= 150) {
-        return newLine;
-    }
-    if (colno > ll) {
-        colno = ll; // tslint:disable-line:no-parameter-reassignment
-    }
-    var start = Math.max(colno - 60, 0);
-    if (start < 5) {
-        start = 0;
-    }
-    var end = Math.min(start + 140, ll);
-    if (end > ll - 5) {
-        end = ll;
-    }
-    if (end === ll) {
-        start = Math.max(end - 140, 0);
-    }
-    newLine = newLine.slice(start, end);
-    if (start > 0) {
-        newLine = "'{snip} " + newLine;
-    }
-    if (end < ll) {
-        newLine += ' {snip}';
-    }
-    return newLine;
-}
-/**
- * Join values in array
- * @param input array of values to be joined together
- * @param delimiter string to be placed in-between values
- * @returns Joined values
- */
-function safeJoin(input, delimiter) {
-    if (!Array.isArray(input)) {
-        return '';
-    }
-    var output = [];
-    // tslint:disable-next-line:prefer-for-of
-    for (var i = 0; i < input.length; i++) {
-        var value = input[i];
-        try {
-            output.push(String(value));
-        }
-        catch (e) {
-            output.push('[value cannot be serialized]');
-        }
-    }
-    return output.join(delimiter);
-}
-/**
- * Checks if the value matches a regex or includes the string
- * @param value The string value to be checked against
- * @param pattern Either a regex or a string that must be contained in value
- */
-function isMatchingPattern(value, pattern) {
-    if (Object(_is__WEBPACK_IMPORTED_MODULE_0__[/* isRegExp */ "g"])(pattern)) {
-        return pattern.test(value);
-    }
-    if (typeof pattern === 'string') {
-        return value.indexOf(pattern) !== -1;
-    }
-    return false;
-}
-//# sourceMappingURL=string.js.map
+module.exports = require("assert");
 
 /***/ }),
 
@@ -2000,9 +1906,105 @@ function getFunctionName(fn) {
 /***/ }),
 
 /***/ 30:
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-module.exports = require("assert");
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return truncate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return snipLine; });
+/* unused harmony export safeJoin */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return isMatchingPattern; });
+/* harmony import */ var _is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
+
+/**
+ * Truncates given string to the maximum characters count
+ *
+ * @param str An object that contains serializable values
+ * @param max Maximum number of characters in truncated string
+ * @returns string Encoded
+ */
+function truncate(str, max) {
+    if (max === void 0) { max = 0; }
+    // tslint:disable-next-line:strict-type-predicates
+    if (typeof str !== 'string' || max === 0) {
+        return str;
+    }
+    return str.length <= max ? str : str.substr(0, max) + "...";
+}
+/**
+ * This is basically just `trim_line` from
+ * https://github.com/getsentry/sentry/blob/master/src/sentry/lang/javascript/processor.py#L67
+ *
+ * @param str An object that contains serializable values
+ * @param max Maximum number of characters in truncated string
+ * @returns string Encoded
+ */
+function snipLine(line, colno) {
+    var newLine = line;
+    var ll = newLine.length;
+    if (ll <= 150) {
+        return newLine;
+    }
+    if (colno > ll) {
+        colno = ll; // tslint:disable-line:no-parameter-reassignment
+    }
+    var start = Math.max(colno - 60, 0);
+    if (start < 5) {
+        start = 0;
+    }
+    var end = Math.min(start + 140, ll);
+    if (end > ll - 5) {
+        end = ll;
+    }
+    if (end === ll) {
+        start = Math.max(end - 140, 0);
+    }
+    newLine = newLine.slice(start, end);
+    if (start > 0) {
+        newLine = "'{snip} " + newLine;
+    }
+    if (end < ll) {
+        newLine += ' {snip}';
+    }
+    return newLine;
+}
+/**
+ * Join values in array
+ * @param input array of values to be joined together
+ * @param delimiter string to be placed in-between values
+ * @returns Joined values
+ */
+function safeJoin(input, delimiter) {
+    if (!Array.isArray(input)) {
+        return '';
+    }
+    var output = [];
+    // tslint:disable-next-line:prefer-for-of
+    for (var i = 0; i < input.length; i++) {
+        var value = input[i];
+        try {
+            output.push(String(value));
+        }
+        catch (e) {
+            output.push('[value cannot be serialized]');
+        }
+    }
+    return output.join(delimiter);
+}
+/**
+ * Checks if the value matches a regex or includes the string
+ * @param value The string value to be checked against
+ * @param pattern Either a regex or a string that must be contained in value
+ */
+function isMatchingPattern(value, pattern) {
+    if (Object(_is__WEBPACK_IMPORTED_MODULE_0__[/* isRegExp */ "g"])(pattern)) {
+        return pattern.test(value);
+    }
+    if (typeof pattern === 'string') {
+        return value.indexOf(pattern) !== -1;
+    }
+    return false;
+}
+//# sourceMappingURL=string.js.map
 
 /***/ }),
 
@@ -2020,13 +2022,13 @@ module.exports = require("tty");
  * Module dependencies.
  */
 
-var net = __webpack_require__(50);
-var tls = __webpack_require__(51);
+var net = __webpack_require__(44);
+var tls = __webpack_require__(45);
 var url = __webpack_require__(16);
-var assert = __webpack_require__(30);
-var Agent = __webpack_require__(58);
+var assert = __webpack_require__(29);
+var Agent = __webpack_require__(59);
 var inherits = __webpack_require__(5).inherits;
-var debug = __webpack_require__(63)('https-proxy-agent');
+var debug = __webpack_require__(64)('https-proxy-agent');
 
 /**
  * Module exports.
@@ -2278,7 +2280,7 @@ function setup(env) {
   createDebug.disable = disable;
   createDebug.enable = enable;
   createDebug.enabled = enabled;
-  createDebug.humanize = __webpack_require__(65);
+  createDebug.humanize = __webpack_require__(66);
   Object.keys(env).forEach(function (key) {
     createDebug[key] = env[key];
   });
@@ -3280,7 +3282,21 @@ var logger = global.__SENTRY__.logger || (global.__SENTRY__.logger = new Logger(
 
 /***/ }),
 
-/***/ 46:
+/***/ 44:
+/***/ (function(module, exports) {
+
+module.exports = require("net");
+
+/***/ }),
+
+/***/ 45:
+/***/ (function(module, exports) {
+
+module.exports = require("tls");
+
+/***/ }),
+
+/***/ 48:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3343,27 +3359,13 @@ module.exports = require("util");
 
 /***/ }),
 
-/***/ 50:
-/***/ (function(module, exports) {
-
-module.exports = require("net");
-
-/***/ }),
-
-/***/ 51:
-/***/ (function(module, exports) {
-
-module.exports = require("tls");
-
-/***/ }),
-
 /***/ 52:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 const os = __webpack_require__(20);
-const hasFlag = __webpack_require__(67);
+const hasFlag = __webpack_require__(68);
 
 const env = process.env;
 
@@ -3496,7 +3498,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 56:
+/***/ 57:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3553,7 +3555,7 @@ exports.on_user_recognized = on_user_recognized; // TODO self-triage?
 
 /***/ }),
 
-/***/ 57:
+/***/ 58:
 /***/ (function(module, exports) {
 
 module.exports = function(originalModule) {
@@ -3584,14 +3586,14 @@ module.exports = function(originalModule) {
 
 /***/ }),
 
-/***/ 58:
+/***/ 59:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-__webpack_require__(59);
+__webpack_require__(60);
 const inherits = __webpack_require__(5).inherits;
-const promisify = __webpack_require__(60);
+const promisify = __webpack_require__(61);
 const EventEmitter = __webpack_require__(11).EventEmitter;
 
 module.exports = Agent;
@@ -3762,7 +3764,7 @@ Agent.prototype.freeSocket = function freeSocket(socket, opts) {
 
 /***/ }),
 
-/***/ 59:
+/***/ 60:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3821,7 +3823,7 @@ https.get = function (_url, _options, cb) {
 
 /***/ }),
 
-/***/ 60:
+/***/ 61:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3834,7 +3836,7 @@ module.exports = function () {
 
     // Get a promise object. This may be native, or it may be polyfilled
 
-    var ES6Promise = __webpack_require__(61);
+    var ES6Promise = __webpack_require__(62);
 
     /**
      * thatLooksLikeAPromiseToMe()
@@ -3913,7 +3915,7 @@ module.exports = function () {
 
 /***/ }),
 
-/***/ 61:
+/***/ 62:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3988,12 +3990,12 @@ module.exports = function () {
     }
 
     //  Otherwise, return the es6-promise polyfill by @jaffathecake.
-    return __webpack_require__(62).Promise;
+    return __webpack_require__(63).Promise;
 }();
 
 /***/ }),
 
-/***/ 62:
+/***/ 63:
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -5173,7 +5175,7 @@ return Promise$1;
 
 /***/ }),
 
-/***/ 63:
+/***/ 64:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5184,16 +5186,16 @@ return Promise$1;
  * treat as a browser.
  */
 if (typeof process === 'undefined' || process.type === 'renderer' || process.browser === true || process.__nwjs) {
-  module.exports = __webpack_require__(64);
+  module.exports = __webpack_require__(65);
 } else {
-  module.exports = __webpack_require__(66);
+  module.exports = __webpack_require__(67);
 }
 
 
 
 /***/ }),
 
-/***/ 64:
+/***/ 65:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5381,7 +5383,7 @@ formatters.j = function (v) {
 
 /***/ }),
 
-/***/ 65:
+/***/ 66:
 /***/ (function(module, exports) {
 
 /**
@@ -5550,7 +5552,7 @@ function plural(ms, msAbs, n, name) {
 
 /***/ }),
 
-/***/ 66:
+/***/ 67:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5732,7 +5734,7 @@ formatters.O = function (v) {
 
 /***/ }),
 
-/***/ 67:
+/***/ 68:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5748,7 +5750,7 @@ module.exports = (flag, argv) => {
 
 /***/ }),
 
-/***/ 68:
+/***/ 69:
 /***/ (function(module, exports) {
 
 module.exports = require("console");
@@ -5821,7 +5823,7 @@ var Memo = /** @class */ (function () {
 var misc = __webpack_require__(3);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/string.js
-var string = __webpack_require__(29);
+var string = __webpack_require__(30);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/object.js
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return fill; });
@@ -6250,7 +6252,7 @@ var Status;
 var esm_scope = __webpack_require__(24);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/hub/esm/hub.js
-var esm_hub = __webpack_require__(132);
+var esm_hub = __webpack_require__(134);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/minimal/esm/index.js
 
@@ -6550,7 +6552,7 @@ var is = __webpack_require__(4);
 var syncpromise = __webpack_require__(19);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/string.js
-var string = __webpack_require__(29);
+var string = __webpack_require__(30);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/misc.js
 var misc = __webpack_require__(3);
@@ -8302,7 +8304,7 @@ var console_Console = /** @class */ (function () {
      */
     Console.prototype.setupOnce = function () {
         var e_1, _a;
-        var consoleModule = __webpack_require__(68);
+        var consoleModule = __webpack_require__(69);
         try {
             for (var _b = tslib_es6["__values"](['debug', 'info', 'warn', 'error', 'log']), _c = _b.next(); !_c.done; _c = _b.next()) {
                 var level = _c.value;

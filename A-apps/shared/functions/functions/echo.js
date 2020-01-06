@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 239);
+/******/ 	return __webpack_require__(__webpack_require__.s = 245);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -146,6 +146,7 @@ exports.Enum = Enum;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* unused harmony export default */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getGlobalThis; });
 /* global globalThis, self, window, global */
 const lastResort = {};
@@ -162,6 +163,7 @@ function getGlobalThis() {
   if (typeof this !== 'undefined') return this;
   return lastResort; // should never happen
 }
+
 
 /***/ }),
 
@@ -184,7 +186,7 @@ Object.defineProperty(exports, "__esModule", {
 
 const typescript_string_enums_1 = __webpack_require__(10);
 
-const functions_interface_1 = __webpack_require__(46);
+const functions_interface_1 = __webpack_require__(48);
 
 exports.CHANNEL = (() => {
   if (typescript_string_enums_1.Enum.isType(functions_interface_1.ReleaseChannel, process.env.CHANNEL)) return process.env.CHANNEL;
@@ -203,47 +205,47 @@ exports.CHANNEL = (() => {
 var src_es2019 = __webpack_require__(14);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-foundation/practical-logger-minimal-noop/dist/src.es2019/index.js
-const src_es2019_NO_OP = () => {};
+function src_es2019_NOP() {}
 
-const src_es2019_NO_OP_LOGGER = {
-  setLevel: src_es2019_NO_OP,
+const src_es2019_NOP_LOGGER = {
+  setLevel: src_es2019_NOP,
   getLevel: () => 'silly',
-  addCommonDetails: src_es2019_NO_OP,
-  fatal: src_es2019_NO_OP,
-  emerg: src_es2019_NO_OP,
-  alert: src_es2019_NO_OP,
-  crit: src_es2019_NO_OP,
-  error: src_es2019_NO_OP,
-  warning: src_es2019_NO_OP,
-  warn: src_es2019_NO_OP,
-  notice: src_es2019_NO_OP,
-  info: src_es2019_NO_OP,
-  verbose: src_es2019_NO_OP,
-  log: src_es2019_NO_OP,
-  debug: src_es2019_NO_OP,
-  trace: src_es2019_NO_OP,
-  silly: src_es2019_NO_OP,
-  group: src_es2019_NO_OP,
-  groupCollapsed: src_es2019_NO_OP,
-  groupEnd: src_es2019_NO_OP
+  addCommonDetails: src_es2019_NOP,
+  fatal: src_es2019_NOP,
+  emerg: src_es2019_NOP,
+  alert: src_es2019_NOP,
+  crit: src_es2019_NOP,
+  error: src_es2019_NOP,
+  warning: src_es2019_NOP,
+  warn: src_es2019_NOP,
+  notice: src_es2019_NOP,
+  info: src_es2019_NOP,
+  verbose: src_es2019_NOP,
+  log: src_es2019_NOP,
+  debug: src_es2019_NOP,
+  trace: src_es2019_NOP,
+  silly: src_es2019_NOP,
+  group: src_es2019_NOP,
+  groupCollapsed: src_es2019_NOP,
+  groupEnd: src_es2019_NOP
 };
 
 function createLogger(_) {
-  return src_es2019_NO_OP_LOGGER;
+  return src_es2019_NOP_LOGGER;
 }
 
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/universal-debug-api-placeholder/dist/src.es2019/v1.js
 
 function create() {
-  const NO_OP = () => {};
+  function NOP() {}
 
-  const NO_OP_LOGGER = createLogger();
+  const NOP_LOGGER = createLogger();
   return {
-    getLogger: () => NO_OP_LOGGER,
-    exposeInternal: NO_OP,
+    getLogger: () => NOP_LOGGER,
     overrideHook: (k, v) => v,
-    addDebugCommand: NO_OP
+    exposeInternal: NOP,
+    addDebugCommand: NOP
   };
 }
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/universal-debug-api-placeholder/dist/src.es2019/index.js
@@ -254,12 +256,12 @@ function create() {
 /* unused harmony export globalThis */
 /* unused concated harmony import createV1 */
 
- // ensure the root is present
 
-const globalThis = Object(src_es2019["a" /* getGlobalThis */])();
+const globalThis = Object(src_es2019["a" /* getGlobalThis */])(); // ensure the root is present
+
 globalThis._debug = globalThis._debug || {}; // install globally if no other implementation already present
 
-globalThis._debug.v1 = globalThis._debug.v1 || create(); // expose the current implementation
+globalThis._debug.v1 = globalThis._debug.v1 || create(); // expose the installed implementation
 
 const instance = globalThis._debug.v1;
 const {
@@ -272,7 +274,7 @@ const {
 
 /***/ }),
 
-/***/ 239:
+/***/ 245:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -424,7 +426,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 46:
+/***/ 48:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

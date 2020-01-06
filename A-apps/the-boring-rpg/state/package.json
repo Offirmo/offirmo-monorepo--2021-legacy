@@ -1,18 +1,16 @@
 {
 	"name": "@tbrpg/state",
 	"description": "The Boring RPG state and reducer",
-	"version": "0.61.3",
+	"version": "0.61.4",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 	"private": true,
-
 	"esnext": "dist/src.es2019/index.js",
 	"module": "dist/src.es2019/index.js",
 	"main": "dist/src.es2018.cjs/index.js",
 	"typings": "dist/src.es2018.cjs/index.d.ts",
 	"source": "src/index.ts",
 	"sideEffects": false,
-
 	"peerDependencies": {
 		"@offirmo-private/soft-execution-context": "^0.0.2",
 		"tslib": "^1"
@@ -47,7 +45,6 @@
 		"tiny-invariant": "^1",
 		"typescript-string-enums": "^1"
 	},
-
 	"scripts": {
 		"clean": "node ../../../0-scripts/clean.js dist",
 		"refresh-build-variables": "node ../../../0-scripts/update_build_variables.js --mode=ts",

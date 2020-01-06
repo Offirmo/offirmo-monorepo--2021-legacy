@@ -2,6 +2,7 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
+* [chore] bumped deps: sinon 8, mocha 7
 * [chore] reorganized source paths = links update in the doc
 * [feat] added *optional* installation of [chai-fetch-mock](https://github.com/gakimball/chai-fetch-mock)
 * [chore] bumped deps (eslint mocha 6)

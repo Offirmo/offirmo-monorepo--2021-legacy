@@ -1,5 +1,5 @@
 
 // THIS FILE IS AUTO GENERATED!
-export const VERSION: string = '0.61.3'
-export const NUMERIC_VERSION: number = 0.61003 // for easy comparisons
-export const BUILD_DATE: string = '20191216_21h15'
+export const VERSION: string = '0.61.4'
+export const NUMERIC_VERSION: number = 0.6104 // for easy comparisons
+export const BUILD_DATE: string = '20200106_22h10'

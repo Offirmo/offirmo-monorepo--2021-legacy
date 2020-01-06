@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 240);
+/******/ 	return __webpack_require__(__webpack_require__.s = 246);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1136,7 +1136,7 @@ var Memo = /** @class */ (function () {
 var misc = __webpack_require__(3);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/string.js
-var string = __webpack_require__(29);
+var string = __webpack_require__(30);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/object.js
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return fill; });
@@ -1506,6 +1506,7 @@ module.exports = require("events");
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* unused harmony export default */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getGlobalThis; });
 /* global globalThis, self, window, global */
 const lastResort = {};
@@ -1522,6 +1523,7 @@ function getGlobalThis() {
   if (typeof this !== 'undefined') return this;
   return lastResort; // should never happen
 }
+
 
 /***/ }),
 /* 15 */
@@ -1767,7 +1769,7 @@ Object.defineProperty(exports, "__esModule", {
 
 const typescript_string_enums_1 = __webpack_require__(10);
 
-const functions_interface_1 = __webpack_require__(46);
+const functions_interface_1 = __webpack_require__(48);
 
 exports.CHANNEL = (() => {
   if (typescript_string_enums_1.Enum.isType(functions_interface_1.ReleaseChannel, process.env.CHANNEL)) return process.env.CHANNEL;
@@ -1785,47 +1787,47 @@ exports.CHANNEL = (() => {
 var src_es2019 = __webpack_require__(14);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-foundation/practical-logger-minimal-noop/dist/src.es2019/index.js
-const src_es2019_NO_OP = () => {};
+function src_es2019_NOP() {}
 
-const src_es2019_NO_OP_LOGGER = {
-  setLevel: src_es2019_NO_OP,
+const src_es2019_NOP_LOGGER = {
+  setLevel: src_es2019_NOP,
   getLevel: () => 'silly',
-  addCommonDetails: src_es2019_NO_OP,
-  fatal: src_es2019_NO_OP,
-  emerg: src_es2019_NO_OP,
-  alert: src_es2019_NO_OP,
-  crit: src_es2019_NO_OP,
-  error: src_es2019_NO_OP,
-  warning: src_es2019_NO_OP,
-  warn: src_es2019_NO_OP,
-  notice: src_es2019_NO_OP,
-  info: src_es2019_NO_OP,
-  verbose: src_es2019_NO_OP,
-  log: src_es2019_NO_OP,
-  debug: src_es2019_NO_OP,
-  trace: src_es2019_NO_OP,
-  silly: src_es2019_NO_OP,
-  group: src_es2019_NO_OP,
-  groupCollapsed: src_es2019_NO_OP,
-  groupEnd: src_es2019_NO_OP
+  addCommonDetails: src_es2019_NOP,
+  fatal: src_es2019_NOP,
+  emerg: src_es2019_NOP,
+  alert: src_es2019_NOP,
+  crit: src_es2019_NOP,
+  error: src_es2019_NOP,
+  warning: src_es2019_NOP,
+  warn: src_es2019_NOP,
+  notice: src_es2019_NOP,
+  info: src_es2019_NOP,
+  verbose: src_es2019_NOP,
+  log: src_es2019_NOP,
+  debug: src_es2019_NOP,
+  trace: src_es2019_NOP,
+  silly: src_es2019_NOP,
+  group: src_es2019_NOP,
+  groupCollapsed: src_es2019_NOP,
+  groupEnd: src_es2019_NOP
 };
 
 function createLogger(_) {
-  return src_es2019_NO_OP_LOGGER;
+  return src_es2019_NOP_LOGGER;
 }
 
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/universal-debug-api-placeholder/dist/src.es2019/v1.js
 
 function create() {
-  const NO_OP = () => {};
+  function NOP() {}
 
-  const NO_OP_LOGGER = createLogger();
+  const NOP_LOGGER = createLogger();
   return {
-    getLogger: () => NO_OP_LOGGER,
-    exposeInternal: NO_OP,
+    getLogger: () => NOP_LOGGER,
     overrideHook: (k, v) => v,
-    addDebugCommand: NO_OP
+    exposeInternal: NOP,
+    addDebugCommand: NOP
   };
 }
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/universal-debug-api-placeholder/dist/src.es2019/index.js
@@ -1836,12 +1838,12 @@ function create() {
 /* unused harmony export globalThis */
 /* unused concated harmony import createV1 */
 
- // ensure the root is present
 
-const globalThis = Object(src_es2019["a" /* getGlobalThis */])();
+const globalThis = Object(src_es2019["a" /* getGlobalThis */])(); // ensure the root is present
+
 globalThis._debug = globalThis._debug || {}; // install globally if no other implementation already present
 
-globalThis._debug.v1 = globalThis._debug.v1 || create(); // expose the current implementation
+globalThis._debug.v1 = globalThis._debug.v1 || create(); // expose the installed implementation
 
 const instance = globalThis._debug.v1;
 const {
@@ -2251,7 +2253,7 @@ exports.create_error = create_error;
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _generate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(48);
+/* harmony import */ var _generate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(50);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_UTC_timestamp_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["a"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["d"]; });
@@ -2266,6 +2268,12 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 /* 29 */
+/***/ (function(module, exports) {
+
+module.exports = require("assert");
+
+/***/ }),
+/* 30 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2367,12 +2375,6 @@ function isMatchingPattern(value, pattern) {
 //# sourceMappingURL=string.js.map
 
 /***/ }),
-/* 30 */
-/***/ (function(module, exports) {
-
-module.exports = require("assert");
-
-/***/ }),
 /* 31 */,
 /* 32 */,
 /* 33 */,
@@ -2414,13 +2416,13 @@ const COMMON_ERROR_FIELDS = DEFAULT_INSTANCE;
  * Module dependencies.
  */
 
-var net = __webpack_require__(50);
-var tls = __webpack_require__(51);
+var net = __webpack_require__(44);
+var tls = __webpack_require__(45);
 var url = __webpack_require__(16);
-var assert = __webpack_require__(30);
-var Agent = __webpack_require__(58);
+var assert = __webpack_require__(29);
+var Agent = __webpack_require__(59);
 var inherits = __webpack_require__(5).inherits;
-var debug = __webpack_require__(63)('https-proxy-agent');
+var debug = __webpack_require__(64)('https-proxy-agent');
 
 /**
  * Module exports.
@@ -2671,7 +2673,7 @@ function setup(env) {
   createDebug.disable = disable;
   createDebug.enable = enable;
   createDebug.enabled = enabled;
-  createDebug.humanize = __webpack_require__(65);
+  createDebug.humanize = __webpack_require__(66);
   Object.keys(env).forEach(function (key) {
     createDebug[key] = env[key];
   });
@@ -3513,9 +3515,21 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /***/ }),
-/* 44 */,
-/* 45 */,
-/* 46 */
+/* 44 */
+/***/ (function(module, exports) {
+
+module.exports = require("net");
+
+/***/ }),
+/* 45 */
+/***/ (function(module, exports) {
+
+module.exports = require("tls");
+
+/***/ }),
+/* 46 */,
+/* 47 */,
+/* 48 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3570,7 +3584,7 @@ function get_base_url(channel) {
 }
 
 /***/ }),
-/* 47 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3604,7 +3618,7 @@ function get_default_JsonRpc_error() {
 exports.get_default_JsonRpc_error = get_default_JsonRpc_error;
 
 /***/ }),
-/* 48 */
+/* 50 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3660,7 +3674,7 @@ function get_human_readable_UTC_timestamp_ms(now = new Date()) {
  /////////////////////
 
 /***/ }),
-/* 49 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
@@ -4505,25 +4519,13 @@ convert.rgb.gray = function (rgb) {
 
 
 /***/ }),
-/* 50 */
-/***/ (function(module, exports) {
-
-module.exports = require("net");
-
-/***/ }),
-/* 51 */
-/***/ (function(module, exports) {
-
-module.exports = require("tls");
-
-/***/ }),
 /* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 const os = __webpack_require__(20);
-const hasFlag = __webpack_require__(67);
+const hasFlag = __webpack_require__(68);
 
 const env = process.env;
 
@@ -4655,7 +4657,8 @@ module.exports = {
 
 
 /***/ }),
-/* 53 */
+/* 53 */,
+/* 54 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4686,7 +4689,7 @@ const LIB = 'soft-execution-context';
 const INTERNAL_PROP = '_SEC';
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/emittery/index.js
-var emittery = __webpack_require__(54);
+var emittery = __webpack_require__(55);
 var emittery_default = /*#__PURE__*/__webpack_require__.n(emittery);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/root-prototype.js
@@ -5045,7 +5048,7 @@ function promiseTry(fn) {
 
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-stdlib/timestamps/dist/src.es2019/generate.js
-var generate = __webpack_require__(48);
+var generate = __webpack_require__(50);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/error-handling/state.js
 /////////////////////
@@ -5473,7 +5476,7 @@ function getRootSEC() {
 
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5837,7 +5840,7 @@ module.exports = Emittery;
 
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -5865,7 +5868,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5921,7 +5924,7 @@ exports.on_user_recognized = on_user_recognized; // TODO self-triage?
 // TODO breadcrumb
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports) {
 
 module.exports = function(originalModule) {
@@ -5951,14 +5954,14 @@ module.exports = function(originalModule) {
 
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-__webpack_require__(59);
+__webpack_require__(60);
 const inherits = __webpack_require__(5).inherits;
-const promisify = __webpack_require__(60);
+const promisify = __webpack_require__(61);
 const EventEmitter = __webpack_require__(11).EventEmitter;
 
 module.exports = Agent;
@@ -6128,7 +6131,7 @@ Agent.prototype.freeSocket = function freeSocket(socket, opts) {
 
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6186,7 +6189,7 @@ https.get = function (_url, _options, cb) {
 
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6199,7 +6202,7 @@ module.exports = function () {
 
     // Get a promise object. This may be native, or it may be polyfilled
 
-    var ES6Promise = __webpack_require__(61);
+    var ES6Promise = __webpack_require__(62);
 
     /**
      * thatLooksLikeAPromiseToMe()
@@ -6277,7 +6280,7 @@ module.exports = function () {
 }();
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6352,11 +6355,11 @@ module.exports = function () {
     }
 
     //  Otherwise, return the es6-promise polyfill by @jaffathecake.
-    return __webpack_require__(62).Promise;
+    return __webpack_require__(63).Promise;
 }();
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -7535,7 +7538,7 @@ return Promise$1;
 
 
 /***/ }),
-/* 63 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7546,15 +7549,15 @@ return Promise$1;
  * treat as a browser.
  */
 if (typeof process === 'undefined' || process.type === 'renderer' || process.browser === true || process.__nwjs) {
-  module.exports = __webpack_require__(64);
+  module.exports = __webpack_require__(65);
 } else {
-  module.exports = __webpack_require__(66);
+  module.exports = __webpack_require__(67);
 }
 
 
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7741,7 +7744,7 @@ formatters.j = function (v) {
 
 
 /***/ }),
-/* 65 */
+/* 66 */
 /***/ (function(module, exports) {
 
 /**
@@ -7909,7 +7912,7 @@ function plural(ms, msAbs, n, name) {
 
 
 /***/ }),
-/* 66 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8090,7 +8093,7 @@ formatters.O = function (v) {
 
 
 /***/ }),
-/* 67 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8105,13 +8108,12 @@ module.exports = (flag, argv) => {
 
 
 /***/ }),
-/* 68 */
+/* 69 */
 /***/ (function(module, exports) {
 
 module.exports = require("console");
 
 /***/ }),
-/* 69 */,
 /* 70 */,
 /* 71 */,
 /* 72 */,
@@ -8249,7 +8251,7 @@ var Status;
 var esm_scope = __webpack_require__(24);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/hub/esm/hub.js
-var esm_hub = __webpack_require__(132);
+var esm_hub = __webpack_require__(134);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/minimal/esm/index.js
 
@@ -8549,7 +8551,7 @@ var is = __webpack_require__(4);
 var syncpromise = __webpack_require__(19);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/string.js
-var string = __webpack_require__(29);
+var string = __webpack_require__(30);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/misc.js
 var misc = __webpack_require__(3);
@@ -10301,7 +10303,7 @@ var console_Console = /** @class */ (function () {
      */
     Console.prototype.setupOnce = function () {
         var e_1, _a;
-        var consoleModule = __webpack_require__(68);
+        var consoleModule = __webpack_require__(69);
         try {
             for (var _b = tslib_es6["__values"](['debug', 'info', 'warn', 'error', 'log']), _c = _b.next(); !_c.done; _c = _b.next()) {
                 var level = _c.value;
@@ -11729,7 +11731,7 @@ const timestamps_1 = __webpack_require__(28);
 
 const sec_1 = __webpack_require__(77);
 
-const sentry_1 = __webpack_require__(56);
+const sentry_1 = __webpack_require__(57);
 
 const channel_1 = __webpack_require__(21);
 
@@ -11927,11 +11929,11 @@ Object.defineProperty(exports, "__esModule", {
 
 const tslib_1 = __webpack_require__(0);
 
-const soft_execution_context_1 = __webpack_require__(53);
+const soft_execution_context_1 = __webpack_require__(54);
 
 const soft_execution_context_node_1 = __webpack_require__(78);
 
-const consts_1 = __webpack_require__(47);
+const consts_1 = __webpack_require__(49);
 
 const channel_1 = __webpack_require__(21);
 
@@ -11997,7 +11999,7 @@ const os = __webpack_require__(20);
 
 const {
   getRootSEC
-} = __webpack_require__(53); // TODO protect from double install
+} = __webpack_require__(54); // TODO protect from double install
 
 
 function listenToUncaughtErrors() {
@@ -12057,7 +12059,7 @@ Object.defineProperty(exports, "__esModule", {
 
 const universal_debug_api_node_1 = __webpack_require__(95);
 
-const consts_1 = __webpack_require__(47);
+const consts_1 = __webpack_require__(49);
 
 const channel_1 = __webpack_require__(21); /////////////////////////////////////////////////
 
@@ -12240,13 +12242,13 @@ Object.defineProperty(module, 'exports', {
 	get: assembleStyles
 });
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(55)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(56)(module)))
 
 /***/ }),
 /* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const conversions = __webpack_require__(49);
+const conversions = __webpack_require__(51);
 const route = __webpack_require__(83);
 
 const convert = {};
@@ -12492,7 +12494,7 @@ module.exports = {
 /* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const conversions = __webpack_require__(49);
+const conversions = __webpack_require__(51);
 
 /*
 	This function routes a model to all other models.
@@ -13618,7 +13620,9 @@ const {
 /* 129 */,
 /* 130 */,
 /* 131 */,
-/* 132 */
+/* 132 */,
+/* 133 */,
+/* 134 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -14080,11 +14084,11 @@ function setHubOnCarrier(carrier, hub) {
     return true;
 }
 //# sourceMappingURL=hub.js.map
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(57)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(58)(module)))
 
 /***/ }),
-/* 133 */,
-/* 134 */
+/* 135 */,
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14172,8 +14176,6 @@ async function test_failure(SEC, event, context, response, next) {
 exports.test_failure = test_failure;
 
 /***/ }),
-/* 135 */,
-/* 136 */,
 /* 137 */,
 /* 138 */,
 /* 139 */,
@@ -14277,7 +14279,13 @@ exports.test_failure = test_failure;
 /* 237 */,
 /* 238 */,
 /* 239 */,
-/* 240 */
+/* 240 */,
+/* 241 */,
+/* 242 */,
+/* 243 */,
+/* 244 */,
+/* 245 */,
+/* 246 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14291,7 +14299,7 @@ const runner_1 = __webpack_require__(76);
 
 const require_http_method_1 = __webpack_require__(88);
 
-const test_failure_1 = __webpack_require__(134);
+const test_failure_1 = __webpack_require__(136);
 
 async function _handler(SEC, event, context, response, next) {
   response.statusCode = 200;
