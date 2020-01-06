@@ -74,3 +74,6 @@ A logger will have the following interface:
 ## Concept
 Other loggers:
 * http://getpino.io/#/docs/benchmarks
+
+## Credits
+I had a look at bunyan's interface.
