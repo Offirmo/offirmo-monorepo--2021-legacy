@@ -4,6 +4,8 @@
 ## pending
 * TODO unit tests
 * TODO check the semantic (once?) + duplication handling
+* [doc] README++
+* [feat] minor tweak to shave a few bytes
 * ...
 
 ## v0.0.2

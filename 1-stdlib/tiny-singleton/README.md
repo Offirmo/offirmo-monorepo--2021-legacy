@@ -32,7 +32,7 @@
 </p>
 
 
-This is a trivial, straightforward TypeScript-compatible singleton
+This is a trivial, isomorphic, straightforward TypeScript-compatible singleton
 * NO dependencies
 
 ### Usage
@@ -52,11 +52,11 @@ function create_client(ip: string, logger: Console = console): DBClient {
 	return ...
 }
 
-// use an intermediate function to typecheck the params
+// case 1: use an intermediate function to typecheck the params
 const get_client = tiny_singleton(() => create_client('127.0.0.1'))
 get_client().read(1234).then(...)
 
-// or not, params should be propagated (depending on your usage
+// case 2: params should be propagated (depending on your usage)
 const get_client = tiny_singleton((options?: CreationOptions) => create_client(options.ip || '127.0.0.1'))
 get_client('127.0.0.1')
 get_client().write('hello').then(...)

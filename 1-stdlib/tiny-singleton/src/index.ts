@@ -1,5 +1,5 @@
 
-function tiny_singleton<T extends (...args: any) => any>(generator: T): (...args: Parameters<T>) => ReturnType<T> {
+export default function tiny_singleton<T extends (...args: any) => any>(generator: T): (...args: Parameters<T>) => ReturnType<T> {
 	let instantiated = false
 	let instance: undefined | ReturnType<T>
 
@@ -13,5 +13,4 @@ function tiny_singleton<T extends (...args: any) => any>(generator: T): (...args
 	}
 }
 
-export default tiny_singleton
 export { tiny_singleton }
