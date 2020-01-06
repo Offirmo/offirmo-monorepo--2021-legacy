@@ -18,7 +18,6 @@ https://github.com/mohsinulhaq/react-popper-tooltip
 		"spawn-sync": "^2",
 		"stacktrace-js": "^2",
 		"style-loader": "^0.23",
-		"ts-node": "^5",
 		"typography": "^0.16",
 		"url-loader": "^1",
 		"webpack": "^4",
