@@ -2,14 +2,14 @@ import { DebugApiV1 } from '@offirmo/universal-debug-api-interface'
 import { createLogger } from '@offirmo/practical-logger-minimal-noop'
 
 
-export function create(): DebugApiV1 {
-	const NO_OP = () => {}
-	const NO_OP_LOGGER = createLogger()
+export default function create(): DebugApiV1 {
+	function NOP () {}
+	const NOP_LOGGER = createLogger()
 
 	return {
-		getLogger: () => NO_OP_LOGGER,
-		exposeInternal: NO_OP,
+		getLogger: () => NOP_LOGGER,
 		overrideHook: (k, v) => v,
-		addDebugCommand: NO_OP,
+		exposeInternal: NOP,
+		addDebugCommand: NOP,
 	}
 }
