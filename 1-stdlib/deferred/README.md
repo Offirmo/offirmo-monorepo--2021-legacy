@@ -53,3 +53,7 @@ promise.then(console.log)
 promise._resolve(...)
 promise._reject(new Error('Foo!'))
 ```
+
+## Credits
+
+iterated from https://github.com/Microsoft/TypeScript/issues/15202#issuecomment-318900991

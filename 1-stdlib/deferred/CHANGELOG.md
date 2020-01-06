@@ -2,6 +2,7 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
+* [doc] credits
 * ...
 
 ## 2.0.1
