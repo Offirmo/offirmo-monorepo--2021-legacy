@@ -33,8 +33,10 @@
 
 
 This is a trivial TypeScript-compatible [`globalThis`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/globalThis) [ponyfill](https://ponyfill.com/).
-* ~141b minified and gzipped
+* very small minzipped size
 * NO dependencies
+* doesn't alter the environment
+* compatible node & browser
 
 
 ## Usage

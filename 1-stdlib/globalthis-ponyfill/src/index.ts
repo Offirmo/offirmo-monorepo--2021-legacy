@@ -2,7 +2,7 @@
 
 const lastResort: { [k:string]: any } = {}
 
-export function getGlobalThis(this: any): { [k:string]: any } {
+export default function getGlobalThis(this: any): { [k:string]: any } {
 
 	// @ts-ignore
 	if (typeof globalThis !== 'undefined') return globalThis
@@ -21,3 +21,5 @@ export function getGlobalThis(this: any): { [k:string]: any } {
 
 	return lastResort // should never happen
 }
+
+export { getGlobalThis }
