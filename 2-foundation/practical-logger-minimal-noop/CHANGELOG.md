@@ -2,6 +2,7 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
+* [feat] micro refactor to lower the lib size
 * ...
 
 ## v2.0.1

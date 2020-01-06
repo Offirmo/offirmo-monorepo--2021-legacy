@@ -1,36 +1,36 @@
 import { Logger, LoggerCreationParams } from '@offirmo/practical-logger-types'
 
 
-const NO_OP = () => {}
+function NOP () {}
 
-const NO_OP_LOGGER: Logger = {
-	setLevel: NO_OP,
+const NOP_LOGGER: Logger = {
+	setLevel: NOP,
 	getLevel: () => 'silly',
 
-	addCommonDetails: NO_OP,
+	addCommonDetails: NOP,
 
-	fatal: NO_OP,
-	emerg: NO_OP,
-	alert: NO_OP,
-	crit: NO_OP,
-	error: NO_OP,
-	warning: NO_OP,
-	warn: NO_OP,
-	notice: NO_OP,
-	info: NO_OP,
-	verbose: NO_OP,
-	log: NO_OP,
-	debug: NO_OP,
-	trace: NO_OP,
-	silly: NO_OP,
+	fatal: NOP,
+	emerg: NOP,
+	alert: NOP,
+	crit: NOP,
+	error: NOP,
+	warning: NOP,
+	warn: NOP,
+	notice: NOP,
+	info: NOP,
+	verbose: NOP,
+	log: NOP,
+	debug: NOP,
+	trace: NOP,
+	silly: NOP,
 
-	group: NO_OP,
-	groupCollapsed: NO_OP,
-	groupEnd: NO_OP,
+	group: NOP,
+	groupCollapsed: NOP,
+	groupEnd: NOP,
 }
 
 function createLogger(_?: any): Logger {
-	return NO_OP_LOGGER
+	return NOP_LOGGER
 }
 
 export {
