@@ -2,10 +2,10 @@
 **This tool follows [semver](https://semver.org/).**
 
 ## PENDING
-* TODO [fix] changing window without changing tab = not detected!!
 * TODO [fix] edition fields
-* [fix] restoring the previous value on re-enable
 * somehow better UDA injection (TODO review...)
+* [fix] changing window without changing tab is now detected and the popup self-close if needed
+* [fix] restoring the previous value on re-enable
 * [chore] bumped dependencies
 * [doc] README++
 

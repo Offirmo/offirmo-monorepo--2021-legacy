@@ -45,10 +45,6 @@ setTimeout(() => {
 30 * 1000,
 )
 function once_extension_init_done<T>(cb: () => T): Promise<T> {
-	// we want sync as much as possible
-	if (is_extension_inited)
-		return Promise.resolve(cb())
-
 	return extension_inited.then(cb)
 }
 
@@ -92,6 +88,27 @@ browser.tabs.onUpdated.addListener((tab_id, change_info, tab) => {
 browser.tabs.onActivated.addListener(({tabId, windowId}) => {
 	console.group('⚡️ on tab activated', { tabId, windowId })
 	Flux.on_tab_activated(tabId)
+	console.groupEnd()
+})
+
+// switching to a different tab on a different window
+// doesn't trigger the "tab activated" event
+// This is a problem when using the extension on the new tab.
+// We need to listen to this event for the complete picture.
+browser.windows.onFocusChanged.addListener((windowId) => {
+	console.group('⚡️ on newly focused window')
+	console.log("Newly focused window: " + windowId)
+	if (windowId >= 0) {
+		query_active_tab()
+			.then((tab) => {
+				if (!tab || !tab.id)
+					console.warn('tab without id???', tab)
+				else {
+					Flux.ensure_tab('on newly focused window', tab.id)
+					Flux.on_tab_activated(tab.id, tab)
+				}
+			})
+	}
 	console.groupEnd()
 })
 

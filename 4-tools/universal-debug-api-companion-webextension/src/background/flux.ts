@@ -82,40 +82,54 @@ export function on_init(): void {
 
 export function ensure_tab(source: string, id: number, tab_hint?: Readonly<Tabs.Tab>): void {
 	console.group('🌀 ensure_tab', {id, tab_hint})
-	console.log('before', state)
+	if (state.tabs[id]) {
+		console.log('(no change)')
+	}
+	else {
+		console.log('before', state)
 
-	state = State.ensure_tab(state, source, id)
+		state = State.ensure_tab(state, source, id)
 
-	// no react, we should get tab events soon
+		// no react, we should get tab events soon
 
-	console.log('after', state)
+		console.log('after', state)
+	}
+
 	console.groupEnd()
 }
 
 export function on_tab_activated(id: number, tab_hint?: Readonly<Tabs.Tab>): void {
 	console.group('🌀 on_tab_activated', {id, tab_hint})
-	console.log('before', state)
 
-	state = State.on_tab_activated(state, id, tab_hint)
+	if (state.active_tab_id === id) {
+		console.log('(no change)')
+	}
+	else {
+		console.log('before', state)
 
-	// get the origin as soon as possible
-	state.active_tab.then(tab => {
-		const { id: active_tab_id, url } = tab
-		if (active_tab_id !== id) {
-			// outdated
-			console.groupCollapsed('🌀 on_tab_activated (2a): outdated tab info received, ignoring.', {active_tab_id, id})
-			return
-		}
+		state = State.on_tab_activated(state, id, tab_hint)
 
-		console.group('🌀 on_tab_activated (2b): updating origin', {active_tab_id, url})
-		if (url)
-			update_tab_origin(id, url)
-		console.groupEnd()
-	})
+		// get the origin as soon as possible
+		state.active_tab.then(tab => {
+			const { id: active_tab_id, url } = tab
+			if (active_tab_id !== id) {
+				// outdated
+				console.groupCollapsed('🌀 on_tab_activated (2a): outdated tab info received, ignoring.', {active_tab_id, id})
+				return
+			}
 
-	icon_emitter.emit('change', state)
+			console.group('🌀 on_tab_activated (2b): updating origin', {active_tab_id, url})
+			if (url)
+				update_tab_origin(id, url)
+			console.groupEnd()
+		})
 
-	console.log('after', state)
+		icon_emitter.emit('change', state)
+		ui_emitter.emit('change', state) // for the popup to self-close in some cases
+
+		console.log('after', state)
+	}
+
 	console.groupEnd()
 }
 

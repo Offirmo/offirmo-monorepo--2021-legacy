@@ -28,6 +28,7 @@ export default class Root extends Component {
 
 ////////////////////////////////////
 
+let tab_id: number | undefined = undefined
 if (browser.tabs) {
 	const port_to_bg = browser.runtime.connect(undefined, {name: 'popup'})
 	port_to_bg.onMessage.addListener((msg) => {
@@ -39,7 +40,17 @@ if (browser.tabs) {
 		console.log({type, payload})
 
 		// pure flux, we only ever expect one message type
-		set_app_state(msg[MSG_ENTRY].state)
+		const { state } = msg[MSG_ENTRY]
+		set_app_state(state)
+
+		// snoop on the state to detect the activation of a new tab
+		// without closing this one (happen when switching to a different window)
+		const new_tab_id = state.tab.id
+		if (tab_id && tab_id !== new_tab_id) {
+			window.close()
+		}
+		else
+			tab_id = new_tab_id
 		console.groupEnd()
 	})
 	//port_to_bg.postMessage({hello: "test"});
