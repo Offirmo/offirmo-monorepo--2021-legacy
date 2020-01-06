@@ -31,8 +31,7 @@
 		"@babel/core": "^7",
 		"@offirmo/practical-logger-core": "^2",
 		"@size-limit/preset-small-lib": "^2",
-		"npm-run-all": "^4",
-		"ts-node": "^8"
+		"npm-run-all": "^4"
 	},
 	"scripts": {
 		"clean": "node ../../0-scripts/clean.js dist",
