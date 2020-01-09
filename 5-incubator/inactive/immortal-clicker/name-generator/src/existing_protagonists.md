@@ -6,9 +6,19 @@ Zhang San = John Smith
 Gan Jiang
 Mo Ye
 Tang Seng priest in Journey to the west
+Chu Liu robin hood
+Sun Erniang a killer
+Kong Ming
+Zhu Ge
+Yan Liang
+Wen Chou
+Guan Ye
+Yuan Shao
+Guan Yu
+Liu Bei
+Wu Zetian 1st and only empress of China
 
 
- 
 ## Iron Ladies
 Chang Pingbu bad guy
 Mu Siyun
@@ -18,6 +28,10 @@ Zhen Yuan
 Zhi Hui "with intelligence"
 Wu Zhi "without wisdom"
 Wu Hui "without wisdom"
+Kui Mu
+Wei Yue
+Shan Hai
+Shi Tian
 
 
 
@@ -66,3 +80,7 @@ Tang San hero
 Bai Juyi  poet
 Yue Fei   strong warrior from Song dinasty
 Yan Huang initiator of chines culture
+
+
+## do not use
+Fei trash/useless
