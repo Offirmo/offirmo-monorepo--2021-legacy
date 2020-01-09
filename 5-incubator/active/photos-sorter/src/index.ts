@@ -7,53 +7,55 @@ import { exiftool } from 'exiftool-vendored'
 
 import { RelativePath } from './types'
 import * as DB from './state/db'
+import { ActionType, ActionMoveFolder, ActionMoveFile } from './state/actions'
+
 import * as Match from './services/matchers'
 import logger from './services/logger'
 import fs_extra from './services/fs-extra'
+import { get_params } from './params'
 
-//console.log('Hello world !')
-
-const ROOT = path.normalize(`/Users/${process.env.USER}/Documents/- photos/- sorted`)
-logger.info('******* PHOTO SORTER *******', { ROOT })
+const PARAMS = get_params()
+logger.verbose('******* PHOTO SORTER *******', { PARAMS })
 
 ////////////////////////////////////
 
-let db = DB.create(ROOT)
+let db = DB.create(PARAMS.root)
 
-function dequeue_and_run_all_queued_actions(readonly = true): Promise<any>[] {
+function dequeue_and_run_all_queued_actions(dry_run = true): Promise<any>[] {
 	const pending_actions: Promise<any>[] = []
 
 	while(DB.has_pending_actions(db)) {
 		const action = DB.get_first_pending_action(db)
+		logger.verbose(`executing action…`, { action })
 		db = DB.discard_first_pending_action(db)
 
 		const { type, id } = action
 		switch (type) {
-			case DB.ActionType.explore_folder:
+			case ActionType.explore_folder:
 				pending_actions.push(explore_folder(id))
 				break
 
-			case DB.ActionType.query_fs_stats:
+			case ActionType.query_fs_stats:
 				pending_actions.push(query_fs_stats(id))
 				break
 
-			case DB.ActionType.query_exif:
+			case ActionType.query_exif:
 				pending_actions.push(query_exif(id))
 				break
 
-			case DB.ActionType.ensure_folder:
-				assert(!readonly, 'no write action in readonly mode')
+			case ActionType.ensure_folder:
+				assert(!dry_run, 'no write action in dry run mode')
 				pending_actions.push(ensure_folder(id))
 				break
 
-			case DB.ActionType.move_folder:
-				assert(!readonly, 'no write action in readonly mode')
-				pending_actions.push(move_folder(id, (action as DB.ActionMoveFolder).target_id))
+			case ActionType.move_folder:
+				assert(!dry_run, 'no write action in dry run mode')
+				pending_actions.push(move_folder(id, (action as ActionMoveFolder).target_id))
 				break
 
-			case DB.ActionType.move_file:
-				assert(!readonly, 'no write action in readonly mode')
-				pending_actions.push(move_file(id, (action as DB.ActionMoveFile).target_id))
+			case ActionType.move_file:
+				assert(!dry_run, 'no write action in dry run mode')
+				pending_actions.push(move_file(id, (action as ActionMoveFile).target_id))
 				break
 
 			default:
@@ -64,11 +66,11 @@ function dequeue_and_run_all_queued_actions(readonly = true): Promise<any>[] {
 	return pending_actions
 }
 
-async function exec_all_pending_actions(readonly = true): Promise<void> {
+async function exec_all_pending_actions(dry_run = true): Promise<void> {
 	const pending_actions: Promise<any>[] = [ Promise.resolve() ]
 
 	function run_and_wait_for_queued_actions(): Promise<void> {
-		const pending_actions = dequeue_and_run_all_queued_actions(readonly)
+		const pending_actions = dequeue_and_run_all_queued_actions(dry_run)
 			.map(pending_action => pending_action.then(run_and_wait_for_queued_actions))
 		return Promise.all(pending_actions).then(() => {})
 	}
@@ -76,9 +78,9 @@ async function exec_all_pending_actions(readonly = true): Promise<void> {
 	await run_and_wait_for_queued_actions()
 }
 
-async function sort_all_medias() {
+async function sort_all_medias(dry_run = true) {
 	logger.group('******* STARTING EXPLORATION PHASE *******')
-	await exec_all_pending_actions()
+	await exec_all_pending_actions(dry_run)
 	logger.groupEnd()
 	console.log(DB.to_string(db))
 
@@ -86,12 +88,12 @@ async function sort_all_medias() {
 	db = DB.ensure_structural_dirs_are_present(db)
 	db = DB.ensure_existing_event_folders_are_organized(db)
 	db.queue.forEach(action => console.log(JSON.stringify(action)))
-	await exec_all_pending_actions(false)
+	await exec_all_pending_actions(dry_run)
 	console.log(DB.to_string(db))
 
 	db = DB.ensure_all_needed_events_folders_are_present_and_move_files_in_them(db)
 	db.queue.forEach(action => console.log(JSON.stringify(action)))
-	await exec_all_pending_actions(false)
+	await exec_all_pending_actions(dry_run)
 	console.log(DB.to_string(db))
 
 	//db = DB.ensure_all_eligible_files_are_correctly_named(db)
@@ -101,7 +103,8 @@ async function sort_all_medias() {
 	//await exec_all_pending_actions()
 	logger.groupEnd()
 }
-sort_all_medias()
+
+sort_all_medias(PARAMS.dry_run)
 	.then(() => logger.info('All done, my pleasure!'))
 	.catch(err => logger.fatal('Please report.', { err }))
 	.finally(() => {
@@ -117,10 +120,27 @@ async function explore_folder(id: RelativePath) {
 	const abs_path = DB.get_absolute_path(db, id)
 
 	const sub_dirs = fs_extra.lsDirsSync(abs_path, { full_path: false })
+	//console.log(sub_dirs)
 	sub_dirs.forEach((sub_id: RelativePath) => db = DB.on_folder_found(db, id, sub_id))
 
 	const sub_files = fs_extra.lsFilesSync(abs_path, { full_path: false })
-	sub_files.forEach((sub_id: RelativePath) => db = DB.on_file_found(db, id, sub_id))
+	//console.log(sub_files)
+	sub_files.forEach((sub_id: RelativePath) => {
+		const should_delete_asap = !!PARAMS.extensions_to_delete.find(ext => sub_id.toLowerCase().endsWith(ext))
+		if (should_delete_asap) {
+			const abs_path_target = DB.get_absolute_path(db, path.join(id, sub_id))
+			if (PARAMS.dry_run) {
+				logger.verbose(`ignoring trash`, { abs_path_target })
+			}
+			else {
+				logger.verbose(`ignoring trash, cleaning it…`, { abs_path_target })
+				fs_extra.remove(abs_path_target)
+			}
+		}
+		else {
+			db = DB.on_file_found(db, id, sub_id)
+		}
+	})
 
 	logger.groupEnd()
 }

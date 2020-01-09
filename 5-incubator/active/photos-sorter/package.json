@@ -12,7 +12,7 @@
 
 	"dependencies": {
 		"@offirmo-private/normalize-string": "^0",
-		"@offirmo/practical-logger-node": "^0",
+		"@offirmo/universal-debug-api-node": "^0",
 		"@offirmo-private/prettify-json": "^0",
 		"@offirmo-private/timestamps": "^0",
 		"exiftool-vendored": "^9",

@@ -7,10 +7,10 @@ import { Tags, ExifDateTime } from 'exiftool-vendored'
 import { TimestampUTCMs, get_UTC_timestamp_ms, get_human_readable_UTC_timestamp_seconds } from '@offirmo-private/timestamps'
 import { NORMALIZERS } from '@offirmo-private/normalize-string'
 
-import {Basename, RelativePath, SimpleYYYYMMDD} from '../types'
+import { Basename, RelativePath } from '../types'
 import { get_compact_date_from_UTC_ts } from '../services/utils'
 import logger from '../services/logger'
-import {extract_compact_date, starts_with_human_timestamp_ms} from '../services/matchers'
+import { extract_compact_date, starts_with_human_timestamp_ms } from '../services/matchers'
 
 type TimestampsHash = { [k: string]: TimestampUTCMs }
 
@@ -18,19 +18,22 @@ export interface State {
 	id: RelativePath
 	is_eligible: boolean
 
+	exif_data: undefined | null | Tags
+	fs_stats: undefined | null | fs.Stats
+
+	original_id: RelativePath
+
 	cached: {
 		parsed: path.ParsedPath,
 		best_creation_date_ms?: TimestampUTCMs
 	}
-
-	exif_data: undefined | Tags | null
-	fs_stats: undefined | fs.Stats | null
-
-	original_id: RelativePath
 }
 
+////////////////////////////////////
 
-const exif_date_fields: string[] = [
+const LIB = '🖼'
+
+const Exif_DATE_FIELDS: string[] = [
 	'CreateDate',
 	'DateTimeOriginal',
 	//'GPSDateStamp',
@@ -42,44 +45,48 @@ const exif_date_fields: string[] = [
 	'MediaCreateDate',
 ]
 
-////////////////////////////////////
-
 const EXIF_POWERED_FILE_EXTENSIONS = [
 	'.jpg',
 	'.jpeg',
 	'.mov',
 	'.mp4',
 ]
+
 const ALLOWED_MEDIA_FILE_EXTENSIONS = [
 	'.gif',
 	'.png',
+	'.psp', // photoshop I believe, screens from Warcraft III are in this format
+	'.tga', // WoW
 	...EXIF_POWERED_FILE_EXTENSIONS,
 ]
+
+///////////////////// ACCESSORS /////////////////////
+
 export function is_eligible_media_file(id: RelativePath, parsed: path.ParsedPath = path.parse(id)): boolean {
 	//logger.trace(`is_eligible_media_file...`, { id })
 
 	if (parsed.base.startsWith('.')) return false
 	if (!ALLOWED_MEDIA_FILE_EXTENSIONS.includes(parsed.ext.toLowerCase())) return false
-	if (parsed.base.startsWith('Capture')) return false // TODO handle? Uniformize?
+
+	// TODO handle? Uniformize?
+	if (parsed.base.startsWith('Capture')) return false
 	if (parsed.base.startsWith('Screen')) return false
 
-	/*
+	/* TODO check
 	.filter(f => f[0] !== '.')
 			.filter(f => !(f.startsWith('IMG_20') && f.length >= DATE_TS_LENGTH + 4 + 4))
 			.filter(f => !(f.startsWith('VID_20') && f.length >= DATE_TS_LENGTH + 4 + 4))
 			.filter(f => !(f.startsWith('20') && f.length >= DATE_TS_LENGTH + 4))
-
 		*/
 
 	return true
 }
 
 // TODO compare function
-
-export function is_equal(state_l: Readonly<State>, state_r: Readonly<State>): boolean {
+/*export function is_equal(state_l: Readonly<State>, state_r: Readonly<State>): boolean {
 	// TODO compare exif size and data
 	throw new Error('NIMP!')
-}
+}*/
 
 export function has_all_infos(state: Readonly<State>): boolean {
 	return !!state.cached.best_creation_date_ms
@@ -117,7 +124,7 @@ function _get_creation_date_from_exif({ id, exif_data, cached }: Readonly<State>
 	try {
 		const now = get_UTC_timestamp_ms()
 		let min_date_ms = now
-		const candidate_dates_ms: TimestampsHash = exif_date_fields.reduce((acc: TimestampsHash, field: string) => {
+		const candidate_dates_ms: TimestampsHash = Exif_DATE_FIELDS.reduce((acc: TimestampsHash, field: string) => {
 			const date_object: undefined | ExifDateTime  = (exif_data as any)[field]
 			if (!date_object) return acc
 
@@ -133,7 +140,7 @@ function _get_creation_date_from_exif({ id, exif_data, cached }: Readonly<State>
 			return acc
 		}, {} as TimestampsHash)
 
-		assert(Object.keys(candidate_dates_ms).length, `${id} has at least 1 usable EXIF date!`)
+		assert(Object.keys(candidate_dates_ms).length, `${id} has at least 1 usable Exif date!`)
 
 		//console.log({ min_date_ms: get_human_readable_UTC_timestamp_seconds(new Date(min_date_ms)) })
 		assert(min_date_ms !== now, 'coherent dates')
@@ -199,11 +206,12 @@ export function get_ideal_basename(state: Readonly<State>): Basename {
 	return ideal
 }
 
-////////////////////////////////////
+///////////////////// REDUCERS /////////////////////
 
 export function create(id: RelativePath): Readonly<State> {
+	logger.trace(`[${LIB}] create(…)`, { id })
+
 	const parsed = path.parse(id)
-	const date_from_name = _get_creation_date_from_name(id)
 	const state = {
 		id,
 		is_eligible: is_eligible_media_file(id, parsed),
@@ -219,18 +227,14 @@ export function create(id: RelativePath): Readonly<State> {
 	}
 
 	// TODO extract date from name?
+	//const date_from_name = _get_creation_date_from_name(id)
 
 	return state
 }
-
-/*
-function _precompute_then_cleanup(state: Readonly<State>): Readonly<State> {
-	// TODO ??
-	return state
-}
-*/
 
 export function on_fs_stats_read(state: Readonly<State>, fs_stats: State['fs_stats']): Readonly<State> {
+	logger.trace(`[${LIB}] on_fs_stats_read(…)`, { })
+
 	return {
 		...state,
 		fs_stats,
@@ -238,8 +242,10 @@ export function on_fs_stats_read(state: Readonly<State>, fs_stats: State['fs_sta
 }
 
 export function on_exif_read(state: Readonly<State>, exif_data: State['exif_data']): Readonly<State> {
+	logger.trace(`[${LIB}] on_exif_read(…)`, { })
+
 	if (exif_data && exif_data.errors && exif_data.errors.length) {
-		logger.error(`Error reading exif datas for "${state.id}"!`, { errors: exif_data.errors })
+		logger.error(`Error reading exif data for "${state.id}"!`, { errors: exif_data.errors })
 		exif_data = null
 	}
 
@@ -254,6 +260,8 @@ export function on_exif_read(state: Readonly<State>, exif_data: State['exif_data
 }
 
 export function on_moved(state: Readonly<State>, new_id: RelativePath): Readonly<State> {
+	logger.trace(`[${LIB}] on_moved(…)`, { new_id })
+
 	return {
 		...state,
 		id: new_id,
@@ -264,7 +272,7 @@ export function on_moved(state: Readonly<State>, new_id: RelativePath): Readonly
 	}
 }
 
-////////////////////////////////////
+///////////////////// DEBUG /////////////////////
 
 export function to_string(state: Readonly<State>) {
 	const { is_eligible, id, original_id, cached: { parsed: { base, dir }}} = state
@@ -284,7 +292,7 @@ export function to_string(state: Readonly<State>) {
 	return stylize_string.gray.dim(str)
 }
 
-
+///////////////////// NOTES /////////////////////
 
 /** ☆☆☆☆ ✔ Example: 1 */
 //TimeZoneOffset?: number;

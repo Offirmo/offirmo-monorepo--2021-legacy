@@ -15,6 +15,7 @@ import {get_best_creation_date_ms} from './media-file'
 
 ////////////////////////////////////
 
+const LIB = '📂'
 export const INBOX_BASENAME = 'inbox'
 export const CANTSORT_BASENAME = 'cantsort'
 
@@ -43,7 +44,7 @@ export interface State {
 const now_ms = get_UTC_timestamp_ms()
 export const now_simple = get_compact_date_from_UTC_ts(now_ms)
 
-////////////////////////////////////
+///////////////////// ACCESSORS /////////////////////
 
 function _infer_folder_type(id: RelativePath): Type {
 	if (!id) return Type.root
@@ -90,9 +91,11 @@ export function get_year(state: Readonly<State>) {
 	return Math.trunc(state.start_date / 10000)
 }
 
-////////////////////////////////////
+///////////////////// REDUCERS /////////////////////
 
 export function create(id: RelativePath): Readonly<State> {
+	logger.trace(`[${LIB}] create(…)`, { id })
+
 	const type = _infer_folder_type(id)
 	const base = path.basename(id)
 	const start_date = type === Type.event ? _infer_start_date(base) : -1
@@ -109,6 +112,8 @@ export function create(id: RelativePath): Readonly<State> {
 }
 
 export function on_subfile_found(state: Readonly<State>, file_state: Readonly<MediaFile.State>): Readonly<State> {
+	logger.trace(`[${LIB}] on_subfile_found(…)`, { })
+
 	if (state.type == Type.event) {
 		const compact_date = MediaFile.get_best_compact_date(file_state)
 		const start_date = Math.min(state.start_date, compact_date)
@@ -136,6 +141,8 @@ export function on_subfile_found(state: Readonly<State>, file_state: Readonly<Me
 }
 
 export function on_moved(state: Readonly<State>, new_id: RelativePath): Readonly<State> {
+	logger.trace(`[${LIB}] on_moved(…)`, { new_id })
+
 	return {
 		...state,
 		id: new_id,
@@ -146,7 +153,7 @@ export function on_moved(state: Readonly<State>, new_id: RelativePath): Readonly
 	}
 }
 
-////////////////////////////////////
+///////////////////// DEBUG /////////////////////
 
 export function to_string(state: Readonly<State>) {
 	const { id, type, start_date, end_date } = state

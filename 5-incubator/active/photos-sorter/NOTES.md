@@ -7,3 +7,6 @@
 
 timezones  http://spacetime.how/
 img manipulation https://github.com/oliver-moran/jimp
+
+
+use case: website in a folder! maybe duplicate instead of move?

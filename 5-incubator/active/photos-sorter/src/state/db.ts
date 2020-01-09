@@ -1,122 +1,28 @@
 import path from 'path'
-import fs from 'fs'
 
 import assert from 'tiny-invariant'
 import stylize_string from 'chalk'
-import { Enum } from 'typescript-string-enums'
 import { get_human_readable_UTC_timestamp_days } from '@offirmo-private/timestamps'
 
 import logger from '../services/logger'
 import * as Match from '../services/matchers'
-import {Basename, AbsolutePath, RelativePath, SimpleYYYYMMDD} from '../types'
+import { Basename, AbsolutePath, RelativePath, SimpleYYYYMMDD } from '../types'
 import * as Folder from './folder'
 import * as MediaFile from './media-file'
+import {
+	Action,
+	create_action_explore,
+	create_action_query_fs_stats,
+	create_action_query_exif,
+	create_action_ensure_folder,
+	create_action_move_folder,
+	create_action_move_file,
+} from './actions'
 
 
 /////////////////////
 
-export const ActionType = Enum(
-	'explore_folder',
-	'query_fs_stats',
-	'query_exif',
-	'ensure_folder',
-	'move_folder',
-	'move_file',
-	'delete_file',
-)
-export type ActionType = Enum<typeof ActionType> // eslint-disable-line no-redeclare
-
-/////////////////////
-
-export interface BaseAction {
-}
-
-export interface ActionExploreFolder extends BaseAction {
-	type: typeof ActionType.explore_folder
-	id: string
-}
-
-export interface ActionQueryFsStats extends BaseAction {
-	type: typeof ActionType.query_fs_stats
-	id: string
-}
-
-export interface ActionQueryEXIF extends BaseAction {
-	type: typeof ActionType.query_exif
-	id: string
-}
-
-export interface ActionEnsureFolder extends BaseAction {
-	type: typeof ActionType.ensure_folder
-	id: string
-}
-
-export interface ActionMoveFile extends BaseAction {
-	type: typeof ActionType.move_file
-	id: string
-	target_id: string
-}
-
-export interface ActionMoveFolder extends BaseAction {
-	type: typeof ActionType.move_folder
-	id: string
-	target_id: string
-}
-
-export interface ActionDeleteFile extends BaseAction {
-	type: typeof ActionType.move_file
-	id: string
-}
-
-export type Action =
-	// read only
-	ActionExploreFolder |
-	ActionQueryFsStats |
-	ActionQueryEXIF |
-	// write
-	ActionEnsureFolder |
-	ActionMoveFile |
-	ActionMoveFolder |
-	ActionDeleteFile
-
-function create_action_explore(id: RelativePath): ActionExploreFolder {
-	return {
-		type: ActionType.explore_folder,
-		id,
-	}
-}
-function create_action_query_fs_stats(id: RelativePath): ActionQueryFsStats {
-	return {
-		type: ActionType.query_fs_stats,
-		id,
-	}
-}
-function create_action_query_exif(id: RelativePath): ActionQueryEXIF {
-	return {
-		type: ActionType.query_exif,
-		id,
-	}
-}
-function create_action_ensure_folder(id: RelativePath): ActionEnsureFolder {
-	return {
-		type: ActionType.ensure_folder,
-		id,
-	}
-}
-function create_action_move_folder(id: RelativePath, target_id: RelativePath): ActionMoveFolder {
-	return {
-		type: ActionType.move_folder,
-		id,
-		target_id,
-	}
-}
-function create_action_move_file(id: RelativePath, target_id: RelativePath): ActionMoveFile {
-	return {
-		type: ActionType.move_file,
-		id,
-		target_id,
-	}
-}
+const LIB = '🗄 '
 
 /////////////////////
 
@@ -130,9 +36,7 @@ export interface State {
 	queue: Action[],
 }
 
-
-
-////////////////////////////////////
+///////////////////// ACCESSORS /////////////////////
 
 export function get_absolute_path(state: Readonly<State>, id: RelativePath): AbsolutePath {
 	return path.join(state.root, id)
@@ -173,9 +77,11 @@ export function get_all_event_folder_ids(state: Readonly<State>): string[] {
 		.filter(k => state.folders[k].type === Folder.Type.event)
 }
 
-////////////////////////////////////
+///////////////////// REDUCERS /////////////////////
 
 export function create(root: AbsolutePath): Readonly<State> {
+	logger.trace(`[${LIB}] create(…)`, { root })
+
 	let state: State = {
 		root,
 		folders: {},
@@ -191,6 +97,8 @@ export function create(root: AbsolutePath): Readonly<State> {
 }
 
 export function enqueue_action(state: Readonly<State>, action: Action): Readonly<State> {
+	logger.trace(`[${LIB}] enqueue_action(…)`, { action })
+
 	return {
 		...state,
 		queue: [ ...state.queue, action ],
@@ -198,6 +106,8 @@ export function enqueue_action(state: Readonly<State>, action: Action): Readonly
 }
 
 export function discard_first_pending_action(state: Readonly<State>): Readonly<State> {
+	logger.trace(`[${LIB}] discard_first_pending_action(…)`, { action: state.queue[0] })
+
 	return {
 		...state,
 		queue: state.queue.slice(1),
@@ -215,18 +125,17 @@ function _register_folder(state: Readonly<State>, id: RelativePath, exists: bool
 		},
 	}
 
-	logger.info(`folder ${exists ? 'found' : 'registered'}`, {id, type: folder_state.type })
+	logger.verbose(`[${LIB}] folder ${exists ? 'found' : 'registered'}`, {id, type: folder_state.type })
 
 	return state
 }
 
 export function on_folder_found(state: Readonly<State>, parent_id: RelativePath, sub_id: RelativePath): Readonly<State> {
 	const id = path.join(parent_id, sub_id)
+	logger.trace(`[${LIB}] on_folder_found(…)`, { id })
 
 	state = _register_folder(state, id, true)
 	const folder_state = state.folders[id]
-
-	logger.info('folder found', {id, type: folder_state.type })
 
 	if (folder_state.type !== Folder.Type.cantsort)
 		state = enqueue_action(state, create_action_explore(id))
@@ -236,6 +145,7 @@ export function on_folder_found(state: Readonly<State>, parent_id: RelativePath,
 
 export function on_file_found(state: Readonly<State>, parent_id: RelativePath, sub_id: RelativePath): Readonly<State> {
 	const id = path.join(parent_id, sub_id)
+	logger.trace(`[${LIB}] on_file_found(…)`, { id })
 
 	const file_state = MediaFile.create(id)
 
@@ -248,7 +158,7 @@ export function on_file_found(state: Readonly<State>, parent_id: RelativePath, s
 	}
 
 	if (file_state.is_eligible) {
-		logger.info('eligible file found', { id })
+		logger.verbose('eligible file found', { id })
 
 		state = enqueue_action(state, create_action_query_fs_stats(id))
 		state = enqueue_action(state, create_action_query_exif(id))
@@ -277,6 +187,8 @@ function _on_file_info_read(state: Readonly<State>, file_id: RelativePath): Read
 }
 
 export function on_fs_stats_read(state: Readonly<State>, file_id: RelativePath, stats: MediaFile.State['fs_stats']): Readonly<State> {
+	logger.trace(`[${LIB}] on_fs_stats_read(…)`, { file_id })
+
 	const new_file_state = MediaFile.on_fs_stats_read(state.media_files[file_id], stats)
 
 	state = {
@@ -291,6 +203,8 @@ export function on_fs_stats_read(state: Readonly<State>, file_id: RelativePath, 
 }
 
 export function on_exif_read(state: Readonly<State>, file_id: RelativePath, exif_data: MediaFile.State['exif_data']): Readonly<State> {
+	logger.trace(`[${LIB}] on_exif_read(…)`, { file_id })
+
 	const new_file_state = MediaFile.on_exif_read(state.media_files[file_id], exif_data)
 
 	state = {
@@ -305,6 +219,8 @@ export function on_exif_read(state: Readonly<State>, file_id: RelativePath, exif
 }
 
 export function on_folder_moved(state: Readonly<State>, id: RelativePath, target_id: RelativePath): Readonly<State> {
+	logger.trace(`[${LIB}] on_folder_moved(…)`, { })
+
 	assert(!state.folders[target_id])
 
 	// TODO immu
@@ -325,6 +241,8 @@ export function on_folder_moved(state: Readonly<State>, id: RelativePath, target
 }
 
 export function on_file_moved(state: Readonly<State>, id: RelativePath, target_id: RelativePath): Readonly<State> {
+	logger.trace(`[${LIB}] on_file_moved(…)`, { })
+
 	assert(!state.media_files[target_id])
 
 	// TODO immu
@@ -338,6 +256,7 @@ export function on_file_moved(state: Readonly<State>, id: RelativePath, target_i
 
 export function merge_folder(state: Readonly<State>, id: RelativePath, target_id: RelativePath): Readonly<State> {
 	logger.info(`merging folders: "${id}" into "${target_id}"`)
+
 	assert(id !== target_id)
 
 	const folder_state = state.folders[id]
@@ -536,7 +455,7 @@ export function ensure_all_eligible_files_are_correctly_named(state: Readonly<St
 		queue: [ ...state.queue, ...actions ],
 	}}
 
-////////////////////////////////////
+///////////////////// DEBUG /////////////////////
 
 export function to_string(state: Readonly<State>) {
 	const { root, media_files, folders } = state

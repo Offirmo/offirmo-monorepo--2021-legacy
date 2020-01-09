@@ -1,7 +1,7 @@
-import { createLogger } from '@offirmo/practical-logger-node'
+import { getLogger } from '@offirmo/universal-debug-api-node'
 
-const logger = createLogger({
-	suggestedLevel: 'log',
+const logger = getLogger({
+	suggestedLevel: 'silly',
 })
 
 export default logger
