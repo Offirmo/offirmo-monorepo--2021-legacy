@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 245);
+/******/ 	return __webpack_require__(__webpack_require__.s = 242);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -167,14 +167,14 @@ function getGlobalThis() {
 
 /***/ }),
 
-/***/ 17:
+/***/ 16:
 /***/ (function(module, exports) {
 
 module.exports = require("http");
 
 /***/ }),
 
-/***/ 21:
+/***/ 19:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -196,7 +196,7 @@ exports.CHANNEL = (() => {
 
 /***/ }),
 
-/***/ 22:
+/***/ 21:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -274,7 +274,7 @@ const {
 
 /***/ }),
 
-/***/ 245:
+/***/ 242:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -284,7 +284,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const netlify_1 = __webpack_require__(98);
+const netlify_1 = __webpack_require__(95);
 
 exports.handler = async (event, badly_typed_context) => {
   const context = badly_typed_context;
@@ -350,7 +350,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const http_1 = __webpack_require__(17);
+const http_1 = __webpack_require__(16);
 
 const common_error_fields_1 = __webpack_require__(43); // TODO extern
 
@@ -437,7 +437,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get_base_url", function() { return get_base_url; });
 /* harmony import */ var typescript_string_enums__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
 /* harmony import */ var typescript_string_enums__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(typescript_string_enums__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _offirmo_universal_debug_api_placeholder__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(22);
+/* harmony import */ var _offirmo_universal_debug_api_placeholder__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(21);
 
  // tslint:disable-next-line: variable-name
 
@@ -482,7 +482,7 @@ function get_base_url(channel) {
 
 /***/ }),
 
-/***/ 98:
+/***/ 95:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -492,7 +492,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const channel_1 = __webpack_require__(21);
+const channel_1 = __webpack_require__(19);
 
 const utils_1 = __webpack_require__(27);
 

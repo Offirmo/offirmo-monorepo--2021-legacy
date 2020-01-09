@@ -27,33 +27,32 @@
     shallow-equal "^1.0.0"
     tiny-invariant "^0.0.3"
 
-"@atlaskit/icon@^19.0.6":
-  version "19.0.11"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/icon/-/icon-19.0.11.tgz#16241c42071498e68ffe756ea53313cbc0c97646"
-  integrity sha1-FiQcQgcUmOaP/nVupTMTy8DJdkY=
+"@atlaskit/icon@^19.0.6", "@atlaskit/icon@^19.1.0":
+  version "19.1.0"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/icon/-/icon-19.1.0.tgz#50e7050765a6d055cf0005f18a189f9eb80e3753"
+  integrity sha1-UOcFB2Wm0FXPAAXxihifnrgON1M=
   dependencies:
-    "@atlaskit/theme" "^9.3.0"
+    "@atlaskit/theme" "^9.5.0"
     tslib "^1.9.3"
     uuid "^3.1.0"
 
 "@atlaskit/range@^3":
-  version "3.0.10"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/range/-/range-3.0.10.tgz#3da574a2a57c7fe4c4686020975b8b95ac6db492"
-  integrity sha1-PaV0oqV8f+TEaGAgl1uLlaxttJI=
+  version "3.0.11"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/range/-/range-3.0.11.tgz#d3e269a3366ccedc6988537540adb5293916ce50"
+  integrity sha1-0+JpozZsztxpiFN1QK21KTkWzlA=
   dependencies:
-    "@atlaskit/theme" "^9.2.8"
-    "@babel/runtime" "^7.0.0"
+    "@atlaskit/theme" "^9.5.0"
+    tslib "^1.9.3"
 
 "@atlaskit/select@^11":
-  version "11.0.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/select/-/select-11.0.3.tgz#8ad0bab87e2e8bd5c6c3d9d3ab9b2aac52ad3756"
-  integrity sha1-itC6uH4ui9XGw9nTq5sqrFKtN1Y=
+  version "11.0.4"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/select/-/select-11.0.4.tgz#62eb14f697bcbee60b4ec438d6a79ee2d8eeaf8d"
+  integrity sha1-YusU9pe8vuYLTsQ41qee4tjur40=
   dependencies:
     "@atlaskit/analytics-next" "^6.3.3"
-    "@atlaskit/icon" "^19.0.6"
-    "@atlaskit/spinner" "^12.1.2"
-    "@atlaskit/theme" "^9.2.6"
-    "@babel/runtime" "^7.0.0"
+    "@atlaskit/icon" "^19.1.0"
+    "@atlaskit/spinner" "^12.1.3"
+    "@atlaskit/theme" "^9.5.0"
     "@emotion/core" "^10.0.9"
     "@types/react-select" "^3.0.8"
     focus-trap "^2.4.5"
@@ -65,13 +64,12 @@
     shallow-equal "^1.0.0"
     tslib "^1.9.3"
 
-"@atlaskit/spinner@^12.1.2":
-  version "12.1.2"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/spinner/-/spinner-12.1.2.tgz#09d24f472ae4e5940dfe7315a69d1ca295232b0c"
-  integrity sha1-CdJPRyrk5ZQN/nMVpp0copUjKww=
+"@atlaskit/spinner@^12.1.3":
+  version "12.1.3"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/spinner/-/spinner-12.1.3.tgz#434f32410c1ab6f63f18ead3285c7ac23e56bb0f"
+  integrity sha1-Q08yQQwatvY/GOrTKFx6wj5Wuw8=
   dependencies:
-    "@atlaskit/theme" "^9.2.6"
-    "@babel/runtime" "^7.0.0"
+    "@atlaskit/theme" "^9.5.0"
     react-transition-group "^2.2.1"
     tslib "^1.9.3"
 
@@ -85,23 +83,22 @@
     "@emotion/core" "^10.0.9"
     tslib "^1.9.3"
 
-"@atlaskit/theme@^9", "@atlaskit/theme@^9.2.4", "@atlaskit/theme@^9.2.6", "@atlaskit/theme@^9.2.8", "@atlaskit/theme@^9.3.0":
-  version "9.4.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/theme/-/theme-9.4.0.tgz#09d5e45172e31f2d5aae4f3ac3125d2bb08bd673"
-  integrity sha1-CdXkUXLjHy1ark86wxJdK7CL1nM=
+"@atlaskit/theme@^9", "@atlaskit/theme@^9.2.4", "@atlaskit/theme@^9.2.8", "@atlaskit/theme@^9.5.0":
+  version "9.5.0"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/theme/-/theme-9.5.0.tgz#1bf6f3e39baf7a1a3c1e798d18848bedecdf2107"
+  integrity sha1-G/bz45uveho8HnmNGISL7ezfIQc=
   dependencies:
     exenv "^1.2.2"
     prop-types "^15.5.10"
     tslib "^1.9.3"
 
 "@atlaskit/toggle@^8":
-  version "8.1.2"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/toggle/-/toggle-8.1.2.tgz#85e6d37f6b57d78bd9e82578c8d553e529fb4679"
-  integrity sha1-hebTf2tX14vZ6CV4yNVT5Sn7Rnk=
+  version "8.1.3"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/toggle/-/toggle-8.1.3.tgz#2f4b531e471eca7a734913ac290482ace93d742c"
+  integrity sha1-L0tTHkceynpzSROsKQSCrOk9dCw=
   dependencies:
     "@atlaskit/analytics-next" "^6.3.1"
-    "@atlaskit/icon" "^19.0.6"
-    "@atlaskit/theme" "^9.2.4"
+    "@atlaskit/theme" "^9.5.0"
     react-uid "^2.2.0"
     tslib "^1.9.3"
 
@@ -1156,72 +1153,72 @@
   dependencies:
     any-observable "^0.3.0"
 
-"@sentry/apm@5.10.2":
-  version "5.10.2"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@sentry/apm/-/apm-5.10.2.tgz#41a401b3964b68514439f8a595b12c6fd05ab21a"
-  integrity sha1-QaQBs5ZLaFFEOfillbEsb9Basho=
+"@sentry/apm@5.11.0":
+  version "5.11.0"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@sentry/apm/-/apm-5.11.0.tgz#b1f375f72a586351fdcc63d81c2d413309ce665c"
+  integrity sha1-sfN19ypYY1H9zGPYHC1BMwnOZlw=
   dependencies:
-    "@sentry/hub" "5.10.2"
-    "@sentry/minimal" "5.10.2"
-    "@sentry/types" "5.10.0"
-    "@sentry/utils" "5.10.2"
+    "@sentry/hub" "5.11.0"
+    "@sentry/minimal" "5.11.0"
+    "@sentry/types" "5.11.0"
+    "@sentry/utils" "5.11.0"
     tslib "^1.9.3"
 
-"@sentry/core@5.10.2":
-  version "5.10.2"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@sentry/core/-/core-5.10.2.tgz#1cb64489e6f8363c3249415b49d3f1289814825f"
-  integrity sha1-HLZEieb4NjwySUFbSdPxKJgUgl8=
+"@sentry/core@5.11.0":
+  version "5.11.0"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@sentry/core/-/core-5.11.0.tgz#fc21acefbb58bacda7b1b33e4a67b56d7f7064b4"
+  integrity sha1-/CGs77tYus2nsbM+Sme1bX9wZLQ=
   dependencies:
-    "@sentry/hub" "5.10.2"
-    "@sentry/minimal" "5.10.2"
-    "@sentry/types" "5.10.0"
-    "@sentry/utils" "5.10.2"
+    "@sentry/hub" "5.11.0"
+    "@sentry/minimal" "5.11.0"
+    "@sentry/types" "5.11.0"
+    "@sentry/utils" "5.11.0"
     tslib "^1.9.3"
 
-"@sentry/hub@5.10.2":
-  version "5.10.2"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@sentry/hub/-/hub-5.10.2.tgz#25d9f36b8f7c5cb65cf486737fa61dc9bf69b7e3"
-  integrity sha1-Jdnza498XLZc9IZzf6Ydyb9pt+M=
+"@sentry/hub@5.11.0":
+  version "5.11.0"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@sentry/hub/-/hub-5.11.0.tgz#d427432fff13d9b34d83da8651ad5c4207260796"
+  integrity sha1-1CdDL/8T2bNNg9qGUa1cQgcmB5Y=
   dependencies:
-    "@sentry/types" "5.10.0"
-    "@sentry/utils" "5.10.2"
+    "@sentry/types" "5.11.0"
+    "@sentry/utils" "5.11.0"
     tslib "^1.9.3"
 
-"@sentry/minimal@5.10.2":
-  version "5.10.2"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@sentry/minimal/-/minimal-5.10.2.tgz#267c2f3aa6877a0fe7a86971942e83f3ee616580"
-  integrity sha1-JnwvOqaHeg/nqGlxlC6D8+5hZYA=
+"@sentry/minimal@5.11.0":
+  version "5.11.0"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@sentry/minimal/-/minimal-5.11.0.tgz#5a5f334794f03044e7d0316757abd0a236fcb1f3"
+  integrity sha1-Wl8zR5TwMETn0DFnV6vQojb8sfM=
   dependencies:
-    "@sentry/hub" "5.10.2"
-    "@sentry/types" "5.10.0"
+    "@sentry/hub" "5.11.0"
+    "@sentry/types" "5.11.0"
     tslib "^1.9.3"
 
 "@sentry/node@^5":
-  version "5.10.2"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@sentry/node/-/node-5.10.2.tgz#1f5d6deefb2c1549ddb542c10952cccf5f9a4ac2"
-  integrity sha1-H11t7vssFUndtULBCVLMz1+aSsI=
+  version "5.11.0"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@sentry/node/-/node-5.11.0.tgz#9342ae0669ad47389b6e0c3048ceed30464d68e7"
+  integrity sha1-k0KuBmmtRzibbgwwSM7tMEZNaOc=
   dependencies:
-    "@sentry/apm" "5.10.2"
-    "@sentry/core" "5.10.2"
-    "@sentry/hub" "5.10.2"
-    "@sentry/types" "5.10.0"
-    "@sentry/utils" "5.10.2"
+    "@sentry/apm" "5.11.0"
+    "@sentry/core" "5.11.0"
+    "@sentry/hub" "5.11.0"
+    "@sentry/types" "5.11.0"
+    "@sentry/utils" "5.11.0"
     cookie "^0.3.1"
-    https-proxy-agent "^3.0.0"
+    https-proxy-agent "^4.0.0"
     lru_map "^0.3.3"
     tslib "^1.9.3"
 
-"@sentry/types@5.10.0":
-  version "5.10.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@sentry/types/-/types-5.10.0.tgz#4f0ba31b6e4d5371112c38279f11f66c73b43746"
-  integrity sha1-TwujG25NU3ERLDgnnxH2bHO0N0Y=
+"@sentry/types@5.11.0":
+  version "5.11.0"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@sentry/types/-/types-5.11.0.tgz#40f0f3174362928e033ddd9725d55e7c5cb7c5b6"
+  integrity sha1-QPDzF0Niko4DPd2XJdVefFy3xbY=
 
-"@sentry/utils@5.10.2":
-  version "5.10.2"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@sentry/utils/-/utils-5.10.2.tgz#261f575079d30aaf604e59f5f4de0aa21db22252"
-  integrity sha1-Jh9XUHnTCq9gTln19N4Koh2yIlI=
+"@sentry/utils@5.11.0":
+  version "5.11.0"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@sentry/utils/-/utils-5.11.0.tgz#c07313eaf2331ecdecfd240c350bb28c7bd38e9c"
+  integrity sha1-wHMT6vIzHs3s/SQMNQuyjHvTjpw=
   dependencies:
-    "@sentry/types" "5.10.0"
+    "@sentry/types" "5.11.0"
     tslib "^1.9.3"
 
 "@sindresorhus/is@^0.14.0":
@@ -1390,9 +1387,9 @@
     "@types/node" "*"
 
 "@types/node@*":
-  version "13.1.4"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@types/node/-/node-13.1.4.tgz#4cfd90175a200ee9b02bd6b1cd19bc349741607e"
-  integrity sha1-TP2QF1ogDumwK9axzRm8NJdBYH4=
+  version "13.1.5"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@types/node/-/node-13.1.5.tgz#4d5efc52a1d3e45d13e5ec9f911cbc5b089ccaec"
+  integrity sha1-TV78UqHT5F0T5eyfkRy8Wwicyuw=
 
 "@types/node@^12":
   version "12.12.24"
@@ -1723,12 +1720,10 @@ acorn@^7.1.0:
   resolved "https://packages.atlassian.com/api/npm/npm-remote/acorn/-/acorn-7.1.0.tgz#949d36f2c292535da602283586c2477c57eb2d6c"
   integrity sha1-lJ028sKSU12mAig1hsJHfFfrLWw=
 
-agent-base@^4.3.0:
-  version "4.3.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/agent-base/-/agent-base-4.3.0.tgz#8165f01c436009bccad0b1d122f05ed770efc6ee"
-  integrity sha1-gWXwHENgCbzK0LHRIvBe13Dvxu4=
-  dependencies:
-    es6-promisify "^5.0.0"
+agent-base@5:
+  version "5.1.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/agent-base/-/agent-base-5.1.1.tgz#e8fb3f242959db44d63be665db7a8e739537a32c"
+  integrity sha1-6Ps/JClZ20TWO+Zl23qOc5U3oyw=
 
 aggregate-error@^3.0.0:
   version "3.0.1"
@@ -3309,7 +3304,7 @@ commander@4.0.1:
   resolved "https://packages.atlassian.com/api/npm/npm-remote/commander/-/commander-4.0.1.tgz#b67622721785993182e807f4883633e6401ba53c"
   integrity sha1-tnYicheFmTGC6Af0iDYz5kAbpTw=
 
-commander@^4.0.1:
+commander@^4.0.1, commander@^4.1.0:
   version "4.1.0"
   resolved "https://packages.atlassian.com/api/npm/npm-remote/commander/-/commander-4.1.0.tgz#545983a0603fe425bc672d66c9e3c89c42121a83"
   integrity sha1-VFmDoGA/5CW8Zy1myePInEISGoM=
@@ -3909,14 +3904,14 @@ debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.9:
   dependencies:
     ms "2.0.0"
 
-debug@3.2.6, debug@^3.0.0, debug@^3.1.0, debug@^3.2.6:
+debug@3.2.6, debug@^3.0.0, debug@^3.2.6:
   version "3.2.6"
   resolved "https://packages.atlassian.com/api/npm/npm-remote/debug/-/debug-3.2.6.tgz#e83d17de16d8a7efb7717edbe5fb10135eee629b"
   integrity sha1-6D0X3hbYp++3cX7b5fsQE17uYps=
   dependencies:
     ms "^2.1.1"
 
-debug@4.1.1, debug@^4.0.1, debug@^4.1.0, debug@^4.1.1:
+debug@4, debug@4.1.1, debug@^4.0.1, debug@^4.1.0, debug@^4.1.1:
   version "4.1.1"
   resolved "https://packages.atlassian.com/api/npm/npm-remote/debug/-/debug-4.1.1.tgz#3b72260255109c6b589cee050f1d516139664791"
   integrity sha1-O3ImAlUQnGtYnO4FDx1RYTlmR5E=
@@ -4265,9 +4260,9 @@ ejs@^2.6.1:
   integrity sha1-SGYSh1c9zFPjZsehrlLDoSDuybo=
 
 electron-to-chromium@^1.3.322:
-  version "1.3.327"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/electron-to-chromium/-/electron-to-chromium-1.3.327.tgz#516f28b4271727004362b4ac814494ae64d9dde7"
-  integrity sha1-UW8otCcXJwBDYrSsgUSUrmTZ3ec=
+  version "1.3.329"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/electron-to-chromium/-/electron-to-chromium-1.3.329.tgz#ff3644fb216bdccc33b2063c36f679deb5316cde"
+  integrity sha1-/zZE+yFr3MwzsgY8NvZ53rUxbN4=
 
 elegant-spinner@^1.0.1:
   version "1.0.1"
@@ -4395,18 +4390,6 @@ es-to-primitive@^1.2.1:
     is-date-object "^1.0.1"
     is-symbol "^1.0.2"
 
-es6-promise@^4.0.3:
-  version "4.2.8"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/es6-promise/-/es6-promise-4.2.8.tgz#4eb21594c972bc40553d276e510539143db53e0a"
-  integrity sha1-TrIVlMlyvEBVPSduUQU5FD21Pgo=
-
-es6-promisify@^5.0.0:
-  version "5.0.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/es6-promisify/-/es6-promisify-5.0.0.tgz#5109d62f3e56ea967c4b63505aef08291c8a5203"
-  integrity sha1-UQnWLz5W6pZ8S2NQWu8IKRyKUgM=
-  dependencies:
-    es6-promise "^4.0.3"
-
 escape-html@~1.0.3:
   version "1.0.3"
   resolved "https://packages.atlassian.com/api/npm/npm-remote/escape-html/-/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"
@@ -4513,9 +4496,9 @@ eslint-plugin-eslint-comments@^3:
     ignore "^5.0.5"
 
 eslint-plugin-eslint-plugin@^2.1.0:
-  version "2.1.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/eslint-plugin-eslint-plugin/-/eslint-plugin-eslint-plugin-2.1.0.tgz#a7a00f15a886957d855feacaafee264f039e62d5"
-  integrity sha1-p6APFaiGlX2FX+rKr+4mTwOeYtU=
+  version "2.2.0"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/eslint-plugin-eslint-plugin/-/eslint-plugin-eslint-plugin-2.2.0.tgz#6cac90a8085f658e892b155dda130deac54cfa51"
+  integrity sha1-bKyQqAhfZY6JKxVd2hMN6sVM+lE=
 
 eslint-plugin-import@^2:
   version "2.19.1"
@@ -4730,9 +4713,9 @@ eve@~0.5.1:
   integrity sha1-Z9CAuXJSkdfjieNMJoYN2X8d66o=
 
 events@^3.0.0:
-  version "3.0.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/events/-/events-3.0.0.tgz#9a0a0dfaf62893d92b875b8f2698ca4114973e88"
-  integrity sha1-mgoN+vYok9krh1uPJpjKQRSXPog=
+  version "3.1.0"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/events/-/events-3.1.0.tgz#84279af1b34cb75aa88bf5ff291f6d0bd9b31a59"
+  integrity sha1-hCea8bNMt1qoi/X/KR9tC9mzGlk=
 
 evp_bytestokey@^1.0.0, evp_bytestokey@^1.0.3:
   version "1.0.3"
@@ -6054,13 +6037,13 @@ https-browserify@^1.0.0:
   resolved "https://packages.atlassian.com/api/npm/npm-remote/https-browserify/-/https-browserify-1.0.0.tgz#ec06c10e0a34c0f2faf199f7fd7fc78fffd03c73"
   integrity sha1-7AbBDgo0wPL68Zn3/X/Hj//QPHM=
 
-https-proxy-agent@^3.0.0:
-  version "3.0.1"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/https-proxy-agent/-/https-proxy-agent-3.0.1.tgz#b8c286433e87602311b01c8ea34413d856a4af81"
-  integrity sha1-uMKGQz6HYCMRsByOo0QT2Fakr4E=
+https-proxy-agent@^4.0.0:
+  version "4.0.0"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/https-proxy-agent/-/https-proxy-agent-4.0.0.tgz#702b71fb5520a132a66de1f67541d9e62154d82b"
+  integrity sha1-cCtx+1UgoTKmbeH2dUHZ5iFU2Cs=
   dependencies:
-    agent-base "^4.3.0"
-    debug "^3.1.0"
+    agent-base "5"
+    debug "4"
 
 human-signals@^1.1.1:
   version "1.1.1"
@@ -6278,9 +6261,9 @@ inquirer@^6.2.1:
     through "^2.3.6"
 
 inquirer@^7.0.0:
-  version "7.0.2"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/inquirer/-/inquirer-7.0.2.tgz#b39b205b95c9424839a1fd991d60426cf9bbc0e9"
-  integrity sha1-s5sgW5XJQkg5of2ZHWBCbPm7wOk=
+  version "7.0.3"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/inquirer/-/inquirer-7.0.3.tgz#f9b4cd2dff58b9f73e8d43759436ace15bed4567"
+  integrity sha1-+bTNLf9Yufc+jUN1lDas4VvtRWc=
   dependencies:
     ansi-escapes "^4.2.1"
     chalk "^2.4.2"
@@ -7069,13 +7052,13 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   integrity sha1-ARRrNqYhjmTljzqNZt5df8b20FE=
 
 knex@^0.20:
-  version "0.20.6"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/knex/-/knex-0.20.6.tgz#81eda6ec6580c05164a6317d3d4818ba20fca7bb"
-  integrity sha1-ge2m7GWAwFFkpjF9PUgYuiD8p7s=
+  version "0.20.7"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/knex/-/knex-0.20.7.tgz#659ef45a395add4a40412bba6c749fe290f01cd5"
+  integrity sha1-ZZ70Wjla3UpAQSu6bHSf4pDwHNU=
   dependencies:
     bluebird "^3.7.2"
     colorette "1.1.0"
-    commander "^4.0.1"
+    commander "^4.1.0"
     debug "4.1.1"
     getopts "2.2.5"
     inherits "~2.0.4"
@@ -8032,9 +8015,9 @@ nan@^2.12.1:
   integrity sha1-eBj3IgJ7JFmobwKV1DTR/CM2xSw=
 
 nanoid@^2, nanoid@^2.1.8:
-  version "2.1.8"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/nanoid/-/nanoid-2.1.8.tgz#2dbb0224231b246e3b4c819de7bfea6384dabf08"
-  integrity sha1-LbsCJCMbJG47TIGd57/qY4Tavwg=
+  version "2.1.9"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/nanoid/-/nanoid-2.1.9.tgz#edc71de7b16fc367bbb447c7a638ccebe07a17a1"
+  integrity sha1-7ccd57Fvw2e7tEfHpjjM6+B6F6E=
 
 nanomatch@^1.2.9:
   version "1.2.13"
@@ -8221,9 +8204,9 @@ node-pre-gyp@*:
     tar "^4.4.2"
 
 node-releases@^1.1.44:
-  version "1.1.44"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/node-releases/-/node-releases-1.1.44.tgz#cd66438a6eb875e3eb012b6a12e48d9f4326ffd7"
-  integrity sha1-zWZDim64dePrAStqEuSNn0Mm/9c=
+  version "1.1.45"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/node-releases/-/node-releases-1.1.45.tgz#4cf7e9175d71b1317f15ffd68ce63bce1d53e9f2"
+  integrity sha1-TPfpF11xsTF/Ff/WjOY7zh1T6fI=
   dependencies:
     semver "^6.3.0"
 
@@ -10717,9 +10700,9 @@ resolve@1.1.7:
   integrity sha1-IDEU2CrSxe2ejgQRs5ModeiJ6Xs=
 
 resolve@^1.1.5, resolve@^1.1.6, resolve@^1.1.7, resolve@^1.10.0, resolve@^1.10.1, resolve@^1.12.0, resolve@^1.13.1, resolve@^1.3.2, resolve@^1.4.0, resolve@^1.5.0, resolve@^1.8.1:
-  version "1.14.1"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/resolve/-/resolve-1.14.1.tgz#9e018c540fcf0c427d678b9931cbf45e984bcaff"
-  integrity sha1-ngGMVA/PDEJ9Z4uZMcv0XphLyv8=
+  version "1.14.2"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/resolve/-/resolve-1.14.2.tgz#dbf31d0fa98b1f29aa5169783b9c290cb865fea2"
+  integrity sha1-2/MdD6mLHymqUWl4O5wpDLhl/qI=
   dependencies:
     path-parse "^1.0.6"
 
@@ -11929,9 +11912,9 @@ terser@^3.7.3:
     source-map-support "~0.5.10"
 
 terser@^4.1.2, terser@^4.3.9:
-  version "4.6.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/terser/-/terser-4.6.0.tgz#5c1f8d01897a718797958b8607ff7cc4a3d12055"
-  integrity sha1-XB+NAYl6cYeXlYuGB/98xKPRIFU=
+  version "4.6.2"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/terser/-/terser-4.6.2.tgz#cb1cf055e7f70caa5863f00ba3e67dc3c97b5150"
+  integrity sha1-yxzwVef3DKpYY/ALo+Z9w8l7UVA=
   dependencies:
     commander "^2.20.0"
     source-map "~0.6.1"
