@@ -7,7 +7,9 @@ import { Tags, ExifDateTime } from 'exiftool-vendored'
 import { TimestampUTCMs, get_UTC_timestamp_ms, get_human_readable_UTC_timestamp_seconds } from '@offirmo-private/timestamps'
 import { NORMALIZERS } from '@offirmo-private/normalize-string'
 
+import { EXIF_POWERED_FILE_EXTENSIONS } from '../consts'
 import { Basename, RelativePath } from '../types'
+import { get_params } from '../params'
 import { get_compact_date_from_UTC_ts } from '../services/utils'
 import logger from '../services/logger'
 import { extract_compact_date, starts_with_human_timestamp_ms } from '../services/matchers'
@@ -33,6 +35,8 @@ export interface State {
 
 const LIB = '🖼'
 
+const PARAMS = get_params()
+
 const Exif_DATE_FIELDS: string[] = [
 	'CreateDate',
 	'DateTimeOriginal',
@@ -45,39 +49,13 @@ const Exif_DATE_FIELDS: string[] = [
 	'MediaCreateDate',
 ]
 
-const EXIF_POWERED_FILE_EXTENSIONS = [
-	'.jpg',
-	'.jpeg',
-	'.mov',
-	'.mp4',
-]
-
-const ALLOWED_MEDIA_FILE_EXTENSIONS = [
-	'.gif',
-	'.png',
-	'.psp', // photoshop I believe, screens from Warcraft III are in this format
-	'.tga', // WoW
-	...EXIF_POWERED_FILE_EXTENSIONS,
-]
-
 ///////////////////// ACCESSORS /////////////////////
 
 export function is_eligible_media_file(id: RelativePath, parsed: path.ParsedPath = path.parse(id)): boolean {
 	//logger.trace(`is_eligible_media_file...`, { id })
 
 	if (parsed.base.startsWith('.')) return false
-	if (!ALLOWED_MEDIA_FILE_EXTENSIONS.includes(parsed.ext.toLowerCase())) return false
-
-	// TODO handle? Uniformize?
-	if (parsed.base.startsWith('Capture')) return false
-	if (parsed.base.startsWith('Screen')) return false
-
-	/* TODO check
-	.filter(f => f[0] !== '.')
-			.filter(f => !(f.startsWith('IMG_20') && f.length >= DATE_TS_LENGTH + 4 + 4))
-			.filter(f => !(f.startsWith('VID_20') && f.length >= DATE_TS_LENGTH + 4 + 4))
-			.filter(f => !(f.startsWith('20') && f.length >= DATE_TS_LENGTH + 4))
-		*/
+	if (!PARAMS.media_files_extensions.includes(parsed.ext.toLowerCase())) return false
 
 	return true
 }

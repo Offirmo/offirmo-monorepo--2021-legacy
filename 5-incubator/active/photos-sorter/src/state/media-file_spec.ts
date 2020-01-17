@@ -76,7 +76,7 @@ const UNDATED_NAMES_SAMPLES: string[] = [
 
 describe(`${LIB} - media file state`, function() {
 
-	describe.only('get_ideal_basename', function () {
+	describe('get_ideal_basename', function () {
 
 		it('should work', () => {
 			// TODO update

@@ -160,8 +160,9 @@ export function on_file_found(state: Readonly<State>, parent_id: RelativePath, s
 	if (file_state.is_eligible) {
 		logger.verbose('eligible file found', { id })
 
-		state = enqueue_action(state, create_action_query_fs_stats(id))
-		state = enqueue_action(state, create_action_query_exif(id))
+		//TODO on demand
+		//state = enqueue_action(state, create_action_query_fs_stats(id))
+		//state = enqueue_action(state, create_action_query_exif(id))
 	}
 
 	return state

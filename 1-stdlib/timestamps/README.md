@@ -21,3 +21,4 @@ get_human_readable_UTC_timestamp_days()
 ## Roadmap
 TODO valid in URLs ?
 TODO valid in filenames ?
+TODO https://devdocs.io/javascript/global_objects/date/parse
