@@ -5,6 +5,7 @@ import {
 	get_human_readable_timestamp_seconds,
 	get_human_readable_timestamp_minutes,
 	get_human_readable_timestamp_millis,
+	get_human_readable_timestamp_auto,
 } from './date_generator'
 
 declare const console: any

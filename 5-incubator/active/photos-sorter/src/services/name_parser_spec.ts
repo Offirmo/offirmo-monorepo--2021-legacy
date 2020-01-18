@@ -3,6 +3,9 @@ import { expect } from 'chai'
 import { LIB } from '../consts'
 import { DATED_NAMES_SAMPLES } from './__test_shared/filenames'
 import {
+	get_human_readable_timestamp_auto,
+} from './date_generator'
+import {
 	parse,
 	ParseResult,
 } from './name_parser'
@@ -43,11 +46,14 @@ describe(`${LIB} - name parser`, function() {
 	describe('extraction of the date', function () {
 		it.only('should work', () => {
 			const filenames = Object.keys(DATED_NAMES_SAMPLES)
-				.slice(5) // TEMP XXX
+				.slice(0) // TEMP XXX
 			filenames.forEach(filename => {
 				const { _comment, ...rest } = DATED_NAMES_SAMPLES[filename]
 				const expected: ParseResult = {
 					original_name: filename,
+					human_ts: rest.timestamp_ms
+						? get_human_readable_timestamp_auto(new Date(rest.timestamp_ms), rest.digits!)
+						: null,
 					...rest,
 				}
 
@@ -55,6 +61,10 @@ describe(`${LIB} - name parser`, function() {
 					parse(filename, true).digits,
 					`${[_comment, `"${filename}"`].join(': ')}`
 				).to.equal(expected.digits)
+				expect(
+					parse(filename, true).digits,
+					`${[_comment, `"${filename}"`].join(': ')}`
+				).to.equal(expected.human_ts)
 			})
 		})
 	})

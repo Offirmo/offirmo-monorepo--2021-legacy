@@ -10,6 +10,9 @@ import {
 	is_second_fragment,
 	is_millisecond_fragment,
 } from './matchers'
+import {
+	get_human_readable_timestamp_auto
+} from './date_generator'
 
 
 export interface ParseResult {
@@ -214,7 +217,7 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 	result.timestamp_ms = result.timestamp_ms || null
 	debug && console.log('« final', {
 		...result,
-		ts: get
+		human_ts: result.timestamp_ms ? get_human_readable_timestamp_auto(new Date(result.timestamp_ms), result.digits!) : null
 	})
 	return result
 }

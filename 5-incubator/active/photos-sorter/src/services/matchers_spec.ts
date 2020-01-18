@@ -1,51 +1,66 @@
 import { expect } from 'chai'
-/*
+
 import { LIB } from '../consts'
 import {
-	YEAR_RE,
-	MONTH_RE,
-	DAY_RE,
-	COMPACT_DATE_RE_STR,
-	extract_compact_date,
-	starts_with_human_timestamp_ms,
+	is_day_fragment,
+	is_month_fragment,
+	is_year,
+	is_YYYYMMDD,
+	is_DDMMYYYY,
 } from './matchers'
-import {SimpleYYYYMMDD} from '../types'
 
 /////////////////////
 
 type TCBool = { [k: string]: boolean }
 
-describe(`${LIB} - matchers`, function() {
+describe.only(`${LIB} - matchers`, function() {
 
-	describe('year regexp', function () {
-		it('should work', () => {
-			const TEST_CASES: TCBool = {
-				'0': false,
-				'123': false,
-				'01900': false,
-				'1900': true,
-				'1990': true,
-				'2000': true,
-				'2099': true,
-				'2100': false,
-				'9999': false,
-				'19500': false,
-			}
-			Object.keys(TEST_CASES).forEach(tc => {
-				//console.log( { tc, x: TEST_CASES[tc], m: tc.match(YEAR_RE) } )
-				if (TEST_CASES[tc])
-					expect(tc.match(YEAR_RE), tc).to.be.an('array')
-				else
-					expect(tc.match(YEAR_RE), tc).to.equal(null)
-			})
+	describe('is_year()', function () {
+
+		it('should fail on invalid strings', () => {
+			[
+				'',
+				'0',
+				'0000',
+				'-0',
+				2000,
+				-1,
+				NaN,
+				'abcd',
+				'02000',
+			].forEach(bad_case =>
+				expect(is_year(bad_case as any), String(bad_case)).to.be.false
+			)
+		})
+
+		it('should have a lower limit', () => {
+			expect(is_year('1000')).to.be.false
+			expect(is_year('1825')).to.be.false
+			expect(is_year('1826')).to.be.true
+		})
+
+		it('should have an upper limit', () => {
+			expect(is_year(String((new Date()).getUTCFullYear() + 1))).to.be.true
+			expect(is_year(String((new Date()).getUTCFullYear() + 2))).to.be.false
+			expect(is_year('2100')).to.be.false
+		})
+
+		it('should work on reasonable years', () => {
+			expect(is_year('1890')).to.be.true
+			expect(is_year('1999')).to.be.true
+			expect(is_year('2020')).to.be.true
+			expect(is_year(String((new Date()).getUTCFullYear()))).to.be.true
+			expect(is_year(String((new Date()).getUTCFullYear() + 1))).to.be.true
 		})
 	})
 
-	describe('month regexp', function () {
+	describe('is_month_fragment()', function () {
+
 		it('should work', () => {
 			const TEST_CASES: TCBool = {
+				'': false,
 				'0': false,
-				//'00': false, don't care this corner case
+				'00': false,
 				'1': false,
 				'001': false,
 				'01': true,
@@ -65,19 +80,18 @@ describe(`${LIB} - matchers`, function() {
 			}
 			Object.keys(TEST_CASES).forEach(tc => {
 				//console.log( { tc, x: TEST_CASES[tc], m: tc.match(YEAR_RE) } )
-				if (TEST_CASES[tc])
-					expect(tc.match(MONTH_RE), tc).to.be.an('array')
-				else
-					expect(tc.match(MONTH_RE), tc).to.equal(null)
+				expect(is_month_fragment(tc), tc).to.equal(TEST_CASES[tc])
 			})
 		})
 	})
 
-	describe('day regexp', function () {
+	describe('is_day_fragment()', function () {
+
 		it('should work', () => {
 			const TEST_CASES: TCBool = {
+				'': false,
 				'0': false,
-				//'00': false, don't care this corner case
+				'00': false,
 				'1': false,
 				'001': false,
 				'03': true,
@@ -96,57 +110,56 @@ describe(`${LIB} - matchers`, function() {
 			}
 			Object.keys(TEST_CASES).forEach(tc => {
 				//console.log( { tc, x: TEST_CASES[tc], m: tc.match(YEAR_RE) } )
-				if (TEST_CASES[tc])
-					expect(tc.match(DAY_RE), tc).to.be.an('array')
-				else
-					expect(tc.match(DAY_RE), tc).to.equal(null)
+				expect(is_day_fragment(tc), tc).to.equal(TEST_CASES[tc])
 			})
 		})
 	})
 
-	describe('compact date regexp', function () {
+	describe('is_YYYYMMDD()', function () {
+
 		it('should work', () => {
 			const TEST_CASES: TCBool = {
-				'IMG_20130525.JPG': true,
-				'20180603_taronga_vivd.gif': true,
-				'TR81801414546EGJ.jpg': false,
-			}
-			Object.keys(TEST_CASES).forEach(tc => {
-				//console.log( { tc, x: TEST_CASES[tc], m: tc.match(COMPACT_DATE_RE_STR) } )
-				if (TEST_CASES[tc])
-					expect(tc.match(COMPACT_DATE_RE_STR), tc).to.be.an('array')
-				else
-					expect(tc.match(COMPACT_DATE_RE_STR), tc).to.equal(null)
-			})
-		})
-	})
-
-	describe('extract_compact_date()', function () {
-		it('should work', () => {
-			const TEST_CASES: { [k: string]: ReturnType<typeof extract_compact_date>  } = {
-				'IMG_20130525.JPG': 20130525,
-				'20180603_taronga_vivd.gif': 20180603,
-				'TR81801414546EGJ.jpg': null,
-			}
-			Object.keys(TEST_CASES).forEach(tc => {
-				expect(extract_compact_date(tc), tc).to.equal(TEST_CASES[tc])
-			})
-		})
-	})
-
-	describe('starts_with_human_timestamp_ms()', function () {
-		it('should work', () => {
-			const TEST_CASES: TCBool = {
-				'IMG_3211.JPG': false,
-				'TR81801414546EGJ.jpg': false,
-				'20180603_taronga_vivd.gif': false,
-				'20181121_06h00+45.632.jpg': true,
+				'': false,
+				'0': false,
+				'1': false,
+				'17001231': false,
+				'19901231': true,
+				'19900101': true,
+				'19900001': false,
+				'19900532': false,
+				'1990530': false,
+				'20200116': true,
+				'29082013': false, // DDMMYYYY
+				'08292013': false, // MMDDYYYY
 			}
 			Object.keys(TEST_CASES).forEach(tc => {
 				//console.log( { tc, x: TEST_CASES[tc], m: tc.match(YEAR_RE) } )
-				expect(starts_with_human_timestamp_ms(tc), tc).to.equal(TEST_CASES[tc])
+				expect(is_YYYYMMDD(tc), tc).to.equal(TEST_CASES[tc])
+			})
+		})
+	})
+
+	describe('is_DDMMYYYY()', function () {
+
+		it('should work', () => {
+			const TEST_CASES: TCBool = {
+				'': false,
+				'0': false,
+				'1': false,
+				'17001231': false,
+				'31121990': true,
+				'01011990': true,
+				'01001990': false,
+				'32051990': false,
+				'3051990': false,
+				'16012020': true,
+				'08292013': false, // MMDDYYYY
+				'19900101': false, // YYYYMMDD
+			}
+			Object.keys(TEST_CASES).forEach(tc => {
+				//console.log( { tc, x: TEST_CASES[tc], m: tc.match(YEAR_RE) } )
+				expect(is_DDMMYYYY(tc), tc).to.equal(TEST_CASES[tc])
 			})
 		})
 	})
 })
-*/

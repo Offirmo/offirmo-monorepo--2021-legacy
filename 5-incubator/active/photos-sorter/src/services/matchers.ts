@@ -11,7 +11,7 @@ const PARAMS = get_params()
 
 export function is_year(s: string): boolean {
 	const n = Math.trunc(Number(s))
-	if (n.toString() !== s) return false
+	if (n.toString().padStart(4, '0') !== s) return false
 
 	return n >= PARAMS.YYYY_lower_bound && n <= PARAMS.YYYY_upper_bound
 }
@@ -68,13 +68,26 @@ export function is_millisecond_fragment(s: string): boolean {
 	return [ '-', '_' ].includes(c)
 }*/
 
+export function is_YYYYMMDD(s: string): boolean {
+	return s.length === 8
+		&& is_year(s.slice(0, 4))
+		&& is_month_fragment(s.slice(4, 6))
+		&& is_day_fragment(s.slice(6, 8))
+}
+
+export function is_DDMMYYYY(s: string): boolean {
+	return s.length === 8
+		&& is_day_fragment(s.slice(0, 2))
+		&& is_month_fragment(s.slice(2, 4))
+		&& is_year(s.slice(4, 8))
+}
+
+
 ///////////////////// WITH Regexp :( /////////////////////
 
 export function extract_compact_date(s: string): SimpleYYYYMMDD | null {
 	throw new Error('TODO reimplement')
 }
-
-////////////////////////////////////
 
 export function starts_with_human_timestamp_ms(basename: Basename): boolean {
 	throw new Error('TODO reimplement')

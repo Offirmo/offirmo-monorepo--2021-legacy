@@ -1,3 +1,5 @@
+import assert from 'tiny-invariant'
+
 /////////////////////
 
 type PhotoSorterTimestampDays = string
@@ -42,6 +44,22 @@ function get_human_readable_timestamp_millis(now: Readonly<Date> = new Date()): 
 	return get_human_readable_timestamp_seconds(now) + `s${mmm}`
 }
 
+function get_human_readable_timestamp_auto(date: Readonly<Date>, digits: string): PhotoSorterTimestampMillis {
+	assert(digits.length <= 17, 'digits length')
+	digits = digits.padEnd(17, '0')
+
+	if (digits.endsWith('000000000'))
+		return get_human_readable_timestamp_days(date)
+
+	if (digits.endsWith('00000'))
+		return get_human_readable_timestamp_minutes(date)
+
+	if (digits.endsWith('000'))
+		return get_human_readable_timestamp_seconds(date)
+
+	return get_human_readable_timestamp_millis(date)
+}
+
 /////////////////////
 
 export {
@@ -54,6 +72,8 @@ export {
 	get_human_readable_timestamp_seconds,
 	get_human_readable_timestamp_minutes,
 	get_human_readable_timestamp_millis,
+
+	get_human_readable_timestamp_auto,
 }
 
 /////////////////////

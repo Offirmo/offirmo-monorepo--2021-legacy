@@ -1,5 +1,7 @@
 import path from 'path'
 
+import assert from 'tiny-invariant'
+
 import { EXIF_POWERED_FILE_EXTENSIONS } from './consts'
 import { SimpleYYYYMMDD, AbsolutePath } from './types'
 
@@ -16,8 +18,12 @@ export interface Params {
 	extensions_to_delete: string[]
 }
 
-const YYYY_LOWER_BOUND = 1950
-const YYYY_UPPER_BOUND = 2020 // TODO date of today + 1 (as margin)
+// the earliest known photo was taken in 1826
+// https://en.wikipedia.org/wiki/View_from_the_Window_at_Le_Gras
+const YYYY_LOWER_BOUND = 1826
+const YYYY_UPPER_BOUND = (new Date()).getUTCFullYear() + 1
+assert(YYYY_LOWER_BOUND >= 1826, 'earliest known')
+assert(YYYY_UPPER_BOUND >= YYYY_LOWER_BOUND, 'higher > lower')
 
 const DATE_LOWER_BOUND: SimpleYYYYMMDD = YYYY_LOWER_BOUND * 10000 +  101
 const DATE_UPPER_BOUND: SimpleYYYYMMDD = YYYY_UPPER_BOUND * 10000 + 1231
