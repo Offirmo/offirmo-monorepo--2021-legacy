@@ -1,7 +1,7 @@
 {
 	"name": "@offirmo-private/universal-debug-api-companion-webextension",
 	"description": "A FF & Chrome webextension to add debug features",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 	"private": true,

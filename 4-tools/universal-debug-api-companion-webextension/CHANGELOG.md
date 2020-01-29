@@ -4,6 +4,9 @@
 ## PENDING
 * TODO [fix] edition fields
 * somehow better UDA injection (TODO review...)
+
+## v0.0.3
+2020/01/29
 * [fix] changing window without changing tab is now detected and the popup self-close if needed
 * [fix] restoring the previous value on re-enable
 * [chore] bumped dependencies
