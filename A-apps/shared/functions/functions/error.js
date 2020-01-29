@@ -554,22 +554,25 @@ module.exports = chalk;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return dynamicRequire; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return isNodeEnv; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return getGlobalObject; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return uuid4; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return dynamicRequire; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return isNodeEnv; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return getGlobalObject; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return uuid4; });
 /* unused harmony export parseUrl */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return getEventDescription; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return consoleSandbox; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return addExceptionTypeValue; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addExceptionMechanism; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return getEventDescription; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return consoleSandbox; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return addExceptionTypeValue; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return addExceptionMechanism; });
 /* unused harmony export getLocationHref */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return htmlTreeAsString; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return timestampWithMs; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return parseSemver; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return parseRetryAfterHeader; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return getFunctionName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return htmlTreeAsString; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return timestampWithMs; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return parseSemver; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return parseRetryAfterHeader; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return getFunctionName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addContextToFrame; });
 /* harmony import */ var _is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
+/* harmony import */ var _string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(12);
+
 
 /**
  * Requires a module which is protected _against bundler minification.
@@ -892,6 +895,26 @@ function getFunctionName(fn) {
         return defaultFunctionName;
     }
 }
+/**
+ * This function adds context (pre/post/line) lines to the provided frame
+ *
+ * @param lines string[] containing all lines
+ * @param frame StackFrame that will be mutated
+ * @param linesOfContext number of context lines we want to add pre/post
+ */
+function addContextToFrame(lines, frame, linesOfContext) {
+    if (linesOfContext === void 0) { linesOfContext = 5; }
+    var lineno = frame.lineno || 0;
+    var maxLines = lines.length;
+    var sourceLine = Math.max(Math.min(maxLines, lineno - 1), 0);
+    frame.pre_context = lines
+        .slice(Math.max(0, sourceLine - linesOfContext), sourceLine)
+        .map(function (line) { return Object(_string__WEBPACK_IMPORTED_MODULE_1__[/* snipLine */ "b"])(line, 0); });
+    frame.context_line = Object(_string__WEBPACK_IMPORTED_MODULE_1__[/* snipLine */ "b"])(lines[Math.min(maxLines - 1, sourceLine)], frame.colno || 0);
+    frame.post_context = lines
+        .slice(Math.min(sourceLine + 1, maxLines), sourceLine + 1 + linesOfContext)
+        .map(function (line) { return Object(_string__WEBPACK_IMPORTED_MODULE_1__[/* snipLine */ "b"])(line, 0); });
+}
 //# sourceMappingURL=misc.js.map
 
 /***/ }),
@@ -1136,7 +1159,7 @@ var Memo = /** @class */ (function () {
 var misc = __webpack_require__(3);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/string.js
-var string = __webpack_require__(30);
+var string = __webpack_require__(12);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/object.js
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return fill; });
@@ -1224,7 +1247,7 @@ function getWalkSource(value) {
         // Accessing event.target can throw (see getsentry/raven-js#838, #768)
         try {
             source.target = Object(is["a" /* isElement */])(event_1.target)
-                ? Object(misc["h" /* htmlTreeAsString */])(event_1.target)
+                ? Object(misc["i" /* htmlTreeAsString */])(event_1.target)
                 : Object.prototype.toString.call(event_1.target);
         }
         catch (_oO) {
@@ -1232,7 +1255,7 @@ function getWalkSource(value) {
         }
         try {
             source.currentTarget = Object(is["a" /* isElement */])(event_1.currentTarget)
-                ? Object(misc["h" /* htmlTreeAsString */])(event_1.currentTarget)
+                ? Object(misc["i" /* htmlTreeAsString */])(event_1.currentTarget)
                 : Object.prototype.toString.call(event_1.currentTarget);
         }
         catch (_oO) {
@@ -1328,7 +1351,7 @@ function normalizeValue(value, key) {
         return '[undefined]';
     }
     if (typeof value === 'function') {
-        return "[Function: " + Object(misc["f" /* getFunctionName */])(value) + "]";
+        return "[Function: " + Object(misc["g" /* getFunctionName */])(value) + "]";
     }
     return value;
 }
@@ -1500,9 +1523,111 @@ exports.Enum = Enum;
 module.exports = require("events");
 
 /***/ }),
-/* 12 */,
+/* 12 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return truncate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return snipLine; });
+/* unused harmony export safeJoin */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return isMatchingPattern; });
+/* harmony import */ var _is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
+
+/**
+ * Truncates given string to the maximum characters count
+ *
+ * @param str An object that contains serializable values
+ * @param max Maximum number of characters in truncated string
+ * @returns string Encoded
+ */
+function truncate(str, max) {
+    if (max === void 0) { max = 0; }
+    // tslint:disable-next-line:strict-type-predicates
+    if (typeof str !== 'string' || max === 0) {
+        return str;
+    }
+    return str.length <= max ? str : str.substr(0, max) + "...";
+}
+/**
+ * This is basically just `trim_line` from
+ * https://github.com/getsentry/sentry/blob/master/src/sentry/lang/javascript/processor.py#L67
+ *
+ * @param str An object that contains serializable values
+ * @param max Maximum number of characters in truncated string
+ * @returns string Encoded
+ */
+function snipLine(line, colno) {
+    var newLine = line;
+    var ll = newLine.length;
+    if (ll <= 150) {
+        return newLine;
+    }
+    if (colno > ll) {
+        colno = ll; // tslint:disable-line:no-parameter-reassignment
+    }
+    var start = Math.max(colno - 60, 0);
+    if (start < 5) {
+        start = 0;
+    }
+    var end = Math.min(start + 140, ll);
+    if (end > ll - 5) {
+        end = ll;
+    }
+    if (end === ll) {
+        start = Math.max(end - 140, 0);
+    }
+    newLine = newLine.slice(start, end);
+    if (start > 0) {
+        newLine = "'{snip} " + newLine;
+    }
+    if (end < ll) {
+        newLine += ' {snip}';
+    }
+    return newLine;
+}
+/**
+ * Join values in array
+ * @param input array of values to be joined together
+ * @param delimiter string to be placed in-between values
+ * @returns Joined values
+ */
+function safeJoin(input, delimiter) {
+    if (!Array.isArray(input)) {
+        return '';
+    }
+    var output = [];
+    // tslint:disable-next-line:prefer-for-of
+    for (var i = 0; i < input.length; i++) {
+        var value = input[i];
+        try {
+            output.push(String(value));
+        }
+        catch (e) {
+            output.push('[value cannot be serialized]');
+        }
+    }
+    return output.join(delimiter);
+}
+/**
+ * Checks if the value matches a regex or includes the string
+ * @param value The string value to be checked against
+ * @param pattern Either a regex or a string that must be contained in value
+ */
+function isMatchingPattern(value, pattern) {
+    if (Object(_is__WEBPACK_IMPORTED_MODULE_0__[/* isRegExp */ "g"])(pattern)) {
+        return pattern.test(value);
+    }
+    if (typeof pattern === 'string') {
+        return value.indexOf(pattern) !== -1;
+    }
+    return false;
+}
+//# sourceMappingURL=string.js.map
+
+/***/ }),
 /* 13 */,
-/* 14 */
+/* 14 */,
+/* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1526,19 +1651,19 @@ function getGlobalThis() {
 
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports) {
 
 module.exports = require("path");
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports) {
 
 module.exports = require("http");
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1739,13 +1864,13 @@ var SyncPromise = /** @class */ (function () {
 //# sourceMappingURL=syncpromise.js.map
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports) {
 
 module.exports = require("os");
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1766,19 +1891,19 @@ exports.CHANNEL = (() => {
 })();
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports) {
 
 module.exports = require("url");
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-stdlib/globalthis-ponyfill/dist/src.es2019/index.js
-var src_es2019 = __webpack_require__(14);
+var src_es2019 = __webpack_require__(15);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-foundation/practical-logger-minimal-noop/dist/src.es2019/index.js
 function src_es2019_NOP() {}
@@ -1849,26 +1974,26 @@ const {
 
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports) {
 
 module.exports = require("https");
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports) {
 
 module.exports = require("domain");
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Scope; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return addGlobalEventProcessor; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(17);
+/* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(18);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(3);
@@ -2082,7 +2207,7 @@ var Scope = /** @class */ (function () {
      * @inheritDoc
      */
     Scope.prototype.addBreadcrumb = function (breadcrumb, maxBreadcrumbs) {
-        var timestamp = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_4__[/* timestampWithMs */ "l"])();
+        var timestamp = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_4__[/* timestampWithMs */ "m"])();
         var mergedBreadcrumb = tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({ timestamp: timestamp }, breadcrumb);
         this._breadcrumbs =
             maxBreadcrumbs !== undefined && maxBreadcrumbs >= 0
@@ -2158,7 +2283,7 @@ var Scope = /** @class */ (function () {
  * Retruns the global event processors.
  */
 function getGlobalEventProcessors() {
-    var global = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_4__[/* getGlobalObject */ "g"])();
+    var global = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_4__[/* getGlobalObject */ "h"])();
     global.__SENTRY__ = global.__SENTRY__ || {};
     global.__SENTRY__.globalEventProcessors = global.__SENTRY__.globalEventProcessors || [];
     return global.__SENTRY__.globalEventProcessors;
@@ -2173,7 +2298,7 @@ function addGlobalEventProcessor(callback) {
 //# sourceMappingURL=scope.js.map
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2196,8 +2321,8 @@ function invariant(condition, message) {
 
 
 /***/ }),
-/* 26 */,
-/* 27 */
+/* 27 */,
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2207,7 +2332,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const http_1 = __webpack_require__(16);
+const http_1 = __webpack_require__(17);
 
 const common_error_fields_1 = __webpack_require__(43); // TODO extern
 
@@ -2244,131 +2369,35 @@ function create_error(message, details = {}) {
 exports.create_error = create_error;
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _generate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(50);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_UTC_timestamp_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["a"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_UTC_timestamp_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["d"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["d"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["g"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_seconds", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["e"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_seconds", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["h"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_minutes", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["c"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_minutes", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["f"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_days", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["b"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_days", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["e"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_ISO8601_extended_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["a"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_ISO8601_simplified_minutes", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["c"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_ISO8601_simplified_day", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["b"]; });
 
 
-
-/***/ }),
-/* 29 */
-/***/ (function(module, exports) {
-
-module.exports = require("assert");
 
 /***/ }),
 /* 30 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return truncate; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return snipLine; });
-/* unused harmony export safeJoin */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return isMatchingPattern; });
-/* harmony import */ var _is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
-
-/**
- * Truncates given string to the maximum characters count
- *
- * @param str An object that contains serializable values
- * @param max Maximum number of characters in truncated string
- * @returns string Encoded
- */
-function truncate(str, max) {
-    if (max === void 0) { max = 0; }
-    // tslint:disable-next-line:strict-type-predicates
-    if (typeof str !== 'string' || max === 0) {
-        return str;
-    }
-    return str.length <= max ? str : str.substr(0, max) + "...";
-}
-/**
- * This is basically just `trim_line` from
- * https://github.com/getsentry/sentry/blob/master/src/sentry/lang/javascript/processor.py#L67
- *
- * @param str An object that contains serializable values
- * @param max Maximum number of characters in truncated string
- * @returns string Encoded
- */
-function snipLine(line, colno) {
-    var newLine = line;
-    var ll = newLine.length;
-    if (ll <= 150) {
-        return newLine;
-    }
-    if (colno > ll) {
-        colno = ll; // tslint:disable-line:no-parameter-reassignment
-    }
-    var start = Math.max(colno - 60, 0);
-    if (start < 5) {
-        start = 0;
-    }
-    var end = Math.min(start + 140, ll);
-    if (end > ll - 5) {
-        end = ll;
-    }
-    if (end === ll) {
-        start = Math.max(end - 140, 0);
-    }
-    newLine = newLine.slice(start, end);
-    if (start > 0) {
-        newLine = "'{snip} " + newLine;
-    }
-    if (end < ll) {
-        newLine += ' {snip}';
-    }
-    return newLine;
-}
-/**
- * Join values in array
- * @param input array of values to be joined together
- * @param delimiter string to be placed in-between values
- * @returns Joined values
- */
-function safeJoin(input, delimiter) {
-    if (!Array.isArray(input)) {
-        return '';
-    }
-    var output = [];
-    // tslint:disable-next-line:prefer-for-of
-    for (var i = 0; i < input.length; i++) {
-        var value = input[i];
-        try {
-            output.push(String(value));
-        }
-        catch (e) {
-            output.push('[value cannot be serialized]');
-        }
-    }
-    return output.join(delimiter);
-}
-/**
- * Checks if the value matches a regex or includes the string
- * @param value The string value to be checked against
- * @param pattern Either a regex or a string that must be contained in value
- */
-function isMatchingPattern(value, pattern) {
-    if (Object(_is__WEBPACK_IMPORTED_MODULE_0__[/* isRegExp */ "g"])(pattern)) {
-        return pattern.test(value);
-    }
-    if (typeof pattern === 'string') {
-        return value.indexOf(pattern) !== -1;
-    }
-    return false;
-}
-//# sourceMappingURL=string.js.map
+module.exports = require("assert");
 
 /***/ }),
 /* 31 */,
@@ -2414,8 +2443,8 @@ const COMMON_ERROR_FIELDS = DEFAULT_INSTANCE;
 
 var net = __webpack_require__(44);
 var tls = __webpack_require__(45);
-var url = __webpack_require__(20);
-var assert = __webpack_require__(29);
+var url = __webpack_require__(21);
+var assert = __webpack_require__(30);
 var Agent = __webpack_require__(59);
 var inherits = __webpack_require__(5).inherits;
 var debug = __webpack_require__(61)('https-proxy-agent');
@@ -3447,7 +3476,7 @@ function tryDecode(str, decode) {
 /* harmony import */ var _misc__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
 
 // TODO: Implement different loggers for different environments
-var global = Object(_misc__WEBPACK_IMPORTED_MODULE_0__[/* getGlobalObject */ "g"])();
+var global = Object(_misc__WEBPACK_IMPORTED_MODULE_0__[/* getGlobalObject */ "h"])();
 /** Prefix for logging strings */
 var PREFIX = 'Sentry Logger ';
 /** JSDoc */
@@ -3473,7 +3502,7 @@ var Logger = /** @class */ (function () {
         if (!this._enabled) {
             return;
         }
-        Object(_misc__WEBPACK_IMPORTED_MODULE_0__[/* consoleSandbox */ "c"])(function () {
+        Object(_misc__WEBPACK_IMPORTED_MODULE_0__[/* consoleSandbox */ "d"])(function () {
             global.console.log(PREFIX + "[Log]: " + args.join(' ')); // tslint:disable-line:no-console
         });
     };
@@ -3486,7 +3515,7 @@ var Logger = /** @class */ (function () {
         if (!this._enabled) {
             return;
         }
-        Object(_misc__WEBPACK_IMPORTED_MODULE_0__[/* consoleSandbox */ "c"])(function () {
+        Object(_misc__WEBPACK_IMPORTED_MODULE_0__[/* consoleSandbox */ "d"])(function () {
             global.console.warn(PREFIX + "[Warn]: " + args.join(' ')); // tslint:disable-line:no-console
         });
     };
@@ -3499,7 +3528,7 @@ var Logger = /** @class */ (function () {
         if (!this._enabled) {
             return;
         }
-        Object(_misc__WEBPACK_IMPORTED_MODULE_0__[/* consoleSandbox */ "c"])(function () {
+        Object(_misc__WEBPACK_IMPORTED_MODULE_0__[/* consoleSandbox */ "d"])(function () {
             global.console.error(PREFIX + "[Error]: " + args.join(' ')); // tslint:disable-line:no-console
         });
     };
@@ -3550,7 +3579,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get_base_url", function() { return get_base_url; });
 /* harmony import */ var typescript_string_enums__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
 /* harmony import */ var typescript_string_enums__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(typescript_string_enums__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _offirmo_universal_debug_api_placeholder__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(21);
+/* harmony import */ var _offirmo_universal_debug_api_placeholder__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(22);
 
  // tslint:disable-next-line: variable-name
 
@@ -3632,39 +3661,67 @@ exports.get_default_JsonRpc_error = get_default_JsonRpc_error;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return get_UTC_timestamp_ms; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return get_human_readable_UTC_timestamp_ms; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return get_human_readable_UTC_timestamp_seconds; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return get_human_readable_UTC_timestamp_minutes; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return get_human_readable_UTC_timestamp_days; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return get_UTC_timestamp_ms; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return get_human_readable_UTC_timestamp_ms; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return get_human_readable_UTC_timestamp_seconds; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return get_human_readable_UTC_timestamp_minutes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return get_human_readable_UTC_timestamp_days; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return get_ISO8601_extended_ms; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return get_ISO8601_simplified_minutes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return get_ISO8601_simplified_day; });
 /////////////////////
+// ex. 1542780045627
 function get_UTC_timestamp_ms(now = new Date()) {
   return +now;
 } /////////////////////
+// spec:
+// - human readable
+// - as short as possible
+// ex. 20181121
+// assumed side effect of being castable to a number
 
 
 function get_human_readable_UTC_timestamp_days(now = new Date()) {
   const YYYY = now.getUTCFullYear();
-  const MM = ('0' + (now.getUTCMonth() + 1)).slice(-2);
-  const DD = ('0' + now.getUTCDate()).slice(-2);
+  const MM = String(now.getUTCMonth() + 1).padStart(2, '0');
+  const DD = String(now.getUTCDate()).padStart(2, '0');
   return `${YYYY}${MM}${DD}`;
-}
+} // ex. 20181121_06h00
+
 
 function get_human_readable_UTC_timestamp_minutes(now = new Date()) {
-  const hh = ('0' + now.getUTCHours()).slice(-2);
-  const mm = ('0' + now.getUTCMinutes()).slice(-2);
+  const hh = String(now.getUTCHours()).padStart(2, '0');
+  const mm = String(now.getUTCMinutes()).padStart(2, '0');
   return get_human_readable_UTC_timestamp_days(now) + `_${hh}h${mm}`;
-}
+} // ex. 20190608_04h23m15
+
 
 function get_human_readable_UTC_timestamp_seconds(now = new Date()) {
-  const ss = ('0' + now.getUTCSeconds()).slice(-2);
-  return get_human_readable_UTC_timestamp_minutes(now) + `+${ss}`;
-}
+  const ss = String(now.getUTCSeconds()).padStart(2, '0');
+  return get_human_readable_UTC_timestamp_minutes(now) + `m${ss}`;
+} // ex.      20181121_06h00m45s632
+// formerly 20181121_06h00+45.632
+
 
 function get_human_readable_UTC_timestamp_ms(now = new Date()) {
-  const mmm = ('00' + now.getUTCMilliseconds()).slice(-3);
-  return get_human_readable_UTC_timestamp_seconds(now) + `.${mmm}`;
+  const mmm = String(now.getUTCMilliseconds()).padStart(3, '0');
+  return get_human_readable_UTC_timestamp_seconds(now) + `s${mmm}`;
 } /////////////////////
+// ISO 8601 Extended Format. The format is as follows: YYYY-MM-DDTHH:mm:ss.sssZ
+// http://www.ecma-international.org/ecma-262/5.1/#sec-15.9.1.15
+
+
+function get_ISO8601_extended_ms(now = new Date()) {
+  return now.toISOString();
+}
+
+function get_ISO8601_simplified_minutes(now = new Date()) {
+  return get_ISO8601_extended_ms(now).slice(0, 16);
+}
+
+function get_ISO8601_simplified_day(now = new Date()) {
+  return get_ISO8601_extended_ms(now).slice(0, 10);
+} // fun but unclear
 // https://space.stackexchange.com/questions/36628/utc-timestamp-format-for-launch-vehicles
 
 /*function get_space_timestamp_ms(now: Readonly<Date> = new Date()): string {
@@ -4534,7 +4591,7 @@ convert.rgb.gray = function (rgb) {
 
 "use strict";
 
-const os = __webpack_require__(18);
+const os = __webpack_require__(19);
 const hasFlag = __webpack_require__(65);
 
 const env = process.env;
@@ -4692,7 +4749,7 @@ __webpack_require__.d(analytics_state_namespaceObject, "create", function() { re
 __webpack_require__.d(analytics_state_namespaceObject, "addDetail", function() { return state_addDetail; });
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-stdlib/globalthis-ponyfill/dist/src.es2019/index.js
-var src_es2019 = __webpack_require__(14);
+var src_es2019 = __webpack_require__(15);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/consts.js
 const LIB = 'soft-execution-context';
@@ -5163,7 +5220,7 @@ const error_handling_PLUGIN = {
     prototype._decorateErrorWithDetails = function _decorateErrorWithDetails(err) {
       const SEC = this;
       const state = SEC[INTERNAL_PROP];
-      const now = Object(generate["a" /* get_UTC_timestamp_ms */])();
+      const now = Object(generate["d" /* get_UTC_timestamp_ms */])();
       const autoDetails = {
         ENV: state.plugins[dependency_injection_PLUGIN_ID].context.ENV,
         TIME: now,
@@ -5315,7 +5372,7 @@ const analytics_PLUGIN = {
 
     prototype.fireAnalyticsEvent = function fireAnalyticsEvent(eventId, details = {}) {
       const SEC = this;
-      const now = Object(generate["a" /* get_UTC_timestamp_ms */])();
+      const now = Object(generate["d" /* get_UTC_timestamp_ms */])();
       const root_state = SEC[INTERNAL_PROP];
       if (!eventId) throw new Error('Incorrect eventId!');
       const {
@@ -5382,7 +5439,7 @@ function decorateWithDetectedEnv(SEC) {
   const IS_DEV_MODE = false;
   const IS_VERBOSE = false;
   const CHANNEL = 'unknown';
-  const SESSION_START_TIME = Object(generate["a" /* get_UTC_timestamp_ms */])();
+  const SESSION_START_TIME = Object(generate["d" /* get_UTC_timestamp_ms */])();
   SEC.injectDependencies({
     ENV,
     'NODE_ENV': ENV,
@@ -5891,7 +5948,7 @@ Object.defineProperty(exports, "__esModule", {
 
 const Sentry = __webpack_require__(72);
 
-const channel_1 = __webpack_require__(19);
+const channel_1 = __webpack_require__(20);
 
 Sentry.init({
   // http://getsentry.github.io/sentry-javascript/interfaces/node.nodeoptions.html
@@ -7072,7 +7129,7 @@ var Status;
 })(Status || (Status = {}));
 //# sourceMappingURL=status.js.map
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/hub/esm/scope.js
-var esm_scope = __webpack_require__(24);
+var esm_scope = __webpack_require__(25);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/hub/esm/hub.js
 var esm_hub = __webpack_require__(131);
@@ -7372,10 +7429,10 @@ var logger = __webpack_require__(42);
 var is = __webpack_require__(4);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/syncpromise.js
-var syncpromise = __webpack_require__(17);
+var syncpromise = __webpack_require__(18);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/string.js
-var string = __webpack_require__(30);
+var string = __webpack_require__(12);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/misc.js
 var misc = __webpack_require__(3);
@@ -7694,7 +7751,7 @@ var baseclient_BaseClient = /** @class */ (function () {
             request.url = Object(string["c" /* truncate */])(request.url, maxValueLength);
         }
         if (prepared.event_id === undefined) {
-            prepared.event_id = Object(misc["m" /* uuid4 */])();
+            prepared.event_id = Object(misc["n" /* uuid4 */])();
         }
         this._addIntegrations(prepared.sdk);
         // We prepare the result here with a resolved Event.
@@ -8313,13 +8370,7 @@ function addPrePostContext(filesToRead, frames, linesOfContext) {
                 if (frame.filename && sourceFiles[frame.filename]) {
                     try {
                         var lines = sourceFiles[frame.filename].split('\n');
-                        frame.pre_context = lines
-                            .slice(Math.max(0, (frame.lineno || 0) - (linesOfContext + 1)), (frame.lineno || 0) - 1)
-                            .map(function (line) { return Object(string["b" /* snipLine */])(line, 0); });
-                        frame.context_line = Object(string["b" /* snipLine */])(lines[(frame.lineno || 0) - 1], frame.colno || 0);
-                        frame.post_context = lines
-                            .slice(frame.lineno || 0, (frame.lineno || 0) + linesOfContext)
-                            .map(function (line) { return Object(string["b" /* snipLine */])(line, 0); });
+                        Object(misc["a" /* addContextToFrame */])(lines, frame, linesOfContext);
                     }
                     catch (e) {
                         // anomaly, being defensive in case
@@ -8426,7 +8477,7 @@ var api_API = /** @class */ (function () {
     API.prototype.getRequestHeaders = function (clientName, clientVersion) {
         var dsn = this._dsnObject;
         var header = ["Sentry sentry_version=" + SENTRY_API_VERSION];
-        header.push("sentry_timestamp=" + Object(misc["l" /* timestampWithMs */])()); // TODO: This can be removed
+        header.push("sentry_timestamp=" + Object(misc["m" /* timestampWithMs */])()); // TODO: This can be removed
         header.push("sentry_client=" + clientName + "/" + clientVersion);
         header.push("sentry_key=" + dsn.user);
         if (dsn.pass) {
@@ -8555,7 +8606,7 @@ var promisebuffer_PromiseBuffer = /** @class */ (function () {
 //# sourceMappingURL=promisebuffer.js.map
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/version.js
 var SDK_NAME = 'sentry.javascript.node';
-var SDK_VERSION = '5.11.0';
+var SDK_VERSION = '5.11.1';
 //# sourceMappingURL=version.js.map
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/base.js
 
@@ -8617,7 +8668,7 @@ var base_BaseTransport = /** @class */ (function () {
                                     var now = Date.now();
                                     var header = res.headers ? res.headers['Retry-After'] : '';
                                     header = Array.isArray(header) ? header[0] : header;
-                                    _this._disabledUntil = new Date(now + Object(misc["j" /* parseRetryAfterHeader */])(now, header));
+                                    _this._disabledUntil = new Date(now + Object(misc["k" /* parseRetryAfterHeader */])(now, header));
                                     logger["a" /* logger */].warn("Too many requests, backing off till: " + _this._disabledUntil);
                                 }
                                 var rejectionMessage = "HTTP Error (" + statusCode + ")";
@@ -8657,7 +8708,7 @@ var base_BaseTransport = /** @class */ (function () {
 
 //# sourceMappingURL=base.js.map
 // EXTERNAL MODULE: external "http"
-var external_http_ = __webpack_require__(16);
+var external_http_ = __webpack_require__(17);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/http.js
 
@@ -8692,7 +8743,7 @@ var http_HTTPTransport = /** @class */ (function (_super) {
 
 //# sourceMappingURL=http.js.map
 // EXTERNAL MODULE: external "https"
-var external_https_ = __webpack_require__(22);
+var external_https_ = __webpack_require__(23);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/https.js
 
@@ -8796,8 +8847,8 @@ var backend_NodeBackend = /** @class */ (function (_super) {
         return new syncpromise["a" /* SyncPromise */](function (resolve, reject) {
             return parseError(ex, _this._options)
                 .then(function (event) {
-                Object(misc["b" /* addExceptionTypeValue */])(event, undefined, undefined);
-                Object(misc["a" /* addExceptionMechanism */])(event, mechanism);
+                Object(misc["c" /* addExceptionTypeValue */])(event, undefined, undefined);
+                Object(misc["b" /* addExceptionMechanism */])(event, mechanism);
                 resolve(tslib_es6["__assign"]({}, event, { event_id: hint && hint.event_id }));
             })
                 .then(null, reject);
@@ -8951,19 +9002,19 @@ var inboundfilters_InboundFilters = /** @class */ (function () {
     /** JSDoc */
     InboundFilters.prototype._shouldDropEvent = function (event, options) {
         if (this._isSentryError(event, options)) {
-            logger["a" /* logger */].warn("Event dropped due to being internal Sentry Error.\nEvent: " + Object(misc["e" /* getEventDescription */])(event));
+            logger["a" /* logger */].warn("Event dropped due to being internal Sentry Error.\nEvent: " + Object(misc["f" /* getEventDescription */])(event));
             return true;
         }
         if (this._isIgnoredError(event, options)) {
-            logger["a" /* logger */].warn("Event dropped due to being matched by `ignoreErrors` option.\nEvent: " + Object(misc["e" /* getEventDescription */])(event));
+            logger["a" /* logger */].warn("Event dropped due to being matched by `ignoreErrors` option.\nEvent: " + Object(misc["f" /* getEventDescription */])(event));
             return true;
         }
         if (this._isBlacklistedUrl(event, options)) {
-            logger["a" /* logger */].warn("Event dropped due to being matched by `blacklistUrls` option.\nEvent: " + Object(misc["e" /* getEventDescription */])(event) + ".\nUrl: " + this._getEventFilterUrl(event));
+            logger["a" /* logger */].warn("Event dropped due to being matched by `blacklistUrls` option.\nEvent: " + Object(misc["f" /* getEventDescription */])(event) + ".\nUrl: " + this._getEventFilterUrl(event));
             return true;
         }
         if (!this._isWhitelistedUrl(event, options)) {
-            logger["a" /* logger */].warn("Event dropped due to not being matched by `whitelistUrls` option.\nEvent: " + Object(misc["e" /* getEventDescription */])(event) + ".\nUrl: " + this._getEventFilterUrl(event));
+            logger["a" /* logger */].warn("Event dropped due to not being matched by `whitelistUrls` option.\nEvent: " + Object(misc["f" /* getEventDescription */])(event) + ".\nUrl: " + this._getEventFilterUrl(event));
             return true;
         }
         return false;
@@ -9038,7 +9089,7 @@ var inboundfilters_InboundFilters = /** @class */ (function () {
                 return ["" + value, type + ": " + value];
             }
             catch (oO) {
-                logger["a" /* logger */].error("Cannot extract message for event " + Object(misc["e" /* getEventDescription */])(event));
+                logger["a" /* logger */].error("Cannot extract message for event " + Object(misc["f" /* getEventDescription */])(event));
                 return [];
             }
         }
@@ -9058,7 +9109,7 @@ var inboundfilters_InboundFilters = /** @class */ (function () {
             return null;
         }
         catch (oO) {
-            logger["a" /* logger */].error("Cannot extract url for event " + Object(misc["e" /* getEventDescription */])(event));
+            logger["a" /* logger */].error("Cannot extract url for event " + Object(misc["f" /* getEventDescription */])(event));
             return null;
         }
     };
@@ -9103,7 +9154,7 @@ function initAndBind(clientClass, options) {
 }
 //# sourceMappingURL=sdk.js.map
 // EXTERNAL MODULE: external "domain"
-var external_domain_ = __webpack_require__(23);
+var external_domain_ = __webpack_require__(24);
 
 // EXTERNAL MODULE: external "util"
 var external_util_ = __webpack_require__(5);
@@ -9190,7 +9241,7 @@ function createConsoleWrapper(level) {
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/integrations/http.js
 
 
-var NODE_VERSION = Object(misc["k" /* parseSemver */])(process.versions.node);
+var NODE_VERSION = Object(misc["l" /* parseSemver */])(process.versions.node);
 /** http module integration */
 var http_Http = /** @class */ (function () {
     /**
@@ -9214,14 +9265,14 @@ var http_Http = /** @class */ (function () {
             return;
         }
         var handlerWrapper = createHandlerWrapper(this._breadcrumbs, this._tracing);
-        var httpModule = __webpack_require__(16);
+        var httpModule = __webpack_require__(17);
         Object(object["b" /* fill */])(httpModule, 'get', handlerWrapper);
         Object(object["b" /* fill */])(httpModule, 'request', handlerWrapper);
         // NOTE: Prior to Node 9, `https` used internals of `http` module, thus we don't patch it.
         // If we do, we'd get double breadcrumbs and double spans for `https` calls.
         // It has been changed in Node 9, so for all versions equal and above, we patch `https` separately.
         if (NODE_VERSION.major && NODE_VERSION.major > 8) {
-            var httpsModule = __webpack_require__(22);
+            var httpsModule = __webpack_require__(23);
             Object(object["b" /* fill */])(httpsModule, 'get', handlerWrapper);
             Object(object["b" /* fill */])(httpsModule, 'request', handlerWrapper);
         }
@@ -9468,15 +9519,15 @@ var span_Span = /** @class */ (function () {
         /**
          * @inheritDoc
          */
-        this._traceId = Object(misc["m" /* uuid4 */])();
+        this._traceId = Object(misc["n" /* uuid4 */])();
         /**
          * @inheritDoc
          */
-        this._spanId = Object(misc["m" /* uuid4 */])().substring(16);
+        this._spanId = Object(misc["n" /* uuid4 */])().substring(16);
         /**
          * Timestamp when the span was created.
          */
-        this.startTimestamp = Object(misc["l" /* timestampWithMs */])();
+        this.startTimestamp = Object(misc["m" /* timestampWithMs */])();
         /**
          * @inheritDoc
          */
@@ -9605,7 +9656,7 @@ var span_Span = /** @class */ (function () {
         if (this.timestamp !== undefined) {
             return undefined;
         }
-        this.timestamp = Object(misc["l" /* timestampWithMs */])();
+        this.timestamp = Object(misc["m" /* timestampWithMs */])();
         if (this.spanRecorder === undefined) {
             return undefined;
         }
@@ -9703,10 +9754,10 @@ function forget(promise) {
 var cookie = __webpack_require__(41);
 
 // EXTERNAL MODULE: external "os"
-var external_os_ = __webpack_require__(18);
+var external_os_ = __webpack_require__(19);
 
 // EXTERNAL MODULE: external "url"
-var external_url_ = __webpack_require__(20);
+var external_url_ = __webpack_require__(21);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/handlers.js
 
@@ -10154,13 +10205,13 @@ var onunhandledrejection_OnUnhandledRejection = /** @class */ (function () {
             'or by rejecting a promise which was not handled with .catch().' +
             ' The promise rejected with the reason:';
         if (this._options.mode === 'warn') {
-            Object(misc["c" /* consoleSandbox */])(function () {
+            Object(misc["d" /* consoleSandbox */])(function () {
                 console.warn(rejectionWarning);
                 console.error(reason && reason.stack ? reason.stack : reason);
             });
         }
         else if (this._options.mode === 'strict') {
-            Object(misc["c" /* consoleSandbox */])(function () {
+            Object(misc["d" /* consoleSandbox */])(function () {
                 console.warn(rejectionWarning);
             });
             logAndExitProcess(reason);
@@ -10260,7 +10311,7 @@ var linkederrors_LinkedErrors = /** @class */ (function () {
 
 //# sourceMappingURL=linkederrors.js.map
 // EXTERNAL MODULE: external "path"
-var external_path_ = __webpack_require__(15);
+var external_path_ = __webpack_require__(16);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/integrations/modules.js
 
@@ -10431,7 +10482,7 @@ function init(options) {
         options.dsn = process.env.SENTRY_DSN;
     }
     if (options.release === undefined) {
-        var global_1 = Object(misc["g" /* getGlobalObject */])();
+        var global_1 = Object(misc["h" /* getGlobalObject */])();
         // Prefer env var over global
         if (process.env.SENTRY_RELEASE) {
             options.release = process.env.SENTRY_RELEASE;
@@ -10552,17 +10603,17 @@ Object.defineProperty(exports, "__esModule", {
 
 const tslib_1 = __webpack_require__(0);
 
-const tiny_invariant_1 = tslib_1.__importDefault(__webpack_require__(25));
+const tiny_invariant_1 = tslib_1.__importDefault(__webpack_require__(26));
 
-const timestamps_1 = __webpack_require__(28);
+const timestamps_1 = __webpack_require__(29);
 
 const sec_1 = __webpack_require__(74);
 
 const sentry_1 = __webpack_require__(57);
 
-const channel_1 = __webpack_require__(19);
+const channel_1 = __webpack_require__(20);
 
-const utils_1 = __webpack_require__(27); // note: deducted from the overall running budget
+const utils_1 = __webpack_require__(28); // note: deducted from the overall running budget
 
 
 const MARGIN_AND_SENTRY_BUDGET_MS = channel_1.CHANNEL === 'dev' ? 5000 : 1000;
@@ -10762,7 +10813,7 @@ const soft_execution_context_node_1 = __webpack_require__(75);
 
 const consts_1 = __webpack_require__(49);
 
-const channel_1 = __webpack_require__(19);
+const channel_1 = __webpack_require__(20);
 
 const logger_1 = tslib_1.__importDefault(__webpack_require__(76)); /////////////////////
 
@@ -10822,7 +10873,7 @@ exports.default = SEC;
 /* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const os = __webpack_require__(18);
+const os = __webpack_require__(19);
 
 const {
   getRootSEC
@@ -10888,7 +10939,7 @@ const universal_debug_api_node_1 = __webpack_require__(92);
 
 const consts_1 = __webpack_require__(49);
 
-const channel_1 = __webpack_require__(19); /////////////////////////////////////////////////
+const channel_1 = __webpack_require__(20); /////////////////////////////////////////////////
 
 
 const logger = universal_debug_api_node_1.getLogger({
@@ -11426,7 +11477,7 @@ module.exports = function (fromModel) {
 
 "use strict";
 
-const os = __webpack_require__(18);
+const os = __webpack_require__(19);
 const tty = __webpack_require__(34);
 const hasFlag = __webpack_require__(82);
 
@@ -11781,7 +11832,7 @@ Object.defineProperty(exports, "__esModule", {
 
 const typescript_string_enums_1 = __webpack_require__(10);
 
-const utils_1 = __webpack_require__(27);
+const utils_1 = __webpack_require__(28);
 
 exports.HttpMethod = typescript_string_enums_1.Enum('GET', 'PUT', 'POST', 'PATCH', 'OPTIONS');
 
@@ -11831,7 +11882,7 @@ exports.require_http_method = require_http_method;
 __webpack_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-stdlib/globalthis-ponyfill/dist/src.es2019/index.js
-var src_es2019 = __webpack_require__(14);
+var src_es2019 = __webpack_require__(15);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-foundation/practical-logger-core/dist/src.es2019/consts.js
 const LIB = '@offirmo/practical-logger-core'; // level to a numerical value, for ordering and filtering.
@@ -12463,7 +12514,7 @@ const {
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
 /* harmony import */ var _sentry_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(42);
-/* harmony import */ var _scope__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(24);
+/* harmony import */ var _scope__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(25);
 
 
 
@@ -12590,7 +12641,7 @@ var Hub = /** @class */ (function () {
      * @inheritDoc
      */
     Hub.prototype.captureException = function (exception, hint) {
-        var eventId = (this._lastEventId = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* uuid4 */ "m"])());
+        var eventId = (this._lastEventId = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* uuid4 */ "n"])());
         var finalHint = hint;
         // If there's no explicit hint provided, mimick the same thing that would happen
         // in the minimal itself to create a consistent behavior.
@@ -12616,7 +12667,7 @@ var Hub = /** @class */ (function () {
      * @inheritDoc
      */
     Hub.prototype.captureMessage = function (message, level, hint) {
-        var eventId = (this._lastEventId = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* uuid4 */ "m"])());
+        var eventId = (this._lastEventId = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* uuid4 */ "n"])());
         var finalHint = hint;
         // If there's no explicit hint provided, mimick the same thing that would happen
         // in the minimal itself to create a consistent behavior.
@@ -12642,7 +12693,7 @@ var Hub = /** @class */ (function () {
      * @inheritDoc
      */
     Hub.prototype.captureEvent = function (event, hint) {
-        var eventId = (this._lastEventId = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* uuid4 */ "m"])());
+        var eventId = (this._lastEventId = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* uuid4 */ "n"])());
         this._invokeClient('captureEvent', event, tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, hint, { event_id: eventId }));
         return eventId;
     };
@@ -12664,10 +12715,10 @@ var Hub = /** @class */ (function () {
         if (maxBreadcrumbs <= 0) {
             return;
         }
-        var timestamp = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* timestampWithMs */ "l"])();
+        var timestamp = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* timestampWithMs */ "m"])();
         var mergedBreadcrumb = tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({ timestamp: timestamp }, breadcrumb);
         var finalBreadcrumb = beforeBreadcrumb
-            ? Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* consoleSandbox */ "c"])(function () { return beforeBreadcrumb(mergedBreadcrumb, hint); })
+            ? Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* consoleSandbox */ "d"])(function () { return beforeBreadcrumb(mergedBreadcrumb, hint); })
             : mergedBreadcrumb;
         if (finalBreadcrumb === null) {
             return;
@@ -12806,7 +12857,7 @@ var Hub = /** @class */ (function () {
 
 /** Returns the global shim registry. */
 function getMainCarrier() {
-    var carrier = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* getGlobalObject */ "g"])();
+    var carrier = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* getGlobalObject */ "h"])();
     carrier.__SENTRY__ = carrier.__SENTRY__ || {
         extensions: {},
         hub: undefined,
@@ -12839,7 +12890,7 @@ function getCurrentHub() {
         setHubOnCarrier(registry, new Hub());
     }
     // Prefer domains over global if they are there (applicable only to Node environment)
-    if (Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* isNodeEnv */ "i"])()) {
+    if (Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* isNodeEnv */ "j"])()) {
         return getHubFromActiveDomain(registry);
     }
     // Return hub that lives on a global object
@@ -12854,7 +12905,7 @@ function getHubFromActiveDomain(registry) {
         // We need to use `dynamicRequire` because `require` on it's own will be optimized by webpack.
         // We do not want this to happen, we need to try to `require` the domain node module and fail if we are in browser
         // for example so we do not have to shim it and use `getCurrentHub` universally.
-        var domain = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* dynamicRequire */ "d"])(module, 'domain');
+        var domain = Object(_sentry_utils__WEBPACK_IMPORTED_MODULE_1__[/* dynamicRequire */ "e"])(module, 'domain');
         var activeDomain = domain.active;
         // If there no active domain, just return global hub
         if (!activeDomain) {
@@ -12929,9 +12980,9 @@ const tslib_1 = __webpack_require__(0);
 
 const typescript_string_enums_1 = __webpack_require__(10);
 
-const tiny_invariant_1 = tslib_1.__importDefault(__webpack_require__(25));
+const tiny_invariant_1 = tslib_1.__importDefault(__webpack_require__(26));
 
-const utils_1 = __webpack_require__(27);
+const utils_1 = __webpack_require__(28);
 
 exports.FailureMode = typescript_string_enums_1.Enum('none', 'manual', 'uncaught-sync', 'uncaught-async', 'timeout', 'unhandled-rejection', 'mess-with-response', 'non-stringified-body');
 
