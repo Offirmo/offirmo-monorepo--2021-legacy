@@ -1,6 +1,14 @@
 
 backdrop-filter
 
+canvas effects https://canvas-cards.glitch.me/#intotomorrow-selector
+
+https://om.elvenar.com/ox/en
+
+VR
+https://blog.mozvr.com/webxr-1-0-is-here/
+
+
 SNOW
 #snow {
     display: block !important;
