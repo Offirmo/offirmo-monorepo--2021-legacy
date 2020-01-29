@@ -13,7 +13,7 @@ import {
 
 type TCBool = { [k: string]: boolean }
 
-describe.only(`${LIB} - matchers`, function() {
+describe(`${LIB} - matchers`, function() {
 
 	describe('is_year()', function () {
 
