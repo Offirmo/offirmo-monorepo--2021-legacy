@@ -40,16 +40,19 @@ function get_human_readable_UTC_timestamp_minutes(now: Readonly<Date> = new Date
 	return get_human_readable_UTC_timestamp_days(now) + `_${hh}h${mm}`
 }
 
+// ex. 20190608_04h23m15
 function get_human_readable_UTC_timestamp_seconds(now: Readonly<Date> = new Date()): HumanReadableTimestampUTCSeconds {
 	const ss = String(now.getUTCSeconds()).padStart(2, '0')
 
-	return get_human_readable_UTC_timestamp_minutes(now) + `+${ss}`
+	return get_human_readable_UTC_timestamp_minutes(now) + `m${ss}`
 }
 
+// ex.      20181121_06h00m45s632
+// formerly 20181121_06h00+45.632
 function get_human_readable_UTC_timestamp_ms(now: Readonly<Date> = new Date()): HumanReadableTimestampUTCMs {
 	const mmm = String(now.getUTCMilliseconds()).padStart(3, '0')
 
-	return get_human_readable_UTC_timestamp_seconds(now) + `.${mmm}`
+	return get_human_readable_UTC_timestamp_seconds(now) + `s${mmm}`
 }
 
 /////////////////////
