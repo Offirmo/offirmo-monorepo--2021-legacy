@@ -85,6 +85,17 @@ export function is_DDMMYYYY(s: string): boolean {
 
 ///////////////////// WITH Regexp :( /////////////////////
 
+export const NON_MEANINGFUL_ENDINGS: { [k:string]: RegExp } = {
+
+	trailing_copy_en: /( -)? copy( \d+)?$/,
+	leading_copy_en: /^copy (\(\d+\) )?(of )?/,
+
+	trailing_copy_fr: /( -)? copie( \d+)?$/,
+	leading_copy_fr: /^copie (\(\d+\) )?(de )?(secours de )?/,
+
+	trailing_copy_counter: /( \(\d+\))?$/,
+}
+
 export function extract_compact_date(s: string): SimpleYYYYMMDD | null {
 	throw new Error('TODO reimplement')
 }

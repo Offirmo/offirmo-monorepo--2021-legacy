@@ -10,6 +10,21 @@ interface NameDetails extends Omit<ParseResult, 'original_name'> {
 
 export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
+	'PHOTO-2019-12-16-20-38-08 (1).jpg': {
+		_comment: '?? macOs / iOs',
+
+		// ParseResult
+		extension_lc: '.jpg',
+		timestamp_ms: 1372118400000,
+		date_digits: '20191216203808',
+		is_date_ambiguous: false,
+		meaningful_part: 'PHOTO',
+
+		// for test
+		digit_blocks: '2019-12-16-20-38-08',
+		human_ts: '2019-12-16_20h38m08',
+	},
+
 	'IMG_20130525.JPG': {
 		_comment: 'intelligent Android',
 
@@ -273,7 +288,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		timestamp_ms: 1365897680000,
 		date_digits: '20170518',
 		is_date_ambiguous: false,
-		meaningful_part: '',
+		meaningful_part: '2017-05-18',
 
 		// for test
 		digit_blocks: '2017-05-18',
@@ -480,74 +495,214 @@ export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		is_date_ambiguous: undefined,
 		meaningful_part: 'WoWScrnShot_032407_100101',
 	},
-/*
+
 	'P1000010.JPG': {
 		_comment: 'stupid prehistoric phone',
+
+		// ParseResult
 		extension_lc: '.jpg',
-		date: null,
+		timestamp_ms: undefined,
+		date_digits: undefined,
+		is_date_ambiguous: undefined,
 		meaningful_part: 'P1000010',
 	},
 
 	'IMG_3211.JPG': {
 		_comment: 'stupid Apple',
+
+		// ParseResult
 		extension_lc: '.jpg',
-		date: '20181121_06h00+45',
-		meaningful_part: 'xxx',
+		timestamp_ms: undefined,
+		date_digits: undefined,
+		is_date_ambiguous: undefined,
+		meaningful_part: 'IMG_3211',
 	},
 
 	// too ambiguous
 	'Photo_021309_006.jpg': {
 		_comment: 'palm',
+
+		// ParseResult
 		extension_lc: '.jpg',
-		date: '20170721_00h00+00.000',
-		meaningful_part: 'xxx',
+		timestamp_ms: undefined,
+		date_digits: undefined,
+		is_date_ambiguous: undefined,
+		meaningful_part: 'Photo_021309_006',
 	},
 
-	// ambiguous but may be a date
+	// too ambiguous
 	'img071009-131340.jpg': {
 		_comment: 'palm img',
 
 		// ParseResult
 		extension_lc: '.jpg',
-		timestamp_ms: 0,
-		date_digits: '20071009_13h13+40.000',
-		human_ts: '',
-		is_date_ambiguous: true,
-		meaningful_part: 'img',
+		timestamp_ms: undefined,
+		date_digits: undefined,
+		is_date_ambiguous: undefined,
+		meaningful_part: 'img071009-131340',
 	},
 
-
+	// no block is a correct date
 	'170455_10150886974822066_2009091174_o.jpg': {
 		_comment: 'maybe facebook',
 
 		// ParseResult
 		extension_lc: '.jpg',
-		timestamp_ms: 0,
-		date_digits: '20170721_00h00+00.000',
-		is_date_ambiguous: false,
-		meaningful_part: 'xxx',
-
-		// for test
-		digit_blocks: '',
-		human_ts: '',
-},
+		timestamp_ms: undefined,
+		date_digits: undefined,
+		is_date_ambiguous: undefined,
+		meaningful_part: '170455_10150886974822066_2009091174_o',
+	},
 
 	// others
-	'TR81801414546EGJ.jpg', // lot of digits but not a date
-	'ANWP7390.JPG', // seen
-	'DSC_0085.JPG', // seen
-	'Image from iOS (17).jpg',
-	'USER_SCOPED_TEMP_DATA_orca-image--1274802997', // seen
-	'IMAG0556.jpg',
-	'181026_195329_Halloween_0388.jpg', // ? scanner from printer?
-	'377b892d-ab1c-4e55-a3f0-7eaf2373c10a.jpg', // maybe facebook
-	'T2 (17-22 weeks) 0052.jpg', // baby ultrasound
-	'avocado_media_1425910682493.jpg',
-	'N1z9_Q79SSj9HUv9d_1yBv0U_Uf9AELBGX4N_TtcEf39RHQa_UP9_f39imAP-thumb.jpeg',
- */
+	'TR81801414546EGJ.jpg': {
+		// ParseResult
+		extension_lc: '.jpg',
+		timestamp_ms: undefined,
+		date_digits: undefined,
+		is_date_ambiguous: undefined,
+		meaningful_part: 'TR81801414546EGJ',
+	},
+
+	'ANWP7390.JPG': {
+		// ParseResult
+		extension_lc: '.jpg',
+		timestamp_ms: undefined,
+		date_digits: undefined,
+		is_date_ambiguous: undefined,
+		meaningful_part: 'ANWP7390',
+	},
+
+	'DSC_0085.JPG': {
+		// ParseResult
+		extension_lc: '.jpg',
+		timestamp_ms: undefined,
+		date_digits: undefined,
+		is_date_ambiguous: undefined,
+		meaningful_part: 'DSC_0085',
+	},
+
+	'Image from iOS (17).jpg': {
+		// ParseResult
+		extension_lc: '.jpg',
+		timestamp_ms: undefined,
+		date_digits: undefined,
+		is_date_ambiguous: undefined,
+		meaningful_part: 'Image from iOS',
+	},
+
+	'USER_SCOPED_TEMP_DATA_orca-image--1274802997.jpeg': {
+		// ParseResult
+		extension_lc: '.jpeg',
+		timestamp_ms: undefined,
+		date_digits: undefined,
+		is_date_ambiguous: undefined,
+		meaningful_part: 'USER_SCOPED_TEMP_DATA_orca-image--1274802997',
+	},
+
+	'IMAG0556.jpg': {
+		// ParseResult
+		extension_lc: '.jpg',
+		timestamp_ms: undefined,
+		date_digits: undefined,
+		is_date_ambiguous: undefined,
+		meaningful_part: 'IMAG0556',
+	},
+
+	'181026_195329_Halloween_0388.jpg': {
+		// ParseResult
+		extension_lc: '.jpg',
+		timestamp_ms: undefined,
+		date_digits: undefined,
+		is_date_ambiguous: undefined,
+		meaningful_part: '181026_195329_Halloween_0388',
+	},
+
+	'377b892d-ab1c-4e55-a3f0-7eaf2373c10a.jpg': {
+		_comment: 'maybe facebook',
+
+		// ParseResult
+		extension_lc: '.jpg',
+		timestamp_ms: undefined,
+		date_digits: undefined,
+		is_date_ambiguous: undefined,
+		meaningful_part: '377b892d-ab1c-4e55-a3f0-7eaf2373c10a',
+	},
+
+	'T2 (17-22 weeks) 0052.jpg': {
+		_comment: 'baby ultrasound',
+
+		// ParseResult
+		extension_lc: '.jpg',
+		timestamp_ms: undefined,
+		date_digits: undefined,
+		is_date_ambiguous: undefined,
+		meaningful_part: 'T2 (17-22 weeks) 0052',
+	},
+
+	'avocado_media_1425910682493.jpg': {
+		// ParseResult
+		extension_lc: '.jpg',
+		timestamp_ms: undefined,
+		date_digits: undefined,
+		is_date_ambiguous: undefined,
+		meaningful_part: 'avocado_media_1425910682493',
+	},
+
+	'N1z9_Q79SSj9HUv9d_1yBv0U_Uf9AELBGX4N_TtcEf39RHQa_UP9_f39imAP-thumb.jpeg': {
+		// ParseResult
+		extension_lc: '.jpeg',
+		timestamp_ms: undefined,
+		date_digits: undefined,
+		is_date_ambiguous: undefined,
+		meaningful_part: 'N1z9_Q79SSj9HUv9d_1yBv0U_Uf9AELBGX4N_TtcEf39RHQa_UP9_f39imAP-thumb',
+	},
 }
+
+export const NON_MEANINGFUL_NAMES_SAMPLES: { [k: string]: NameDetails } = [
+
+	// trimming
+	'foo .jpg',
+	' foo.jpg',
+	' foo .jpg',
+
+	/////// copy markers
+	'foo (3).jpg',
+
+	// en
+	'foo - copy.jpg',
+	'foo copy.jpg',
+	'foo copy 4.jpg',
+
+	'Copy of foo.jpg',
+	'copy of foo.jpg',
+	'Copy (3) of foo.jpg',
+
+	// fr
+	'copie de secours de foo.jpg',
+	'Copie de foo.jpg',
+	'copie de foo.jpg',
+	'copie (3) de foo.jpg',
+
+	'foo - copie.jpg',
+	'foo - Copie.jpg',
+	'foo - copie 7.jpg',
+	'foo copie.jpg',
+].reduce((acc, val) => {
+	acc[val] = {
+		// ParseResult
+		extension_lc: '.jpg',
+		timestamp_ms: undefined,
+		date_digits: undefined,
+		is_date_ambiguous: undefined,
+		meaningful_part: 'foo',
+	}
+	return acc
+}, {} as { [k: string]: NameDetails })
+
 
 export const ALL_SAMPLES: { [k: string]: NameDetails } = {
 	...DATED_NAMES_SAMPLES,
 	...UNDATED_NAMES_SAMPLES,
+	...NON_MEANINGFUL_NAMES_SAMPLES,
 }

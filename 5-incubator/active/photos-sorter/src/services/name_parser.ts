@@ -8,7 +8,10 @@ import {
 	is_hour_fragment,
 	is_minute_fragment,
 	is_second_fragment,
-	is_millisecond_fragment, is_DDMMYYYY, is_YYYYMMDD,
+	is_millisecond_fragment,
+	is_DDMMYYYY,
+	is_YYYYMMDD,
+	NON_MEANINGFUL_ENDINGS,
 } from './matchers'
 import {
 	get_human_readable_timestamp_auto
@@ -489,6 +492,7 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 							...state_on_digits_start,
 							should_ignore_current_digits_block: true,
 						}
+						state.prefix += state.buffer[state.index]
 					}
 					else {
 						throw new Error('not possible??!!')
@@ -499,10 +503,7 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 		else {
 			if (is_digit && !state.should_ignore_current_digits_block) {
 				// start of a digits sequence
-				state_on_digits_start = {
-					...state,
-					index: Math.max(0, state.index-1)
-				}
+				state_on_digits_start = { ...state }
 				state.digit_blocks += c
 				state.digits_pattern += 'x'
 			}
@@ -539,8 +540,18 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 		meaningful_part = meaningful_part.slice(0, meaningful_part.length - 1)
 	}
 
-	result.meaningful_part = meaningful_part
-	result.timestamp_ms = result.timestamp_ms
+	// remove non-meaningful parts
+	result.meaningful_part = Object.keys(NON_MEANINGFUL_ENDINGS).reduce((acc, key) => {
+			const m = acc.toLowerCase().match(NON_MEANINGFUL_ENDINGS[key])
+			if (m && m[0]) {
+				acc = acc.slice(0, m.index) + acc.slice(m.index! + m[0].length)
+				acc = acc.trim()
+				//console.log('non meaninfgful', { m, acc })
+			}
+			return acc
+		}, meaningful_part)
+
+
 	logger.silly('« final', {
 		...result,
 		human_ts: result.timestamp_ms ? get_human_readable_timestamp_auto(new Date(result.timestamp_ms), result.date_digits!) : null

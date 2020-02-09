@@ -4,6 +4,7 @@ import { LIB } from '../consts'
 import {
 	DATED_NAMES_SAMPLES,
 	UNDATED_NAMES_SAMPLES,
+	NON_MEANINGFUL_NAMES_SAMPLES,
 	ALL_SAMPLES,
 } from './__test_shared/filenames'
 import {
@@ -66,86 +67,109 @@ describe(`${LIB} - name parser`, function() {
 		})
 	})
 
-	describe('extraction of the extension', function () {
-		it('should work', () => {
-			const filenames = Object.keys(ALL_SAMPLES)
-			filenames.forEach(filename => {
-				const { _comment, extension_lc } = ALL_SAMPLES[filename]
+	describe('parse()', function () {
+		describe('extraction of the extension', function () {
+			it('should work', () => {
+				const filenames = Object.keys(ALL_SAMPLES)
+				filenames.forEach(filename => {
+					const { _comment, extension_lc } = ALL_SAMPLES[filename]
 
-				expect(
-					parse(filename).extension_lc,
-					`${[_comment, `"${filename}"`].join(': ')}`
-				).to.equal(extension_lc)
+					expect(
+						parse(filename).extension_lc,
+						`${[_comment, `"${filename}"`].join(': ')}`
+					).to.equal(extension_lc)
+				})
+			})
+
+			it('should work on dotfiles', () => {
+				expect(parse('.test').extension_lc)
+					.to.equal('.test')
+			})
+
+			it('should work on extension-less files', () => {
+				expect(parse('extensionless').extension_lc)
+					.to.equal('')
+			})
+
+			it('should work on dot ending', () => {
+				expect(parse('dotending.').extension_lc)
+					.to.equal('.')
 			})
 		})
 
-		it('should work on dotfiles', () => {
-			expect(parse('.test').extension_lc)
-				.to.equal('.test')
-		})
+		describe('extraction of the date', function () {
 
-		it('should work on extension-less files', () => {
-			expect(parse('extensionless').extension_lc)
-				.to.equal('')
-		})
-
-		it('should work on dot ending', () => {
-			expect(parse('dotending.').extension_lc)
-				.to.equal('.')
-		})
-	})
-
-	describe('extraction of the date', function () {
-
-		context('when possible', function () {
-			const filenames = Object.keys(DATED_NAMES_SAMPLES)
+			context('when possible', function () {
+				const filenames = Object.keys(DATED_NAMES_SAMPLES)
 				//.slice(1) // TEMP XXX
 
-			filenames.forEach(filename => {
-				const expected = DATED_NAMES_SAMPLES[filename]
-				const {_comment, human_ts, ...expected_result_part} = expected
+				filenames.forEach(filename => {
+					const expected = DATED_NAMES_SAMPLES[filename]
+					const {_comment, human_ts, ...expected_result_part} = expected
 
-				it(`should correctly parse and find the date: ${[_comment, `"${filename}"`].join(': ')}`, () => {
-					const expected_result: ParseResult = {
-						original_name: filename,
-						...expected_result_part,
-					}
+					it(`should correctly parse and find the date: ${[_comment, `"${filename}"`].join(': ')}`, () => {
+						const expected_result: ParseResult = {
+							original_name: filename,
+							...expected_result_part,
+						}
 
-					const result = parse(filename, true)
-					expect(
-						result.date_digits,
-						`digits for ${[_comment, `"${filename}"`].join(': ')}`
-					).to.equal(expected.date_digits)
-					expect(
-						get_human_readable_timestamp_auto(new Date(result.timestamp_ms!), result.date_digits!),
-						`human ts for ${[_comment, `"${filename}"`].join(': ')}`
-					).to.equal(expected.human_ts)
+						const result = parse(filename, true)
+						expect(
+							result.date_digits,
+							`digits for ${[_comment, `"${filename}"`].join(': ')}`
+						).to.equal(expected.date_digits)
+						expect(
+							get_human_readable_timestamp_auto(new Date(result.timestamp_ms!), result.date_digits!),
+							`human ts for ${[_comment, `"${filename}"`].join(': ')}`
+						).to.equal(expected.human_ts)
+					})
+				})
+			})
+
+			context('when not possible', function () {
+
+				const filenames = Object.keys(UNDATED_NAMES_SAMPLES)
+				//.slice(1) // TEMP XXX
+
+				filenames.forEach(filename => {
+					const expected = UNDATED_NAMES_SAMPLES[filename]
+					const {_comment, human_ts, ...expected_result_part} = expected
+
+					it(`should correctly parse and not find anything: ${[_comment, `"${filename}"`].join(': ')}`, () => {
+						const expected_result: ParseResult = {
+							original_name: filename,
+							...expected_result_part,
+						}
+
+						const result = parse(filename, true)
+						expect(
+							result,
+							`result for ${[_comment, `"${filename}"`].join(': ')}`
+						).to.deep.equal(expected_result)
+					})
 				})
 			})
 		})
 
-		context('when not possible', function () {
-
-			const filenames = Object.keys(UNDATED_NAMES_SAMPLES)
+		describe('removal of non meaningful parts', function () {
+			const filenames = Object.keys(NON_MEANINGFUL_NAMES_SAMPLES)
 			//.slice(1) // TEMP XXX
 
 			filenames.forEach(filename => {
-				const expected = UNDATED_NAMES_SAMPLES[filename]
+				const expected = NON_MEANINGFUL_NAMES_SAMPLES[filename]
 				const {_comment, human_ts, ...expected_result_part} = expected
 
-				it(`should correctly parse and not find anything: ${[_comment, `"${filename}"`].join(': ')}`, () => {
-					const expected_result: ParseResult = {
-						original_name: filename,
-						...expected_result_part,
-					}
-
+				it(`should correctly remove non meaningful parts: ${[_comment, `"${filename}"`].join(': ')}`, () => {
 					const result = parse(filename, true)
 					expect(
-						result,
-						`result for ${[_comment, `"${filename}"`].join(': ')}`
-					).to.deep.equal(expected_result)
+						result.meaningful_part,
+						`meaningful part for ${[_comment, `"${filename}"`].join(': ')}`
+					).to.equal('foo')
+					expect(result.timestamp_ms).to.be.undefined
 				})
 			})
 		})
+
 	})
+
 })
