@@ -16,17 +16,9 @@ import {
 import logger from './logger'
 
 
-export type DatePattern = 'YYYYMMDD' | 'DDMMYYYY' | 'D-M-Y' | 'Y-M-D' | 'unknown'
+export type DatePattern = 'D-M-Y' | 'Y-M-D' | 'unknown'
 
-export interface ParseResult {
-	original_name: string
 
-	extension_lc: string
-	digits: undefined | null | string
-	timestamp_ms: undefined | null | TimestampUTCMs
-	is_date_ambiguous: undefined | boolean
-	meaningful_part: string
-}
 
 export function _get_y2k_year_from_fragment(s: string, separator = 70): number | null {
 	const n = Math.trunc(Number(s))
@@ -141,7 +133,7 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 		})
 
 		if (blocks.join('') !== digits) {
-			console.error('BAD IMPROV SPLIT', {
+			logger.error('BAD IMPROV SPLIT', {
 				blocks_before: blocks_previous,
 				blocks_after: blocks,
 				digits_before: digits,
@@ -305,7 +297,7 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 
 	if (error) {
 		result.summary = 'no_match'
-		console.error('Error parsing digit blocks…', {
+		logger.error('Error parsing digit blocks…', {
 			blocks,
 			reason: result.reason,
 			date_creation_args,
@@ -320,7 +312,7 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 
 	if (blocks.length === 7) {
 		result.summary = 'perfect'
-		logger.silly('parse digit blocks: ' + result.summary, {date_creation_args})
+		logger.silly('parse digit blocks done: ' + result.summary, {date_creation_args})
 		result.timestamp_ms = Date.UTC(...(date_creation_args as [ number, number ]))
 		return result
 	}
@@ -329,7 +321,7 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 		|| blocks.length === 5
 		|| blocks.length === 6) {
 		result.summary = 'ok'
-		logger.silly('parse digit blocks: ' + result.summary, {date_creation_args})
+		logger.silly('parse digit blocks done: ' + result.summary, {date_creation_args})
 		result.timestamp_ms = Date.UTC(...(date_creation_args as [ number, number ]))
 		return result
 	}
@@ -340,64 +332,97 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 }
 
 
+export interface ParseResult {
+	original_name: string
+
+	extension_lc: string
+	date_digits: undefined | string
+	timestamp_ms: undefined | TimestampUTCMs
+	is_date_ambiguous: undefined | boolean
+	meaningful_part: string
+}
 export function parse(name: string, debug: boolean = false): ParseResult {
-	debug && console.log('» parsing…', { name })
+	logger.trace('\n\n\n\n----------------------------------------\n» parsing…', { name })
 	const result: ParseResult = {
 		original_name: name,
 		extension_lc: '',
-		digits: '',
+		date_digits: undefined,
 		timestamp_ms: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: '',
 	}
 
-	let buffer = name
-	let index = 0
-	let prefix = ''
-	let suffix = ''
-	let digits_start_index = -1
-	let digit_separators = ''
-	let digit_blocks = ''
-	let digits = ''
-	let is_date_found = false
+	let state = {
+		buffer: name,
+		index: 0,
+		prefix: '',
+		suffix: '',
+		digit_blocks: '', // store digits and separators in a normalized way for easier parsing later
+		digits_pattern: '', // store separators "as is" to maybe match later against known patterns
+		is_date_found: false,
+		should_ignore_current_digits_block: false,
+	}
+	let state_on_digits_start: null | typeof state = null
+	let state_on_last_successful_dpr: null | typeof state = null
 
-	debug && console.log({ buffer })
+	function on_date_found(dpr: DigitsParseResult) {
+		state.is_date_found = true
+		result.date_digits = state.digit_blocks.split('-').join('')
+		//result.digit_blocks = state.digit_blocks
+		//result.digits_pattern = state.digits_pattern
+		result.timestamp_ms = dpr.timestamp_ms
+		result.is_date_ambiguous = dpr.is_ambiguous
+
+		logger.trace(`found date in filename`, {
+			name,
+			state,
+			dpr,
+			result,
+		})
+	}
+	function on_successful_non_optimal_dpr(dpr: DigitsParseResult) {
+		state_on_last_successful_dpr = {
+			...state,
+		}
+	}
+
+	logger.silly('initial state', { state })
 
 	const name_lc = name.toLowerCase()
 	const split_by_dot = name_lc.split('.')
 	if (split_by_dot.length > 1) {
 		result.extension_lc = '.' + split_by_dot.slice(-1)[0]
 		debug && console.log({ extension_lc: result.extension_lc })
-		buffer = name.slice(0, -result.extension_lc.length)
-		debug && console.log({ buffer })
+		state.buffer = name.slice(0, -result.extension_lc.length)
+		debug && console.log({ buffer: state.buffer })
 	}
 
-	buffer = buffer.trim()
-	debug && console.log({ buffer })
+	state.buffer = state.buffer.trim()
+	logger.silly('after buffer cleanup', { buffer: state.buffer })
 
 	let no_infinite_loop_counter = 255
 	let should_exit = false
 	do {
-		const c = buffer[index]
+		const c = state.buffer[state.index]
 		const is_separator = (() => {
 			if (!SEPARATORS.includes(c)) {
 				// requalify some special letters if inside digits
-				if (digits && (c === 'h' || c === 'm' || c === 's') && DIGITS.includes(buffer[index + 1])) {
+				if (state.digit_blocks && (c === 'h' || c === 'm' || c === 's') && DIGITS.includes(state.buffer[state.index + 1])) {
 					return true
 				}
 
 				return false
 			}
 
-			if (digits) {
+			if (state.digit_blocks) {
 				// special multi-char separator in macOs screenshots
-				if (buffer.slice(index, index + 4) === ' at ') {
-					index += 3
-					digit_separators += ' at'
+				if (state.buffer.slice(state.index, state.index + 4) === ' at ') {
+					state.index += 3
+					state.digits_pattern += ' at'
 				}
-				else if (buffer.slice(index, index + 3) === ' à ') {
-					index += 2
-					digit_separators += ' à'
+				else if (state.buffer.slice(state.index, state.index + 3) === ' à ') {
+					state.index += 2
+					state.digits_pattern += ' à'
 				}
 			}
 
@@ -405,7 +430,7 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 		})()
 		const is_digit = !is_separator && DIGITS.includes(c)
 
-		debug && console.log(`${buffer}[${index}] = "${c}" = ${
+		logger.silly(`${state.buffer}[${state.index}] = "${c}" = ${
 			is_separator
 				? 'separator'
 				: is_digit
@@ -413,153 +438,101 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 					: 'other'
 		}`)
 
-		if (is_date_found) {
+		if (state.is_date_found) {
 			if (c)
-				suffix += c
+				state.suffix += c
 		}
-		else if (digits) {
+		else if (state.digit_blocks) {
 			if (is_separator) {
-				// ignore but store to use later as a confirmation
-				digit_separators += c
-				if (digit_blocks.slice(-1) !== '-')
-					digit_blocks += '-'
+				state.digits_pattern += c
+				if (state.digit_blocks.slice(-1) !== '-')
+					state.digit_blocks += '-'
+
+				// this may be the end of a correct date
+				const dpr = _parse_digit_blocks(state.digit_blocks, 'other')
+				if (dpr.summary === 'perfect') {
+					on_date_found(dpr)
+				}
+				else if (dpr.summary === 'ok') {
+					on_successful_non_optimal_dpr(dpr)
+				}
+				else if (dpr.summary === 'no_match') {
+					if (state_on_last_successful_dpr) {
+						state = state_on_last_successful_dpr
+						on_date_found(_parse_digit_blocks(state.digit_blocks, 'other'))
+					}
+				}
 			}
 			else if (is_digit) {
-				digits += c
-				digit_blocks += c
-				digit_separators += 'x'
-
-				const dpr = _parse_digit_blocks(digit_blocks, 'none')
-				let are_existing_digits_correct_so_far = dpr.summary !== 'no_match'
-				console.log('is digit', {
-					digits,
-					digit_blocks,
-					dpr,
-					are_existing_digits_correct_so_far,
-				})
-				if (!are_existing_digits_correct_so_far) {
-					// that's not a date
-					// OR we got extra digits (TODO)
-					if (digits.length > 17) {
-						console.error('TODO handle extra digits?!')
-					}
-					prefix += buffer.slice(digits_start_index, index + 1)
-					digits = ''
-					digit_separators = ''
-					digit_blocks = ''
-					digits_start_index = -1
-				}
+				state.digit_blocks += c
+				state.digits_pattern += 'x'
+				// TODO handle ignore digits at the beginning (if useful)
 			}
 			else {
 				// we just stopped getting digits.
-				const dpr = _parse_digit_blocks(digit_blocks, 'other')
-				let are_existing_digits_correct = dpr.summary === 'ok' || dpr.summary === 'perfect'
-				console.log('is no longer digit:', {
-					digits,
-					digit_blocks,
+				const dpr = _parse_digit_blocks(state.digit_blocks, 'other')
+				logger.silly('is no longer digit:', {
+					state,
 					dpr,
-					are_existing_digits_correct,
 				})
 
-				if (!are_existing_digits_correct) {
-					prefix += buffer.slice(digits_start_index, index + 1)
-					digits_start_index = -1
-					digits = ''
-					digit_separators = ''
-					digit_blocks = ''
+				if (dpr.summary === 'perfect' || dpr.summary === 'ok') {
+					on_date_found(dpr)
 				}
 				else {
-					// TODO make a loop here to re-test at each "cleanup"
-
-					// if the last char seen was a separator, put it back
-					const previous_char = buffer.slice(index - 1, index)
-					if (SEPARATORS.includes(previous_char)) {
-						suffix = previous_char
-						digit_separators = digit_separators.slice(0, digit_separators.length - 1)
-						digit_blocks = digit_blocks.slice(0, digit_blocks.length - 1)
+					if (state_on_last_successful_dpr) {
+						state = state_on_last_successful_dpr
+						on_date_found(_parse_digit_blocks(state.digit_blocks, 'other'))
 					}
-
-					const dpr = _parse_digit_blocks(digit_blocks, 'other')
-					switch (dpr.summary) {
-						case "too_much":
-							console.error('TODO handle too many blocks?!')
-							break
-
-						case "ok":
-						case "perfect":
-							is_date_found = true
-							result.digits = digits
-							result.timestamp_ms = dpr.timestamp_ms
-							result.is_date_ambiguous = dpr.is_ambiguous
-
-							// handle the non-digit which caused this
-							if (c)
-								suffix += c
-
-							debug && console.log('FOUND DATE = ', {
-								prefix,
-								digits,
-								digit_separators,
-								digit_blocks,
-								timestamp_ms: dpr.timestamp_ms,
-								is_date_ambiguous: result.is_date_ambiguous,
-								suffix,
-							})
-							break
-
-						case "need_more":
-						case "no_match":
-						default:
-							throw new Error('Should never happen?!')
+					else if (state_on_digits_start) {
+						state = {
+							...state_on_digits_start,
+							should_ignore_current_digits_block: true,
+						}
+					}
+					else {
+						throw new Error('not possible??!!')
 					}
 				}
 			}
 		}
 		else {
-			if (is_digit) {
-				/// XXX useful?
-				const are_we_in_a_non_matching_digit_sequence = prefix && DIGITS.includes(prefix.slice(-1))
-				debug && console.log({ are_we_in_a_non_matching_digit_sequence })
-				if (are_we_in_a_non_matching_digit_sequence) {
-					prefix += c
+			if (is_digit && !state.should_ignore_current_digits_block) {
+				// start of a digits sequence
+				state_on_digits_start = {
+					...state,
+					index: Math.max(0, state.index-1)
 				}
-				else {
-					// start of a digits sequence
-					digits_start_index = index
-					digits += c
-					digit_blocks += c
-					digit_separators += 'x'
-				}
+				state.digit_blocks += c
+				state.digits_pattern += 'x'
 			}
 			else {
 				if (c)
-					prefix += c
+					state.prefix += c
+
+				if (!is_digit) state.should_ignore_current_digits_block = false // we are not / no longer in a digit block
 			}
 		}
 
-		index++
-		if (index > buffer.length) // we intentionally allow a trailing 'undefined"
+		state.index++
+		if (state.index > state.buffer.length) // we intentionally allow a trailing 'undefined"
 			should_exit = true
 		no_infinite_loop_counter--
 		if (no_infinite_loop_counter <= 0)
 			should_exit = true
 
-		debug && console.log({
-			index,
-			prefix,
-			digits,
-			...(digits && { digits_start_index, digit_blocks, digit_separators }),
-			suffix,
-			should_exit
+		logger.silly('end of loop', {
+			state,
+			should_exit,
 		})
 	} while (!should_exit)
 
 	// left-trim the suffix
-	while(suffix && SEPARATORS.includes(suffix[0])) {
-		suffix = suffix.slice(1)
+	while(state.suffix && SEPARATORS.includes(state.suffix[0])) {
+		state.suffix = state.suffix.slice(1)
 	}
 
-	let meaningful_part = prefix + suffix
+	let meaningful_part = state.prefix + state.suffix
 
 	// right-trim the meaningful (in case no suffix)
 	while(meaningful_part && SEPARATORS.includes(meaningful_part.slice(-1))) {
@@ -567,10 +540,10 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 	}
 
 	result.meaningful_part = meaningful_part
-	result.timestamp_ms = result.timestamp_ms || null
-	debug && console.log('« final', {
+	result.timestamp_ms = result.timestamp_ms
+	logger.silly('« final', {
 		...result,
-		human_ts: result.timestamp_ms ? get_human_readable_timestamp_auto(new Date(result.timestamp_ms), result.digits!) : null
+		human_ts: result.timestamp_ms ? get_human_readable_timestamp_auto(new Date(result.timestamp_ms), result.date_digits!) : null
 	})
 	return result
 }

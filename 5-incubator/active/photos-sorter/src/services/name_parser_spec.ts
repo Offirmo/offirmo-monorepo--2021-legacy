@@ -1,7 +1,11 @@
 import { expect } from 'chai'
 
 import { LIB } from '../consts'
-import { DATED_NAMES_SAMPLES } from './__test_shared/filenames'
+import {
+	DATED_NAMES_SAMPLES,
+	UNDATED_NAMES_SAMPLES,
+	ALL_SAMPLES,
+} from './__test_shared/filenames'
 import {
 	get_human_readable_timestamp_auto,
 } from './date_generator'
@@ -42,10 +46,10 @@ describe(`${LIB} - name parser`, function() {
 			//.slice(0, 2) // TEMP XXX
 		filenames.forEach(filename => {
 			const expected = DATED_NAMES_SAMPLES[filename]
-			const { _comment, human_ts, digit_blocks, digits } = expected
+			const { _comment, human_ts, digit_blocks, date_digits } = expected
 
-			it.only(`should correctly parse: ${[_comment, `"${filename}"`].join(': ')}`, () => {
-				const result = _parse_digit_blocks(digit_blocks, 'other')
+			it(`should correctly parse: ${[_comment, `"${filename}"`].join(': ')}`, () => {
+				const result = _parse_digit_blocks(digit_blocks!, 'other')
 				console.log({ result })
 
 				if(result.summary === 'perfect') {
@@ -55,7 +59,7 @@ describe(`${LIB} - name parser`, function() {
 					expect(result.summary).to.equal('ok')
 
 				expect(
-					get_human_readable_timestamp_auto(new Date(result.timestamp_ms!), digits!),
+					get_human_readable_timestamp_auto(new Date(result.timestamp_ms!), date_digits!),
 					`human ts`
 				).to.equal(human_ts)
 			})
@@ -64,9 +68,9 @@ describe(`${LIB} - name parser`, function() {
 
 	describe('extraction of the extension', function () {
 		it('should work', () => {
-			const filenames = Object.keys(DATED_NAMES_SAMPLES)
+			const filenames = Object.keys(ALL_SAMPLES)
 			filenames.forEach(filename => {
-				const { _comment, extension_lc } = DATED_NAMES_SAMPLES[filename]
+				const { _comment, extension_lc } = ALL_SAMPLES[filename]
 
 				expect(
 					parse(filename).extension_lc,
@@ -92,26 +96,55 @@ describe(`${LIB} - name parser`, function() {
 	})
 
 	describe('extraction of the date', function () {
-		it('should work', () => {
+
+		context('when possible', function () {
 			const filenames = Object.keys(DATED_NAMES_SAMPLES)
-				.slice(1) // TEMP XXX
+				//.slice(1) // TEMP XXX
+
 			filenames.forEach(filename => {
 				const expected = DATED_NAMES_SAMPLES[filename]
-				const { _comment, human_ts, ...expected_result_part } = expected
-				const expected_result: ParseResult = {
-					original_name: filename,
-					...expected_result_part,
-				}
+				const {_comment, human_ts, ...expected_result_part} = expected
 
-				const result = parse(filename, true)
-				expect(
-					result.digits,
-					`digits for ${[_comment, `"${filename}"`].join(': ')}`
-				).to.equal(expected.digits)
-				expect(
-					get_human_readable_timestamp_auto(new Date(result.timestamp_ms!), result.digits!),
-					`human ts for ${[_comment, `"${filename}"`].join(': ')}`
-				).to.equal(expected.human_ts)
+				it(`should correctly parse and find the date: ${[_comment, `"${filename}"`].join(': ')}`, () => {
+					const expected_result: ParseResult = {
+						original_name: filename,
+						...expected_result_part,
+					}
+
+					const result = parse(filename, true)
+					expect(
+						result.date_digits,
+						`digits for ${[_comment, `"${filename}"`].join(': ')}`
+					).to.equal(expected.date_digits)
+					expect(
+						get_human_readable_timestamp_auto(new Date(result.timestamp_ms!), result.date_digits!),
+						`human ts for ${[_comment, `"${filename}"`].join(': ')}`
+					).to.equal(expected.human_ts)
+				})
+			})
+		})
+
+		context('when not possible', function () {
+
+			const filenames = Object.keys(UNDATED_NAMES_SAMPLES)
+			//.slice(1) // TEMP XXX
+
+			filenames.forEach(filename => {
+				const expected = UNDATED_NAMES_SAMPLES[filename]
+				const {_comment, human_ts, ...expected_result_part} = expected
+
+				it(`should correctly parse and not find anything: ${[_comment, `"${filename}"`].join(': ')}`, () => {
+					const expected_result: ParseResult = {
+						original_name: filename,
+						...expected_result_part,
+					}
+
+					const result = parse(filename, true)
+					expect(
+						result,
+						`result for ${[_comment, `"${filename}"`].join(': ')}`
+					).to.deep.equal(expected_result)
+				})
 			})
 		})
 	})
