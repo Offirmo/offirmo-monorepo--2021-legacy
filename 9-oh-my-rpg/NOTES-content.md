@@ -119,6 +119,7 @@ https://en.wikipedia.org/wiki/International_Nuclear_Event_Scale
 
 ### biomes
 * https://worldbuilding.stackexchange.com/questions/149570/how-can-a-valley-surrounded-by-mountains-be-fertile-and-rainy
+* +++weather classification https://www.dndbeyond.com/spells/control-weather
 
 ### marin
 * https://fr.sputniknews.com/societe/201906101041400348-dinosaure-marin-antarctique-fossile/

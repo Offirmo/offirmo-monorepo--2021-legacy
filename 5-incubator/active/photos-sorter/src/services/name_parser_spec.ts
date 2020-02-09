@@ -7,6 +7,7 @@ import {
 } from './date_generator'
 import {
 	_get_y2k_year_from_fragment,
+	_parse_digit_blocks,
 	parse,
 	ParseResult,
 } from './name_parser'
@@ -32,6 +33,32 @@ describe(`${LIB} - name parser`, function() {
 				expect(_get_y2k_year_from_fragment('69')).to.equal(null) // outside of param range
 			}
 			expect(_get_y2k_year_from_fragment('1')).to.equal(null)
+		})
+	})
+
+	describe('_parse_digit_blocks()', function () {
+
+		const filenames = Object.keys(DATED_NAMES_SAMPLES)
+			//.slice(0, 2) // TEMP XXX
+		filenames.forEach(filename => {
+			const expected = DATED_NAMES_SAMPLES[filename]
+			const { _comment, human_ts, digit_blocks, digits } = expected
+
+			it.only(`should correctly parse: ${[_comment, `"${filename}"`].join(': ')}`, () => {
+				const result = _parse_digit_blocks(digit_blocks, 'other')
+				console.log({ result })
+
+				if(result.summary === 'perfect') {
+					// ok
+				}
+				else
+					expect(result.summary).to.equal('ok')
+
+				expect(
+					get_human_readable_timestamp_auto(new Date(result.timestamp_ms!), digits!),
+					`human ts`
+				).to.equal(human_ts)
+			})
 		})
 	})
 
@@ -65,9 +92,9 @@ describe(`${LIB} - name parser`, function() {
 	})
 
 	describe('extraction of the date', function () {
-		it.only('should work', () => {
+		it('should work', () => {
 			const filenames = Object.keys(DATED_NAMES_SAMPLES)
-				//.slice(20) // TEMP XXX
+				.slice(1) // TEMP XXX
 			filenames.forEach(filename => {
 				const expected = DATED_NAMES_SAMPLES[filename]
 				const { _comment, human_ts, ...expected_result_part } = expected
