@@ -12783,17 +12783,17 @@ wcwidth@^1.0.0, wcwidth@^1.0.1:
   dependencies:
     defaults "^1.0.3"
 
-webextension-polyfill-ts@^0.11:
-  version "0.11.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/webextension-polyfill-ts/-/webextension-polyfill-ts-0.11.0.tgz#a4f48421d56f682ea90efe6012207ee8ed69b5e8"
-  integrity sha1-pPSEIdVvaC6pDv5gEiB+6O1pteg=
+webextension-polyfill-ts@^0.12:
+  version "0.12.0"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/webextension-polyfill-ts/-/webextension-polyfill-ts-0.12.0.tgz#4b16c6b2bc21b267b0770af9e29fb5eea0c690de"
+  integrity sha1-SxbGsrwhsmewdwr54p+17qDGkN4=
   dependencies:
-    webextension-polyfill "^0.5.0"
+    webextension-polyfill "^0.6.0"
 
-webextension-polyfill@^0.5.0:
-  version "0.5.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/webextension-polyfill/-/webextension-polyfill-0.5.0.tgz#795e0bf6a2b8eadcdb6edaecd169e9228c747519"
-  integrity sha1-eV4L9qK46tzbbtrs0WnpIox0dRk=
+webextension-polyfill@^0.6.0:
+  version "0.6.0"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/webextension-polyfill/-/webextension-polyfill-0.6.0.tgz#1afd925f3274a0d4848083579b9c0b649a5c6763"
+  integrity sha1-Gv2SXzJ0oNSEgINXm5wLZJpcZ2M=
 
 webidl-conversions@^4.0.2:
   version "4.0.2"

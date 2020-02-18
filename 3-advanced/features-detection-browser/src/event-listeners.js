@@ -12,23 +12,6 @@ let has_seen_mouse_usage = false // so far
 
 /////////////////////
 
-function get_usage_observations() {
-	return {
-		has_seen_tab_key_usage,
-		has_seen_touch_usage,
-		has_seen_mouse_usage,
-	}
-}
-
-export {
-	get_usage_observations,
-	has_seen_tab_key_usage,
-	has_seen_touch_usage,
-	has_seen_mouse_usage,
-}
-
-/////////////////////
-
 function on_key_down_to_detect_tabs(evt) {
 	if (evt.keyCode === 9) { // the "I am a keyboard user" key
 		has_seen_tab_key_usage = true
@@ -38,15 +21,11 @@ function on_key_down_to_detect_tabs(evt) {
 }
 window.addEventListener('keydown', on_key_down_to_detect_tabs)
 
-///////
-
 function on_touch_start() {
 	has_seen_touch_usage = true
 	window.removeEventListener('touchstart', on_touch_start)
 }
 window.addEventListener('touchstart', on_touch_start)
-
-///////
 
 // https://developer.mozilla.org/en-US/docs/Web/Events/pointerover
 function on_pointer_over(evt) {
@@ -70,3 +49,21 @@ function on_pointer_over(evt) {
 	//window.removeEventListener('pointerover', on_pointer_over)
 }
 window.addEventListener('pointerover', on_pointer_over)
+
+/////////////////////
+
+function get_usage_observations() {
+	return {
+		has_seen_tab_key_usage,
+		has_seen_touch_usage,
+		has_seen_mouse_usage,
+	}
+}
+
+export {
+	get_usage_observations,
+	has_seen_tab_key_usage,
+	has_seen_touch_usage,
+	has_seen_mouse_usage,
+}
+

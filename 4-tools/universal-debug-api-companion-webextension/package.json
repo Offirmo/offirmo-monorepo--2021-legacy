@@ -16,12 +16,12 @@
 		"@babel/core": "^7",
 		"@offirmo-private/react-error-boundary": "^0",
 		"@offirmo-private/timestamps": "^0",
-		"@offirmo/universal-debug-api-browser": "^0",
 		"@offirmo-private/view-css": "^0",
 		"@offirmo/deferred": "^2",
 		"@offirmo/practical-logger-browser": "^2.1",
 		"@offirmo/practical-logger-core": "^2",
 		"@offirmo/practical-logger-types": "^2",
+		"@offirmo/universal-debug-api-browser": "^0",
 		"@offirmo/universal-debug-api-interface": "^0",
 		"@offirmo/universal-debug-api-placeholder": "^0",
 		"emittery": "^0.5",
@@ -29,7 +29,8 @@
 		"npm-run-all": "^4",
 		"parcel-bundler": "^1",
 		"styled-components": "^3",
-		"typescript-string-enums": "^1"
+		"typescript-string-enums": "^1",
+		"webextension-polyfill-ts": "^0.12"
 	},
 	"scripts": {
 		"clean": "node ../../0-scripts/clean.js dist cache && rm -rf dist.demo",

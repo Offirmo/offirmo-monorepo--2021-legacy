@@ -4,9 +4,12 @@
 
 ### has_any_hover()
 
-Tooltips are a nice addition but don't play well with touch, especially on iOs
+Tooltips are a nice addition but don't play well with touch, especially on iOs.
 
-### has_onscreen_keyboard
+### uses_tab()
+TODO
+
+### has_onscreen_keyboard() (XXX TODO)
 
 Those sliding keyboards may hide the input fields if not taken into account
 

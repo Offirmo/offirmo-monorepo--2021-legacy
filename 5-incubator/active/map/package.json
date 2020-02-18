@@ -8,7 +8,6 @@
 
 	"dependencies": {
 		"@offirmo-private/ensure-device-uuid-browser": "^0",
-		"@offirmo-private/features-detection-browser": "^0",
 		"@offirmo-private/poll-window-variable": "^0",
 		"@offirmo-private/prettify-json": "^0",
 		"@offirmo-private/view-css": "^0",

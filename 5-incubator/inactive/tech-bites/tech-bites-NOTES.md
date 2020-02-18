@@ -23,3 +23,14 @@ CAP ACID https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-hav
 shaving the yak
 
 abstraction https://www.merrickchristensen.com/articles/abstraction/
+
+https://developers.slashdot.org/story/20/02/17/0141200/many-businesses-still-love-cobol
+the big picture https://tech.slashdot.org/story/20/02/17/045209/uber-and-lyft-are-creating-traffic-not-reducing-it
+https://yro.slashdot.org/story/20/02/17/2121236/twitter-locks-wikileaks-official-account-with-54-million-followers-days-before-julian-assanges-extradition-hearing
+https://news.slashdot.org/story/20/02/15/0054256/google-redraws-the-borders-on-maps-depending-on-whos-looking
+
+https://developers.slashdot.org/story/20/02/10/157258/why-can-we-write-software-to-get-to-the-moon-but-not-to-count-votes
+https://it.slashdot.org/story/20/01/12/0221226/this-years-y2k20-bug-came-directly-from-a-lazy-fix-to-the-y2k-bug
+https://developers.slashdot.org/story/20/01/13/0554252/how-is-computer-programming-different-today-than-20-years-ago
+https://tech.slashdot.org/story/20/01/06/215250/for-tech-weary-midwest-farmers-40-year-old-tractors-now-a-hot-commodity
+https://news.slashdot.org/story/19/12/14/1614214/do-you-remember-the-y2k-bug

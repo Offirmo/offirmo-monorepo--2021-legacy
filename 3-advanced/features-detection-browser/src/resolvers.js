@@ -90,6 +90,7 @@ function get_debug_snapshot() {
 		uses_tab: uses_tab(),
 	}
 }
+
 /////////////////////
 
 export {
