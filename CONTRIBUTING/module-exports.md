@@ -6,12 +6,13 @@
 The public modules in this mono-repo ase exposed as:
 - Latest stable ES, with latest stable module exports
   - with sometimes a few stage 4 features when they are already widely supported https://github.com/tc39/ecma262
-- as a convenience, pre-built CJS for latest ES (https://node.green/) supported by the oldest active LTS node (https://nodejs.org/en/about/releases/)
+- as a convenience, pre-built CJS for latest ES (https://node.green/)
+  supported by the oldest active LTS node (https://nodejs.org/en/about/releases/ or https://github.com/nodejs/Release)
 - for modules in Typescript, trying to use the latest Typescript, best effort.
 
 See below more exact numbers.
 
-Note: I do NOT agree with the opinion "don't transpile node_modules", see (issue)[]
+Note: I do NOT agree with the opinion "don't transpile node_modules", see [issue]()
 
 ### last update 2019-07-27
 * latest ES = ES2019

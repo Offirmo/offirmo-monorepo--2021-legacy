@@ -5,7 +5,7 @@ const write_json_file = require('write-json-file')
 const meow = require('meow')
 const fs = require('fs-extra')
 const semver = require('semver')
-const assert = require('tiny-invariant')
+const assert = require('tiny-invariant').default
 
 
 const { get_human_readable_UTC_timestamp_minutes } = require('../1-stdlib/timestamps')
@@ -34,11 +34,11 @@ const cli = meow('build', {
 //console.log('🐈  meow', cli.flags)
 
 const PACKAGE_JSON_PATH = path.resolve(cli.flags.inputDir || process.cwd(), './package.json')
-let { version: VERSION } = require(PACKAGE_JSON_PATH)
+let { version: VERSION, name: NAME } = require(PACKAGE_JSON_PATH)
 const BUILD_DATE = get_human_readable_UTC_timestamp_minutes()
 
 //console.log('🧙️  mode:', cli.flags.mode)
-console.log('🧙️  Extracted variables:', { VERSION, BUILD_DATE })
+console.log(`🧙️  Extracted variables for module ${NAME}:`, { VERSION, BUILD_DATE })
 
 VERSION = semver.clean(VERSION)
 assert(VERSION, 'cleaned VERSION')

@@ -15,7 +15,7 @@
 		"@babel/core": "^7",
 		"@offirmo-private/view-css": "^0",
 		"@offirmo/practical-logger-core": "^2",
-		"np": "^5",
+		"np": "^6",
 		"npm-run-all": "^4",
 		"parcel-bundler": "^1"
 	},

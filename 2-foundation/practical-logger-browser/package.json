@@ -33,7 +33,7 @@
 	"devDependencies": {
 		"@babel/core": "^7",
 		"@size-limit/preset-small-lib": "^2",
-		"np": "^5",
+		"np": "^6",
 		"npm-run-all": "^4",
 		"parcel-bundler": "^1"
 	},
