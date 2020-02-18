@@ -12,7 +12,8 @@ import { Basename, RelativePath } from '../types'
 import { get_params } from '../params'
 import { get_compact_date_from_UTC_ts } from '../services/utils'
 import logger from '../services/logger'
-import { extract_compact_date, starts_with_human_timestamp_ms } from '../services/matchers'
+import { starts_with_human_timestamp_ms } from '../services/matchers'
+import { extract_compact_date } from '../services/name_parser'
 
 type TimestampsHash = { [k: string]: TimestampUTCMs }
 

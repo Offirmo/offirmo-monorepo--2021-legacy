@@ -16,6 +16,7 @@ export interface Params {
 	extensions_to_normalize: { [k: string]: string }
 	media_files_extensions: string[]
 	extensions_to_delete: string[]
+	worthless_files: string[]
 }
 
 // the earliest known photo was taken in 1826
@@ -30,7 +31,6 @@ const DATE_UPPER_BOUND: SimpleYYYYMMDD = YYYY_UPPER_BOUND * 10000 + 1231
 
 
 export function get_params(): Params {
-	// TODO some interface
 	return {
 		YYYY_lower_bound: YYYY_LOWER_BOUND,
 		YYYY_upper_bound: YYYY_UPPER_BOUND,
@@ -38,19 +38,31 @@ export function get_params(): Params {
 		date_upper_bound: DATE_UPPER_BOUND,
 
 		root: path.normalize(`/Users/${process.env.USER}/Documents/- photos sorter/- sorted`),
-		dry_run: true,
+
+		dry_run: true, // XXX
+
 		extensions_to_normalize: {
 			// TODO
 			'.jpeg': '.jpg',
 		},
+
 		media_files_extensions: [
+			...EXIF_POWERED_FILE_EXTENSIONS,
 			'.gif',
 			'.png',
 			'.psp', // photoshop I believe, screens from Warcraft III are in this format
 			'.tga', // WoW
-			...EXIF_POWERED_FILE_EXTENSIONS,
 		],
-		extensions_to_delete: [ '.AAE', '.DS_Store', ].map(s => s.toLowerCase()),
+
+		extensions_to_delete: [
+			'.AAE',
+		].map(s => s.toLowerCase()),
+
+		worthless_files: [
+			'.DS_Store',
+			'.picasa.ini',
+		],
+
 	}
 }
 

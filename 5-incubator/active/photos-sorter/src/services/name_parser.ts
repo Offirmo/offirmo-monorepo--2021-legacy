@@ -17,6 +17,7 @@ import {
 	get_human_readable_timestamp_auto
 } from './date_generator'
 import logger from './logger'
+import {SimpleYYYYMMDD} from "../types";
 
 
 export type DatePattern = 'D-M-Y' | 'Y-M-D' | 'unknown'
@@ -469,7 +470,6 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 			else if (is_digit) {
 				state.digit_blocks += c
 				state.digits_pattern += 'x'
-				// TODO handle ignore digits at the beginning (if useful)
 			}
 			else {
 				// we just stopped getting digits.
@@ -557,4 +557,18 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 		human_ts: result.timestamp_ms ? get_human_readable_timestamp_auto(new Date(result.timestamp_ms), result.date_digits!) : null
 	})
 	return result
+}
+
+
+export function extract_compact_date(s: string): SimpleYYYYMMDD | null {
+	const result = parse(s)
+	if (!result.timestamp_ms)
+		return null
+
+	const date = new Date(result.timestamp_ms)
+	const YYYY = date.getUTCFullYear()
+	const MM = String(date.getUTCMonth() + 1).padStart(2, '0')
+	const DD = String(date.getUTCDate()).padStart(2, '0')
+
+	return Number(`${YYYY}${MM}${DD}`)
 }

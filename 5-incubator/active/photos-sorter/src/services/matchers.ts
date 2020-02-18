@@ -63,11 +63,6 @@ export function is_millisecond_fragment(s: string): boolean {
 	return true
 }
 
-// TODO?
-/*export function is_separator(c: string): boolean {
-	return [ '-', '_' ].includes(c)
-}*/
-
 export function is_YYYYMMDD(s: string): boolean {
 	return s.length === 8
 		&& is_year(s.slice(0, 4))
@@ -94,10 +89,6 @@ export const NON_MEANINGFUL_ENDINGS: { [k:string]: RegExp } = {
 	leading_copy_fr: /^copie (\(\d+\) )?(de )?(secours de )?/,
 
 	trailing_copy_counter: /( \(\d+\))?$/,
-}
-
-export function extract_compact_date(s: string): SimpleYYYYMMDD | null {
-	throw new Error('TODO reimplement')
 }
 
 export function starts_with_human_timestamp_ms(basename: Basename): boolean {

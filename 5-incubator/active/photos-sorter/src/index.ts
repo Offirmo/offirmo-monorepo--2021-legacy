@@ -21,7 +21,7 @@ logger.verbose('******* PHOTO SORTER *******', { PARAMS })
 
 let db = DB.create(PARAMS.root)
 
-function dequeue_and_run_all_queued_actions(dry_run = true): Promise<any>[] {
+function dequeue_and_run_all_first_level_db_actions(): Promise<any>[] {
 	const pending_actions: Promise<any>[] = []
 
 	while(DB.has_pending_actions(db)) {
@@ -44,33 +44,33 @@ function dequeue_and_run_all_queued_actions(dry_run = true): Promise<any>[] {
 				break
 
 			case ActionType.ensure_folder:
-				assert(!dry_run, 'no write action in dry run mode')
+				assert(!PARAMS.dry_run, 'no write action in dry run mode')
 				pending_actions.push(ensure_folder(id))
 				break
 
 			case ActionType.move_folder:
-				assert(!dry_run, 'no write action in dry run mode')
+				assert(!PARAMS.dry_run, 'no write action in dry run mode')
 				pending_actions.push(move_folder(id, (action as ActionMoveFolder).target_id))
 				break
 
 			case ActionType.move_file:
-				assert(!dry_run, 'no write action in dry run mode')
+				assert(!PARAMS.dry_run, 'no write action in dry run mode')
 				pending_actions.push(move_file(id, (action as ActionMoveFile).target_id))
 				break
 
 			default:
-				throw new Error(`TODO unsupported action "${type}"!`)
+				throw new Error(`action not implemented: "${type}"!`)
 		}
 	}
 
 	return pending_actions
 }
 
-async function exec_all_pending_actions(dry_run = true): Promise<void> {
+async function exec_pending_actions_recursively_until_no_more(): Promise<void> {
 	const pending_actions: Promise<any>[] = [ Promise.resolve() ]
 
 	function run_and_wait_for_queued_actions(): Promise<void> {
-		const pending_actions = dequeue_and_run_all_queued_actions(dry_run)
+		const pending_actions = dequeue_and_run_all_first_level_db_actions()
 			.map(pending_action => pending_action.then(run_and_wait_for_queued_actions))
 		return Promise.all(pending_actions).then(() => {})
 	}
@@ -78,9 +78,9 @@ async function exec_all_pending_actions(dry_run = true): Promise<void> {
 	await run_and_wait_for_queued_actions()
 }
 
-async function sort_all_medias(dry_run = true) {
+async function sort_all_medias() {
 	logger.group('******* STARTING EXPLORATION PHASE *******')
-	await exec_all_pending_actions(dry_run)
+	await exec_pending_actions_recursively_until_no_more()
 	logger.groupEnd()
 	console.log(DB.to_string(db))
 
@@ -88,31 +88,23 @@ async function sort_all_medias(dry_run = true) {
 	db = DB.ensure_structural_dirs_are_present(db)
 	db = DB.ensure_existing_event_folders_are_organized(db)
 	db.queue.forEach(action => console.log(JSON.stringify(action)))
-	await exec_all_pending_actions(dry_run)
+	await exec_pending_actions_recursively_until_no_more()
 	console.log(DB.to_string(db))
 
 	db = DB.ensure_all_needed_events_folders_are_present_and_move_files_in_them(db)
 	db.queue.forEach(action => console.log(JSON.stringify(action)))
-	await exec_all_pending_actions(dry_run)
+	await exec_pending_actions_recursively_until_no_more()
 	console.log(DB.to_string(db))
 
 	//db = DB.ensure_all_eligible_files_are_correctly_named(db)
 	//db.queue.forEach(action => console.log(JSON.stringify(action)))
 	//logger.warn('TODO')
 
-	//await exec_all_pending_actions()
+	//await exec_pending_actions_recursively_until_no_more()
 	logger.groupEnd()
 }
 
-sort_all_medias(PARAMS.dry_run)
-	.then(() => logger.info('All done, my pleasure!'))
-	.catch(err => logger.fatal('Please report.', { err }))
-	.finally(() => {
-		exiftool.end()
-	})
-
 ////////////////////////////////////
-
 
 async function explore_folder(id: RelativePath) {
 	logger.group(`- exploring dir "${id}"…`)
@@ -199,3 +191,12 @@ async function move_file(id: RelativePath, target_id: RelativePath) {
 	await util.promisify(fs.rename)(abs_path, abs_path_target)
 	db = DB.on_file_moved(db, id, target_id)
 }
+
+////////////////////////////////////
+
+sort_all_medias()
+	.then(() => logger.info('All done, my pleasure!'))
+	.catch(err => logger.fatal('Please report.', { err }))
+	.finally(() => {
+		exiftool.end()
+	})
