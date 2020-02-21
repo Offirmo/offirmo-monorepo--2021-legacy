@@ -1,4 +1,9 @@
 
+- interactive maps https://github.com/dphilipson/graphs-and-paths
+- talents https://github.com/dphilipson/graphito#toc0
+- tree view https://github.com/elbywan/bosket
+- pathfinding https://github.com/anvaka/ngraph.path
+
 backdrop-filter
 
 canvas effects https://canvas-cards.glitch.me/#intotomorrow-selector
@@ -90,7 +95,8 @@ Icons:
 
 fontes
 - https://www.behance.net/gallery/67861589/Sangha-Kali-typeface-(free)
-
+https://www.behance.net/gallery/55668517/Arcanista-Free-Font
+https://www.behance.net/gallery/55249019/BIT-Free-Pixel-Typeface
 
 Map
 - Grid https://codepen.io/oliviale/pen/moLrBq
@@ -111,3 +117,25 @@ Effects
 - https://www.smashingmagazine.com/2019/08/faster-image-loading-embedded-previews/
 
 text to speech https://www.verby.co/
+
+
+
+https://pixelbuddha.net/freebie/45-geometric-vector-shapes auras !!!
+
+https://codepen.io/nicoptere/full/awzbQW/ +++ basic isomorphic ?
+
+http://www.spritecow.com/  to generate CSS for sprites
+https://vxresource.wordpress.com/ RPG maker Vx resources
+http://game-icons.net/ +++ SVG game icons
+
+http://codepen.io/giana/pen/qmKNeE +++ superb shimmering effect
+
+https://www.openprocessing.org/ +++ superb graphic effects
+
+https://quickdraw.withgoogle.com/ doodles crayon
+
+https://www.kickstarter.com/projects/worldspinner/portrait-workshop
+
+https://playruneterra.com/en-us/
+
+https://www.deviantart.com/yliade/gallery/all

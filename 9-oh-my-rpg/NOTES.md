@@ -5,7 +5,7 @@ TODO "task manager" https://hello.atlassian.net/wiki/spaces/JSP/pages/375832340/
 
 [ ] Ftl-like fantasy comme douluo dalu
 [ ] Halos
-[ ] Sculpture 
+[ ] Sculpture
 [ ] Combats / arènes
 [ ] Cite des nuages
 [ ] World tree
@@ -26,7 +26,7 @@ TODO "task manager" https://hello.atlassian.net/wiki/spaces/JSP/pages/375832340/
 [ ] Loups
 [ ] Ours
 [ ] Tigre à dents de sabre
-[ ] Animaux éteints bison mammouth 
+[ ] Animaux éteints bison mammouth
 [ ] Survival level
 [ ] Forest of illusions
 [ ] Toxic forest
@@ -66,7 +66,7 @@ Awakening
 
 
 
-Cross-training 
+Cross-training
 
 Elven, dwarven Martial arts
 
@@ -76,11 +76,11 @@ Dragonslayer arts
 
 
 
-Les îles mystérieuses 
+Les îles mystérieuses
 
 
 
-Réutiliser les brigands en armée 
+Réutiliser les brigands en armée
 
 Okik
 
@@ -106,27 +106,7 @@ animal speech https://pets.stackexchange.com/questions/18822/what-is-this-street
 https://www.ftc.gov/tips-advice/business-center/privacy-and-security/children's-privacy
 
 
-- interactive maps https://github.com/dphilipson/graphs-and-paths
-- talents https://github.com/dphilipson/graphito#toc0
-- tree view https://github.com/elbywan/bosket
-- pathfinding https://github.com/anvaka/ngraph.path
 
-
-https://www.behance.net/gallery/55668517/Arcanista-Free-Font
-https://www.behance.net/gallery/55249019/BIT-Free-Pixel-Typeface
-https://pixelbuddha.net/freebie/45-geometric-vector-shapes auras !!!
-
-https://codepen.io/nicoptere/full/awzbQW/ +++ basic isomorphic ?
-
-http://www.spritecow.com/  to generate CSS for sprites
-https://vxresource.wordpress.com/ RPG maker Vx resources
-http://game-icons.net/ +++ SVG game icons
-
-http://codepen.io/giana/pen/qmKNeE +++ superb shimmering effect
-
-https://www.openprocessing.org/ +++ superb graphic effects
-
-https://quickdraw.withgoogle.com/ doodles crayon
 
 Chat/adversaires simulés
 http://www.minecraftforum.net/forums/off-topic/forum-games/431299-big-list-of-minecraft-forum-usernames
@@ -141,7 +121,7 @@ Algorithms
 
 Polices
 * https://www.behance.net/gallery/53874837/Carre-Typeface
-* 
+*
 
 Inventaire
 * http://packery.metafizzy.co/draggable.html
@@ -335,9 +315,9 @@ Adventures
 882	U+1F386	🎆	fireworks	celebration | fireworks
 883	U+1F387	🎇	sparkler
  */
- 
- 
- 
+
+
+
 
 
 https://arstechnica.com/gaming/2019/06/everquests-long-strange-20-year-trip-still-has-no-end-in-sight/
@@ -444,8 +424,8 @@ followers https://github.com/sepehr500/vscode-discourage/blob/master/src/extensi
     "I'm not going to say you made a mistake... but...",
     "Was that a typo, or...",
     "Yikes..."
-    
-    
+
+
 skeletons:
 - wolf
 - human
@@ -459,8 +439,6 @@ triomphe baroque https://www.youtube.com/watch?v=snxUHRaGTuA
 https://sciencepost.fr/2019/01/australie-propagation-dune-bacterie-infectieuse-mangeuse-de-chair/
 https://sciencepost.fr/2018/12/voici-la-plus-ancienne-table-de-trigonometrie-de-lhistoire/
 https://sciencepost.fr/2019/01/voie-lactee-une-collision-programmee-dans-2-milliards-dannees/
-
-import { dump_pretty_json } from '@offirmo-private/prettify-json' // TODO remove
 
 https://yro.slashdot.org/story/19/03/31/175226/in-massive-breach-ex-nsa-contractor-pleads-guilty-to-hoarding-highly-classified-secrets
 
@@ -581,7 +559,7 @@ Ideas:
 * https://www.youtube.com/watch?v=1qj2rwIVW-A Top 10 Mysterious Things Found Frozen In Ice Antarctica
 * https://www.youtube.com/watch?v=UwVNkfCov1k This Incredible Animation Shows How Deep The Ocean Really Is
 * https://www.youtube.com/watch?v=tzhWVzyo4kI Incredible Animation Shows How Deep Humans Have Dug
-* https://www.youtube.com/watch?v=BibBMBibTq0 What Humans Will Look Like In 1,000 Years 
+* https://www.youtube.com/watch?v=BibBMBibTq0 What Humans Will Look Like In 1,000 Years
 * https://www.youtube.com/watch?v=43NvZw-nggc 15 Terrifying Prehistoric Creatures That Actually Existed
 * https://www.youtube.com/watch?v=gUmNROSYGjQ 10 Places Science Can't Explain
 
@@ -654,7 +632,7 @@ Content:
   * https://deathbornaeon.deviantart.com/favourites/69459555/Druids-and-Shamans
 * world
   * http://forgottenrealms.wikia.com/wiki/Main_Page
-  
+
 
 
 https://getavataaars.com/?accessoriesType=Wayfarers&avatarStyle=Circle&clotheColor=PastelRed&clotheType=Hoodie&eyeType=Dizzy&eyebrowType=RaisedExcitedNatural&hairColor=Platinum&mouthType=Serious&ref=producthunt&skinColor=Brown&topType=LongHairFroBand
@@ -672,7 +650,7 @@ emotions: https://westus.dev.cognitive.microsoft.com/docs/services/5639d931ca730
       "neutral": 0.0009861537,
       "sadness": 1.889955E-05,
       "surprise": 0.008229999
-    
+
 
 https://games.slashdot.org/story/17/05/29/0632250/esr-announces-the-open-sourcing-of-the-worlds-first-text-adventure
 https://gamedevelopment.tutsplus.com/categories/game-design

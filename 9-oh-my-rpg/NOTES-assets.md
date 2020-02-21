@@ -42,6 +42,10 @@ Médiévale
 * https://www.youtube.com/watch?v=GrtryY5xZjM
 * https://www.youtube.com/watch?v=7Qe_tVJZgb8
 * Mon Coeur se Recommande à Vous https://www.youtube.com/watch?v=ZfpUSYQ9YcQ
+* le roi Renaud https://www.youtube.com/watch?v=CalD_MnNarM&list=UU7PMPiMjYU4qWJqKbmwkyyQ&index=14
+* table ronde https://www.youtube.com/watch?v=Lwb8mUb3hu8&list=UU7PMPiMjYU4qWJqKbmwkyyQ&index=23
+* le vin gaulois https://www.youtube.com/watch?v=4zKOLGwku8o
+
 * Irish
   * https://www.youtube.com/watch?v=qHMvlV0-_lk
 
@@ -56,3 +60,4 @@ Médiévale
 * https://opengameart.org/content/loopable-dungeon-ambience
 * https://opengameart.org/content/dark-ambiences
 * https://opengameart.org/content/80-cc0-rpg-sfx
+* https://rissole.github.io/alexandhorachio/game/
