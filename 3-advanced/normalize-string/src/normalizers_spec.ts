@@ -129,7 +129,8 @@ describe('normalize-string - built-in normalizers', function() {
 				const expected_output = NORMALIZER_TEST_CASES[input]
 
 				it(`should correctly normalize "${input}" to "${expected_output}"`, () => {
-					expect(normalizer(input)).to.equal(expected_output)
+					const res = normalizer(input)
+					expect(res).to.equal(expected_output)
 				})
 			})
 		})

@@ -13,13 +13,14 @@ import {
 import {
 	_get_y2k_year_from_fragment,
 	_parse_digit_blocks,
+	DigitsParseResult,
 	parse,
 	ParseResult,
 } from './name_parser'
 
 /////////////////////
 
-describe(`${LIB} - name parser`, function() {
+describe.only(`${LIB} - (base)name parser`, function() {
 
 	describe('_get_y2k_year_from_fragment()', function () {
 		it('should work', () => {
@@ -43,26 +44,71 @@ describe(`${LIB} - name parser`, function() {
 
 	describe('_parse_digit_blocks()', function () {
 
-		const filenames = Object.keys(DATED_NAMES_SAMPLES)
-			//.slice(0, 2) // TEMP XXX
-		filenames.forEach(filename => {
-			const expected = DATED_NAMES_SAMPLES[filename]
-			const { _comment, human_ts, digit_blocks, date_digits } = expected
+		context('when possible', function () {
+			const filenames = Object.keys(DATED_NAMES_SAMPLES)
+				//.slice(0, 2) // TEMP XXX
+			filenames.forEach(filename => {
+				const expected = DATED_NAMES_SAMPLES[filename]
+				const { _comment, human_ts, digit_blocks, date_digits, timestamp_ms, is_date_ambiguous: is_ambiguous } = expected
 
-			it(`should correctly parse: ${[_comment, `"${filename}"`].join(': ')}`, () => {
-				const result = _parse_digit_blocks(digit_blocks!, 'other')
-				console.log({ result })
+				it(`should correctly parse: ${[_comment, `"${filename}"`].join(': ')}`, () => {
+					const expected_result = {
+						summary: 'perfect',
+						reason: null,
+						timestamp_ms,
+						is_ambiguous,
+					}
+					const result = _parse_digit_blocks(digit_blocks!, 'other')
+					console.log({ result })
 
-				if(result.summary === 'perfect') {
-					// ok
-				}
-				else
-					expect(result.summary).to.equal('ok')
+					if (result.summary === 'perfect') {
+						// ok
+					}
+					else {
+						expected_result.summary = 'ok'
+						expect(result.summary).to.equal('ok')
+					}
 
-				expect(
-					get_human_readable_timestamp_auto(new Date(result.timestamp_ms!), date_digits!),
-					`human ts`
-				).to.equal(human_ts)
+					expect(
+						get_human_readable_timestamp_auto(new Date(result.timestamp_ms!), date_digits!),
+						`human ts`
+					).to.equal(human_ts)
+					expect(
+						result,
+						`full result`
+					).to.deep.equal(expected_result)
+				})
+			})
+		})
+
+		context('when not possible', function () {
+			const filenames = Object.keys(UNDATED_NAMES_SAMPLES)
+			//.slice(1) // TEMP XXX
+
+			filenames.forEach(filename => {
+				const expected = UNDATED_NAMES_SAMPLES[filename]
+				const {_comment, human_ts, digit_blocks, ...expected_result_part} = expected
+
+				it(`should correctly fail to parse: ${[_comment, `"${filename}"`].join(': ')}`, () => {
+					const expected_result: DigitsParseResult = {
+						summary: 'no_match',
+						reason: null,
+						timestamp_ms: undefined,
+						is_ambiguous: false,
+					}
+					const result = _parse_digit_blocks(digit_blocks!, 'other')
+					console.log({ result })
+					expect(result.reason).not.to.be.null
+					expected_result.reason = result.reason
+					if (result.summary !== 'no_match') {
+						expected_result.summary = 'need_more'
+					}
+
+					expect(
+						result,
+						`full result for ${[_comment, `"${filename}"`].join(': ')}`
+					).to.deep.equal(expected_result)
+				})
 			})
 		})
 	})
@@ -133,7 +179,7 @@ describe(`${LIB} - name parser`, function() {
 
 				filenames.forEach(filename => {
 					const expected = UNDATED_NAMES_SAMPLES[filename]
-					const {_comment, human_ts, ...expected_result_part} = expected
+					const {_comment, human_ts, digit_blocks,...expected_result_part} = expected
 
 					it(`should correctly parse and not find anything: ${[_comment, `"${filename}"`].join(': ')}`, () => {
 						const expected_result: ParseResult = {
@@ -166,6 +212,56 @@ describe(`${LIB} - name parser`, function() {
 						`meaningful part for ${[_comment, `"${filename}"`].join(': ')}`
 					).to.equal('foo')
 					expect(result.timestamp_ms).to.be.undefined
+				})
+			})
+		})
+
+		describe('all together', function () {
+
+			context('when possible', function () {
+				const filenames = Object.keys(DATED_NAMES_SAMPLES)
+				//.slice(1) // TEMP XXX
+
+				filenames.forEach(filename => {
+					const expected = DATED_NAMES_SAMPLES[filename]
+					const {_comment, human_ts, digit_blocks, ...expected_result_part} = expected
+
+					it(`should return a correct result: ${[_comment, `"${filename}"`].join(': ')}`, () => {
+						const expected_result: ParseResult = {
+							original_name: filename,
+							...expected_result_part,
+						}
+
+						const result = parse(filename, true)
+						expect(
+							result,
+							`full result for ${[_comment, `"${filename}"`].join(': ')}`
+						).to.deep.equal(expected_result)
+					})
+				})
+			})
+
+			context('when not possible', function () {
+
+				const filenames = Object.keys(UNDATED_NAMES_SAMPLES)
+				//.slice(1) // TEMP XXX
+
+				filenames.forEach(filename => {
+					const expected = UNDATED_NAMES_SAMPLES[filename]
+					const {_comment, human_ts, digit_blocks, ...expected_result_part} = expected
+
+					it(`should return a correct result: ${[_comment, `"${filename}"`].join(': ')}`, () => {
+						const expected_result: ParseResult = {
+							original_name: filename,
+							...expected_result_part,
+						}
+
+						const result = parse(filename, true)
+						expect(
+							result,
+							`full result for ${[_comment, `"${filename}"`].join(': ')}`
+						).to.deep.equal(expected_result)
+					})
 				})
 			})
 		})

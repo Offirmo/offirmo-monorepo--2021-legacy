@@ -26,7 +26,7 @@ function dequeue_and_run_all_first_level_db_actions(): Promise<any>[] {
 
 	while(DB.has_pending_actions(db)) {
 		const action = DB.get_first_pending_action(db)
-		logger.verbose(`executing action…`, { action })
+		logger.trace(`DQ1 executing action…`, { action })
 		db = DB.discard_first_pending_action(db)
 
 		const { type, id } = action
@@ -80,7 +80,15 @@ async function exec_pending_actions_recursively_until_no_more(): Promise<void> {
 
 async function sort_all_medias() {
 	logger.group('******* STARTING EXPLORATION PHASE *******')
+	db = DB.explore(db)
 	await exec_pending_actions_recursively_until_no_more()
+	logger.groupEnd()
+	console.log(DB.to_string(db))
+
+	logger.group('******* STARTING IN-PLACE NORMALIZATION PHASE *******')
+	console.log('TODOOOO')
+	/*db = DB.explore(db)
+	await exec_pending_actions_recursively_until_no_more()*/
 	logger.groupEnd()
 	console.log(DB.to_string(db))
 

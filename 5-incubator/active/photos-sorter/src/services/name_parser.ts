@@ -1,4 +1,5 @@
 import { TimestampUTCMs } from '@offirmo-private/timestamps'
+import { NORMALIZERS } from '@offirmo-private/normalize-string'
 
 import { get_params } from '../params'
 import {
@@ -11,7 +12,8 @@ import {
 	is_millisecond_fragment,
 	is_DDMMYYYY,
 	is_YYYYMMDD,
-	NON_MEANINGFUL_ENDINGS,
+	NON_MEANINGFUL_ENDINGS_RE,
+	NON_MEANINGFUL_FULL,
 } from './matchers'
 import {
 	get_human_readable_timestamp_auto
@@ -62,7 +64,7 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 
 	const result: DigitsParseResult = {
 		summary: 'error',
-		reason: 'none',
+		reason: null,
 		timestamp_ms: undefined,
 		is_ambiguous: false,
 	}
@@ -346,7 +348,8 @@ export interface ParseResult {
 	meaningful_part: string
 }
 export function parse(name: string, debug: boolean = false): ParseResult {
-	logger.trace('\n\n\n\n----------------------------------------\n» parsing…', { name })
+	logger.silly('\n\n\n\n----------------------------------------')
+	logger.trace('» parsing basename…', { name })
 	const result: ParseResult = {
 		original_name: name,
 		extension_lc: '',
@@ -355,6 +358,7 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 		is_date_ambiguous: undefined,
 		meaningful_part: '',
 	}
+	name = NORMALIZERS.normalize_unicode(name)
 
 	let state = {
 		buffer: name,
@@ -366,6 +370,7 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 		is_date_found: false,
 		should_ignore_current_digits_block: false,
 	}
+	type State = typeof state
 	let state_on_digits_start: null | typeof state = null
 	let state_on_last_successful_dpr: null | typeof state = null
 
@@ -377,7 +382,7 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 		result.timestamp_ms = dpr.timestamp_ms
 		result.is_date_ambiguous = dpr.is_ambiguous
 
-		logger.trace(`found date in filename`, {
+		logger.silly(`found date in filename`, {
 			name,
 			state,
 			dpr,
@@ -402,13 +407,29 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 	}
 
 	state.buffer = state.buffer.trim()
+
+	// remove non-meaningful parts
+	if (state.buffer.toUpperCase().startsWith('PHOTO ON'))
+		state.buffer = state.buffer.slice(0, 5) + state.buffer.slice(8)
+	// ends with "copies" We do it first to avoid the digits being interpreted as a date
+	state.buffer = Object.keys(NON_MEANINGFUL_ENDINGS_RE).reduce((acc, key) => {
+		const m = acc.toLowerCase().match(NON_MEANINGFUL_ENDINGS_RE[key])
+		if (m && m[0]) {
+			acc = acc.slice(0, m.index) + acc.slice(m.index! + m[0].length)
+			acc = acc.trim()
+			console.log('non meaningful', { r: NON_MEANINGFUL_ENDINGS_RE[key], m, acc })
+		}
+		return acc
+	}, state.buffer)
+	state.buffer = state.buffer.trim()
+
 	logger.silly('after buffer cleanup', { buffer: state.buffer })
 
 	let no_infinite_loop_counter = 255
 	let should_exit = false
 	do {
-		const c = state.buffer[state.index]
-		const is_separator = (() => {
+		function _is_separator(state: State): boolean {
+			const c = state.buffer[state.index]
 			if (!SEPARATORS.includes(c)) {
 				// requalify some special letters if inside digits
 				if (state.digit_blocks && (c === 'h' || c === 'm' || c === 's') && DIGITS.includes(state.buffer[state.index + 1])) {
@@ -431,10 +452,20 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 			}
 
 			return true
-		})()
-		const is_digit = !is_separator && DIGITS.includes(c)
+		}
 
-		logger.silly(`${state.buffer}[${state.index}] = "${c}" = ${
+		let c: string = '❌'
+		let is_separator: boolean = false
+		let is_digit: boolean = false
+
+		function _derive(state: State): void {
+			c = state.buffer[state.index]
+			is_separator = _is_separator(state)
+			is_digit = !is_separator && DIGITS.includes(c)
+		}
+		_derive(state)
+
+		logger.silly(`"${state.buffer}"[i=${state.index}] = "${c}" = ${
 			is_separator
 				? 'separator'
 				: is_digit
@@ -453,6 +484,7 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 					state.digit_blocks += '-'
 
 				// this may be the end of a correct date
+				console.log('hdb-is', c)
 				const dpr = _parse_digit_blocks(state.digit_blocks, 'other')
 				if (dpr.summary === 'perfect') {
 					on_date_found(dpr)
@@ -462,8 +494,11 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 				}
 				else if (dpr.summary === 'no_match') {
 					if (state_on_last_successful_dpr) {
+						logger.trace(`restoring last successful dpr… (1/hdb-is)`)
 						state = state_on_last_successful_dpr
+						_derive(state)
 						on_date_found(_parse_digit_blocks(state.digit_blocks, 'other'))
+						if (!is_separator) state.suffix += c
 					}
 				}
 			}
@@ -473,6 +508,7 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 			}
 			else {
 				// we just stopped getting digits.
+				console.log('hdb-io', c)
 				const dpr = _parse_digit_blocks(state.digit_blocks, 'other')
 				logger.silly('is no longer digit:', {
 					state,
@@ -481,11 +517,15 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 
 				if (dpr.summary === 'perfect' || dpr.summary === 'ok') {
 					on_date_found(dpr)
+					if (c) state.suffix += c
 				}
 				else {
 					if (state_on_last_successful_dpr) {
+						logger.trace(`restoring last successful dpr… (1/hdb-io)`)
 						state = state_on_last_successful_dpr
+						_derive(state)
 						on_date_found(_parse_digit_blocks(state.digit_blocks, 'other'))
+						if (c && !is_separator) state.suffix += c
 					}
 					else if (state_on_digits_start) {
 						state = {
@@ -533,32 +573,42 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 		state.suffix = state.suffix.slice(1)
 	}
 
-	let meaningful_part = state.prefix + state.suffix
+	let meaningful_part = (state.prefix + state.suffix).trim()
+	logger.silly(`Starting meaningful part last normalization: "${meaningful_part}"…`)
 
-	// right-trim the meaningful (in case no suffix)
+	// deep-trim
 	while(meaningful_part && SEPARATORS.includes(meaningful_part.slice(-1))) {
 		meaningful_part = meaningful_part.slice(0, meaningful_part.length - 1)
 	}
+	while(meaningful_part && SEPARATORS.includes(meaningful_part[0])) {
+		meaningful_part = meaningful_part.slice(1)
+	}
 
-	// remove non-meaningful parts
-	result.meaningful_part = Object.keys(NON_MEANINGFUL_ENDINGS).reduce((acc, key) => {
-			const m = acc.toLowerCase().match(NON_MEANINGFUL_ENDINGS[key])
-			if (m && m[0]) {
-				acc = acc.slice(0, m.index) + acc.slice(m.index! + m[0].length)
-				acc = acc.trim()
-				//console.log('non meaninfgful', { m, acc })
-			}
-			return acc
-		}, meaningful_part)
+	// normalize the meaningful part
+	if (SCREENSHOT_ALIASES_LC.includes(meaningful_part.toLowerCase()))
+		meaningful_part = 'screenshot'
+	if (NON_MEANINGFUL_FULL.includes(meaningful_part.toUpperCase()))
+		meaningful_part = ''
 
+	result.meaningful_part = meaningful_part
 
-	logger.silly('« final', {
+	logger.trace('« final', {
 		...result,
 		human_ts: result.timestamp_ms ? get_human_readable_timestamp_auto(new Date(result.timestamp_ms), result.date_digits!) : null
 	})
 	return result
 }
 
+const SCREENSHOT_ALIASES_LC = [
+	'screenshot',
+	'screen shot',
+	'snapshot',
+	'screen',
+	NORMALIZERS.normalize_unicode('capture d\'écran'),
+	NORMALIZERS.normalize_unicode('capture d’écran'),
+		NORMALIZERS.normalize_unicode('capture plein écran'),
+	'capture',
+]
 
 export function extract_compact_date(s: string): SimpleYYYYMMDD | null {
 	const result = parse(s)

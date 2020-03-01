@@ -29,7 +29,6 @@ const LIB = '🗄 '
 export interface State {
 	root: AbsolutePath
 
-	// normalized
 	folders: { [id: string]: Folder.State }
 	media_files: { [id: string]: MediaFile.State }
 
@@ -89,15 +88,11 @@ export function create(root: AbsolutePath): Readonly<State> {
 		queue: [],
 	}
 
-	//state = on_folder_found(state, '.')
-	const EXPLORE_ROOT_FOLDER = create_action_explore('.')
-	state = enqueue_action(state, EXPLORE_ROOT_FOLDER)
-
 	return state
 }
 
-export function enqueue_action(state: Readonly<State>, action: Action): Readonly<State> {
-	logger.trace(`[${LIB}] enqueue_action(…)`, { action })
+function _enqueue_action(state: Readonly<State>, action: Action): Readonly<State> {
+	logger.trace(`[${LIB}] enqueue_action(…)`, action)
 
 	return {
 		...state,
@@ -138,7 +133,7 @@ export function on_folder_found(state: Readonly<State>, parent_id: RelativePath,
 	const folder_state = state.folders[id]
 
 	if (folder_state.type !== Folder.Type.cantsort)
-		state = enqueue_action(state, create_action_explore(id))
+		state = _enqueue_action(state, create_action_explore(id))
 
 	return state
 }
@@ -160,9 +155,8 @@ export function on_file_found(state: Readonly<State>, parent_id: RelativePath, s
 	if (file_state.is_eligible) {
 		logger.verbose('eligible file found', { id })
 
-		//TODO on demand
-		//state = enqueue_action(state, create_action_query_fs_stats(id))
-		//state = enqueue_action(state, create_action_query_exif(id))
+		state = _enqueue_action(state, create_action_query_fs_stats(id))
+		state = _enqueue_action(state, create_action_query_exif(id))
 	}
 
 	return state
@@ -293,11 +287,18 @@ export function merge_folder(state: Readonly<State>, id: RelativePath, target_id
 	throw new Error('NIMP merging folders')
 }
 
-////////////////////////////////////
+///////////////////// ACTIONS /////////////////////
+
+export function explore(state: Readonly<State>): Readonly<State> {
+	const EXPLORE_ROOT_FOLDER = create_action_explore('.')
+	state = _enqueue_action(state, EXPLORE_ROOT_FOLDER)
+
+	return state
+}
 
 export function ensure_structural_dirs_are_present(state: Readonly<State>): Readonly<State> {
-	state = enqueue_action(state, create_action_ensure_folder(get_final_base(Folder.INBOX_BASENAME)))
-	state = enqueue_action(state, create_action_ensure_folder(get_final_base(Folder.CANTSORT_BASENAME)))
+	state = _enqueue_action(state, create_action_ensure_folder(get_final_base(Folder.INBOX_BASENAME)))
+	state = _enqueue_action(state, create_action_ensure_folder(get_final_base(Folder.CANTSORT_BASENAME)))
 
 	const years = new Set<number>()
 	const all_file_ids = get_all_eligible_file_ids(state)
@@ -307,7 +308,7 @@ export function ensure_structural_dirs_are_present(state: Readonly<State>): Read
 	})
 	for(const y of years) {
 		state = _register_folder(state, String(y), false)
-		state = enqueue_action(state, create_action_ensure_folder(String(y)))
+		state = _enqueue_action(state, create_action_ensure_folder(String(y)))
 	}
 
 	return state
@@ -373,7 +374,7 @@ export function ensure_existing_event_folders_are_organized(state: Readonly<Stat
 			throw new Error('TODO dedupe folders')
 		}
 		else {
-			state = enqueue_action(state, create_action_move_folder(id, ideal_id))
+			state = _enqueue_action(state, create_action_move_folder(id, ideal_id))
 		}
 	})
 

@@ -7,6 +7,8 @@ function default_to(def = ''): StringNormalizer {
 	return (s: string): string => s ? s : ''
 }
 
+export const RECOMMENDED_UNICODE_NORMALIZATION = 'NFC' // https://www.win.tue.nl/~aeb/linux/uc/nfc_vs_nfd.html
+
 const default_to_empty = default_to('')
 
 const ensure_string: StringNormalizer = s => String(s)
@@ -23,12 +25,12 @@ const trim: StringNormalizer = s => s.trim()
 
 // https://thread.engineering/2018-08-29-searching-and-sorting-text-with-diacritical-marks-in-javascript/
 const coerce_to_ascii: StringNormalizer = s => s
-	.normalize('NFD')
+	.normalize('NFD') // D = Decompose = technique to remove non-ascii part
 	.replace(/[\u0300-\u036f]/g, '')
 
 // https://devdocs.io/javascript/global_objects/string/normalize
 // https://withblue.ink/2019/03/11/why-you-need-to-normalize-unicode-strings.html
-const normalize_unicode: StringNormalizer = s => s.normalize()
+const normalize_unicode: StringNormalizer = s => s.normalize(RECOMMENDED_UNICODE_NORMALIZATION)
 
 // https://stackoverflow.com/a/1981366/587407
 const ANY_BLANK_REGEXP = /\s+/g

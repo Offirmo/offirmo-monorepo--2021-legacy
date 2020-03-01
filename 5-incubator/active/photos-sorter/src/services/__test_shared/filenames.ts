@@ -2,7 +2,7 @@ import { ParseResult } from '../name_parser'
 
 interface NameDetails extends Omit<ParseResult, 'original_name'> {
 	_comment?: string
-	digit_blocks?: string
+	digit_blocks: string
 	human_ts?: string
 }
 
@@ -15,10 +15,10 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.jpg',
-		timestamp_ms: 1372118400000,
+		timestamp_ms: 1576528688000, // ✅
 		date_digits: '20191216203808',
 		is_date_ambiguous: false,
-		meaningful_part: 'PHOTO',
+		meaningful_part: '',
 
 		// for test
 		digit_blocks: '2019-12-16-20-38-08',
@@ -30,10 +30,10 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.jpg',
-		timestamp_ms: 1372118400000,
+		timestamp_ms: 1369440000000, // ✅
 		date_digits: '20130525',
 		is_date_ambiguous: false,
-		meaningful_part: 'IMG',
+		meaningful_part: '',
 
 		// for test
 		digit_blocks: '20130525',
@@ -45,7 +45,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.png',
-		timestamp_ms: 1518684938000,
+		timestamp_ms: 1516006538000, // ✅
 		date_digits: '20180115085538',
 		is_date_ambiguous: false,
 		meaningful_part: 'screenshot',
@@ -60,7 +60,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.png',
-		timestamp_ms: 1513105670000,
+		timestamp_ms: 1510513670000, // ✅
 		date_digits: '20171112190750',
 		is_date_ambiguous: false,
 		meaningful_part: 'screenshot',
@@ -75,7 +75,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.png',
-		timestamp_ms: 1493034257000,
+		timestamp_ms: 1490355857000, // ✅
 		date_digits: '20170324114417',
 		is_date_ambiguous: false,
 		meaningful_part: 'screenshot',
@@ -90,7 +90,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.png',
-		timestamp_ms: 1410658668001,
+		timestamp_ms: 1407980268001, // ✅
 		date_digits: '20140814013748001',
 		is_date_ambiguous: false,
 		meaningful_part: 'screenshot',
@@ -105,7 +105,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.bmp',
-		timestamp_ms: 29654038326000,
+		timestamp_ms: 1377737526000, // ✅
 		date_digits: '29082013005206',
 		is_date_ambiguous: false,
 		meaningful_part: 'screenshot',
@@ -120,7 +120,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.bmp',
-		timestamp_ms: 0,
+		timestamp_ms: 1277545792000,
 		date_digits: '20100626094952',
 		is_date_ambiguous: false,
 		meaningful_part: 'screenshot',
@@ -150,7 +150,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.jpg',
-		timestamp_ms: 0,
+		timestamp_ms: 1390336154000,
 		date_digits: '20140121202914',
 		is_date_ambiguous: false,
 		meaningful_part: 'screenshot',
@@ -168,7 +168,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		timestamp_ms: 1431280714000,
 		date_digits: '20150510175834',
 		is_date_ambiguous: false,
-		meaningful_part: 'IMG',
+		meaningful_part: '',
 
 		// for test
 		digit_blocks: '20150510-175834',
@@ -183,7 +183,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		timestamp_ms: 1454371200000,
 		date_digits: '20160202',
 		is_date_ambiguous: false,
-		meaningful_part: 'WA0001',
+		meaningful_part: 'IMG-WA0001',
 
 		// for test
 		digit_blocks: '20160202',
@@ -195,10 +195,10 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.jpg',
-		timestamp_ms: 0,
+		timestamp_ms: 1500595200000,
 		date_digits: '20170721',
 		is_date_ambiguous: false,
-		meaningful_part: 'WA0000',
+		meaningful_part: 'IMG-WA0000',
 
 		// for test
 		digit_blocks: '20170721',
@@ -210,7 +210,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.png',
-		timestamp_ms: 0,
+		timestamp_ms: 1226261767000, // ✅
 		date_digits: '20081109201607',
 		is_date_ambiguous: false,
 		meaningful_part: 'Spore',
@@ -255,10 +255,10 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.png',
-		timestamp_ms: 0,
+		timestamp_ms: 1355583947000, // ✅
 		date_digits: '20121215150547',
 		is_date_ambiguous: false,
-		meaningful_part: 'screenshot',
+		meaningful_part: '',
 
 		// for test
 		digit_blocks: '2012-12-15-15-05-47',
@@ -285,10 +285,10 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.jpg',
-		timestamp_ms: 1365897680000,
+		timestamp_ms: 1495065600000,
 		date_digits: '20170518',
 		is_date_ambiguous: false,
-		meaningful_part: '2017-05-18',
+		meaningful_part: '',
 
 		// for test
 		digit_blocks: '2017-05-18',
@@ -313,10 +313,10 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.jpg',
-		timestamp_ms: 0,
+		timestamp_ms: 1162857600000,
 		date_digits: '20061107',
 		is_date_ambiguous: false,
-		meaningful_part: 'xxx',
+		meaningful_part: '1-Irrutilo',
 
 		// for test
 		digit_blocks: '20061107',
@@ -330,7 +330,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		timestamp_ms: 1444950082001,
 		date_digits: '20151015230122001',
 		is_date_ambiguous: false,
-		meaningful_part: 'screenshots',
+		meaningful_part: 'screenshot',
 
 		// for test
 		digit_blocks: '20151015-23-01-22001',
@@ -341,7 +341,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.jpg',
-		timestamp_ms: 0,
+		timestamp_ms: 1381968000000,
 		date_digits: '20131017',
 		is_date_ambiguous: false,
 		meaningful_part: '00001',
@@ -355,10 +355,10 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.jpg',
-		timestamp_ms: 0,
+		timestamp_ms: 1447113600000,
 		date_digits: '20151110',
 		is_date_ambiguous: false,
-		meaningful_part: 'WA0000',
+		meaningful_part: 'IMG-WA0000',
 
 		// for test
 		digit_blocks: '20151110',
@@ -372,7 +372,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		timestamp_ms: 1429815761000,
 		date_digits: '20150423190241',
 		is_date_ambiguous: false,
-		meaningful_part: 'VID',
+		meaningful_part: '',
 
 		// for test
 		digit_blocks: '20150423-190241',
@@ -384,10 +384,10 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.jpg',
-		timestamp_ms: 0,
+		timestamp_ms: 1553520960000,
 		date_digits: '253191336',
 		is_date_ambiguous: false, // not ambiguous before 2025 but ambiguous after that!!!
-		meaningful_part: 'xxx',
+		meaningful_part: 'Photo #3',
 
 		// for test
 		digit_blocks: '25-3-19-13-36',
@@ -398,10 +398,10 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.jpg',
-		timestamp_ms: 0,
+		timestamp_ms: 1551916800000,
 		date_digits: '20190307',
 		is_date_ambiguous: false,
-		meaningful_part: 'xxx',
+		meaningful_part: '',
 
 		// for test
 		digit_blocks: '2019-03-07',
@@ -413,7 +413,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.gif',
-		timestamp_ms: 0,
+		timestamp_ms: 1527984000000,
 		date_digits: '20180603',
 		is_date_ambiguous: false,
 		meaningful_part: 'taronga_vivd',
@@ -426,7 +426,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.jpg',
-		timestamp_ms: 0,
+		timestamp_ms: 1556552947000,
 		date_digits: '20190429154907',
 		is_date_ambiguous: false,
 		meaningful_part: 'resized',
@@ -443,7 +443,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.jpg',
-		timestamp_ms: 0,
+		timestamp_ms: 1488542445632,
 		date_digits: '20170303120045632',
 		is_date_ambiguous: false,
 		meaningful_part: '',
@@ -456,14 +456,29 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.jpg',
-		timestamp_ms: 0,
+		timestamp_ms: 1552335846000,
 		date_digits: '20190311202406',
 		is_date_ambiguous: false,
-		meaningful_part: 'IMG_7794',
+		meaningful_part: 'i6-IMG_7794',
 
 		// for test
 		digit_blocks: '20190311-20-24-06',
 		human_ts: '2019-03-11_20h24m06',
+	},
+
+	// folders
+	'20181026 - weekend special': {
+
+		// ParseResult
+		extension_lc: '',
+		timestamp_ms: 1540512000000,
+		date_digits: '20181026',
+		is_date_ambiguous: false,
+		meaningful_part: 'weekend special',
+
+		// for test
+		digit_blocks: '20181026',
+		human_ts: '2018-10-26',
 	},
 
 	// constructed, to show corner cases
@@ -471,7 +486,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 
 		// ParseResult
 		extension_lc: '.jpg',
-		timestamp_ms: 0,
+		timestamp_ms: 1565827200000,
 		date_digits: '20190815',
 		is_date_ambiguous: false,
 		meaningful_part: 'voyage à Paris',
@@ -494,6 +509,9 @@ export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		date_digits: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: 'WoWScrnShot_032407_100101',
+
+		// for test
+		digit_blocks: '032407-100101',
 	},
 
 	'P1000010.JPG': {
@@ -505,6 +523,9 @@ export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		date_digits: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: 'P1000010',
+
+		// for test
+		digit_blocks: '1000010',
 	},
 
 	'IMG_3211.JPG': {
@@ -516,6 +537,9 @@ export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		date_digits: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: 'IMG_3211',
+
+		// for test
+		digit_blocks: '3211',
 	},
 
 	// too ambiguous
@@ -528,6 +552,9 @@ export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		date_digits: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: 'Photo_021309_006',
+
+		// for test
+		digit_blocks: '021309-006',
 	},
 
 	// too ambiguous
@@ -540,6 +567,9 @@ export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		date_digits: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: 'img071009-131340',
+
+		// for test
+		digit_blocks: '071009-131340',
 	},
 
 	// no block is a correct date
@@ -552,6 +582,9 @@ export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		date_digits: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: '170455_10150886974822066_2009091174_o',
+
+		// for test
+		digit_blocks: '170455-10150886974822066-2009091174',
 	},
 
 	// others
@@ -562,6 +595,9 @@ export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		date_digits: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: 'TR81801414546EGJ',
+
+		// for test
+		digit_blocks: '81801414546',
 	},
 
 	'ANWP7390.JPG': {
@@ -571,6 +607,9 @@ export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		date_digits: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: 'ANWP7390',
+
+		// for test
+		digit_blocks: '7390',
 	},
 
 	'DSC_0085.JPG': {
@@ -580,6 +619,9 @@ export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		date_digits: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: 'DSC_0085',
+
+		// for test
+		digit_blocks: '0085',
 	},
 
 	'Image from iOS (17).jpg': {
@@ -589,6 +631,9 @@ export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		date_digits: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: 'Image from iOS',
+
+		// for test
+		digit_blocks: '',
 	},
 
 	'USER_SCOPED_TEMP_DATA_orca-image--1274802997.jpeg': {
@@ -598,6 +643,9 @@ export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		date_digits: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: 'USER_SCOPED_TEMP_DATA_orca-image--1274802997',
+
+		// for test
+		digit_blocks: '1274802997',
 	},
 
 	'IMAG0556.jpg': {
@@ -607,6 +655,9 @@ export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		date_digits: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: 'IMAG0556',
+
+		// for test
+		digit_blocks: '0556',
 	},
 
 	'181026_195329_Halloween_0388.jpg': {
@@ -616,6 +667,9 @@ export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		date_digits: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: '181026_195329_Halloween_0388',
+
+		// for test
+		digit_blocks: '181026-195329',
 	},
 
 	'377b892d-ab1c-4e55-a3f0-7eaf2373c10a.jpg': {
@@ -627,6 +681,9 @@ export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		date_digits: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: '377b892d-ab1c-4e55-a3f0-7eaf2373c10a',
+
+		// for test
+		digit_blocks: '377',
 	},
 
 	'T2 (17-22 weeks) 0052.jpg': {
@@ -638,6 +695,9 @@ export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		date_digits: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: 'T2 (17-22 weeks) 0052',
+
+		// for test
+		digit_blocks: '2-17-22',
 	},
 
 	'avocado_media_1425910682493.jpg': {
@@ -647,6 +707,9 @@ export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		date_digits: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: 'avocado_media_1425910682493',
+
+		// for test
+		digit_blocks: '1425910682493',
 	},
 
 	'N1z9_Q79SSj9HUv9d_1yBv0U_Uf9AELBGX4N_TtcEf39RHQa_UP9_f39imAP-thumb.jpeg': {
@@ -656,6 +719,9 @@ export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		date_digits: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: 'N1z9_Q79SSj9HUv9d_1yBv0U_Uf9AELBGX4N_TtcEf39RHQa_UP9_f39imAP-thumb',
+
+		// for test
+		digit_blocks: '39',
 	},
 }
 
@@ -696,6 +762,7 @@ export const NON_MEANINGFUL_NAMES_SAMPLES: { [k: string]: NameDetails } = [
 		date_digits: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: 'foo',
+		digit_blocks: '',
 	}
 	return acc
 }, {} as { [k: string]: NameDetails })

@@ -13,7 +13,7 @@ import { get_params } from '../params'
 import { get_compact_date_from_UTC_ts } from '../services/utils'
 import logger from '../services/logger'
 import { starts_with_human_timestamp_ms } from '../services/matchers'
-import { extract_compact_date } from '../services/name_parser'
+import { parse as parse_name, ParseResult, extract_compact_date } from '../services/name_parser'
 
 type TimestampsHash = { [k: string]: TimestampUTCMs }
 
@@ -23,6 +23,7 @@ export interface State {
 
 	exif_data: undefined | null | Tags
 	fs_stats: undefined | null | fs.Stats
+	parsed_original_basename: undefined | ParseResult
 
 	original_id: RelativePath
 
@@ -201,6 +202,7 @@ export function create(id: RelativePath): Readonly<State> {
 
 		exif_data: undefined,
 		fs_stats: undefined,
+		parsed_original_basename: parse_name(parsed.base),
 
 		original_id: id,
 	}

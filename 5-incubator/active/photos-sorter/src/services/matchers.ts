@@ -80,7 +80,15 @@ export function is_DDMMYYYY(s: string): boolean {
 
 ///////////////////// WITH Regexp :( /////////////////////
 
-export const NON_MEANINGFUL_ENDINGS: { [k:string]: RegExp } = {
+export const NON_MEANINGFUL_FULL: string[] = [
+	// greedier first
+	'PHOTO',
+	'IMG',
+	'VID',
+]
+
+export const NON_MEANINGFUL_ENDINGS_RE: { [k:string]: RegExp } = {
+	// greedier first
 
 	trailing_copy_en: /( -)? copy( \d+)?$/,
 	leading_copy_en: /^copy (\(\d+\) )?(of )?/,
