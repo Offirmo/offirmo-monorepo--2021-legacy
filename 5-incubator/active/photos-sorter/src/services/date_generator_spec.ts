@@ -15,8 +15,8 @@ describe('date generation', function() {
 	describe('millis', function() {
 
 		it('should return correct timestamps up to the millisecond', function() {
-			const stamp = get_human_readable_timestamp_millis()
-			console.log(stamp)
+			const stamp = get_human_readable_timestamp_millis(new Date())
+			//console.log(stamp)
 			expect(stamp).to.be.a('string')
 			expect(stamp.length).to.equal(23)
 		})
@@ -25,8 +25,8 @@ describe('date generation', function() {
 	describe('second()', function() {
 
 		it('should return correct UTC timestamps up to the second', function() {
-			const stamp = get_human_readable_timestamp_seconds()
-			console.log(stamp)
+			const stamp = get_human_readable_timestamp_seconds(new Date())
+			//console.log(stamp)
 			expect(stamp).to.be.a('string')
 			expect(stamp.length).to.equal(19)
 		})
@@ -35,8 +35,8 @@ describe('date generation', function() {
 	describe('minutes', function() {
 
 		it('should return correct UTC timestamps up to the minute', function() {
-			const stamp = get_human_readable_timestamp_minutes()
-			console.log(stamp)
+			const stamp = get_human_readable_timestamp_minutes(new Date())
+			//console.log(stamp)
 			expect(stamp).to.be.a('string')
 			expect(stamp.length).to.equal(16)
 		})
@@ -45,8 +45,8 @@ describe('date generation', function() {
 	describe('days', function() {
 
 		it('should return correct UTC timestamps up to the day', function() {
-			const stamp = get_human_readable_timestamp_days()
-			console.log(stamp)
+			const stamp = get_human_readable_timestamp_days(new Date())
+			//console.log(stamp)
 			expect(stamp).to.be.a('string')
 			expect(stamp.length).to.equal(10)
 		})

@@ -13,3 +13,5 @@ img manipulation
 
 
 use case: website in a folder! maybe duplicate instead of move?
+
+jpg rotation https://photo.stackexchange.com/questions/104337/how-i-can-losslessly-rotate-photos

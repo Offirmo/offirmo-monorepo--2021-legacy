@@ -417,7 +417,7 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 		if (m && m[0]) {
 			acc = acc.slice(0, m.index) + acc.slice(m.index! + m[0].length)
 			acc = acc.trim()
-			console.log('non meaningful', { r: NON_MEANINGFUL_ENDINGS_RE[key], m, acc })
+			logger.trace('non meaningful', { r: NON_MEANINGFUL_ENDINGS_RE[key], m, acc })
 		}
 		return acc
 	}, state.buffer)
@@ -484,7 +484,7 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 					state.digit_blocks += '-'
 
 				// this may be the end of a correct date
-				console.log('hdb-is', c)
+				//console.log('hdb-is', c)
 				const dpr = _parse_digit_blocks(state.digit_blocks, 'other')
 				if (dpr.summary === 'perfect') {
 					on_date_found(dpr)
@@ -508,7 +508,7 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 			}
 			else {
 				// we just stopped getting digits.
-				console.log('hdb-io', c)
+				//console.log('hdb-io', c)
 				const dpr = _parse_digit_blocks(state.digit_blocks, 'other')
 				logger.silly('is no longer digit:', {
 					state,
@@ -594,7 +594,7 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 
 	logger.trace('« final', {
 		...result,
-		human_ts: result.timestamp_ms ? get_human_readable_timestamp_auto(new Date(result.timestamp_ms), result.date_digits!) : null
+		human_ts: result.timestamp_ms ? get_human_readable_timestamp_auto(result.timestamp_ms, result.date_digits) : null
 	})
 	return result
 }

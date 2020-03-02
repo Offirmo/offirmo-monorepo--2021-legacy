@@ -52,6 +52,7 @@ export function get_params(): Params {
 			'.png',
 			'.psp', // photoshop I believe, screens from Warcraft III are in this format
 			'.tga', // WoW
+			'.avi', // old videos
 		],
 
 		extensions_to_delete: [

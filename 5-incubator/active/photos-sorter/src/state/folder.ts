@@ -141,6 +141,7 @@ export function on_subfile_found(state: Readonly<State>, file_state: Readonly<Me
 	return state
 }
 
+/*
 export function on_moved(state: Readonly<State>, new_id: RelativePath): Readonly<State> {
 	logger.trace(`[${LIB}] on_moved(…)`, { new_id })
 
@@ -152,7 +153,7 @@ export function on_moved(state: Readonly<State>, new_id: RelativePath): Readonly
 			base: path.basename(new_id),
 		},
 	}
-}
+}*/
 
 ///////////////////// DEBUG /////////////////////
 

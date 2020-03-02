@@ -89,6 +89,8 @@ details > *:nth-child(n+2) { /* assuming the 1st child is the <summary> */
 img {
 	/* src: ? */
 	image-rendering: -webkit-optimize-contrast;
+	/* https://photo.stackexchange.com/questions/104337/how-i-can-losslessly-rotate-photos#comment217649_104340 */
+	image-orientation: from-image;
 }
 
 

@@ -59,7 +59,7 @@ describe.only(`${LIB} - (base)name parser`, function() {
 						is_ambiguous,
 					}
 					const result = _parse_digit_blocks(digit_blocks!, 'other')
-					console.log({ result })
+					//console.log({ result })
 
 					if (result.summary === 'perfect') {
 						// ok
@@ -70,7 +70,7 @@ describe.only(`${LIB} - (base)name parser`, function() {
 					}
 
 					expect(
-						get_human_readable_timestamp_auto(new Date(result.timestamp_ms!), date_digits!),
+						get_human_readable_timestamp_auto(result.timestamp_ms!, date_digits),
 						`human ts`
 					).to.equal(human_ts)
 					expect(
@@ -97,7 +97,7 @@ describe.only(`${LIB} - (base)name parser`, function() {
 						is_ambiguous: false,
 					}
 					const result = _parse_digit_blocks(digit_blocks!, 'other')
-					console.log({ result })
+					//console.log({ result })
 					expect(result.reason).not.to.be.null
 					expected_result.reason = result.reason
 					if (result.summary !== 'no_match') {
@@ -165,7 +165,7 @@ describe.only(`${LIB} - (base)name parser`, function() {
 							`digits for ${[_comment, `"${filename}"`].join(': ')}`
 						).to.equal(expected.date_digits)
 						expect(
-							get_human_readable_timestamp_auto(new Date(result.timestamp_ms!), result.date_digits!),
+							get_human_readable_timestamp_auto(result.timestamp_ms!, result.date_digits),
 							`human ts for ${[_comment, `"${filename}"`].join(': ')}`
 						).to.equal(expected.human_ts)
 					})

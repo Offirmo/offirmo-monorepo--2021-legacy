@@ -15,7 +15,7 @@ import {
 	create_action_query_fs_stats,
 	create_action_query_exif,
 	create_action_ensure_folder,
-	create_action_move_folder,
+	//create_action_move_folder,
 	create_action_move_file,
 } from './actions'
 
@@ -165,10 +165,12 @@ export function on_file_found(state: Readonly<State>, parent_id: RelativePath, s
 function _on_file_info_read(state: Readonly<State>, file_id: RelativePath): Readonly<State> {
 	const file_state = state.media_files[file_id]
 
-	if (MediaFile.has_all_infos(file_state)) {
+	if (MediaFile.has_all_infos_for_extracting_the_creation_date(file_state)) {
 		// update folder date range
 		const folder_id = MediaFile.get_parent_folder_id(file_state)
-		const new_folder_state = Folder.on_subfile_found(state.folders[folder_id], file_state)
+		const old_folder_state = state.folders[folder_id]
+		assert(old_folder_state, `folder state for "${folder_id}" - "${file_id}"!`)
+		const new_folder_state = Folder.on_subfile_found(old_folder_state, file_state)
 		state = {
 			...state,
 			folders: {
@@ -213,6 +215,7 @@ export function on_exif_read(state: Readonly<State>, file_id: RelativePath, exif
 	return _on_file_info_read(state, file_id)
 }
 
+/*
 export function on_folder_moved(state: Readonly<State>, id: RelativePath, target_id: RelativePath): Readonly<State> {
 	logger.trace(`[${LIB}] on_folder_moved(…)`, { })
 
@@ -233,7 +236,7 @@ export function on_folder_moved(state: Readonly<State>, id: RelativePath, target
 	})
 
 	return state
-}
+}*/
 
 export function on_file_moved(state: Readonly<State>, id: RelativePath, target_id: RelativePath): Readonly<State> {
 	logger.trace(`[${LIB}] on_file_moved(…)`, { })
@@ -249,6 +252,7 @@ export function on_file_moved(state: Readonly<State>, id: RelativePath, target_i
 	return state
 }
 
+/*
 export function merge_folder(state: Readonly<State>, id: RelativePath, target_id: RelativePath): Readonly<State> {
 	logger.info(`merging folders: "${id}" into "${target_id}"`)
 
@@ -286,12 +290,15 @@ export function merge_folder(state: Readonly<State>, id: RelativePath, target_id
 
 	throw new Error('NIMP merging folders')
 }
+*/
 
 ///////////////////// ACTIONS /////////////////////
 
 export function explore(state: Readonly<State>): Readonly<State> {
-	const EXPLORE_ROOT_FOLDER = create_action_explore('.')
-	state = _enqueue_action(state, EXPLORE_ROOT_FOLDER)
+	state = on_folder_found(state, '', '.')
+
+	/*const EXPLORE_ROOT_FOLDER = create_action_explore('.')
+	state = _enqueue_action(state, EXPLORE_ROOT_FOLDER)*/
 
 	return state
 }
@@ -315,6 +322,8 @@ export function ensure_structural_dirs_are_present(state: Readonly<State>): Read
 }
 
 export function ensure_existing_event_folders_are_organized(state: Readonly<State>): Readonly<State> {
+	assert(false, 'todo reimplement')
+
 	// first re-qualify some event folders
 	Object.keys(state.folders).forEach(id => {
 		const folder_state = state.folders[id]
@@ -374,7 +383,8 @@ export function ensure_existing_event_folders_are_organized(state: Readonly<Stat
 			throw new Error('TODO dedupe folders')
 		}
 		else {
-			state = _enqueue_action(state, create_action_move_folder(id, ideal_id))
+			assert(false, 'todo reimplement')
+			//state = _enqueue_action(state, create_action_move_folder(id, ideal_id))
 		}
 	})
 

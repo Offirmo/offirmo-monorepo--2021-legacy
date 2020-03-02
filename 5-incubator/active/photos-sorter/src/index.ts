@@ -7,7 +7,7 @@ import { exiftool } from 'exiftool-vendored'
 
 import { RelativePath } from './types'
 import * as DB from './state/db'
-import { ActionType, ActionMoveFolder, ActionMoveFile } from './state/actions'
+import { ActionType, /*ActionMoveFolder,*/ ActionMoveFile } from './state/actions'
 
 import * as Match from './services/matchers'
 import logger from './services/logger'
@@ -48,10 +48,10 @@ function dequeue_and_run_all_first_level_db_actions(): Promise<any>[] {
 				pending_actions.push(ensure_folder(id))
 				break
 
-			case ActionType.move_folder:
+			/*case ActionType.move_folder:
 				assert(!PARAMS.dry_run, 'no write action in dry run mode')
 				pending_actions.push(move_folder(id, (action as ActionMoveFolder).target_id))
-				break
+				break*/
 
 			case ActionType.move_file:
 				assert(!PARAMS.dry_run, 'no write action in dry run mode')
@@ -83,26 +83,26 @@ async function sort_all_medias() {
 	db = DB.explore(db)
 	await exec_pending_actions_recursively_until_no_more()
 	logger.groupEnd()
-	console.log(DB.to_string(db))
+	logger.log(DB.to_string(db))
 
 	logger.group('******* STARTING IN-PLACE NORMALIZATION PHASE *******')
 	console.log('TODOOOO')
 	/*db = DB.explore(db)
 	await exec_pending_actions_recursively_until_no_more()*/
 	logger.groupEnd()
-	console.log(DB.to_string(db))
+	logger.log(DB.to_string(db))
 
 	logger.group('******* STARTING SORTING PHASE *******')
 	db = DB.ensure_structural_dirs_are_present(db)
 	db = DB.ensure_existing_event_folders_are_organized(db)
 	db.queue.forEach(action => console.log(JSON.stringify(action)))
 	await exec_pending_actions_recursively_until_no_more()
-	console.log(DB.to_string(db))
+	logger.log(DB.to_string(db))
 
 	db = DB.ensure_all_needed_events_folders_are_present_and_move_files_in_them(db)
 	db.queue.forEach(action => console.log(JSON.stringify(action)))
 	await exec_pending_actions_recursively_until_no_more()
-	console.log(DB.to_string(db))
+	logger.log(DB.to_string(db))
 
 	//db = DB.ensure_all_eligible_files_are_correctly_named(db)
 	//db.queue.forEach(action => console.log(JSON.stringify(action)))
@@ -180,6 +180,7 @@ async function ensure_folder(id: RelativePath) {
 	//logger.groupEnd()
 }
 
+/*
 async function move_folder(id: RelativePath, target_id: RelativePath) {
 	logger.trace(`- moving folder from "${id}" to "${target_id}"…`)
 
@@ -188,7 +189,7 @@ async function move_folder(id: RelativePath, target_id: RelativePath) {
 
 	await util.promisify(fs.rename)(abs_path, abs_path_target)
 	db = DB.on_folder_moved(db, id, target_id)
-}
+}*/
 
 async function move_file(id: RelativePath, target_id: RelativePath) {
 	logger.trace(`- moving file from "${id}" to "${target_id}"…`)

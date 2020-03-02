@@ -1,5 +1,7 @@
 import assert from 'tiny-invariant'
 
+import { TimestampUTCMs } from '@offirmo-private/timestamps'
+
 /////////////////////
 
 type PhotoSorterTimestampDays = string
@@ -14,37 +16,37 @@ type PhotoSorterTimestampMillis = string
 // - as short as possible
 
 // ex. 2018-11-21
-function get_human_readable_timestamp_days(now: Readonly<Date> = new Date()): PhotoSorterTimestampDays {
-	const YYYY = now.getUTCFullYear()
-	const MM = String(now.getUTCMonth() + 1).padStart(2, '0')
-	const DD = String(now.getUTCDate()).padStart(2, '0')
+function get_human_readable_timestamp_days(date: Readonly<Date>): PhotoSorterTimestampDays {
+	const YYYY = date.getUTCFullYear()
+	const MM = String(date.getUTCMonth() + 1).padStart(2, '0')
+	const DD = String(date.getUTCDate()).padStart(2, '0')
 
 	return `${YYYY}-${MM}-${DD}`
 }
 
 // ex. 2018-11-21_06h00
-function get_human_readable_timestamp_minutes(now: Readonly<Date> = new Date()): PhotoSorterTimestampMinutes {
-	const hh = String(now.getUTCHours()).padStart(2, '0')
-	const mm = String(now.getUTCMinutes()).padStart(2, '0')
+function get_human_readable_timestamp_minutes(date: Readonly<Date>): PhotoSorterTimestampMinutes {
+	const hh = String(date.getUTCHours()).padStart(2, '0')
+	const mm = String(date.getUTCMinutes()).padStart(2, '0')
 
-	return get_human_readable_timestamp_days(now) + `_${hh}h${mm}`
+	return get_human_readable_timestamp_days(date) + `_${hh}h${mm}`
 }
 
 // ex. 2018-11-21_04h23m15
-function get_human_readable_timestamp_seconds(now: Readonly<Date> = new Date()): PhotoSorterTimestampSeconds {
-	const ss = String(now.getUTCSeconds()).padStart(2, '0')
+function get_human_readable_timestamp_seconds(date: Readonly<Date>): PhotoSorterTimestampSeconds {
+	const ss = String(date.getUTCSeconds()).padStart(2, '0')
 
-	return get_human_readable_timestamp_minutes(now) + `m${ss}`
+	return get_human_readable_timestamp_minutes(date) + `m${ss}`
 }
 
 // ex.      2018-11-21_06h00m45s632
-function get_human_readable_timestamp_millis(now: Readonly<Date> = new Date()): PhotoSorterTimestampMillis {
-	const mmm = String(now.getUTCMilliseconds()).padStart(3, '0')
+function get_human_readable_timestamp_millis(date: Readonly<Date>): PhotoSorterTimestampMillis {
+	const mmm = String(date.getUTCMilliseconds()).padStart(3, '0')
 
-	return get_human_readable_timestamp_seconds(now) + `s${mmm}`
+	return get_human_readable_timestamp_seconds(date) + `s${mmm}`
 }
 
-function get_human_readable_timestamp_auto(date: Readonly<Date>, digits: string): PhotoSorterTimestampMillis {
+function _get_human_readable_timestamp_auto(date: Readonly<Date>, digits: string): PhotoSorterTimestampMillis {
 	assert(digits.length <= 17, 'digits length')
 	digits = digits.padEnd(17, '0')
 
@@ -58,6 +60,24 @@ function get_human_readable_timestamp_auto(date: Readonly<Date>, digits: string)
 		return get_human_readable_timestamp_seconds(date)
 
 	return get_human_readable_timestamp_millis(date)
+}
+function get_human_readable_timestamp_auto(timestamp: TimestampUTCMs, ref_digits?: string): PhotoSorterTimestampMillis {
+	const date = new Date(timestamp)
+
+	const YYYY = date.getUTCFullYear()
+	const MM = String(date.getUTCMonth() + 1).padStart(2, '0')
+	const DD = String(date.getUTCDate()).padStart(2, '0')
+	const hh = String(date.getUTCHours()).padStart(2, '0')
+	const mm = String(date.getUTCMinutes()).padStart(2, '0')
+	const ss = String(date.getUTCSeconds()).padStart(2, '0')
+	const mmm = String(date.getUTCMilliseconds()).padStart(3, '0')
+
+	const digits = [ YYYY, MM, DD, hh, mm, ss, mmm ].join('')
+	if (ref_digits) {
+		assert(digits.startsWith(ref_digits), 'get_human_readable_timestamp_auto() digits')
+	}
+
+	return _get_human_readable_timestamp_auto(date, digits)
 }
 
 /////////////////////

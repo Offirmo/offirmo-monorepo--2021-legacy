@@ -47,11 +47,13 @@ export interface ActionMoveFile extends BaseAction {
 	target_id: string
 }
 
+/* no need, ensure + delete impty is better
 export interface ActionMoveFolder extends BaseAction {
 	type: typeof ActionType.move_folder
 	id: string
 	target_id: string
 }
+*/
 
 export interface ActionDeleteFile extends BaseAction {
 	type: typeof ActionType.move_file
@@ -66,7 +68,7 @@ export type Action =
 	// write
 	| ActionEnsureFolder
 	| ActionMoveFile
-	| ActionMoveFolder
+	//| ActionMoveFolder
 	| ActionDeleteFile
 
 export function create_action_explore(id: RelativePath): ActionExploreFolder {
@@ -93,13 +95,13 @@ export function create_action_ensure_folder(id: RelativePath): ActionEnsureFolde
 		id,
 	}
 }
-export function create_action_move_folder(id: RelativePath, target_id: RelativePath): ActionMoveFolder {
+/*export function create_action_move_folder(id: RelativePath, target_id: RelativePath): ActionMoveFolder {
 	return {
 		type: ActionType.move_folder,
 		id,
 		target_id,
 	}
-}
+}*/
 export function create_action_move_file(id: RelativePath, target_id: RelativePath): ActionMoveFile {
 	return {
 		type: ActionType.move_file,
