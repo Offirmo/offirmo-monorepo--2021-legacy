@@ -1,8 +1,11 @@
+import assert from 'tiny-invariant'
 import { TimestampUTCMs } from '@offirmo-private/timestamps'
 import { NORMALIZERS } from '@offirmo-private/normalize-string'
 
 import { get_params } from '../params'
 import {
+	SEPARATORS,
+	deep_trim,
 	is_year,
 	is_month_fragment,
 	is_day_fragment,
@@ -25,6 +28,13 @@ import {SimpleYYYYMMDD} from "../types";
 export type DatePattern = 'D-M-Y' | 'Y-M-D' | 'unknown'
 
 
+export function normalize_extension(extension: string): string {
+	assert(extension[0] === '.', 'normalize_extension() param starting with dot')
+	let normalized_extension = NORMALIZERS.normalize_unicode(extension.toLowerCase())
+	normalized_extension = PARAMS.extensions_to_normalize[normalized_extension] || normalized_extension
+
+	return normalized_extension
+}
 
 export function _get_y2k_year_from_fragment(s: string, separator = 70): number | null {
 	const n = Math.trunc(Number(s))
@@ -39,7 +49,6 @@ export function _get_y2k_year_from_fragment(s: string, separator = 70): number |
 }
 
 const DIGITS = '0123456789'
-const SEPARATORS = '-_+.:; \t'
 const PARAMS = get_params()
 
 export interface DigitsParseResult {
@@ -343,6 +352,7 @@ export interface ParseResult {
 
 	extension_lc: string
 	date_digits: undefined | string
+	digits_pattern: undefined | string // useful to recognise ourselves ;)
 	timestamp_ms: undefined | TimestampUTCMs
 	is_date_ambiguous: undefined | boolean
 	meaningful_part: string
@@ -354,6 +364,7 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 		original_name: name,
 		extension_lc: '',
 		date_digits: undefined,
+		digits_pattern: undefined,
 		timestamp_ms: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: '',
@@ -573,16 +584,8 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 		state.suffix = state.suffix.slice(1)
 	}
 
-	let meaningful_part = (state.prefix + state.suffix).trim()
+	let meaningful_part = deep_trim(state.prefix + state.suffix)
 	logger.silly(`Starting meaningful part last normalization: "${meaningful_part}"…`)
-
-	// deep-trim
-	while(meaningful_part && SEPARATORS.includes(meaningful_part.slice(-1))) {
-		meaningful_part = meaningful_part.slice(0, meaningful_part.length - 1)
-	}
-	while(meaningful_part && SEPARATORS.includes(meaningful_part[0])) {
-		meaningful_part = meaningful_part.slice(1)
-	}
 
 	// normalize the meaningful part
 	if (SCREENSHOT_ALIASES_LC.includes(meaningful_part.toLowerCase()))
@@ -591,6 +594,7 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 		meaningful_part = ''
 
 	result.meaningful_part = meaningful_part
+	result.digits_pattern = deep_trim(state.digits_pattern)
 
 	logger.trace('« final', {
 		...result,

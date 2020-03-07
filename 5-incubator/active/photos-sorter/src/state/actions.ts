@@ -10,7 +10,7 @@ export const ActionType = Enum(
 	'query_fs_stats',
 	'query_exif',
 	'ensure_folder',
-	'move_folder',
+	'normalize_file',
 	'move_file',
 	'delete_file',
 )
@@ -41,13 +41,18 @@ export interface ActionEnsureFolder extends BaseAction {
 	id: string
 }
 
+export interface ActionNormalizeFile extends BaseAction {
+	type: typeof ActionType.normalize_file
+	id: string
+}
+
 export interface ActionMoveFile extends BaseAction {
 	type: typeof ActionType.move_file
 	id: string
 	target_id: string
 }
 
-/* no need, ensure + delete impty is better
+/* no need, move content + delete empty is better
 export interface ActionMoveFolder extends BaseAction {
 	type: typeof ActionType.move_folder
 	id: string
@@ -60,18 +65,20 @@ export interface ActionDeleteFile extends BaseAction {
 	id: string
 }
 
+// TODO delete empty folder
+
 export type Action =
 	// read only
 	| ActionExploreFolder
 	| ActionQueryFsStats
 	| ActionQueryExif
 	// write
+	| ActionNormalizeFile
 	| ActionEnsureFolder
 	| ActionMoveFile
-	//| ActionMoveFolder
 	| ActionDeleteFile
 
-export function create_action_explore(id: RelativePath): ActionExploreFolder {
+export function create_action_explore_folder(id: RelativePath): ActionExploreFolder {
 	return {
 		type: ActionType.explore_folder,
 		id,
@@ -86,6 +93,12 @@ export function create_action_query_fs_stats(id: RelativePath): ActionQueryFsSta
 export function create_action_query_exif(id: RelativePath): ActionQueryExif {
 	return {
 		type: ActionType.query_exif,
+		id,
+	}
+}
+export function create_action_normalize_file(id: RelativePath): ActionNormalizeFile {
+	return {
+		type: ActionType.normalize_file,
 		id,
 	}
 }

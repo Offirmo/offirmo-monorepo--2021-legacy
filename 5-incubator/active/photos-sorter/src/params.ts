@@ -13,9 +13,9 @@ export interface Params {
 	date_upper_bound: SimpleYYYYMMDD
 	root: AbsolutePath
 	dry_run: boolean
-	extensions_to_normalize: { [k: string]: string }
-	media_files_extensions: string[]
-	extensions_to_delete: string[]
+	extensions_to_normalize: { [k: string]: string } // todo runtime check LCase
+	media_files_extensions: string[] // todo runtime check normalized
+	extensions_to_delete: string[] // todo runtime check normalized
 	worthless_files: string[]
 }
 
@@ -37,12 +37,12 @@ export function get_params(): Params {
 		date_lower_bound: DATE_LOWER_BOUND,
 		date_upper_bound: DATE_UPPER_BOUND,
 
-		root: path.normalize(`/Users/${process.env.USER}/Documents/- photos sorter/- sorted`),
+		//root: path.normalize(`/Users/${process.env.USER}/Documents/- photos sorter/- sorted`),
+		root: path.normalize(`/Users/${process.env.USER}/Documents/- photos sorter/- sorted/- inbox/some posh event with no date in inbox`),
 
 		dry_run: true, // XXX
 
 		extensions_to_normalize: {
-			// TODO
 			'.jpeg': '.jpg',
 		},
 
@@ -53,6 +53,7 @@ export function get_params(): Params {
 			'.psp', // photoshop I believe, screens from Warcraft III are in this format
 			'.tga', // WoW
 			'.avi', // old videos
+			'.mp4',
 		],
 
 		extensions_to_delete: [

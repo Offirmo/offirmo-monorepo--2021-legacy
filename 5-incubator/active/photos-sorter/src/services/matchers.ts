@@ -9,6 +9,18 @@ const PARAMS = get_params()
 
 ///////////////////// NO Regexp :) /////////////////////
 
+export const SEPARATORS = '-_+.:; \t'
+
+export function deep_trim(s: string): string {
+	while(s && SEPARATORS.includes(s.slice(-1))) {
+		s = s.slice(0, s.length - 1)
+	}
+	while(s && SEPARATORS.includes(s[0])) {
+		s = s.slice(1)
+	}
+	return s
+}
+
 export function is_year(s: string): boolean {
 	const n = Math.trunc(Number(s))
 	if (n.toString().padStart(4, '0') !== s) return false
@@ -77,15 +89,15 @@ export function is_DDMMYYYY(s: string): boolean {
 		&& is_year(s.slice(4, 8))
 }
 
-
-///////////////////// WITH Regexp :( /////////////////////
-
 export const NON_MEANINGFUL_FULL: string[] = [
 	// greedier first
 	'PHOTO',
 	'IMG',
 	'VID',
 ]
+
+///////////////////// WITH Regexp :( /////////////////////
+
 
 export const NON_MEANINGFUL_ENDINGS_RE: { [k:string]: RegExp } = {
 	// greedier first
@@ -97,10 +109,6 @@ export const NON_MEANINGFUL_ENDINGS_RE: { [k:string]: RegExp } = {
 	leading_copy_fr: /^copie (\(\d+\) )?(de )?(secours de )?/,
 
 	trailing_copy_counter: /( \(\d+\))?$/,
-}
-
-export function starts_with_human_timestamp_ms(basename: Basename): boolean {
-	throw new Error('TODO reimplement')
 }
 
 ////////////////////////////////////

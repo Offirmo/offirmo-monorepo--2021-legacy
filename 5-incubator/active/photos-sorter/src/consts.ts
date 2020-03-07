@@ -6,3 +6,5 @@ export const EXIF_POWERED_FILE_EXTENSIONS = [
 	'.mov',
 	'.mp4',
 ]
+
+export const EXIF_ENTRY = `offirmo-${LIB}`

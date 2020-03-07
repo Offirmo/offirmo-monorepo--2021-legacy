@@ -2,20 +2,22 @@ import path from 'path'
 import util from 'util'
 import fs from 'fs'
 import assert from 'tiny-invariant'
+import stable_stringify from 'json-stable-stringify'
 
 import { exiftool } from 'exiftool-vendored'
 
+import { LIB, EXIF_ENTRY } from './consts'
 import { RelativePath } from './types'
 import * as DB from './state/db'
-import { ActionType, /*ActionMoveFolder,*/ ActionMoveFile } from './state/actions'
+import * as File from './state/file'
+import { ActionType, ActionMoveFile } from './state/actions'
 
-import * as Match from './services/matchers'
 import logger from './services/logger'
 import fs_extra from './services/fs-extra'
 import { get_params } from './params'
 
 const PARAMS = get_params()
-logger.verbose('******* PHOTO SORTER *******', { PARAMS })
+logger.verbose(`******* ${LIB.toUpperCase()} *******`, { PARAMS })
 
 ////////////////////////////////////
 
@@ -41,6 +43,10 @@ function dequeue_and_run_all_first_level_db_actions(): Promise<any>[] {
 
 			case ActionType.query_exif:
 				pending_actions.push(query_exif(id))
+				break
+
+			case ActionType.normalize_file:
+				pending_actions.push(normalize_file(id))
 				break
 
 			case ActionType.ensure_folder:
@@ -80,15 +86,14 @@ async function exec_pending_actions_recursively_until_no_more(): Promise<void> {
 
 async function sort_all_medias() {
 	logger.group('******* STARTING EXPLORATION PHASE *******')
-	db = DB.explore(db)
+	db = DB.explore_recursively(db)
 	await exec_pending_actions_recursively_until_no_more()
 	logger.groupEnd()
 	logger.log(DB.to_string(db))
 
 	logger.group('******* STARTING IN-PLACE NORMALIZATION PHASE *******')
-	console.log('TODOOOO')
-	/*db = DB.explore(db)
-	await exec_pending_actions_recursively_until_no_more()*/
+	db = DB.normalize_medias_in_place(db)
+	await exec_pending_actions_recursively_until_no_more()
 	logger.groupEnd()
 	logger.log(DB.to_string(db))
 
@@ -167,6 +172,35 @@ async function query_exif(id: RelativePath) {
 	//console.log(id, tags)
 	db = DB.on_exif_read(db, id, exif_data)
 	//logger.groupEnd()
+}
+
+async function normalize_file(id: RelativePath) {
+	logger.trace(`initiating media file normalization for "${id}"…`)
+	const actions: Promise<void>[] = []
+
+	const abs_path = DB.get_absolute_path(db, id)
+	const media_state = db.media_files[id]
+	assert(media_state, 'media_state')
+
+	const is_exif_powered = File.is_exif_powered_media_file(media_state)
+	console.log({ id, media_state, abs_path, is_exif_powered})
+
+	const exif_data: any = media_state.current_exif_data
+	if (is_exif_powered && exif_data) {
+		const target_notes = stable_stringify({
+			original: media_state.original,
+		})
+		if (target_notes !== exif_data[EXIF_ENTRY]) {
+			assert(!exif_data[EXIF_ENTRY])
+			actions.push(
+				exiftool.write(abs_path, { [EXIF_ENTRY]: target_notes })
+			)
+		}
+
+
+
+		process.exit(-1)
+	}
 }
 
 async function ensure_folder(id: RelativePath) {

@@ -15,6 +15,10 @@ pagodas
 
 
 
+## creation
+death https://www.polygon.com/2020/2/27/21151521/world-of-warcraft-shadowlands-death-explainer-silly-flow-chart
+
+
 ## Sophont
 
 * https://www.lifehack.org/articles/communication/what-are-the-differences-between-knowledge-wisdom-and-insight.html
@@ -79,10 +83,14 @@ Fall of Roman Empire
 https://www.1843magazine.com/design/rewind/when-potatoes-were-the-height-of-fashion
 
 ### technologie
-https://worldbuilding.stackexchange.com/questions/156036/in-what-sequence-should-an-advanced-civilization-teach-technology-to-medieval-so
+* https://worldbuilding.stackexchange.com/questions/156036/in-what-sequence-should-an-advanced-civilization-teach-technology-to-medieval-so
+* https://rpg.stackexchange.com/questions/30966/realism-of-poisoned-weapons
 
 ### organisations
 * currencies https://en.bitcoinwiki.org/wiki/List_of_fictional_currencies
+
+#### ethnies
+* https://fr.wikipedia.org/wiki/Liste_de_pr%C3%A9noms_cal%C3%A9doniens
 
 #### méchants
 * https://www.heraldsun.com.au/truecrimeaustralia/mexico-cop-shot-155-times-after-arresting-el-chapos-son/news-story/05f1098c218dea88c74e9994cb1756e0

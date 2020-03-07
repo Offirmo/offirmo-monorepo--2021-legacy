@@ -1,19 +1,22 @@
 import path from 'path'
+import fs from 'fs'
 
 import assert from 'tiny-invariant'
 import stylize_string from 'chalk'
 import { get_human_readable_UTC_timestamp_days } from '@offirmo-private/timestamps'
+import { Tags } from 'exiftool-vendored'
 
 import logger from '../services/logger'
 import * as Match from '../services/matchers'
 import { Basename, AbsolutePath, RelativePath, SimpleYYYYMMDD } from '../types'
 import * as Folder from './folder'
-import * as MediaFile from './media-file'
+import * as File from './file'
 import {
 	Action,
-	create_action_explore,
+	create_action_explore_folder,
 	create_action_query_fs_stats,
 	create_action_query_exif,
+	create_action_normalize_file,
 	create_action_ensure_folder,
 	//create_action_move_folder,
 	create_action_move_file,
@@ -30,7 +33,7 @@ export interface State {
 	root: AbsolutePath
 
 	folders: { [id: string]: Folder.State }
-	media_files: { [id: string]: MediaFile.State }
+	media_files: { [id: string]: File.State }
 
 	queue: Action[],
 }
@@ -68,7 +71,7 @@ export function get_all_file_ids(state: Readonly<State>): string[] {
 
 export function get_all_eligible_file_ids(state: Readonly<State>): string[] {
 	return get_all_file_ids(state)
-		.filter(k => state.media_files[k].is_eligible)
+		.filter(k => File.is_media_file(state.media_files[k]))
 }
 
 export function get_all_event_folder_ids(state: Readonly<State>): string[] {
@@ -133,7 +136,7 @@ export function on_folder_found(state: Readonly<State>, parent_id: RelativePath,
 	const folder_state = state.folders[id]
 
 	if (folder_state.type !== Folder.Type.cantsort)
-		state = _enqueue_action(state, create_action_explore(id))
+		state = _enqueue_action(state, create_action_explore_folder(id))
 
 	return state
 }
@@ -142,7 +145,7 @@ export function on_file_found(state: Readonly<State>, parent_id: RelativePath, s
 	const id = path.join(parent_id, sub_id)
 	logger.trace(`[${LIB}] on_file_found(…)`, { id })
 
-	const file_state = MediaFile.create(id)
+	const file_state = File.create(id)
 
 	state = {
 		...state,
@@ -152,8 +155,8 @@ export function on_file_found(state: Readonly<State>, parent_id: RelativePath, s
 		},
 	}
 
-	if (file_state.is_eligible) {
-		logger.verbose('eligible file found', { id })
+	if (File.is_media_file(file_state)) {
+		logger.verbose('media file found', { id })
 
 		state = _enqueue_action(state, create_action_query_fs_stats(id))
 		state = _enqueue_action(state, create_action_query_exif(id))
@@ -165,9 +168,9 @@ export function on_file_found(state: Readonly<State>, parent_id: RelativePath, s
 function _on_file_info_read(state: Readonly<State>, file_id: RelativePath): Readonly<State> {
 	const file_state = state.media_files[file_id]
 
-	if (MediaFile.has_all_infos_for_extracting_the_creation_date(file_state)) {
+	if (File.has_all_infos_for_extracting_the_creation_date(file_state)) {
 		// update folder date range
-		const folder_id = MediaFile.get_parent_folder_id(file_state)
+		const folder_id = File.get_current_parent_folder_id(file_state)
 		const old_folder_state = state.folders[folder_id]
 		assert(old_folder_state, `folder state for "${folder_id}" - "${file_id}"!`)
 		const new_folder_state = Folder.on_subfile_found(old_folder_state, file_state)
@@ -183,10 +186,10 @@ function _on_file_info_read(state: Readonly<State>, file_id: RelativePath): Read
 	return state
 }
 
-export function on_fs_stats_read(state: Readonly<State>, file_id: RelativePath, stats: MediaFile.State['fs_stats']): Readonly<State> {
+export function on_fs_stats_read(state: Readonly<State>, file_id: RelativePath, stats: Readonly<fs.Stats>): Readonly<State> {
 	logger.trace(`[${LIB}] on_fs_stats_read(…)`, { file_id })
 
-	const new_file_state = MediaFile.on_fs_stats_read(state.media_files[file_id], stats)
+	const new_file_state = File.on_fs_stats_read(state.media_files[file_id], stats)
 
 	state = {
 		...state,
@@ -199,10 +202,10 @@ export function on_fs_stats_read(state: Readonly<State>, file_id: RelativePath, 
 	return _on_file_info_read(state, file_id)
 }
 
-export function on_exif_read(state: Readonly<State>, file_id: RelativePath, exif_data: MediaFile.State['exif_data']): Readonly<State> {
+export function on_exif_read(state: Readonly<State>, file_id: RelativePath, exif_data: Readonly<Tags>): Readonly<State> {
 	logger.trace(`[${LIB}] on_exif_read(…)`, { file_id })
 
-	const new_file_state = MediaFile.on_exif_read(state.media_files[file_id], exif_data)
+	const new_file_state = File.on_exif_read(state.media_files[file_id], exif_data)
 
 	state = {
 		...state,
@@ -229,9 +232,9 @@ export function on_folder_moved(state: Readonly<State>, id: RelativePath, target
 
 	get_all_file_ids(state).forEach(fid => {
 		const file_state = state.media_files[fid]
-		if (MediaFile.get_parent_folder_id(file_state) !== id) return
+		if (File.get_current_parent_folder_id(file_state) !== id) return
 
-		const new_file_id = path.join(target_id, MediaFile.get_basename(file_state))
+		const new_file_id = path.join(target_id, File.get_current_basename(file_state))
 		state = on_file_moved(state, fid, new_file_id)
 	})
 
@@ -245,7 +248,7 @@ export function on_file_moved(state: Readonly<State>, id: RelativePath, target_i
 
 	// TODO immu
 	let file_state = state.media_files[id]
-	file_state = MediaFile.on_moved(file_state, target_id)
+	file_state = File.on_moved(file_state, target_id)
 	delete state.media_files[id]
 	state.media_files[target_id] = file_state
 
@@ -277,7 +280,7 @@ export function merge_folder(state: Readonly<State>, id: RelativePath, target_id
 		target_folder_state.end_date = Math.min(target_folder_state.end_date, folder_state.end_date)
 
 	// merge the names
-	if (Folder.get_basename(target_folder_state) !== Folder.get_basename(folder_state)) {
+	if (Folder.get_current_basename(target_folder_state) !== Folder.get_current_basename(folder_state)) {
 		throw new Error('TODO merge folders: merge basenames')
 	}
 
@@ -294,13 +297,8 @@ export function merge_folder(state: Readonly<State>, id: RelativePath, target_id
 
 ///////////////////// ACTIONS /////////////////////
 
-export function explore(state: Readonly<State>): Readonly<State> {
-	state = on_folder_found(state, '', '.')
-
-	/*const EXPLORE_ROOT_FOLDER = create_action_explore('.')
-	state = _enqueue_action(state, EXPLORE_ROOT_FOLDER)*/
-
-	return state
+export function explore_recursively(state: Readonly<State>): Readonly<State> {
+	return on_folder_found(state, '', '.')
 }
 
 export function ensure_structural_dirs_are_present(state: Readonly<State>): Readonly<State> {
@@ -311,12 +309,21 @@ export function ensure_structural_dirs_are_present(state: Readonly<State>): Read
 	const all_file_ids = get_all_eligible_file_ids(state)
 	all_file_ids.forEach(id => {
 		const file_state = state.media_files[id]
-		years.add(MediaFile.get_year(file_state))
+		years.add(File.get_year(file_state))
 	})
 	for(const y of years) {
 		state = _register_folder(state, String(y), false)
 		state = _enqueue_action(state, create_action_ensure_folder(String(y)))
 	}
+
+	return state
+}
+
+export function normalize_medias_in_place(state: Readonly<State>): Readonly<State> {
+	const all_file_ids = get_all_eligible_file_ids(state)
+	all_file_ids.forEach(id => {
+		state = _enqueue_action(state, create_action_normalize_file(id))
+	})
 
 	return state
 }
@@ -403,8 +410,8 @@ export function ensure_all_needed_events_folders_are_present_and_move_files_in_t
 	const all_file_ids = get_all_eligible_file_ids(state)
 	all_file_ids.forEach(id => {
 		const file_state = state.media_files[id]
-		const current_parent_id = MediaFile.get_parent_folder_id(file_state)
-		const compact_date = MediaFile.get_best_compact_date(file_state)
+		const current_parent_id = File.get_current_parent_folder_id(file_state)
+		const compact_date = File.get_best_compact_date(file_state)
 		if (all_events_folder_ids.includes(current_parent_id) && _event_folder_matches(state.folders[current_parent_id], compact_date))
 			return // all good
 
@@ -413,7 +420,7 @@ export function ensure_all_needed_events_folders_are_present_and_move_files_in_t
 			// need to create a new event folder!
 			// note: we group weekends together
 			compatible_event_folder_id = (() => {
-				const timestamp = MediaFile.get_best_creation_date_ms(file_state)
+				const timestamp = File.get_best_creation_date_ms(file_state)
 				let date = new Date(timestamp)
 
 				if (date.getUTCDay() === 0) {
@@ -424,7 +431,7 @@ export function ensure_all_needed_events_folders_are_present_and_move_files_in_t
 
 				const radix = get_human_readable_UTC_timestamp_days(date)
 
-				return path.join(String(MediaFile.get_year(file_state)), radix + ' - ' + (date.getUTCDay() === 6 ? 'weekend' : 'life'))
+				return path.join(String(File.get_year(file_state)), radix + ' - ' + (date.getUTCDay() === 6 ? 'weekend' : 'life'))
 			})()
 
 			state = _register_folder(state, compatible_event_folder_id, false)
@@ -433,7 +440,7 @@ export function ensure_all_needed_events_folders_are_present_and_move_files_in_t
 		}
 
 		// now move the file there
-		const new_file_id = path.join(compatible_event_folder_id, MediaFile.get_ideal_basename(file_state))
+		const new_file_id = path.join(compatible_event_folder_id, File.get_ideal_basename(file_state))
 		if (state.media_files[new_file_id]) {
 			// conflict, TODO
 			throw new Error('NIMP file conflict!')
@@ -455,10 +462,10 @@ export function ensure_all_eligible_files_are_correctly_named(state: Readonly<St
 	const all_file_ids = get_all_eligible_file_ids(state)
 	all_file_ids.forEach(id => {
 		const file_state = state.media_files[id]
-		const current_basename = MediaFile.get_basename(file_state)
-		const ideal_basename = MediaFile.get_ideal_basename(file_state)
+		const current_basename = File.get_current_basename(file_state)
+		const ideal_basename = File.get_ideal_basename(file_state)
 		if (current_basename !== ideal_basename) {
-			actions.push(create_action_move_file(id, path.join(MediaFile.get_parent_folder_id(file_state), ideal_basename)))
+			actions.push(create_action_move_file(id, path.join(File.get_current_parent_folder_id(file_state), ideal_basename)))
 		}
 	})
 
@@ -489,7 +496,7 @@ Root: "${stylize_string.yellow.bold(root)}"
 	str += stylize_string.bold(
 		`\n\n${stylize_string.blue(String(all_file_ids.length))} files in ${stylize_string.blue(String(all_folder_ids.length))} folders:\n`,
 	)
-	str += all_file_ids.map(id => MediaFile.to_string(media_files[id])).join('\n')
+	str += all_file_ids.map(id => File.to_string(media_files[id])).join('\n')
 
 	return str
 }
