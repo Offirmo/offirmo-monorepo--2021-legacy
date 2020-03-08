@@ -50,7 +50,6 @@ function dequeue_and_run_all_first_level_db_actions(): Promise<any>[] {
 				break
 
 			case ActionType.ensure_folder:
-				assert(!PARAMS.dry_run, 'no write action in dry run mode')
 				pending_actions.push(ensure_folder(id))
 				break
 
@@ -98,16 +97,26 @@ async function sort_all_medias() {
 	logger.log(DB.to_string(db))
 
 	logger.group('******* STARTING SORTING PHASE *******')
+
 	db = DB.ensure_structural_dirs_are_present(db)
-	db = DB.ensure_existing_event_folders_are_organized(db)
+	db.queue.forEach(action => console.log(JSON.stringify(action)))
+	await exec_pending_actions_recursively_until_no_more()
+
+	db = DB.move_all_files_to_their_ideal_location_incl_deduping(db)
 	db.queue.forEach(action => console.log(JSON.stringify(action)))
 	await exec_pending_actions_recursively_until_no_more()
 	logger.log(DB.to_string(db))
 
-	db = DB.ensure_all_needed_events_folders_are_present_and_move_files_in_them(db)
+	db = DB.delete_empty_folders_recursively(db)
 	db.queue.forEach(action => console.log(JSON.stringify(action)))
 	await exec_pending_actions_recursively_until_no_more()
 	logger.log(DB.to_string(db))
+
+	/*
+	db = DB.ensure_all_needed_events_folders_are_present_and_move_files_in_them(db)
+	db.queue.forEach(action => console.log(JSON.stringify(action)))
+	await exec_pending_actions_recursively_until_no_more()
+	logger.log(DB.to_string(db))*/
 
 	//db = DB.ensure_all_eligible_files_are_correctly_named(db)
 	//db.queue.forEach(action => console.log(JSON.stringify(action)))
@@ -183,35 +192,71 @@ async function normalize_file(id: RelativePath) {
 	assert(media_state, 'media_state')
 
 	const is_exif_powered = File.is_exif_powered_media_file(media_state)
-	console.log({ id, media_state, abs_path, is_exif_powered})
+	//console.log({ id, media_state, abs_path, is_exif_powered})
 
-	const exif_data: any = media_state.current_exif_data
-	if (is_exif_powered && exif_data) {
+	if (is_exif_powered) {
 		const target_notes = stable_stringify({
 			original: media_state.original,
 		})
-		if (target_notes !== exif_data[EXIF_ENTRY]) {
-			assert(!exif_data[EXIF_ENTRY])
+		const current_exif_data: any = media_state.current_exif_data
+		if (current_exif_data && current_exif_data[EXIF_ENTRY]) {
+			assert(target_notes === current_exif_data[EXIF_ENTRY])
+		}
+
+		if (PARAMS.dry_run) {
+			console.log('DRY RUN would have written EXIF notes', target_notes)
+		}
+		else {
 			actions.push(
-				exiftool.write(abs_path, { [EXIF_ENTRY]: target_notes })
+				exiftool.write(abs_path, {[EXIF_ENTRY]: target_notes})
 			)
 		}
 
-
-
-		process.exit(-1)
+		if (current_exif_data.Orientation) {
+			if (PARAMS.dry_run) {
+				console.log('DRY RUN would have losslessly rotated according to EXIF orientation', current_exif_data.Orientation)
+			}
+			else {
+				logger.error('TODO losslessly rotated according to EXIF orientation', current_exif_data.Orientation)
+			}
+		}
 	}
+
+	const current_basename = File.get_current_basename(media_state)
+	const target_basename = File.get_ideal_basename(media_state)
+	if (current_basename !== target_basename) {
+		const relative_target_path = path.join(File.get_current_parent_folder_id(media_state), target_basename)
+		if (!DB.is_existing(db, relative_target_path)) {
+			if (PARAMS.dry_run) {
+				console.log('DRY RUN would have renamed to', target_basename)
+			}
+			else {
+				actions.push(
+					move_file(id, relative_target_path)
+				)
+			}
+		}
+	}
+
+	return Promise.all(actions)
 }
 
 async function ensure_folder(id: RelativePath) {
 	logger.trace(`- ensuring dir "${id}"…`)
-	//const is_existing_according_to_db = db.folders.hasOwnProperty(id)
-	//logger.log('so far:', { is_existing_according_to_db })
-	//if (is_existing_according_to_db) return
+
+	const is_existing_according_to_db = DB.is_folder_existing(db, id)
+	logger.log('so far:', { is_existing_according_to_db })
+	if (is_existing_according_to_db) return
 
 	const abs_path = DB.get_absolute_path(db, id)
-	await util.promisify(fs_extra.mkdirp)(abs_path)
-	//logger.groupEnd()
+
+	if (PARAMS.dry_run) {
+		console.log('DRY RUN would have created folder:', id)
+	}
+	else {
+		await util.promisify(fs_extra.mkdirp)(abs_path)
+		DB.on_folder_found(db, '.', id)
+	}
 }
 
 /*

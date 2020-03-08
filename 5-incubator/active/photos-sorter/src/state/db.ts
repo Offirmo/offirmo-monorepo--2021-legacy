@@ -79,6 +79,14 @@ export function get_all_event_folder_ids(state: Readonly<State>): string[] {
 		.filter(k => state.folders[k].type === Folder.Type.event)
 }
 
+export function is_existing(state: Readonly<State>, id: RelativePath): boolean {
+	return state.media_files.hasOwnProperty(id) || is_folder_existing(state, id)
+}
+
+export function is_folder_existing(state: Readonly<State>, id: RelativePath): boolean {
+	return state.folders.hasOwnProperty(id)
+}
+
 ///////////////////// REDUCERS /////////////////////
 
 export function create(root: AbsolutePath): Readonly<State> {
@@ -301,6 +309,15 @@ export function explore_recursively(state: Readonly<State>): Readonly<State> {
 	return on_folder_found(state, '', '.')
 }
 
+export function normalize_medias_in_place(state: Readonly<State>): Readonly<State> {
+	const all_file_ids = get_all_eligible_file_ids(state)
+	all_file_ids.forEach(id => {
+		state = _enqueue_action(state, create_action_normalize_file(id))
+	})
+
+	return state
+}
+
 export function ensure_structural_dirs_are_present(state: Readonly<State>): Readonly<State> {
 	state = _enqueue_action(state, create_action_ensure_folder(get_final_base(Folder.INBOX_BASENAME)))
 	state = _enqueue_action(state, create_action_ensure_folder(get_final_base(Folder.CANTSORT_BASENAME)))
@@ -312,22 +329,22 @@ export function ensure_structural_dirs_are_present(state: Readonly<State>): Read
 		years.add(File.get_year(file_state))
 	})
 	for(const y of years) {
-		state = _register_folder(state, String(y), false)
+		//state = _register_folder(state, String(y), false)
 		state = _enqueue_action(state, create_action_ensure_folder(String(y)))
 	}
 
 	return state
 }
 
-export function normalize_medias_in_place(state: Readonly<State>): Readonly<State> {
-	const all_file_ids = get_all_eligible_file_ids(state)
-	all_file_ids.forEach(id => {
-		state = _enqueue_action(state, create_action_normalize_file(id))
-	})
-
-	return state
+export function move_all_files_to_their_ideal_location_incl_deduping(state: Readonly<State>): Readonly<State> {
+	throw new Error('NIMP')
 }
 
+export function delete_empty_folders_recursively(state: Readonly<State>): Readonly<State> {
+	throw new Error('NIMP')
+}
+
+/*
 export function ensure_existing_event_folders_are_organized(state: Readonly<State>): Readonly<State> {
 	assert(false, 'todo reimplement')
 
@@ -473,6 +490,7 @@ export function ensure_all_eligible_files_are_correctly_named(state: Readonly<St
 		...state,
 		queue: [ ...state.queue, ...actions ],
 	}}
+*/
 
 ///////////////////// DEBUG /////////////////////
 
@@ -500,4 +518,3 @@ Root: "${stylize_string.yellow.bold(root)}"
 
 	return str
 }
-

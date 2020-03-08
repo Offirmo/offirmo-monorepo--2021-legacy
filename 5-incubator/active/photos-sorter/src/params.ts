@@ -44,6 +44,7 @@ export function get_params(): Params {
 
 		extensions_to_normalize: {
 			'.jpeg': '.jpg',
+			'.tiff': '.tif',
 		},
 
 		media_files_extensions: [

@@ -345,7 +345,7 @@ export function get_ideal_basename(state: Readonly<State>): Basename {
 	let extension = parsed_original_basename.extension_lc
 	extension = PARAMS.extensions_to_normalize[extension] || extension
 
-	let ideal = 'M_' + get_human_readable_timestamp_auto(bcd_ms)
+	let ideal = 'M' + get_human_readable_timestamp_auto(bcd_ms)
 	if (meaningful_part)
 		ideal += '_' + meaningful_part
 	ideal += extension
@@ -444,7 +444,7 @@ export function on_fs_stats_read(state: Readonly<State>, fs_stats: Readonly<fs.S
 export function on_exif_read(state: Readonly<State>, exif_data: Readonly<Tags>): Readonly<State> {
 	logger.trace(`[${LIB}] on_exif_read(…)`, { })
 	assert(exif_data)
-
+	assert(!exif_data?.UserComment, 'comment ' + exif_data?.UserComment)
 	if (exif_data && exif_data.errors && exif_data.errors.length) {
 		logger.error(`Error reading exif data for "${state.id}"!`, { errors: exif_data.errors })
 		// XXX TODO mark file as "in error" to not be renamed / processed
