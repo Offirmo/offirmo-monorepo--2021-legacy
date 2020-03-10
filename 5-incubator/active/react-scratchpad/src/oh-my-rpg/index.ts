@@ -6,4 +6,4 @@ interface State {
 }
 
 const globalThis = getGlobalThis()
-globalThis.
+//globalThis.

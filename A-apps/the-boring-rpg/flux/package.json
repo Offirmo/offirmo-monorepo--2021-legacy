@@ -45,7 +45,7 @@
 
 	"devDependencies": {
 		"@offirmo/practical-logger-node": "^0",
-		"fetch-mock": "^8",
+		"fetch-mock": "^9",
 		"localstorage-ponyfill": "^1",
 		"npm-run-all": "^4"
 	},

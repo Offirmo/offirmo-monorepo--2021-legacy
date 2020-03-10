@@ -5,7 +5,7 @@ import * as ReactDOM from "react-dom"
 import ErrorBoundary from '@offirmo-private/react-error-boundary'
 import { overrideHook } from '@offirmo/universal-debug-api-browser'
 
-import './oh-my-rpg/landscape'
+//import './oh-my-rpg/landscape'
 
 import './index.css'
 

@@ -10,6 +10,9 @@
 - 😷 chore: some internal refactors, bump dependencies
 
 
+## v0.61.4
+- removed the snow for Christmas season
+- 😷 chore: bump dependencies
 
 ## v0.61.3
 - 😍 feature: snow for Christmas season!

@@ -17,7 +17,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		extension_lc: '.jpg',
 		timestamp_ms: 1576528688000, // ✅
 		date_digits: '20191216203808',
-		digits_pattern: undefined,
+		digits_pattern: 'xxxx-xx-xx-xx-xx-xx',
 		is_date_ambiguous: false,
 		meaningful_part: '',
 

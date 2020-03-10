@@ -16,7 +16,7 @@
 		"@offirmo-private/prettify-json": "^0",
 		"@offirmo-private/timestamps": "^0",
 		"json-stable-stringify": "^1",
-		"exiftool-vendored": "^9",
+		"exiftool-vendored": "^10",
 		"fs-extra": "^8",
 		"tslib": "^1",
 		"typescript-string-enums": "^1"
