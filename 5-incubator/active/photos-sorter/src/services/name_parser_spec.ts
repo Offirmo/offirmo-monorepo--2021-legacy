@@ -20,7 +20,7 @@ import {
 
 /////////////////////
 
-describe.only(`${LIB} - (base)name parser`, function() {
+describe(`${LIB} - (base)name parser`, function() {
 
 	describe('_get_y2k_year_from_fragment()', function () {
 		it('should work', () => {
@@ -49,7 +49,7 @@ describe.only(`${LIB} - (base)name parser`, function() {
 				//.slice(0, 2) // TEMP XXX
 			filenames.forEach(filename => {
 				const expected = DATED_NAMES_SAMPLES[filename]
-				const { _comment, human_ts, digit_blocks, date_digits, timestamp_ms, is_date_ambiguous: is_ambiguous } = expected
+				const { _comment, human_ts, digit_blocks, timestamp_ms, is_date_ambiguous: is_ambiguous } = expected
 
 				it(`should correctly parse: ${[_comment, `"${filename}"`].join(': ')}`, () => {
 					const expected_result = {
@@ -70,7 +70,7 @@ describe.only(`${LIB} - (base)name parser`, function() {
 					}
 
 					expect(
-						get_human_readable_timestamp_auto(result.timestamp_ms!, date_digits),
+						get_human_readable_timestamp_auto(result.timestamp_ms!),
 						`human ts`
 					).to.equal(human_ts)
 					expect(
@@ -165,7 +165,7 @@ describe.only(`${LIB} - (base)name parser`, function() {
 							`digits for ${[_comment, `"${filename}"`].join(': ')}`
 						).to.equal(expected.date_digits)
 						expect(
-							get_human_readable_timestamp_auto(result.timestamp_ms!, result.date_digits),
+							get_human_readable_timestamp_auto(result.timestamp_ms!),
 							`human ts for ${[_comment, `"${filename}"`].join(': ')}`
 						).to.equal(expected.human_ts)
 					})

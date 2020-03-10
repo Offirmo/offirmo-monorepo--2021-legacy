@@ -37,10 +37,11 @@ export function get_params(): Params {
 		date_lower_bound: DATE_LOWER_BOUND,
 		date_upper_bound: DATE_UPPER_BOUND,
 
-		//root: path.normalize(`/Users/${process.env.USER}/Documents/- photos sorter/- sorted`),
-		root: path.normalize(`/Users/${process.env.USER}/Documents/- photos sorter/- sorted/- inbox/some posh event with no date in inbox`),
+		root: path.normalize(`/Users/${process.env.USER}/Documents/- photos sorter/- sorted`),
+		//root: path.normalize(`/Users/${process.env.USER}/Documents/- photos sorter/- sorted/- inbox/some posh event with no date in inbox`),
 
 		dry_run: true, // XXX
+		//dry_run: false,
 
 		extensions_to_normalize: {
 			'.jpeg': '.jpg',

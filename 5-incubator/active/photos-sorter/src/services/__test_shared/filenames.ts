@@ -33,7 +33,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		extension_lc: '.jpg',
 		timestamp_ms: 1369440000000, // ✅
 		date_digits: '20130525',
-		digits_pattern: undefined,
+		digits_pattern: 'xxxxxxxx',
 		is_date_ambiguous: false,
 		meaningful_part: '',
 
@@ -49,7 +49,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		extension_lc: '.png',
 		timestamp_ms: 1516006538000, // ✅
 		date_digits: '20180115085538',
-		digits_pattern: undefined,
+		digits_pattern: 'xxxx-xx-xx at xx.xx.xx',
 		is_date_ambiguous: false,
 		meaningful_part: 'screenshot',
 
@@ -65,7 +65,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		extension_lc: '.png',
 		timestamp_ms: 1510513670000, // ✅
 		date_digits: '20171112190750',
-		digits_pattern: undefined,
+		digits_pattern: 'xxxx-xx-xx xx.xx.xx',
 		is_date_ambiguous: false,
 		meaningful_part: 'screenshot',
 
@@ -81,7 +81,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		extension_lc: '.png',
 		timestamp_ms: 1490355857000, // ✅
 		date_digits: '20170324114417',
-		digits_pattern: undefined,
+		digits_pattern: 'xxxx-xx-xx à xx.xx.xx',
 		is_date_ambiguous: false,
 		meaningful_part: 'screenshot',
 
@@ -97,7 +97,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		extension_lc: '.png',
 		timestamp_ms: 1407980268001, // ✅
 		date_digits: '20140814013748001',
-		digits_pattern: undefined,
+		digits_pattern: 'xxxx-xx-xx_xxxx_xxxxx',
 		is_date_ambiguous: false,
 		meaningful_part: 'screenshot',
 
@@ -113,7 +113,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		extension_lc: '.bmp',
 		timestamp_ms: 1377737526000, // ✅
 		date_digits: '29082013005206',
-		digits_pattern: undefined,
+		digits_pattern: 'xxxxxxxx xxxxxx',
 		is_date_ambiguous: false,
 		meaningful_part: 'screenshot',
 
@@ -129,7 +129,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		extension_lc: '.bmp',
 		timestamp_ms: 1277545792000,
 		date_digits: '20100626094952',
-		digits_pattern: undefined,
+		digits_pattern: 'xxxx-xx-xx xxxxxx',
 		is_date_ambiguous: false,
 		meaningful_part: 'screenshot',
 
@@ -145,7 +145,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		extension_lc: '.png',
 		timestamp_ms: 1305650874000,
 		date_digits: '20110517164754',
-		digits_pattern: undefined,
+		digits_pattern: 'xxxx-xx-xx xxhxx+xx',
 		is_date_ambiguous: false,
 		meaningful_part: 'screenshot',
 
@@ -161,7 +161,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		extension_lc: '.jpg',
 		timestamp_ms: 1390336154000,
 		date_digits: '20140121202914',
-		digits_pattern: undefined,
+		digits_pattern: 'xxxxxxxx_xxxxxx',
 		is_date_ambiguous: false,
 		meaningful_part: 'screenshot',
 
@@ -177,7 +177,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		extension_lc: '.jpg',
 		timestamp_ms: 1431280714000,
 		date_digits: '20150510175834',
-		digits_pattern: undefined,
+		digits_pattern: 'xxxxxxxx_xxxxxx',
 		is_date_ambiguous: false,
 		meaningful_part: '',
 
@@ -193,7 +193,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		extension_lc: '.jpeg',
 		timestamp_ms: 1454371200000,
 		date_digits: '20160202',
-		digits_pattern: undefined,
+		digits_pattern: 'xxxxxxxx',
 		is_date_ambiguous: false,
 		meaningful_part: 'IMG-WA0001',
 
@@ -209,7 +209,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		extension_lc: '.jpg',
 		timestamp_ms: 1500595200000,
 		date_digits: '20170721',
-		digits_pattern: undefined,
+		digits_pattern: 'xxxxxxxx',
 		is_date_ambiguous: false,
 		meaningful_part: 'IMG-WA0000',
 
@@ -225,7 +225,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		extension_lc: '.png',
 		timestamp_ms: 1226261767000, // ✅
 		date_digits: '20081109201607',
-		digits_pattern: undefined,
+		digits_pattern: 'xxxx-xx-xx_xx-xx-xx',
 		is_date_ambiguous: false,
 		meaningful_part: 'Spore',
 
@@ -241,7 +241,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		extension_lc: '.png',
 		timestamp_ms: 1447493782000,
 		date_digits: '20151114093622',
-		digits_pattern: undefined,
+		digits_pattern: 'xxxx-xx-xx-xx-xx-xx',
 		is_date_ambiguous: false,
 		meaningful_part: 'screenshot',
 
@@ -257,7 +257,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		extension_lc: '.png',
 		timestamp_ms: 1508854129000,
 		date_digits: '20171024140849',
-		digits_pattern: undefined,
+		digits_pattern: 'xxxxxxxx-xxxxxx',
 		is_date_ambiguous: false,
 		meaningful_part: 'screenshot',
 
@@ -273,7 +273,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		extension_lc: '.png',
 		timestamp_ms: 1355583947000, // ✅
 		date_digits: '20121215150547',
-		digits_pattern: undefined,
+		digits_pattern: 'xxxx-xx-xx xx.xx.xx',
 		is_date_ambiguous: false,
 		meaningful_part: '',
 
@@ -289,7 +289,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		extension_lc: '.jpg',
 		timestamp_ms: 1503695192000,
 		date_digits: '20170825210632',
-		digits_pattern: undefined,
+		digits_pattern: 'xxxxxxxx_xxxxxx',
 		is_date_ambiguous: false,
 		meaningful_part: 'PSX',
 
@@ -305,7 +305,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		extension_lc: '.jpg',
 		timestamp_ms: 1495065600000,
 		date_digits: '20170518',
-		digits_pattern: undefined,
+		digits_pattern: 'xxxx-xx-xx',
 		is_date_ambiguous: false,
 		meaningful_part: '',
 
@@ -320,7 +320,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		extension_lc: '.jpg',
 		timestamp_ms: 1365897600000,
 		date_digits: '20130414',
-		digits_pattern: undefined,
+		digits_pattern: 'xxxx-xx-xx',
 		is_date_ambiguous: false,
 		meaningful_part: '00008',
 
@@ -335,7 +335,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		extension_lc: '.jpg',
 		timestamp_ms: 1162857600000,
 		date_digits: '20061107',
-		digits_pattern: undefined,
+		digits_pattern: 'xxxxxxxx',
 		is_date_ambiguous: false,
 		meaningful_part: '1-Irrutilo',
 
@@ -350,7 +350,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		extension_lc: '.png',
 		timestamp_ms: 1444950082001,
 		date_digits: '20151015230122001',
-		digits_pattern: undefined,
+		digits_pattern: 'xxxxxxxx-xxhxx_xxxxx',
 		is_date_ambiguous: false,
 		meaningful_part: 'screenshot',
 
@@ -365,7 +365,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		extension_lc: '.jpg',
 		timestamp_ms: 1381968000000,
 		date_digits: '20131017',
-		digits_pattern: undefined,
+		digits_pattern: 'xxxx-xx-xx',
 		is_date_ambiguous: false,
 		meaningful_part: '00001',
 
@@ -380,7 +380,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		extension_lc: '.jpg',
 		timestamp_ms: 1447113600000,
 		date_digits: '20151110',
-		digits_pattern: undefined,
+		digits_pattern: 'xxxxxxxx',
 		is_date_ambiguous: false,
 		meaningful_part: 'IMG-WA0000',
 
@@ -395,7 +395,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		extension_lc: '.mp4',
 		timestamp_ms: 1429815761000,
 		date_digits: '20150423190241',
-		digits_pattern: undefined,
+		digits_pattern: 'xxxxxxxx_xxxxxx',
 		is_date_ambiguous: false,
 		meaningful_part: '',
 
@@ -411,7 +411,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		extension_lc: '.jpg',
 		timestamp_ms: 1553520960000,
 		date_digits: '253191336',
-		digits_pattern: undefined,
+		digits_pattern: 'xx-x-xx at xx.xx',
 		is_date_ambiguous: false, // not ambiguous before 2025 but ambiguous after that!!!
 		meaningful_part: 'Photo #3',
 
@@ -426,7 +426,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		extension_lc: '.jpg',
 		timestamp_ms: 1551916800000,
 		date_digits: '20190307',
-		digits_pattern: undefined,
+		digits_pattern: 'xxxx-xx-xx',
 		is_date_ambiguous: false,
 		meaningful_part: '',
 
@@ -442,7 +442,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		extension_lc: '.gif',
 		timestamp_ms: 1527984000000,
 		date_digits: '20180603',
-		digits_pattern: undefined,
+		digits_pattern: 'xxxxxxxx',
 		is_date_ambiguous: false,
 		meaningful_part: 'taronga_vivd',
 
@@ -456,7 +456,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		extension_lc: '.jpg',
 		timestamp_ms: 1556552947000,
 		date_digits: '20190429154907',
-		digits_pattern: undefined,
+		digits_pattern: 'xxxxxxxx_xxxxxx',
 		is_date_ambiguous: false,
 		meaningful_part: 'resized',
 
@@ -474,7 +474,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		extension_lc: '.jpg',
 		timestamp_ms: 1488542445632,
 		date_digits: '20170303120045632',
-		digits_pattern: undefined,
+		digits_pattern: 'xxxxxxxx_xxhxx+xx.xxx',
 		is_date_ambiguous: false,
 		meaningful_part: '',
 
@@ -488,7 +488,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		extension_lc: '.jpg',
 		timestamp_ms: 1552335846000,
 		date_digits: '20190311202406',
-		digits_pattern: undefined,
+		digits_pattern: 'xxxxxxxx_xxhxx+xx',
 		is_date_ambiguous: false,
 		meaningful_part: 'i6-IMG_7794',
 
@@ -504,7 +504,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		extension_lc: '',
 		timestamp_ms: 1540512000000,
 		date_digits: '20181026',
-		digits_pattern: undefined,
+		digits_pattern: 'xxxxxxxx',
 		is_date_ambiguous: false,
 		meaningful_part: 'weekend special',
 
@@ -520,7 +520,7 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		extension_lc: '.jpg',
 		timestamp_ms: 1565827200000,
 		date_digits: '20190815',
-		digits_pattern: undefined,
+		digits_pattern: 'xxxx-xx-xx',
 		is_date_ambiguous: false,
 		meaningful_part: 'voyage à Paris',
 

@@ -69,6 +69,7 @@ bolt ws run build --only-fs "5-incubator/**/*"
 bolt ws run build --only @oh-my-rpg/*
 bolt ws run test --only @oh-my-rpg/*
 bolt ws run build --only-fs "A-apps/**/*"
+bolt ws run build --only-fs "A-apps/the-boring-rpg/**/*"
 bolt ws run test --only-fs "A-apps/**/*"
 bolt ws run build --only-fs "B-minisites/*"
 bolt w @oh-my-rpg/definitions run build

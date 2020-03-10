@@ -312,7 +312,7 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 
 	if (error) {
 		result.summary = 'no_match'
-		logger.error('Error parsing digit blocks…', {
+		logger.log('no match parsing digit blocks…', {
 			blocks,
 			reason: result.reason,
 			date_creation_args,
@@ -351,7 +351,7 @@ export interface ParseResult {
 	original_name: string
 
 	extension_lc: string
-	date_digits: undefined | string
+	date_digits: undefined | string // in order of discovery, not in order of rank!
 	digits_pattern: undefined | string // useful to recognise ourselves ;)
 	timestamp_ms: undefined | TimestampUTCMs
 	is_date_ambiguous: undefined | boolean
@@ -389,7 +389,7 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 		state.is_date_found = true
 		result.date_digits = state.digit_blocks.split('-').join('')
 		//result.digit_blocks = state.digit_blocks
-		//result.digits_pattern = state.digits_pattern
+		result.digits_pattern = deep_trim(state.digits_pattern) || undefined
 		result.timestamp_ms = dpr.timestamp_ms
 		result.is_date_ambiguous = dpr.is_ambiguous
 
@@ -491,25 +491,24 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 		else if (state.digit_blocks) {
 			if (is_separator) {
 				state.digits_pattern += c
-				if (state.digit_blocks.slice(-1) !== '-')
+				if (state.digit_blocks.slice(-1) !== '-') {
 					state.digit_blocks += '-'
 
-				// this may be the end of a correct date
-				//console.log('hdb-is', c)
-				const dpr = _parse_digit_blocks(state.digit_blocks, 'other')
-				if (dpr.summary === 'perfect') {
-					on_date_found(dpr)
-				}
-				else if (dpr.summary === 'ok') {
-					on_successful_non_optimal_dpr(dpr)
-				}
-				else if (dpr.summary === 'no_match') {
-					if (state_on_last_successful_dpr) {
-						logger.trace(`restoring last successful dpr… (1/hdb-is)`)
-						state = state_on_last_successful_dpr
-						_derive(state)
-						on_date_found(_parse_digit_blocks(state.digit_blocks, 'other'))
-						if (!is_separator) state.suffix += c
+					// this may be the end of a correct date
+					//console.log('hdb-is', c)
+					const dpr = _parse_digit_blocks(state.digit_blocks, 'other')
+					if (dpr.summary === 'perfect') {
+						on_date_found(dpr)
+					} else if (dpr.summary === 'ok') {
+						on_successful_non_optimal_dpr(dpr)
+					} else if (dpr.summary === 'no_match') {
+						if (state_on_last_successful_dpr) {
+							logger.trace(`restoring last successful dpr… (1/hdb-is)`)
+							state = state_on_last_successful_dpr
+							_derive(state)
+							on_date_found(_parse_digit_blocks(state.digit_blocks, 'other'))
+							if (!is_separator) state.suffix += c
+						}
 					}
 				}
 			}
@@ -594,11 +593,10 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 		meaningful_part = ''
 
 	result.meaningful_part = meaningful_part
-	result.digits_pattern = deep_trim(state.digits_pattern)
 
 	logger.trace('« final', {
 		...result,
-		human_ts: result.timestamp_ms ? get_human_readable_timestamp_auto(result.timestamp_ms, result.date_digits) : null
+		human_ts: result.timestamp_ms ? get_human_readable_timestamp_auto(result.timestamp_ms) : null
 	})
 	return result
 }
