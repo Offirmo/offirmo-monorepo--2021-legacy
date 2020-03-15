@@ -215,9 +215,10 @@ function _get_creation_date_from_exif(state: Readonly<State>): TimestampUTCMs | 
 
 		if (Object.keys(candidate_dates_ms).length === 0) {
 			// seen happening on edited jpg
-			logger.warn('EXIF compatible file has no usable EXIF date', {
+			// TODO add to file log
+			/*logger.warn('EXIF compatible file has no usable EXIF date', {
 				id,
-			})
+			})*/
 			return null
 		}
 
@@ -234,7 +235,11 @@ function _get_creation_date_from_exif(state: Readonly<State>): TimestampUTCMs | 
 }
 const DAY_IN_MILLIS = 24 * 60 * 60 * 1000
 export function get_best_creation_date_ms(state: Readonly<State>): TimestampUTCMs {
-	assert(has_all_infos_for_extracting_the_creation_date(state), 'has_all_infos_for_extracting_the_creation_date() === true')
+	if (!has_all_infos_for_extracting_the_creation_date(state)) {
+		logger.error('has_all_infos_for_extracting_the_creation_date() !== true', state)
+		assert(false, 'has_all_infos_for_extracting_the_creation_date() === true')
+	}
+	//console.log('get_best_creation_date_ms()', state.id)
 	const from_basename = _get_creation_date_from_basename(state)
 	// even if we have a date from name,
 	// the exi/fs one may be more precise,
@@ -519,22 +524,24 @@ export function on_moved(state: Readonly<State>, new_id: RelativePath): Readonly
 ///////////////////// DEBUG /////////////////////
 
 export function to_string(state: Readonly<State>) {
-	const { id } = state
+	const {id} = state
 	const is_eligible = is_media_file(state)
 	const parsed_path = state.memoized.get_parsed_path(state)
-	const { dir, base } = parsed_path
+	const {dir, base} = parsed_path
 
 	let str = `🏞  "${[dir, (is_eligible ? stylize_string.green : stylize_string.gray.dim)(base)].join(path.sep)}"`
-	const best_creation_date_ms = get_best_creation_date_ms(state)
-	if (best_creation_date_ms) {
-		str += '  📅 ' + get_human_readable_UTC_timestamp_seconds(new Date(best_creation_date_ms))
-	}
-	else if (is_eligible) {
-		str += '  📅 TODO'
+
+	if (is_eligible) {
+		const best_creation_date_ms = get_best_creation_date_ms(state)
+		if (best_creation_date_ms) {
+			str += '  📅 ' + get_human_readable_UTC_timestamp_seconds(new Date(best_creation_date_ms))
+		} else {
+			str += '  📅 TODO'
+		}
 	}
 
 	if (is_eligible && id !== get_ideal_basename(state)) {
-		str += ` -> "${get_ideal_basename(state)}")`
+		str += ` -> "${get_ideal_basename(state)}"`
 	}
 
 	/* TODO

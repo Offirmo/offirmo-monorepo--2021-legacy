@@ -34,11 +34,11 @@ export interface State {
 	id: RelativePath
 	type: Type
 
-	start_date: SimpleYYYYMMDD
-	end_date: SimpleYYYYMMDD
+	start_date: undefined | SimpleYYYYMMDD
+	end_date: undefined | SimpleYYYYMMDD
 
 	cached: {
-		base: string
+		parsed: path.ParsedPath,
 	}
 }
 
@@ -47,35 +47,37 @@ export const now_simple = get_compact_date_from_UTC_ts(now_ms)
 
 ///////////////////// ACCESSORS /////////////////////
 
-function _infer_folder_type(id: RelativePath): Type {
+function _infer_folder_type(id: RelativePath, parsed: path.ParsedPath): Type {
 	assert(id)
 	if (id === '.') return Type.root
 
-	const parsed = path.parse(id)
 	const depth = parsed.dir.split(path.sep).length - 1
+
+	if (depth === 0 && get_normalized_dirname(parsed.base) === INBOX_BASENAME) return Type.inbox
+	if (depth === 0 && get_normalized_dirname(parsed.base) === CANTSORT_BASENAME) return Type.cantsort
+	if (depth === 0 && is_year(parsed.base)) return Type.year
+
+	/*
 	//console.log('_infer_folder_type', { dir: parsed.dir, depth })
-	if (depth === 1 && is_year(parsed.base)) return Type.year
 	if (depth > 0) return Type.event
 
 	if (is_year(parsed.base)) return Type.year
 
-	if (get_normalized_dirname(parsed.base) === INBOX_BASENAME) return Type.inbox
-	if (get_normalized_dirname(parsed.base) === CANTSORT_BASENAME) return Type.cantsort
-
 	if (is_compact_date(parsed.base.slice(0, 8))) return Type.event
+*/
 
 	return Type.event
 }
 
-function _infer_start_date(base: Basename, now = now_simple): SimpleYYYYMMDD {
+function _infer_start_date(base: Basename, now = now_simple): undefined | SimpleYYYYMMDD {
 	const compact_date = extract_compact_date(base)
 	if (compact_date) return compact_date
 
-	return now_simple
+	return undefined
 }
 
 export function get_basename(state: Readonly<State>): Basename {
-	return state.cached.base
+	return state.cached.parsed.base
 }
 
 export function get_ideal_basename(state: Readonly<State>): Basename {
@@ -90,6 +92,7 @@ export function get_compact_date(state: Readonly<State>) {
 }
 
 export function get_year(state: Readonly<State>) {
+	assert(state.start_date)
 	return Math.trunc(state.start_date / 10000)
 }
 
@@ -98,17 +101,18 @@ export function get_year(state: Readonly<State>) {
 export function create(id: RelativePath): Readonly<State> {
 	logger.trace(`[${LIB}] create(…)`, { id })
 
-	const type = _infer_folder_type(id)
-	const base = path.basename(id)
-	const start_date = type === Type.event ? _infer_start_date(base) : -1
+	const parsed = path.parse(id)
+	const type = _infer_folder_type(id, parsed)
+	const base = parsed.base
+	const date = _infer_start_date(base)
 	return {
 		id,
-		type: _infer_folder_type(id),
-		start_date: start_date,
-		end_date: start_date,
+		type,
+		start_date: date,
+		end_date: date,
 
 		cached: {
-			base,
+			parsed,
 		},
 	}
 }
@@ -117,24 +121,42 @@ export function on_subfile_found(state: Readonly<State>, file_state: Readonly<Me
 	logger.trace(`[${LIB}] on_subfile_found(…)`, { })
 
 	if (state.type == Type.event) {
-		const compact_date = MediaFile.get_best_compact_date(file_state)
-		const start_date = Math.min(state.start_date, compact_date)
-		const end_date = Math.max(state.start_date, compact_date)
+		const file_compact_date = MediaFile.get_best_compact_date(file_state)
+		const new_start_date = state.start_date
+			? Math.min(state.start_date, file_compact_date)
+			: file_compact_date
+		const new_end_date = state.end_date === now_simple
+			? Math.max(state.end_date, file_compact_date)
+			: file_compact_date
 
-		if (end_date - start_date > 28) {
+		if (new_end_date - new_start_date > 28) {
 			// range too big, can't be an event
-			logger.verbose(`[${LIB}] demoting folder: most likely not an event (date range too big)`, { id: state.id, start_date, end_date })
+			logger.verbose(
+				`[${LIB}] demoting folder: most likely not an event (date range too big)`, {
+					id: state.id,
+					file_id: file_state.id,
+					file_compact_date,
+					start_date: new_start_date,
+					end_date: new_end_date,
+				})
 			state = {
 				...state,
 				type: Type.unknown,
 			}
 		}
 		else {
-			logger.verbose(`[${LIB}] updating folder’s date range`, { id: state.id, start_date, end_date })
+			logger.verbose(
+				`[${LIB}] updating folder’s date range`,
+				{
+					id: state.id,
+					file_compact_date,
+					start_date: new_start_date,
+					end_date: new_end_date,
+				})
 			state = {
 				...state,
-				start_date: Math.min(state.start_date, compact_date),
-				end_date: Math.max(state.start_date, compact_date),
+				start_date: new_start_date,
+				end_date: new_end_date,
 			}
 		}
 	}
