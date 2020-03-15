@@ -93,8 +93,8 @@ export function on_file_hashed(state: Readonly<State>, hash: string, notes: File
 
 	state = {
 		...state,
-		media_files: {
-			...state.media_files,
+		files: {
+			...state.files,
 			hash: {
 				...existing_notes,
 				...notes,

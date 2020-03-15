@@ -156,14 +156,16 @@ async function explore_folder(id: RelativePath) {
 		}
 
 		//const normalized_extension TODO
-		const should_delete_asap = !!PARAMS.extensions_to_delete.find(ext => basename.toLowerCase().endsWith(ext))
+		const basename_lc = basename.toLowerCase()
+		const should_delete_asap = !!PARAMS.extensions_to_delete.find(ext => basename_lc.endsWith(ext))
+			||PARAMS.worthless_files.includes(basename_lc)
 		if (should_delete_asap) {
 			const abs_path_target = DB.get_absolute_path(db, path.join(id, basename))
 			if (PARAMS.dry_run) {
-				logger.verbose(`ignoring trash`, { abs_path_target })
+				logger.verbose(`ignoring trash`, { basename })
 			}
 			else {
-				logger.verbose(`ignoring trash, cleaning it…`, { abs_path_target })
+				logger.verbose(`ignoring trash, cleaning it…`, { basename })
 				pending_tasks.push(fs_extra.remove(abs_path_target))
 			}
 		}
@@ -171,10 +173,9 @@ async function explore_folder(id: RelativePath) {
 			db = DB.on_file_found(db, id, basename)
 		}
 	})
+	logger.groupEnd()
 
 	await Promise.all(pending_tasks)
-
-	logger.groupEnd()
 }
 
 async function query_fs_stats(id: RelativePath) {
@@ -217,7 +218,7 @@ async function normalize_file(id: RelativePath) {
 	const actions: Promise<void>[] = []
 
 	const abs_path = DB.get_absolute_path(db, id)
-	const media_state = db.media_files[id]
+	const media_state = db.files[id]
 	assert(media_state, 'media_state')
 
 	const is_exif_powered = File.is_exif_powered_media_file(media_state)

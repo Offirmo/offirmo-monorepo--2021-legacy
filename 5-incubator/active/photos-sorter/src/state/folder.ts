@@ -123,14 +123,14 @@ export function on_subfile_found(state: Readonly<State>, file_state: Readonly<Me
 
 		if (end_date - start_date > 28) {
 			// range too big, can't be an event
-			logger.verbose('demoting folder: most likely not an event', { id: state.id, start_date, end_date })
+			logger.verbose(`[${LIB}] demoting folder: most likely not an event (date range too big)`, { id: state.id, start_date, end_date })
 			state = {
 				...state,
 				type: Type.unknown,
 			}
 		}
 		else {
-			logger.verbose('updating folder’s date range', { id: state.id, start_date, end_date })
+			logger.verbose(`[${LIB}] updating folder’s date range`, { id: state.id, start_date, end_date })
 			state = {
 				...state,
 				start_date: Math.min(state.start_date, compact_date),

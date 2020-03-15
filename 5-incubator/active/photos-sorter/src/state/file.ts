@@ -46,8 +46,9 @@ export interface State {
 	notes: PersistedNotes
 
 	memoized: {
-		get_parsed_path: (state: Readonly<State>) => path.ParsedPath,
+		get_parsed_path: (state: Readonly<State>) => path.ParsedPath
 		get_parsed_original_basename: (state: Readonly<State>) => ParseResult
+		get_normalized_extension: (state: Readonly<State>) => string
 	}
 }
 
@@ -97,10 +98,6 @@ function get_most_reliable_birthtimeMs_from_fs_stats(fs_stats: Readonly<State['c
 		)
 }
 
-function get_normalized_extension_from_path(parsed_path: path.ParsedPath): string {
-	return normalize_extension(parsed_path.ext)
-}
-
 ////////////
 
 export function get_current_parent_folder_id(state: Readonly<State>): RelativePath {
@@ -110,26 +107,22 @@ export function get_current_parent_folder_id(state: Readonly<State>): RelativePa
 export function get_current_basename(state: Readonly<State>): Basename {
 	return state.memoized.get_parsed_path(state).base
 }
-
+/*
 function get_original_basename(state: Readonly<State>): Basename {
 	assert(state.notes.original.basename)
 	return state.notes.original.basename
 }
-
-function get_normalized_extension(state: Readonly<State>): string {
-	return get_normalized_extension_from_path(state.memoized.get_parsed_path(state))
-}
-
+*/
 export function is_media_file(state: Readonly<State>): boolean {
 	const parsed_path = state.memoized.get_parsed_path(state)
 
 	if (parsed_path.base.startsWith('.')) return false
-	let normalized_extension = get_normalized_extension(state)
+	let normalized_extension = state.memoized.get_normalized_extension(state)
 	 return PARAMS.media_files_extensions.includes(normalized_extension)
 }
 
 export function is_exif_powered_media_file(state: Readonly<State>): boolean {
-	let normalized_extension = get_normalized_extension(state)
+	let normalized_extension = state.memoized.get_normalized_extension(state)
 
 	return EXIF_POWERED_FILE_EXTENSIONS.includes(normalized_extension)
 }
@@ -241,6 +234,7 @@ function _get_creation_date_from_exif(state: Readonly<State>): TimestampUTCMs | 
 }
 const DAY_IN_MILLIS = 24 * 60 * 60 * 1000
 export function get_best_creation_date_ms(state: Readonly<State>): TimestampUTCMs {
+	assert(has_all_infos_for_extracting_the_creation_date(state), 'has_all_infos_for_extracting_the_creation_date() === true')
 	const from_basename = _get_creation_date_from_basename(state)
 	// even if we have a date from name,
 	// the exi/fs one may be more precise,
@@ -369,10 +363,21 @@ export function create(id: RelativePath): Readonly<State> {
 
 	const memoized_parse_path = memoize_once(path.parse)
 	const memoized_parse_basename = memoize_once(parse_basename)
+	const memoized_normalize_extension = memoize_once(normalize_extension)
+
+	function get_parsed_path(state: Readonly<State>) { return memoized_parse_path(state.id) }
+	function get_parsed_original_basename(state: Readonly<State>) {
+		const original_basename = state.notes.original.basename
+		return memoized_parse_basename(original_basename)
+	}
+	function get_normalized_extension(state: Readonly<State>) {
+		const parsed_path = get_parsed_path(state)
+		return memoized_normalize_extension(parsed_path.ext)
+	}
 
 	const parsed_path = memoized_parse_path(id)
 
-	const state = {
+	const state: State = {
 		id,
 
 		current_exif_data: undefined,
@@ -400,13 +405,14 @@ export function create(id: RelativePath): Readonly<State> {
 		},
 
 		memoized: {
-			get_parsed_path(state: Readonly<State>) { return memoized_parse_path(state.id) },
-			get_parsed_original_basename(state: Readonly<State>) {
-				const original_basename = state.notes.original.basename
-				return memoized_parse_basename(original_basename)
-			},
+			get_parsed_path,
+			get_parsed_original_basename,
+			get_normalized_extension,
 		},
 	}
+
+	if (!is_exif_powered_media_file(state))
+		state.current_exif_data = null
 
 	return state
 }
@@ -415,6 +421,7 @@ export function on_fs_stats_read(state: Readonly<State>, fs_stats: Readonly<fs.S
 	logger.trace(`[${LIB}] on_fs_stats_read(…)`, { })
 	assert (fs_stats)
 
+	/* TODO file log
 	const { birthtimeMs, atimeMs, mtimeMs, ctimeMs } = fs_stats
 	if (birthtimeMs > atimeMs)
 		logger.warn('atime vs birthtime', {path: state.id, birthtimeMs, atimeMs})
@@ -422,6 +429,7 @@ export function on_fs_stats_read(state: Readonly<State>, fs_stats: Readonly<fs.S
 		logger.warn('mtime vs birthtime', {path: state.id, birthtimeMs, mtimeMs})
 	if (birthtimeMs > ctimeMs)
 		logger.warn('ctime vs birthtime', {path: state.id, birthtimeMs, ctimeMs})
+	*/
 
 	state = {
 		...state,
@@ -480,7 +488,7 @@ export function on_hash_computed(state: Readonly<State>, hash: string): Readonly
 }
 
 export function on_notes_unpersisted(state: Readonly<State>, existing_notes: null | Readonly<PersistedNotes>): Readonly<State> {
-	logger.trace(`[${LIB}] on_notes_unpersisted(…)`, { })
+	logger.trace(`[${LIB}] on_notes_unpersisted(…)`, { id: state.id })
 	if (!existing_notes)
 		return state
 

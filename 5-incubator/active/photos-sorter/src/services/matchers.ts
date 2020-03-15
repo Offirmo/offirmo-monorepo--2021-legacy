@@ -2,7 +2,7 @@ import path from 'path'
 
 ////////////////////////////////////
 
-import { Basename, SimpleYYYYMMDD } from '../types'
+import { Basename } from '../types'
 import { get_params } from '../params'
 
 const PARAMS = get_params()

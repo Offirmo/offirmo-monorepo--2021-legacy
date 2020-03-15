@@ -56,7 +56,7 @@ export function get_params(): Params {
 			'.tga', // WoW
 			'.avi', // old videos
 			'.mp4',
-		],
+		].map(s => s.toLowerCase()),
 
 		extensions_to_delete: [
 			'.AAE',
@@ -65,7 +65,7 @@ export function get_params(): Params {
 		worthless_files: [
 			'.DS_Store',
 			'.picasa.ini',
-		],
+		].map(s => s.toLowerCase()),
 
 	}
 }

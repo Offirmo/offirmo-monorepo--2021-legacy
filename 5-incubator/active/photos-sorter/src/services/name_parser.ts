@@ -29,7 +29,9 @@ export type DatePattern = 'D-M-Y' | 'Y-M-D' | 'unknown'
 
 
 export function normalize_extension(extension: string): string {
-	assert(extension[0] === '.', 'normalize_extension() param starting with dot')
+	if (extension === '') return ''
+
+	assert(extension[0] === '.', `normalize_extension() param starts with dot "${extension}"`)
 	let normalized_extension = NORMALIZERS.normalize_unicode(extension.toLowerCase())
 	normalized_extension = PARAMS.extensions_to_normalize[normalized_extension] || normalized_extension
 
