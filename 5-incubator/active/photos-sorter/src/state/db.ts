@@ -11,11 +11,13 @@ import * as Match from '../services/matchers'
 import { Basename, AbsolutePath, RelativePath, SimpleYYYYMMDD } from '../types'
 import * as Folder from './folder'
 import * as File from './file'
+import * as Notes from './notes'
 import {
 	Action,
 	create_action_explore_folder,
 	create_action_query_fs_stats,
 	create_action_query_exif,
+	create_action_hash,
 	create_action_normalize_file,
 	create_action_ensure_folder,
 	//create_action_move_folder,
@@ -32,6 +34,7 @@ const LIB = '🗄 '
 export interface State {
 	root: AbsolutePath
 
+	notes: Notes.State,
 	folders: { [id: string]: Folder.State }
 	media_files: { [id: string]: File.State }
 
@@ -94,6 +97,7 @@ export function create(root: AbsolutePath): Readonly<State> {
 
 	let state: State = {
 		root,
+		notes: Notes.create(),
 		folders: {},
 		media_files: {},
 		queue: [],
@@ -168,6 +172,7 @@ export function on_file_found(state: Readonly<State>, parent_id: RelativePath, s
 
 		state = _enqueue_action(state, create_action_query_fs_stats(id))
 		state = _enqueue_action(state, create_action_query_exif(id))
+		state = _enqueue_action(state, create_action_hash(id))
 	}
 
 	return state
@@ -214,6 +219,22 @@ export function on_exif_read(state: Readonly<State>, file_id: RelativePath, exif
 	logger.trace(`[${LIB}] on_exif_read(…)`, { file_id })
 
 	const new_file_state = File.on_exif_read(state.media_files[file_id], exif_data)
+
+	state = {
+		...state,
+		media_files: {
+			...state.media_files,
+			[file_id]: new_file_state,
+		},
+	}
+
+	return _on_file_info_read(state, file_id)
+}
+
+export function on_hash_computed(state: Readonly<State>, file_id: RelativePath, hash: string): Readonly<State> {
+	logger.trace(`[${LIB}] on_hash_computed(…)`, { file_id })
+
+	let new_file_state = File.on_hash_computed(state.media_files[file_id], hash)
 
 	state = {
 		...state,
@@ -307,6 +328,20 @@ export function merge_folder(state: Readonly<State>, id: RelativePath, target_id
 
 export function explore_recursively(state: Readonly<State>): Readonly<State> {
 	return on_folder_found(state, '', '.')
+}
+
+export function on_exploration_done(state: Readonly<State>): Readonly<State> {
+
+	// consolidate all data
+	const all_files = Object.values(get_all_eligible_file_ids(state)).map(id => state.media_files[id])
+	state = {
+		...state,
+		notes: Notes.on_exploration_done(state.notes, all_files)
+	}
+	throw new Error('NIMP')
+	//const existing_file_notes = Notes.get_file_notes_from_hash(state.notes, hash)
+	// update file notes
+	//const new_notes_state = Notes.on_file_hashed(state.notes, file_state.current_hash, )
 }
 
 export function normalize_medias_in_place(state: Readonly<State>): Readonly<State> {

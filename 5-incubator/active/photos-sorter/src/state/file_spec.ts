@@ -25,7 +25,6 @@ describe(`${LIB} - media file state`, function() {
 			}
 			Object.keys(TEST_CASES).forEach(tc => {
 				const state = create(tc)
-				state.cached.best_creation_date_ms = 1542780045627
 				expect(get_ideal_basename(state), tc).to.equal(TEST_CASES[tc])
 			})
 		})

@@ -1,2 +1,4 @@
-https://github.com/ronomon/utimes
-https://github.com/photostructure/exiftool-vendored.js
+
+## Credits
+* https://github.com/photostructure/exiftool-vendored.js
+

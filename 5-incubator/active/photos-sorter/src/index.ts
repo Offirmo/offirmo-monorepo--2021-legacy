@@ -3,10 +3,11 @@ import util from 'util'
 import fs from 'fs'
 import assert from 'tiny-invariant'
 import stable_stringify from 'json-stable-stringify'
+import hasha from 'hasha'
 
 import { exiftool } from 'exiftool-vendored'
 
-import { LIB, EXIF_ENTRY } from './consts'
+import { LIB, NOTES_BASENAME } from './consts'
 import { RelativePath } from './types'
 import * as DB from './state/db'
 import * as File from './state/file'
@@ -43,6 +44,10 @@ function dequeue_and_run_all_first_level_db_actions(): Promise<any>[] {
 
 			case ActionType.query_exif:
 				pending_actions.push(query_exif(id))
+				break
+
+			case ActionType.hash:
+				pending_actions.push(compute_hash(id))
 				break
 
 			case ActionType.normalize_file:
@@ -86,6 +91,8 @@ async function exec_pending_actions_recursively_until_no_more(): Promise<void> {
 async function sort_all_medias() {
 	logger.group('******* STARTING EXPLORATION PHASE *******')
 	db = DB.explore_recursively(db)
+	await exec_pending_actions_recursively_until_no_more()
+	db = DB.on_exploration_done(db)
 	await exec_pending_actions_recursively_until_no_more()
 	logger.groupEnd()
 	logger.log(DB.to_string(db))
@@ -132,29 +139,40 @@ async function explore_folder(id: RelativePath) {
 	logger.group(`- exploring dir "${id}"…`)
 
 	const abs_path = DB.get_absolute_path(db, id)
+	let pending_tasks: Promise<void>[] = []
 
 	const sub_dirs = fs_extra.lsDirsSync(abs_path, { full_path: false })
 	//console.log(sub_dirs)
 	sub_dirs.forEach((sub_id: RelativePath) => db = DB.on_folder_found(db, id, sub_id))
 
-	const sub_files = fs_extra.lsFilesSync(abs_path, { full_path: false })
-	//console.log(sub_files)
-	sub_files.forEach((sub_id: RelativePath) => {
-		const should_delete_asap = !!PARAMS.extensions_to_delete.find(ext => sub_id.toLowerCase().endsWith(ext))
+	const sub_file_basenames = fs_extra.lsFilesSync(abs_path, { full_path: false })
+	//console.log(sub_file_basenames)
+	sub_file_basenames.forEach((basename: RelativePath) => {
+		const is_notes = basename === NOTES_BASENAME
+		if (is_notes) {
+			// TODO load
+			// TODO consolidate (inc. persist)
+			throw new Error('NIMP')
+		}
+
+		//const normalized_extension TODO
+		const should_delete_asap = !!PARAMS.extensions_to_delete.find(ext => basename.toLowerCase().endsWith(ext))
 		if (should_delete_asap) {
-			const abs_path_target = DB.get_absolute_path(db, path.join(id, sub_id))
+			const abs_path_target = DB.get_absolute_path(db, path.join(id, basename))
 			if (PARAMS.dry_run) {
 				logger.verbose(`ignoring trash`, { abs_path_target })
 			}
 			else {
 				logger.verbose(`ignoring trash, cleaning it…`, { abs_path_target })
-				fs_extra.remove(abs_path_target)
+				pending_tasks.push(fs_extra.remove(abs_path_target))
 			}
 		}
 		else {
-			db = DB.on_file_found(db, id, sub_id)
+			db = DB.on_file_found(db, id, basename)
 		}
 	})
+
+	await Promise.all(pending_tasks)
 
 	logger.groupEnd()
 }
@@ -183,6 +201,17 @@ async function query_exif(id: RelativePath) {
 	//logger.groupEnd()
 }
 
+async function compute_hash(id: RelativePath) {
+	logger.trace(`computing hash for "${id}"…`)
+
+	const abs_path = DB.get_absolute_path(db, id)
+	const exif_data = await exiftool.read(abs_path)
+	const hash = await hasha.fromFile(abs_path, {algorithm: 'sha256'})
+	assert(hash)
+	logger.trace(`- got hash for "${id}"…`, { hash })
+	db = DB.on_hash_computed(db, id, hash!)
+}
+
 async function normalize_file(id: RelativePath) {
 	logger.trace(`initiating media file normalization for "${id}"…`)
 	const actions: Promise<void>[] = []
@@ -195,23 +224,7 @@ async function normalize_file(id: RelativePath) {
 	//console.log({ id, media_state, abs_path, is_exif_powered})
 
 	if (is_exif_powered) {
-		const target_notes = stable_stringify({
-			original: media_state.original,
-		})
 		const current_exif_data: any = media_state.current_exif_data
-		if (current_exif_data && current_exif_data[EXIF_ENTRY]) {
-			assert(target_notes === current_exif_data[EXIF_ENTRY])
-		}
-
-		if (PARAMS.dry_run) {
-			console.log('DRY RUN would have written EXIF notes', target_notes)
-		}
-		else {
-			actions.push(
-				exiftool.write(abs_path, {[EXIF_ENTRY]: target_notes})
-			)
-		}
-
 		if (current_exif_data.Orientation) {
 			if (PARAMS.dry_run) {
 				console.log('DRY RUN would have losslessly rotated according to EXIF orientation', current_exif_data.Orientation)
@@ -221,6 +234,8 @@ async function normalize_file(id: RelativePath) {
 			}
 		}
 	}
+
+	// TODO fix birthtime
 
 	const current_basename = File.get_current_basename(media_state)
 	const target_basename = File.get_ideal_basename(media_state)

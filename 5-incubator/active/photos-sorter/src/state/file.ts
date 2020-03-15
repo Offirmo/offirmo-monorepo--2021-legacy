@@ -8,16 +8,33 @@ import { Tags, ExifDateTime } from 'exiftool-vendored'
 import { TimestampUTCMs, get_UTC_timestamp_ms, get_human_readable_UTC_timestamp_seconds } from '@offirmo-private/timestamps'
 import { NORMALIZERS } from '@offirmo-private/normalize-string'
 
-import { EXIF_POWERED_FILE_EXTENSIONS, EXIF_ENTRY } from '../consts'
+import { EXIF_POWERED_FILE_EXTENSIONS } from '../consts'
 import { Basename, RelativePath } from '../types'
 import { get_params } from '../params'
 import { get_compact_date_from_UTC_ts } from '../services/utils'
 import logger from '../services/logger'
 import { parse as parse_basename, ParseResult, normalize_extension } from '../services/name_parser'
 import { get_human_readable_timestamp_auto } from '../services/date_generator'
-import { OriginalFileData as OriginalData } from './notes'
+
 
 type TimestampsHash = { [k: string]: TimestampUTCMs }
+
+export interface OriginalData {
+	// from path
+	basename: Basename
+	closest_parent_with_date_hint?: Basename
+
+	// from fs
+	birthtimeMs?: number
+
+	// from exif
+	exif_orientation?: number
+}
+
+export interface PersistedNotes {
+	deleted: boolean // TODO remember files which were deleted
+	original: OriginalData
+}
 
 export interface State {
 	id: RelativePath
@@ -26,13 +43,11 @@ export interface State {
 	current_fs_stats: undefined | fs.Stats // can't be null, always a file
 	current_hash: undefined | string // can't be null, always a file
 
-	original: OriginalData
+	notes: PersistedNotes
 
-	cached: {
-		parsed_path: path.ParsedPath,
-		parsed_original_basename?: ParseResult
-		best_creation_date_ms?: TimestampUTCMs
-		hash?: never // TODO for dedupe
+	memoized: {
+		get_parsed_path: (state: Readonly<State>) => path.ParsedPath,
+		get_parsed_original_basename: (state: Readonly<State>) => ParseResult
 	}
 }
 
@@ -56,6 +71,7 @@ const EXIF_DATE_FIELDS: string[] = [
 
 ///////////////////// ACCESSORS /////////////////////
 
+/*
 export function get_file_notes_from_exif(exif_data: Readonly<State['current_exif_data']>): null | Readonly<SorterNotes> {
 	if (exif_data === null)
 		return null
@@ -69,6 +85,7 @@ export function get_file_notes_from_exif(exif_data: Readonly<State['current_exif
 
 	return JSON.parse(custom_entry)
 }
+*/
 
 function get_most_reliable_birthtimeMs_from_fs_stats(fs_stats: Readonly<State['current_fs_stats']>): TimestampUTCMs {
 	assert(fs_stats, 'fs stats ok ✔')
@@ -87,24 +104,24 @@ function get_normalized_extension_from_path(parsed_path: path.ParsedPath): strin
 ////////////
 
 export function get_current_parent_folder_id(state: Readonly<State>): RelativePath {
-	return state.cached.parsed_path.dir || '.'
+	return state.memoized.get_parsed_path(state).dir || '.'
 }
 
 export function get_current_basename(state: Readonly<State>): Basename {
-	return state.cached.parsed_path.base
+	return state.memoized.get_parsed_path(state).base
 }
 
 function get_original_basename(state: Readonly<State>): Basename {
-	assert(state.original.basename)
-	return state.original.basename
+	assert(state.notes.original.basename)
+	return state.notes.original.basename
 }
 
 function get_normalized_extension(state: Readonly<State>): string {
-	return get_normalized_extension_from_path(state.cached.parsed_path)
+	return get_normalized_extension_from_path(state.memoized.get_parsed_path(state))
 }
 
 export function is_media_file(state: Readonly<State>): boolean {
-	const { cached: { parsed_path }} = state
+	const parsed_path = state.memoized.get_parsed_path(state)
 
 	if (parsed_path.base.startsWith('.')) return false
 	let normalized_extension = get_normalized_extension(state)
@@ -112,32 +129,27 @@ export function is_media_file(state: Readonly<State>): boolean {
 }
 
 export function is_exif_powered_media_file(state: Readonly<State>): boolean {
-	let normalized_extension = get_normalized_extension_from_path(state.cached.parsed_path)
+	let normalized_extension = get_normalized_extension(state)
 
 	return EXIF_POWERED_FILE_EXTENSIONS.includes(normalized_extension)
 }
 
-function get_parsed_original_basename(state: State): ParseResult {
-	const original_basename = state.original.basename
-	if (!state.cached.parsed_original_basename || state.cached.parsed_original_basename.original_name !== original_basename) {
-		state.cached.parsed_original_basename = parse_basename(original_basename)
-	}
-	return state.cached.parsed_original_basename
-}
-
 export function has_all_infos_for_extracting_the_creation_date(state: Readonly<State>): boolean {
-	return !!state.cached.best_creation_date_ms
-		|| (state.current_exif_data !== undefined && state.current_fs_stats !== undefined)
+	return (
+			   state.current_exif_data !== undefined
+			&& state.current_fs_stats !== undefined
+			&& state.current_hash !== undefined
+		)
 }
 
 function _get_creation_date_from_fs_stats(state: Readonly<State>): TimestampUTCMs {
-	return state.original.birthtimeMs || get_most_reliable_birthtimeMs_from_fs_stats(state.current_fs_stats)
+	return state.notes.original.birthtimeMs || get_most_reliable_birthtimeMs_from_fs_stats(state.current_fs_stats)
 }
 function _get_creation_date_from_basename(state: Readonly<State>): TimestampUTCMs | null {
-	return get_parsed_original_basename(state).timestamp_ms || null
+	return state.memoized.get_parsed_original_basename(state).timestamp_ms || null
 }
 function _get_creation_date_from_parent_name(state: Readonly<State>): TimestampUTCMs | null {
-	const { closest_parent_with_date_hint } = state.original
+	const { closest_parent_with_date_hint } = state.notes.original
 	if (!closest_parent_with_date_hint) return null
 
 	const parsed = parse_basename(closest_parent_with_date_hint)
@@ -229,9 +241,6 @@ function _get_creation_date_from_exif(state: Readonly<State>): TimestampUTCMs | 
 }
 const DAY_IN_MILLIS = 24 * 60 * 60 * 1000
 export function get_best_creation_date_ms(state: Readonly<State>): TimestampUTCMs {
-	if (state.cached.best_creation_date_ms)
-		return state.cached.best_creation_date_ms
-
 	const from_basename = _get_creation_date_from_basename(state)
 	// even if we have a date from name,
 	// the exi/fs one may be more precise,
@@ -327,7 +336,7 @@ export function get_year(state: Readonly<State>) {
 
 export function get_ideal_basename(state: Readonly<State>): Basename {
 	const bcd_ms = get_best_creation_date_ms(state)
-	const parsed_original_basename = get_parsed_original_basename(state)
+	const parsed_original_basename = state.memoized.get_parsed_original_basename(state)
 	const meaningful_part = parsed_original_basename.meaningful_part
 	let extension = parsed_original_basename.extension_lc
 	extension = PARAMS.extensions_to_normalize[extension] || extension
@@ -338,6 +347,10 @@ export function get_ideal_basename(state: Readonly<State>): Basename {
 	ideal += extension
 
 	return ideal
+}
+
+export function get_original_data(state: Readonly<State>): Readonly<OriginalData> {
+	return state.notes.original
 }
 
 /*
@@ -354,33 +367,44 @@ export function get_ideal_path(state: Readonly<State>): RelativePath {
 export function create(id: RelativePath): Readonly<State> {
 	logger.trace(`[${LIB}] create(…)`, { id })
 
-	const parsed_path = path.parse(id)
+	const memoized_parse_path = memoize_once(path.parse)
+	const memoized_parse_basename = memoize_once(parse_basename)
+
+	const parsed_path = memoized_parse_path(id)
 
 	const state = {
 		id,
 
 		current_exif_data: undefined,
 		current_fs_stats: undefined,
+		current_hash: undefined,
 
-		original: {
-			basename: parsed_path.base,
-			closest_parent_with_date_hint: (() => {
-				let hint_parent: OriginalData['closest_parent_with_date_hint'] = undefined
-				let dir = parsed_path.dir
-				while (dir && !hint_parent) {
-					const parsed = path.parse(dir)
-					const parsed_basename = parse_basename(parsed.base)
-					if (parsed_basename.timestamp_ms) {
-						hint_parent = parsed.base
+		notes: {
+			deleted: false,
+			original: {
+				basename: parsed_path.base,
+				closest_parent_with_date_hint: (() => {
+					let hint_parent: OriginalData['closest_parent_with_date_hint'] = undefined
+					let dir = parsed_path.dir
+					while (dir && !hint_parent) {
+						const parsed = path.parse(dir)
+						const parsed_basename = parse_basename(parsed.base)
+						if (parsed_basename.timestamp_ms) {
+							hint_parent = parsed.base
+						}
+						dir = parsed.dir
 					}
-					dir = parsed.dir
-				}
-				return hint_parent
-			})(),
+					return hint_parent
+				})(),
+			},
 		},
 
-		cached: {
-			parsed_path,
+		memoized: {
+			get_parsed_path(state: Readonly<State>) { return memoized_parse_path(state.id) },
+			get_parsed_original_basename(state: Readonly<State>) {
+				const original_basename = state.notes.original.basename
+				return memoized_parse_basename(original_basename)
+			},
 		},
 	}
 
@@ -392,37 +416,25 @@ export function on_fs_stats_read(state: Readonly<State>, fs_stats: Readonly<fs.S
 	assert (fs_stats)
 
 	const { birthtimeMs, atimeMs, mtimeMs, ctimeMs } = fs_stats
-	try {
-		assert(birthtimeMs <= atimeMs, 'atime vs birthtime')
-		assert(birthtimeMs <= mtimeMs, 'mtime vs birthtime')
-		assert(birthtimeMs <= ctimeMs, 'ctime vs birthtime')
-	}
-	catch (err) {
-		logger.warn('fs_stats discrepancy', {
-			id: state.id,
-			birthtimeMs,
-			atimeMs,
-			mtimeMs,
-			ctimeMs,
-			//err,
-		})
-		throw err
-	}
+	if (birthtimeMs > atimeMs)
+		logger.warn('atime vs birthtime', {path: state.id, birthtimeMs, atimeMs})
+	if (birthtimeMs > mtimeMs)
+		logger.warn('mtime vs birthtime', {path: state.id, birthtimeMs, mtimeMs})
+	if (birthtimeMs > ctimeMs)
+		logger.warn('ctime vs birthtime', {path: state.id, birthtimeMs, ctimeMs})
 
 	state = {
 		...state,
 		current_fs_stats: fs_stats,
-		original: {
-			...(fs_stats && {
-				birthtimeMs: get_most_reliable_birthtimeMs_from_fs_stats(fs_stats),
-			}),
-			...state.original,
+		notes: {
+			...state.notes,
+			original: {
+				...(fs_stats && {
+					birthtimeMs: get_most_reliable_birthtimeMs_from_fs_stats(fs_stats),
+				}),
+				...state.notes.original,
+			}
 		}
-	}
-
-	// XXX
-	if (has_all_infos_for_extracting_the_creation_date(state)) {
-		state.cached.best_creation_date_ms = get_best_creation_date_ms(state)
 	}
 
 	return state
@@ -431,7 +443,6 @@ export function on_fs_stats_read(state: Readonly<State>, fs_stats: Readonly<fs.S
 export function on_exif_read(state: Readonly<State>, exif_data: Readonly<Tags>): Readonly<State> {
 	logger.trace(`[${LIB}] on_exif_read(…)`, { })
 	assert(exif_data)
-	assert(!exif_data?.UserComment, 'comment ' + exif_data?.UserComment)
 	if (exif_data && exif_data.errors && exif_data.errors.length) {
 		logger.error(`Error reading exif data for "${state.id}"!`, { errors: exif_data.errors })
 		// XXX TODO mark file as "in error" to not be renamed / processed
@@ -441,22 +452,48 @@ export function on_exif_read(state: Readonly<State>, exif_data: Readonly<Tags>):
 		}
 	}
 
-	const existing_notes = get_file_notes_from_exif(exif_data)
-
 	state = {
 		...state,
 		current_exif_data: exif_data,
-		original: {
-			...state.original,
-			exif_orientation: exif_data?.Orientation,
-			...existing_notes?.original,
+		notes: {
+			...state.notes,
+			original: {
+				exif_orientation: exif_data?.Orientation,
+				...state.notes.original,
+			}
 		}
 	}
 
-	// XXX
-	if (has_all_infos_for_extracting_the_creation_date(state)) {
-		state.cached.best_creation_date_ms = get_best_creation_date_ms(state)
-		// TODO reparse
+	return state
+}
+
+export function on_hash_computed(state: Readonly<State>, hash: string): Readonly<State> {
+	logger.trace(`[${LIB}] on_hash_computed(…)`, { })
+	assert(hash)
+
+	state = {
+		...state,
+		current_hash: hash,
+	}
+
+	return state
+}
+
+export function on_notes_unpersisted(state: Readonly<State>, existing_notes: null | Readonly<PersistedNotes>): Readonly<State> {
+	logger.trace(`[${LIB}] on_notes_unpersisted(…)`, { })
+	if (!existing_notes)
+		return state
+
+	state = {
+		...state,
+		notes: {
+			...state.notes,
+			...existing_notes,
+			original: {
+				...state.notes.original,
+				...existing_notes.original,
+			}
+		}
 	}
 
 	return state
@@ -468,22 +505,21 @@ export function on_moved(state: Readonly<State>, new_id: RelativePath): Readonly
 	return {
 		...state,
 		id: new_id,
-		cached: {
-			...state.cached,
-			parsed_path: path.parse(new_id),
-		},
 	}
 }
 
 ///////////////////// DEBUG /////////////////////
 
 export function to_string(state: Readonly<State>) {
-	const { id, original, cached: { parsed_path: { base, dir }}} = state
+	const { id } = state
 	const is_eligible = is_media_file(state)
+	const parsed_path = state.memoized.get_parsed_path(state)
+	const { dir, base } = parsed_path
 
 	let str = `🏞  "${[dir, (is_eligible ? stylize_string.green : stylize_string.gray.dim)(base)].join(path.sep)}"`
-	if (state.cached.best_creation_date_ms) {
-		str += '  📅 ' + get_human_readable_UTC_timestamp_seconds(new Date(state.cached.best_creation_date_ms))
+	const best_creation_date_ms = get_best_creation_date_ms(state)
+	if (best_creation_date_ms) {
+		str += '  📅 ' + get_human_readable_UTC_timestamp_seconds(new Date(best_creation_date_ms))
 	}
 	else if (is_eligible) {
 		str += '  📅 TODO'

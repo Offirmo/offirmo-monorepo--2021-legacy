@@ -1,4 +1,4 @@
-export const LIB = 'photos-sorter'
+export const LIB = 'offirmo-photos-sorter'
 
 export const EXIF_POWERED_FILE_EXTENSIONS = [
 	// https://en.wikipedia.org/wiki/Exif
@@ -10,4 +10,4 @@ export const EXIF_POWERED_FILE_EXTENSIONS = [
 	'.mp4',
 ]
 
-export const EXIF_ENTRY = `offirmo-${LIB}`
+export const NOTES_BASENAME = `.${LIB}_notes.json`
