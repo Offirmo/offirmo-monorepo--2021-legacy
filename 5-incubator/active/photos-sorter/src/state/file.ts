@@ -1,6 +1,7 @@
 import path from 'path'
 import fs from 'fs'
 
+import memoize_once from 'memoize-one'
 import stylize_string from 'chalk'
 import assert from 'tiny-invariant'
 import { Tags, ExifDateTime } from 'exiftool-vendored'
@@ -14,30 +15,16 @@ import { get_compact_date_from_UTC_ts } from '../services/utils'
 import logger from '../services/logger'
 import { parse as parse_basename, ParseResult, normalize_extension } from '../services/name_parser'
 import { get_human_readable_timestamp_auto } from '../services/date_generator'
+import { OriginalFileData as OriginalData } from './notes'
 
 type TimestampsHash = { [k: string]: TimestampUTCMs }
-
-export interface OriginalData {
-	// from path
-	basename: string
-	closest_parent_with_date_hint?: string
-
-	// from fs
-	birthtimeMs?: number
-
-	// from exif
-	exif_orientation?: number
-}
-
-export interface SorterNotes {
-	original: OriginalData
-}
 
 export interface State {
 	id: RelativePath
 
 	current_exif_data: undefined | null | Tags // can be null if no EXIF for this format
 	current_fs_stats: undefined | fs.Stats // can't be null, always a file
+	current_hash: undefined | string // can't be null, always a file
 
 	original: OriginalData
 

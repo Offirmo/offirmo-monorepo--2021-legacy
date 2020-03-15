@@ -9,6 +9,7 @@ export const ActionType = Enum(
 	'explore_folder',
 	'query_fs_stats',
 	'query_exif',
+	'hash',
 	'ensure_folder',
 	'normalize_file',
 	'move_file',
@@ -33,6 +34,11 @@ export interface ActionQueryFsStats extends BaseAction {
 
 export interface ActionQueryExif extends BaseAction {
 	type: typeof ActionType.query_exif
+	id: string
+}
+
+export interface ActionHash extends BaseAction {
+	type: typeof ActionType.hash
 	id: string
 }
 
@@ -72,6 +78,7 @@ export type Action =
 	| ActionExploreFolder
 	| ActionQueryFsStats
 	| ActionQueryExif
+	| ActionHash
 	// write
 	| ActionNormalizeFile
 	| ActionEnsureFolder
@@ -93,6 +100,12 @@ export function create_action_query_fs_stats(id: RelativePath): ActionQueryFsSta
 export function create_action_query_exif(id: RelativePath): ActionQueryExif {
 	return {
 		type: ActionType.query_exif,
+		id,
+	}
+}
+export function create_action_hash(id: RelativePath): ActionHash {
+	return {
+		type: ActionType.hash,
 		id,
 	}
 }
