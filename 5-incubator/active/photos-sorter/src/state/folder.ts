@@ -7,12 +7,11 @@ import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 
 import { get_compact_date_from_UTC_ts } from '../services/utils'
 import { is_year, get_normalized_dirname, is_compact_date } from '../services/matchers'
-import { extract_compact_date } from '../services/name_parser'
-import {Basename, RelativePath, SimpleYYYYMMDD} from '../types'
+import { parse as parse_basename, extract_compact_date } from '../services/name_parser'
+import { get_compact_date } from '../services/date_generator'
+import { Basename, RelativePath, SimpleYYYYMMDD } from '../types'
 import * as MediaFile from './file'
 import logger from '../services/logger'
-import {get_best_compact_date} from './file'
-import {get_best_creation_date_ms} from './file'
 
 ////////////////////////////////////
 
@@ -26,7 +25,7 @@ export const Type = Enum(
 	'cantsort',
 	'year',
 	'event', // by default
-	'unknown', // the date range is too big, can't be an event
+	'unknown', // anything that can't be an event
 )
 export type Type = Enum<typeof Type> // eslint-disable-line no-redeclare
 
@@ -42,9 +41,6 @@ export interface State {
 	}
 }
 
-const now_ms = get_UTC_timestamp_ms()
-export const now_simple = get_compact_date_from_UTC_ts(now_ms)
-
 ///////////////////// ACCESSORS /////////////////////
 
 function _infer_folder_type(id: RelativePath, parsed: path.ParsedPath): Type {
@@ -57,23 +53,12 @@ function _infer_folder_type(id: RelativePath, parsed: path.ParsedPath): Type {
 	if (depth === 0 && get_normalized_dirname(parsed.base) === CANTSORT_BASENAME) return Type.cantsort
 	if (depth === 0 && is_year(parsed.base)) return Type.year
 
-	/*
-	//console.log('_infer_folder_type', { dir: parsed.dir, depth })
-	if (depth > 0) return Type.event
-
-	if (is_year(parsed.base)) return Type.year
-
-	if (is_compact_date(parsed.base.slice(0, 8))) return Type.event
-*/
-
-	return Type.event
+	return Type.event // so far
 }
 
-function _infer_start_date(base: Basename, now = now_simple): undefined | SimpleYYYYMMDD {
-	const compact_date = extract_compact_date(base)
-	if (compact_date) return compact_date
-
-	return undefined
+function _infer_start_date(base: Basename): undefined | SimpleYYYYMMDD {
+	const compact_date_from_basename = extract_compact_date(base)
+	return compact_date_from_basename || undefined
 }
 
 export function get_basename(state: Readonly<State>): Basename {
@@ -81,21 +66,22 @@ export function get_basename(state: Readonly<State>): Basename {
 }
 
 export function get_ideal_basename(state: Readonly<State>): Basename {
-	if (is_compact_date(get_basename(state).slice(0, 8)))
-		return get_basename(state) // no need to change
+	const current_basename = get_basename(state)
 
-	return String(get_compact_date(state)) + ' - ' + get_basename(state)
+	if (state.type !== Type.event)
+		return current_basename
+
+	assert(state.start_date)
+	const parsed = parse_basename(current_basename)
+
+	return String(state.start_date + ' - ' + parsed.meaningful_part)
 }
-
-export function get_compact_date(state: Readonly<State>) {
-	return state.start_date
-}
-
+/*
 export function get_year(state: Readonly<State>) {
 	assert(state.start_date)
 	return Math.trunc(state.start_date / 10000)
 }
-
+*/
 ///////////////////// REDUCERS /////////////////////
 
 export function create(id: RelativePath): Readonly<State> {
@@ -125,7 +111,7 @@ export function on_subfile_found(state: Readonly<State>, file_state: Readonly<Me
 		const new_start_date = state.start_date
 			? Math.min(state.start_date, file_compact_date)
 			: file_compact_date
-		const new_end_date = state.end_date === now_simple
+		const new_end_date = state.end_date
 			? Math.max(state.end_date, file_compact_date)
 			: file_compact_date
 
@@ -162,6 +148,17 @@ export function on_subfile_found(state: Readonly<State>, file_state: Readonly<Me
 	}
 
 	return state
+}
+
+export function demote_to_unknown(state: Readonly<State>): Readonly<State> {
+	logger.trace(`[${LIB}] demote_to_unknown(…)`, { })
+
+	assert(state.type === Type.event)
+
+	return {
+		...state,
+		type: Type.unknown,
+	}
 }
 
 /*

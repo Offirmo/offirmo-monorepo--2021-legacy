@@ -19,7 +19,8 @@ import {
 	NON_MEANINGFUL_FULL,
 } from './matchers'
 import {
-	get_human_readable_timestamp_auto
+	get_compact_date,
+	get_human_readable_timestamp_auto,
 } from './date_generator'
 import logger from './logger'
 import {SimpleYYYYMMDD} from "../types";
@@ -414,9 +415,9 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 	const split_by_dot = name_lc.split('.')
 	if (split_by_dot.length > 1) {
 		result.extension_lc = '.' + split_by_dot.slice(-1)[0]
-		debug && console.log({ extension_lc: result.extension_lc })
+		//debug && console.log({ extension_lc: result.extension_lc })
 		state.buffer = name.slice(0, -result.extension_lc.length)
-		debug && console.log({ buffer: state.buffer })
+		//debug && console.log({ buffer: state.buffer })
 	}
 
 	state.buffer = state.buffer.trim()
@@ -620,9 +621,5 @@ export function extract_compact_date(s: string): SimpleYYYYMMDD | null {
 		return null
 
 	const date = new Date(result.timestamp_ms)
-	const YYYY = date.getUTCFullYear()
-	const MM = String(date.getUTCMonth() + 1).padStart(2, '0')
-	const DD = String(date.getUTCDate()).padStart(2, '0')
-
-	return Number(`${YYYY}${MM}${DD}`)
+	return get_compact_date(date)
 }

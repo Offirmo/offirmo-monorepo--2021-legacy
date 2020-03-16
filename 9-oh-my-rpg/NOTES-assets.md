@@ -30,6 +30,7 @@ https://www.ambient-mixer.com/
 
 ### Music
 * CC4 https://www.youtube.com/channel/UCfSUheoljDlGDjerRylO4Nw
+* combat https://www.youtube.com/watch?v=D0lSwA_twwo&list=OLAK5uy_lzWmdooElmd1fKAxwBZyvqXxGEPd1RQPk&index=7
 
 Médiévale
 * vin clairet

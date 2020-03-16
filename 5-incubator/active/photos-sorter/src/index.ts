@@ -152,7 +152,7 @@ async function explore_folder(id: RelativePath) {
 		if (is_notes) {
 			// TODO load
 			// TODO consolidate (inc. persist)
-			throw new Error('NIMP')
+			throw new Error('NIMP load notes')
 		}
 
 		//const normalized_extension TODO
@@ -261,7 +261,7 @@ async function ensure_folder(id: RelativePath) {
 	logger.trace(`- ensuring dir "${id}"…`)
 
 	const is_existing_according_to_db = DB.is_folder_existing(db, id)
-	logger.log('so far:', { is_existing_according_to_db })
+	//logger.log('so far:', { is_existing_according_to_db })
 	if (is_existing_according_to_db) return
 
 	const abs_path = DB.get_absolute_path(db, id)

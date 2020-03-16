@@ -1,13 +1,15 @@
 import assert from 'tiny-invariant'
 
 import { TimestampUTCMs } from '@offirmo-private/timestamps'
+import {SimpleYYYYMMDD} from "../types";
+import {parse} from "./name_parser";
 
 /////////////////////
 
-type PhotoSorterTimestampDays = string
-type PhotoSorterTimestampMinutes = string
-type PhotoSorterTimestampSeconds = string
-type PhotoSorterTimestampMillis = string
+export type PhotoSorterTimestampDays = string
+export type PhotoSorterTimestampMinutes = string
+export type PhotoSorterTimestampSeconds = string
+export type PhotoSorterTimestampMillis = string
 
 /////////////////////
 // spec:
@@ -16,7 +18,7 @@ type PhotoSorterTimestampMillis = string
 // - as short as possible
 
 // ex. 2018-11-21
-function get_human_readable_timestamp_days(date: Readonly<Date>): PhotoSorterTimestampDays {
+export function get_human_readable_timestamp_days(date: Readonly<Date>): PhotoSorterTimestampDays {
 	const YYYY = date.getUTCFullYear()
 	const MM = String(date.getUTCMonth() + 1).padStart(2, '0')
 	const DD = String(date.getUTCDate()).padStart(2, '0')
@@ -25,7 +27,7 @@ function get_human_readable_timestamp_days(date: Readonly<Date>): PhotoSorterTim
 }
 
 // ex. 2018-11-21_06h00
-function get_human_readable_timestamp_minutes(date: Readonly<Date>): PhotoSorterTimestampMinutes {
+export function get_human_readable_timestamp_minutes(date: Readonly<Date>): PhotoSorterTimestampMinutes {
 	const hh = String(date.getUTCHours()).padStart(2, '0')
 	const mm = String(date.getUTCMinutes()).padStart(2, '0')
 
@@ -33,14 +35,14 @@ function get_human_readable_timestamp_minutes(date: Readonly<Date>): PhotoSorter
 }
 
 // ex. 2018-11-21_04h23m15
-function get_human_readable_timestamp_seconds(date: Readonly<Date>): PhotoSorterTimestampSeconds {
+export function get_human_readable_timestamp_seconds(date: Readonly<Date>): PhotoSorterTimestampSeconds {
 	const ss = String(date.getUTCSeconds()).padStart(2, '0')
 
 	return get_human_readable_timestamp_minutes(date) + `m${ss}`
 }
 
 // ex.      2018-11-21_06h00m45s632
-function get_human_readable_timestamp_millis(date: Readonly<Date>): PhotoSorterTimestampMillis {
+export function get_human_readable_timestamp_millis(date: Readonly<Date>): PhotoSorterTimestampMillis {
 	const mmm = String(date.getUTCMilliseconds()).padStart(3, '0')
 
 	return get_human_readable_timestamp_seconds(date) + `s${mmm}`
@@ -61,7 +63,7 @@ function _get_human_readable_timestamp_auto(date: Readonly<Date>, digits: string
 
 	return get_human_readable_timestamp_millis(date)
 }
-function get_human_readable_timestamp_auto(timestamp: TimestampUTCMs, ref_digits?: string): PhotoSorterTimestampMillis {
+export function get_human_readable_timestamp_auto(timestamp: TimestampUTCMs, ref_digits?: string): PhotoSorterTimestampMillis {
 	const date = new Date(timestamp)
 
 	const YYYY = date.getUTCFullYear()
@@ -80,20 +82,12 @@ function get_human_readable_timestamp_auto(timestamp: TimestampUTCMs, ref_digits
 	return _get_human_readable_timestamp_auto(date, digits)
 }
 
-/////////////////////
+export function get_compact_date(date: Readonly<Date>): SimpleYYYYMMDD | null {
+	const YYYY = date.getUTCFullYear()
+	const MM = String(date.getUTCMonth() + 1).padStart(2, '0')
+	const DD = String(date.getUTCDate()).padStart(2, '0')
 
-export {
-	PhotoSorterTimestampDays,
-	PhotoSorterTimestampMinutes,
-	PhotoSorterTimestampSeconds,
-	PhotoSorterTimestampMillis,
-
-	get_human_readable_timestamp_days,
-	get_human_readable_timestamp_seconds,
-	get_human_readable_timestamp_minutes,
-	get_human_readable_timestamp_millis,
-
-	get_human_readable_timestamp_auto,
+	return Number(`${YYYY}${MM}${DD}`)
 }
 
 /////////////////////

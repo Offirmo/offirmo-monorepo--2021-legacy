@@ -67,6 +67,12 @@ export function get_all_folder_ids(state: Readonly<State>): string[] {
 		.sort()
 }
 
+export function get_all_event_folder_ids(state: Readonly<State>): string[] {
+	return Object.keys(state.folders)
+		.filter(k => state.folders[k].type === Folder.Type.event)
+		//.sort((a, b) => state.folders[a].start_date! - state.folders[b].start_date!)
+}
+
 export function get_all_file_ids(state: Readonly<State>): string[] {
 	return Object.keys(state.files)
 		.sort()
@@ -77,17 +83,58 @@ export function get_all_media_file_ids(state: Readonly<State>): string[] {
 		.filter(k => File.is_media_file(state.files[k]))
 }
 
-export function get_all_event_folder_ids(state: Readonly<State>): string[] {
-	return Object.keys(state.folders)
-		.filter(k => state.folders[k].type === Folder.Type.event)
-}
-
 export function is_existing(state: Readonly<State>, id: RelativePath): boolean {
 	return state.files.hasOwnProperty(id) || is_folder_existing(state, id)
 }
 
 export function is_folder_existing(state: Readonly<State>, id: RelativePath): boolean {
 	return state.folders.hasOwnProperty(id)
+}
+
+export function get_ideal_file_relative_path(state: Readonly<State>, id: RelativePath): RelativePath {
+	const file_state = state.files[id]
+	const highest_parent = file_state.memoized.get_parsed_path(file_state).dir.split(path.sep)[0]
+	const cantsort_segment = get_final_base(Folder.CANTSORT_BASENAME)
+
+	if (!File.is_media_file(file_state)) {
+		if (highest_parent === cantsort_segment)
+			return id // no change
+		else
+			return path.join(cantsort_segment, id)
+	}
+
+	const ideal_basename = File.get_ideal_basename(file_state)
+	const year = String(File.get_year(file_state))
+	/*const event_folder = ((): string => {
+		const compact_date = File.get_best_compact_date(file_state)
+		const all_events_folder_ids = get_all_event_folder_ids(state)
+		let compatible_event_folder_id = all_events_folder_ids.find(fid => _event_folder_matches(state.folders[fid], compact_date))
+		if (!compatible_event_folder_id) {
+			// need to create a new event folder!
+			// note: we group weekends together
+			compatible_event_folder_id = (() => {
+				const timestamp = File.get_best_creation_date_ms(file_state)
+				let date = new Date(timestamp) // XXX TODO use Date everywhere!
+
+				if (date.getUTCDay() === 0) {
+					// sunday is coalesced to sat = start of weekend
+					const timestamp_one_day_before = timestamp - (1000 * 3600 * 24)
+					date = new Date(timestamp_one_day_before)
+				}
+
+				const radix = get_human_readable_UTC_timestamp_days(date)
+
+				return path.join(year, radix + ' - ' + (date.getUTCDay() === 6 ? 'weekend' : 'life'))
+			})()
+
+			state = _register_folder(state, compatible_event_folder_id, false)
+			actions.push(create_action_ensure_folder(compatible_event_folder_id))
+			all_events_folder_ids.push(compatible_event_folder_id)
+		}
+	})()*/
+
+	throw new Error('NIMP')
+	//return path.join(year, event_folder, ideal_basename)
 }
 
 ///////////////////// REDUCERS /////////////////////
@@ -337,6 +384,19 @@ export function explore_recursively(state: Readonly<State>): Readonly<State> {
 
 export function on_exploration_done(state: Readonly<State>): Readonly<State> {
 
+	// demote event folders with no dates
+	let all_event_folder_ids = get_all_event_folder_ids(state)
+	all_event_folder_ids.forEach(id => {
+		state.folders[id] = Folder.demote_to_unknown(state.folders[id]) // TODO immu?
+	})
+
+	// demote non-canonical or overlapping folder events but create the canonical ones
+	all_event_folder_ids = get_all_event_folder_ids(state)
+	all_event_folder_ids.forEach(id => {
+		const folder_state = state.folders[id]
+		throw new Error('NIMP')
+	})
+
 	// consolidate all data
 	const all_media_files: Readonly<File.State>[] = Object.values(get_all_media_file_ids(state)).map(id => state.files[id])
 	state = {
@@ -386,28 +446,24 @@ export function ensure_structural_dirs_are_present(state: Readonly<State>): Read
 }
 
 export function move_all_files_to_their_ideal_location_incl_deduping(state: Readonly<State>): Readonly<State> {
-	throw new Error('NIMP')
+	const all_file_ids = get_all_media_file_ids(state)
+	all_file_ids.forEach(id => {
+		const file_state = state.files[id]
+
+	})
+	throw new Error('NIMP move_all_files_to_their_ideal_location_incl_deduping')
 }
 
 export function delete_empty_folders_recursively(state: Readonly<State>): Readonly<State> {
 	throw new Error('NIMP')
 }
-
 /*
 export function ensure_existing_event_folders_are_organized(state: Readonly<State>): Readonly<State> {
-	assert(false, 'todo reimplement')
 
 	// first re-qualify some event folders
 	Object.keys(state.folders).forEach(id => {
 		const folder_state = state.folders[id]
 		if (folder_state.type !== Folder.Type.event) return
-
-		// ensure dates look like an event
-		if (folder_state.start_date === Folder.now_simple
-			|| (folder_state.end_date - folder_state.start_date) > 28) {
-			// demote. Not immutable, I know :/
-			folder_state.type = Folder.Type.unknown
-		}
 
 		// TODO ensure the picture's dates spread is coherent with a single event
 	})
@@ -463,11 +519,17 @@ export function ensure_existing_event_folders_are_organized(state: Readonly<Stat
 
 	return state
 }
+*/
+
 
 function _event_folder_matches(folder_state: Readonly<Folder.State>, compact_date: SimpleYYYYMMDD): boolean {
-	return compact_date >= folder_state.start_date && compact_date <= folder_state.end_date
+	return true
+		&& !!folder_state.start_date
+		&& !!folder_state.end_date
+		&& compact_date >= folder_state.start_date
+		&& compact_date <= folder_state.end_date
 }
-
+/*
 export function ensure_all_needed_events_folders_are_present_and_move_files_in_them(state: Readonly<State>): Readonly<State> {
 	const actions: Action[] = []
 

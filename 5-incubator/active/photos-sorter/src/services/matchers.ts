@@ -94,7 +94,7 @@ export const NON_MEANINGFUL_FULL: string[] = [
 	'PHOTO',
 	'IMG',
 	'VID',
-	'M', // from us
+	'MM', // from us
 ]
 
 ///////////////////// WITH Regexp :( /////////////////////

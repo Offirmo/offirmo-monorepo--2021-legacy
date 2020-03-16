@@ -9,7 +9,7 @@ import { TimestampUTCMs, get_UTC_timestamp_ms, get_human_readable_UTC_timestamp_
 import { NORMALIZERS } from '@offirmo-private/normalize-string'
 
 import { EXIF_POWERED_FILE_EXTENSIONS } from '../consts'
-import { Basename, RelativePath } from '../types'
+import {Basename, RelativePath, SimpleYYYYMMDD} from '../types'
 import { get_params } from '../params'
 import { get_compact_date_from_UTC_ts } from '../services/utils'
 import logger from '../services/logger'
@@ -241,6 +241,7 @@ export function get_best_creation_date_ms(state: Readonly<State>): TimestampUTCM
 	}
 	//console.log('get_best_creation_date_ms()', state.id)
 	const from_basename = _get_creation_date_from_basename(state)
+	console.log({ from_basename })
 	// even if we have a date from name,
 	// the exi/fs one may be more precise,
 	// so let's continue
@@ -276,7 +277,10 @@ export function get_best_creation_date_ms(state: Readonly<State>): TimestampUTCM
 
 		const from_fs = _get_creation_date_from_fs_stats(state)
 		if (from_basename) {
-			assert(Math.abs(from_fs - from_basename) < DAY_IN_MILLIS, 'basename/fs compatibility')
+			if (Math.abs(from_fs - from_basename) >= DAY_IN_MILLIS) {
+				// basename always take priority, but this is suspicious
+				// TODO log inside file
+			}
 			const auto_from_basename = get_human_readable_timestamp_auto(from_basename)
 			const auto_from_fs = get_human_readable_timestamp_auto(from_fs)
 			if (auto_from_fs.startsWith(auto_from_basename))
@@ -325,7 +329,7 @@ export function get_best_creation_date_ms(state: Readonly<State>): TimestampUTCM
 	}
 }
 
-export function get_best_compact_date(state: Readonly<State>) {
+export function get_best_compact_date(state: Readonly<State>): SimpleYYYYMMDD {
 	return get_compact_date_from_UTC_ts(get_best_creation_date_ms(state))
 }
 
@@ -340,27 +344,18 @@ export function get_ideal_basename(state: Readonly<State>): Basename {
 	let extension = parsed_original_basename.extension_lc
 	extension = PARAMS.extensions_to_normalize[extension] || extension
 
-	let ideal = 'M' + get_human_readable_timestamp_auto(bcd_ms)
+	let ideal = 'MM' + get_human_readable_timestamp_auto(bcd_ms)
 	if (meaningful_part)
 		ideal += '_' + meaningful_part
 	ideal += extension
 
 	return ideal
 }
-
+/*
 export function get_original_data(state: Readonly<State>): Readonly<OriginalData> {
 	return state.notes.original
 }
-
-/*
-export function get_ideal_path(state: Readonly<State>): RelativePath {
-	if (!state.is_media_file) {
-		return
-	}
-
-	return ideal
-}*/
-
+*/
 ///////////////////// REDUCERS /////////////////////
 
 export function create(id: RelativePath): Readonly<State> {
@@ -529,7 +524,7 @@ export function to_string(state: Readonly<State>) {
 	const parsed_path = state.memoized.get_parsed_path(state)
 	const {dir, base} = parsed_path
 
-	let str = `🏞  "${[dir, (is_eligible ? stylize_string.green : stylize_string.gray.dim)(base)].join(path.sep)}"`
+	let str = `🏞  "${[ '.', ...(dir ? [dir] : []), (is_eligible ? stylize_string.green : stylize_string.gray.dim)(base)].join(path.sep)}"`
 
 	if (is_eligible) {
 		const best_creation_date_ms = get_best_creation_date_ms(state)

@@ -53,6 +53,9 @@ From marketing of "Children of MORTA"
 * https://en.wikipedia.org/wiki/Rite_of_passage
 * https://en.wikipedia.org/wiki/Marriage_of_the_Sea_ceremony
 
+"Tradition is not the worship of ashes but the passing of the flame"
+creation vs. destruction
+
 #### coopération
 * https://en.wikipedia.org/wiki/Baqt
 
