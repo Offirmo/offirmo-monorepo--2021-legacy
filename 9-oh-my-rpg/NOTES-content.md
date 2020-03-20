@@ -63,6 +63,7 @@ creation vs. destruction
 ### NPC
 https://fr.wikipedia.org/wiki/Malgven
 https://fr.wikipedia.org/wiki/Gradlon
+https://en.wikipedia.org/wiki/Orlande_de_Lassus
 
 ### architecture
 https://en.wikipedia.org/wiki/Martello_tower

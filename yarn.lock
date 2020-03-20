@@ -3488,6 +3488,13 @@ constants-browserify@^1.0.0:
   resolved "https://packages.atlassian.com/api/npm/npm-remote/constants-browserify/-/constants-browserify-1.0.0.tgz#c20b96d8c617748aaf1c16021760cd27fcb8cb75"
   integrity sha1-wguW2MYXdIqvHBYCF2DNJ/y4y3U=
 
+contained-periodic-values@^1.0.0:
+  version "1.0.0"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/contained-periodic-values/-/contained-periodic-values-1.0.0.tgz#a81dd8e84e0a5513d590a1e6581bfe55c00f9c4d"
+  integrity sha1-qB3Y6E4KVRPVkKHmWBv+VcAPnE0=
+  dependencies:
+    nearest-periodic-value "^1.0.0"
+
 contains-path@^0.1.0:
   version "0.1.0"
   resolved "https://packages.atlassian.com/api/npm/npm-remote/contains-path/-/contains-path-0.1.0.tgz#fe8cf184ff6670b6baef01a9d4861a5cbec4120a"
@@ -8058,7 +8065,27 @@ mocha@^7:
     yargs-parser "13.1.1"
     yargs-unparser "1.6.0"
 
-moment@^2.10.6:
+moment-business@^3:
+  version "3.0.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/moment-business/-/moment-business-3.0.1.tgz#df0de1a8a074060652b5688d3cc99c9d8b76dcc4"
+  integrity sha1-3w3hqKB0BgZStWiNPMmcnYt23MQ=
+  dependencies:
+    contained-periodic-values "^1.0.0"
+    skipped-periodic-values "^1.0.0"
+
+moment-parseformat@^3:
+  version "3.0.0"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/moment-parseformat/-/moment-parseformat-3.0.0.tgz#3a1dc438b4bc073b7e93cc298cfb6c5daac26dba"
+  integrity sha1-Oh3EOLS8Bzt+k8wpjPtsXarCbbo=
+
+moment-timezone@^0.5:
+  version "0.5.28"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/moment-timezone/-/moment-timezone-0.5.28.tgz#f093d789d091ed7b055d82aa81a82467f72e4338"
+  integrity sha1-8JPXidCR7XsFXYKqgagkZ/cuQzg=
+  dependencies:
+    moment ">= 2.9.0"
+
+"moment@>= 2.9.0", moment@^2, moment@^2.10.6:
   version "2.24.0"
   resolved "https://packages.atlassian.com/api/npm/npm-remote/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
   integrity sha1-DQVdU/UFKqZTyfbraLtdEr9cK1s=
@@ -8156,6 +8183,11 @@ natural-compare@^1.4.0:
   version "1.4.0"
   resolved "https://packages.atlassian.com/api/npm/npm-remote/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
   integrity sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=
+
+nearest-periodic-value@^1.0.0:
+  version "1.2.0"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/nearest-periodic-value/-/nearest-periodic-value-1.2.0.tgz#a84fd52919a89692864d20a41468313d255905c6"
+  integrity sha1-qE/VKRmolpKGTSCkFGgxPSVZBcY=
 
 negotiator@0.6.2:
   version "0.6.2"
@@ -11207,6 +11239,13 @@ size-limit@2.2.4:
     cosmiconfig "^6.0.0"
     globby "^10.0.1"
     read-pkg-up "^7.0.1"
+
+skipped-periodic-values@^1.0.0:
+  version "1.0.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/skipped-periodic-values/-/skipped-periodic-values-1.0.1.tgz#d3a0a4d93ac134c4550db2a8823ed9d9739ceca2"
+  integrity sha1-06Ck2TrBNMRVDbKogj7Z2XOc7KI=
+  dependencies:
+    nearest-periodic-value "^1.0.0"
 
 slash@^1.0.0:
   version "1.0.0"
