@@ -89,6 +89,7 @@ https://www.1843magazine.com/design/rewind/when-potatoes-were-the-height-of-fash
 ### technologie
 * https://worldbuilding.stackexchange.com/questions/156036/in-what-sequence-should-an-advanced-civilization-teach-technology-to-medieval-so
 * https://rpg.stackexchange.com/questions/30966/realism-of-poisoned-weapons
+* https://history.stackexchange.com/questions/57152/how-did-archers-judge-distance-before-range-finders
 
 ### organisations
 * currencies https://en.bitcoinwiki.org/wiki/List_of_fictional_currencies

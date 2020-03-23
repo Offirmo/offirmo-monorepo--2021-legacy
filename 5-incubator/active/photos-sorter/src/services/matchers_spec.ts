@@ -40,8 +40,8 @@ describe(`${LIB} - matchers`, function() {
 		})
 
 		it('should have an upper limit', () => {
-			expect(is_year(String((new Date()).getUTCFullYear() + 1))).to.be.true
-			expect(is_year(String((new Date()).getUTCFullYear() + 2))).to.be.false
+			expect(is_year(String((new Date()).getFullYear() + 1))).to.be.true
+			expect(is_year(String((new Date()).getFullYear() + 2))).to.be.false
 			expect(is_year('2100')).to.be.false
 		})
 
@@ -49,8 +49,8 @@ describe(`${LIB} - matchers`, function() {
 			expect(is_year('1890')).to.be.true
 			expect(is_year('1999')).to.be.true
 			expect(is_year('2020')).to.be.true
-			expect(is_year(String((new Date()).getUTCFullYear()))).to.be.true
-			expect(is_year(String((new Date()).getUTCFullYear() + 1))).to.be.true
+			expect(is_year(String((new Date()).getFullYear()))).to.be.true
+			expect(is_year(String((new Date()).getFullYear() + 1))).to.be.true
 		})
 	})
 

@@ -5,19 +5,17 @@ import memoize_once from 'memoize-one'
 import stylize_string from 'chalk'
 import assert from 'tiny-invariant'
 import { Tags, ExifDateTime } from 'exiftool-vendored'
-import { TimestampUTCMs, get_UTC_timestamp_ms, get_human_readable_UTC_timestamp_seconds } from '@offirmo-private/timestamps'
-import { NORMALIZERS } from '@offirmo-private/normalize-string'
+import { get_human_readable_UTC_timestamp_seconds } from '@offirmo-private/timestamps'
 
 import { EXIF_POWERED_FILE_EXTENSIONS } from '../consts'
-import {Basename, RelativePath, SimpleYYYYMMDD} from '../types'
+import { Basename, RelativePath, SimpleYYYYMMDD, ISODateString } from '../types'
 import { get_params } from '../params'
-import { get_compact_date_from_UTC_ts } from '../services/utils'
 import logger from '../services/logger'
+import { get_creation_date_from_exif } from '../services/exif'
 import { parse as parse_basename, ParseResult, normalize_extension } from '../services/name_parser'
-import { get_human_readable_timestamp_auto } from '../services/date_generator'
+import { get_human_readable_timestamp_auto, get_compact_date } from '../services/date_generator'
 
 
-type TimestampsHash = { [k: string]: TimestampUTCMs }
 
 export interface OriginalData {
 	// from path
@@ -25,7 +23,7 @@ export interface OriginalData {
 	closest_parent_with_date_hint?: Basename
 
 	// from fs
-	birthtimeMs?: number
+	birthtime?: ISODateString
 
 	// from exif
 	exif_orientation?: number
@@ -58,17 +56,6 @@ const LIB = '🖼'
 
 const PARAMS = get_params()
 
-const EXIF_DATE_FIELDS: string[] = [
-	'CreateDate',
-	'DateTimeOriginal',
-	//'GPSDateStamp',
-	//'DateCreated',
-	//'DateTimeCreated',
-	//'DigitalCreationDate',
-	//'DigitalCreationTime',
-	'DateTimeGenerated',
-	'MediaCreateDate',
-]
 
 ///////////////////// ACCESSORS /////////////////////
 
@@ -88,14 +75,16 @@ export function get_file_notes_from_exif(exif_data: Readonly<State['current_exif
 }
 */
 
-function get_most_reliable_birthtimeMs_from_fs_stats(fs_stats: Readonly<State['current_fs_stats']>): TimestampUTCMs {
+function get_most_reliable_birthtime_from_fs_stats(fs_stats: Readonly<State['current_fs_stats']>): Date {
 	assert(fs_stats, 'fs stats ok ✔')
 
 	// fs stats are unreliable for some reasons.
 	const { birthtimeMs, atimeMs, mtimeMs, ctimeMs } = fs_stats!
-	return Math.min(
+	const lowest_ms = Math.min(
 			...[birthtimeMs, atimeMs, mtimeMs, ctimeMs].filter(d => !!d)
 		)
+
+	return new Date(lowest_ms)
 }
 
 ////////////
@@ -135,98 +124,33 @@ export function has_all_infos_for_extracting_the_creation_date(state: Readonly<S
 		)
 }
 
-function _get_creation_date_from_fs_stats(state: Readonly<State>): TimestampUTCMs {
-	return state.notes.original.birthtimeMs || get_most_reliable_birthtimeMs_from_fs_stats(state.current_fs_stats)
+function _get_creation_date_from_fs_stats(state: Readonly<State>): Date {
+	return state.notes.original.birthtime
+		? new Date(state.notes.original.birthtime)
+		: get_most_reliable_birthtime_from_fs_stats(state.current_fs_stats)
 }
-function _get_creation_date_from_basename(state: Readonly<State>): TimestampUTCMs | null {
-	return state.memoized.get_parsed_original_basename(state).timestamp_ms || null
+function _get_creation_date_from_basename(state: Readonly<State>): Date | null {
+	return state.memoized.get_parsed_original_basename(state).date || null
 }
-function _get_creation_date_from_parent_name(state: Readonly<State>): TimestampUTCMs | null {
+function _get_creation_date_from_parent_name(state: Readonly<State>): Date | null {
 	const { closest_parent_with_date_hint } = state.notes.original
 	if (!closest_parent_with_date_hint) return null
 
 	const parsed = parse_basename(closest_parent_with_date_hint)
 
-	return parsed.timestamp_ms || null
+	return parsed.date || null
 }
-const DEBUG_ID = null //'- inbox/20011101 - le hamster/Le studieux hamster 2.jpg'
-function _get_creation_date_from_exif(state: Readonly<State>): TimestampUTCMs | null {
+function _get_creation_date_from_exif(state: Readonly<State>): Date | null {
 	const { id, current_exif_data } = state
 	if (!is_exif_powered_media_file(state)) {
 		// exif reader manage to put some stuff, but it's not interesting
 		return null
 	}
 
-	assert(current_exif_data !== undefined, `${id}: exif data read`)
-
-	if (id === DEBUG_ID) {
-		console.log('\n\n------------\n\n')
-	}
+	assert(current_exif_data, `${id}: exif data read`)
 
 	try {
-		const now = get_UTC_timestamp_ms()
-		let min_date_ms = now
-		const candidate_dates_ms: TimestampsHash = EXIF_DATE_FIELDS.reduce((acc: TimestampsHash, field: string) => {
-			const date_object: undefined | ExifDateTime  = (current_exif_data as any)[field]
-			if (!date_object) return acc
-			if ((date_object as any) === '0000:00:00 00:00:00') return acc // https://github.com/photostructure/exiftool-vendored.js/issues/73
-
-			try {
-				const tms = +date_object.toDate()
-			}
-			catch (err) {
-				logger.fatal('error reading EXIF date', { field, klass: date_object.constructor.name, date_object, err })
-				throw err
-			}
-
-			let tms = date_object.millis
-				? date_object.millis
-				: +date_object.toDate()
-
-			if (!tms) {
-				logger.error('exif tms null!', {field, tod: date_object.toDate(), milli: +date_object.toDate(), date_object})
-				assert(tms, 'exif tms not null')
-			}
-
-			assert(tms, 'exif dates should have milli')
-
-			// adjust timezone info
-			// the lib is doing some timezone computations we disagree with
-			// https://github.com/photostructure/exiftool-vendored.js#dates
-			const tz_offset_min = date_object.tzoffsetMinutes || -(new Date()).getTimezoneOffset()
-			// we are interested in the TZ date, so cancel the GMT-isation
-			tms = tms + tz_offset_min * 60 * 1000
-
-			if (id === DEBUG_ID) {
-				console.log({
-					date_object,
-					date: date_object.toDate(),
-					tms0: +date_object.toDate(),
-					tz_offset_min,
-					tms,
-				})
-				//throw new Error('STOP!')
-			}
-
-			acc[field] = tms
-			min_date_ms = Math.min(min_date_ms, tms)
-			return acc
-		}, {} as TimestampsHash)
-
-		if (Object.keys(candidate_dates_ms).length === 0) {
-			// seen happening on edited jpg
-			// TODO add to file log
-			/*logger.warn('EXIF compatible file has no usable EXIF date', {
-				id,
-			})*/
-			return null
-		}
-
-		//console.log({ min_date_ms: get_human_readable_UTC_timestamp_seconds(new Date(min_date_ms)) })
-
-		assert(min_date_ms !== now, 'coherent dates')
-
-		return min_date_ms
+		return get_creation_date_from_exif(current_exif_data)
 	}
 	catch (err) {
 		logger.fatal(`error extracting date from exif for "${id}"!`, { err })
@@ -234,14 +158,14 @@ function _get_creation_date_from_exif(state: Readonly<State>): TimestampUTCMs | 
 	}
 }
 const DAY_IN_MILLIS = 24 * 60 * 60 * 1000
-export function get_best_creation_date_ms(state: Readonly<State>): TimestampUTCMs {
+export function get_best_creation_date(state: Readonly<State>): Date {
 	if (!has_all_infos_for_extracting_the_creation_date(state)) {
 		logger.error('has_all_infos_for_extracting_the_creation_date() !== true', state)
 		assert(false, 'has_all_infos_for_extracting_the_creation_date() === true')
 	}
-	//console.log('get_best_creation_date_ms()', state.id)
+	//console.log('get_best_creation_date()', state.id)
 	const from_basename = _get_creation_date_from_basename(state)
-	console.log({ from_basename })
+	//console.log({ from_basename })
 	// even if we have a date from name,
 	// the exi/fs one may be more precise,
 	// so let's continue
@@ -258,7 +182,7 @@ export function get_best_creation_date_ms(state: Readonly<State>): TimestampUTCM
 
 				// no match, date from the basename always takes precedence,
 
-				if (Math.abs(from_exif - from_basename) >= DAY_IN_MILLIS) {
+				if (Math.abs(Number(from_exif) - Number(from_basename)) >= DAY_IN_MILLIS) {
 					// however this is suspicious
 					logger.warn('exif/basename dates discrepancy', {
 						id: state.id,
@@ -277,7 +201,7 @@ export function get_best_creation_date_ms(state: Readonly<State>): TimestampUTCM
 
 		const from_fs = _get_creation_date_from_fs_stats(state)
 		if (from_basename) {
-			if (Math.abs(from_fs - from_basename) >= DAY_IN_MILLIS) {
+			if (Math.abs(Number(from_fs) - Number(from_basename)) >= DAY_IN_MILLIS) {
 				// basename always take priority, but this is suspicious
 				// TODO log inside file
 			}
@@ -330,7 +254,7 @@ export function get_best_creation_date_ms(state: Readonly<State>): TimestampUTCM
 }
 
 export function get_best_compact_date(state: Readonly<State>): SimpleYYYYMMDD {
-	return get_compact_date_from_UTC_ts(get_best_creation_date_ms(state))
+	return get_compact_date(get_best_creation_date(state))
 }
 
 export function get_year(state: Readonly<State>) {
@@ -338,7 +262,7 @@ export function get_year(state: Readonly<State>) {
 }
 
 export function get_ideal_basename(state: Readonly<State>): Basename {
-	const bcd_ms = get_best_creation_date_ms(state)
+	const bcd_ms = get_best_creation_date(state)
 	const parsed_original_basename = state.memoized.get_parsed_original_basename(state)
 	const meaningful_part = parsed_original_basename.meaningful_part
 	let extension = parsed_original_basename.extension_lc
@@ -394,7 +318,7 @@ export function create(id: RelativePath): Readonly<State> {
 					while (dir && !hint_parent) {
 						const parsed = path.parse(dir)
 						const parsed_basename = parse_basename(parsed.base)
-						if (parsed_basename.timestamp_ms) {
+						if (parsed_basename.date) {
 							hint_parent = parsed.base
 						}
 						dir = parsed.dir
@@ -438,7 +362,7 @@ export function on_fs_stats_read(state: Readonly<State>, fs_stats: Readonly<fs.S
 			...state.notes,
 			original: {
 				...(fs_stats && {
-					birthtimeMs: get_most_reliable_birthtimeMs_from_fs_stats(fs_stats),
+					birthtimeMs: get_most_reliable_birthtime_from_fs_stats(fs_stats),
 				}),
 				...state.notes.original,
 			}
@@ -450,7 +374,7 @@ export function on_fs_stats_read(state: Readonly<State>, fs_stats: Readonly<fs.S
 
 export function on_exif_read(state: Readonly<State>, exif_data: Readonly<Tags>): Readonly<State> {
 	logger.trace(`[${LIB}] on_exif_read(…)`, { })
-	assert(exif_data)
+	assert(exif_data, 'on_exif_read() ok')
 	if (exif_data && exif_data.errors && exif_data.errors.length) {
 		logger.error(`Error reading exif data for "${state.id}"!`, { errors: exif_data.errors })
 		// XXX TODO mark file as "in error" to not be renamed / processed
@@ -477,7 +401,7 @@ export function on_exif_read(state: Readonly<State>, exif_data: Readonly<Tags>):
 
 export function on_hash_computed(state: Readonly<State>, hash: string): Readonly<State> {
 	logger.trace(`[${LIB}] on_hash_computed(…)`, { })
-	assert(hash)
+	assert(hash, 'on_hash_computed() ok')
 
 	state = {
 		...state,
@@ -527,9 +451,9 @@ export function to_string(state: Readonly<State>) {
 	let str = `🏞  "${[ '.', ...(dir ? [dir] : []), (is_eligible ? stylize_string.green : stylize_string.gray.dim)(base)].join(path.sep)}"`
 
 	if (is_eligible) {
-		const best_creation_date_ms = get_best_creation_date_ms(state)
+		const best_creation_date_ms = get_best_creation_date(state)
 		if (best_creation_date_ms) {
-			str += '  📅 ' + get_human_readable_UTC_timestamp_seconds(new Date(best_creation_date_ms))
+			str += '  📅 ' + get_human_readable_timestamp_auto(new Date(best_creation_date_ms))
 		} else {
 			str += '  📅 TODO'
 		}

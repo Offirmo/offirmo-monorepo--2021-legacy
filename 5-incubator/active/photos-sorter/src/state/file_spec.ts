@@ -6,7 +6,7 @@ import {
 	State,
 	create,
 	get_ideal_basename,
-	get_best_creation_date_ms,
+	get_best_creation_date,
 	on_fs_stats_read,
 	on_exif_read,
 	on_hash_computed, on_notes_unpersisted,
@@ -51,10 +51,11 @@ describe(`${LIB} - file state`, function() {
 		})
 	})
 
-	describe.only('get_best_creation_date_ms()', function() {
+	describe('get_best_creation_date()', function() {
 		const REAL_CREATION_DATE_MS = 1508475704625 // 2017-10-20_05h01m44s625
-		const EXPECTED_HUMAN_READABLE_TS = '2017-10-20_05h01m44s625'
-		assert(EXPECTED_HUMAN_READABLE_TS === get_human_readable_timestamp_auto(REAL_CREATION_DATE_MS))
+		const REAL_DATE = new Date(REAL_CREATION_DATE_MS)
+		const EXPECTED_HUMAN_READABLE_TS = get_human_readable_timestamp_auto(REAL_DATE)
+		assert(EXPECTED_HUMAN_READABLE_TS.startsWith('2017-10-20'), 'test pre')
 		const BAD_CREATION_DATE_CANDIDATE_MS = 1542780045627 // 20181121
 		const BAD_CREATION_DATE_CANDIDATE_COMPACT = get_compact_date(new Date(BAD_CREATION_DATE_CANDIDATE_MS))
 
@@ -74,7 +75,7 @@ describe(`${LIB} - file state`, function() {
 				'MediaCreateDate': { toDate: () => BAD_CREATION_DATE_CANDIDATE_MS },
 			} as any)
 			state = on_hash_computed(state, '1234')
-			expect(get_best_creation_date_ms(state)).to.equal(REAL_CREATION_DATE_MS)
+			expect(get_best_creation_date(state)).to.equal(REAL_CREATION_DATE_MS)
 		})
 
 		it('should prioritize the original basename over the current one', () => {
@@ -101,7 +102,7 @@ describe(`${LIB} - file state`, function() {
 					basename: 'IMG_20171020_050144625.jpg'
 				},
 			})
-			expect(get_best_creation_date_ms(state)).to.equal(REAL_CREATION_DATE_MS)
+			expect(get_best_creation_date(state)).to.equal(REAL_CREATION_DATE_MS)
 		})
 
 		context('when no date in current nor original basename', function() {

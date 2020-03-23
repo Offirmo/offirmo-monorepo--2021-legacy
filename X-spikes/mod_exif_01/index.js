@@ -39,9 +39,9 @@ async function test(FILE, expected_hour, expected_tz) {
 
 ;(async () => {
 
-	await test('exif_date_fr_no_tz_conflicting_fs.jpg', '21:28', ZONE_FR)
-	await test('exif_date_fr_alt_no_tz_conflicting_fs.jpg', '16:05', ZONE_FR)
-	await test('au_no_exif_date_no_tz.jpg', '11:37', ZONE_AU)
+	await test('exif_date_fr_no_tz_conflicting_fs.jpg', '21:28', ZONE_DEFAULT)
+	await test('exif_date_fr_alt_no_tz_conflicting_fs.jpg', '16:05', ZONE_DEFAULT)
+	await test('au_no_exif_date_no_tz.jpg', '11:37', ZONE_DEFAULT)
 	await test('exif_date_cn_exif_gps.jpg', '20:46', 'Asia/Shanghai')
 
 	await (async () => {})()

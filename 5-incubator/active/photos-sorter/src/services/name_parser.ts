@@ -1,5 +1,4 @@
 import assert from 'tiny-invariant'
-import { TimestampUTCMs } from '@offirmo-private/timestamps'
 import { NORMALIZERS } from '@offirmo-private/normalize-string'
 
 import { get_params } from '../params'
@@ -57,7 +56,7 @@ const PARAMS = get_params()
 export interface DigitsParseResult {
 	summary: 'no_match' | 'need_more' | 'ok' | 'perfect' | 'too_much' | 'error'
 	reason: null | string
-	timestamp_ms: undefined | TimestampUTCMs
+	date: undefined | Date
 	is_ambiguous: boolean
 }
 export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 'sep' | 'other'): DigitsParseResult {
@@ -77,7 +76,7 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 	const result: DigitsParseResult = {
 		summary: 'error',
 		reason: null,
-		timestamp_ms: undefined,
+		date: undefined,
 		is_ambiguous: false,
 	}
 
@@ -315,7 +314,7 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 
 	if (error) {
 		result.summary = 'no_match'
-		logger.log('no match parsing digit blocks…', {
+		logger.silly('no match parsing digit blocks…', {
 			blocks,
 			reason: result.reason,
 			date_creation_args,
@@ -330,8 +329,9 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 
 	if (blocks.length === 7) {
 		result.summary = 'perfect'
-		logger.silly('parse digit blocks done: ' + result.summary, {date_creation_args})
-		result.timestamp_ms = Date.UTC(...(date_creation_args as [ number, number ]))
+		logger.silly(`parse digit blocks done, ${result.summary} match:`, { 'blocks.length': blocks.length, date_creation_args})
+		result.date = new Date(...(date_creation_args as [ number, number ]))
+		//console.log(result.date!.toISOString())
 		return result
 	}
 
@@ -339,8 +339,9 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 		|| blocks.length === 5
 		|| blocks.length === 6) {
 		result.summary = 'ok'
-		logger.silly('parse digit blocks done: ' + result.summary, {date_creation_args})
-		result.timestamp_ms = Date.UTC(...(date_creation_args as [ number, number ]))
+		logger.silly(`parse digit blocks done, ${result.summary} match:`, { 'blocks.length': blocks.length, date_creation_args})
+		result.date = new Date(...(date_creation_args as [ number, number ]))
+		//console.log(result.date!.toISOString())
 		return result
 	}
 
@@ -356,7 +357,7 @@ export interface ParseResult {
 	extension_lc: string
 	date_digits: undefined | string // in order of discovery, not in order of rank!
 	digits_pattern: undefined | string // useful to recognise ourselves ;)
-	timestamp_ms: undefined | TimestampUTCMs
+	date: undefined | Date
 	is_date_ambiguous: undefined | boolean
 	meaningful_part: string
 }
@@ -368,7 +369,7 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 		extension_lc: '',
 		date_digits: undefined,
 		digits_pattern: undefined,
-		timestamp_ms: undefined,
+		date: undefined,
 		is_date_ambiguous: undefined,
 		meaningful_part: '',
 	}
@@ -393,7 +394,7 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 		result.date_digits = state.digit_blocks.split('-').join('')
 		//result.digit_blocks = state.digit_blocks
 		result.digits_pattern = deep_trim(state.digits_pattern) || undefined
-		result.timestamp_ms = dpr.timestamp_ms
+		result.date = dpr.date
 		result.is_date_ambiguous = dpr.is_ambiguous
 
 		logger.silly(`found date in filename`, {
@@ -599,7 +600,7 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 
 	logger.trace('« final', {
 		...result,
-		human_ts: result.timestamp_ms ? get_human_readable_timestamp_auto(result.timestamp_ms) : null
+		human_ts: result.date ? get_human_readable_timestamp_auto(result.date) : null
 	})
 	return result
 }
@@ -617,9 +618,8 @@ const SCREENSHOT_ALIASES_LC = [
 
 export function extract_compact_date(s: string): SimpleYYYYMMDD | null {
 	const result = parse(s)
-	if (!result.timestamp_ms)
+	if (!result.date)
 		return null
 
-	const date = new Date(result.timestamp_ms)
-	return get_compact_date(date)
+	return get_compact_date(result.date)
 }

@@ -34,3 +34,15 @@ https://it.slashdot.org/story/20/01/12/0221226/this-years-y2k20-bug-came-directl
 https://developers.slashdot.org/story/20/01/13/0554252/how-is-computer-programming-different-today-than-20-years-ago
 https://tech.slashdot.org/story/20/01/06/215250/for-tech-weary-midwest-farmers-40-year-old-tractors-now-a-hot-commodity
 https://news.slashdot.org/story/19/12/14/1614214/do-you-remember-the-y2k-bug
+
+
+
+Strips
+
+    commit strip
+
+CSS
+
+    http://saijogeorge.com/css-puns/
+
+startup disparue https://techcrunch.com/2018/06/21/twitter-smytes-customers/

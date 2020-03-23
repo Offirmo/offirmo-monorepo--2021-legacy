@@ -30,7 +30,7 @@ describe(`${LIB} - (base)name parser`, function() {
 			expect(_get_y2k_year_from_fragment('01')).to.equal(2001)
 			expect(_get_y2k_year_from_fragment('19')).to.equal(2019)
 
-			const YYYY_UPPER_BOUND = (new Date()).getUTCFullYear() + 1
+			const YYYY_UPPER_BOUND = (new Date()).getFullYear() + 1
 			const YY_UPPER_BOUND = YYYY_UPPER_BOUND - 2000
 			if (YYYY_UPPER_BOUND >= 2069) {
 				expect(_get_y2k_year_from_fragment('69')).to.equal(2069)
@@ -49,13 +49,13 @@ describe(`${LIB} - (base)name parser`, function() {
 				//.slice(0, 2) // TEMP XXX
 			filenames.forEach(filename => {
 				const expected = DATED_NAMES_SAMPLES[filename]
-				const { _comment, human_ts, digit_blocks, timestamp_ms, is_date_ambiguous: is_ambiguous } = expected
+				const { _comment, human_ts, digit_blocks, date, is_date_ambiguous: is_ambiguous } = expected
 
-				it(`should correctly parse: ${[_comment, `"${filename}"`].join(': ')}`, () => {
+				it(['should correctly parse', `"${filename}"`, _comment].filter(s => !!s).join(': '), () => {
 					const expected_result = {
 						summary: 'perfect',
 						reason: null,
-						timestamp_ms,
+						date,
 						is_ambiguous,
 					}
 					const result = _parse_digit_blocks(digit_blocks!, 'other')
@@ -70,9 +70,11 @@ describe(`${LIB} - (base)name parser`, function() {
 					}
 
 					expect(
-						get_human_readable_timestamp_auto(result.timestamp_ms!),
+						get_human_readable_timestamp_auto(result.date!),
 						`human ts`
 					).to.equal(human_ts)
+					//console.log(result.date!.toISOString())
+					//console.log(date!.toISOString())
 					expect(
 						result,
 						`full result`
@@ -93,7 +95,7 @@ describe(`${LIB} - (base)name parser`, function() {
 					const expected_result: DigitsParseResult = {
 						summary: 'no_match',
 						reason: null,
-						timestamp_ms: undefined,
+						date: undefined,
 						is_ambiguous: false,
 					}
 					const result = _parse_digit_blocks(digit_blocks!, 'other')
@@ -165,7 +167,7 @@ describe(`${LIB} - (base)name parser`, function() {
 							`digits for ${[_comment, `"${filename}"`].join(': ')}`
 						).to.equal(expected.date_digits)
 						expect(
-							get_human_readable_timestamp_auto(result.timestamp_ms!),
+							get_human_readable_timestamp_auto(result.date!),
 							`human ts for ${[_comment, `"${filename}"`].join(': ')}`
 						).to.equal(expected.human_ts)
 					})
@@ -211,7 +213,7 @@ describe(`${LIB} - (base)name parser`, function() {
 						result.meaningful_part,
 						`meaningful part for ${[_comment, `"${filename}"`].join(': ')}`
 					).to.equal('foo')
-					expect(result.timestamp_ms).to.be.undefined
+					expect(result.date).to.be.undefined
 				})
 			})
 		})

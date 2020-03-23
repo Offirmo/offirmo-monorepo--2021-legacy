@@ -3,11 +3,9 @@ import fs from 'fs'
 
 import assert from 'tiny-invariant'
 import stylize_string from 'chalk'
-import { get_human_readable_UTC_timestamp_days } from '@offirmo-private/timestamps'
 import { Tags } from 'exiftool-vendored'
 
 import logger from '../services/logger'
-import * as Match from '../services/matchers'
 import { Basename, AbsolutePath, RelativePath, SimpleYYYYMMDD } from '../types'
 import * as Folder from './folder'
 import * as File from './file'
@@ -113,10 +111,10 @@ export function get_ideal_file_relative_path(state: Readonly<State>, id: Relativ
 			// need to create a new event folder!
 			// note: we group weekends together
 			compatible_event_folder_id = (() => {
-				const timestamp = File.get_best_creation_date_ms(file_state)
+				const timestamp = File.get_best_creation_date(file_state)
 				let date = new Date(timestamp) // XXX TODO use Date everywhere!
 
-				if (date.getUTCDay() === 0) {
+				if (date.getDay() === 0) {
 					// sunday is coalesced to sat = start of weekend
 					const timestamp_one_day_before = timestamp - (1000 * 3600 * 24)
 					date = new Date(timestamp_one_day_before)
@@ -124,7 +122,7 @@ export function get_ideal_file_relative_path(state: Readonly<State>, id: Relativ
 
 				const radix = get_human_readable_UTC_timestamp_days(date)
 
-				return path.join(year, radix + ' - ' + (date.getUTCDay() === 6 ? 'weekend' : 'life'))
+				return path.join(year, radix + ' - ' + (date.getDay() === 6 ? 'weekend' : 'life'))
 			})()
 
 			state = _register_folder(state, compatible_event_folder_id, false)
@@ -325,7 +323,7 @@ export function on_folder_moved(state: Readonly<State>, id: RelativePath, target
 export function on_file_moved(state: Readonly<State>, id: RelativePath, target_id: RelativePath): Readonly<State> {
 	logger.trace(`[${LIB}] on_file_moved(…)`, { })
 
-	assert(!state.files[target_id])
+	assert(!state.files[target_id], 'on_file_moved() file state')
 
 	// TODO immu
 	let file_state = state.files[id]
@@ -548,18 +546,18 @@ export function ensure_all_needed_events_folders_are_present_and_move_files_in_t
 			// need to create a new event folder!
 			// note: we group weekends together
 			compatible_event_folder_id = (() => {
-				const timestamp = File.get_best_creation_date_ms(file_state)
+				const timestamp = File.get_best_creation_date(file_state)
 				let date = new Date(timestamp)
 
-				if (date.getUTCDay() === 0) {
+				if (date.getDay() === 0) {
 					// sunday is coalesced to sat = start of weekend
 					const timestamp_one_day_before = timestamp - (1000 * 3600 * 24)
 					date = new Date(timestamp_one_day_before)
 				}
 
-				const radix = get_human_readable_UTC_timestamp_days(date)
+				const radix = get_human_readable_timestamp_days(date)
 
-				return path.join(String(File.get_year(file_state)), radix + ' - ' + (date.getUTCDay() === 6 ? 'weekend' : 'life'))
+				return path.join(String(File.get_year(file_state)), radix + ' - ' + (date.getDay() === 6 ? 'weekend' : 'life'))
 			})()
 
 			state = _register_folder(state, compatible_event_folder_id, false)
