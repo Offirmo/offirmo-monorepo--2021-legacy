@@ -22,7 +22,7 @@ export interface Params {
 // the earliest known photo was taken in 1826
 // https://en.wikipedia.org/wiki/View_from_the_Window_at_Le_Gras
 const YYYY_LOWER_BOUND = 1826
-const YYYY_UPPER_BOUND = (new Date()).getUTCFullYear() + 1
+const YYYY_UPPER_BOUND = (new Date()).getFullYear() + 1
 assert(YYYY_LOWER_BOUND >= 1826, 'earliest known')
 assert(YYYY_UPPER_BOUND >= YYYY_LOWER_BOUND, 'higher > lower')
 

@@ -208,7 +208,7 @@ async function compute_hash(id: RelativePath) {
 	const abs_path = DB.get_absolute_path(db, id)
 	const exif_data = await exiftool.read(abs_path)
 	const hash = await hasha.fromFile(abs_path, {algorithm: 'sha256'})
-	assert(hash)
+	assert(hash, 'hasha ok')
 	logger.trace(`- got hash for "${id}"…`, { hash })
 	db = DB.on_hash_computed(db, id, hash!)
 }
@@ -219,7 +219,7 @@ async function normalize_file(id: RelativePath) {
 
 	const abs_path = DB.get_absolute_path(db, id)
 	const media_state = db.files[id]
-	assert(media_state, 'media_state')
+	assert(media_state, 'normalize_file() media_state')
 
 	const is_exif_powered = File.is_exif_powered_media_file(media_state)
 	//console.log({ id, media_state, abs_path, is_exif_powered})

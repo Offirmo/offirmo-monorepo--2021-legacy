@@ -3,12 +3,9 @@ import { Enum } from 'typescript-string-enums'
 
 import assert from 'tiny-invariant'
 import stylize_string from 'chalk'
-import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 
-import { get_compact_date_from_UTC_ts } from '../services/utils'
 import { is_year, get_normalized_dirname, is_compact_date } from '../services/matchers'
 import { parse as parse_basename, extract_compact_date } from '../services/name_parser'
-import { get_compact_date } from '../services/date_generator'
 import { Basename, RelativePath, SimpleYYYYMMDD } from '../types'
 import * as MediaFile from './file'
 import logger from '../services/logger'
@@ -44,7 +41,7 @@ export interface State {
 ///////////////////// ACCESSORS /////////////////////
 
 function _infer_folder_type(id: RelativePath, parsed: path.ParsedPath): Type {
-	assert(id)
+	assert(id, '_infer_folder_type() id')
 	if (id === '.') return Type.root
 
 	const depth = parsed.dir.split(path.sep).length - 1
@@ -71,7 +68,7 @@ export function get_ideal_basename(state: Readonly<State>): Basename {
 	if (state.type !== Type.event)
 		return current_basename
 
-	assert(state.start_date)
+	assert(state.start_date, 'get_ideal_basename() start date')
 	const parsed = parse_basename(current_basename)
 
 	return String(state.start_date + ' - ' + parsed.meaningful_part)
@@ -153,7 +150,7 @@ export function on_subfile_found(state: Readonly<State>, file_state: Readonly<Me
 export function demote_to_unknown(state: Readonly<State>): Readonly<State> {
 	logger.trace(`[${LIB}] demote_to_unknown(…)`, { })
 
-	assert(state.type === Type.event)
+	assert(state.type === Type.event, 'demote_to_unknown precond')
 
 	return {
 		...state,
