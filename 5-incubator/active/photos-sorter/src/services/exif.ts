@@ -30,7 +30,7 @@ export function get_creation_date_from_exif(exif_data: Readonly<Tags>, default_z
 		if (!exiftool_date) return acc
 		if ((exiftool_date as any) === '0000:00:00 00:00:00') {
 			// https://github.com/photostructure/exiftool-vendored.js/issues/73
-			// TODO log (add a onWrning param)
+			// TODO log (add a onWarning param)
 			logger.warn(`unparsable exif date: "${exiftool_date as any}"`)
 			return acc
 		}
@@ -44,7 +44,7 @@ export function get_creation_date_from_exif(exif_data: Readonly<Tags>, default_z
 
 		try {
 			const date = exiftool_date.toDate()
-			assert(date, 'exif date from field is ok')
+			assert(date && date.getFullYear, 'exif date from exif field is ok')
 			assert(+date, 'exif date from field is ok (ts)')
 			assert(+date < +now, 'exif date from field is ok (now)') // seen when recent photo and wrong default timezone = photo in the future
 			//console.log('⏳ found date field', field, exiftool_date)

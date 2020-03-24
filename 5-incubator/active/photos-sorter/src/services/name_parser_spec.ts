@@ -6,7 +6,7 @@ import {
 	UNDATED_NAMES_SAMPLES,
 	NON_MEANINGFUL_NAMES_SAMPLES,
 	ALL_SAMPLES,
-} from './__test_shared/filenames'
+} from '../__test_shared/filenames'
 import {
 	get_human_readable_timestamp_auto,
 } from './date_generator'

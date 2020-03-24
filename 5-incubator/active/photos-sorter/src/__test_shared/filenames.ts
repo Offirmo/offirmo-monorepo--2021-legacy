@@ -1,5 +1,7 @@
 
-import { ParseResult } from '../name_parser'
+import { ParseResult } from '../services/name_parser'
+
+/////////////////////
 
 interface NameDetails extends Omit<ParseResult, 'original_name'> {
 	_comment?: string
@@ -529,6 +531,20 @@ export const DATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
 		digit_blocks: '2019-08-15',
 		human_ts: '2019-08-15',
 	},
+	'2019-12-16T09:38:08.123Z.jpg': { // toISOString / toJSON
+
+		// ParseResult
+		extension_lc: '.jpg',
+		date: new Date(2019, 11, 16, 9, 38, 8, 123),
+		date_digits: '20191216093808123',
+		digits_pattern: 'xxxx-xx-xxTxx:xx:xx.xxx',
+		is_date_ambiguous: false,
+		meaningful_part: '',
+
+		// for test
+		digit_blocks: '2019-12-16-09-38-08-123',
+		human_ts: '2019-12-16_09h38m08s123',
+	},
 }
 
 export const UNDATED_NAMES_SAMPLES: { [k: string]: NameDetails } = {
@@ -824,4 +840,13 @@ export const ALL_SAMPLES: { [k: string]: NameDetails } = {
 	...DATED_NAMES_SAMPLES,
 	...UNDATED_NAMES_SAMPLES,
 	...NON_MEANINGFUL_NAMES_SAMPLES,
+}
+
+/////////////////////
+
+export const REAL_FILES = {
+	'exif_date_cn_exif_gps.jpg': new Date(2002, 0, 26, 16, 5, 50),
+	'exif_date_fr_alt_no_tz_conflicting_fs.jpg': new Date(2002, 0, 26, 16, 5, 50),
+	'exif_date_fr_no_tz_conflicting_fs.jpg': new Date(2001, 0),
+	'no_exif_date_no_tz.jpg': new Date(2001, 0),
 }

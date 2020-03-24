@@ -235,15 +235,15 @@ export function get_best_creation_date(state: Readonly<State>): Date {
 		const from_fs = _get_creation_date_from_fs_stats(state)
 		logger.error('dates discrepancy', {
 			id: state.id,
-			...(from_basename && {
+			...(!!from_basename && {
 				from_basename,
 				auto_from_basename: get_human_readable_timestamp_auto(from_basename),
 			}),
-			...(from_exif && {
+			...(!!from_exif && {
 				from_exif,
 				auto_from_exif: get_human_readable_timestamp_auto(from_exif),
 			}),
-			...(from_fs && {
+			...(!!from_fs && {
 				from_fs,
 				auto_from_fs: get_human_readable_timestamp_auto(from_fs),
 			}),
@@ -383,6 +383,8 @@ export function on_exif_read(state: Readonly<State>, exif_data: Readonly<Tags>):
 			current_exif_data: null,
 		}
 	}
+
+	// TODO optim cherry pick useful fields only
 
 	state = {
 		...state,

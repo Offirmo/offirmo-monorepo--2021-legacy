@@ -327,6 +327,9 @@ export function _parse_digit_blocks(digit_blocks: string, separator: 'none' | 's
 		return result
 	}
 
+	if (date_creation_args.length === 1)
+		date_creation_args.push(0) // or else date constructor will take the year as a timestamp
+
 	if (blocks.length === 7) {
 		result.summary = 'perfect'
 		logger.silly(`parse digit blocks done, ${result.summary} match:`, { 'blocks.length': blocks.length, date_creation_args})
@@ -447,7 +450,8 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 			const c = state.buffer[state.index]
 			if (!SEPARATORS.includes(c)) {
 				// requalify some special letters if inside digits
-				if (state.digit_blocks && (c === 'h' || c === 'm' || c === 's') && DIGITS.includes(state.buffer[state.index + 1])) {
+				// TODO check for position if letter?
+				if (state.digit_blocks && (c === 'T' || c === 'h' || c === 'm' || c === 's') && DIGITS.includes(state.buffer[state.index + 1])) {
 					return true
 				}
 

@@ -62,6 +62,7 @@ function _get_human_readable_timestamp_auto(date: Readonly<Date>, digits: string
 	return get_human_readable_timestamp_millis(date)
 }
 export function get_human_readable_timestamp_auto(date: Readonly<Date>, ref_digits?: string): PhotoSorterTimestampMillis {
+	assert(date && date.getFullYear, 'get_human_readable_timestamp_auto() bad date')
 	//const date = new Date(timestamp)
 
 	const YYYY = date.getFullYear()
