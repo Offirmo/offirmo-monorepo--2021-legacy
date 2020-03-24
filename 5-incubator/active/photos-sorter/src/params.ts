@@ -6,17 +6,25 @@ import { EXIF_POWERED_FILE_EXTENSIONS } from './consts'
 import { SimpleYYYYMMDD, AbsolutePath } from './types'
 
 
+const TZONE_FR = 'Europe/Paris'
+const TZONE_AU = 'Australia/Sydney'
+
+export interface DefaultTzChange {
+	date_utc_ms: number,
+	new_default: string
+}
 export interface Params {
+	root: AbsolutePath
+	dry_run: boolean
 	YYYY_lower_bound: number
 	YYYY_upper_bound: number
 	date_lower_bound: SimpleYYYYMMDD
 	date_upper_bound: SimpleYYYYMMDD
-	root: AbsolutePath
-	dry_run: boolean
 	extensions_to_normalize: { [k: string]: string } // todo runtime check LCase
 	media_files_extensions: string[] // todo runtime check normalized
 	extensions_to_delete: string[] // todo runtime check normalized
 	worthless_files: string[]
+	default_timezones: DefaultTzChange[]
 }
 
 // the earliest known photo was taken in 1826
@@ -56,6 +64,7 @@ export function get_params(): Params {
 			'.tga', // WoW
 			'.avi', // old videos
 			'.mp4',
+			'.pdf',
 		].map(s => s.toLowerCase()),
 
 		extensions_to_delete: [
@@ -67,6 +76,26 @@ export function get_params(): Params {
 			'.picasa.ini',
 		].map(s => s.toLowerCase()),
 
+		default_timezones: [
+			// order expected
+			//
+			{
+				date_utc_ms: Number(new Date(YYYY_LOWER_BOUND, 0)),
+				new_default: TZONE_FR,
+			},
+			{
+				date_utc_ms: Number(new Date(2009, 7, 10)),
+				new_default: 'Asia/Bangkok',
+			},
+			{
+				date_utc_ms: Number(new Date(2010, 6, 8)),
+				new_default: TZONE_FR,
+			},
+			{
+				date_utc_ms: Number(new Date(2017, 6, 14)),
+				new_default: TZONE_AU,
+			},
+		].sort((a, b) => a.date_utc_ms - b.date_utc_ms)
 	}
 }
 
@@ -98,8 +127,6 @@ export function get_allowed_digits_by_position() {
 		// MM
 		'01',
 		'0123456789',
-
-
 	]
 }
 */
