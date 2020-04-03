@@ -102,9 +102,9 @@ export function get_ideal_file_relative_path(state: Readonly<State>, id: Relativ
 	}
 
 	const ideal_basename = File.get_ideal_basename(file_state)
-	const year = String(File.get_year(file_state))
+	const year = String(File.get_best_creation_year(file_state))
 	/*const event_folder = ((): string => {
-		const compact_date = File.get_best_compact_date(file_state)
+		const compact_date = File.get_best_creation_date_compact(file_state)
 		const all_events_folder_ids = get_all_event_folder_ids(state)
 		let compatible_event_folder_id = all_events_folder_ids.find(fid => _event_folder_matches(state.folders[fid], compact_date))
 		if (!compatible_event_folder_id) {
@@ -433,7 +433,7 @@ export function ensure_structural_dirs_are_present(state: Readonly<State>): Read
 	const all_file_ids = get_all_media_file_ids(state)
 	all_file_ids.forEach(id => {
 		const file_state = state.files[id]
-		years.add(File.get_year(file_state))
+		years.add(File.get_best_creation_year(file_state))
 	})
 	for(const y of years) {
 		//state = _register_folder(state, String(y), false)
@@ -471,7 +471,7 @@ export function ensure_existing_event_folders_are_organized(state: Readonly<Stat
 		if (folder_state.type !== Folder.Type.event) return
 
 		const ideal_basename = Folder.get_ideal_basename(folder_state)
-		const year = Folder.get_year(folder_state)
+		const year = Folder.get_best_creation_year(folder_state)
 
 		const ideal_id = path.join(String(year), ideal_basename)
 		if (id === ideal_id) return // nothing to do
@@ -537,7 +537,7 @@ export function ensure_all_needed_events_folders_are_present_and_move_files_in_t
 	all_file_ids.forEach(id => {
 		const file_state = state.files[id]
 		const current_parent_id = File.get_current_parent_folder_id(file_state)
-		const compact_date = File.get_best_compact_date(file_state)
+		const compact_date = File.get_best_creation_date_compact(file_state)
 		if (all_events_folder_ids.includes(current_parent_id) && _event_folder_matches(state.folders[current_parent_id], compact_date))
 			return // all good
 
@@ -557,7 +557,7 @@ export function ensure_all_needed_events_folders_are_present_and_move_files_in_t
 
 				const radix = get_human_readable_timestamp_days(date)
 
-				return path.join(String(File.get_year(file_state)), radix + ' - ' + (date.getDay() === 6 ? 'weekend' : 'life'))
+				return path.join(String(File.get_best_creation_year(file_state)), radix + ' - ' + (date.getDay() === 6 ? 'weekend' : 'life'))
 			})()
 
 			state = _register_folder(state, compatible_event_folder_id, false)

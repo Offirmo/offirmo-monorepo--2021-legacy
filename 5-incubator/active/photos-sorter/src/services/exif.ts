@@ -42,8 +42,19 @@ export function get_creation_date_from_exif(exif_data: Readonly<Tags>, default_z
 			assert(exiftool_date, 'reparsed date success')
 		}
 
+		/*console.log({
+			exiftool_date,
+			rawValue: exiftool_date?.rawValue,
+			...(!!exiftool_date.toDate && {
+				toDate: exiftool_date.toDate(),
+			}),
+			default_zone,
+			exif_tz: exif_data.tz,
+		})*/
+
 		try {
 			const date = exiftool_date.toDate()
+			//console.log('candidate date from exif:', date)
 			assert(date && date.getFullYear, 'exif date from exif field is ok')
 			assert(+date, 'exif date from field is ok (ts)')
 			assert(+date < +now, 'exif date from field is ok (now)') // seen when recent photo and wrong default timezone = photo in the future
@@ -81,6 +92,7 @@ export function get_creation_date_from_exif(exif_data: Readonly<Tags>, default_z
 			md: +min_date,
 		})*/
 		min_date = (+date < +min_date) ? date : min_date
+		//console.log({ date, min_date })
 		return acc
 	}, {} as DateHash)
 

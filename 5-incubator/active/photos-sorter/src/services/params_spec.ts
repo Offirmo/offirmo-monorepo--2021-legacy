@@ -20,7 +20,7 @@ describe(`${LIB} - params derivation`, function() {
 		})
 	})
 
-	describe.only('get_default_timezone()', function() {
+	describe('get_default_timezone()', function() {
 		let test_params: Params = get_params()
 		const now = new Date()
 

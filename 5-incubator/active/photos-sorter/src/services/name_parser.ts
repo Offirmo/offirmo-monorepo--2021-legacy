@@ -22,7 +22,8 @@ import {
 	get_human_readable_timestamp_auto,
 } from './date_generator'
 import logger from './logger'
-import {SimpleYYYYMMDD} from "../types";
+import {SimpleYYYYMMDD, TimeZone} from "../types";
+import { get_current_timezone } from './params'
 
 
 export type DatePattern = 'D-M-Y' | 'Y-M-D' | 'unknown'
@@ -604,7 +605,7 @@ export function parse(name: string, debug: boolean = false): ParseResult {
 
 	logger.trace('« final', {
 		...result,
-		human_ts: result.date ? get_human_readable_timestamp_auto(result.date) : null
+		human_ts_current_tz_for_tests: result.date ? get_human_readable_timestamp_auto(result.date, get_current_timezone()) : null
 	})
 	return result
 }
@@ -625,5 +626,5 @@ export function extract_compact_date(s: string): SimpleYYYYMMDD | null {
 	if (!result.date)
 		return null
 
-	return get_compact_date(result.date)
+	return get_compact_date(result.date, get_current_timezone())
 }

@@ -5,16 +5,15 @@ import memoize_once from 'memoize-one'
 import stylize_string from 'chalk'
 import assert from 'tiny-invariant'
 import { Tags, ExifDateTime } from 'exiftool-vendored'
-import { get_human_readable_UTC_timestamp_seconds } from '@offirmo-private/timestamps'
 
 import { EXIF_POWERED_FILE_EXTENSIONS } from '../consts'
-import { Basename, RelativePath, SimpleYYYYMMDD, ISODateString } from '../types'
-import { get_params } from '../params'
+import {Basename, RelativePath, SimpleYYYYMMDD, ISODateString, TimeZone} from '../types'
+import {get_params, Params} from '../params'
 import logger from '../services/logger'
-import { get_creation_date_from_exif } from '../services/exif'
+import { get_creation_date_from_exif, get_time_zone_from_exif } from '../services/exif'
 import { parse as parse_basename, ParseResult, normalize_extension } from '../services/name_parser'
 import { get_human_readable_timestamp_auto, get_compact_date } from '../services/date_generator'
-
+import { get_default_timezone } from '../services/params'
 
 
 export interface OriginalData {
@@ -53,9 +52,6 @@ export interface State {
 ////////////////////////////////////
 
 const LIB = '🖼'
-
-const PARAMS = get_params()
-
 
 ///////////////////// ACCESSORS /////////////////////
 
@@ -96,13 +92,8 @@ export function get_current_parent_folder_id(state: Readonly<State>): RelativePa
 export function get_current_basename(state: Readonly<State>): Basename {
 	return state.memoized.get_parsed_path(state).base
 }
-/*
-function get_original_basename(state: Readonly<State>): Basename {
-	assert(state.notes.original.basename)
-	return state.notes.original.basename
-}
-*/
-export function is_media_file(state: Readonly<State>): boolean {
+
+export function is_media_file(state: Readonly<State>, PARAMS: Readonly<Params> = get_params()): boolean {
 	const parsed_path = state.memoized.get_parsed_path(state)
 
 	if (parsed_path.base.startsWith('.')) return false
@@ -174,8 +165,8 @@ export function get_best_creation_date(state: Readonly<State>): Date {
 	try {
 		if (from_exif) {
 			if (from_basename) {
-				const auto_from_basename = get_human_readable_timestamp_auto(from_basename)
-				const auto_from_exif = get_human_readable_timestamp_auto(from_exif)
+				const auto_from_basename = get_human_readable_timestamp_auto(from_basename, 'Etc/GMT')
+				const auto_from_exif = get_human_readable_timestamp_auto(from_exif, 'Etc/GMT')
 
 				if (auto_from_exif.startsWith(auto_from_basename))
 					return from_exif // perfect match, EXIF more precise
@@ -205,8 +196,8 @@ export function get_best_creation_date(state: Readonly<State>): Date {
 				// basename always take priority, but this is suspicious
 				// TODO log inside file
 			}
-			const auto_from_basename = get_human_readable_timestamp_auto(from_basename)
-			const auto_from_fs = get_human_readable_timestamp_auto(from_fs)
+			const auto_from_basename = get_human_readable_timestamp_auto(from_basename, 'Etc/GMT')
+			const auto_from_fs = get_human_readable_timestamp_auto(from_fs, 'Etc/GMT')
 			if (auto_from_fs.startsWith(auto_from_basename))
 				return from_fs // more precise
 			else
@@ -215,8 +206,8 @@ export function get_best_creation_date(state: Readonly<State>): Date {
 		// fs is really unreliable so we attempt to take hints from the parent folder if available
 		const from_parent = _get_creation_date_from_parent_name(state)
 		if (from_parent) {
-			const auto_from_basename = get_human_readable_timestamp_auto(from_parent)
-			const auto_from_fs = get_human_readable_timestamp_auto(from_fs)
+			const auto_from_basename = get_human_readable_timestamp_auto(from_parent, 'Etc/GMT')
+			const auto_from_fs = get_human_readable_timestamp_auto(from_fs, 'Etc/GMT')
 			if (auto_from_fs.startsWith(auto_from_basename.slice(0, 7)))
 				return from_fs // more precise
 			else if (auto_from_fs.startsWith(auto_from_basename.slice(0, 4))) {
@@ -237,15 +228,15 @@ export function get_best_creation_date(state: Readonly<State>): Date {
 			id: state.id,
 			...(!!from_basename && {
 				from_basename,
-				auto_from_basename: get_human_readable_timestamp_auto(from_basename),
+				auto_from_basename_gmt: get_human_readable_timestamp_auto(from_basename, 'Etc/GMT'),
 			}),
 			...(!!from_exif && {
 				from_exif,
-				auto_from_exif: get_human_readable_timestamp_auto(from_exif),
+				auto_from_exif_gmt: get_human_readable_timestamp_auto(from_exif, 'Etc/GMT'),
 			}),
 			...(!!from_fs && {
 				from_fs,
-				auto_from_fs: get_human_readable_timestamp_auto(from_fs),
+				auto_from_fs_gmt: get_human_readable_timestamp_auto(from_fs, 'Etc/GMT'),
 			}),
 			err,
 		})
@@ -253,33 +244,46 @@ export function get_best_creation_date(state: Readonly<State>): Date {
 	}
 }
 
-export function get_best_compact_date(state: Readonly<State>): SimpleYYYYMMDD {
-	return get_compact_date(get_best_creation_date(state))
+export function get_best_creation_date_compact(state: Readonly<State>): SimpleYYYYMMDD {
+	return get_compact_date(get_best_creation_date(state), get_best_creation_timezone(state))
 }
 
-export function get_year(state: Readonly<State>) {
-	return Math.trunc(get_best_compact_date(state) / 10000)
+export function get_best_creation_year(state: Readonly<State>): number {
+	return Math.trunc(get_best_creation_date_compact(state) / 10000)
 }
 
-export function get_ideal_basename(state: Readonly<State>): Basename {
+function _get_timezone_from_exif(state: Readonly<State>): TimeZone | null {
+	const { id, current_exif_data } = state
+	if (!is_exif_powered_media_file(state)) {
+		// exif reader manage to put some stuff, but it's not interesting
+		return null
+	}
+
+	assert(current_exif_data, `${id}: exif data read`)
+
+	return get_time_zone_from_exif(current_exif_data) || null
+}
+export function get_best_creation_timezone(state: Readonly<State>, PARAMS: Readonly<Params> = get_params()): TimeZone {
+	assert(has_all_infos_for_extracting_the_creation_date(state), 'has_all_infos_for_extracting_the_creation_date() === true')
+
+	return _get_timezone_from_exif(state) || get_default_timezone(get_best_creation_date(state), PARAMS)
+}
+
+export function get_ideal_basename(state: Readonly<State>, PARAMS: Readonly<Params> = get_params()): Basename {
 	const bcd_ms = get_best_creation_date(state)
 	const parsed_original_basename = state.memoized.get_parsed_original_basename(state)
 	const meaningful_part = parsed_original_basename.meaningful_part
 	let extension = parsed_original_basename.extension_lc
 	extension = PARAMS.extensions_to_normalize[extension] || extension
 
-	let ideal = 'MM' + get_human_readable_timestamp_auto(bcd_ms)
+	let ideal = 'MM' + get_human_readable_timestamp_auto(bcd_ms, get_best_creation_timezone(state))
 	if (meaningful_part)
 		ideal += '_' + meaningful_part
 	ideal += extension
 
 	return ideal
 }
-/*
-export function get_original_data(state: Readonly<State>): Readonly<OriginalData> {
-	return state.notes.original
-}
-*/
+
 ///////////////////// REDUCERS /////////////////////
 
 export function create(id: RelativePath): Readonly<State> {
@@ -453,9 +457,9 @@ export function to_string(state: Readonly<State>) {
 	let str = `🏞  "${[ '.', ...(dir ? [dir] : []), (is_eligible ? stylize_string.green : stylize_string.gray.dim)(base)].join(path.sep)}"`
 
 	if (is_eligible) {
-		const best_creation_date_ms = get_best_creation_date(state)
-		if (best_creation_date_ms) {
-			str += '  📅 ' + get_human_readable_timestamp_auto(new Date(best_creation_date_ms))
+		const best_creation_date = get_best_creation_date(state)
+		if (best_creation_date) {
+			str += '  📅 ' + get_human_readable_timestamp_auto(best_creation_date, get_best_creation_timezone(state))
 		} else {
 			str += '  📅 TODO'
 		}

@@ -104,7 +104,7 @@ export function on_subfile_found(state: Readonly<State>, file_state: Readonly<Me
 	logger.trace(`[${LIB}] on_subfile_found(…)`, { })
 
 	if (state.type == Type.event) {
-		const file_compact_date = MediaFile.get_best_creation_compact_date(file_state)
+		const file_compact_date = MediaFile.get_best_creation_date_compact(file_state)
 		const new_start_date = state.start_date
 			? Math.min(state.start_date, file_compact_date)
 			: file_compact_date

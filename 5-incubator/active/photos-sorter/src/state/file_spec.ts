@@ -5,6 +5,8 @@ import util from 'util'
 import path from 'path'
 import fs from 'fs'
 import hasha from 'hasha'
+import moment from 'moment'
+import 'moment-timezone'
 
 import { LIB } from '../consts'
 import {
@@ -18,14 +20,15 @@ import {
 	is_media_file,
 	is_exif_powered_media_file,
 	has_all_infos_for_extracting_the_creation_date,
-	get_best_compact_date,
+	get_best_creation_date_compact,
 
 	on_fs_stats_read,
 	on_exif_read,
-	on_hash_computed, on_notes_unpersisted, get_year,
+	on_hash_computed, on_notes_unpersisted, get_best_creation_year,
 } from './file'
 import logger from "../services/logger";
 import {get_compact_date, get_human_readable_timestamp_auto} from "../services/date_generator";
+import {get_current_timezone} from "../services/params";
 
 /////////////////////
 
@@ -65,11 +68,11 @@ describe(`${LIB} - file state`, function() {
 	})
 
 	describe('get_best_creation_date()', function() {
-		const default_zone = undefined
+		const default_zone = get_current_timezone()
 		const REAL_CREATION_DATE = new Date(2017, 9, 20, 5, 1, 44, 625)
 		const REAL_CREATION_DATE_MS = Number(REAL_CREATION_DATE)
-		const REAL_CREATION_DATE_RdTS = get_human_readable_timestamp_auto(REAL_CREATION_DATE)
-		assert(REAL_CREATION_DATE_RdTS.startsWith('2017-10-20'), 'test pre')
+		const REAL_CREATION_DATE_RdTS = get_human_readable_timestamp_auto(REAL_CREATION_DATE, default_zone)
+		assert(REAL_CREATION_DATE_RdTS.startsWith('2017-10-20'), 'test precond')
 		const BAD_CREATION_DATE_CANDIDATE = new Date(2018, 10, 21)
 		const BAD_CREATION_DATE_CANDIDATE_MS = Number(BAD_CREATION_DATE_CANDIDATE)
 		const BAD_CREATION_DATE_CANDIDATE_ExDT = ExifDateTime
@@ -78,7 +81,7 @@ describe(`${LIB} - file state`, function() {
 				default_zone,
 				BAD_CREATION_DATE_CANDIDATE.toISOString(),
 			)
-		const BAD_CREATION_DATE_CANDIDATE_COMPACT = get_compact_date(BAD_CREATION_DATE_CANDIDATE)
+		const BAD_CREATION_DATE_CANDIDATE_COMPACT = get_compact_date(BAD_CREATION_DATE_CANDIDATE, default_zone)
 
 		it('should always prioritize the basename date', () => {
 			let state: State = create(`foo/MM${REAL_CREATION_DATE_RdTS}.jpg`)
@@ -96,7 +99,7 @@ describe(`${LIB} - file state`, function() {
 				'MediaCreateDate': BAD_CREATION_DATE_CANDIDATE_ExDT,
 			} as Tags)
 			state = on_hash_computed(state, '1234')
-			expect(get_human_readable_timestamp_auto(get_best_creation_date(state))).to.equal(REAL_CREATION_DATE_RdTS)
+			expect(get_human_readable_timestamp_auto(get_best_creation_date(state), default_zone)).to.equal(REAL_CREATION_DATE_RdTS)
 		})
 
 		it('should prioritize the original basename over the current one', () => {
@@ -186,78 +189,85 @@ describe(`${LIB} - file state`, function() {
 	})
 
 	describe('integration', function() {
-		const TEST_FILES_DIR = '../../../src/__test_shared'
 
-		async function load(state: Readonly<State>, abs_path: string): Promise<Readonly<State>> {
-			expect(is_media_file(state)).to.be.true
-			expect(is_exif_powered_media_file(state)).to.be.true
+		describe('real files', function() {
+			const TEST_FILES_DIR = '../../../src/__test_shared'
 
-			await Promise.all([
-				hasha.fromFile(abs_path, {algorithm: 'sha256'})
-					.then(hash => {
-						expect(has_all_infos_for_extracting_the_creation_date(state)).to.be.false
-						assert(hash)
-						state = on_hash_computed(state, hash)
-					}),
-				util.promisify(fs.stat)(abs_path)
-					.then(stats => {
-						expect(has_all_infos_for_extracting_the_creation_date(state)).to.be.false
-						state = on_fs_stats_read(state, stats)
-					}),
-				exiftool.read(abs_path)
-					.then(exif_data => {
-						expect(has_all_infos_for_extracting_the_creation_date(state)).to.be.false
-						state = on_exif_read(state, exif_data)
-					})
-			])
+			async function load(state: Readonly<State>, abs_path: string): Promise<Readonly<State>> {
+				expect(is_media_file(state)).to.be.true
+				expect(is_exif_powered_media_file(state)).to.be.true
 
-			expect(has_all_infos_for_extracting_the_creation_date(state)).to.be.true
+				await Promise.all([
+					hasha.fromFile(abs_path, {algorithm: 'sha256'})
+						.then(hash => {
+							expect(has_all_infos_for_extracting_the_creation_date(state)).to.be.false
+							assert(hash)
+							state = on_hash_computed(state, hash)
+						}),
+					util.promisify(fs.stat)(abs_path)
+						.then(stats => {
+							expect(has_all_infos_for_extracting_the_creation_date(state)).to.be.false
+							state = on_fs_stats_read(state, stats)
+						}),
+					exiftool.read(abs_path)
+						.then(exif_data => {
+							expect(has_all_infos_for_extracting_the_creation_date(state)).to.be.false
+							state = on_exif_read(state, exif_data)
+						})
+				])
 
-			return state
-		}
+				expect(has_all_infos_for_extracting_the_creation_date(state)).to.be.true
 
-		it.only('should work - cn exif', async () => {
-			const basename = 'exif_date_cn_exif_gps.jpg'
-			const abs_path = path.join(__dirname, TEST_FILES_DIR, basename)
-			let state = create(basename)
-			console.log({
-				basename,
-				abs_path,
-				state,
+				return state
+			}
+
+			const BN01 = 'exif_date_cn_exif_gps.jpg'
+			it.only('should work - ' + BN01, async () => {
+				const basename = BN01
+				const abs_path = path.join(__dirname, TEST_FILES_DIR, basename)
+				let state = create(basename)
+				/*console.log({
+					basename,
+					abs_path,
+					state,
+				})*/
+				expect(get_current_basename(state)).to.equal(basename)
+				expect(get_current_parent_folder_id(state)).to.equal('.')
+
+				state = await load(state, abs_path)
+				//console.log(state)
+
+				// date: exif data is taken in its local zone
+				const expected_moment = moment.tz("2018-09-03 20:46:14", 'Asia/Shanghai')
+				const expected_date = expected_moment.toDate()
+				expect(get_best_creation_year(state)).to.equal(2018)
+				expect(get_best_creation_date_compact(state)).to.equal(20180903)
+				expect(get_best_creation_date(state)).to.deep.equal(expected_date)
+				expect(get_ideal_basename(state)).to.equal(`MM2018-09-03_20h46m14_${basename}`)
 			})
-			expect(get_current_basename(state)).to.equal(basename)
-			expect(get_current_parent_folder_id(state)).to.equal('.')
 
-			state = await load(state, abs_path)
-			//console.log(state)
+			const BN02 = 'exif_date_fr_alt_no_tz_conflicting_fs.jpg'
+			it('should work - ' + BN02, async () => {
+				const basename = BN02
+				const abs_path = path.join(__dirname, TEST_FILES_DIR, basename)
+				let state = create(basename)
+				/*console.log({
+					basename,
+					abs_path,
+					state,
+				})*/
+				expect(get_current_basename(state)).to.equal(basename)
+				expect(get_current_parent_folder_id(state)).to.equal('.')
 
-			// date: exif data is taken in its local zone
-			expect(get_year(state)).to.equal(2018)
-			expect(get_best_compact_date(state)).to.equal(20180903)
-			expect(get_best_creation_date(state)).to.deep.equal(new Date(2018, 8, 3, 20, 46, 14))
-			expect(get_ideal_basename(state)).to.equal(`MM2002-01-26_16h05m50_${basename}`)
-		})
+				state = await load(state, abs_path)
+				//console.log(state)
 
-		it('should work - 1', async () => {
-			const basename = 'exif_date_fr_alt_no_tz_conflicting_fs.jpg'
-			const abs_path = path.join(__dirname, TEST_FILES_DIR, basename)
-			let state = create(basename)
-			console.log({
-				basename,
-				abs_path,
-				state,
+				// date: exif data is taken in its local zone
+				expect(get_best_creation_year(state)).to.equal(2002)
+				expect(get_best_creation_date_compact(state)).to.equal(20020126)
+				expect(get_best_creation_date(state)).to.deep.equal(new Date(2002, 0, 26, 16, 5, 50))
+				expect(get_ideal_basename(state)).to.equal(`MM2002-01-26_16h05m50_${basename}`)
 			})
-			expect(get_current_basename(state)).to.equal(basename)
-			expect(get_current_parent_folder_id(state)).to.equal('.')
-
-			state = await load(state, abs_path)
-			//console.log(state)
-
-			// date: exif data is taken in its local zone
-			expect(get_year(state)).to.equal(2002)
-			expect(get_best_compact_date(state)).to.equal(20020126)
-			expect(get_best_creation_date(state)).to.deep.equal(new Date(2002, 0, 26, 16, 5, 50))
-			expect(get_ideal_basename(state)).to.equal(`MM2002-01-26_16h05m50_${basename}`)
 		})
 	})
 })

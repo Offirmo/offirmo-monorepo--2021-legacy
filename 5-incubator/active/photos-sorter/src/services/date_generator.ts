@@ -1,6 +1,8 @@
 import assert from 'tiny-invariant'
+import moment, { Moment } from 'moment'
+import 'moment-timezone'
 
-import {SimpleYYYYMMDD} from "../types";
+import { SimpleYYYYMMDD, TimeZone } from '../types'
 
 /////////////////////
 
@@ -15,57 +17,70 @@ export type PhotoSorterTimestampMillis = string
 // - valid in files
 // - as short as possible
 
+// https://momentjs.com/docs/#/displaying/format/
+
 // ex. 2018-11-21
-export function get_human_readable_timestamp_days(date: Readonly<Date>): PhotoSorterTimestampDays {
+const MOMENT_FORMAT_DAYS = 'YYYY-MM-DD'
+export function get_human_readable_timestamp_days(date: Readonly<Date>, tz: TimeZone, date_m: Moment = moment(date as Date)): PhotoSorterTimestampDays {
+	/*
 	const YYYY = date.getFullYear()
 	const MM = String(date.getMonth() + 1).padStart(2, '0')
 	const DD = String(date.getDate()).padStart(2, '0')
 
-	return `${YYYY}-${MM}-${DD}`
+	return `${YYYY}-${MM}-${DD}`*/
+	return date_m.tz(tz).format(MOMENT_FORMAT_DAYS)
 }
 
 // ex. 2018-11-21_06h00
-export function get_human_readable_timestamp_minutes(date: Readonly<Date>): PhotoSorterTimestampMinutes {
-	const hh = String(date.getHours()).padStart(2, '0')
+const MOMENT_FORMAT_MINUTES = MOMENT_FORMAT_DAYS + '_HH[h]mm'
+export function get_human_readable_timestamp_minutes(date: Readonly<Date>, tz: TimeZone, date_m: Moment = moment(date as Date)): PhotoSorterTimestampMinutes {
+	/*const hh = String(date.getHours()).padStart(2, '0')
 	const mm = String(date.getMinutes()).padStart(2, '0')
 
-	return get_human_readable_timestamp_days(date) + `_${hh}h${mm}`
+	return get_human_readable_timestamp_days(date, tz, date_m) + `_${hh}h${mm}`*/
+	return date_m.tz(tz).format(MOMENT_FORMAT_MINUTES)
 }
 
 // ex. 2018-11-21_04h23m15
-export function get_human_readable_timestamp_seconds(date: Readonly<Date>): PhotoSorterTimestampSeconds {
-	const ss = String(date.getSeconds()).padStart(2, '0')
+const MOMENT_FORMAT_SECONDS = MOMENT_FORMAT_MINUTES + '[m]ss'
+export function get_human_readable_timestamp_seconds(date: Readonly<Date>, tz: TimeZone, date_m: Moment = moment(date as Date)): PhotoSorterTimestampSeconds {
+	/*const ss = String(date.getSeconds()).padStart(2, '0')
 
-	return get_human_readable_timestamp_minutes(date) + `m${ss}`
+	return get_human_readable_timestamp_minutes(date, tz, date_m) + `m${ss}`*/
+	return date_m.tz(tz).format(MOMENT_FORMAT_SECONDS)
 }
 
 // ex.      2018-11-21_06h00m45s632
-export function get_human_readable_timestamp_millis(date: Readonly<Date>): PhotoSorterTimestampMillis {
-	const mmm = String(date.getMilliseconds()).padStart(3, '0')
+const MOMENT_FORMAT_MILLIS = MOMENT_FORMAT_SECONDS + '[s]SSS'
+export function get_human_readable_timestamp_millis(date: Readonly<Date>, tz: TimeZone, date_m: Moment = moment(date as Date)): PhotoSorterTimestampMillis {
+	/*const mmm = String(date.getMilliseconds()).padStart(3, '0')
 
-	return get_human_readable_timestamp_seconds(date) + `s${mmm}`
+	return get_human_readable_timestamp_seconds(date, tz, date_m) + `s${mmm}`*/
+	return date_m.tz(tz).format(MOMENT_FORMAT_MILLIS)
 }
-
-function _get_human_readable_timestamp_auto(date: Readonly<Date>, digits: string): PhotoSorterTimestampMillis {
+/*
+function _get_human_readable_timestamp_auto(date: Readonly<Date>, tz: TimeZone, date_m: Moment = moment(date as Date)): PhotoSorterTimestampMillis {
+	const digits = date_m.tz(tz).format('YYYYMMDDHHmmssSSS')
 	assert(digits.length <= 17, 'digits length')
 	digits = digits.padEnd(17, '0')
 
 	if (digits.endsWith('000000000'))
-		return get_human_readable_timestamp_days(date)
+		return get_human_readable_timestamp_days(date, tz, date_m)
 
 	if (digits.endsWith('00000'))
-		return get_human_readable_timestamp_minutes(date)
+		return get_human_readable_timestamp_minutes(date, tz, date_m)
 
 	if (digits.endsWith('000'))
-		return get_human_readable_timestamp_seconds(date)
+		return get_human_readable_timestamp_seconds(date, tz, date_m)
 
-	return get_human_readable_timestamp_millis(date)
-}
-export function get_human_readable_timestamp_auto(date: Readonly<Date>, ref_digits?: string): PhotoSorterTimestampMillis {
+	return get_human_readable_timestamp_millis(date, tz, date_m)
+}*/
+export function get_human_readable_timestamp_auto(date: Readonly<Date>, tz: TimeZone, date_m: Moment = moment(date as Date)): PhotoSorterTimestampMillis {
+	//console.log(date)
 	assert(date && date.getFullYear, 'get_human_readable_timestamp_auto() bad date')
 	//const date = new Date(timestamp)
 
-	const YYYY = date.getFullYear()
+	/*const YYYY = date.getFullYear()
 	const MM = String(date.getMonth() + 1).padStart(2, '0')
 	const DD = String(date.getDate()).padStart(2, '0')
 	const hh = String(date.getHours()).padStart(2, '0')
@@ -74,19 +89,30 @@ export function get_human_readable_timestamp_auto(date: Readonly<Date>, ref_digi
 	const mmm = String(date.getMilliseconds()).padStart(3, '0')
 
 	const digits = [ YYYY, MM, DD, hh, mm, ss, mmm ].join('')
-	if (ref_digits) {
-		assert(digits.startsWith(ref_digits), 'get_human_readable_timestamp_auto() digits')
-	}
 
-	return _get_human_readable_timestamp_auto(date, digits)
+	return _get_human_readable_timestamp_auto(date, digits)*/
+	const digits = date_m.tz(tz).format('YYYYMMDDHHmmssSSS')
+	assert(digits.length === 17, 'digits length')
+
+	if (digits.endsWith('000000000'))
+		return get_human_readable_timestamp_days(date, tz, date_m)
+
+	if (digits.endsWith('00000'))
+		return get_human_readable_timestamp_minutes(date, tz, date_m)
+
+	if (digits.endsWith('000'))
+		return get_human_readable_timestamp_seconds(date, tz, date_m)
+
+	return get_human_readable_timestamp_millis(date, tz, date_m)
 }
 
-export function get_compact_date(date: Readonly<Date>): SimpleYYYYMMDD {
-	const YYYY = date.getFullYear()
+export function get_compact_date(date: Readonly<Date>, tz: TimeZone, date_m: Moment = moment(date as Date)): SimpleYYYYMMDD {
+	/*const YYYY = date.getFullYear()
 	const MM = String(date.getMonth() + 1).padStart(2, '0')
 	const DD = String(date.getDate()).padStart(2, '0')
 
-	return Number(`${YYYY}${MM}${DD}`)
+	return Number(`${YYYY}${MM}${DD}`)*/
+	return Number(date_m.tz(tz).format('YYYYMMDD'))
 }
 
 /////////////////////
