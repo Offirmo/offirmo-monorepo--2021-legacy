@@ -1,0 +1,30 @@
+
+
+progress {
+	--o⋄color__progress--bg: var(--o⋄color--bg⁚highlight--1);
+	--o⋄color__progress-border: var(--o⋄color--bg⁚highlight--1);
+	--o⋄color__progress-bar: var(--fg);
+
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+
+	vertical-align: middle;
+	background-color: var(--o⋄color__progress--bg);
+	border: solid var(--o⋄border--thickness) var(--o⋄color__progress-border);
+	overflow: hidden;
+}
+/* necessary to style the progress bar background */
+progress::-webkit-progress-bar {
+	background-color: var(--o⋄color__progress--bg);
+}
+progress::-webkit-progress-value {
+	background-color: var(--o⋄color__progress-bar);
+}
+progress::-moz-progress-bar {
+	background-color: var(--o⋄color__progress-bar);
+}
+progress::-ms-fill {
+	background-color: var(--o⋄color__progress-bar);
+	border: 0;
+}
