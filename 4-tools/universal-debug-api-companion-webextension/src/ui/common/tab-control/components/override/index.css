@@ -44,7 +44,7 @@
 
 .override-input-string input {
 	width: 195px;
-	margin: 0 2px 0 1px;
+	margin: 0 2px 0 1px; /* TODO review */
 }
 .override-input--error {
 	border: solid 2px var(--o⋄color--fg⁚error);

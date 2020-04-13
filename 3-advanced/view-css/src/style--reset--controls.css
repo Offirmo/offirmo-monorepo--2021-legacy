@@ -29,7 +29,7 @@ button {
 	/* TODO fit-content ? https://developer.mozilla.org/en-US/docs/Web/CSS/fit-content */
 	display: inline-block;
 	padding: .3em 2.1em;
-	margin: .1em;
+	margin: .1em; /* TODO remove and move to a container? */
 	border: solid calc(var(--border--thickness) * 2) var(--o⋄color--fg⁚main);
 
 	background-color: var(--o⋄color--bg⁚highlight--1);

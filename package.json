@@ -15,7 +15,7 @@
 		"eslint:misc": "eslint '{0-meta,0-scripts,0-typings-custom}/**/*.{ts,tsx,js,jsx,json}'",
 		"eslintxx": "eslint '5-incubator/**/{src,doc}/**/*.{ts,tsx,js,jsx,json}'",
 		"lint": "run-s eslint:packages eslint:config eslint:misc",
-		"serve": "serve -l 1981",
+		"serve": "serve --listen 1981 --debug",
 		"puer": "puer --no-launch --port 1981 --allow-cors",
 		"deploy": "./0-scripts/deploy_tbrpg.sh"
 	},

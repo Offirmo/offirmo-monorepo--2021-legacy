@@ -46,3 +46,7 @@ CSS
     http://saijogeorge.com/css-puns/
 
 startup disparue https://techcrunch.com/2018/06/21/twitter-smytes-customers/
+
+https://tech.slashdot.org/story/20/03/04/205256/simple-systems-have-less-downtime
+
+https://www.nytimes.com/2020/03/20/technology/venezuela-petro-cryptocurrency.html

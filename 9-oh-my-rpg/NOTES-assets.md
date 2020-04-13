@@ -63,3 +63,6 @@ Médiévale
 * https://opengameart.org/content/dark-ambiences
 * https://opengameart.org/content/80-cc0-rpg-sfx
 * https://rissole.github.io/alexandhorachio/game/
+* https://commons.wikimedia.org/wiki/Commons:Picture_of_the_Year/2019/R1/Gallery
+* https://www.si.edu/search/collection-images?edan_q=Primary%20Gem&edan_fq%5B0%5D=topic%3A%22Mineralogy%22%20OR%20object_type%3A%22Photographs%22&edan_fq%5B1%5D=metadata_usage%3A%22CC0%22%20AND%20media_usage%3A%22CC0%22
+https://www.si.edu/object/nmnhmineralsciences_1175789

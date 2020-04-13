@@ -26,3 +26,24 @@ img manipulation
 use case: website in a folder! maybe duplicate instead of move?
 
 jpg rotation https://photo.stackexchange.com/questions/104337/how-i-can-losslessly-rotate-photos
+
+https://github.com/johansatge/jpeg-autorotate
+
+https://github.com/photostructure/exiftool-vendored.js#dates
+
+https://momentjs.com/timezone/
+https://momentjs.com/docs/#/displaying/format/
+https://momentjs.com/docs/#/plugins/parseformat/
+https://momentjs.com/docs/#/manipulating/utc-offset/
+https://momentjs.com/guides/#/parsing/local-utc-zone/
+
+https://sharp.pixelplumbing.com
+https://github.com/hMatoba/piexifjs
+
+https://github.com/mozilla/mozjpeg
+https://github.com/LI-NA/mozjpeg.js
+https://github.com/as-com/mozjpeg-js
+jpegtran
+
+
+Discovered later: https://consumerreviewer.org/best-photo-backup-devices/

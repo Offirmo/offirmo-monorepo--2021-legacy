@@ -8,3 +8,5 @@ https://vimeo.com/29720808
 
 
 https://wmjasco.com/william-james-company/22-common-errors-in-english-usage-3rd-ed.html
+
+https://english.stackexchange.com/questions/909/the-use-of-random-to-mean-arbitrary-unidentified-unknown-etc

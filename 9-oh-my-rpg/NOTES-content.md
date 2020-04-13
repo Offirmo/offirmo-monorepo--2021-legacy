@@ -68,6 +68,8 @@ https://en.wikipedia.org/wiki/Orlande_de_Lassus
 ### architecture
 https://en.wikipedia.org/wiki/Martello_tower
 
+### cuisine
+https://science.slashdot.org/story/20/02/24/2332241/the-perfect-way-to-cook-fried-rice-according-to-science
 
 ### folklore
 *
@@ -88,8 +90,9 @@ https://www.1843magazine.com/design/rewind/when-potatoes-were-the-height-of-fash
 
 ### technologie
 * https://worldbuilding.stackexchange.com/questions/156036/in-what-sequence-should-an-advanced-civilization-teach-technology-to-medieval-so
-* https://rpg.stackexchange.com/questions/30966/realism-of-poisoned-weapons
+* https://rpg.stackexchange.com/questions/30966/realism-of-poisoned-weapons  https://www.dandwiki.com/wiki/SRD%3aPoisons
 * https://history.stackexchange.com/questions/57152/how-did-archers-judge-distance-before-range-finders
+* table https://academia.stackexchange.com/questions/144574/why-do-breakthroughs-in-science-and-research-that-have-enormous-and-obvious-po
 
 ### organisations
 * currencies https://en.bitcoinwiki.org/wiki/List_of_fictional_currencies
@@ -181,6 +184,10 @@ https://en.wikipedia.org/wiki/Atropa_belladonna
 https://goblinscomic.com/dungeon-master-tips
 
 * https://en.wikipedia.org/wiki/Fiction-writing_mode
+
+easing
+* https://gist.github.com/gre/1650294
+*
 
 ## tosort
     Men wanted for hazardous journey. Small wages, bitter cold, long months of complete darkness, constant danger, safe return doubtful. Honour and recognition in case of success.[5][6]
