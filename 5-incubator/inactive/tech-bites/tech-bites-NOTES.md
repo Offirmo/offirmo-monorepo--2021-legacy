@@ -35,7 +35,11 @@ https://developers.slashdot.org/story/20/01/13/0554252/how-is-computer-programmi
 https://tech.slashdot.org/story/20/01/06/215250/for-tech-weary-midwest-farmers-40-year-old-tractors-now-a-hot-commodity
 https://news.slashdot.org/story/19/12/14/1614214/do-you-remember-the-y2k-bug
 
+executive
+vaporware
+individual contributor
 
+anomaly detection
 
 Strips
 
@@ -50,3 +54,7 @@ startup disparue https://techcrunch.com/2018/06/21/twitter-smytes-customers/
 https://tech.slashdot.org/story/20/03/04/205256/simple-systems-have-less-downtime
 
 https://www.nytimes.com/2020/03/20/technology/venezuela-petro-cryptocurrency.html
+
+https://en.wikipedia.org/wiki/Busy_work
+
+defensive programming https://dev.to/cubiclebuddha/is-defensive-programming-actually-healthy-5flj

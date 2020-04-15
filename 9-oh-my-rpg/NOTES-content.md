@@ -47,6 +47,7 @@ From marketing of "Children of MORTA"
 
 ### comportement
 * https://nerdist.com/article/read-body-language-fbi-expert-video/
+* https://en.wikipedia.org/wiki/Prig
 
 #### coutumes / traditions
 * https://fr.wikipedia.org/wiki/Wergeld
@@ -88,6 +89,10 @@ Fall of Roman Empire
 
 https://www.1843magazine.com/design/rewind/when-potatoes-were-the-height-of-fashion
 
+SCP
+* http://www.scp-wiki.net/
+
+
 ### technologie
 * https://worldbuilding.stackexchange.com/questions/156036/in-what-sequence-should-an-advanced-civilization-teach-technology-to-medieval-so
 * https://rpg.stackexchange.com/questions/30966/realism-of-poisoned-weapons  https://www.dandwiki.com/wiki/SRD%3aPoisons
@@ -110,6 +115,8 @@ https://en.wikipedia.org/wiki/International_Nuclear_Event_Scale
 
 ## Faune & Flore
 
+https://about.biodiversitylibrary.org/
+https://eol.org/
 
 ### cosmique
 * https://science.slashdot.org/story/19/11/23/2214255/hungarian-scientists-may-have-found-a-fifth-force-of-nature
@@ -187,7 +194,15 @@ https://goblinscomic.com/dungeon-master-tips
 
 easing
 * https://gist.github.com/gre/1650294
-*
+* http://robertpenner.com/easing/
+* https://github.com/danro/jquery-easing/blob/master/jquery.easing.js
+* https://easings.net/en
+
+
+Hauts faits
+* https://www.millenium.org/news/363195.html
+
+
 
 ## tosort
     Men wanted for hazardous journey. Small wages, bitter cold, long months of complete darkness, constant danger, safe return doubtful. Honour and recognition in case of success.[5][6]
@@ -200,3 +215,11 @@ https://games.slashdot.org/story/19/11/17/029240/doom-creator-john-romero-explai
 
 
 https://news.slashdot.org/story/19/11/25/1548207/why-536-was-the-worst-year-to-be-alive
+
+https://www.millenium.org/guide/30991.html
+
+https://www.maxisciences.com/archeologie/les-archeologues-deterrent-une-cite-antique-oubliee-ruine-dune-civilisation-ancienne-tres-puissante_art44160.html
+
+https://worldbuilding.stackexchange.com/questions/173864/how-do-i-make-a-writing-system-undecipherable-while-not-intended-as-such-in-wor
+
+https://www.theguardian.com/science/2020/feb/12/scientists-find-evidence-of-ghost-population-of-ancient-humans
