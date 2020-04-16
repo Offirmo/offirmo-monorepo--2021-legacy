@@ -15,8 +15,8 @@ setTimeout(() => {
 	window.parent.on_rsrc_loaded('r1')
 }, 1000)
 
-/*setTimeout(() => {
+setTimeout(() => {
 	//console.info(`[I2] simulated load`)
 	window.parent.on_rsrc_loaded()
-}, 5000)
-*/
+}, 3000)
+

@@ -23,6 +23,8 @@
 	<meta name="msapplication-config" content="favicons/browserconfig.xml?v=yyapgPk479">
 	<meta name="theme-color" content="#543d46">
 
+	<link rel="stylesheet" href="../../../../9-oh-my-rpg/view-browser/dist/oh-my-rpg-browser.css">
+
 	<script>
 		/*console.log(`[I2] hello`, {
 			frameElement, // Returns the element in which the window is embedded, or null if the window is not embedded.
@@ -31,14 +33,6 @@
 	</script>
 
 	<style type="text/css">
-		/* super early styles while the page is loading */
-
-		.o⋄top-container {
-			display: flex;
-			flex-direction: column;
-			height: 100%;
-		}
-
 		html {
 			--o⋄color__co212__brown:   rgb(84, 61, 70);
 			--o⋄color__co212__beige:   rgb(255, 235, 188);
@@ -54,7 +48,16 @@
 <body class="o⋄top-container o⋄body⁚full-page omr⋄font⁚pixantiqua omr⋄cursor⁚sword" data-o-theme="lod--colorhunt212">
 
 <div id="root" class="o⋄top-container">
-	Some content...
+
+	<div class="omr⋄full-size-fixed-layer omr⋄bg-image⁚tiled-marble_black">
+		<div class="omr⋄full-size-fixed-layer omr⋄bg⁚cover" style="background-image: url(./albert-weand-pueblo.jpg);">
+		</div>
+	</div>
+
+	<div class="omr⋄full-size-fixed-layer">
+		Some content...
+		<button onclick="console.log('clicked')">test</button>
+	</div>
 </div>
 
 </body>
