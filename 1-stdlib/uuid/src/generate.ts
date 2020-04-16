@@ -1,9 +1,7 @@
 /////////////////////
 
 // TODO NOT USE nanoid!!
-import nanoid from 'nanoid'
-import format from 'nanoid/format'
-import url from 'nanoid/url'
+import { nanoid, customRandom, urlAlphabet } from 'nanoid'
 
 import { Random, Engine } from '@offirmo/random'
 
@@ -20,12 +18,12 @@ const UUID_LENGTH = UUID_RADIX.length + NANOID_LENGTH_FOR_1BTH_COLLISION_CHANCES
 function generate_uuid({length = NANOID_LENGTH_FOR_1BTH_COLLISION_CHANCES, rng}: Readonly<{length?: number, rng?: Engine}> = {}): UUID {
 	return UUID_RADIX + (
 		rng
-			? format((size: number) => {
-				const result = []
+			? customRandom(urlAlphabet, length, (size: number): Uint8Array => {
+				//const result: number[] = []
 				const gen = Random.integer(0, 255)
-				for (let i = 0; i < size; i++) result.push(gen(rng!))
-				return result
-			}, url, length)
+				//for (let i = 0; i < size; i++) result.push(gen(rng!))
+				return (new Uint8Array(size)).map(() => gen(rng!))
+			})()
 			: nanoid(length)
 	)
 }

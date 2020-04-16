@@ -21,7 +21,7 @@
 	},
 	"dependencies": {
 		"@offirmo-private/common-error-fields": "^0",
-		"chalk": "^3",
+		"chalk": "^4",
 		"tslib": "^1"
 	},
 

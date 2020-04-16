@@ -38,7 +38,7 @@
 	"devDependencies": {
 		"@offirmo-private/prettify-json": "^0",
 		"@offirmo-private/rich-text-format-to-ansi": "^0",
-		"fs-extra": "^8",
+		"fs-extra": "^9",
 		"lodash": "^4",
 		"npm-run-all": "^4"
 	}

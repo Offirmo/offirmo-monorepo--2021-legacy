@@ -16,7 +16,7 @@
 	"dependencies": {
 		"@offirmo-private/prettify-json": "^0",
 		"ansi-escapes": "^4",
-		"chalk": "^3",
+		"chalk": "^4",
 		"gauge": "^2",
 		"linewrap": "^0.2",
 		"ora": "^4",

@@ -18,7 +18,7 @@
 	},
 	"dependencies": {
 		"@offirmo/random": "^2",
-		"nanoid": "^2"
+		"nanoid": "^3"
 	},
 
 	"devDependencies": {

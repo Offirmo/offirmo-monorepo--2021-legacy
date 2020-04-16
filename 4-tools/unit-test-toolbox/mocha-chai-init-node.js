@@ -1,6 +1,11 @@
 "use strict";
 
-require('@offirmo/universal-debug-api-node')
+try {
+	require('@offirmo/universal-debug-api-node')
+} catch {
+	// private monorepo case where this module is not available / broken / not built yet
+	console.log('(@offirmo/universal-debug-api-node skipped, require error)')
+}
 
 const path = require('path')
 

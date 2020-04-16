@@ -24,13 +24,13 @@
 		"@offirmo/universal-debug-api-browser": "^0",
 		"@offirmo/universal-debug-api-interface": "^0",
 		"@offirmo/universal-debug-api-placeholder": "^0",
-		"emittery": "^0.5",
+		"emittery": "^0.6",
 		"memoize-one": "^5",
 		"npm-run-all": "^4",
 		"parcel-bundler": "^1",
 		"styled-components": "^3",
 		"typescript-string-enums": "^1",
-		"webextension-polyfill-ts": "^0.13"
+		"webextension-polyfill-ts": "^0.14"
 	},
 	"scripts": {
 		"clean": "node ../../0-scripts/clean.js dist cache && rm -rf dist.demo",
