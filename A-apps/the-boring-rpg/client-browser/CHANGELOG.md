@@ -6,12 +6,13 @@
 - 🤩 feature: X new adventures (now totalling X!)
 - 😍 feature: X new backgrounds (now totalling X!)
 - 🤩 feature: X new achievements (now totalling X!)
+- 👋 feature dropped: X
 - 😅 fix: tweaks, typos, small bugs…
 - 😷 chore: some internal refactors, bump dependencies
 
 
 ## v0.61.4
-- removed the snow for Christmas season
+- 👋 feature dropped: the snow for Christmas season
 - 😷 chore: bump dependencies
 
 ## v0.61.3
