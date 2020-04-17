@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Offirmo's loading iframe v0.0.1 -->
+<!-- Offirmo's loading iframe v0.0.2 2020/04/16 -->
 <html lang="en" xml:lang="en" class="o⋄top-container">
 <head>
 	<meta charset="utf-8" />
@@ -183,10 +183,7 @@
 
 	/////////////////////
 
-	window.on_rsrc_loaded = (id) => {
-		state = on_rsrc_loaded(state, id)
-		render(state, 'on_rsrc_loaded')
-	}
+
 	window.configure_loader = ({ legend, expected_rsrc_count, bg_color, fg_color, ...others } = {}) => {
 		if (Object.keys(others).length > 0) console.error(`[IL] configure_loader() unknown params:`, others)
 
@@ -206,6 +203,11 @@
 			fg_color,
 		})
 		render(state, 'configure_loader')
+	}
+
+	window.on_rsrc_loaded = (id) => {
+		state = on_rsrc_loaded(state, id)
+		render(state, 'on_rsrc_loaded')
 	}
 
 	// TODO allow passing custom favicon

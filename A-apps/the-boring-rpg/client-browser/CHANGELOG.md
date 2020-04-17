@@ -13,6 +13,7 @@
 
 ## v0.61.4
 - 👋 feature dropped: the snow for Christmas season
+- 🤩 feature: new loader
 - 😷 chore: bump dependencies
 
 ## v0.61.3

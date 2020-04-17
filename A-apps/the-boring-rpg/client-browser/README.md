@@ -28,8 +28,8 @@ bolt deploy
 ## TODO
 
 ```
-npx bundle-inspector "https://www.online-adventur.es/A-apps/the-boring-rpg/index.html"
-npx bundle-inspector "https://www.online-adventur.es/A-apps/the-boring-rpg-preprod/index.html"
+npx bundle-inspector "https://www.online-adventur.es/A-apps/the-boring-rpg/index-2.html"
+npx bundle-inspector "https://www.online-adventur.es/A-apps/the-boring-rpg-preprod/index-2.html"
 ```
 
 ## doc

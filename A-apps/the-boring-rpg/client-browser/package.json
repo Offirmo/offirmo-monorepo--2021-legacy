@@ -53,10 +53,10 @@
 		"copy-ignored-mstile": "cp -rf src/favicons/mstile-150x150.png dist",
 
 		"copy-build-data--dev": "mkdir -p .parcel && cp -f src/build.json .parcel",
-		"start:parcel": "PARCEL_AUTOINSTALL=false parcel src/index.html --out-dir .parcel --no-autoinstall --port 8080 --no-hmr",
+		"start:parcel": "PARCEL_AUTOINSTALL=false parcel src/index-2.html --out-dir .parcel --no-autoinstall --port 8080 --no-hmr",
 
 		"copy-build-data--prod": "cp -f src/build.json dist",
-		"build:parcel": "parcel build src/index.html --public-url ./",
+		"build:parcel": "parcel build src/index-2.html --public-url ./",
 
 		"dev": "npm-run-all clean refresh-build-variables --parallel start:parcel copy-build-data--dev",
 		"build": "npm-run-all clean refresh-build-variables build:parcel copy-build-data--prod copy-incorrectly-parcelised-favicons copy-ignored-mstile"

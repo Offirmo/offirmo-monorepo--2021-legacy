@@ -39,7 +39,7 @@ logger.verbose(`BASE_ROUTE = "${BASE_ROUTE}"`)
 
 const ROUTES = {
 	// special routes
-	index: '/index.html', // technical route for redirection
+	index: '/index-2.html', // technical route for redirection
 
 	// navigable routes
 	home: '/',
