@@ -9,7 +9,18 @@
 
 	<title>Loading…</title>
 
-	<!-- CUSTOM favicon and webmanifest -->
+	<!-- CUSTOM BEGINS favicon and webmanifest -->
+	<!-- thank you https://realfavicongenerator.net/ -->
+	<link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png?v=yyapgPk479">
+	<link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png?v=yyapgPk479">
+	<link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png?v=yyapgPk479">
+	<link rel="manifest" href="favicons/site.webmanifest?v=yyapgPk479">
+	<link rel="mask-icon" href="favicons/safari-pinned-tab.svg?v=yyapgPk479" color="#543d46">
+	<link rel="shortcut icon" href="favicons/favicon.ico?v=yyapgPk479">
+	<meta name="msapplication-TileColor" content="#543d46">
+	<meta name="msapplication-config" content="favicons/browserconfig.xml?v=yyapgPk479">
+	<meta name="theme-color" content="#543d46">
+	<!-- CUSTOM ENDS -->
 
 	<style type="text/css">
 		:root {
@@ -65,28 +76,28 @@
 </head>
 
 <body class="o⋄top-container o⋄body⁚full-page">
-	<noscript>You need to enable JavaScript to run this app.</noscript>
+<noscript>You need to enable JavaScript to run this app.</noscript>
 
-	<!-- the actual app -->
-	<iframe class="o⋄top-container progressive"
+<!-- the actual app -->
+<iframe class="o⋄top-container progressive"
 		  importance="high"
 		  loading="eager"
 		  scrolling="no"
-	>
-		<p>Error. Your app should be here.</p>
-	</iframe>
+>
+	<p>Error. Your app should be here.</p>
+</iframe>
 
-	<!-- the loader (on top) -->
-	<div id="loader" class="o⋄top-container">
-		<div>
-			<p id="legend"></p>
-			<p class="blinking">Loading…</p>
-			<label class="progressive">
-				<progress></progress>
-				0%
-			</label>
-		</div>
+<!-- the loader (on top) -->
+<div id="loader" class="o⋄top-container">
+	<div>
+		<p id="legend"></p>
+		<p class="blinking">Loading…</p>
+		<label class="progressive">
+			<progress></progress>
+			0%
+		</label>
 	</div>
+</div>
 
 </body>
 
@@ -102,7 +113,19 @@
 	}
 </script>
 
-<!-- CUSTOM early code -->
+<!-- CUSTOM BEGINS early code -->
+<script>
+	// I absolutely don't understand this bug but nevermind, easy to fix
+	if (document.URL === 'https://www.online-adventur.es/A-apps/the-boring-rpg') {
+		console.warn('strange non-/ case, redirecting...')
+		window.location = document.URL + '/'
+	}
+/*
+	if (document.URL === 'http://localhost:1981/A-apps/the-boring-rpg/client-browser/src/index.html') {
+		user_settings.app_url = '../dist/index-2.html'
+	}*/
+</script>
+<!-- CUSTOM ENDS -->
 
 <script type="module">
 	// TODO move to demo
@@ -110,11 +133,11 @@
 		user_settings.app_url = '../doc/demo/index-2.html'
 	}
 
-/*
-	console.log(`[IL] hello m1`)
-	window.onload = (e) => console.log(`[IL] GlobalEventHandlers.onload`, e)
-	window.frames[0].onload = (e) => console.log(`[IL] GlobalEventHandlers.onload 2`, e)
-*/
+	/*
+		console.log(`[IL] hello m1`)
+		window.onload = (e) => console.log(`[IL] GlobalEventHandlers.onload`, e)
+		window.frames[0].onload = (e) => console.log(`[IL] GlobalEventHandlers.onload 2`, e)
+	*/
 	window._id = 'loading iframe' // test TODO clean
 
 	/////////////////////
@@ -289,9 +312,9 @@
 						}
 					)
 					.finished.then(() => {
-						// for easier inspection. Really needed?
-						elt_loader.style.display = 'none'
-					})
+					// for easier inspection. Really needed?
+					elt_loader.style.display = 'none'
+				})
 
 				if (state.error) {
 					if (!confirm('Load timeout. Does it look OK? (If not, I’ll try reloading.)'))

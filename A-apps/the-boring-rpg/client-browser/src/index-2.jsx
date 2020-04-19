@@ -5,7 +5,7 @@ import { overrideHook } from '@offirmo/universal-debug-api-browser'
 
 import { setTextEncoder } from '@tbrpg/flux'
 
-import { loader } from '@offirmo-private/iframe-loading/src/iframe-loading'
+import '@offirmo-private/iframe-loading/src/iframe-loading'
 import './services/raven'
 import Root from './components/root'
 //import 'react-circular-progressbar/dist/styles.css'
@@ -20,12 +20,12 @@ window.XOFF.flags = {
 	debug_render: overrideHook('should_trace_renders', false),
 	...window.XOFF.flags,
 }
+window.XOFF.loader.configure({
+	legend: 'The Boring RPG, reloaded'
+})
 
 setTextEncoder(TextEncoder)
 
-loader.configure({
-	legend: 'The Boring RPG, reloaded'
-})
 setTimeout(() => ReactDOM.render(
 	<ErrorBoundary name={'tbrpg_root'}>
 		<Root />

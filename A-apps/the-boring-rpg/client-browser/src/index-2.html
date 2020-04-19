@@ -25,7 +25,7 @@
 
 		<style type="text/css">
 			/* super early styles while the page is loading */
-
+/*
 			.o⋄top-container {
 				display: flex;
 				flex-direction: column;
@@ -40,7 +40,7 @@
 				background-color: var(--o⋄color__co212__brown);
 				color: var(--o⋄color__co212__beige);
 				font-family: var(--o⋄font-family--fast_and_good_enough);
-			}
+			}*/
 
 			#group-chat-container {
 				/* note: minimal needed at load, overriden later */
@@ -65,21 +65,6 @@
 		<div id="group-chat-container" class="o⋄top-container">
 		</div>
 	</body>
-
-	<script>
-		// I absolutely don't understand this bug but nevermind, easy to fix
-		if (document.URL === 'https://www.online-adventur.es/A-apps/the-boring-rpg') {
-			console.warn('strange non-/ case, redirecting...')
-			window.location = document.URL + '/'
-		}
-		/*
-		window._id = 'tbrpg-core'
-		window.XOFF = window.XOFF || (window.parent || {}).XOFF || {}
-		window.XOFF.loader.configure({
-			legend: 'The Boring RPG, reloaded'
-		})*/
-		console.log('index-2.html', { window, parent: window.parent })
-	</script>
 
 	<script async importance="high" src="./index-2.jsx"></script>
 
