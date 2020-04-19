@@ -91,7 +91,7 @@ export default class OhMyRPGView extends PureComponent {
 
 	render() {
 		const { mode } = this.props
-		if (window.XOFF.flags.debug_render) console.log('🔄 OhMyRPGView')
+		if (window.XOFF?.flags?.debug_render) console.log('🔄 OhMyRPGView')
 
 		return (
 			<OhMyRpg

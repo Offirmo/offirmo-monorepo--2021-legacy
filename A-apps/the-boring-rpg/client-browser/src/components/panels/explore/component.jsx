@@ -120,7 +120,7 @@ export default class ExplorePanelView extends React.Component {
 	}
 
 	render() {
-		if (window.XOFF.flags.debug_render) console.log('🔄 ExplorePanelView')
+		if (window.XOFF?.flags?.debug_render) console.log('🔄 ExplorePanelView')
 
 		return (
 			<div className="o⋄top-container tbrpg-panel tbrpg-panel--explore">

@@ -8,7 +8,7 @@ import './index.css'
 
 const TopLeftHudViewM = React.memo(
 	function TopLeftHudView({openBurgerMenu, logo, toggleAbout, universeAnchor }) {
-		if (window.XOFF && window.XOFF.debug_render) console.log('🔄 [OMR]TopLeftHudView')
+		if (window.XOFF?.flags?.debug_render) console.log('🔄 [OMR]TopLeftHudView')
 
 		return (
 			<div className="omr⋄hud⁚top-left">
@@ -34,7 +34,7 @@ const TopLeftHudViewM = React.memo(
 
 const BottomRightHudViewM = React.memo(
 	function BottomRightHudView({ bottomMenuItems }) {
-		if (window.XOFF && window.XOFF.debug_render) console.log('🔄 [OMR]BottomRightHudView')
+		if (window.XOFF?.flags?.debug_render) console.log('🔄 [OMR]BottomRightHudView')
 
 		return bottomMenuItems.length > 0 && (
 			<div className="omr⋄hud⁚bottom-right">
@@ -61,7 +61,7 @@ const MainViewM = React.memo(
 		toggleAbout,
 		_registerNotificationSystem,
 	}) {
-		if (window.XOFF && window.XOFF.debug_render) console.log('🔄 [OMR]MainView')
+		if (window.XOFF?.flags?.debug_render) console.log('🔄 [OMR]MainView')
 
 		return (
 			<div className="o⋄top-container">

@@ -39,7 +39,7 @@ class AppStateListenerAndProviderRAF extends React.Component {
 	}
 
 	update_to_now = throttle((time) => {
-		if (window.XOFF.flags.is_paused) return
+		if (window.XOFF?.flags?.is_paused) return
 
 		const now_ms = this.time_last_iteration = get_UTC_timestamp_ms()
 
@@ -77,7 +77,7 @@ class AppStateListenerAndProviderRAF extends React.Component {
 	onAnimationFrame = this.update_to_now
 
 	render() {
-		if (window.XOFF.flags.debug_render) console.log('🔄 AppStateListenerAndProviderRAF')
+		if (window.XOFF?.flags?.debug_render) console.log('🔄 AppStateListenerAndProviderRAF')
 
 		return (
 			<AppStateListenerAndProvider>

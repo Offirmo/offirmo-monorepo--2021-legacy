@@ -5,7 +5,7 @@ import './index.css'
 
 const OMRUniverseAnchorView = React.memo(
 	function OMRUniverseAnchorView({onClick, name, klass, level}) {
-		if (window.XOFF.flags.debug_render) console.log('🔄 OMRUniverseAnchorView')
+		if (window.XOFF?.flags?.debug_render) console.log('🔄 OMRUniverseAnchorView')
 
 		return (
 			<div className="o⋄flex--row" onClick={onClick}>

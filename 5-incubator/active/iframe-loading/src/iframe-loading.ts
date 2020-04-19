@@ -1,4 +1,6 @@
 
+//console.log('iframe-loading.ts', { window })
+
 export type CSSColor = string
 
 export interface LoaderConfig {
@@ -9,18 +11,27 @@ export interface LoaderConfig {
 }
 
 export interface Loader {
-	configure_loader(config: Partial<LoaderConfig>): void
+	configure(config: Partial<LoaderConfig>): void
 	on_rsrc_loaded(id?: string): void
 }
 
 export const loader_noop: Loader = {
-	configure_loader(config: Partial<LoaderConfig>) {},
+	configure(config: Partial<LoaderConfig>) {},
 	on_rsrc_loaded(id?: string) {},
 }
 
-export const XOFF: {
-	loader?: Loader
-} = (window as any).XOFF || {}
-;(window as any).XOFF = XOFF
+//////////// XOFF snippet ////////////
+// Firefox ESL compatible
+window.XOFF = {
+	top_frame: window,
+	loader: loader_noop,
+	flags: {},
+	...(window.XOFF || (window.parent || {}).XOFF),
+}
+window.XOFF.flags = {
+	debug_render: false,
+	...window.XOFF.flags,
+}
+////////////////////////////////////
 
-export const loader = XOFF.loader || loader_noop
+export const loader = (window as any).XOFF.loader

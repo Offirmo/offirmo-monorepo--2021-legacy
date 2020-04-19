@@ -11,7 +11,7 @@
 - 😷 chore: some internal refactors, bump dependencies
 
 
-## v0.61.4
+## v0.62.0
 - 👋 feature dropped: the snow for Christmas season
 - 🤩 feature: new loader
 - 😷 chore: bump dependencies

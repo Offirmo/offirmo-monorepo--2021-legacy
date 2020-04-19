@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Offirmo's loading iframe v0.0.2 2020/04/16 -->
+<!-- Offirmo's loading iframe v0.0.3 2020/04/17 -->
 <html lang="en" xml:lang="en" class="o⋄top-container">
 <head>
 	<meta charset="utf-8" />
@@ -9,7 +9,7 @@
 
 	<title>Loading…</title>
 
-	<!-- TODO full favicon and webmanifest -->
+	<!-- CUSTOM favicon and webmanifest -->
 
 	<style type="text/css">
 		:root {
@@ -90,11 +90,7 @@
 
 </body>
 
-<script>
-	const user_settings = {
-		// TODO non-default overrides?
-	}
-</script>
+<!-- CUSTOM early_code -->
 
 <script type="module">
 /*
@@ -102,12 +98,15 @@
 	window.onload = (e) => console.log(`[IL] GlobalEventHandlers.onload`, e)
 	window.frames[0].onload = (e) => console.log(`[IL] GlobalEventHandlers.onload 2`, e)
 */
-	window._id = 'loading iframe' // test
+	window._id = 'loading iframe' // test TODO clean
 
 	/////////////////////
 
 	const DEFAULT_RSRC_ID = 'overall'
 	const LS_KEY_CONFIG_FROM_PREVIOUS_RUN = 'XOF.loading-iframe.config_cache'
+	const user_settings = {
+		/*** CUSTOM user_settings ***/
+	}
 
 	/////////////////////
 
@@ -126,6 +125,8 @@
 		is_rsrc_loaded: {
 			[DEFAULT_RSRC_ID]: false,
 		},
+
+		error: null,
 	}
 
 	/////////////////////
@@ -184,30 +185,47 @@
 	/////////////////////
 
 
-	window.configure_loader = ({ legend, expected_rsrc_count, bg_color, fg_color, ...others } = {}) => {
-		if (Object.keys(others).length > 0) console.error(`[IL] configure_loader() unknown params:`, others)
-
-		try {
-			localStorage.setItem(LS_KEY_CONFIG_FROM_PREVIOUS_RUN, JSON.stringify({ legend, expected_rsrc_count, bg_color, fg_color }))
-		} catch {}
-
-		legend = legend || state.settings.legend
-		expected_rsrc_count = expected_rsrc_count || state.settings.expected_rsrc_count
-		bg_color = bg_color || state.settings.bg_color
-		fg_color = fg_color || state.settings.fg_color
-
-		state = update_settings(state, {
-			legend,
-			expected_rsrc_count,
-			bg_color,
-			fg_color,
-		})
-		render(state, 'configure_loader')
+	window.XOFF = {
+		top_frame: window,
+		flags: {},
+		...(window.XOFF || (window.parent || {}).XOFF),
 	}
+	if (window.XOFF.loader) {
+		console.error('Error! iframe-loading recursion!')
+		// TODO immediately hide our own loader
+	} else {
+		window.XOFF.loader = {
+			configure({legend, expected_rsrc_count, bg_color, fg_color, ...others} = {}) {
+				if (Object.keys(others).length > 0) console.error(`[IL] configure_loader() unknown params:`, others)
 
-	window.on_rsrc_loaded = (id) => {
-		state = on_rsrc_loaded(state, id)
-		render(state, 'on_rsrc_loaded')
+				try {
+					localStorage.setItem(LS_KEY_CONFIG_FROM_PREVIOUS_RUN, JSON.stringify({
+						legend,
+						expected_rsrc_count,
+						bg_color,
+						fg_color
+					}))
+				} catch {
+				}
+
+				legend = legend || state.settings.legend
+				expected_rsrc_count = expected_rsrc_count || state.settings.expected_rsrc_count
+				bg_color = bg_color || state.settings.bg_color
+				fg_color = fg_color || state.settings.fg_color
+
+				state = update_settings(state, {
+					legend,
+					expected_rsrc_count,
+					bg_color,
+					fg_color,
+				})
+				render(state, 'configure')
+			},
+			on_rsrc_loaded(id) {
+				state = on_rsrc_loaded(state, id)
+				render(state, 'on_rsrc_loaded')
+			},
+		}
 	}
 
 	// TODO allow passing custom favicon
@@ -242,6 +260,7 @@
 				elt_iframe.style.display = 'block'
 				elt_progress_area.display = 'none'
 				elt_loader.style.pointerEvents = 'none'
+				// https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API/Using_the_Web_Animations_API
 				elt_loader
 					.animate(
 						[
@@ -284,6 +303,7 @@
 	render(state, 'initial')
 
 	try {
+		// TODO cache according to the app_url!!
 		const cached_config = JSON.parse(localStorage.getItem(LS_KEY_CONFIG_FROM_PREVIOUS_RUN))
 		window.configure_loader(cached_config)
 	} catch {}

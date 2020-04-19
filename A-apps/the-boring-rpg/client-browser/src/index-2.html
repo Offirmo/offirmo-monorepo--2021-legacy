@@ -31,18 +31,6 @@
 				flex-direction: column;
 				height: 100%;
 			}
-			.loader {
-				text-align: center;
-				margin: auto;
-				font-size: x-large;
-			}
-			.blinking{
-				animation:blinkingText 1.2s infinite;
-			}
-			@keyframes blinkingText{
-				0%{     color: inherit;    }
-				33%{    color: transparent; }
-			}
 
 			html {
 				--o⋄color__co212__brown:   rgb(84, 61, 70);
@@ -70,10 +58,7 @@
 		<noscript>You need to enable JavaScript to run this app.</noscript>
 
 		<div id="root" class="o⋄top-container">
-			<div class="loader">
-				<p>The Boring RPG, reborn</p>
-				<p class="blinking">Loading<span class="blinking">...</span></p>
-			</div>
+			Loading…
 		</div>
 
 		<!-- group chat, outside of react control for DOM stability -->
@@ -87,7 +72,13 @@
 			console.warn('strange non-/ case, redirecting...')
 			window.location = document.URL + '/'
 		}
-		//console.log('index-2.html')
+		/*
+		window._id = 'tbrpg-core'
+		window.XOFF = window.XOFF || (window.parent || {}).XOFF || {}
+		window.XOFF.loader.configure({
+			legend: 'The Boring RPG, reloaded'
+		})*/
+		console.log('index-2.html', { window, parent: window.parent })
 	</script>
 
 	<script async importance="high" src="./index-2.jsx"></script>

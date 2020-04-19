@@ -10,7 +10,7 @@ class OhMyRpgUI extends Component {
 	// TODO listen to errors and suggest a refresh?
 
 	render() {
-		if (window.XOFF && window.XOFF.debug_render) console.log('🔄 [OMR]Root')
+		if (window.XOFF?.flags?.debug_render) console.log('🔄 [OMR]Root')
 
 		return (
 			<OhMyRPGUIContextProvider>

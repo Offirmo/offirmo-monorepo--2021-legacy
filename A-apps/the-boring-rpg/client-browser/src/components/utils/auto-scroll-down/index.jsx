@@ -25,7 +25,7 @@ class AutoScrollDown extends React.Component {
 	}
 
 	render() {
-		if (window.XOFF.flags.debug_render) console.log('🔄 AutoScrollDown')
+		if (window.XOFF?.flags?.debug_render) console.log('🔄 AutoScrollDown')
 		return (
 			<div className={'auto-scroll-down'}>
 

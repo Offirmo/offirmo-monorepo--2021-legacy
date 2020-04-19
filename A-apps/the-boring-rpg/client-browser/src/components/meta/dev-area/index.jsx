@@ -53,7 +53,7 @@ export default class DevArea extends Component {
 	}
 
 	render() {
-		if (window.XOFF.flags.debug_render) console.log('🔄 DevArea')
+		if (window.XOFF?.flags?.debug_render) console.log('🔄 DevArea')
 
 		const media_controls = []
 		if (this.props.onPlayPause)

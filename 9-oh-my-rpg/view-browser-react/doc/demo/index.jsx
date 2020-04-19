@@ -8,7 +8,9 @@ import './index.css'
 
 
 window.XOFF = {
-	debug_render: true,
+	flags: {
+		debug_render: true,
+	},
 }
 
 
@@ -25,7 +27,7 @@ class Main extends Component {
 	}
 
 	render() {
-		if (window.XOFF && window.XOFF.debug_render) console.log('🔄 Main (demo)')
+		if (window.XOFF?.flags?.debug_render) console.log('🔄 Main (demo)')
 		// XXX TODO fix imbricated themes
 
 		return (
@@ -38,7 +40,7 @@ class Main extends Component {
 
 export default class ViewBrowserReactDemo extends Component {
 	render() {
-		if (window.XOFF && window.XOFF.debug_render) console.log('🔄 ViewBrowserReactDemo')
+		if (window.XOFF?.flags?.debug_render) console.log('🔄 ViewBrowserReactDemo')
 
 		return (
 			<OhMyRpg

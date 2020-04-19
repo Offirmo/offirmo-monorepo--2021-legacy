@@ -65,7 +65,7 @@ export default class Root extends Component {
 	}
 
 	render() {
-		if (window.XOFF.flags.debug_render) console.log('🔄 Root')
+		if (window.XOFF?.flags?.debug_render) console.log('🔄 Root')
 		return (
 			<Fragment>
 

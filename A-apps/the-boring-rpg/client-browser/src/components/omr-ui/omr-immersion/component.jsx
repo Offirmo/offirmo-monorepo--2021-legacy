@@ -19,7 +19,7 @@ const MODE_TO_PANEL = {
 
 const MainAreaView = React.memo(
 	function MainAreaView({mode}) {
-		if (window.XOFF.flags.debug_render) console.log('🔄 MainAreaView')
+		if (window.XOFF?.flags?.debug_render) console.log('🔄 MainAreaView')
 
 		return (
 			<div className="omr⋄content-area o⋄top-container main-area omr⋄cursor⁚sword">

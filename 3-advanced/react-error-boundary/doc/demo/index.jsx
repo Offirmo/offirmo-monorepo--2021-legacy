@@ -3,10 +3,6 @@ import ReactDOM from 'react-dom'
 
 import ErrorBoundary from '../..'
 
-window.XOFF = {
-	debug_render: true,
-}
-
 export default class Demo extends Component {
 
 	render() {

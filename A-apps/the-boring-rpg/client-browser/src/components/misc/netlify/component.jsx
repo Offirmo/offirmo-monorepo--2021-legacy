@@ -16,7 +16,7 @@ export default class NetlifyLoggedIndicator extends Component {
 	}
 
 	render() {
-		if (window.XOFF.flags.debug_render) console.log('🔄 NetlifyIdentity')
+		if (window.XOFF?.flags?.debug_render) console.log('🔄 NetlifyIdentity')
 
 		const { state, user, on_click_on_signin_button, on_request_logout } = this.props
 
