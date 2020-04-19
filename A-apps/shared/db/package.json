@@ -18,7 +18,7 @@
 		"@offirmo/tiny-singleton": "^0",
 		"@offirmo/universal-debug-api-placeholder": "^0",
 		"json-stable-stringify": "^1",
-		"knex": "^0.20",
+		"knex": "^0.21",
 		"normalize-email": "^1",
 		"pg": "^8",
 		"tiny-invariant": "^1",
