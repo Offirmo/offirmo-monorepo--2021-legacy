@@ -6,9 +6,9 @@
 	"license": "Unlicense",
 	"private": true,
 
-	"esnext": "index.js",
-	"module": "index.js",
-	"source": "index.js",
+	"esnext": "src/index.js",
+	"module": "src/index.js",
+	"source": "src/index.js",
 	"sideEffects": false,
 
 	"dependencies": {

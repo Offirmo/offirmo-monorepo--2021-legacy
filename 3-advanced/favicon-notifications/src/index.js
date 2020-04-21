@@ -1,5 +1,6 @@
-import Piecon from 'piecon'
-import Favico from 'favico.js'
+import Piecon from './piecon'
+import Favico from './favico.js'
+import {loader_noop} from '../../../5-incubator/active/iframe-loading/src/iframe-loading'
 
 
 const DEBUG = false
@@ -9,6 +10,16 @@ let favicon = null
 let piecon_on = false
 let favicon_on = false
 let last_favicon_number = NaN
+
+
+//////////// XOFF snippet ////////////
+// Firefox ESL compatible
+window.XOFF = {
+	top_frame: window.parent || window,
+	flags: {},
+	...(window.XOFF || (window.parent || {}).XOFF),
+}
+////////////////////////////////////
 
 function create_favicon() {
 	return new Favico({
@@ -23,10 +34,19 @@ function ensure_libs_initialized() {
 		return
 
 	const body_styles = window.getComputedStyle(document.body)
-	const pie_chart_color = body_styles.getPropertyValue('--o⋄color--fg⁚error') || '#ff0084'
-	const empty_pie_chart_color = body_styles.getPropertyValue('--o⋄color--fg⁚main') || 'lightgrey'
-	const outer_ring_color = body_styles.getPropertyValue('--o⋄color--bg⁚main') || 'white'
+	const pie_chart_color =
+		   body_styles.getPropertyValue('--o⋄color--fg⁚error')
+		|| '#ff0084'
+	const empty_pie_chart_color =
+		   body_styles.getPropertyValue('--fg')
+		|| body_styles.getPropertyValue('--o⋄color--fg⁚main')
+		|| 'lightgrey'
+	const outer_ring_color =
+		   body_styles.getPropertyValue('--bg')
+		|| body_styles.getPropertyValue('--o⋄color--bg⁚main')
+		|| 'white'
 	//console.log({ pie_chart_color, empty_pie_chart_color, outer_ring_color })
+
 	Piecon.setOptions({
 		color: pie_chart_color, // Pie chart color
 		background: empty_pie_chart_color, // Empty pie chart color
