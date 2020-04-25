@@ -14,17 +14,19 @@
 	var originalTitle = null
 	var canvas = null
 	var options = {}
+	const own_window = window
 	var defaults = {
 		color: '#ff0084',
 		background: '#bbb',
 		shadow: '#fff',
 		fallback: false,
+		target_window: own_window.parent
 	}
 
-	var isRetina = window.devicePixelRatio > 1
+	var isRetina = own_window.devicePixelRatio > 1
 
 	var ua = (function () {
-		var agent = navigator.userAgent.toLowerCase()
+		var agent = own_window.navigator.userAgent.toLowerCase()
 		return function (browser) {
 			return agent.indexOf(browser) !== -1
 		}
@@ -39,7 +41,7 @@
 	}
 
 	var getFaviconTag = function () {
-		var links = document.getElementsByTagName('link')
+		var links = options.target_window.document.getElementsByTagName('link')
 
 		for (var i = 0, l = links.length; i < l; i++) {
 			if (links[i].getAttribute('rel') === 'icon' || links[i].getAttribute('rel') === 'shortcut icon') {
@@ -51,8 +53,8 @@
 	}
 
 	var removeFaviconTag = function () {
-		var links = Array.prototype.slice.call(document.getElementsByTagName('link'), 0)
-		var head = document.getElementsByTagName('head')[0]
+		var links = Array.prototype.slice.call(options.target_window.document.getElementsByTagName('link'), 0)
+		var head = options.target_window.document.getElementsByTagName('head')[0]
 
 		for (var i = 0, l = links.length; i < l; i++) {
 			if (links[i].getAttribute('rel') === 'icon' || links[i].getAttribute('rel') === 'shortcut icon') {
@@ -64,17 +66,17 @@
 	var setFaviconTag = function (url) {
 		removeFaviconTag()
 
-		var link = document.createElement('link')
+		var link = options.target_window.document.createElement('link')
 		link.type = 'image/x-icon'
 		link.rel = 'icon'
 		link.href = url
 
-		document.getElementsByTagName('head')[0].appendChild(link)
+		options.target_window.document.getElementsByTagName('head')[0].appendChild(link)
 	}
 
 	var getCanvas = function () {
 		if (!canvas) {
-			canvas = document.createElement('canvas')
+			canvas = own_window.document.createElement('canvas')
 			if (isRetina) {
 				canvas.width = 32
 				canvas.height = 32
@@ -126,9 +128,9 @@
 
 	var updateTitle = function (percentage) {
 		if (percentage > 0) {
-			document.title = '(' + percentage + '%) ' + originalTitle
+			options.target_window.document.title = '(' + percentage + '%) ' + originalTitle
 		} else {
-			document.title = originalTitle
+			options.target_window.document.title = originalTitle
 		}
 	}
 
@@ -144,7 +146,7 @@
 
 	Piecon.setProgress = function (percentage) {
 		if (!originalTitle) {
-			originalTitle = document.title
+			originalTitle = options.target_window.document.title
 		}
 
 		if (!originalFavicon || !currentFavicon) {
@@ -168,7 +170,7 @@
 
 	Piecon.reset = function () {
 		if (originalTitle) {
-			document.title = originalTitle
+			options.target_window.document.title = originalTitle
 		}
 
 		if (originalFavicon) {
@@ -184,6 +186,6 @@
 	} else if (typeof module !== 'undefined') {
 		module.exports = Piecon
 	} else {
-		window.Piecon = Piecon
+		own_window.Piecon = Piecon
 	}
 })()

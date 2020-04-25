@@ -27,6 +27,7 @@
 	var Favico = (function (opt) {
 		'use strict';
 		opt = (opt) ? opt : {};
+		const own_window = window
 		var _defaults = {
 			bgColor: '#d00',
 			textColor: '#fff',
@@ -44,7 +45,7 @@
 		_browser = {};
 		_browser.ff = typeof InstallTrigger != 'undefined';
 		_browser.chrome = !!window.chrome;
-		_browser.opera = !!window.opera || navigator.userAgent.indexOf('Opera') >= 0;
+		_browser.opera = !!window.opera || own_window.navigator.userAgent.indexOf('Opera') >= 0;
 		_browser.ie = /*@cc_on!@*/false;
 		_browser.safari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
 		_browser.supported = (_browser.chrome || _browser.ff || _browser.opera);
@@ -414,7 +415,12 @@
 			}
 			if (_browser.supported) {
 				var newVideo = false;
-				navigator.getUserMedia = navigator.getUserMedia || navigator.oGetUserMedia || navigator.msGetUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia;
+				own_window.navigator.getUserMedia =
+					own_window.navigator.getUserMedia
+					|| own_window.navigator.oGetUserMedia
+					|| own_window.navigator.msGetUserMedia
+					|| own_window.navigator.mozGetUserMedia
+					|| own_window.navigator.webkitGetUserMedia;
 				_readyCb = function () {
 					try {
 						if (action === 'stop') {
@@ -426,7 +432,7 @@
 						newVideo = document.createElement('video');
 						newVideo.width = _w;
 						newVideo.height = _h;
-						navigator.getUserMedia({
+						own_window.navigator.getUserMedia({
 							video: true,
 							audio: false
 						}, function (stream) {
