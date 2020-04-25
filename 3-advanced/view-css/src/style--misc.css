@@ -7,6 +7,7 @@
 	text-shadow: 0 0 var(--o⋄color--fg⁚main);
 }
 
+/* TODO remove past d */
 .o⋄rotated⁚45deg {
 	display: inline-block;
 	transform-origin: 50% 50% 0;
@@ -27,6 +28,20 @@
 	 transform-origin: 50% 50% 0;
 	 transform: rotate(270deg) translate3d( 0, 0, 0);
  }
+
+/******* Typography *******/
+.o⋄outline⁚todo {
+	/* not recommanded but supported...
+	https://webkit.org/blog/85/introducing-text-stroke/
+	https://css-tricks.com/almanac/properties/t/text-stroke/
+	https://developer.mozilla.org/en-US/docs/Web/CSS/-webkit-text-stroke
+	 */
+	-webkit-text-stroke: 1.5px #db3333; /* TODO relative + vars */
+}
+
+
+
+/* https://tympanus.net/codrops/2020/03/31/css-only-marquee-effect/ */
 
 /******* Checkbox hack *******
  * https://css-tricks.com/the-checkbox-hack/

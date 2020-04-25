@@ -1,3 +1,5 @@
+compétition https://www.booklets.io/b/creativity-inc-by-ed-catmull-booklets#
+
 repo of bite-sized programming concepts
 * https://lethain.com/distributed-systems-vocabulary/
 * https://github.com/labs42io/clean-code-typescript
@@ -13,6 +15,12 @@ https://en.wikipedia.org/wiki/Design_smell
 dry run
 
 merge queues https://engineering.shopify.com/blogs/engineering/successfully-merging-work-1000-developers
+
+https://cloud.google.com/blog/products/gcp/sre-fundamentals-slis-slas-and-slos
+
+X considered harmful
+
+https://www.investopedia.com/terms/f/faang-stocks.asp
 
 
 https://bastianallgeier.com/notes/simplicity-part-2

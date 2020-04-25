@@ -51,6 +51,7 @@ describe(`${LIB} - selectors`, function() {
 				per_ms(): number {
 					return per_ms.floor(6).valueOf()
 				},
+				raw: per_ms,
 			}
 		}
 

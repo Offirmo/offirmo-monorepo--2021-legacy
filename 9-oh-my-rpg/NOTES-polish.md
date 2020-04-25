@@ -13,7 +13,16 @@ https://om.elvenar.com/ox/en
 VR
 https://blog.mozvr.com/webxr-1-0-is-here/
 
+SVG animation https://www.svgator.com/
+
+BG effect https://tympanus.net/Development/BackgroundScaleHoverEffect/
+wave effect https://tympanus.net/codrops/2020/03/17/create-a-wave-motion-effect-on-an-image-with-three-js/
+
 maps https://inkarnate.com/
+     https://heredragonsabound.blogspot.com/  +  https://news.ycombinator.com/item?id=21406356
+
+https://www.reddit.com/r/ImaginaryWinterscapes/
+https://www.world-machine.com/download.php
 
 SNOW
 #snow {

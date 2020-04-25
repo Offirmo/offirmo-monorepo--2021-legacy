@@ -105,7 +105,7 @@
 <!-- CUSTOM early code -->
 
 <script type="module">
-	// TODO move to demo
+	// TODO move to demo with templating
 	if (document.URL.startsWith('http://localhost:1981/5-incubator/active/iframe-loading/src/index.html')) {
 		user_settings.app_url = '../doc/demo/index-2.html'
 	}
@@ -129,7 +129,7 @@
 			// flat for easy merging
 			bg_color: 'black',
 			fg_color: 'hsl(0, 0%, 98%)',
-			// TODO font
+			// TODO font, bg picture etc.
 			app_url: get_current_path() + '/index-2.html', // TODO pass queryparams
 			legend: undefined,
 			expected_rsrc_count: 1,
@@ -203,7 +203,7 @@
 	window.XOFF = {
 		top_frame: window,
 		flags: {},
-		...(window.XOFF || (window.parent || {}).XOFF),
+		...window.parent.XOFF,
 	}
 	if (window.XOFF.loader) {
 		console.error('Error! iframe-loading recursion!')
