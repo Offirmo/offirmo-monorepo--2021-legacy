@@ -12,6 +12,11 @@
 
 		<style type="text/css">
 			/* super early styles while the page is loading */
+			iframe {
+				width: 100%;
+				height: 300px;
+				border: solid 1px;
+			}
 		</style>
 
 		<script>
@@ -21,12 +26,17 @@
 
 	<body>
 		<h1>Demo of favicon notifications</h1>
-		<p>cycling demo...</p>
-		<button onclick="x()">stop</button>
+		<button onclick="x()">cycling demo start/stop</button>
+		<button onclick="set_number_in_favicon(4)">to 4</button>
+		<button onclick="set_number_in_favicon(.4)">to .4</button>
 		<pre>
 			set_number_in_favicon(4)
 			set_number_in_favicon(.4)
 		</pre>
+		iframe
+		<iframe>
+			<p>An iframe should be here</p>
+		</iframe>
 		<script src="./index.js"></script>
-		</body>
+	</body>
 </html>

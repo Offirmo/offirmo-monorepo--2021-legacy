@@ -6,7 +6,7 @@ import {loader_noop} from '../../../5-incubator/active/iframe-loading/src/iframe
 const DEBUG = false
 
 
-let favicon = null
+let favicon = undefined
 let piecon_on = false
 let favicon_on = false
 let last_favicon_number = NaN
@@ -15,17 +15,19 @@ let last_favicon_number = NaN
 //////////// XOFF snippet ////////////
 // Firefox ESL compatible
 window.XOFF = {
-	top_frame: window.parent || window,
+	top_frame: window.parent,
 	flags: {},
-	...(window.XOFF || (window.parent || {}).XOFF),
+	...window.parent.XOFF,
 }
 ////////////////////////////////////
 
-function create_favicon() {
+function create_favicon(opts) {
 	return new Favico({
 		//animation:'popFade',
 		animation: 'none',
 		position: 'up',
+		win: window.XOFF.top_frame,
+		...opts,
 	})
 }
 
