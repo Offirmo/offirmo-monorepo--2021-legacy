@@ -11,7 +11,7 @@ import Root from './components/root'
 //import 'react-circular-progressbar/dist/styles.css'
 import './index-2.css'
 
-console.log('hello from index-2', { __filename, loader })
+//console.log('hello from index-2', { __filename })
 
 /////////////////////////////////////////////////
 
