@@ -1,0 +1,12 @@
+{
+	"extends": "../../../0-meta/tsconfig.json",
+	"compilerOptions": {
+		"lib": [ "ES2019", "dom" ],
+		"jsx": "react"
+	},
+	"include": [
+		"../../../0-typings-custom/**/*.ts",
+		"src/**/*.ts",
+		"src/**/*.tsx"
+	]
+}
