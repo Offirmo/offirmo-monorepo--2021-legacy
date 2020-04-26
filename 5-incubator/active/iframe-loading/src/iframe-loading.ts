@@ -23,10 +23,10 @@ export const loader_noop: Loader = {
 //////////// XOFF snippet ////////////
 // Firefox ESL compatible
 window.XOFF = {
-	top_frame: window,
+	top_frame: window.parent,
 	loader: loader_noop,
 	flags: {},
-	...(window.XOFF || (window.parent || {}).XOFF),
+	...window.parent.XOFF,
 }
 window.XOFF.flags = {
 	debug_render: false,

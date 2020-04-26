@@ -7,7 +7,7 @@ console.log(`[I2] js`, {
 
 
 window.XOFF = {
-	...(window.XOFF || (window.parent || {}).XOFF),
+	...window.parent.XOFF,
 }
 window.XOFF.loader.configure({
 	bg_color: 'rgb(84, 61, 70)',

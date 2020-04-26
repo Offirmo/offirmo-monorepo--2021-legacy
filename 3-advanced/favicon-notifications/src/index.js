@@ -1,6 +1,5 @@
 import Piecon from './piecon'
 import Favico from './favico.js'
-import {loader_noop} from '../../../5-incubator/active/iframe-loading/src/iframe-loading'
 
 
 const DEBUG = false

@@ -120,10 +120,9 @@
 		console.warn('strange non-/ case, redirecting...')
 		window.location = document.URL + '/'
 	}
-/*
 	if (document.URL === 'http://localhost:1981/A-apps/the-boring-rpg/client-browser/src/index.html') {
-		user_settings.app_url = '../dist/index-2.html'
-	}*/
+		user_settings.app_url = '../.parcel/index-2.html'
+	}
 </script>
 <!-- CUSTOM ENDS -->
 
@@ -224,9 +223,9 @@
 
 
 	window.XOFF = {
-		top_frame: window,
+		top_frame: window.parent,
 		flags: {},
-		...(window.XOFF || (window.parent || {}).XOFF),
+		...window.parent.XOFF,
 	}
 	if (window.XOFF.loader) {
 		console.error('Error! iframe-loading recursion!')
