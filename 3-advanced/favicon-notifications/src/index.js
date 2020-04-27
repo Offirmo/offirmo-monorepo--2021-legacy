@@ -1,9 +1,7 @@
 import Piecon from './piecon'
 import Favico from './favico.js'
 
-
 const DEBUG = false
-
 
 let favicon = undefined
 let piecon_on = false
