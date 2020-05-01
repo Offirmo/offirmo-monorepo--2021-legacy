@@ -1,0 +1,23 @@
+{
+	"name": "@offirmo-private/source-template",
+	"version": "0.0.1",
+	"description": "Tool/mod to create files from a template then keeping them up to date",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+
+	"dependencies": {
+		"@offirmo-private/timestamps": "^0",
+		"memoize-one": "^5",
+		"meow": "^6",
+		"tiny-invariant": "^1"
+	},
+
+	"scripts": {
+		"demo": "node src/cli.js --template=./src/index.html --final=./doc/demo/index.html",
+		"test": "./node_modules/.bin/mocha --opts ./node_modules/@offirmo/unit-test-toolbox/mocha.opts ./node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'src/**/*spec.js' --bail"
+	},
+	"devDependencies": {
+		"@offirmo/unit-test-toolbox": "^5"
+	}
+}
