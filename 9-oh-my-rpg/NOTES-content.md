@@ -228,3 +228,5 @@ https://www.theguardian.com/science/2020/feb/12/scientists-find-evidence-of-ghos
 This includes discrimination—which robs people of the opportunity to fully succeed and benefit from equal opportunity; and human trafficking—coerced labor which strips people of their dignity.
 
 Different seeds have different needs for sun and soil to be able to bloom into flowers.”
+
+signaux d'alarme
