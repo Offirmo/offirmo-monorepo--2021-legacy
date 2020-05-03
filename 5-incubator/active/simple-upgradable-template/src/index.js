@@ -51,7 +51,7 @@ const find_next_element = memoize_one(function find_next_element(content, from_i
 		const { template_begin, template_end } = SLOT_TYPES[type]
 
 		const index_template_opening_begin = content.indexOf(template_begin, from_index)
-		if (index_template_opening_begin < 0 || (res.index >= 0 && index_template_opening_begin > res.index))
+		if (index_template_opening_begin < 0 || (res.index_begin >= 0 && index_template_opening_begin > res.index_begin))
 			return
 
 		res.index_begin = index_template_opening_begin
@@ -185,32 +185,32 @@ function apply({
 
 	if (debug) console.log('* Parsing template…')
 	let template_parts = []
-	let index = 0
-	while (find_next_element(template, index, find_next_options).type) {
-		const res = find_next_element(template, index, find_next_options)
+	let cursor = 0
+	while (find_next_element(template, cursor, find_next_options).type) {
+		const res = find_next_element(template, cursor, find_next_options)
 		if (debug) console.log('  original:', '"' + template.slice(res.index_begin, res.index_end + 1) + '"')
 		if (debug) console.log('  regenerated:', '"' + regen_element(res) + '"')
 
-		template_parts.push(template.slice(index, res.index_begin))
+		template_parts.push(template.slice(cursor, res.index_begin))
 		template_parts.push(res)
-		index = res.index_end + 1
+		cursor = res.index_end + 1
 	}
-	template_parts.push(template.slice(index, template.length))
+	template_parts.push(template.slice(cursor, template.length))
 	template_parts = template_parts.filter(p => !!p)
 	if (debug) console.log('  TEMPLATE PARTS', template_parts)
 
 	if (debug) console.log('* Parsing existing target file… (if any)')
 	const existing_custom_by_id = {}
 	if (existing_target) {
-		let index = 0
-		while (find_next_element(existing_target, index, find_next_options).type) {
-			const res = find_next_element(existing_target, index, find_next_options)
+		let cursor = 0
+		while (find_next_element(existing_target, cursor, find_next_options).type) {
+			const res = find_next_element(existing_target, cursor, find_next_options)
 			if (debug) console.log('  original:', '"' + template.slice(res.index_begin, res.index_end + 1) + '"')
 			if (debug) console.log('  regenerated:', '"' + regen_element(res) + '"')
 			const { id } = res
 			assert(!existing_custom_by_id[id], `only 0 or 1 custom part with id "${id}"!`)
 			existing_custom_by_id[id] = res
-			index = res.index_end + 1
+			cursor = res.index_end + 1
 		}
 	}
 	if (debug) console.log('  FOUND EXISTING SLOT IDs', existing_custom_by_id)
