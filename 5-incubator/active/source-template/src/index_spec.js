@@ -134,13 +134,13 @@ describe(`${LIB}`, function() {
 	blah blah
 	// OT⋄CUSTOM bar baz
 	blih blu`
+			let existing_target = undefined
 			const expected_stable_final = `
 // OT⋄GENERATED-FROM-TEMPLATE foo v1.2.3
 	blah blah
 	// OT⋄CUSTOM BEGIN bar baz
 	// OT⋄CUSTOM END bar baz
 	blih blu`
-			let existing_target = undefined
 			existing_target = apply({ template, existing_target })
 			expect(existing_target).to.equal(expected_stable_final)
 			existing_target = apply({ template, existing_target })
@@ -151,49 +151,54 @@ describe(`${LIB}`, function() {
 	context('when there is a target', function() {
 
 		it('should work with just a string', () => {
-			const res = apply({
-				template: 'a',
-				existing_target: 'whatever',
-			})
-			expect(res).to.equal('a')
+			const template = 'a'
+			let existing_target = 'whatever'
+			const expected_stable_final = 'a'
+
+			existing_target = apply({ template, existing_target })
+			expect(existing_target).to.equal(expected_stable_final)
+			existing_target = apply({ template, existing_target })
+			expect(existing_target).to.equal(expected_stable_final)
 		})
 
 		it('should work with just an element of type GENERATED-FROM-TEMPLATE', () => {
-			const res = apply({
-				template: '// OT⋄GENERATED-FROM-TEMPLATE foo v0.0.0',
-				existing_target: 'whatever',
-			})
-			expect(res).to.equal('// OT⋄GENERATED-FROM-TEMPLATE foo v0.0.0')
+			const template = '// OT⋄GENERATED-FROM-TEMPLATE foo v0.0.0'
+			let existing_target = 'whatever'
+			const expected_stable_final = '// OT⋄GENERATED-FROM-TEMPLATE foo v0.0.0'
+
+			existing_target = apply({ template, existing_target })
+			expect(existing_target).to.equal(expected_stable_final)
+			existing_target = apply({ template, existing_target })
+			expect(existing_target).to.equal(expected_stable_final)
 		})
 
 		it('should work with just an element NOT of type GENERATED-FROM-TEMPLATE', () => {
-			const res = apply({
-				template: '// OT⋄CUSTOM foo bar',
-				existing_target: 'whatever',
-			})
-			expect(res).to.equal(
-				`// OT⋄CUSTOM BEGIN foo bar
+			const template = '// OT⋄CUSTOM foo bar'
+			let existing_target = 'whatever'
+			const expected_stable_final = `// OT⋄CUSTOM BEGIN foo bar
 // OT⋄CUSTOM END foo bar`
-			)
+
+			existing_target = apply({ template, existing_target })
+			expect(existing_target).to.equal(expected_stable_final)
+			existing_target = apply({ template, existing_target })
+			expect(existing_target).to.equal(expected_stable_final)
 		})
 
 		it('should preserve existing recognized custom content', () => {
-			const res = apply({
-				template: `
+			const template = `
 a b c
 	// OT⋄CUSTOM foo
 d e f
-`,
-				existing_target: `
+`
+			let existing_target = `
 whatever
 	// OT⋄CUSTOM BEGIN foo
 	blah blah
 		custom
 		  stuff with trailing
 	// OT⋄CUSTOM END foo
-		whatever`,
-			})
-			expect(res).to.equal(`
+		whatever`
+			const expected_stable_final = `
 a b c
 	// OT⋄CUSTOM BEGIN foo
 	blah blah
@@ -201,13 +206,40 @@ a b c
 		  stuff with trailing
 	// OT⋄CUSTOM END foo
 d e f
-`)
+`
+
+			existing_target = apply({ template, existing_target })
+			expect(existing_target).to.equal(expected_stable_final)
+			existing_target = apply({ template, existing_target })
+			expect(existing_target).to.equal(expected_stable_final)
 		})
 
 		it('should reject when an unrecognized element is found in the target')
 
-		context('after the target was generated', function() {
-			it('should be stable')
+		it('should work with this example - 1', () => {
+			const template = `
+// OT⋄GENERATED-FROM-TEMPLATE foo v1.2.3
+	blah blah
+	// OT⋄CUSTOM bar baz
+	blih blu`
+			let existing_target = `
+// OT⋄GENERATED-FROM-TEMPLATE foo v1.2.3
+	old old
+	// OT⋄CUSTOM BEGIN bar baz
+	hello, world!
+	// OT⋄CUSTOM END bar baz
+	old old`
+			const expected_stable_final = `
+// OT⋄GENERATED-FROM-TEMPLATE foo v1.2.3
+	blah blah
+	// OT⋄CUSTOM BEGIN bar baz
+	hello, world!
+	// OT⋄CUSTOM END bar baz
+	blih blu`
+			existing_target = apply({ template, existing_target })
+			expect(existing_target).to.equal(expected_stable_final)
+			existing_target = apply({ template, existing_target })
+			expect(existing_target).to.equal(expected_stable_final)
 		})
 	})
 

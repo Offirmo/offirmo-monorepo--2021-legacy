@@ -151,6 +151,7 @@ function regen_element(extracted) {
 
 		if (!extracted.content) {
 			res += EOL // only place where we insert EOL. cleaner
+			if (extracted.whitespace) res += extracted.whitespace // for equal indentation
 		}
 		else {
 			res += extracted.content
@@ -182,7 +183,7 @@ function without_last_eol_if_any(s) {
 function apply({
 	template,
 	existing_target,
-	debug = true,
+	debug = false,
 }) {
 	if (debug) console.group('Applying Offirmo template…')
 	if (debug) console.log('------------')
