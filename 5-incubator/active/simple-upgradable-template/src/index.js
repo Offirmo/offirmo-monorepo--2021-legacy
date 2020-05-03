@@ -31,8 +31,10 @@ const SLOT_TYPES = {
 
 /////////////////////
 
-const find_next_element = memoize_one(function find_next_element(content, from_index) {
-	console.group('find_next_element', { from_index })
+const find_next_element = memoize_one(function find_next_element(content, from_index, options = {}) {
+	const { debug = false } = options
+
+	if (debug) console.group('find_next_element', { from_index, options })
 
 	const res = {
 		index_begin: undefined, // first char = 1st char of the opening content = 1st char of a content start
@@ -47,11 +49,7 @@ const find_next_element = memoize_one(function find_next_element(content, from_i
 
 	Object.keys(SLOT_TYPES).forEach(type => {
 		const { template_begin, template_end } = SLOT_TYPES[type]
-		/*console.log({
-			type,
-			template_begin,
-			template_end,
-		})*/
+
 		const index_template_opening_begin = content.indexOf(template_begin, from_index)
 		if (index_template_opening_begin < 0 || (res.index >= 0 && index_template_opening_begin > res.index))
 			return
@@ -82,7 +80,7 @@ const find_next_element = memoize_one(function find_next_element(content, from_i
 				index_template_opening_end
 			)
 			assert(index_template_closing_begin >= 0, `template must be matched, cant find "${template_closing_begin}"!`)
-			//console.log('found closing line:', content.slice(index_template_closing_begin, index_template_closing_begin + 30))
+			//if (debug) console.log('found closing line:', content.slice(index_template_closing_begin, index_template_closing_begin + 30))
 			index_template_closing_end = template_end
 				? (content.indexOf(template_end, index_template_closing_begin) + template_end.length - 1)
 				: (Math.max(content.indexOf(EOL, index_template_closing_begin) - EOL.length, 0) || content.length - 1)
@@ -108,7 +106,7 @@ const find_next_element = memoize_one(function find_next_element(content, from_i
 			? content.length - 1
 			: next_eol_index - EOL.length*/
 		res.index_end = index_template_closing_end
-		console.log({
+		if (debug) console.log({
 			index_template_opening_begin,
 			fyi_after_opening_begin: content.slice(index_template_opening_begin, index_template_opening_begin + EXCERPT_LENGTH),
 			index_template_opening_end,
@@ -126,7 +124,7 @@ const find_next_element = memoize_one(function find_next_element(content, from_i
 		})
 	})
 
-	console.groupEnd()
+	if (debug) console.groupEnd()
 
 	return res
 })
@@ -171,13 +169,7 @@ function regen_element(extracted) {
 
 	return res
 }
-/*
-function without_last_eol_if_any(s) {
-	return s.endsWith(EOL)
-		? s.slice(0, -1)
-		: s
-}
-*/
+
 /////////////////////
 
 function apply({
@@ -185,6 +177,7 @@ function apply({
 	existing_target,
 	debug = false,
 }) {
+	const find_next_options = { debug }
 	if (debug) console.group('Applying Offirmo template…')
 	if (debug) console.log('------------')
 
@@ -193,8 +186,8 @@ function apply({
 	if (debug) console.log('* Parsing template…')
 	let template_parts = []
 	let index = 0
-	while (find_next_element(template, index).type) {
-		const res = find_next_element(template, index)
+	while (find_next_element(template, index, find_next_options).type) {
+		const res = find_next_element(template, index, find_next_options)
 		if (debug) console.log('  original:', '"' + template.slice(res.index_begin, res.index_end + 1) + '"')
 		if (debug) console.log('  regenerated:', '"' + regen_element(res) + '"')
 
@@ -210,8 +203,8 @@ function apply({
 	const existing_custom_by_id = {}
 	if (existing_target) {
 		let index = 0
-		while (find_next_element(existing_target, index).type) {
-			const res = find_next_element(existing_target, index)
+		while (find_next_element(existing_target, index, find_next_options).type) {
+			const res = find_next_element(existing_target, index, find_next_options)
 			if (debug) console.log('  original:', '"' + template.slice(res.index_begin, res.index_end + 1) + '"')
 			if (debug) console.log('  regenerated:', '"' + regen_element(res) + '"')
 			const { id } = res
@@ -221,6 +214,7 @@ function apply({
 		}
 	}
 	if (debug) console.log('  FOUND EXISTING SLOT IDs', existing_custom_by_id)
+	const unused_slot_ids = new Set(Object.keys(existing_custom_by_id))
 
 	if (debug) console.log('* (re)generating target file…')
 	const final = []
@@ -236,8 +230,12 @@ function apply({
 				? existing_custom_by_id[id]
 				: part
 		))
+		unused_slot_ids.delete(id)
 	})
 
+	if (unused_slot_ids.size > 0) {
+		throw new Error(`Template slot(s) "${Array.from(unused_slot_ids.keys()).join(',')}" are not in the template and would be lost. Please update/remove them manually first!`)
+	}
 	if (debug) console.groupEnd()
 
 	return final.join('')

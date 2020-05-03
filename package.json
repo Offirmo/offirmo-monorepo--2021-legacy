@@ -132,6 +132,7 @@
 		"lodash": "^4",
 		"massive": "^6",
 		"memoize-one": "^5",
+		"meow": "^6",
 		"mocha": "^7",
 		"moment": "^2",
 		"moment-business": "^3",

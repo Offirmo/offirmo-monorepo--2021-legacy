@@ -1,9 +1,11 @@
 const path = require('path')
 const fs = require('fs')
 
+const assert = require('tiny-invariant').default
 const meow = require('meow')
 
 const { LIB } = require('./consts')
+const { apply } = require('.')
 
 console.log(`🧙️  Hello from ${LIB}!`)
 
@@ -25,15 +27,18 @@ const cli = meow('create/update a target file from a template, with customizable
 	}
 )
 
-console.log('🐈  meow', {
-	cwd: process.cwd(),
-	'cli.flags': cli.flags,
-})
+if (cli.flags.verbose) {
+	console.log('🐈  meow', {
+		cwd: process.cwd(),
+		'cli.flags': cli.flags,
+	})
+}
 
 try {
 	assert(cli.flags.template, 'a path to a template must be provided')
 	assert(cli.flags.destination, 'a path to a destination must be provided')
 
+	console.log(`    Creating/updating "${cli.flags.destination}" from template "${cli.flags.template}"…`)
 	const template_path = path.resolve(process.cwd(), cli.flags.template)
 	const destination_path = path.resolve(process.cwd(), cli.flags.destination)
 
@@ -51,6 +56,7 @@ try {
 	const res = apply({
 		template,
 		existing_target,
+		debug: cli.flags.verbose,
 	})
 
 	fs.writeFileSync(destination_path, res)

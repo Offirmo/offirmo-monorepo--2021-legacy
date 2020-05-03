@@ -15,7 +15,7 @@ describe(`${LIB}`, function() {
 			})).to.throw('template should not be empty')
 		})
 
-		it('should not rely on EOL when using templates with a end - 1', () => {
+		it('should not rely on EOL when using templates with a end - case #1', () => {
 			const template =
 	`<!-- OT⋄GENERATED-FROM-TEMPLATE foo v1.2.3 -->/* OT⋄CUSTOM bar *//* OT⋄CUSTOM BEGIN baz *//* OT⋄CUSTOM END baz */`
 			const expected_stable_final = ''
@@ -33,7 +33,7 @@ describe(`${LIB}`, function() {
 			expect(existing_target).to.equal(expected_stable_final)
 		})
 
-		it('should not rely on EOL when using templates with a end - 2', () => {
+		it('should not rely on EOL when using templates with a end - case #2', () => {
 			const template =
 				`a<!-- OT⋄GENERATED-FROM-TEMPLATE foo v1.2.34 -->b/* OT⋄CUSTOM bar */c/* OT⋄CUSTOM BEGIN baz */d/* OT⋄CUSTOM END baz */e`
 			const expected_stable_final = ''
@@ -128,7 +128,30 @@ describe(`${LIB}`, function() {
 			expect(existing_target).to.equal(expected_stable_final)
 		})
 
-		it('should work with this example - 1', () => {
+		it('should suggest a default when there is a default an no existing customisation', () => {
+			const template = `
+a b c
+	// OT⋄CUSTOM BEGIN foo
+	example…
+	// OT⋄CUSTOM END foo
+d e f
+`
+			let existing_target = undefined
+			const expected_stable_final = `
+a b c
+	// OT⋄CUSTOM BEGIN foo
+	example…
+	// OT⋄CUSTOM END foo
+d e f
+`
+
+			existing_target = apply({ template, existing_target })
+			expect(existing_target).to.equal(expected_stable_final)
+			existing_target = apply({ template, existing_target })
+			expect(existing_target).to.equal(expected_stable_final)
+		})
+
+		it('should work with this example', () => {
 			const template = `
 // OT⋄GENERATED-FROM-TEMPLATE foo v1.2.3
 	blah blah
@@ -184,7 +207,7 @@ describe(`${LIB}`, function() {
 			expect(existing_target).to.equal(expected_stable_final)
 		})
 
-		it('should preserve existing recognized custom content', () => {
+		it('should preserve existing recognized custom content - when no default', () => {
 			const template = `
 a b c
 	// OT⋄CUSTOM foo
@@ -214,9 +237,55 @@ d e f
 			expect(existing_target).to.equal(expected_stable_final)
 		})
 
-		it('should reject when an unrecognized element is found in the target')
+		it('should preserve existing recognized custom content - when there is a default', () => {
+			const template = `
+a b c
+	// OT⋄CUSTOM BEGIN foo
+	example…
+	// OT⋄CUSTOM END foo
+d e f
+`
+			let existing_target = `
+whatever
+	// OT⋄CUSTOM BEGIN foo
+	customization
+	// OT⋄CUSTOM END foo
+		whatever`
+			const expected_stable_final = `
+a b c
+	// OT⋄CUSTOM BEGIN foo
+	customization
+	// OT⋄CUSTOM END foo
+d e f
+`
 
-		it('should work with this example - 1', () => {
+			existing_target = apply({ template, existing_target })
+			expect(existing_target).to.equal(expected_stable_final)
+			existing_target = apply({ template, existing_target })
+			expect(existing_target).to.equal(expected_stable_final)
+		})
+
+		it('should reject when an unrecognized element is found in the target', () => {
+			const template = `
+a b c
+	// OT⋄CUSTOM foo
+d e f
+`
+			let existing_target = `
+whatever
+	// OT⋄CUSTOM BEGIN bar
+	hi wurld!
+	// OT⋄CUSTOM END bar
+		whatever`
+
+			expect(
+				() => existing_target = apply({ template, existing_target })
+			).to.throw(
+				'are not in the template'
+			)
+		})
+
+		it('should work with this example', () => {
 			const template = `
 // OT⋄GENERATED-FROM-TEMPLATE foo v1.2.3
 	blah blah
@@ -241,6 +310,8 @@ d e f
 			existing_target = apply({ template, existing_target })
 			expect(existing_target).to.equal(expected_stable_final)
 		})
+
+		it('should reject if the version changed with semver major')
 	})
 
 })
