@@ -9,24 +9,24 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 		<!-- OT⋄CUSTOM BEGIN meta description -->
-		<meta name="description" content="blah blah">
-		<meta name="keywords" content="HTML, CSS, JavaScript">
-		<meta name="author" content="John Smith">
-		<!-- OT⋄CUSTOM END meta description -->
+	<meta name="description" content="blah blah">
+	<meta name="keywords" content="HTML, CSS, JavaScript">
+	<meta name="author" content="John Smith">
+	<!-- OT⋄CUSTOM END meta description -->
 
 		<title>Loading…</title>
 
 		<!-- OT⋄CUSTOM BEGIN favicons -->
-		<!-- See:
-			  - modern https://medium.com/swlh/are-you-using-svg-favicons-yet-a-guide-for-modern-browsers-836a6aace3df
-			  - compatible https://realfavicongenerator.net/
-		-->
-		<meta name="theme-color" content="#ffffff">
-		<link rel="icon" href="favicon.svg">
-		<link rel="mask-icon" href="mask-icon.svg" color="#000000">
-		<link rel="apple-touch-icon" href="apple-touch-icon_180x180.png">
-		<link rel="manifest" href="manifest.json">
-		<!-- OT⋄CUSTOM END favicons -->
+	<!-- See:
+	     - modern https://medium.com/swlh/are-you-using-svg-favicons-yet-a-guide-for-modern-browsers-836a6aace3df
+	     - compatible https://realfavicongenerator.net/
+	-->
+	<meta name="theme-color" content="#ffffff">
+	<link rel="icon" href="favicon.svg">
+	<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+	<link rel="apple-touch-icon" href="apple-touch-icon_180x180.png">
+	<link rel="manifest" href="manifest.json">
+	<!-- OT⋄CUSTOM END favicons -->
 
 		<style type="text/css">
 			:root {
@@ -79,7 +79,8 @@
 				font-size: x-large;
 			}
 
-			/* OT⋄CUSTOM early styles */
+			/* OT⋄CUSTOM BEGIN early styles */
+		/* OT⋄CUSTOM END early styles */
 		</style>
 	</head>
 
@@ -119,7 +120,11 @@
 					: window.location.pathname
 		}
 
-		/* OT⋄CUSTOM early code */
+		/* OT⋄CUSTOM BEGIN early code */
+		if (document.URL.startsWith('http://localhost:1981/5-incubator/active/iframe-loading/src/index.html')) {
+			user_settings.app_url = '../doc/demo/index-2.html'
+		}
+		/* OT⋄CUSTOM END early code */
 	</script>
 
 	<script type="module">

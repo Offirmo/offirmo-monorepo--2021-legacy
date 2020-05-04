@@ -10,8 +10,9 @@
 	},
 
 	"scripts": {
-		"demo": "node ../../../0-scripts/update_template.js --template=./src/index.html --final=./doc/demo/index.html"
+		"demo": "offirmo-simple-upgradable-template-apply --template=./src/index.html --destination=./doc/demo/index.html"
 	},
 	"devDependencies": {
+		"@offirmo-private/simple-upgradable-template": "^0"
 	}
 }
