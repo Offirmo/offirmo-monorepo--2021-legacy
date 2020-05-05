@@ -3,6 +3,8 @@ https://www.epochconverter.com/
 
 TODO https://github.com/ronomon/utimes (not maintained)
 
+TODO https://macbidouille.com/news/2020/05/01/graphic-converter-reduira-la-taille-des-photos-converties-par-transfert-dimages
+
 not working / use moment? https://github.com/TooTallNate/node-time#readme
 unreliable on all OSes? https://github.com/capaj/set-tz
 
