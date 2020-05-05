@@ -49,6 +49,7 @@
 	"scripts": {
 		"clean": "node ../../../0-scripts/clean.js dist cache",
 
+		"refresh-loading-template": "offirmo-simple-upgradable-template-apply --template=./node_modules/@offirmo-private/iframe-loading/src/index.html --destination=./src/index.html",
 		"refresh-build-variables": "node ../../../0-scripts/update_build_variables.js --inputDir=../state",
 		"copy-incorrectly-parcelised-favicons": "cp -rf dist/android-chrome-* dist/favicons",
 		"copy-ignored-mstile": "cp -rf src/favicons/mstile-150x150.png dist",
@@ -64,6 +65,8 @@
 	},
 	"devDependencies": {
 		"@babel/core": "^7",
+		"@offirmo-private/iframe-loading": "^0",
+		"@offirmo-private/simple-upgradable-template": "^0",
 		"@offirmo-private/timestamps": "^0",
 		"@offirmo/universal-debug-api-browser": "^0",
 		"npm-run-all": "^4"
