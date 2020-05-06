@@ -207,10 +207,11 @@ function apply({
 			const res = find_next_element(existing_target, cursor, find_next_options)
 			if (debug) console.log('  original:', '"' + template.slice(res.index_begin, res.index_end + 1) + '"')
 			if (debug) console.log('  regenerated:', '"' + regen_element(res) + '"')
-			const { id } = res
+			const { tag, id, index_end } = res
 			assert(!existing_custom_by_id[id], `only 0 or 1 custom part with id "${id}"!`)
-			existing_custom_by_id[id] = res
-			cursor = res.index_end + 1
+			if (tag !== KEYWORDS.build_tag)
+				existing_custom_by_id[id] = res
+			cursor = index_end + 1
 		}
 	}
 	if (debug) console.log('  FOUND EXISTING SLOT IDs', existing_custom_by_id)

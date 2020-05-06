@@ -13,6 +13,9 @@ This app is hosted inside a bolt JavaScript mono-repo. Go clone it full.
 
 ```bash
 ngrok http -subdomain=offirmo 8080
+
+yarn refresh-loading-template
+yarn copy-extra--prod
 ```
 
 

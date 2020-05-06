@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- OT⋄GENERATED-FROM-TEMPLATE Offirmo's loading iframe v0.0.3 -->
+<!-- OT⋄GENERATED-FROM-TEMPLATE Offirmo's loading iframe v0.1.0 -->
 
 <html lang="en" xml:lang="en" class="o⋄top-container">
 	<head>
@@ -51,6 +51,7 @@
 				position: absolute;
 				width: 100%;
 				border: 0;
+				background-color: white; /* bc loader's bg shouldn't bleed */
 			}
 
 			.o⋄top-container {
@@ -133,17 +134,23 @@
 	</script>
 
 	<script type="module">
-	/*
-		console.log(`[IL] hello m1`)
-		window.onload = (e) => console.log(`[IL] GlobalEventHandlers.onload`, e)
-		window.frames[0].onload = (e) => console.log(`[IL] GlobalEventHandlers.onload 2`, e)
-	*/
-		window._id = 'loading iframe' // test TODO clean
-
-		/////////////////////
 
 		const DEFAULT_RSRC_ID = 'overall'
-		const LS_KEY_CONFIG_FROM_PREVIOUS_RUN = `XOF.loading-iframe.config_cache.url(${user_settings.app_url})`
+		const LOGGER_NAME = 'loading-iframe'
+		const logger = (() => {
+			try {
+				return window._debug.v1.getLogger({name: LOGGER_NAME})
+			} catch {}
+			if (!!window.localStorage.getItem(`🛠UDA.override.logger.${LOGGER_NAME}.logLevel`))
+				return console
+
+			return {
+				log() {},
+				warn() {},
+				error() {},
+			}
+		})()
+		logger.log('[IL] starting…', { user_settings })
 
 		/////////////////////
 
@@ -165,14 +172,15 @@
 
 			error: null,
 		}
+		const LS_KEY_CACHED_CONFIG = `XOF.loading-iframe.config_cache.url(${state.settings.app_url})`
 
 		/////////////////////
 
 		function get_load_infos(state) {
 			const rsrc_keys = Object.keys(state.is_rsrc_loaded)
-			//console.log(rsrc_keys)
+			//logger.log(rsrc_keys)
 			const current_loaded_count = rsrc_keys.reduce((acc, k) => {
-				//console.log(k, state.is_rsrc_loaded[k])
+				//logger.log(k, state.is_rsrc_loaded[k])
 				return acc + (state.is_rsrc_loaded[k] ? 1 : 0)
 			}, 0)
 
@@ -189,7 +197,7 @@
 		/////////////////////
 
 		function on_error(state, error) {
-			console.error('on error', { error })
+			logger.error('[IL] on error', { error })
 			state = {
 				...state,
 				error,
@@ -209,7 +217,7 @@
 		}
 
 		function on_rsrc_loaded(state, id = DEFAULT_RSRC_ID) {
-			//console.log(`[IL] on_rsrc_loaded`, id)
+			//logger.log(`[IL] on_rsrc_loaded`, id)
 			state = {
 				...state,
 				is_rsrc_loaded: {
@@ -229,22 +237,21 @@
 			...window.parent.XOFF,
 		}
 		if (window.XOFF.loader) {
-			console.error('Error! iframe-loading recursion!')
+			logger.error('[IL] Error! iframe-loading recursion!')
 			// TODO immediately hide our own loader
 		} else {
 			window.XOFF.loader = {
 				configure({legend, expected_rsrc_count, bg_color, fg_color, ...others} = {}) {
-					if (Object.keys(others).length > 0) console.error(`[IL] configure_loader() unknown params:`, others)
+					if (Object.keys(others).length > 0) logger.error(`[IL] configure_loader() unknown params:`, others)
 
 					try {
-						localStorage.setItem(LS_KEY_CONFIG_FROM_PREVIOUS_RUN, JSON.stringify({
+						localStorage.setItem(LS_KEY_CACHED_CONFIG, JSON.stringify({
 							legend,
 							expected_rsrc_count,
 							bg_color,
 							fg_color
 						}))
-					} catch {
-					}
+					} catch {}
 
 					legend = legend || state.settings.legend
 					expected_rsrc_count = expected_rsrc_count || state.settings.expected_rsrc_count
@@ -266,7 +273,7 @@
 			}
 		}
 
-		// TODO allow passing custom favicon
+		// TODO favicon
 
 		/////////////////////
 
@@ -280,7 +287,7 @@
 
 			const load_infos = get_load_infos(state)
 
-			console.log(`[IL] rendering…`, {
+			logger.log(`[IL] rendering…`, {
 				caller,
 				state,
 				load_infos,
@@ -295,31 +302,35 @@
 
 				if (elt_iframe.style.display !== 'block') {
 					// transition
-					//console.log('!!! LOADED !!!')
+					//logger.log('[IL] !!! LOADED !!!')
 					elt_iframe.style.display = 'block'
 					elt_progress_area.display = 'none'
 					elt_loader.style.pointerEvents = 'none'
-					// https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API/Using_the_Web_Animations_API
-					elt_loader
-						.animate(
-							[
-								{ opacity: 1 },
-								{ opacity: 0 },
-							], {
-								duration: 700,
-								easing: 'ease-out',
-								fill: 'forwards',
-							}
-						)
-						.finished.then(() => {
+					try {
+						// https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API/Using_the_Web_Animations_API
+						elt_loader
+							.animate(
+								[
+									{opacity: 1},
+									{opacity: 0},
+								], {
+									duration: 700,
+									easing: 'ease-out',
+									fill: 'forwards',
+								}
+							)
+							.finished.then(() => {
 							// for easier inspection. Really needed?
 							elt_loader.style.display = 'none'
 						})
-
-					if (state.error) {
+					} catch (err) {
+						logger.warn('[IL] Web Animation API error', err)
+					}
+					/*if (state.error) {
+						// TODO remove this ugly confirm which is interrupting at OS level
 						if (!confirm('Load timeout. Does it look OK? (If not, I’ll try reloading.)'))
 							window.location.reload()
-					}
+					}*/
 				}
 				return
 			}
@@ -344,13 +355,19 @@
 
 			window.document.title = sub_frame_window.document.title || state.settings.legend || ''
 		}
-		render(state, 'initial')
 
 		try {
-			// TODO cache according to the app_url!!
-			const cached_config = JSON.parse(localStorage.getItem(LS_KEY_CONFIG_FROM_PREVIOUS_RUN))
-			window.configure_loader(cached_config)
-		} catch {}
+			const cached_config = JSON.parse(localStorage.getItem(LS_KEY_CACHED_CONFIG))
+			if (cached_config) {
+				logger.log('[IL] restoring cached config', { cached_config })
+				window.XOFF.loader.configure(cached_config)
+			}
+		} catch (err) {
+			logger.warn(err)
+		}
+		finally {
+			render(state, 'initial')
+		}
 
 		// TODO re-armable retry / give up timeout on activity
 		setTimeout(() => {
@@ -371,6 +388,6 @@
 	</script>
 
 	<script type="module">
-		// TODO load enhancements
+		// TODO progressive enhancements
 	</script>
 </html>

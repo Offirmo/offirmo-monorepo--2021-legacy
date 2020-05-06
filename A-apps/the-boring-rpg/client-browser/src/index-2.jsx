@@ -21,6 +21,8 @@ window.XOFF.flags = {
 	...window.XOFF.flags,
 }
 window.XOFF.loader.configure({
+	bg_color: 'rgb(84, 61, 70)',
+	fg_color: 'rgb(255, 235, 188)',
 	legend: 'The Boring RPG, reloaded'
 })
 

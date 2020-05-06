@@ -24,7 +24,7 @@ root.v1 = ((existing) => {
 
 	if (!existing) {
 		ownLogger.log('nominal install ✅')
-		return candidate // nominal case, actual implementation is first
+		return candidate // nominal case, this implementation is first
 	}
 
 	// something is wrong,
@@ -32,7 +32,7 @@ root.v1 = ((existing) => {
 	let isExistingAPlaceholder = !existing._ // we know that the placeholder doesn't define this optional prop
 
 	if (isExistingAPlaceholder) {
-		ownLogger.warn('install warning: a placeholder is already present, you may miss some calls! the true implementation should be imported earlier!')
+		ownLogger.warn('install warning: a placeholder is already present, you may have missed some calls! the true implementation should be imported earlier! Check the order of your scripts!')
 		// better than nothing, may still miss some calls
 		ownLogger.log('as a candidate, replacing existing ⚠')
 		return candidate

@@ -195,11 +195,49 @@ d e f
 			expect(existing_target).to.equal(expected_stable_final)
 		})
 
+		it('should correctly update GENERATED-FROM-TEMPLATE', () => {
+			const template = '// OT⋄GENERATED-FROM-TEMPLATE foo v1.2.0'
+			let existing_target = `// OT⋄GENERATED-FROM-TEMPLATE foo v1.0.0
+whatever`
+			const expected_stable_final = `// OT⋄GENERATED-FROM-TEMPLATE foo v1.2.0`
+
+			existing_target = apply({ template, existing_target })
+			expect(existing_target).to.equal(expected_stable_final)
+			existing_target = apply({ template, existing_target })
+			expect(existing_target).to.equal(expected_stable_final)
+		})
+
 		it('should work with just an element NOT of type GENERATED-FROM-TEMPLATE', () => {
 			const template = '// OT⋄CUSTOM foo bar'
 			let existing_target = 'whatever'
 			const expected_stable_final = `// OT⋄CUSTOM BEGIN foo bar
 // OT⋄CUSTOM END foo bar`
+
+			existing_target = apply({ template, existing_target })
+			expect(existing_target).to.equal(expected_stable_final)
+			existing_target = apply({ template, existing_target })
+			expect(existing_target).to.equal(expected_stable_final)
+		})
+
+		it('should correctly discard unrecognized custom content', () => {
+			const template = `
+a b c
+	// OT⋄CUSTOM foo
+d e f
+`
+			let existing_target = `
+unrecognized
+	// OT⋄CUSTOM BEGIN foo
+	recognized
+	// OT⋄CUSTOM END foo
+	unrecognized`
+			const expected_stable_final = `
+a b c
+	// OT⋄CUSTOM BEGIN foo
+	recognized
+	// OT⋄CUSTOM END foo
+d e f
+`
 
 			existing_target = apply({ template, existing_target })
 			expect(existing_target).to.equal(expected_stable_final)
@@ -292,7 +330,7 @@ whatever
 	// OT⋄CUSTOM bar baz
 	blih blu`
 			let existing_target = `
-// OT⋄GENERATED-FROM-TEMPLATE foo v1.2.3
+// OT⋄GENERATED-FROM-TEMPLATE foo v1.2.0
 	old old
 	// OT⋄CUSTOM BEGIN bar baz
 	hello, world!
