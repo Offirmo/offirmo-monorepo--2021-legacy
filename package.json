@@ -121,7 +121,7 @@
 		"hotkeys-js": "^3",
 		"howler": "^2",
 		"indent-string": "^4",
-		"is-promise": "^2",
+		"is-promise": "^4",
 		"json-stable-stringify": "^1",
 		"jsondiffpatch": "^0.4",
 		"knex": "^0.21",
@@ -189,7 +189,7 @@
 		"typescript-string-enums": "^1",
 		"universal-analytics": "^0.4",
 		"username": "^5",
-		"webextension-polyfill-ts": "^0.14",
+		"webextension-polyfill-ts": "^0",
 		"webpack-bundle-analyzer": "^3",
 		"webpack-node-externals": "^1",
 		"write-json-file": "^4"

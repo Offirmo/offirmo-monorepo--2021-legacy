@@ -113,18 +113,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__classPrivateFieldGet", function() { return __classPrivateFieldGet; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__classPrivateFieldSet", function() { return __classPrivateFieldSet; });
 /*! *****************************************************************************
-Copyright (c) Microsoft Corporation. All rights reserved.
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-this file except in compliance with the License. You may obtain a copy of the
-License at http://www.apache.org/licenses/LICENSE-2.0
+Copyright (c) Microsoft Corporation.
 
-THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
-WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
-MERCHANTABLITY OR NON-INFRINGEMENT.
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
 
-See the Apache Version 2.0 License for specific language governing permissions
-and limitations under the License.
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
 /* global Reflect, Promise */
 
@@ -29497,7 +29497,6 @@ const max = __webpack_require__(354);
 const inherits = __webpack_require__(31);
 const {
   getLockTableName,
-  getLockTableNameWithSchema,
   getTable,
   getTableName,
 } = __webpack_require__(146);
@@ -29763,13 +29762,22 @@ class Migrator {
     return [completed, newMigrations];
   }
 
-  forceFreeMigrationsLock(config) {
+  async forceFreeMigrationsLock(config) {
     this.config = getMergedConfig(config, this.config);
-
-    const lockTable = getLockTableName(this.config.tableName);
-    return getSchemaBuilder(this.knex, this.config.schemaName)
-      .hasTable(lockTable)
-      .then((exist) => exist && this._freeLock());
+    const {
+      schemaName,
+      tableName,
+    } = this.config;
+    const lockTableName = getLockTableName(tableName);
+    const { knex } = this;
+    const getLockTable = () => getTable(knex, lockTableName, schemaName);
+    const tableExists = await getSchemaBuilder(knex, schemaName).hasTable(lockTableName);
+    if (tableExists) {
+      await getLockTable().del();
+      await getLockTable().insert({
+        is_locked: 0,
+      });
+    }
   }
 
   // Creates a new migration, with a given name.
@@ -29863,12 +29871,7 @@ class Migrator {
             );
             this.knex.client.logger.warn(
               'If you are sure migrations are not running you can release the ' +
-                'lock manually by deleting all the rows = require(migrations lock ' +
-                'table: ' +
-                getLockTableNameWithSchema(
-                  this.config.tableName,
-                  this.config.schemaName
-                )
+                'lock manually by running \'knex migrate:unlock\''
             );
           } else {
             if (this._activeMigration.fileName) {
@@ -31381,6 +31384,7 @@ const DEFAULT_LOAD_EXTENSIONS = Object.freeze([
   '.eg',
   '.iced',
   '.js',
+  '.cjs',
   '.litcoffee',
   '.ls',
   '.ts',
@@ -32492,11 +32496,14 @@ module.exports = flatten;
 
 /***/ }),
 /* 396 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-const { promisify } = __webpack_require__(4);
-
-module.exports = promisify(setTimeout);
+/**
+ * @param {number} delay
+ * @returns {Promise<void>}
+ */
+module.exports = (delay) =>
+  new Promise((resolve) => setTimeout(resolve, delay));
 
 
 /***/ }),
@@ -42208,7 +42215,7 @@ const Cursor = __webpack_require__(483)
 
 class PgQueryStream extends Readable {
   constructor(text, values, config = {}) {
-    const { batchSize, highWaterMark = 100 } = config;
+    const { batchSize, highWaterMark = 100 } = config
     // https://nodejs.org/api/stream.html#stream_new_stream_readable_options
     super({ objectMode: true, emitClose: true, autoDestroy: true, highWaterMark: batchSize || highWaterMark })
     this.cursor = new Cursor(text, values, config)

@@ -30,7 +30,7 @@
 		"parcel-bundler": "^1",
 		"styled-components": "^3",
 		"typescript-string-enums": "^1",
-		"webextension-polyfill-ts": "^0.14"
+		"webextension-polyfill-ts": "^0"
 	},
 	"scripts": {
 		"clean": "node ../../0-scripts/clean.js dist cache && rm -rf dist.demo",
