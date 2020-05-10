@@ -1,0 +1,38 @@
+{
+	"name": "@offirmo-private/xoff",
+	"version": "0.0.1",
+	"description": "...",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+
+	"esnext": "dist/src.es2019/index.js",
+	"module": "dist/src.es2019/index.js",
+	"main": "dist/src.es2018.cjs/index.js",
+	"typings": "dist/src.es2018.cjs/index.d.ts",
+	"source": "src/index.ts",
+	"sideEffects": true,
+
+	"peerDependencies": {
+	},
+	"dependencies": {
+	},
+
+	"scripts": {
+		"clean": "node ../../0-scripts/clean.js dist cache",
+
+		"start:parcel": "parcel --out-dir .parcel --no-autoinstall doc/demo/*.html",
+		"build:dev:watch": "node ../../0-scripts/build-typescript.js --watch",
+		"build:prod": "node ../../0-scripts/build-typescript.js",
+
+		"demo": "run-s clean start:parcel",
+		"dev": "run-s clean build:dev:watch",
+		"build": "run-p build:prod"
+	},
+	"devDependencies": {
+		"@babel/core": "^7",
+		"@size-limit/preset-small-lib": "^2",
+		"npm-run-all": "^4",
+		"typescript": "^3"
+	}
+}
