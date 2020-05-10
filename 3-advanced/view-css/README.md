@@ -158,3 +158,8 @@ Solution: use a cascade of `class="o⋄top-container"` (optionally starting at `
 * nice buttons https://fdossena.com/?p=html5cool/buttons/i.frag
 * https://github.com/mike-engel/a11y-css-reset
 * https://hankchizljaw.com/wrote/a-modern-css-reset/
+
+
+using the fancy
+U+205A TWO DOT PUNCTUATION '⁚'
+U+22C4 DIAMOND OPERATOR '⋄'

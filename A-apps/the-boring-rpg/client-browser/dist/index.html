@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- OT⋄GENERATED-FROM-TEMPLATE Offirmo's loading iframe v0.1.0 -->
+<!-- OT⋄GENERATED-FROM-TEMPLATE Offirmo's loading iframe v0.1.1 -->
 
 <html lang="en" xml:lang="en" class="o⋄top-container">
 	<head>
@@ -386,6 +386,25 @@
 
 		/////////////////////
 	</script>
+
+	<!-- OT⋄CUSTOM BEGIN low priority scripts -->
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script defer importance="auto" src="https://www.googletagmanager.com/gtag/js?id=UA-103238291-2"></script>
+	<script>
+		window.dataLayer = window.dataLayer || []
+		function gtag() { dataLayer.push(arguments) }
+		gtag('js', new Date())
+		gtag('config', 'UA-103238291-2')
+	</script>
+
+	<!-- netlify identity, hard to embed in the bundle (babel issues) -->
+	<script defer importance="low" type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+	<script>
+		window.XOFF.top_frame.netlifyIdentity = window.XOFF.top_frame.netlifyIdentity || window.netlifyIdentity
+	</script>
+
+	<!-- OT⋄CUSTOM END low priority scripts -->
 
 	<script type="module">
 		// TODO progressive enhancements

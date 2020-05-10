@@ -44,7 +44,7 @@
 		"dev": "run-s clean build:dev:watch",
 		"test": "../../node_modules/.bin/mocha --opts ../../../4-tools/unit-test-toolbox/mocha.opts ../../../4-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2018.cjs/**/*spec.js'",
 		"start": "run-s start:parcel",
-		"build": "run-s build:parcel"
+		"xbuild": "run-s build:parcel"
 	},
 	"devDependencies": {
 		"@babel/core": "^7",
