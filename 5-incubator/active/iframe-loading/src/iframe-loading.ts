@@ -1,37 +1,32 @@
 
+import { extend_xoff, get_offirmo_extras } from '@offirmo-private/xoff'
+
+
+import {
+	LoaderConfig,
+	Loader,
+} from './types'
+
 //console.log('iframe-loading.ts', { window })
 
-export type CSSColor = string
-
-export interface LoaderConfig {
-	legend: string
-	expected_rsrc_count: number
-	bg_color: CSSColor
-	fg_color: CSSColor
-}
-
-export interface Loader {
-	configure(config: Partial<LoaderConfig>): void
-	on_rsrc_loaded(id?: string): void
+export interface XOffExtension {
+	loader: Loader
 }
 
 export const loader_noop: Loader = {
-	configure(config: Partial<LoaderConfig>) {},
-	on_rsrc_loaded(id?: string) {},
+	configure() {},
+	on_rsrc_loaded() {},
 }
 
-//////////// XOFF snippet ////////////
-// Firefox ESL compatible
-window.XOFF = {
-	top_frame: window.parent,
-	loader: loader_noop,
-	flags: {},
-	...window.parent.XOFF,
-}
-window.XOFF.flags = {
-	debug_render: false,
-	...window.XOFF.flags,
-}
-////////////////////////////////////
+const loader_full = (window.parent as any).oᐧloader || (window as any).oᐧloader
 
-export const loader = (window as any).XOFF.loader
+const loader = loader_full || loader_noop
+if (!loader_full) {
+	console.warn('iframe-loading: loader not found, are you properly using the html template?')
+}
+
+extend_xoff<XOffExtension>({ loader })
+
+export function get_loader(): Loader {
+	return get_offirmo_extras<XOffExtension>().loader
+}

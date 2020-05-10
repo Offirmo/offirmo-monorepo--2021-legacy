@@ -6,21 +6,18 @@ console.log(`[I2] js`, {
 })*/
 
 
-window.XOFF = {
-	...window.parent.XOFF,
-}
-window.XOFF.loader.configure({
+window.oᐧloader.configure({
 	bg_color: 'rgb(84, 61, 70)',
 	fg_color: 'rgb(255, 235, 188)',
 	legend: 'Treasure World Clicker',
 })
 
 setTimeout(() => {
-	window.XOFF.loader.on_rsrc_loaded('r1')
+	window.oᐧloader.on_rsrc_loaded('r1')
 }, 1000)
 
 setTimeout(() => {
 	//console.info(`[I2] simulated load`)
-	window.XOFF.loader.on_rsrc_loaded()
+	window.oᐧloader.on_rsrc_loaded()
 }, 3000)
 
