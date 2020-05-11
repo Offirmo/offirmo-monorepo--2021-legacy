@@ -1,5 +1,6 @@
 
-http://localhost:1981/5-incubator/active/iframe-loading/src/index.html
+http://localhost:1981/3-advanced/iframe-loading/src/index.html?foo=bar
+http://localhost:1981/3-advanced/iframe-loading/doc/demo/index.html?foo=bar
 
 from: html5_009 : WTE micro template
 

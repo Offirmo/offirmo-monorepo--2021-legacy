@@ -230,3 +230,5 @@ This includes discrimination—which robs people of the opportunity to fully suc
 Different seeds have different needs for sun and soil to be able to bloom into flowers.”
 
 signaux d'alarme
+
+https://en.wikipedia.org/wiki/Kaiserslautern#History
