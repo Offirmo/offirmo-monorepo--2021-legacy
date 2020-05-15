@@ -232,3 +232,25 @@ Different seeds have different needs for sun and soil to be able to bloom into f
 signaux d'alarme
 
 https://en.wikipedia.org/wiki/Kaiserslautern#History
+https://en.wikipedia.org/wiki/Energy_(esotericism)
+
+
+https://albiononline.com/en/news/population-update-may-2020
+
+Recognizing Bullying
+LOOK FOR A PATTERN OF...
+Lack of consideration and empathy for those without power
+
+Disrespectful behavior that is overt or subtle, in public or behind closed doors
+
+Verbal aggression, sarcasm, or psychological manipulation
+
+Unreasonable or constantly changing directives and deadlines
+
+Singling out individuals
+
+“Mobbing,” in which a group of people gang up on an individual
+
+Maria is under pressure to finish a project. She has a strong personality and always puts her work first. She is easily angered when details are missed and struggles to productively handle other people’s mistakes. She is ambitious, eager to be promoted, and values team members who have been around the longest, as they have the most experience. She is wary of new people—not knowing whether she can rely on them makes her very nervous.
+
+moving slowly enough to catch mistakes

@@ -66,3 +66,9 @@ https://www.nytimes.com/2020/03/20/technology/venezuela-petro-cryptocurrency.htm
 https://en.wikipedia.org/wiki/Busy_work
 
 defensive programming https://dev.to/cubiclebuddha/is-defensive-programming-actually-healthy-5flj
+
+“YAGINTF” - yet another guideline I need to follow?
+
+https://en.wikipedia.org/wiki/Conway%27s_law
+
+https://developers.slashdot.org/story/19/07/22/0426201/is-object-oriented-programming-a-trillion-dollar-disaster

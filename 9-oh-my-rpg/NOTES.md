@@ -3,6 +3,9 @@ CLE Credibility Logic Emotion
 
 TODO "task manager" https://hello.atlassian.net/wiki/spaces/JSP/pages/375832340/Clubhouse+Comp+Analysis
 
+https://knowyourmeme.com/memes/thelegend27
+
+
 [ ] Ftl-like fantasy comme douluo dalu
 [ ] Halos
 [ ] Sculpture
