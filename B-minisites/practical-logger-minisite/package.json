@@ -7,7 +7,7 @@
 
 	"dependencies": {
 		"@offirmo/practical-logger-browser": "^2.1",
-		"tslib": "^1"
+		"tslib": "^2"
 	},
 
 	"devDependencies": {

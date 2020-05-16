@@ -22,7 +22,7 @@
 		"normalize-email": "^1",
 		"pg": "^8",
 		"tiny-invariant": "^1",
-		"tslib": "^1"
+		"tslib": "^2"
 	},
 
 	"scripts": {
@@ -39,6 +39,6 @@
 		"@offirmo/universal-debug-api-node": "^0",
 		"@types/node": "^12",
 		"npm-run-all": "^4",
-		"typescript": "^3"
+		"typescript": "3.8.3"
 	}
 }

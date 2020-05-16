@@ -27,7 +27,7 @@
 		"react": "^16",
 		"react-dom": "^16",
 		"react-router-dom": "^5",
-		"tslib": "^1"
+		"tslib": "^2"
 	},
 
 	"scripts": {

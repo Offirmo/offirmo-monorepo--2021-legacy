@@ -31,7 +31,7 @@
 		"@tbrpg/interfaces": "^0",
 		"noop2": "^2",
 		"tiny-invariant": "^1",
-		"tslib": "^1",
+		"tslib": "^2",
 		"typescript-string-enums": "^1"
 	},
 

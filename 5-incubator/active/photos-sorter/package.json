@@ -21,7 +21,7 @@
 		"json-stable-stringify": "^1",
 		"lodash": "^4",
 		"memoize-one": "^5",
-		"tslib": "^1",
+		"tslib": "^2",
 		"typescript-string-enums": "^1"
 	},
 

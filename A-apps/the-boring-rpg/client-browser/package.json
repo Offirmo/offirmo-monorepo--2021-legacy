@@ -29,7 +29,7 @@
 		"@tbrpg/flux": "^0",
 		"@tbrpg/interfaces": "^0",
 		"@tbrpg/state": "^0",
-		"bowser": "^1",
+		"bowser": "^2",
 		"classnames": "^2",
 		"fetch-inject": "^2",
 		"floating.js": "^2",
@@ -42,7 +42,7 @@
 		"react-dom": "^16",
 		"react-router-dom": "^5",
 		"tiny-invariant": "^1",
-		"tslib": "^1",
+		"tslib": "^2",
 		"typescript-string-enums": "^1"
 	},
 

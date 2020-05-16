@@ -18,7 +18,7 @@
 	"sideEffects": false,
 
 	"peerDependencies": {
-		"tslib": "^1"
+		"tslib": "^2"
 	},
 	"dependencies": {
 		"json-stable-stringify": "^1",

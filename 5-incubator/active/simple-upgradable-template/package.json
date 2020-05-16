@@ -13,7 +13,7 @@
 
 	"dependencies": {
 		"memoize-one": "^5",
-		"meow": "^6",
+		"meow": "^7",
 		"tiny-invariant": "^1"
 	},
 

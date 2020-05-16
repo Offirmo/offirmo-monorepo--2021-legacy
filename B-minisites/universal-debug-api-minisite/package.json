@@ -8,7 +8,7 @@
 	"dependencies": {
 		"@offirmo/universal-debug-api-placeholder": "^0",
 		"@offirmo/universal-debug-api-browser": "^0",
-		"tslib": "^1"
+		"tslib": "^2"
 	},
 
 	"devDependencies": {

@@ -16,7 +16,7 @@
 	},
 	"dependencies": {
 		"@offirmo-private/ensure-device-uuid-browser": "^0",
-		"tslib": "^1"
+		"tslib": "^2"
 	},
 
 	"scripts": {
@@ -24,7 +24,7 @@
 	"devDependencies": {
 		"@babel/core": "^7",
 		"@offirmo/practical-logger-browser": "^2.1",
-		"bowser": "^1",
+		"bowser": "^2",
 		"npm-run-all": "^4"
 	}
 }

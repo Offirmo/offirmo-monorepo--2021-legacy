@@ -32,7 +32,7 @@
 		"react-dom": "^16",
 		"react-router-dom": "^5",
 		"tiny-invariant": "^1",
-		"tslib": "^1",
+		"tslib": "^2",
 		"typescript-string-enums": "^1"
 	},
 

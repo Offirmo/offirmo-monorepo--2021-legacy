@@ -19,7 +19,7 @@
 		"knex": "^0.21",
 		"npm-run-all": "^4",
 		"pg": "^8",
-		"tslib": "^1",
-		"typescript": "^3"
+		"tslib": "^2",
+		"typescript": "3.8.3"
 	}
 }

@@ -30,7 +30,7 @@
 	},
 
 	"devDependencies": {
-		"@size-limit/preset-small-lib": "^2",
+		"@size-limit/preset-small-lib": "^4",
 		"npm-run-all": "^4"
 	},
 	"scripts": {

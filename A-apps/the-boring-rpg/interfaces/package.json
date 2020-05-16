@@ -14,7 +14,7 @@
 	"sideEffects": false,
 
 	"peerDependencies": {
-		"tslib": "^1"
+		"tslib": "^2"
 	},
 	"dependencies": {
 		"@offirmo-private/json-rpc-types": "^0",

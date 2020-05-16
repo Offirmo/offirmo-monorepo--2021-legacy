@@ -18,7 +18,7 @@
 	"dependencies": {
 		"@offirmo-private/timestamps": "^0",
 		"@offirmo-private/ts-types": "^0",
-		"tslib": "^1",
+		"tslib": "^2",
 		"typescript-string-enums": "^1"
 	},
 
