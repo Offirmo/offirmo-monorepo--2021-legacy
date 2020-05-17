@@ -71,6 +71,7 @@
 		"@types/lodash": "^4",
 		"@types/mocha": "^7",
 		"@types/nanoid": "^2",
+		"@types/netlify-identity-widget": "^1",
 		"@types/node": "^12",
 		"@types/prettyjson": "^0.0.29",
 		"@types/prop-types": "^15",

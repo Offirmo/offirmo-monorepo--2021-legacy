@@ -20,3 +20,8 @@ https://stackoverflow.com/questions/10282939/how-to-get-favicons-url-from-a-gene
 
 		window.onload = (e) => console.log(`[IL] GlobalEventHandlers.onload`, e)
 		window.frames[0].onload = (e) => console.log(`[IL] GlobalEventHandlers.onload 2`, e)
+
+TODO display version
+
+TODO preload https://developers.google.com/web/fundamentals/performance/resource-prioritization#preload
+TODO preconnect https://developers.google.com/web/fundamentals/performance/resource-prioritization#preconnect

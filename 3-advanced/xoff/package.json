@@ -16,6 +16,7 @@
 	"peerDependencies": {
 	},
 	"dependencies": {
+		"@offirmo-private/poll-window-variable": "^0"
 	},
 
 	"scripts": {
@@ -25,13 +26,13 @@
 		"build:dev:watch": "node ../../0-scripts/build-typescript.js --watch",
 		"build:prod": "node ../../0-scripts/build-typescript.js",
 
-		"demo": "run-s clean start:parcel",
+		"demo": "rm -rf cache .parcel && run-s start:parcel",
 		"dev": "run-s clean build:dev:watch",
 		"build": "run-p build:prod"
 	},
 	"devDependencies": {
 		"@babel/core": "^7",
-		"@size-limit/preset-small-lib": "^2",
+		"@types/netlify-identity-widget": "^1",
 		"npm-run-all": "^4",
 		"typescript": "3.8.3"
 	}
