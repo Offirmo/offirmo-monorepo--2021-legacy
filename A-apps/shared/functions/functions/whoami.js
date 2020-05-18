@@ -81,260 +81,17 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 500);
+/******/ 	return __webpack_require__(__webpack_require__.s = 497);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__extends", function() { return __extends; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__assign", function() { return __assign; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__rest", function() { return __rest; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__decorate", function() { return __decorate; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__param", function() { return __param; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__metadata", function() { return __metadata; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__awaiter", function() { return __awaiter; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__generator", function() { return __generator; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__exportStar", function() { return __exportStar; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__values", function() { return __values; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__read", function() { return __read; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__spread", function() { return __spread; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__spreadArrays", function() { return __spreadArrays; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__await", function() { return __await; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__asyncGenerator", function() { return __asyncGenerator; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__asyncDelegator", function() { return __asyncDelegator; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__asyncValues", function() { return __asyncValues; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__makeTemplateObject", function() { return __makeTemplateObject; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__importStar", function() { return __importStar; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__importDefault", function() { return __importDefault; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__classPrivateFieldGet", function() { return __classPrivateFieldGet; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__classPrivateFieldSet", function() { return __classPrivateFieldSet; });
-/*! *****************************************************************************
-Copyright (c) Microsoft Corporation.
-
-Permission to use, copy, modify, and/or distribute this software for any
-purpose with or without fee is hereby granted.
-
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-PERFORMANCE OF THIS SOFTWARE.
-***************************************************************************** */
-/* global Reflect, Promise */
-
-var extendStatics = function(d, b) {
-    extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return extendStatics(d, b);
-};
-
-function __extends(d, b) {
-    extendStatics(d, b);
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-}
-
-var __assign = function() {
-    __assign = Object.assign || function __assign(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-        }
-        return t;
-    }
-    return __assign.apply(this, arguments);
-}
-
-function __rest(s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-}
-
-function __decorate(decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-}
-
-function __param(paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-}
-
-function __metadata(metadataKey, metadataValue) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
-}
-
-function __awaiter(thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-}
-
-function __generator(thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-}
-
-function __exportStar(m, exports) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
-
-function __values(o) {
-    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
-    if (m) return m.call(o);
-    if (o && typeof o.length === "number") return {
-        next: function () {
-            if (o && i >= o.length) o = void 0;
-            return { value: o && o[i++], done: !o };
-        }
-    };
-    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
-}
-
-function __read(o, n) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator];
-    if (!m) return o;
-    var i = m.call(o), r, ar = [], e;
-    try {
-        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
-    }
-    catch (error) { e = { error: error }; }
-    finally {
-        try {
-            if (r && !r.done && (m = i["return"])) m.call(i);
-        }
-        finally { if (e) throw e.error; }
-    }
-    return ar;
-}
-
-function __spread() {
-    for (var ar = [], i = 0; i < arguments.length; i++)
-        ar = ar.concat(__read(arguments[i]));
-    return ar;
-}
-
-function __spreadArrays() {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
-};
-
-function __await(v) {
-    return this instanceof __await ? (this.v = v, this) : new __await(v);
-}
-
-function __asyncGenerator(thisArg, _arguments, generator) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var g = generator.apply(thisArg, _arguments || []), i, q = [];
-    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
-    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
-    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
-    function step(r) { r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
-    function fulfill(value) { resume("next", value); }
-    function reject(value) { resume("throw", value); }
-    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
-}
-
-function __asyncDelegator(o) {
-    var i, p;
-    return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
-    function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: __await(o[n](v)), done: n === "return" } : f ? f(v) : v; } : f; }
-}
-
-function __asyncValues(o) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var m = o[Symbol.asyncIterator], i;
-    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
-    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
-    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
-}
-
-function __makeTemplateObject(cooked, raw) {
-    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
-    return cooked;
-};
-
-function __importStar(mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result.default = mod;
-    return result;
-}
-
-function __importDefault(mod) {
-    return (mod && mod.__esModule) ? mod : { default: mod };
-}
-
-function __classPrivateFieldGet(receiver, privateMap) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to get private field on non-instance");
-    }
-    return privateMap.get(receiver);
-}
-
-function __classPrivateFieldSet(receiver, privateMap, value) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to set private field on non-instance");
-    }
-    privateMap.set(receiver, value);
-    return value;
-}
-
-
-/***/ }),
-/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 const ansiStyles = __webpack_require__(122);
-const {stdout: stdoutColor, stderr: stderrColor} = __webpack_require__(42);
+const {stdout: stdoutColor, stderr: stderrColor} = __webpack_require__(41);
 const {
 	stringReplaceAll,
 	stringEncaseCRLFWithFirstIndex
@@ -557,8 +314,8 @@ module.exports = chalk;
 
 
 /***/ }),
-/* 2 */,
-/* 3 */
+/* 1 */,
+/* 2 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -726,19 +483,19 @@ function isInstanceOf(wat, base) {
 //# sourceMappingURL=is.js.map
 
 /***/ }),
-/* 4 */
+/* 3 */
 /***/ (function(module, exports) {
 
 module.exports = require("util");
 
 /***/ }),
-/* 5 */
+/* 4 */
 /***/ (function(module, exports) {
 
 module.exports = require("fs");
 
 /***/ }),
-/* 6 */
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -759,8 +516,8 @@ module.exports = require("fs");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return parseRetryAfterHeader; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return getFunctionName; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addContextToFrame; });
-/* harmony import */ var _is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
-/* harmony import */ var _string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(12);
+/* harmony import */ var _is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(10);
 
 
 /**
@@ -1147,7 +904,7 @@ function addContextToFrame(lines, frame, linesOfContext) {
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(84)(module)))
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1202,7 +959,7 @@ exports.Enum = Enum;
 //# sourceMappingURL=index.js.map
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, exports) {
 
 /**
@@ -1234,20 +991,14 @@ module.exports = isArray;
 
 
 /***/ }),
-/* 9 */,
-/* 10 */
-/***/ (function(module, exports) {
-
-module.exports = require("events");
-
-/***/ }),
-/* 11 */
+/* 8 */,
+/* 9 */
 /***/ (function(module, exports) {
 
 module.exports = require("path");
 
 /***/ }),
-/* 12 */
+/* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1255,7 +1006,7 @@ module.exports = require("path");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return snipLine; });
 /* unused harmony export safeJoin */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return isMatchingPattern; });
-/* harmony import */ var _is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+/* harmony import */ var _is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
 
 /**
  * Truncates given string to the maximum characters count
@@ -1352,7 +1103,13 @@ function isMatchingPattern(value, pattern) {
 //# sourceMappingURL=string.js.map
 
 /***/ }),
-/* 13 */
+/* 11 */
+/***/ (function(module, exports) {
+
+module.exports = require("events");
+
+/***/ }),
+/* 12 */
 /***/ (function(module, exports) {
 
 /**
@@ -1389,14 +1146,14 @@ module.exports = isObject;
 
 
 /***/ }),
-/* 14 */,
-/* 15 */
+/* 13 */,
+/* 14 */
 /***/ (function(module, exports) {
 
 module.exports = require("domain");
 
 /***/ }),
-/* 16 */
+/* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1420,13 +1177,13 @@ function getGlobalThis() {
 
 
 /***/ }),
-/* 17 */
+/* 16 */
 /***/ (function(module, exports) {
 
 module.exports = require("http");
 
 /***/ }),
-/* 18 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var freeGlobal = __webpack_require__(158);
@@ -1441,7 +1198,7 @@ module.exports = root;
 
 
 /***/ }),
-/* 19 */
+/* 18 */
 /***/ (function(module, exports) {
 
 /**
@@ -1476,7 +1233,7 @@ module.exports = isObjectLike;
 
 
 /***/ }),
-/* 20 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1486,9 +1243,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const typescript_string_enums_1 = __webpack_require__(7);
+const typescript_string_enums_1 = __webpack_require__(6);
 
-const functions_interface_1 = __webpack_require__(64);
+const functions_interface_1 = __webpack_require__(62);
 
 exports.CHANNEL = (() => {
   if (typescript_string_enums_1.Enum.isType(functions_interface_1.ReleaseChannel, process.env.CHANNEL)) return process.env.CHANNEL;
@@ -1497,19 +1254,19 @@ exports.CHANNEL = (() => {
 })();
 
 /***/ }),
-/* 21 */
+/* 20 */
 /***/ (function(module, exports) {
 
 module.exports = require("os");
 
 /***/ }),
-/* 22 */
+/* 21 */
 /***/ (function(module, exports) {
 
 module.exports = require("url");
 
 /***/ }),
-/* 23 */
+/* 22 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1521,7 +1278,7 @@ __webpack_require__.d(__webpack_exports__, "b", function() { return /* binding *
 // UNUSED EXPORTS: exposeInternal, addDebugCommand, globalThis, createV1
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-stdlib/globalthis-ponyfill/dist/src.es2019/index.js
-var src_es2019 = __webpack_require__(16);
+var src_es2019 = __webpack_require__(15);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-foundation/practical-logger-minimal-noop/dist/src.es2019/index.js
 function src_es2019_NOP() {}
@@ -1586,13 +1343,13 @@ const {
 
 
 /***/ }),
-/* 24 */
+/* 23 */
 /***/ (function(module, exports) {
 
 module.exports = require("https");
 
 /***/ }),
-/* 25 */
+/* 24 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1613,10 +1370,10 @@ function invariant(condition, message) {
 
 
 /***/ }),
-/* 26 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(44),
+var Symbol = __webpack_require__(43),
     getRawTag = __webpack_require__(251),
     objectToString = __webpack_require__(252);
 
@@ -1647,10 +1404,10 @@ module.exports = baseGetTag;
 
 
 /***/ }),
-/* 27 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isFunction = __webpack_require__(32),
+var isFunction = __webpack_require__(30),
     isLength = __webpack_require__(129);
 
 /**
@@ -1686,7 +1443,7 @@ module.exports = isArrayLike;
 
 
 /***/ }),
-/* 28 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1696,7 +1453,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const http_1 = __webpack_require__(17);
+const http_1 = __webpack_require__(16);
 
 const common_error_fields_1 = __webpack_require__(53); // TODO extern
 
@@ -1733,12 +1490,12 @@ function create_error(message, details = {}) {
 exports.create_error = create_error;
 
 /***/ }),
-/* 29 */
+/* 28 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _generate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(66);
+/* harmony import */ var _generate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(64);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_UTC_timestamp_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["d"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["g"]; });
@@ -1758,17 +1515,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /***/ }),
-/* 30 */
-/***/ (function(module, exports) {
-
-module.exports = require("assert");
-
-/***/ }),
-/* 31 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 try {
-  var util = __webpack_require__(4);
+  var util = __webpack_require__(3);
   /* istanbul ignore next */
   if (typeof util.inherits !== 'function') throw '';
   module.exports = util.inherits;
@@ -1779,11 +1530,11 @@ try {
 
 
 /***/ }),
-/* 32 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(26),
-    isObject = __webpack_require__(13);
+var baseGetTag = __webpack_require__(25),
+    isObject = __webpack_require__(12);
 
 /** `Object#toString` result references. */
 var asyncTag = '[object AsyncFunction]',
@@ -1822,20 +1573,26 @@ module.exports = isFunction;
 
 
 /***/ }),
-/* 33 */
+/* 31 */
 /***/ (function(module, exports) {
 
 module.exports = require("crypto");
 
 /***/ }),
-/* 34 */
+/* 32 */
+/***/ (function(module, exports) {
+
+module.exports = require("assert");
+
+/***/ }),
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* eslint no-console:0 */
 
-const isFunction = __webpack_require__(32);
+const isFunction = __webpack_require__(30);
 const isPlainObject = __webpack_require__(68);
-const isTypedArray = __webpack_require__(57);
+const isTypedArray = __webpack_require__(55);
 const { CLIENT_ALIASES } = __webpack_require__(131);
 
 // Check if the first argument is an array, otherwise uses all arguments as an
@@ -1928,7 +1685,7 @@ module.exports = {
 
 
 /***/ }),
-/* 35 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var assignValue = __webpack_require__(93),
@@ -1974,7 +1731,7 @@ module.exports = copyObject;
 
 
 /***/ }),
-/* 36 */
+/* 35 */
 /***/ (function(module, exports) {
 
 /**
@@ -2001,12 +1758,12 @@ module.exports = identity;
 
 
 /***/ }),
-/* 37 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var arrayLikeKeys = __webpack_require__(165),
     baseKeys = __webpack_require__(166),
-    isArrayLike = __webpack_require__(27);
+    isArrayLike = __webpack_require__(26);
 
 /**
  * Creates an array of the own enumerable property names of `object`.
@@ -2044,13 +1801,13 @@ module.exports = keys;
 
 
 /***/ }),
-/* 38 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseMatches = __webpack_require__(271),
     baseMatchesProperty = __webpack_require__(305),
-    identity = __webpack_require__(36),
-    isArray = __webpack_require__(8),
+    identity = __webpack_require__(35),
+    isArray = __webpack_require__(7),
     property = __webpack_require__(312);
 
 /**
@@ -2081,12 +1838,12 @@ module.exports = baseIteratee;
 
 
 /***/ }),
-/* 39 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(26),
-    isArray = __webpack_require__(8),
-    isObjectLike = __webpack_require__(19);
+var baseGetTag = __webpack_require__(25),
+    isArray = __webpack_require__(7),
+    isObjectLike = __webpack_require__(18);
 
 /** `Object#toString` result references. */
 var stringTag = '[object String]';
@@ -2117,20 +1874,20 @@ module.exports = isString;
 
 
 /***/ }),
-/* 40 */
+/* 39 */
 /***/ (function(module, exports) {
 
 module.exports = require("tty");
 
 /***/ }),
-/* 41 */,
-/* 42 */
+/* 40 */,
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const os = __webpack_require__(21);
-const tty = __webpack_require__(40);
+const os = __webpack_require__(20);
+const tty = __webpack_require__(39);
 const hasFlag = __webpack_require__(82);
 
 const {env} = process;
@@ -2270,19 +2027,19 @@ module.exports = {
 
 
 /***/ }),
-/* 43 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Raw
 // -------
-const inherits = __webpack_require__(31);
-const helpers = __webpack_require__(34);
-const { EventEmitter } = __webpack_require__(10);
-const debug = __webpack_require__(58);
+const inherits = __webpack_require__(29);
+const helpers = __webpack_require__(33);
+const { EventEmitter } = __webpack_require__(11);
+const debug = __webpack_require__(56);
 
 const assign = __webpack_require__(132);
 const isNumber = __webpack_require__(133);
-const isObject = __webpack_require__(13);
+const isObject = __webpack_require__(12);
 const isPlainObject = __webpack_require__(68);
 const reduce = __webpack_require__(134);
 const saveAsyncStack = __webpack_require__(141);
@@ -2465,10 +2222,10 @@ module.exports = Raw;
 
 
 /***/ }),
-/* 44 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var root = __webpack_require__(18);
+var root = __webpack_require__(17);
 
 /** Built-in value references. */
 var Symbol = root.Symbol;
@@ -2477,7 +2234,7 @@ module.exports = Symbol;
 
 
 /***/ }),
-/* 45 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseIsNative = __webpack_require__(257),
@@ -2500,7 +2257,7 @@ module.exports = getNative;
 
 
 /***/ }),
-/* 46 */
+/* 45 */
 /***/ (function(module, exports) {
 
 /**
@@ -2543,12 +2300,12 @@ module.exports = eq;
 
 
 /***/ }),
-/* 47 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var arrayLikeKeys = __webpack_require__(165),
     baseKeysIn = __webpack_require__(318),
-    isArrayLike = __webpack_require__(27);
+    isArrayLike = __webpack_require__(26);
 
 /**
  * Creates an array of the own and inherited enumerable property names of `object`.
@@ -2581,7 +2338,7 @@ module.exports = keysIn;
 
 
 /***/ }),
-/* 48 */
+/* 47 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2604,6 +2361,264 @@ const COMMON_ERROR_FIELDS = DEFAULT_INSTANCE;
 
 
 /***/ }),
+/* 48 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__extends", function() { return __extends; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__assign", function() { return __assign; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__rest", function() { return __rest; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__decorate", function() { return __decorate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__param", function() { return __param; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__metadata", function() { return __metadata; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__awaiter", function() { return __awaiter; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__generator", function() { return __generator; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__createBinding", function() { return __createBinding; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__exportStar", function() { return __exportStar; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__values", function() { return __values; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__read", function() { return __read; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__spread", function() { return __spread; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__spreadArrays", function() { return __spreadArrays; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__await", function() { return __await; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__asyncGenerator", function() { return __asyncGenerator; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__asyncDelegator", function() { return __asyncDelegator; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__asyncValues", function() { return __asyncValues; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__makeTemplateObject", function() { return __makeTemplateObject; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__importStar", function() { return __importStar; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__importDefault", function() { return __importDefault; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__classPrivateFieldGet", function() { return __classPrivateFieldGet; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__classPrivateFieldSet", function() { return __classPrivateFieldSet; });
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+/* global Reflect, Promise */
+
+var extendStatics = function(d, b) {
+    extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return extendStatics(d, b);
+};
+
+function __extends(d, b) {
+    extendStatics(d, b);
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+var __assign = function() {
+    __assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
+    }
+    return __assign.apply(this, arguments);
+}
+
+function __rest(s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+}
+
+function __decorate(decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+
+function __param(paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+}
+
+function __metadata(metadataKey, metadataValue) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
+}
+
+function __awaiter(thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+}
+
+function __generator(thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+}
+
+var __createBinding = Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+});
+
+function __exportStar(m, exports) {
+    for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) __createBinding(exports, m, p);
+}
+
+function __values(o) {
+    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+    if (m) return m.call(o);
+    if (o && typeof o.length === "number") return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+}
+
+function __read(o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+}
+
+function __spread() {
+    for (var ar = [], i = 0; i < arguments.length; i++)
+        ar = ar.concat(__read(arguments[i]));
+    return ar;
+}
+
+function __spreadArrays() {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
+
+function __await(v) {
+    return this instanceof __await ? (this.v = v, this) : new __await(v);
+}
+
+function __asyncGenerator(thisArg, _arguments, generator) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var g = generator.apply(thisArg, _arguments || []), i, q = [];
+    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
+    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
+    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
+    function step(r) { r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
+    function fulfill(value) { resume("next", value); }
+    function reject(value) { resume("throw", value); }
+    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
+}
+
+function __asyncDelegator(o) {
+    var i, p;
+    return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
+    function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: __await(o[n](v)), done: n === "return" } : f ? f(v) : v; } : f; }
+}
+
+function __asyncValues(o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+}
+
+function __makeTemplateObject(cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
+
+var __setModuleDefault = Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+};
+
+function __importStar(mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+}
+
+function __importDefault(mod) {
+    return (mod && mod.__esModule) ? mod : { default: mod };
+}
+
+function __classPrivateFieldGet(receiver, privateMap) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to get private field on non-instance");
+    }
+    return privateMap.get(receiver);
+}
+
+function __classPrivateFieldSet(receiver, privateMap, value) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to set private field on non-instance");
+    }
+    privateMap.set(receiver, value);
+    return value;
+}
+
+
+/***/ }),
 /* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2611,12 +2626,12 @@ const COMMON_ERROR_FIELDS = DEFAULT_INSTANCE;
  * Module dependencies.
  */
 
-var net = __webpack_require__(55);
-var tls = __webpack_require__(56);
-var url = __webpack_require__(22);
-var assert = __webpack_require__(30);
+var net = __webpack_require__(66);
+var tls = __webpack_require__(67);
+var url = __webpack_require__(21);
+var assert = __webpack_require__(32);
 var Agent = __webpack_require__(85);
-var inherits = __webpack_require__(4).inherits;
+var inherits = __webpack_require__(3).inherits;
 var debug = __webpack_require__(87)('https-proxy-agent');
 
 /**
@@ -3643,7 +3658,7 @@ function tryDecode(str, decode) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _field_set__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(48);
+/* harmony import */ var _field_set__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(47);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "COMMON_ERROR_FIELDS", function() { return _field_set__WEBPACK_IMPORTED_MODULE_0__["a"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "create", function() { return _field_set__WEBPACK_IMPORTED_MODULE_0__["b"]; });
@@ -3680,18 +3695,6 @@ module.exports = function(module) {
 
 /***/ }),
 /* 55 */
-/***/ (function(module, exports) {
-
-module.exports = require("net");
-
-/***/ }),
-/* 56 */
-/***/ (function(module, exports) {
-
-module.exports = require("tls");
-
-/***/ }),
-/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseIsTypedArray = __webpack_require__(253),
@@ -3724,7 +3727,7 @@ module.exports = isTypedArray;
 
 
 /***/ }),
-/* 58 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -3740,10 +3743,10 @@ if (typeof process === 'undefined' || process.type === 'renderer' || process.bro
 
 
 /***/ }),
-/* 59 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var identity = __webpack_require__(36),
+var identity = __webpack_require__(35),
     overRest = __webpack_require__(261),
     setToString = __webpack_require__(163);
 
@@ -3763,10 +3766,10 @@ module.exports = baseRest;
 
 
 /***/ }),
-/* 60 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(module) {var root = __webpack_require__(18),
+/* WEBPACK VAR INJECTION */(function(module) {var root = __webpack_require__(17),
     stubFalse = __webpack_require__(266);
 
 /** Detect free variable `exports`. */
@@ -3808,7 +3811,7 @@ module.exports = isBuffer;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(54)(module)))
 
 /***/ }),
-/* 61 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var DataView = __webpack_require__(301),
@@ -3816,7 +3819,7 @@ var DataView = __webpack_require__(301),
     Promise = __webpack_require__(302),
     Set = __webpack_require__(303),
     WeakMap = __webpack_require__(180),
-    baseGetTag = __webpack_require__(26),
+    baseGetTag = __webpack_require__(25),
     toSource = __webpack_require__(162);
 
 /** `Object#toString` result references. */
@@ -3872,11 +3875,11 @@ module.exports = getTag;
 
 
 /***/ }),
-/* 62 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(26),
-    isObjectLike = __webpack_require__(19);
+var baseGetTag = __webpack_require__(25),
+    isObjectLike = __webpack_require__(18);
 
 /** `Object#toString` result references. */
 var symbolTag = '[object Symbol]';
@@ -3907,7 +3910,7 @@ module.exports = isSymbol;
 
 
 /***/ }),
-/* 63 */
+/* 61 */
 /***/ (function(module, exports) {
 
 /**
@@ -3934,7 +3937,7 @@ module.exports = arrayMap;
 
 
 /***/ }),
-/* 64 */
+/* 62 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3943,9 +3946,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Endpoint", function() { return Endpoint; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get_allowed_origin", function() { return get_allowed_origin; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get_base_url", function() { return get_base_url; });
-/* harmony import */ var typescript_string_enums__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7);
+/* harmony import */ var typescript_string_enums__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
 /* harmony import */ var typescript_string_enums__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(typescript_string_enums__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _offirmo_universal_debug_api_placeholder__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(23);
+/* harmony import */ var _offirmo_universal_debug_api_placeholder__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(22);
 
  // tslint:disable-next-line: variable-name
 
@@ -3989,7 +3992,7 @@ function get_base_url(channel) {
 }
 
 /***/ }),
-/* 65 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4023,7 +4026,7 @@ function get_default_JsonRpc_error() {
 exports.get_default_JsonRpc_error = get_default_JsonRpc_error;
 
 /***/ }),
-/* 66 */
+/* 64 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4107,7 +4110,7 @@ function get_ISO8601_simplified_day(now = new Date()) {
  /////////////////////
 
 /***/ }),
-/* 67 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
@@ -4952,12 +4955,24 @@ convert.rgb.gray = function (rgb) {
 
 
 /***/ }),
+/* 66 */
+/***/ (function(module, exports) {
+
+module.exports = require("net");
+
+/***/ }),
+/* 67 */
+/***/ (function(module, exports) {
+
+module.exports = require("tls");
+
+/***/ }),
 /* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(26),
+var baseGetTag = __webpack_require__(25),
     getPrototype = __webpack_require__(92),
-    isObjectLike = __webpack_require__(19);
+    isObjectLike = __webpack_require__(18);
 
 /** `Object#toString` result references. */
 var objectTag = '[object Object]';
@@ -5043,10 +5058,10 @@ module.exports = baseUnary;
 /* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var eq = __webpack_require__(46),
-    isArrayLike = __webpack_require__(27),
+var eq = __webpack_require__(45),
+    isArrayLike = __webpack_require__(26),
     isIndex = __webpack_require__(71),
-    isObject = __webpack_require__(13);
+    isObject = __webpack_require__(12);
 
 /**
  * Checks if the given arguments are from an iteratee call.
@@ -5135,7 +5150,7 @@ module.exports = isPrototype;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseIsArguments = __webpack_require__(265),
-    isObjectLike = __webpack_require__(19);
+    isObjectLike = __webpack_require__(18);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -5196,7 +5211,7 @@ module.exports = baseEach;
 /* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isSymbol = __webpack_require__(62);
+var isSymbol = __webpack_require__(60);
 
 /** Used as references for various `Number` constants. */
 var INFINITY = 1 / 0;
@@ -5249,7 +5264,7 @@ module.exports = copyArray;
 /* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(13);
+var isObject = __webpack_require__(12);
 
 /** Built-in value references. */
 var objectCreate = Object.create;
@@ -5286,13 +5301,13 @@ module.exports = baseCreate;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseKeys = __webpack_require__(166),
-    getTag = __webpack_require__(61),
+    getTag = __webpack_require__(59),
     isArguments = __webpack_require__(73),
-    isArray = __webpack_require__(8),
-    isArrayLike = __webpack_require__(27),
-    isBuffer = __webpack_require__(60),
+    isArray = __webpack_require__(7),
+    isArrayLike = __webpack_require__(26),
+    isBuffer = __webpack_require__(58),
     isPrototype = __webpack_require__(72),
-    isTypedArray = __webpack_require__(57);
+    isTypedArray = __webpack_require__(55);
 
 /** `Object#toString` result references. */
 var mapTag = '[object Map]',
@@ -5442,7 +5457,7 @@ __webpack_require__.d(analytics_state_namespaceObject, "create", function() { re
 __webpack_require__.d(analytics_state_namespaceObject, "addDetail", function() { return state_addDetail; });
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-stdlib/globalthis-ponyfill/dist/src.es2019/index.js
-var src_es2019 = __webpack_require__(16);
+var src_es2019 = __webpack_require__(15);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/consts.js
 const LIB = 'soft-execution-context';
@@ -5780,7 +5795,7 @@ const dependency_injection_PLUGIN = {
 };
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-foundation/common-error-fields/dist/src.es2019/field-set.js
-var field_set = __webpack_require__(48);
+var field_set = __webpack_require__(47);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-foundation/normalize-error/dist/src.es2019/index.js
  // Anything can be thrown: undefined, string, number...)
@@ -5808,7 +5823,7 @@ function promiseTry(fn) {
 
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-stdlib/timestamps/dist/src.es2019/generate.js
-var generate = __webpack_require__(66);
+var generate = __webpack_require__(64);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/error-handling/state.js
 /////////////////////
@@ -6291,7 +6306,9 @@ function enqueueProducers(instance, eventName, eventData) {
 	}
 }
 
-function iterator(instance, eventName) {
+function iterator(instance, eventNames) {
+	eventNames = Array.isArray(eventNames) ? eventNames : [eventNames];
+
 	let isFinished = false;
 	let flush = () => {};
 	let queue = [];
@@ -6307,7 +6324,9 @@ function iterator(instance, eventName) {
 		}
 	};
 
-	getEventProducers(instance, eventName).add(producer);
+	for (const eventName of eventNames) {
+		getEventProducers(instance, eventName).add(producer);
+	}
 
 	return {
 		async next() {
@@ -6336,7 +6355,11 @@ function iterator(instance, eventName) {
 
 		async return(value) {
 			queue = undefined;
-			getEventProducers(instance, eventName).delete(producer);
+
+			for (const eventName of eventNames) {
+				getEventProducers(instance, eventName).delete(producer);
+			}
+
 			flush();
 
 			return arguments.length > 0 ?
@@ -6422,42 +6445,52 @@ class Emittery {
 		producersMap.set(this, new Map());
 	}
 
-	on(eventName, listener) {
-		assertEventName(eventName);
-		assertListener(listener);
-		getListeners(this, eventName).add(listener);
-
-		if (!isListenerSymbol(eventName)) {
-			this.emit(listenerAdded, {eventName, listener});
-		}
-
-		return this.off.bind(this, eventName, listener);
-	}
-
-	off(eventName, listener) {
-		assertEventName(eventName);
+	on(eventNames, listener) {
 		assertListener(listener);
 
-		if (!isListenerSymbol(eventName)) {
-			this.emit(listenerRemoved, {eventName, listener});
-		}
-
-		getListeners(this, eventName).delete(listener);
-	}
-
-	once(eventName) {
-		return new Promise(resolve => {
+		eventNames = Array.isArray(eventNames) ? eventNames : [eventNames];
+		for (const eventName of eventNames) {
 			assertEventName(eventName);
-			const off = this.on(eventName, data => {
+			getListeners(this, eventName).add(listener);
+
+			if (!isListenerSymbol(eventName)) {
+				this.emit(listenerAdded, {eventName, listener});
+			}
+		}
+
+		return this.off.bind(this, eventNames, listener);
+	}
+
+	off(eventNames, listener) {
+		assertListener(listener);
+
+		eventNames = Array.isArray(eventNames) ? eventNames : [eventNames];
+		for (const eventName of eventNames) {
+			assertEventName(eventName);
+			getListeners(this, eventName).delete(listener);
+
+			if (!isListenerSymbol(eventName)) {
+				this.emit(listenerRemoved, {eventName, listener});
+			}
+		}
+	}
+
+	once(eventNames) {
+		return new Promise(resolve => {
+			const off = this.on(eventNames, data => {
 				off();
 				resolve(data);
 			});
 		});
 	}
 
-	events(eventName) {
-		assertEventName(eventName);
-		return iterator(this, eventName);
+	events(eventNames) {
+		eventNames = Array.isArray(eventNames) ? eventNames : [eventNames];
+		for (const eventName of eventNames) {
+			assertEventName(eventName);
+		}
+
+		return iterator(this, eventNames);
 	}
 
 	async emit(eventName, eventData) {
@@ -6471,7 +6504,7 @@ class Emittery {
 		const staticAnyListeners = isListenerSymbol(eventName) ? [] : [...anyListeners];
 
 		await resolvedPromise;
-		return Promise.all([
+		await Promise.all([
 			...staticListeners.map(async listener => {
 				if (listeners.has(listener)) {
 					return listener(eventData);
@@ -6526,52 +6559,62 @@ class Emittery {
 		anyMap.get(this).delete(listener);
 	}
 
-	clearListeners(eventName) {
-		if (typeof eventName === 'string') {
-			getListeners(this, eventName).clear();
+	clearListeners(eventNames) {
+		eventNames = Array.isArray(eventNames) ? eventNames : [eventNames];
 
-			const producers = getEventProducers(this, eventName);
+		for (const eventName of eventNames) {
+			if (typeof eventName === 'string') {
+				getListeners(this, eventName).clear();
 
-			for (const producer of producers) {
-				producer.finish();
-			}
+				const producers = getEventProducers(this, eventName);
 
-			producers.clear();
-		} else {
-			anyMap.get(this).clear();
-
-			for (const listeners of eventsMap.get(this).values()) {
-				listeners.clear();
-			}
-
-			for (const producers of producersMap.get(this).values()) {
 				for (const producer of producers) {
 					producer.finish();
 				}
 
 				producers.clear();
+			} else {
+				anyMap.get(this).clear();
+
+				for (const listeners of eventsMap.get(this).values()) {
+					listeners.clear();
+				}
+
+				for (const producers of producersMap.get(this).values()) {
+					for (const producer of producers) {
+						producer.finish();
+					}
+
+					producers.clear();
+				}
 			}
 		}
 	}
 
-	listenerCount(eventName) {
-		if (typeof eventName === 'string') {
-			return anyMap.get(this).size + getListeners(this, eventName).size +
-				getEventProducers(this, eventName).size + getEventProducers(this).size;
-		}
+	listenerCount(eventNames) {
+		eventNames = Array.isArray(eventNames) ? eventNames : [eventNames];
+		let count = 0;
 
-		if (typeof eventName !== 'undefined') {
-			assertEventName(eventName);
-		}
+		for (const eventName of eventNames) {
+			if (typeof eventName === 'string') {
+				count += anyMap.get(this).size + getListeners(this, eventName).size +
+					getEventProducers(this, eventName).size + getEventProducers(this).size;
+				continue;
+			}
 
-		let count = anyMap.get(this).size;
+			if (typeof eventName !== 'undefined') {
+				assertEventName(eventName);
+			}
 
-		for (const value of eventsMap.get(this).values()) {
-			count += value.size;
-		}
+			count += anyMap.get(this).size;
 
-		for (const value of producersMap.get(this).values()) {
-			count += value.size;
+			for (const value of eventsMap.get(this).values()) {
+				count += value.size;
+			}
+
+			for (const value of producersMap.get(this).values()) {
+				count += value.size;
+			}
 		}
 
 		return count;
@@ -6651,7 +6694,7 @@ Object.defineProperty(exports, "__esModule", {
 
 const Sentry = __webpack_require__(117);
 
-const channel_1 = __webpack_require__(20);
+const channel_1 = __webpack_require__(19);
 
 Sentry.init({
   // http://getsentry.github.io/sentry-javascript/interfaces/node.nodeoptions.html
@@ -6732,7 +6775,7 @@ module.exports = function(originalModule) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-const events_1 = __webpack_require__(10);
+const events_1 = __webpack_require__(11);
 const promisify_1 = __importDefault(__webpack_require__(86));
 function isAgentBase(v) {
     return Boolean(v) && typeof v.addRequest === 'function';
@@ -7421,8 +7464,8 @@ function plural(ms, msAbs, n, name) {
  * Module dependencies.
  */
 
-const tty = __webpack_require__(40);
-const util = __webpack_require__(4);
+const tty = __webpack_require__(39);
+const util = __webpack_require__(3);
 
 /**
  * This is the Node.js implementation of `debug()`.
@@ -7444,7 +7487,7 @@ exports.colors = [6, 2, 3, 4, 5, 1];
 try {
 	// Optional dependency (as in, doesn't need to be installed, NOT like optionalDependencies in package.json)
 	// eslint-disable-next-line import/no-extraneous-dependencies
-	const supportsColor = __webpack_require__(42);
+	const supportsColor = __webpack_require__(41);
 
 	if (supportsColor && (supportsColor.stderr || supportsColor).level >= 2) {
 		exports.colors = [
@@ -7699,7 +7742,7 @@ module.exports = getPrototype;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseAssignValue = __webpack_require__(94),
-    eq = __webpack_require__(46);
+    eq = __webpack_require__(45);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -7763,7 +7806,7 @@ module.exports = baseAssignValue;
 /* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseRest = __webpack_require__(59),
+var baseRest = __webpack_require__(57),
     isIterateeCall = __webpack_require__(70);
 
 /**
@@ -7904,7 +7947,7 @@ module.exports = ListCache;
 /* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var eq = __webpack_require__(46);
+var eq = __webpack_require__(45);
 
 /**
  * Gets the index at which the `key` is found in `array` of key-value pairs.
@@ -7931,7 +7974,7 @@ module.exports = assocIndexOf;
 /* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getNative = __webpack_require__(45);
+var getNative = __webpack_require__(44);
 
 /* Built-in method references that are verified to be native. */
 var nativeCreate = getNative(Object, 'create');
@@ -7967,7 +8010,7 @@ module.exports = getMapData;
 /* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isArray = __webpack_require__(8),
+var isArray = __webpack_require__(7),
     isKey = __webpack_require__(140),
     stringToPath = __webpack_require__(306),
     toString = __webpack_require__(103);
@@ -8064,23 +8107,23 @@ module.exports = require("stream");
 
 // Builder
 // -------
-const assert = __webpack_require__(30);
-const inherits = __webpack_require__(31);
-const { EventEmitter } = __webpack_require__(10);
+const assert = __webpack_require__(32);
+const inherits = __webpack_require__(29);
+const { EventEmitter } = __webpack_require__(11);
 
-const Raw = __webpack_require__(43);
-const helpers = __webpack_require__(34);
+const Raw = __webpack_require__(42);
+const helpers = __webpack_require__(33);
 const JoinClause = __webpack_require__(195);
 const assign = __webpack_require__(132);
 const clone = __webpack_require__(185);
 const each = __webpack_require__(196);
 const isBoolean = __webpack_require__(197);
 const isEmpty = __webpack_require__(78);
-const isFunction = __webpack_require__(32);
+const isFunction = __webpack_require__(30);
 const isNumber = __webpack_require__(133);
-const isObject = __webpack_require__(13);
+const isObject = __webpack_require__(12);
 const isPlainObject = __webpack_require__(68);
-const isString = __webpack_require__(39);
+const isString = __webpack_require__(38);
 const last = __webpack_require__(198);
 const reject = __webpack_require__(336);
 const tail = __webpack_require__(107);
@@ -9395,11 +9438,11 @@ module.exports = tail;
 /* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(44),
+var Symbol = __webpack_require__(43),
     copyArray = __webpack_require__(76),
-    getTag = __webpack_require__(61),
-    isArrayLike = __webpack_require__(27),
-    isString = __webpack_require__(39),
+    getTag = __webpack_require__(59),
+    isArrayLike = __webpack_require__(26),
+    isString = __webpack_require__(38),
     iteratorToArray = __webpack_require__(338),
     mapToArray = __webpack_require__(174),
     setToArray = __webpack_require__(175),
@@ -9459,10 +9502,10 @@ module.exports = toArray;
 /* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const fs = __webpack_require__(5);
-const os = __webpack_require__(21);
-const path = __webpack_require__(11);
-const { promisify } = __webpack_require__(4);
+const fs = __webpack_require__(4);
+const os = __webpack_require__(20);
+const path = __webpack_require__(9);
+const { promisify } = __webpack_require__(3);
 const mkdirp = __webpack_require__(370);
 
 // Promisify common fs functions.
@@ -9556,7 +9599,7 @@ module.exports = toInteger;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseCreate = __webpack_require__(77),
-    isObject = __webpack_require__(13);
+    isObject = __webpack_require__(12);
 
 /**
  * Creates a function that produces an instance of `Ctor` regardless of
@@ -9643,7 +9686,7 @@ module.exports = replaceHolders;
  * README.md file in the root directory of this source tree.
  */
 
-const crypto = __webpack_require__(33)
+const crypto = __webpack_require__(31)
 
 const defaults = __webpack_require__(115)
 
@@ -10046,8 +10089,225 @@ __webpack_require__.d(esm_integrations_namespaceObject, "OnUnhandledRejection", 
 __webpack_require__.d(esm_integrations_namespaceObject, "LinkedErrors", function() { return linkederrors_LinkedErrors; });
 __webpack_require__.d(esm_integrations_namespaceObject, "Modules", function() { return modules_Modules; });
 
-// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/tslib/tslib.es6.js
-var tslib_es6 = __webpack_require__(0);
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/node_modules/tslib/tslib.es6.js
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+/* global Reflect, Promise */
+
+var extendStatics = function(d, b) {
+    extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return extendStatics(d, b);
+};
+
+function __extends(d, b) {
+    extendStatics(d, b);
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+var __assign = function() {
+    __assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
+    }
+    return __assign.apply(this, arguments);
+}
+
+function __rest(s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+}
+
+function __decorate(decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+
+function __param(paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+}
+
+function __metadata(metadataKey, metadataValue) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
+}
+
+function __awaiter(thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+}
+
+function __generator(thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+}
+
+function __createBinding(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}
+
+function __exportStar(m, exports) {
+    for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+
+function __values(o) {
+    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+    if (m) return m.call(o);
+    if (o && typeof o.length === "number") return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+}
+
+function __read(o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+}
+
+function __spread() {
+    for (var ar = [], i = 0; i < arguments.length; i++)
+        ar = ar.concat(__read(arguments[i]));
+    return ar;
+}
+
+function __spreadArrays() {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
+
+function __await(v) {
+    return this instanceof __await ? (this.v = v, this) : new __await(v);
+}
+
+function __asyncGenerator(thisArg, _arguments, generator) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var g = generator.apply(thisArg, _arguments || []), i, q = [];
+    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
+    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
+    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
+    function step(r) { r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
+    function fulfill(value) { resume("next", value); }
+    function reject(value) { resume("throw", value); }
+    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
+}
+
+function __asyncDelegator(o) {
+    var i, p;
+    return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
+    function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: __await(o[n](v)), done: n === "return" } : f ? f(v) : v; } : f; }
+}
+
+function __asyncValues(o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+}
+
+function __makeTemplateObject(cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
+
+function __importStar(mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result.default = mod;
+    return result;
+}
+
+function __importDefault(mod) {
+    return (mod && mod.__esModule) ? mod : { default: mod };
+}
+
+function __classPrivateFieldGet(receiver, privateMap) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to get private field on non-instance");
+    }
+    return privateMap.get(receiver);
+}
+
+function __classPrivateFieldSet(receiver, privateMap, value) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to set private field on non-instance");
+    }
+    privateMap.set(receiver, value);
+    return value;
+}
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/types/esm/severity.js
 /** JSDoc */
@@ -10144,8 +10404,228 @@ var Status;
     Status.fromHttpCode = fromHttpCode;
 })(Status || (Status = {}));
 //# sourceMappingURL=status.js.map
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/hub/node_modules/tslib/tslib.es6.js
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+/* global Reflect, Promise */
+
+var tslib_es6_extendStatics = function(d, b) {
+    tslib_es6_extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return tslib_es6_extendStatics(d, b);
+};
+
+function tslib_es6_extends(d, b) {
+    tslib_es6_extendStatics(d, b);
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+var tslib_es6_assign = function() {
+    tslib_es6_assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
+    }
+    return tslib_es6_assign.apply(this, arguments);
+}
+
+function tslib_es6_rest(s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+}
+
+function tslib_es6_decorate(decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+
+function tslib_es6_param(paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+}
+
+function tslib_es6_metadata(metadataKey, metadataValue) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
+}
+
+function tslib_es6_awaiter(thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+}
+
+function tslib_es6_generator(thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+}
+
+function tslib_es6_createBinding(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}
+
+function tslib_es6_exportStar(m, exports) {
+    for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+
+function tslib_es6_values(o) {
+    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+    if (m) return m.call(o);
+    if (o && typeof o.length === "number") return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+}
+
+function tslib_es6_read(o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+}
+
+function tslib_es6_spread() {
+    for (var ar = [], i = 0; i < arguments.length; i++)
+        ar = ar.concat(tslib_es6_read(arguments[i]));
+    return ar;
+}
+
+function tslib_es6_spreadArrays() {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
+
+function tslib_es6_await(v) {
+    return this instanceof tslib_es6_await ? (this.v = v, this) : new tslib_es6_await(v);
+}
+
+function tslib_es6_asyncGenerator(thisArg, _arguments, generator) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var g = generator.apply(thisArg, _arguments || []), i, q = [];
+    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
+    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
+    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
+    function step(r) { r.value instanceof tslib_es6_await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
+    function fulfill(value) { resume("next", value); }
+    function reject(value) { resume("throw", value); }
+    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
+}
+
+function tslib_es6_asyncDelegator(o) {
+    var i, p;
+    return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
+    function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: tslib_es6_await(o[n](v)), done: n === "return" } : f ? f(v) : v; } : f; }
+}
+
+function tslib_es6_asyncValues(o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof tslib_es6_values === "function" ? tslib_es6_values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+}
+
+function tslib_es6_makeTemplateObject(cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
+
+function tslib_es6_importStar(mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result.default = mod;
+    return result;
+}
+
+function tslib_es6_importDefault(mod) {
+    return (mod && mod.__esModule) ? mod : { default: mod };
+}
+
+function tslib_es6_classPrivateFieldGet(receiver, privateMap) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to get private field on non-instance");
+    }
+    return privateMap.get(receiver);
+}
+
+function tslib_es6_classPrivateFieldSet(receiver, privateMap, value) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to set private field on non-instance");
+    }
+    privateMap.set(receiver, value);
+    return value;
+}
+
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/is.js
-var is = __webpack_require__(3);
+var is = __webpack_require__(2);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/syncpromise.js
 
@@ -10344,7 +10824,7 @@ var syncpromise_SyncPromise = /** @class */ (function () {
 
 //# sourceMappingURL=syncpromise.js.map
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/misc.js
-var misc = __webpack_require__(6);
+var misc = __webpack_require__(5);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/hub/esm/scope.js
 
@@ -10414,7 +10894,7 @@ var scope_Scope = /** @class */ (function () {
                 resolve(event);
             }
             else {
-                var result = processor(tslib_es6["__assign"]({}, event), hint);
+                var result = processor(tslib_es6_assign({}, event), hint);
                 if (Object(is["j" /* isThenable */])(result)) {
                     result
                         .then(function (final) { return _this._notifyEventProcessors(processors, final, hint, index + 1).then(resolve); })
@@ -10440,7 +10920,7 @@ var scope_Scope = /** @class */ (function () {
      * @inheritDoc
      */
     Scope.prototype.setTags = function (tags) {
-        this._tags = tslib_es6["__assign"]({}, this._tags, tags);
+        this._tags = tslib_es6_assign({}, this._tags, tags);
         this._notifyScopeListeners();
         return this;
     };
@@ -10449,7 +10929,7 @@ var scope_Scope = /** @class */ (function () {
      */
     Scope.prototype.setTag = function (key, value) {
         var _a;
-        this._tags = tslib_es6["__assign"]({}, this._tags, (_a = {}, _a[key] = value, _a));
+        this._tags = tslib_es6_assign({}, this._tags, (_a = {}, _a[key] = value, _a));
         this._notifyScopeListeners();
         return this;
     };
@@ -10457,7 +10937,7 @@ var scope_Scope = /** @class */ (function () {
      * @inheritDoc
      */
     Scope.prototype.setExtras = function (extras) {
-        this._extra = tslib_es6["__assign"]({}, this._extra, extras);
+        this._extra = tslib_es6_assign({}, this._extra, extras);
         this._notifyScopeListeners();
         return this;
     };
@@ -10466,7 +10946,7 @@ var scope_Scope = /** @class */ (function () {
      */
     Scope.prototype.setExtra = function (key, extra) {
         var _a;
-        this._extra = tslib_es6["__assign"]({}, this._extra, (_a = {}, _a[key] = extra, _a));
+        this._extra = tslib_es6_assign({}, this._extra, (_a = {}, _a[key] = extra, _a));
         this._notifyScopeListeners();
         return this;
     };
@@ -10502,7 +10982,7 @@ var scope_Scope = /** @class */ (function () {
      */
     Scope.prototype.setContext = function (key, context) {
         var _a;
-        this._context = tslib_es6["__assign"]({}, this._context, (_a = {}, _a[key] = context, _a));
+        this._context = tslib_es6_assign({}, this._context, (_a = {}, _a[key] = context, _a));
         this._notifyScopeListeners();
         return this;
     };
@@ -10528,16 +11008,16 @@ var scope_Scope = /** @class */ (function () {
     Scope.clone = function (scope) {
         var newScope = new Scope();
         if (scope) {
-            newScope._breadcrumbs = tslib_es6["__spread"](scope._breadcrumbs);
-            newScope._tags = tslib_es6["__assign"]({}, scope._tags);
-            newScope._extra = tslib_es6["__assign"]({}, scope._extra);
-            newScope._context = tslib_es6["__assign"]({}, scope._context);
+            newScope._breadcrumbs = tslib_es6_spread(scope._breadcrumbs);
+            newScope._tags = tslib_es6_assign({}, scope._tags);
+            newScope._extra = tslib_es6_assign({}, scope._extra);
+            newScope._context = tslib_es6_assign({}, scope._context);
             newScope._user = scope._user;
             newScope._level = scope._level;
             newScope._span = scope._span;
             newScope._transaction = scope._transaction;
             newScope._fingerprint = scope._fingerprint;
-            newScope._eventProcessors = tslib_es6["__spread"](scope._eventProcessors);
+            newScope._eventProcessors = tslib_es6_spread(scope._eventProcessors);
         }
         return newScope;
     };
@@ -10561,11 +11041,11 @@ var scope_Scope = /** @class */ (function () {
      * @inheritDoc
      */
     Scope.prototype.addBreadcrumb = function (breadcrumb, maxBreadcrumbs) {
-        var mergedBreadcrumb = tslib_es6["__assign"]({ timestamp: Object(misc["l" /* timestampWithMs */])() }, breadcrumb);
+        var mergedBreadcrumb = tslib_es6_assign({ timestamp: Object(misc["l" /* timestampWithMs */])() }, breadcrumb);
         this._breadcrumbs =
             maxBreadcrumbs !== undefined && maxBreadcrumbs >= 0
-                ? tslib_es6["__spread"](this._breadcrumbs, [mergedBreadcrumb]).slice(-maxBreadcrumbs)
-                : tslib_es6["__spread"](this._breadcrumbs, [mergedBreadcrumb]);
+                ? tslib_es6_spread(this._breadcrumbs, [mergedBreadcrumb]).slice(-maxBreadcrumbs)
+                : tslib_es6_spread(this._breadcrumbs, [mergedBreadcrumb]);
         this._notifyScopeListeners();
         return this;
     };
@@ -10607,16 +11087,16 @@ var scope_Scope = /** @class */ (function () {
      */
     Scope.prototype.applyToEvent = function (event, hint) {
         if (this._extra && Object.keys(this._extra).length) {
-            event.extra = tslib_es6["__assign"]({}, this._extra, event.extra);
+            event.extra = tslib_es6_assign({}, this._extra, event.extra);
         }
         if (this._tags && Object.keys(this._tags).length) {
-            event.tags = tslib_es6["__assign"]({}, this._tags, event.tags);
+            event.tags = tslib_es6_assign({}, this._tags, event.tags);
         }
         if (this._user && Object.keys(this._user).length) {
-            event.user = tslib_es6["__assign"]({}, this._user, event.user);
+            event.user = tslib_es6_assign({}, this._user, event.user);
         }
         if (this._context && Object.keys(this._context).length) {
-            event.contexts = tslib_es6["__assign"]({}, this._context, event.contexts);
+            event.contexts = tslib_es6_assign({}, this._context, event.contexts);
         }
         if (this._level) {
             event.level = this._level;
@@ -10625,12 +11105,12 @@ var scope_Scope = /** @class */ (function () {
             event.transaction = this._transaction;
         }
         if (this._span) {
-            event.contexts = tslib_es6["__assign"]({ trace: this._span.getTraceContext() }, event.contexts);
+            event.contexts = tslib_es6_assign({ trace: this._span.getTraceContext() }, event.contexts);
         }
         this._applyFingerprint(event);
-        event.breadcrumbs = tslib_es6["__spread"]((event.breadcrumbs || []), this._breadcrumbs);
+        event.breadcrumbs = tslib_es6_spread((event.breadcrumbs || []), this._breadcrumbs);
         event.breadcrumbs = event.breadcrumbs.length > 0 ? event.breadcrumbs : undefined;
-        return this._notifyEventProcessors(tslib_es6["__spread"](getGlobalEventProcessors(), this._eventProcessors), event, hint);
+        return this._notifyEventProcessors(tslib_es6_spread(getGlobalEventProcessors(), this._eventProcessors), event, hint);
     };
     return Scope;
 }());
@@ -10652,6 +11132,226 @@ function scope_addGlobalEventProcessor(callback) {
     getGlobalEventProcessors().push(callback);
 }
 //# sourceMappingURL=scope.js.map
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/minimal/node_modules/tslib/tslib.es6.js
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+/* global Reflect, Promise */
+
+var tslib_tslib_es6_extendStatics = function(d, b) {
+    tslib_tslib_es6_extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return tslib_tslib_es6_extendStatics(d, b);
+};
+
+function tslib_tslib_es6_extends(d, b) {
+    tslib_tslib_es6_extendStatics(d, b);
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+var tslib_tslib_es6_assign = function() {
+    tslib_tslib_es6_assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
+    }
+    return tslib_tslib_es6_assign.apply(this, arguments);
+}
+
+function tslib_tslib_es6_rest(s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+}
+
+function tslib_tslib_es6_decorate(decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+
+function tslib_tslib_es6_param(paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+}
+
+function tslib_tslib_es6_metadata(metadataKey, metadataValue) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
+}
+
+function tslib_tslib_es6_awaiter(thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+}
+
+function tslib_tslib_es6_generator(thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+}
+
+function tslib_tslib_es6_createBinding(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}
+
+function tslib_tslib_es6_exportStar(m, exports) {
+    for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+
+function tslib_tslib_es6_values(o) {
+    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+    if (m) return m.call(o);
+    if (o && typeof o.length === "number") return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+}
+
+function tslib_tslib_es6_read(o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+}
+
+function tslib_tslib_es6_spread() {
+    for (var ar = [], i = 0; i < arguments.length; i++)
+        ar = ar.concat(tslib_tslib_es6_read(arguments[i]));
+    return ar;
+}
+
+function tslib_tslib_es6_spreadArrays() {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
+
+function tslib_tslib_es6_await(v) {
+    return this instanceof tslib_tslib_es6_await ? (this.v = v, this) : new tslib_tslib_es6_await(v);
+}
+
+function tslib_tslib_es6_asyncGenerator(thisArg, _arguments, generator) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var g = generator.apply(thisArg, _arguments || []), i, q = [];
+    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
+    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
+    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
+    function step(r) { r.value instanceof tslib_tslib_es6_await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
+    function fulfill(value) { resume("next", value); }
+    function reject(value) { resume("throw", value); }
+    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
+}
+
+function tslib_tslib_es6_asyncDelegator(o) {
+    var i, p;
+    return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
+    function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: tslib_tslib_es6_await(o[n](v)), done: n === "return" } : f ? f(v) : v; } : f; }
+}
+
+function tslib_tslib_es6_asyncValues(o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof tslib_tslib_es6_values === "function" ? tslib_tslib_es6_values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+}
+
+function tslib_tslib_es6_makeTemplateObject(cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
+
+function tslib_tslib_es6_importStar(mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result.default = mod;
+    return result;
+}
+
+function tslib_tslib_es6_importDefault(mod) {
+    return (mod && mod.__esModule) ? mod : { default: mod };
+}
+
+function tslib_tslib_es6_classPrivateFieldGet(receiver, privateMap) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to get private field on non-instance");
+    }
+    return privateMap.get(receiver);
+}
+
+function tslib_tslib_es6_classPrivateFieldSet(receiver, privateMap, value) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to set private field on non-instance");
+    }
+    privateMap.set(receiver, value);
+    return value;
+}
+
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/logger.js
 
 // TODO: Implement different loggers for different environments
@@ -10775,7 +11475,7 @@ var hub_Hub = /** @class */ (function () {
         }
         var top = this.getStackTop();
         if (top && top.client && top.client[method]) {
-            (_a = top.client)[method].apply(_a, tslib_es6["__spread"](args, [top.scope]));
+            (_a = top.client)[method].apply(_a, tslib_es6_spread(args, [top.scope]));
         }
     };
     /**
@@ -10867,7 +11567,7 @@ var hub_Hub = /** @class */ (function () {
                 syntheticException: syntheticException,
             };
         }
-        this._invokeClient('captureException', exception, tslib_es6["__assign"]({}, finalHint, { event_id: eventId }));
+        this._invokeClient('captureException', exception, tslib_es6_assign({}, finalHint, { event_id: eventId }));
         return eventId;
     };
     /**
@@ -10893,7 +11593,7 @@ var hub_Hub = /** @class */ (function () {
                 syntheticException: syntheticException,
             };
         }
-        this._invokeClient('captureMessage', message, level, tslib_es6["__assign"]({}, finalHint, { event_id: eventId }));
+        this._invokeClient('captureMessage', message, level, tslib_es6_assign({}, finalHint, { event_id: eventId }));
         return eventId;
     };
     /**
@@ -10901,7 +11601,7 @@ var hub_Hub = /** @class */ (function () {
      */
     Hub.prototype.captureEvent = function (event, hint) {
         var eventId = (this._lastEventId = Object(misc["m" /* uuid4 */])());
-        this._invokeClient('captureEvent', event, tslib_es6["__assign"]({}, hint, { event_id: eventId }));
+        this._invokeClient('captureEvent', event, tslib_es6_assign({}, hint, { event_id: eventId }));
         return eventId;
     };
     /**
@@ -10923,7 +11623,7 @@ var hub_Hub = /** @class */ (function () {
             return;
         }
         var timestamp = Object(misc["l" /* timestampWithMs */])();
-        var mergedBreadcrumb = tslib_es6["__assign"]({ timestamp: timestamp }, breadcrumb);
+        var mergedBreadcrumb = tslib_es6_assign({ timestamp: timestamp }, breadcrumb);
         var finalBreadcrumb = beforeBreadcrumb
             ? Object(misc["d" /* consoleSandbox */])(function () { return beforeBreadcrumb(mergedBreadcrumb, hint); })
             : mergedBreadcrumb;
@@ -11189,7 +11889,7 @@ function callOnHub(method) {
     var hub = hub_getCurrentHub();
     if (hub && hub[method]) {
         // tslint:disable-next-line:no-unsafe-any
-        return hub[method].apply(hub, tslib_es6["__spread"](args));
+        return hub[method].apply(hub, tslib_tslib_es6_spread(args));
     }
     throw new Error("No hub defined or " + method + " was not found on the hub, please open a bug report.");
 }
@@ -11336,9 +12036,449 @@ function _callOnClient(method) {
     for (var _i = 1; _i < arguments.length; _i++) {
         args[_i - 1] = arguments[_i];
     }
-    callOnHub.apply(void 0, tslib_es6["__spread"](['_invokeClient', method], args));
+    callOnHub.apply(void 0, tslib_tslib_es6_spread(['_invokeClient', method], args));
 }
 //# sourceMappingURL=index.js.map
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/core/node_modules/tslib/tslib.es6.js
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+/* global Reflect, Promise */
+
+var node_modules_tslib_tslib_es6_extendStatics = function(d, b) {
+    node_modules_tslib_tslib_es6_extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return node_modules_tslib_tslib_es6_extendStatics(d, b);
+};
+
+function node_modules_tslib_tslib_es6_extends(d, b) {
+    node_modules_tslib_tslib_es6_extendStatics(d, b);
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+var node_modules_tslib_tslib_es6_assign = function() {
+    node_modules_tslib_tslib_es6_assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
+    }
+    return node_modules_tslib_tslib_es6_assign.apply(this, arguments);
+}
+
+function node_modules_tslib_tslib_es6_rest(s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+}
+
+function node_modules_tslib_tslib_es6_decorate(decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+
+function node_modules_tslib_tslib_es6_param(paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+}
+
+function node_modules_tslib_tslib_es6_metadata(metadataKey, metadataValue) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
+}
+
+function node_modules_tslib_tslib_es6_awaiter(thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+}
+
+function node_modules_tslib_tslib_es6_generator(thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+}
+
+function node_modules_tslib_tslib_es6_createBinding(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}
+
+function node_modules_tslib_tslib_es6_exportStar(m, exports) {
+    for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+
+function node_modules_tslib_tslib_es6_values(o) {
+    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+    if (m) return m.call(o);
+    if (o && typeof o.length === "number") return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+}
+
+function node_modules_tslib_tslib_es6_read(o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+}
+
+function node_modules_tslib_tslib_es6_spread() {
+    for (var ar = [], i = 0; i < arguments.length; i++)
+        ar = ar.concat(node_modules_tslib_tslib_es6_read(arguments[i]));
+    return ar;
+}
+
+function node_modules_tslib_tslib_es6_spreadArrays() {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
+
+function node_modules_tslib_tslib_es6_await(v) {
+    return this instanceof node_modules_tslib_tslib_es6_await ? (this.v = v, this) : new node_modules_tslib_tslib_es6_await(v);
+}
+
+function node_modules_tslib_tslib_es6_asyncGenerator(thisArg, _arguments, generator) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var g = generator.apply(thisArg, _arguments || []), i, q = [];
+    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
+    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
+    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
+    function step(r) { r.value instanceof node_modules_tslib_tslib_es6_await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
+    function fulfill(value) { resume("next", value); }
+    function reject(value) { resume("throw", value); }
+    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
+}
+
+function node_modules_tslib_tslib_es6_asyncDelegator(o) {
+    var i, p;
+    return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
+    function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: node_modules_tslib_tslib_es6_await(o[n](v)), done: n === "return" } : f ? f(v) : v; } : f; }
+}
+
+function node_modules_tslib_tslib_es6_asyncValues(o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof node_modules_tslib_tslib_es6_values === "function" ? node_modules_tslib_tslib_es6_values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+}
+
+function node_modules_tslib_tslib_es6_makeTemplateObject(cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
+
+function node_modules_tslib_tslib_es6_importStar(mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result.default = mod;
+    return result;
+}
+
+function node_modules_tslib_tslib_es6_importDefault(mod) {
+    return (mod && mod.__esModule) ? mod : { default: mod };
+}
+
+function node_modules_tslib_tslib_es6_classPrivateFieldGet(receiver, privateMap) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to get private field on non-instance");
+    }
+    return privateMap.get(receiver);
+}
+
+function node_modules_tslib_tslib_es6_classPrivateFieldSet(receiver, privateMap, value) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to set private field on non-instance");
+    }
+    privateMap.set(receiver, value);
+    return value;
+}
+
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/node_modules/tslib/tslib.es6.js
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+/* global Reflect, Promise */
+
+var utils_node_modules_tslib_tslib_es6_extendStatics = function(d, b) {
+    utils_node_modules_tslib_tslib_es6_extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return utils_node_modules_tslib_tslib_es6_extendStatics(d, b);
+};
+
+function utils_node_modules_tslib_tslib_es6_extends(d, b) {
+    utils_node_modules_tslib_tslib_es6_extendStatics(d, b);
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+var utils_node_modules_tslib_tslib_es6_assign = function() {
+    utils_node_modules_tslib_tslib_es6_assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
+    }
+    return utils_node_modules_tslib_tslib_es6_assign.apply(this, arguments);
+}
+
+function utils_node_modules_tslib_tslib_es6_rest(s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+}
+
+function utils_node_modules_tslib_tslib_es6_decorate(decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+
+function utils_node_modules_tslib_tslib_es6_param(paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+}
+
+function utils_node_modules_tslib_tslib_es6_metadata(metadataKey, metadataValue) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
+}
+
+function utils_node_modules_tslib_tslib_es6_awaiter(thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+}
+
+function utils_node_modules_tslib_tslib_es6_generator(thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+}
+
+function utils_node_modules_tslib_tslib_es6_createBinding(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}
+
+function utils_node_modules_tslib_tslib_es6_exportStar(m, exports) {
+    for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+
+function utils_node_modules_tslib_tslib_es6_values(o) {
+    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+    if (m) return m.call(o);
+    if (o && typeof o.length === "number") return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+}
+
+function utils_node_modules_tslib_tslib_es6_read(o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+}
+
+function utils_node_modules_tslib_tslib_es6_spread() {
+    for (var ar = [], i = 0; i < arguments.length; i++)
+        ar = ar.concat(utils_node_modules_tslib_tslib_es6_read(arguments[i]));
+    return ar;
+}
+
+function utils_node_modules_tslib_tslib_es6_spreadArrays() {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
+
+function utils_node_modules_tslib_tslib_es6_await(v) {
+    return this instanceof utils_node_modules_tslib_tslib_es6_await ? (this.v = v, this) : new utils_node_modules_tslib_tslib_es6_await(v);
+}
+
+function utils_node_modules_tslib_tslib_es6_asyncGenerator(thisArg, _arguments, generator) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var g = generator.apply(thisArg, _arguments || []), i, q = [];
+    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
+    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
+    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
+    function step(r) { r.value instanceof utils_node_modules_tslib_tslib_es6_await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
+    function fulfill(value) { resume("next", value); }
+    function reject(value) { resume("throw", value); }
+    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
+}
+
+function utils_node_modules_tslib_tslib_es6_asyncDelegator(o) {
+    var i, p;
+    return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
+    function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: utils_node_modules_tslib_tslib_es6_await(o[n](v)), done: n === "return" } : f ? f(v) : v; } : f; }
+}
+
+function utils_node_modules_tslib_tslib_es6_asyncValues(o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof utils_node_modules_tslib_tslib_es6_values === "function" ? utils_node_modules_tslib_tslib_es6_values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+}
+
+function utils_node_modules_tslib_tslib_es6_makeTemplateObject(cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
+
+function utils_node_modules_tslib_tslib_es6_importStar(mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result.default = mod;
+    return result;
+}
+
+function utils_node_modules_tslib_tslib_es6_importDefault(mod) {
+    return (mod && mod.__esModule) ? mod : { default: mod };
+}
+
+function utils_node_modules_tslib_tslib_es6_classPrivateFieldGet(receiver, privateMap) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to get private field on non-instance");
+    }
+    return privateMap.get(receiver);
+}
+
+function utils_node_modules_tslib_tslib_es6_classPrivateFieldSet(receiver, privateMap, value) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to set private field on non-instance");
+    }
+    privateMap.set(receiver, value);
+    return value;
+}
+
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/polyfill.js
 var setPrototypeOf = Object.setPrototypeOf || ({ __proto__: [] } instanceof Array ? setProtoOf : mixinProperties); // tslint:disable-line:no-unbound-method
 /**
@@ -11367,7 +12507,7 @@ function mixinProperties(obj, proto) {
 
 /** An error emitted by Sentry SDKs and related utilities. */
 var error_SentryError = /** @class */ (function (_super) {
-    tslib_es6["__extends"](SentryError, _super);
+    utils_node_modules_tslib_tslib_es6_extends(SentryError, _super);
     function SentryError(message) {
         var _newTarget = this.constructor;
         var _this = _super.call(this, message) || this;
@@ -11422,7 +12562,7 @@ var dsn_Dsn = /** @class */ (function () {
         if (!match) {
             throw new error_SentryError(ERROR_MESSAGE);
         }
-        var _a = tslib_es6["__read"](match.slice(1), 6), protocol = _a[0], user = _a[1], _b = _a[2], pass = _b === void 0 ? '' : _b, host = _a[3], _c = _a[4], port = _c === void 0 ? '' : _c, lastPath = _a[5];
+        var _a = utils_node_modules_tslib_tslib_es6_read(match.slice(1), 6), protocol = _a[0], user = _a[1], _b = _a[2], pass = _b === void 0 ? '' : _b, host = _a[3], _c = _a[4], port = _c === void 0 ? '' : _c, lastPath = _a[5];
         var path = '';
         var projectId = lastPath;
         var split = projectId.split('/');
@@ -11462,7 +12602,7 @@ var dsn_Dsn = /** @class */ (function () {
 
 //# sourceMappingURL=dsn.js.map
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/string.js
-var string = __webpack_require__(12);
+var string = __webpack_require__(10);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/memo.js
 // tslint:disable:no-unsafe-any
@@ -11814,7 +12954,7 @@ function dropUndefinedKeys(val) {
         var obj = val;
         var rv = {};
         try {
-            for (var _b = tslib_es6["__values"](Object.keys(obj)), _c = _b.next(); !_c.done; _c = _b.next()) {
+            for (var _b = utils_node_modules_tslib_tslib_es6_values(Object.keys(obj)), _c = _b.next(); !_c.done; _c = _b.next()) {
                 var key = _c.value;
                 if (typeof obj[key] !== 'undefined') {
                     rv[key] = dropUndefinedKeys(obj[key]);
@@ -11843,7 +12983,7 @@ function dropUndefinedKeys(val) {
 var installedIntegrations = [];
 /** Gets integration to install */
 function getIntegrationsToSetup(options) {
-    var defaultIntegrations = (options.defaultIntegrations && tslib_es6["__spread"](options.defaultIntegrations)) || [];
+    var defaultIntegrations = (options.defaultIntegrations && node_modules_tslib_tslib_es6_spread(options.defaultIntegrations)) || [];
     var userIntegrations = options.integrations;
     var integrations = [];
     if (Array.isArray(userIntegrations)) {
@@ -11870,13 +13010,13 @@ function getIntegrationsToSetup(options) {
         integrations = Array.isArray(integrations) ? integrations : [integrations];
     }
     else {
-        integrations = tslib_es6["__spread"](defaultIntegrations);
+        integrations = node_modules_tslib_tslib_es6_spread(defaultIntegrations);
     }
     // Make sure that if present, `Debug` integration will always run last
     var integrationsNames = integrations.map(function (i) { return i.name; });
     var alwaysLastToRun = 'Debug';
     if (integrationsNames.indexOf(alwaysLastToRun) !== -1) {
-        integrations.push.apply(integrations, tslib_es6["__spread"](integrations.splice(integrationsNames.indexOf(alwaysLastToRun), 1)));
+        integrations.push.apply(integrations, node_modules_tslib_tslib_es6_spread(integrations.splice(integrationsNames.indexOf(alwaysLastToRun), 1)));
     }
     return integrations;
 }
@@ -12128,7 +13268,7 @@ var baseclient_BaseClient = /** @class */ (function () {
     BaseClient.prototype._prepareEvent = function (event, scope, hint) {
         var _this = this;
         var _a = this.getOptions(), environment = _a.environment, release = _a.release, dist = _a.dist, _b = _a.maxValueLength, maxValueLength = _b === void 0 ? 250 : _b, _c = _a.normalizeDepth, normalizeDepth = _c === void 0 ? 3 : _c;
-        var prepared = tslib_es6["__assign"]({}, event);
+        var prepared = node_modules_tslib_tslib_es6_assign({}, event);
         if (prepared.environment === undefined && environment !== undefined) {
             prepared.environment = environment;
         }
@@ -12184,8 +13324,8 @@ var baseclient_BaseClient = /** @class */ (function () {
             return null;
         }
         // tslint:disable:no-unsafe-any
-        return tslib_es6["__assign"]({}, event, (event.breadcrumbs && {
-            breadcrumbs: event.breadcrumbs.map(function (b) { return (tslib_es6["__assign"]({}, b, (b.data && {
+        return node_modules_tslib_tslib_es6_assign({}, event, (event.breadcrumbs && {
+            breadcrumbs: event.breadcrumbs.map(function (b) { return (node_modules_tslib_tslib_es6_assign({}, b, (b.data && {
                 data: normalize(b.data, depth),
             }))); }),
         }), (event.user && {
@@ -12536,7 +13676,7 @@ function basename(path, ext) {
 }
 //# sourceMappingURL=path.js.map
 // EXTERNAL MODULE: external "fs"
-var external_fs_ = __webpack_require__(5);
+var external_fs_ = __webpack_require__(4);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/lru_map/lru.js
 var lru = __webpack_require__(51);
@@ -13051,7 +14191,7 @@ var base_BaseTransport = /** @class */ (function () {
     }
     /** Returns a build request option object used by request */
     BaseTransport.prototype._getRequestOptions = function () {
-        var headers = tslib_es6["__assign"]({}, this._api.getRequestHeaders(SDK_NAME, SDK_VERSION), this.options.headers);
+        var headers = __assign({}, this._api.getRequestHeaders(SDK_NAME, SDK_VERSION), this.options.headers);
         var dsn = this._api.getDsn();
         var options = {
             agent: this.client,
@@ -13069,9 +14209,9 @@ var base_BaseTransport = /** @class */ (function () {
     };
     /** JSDoc */
     BaseTransport.prototype._sendWithModule = function (httpModule, event) {
-        return tslib_es6["__awaiter"](this, void 0, void 0, function () {
+        return __awaiter(this, void 0, void 0, function () {
             var _this = this;
-            return tslib_es6["__generator"](this, function (_a) {
+            return __generator(this, function (_a) {
                 if (new Date(Date.now()) < this._disabledUntil) {
                     return [2 /*return*/, Promise.reject(new error_SentryError("Transport locked till " + this._disabledUntil + " due to too many requests."))];
                 }
@@ -13131,7 +14271,7 @@ var base_BaseTransport = /** @class */ (function () {
 
 //# sourceMappingURL=base.js.map
 // EXTERNAL MODULE: external "http"
-var external_http_ = __webpack_require__(17);
+var external_http_ = __webpack_require__(16);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/http.js
 
@@ -13140,7 +14280,7 @@ var external_http_ = __webpack_require__(17);
 
 /** Node http module transport */
 var http_HTTPTransport = /** @class */ (function (_super) {
-    tslib_es6["__extends"](HTTPTransport, _super);
+    __extends(HTTPTransport, _super);
     /** Create a new instance and set this.agent */
     function HTTPTransport(options) {
         var _this = _super.call(this, options) || this;
@@ -13166,7 +14306,7 @@ var http_HTTPTransport = /** @class */ (function (_super) {
 
 //# sourceMappingURL=http.js.map
 // EXTERNAL MODULE: external "https"
-var external_https_ = __webpack_require__(24);
+var external_https_ = __webpack_require__(23);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/https.js
 
@@ -13175,7 +14315,7 @@ var external_https_ = __webpack_require__(24);
 
 /** Node https module transport */
 var https_HTTPSTransport = /** @class */ (function (_super) {
-    tslib_es6["__extends"](HTTPSTransport, _super);
+    __extends(HTTPSTransport, _super);
     /** Create a new instance and set this.agent */
     function HTTPSTransport(options) {
         var _this = _super.call(this, options) || this;
@@ -13217,7 +14357,7 @@ var https_HTTPSTransport = /** @class */ (function (_super) {
  * @hidden
  */
 var backend_NodeBackend = /** @class */ (function (_super) {
-    tslib_es6["__extends"](NodeBackend, _super);
+    __extends(NodeBackend, _super);
     function NodeBackend() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
@@ -13230,7 +14370,7 @@ var backend_NodeBackend = /** @class */ (function (_super) {
             return _super.prototype._setupTransport.call(this);
         }
         var dsn = new dsn_Dsn(this._options.dsn);
-        var transportOptions = tslib_es6["__assign"]({}, this._options.transportOptions, (this._options.httpProxy && { httpProxy: this._options.httpProxy }), (this._options.httpsProxy && { httpsProxy: this._options.httpsProxy }), (this._options.caCerts && { caCerts: this._options.caCerts }), { dsn: this._options.dsn });
+        var transportOptions = __assign({}, this._options.transportOptions, (this._options.httpProxy && { httpProxy: this._options.httpProxy }), (this._options.httpsProxy && { httpsProxy: this._options.httpsProxy }), (this._options.caCerts && { caCerts: this._options.caCerts }), { dsn: this._options.dsn });
         if (this._options.transport) {
             return new this._options.transport(transportOptions);
         }
@@ -13272,7 +14412,7 @@ var backend_NodeBackend = /** @class */ (function (_super) {
                 .then(function (event) {
                 Object(misc["c" /* addExceptionTypeValue */])(event, undefined, undefined);
                 Object(misc["b" /* addExceptionMechanism */])(event, mechanism);
-                resolve(tslib_es6["__assign"]({}, event, { event_id: hint && hint.event_id }));
+                resolve(__assign({}, event, { event_id: hint && hint.event_id }));
             })
                 .then(null, reject);
         });
@@ -13323,7 +14463,7 @@ var backend_NodeBackend = /** @class */ (function (_super) {
  * @see SentryClient for usage documentation.
  */
 var client_NodeClient = /** @class */ (function (_super) {
-    tslib_es6["__extends"](NodeClient, _super);
+    __extends(NodeClient, _super);
     /**
      * Creates a new Node SDK instance.
      * @param options Configuration options for this SDK.
@@ -13336,7 +14476,7 @@ var client_NodeClient = /** @class */ (function (_super) {
      */
     NodeClient.prototype._prepareEvent = function (event, scope, hint) {
         event.platform = event.platform || 'node';
-        event.sdk = tslib_es6["__assign"]({}, event.sdk, { name: SDK_NAME, packages: tslib_es6["__spread"](((event.sdk && event.sdk.packages) || []), [
+        event.sdk = __assign({}, event.sdk, { name: SDK_NAME, packages: __spread(((event.sdk && event.sdk.packages) || []), [
                 {
                     name: 'npm:@sentry/node',
                     version: SDK_VERSION,
@@ -13495,10 +14635,10 @@ var inboundfilters_InboundFilters = /** @class */ (function () {
     InboundFilters.prototype._mergeOptions = function (clientOptions) {
         if (clientOptions === void 0) { clientOptions = {}; }
         return {
-            blacklistUrls: tslib_es6["__spread"]((this._options.blacklistUrls || []), (clientOptions.blacklistUrls || [])),
-            ignoreErrors: tslib_es6["__spread"]((this._options.ignoreErrors || []), (clientOptions.ignoreErrors || []), DEFAULT_IGNORE_ERRORS),
+            blacklistUrls: node_modules_tslib_tslib_es6_spread((this._options.blacklistUrls || []), (clientOptions.blacklistUrls || [])),
+            ignoreErrors: node_modules_tslib_tslib_es6_spread((this._options.ignoreErrors || []), (clientOptions.ignoreErrors || []), DEFAULT_IGNORE_ERRORS),
             ignoreInternal: typeof this._options.ignoreInternal !== 'undefined' ? this._options.ignoreInternal : true,
-            whitelistUrls: tslib_es6["__spread"]((this._options.whitelistUrls || []), (clientOptions.whitelistUrls || [])),
+            whitelistUrls: node_modules_tslib_tslib_es6_spread((this._options.whitelistUrls || []), (clientOptions.whitelistUrls || [])),
         };
     };
     /** JSDoc */
@@ -13579,10 +14719,10 @@ function initAndBind(clientClass, options) {
 }
 //# sourceMappingURL=sdk.js.map
 // EXTERNAL MODULE: external "domain"
-var external_domain_ = __webpack_require__(15);
+var external_domain_ = __webpack_require__(14);
 
 // EXTERNAL MODULE: external "util"
-var external_util_ = __webpack_require__(4);
+var external_util_ = __webpack_require__(3);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/integrations/console.js
 
@@ -13605,7 +14745,7 @@ var console_Console = /** @class */ (function () {
         var e_1, _a;
         var consoleModule = __webpack_require__(91);
         try {
-            for (var _b = tslib_es6["__values"](['debug', 'info', 'warn', 'error', 'log']), _c = _b.next(); !_c.done; _c = _b.next()) {
+            for (var _b = __values(['debug', 'info', 'warn', 'error', 'log']), _c = _b.next(); !_c.done; _c = _b.next()) {
                 var level = _c.value;
                 fill(consoleModule, level, createConsoleWrapper(level));
             }
@@ -13654,7 +14794,7 @@ function createConsoleWrapper(level) {
                     level: sentryLevel,
                     message: external_util_["format"].apply(undefined, arguments),
                 }, {
-                    input: tslib_es6["__spread"](arguments),
+                    input: __spread(arguments),
                     level: level,
                 });
             }
@@ -13690,14 +14830,14 @@ var http_Http = /** @class */ (function () {
             return;
         }
         var handlerWrapper = createHandlerWrapper(this._breadcrumbs, this._tracing);
-        var httpModule = __webpack_require__(17);
+        var httpModule = __webpack_require__(16);
         fill(httpModule, 'get', handlerWrapper);
         fill(httpModule, 'request', handlerWrapper);
         // NOTE: Prior to Node 9, `https` used internals of `http` module, thus we don't patch it.
         // If we do, we'd get double breadcrumbs and double spans for `https` calls.
         // It has been changed in Node 9, so for all versions equal and above, we patch `https` separately.
         if (NODE_VERSION.major && NODE_VERSION.major > 8) {
-            var httpsModule = __webpack_require__(24);
+            var httpsModule = __webpack_require__(23);
             fill(httpsModule, 'get', handlerWrapper);
             fill(httpsModule, 'request', handlerWrapper);
         }
@@ -13803,6 +14943,226 @@ function isSentryRequest(url) {
     return url.indexOf(dsn.host) !== -1;
 }
 //# sourceMappingURL=http.js.map
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/apm/node_modules/tslib/tslib.es6.js
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+/* global Reflect, Promise */
+
+var apm_node_modules_tslib_tslib_es6_extendStatics = function(d, b) {
+    apm_node_modules_tslib_tslib_es6_extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return apm_node_modules_tslib_tslib_es6_extendStatics(d, b);
+};
+
+function apm_node_modules_tslib_tslib_es6_extends(d, b) {
+    apm_node_modules_tslib_tslib_es6_extendStatics(d, b);
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+var apm_node_modules_tslib_tslib_es6_assign = function() {
+    apm_node_modules_tslib_tslib_es6_assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
+    }
+    return apm_node_modules_tslib_tslib_es6_assign.apply(this, arguments);
+}
+
+function apm_node_modules_tslib_tslib_es6_rest(s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+}
+
+function apm_node_modules_tslib_tslib_es6_decorate(decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+
+function apm_node_modules_tslib_tslib_es6_param(paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+}
+
+function apm_node_modules_tslib_tslib_es6_metadata(metadataKey, metadataValue) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
+}
+
+function apm_node_modules_tslib_tslib_es6_awaiter(thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+}
+
+function apm_node_modules_tslib_tslib_es6_generator(thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+}
+
+function apm_node_modules_tslib_tslib_es6_createBinding(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}
+
+function apm_node_modules_tslib_tslib_es6_exportStar(m, exports) {
+    for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+
+function apm_node_modules_tslib_tslib_es6_values(o) {
+    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+    if (m) return m.call(o);
+    if (o && typeof o.length === "number") return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+}
+
+function apm_node_modules_tslib_tslib_es6_read(o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+}
+
+function apm_node_modules_tslib_tslib_es6_spread() {
+    for (var ar = [], i = 0; i < arguments.length; i++)
+        ar = ar.concat(apm_node_modules_tslib_tslib_es6_read(arguments[i]));
+    return ar;
+}
+
+function apm_node_modules_tslib_tslib_es6_spreadArrays() {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
+
+function apm_node_modules_tslib_tslib_es6_await(v) {
+    return this instanceof apm_node_modules_tslib_tslib_es6_await ? (this.v = v, this) : new apm_node_modules_tslib_tslib_es6_await(v);
+}
+
+function apm_node_modules_tslib_tslib_es6_asyncGenerator(thisArg, _arguments, generator) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var g = generator.apply(thisArg, _arguments || []), i, q = [];
+    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
+    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
+    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
+    function step(r) { r.value instanceof apm_node_modules_tslib_tslib_es6_await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
+    function fulfill(value) { resume("next", value); }
+    function reject(value) { resume("throw", value); }
+    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
+}
+
+function apm_node_modules_tslib_tslib_es6_asyncDelegator(o) {
+    var i, p;
+    return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
+    function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: apm_node_modules_tslib_tslib_es6_await(o[n](v)), done: n === "return" } : f ? f(v) : v; } : f; }
+}
+
+function apm_node_modules_tslib_tslib_es6_asyncValues(o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof apm_node_modules_tslib_tslib_es6_values === "function" ? apm_node_modules_tslib_tslib_es6_values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+}
+
+function apm_node_modules_tslib_tslib_es6_makeTemplateObject(cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
+
+function apm_node_modules_tslib_tslib_es6_importStar(mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result.default = mod;
+    return result;
+}
+
+function apm_node_modules_tslib_tslib_es6_importDefault(mod) {
+    return (mod && mod.__esModule) ? mod : { default: mod };
+}
+
+function apm_node_modules_tslib_tslib_es6_classPrivateFieldGet(receiver, privateMap) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to get private field on non-instance");
+    }
+    return privateMap.get(receiver);
+}
+
+function apm_node_modules_tslib_tslib_es6_classPrivateFieldSet(receiver, privateMap, value) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to set private field on non-instance");
+    }
+    privateMap.set(receiver, value);
+    return value;
+}
+
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/types/esm/span.js
 /** The status of an Span. */
 var SpanStatus;
@@ -14015,7 +15375,7 @@ var span_Span = /** @class */ (function () {
      * @inheritDoc
      */
     Span.prototype.child = function (spanContext) {
-        var span = new Span(tslib_es6["__assign"]({}, spanContext, { parentSpanId: this._spanId, sampled: this.sampled, traceId: this._traceId }));
+        var span = new Span(apm_node_modules_tslib_tslib_es6_assign({}, spanContext, { parentSpanId: this._spanId, sampled: this.sampled, traceId: this._traceId }));
         span.spanRecorder = this.spanRecorder;
         if (span.spanRecorder) {
             span.spanRecorder.add(span);
@@ -14042,7 +15402,7 @@ var span_Span = /** @class */ (function () {
             else if (matches[3] === '0') {
                 sampled = false;
             }
-            return new Span(tslib_es6["__assign"]({}, spanContext, { parentSpanId: matches[2], sampled: sampled, traceId: matches[1] }));
+            return new Span(apm_node_modules_tslib_tslib_es6_assign({}, spanContext, { parentSpanId: matches[2], sampled: sampled, traceId: matches[1] }));
         }
         return undefined;
     };
@@ -14051,7 +15411,7 @@ var span_Span = /** @class */ (function () {
      */
     Span.prototype.setTag = function (key, value) {
         var _a;
-        this.tags = tslib_es6["__assign"]({}, this.tags, (_a = {}, _a[key] = value, _a));
+        this.tags = apm_node_modules_tslib_tslib_es6_assign({}, this.tags, (_a = {}, _a[key] = value, _a));
         return this;
     };
     /**
@@ -14059,7 +15419,7 @@ var span_Span = /** @class */ (function () {
      */
     Span.prototype.setData = function (key, value) {
         var _a;
-        this.data = tslib_es6["__assign"]({}, this.data, (_a = {}, _a[key] = value, _a));
+        this.data = apm_node_modules_tslib_tslib_es6_assign({}, this.data, (_a = {}, _a[key] = value, _a));
         return this;
     };
     /**
@@ -14199,10 +15559,10 @@ function forget(promise) {
 var cookie = __webpack_require__(52);
 
 // EXTERNAL MODULE: external "os"
-var external_os_ = __webpack_require__(21);
+var external_os_ = __webpack_require__(20);
 
 // EXTERNAL MODULE: external "url"
-var external_url_ = __webpack_require__(22);
+var external_url_ = __webpack_require__(21);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/handlers.js
 
@@ -14357,15 +15717,15 @@ function extractUserData(user, keys) {
  */
 function parseRequest(event, req, options) {
     // tslint:disable-next-line:no-parameter-reassignment
-    options = tslib_es6["__assign"]({ ip: false, request: true, serverName: true, transaction: true, user: true, version: true }, options);
+    options = __assign({ ip: false, request: true, serverName: true, transaction: true, user: true, version: true }, options);
     if (options.version) {
-        event.contexts = tslib_es6["__assign"]({}, event.contexts, { runtime: {
+        event.contexts = __assign({}, event.contexts, { runtime: {
                 name: 'node',
                 version: global.process.version,
             } });
     }
     if (options.request) {
-        event.request = tslib_es6["__assign"]({}, event.request, extractRequestData(req, options.request));
+        event.request = __assign({}, event.request, extractRequestData(req, options.request));
     }
     if (options.serverName && !event.server_name) {
         event.server_name = global.process.env.SENTRY_NAME || external_os_["hostname"]();
@@ -14373,7 +15733,7 @@ function parseRequest(event, req, options) {
     if (options.user) {
         var extractedUser = req.user && Object(is["e" /* isPlainObject */])(req.user) ? extractUserData(req.user, options.user) : {};
         if (Object.keys(extractedUser)) {
-            event.user = tslib_es6["__assign"]({}, event.user, extractedUser);
+            event.user = __assign({}, event.user, extractedUser);
         }
     }
     // client ip:
@@ -14382,7 +15742,7 @@ function parseRequest(event, req, options) {
     if (options.ip) {
         var ip = req.ip || (req.connection && req.connection.remoteAddress);
         if (ip) {
-            event.user = tslib_es6["__assign"]({}, event.user, { ip_address: ip });
+            event.user = __assign({}, event.user, { ip_address: ip });
         }
     }
     if (options.transaction && !event.transaction) {
@@ -14718,7 +16078,7 @@ var linkederrors_LinkedErrors = /** @class */ (function () {
             _this.walkErrorTree(hint.originalException, _this._key)
                 .then(function (linkedErrors) {
                 if (event && event.exception && event.exception.values) {
-                    event.exception.values = tslib_es6["__spread"](linkedErrors, event.exception.values);
+                    event.exception.values = __spread(linkedErrors, event.exception.values);
                 }
                 resolve(event);
             })
@@ -14739,7 +16099,7 @@ var linkederrors_LinkedErrors = /** @class */ (function () {
         return new syncpromise_SyncPromise(function (resolve, reject) {
             getExceptionFromError(error[key])
                 .then(function (exception) {
-                _this.walkErrorTree(error[key], key, tslib_es6["__spread"]([exception], stack))
+                _this.walkErrorTree(error[key], key, __spread([exception], stack))
                     .then(resolve)
                     .then(null, function () {
                     reject();
@@ -14759,7 +16119,7 @@ var linkederrors_LinkedErrors = /** @class */ (function () {
 
 //# sourceMappingURL=linkederrors.js.map
 // EXTERNAL MODULE: external "path"
-var external_path_ = __webpack_require__(11);
+var external_path_ = __webpack_require__(9);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/integrations/modules.js
 
@@ -14818,7 +16178,7 @@ var modules_Modules = /** @class */ (function () {
             if (!getCurrentHub().getIntegration(Modules)) {
                 return event;
             }
-            return tslib_es6["__assign"]({}, event, { modules: _this._getModules() });
+            return __assign({}, event, { modules: _this._getModules() });
         });
     };
     /** Fetches the list of modules and the versions loaded by the entry file for your node.js app. */
@@ -14963,9 +16323,9 @@ function lastEventId() {
  * @param timeout Maximum time in ms the client should wait.
  */
 function flush(timeout) {
-    return tslib_es6["__awaiter"](this, void 0, void 0, function () {
+    return __awaiter(this, void 0, void 0, function () {
         var client;
-        return tslib_es6["__generator"](this, function (_a) {
+        return __generator(this, function (_a) {
             client = hub_getCurrentHub().getClient();
             if (client) {
                 return [2 /*return*/, client.flush(timeout)];
@@ -14981,9 +16341,9 @@ function flush(timeout) {
  * @param timeout Maximum time in ms the client should wait.
  */
 function sdk_close(timeout) {
-    return tslib_es6["__awaiter"](this, void 0, void 0, function () {
+    return __awaiter(this, void 0, void 0, function () {
         var client;
-        return tslib_es6["__generator"](this, function (_a) {
+        return __generator(this, function (_a) {
             client = hub_getCurrentHub().getClient();
             if (client) {
                 return [2 /*return*/, client.close(timeout)];
@@ -15006,7 +16366,7 @@ function sdk_close(timeout) {
 
 
 
-var INTEGRATIONS = tslib_es6["__assign"]({}, integrations_namespaceObject, esm_integrations_namespaceObject);
+var INTEGRATIONS = __assign({}, integrations_namespaceObject, esm_integrations_namespaceObject);
 
 // We need to patch domain on the global __SENTRY__ object to make it work for node
 // if we don't do this, browser bundlers will have troubles resolving require('domain')
@@ -15031,19 +16391,19 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const tslib_1 = __webpack_require__(0);
+const tslib_1 = __webpack_require__(48);
 
-const tiny_invariant_1 = tslib_1.__importDefault(__webpack_require__(25));
+const tiny_invariant_1 = tslib_1.__importDefault(__webpack_require__(24));
 
-const timestamps_1 = __webpack_require__(29);
+const timestamps_1 = __webpack_require__(28);
 
 const sec_1 = __webpack_require__(119);
 
 const sentry_1 = __webpack_require__(83);
 
-const channel_1 = __webpack_require__(20);
+const channel_1 = __webpack_require__(19);
 
-const utils_1 = __webpack_require__(28); // note: deducted from the overall running budget
+const utils_1 = __webpack_require__(27); // note: deducted from the overall running budget
 
 
 const MARGIN_AND_SENTRY_BUDGET_MS = channel_1.CHANNEL === 'dev' ? 5000 : 1000;
@@ -15235,15 +16595,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const tslib_1 = __webpack_require__(0);
+const tslib_1 = __webpack_require__(48);
 
 const soft_execution_context_1 = __webpack_require__(80);
 
 const soft_execution_context_node_1 = __webpack_require__(120);
 
-const consts_1 = __webpack_require__(65);
+const consts_1 = __webpack_require__(63);
 
-const channel_1 = __webpack_require__(20);
+const channel_1 = __webpack_require__(19);
 
 const logger_1 = tslib_1.__importDefault(__webpack_require__(121)); /////////////////////
 
@@ -15303,7 +16663,7 @@ exports.default = SEC;
 /* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const os = __webpack_require__(21);
+const os = __webpack_require__(20);
 
 const {
   getRootSEC
@@ -15367,9 +16727,9 @@ Object.defineProperty(exports, "__esModule", {
 
 const universal_debug_api_node_1 = __webpack_require__(154);
 
-const consts_1 = __webpack_require__(65);
+const consts_1 = __webpack_require__(63);
 
-const channel_1 = __webpack_require__(20); /////////////////////////////////////////////////
+const channel_1 = __webpack_require__(19); /////////////////////////////////////////////////
 
 
 const logger = universal_debug_api_node_1.getLogger({
@@ -15556,7 +16916,7 @@ Object.defineProperty(module, 'exports', {
 /* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const conversions = __webpack_require__(67);
+const conversions = __webpack_require__(65);
 const route = __webpack_require__(125);
 
 const convert = {};
@@ -15802,7 +17162,7 @@ module.exports = {
 /* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const conversions = __webpack_require__(67);
+const conversions = __webpack_require__(65);
 
 /*
 	This function routes a model to all other models.
@@ -16099,9 +17459,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const typescript_string_enums_1 = __webpack_require__(7);
+const typescript_string_enums_1 = __webpack_require__(6);
 
-const utils_1 = __webpack_require__(28);
+const utils_1 = __webpack_require__(27);
 
 exports.HttpMethod = typescript_string_enums_1.Enum('GET', 'PUT', 'POST', 'PATCH', 'OPTIONS');
 
@@ -16262,11 +17622,11 @@ module.exports = {
 /***/ (function(module, exports, __webpack_require__) {
 
 var assignValue = __webpack_require__(93),
-    copyObject = __webpack_require__(35),
+    copyObject = __webpack_require__(34),
     createAssigner = __webpack_require__(95),
-    isArrayLike = __webpack_require__(27),
+    isArrayLike = __webpack_require__(26),
     isPrototype = __webpack_require__(72),
-    keys = __webpack_require__(37);
+    keys = __webpack_require__(36);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -16325,8 +17685,8 @@ module.exports = assign;
 /* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(26),
-    isObjectLike = __webpack_require__(19);
+var baseGetTag = __webpack_require__(25),
+    isObjectLike = __webpack_require__(18);
 
 /** `Object#toString` result references. */
 var numberTag = '[object Number]';
@@ -16371,9 +17731,9 @@ module.exports = isNumber;
 
 var arrayReduce = __webpack_require__(268),
     baseEach = __webpack_require__(74),
-    baseIteratee = __webpack_require__(38),
+    baseIteratee = __webpack_require__(37),
     baseReduce = __webpack_require__(315),
-    isArray = __webpack_require__(8);
+    isArray = __webpack_require__(7);
 
 /**
  * Reduces `collection` to a value which is the accumulated result of running
@@ -16426,8 +17786,8 @@ module.exports = reduce;
 /* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getNative = __webpack_require__(45),
-    root = __webpack_require__(18);
+var getNative = __webpack_require__(44),
+    root = __webpack_require__(17);
 
 /* Built-in method references that are verified to be native. */
 var Map = getNative(root, 'Map');
@@ -16569,8 +17929,8 @@ module.exports = baseGet;
 /* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isArray = __webpack_require__(8),
-    isSymbol = __webpack_require__(62);
+var isArray = __webpack_require__(7),
+    isSymbol = __webpack_require__(60);
 
 /** Used to match property names within property paths. */
 var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/,
@@ -16621,7 +17981,7 @@ module.exports = function saveAsyncStack(instance, lines) {
 
 const clone = __webpack_require__(185);
 const isEmpty = __webpack_require__(78);
-const { callbackify } = __webpack_require__(4);
+const { callbackify } = __webpack_require__(3);
 const finallyMixin = __webpack_require__(192);
 
 module.exports = function (Target) {
@@ -17007,7 +18367,7 @@ module.exports = has;
 /* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const isString = __webpack_require__(39);
+const isString = __webpack_require__(38);
 const tail = __webpack_require__(107);
 
 // Push a new query onto the compiled "sequence" stack,
@@ -17144,7 +18504,7 @@ __webpack_require__.d(__webpack_exports__, "globalThis", function() { return /* 
 __webpack_require__.d(__webpack_exports__, "createV1", function() { return /* reexport */ v1_create; });
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-stdlib/globalthis-ponyfill/dist/src.es2019/index.js
-var src_es2019 = __webpack_require__(16);
+var src_es2019 = __webpack_require__(15);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-foundation/practical-logger-core/dist/src.es2019/consts.js
 const LIB = '@offirmo/practical-logger-core'; // level to a numerical value, for ordering and filtering.
@@ -17318,7 +18678,7 @@ function create({
   return logger;
 }
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/chalk/source/index.js
-var source = __webpack_require__(1);
+var source = __webpack_require__(0);
 var source_default = /*#__PURE__*/__webpack_require__.n(source);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-foundation/practical-logger-node/dist/src.es2019/sinks/common.js
@@ -17719,7 +19079,7 @@ const {
 /* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var json = typeof JSON !== 'undefined' ? JSON : __webpack_require__(485);
+var json = typeof JSON !== 'undefined' ? JSON : __webpack_require__(482);
 
 module.exports = function (obj, opts) {
     if (!opts) opts = {};
@@ -17817,9 +19177,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const channel_1 = __webpack_require__(20);
+const channel_1 = __webpack_require__(19);
 
-const utils_1 = __webpack_require__(28);
+const utils_1 = __webpack_require__(27);
 
 function ensure_netlify_logged_in(context) {
   if (!context.clientContext) throw utils_1.create_error('No/bad/outdated token [1]! (not logged in?)', {
@@ -18186,7 +19546,7 @@ module.exports = setup;
 /* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getNative = __webpack_require__(45);
+var getNative = __webpack_require__(44);
 
 var defineProperty = (function() {
   try {
@@ -18300,10 +19660,10 @@ module.exports = shortOut;
 
 var baseTimes = __webpack_require__(264),
     isArguments = __webpack_require__(73),
-    isArray = __webpack_require__(8),
-    isBuffer = __webpack_require__(60),
+    isArray = __webpack_require__(7),
+    isBuffer = __webpack_require__(58),
     isIndex = __webpack_require__(71),
-    isTypedArray = __webpack_require__(57);
+    isTypedArray = __webpack_require__(55);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -18390,7 +19750,7 @@ module.exports = baseKeys;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseFor = __webpack_require__(168),
-    keys = __webpack_require__(37);
+    keys = __webpack_require__(36);
 
 /**
  * The base implementation of `_.forOwn` without support for iteratee shorthands.
@@ -18434,7 +19794,7 @@ module.exports = baseFor;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseIsEqualDeep = __webpack_require__(295),
-    isObjectLike = __webpack_require__(19);
+    isObjectLike = __webpack_require__(18);
 
 /**
  * The base implementation of `_.isEqual` which supports partial comparisons
@@ -18608,7 +19968,7 @@ module.exports = cacheHas;
 /* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var root = __webpack_require__(18);
+var root = __webpack_require__(17);
 
 /** Built-in value references. */
 var Uint8Array = root.Uint8Array;
@@ -18670,7 +20030,7 @@ module.exports = setToArray;
 
 var baseGetAllKeys = __webpack_require__(177),
     getSymbols = __webpack_require__(138),
-    keys = __webpack_require__(37);
+    keys = __webpack_require__(36);
 
 /**
  * Creates an array of own enumerable property names and symbols of `object`.
@@ -18691,7 +20051,7 @@ module.exports = getAllKeys;
 /***/ (function(module, exports, __webpack_require__) {
 
 var arrayPush = __webpack_require__(137),
-    isArray = __webpack_require__(8);
+    isArray = __webpack_require__(7);
 
 /**
  * The base implementation of `getAllKeys` and `getAllKeysIn` which uses
@@ -18776,8 +20136,8 @@ module.exports = stubArray;
 /* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getNative = __webpack_require__(45),
-    root = __webpack_require__(18);
+var getNative = __webpack_require__(44),
+    root = __webpack_require__(17);
 
 /* Built-in method references that are verified to be native. */
 var WeakMap = getNative(root, 'WeakMap');
@@ -18789,7 +20149,7 @@ module.exports = WeakMap;
 /* 181 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(13);
+var isObject = __webpack_require__(12);
 
 /**
  * Checks if `value` is suitable for strict equality comparisons, i.e. `===`.
@@ -18877,7 +20237,7 @@ module.exports = get;
 
 var castPath = __webpack_require__(102),
     isArguments = __webpack_require__(73),
-    isArray = __webpack_require__(8),
+    isArray = __webpack_require__(7),
     isIndex = __webpack_require__(71),
     isLength = __webpack_require__(129),
     toKey = __webpack_require__(75);
@@ -18973,16 +20333,16 @@ var Stack = __webpack_require__(97),
     copySymbolsIn = __webpack_require__(321),
     getAllKeys = __webpack_require__(176),
     getAllKeysIn = __webpack_require__(189),
-    getTag = __webpack_require__(61),
+    getTag = __webpack_require__(59),
     initCloneArray = __webpack_require__(322),
     initCloneByTag = __webpack_require__(323),
     initCloneObject = __webpack_require__(191),
-    isArray = __webpack_require__(8),
-    isBuffer = __webpack_require__(60),
+    isArray = __webpack_require__(7),
+    isBuffer = __webpack_require__(58),
     isMap = __webpack_require__(327),
-    isObject = __webpack_require__(13),
+    isObject = __webpack_require__(12),
     isSet = __webpack_require__(329),
-    keys = __webpack_require__(37);
+    keys = __webpack_require__(36);
 
 /** Used to compose bitmasks for cloning. */
 var CLONE_DEEP_FLAG = 1,
@@ -19133,7 +20493,7 @@ module.exports = baseClone;
 /* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(module) {var root = __webpack_require__(18);
+/* WEBPACK VAR INJECTION */(function(module) {var root = __webpack_require__(17);
 
 /** Detect free variable `exports`. */
 var freeExports =  true && exports && !exports.nodeType && exports;
@@ -19208,7 +20568,7 @@ module.exports = getSymbolsIn;
 
 var baseGetAllKeys = __webpack_require__(177),
     getSymbolsIn = __webpack_require__(188),
-    keysIn = __webpack_require__(47);
+    keysIn = __webpack_require__(46);
 
 /**
  * Creates an array of own and inherited enumerable property names and
@@ -19294,7 +20654,7 @@ module.exports = Promise.prototype.finally ? finallyMixin : noop;
 /* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Raw = __webpack_require__(43);
+const Raw = __webpack_require__(42);
 const Ref = __webpack_require__(332);
 const Runner = __webpack_require__(333);
 const Formatter = __webpack_require__(194);
@@ -19311,9 +20671,9 @@ const ColumnBuilder = __webpack_require__(427);
 const ColumnCompiler = __webpack_require__(232);
 
 const { Pool, TimeoutError } = __webpack_require__(430);
-const inherits = __webpack_require__(31);
-const { EventEmitter } = __webpack_require__(10);
-const { promisify } = __webpack_require__(4);
+const inherits = __webpack_require__(29);
+const { EventEmitter } = __webpack_require__(11);
+const { promisify } = __webpack_require__(3);
 
 const { makeEscape } = __webpack_require__(234);
 const cloneDeep = __webpack_require__(436);
@@ -19323,9 +20683,9 @@ const uniqueId = __webpack_require__(217);
 const Logger = __webpack_require__(438);
 const { KnexTimeoutError } = __webpack_require__(79);
 
-const debug = __webpack_require__(58)('knex:client');
-const _debugQuery = __webpack_require__(58)('knex:query');
-const debugBindings = __webpack_require__(58)('knex:bindings');
+const debug = __webpack_require__(56)('knex:client');
+const _debugQuery = __webpack_require__(56)('knex:query');
+const debugBindings = __webpack_require__(56)('knex:bindings');
 
 const debugQuery = (sql, txId) => _debugQuery(sql.replace(/%/g, '%%'), txId);
 
@@ -19715,7 +21075,7 @@ module.exports = Client;
 /***/ (function(module, exports, __webpack_require__) {
 
 const QueryBuilder = __webpack_require__(106);
-const Raw = __webpack_require__(43);
+const Raw = __webpack_require__(42);
 const transform = __webpack_require__(344);
 
 // Valid values for the `order by` clause generation.
@@ -20015,7 +21375,7 @@ module.exports = Formatter;
 /* 195 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const assert = __webpack_require__(30);
+const assert = __webpack_require__(32);
 
 // JoinClause
 // -------
@@ -20291,8 +21651,8 @@ module.exports = __webpack_require__(334);
 /* 197 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(26),
-    isObjectLike = __webpack_require__(19);
+var baseGetTag = __webpack_require__(25),
+    isObjectLike = __webpack_require__(18);
 
 /** `Object#toString` result references. */
 var boolTag = '[object Boolean]';
@@ -20436,7 +21796,7 @@ module.exports = baseSlice;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseValues = __webpack_require__(202),
-    keys = __webpack_require__(37);
+    keys = __webpack_require__(36);
 
 /**
  * Creates an array of the own enumerable string keyed property values of `object`.
@@ -20475,7 +21835,7 @@ module.exports = values;
 /* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayMap = __webpack_require__(63);
+var arrayMap = __webpack_require__(61);
 
 /**
  * The base implementation of `_.values` and `_.valuesIn` which creates an
@@ -20500,7 +21860,7 @@ module.exports = baseValues;
 /* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const { EventEmitter } = __webpack_require__(10);
+const { EventEmitter } = __webpack_require__(11);
 
 const { Migrator } = __webpack_require__(346);
 const Seeder = __webpack_require__(383);
@@ -20867,8 +22227,8 @@ module.exports = arrayIncludes;
 /* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isArrayLike = __webpack_require__(27),
-    isObjectLike = __webpack_require__(19);
+var isArrayLike = __webpack_require__(26),
+    isObjectLike = __webpack_require__(18);
 
 /**
  * This method is like `_.isArrayLike` except that it also checks if `value`
@@ -21037,8 +22397,8 @@ module.exports = {
 /* 208 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(26),
-    isObjectLike = __webpack_require__(19),
+var baseGetTag = __webpack_require__(25),
+    isObjectLike = __webpack_require__(18),
     isPlainObject = __webpack_require__(68);
 
 /** `Object#toString` result references. */
@@ -21089,7 +22449,7 @@ module.exports = reInterpolate;
 /* 210 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const {dirname} = __webpack_require__(11)
+const {dirname} = __webpack_require__(9)
 
 const mkdirpManual = (path, opts, made) => {
   opts.recursive = false
@@ -21219,7 +22579,7 @@ module.exports = {
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseEach = __webpack_require__(74),
-    isArrayLike = __webpack_require__(27);
+    isArrayLike = __webpack_require__(26);
 
 /**
  * The base implementation of `_.map` without support for iteratee shorthands.
@@ -21359,7 +22719,7 @@ module.exports = [
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseAssignValue = __webpack_require__(94),
-    eq = __webpack_require__(46);
+    eq = __webpack_require__(45);
 
 /**
  * This function is like `assignValue` except that it doesn't assign
@@ -21447,11 +22807,11 @@ module.exports = uniqueId;
 
 // Query Compiler
 // -------
-const helpers = __webpack_require__(34);
-const Raw = __webpack_require__(43);
+const helpers = __webpack_require__(33);
+const Raw = __webpack_require__(42);
 const QueryBuilder = __webpack_require__(106);
 const JoinClause = __webpack_require__(195);
-const debug = __webpack_require__(58);
+const debug = __webpack_require__(56);
 
 const assign = __webpack_require__(132);
 const bind = __webpack_require__(397);
@@ -21459,7 +22819,7 @@ const compact = __webpack_require__(414);
 const groupBy = __webpack_require__(150);
 const has = __webpack_require__(151);
 const isEmpty = __webpack_require__(78);
-const isString = __webpack_require__(39);
+const isString = __webpack_require__(38);
 const isUndefined = __webpack_require__(419);
 const map = __webpack_require__(229);
 const omitBy = __webpack_require__(420);
@@ -22333,7 +23693,7 @@ module.exports = QueryCompiler;
 /* 219 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var identity = __webpack_require__(36),
+var identity = __webpack_require__(35),
     metaMap = __webpack_require__(220);
 
 /**
@@ -22376,7 +23736,7 @@ var composeArgs = __webpack_require__(222),
     getHolder = __webpack_require__(149),
     reorder = __webpack_require__(411),
     replaceHolders = __webpack_require__(113),
-    root = __webpack_require__(18);
+    root = __webpack_require__(17);
 
 /** Used to compose bitmasks for function metadata. */
 var WRAP_BIND_FLAG = 1,
@@ -22722,10 +24082,10 @@ module.exports = setWrapToString;
 /* 229 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayMap = __webpack_require__(63),
-    baseIteratee = __webpack_require__(38),
+var arrayMap = __webpack_require__(61),
+    baseIteratee = __webpack_require__(37),
     baseMap = __webpack_require__(212),
-    isArray = __webpack_require__(8);
+    isArray = __webpack_require__(7);
 
 /**
  * Creates an array of values by running each element in `collection` thru
@@ -22893,7 +24253,7 @@ module.exports = SchemaCompiler;
 // Table Compiler
 // -------
 const { pushAdditional, pushQuery, unshiftQuery } = __webpack_require__(152);
-const helpers = __webpack_require__(34);
+const helpers = __webpack_require__(33);
 const groupBy = __webpack_require__(150);
 const indexOf = __webpack_require__(426);
 const isEmpty = __webpack_require__(78);
@@ -23194,12 +24554,12 @@ module.exports = TableCompiler;
 // Used for designating column definitions
 // during the table "create" / "alter" statements.
 // -------
-const Raw = __webpack_require__(43);
+const Raw = __webpack_require__(42);
 const helpers = __webpack_require__(152);
 const groupBy = __webpack_require__(150);
 const first = __webpack_require__(428);
 const has = __webpack_require__(151);
-const isObject = __webpack_require__(13);
+const isObject = __webpack_require__(12);
 const tail = __webpack_require__(107);
 
 function ColumnCompiler(client, tableCompiler, columnBuilder) {
@@ -23594,7 +24954,7 @@ module.exports = {
 var Client = __webpack_require__(449)
 var defaults = __webpack_require__(115)
 var Connection = __webpack_require__(241)
-var Pool = __webpack_require__(476)
+var Pool = __webpack_require__(473)
 
 const poolFactory = (Client) => {
   return class BoundPool extends Pool {
@@ -23849,7 +25209,7 @@ var val = function (key, config, envVar) {
   return config[key] || envVar || defaults[key]
 }
 
-var useSsl = function () {
+var readSSLConfigFromEnvironment = function () {
   switch (process.env.PGSSLMODE) {
     case 'disable':
       return false
@@ -23858,6 +25218,8 @@ var useSsl = function () {
     case 'verify-ca':
     case 'verify-full':
       return true
+    case 'no-verify':
+      return { rejectUnauthorized: false }
   }
   return defaults.ssl
 }
@@ -23892,7 +25254,14 @@ var ConnectionParameters = function (config) {
   })
 
   this.binary = val('binary', config)
-  this.ssl = typeof config.ssl === 'undefined' ? useSsl() : config.ssl
+
+  this.ssl = typeof config.ssl === 'undefined' ? readSSLConfigFromEnvironment() : config.ssl
+
+  // support passing in ssl=no-verify via connection string
+  if (this.ssl === 'no-verify') {
+    this.ssl = { rejectUnauthorized: false }
+  }
+
   this.client_encoding = val('client_encoding', config)
   this.replication = val('replication', config)
   // a domain socket begins with '/'
@@ -24100,15 +25469,13 @@ module.exports = Result
  * README.md file in the root directory of this source tree.
  */
 
-var net = __webpack_require__(55)
-var EventEmitter = __webpack_require__(10).EventEmitter
-var util = __webpack_require__(4)
+var net = __webpack_require__(66)
+var EventEmitter = __webpack_require__(11).EventEmitter
+var util = __webpack_require__(3)
 
-var Writer = __webpack_require__(467)
-var Reader = __webpack_require__(468)
+const { parse, serialize } = __webpack_require__(467)
 
-var TEXT_MODE = 0
-var BINARY_MODE = 1
+// TODO(bmc) support binary mode at some point
 var Connection = function (config) {
   EventEmitter.call(this)
   config = config || {}
@@ -24116,20 +25483,10 @@ var Connection = function (config) {
   this._keepAlive = config.keepAlive
   this._keepAliveInitialDelayMillis = config.keepAliveInitialDelayMillis
   this.lastBuffer = false
-  this.lastOffset = 0
-  this.buffer = null
-  this.offset = null
-  this.encoding = config.encoding || 'utf8'
   this.parsedStatements = {}
-  this.writer = new Writer()
   this.ssl = config.ssl || false
   this._ending = false
-  this._mode = TEXT_MODE
   this._emitMessage = false
-  this._reader = new Reader({
-    headerSize: 1,
-    lengthPadding: -4,
-  })
   var self = this
   this.on('newListener', function (eventName) {
     if (eventName === 'message') {
@@ -24144,6 +25501,7 @@ Connection.prototype.connect = function (port, host) {
   var self = this
 
   this._connecting = true
+  this.stream.setNoDelay(true)
   this.stream.connect(port, host)
 
   this.stream.once('connect', function () {
@@ -24183,7 +25541,7 @@ Connection.prototype.connect = function (port, host) {
         self.stream.end()
         return self.emit('error', new Error('There was an error establishing an SSL connection'))
     }
-    var tls = __webpack_require__(56)
+    var tls = __webpack_require__(67)
     const options = Object.assign(
       {
         socket: self.stream,
@@ -24194,578 +25552,126 @@ Connection.prototype.connect = function (port, host) {
       options.servername = host
     }
     self.stream = tls.connect(options)
-    self.stream.on('error', reportStreamError)
     self.attachListeners(self.stream)
+    self.stream.on('error', reportStreamError)
+
     self.emit('sslconnect')
   })
 }
 
 Connection.prototype.attachListeners = function (stream) {
-  var self = this
-  stream.on('data', function (buff) {
-    self._reader.addChunk(buff)
-    var packet = self._reader.read()
-    while (packet) {
-      var msg = self.parseMessage(packet)
-      var eventName = msg.name === 'error' ? 'errorMessage' : msg.name
-      if (self._emitMessage) {
-        self.emit('message', msg)
-      }
-      self.emit(eventName, msg)
-      packet = self._reader.read()
-    }
+  stream.on('end', () => {
+    this.emit('end')
   })
-  stream.on('end', function () {
-    self.emit('end')
+  parse(stream, (msg) => {
+    var eventName = msg.name === 'error' ? 'errorMessage' : msg.name
+    if (this._emitMessage) {
+      this.emit('message', msg)
+    }
+    this.emit(eventName, msg)
   })
 }
 
 Connection.prototype.requestSsl = function () {
-  var bodyBuffer = this.writer.addInt16(0x04d2).addInt16(0x162f).flush()
-
-  var length = bodyBuffer.length + 4
-
-  var buffer = new Writer().addInt32(length).add(bodyBuffer).join()
-  this.stream.write(buffer)
+  this.stream.write(serialize.requestSsl())
 }
 
 Connection.prototype.startup = function (config) {
-  var writer = this.writer.addInt16(3).addInt16(0)
-
-  Object.keys(config).forEach(function (key) {
-    var val = config[key]
-    writer.addCString(key).addCString(val)
-  })
-
-  writer.addCString('client_encoding').addCString("'utf-8'")
-
-  var bodyBuffer = writer.addCString('').flush()
-  // this message is sent without a code
-
-  var length = bodyBuffer.length + 4
-
-  var buffer = new Writer().addInt32(length).add(bodyBuffer).join()
-  this.stream.write(buffer)
+  this.stream.write(serialize.startup(config))
 }
 
 Connection.prototype.cancel = function (processID, secretKey) {
-  var bodyBuffer = this.writer.addInt16(1234).addInt16(5678).addInt32(processID).addInt32(secretKey).flush()
-
-  var length = bodyBuffer.length + 4
-
-  var buffer = new Writer().addInt32(length).add(bodyBuffer).join()
-  this.stream.write(buffer)
+  this._send(serialize.cancel(processID, secretKey))
 }
 
 Connection.prototype.password = function (password) {
-  // 0x70 = 'p'
-  this._send(0x70, this.writer.addCString(password))
+  this._send(serialize.password(password))
 }
 
 Connection.prototype.sendSASLInitialResponseMessage = function (mechanism, initialResponse) {
-  // 0x70 = 'p'
-  this.writer.addCString(mechanism).addInt32(Buffer.byteLength(initialResponse)).addString(initialResponse)
-
-  this._send(0x70)
+  this._send(serialize.sendSASLInitialResponseMessage(mechanism, initialResponse))
 }
 
 Connection.prototype.sendSCRAMClientFinalMessage = function (additionalData) {
-  // 0x70 = 'p'
-  this.writer.addString(additionalData)
-
-  this._send(0x70)
+  this._send(serialize.sendSCRAMClientFinalMessage(additionalData))
 }
 
-Connection.prototype._send = function (code, more) {
+Connection.prototype._send = function (buffer) {
   if (!this.stream.writable) {
     return false
   }
-  if (more === true) {
-    this.writer.addHeader(code)
-  } else {
-    return this.stream.write(this.writer.flush(code))
-  }
+  return this.stream.write(buffer)
 }
 
 Connection.prototype.query = function (text) {
-  // 0x51 = Q
-  this.stream.write(this.writer.addCString(text).flush(0x51))
+  this._send(serialize.query(text))
 }
 
 // send parse message
-// "more" === true to buffer the message until flush() is called
-Connection.prototype.parse = function (query, more) {
-  // expect something like this:
-  // { name: 'queryName',
-  //   text: 'select * from blah',
-  //   types: ['int8', 'bool'] }
-
-  // normalize missing query names to allow for null
-  query.name = query.name || ''
-  if (query.name.length > 63) {
-    /* eslint-disable no-console */
-    console.error('Warning! Postgres only supports 63 characters for query names.')
-    console.error('You supplied %s (%s)', query.name, query.name.length)
-    console.error('This can cause conflicts and silent errors executing queries')
-    /* eslint-enable no-console */
-  }
-  // normalize null type array
-  query.types = query.types || []
-  var len = query.types.length
-  var buffer = this.writer
-    .addCString(query.name) // name of query
-    .addCString(query.text) // actual query text
-    .addInt16(len)
-  for (var i = 0; i < len; i++) {
-    buffer.addInt32(query.types[i])
-  }
-
-  var code = 0x50
-  this._send(code, more)
+Connection.prototype.parse = function (query) {
+  this._send(serialize.parse(query))
 }
 
 // send bind message
 // "more" === true to buffer the message until flush() is called
-Connection.prototype.bind = function (config, more) {
-  // normalize config
-  config = config || {}
-  config.portal = config.portal || ''
-  config.statement = config.statement || ''
-  config.binary = config.binary || false
-  var values = config.values || []
-  var len = values.length
-  var useBinary = false
-  for (var j = 0; j < len; j++) {
-    useBinary |= values[j] instanceof Buffer
-  }
-  var buffer = this.writer.addCString(config.portal).addCString(config.statement)
-  if (!useBinary) {
-    buffer.addInt16(0)
-  } else {
-    buffer.addInt16(len)
-    for (j = 0; j < len; j++) {
-      buffer.addInt16(values[j] instanceof Buffer)
-    }
-  }
-  buffer.addInt16(len)
-  for (var i = 0; i < len; i++) {
-    var val = values[i]
-    if (val === null || typeof val === 'undefined') {
-      buffer.addInt32(-1)
-    } else if (val instanceof Buffer) {
-      buffer.addInt32(val.length)
-      buffer.add(val)
-    } else {
-      buffer.addInt32(Buffer.byteLength(val))
-      buffer.addString(val)
-    }
-  }
-
-  if (config.binary) {
-    buffer.addInt16(1) // format codes to use binary
-    buffer.addInt16(1)
-  } else {
-    buffer.addInt16(0) // format codes to use text
-  }
-  // 0x42 = 'B'
-  this._send(0x42, more)
+Connection.prototype.bind = function (config) {
+  this._send(serialize.bind(config))
 }
 
 // send execute message
 // "more" === true to buffer the message until flush() is called
-Connection.prototype.execute = function (config, more) {
-  config = config || {}
-  config.portal = config.portal || ''
-  config.rows = config.rows || ''
-  this.writer.addCString(config.portal).addInt32(config.rows)
-
-  // 0x45 = 'E'
-  this._send(0x45, more)
+Connection.prototype.execute = function (config) {
+  this._send(serialize.execute(config))
 }
 
-var emptyBuffer = Buffer.alloc(0)
-
+const flushBuffer = serialize.flush()
 Connection.prototype.flush = function () {
-  // 0x48 = 'H'
-  this.writer.add(emptyBuffer)
-  this._send(0x48)
+  if (this.stream.writable) {
+    this.stream.write(flushBuffer)
+  }
 }
 
+const syncBuffer = serialize.sync()
 Connection.prototype.sync = function () {
-  // clear out any pending data in the writer
-  this.writer.flush(0)
-
-  this.writer.add(emptyBuffer)
   this._ending = true
-  this._send(0x53)
+  this._send(flushBuffer)
+  this._send(syncBuffer)
 }
 
-const END_BUFFER = Buffer.from([0x58, 0x00, 0x00, 0x00, 0x04])
+const endBuffer = serialize.end()
 
 Connection.prototype.end = function () {
   // 0x58 = 'X'
-  this.writer.add(emptyBuffer)
   this._ending = true
   if (!this._connecting || !this.stream.writable) {
     this.stream.end()
     return
   }
-  return this.stream.write(END_BUFFER, () => {
+  return this.stream.write(endBuffer, () => {
     this.stream.end()
   })
 }
 
-Connection.prototype.close = function (msg, more) {
-  this.writer.addCString(msg.type + (msg.name || ''))
-  this._send(0x43, more)
+Connection.prototype.close = function (msg) {
+  this._send(serialize.close(msg))
 }
 
-Connection.prototype.describe = function (msg, more) {
-  this.writer.addCString(msg.type + (msg.name || ''))
-  this._send(0x44, more)
+Connection.prototype.describe = function (msg) {
+  this._send(serialize.describe(msg))
 }
 
 Connection.prototype.sendCopyFromChunk = function (chunk) {
-  this.stream.write(this.writer.add(chunk).flush(0x64))
+  this._send(serialize.copyData(chunk))
 }
 
 Connection.prototype.endCopyFrom = function () {
-  this.stream.write(this.writer.add(emptyBuffer).flush(0x63))
+  this._send(serialize.copyDone())
 }
 
 Connection.prototype.sendCopyFail = function (msg) {
-  // this.stream.write(this.writer.add(emptyBuffer).flush(0x66));
-  this.writer.addCString(msg)
-  this._send(0x66)
+  this._send(serialize.copyFail(msg))
 }
 
-var Message = function (name, length) {
-  this.name = name
-  this.length = length
-}
-
-Connection.prototype.parseMessage = function (buffer) {
-  this.offset = 0
-  var length = buffer.length + 4
-  switch (this._reader.header) {
-    case 0x52: // R
-      return this.parseR(buffer, length)
-
-    case 0x53: // S
-      return this.parseS(buffer, length)
-
-    case 0x4b: // K
-      return this.parseK(buffer, length)
-
-    case 0x43: // C
-      return this.parseC(buffer, length)
-
-    case 0x5a: // Z
-      return this.parseZ(buffer, length)
-
-    case 0x54: // T
-      return this.parseT(buffer, length)
-
-    case 0x44: // D
-      return this.parseD(buffer, length)
-
-    case 0x45: // E
-      return this.parseE(buffer, length)
-
-    case 0x4e: // N
-      return this.parseN(buffer, length)
-
-    case 0x31: // 1
-      return new Message('parseComplete', length)
-
-    case 0x32: // 2
-      return new Message('bindComplete', length)
-
-    case 0x33: // 3
-      return new Message('closeComplete', length)
-
-    case 0x41: // A
-      return this.parseA(buffer, length)
-
-    case 0x6e: // n
-      return new Message('noData', length)
-
-    case 0x49: // I
-      return new Message('emptyQuery', length)
-
-    case 0x73: // s
-      return new Message('portalSuspended', length)
-
-    case 0x47: // G
-      return this.parseG(buffer, length)
-
-    case 0x48: // H
-      return this.parseH(buffer, length)
-
-    case 0x57: // W
-      return new Message('replicationStart', length)
-
-    case 0x63: // c
-      return new Message('copyDone', length)
-
-    case 0x64: // d
-      return this.parsed(buffer, length)
-  }
-}
-
-Connection.prototype.parseR = function (buffer, length) {
-  var code = this.parseInt32(buffer)
-
-  var msg = new Message('authenticationOk', length)
-
-  switch (code) {
-    case 0: // AuthenticationOk
-      return msg
-    case 3: // AuthenticationCleartextPassword
-      if (msg.length === 8) {
-        msg.name = 'authenticationCleartextPassword'
-        return msg
-      }
-      break
-    case 5: // AuthenticationMD5Password
-      if (msg.length === 12) {
-        msg.name = 'authenticationMD5Password'
-        msg.salt = Buffer.alloc(4)
-        buffer.copy(msg.salt, 0, this.offset, this.offset + 4)
-        this.offset += 4
-        return msg
-      }
-
-      break
-    case 10: // AuthenticationSASL
-      msg.name = 'authenticationSASL'
-      msg.mechanisms = []
-      do {
-        var mechanism = this.parseCString(buffer)
-
-        if (mechanism) {
-          msg.mechanisms.push(mechanism)
-        }
-      } while (mechanism)
-
-      return msg
-    case 11: // AuthenticationSASLContinue
-      msg.name = 'authenticationSASLContinue'
-      msg.data = this.readString(buffer, length - 4)
-
-      return msg
-    case 12: // AuthenticationSASLFinal
-      msg.name = 'authenticationSASLFinal'
-      msg.data = this.readString(buffer, length - 4)
-
-      return msg
-  }
-
-  throw new Error('Unknown authenticationOk message type' + util.inspect(msg))
-}
-
-Connection.prototype.parseS = function (buffer, length) {
-  var msg = new Message('parameterStatus', length)
-  msg.parameterName = this.parseCString(buffer)
-  msg.parameterValue = this.parseCString(buffer)
-  return msg
-}
-
-Connection.prototype.parseK = function (buffer, length) {
-  var msg = new Message('backendKeyData', length)
-  msg.processID = this.parseInt32(buffer)
-  msg.secretKey = this.parseInt32(buffer)
-  return msg
-}
-
-Connection.prototype.parseC = function (buffer, length) {
-  var msg = new Message('commandComplete', length)
-  msg.text = this.parseCString(buffer)
-  return msg
-}
-
-Connection.prototype.parseZ = function (buffer, length) {
-  var msg = new Message('readyForQuery', length)
-  msg.name = 'readyForQuery'
-  msg.status = this.readString(buffer, 1)
-  return msg
-}
-
-var ROW_DESCRIPTION = 'rowDescription'
-Connection.prototype.parseT = function (buffer, length) {
-  var msg = new Message(ROW_DESCRIPTION, length)
-  msg.fieldCount = this.parseInt16(buffer)
-  var fields = []
-  for (var i = 0; i < msg.fieldCount; i++) {
-    fields.push(this.parseField(buffer))
-  }
-  msg.fields = fields
-  return msg
-}
-
-var Field = function () {
-  this.name = null
-  this.tableID = null
-  this.columnID = null
-  this.dataTypeID = null
-  this.dataTypeSize = null
-  this.dataTypeModifier = null
-  this.format = null
-}
-
-var FORMAT_TEXT = 'text'
-var FORMAT_BINARY = 'binary'
-Connection.prototype.parseField = function (buffer) {
-  var field = new Field()
-  field.name = this.parseCString(buffer)
-  field.tableID = this.parseInt32(buffer)
-  field.columnID = this.parseInt16(buffer)
-  field.dataTypeID = this.parseInt32(buffer)
-  field.dataTypeSize = this.parseInt16(buffer)
-  field.dataTypeModifier = this.parseInt32(buffer)
-  if (this.parseInt16(buffer) === TEXT_MODE) {
-    this._mode = TEXT_MODE
-    field.format = FORMAT_TEXT
-  } else {
-    this._mode = BINARY_MODE
-    field.format = FORMAT_BINARY
-  }
-  return field
-}
-
-var DATA_ROW = 'dataRow'
-var DataRowMessage = function (length, fieldCount) {
-  this.name = DATA_ROW
-  this.length = length
-  this.fieldCount = fieldCount
-  this.fields = []
-}
-
-// extremely hot-path code
-Connection.prototype.parseD = function (buffer, length) {
-  var fieldCount = this.parseInt16(buffer)
-  var msg = new DataRowMessage(length, fieldCount)
-  for (var i = 0; i < fieldCount; i++) {
-    msg.fields.push(this._readValue(buffer))
-  }
-  return msg
-}
-
-// extremely hot-path code
-Connection.prototype._readValue = function (buffer) {
-  var length = this.parseInt32(buffer)
-  if (length === -1) return null
-  if (this._mode === TEXT_MODE) {
-    return this.readString(buffer, length)
-  }
-  return this.readBytes(buffer, length)
-}
-
-// parses error
-Connection.prototype.parseE = function (buffer, length, isNotice) {
-  var fields = {}
-  var fieldType = this.readString(buffer, 1)
-  while (fieldType !== '\0') {
-    fields[fieldType] = this.parseCString(buffer)
-    fieldType = this.readString(buffer, 1)
-  }
-
-  // the msg is an Error instance
-  var msg = isNotice ? { message: fields.M } : new Error(fields.M)
-
-  // for compatibility with Message
-  msg.name = isNotice ? 'notice' : 'error'
-  msg.length = length
-
-  msg.severity = fields.S
-  msg.code = fields.C
-  msg.detail = fields.D
-  msg.hint = fields.H
-  msg.position = fields.P
-  msg.internalPosition = fields.p
-  msg.internalQuery = fields.q
-  msg.where = fields.W
-  msg.schema = fields.s
-  msg.table = fields.t
-  msg.column = fields.c
-  msg.dataType = fields.d
-  msg.constraint = fields.n
-  msg.file = fields.F
-  msg.line = fields.L
-  msg.routine = fields.R
-  return msg
-}
-
-// same thing, different name
-Connection.prototype.parseN = function (buffer, length) {
-  var msg = this.parseE(buffer, length, true)
-  msg.name = 'notice'
-  return msg
-}
-
-Connection.prototype.parseA = function (buffer, length) {
-  var msg = new Message('notification', length)
-  msg.processId = this.parseInt32(buffer)
-  msg.channel = this.parseCString(buffer)
-  msg.payload = this.parseCString(buffer)
-  return msg
-}
-
-Connection.prototype.parseG = function (buffer, length) {
-  var msg = new Message('copyInResponse', length)
-  return this.parseGH(buffer, msg)
-}
-
-Connection.prototype.parseH = function (buffer, length) {
-  var msg = new Message('copyOutResponse', length)
-  return this.parseGH(buffer, msg)
-}
-
-Connection.prototype.parseGH = function (buffer, msg) {
-  var isBinary = buffer[this.offset] !== 0
-  this.offset++
-  msg.binary = isBinary
-  var columnCount = this.parseInt16(buffer)
-  msg.columnTypes = []
-  for (var i = 0; i < columnCount; i++) {
-    msg.columnTypes.push(this.parseInt16(buffer))
-  }
-  return msg
-}
-
-Connection.prototype.parsed = function (buffer, length) {
-  var msg = new Message('copyData', length)
-  msg.chunk = this.readBytes(buffer, msg.length - 4)
-  return msg
-}
-
-Connection.prototype.parseInt32 = function (buffer) {
-  var value = buffer.readInt32BE(this.offset)
-  this.offset += 4
-  return value
-}
-
-Connection.prototype.parseInt16 = function (buffer) {
-  var value = buffer.readInt16BE(this.offset)
-  this.offset += 2
-  return value
-}
-
-Connection.prototype.readString = function (buffer, length) {
-  return buffer.toString(this.encoding, this.offset, (this.offset += length))
-}
-
-Connection.prototype.readBytes = function (buffer, length) {
-  return buffer.slice(this.offset, (this.offset += length))
-}
-
-Connection.prototype.parseCString = function (buffer) {
-  var start = this.offset
-  var end = buffer.indexOf(0, start)
-  this.offset = end + 1
-  return buffer.toString(this.encoding, start, end)
-}
-// end parsing methods
 module.exports = Connection
 
 
@@ -24775,7 +25681,7 @@ module.exports = Connection
 
 "use strict";
 
-module.exports = __webpack_require__(477)
+module.exports = __webpack_require__(474)
 
 
 /***/ }),
@@ -24793,7 +25699,7 @@ __webpack_require__.d(__webpack_exports__, "v4", function() { return /* reexport
 __webpack_require__.d(__webpack_exports__, "v5", function() { return /* reexport */ esm_node_v5; });
 
 // EXTERNAL MODULE: external "crypto"
-var external_crypto_ = __webpack_require__(33);
+var external_crypto_ = __webpack_require__(31);
 var external_crypto_default = /*#__PURE__*/__webpack_require__.n(external_crypto_);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/knex/node_modules/uuid/dist/esm-node/rng.js
@@ -25075,7 +25981,7 @@ module.exports = Knex;
 /* 249 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Raw = __webpack_require__(43);
+const Raw = __webpack_require__(42);
 const Client = __webpack_require__(193);
 const QueryBuilder = __webpack_require__(106);
 const QueryInterface = __webpack_require__(214);
@@ -25085,7 +25991,7 @@ const parseConnection = __webpack_require__(440);
 const { KnexTimeoutError } = __webpack_require__(79);
 const fakeClient = __webpack_require__(442);
 const { SUPPORTED_CLIENTS } = __webpack_require__(131);
-const { resolveClientNameWithAliases } = __webpack_require__(34);
+const { resolveClientNameWithAliases } = __webpack_require__(33);
 
 function Knex(config) {
   // If config is a string, try to parse it
@@ -25197,7 +26103,7 @@ if (typeof Object.create === 'function') {
 /* 251 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(44);
+var Symbol = __webpack_require__(43);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -25277,9 +26183,9 @@ module.exports = objectToString;
 /* 253 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(26),
+var baseGetTag = __webpack_require__(25),
     isLength = __webpack_require__(129),
-    isObjectLike = __webpack_require__(19);
+    isObjectLike = __webpack_require__(18);
 
 /** `Object#toString` result references. */
 var argsTag = '[object Arguments]',
@@ -25785,8 +26691,8 @@ function plural(ms, msAbs, n, name) {
  * Module dependencies.
  */
 
-const tty = __webpack_require__(40);
-const util = __webpack_require__(4);
+const tty = __webpack_require__(39);
+const util = __webpack_require__(3);
 
 /**
  * This is the Node.js implementation of `debug()`.
@@ -25808,7 +26714,7 @@ exports.colors = [6, 2, 3, 4, 5, 1];
 try {
 	// Optional dependency (as in, doesn't need to be installed, NOT like optionalDependencies in package.json)
 	// eslint-disable-next-line import/no-extraneous-dependencies
-	const supportsColor = __webpack_require__(42);
+	const supportsColor = __webpack_require__(41);
 
 	if (supportsColor && (supportsColor.stderr || supportsColor).level >= 2) {
 		exports.colors = [
@@ -26044,9 +26950,9 @@ formatters.O = function (v) {
 /* 257 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isFunction = __webpack_require__(32),
+var isFunction = __webpack_require__(30),
     isMasked = __webpack_require__(258),
-    isObject = __webpack_require__(13),
+    isObject = __webpack_require__(12),
     toSource = __webpack_require__(162);
 
 /**
@@ -26123,7 +27029,7 @@ module.exports = isMasked;
 /* 259 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var root = __webpack_require__(18);
+var root = __webpack_require__(17);
 
 /** Used to detect overreaching core-js shims. */
 var coreJsData = root['__core-js_shared__'];
@@ -26198,7 +27104,7 @@ module.exports = overRest;
 
 var constant = __webpack_require__(263),
     defineProperty = __webpack_require__(161),
-    identity = __webpack_require__(36);
+    identity = __webpack_require__(35);
 
 /**
  * The base implementation of `setToString` without support for hot loop shorting.
@@ -26282,8 +27188,8 @@ module.exports = baseTimes;
 /* 265 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(26),
-    isObjectLike = __webpack_require__(19);
+var baseGetTag = __webpack_require__(25),
+    isObjectLike = __webpack_require__(18);
 
 /** `Object#toString` result references. */
 var argsTag = '[object Arguments]';
@@ -26405,7 +27311,7 @@ module.exports = createBaseFor;
 /* 270 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isArrayLike = __webpack_require__(27);
+var isArrayLike = __webpack_require__(26);
 
 /**
  * Creates a `baseEach` or `baseEachRight` function.
@@ -27127,10 +28033,10 @@ var Stack = __webpack_require__(97),
     equalArrays = __webpack_require__(170),
     equalByTag = __webpack_require__(299),
     equalObjects = __webpack_require__(300),
-    getTag = __webpack_require__(61),
-    isArray = __webpack_require__(8),
-    isBuffer = __webpack_require__(60),
-    isTypedArray = __webpack_require__(57);
+    getTag = __webpack_require__(59),
+    isArray = __webpack_require__(7),
+    isBuffer = __webpack_require__(58),
+    isTypedArray = __webpack_require__(55);
 
 /** Used to compose bitmasks for value comparisons. */
 var COMPARE_PARTIAL_FLAG = 1;
@@ -27286,9 +28192,9 @@ module.exports = arraySome;
 /* 299 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(44),
+var Symbol = __webpack_require__(43),
     Uint8Array = __webpack_require__(173),
-    eq = __webpack_require__(46),
+    eq = __webpack_require__(45),
     equalArrays = __webpack_require__(170),
     mapToArray = __webpack_require__(174),
     setToArray = __webpack_require__(175);
@@ -27499,8 +28405,8 @@ module.exports = equalObjects;
 /* 301 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getNative = __webpack_require__(45),
-    root = __webpack_require__(18);
+var getNative = __webpack_require__(44),
+    root = __webpack_require__(17);
 
 /* Built-in method references that are verified to be native. */
 var DataView = getNative(root, 'DataView');
@@ -27512,8 +28418,8 @@ module.exports = DataView;
 /* 302 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getNative = __webpack_require__(45),
-    root = __webpack_require__(18);
+var getNative = __webpack_require__(44),
+    root = __webpack_require__(17);
 
 /* Built-in method references that are verified to be native. */
 var Promise = getNative(root, 'Promise');
@@ -27525,8 +28431,8 @@ module.exports = Promise;
 /* 303 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getNative = __webpack_require__(45),
-    root = __webpack_require__(18);
+var getNative = __webpack_require__(44),
+    root = __webpack_require__(17);
 
 /* Built-in method references that are verified to be native. */
 var Set = getNative(root, 'Set');
@@ -27539,7 +28445,7 @@ module.exports = Set;
 /***/ (function(module, exports, __webpack_require__) {
 
 var isStrictComparable = __webpack_require__(181),
-    keys = __webpack_require__(37);
+    keys = __webpack_require__(36);
 
 /**
  * Gets the property names, values, and compare flags of `object`.
@@ -27751,10 +28657,10 @@ module.exports = memoize;
 /* 309 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(44),
-    arrayMap = __webpack_require__(63),
-    isArray = __webpack_require__(8),
-    isSymbol = __webpack_require__(62);
+var Symbol = __webpack_require__(43),
+    arrayMap = __webpack_require__(61),
+    isArray = __webpack_require__(7),
+    isSymbol = __webpack_require__(60);
 
 /** Used as references for various `Number` constants. */
 var INFINITY = 1 / 0;
@@ -27962,8 +28868,8 @@ module.exports = baseReduce;
 /* 316 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var copyObject = __webpack_require__(35),
-    keys = __webpack_require__(37);
+var copyObject = __webpack_require__(34),
+    keys = __webpack_require__(36);
 
 /**
  * The base implementation of `_.assign` without support for multiple sources
@@ -27985,8 +28891,8 @@ module.exports = baseAssign;
 /* 317 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var copyObject = __webpack_require__(35),
-    keysIn = __webpack_require__(47);
+var copyObject = __webpack_require__(34),
+    keysIn = __webpack_require__(46);
 
 /**
  * The base implementation of `_.assignIn` without support for multiple sources
@@ -28008,7 +28914,7 @@ module.exports = baseAssignIn;
 /* 318 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(13),
+var isObject = __webpack_require__(12),
     isPrototype = __webpack_require__(72),
     nativeKeysIn = __webpack_require__(319);
 
@@ -28073,7 +28979,7 @@ module.exports = nativeKeysIn;
 /* 320 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var copyObject = __webpack_require__(35),
+var copyObject = __webpack_require__(34),
     getSymbols = __webpack_require__(138);
 
 /**
@@ -28095,7 +29001,7 @@ module.exports = copySymbols;
 /* 321 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var copyObject = __webpack_require__(35),
+var copyObject = __webpack_require__(34),
     getSymbolsIn = __webpack_require__(188);
 
 /**
@@ -28277,7 +29183,7 @@ module.exports = cloneRegExp;
 /* 326 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(44);
+var Symbol = __webpack_require__(43);
 
 /** Used to convert symbols to primitives and strings. */
 var symbolProto = Symbol ? Symbol.prototype : undefined,
@@ -28334,8 +29240,8 @@ module.exports = isMap;
 /* 328 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getTag = __webpack_require__(61),
-    isObjectLike = __webpack_require__(19);
+var getTag = __webpack_require__(59),
+    isObjectLike = __webpack_require__(18);
 
 /** `Object#toString` result references. */
 var mapTag = '[object Map]';
@@ -28391,8 +29297,8 @@ module.exports = isSet;
 /* 330 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getTag = __webpack_require__(61),
-    isObjectLike = __webpack_require__(19);
+var getTag = __webpack_require__(59),
+    isObjectLike = __webpack_require__(18);
 
 /** `Object#toString` result references. */
 var setTag = '[object Set]';
@@ -28422,7 +29328,7 @@ module.exports = function () {};
 /* 332 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Raw = __webpack_require__(43);
+const Raw = __webpack_require__(42);
 
 class Ref extends Raw {
   constructor(client, ref) {
@@ -28744,7 +29650,7 @@ module.exports = Runner;
 var arrayEach = __webpack_require__(104),
     baseEach = __webpack_require__(74),
     castFunction = __webpack_require__(335),
-    isArray = __webpack_require__(8);
+    isArray = __webpack_require__(7);
 
 /**
  * Iterates over elements of `collection` and invokes `iteratee` for each element.
@@ -28788,7 +29694,7 @@ module.exports = forEach;
 /* 335 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var identity = __webpack_require__(36);
+var identity = __webpack_require__(35);
 
 /**
  * Casts `value` to `identity` if it's not a function.
@@ -28810,8 +29716,8 @@ module.exports = castFunction;
 
 var arrayFilter = __webpack_require__(178),
     baseFilter = __webpack_require__(337),
-    baseIteratee = __webpack_require__(38),
-    isArray = __webpack_require__(8),
+    baseIteratee = __webpack_require__(37),
+    isArray = __webpack_require__(7),
     negate = __webpack_require__(199);
 
 /**
@@ -29053,13 +29959,13 @@ module.exports = {
 var arrayEach = __webpack_require__(104),
     baseCreate = __webpack_require__(77),
     baseForOwn = __webpack_require__(167),
-    baseIteratee = __webpack_require__(38),
+    baseIteratee = __webpack_require__(37),
     getPrototype = __webpack_require__(92),
-    isArray = __webpack_require__(8),
-    isBuffer = __webpack_require__(60),
-    isFunction = __webpack_require__(32),
-    isObject = __webpack_require__(13),
-    isTypedArray = __webpack_require__(57);
+    isArray = __webpack_require__(7),
+    isBuffer = __webpack_require__(58),
+    isFunction = __webpack_require__(30),
+    isObject = __webpack_require__(12),
+    isTypedArray = __webpack_require__(55);
 
 /**
  * An alternative to `_.reduce`; this method transforms `object` to a new
@@ -29123,11 +30029,11 @@ module.exports = transform;
 
 // Transaction
 // -------
-const { EventEmitter } = __webpack_require__(10);
-const Debug = __webpack_require__(58);
+const { EventEmitter } = __webpack_require__(11);
+const Debug = __webpack_require__(56);
 
 const makeKnex = __webpack_require__(203);
-const { callbackify } = __webpack_require__(4);
+const { callbackify } = __webpack_require__(3);
 const { timeout, KnexTimeoutError } = __webpack_require__(79);
 const finallyMixin = __webpack_require__(192);
 
@@ -29492,9 +30398,9 @@ const differenceWith = __webpack_require__(347);
 const get = __webpack_require__(183);
 const isBoolean = __webpack_require__(197);
 const isEmpty = __webpack_require__(78);
-const isFunction = __webpack_require__(32);
+const isFunction = __webpack_require__(30);
 const max = __webpack_require__(354);
-const inherits = __webpack_require__(31);
+const inherits = __webpack_require__(29);
 const {
   getLockTableName,
   getTable,
@@ -30085,7 +30991,7 @@ module.exports = {
 
 var baseDifference = __webpack_require__(348),
     baseFlatten = __webpack_require__(145),
-    baseRest = __webpack_require__(59),
+    baseRest = __webpack_require__(57),
     isArrayLikeObject = __webpack_require__(205),
     last = __webpack_require__(198);
 
@@ -30132,7 +31038,7 @@ module.exports = differenceWith;
 var SetCache = __webpack_require__(171),
     arrayIncludes = __webpack_require__(204),
     arrayIncludesWith = __webpack_require__(352),
-    arrayMap = __webpack_require__(63),
+    arrayMap = __webpack_require__(61),
     baseUnary = __webpack_require__(69),
     cacheHas = __webpack_require__(172);
 
@@ -30307,9 +31213,9 @@ module.exports = arrayIncludesWith;
 /* 353 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(44),
+var Symbol = __webpack_require__(43),
     isArguments = __webpack_require__(73),
-    isArray = __webpack_require__(8);
+    isArray = __webpack_require__(7);
 
 /** Built-in value references. */
 var spreadableSymbol = Symbol ? Symbol.isConcatSpreadable : undefined;
@@ -30335,7 +31241,7 @@ module.exports = isFlattenable;
 
 var baseExtremum = __webpack_require__(355),
     baseGt = __webpack_require__(356),
-    identity = __webpack_require__(36);
+    identity = __webpack_require__(35);
 
 /**
  * Computes the maximum value of `array`. If `array` is empty or falsey,
@@ -30368,7 +31274,7 @@ module.exports = max;
 /* 355 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isSymbol = __webpack_require__(62);
+var isSymbol = __webpack_require__(60);
 
 /**
  * The base implementation of methods like `_.max` and `_.min` which accepts a
@@ -30471,7 +31377,7 @@ module.exports = {
 /* 358 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(__dirname) {const path = __webpack_require__(11);
+/* WEBPACK VAR INJECTION */(function(__dirname) {const path = __webpack_require__(9);
 const { writeJsFileUsingTemplate } = __webpack_require__(207);
 const { getMergedConfig } = __webpack_require__(211);
 const { ensureDirectoryExists } = __webpack_require__(109);
@@ -30587,7 +31493,7 @@ var assignInWith = __webpack_require__(360),
     escapeStringChar = __webpack_require__(363),
     isError = __webpack_require__(208),
     isIterateeCall = __webpack_require__(70),
-    keys = __webpack_require__(37),
+    keys = __webpack_require__(36),
     reInterpolate = __webpack_require__(209),
     templateSettings = __webpack_require__(364),
     toString = __webpack_require__(103);
@@ -30839,9 +31745,9 @@ module.exports = template;
 /* 360 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var copyObject = __webpack_require__(35),
+var copyObject = __webpack_require__(34),
     createAssigner = __webpack_require__(95),
-    keysIn = __webpack_require__(47);
+    keysIn = __webpack_require__(46);
 
 /**
  * This method is like `_.assignIn` except that it accepts `customizer`
@@ -30884,7 +31790,7 @@ module.exports = assignInWith;
 /***/ (function(module, exports, __webpack_require__) {
 
 var apply = __webpack_require__(96),
-    baseRest = __webpack_require__(59),
+    baseRest = __webpack_require__(57),
     isError = __webpack_require__(208);
 
 /**
@@ -30924,7 +31830,7 @@ module.exports = attempt;
 /* 362 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var eq = __webpack_require__(46);
+var eq = __webpack_require__(45);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -31213,8 +32119,8 @@ module.exports = mkdirp
 /* 371 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const { promisify } = __webpack_require__(4)
-const fs = __webpack_require__(5)
+const { promisify } = __webpack_require__(3)
+const fs = __webpack_require__(4)
 const optsArg = opts => {
   if (!opts)
     opts = { mode: 0o777, fs }
@@ -31243,7 +32149,7 @@ module.exports = optsArg
 /***/ (function(module, exports, __webpack_require__) {
 
 const platform = process.env.__TESTING_MKDIRP_PLATFORM__ || process.platform
-const { resolve, parse } = __webpack_require__(11)
+const { resolve, parse } = __webpack_require__(9)
 const pathArg = path => {
   if (/\0/.test(path)) {
     // simulate same failure that node raises
@@ -31277,7 +32183,7 @@ module.exports = pathArg
 /* 373 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const {dirname} = __webpack_require__(11)
+const {dirname} = __webpack_require__(9)
 const {findMade, findMadeSync} = __webpack_require__(374)
 const {mkdirpManual, mkdirpManualSync} = __webpack_require__(210)
 
@@ -31322,7 +32228,7 @@ module.exports = {mkdirpNative, mkdirpNativeSync}
 /* 374 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const {dirname} = __webpack_require__(11)
+const {dirname} = __webpack_require__(9)
 
 const findMade = (opts, parent, path = undefined) => {
   // we never want the 'made' return value to be a root directory
@@ -31357,7 +32263,7 @@ module.exports = {findMade, findMadeSync}
 /* 375 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const fs = __webpack_require__(5)
+const fs = __webpack_require__(4)
 
 const version = process.env.__TESTING_MKDIRP_NODE_VERSION__ || process.version
 const versArr = version.replace(/^v/, '').split('.')
@@ -31373,7 +32279,7 @@ module.exports = {useNative, useNativeSync}
 /* 376 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const path = __webpack_require__(11);
+const path = __webpack_require__(9);
 const sortBy = __webpack_require__(377);
 
 const { readdir } = __webpack_require__(109);
@@ -31478,7 +32384,7 @@ module.exports = {
 
 var baseFlatten = __webpack_require__(145),
     baseOrderBy = __webpack_require__(378),
-    baseRest = __webpack_require__(59),
+    baseRest = __webpack_require__(57),
     isIterateeCall = __webpack_require__(70);
 
 /**
@@ -31530,13 +32436,13 @@ module.exports = sortBy;
 /* 378 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayMap = __webpack_require__(63),
-    baseIteratee = __webpack_require__(38),
+var arrayMap = __webpack_require__(61),
+    baseIteratee = __webpack_require__(37),
     baseMap = __webpack_require__(212),
     baseSortBy = __webpack_require__(379),
     baseUnary = __webpack_require__(69),
     compareMultiple = __webpack_require__(380),
-    identity = __webpack_require__(36);
+    identity = __webpack_require__(35);
 
 /**
  * The base implementation of `_.orderBy` without param guards.
@@ -31647,7 +32553,7 @@ module.exports = compareMultiple;
 /* 381 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isSymbol = __webpack_require__(62);
+var isSymbol = __webpack_require__(60);
 
 /**
  * Compares values to sort them in ascending order.
@@ -31711,7 +32617,7 @@ webpackEmptyContext.id = 382;
 /* WEBPACK VAR INJECTION */(function(__dirname) {// Seeder
 // -------
 
-const path = __webpack_require__(11);
+const path = __webpack_require__(9);
 const extend = __webpack_require__(110);
 const includes = __webpack_require__(385);
 const { readdir, ensureDirectoryExists } = __webpack_require__(109);
@@ -31873,9 +32779,9 @@ module.exports = Seeder;
 /* 384 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var copyObject = __webpack_require__(35),
+var copyObject = __webpack_require__(34),
     createAssigner = __webpack_require__(95),
-    keysIn = __webpack_require__(47);
+    keysIn = __webpack_require__(46);
 
 /**
  * This method is like `_.assign` except that it iterates over own and
@@ -31920,8 +32826,8 @@ module.exports = assignIn;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseIndexOf = __webpack_require__(144),
-    isArrayLike = __webpack_require__(27),
-    isString = __webpack_require__(39),
+    isArrayLike = __webpack_require__(26),
+    isString = __webpack_require__(38),
     toInteger = __webpack_require__(111),
     values = __webpack_require__(201);
 
@@ -32026,8 +32932,8 @@ module.exports = toFinite;
 /* 387 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(13),
-    isSymbol = __webpack_require__(62);
+var isObject = __webpack_require__(12),
+    isSymbol = __webpack_require__(60);
 
 /** Used as references for various `Number` constants. */
 var NAN = 0 / 0;
@@ -32167,8 +33073,8 @@ var Stack = __webpack_require__(97),
     assignMergeValue = __webpack_require__(215),
     baseFor = __webpack_require__(168),
     baseMergeDeep = __webpack_require__(391),
-    isObject = __webpack_require__(13),
-    keysIn = __webpack_require__(47),
+    isObject = __webpack_require__(12),
+    keysIn = __webpack_require__(46),
     safeGet = __webpack_require__(216);
 
 /**
@@ -32217,13 +33123,13 @@ var assignMergeValue = __webpack_require__(215),
     copyArray = __webpack_require__(76),
     initCloneObject = __webpack_require__(191),
     isArguments = __webpack_require__(73),
-    isArray = __webpack_require__(8),
+    isArray = __webpack_require__(7),
     isArrayLikeObject = __webpack_require__(205),
-    isBuffer = __webpack_require__(60),
-    isFunction = __webpack_require__(32),
-    isObject = __webpack_require__(13),
+    isBuffer = __webpack_require__(58),
+    isFunction = __webpack_require__(30),
+    isObject = __webpack_require__(12),
     isPlainObject = __webpack_require__(68),
-    isTypedArray = __webpack_require__(57),
+    isTypedArray = __webpack_require__(55),
     safeGet = __webpack_require__(216),
     toPlainObject = __webpack_require__(392);
 
@@ -32311,8 +33217,8 @@ module.exports = baseMergeDeep;
 /* 392 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var copyObject = __webpack_require__(35),
-    keysIn = __webpack_require__(47);
+var copyObject = __webpack_require__(34),
+    keysIn = __webpack_require__(46);
 
 /**
  * Converts `value` to a plain object flattening inherited enumerable string
@@ -32510,7 +33416,7 @@ module.exports = (delay) =>
 /* 397 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseRest = __webpack_require__(59),
+var baseRest = __webpack_require__(57),
     createWrap = __webpack_require__(398),
     getHolder = __webpack_require__(149),
     replaceHolders = __webpack_require__(113);
@@ -32686,7 +33592,7 @@ module.exports = createWrap;
 /***/ (function(module, exports, __webpack_require__) {
 
 var createCtor = __webpack_require__(112),
-    root = __webpack_require__(18);
+    root = __webpack_require__(17);
 
 /** Used to compose bitmasks for function metadata. */
 var WRAP_BIND_FLAG = 1;
@@ -32725,7 +33631,7 @@ var apply = __webpack_require__(96),
     createRecurry = __webpack_require__(224),
     getHolder = __webpack_require__(149),
     replaceHolders = __webpack_require__(113),
-    root = __webpack_require__(18);
+    root = __webpack_require__(17);
 
 /**
  * Creates a function that wraps `func` to enable currying.
@@ -32905,8 +33811,8 @@ module.exports = realNames;
 var LazyWrapper = __webpack_require__(147),
     LodashWrapper = __webpack_require__(226),
     baseLodash = __webpack_require__(148),
-    isArray = __webpack_require__(8),
-    isObjectLike = __webpack_require__(19),
+    isArray = __webpack_require__(7),
+    isObjectLike = __webpack_require__(18),
     wrapperClone = __webpack_require__(407);
 
 /** Used for built-in method references. */
@@ -33225,7 +34131,7 @@ module.exports = reorder;
 
 var apply = __webpack_require__(96),
     createCtor = __webpack_require__(112),
-    root = __webpack_require__(18);
+    root = __webpack_require__(17);
 
 /** Used to compose bitmasks for function metadata. */
 var WRAP_BIND_FLAG = 1;
@@ -33407,8 +34313,8 @@ module.exports = compact;
 
 var arrayAggregator = __webpack_require__(416),
     baseAggregator = __webpack_require__(417),
-    baseIteratee = __webpack_require__(38),
-    isArray = __webpack_require__(8);
+    baseIteratee = __webpack_require__(37),
+    isArray = __webpack_require__(7);
 
 /**
  * Creates a function like `_.groupBy`.
@@ -33542,7 +34448,7 @@ module.exports = isUndefined;
 /* 420 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIteratee = __webpack_require__(38),
+var baseIteratee = __webpack_require__(37),
     negate = __webpack_require__(199),
     pickBy = __webpack_require__(421);
 
@@ -33577,8 +34483,8 @@ module.exports = omitBy;
 /* 421 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayMap = __webpack_require__(63),
-    baseIteratee = __webpack_require__(38),
+var arrayMap = __webpack_require__(61),
+    baseIteratee = __webpack_require__(37),
     basePickBy = __webpack_require__(422),
     getAllKeysIn = __webpack_require__(189);
 
@@ -33659,7 +34565,7 @@ module.exports = basePickBy;
 var assignValue = __webpack_require__(93),
     castPath = __webpack_require__(102),
     isIndex = __webpack_require__(71),
-    isObject = __webpack_require__(13),
+    isObject = __webpack_require__(12),
     toKey = __webpack_require__(75);
 
 /**
@@ -33709,10 +34615,10 @@ module.exports = baseSet;
 /* 424 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const inherits = __webpack_require__(31);
-const { EventEmitter } = __webpack_require__(10);
+const inherits = __webpack_require__(29);
+const { EventEmitter } = __webpack_require__(11);
 const toArray = __webpack_require__(108);
-const { addQueryContext } = __webpack_require__(34);
+const { addQueryContext } = __webpack_require__(33);
 const saveAsyncStack = __webpack_require__(141);
 
 // Constructor for the builder instance, typically called from
@@ -33807,10 +34713,10 @@ module.exports = SchemaBuilder;
 // ------
 const each = __webpack_require__(196);
 const extend = __webpack_require__(110);
-const isFunction = __webpack_require__(32);
-const isString = __webpack_require__(39);
+const isFunction = __webpack_require__(30);
+const isString = __webpack_require__(38);
 const toArray = __webpack_require__(108);
-const helpers = __webpack_require__(34);
+const helpers = __webpack_require__(33);
 
 function TableBuilder(client, method, tableName, fn) {
   this.client = client;
@@ -34142,7 +35048,7 @@ module.exports = indexOf;
 
 const extend = __webpack_require__(110);
 const toArray = __webpack_require__(108);
-const { addQueryContext } = __webpack_require__(34);
+const { addQueryContext } = __webpack_require__(33);
 
 // The chainable interface off the original "column" method.
 function ColumnBuilder(client, tableBuilder, type, args) {
@@ -34322,7 +35228,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const PendingOperation_1 = __webpack_require__(432);
 const Resource_1 = __webpack_require__(434);
 const utils_1 = __webpack_require__(153);
-const events_1 = __webpack_require__(10);
+const events_1 = __webpack_require__(11);
 const timers_1 = __webpack_require__(435);
 class Pool {
     constructor(opt) {
@@ -34973,10 +35879,10 @@ module.exports = cloneDeep;
 /* 437 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseRest = __webpack_require__(59),
-    eq = __webpack_require__(46),
+var baseRest = __webpack_require__(57),
+    eq = __webpack_require__(45),
     isIterateeCall = __webpack_require__(70),
-    keysIn = __webpack_require__(47);
+    keysIn = __webpack_require__(46);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -35046,9 +35952,9 @@ module.exports = defaults;
 /* eslint no-console:0 */
 
 const color = __webpack_require__(439);
-const { inspect } = __webpack_require__(4);
-const isFunction = __webpack_require__(32);
-const isString = __webpack_require__(39);
+const { inspect } = __webpack_require__(3);
+const isFunction = __webpack_require__(30);
+const isString = __webpack_require__(38);
 
 class Logger {
   constructor(config) {
@@ -35211,7 +36117,7 @@ module.exports = {
 /* 440 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const url = __webpack_require__(22);
+const url = __webpack_require__(21);
 const { parse } = __webpack_require__(441);
 const parsePG = parse;
 const isWindows = process && process.platform && process.platform === 'win32';
@@ -35286,8 +36192,8 @@ function connectionObject(parsed) {
 "use strict";
 
 
-var url = __webpack_require__(22);
-var fs = __webpack_require__(5);
+var url = __webpack_require__(21);
+var fs = __webpack_require__(4);
 
 //Parse method copied from https://github.com/brianc/node-postgres
 //Copyright (c) 2010-2014 Brian Carlson (brian.m.carlson@gmail.com)
@@ -35423,10 +36329,10 @@ webpackContext.id = 443;
 // PostgreSQL
 // -------
 const extend = __webpack_require__(110);
-const isString = __webpack_require__(39);
+const isString = __webpack_require__(38);
 const map = __webpack_require__(229);
-const { promisify } = __webpack_require__(4);
-const inherits = __webpack_require__(31);
+const { promisify } = __webpack_require__(3);
+const inherits = __webpack_require__(29);
 const Client = __webpack_require__(193);
 
 const QueryCompiler = __webpack_require__(445);
@@ -35625,7 +36531,7 @@ Object.assign(Client_PG.prototype, {
   _stream(connection, obj, stream, options) {
     const PGQueryStream = process.browser
       ? undefined
-      : __webpack_require__(482);
+      : __webpack_require__(479);
     const sql = obj.sql;
 
     return new Promise(function (resolver, rejecter) {
@@ -35750,7 +36656,7 @@ module.exports = Client_PG;
 // ------
 const QueryCompiler = __webpack_require__(218);
 
-const identity = __webpack_require__(36);
+const identity = __webpack_require__(35);
 const reduce = __webpack_require__(134);
 
 class QueryCompiler_PG extends QueryCompiler {
@@ -35918,9 +36824,9 @@ module.exports = QueryCompiler_PG;
 // PostgreSQL Column Compiler
 // -------
 
-const inherits = __webpack_require__(31);
+const inherits = __webpack_require__(29);
 const ColumnCompiler = __webpack_require__(232);
-const isObject = __webpack_require__(13);
+const isObject = __webpack_require__(12);
 
 function ColumnCompiler_PG() {
   ColumnCompiler.apply(this, arguments);
@@ -36048,7 +36954,7 @@ module.exports = ColumnCompiler_PG;
 // PostgreSQL Table Builder & Compiler
 // -------
 
-const inherits = __webpack_require__(31);
+const inherits = __webpack_require__(29);
 const TableCompiler = __webpack_require__(231);
 
 const has = __webpack_require__(151);
@@ -36235,7 +37141,7 @@ module.exports = TableCompiler_PG;
 // PostgreSQL Schema Compiler
 // -------
 
-const inherits = __webpack_require__(31);
+const inherits = __webpack_require__(29);
 const SchemaCompiler = __webpack_require__(230);
 
 function SchemaCompiler_PG() {
@@ -36357,8 +37263,8 @@ module.exports = SchemaCompiler_PG;
  * README.md file in the root directory of this source tree.
  */
 
-var EventEmitter = __webpack_require__(10).EventEmitter
-var util = __webpack_require__(4)
+var EventEmitter = __webpack_require__(11).EventEmitter
+var util = __webpack_require__(3)
 var utils = __webpack_require__(114)
 var sasl = __webpack_require__(458)
 var pgPass = __webpack_require__(459)
@@ -36368,9 +37274,6 @@ var ConnectionParameters = __webpack_require__(239)
 var Query = __webpack_require__(466)
 var defaults = __webpack_require__(115)
 var Connection = __webpack_require__(241)
-if (process.env.PG_FAST_CONNECTION) {
-  Connection = __webpack_require__(469)
-}
 
 var Client = function (config) {
   EventEmitter.call(this)
@@ -37933,7 +38836,7 @@ module.exports = {
 
 "use strict";
 
-const crypto = __webpack_require__(33)
+const crypto = __webpack_require__(31)
 
 function startSession(mechanisms) {
   if (mechanisms.indexOf('SCRAM-SHA-256') === -1) {
@@ -38092,8 +38995,8 @@ module.exports = {
 "use strict";
 
 
-var path = __webpack_require__(11)
-  , fs = __webpack_require__(5)
+var path = __webpack_require__(9)
+  , fs = __webpack_require__(4)
   , helper = __webpack_require__(460)
 ;
 
@@ -38122,10 +39025,10 @@ module.exports.warnTo = helper.warnTo;
 "use strict";
 
 
-var path = __webpack_require__(11)
+var path = __webpack_require__(9)
   , Stream = __webpack_require__(105).Stream
   , Split = __webpack_require__(461)
-  , util = __webpack_require__(4)
+  , util = __webpack_require__(3)
   , defaultPort = 5432
   , isWin = (process.platform === 'win32')
   , warnStream = process.stderr
@@ -38557,7 +39460,8 @@ module.exports = require("dns");
 "use strict";
 
 
-var url = __webpack_require__(22);
+var url = __webpack_require__(21)
+var fs = __webpack_require__(4)
 
 //Parse method copied from https://github.com/brianc/node-postgres
 //Copyright (c) 2010-2014 Brian Carlson (brian.m.carlson@gmail.com)
@@ -38565,58 +39469,84 @@ var url = __webpack_require__(22);
 
 //parses a connection string
 function parse(str) {
-  var config;
   //unix socket
-  if(str.charAt(0) === '/') {
-    config = str.split(' ');
-    return { host: config[0], database: config[1] };
+  if (str.charAt(0) === '/') {
+    var config = str.split(' ')
+    return { host: config[0], database: config[1] }
   }
+
   // url parse expects spaces encoded as %20
-  if(/ |%[^a-f0-9]|%[a-f0-9][^a-f0-9]/i.test(str)) {
-    str = encodeURI(str).replace(/\%25(\d\d)/g, "%$1");
-  }
-  var result = url.parse(str, true);
-  config = {};
-
-  if (result.query.application_name) {
-    config.application_name = result.query.application_name;
-  }
-  if (result.query.fallback_application_name) {
-    config.fallback_application_name = result.query.fallback_application_name;
+  var result = url.parse(
+    / |%[^a-f0-9]|%[a-f0-9][^a-f0-9]/i.test(str) ? encodeURI(str).replace(/\%25(\d\d)/g, '%$1') : str,
+    true
+  )
+  var config = result.query
+  for (var k in config) {
+    if (Array.isArray(config[k])) {
+      config[k] = config[k][config[k].length - 1]
+    }
   }
 
-  config.port = result.port;
-  if(result.protocol == 'socket:') {
-    config.host = decodeURI(result.pathname);
-    config.database = result.query.db;
-    config.client_encoding = result.query.encoding;
-    return config;
-  }
-  config.host = result.hostname;
+  var auth = (result.auth || ':').split(':')
+  config.user = auth[0]
+  config.password = auth.splice(1).join(':')
 
+  config.port = result.port
+  if (result.protocol == 'socket:') {
+    config.host = decodeURI(result.pathname)
+    config.database = result.query.db
+    config.client_encoding = result.query.encoding
+    return config
+  }
+  if (!config.host) {
+    // Only set the host if there is no equivalent query param.
+    config.host = result.hostname
+  }
+
+  // If the host is missing it might be a URL-encoded path to a socket.
+  var pathname = result.pathname
+  if (!config.host && pathname && /^%2f/i.test(pathname)) {
+    var pathnameSplit = pathname.split('/')
+    config.host = decodeURIComponent(pathnameSplit[0])
+    pathname = pathnameSplit.splice(1).join('/')
+  }
   // result.pathname is not always guaranteed to have a '/' prefix (e.g. relative urls)
   // only strip the slash if it is present.
-  var pathname = result.pathname;
   if (pathname && pathname.charAt(0) === '/') {
-    pathname = result.pathname.slice(1) || null;
+    pathname = pathname.slice(1) || null
   }
-  config.database = pathname && decodeURI(pathname);
+  config.database = pathname && decodeURI(pathname)
 
-  var auth = (result.auth || ':').split(':');
-  config.user = auth[0];
-  config.password = auth.splice(1).join(':');
-
-  var ssl = result.query.ssl;
-  if (ssl === 'true' || ssl === '1') {
-    config.ssl = true;
+  if (config.ssl === 'true' || config.ssl === '1') {
+    config.ssl = true
   }
 
-  return config;
+  if (config.ssl === '0') {
+    config.ssl = false
+  }
+
+  if (config.sslcert || config.sslkey || config.sslrootcert) {
+    config.ssl = {}
+  }
+
+  if (config.sslcert) {
+    config.ssl.cert = fs.readFileSync(config.sslcert).toString()
+  }
+
+  if (config.sslkey) {
+    config.ssl.key = fs.readFileSync(config.sslkey).toString()
+  }
+
+  if (config.sslrootcert) {
+    config.ssl.ca = fs.readFileSync(config.sslrootcert).toString()
+  }
+
+  return config
 }
 
-module.exports = {
-  parse: parse
-};
+module.exports = parse
+
+parse.parse = parse
 
 
 /***/ }),
@@ -38633,7 +39563,7 @@ module.exports = {
  * README.md file in the root directory of this source tree.
  */
 
-const { EventEmitter } = __webpack_require__(10)
+const { EventEmitter } = __webpack_require__(11)
 
 const Result = __webpack_require__(240)
 const utils = __webpack_require__(114)
@@ -38874,443 +39804,14 @@ module.exports = Query
 
 /***/ }),
 /* 467 */
-/***/ (function(module, exports) {
-
-//binary data writer tuned for creating
-//postgres message packets as effeciently as possible by reusing the
-//same buffer to avoid memcpy and limit memory allocations
-var Writer = module.exports = function (size) {
-  this.size = size || 1024;
-  this.buffer = Buffer.alloc(this.size + 5);
-  this.offset = 5;
-  this.headerPosition = 0;
-};
-
-//resizes internal buffer if not enough size left
-Writer.prototype._ensure = function (size) {
-  var remaining = this.buffer.length - this.offset;
-  if (remaining < size) {
-    var oldBuffer = this.buffer;
-    // exponential growth factor of around ~ 1.5
-    // https://stackoverflow.com/questions/2269063/buffer-growth-strategy
-    var newSize = oldBuffer.length + (oldBuffer.length >> 1) + size;
-    this.buffer = Buffer.alloc(newSize);
-    oldBuffer.copy(this.buffer);
-  }
-};
-
-Writer.prototype.addInt32 = function (num) {
-  this._ensure(4);
-  this.buffer[this.offset++] = (num >>> 24 & 0xFF);
-  this.buffer[this.offset++] = (num >>> 16 & 0xFF);
-  this.buffer[this.offset++] = (num >>> 8 & 0xFF);
-  this.buffer[this.offset++] = (num >>> 0 & 0xFF);
-  return this;
-};
-
-Writer.prototype.addInt16 = function (num) {
-  this._ensure(2);
-  this.buffer[this.offset++] = (num >>> 8 & 0xFF);
-  this.buffer[this.offset++] = (num >>> 0 & 0xFF);
-  return this;
-};
-
-//for versions of node requiring 'length' as 3rd argument to buffer.write
-var writeString = function (buffer, string, offset, len) {
-  buffer.write(string, offset, len);
-};
-
-//overwrite function for older versions of node
-if (Buffer.prototype.write.length === 3) {
-  writeString = function (buffer, string, offset, len) {
-    buffer.write(string, offset);
-  };
-}
-
-Writer.prototype.addCString = function (string) {
-  //just write a 0 for empty or null strings
-  if (!string) {
-    this._ensure(1);
-  } else {
-    var len = Buffer.byteLength(string);
-    this._ensure(len + 1); //+1 for null terminator
-    writeString(this.buffer, string, this.offset, len);
-    this.offset += len;
-  }
-
-  this.buffer[this.offset++] = 0; // null terminator
-  return this;
-};
-
-Writer.prototype.addChar = function (c) {
-  this._ensure(1);
-  writeString(this.buffer, c, this.offset, 1);
-  this.offset++;
-  return this;
-};
-
-Writer.prototype.addString = function (string) {
-  string = string || "";
-  var len = Buffer.byteLength(string);
-  this._ensure(len);
-  this.buffer.write(string, this.offset);
-  this.offset += len;
-  return this;
-};
-
-Writer.prototype.getByteLength = function () {
-  return this.offset - 5;
-};
-
-Writer.prototype.add = function (otherBuffer) {
-  this._ensure(otherBuffer.length);
-  otherBuffer.copy(this.buffer, this.offset);
-  this.offset += otherBuffer.length;
-  return this;
-};
-
-Writer.prototype.clear = function () {
-  this.offset = 5;
-  this.headerPosition = 0;
-  this.lastEnd = 0;
-};
-
-//appends a header block to all the written data since the last
-//subsequent header or to the beginning if there is only one data block
-Writer.prototype.addHeader = function (code, last) {
-  var origOffset = this.offset;
-  this.offset = this.headerPosition;
-  this.buffer[this.offset++] = code;
-  //length is everything in this packet minus the code
-  this.addInt32(origOffset - (this.headerPosition + 1));
-  //set next header position
-  this.headerPosition = origOffset;
-  //make space for next header
-  this.offset = origOffset;
-  if (!last) {
-    this._ensure(5);
-    this.offset += 5;
-  }
-};
-
-Writer.prototype.join = function (code) {
-  if (code) {
-    this.addHeader(code, true);
-  }
-  return this.buffer.slice(code ? 0 : 5, this.offset);
-};
-
-Writer.prototype.flush = function (code) {
-  var result = this.join(code);
-  this.clear();
-  return result;
-};
-
-
-/***/ }),
-/* 468 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var assert = __webpack_require__(30)
-
-var Reader = module.exports = function(options) {
-  //TODO - remove for version 1.0
-  if(typeof options == 'number') {
-    options = { headerSize: options }
-  }
-  options = options || {}
-  this.offset = 0
-  this.lastChunk = false
-  this.chunk = null
-  this.chunkLength = 0
-  this.headerSize = options.headerSize || 0
-  this.lengthPadding = options.lengthPadding || 0
-  this.header = null
-  assert(this.headerSize < 2, 'pre-length header of more than 1 byte length not currently supported')
-}
-
-Reader.prototype.addChunk = function(chunk) {
-  if (!this.chunk || this.offset === this.chunkLength) {
-    this.chunk = chunk
-    this.chunkLength = chunk.length
-    this.offset = 0
-    return
-  }
-
-  var newChunkLength = chunk.length
-  var newLength = this.chunkLength + newChunkLength
-
-  if (newLength > this.chunk.length) {
-    var newBufferLength = this.chunk.length * 2
-    while (newLength >= newBufferLength) {
-      newBufferLength *= 2
-    }
-    var newBuffer = Buffer.alloc(newBufferLength)
-    this.chunk.copy(newBuffer)
-    this.chunk = newBuffer
-  }
-  chunk.copy(this.chunk, this.chunkLength)
-  this.chunkLength = newLength
-}
-
-Reader.prototype.read = function() {
-  if(this.chunkLength < (this.headerSize + 4 + this.offset)) {
-    return false
-  }
-
-  if(this.headerSize) {
-    this.header = this.chunk[this.offset]
-  }
-
-  //read length of next item
-  var length = this.chunk.readUInt32BE(this.offset + this.headerSize) + this.lengthPadding
-
-  //next item spans more chunks than we have
-  var remaining = this.chunkLength - (this.offset + 4 + this.headerSize)
-  if(length > remaining) {
-    return false
-  }
-
-  this.offset += (this.headerSize + 4)
-  var result = this.chunk.slice(this.offset, this.offset + length)
-  this.offset += length
-  return result
-}
-
-
-/***/ }),
-/* 469 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-/**
- * Copyright (c) 2010-2017 Brian Carlson (brian.m.carlson@gmail.com)
- * All rights reserved.
- *
- * This source code is licensed under the MIT license found in the
- * README.md file in the root directory of this source tree.
- */
-
-var net = __webpack_require__(55)
-var EventEmitter = __webpack_require__(10).EventEmitter
-var util = __webpack_require__(4)
-
-// eslint-disable-next-line
-const { parse, serialize } = __webpack_require__(470)
-
-// TODO(bmc) support binary mode here
-// var BINARY_MODE = 1
-console.log('***using faster connection***')
-var Connection = function (config) {
-  EventEmitter.call(this)
-  config = config || {}
-  this.stream = config.stream || new net.Socket()
-  this.stream.setNoDelay(true)
-  this._keepAlive = config.keepAlive
-  this._keepAliveInitialDelayMillis = config.keepAliveInitialDelayMillis
-  this.lastBuffer = false
-  this.parsedStatements = {}
-  this.ssl = config.ssl || false
-  this._ending = false
-  this._emitMessage = false
-  var self = this
-  this.on('newListener', function (eventName) {
-    if (eventName === 'message') {
-      self._emitMessage = true
-    }
-  })
-}
-
-util.inherits(Connection, EventEmitter)
-
-Connection.prototype.connect = function (port, host) {
-  var self = this
-
-  this._connecting = true
-  this.stream.connect(port, host)
-
-  this.stream.once('connect', function () {
-    if (self._keepAlive) {
-      self.stream.setKeepAlive(true, self._keepAliveInitialDelayMillis)
-    }
-    self.emit('connect')
-  })
-
-  const reportStreamError = function (error) {
-    // errors about disconnections should be ignored during disconnect
-    if (self._ending && (error.code === 'ECONNRESET' || error.code === 'EPIPE')) {
-      return
-    }
-    self.emit('error', error)
-  }
-  this.stream.on('error', reportStreamError)
-
-  this.stream.on('close', function () {
-    self.emit('end')
-  })
-
-  if (!this.ssl) {
-    return this.attachListeners(this.stream)
-  }
-
-  this.stream.once('data', function (buffer) {
-    var responseCode = buffer.toString('utf8')
-    switch (responseCode) {
-      case 'S': // Server supports SSL connections, continue with a secure connection
-        break
-      case 'N': // Server does not support SSL connections
-        self.stream.end()
-        return self.emit('error', new Error('The server does not support SSL connections'))
-      default:
-        // Any other response byte, including 'E' (ErrorResponse) indicating a server error
-        self.stream.end()
-        return self.emit('error', new Error('There was an error establishing an SSL connection'))
-    }
-    var tls = __webpack_require__(56)
-    const options = Object.assign(
-      {
-        socket: self.stream,
-      },
-      self.ssl
-    )
-    if (net.isIP(host) === 0) {
-      options.servername = host
-    }
-    self.stream = tls.connect(options)
-    self.attachListeners(self.stream)
-    self.stream.on('error', reportStreamError)
-
-    self.emit('sslconnect')
-  })
-}
-
-Connection.prototype.attachListeners = function (stream) {
-  stream.on('end', () => {
-    this.emit('end')
-  })
-  parse(stream, (msg) => {
-    var eventName = msg.name === 'error' ? 'errorMessage' : msg.name
-    if (this._emitMessage) {
-      this.emit('message', msg)
-    }
-    this.emit(eventName, msg)
-  })
-}
-
-Connection.prototype.requestSsl = function () {
-  this.stream.write(serialize.requestSsl())
-}
-
-Connection.prototype.startup = function (config) {
-  this.stream.write(serialize.startup(config))
-}
-
-Connection.prototype.cancel = function (processID, secretKey) {
-  this._send(serialize.cancel(processID, secretKey))
-}
-
-Connection.prototype.password = function (password) {
-  this._send(serialize.password(password))
-}
-
-Connection.prototype.sendSASLInitialResponseMessage = function (mechanism, initialResponse) {
-  this._send(serialize.sendSASLInitialResponseMessage(mechanism, initialResponse))
-}
-
-Connection.prototype.sendSCRAMClientFinalMessage = function (additionalData) {
-  this._send(serialize.sendSCRAMClientFinalMessage(additionalData))
-}
-
-Connection.prototype._send = function (buffer) {
-  if (!this.stream.writable) {
-    return false
-  }
-  return this.stream.write(buffer)
-}
-
-Connection.prototype.query = function (text) {
-  this._send(serialize.query(text))
-}
-
-// send parse message
-Connection.prototype.parse = function (query) {
-  this._send(serialize.parse(query))
-}
-
-// send bind message
-// "more" === true to buffer the message until flush() is called
-Connection.prototype.bind = function (config) {
-  this._send(serialize.bind(config))
-}
-
-// send execute message
-// "more" === true to buffer the message until flush() is called
-Connection.prototype.execute = function (config) {
-  this._send(serialize.execute(config))
-}
-
-const flushBuffer = serialize.flush()
-Connection.prototype.flush = function () {
-  if (this.stream.writable) {
-    this.stream.write(flushBuffer)
-  }
-}
-
-const syncBuffer = serialize.sync()
-Connection.prototype.sync = function () {
-  this._ending = true
-  this._send(syncBuffer)
-  this._send(flushBuffer)
-}
-
-const endBuffer = serialize.end()
-
-Connection.prototype.end = function () {
-  // 0x58 = 'X'
-  this._ending = true
-  if (!this._connecting || !this.stream.writable) {
-    this.stream.end()
-    return
-  }
-  return this.stream.write(endBuffer, () => {
-    this.stream.end()
-  })
-}
-
-Connection.prototype.close = function (msg) {
-  this._send(serialize.close(msg))
-}
-
-Connection.prototype.describe = function (msg) {
-  this._send(serialize.describe(msg))
-}
-
-Connection.prototype.sendCopyFromChunk = function (chunk) {
-  this._send(serialize.copyData(chunk))
-}
-
-Connection.prototype.endCopyFrom = function () {
-  this._send(serialize.copyDone())
-}
-
-Connection.prototype.sendCopyFail = function (msg) {
-  this._send(serialize.copyFail(msg))
-}
-
-module.exports = Connection
-
-
-/***/ }),
-/* 470 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const serializer_1 = __webpack_require__(471);
+const serializer_1 = __webpack_require__(468);
 exports.serialize = serializer_1.serialize;
-const parser_1 = __webpack_require__(473);
+const parser_1 = __webpack_require__(470);
 function parse(stream, callback) {
     const parser = new parser_1.Parser();
     stream.on('data', (buffer) => parser.parse(buffer, callback));
@@ -39320,13 +39821,13 @@ exports.parse = parse;
 //# sourceMappingURL=index.js.map
 
 /***/ }),
-/* 471 */
+/* 468 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const buffer_writer_1 = __webpack_require__(472);
+const buffer_writer_1 = __webpack_require__(469);
 const writer = new buffer_writer_1.Writer();
 const startup = (opts) => {
     // protocol version
@@ -39334,7 +39835,7 @@ const startup = (opts) => {
     for (const key of Object.keys(opts)) {
         writer.addCString(key).addCString(opts[key]);
     }
-    writer.addCString('client_encoding').addCString("'utf-8'");
+    writer.addCString('client_encoding').addCString('UTF8');
     var bodyBuffer = writer.addCString('').flush();
     // this message is sent without a code
     var length = bodyBuffer.length + 4;
@@ -39519,7 +40020,7 @@ exports.serialize = serialize;
 //# sourceMappingURL=serializer.js.map
 
 /***/ }),
-/* 472 */
+/* 469 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39605,7 +40106,7 @@ exports.Writer = Writer;
 //# sourceMappingURL=buffer-writer.js.map
 
 /***/ }),
-/* 473 */
+/* 470 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39614,9 +40115,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const messages_1 = __webpack_require__(474);
-const buffer_reader_1 = __webpack_require__(475);
-const assert_1 = __importDefault(__webpack_require__(30));
+const messages_1 = __webpack_require__(471);
+const buffer_reader_1 = __webpack_require__(472);
+const assert_1 = __importDefault(__webpack_require__(32));
 // every message is prefixed with a single bye
 const CODE_LENGTH = 1;
 // every message has an int32 length which includes itself but does
@@ -39827,11 +40328,11 @@ class Parser {
                 break;
             case 11: // AuthenticationSASLContinue
                 message.name = "authenticationSASLContinue" /* authenticationSASLContinue */;
-                message.data = this.reader.string(length - 4);
+                message.data = this.reader.string(length - 8);
                 break;
             case 12: // AuthenticationSASLFinal
                 message.name = "authenticationSASLFinal" /* authenticationSASLFinal */;
-                message.data = this.reader.string(length - 4);
+                message.data = this.reader.string(length - 8);
                 break;
             default:
                 throw new Error('Unknown authenticationOk message type ' + code);
@@ -39873,7 +40374,7 @@ exports.Parser = Parser;
 //# sourceMappingURL=parser.js.map
 
 /***/ }),
-/* 474 */
+/* 471 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40029,7 +40530,7 @@ exports.NoticeMessage = NoticeMessage;
 //# sourceMappingURL=messages.js.map
 
 /***/ }),
-/* 475 */
+/* 472 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40084,12 +40585,12 @@ exports.BufferReader = BufferReader;
 //# sourceMappingURL=buffer-reader.js.map
 
 /***/ }),
-/* 476 */
+/* 473 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const EventEmitter = __webpack_require__(10).EventEmitter
+const EventEmitter = __webpack_require__(11).EventEmitter
 
 const NOOP = function () {}
 
@@ -40494,7 +40995,7 @@ module.exports = Pool
 
 
 /***/ }),
-/* 477 */
+/* 474 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40508,19 +41009,19 @@ module.exports = Pool
  */
 
 // eslint-disable-next-line
-var Native = __webpack_require__(478)
+var Native = __webpack_require__(475)
 var TypeOverrides = __webpack_require__(238)
-var semver = __webpack_require__(479)
-var pkg = __webpack_require__(480)
-var assert = __webpack_require__(30)
-var EventEmitter = __webpack_require__(10).EventEmitter
-var util = __webpack_require__(4)
+var semver = __webpack_require__(476)
+var pkg = __webpack_require__(477)
+var assert = __webpack_require__(32)
+var EventEmitter = __webpack_require__(11).EventEmitter
+var util = __webpack_require__(3)
 var ConnectionParameters = __webpack_require__(239)
 
 var msg = 'Version >= ' + pkg.minNativeVersion + ' of pg-native required.'
 assert(semver.gte(Native.version, pkg.minNativeVersion), msg)
 
-var NativeQuery = __webpack_require__(481)
+var NativeQuery = __webpack_require__(478)
 
 var Client = (module.exports = function (config) {
   EventEmitter.call(this)
@@ -40807,7 +41308,7 @@ Client.prototype.getTypeParser = function (oid, format) {
 
 
 /***/ }),
-/* 478 */
+/* 475 */
 /***/ (function(module, exports) {
 
 module.exports = noop
@@ -40821,7 +41322,7 @@ noop()
 
 
 /***/ }),
-/* 479 */
+/* 476 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;// export the class if we are in a Node-like system.
@@ -42022,13 +42523,13 @@ if (true)
 
 
 /***/ }),
-/* 480 */
+/* 477 */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"name\":\"pg\",\"version\":\"8.0.3\",\"description\":\"PostgreSQL client - pure javascript & libpq with the same API\",\"keywords\":[\"database\",\"libpq\",\"pg\",\"postgre\",\"postgres\",\"postgresql\",\"rdbms\"],\"homepage\":\"https://github.com/brianc/node-postgres\",\"repository\":{\"type\":\"git\",\"url\":\"git://github.com/brianc/node-postgres.git\"},\"author\":\"Brian Carlson <brian.m.carlson@gmail.com>\",\"main\":\"./lib\",\"dependencies\":{\"buffer-writer\":\"2.0.0\",\"packet-reader\":\"1.0.0\",\"pg-connection-string\":\"0.1.3\",\"pg-pool\":\"^3.1.1\",\"pg-protocol\":\"^1.2.2\",\"pg-types\":\"^2.1.0\",\"pgpass\":\"1.x\",\"semver\":\"4.3.2\"},\"devDependencies\":{\"async\":\"0.9.0\",\"bluebird\":\"3.5.2\",\"co\":\"4.6.0\",\"pg-copy-streams\":\"0.3.0\"},\"minNativeVersion\":\"2.0.0\",\"scripts\":{\"test\":\"make test-all\"},\"files\":[\"lib\",\"SPONSORS.md\"],\"license\":\"MIT\",\"engines\":{\"node\":\">= 8.0.0\"},\"gitHead\":\"35328807e3612cb267bee86dccb2551ad186624a\"}");
+module.exports = JSON.parse("{\"name\":\"pg\",\"version\":\"8.2.1\",\"description\":\"PostgreSQL client - pure javascript & libpq with the same API\",\"keywords\":[\"database\",\"libpq\",\"pg\",\"postgre\",\"postgres\",\"postgresql\",\"rdbms\"],\"homepage\":\"https://github.com/brianc/node-postgres\",\"repository\":{\"type\":\"git\",\"url\":\"git://github.com/brianc/node-postgres.git\"},\"author\":\"Brian Carlson <brian.m.carlson@gmail.com>\",\"main\":\"./lib\",\"dependencies\":{\"buffer-writer\":\"2.0.0\",\"packet-reader\":\"1.0.0\",\"pg-connection-string\":\"^2.2.3\",\"pg-pool\":\"^3.2.1\",\"pg-protocol\":\"^1.2.4\",\"pg-types\":\"^2.1.0\",\"pgpass\":\"1.x\",\"semver\":\"4.3.2\"},\"devDependencies\":{\"async\":\"0.9.0\",\"bluebird\":\"3.5.2\",\"co\":\"4.6.0\",\"pg-copy-streams\":\"0.3.0\"},\"minNativeVersion\":\"2.0.0\",\"scripts\":{\"test\":\"make test-all\"},\"files\":[\"lib\",\"SPONSORS.md\"],\"license\":\"MIT\",\"engines\":{\"node\":\">= 8.0.0\"},\"gitHead\":\"f3136a7d5d5498280924b3e06f47f8ce80dbe4e6\"}");
 
 /***/ }),
-/* 481 */
+/* 478 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42041,8 +42542,8 @@ module.exports = JSON.parse("{\"name\":\"pg\",\"version\":\"8.0.3\",\"descriptio
  * README.md file in the root directory of this source tree.
  */
 
-var EventEmitter = __webpack_require__(10).EventEmitter
-var util = __webpack_require__(4)
+var EventEmitter = __webpack_require__(11).EventEmitter
+var util = __webpack_require__(3)
 var utils = __webpack_require__(114)
 
 var NativeQuery = (module.exports = function (config, values, callback) {
@@ -42207,11 +42708,11 @@ NativeQuery.prototype.submit = function (client) {
 
 
 /***/ }),
-/* 482 */
+/* 479 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const { Readable } = __webpack_require__(105)
-const Cursor = __webpack_require__(483)
+const Cursor = __webpack_require__(480)
 
 class PgQueryStream extends Readable {
   constructor(text, values, config = {}) {
@@ -42258,15 +42759,15 @@ module.exports = PgQueryStream
 
 
 /***/ }),
-/* 483 */
+/* 480 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 const Result = __webpack_require__(240)
 const prepare = __webpack_require__(114).prepareValue
-const EventEmitter = __webpack_require__(10).EventEmitter
-const util = __webpack_require__(4)
+const EventEmitter = __webpack_require__(11).EventEmitter
+const util = __webpack_require__(3)
 
 let nextUniqueID = 1 // concept borrowed from org.postgresql.core.v3.QueryExecutorImpl
 
@@ -42483,7 +42984,7 @@ module.exports = Cursor
 
 
 /***/ }),
-/* 484 */
+/* 481 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42539,15 +43040,15 @@ module.exports = function normalizeEmail(eMail) {
 
 
 /***/ }),
-/* 485 */
+/* 482 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports.parse = __webpack_require__(486);
-exports.stringify = __webpack_require__(487);
+exports.parse = __webpack_require__(483);
+exports.stringify = __webpack_require__(484);
 
 
 /***/ }),
-/* 486 */
+/* 483 */
 /***/ (function(module, exports) {
 
 var at, // The index of the current character
@@ -42826,7 +43327,7 @@ module.exports = function (source, reviver) {
 
 
 /***/ }),
-/* 487 */
+/* 484 */
 /***/ (function(module, exports) {
 
 var cx = /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
@@ -42986,7 +43487,7 @@ module.exports = function (value, replacer, space) {
 
 
 /***/ }),
-/* 488 */
+/* 485 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -43096,9 +43597,9 @@ const NORMALIZERS = {
 
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/A-apps/shared/db/dist/src.es2019/utils/email.js
-const email_crypto = __webpack_require__(33);
+const email_crypto = __webpack_require__(31);
 
-const normalizeEmail = __webpack_require__(484);
+const normalizeEmail = __webpack_require__(481);
 
  ////////////////////////////////////
 // fragments
@@ -43216,7 +43717,7 @@ function deep_equals(a, b) {
   return json_stable_stringify_default()(a) === json_stable_stringify_default()(b);
 }
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/universal-debug-api-placeholder/dist/src.es2019/index.js + 2 modules
-var src_es2019 = __webpack_require__(23);
+var src_es2019 = __webpack_require__(22);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/A-apps/shared/db/dist/src.es2019/consts.js
 const LIB = 'OA⋄DB';
@@ -43293,7 +43794,7 @@ function extract_base(user) {
   });
 }
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/tiny-invariant/dist/tiny-invariant.esm.js
-var tiny_invariant_esm = __webpack_require__(25);
+var tiny_invariant_esm = __webpack_require__(24);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-stdlib/tiny-singleton/dist/src.es2019/index.js
 function tiny_singleton(generator) {
@@ -43545,6 +44046,9 @@ async function ensure_through_netlify(data, trx) {
 
 
 /***/ }),
+/* 486 */,
+/* 487 */,
+/* 488 */,
 /* 489 */,
 /* 490 */,
 /* 491 */,
@@ -43553,10 +44057,7 @@ async function ensure_through_netlify(data, trx) {
 /* 494 */,
 /* 495 */,
 /* 496 */,
-/* 497 */,
-/* 498 */,
-/* 499 */,
-/* 500 */
+/* 497 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43572,7 +44073,7 @@ const netlify_1 = __webpack_require__(157);
 
 const require_http_method_1 = __webpack_require__(128);
 
-const db_1 = __webpack_require__(488);
+const db_1 = __webpack_require__(485);
 
 async function require_authenticated(SEC, event, context, response, next) {
   const who_am_i = {};
