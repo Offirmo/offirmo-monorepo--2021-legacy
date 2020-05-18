@@ -48,7 +48,7 @@ function render_element_detailed(element) {
 // = usually displayed inline (only used in dev for now TODO cleanup)
 const Short = React.memo(
 	function Short({children, element}) {
-		if (window.XOFF?.flags?.debug_render) console.log('🔄 InteractiveElementShort')
+		if (window.oᐧextra?.flagꓽdebug_render) console.log('🔄 InteractiveElementShort')
 		return (
 			<span>
 				{children || rich_text_to_react(render_element_short(element), {render_interactive: false})}
@@ -60,7 +60,7 @@ const Short = React.memo(
 // = displayed in tooltip
 const Detailed = React.memo(
 	function Detailed({element, actions = []}) {
-		if (window.XOFF?.flags?.debug_render) console.log('🔄 InteractiveElementDetailed')
+		if (window.oᐧextra?.flagꓽdebug_render) console.log('🔄 InteractiveElementDetailed')
 
 		return (
 			<Fragment>

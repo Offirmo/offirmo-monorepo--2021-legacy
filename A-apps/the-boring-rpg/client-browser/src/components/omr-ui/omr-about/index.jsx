@@ -4,7 +4,7 @@ import './index.css'
 
 
 export default function OMRAbout() {
-	if (window.XOFF?.flags?.debug_render) console.log('🔄 OMRAbout')
+	if (window.oᐧextra?.flagꓽdebug_render) console.log('🔄 OMRAbout')
 
 	return (
 		<div>

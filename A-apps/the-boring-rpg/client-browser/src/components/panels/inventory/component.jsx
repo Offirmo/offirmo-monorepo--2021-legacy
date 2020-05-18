@@ -11,7 +11,7 @@ import './index.css'
 
 const InventoryPanelViewM = React.memo(
 	function InventoryPanelView({ inventory, wallet }) {
-		if (window.XOFF?.flags?.debug_render) console.log('🔄 InventoryPanelView')
+		if (window.oᐧextra?.flagꓽdebug_render) console.log('🔄 InventoryPanelView')
 
 		return (
 			<div className="o⋄top-container tbrpg-panel tbrpg-panel--inventory o⋄flex--column">

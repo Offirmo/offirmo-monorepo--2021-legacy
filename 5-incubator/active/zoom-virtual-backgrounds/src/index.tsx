@@ -11,14 +11,6 @@ import './index.css'
 
 /////////////////////////////////////////////////
 
-/*
-window.XOFF = {
-	flags: {
-		is_paused: overrideHook('should_start_paused', false),
-		debug_render: overrideHook('should_trace_renders', false),
-	},
-}*/
-
 setTimeout(() => ReactDOM.render(
 	<ErrorBoundary name={'root'}>
 		Hello world

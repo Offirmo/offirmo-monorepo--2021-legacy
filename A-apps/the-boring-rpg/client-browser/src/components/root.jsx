@@ -2,6 +2,7 @@ import React, { Component, Fragment, StrictMode } from 'react'
 import PropTypes from 'prop-types'
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
 //import floating from 'floating.js'
+import { get_xoff_flag, set_xoff_flag } from '@offirmo-private/xoff'
 
 import get_game_instance from '../services/game-instance-browser'
 import { BASE_ROUTE, ROUTES } from '../services/routes'
@@ -65,7 +66,7 @@ export default class Root extends Component {
 	}
 
 	render() {
-		if (window.XOFF?.flags?.debug_render) console.log('🔄 Root')
+		if (window.oᐧextra?.flagꓽdebug_render) console.log('🔄 Root')
 		return (
 			<Fragment>
 
@@ -84,7 +85,7 @@ export default class Root extends Component {
 				<DevUI
 					channel={CHANNEL}
 					onPlayPause={is_paused => {
-						window.XOFF.flags.is_paused = is_paused
+						set_xoff_flag('is_paused', is_paused)
 						if (is_paused)
 							console.warn('⏸ Game is now paused!')
 						else

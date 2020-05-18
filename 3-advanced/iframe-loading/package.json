@@ -6,6 +6,13 @@
 	"license": "Unlicense",
 	"private": true,
 
+	"esnext": "dist/src.es2019/client/index.js",
+	"module": "dist/src.es2019/client/index.js",
+	"main": "dist/src.es2018.cjs/client/index.js",
+	"typings": "dist/src.es2018.cjs/client/index.d.ts",
+	"source": "src/client/index.ts",
+	"sideEffects": true,
+
 	"optionalDependencies": {
 		"@offirmo-private/xoff": "^0"
 	},

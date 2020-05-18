@@ -32,7 +32,6 @@
 	},
 	"devDependencies": {
 		"@babel/core": "^7",
-		"@types/netlify-identity-widget": "^1",
 		"npm-run-all": "^4",
 		"typescript": "3.8.3"
 	}

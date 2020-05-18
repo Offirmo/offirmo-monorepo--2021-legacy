@@ -1,18 +1,18 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
+import { THE_BORING_RPG } from '@offirmo-private/marketing-rsrc'
+
 import rich_text_to_react from '../../../services/rich-text-to-react'
 import { UStateListenerAndProvider } from '../../../context'
 import get_game_instance from '../../../services/game-instance-browser'
 import SEC from '../../../services/sec'
 import { LS_KEYS } from '../../../services/consts'
-import {THE_BORING_RPG} from '@offirmo-private/marketing-rsrc'
-
 
 let start_notifs_displayed = false
 const OMRUINotifierC1 = React.memo(
 	function OMRUINotifierC1({enqueueNotification, u_state}) {
-		if (window.XOFF?.flags?.debug_render) console.log('🔄 OMRUINotifierC1')
+		if (window.oᐧextra?.flagꓽdebug_render) console.log('🔄 OMRUINotifierC1')
 
 		if (!start_notifs_displayed) {
 			enqueueNotification({

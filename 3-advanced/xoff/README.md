@@ -8,3 +8,7 @@ Reminder https://developers.google.com/web/fundamentals/performance/resource-pri
 
 https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script
 https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe
+
+```ts
+import { get_xoff } from '@offirmo-private/xoff'
+```

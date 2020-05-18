@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- OT⋄GENERATED-FROM-TEMPLATE Offirmo's loading iframe v0.1.1 -->
+<!-- OT⋄GENERATED-FROM-TEMPLATE Offirmo's loading iframe v0.2.0 -->
 
 <html lang="en" xml:lang="en" class="o⋄top-container">
 	<head>
@@ -230,17 +230,11 @@
 
 		/////////////////////
 
-
-		window.XOFF = {
-			top_frame: window,
-			flags: {},
-			...window.parent.XOFF,
-		}
-		if (window.XOFF.loader) {
+		if (window.oᐧloader) {
 			logger.error('[IL] Error! iframe-loading recursion!')
 			// TODO immediately hide our own loader
 		} else {
-			window.XOFF.loader = {
+			window.oᐧloader = {
 				configure({legend, expected_rsrc_count, bg_color, fg_color, ...others} = {}) {
 					if (Object.keys(others).length > 0) logger.error(`[IL] configure_loader() unknown params:`, others)
 
@@ -338,6 +332,9 @@
 			if (!elt_iframe.src) {
 				// TODO pass query params
 				elt_iframe.src = state.settings.app_url
+
+				elt_iframe.onload = (args) => logger.log(`[IL] iframe loaded`, { args })
+				elt_iframe.onerror = (args) => logger.warn(`[IL] iframe something wrong happened`, { args })
 			}
 
 			if (state.settings.legend) {
@@ -360,7 +357,7 @@
 			const cached_config = JSON.parse(localStorage.getItem(LS_KEY_CACHED_CONFIG))
 			if (cached_config) {
 				logger.log('[IL] restoring cached config', { cached_config })
-				window.XOFF.loader.configure(cached_config)
+				window.oᐧloader.configure(cached_config)
 			}
 		} catch (err) {
 			logger.warn(err)

@@ -113,7 +113,7 @@ export default class CharacterPanelView extends PureComponent {
 	}
 
 	render() {
-		if (window.XOFF?.flags?.debug_render) console.log('🔄 CharacterPanelView')
+		if (window.oᐧextra?.flagꓽdebug_render) console.log('🔄 CharacterPanelView')
 
 		const { avatar } = this.props
 

@@ -10,7 +10,7 @@ import './index.css'
 
 const PageDevViewM = React.memo(
 	function PageDevView({state, view_state}) {
-		if (window.XOFF?.flags?.debug_render) console.log('🔄 PageDevView')
+		if (window.oᐧextra?.flagꓽdebug_render) console.log('🔄 PageDevView')
 
 		const inventory = get_game_instance().queries.get_sub_state('inventory')
 		const interactive_items = [

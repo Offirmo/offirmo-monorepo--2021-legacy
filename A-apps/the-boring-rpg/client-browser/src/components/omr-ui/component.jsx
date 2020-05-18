@@ -1,6 +1,7 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
+import get_loader from '@offirmo-private/iframe-loading'
 import OhMyRpg from '@oh-my-rpg/view-browser-react'
 
 import get_game_instance from '../../services/game-instance-browser'
@@ -91,8 +92,8 @@ export default class OhMyRPGView extends PureComponent {
 
 	render() {
 		const { mode } = this.props
-		if (window.XOFF?.flags?.debug_render) console.log('🔄 OhMyRPGView')
-		window.XOFF.loader.on_rsrc_loaded()
+		if (window.oᐧextra?.flagꓽdebug_render) console.log('🔄 OhMyRPGView')
+		get_loader().on_rsrc_loaded()
 
 		return (
 			<OhMyRpg

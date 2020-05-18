@@ -1,5 +1,5 @@
 
-import { extend_xoff, get_offirmo_extras } from '@offirmo-private/xoff'
+import { extend_xoff, get_xoff } from '@offirmo-private/xoff'
 
 
 import {
@@ -27,6 +27,8 @@ if (!loader_full) {
 
 extend_xoff<XOffExtension>({ loader })
 
-export function get_loader(): Loader {
-	return get_offirmo_extras<XOffExtension>().loader
+export function get_loader(win: Window = window): Loader {
+	return get_xoff<XOffExtension>(win).loader
 }
+
+export default get_loader

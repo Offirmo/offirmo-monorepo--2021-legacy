@@ -29,7 +29,7 @@ class PageSavegameEditorC1 extends Component {
 	}
 
 	componentDidMount() {
-		if (window.XOFF?.flags?.debug_render) console.log('🔄 PageSavegameEditorC1 componentDidMount', LS_KEYS.savegame)
+		if (window.oᐧextra?.flagꓽdebug_render) console.log('🔄 PageSavegameEditorC1 componentDidMount', LS_KEYS.savegame)
 		if (this.initial_data.u_state.meta.persistence_id) {
 			if (!window.confirm(''
 + '💀 Editing your game will turn off all social features, '

@@ -30,6 +30,7 @@
 	},
 	"devDependencies": {
 		"@babel/core": "^7",
+		"@offirmo-private/xoff": "^0",
 		"parcel-bundler": "^1"
 	}
 }

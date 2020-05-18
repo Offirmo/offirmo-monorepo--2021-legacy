@@ -18,7 +18,7 @@ class ChatBubble extends React.Component {
 		children: PropTypes.node.isRequired,
 	}
 	render() {
-		if (window.XOFF?.flags?.debug_render) console.log('🔄 ChatBubble')
+		if (window.oᐧextra?.flagꓽdebug_render) console.log('🔄 ChatBubble')
 		const {direction = 'ltr', children} = this.props
 		const classes = classNames(
 			'chat__element',
@@ -316,7 +316,7 @@ class Chat extends React.Component {
 	}
 
 	render() {
-		if (window.XOFF?.flags?.debug_render) console.log('🔄 Chat')
+		if (window.oᐧextra?.flagꓽdebug_render) console.log('🔄 Chat')
 
 		const spinner = this.state.spinning && <div className="chat__spinner" />
 		const progress_bar = this.state.progressing && (

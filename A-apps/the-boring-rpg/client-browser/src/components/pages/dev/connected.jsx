@@ -2,13 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import View from './component'
-
 import get_game_instance from '../../../services/game-instance-browser'
 
 
 const PageDev = React.memo(
 	function PageDevC1() {
-		if (window.XOFF?.flags?.debug_render) console.log('🔄 PageDevC1')
+		if (window.oᐧextra?.flagꓽdebug_render) console.log('🔄 PageDevC1')
 
 		const state = get_game_instance().model.get()
 		const view_state = get_game_instance().view.get()

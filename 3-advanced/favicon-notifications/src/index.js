@@ -1,3 +1,4 @@
+import { get_top_ish_window } from '@offirmo-private/xoff'
 import Piecon from './piecon'
 import Favico from './favico.js'
 
@@ -8,14 +9,6 @@ let piecon_on = false
 let favicon_on = false
 let last_favicon_number = NaN
 
-
-//////////// XOFF snippet ////////////
-// Firefox ESL compatible
-window.XOFF = {
-	top_frame: window.parent,
-	flags: {},
-	...window.parent.XOFF,
-}
 ////////////////////////////////////
 
 function create_favicon(opts) {
@@ -23,7 +16,7 @@ function create_favicon(opts) {
 		//animation:'popFade',
 		animation: 'none',
 		position: 'up',
-		win: window.XOFF.top_frame,
+		win: get_top_ish_window(),
 		...opts,
 	})
 }

@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import ReactDOM from 'react-dom'
+import { set_xoff_flag } from '@offirmo-private/xoff'
 
 import OhMyRpg, { OhMyRPGUIContext } from '../../src'
 
@@ -7,12 +8,7 @@ import './index.css'
 //import logo from './tbrpg_logo_512x98.png'
 
 
-window.XOFF = {
-	flags: {
-		debug_render: true,
-	},
-}
-
+set_xoff_flag('debug_render', true)
 
 class Main extends Component {
 
@@ -27,7 +23,7 @@ class Main extends Component {
 	}
 
 	render() {
-		if (window.XOFF?.flags?.debug_render) console.log('🔄 Main (demo)')
+		if (window.oᐧextra?.flagꓽdebug_render) console.log('🔄 Main (demo)')
 		// XXX TODO fix imbricated themes
 
 		return (
@@ -40,7 +36,7 @@ class Main extends Component {
 
 export default class ViewBrowserReactDemo extends Component {
 	render() {
-		if (window.XOFF?.flags?.debug_render) console.log('🔄 ViewBrowserReactDemo')
+		if (window.oᐧextra?.flagꓽdebug_render) console.log('🔄 ViewBrowserReactDemo')
 
 		return (
 			<OhMyRpg
