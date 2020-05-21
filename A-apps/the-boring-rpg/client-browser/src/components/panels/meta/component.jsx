@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { get_top_ish_window } from '@offirmo-private/xoff'
 import * as RichText from '@offirmo-private/rich-text-format'
 import { THE_BORING_RPG } from '@offirmo-private/marketing-rsrc'
 import { SCHEMA_VERSION, NUMERIC_VERSION as ENGINE_VERSION, BUILD_DATE } from '@tbrpg/flux'
@@ -97,7 +98,7 @@ function * gen_next_step(navigate_to_savegame_editor) {
 							value: 'reload',
 							msgg_as_user: () => 'Reload the page.',
 							msgg_acknowledge: () => 'Reloading...',
-							callback: async () => window.location.reload(),
+							callback: async () => get_top_ish_window().location.reload(),
 						},
 					],
 				})

@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
+import { get_top_ish_window } from '@offirmo-private/xoff'
 import { getRootSEC } from '@offirmo-private/soft-execution-context'
 
 import './index.css'
@@ -66,7 +67,7 @@ export default class DevArea extends Component {
 		const dev_controls = [
 			<tr key="refresh">
 				<td className="DA-refresh">
-					<button onClick={() => {window.location.reload()}}>🔄</button>
+					<button onClick={() => {get_top_ish_window().location.reload()}}>🔄</button>
 				</td>
 			</tr>,
 			<tr key="SE">

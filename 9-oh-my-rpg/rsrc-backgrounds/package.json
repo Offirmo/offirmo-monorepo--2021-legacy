@@ -33,13 +33,18 @@
 		"build:prod": "node ../../0-scripts/build-typescript.js",
 
 		"build": "run-s build:prod",
-		"cheatsheet": "node doc/cheatsheet.js"
+		"cheatsheet": "node doc/cheatsheet.js",
+
+		"start:parcel": "parcel --out-dir .parcel --no-autoinstall doc/index.html",
+		"demo": "rm -rf cache .parcel && run-s start:parcel"
 	},
 	"devDependencies": {
+		"@babel/core": "^7",
 		"@offirmo-private/prettify-json": "^0",
 		"@offirmo-private/rich-text-format-to-ansi": "^0",
 		"fs-extra": "^9",
 		"lodash": "^4",
-		"npm-run-all": "^4"
+		"npm-run-all": "^4",
+		"typescript": "3.8.3"
 	}
 }
