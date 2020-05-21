@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import { set_xoff_flag } from '@offirmo-private/xoff'
+import { set_xoff_flag, load_script_from_top } from '@offirmo-private/xoff'
 import ErrorBoundary from '@offirmo-private/react-error-boundary'
 import { overrideHook } from '@offirmo/universal-debug-api-browser'
 import get_loader from '@offirmo-private/iframe-loading'
@@ -33,5 +33,20 @@ setTimeout(() => ReactDOM.render(
 		<Root />
 	</ErrorBoundary>,
 	document.getElementById('root'),
-),
-)
+))
+
+setTimeout(() => {
+	load_script_from_top('https://www.googletagmanager.com/gtag/js?id=UA-103238291-2')
+		.then(() => {
+			window.dataLayer = window.dataLayer || []
+			function gtag() { dataLayer.push(arguments) }
+			gtag('js', new Date())
+			gtag('config', 'UA-103238291-2')
+		})
+
+	load_script_from_top('https://identity.netlify.com/v1/netlify-identity-widget.js')
+		.then(() => {
+
+		})
+})
+

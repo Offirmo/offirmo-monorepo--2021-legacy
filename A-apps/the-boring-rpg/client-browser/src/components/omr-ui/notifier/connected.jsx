@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
 import { THE_BORING_RPG } from '@offirmo-private/marketing-rsrc'
+import { NUMERIC_VERSION } from '@tbrpg/flux'
 
 import rich_text_to_react from '../../../services/rich-text-to-react'
 import { UStateListenerAndProvider } from '../../../context'
@@ -23,20 +24,27 @@ const OMRUINotifierC1 = React.memo(
 			})
 
 			// update notification
-			SEC.xTry('update last seen version', ({ VERSION: current_version }) => {
-				const last_version_seen = localStorage.getItem(LS_KEYS.last_version_seen)
-				if (!last_version_seen || current_version === last_version_seen) return
-				enqueueNotification({
-					level: 'success',
-					children: (
-						<Fragment>
-							🆕 You got a new version!
-							Check the <a href={THE_BORING_RPG.changelog} target="_blank">new features</a>!
-						</Fragment>
-					),
-					position: 'top-center',
-					auto_dismiss_delay_ms: 7000,
-				})
+			SEC.xTry('update last seen version', () => {
+				const current_version = NUMERIC_VERSION
+				const last_version_seen = Number(localStorage.getItem(LS_KEYS.last_version_seen) || .0001)
+				const isNewVersion = isNaN(last_version_seen) || current_version !== last_version_seen
+				const hasNewFeatures = isNaN(last_version_seen) || (Math.trunc(current_version * 100) - Math.trunc(last_version_seen * 100)) > 1
+				console.log({ last_version_seen, current_version, isNewVersion, hasNewFeatures, a: !!last_version_seen, b: current_version !== last_version_seen })
+				if (isNewVersion) {
+					enqueueNotification({
+						level: 'success',
+						children: hasNewFeatures
+							? (<Fragment>
+								🆕 You got a new version!
+								Check the <a href={THE_BORING_RPG.changelog} target="_blank">new features</a>!
+							</Fragment>)
+							: (<Fragment>
+								🆕 You got a new version, just bug fixes and maintenance.
+							</Fragment>),
+						position: 'top-center',
+						auto_dismiss_delay_ms: 7000,
+					})
+				}
 				localStorage.setItem(LS_KEYS.last_version_seen, current_version)
 			})
 			start_notifs_displayed = true

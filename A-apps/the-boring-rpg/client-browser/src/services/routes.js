@@ -39,10 +39,10 @@ logger.verbose(`BASE_ROUTE = "${BASE_ROUTE}"`)
 
 const ROUTES = {
 	// special routes
-	index: '/index-2.html', // technical route for redirection
+	index: '/index-2.html', // technical route for redirection TODO auto from current file?
 
 	// navigable routes
-	home: '/',
+	home: '/index-2.html',
 	savegame: '/savegame',
 	dev: '/dev',
 	diagnostic: '/diag',
