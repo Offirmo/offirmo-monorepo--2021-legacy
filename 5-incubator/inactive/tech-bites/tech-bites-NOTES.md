@@ -72,3 +72,5 @@ defensive programming https://dev.to/cubiclebuddha/is-defensive-programming-actu
 https://en.wikipedia.org/wiki/Conway%27s_law
 
 https://developers.slashdot.org/story/19/07/22/0426201/is-object-oriented-programming-a-trillion-dollar-disaster
+
+KISS

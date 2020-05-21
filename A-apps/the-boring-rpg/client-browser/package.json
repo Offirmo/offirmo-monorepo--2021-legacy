@@ -55,6 +55,7 @@
 
 		"copy-extra--dev": "mkdir -p .parcel && cp -f src/index.html .parcel && cp -f src/build.json .parcel",
 		"start:parcel": "PARCEL_AUTOINSTALL=false parcel src/index-2.html --out-dir .parcel --no-autoinstall --port 8080 --no-hmr",
+		"xstart:parcel": "PARCEL_AUTOINSTALL=false parcel src/*.html --out-dir .parcel --no-autoinstall --port 8080 --no-hmr",
 		"dev": "npm-run-all clean refresh-build-variables refresh-loading-template --parallel start:parcel copy-extra--dev",
 
 		"copy-incorrectly-parcelised-favicons": "cp -rf dist/android-chrome-* dist/favicons",

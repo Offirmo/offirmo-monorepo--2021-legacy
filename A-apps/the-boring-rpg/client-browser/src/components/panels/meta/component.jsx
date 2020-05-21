@@ -118,7 +118,7 @@ export function render_meta(statistics) {
 		'01-playcount',
 	)
 	$doc_list_builder.pushRawNode(
-		RichText.inline_fragment().pushText(`Game version: ${(ENGINE_VERSION*1000).toFixed(2)}`).done(),
+		RichText.inline_fragment().pushText(`Game version: ${(ENGINE_VERSION*100).toFixed(2)}`).done(),
 		'02-version',
 	)
 	$doc_list_builder.pushRawNode(
