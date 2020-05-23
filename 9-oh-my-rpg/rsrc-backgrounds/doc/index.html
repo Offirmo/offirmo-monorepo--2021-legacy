@@ -8,25 +8,35 @@
 
 	<title>rsrc-backgrounds</title>
 
-	<link rel="stylesheet" href="../../view-browser/dist/oh-my-rpg-browser.css">
+	<link rel="stylesheet" href="../../view-browser/src/style.css">
 
 	<style type="text/css">
-
+		.grid-item { width: 33.33%; }
+		button.grid-item {
+			padding: 0;
+			font-size: small;
+			height: 40px;
+			border: none;
+		}
 	</style>
 </head>
 
 <body class="o⋄top-container o⋄body⁚full-page" data-o-theme="lod--colorhunt212">
 
 	<div class="omr⋄full-size-fixed-layer omr⋄bg-image⁚tiled-marble_black">
-		<div class="omr⋄full-size-fixed-layer tbrpg⋄bg-image⁚soma-on_a_journey_2">
+		<div id="bg" class="omr⋄full-size-fixed-layer omr⋄bg⁚cover">
 		</div>
 	</div>
 
-	<div class="omr⋄full-size-fixed-layer">
-		<p>All pictures...</p>
+	<div class="o⋄centered-article">
+			<div id="grid-root" class="grid">
+				<!-- auto generated -->
+			</div>
 	</div>
 
 </body>
 
+<script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
 <script async importance="high" src="./index.ts"></script>
 </html>
