@@ -1015,14 +1015,15 @@ const ELEMENTS: Readonly<Background>[] = [
 		position_pct_alt: undefined,
 	},
 
+	// TODO https://www.artstation.com/somartist
 	{
 		author:           AUTHORS_BY_NAME['Soma'],
 		source:           'https://krita-artists.org/t/dragons-lair/2072',
 		display_name:     'Dragon’s Lair',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚soma-dragons_lair',
-		position_pct:     {'x':50,'y':50},
-		position_pct_alt: undefined,
+		position_pct:     {'x':43,'y':10},
+		position_pct_alt: {'x':76,'y':10},
 	},
 	{
 		author:           AUTHORS_BY_NAME['Soma'],
@@ -1030,16 +1031,16 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Dreamscape practice #1',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚soma-dreamscape_practice_1',
-		position_pct:     {'x':50,'y':50},
+		position_pct:     {'x':24,'y':10},
 		position_pct_alt: undefined,
 	},
 	{
 		author:           AUTHORS_BY_NAME['Soma'],
-		source:           'https://krita-artists.org/t/dreamscape-practice/5085',
+		source:           'https://krita-artists.org/t/dreamscape-practice/5085?alt',
 		display_name:     'Dreamscape practice #2',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚soma-dreamscape_practice_2',
-		position_pct:     {'x':50,'y':50},
+		position_pct:     {'x':70,'y':21},
 		position_pct_alt: undefined,
 	},
 	{
@@ -1048,7 +1049,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Durur (Mountain)',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚soma-durur_mountain',
-		position_pct:     {'x':50,'y':50},
+		position_pct:     {'x':35,'y':40},
 		position_pct_alt: undefined,
 	},
 	{
@@ -1057,7 +1058,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Encounter',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚soma-encounter',
-		position_pct:     {'x':50,'y':50},
+		position_pct:     {'x':20,'y':10},
 		position_pct_alt: undefined,
 	},
 	{
@@ -1066,7 +1067,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Entrance',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚soma-entrance',
-		position_pct:     {'x':50,'y':50},
+		position_pct:     {'x':68,'y':50},
 		position_pct_alt: undefined,
 	},
 	{
@@ -1075,7 +1076,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Fire clouds',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚soma-fire_clouds',
-		position_pct:     {'x':50,'y':50},
+		position_pct:     {'x':60,'y':10},
 		position_pct_alt: undefined,
 	},
 	{
@@ -1084,8 +1085,8 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Mirath Towers',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚soma-mirath_towers',
-		position_pct:     {'x':50,'y':50},
-		position_pct_alt: undefined,
+		position_pct:     {'x':73,'y':50},
+		position_pct_alt: {'x':43,'y':50},
 	},
 	{
 		author:           AUTHORS_BY_NAME['Soma'],
@@ -1093,7 +1094,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Mountain valley',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚soma-mountain_valley',
-		position_pct:     {'x':50,'y':50},
+		position_pct:     {'x':24,'y':80},
 		position_pct_alt: undefined,
 	},
 	{
@@ -1102,8 +1103,8 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'On a journey 2',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚soma-on_a_journey_2',
-		position_pct:     {'x':50,'y':50},
-		position_pct_alt: undefined,
+		position_pct:     {'x':24,'y':30},
+		position_pct_alt: {'x':99,'y':30},
 	},
 	{
 		author:           AUTHORS_BY_NAME['Soma'],
@@ -1111,7 +1112,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Red Dragon',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚soma-red_dragon',
-		position_pct:     {'x':50,'y':50},
+		position_pct:     {'x':41,'y':1},
 		position_pct_alt: undefined,
 	},
 	{
@@ -1120,8 +1121,8 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Taoro (Landscape)',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚soma-taoro_landscape',
-		position_pct:     {'x':50,'y':50},
-		position_pct_alt: undefined,
+		position_pct:     {'x':49,'y':20},
+		position_pct_alt: {'x':82,'y':20},
 	},
 	{
 		author:           AUTHORS_BY_NAME['Soma'],
@@ -1129,7 +1130,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Temple Ruins',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚soma-temple_ruins',
-		position_pct:     {'x':50,'y':50},
+		position_pct:     {'x':80,'y':60},
 		position_pct_alt: undefined,
 	},
 	{
@@ -1138,8 +1139,8 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'The Messenger',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚soma-the_messenger',
-		position_pct:     {'x':50,'y':50},
-		position_pct_alt: undefined,
+		position_pct:     {'x':21,'y':90},
+		position_pct_alt: {'x':84,'y':90},
 	},
 	{
 		author:           AUTHORS_BY_NAME['Soma'],
@@ -1147,7 +1148,7 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'The source',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚soma-the_source',
-		position_pct:     {'x':50,'y':50},
+		position_pct:     {'x':31,'y':90},
 		position_pct_alt: undefined,
 	},
 	{
@@ -1156,10 +1157,22 @@ const ELEMENTS: Readonly<Background>[] = [
 		display_name:     'Voyage home',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚soma-voyage_home',
-		position_pct:     {'x':50,'y':50},
+		position_pct:     {'x':54,'y':66},
 		position_pct_alt: undefined,
 	},
 
+	// https://www.artstation.com/artwork/A9o0wq Penthouse
+	// https://www.artstation.com/artwork/qyvwn Pathway
+	// https://www.artstation.com/artwork/B0wk6 Weeping Owls
+	// https://www.artstation.com/artwork/qlgzD Otherside
+	// https://www.artstation.com/artwork/wbGvw Fist Gate
+	// https://www.artstation.com/artwork/DKAvA Lighthouse
+	// https://www.artstation.com/artwork/XDBP0 Elysium
+	// https://www.artstation.com/artwork/eQrww Dam
+	// https://www.artstation.com/artwork/BvQdk Surya
+	// https://www.artstation.com/artwork/wEErg Time portal
+	// https://www.artstation.com/artwork/0nwzE Townsquare
+	// TODO https://www.artstation.com/artwork/e9lWY
 	{
 		author:           AUTHORS_BY_NAME['Thomas Stoop'],
 		source:           'https://www.artstation.com/artwork/bagvGE',
@@ -1171,7 +1184,7 @@ const ELEMENTS: Readonly<Background>[] = [
 	},
 	{
 		author:           AUTHORS_BY_NAME['Thomas Stoop'],
-		source:           'https://www.artstation.com/artwork/bagvGE',
+		source:           'https://www.artstation.com/artwork/bagvGE?alt=2',
 		display_name:     'Snow Forest 2',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚thomas_stoop-snow_forest_2',
@@ -1180,7 +1193,7 @@ const ELEMENTS: Readonly<Background>[] = [
 	},
 	{
 		author:           AUTHORS_BY_NAME['Thomas Stoop'],
-		source:           'https://www.artstation.com/artwork/bagvGE',
+		source:           'https://www.artstation.com/artwork/bagvGE?alt=3',
 		display_name:     'Snow Forest 3',
 		keywords:         [ '' ],
 		css_class:        'tbrpg⋄bg-image⁚thomas_stoop-snow_forest_3',

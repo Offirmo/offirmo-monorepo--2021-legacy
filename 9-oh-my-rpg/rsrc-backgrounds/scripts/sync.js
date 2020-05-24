@@ -1,32 +1,82 @@
 const path = require('path')
 
-const { trim, replace, capitalize } = require('lodash')
+const { /*trim, replace,*/ capitalize } = require('lodash')
 const { dump_pretty_json } = require('@offirmo-private/prettify-json')
 const rich_text_to_ansi = require('@offirmo-private/rich-text-format-to-ansi')
 const fs = require('../../../../cli-toolbox/fs/extra')
 
 const { AUTHORS_BY_NAME, ELEMENTS, render_artwork_legend } = require('../dist/src.es2018.cjs')
 
-const ROOT_DIR_1 = 'src/rsrc/license-pending'
-const ROOT_DIR_2 = 'src/rsrc/licensed'
-const author_dirs = [
-	...fs.lsDirs(ROOT_DIR_1),
-	...fs.lsDirs(ROOT_DIR_2),
-]
+////////////////////////////////////
+
+function humanize(s) {
+	return s
+		.toLowerCase()
+		.split('_').join(' ')
+		.split('-').join(' ')
+		.split('.').join(' ')
+		.split(' ')
+		.map(s => s.trim())
+		.filter(s => !!s)
+		.map(capitalize)
+		.join(' ')
+}
+
+function canonize(s) {
+	return s
+		.toLowerCase()
+		.split('_').join(' ')
+		.split('-').join(' ')
+		.split('.').join(' ')
+
+		// remove punctuation
+		.replace('’', '')
+		.replace('#', '')
+		.replace('(', '')
+		.replace(')', '')
+
+		.split(' ')
+		.map(s => s.trim())
+		.filter(s => !!s)
+		.join('-')
+}
+
+console.error( canonize('Dragon’s Lair #1') )
+
+////////////////////////////////////
 
 //const display_mode = 'review'
 const display_mode = 'dump'
-let artworks = []
 
+const artworks = []
+const authors_by_dir = {}
+
+////////////////////////////////////
+
+const LAST_KNOWN_BG_COUNT = 114 - 16
+const ROOT_DIR_1 = 'src/rsrc/license-pending'
+const ROOT_DIR_2 = 'src/rsrc/licensed'
+const author_dirs = [
+	...fs.lsDirsSync(ROOT_DIR_1),
+	...fs.lsDirsSync(ROOT_DIR_2),
+]
 //console.log(author_dirs)
-const AUTHORS = []
+
+
+// extract authors
 author_dirs.forEach(author_dir => {
-	const author_name = path.basename(author_dir).split('_').join(' ')
+	const author_name = humanize(path.basename(author_dir))
+
 	const author = {
 		display_name: author_name,
 		url: `https://www.google.com/search?q=${author_name.split(' ').join('+')}`,
 	}
+	authors_by_dir[author_dir] = author
 
+	if (display_mode !== 'dump') {
+		console.log('\n-------')
+		console.log('discovered author dir:', { dir: path.basename(author_dir)})
+	}
 
 	if (!AUTHORS_BY_NAME[author_name]) {
 		dump_pretty_json('\n{', author)
@@ -36,39 +86,42 @@ author_dirs.forEach(author_dir => {
 
 	switch (display_mode) {
 		case 'review':
-			console.log(author_name)
+			//console.log({author_name})
 			break
 		case 'dump':
 			break
 		default:
 			break
 	}
-	const artwork_paths = fs.lsFiles(author_dir)
-	artwork_paths.forEach(artwork_path => {
+})
 
-		let display_name =
-			trim(
-				replace(
-					path.basename(artwork_path)
-						.slice(0, -4) // remove .jpg
-					.split('_').join(' ')
-					.split('-').join(' ')
-					.split(' ')
-						.map(trim)
-						.map(capitalize)
-					.join(' '),
-					author_name.split('.').join(' ').split(' ').map(capitalize).join(' '),
-					''
-				)
+// extract artworks
+author_dirs.forEach(author_dir => {
+	const author = authors_by_dir[author_dir]
+
+	const artwork_paths = fs.lsFilesSync(author_dir)
+		.filter(d => !d.endsWith('/.DS_Store'))
+
+	artwork_paths.forEach(artwork_path => {
+		if (display_mode !== 'dump') {
+			console.log('\n-------')
+			console.log('discovered artwork:', {path: artwork_path})
+		}
+
+		let display_name = humanize(
+				path.basename(artwork_path)
+					.slice(0, -4) // remove .jpg
 			)
+			.replace(author.display_name, '')
+			.trim()
 
 		let background = {
-			author: `AUTHORS_BY_NAME['${author_name}'],`,
+			author: `AUTHORS_BY_NAME['${author.display_name}'],`,
 			source: `'TODO',`,
 			display_name: `'${display_name}',`,
 			keywords: `[],`,
 			css_class: '\'tbrpg⋄bg-image⁚' + [
-				author_name.toLowerCase().split(' ').join('_'),
+				author.display_name.toLowerCase().split(' ').join('_'),
 				display_name.toLowerCase().split(' ').join('_'),
 			].join('-') + `',`,
 			position_pct: `{ x: 50, y: 50 },`,
@@ -76,8 +129,8 @@ author_dirs.forEach(author_dir => {
 
 		// find it in known bg
 		const existing_bg = ELEMENTS.find(artwork =>
-			artwork.author.display_name === author_name
-			&& artwork.display_name === display_name)
+			artwork.author.display_name === author.display_name
+			&& canonize(artwork.display_name) === canonize(display_name))
 
 		if (existing_bg) {
 			existing_bg.found = true
@@ -92,11 +145,12 @@ author_dirs.forEach(author_dir => {
 
 		switch (display_mode) {
 			case 'review':
-				console.log('  ' + display_name + ' - ' + (
+				console.log(
 					existing_bg
-					? rich_text_to_ansi(render_artwork_legend(existing_bg))
+						? ' Previously known as: ' + rich_text_to_ansi(render_artwork_legend(existing_bg))
 						: '🆕'
-				))
+				)
+				dump_pretty_json('\n{', background)
 				break
 			case 'dump':
 				dump_pretty_json('\n{', background)
@@ -107,14 +161,14 @@ author_dirs.forEach(author_dir => {
 		}
 
 		if (!existing_bg) {
-			//console.error(background)
-			//throw new Error('Missing background!')
+			console.error(canonize(display_name))
+			throw new Error('Missing background!')
 		}
 
 		artworks.push({
 			artwork_path,
 			css_class: 'tbrpg⋄bg-image⁚' + [
-				author_name.toLowerCase().split(' ').join('_'),
+				author.display_name.toLowerCase().split(' ').join('_'),
 				display_name.toLowerCase().split(' ').join('_'),
 			].join('-') + ``,
 			position_pct: existing_bg ? existing_bg.position_pct : { x: 50, y: 50 },
@@ -124,7 +178,10 @@ author_dirs.forEach(author_dir => {
 })
 
 if (display_mode === 'dump') {
-	artworks.forEach(({artwork_path, css_class, position_pct}) => {
+	console.log('/* XXX AUTO-GENERATED from ad hoc command line tool */')
+	artworks
+		.sort(({css_class: a}, {css_class: b}) => -(a < b) || +(a > b))
+		.forEach(({artwork_path, css_class, position_pct}) => {
 		console.log(`
 .${css_class} {
 	background-image: url('${artwork_path.slice(4)}');
@@ -135,7 +192,12 @@ if (display_mode === 'dump') {
 	})
 }
 
-console.log(`[${artworks.length} artworks!]`)
+console.log(`
+---------
+[${artworks.length} artworks!]`)
+if (artworks.length > LAST_KNOWN_BG_COUNT) {
+	console.log(`- 😍 feature: ${artworks.length - LAST_KNOWN_BG_COUNT} new backgrounds (now totalling ${artworks.length}!)`)
+}
 
 ELEMENTS.forEach(e => {
 	if (e.found) return
