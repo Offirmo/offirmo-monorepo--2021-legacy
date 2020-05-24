@@ -85,6 +85,7 @@ bolt clean
 nvm i
 onn
 bolt clean && rm -rf node_modules yarn.lock package-lock.json && bolt && yarn outdated     && bolt build
+bolt clean && rm -rf node_modules yarn.lock package-lock.json && bolt && bolt build
 npx yarn-tools list-duplicates yarn.lock
 yarn eslint:packages --fix
 

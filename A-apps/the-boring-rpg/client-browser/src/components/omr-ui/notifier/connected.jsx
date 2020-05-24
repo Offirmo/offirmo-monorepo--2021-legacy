@@ -23,27 +23,29 @@ const OMRUINotifierC1 = React.memo(
 				auto_dismiss_delay_ms: 7000,
 			})
 
-			// update notification
 			SEC.xTry('update last seen version', () => {
 				const current_version = NUMERIC_VERSION
-				const last_version_seen = Number(localStorage.getItem(LS_KEYS.last_version_seen) || .0001)
-				const isNewVersion = isNaN(last_version_seen) || current_version !== last_version_seen
-				const hasNewFeatures = isNaN(last_version_seen) || (Math.trunc(current_version * 100) - Math.trunc(last_version_seen * 100)) > 1
-				console.log({ last_version_seen, current_version, isNewVersion, hasNewFeatures, a: !!last_version_seen, b: current_version !== last_version_seen })
-				if (isNewVersion) {
-					enqueueNotification({
-						level: 'success',
-						children: hasNewFeatures
-							? (<Fragment>
-								🆕 You got a new version!
-								Check the <a href={THE_BORING_RPG.changelog} target="_blank">new features</a>!
-							</Fragment>)
-							: (<Fragment>
-								🆕 You got a new version, just bug fixes and maintenance.
-							</Fragment>),
-						position: 'top-center',
-						auto_dismiss_delay_ms: 7000,
-					})
+				const ls_content = localStorage.getItem(LS_KEYS.last_version_seen)
+				if (ls_content) {
+					const last_version_seen = Number(ls_content || 0.001)
+					const isNewVersion = isNaN(last_version_seen) || current_version !== last_version_seen
+					const hasNewFeatures = isNaN(last_version_seen) || (Math.trunc(current_version * 100) - Math.trunc(last_version_seen * 100)) >= 1
+					//console.log({ last_version_seen, current_version, isNewVersion, hasNewFeatures, a: !!last_version_seen, b: current_version !== last_version_seen })
+					if (isNewVersion) {
+						enqueueNotification({
+							level: 'success',
+							children: hasNewFeatures
+								? (<Fragment>
+									🆕 You got a new version!
+									Check the <a href={THE_BORING_RPG.changelog} target="_blank">new features</a>!
+								</Fragment>)
+								: (<Fragment>
+									🆕 You got a new version, just bug fixes and maintenance.
+								</Fragment>),
+							position: 'top-center',
+							auto_dismiss_delay_ms: 7000,
+						})
+					}
 				}
 				localStorage.setItem(LS_KEYS.last_version_seen, current_version)
 			})

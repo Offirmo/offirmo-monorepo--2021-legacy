@@ -18,7 +18,7 @@
 
 .o⋄centered-article {
 	max-width: 650px; /* a suggested good max width for text content. Taken from http://bettermotherfuckingwebsite.com/ */
-	width: inherit; /*width: 100%; /* avoid lower than max if possible */
+	width: 100%; /* avoid lower than max if possible. Possible alternative: inherit */
 
 	margin: 0 auto;/* horizontal centering */
 

@@ -9,7 +9,7 @@ import get_game_instance from '../../../../services/game-instance-browser'
 import View from './component'
 
 const FILTERED_ELEMENTS = ELEMENTS
-//	.filter(({display_name}) => display_name === "Path To The Gothic Choir")
+//	.filter(({display_name}) => display_name.toLowerCase().startsWith('entrance'))
 
 class Scenery extends Component {
 	static propTypes = {

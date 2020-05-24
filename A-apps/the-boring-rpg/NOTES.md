@@ -22,7 +22,6 @@ decent backstory
 
 TODO TBRPG
 
-[ ] Onboarding
 [ ] Direct survey
 [ ] Your level of riches: beggar
 [ ] Ritual based on class
@@ -44,6 +43,7 @@ TODO TBRPG
 [ ] Fast launch and immediate feedback
 [ ] Current title / next title (driving motivation)
 [ ] Growth template https://trello.com/b/kpPww9qv/growth-template
+[x] Onboarding
 [x] Name the world
 [x] Flatteries
 [x] Mana replenish

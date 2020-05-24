@@ -4,9 +4,10 @@ const loadJsonFile = require('load-json-file')
 const writeJsonFile = require('write-json-file')
 
 
+// TODO use cli-toolbox???
 // hat tip to http://stackoverflow.com/a/24594123/587407
 const path = require('path')
-function lsDirs(srcpath) {
+function lsDirsSync(srcpath) {
 	return fs
 		.readdirSync(srcpath)
 		.filter(file => fs.statSync(
@@ -14,7 +15,7 @@ function lsDirs(srcpath) {
 		).isDirectory())
 }
 
-function lsFiles(srcpath) {
+function lsFilesSync(srcpath) {
 	return fs
 		.readdirSync(srcpath)
 		.filter(file => !fs.statSync(
@@ -24,8 +25,8 @@ function lsFiles(srcpath) {
 
 fs = {
 	...fs,
-	lsDirs,
-	lsFiles,
+	lsDirsSync,
+	lsFilesSync,
 	json: {
 		read: loadJsonFile,
 		readSync: loadJsonFile.sync,
