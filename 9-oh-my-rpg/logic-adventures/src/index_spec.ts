@@ -10,7 +10,7 @@ import {
 
 	pick_random_good_archetype,
 	pick_random_bad_archetype,
-	generate_random_coin_gain,
+	generate_random_coin_gain_or_loss,
 	ALL_BAD_ADVENTURE_ARCHETYPES,
 	ALL_GOOD_ADVENTURE_ARCHETYPES,
 	GOOD_ADVENTURE_ARCHETYPES_BY_TYPE,
@@ -68,43 +68,60 @@ describe('@oh-my-rpg/logic-adventures - logic', function () {
 
 		it('should provide an amount proportional to the gain category', () => {
 			const rng: Engine = Random.engines.mt19937().seed(789)
-			const level = 1 / 1.1 // hack
+			const player_level = 1 / 1.1 // hack
 
-			const cgN1 = generate_random_coin_gain(rng, CoinsGain.none, level)
+			const cgN1 = generate_random_coin_gain_or_loss(rng, { range: CoinsGain.none, player_level, current_wallet_amount: 100000 })
 			expect(cgN1).to.equal(0)
-			const cgN2 = generate_random_coin_gain(rng, CoinsGain.none, level)
+			const cgN2 = generate_random_coin_gain_or_loss(rng, { range: CoinsGain.none, player_level, current_wallet_amount: 100000 })
 			expect(cgN2).to.equal(0)
 
-			const cgS1 = generate_random_coin_gain(rng, CoinsGain.small, level)
+			const cgL1 = generate_random_coin_gain_or_loss(rng, { range: CoinsGain.loss, player_level, current_wallet_amount: 100000 })
+			expect(cgL1).to.be.gte(-20)
+			expect(cgL1).to.be.lte(-1)
+			const cgL2 = generate_random_coin_gain_or_loss(rng, { range: CoinsGain.loss, player_level, current_wallet_amount: 100000 })
+			expect(cgL2).to.be.gte(-20)
+			expect(cgL2).to.be.lte(-1)
+
+			const cgS1 = generate_random_coin_gain_or_loss(rng, { range: CoinsGain.small, player_level, current_wallet_amount: 100000 })
 			expect(cgS1).to.be.gte(1)
 			expect(cgS1).to.be.lte(20)
-			const cgS2 = generate_random_coin_gain(rng, CoinsGain.small, level)
+			const cgS2 = generate_random_coin_gain_or_loss(rng, { range: CoinsGain.small, player_level, current_wallet_amount: 100000 })
 			expect(cgS2).to.be.gte(1)
 			expect(cgS2).to.be.lte(20)
 
-			const cgM1 = generate_random_coin_gain(rng, CoinsGain.medium, level)
+			const cgM1 = generate_random_coin_gain_or_loss(rng, { range: CoinsGain.medium, player_level, current_wallet_amount: 100000 })
 			expect(cgM1).to.be.gte(50)
 			expect(cgM1).to.be.lte(100)
-			const cgM2 = generate_random_coin_gain(rng, CoinsGain.medium, level)
+			const cgM2 = generate_random_coin_gain_or_loss(rng, { range: CoinsGain.medium, player_level, current_wallet_amount: 100000 })
 			expect(cgM2).to.be.gte(50)
 			expect(cgM2).to.be.lte(100)
 
-			const cgB1 = generate_random_coin_gain(rng, CoinsGain.big, level)
+			const cgB1 = generate_random_coin_gain_or_loss(rng, { range: CoinsGain.big, player_level, current_wallet_amount: 100000 })
 			expect(cgB1).to.be.gte(500)
 			expect(cgB1).to.be.lte(700)
-			const cgB2 = generate_random_coin_gain(rng, CoinsGain.big, level)
+			const cgB2 = generate_random_coin_gain_or_loss(rng, { range: CoinsGain.big, player_level, current_wallet_amount: 100000 })
 			expect(cgB2).to.be.gte(500)
 			expect(cgB2).to.be.lte(700)
 
-			const cgH1 = generate_random_coin_gain(rng, CoinsGain.huge, level)
+			const cgH1 = generate_random_coin_gain_or_loss(rng, { range: CoinsGain.huge, player_level, current_wallet_amount: 100000 })
 			expect(cgH1).to.be.gte(900)
 			expect(cgH1).to.be.lte(2000)
-			const cgH2 = generate_random_coin_gain(rng, CoinsGain.huge, level)
+			const cgH2 = generate_random_coin_gain_or_loss(rng, { range: CoinsGain.huge, player_level, current_wallet_amount: 100000 })
 			expect(cgH2).to.be.gte(900)
 			expect(cgH2).to.be.lte(2000)
 		})
 
 		it('should provide an amount proportional to the player level')
 
+		it('should cap the loss to the current wallet amount', () => {
+			const rng: Engine = Random.engines.mt19937().seed(789)
+			const player_level = 1 / 1.1 // hack
+
+			// -1  -6  -2
+			const cgL1 = generate_random_coin_gain_or_loss(rng, { range: CoinsGain.loss, player_level, current_wallet_amount: 1 })
+			expect(cgL1).to.equal(-1)
+			const cgL2 = generate_random_coin_gain_or_loss(rng, { range: CoinsGain.loss, player_level, current_wallet_amount: 2 })
+			expect(cgL2).to.equal(-2)
+		})
 	})
 })

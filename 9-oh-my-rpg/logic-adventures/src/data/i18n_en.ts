@@ -2,28 +2,46 @@ import { I18nMessages } from '@offirmo-private/ts-types'
 
 const BAD_ADVENTURES: I18nMessages = {
 	// http://www.thesaurus.com/browse/tired
-	bad_1: `🚫  You clicked too early!
+	bad_s1: `🚫  You clicked too early!
 You collapse from exhaustion 😵 , you lose all your energy⚡ !`,
 
-	bad_2: `🚫  You clicked too early!
+	bad_s2: `🚫  You clicked too early!
 You burn out 😵 , you lose all your energy⚡ !`,
 
 	// monsters
-	bad_3: `🚫  You clicked too early!
-You fall asleep and get eaten by a dragon 🐲 !
-you lose all your energy💀 !`,
+	bad_m1: `🚫  You clicked too early!
+You fall asleep and get eaten by a dragon 🐉 !
+you lose all your energy 💀 !`,
 
-	bad_4: `🚫  You clicked too early!
+	bad_m2: `🚫  You clicked too early!
 You are drowsy during a critical fight and get eaten by a monster 🦖 !
-you lose all your energy☠ !`,
+you lose all your energy ☠️ !`,
 
-	bad_5: `🚫  You clicked too early!
+	bad_m3: `🚫  You clicked too early!
 You fall asleep and get sucked dry by a vampire 🧛‍♀️ !
-you lose all your energy⚰ !`,
+you lose all your energy ⚰️ !`,
 
-	bad_6: `🚫  You clicked too early!
+	bad_m4: `🚫  You clicked too early!
 You fall asleep and get eaten by wolves 🐺 🐺 🐺 !
-you lose all your energy💀 !`,
+you lose all your energy 💀 !`,
+
+	bad_m5: `🚫  You clicked too early!
+You fall asleep and get eaten by ants 🐜 🐜 🐜 !
+you lose all your energy ☠️ !`,
+
+	bad_m6: `🚫  You clicked too early!
+You fall asleep and get eaten by a spider 🕷 🕸 !
+you lose all your energy 💀 !`,
+
+	// environment
+	bad_e1: `🚫  You clicked too early!
+You fall asleep and get eaten by a carnivorous plant 🥀 !
+you lose all your energy 💀 !`,
+
+	bad_e2: `🚫  You clicked too early!
+You fall asleep in a dark dungeon and freeze to death ❄️ !
+you lose all your energy 💀 !`,
+
 }
 
 const FIGHT_ADVENTURES: I18nMessages = {
@@ -44,7 +62,7 @@ You encounter a wild {{encounter}} from afar!{{br}}
 Fascinated, you observe it instead of attacking it.{{br}}
 Its behaviour makes you think of new techniques. You gain +{{attr}} {{attr_name}}!`,
 
-	// TODO follow to resources
+	// TODO follow target to resources?
 
 	fight_lost_any: `
 You were attacked and nearly killed by a {{encounter}} but you got away just before it was too late.{{br}}
@@ -108,7 +126,7 @@ You gain +{{level}} level!`,
 	// https://www.reddit.com/r/boringrpg/comments/dloxe/event_messages/
 
 	// TODO loss
-	//eaten_by_a_grue: `You have been eaten by a grue. You lose {{coin}} coins.`,
+	eaten_by_a_grue: `You have been eaten by a grue. You lose {{coin}} coins.`,
 
 	walk_in_mordor: 'You simply walk into Mordor. You gain +{{agility}} agility.',
 
@@ -132,7 +150,7 @@ You gain +{{level}} level!`,
 
 	princess_castle: 'The princess was actually in this castle! +{{luck}} luck!',
 
-	//problem: `Problem? -{{coin}} coins.`,
+	problem: `You have a problem? -{{coin}} coins.`,
 
 	foreign_language: 'You learn a foreign language. +{{charisma}} charisma!',
 
@@ -140,19 +158,19 @@ You gain +{{level}} level!`,
 
 	chasm_leap: 'You successfully leap over a chasm! +{{agility}} agility!',
 
-	//luxurious_meal: `You cook the most luxurious meal! -{{coin}} coins.`,
+	luxurious_meal: `You cook the most luxurious meal! {{coin}} coins.`,
 
-	//donate: `You donate {{coin}} coins. You gain +{{token}} token.`,
+	donate: `You donate {{coin}} coins. You gain +{{token}} token.`,
 
 	coffee: 'You drink a cup of coffee. +{{wisdom}} wisdom!',
 
-	//socks: `You buy some socks. -gold`,
+	socks: `You buy some socks. -gold`,
 
 	gold_nugget: 'You trip on a gold nugget: +{{coin}} gold!',
 
-	//pileup: `You get into a 3 horse pileup: -{{coin}} gold!`,
+	pileup: `You get into a 3 horse pileup: {{coin}} gold!`,
 
-	//	You drink too much at the tavern, lose "x amount of" coins
+	tavern: `You drink too much at the tavern, lose {{coin}} gold!`,
 
 	magic_lamp: 'You stumble upon a magic lamp! You gain +{{luck}} luck!',
 
@@ -162,23 +180,23 @@ You gain +{{level}} level!`,
 
 	green_food: 'You somehow survive eating green eggs and ham. You gain +{{health}} health!',
 
-	//You try your luck at the wishing well. You lose 1 coin.
+	wishing_well: 'You try your luck at the wishing well. You lose {{coin}} coin.',
 
 	conscripted: 'You are conscripted into the army, you gain +{{coin}} coins.',
 
-	//Waylayed by brigands, -coins
+	brigands: 'Waylayed by brigands, {{coin}} coins.',
 
 	duke_rescue: 'You rescued a duke, you are rewarded +{{coin}} coins!',
 
-	//Bribed your way out of an arrest, -coins
+	bribe: 'Bribed your way out of an arrest, {{coin}} coins.',
 
-	//Doctor prescribes leaches for your extreme case of evil vapors, -coins
+	doctor: 'Doctor prescribes leaches for your extreme case of evil vapors, {{coin}} coins.',
 
-	//You were caught by a gazebo. You lost 8 coins!
+	gazebo: 'You were caught by a gazebo. You lost 8 coins!',
 
-	//You buy a drawer for all of your socks.-10 coins
+	sock_drawer: 'You buy a drawer for all of your socks: {{coin}} coins.',
 
-	//A flying rat stole your hat! You replace it and lose x coins.
+	flying_rat: 'A flying rat stole your hat! You replace it and lose x coins.'
 }
 
 // from me, inferred and extended from the originals
@@ -210,10 +228,6 @@ You gained +{{wisdom}} wisdom!`,
 	found_rainbow_mushroom: `
 You find a glowing rainbow mushroom and eat it.
 You gained +{{luck}} luck!`,
-
-	found_random_mushroom: `
-You find a golden mushroom and eat it.
-You gained +{{attr}} {{attr_name}}!`,
 }
 
 const OFFIRMO_INSPIRED_FROM_RPG_MEMES_FROM_THE_NET: I18nMessages = {
@@ -300,7 +314,6 @@ to stay close to him.{{br}}
 You come across an old man with eccentric apparel.
 Score! It’s a rare item seller!
 He gives you a good price for a {{item}}.`,
-	// TODO loss
 
 	// memecenter.com
 	progress_loop: `
@@ -452,7 +465,7 @@ You keep this avatar as a pet. His aura gives you +{{strength}} strength!
 
 	// https://www.instagram.com/p/BorYMavBG3s/
 	xxx_fancy_arrows: `
-	You 
+	You
 	`,
 
 	// https://www.instagram.com/p/Boo4jwRBe6D/
@@ -565,7 +578,7 @@ You collect +{{coin}} in coins, precious stones and other treasures found!`,
 
 	// Oblivion dangerous chicken
 	chicken_slayer: `
-You enter a village and see a chicken roaming in a garden peacefully. 
+You enter a village and see a chicken roaming in a garden peacefully.
 You slay the chicken mercilessly.
 The entire cohort of guards for the town come after you and you are forced to slay them too.
 After hours of fighting you gain +{{strength}} strength!`,
@@ -625,7 +638,6 @@ You buy poison from them and coat your weapon with it, providing a good enhancem
 	DQ_good_slime: `The slime speaks to you: «I’m not a bad slime, you know?»{{br}}
 What a stupid statement: obviously slimes are monsters! You slaughter it and many others.{{br}}
 This training earns you +{{attr}} {{attr_name}}!`,
-
 }
 
 const OFFIRMO_POPULAR_CULTURE: I18nMessages = {
@@ -1026,8 +1038,13 @@ You wake up with a pet badger. Its aura gives you +{{strength}} strength!
 
 }
 
-const OFFIRMO_BLAND_REPARTITION_ADJUSTMENT: I18nMessages = {
+export const OFFIRMO_BLAND_REPARTITION_ADJUSTMENT: I18nMessages = {
 	// we can change the target attribute to improve the distribution
+
+
+	found_random_mushroom: `
+You find a golden mushroom and eat it.
+You gained +{{attr}} {{attr_name}}!`,
 
 	// food
 	dragon_kebab: `
@@ -1048,6 +1065,13 @@ You find that you gained +{{attr}} {{attr_name}}!
 At an adventuring guild party, you are drunk and pick something unidentified to eat.{{br}}
 Once you wake up (one day later!) you discover that you strangely gained +{{attr}} {{attr_name}}!
 	`,
+
+	/*
+	fantasy metals
+		* http://tvtropes.org/pmwiki/pmwiki.php/Main/FantasyMetals
+* http://metallurgy.wikia.com/wiki/Fantasy_Metals
+	* http://www.bodycote.com/fictional-metals
+*/
 
 	// potions
 	// https://www.reddit.com/r/DnDBehindTheScreen/comments/4btnkc/random_potions_table/
@@ -1072,12 +1096,6 @@ You find an old potion with an unreadable label.
 You try your luck and drink it.
 You gain +{{attr}} {{attr_name}}!`,
 
-	/*
-	fantasy metals
-		* http://tvtropes.org/pmwiki/pmwiki.php/Main/FantasyMetals
-* http://metallurgy.wikia.com/wiki/Fantasy_Metals
-	* http://www.bodycote.com/fictional-metals
-*/
 
 	// books
 	found_journal: `

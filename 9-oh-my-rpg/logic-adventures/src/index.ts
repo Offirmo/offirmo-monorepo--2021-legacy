@@ -63,6 +63,7 @@ const COINS_GAIN_MULTIPLIER_PER_LEVEL = 1.1
 
 const COINS_GAIN_RANGES: Readonly<{ [k: string]: [number, number] }> = {
 	none:   [  0,    0],
+	loss:   [-10,   -1],
 	small:  [  1,   20],
 	medium: [ 50,  100],
 	big:    [500,  700],
@@ -91,14 +92,32 @@ function pick_random_bad_archetype(rng: Engine): Readonly<AdventureArchetype> {
 	return Random.pick(rng, ALL_BAD_ADVENTURE_ARCHETYPES)
 }
 
-function generate_random_coin_gain(rng: Engine, range: CoinsGain, player_level: number): number {
+function generate_random_coin_gain_or_loss(rng: Engine, {
+	range,
+	player_level,
+	current_wallet_amount,
+}: {
+	range: CoinsGain,
+	player_level: number,
+	current_wallet_amount: number,
+}): number {
 	if (range === CoinsGain.none)
 		return 0
 
-	const level_multiplier = player_level * COINS_GAIN_MULTIPLIER_PER_LEVEL
-	const interval = COINS_GAIN_RANGES[range]
+	let interval = COINS_GAIN_RANGES[range]
 
-	return Random.integer(interval[0] * level_multiplier, interval[1] * level_multiplier)(rng)
+	if (range !== CoinsGain.loss) {
+		const level_multiplier = player_level * COINS_GAIN_MULTIPLIER_PER_LEVEL
+		interval = [ interval[0] * level_multiplier, interval[1] * level_multiplier ]
+	}
+
+	let amount = Random.integer(interval[0], interval[1])(rng)
+
+	if (range === CoinsGain.loss) {
+		amount = -Math.min(-amount, current_wallet_amount)
+	}
+
+	return amount
 }
 
 /////////////////////
@@ -118,7 +137,7 @@ export {
 
 	pick_random_good_archetype,
 	pick_random_bad_archetype,
-	generate_random_coin_gain,
+	generate_random_coin_gain_or_loss,
 	get_archetype,
 }
 

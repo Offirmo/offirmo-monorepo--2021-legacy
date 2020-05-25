@@ -7,6 +7,12 @@ import {
 	i18n_messages,
 	ENTRIES,
 } from '.'
+import { OFFIRMO_BLAND_REPARTITION_ADJUSTMENT } from './i18n_en'
+
+const DISTRIB_ADJUSTMENT_ENTRIES_HIDS: string[] = [
+	...Object.keys(OFFIRMO_BLAND_REPARTITION_ADJUSTMENT),
+	'cookies_grandmas',
+]
 
 describe('@oh-my-rpg/logic-adventures - data:', function () {
 	const _: any = i18n_messages.en
@@ -70,21 +76,14 @@ describe('@oh-my-rpg/logic-adventures - data:', function () {
 
 			'token',
 			'coin',
+			'coin--loss',
 			'coin--small',
 			'coin--medium',
 			'coin--big',
 			'coin--huge',
 		]
 
-		const DISTRIB_ADJUSTMENT_ENTRIES = [
-			'dragon_kebab',
-			'elven_hydromel',
-			'found_vermilion_potion',
-			'found_silver_potion',
-			'found_swirling_potion',
-			'found_diary',
-			'cookies_grandmas',
-		]
+
 
 		it('brags about the number of stories', () => {
 			console.log('Good entries: # ' + ENTRIES_GOOD.length)
@@ -95,7 +94,7 @@ describe('@oh-my-rpg/logic-adventures - data:', function () {
 			const stats_adjustments: any = {}
 
 			ENTRIES_GOOD.forEach(entry => {
-				const stats = DISTRIB_ADJUSTMENT_ENTRIES.includes(entry.hid)
+				const stats = DISTRIB_ADJUSTMENT_ENTRIES_HIDS.includes(entry.hid)
 					? stats_adjustments
 					: stats_normal
 
@@ -123,7 +122,7 @@ describe('@oh-my-rpg/logic-adventures - data:', function () {
 				let text = `${gain_key}:                `.slice(0, 20) + ' = ' + count
 
 				if (stats_adjustments[gain_key])
-					text += ` (+${stats_adjustments[gain_key]})`
+					text += ` (${stats_normal[gain_key]} + ${stats_adjustments[gain_key]})`
 
 				console.log(text)
 				if (gain_key === 'level' || gain_key === 'wisdom')

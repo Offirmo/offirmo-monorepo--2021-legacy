@@ -15,6 +15,7 @@ import {
 } from '@oh-my-rpg/state-character'
 
 import * as InventoryState from '@oh-my-rpg/state-inventory'
+import * as WalletState from '@oh-my-rpg/state-wallet'
 import * as PRNGState from '@oh-my-rpg/state-prng'
 import {
 	get_prng,
@@ -51,7 +52,7 @@ import {
 	get_archetype,
 	pick_random_good_archetype,
 	pick_random_bad_archetype,
-	generate_random_coin_gain,
+	generate_random_coin_gain_or_loss,
 } from '@oh-my-rpg/logic-adventures'
 
 import {
@@ -154,6 +155,7 @@ function instantiate_adventure_archetype(
 	aa: Readonly<AdventureArchetype>,
 	character: Readonly<CharacterState>,
 	inventory: Readonly<InventoryState.State>,
+	wallet: Readonly<WalletState.State>,
 ): Readonly<Adventure> {
 	const {hid, good, type, outcome} = aa
 	const should_gain: OutcomeArchetype = {
@@ -212,7 +214,11 @@ function instantiate_adventure_archetype(
 			charisma: should_gain.charisma ? 1 : 0,
 			wisdom:   should_gain.wisdom   ? 1 : 0,
 			luck:     should_gain.luck     ? 1 : 0,
-			coin:     generate_random_coin_gain(rng, should_gain.coin, new_player_level),
+			coin:     generate_random_coin_gain_or_loss(rng, {
+					range: should_gain.coin,
+					player_level: new_player_level,
+					current_wallet_amount: wallet.coin_count,
+				}),
 			token:    should_gain.token    ? 1 : 0,
 			armor:    should_gain.armor    ? create_armor(rng) : null,
 			weapon:   should_gain.weapon   ? create_weapon(rng) : null,
@@ -232,6 +238,7 @@ function play_adventure(state: Readonly<State>, aa: Readonly<AdventureArchetype>
 		aa,
 		state.u_state.avatar,
 		state.u_state.inventory,
+		state.u_state.wallet,
 	)
 
 	const {gains: gained} = adventure
