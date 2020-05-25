@@ -10,11 +10,14 @@
 - 😅 fix: tweaks, typos, small bugs…
 - 😷 chore: some internal refactors, bump dependencies
 
+## v0.
+- coin loss
+- 😅 fix: login and reload features are working again
+
 
 ## v0.63.1
 - 😍 feature: 16 new backgrounds (now totalling 114!
 - 🤩 feature: improved new version detection
-- 😅 fix: login and reload features are working again
 
 ## v0.62.1
 - 👋 feature dropped: the snow for Christmas season

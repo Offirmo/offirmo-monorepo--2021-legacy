@@ -1,5 +1,13 @@
 
 
+## villains!
+
+* https://illimitablemen.com/2013/12/28/understanding-psychopathy/ “The psychopaths are always around. In calm times we study them, but in times of upheaval, they rule over us.” – Ernst Kretschmer
+* https://illimitablemen.com/2013/12/02/understanding-machiavellianism/ “Everyone sees what you appear to be, few experience what you really are.” – Niccolò Machiavelli
+* https://www.reddit.com/r/AlreadyRed/comments/34l1ae/discussion_on_the_gervais_principle_xpost/
+* https://en.wikipedia.org/wiki/Schadenfreude he experience of pleasure, joy, or self-satisfaction that comes from learning of or witnessing the troubles, failures, or humiliation of another.
+* https://en.wikipedia.org/wiki/Chicken_(game)
+
 ## universes
 
 ### western
@@ -254,3 +262,15 @@ Singling out individuals
 Maria is under pressure to finish a project. She has a strong personality and always puts her work first. She is easily angered when details are missed and struggles to productively handle other people’s mistakes. She is ambitious, eager to be promoted, and values team members who have been around the longest, as they have the most experience. She is wary of new people—not knowing whether she can rely on them makes her very nervous.
 
 moving slowly enough to catch mistakes
+
+songs https://9gag.com/gag/a3w38Ym
+https://9gag.com/gag/aYybVZN crow friendship
+
+chines martial arts
+- https://9gag.com/gag/aye06pW
+- https://en.wikipedia.org/wiki/Chinese_martial_arts
+  - https://en.wikipedia.org/wiki/Southern_Praying_Mantis
+  - https://en.wikipedia.org/wiki/Baguazhang
+  - https://en.wikipedia.org/wiki/Northern_Shaolin_(martial_art)
+  - https://en.wikipedia.org/wiki/Hung_Ga
+  - https://en.wikipedia.org/wiki/Tai_chi

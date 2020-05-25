@@ -2,6 +2,7 @@
 
 decent backstory
 
+talk shit about me in a rpg... https://9gag.com/gag/aEP1o4O
 
 # content
 
