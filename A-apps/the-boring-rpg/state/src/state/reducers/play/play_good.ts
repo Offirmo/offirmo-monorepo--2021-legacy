@@ -34,12 +34,6 @@ const ADVENTURE_GOOD_NON_REPETITION_ID = 'adventure_archetype--good'
 const ADVENTURE_GOOD_NON_REPETITION_COUNT = 30
 
 function pick_random_non_repetitive_good_archetype(u_state: Readonly<UState>, rng: Engine): Readonly<AdventureArchetype> {
-	if (WalletState.get_currency_amount(u_state.wallet, WalletState.Currency.coin)) {
-		// needed to prevent the wallet from being at 0
-		// which mess up adventures causing a coin loss
-		return get_archetype('found_coin')
-	}
-
 	let archetype: AdventureArchetype
 
 	regenerate_until_not_recently_encountered({
@@ -56,7 +50,8 @@ function pick_random_non_repetitive_good_archetype(u_state: Readonly<UState>, rn
 }
 
 function pick_ideal_non_repetitive_good_archetype(u_state: Readonly<UState>, rng: Engine): Readonly<AdventureArchetype> {
-	if (WalletState.get_currency_amount(u_state.wallet, WalletState.Currency.coin)) {
+	//console.log(WalletState.get_currency_amount(u_state.wallet, WalletState.Currency.coin))
+	if (WalletState.get_currency_amount(u_state.wallet, WalletState.Currency.coin) === 0) {
 		// needed to prevent the wallet from staying at 0
 		// which mess up adventures needing a coin loss
 		return get_archetype('found_coin')

@@ -241,6 +241,8 @@ function play_adventure(state: Readonly<State>, aa: Readonly<AdventureArchetype>
 		state.u_state.inventory,
 		state.u_state.wallet,
 	)
+	//console.log(adventure.hid, state.u_state.wallet)
+	//console.log(adventure)
 
 	const {gains: gained} = adventure
 
@@ -295,11 +297,13 @@ function play_adventure(state: Readonly<State>, aa: Readonly<AdventureArchetype>
 	if (gained.weapon) {
 		gain_count++
 		item_gain_count++
+		//console.log('gained weapon')
 		state = _receive_item(state, gained.weapon)
 	}
 	if (gained.armor) {
 		gain_count++
 		item_gain_count++
+		//console.log('gained armor')
 		state = _receive_item(state, gained.armor)
 	}
 

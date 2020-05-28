@@ -46,7 +46,6 @@ import {
 } from './internal'
 import { equip_item } from './base'
 import { _refresh_achievements } from './achievements'
-import {Currency} from "@oh-my-rpg/state-wallet/src";
 
 /////////////////////
 
@@ -81,7 +80,7 @@ function create(SEC?: OMRSoftExecutionContext, now_ms: TimestampUTCMs = get_UTC_
 
 				avatar: CharacterState.create(SEC),
 				inventory: InventoryState.create(SEC),
-				wallet: WalletState.add_amount(WalletState.create(), Currency.coin, 1), // don't start empty so that a loss can happen
+				wallet: WalletState.add_amount(WalletState.create(), WalletState.Currency.coin, 1), // don't start empty so that a loss can happen
 				prng: PRNGState.create(),
 				energy: u_state_energy,
 				engagement: EngagementState.create(SEC),

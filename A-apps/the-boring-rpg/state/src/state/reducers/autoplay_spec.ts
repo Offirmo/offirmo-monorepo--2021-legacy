@@ -57,11 +57,13 @@ describe(`${LIB} - reducer`, function() {
 
 			//dump_pretty_json('success', state)
 			expect(state.u_state.avatar.klass).not.to.equal('novice')
-			expect(is_inventory_full(state.u_state)).to.be.false
+			expect(is_inventory_full(state.u_state), 'inventory full').to.be.false
 			const equipped_armor: Armor = state.u_state.inventory.slotted[InventorySlot.armor]!
 			const equipped_weapon: Weapon = state.u_state.inventory.slotted[InventorySlot.weapon]!
-			expect(matches_armor(equipped_armor, STARTING_ARMOR_SPEC)).to.be.false
-			expect(matches_weapon(equipped_weapon, STARTING_WEAPON_SPEC)).to.be.false
+			//console.log({ equipped_armor, STARTING_ARMOR_SPEC })
+			//console.log(state.u_state.inventory)
+			expect(matches_weapon(equipped_weapon, STARTING_WEAPON_SPEC), 'no longer starting weapon').to.be.false
+			expect(matches_armor(equipped_armor, STARTING_ARMOR_SPEC), 'no longer starting armor').to.be.false
 		})
 
 		it('should allow auto-looping with good and bad (interface 2)', () => {

@@ -159,7 +159,9 @@ describe(`${LIB} - reducer - play`, function() {
 	})
 
 	describe('adventures', function() {
-		ALL_ADVENTURE_ARCHETYPES.forEach(({hid, good}) => {
+		ALL_ADVENTURE_ARCHETYPES
+			//.filter(({hid}) => hid === 'eaten_by_a_grue')
+			.forEach(({hid, good}) => {
 			describe(`${good ? '✅' : '🚫'}  adventure "${hid}"`, function() {
 				it('should be playable', () => {
 					let state = create()
