@@ -5,6 +5,7 @@ import { Random, Engine } from '@offirmo/random'
 /////////////////////
 
 import * as PRNGState from '@oh-my-rpg/state-prng'
+import * as WalletState from '@oh-my-rpg/state-wallet'
 
 import {
 	get_prng,
@@ -33,6 +34,12 @@ const ADVENTURE_GOOD_NON_REPETITION_ID = 'adventure_archetype--good'
 const ADVENTURE_GOOD_NON_REPETITION_COUNT = 30
 
 function pick_random_non_repetitive_good_archetype(u_state: Readonly<UState>, rng: Engine): Readonly<AdventureArchetype> {
+	if (WalletState.get_currency_amount(u_state.wallet, WalletState.Currency.coin)) {
+		// needed to prevent the wallet from being at 0
+		// which mess up adventures causing a coin loss
+		return get_archetype('found_coin')
+	}
+
 	let archetype: AdventureArchetype
 
 	regenerate_until_not_recently_encountered({
@@ -48,13 +55,23 @@ function pick_random_non_repetitive_good_archetype(u_state: Readonly<UState>, rn
 	return archetype!
 }
 
+function pick_ideal_non_repetitive_good_archetype(u_state: Readonly<UState>, rng: Engine): Readonly<AdventureArchetype> {
+	if (WalletState.get_currency_amount(u_state.wallet, WalletState.Currency.coin)) {
+		// needed to prevent the wallet from staying at 0
+		// which mess up adventures needing a coin loss
+		return get_archetype('found_coin')
+	}
+
+	return pick_random_non_repetitive_good_archetype(u_state, rng)
+}
+
 function play_good(state: Readonly<State>, explicit_adventure_archetype_hid?: string): Readonly<State> {
 	let prng_state = state.u_state.prng
 	const rng = get_prng(prng_state)
 
 	const aa: AdventureArchetype = explicit_adventure_archetype_hid
 		? get_archetype(explicit_adventure_archetype_hid)
-		: pick_random_non_repetitive_good_archetype(state.u_state, rng)
+		: pick_ideal_non_repetitive_good_archetype(state.u_state, rng)
 
 	if (!aa)
 		throw new Error(`${LIB}: play_good(): hinted adventure archetype "${explicit_adventure_archetype_hid}" could not be found!`)

@@ -3,12 +3,16 @@ import { Enum } from 'typescript-string-enums'
 /////////////////////
 
 const CoinsGain = Enum(
+	'lossꘌsmall',
+	'lossꘌone',
+
 	'none',
-	'loss',
-	'small',
-	'medium',
-	'big',
-	'huge',
+
+	'gainꘌone',
+	'gainꘌsmall',
+	'gainꘌmedium',
+	'gainꘌbig',
+	'gainꘌhuge',
 )
 type CoinsGain = Enum<typeof CoinsGain> // eslint-disable-line no-redeclare
 

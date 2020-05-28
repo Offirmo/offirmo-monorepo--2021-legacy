@@ -1,7 +1,9 @@
 import { expect } from 'chai'
+import { Enum } from 'typescript-string-enums'
 
 import { Random, Engine } from '@offirmo/random'
 
+import { CoinsGain } from '../types'
 import {
 	RawAdventureArchetypeEntry,
 	i18n_messages,
@@ -75,12 +77,7 @@ describe('@oh-my-rpg/logic-adventures - data:', function () {
 			'armor_or_weapon_improvement',
 
 			'token',
-			'coin',
-			'coin--loss',
-			'coin--small',
-			'coin--medium',
-			'coin--big',
-			'coin--huge',
+			...Enum.values(CoinsGain).filter(v => v!= 'none').map(v => 'coin:' + v),
 		]
 
 
@@ -89,7 +86,7 @@ describe('@oh-my-rpg/logic-adventures - data:', function () {
 			console.log('Good entries: # ' + ENTRIES_GOOD.length)
 		})
 
-		it('has  an outcome of each type with a correct distribution', () => {
+		it('has an outcome of each type with a correct distribution', () => {
 			const stats_normal: any = {}
 			const stats_adjustments: any = {}
 
@@ -100,11 +97,13 @@ describe('@oh-my-rpg/logic-adventures - data:', function () {
 
 				const outcome: any = entry.outcome
 				Object.keys(outcome).forEach(gain_key => {
-					stats[gain_key] = stats[gain_key]
-						? stats[gain_key] + 1
-						: 1
 					if (typeof outcome[gain_key] !== 'boolean' && gain_key !== 'token') {
-						gain_key = gain_key + '--' + outcome[gain_key]
+						gain_key = gain_key + ':' + outcome[gain_key]
+						stats[gain_key] = stats[gain_key]
+							? stats[gain_key] + 1
+							: 1
+					}
+					else {
 						stats[gain_key] = stats[gain_key]
 							? stats[gain_key] + 1
 							: 1
@@ -112,20 +111,20 @@ describe('@oh-my-rpg/logic-adventures - data:', function () {
 				})
 			})
 
-			expect(Object.keys(stats_normal), 'all seen outcome types').to.have.lengthOf(SORTED_EXPECTED_OUTCOMES.length)
+			expect(Object.keys(stats_normal).sort(), 'all seen outcome types').to.deep.equal([...SORTED_EXPECTED_OUTCOMES].sort())
 
 			SORTED_EXPECTED_OUTCOMES.forEach(gain_key => {
 				let count = stats_normal[gain_key]
 				if (stats_adjustments[gain_key])
 					count += stats_adjustments[gain_key]
 
-				let text = `${gain_key}:                `.slice(0, 20) + ' = ' + count
+				let text = `${gain_key}                `.slice(0, 20) + ' = ' + count
 
 				if (stats_adjustments[gain_key])
 					text += ` (${stats_normal[gain_key]} + ${stats_adjustments[gain_key]})`
 
 				console.log(text)
-				if (gain_key === 'level' || gain_key === 'wisdom')
+				if (gain_key === 'level' || gain_key === 'wisdom' || gain_key === 'token')
 					console.log('-------')
 			})
 		})

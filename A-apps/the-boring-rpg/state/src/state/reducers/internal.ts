@@ -140,6 +140,17 @@ function _receive_coins(state: Readonly<State>, amount: number): Readonly<State>
 		},
 	}
 }
+function _lose_coins(state: Readonly<State>, amount: number): Readonly<State> {
+	const { u_state } = state
+
+	return {
+		...state,
+		u_state: {
+			...u_state,
+			wallet: WalletState.remove_amount(u_state.wallet, Currency.coin, amount),
+		},
+	}
+}
 
 function _receive_tokens(state: Readonly<State>, amount: number): Readonly<State> {
 	const { u_state } = state
@@ -242,6 +253,7 @@ export {
 	_receive_item,
 	_sell_item,
 	_receive_coins,
+	_lose_coins,
 	_receive_tokens,
 
 	_ack_all_engagements,

@@ -1,5 +1,6 @@
 /////////////////////
 
+import assert from 'tiny-invariant'
 import { Random, Engine } from '@offirmo/random'
 
 import {
@@ -62,13 +63,14 @@ const GOOD_ADVENTURE_ARCHETYPES_BY_TYPE: Readonly<{ [k: string]: Readonly<Advent
 const COINS_GAIN_MULTIPLIER_PER_LEVEL = 1.1
 
 const COINS_GAIN_RANGES: Readonly<{ [k: string]: [number, number] }> = {
-	none:   [  0,    0],
-	loss:   [-10,   -1],
-	small:  [  1,   20],
-	medium: [ 50,  100],
-	big:    [500,  700],
-	huge:   [900, 2000],
+	lossꘌsmall:  [-10,   -1],
+	none:        [  0,    0],
+	gainꘌsmall:  [  1,   20],
+	gainꘌmedium: [ 50,  100],
+	gainꘌbig:    [500,  700],
+	gainꘌhuge:   [900, 2000],
 }
+// TODO UT data
 
 /////////////////////
 
@@ -101,23 +103,36 @@ function generate_random_coin_gain_or_loss(rng: Engine, {
 	player_level: number,
 	current_wallet_amount: number,
 }): number {
-	if (range === CoinsGain.none)
-		return 0
 
-	let interval = COINS_GAIN_RANGES[range]
+	switch(range) {
+		case CoinsGain.lossꘌsmall: {
+			assert(current_wallet_amount > 0, 'wallet should not be empty for loss to be allowed!')
+			let interval = COINS_GAIN_RANGES[range]
+			assert(interval, `known range "${range}"`)
+			const amount = Random.integer(interval[0], interval[1])(rng)
+			const capped_amount = Math.max(
+				amount,
+				-current_wallet_amount
+			)
+			return capped_amount
+		}
+		case CoinsGain.lossꘌone:
+			return -1
 
-	if (range !== CoinsGain.loss) {
-		const level_multiplier = player_level * COINS_GAIN_MULTIPLIER_PER_LEVEL
-		interval = [ interval[0] * level_multiplier, interval[1] * level_multiplier ]
+		case CoinsGain.none:
+			return 0
+
+		case CoinsGain.gainꘌone:
+			return 1
+
+		default: {
+			const level_multiplier = player_level * COINS_GAIN_MULTIPLIER_PER_LEVEL
+			let interval = COINS_GAIN_RANGES[range]
+			assert(interval, `known range "${range}"`)
+			interval = [ interval[0] * level_multiplier, interval[1] * level_multiplier ]
+			return Random.integer(interval[0], interval[1])(rng)
+		}
 	}
-
-	let amount = Random.integer(interval[0], interval[1])(rng)
-
-	if (range === CoinsGain.loss) {
-		amount = -Math.min(-amount, current_wallet_amount)
-	}
-
-	return amount
 }
 
 /////////////////////

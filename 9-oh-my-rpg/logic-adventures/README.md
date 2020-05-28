@@ -17,12 +17,12 @@
 
 coins gain:
 	'none',
-	'loss',
-	'small',
-	'medium',
-	'big',
-	'huge',
-	
+	'lossꘌsmall',
+	'gainꘌsmall',
+	'gainꘌmedium',
+	'gainꘌbig',
+	'gainꘌhuge',
+
 class_primary_attribute
 class_secondary_attribute
 armor_or_weapon_improvement

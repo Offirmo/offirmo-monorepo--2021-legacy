@@ -114,7 +114,7 @@ describe(`${LIB} - selectors`, function() {
 			})*/
 		})
 
-		describe('medium', function() {
+		describe('medium (dmg)', function() {
 
 			it('should work', () => {
 				const med = get_medium_damage_reduction(create(rng, {

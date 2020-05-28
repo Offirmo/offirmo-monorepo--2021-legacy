@@ -33,7 +33,6 @@ describe(`${LIB} - reducer`, function() {
 				}
 			}
 			catch (err) {
-				console.error('CRASH!')
 				dump_pretty_json('crash', state)
 				throw err
 			}

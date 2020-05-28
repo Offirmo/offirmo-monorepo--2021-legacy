@@ -65,6 +65,7 @@ import { LIB } from '../../../consts'
 import {
 	_receive_stat_increase,
 	_receive_coins,
+	_lose_coins,
 	_receive_tokens,
 	_receive_item,
 } from '../internal'
@@ -281,7 +282,10 @@ function play_adventure(state: Readonly<State>, aa: Readonly<AdventureArchetype>
 
 	if (gained.coin) {
 		gain_count++
-		state = _receive_coins(state, gained.coin)
+		if (gained.coin >= 0)
+			state = _receive_coins(state, gained.coin)
+		else
+			state = _lose_coins(state, -gained.coin)
 	}
 	if (gained.token) {
 		gain_count++

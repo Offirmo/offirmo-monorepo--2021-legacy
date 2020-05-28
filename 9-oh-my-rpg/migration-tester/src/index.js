@@ -114,14 +114,14 @@ function test_migrations({
 			fs.mkdirpSync(absolute_dir_path)
 
 		try {
-			fs.lsFiles(absolute_dir_path)
+			fs.lsFilesSync(absolute_dir_path)
 		}
 		catch (err) {
 			if (skip) return
 			throw err
 		}
 
-		const ALL_FILES = fs.lsFiles(absolute_dir_path)
+		const ALL_FILES = fs.lsFilesSync(absolute_dir_path)
 			.filter(snap_path => !snap_path.startsWith('.')) // skip .DS_STORE and like
 			.filter(snap_path => snap_path.endsWith('.json')) // allows README :)
 			.sort()

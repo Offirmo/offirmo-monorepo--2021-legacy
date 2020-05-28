@@ -20,19 +20,19 @@ You gained +{{luck}} luck!
 
 outcome: {
   token: true
-  coin: 'small' 'medium'
+  coin: ...
   armor: true
   weapon: true
   armor_or_weapon: true
   armor_improvement: true
   weapon_improvement: true
   armor_or_weapon_improvement: true
-  
+
   random_attribute: true
   lowest_attribute: true
   class_primary_attribute: true
   class_secondary_attribute: true
-  
+
   level: true
   health: true
   mana: true

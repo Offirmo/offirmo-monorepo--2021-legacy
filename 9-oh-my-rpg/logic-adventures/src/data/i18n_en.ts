@@ -125,7 +125,6 @@ You gain +{{level}} level!`,
 	// from this round of player suggestions
 	// https://www.reddit.com/r/boringrpg/comments/dloxe/event_messages/
 
-	// TODO loss
 	eaten_by_a_grue: `You have been eaten by a grue. You lose {{coin}} coins.`,
 
 	walk_in_mordor: 'You simply walk into Mordor. You gain +{{agility}} agility.',
@@ -154,7 +153,7 @@ You gain +{{level}} level!`,
 
 	foreign_language: 'You learn a foreign language. +{{charisma}} charisma!',
 
-	last_night: '...what happened last night? +{{luck}} luck!',
+	last_night: '…what happened last night? +{{luck}} luck!',
 
 	chasm_leap: 'You successfully leap over a chasm! +{{agility}} agility!',
 
@@ -164,7 +163,7 @@ You gain +{{level}} level!`,
 
 	coffee: 'You drink a cup of coffee. +{{wisdom}} wisdom!',
 
-	socks: `You buy some socks. -gold`,
+	socks: `You buy some socks, {{coin}} gold.`,
 
 	gold_nugget: 'You trip on a gold nugget: +{{coin}} gold!',
 
@@ -180,7 +179,7 @@ You gain +{{level}} level!`,
 
 	green_food: 'You somehow survive eating green eggs and ham. You gain +{{health}} health!',
 
-	wishing_well: 'You try your luck at the wishing well. You lose {{coin}} coin.',
+	wishing_well: 'You try your luck at the wishing well. You lose the coin.',
 
 	conscripted: 'You are conscripted into the army, you gain +{{coin}} coins.',
 
@@ -192,11 +191,11 @@ You gain +{{level}} level!`,
 
 	doctor: 'Doctor prescribes leaches for your extreme case of evil vapors, {{coin}} coins.',
 
-	gazebo: 'You were caught by a gazebo. You lost 8 coins!',
+	gazebo: 'You were caught by a gazebo. You lost {{coin}} coins!',
 
 	sock_drawer: 'You buy a drawer for all of your socks: {{coin}} coins.',
 
-	flying_rat: 'A flying rat stole your hat! You replace it and lose x coins.'
+	flying_rat: 'A flying rat stole your hat! You replace it and lose {{coin}} coins.'
 }
 
 // from me, inferred and extended from the originals
@@ -1103,6 +1102,11 @@ You find the remains of an unlucky adventurer. She or he (you can’t tell from 
 You read it and learn from their failure: +{{attr}} {{attr_name}}!`,
 }
 
+const SPECIAL: I18nMessages = {
+	found_coin: `
+You find a coin on the ground!`,
+}
+
 // NOTE: we allow line returns for ease of writing
 // but they'll be automatically removed, see bottom of this file.
 // use {{br}} for actual line returns.
@@ -1122,6 +1126,7 @@ const raw_messages: I18nMessages = {
 
 		...OFFIRMO_ORIGINAL,
 		...OFFIRMO_BLAND_REPARTITION_ADJUSTMENT,
+		...SPECIAL,
 	},
 }
 

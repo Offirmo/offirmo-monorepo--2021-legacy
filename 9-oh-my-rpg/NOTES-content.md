@@ -107,6 +107,9 @@ SCP
 * https://history.stackexchange.com/questions/57152/how-did-archers-judge-distance-before-range-finders
 * table https://academia.stackexchange.com/questions/144574/why-do-breakthroughs-in-science-and-research-that-have-enormous-and-obvious-po
 
+### crafting
+https://9gag.com/gag/aMx1AZV burnt wood
+
 ### organisations
 * currencies https://en.bitcoinwiki.org/wiki/List_of_fictional_currencies
 
