@@ -28,6 +28,7 @@ describe(`${LIB} - game-instance`, function() {
 		suggestedLevel: 'log', // change here if bug
 	})
 	let SEC = get_lib_SEC()
+	const START_MS = 100_000
 
 	beforeEach(() => {
 		SEC = get_lib_SEC()
@@ -36,7 +37,7 @@ describe(`${LIB} - game-instance`, function() {
 		storage = create_in_mem_tbrpg_storage()
 	})
 	beforeEach(function (){
-		this.clock = sinon.useFakeTimers(100_000)
+		this.clock = sinon.useFakeTimers(START_MS)
 	})
 	afterEach(function (){
 		this.clock.restore()
@@ -114,19 +115,19 @@ describe(`${LIB} - game-instance`, function() {
 
 				this.clock.tick(1_500)
 				game_instance.commands.play()
-				expect(game_instance.model.get().u_state.last_user_action_tms).to.equal(100_000 + 2_000)
+				expect(game_instance.model.get().u_state.last_user_action_tms).to.equal(START_MS + 2_000)
 
 				this.clock.tick(2_000)
 				game_instance.commands.play()
-				expect(game_instance.model.get().u_state.last_user_action_tms).to.equal(100_000 + 4_000)
+				expect(game_instance.model.get().u_state.last_user_action_tms).to.equal(START_MS + 4_000)
 
 				this.clock.tick(10_000)
 				game_instance.commands.rename_avatar('Test')
-				expect(game_instance.model.get().u_state.last_user_action_tms).to.equal(100_000 + 14_000)
+				expect(game_instance.model.get().u_state.last_user_action_tms).to.equal(START_MS + 14_000)
 
 				this.clock.tick(5_000)
 				game_instance.commands.change_avatar_class('warrior')
-				expect(game_instance.model.get().u_state.last_user_action_tms).to.equal(100_000 + 19_000)
+				expect(game_instance.model.get().u_state.last_user_action_tms).to.equal(START_MS + 19_000)
 
 				expect(game_instance.model.get().u_state.avatar.name).to.equal('Test')
 				expect(game_instance.queries.get_sub_state('avatar').name).to.equal('Test')
@@ -138,6 +139,7 @@ describe(`${LIB} - game-instance`, function() {
 		describe('basic mistakes', function() {
 
 			it('should throw properly', function() {
+				let elapsed_ms = START_MS
 				const game_instance = create_game_instance<AppState>({
 					SEC,
 					local_storage,
@@ -147,24 +149,32 @@ describe(`${LIB} - game-instance`, function() {
 
 				game_instance.commands.on_start_session(false)
 				this.clock.tick(500)
+				elapsed_ms += 500
 				game_instance.commands.on_logged_in_refresh(false)
 
 				this.clock.tick(1_500)
+				elapsed_ms += 1_500
 				game_instance.commands.play()
 
 				this.clock.tick(2_000)
+				elapsed_ms += 2_000
 				game_instance.commands.play()
 				this.clock.tick(1_000)
+				elapsed_ms += 1_000
 				game_instance.commands.play()
 				this.clock.tick(1_000)
+				elapsed_ms += 1_000
 				game_instance.commands.play()
 				this.clock.tick(1_000)
+				elapsed_ms += 1_000
 				game_instance.commands.play()
 				this.clock.tick(1_000)
+				elapsed_ms += 1_000
 				game_instance.commands.play()
 				this.clock.tick(1_000)
+				elapsed_ms += 1_000
 				game_instance.commands.play()
-				expect(game_instance.queries.get_sub_state('progress').statistics.good_play_count, 'play count 1a').to.equal(7)
+				expect(game_instance.queries.get_sub_state('progress').statistics.good_play_count, 'play count 1g').to.equal(7)
 				expect(game_instance.queries.get_sub_state('progress').statistics.bad_play_count, 'play count 1b').to.equal(0)
 
 				// bad play
@@ -174,29 +184,33 @@ describe(`${LIB} - game-instance`, function() {
 				game_instance.commands.play()
 				game_instance.commands.play()
 				game_instance.commands.play()
-				game_instance.commands.play()
-				expect(game_instance.model.get().u_state.last_user_action_tms).to.equal(100_000 + 9_000)
-				expect(game_instance.queries.get_sub_state('progress').statistics.good_play_count, 'play count 2a').to.equal(13)
+				//game_instance.commands.play()
+				expect(game_instance.model.get().u_state.last_user_action_tms).to.equal(elapsed_ms)
 				expect(game_instance.queries.get_sub_state('progress').statistics.bad_play_count, 'play count 2b').to.equal(0)
+				expect(game_instance.queries.get_sub_state('progress').statistics.good_play_count, 'play count 2g').to.equal(12)
 
 				game_instance.commands.play()
-				expect(game_instance.queries.get_sub_state('progress').statistics.good_play_count, 'play count 2c').to.equal(13)
-				expect(game_instance.queries.get_sub_state('progress').statistics.bad_play_count, 'play count 2d').to.equal(1)
+				expect(game_instance.queries.get_sub_state('progress').statistics.good_play_count, 'play count 3g').to.equal(12)
+				expect(game_instance.queries.get_sub_state('progress').statistics.bad_play_count, 'play count 3d').to.equal(1)
 
 				// bad misc
 				this.clock.tick(1_000)
+				elapsed_ms += 1_000
 				expect(() => game_instance.commands.rename_avatar('')).to.throw('renaming') // forbidden, shouldn't be possible
 				this.clock.tick(1_000)
+				elapsed_ms += 1_000
 				expect(() => game_instance.commands.change_avatar_class('novice')).to.throw('switch class') // forbidden, shouldn't be possible
 
 				// bad code redeem
 				this.clock.tick(1_000)
+				elapsed_ms += 1_000
 				game_instance.commands.attempt_to_redeem_code('alphatwink')
 				let notif = game_instance.queries.get_sub_state('engagement').queue.slice(-1)[0]
 				expect(notif).to.have.nested.property('engagement.type', 'flow')
 				expect(notif).to.have.nested.property('engagement.key', EngagementKey['code_redemption--succeeded'])
 
 				this.clock.tick(1_000)
+				elapsed_ms += 1_000
 				game_instance.commands.attempt_to_redeem_code('alphatwink')
 				notif = game_instance.queries.get_sub_state('engagement').queue.slice(-1)[0]
 				expect(notif).to.have.nested.property('engagement.type', 'flow')
@@ -220,19 +234,19 @@ describe(`${LIB} - game-instance`, function() {
 
 				this.clock.tick(1_500)
 				game_instance.commands.play()
-				expect(game_instance.model.get().u_state.last_user_action_tms).to.equal(100_000 + 2_000)
+				expect(game_instance.model.get().u_state.last_user_action_tms).to.equal(START_MS + 2_000)
 
 				this.clock.tick(2_000)
 				game_instance.commands.play()
-				expect(game_instance.model.get().u_state.last_user_action_tms).to.equal(100_000 + 4_000)
+				expect(game_instance.model.get().u_state.last_user_action_tms).to.equal(START_MS + 4_000)
 
 				this.clock.tick(10_000)
 				game_instance.commands.rename_avatar('Test')
-				expect(game_instance.model.get().u_state.last_user_action_tms).to.equal(100_000 + 14_000)
+				expect(game_instance.model.get().u_state.last_user_action_tms).to.equal(START_MS + 14_000)
 
 				this.clock.tick(5_000)
 				game_instance.commands.change_avatar_class('warrior')
-				expect(game_instance.model.get().u_state.last_user_action_tms).to.equal(100_000 + 19_000)
+				expect(game_instance.model.get().u_state.last_user_action_tms).to.equal(START_MS + 19_000)
 
 				// wooo the user likes it!
 				this.clock.tick(5_000)

@@ -1,8 +1,7 @@
-import { URL } from 'url'
-
 import { Enum } from 'typescript-string-enums'
 import { overrideHook } from '@offirmo/universal-debug-api-placeholder'
 
+const LIB = 'functions interface'
 
 // tslint:disable-next-line: variable-name
 export const ReleaseChannel = Enum(
@@ -26,19 +25,6 @@ export const Endpoint = Enum(
 export type Endpoint = Enum<typeof Endpoint> // eslint-disable-line no-redeclar
 
 
-function _get_base_url(channel: ReleaseChannel): string {
-	switch(channel) {
-		case 'dev':
-			return 'http://localhost:9000'
-		case 'staging':
-			return 'https://offirmo-monorepo.netlify.com/.netlify/functions'
-		case 'prod':
-			return 'https://www.online-adventur.es/.netlify/functions'
-		default:
-			throw new Error(`functions interface: no base URL for channel "${channel}"!`)
-	}
-}
-
 export function get_allowed_origin(channel: ReleaseChannel): string {
 	switch(channel) {
 		case 'dev':
@@ -48,7 +34,23 @@ export function get_allowed_origin(channel: ReleaseChannel): string {
 		case 'prod':
 			return 'https://www.online-adventur.es'
 		default:
-			throw new Error(`functions interface: no allowed origin for channel "${channel}"!`)
+			throw new Error(`[${LIB}] no allowed origin for channel "${channel}"!`)
+	}
+}
+
+function _get_base_url(channel: ReleaseChannel): string {
+	switch(channel) {
+
+		case 'dev':
+			return 'http://localhost:9000'
+		case 'staging':
+			return 'https://offirmo-monorepo.netlify.com/.netlify/functions'
+		case 'prod':
+			return 'https://www.online-adventur.es/.netlify/functions'
+		default:
+			if ((channel as any) === 'unknown')
+				return 'http://test.test'
+			throw new Error(`[${LIB}] no base URL for channel "${channel}"!`)
 	}
 }
 

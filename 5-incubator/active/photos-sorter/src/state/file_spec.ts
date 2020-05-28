@@ -222,7 +222,7 @@ describe(`${LIB} - file state`, function() {
 			}
 
 			const BN01 = 'exif_date_cn_exif_gps.jpg'
-			it.only('should work - ' + BN01, async () => {
+			it('should work - ' + BN01, async () => {
 				const basename = BN01
 				const abs_path = path.join(__dirname, TEST_FILES_DIR, basename)
 				let state = create(basename)

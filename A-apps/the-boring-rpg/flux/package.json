@@ -54,7 +54,7 @@
 		"build:dev:watch": "node ../../../0-scripts/build-typescript.js --watch",
 		"build:prod": "node ../../../0-scripts/build-typescript.js",
 		"dev": "run-s clean build:dev:watch",
-		"test": "../../../node_modules/.bin/mocha --opts ../../../4-tools/unit-test-toolbox/mocha.opts ../../../4-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2018.cjs/**/*spec.js'",
+		"test": "../../../node_modules/.bin/mocha --bail --opts ../../../4-tools/unit-test-toolbox/mocha.opts ../../../4-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2018.cjs/**/*spec.js'",
 		"build": "run-s build:prod"
 	}
 }

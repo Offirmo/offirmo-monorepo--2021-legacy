@@ -112,22 +112,24 @@ function get_ultimate_medium_damage_reduction(armor: Readonly<Armor>): number {
 
 function matches(armor: Readonly<Armor>, elements: Readonly<Partial<Armor>>): boolean {
 	let matches = true // so far
+	//console.log('matches', { armor, elements })
 
 	if (!armor)
 		throw new Error(`${LIB} matches: can't match nothing!`)
 	if (elements.slot && elements.slot !== InventorySlot.armor)
 		throw new Error(`${LIB} matches: can't match against a non-armor slot "${elements.slot}"!`)
-
 	if (armor.slot !== InventorySlot.armor)
-		return false
+		throw new Error(`${LIB} matches: can't match a non-armor slot "${elements.slot}"!`)
 
-		;(Object.keys(elements) as Array<keyof Armor>)
+	;(Object.keys(elements) as Array<keyof Armor>)
 		.forEach((k: keyof Armor) => {
 			if (!(k in armor))
 				throw new Error(`${LIB} matches: can't match on non-armor key "${k}"!`)
 
-			if (elements[k] !== armor[k])
+			if (elements[k] !== armor[k]) {
 				matches = false
+				//console.log('mismatched', { k, a: armor[k], b: elements[k]})
+			}
 		})
 
 	return matches

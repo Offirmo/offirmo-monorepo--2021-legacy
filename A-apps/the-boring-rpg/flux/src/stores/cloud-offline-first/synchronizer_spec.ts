@@ -18,7 +18,7 @@ import { Synchronizer, create } from './synchonizer'
 /////////////////////
 
 
-describe.only(`${LIB} - cloud synchronizer`, function() {
+describe.skip(`${LIB} - cloud synchronizer`, function() {
 	const local_storage = createLocalStorage({mode: 'memory'})
 	let storage = create_in_mem_tbrpg_storage()
 	const logger = createLogger({
@@ -55,8 +55,6 @@ describe.only(`${LIB} - cloud synchronizer`, function() {
 			})
 
 			expect(call_remote_procedure).to.have.been.calledOnce
-
-
 		})
 	})
 })
