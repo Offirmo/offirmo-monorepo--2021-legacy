@@ -19,10 +19,6 @@
 		"puer": "puer --no-launch --port 1981 --allow-cors",
 		"deploy": "./0-scripts/deploy_tbrpg.sh"
 	},
-	"browserslist": [
-		"last 2 Chrome versions",
-		"last 2 Firefox versions"
-	],
 	"bolt": {
 		"workspaces": [
 			"1-stdlib/*",

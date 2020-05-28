@@ -28,7 +28,7 @@ const LATEST_ES = 'ES2019'
 const LATEST_ES_MODULES = 'ES2015'
 // https://nodejs.org/en/about/releases/
 // https://node.green/
-const LATEST_NODE_LTS_ES = 'ES2018'
+const LATEST_ES_OLDEST_ACTIVE_NODE_LTS = 'ES2018'
 
 /////////////////////
 
@@ -89,7 +89,7 @@ function build_legacy() {
 }
 
 function build_convenience_prebuilt() {
-	const target = LATEST_NODE_LTS_ES.toLowerCase()
+	const target = LATEST_ES_OLDEST_ACTIVE_NODE_LTS.toLowerCase()
 	const out_dir = `src.${target}.cjs`
 	console.log(`      building ${PKG_NAME}/dist/${stylize_string.bold(out_dir)}`)
 	return tsc.compile(

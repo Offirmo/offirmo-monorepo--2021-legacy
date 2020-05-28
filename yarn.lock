@@ -101,9 +101,9 @@
     tslib "^1.9.3"
 
 "@babel/cli@^7":
-  version "7.8.4"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/cli/-/cli-7.8.4.tgz#505fb053721a98777b2b175323ea4f090b7d3c1c"
-  integrity sha1-UF+wU3IamHd7KxdTI+pPCQt9PBw=
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/cli/-/cli-7.10.1.tgz#b6e5cd43a17b8f639442ab027976408ebe6d79a0"
+  integrity sha1-tuXNQ6F7j2OUQqsCeXZAjr5teaA=
   dependencies:
     commander "^4.0.1"
     convert-source-map "^1.1.0"
@@ -116,35 +116,35 @@
   optionalDependencies:
     chokidar "^2.1.8"
 
-"@babel/code-frame@^7.0.0", "@babel/code-frame@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/code-frame/-/code-frame-7.8.3.tgz#33e25903d7481181534e12ec0a25f16b6fcf419e"
-  integrity sha1-M+JZA9dIEYFTThLsCiXxa2/PQZ4=
+"@babel/code-frame@^7.0.0", "@babel/code-frame@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/code-frame/-/code-frame-7.10.1.tgz#d5481c5095daa1c57e16e54c6f9198443afb49ff"
+  integrity sha1-1UgcUJXaocV+FuVMb5GYRDr7Sf8=
   dependencies:
-    "@babel/highlight" "^7.8.3"
+    "@babel/highlight" "^7.10.1"
 
-"@babel/compat-data@^7.9.6":
-  version "7.9.6"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/compat-data/-/compat-data-7.9.6.tgz#3f604c40e420131affe6f2c8052e9a275ae2049b"
-  integrity sha1-P2BMQOQgExr/5vLIBS6aJ1riBJs=
+"@babel/compat-data@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/compat-data/-/compat-data-7.10.1.tgz#b1085ffe72cd17bf2c0ee790fc09f9626011b2db"
+  integrity sha1-sQhf/nLNF78sDueQ/An5YmARsts=
   dependencies:
-    browserslist "^4.11.1"
+    browserslist "^4.12.0"
     invariant "^2.2.4"
     semver "^5.5.0"
 
 "@babel/core@^7", "@babel/core@^7.0.0", "@babel/core@^7.4.4":
-  version "7.9.6"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/core/-/core-7.9.6.tgz#d9aa1f580abf3b2286ef40b6904d390904c63376"
-  integrity sha1-2aofWAq/OyKG70C2kE05CQTGM3Y=
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/core/-/core-7.10.1.tgz#2a0ad0ea693601820defebad2140206503d89af3"
+  integrity sha1-KgrQ6mk2AYIN7+utIUAgZQPYmvM=
   dependencies:
-    "@babel/code-frame" "^7.8.3"
-    "@babel/generator" "^7.9.6"
-    "@babel/helper-module-transforms" "^7.9.0"
-    "@babel/helpers" "^7.9.6"
-    "@babel/parser" "^7.9.6"
-    "@babel/template" "^7.8.6"
-    "@babel/traverse" "^7.9.6"
-    "@babel/types" "^7.9.6"
+    "@babel/code-frame" "^7.10.1"
+    "@babel/generator" "^7.10.1"
+    "@babel/helper-module-transforms" "^7.10.1"
+    "@babel/helpers" "^7.10.1"
+    "@babel/parser" "^7.10.1"
+    "@babel/template" "^7.10.1"
+    "@babel/traverse" "^7.10.1"
+    "@babel/types" "^7.10.1"
     convert-source-map "^1.7.0"
     debug "^4.1.0"
     gensync "^1.0.0-beta.1"
@@ -154,241 +154,241 @@
     semver "^5.4.1"
     source-map "^0.5.0"
 
-"@babel/generator@^7.4.4", "@babel/generator@^7.9.6":
-  version "7.9.6"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/generator/-/generator-7.9.6.tgz#5408c82ac5de98cda0d77d8124e99fa1f2170a43"
-  integrity sha1-VAjIKsXemM2g132BJOmfofIXCkM=
+"@babel/generator@^7.10.1", "@babel/generator@^7.4.4":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/generator/-/generator-7.10.1.tgz#4d14458e539bcb04ffe34124143f5c489f2dbca9"
+  integrity sha1-TRRFjlObywT/40EkFD9cSJ8tvKk=
   dependencies:
-    "@babel/types" "^7.9.6"
+    "@babel/types" "^7.10.1"
     jsesc "^2.5.1"
     lodash "^4.17.13"
     source-map "^0.5.0"
 
-"@babel/helper-annotate-as-pure@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-annotate-as-pure/-/helper-annotate-as-pure-7.8.3.tgz#60bc0bc657f63a0924ff9a4b4a0b24a13cf4deee"
-  integrity sha1-YLwLxlf2Ogkk/5pLSgskoTz03u4=
+"@babel/helper-annotate-as-pure@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-annotate-as-pure/-/helper-annotate-as-pure-7.10.1.tgz#f6d08acc6f70bbd59b436262553fb2e259a1a268"
+  integrity sha1-9tCKzG9wu9WbQ2JiVT+y4lmhomg=
   dependencies:
-    "@babel/types" "^7.8.3"
+    "@babel/types" "^7.10.1"
 
-"@babel/helper-builder-binary-assignment-operator-visitor@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-builder-binary-assignment-operator-visitor/-/helper-builder-binary-assignment-operator-visitor-7.8.3.tgz#c84097a427a061ac56a1c30ebf54b7b22d241503"
-  integrity sha1-yECXpCegYaxWocMOv1S3si0kFQM=
+"@babel/helper-builder-binary-assignment-operator-visitor@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-builder-binary-assignment-operator-visitor/-/helper-builder-binary-assignment-operator-visitor-7.10.1.tgz#0ec7d9be8174934532661f87783eb18d72290059"
+  integrity sha1-DsfZvoF0k0UyZh+HeD6xjXIpAFk=
   dependencies:
-    "@babel/helper-explode-assignable-expression" "^7.8.3"
-    "@babel/types" "^7.8.3"
+    "@babel/helper-explode-assignable-expression" "^7.10.1"
+    "@babel/types" "^7.10.1"
 
-"@babel/helper-builder-react-jsx-experimental@^7.9.0":
-  version "7.9.5"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-builder-react-jsx-experimental/-/helper-builder-react-jsx-experimental-7.9.5.tgz#0b4b3e04e6123f03b404ca4dfd6528fe6bb92fe3"
-  integrity sha1-C0s+BOYSPwO0BMpN/WUo/mu5L+M=
+"@babel/helper-builder-react-jsx-experimental@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-builder-react-jsx-experimental/-/helper-builder-react-jsx-experimental-7.10.1.tgz#9a7d58ad184d3ac3bafb1a452cec2bad7e4a0bc8"
+  integrity sha1-mn1YrRhNOsO6+xpFLOwrrX5KC8g=
   dependencies:
-    "@babel/helper-annotate-as-pure" "^7.8.3"
-    "@babel/helper-module-imports" "^7.8.3"
-    "@babel/types" "^7.9.5"
+    "@babel/helper-annotate-as-pure" "^7.10.1"
+    "@babel/helper-module-imports" "^7.10.1"
+    "@babel/types" "^7.10.1"
 
-"@babel/helper-builder-react-jsx@^7.9.0":
-  version "7.9.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-builder-react-jsx/-/helper-builder-react-jsx-7.9.0.tgz#16bf391990b57732700a3278d4d9a81231ea8d32"
-  integrity sha1-Fr85GZC1dzJwCjJ41NmoEjHqjTI=
+"@babel/helper-builder-react-jsx@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-builder-react-jsx/-/helper-builder-react-jsx-7.10.1.tgz#a327f0cf983af5554701b1215de54a019f09b532"
+  integrity sha1-oyfwz5g69VVHAbEhXeVKAZ8JtTI=
   dependencies:
-    "@babel/helper-annotate-as-pure" "^7.8.3"
-    "@babel/types" "^7.9.0"
+    "@babel/helper-annotate-as-pure" "^7.10.1"
+    "@babel/types" "^7.10.1"
 
-"@babel/helper-compilation-targets@^7.9.6":
-  version "7.9.6"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-compilation-targets/-/helper-compilation-targets-7.9.6.tgz#1e05b7ccc9d38d2f8b40b458b380a04dcfadd38a"
-  integrity sha1-HgW3zMnTjS+LQLRYs4CgTc+t04o=
+"@babel/helper-compilation-targets@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-compilation-targets/-/helper-compilation-targets-7.10.1.tgz#ad6f69b4c3bae955081ef914a84e5878ffcaca63"
+  integrity sha1-rW9ptMO66VUIHvkUqE5YeP/KymM=
   dependencies:
-    "@babel/compat-data" "^7.9.6"
-    browserslist "^4.11.1"
+    "@babel/compat-data" "^7.10.1"
+    browserslist "^4.12.0"
     invariant "^2.2.4"
     levenary "^1.1.1"
     semver "^5.5.0"
 
-"@babel/helper-create-class-features-plugin@^7.8.3":
-  version "7.9.6"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-create-class-features-plugin/-/helper-create-class-features-plugin-7.9.6.tgz#965c8b0a9f051801fd9d3b372ca0ccf200a90897"
-  integrity sha1-llyLCp8FGAH9nTs3LKDM8gCpCJc=
+"@babel/helper-create-class-features-plugin@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-create-class-features-plugin/-/helper-create-class-features-plugin-7.10.1.tgz#6d8a45aafe492378d0e6fc0b33e5dea132eae21c"
+  integrity sha1-bYpFqv5JI3jQ5vwLM+XeoTLq4hw=
   dependencies:
-    "@babel/helper-function-name" "^7.9.5"
-    "@babel/helper-member-expression-to-functions" "^7.8.3"
-    "@babel/helper-optimise-call-expression" "^7.8.3"
-    "@babel/helper-plugin-utils" "^7.8.3"
-    "@babel/helper-replace-supers" "^7.9.6"
-    "@babel/helper-split-export-declaration" "^7.8.3"
+    "@babel/helper-function-name" "^7.10.1"
+    "@babel/helper-member-expression-to-functions" "^7.10.1"
+    "@babel/helper-optimise-call-expression" "^7.10.1"
+    "@babel/helper-plugin-utils" "^7.10.1"
+    "@babel/helper-replace-supers" "^7.10.1"
+    "@babel/helper-split-export-declaration" "^7.10.1"
 
-"@babel/helper-create-regexp-features-plugin@^7.8.3", "@babel/helper-create-regexp-features-plugin@^7.8.8":
-  version "7.8.8"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-create-regexp-features-plugin/-/helper-create-regexp-features-plugin-7.8.8.tgz#5d84180b588f560b7864efaeea89243e58312087"
-  integrity sha1-XYQYC1iPVgt4ZO+u6okkPlgxIIc=
+"@babel/helper-create-regexp-features-plugin@^7.10.1", "@babel/helper-create-regexp-features-plugin@^7.8.3":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-create-regexp-features-plugin/-/helper-create-regexp-features-plugin-7.10.1.tgz#1b8feeab1594cbcfbf3ab5a3bbcabac0468efdbd"
+  integrity sha1-G4/uqxWUy8+/OrWju8q6wEaO/b0=
   dependencies:
-    "@babel/helper-annotate-as-pure" "^7.8.3"
-    "@babel/helper-regex" "^7.8.3"
+    "@babel/helper-annotate-as-pure" "^7.10.1"
+    "@babel/helper-regex" "^7.10.1"
     regexpu-core "^4.7.0"
 
-"@babel/helper-define-map@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-define-map/-/helper-define-map-7.8.3.tgz#a0655cad5451c3760b726eba875f1cd8faa02c15"
-  integrity sha1-oGVcrVRRw3YLcm66h18c2PqgLBU=
+"@babel/helper-define-map@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-define-map/-/helper-define-map-7.10.1.tgz#5e69ee8308648470dd7900d159c044c10285221d"
+  integrity sha1-XmnugwhkhHDdeQDRWcBEwQKFIh0=
   dependencies:
-    "@babel/helper-function-name" "^7.8.3"
-    "@babel/types" "^7.8.3"
+    "@babel/helper-function-name" "^7.10.1"
+    "@babel/types" "^7.10.1"
     lodash "^4.17.13"
 
-"@babel/helper-explode-assignable-expression@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-explode-assignable-expression/-/helper-explode-assignable-expression-7.8.3.tgz#a728dc5b4e89e30fc2dfc7d04fa28a930653f982"
-  integrity sha1-pyjcW06J4w/C38fQT6KKkwZT+YI=
+"@babel/helper-explode-assignable-expression@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-explode-assignable-expression/-/helper-explode-assignable-expression-7.10.1.tgz#e9d76305ee1162ca467357ae25df94f179af2b7e"
+  integrity sha1-6ddjBe4RYspGc1euJd+U8XmvK34=
   dependencies:
-    "@babel/traverse" "^7.8.3"
-    "@babel/types" "^7.8.3"
+    "@babel/traverse" "^7.10.1"
+    "@babel/types" "^7.10.1"
 
-"@babel/helper-function-name@^7.8.3", "@babel/helper-function-name@^7.9.5":
-  version "7.9.5"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-function-name/-/helper-function-name-7.9.5.tgz#2b53820d35275120e1874a82e5aabe1376920a5c"
-  integrity sha1-K1OCDTUnUSDhh0qC5aq+E3aSClw=
+"@babel/helper-function-name@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-function-name/-/helper-function-name-7.10.1.tgz#92bd63829bfc9215aca9d9defa85f56b539454f4"
+  integrity sha1-kr1jgpv8khWsqdne+oX1a1OUVPQ=
   dependencies:
-    "@babel/helper-get-function-arity" "^7.8.3"
-    "@babel/template" "^7.8.3"
-    "@babel/types" "^7.9.5"
+    "@babel/helper-get-function-arity" "^7.10.1"
+    "@babel/template" "^7.10.1"
+    "@babel/types" "^7.10.1"
 
-"@babel/helper-get-function-arity@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-get-function-arity/-/helper-get-function-arity-7.8.3.tgz#b894b947bd004381ce63ea1db9f08547e920abd5"
-  integrity sha1-uJS5R70AQ4HOY+odufCFR+kgq9U=
+"@babel/helper-get-function-arity@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-get-function-arity/-/helper-get-function-arity-7.10.1.tgz#7303390a81ba7cb59613895a192b93850e373f7d"
+  integrity sha1-cwM5CoG6fLWWE4laGSuThQ43P30=
   dependencies:
-    "@babel/types" "^7.8.3"
+    "@babel/types" "^7.10.1"
 
-"@babel/helper-hoist-variables@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-hoist-variables/-/helper-hoist-variables-7.8.3.tgz#1dbe9b6b55d78c9b4183fc8cdc6e30ceb83b7134"
-  integrity sha1-Hb6ba1XXjJtBg/yM3G4wzrg7cTQ=
+"@babel/helper-hoist-variables@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-hoist-variables/-/helper-hoist-variables-7.10.1.tgz#7e77c82e5dcae1ebf123174c385aaadbf787d077"
+  integrity sha1-fnfILl3K4evxIxdMOFqq2/eH0Hc=
   dependencies:
-    "@babel/types" "^7.8.3"
+    "@babel/types" "^7.10.1"
 
-"@babel/helper-member-expression-to-functions@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-member-expression-to-functions/-/helper-member-expression-to-functions-7.8.3.tgz#659b710498ea6c1d9907e0c73f206eee7dadc24c"
-  integrity sha1-ZZtxBJjqbB2ZB+DHPyBu7n2twkw=
+"@babel/helper-member-expression-to-functions@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-member-expression-to-functions/-/helper-member-expression-to-functions-7.10.1.tgz#432967fd7e12a4afef66c4687d4ca22bc0456f15"
+  integrity sha1-Qyln/X4SpK/vZsRofUyiK8BFbxU=
   dependencies:
-    "@babel/types" "^7.8.3"
+    "@babel/types" "^7.10.1"
 
-"@babel/helper-module-imports@^7.0.0", "@babel/helper-module-imports@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-module-imports/-/helper-module-imports-7.8.3.tgz#7fe39589b39c016331b6b8c3f441e8f0b1419498"
-  integrity sha1-f+OVibOcAWMxtrjD9EHo8LFBlJg=
+"@babel/helper-module-imports@^7.0.0", "@babel/helper-module-imports@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-module-imports/-/helper-module-imports-7.10.1.tgz#dd331bd45bccc566ce77004e9d05fe17add13876"
+  integrity sha1-3TMb1FvMxWbOdwBOnQX+F63ROHY=
   dependencies:
-    "@babel/types" "^7.8.3"
+    "@babel/types" "^7.10.1"
 
-"@babel/helper-module-transforms@^7.9.0":
-  version "7.9.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-module-transforms/-/helper-module-transforms-7.9.0.tgz#43b34dfe15961918707d247327431388e9fe96e5"
-  integrity sha1-Q7NN/hWWGRhwfSRzJ0MTiOn+luU=
+"@babel/helper-module-transforms@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-module-transforms/-/helper-module-transforms-7.10.1.tgz#24e2f08ee6832c60b157bb0936c86bef7210c622"
+  integrity sha1-JOLwjuaDLGCxV7sJNshr73IQxiI=
   dependencies:
-    "@babel/helper-module-imports" "^7.8.3"
-    "@babel/helper-replace-supers" "^7.8.6"
-    "@babel/helper-simple-access" "^7.8.3"
-    "@babel/helper-split-export-declaration" "^7.8.3"
-    "@babel/template" "^7.8.6"
-    "@babel/types" "^7.9.0"
+    "@babel/helper-module-imports" "^7.10.1"
+    "@babel/helper-replace-supers" "^7.10.1"
+    "@babel/helper-simple-access" "^7.10.1"
+    "@babel/helper-split-export-declaration" "^7.10.1"
+    "@babel/template" "^7.10.1"
+    "@babel/types" "^7.10.1"
     lodash "^4.17.13"
 
-"@babel/helper-optimise-call-expression@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-optimise-call-expression/-/helper-optimise-call-expression-7.8.3.tgz#7ed071813d09c75298ef4f208956006b6111ecb9"
-  integrity sha1-ftBxgT0Jx1KY708giVYAa2ER7Lk=
+"@babel/helper-optimise-call-expression@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-optimise-call-expression/-/helper-optimise-call-expression-7.10.1.tgz#b4a1f2561870ce1247ceddb02a3860fa96d72543"
+  integrity sha1-tKHyVhhwzhJHzt2wKjhg+pbXJUM=
   dependencies:
-    "@babel/types" "^7.8.3"
+    "@babel/types" "^7.10.1"
 
-"@babel/helper-plugin-utils@^7.0.0", "@babel/helper-plugin-utils@^7.8.0", "@babel/helper-plugin-utils@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-plugin-utils/-/helper-plugin-utils-7.8.3.tgz#9ea293be19babc0f52ff8ca88b34c3611b208670"
-  integrity sha1-nqKTvhm6vA9S/4yoizTDYRsghnA=
+"@babel/helper-plugin-utils@^7.0.0", "@babel/helper-plugin-utils@^7.10.1", "@babel/helper-plugin-utils@^7.8.0":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-plugin-utils/-/helper-plugin-utils-7.10.1.tgz#ec5a5cf0eec925b66c60580328b122c01230a127"
+  integrity sha1-7Fpc8O7JJbZsYFgDKLEiwBIwoSc=
 
-"@babel/helper-regex@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-regex/-/helper-regex-7.8.3.tgz#139772607d51b93f23effe72105b319d2a4c6965"
-  integrity sha1-E5dyYH1RuT8j7/5yEFsxnSpMaWU=
+"@babel/helper-regex@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-regex/-/helper-regex-7.10.1.tgz#021cf1a7ba99822f993222a001cc3fec83255b96"
+  integrity sha1-Ahzxp7qZgi+ZMiKgAcw/7IMlW5Y=
   dependencies:
     lodash "^4.17.13"
 
-"@babel/helper-remap-async-to-generator@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-remap-async-to-generator/-/helper-remap-async-to-generator-7.8.3.tgz#273c600d8b9bf5006142c1e35887d555c12edd86"
-  integrity sha1-JzxgDYub9QBhQsHjWIfVVcEu3YY=
+"@babel/helper-remap-async-to-generator@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-remap-async-to-generator/-/helper-remap-async-to-generator-7.10.1.tgz#bad6aaa4ff39ce8d4b82ccaae0bfe0f7dbb5f432"
+  integrity sha1-utaqpP85zo1Lgsyq4L/g99u19DI=
   dependencies:
-    "@babel/helper-annotate-as-pure" "^7.8.3"
-    "@babel/helper-wrap-function" "^7.8.3"
-    "@babel/template" "^7.8.3"
-    "@babel/traverse" "^7.8.3"
-    "@babel/types" "^7.8.3"
+    "@babel/helper-annotate-as-pure" "^7.10.1"
+    "@babel/helper-wrap-function" "^7.10.1"
+    "@babel/template" "^7.10.1"
+    "@babel/traverse" "^7.10.1"
+    "@babel/types" "^7.10.1"
 
-"@babel/helper-replace-supers@^7.8.3", "@babel/helper-replace-supers@^7.8.6", "@babel/helper-replace-supers@^7.9.6":
-  version "7.9.6"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-replace-supers/-/helper-replace-supers-7.9.6.tgz#03149d7e6a5586ab6764996cd31d6981a17e1444"
-  integrity sha1-AxSdfmpVhqtnZJls0x1pgaF+FEQ=
+"@babel/helper-replace-supers@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-replace-supers/-/helper-replace-supers-7.10.1.tgz#ec6859d20c5d8087f6a2dc4e014db7228975f13d"
+  integrity sha1-7GhZ0gxdgIf2otxOAU23Iol18T0=
   dependencies:
-    "@babel/helper-member-expression-to-functions" "^7.8.3"
-    "@babel/helper-optimise-call-expression" "^7.8.3"
-    "@babel/traverse" "^7.9.6"
-    "@babel/types" "^7.9.6"
+    "@babel/helper-member-expression-to-functions" "^7.10.1"
+    "@babel/helper-optimise-call-expression" "^7.10.1"
+    "@babel/traverse" "^7.10.1"
+    "@babel/types" "^7.10.1"
 
-"@babel/helper-simple-access@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-simple-access/-/helper-simple-access-7.8.3.tgz#7f8109928b4dab4654076986af575231deb639ae"
-  integrity sha1-f4EJkotNq0ZUB2mGr1dSMd62Oa4=
+"@babel/helper-simple-access@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-simple-access/-/helper-simple-access-7.10.1.tgz#08fb7e22ace9eb8326f7e3920a1c2052f13d851e"
+  integrity sha1-CPt+Iqzp64Mm9+OSChwgUvE9hR4=
   dependencies:
-    "@babel/template" "^7.8.3"
-    "@babel/types" "^7.8.3"
+    "@babel/template" "^7.10.1"
+    "@babel/types" "^7.10.1"
 
-"@babel/helper-split-export-declaration@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-split-export-declaration/-/helper-split-export-declaration-7.8.3.tgz#31a9f30070f91368a7182cf05f831781065fc7a9"
-  integrity sha1-ManzAHD5E2inGCzwX4MXgQZfx6k=
+"@babel/helper-split-export-declaration@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-split-export-declaration/-/helper-split-export-declaration-7.10.1.tgz#c6f4be1cbc15e3a868e4c64a17d5d31d754da35f"
+  integrity sha1-xvS+HLwV46ho5MZKF9XTHXVNo18=
   dependencies:
-    "@babel/types" "^7.8.3"
+    "@babel/types" "^7.10.1"
 
-"@babel/helper-validator-identifier@^7.9.0", "@babel/helper-validator-identifier@^7.9.5":
-  version "7.9.5"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-validator-identifier/-/helper-validator-identifier-7.9.5.tgz#90977a8e6fbf6b431a7dc31752eee233bf052d80"
-  integrity sha1-kJd6jm+/a0MafcMXUu7iM78FLYA=
+"@babel/helper-validator-identifier@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-validator-identifier/-/helper-validator-identifier-7.10.1.tgz#5770b0c1a826c4f53f5ede5e153163e0318e94b5"
+  integrity sha1-V3CwwagmxPU/Xt5eFTFj4DGOlLU=
 
-"@babel/helper-wrap-function@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-wrap-function/-/helper-wrap-function-7.8.3.tgz#9dbdb2bb55ef14aaa01fe8c99b629bd5352d8610"
-  integrity sha1-nb2yu1XvFKqgH+jJm2Kb1TUthhA=
+"@babel/helper-wrap-function@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helper-wrap-function/-/helper-wrap-function-7.10.1.tgz#956d1310d6696257a7afd47e4c42dfda5dfcedc9"
+  integrity sha1-lW0TENZpYlenr9R+TELf2l387ck=
   dependencies:
-    "@babel/helper-function-name" "^7.8.3"
-    "@babel/template" "^7.8.3"
-    "@babel/traverse" "^7.8.3"
-    "@babel/types" "^7.8.3"
+    "@babel/helper-function-name" "^7.10.1"
+    "@babel/template" "^7.10.1"
+    "@babel/traverse" "^7.10.1"
+    "@babel/types" "^7.10.1"
 
-"@babel/helpers@^7.9.6":
-  version "7.9.6"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helpers/-/helpers-7.9.6.tgz#092c774743471d0bb6c7de3ad465ab3d3486d580"
-  integrity sha1-CSx3R0NHHQu2x9461GWrPTSG1YA=
+"@babel/helpers@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/helpers/-/helpers-7.10.1.tgz#a6827b7cb975c9d9cef5fd61d919f60d8844a973"
+  integrity sha1-poJ7fLl1ydnO9f1h2Rn2DYhEqXM=
   dependencies:
-    "@babel/template" "^7.8.3"
-    "@babel/traverse" "^7.9.6"
-    "@babel/types" "^7.9.6"
+    "@babel/template" "^7.10.1"
+    "@babel/traverse" "^7.10.1"
+    "@babel/types" "^7.10.1"
 
-"@babel/highlight@^7.8.3":
-  version "7.9.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/highlight/-/highlight-7.9.0.tgz#4e9b45ccb82b79607271b2979ad82c7b68163079"
-  integrity sha1-TptFzLgreWBycbKXmtgse2gWMHk=
+"@babel/highlight@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/highlight/-/highlight-7.10.1.tgz#841d098ba613ba1a427a2b383d79e35552c38ae0"
+  integrity sha1-hB0Ji6YTuhpCeis4PXnjVVLDiuA=
   dependencies:
-    "@babel/helper-validator-identifier" "^7.9.0"
+    "@babel/helper-validator-identifier" "^7.10.1"
     chalk "^2.0.0"
     js-tokens "^4.0.0"
 
 "@babel/node@^7":
-  version "7.8.7"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/node/-/node-7.8.7.tgz#4213ea99f0c86cc1cf460e61131e7acbb723e13a"
-  integrity sha1-QhPqmfDIbMHPRg5hEx56y7cj4To=
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/node/-/node-7.10.1.tgz#34d3405c7c3d5139c48cbce2c80226f46e36ab25"
+  integrity sha1-NNNAXHw9UTnEjLziyAIm9G42qyU=
   dependencies:
-    "@babel/register" "^7.8.3"
+    "@babel/register" "^7.10.1"
     commander "^4.0.1"
     core-js "^3.2.1"
     lodash "^4.17.13"
@@ -397,100 +397,108 @@
     resolve "^1.13.1"
     v8flags "^3.1.1"
 
-"@babel/parser@^7.4.4", "@babel/parser@^7.8.6", "@babel/parser@^7.9.6":
-  version "7.9.6"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/parser/-/parser-7.9.6.tgz#3b1bbb30dabe600cd72db58720998376ff653bc7"
-  integrity sha1-Oxu7MNq+YAzXLbWHIJmDdv9lO8c=
+"@babel/parser@^7.10.1", "@babel/parser@^7.4.4":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/parser/-/parser-7.10.1.tgz#2e142c27ca58aa2c7b119d09269b702c8bbad28c"
+  integrity sha1-LhQsJ8pYqix7EZ0JJptwLIu60ow=
 
-"@babel/plugin-proposal-async-generator-functions@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-proposal-async-generator-functions/-/plugin-proposal-async-generator-functions-7.8.3.tgz#bad329c670b382589721b27540c7d288601c6e6f"
-  integrity sha1-utMpxnCzgliXIbJ1QMfSiGAcbm8=
+"@babel/plugin-proposal-async-generator-functions@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-proposal-async-generator-functions/-/plugin-proposal-async-generator-functions-7.10.1.tgz#6911af5ba2e615c4ff3c497fe2f47b35bf6d7e55"
+  integrity sha1-aRGvW6LmFcT/PEl/4vR7Nb9tflU=
   dependencies:
-    "@babel/helper-plugin-utils" "^7.8.3"
-    "@babel/helper-remap-async-to-generator" "^7.8.3"
+    "@babel/helper-plugin-utils" "^7.10.1"
+    "@babel/helper-remap-async-to-generator" "^7.10.1"
     "@babel/plugin-syntax-async-generators" "^7.8.0"
 
-"@babel/plugin-proposal-class-properties@^7", "@babel/plugin-proposal-class-properties@^7.0.0":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-proposal-class-properties/-/plugin-proposal-class-properties-7.8.3.tgz#5e06654af5cd04b608915aada9b2a6788004464e"
-  integrity sha1-XgZlSvXNBLYIkVqtqbKmeIAERk4=
+"@babel/plugin-proposal-class-properties@^7", "@babel/plugin-proposal-class-properties@^7.0.0", "@babel/plugin-proposal-class-properties@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-proposal-class-properties/-/plugin-proposal-class-properties-7.10.1.tgz#046bc7f6550bb08d9bd1d4f060f5f5a4f1087e01"
+  integrity sha1-BGvH9lULsI2b0dTwYPX1pPEIfgE=
   dependencies:
-    "@babel/helper-create-class-features-plugin" "^7.8.3"
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-create-class-features-plugin" "^7.10.1"
+    "@babel/helper-plugin-utils" "^7.10.1"
 
-"@babel/plugin-proposal-dynamic-import@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-proposal-dynamic-import/-/plugin-proposal-dynamic-import-7.8.3.tgz#38c4fe555744826e97e2ae930b0fb4cc07e66054"
-  integrity sha1-OMT+VVdEgm6X4q6TCw+0zAfmYFQ=
+"@babel/plugin-proposal-dynamic-import@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-proposal-dynamic-import/-/plugin-proposal-dynamic-import-7.10.1.tgz#e36979dc1dc3b73f6d6816fc4951da2363488ef0"
+  integrity sha1-42l53B3Dtz9taBb8SVHaI2NIjvA=
   dependencies:
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-plugin-utils" "^7.10.1"
     "@babel/plugin-syntax-dynamic-import" "^7.8.0"
 
 "@babel/plugin-proposal-export-default-from@^7":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-proposal-export-default-from/-/plugin-proposal-export-default-from-7.8.3.tgz#4cb7c2fdeaed490b60d9bfd3dc8a20f81f9c2e7c"
-  integrity sha1-TLfC/ertSQtg2b/T3Iog+B+cLnw=
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-proposal-export-default-from/-/plugin-proposal-export-default-from-7.10.1.tgz#59ea2a4f09dbb0358c73dab27def3d21a27bd370"
+  integrity sha1-WeoqTwnbsDWMc9qyfe89IaJ703A=
   dependencies:
-    "@babel/helper-plugin-utils" "^7.8.3"
-    "@babel/plugin-syntax-export-default-from" "^7.8.3"
+    "@babel/helper-plugin-utils" "^7.10.1"
+    "@babel/plugin-syntax-export-default-from" "^7.10.1"
 
-"@babel/plugin-proposal-json-strings@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-proposal-json-strings/-/plugin-proposal-json-strings-7.8.3.tgz#da5216b238a98b58a1e05d6852104b10f9a70d6b"
-  integrity sha1-2lIWsjipi1ih4F1oUhBLEPmnDWs=
+"@babel/plugin-proposal-json-strings@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-proposal-json-strings/-/plugin-proposal-json-strings-7.10.1.tgz#b1e691ee24c651b5a5e32213222b2379734aff09"
+  integrity sha1-seaR7iTGUbWl4yITIisjeXNK/wk=
   dependencies:
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-plugin-utils" "^7.10.1"
     "@babel/plugin-syntax-json-strings" "^7.8.0"
 
-"@babel/plugin-proposal-nullish-coalescing-operator@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-proposal-nullish-coalescing-operator/-/plugin-proposal-nullish-coalescing-operator-7.8.3.tgz#e4572253fdeed65cddeecfdab3f928afeb2fd5d2"
-  integrity sha1-5FciU/3u1lzd7s/as/kor+sv1dI=
+"@babel/plugin-proposal-nullish-coalescing-operator@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-proposal-nullish-coalescing-operator/-/plugin-proposal-nullish-coalescing-operator-7.10.1.tgz#02dca21673842ff2fe763ac253777f235e9bbf78"
+  integrity sha1-AtyiFnOEL/L+djrCU3d/I16bv3g=
   dependencies:
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-plugin-utils" "^7.10.1"
     "@babel/plugin-syntax-nullish-coalescing-operator" "^7.8.0"
 
-"@babel/plugin-proposal-numeric-separator@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-proposal-numeric-separator/-/plugin-proposal-numeric-separator-7.8.3.tgz#5d6769409699ec9b3b68684cd8116cedff93bad8"
-  integrity sha1-XWdpQJaZ7Js7aGhM2BFs7f+Tutg=
+"@babel/plugin-proposal-numeric-separator@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-proposal-numeric-separator/-/plugin-proposal-numeric-separator-7.10.1.tgz#a9a38bc34f78bdfd981e791c27c6fdcec478c123"
+  integrity sha1-qaOLw094vf2YHnkcJ8b9zsR4wSM=
   dependencies:
-    "@babel/helper-plugin-utils" "^7.8.3"
-    "@babel/plugin-syntax-numeric-separator" "^7.8.3"
+    "@babel/helper-plugin-utils" "^7.10.1"
+    "@babel/plugin-syntax-numeric-separator" "^7.10.1"
 
-"@babel/plugin-proposal-object-rest-spread@^7", "@babel/plugin-proposal-object-rest-spread@^7.0.0", "@babel/plugin-proposal-object-rest-spread@^7.9.6":
-  version "7.9.6"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-proposal-object-rest-spread/-/plugin-proposal-object-rest-spread-7.9.6.tgz#7a093586fcb18b08266eb1a7177da671ac575b63"
-  integrity sha1-egk1hvyxiwgmbrGnF32mcaxXW2M=
+"@babel/plugin-proposal-object-rest-spread@^7", "@babel/plugin-proposal-object-rest-spread@^7.0.0", "@babel/plugin-proposal-object-rest-spread@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-proposal-object-rest-spread/-/plugin-proposal-object-rest-spread-7.10.1.tgz#cba44908ac9f142650b4a65b8aa06bf3478d5fb6"
+  integrity sha1-y6RJCKyfFCZQtKZbiqBr80eNX7Y=
   dependencies:
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-plugin-utils" "^7.10.1"
     "@babel/plugin-syntax-object-rest-spread" "^7.8.0"
-    "@babel/plugin-transform-parameters" "^7.9.5"
+    "@babel/plugin-transform-parameters" "^7.10.1"
 
-"@babel/plugin-proposal-optional-catch-binding@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-proposal-optional-catch-binding/-/plugin-proposal-optional-catch-binding-7.8.3.tgz#9dee96ab1650eed88646ae9734ca167ac4a9c5c9"
-  integrity sha1-ne6WqxZQ7tiGRq6XNMoWesSpxck=
+"@babel/plugin-proposal-optional-catch-binding@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-proposal-optional-catch-binding/-/plugin-proposal-optional-catch-binding-7.10.1.tgz#c9f86d99305f9fa531b568ff5ab8c964b8b223d2"
+  integrity sha1-yfhtmTBfn6UxtWj/WrjJZLiyI9I=
   dependencies:
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-plugin-utils" "^7.10.1"
     "@babel/plugin-syntax-optional-catch-binding" "^7.8.0"
 
-"@babel/plugin-proposal-optional-chaining@^7.9.0":
-  version "7.9.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-proposal-optional-chaining/-/plugin-proposal-optional-chaining-7.9.0.tgz#31db16b154c39d6b8a645292472b98394c292a58"
-  integrity sha1-MdsWsVTDnWuKZFKSRyuYOUwpKlg=
+"@babel/plugin-proposal-optional-chaining@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-proposal-optional-chaining/-/plugin-proposal-optional-chaining-7.10.1.tgz#15f5d6d22708629451a91be28f8facc55b0e818c"
+  integrity sha1-FfXW0icIYpRRqRvij4+sxVsOgYw=
   dependencies:
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-plugin-utils" "^7.10.1"
     "@babel/plugin-syntax-optional-chaining" "^7.8.0"
 
-"@babel/plugin-proposal-unicode-property-regex@^7.4.4", "@babel/plugin-proposal-unicode-property-regex@^7.8.3":
-  version "7.8.8"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-proposal-unicode-property-regex/-/plugin-proposal-unicode-property-regex-7.8.8.tgz#ee3a95e90cdc04fe8cd92ec3279fa017d68a0d1d"
-  integrity sha1-7jqV6QzcBP6M2S7DJ5+gF9aKDR0=
+"@babel/plugin-proposal-private-methods@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-proposal-private-methods/-/plugin-proposal-private-methods-7.10.1.tgz#ed85e8058ab0fe309c3f448e5e1b73ca89cdb598"
+  integrity sha1-7YXoBYqw/jCcP0SOXhtzyonNtZg=
   dependencies:
-    "@babel/helper-create-regexp-features-plugin" "^7.8.8"
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-create-class-features-plugin" "^7.10.1"
+    "@babel/helper-plugin-utils" "^7.10.1"
+
+"@babel/plugin-proposal-unicode-property-regex@^7.10.1", "@babel/plugin-proposal-unicode-property-regex@^7.4.4":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-proposal-unicode-property-regex/-/plugin-proposal-unicode-property-regex-7.10.1.tgz#dc04feb25e2dd70c12b05d680190e138fa2c0c6f"
+  integrity sha1-3AT+sl4t1wwSsF1oAZDhOPosDG8=
+  dependencies:
+    "@babel/helper-create-regexp-features-plugin" "^7.10.1"
+    "@babel/helper-plugin-utils" "^7.10.1"
 
 "@babel/plugin-syntax-async-generators@^7.8.0":
   version "7.8.4"
@@ -499,6 +507,13 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.8.0"
 
+"@babel/plugin-syntax-class-properties@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-syntax-class-properties/-/plugin-syntax-class-properties-7.10.1.tgz#d5bc0645913df5b17ad7eda0fa2308330bde34c5"
+  integrity sha1-1bwGRZE99bF61+2g+iMIMwveNMU=
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.10.1"
+
 "@babel/plugin-syntax-dynamic-import@^7.8.0":
   version "7.8.3"
   resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-syntax-dynamic-import/-/plugin-syntax-dynamic-import-7.8.3.tgz#62bf98b2da3cd21d626154fc96ee5b3cb68eacb3"
@@ -506,19 +521,19 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.8.0"
 
-"@babel/plugin-syntax-export-default-from@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-syntax-export-default-from/-/plugin-syntax-export-default-from-7.8.3.tgz#f1e55ce850091442af4ba9c2550106035b29d678"
-  integrity sha1-8eVc6FAJFEKvS6nCVQEGA1sp1ng=
+"@babel/plugin-syntax-export-default-from@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-syntax-export-default-from/-/plugin-syntax-export-default-from-7.10.1.tgz#634f58f36b5d6320d80f75441fdc61e1c05c33b0"
+  integrity sha1-Y09Y82tdYyDYD3VEH9xh4cBcM7A=
   dependencies:
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-plugin-utils" "^7.10.1"
 
-"@babel/plugin-syntax-flow@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-syntax-flow/-/plugin-syntax-flow-7.8.3.tgz#f2c883bd61a6316f2c89380ae5122f923ba4527f"
-  integrity sha1-8siDvWGmMW8siTgK5RIvkjukUn8=
+"@babel/plugin-syntax-flow@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-syntax-flow/-/plugin-syntax-flow-7.10.1.tgz#cd4bbca62fb402babacb174f64f8734310d742f0"
+  integrity sha1-zUu8pi+0Arq6yxdPZPhzQxDXQvA=
   dependencies:
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-plugin-utils" "^7.10.1"
 
 "@babel/plugin-syntax-json-strings@^7.8.0":
   version "7.8.3"
@@ -527,12 +542,12 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.8.0"
 
-"@babel/plugin-syntax-jsx@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-syntax-jsx/-/plugin-syntax-jsx-7.8.3.tgz#521b06c83c40480f1e58b4fd33b92eceb1d6ea94"
-  integrity sha1-UhsGyDxASA8eWLT9M7kuzrHW6pQ=
+"@babel/plugin-syntax-jsx@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-syntax-jsx/-/plugin-syntax-jsx-7.10.1.tgz#0ae371134a42b91d5418feb3c8c8d43e1565d2da"
+  integrity sha1-CuNxE0pCuR1UGP6zyMjUPhVl0to=
   dependencies:
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-plugin-utils" "^7.10.1"
 
 "@babel/plugin-syntax-nullish-coalescing-operator@^7.8.0":
   version "7.8.3"
@@ -541,12 +556,12 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.8.0"
 
-"@babel/plugin-syntax-numeric-separator@^7.8.0", "@babel/plugin-syntax-numeric-separator@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-syntax-numeric-separator/-/plugin-syntax-numeric-separator-7.8.3.tgz#0e3fb63e09bea1b11e96467271c8308007e7c41f"
-  integrity sha1-Dj+2Pgm+obEelkZyccgwgAfnxB8=
+"@babel/plugin-syntax-numeric-separator@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-syntax-numeric-separator/-/plugin-syntax-numeric-separator-7.10.1.tgz#25761ee7410bc8cf97327ba741ee94e4a61b7d99"
+  integrity sha1-JXYe50ELyM+XMnunQe6U5KYbfZk=
   dependencies:
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-plugin-utils" "^7.10.1"
 
 "@babel/plugin-syntax-object-rest-spread@^7.8.0":
   version "7.8.3"
@@ -569,168 +584,168 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.8.0"
 
-"@babel/plugin-syntax-top-level-await@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-syntax-top-level-await/-/plugin-syntax-top-level-await-7.8.3.tgz#3acdece695e6b13aaf57fc291d1a800950c71391"
-  integrity sha1-Os3s5pXmsTqvV/wpHRqACVDHE5E=
+"@babel/plugin-syntax-top-level-await@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-syntax-top-level-await/-/plugin-syntax-top-level-await-7.10.1.tgz#8b8733f8c57397b3eaa47ddba8841586dcaef362"
+  integrity sha1-i4cz+MVzl7PqpH3bqIQVhtyu82I=
   dependencies:
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-plugin-utils" "^7.10.1"
 
-"@babel/plugin-transform-arrow-functions@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-arrow-functions/-/plugin-transform-arrow-functions-7.8.3.tgz#82776c2ed0cd9e1a49956daeb896024c9473b8b6"
-  integrity sha1-gndsLtDNnhpJlW2uuJYCTJRzuLY=
+"@babel/plugin-transform-arrow-functions@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-arrow-functions/-/plugin-transform-arrow-functions-7.10.1.tgz#cb5ee3a36f0863c06ead0b409b4cc43a889b295b"
+  integrity sha1-y17jo28IY8BurQtAm0zEOoibKVs=
   dependencies:
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-plugin-utils" "^7.10.1"
 
-"@babel/plugin-transform-async-to-generator@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-async-to-generator/-/plugin-transform-async-to-generator-7.8.3.tgz#4308fad0d9409d71eafb9b1a6ee35f9d64b64086"
-  integrity sha1-Qwj60NlAnXHq+5sabuNfnWS2QIY=
+"@babel/plugin-transform-async-to-generator@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-async-to-generator/-/plugin-transform-async-to-generator-7.10.1.tgz#e5153eb1a3e028f79194ed8a7a4bf55f862b2062"
+  integrity sha1-5RU+saPgKPeRlO2Kekv1X4YrIGI=
   dependencies:
-    "@babel/helper-module-imports" "^7.8.3"
-    "@babel/helper-plugin-utils" "^7.8.3"
-    "@babel/helper-remap-async-to-generator" "^7.8.3"
+    "@babel/helper-module-imports" "^7.10.1"
+    "@babel/helper-plugin-utils" "^7.10.1"
+    "@babel/helper-remap-async-to-generator" "^7.10.1"
 
-"@babel/plugin-transform-block-scoped-functions@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-block-scoped-functions/-/plugin-transform-block-scoped-functions-7.8.3.tgz#437eec5b799b5852072084b3ae5ef66e8349e8a3"
-  integrity sha1-Q37sW3mbWFIHIISzrl72boNJ6KM=
+"@babel/plugin-transform-block-scoped-functions@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-block-scoped-functions/-/plugin-transform-block-scoped-functions-7.10.1.tgz#146856e756d54b20fff14b819456b3e01820b85d"
+  integrity sha1-FGhW51bVSyD/8UuBlFaz4BgguF0=
   dependencies:
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-plugin-utils" "^7.10.1"
 
-"@babel/plugin-transform-block-scoping@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-block-scoping/-/plugin-transform-block-scoping-7.8.3.tgz#97d35dab66857a437c166358b91d09050c868f3a"
-  integrity sha1-l9Ndq2aFekN8FmNYuR0JBQyGjzo=
+"@babel/plugin-transform-block-scoping@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-block-scoping/-/plugin-transform-block-scoping-7.10.1.tgz#47092d89ca345811451cd0dc5d91605982705d5e"
+  integrity sha1-Rwktico0WBFFHNDcXZFgWYJwXV4=
   dependencies:
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-plugin-utils" "^7.10.1"
     lodash "^4.17.13"
 
-"@babel/plugin-transform-classes@^7.9.5":
-  version "7.9.5"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-classes/-/plugin-transform-classes-7.9.5.tgz#800597ddb8aefc2c293ed27459c1fcc935a26c2c"
-  integrity sha1-gAWX3biu/CwpPtJ0WcH8yTWibCw=
+"@babel/plugin-transform-classes@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-classes/-/plugin-transform-classes-7.10.1.tgz#6e11dd6c4dfae70f540480a4702477ed766d733f"
+  integrity sha1-bhHdbE365w9UBICkcCR37XZtcz8=
   dependencies:
-    "@babel/helper-annotate-as-pure" "^7.8.3"
-    "@babel/helper-define-map" "^7.8.3"
-    "@babel/helper-function-name" "^7.9.5"
-    "@babel/helper-optimise-call-expression" "^7.8.3"
-    "@babel/helper-plugin-utils" "^7.8.3"
-    "@babel/helper-replace-supers" "^7.8.6"
-    "@babel/helper-split-export-declaration" "^7.8.3"
+    "@babel/helper-annotate-as-pure" "^7.10.1"
+    "@babel/helper-define-map" "^7.10.1"
+    "@babel/helper-function-name" "^7.10.1"
+    "@babel/helper-optimise-call-expression" "^7.10.1"
+    "@babel/helper-plugin-utils" "^7.10.1"
+    "@babel/helper-replace-supers" "^7.10.1"
+    "@babel/helper-split-export-declaration" "^7.10.1"
     globals "^11.1.0"
 
-"@babel/plugin-transform-computed-properties@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-computed-properties/-/plugin-transform-computed-properties-7.8.3.tgz#96d0d28b7f7ce4eb5b120bb2e0e943343c86f81b"
-  integrity sha1-ltDSi3985OtbEguy4OlDNDyG+Bs=
+"@babel/plugin-transform-computed-properties@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-computed-properties/-/plugin-transform-computed-properties-7.10.1.tgz#59aa399064429d64dce5cf76ef9b90b7245ebd07"
+  integrity sha1-Wao5kGRCnWTc5c9275uQtyRevQc=
   dependencies:
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-plugin-utils" "^7.10.1"
 
-"@babel/plugin-transform-destructuring@^7.9.5":
-  version "7.9.5"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-destructuring/-/plugin-transform-destructuring-7.9.5.tgz#72c97cf5f38604aea3abf3b935b0e17b1db76a50"
-  integrity sha1-csl89fOGBK6jq/O5NbDhex23alA=
+"@babel/plugin-transform-destructuring@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-destructuring/-/plugin-transform-destructuring-7.10.1.tgz#abd58e51337815ca3a22a336b85f62b998e71907"
+  integrity sha1-q9WOUTN4Fco6IqM2uF9iuZjnGQc=
   dependencies:
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-plugin-utils" "^7.10.1"
 
-"@babel/plugin-transform-dotall-regex@^7.4.4", "@babel/plugin-transform-dotall-regex@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-dotall-regex/-/plugin-transform-dotall-regex-7.8.3.tgz#c3c6ec5ee6125c6993c5cbca20dc8621a9ea7a6e"
-  integrity sha1-w8bsXuYSXGmTxcvKINyGIanqem4=
+"@babel/plugin-transform-dotall-regex@^7.10.1", "@babel/plugin-transform-dotall-regex@^7.4.4":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-dotall-regex/-/plugin-transform-dotall-regex-7.10.1.tgz#920b9fec2d78bb57ebb64a644d5c2ba67cc104ee"
+  integrity sha1-kguf7C14u1frtkpkTVwrpnzBBO4=
   dependencies:
-    "@babel/helper-create-regexp-features-plugin" "^7.8.3"
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-create-regexp-features-plugin" "^7.10.1"
+    "@babel/helper-plugin-utils" "^7.10.1"
 
-"@babel/plugin-transform-duplicate-keys@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-duplicate-keys/-/plugin-transform-duplicate-keys-7.8.3.tgz#8d12df309aa537f272899c565ea1768e286e21f1"
-  integrity sha1-jRLfMJqlN/JyiZxWXqF2jihuIfE=
+"@babel/plugin-transform-duplicate-keys@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-duplicate-keys/-/plugin-transform-duplicate-keys-7.10.1.tgz#c900a793beb096bc9d4d0a9d0cde19518ffc83b9"
+  integrity sha1-yQCnk76wlrydTQqdDN4ZUY/8g7k=
   dependencies:
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-plugin-utils" "^7.10.1"
 
-"@babel/plugin-transform-exponentiation-operator@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-exponentiation-operator/-/plugin-transform-exponentiation-operator-7.8.3.tgz#581a6d7f56970e06bf51560cd64f5e947b70d7b7"
-  integrity sha1-WBptf1aXDga/UVYM1k9elHtw17c=
+"@babel/plugin-transform-exponentiation-operator@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-exponentiation-operator/-/plugin-transform-exponentiation-operator-7.10.1.tgz#279c3116756a60dd6e6f5e488ba7957db9c59eb3"
+  integrity sha1-J5wxFnVqYN1ub15Ii6eVfbnFnrM=
   dependencies:
-    "@babel/helper-builder-binary-assignment-operator-visitor" "^7.8.3"
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-builder-binary-assignment-operator-visitor" "^7.10.1"
+    "@babel/helper-plugin-utils" "^7.10.1"
 
 "@babel/plugin-transform-flow-strip-types@^7.4.4":
-  version "7.9.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-flow-strip-types/-/plugin-transform-flow-strip-types-7.9.0.tgz#8a3538aa40434e000b8f44a3c5c9ac7229bd2392"
-  integrity sha1-ijU4qkBDTgALj0Sjxcmscim9I5I=
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-flow-strip-types/-/plugin-transform-flow-strip-types-7.10.1.tgz#59eafbff9ae85ec8932d4c16c068654be814ec5e"
+  integrity sha1-Wer7/5roXsiTLUwWwGhlS+gU7F4=
   dependencies:
-    "@babel/helper-plugin-utils" "^7.8.3"
-    "@babel/plugin-syntax-flow" "^7.8.3"
+    "@babel/helper-plugin-utils" "^7.10.1"
+    "@babel/plugin-syntax-flow" "^7.10.1"
 
-"@babel/plugin-transform-for-of@^7.9.0":
-  version "7.9.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-for-of/-/plugin-transform-for-of-7.9.0.tgz#0f260e27d3e29cd1bb3128da5e76c761aa6c108e"
-  integrity sha1-DyYOJ9PinNG7MSjaXnbHYapsEI4=
+"@babel/plugin-transform-for-of@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-for-of/-/plugin-transform-for-of-7.10.1.tgz#ff01119784eb0ee32258e8646157ba2501fcfda5"
+  integrity sha1-/wERl4TrDuMiWOhkYVe6JQH8/aU=
   dependencies:
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-plugin-utils" "^7.10.1"
 
-"@babel/plugin-transform-function-name@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-function-name/-/plugin-transform-function-name-7.8.3.tgz#279373cb27322aaad67c2683e776dfc47196ed8b"
-  integrity sha1-J5NzyycyKqrWfCaD53bfxHGW7Ys=
+"@babel/plugin-transform-function-name@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-function-name/-/plugin-transform-function-name-7.10.1.tgz#4ed46fd6e1d8fde2a2ec7b03c66d853d2c92427d"
+  integrity sha1-TtRv1uHY/eKi7HsDxm2FPSySQn0=
   dependencies:
-    "@babel/helper-function-name" "^7.8.3"
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-function-name" "^7.10.1"
+    "@babel/helper-plugin-utils" "^7.10.1"
 
-"@babel/plugin-transform-literals@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-literals/-/plugin-transform-literals-7.8.3.tgz#aef239823d91994ec7b68e55193525d76dbd5dc1"
-  integrity sha1-rvI5gj2RmU7Hto5VGTUl1229XcE=
+"@babel/plugin-transform-literals@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-literals/-/plugin-transform-literals-7.10.1.tgz#5794f8da82846b22e4e6631ea1658bce708eb46a"
+  integrity sha1-V5T42oKEayLk5mMeoWWLznCOtGo=
   dependencies:
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-plugin-utils" "^7.10.1"
 
-"@babel/plugin-transform-member-expression-literals@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-member-expression-literals/-/plugin-transform-member-expression-literals-7.8.3.tgz#963fed4b620ac7cbf6029c755424029fa3a40410"
-  integrity sha1-lj/tS2IKx8v2Apx1VCQCn6OkBBA=
+"@babel/plugin-transform-member-expression-literals@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-member-expression-literals/-/plugin-transform-member-expression-literals-7.10.1.tgz#90347cba31bca6f394b3f7bd95d2bbfd9fce2f39"
+  integrity sha1-kDR8ujG8pvOUs/e9ldK7/Z/OLzk=
   dependencies:
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-plugin-utils" "^7.10.1"
 
-"@babel/plugin-transform-modules-amd@^7.9.6":
-  version "7.9.6"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-modules-amd/-/plugin-transform-modules-amd-7.9.6.tgz#8539ec42c153d12ea3836e0e3ac30d5aae7b258e"
-  integrity sha1-hTnsQsFT0S6jg24OOsMNWq57JY4=
+"@babel/plugin-transform-modules-amd@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-modules-amd/-/plugin-transform-modules-amd-7.10.1.tgz#65950e8e05797ebd2fe532b96e19fc5482a1d52a"
+  integrity sha1-ZZUOjgV5fr0v5TK5bhn8VIKh1So=
   dependencies:
-    "@babel/helper-module-transforms" "^7.9.0"
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-module-transforms" "^7.10.1"
+    "@babel/helper-plugin-utils" "^7.10.1"
     babel-plugin-dynamic-import-node "^2.3.3"
 
-"@babel/plugin-transform-modules-commonjs@^7.4.4", "@babel/plugin-transform-modules-commonjs@^7.9.6":
-  version "7.9.6"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-modules-commonjs/-/plugin-transform-modules-commonjs-7.9.6.tgz#64b7474a4279ee588cacd1906695ca721687c277"
-  integrity sha1-ZLdHSkJ57liMrNGQZpXKchaHwnc=
+"@babel/plugin-transform-modules-commonjs@^7.10.1", "@babel/plugin-transform-modules-commonjs@^7.4.4":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-modules-commonjs/-/plugin-transform-modules-commonjs-7.10.1.tgz#d5ff4b4413ed97ffded99961056e1fb980fb9301"
+  integrity sha1-1f9LRBPtl//e2ZlhBW4fuYD7kwE=
   dependencies:
-    "@babel/helper-module-transforms" "^7.9.0"
-    "@babel/helper-plugin-utils" "^7.8.3"
-    "@babel/helper-simple-access" "^7.8.3"
+    "@babel/helper-module-transforms" "^7.10.1"
+    "@babel/helper-plugin-utils" "^7.10.1"
+    "@babel/helper-simple-access" "^7.10.1"
     babel-plugin-dynamic-import-node "^2.3.3"
 
-"@babel/plugin-transform-modules-systemjs@^7.9.6":
-  version "7.9.6"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-modules-systemjs/-/plugin-transform-modules-systemjs-7.9.6.tgz#207f1461c78a231d5337a92140e52422510d81a4"
-  integrity sha1-IH8UYceKIx1TN6khQOUkIlENgaQ=
+"@babel/plugin-transform-modules-systemjs@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-modules-systemjs/-/plugin-transform-modules-systemjs-7.10.1.tgz#9962e4b0ac6aaf2e20431ada3d8ec72082cbffb6"
+  integrity sha1-mWLksKxqry4gQxraPY7HIILL/7Y=
   dependencies:
-    "@babel/helper-hoist-variables" "^7.8.3"
-    "@babel/helper-module-transforms" "^7.9.0"
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-hoist-variables" "^7.10.1"
+    "@babel/helper-module-transforms" "^7.10.1"
+    "@babel/helper-plugin-utils" "^7.10.1"
     babel-plugin-dynamic-import-node "^2.3.3"
 
-"@babel/plugin-transform-modules-umd@^7.9.0":
-  version "7.9.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-modules-umd/-/plugin-transform-modules-umd-7.9.0.tgz#e909acae276fec280f9b821a5f38e1f08b480697"
-  integrity sha1-6Qmsridv7CgPm4IaXzjh8ItIBpc=
+"@babel/plugin-transform-modules-umd@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-modules-umd/-/plugin-transform-modules-umd-7.10.1.tgz#ea080911ffc6eb21840a5197a39ede4ee67b1595"
+  integrity sha1-6ggJEf/G6yGEClGXo57eTuZ7FZU=
   dependencies:
-    "@babel/helper-module-transforms" "^7.9.0"
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-module-transforms" "^7.10.1"
+    "@babel/helper-plugin-utils" "^7.10.1"
 
 "@babel/plugin-transform-named-capturing-groups-regex@^7.8.3":
   version "7.8.3"
@@ -739,215 +754,234 @@
   dependencies:
     "@babel/helper-create-regexp-features-plugin" "^7.8.3"
 
-"@babel/plugin-transform-new-target@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-new-target/-/plugin-transform-new-target-7.8.3.tgz#60cc2ae66d85c95ab540eb34babb6434d4c70c43"
-  integrity sha1-YMwq5m2FyVq1QOs0urtkNNTHDEM=
+"@babel/plugin-transform-new-target@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-new-target/-/plugin-transform-new-target-7.10.1.tgz#6ee41a5e648da7632e22b6fb54012e87f612f324"
+  integrity sha1-buQaXmSNp2MuIrb7VAEuh/YS8yQ=
   dependencies:
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-plugin-utils" "^7.10.1"
 
 "@babel/plugin-transform-object-assign@^7.0.0":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-object-assign/-/plugin-transform-object-assign-7.8.3.tgz#dc3b8dd50ef03837868a37b7df791f64f288538e"
-  integrity sha1-3DuN1Q7wODeGije333kfZPKIU44=
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-object-assign/-/plugin-transform-object-assign-7.10.1.tgz#e563cb225a4812c072a415f3216f53326195b004"
+  integrity sha1-5WPLIlpIEsBypBXzIW9TMmGVsAQ=
   dependencies:
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-plugin-utils" "^7.10.1"
 
-"@babel/plugin-transform-object-super@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-object-super/-/plugin-transform-object-super-7.8.3.tgz#ebb6a1e7a86ffa96858bd6ac0102d65944261725"
-  integrity sha1-67ah56hv+paFi9asAQLWWUQmFyU=
+"@babel/plugin-transform-object-super@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-object-super/-/plugin-transform-object-super-7.10.1.tgz#2e3016b0adbf262983bf0d5121d676a5ed9c4fde"
+  integrity sha1-LjAWsK2/JimDvw1RIdZ2pe2cT94=
   dependencies:
-    "@babel/helper-plugin-utils" "^7.8.3"
-    "@babel/helper-replace-supers" "^7.8.3"
+    "@babel/helper-plugin-utils" "^7.10.1"
+    "@babel/helper-replace-supers" "^7.10.1"
 
-"@babel/plugin-transform-parameters@^7.9.5":
-  version "7.9.5"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-parameters/-/plugin-transform-parameters-7.9.5.tgz#173b265746f5e15b2afe527eeda65b73623a0795"
-  integrity sha1-FzsmV0b14Vsq/lJ+7aZbc2I6B5U=
+"@babel/plugin-transform-parameters@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-parameters/-/plugin-transform-parameters-7.10.1.tgz#b25938a3c5fae0354144a720b07b32766f683ddd"
+  integrity sha1-slk4o8X64DVBRKcgsHsydm9oPd0=
   dependencies:
-    "@babel/helper-get-function-arity" "^7.8.3"
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-get-function-arity" "^7.10.1"
+    "@babel/helper-plugin-utils" "^7.10.1"
 
-"@babel/plugin-transform-property-literals@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-property-literals/-/plugin-transform-property-literals-7.8.3.tgz#33194300d8539c1ed28c62ad5087ba3807b98263"
-  integrity sha1-MxlDANhTnB7SjGKtUIe6OAe5gmM=
+"@babel/plugin-transform-property-literals@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-property-literals/-/plugin-transform-property-literals-7.10.1.tgz#cffc7315219230ed81dc53e4625bf86815b6050d"
+  integrity sha1-z/xzFSGSMO2B3FPkYlv4aBW2BQ0=
   dependencies:
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-plugin-utils" "^7.10.1"
 
-"@babel/plugin-transform-react-display-name@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-react-display-name/-/plugin-transform-react-display-name-7.8.3.tgz#70ded987c91609f78353dd76d2fb2a0bb991e8e5"
-  integrity sha1-cN7Zh8kWCfeDU9120vsqC7mR6OU=
+"@babel/plugin-transform-react-display-name@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-react-display-name/-/plugin-transform-react-display-name-7.10.1.tgz#e6a33f6d48dfb213dda5e007d0c7ff82b6a3d8ef"
+  integrity sha1-5qM/bUjfshPdpeAH0Mf/graj2O8=
   dependencies:
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-plugin-utils" "^7.10.1"
 
-"@babel/plugin-transform-react-jsx-development@^7.9.0":
-  version "7.9.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-react-jsx-development/-/plugin-transform-react-jsx-development-7.9.0.tgz#3c2a130727caf00c2a293f0aed24520825dbf754"
-  integrity sha1-PCoTByfK8AwqKT8K7SRSCCXb91Q=
+"@babel/plugin-transform-react-jsx-development@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-react-jsx-development/-/plugin-transform-react-jsx-development-7.10.1.tgz#1ac6300d8b28ef381ee48e6fec430cc38047b7f3"
+  integrity sha1-GsYwDYso7zge5I5v7EMMw4BHt/M=
   dependencies:
-    "@babel/helper-builder-react-jsx-experimental" "^7.9.0"
-    "@babel/helper-plugin-utils" "^7.8.3"
-    "@babel/plugin-syntax-jsx" "^7.8.3"
+    "@babel/helper-builder-react-jsx-experimental" "^7.10.1"
+    "@babel/helper-plugin-utils" "^7.10.1"
+    "@babel/plugin-syntax-jsx" "^7.10.1"
 
-"@babel/plugin-transform-react-jsx-self@^7.9.0":
-  version "7.9.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-react-jsx-self/-/plugin-transform-react-jsx-self-7.9.0.tgz#f4f26a325820205239bb915bad8e06fcadabb49b"
-  integrity sha1-9PJqMlggIFI5u5FbrY4G/K2rtJs=
+"@babel/plugin-transform-react-jsx-self@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-react-jsx-self/-/plugin-transform-react-jsx-self-7.10.1.tgz#22143e14388d72eb88649606bb9e46f421bc3821"
+  integrity sha1-IhQ+FDiNcuuIZJYGu55G9CG8OCE=
   dependencies:
-    "@babel/helper-plugin-utils" "^7.8.3"
-    "@babel/plugin-syntax-jsx" "^7.8.3"
+    "@babel/helper-plugin-utils" "^7.10.1"
+    "@babel/plugin-syntax-jsx" "^7.10.1"
 
-"@babel/plugin-transform-react-jsx-source@^7.9.0":
-  version "7.9.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-react-jsx-source/-/plugin-transform-react-jsx-source-7.9.0.tgz#89ef93025240dd5d17d3122294a093e5e0183de0"
-  integrity sha1-ie+TAlJA3V0X0xIilKCT5eAYPeA=
+"@babel/plugin-transform-react-jsx-source@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-react-jsx-source/-/plugin-transform-react-jsx-source-7.10.1.tgz#30db3d4ee3cdebbb26a82a9703673714777a4273"
+  integrity sha1-MNs9TuPN67smqCqXA2c3FHd6QnM=
   dependencies:
-    "@babel/helper-plugin-utils" "^7.8.3"
-    "@babel/plugin-syntax-jsx" "^7.8.3"
+    "@babel/helper-plugin-utils" "^7.10.1"
+    "@babel/plugin-syntax-jsx" "^7.10.1"
 
-"@babel/plugin-transform-react-jsx@^7.0.0", "@babel/plugin-transform-react-jsx@^7.9.4":
-  version "7.9.4"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-react-jsx/-/plugin-transform-react-jsx-7.9.4.tgz#86f576c8540bd06d0e95e0b61ea76d55f6cbd03f"
-  integrity sha1-hvV2yFQL0G0OleC2HqdtVfbL0D8=
+"@babel/plugin-transform-react-jsx@^7.0.0", "@babel/plugin-transform-react-jsx@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-react-jsx/-/plugin-transform-react-jsx-7.10.1.tgz#91f544248ba131486decb5d9806da6a6e19a2896"
+  integrity sha1-kfVEJIuhMUht7LXZgG2mpuGaKJY=
   dependencies:
-    "@babel/helper-builder-react-jsx" "^7.9.0"
-    "@babel/helper-builder-react-jsx-experimental" "^7.9.0"
-    "@babel/helper-plugin-utils" "^7.8.3"
-    "@babel/plugin-syntax-jsx" "^7.8.3"
+    "@babel/helper-builder-react-jsx" "^7.10.1"
+    "@babel/helper-builder-react-jsx-experimental" "^7.10.1"
+    "@babel/helper-plugin-utils" "^7.10.1"
+    "@babel/plugin-syntax-jsx" "^7.10.1"
 
-"@babel/plugin-transform-regenerator@^7.8.7":
-  version "7.8.7"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-regenerator/-/plugin-transform-regenerator-7.8.7.tgz#5e46a0dca2bee1ad8285eb0527e6abc9c37672f8"
-  integrity sha1-Xkag3KK+4a2ChesFJ+arycN2cvg=
+"@babel/plugin-transform-react-pure-annotations@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-react-pure-annotations/-/plugin-transform-react-pure-annotations-7.10.1.tgz#f5e7c755d3e7614d4c926e144f501648a5277b70"
+  integrity sha1-9efHVdPnYU1Mkm4UT1AWSKUne3A=
+  dependencies:
+    "@babel/helper-annotate-as-pure" "^7.10.1"
+    "@babel/helper-plugin-utils" "^7.10.1"
+
+"@babel/plugin-transform-regenerator@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-regenerator/-/plugin-transform-regenerator-7.10.1.tgz#10e175cbe7bdb63cc9b39f9b3f823c5c7c5c5490"
+  integrity sha1-EOF1y+e9tjzJs5+bP4I8XHxcVJA=
   dependencies:
     regenerator-transform "^0.14.2"
 
-"@babel/plugin-transform-reserved-words@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-reserved-words/-/plugin-transform-reserved-words-7.8.3.tgz#9a0635ac4e665d29b162837dd3cc50745dfdf1f5"
-  integrity sha1-mgY1rE5mXSmxYoN908xQdF398fU=
+"@babel/plugin-transform-reserved-words@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-reserved-words/-/plugin-transform-reserved-words-7.10.1.tgz#0fc1027312b4d1c3276a57890c8ae3bcc0b64a86"
+  integrity sha1-D8ECcxK00cMnaleJDIrjvMC2SoY=
   dependencies:
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-plugin-utils" "^7.10.1"
 
 "@babel/plugin-transform-runtime@^7":
-  version "7.9.6"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-runtime/-/plugin-transform-runtime-7.9.6.tgz#3ba804438ad0d880a17bca5eaa0cdf1edeedb2fd"
-  integrity sha1-O6gEQ4rQ2IChe8peqgzfHt7tsv0=
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-runtime/-/plugin-transform-runtime-7.10.1.tgz#fd1887f749637fb2ed86dc278e79eb41df37f4b1"
+  integrity sha1-/RiH90ljf7LthtwnjnnrQd839LE=
   dependencies:
-    "@babel/helper-module-imports" "^7.8.3"
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-module-imports" "^7.10.1"
+    "@babel/helper-plugin-utils" "^7.10.1"
     resolve "^1.8.1"
     semver "^5.5.1"
 
-"@babel/plugin-transform-shorthand-properties@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-shorthand-properties/-/plugin-transform-shorthand-properties-7.8.3.tgz#28545216e023a832d4d3a1185ed492bcfeac08c8"
-  integrity sha1-KFRSFuAjqDLU06EYXtSSvP6sCMg=
+"@babel/plugin-transform-shorthand-properties@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-shorthand-properties/-/plugin-transform-shorthand-properties-7.10.1.tgz#e8b54f238a1ccbae482c4dce946180ae7b3143f3"
+  integrity sha1-6LVPI4ocy65ILE3OlGGArnsxQ/M=
   dependencies:
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-plugin-utils" "^7.10.1"
 
-"@babel/plugin-transform-spread@^7", "@babel/plugin-transform-spread@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-spread/-/plugin-transform-spread-7.8.3.tgz#9c8ffe8170fdfb88b114ecb920b82fb6e95fe5e8"
-  integrity sha1-nI/+gXD9+4ixFOy5ILgvtulf5eg=
+"@babel/plugin-transform-spread@^7", "@babel/plugin-transform-spread@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-spread/-/plugin-transform-spread-7.10.1.tgz#0c6d618a0c4461a274418460a28c9ccf5239a7c8"
+  integrity sha1-DG1higxEYaJ0QYRgooycz1I5p8g=
   dependencies:
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-plugin-utils" "^7.10.1"
 
-"@babel/plugin-transform-sticky-regex@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-sticky-regex/-/plugin-transform-sticky-regex-7.8.3.tgz#be7a1290f81dae767475452199e1f76d6175b100"
-  integrity sha1-vnoSkPgdrnZ0dUUhmeH3bWF1sQA=
+"@babel/plugin-transform-sticky-regex@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-sticky-regex/-/plugin-transform-sticky-regex-7.10.1.tgz#90fc89b7526228bed9842cff3588270a7a393b00"
+  integrity sha1-kPyJt1JiKL7ZhCz/NYgnCno5OwA=
   dependencies:
-    "@babel/helper-plugin-utils" "^7.8.3"
-    "@babel/helper-regex" "^7.8.3"
+    "@babel/helper-plugin-utils" "^7.10.1"
+    "@babel/helper-regex" "^7.10.1"
 
-"@babel/plugin-transform-template-literals@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-template-literals/-/plugin-transform-template-literals-7.8.3.tgz#7bfa4732b455ea6a43130adc0ba767ec0e402a80"
-  integrity sha1-e/pHMrRV6mpDEwrcC6dn7A5AKoA=
+"@babel/plugin-transform-template-literals@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-template-literals/-/plugin-transform-template-literals-7.10.1.tgz#914c7b7f4752c570ea00553b4284dad8070e8628"
+  integrity sha1-kUx7f0dSxXDqAFU7QoTa2AcOhig=
   dependencies:
-    "@babel/helper-annotate-as-pure" "^7.8.3"
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-annotate-as-pure" "^7.10.1"
+    "@babel/helper-plugin-utils" "^7.10.1"
 
-"@babel/plugin-transform-typeof-symbol@^7.8.4":
-  version "7.8.4"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-typeof-symbol/-/plugin-transform-typeof-symbol-7.8.4.tgz#ede4062315ce0aaf8a657a920858f1a2f35fc412"
-  integrity sha1-7eQGIxXOCq+KZXqSCFjxovNfxBI=
+"@babel/plugin-transform-typeof-symbol@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-typeof-symbol/-/plugin-transform-typeof-symbol-7.10.1.tgz#60c0239b69965d166b80a84de7315c1bc7e0bb0e"
+  integrity sha1-YMAjm2mWXRZrgKhN5zFcG8fguw4=
   dependencies:
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-plugin-utils" "^7.10.1"
 
-"@babel/plugin-transform-unicode-regex@^7.8.3":
-  version "7.8.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-unicode-regex/-/plugin-transform-unicode-regex-7.8.3.tgz#0cef36e3ba73e5c57273effb182f46b91a1ecaad"
-  integrity sha1-DO8247pz5cVyc+/7GC9GuRoeyq0=
+"@babel/plugin-transform-unicode-escapes@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-unicode-escapes/-/plugin-transform-unicode-escapes-7.10.1.tgz#add0f8483dab60570d9e03cecef6c023aa8c9940"
+  integrity sha1-rdD4SD2rYFcNngPOzvbAI6qMmUA=
   dependencies:
-    "@babel/helper-create-regexp-features-plugin" "^7.8.3"
-    "@babel/helper-plugin-utils" "^7.8.3"
+    "@babel/helper-plugin-utils" "^7.10.1"
+
+"@babel/plugin-transform-unicode-regex@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/plugin-transform-unicode-regex/-/plugin-transform-unicode-regex-7.10.1.tgz#6b58f2aea7b68df37ac5025d9c88752443a6b43f"
+  integrity sha1-a1jyrqe2jfN6xQJdnIh1JEOmtD8=
+  dependencies:
+    "@babel/helper-create-regexp-features-plugin" "^7.10.1"
+    "@babel/helper-plugin-utils" "^7.10.1"
 
 "@babel/preset-env@^7", "@babel/preset-env@^7.0.0", "@babel/preset-env@^7.4.4":
-  version "7.9.6"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/preset-env/-/preset-env-7.9.6.tgz#df063b276c6455ec6fcfc6e53aacc38da9b0aea6"
-  integrity sha1-3wY7J2xkVexvz8blOqzDjamwrqY=
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/preset-env/-/preset-env-7.10.1.tgz#099e1b76379739bdcbfab3d548dc7e7edb2ac808"
+  integrity sha1-CZ4bdjeXOb3L+rPVSNx+ftsqyAg=
   dependencies:
-    "@babel/compat-data" "^7.9.6"
-    "@babel/helper-compilation-targets" "^7.9.6"
-    "@babel/helper-module-imports" "^7.8.3"
-    "@babel/helper-plugin-utils" "^7.8.3"
-    "@babel/plugin-proposal-async-generator-functions" "^7.8.3"
-    "@babel/plugin-proposal-dynamic-import" "^7.8.3"
-    "@babel/plugin-proposal-json-strings" "^7.8.3"
-    "@babel/plugin-proposal-nullish-coalescing-operator" "^7.8.3"
-    "@babel/plugin-proposal-numeric-separator" "^7.8.3"
-    "@babel/plugin-proposal-object-rest-spread" "^7.9.6"
-    "@babel/plugin-proposal-optional-catch-binding" "^7.8.3"
-    "@babel/plugin-proposal-optional-chaining" "^7.9.0"
-    "@babel/plugin-proposal-unicode-property-regex" "^7.8.3"
+    "@babel/compat-data" "^7.10.1"
+    "@babel/helper-compilation-targets" "^7.10.1"
+    "@babel/helper-module-imports" "^7.10.1"
+    "@babel/helper-plugin-utils" "^7.10.1"
+    "@babel/plugin-proposal-async-generator-functions" "^7.10.1"
+    "@babel/plugin-proposal-class-properties" "^7.10.1"
+    "@babel/plugin-proposal-dynamic-import" "^7.10.1"
+    "@babel/plugin-proposal-json-strings" "^7.10.1"
+    "@babel/plugin-proposal-nullish-coalescing-operator" "^7.10.1"
+    "@babel/plugin-proposal-numeric-separator" "^7.10.1"
+    "@babel/plugin-proposal-object-rest-spread" "^7.10.1"
+    "@babel/plugin-proposal-optional-catch-binding" "^7.10.1"
+    "@babel/plugin-proposal-optional-chaining" "^7.10.1"
+    "@babel/plugin-proposal-private-methods" "^7.10.1"
+    "@babel/plugin-proposal-unicode-property-regex" "^7.10.1"
     "@babel/plugin-syntax-async-generators" "^7.8.0"
+    "@babel/plugin-syntax-class-properties" "^7.10.1"
     "@babel/plugin-syntax-dynamic-import" "^7.8.0"
     "@babel/plugin-syntax-json-strings" "^7.8.0"
     "@babel/plugin-syntax-nullish-coalescing-operator" "^7.8.0"
-    "@babel/plugin-syntax-numeric-separator" "^7.8.0"
+    "@babel/plugin-syntax-numeric-separator" "^7.10.1"
     "@babel/plugin-syntax-object-rest-spread" "^7.8.0"
     "@babel/plugin-syntax-optional-catch-binding" "^7.8.0"
     "@babel/plugin-syntax-optional-chaining" "^7.8.0"
-    "@babel/plugin-syntax-top-level-await" "^7.8.3"
-    "@babel/plugin-transform-arrow-functions" "^7.8.3"
-    "@babel/plugin-transform-async-to-generator" "^7.8.3"
-    "@babel/plugin-transform-block-scoped-functions" "^7.8.3"
-    "@babel/plugin-transform-block-scoping" "^7.8.3"
-    "@babel/plugin-transform-classes" "^7.9.5"
-    "@babel/plugin-transform-computed-properties" "^7.8.3"
-    "@babel/plugin-transform-destructuring" "^7.9.5"
-    "@babel/plugin-transform-dotall-regex" "^7.8.3"
-    "@babel/plugin-transform-duplicate-keys" "^7.8.3"
-    "@babel/plugin-transform-exponentiation-operator" "^7.8.3"
-    "@babel/plugin-transform-for-of" "^7.9.0"
-    "@babel/plugin-transform-function-name" "^7.8.3"
-    "@babel/plugin-transform-literals" "^7.8.3"
-    "@babel/plugin-transform-member-expression-literals" "^7.8.3"
-    "@babel/plugin-transform-modules-amd" "^7.9.6"
-    "@babel/plugin-transform-modules-commonjs" "^7.9.6"
-    "@babel/plugin-transform-modules-systemjs" "^7.9.6"
-    "@babel/plugin-transform-modules-umd" "^7.9.0"
+    "@babel/plugin-syntax-top-level-await" "^7.10.1"
+    "@babel/plugin-transform-arrow-functions" "^7.10.1"
+    "@babel/plugin-transform-async-to-generator" "^7.10.1"
+    "@babel/plugin-transform-block-scoped-functions" "^7.10.1"
+    "@babel/plugin-transform-block-scoping" "^7.10.1"
+    "@babel/plugin-transform-classes" "^7.10.1"
+    "@babel/plugin-transform-computed-properties" "^7.10.1"
+    "@babel/plugin-transform-destructuring" "^7.10.1"
+    "@babel/plugin-transform-dotall-regex" "^7.10.1"
+    "@babel/plugin-transform-duplicate-keys" "^7.10.1"
+    "@babel/plugin-transform-exponentiation-operator" "^7.10.1"
+    "@babel/plugin-transform-for-of" "^7.10.1"
+    "@babel/plugin-transform-function-name" "^7.10.1"
+    "@babel/plugin-transform-literals" "^7.10.1"
+    "@babel/plugin-transform-member-expression-literals" "^7.10.1"
+    "@babel/plugin-transform-modules-amd" "^7.10.1"
+    "@babel/plugin-transform-modules-commonjs" "^7.10.1"
+    "@babel/plugin-transform-modules-systemjs" "^7.10.1"
+    "@babel/plugin-transform-modules-umd" "^7.10.1"
     "@babel/plugin-transform-named-capturing-groups-regex" "^7.8.3"
-    "@babel/plugin-transform-new-target" "^7.8.3"
-    "@babel/plugin-transform-object-super" "^7.8.3"
-    "@babel/plugin-transform-parameters" "^7.9.5"
-    "@babel/plugin-transform-property-literals" "^7.8.3"
-    "@babel/plugin-transform-regenerator" "^7.8.7"
-    "@babel/plugin-transform-reserved-words" "^7.8.3"
-    "@babel/plugin-transform-shorthand-properties" "^7.8.3"
-    "@babel/plugin-transform-spread" "^7.8.3"
-    "@babel/plugin-transform-sticky-regex" "^7.8.3"
-    "@babel/plugin-transform-template-literals" "^7.8.3"
-    "@babel/plugin-transform-typeof-symbol" "^7.8.4"
-    "@babel/plugin-transform-unicode-regex" "^7.8.3"
+    "@babel/plugin-transform-new-target" "^7.10.1"
+    "@babel/plugin-transform-object-super" "^7.10.1"
+    "@babel/plugin-transform-parameters" "^7.10.1"
+    "@babel/plugin-transform-property-literals" "^7.10.1"
+    "@babel/plugin-transform-regenerator" "^7.10.1"
+    "@babel/plugin-transform-reserved-words" "^7.10.1"
+    "@babel/plugin-transform-shorthand-properties" "^7.10.1"
+    "@babel/plugin-transform-spread" "^7.10.1"
+    "@babel/plugin-transform-sticky-regex" "^7.10.1"
+    "@babel/plugin-transform-template-literals" "^7.10.1"
+    "@babel/plugin-transform-typeof-symbol" "^7.10.1"
+    "@babel/plugin-transform-unicode-escapes" "^7.10.1"
+    "@babel/plugin-transform-unicode-regex" "^7.10.1"
     "@babel/preset-modules" "^0.1.3"
-    "@babel/types" "^7.9.6"
-    browserslist "^4.11.1"
+    "@babel/types" "^7.10.1"
+    browserslist "^4.12.0"
     core-js-compat "^3.6.2"
     invariant "^2.2.2"
     levenary "^1.1.1"
@@ -965,21 +999,22 @@
     esutils "^2.0.2"
 
 "@babel/preset-react@^7":
-  version "7.9.4"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/preset-react/-/preset-react-7.9.4.tgz#c6c97693ac65b6b9c0b4f25b948a8f665463014d"
-  integrity sha1-xsl2k6xltrnAtPJblIqPZlRjAU0=
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/preset-react/-/preset-react-7.10.1.tgz#e2ab8ae9a363ec307b936589f07ed753192de041"
+  integrity sha1-4quK6aNj7DB7k2WJ8H7XUxkt4EE=
   dependencies:
-    "@babel/helper-plugin-utils" "^7.8.3"
-    "@babel/plugin-transform-react-display-name" "^7.8.3"
-    "@babel/plugin-transform-react-jsx" "^7.9.4"
-    "@babel/plugin-transform-react-jsx-development" "^7.9.0"
-    "@babel/plugin-transform-react-jsx-self" "^7.9.0"
-    "@babel/plugin-transform-react-jsx-source" "^7.9.0"
+    "@babel/helper-plugin-utils" "^7.10.1"
+    "@babel/plugin-transform-react-display-name" "^7.10.1"
+    "@babel/plugin-transform-react-jsx" "^7.10.1"
+    "@babel/plugin-transform-react-jsx-development" "^7.10.1"
+    "@babel/plugin-transform-react-jsx-self" "^7.10.1"
+    "@babel/plugin-transform-react-jsx-source" "^7.10.1"
+    "@babel/plugin-transform-react-pure-annotations" "^7.10.1"
 
-"@babel/register@^7.8.3":
-  version "7.9.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/register/-/register-7.9.0.tgz#02464ede57548bddbb5e9f705d263b7c3f43d48b"
-  integrity sha1-AkZO3ldUi927Xp9wXSY7fD9D1Is=
+"@babel/register@^7.10.1":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/register/-/register-7.10.1.tgz#b6567c5cb5049f44bbf8c35d6ff68ca3c43238ed"
+  integrity sha1-tlZ8XLUEn0S7+MNdb/aMo8QyOO0=
   dependencies:
     find-cache-dir "^2.0.0"
     lodash "^4.17.13"
@@ -988,9 +1023,9 @@
     source-map-support "^0.5.16"
 
 "@babel/runtime-corejs3@^7.8.3":
-  version "7.9.6"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/runtime-corejs3/-/runtime-corejs3-7.9.6.tgz#67aded13fffbbc2cb93247388cf84d77a4be9a71"
-  integrity sha1-Z63tE//7vCy5Mkc4jPhNd6S+mnE=
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/runtime-corejs3/-/runtime-corejs3-7.10.1.tgz#ae8a85a04029d94ab8c3b5237a1031a9d631b515"
+  integrity sha1-roqFoEAp2Uq4w7UjehAxqdYxtRU=
   dependencies:
     core-js-pure "^3.0.0"
     regenerator-runtime "^0.13.4"
@@ -1002,43 +1037,43 @@
   dependencies:
     regenerator-runtime "^0.12.0"
 
-"@babel/runtime@^7", "@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.2.0", "@babel/runtime@^7.4.4", "@babel/runtime@^7.4.5", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.3", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.3", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7":
-  version "7.9.6"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/runtime/-/runtime-7.9.6.tgz#a9102eb5cadedf3f31d08a9ecf294af7827ea29f"
-  integrity sha1-qRAutcre3z8x0IqezylK94J+op8=
+"@babel/runtime@^7", "@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.10.0", "@babel/runtime@^7.2.0", "@babel/runtime@^7.4.4", "@babel/runtime@^7.4.5", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.3", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/runtime/-/runtime-7.10.1.tgz#b6eb75cac279588d3100baecd1b9894ea2840822"
+  integrity sha1-tut1ysJ5WI0xALrs0bmJTqKECCI=
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/template@^7.4.4", "@babel/template@^7.8.3", "@babel/template@^7.8.6":
-  version "7.8.6"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/template/-/template-7.8.6.tgz#86b22af15f828dfb086474f964dcc3e39c43ce2b"
-  integrity sha1-hrIq8V+CjfsIZHT5ZNzD45xDzis=
+"@babel/template@^7.10.1", "@babel/template@^7.4.4":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/template/-/template-7.10.1.tgz#e167154a94cb5f14b28dc58f5356d2162f539811"
+  integrity sha1-4WcVSpTLXxSyjcWPU1bSFi9TmBE=
   dependencies:
-    "@babel/code-frame" "^7.8.3"
-    "@babel/parser" "^7.8.6"
-    "@babel/types" "^7.8.6"
+    "@babel/code-frame" "^7.10.1"
+    "@babel/parser" "^7.10.1"
+    "@babel/types" "^7.10.1"
 
-"@babel/traverse@^7.4.4", "@babel/traverse@^7.8.3", "@babel/traverse@^7.9.6":
-  version "7.9.6"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/traverse/-/traverse-7.9.6.tgz#5540d7577697bf619cc57b92aa0f1c231a94f442"
-  integrity sha1-VUDXV3aXv2GcxXuSqg8cIxqU9EI=
+"@babel/traverse@^7.10.1", "@babel/traverse@^7.4.4":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/traverse/-/traverse-7.10.1.tgz#bbcef3031e4152a6c0b50147f4958df54ca0dd27"
+  integrity sha1-u87zAx5BUqbAtQFH9JWN9Uyg3Sc=
   dependencies:
-    "@babel/code-frame" "^7.8.3"
-    "@babel/generator" "^7.9.6"
-    "@babel/helper-function-name" "^7.9.5"
-    "@babel/helper-split-export-declaration" "^7.8.3"
-    "@babel/parser" "^7.9.6"
-    "@babel/types" "^7.9.6"
+    "@babel/code-frame" "^7.10.1"
+    "@babel/generator" "^7.10.1"
+    "@babel/helper-function-name" "^7.10.1"
+    "@babel/helper-split-export-declaration" "^7.10.1"
+    "@babel/parser" "^7.10.1"
+    "@babel/types" "^7.10.1"
     debug "^4.1.0"
     globals "^11.1.0"
     lodash "^4.17.13"
 
-"@babel/types@^7.4.4", "@babel/types@^7.8.3", "@babel/types@^7.8.6", "@babel/types@^7.9.0", "@babel/types@^7.9.5", "@babel/types@^7.9.6":
-  version "7.9.6"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/types/-/types-7.9.6.tgz#2c5502b427251e9de1bd2dff95add646d95cc9f7"
-  integrity sha1-LFUCtCclHp3hvS3/la3WRtlcyfc=
+"@babel/types@^7.10.1", "@babel/types@^7.4.4":
+  version "7.10.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/types/-/types-7.10.1.tgz#6886724d31c8022160a7db895e6731ca33483921"
+  integrity sha1-aIZyTTHIAiFgp9uJXmcxyjNIOSE=
   dependencies:
-    "@babel/helper-validator-identifier" "^7.9.5"
+    "@babel/helper-validator-identifier" "^7.10.1"
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
@@ -1262,6 +1297,11 @@
   integrity sha1-7N9I1TLFjqR3rPyrgDSEJPjQZi8=
   dependencies:
     any-observable "^0.3.0"
+
+"@scarf/scarf@^1.0.5":
+  version "1.0.5"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@scarf/scarf/-/scarf-1.0.5.tgz#accee0bce88a9047672f7c8faf3cada59c996b81"
+  integrity sha1-rM7gvOiKkEdnL3yPrzytpZyZa4E=
 
 "@sentry/apm@5.15.5":
   version "5.15.5"
@@ -1494,9 +1534,9 @@
   integrity sha1-7ihweulOEdK4J7y+UnC86n8+ce4=
 
 "@types/lodash@^4":
-  version "4.14.152"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@types/lodash/-/lodash-4.14.152.tgz#7e7679250adce14e749304cdb570969f77ec997c"
-  integrity sha1-fnZ5JQrc4U50kwTNtXCWn3fsmXw=
+  version "4.14.153"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@types/lodash/-/lodash-4.14.153.tgz#5cb7dded0649f1df97938ac5ffc4f134e9e9df98"
+  integrity sha1-XLfd7QZJ8d+Xk4rF/8TxNOnp35g=
 
 "@types/minimatch@*":
   version "3.0.3"
@@ -1612,40 +1652,40 @@
   integrity sha1-aB35cDWMgoNrQvmJGI0TPiGMRY4=
 
 "@typescript-eslint/eslint-plugin@^3":
-  version "3.0.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@typescript-eslint/eslint-plugin/-/eslint-plugin-3.0.0.tgz#02f8ec6b5ce814bda80dfc22463f108bed1f699b"
-  integrity sha1-Avjsa1zoFL2oDfwiRj8Qi+0faZs=
+  version "3.0.2"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@typescript-eslint/eslint-plugin/-/eslint-plugin-3.0.2.tgz#4a114a066e2f9659b25682ee59d4866e15a17ec3"
+  integrity sha1-ShFKBm4vllmyVoLuWdSGbhWhfsM=
   dependencies:
-    "@typescript-eslint/experimental-utils" "3.0.0"
+    "@typescript-eslint/experimental-utils" "3.0.2"
     functional-red-black-tree "^1.0.1"
     regexpp "^3.0.0"
     semver "^7.3.2"
     tsutils "^3.17.1"
 
-"@typescript-eslint/experimental-utils@3.0.0":
-  version "3.0.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@typescript-eslint/experimental-utils/-/experimental-utils-3.0.0.tgz#1ddf53eeb61ac8eaa9a77072722790ac4f641c03"
-  integrity sha1-Hd9T7rYayOqpp3BycieQrE9kHAM=
+"@typescript-eslint/experimental-utils@3.0.2":
+  version "3.0.2"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@typescript-eslint/experimental-utils/-/experimental-utils-3.0.2.tgz#bb2131baede8df28ec5eacfa540308ca895e5fee"
+  integrity sha1-uyExuu3o3yjsXqz6VAMIyoleX+4=
   dependencies:
     "@types/json-schema" "^7.0.3"
-    "@typescript-eslint/typescript-estree" "3.0.0"
+    "@typescript-eslint/typescript-estree" "3.0.2"
     eslint-scope "^5.0.0"
     eslint-utils "^2.0.0"
 
 "@typescript-eslint/parser@^3":
-  version "3.0.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@typescript-eslint/parser/-/parser-3.0.0.tgz#fe9fdf18a1155c02c04220c14506a320cb6c6944"
-  integrity sha1-/p/fGKEVXALAQiDBRQajIMtsaUQ=
+  version "3.0.2"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@typescript-eslint/parser/-/parser-3.0.2.tgz#a92ef339added9bf7fb92605ac99c93ef243e834"
+  integrity sha1-qS7zOa3e2b9/uSYFrJnJPvJD6DQ=
   dependencies:
     "@types/eslint-visitor-keys" "^1.0.0"
-    "@typescript-eslint/experimental-utils" "3.0.0"
-    "@typescript-eslint/typescript-estree" "3.0.0"
+    "@typescript-eslint/experimental-utils" "3.0.2"
+    "@typescript-eslint/typescript-estree" "3.0.2"
     eslint-visitor-keys "^1.1.0"
 
-"@typescript-eslint/typescript-estree@3.0.0":
-  version "3.0.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@typescript-eslint/typescript-estree/-/typescript-estree-3.0.0.tgz#fa40e1b76ccff880130be054d9c398e96004bf42"
-  integrity sha1-+kDht2zP+IATC+BU2cOY6WAEv0I=
+"@typescript-eslint/typescript-estree@3.0.2":
+  version "3.0.2"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@typescript-eslint/typescript-estree/-/typescript-estree-3.0.2.tgz#67a1ce4307ebaea43443fbf3f3be7e2627157293"
+  integrity sha1-Z6HOQwfrrqQ0Q/vz875+JicVcpM=
   dependencies:
     debug "^4.1.1"
     eslint-visitor-keys "^1.1.0"
@@ -2707,7 +2747,7 @@ browserify-zlib@^0.2.0:
   dependencies:
     pako "~1.0.5"
 
-browserslist@^4.0.0, browserslist@^4.1.0, browserslist@^4.11.1, browserslist@^4.8.5:
+browserslist@^4.0.0, browserslist@^4.1.0, browserslist@^4.12.0, browserslist@^4.8.5:
   version "4.12.0"
   resolved "https://packages.atlassian.com/api/npm/npm-remote/browserslist/-/browserslist-4.12.0.tgz#06c6d5715a1ede6c51fc39ff67fd647f740b656d"
   integrity sha1-BsbVcVoe3mxR/Dn/Z/1kf3QLZW0=
@@ -2942,9 +2982,9 @@ caniuse-api@^3.0.0:
     lodash.uniq "^4.5.0"
 
 caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001043:
-  version "1.0.30001064"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/caniuse-lite/-/caniuse-lite-1.0.30001064.tgz#a0f49689119ba08943b09968e118faf3f645add0"
-  integrity sha1-oPSWiRGboIlDsJlo4Rj68/ZFrdA=
+  version "1.0.30001066"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/caniuse-lite/-/caniuse-lite-1.0.30001066.tgz#0a8a58a10108f2b9bf38e7b65c237b12fd9c5f04"
+  integrity sha1-CopYoQEI8rm/OOe2XCN7Ev2cXwQ=
 
 capture-stack-trace@^1.0.0:
   version "1.0.1"
@@ -3821,9 +3861,9 @@ cross-spawn@^6.0.0, cross-spawn@^6.0.4, cross-spawn@^6.0.5:
     which "^1.2.9"
 
 cross-spawn@^7.0.0, cross-spawn@^7.0.2:
-  version "7.0.2"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/cross-spawn/-/cross-spawn-7.0.2.tgz#d0d7dcfa74e89115c7619f4f721a94e1fdb716d6"
-  integrity sha1-0Nfc+nTokRXHYZ9PchqU4f23FtY=
+  version "7.0.3"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/cross-spawn/-/cross-spawn-7.0.3.tgz#f73a85b9d5d41d045551c177e2882d4ac85728a6"
+  integrity sha1-9zqFudXUHQRVUcF34ogtSshXKKY=
   dependencies:
     path-key "^3.1.0"
     shebang-command "^2.0.0"
@@ -4462,9 +4502,9 @@ ejs@^2.6.1:
   integrity sha1-SGYSh1c9zFPjZsehrlLDoSDuybo=
 
 electron-to-chromium@^1.3.413:
-  version "1.3.451"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/electron-to-chromium/-/electron-to-chromium-1.3.451.tgz#0c075af3e2f06d706670bde0279432802ca8c83f"
-  integrity sha1-DAda8+LwbXBmcL3gJ5QygCyoyD8=
+  version "1.3.453"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/electron-to-chromium/-/electron-to-chromium-1.3.453.tgz#758a8565a64b7889b27132a51d2abb8b135c9d01"
+  integrity sha1-dYqFZaZLeImycTKlHSq7ixNcnQE=
 
 elegant-spinner@^1.0.1:
   version "1.0.1"
@@ -4705,9 +4745,9 @@ eslint-plugin-es@^3.0.0:
     regexpp "^3.0.0"
 
 eslint-plugin-eslint-comments@^3:
-  version "3.1.2"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/eslint-plugin-eslint-comments/-/eslint-plugin-eslint-comments-3.1.2.tgz#4ef6c488dbe06aa1627fea107b3e5d059fc8a395"
-  integrity sha1-TvbEiNvgaqFif+oQez5dBZ/Io5U=
+  version "3.2.0"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/eslint-plugin-eslint-comments/-/eslint-plugin-eslint-comments-3.2.0.tgz#9e1cd7b4413526abb313933071d7aba05ca12ffa"
+  integrity sha1-nhzXtEE1JquzE5MwcderoFyhL/o=
   dependencies:
     escape-string-regexp "^1.0.5"
     ignore "^5.0.5"
@@ -5394,11 +5434,12 @@ final-form-focus@^1.1.0:
   integrity sha1-jqXEvYAuIgzrqkelh7sL4WTraAY=
 
 final-form@^4.14.1:
-  version "4.19.1"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/final-form/-/final-form-4.19.1.tgz#1aa1a3bf67f7399b54ed6185d56f9a8d74cfda5a"
-  integrity sha1-GqGjv2f3OZtU7WGF1W+ajXTP2lo=
+  version "4.20.0"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/final-form/-/final-form-4.20.0.tgz#454ba46f783a4c4404ad875cf36f470395ad5efa"
+  integrity sha1-RUukb3g6TEQErYdc829HA5WtXvo=
   dependencies:
-    "@babel/runtime" "^7.8.3"
+    "@babel/runtime" "^7.10.0"
+    "@scarf/scarf" "^1.0.5"
 
 finalhandler@~1.1.2:
   version "1.1.2"
@@ -7275,11 +7316,11 @@ jsprim@^1.2.2:
     verror "1.10.0"
 
 jsx-ast-utils@^2.2.3:
-  version "2.2.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/jsx-ast-utils/-/jsx-ast-utils-2.2.3.tgz#8a9364e402448a3ce7f14d357738310d9248054f"
-  integrity sha1-ipNk5AJEijzn8U01dzgxDZJIBU8=
+  version "2.3.0"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/jsx-ast-utils/-/jsx-ast-utils-2.3.0.tgz#edd727794ea284d7fda575015ed1b0cde0289ab6"
+  integrity sha1-7dcneU6ihNf9pXUBXtGwzeAomrY=
   dependencies:
-    array-includes "^3.0.3"
+    array-includes "^3.1.1"
     object.assign "^4.1.0"
 
 just-extend@^4.0.2:
@@ -8143,9 +8184,9 @@ mimic-response@^1.0.0, mimic-response@^1.0.1:
   integrity sha1-SSNTiHju9CBjy4o+OweYeBSHqxs=
 
 min-indent@^1.0.0:
-  version "1.0.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/min-indent/-/min-indent-1.0.0.tgz#cfc45c37e9ec0d8f0a0ec3dd4ef7f7c3abe39256"
-  integrity sha1-z8RcN+nsDY8KDsPdTvf3w6vjklY=
+  version "1.0.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/min-indent/-/min-indent-1.0.1.tgz#a63f681673b30571fbe8bc25686ae746eefa9869"
+  integrity sha1-pj9oFnOzBXH76LwlaGrnRu76mGk=
 
 mini-create-react-context@^0.4.0:
   version "0.4.0"
@@ -8528,9 +8569,9 @@ node-modules-regexp@^1.0.0:
   integrity sha1-jZ2+KJZKSsVxLpExZCEHxx6Q7EA=
 
 node-releases@^1.1.53:
-  version "1.1.56"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/node-releases/-/node-releases-1.1.56.tgz#bc054a417d316e3adac90eafb7e1932802f28705"
-  integrity sha1-vAVKQX0xbjrayQ6vt+GTKALyhwU=
+  version "1.1.57"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/node-releases/-/node-releases-1.1.57.tgz#f6754ce225fad0611e61228df3e09232e017ea19"
+  integrity sha1-9nVM4iX60GEeYSKN8+CSMuAX6hk=
 
 noop2@^2:
   version "2.0.0"
@@ -10035,9 +10076,9 @@ postcss@^6.0.1:
     supports-color "^5.4.0"
 
 postcss@^7.0.0, postcss@^7.0.1, postcss@^7.0.11, postcss@^7.0.14, postcss@^7.0.16, postcss@^7.0.17, postcss@^7.0.27, postcss@^7.0.5, postcss@^7.0.6:
-  version "7.0.30"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/postcss/-/postcss-7.0.30.tgz#cc9378beffe46a02cbc4506a0477d05fcea9a8e2"
-  integrity sha1-zJN4vv/kagLLxFBqBHfQX86pqOI=
+  version "7.0.31"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/postcss/-/postcss-7.0.31.tgz#332af45cb73e26c0ee2614d7c7fb02dfcc2bd6dd"
+  integrity sha1-Myr0XLc+JsDuJhTXx/sC38wr1t0=
   dependencies:
     chalk "^2.4.2"
     source-map "^0.6.1"
@@ -10906,9 +10947,9 @@ registry-url@^5.0.0, registry-url@^5.1.0:
     rc "^1.2.8"
 
 regjsgen@^0.5.1:
-  version "0.5.1"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/regjsgen/-/regjsgen-0.5.1.tgz#48f0bf1a5ea205196929c0d9798b42d1ed98443c"
-  integrity sha1-SPC/Gl6iBRlpKcDZeYtC0e2YRDw=
+  version "0.5.2"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/regjsgen/-/regjsgen-0.5.2.tgz#92ff295fb1deecbf6ecdab2543d207e91aa33733"
+  integrity sha1-kv8pX7He7L9uzaslQ9IH6RqjNzM=
 
 regjsparser@^0.6.4:
   version "0.6.4"
@@ -12484,9 +12525,9 @@ tryer@^1.0.1:
   integrity sha1-8shUBoALmw90yfdGW4HqrSQSUvg=
 
 ts-node@^8:
-  version "8.10.1"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/ts-node/-/ts-node-8.10.1.tgz#77da0366ff8afbe733596361d2df9a60fc9c9bd3"
-  integrity sha1-d9oDZv+K++czWWNh0t+aYPycm9M=
+  version "8.10.2"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/ts-node/-/ts-node-8.10.2.tgz#eee03764633b1234ddd37f8db9ec10b75ec7fb8d"
+  integrity sha1-7uA3ZGM7EjTd03+NuewQt17H+40=
   dependencies:
     arg "^4.1.0"
     diff "^4.0.1"
@@ -13083,9 +13124,9 @@ vscode-nls@^4.1.2:
   integrity sha1-yov4u4KgmHsygB+f3f3S+5/TwWc=
 
 vscode-uri@^2.1.1:
-  version "2.1.1"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/vscode-uri/-/vscode-uri-2.1.1.tgz#5aa1803391b6ebdd17d047f51365cf62c38f6e90"
-  integrity sha1-WqGAM5G2690X0Ef1E2XPYsOPbpA=
+  version "2.1.2"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/vscode-uri/-/vscode-uri-2.1.2.tgz#c8d40de93eb57af31f3c715dd650e2ca2c096f1c"
+  integrity sha1-yNQN6T61evMfPHFd1lDiyiwJbxw=
 
 w3c-hr-time@^1.0.1:
   version "1.0.2"
