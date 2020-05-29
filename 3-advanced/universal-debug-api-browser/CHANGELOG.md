@@ -5,6 +5,7 @@
 * TODO extract core implementation common bw node & browser?
 * TODO better handle no local storage
 * TODO handle iframes?
+* [chore] [breaking] cjs pre-build now targeting node12/ES2019 [details](../../CONTRIBUTING/module-exports.md)
 * [doc] README++
 * [chore] improved "attaching" logic with hints on setup error and improves some bad cases
 * [feat] better internal logging

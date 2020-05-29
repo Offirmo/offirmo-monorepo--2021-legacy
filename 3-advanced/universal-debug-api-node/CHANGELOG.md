@@ -3,6 +3,7 @@
 
 ## PENDING
 * TODO node & browser should share a lot of logic
+* [chore] [breaking] cjs pre-build now targeting node12/ES2019 [details](../../CONTRIBUTING/module-exports.md)
 * [chore] improved "attaching" logic with hints on setup error and improves some bad cases
 * [chore] node & browser now have the exact same "attaching" logic (as it should be)
 * [feat] better internal logging

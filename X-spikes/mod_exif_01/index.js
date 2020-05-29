@@ -5,7 +5,7 @@ const moment = require('moment')
 require('moment-timezone')
 const moment_business = require('moment-business')
 
-const { get_creation_date_from_exif, get_time_zone_from_exif } = require('../../5-incubator/active/photos-sorter/dist/src.es2018.cjs/services/exif.js')
+const { get_creation_date_from_exif, get_time_zone_from_exif } = require('../../5-incubator/active/photos-sorter/dist/src.es2019.cjs/services/exif.js')
 
 // The problem
 // https://momentjs.com/guides/#/parsing/local-utc-zone/

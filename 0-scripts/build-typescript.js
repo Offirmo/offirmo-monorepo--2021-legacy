@@ -27,8 +27,9 @@ const cli = meow('build', {
 const LATEST_ES = 'ES2019'
 const LATEST_ES_MODULES = 'ES2015'
 // https://nodejs.org/en/about/releases/
+const OLDEST_ACTIVE_NODE_LTS = '12' // for info
 // https://node.green/
-const LATEST_ES_OLDEST_ACTIVE_NODE_LTS = 'ES2018'
+const LATEST_ES_OLDEST_ACTIVE_NODE_LTS = 'ES2019'
 
 /////////////////////
 

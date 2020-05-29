@@ -8,7 +8,7 @@ import {
 	is_sandboxed,
 }
 from '../../src'
-//from '../../dist/src.es2018.cjs'
+//from '../../dist/src.es2019.cjs'
 
 interface LocalExtras {
 	foo: string

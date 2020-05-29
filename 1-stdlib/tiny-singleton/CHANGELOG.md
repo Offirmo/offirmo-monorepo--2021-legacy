@@ -4,6 +4,7 @@
 ## pending
 * TODO unit tests
 * TODO check the semantic (once?) + duplication handling
+* [chore] [breaking] cjs pre-build now targeting node12/ES2019 [details](../../CONTRIBUTING/module-exports.md)
 * [doc] README++
 * [feat] minor tweak to shave a few bytes
 * ...

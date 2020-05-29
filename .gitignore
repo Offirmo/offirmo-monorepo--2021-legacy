@@ -16,7 +16,7 @@ node_modules
 ## regenerable
 ## standard dist
 **/dist/src.es2019/
-**/dist/src.es2018.cjs/
+**/dist/src.es2019.cjs/
 ## non-standard dist
 4-tools/universal-debug-api-companion-webextension/dist/
 #apps/the-boring-rpg/functions/functions -> NO, to make them available in staging!

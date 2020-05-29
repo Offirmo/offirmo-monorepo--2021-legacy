@@ -20,8 +20,12 @@ Note: when updating here, also update `0-scripts/build-typescript.js`
 ES2020 approved
 https://github.com/tc39/ecma262/releases/tag/es2020
 
-### FUTURE update 2020-05-19
-Node 10 in maintenance mode https://nodejs.org/en/about/releases/
+### 2020-05-29
+Switching to supporting oldest node = 12
+since node 10 in maintenance mode since 2020-05-19 https://nodejs.org/en/about/releases/
+* latest ES = [ES2019](https://en.wikipedia.org/wiki/ECMAScript#Versions)
+* oldest active LTS node = [12](https://nodejs.org/en/about/releases/)
+* latest ES supported by this node LTS = [ES2019](https://node.green/#ES2018)
 
 ### update 2019-07-27
 * latest ES = [ES2019](https://en.wikipedia.org/wiki/ECMAScript#Versions)
@@ -31,4 +35,3 @@ Node 10 in maintenance mode https://nodejs.org/en/about/releases/
 ## TODO
 - TODO are refreshes major or minor?? Most likely major (see @sindre)
 - TODO new typescript ?
-

@@ -40,12 +40,12 @@
 
 		"build:dev:watch": "node ../../../0-scripts/build-typescript.js --watch",
 		"build:prod": "node ../../../0-scripts/build-typescript.js",
-		"build:netlify-functions": "rm -rf ./functions && netlify-lambda build ./dist/src.es2018.cjs --config ./webpack.config.ts",
+		"build:netlify-functions": "rm -rf ./functions && netlify-lambda build ./dist/src.es2019.cjs --config ./webpack.config.ts",
 		"ensure-size": "size-limit",
 
 		"dev": "run-s clean build:dev:watch",
-		"start": "source ~/.nvm/nvm.sh; nvm use 10.17; export NODE_ENV=development; nvm exec 10.17 node ./node_modules/.bin/netlify-lambda serve ./dist/src.es2018.cjs --config ./webpack.config.ts",
-		"test": "../../../node_modules/.bin/mocha --opts ../../../4-tools/unit-test-toolbox/mocha.opts ../../../4-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2018.cjs/**/*spec.js'",
+		"start": "source ~/.nvm/nvm.sh; nvm use 10.17; export NODE_ENV=development; nvm exec 10.17 node ./node_modules/.bin/netlify-lambda serve ./dist/src.es2019.cjs --config ./webpack.config.ts",
+		"test": "../../../node_modules/.bin/mocha --opts ../../../4-tools/unit-test-toolbox/mocha.opts ../../../4-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2019.cjs/**/*spec.js'",
 		"build": "run-s build:prod build:netlify-functions"
 	},
 	"devDependencies": {

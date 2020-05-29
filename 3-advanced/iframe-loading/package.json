@@ -8,8 +8,8 @@
 
 	"esnext": "dist/src.es2019/client/index.js",
 	"module": "dist/src.es2019/client/index.js",
-	"main": "dist/src.es2018.cjs/client/index.js",
-	"typings": "dist/src.es2018.cjs/client/index.d.ts",
+	"main": "dist/src.es2019.cjs/client/index.js",
+	"typings": "dist/src.es2019.cjs/client/index.d.ts",
 	"source": "src/client/index.ts",
 	"sideEffects": true,
 

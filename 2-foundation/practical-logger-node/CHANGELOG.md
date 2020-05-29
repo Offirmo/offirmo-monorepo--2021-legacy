@@ -3,6 +3,7 @@
 
 ## pending
 * TODO fix the "maximum call stack exceeded" when printing a SEC
+* [chore] [breaking] cjs pre-build now targeting node12/ES2019 [details](../../CONTRIBUTING/module-exports.md)
 * ...
 
 ## v0.0.5

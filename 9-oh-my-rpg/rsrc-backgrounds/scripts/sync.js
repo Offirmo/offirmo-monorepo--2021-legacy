@@ -5,7 +5,7 @@ const { dump_pretty_json } = require('@offirmo-private/prettify-json')
 const rich_text_to_ansi = require('@offirmo-private/rich-text-format-to-ansi')
 const fs = require('../../../../cli-toolbox/fs/extra')
 
-const { AUTHORS_BY_NAME, ELEMENTS, render_artwork_legend } = require('../dist/src.es2018.cjs')
+const { AUTHORS_BY_NAME, ELEMENTS, render_artwork_legend } = require('../dist/src.es2019.cjs')
 
 ////////////////////////////////////
 
