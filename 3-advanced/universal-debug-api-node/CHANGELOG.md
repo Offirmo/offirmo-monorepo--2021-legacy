@@ -2,6 +2,7 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
+NOTE: Reminder to increase REVISION when releasing!
 * TODO node & browser should share a lot of logic
 * [chore] [breaking] cjs pre-build now targeting node12/ES2019 [details](../../CONTRIBUTING/module-exports.md)
 * [chore] improved "attaching" logic with hints on setup error and improves some bad cases

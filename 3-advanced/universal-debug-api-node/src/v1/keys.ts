@@ -3,11 +3,10 @@ import { ENV_ROOT } from '../consts'
 export { ENV_ROOT } from '../consts'
 
 function normalizeKey(key: string): string {
-	key = key.split('-').join('_')
-	key = key.split('.').join('_')
-	key = key.split('⋄').join('_')
-
 	return key
+		.split('-').join('_')
+		.split('.').join('_')
+		.split('⋄').join('_')
 }
 
 export function getOverrideKeyForLogger(name: string): string {

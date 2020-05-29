@@ -21,7 +21,7 @@ function render_any(xprops) {
 	//console.log(`render_any "${id}"`, { children, render, props })
 
 	const ComponentOrFunctionOrAny = children || render || (
-		<span className={`o⋄error-report error-boundary-report--${name}`}>
+		<span className={`o⋄error-report error-boundary-report--${id}`}>
 			ErrorBoundary: no children nor render prop!
 		</span>
 	)

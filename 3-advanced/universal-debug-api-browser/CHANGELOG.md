@@ -2,6 +2,7 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
+NOTE: Reminder to increase REVISION when releasing!
 * TODO extract core implementation common bw node & browser?
 * TODO better handle no local storage
 * TODO handle iframes?

@@ -91,7 +91,7 @@ function compile(tscOptions, files, options) {
 
 					// listen to events
 					spawn_instance.on('error', err => {
-						fail(`Spawn: got event "err"`, err)
+						fail('Spawn: got event "err"', err)
 					})
 					spawn_instance.on('disconnect', () => {
 						console.log('Spawn: got event "disconnect"')
@@ -115,7 +115,7 @@ function compile(tscOptions, files, options) {
 					})
 					// mandatory for correct error detection
 					spawn_instance.stdin.on('error', err => {
-						fail(`got stdin event "error"`, err)
+						fail('got stdin event "error"', err)
 					})
 
 					spawn_instance.stdout.on('data', data => {
@@ -135,7 +135,7 @@ function compile(tscOptions, files, options) {
 					})
 					// mandatory for correct error detection
 					spawn_instance.stdout.on('error', err => {
-						fail(`got stdout event "error"`, err)
+						fail('got stdout event "error"', err)
 					})
 
 					spawn_instance.stderr.on('data', data => {
@@ -145,7 +145,7 @@ function compile(tscOptions, files, options) {
 					})
 					// mandatory for correct error detection
 					spawn_instance.stderr.on('error', err => {
-						fail(`got stderr event "error"`, err)
+						fail('got stderr event "error"', err)
 					})
 				})
 				.catch(reject) // ugly but due to complex "callback style" async code

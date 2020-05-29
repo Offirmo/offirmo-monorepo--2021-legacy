@@ -45,9 +45,9 @@ export default function create(): DebugApiV1 {
 	// TODO override?
 	// TODO allow off?
 	const _ownLogger: Logger = loggers[OWN_LOGGER_NAME] = createLogger({
-			name: OWN_LOGGER_NAME,
-			suggestedLevel: 'fatal', // level adjustable, see below
-		})
+		name: OWN_LOGGER_NAME,
+		suggestedLevel: 'fatal', // level adjustable, see below
+	})
 
 	function _getOverrideRequestedSJson(ovKey: string): null | string {
 		try {
@@ -160,7 +160,7 @@ export default function create(): DebugApiV1 {
 	}
 
 	function exposeInternal(path: string, value: any): void {
-		_ownLogger.warn(`exposeInternal(): alpha, not documented!`)
+		_ownLogger.warn('exposeInternal(): alpha, not documented!')
 		try {
 			const pathParts = path.split('.') // TODO switch to / ?
 			const lastIndex = pathParts.length - 1
@@ -175,13 +175,13 @@ export default function create(): DebugApiV1 {
 			})
 		}
 		catch (err) {
-			_ownLogger.error(`exposeInternal(): error exposing!`, { path, err })
+			_ownLogger.error('exposeInternal(): error exposing!', { path, err })
 		}
 	}
 
 	function addDebugCommand(commandName: string, callback: () => void) {
 		// TODO
-		_ownLogger.warn(`addDebugCommand(): alpha, not documented!`)
+		_ownLogger.warn('addDebugCommand(): alpha, not documented!')
 		// TODO try catch
 		debugCommands[commandName] = callback
 	}

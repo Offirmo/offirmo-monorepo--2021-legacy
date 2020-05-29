@@ -26,6 +26,9 @@ extension_inited.then((from: string) => {
 	is_extension_inited = true
 	console.log('🙈🙉 extension inited!', {from})
 })
+	.catch(err => {
+		console.error('🙈🙉 extension init failed?', {err})
+	})
 setTimeout(() => {
 	if (is_extension_inited) return
 

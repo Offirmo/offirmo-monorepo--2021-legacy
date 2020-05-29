@@ -8,7 +8,7 @@ import './index.css'
 
 ////////////
 
-console.log(`js`, {
+console.log('js', {
 	set_number_in_favicon,
 	/*'window.name': window.name,
 	'window.opener': window.opener,

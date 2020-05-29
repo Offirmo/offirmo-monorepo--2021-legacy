@@ -27,7 +27,6 @@ interface Builder {
 	pushHeading(str: string, options?: CommonOptions): Builder
 	pushHorizontalRule(): Builder
 	pushLineBreak(): Builder
-	pushHeading(str: string, options?: CommonOptions): Builder
 
 	pushKeyValue(key: Node | string, value: Node | string, options?: CommonOptions): Builder
 

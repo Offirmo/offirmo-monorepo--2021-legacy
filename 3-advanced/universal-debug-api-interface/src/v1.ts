@@ -10,6 +10,7 @@ interface DebugApi {
 	addDebugCommand: (name: string, callback: ( /* todo common libs as params ? */ ) => void) => void
 
 	// This is internal, undocumented, should not be used!
+	// For ex. the placeholder won't feture this
 	_?: {
 		exposed: any
 		overrides: { [k: string]: any }

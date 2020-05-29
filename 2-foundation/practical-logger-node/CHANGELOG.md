@@ -8,7 +8,7 @@
 
 ## v0.0.5
 2019/12/12
-* [feat] now enforce a size limit (important for lambda/functions)
+* [feat] now enforce a lib size limit (relevant for lambda/functions)
 * [chore] bumped dependencies
 * [chore] reorganized source paths = links update in the doc
 

@@ -24,7 +24,7 @@ root.v1 = ((existing) => {
 
 	if (!existing) {
 		ownLogger.log('nominal install ✅')
-		return candidate // nominal case, actual implementation is first
+		return candidate // nominal case, current = real implementation is first
 	}
 
 	// something is wrong,
@@ -41,9 +41,13 @@ root.v1 = ((existing) => {
 	ownLogger = existing.getLogger({name: OWN_LOGGER_NAME})
 	ownLogger.warn('install warning: several true implementation coexists, only the top module should import it. Check your submodules!')
 
-	const minVersion = Math.min(existing._!.minor, candidate._!.minor)
-	if (minVersion !== candidate._!.minor)
-		ownLogger.warn(`install warning: several true implementation coexists, including an outdated one: "v${minVersion}"!`)
+	try {
+		const minVersion = Math.min(existing._!.minor, candidate._!.minor)
+		if (minVersion !== candidate._!.minor)
+			ownLogger.warn(`install warning: several true implementation coexists, including an outdated one: "v${minVersion}"!`)
+	} catch (err) {
+		ownLogger.warn(err)
+	}
 
 	ownLogger.log('as a candidate, discarding myself: existing is good enough ✅')
 	return existing // don't replace

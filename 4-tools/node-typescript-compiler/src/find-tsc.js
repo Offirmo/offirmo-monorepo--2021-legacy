@@ -46,7 +46,7 @@ function find_tsc() {
 - ${candidate_from_require} (from require('typescript'))
 - ${candidate_from_global}
 			`)
-			throw new Error(`Couldn’t find a typescript compiler in any expected locations!`)
+			throw new Error('Couldn’t find a typescript compiler in any expected locations!')
 		})
 }
 
