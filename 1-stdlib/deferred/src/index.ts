@@ -21,7 +21,7 @@ export default class Deferred<T> {
 		return this.promise.then(onfulfilled, onrejected)
 	}
 
-	catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>)): Promise<T | TResult> {
+	catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult> {
 		return this.promise.catch(onrejected)
 	}
 
@@ -38,7 +38,7 @@ export default class Deferred<T> {
 	}
 
 	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/toStringTag
-	get [Symbol.toStringTag]() {
+	get [Symbol.toStringTag](): string {
 		return 'Deferred'
 	}
 }
