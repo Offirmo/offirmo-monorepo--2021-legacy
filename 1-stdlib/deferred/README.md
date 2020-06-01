@@ -47,11 +47,11 @@ import Deferred from '@offirmo/deferred'
 const promise = new Deferred<T>()
 
 // it's an unresolved promise, you can attach stuff
-promise.then(console.log)
+promise.then(console.log).catch(...)
 
 // later:
-promise._resolve(...)
-promise._reject(new Error('Foo!'))
+promise.resolve(...)
+promise.reject(new Error('Foo!'))
 ```
 
 ## Credits

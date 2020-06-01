@@ -1,4 +1,6 @@
 import poll_window_variable, { poll } from '@offirmo-private/poll-window-variable'
+import Deferred from '@offirmo/deferred'
+import { load_script_from_top, execute_from_top, get_log_prefix, get_top_window } from '@offirmo-private/xoff'
 
 import { ACCOUNT_STATE } from './game-instance-browser'
 import { set_user_context } from './raven'
@@ -24,7 +26,28 @@ function request_redirect(url) {
 
 	localStorage.setItem(REDIRECT_LS_KEY, JSON.stringify(redirect_request))
 }
-const NetlifyIdentity = poll_window_variable('netlifyIdentity', { timeoutMs: 5 * 60 * 1000 })
+
+const NetlifyIdentity = new Deferred()
+
+setTimeout(() => {
+	load_script_from_top('https://identity.netlify.com/v1/netlify-identity-widget.js')
+		.then((s) => {
+			console.log('✅ netlify script loaded from top')
+			execute_from_top((prefix) => {
+				console.log(`${prefix} Hello eval!`, window.netlifyIdentity, window.oᐧextra)
+				window.oᐧextra.netlifyIdentity = window.oᐧextra.netlifyIdentity || window.netlifyIdentity
+			}, get_log_prefix(get_top_window()) + '←' + get_log_prefix())
+			setTimeout(() => {
+				NetlifyIdentity.resolve(window.oᐧextra.netlifyIdentity)
+			}, 10)
+		})
+		.catch(err => {
+			console.error('netlify script failed to load:', err)
+			NetlifyIdentity.reject(err)
+		})
+})
+
+//const NetlifyIdentity = poll_window_variable('netlifyIdentity', { timeoutMs: 5 * 60 * 1000 })
 
 function init(SEC, game_instance) {
 	SEC.xTry('initializing user account', ({logger}) => {

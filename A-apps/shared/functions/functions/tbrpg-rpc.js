@@ -3950,11 +3950,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var typescript_string_enums__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(typescript_string_enums__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _offirmo_universal_debug_api_placeholder__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(22);
 
- // tslint:disable-next-line: variable-name
+
+const LIB = 'functions interface'; // tslint:disable-next-line: variable-name
 
 const ReleaseChannel = Object(typescript_string_enums__WEBPACK_IMPORTED_MODULE_0__["Enum"])('prod', 'staging', 'dev'); // tslint:disable-next-line: variable-name
 
 const Endpoint = Object(typescript_string_enums__WEBPACK_IMPORTED_MODULE_0__["Enum"])('echo', 'error', 'hello', 'report-error', 'tbrpg-rpc', 'test', 'whoami');
+function get_allowed_origin(channel) {
+  switch (channel) {
+    case 'dev':
+      return 'http://localhost:8080';
+
+    case 'staging':
+      return 'https://offirmo-monorepo.netlify.com';
+
+    case 'prod':
+      return 'https://www.online-adventur.es';
+
+    default:
+      throw new Error(`[${LIB}] no allowed origin for channel "${channel}"!`);
+  }
+}
 
 function _get_base_url(channel) {
   switch (channel) {
@@ -3968,25 +3984,11 @@ function _get_base_url(channel) {
       return 'https://www.online-adventur.es/.netlify/functions';
 
     default:
-      throw new Error(`functions interface: no base URL for channel "${channel}"!`);
+      if (channel === 'unknown') return 'http://test.test';
+      throw new Error(`[${LIB}] no base URL for channel "${channel}"!`);
   }
 }
 
-function get_allowed_origin(channel) {
-  switch (channel) {
-    case 'dev':
-      return 'http://localhost:8080';
-
-    case 'staging':
-      return 'https://offirmo-monorepo.netlify.com';
-
-    case 'prod':
-      return 'https://www.online-adventur.es';
-
-    default:
-      throw new Error(`functions interface: no allowed origin for channel "${channel}"!`);
-  }
-}
 function get_base_url(channel) {
   return Object(_offirmo_universal_debug_api_placeholder__WEBPACK_IMPORTED_MODULE_1__[/* overrideHook */ "b"])('fn-base-url', _get_base_url(channel));
 }
@@ -6128,6 +6130,7 @@ const PLUGINS = Object.values(PLUGINS_BY_ID);
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/common.js
 /* global NODE_ENV process */
 
+const CHANNEL_UNKNOWN = 'unknown';
 
 function decorateWithDetectedEnv(SEC) {
   const ENV = (() => {
@@ -6146,7 +6149,7 @@ function decorateWithDetectedEnv(SEC) {
 
   const IS_DEV_MODE = false;
   const IS_VERBOSE = false;
-  const CHANNEL = 'unknown';
+  const CHANNEL = CHANNEL_UNKNOWN;
   const SESSION_START_TIME = Object(generate["d" /* get_UTC_timestamp_ms */])();
   SEC.injectDependencies({
     ENV,
@@ -16550,10 +16553,10 @@ function use_middlewares_with_error_safety_net(event, badly_typed_context, middl
         try {
           try {
             if (typeof body !== 'string') throw new Error('Internal');else JSON.parse(body);
-          } catch (_a) {
+          } catch {
             body = JSON.stringify(body); // TODO stable
           }
-        } catch (_b) {
+        } catch {
           throw new Error('The middleware(s) returned a non-JSON-stringified body and it couldn’t be fixed automatically!');
         }
 
@@ -18828,10 +18831,7 @@ const ENV_ROOT = 'UDA';
 
 
 function normalizeKey(key) {
-  key = key.split('-').join('_');
-  key = key.split('.').join('_');
-  key = key.split('⋄').join('_');
-  return key;
+  return key.split('-').join('_').split('.').join('_').split('⋄').join('_');
 }
 
 function getOverrideKeyForLogger(name) {
@@ -19040,7 +19040,7 @@ root.v1 = (existing => {
 
   if (!existing) {
     ownLogger.log('nominal install ✅');
-    return candidate; // nominal case, actual implementation is first
+    return candidate; // nominal case, current = real implementation is first
   } // something is wrong,
   // help the user figure it out
 
@@ -19058,8 +19058,14 @@ root.v1 = (existing => {
     name: OWN_LOGGER_NAME
   });
   ownLogger.warn('install warning: several true implementation coexists, only the top module should import it. Check your submodules!');
-  const minVersion = Math.min(existing._.minor, candidate._.minor);
-  if (minVersion !== candidate._.minor) ownLogger.warn(`install warning: several true implementation coexists, including an outdated one: "v${minVersion}"!`);
+
+  try {
+    const minVersion = Math.min(existing._.minor, candidate._.minor);
+    if (minVersion !== candidate._.minor) ownLogger.warn(`install warning: several true implementation coexists, including an outdated one: "v${minVersion}"!`);
+  } catch (err) {
+    ownLogger.warn(err);
+  }
+
   ownLogger.log('as a candidate, discarding myself: existing is good enough ✅');
   return existing; // don't replace
 })(root.v1); //////////// latest ////////////
