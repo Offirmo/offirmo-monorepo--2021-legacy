@@ -12,6 +12,7 @@ import './services/raven'
 import Root from './components/root'
 //import 'react-circular-progressbar/dist/styles.css'
 import './index-2.css'
+import {get_xoff} from '@offirmo-private/xoff/src'
 
 //console.log('hello from index-2', { __filename })
 
@@ -38,15 +39,12 @@ setTimeout(() => ReactDOM.render(
 setTimeout(() => {
 	load_script_from_top('https://www.googletagmanager.com/gtag/js?id=UA-103238291-2')
 		.then(() => {
+			console.log('✅ analytics script loaded', s, window)
 			window.dataLayer = window.dataLayer || []
 			function gtag() { dataLayer.push(arguments) }
 			gtag('js', new Date())
 			gtag('config', 'UA-103238291-2')
 		})
-
-	load_script_from_top('https://identity.netlify.com/v1/netlify-identity-widget.js')
-		.then(() => {
-
-		})
+		.catch(err => console.error('analytics script failed to load:', err))
 })
 

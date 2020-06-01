@@ -11,8 +11,9 @@
 - 😷 chore: some internal refactors, bump dependencies
 
 ## v0.
-- coin loss
+- 🤩 feature: X new adventures featuring new coin loss! (now totalling X!)
 - 😅 fix: login and reload features are working again
+- 😅 fix: tweaks, typos, small bugs…
 
 
 ## v0.63.1

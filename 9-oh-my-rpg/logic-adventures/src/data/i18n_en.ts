@@ -1056,7 +1056,7 @@ Through this magical drink, you gain +{{attr}} {{attr_name}}!
 	`,
 
 	random_blessing: `
-You helped a village. The village’s elder grant you a blessing.
+You helped a village. The village’s elder grants you a blessing.
 She is very old and you are not very sure she knows what she’s doing…
 You find that you gained +{{attr}} {{attr_name}}!
 	`,
