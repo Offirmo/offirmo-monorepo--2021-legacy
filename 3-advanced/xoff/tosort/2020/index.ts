@@ -1,13 +1,11 @@
-// Must be Firefox ESR compatible!
+// Firefox ESR compatible!
 
 ////////////////////////////////////
 
 export interface OffirmoExtras {
-	// TODO those 2 props may be useless / redundant
 	top_win: Window // may be inaccessible! (cross origin/sandbox)
 	top_xoff_win: Window
-
-	xdepth: number, // pre-compiled for ease of use
+	xdepth: number,
 
 	// private:
 	// ...flags
@@ -149,7 +147,7 @@ function ensure_xoff(win: Window = window): OffirmoExtras {
 					writable: false,
 				},
 			}
-		//console.log({properties})
+		console.log({properties})
 		;(win as any)[PROP] = Object.create(root, properties)
 		//console.log(`${get_log_prefix(win)} ensure_xoff() installed`, { xdepth: get_xoff(win).xdepth, xoff: get_xoff(win) })
 	}
@@ -177,7 +175,18 @@ export function set_xoff_flag<T = boolean>(name: string, value: T, win: Window =
 }
 
 ////////////////////////////////////
-// needed to bypass X-Frame preventions
+
+/*
+export function reload_from_top(): void {
+	console.log('ⓧ reload_from_top()')
+	get_top_window().location.reload()
+}*/
+
+/*
+export function open_from_top(args: Parameters<typeof window.open>): ReturnType<typeof window.open> {
+	console.log('ⓧ open_from_top()', { ...args })
+	return get_top_window().open(...args)
+}*/
 
 export function load_script_from_top(url: string, target_win: Window = get_top_ish_window()): Promise<HTMLElementTagNameMap['script']> {
 	console.log(`${get_log_prefix()} load_script_from_top()`, { url, target_win })
@@ -219,9 +228,12 @@ export function load_script_from_top(url: string, target_win: Window = get_top_i
 	})
 }
 
+// needed to bypass X-Frame?
 function _stringify_fn_call<A, R>(fn: (...args: A[]) => R, ...args: A[]): string {
 	return `;(${String(fn)})(${args.map(p => typeof p === 'string' ? `"${p}"` : String(p)).join(',')})`
 }
+//console.log('XXX', _stringify_fn_call(console.log, [ 'foo', 'bar' ]))
+
 export function execute_from_top<A, R>(fn: (...args: A[]) => R, ...args: A[]): Promise<void> {
 	const target_win: Window = get_top_window()
 	const code = _stringify_fn_call(fn, ...args)
@@ -235,10 +247,24 @@ export function execute_from_top<A, R>(fn: (...args: A[]) => R, ...args: A[]): P
 	})
 }
 
+
+/*
+// TODO into a separate lib?
+type Netlify = any
+export function get_netlify_identity(args: Parameters<typeof window.open>): Promise<Netlify> {
+
+	poll_window_variable('netlifyIdentity', { timeoutMs: 2 * 60 * 1000 })
+		.then(NetlifyIdentity => {
+			console.info('Netlify Identity loaded ✅')
+
+}
+*/
+
 ////////////////////////////////////
 
 ensure_xoff()
 
+/*
 window.addEventListener('message', ({data, origin, source}) => {
 	console.log(`${get_log_prefix()} received pm`, { data, origin, source, depth: get_xoff_depth()})
 	if (data?.xoff?.code)
@@ -246,4 +272,4 @@ window.addEventListener('message', ({data, origin, source}) => {
 }, false);
 
 console.log(`${get_log_prefix()} is listening`)
-
+*/
