@@ -394,8 +394,8 @@
 	<script>
 		window.addEventListener('message', ({data, origin, source}) => {
 			console.log('⬆️ received', { data, origin, source })
-			if (data?.xoff?.code)
-				eval(data?.xoff?.code) // yeah baby!
+			if ((data.xoff || {}).code)
+				eval(data.xoff.code)
 		}, false);
 	</script>
 

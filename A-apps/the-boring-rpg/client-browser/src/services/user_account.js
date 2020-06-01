@@ -34,7 +34,7 @@ setTimeout(() => {
 		.then((s) => {
 			console.log('✅ netlify script loaded from top')
 			execute_from_top((prefix) => {
-				console.log(`${prefix} Hello eval!`, window.netlifyIdentity, window.oᐧextra)
+				console.log(`${prefix} following netlify loaded…`, window.netlifyIdentity, window.oᐧextra)
 				window.oᐧextra.netlifyIdentity = window.oᐧextra.netlifyIdentity || window.netlifyIdentity
 			}, get_log_prefix(get_top_window()) + '←' + get_log_prefix())
 			setTimeout(() => {

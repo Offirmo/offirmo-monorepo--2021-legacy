@@ -231,7 +231,7 @@ export function execute_from_top<A, R>(fn: (...args: A[]) => R, ...args: A[]): P
 			{ xoff: { code }},
 			window.document.location.origin,
 		)
-		//return eval(code) // yeah baby!
+		// TODO some sort of callback?
 	})
 }
 
@@ -241,8 +241,8 @@ ensure_xoff()
 
 window.addEventListener('message', ({data, origin, source}) => {
 	console.log(`${get_log_prefix()} received pm`, { data, origin, source, depth: get_xoff_depth()})
-	if (data?.xoff?.code)
-		eval(data?.xoff?.code) // yeah baby!
+	if ((data.xoff || {}).code)
+		eval(data.xoff.code)
 }, false);
 
 console.log(`${get_log_prefix()} is listening`)
