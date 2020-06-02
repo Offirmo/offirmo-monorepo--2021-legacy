@@ -17,6 +17,7 @@ import {get_xoff} from '@offirmo-private/xoff/src'
 //console.log('hello from index-2', { __filename })
 
 /////////////////////////////////////////////////
+setTimeout(() => console.log('——————— end of immediate synchronous code ———————'))
 
 set_xoff_flag('debug_render', overrideHook('should_trace_renders', false))
 set_xoff_flag('is_paused', overrideHook('should_start_paused', false))
@@ -39,7 +40,7 @@ setTimeout(() => ReactDOM.render(
 setTimeout(() => {
 	load_script_from_top('https://www.googletagmanager.com/gtag/js?id=UA-103238291-2')
 		.then((script) => {
-			console.log(`${get_log_prefix()} ✅ ↆanalytics_script loaded from top`, script, window)
+			console.log(`✅ analytics script loaded from top`, script, window)
 			execute_from_top((prefix) => {
 				console.log(`${prefix} following google loaded…`, window.dataLayer, window.oᐧextra)
 				window.dataLayer = window.dataLayer || []
@@ -47,7 +48,7 @@ setTimeout(() => {
 				gtag('js', new Date())
 				gtag('config', 'UA-103238291-2')
 				window.oᐧextra.gtag = gtag
-			}, get_log_prefix(get_top_window()) + '←' + get_log_prefix())
+			}, get_log_prefix(get_top_window()) + ' ← ' + get_log_prefix())
 		})
 		.catch(err => console.error('analytics script failed to load:', err))
-})
+}, 100)

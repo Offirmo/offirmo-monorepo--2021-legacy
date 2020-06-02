@@ -19,6 +19,7 @@ interface ScriptsMemo {
 	[k: string]: Promise<HTMLElementTagNameMap['script']>
 }
 interface Flags<T> {
+	// flagꓽdebug_xoff
 	// flagꓽdebug_render
 	[k: string]: T
 }
@@ -32,6 +33,8 @@ let document: never
 // note that should NEVER be accessed directly on another iframe without a try/catch
 // due to cross origin/sandbox
 const PROP = 'oᐧextra'
+const FLAG_DEBUG_XOFF = 'debug_xoff'
+const FLAG_DEBUG_RENDER = 'debug_render'
 
 ////////////////////////////////////
 /////// Accessors
@@ -47,16 +50,16 @@ function _get_xoff(win: Window = window): OffirmoExtras | undefined {
 }
 
 export function get_xoff<T = {}>(win: Window = window): OffirmoExtras & T {
-	const res = _get_xoff(win) as OffirmoExtras & T
+	const xoff = _get_xoff(win) as OffirmoExtras & T
 
-	if (!res)
+	if (!xoff)
 		throw new Error('ⓧ get_xoff(): not found on target!')
 
-	return res
+	return xoff
 }
 
-export function is_sandboxed(): boolean {
-	const { top_win } = get_xoff()
+export function is_sandboxed(win: Window = window): boolean {
+	const { top_win } = get_xoff(win)
 	return !_get_xoff(top_win)
 }
 
@@ -90,12 +93,15 @@ export function get_xoff_depth(win: Window = window): number {
 }
 
 export function get_log_prefix(win: Window = window): string {
-	const depth = get_xoff_depth(win)
-	return String.fromCodePoint(
-		depth === 0
-		? 0x24ea
-		: 0x245F + depth
-	)
+	const xoff = _get_xoff(win)
+	if (!xoff)
+		return 'ⓧ'
+
+	const xdepth = get_xoff_depth(win)
+	if (xdepth === 0)
+		return '⓪' // no zero, we use o
+
+	return String.fromCodePoint(0x245F + xdepth)
 }
 
 function get_script_memo_attribute(url: string): string {
@@ -139,7 +145,11 @@ function ensure_xoff(win: Window = window): OffirmoExtras {
 						value: win,
 						writable: false,
 					},
-					flagꓽdebug_render: {
+					[get_flag_attribute(FLAG_DEBUG_XOFF)]: {
+						value: false, // TODO load from LS
+						writable: true,
+					},
+					[get_flag_attribute(FLAG_DEBUG_RENDER)]: {
 						value: false,
 						writable: true,
 					},
@@ -154,12 +164,12 @@ function ensure_xoff(win: Window = window): OffirmoExtras {
 		//console.log(`${get_log_prefix(win)} ensure_xoff() installed`, { xdepth: get_xoff(win).xdepth, xoff: get_xoff(win) })
 	}
 
-	console.log(`${get_log_prefix(win)} ensure_xoff() ✔`, { win, xoff: get_xoff(win) })
+	if (get_xoff_flag(FLAG_DEBUG_XOFF, win)) console.log(`${get_log_prefix(win)} ensure_xoff() ✔`, { xoff: get_xoff(win) })
 	return get_xoff(win)
 }
 
 export function extend_xoff<T>(defaults: T, win: Window = window): T {
-	console.log(`${get_log_prefix(win)} extend_xoff()`, { defaults, win })
+	if (get_xoff_flag(FLAG_DEBUG_XOFF, win)) console.log(`${get_log_prefix(win)} extend_xoff()`, { defaults, win })
 
 	const xoff = get_xoff(win) as OffirmoExtras & T
 	Object
@@ -180,7 +190,7 @@ export function set_xoff_flag<T = boolean>(name: string, value: T, win: Window =
 // needed to bypass X-Frame preventions
 
 export function load_script_from_top(url: string, target_win: Window = get_top_ish_window()): Promise<HTMLElementTagNameMap['script']> {
-	console.log(`${get_log_prefix()} load_script_from_top()`, { url, target_win })
+	console.log(`${get_log_prefix()} → ${get_log_prefix(target_win)} load_script_from_top()`, { url })
 	return Promise.resolve().then(() => {
 		if (!_get_xoff(target_win))
 			throw new Error(`${get_log_prefix()} load_script_from_top(): invalid target window! (cross origin?)`)
@@ -205,7 +215,7 @@ export function load_script_from_top(url: string, target_win: Window = get_top_i
 
 			xoff_scripts[memo_attribute] = new Promise((resolve, reject) => {
 				script.onload = () => {
-					console.log(`${get_log_prefix()} script loaded from top`, url)
+					if (get_xoff_flag(FLAG_DEBUG_XOFF)) console.log(`${get_log_prefix()} script loaded from top`, url)
 					resolve(script)
 				}
 				script.onerror = (_m, _s, _l, _c, err) => {
@@ -225,7 +235,7 @@ function _stringify_fn_call<A, R>(fn: (...args: A[]) => R, ...args: A[]): string
 export function execute_from_top<A, R>(fn: (...args: A[]) => R, ...args: A[]): Promise<void> {
 	const target_win: Window = get_top_window()
 	const code = _stringify_fn_call(fn, ...args)
-	console.log(`${get_log_prefix()} execute_from_top`, get_xoff_depth(), 'to', get_xoff_depth(target_win), { target_win, target_xoff: get_xoff(target_win), fn, code })
+	console.log(`${get_log_prefix()} → ${get_log_prefix(target_win)} execute_from_top()`, { fn, code })
 	return Promise.resolve().then(() => {
 		target_win.postMessage(
 			{ xoff: { code }},
@@ -240,10 +250,10 @@ export function execute_from_top<A, R>(fn: (...args: A[]) => R, ...args: A[]): P
 ensure_xoff()
 
 window.addEventListener('message', ({data, origin, source}) => {
-	console.log(`${get_log_prefix()} received pm`, { data, origin, source, depth: get_xoff_depth()})
+	console.log(`${get_log_prefix()} received postm`, { data, origin, source, depth: get_xoff_depth()})
 	if ((data.xoff || {}).code)
 		eval(data.xoff.code)
 }, false);
 
-console.log(`${get_log_prefix()} is listening`)
+if (get_xoff_flag(FLAG_DEBUG_XOFF)) console.log(`${get_log_prefix()} is listening`)
 

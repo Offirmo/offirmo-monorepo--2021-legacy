@@ -36,7 +36,7 @@ setTimeout(() => {
 			execute_from_top((prefix) => {
 				console.log(`${prefix} following netlify loaded…`, window.netlifyIdentity, window.oᐧextra)
 				window.oᐧextra.netlifyIdentity = window.oᐧextra.netlifyIdentity || window.netlifyIdentity
-			}, get_log_prefix(get_top_window()) + '←' + get_log_prefix())
+			}, get_log_prefix(get_top_window()) + ' ← ' + get_log_prefix())
 			setTimeout(() => {
 				NetlifyIdentity.resolve(window.oᐧextra.netlifyIdentity)
 			}, 10)
@@ -45,7 +45,7 @@ setTimeout(() => {
 			console.error('netlify script failed to load:', err)
 			NetlifyIdentity.reject(err)
 		})
-})
+}, 100)
 
 //const NetlifyIdentity = poll_window_variable('netlifyIdentity', { timeoutMs: 5 * 60 * 1000 })
 

@@ -134,4 +134,13 @@ describe('@oh-my-rpg/logic-adventures - logic', function () {
 			expect(cgL2).to.equal(-2)
 		})
 	})
+
+	describe('stats', function() {
+		it('should help building the changelog', () => {
+			const total = ALL_ADVENTURE_ARCHETYPES.length
+			const previous_total = 187
+			if (total !== previous_total)
+				console.log(`- 🤩 feature: ${total - previous_total} new adventures (now totalling ${total}!)`)
+		})
+	})
 })
