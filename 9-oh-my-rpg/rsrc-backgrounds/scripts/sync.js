@@ -150,8 +150,7 @@ author_dirs.forEach(author_dir => {
 						? ' Previously known as: ' + rich_text_to_ansi(render_artwork_legend(existing_bg))
 						: '🆕'
 				)
-				dump_pretty_json('\n{', background)
-				break
+				/* fallthrough */
 			case 'dump':
 				dump_pretty_json('\n{', background)
 				console.log('},')
