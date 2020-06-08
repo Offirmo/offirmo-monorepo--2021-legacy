@@ -182,7 +182,7 @@
 		"tiny-invariant": "^1",
 		"ts-node": "^8",
 		"tslib": "^2",
-		"typescript": "3.8.3",
+		"typescript": "^3",
 		"typescript-string-enums": "^1",
 		"universal-analytics": "^0.4",
 		"username": "^5",

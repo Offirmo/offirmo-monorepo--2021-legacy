@@ -81,22 +81,34 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 488);
+/******/ 	return __webpack_require__(__webpack_require__.s = 518);
 /******/ })
 /************************************************************************/
 /******/ ({
 
 /***/ 0:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return LIB; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return INTERNAL_PROP; });
+const LIB = 'soft-execution-context';
+const INTERNAL_PROP = '_SEC';
+
+
+/***/ }),
+
+/***/ 1:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const ansiStyles = __webpack_require__(122);
-const {stdout: stdoutColor, stderr: stderrColor} = __webpack_require__(41);
+const ansiStyles = __webpack_require__(147);
+const {stdout: stdoutColor, stderr: stderrColor} = __webpack_require__(53);
 const {
 	stringReplaceAll,
 	stringEncaseCRLFWithFirstIndex
-} = __webpack_require__(126);
+} = __webpack_require__(151);
 
 // `supportsColor.level` → `ansiStyles.color[name]` mapping
 const levelMapping = [
@@ -298,7 +310,7 @@ const chalkTag = (chalk, ...strings) => {
 	}
 
 	if (template === undefined) {
-		template = __webpack_require__(127);
+		template = __webpack_require__(152);
 	}
 
 	return template(chalk, parts.join(''));
@@ -316,7 +328,1643 @@ module.exports = chalk;
 
 /***/ }),
 
-/***/ 10:
+/***/ 102:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+const anyMap = new WeakMap();
+const eventsMap = new WeakMap();
+const producersMap = new WeakMap();
+const anyProducer = Symbol('anyProducer');
+const resolvedPromise = Promise.resolve();
+
+const listenerAdded = Symbol('listenerAdded');
+const listenerRemoved = Symbol('listenerRemoved');
+
+function assertEventName(eventName) {
+	if (typeof eventName !== 'string' && typeof eventName !== 'symbol') {
+		throw new TypeError('eventName must be a string or a symbol');
+	}
+}
+
+function assertListener(listener) {
+	if (typeof listener !== 'function') {
+		throw new TypeError('listener must be a function');
+	}
+}
+
+function getListeners(instance, eventName) {
+	const events = eventsMap.get(instance);
+	if (!events.has(eventName)) {
+		events.set(eventName, new Set());
+	}
+
+	return events.get(eventName);
+}
+
+function getEventProducers(instance, eventName) {
+	const key = typeof eventName === 'string' ? eventName : anyProducer;
+	const producers = producersMap.get(instance);
+	if (!producers.has(key)) {
+		producers.set(key, new Set());
+	}
+
+	return producers.get(key);
+}
+
+function enqueueProducers(instance, eventName, eventData) {
+	const producers = producersMap.get(instance);
+	if (producers.has(eventName)) {
+		for (const producer of producers.get(eventName)) {
+			producer.enqueue(eventData);
+		}
+	}
+
+	if (producers.has(anyProducer)) {
+		const item = Promise.all([eventName, eventData]);
+		for (const producer of producers.get(anyProducer)) {
+			producer.enqueue(item);
+		}
+	}
+}
+
+function iterator(instance, eventNames) {
+	eventNames = Array.isArray(eventNames) ? eventNames : [eventNames];
+
+	let isFinished = false;
+	let flush = () => {};
+	let queue = [];
+
+	const producer = {
+		enqueue(item) {
+			queue.push(item);
+			flush();
+		},
+		finish() {
+			isFinished = true;
+			flush();
+		}
+	};
+
+	for (const eventName of eventNames) {
+		getEventProducers(instance, eventName).add(producer);
+	}
+
+	return {
+		async next() {
+			if (!queue) {
+				return {done: true};
+			}
+
+			if (queue.length === 0) {
+				if (isFinished) {
+					queue = undefined;
+					return this.next();
+				}
+
+				await new Promise(resolve => {
+					flush = resolve;
+				});
+
+				return this.next();
+			}
+
+			return {
+				done: false,
+				value: await queue.shift()
+			};
+		},
+
+		async return(value) {
+			queue = undefined;
+
+			for (const eventName of eventNames) {
+				getEventProducers(instance, eventName).delete(producer);
+			}
+
+			flush();
+
+			return arguments.length > 0 ?
+				{done: true, value: await value} :
+				{done: true};
+		},
+
+		[Symbol.asyncIterator]() {
+			return this;
+		}
+	};
+}
+
+function defaultMethodNamesOrAssert(methodNames) {
+	if (methodNames === undefined) {
+		return allEmitteryMethods;
+	}
+
+	if (!Array.isArray(methodNames)) {
+		throw new TypeError('`methodNames` must be an array of strings');
+	}
+
+	for (const methodName of methodNames) {
+		if (!allEmitteryMethods.includes(methodName)) {
+			if (typeof methodName !== 'string') {
+				throw new TypeError('`methodNames` element must be a string');
+			}
+
+			throw new Error(`${methodName} is not Emittery method`);
+		}
+	}
+
+	return methodNames;
+}
+
+const isListenerSymbol = symbol => symbol === listenerAdded || symbol === listenerRemoved;
+
+class Emittery {
+	static mixin(emitteryPropertyName, methodNames) {
+		methodNames = defaultMethodNamesOrAssert(methodNames);
+		return target => {
+			if (typeof target !== 'function') {
+				throw new TypeError('`target` must be function');
+			}
+
+			for (const methodName of methodNames) {
+				if (target.prototype[methodName] !== undefined) {
+					throw new Error(`The property \`${methodName}\` already exists on \`target\``);
+				}
+			}
+
+			function getEmitteryProperty() {
+				Object.defineProperty(this, emitteryPropertyName, {
+					enumerable: false,
+					value: new Emittery()
+				});
+				return this[emitteryPropertyName];
+			}
+
+			Object.defineProperty(target.prototype, emitteryPropertyName, {
+				enumerable: false,
+				get: getEmitteryProperty
+			});
+
+			const emitteryMethodCaller = methodName => function (...args) {
+				return this[emitteryPropertyName][methodName](...args);
+			};
+
+			for (const methodName of methodNames) {
+				Object.defineProperty(target.prototype, methodName, {
+					enumerable: false,
+					value: emitteryMethodCaller(methodName)
+				});
+			}
+
+			return target;
+		};
+	}
+
+	constructor() {
+		anyMap.set(this, new Set());
+		eventsMap.set(this, new Map());
+		producersMap.set(this, new Map());
+	}
+
+	on(eventNames, listener) {
+		assertListener(listener);
+
+		eventNames = Array.isArray(eventNames) ? eventNames : [eventNames];
+		for (const eventName of eventNames) {
+			assertEventName(eventName);
+			getListeners(this, eventName).add(listener);
+
+			if (!isListenerSymbol(eventName)) {
+				this.emit(listenerAdded, {eventName, listener});
+			}
+		}
+
+		return this.off.bind(this, eventNames, listener);
+	}
+
+	off(eventNames, listener) {
+		assertListener(listener);
+
+		eventNames = Array.isArray(eventNames) ? eventNames : [eventNames];
+		for (const eventName of eventNames) {
+			assertEventName(eventName);
+			getListeners(this, eventName).delete(listener);
+
+			if (!isListenerSymbol(eventName)) {
+				this.emit(listenerRemoved, {eventName, listener});
+			}
+		}
+	}
+
+	once(eventNames) {
+		return new Promise(resolve => {
+			const off = this.on(eventNames, data => {
+				off();
+				resolve(data);
+			});
+		});
+	}
+
+	events(eventNames) {
+		eventNames = Array.isArray(eventNames) ? eventNames : [eventNames];
+		for (const eventName of eventNames) {
+			assertEventName(eventName);
+		}
+
+		return iterator(this, eventNames);
+	}
+
+	async emit(eventName, eventData) {
+		assertEventName(eventName);
+
+		enqueueProducers(this, eventName, eventData);
+
+		const listeners = getListeners(this, eventName);
+		const anyListeners = anyMap.get(this);
+		const staticListeners = [...listeners];
+		const staticAnyListeners = isListenerSymbol(eventName) ? [] : [...anyListeners];
+
+		await resolvedPromise;
+		await Promise.all([
+			...staticListeners.map(async listener => {
+				if (listeners.has(listener)) {
+					return listener(eventData);
+				}
+			}),
+			...staticAnyListeners.map(async listener => {
+				if (anyListeners.has(listener)) {
+					return listener(eventName, eventData);
+				}
+			})
+		]);
+	}
+
+	async emitSerial(eventName, eventData) {
+		assertEventName(eventName);
+
+		const listeners = getListeners(this, eventName);
+		const anyListeners = anyMap.get(this);
+		const staticListeners = [...listeners];
+		const staticAnyListeners = [...anyListeners];
+
+		await resolvedPromise;
+		/* eslint-disable no-await-in-loop */
+		for (const listener of staticListeners) {
+			if (listeners.has(listener)) {
+				await listener(eventData);
+			}
+		}
+
+		for (const listener of staticAnyListeners) {
+			if (anyListeners.has(listener)) {
+				await listener(eventName, eventData);
+			}
+		}
+		/* eslint-enable no-await-in-loop */
+	}
+
+	onAny(listener) {
+		assertListener(listener);
+		anyMap.get(this).add(listener);
+		this.emit(listenerAdded, {listener});
+		return this.offAny.bind(this, listener);
+	}
+
+	anyEvent() {
+		return iterator(this);
+	}
+
+	offAny(listener) {
+		assertListener(listener);
+		this.emit(listenerRemoved, {listener});
+		anyMap.get(this).delete(listener);
+	}
+
+	clearListeners(eventNames) {
+		eventNames = Array.isArray(eventNames) ? eventNames : [eventNames];
+
+		for (const eventName of eventNames) {
+			if (typeof eventName === 'string') {
+				getListeners(this, eventName).clear();
+
+				const producers = getEventProducers(this, eventName);
+
+				for (const producer of producers) {
+					producer.finish();
+				}
+
+				producers.clear();
+			} else {
+				anyMap.get(this).clear();
+
+				for (const listeners of eventsMap.get(this).values()) {
+					listeners.clear();
+				}
+
+				for (const producers of producersMap.get(this).values()) {
+					for (const producer of producers) {
+						producer.finish();
+					}
+
+					producers.clear();
+				}
+			}
+		}
+	}
+
+	listenerCount(eventNames) {
+		eventNames = Array.isArray(eventNames) ? eventNames : [eventNames];
+		let count = 0;
+
+		for (const eventName of eventNames) {
+			if (typeof eventName === 'string') {
+				count += anyMap.get(this).size + getListeners(this, eventName).size +
+					getEventProducers(this, eventName).size + getEventProducers(this).size;
+				continue;
+			}
+
+			if (typeof eventName !== 'undefined') {
+				assertEventName(eventName);
+			}
+
+			count += anyMap.get(this).size;
+
+			for (const value of eventsMap.get(this).values()) {
+				count += value.size;
+			}
+
+			for (const value of producersMap.get(this).values()) {
+				count += value.size;
+			}
+		}
+
+		return count;
+	}
+
+	bindMethods(target, methodNames) {
+		if (typeof target !== 'object' || target === null) {
+			throw new TypeError('`target` must be an object');
+		}
+
+		methodNames = defaultMethodNamesOrAssert(methodNames);
+
+		for (const methodName of methodNames) {
+			if (target[methodName] !== undefined) {
+				throw new Error(`The property \`${methodName}\` already exists on \`target\``);
+			}
+
+			Object.defineProperty(target, methodName, {
+				enumerable: false,
+				value: this[methodName].bind(this)
+			});
+		}
+	}
+}
+
+const allEmitteryMethods = Object.getOwnPropertyNames(Emittery.prototype).filter(v => v !== 'constructor');
+
+// Subclass used to encourage TS users to type their events.
+Emittery.Typed = class extends Emittery {};
+Object.defineProperty(Emittery.Typed, 'Typed', {
+	enumerable: false,
+	value: undefined
+});
+
+Object.defineProperty(Emittery, 'listenerAdded', {
+	value: listenerAdded,
+	writable: false,
+	enumerable: true,
+	configurable: false
+});
+Object.defineProperty(Emittery, 'listenerRemoved', {
+	value: listenerRemoved,
+	writable: false,
+	enumerable: true,
+	configurable: false
+});
+
+module.exports = Emittery;
+
+
+/***/ }),
+
+/***/ 104:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+// UNUSED EXPORTS: createSink
+
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/chalk/source/index.js
+var source = __webpack_require__(1);
+var source_default = /*#__PURE__*/__webpack_require__.n(source);
+
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-foundation/practical-logger-core/dist/src.es2019/consts.js
+var consts = __webpack_require__(18);
+
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-foundation/practical-logger-node/dist/src.es2019/sinks/common.js
+
+
+const MIN_WIDTH = 7;
+
+function to_aligned_ascii(level) {
+  let lvl = level.toUpperCase();
+  /*while (lvl.length <= MIN_WIDTH - 2) {
+      lvl = ' ' + lvl + ' '
+  }*/
+
+  if (lvl.length < MIN_WIDTH) lvl = (lvl + '         ').slice(0, MIN_WIDTH);
+  return lvl;
+}
+
+const LEVEL_TO_ASCII = {
+  fatal: source_default.a.bgRed.white.bold(to_aligned_ascii(' ' + consts["c" /* LOG_LEVEL_TO_HUMAN */]['fatal'])),
+  emerg: source_default.a.bgRed.white.bold(to_aligned_ascii(consts["c" /* LOG_LEVEL_TO_HUMAN */]['emerg'])),
+  alert: source_default.a.bgRed.white.bold(to_aligned_ascii(' ' + consts["c" /* LOG_LEVEL_TO_HUMAN */]['alert'])),
+  crit: source_default.a.bgRed.white.bold(to_aligned_ascii(consts["c" /* LOG_LEVEL_TO_HUMAN */]['crit'])),
+  error: source_default.a.red.bold(to_aligned_ascii(consts["c" /* LOG_LEVEL_TO_HUMAN */]['error'])),
+  warning: source_default.a.yellow.bold(to_aligned_ascii(consts["c" /* LOG_LEVEL_TO_HUMAN */]['warning'])),
+  warn: source_default.a.yellow.bold(to_aligned_ascii(consts["c" /* LOG_LEVEL_TO_HUMAN */]['warn'])),
+  notice: source_default.a.blue(to_aligned_ascii(consts["c" /* LOG_LEVEL_TO_HUMAN */]['notice'])),
+  info: source_default.a.blue(to_aligned_ascii(consts["c" /* LOG_LEVEL_TO_HUMAN */]['info'])),
+  verbose: to_aligned_ascii(consts["c" /* LOG_LEVEL_TO_HUMAN */]['verbose']),
+  log: to_aligned_ascii(consts["c" /* LOG_LEVEL_TO_HUMAN */]['log']),
+  debug: to_aligned_ascii(consts["c" /* LOG_LEVEL_TO_HUMAN */]['debug']),
+  trace: source_default.a.dim(to_aligned_ascii(consts["c" /* LOG_LEVEL_TO_HUMAN */]['trace'])),
+  silly: source_default.a.dim(to_aligned_ascii(consts["c" /* LOG_LEVEL_TO_HUMAN */]['silly']))
+};
+const LEVEL_TO_STYLIZE = {
+  fatal: s => source_default.a.red.bold(s),
+  emerg: s => source_default.a.red.bold(s),
+  alert: s => source_default.a.red.bold(s),
+  crit: s => source_default.a.red.bold(s),
+  error: s => source_default.a.red.bold(s),
+  warning: s => source_default.a.yellow(s),
+  warn: s => source_default.a.yellow(s),
+  notice: s => source_default.a.blue(s),
+  info: s => source_default.a.blue(s),
+  verbose: s => s,
+  log: s => s,
+  debug: s => s,
+  trace: s => source_default.a.dim(s),
+  silly: s => source_default.a.dim(s)
+};
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-foundation/practical-logger-node/dist/src.es2019/sinks/to-console.js
+/* eslint-disable no-console */
+
+
+const COMMON_ERROR_FIELDS = [// standard fields
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
+'name', 'message', // quasi-standard
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
+'stack', // standard in node
+'code', // https://nodejs.org/dist/latest/docs/api/errors.html#errors_node_js_error_codes
+// non standard but widely used
+'statusCode', 'shouldRedirect', 'framesToPop', // My (Offirmo) extensions
+'details', 'SEC', '_temp'];
+
+function displayErrProp(errLike, prop) {
+  if (prop === 'details') {
+    const details = errLike.details;
+    console.error(source_default.a.red(source_default.a.dim(`🔥  ${prop}:`)));
+    Object.entries(details).forEach(([key, value]) => {
+      console.error(source_default.a.red(source_default.a.dim(`    ${key}: "`) + value + source_default.a.dim('"')));
+    });
+  } else console.error(source_default.a.red(source_default.a.dim(`🔥  ${prop}: "`) + errLike[prop] + source_default.a.dim('"')));
+}
+
+function displayError(errLike = {}) {
+  console.error(source_default.a.red(`🔥🔥🔥🔥🔥🔥🔥  ${source_default.a.bold(errLike.name || 'Error')} 🔥🔥🔥🔥🔥🔥🔥`));
+  const displayedProps = new Set();
+  displayedProps.add('name');
+
+  if (errLike.message) {
+    displayErrProp(errLike, 'message');
+    displayedProps.add('message');
+  }
+
+  if (errLike.details) {
+    displayErrProp(errLike, 'details');
+    displayedProps.add('details');
+  }
+
+  if (errLike.logicalStack) {
+    displayErrProp(errLike, 'logicalStack');
+    displayedProps.add('logicalStack');
+  }
+
+  COMMON_ERROR_FIELDS.forEach(prop => {
+    if (prop in errLike && !displayedProps.has(prop)) {
+      displayErrProp(errLike, prop);
+    }
+  });
+}
+
+function createSink(options = {}) {
+  const displayTime = options.displayTime || false;
+  return payload => {
+    const {
+      level,
+      name,
+      msg,
+      time,
+      details,
+      err
+    } = payload;
+    const prettified_details = JSON.stringify(details);
+    const line = '' // TODO evaluate if time display is needed
+    + (displayTime ? source_default.a.dim(String(time)) + ' ' : '') + LEVEL_TO_ASCII[level] + '› ' + LEVEL_TO_STYLIZE[level]('' + name + (name ? '›' : '') + (msg ? ' ' : '') + msg) + (prettified_details !== '{}' ? ' ' + prettified_details : '');
+    console.log(line); // eslint-disable-line no-console
+
+    if (err) displayError(err);
+  };
+}
+/* harmony default export */ var to_console = __webpack_exports__["a"] = (createSink);
+
+/***/ }),
+
+/***/ 105:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = (flag, argv = process.argv) => {
+	const prefix = flag.startsWith('-') ? '' : (flag.length === 1 ? '-' : '--');
+	const position = argv.indexOf(prefix + flag);
+	const terminatorPosition = argv.indexOf('--');
+	return position !== -1 && (terminatorPosition === -1 || position < terminatorPosition);
+};
+
+
+/***/ }),
+
+/***/ 106:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.on_user_recognized = exports.on_error = void 0; // https://docs.sentry.io/error-reporting/quickstart/?platform=node
+// https://httptoolkit.tech/blog/netlify-function-error-reporting-with-sentry/
+
+const Sentry = __webpack_require__(140);
+
+const channel_1 = __webpack_require__(25);
+
+Sentry.init({
+  // http://getsentry.github.io/sentry-javascript/interfaces/node.nodeoptions.html
+  dsn: 'https://a86696dcd573448a8fcc3bd7151349b4@sentry.io/1772719',
+  debug: "production" === 'development',
+  //release TODO
+  environment: channel_1.CHANNEL,
+  attachStacktrace: true,
+  //shutdownTimeout TODO needed ?
+  integrations: default_integrations => {
+    // please Sentry! I don't want your crappy integrations!
+    //console.log(default_integrations)
+    // https://docs.sentry.io/platforms/node/#removing-an-integration
+    return [];
+  }
+});
+Sentry.configureScope(scope => {
+  scope.setExtra('channel', channel_1.CHANNEL);
+  scope.setExtra('node', process.versions.node); // TODO node version etc. ?
+});
+
+async function on_error(err) {
+  console.log('💣 Reporting to Sentry...', err.message); // TODO inspect the SEC?
+
+  Sentry.captureException(err);
+  await Sentry.flush();
+}
+
+exports.on_error = on_error; // https://docs.sentry.io/enriching-error-data/context/?platform=node#capturing-the-user
+// TODO shared across invocations??
+
+function on_user_recognized(user) {
+  Sentry.configureScope(scope => {
+    scope.setUser(user);
+  });
+}
+
+exports.on_user_recognized = on_user_recognized; // TODO self-triage?
+// https://docs.sentry.io/enriching-error-data/context/?platform=node#setting-the-level
+// TODO breadcrumb
+
+/***/ }),
+
+/***/ 107:
+/***/ (function(module, exports) {
+
+module.exports = function(originalModule) {
+	if (!originalModule.webpackPolyfill) {
+		var module = Object.create(originalModule);
+		// module.parent = undefined by default
+		if (!module.children) module.children = [];
+		Object.defineProperty(module, "loaded", {
+			enumerable: true,
+			get: function() {
+				return module.l;
+			}
+		});
+		Object.defineProperty(module, "id", {
+			enumerable: true,
+			get: function() {
+				return module.i;
+			}
+		});
+		Object.defineProperty(module, "exports", {
+			enumerable: true
+		});
+		module.webpackPolyfill = 1;
+	}
+	return module;
+};
+
+
+/***/ }),
+
+/***/ 108:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+const events_1 = __webpack_require__(13);
+const promisify_1 = __importDefault(__webpack_require__(109));
+function isAgentBase(v) {
+    return Boolean(v) && typeof v.addRequest === 'function';
+}
+function isHttpAgent(v) {
+    return Boolean(v) && typeof v.addRequest === 'function';
+}
+function isSecureEndpoint() {
+    const { stack } = new Error();
+    if (typeof stack !== 'string')
+        return false;
+    return stack.split('\n').some(l => l.indexOf('(https.js:') !== -1);
+}
+function createAgent(callback, opts) {
+    return new createAgent.Agent(callback, opts);
+}
+(function (createAgent) {
+    /**
+     * Base `http.Agent` implementation.
+     * No pooling/keep-alive is implemented by default.
+     *
+     * @param {Function} callback
+     * @api public
+     */
+    class Agent extends events_1.EventEmitter {
+        constructor(callback, _opts) {
+            super();
+            // The callback gets promisified lazily
+            this.promisifiedCallback = undefined;
+            let opts = _opts;
+            if (typeof callback === 'function') {
+                this.callback = callback;
+            }
+            else if (callback) {
+                opts = callback;
+            }
+            // timeout for the socket to be returned from the callback
+            this.timeout = null;
+            if (opts && typeof opts.timeout === 'number') {
+                this.timeout = opts.timeout;
+            }
+            this.options = opts || {};
+            this.maxFreeSockets = 1;
+            this.maxSockets = 1;
+            this.sockets = [];
+            this.requests = [];
+        }
+        get defaultPort() {
+            if (typeof this.explicitDefaultPort === 'number') {
+                return this.explicitDefaultPort;
+            }
+            else {
+                return isSecureEndpoint() ? 443 : 80;
+            }
+        }
+        set defaultPort(v) {
+            this.explicitDefaultPort = v;
+        }
+        get protocol() {
+            if (typeof this.explicitProtocol === 'string') {
+                return this.explicitProtocol;
+            }
+            else {
+                return isSecureEndpoint() ? 'https:' : 'http:';
+            }
+        }
+        set protocol(v) {
+            this.explicitProtocol = v;
+        }
+        callback(req, opts, fn) {
+            throw new Error('"agent-base" has no default implementation, you must subclass and override `callback()`');
+        }
+        /**
+         * Called by node-core's "_http_client.js" module when creating
+         * a new HTTP request with this Agent instance.
+         *
+         * @api public
+         */
+        addRequest(req, _opts) {
+            const ownOpts = Object.assign({}, _opts);
+            if (typeof ownOpts.secureEndpoint !== 'boolean') {
+                ownOpts.secureEndpoint = isSecureEndpoint();
+            }
+            // Set default `host` for HTTP to localhost
+            if (ownOpts.host == null) {
+                ownOpts.host = 'localhost';
+            }
+            // Set default `port` for HTTP if none was explicitly specified
+            if (ownOpts.port == null) {
+                ownOpts.port = ownOpts.secureEndpoint ? 443 : 80;
+            }
+            const opts = Object.assign(Object.assign({}, this.options), ownOpts);
+            if (opts.host && opts.path) {
+                // If both a `host` and `path` are specified then it's most likely the
+                // result of a `url.parse()` call... we need to remove the `path` portion so
+                // that `net.connect()` doesn't attempt to open that as a unix socket file.
+                delete opts.path;
+            }
+            delete opts.agent;
+            delete opts.hostname;
+            delete opts._defaultAgent;
+            delete opts.defaultPort;
+            delete opts.createConnection;
+            // Hint to use "Connection: close"
+            // XXX: non-documented `http` module API :(
+            req._last = true;
+            req.shouldKeepAlive = false;
+            // Create the `stream.Duplex` instance
+            let timedOut = false;
+            let timeout = null;
+            const timeoutMs = this.timeout;
+            const freeSocket = this.freeSocket;
+            function onerror(err) {
+                if (req._hadError)
+                    return;
+                req.emit('error', err);
+                // For Safety. Some additional errors might fire later on
+                // and we need to make sure we don't double-fire the error event.
+                req._hadError = true;
+            }
+            function ontimeout() {
+                timeout = null;
+                timedOut = true;
+                const err = new Error(`A "socket" was not created for HTTP request before ${timeoutMs}ms`);
+                err.code = 'ETIMEOUT';
+                onerror(err);
+            }
+            function callbackError(err) {
+                if (timedOut)
+                    return;
+                if (timeout !== null) {
+                    clearTimeout(timeout);
+                    timeout = null;
+                }
+                onerror(err);
+            }
+            function onsocket(socket) {
+                let sock;
+                function onfree() {
+                    freeSocket(sock, opts);
+                }
+                if (timedOut)
+                    return;
+                if (timeout != null) {
+                    clearTimeout(timeout);
+                    timeout = null;
+                }
+                if (isAgentBase(socket) || isHttpAgent(socket)) {
+                    // `socket` is actually an `http.Agent` instance, so
+                    // relinquish responsibility for this `req` to the Agent
+                    // from here on
+                    socket.addRequest(req, opts);
+                    return;
+                }
+                if (socket) {
+                    sock = socket;
+                    sock.on('free', onfree);
+                    req.onSocket(sock);
+                    return;
+                }
+                const err = new Error(`no Duplex stream was returned to agent-base for \`${req.method} ${req.path}\``);
+                onerror(err);
+            }
+            if (typeof this.callback !== 'function') {
+                onerror(new Error('`callback` is not defined'));
+                return;
+            }
+            if (!this.promisifiedCallback) {
+                if (this.callback.length >= 3) {
+                    // Legacy callback function - convert to a Promise
+                    this.promisifiedCallback = promisify_1.default(this.callback);
+                }
+                else {
+                    this.promisifiedCallback = this.callback;
+                }
+            }
+            if (typeof timeoutMs === 'number' && timeoutMs > 0) {
+                timeout = setTimeout(ontimeout, timeoutMs);
+            }
+            if ('port' in opts && typeof opts.port !== 'number') {
+                opts.port = Number(opts.port);
+            }
+            try {
+                Promise.resolve(this.promisifiedCallback(req, opts)).then(onsocket, callbackError);
+            }
+            catch (err) {
+                Promise.reject(err).catch(callbackError);
+            }
+        }
+        freeSocket(socket, opts) {
+            // TODO reuse sockets
+            socket.destroy();
+        }
+        destroy() { }
+    }
+    createAgent.Agent = Agent;
+})(createAgent || (createAgent = {}));
+// So that `instanceof` works correctly
+createAgent.prototype = createAgent.Agent.prototype;
+module.exports = createAgent;
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ 109:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+function promisify(fn) {
+    return function (req, opts) {
+        return new Promise((resolve, reject) => {
+            fn.call(this, req, opts, (err, rtn) => {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    resolve(rtn);
+                }
+            });
+        });
+    };
+}
+exports.default = promisify;
+//# sourceMappingURL=promisify.js.map
+
+/***/ }),
+
+/***/ 11:
+/***/ (function(module, exports) {
+
+module.exports = require("path");
+
+/***/ }),
+
+/***/ 110:
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Detect Electron renderer / nwjs process, which is node, but we should
+ * treat as a browser.
+ */
+
+if (typeof process === 'undefined' || process.type === 'renderer' || process.browser === true || process.__nwjs) {
+	module.exports = __webpack_require__(111);
+} else {
+	module.exports = __webpack_require__(113);
+}
+
+
+/***/ }),
+
+/***/ 111:
+/***/ (function(module, exports, __webpack_require__) {
+
+/* eslint-env browser */
+
+/**
+ * This is the web browser implementation of `debug()`.
+ */
+
+exports.log = log;
+exports.formatArgs = formatArgs;
+exports.save = save;
+exports.load = load;
+exports.useColors = useColors;
+exports.storage = localstorage();
+
+/**
+ * Colors.
+ */
+
+exports.colors = [
+	'#0000CC',
+	'#0000FF',
+	'#0033CC',
+	'#0033FF',
+	'#0066CC',
+	'#0066FF',
+	'#0099CC',
+	'#0099FF',
+	'#00CC00',
+	'#00CC33',
+	'#00CC66',
+	'#00CC99',
+	'#00CCCC',
+	'#00CCFF',
+	'#3300CC',
+	'#3300FF',
+	'#3333CC',
+	'#3333FF',
+	'#3366CC',
+	'#3366FF',
+	'#3399CC',
+	'#3399FF',
+	'#33CC00',
+	'#33CC33',
+	'#33CC66',
+	'#33CC99',
+	'#33CCCC',
+	'#33CCFF',
+	'#6600CC',
+	'#6600FF',
+	'#6633CC',
+	'#6633FF',
+	'#66CC00',
+	'#66CC33',
+	'#9900CC',
+	'#9900FF',
+	'#9933CC',
+	'#9933FF',
+	'#99CC00',
+	'#99CC33',
+	'#CC0000',
+	'#CC0033',
+	'#CC0066',
+	'#CC0099',
+	'#CC00CC',
+	'#CC00FF',
+	'#CC3300',
+	'#CC3333',
+	'#CC3366',
+	'#CC3399',
+	'#CC33CC',
+	'#CC33FF',
+	'#CC6600',
+	'#CC6633',
+	'#CC9900',
+	'#CC9933',
+	'#CCCC00',
+	'#CCCC33',
+	'#FF0000',
+	'#FF0033',
+	'#FF0066',
+	'#FF0099',
+	'#FF00CC',
+	'#FF00FF',
+	'#FF3300',
+	'#FF3333',
+	'#FF3366',
+	'#FF3399',
+	'#FF33CC',
+	'#FF33FF',
+	'#FF6600',
+	'#FF6633',
+	'#FF9900',
+	'#FF9933',
+	'#FFCC00',
+	'#FFCC33'
+];
+
+/**
+ * Currently only WebKit-based Web Inspectors, Firefox >= v31,
+ * and the Firebug extension (any Firefox version) are known
+ * to support "%c" CSS customizations.
+ *
+ * TODO: add a `localStorage` variable to explicitly enable/disable colors
+ */
+
+// eslint-disable-next-line complexity
+function useColors() {
+	// NB: In an Electron preload script, document will be defined but not fully
+	// initialized. Since we know we're in Chrome, we'll just detect this case
+	// explicitly
+	if (typeof window !== 'undefined' && window.process && (window.process.type === 'renderer' || window.process.__nwjs)) {
+		return true;
+	}
+
+	// Internet Explorer and Edge do not support colors.
+	if (typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/(edge|trident)\/(\d+)/)) {
+		return false;
+	}
+
+	// Is webkit? http://stackoverflow.com/a/16459606/376773
+	// document is undefined in react-native: https://github.com/facebook/react-native/pull/1632
+	return (typeof document !== 'undefined' && document.documentElement && document.documentElement.style && document.documentElement.style.WebkitAppearance) ||
+		// Is firebug? http://stackoverflow.com/a/398120/376773
+		(typeof window !== 'undefined' && window.console && (window.console.firebug || (window.console.exception && window.console.table))) ||
+		// Is firefox >= v31?
+		// https://developer.mozilla.org/en-US/docs/Tools/Web_Console#Styling_messages
+		(typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31) ||
+		// Double check webkit in userAgent just in case we are in a worker
+		(typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/applewebkit\/(\d+)/));
+}
+
+/**
+ * Colorize log arguments if enabled.
+ *
+ * @api public
+ */
+
+function formatArgs(args) {
+	args[0] = (this.useColors ? '%c' : '') +
+		this.namespace +
+		(this.useColors ? ' %c' : ' ') +
+		args[0] +
+		(this.useColors ? '%c ' : ' ') +
+		'+' + module.exports.humanize(this.diff);
+
+	if (!this.useColors) {
+		return;
+	}
+
+	const c = 'color: ' + this.color;
+	args.splice(1, 0, c, 'color: inherit');
+
+	// The final "%c" is somewhat tricky, because there could be other
+	// arguments passed either before or after the %c, so we need to
+	// figure out the correct index to insert the CSS into
+	let index = 0;
+	let lastC = 0;
+	args[0].replace(/%[a-zA-Z%]/g, match => {
+		if (match === '%%') {
+			return;
+		}
+		index++;
+		if (match === '%c') {
+			// We only are interested in the *last* %c
+			// (the user may have provided their own)
+			lastC = index;
+		}
+	});
+
+	args.splice(lastC, 0, c);
+}
+
+/**
+ * Invokes `console.log()` when available.
+ * No-op when `console.log` is not a "function".
+ *
+ * @api public
+ */
+function log(...args) {
+	// This hackery is required for IE8/9, where
+	// the `console.log` function doesn't have 'apply'
+	return typeof console === 'object' &&
+		console.log &&
+		console.log(...args);
+}
+
+/**
+ * Save `namespaces`.
+ *
+ * @param {String} namespaces
+ * @api private
+ */
+function save(namespaces) {
+	try {
+		if (namespaces) {
+			exports.storage.setItem('debug', namespaces);
+		} else {
+			exports.storage.removeItem('debug');
+		}
+	} catch (error) {
+		// Swallow
+		// XXX (@Qix-) should we be logging these?
+	}
+}
+
+/**
+ * Load `namespaces`.
+ *
+ * @return {String} returns the previously persisted debug modes
+ * @api private
+ */
+function load() {
+	let r;
+	try {
+		r = exports.storage.getItem('debug');
+	} catch (error) {
+		// Swallow
+		// XXX (@Qix-) should we be logging these?
+	}
+
+	// If debug isn't set in LS, and we're in Electron, try to load $DEBUG
+	if (!r && typeof process !== 'undefined' && 'env' in process) {
+		r = process.env.DEBUG;
+	}
+
+	return r;
+}
+
+/**
+ * Localstorage attempts to return the localstorage.
+ *
+ * This is necessary because safari throws
+ * when a user disables cookies/localstorage
+ * and you attempt to access it.
+ *
+ * @return {LocalStorage}
+ * @api private
+ */
+
+function localstorage() {
+	try {
+		// TVMLKit (Apple TV JS Runtime) does not have a window object, just localStorage in the global context
+		// The Browser also has localStorage in the global context.
+		return localStorage;
+	} catch (error) {
+		// Swallow
+		// XXX (@Qix-) should we be logging these?
+	}
+}
+
+module.exports = __webpack_require__(68)(exports);
+
+const {formatters} = module.exports;
+
+/**
+ * Map %j to `JSON.stringify()`, since no Web Inspectors do that by default.
+ */
+
+formatters.j = function (v) {
+	try {
+		return JSON.stringify(v);
+	} catch (error) {
+		return '[UnexpectedJSONParseError]: ' + error.message;
+	}
+};
+
+
+/***/ }),
+
+/***/ 112:
+/***/ (function(module, exports) {
+
+/**
+ * Helpers.
+ */
+
+var s = 1000;
+var m = s * 60;
+var h = m * 60;
+var d = h * 24;
+var w = d * 7;
+var y = d * 365.25;
+
+/**
+ * Parse or format the given `val`.
+ *
+ * Options:
+ *
+ *  - `long` verbose formatting [false]
+ *
+ * @param {String|Number} val
+ * @param {Object} [options]
+ * @throws {Error} throw an error if val is not a non-empty string or a number
+ * @return {String|Number}
+ * @api public
+ */
+
+module.exports = function(val, options) {
+  options = options || {};
+  var type = typeof val;
+  if (type === 'string' && val.length > 0) {
+    return parse(val);
+  } else if (type === 'number' && isFinite(val)) {
+    return options.long ? fmtLong(val) : fmtShort(val);
+  }
+  throw new Error(
+    'val is not a non-empty string or a valid number. val=' +
+      JSON.stringify(val)
+  );
+};
+
+/**
+ * Parse the given `str` and return milliseconds.
+ *
+ * @param {String} str
+ * @return {Number}
+ * @api private
+ */
+
+function parse(str) {
+  str = String(str);
+  if (str.length > 100) {
+    return;
+  }
+  var match = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(
+    str
+  );
+  if (!match) {
+    return;
+  }
+  var n = parseFloat(match[1]);
+  var type = (match[2] || 'ms').toLowerCase();
+  switch (type) {
+    case 'years':
+    case 'year':
+    case 'yrs':
+    case 'yr':
+    case 'y':
+      return n * y;
+    case 'weeks':
+    case 'week':
+    case 'w':
+      return n * w;
+    case 'days':
+    case 'day':
+    case 'd':
+      return n * d;
+    case 'hours':
+    case 'hour':
+    case 'hrs':
+    case 'hr':
+    case 'h':
+      return n * h;
+    case 'minutes':
+    case 'minute':
+    case 'mins':
+    case 'min':
+    case 'm':
+      return n * m;
+    case 'seconds':
+    case 'second':
+    case 'secs':
+    case 'sec':
+    case 's':
+      return n * s;
+    case 'milliseconds':
+    case 'millisecond':
+    case 'msecs':
+    case 'msec':
+    case 'ms':
+      return n;
+    default:
+      return undefined;
+  }
+}
+
+/**
+ * Short format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtShort(ms) {
+  var msAbs = Math.abs(ms);
+  if (msAbs >= d) {
+    return Math.round(ms / d) + 'd';
+  }
+  if (msAbs >= h) {
+    return Math.round(ms / h) + 'h';
+  }
+  if (msAbs >= m) {
+    return Math.round(ms / m) + 'm';
+  }
+  if (msAbs >= s) {
+    return Math.round(ms / s) + 's';
+  }
+  return ms + 'ms';
+}
+
+/**
+ * Long format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtLong(ms) {
+  var msAbs = Math.abs(ms);
+  if (msAbs >= d) {
+    return plural(ms, msAbs, d, 'day');
+  }
+  if (msAbs >= h) {
+    return plural(ms, msAbs, h, 'hour');
+  }
+  if (msAbs >= m) {
+    return plural(ms, msAbs, m, 'minute');
+  }
+  if (msAbs >= s) {
+    return plural(ms, msAbs, s, 'second');
+  }
+  return ms + ' ms';
+}
+
+/**
+ * Pluralization helper.
+ */
+
+function plural(ms, msAbs, n, name) {
+  var isPlural = msAbs >= n * 1.5;
+  return Math.round(ms / n) + ' ' + name + (isPlural ? 's' : '');
+}
+
+
+/***/ }),
+
+/***/ 113:
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Module dependencies.
+ */
+
+const tty = __webpack_require__(51);
+const util = __webpack_require__(4);
+
+/**
+ * This is the Node.js implementation of `debug()`.
+ */
+
+exports.init = init;
+exports.log = log;
+exports.formatArgs = formatArgs;
+exports.save = save;
+exports.load = load;
+exports.useColors = useColors;
+
+/**
+ * Colors.
+ */
+
+exports.colors = [6, 2, 3, 4, 5, 1];
+
+try {
+	// Optional dependency (as in, doesn't need to be installed, NOT like optionalDependencies in package.json)
+	// eslint-disable-next-line import/no-extraneous-dependencies
+	const supportsColor = __webpack_require__(53);
+
+	if (supportsColor && (supportsColor.stderr || supportsColor).level >= 2) {
+		exports.colors = [
+			20,
+			21,
+			26,
+			27,
+			32,
+			33,
+			38,
+			39,
+			40,
+			41,
+			42,
+			43,
+			44,
+			45,
+			56,
+			57,
+			62,
+			63,
+			68,
+			69,
+			74,
+			75,
+			76,
+			77,
+			78,
+			79,
+			80,
+			81,
+			92,
+			93,
+			98,
+			99,
+			112,
+			113,
+			128,
+			129,
+			134,
+			135,
+			148,
+			149,
+			160,
+			161,
+			162,
+			163,
+			164,
+			165,
+			166,
+			167,
+			168,
+			169,
+			170,
+			171,
+			172,
+			173,
+			178,
+			179,
+			184,
+			185,
+			196,
+			197,
+			198,
+			199,
+			200,
+			201,
+			202,
+			203,
+			204,
+			205,
+			206,
+			207,
+			208,
+			209,
+			214,
+			215,
+			220,
+			221
+		];
+	}
+} catch (error) {
+	// Swallow - we only care if `supports-color` is available; it doesn't have to be.
+}
+
+/**
+ * Build up the default `inspectOpts` object from the environment variables.
+ *
+ *   $ DEBUG_COLORS=no DEBUG_DEPTH=10 DEBUG_SHOW_HIDDEN=enabled node script.js
+ */
+
+exports.inspectOpts = Object.keys(process.env).filter(key => {
+	return /^debug_/i.test(key);
+}).reduce((obj, key) => {
+	// Camel-case
+	const prop = key
+		.substring(6)
+		.toLowerCase()
+		.replace(/_([a-z])/g, (_, k) => {
+			return k.toUpperCase();
+		});
+
+	// Coerce string value into JS value
+	let val = process.env[key];
+	if (/^(yes|on|true|enabled)$/i.test(val)) {
+		val = true;
+	} else if (/^(no|off|false|disabled)$/i.test(val)) {
+		val = false;
+	} else if (val === 'null') {
+		val = null;
+	} else {
+		val = Number(val);
+	}
+
+	obj[prop] = val;
+	return obj;
+}, {});
+
+/**
+ * Is stdout a TTY? Colored output is enabled when `true`.
+ */
+
+function useColors() {
+	return 'colors' in exports.inspectOpts ?
+		Boolean(exports.inspectOpts.colors) :
+		tty.isatty(process.stderr.fd);
+}
+
+/**
+ * Adds ANSI color escape codes if enabled.
+ *
+ * @api public
+ */
+
+function formatArgs(args) {
+	const {namespace: name, useColors} = this;
+
+	if (useColors) {
+		const c = this.color;
+		const colorCode = '\u001B[3' + (c < 8 ? c : '8;5;' + c);
+		const prefix = `  ${colorCode};1m${name} \u001B[0m`;
+
+		args[0] = prefix + args[0].split('\n').join('\n' + prefix);
+		args.push(colorCode + 'm+' + module.exports.humanize(this.diff) + '\u001B[0m');
+	} else {
+		args[0] = getDate() + name + ' ' + args[0];
+	}
+}
+
+function getDate() {
+	if (exports.inspectOpts.hideDate) {
+		return '';
+	}
+	return new Date().toISOString() + ' ';
+}
+
+/**
+ * Invokes `util.format()` with the specified arguments and writes to stderr.
+ */
+
+function log(...args) {
+	return process.stderr.write(util.format(...args) + '\n');
+}
+
+/**
+ * Save `namespaces`.
+ *
+ * @param {String} namespaces
+ * @api private
+ */
+function save(namespaces) {
+	if (namespaces) {
+		process.env.DEBUG = namespaces;
+	} else {
+		// If you set a process.env field to null or undefined, it gets cast to the
+		// string 'null' or 'undefined'. Just delete instead.
+		delete process.env.DEBUG;
+	}
+}
+
+/**
+ * Load `namespaces`.
+ *
+ * @return {String} returns the previously persisted debug modes
+ * @api private
+ */
+
+function load() {
+	return process.env.DEBUG;
+}
+
+/**
+ * Init logic for `debug` instances.
+ *
+ * Create a new `inspectOpts` object in case `useColors` is set
+ * differently for a particular `debug` instance.
+ */
+
+function init(debug) {
+	debug.inspectOpts = {};
+
+	const keys = Object.keys(exports.inspectOpts);
+	for (let i = 0; i < keys.length; i++) {
+		debug.inspectOpts[keys[i]] = exports.inspectOpts[keys[i]];
+	}
+}
+
+module.exports = __webpack_require__(68)(exports);
+
+const {formatters} = module.exports;
+
+/**
+ * Map %o to `util.inspect()`, all on a single line.
+ */
+
+formatters.o = function (v) {
+	this.inspectOpts.colors = this.useColors;
+	return util.inspect(v, this.inspectOpts)
+		.replace(/\s*\n\s*/g, ' ');
+};
+
+/**
+ * Map %O to `util.inspect()`, allowing multiple lines if needed.
+ */
+
+formatters.O = function (v) {
+	this.inspectOpts.colors = this.useColors;
+	return util.inspect(v, this.inspectOpts);
+};
+
+
+/***/ }),
+
+/***/ 114:
+/***/ (function(module, exports) {
+
+module.exports = require("console");
+
+/***/ }),
+
+/***/ 12:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -324,7 +1972,7 @@ module.exports = chalk;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return snipLine; });
 /* unused harmony export safeJoin */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return isMatchingPattern; });
-/* harmony import */ var _is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
 
 /**
  * Truncates given string to the maximum characters count
@@ -422,14 +2070,14 @@ function isMatchingPattern(value, pattern) {
 
 /***/ }),
 
-/***/ 11:
+/***/ 13:
 /***/ (function(module, exports) {
 
 module.exports = require("events");
 
 /***/ }),
 
-/***/ 117:
+/***/ 140:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -449,6 +2097,7 @@ __webpack_require__.d(__webpack_exports__, "getHubFromCarrier", function() { ret
 __webpack_require__.d(__webpack_exports__, "getCurrentHub", function() { return /* reexport */ hub_getCurrentHub; });
 __webpack_require__.d(__webpack_exports__, "Hub", function() { return /* reexport */ hub_Hub; });
 __webpack_require__.d(__webpack_exports__, "Scope", function() { return /* reexport */ scope_Scope; });
+__webpack_require__.d(__webpack_exports__, "startTransaction", function() { return /* reexport */ startTransaction; });
 __webpack_require__.d(__webpack_exports__, "setContext", function() { return /* reexport */ setContext; });
 __webpack_require__.d(__webpack_exports__, "setExtra", function() { return /* reexport */ setExtra; });
 __webpack_require__.d(__webpack_exports__, "setExtras", function() { return /* reexport */ setExtras; });
@@ -1036,7 +2685,7 @@ function tslib_es6_classPrivateFieldSet(receiver, privateMap, value) {
 }
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/is.js
-var is = __webpack_require__(2);
+var is = __webpack_require__(3);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/syncpromise.js
 
@@ -1235,7 +2884,7 @@ var syncpromise_SyncPromise = /** @class */ (function () {
 
 //# sourceMappingURL=syncpromise.js.map
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/misc.js
-var misc = __webpack_require__(5);
+var misc = __webpack_require__(7);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/hub/esm/scope.js
 
@@ -1261,7 +2910,7 @@ var scope_Scope = /** @class */ (function () {
         /** Extra */
         this._extra = {};
         /** Contexts */
-        this._context = {};
+        this._contexts = {};
     }
     /**
      * Add internal on change listener. Used for sub SDKs that need to store the scope.
@@ -1382,9 +3031,6 @@ var scope_Scope = /** @class */ (function () {
      */
     Scope.prototype.setTransaction = function (transaction) {
         this._transaction = transaction;
-        if (this._span) {
-            this._span.transaction = transaction;
-        }
         this._notifyScopeListeners();
         return this;
     };
@@ -1393,7 +3039,7 @@ var scope_Scope = /** @class */ (function () {
      */
     Scope.prototype.setContext = function (key, context) {
         var _a;
-        this._context = tslib_es6_assign({}, this._context, (_a = {}, _a[key] = context, _a));
+        this._contexts = tslib_es6_assign({}, this._contexts, (_a = {}, _a[key] = context, _a));
         this._notifyScopeListeners();
         return this;
     };
@@ -1422,7 +3068,7 @@ var scope_Scope = /** @class */ (function () {
             newScope._breadcrumbs = tslib_es6_spread(scope._breadcrumbs);
             newScope._tags = tslib_es6_assign({}, scope._tags);
             newScope._extra = tslib_es6_assign({}, scope._extra);
-            newScope._context = tslib_es6_assign({}, scope._context);
+            newScope._contexts = tslib_es6_assign({}, scope._contexts);
             newScope._user = scope._user;
             newScope._level = scope._level;
             newScope._span = scope._span;
@@ -1435,12 +3081,55 @@ var scope_Scope = /** @class */ (function () {
     /**
      * @inheritDoc
      */
+    Scope.prototype.update = function (captureContext) {
+        if (!captureContext) {
+            return this;
+        }
+        if (typeof captureContext === 'function') {
+            var updatedScope = captureContext(this);
+            return updatedScope instanceof Scope ? updatedScope : this;
+        }
+        if (captureContext instanceof Scope) {
+            this._tags = tslib_es6_assign({}, this._tags, captureContext._tags);
+            this._extra = tslib_es6_assign({}, this._extra, captureContext._extra);
+            this._contexts = tslib_es6_assign({}, this._contexts, captureContext._contexts);
+            if (captureContext._user) {
+                this._user = captureContext._user;
+            }
+            if (captureContext._level) {
+                this._level = captureContext._level;
+            }
+            if (captureContext._fingerprint) {
+                this._fingerprint = captureContext._fingerprint;
+            }
+        }
+        else if (Object(is["e" /* isPlainObject */])(captureContext)) {
+            // tslint:disable-next-line:no-parameter-reassignment
+            captureContext = captureContext;
+            this._tags = tslib_es6_assign({}, this._tags, captureContext.tags);
+            this._extra = tslib_es6_assign({}, this._extra, captureContext.extra);
+            this._contexts = tslib_es6_assign({}, this._contexts, captureContext.contexts);
+            if (captureContext.user) {
+                this._user = captureContext.user;
+            }
+            if (captureContext.level) {
+                this._level = captureContext.level;
+            }
+            if (captureContext.fingerprint) {
+                this._fingerprint = captureContext.fingerprint;
+            }
+        }
+        return this;
+    };
+    /**
+     * @inheritDoc
+     */
     Scope.prototype.clear = function () {
         this._breadcrumbs = [];
         this._tags = {};
         this._extra = {};
         this._user = {};
-        this._context = {};
+        this._contexts = {};
         this._level = undefined;
         this._transaction = undefined;
         this._fingerprint = undefined;
@@ -1506,17 +3195,14 @@ var scope_Scope = /** @class */ (function () {
         if (this._user && Object.keys(this._user).length) {
             event.user = tslib_es6_assign({}, this._user, event.user);
         }
-        if (this._context && Object.keys(this._context).length) {
-            event.contexts = tslib_es6_assign({}, this._context, event.contexts);
+        if (this._contexts && Object.keys(this._contexts).length) {
+            event.contexts = tslib_es6_assign({}, this._contexts, event.contexts);
         }
         if (this._level) {
             event.level = this._level;
         }
         if (this._transaction) {
             event.transaction = this._transaction;
-        }
-        if (this._span) {
-            event.contexts = tslib_es6_assign({ trace: this._span.getTraceContext() }, event.contexts);
         }
         this._applyFingerprint(event);
         event.breadcrumbs = tslib_es6_spread((event.breadcrumbs || []), this._breadcrumbs);
@@ -2143,9 +3829,14 @@ var hub_Hub = /** @class */ (function () {
     /**
      * @inheritDoc
      */
-    Hub.prototype.startSpan = function (spanOrSpanContext, forceNoChild) {
-        if (forceNoChild === void 0) { forceNoChild = false; }
-        return this._callExtensionMethod('startSpan', spanOrSpanContext, forceNoChild);
+    Hub.prototype.startSpan = function (context) {
+        return this._callExtensionMethod('startSpan', context);
+    };
+    /**
+     * @inheritDoc
+     */
+    Hub.prototype.startTransaction = function (context) {
+        return this._callExtensionMethod('startTransaction', context);
     };
     /**
      * @inheritDoc
@@ -2310,7 +4001,7 @@ function callOnHub(method) {
  * @param exception An exception-like object.
  * @returns The generated eventId.
  */
-function captureException(exception) {
+function captureException(exception, captureContext) {
     var syntheticException;
     try {
         throw new Error('Sentry syntheticException');
@@ -2319,6 +4010,7 @@ function captureException(exception) {
         syntheticException = exception;
     }
     return callOnHub('captureException', exception, {
+        captureContext: captureContext,
         originalException: exception,
         syntheticException: syntheticException,
     });
@@ -2330,7 +4022,7 @@ function captureException(exception) {
  * @param level Define the level of the message.
  * @returns The generated eventId.
  */
-function captureMessage(message, level) {
+function captureMessage(message, captureContext) {
     var syntheticException;
     try {
         throw new Error(message);
@@ -2338,10 +4030,11 @@ function captureMessage(message, level) {
     catch (exception) {
         syntheticException = exception;
     }
-    return callOnHub('captureMessage', message, level, {
-        originalException: message,
-        syntheticException: syntheticException,
-    });
+    // This is necessary to provide explicit scopes upgrade, without changing the original
+    // arrity of the `captureMessage(message, level)` method.
+    var level = typeof captureContext === 'string' ? captureContext : undefined;
+    var context = typeof captureContext !== 'string' ? { captureContext: captureContext } : undefined;
+    return callOnHub('captureMessage', message, level, tslib_tslib_es6_assign({ originalException: message, syntheticException: syntheticException }, context));
 }
 /**
  * Captures a manually created event and sends it to Sentry.
@@ -2373,7 +4066,7 @@ function addBreadcrumb(breadcrumb) {
 /**
  * Sets context data with the given name.
  * @param name of the context
- * @param context Any kind of data. This data will be normailzed.
+ * @param context Any kind of data. This data will be normalized.
  */
 function setContext(name, context) {
     callOnHub('setContext', name, context);
@@ -2395,7 +4088,7 @@ function setTags(tags) {
 /**
  * Set key:value that will be sent as extra data with the event.
  * @param key String of extra
- * @param extra Any kind of data. This data will be normailzed.
+ * @param extra Any kind of data. This data will be normalized.
  */
 function setExtra(key, extra) {
     callOnHub('setExtra', key, extra);
@@ -2448,6 +4141,16 @@ function _callOnClient(method) {
         args[_i - 1] = arguments[_i];
     }
     callOnHub.apply(void 0, tslib_tslib_es6_spread(['_invokeClient', method], args));
+}
+/**
+ * Starts a Transaction. This is the entry point to do manual tracing. You can
+ * add child spans to transactions. Spans themselves can have children, building
+ * a tree structure. This function returns a Transaction and you need to keep
+ * track of the instance yourself. When you call `.finish()` on the transaction
+ * it will be sent to Sentry.
+ */
+function startTransaction(context) {
+    return callOnHub('startTransaction', tslib_tslib_es6_assign({}, context));
 }
 //# sourceMappingURL=index.js.map
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/core/node_modules/tslib/tslib.es6.js
@@ -3012,9 +4715,6 @@ var dsn_Dsn = /** @class */ (function () {
 }());
 
 //# sourceMappingURL=dsn.js.map
-// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/string.js
-var string = __webpack_require__(10);
-
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/memo.js
 // tslint:disable:no-unsafe-any
 /**
@@ -3069,6 +4769,9 @@ var Memo = /** @class */ (function () {
 }());
 
 //# sourceMappingURL=memo.js.map
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/string.js
+var string = __webpack_require__(12);
+
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/object.js
 
 
@@ -3459,6 +5162,7 @@ function setupIntegrations(options) {
 
 
 
+
 /**
  * Base implementation for all JavaScript SDK clients.
  *
@@ -3518,15 +5222,8 @@ var baseclient_BaseClient = /** @class */ (function () {
         this._processing = true;
         this._getBackend()
             .eventFromException(exception, hint)
-            .then(function (event) { return _this._processEvent(event, hint, scope); })
-            .then(function (finalEvent) {
-            // We need to check for finalEvent in case beforeSend returned null
-            eventId = finalEvent && finalEvent.event_id;
-            _this._processing = false;
-        })
-            .then(null, function (reason) {
-            logger.error(reason);
-            _this._processing = false;
+            .then(function (event) {
+            eventId = _this.captureEvent(event, hint, scope);
         });
         return eventId;
     };
@@ -3540,16 +5237,8 @@ var baseclient_BaseClient = /** @class */ (function () {
         var promisedEvent = Object(is["f" /* isPrimitive */])(message)
             ? this._getBackend().eventFromMessage("" + message, level, hint)
             : this._getBackend().eventFromException(message, hint);
-        promisedEvent
-            .then(function (event) { return _this._processEvent(event, hint, scope); })
-            .then(function (finalEvent) {
-            // We need to check for finalEvent in case beforeSend returned null
-            eventId = finalEvent && finalEvent.event_id;
-            _this._processing = false;
-        })
-            .then(null, function (reason) {
-            logger.error(reason);
-            _this._processing = false;
+        promisedEvent.then(function (event) {
+            eventId = _this.captureEvent(event, hint, scope);
         });
         return eventId;
     };
@@ -3672,45 +5361,29 @@ var baseclient_BaseClient = /** @class */ (function () {
      * nested objects, such as the context, keys are merged.
      *
      * @param event The original event.
-     * @param hint May contain additional informartion about the original exception.
+     * @param hint May contain additional information about the original exception.
      * @param scope A scope containing event metadata.
      * @returns A new event with more information.
      */
     BaseClient.prototype._prepareEvent = function (event, scope, hint) {
         var _this = this;
-        var _a = this.getOptions(), environment = _a.environment, release = _a.release, dist = _a.dist, _b = _a.maxValueLength, maxValueLength = _b === void 0 ? 250 : _b, _c = _a.normalizeDepth, normalizeDepth = _c === void 0 ? 3 : _c;
-        var prepared = node_modules_tslib_tslib_es6_assign({}, event);
-        if (prepared.environment === undefined && environment !== undefined) {
-            prepared.environment = environment;
+        var _a = this.getOptions().normalizeDepth, normalizeDepth = _a === void 0 ? 3 : _a;
+        var prepared = node_modules_tslib_tslib_es6_assign({}, event, { event_id: event.event_id || (hint && hint.event_id ? hint.event_id : Object(misc["m" /* uuid4 */])()), timestamp: event.timestamp || Object(misc["l" /* timestampWithMs */])() });
+        this._applyClientOptions(prepared);
+        this._applyIntegrationsMetadata(prepared);
+        // If we have scope given to us, use it as the base for further modifications.
+        // This allows us to prevent unnecessary copying of data if `captureContext` is not provided.
+        var finalScope = scope;
+        if (hint && hint.captureContext) {
+            finalScope = scope_Scope.clone(finalScope).update(hint.captureContext);
         }
-        if (prepared.release === undefined && release !== undefined) {
-            prepared.release = release;
-        }
-        if (prepared.dist === undefined && dist !== undefined) {
-            prepared.dist = dist;
-        }
-        if (prepared.message) {
-            prepared.message = Object(string["c" /* truncate */])(prepared.message, maxValueLength);
-        }
-        var exception = prepared.exception && prepared.exception.values && prepared.exception.values[0];
-        if (exception && exception.value) {
-            exception.value = Object(string["c" /* truncate */])(exception.value, maxValueLength);
-        }
-        var request = prepared.request;
-        if (request && request.url) {
-            request.url = Object(string["c" /* truncate */])(request.url, maxValueLength);
-        }
-        if (prepared.event_id === undefined) {
-            prepared.event_id = hint && hint.event_id ? hint.event_id : Object(misc["m" /* uuid4 */])();
-        }
-        this._addIntegrations(prepared.sdk);
         // We prepare the result here with a resolved Event.
         var result = syncpromise_SyncPromise.resolve(prepared);
         // This should be the last thing called, since we want that
         // {@link Hub.addEventProcessor} gets the finished prepared event.
-        if (scope) {
+        if (finalScope) {
             // In case we have a hub we reassign it.
-            result = scope.applyToEvent(prepared, hint);
+            result = finalScope.applyToEvent(prepared, hint);
         }
         return result.then(function (evt) {
             // tslint:disable-next-line:strict-type-predicates
@@ -3748,14 +5421,51 @@ var baseclient_BaseClient = /** @class */ (function () {
         }));
     };
     /**
+     *  Enhances event using the client configuration.
+     *  It takes care of all "static" values like environment, release and `dist`,
+     *  as well as truncating overly long values.
+     * @param event event instance to be enhanced
+     */
+    BaseClient.prototype._applyClientOptions = function (event) {
+        var _a = this.getOptions(), environment = _a.environment, release = _a.release, dist = _a.dist, _b = _a.maxValueLength, maxValueLength = _b === void 0 ? 250 : _b;
+        if (event.environment === undefined && environment !== undefined) {
+            event.environment = environment;
+        }
+        if (event.release === undefined && release !== undefined) {
+            event.release = release;
+        }
+        if (event.dist === undefined && dist !== undefined) {
+            event.dist = dist;
+        }
+        if (event.message) {
+            event.message = Object(string["c" /* truncate */])(event.message, maxValueLength);
+        }
+        var exception = event.exception && event.exception.values && event.exception.values[0];
+        if (exception && exception.value) {
+            exception.value = Object(string["c" /* truncate */])(exception.value, maxValueLength);
+        }
+        var request = event.request;
+        if (request && request.url) {
+            request.url = Object(string["c" /* truncate */])(request.url, maxValueLength);
+        }
+    };
+    /**
      * This function adds all used integrations to the SDK info in the event.
      * @param sdkInfo The sdkInfo of the event that will be filled with all integrations.
      */
-    BaseClient.prototype._addIntegrations = function (sdkInfo) {
+    BaseClient.prototype._applyIntegrationsMetadata = function (event) {
+        var sdkInfo = event.sdk;
         var integrationsArray = Object.keys(this._integrations);
         if (sdkInfo && integrationsArray.length > 0) {
             sdkInfo.integrations = integrationsArray;
         }
+    };
+    /**
+     * Tells the backend to send this event
+     * @param event The Sentry event to send
+     */
+    BaseClient.prototype._sendEvent = function (event) {
+        this._getBackend().sendEvent(event);
     };
     /**
      * Processes an event (either error or message) and sends it to Sentry.
@@ -3766,7 +5476,7 @@ var baseclient_BaseClient = /** @class */ (function () {
      *
      *
      * @param event The event to send to Sentry.
-     * @param hint May contain additional informartion about the original exception.
+     * @param hint May contain additional information about the original exception.
      * @param scope A scope containing event metadata.
      * @returns A SyncPromise that resolves with the event or rejects in case event was/will not be send.
      */
@@ -3776,9 +5486,11 @@ var baseclient_BaseClient = /** @class */ (function () {
         if (!this._isEnabled()) {
             return syncpromise_SyncPromise.reject('SDK not enabled, will not send event.');
         }
+        var isTransaction = event.type === 'transaction';
         // 1.0 === 100% events are sent
         // 0.0 === 0% events are sent
-        if (typeof sampleRate === 'number' && Math.random() > sampleRate) {
+        // Sampling for transaction happens somewhere else
+        if (!isTransaction && typeof sampleRate === 'number' && Math.random() > sampleRate) {
             return syncpromise_SyncPromise.reject('This event has been sampled, will not send event.');
         }
         return new syncpromise_SyncPromise(function (resolve, reject) {
@@ -3790,8 +5502,9 @@ var baseclient_BaseClient = /** @class */ (function () {
                 }
                 var finalEvent = prepared;
                 var isInternalException = hint && hint.data && hint.data.__sentry__ === true;
-                if (isInternalException || !beforeSend) {
-                    _this._getBackend().sendEvent(finalEvent);
+                // We skip beforeSend in case of transactions
+                if (isInternalException || !beforeSend || isTransaction) {
+                    _this._sendEvent(finalEvent);
                     resolve(finalEvent);
                     return;
                 }
@@ -3811,7 +5524,7 @@ var baseclient_BaseClient = /** @class */ (function () {
                         return;
                     }
                     // From here on we are really async
-                    _this._getBackend().sendEvent(finalEvent);
+                    _this._sendEvent(finalEvent);
                     resolve(finalEvent);
                 }
             })
@@ -3838,7 +5551,7 @@ var baseclient_BaseClient = /** @class */ (function () {
                 return;
             }
             // From here on we are really async
-            _this._getBackend().sendEvent(processedEvent);
+            _this._sendEvent(processedEvent);
             resolve(processedEvent);
         })
             .then(null, function (e) {
@@ -4087,10 +5800,10 @@ function basename(path, ext) {
 }
 //# sourceMappingURL=path.js.map
 // EXTERNAL MODULE: external "fs"
-var external_fs_ = __webpack_require__(4);
+var external_fs_ = __webpack_require__(5);
 
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/lru_map/lru.js
-var lru = __webpack_require__(51);
+var lru = __webpack_require__(69);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/stacktrace.js
 /**
@@ -4313,7 +6026,7 @@ function parseStack(stack, options) {
         // Extract a module name based on the filename
         if (parsedFrame.filename) {
             parsedFrame.module = getModule(parsedFrame.filename);
-            if (!isInternal && linesOfContext > 0) {
+            if (!isInternal && linesOfContext > 0 && filesToRead.indexOf(parsedFrame.filename) === -1) {
                 filesToRead.push(parsedFrame.filename);
             }
         }
@@ -4421,34 +6134,63 @@ var api_API = /** @class */ (function () {
     API.prototype.getDsn = function () {
         return this._dsnObject;
     };
-    /** Returns a string with auth headers in the url to the store endpoint. */
-    API.prototype.getStoreEndpoint = function () {
-        return "" + this._getBaseUrl() + this.getStoreEndpointPath();
-    };
-    /** Returns the store endpoint with auth added in url encoded. */
-    API.prototype.getStoreEndpointWithUrlEncodedAuth = function () {
-        var dsn = this._dsnObject;
-        var auth = {
-            sentry_key: dsn.user,
-            sentry_version: SENTRY_API_VERSION,
-        };
-        // Auth is intentionally sent as part of query string (NOT as custom HTTP header)
-        // to avoid preflight CORS requests
-        return this.getStoreEndpoint() + "?" + urlEncode(auth);
-    };
-    /** Returns the base path of the url including the port. */
-    API.prototype._getBaseUrl = function () {
+    /** Returns the prefix to construct Sentry ingestion API endpoints. */
+    API.prototype.getBaseApiEndpoint = function () {
         var dsn = this._dsnObject;
         var protocol = dsn.protocol ? dsn.protocol + ":" : '';
         var port = dsn.port ? ":" + dsn.port : '';
-        return protocol + "//" + dsn.host + port;
+        return protocol + "//" + dsn.host + port + (dsn.path ? "/" + dsn.path : '') + "/api/";
+    };
+    /** Returns the store endpoint URL. */
+    API.prototype.getStoreEndpoint = function () {
+        return this._getIngestEndpoint('store');
+    };
+    /** Returns the envelope endpoint URL. */
+    API.prototype._getEnvelopeEndpoint = function () {
+        return this._getIngestEndpoint('envelope');
+    };
+    /** Returns the ingest API endpoint for target. */
+    API.prototype._getIngestEndpoint = function (target) {
+        var base = this.getBaseApiEndpoint();
+        var dsn = this._dsnObject;
+        return "" + base + dsn.projectId + "/" + target + "/";
+    };
+    /**
+     * Returns the store endpoint URL with auth in the query string.
+     *
+     * Sending auth as part of the query string and not as custom HTTP headers avoids CORS preflight requests.
+     */
+    API.prototype.getStoreEndpointWithUrlEncodedAuth = function () {
+        return this.getStoreEndpoint() + "?" + this._encodedAuth();
+    };
+    /**
+     * Returns the envelope endpoint URL with auth in the query string.
+     *
+     * Sending auth as part of the query string and not as custom HTTP headers avoids CORS preflight requests.
+     */
+    API.prototype.getEnvelopeEndpointWithUrlEncodedAuth = function () {
+        return this._getEnvelopeEndpoint() + "?" + this._encodedAuth();
+    };
+    /** Returns a URL-encoded string with auth config suitable for a query string. */
+    API.prototype._encodedAuth = function () {
+        var dsn = this._dsnObject;
+        var auth = {
+            // We send only the minimum set of required information. See
+            // https://github.com/getsentry/sentry-javascript/issues/2572.
+            sentry_key: dsn.user,
+            sentry_version: SENTRY_API_VERSION,
+        };
+        return urlEncode(auth);
     };
     /** Returns only the path component for the store endpoint. */
     API.prototype.getStoreEndpointPath = function () {
         var dsn = this._dsnObject;
         return (dsn.path ? "/" + dsn.path : '') + "/api/" + dsn.projectId + "/store/";
     };
-    /** Returns an object that can be used in request headers. */
+    /**
+     * Returns an object that can be used in request headers.
+     * This is needed for node and the old /store endpoint in sentry
+     */
     API.prototype.getRequestHeaders = function (clientName, clientVersion) {
         var dsn = this._dsnObject;
         var header = ["Sentry sentry_version=" + SENTRY_API_VERSION];
@@ -4466,7 +6208,7 @@ var api_API = /** @class */ (function () {
     API.prototype.getReportDialogEndpoint = function (dialogOptions) {
         if (dialogOptions === void 0) { dialogOptions = {}; }
         var dsn = this._dsnObject;
-        var endpoint = "" + this._getBaseUrl() + (dsn.path ? "/" + dsn.path : '') + "/api/embed/error-page/";
+        var endpoint = this.getBaseApiEndpoint() + "embed/error-page/";
         var encodedOptions = [];
         encodedOptions.push("dsn=" + dsn.toString());
         for (var key in dialogOptions) {
@@ -4494,6 +6236,40 @@ var api_API = /** @class */ (function () {
 }());
 
 //# sourceMappingURL=api.js.map
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/request.js
+
+/** Creates a SentryRequest from an event. */
+function eventToSentryRequest(event, api) {
+    var useEnvelope = event.type === 'transaction';
+    var req = {
+        body: JSON.stringify(event),
+        url: useEnvelope ? api.getEnvelopeEndpointWithUrlEncodedAuth() : api.getStoreEndpointWithUrlEncodedAuth(),
+    };
+    // https://develop.sentry.dev/sdk/envelopes/
+    // Since we don't need to manipulate envelopes nor store them, there is no
+    // exported concept of an Envelope with operations including serialization and
+    // deserialization. Instead, we only implement a minimal subset of the spec to
+    // serialize events inline here.
+    if (useEnvelope) {
+        var envelopeHeaders = JSON.stringify({
+            event_id: event.event_id,
+            // We need to add * 1000 since we divide it by 1000 by default but JS works with ms precision
+            // The reason we use timestampWithMs here is that all clocks across the SDK use the same clock
+            sent_at: new Date(Object(misc["l" /* timestampWithMs */])() * 1000).toISOString(),
+        });
+        var itemHeaders = JSON.stringify({
+            type: event.type,
+        });
+        // The trailing newline is optional. We intentionally don't send it to avoid
+        // sending unnecessary bytes.
+        //
+        // const envelope = `${envelopeHeaders}\n${itemHeaders}\n${req.body}\n`;
+        var envelope = envelopeHeaders + "\n" + itemHeaders + "\n" + req.body;
+        req.body = envelope;
+    }
+    return req;
+}
+//# sourceMappingURL=request.js.map
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/promisebuffer.js
 
 
@@ -4578,11 +6354,15 @@ var promisebuffer_PromiseBuffer = /** @class */ (function () {
 }());
 
 //# sourceMappingURL=promisebuffer.js.map
+// EXTERNAL MODULE: external "url"
+var external_url_ = __webpack_require__(15);
+
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/version.js
 var SDK_NAME = 'sentry.javascript.node';
-var SDK_VERSION = '5.15.5';
+var SDK_VERSION = '5.16.1';
 //# sourceMappingURL=version.js.map
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/base.js
+
 
 
 
@@ -4601,22 +6381,18 @@ var base_BaseTransport = /** @class */ (function () {
         this._api = new api_API(options.dsn);
     }
     /** Returns a build request option object used by request */
-    BaseTransport.prototype._getRequestOptions = function () {
+    BaseTransport.prototype._getRequestOptions = function (uri) {
         var headers = __assign({}, this._api.getRequestHeaders(SDK_NAME, SDK_VERSION), this.options.headers);
-        var dsn = this._api.getDsn();
-        var options = {
-            agent: this.client,
-            headers: headers,
-            hostname: dsn.host,
-            method: 'POST',
-            path: this._api.getStoreEndpointPath(),
-            port: dsn.port,
-            protocol: dsn.protocol + ":",
-        };
-        if (this.options.caCerts) {
-            options.ca = external_fs_["readFileSync"](this.options.caCerts);
-        }
-        return options;
+        var hostname = uri.hostname, pathname = uri.pathname, port = uri.port, protocol = uri.protocol;
+        // See https://github.com/nodejs/node/blob/38146e717fed2fabe3aacb6540d839475e0ce1c6/lib/internal/url.js#L1268-L1290
+        // We ignore the query string on purpose
+        var path = "" + pathname;
+        return __assign({ agent: this.client, headers: headers,
+            hostname: hostname, method: 'POST', path: path,
+            port: port,
+            protocol: protocol }, (this.options.caCerts && {
+            ca: external_fs_["readFileSync"](this.options.caCerts),
+        }));
     };
     /** JSDoc */
     BaseTransport.prototype._sendWithModule = function (httpModule, event) {
@@ -4630,7 +6406,9 @@ var base_BaseTransport = /** @class */ (function () {
                     return [2 /*return*/, Promise.reject(new error_SentryError('Not adding Promise due to buffer limit reached.'))];
                 }
                 return [2 /*return*/, this._buffer.add(new Promise(function (resolve, reject) {
-                        var req = httpModule.request(_this._getRequestOptions(), function (res) {
+                        var sentryReq = eventToSentryRequest(event, _this._api);
+                        var options = _this._getRequestOptions(new external_url_["URL"](sentryReq.url));
+                        var req = httpModule.request(options, function (res) {
                             var statusCode = res.statusCode || 500;
                             var status = Status.fromHttpCode(statusCode);
                             res.setEncoding('utf8');
@@ -4660,7 +6438,7 @@ var base_BaseTransport = /** @class */ (function () {
                             });
                         });
                         req.on('error', reject);
-                        req.end(JSON.stringify(event));
+                        req.end(sentryReq.body);
                     }))];
             });
         });
@@ -4682,7 +6460,7 @@ var base_BaseTransport = /** @class */ (function () {
 
 //# sourceMappingURL=base.js.map
 // EXTERNAL MODULE: external "http"
-var external_http_ = __webpack_require__(16);
+var external_http_ = __webpack_require__(20);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/http.js
 
@@ -4699,7 +6477,7 @@ var http_HTTPTransport = /** @class */ (function (_super) {
         var proxy = options.httpProxy || process.env.http_proxy;
         _this.module = external_http_;
         _this.client = proxy
-            ? new (__webpack_require__(49))(proxy) // tslint:disable-line:no-unsafe-any
+            ? new (__webpack_require__(67))(proxy) // tslint:disable-line:no-unsafe-any
             : new external_http_["Agent"]({ keepAlive: false, maxSockets: 30, timeout: 2000 });
         return _this;
     }
@@ -4717,7 +6495,7 @@ var http_HTTPTransport = /** @class */ (function (_super) {
 
 //# sourceMappingURL=http.js.map
 // EXTERNAL MODULE: external "https"
-var external_https_ = __webpack_require__(23);
+var external_https_ = __webpack_require__(28);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/https.js
 
@@ -4734,7 +6512,7 @@ var https_HTTPSTransport = /** @class */ (function (_super) {
         var proxy = options.httpsProxy || options.httpProxy || process.env.https_proxy || process.env.http_proxy;
         _this.module = external_https_;
         _this.client = proxy
-            ? new (__webpack_require__(49))(proxy) // tslint:disable-line:no-unsafe-any
+            ? new (__webpack_require__(67))(proxy) // tslint:disable-line:no-unsafe-any
             : new external_https_["Agent"]({ keepAlive: false, maxSockets: 30, timeout: 2000 });
         return _this;
     }
@@ -5109,6 +6887,7 @@ var inboundfilters_InboundFilters = /** @class */ (function () {
 
 
 
+
 //# sourceMappingURL=index.js.map
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/sdk.js
 
@@ -5130,10 +6909,10 @@ function initAndBind(clientClass, options) {
 }
 //# sourceMappingURL=sdk.js.map
 // EXTERNAL MODULE: external "domain"
-var external_domain_ = __webpack_require__(14);
+var external_domain_ = __webpack_require__(16);
 
 // EXTERNAL MODULE: external "util"
-var external_util_ = __webpack_require__(3);
+var external_util_ = __webpack_require__(4);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/integrations/console.js
 
@@ -5154,7 +6933,7 @@ var console_Console = /** @class */ (function () {
      */
     Console.prototype.setupOnce = function () {
         var e_1, _a;
-        var consoleModule = __webpack_require__(91);
+        var consoleModule = __webpack_require__(114);
         try {
             for (var _b = __values(['debug', 'info', 'warn', 'error', 'log']), _c = _b.next(); !_c.done; _c = _b.next()) {
                 var level = _c.value;
@@ -5241,14 +7020,14 @@ var http_Http = /** @class */ (function () {
             return;
         }
         var handlerWrapper = createHandlerWrapper(this._breadcrumbs, this._tracing);
-        var httpModule = __webpack_require__(16);
+        var httpModule = __webpack_require__(20);
         fill(httpModule, 'get', handlerWrapper);
         fill(httpModule, 'request', handlerWrapper);
         // NOTE: Prior to Node 9, `https` used internals of `http` module, thus we don't patch it.
         // If we do, we'd get double breadcrumbs and double spans for `https` calls.
         // It has been changed in Node 9, so for all versions equal and above, we patch `https` separately.
         if (NODE_VERSION.major && NODE_VERSION.major > 8) {
-            var httpsModule = __webpack_require__(23);
+            var httpsModule = __webpack_require__(28);
             fill(httpsModule, 'get', handlerWrapper);
             fill(httpsModule, 'request', handlerWrapper);
         }
@@ -5271,8 +7050,13 @@ function createHandlerWrapper(breadcrumbsEnabled, tracingEnabled) {
                 return originalHandler.apply(this, arguments);
             }
             var span;
-            if (tracingEnabled) {
-                span = hub_getCurrentHub().startSpan({
+            var transaction;
+            var scope = hub_getCurrentHub().getScope();
+            if (scope) {
+                transaction = scope.getSpan();
+            }
+            if (tracingEnabled && transaction) {
+                span = transaction.startChild({
                     description: (typeof options === 'string' || !options.method ? 'GET' : options.method) + " " + requestUrl,
                     op: 'request',
                 });
@@ -5574,7 +7358,7 @@ function apm_node_modules_tslib_tslib_es6_classPrivateFieldSet(receiver, private
     return value;
 }
 
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/types/esm/span.js
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/apm/esm/spanstatus.js
 /** The status of an Span. */
 var SpanStatus;
 (function (SpanStatus) {
@@ -5660,67 +7444,35 @@ var SpanStatus;
     }
     SpanStatus.fromHttpCode = fromHttpCode;
 })(SpanStatus || (SpanStatus = {}));
-//# sourceMappingURL=span.js.map
+//# sourceMappingURL=spanstatus.js.map
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/apm/esm/span.js
-// tslint:disable:max-classes-per-file
 
 
 
-
-// TODO: Should this be exported?
 var TRACEPARENT_REGEXP = new RegExp('^[ \\t]*' + // whitespace
     '([0-9a-f]{32})?' + // trace_id
     '-?([0-9a-f]{16})?' + // span_id
     '-?([01])?' + // sampled
     '[ \\t]*$');
 /**
- * Keeps track of finished spans for a given transaction
- */
-var SpanRecorder = /** @class */ (function () {
-    function SpanRecorder(maxlen) {
-        if (maxlen === void 0) { maxlen = 1000; }
-        this.spans = [];
-        this._maxlen = maxlen;
-    }
-    /**
-     * This is just so that we don't run out of memory while recording a lot
-     * of spans. At some point we just stop and flush out the start of the
-     * trace tree (i.e.the first n spans with the smallest
-     * start_timestamp).
-     */
-    SpanRecorder.prototype.add = function (span) {
-        if (this.spans.length > this._maxlen) {
-            span.spanRecorder = undefined;
-        }
-        else {
-            this.spans.push(span);
-        }
-    };
-    return SpanRecorder;
-}());
-/**
  * Span contains all data about a span
  */
 var span_Span = /** @class */ (function () {
     /**
-     * You should never call the custructor manually, always use `hub.startSpan()`.
+     * You should never call the constructor manually, always use `hub.startSpan()`.
      * @internal
      * @hideconstructor
      * @hidden
      */
-    function Span(spanContext, hub) {
-        /**
-         * The reference to the current hub.
-         */
-        this._hub = hub_getCurrentHub();
+    function Span(spanContext) {
         /**
          * @inheritDoc
          */
-        this._traceId = Object(misc["m" /* uuid4 */])();
+        this.traceId = Object(misc["m" /* uuid4 */])();
         /**
          * @inheritDoc
          */
-        this._spanId = Object(misc["m" /* uuid4 */])().substring(16);
+        this.spanId = Object(misc["m" /* uuid4 */])().substring(16);
         /**
          * Timestamp in seconds when the span was created.
          */
@@ -5733,27 +7485,21 @@ var span_Span = /** @class */ (function () {
          * @inheritDoc
          */
         this.data = {};
-        if (Object(is["d" /* isInstanceOf */])(hub, hub_Hub)) {
-            this._hub = hub;
-        }
         if (!spanContext) {
             return this;
         }
         if (spanContext.traceId) {
-            this._traceId = spanContext.traceId;
+            this.traceId = spanContext.traceId;
         }
         if (spanContext.spanId) {
-            this._spanId = spanContext.spanId;
+            this.spanId = spanContext.spanId;
         }
         if (spanContext.parentSpanId) {
-            this._parentSpanId = spanContext.parentSpanId;
+            this.parentSpanId = spanContext.parentSpanId;
         }
         // We want to include booleans as well here
         if ('sampled' in spanContext) {
             this.sampled = spanContext.sampled;
-        }
-        if (spanContext.transaction) {
-            this.transaction = spanContext.transaction;
         }
         if (spanContext.op) {
             this.op = spanContext.op;
@@ -5768,36 +7514,32 @@ var span_Span = /** @class */ (function () {
             this.tags = spanContext.tags;
         }
         if (spanContext.status) {
-            this._status = spanContext.status;
+            this.status = spanContext.status;
+        }
+        if (spanContext.startTimestamp) {
+            this.startTimestamp = spanContext.startTimestamp;
+        }
+        if (spanContext.endTimestamp) {
+            this.endTimestamp = spanContext.endTimestamp;
         }
     }
     /**
-     * Attaches SpanRecorder to the span itself
-     * @param maxlen maximum number of spans that can be recorded
+     * @inheritDoc
+     * @deprecated
      */
-    Span.prototype.initSpanRecorder = function (maxlen) {
-        if (maxlen === void 0) { maxlen = 1000; }
-        if (!this.spanRecorder) {
-            this.spanRecorder = new SpanRecorder(maxlen);
-        }
-        this.spanRecorder.add(this);
+    Span.prototype.child = function (spanContext) {
+        return this.startChild(spanContext);
     };
     /**
      * @inheritDoc
      */
-    Span.prototype.child = function (spanContext) {
-        var span = new Span(apm_node_modules_tslib_tslib_es6_assign({}, spanContext, { parentSpanId: this._spanId, sampled: this.sampled, traceId: this._traceId }));
+    Span.prototype.startChild = function (spanContext) {
+        var span = new Span(apm_node_modules_tslib_tslib_es6_assign({}, spanContext, { parentSpanId: this.spanId, sampled: this.sampled, traceId: this.traceId }));
         span.spanRecorder = this.spanRecorder;
         if (span.spanRecorder) {
             span.spanRecorder.add(span);
         }
         return span;
-    };
-    /**
-     * @inheritDoc
-     */
-    Span.prototype.isRootSpan = function () {
-        return this._parentSpanId === undefined;
     };
     /**
      * Continues a trace from a string (usually the header).
@@ -5837,7 +7579,7 @@ var span_Span = /** @class */ (function () {
      * @inheritDoc
      */
     Span.prototype.setStatus = function (value) {
-        this._status = value;
+        this.status = value;
         return this;
     };
     /**
@@ -5855,57 +7597,13 @@ var span_Span = /** @class */ (function () {
      * @inheritDoc
      */
     Span.prototype.isSuccess = function () {
-        return this._status === SpanStatus.Ok;
+        return this.status === SpanStatus.Ok;
     };
     /**
-     * Sets the finish timestamp on the current span.
-     * @param trimEnd If true, sets the end timestamp of the transaction to the highest timestamp of child spans, trimming
-     * the duration of the transaction span. This is useful to discard extra time in the transaction span that is not
-     * accounted for in child spans, like what happens in the idle transaction Tracing integration, where we finish the
-     * transaction after a given "idle time" and we don't want this "idle time" to be part of the transaction.
+     * @inheritDoc
      */
-    Span.prototype.finish = function (trimEnd) {
-        var _this = this;
-        if (trimEnd === void 0) { trimEnd = false; }
-        // This transaction is already finished, so we should not flush it again.
-        if (this.timestamp !== undefined) {
-            return undefined;
-        }
-        this.timestamp = Object(misc["l" /* timestampWithMs */])();
-        // We will not send any child spans
-        if (!this.isRootSpan()) {
-            return undefined;
-        }
-        // This happens if a span was initiated outside of `hub.startSpan`
-        // Also if the span was sampled (sampled = false) in `hub.startSpan` already
-        if (this.spanRecorder === undefined) {
-            return undefined;
-        }
-        if (this.sampled !== true) {
-            // At this point if `sampled !== true` we want to discard the transaction.
-            logger.warn('Discarding transaction Span because it was span.sampled !== true');
-            return undefined;
-        }
-        var finishedSpans = this.spanRecorder ? this.spanRecorder.spans.filter(function (s) { return s !== _this && s.timestamp; }) : [];
-        if (trimEnd && finishedSpans.length > 0) {
-            this.timestamp = finishedSpans.reduce(function (prev, current) {
-                if (prev.timestamp && current.timestamp) {
-                    return prev.timestamp > current.timestamp ? prev : current;
-                }
-                return prev;
-            }).timestamp;
-        }
-        return this._hub.captureEvent({
-            contexts: {
-                trace: this.getTraceContext(),
-            },
-            spans: finishedSpans,
-            start_timestamp: this.startTimestamp,
-            tags: this.tags,
-            timestamp: this.timestamp,
-            transaction: this.transaction,
-            type: 'transaction',
-        });
+    Span.prototype.finish = function (endTimestamp) {
+        this.endTimestamp = typeof endTimestamp === 'number' ? endTimestamp : Object(misc["l" /* timestampWithMs */])();
     };
     /**
      * @inheritDoc
@@ -5915,7 +7613,7 @@ var span_Span = /** @class */ (function () {
         if (this.sampled !== undefined) {
             sampledString = this.sampled ? '-1' : '-0';
         }
-        return this._traceId + "-" + this._spanId + sampledString;
+        return this.traceId + "-" + this.spanId + sampledString;
     };
     /**
      * @inheritDoc
@@ -5925,11 +7623,11 @@ var span_Span = /** @class */ (function () {
             data: Object.keys(this.data).length > 0 ? this.data : undefined,
             description: this.description,
             op: this.op,
-            parent_span_id: this._parentSpanId,
-            span_id: this._spanId,
-            status: this._status,
+            parent_span_id: this.parentSpanId,
+            span_id: this.spanId,
+            status: this.status,
             tags: Object.keys(this.tags).length > 0 ? this.tags : undefined,
-            trace_id: this._traceId,
+            trace_id: this.traceId,
         });
     };
     /**
@@ -5940,14 +7638,13 @@ var span_Span = /** @class */ (function () {
             data: Object.keys(this.data).length > 0 ? this.data : undefined,
             description: this.description,
             op: this.op,
-            parent_span_id: this._parentSpanId,
-            sampled: this.sampled,
-            span_id: this._spanId,
+            parent_span_id: this.parentSpanId,
+            span_id: this.spanId,
             start_timestamp: this.startTimestamp,
+            status: this.status,
             tags: Object.keys(this.tags).length > 0 ? this.tags : undefined,
-            timestamp: this.timestamp,
-            trace_id: this._traceId,
-            transaction: this.transaction,
+            timestamp: this.endTimestamp,
+            trace_id: this.traceId,
         });
     };
     return Span;
@@ -5967,13 +7664,10 @@ function forget(promise) {
 }
 //# sourceMappingURL=async.js.map
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/cookie/index.js
-var cookie = __webpack_require__(52);
+var cookie = __webpack_require__(70);
 
 // EXTERNAL MODULE: external "os"
-var external_os_ = __webpack_require__(20);
-
-// EXTERNAL MODULE: external "url"
-var external_url_ = __webpack_require__(21);
+var external_os_ = __webpack_require__(26);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/handlers.js
 
@@ -5996,14 +7690,30 @@ function tracingHandler() {
         // but `req.path` or `req.url` should do the job as well. We could unify this here.
         var reqMethod = (req.method || '').toUpperCase();
         var reqUrl = req.url;
-        var hub = hub_getCurrentHub();
-        var transaction = hub.startSpan({
+        var traceId;
+        var parentSpanId;
+        // If there is a trace header set, we extract the data from it and set the span on the scope
+        // to be the origin an created transaction set the parent_span_id / trace_id
+        if (req.headers && Object(is["h" /* isString */])(req.headers['sentry-trace'])) {
+            var span = span_Span.fromTraceparent(req.headers['sentry-trace']);
+            if (span) {
+                traceId = span.traceId;
+                parentSpanId = span.parentSpanId;
+            }
+        }
+        var transaction = startTransaction({
+            name: reqMethod + " " + reqUrl,
             op: 'http.server',
-            transaction: reqMethod + " " + reqUrl,
+            parentSpanId: parentSpanId,
+            traceId: traceId,
         });
-        hub.configureScope(function (scope) {
+        // We put the transaction on the scope so users can attach children to it
+        hub_getCurrentHub().configureScope(function (scope) {
             scope.setSpan(transaction);
         });
+        // We also set __sentry_transaction on the response so people can grab the transaction there to add
+        // spans to it later.
+        res.__sentry_transaction = transaction;
         res.once('finish', function () {
             transaction.setHttpStatus(res.statusCode);
             transaction.finish();
@@ -6211,14 +7921,10 @@ function defaultShouldHandleError(error) {
  * @see Exposed as `Handlers.errorHandler`
  */
 function errorHandler(options) {
-    return function sentryErrorMiddleware(error, req, res, next) {
+    return function sentryErrorMiddleware(error, _req, res, next) {
         var shouldHandleError = (options && options.shouldHandleError) || defaultShouldHandleError;
         if (shouldHandleError(error)) {
-            withScope(function (scope) {
-                if (req.headers && Object(is["h" /* isString */])(req.headers['sentry-trace'])) {
-                    var span = span_Span.fromTraceparent(req.headers['sentry-trace']);
-                    scope.setSpan(span);
-                }
+            withScope(function (_scope) {
                 var eventId = captureException(error);
                 res.sentry = eventId;
                 next(error);
@@ -6530,7 +8236,7 @@ var linkederrors_LinkedErrors = /** @class */ (function () {
 
 //# sourceMappingURL=linkederrors.js.map
 // EXTERNAL MODULE: external "path"
-var external_path_ = __webpack_require__(9);
+var external_path_ = __webpack_require__(11);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/integrations/modules.js
 
@@ -6793,7 +8499,7 @@ if (esm_carrier.__SENTRY__) {
 
 /***/ }),
 
-/***/ 118:
+/***/ 142:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6802,20 +8508,21 @@ if (esm_carrier.__SENTRY__) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.use_middlewares_with_error_safety_net = void 0;
 
-const tslib_1 = __webpack_require__(48);
+const tslib_1 = __webpack_require__(66);
 
-const tiny_invariant_1 = tslib_1.__importDefault(__webpack_require__(24));
+const tiny_invariant_1 = tslib_1.__importDefault(__webpack_require__(31));
 
-const timestamps_1 = __webpack_require__(28);
+const timestamps_1 = __webpack_require__(36);
 
-const sec_1 = __webpack_require__(119);
+const sec_1 = __webpack_require__(143);
 
-const sentry_1 = __webpack_require__(83);
+const sentry_1 = __webpack_require__(106);
 
-const channel_1 = __webpack_require__(19);
+const channel_1 = __webpack_require__(25);
 
-const utils_1 = __webpack_require__(27); // note: deducted from the overall running budget
+const utils_1 = __webpack_require__(35); // note: deducted from the overall running budget
 
 
 const MARGIN_AND_SENTRY_BUDGET_MS = channel_1.CHANNEL === 'dev' ? 5000 : 1000;
@@ -6998,7 +8705,7 @@ exports.use_middlewares_with_error_safety_net = use_middlewares_with_error_safet
 
 /***/ }),
 
-/***/ 119:
+/***/ 143:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7007,18 +8714,19 @@ exports.use_middlewares_with_error_safety_net = use_middlewares_with_error_safet
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.SEC = void 0;
 
-const tslib_1 = __webpack_require__(48);
+const tslib_1 = __webpack_require__(66);
 
-const soft_execution_context_1 = __webpack_require__(80);
+const soft_execution_context_1 = __webpack_require__(84);
 
-const soft_execution_context_node_1 = __webpack_require__(120);
+const soft_execution_context_node_1 = __webpack_require__(144);
 
-const consts_1 = __webpack_require__(63);
+const consts_1 = __webpack_require__(81);
 
-const channel_1 = __webpack_require__(19);
+const channel_1 = __webpack_require__(25);
 
-const logger_1 = tslib_1.__importDefault(__webpack_require__(121)); /////////////////////
+const logger_1 = tslib_1.__importDefault(__webpack_require__(145)); /////////////////////
 
 
 const SEC = soft_execution_context_1.getRootSEC().setLogicalStack({
@@ -7074,14 +8782,14 @@ exports.default = SEC;
 
 /***/ }),
 
-/***/ 120:
+/***/ 144:
 /***/ (function(module, exports, __webpack_require__) {
 
-const os = __webpack_require__(20);
+const os = __webpack_require__(26);
 
 const {
   getRootSEC
-} = __webpack_require__(80); // TODO protect from double install
+} = __webpack_require__(84); // TODO protect from double install
 
 
 function listenToUncaughtErrors() {
@@ -7130,7 +8838,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 121:
+/***/ 145:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7140,11 +8848,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const universal_debug_api_node_1 = __webpack_require__(154);
+const universal_debug_api_node_1 = __webpack_require__(146);
 
-const consts_1 = __webpack_require__(63);
+const consts_1 = __webpack_require__(81);
 
-const channel_1 = __webpack_require__(19); /////////////////////////////////////////////////
+const channel_1 = __webpack_require__(25); /////////////////////////////////////////////////
 
 
 const logger = universal_debug_api_node_1.getLogger({
@@ -7158,7 +8866,90 @@ exports.default = logger;
 
 /***/ }),
 
-/***/ 122:
+/***/ 146:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getLogger", function() { return getLogger; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "exposeInternal", function() { return exposeInternal; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "overrideHook", function() { return overrideHook; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addDebugCommand", function() { return addDebugCommand; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "globalThis", function() { return globalThis; });
+/* harmony import */ var _offirmo_globalthis_ponyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(17);
+/* harmony import */ var _v1__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(32);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createV1", function() { return _v1__WEBPACK_IMPORTED_MODULE_1__["b"]; });
+
+/* harmony import */ var _offirmo_universal_debug_api_interface__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(29);
+/* harmony import */ var _offirmo_universal_debug_api_interface__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_offirmo_universal_debug_api_interface__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _offirmo_universal_debug_api_interface__WEBPACK_IMPORTED_MODULE_2__) if(["getLogger","exposeInternal","overrideHook","addDebugCommand","globalThis","createV1","default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _offirmo_universal_debug_api_interface__WEBPACK_IMPORTED_MODULE_2__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+
+
+const globalThis = Object(_offirmo_globalthis_ponyfill__WEBPACK_IMPORTED_MODULE_0__[/* getGlobalThis */ "a"])(); // ensure the root is present
+
+globalThis._debug = globalThis._debug || {};
+const root = globalThis._debug; //////////// v1 ////////////
+// install globally if no better implementation already present
+
+root.v1 = (existing => {
+  // We CAN'T replace an existing one, even if we are more recent,
+  // because the existing one may already have been called
+  // and be having a state that can't be carried over.
+  // HOWEVER some hints may help the user:
+  const candidate = Object(_v1__WEBPACK_IMPORTED_MODULE_1__[/* default */ "b"])();
+  let ownLogger = candidate.getLogger({
+    name: _v1__WEBPACK_IMPORTED_MODULE_1__[/* OWN_LOGGER_NAME */ "a"]
+  });
+  ownLogger.log('as a candidate, attempting to attach…');
+
+  if (!existing) {
+    ownLogger.log('nominal install ✅');
+    return candidate; // nominal case, current = real implementation is first
+  } // something is wrong,
+  // help the user figure it out
+
+
+  let isExistingAPlaceholder = !existing._; // we know that the placeholder doesn't define this optional prop
+
+  if (isExistingAPlaceholder) {
+    ownLogger.warn('install warning: a placeholder is already present, you may miss some calls! the true implementation should be imported earlier!'); // better than nothing, may still miss some calls
+
+    ownLogger.log('as a candidate, replacing existing ⚠');
+    return candidate;
+  }
+
+  ownLogger = existing.getLogger({
+    name: _v1__WEBPACK_IMPORTED_MODULE_1__[/* OWN_LOGGER_NAME */ "a"]
+  });
+  ownLogger.warn('install warning: several true implementation coexists, only the top module should import it. Check your submodules!');
+
+  try {
+    const minVersion = Math.min(existing._.minor, candidate._.minor);
+    if (minVersion !== candidate._.minor) ownLogger.warn(`install warning: several true implementation coexists, including an outdated one: "v${minVersion}"!`);
+  } catch (err) {
+    ownLogger.warn(err);
+  }
+
+  ownLogger.log('as a candidate, discarding myself: existing is good enough ✅');
+  return existing; // don't replace
+})(root.v1); //////////// latest ////////////
+// directly expose the latest implementation known to this lib
+
+
+const instance = root.v1;
+const {
+  getLogger,
+  exposeInternal,
+  overrideHook,
+  addDebugCommand
+} = instance;
+ // types
+
+
+
+/***/ }),
+
+/***/ 147:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7204,7 +8995,7 @@ const setLazyProperty = (object, property, get) => {
 let colorConvert;
 const makeDynamicStyles = (wrap, targetSpace, identity, isBackground) => {
 	if (colorConvert === undefined) {
-		colorConvert = __webpack_require__(123);
+		colorConvert = __webpack_require__(148);
 	}
 
 	const offset = isBackground ? 10 : 0;
@@ -7326,15 +9117,15 @@ Object.defineProperty(module, 'exports', {
 	get: assembleStyles
 });
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(54)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(72)(module)))
 
 /***/ }),
 
-/***/ 123:
+/***/ 148:
 /***/ (function(module, exports, __webpack_require__) {
 
-const conversions = __webpack_require__(65);
-const route = __webpack_require__(125);
+const conversions = __webpack_require__(87);
+const route = __webpack_require__(150);
 
 const convert = {};
 
@@ -7418,7 +9209,7 @@ module.exports = convert;
 
 /***/ }),
 
-/***/ 124:
+/***/ 149:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7578,10 +9369,17 @@ module.exports = {
 
 /***/ }),
 
-/***/ 125:
+/***/ 15:
+/***/ (function(module, exports) {
+
+module.exports = require("url");
+
+/***/ }),
+
+/***/ 150:
 /***/ (function(module, exports, __webpack_require__) {
 
-const conversions = __webpack_require__(65);
+const conversions = __webpack_require__(87);
 
 /*
 	This function routes a model to all other models.
@@ -7682,7 +9480,7 @@ module.exports = function (fromModel) {
 
 /***/ }),
 
-/***/ 126:
+/***/ 151:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7729,7 +9527,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 127:
+/***/ 152:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7871,7 +9669,7 @@ module.exports = (chalk, temporary) => {
 
 /***/ }),
 
-/***/ 128:
+/***/ 153:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7880,10 +9678,11 @@ module.exports = (chalk, temporary) => {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.require_http_method = exports.HttpMethod = void 0;
 
-const typescript_string_enums_1 = __webpack_require__(6);
+const typescript_string_enums_1 = __webpack_require__(8);
 
-const utils_1 = __webpack_require__(27);
+const utils_1 = __webpack_require__(35);
 
 exports.HttpMethod = typescript_string_enums_1.Enum('GET', 'PUT', 'POST', 'PATCH', 'OPTIONS');
 
@@ -7921,14 +9720,14 @@ exports.require_http_method = require_http_method;
 
 /***/ }),
 
-/***/ 14:
+/***/ 16:
 /***/ (function(module, exports) {
 
 module.exports = require("domain");
 
 /***/ }),
 
-/***/ 15:
+/***/ 17:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7953,25 +9752,14 @@ function getGlobalThis() {
 
 /***/ }),
 
-/***/ 154:
+/***/ 18:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-// ESM COMPAT FLAG
-__webpack_require__.r(__webpack_exports__);
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "getLogger", function() { return /* binding */ src_es2019_getLogger; });
-__webpack_require__.d(__webpack_exports__, "exposeInternal", function() { return /* binding */ src_es2019_exposeInternal; });
-__webpack_require__.d(__webpack_exports__, "overrideHook", function() { return /* binding */ src_es2019_overrideHook; });
-__webpack_require__.d(__webpack_exports__, "addDebugCommand", function() { return /* binding */ src_es2019_addDebugCommand; });
-__webpack_require__.d(__webpack_exports__, "globalThis", function() { return /* binding */ globalThis; });
-__webpack_require__.d(__webpack_exports__, "createV1", function() { return /* reexport */ v1_create; });
-
-// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-stdlib/globalthis-ponyfill/dist/src.es2019/index.js
-var src_es2019 = __webpack_require__(15);
-
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-foundation/practical-logger-core/dist/src.es2019/consts.js
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return LIB; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return LOG_LEVEL_TO_INTEGER; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ALL_LOG_LEVELS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return LOG_LEVEL_TO_HUMAN; });
 const LIB = '@offirmo/practical-logger-core'; // level to a numerical value, for ordering and filtering.
 // mnemonic:  100 = 100% = you will see 100% of the logs
 //              1 =   1% = you will see 1% of the logs (obviously the most important)
@@ -8004,12 +9792,25 @@ const LOG_LEVEL_TO_HUMAN = ALL_LOG_LEVELS.reduce((acc, ll) => {
   return acc;
 }, {});
 
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-foundation/practical-logger-core/dist/src.es2019/consts-base.js
-// base to be directly importable from other modules
-// without a full lib penalty.
-// This a very very specific use case, don't mind.
-const DEFAULT_LOG_LEVEL = 'error';
-const DEFAULT_LOGGER_KEY = ''; // yes, can be used as a key
+
+/***/ }),
+
+/***/ 180:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ create; });
+
+// UNUSED EXPORTS: checkLevel
+
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-foundation/practical-logger-core/dist/src.es2019/consts.js
+var consts = __webpack_require__(18);
+
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-foundation/practical-logger-core/dist/src.es2019/consts-base.js
+var consts_base = __webpack_require__(37);
+
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-foundation/practical-logger-core/dist/src.es2019/normalize-args.js
 function looksLikeAnError(x) {
   return !!((x === null || x === void 0 ? void 0 : x.name) && (x === null || x === void 0 ? void 0 : x.message) && (x === null || x === void 0 ? void 0 : x.stack));
@@ -8060,11 +9861,11 @@ function normalizeArguments(raw_args) {
 
 
 function checkLevel(level) {
-  if (!ALL_LOG_LEVELS.includes(level)) throw new Error(`[${LIB}] Not a valid log level: "${level}"!`);
+  if (!consts["a" /* ALL_LOG_LEVELS */].includes(level)) throw new Error(`[${consts["b" /* LIB */]}] Not a valid log level: "${level}"!`);
 }
 function create({
-  name = DEFAULT_LOGGER_KEY,
-  suggestedLevel = DEFAULT_LOG_LEVEL,
+  name = consts_base["a" /* DEFAULT_LOGGER_KEY */],
+  suggestedLevel = consts_base["b" /* DEFAULT_LOG_LEVEL */],
   forcedLevel,
   commonDetails = {}
 } = {}, outputFn = console.log) {
@@ -8077,7 +9878,7 @@ function create({
   };
   let levelAsInt = 100; // so far
 
-  const logger = ALL_LOG_LEVELS.reduce((logger, level) => {
+  const logger = consts["a" /* ALL_LOG_LEVELS */].reduce((logger, level) => {
     const primitive = function (rawMessage, rawDetails) {
       if (!isLevelEnabled(level)) return;
       const [message, details] = normalizeArguments(arguments);
@@ -8102,14 +9903,14 @@ function create({
   function setLevel(level) {
     checkLevel(level);
     internalState.level = level;
-    levelAsInt = LOG_LEVEL_TO_INTEGER[level];
+    levelAsInt = consts["d" /* LOG_LEVEL_TO_INTEGER */][level];
   }
 
   setLevel(getLevel()); // to check it
 
   function isLevelEnabled(level) {
     checkLevel(level);
-    return LOG_LEVEL_TO_INTEGER[level] <= levelAsInt;
+    return consts["d" /* LOG_LEVEL_TO_INTEGER */][level] <= levelAsInt;
   }
 
   function getLevel() {
@@ -8117,7 +9918,7 @@ function create({
   }
 
   function addCommonDetails(details) {
-    if (details.err) throw new Error(`[${LIB}] Can't set reserved property "err"!`);
+    if (details.err) throw new Error(`[${consts["b" /* LIB */]}] Can't set reserved property "err"!`);
     internalState.commonDetails = { ...internalState.commonDetails,
       ...details
     };
@@ -8142,417 +9943,17 @@ function create({
 
   return logger;
 }
-// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/chalk/source/index.js
-var source = __webpack_require__(0);
-var source_default = /*#__PURE__*/__webpack_require__.n(source);
-
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-foundation/practical-logger-node/dist/src.es2019/sinks/common.js
-
-
-const MIN_WIDTH = 7;
-
-function to_aligned_ascii(level) {
-  let lvl = level.toUpperCase();
-  /*while (lvl.length <= MIN_WIDTH - 2) {
-      lvl = ' ' + lvl + ' '
-  }*/
-
-  if (lvl.length < MIN_WIDTH) lvl = (lvl + '         ').slice(0, MIN_WIDTH);
-  return lvl;
-}
-
-const LEVEL_TO_ASCII = {
-  fatal: source_default.a.bgRed.white.bold(to_aligned_ascii(' ' + LOG_LEVEL_TO_HUMAN['fatal'])),
-  emerg: source_default.a.bgRed.white.bold(to_aligned_ascii(LOG_LEVEL_TO_HUMAN['emerg'])),
-  alert: source_default.a.bgRed.white.bold(to_aligned_ascii(' ' + LOG_LEVEL_TO_HUMAN['alert'])),
-  crit: source_default.a.bgRed.white.bold(to_aligned_ascii(LOG_LEVEL_TO_HUMAN['crit'])),
-  error: source_default.a.red.bold(to_aligned_ascii(LOG_LEVEL_TO_HUMAN['error'])),
-  warning: source_default.a.yellow.bold(to_aligned_ascii(LOG_LEVEL_TO_HUMAN['warning'])),
-  warn: source_default.a.yellow.bold(to_aligned_ascii(LOG_LEVEL_TO_HUMAN['warn'])),
-  notice: source_default.a.blue(to_aligned_ascii(LOG_LEVEL_TO_HUMAN['notice'])),
-  info: source_default.a.blue(to_aligned_ascii(LOG_LEVEL_TO_HUMAN['info'])),
-  verbose: to_aligned_ascii(LOG_LEVEL_TO_HUMAN['verbose']),
-  log: to_aligned_ascii(LOG_LEVEL_TO_HUMAN['log']),
-  debug: to_aligned_ascii(LOG_LEVEL_TO_HUMAN['debug']),
-  trace: source_default.a.dim(to_aligned_ascii(LOG_LEVEL_TO_HUMAN['trace'])),
-  silly: source_default.a.dim(to_aligned_ascii(LOG_LEVEL_TO_HUMAN['silly']))
-};
-const LEVEL_TO_STYLIZE = {
-  fatal: s => source_default.a.red.bold(s),
-  emerg: s => source_default.a.red.bold(s),
-  alert: s => source_default.a.red.bold(s),
-  crit: s => source_default.a.red.bold(s),
-  error: s => source_default.a.red.bold(s),
-  warning: s => source_default.a.yellow(s),
-  warn: s => source_default.a.yellow(s),
-  notice: s => source_default.a.blue(s),
-  info: s => source_default.a.blue(s),
-  verbose: s => s,
-  log: s => s,
-  debug: s => s,
-  trace: s => source_default.a.dim(s),
-  silly: s => source_default.a.dim(s)
-};
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-foundation/practical-logger-node/dist/src.es2019/sinks/to-console.js
-/* eslint-disable no-console */
-
-
-const COMMON_ERROR_FIELDS = [// standard fields
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
-'name', 'message', // quasi-standard
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
-'stack', // standard in node
-'code', // https://nodejs.org/dist/latest/docs/api/errors.html#errors_node_js_error_codes
-// non standard but widely used
-'statusCode', 'shouldRedirect', 'framesToPop', // My (Offirmo) extensions
-'details', 'SEC', '_temp'];
-
-function displayErrProp(errLike, prop) {
-  if (prop === 'details') {
-    const details = errLike.details;
-    console.error(source_default.a.red(source_default.a.dim(`🔥  ${prop}:`)));
-    Object.entries(details).forEach(([key, value]) => {
-      console.error(source_default.a.red(source_default.a.dim(`    ${key}: "`) + value + source_default.a.dim('"')));
-    });
-  } else console.error(source_default.a.red(source_default.a.dim(`🔥  ${prop}: "`) + errLike[prop] + source_default.a.dim('"')));
-}
-
-function displayError(errLike = {}) {
-  console.error(source_default.a.red(`🔥🔥🔥🔥🔥🔥🔥  ${source_default.a.bold(errLike.name || 'Error')} 🔥🔥🔥🔥🔥🔥🔥`));
-  const displayedProps = new Set();
-  displayedProps.add('name');
-
-  if (errLike.message) {
-    displayErrProp(errLike, 'message');
-    displayedProps.add('message');
-  }
-
-  if (errLike.details) {
-    displayErrProp(errLike, 'details');
-    displayedProps.add('details');
-  }
-
-  if (errLike.logicalStack) {
-    displayErrProp(errLike, 'logicalStack');
-    displayedProps.add('logicalStack');
-  }
-
-  COMMON_ERROR_FIELDS.forEach(prop => {
-    if (prop in errLike && !displayedProps.has(prop)) {
-      displayErrProp(errLike, prop);
-    }
-  });
-}
-
-function createSink(options = {}) {
-  const displayTime = options.displayTime || false;
-  return payload => {
-    const {
-      level,
-      name,
-      msg,
-      time,
-      details,
-      err
-    } = payload;
-    const prettified_details = JSON.stringify(details);
-    const line = '' // TODO evaluate if time display is needed
-    + (displayTime ? source_default.a.dim(String(time)) + ' ' : '') + LEVEL_TO_ASCII[level] + '› ' + LEVEL_TO_STYLIZE[level]('' + name + (name ? '›' : '') + (msg ? ' ' : '') + msg) + (prettified_details !== '{}' ? ' ' + prettified_details : '');
-    console.log(line); // eslint-disable-line no-console
-
-    if (err) displayError(err);
-  };
-}
-/* harmony default export */ var to_console = (createSink);
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-foundation/practical-logger-node/dist/src.es2019/index.js
-
-
-const ORIGINAL_CONSOLE = console;
-
-function createLogger(p = {}) {
-  var _a;
-
-  const {
-    group,
-    groupCollapsed,
-    groupEnd
-  } = ORIGINAL_CONSOLE;
-  return { ...create(p, ((_a = p.sinkOptions) === null || _a === void 0 ? void 0 : _a.sink) || to_console(p.sinkOptions)),
-    group,
-    groupCollapsed,
-    groupEnd
-  };
-}
-
-
-
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/universal-debug-api-node/dist/src.es2019/consts.js
-const ENV_ROOT = 'UDA';
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/universal-debug-api-node/dist/src.es2019/v1/keys.js
-
-
-
-function normalizeKey(key) {
-  return key.split('-').join('_').split('.').join('_').split('⋄').join('_');
-}
-
-function getOverrideKeyForLogger(name) {
-  return `logger_${name || 'default'}_logLevel`.toUpperCase();
-}
-function getEnvKeyForOverride(key) {
-  // should we put v1 somewhere? no, most likely overkill.
-  return `${ENV_ROOT}_override__${normalizeKey(key)}`.toUpperCase();
-}
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/universal-debug-api-node/dist/src.es2019/v1/index.js
-
-
- ////////////////////////////////////
-
-const OWN_LOGGER_NAME = ENV_ROOT;
-const REVISION = 1; ////////////////////////////////////
-
-function v1_create() {
-  //console.log('[UDA-node installed]') // XX
-  ////////////////////////////////////
-  const loggers = {}; // to avoid creating duplicates
-
-  const debugCommands = {}; // TODO check
-
-  const exposed = {};
-  const overrides = {}; // we'll expose them for clarity
-  ////////////////////////////////////
-  // TODO override?
-  // TODO allow off?
-
-  const _ownLogger = createLogger({
-    name: OWN_LOGGER_NAME,
-    suggestedLevel: 'fatal'
-  });
-
-  function _getOverrideRequestedSJson(ovKey) {
-    try {
-      const EnvKey = getEnvKeyForOverride(ovKey); //console.log(`EnvKey = "${EnvKey}"`)
-
-      const rawValue = process.env[EnvKey] || null; //console.log(`EnvKey "${EnvKey}" content = "${rawValue}"`)
-
-      return rawValue;
-    } catch (err) {
-      _ownLogger.warn(`🔴 error reading ENV for override "${ovKey}"!`, {
-        err
-      });
-
-      return null;
-    }
-  }
-
-  const forcedLevel = _getOverrideRequestedSJson(getOverrideKeyForLogger('_UDA_internal'));
-
-  try {
-    if (forcedLevel) _ownLogger.setLevel(JSON.parse(forcedLevel));
-  } catch (err) {
-    _ownLogger.fatal(`🔴 error setting internal logger forced level: "${forcedLevel}"!`);
-  }
-
-  _ownLogger.log(`Instantiated. (revision: ${REVISION})`);
-
-  function _getOverride(key) {
-    if (!overrides[key]) {
-      // we only read the env once for speed reason
-      overrides[key] = {
-        // so far:
-        isOn: false,
-        value: undefined
-      };
-
-      const rawValue = _getOverrideRequestedSJson(key);
-
-      if (rawValue) {
-        overrides[key].isOn = true; // for the node version where escaping is hard, as a convenience, we auto-type common cases
-
-        const value = (() => {
-          // we allow the non-JSON "undefined"
-          if (rawValue === 'undefined') return undefined;
-          if (String(Number(rawValue)) === rawValue) return Number(rawValue);
-
-          try {
-            return JSON.parse(rawValue);
-          } catch {
-            return rawValue; // as a string
-          }
-        })();
-
-        overrides[key].value = value;
-
-        _ownLogger.log(` 🔵 overriden "${key}"`, {
-          value
-        });
-      }
-    }
-
-    return overrides[key];
-  } ////////////////////////////////////
-
-
-  const api = {
-    getLogger,
-    exposeInternal,
-    overrideHook,
-    addDebugCommand,
-    _: {
-      exposed,
-      overrides,
-      minor: REVISION,
-      source: 'node-lib',
-      create: v1_create
-    }
-  }; ////////////////////////////////////
-
-  function overrideHook(key, defaultValue) {
-    try {
-      const status = _getOverride(key);
-
-      if (status.isOn) return status.value;
-    } catch (err) {
-      // should never happen because _getOverride() already catch
-      // TODO check!
-      _ownLogger.warn('overrideHook(): error retrieving override!', {
-        key,
-        err
-      });
-    }
-
-    return defaultValue;
-  }
-
-  function getLogger(p = {}) {
-    const name = p.name || DEFAULT_LOGGER_KEY; // we need a name immediately
-
-    if (!loggers[name]) {
-      try {
-        const ovKey = getOverrideKeyForLogger(name);
-
-        if (!p.forcedLevel && _getOverrideRequestedSJson(ovKey)) {
-          p = { ...p,
-            forcedLevel: overrideHook(ovKey, p.suggestedLevel || DEFAULT_LOG_LEVEL)
-          };
-        }
-      } catch (err) {
-        // this warning should appear only once on creation ✔
-        _ownLogger.warn('getLogger(): error overriding the level!', {
-          name,
-          err
-        });
-      }
-
-      loggers[name] = createLogger(p);
-    }
-
-    return loggers[name];
-  }
-
-  function exposeInternal(path, value) {
-    _ownLogger.warn(`exposeInternal(): alpha, not documented!`);
-
-    try {
-      const pathParts = path.split('.'); // TODO switch to / ?
-
-      const lastIndex = pathParts.length - 1;
-      let root = exposed;
-      pathParts.forEach((p, index) => {
-        root[p] = root[p] || (index === lastIndex ? value : {});
-        root = root[p];
-      });
-    } catch (err) {
-      _ownLogger.warn(`exposeInternal(): error exposing!`, {
-        path,
-        err
-      });
-    }
-  }
-
-  function addDebugCommand(commandName, callback) {
-    // TODO
-    _ownLogger.warn(`addDebugCommand(): alpha, not documented!`); // TODO try catch
-
-
-    debugCommands[commandName] = callback;
-  }
-
-  return api;
-}
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/universal-debug-api-node/dist/src.es2019/index.js
-
-
-const globalThis = Object(src_es2019["a" /* getGlobalThis */])(); // ensure the root is present
-
-globalThis._debug = globalThis._debug || {};
-const root = globalThis._debug; //////////// v1 ////////////
-// install globally if no better implementation already present
-
-root.v1 = (existing => {
-  // We CAN'T replace an existing one, even if we are more recent,
-  // because the existing one may already have been called
-  // and be having a state that can't be carried over.
-  // HOWEVER some hints may help the user:
-  const candidate = v1_create();
-  let ownLogger = candidate.getLogger({
-    name: OWN_LOGGER_NAME
-  });
-  ownLogger.log('as a candidate, attempting to attach…');
-
-  if (!existing) {
-    ownLogger.log('nominal install ✅');
-    return candidate; // nominal case, current = real implementation is first
-  } // something is wrong,
-  // help the user figure it out
-
-
-  let isExistingAPlaceholder = !existing._; // we know that the placeholder doesn't define this optional prop
-
-  if (isExistingAPlaceholder) {
-    ownLogger.warn('install warning: a placeholder is already present, you may miss some calls! the true implementation should be imported earlier!'); // better than nothing, may still miss some calls
-
-    ownLogger.log('as a candidate, replacing existing ⚠');
-    return candidate;
-  }
-
-  ownLogger = existing.getLogger({
-    name: OWN_LOGGER_NAME
-  });
-  ownLogger.warn('install warning: several true implementation coexists, only the top module should import it. Check your submodules!');
-
-  try {
-    const minVersion = Math.min(existing._.minor, candidate._.minor);
-    if (minVersion !== candidate._.minor) ownLogger.warn(`install warning: several true implementation coexists, including an outdated one: "v${minVersion}"!`);
-  } catch (err) {
-    ownLogger.warn(err);
-  }
-
-  ownLogger.log('as a candidate, discarding myself: existing is good enough ✅');
-  return existing; // don't replace
-})(root.v1); //////////// latest ////////////
-// directly expose the latest implementation known to this lib
-
-
-const instance = root.v1;
-const {
-  getLogger: src_es2019_getLogger,
-  exposeInternal: src_es2019_exposeInternal,
-  overrideHook: src_es2019_overrideHook,
-  addDebugCommand: src_es2019_addDebugCommand
-} = instance;
-
 
 /***/ }),
 
-/***/ 16:
+/***/ 20:
 /***/ (function(module, exports) {
 
 module.exports = require("http");
 
 /***/ }),
 
-/***/ 19:
+/***/ 25:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8561,10 +9962,11 @@ module.exports = require("http");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.CHANNEL = void 0;
 
-const typescript_string_enums_1 = __webpack_require__(6);
+const typescript_string_enums_1 = __webpack_require__(8);
 
-const functions_interface_1 = __webpack_require__(62);
+const functions_interface_1 = __webpack_require__(80);
 
 exports.CHANNEL = (() => {
   if (typescript_string_enums_1.Enum.isType(functions_interface_1.ReleaseChannel, process.env.CHANNEL)) return process.env.CHANNEL;
@@ -8574,7 +9976,150 @@ exports.CHANNEL = (() => {
 
 /***/ }),
 
-/***/ 2:
+/***/ 26:
+/***/ (function(module, exports) {
+
+module.exports = require("os");
+
+/***/ }),
+
+/***/ 27:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getLogger", function() { return getLogger; });
+/* unused harmony export exposeInternal */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "overrideHook", function() { return overrideHook; });
+/* unused harmony export addDebugCommand */
+/* unused harmony export globalThis */
+/* harmony import */ var _offirmo_globalthis_ponyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(17);
+/* harmony import */ var _v1__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(30);
+
+
+const globalThis = Object(_offirmo_globalthis_ponyfill__WEBPACK_IMPORTED_MODULE_0__[/* getGlobalThis */ "a"])(); // ensure the root is present
+
+globalThis._debug = globalThis._debug || {}; // install globally if no other implementation already present
+
+globalThis._debug.v1 = globalThis._debug.v1 || Object(_v1__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(); // expose the installed implementation
+
+const instance = globalThis._debug.v1;
+const {
+  getLogger,
+  exposeInternal,
+  overrideHook,
+  addDebugCommand
+} = instance;
+ // types & sub-types, for convenience
+
+
+
+/***/ }),
+
+/***/ 277:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.test_failure = exports.FailureMode = void 0;
+
+const tslib_1 = __webpack_require__(66);
+
+const typescript_string_enums_1 = __webpack_require__(8);
+
+const tiny_invariant_1 = tslib_1.__importDefault(__webpack_require__(31));
+
+const utils_1 = __webpack_require__(35);
+
+exports.FailureMode = typescript_string_enums_1.Enum('none', 'manual', 'uncaught-sync', 'uncaught-async', 'timeout', 'unhandled-rejection', 'mess-with-response', 'non-stringified-body');
+
+async function test_failure(SEC, event, context, response, next) {
+  const mode = event.queryStringParameters && event.queryStringParameters.mode || undefined;
+  tiny_invariant_1.default(!mode || typescript_string_enums_1.Enum.isType(exports.FailureMode, mode), `Invalid mode, should be one of: ` + typescript_string_enums_1.Enum.values(exports.FailureMode).join(', '));
+  console.log('Failure test:', mode);
+  const test_err = utils_1.create_error(`TEST ${mode}!`, {
+    statusCode: 555
+  });
+
+  switch (mode) {
+    case undefined:
+      response.statusCode = 400;
+      response.body = 'Error: Failure test: Please provide a failure mode: ' + typescript_string_enums_1.Enum.values(exports.FailureMode).join(', ');
+      break;
+
+    case exports.FailureMode['none']:
+      response.statusCode = 200;
+      response.body = 'All good.';
+      await next();
+      break;
+
+    case exports.FailureMode['manual']:
+      response.statusCode = test_err.statusCode;
+      response.body = test_err.message;
+      break;
+
+    case exports.FailureMode['uncaught-sync']:
+      throw test_err;
+
+    case exports.FailureMode['uncaught-async']:
+      return new Promise(() => {
+        setTimeout(() => {
+          throw test_err;
+        }, 100);
+      });
+
+    case exports.FailureMode['timeout']:
+      return new Promise(() => {// nothing
+      });
+
+    case exports.FailureMode['unhandled-rejection']:
+      return new Promise(() => {
+        new Promise((resolve, reject) => {
+          reject(test_err);
+        });
+      });
+
+    case exports.FailureMode['mess-with-response']:
+      delete response.statusCode;
+      delete response.body;
+      response.statusCode = 'foo';
+      break;
+
+    case exports.FailureMode['non-stringified-body']:
+      response.body = {
+        test: 'ok'
+      };
+      break;
+
+    default:
+      response.statusCode = 501;
+      response.body = `Failure test: mode "${mode}" not implemented!`;
+      break;
+  }
+}
+
+exports.test_failure = test_failure;
+
+/***/ }),
+
+/***/ 28:
+/***/ (function(module, exports) {
+
+module.exports = require("https");
+
+/***/ }),
+
+/***/ 29:
+/***/ (function(module, exports) {
+
+
+
+/***/ }),
+
+/***/ 3:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8743,33 +10288,13 @@ function isInstanceOf(wat, base) {
 
 /***/ }),
 
-/***/ 20:
-/***/ (function(module, exports) {
-
-module.exports = require("os");
-
-/***/ }),
-
-/***/ 21:
-/***/ (function(module, exports) {
-
-module.exports = require("url");
-
-/***/ }),
-
-/***/ 22:
+/***/ 30:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 
 // EXPORTS
-__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ getLogger; });
-__webpack_require__.d(__webpack_exports__, "b", function() { return /* binding */ overrideHook; });
-
-// UNUSED EXPORTS: exposeInternal, addDebugCommand, globalThis, createV1
-
-// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-stdlib/globalthis-ponyfill/dist/src.es2019/index.js
-var src_es2019 = __webpack_require__(15);
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ create; });
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-foundation/practical-logger-minimal-noop/dist/src.es2019/index.js
 function src_es2019_NOP() {}
@@ -8815,34 +10340,10 @@ function create() {
     addDebugCommand: NOP
   };
 }
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/universal-debug-api-placeholder/dist/src.es2019/index.js
-
-
-const globalThis = Object(src_es2019["a" /* getGlobalThis */])(); // ensure the root is present
-
-globalThis._debug = globalThis._debug || {}; // install globally if no other implementation already present
-
-globalThis._debug.v1 = globalThis._debug.v1 || create(); // expose the installed implementation
-
-const instance = globalThis._debug.v1;
-const {
-  getLogger,
-  exposeInternal,
-  overrideHook,
-  addDebugCommand
-} = instance;
-
 
 /***/ }),
 
-/***/ 23:
-/***/ (function(module, exports) {
-
-module.exports = require("https");
-
-/***/ }),
-
-/***/ 24:
+/***/ 31:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8864,96 +10365,219 @@ function invariant(condition, message) {
 
 /***/ }),
 
-/***/ 247:
-/***/ (function(module, exports, __webpack_require__) {
+/***/ 32:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ OWN_LOGGER_NAME; });
+__webpack_require__.d(__webpack_exports__, "b", function() { return /* binding */ create; });
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-foundation/practical-logger-node/dist/src.es2019/index.js
+var src_es2019 = __webpack_require__(60);
 
-const tslib_1 = __webpack_require__(48);
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-foundation/practical-logger-core/dist/src.es2019/consts-base.js
+var consts_base = __webpack_require__(37);
 
-const typescript_string_enums_1 = __webpack_require__(6);
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/universal-debug-api-node/dist/src.es2019/consts.js
+const ENV_ROOT = 'UDA';
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/universal-debug-api-node/dist/src.es2019/v1/keys.js
 
-const tiny_invariant_1 = tslib_1.__importDefault(__webpack_require__(24));
 
-const utils_1 = __webpack_require__(27);
 
-exports.FailureMode = typescript_string_enums_1.Enum('none', 'manual', 'uncaught-sync', 'uncaught-async', 'timeout', 'unhandled-rejection', 'mess-with-response', 'non-stringified-body');
-
-async function test_failure(SEC, event, context, response, next) {
-  const mode = event.queryStringParameters && event.queryStringParameters.mode || undefined;
-  tiny_invariant_1.default(!mode || typescript_string_enums_1.Enum.isType(exports.FailureMode, mode), `Invalid mode, should be one of: ` + typescript_string_enums_1.Enum.values(exports.FailureMode).join(', '));
-  console.log('Failure test:', mode);
-  const test_err = utils_1.create_error(`TEST ${mode}!`, {
-    statusCode: 555
-  });
-
-  switch (mode) {
-    case undefined:
-      response.statusCode = 400;
-      response.body = 'Error: Failure test: Please provide a failure mode: ' + typescript_string_enums_1.Enum.values(exports.FailureMode).join(', ');
-      break;
-
-    case exports.FailureMode['none']:
-      response.statusCode = 200;
-      response.body = 'All good.';
-      await next();
-      break;
-
-    case exports.FailureMode['manual']:
-      response.statusCode = test_err.statusCode;
-      response.body = test_err.message;
-      break;
-
-    case exports.FailureMode['uncaught-sync']:
-      throw test_err;
-
-    case exports.FailureMode['uncaught-async']:
-      return new Promise(() => {
-        setTimeout(() => {
-          throw test_err;
-        }, 100);
-      });
-
-    case exports.FailureMode['timeout']:
-      return new Promise(() => {// nothing
-      });
-
-    case exports.FailureMode['unhandled-rejection']:
-      return new Promise(() => {
-        new Promise((resolve, reject) => {
-          reject(test_err);
-        });
-      });
-
-    case exports.FailureMode['mess-with-response']:
-      delete response.statusCode;
-      delete response.body;
-      response.statusCode = 'foo';
-      break;
-
-    case exports.FailureMode['non-stringified-body']:
-      response.body = {
-        test: 'ok'
-      };
-      break;
-
-    default:
-      response.statusCode = 501;
-      response.body = `Failure test: mode "${mode}" not implemented!`;
-      break;
-  }
+function normalizeKey(key) {
+  return key.split('-').join('_').split('.').join('_').split('⋄').join('_');
 }
 
-exports.test_failure = test_failure;
+function getOverrideKeyForLogger(name) {
+  return `logger_${name || 'default'}_logLevel`.toUpperCase();
+}
+function getEnvKeyForOverride(key) {
+  // should we put v1 somewhere? no, most likely overkill.
+  return `${ENV_ROOT}_override__${normalizeKey(key)}`.toUpperCase();
+}
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/universal-debug-api-node/dist/src.es2019/v1/index.js
+
+
+ ////////////////////////////////////
+
+const OWN_LOGGER_NAME = ENV_ROOT;
+const REVISION = 1; ////////////////////////////////////
+
+function create() {
+  //console.log('[UDA-node installed]') // XX
+  ////////////////////////////////////
+  const loggers = {}; // to avoid creating duplicates
+
+  const debugCommands = {}; // TODO check
+
+  const exposed = {};
+  const overrides = {}; // we'll expose them for clarity
+  ////////////////////////////////////
+  // TODO override?
+  // TODO allow off?
+
+  const _ownLogger = Object(src_es2019["createLogger"])({
+    name: OWN_LOGGER_NAME,
+    suggestedLevel: 'fatal'
+  });
+
+  function _getOverrideRequestedSJson(ovKey) {
+    try {
+      const EnvKey = getEnvKeyForOverride(ovKey); //console.log(`EnvKey = "${EnvKey}"`)
+
+      const rawValue = process.env[EnvKey] || null; //console.log(`EnvKey "${EnvKey}" content = "${rawValue}"`)
+
+      return rawValue;
+    } catch (err) {
+      _ownLogger.warn(`🔴 error reading ENV for override "${ovKey}"!`, {
+        err
+      });
+
+      return null;
+    }
+  }
+
+  const forcedLevel = _getOverrideRequestedSJson(getOverrideKeyForLogger('_UDA_internal'));
+
+  try {
+    if (forcedLevel) _ownLogger.setLevel(JSON.parse(forcedLevel));
+  } catch (err) {
+    _ownLogger.fatal(`🔴 error setting internal logger forced level: "${forcedLevel}"!`);
+  }
+
+  _ownLogger.log(`Instantiated. (revision: ${REVISION})`);
+
+  function _getOverride(key) {
+    if (!overrides[key]) {
+      // we only read the env once for speed reason
+      overrides[key] = {
+        // so far:
+        isOn: false,
+        value: undefined
+      };
+
+      const rawValue = _getOverrideRequestedSJson(key);
+
+      if (rawValue) {
+        overrides[key].isOn = true; // for the node version where escaping is hard, as a convenience, we auto-type common cases
+
+        const value = (() => {
+          // we allow the non-JSON "undefined"
+          if (rawValue === 'undefined') return undefined;
+          if (String(Number(rawValue)) === rawValue) return Number(rawValue);
+
+          try {
+            return JSON.parse(rawValue);
+          } catch {
+            return rawValue; // as a string
+          }
+        })();
+
+        overrides[key].value = value;
+
+        _ownLogger.log(` 🔵 overriden "${key}"`, {
+          value
+        });
+      }
+    }
+
+    return overrides[key];
+  } ////////////////////////////////////
+
+
+  const api = {
+    getLogger,
+    exposeInternal,
+    overrideHook,
+    addDebugCommand,
+    _: {
+      exposed,
+      overrides,
+      minor: REVISION,
+      source: 'node-lib',
+      create
+    }
+  }; ////////////////////////////////////
+
+  function overrideHook(key, defaultValue) {
+    try {
+      const status = _getOverride(key);
+
+      if (status.isOn) return status.value;
+    } catch (err) {
+      // should never happen because _getOverride() already catch
+      // TODO check!
+      _ownLogger.warn('overrideHook(): error retrieving override!', {
+        key,
+        err
+      });
+    }
+
+    return defaultValue;
+  }
+
+  function getLogger(p = {}) {
+    const name = p.name || consts_base["a" /* DEFAULT_LOGGER_KEY */]; // we need a name immediately
+
+    if (!loggers[name]) {
+      try {
+        const ovKey = getOverrideKeyForLogger(name);
+
+        if (!p.forcedLevel && _getOverrideRequestedSJson(ovKey)) {
+          p = { ...p,
+            forcedLevel: overrideHook(ovKey, p.suggestedLevel || consts_base["b" /* DEFAULT_LOG_LEVEL */])
+          };
+        }
+      } catch (err) {
+        // this warning should appear only once on creation ✔
+        _ownLogger.warn('getLogger(): error overriding the level!', {
+          name,
+          err
+        });
+      }
+
+      loggers[name] = Object(src_es2019["createLogger"])(p);
+    }
+
+    return loggers[name];
+  }
+
+  function exposeInternal(path, value) {
+    _ownLogger.warn(`exposeInternal(): alpha, not documented!`);
+
+    try {
+      const pathParts = path.split('.'); // TODO switch to / ?
+
+      const lastIndex = pathParts.length - 1;
+      let root = exposed;
+      pathParts.forEach((p, index) => {
+        root[p] = root[p] || (index === lastIndex ? value : {});
+        root = root[p];
+      });
+    } catch (err) {
+      _ownLogger.warn(`exposeInternal(): error exposing!`, {
+        path,
+        err
+      });
+    }
+  }
+
+  function addDebugCommand(commandName, callback) {
+    // TODO
+    _ownLogger.warn(`addDebugCommand(): alpha, not documented!`); // TODO try catch
+
+
+    debugCommands[commandName] = callback;
+  }
+
+  return api;
+}
 
 /***/ }),
 
-/***/ 27:
+/***/ 35:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8962,10 +10586,11 @@ exports.test_failure = test_failure;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.create_error = void 0;
 
-const http_1 = __webpack_require__(16);
+const http_1 = __webpack_require__(20);
 
-const common_error_fields_1 = __webpack_require__(53); // TODO extern
+const common_error_fields_1 = __webpack_require__(71); // TODO extern
 
 
 function create_error(message, details = {}) {
@@ -9001,68 +10626,870 @@ exports.create_error = create_error;
 
 /***/ }),
 
-/***/ 28:
+/***/ 36:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _generate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(64);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_UTC_timestamp_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["d"]; });
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(82);
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_types__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _types__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _types__WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _generate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(83);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_UTC_timestamp_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_1__["d"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["g"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_1__["g"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_seconds", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["h"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_seconds", function() { return _generate__WEBPACK_IMPORTED_MODULE_1__["h"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_minutes", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["f"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_minutes", function() { return _generate__WEBPACK_IMPORTED_MODULE_1__["f"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_days", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["e"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_days", function() { return _generate__WEBPACK_IMPORTED_MODULE_1__["e"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_ISO8601_extended_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["a"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_ISO8601_extended_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_1__["a"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_ISO8601_simplified_minutes", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["c"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_ISO8601_simplified_minutes", function() { return _generate__WEBPACK_IMPORTED_MODULE_1__["c"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_ISO8601_simplified_day", function() { return _generate__WEBPACK_IMPORTED_MODULE_0__["b"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_ISO8601_simplified_day", function() { return _generate__WEBPACK_IMPORTED_MODULE_1__["b"]; });
 
 
 
-/***/ }),
-
-/***/ 3:
-/***/ (function(module, exports) {
-
-module.exports = require("util");
 
 /***/ }),
 
-/***/ 32:
-/***/ (function(module, exports) {
+/***/ 37:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-module.exports = require("assert");
-
-/***/ }),
-
-/***/ 39:
-/***/ (function(module, exports) {
-
-module.exports = require("tty");
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return DEFAULT_LOG_LEVEL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DEFAULT_LOGGER_KEY; });
+// base to be directly importable from other modules
+// without a full lib penalty.
+// This a very very specific use case, don't mind.
+const DEFAULT_LOG_LEVEL = 'error';
+const DEFAULT_LOGGER_KEY = ''; // yes, can be used as a key
 
 /***/ }),
 
 /***/ 4:
 /***/ (function(module, exports) {
 
+module.exports = require("util");
+
+/***/ }),
+
+/***/ 40:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* reexport */ consts["b" /* LIB */]; });
+__webpack_require__.d(__webpack_exports__, "c", function() { return /* binding */ isSEC; });
+__webpack_require__.d(__webpack_exports__, "b", function() { return /* binding */ createSEC; });
+
+// NAMESPACE OBJECT: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/logical-stack/state.js
+var logical_stack_state_namespaceObject = {};
+__webpack_require__.r(logical_stack_state_namespaceObject);
+__webpack_require__.d(logical_stack_state_namespaceObject, "create", function() { return state_create; });
+__webpack_require__.d(logical_stack_state_namespaceObject, "set_module", function() { return set_module; });
+__webpack_require__.d(logical_stack_state_namespaceObject, "set_operation", function() { return set_operation; });
+
+// NAMESPACE OBJECT: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/dependency-injection/state.js
+var dependency_injection_state_namespaceObject = {};
+__webpack_require__.r(dependency_injection_state_namespaceObject);
+__webpack_require__.d(dependency_injection_state_namespaceObject, "create", function() { return dependency_injection_state_create; });
+__webpack_require__.d(dependency_injection_state_namespaceObject, "injectDependencies", function() { return state_injectDependencies; });
+
+// NAMESPACE OBJECT: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/error-handling/state.js
+var error_handling_state_namespaceObject = {};
+__webpack_require__.r(error_handling_state_namespaceObject);
+__webpack_require__.d(error_handling_state_namespaceObject, "create", function() { return error_handling_state_create; });
+__webpack_require__.d(error_handling_state_namespaceObject, "addDetail", function() { return addDetail; });
+
+// NAMESPACE OBJECT: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/analytics/state.js
+var analytics_state_namespaceObject = {};
+__webpack_require__.r(analytics_state_namespaceObject);
+__webpack_require__.d(analytics_state_namespaceObject, "create", function() { return analytics_state_create; });
+__webpack_require__.d(analytics_state_namespaceObject, "addDetail", function() { return state_addDetail; });
+
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/consts.js
+var consts = __webpack_require__(0);
+
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/emittery/index.js
+var emittery = __webpack_require__(102);
+var emittery_default = /*#__PURE__*/__webpack_require__.n(emittery);
+
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/root-prototype.js
+ /////////////////////
+
+const ROOT_PROTOTYPE = Object.create(null); // global bus shared by all SECs
+
+ROOT_PROTOTYPE.emitter = new emittery_default.a(); // common functions
+// because we often set the same details
+
+ROOT_PROTOTYPE.setAnalyticsAndErrorDetails = function setAnalyticsAndErrorDetails(details = {}) {
+  const SEC = this;
+  return SEC.setAnalyticsDetails(details).setErrorReportDetails(details);
+}; /////////////////////
+
+
+
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/state.js
+// Note: let's keep everything immutable
+/////////////////////
+let instance_count = 0;
+
+function create(parent_state) {
+  return {
+    sid: instance_count++,
+    parent: parent_state || null,
+    plugins: {},
+    cache: {}
+  };
+}
+
+function activate_plugin(state, PLUGIN
+/*, args*/
+) {
+  const plugin_parent_state = state.parent ? state.parent.plugins[PLUGIN.id] : null;
+  const plugin_state = PLUGIN.state.create(plugin_parent_state);
+  return { ...state,
+    plugins: { ...state.plugins,
+      [PLUGIN.id]: { ...plugin_state,
+        sid: state.sid
+      }
+    }
+  };
+}
+
+function reduce_plugin(state, PLUGIN_ID, reducer) {
+  const initial_plugin_state = state.plugins[PLUGIN_ID];
+  const new_plugin_state = reducer(initial_plugin_state);
+  if (new_plugin_state === initial_plugin_state) return state; // no change (immutability expected)
+
+  return { ...state,
+    plugins: { ...state.plugins,
+      [PLUGIN_ID]: new_plugin_state
+    }
+  };
+} /////////////////////
+
+
+
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/logical-stack/consts.js
+const LOGICAL_STACK_BEGIN_MARKER = '';
+const LOGICAL_STACK_END_MARKER = '';
+const LOGICAL_STACK_SEPARATOR = '›'; // '⋅' '↘' ':' '•' '›'
+
+const LOGICAL_STACK_MODULE_MARKER = '';
+const LOGICAL_STACK_OPERATION_MARKER = ''; // '…'
+
+const LOGICAL_STACK_SEPARATOR_NON_ADJACENT = '…';
+
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/logical-stack/state.js
+/////////////////////
+function state_create(parent_state) {
+  const stack = parent_state ? Object.create(parent_state.stack) : (() => {
+    const stack = Object.create(null);
+    stack.module = undefined;
+    return stack;
+  })();
+  stack.operation = undefined; // should never inherit this one
+
+  return {
+    stack
+  };
+}
+
+function set_module(state, module) {
+  const {
+    stack
+  } = state;
+  if (stack.module === module) return state;
+  stack.module = module;
+  return { ...state,
+    stack
+  };
+}
+
+function set_operation(state, operation) {
+  const {
+    stack
+  } = state;
+  if (stack.operation === operation) return state;
+  stack.operation = operation;
+  return { ...state,
+    stack
+  };
+}
+
+
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/utils.js
+var utils = __webpack_require__(6);
+
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/logical-stack/index.js
+
+
+
+
+
+const PLUGIN_ID = 'logical_stack';
+const BRANCH_JUMP_PSEUDO_STATE = {
+  sid: -1,
+  plugins: {
+    [PLUGIN_ID]: {
+      stack: {
+        // NO module
+        operation: LOGICAL_STACK_SEPARATOR_NON_ADJACENT
+      }
+    }
+  }
+};
+
+function _reduceStatePathToLogicalStack(statePath) {
+  let current_module = null;
+  return statePath.reduce((res, state) => {
+    const {
+      module,
+      operation
+    } = state.plugins[PLUGIN_ID].stack;
+
+    if (module // check existence of module due to special case "BRANCH_JUMP_PSEUDO_STATE" above
+    && module !== current_module) {
+      res = res + (res.length ? LOGICAL_STACK_SEPARATOR : '') + module;
+      current_module = module;
+    }
+
+    if (operation) res = res + LOGICAL_STACK_SEPARATOR + operation + LOGICAL_STACK_OPERATION_MARKER;
+    return res;
+  }, '') + LOGICAL_STACK_END_MARKER;
+}
+
+const logical_stack_PLUGIN = {
+  id: PLUGIN_ID,
+  state: logical_stack_state_namespaceObject,
+  augment: prototype => {
+    prototype.setLogicalStack = function setLogicalStack({
+      module,
+      operation
+    }) {
+      const SEC = this;
+      let root_state = SEC[consts["a" /* INTERNAL_PROP */]];
+      root_state = reduce_plugin(root_state, PLUGIN_ID, state => {
+        if (module) state = set_module(state, module);
+        if (operation) state = set_operation(state, operation);
+        return state;
+      });
+      SEC[consts["a" /* INTERNAL_PROP */]] = root_state;
+      return SEC;
+    };
+
+    prototype.getLogicalStack = function getLogicalStack() {
+      const SEC = this;
+      return _reduceStatePathToLogicalStack(Object(utils["b" /* _getSECStatePath */])(SEC));
+    };
+
+    prototype.getShortLogicalStack = function get_stack_end() {
+      const {
+        stack
+      } = this[consts["a" /* INTERNAL_PROP */]].plugins[PLUGIN_ID];
+      return LOGICAL_STACK_BEGIN_MARKER + stack.module + LOGICAL_STACK_SEPARATOR + stack.operation + LOGICAL_STACK_OPERATION_MARKER + LOGICAL_STACK_END_MARKER;
+    };
+
+    prototype._decorateErrorWithLogicalStack = function _decorateErrorWithLogicalStack(err) {
+      const SEC = this;
+      err._temp = err._temp || {};
+      err.details = err.details || {};
+      const logicalStack = {
+        full: SEC.getLogicalStack()
+      };
+
+      if (err._temp.SEC) {
+        // OK this error is already decorated.
+        // Thus the message is also already decorated, don't touch it.
+        // BUT we may be able to add more info, can we?
+        if (err.details.logicalStack.includes(logicalStack.full)) {// ok, logical stack already chained, nothing to add
+        } else {
+          // SEC chain has branched, reconcile paths
+          // OK maybe overkill...
+          const other_path = err._temp.statePath;
+
+          const current_path = Object(utils["b" /* _getSECStatePath */])(SEC); // find common path
+
+
+          let last_common_index = 0;
+
+          for (let i = 1; i < current_path.length; ++i) {
+            if (other_path[i] !== current_path[i]) break;
+            last_common_index = i;
+          } // reconcile the 2 stack traces
+
+
+          let improvedStatePath = [].concat(current_path);
+          improvedStatePath.push(BRANCH_JUMP_PSEUDO_STATE);
+          improvedStatePath = improvedStatePath.concat(other_path.slice(last_common_index + 1));
+          err._temp.statePath = improvedStatePath;
+          err.details.logicalStack = _reduceStatePathToLogicalStack(improvedStatePath);
+        }
+      } else {
+        err._temp.SEC = SEC;
+        err._temp.statePath = Object(utils["b" /* _getSECStatePath */])(SEC);
+        logicalStack.short = SEC.getShortLogicalStack();
+
+        if (err.message.startsWith(logicalStack.short)) {
+          // can that happen??? It's a bug!
+
+          /* eslint-disable no-console */
+          console.warn('UNEXPECTED SEC non-decorated error already prefixed??');
+          /* eslint-enable no-console */
+        } else {
+          err.message = logicalStack.short + ': ' + err.message;
+        }
+
+        err.details.logicalStack = logicalStack.full;
+      }
+
+      return err;
+    };
+  }
+};
+
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/dependency-injection/state.js
+function dependency_injection_state_create(parent_state) {
+  const context = parent_state ? Object.create(parent_state.context) : Object.create(null); // NO auto-injections here, let's keep it simple. See core.
+
+  return {
+    context
+  };
+}
+
+function state_injectDependencies(state, key, value) {
+  const {
+    context
+  } = state;
+  context[key] = value;
+  return { ...state,
+    context
+  };
+} /////////////////////
+
+
+
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/dependency-injection/index.js
+
+
+
+
+const dependency_injection_PLUGIN_ID = 'dependency_injection';
+const dependency_injection_PLUGIN = {
+  id: dependency_injection_PLUGIN_ID,
+  state: dependency_injection_state_namespaceObject,
+  augment: prototype => {
+    prototype.injectDependencies = function injectDependencies(deps) {
+      let root_state = this[consts["a" /* INTERNAL_PROP */]];
+      root_state = reduce_plugin(root_state, dependency_injection_PLUGIN_ID, state => {
+        Object.entries(deps).forEach(([key, value]) => {
+          state = state_injectDependencies(state, key, value);
+        });
+        return state;
+      });
+      this[consts["a" /* INTERNAL_PROP */]] = root_state;
+      return this; // for chaining
+    };
+
+    prototype.getInjectedDependencies = function getInjectedDependencies() {
+      const plugin_state = this[consts["a" /* INTERNAL_PROP */]].plugins[dependency_injection_PLUGIN_ID];
+      return Object(utils["c" /* flattenToOwn */])(plugin_state.context);
+    };
+  }
+};
+
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-foundation/common-error-fields/dist/src.es2019/field-set.js
+var field_set = __webpack_require__(65);
+
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-foundation/normalize-error/dist/src.es2019/index.js
+ // Anything can be thrown: undefined, string, number...)
+// But that's obviously not a good practice.
+// Normalize any thrown object into a true, normal error.
+
+function normalizeError(err_like = {}) {
+  // Fact: in browser, sometimes, an error-like, un-writable object is thrown
+  // create a true, safe, writable error object
+  const true_err = new Error(err_like.message || `(non-error caught: "${err_like}")`); // properly attach fields if they exist
+
+  field_set["a" /* COMMON_ERROR_FIELDS */].forEach(prop => {
+    //if (prop in err_like)
+    if (err_like[prop]) true_err[prop] = err_like[prop];
+  });
+  return true_err;
+}
+
+/* harmony default export */ var src_es2019 = (normalizeError);
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-stdlib/promise-try/dist/src.es2019/index.js
+// http://2ality.com/2017/08/promise-try.html#work-arounds
+function promiseTry(fn) {
+  return Promise.resolve().then(fn);
+}
+
+
+// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-stdlib/timestamps/dist/src.es2019/generate.js
+var generate = __webpack_require__(83);
+
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/error-handling/state.js
+/////////////////////
+function error_handling_state_create(parent_state) {
+  const details = parent_state ? Object.create(parent_state.details) : Object.create(null); // NO auto-details here, let's keep it simple + usually shared with analytics. See core or platform specific code.
+
+  return {
+    details
+  };
+}
+
+function addDetail(state, key, value) {
+  const {
+    details
+  } = state;
+  details[key] = value;
+  return { ...state,
+    details
+  };
+} /////////////////////
+
+
+
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/error-handling/catch-factory.js
+function createCatcher({
+  decorators = [],
+  onError,
+  debugId = '?'
+} = {}) {
+  return err => {
+    //console.info(`[catchFactory from ${debugId}]`)
+    err = decorators.reduce((err, decorator) => {
+      try {
+        err = decorator(err);
+        if (!err.message) throw new Error();
+      } catch (decoratorErr) {
+        /* eslint-disable no-console */
+        console.error(`catchFactory exec from ${debugId}: bad decorator!`, {
+          err,
+          decoratorErr,
+          'decorator.name': decorator.name
+        });
+        /* eslint-enable no-console */
+      }
+
+      return err;
+    }, err);
+    if (onError) return onError(err);
+    throw err; // or rethrow since still unhandled
+  };
+}
+
+
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/error-handling/index.js
+
+
+
+
+
+
+
+
+
+const error_handling_PLUGIN_ID = 'error_handling';
+
+function cleanTemp(err) {
+  delete err._temp;
+  return err;
+}
+
+const error_handling_PLUGIN = {
+  id: error_handling_PLUGIN_ID,
+  state: error_handling_state_namespaceObject,
+  augment: prototype => {
+    prototype._handleError = function handleError({
+      SEC,
+      debugId = '?',
+      shouldRethrow = true
+    }, err) {
+      createCatcher({
+        debugId,
+        decorators: [src_es2019, err => SEC._decorateErrorWithLogicalStack(err), err => SEC._decorateErrorWithDetails(err)],
+        onError: shouldRethrow ? null : err => SEC.emitter.emit('final-error', {
+          SEC,
+          err: cleanTemp(err)
+        })
+      })(err);
+    }; // TODO used?
+
+
+    prototype.throwNewError = function throwNewError(message, details = {}) {
+      const SEC = this;
+      const err = new Error(message);
+      err.details = details;
+
+      SEC._handleError({
+        SEC,
+        shouldRethrow: true
+      });
+    };
+
+    prototype._decorateErrorWithDetails = function _decorateErrorWithDetails(err) {
+      const SEC = this;
+      const state = SEC[consts["a" /* INTERNAL_PROP */]];
+      const now = Object(generate["d" /* get_UTC_timestamp_ms */])();
+      const autoDetails = {
+        ENV: state.plugins[dependency_injection_PLUGIN_ID].context.ENV,
+        TIME: now,
+        SESSION_DURATION_MS: now - state.plugins[dependency_injection_PLUGIN_ID].context.SESSION_START_TIME
+      };
+      const userDetails = Object(utils["c" /* flattenToOwn */])(state.plugins[error_handling_PLUGIN_ID].details);
+      err.details = { ...autoDetails,
+        ...userDetails,
+        ...(err.details || {})
+      };
+      return err;
+    };
+
+    prototype.setErrorReportDetails = function setErrorReportDetails(details) {
+      const SEC = this;
+      let root_state = SEC[consts["a" /* INTERNAL_PROP */]];
+      root_state = reduce_plugin(root_state, error_handling_PLUGIN_ID, plugin_state => {
+        Object.entries(details).forEach(([key, value]) => {
+          plugin_state = addDetail(plugin_state, key, value);
+        });
+        return plugin_state;
+      });
+      this[consts["a" /* INTERNAL_PROP */]] = root_state;
+      return SEC; // for chaining
+    };
+
+    prototype.xTry = function xTry(operation, fn) {
+      const SEC = this.createChild().setLogicalStack({
+        operation
+      });
+      const params = SEC[consts["a" /* INTERNAL_PROP */]].plugins[dependency_injection_PLUGIN_ID].context;
+
+      try {
+        return fn(params);
+      } catch (err) {
+        SEC._handleError({
+          SEC,
+          debugId: 'xTry',
+          shouldRethrow: true
+        }, err);
+      }
+    };
+
+    prototype.xTryCatch = function xTryCatch(operation, fn) {
+      const SEC = this.createChild().setLogicalStack({
+        operation
+      });
+      const params = SEC[consts["a" /* INTERNAL_PROP */]].plugins[dependency_injection_PLUGIN_ID].context;
+
+      try {
+        return fn(params);
+      } catch (err) {
+        SEC._handleError({
+          SEC,
+          debugId: 'xTryCatch',
+          shouldRethrow: false
+        }, err);
+      }
+    };
+
+    prototype.xPromiseCatch = function xPromiseCatch(operation, promise) {
+      const SEC = this.createChild().setLogicalStack({
+        operation
+      });
+      return promise.catch(err => {
+        SEC._handleError({
+          SEC,
+          debugId: 'xPromiseCatch',
+          shouldRethrow: false
+        }, err);
+      });
+    };
+
+    prototype.xPromiseTry = function xPromiseTry(operation, fn) {
+      const SEC = this.createChild().setLogicalStack({
+        operation
+      });
+      const params = SEC[consts["a" /* INTERNAL_PROP */]].plugins[dependency_injection_PLUGIN_ID].context;
+      return promiseTry(() => fn(params)).catch(err => {
+        SEC._handleError({
+          SEC,
+          debugId: 'xPromiseTry',
+          shouldRethrow: true
+        }, err);
+      });
+    };
+
+    prototype.xPromiseTryCatch = function xPromiseTryCatch(operation, fn) {
+      const SEC = this.createChild().setLogicalStack({
+        operation
+      });
+      const params = SEC[consts["a" /* INTERNAL_PROP */]].plugins[dependency_injection_PLUGIN_ID].context;
+      return promiseTry(() => fn(params)).catch(err => {
+        SEC._handleError({
+          SEC,
+          debugId: 'xPromiseTryCatch',
+          shouldRethrow: false
+        }, err);
+      });
+    };
+  }
+};
+
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/analytics/state.js
+function analytics_state_create(parent_state) {
+  const details = parent_state ? Object.create(parent_state.details) : Object.create(null); // NO auto-details here, let's keep it simple. See core or platform specific code.
+
+  return {
+    details
+  };
+}
+
+function state_addDetail(state, key, value) {
+  const {
+    details
+  } = state;
+  details[key] = value;
+  return { ...state,
+    details
+  };
+} /////////////////////
+
+
+
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/analytics/index.js
+
+
+
+
+
+
+const analytics_PLUGIN_ID = 'analytics';
+const analytics_PLUGIN = {
+  id: analytics_PLUGIN_ID,
+  state: analytics_state_namespaceObject,
+  augment: prototype => {
+    prototype.setAnalyticsDetails = function setAnalyticsDetails(details) {
+      const SEC = this;
+      let root_state = SEC[consts["a" /* INTERNAL_PROP */]];
+      root_state = reduce_plugin(root_state, analytics_PLUGIN_ID, plugin_state => {
+        Object.entries(details).forEach(([key, value]) => {
+          plugin_state = state_addDetail(plugin_state, key, value);
+        });
+        return plugin_state;
+      });
+      this[consts["a" /* INTERNAL_PROP */]] = root_state;
+      return SEC; // for chaining
+    };
+
+    prototype.fireAnalyticsEvent = function fireAnalyticsEvent(eventId, details = {}) {
+      const SEC = this;
+      const now = Object(generate["d" /* get_UTC_timestamp_ms */])();
+      const root_state = SEC[consts["a" /* INTERNAL_PROP */]];
+      if (!eventId) throw new Error('Incorrect eventId!');
+      const {
+        ENV
+      } = SEC.getInjectedDependencies();
+      const autoDetails = {
+        ENV,
+        TIME: now,
+        SESSION_DURATION_MS: now - root_state.plugins[dependency_injection_PLUGIN_ID].context.SESSION_START_TIME
+      };
+      const userDetails = SEC.getAnalyticsDetails();
+      details = { ...autoDetails,
+        ...userDetails,
+        ...details
+      };
+      SEC.emitter.emit('analytics', {
+        SEC,
+        eventId,
+        details
+      });
+      return SEC; // for chaining
+    };
+
+    prototype.getAnalyticsDetails = function getAnalyticsDetails() {
+      const SEC = this;
+      const plugin_state = SEC[consts["a" /* INTERNAL_PROP */]].plugins[analytics_PLUGIN_ID];
+      return Object(utils["c" /* flattenToOwn */])(plugin_state.details);
+    };
+  }
+};
+
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/index.js
+
+
+
+
+const PLUGINS_BY_ID = {
+  [analytics_PLUGIN]: analytics_PLUGIN,
+  [logical_stack_PLUGIN.id]: logical_stack_PLUGIN,
+  [dependency_injection_PLUGIN.id]: dependency_injection_PLUGIN,
+  [error_handling_PLUGIN.id]: error_handling_PLUGIN
+};
+const PLUGINS = Object.values(PLUGINS_BY_ID);
+
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/common.js
+/* global NODE_ENV process */
+
+const CHANNEL_UNKNOWN = 'unknown';
+
+function decorateWithDetectedEnv(SEC) {
+  const ENV = (() => {
+    try {
+      /*
+      if (typeof NODE_ENV === 'string')
+          return NODE_ENV
+       */
+      if (typeof process !== 'undefined' && "string" === 'string') return "production";
+    } catch (err) {
+      /* swallow */
+    }
+
+    return 'development';
+  })();
+
+  const IS_DEV_MODE = false;
+  const IS_VERBOSE = false;
+  const CHANNEL = CHANNEL_UNKNOWN;
+  const SESSION_START_TIME = Object(generate["d" /* get_UTC_timestamp_ms */])();
+  SEC.injectDependencies({
+    ENV,
+    'NODE_ENV': ENV,
+    IS_DEV_MODE,
+    IS_VERBOSE,
+    CHANNEL,
+    SESSION_START_TIME
+  });
+  SEC.setAnalyticsAndErrorDetails({
+    ENV,
+    CHANNEL
+  });
+}
+
+
+// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/core.js
+
+
+
+
+
+
+ROOT_PROTOTYPE.createChild = function createChild(args) {
+  return createSEC({ ...args,
+    parent: this
+  });
+};
+
+PLUGINS.forEach(PLUGIN => {
+  PLUGIN.augment(ROOT_PROTOTYPE);
+});
+
+function isSEC(SEC) {
+  return SEC && SEC[consts["a" /* INTERNAL_PROP */]];
+}
+
+function createSEC(args = {}) {
+  /////// PARAMS ///////
+  if (args.parent && !isSEC(args.parent)) throw new Error(`${consts["b" /* LIB */]}›createSEC() argument error: parent must be a valid SEC!`);
+  let unhandled_args = Object.keys(args);
+  const SEC = Object.create(ROOT_PROTOTYPE); /////// STATE ///////
+
+  const parent_state = args.parent ? args.parent[consts["a" /* INTERNAL_PROP */]] : undefined;
+  let state = create(parent_state);
+  unhandled_args = unhandled_args.filter(arg => arg !== 'parent');
+  PLUGINS.forEach(PLUGIN => {
+    state = activate_plugin(state, PLUGIN);
+  });
+  SEC[consts["a" /* INTERNAL_PROP */]] = state; // auto injections
+
+  if (!args.parent) {
+    SEC.injectDependencies({
+      logger: console
+    });
+    decorateWithDetectedEnv(SEC);
+  }
+
+  SEC.injectDependencies({
+    SEC
+  }); //console.log('createSEC', SEC, args.parent)
+  // Here we could send an event on the SEC bus. No usage for now.
+  // Her we could have lifecycle methods. No usage for now.
+
+  if (unhandled_args.length) throw new Error(`${consts["b" /* LIB */]}›createSEC() argument error: unknown args: [${unhandled_args.join(',')}]!`); /////////////////////
+
+  return SEC;
+}
+
+
+
+/***/ }),
+
+/***/ 42:
+/***/ (function(module, exports) {
+
+module.exports = require("assert");
+
+/***/ }),
+
+/***/ 5:
+/***/ (function(module, exports) {
+
 module.exports = require("fs");
 
 /***/ }),
 
-/***/ 41:
+/***/ 51:
+/***/ (function(module, exports) {
+
+module.exports = require("tty");
+
+/***/ }),
+
+/***/ 518:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const os = __webpack_require__(20);
-const tty = __webpack_require__(39);
-const hasFlag = __webpack_require__(82);
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.handler = void 0;
+
+const runner_1 = __webpack_require__(142);
+
+const require_http_method_1 = __webpack_require__(153);
+
+const test_failure_1 = __webpack_require__(277);
+
+async function _handler(SEC, event, context, response, next) {
+  response.statusCode = 200;
+  response.body = 'Error test ok: no error.';
+}
+
+const handler = (event, badly_typed_context) => {
+  return runner_1.use_middlewares_with_error_safety_net(event, badly_typed_context, [require_http_method_1.require_http_method([require_http_method_1.HttpMethod.GET]), test_failure_1.test_failure, _handler]);
+};
+
+exports.handler = handler;
+
+/***/ }),
+
+/***/ 53:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+const os = __webpack_require__(26);
+const tty = __webpack_require__(51);
+const hasFlag = __webpack_require__(105);
 
 const {env} = process;
 
@@ -9202,7 +11629,101 @@ module.exports = {
 
 /***/ }),
 
-/***/ 47:
+/***/ 6:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return flattenToOwn; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return _getSECStatePath; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _flattenSEC; });
+/* harmony import */ var _consts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+
+
+function flattenToOwn(object) {
+  if (!object) return object;
+  if (Array.isArray(object)) return object;
+  if (typeof object !== 'object') return object;
+  const res = Object.create(null);
+
+  for (const property in object) {
+    res[property] = object[property];
+  }
+
+  return res;
+} // needed for various tree traversal algorithms
+
+
+function _getSECStatePath(SEC) {
+  if (!SEC[_consts__WEBPACK_IMPORTED_MODULE_0__[/* INTERNAL_PROP */ "a"]].cache.statePath) {
+    const path = [];
+    let state = SEC[_consts__WEBPACK_IMPORTED_MODULE_0__[/* INTERNAL_PROP */ "a"]];
+
+    while (state) {
+      path.unshift(state);
+      state = state.parent;
+    }
+
+    SEC[_consts__WEBPACK_IMPORTED_MODULE_0__[/* INTERNAL_PROP */ "a"]].cache.statePath = path;
+  }
+
+  return SEC[_consts__WEBPACK_IMPORTED_MODULE_0__[/* INTERNAL_PROP */ "a"]].cache.statePath;
+} // for debug
+
+
+function _flattenSEC(SEC) {
+  const plugins = { ...SEC[_consts__WEBPACK_IMPORTED_MODULE_0__[/* INTERNAL_PROP */ "a"]].plugins
+  };
+  plugins.analytics.details = flattenToOwn(plugins.analytics.details);
+  plugins.dependency_injection.context = flattenToOwn(plugins.dependency_injection.context);
+  plugins.error_handling.details = flattenToOwn(plugins.error_handling.details);
+  plugins.logical_stack.stack = flattenToOwn(plugins.logical_stack.stack);
+  return plugins;
+}
+
+
+
+/***/ }),
+
+/***/ 60:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createLogger", function() { return createLogger; });
+/* harmony import */ var _offirmo_practical_logger_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(180);
+/* harmony import */ var _sinks_to_console__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(104);
+
+
+const ORIGINAL_CONSOLE = console;
+
+function createLogger(p = {}) {
+  var _a;
+
+  const {
+    group,
+    groupCollapsed,
+    groupEnd
+  } = ORIGINAL_CONSOLE;
+  return { ...Object(_offirmo_practical_logger_core__WEBPACK_IMPORTED_MODULE_0__[/* create */ "a"])(p, ((_a = p.sinkOptions) === null || _a === void 0 ? void 0 : _a.sink) || Object(_sinks_to_console__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(p.sinkOptions)),
+    group,
+    groupCollapsed,
+    groupEnd
+  };
+}
+
+
+
+
+
+/***/ }),
+
+/***/ 64:
+/***/ (function(module, exports) {
+
+
+
+/***/ }),
+
+/***/ 65:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9226,7 +11747,7 @@ const COMMON_ERROR_FIELDS = DEFAULT_INSTANCE;
 
 /***/ }),
 
-/***/ 48:
+/***/ 66:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9485,49 +12006,20 @@ function __classPrivateFieldSet(receiver, privateMap, value) {
 
 /***/ }),
 
-/***/ 488:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-const runner_1 = __webpack_require__(118);
-
-const require_http_method_1 = __webpack_require__(128);
-
-const test_failure_1 = __webpack_require__(247);
-
-async function _handler(SEC, event, context, response, next) {
-  response.statusCode = 200;
-  response.body = 'Error test ok: no error.';
-}
-
-const handler = (event, badly_typed_context) => {
-  return runner_1.use_middlewares_with_error_safety_net(event, badly_typed_context, [require_http_method_1.require_http_method([require_http_method_1.HttpMethod.GET]), test_failure_1.test_failure, _handler]);
-};
-
-exports.handler = handler;
-
-/***/ }),
-
-/***/ 49:
+/***/ 67:
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
  * Module dependencies.
  */
 
-var net = __webpack_require__(66);
-var tls = __webpack_require__(67);
-var url = __webpack_require__(21);
-var assert = __webpack_require__(32);
-var Agent = __webpack_require__(85);
-var inherits = __webpack_require__(3).inherits;
-var debug = __webpack_require__(87)('https-proxy-agent');
+var net = __webpack_require__(88);
+var tls = __webpack_require__(89);
+var url = __webpack_require__(15);
+var assert = __webpack_require__(42);
+var Agent = __webpack_require__(108);
+var inherits = __webpack_require__(4).inherits;
+var debug = __webpack_require__(110)('https-proxy-agent');
 
 /**
  * Module exports.
@@ -9760,7 +12252,596 @@ function isDefaultPort(port, secure) {
 
 /***/ }),
 
-/***/ 5:
+/***/ 68:
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/**
+ * This is the common logic for both the Node.js and web browser
+ * implementations of `debug()`.
+ */
+
+function setup(env) {
+	createDebug.debug = createDebug;
+	createDebug.default = createDebug;
+	createDebug.coerce = coerce;
+	createDebug.disable = disable;
+	createDebug.enable = enable;
+	createDebug.enabled = enabled;
+	createDebug.humanize = __webpack_require__(112);
+
+	Object.keys(env).forEach(key => {
+		createDebug[key] = env[key];
+	});
+
+	/**
+	* Active `debug` instances.
+	*/
+	createDebug.instances = [];
+
+	/**
+	* The currently active debug mode names, and names to skip.
+	*/
+
+	createDebug.names = [];
+	createDebug.skips = [];
+
+	/**
+	* Map of special "%n" handling functions, for the debug "format" argument.
+	*
+	* Valid key names are a single, lower or upper-case letter, i.e. "n" and "N".
+	*/
+	createDebug.formatters = {};
+
+	/**
+	* Selects a color for a debug namespace
+	* @param {String} namespace The namespace string for the for the debug instance to be colored
+	* @return {Number|String} An ANSI color code for the given namespace
+	* @api private
+	*/
+	function selectColor(namespace) {
+		let hash = 0;
+
+		for (let i = 0; i < namespace.length; i++) {
+			hash = ((hash << 5) - hash) + namespace.charCodeAt(i);
+			hash |= 0; // Convert to 32bit integer
+		}
+
+		return createDebug.colors[Math.abs(hash) % createDebug.colors.length];
+	}
+	createDebug.selectColor = selectColor;
+
+	/**
+	* Create a debugger with the given `namespace`.
+	*
+	* @param {String} namespace
+	* @return {Function}
+	* @api public
+	*/
+	function createDebug(namespace) {
+		let prevTime;
+
+		function debug(...args) {
+			// Disabled?
+			if (!debug.enabled) {
+				return;
+			}
+
+			const self = debug;
+
+			// Set `diff` timestamp
+			const curr = Number(new Date());
+			const ms = curr - (prevTime || curr);
+			self.diff = ms;
+			self.prev = prevTime;
+			self.curr = curr;
+			prevTime = curr;
+
+			args[0] = createDebug.coerce(args[0]);
+
+			if (typeof args[0] !== 'string') {
+				// Anything else let's inspect with %O
+				args.unshift('%O');
+			}
+
+			// Apply any `formatters` transformations
+			let index = 0;
+			args[0] = args[0].replace(/%([a-zA-Z%])/g, (match, format) => {
+				// If we encounter an escaped % then don't increase the array index
+				if (match === '%%') {
+					return match;
+				}
+				index++;
+				const formatter = createDebug.formatters[format];
+				if (typeof formatter === 'function') {
+					const val = args[index];
+					match = formatter.call(self, val);
+
+					// Now we need to remove `args[index]` since it's inlined in the `format`
+					args.splice(index, 1);
+					index--;
+				}
+				return match;
+			});
+
+			// Apply env-specific formatting (colors, etc.)
+			createDebug.formatArgs.call(self, args);
+
+			const logFn = self.log || createDebug.log;
+			logFn.apply(self, args);
+		}
+
+		debug.namespace = namespace;
+		debug.enabled = createDebug.enabled(namespace);
+		debug.useColors = createDebug.useColors();
+		debug.color = selectColor(namespace);
+		debug.destroy = destroy;
+		debug.extend = extend;
+		// Debug.formatArgs = formatArgs;
+		// debug.rawLog = rawLog;
+
+		// env-specific initialization logic for debug instances
+		if (typeof createDebug.init === 'function') {
+			createDebug.init(debug);
+		}
+
+		createDebug.instances.push(debug);
+
+		return debug;
+	}
+
+	function destroy() {
+		const index = createDebug.instances.indexOf(this);
+		if (index !== -1) {
+			createDebug.instances.splice(index, 1);
+			return true;
+		}
+		return false;
+	}
+
+	function extend(namespace, delimiter) {
+		const newDebug = createDebug(this.namespace + (typeof delimiter === 'undefined' ? ':' : delimiter) + namespace);
+		newDebug.log = this.log;
+		return newDebug;
+	}
+
+	/**
+	* Enables a debug mode by namespaces. This can include modes
+	* separated by a colon and wildcards.
+	*
+	* @param {String} namespaces
+	* @api public
+	*/
+	function enable(namespaces) {
+		createDebug.save(namespaces);
+
+		createDebug.names = [];
+		createDebug.skips = [];
+
+		let i;
+		const split = (typeof namespaces === 'string' ? namespaces : '').split(/[\s,]+/);
+		const len = split.length;
+
+		for (i = 0; i < len; i++) {
+			if (!split[i]) {
+				// ignore empty strings
+				continue;
+			}
+
+			namespaces = split[i].replace(/\*/g, '.*?');
+
+			if (namespaces[0] === '-') {
+				createDebug.skips.push(new RegExp('^' + namespaces.substr(1) + '$'));
+			} else {
+				createDebug.names.push(new RegExp('^' + namespaces + '$'));
+			}
+		}
+
+		for (i = 0; i < createDebug.instances.length; i++) {
+			const instance = createDebug.instances[i];
+			instance.enabled = createDebug.enabled(instance.namespace);
+		}
+	}
+
+	/**
+	* Disable debug output.
+	*
+	* @return {String} namespaces
+	* @api public
+	*/
+	function disable() {
+		const namespaces = [
+			...createDebug.names.map(toNamespace),
+			...createDebug.skips.map(toNamespace).map(namespace => '-' + namespace)
+		].join(',');
+		createDebug.enable('');
+		return namespaces;
+	}
+
+	/**
+	* Returns true if the given mode name is enabled, false otherwise.
+	*
+	* @param {String} name
+	* @return {Boolean}
+	* @api public
+	*/
+	function enabled(name) {
+		if (name[name.length - 1] === '*') {
+			return true;
+		}
+
+		let i;
+		let len;
+
+		for (i = 0, len = createDebug.skips.length; i < len; i++) {
+			if (createDebug.skips[i].test(name)) {
+				return false;
+			}
+		}
+
+		for (i = 0, len = createDebug.names.length; i < len; i++) {
+			if (createDebug.names[i].test(name)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	* Convert regexp to namespace
+	*
+	* @param {RegExp} regxep
+	* @return {String} namespace
+	* @api private
+	*/
+	function toNamespace(regexp) {
+		return regexp.toString()
+			.substring(2, regexp.toString().length - 2)
+			.replace(/\.\*\?$/, '*');
+	}
+
+	/**
+	* Coerce `val`.
+	*
+	* @param {Mixed} val
+	* @return {Mixed}
+	* @api private
+	*/
+	function coerce(val) {
+		if (val instanceof Error) {
+			return val.stack || val.message;
+		}
+		return val;
+	}
+
+	createDebug.enable(createDebug.load());
+
+	return createDebug;
+}
+
+module.exports = setup;
+
+
+/***/ }),
+
+/***/ 69:
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
+ * A doubly linked list-based Least Recently Used (LRU) cache. Will keep most
+ * recently used items while discarding least recently used items when its limit
+ * is reached.
+ *
+ * Licensed under MIT. Copyright (c) 2010 Rasmus Andersson <http://hunch.se/>
+ * See README.md for details.
+ *
+ * Illustration of the design:
+ *
+ *       entry             entry             entry             entry
+ *       ______            ______            ______            ______
+ *      | head |.newer => |      |.newer => |      |.newer => | tail |
+ *      |  A   |          |  B   |          |  C   |          |  D   |
+ *      |______| <= older.|______| <= older.|______| <= older.|______|
+ *
+ *  removed  <--  <--  <--  <--  <--  <--  <--  <--  <--  <--  <--  added
+ */
+(function(g,f){
+  const e =  true ? exports : undefined;
+  f(e);
+  if (true) { !(__WEBPACK_AMD_DEFINE_FACTORY__ = (e),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) :
+				__WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)); }
+})(this, function(exports) {
+
+const NEWER = Symbol('newer');
+const OLDER = Symbol('older');
+
+function LRUMap(limit, entries) {
+  if (typeof limit !== 'number') {
+    // called as (entries)
+    entries = limit;
+    limit = 0;
+  }
+
+  this.size = 0;
+  this.limit = limit;
+  this.oldest = this.newest = undefined;
+  this._keymap = new Map();
+
+  if (entries) {
+    this.assign(entries);
+    if (limit < 1) {
+      this.limit = this.size;
+    }
+  }
+}
+
+exports.LRUMap = LRUMap;
+
+function Entry(key, value) {
+  this.key = key;
+  this.value = value;
+  this[NEWER] = undefined;
+  this[OLDER] = undefined;
+}
+
+
+LRUMap.prototype._markEntryAsUsed = function(entry) {
+  if (entry === this.newest) {
+    // Already the most recenlty used entry, so no need to update the list
+    return;
+  }
+  // HEAD--------------TAIL
+  //   <.older   .newer>
+  //  <--- add direction --
+  //   A  B  C  <D>  E
+  if (entry[NEWER]) {
+    if (entry === this.oldest) {
+      this.oldest = entry[NEWER];
+    }
+    entry[NEWER][OLDER] = entry[OLDER]; // C <-- E.
+  }
+  if (entry[OLDER]) {
+    entry[OLDER][NEWER] = entry[NEWER]; // C. --> E
+  }
+  entry[NEWER] = undefined; // D --x
+  entry[OLDER] = this.newest; // D. --> E
+  if (this.newest) {
+    this.newest[NEWER] = entry; // E. <-- D
+  }
+  this.newest = entry;
+};
+
+LRUMap.prototype.assign = function(entries) {
+  let entry, limit = this.limit || Number.MAX_VALUE;
+  this._keymap.clear();
+  let it = entries[Symbol.iterator]();
+  for (let itv = it.next(); !itv.done; itv = it.next()) {
+    let e = new Entry(itv.value[0], itv.value[1]);
+    this._keymap.set(e.key, e);
+    if (!entry) {
+      this.oldest = e;
+    } else {
+      entry[NEWER] = e;
+      e[OLDER] = entry;
+    }
+    entry = e;
+    if (limit-- == 0) {
+      throw new Error('overflow');
+    }
+  }
+  this.newest = entry;
+  this.size = this._keymap.size;
+};
+
+LRUMap.prototype.get = function(key) {
+  // First, find our cache entry
+  var entry = this._keymap.get(key);
+  if (!entry) return; // Not cached. Sorry.
+  // As <key> was found in the cache, register it as being requested recently
+  this._markEntryAsUsed(entry);
+  return entry.value;
+};
+
+LRUMap.prototype.set = function(key, value) {
+  var entry = this._keymap.get(key);
+
+  if (entry) {
+    // update existing
+    entry.value = value;
+    this._markEntryAsUsed(entry);
+    return this;
+  }
+
+  // new entry
+  this._keymap.set(key, (entry = new Entry(key, value)));
+
+  if (this.newest) {
+    // link previous tail to the new tail (entry)
+    this.newest[NEWER] = entry;
+    entry[OLDER] = this.newest;
+  } else {
+    // we're first in -- yay
+    this.oldest = entry;
+  }
+
+  // add new entry to the end of the linked list -- it's now the freshest entry.
+  this.newest = entry;
+  ++this.size;
+  if (this.size > this.limit) {
+    // we hit the limit -- remove the head
+    this.shift();
+  }
+
+  return this;
+};
+
+LRUMap.prototype.shift = function() {
+  // todo: handle special case when limit == 1
+  var entry = this.oldest;
+  if (entry) {
+    if (this.oldest[NEWER]) {
+      // advance the list
+      this.oldest = this.oldest[NEWER];
+      this.oldest[OLDER] = undefined;
+    } else {
+      // the cache is exhausted
+      this.oldest = undefined;
+      this.newest = undefined;
+    }
+    // Remove last strong reference to <entry> and remove links from the purged
+    // entry being returned:
+    entry[NEWER] = entry[OLDER] = undefined;
+    this._keymap.delete(entry.key);
+    --this.size;
+    return [entry.key, entry.value];
+  }
+};
+
+// ----------------------------------------------------------------------------
+// Following code is optional and can be removed without breaking the core
+// functionality.
+
+LRUMap.prototype.find = function(key) {
+  let e = this._keymap.get(key);
+  return e ? e.value : undefined;
+};
+
+LRUMap.prototype.has = function(key) {
+  return this._keymap.has(key);
+};
+
+LRUMap.prototype['delete'] = function(key) {
+  var entry = this._keymap.get(key);
+  if (!entry) return;
+  this._keymap.delete(entry.key);
+  if (entry[NEWER] && entry[OLDER]) {
+    // relink the older entry with the newer entry
+    entry[OLDER][NEWER] = entry[NEWER];
+    entry[NEWER][OLDER] = entry[OLDER];
+  } else if (entry[NEWER]) {
+    // remove the link to us
+    entry[NEWER][OLDER] = undefined;
+    // link the newer entry to head
+    this.oldest = entry[NEWER];
+  } else if (entry[OLDER]) {
+    // remove the link to us
+    entry[OLDER][NEWER] = undefined;
+    // link the newer entry to head
+    this.newest = entry[OLDER];
+  } else {// if(entry[OLDER] === undefined && entry.newer === undefined) {
+    this.oldest = this.newest = undefined;
+  }
+
+  this.size--;
+  return entry.value;
+};
+
+LRUMap.prototype.clear = function() {
+  // Not clearing links should be safe, as we don't expose live links to user
+  this.oldest = this.newest = undefined;
+  this.size = 0;
+  this._keymap.clear();
+};
+
+
+function EntryIterator(oldestEntry) { this.entry = oldestEntry; }
+EntryIterator.prototype[Symbol.iterator] = function() { return this; }
+EntryIterator.prototype.next = function() {
+  let ent = this.entry;
+  if (ent) {
+    this.entry = ent[NEWER];
+    return { done: false, value: [ent.key, ent.value] };
+  } else {
+    return { done: true, value: undefined };
+  }
+};
+
+
+function KeyIterator(oldestEntry) { this.entry = oldestEntry; }
+KeyIterator.prototype[Symbol.iterator] = function() { return this; }
+KeyIterator.prototype.next = function() {
+  let ent = this.entry;
+  if (ent) {
+    this.entry = ent[NEWER];
+    return { done: false, value: ent.key };
+  } else {
+    return { done: true, value: undefined };
+  }
+};
+
+function ValueIterator(oldestEntry) { this.entry = oldestEntry; }
+ValueIterator.prototype[Symbol.iterator] = function() { return this; }
+ValueIterator.prototype.next = function() {
+  let ent = this.entry;
+  if (ent) {
+    this.entry = ent[NEWER];
+    return { done: false, value: ent.value };
+  } else {
+    return { done: true, value: undefined };
+  }
+};
+
+
+LRUMap.prototype.keys = function() {
+  return new KeyIterator(this.oldest);
+};
+
+LRUMap.prototype.values = function() {
+  return new ValueIterator(this.oldest);
+};
+
+LRUMap.prototype.entries = function() {
+  return this;
+};
+
+LRUMap.prototype[Symbol.iterator] = function() {
+  return new EntryIterator(this.oldest);
+};
+
+LRUMap.prototype.forEach = function(fun, thisObj) {
+  if (typeof thisObj !== 'object') {
+    thisObj = this;
+  }
+  let entry = this.oldest;
+  while (entry) {
+    fun.call(thisObj, entry.value, entry.key, this);
+    entry = entry[NEWER];
+  }
+};
+
+/** Returns a JSON (array) representation */
+LRUMap.prototype.toJSON = function() {
+  var s = new Array(this.size), i = 0, entry = this.oldest;
+  while (entry) {
+    s[i++] = { key: entry.key, value: entry.value };
+    entry = entry[NEWER];
+  }
+  return s;
+};
+
+/** Returns a String representation */
+LRUMap.prototype.toString = function() {
+  var s = '', entry = this.oldest;
+  while (entry) {
+    s += String(entry.key)+':'+entry.value;
+    entry = entry[NEWER];
+    if (entry) {
+      s += ' < ';
+    }
+  }
+  return s;
+};
+
+});
+
+
+/***/ }),
+
+/***/ 7:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9781,8 +12862,8 @@ function isDefaultPort(port, secure) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return parseRetryAfterHeader; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return getFunctionName; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addContextToFrame; });
-/* harmony import */ var _is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-/* harmony import */ var _string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(10);
+/* harmony import */ var _is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+/* harmony import */ var _string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(12);
 
 
 /**
@@ -10166,600 +13247,11 @@ function addContextToFrame(lines, frame, linesOfContext) {
         .map(function (line) { return Object(_string__WEBPACK_IMPORTED_MODULE_1__[/* snipLine */ "b"])(line, 0); });
 }
 //# sourceMappingURL=misc.js.map
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(84)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(107)(module)))
 
 /***/ }),
 
-/***/ 50:
-/***/ (function(module, exports, __webpack_require__) {
-
-
-/**
- * This is the common logic for both the Node.js and web browser
- * implementations of `debug()`.
- */
-
-function setup(env) {
-	createDebug.debug = createDebug;
-	createDebug.default = createDebug;
-	createDebug.coerce = coerce;
-	createDebug.disable = disable;
-	createDebug.enable = enable;
-	createDebug.enabled = enabled;
-	createDebug.humanize = __webpack_require__(89);
-
-	Object.keys(env).forEach(key => {
-		createDebug[key] = env[key];
-	});
-
-	/**
-	* Active `debug` instances.
-	*/
-	createDebug.instances = [];
-
-	/**
-	* The currently active debug mode names, and names to skip.
-	*/
-
-	createDebug.names = [];
-	createDebug.skips = [];
-
-	/**
-	* Map of special "%n" handling functions, for the debug "format" argument.
-	*
-	* Valid key names are a single, lower or upper-case letter, i.e. "n" and "N".
-	*/
-	createDebug.formatters = {};
-
-	/**
-	* Selects a color for a debug namespace
-	* @param {String} namespace The namespace string for the for the debug instance to be colored
-	* @return {Number|String} An ANSI color code for the given namespace
-	* @api private
-	*/
-	function selectColor(namespace) {
-		let hash = 0;
-
-		for (let i = 0; i < namespace.length; i++) {
-			hash = ((hash << 5) - hash) + namespace.charCodeAt(i);
-			hash |= 0; // Convert to 32bit integer
-		}
-
-		return createDebug.colors[Math.abs(hash) % createDebug.colors.length];
-	}
-	createDebug.selectColor = selectColor;
-
-	/**
-	* Create a debugger with the given `namespace`.
-	*
-	* @param {String} namespace
-	* @return {Function}
-	* @api public
-	*/
-	function createDebug(namespace) {
-		let prevTime;
-
-		function debug(...args) {
-			// Disabled?
-			if (!debug.enabled) {
-				return;
-			}
-
-			const self = debug;
-
-			// Set `diff` timestamp
-			const curr = Number(new Date());
-			const ms = curr - (prevTime || curr);
-			self.diff = ms;
-			self.prev = prevTime;
-			self.curr = curr;
-			prevTime = curr;
-
-			args[0] = createDebug.coerce(args[0]);
-
-			if (typeof args[0] !== 'string') {
-				// Anything else let's inspect with %O
-				args.unshift('%O');
-			}
-
-			// Apply any `formatters` transformations
-			let index = 0;
-			args[0] = args[0].replace(/%([a-zA-Z%])/g, (match, format) => {
-				// If we encounter an escaped % then don't increase the array index
-				if (match === '%%') {
-					return match;
-				}
-				index++;
-				const formatter = createDebug.formatters[format];
-				if (typeof formatter === 'function') {
-					const val = args[index];
-					match = formatter.call(self, val);
-
-					// Now we need to remove `args[index]` since it's inlined in the `format`
-					args.splice(index, 1);
-					index--;
-				}
-				return match;
-			});
-
-			// Apply env-specific formatting (colors, etc.)
-			createDebug.formatArgs.call(self, args);
-
-			const logFn = self.log || createDebug.log;
-			logFn.apply(self, args);
-		}
-
-		debug.namespace = namespace;
-		debug.enabled = createDebug.enabled(namespace);
-		debug.useColors = createDebug.useColors();
-		debug.color = selectColor(namespace);
-		debug.destroy = destroy;
-		debug.extend = extend;
-		// Debug.formatArgs = formatArgs;
-		// debug.rawLog = rawLog;
-
-		// env-specific initialization logic for debug instances
-		if (typeof createDebug.init === 'function') {
-			createDebug.init(debug);
-		}
-
-		createDebug.instances.push(debug);
-
-		return debug;
-	}
-
-	function destroy() {
-		const index = createDebug.instances.indexOf(this);
-		if (index !== -1) {
-			createDebug.instances.splice(index, 1);
-			return true;
-		}
-		return false;
-	}
-
-	function extend(namespace, delimiter) {
-		const newDebug = createDebug(this.namespace + (typeof delimiter === 'undefined' ? ':' : delimiter) + namespace);
-		newDebug.log = this.log;
-		return newDebug;
-	}
-
-	/**
-	* Enables a debug mode by namespaces. This can include modes
-	* separated by a colon and wildcards.
-	*
-	* @param {String} namespaces
-	* @api public
-	*/
-	function enable(namespaces) {
-		createDebug.save(namespaces);
-
-		createDebug.names = [];
-		createDebug.skips = [];
-
-		let i;
-		const split = (typeof namespaces === 'string' ? namespaces : '').split(/[\s,]+/);
-		const len = split.length;
-
-		for (i = 0; i < len; i++) {
-			if (!split[i]) {
-				// ignore empty strings
-				continue;
-			}
-
-			namespaces = split[i].replace(/\*/g, '.*?');
-
-			if (namespaces[0] === '-') {
-				createDebug.skips.push(new RegExp('^' + namespaces.substr(1) + '$'));
-			} else {
-				createDebug.names.push(new RegExp('^' + namespaces + '$'));
-			}
-		}
-
-		for (i = 0; i < createDebug.instances.length; i++) {
-			const instance = createDebug.instances[i];
-			instance.enabled = createDebug.enabled(instance.namespace);
-		}
-	}
-
-	/**
-	* Disable debug output.
-	*
-	* @return {String} namespaces
-	* @api public
-	*/
-	function disable() {
-		const namespaces = [
-			...createDebug.names.map(toNamespace),
-			...createDebug.skips.map(toNamespace).map(namespace => '-' + namespace)
-		].join(',');
-		createDebug.enable('');
-		return namespaces;
-	}
-
-	/**
-	* Returns true if the given mode name is enabled, false otherwise.
-	*
-	* @param {String} name
-	* @return {Boolean}
-	* @api public
-	*/
-	function enabled(name) {
-		if (name[name.length - 1] === '*') {
-			return true;
-		}
-
-		let i;
-		let len;
-
-		for (i = 0, len = createDebug.skips.length; i < len; i++) {
-			if (createDebug.skips[i].test(name)) {
-				return false;
-			}
-		}
-
-		for (i = 0, len = createDebug.names.length; i < len; i++) {
-			if (createDebug.names[i].test(name)) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	* Convert regexp to namespace
-	*
-	* @param {RegExp} regxep
-	* @return {String} namespace
-	* @api private
-	*/
-	function toNamespace(regexp) {
-		return regexp.toString()
-			.substring(2, regexp.toString().length - 2)
-			.replace(/\.\*\?$/, '*');
-	}
-
-	/**
-	* Coerce `val`.
-	*
-	* @param {Mixed} val
-	* @return {Mixed}
-	* @api private
-	*/
-	function coerce(val) {
-		if (val instanceof Error) {
-			return val.stack || val.message;
-		}
-		return val;
-	}
-
-	createDebug.enable(createDebug.load());
-
-	return createDebug;
-}
-
-module.exports = setup;
-
-
-/***/ }),
-
-/***/ 51:
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
- * A doubly linked list-based Least Recently Used (LRU) cache. Will keep most
- * recently used items while discarding least recently used items when its limit
- * is reached.
- *
- * Licensed under MIT. Copyright (c) 2010 Rasmus Andersson <http://hunch.se/>
- * See README.md for details.
- *
- * Illustration of the design:
- *
- *       entry             entry             entry             entry
- *       ______            ______            ______            ______
- *      | head |.newer => |      |.newer => |      |.newer => | tail |
- *      |  A   |          |  B   |          |  C   |          |  D   |
- *      |______| <= older.|______| <= older.|______| <= older.|______|
- *
- *  removed  <--  <--  <--  <--  <--  <--  <--  <--  <--  <--  <--  added
- */
-(function(g,f){
-  const e =  true ? exports : undefined;
-  f(e);
-  if (true) { !(__WEBPACK_AMD_DEFINE_FACTORY__ = (e),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) :
-				__WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)); }
-})(this, function(exports) {
-
-const NEWER = Symbol('newer');
-const OLDER = Symbol('older');
-
-function LRUMap(limit, entries) {
-  if (typeof limit !== 'number') {
-    // called as (entries)
-    entries = limit;
-    limit = 0;
-  }
-
-  this.size = 0;
-  this.limit = limit;
-  this.oldest = this.newest = undefined;
-  this._keymap = new Map();
-
-  if (entries) {
-    this.assign(entries);
-    if (limit < 1) {
-      this.limit = this.size;
-    }
-  }
-}
-
-exports.LRUMap = LRUMap;
-
-function Entry(key, value) {
-  this.key = key;
-  this.value = value;
-  this[NEWER] = undefined;
-  this[OLDER] = undefined;
-}
-
-
-LRUMap.prototype._markEntryAsUsed = function(entry) {
-  if (entry === this.newest) {
-    // Already the most recenlty used entry, so no need to update the list
-    return;
-  }
-  // HEAD--------------TAIL
-  //   <.older   .newer>
-  //  <--- add direction --
-  //   A  B  C  <D>  E
-  if (entry[NEWER]) {
-    if (entry === this.oldest) {
-      this.oldest = entry[NEWER];
-    }
-    entry[NEWER][OLDER] = entry[OLDER]; // C <-- E.
-  }
-  if (entry[OLDER]) {
-    entry[OLDER][NEWER] = entry[NEWER]; // C. --> E
-  }
-  entry[NEWER] = undefined; // D --x
-  entry[OLDER] = this.newest; // D. --> E
-  if (this.newest) {
-    this.newest[NEWER] = entry; // E. <-- D
-  }
-  this.newest = entry;
-};
-
-LRUMap.prototype.assign = function(entries) {
-  let entry, limit = this.limit || Number.MAX_VALUE;
-  this._keymap.clear();
-  let it = entries[Symbol.iterator]();
-  for (let itv = it.next(); !itv.done; itv = it.next()) {
-    let e = new Entry(itv.value[0], itv.value[1]);
-    this._keymap.set(e.key, e);
-    if (!entry) {
-      this.oldest = e;
-    } else {
-      entry[NEWER] = e;
-      e[OLDER] = entry;
-    }
-    entry = e;
-    if (limit-- == 0) {
-      throw new Error('overflow');
-    }
-  }
-  this.newest = entry;
-  this.size = this._keymap.size;
-};
-
-LRUMap.prototype.get = function(key) {
-  // First, find our cache entry
-  var entry = this._keymap.get(key);
-  if (!entry) return; // Not cached. Sorry.
-  // As <key> was found in the cache, register it as being requested recently
-  this._markEntryAsUsed(entry);
-  return entry.value;
-};
-
-LRUMap.prototype.set = function(key, value) {
-  var entry = this._keymap.get(key);
-
-  if (entry) {
-    // update existing
-    entry.value = value;
-    this._markEntryAsUsed(entry);
-    return this;
-  }
-
-  // new entry
-  this._keymap.set(key, (entry = new Entry(key, value)));
-
-  if (this.newest) {
-    // link previous tail to the new tail (entry)
-    this.newest[NEWER] = entry;
-    entry[OLDER] = this.newest;
-  } else {
-    // we're first in -- yay
-    this.oldest = entry;
-  }
-
-  // add new entry to the end of the linked list -- it's now the freshest entry.
-  this.newest = entry;
-  ++this.size;
-  if (this.size > this.limit) {
-    // we hit the limit -- remove the head
-    this.shift();
-  }
-
-  return this;
-};
-
-LRUMap.prototype.shift = function() {
-  // todo: handle special case when limit == 1
-  var entry = this.oldest;
-  if (entry) {
-    if (this.oldest[NEWER]) {
-      // advance the list
-      this.oldest = this.oldest[NEWER];
-      this.oldest[OLDER] = undefined;
-    } else {
-      // the cache is exhausted
-      this.oldest = undefined;
-      this.newest = undefined;
-    }
-    // Remove last strong reference to <entry> and remove links from the purged
-    // entry being returned:
-    entry[NEWER] = entry[OLDER] = undefined;
-    this._keymap.delete(entry.key);
-    --this.size;
-    return [entry.key, entry.value];
-  }
-};
-
-// ----------------------------------------------------------------------------
-// Following code is optional and can be removed without breaking the core
-// functionality.
-
-LRUMap.prototype.find = function(key) {
-  let e = this._keymap.get(key);
-  return e ? e.value : undefined;
-};
-
-LRUMap.prototype.has = function(key) {
-  return this._keymap.has(key);
-};
-
-LRUMap.prototype['delete'] = function(key) {
-  var entry = this._keymap.get(key);
-  if (!entry) return;
-  this._keymap.delete(entry.key);
-  if (entry[NEWER] && entry[OLDER]) {
-    // relink the older entry with the newer entry
-    entry[OLDER][NEWER] = entry[NEWER];
-    entry[NEWER][OLDER] = entry[OLDER];
-  } else if (entry[NEWER]) {
-    // remove the link to us
-    entry[NEWER][OLDER] = undefined;
-    // link the newer entry to head
-    this.oldest = entry[NEWER];
-  } else if (entry[OLDER]) {
-    // remove the link to us
-    entry[OLDER][NEWER] = undefined;
-    // link the newer entry to head
-    this.newest = entry[OLDER];
-  } else {// if(entry[OLDER] === undefined && entry.newer === undefined) {
-    this.oldest = this.newest = undefined;
-  }
-
-  this.size--;
-  return entry.value;
-};
-
-LRUMap.prototype.clear = function() {
-  // Not clearing links should be safe, as we don't expose live links to user
-  this.oldest = this.newest = undefined;
-  this.size = 0;
-  this._keymap.clear();
-};
-
-
-function EntryIterator(oldestEntry) { this.entry = oldestEntry; }
-EntryIterator.prototype[Symbol.iterator] = function() { return this; }
-EntryIterator.prototype.next = function() {
-  let ent = this.entry;
-  if (ent) {
-    this.entry = ent[NEWER];
-    return { done: false, value: [ent.key, ent.value] };
-  } else {
-    return { done: true, value: undefined };
-  }
-};
-
-
-function KeyIterator(oldestEntry) { this.entry = oldestEntry; }
-KeyIterator.prototype[Symbol.iterator] = function() { return this; }
-KeyIterator.prototype.next = function() {
-  let ent = this.entry;
-  if (ent) {
-    this.entry = ent[NEWER];
-    return { done: false, value: ent.key };
-  } else {
-    return { done: true, value: undefined };
-  }
-};
-
-function ValueIterator(oldestEntry) { this.entry = oldestEntry; }
-ValueIterator.prototype[Symbol.iterator] = function() { return this; }
-ValueIterator.prototype.next = function() {
-  let ent = this.entry;
-  if (ent) {
-    this.entry = ent[NEWER];
-    return { done: false, value: ent.value };
-  } else {
-    return { done: true, value: undefined };
-  }
-};
-
-
-LRUMap.prototype.keys = function() {
-  return new KeyIterator(this.oldest);
-};
-
-LRUMap.prototype.values = function() {
-  return new ValueIterator(this.oldest);
-};
-
-LRUMap.prototype.entries = function() {
-  return this;
-};
-
-LRUMap.prototype[Symbol.iterator] = function() {
-  return new EntryIterator(this.oldest);
-};
-
-LRUMap.prototype.forEach = function(fun, thisObj) {
-  if (typeof thisObj !== 'object') {
-    thisObj = this;
-  }
-  let entry = this.oldest;
-  while (entry) {
-    fun.call(thisObj, entry.value, entry.key, this);
-    entry = entry[NEWER];
-  }
-};
-
-/** Returns a JSON (array) representation */
-LRUMap.prototype.toJSON = function() {
-  var s = new Array(this.size), i = 0, entry = this.oldest;
-  while (entry) {
-    s[i++] = { key: entry.key, value: entry.value };
-    entry = entry[NEWER];
-  }
-  return s;
-};
-
-/** Returns a String representation */
-LRUMap.prototype.toString = function() {
-  var s = '', entry = this.oldest;
-  while (entry) {
-    s += String(entry.key)+':'+entry.value;
-    entry = entry[NEWER];
-    if (entry) {
-      s += ' < ';
-    }
-  }
-  return s;
-};
-
-});
-
-
-/***/ }),
-
-/***/ 52:
+/***/ 70:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10962,21 +13454,25 @@ function tryDecode(str, decode) {
 
 /***/ }),
 
-/***/ 53:
+/***/ 71:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _field_set__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(47);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "COMMON_ERROR_FIELDS", function() { return _field_set__WEBPACK_IMPORTED_MODULE_0__["a"]; });
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(64);
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_types__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _types__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _types__WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _field_set__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(65);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "COMMON_ERROR_FIELDS", function() { return _field_set__WEBPACK_IMPORTED_MODULE_1__["a"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "create", function() { return _field_set__WEBPACK_IMPORTED_MODULE_0__["b"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "create", function() { return _field_set__WEBPACK_IMPORTED_MODULE_1__["b"]; });
+
 
 
 
 /***/ }),
 
-/***/ 54:
+/***/ 72:
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -11005,7 +13501,7 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ 6:
+/***/ 8:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11061,7 +13557,7 @@ exports.Enum = Enum;
 
 /***/ }),
 
-/***/ 62:
+/***/ 80:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11070,9 +13566,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Endpoint", function() { return Endpoint; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get_allowed_origin", function() { return get_allowed_origin; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get_base_url", function() { return get_base_url; });
-/* harmony import */ var typescript_string_enums__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
+/* harmony import */ var typescript_string_enums__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
 /* harmony import */ var typescript_string_enums__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(typescript_string_enums__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _offirmo_universal_debug_api_placeholder__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(22);
+/* harmony import */ var _offirmo_universal_debug_api_placeholder__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(27);
 
 
 const LIB = 'functions interface'; // tslint:disable-next-line: variable-name
@@ -11114,12 +13610,12 @@ function _get_base_url(channel) {
 }
 
 function get_base_url(channel) {
-  return Object(_offirmo_universal_debug_api_placeholder__WEBPACK_IMPORTED_MODULE_1__[/* overrideHook */ "b"])('fn-base-url', _get_base_url(channel));
+  return Object(_offirmo_universal_debug_api_placeholder__WEBPACK_IMPORTED_MODULE_1__["overrideHook"])('fn-base-url', _get_base_url(channel));
 }
 
 /***/ }),
 
-/***/ 63:
+/***/ 81:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11127,7 +13623,8 @@ function get_base_url(channel) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
-}); ////////////////////////////////////
+});
+exports.get_default_JsonRpc_error = exports.JSONRPC_CODE = exports.APP = void 0; ////////////////////////////////////
 
 const APP = 'functions';
 exports.APP = APP; ////////////////////////////////////
@@ -11154,7 +13651,14 @@ exports.get_default_JsonRpc_error = get_default_JsonRpc_error;
 
 /***/ }),
 
-/***/ 64:
+/***/ 82:
+/***/ (function(module, exports) {
+
+
+
+/***/ }),
+
+/***/ 83:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11239,12 +13743,82 @@ function get_ISO8601_simplified_day(now = new Date()) {
 
 /***/ }),
 
-/***/ 65:
+/***/ 84:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(85);
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_types__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _types__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _types__WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _root__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(86);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getRootSEC", function() { return _root__WEBPACK_IMPORTED_MODULE_1__["a"]; });
+
+/* harmony import */ var _core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(40);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LIB", function() { return _core__WEBPACK_IMPORTED_MODULE_2__["a"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isSEC", function() { return _core__WEBPACK_IMPORTED_MODULE_2__["c"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createSEC", function() { return _core__WEBPACK_IMPORTED_MODULE_2__["b"]; });
+
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "flattenToOwn", function() { return _utils__WEBPACK_IMPORTED_MODULE_3__["c"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "_getSECStatePath", function() { return _utils__WEBPACK_IMPORTED_MODULE_3__["b"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "_flattenSEC", function() { return _utils__WEBPACK_IMPORTED_MODULE_3__["a"]; });
+
+
+
+
+
+
+/***/ }),
+
+/***/ 85:
+/***/ (function(module, exports) {
+
+
+
+/***/ }),
+
+/***/ 86:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getRootSEC; });
+/* harmony import */ var _offirmo_globalthis_ponyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(17);
+/* harmony import */ var _consts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(0);
+/* harmony import */ var _core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(40);
+
+
+ /////////////////////
+
+const GLOBAL_VAR_NAME = '__global_root_sec';
+
+function getRootSEC() {
+  const global_this = Object(_offirmo_globalthis_ponyfill__WEBPACK_IMPORTED_MODULE_0__[/* getGlobalThis */ "a"])();
+
+  if (!global_this[GLOBAL_VAR_NAME]) {
+    console.log(`[${_consts__WEBPACK_IMPORTED_MODULE_1__[/* LIB */ "b"]}: Creating root SEC…]`); // XXX
+
+    global_this[GLOBAL_VAR_NAME] = Object(_core__WEBPACK_IMPORTED_MODULE_2__[/* createSEC */ "b"])();
+  }
+
+  return global_this[GLOBAL_VAR_NAME];
+} /////////////////////
+
+
+
+
+/***/ }),
+
+/***/ 87:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
 /* eslint-disable no-mixed-operators */
-const cssKeywords = __webpack_require__(124);
+const cssKeywords = __webpack_require__(149);
 
 // NOTE: conversions should only return primitive values (i.e. arrays, or
 //       values that give correct `typeof` results).
@@ -12085,2348 +14659,17 @@ convert.rgb.gray = function (rgb) {
 
 /***/ }),
 
-/***/ 66:
+/***/ 88:
 /***/ (function(module, exports) {
 
 module.exports = require("net");
 
 /***/ }),
 
-/***/ 67:
-/***/ (function(module, exports) {
-
-module.exports = require("tls");
-
-/***/ }),
-
-/***/ 80:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-// ESM COMPAT FLAG
-__webpack_require__.r(__webpack_exports__);
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "getRootSEC", function() { return /* reexport */ getRootSEC; });
-__webpack_require__.d(__webpack_exports__, "LIB", function() { return /* reexport */ LIB; });
-__webpack_require__.d(__webpack_exports__, "isSEC", function() { return /* reexport */ isSEC; });
-__webpack_require__.d(__webpack_exports__, "createSEC", function() { return /* reexport */ createSEC; });
-__webpack_require__.d(__webpack_exports__, "flattenToOwn", function() { return /* reexport */ flattenToOwn; });
-__webpack_require__.d(__webpack_exports__, "_getSECStatePath", function() { return /* reexport */ _getSECStatePath; });
-__webpack_require__.d(__webpack_exports__, "_flattenSEC", function() { return /* reexport */ _flattenSEC; });
-
-// NAMESPACE OBJECT: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/logical-stack/state.js
-var logical_stack_state_namespaceObject = {};
-__webpack_require__.r(logical_stack_state_namespaceObject);
-__webpack_require__.d(logical_stack_state_namespaceObject, "create", function() { return state_create; });
-__webpack_require__.d(logical_stack_state_namespaceObject, "set_module", function() { return set_module; });
-__webpack_require__.d(logical_stack_state_namespaceObject, "set_operation", function() { return set_operation; });
-
-// NAMESPACE OBJECT: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/dependency-injection/state.js
-var dependency_injection_state_namespaceObject = {};
-__webpack_require__.r(dependency_injection_state_namespaceObject);
-__webpack_require__.d(dependency_injection_state_namespaceObject, "create", function() { return dependency_injection_state_create; });
-__webpack_require__.d(dependency_injection_state_namespaceObject, "injectDependencies", function() { return state_injectDependencies; });
-
-// NAMESPACE OBJECT: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/error-handling/state.js
-var error_handling_state_namespaceObject = {};
-__webpack_require__.r(error_handling_state_namespaceObject);
-__webpack_require__.d(error_handling_state_namespaceObject, "create", function() { return error_handling_state_create; });
-__webpack_require__.d(error_handling_state_namespaceObject, "addDetail", function() { return addDetail; });
-
-// NAMESPACE OBJECT: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/analytics/state.js
-var analytics_state_namespaceObject = {};
-__webpack_require__.r(analytics_state_namespaceObject);
-__webpack_require__.d(analytics_state_namespaceObject, "create", function() { return analytics_state_create; });
-__webpack_require__.d(analytics_state_namespaceObject, "addDetail", function() { return state_addDetail; });
-
-// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-stdlib/globalthis-ponyfill/dist/src.es2019/index.js
-var src_es2019 = __webpack_require__(15);
-
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/consts.js
-const LIB = 'soft-execution-context';
-const INTERNAL_PROP = '_SEC';
-
-// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/emittery/index.js
-var emittery = __webpack_require__(81);
-var emittery_default = /*#__PURE__*/__webpack_require__.n(emittery);
-
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/root-prototype.js
- /////////////////////
-
-const ROOT_PROTOTYPE = Object.create(null); // global bus shared by all SECs
-
-ROOT_PROTOTYPE.emitter = new emittery_default.a(); // common functions
-// because we often set the same details
-
-ROOT_PROTOTYPE.setAnalyticsAndErrorDetails = function setAnalyticsAndErrorDetails(details = {}) {
-  const SEC = this;
-  return SEC.setAnalyticsDetails(details).setErrorReportDetails(details);
-}; /////////////////////
-
-
-
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/state.js
-// Note: let's keep everything immutable
-/////////////////////
-let instance_count = 0;
-
-function create(parent_state) {
-  return {
-    sid: instance_count++,
-    parent: parent_state || null,
-    plugins: {},
-    cache: {}
-  };
-}
-
-function activate_plugin(state, PLUGIN
-/*, args*/
-) {
-  const plugin_parent_state = state.parent ? state.parent.plugins[PLUGIN.id] : null;
-  const plugin_state = PLUGIN.state.create(plugin_parent_state);
-  return { ...state,
-    plugins: { ...state.plugins,
-      [PLUGIN.id]: { ...plugin_state,
-        sid: state.sid
-      }
-    }
-  };
-}
-
-function reduce_plugin(state, PLUGIN_ID, reducer) {
-  const initial_plugin_state = state.plugins[PLUGIN_ID];
-  const new_plugin_state = reducer(initial_plugin_state);
-  if (new_plugin_state === initial_plugin_state) return state; // no change (immutability expected)
-
-  return { ...state,
-    plugins: { ...state.plugins,
-      [PLUGIN_ID]: new_plugin_state
-    }
-  };
-} /////////////////////
-
-
-
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/logical-stack/consts.js
-const LOGICAL_STACK_BEGIN_MARKER = '';
-const LOGICAL_STACK_END_MARKER = '';
-const LOGICAL_STACK_SEPARATOR = '›'; // '⋅' '↘' ':' '•' '›'
-
-const LOGICAL_STACK_MODULE_MARKER = '';
-const LOGICAL_STACK_OPERATION_MARKER = ''; // '…'
-
-const LOGICAL_STACK_SEPARATOR_NON_ADJACENT = '…';
-
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/logical-stack/state.js
-/////////////////////
-function state_create(parent_state) {
-  const stack = parent_state ? Object.create(parent_state.stack) : (() => {
-    const stack = Object.create(null);
-    stack.module = undefined;
-    return stack;
-  })();
-  stack.operation = undefined; // should never inherit this one
-
-  return {
-    stack
-  };
-}
-
-function set_module(state, module) {
-  const {
-    stack
-  } = state;
-  if (stack.module === module) return state;
-  stack.module = module;
-  return { ...state,
-    stack
-  };
-}
-
-function set_operation(state, operation) {
-  const {
-    stack
-  } = state;
-  if (stack.operation === operation) return state;
-  stack.operation = operation;
-  return { ...state,
-    stack
-  };
-}
-
-
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/utils.js
-
-
-function flattenToOwn(object) {
-  if (!object) return object;
-  if (Array.isArray(object)) return object;
-  if (typeof object !== 'object') return object;
-  const res = Object.create(null);
-
-  for (const property in object) {
-    res[property] = object[property];
-  }
-
-  return res;
-} // needed for various tree traversal algorithms
-
-
-function _getSECStatePath(SEC) {
-  if (!SEC[INTERNAL_PROP].cache.statePath) {
-    const path = [];
-    let state = SEC[INTERNAL_PROP];
-
-    while (state) {
-      path.unshift(state);
-      state = state.parent;
-    }
-
-    SEC[INTERNAL_PROP].cache.statePath = path;
-  }
-
-  return SEC[INTERNAL_PROP].cache.statePath;
-} // for debug
-
-
-function _flattenSEC(SEC) {
-  const plugins = { ...SEC[INTERNAL_PROP].plugins
-  };
-  plugins.analytics.details = flattenToOwn(plugins.analytics.details);
-  plugins.dependency_injection.context = flattenToOwn(plugins.dependency_injection.context);
-  plugins.error_handling.details = flattenToOwn(plugins.error_handling.details);
-  plugins.logical_stack.stack = flattenToOwn(plugins.logical_stack.stack);
-  return plugins;
-}
-
-
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/logical-stack/index.js
-
-
-
-
-
-const PLUGIN_ID = 'logical_stack';
-const BRANCH_JUMP_PSEUDO_STATE = {
-  sid: -1,
-  plugins: {
-    [PLUGIN_ID]: {
-      stack: {
-        // NO module
-        operation: LOGICAL_STACK_SEPARATOR_NON_ADJACENT
-      }
-    }
-  }
-};
-
-function _reduceStatePathToLogicalStack(statePath) {
-  let current_module = null;
-  return statePath.reduce((res, state) => {
-    const {
-      module,
-      operation
-    } = state.plugins[PLUGIN_ID].stack;
-
-    if (module // check existence of module due to special case "BRANCH_JUMP_PSEUDO_STATE" above
-    && module !== current_module) {
-      res = res + (res.length ? LOGICAL_STACK_SEPARATOR : '') + module;
-      current_module = module;
-    }
-
-    if (operation) res = res + LOGICAL_STACK_SEPARATOR + operation + LOGICAL_STACK_OPERATION_MARKER;
-    return res;
-  }, '') + LOGICAL_STACK_END_MARKER;
-}
-
-const logical_stack_PLUGIN = {
-  id: PLUGIN_ID,
-  state: logical_stack_state_namespaceObject,
-  augment: prototype => {
-    prototype.setLogicalStack = function setLogicalStack({
-      module,
-      operation
-    }) {
-      const SEC = this;
-      let root_state = SEC[INTERNAL_PROP];
-      root_state = reduce_plugin(root_state, PLUGIN_ID, state => {
-        if (module) state = set_module(state, module);
-        if (operation) state = set_operation(state, operation);
-        return state;
-      });
-      SEC[INTERNAL_PROP] = root_state;
-      return SEC;
-    };
-
-    prototype.getLogicalStack = function getLogicalStack() {
-      const SEC = this;
-      return _reduceStatePathToLogicalStack(_getSECStatePath(SEC));
-    };
-
-    prototype.getShortLogicalStack = function get_stack_end() {
-      const {
-        stack
-      } = this[INTERNAL_PROP].plugins[PLUGIN_ID];
-      return LOGICAL_STACK_BEGIN_MARKER + stack.module + LOGICAL_STACK_SEPARATOR + stack.operation + LOGICAL_STACK_OPERATION_MARKER + LOGICAL_STACK_END_MARKER;
-    };
-
-    prototype._decorateErrorWithLogicalStack = function _decorateErrorWithLogicalStack(err) {
-      const SEC = this;
-      err._temp = err._temp || {};
-      err.details = err.details || {};
-      const logicalStack = {
-        full: SEC.getLogicalStack()
-      };
-
-      if (err._temp.SEC) {
-        // OK this error is already decorated.
-        // Thus the message is also already decorated, don't touch it.
-        // BUT we may be able to add more info, can we?
-        if (err.details.logicalStack.includes(logicalStack.full)) {// ok, logical stack already chained, nothing to add
-        } else {
-          // SEC chain has branched, reconcile paths
-          // OK maybe overkill...
-          const other_path = err._temp.statePath;
-
-          const current_path = _getSECStatePath(SEC); // find common path
-
-
-          let last_common_index = 0;
-
-          for (let i = 1; i < current_path.length; ++i) {
-            if (other_path[i] !== current_path[i]) break;
-            last_common_index = i;
-          } // reconcile the 2 stack traces
-
-
-          let improvedStatePath = [].concat(current_path);
-          improvedStatePath.push(BRANCH_JUMP_PSEUDO_STATE);
-          improvedStatePath = improvedStatePath.concat(other_path.slice(last_common_index + 1));
-          err._temp.statePath = improvedStatePath;
-          err.details.logicalStack = _reduceStatePathToLogicalStack(improvedStatePath);
-        }
-      } else {
-        err._temp.SEC = SEC;
-        err._temp.statePath = _getSECStatePath(SEC);
-        logicalStack.short = SEC.getShortLogicalStack();
-
-        if (err.message.startsWith(logicalStack.short)) {
-          // can that happen??? It's a bug!
-
-          /* eslint-disable no-console */
-          console.warn('UNEXPECTED SEC non-decorated error already prefixed??');
-          /* eslint-enable no-console */
-        } else {
-          err.message = logicalStack.short + ': ' + err.message;
-        }
-
-        err.details.logicalStack = logicalStack.full;
-      }
-
-      return err;
-    };
-  }
-};
-
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/dependency-injection/state.js
-function dependency_injection_state_create(parent_state) {
-  const context = parent_state ? Object.create(parent_state.context) : Object.create(null); // NO auto-injections here, let's keep it simple. See core.
-
-  return {
-    context
-  };
-}
-
-function state_injectDependencies(state, key, value) {
-  const {
-    context
-  } = state;
-  context[key] = value;
-  return { ...state,
-    context
-  };
-} /////////////////////
-
-
-
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/dependency-injection/index.js
-
-
-
-
-const dependency_injection_PLUGIN_ID = 'dependency_injection';
-const dependency_injection_PLUGIN = {
-  id: dependency_injection_PLUGIN_ID,
-  state: dependency_injection_state_namespaceObject,
-  augment: prototype => {
-    prototype.injectDependencies = function injectDependencies(deps) {
-      let root_state = this[INTERNAL_PROP];
-      root_state = reduce_plugin(root_state, dependency_injection_PLUGIN_ID, state => {
-        Object.entries(deps).forEach(([key, value]) => {
-          state = state_injectDependencies(state, key, value);
-        });
-        return state;
-      });
-      this[INTERNAL_PROP] = root_state;
-      return this; // for chaining
-    };
-
-    prototype.getInjectedDependencies = function getInjectedDependencies() {
-      const plugin_state = this[INTERNAL_PROP].plugins[dependency_injection_PLUGIN_ID];
-      return flattenToOwn(plugin_state.context);
-    };
-  }
-};
-
-// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-foundation/common-error-fields/dist/src.es2019/field-set.js
-var field_set = __webpack_require__(47);
-
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/2-foundation/normalize-error/dist/src.es2019/index.js
- // Anything can be thrown: undefined, string, number...)
-// But that's obviously not a good practice.
-// Normalize any thrown object into a true, normal error.
-
-function normalizeError(err_like = {}) {
-  // Fact: in browser, sometimes, an error-like, un-writable object is thrown
-  // create a true, safe, writable error object
-  const true_err = new Error(err_like.message || `(non-error caught: "${err_like}")`); // properly attach fields if they exist
-
-  field_set["a" /* COMMON_ERROR_FIELDS */].forEach(prop => {
-    //if (prop in err_like)
-    if (err_like[prop]) true_err[prop] = err_like[prop];
-  });
-  return true_err;
-}
-
-/* harmony default export */ var dist_src_es2019 = (normalizeError);
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-stdlib/promise-try/dist/src.es2019/index.js
-// http://2ality.com/2017/08/promise-try.html#work-arounds
-function promiseTry(fn) {
-  return Promise.resolve().then(fn);
-}
-
-
-// EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/1-stdlib/timestamps/dist/src.es2019/generate.js
-var generate = __webpack_require__(64);
-
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/error-handling/state.js
-/////////////////////
-function error_handling_state_create(parent_state) {
-  const details = parent_state ? Object.create(parent_state.details) : Object.create(null); // NO auto-details here, let's keep it simple + usually shared with analytics. See core or platform specific code.
-
-  return {
-    details
-  };
-}
-
-function addDetail(state, key, value) {
-  const {
-    details
-  } = state;
-  details[key] = value;
-  return { ...state,
-    details
-  };
-} /////////////////////
-
-
-
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/error-handling/catch-factory.js
-function createCatcher({
-  decorators = [],
-  onError,
-  debugId = '?'
-} = {}) {
-  return err => {
-    //console.info(`[catchFactory from ${debugId}]`)
-    err = decorators.reduce((err, decorator) => {
-      try {
-        err = decorator(err);
-        if (!err.message) throw new Error();
-      } catch (decoratorErr) {
-        /* eslint-disable no-console */
-        console.error(`catchFactory exec from ${debugId}: bad decorator!`, {
-          err,
-          decoratorErr,
-          'decorator.name': decorator.name
-        });
-        /* eslint-enable no-console */
-      }
-
-      return err;
-    }, err);
-    if (onError) return onError(err);
-    throw err; // or rethrow since still unhandled
-  };
-}
-
-
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/error-handling/index.js
-
-
-
-
-
-
-
-
-
-const error_handling_PLUGIN_ID = 'error_handling';
-
-function cleanTemp(err) {
-  delete err._temp;
-  return err;
-}
-
-const error_handling_PLUGIN = {
-  id: error_handling_PLUGIN_ID,
-  state: error_handling_state_namespaceObject,
-  augment: prototype => {
-    prototype._handleError = function handleError({
-      SEC,
-      debugId = '?',
-      shouldRethrow = true
-    }, err) {
-      createCatcher({
-        debugId,
-        decorators: [dist_src_es2019, err => SEC._decorateErrorWithLogicalStack(err), err => SEC._decorateErrorWithDetails(err)],
-        onError: shouldRethrow ? null : err => SEC.emitter.emit('final-error', {
-          SEC,
-          err: cleanTemp(err)
-        })
-      })(err);
-    }; // TODO used?
-
-
-    prototype.throwNewError = function throwNewError(message, details = {}) {
-      const SEC = this;
-      const err = new Error(message);
-      err.details = details;
-
-      SEC._handleError({
-        SEC,
-        shouldRethrow: true
-      });
-    };
-
-    prototype._decorateErrorWithDetails = function _decorateErrorWithDetails(err) {
-      const SEC = this;
-      const state = SEC[INTERNAL_PROP];
-      const now = Object(generate["d" /* get_UTC_timestamp_ms */])();
-      const autoDetails = {
-        ENV: state.plugins[dependency_injection_PLUGIN_ID].context.ENV,
-        TIME: now,
-        SESSION_DURATION_MS: now - state.plugins[dependency_injection_PLUGIN_ID].context.SESSION_START_TIME
-      };
-      const userDetails = flattenToOwn(state.plugins[error_handling_PLUGIN_ID].details);
-      err.details = { ...autoDetails,
-        ...userDetails,
-        ...(err.details || {})
-      };
-      return err;
-    };
-
-    prototype.setErrorReportDetails = function setErrorReportDetails(details) {
-      const SEC = this;
-      let root_state = SEC[INTERNAL_PROP];
-      root_state = reduce_plugin(root_state, error_handling_PLUGIN_ID, plugin_state => {
-        Object.entries(details).forEach(([key, value]) => {
-          plugin_state = addDetail(plugin_state, key, value);
-        });
-        return plugin_state;
-      });
-      this[INTERNAL_PROP] = root_state;
-      return SEC; // for chaining
-    };
-
-    prototype.xTry = function xTry(operation, fn) {
-      const SEC = this.createChild().setLogicalStack({
-        operation
-      });
-      const params = SEC[INTERNAL_PROP].plugins[dependency_injection_PLUGIN_ID].context;
-
-      try {
-        return fn(params);
-      } catch (err) {
-        SEC._handleError({
-          SEC,
-          debugId: 'xTry',
-          shouldRethrow: true
-        }, err);
-      }
-    };
-
-    prototype.xTryCatch = function xTryCatch(operation, fn) {
-      const SEC = this.createChild().setLogicalStack({
-        operation
-      });
-      const params = SEC[INTERNAL_PROP].plugins[dependency_injection_PLUGIN_ID].context;
-
-      try {
-        return fn(params);
-      } catch (err) {
-        SEC._handleError({
-          SEC,
-          debugId: 'xTryCatch',
-          shouldRethrow: false
-        }, err);
-      }
-    };
-
-    prototype.xPromiseCatch = function xPromiseCatch(operation, promise) {
-      const SEC = this.createChild().setLogicalStack({
-        operation
-      });
-      return promise.catch(err => {
-        SEC._handleError({
-          SEC,
-          debugId: 'xPromiseCatch',
-          shouldRethrow: false
-        }, err);
-      });
-    };
-
-    prototype.xPromiseTry = function xPromiseTry(operation, fn) {
-      const SEC = this.createChild().setLogicalStack({
-        operation
-      });
-      const params = SEC[INTERNAL_PROP].plugins[dependency_injection_PLUGIN_ID].context;
-      return promiseTry(() => fn(params)).catch(err => {
-        SEC._handleError({
-          SEC,
-          debugId: 'xPromiseTry',
-          shouldRethrow: true
-        }, err);
-      });
-    };
-
-    prototype.xPromiseTryCatch = function xPromiseTryCatch(operation, fn) {
-      const SEC = this.createChild().setLogicalStack({
-        operation
-      });
-      const params = SEC[INTERNAL_PROP].plugins[dependency_injection_PLUGIN_ID].context;
-      return promiseTry(() => fn(params)).catch(err => {
-        SEC._handleError({
-          SEC,
-          debugId: 'xPromiseTryCatch',
-          shouldRethrow: false
-        }, err);
-      });
-    };
-  }
-};
-
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/analytics/state.js
-function analytics_state_create(parent_state) {
-  const details = parent_state ? Object.create(parent_state.details) : Object.create(null); // NO auto-details here, let's keep it simple. See core or platform specific code.
-
-  return {
-    details
-  };
-}
-
-function state_addDetail(state, key, value) {
-  const {
-    details
-  } = state;
-  details[key] = value;
-  return { ...state,
-    details
-  };
-} /////////////////////
-
-
-
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/analytics/index.js
-
-
-
-
-
-
-const analytics_PLUGIN_ID = 'analytics';
-const analytics_PLUGIN = {
-  id: analytics_PLUGIN_ID,
-  state: analytics_state_namespaceObject,
-  augment: prototype => {
-    prototype.setAnalyticsDetails = function setAnalyticsDetails(details) {
-      const SEC = this;
-      let root_state = SEC[INTERNAL_PROP];
-      root_state = reduce_plugin(root_state, analytics_PLUGIN_ID, plugin_state => {
-        Object.entries(details).forEach(([key, value]) => {
-          plugin_state = state_addDetail(plugin_state, key, value);
-        });
-        return plugin_state;
-      });
-      this[INTERNAL_PROP] = root_state;
-      return SEC; // for chaining
-    };
-
-    prototype.fireAnalyticsEvent = function fireAnalyticsEvent(eventId, details = {}) {
-      const SEC = this;
-      const now = Object(generate["d" /* get_UTC_timestamp_ms */])();
-      const root_state = SEC[INTERNAL_PROP];
-      if (!eventId) throw new Error('Incorrect eventId!');
-      const {
-        ENV
-      } = SEC.getInjectedDependencies();
-      const autoDetails = {
-        ENV,
-        TIME: now,
-        SESSION_DURATION_MS: now - root_state.plugins[dependency_injection_PLUGIN_ID].context.SESSION_START_TIME
-      };
-      const userDetails = SEC.getAnalyticsDetails();
-      details = { ...autoDetails,
-        ...userDetails,
-        ...details
-      };
-      SEC.emitter.emit('analytics', {
-        SEC,
-        eventId,
-        details
-      });
-      return SEC; // for chaining
-    };
-
-    prototype.getAnalyticsDetails = function getAnalyticsDetails() {
-      const SEC = this;
-      const plugin_state = SEC[INTERNAL_PROP].plugins[analytics_PLUGIN_ID];
-      return flattenToOwn(plugin_state.details);
-    };
-  }
-};
-
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/plugins/index.js
-
-
-
-
-const PLUGINS_BY_ID = {
-  [analytics_PLUGIN]: analytics_PLUGIN,
-  [logical_stack_PLUGIN.id]: logical_stack_PLUGIN,
-  [dependency_injection_PLUGIN.id]: dependency_injection_PLUGIN,
-  [error_handling_PLUGIN.id]: error_handling_PLUGIN
-};
-const PLUGINS = Object.values(PLUGINS_BY_ID);
-
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/common.js
-/* global NODE_ENV process */
-
-const CHANNEL_UNKNOWN = 'unknown';
-
-function decorateWithDetectedEnv(SEC) {
-  const ENV = (() => {
-    try {
-      /*
-      if (typeof NODE_ENV === 'string')
-          return NODE_ENV
-       */
-      if (typeof process !== 'undefined' && "string" === 'string') return "production";
-    } catch (err) {
-      /* swallow */
-    }
-
-    return 'development';
-  })();
-
-  const IS_DEV_MODE = false;
-  const IS_VERBOSE = false;
-  const CHANNEL = CHANNEL_UNKNOWN;
-  const SESSION_START_TIME = Object(generate["d" /* get_UTC_timestamp_ms */])();
-  SEC.injectDependencies({
-    ENV,
-    'NODE_ENV': ENV,
-    IS_DEV_MODE,
-    IS_VERBOSE,
-    CHANNEL,
-    SESSION_START_TIME
-  });
-  SEC.setAnalyticsAndErrorDetails({
-    ENV,
-    CHANNEL
-  });
-}
-
-
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/core.js
-
-
-
-
-
-
-ROOT_PROTOTYPE.createChild = function createChild(args) {
-  return createSEC({ ...args,
-    parent: this
-  });
-};
-
-PLUGINS.forEach(PLUGIN => {
-  PLUGIN.augment(ROOT_PROTOTYPE);
-});
-
-function isSEC(SEC) {
-  return SEC && SEC[INTERNAL_PROP];
-}
-
-function createSEC(args = {}) {
-  /////// PARAMS ///////
-  if (args.parent && !isSEC(args.parent)) throw new Error(`${LIB}›createSEC() argument error: parent must be a valid SEC!`);
-  let unhandled_args = Object.keys(args);
-  const SEC = Object.create(ROOT_PROTOTYPE); /////// STATE ///////
-
-  const parent_state = args.parent ? args.parent[INTERNAL_PROP] : undefined;
-  let state = create(parent_state);
-  unhandled_args = unhandled_args.filter(arg => arg !== 'parent');
-  PLUGINS.forEach(PLUGIN => {
-    state = activate_plugin(state, PLUGIN);
-  });
-  SEC[INTERNAL_PROP] = state; // auto injections
-
-  if (!args.parent) {
-    SEC.injectDependencies({
-      logger: console
-    });
-    decorateWithDetectedEnv(SEC);
-  }
-
-  SEC.injectDependencies({
-    SEC
-  }); //console.log('createSEC', SEC, args.parent)
-  // Here we could send an event on the SEC bus. No usage for now.
-  // Her we could have lifecycle methods. No usage for now.
-
-  if (unhandled_args.length) throw new Error(`${LIB}›createSEC() argument error: unknown args: [${unhandled_args.join(',')}]!`); /////////////////////
-
-  return SEC;
-}
-
-
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/root.js
-
-
- /////////////////////
-
-const GLOBAL_VAR_NAME = '__global_root_sec';
-
-function getRootSEC() {
-  const global_this = Object(src_es2019["a" /* getGlobalThis */])();
-
-  if (!global_this[GLOBAL_VAR_NAME]) {
-    console.log(`[${LIB}: Creating root SEC…]`); // XXX
-
-    global_this[GLOBAL_VAR_NAME] = createSEC();
-  }
-
-  return global_this[GLOBAL_VAR_NAME];
-} /////////////////////
-
-
-
-// CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/index.js
-
-
-
-
-/***/ }),
-
-/***/ 81:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-const anyMap = new WeakMap();
-const eventsMap = new WeakMap();
-const producersMap = new WeakMap();
-const anyProducer = Symbol('anyProducer');
-const resolvedPromise = Promise.resolve();
-
-const listenerAdded = Symbol('listenerAdded');
-const listenerRemoved = Symbol('listenerRemoved');
-
-function assertEventName(eventName) {
-	if (typeof eventName !== 'string' && typeof eventName !== 'symbol') {
-		throw new TypeError('eventName must be a string or a symbol');
-	}
-}
-
-function assertListener(listener) {
-	if (typeof listener !== 'function') {
-		throw new TypeError('listener must be a function');
-	}
-}
-
-function getListeners(instance, eventName) {
-	const events = eventsMap.get(instance);
-	if (!events.has(eventName)) {
-		events.set(eventName, new Set());
-	}
-
-	return events.get(eventName);
-}
-
-function getEventProducers(instance, eventName) {
-	const key = typeof eventName === 'string' ? eventName : anyProducer;
-	const producers = producersMap.get(instance);
-	if (!producers.has(key)) {
-		producers.set(key, new Set());
-	}
-
-	return producers.get(key);
-}
-
-function enqueueProducers(instance, eventName, eventData) {
-	const producers = producersMap.get(instance);
-	if (producers.has(eventName)) {
-		for (const producer of producers.get(eventName)) {
-			producer.enqueue(eventData);
-		}
-	}
-
-	if (producers.has(anyProducer)) {
-		const item = Promise.all([eventName, eventData]);
-		for (const producer of producers.get(anyProducer)) {
-			producer.enqueue(item);
-		}
-	}
-}
-
-function iterator(instance, eventNames) {
-	eventNames = Array.isArray(eventNames) ? eventNames : [eventNames];
-
-	let isFinished = false;
-	let flush = () => {};
-	let queue = [];
-
-	const producer = {
-		enqueue(item) {
-			queue.push(item);
-			flush();
-		},
-		finish() {
-			isFinished = true;
-			flush();
-		}
-	};
-
-	for (const eventName of eventNames) {
-		getEventProducers(instance, eventName).add(producer);
-	}
-
-	return {
-		async next() {
-			if (!queue) {
-				return {done: true};
-			}
-
-			if (queue.length === 0) {
-				if (isFinished) {
-					queue = undefined;
-					return this.next();
-				}
-
-				await new Promise(resolve => {
-					flush = resolve;
-				});
-
-				return this.next();
-			}
-
-			return {
-				done: false,
-				value: await queue.shift()
-			};
-		},
-
-		async return(value) {
-			queue = undefined;
-
-			for (const eventName of eventNames) {
-				getEventProducers(instance, eventName).delete(producer);
-			}
-
-			flush();
-
-			return arguments.length > 0 ?
-				{done: true, value: await value} :
-				{done: true};
-		},
-
-		[Symbol.asyncIterator]() {
-			return this;
-		}
-	};
-}
-
-function defaultMethodNamesOrAssert(methodNames) {
-	if (methodNames === undefined) {
-		return allEmitteryMethods;
-	}
-
-	if (!Array.isArray(methodNames)) {
-		throw new TypeError('`methodNames` must be an array of strings');
-	}
-
-	for (const methodName of methodNames) {
-		if (!allEmitteryMethods.includes(methodName)) {
-			if (typeof methodName !== 'string') {
-				throw new TypeError('`methodNames` element must be a string');
-			}
-
-			throw new Error(`${methodName} is not Emittery method`);
-		}
-	}
-
-	return methodNames;
-}
-
-const isListenerSymbol = symbol => symbol === listenerAdded || symbol === listenerRemoved;
-
-class Emittery {
-	static mixin(emitteryPropertyName, methodNames) {
-		methodNames = defaultMethodNamesOrAssert(methodNames);
-		return target => {
-			if (typeof target !== 'function') {
-				throw new TypeError('`target` must be function');
-			}
-
-			for (const methodName of methodNames) {
-				if (target.prototype[methodName] !== undefined) {
-					throw new Error(`The property \`${methodName}\` already exists on \`target\``);
-				}
-			}
-
-			function getEmitteryProperty() {
-				Object.defineProperty(this, emitteryPropertyName, {
-					enumerable: false,
-					value: new Emittery()
-				});
-				return this[emitteryPropertyName];
-			}
-
-			Object.defineProperty(target.prototype, emitteryPropertyName, {
-				enumerable: false,
-				get: getEmitteryProperty
-			});
-
-			const emitteryMethodCaller = methodName => function (...args) {
-				return this[emitteryPropertyName][methodName](...args);
-			};
-
-			for (const methodName of methodNames) {
-				Object.defineProperty(target.prototype, methodName, {
-					enumerable: false,
-					value: emitteryMethodCaller(methodName)
-				});
-			}
-
-			return target;
-		};
-	}
-
-	constructor() {
-		anyMap.set(this, new Set());
-		eventsMap.set(this, new Map());
-		producersMap.set(this, new Map());
-	}
-
-	on(eventNames, listener) {
-		assertListener(listener);
-
-		eventNames = Array.isArray(eventNames) ? eventNames : [eventNames];
-		for (const eventName of eventNames) {
-			assertEventName(eventName);
-			getListeners(this, eventName).add(listener);
-
-			if (!isListenerSymbol(eventName)) {
-				this.emit(listenerAdded, {eventName, listener});
-			}
-		}
-
-		return this.off.bind(this, eventNames, listener);
-	}
-
-	off(eventNames, listener) {
-		assertListener(listener);
-
-		eventNames = Array.isArray(eventNames) ? eventNames : [eventNames];
-		for (const eventName of eventNames) {
-			assertEventName(eventName);
-			getListeners(this, eventName).delete(listener);
-
-			if (!isListenerSymbol(eventName)) {
-				this.emit(listenerRemoved, {eventName, listener});
-			}
-		}
-	}
-
-	once(eventNames) {
-		return new Promise(resolve => {
-			const off = this.on(eventNames, data => {
-				off();
-				resolve(data);
-			});
-		});
-	}
-
-	events(eventNames) {
-		eventNames = Array.isArray(eventNames) ? eventNames : [eventNames];
-		for (const eventName of eventNames) {
-			assertEventName(eventName);
-		}
-
-		return iterator(this, eventNames);
-	}
-
-	async emit(eventName, eventData) {
-		assertEventName(eventName);
-
-		enqueueProducers(this, eventName, eventData);
-
-		const listeners = getListeners(this, eventName);
-		const anyListeners = anyMap.get(this);
-		const staticListeners = [...listeners];
-		const staticAnyListeners = isListenerSymbol(eventName) ? [] : [...anyListeners];
-
-		await resolvedPromise;
-		await Promise.all([
-			...staticListeners.map(async listener => {
-				if (listeners.has(listener)) {
-					return listener(eventData);
-				}
-			}),
-			...staticAnyListeners.map(async listener => {
-				if (anyListeners.has(listener)) {
-					return listener(eventName, eventData);
-				}
-			})
-		]);
-	}
-
-	async emitSerial(eventName, eventData) {
-		assertEventName(eventName);
-
-		const listeners = getListeners(this, eventName);
-		const anyListeners = anyMap.get(this);
-		const staticListeners = [...listeners];
-		const staticAnyListeners = [...anyListeners];
-
-		await resolvedPromise;
-		/* eslint-disable no-await-in-loop */
-		for (const listener of staticListeners) {
-			if (listeners.has(listener)) {
-				await listener(eventData);
-			}
-		}
-
-		for (const listener of staticAnyListeners) {
-			if (anyListeners.has(listener)) {
-				await listener(eventName, eventData);
-			}
-		}
-		/* eslint-enable no-await-in-loop */
-	}
-
-	onAny(listener) {
-		assertListener(listener);
-		anyMap.get(this).add(listener);
-		this.emit(listenerAdded, {listener});
-		return this.offAny.bind(this, listener);
-	}
-
-	anyEvent() {
-		return iterator(this);
-	}
-
-	offAny(listener) {
-		assertListener(listener);
-		this.emit(listenerRemoved, {listener});
-		anyMap.get(this).delete(listener);
-	}
-
-	clearListeners(eventNames) {
-		eventNames = Array.isArray(eventNames) ? eventNames : [eventNames];
-
-		for (const eventName of eventNames) {
-			if (typeof eventName === 'string') {
-				getListeners(this, eventName).clear();
-
-				const producers = getEventProducers(this, eventName);
-
-				for (const producer of producers) {
-					producer.finish();
-				}
-
-				producers.clear();
-			} else {
-				anyMap.get(this).clear();
-
-				for (const listeners of eventsMap.get(this).values()) {
-					listeners.clear();
-				}
-
-				for (const producers of producersMap.get(this).values()) {
-					for (const producer of producers) {
-						producer.finish();
-					}
-
-					producers.clear();
-				}
-			}
-		}
-	}
-
-	listenerCount(eventNames) {
-		eventNames = Array.isArray(eventNames) ? eventNames : [eventNames];
-		let count = 0;
-
-		for (const eventName of eventNames) {
-			if (typeof eventName === 'string') {
-				count += anyMap.get(this).size + getListeners(this, eventName).size +
-					getEventProducers(this, eventName).size + getEventProducers(this).size;
-				continue;
-			}
-
-			if (typeof eventName !== 'undefined') {
-				assertEventName(eventName);
-			}
-
-			count += anyMap.get(this).size;
-
-			for (const value of eventsMap.get(this).values()) {
-				count += value.size;
-			}
-
-			for (const value of producersMap.get(this).values()) {
-				count += value.size;
-			}
-		}
-
-		return count;
-	}
-
-	bindMethods(target, methodNames) {
-		if (typeof target !== 'object' || target === null) {
-			throw new TypeError('`target` must be an object');
-		}
-
-		methodNames = defaultMethodNamesOrAssert(methodNames);
-
-		for (const methodName of methodNames) {
-			if (target[methodName] !== undefined) {
-				throw new Error(`The property \`${methodName}\` already exists on \`target\``);
-			}
-
-			Object.defineProperty(target, methodName, {
-				enumerable: false,
-				value: this[methodName].bind(this)
-			});
-		}
-	}
-}
-
-const allEmitteryMethods = Object.getOwnPropertyNames(Emittery.prototype).filter(v => v !== 'constructor');
-
-// Subclass used to encourage TS users to type their events.
-Emittery.Typed = class extends Emittery {};
-Object.defineProperty(Emittery.Typed, 'Typed', {
-	enumerable: false,
-	value: undefined
-});
-
-Object.defineProperty(Emittery, 'listenerAdded', {
-	value: listenerAdded,
-	writable: false,
-	enumerable: true,
-	configurable: false
-});
-Object.defineProperty(Emittery, 'listenerRemoved', {
-	value: listenerRemoved,
-	writable: false,
-	enumerable: true,
-	configurable: false
-});
-
-module.exports = Emittery;
-
-
-/***/ }),
-
-/***/ 82:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = (flag, argv = process.argv) => {
-	const prefix = flag.startsWith('-') ? '' : (flag.length === 1 ? '-' : '--');
-	const position = argv.indexOf(prefix + flag);
-	const terminatorPosition = argv.indexOf('--');
-	return position !== -1 && (terminatorPosition === -1 || position < terminatorPosition);
-};
-
-
-/***/ }),
-
-/***/ 83:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-}); // https://docs.sentry.io/error-reporting/quickstart/?platform=node
-// https://httptoolkit.tech/blog/netlify-function-error-reporting-with-sentry/
-
-const Sentry = __webpack_require__(117);
-
-const channel_1 = __webpack_require__(19);
-
-Sentry.init({
-  // http://getsentry.github.io/sentry-javascript/interfaces/node.nodeoptions.html
-  dsn: 'https://a86696dcd573448a8fcc3bd7151349b4@sentry.io/1772719',
-  debug: "production" === 'development',
-  //release TODO
-  environment: channel_1.CHANNEL,
-  attachStacktrace: true,
-  //shutdownTimeout TODO needed ?
-  integrations: default_integrations => {
-    // please Sentry! I don't want your crappy integrations!
-    //console.log(default_integrations)
-    // https://docs.sentry.io/platforms/node/#removing-an-integration
-    return [];
-  }
-});
-Sentry.configureScope(scope => {
-  scope.setExtra('channel', channel_1.CHANNEL);
-  scope.setExtra('node', process.versions.node); // TODO node version etc. ?
-});
-
-async function on_error(err) {
-  console.log('💣 Reporting to Sentry...', err.message); // TODO inspect the SEC?
-
-  Sentry.captureException(err);
-  await Sentry.flush();
-}
-
-exports.on_error = on_error; // https://docs.sentry.io/enriching-error-data/context/?platform=node#capturing-the-user
-// TODO shared across invocations??
-
-function on_user_recognized(user) {
-  Sentry.configureScope(scope => {
-    scope.setUser(user);
-  });
-}
-
-exports.on_user_recognized = on_user_recognized; // TODO self-triage?
-// https://docs.sentry.io/enriching-error-data/context/?platform=node#setting-the-level
-// TODO breadcrumb
-
-/***/ }),
-
-/***/ 84:
-/***/ (function(module, exports) {
-
-module.exports = function(originalModule) {
-	if (!originalModule.webpackPolyfill) {
-		var module = Object.create(originalModule);
-		// module.parent = undefined by default
-		if (!module.children) module.children = [];
-		Object.defineProperty(module, "loaded", {
-			enumerable: true,
-			get: function() {
-				return module.l;
-			}
-		});
-		Object.defineProperty(module, "id", {
-			enumerable: true,
-			get: function() {
-				return module.i;
-			}
-		});
-		Object.defineProperty(module, "exports", {
-			enumerable: true
-		});
-		module.webpackPolyfill = 1;
-	}
-	return module;
-};
-
-
-/***/ }),
-
-/***/ 85:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-const events_1 = __webpack_require__(11);
-const promisify_1 = __importDefault(__webpack_require__(86));
-function isAgentBase(v) {
-    return Boolean(v) && typeof v.addRequest === 'function';
-}
-function isHttpAgent(v) {
-    return Boolean(v) && typeof v.addRequest === 'function';
-}
-function isSecureEndpoint() {
-    const { stack } = new Error();
-    if (typeof stack !== 'string')
-        return false;
-    return stack.split('\n').some(l => l.indexOf('(https.js:') !== -1);
-}
-function createAgent(callback, opts) {
-    return new createAgent.Agent(callback, opts);
-}
-(function (createAgent) {
-    /**
-     * Base `http.Agent` implementation.
-     * No pooling/keep-alive is implemented by default.
-     *
-     * @param {Function} callback
-     * @api public
-     */
-    class Agent extends events_1.EventEmitter {
-        constructor(callback, _opts) {
-            super();
-            // The callback gets promisified lazily
-            this.promisifiedCallback = undefined;
-            let opts = _opts;
-            if (typeof callback === 'function') {
-                this.callback = callback;
-            }
-            else if (callback) {
-                opts = callback;
-            }
-            // timeout for the socket to be returned from the callback
-            this.timeout = null;
-            if (opts && typeof opts.timeout === 'number') {
-                this.timeout = opts.timeout;
-            }
-            this.options = opts || {};
-            this.maxFreeSockets = 1;
-            this.maxSockets = 1;
-            this.sockets = [];
-            this.requests = [];
-        }
-        get defaultPort() {
-            if (typeof this.explicitDefaultPort === 'number') {
-                return this.explicitDefaultPort;
-            }
-            else {
-                return isSecureEndpoint() ? 443 : 80;
-            }
-        }
-        set defaultPort(v) {
-            this.explicitDefaultPort = v;
-        }
-        get protocol() {
-            if (typeof this.explicitProtocol === 'string') {
-                return this.explicitProtocol;
-            }
-            else {
-                return isSecureEndpoint() ? 'https:' : 'http:';
-            }
-        }
-        set protocol(v) {
-            this.explicitProtocol = v;
-        }
-        callback(req, opts, fn) {
-            throw new Error('"agent-base" has no default implementation, you must subclass and override `callback()`');
-        }
-        /**
-         * Called by node-core's "_http_client.js" module when creating
-         * a new HTTP request with this Agent instance.
-         *
-         * @api public
-         */
-        addRequest(req, _opts) {
-            const ownOpts = Object.assign({}, _opts);
-            if (typeof ownOpts.secureEndpoint !== 'boolean') {
-                ownOpts.secureEndpoint = isSecureEndpoint();
-            }
-            // Set default `host` for HTTP to localhost
-            if (ownOpts.host == null) {
-                ownOpts.host = 'localhost';
-            }
-            // Set default `port` for HTTP if none was explicitly specified
-            if (ownOpts.port == null) {
-                ownOpts.port = ownOpts.secureEndpoint ? 443 : 80;
-            }
-            const opts = Object.assign(Object.assign({}, this.options), ownOpts);
-            if (opts.host && opts.path) {
-                // If both a `host` and `path` are specified then it's most likely the
-                // result of a `url.parse()` call... we need to remove the `path` portion so
-                // that `net.connect()` doesn't attempt to open that as a unix socket file.
-                delete opts.path;
-            }
-            delete opts.agent;
-            delete opts.hostname;
-            delete opts._defaultAgent;
-            delete opts.defaultPort;
-            delete opts.createConnection;
-            // Hint to use "Connection: close"
-            // XXX: non-documented `http` module API :(
-            req._last = true;
-            req.shouldKeepAlive = false;
-            // Create the `stream.Duplex` instance
-            let timedOut = false;
-            let timeout = null;
-            const timeoutMs = this.timeout;
-            const freeSocket = this.freeSocket;
-            function onerror(err) {
-                if (req._hadError)
-                    return;
-                req.emit('error', err);
-                // For Safety. Some additional errors might fire later on
-                // and we need to make sure we don't double-fire the error event.
-                req._hadError = true;
-            }
-            function ontimeout() {
-                timeout = null;
-                timedOut = true;
-                const err = new Error(`A "socket" was not created for HTTP request before ${timeoutMs}ms`);
-                err.code = 'ETIMEOUT';
-                onerror(err);
-            }
-            function callbackError(err) {
-                if (timedOut)
-                    return;
-                if (timeout !== null) {
-                    clearTimeout(timeout);
-                    timeout = null;
-                }
-                onerror(err);
-            }
-            function onsocket(socket) {
-                let sock;
-                function onfree() {
-                    freeSocket(sock, opts);
-                }
-                if (timedOut)
-                    return;
-                if (timeout != null) {
-                    clearTimeout(timeout);
-                    timeout = null;
-                }
-                if (isAgentBase(socket) || isHttpAgent(socket)) {
-                    // `socket` is actually an `http.Agent` instance, so
-                    // relinquish responsibility for this `req` to the Agent
-                    // from here on
-                    socket.addRequest(req, opts);
-                    return;
-                }
-                if (socket) {
-                    sock = socket;
-                    sock.on('free', onfree);
-                    req.onSocket(sock);
-                    return;
-                }
-                const err = new Error(`no Duplex stream was returned to agent-base for \`${req.method} ${req.path}\``);
-                onerror(err);
-            }
-            if (typeof this.callback !== 'function') {
-                onerror(new Error('`callback` is not defined'));
-                return;
-            }
-            if (!this.promisifiedCallback) {
-                if (this.callback.length >= 3) {
-                    // Legacy callback function - convert to a Promise
-                    this.promisifiedCallback = promisify_1.default(this.callback);
-                }
-                else {
-                    this.promisifiedCallback = this.callback;
-                }
-            }
-            if (typeof timeoutMs === 'number' && timeoutMs > 0) {
-                timeout = setTimeout(ontimeout, timeoutMs);
-            }
-            if ('port' in opts && typeof opts.port !== 'number') {
-                opts.port = Number(opts.port);
-            }
-            try {
-                Promise.resolve(this.promisifiedCallback(req, opts)).then(onsocket, callbackError);
-            }
-            catch (err) {
-                Promise.reject(err).catch(callbackError);
-            }
-        }
-        freeSocket(socket, opts) {
-            // TODO reuse sockets
-            socket.destroy();
-        }
-        destroy() { }
-    }
-    createAgent.Agent = Agent;
-})(createAgent || (createAgent = {}));
-// So that `instanceof` works correctly
-createAgent.prototype = createAgent.Agent.prototype;
-module.exports = createAgent;
-//# sourceMappingURL=index.js.map
-
-/***/ }),
-
-/***/ 86:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-function promisify(fn) {
-    return function (req, opts) {
-        return new Promise((resolve, reject) => {
-            fn.call(this, req, opts, (err, rtn) => {
-                if (err) {
-                    reject(err);
-                }
-                else {
-                    resolve(rtn);
-                }
-            });
-        });
-    };
-}
-exports.default = promisify;
-//# sourceMappingURL=promisify.js.map
-
-/***/ }),
-
-/***/ 87:
-/***/ (function(module, exports, __webpack_require__) {
-
-/**
- * Detect Electron renderer / nwjs process, which is node, but we should
- * treat as a browser.
- */
-
-if (typeof process === 'undefined' || process.type === 'renderer' || process.browser === true || process.__nwjs) {
-	module.exports = __webpack_require__(88);
-} else {
-	module.exports = __webpack_require__(90);
-}
-
-
-/***/ }),
-
-/***/ 88:
-/***/ (function(module, exports, __webpack_require__) {
-
-/* eslint-env browser */
-
-/**
- * This is the web browser implementation of `debug()`.
- */
-
-exports.log = log;
-exports.formatArgs = formatArgs;
-exports.save = save;
-exports.load = load;
-exports.useColors = useColors;
-exports.storage = localstorage();
-
-/**
- * Colors.
- */
-
-exports.colors = [
-	'#0000CC',
-	'#0000FF',
-	'#0033CC',
-	'#0033FF',
-	'#0066CC',
-	'#0066FF',
-	'#0099CC',
-	'#0099FF',
-	'#00CC00',
-	'#00CC33',
-	'#00CC66',
-	'#00CC99',
-	'#00CCCC',
-	'#00CCFF',
-	'#3300CC',
-	'#3300FF',
-	'#3333CC',
-	'#3333FF',
-	'#3366CC',
-	'#3366FF',
-	'#3399CC',
-	'#3399FF',
-	'#33CC00',
-	'#33CC33',
-	'#33CC66',
-	'#33CC99',
-	'#33CCCC',
-	'#33CCFF',
-	'#6600CC',
-	'#6600FF',
-	'#6633CC',
-	'#6633FF',
-	'#66CC00',
-	'#66CC33',
-	'#9900CC',
-	'#9900FF',
-	'#9933CC',
-	'#9933FF',
-	'#99CC00',
-	'#99CC33',
-	'#CC0000',
-	'#CC0033',
-	'#CC0066',
-	'#CC0099',
-	'#CC00CC',
-	'#CC00FF',
-	'#CC3300',
-	'#CC3333',
-	'#CC3366',
-	'#CC3399',
-	'#CC33CC',
-	'#CC33FF',
-	'#CC6600',
-	'#CC6633',
-	'#CC9900',
-	'#CC9933',
-	'#CCCC00',
-	'#CCCC33',
-	'#FF0000',
-	'#FF0033',
-	'#FF0066',
-	'#FF0099',
-	'#FF00CC',
-	'#FF00FF',
-	'#FF3300',
-	'#FF3333',
-	'#FF3366',
-	'#FF3399',
-	'#FF33CC',
-	'#FF33FF',
-	'#FF6600',
-	'#FF6633',
-	'#FF9900',
-	'#FF9933',
-	'#FFCC00',
-	'#FFCC33'
-];
-
-/**
- * Currently only WebKit-based Web Inspectors, Firefox >= v31,
- * and the Firebug extension (any Firefox version) are known
- * to support "%c" CSS customizations.
- *
- * TODO: add a `localStorage` variable to explicitly enable/disable colors
- */
-
-// eslint-disable-next-line complexity
-function useColors() {
-	// NB: In an Electron preload script, document will be defined but not fully
-	// initialized. Since we know we're in Chrome, we'll just detect this case
-	// explicitly
-	if (typeof window !== 'undefined' && window.process && (window.process.type === 'renderer' || window.process.__nwjs)) {
-		return true;
-	}
-
-	// Internet Explorer and Edge do not support colors.
-	if (typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/(edge|trident)\/(\d+)/)) {
-		return false;
-	}
-
-	// Is webkit? http://stackoverflow.com/a/16459606/376773
-	// document is undefined in react-native: https://github.com/facebook/react-native/pull/1632
-	return (typeof document !== 'undefined' && document.documentElement && document.documentElement.style && document.documentElement.style.WebkitAppearance) ||
-		// Is firebug? http://stackoverflow.com/a/398120/376773
-		(typeof window !== 'undefined' && window.console && (window.console.firebug || (window.console.exception && window.console.table))) ||
-		// Is firefox >= v31?
-		// https://developer.mozilla.org/en-US/docs/Tools/Web_Console#Styling_messages
-		(typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31) ||
-		// Double check webkit in userAgent just in case we are in a worker
-		(typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/applewebkit\/(\d+)/));
-}
-
-/**
- * Colorize log arguments if enabled.
- *
- * @api public
- */
-
-function formatArgs(args) {
-	args[0] = (this.useColors ? '%c' : '') +
-		this.namespace +
-		(this.useColors ? ' %c' : ' ') +
-		args[0] +
-		(this.useColors ? '%c ' : ' ') +
-		'+' + module.exports.humanize(this.diff);
-
-	if (!this.useColors) {
-		return;
-	}
-
-	const c = 'color: ' + this.color;
-	args.splice(1, 0, c, 'color: inherit');
-
-	// The final "%c" is somewhat tricky, because there could be other
-	// arguments passed either before or after the %c, so we need to
-	// figure out the correct index to insert the CSS into
-	let index = 0;
-	let lastC = 0;
-	args[0].replace(/%[a-zA-Z%]/g, match => {
-		if (match === '%%') {
-			return;
-		}
-		index++;
-		if (match === '%c') {
-			// We only are interested in the *last* %c
-			// (the user may have provided their own)
-			lastC = index;
-		}
-	});
-
-	args.splice(lastC, 0, c);
-}
-
-/**
- * Invokes `console.log()` when available.
- * No-op when `console.log` is not a "function".
- *
- * @api public
- */
-function log(...args) {
-	// This hackery is required for IE8/9, where
-	// the `console.log` function doesn't have 'apply'
-	return typeof console === 'object' &&
-		console.log &&
-		console.log(...args);
-}
-
-/**
- * Save `namespaces`.
- *
- * @param {String} namespaces
- * @api private
- */
-function save(namespaces) {
-	try {
-		if (namespaces) {
-			exports.storage.setItem('debug', namespaces);
-		} else {
-			exports.storage.removeItem('debug');
-		}
-	} catch (error) {
-		// Swallow
-		// XXX (@Qix-) should we be logging these?
-	}
-}
-
-/**
- * Load `namespaces`.
- *
- * @return {String} returns the previously persisted debug modes
- * @api private
- */
-function load() {
-	let r;
-	try {
-		r = exports.storage.getItem('debug');
-	} catch (error) {
-		// Swallow
-		// XXX (@Qix-) should we be logging these?
-	}
-
-	// If debug isn't set in LS, and we're in Electron, try to load $DEBUG
-	if (!r && typeof process !== 'undefined' && 'env' in process) {
-		r = process.env.DEBUG;
-	}
-
-	return r;
-}
-
-/**
- * Localstorage attempts to return the localstorage.
- *
- * This is necessary because safari throws
- * when a user disables cookies/localstorage
- * and you attempt to access it.
- *
- * @return {LocalStorage}
- * @api private
- */
-
-function localstorage() {
-	try {
-		// TVMLKit (Apple TV JS Runtime) does not have a window object, just localStorage in the global context
-		// The Browser also has localStorage in the global context.
-		return localStorage;
-	} catch (error) {
-		// Swallow
-		// XXX (@Qix-) should we be logging these?
-	}
-}
-
-module.exports = __webpack_require__(50)(exports);
-
-const {formatters} = module.exports;
-
-/**
- * Map %j to `JSON.stringify()`, since no Web Inspectors do that by default.
- */
-
-formatters.j = function (v) {
-	try {
-		return JSON.stringify(v);
-	} catch (error) {
-		return '[UnexpectedJSONParseError]: ' + error.message;
-	}
-};
-
-
-/***/ }),
-
 /***/ 89:
 /***/ (function(module, exports) {
 
-/**
- * Helpers.
- */
-
-var s = 1000;
-var m = s * 60;
-var h = m * 60;
-var d = h * 24;
-var w = d * 7;
-var y = d * 365.25;
-
-/**
- * Parse or format the given `val`.
- *
- * Options:
- *
- *  - `long` verbose formatting [false]
- *
- * @param {String|Number} val
- * @param {Object} [options]
- * @throws {Error} throw an error if val is not a non-empty string or a number
- * @return {String|Number}
- * @api public
- */
-
-module.exports = function(val, options) {
-  options = options || {};
-  var type = typeof val;
-  if (type === 'string' && val.length > 0) {
-    return parse(val);
-  } else if (type === 'number' && isFinite(val)) {
-    return options.long ? fmtLong(val) : fmtShort(val);
-  }
-  throw new Error(
-    'val is not a non-empty string or a valid number. val=' +
-      JSON.stringify(val)
-  );
-};
-
-/**
- * Parse the given `str` and return milliseconds.
- *
- * @param {String} str
- * @return {Number}
- * @api private
- */
-
-function parse(str) {
-  str = String(str);
-  if (str.length > 100) {
-    return;
-  }
-  var match = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(
-    str
-  );
-  if (!match) {
-    return;
-  }
-  var n = parseFloat(match[1]);
-  var type = (match[2] || 'ms').toLowerCase();
-  switch (type) {
-    case 'years':
-    case 'year':
-    case 'yrs':
-    case 'yr':
-    case 'y':
-      return n * y;
-    case 'weeks':
-    case 'week':
-    case 'w':
-      return n * w;
-    case 'days':
-    case 'day':
-    case 'd':
-      return n * d;
-    case 'hours':
-    case 'hour':
-    case 'hrs':
-    case 'hr':
-    case 'h':
-      return n * h;
-    case 'minutes':
-    case 'minute':
-    case 'mins':
-    case 'min':
-    case 'm':
-      return n * m;
-    case 'seconds':
-    case 'second':
-    case 'secs':
-    case 'sec':
-    case 's':
-      return n * s;
-    case 'milliseconds':
-    case 'millisecond':
-    case 'msecs':
-    case 'msec':
-    case 'ms':
-      return n;
-    default:
-      return undefined;
-  }
-}
-
-/**
- * Short format for `ms`.
- *
- * @param {Number} ms
- * @return {String}
- * @api private
- */
-
-function fmtShort(ms) {
-  var msAbs = Math.abs(ms);
-  if (msAbs >= d) {
-    return Math.round(ms / d) + 'd';
-  }
-  if (msAbs >= h) {
-    return Math.round(ms / h) + 'h';
-  }
-  if (msAbs >= m) {
-    return Math.round(ms / m) + 'm';
-  }
-  if (msAbs >= s) {
-    return Math.round(ms / s) + 's';
-  }
-  return ms + 'ms';
-}
-
-/**
- * Long format for `ms`.
- *
- * @param {Number} ms
- * @return {String}
- * @api private
- */
-
-function fmtLong(ms) {
-  var msAbs = Math.abs(ms);
-  if (msAbs >= d) {
-    return plural(ms, msAbs, d, 'day');
-  }
-  if (msAbs >= h) {
-    return plural(ms, msAbs, h, 'hour');
-  }
-  if (msAbs >= m) {
-    return plural(ms, msAbs, m, 'minute');
-  }
-  if (msAbs >= s) {
-    return plural(ms, msAbs, s, 'second');
-  }
-  return ms + ' ms';
-}
-
-/**
- * Pluralization helper.
- */
-
-function plural(ms, msAbs, n, name) {
-  var isPlural = msAbs >= n * 1.5;
-  return Math.round(ms / n) + ' ' + name + (isPlural ? 's' : '');
-}
-
-
-/***/ }),
-
-/***/ 9:
-/***/ (function(module, exports) {
-
-module.exports = require("path");
-
-/***/ }),
-
-/***/ 90:
-/***/ (function(module, exports, __webpack_require__) {
-
-/**
- * Module dependencies.
- */
-
-const tty = __webpack_require__(39);
-const util = __webpack_require__(3);
-
-/**
- * This is the Node.js implementation of `debug()`.
- */
-
-exports.init = init;
-exports.log = log;
-exports.formatArgs = formatArgs;
-exports.save = save;
-exports.load = load;
-exports.useColors = useColors;
-
-/**
- * Colors.
- */
-
-exports.colors = [6, 2, 3, 4, 5, 1];
-
-try {
-	// Optional dependency (as in, doesn't need to be installed, NOT like optionalDependencies in package.json)
-	// eslint-disable-next-line import/no-extraneous-dependencies
-	const supportsColor = __webpack_require__(41);
-
-	if (supportsColor && (supportsColor.stderr || supportsColor).level >= 2) {
-		exports.colors = [
-			20,
-			21,
-			26,
-			27,
-			32,
-			33,
-			38,
-			39,
-			40,
-			41,
-			42,
-			43,
-			44,
-			45,
-			56,
-			57,
-			62,
-			63,
-			68,
-			69,
-			74,
-			75,
-			76,
-			77,
-			78,
-			79,
-			80,
-			81,
-			92,
-			93,
-			98,
-			99,
-			112,
-			113,
-			128,
-			129,
-			134,
-			135,
-			148,
-			149,
-			160,
-			161,
-			162,
-			163,
-			164,
-			165,
-			166,
-			167,
-			168,
-			169,
-			170,
-			171,
-			172,
-			173,
-			178,
-			179,
-			184,
-			185,
-			196,
-			197,
-			198,
-			199,
-			200,
-			201,
-			202,
-			203,
-			204,
-			205,
-			206,
-			207,
-			208,
-			209,
-			214,
-			215,
-			220,
-			221
-		];
-	}
-} catch (error) {
-	// Swallow - we only care if `supports-color` is available; it doesn't have to be.
-}
-
-/**
- * Build up the default `inspectOpts` object from the environment variables.
- *
- *   $ DEBUG_COLORS=no DEBUG_DEPTH=10 DEBUG_SHOW_HIDDEN=enabled node script.js
- */
-
-exports.inspectOpts = Object.keys(process.env).filter(key => {
-	return /^debug_/i.test(key);
-}).reduce((obj, key) => {
-	// Camel-case
-	const prop = key
-		.substring(6)
-		.toLowerCase()
-		.replace(/_([a-z])/g, (_, k) => {
-			return k.toUpperCase();
-		});
-
-	// Coerce string value into JS value
-	let val = process.env[key];
-	if (/^(yes|on|true|enabled)$/i.test(val)) {
-		val = true;
-	} else if (/^(no|off|false|disabled)$/i.test(val)) {
-		val = false;
-	} else if (val === 'null') {
-		val = null;
-	} else {
-		val = Number(val);
-	}
-
-	obj[prop] = val;
-	return obj;
-}, {});
-
-/**
- * Is stdout a TTY? Colored output is enabled when `true`.
- */
-
-function useColors() {
-	return 'colors' in exports.inspectOpts ?
-		Boolean(exports.inspectOpts.colors) :
-		tty.isatty(process.stderr.fd);
-}
-
-/**
- * Adds ANSI color escape codes if enabled.
- *
- * @api public
- */
-
-function formatArgs(args) {
-	const {namespace: name, useColors} = this;
-
-	if (useColors) {
-		const c = this.color;
-		const colorCode = '\u001B[3' + (c < 8 ? c : '8;5;' + c);
-		const prefix = `  ${colorCode};1m${name} \u001B[0m`;
-
-		args[0] = prefix + args[0].split('\n').join('\n' + prefix);
-		args.push(colorCode + 'm+' + module.exports.humanize(this.diff) + '\u001B[0m');
-	} else {
-		args[0] = getDate() + name + ' ' + args[0];
-	}
-}
-
-function getDate() {
-	if (exports.inspectOpts.hideDate) {
-		return '';
-	}
-	return new Date().toISOString() + ' ';
-}
-
-/**
- * Invokes `util.format()` with the specified arguments and writes to stderr.
- */
-
-function log(...args) {
-	return process.stderr.write(util.format(...args) + '\n');
-}
-
-/**
- * Save `namespaces`.
- *
- * @param {String} namespaces
- * @api private
- */
-function save(namespaces) {
-	if (namespaces) {
-		process.env.DEBUG = namespaces;
-	} else {
-		// If you set a process.env field to null or undefined, it gets cast to the
-		// string 'null' or 'undefined'. Just delete instead.
-		delete process.env.DEBUG;
-	}
-}
-
-/**
- * Load `namespaces`.
- *
- * @return {String} returns the previously persisted debug modes
- * @api private
- */
-
-function load() {
-	return process.env.DEBUG;
-}
-
-/**
- * Init logic for `debug` instances.
- *
- * Create a new `inspectOpts` object in case `useColors` is set
- * differently for a particular `debug` instance.
- */
-
-function init(debug) {
-	debug.inspectOpts = {};
-
-	const keys = Object.keys(exports.inspectOpts);
-	for (let i = 0; i < keys.length; i++) {
-		debug.inspectOpts[keys[i]] = exports.inspectOpts[keys[i]];
-	}
-}
-
-module.exports = __webpack_require__(50)(exports);
-
-const {formatters} = module.exports;
-
-/**
- * Map %o to `util.inspect()`, all on a single line.
- */
-
-formatters.o = function (v) {
-	this.inspectOpts.colors = this.useColors;
-	return util.inspect(v, this.inspectOpts)
-		.replace(/\s*\n\s*/g, ' ');
-};
-
-/**
- * Map %O to `util.inspect()`, allowing multiple lines if needed.
- */
-
-formatters.O = function (v) {
-	this.inspectOpts.colors = this.useColors;
-	return util.inspect(v, this.inspectOpts);
-};
-
-
-/***/ }),
-
-/***/ 91:
-/***/ (function(module, exports) {
-
-module.exports = require("console");
+module.exports = require("tls");
 
 /***/ })
 

@@ -20,6 +20,6 @@
 		"npm-run-all": "^4",
 		"pg": "^8",
 		"tslib": "^2",
-		"typescript": "3.8.3"
+		"typescript": "^3"
 	}
 }
