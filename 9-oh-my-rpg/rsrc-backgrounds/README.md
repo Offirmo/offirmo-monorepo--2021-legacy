@@ -13,7 +13,7 @@ TODO https://www.artstation.com/jjcanvas
 TODO https://www.deviantart.com/andreasrocha/gallery/
 TODO https://www.deviantart.com/jjcanvas/gallery/
 TODO https://www.artstation.com/spkkis
-
+TODO https://www.iamag.co/category/inspiration-2/cg-gallery-art-inspiration/
 
 Sources:
 * https://krita-artists.org/tag/fantasy

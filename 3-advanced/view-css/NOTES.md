@@ -88,3 +88,5 @@ html.color-theme-in-transition *:after {
 TODO https://stackoverflow.com/questions/5777210/how-to-write-hover-condition-for-abefore-and-aafter
 
 TODO https://medium.com/@matuzo/writing-css-with-accessibility-in-mind-8514a0007939
+
+https://blog.chromium.org/2020/03/updates-to-form-controls-and-focus.html
