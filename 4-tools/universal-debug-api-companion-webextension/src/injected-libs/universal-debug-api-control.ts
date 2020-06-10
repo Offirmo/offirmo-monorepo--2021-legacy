@@ -1,3 +1,4 @@
+// by contract, injected in order = #2
 import { LogLevel } from '@offirmo/practical-logger-types'
 import { LoggerCreationParams } from '@offirmo/universal-debug-api-interface'
 import { DEFAULT_LOG_LEVEL, DEFAULT_LOGGER_KEY } from '@offirmo/practical-logger-core/src/consts-base'
@@ -13,13 +14,10 @@ try { // defensive!
 	DEBUG = DEBUG || !!window.localStorage.getItem('🧩UWDTi.context.debug')
 } catch { /* swallow */ }
 
-// XXX review
-// re-create to allow
-// 1) picking a more recent version
-//    particularly useful during dev of a more recent browser version
-// 2) changing the source
-const original_v1 = (window as any)._debug.v1._.create()
-original_v1._.source = 'browser-ext'
+// get the "normal" v1 installed by a previous injection (by design)
+// and store it.
+// We'll proxy it at the end of this file.
+const original_v1 = (window as any)._debug.v1
 
 const overrides: { [k: string]: null | StringifiedJSON } = {}
 const queue: Report[] = []
@@ -126,9 +124,7 @@ function addDebugCommand(commandName: string, callback: () => void) {
 	return original_v1.addDebugCommand(commandName, callback)
 }
 
-// XXX
-// TODO check if this replacement is really compatible with the browser version, incl. getLogger
-// replace with the wrapped version
+// replace with our wrapped version
 (window as any)._debug.v1 = {
 	...original_v1,
 	overrideHook,
