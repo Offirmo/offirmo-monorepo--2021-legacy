@@ -280,3 +280,5 @@ chines martial arts
 
 
 bad to the bone
+
+“Each of the seven basic human emotions (anger, contempt, disgust, fear, happiness, sadness and surprise) has been scientifically proven to have a certain facial expression associated with it,”
