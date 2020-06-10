@@ -6,8 +6,7 @@
 
 Tooltips are a nice addition but don't play well with touch, especially on iOs.
 
-### uses_tab()
-TODO
+### uses_tab() TODO
 
 ### has_onscreen_keyboard() (XXX TODO)
 

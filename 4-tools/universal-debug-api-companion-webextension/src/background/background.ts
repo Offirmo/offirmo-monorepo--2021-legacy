@@ -16,7 +16,6 @@ import {
 import { query_active_tab } from './utils'
 
 const LIB = '🧩 UWDT/bg'
-// TODO clean logs!
 
 console.log(`[${LIB}.${+Date.now()}] Hello from background!`, browser)
 
@@ -42,7 +41,7 @@ setTimeout(() => {
 	if (is_extension_inited) return
 
 	// should never happen
-	console.error('🙊 Timeout (1) waiting for extension init!')
+	console.warn('🙊 Timeout (1) waiting for extension init! Retrying…')
 	extension_inited.resolve(query_active_tab().then(() => 'attempt 2'))
 },
 30 * 1000,

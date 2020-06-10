@@ -40,7 +40,7 @@ function render() {
 		const inner_html = ELEMENTS.reduce((acc, bg) => {
 			const { css_class } = bg
 			return acc + `
-<button class="grid-item o⋄margin⁚0" onclick="switch_to_bg('${get_bg_id(css_class)}')">${get_bg_id(css_class)}</button>`
+<button class="grid-item o⋄margin⁚0 omr⋄text⁚outlined" onclick="switch_to_bg('${get_bg_id(css_class)}')">${get_bg_id(css_class)}</button>`
 		}, '')
 		document.getElementById('grid-root')!.innerHTML = inner_html
 
@@ -57,8 +57,8 @@ function render() {
 	state.previous_bg_id = state.bg_id
 
 	if (history.pushState) {
-		const newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?id=' + state.bg_id
-		window.history.pushState({path:newurl},'',newurl)
+		const new_url = window.location.protocol + "//" + window.location.host + window.location.pathname + '?id=' + state.bg_id
+		window.history.pushState({path:new_url},'',new_url)
 	}
 }
 render()

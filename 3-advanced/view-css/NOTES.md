@@ -73,9 +73,8 @@ Good tools:
 * https://picular.co/quality
 
 
-/* temporary class to transition themes smoothly
+/* TODO temporary class to transition themes smoothly
  * https://medium.com/@mwichary/dark-theme-in-a-day-3518dde2955a
- * TODO
 html.color-theme-in-transition,
 html.color-theme-in-transition *,
 html.color-theme-in-transition *:before,

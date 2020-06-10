@@ -39,7 +39,6 @@ Inspiration:
 - https://github.com/ianstormtaylor/browser-logger
 
 
-TODO experiment fonts
 ```css
 
 :host-context(.platform-mac) .monospace,

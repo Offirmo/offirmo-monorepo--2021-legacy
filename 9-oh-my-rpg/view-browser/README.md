@@ -8,6 +8,11 @@ omr⋄bg-image⁚stonewall
 omr⋄bg-image⁚test
 ```
 
+```
+http://localhost:1981/9-oh-my-rpg/view-browser/doc/demo--index.html
+http://localhost:1981/9-oh-my-rpg/view-browser/doc/demo--debug.html
+http://localhost:1981/9-oh-my-rpg/view-browser/doc/demo--base.html
+```
 ## Internals:
 
 z-indexes:

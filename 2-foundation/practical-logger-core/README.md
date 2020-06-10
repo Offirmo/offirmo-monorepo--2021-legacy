@@ -43,7 +43,7 @@ This is an **internal / technical** component of [Offirmo’s practical logger](
 See the final implementations using this module:
 * minimal no-op: [@offirmo/practical-logger-minimal-noop](https://www.npmjs.com/package/@offirmo/practical-logger-minimal-noop)
 * browser: [@offirmo/practical-logger-browser](https://www.npmjs.com/package/@offirmo/practical-logger-browser)
-* node: TODO publish to npm
+* node: TODO publish node version to npm
 
 **if you know what you are doing:**
 

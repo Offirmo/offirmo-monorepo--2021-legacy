@@ -6,7 +6,7 @@ Advocacy
 * what if endpoints?
 * what if sub-lib need to signal problem?
 * NOT It's in foo/index.js!
-* YES It's in the ORM, when making a JOIN! 
+* YES It's in the ORM, when making a JOIN!
 
 
 
@@ -23,7 +23,7 @@ function get_own_function_name(arguments_callee) {
 
 * Stack trace
 * app/lib trace
-* 
+*
 
 Other attempts:
 * Sentry Wrap() and Context()
@@ -54,19 +54,19 @@ https://stackoverflow.com/questions/1382107/whats-a-good-way-to-extend-error-in-
 
 
 Standard fields:
-* 
+*
 
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error#Custom_Error_Types
       http://stackoverflow.com/questions/1382107/whats-a-good-way-to-extend-error-in-javascript
       http://www.ecma-international.org/ecma-262/5.1/#sec-15.11.1
       https://github.com/sindresorhus/aggregate-error
-      
-      
+
+
 https://www.npmjs.com/package/universal-analytics
 
 
 * TODO stoppable
-* TODO logger ? https://github.com/ianstormtaylor/browser-logger
+* TODO logger ?
 
 
 "logical stack trace" vs. "technical stack trace"

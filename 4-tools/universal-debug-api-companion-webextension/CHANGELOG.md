@@ -2,12 +2,14 @@
 **This tool follows [semver](https://semver.org/).**
 
 ## PENDING
+* TODO v1
 * TODO [fix] edition fields
-* somehow better UDA injection (TODO review...)
+* cleaned up some TODO comments
+* cleaned up some dead code, small touchups (logs)
 
 ## v0.0.3
 2020/01/29
-* [fix] changing window without changing tab is now detected and the popup self-close if needed
+* [fix] changing window without changing tab is now detected, causing the popup to self-closes for clarity
 * [fix] restoring the previous value on re-enable
 * [chore] bumped dependencies
 * [doc] README++

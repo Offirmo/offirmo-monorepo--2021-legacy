@@ -1,4 +1,4 @@
-//import { browser } from 'webextension-polyfill-ts' // TODO smaller than loading the full polyfill?
+//import { browser } from 'webextension-polyfill-ts' // NO! Too big, we only need a minimal subset
 const browser = (globalThis as any).browser || (globalThis as any).chrome
 
 
@@ -8,7 +8,7 @@ import { MSG_ENTRY, LS_KEY_ENABLED } from '../common/consts/content--start'
 import {
 	create_msg_report_is_lib_injected,
 	MSG_TYPE__UPDATE_LS_STATE,
-} from '../common/messages' // TODO smaller import
+} from '../common/messages' // possible optim here with smaller import (see below)
 import { MSG_TYPE__REPORT_DEBUG_API_USAGE } from '../common/messages/report-usage'
 
 import lib1 from './lib-to-inject-1'
@@ -67,8 +67,6 @@ try { // defensive!
 if (should_inject) {
 	// Create a script tag and inject it into the document.
 
-	// TODO download up-to-date libs from somewhere?
-	// TODO allow 3rd-party addons?
 
 	// 1. de-stringifier
 	// https://stackoverflow.com/a/30106551/587407
@@ -82,6 +80,8 @@ function _UWDT_b64DecodeUnicode(str) {
 }`
 	document.documentElement.prepend(scriptElement0)
 
+	// TODO download up-to-date Universal Web Debug API from somewhere?
+	// not for now, not even published to npm.
 	const scriptElement1 = document.createElement('script')
 	scriptElement1.innerHTML = `eval(_UWDT_b64DecodeUnicode("${lib1}"))`
 	document.documentElement.prepend(scriptElement1)
@@ -89,6 +89,8 @@ function _UWDT_b64DecodeUnicode(str) {
 	const scriptElement2 = document.createElement('script')
 	scriptElement2.innerHTML = `eval(_UWDT_b64DecodeUnicode("${lib2}"))`
 	document.documentElement.prepend(scriptElement2)
+
+	// TODO allow 3rd-party addons (for the debug command feature)
 
 	if (DEBUG) console.info(`[${LIB},${Date.now()}] UDA was injected from the webextension ✅`)
 }
@@ -102,7 +104,7 @@ browser.runtime.sendMessage(
 		should_inject,
 	),
 )
-// TODO in the response we could have:
+// TODO a response in which we could have:
 // extension debug mode?
 // extra libs to inject?
 

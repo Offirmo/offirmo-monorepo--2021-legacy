@@ -4,6 +4,7 @@
 // List of all known logging primitives, in order of criticity
 // https://docs.google.com/spreadsheets/d/1Bc32plQTswNdCqXS99deB0n7Te7FfD7uepGAOOlPbvY/edit?usp=sharing
 export type LogLevel =
+	// TODO an extra "never" level?
 	  'fatal'
 	| 'emerg'
 	| 'alert'

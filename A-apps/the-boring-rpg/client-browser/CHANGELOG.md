@@ -10,6 +10,10 @@
 - 😅 fix: tweaks, typos, small bugs…
 - 😷 chore: some internal refactors, bump dependencies
 
+## v0.65.1
+- 😍 feature: 36 new backgrounds (now totalling 134!)
+- 😷 chore: some internal refactors, bump dependencies
+
 ## v0.64.1
 - 🤩 feature: 25 new adventures, notably featuring new coin loss! (now totalling 187!)
      it was present in the original game, allows us to recover additional adventures

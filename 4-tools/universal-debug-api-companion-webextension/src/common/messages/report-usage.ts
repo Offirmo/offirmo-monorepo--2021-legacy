@@ -9,13 +9,11 @@ export interface OverrideReport {
 	default_value_sjson: StringifiedJSON
 	existing_override_sjson: null | StringifiedJSON,
 }
-export interface LoggerReport { // TODO needed?
-	type: 'logger'
-}
+// note: logger report no needed since we get it automatically through OverrideReport
 export interface CommandReport {
 	type: 'command'
 }
-export type Report = OverrideReport | LoggerReport | CommandReport
+export type Report = OverrideReport | CommandReport
 
 ////////////////////////////////////
 

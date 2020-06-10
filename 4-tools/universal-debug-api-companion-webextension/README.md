@@ -47,8 +47,6 @@ Serves a test page on :1234 which uses the Universal Debug API.
 * Herbert Spencer "spanner" icon https://thenounproject.com/term/spanner/333486/
 
 
-## TODO
-
-review other extensions:
+## TODO review other extensions:
 - [Web Developer Toolbar](https://chrome.google.com/webstore/detail/web-developer-toolbar/deeboegbjcnfgidliakhpoapnpomphji)
 - [JavaScript Errors Notifier](https://chrome.google.com/webstore/detail/javascript-errors-notifie/jafmfknfnkoekkdocjiaipcnmkklaajd)

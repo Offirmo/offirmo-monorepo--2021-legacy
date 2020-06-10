@@ -19,11 +19,8 @@ export const OverrideType = Enum(
 	'LogLevel',
 	'Cohort',
 	'boolean',
-	//'string', // TODO useful?
-	//'URL', ?
-	// int ?
-	// more?
 	'any', // any JSON
+	// more? int? URL? string?
 )
 export type OverrideType = Enum<typeof OverrideType> // eslint-disable-line no-redeclare
 
@@ -37,7 +34,7 @@ export interface OverrideState {
 	                                                 // null = no value was ever set (dynamically default to default value)
 	                                                 // undefined = pending reading the LS
 	// meta:
-	last_reported: TimestampUTCMs, // for cleaning TODO
+	last_reported: TimestampUTCMs, // for cleaning over time. TODO
 }
 
 export interface State {
@@ -97,11 +94,6 @@ export function infer_override_type_from_key(key: string, value_sjson: null | St
 	if (suffix_lc === 'cohort' || suffix_lc === 'co')
 		return OverrideType.Cohort
 
-	/* TODO check if string is useful
-	if (suffix_lc === 'str')
-		return OverrideType.string
-	 */
-
 	//console.log('INF no suffix match')
 
 	let bool_hint_separator: string | undefined
@@ -135,10 +127,6 @@ export function infer_override_type_from_key(key: string, value_sjson: null | St
 		if (typeof value === 'boolean')
 			return OverrideType.boolean
 
-		/* TODO check if string is useful
-           if (typeof value === 'string')
-               return OverrideType.string
-      */
 		if (value === 'not-enrolled')
 			return OverrideType.Cohort
 	} catch {

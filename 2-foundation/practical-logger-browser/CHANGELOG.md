@@ -7,6 +7,7 @@ NOTE: not much reason to publish this lib since it's supposed to be bundled
 * TODO lower size by removing duplication + useless sink
   * NOTE bigger size but not a problem since you're not supposed to bundle this lib
 * TODO test EDGE, IE
+* TODO test Windows, Ubuntu
 * TODO local pictures
 * [chore] [breaking] cjs pre-build now targeting node12/ES2019 [details](../../CONTRIBUTING/module-exports.md)
 * [feat] improved error display, now always printed as "details" so that the props are inspectable

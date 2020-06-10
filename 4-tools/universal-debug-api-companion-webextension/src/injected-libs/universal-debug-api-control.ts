@@ -1,4 +1,3 @@
-// TODO improve cascade of re-exports
 import { LogLevel } from '@offirmo/practical-logger-types'
 import { LoggerCreationParams } from '@offirmo/universal-debug-api-interface'
 import { DEFAULT_LOG_LEVEL, DEFAULT_LOGGER_KEY } from '@offirmo/practical-logger-core/src/consts-base'
@@ -14,6 +13,7 @@ try { // defensive!
 	DEBUG = DEBUG || !!window.localStorage.getItem('🧩UWDTi.context.debug')
 } catch { /* swallow */ }
 
+// XXX review
 // re-create to allow
 // 1) picking a more recent version
 //    particularly useful during dev of a more recent browser version
@@ -116,16 +116,17 @@ function getLogger(p: Readonly<LoggerCreationParams> = {}) {
 
 function exposeInternal(path: string, value: any): void {
 	if (DEBUG) console.log('🧩UWDTi: exposeInternal()', {path})
-	// TODO report
+	// TODO report to the UI
 	return original_v1.exposeInternal(path, value)
 }
 
 function addDebugCommand(commandName: string, callback: () => void) {
 	if (DEBUG) console.log('🧩UWDTi: addDebugCommand()', {commandName})
-	// TODO report
+	// TODO report to the UI
 	return original_v1.addDebugCommand(commandName, callback)
 }
 
+// XXX
 // TODO check if this replacement is really compatible with the browser version, incl. getLogger
 // replace with the wrapped version
 (window as any)._debug.v1 = {
