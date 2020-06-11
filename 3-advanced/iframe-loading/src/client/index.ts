@@ -22,7 +22,7 @@ const loader_full = (window.parent as any).oᐧloader || (window as any).oᐧloa
 
 const loader = loader_full || loader_noop
 if (!loader_full) {
-	console.warn('iframe-loading: loader not found, are you properly using the html template?')
+	console.info('iframe-loading: loader not found, are you properly set up?')
 }
 
 extend_xoff<XOffExtension>({ loader })

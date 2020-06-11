@@ -4,10 +4,6 @@ import Favico from './favico.js'
 
 const DEBUG = false
 
-let favicon = undefined
-let piecon_on = false
-let favicon_on = false
-let last_favicon_number = NaN
 
 ////////////////////////////////////
 
@@ -21,8 +17,9 @@ function create_favicon(opts) {
 	})
 }
 
+let initialized = false
 function ensure_libs_initialized() {
-	if (favicon)
+	if (initialized)
 		return
 
 	const body_styles = window.getComputedStyle(document.body)
@@ -45,16 +42,17 @@ function ensure_libs_initialized() {
 		shadow: outer_ring_color, // Outer ring color
 		fallback: false // Toggles displaying percentage in the title bar (possible values - true, false, 'force')
 	})
-
-	favicon = create_favicon()
-
 	// experimentally needed...
 	Piecon.setProgress(0.0001)
-	piecon_on = true
+
+	initialized = true
 }
 
+// NOTE due to this lib being designed to work with same-domain iframes,
+// we don't do any memoization for we don't know
+// if another context didn't change our expected state.
 function set_number_in_favicon(x) {
-	if (DEBUG) console.log('set_number_in_favicon', x)
+	if (DEBUG) console.group('set_number_in_favicon(' + x + ')')
 	ensure_libs_initialized()
 
 	x = Number(x)
@@ -66,43 +64,31 @@ function set_number_in_favicon(x) {
 	if (x >= 1) {
 		x = Math.trunc(x)
 
-		if (piecon_on) {
-			Piecon.reset()
-			if (DEBUG) console.log('Piecon.reset')
+		// reset competing lib just in case
+		Piecon.reset()
+		if (DEBUG) console.log('…Piecon.reset()')
 
-			// experimentally needed...
-			favicon = create_favicon()
-			if (DEBUG) console.log('new favicon')
+		// force-reinit the lib
+		let favicon = create_favicon()
+		if (DEBUG) console.log('…new Favico(…)')
 
-			piecon_on = false
-		}
-
-		// avoid unneeded animation if we are re-setting the same number
-		if (x !== last_favicon_number) {
-			favicon.badge(x)
-			last_favicon_number = x
-		}
-		favicon_on = true
-
-		if (DEBUG) console.log('favicon.badge', x)
+		favicon.badge(x)
+		if (DEBUG) console.log('favicon.badge()', x)
 	} else {
 		x = Math.trunc(x * 100)
 		// constraint for clarity of display on limits
 		x = Math.min(95, x)
 		x = Math.max(3, x)
 
-		if (favicon_on) {
-			favicon.reset()
-			favicon_on = false
-			last_favicon_number = NaN
-			if (DEBUG) console.log('favicon.reset')
-		}
+		// reset competing lib just in case
+		create_favicon().reset()
+		if (DEBUG) console.log('favicon.reset()')
 
 		Piecon.setProgress(x)
-		piecon_on = true
-
-		if (DEBUG) console.log('piecon.setProgress', x)
+		if (DEBUG) console.log('piecon.setProgress()', x)
 	}
+
+	if (DEBUG) console.groupEnd()
 }
 
 export {

@@ -17,17 +17,11 @@
 		<title>Loading…</title>
 
 		<!-- OT⋄CUSTOM BEGIN favicons -->
-		<!-- - TODO modern https://medium.com/swlh/are-you-using-svg-favicons-yet-a-guide-for-modern-browsers-836a6aace3df
-			  - compatible https://realfavicongenerator.net/
-		-->
-		<link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png?v=yyapgPk479">
-		<link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png?v=yyapgPk479">
-		<link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png?v=yyapgPk479">
-		<link rel="manifest" href="favicons/site.webmanifest?v=yyapgPk479">
-		<link rel="mask-icon" href="favicons/safari-pinned-tab.svg?v=yyapgPk479" color="#543d46">
-		<link rel="shortcut icon" href="favicons/favicon.ico?v=yyapgPk479">
-		<meta name="msapplication-TileColor" content="#543d46">
-		<meta name="msapplication-config" content="favicons/browserconfig.xml?v=yyapgPk479">
+		<!-- https://medium.com/swlh/are-you-using-svg-favicons-yet-a-guide-for-modern-browsers-836a6aace3df -->
+		<link rel="icon" href="favicons/favicon.svg">
+		<link rel=”mask-icon” href="favicons/safari-mask-icon.svg" color=”#000000">
+		<link rel="apple-touch-icon" href="favicons/favicon-180x180.png">
+		<link rel="manifest" href="site.webmanifest">
 		<meta name="theme-color" content="#543d46">
 		<!-- OT⋄CUSTOM END favicons -->
 
@@ -308,8 +302,7 @@
 					elt_loader.style.pointerEvents = 'none'
 					try {
 						// https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API/Using_the_Web_Animations_API
-						elt_loader
-							.animate(
+						const animation = elt_loader.animate(
 								[
 									{opacity: 1},
 									{opacity: 0},
@@ -319,12 +312,13 @@
 									fill: 'forwards',
 								}
 							)
-							.finished.then(() => {
-							// for easier inspection. Really needed?
-							elt_loader.style.display = 'none'
-						})
+						if (animation.finished)
+							animation.finished.then(() => {
+								// for easier inspection. Not really needed.
+								elt_loader.style.display = 'none'
+							})
 					} catch (err) {
-						logger.warn('[IL] Web Animation API error', err)
+						logger.warn('[IL] Web Animation API error:', err)
 					}
 					/*if (state.error) {
 						// TODO remove this ugly confirm which is interrupting at OS level

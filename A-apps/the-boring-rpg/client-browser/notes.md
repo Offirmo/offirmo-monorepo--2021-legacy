@@ -89,3 +89,14 @@ https://pushjs.org/docs/permissions
 
 		"fetchival": "^0.3",
 		"universal-analytics": "^0.4",
+
+
+		<link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png?v=yyapgPk479">
+		<link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png?v=yyapgPk479">
+		<link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png?v=yyapgPk479">
+		<link rel="manifest" href="favicons/site.webmanifest?v=yyapgPk479">
+		<link rel="mask-icon" href="favicons/safari-pinned-tab.svg?v=yyapgPk479" color="#543d46">
+		<link rel="shortcut icon" href="favicons/favicon.ico?v=yyapgPk479">
+		<meta name="msapplication-TileColor" content="#543d46">
+		<meta name="msapplication-config" content="favicons/browserconfig.xml?v=yyapgPk479">
+		<meta name="theme-color" content="#543d46">

@@ -12,6 +12,7 @@
 
 ## v0.65.1
 - 😍 feature: 36 new backgrounds (now totalling 134!)
+- 😅 fix: favicon status didn't seem to always work correctly
 - 😷 chore: some internal refactors, bump dependencies
 
 ## v0.64.1

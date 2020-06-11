@@ -59,11 +59,11 @@
 		"xstart:parcel": "PARCEL_AUTOINSTALL=false parcel src/*.html --out-dir .parcel --no-autoinstall --port 8080 --no-hmr",
 		"dev": "npm-run-all clean refresh-build-variables refresh-loading-template --parallel start:parcel copy-extra--dev",
 
-		"copy-incorrectly-parcelised-favicons": "cp -rf dist/android-chrome-* dist/favicons",
+		"fix-incorrectly-parcelised-favicons": "mkdir -p dist/favicons && cp -rf dist/favicon.*.svg dist/favicons/favicon.svg",
 		"copy-ignored-mstile": "cp -rf src/favicons/mstile-150x150.png dist",
 		"copy-extra--prod": "cp -f src/index.html dist && cp -f src/build.json dist",
 		"build:parcel": "parcel build src/index-2.html --public-url ./",
-		"build": "npm-run-all clean refresh-build-variables refresh-loading-template build:parcel copy-extra--prod copy-incorrectly-parcelised-favicons copy-ignored-mstile"
+		"build": "npm-run-all clean refresh-build-variables refresh-loading-template build:parcel copy-extra--prod fix-incorrectly-parcelised-favicons"
 	},
 	"devDependencies": {
 		"@babel/core": "^7",

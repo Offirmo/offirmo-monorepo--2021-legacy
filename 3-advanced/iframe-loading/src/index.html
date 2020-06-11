@@ -296,8 +296,7 @@
 					elt_loader.style.pointerEvents = 'none'
 					try {
 						// https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API/Using_the_Web_Animations_API
-						elt_loader
-							.animate(
+						const animation = elt_loader.animate(
 								[
 									{opacity: 1},
 									{opacity: 0},
@@ -307,12 +306,13 @@
 									fill: 'forwards',
 								}
 							)
-							.finished.then(() => {
-							// for easier inspection. Really needed?
-							elt_loader.style.display = 'none'
-						})
+						if (animation.finished)
+							animation.finished.then(() => {
+								// for easier inspection. Not really needed.
+								elt_loader.style.display = 'none'
+							})
 					} catch (err) {
-						logger.warn('[IL] Web Animation API error', err)
+						logger.warn('[IL] Web Animation API error:', err)
 					}
 					/*if (state.error) {
 						// TODO remove this ugly confirm which is interrupting at OS level
