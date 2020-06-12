@@ -36,6 +36,7 @@
 
 		"module": "ES2015",
 		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
 		"target": "ES2019",
 		"newLine": "lf",
 		"sourceMap": true,

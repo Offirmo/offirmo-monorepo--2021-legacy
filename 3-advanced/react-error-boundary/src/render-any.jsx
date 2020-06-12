@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import PropTypes from 'prop-types'
 import assert from 'tiny-invariant'
 import memoize_one from 'memoize-one'

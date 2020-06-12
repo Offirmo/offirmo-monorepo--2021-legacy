@@ -1,4 +1,5 @@
-import React, { Component, Fragment, createRef } from 'react'
+import * as React from 'react'
+import { Component, Fragment, createRef } from 'react'
 import ToolTip from 'react-portal-tooltip'
 import { Modal } from 'react-overlays'
 import { has_any_hover } from '@offirmo-private/features-detection-browser'

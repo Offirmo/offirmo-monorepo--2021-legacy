@@ -1,5 +1,6 @@
 import { browser } from 'webextension-polyfill-ts'
-import React, { Component } from 'react'
+import * as React from 'react'
+import { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import send_message from '../../../utils/send-message'

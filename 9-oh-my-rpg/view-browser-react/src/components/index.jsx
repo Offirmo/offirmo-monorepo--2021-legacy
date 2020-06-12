@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import * as React from 'react'
+import { Component } from 'react'
 
 import BurgerMenuWrapper from './burger-menu-wrapper'
 import OMR from './omr'

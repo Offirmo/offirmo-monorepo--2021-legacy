@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import * as React from 'react'
+import { Component } from 'react'
 
 import { render_artwork_legend } from '@oh-my-rpg/rsrc-backgrounds'
 import rich_text_to_react from '../../../../services/rich-text-to-react'

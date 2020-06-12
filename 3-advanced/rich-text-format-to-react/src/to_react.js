@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import classNames from 'classnames'
 
 import { Enum, NodeType, walk, is_list, is_uuid_list, is_KVP_list } from '@offirmo-private/rich-text-format'

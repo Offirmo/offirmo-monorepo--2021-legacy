@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import * as React from 'react'
 
 import ErrorBoundary from '@offirmo-private/react-error-boundary'
 

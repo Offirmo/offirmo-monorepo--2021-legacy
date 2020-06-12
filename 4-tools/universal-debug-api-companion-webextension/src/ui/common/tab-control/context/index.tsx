@@ -1,5 +1,6 @@
 import assert from 'tiny-invariant'
-import React, { Component } from 'react'
+import * as React from 'react'
+import { Component } from 'react'
 import PropTypes from 'prop-types'
 import { render_any_m } from '@offirmo-private/react-error-boundary'
 

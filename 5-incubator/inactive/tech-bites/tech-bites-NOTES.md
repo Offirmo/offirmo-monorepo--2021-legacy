@@ -76,7 +76,7 @@ https://developers.slashdot.org/story/19/07/22/0426201/is-object-oriented-progra
 KISS
 
 KTLO
-
+crunch
 SME
 
 https://en.wikipedia.org/wiki/Hofstadter's_law

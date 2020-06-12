@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import ReactDOM from 'react-dom'
 
 import { set_xoff_flag, load_script_from_top, get_log_prefix, execute_from_top, get_top_window } from '@offirmo-private/xoff'

@@ -1,4 +1,5 @@
-import React, { Component, Fragment } from 'react'
+import * as React from 'react'
+import { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
 import { get_top_ish_window } from '@offirmo-private/xoff'

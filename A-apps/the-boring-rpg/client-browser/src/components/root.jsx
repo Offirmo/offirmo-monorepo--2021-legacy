@@ -1,4 +1,5 @@
-import React, { Component, Fragment, StrictMode } from 'react'
+import * as React from 'react'
+import { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
 //import floating from 'floating.js'

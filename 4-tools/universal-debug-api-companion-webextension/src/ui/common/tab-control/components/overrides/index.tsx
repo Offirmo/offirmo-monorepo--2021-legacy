@@ -1,5 +1,6 @@
 import assert from 'tiny-invariant'
-import React, { Component, Fragment } from 'react'
+import * as React from 'react'
+import { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
 import { AppStateConsumer, get_overrides_map, compare_overrides, RenderParams } from '../../context'

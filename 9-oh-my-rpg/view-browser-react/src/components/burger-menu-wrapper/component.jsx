@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import * as React from 'react'
+import { Component } from 'react'
 import memoize_one from 'memoize-one'
 
 import BurgerMenu from 'react-burger-menu/lib/menus/scaleDown'
