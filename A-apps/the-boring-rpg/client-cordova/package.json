@@ -1,0 +1,17 @@
+{
+	"name": "@tbrpg/client-cordova",
+	"description": "cordova client for iOs and Android",
+	"version": "0.0.1",
+	"author": "Offirmo <offirmo.net@gmail.com>",
+	"license": "Unlicense",
+	"private": true,
+
+	"dependencies": {
+	},
+
+	"scripts": {
+	},
+	"devDependencies": {
+		"npm-run-all": "^4"
+	}
+}
