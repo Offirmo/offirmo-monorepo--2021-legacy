@@ -10,6 +10,7 @@
 	},
 
 	"scripts": {
+		"update": "rm -rf client-cordova-gen/www/app && mkdir -p client-cordova-gen/www && cp -rf ../client-browser/dist client-cordova-gen/www/app"
 	},
 	"devDependencies": {
 		"npm-run-all": "^4"

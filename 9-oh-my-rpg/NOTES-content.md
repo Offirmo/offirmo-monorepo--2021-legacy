@@ -284,8 +284,8 @@ bad to the bone
 “Each of the seven basic human emotions (anger, contempt, disgust, fear, happiness, sadness and surprise) has been scientifically proven to have a certain facial expression associated with it,”
 
 wordsmithing
-scoutcraft
-woodcraft
+scoutcraft https://en.wikipedia.org/wiki/Scoutcraft
+woodcraft https://en.wikipedia.org/wiki/Woodcraft
 
 Legendary weapons A warrior trains with his weapon so that it becomes an extension of
                   himself, as much a part of his being as his own arm. The more he trains

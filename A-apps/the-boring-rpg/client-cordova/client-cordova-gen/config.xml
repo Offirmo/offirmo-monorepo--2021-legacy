@@ -1,26 +1,41 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.cordova.hellocordova" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>The Boring RPG, reborn!</name>
-    <description>
-		 The simplest RPG ever!
-    </description>
-    <author email="offirmo.net@gmail.com" href="https://www.online-adventur.es/apps/the-boring-rpg/">
-        Offirmo
-    </author>
-    <content src="index.html" />
-    <plugin name="cordova-plugin-whitelist" spec="1" />
-    <access origin="*" />
-    <allow-intent href="http://*/*" />
-    <allow-intent href="https://*/*" />
-    <allow-intent href="tel:*" />
-    <allow-intent href="sms:*" />
-    <allow-intent href="mailto:*" />
-    <allow-intent href="geo:*" />
-    <platform name="android">
-        <allow-intent href="market:*" />
-    </platform>
-    <platform name="ios">
-        <allow-intent href="itms:*" />
-        <allow-intent href="itms-apps:*" />
-    </platform>
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0"
+		  id="es.online-adventur.the-boring-rpg"
+		  version="0.0.1"
+		  defaultlocale="en"
+>
+	<name short="Boring RPG">The Boring RPG</name>
+	<description>
+		The simplest RPG ever!
+	</description>
+	<author email="offirmo.net+cordova--tbrpg@gmail.com" href="https://www.offirmo.net">
+		Offirmo
+	</author>
+
+	<content src="app/index-2.html" />
+	<icon src="www/app/favicons/Icon-60@2x.png" />
+
+	<plugin name="cordova-plugin-whitelist" spec="1" />
+	<access origin="*" />
+	<allow-navigation href="*" />
+	<allow-intent href="https://*/*" />
+	<allow-intent href="mailto:*" />
+	<platform name="android">
+		<allow-intent href="market:*" />
+	</platform>
+	<platform name="ios">
+		<allow-intent href="itms:*"/>
+		<allow-intent href="itms-apps:*"/>
+	</platform>
+
+	<preference name="Orientation" value="portrait" />
+	<preference name="Fullscreen" value="true" />
+	<preference name="BackgroundColor" value="0x543d46ff"/>
+
+	<!-- iOS only preferences -->
+	<preference name="EnableViewportScale" value="true"/>
+
+	<!-- Android only preferences -->
+	<preference name="android-minSdkVersion" value="11"/> <!-- >10 https://cordova.apache.org/docs/en/latest/guide/appdev/security/index.html -->
+
 </widget>

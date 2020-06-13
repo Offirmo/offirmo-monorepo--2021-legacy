@@ -59,7 +59,7 @@
 		"xstart:parcel": "PARCEL_AUTOINSTALL=false parcel src/*.html --out-dir .parcel --no-autoinstall --port 8080 --no-hmr",
 		"dev": "npm-run-all clean refresh-build-variables refresh-loading-template --parallel start:parcel copy-extra--dev",
 
-		"fix-incorrectly-parcelised-favicons": "mkdir -p dist/favicons && cp -rf dist/favicon.*.svg dist/favicons/favicon.svg",
+		"fix-incorrectly-parcelised-favicons": "mkdir -p dist/favicons && cp -rf dist/favicon.*.svg dist/favicons/favicon.svg && cp -rf src/favicons/Icon-* dist/favicons/",
 		"copy-ignored-mstile": "cp -rf src/favicons/mstile-150x150.png dist",
 		"copy-extra--prod": "cp -f src/index.html dist && cp -f src/build.json dist",
 		"build:parcel": "parcel build src/index-2.html --public-url ./",
