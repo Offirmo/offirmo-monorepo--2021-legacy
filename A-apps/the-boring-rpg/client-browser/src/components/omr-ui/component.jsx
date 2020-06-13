@@ -100,9 +100,7 @@ export default class OhMyRPGView extends PureComponent {
 			<OhMyRpg
 
 				logo={
-					<a href="https://www.online-adventur.es/the-boring-rpg/" target="_blank" rel="noopener noreferrer">
-						<img src={logo} height="100%" />
-					</a>
+					<img src={logo} height="100%" />
 				}
 				aboutContent={<About />}
 

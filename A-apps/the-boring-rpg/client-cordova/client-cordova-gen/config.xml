@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0"
-		  id="es.online-adventur.the-boring-rpg"
+		  id="com.OffirmoOnlineAdventures.TheBoringRPG"
 		  version="0.0.1"
 		  defaultlocale="en"
->
+> <!-- android: "id" Must look like: `com.company.Name` -->
 	<name short="Boring RPG">The Boring RPG</name>
 	<description>
 		The simplest RPG ever!
@@ -13,7 +13,13 @@
 	</author>
 
 	<content src="app/index-2.html" />
+	<!-- https://cordova.apache.org/docs/en/latest/config_ref/images.html -->
 	<icon src="www/app/favicons/Icon-60@2x.png" />
+	<platform name="ios">
+		<!-- https://developer.apple.com/library/archive/qa/qa1686/_index.html -->
+		<icon src="www/app/favicons/icon-60@2x.png" width="120" height="120" />
+		<icon src="www/app/favicons/icon-76.png" width="76" height="76" />
+	</platform>
 
 	<plugin name="cordova-plugin-whitelist" spec="1" />
 	<access origin="*" />
@@ -28,14 +34,16 @@
 		<allow-intent href="itms-apps:*"/>
 	</platform>
 
+	<!-- https://cordova.apache.org/docs/en/latest/config_ref/index.html#preference -->
 	<preference name="Orientation" value="portrait" />
 	<preference name="Fullscreen" value="true" />
-	<preference name="BackgroundColor" value="0x543d46ff"/>
+	<preference name="BackgroundColor" value="0xff000000"/>
+	<preference name="DisallowOverscroll" value="true"/>
 
 	<!-- iOS only preferences -->
 	<preference name="EnableViewportScale" value="true"/>
 
 	<!-- Android only preferences -->
 	<preference name="android-minSdkVersion" value="11"/> <!-- >10 https://cordova.apache.org/docs/en/latest/guide/appdev/security/index.html -->
-
+	<preference name="InAppBrowserStorageEnabled" value="false"/>
 </widget>

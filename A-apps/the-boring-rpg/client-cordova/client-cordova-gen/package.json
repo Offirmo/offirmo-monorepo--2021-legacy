@@ -4,7 +4,6 @@
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 	"private": true,
-
 	"dependencies": {
 		"cordova-android": "^8.1.0",
 		"cordova-browser": "^6.0.0",
