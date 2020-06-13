@@ -282,3 +282,54 @@ chines martial arts
 bad to the bone
 
 “Each of the seven basic human emotions (anger, contempt, disgust, fear, happiness, sadness and surprise) has been scientifically proven to have a certain facial expression associated with it,”
+
+wordsmithing
+scoutcraft
+woodcraft
+
+Legendary weapons A warrior trains with his weapon so that it becomes an extension of
+                  himself, as much a part of his being as his own arm. The more he trains
+                  with it, the more intuitively it enhances his fighting style and adds to
+                  his prowess. When a warrior survives long enough for his name to become
+                  legendary, his weapon of choice becomes legendary also, spoken of in
+                  frightened whispers among his enemies. This was certainly true of the
+                  legendary weapons encountered in the Lord of the Rings books - Orcrist,
+                  Glamdring, Narsil and other such fearsome tools were well-known among
+                  the orcs and goblins, hated perhaps even more than the warriors who
+                  wielded them. This is also true in the
+                  Lord of the Rings Online, where the Legendary Item
+                  system allows players to forge their own legacies in steel.
+- https://www.tentonhammer.com/guides/lotro-s-legendary-items-6-most-commonly-asked-questions
+- https://aragornsallies.guildlaunch.com/custom.php?page_id=74890&gid=38556
+- https://lotroplayers.com/2019/08/26/bringing-back-the-legendary-in-li/
+- https://lotroplayers.com/2019/08/30/legendary-system-v-2/
+- https://accomp.me/lotro-legendary-item-progression-guide/
+- https://lotro-wiki.com/index.php/Legendary_Items
+- https://lotroplayers.com/2020/05/05/cc-imbued-li-guide-2020-u26/
+- damage types https://www.engadget.com/2012-04-14-the-road-to-mordor-the-truth-behind-weapon-damage-types.html
+    Ancient Dwarf: Strong against Dragon-kind (Drakes, Worms, Salamanders) and Cave-claws
+    Beleriand: Strong against Half-orcs, Spiders, Insects, Neekers, Crawlers, Ancient Evil, Morroval, Nameless, and Gaunts
+    Westernesse: Strong against the Dead, Unseen, Gaunts, Wights, Darkwater, and Decayed
+    Fire: Strong against Creatures of Nature, Beasts, Slugs, Snowbeasts, most Wolves, Darkwater, and Trolls
+    Light: Strong against Goblins, Orcs, Trolls, and Spiders
+    Cries: Strong against Orcs, Goblins, and Uruks
+- titles
+- runes
+- engraving
+- slots /
+- reforging
+- item experience points IXP comes from many sources, including:
+    Killing non-trivial mobs (the mobs can’t be grey to you).
+    Level 51+ quest rewards. Repeatable daily quests in Moria, Lothlorien, Mirkwood and Enedwaith are an excellent source of IXP.
+    IXP Runes. These are items that drop from mobs and chests, are rewarded for completing quests and deeds or a by-product of deconstructing a legendary item.
+Reforging a Legendary Item
+Every ten levels, your legendary item must be reforged before it will earn more IXP.
+
+
+Affinity
+Soul
+Living
+
+Mounted combat
+
+
