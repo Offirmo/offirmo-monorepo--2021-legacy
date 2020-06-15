@@ -154,7 +154,7 @@
 				bg_color: 'black',
 				fg_color: 'hsl(0, 0%, 98%)',
 				// TODO font, bg picture etc.
-				app_url: get_current_path() + '/index-2.html', // TODO pass queryparams
+				app_url: get_current_path() + '/index-2.html' + window.location.search,
 				legend: undefined,
 				expected_rsrc_count: 1,
 				...user_settings,
@@ -261,7 +261,7 @@
 			}
 		}
 
-		// TODO favicon
+		// TODO favicon?
 
 		/////////////////////
 

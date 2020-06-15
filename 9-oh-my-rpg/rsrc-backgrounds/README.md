@@ -19,6 +19,16 @@ Sources:
 * https://krita-artists.org/tag/fantasy
 * https://krita-artists.org/tag/landscape
 
+TODO royalty free shutterstock https://www.shutterstock.com/search/fantasy+background+interior?image_type=illustration&page=6
+* https://www.shutterstock.com/g/vectorpouch
+* https://www.shutterstock.com/g/Vectorpocket
+* https://www.shutterstock.com/g/Artem+Popov
+* https://www.shutterstock.com/g/Olha+Andreichyn
+* https://www.shutterstock.com/g/noreefly
+* https://www.shutterstock.com/g/NextMars
+* https://www.shutterstock.com/g/ralphstock
+
+
 Photo by Shawn Appel on Unsplash https://unsplash.com/@shawn_appel
 Photo by Florian van Duyn on Unsplash https://unsplash.com/photos/Dm-qxdynoEc
 

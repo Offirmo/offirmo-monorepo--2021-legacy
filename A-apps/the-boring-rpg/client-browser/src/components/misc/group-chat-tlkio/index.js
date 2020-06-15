@@ -76,7 +76,8 @@ function restart({channel_id, nickname} = {}) {
 		script_elem.type = 'text/javascript'
 		script_elem.async = true
 		script_elem.importance = 'low'
-		script_elem.src = `${document.location.protocol || 'https:'}//tlk.io/embed.js`
+		//script_elem.src = `${document.location.protocol || 'https:'}//tlk.io/embed.js`
+		script_elem.src = 'https://tlk.io/embed.js'
 		const scripts = document.getElementsByTagName('script')[0].parentNode
 		scripts.appendChild(script_elem)
 	}, optimization_delay_ms)

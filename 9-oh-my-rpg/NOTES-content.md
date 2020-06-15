@@ -332,4 +332,10 @@ Living
 
 Mounted combat
 
-
+Martial art
+* https://www.quora.com/Why-does-Bruce-Lee-bounce-up-and-down
+* https://www.quora.com/Was-Bruce-Lee-just-an-actor-Where-would-he-rank-in-the-UFC-if-he-were-in-his-prime-today
+* https://www.quora.com/Why-is-there-so-much-disrespect-for-Bruce-Lee-in-MMA-Newbie-fighters-claim-that-theyd-floor-an-in-his-prime-Bruce-Lee-today-Whats-up-with-that
+* https://www.youtube.com/embed/_5KBnA-2NBg
+* http://www.progressivecombatsystems.com/articles/bruce-lee-footwork/
+* https://www.quora.com/Did-Judo-Gene-Lebell-defeat-Bruce-Lee-If-not-would-Bruce-Lee-have-been-able-to-defeat-an-experienced-grappler-like-Judo-Gene

@@ -27,7 +27,7 @@ Resources:
 * ...
 
 Inspiration:
-* 
+*
 
 
 ## rsrcs
@@ -38,3 +38,10 @@ TODO https://gamesounds.xyz/
 TODO https://opengameart.org/content/music-and-soundfx-for-a-3d-action-rpg
 TODO https://opengameart.org/content/rpg-sound-archive-attack-movement-hits
 TODO https://opengameart.org/content/ui-sounds-rpg-inventory-sounds
+
+TODO royalty free musics https://gumroad.com/tubersongs
+* https://www.youtube.com/watch?v=5lavx2HGw9w
+* https://www.youtube.com/watch?v=RgWq2NZuq-I
+* https://www.youtube.com/watch?time_continue=20&v=XKSLAjRNkrI
+* https://www.youtube.com/watch?v=qGCbgPvDgQk
+* https://www.youtube.com/watch?v=IjEW2T1FqGk
