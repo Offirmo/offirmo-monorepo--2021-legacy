@@ -10,7 +10,10 @@
 	},
 
 	"scripts": {
-		"update": "rm -rf client-cordova-gen/www/app && mkdir -p client-cordova-gen/www && cp -rf ../client-browser/dist client-cordova-gen/www/app"
+		"clean": "rm -rf client-cordova-gen/www && mkdir -p client-cordova-gen/www",
+		"snapshot-the-app": "mkdir -p client-cordova-gen/www && cp -rf ../client-browser/dist client-cordova-gen/www/app",
+		"copy-favicons-for-cordova-config": "mkdir -p client-cordova-gen/www/app/favicons && cp -rf ../client-browser/src/favicons/Icon-* client-cordova-gen/www/app/favicons/",
+		"update": "npm-run-all clean snapshot-the-app copy-favicons-for-cordova-config"
 	},
 	"devDependencies": {
 		"npm-run-all": "^4"

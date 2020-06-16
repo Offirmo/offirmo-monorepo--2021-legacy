@@ -437,7 +437,89 @@ You promptly dispense it and loot {{coin}} coins from them.`,
 
 const OFFIRMO_INSPIRED_FROM_INSTAGRAM_POSTS: I18nMessages = {
 
-	// TODO https://www.instagram.com/travisjhanson/
+	// https://www.instagram.com/travisjhanson/
+	// https://www.instagram.com/p/B_kXgz3hCcL/
+	flammable_village: `
+They should have told you that the village was flammable
+BEFORE you started to clean out the infestation!
+Those ungrateful villagers refuse to give you the promised reward.
+But at least it was good XP! +1 level.
+	`,
+	// https://www.instagram.com/p/B-M2VTCB_ss/
+	tomb_of_lost_socks: `
+You found it: The Tomb of Lost Socks.
+	`,
+	// https://www.instagram.com/p/B9PCUWwBXuT/
+	happy_dragon: `
+The dragon is devastating the village,
+but she looks so happy that you feel bad about interrupting.
+`,
+	// https://www.instagram.com/p/B8OzcWdhIOp/
+	drink_me: `
+You find a potion written "drink me".
+`,
+	// https://www.instagram.com/p/B6-78D1h62g/
+	you_shall_not_pass: `
+`,
+	// https://www.instagram.com/p/B63PD7IB4uT/
+	customize_gear: `
+	`,
+	// https://www.instagram.com/p/B6TEffgB8r2/
+	potion_of_blowing: `
+An alchemist is selling a new king of potions: explosive one!
+They work quite well! You solo a dungeon with them.
+Too bad they blow the ennemy, the loot and a bit of yourself.
+But your pain resistance increased!
+	`,
+	// https://www.instagram.com/p/B6BCnUNBcw0/
+	dragon_admirer: `
+Dragong... how can't you love such beautiful creatures?
+	`,
+	// https://www.instagram.com/p/B5FzGvxhMSx/
+	evil_laugh: `
+The villain give you some tips to improve your evil laugh.
++1 charisma
+	`,
+	hero_smile: `
+In front of a mirror, you practice your hero smile.
++1 charisma`,
+	// https://www.instagram.com/p/B4xPBEYhO_x/
+	bg_music: `
+You manage to create a sound spell to play heroic music when you fight.
+It raises your morale and make you stronger!
+	`,
+	// https://www.instagram.com/p/B4Ke6_gBpSv/
+	body_parts: `
+Since you started to learn necromancy,
+your dungeon runs are more efficient: you salvage body parts as well!
+You make good progress in necromancy.`,
+	// https://www.instagram.com/p/B37LIlXhaf8/
+	owlbear: `
+You encounters a friendly owlbear.
+He teaches you wisdom.
+	`,
+	// https://www.instagram.com/p/B3VJ0D2hbyJ/
+	book_hobbit_riddles: `
+You find a book about Hobbit's riddles	`,
+	book_lost_treasures: `
+	`,
+	book_wealth_planning: `
+	`,
+	// https://www.instagram.com/p/B3HlHD8hAZM/
+	book_excuses_dragon: `
+	`,
+	// https://www.instagram.com/p/B21fhJmhuZQ/
+	gift_of_friendship: `
+	`,
+	// https://www.instagram.com/p/B2MPyBfhLgR/
+	book_smart: `
+	`,
+	// https://www.instagram.com/p/B1_VJq3BBR-/
+	in_doubt_fireball: `
+	`,
+	// (780)
+
+
 
 	// TODO RPG hooks Instagram
 
@@ -555,6 +637,15 @@ You gain +{{luck}} luck!
 
 const OFFIRMO_GAMING_CULTURE: I18nMessages = {
 
+	// LOTRO
+	weapon_effect: `
+You pay an enchanter to add a cool visual effect on your equipment!
+	`,
+	weapon_damage_type: `
+You get your weapon reforged into old elven alloy.
+This makes it sharper against orcs... and dwarves?
+	`,
+
 	// TODO always winter
 
 	// Marvel reference
@@ -637,6 +728,13 @@ You buy poison from them and coat your weapon with it, providing a good enhancem
 	DQ_good_slime: `The slime speaks to you: «I’m not a bad slime, you know?»{{br}}
 What a stupid statement: obviously slimes are monsters! You slaughter it and many others.{{br}}
 This training earns you +{{attr}} {{attr_name}}!`,
+}
+
+const OFFIRMO_INSPIRED_FROM_MANGAS: I18nMessages = {
+	guild_rank: `
+The Adventurer's Guild recognize your recent level increases
+and promotes you to the next ranking!`,
+
 }
 
 const OFFIRMO_POPULAR_CULTURE: I18nMessages = {
@@ -1035,6 +1133,11 @@ You must have eaten the wrong mushroom.{{br}}
 You wake up with a pet badger. Its aura gives you +{{strength}} strength!
 `,
 
+	// weapon improvement
+	runes: `
+You have a piece of your equipment engraved with power runes.
+It is now stronger!
+`
 }
 
 export const OFFIRMO_BLAND_REPARTITION_ADJUSTMENT: I18nMessages = {
@@ -1122,6 +1225,7 @@ const raw_messages: I18nMessages = {
 		...OFFIRMO_INSPIRED_FROM_NET_RSRCS,
 		...OFFIRMO_INSPIRED_FROM_INSTAGRAM_POSTS,
 		...OFFIRMO_GAMING_CULTURE,
+		...OFFIRMO_INSPIRED_FROM_MANGAS,
 		...OFFIRMO_POPULAR_CULTURE,
 
 		...OFFIRMO_ORIGINAL,
