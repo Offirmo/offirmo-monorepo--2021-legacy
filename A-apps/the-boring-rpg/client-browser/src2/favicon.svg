@@ -48,9 +48,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.09803922"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.34296751"
-     inkscape:cx="239.78863"
-     inkscape:cy="-214.29877"
+     inkscape:zoom="0.83972969"
+     inkscape:cx="736.63757"
+     inkscape:cy="-695.97331"
      inkscape:document-units="px"
      inkscape:current-layer="layer10"
      showgrid="true"
@@ -143,24 +143,24 @@
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96" />
     <rect
-       inkscape:export-ydpi="7.1199999"
-       inkscape:export-xdpi="7.1199999"
-       style="display:inline;fill:#543d46;fill-opacity:1;stroke:#ffebbc;stroke-width:72;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       inkscape:export-ydpi="11.34"
+       inkscape:export-xdpi="11.34"
+       style="display:inline;fill:#543d46;fill-opacity:1;stroke:#ffebbc;stroke-width:64;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
        id="rect848"
        width="952"
        height="952"
        x="848"
        y="-1080"
-       ry="214"
-       inkscape:export-filename="/Users/yjutard/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/client-browser/src/favicons/Icon-76.png" />
+       ry="204"
+       inkscape:export-filename="/Users/yjutard/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/client-browser/src/favicons/Icon-60@2x.png" />
     <path
-       inkscape:export-ydpi="7.1199999"
-       inkscape:export-xdpi="7.1199999"
+       inkscape:export-ydpi="11.34"
+       inkscape:export-xdpi="11.34"
        style="display:inline;fill:#ffebbc;fill-rule:evenodd;stroke-width:48;stroke-miterlimit:4;stroke-dasharray:none"
        inkscape:connector-curvature="0"
        d="m 1334.2004,-980.13576 c -43.7014,14.1636 -86.7236,44.97289 -116.1971,89.15266 28.1667,76.89959 28.1667,91.93015 0,168.82813 31.9813,24.82564 64.7075,39.75185 97.5847,44.10272 -3.3121,-41.04105 -5.8279,-82.08852 1.8061,-123.12476 -21.8747,-2.38093 -37.5266,-9.62489 -59.4029,-22.27451 v -51.72557 c 57.5823,30.65837 99.2832,30.14622 158.6429,0 v 51.72878 c -21.4557,10.43084 -35.1377,17.91722 -56.5934,21.22132 5.8022,41.04907 5.5871,82.12063 2.2075,123.17291 29.9327,-5.24191 59.7819,-19.44725 89.1045,-43.09928 -23.0435,-76.89798 -23.0467,-91.93015 0,-168.82653 -27.2643,-44.96646 -76.1851,-74.86865 -117.1523,-89.15587 z m -208.0614,13.19389 c -41.5918,177.26817 -43.9101,345.70938 -43.9904,531.29077 -30.2473,-2.46763 -60.3373,-8.22009 -89.95049,-17.85301 v 45.84306 h 110.88449 c 13.9918,56.23216 10.3907,112.46753 -1.6633,168.7013 h 45.1623 c -11.5514,-56.23377 -13.2244,-112.46914 -1.3999,-168.7013 h 110.6244 v -45.84467 c -29.6855,7.93432 -59.814,13.73012 -90.063,16.79339 0.1317,-184.53461 4.0073,-358.13264 -39.6025,-530.22794 z m 143.6428,324.91031 c 0,188.27539 40.9672,374.62741 192.9074,414.16732 167.2644,-33.7714 193.1127,-225.37336 193.1127,-414.16893 h -386.0233 z"
        id="path850"
-       inkscape:export-filename="/Users/yjutard/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/client-browser/src/favicons/Icon-76.png" />
+       inkscape:export-filename="/Users/yjutard/work/src/off/offirmo-monorepo/A-apps/the-boring-rpg/client-browser/src/favicons/Icon-60@2x.png" />
   </g>
   <rect
      style="fill:#ffffff;fill-opacity:1;stroke:none"
