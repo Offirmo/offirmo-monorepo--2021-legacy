@@ -85,3 +85,5 @@ OKR
 
 marketing: doesn’t matter how fast your shit is if nobody uses it. thank u next...
 https://twitter.com/sebmck/status/1265561343295397894
+
+80char 
