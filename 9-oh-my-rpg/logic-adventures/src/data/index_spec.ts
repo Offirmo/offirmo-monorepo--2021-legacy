@@ -72,9 +72,9 @@ describe('@oh-my-rpg/logic-adventures - data:', function () {
 			'armor',
 			'weapon',
 			'armor_or_weapon',
-			'weapon_improvement',
-			// TODO 'armor_improvement',
-			'armor_or_weapon_improvement',
+			'improvementⵧweapon',
+			'improvementⵧarmor',
+			'improvementⵧarmor_or_weapon',
 
 			'token',
 			...Enum.values(CoinsGain).filter(v => v!= 'none').map(v => 'coin:' + v),
@@ -158,7 +158,7 @@ describe('@oh-my-rpg/logic-adventures - data:', function () {
 
 					if (text.includes('{{item}}')) outcome.XXX_armor_or_weapon = true
 
-					if(Object.keys(outcome).length === 0) outcome.armor_or_weapon_improvement = true
+					if(Object.keys(outcome).length === 0) outcome.improvementⵧarmor_or_weapon = true
 
 					const hid_part = `hid: '${key}',                                         `
 					console.log(`	{ good: true, type: story, ${hid_part.slice(0, 36)} outcome: ${JSON.stringify(outcome)}},`)

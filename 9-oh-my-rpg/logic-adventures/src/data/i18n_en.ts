@@ -439,40 +439,40 @@ const OFFIRMO_INSPIRED_FROM_INSTAGRAM_POSTS: I18nMessages = {
 
 	// https://www.instagram.com/travisjhanson/
 	// https://www.instagram.com/p/B_kXgz3hCcL/
-	flammable_village: `
+	xxx_flammable_village: `
 They should have told you that the village was flammable
 BEFORE you started to clean out the infestation!
 Those ungrateful villagers refuse to give you the promised reward.
 But at least it was good XP! +1 level.
 	`,
 	// https://www.instagram.com/p/B-M2VTCB_ss/
-	tomb_of_lost_socks: `
+	xxx_tomb_of_lost_socks: `
 You found it: The Tomb of Lost Socks.
 	`,
 	// https://www.instagram.com/p/B9PCUWwBXuT/
-	happy_dragon: `
+	xxx_happy_dragon: `
 The dragon is devastating the village,
 but she looks so happy that you feel bad about interrupting.
 `,
 	// https://www.instagram.com/p/B8OzcWdhIOp/
-	drink_me: `
+	xxx_drink_me: `
 You find a potion written "drink me".
 `,
 	// https://www.instagram.com/p/B6-78D1h62g/
-	you_shall_not_pass: `
+	xxx_you_shall_not_pass: `
 `,
 	// https://www.instagram.com/p/B63PD7IB4uT/
-	customize_gear: `
+	xxx_customize_gear: `
 	`,
 	// https://www.instagram.com/p/B6TEffgB8r2/
-	potion_of_blowing: `
+	xxx_potion_of_blowing: `
 An alchemist is selling a new king of potions: explosive one!
 They work quite well! You solo a dungeon with them.
 Too bad they blow the ennemy, the loot and a bit of yourself.
 But your pain resistance increased!
 	`,
 	// https://www.instagram.com/p/B6BCnUNBcw0/
-	dragon_admirer: `
+	xxx_dragon_admirer: `
 Dragong... how can't you love such beautiful creatures?
 	`,
 	// https://www.instagram.com/p/B5FzGvxhMSx/
@@ -489,7 +489,7 @@ You manage to create a sound spell to play heroic music when you fight.
 It raises your morale and make you stronger!
 	`,
 	// https://www.instagram.com/p/B4Ke6_gBpSv/
-	body_parts: `
+	xxx_body_parts: `
 Since you started to learn necromancy,
 your dungeon runs are more efficient: you salvage body parts as well!
 You make good progress in necromancy.`,
@@ -500,22 +500,26 @@ He teaches you wisdom.
 	`,
 	// https://www.instagram.com/p/B3VJ0D2hbyJ/
 	book_hobbit_riddles: `
-You find a book about Hobbit's riddles	`,
-	book_lost_treasures: `
+You find a book about Hobbit's riddles.
+That can be useful in the future! Your wisdom increased.
+`,
+	xxx_book_lost_treasures: `
 	`,
-	book_wealth_planning: `
+	xxx_book_wealth_planning: `
 	`,
 	// https://www.instagram.com/p/B3HlHD8hAZM/
 	book_excuses_dragon: `
+You find a book listing excuses for when you are caught by a dragon (stealing some treasure?)
+They are mainly flattery-based. Your charisma increases!
 	`,
 	// https://www.instagram.com/p/B21fhJmhuZQ/
-	gift_of_friendship: `
+	xxx_gift_of_friendship: `
 	`,
 	// https://www.instagram.com/p/B2MPyBfhLgR/
-	book_smart: `
+	xxx_book_smart: `
 	`,
 	// https://www.instagram.com/p/B1_VJq3BBR-/
-	in_doubt_fireball: `
+	xxx_in_doubt_fireball: `
 	`,
 	// (780)
 
@@ -635,10 +639,10 @@ You gain +{{luck}} luck!
 	`,
 }
 
-const OFFIRMO_GAMING_CULTURE: I18nMessages = {
+const OFFIRMO_INPIRED_FROM_VIDEOGAMES: I18nMessages = {
 
 	// LOTRO
-	weapon_effect: `
+	visual_effect: `
 You pay an enchanter to add a cool visual effect on your equipment!
 	`,
 	weapon_damage_type: `
@@ -728,6 +732,10 @@ You buy poison from them and coat your weapon with it, providing a good enhancem
 	DQ_good_slime: `The slime speaks to you: «I’m not a bad slime, you know?»{{br}}
 What a stupid statement: obviously slimes are monsters! You slaughter it and many others.{{br}}
 This training earns you +{{attr}} {{attr_name}}!`,
+
+	// misc
+	socketed_item: `
+You put magic gems in one of you item's socket. It is now stronger!`,
 }
 
 const OFFIRMO_INSPIRED_FROM_MANGAS: I18nMessages = {
@@ -735,9 +743,13 @@ const OFFIRMO_INSPIRED_FROM_MANGAS: I18nMessages = {
 The Adventurer's Guild recognize your recent level increases
 and promotes you to the next ranking!`,
 
+	runes: `
+You have a piece of your equipment engraved with magic runes.
+It is now stronger!
+`
 }
 
-const OFFIRMO_POPULAR_CULTURE: I18nMessages = {
+const OFFIRMO_INSPIRED_BY_POPULAR_CULTURE: I18nMessages = {
 
 	// Atlantis is calling
 
@@ -1133,10 +1145,14 @@ You must have eaten the wrong mushroom.{{br}}
 You wake up with a pet badger. Its aura gives you +{{strength}} strength!
 `,
 
-	// weapon improvement
-	runes: `
-You have a piece of your equipment engraved with power runes.
-It is now stronger!
+	// misc
+	best_defense_is_offense: `
+The best defense is offense!
+You pay for an upgrade of your weapon, it is now stronger!
+`,
+	defense_is_also_important: `
+You discuss with another warrior: "the only real defense is active defense: A good counter-attack leading to taking the offensive!"
+Following this conversation, you buy an upgrade for your armor, it is now stronger!
 `
 }
 
@@ -1205,7 +1221,7 @@ You find the remains of an unlucky adventurer. She or he (you can’t tell from 
 You read it and learn from their failure: +{{attr}} {{attr_name}}!`,
 }
 
-const SPECIAL: I18nMessages = {
+const OFFIRMO_TECHNICALS: I18nMessages = {
 	found_coin: `
 You find a coin on the ground!`,
 }
@@ -1224,13 +1240,13 @@ const raw_messages: I18nMessages = {
 		...OFFIRMO_INSPIRED_FROM_RPG_MEMES_FROM_THE_NET,
 		...OFFIRMO_INSPIRED_FROM_NET_RSRCS,
 		...OFFIRMO_INSPIRED_FROM_INSTAGRAM_POSTS,
-		...OFFIRMO_GAMING_CULTURE,
+		...OFFIRMO_INPIRED_FROM_VIDEOGAMES,
 		...OFFIRMO_INSPIRED_FROM_MANGAS,
-		...OFFIRMO_POPULAR_CULTURE,
+		...OFFIRMO_INSPIRED_BY_POPULAR_CULTURE,
 
 		...OFFIRMO_ORIGINAL,
 		...OFFIRMO_BLAND_REPARTITION_ADJUSTMENT,
-		...SPECIAL,
+		...OFFIRMO_TECHNICALS,
 	},
 }
 

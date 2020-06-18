@@ -41,8 +41,8 @@ const GainType = Enum(
 	'token',
 	'weapon',
 	'armor',
-	'weapon_improvement',
-	'armor_improvement',
+	'improvementⵧweapon',
+	'improvementⵧarmor',
 )
 type GainType = Enum<typeof GainType> // eslint-disable-line no-redeclare
 
@@ -65,8 +65,8 @@ interface Adventure {
 		token: number
 		weapon: null | Weapon
 		armor: null | Armor
-		weapon_improvement: boolean,
-		armor_improvement: boolean,
+		improvementⵧweapon: boolean,
+		improvementⵧarmor: boolean,
 	}
 }
 

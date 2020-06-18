@@ -129,6 +129,10 @@ function matches(weapon: Readonly<Weapon>, elements: Readonly<Partial<Weapon>>):
 	return matches
 }
 
+function is_at_max_enhancement(weapon: Readonly<Weapon>): boolean {
+	return weapon.enhancement_level >= MAX_ENHANCEMENT_LEVEL
+}
+
 /////////////////////
 
 export {
@@ -139,6 +143,7 @@ export {
 	get_medium_damage,
 	get_ultimate_medium_damage,
 	matches,
+	is_at_max_enhancement,
 }
 
 /////////////////////

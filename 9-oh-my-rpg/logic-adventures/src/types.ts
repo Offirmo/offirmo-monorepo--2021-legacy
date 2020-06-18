@@ -57,11 +57,12 @@ interface AdventureArchetype {
 		armor: boolean
 		weapon: boolean
 		armor_or_weapon: boolean
+		item_spec: null, // TODO
 
 		// key radix must match item slots
-		armor_improvement: boolean
-		weapon_improvement: boolean
-		armor_or_weapon_improvement: boolean
+		improvementⵧweapon: boolean,
+		improvementⵧarmor: boolean,
+		improvementⵧarmor_or_weapon: boolean,
 	}
 }
 

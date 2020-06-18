@@ -47,8 +47,8 @@ const DEMO_ADVENTURE_01: Readonly<Adventure> = deepFreeze({
 		token: 0,
 		armor: null,
 		weapon: null,
-		armor_improvement: false,
-		weapon_improvement: false,
+		improvementⵧarmor: false,
+		improvementⵧweapon: false,
 	},
 })
 // with coin gain
@@ -69,8 +69,8 @@ const DEMO_ADVENTURE_02: Readonly<Adventure> = deepFreeze({
 		token: 0,
 		weapon: null,
 		armor: null,
-		weapon_improvement: false,
-		armor_improvement: false,
+		improvementⵧweapon: false,
+		improvementⵧarmor: false,
 	},
 })
 // with loot gain
@@ -91,8 +91,8 @@ const DEMO_ADVENTURE_03: Readonly<Adventure> = deepFreeze({
 		token: 0,
 		weapon: DEMO_WEAPON_1,
 		armor: null,
-		weapon_improvement: false,
-		armor_improvement: false,
+		improvementⵧweapon: false,
+		improvementⵧarmor: false,
 	},
 })
 // with weapon enhancement gain
@@ -113,8 +113,8 @@ const DEMO_ADVENTURE_04: Adventure = deepFreeze({
 		token: 0,
 		weapon: null,
 		armor: null,
-		weapon_improvement: false,
-		armor_improvement: true,
+		improvementⵧweapon: false,
+		improvementⵧarmor: true,
 	},
 })
 

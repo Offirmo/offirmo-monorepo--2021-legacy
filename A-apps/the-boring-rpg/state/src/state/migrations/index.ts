@@ -51,7 +51,7 @@ function migrate_to_latest(SEC: OMRSoftExecutionContext, legacy_state: Readonly<
 			SEC.fireAnalyticsEvent('schema_migration.began')
 
 			try {
-				state = migrate_to_12(SEC, legacy_state, hints)
+				state = migrate_to_13(SEC, legacy_state, hints)
 			}
 			catch (err) {
 				SEC.fireAnalyticsEvent('schema_migration.failed', { step: 'main' })
@@ -157,6 +157,38 @@ function migrate_to_latest(SEC: OMRSoftExecutionContext, legacy_state: Readonly<
 }
 
 /////////////////////
+
+function migrate_to_13(SEC: OMRSoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any>): any {
+	if (legacy_state.schema_version >= 13)
+		throw new Error('migrate_to_13 was called from an outdated/buggy root code, please update!')
+	if (legacy_state.schema_version < 12)
+		legacy_state = migrate_to_12(SEC, legacy_state, hints)
+
+	let state: State = legacy_state as State // for starter
+
+	if (state.u_state.last_adventure) {
+		state.u_state.last_adventure = {
+			...legacy_state.u_state.last_adventure,
+			gains: {
+				...legacy_state.u_state.last_adventure.gains,
+				improvementⵧarmor: legacy_state.u_state.last_adventure.gains.armor_improvement,
+				improvementⵧweapon: legacy_state.u_state.last_adventure.gains.weapon_improvement,
+			},
+		}
+		delete (state.u_state.last_adventure?.gains as any)?.armor_improvement
+		delete (state.u_state.last_adventure?.gains as any)?.weapon_improvement
+	}
+	state.u_state.meta = {
+		...state.u_state.meta,
+		persistence_id: state.u_state.meta.persistence_id || undefined,
+	}
+
+	state.schema_version = 13
+	state.t_state.schema_version = 13
+	state.u_state.schema_version = 13
+
+	return state
+}
 
 function migrate_to_12(SEC: OMRSoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any>): any {
 	if (legacy_state.schema_version >= 12)

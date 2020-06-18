@@ -25,7 +25,7 @@ coins gain:
 
 class_primary_attribute
 class_secondary_attribute
-armor_or_weapon_improvement
+improvementⵧarmor_or_weapon
 armor_or_weapon
 
 ```

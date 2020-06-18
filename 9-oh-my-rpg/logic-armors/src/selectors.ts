@@ -135,6 +135,9 @@ function matches(armor: Readonly<Armor>, elements: Readonly<Partial<Armor>>): bo
 	return matches
 }
 
+function is_at_max_enhancement(armor: Readonly<Armor>): boolean {
+	return armor.enhancement_level >= MAX_ENHANCEMENT_LEVEL
+}
 /////////////////////
 
 export {
@@ -145,6 +148,7 @@ export {
 	get_medium_damage_reduction,
 	get_ultimate_medium_damage_reduction,
 	matches,
+	is_at_max_enhancement,
 }
 
 /////////////////////

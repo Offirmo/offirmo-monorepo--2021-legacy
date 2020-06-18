@@ -38,9 +38,10 @@ const ALL_ADVENTURE_ARCHETYPES: Readonly<AdventureArchetype>[] = ENTRIES
 			armor   : !!raw_outcome.armor,
 			weapon  : !!raw_outcome.weapon,
 			armor_or_weapon   : !!raw_outcome.armor_or_weapon,
-			armor_improvement : !!raw_outcome.armor_improvement,
-			weapon_improvement: !!raw_outcome.weapon_improvement,
-			armor_or_weapon_improvement: !!raw_outcome.armor_or_weapon_improvement,
+			item_spec: null,
+			improvementⵧarmor : !!raw_outcome.improvementⵧarmor,
+			improvementⵧweapon: !!raw_outcome.improvementⵧweapon,
+			improvementⵧarmor_or_weapon: !!raw_outcome.improvementⵧarmor_or_weapon,
 		}
 
 		const aa: AdventureArchetype = {

@@ -29,6 +29,7 @@ import {
 	create as create_weapon,
 	enhance as enhance_weapon,
 	MAX_ENHANCEMENT_LEVEL as MAX_WEAPON_ENHANCEMENT_LEVEL,
+	is_at_max_enhancement as is_weapon_at_max_enhancement,
 	DEMO_WEAPON_1,
 } from '@oh-my-rpg/logic-weapons'
 import {
@@ -190,11 +191,13 @@ function instantiate_adventure_archetype(
 		else
 			should_gain.weapon = true
 	}
-	if (should_gain.armor_or_weapon_improvement) {
-		if (Random.bool()(rng))
-			should_gain.armor_improvement = true
+	if (should_gain.improvementⵧarmor_or_weapon) {
+		if (is_weapon_at_max_enhancement(InventoryState.get_slotted_weapon(inventory)!)) // most likely to happen
+			should_gain.improvementⵧarmor = true
+		else if (Random.bool()(rng))
+			should_gain.improvementⵧarmor = true
 		else
-			should_gain.weapon_improvement = true
+			should_gain.improvementⵧweapon = true
 	}
 
 	// intermediate data
@@ -223,8 +226,8 @@ function instantiate_adventure_archetype(
 			token:    should_gain.token    ? 1 : 0,
 			armor:    should_gain.armor    ? create_armor(rng) : null,
 			weapon:   should_gain.weapon   ? create_weapon(rng) : null,
-			armor_improvement:  should_gain.armor_improvement,
-			weapon_improvement: should_gain.weapon_improvement,
+			improvementⵧarmor:  should_gain.improvementⵧarmor,
+			improvementⵧweapon: should_gain.improvementⵧweapon,
 		},
 	}
 }
@@ -307,7 +310,7 @@ function play_adventure(state: Readonly<State>, aa: Readonly<AdventureArchetype>
 		state = _receive_item(state, gained.armor)
 	}
 
-	if (gained.weapon_improvement) {
+	if (gained.improvementⵧweapon) {
 		gain_count++
 		const weapon_to_enhance = InventoryState.get_item_in_slot(state.u_state.inventory, InventorySlot.weapon) as Weapon
 		if (weapon_to_enhance && weapon_to_enhance.enhancement_level < MAX_WEAPON_ENHANCEMENT_LEVEL)
@@ -316,7 +319,7 @@ function play_adventure(state: Readonly<State>, aa: Readonly<AdventureArchetype>
 		// TODO enhance another weapon as fallback
 	}
 
-	if (gained.armor_improvement) {
+	if (gained.improvementⵧarmor) {
 		gain_count++
 		const armor_to_enhance = InventoryState.get_item_in_slot(state.u_state.inventory, InventorySlot.armor) as Armor
 		if (armor_to_enhance && armor_to_enhance.enhancement_level < MAX_ARMOR_ENHANCEMENT_LEVEL)

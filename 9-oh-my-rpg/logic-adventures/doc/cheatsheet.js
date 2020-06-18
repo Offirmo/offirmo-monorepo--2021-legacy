@@ -24,9 +24,9 @@ outcome: {
   armor: true
   weapon: true
   armor_or_weapon: true
-  armor_improvement: true
-  weapon_improvement: true
-  armor_or_weapon_improvement: true
+  improvementⵧarmor: true
+  improvementⵧweapon: true
+  improvementⵧarmor_or_weapon: true
 
   random_attribute: true
   lowest_attribute: true

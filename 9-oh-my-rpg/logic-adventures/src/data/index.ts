@@ -104,7 +104,7 @@ const ENTRIES: Readonly<RawAdventureArchetypeEntry>[] = [
 	{ good: true, type: story, hid: 'rare_goods_seller',            outcome: { armor_or_weapon: true, coin:'lossꘌsmall' }},
 	{ good: true, type: story, hid: 'progress_loop',                outcome: { armor_or_weapon:true }},
 	{ good: true, type: story, hid: 'idiot_bandits',                outcome: { coin:'gainꘌmedium' }},
-	{ good: true, type: story, hid: 'princess',                     outcome: { coin:'gainꘌmedium', armor_or_weapon_improvement:true }},
+	{ good: true, type: story, hid: 'princess',                     outcome: { coin:'gainꘌmedium', improvementⵧarmor_or_weapon:true }},
 	{ good: true, type: story, hid: 'bad_village',                  outcome: { mana:true }},
 	{ good: true, type: story, hid: 'so_many_potions',              outcome: { strength:true }},
 	{ good: true, type: story, hid: 'high_level_zone_1',            outcome: { class_primary_attribute:true }},
@@ -124,10 +124,21 @@ const ENTRIES: Readonly<RawAdventureArchetypeEntry>[] = [
 	{ good: true, type: story, hid: 'explore_catacombs',            outcome: { coin:'gainꘌmedium', armor_or_weapon:true }},
 	{ good: true, type: story, hid: 'bandits_punishment',           outcome: { coin:'gainꘌmedium'}},
 
+	{ good: true, type: story, hid: 'evil_laugh',                   outcome: { charisma: true}},
+	{ good: true, type: story, hid: 'hero_smile',                   outcome: { charisma: true}},
+	{ good: true, type: story, hid: 'bg_music',                     outcome: { class_primary_attribute:true }},
+	{ good: true, type: story, hid: 'owlbear',                      outcome: { charisma: true}},
+	{ good: true, type: story, hid: 'book_hobbit_riddles',          outcome: { wisdom: true}},
+	{ good: true, type: story, hid: 'book_excuses_dragon',          outcome: { charisma: true}},
+
 	{ good: true, type: story, hid: 'magical_cooking_ragnaros',     outcome: { strength:true }},
 	{ good: true, type: story, hid: 'wise_wisewood_tree',           outcome: { wisdom:true }},
 	{ good: true, type: story, hid: 'murderer',                     outcome: { luck:true }},
 
+	{ good: true, type: story, hid: 'exile_GIFTS',                  outcome: { improvementⵧweapon:true }},
+
+	{ good: true, type: story, hid: 'visual_effect',                outcome: { improvementⵧarmor_or_weapon:true }},
+	{ good: true, type: story, hid: 'weapon_damage_type',           outcome: { improvementⵧweapon:true }},
 	{ good: true, type: story, hid: 'give_a_shield',                outcome: { armor:true }},
 	{ good: true, type: story, hid: 'treasure_in_pots',             outcome: { coin:'gainꘌsmall' }},
 	{ good: true, type: story, hid: 'chicken_slayer',               outcome: { strength:true }},
@@ -136,15 +147,19 @@ const ENTRIES: Readonly<RawAdventureArchetypeEntry>[] = [
 	{ good: true, type: story, hid: 'colossal_cave',                outcome: { armor_or_weapon: true, class_primary_attribute:true }},
 	{ good: true, type: story, hid: 'colossal_cave_maze',           outcome: { armor_or_weapon:true }},
 	{ good: true, type: story, hid: 'gehennom',                     outcome: { coin:'gainꘌmedium', armor_or_weapon:true }},
-	{ good: true, type: story, hid: 'exile_GIFTS',                  outcome: { weapon_improvement:true }},
+	{ good: true, type: story, hid: 'exile_GIFTS',                  outcome: { improvementⵧweapon:true }},
 	{ good: true, type: story, hid: 'DQ_good_slime',                outcome: { class_primary_attribute:true }},
+	{ good: true, type: story, hid: 'socketed_item',                outcome: { improvementⵧarmor_or_weapon:true }},
+
+	{ good: true, type: story, hid: 'guild_rank',                   outcome: { level:true }},
+	{ good: true, type: story, hid: 'runes',                        outcome: { improvementⵧarmor_or_weapon:true }},
 
 	{ good: true, type: story, hid: 'drown_in_holy_water',          outcome: { mana:true }},
 	{ good: true, type: story, hid: 'rings_of_power',               outcome: { charisma:true }},
 	{ good: true, type: story, hid: 'raining_elves',                outcome: { mana:true }},
 	{ good: true, type: story, hid: 'raining_dwarves',              outcome: { strength:true }},
 	{ good: true, type: story, hid: 'need_for_speed',               outcome: { agility:true }},
-	{ good: true, type: story, hid: 'riddle_of_steel',              outcome: { armor_or_weapon_improvement:true }},
+	{ good: true, type: story, hid: 'riddle_of_steel',              outcome: { improvementⵧarmor_or_weapon:true }},
 	{ good: true, type: story, hid: 'sword_in_rock',                outcome: { weapon:true }},
 	{ good: true, type: story, hid: 'sword_in_a_lake',              outcome: { weapon:true }},
 	{ good: true, type: story, hid: 'lost_mine',                    outcome: { token: 1 }},
@@ -171,7 +186,7 @@ const ENTRIES: Readonly<RawAdventureArchetypeEntry>[] = [
 	{ good: true, type: story, hid: 'village_strongman',            outcome: { strength:true }},
 
 	{ good: true, type: story, hid: 'capital_castle',               outcome: { wisdom:true }},
-	{ good: true, type: story, hid: 'capital_royal_road',           outcome: { armor_or_weapon_improvement:true }},
+	{ good: true, type: story, hid: 'capital_royal_road',           outcome: { improvementⵧarmor_or_weapon:true }},
 	{ good: true, type: story, hid: 'capital_royal_amusement_park', outcome: { class_primary_attribute:true }},
 
 	{ good: true, type: story, hid: 'famous_stone_ruby',            outcome: { token: 1, charisma:true }},
@@ -200,7 +215,7 @@ const ENTRIES: Readonly<RawAdventureArchetypeEntry>[] = [
 	{ good: true, type: story, hid: 'rachel',                       outcome: { strength:true }},
 	{ good: true, type: story, hid: 'ribert',                       outcome: {class_primary_attribute:true }},
 
-	{ good: true, type: story, hid: 'meteor_metal',                 outcome: { armor_or_weapon_improvement:true }},
+	{ good: true, type: story, hid: 'meteor_metal',                 outcome: { improvementⵧarmor_or_weapon:true }},
 	{ good: true, type: story, hid: 'king_reward',                  outcome: { armor_or_weapon: true, token: 1 }},
 
 	{ good: true, type: story, hid: 'pet_squirrel',                 outcome: { agility:true }},
@@ -209,21 +224,24 @@ const ENTRIES: Readonly<RawAdventureArchetypeEntry>[] = [
 	{ good: true, type: story, hid: 'pet_red_eyed_unicorn',         outcome: { mana:true }},
 	{ good: true, type: story, hid: 'pet_badger_mushrooms',         outcome: { strength:true }},
 
+	{ good: true, type: story, hid: 'best_defense_is_offense',      outcome: { improvementⵧarmor_or_weapon:true }},
+	{ good: true, type: story, hid: 'defense_is_also_important',    outcome: { improvementⵧarmor:true }},
+
 	// those stories are not hinting a a specific attribute,
 	// thus can be used for adjusting distribution.
 	// (if aligned, use 'random_attribute')
 	{ good: true, type: story, hid: 'cookies_grandmas',             outcome: { agility:true }},
-	{ good: true, type: story, hid: 'found_random_mushroom',        outcome: { charisma:true }},
+	{ good: true, type: story, hid: 'found_random_mushroom',        outcome: { agility:true }},
 	{ good: true, type: story, hid: 'dragon_kebab',                 outcome: { lowest_attribute:true }},
 	{ good: true, type: story, hid: 'elven_hydromel',               outcome: { health:true }},
-	{ good: true, type: story, hid: 'random_blessing',              outcome: { charisma:true }},
+	{ good: true, type: story, hid: 'random_blessing',              outcome: { strength:true }},
 	{ good: true, type: story, hid: 'guild_party_food',             outcome: { agility:true }},
-	{ good: true, type: story, hid: 'found_vermilion_potion',       outcome: { charisma:true }},
+	{ good: true, type: story, hid: 'found_vermilion_potion',       outcome: { luck:true }},
 	{ good: true, type: story, hid: 'found_silver_potion',          outcome: { agility:true }},
 	{ good: true, type: story, hid: 'found_swirling_potion',        outcome: { strength:true }},
 	{ good: true, type: story, hid: 'found_fizzing_potion',         outcome: { strength:true }},
 	{ good: true, type: story, hid: 'found_bubbly_potion',          outcome: { luck:true }},
-	{ good: true, type: story, hid: 'found_worn_out_potion',        outcome: { mana:true }},
+	{ good: true, type: story, hid: 'found_worn_out_potion',        outcome: { health:true }},
 	{ good: true, type: story, hid: 'found_journal',                outcome: { health:true }},
 
 	// special

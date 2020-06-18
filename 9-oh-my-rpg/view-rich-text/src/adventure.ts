@@ -106,14 +106,14 @@ function render_adventure(a: Readonly<Adventure>, options: Readonly<RenderItemOp
 
 	/////// Item enhancement ///////
 	;(function render_item_improvement(): void {
-		const has_improvement = gains.armor_improvement || gains.weapon_improvement
+		const has_improvement = gains.improvementⵧarmor || gains.improvementⵧweapon
 		const $improvement_list = RichText.unordered_list().done()
 
 		// TODO
-		if (gains.armor_improvement)
-			handled_adventure_outcomes_so_far.add('armor_improvement')
-		if (gains.weapon_improvement)
-			handled_adventure_outcomes_so_far.add('weapon_improvement')
+		if (gains.improvementⵧarmor)
+			handled_adventure_outcomes_so_far.add('improvementⵧarmor')
+		if (gains.improvementⵧweapon)
+			handled_adventure_outcomes_so_far.add('improvementⵧweapon')
 
 		if (has_improvement)
 			$listing_of_item_improvement = RichText.block_fragment()

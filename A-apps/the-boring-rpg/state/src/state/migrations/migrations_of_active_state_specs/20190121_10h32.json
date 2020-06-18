@@ -191,7 +191,7 @@
 		},
 		"last_adventure": {
 			"hid": "fight_lost_any",
-			"uuid": "uu1de1~EVAdXlW5_p23Ro4OH",
+			"uuid": "uu1~example~adventure~01",
 			"good": true,
 			"encounter": {
 				"name": "chicken",
