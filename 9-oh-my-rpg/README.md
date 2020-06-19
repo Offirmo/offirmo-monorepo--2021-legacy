@@ -1,8 +1,8 @@
 # Oh My RPG ⚔ 👑
 
 **If you're looking for:**
-- **the npm rpg** → go here: [the-npm-rpg/README.md](../A-apps/the-npm-rpg/README.md)
-- **the boring rpg** → go here: [the-boring-rpg/README.md](../A-apps/the-boring-rpg/README.md)
+- **the npm rpg** → go here: [the-npm-rpg/README.md](../A-apps/the-boring-rpg/client-npm/README.md)
+- **the boring rpg** → go here: [the-boring-rpg/README.md](../A-apps/the-boring-rpg/client-browser/README.md)
 
 
 ## Intro

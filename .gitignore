@@ -19,7 +19,7 @@ node_modules
 **/dist/src.es2019.cjs/
 ## non-standard dist
 4-tools/universal-debug-api-companion-webextension/dist/
-#apps/the-boring-rpg/functions/functions -> NO, to make them available in staging!
+#A-apps/shared/functions/functions -> NO, to make them available in staging!
 ## misc
 #...
 

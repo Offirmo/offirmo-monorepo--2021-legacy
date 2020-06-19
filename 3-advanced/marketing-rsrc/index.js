@@ -43,7 +43,7 @@ const THE_NPM_RPG = {
 const THE_BORING_RPG = {
 	name: 'The Boring RPG reborn',
 	maker: MAKER_OFFIRMO,
-	url: 'https://www.online-adventur.es/A-apps/the-boring-rpg',
+	url: 'https://www.online-adventur.es/apps/the-boring-rpg',
 	cta: 'play',
 	homepage_url: 'https://www.online-adventur.es/the-boring-rpg',
 	changelog: 'https://www.reddit.com/r/boringrpg/',

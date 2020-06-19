@@ -2,7 +2,7 @@
 
 Source code for the browser game "The Boring RPG, reborn"
 
-The game is live here: https://www.online-adventur.es/A-apps/the-boring-rpg/
+The game is live here: https://www.online-adventur.es/apps/the-boring-rpg/
 
 ## Contributing
 
@@ -31,8 +31,8 @@ bolt deploy
 ## TODO
 
 ```
-npx bundle-inspector "https://www.online-adventur.es/A-apps/the-boring-rpg/index-2.html"
-npx bundle-inspector "https://www.online-adventur.es/A-apps/the-boring-rpg-preprod/index-2.html"
+npx bundle-inspector "https://www.online-adventur.es/apps/the-boring-rpg/index-2.html"
+npx bundle-inspector "https://www.online-adventur.es/apps/the-boring-rpg-preprod/index-2.html"
 ```
 
 ## doc
