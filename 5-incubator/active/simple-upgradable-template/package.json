@@ -19,7 +19,7 @@
 
 	"scripts": {
 		"demo": "node src/cli.js --verbosex --template=./doc/demo/template.html --destination=./doc/demo/result.html",
-		"test": "./node_modules/.bin/mocha --opts ./node_modules/@offirmo/unit-test-toolbox/mocha.opts ./node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'src/**/*spec.js' --bail"
+		"test": "./node_modules/.bin/mocha --config ./node_modules/@offirmo/unit-test-toolbox/mocharc.json ./node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'src/**/*spec.js' --bail"
 	},
 	"devDependencies": {
 		"@offirmo/unit-test-toolbox": "^5"

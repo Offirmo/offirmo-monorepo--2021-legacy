@@ -32,7 +32,7 @@
 		"build:prod": "node ../../../0-scripts/build-typescript.js",
 
 		"dev": "run-s clean build:dev:watch",
-		"xxtest": "../../../node_modules/.bin/mocha --bail --opts ../../../4-tools/unit-test-toolbox/mocha.opts ../../../4-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2019.cjs/**/*spec.js'",
+		"xxtest": "../../../node_modules/.bin/mocha --bail --config ../../../4-tools/unit-test-toolbox/mocharc.json ../../../4-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2019.cjs/**/*spec.js'",
 		"build": "run-s build:prod",
 
 		"start": "node dist/src.es2019.cjs/index.js"

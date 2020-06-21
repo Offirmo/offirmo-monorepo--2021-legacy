@@ -45,7 +45,7 @@
 
 		"dev": "run-s clean build:dev:watch",
 		"start": "source ~/.nvm/nvm.sh; nvm use 10.17; export NODE_ENV=development; nvm exec 10.17 node ./node_modules/.bin/netlify-lambda serve ./dist/src.es2019.cjs --config ./webpack.config.ts",
-		"test": "../../../node_modules/.bin/mocha --opts ../../../4-tools/unit-test-toolbox/mocha.opts ../../../4-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2019.cjs/**/*spec.js'",
+		"test": "../../../node_modules/.bin/mocha --config ../../../4-tools/unit-test-toolbox/mocharc.json ../../../4-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2019.cjs/**/*spec.js'",
 		"build": "run-s build:prod build:netlify-functions"
 	},
 	"devDependencies": {

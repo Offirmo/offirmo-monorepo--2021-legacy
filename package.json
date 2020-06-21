@@ -130,7 +130,7 @@
 		"massive": "^6",
 		"memoize-one": "^5",
 		"meow": "^7",
-		"mocha": "^7",
+		"mocha": "^8",
 		"moment": "^2",
 		"moment-business": "^3",
 		"moment-parseformat": "^3",

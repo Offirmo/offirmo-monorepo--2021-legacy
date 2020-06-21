@@ -86,4 +86,8 @@ OKR
 marketing: doesn’t matter how fast your shit is if nobody uses it. thank u next...
 https://twitter.com/sebmck/status/1265561343295397894
 
-80char 
+80char https://linux.slashdot.org/story/20/05/31/211211/linus-torvalds-argues-against-80-column-line-length-coding-style-as-linux-kernel-deprecates-it
+
+extensible
+ The service worker was designed as part of the extensible web. The idea is that we, as browser developers, acknowledge that we are not better at web development than web developers. And as such, we shouldn't provide narrow high-level APIs that solve a particular problem using patterns we like, and instead give you access to the guts of the browser and let you do it how you want, in a way that works best for your users.
+https://developers.google.com/web/fundamentals/primers/service-workers/lifecycle#handling_updates
