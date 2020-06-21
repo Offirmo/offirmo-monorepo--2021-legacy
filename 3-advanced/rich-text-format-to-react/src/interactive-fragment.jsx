@@ -165,7 +165,7 @@ export class InteractiveRichTextFragment extends Component {
 			}
 		/>
 
-		const tooltip = detailed && this.card_ref.current && (
+		const tooltip = detailed && has_any_hover() && this.card_ref.current && (
 			<ErrorBoundary key="IF.tooltip-wrapper"
 				name={`IF-${UUID}-tooltip-wrapper`}
 				onError={this.on_mouse_out}>

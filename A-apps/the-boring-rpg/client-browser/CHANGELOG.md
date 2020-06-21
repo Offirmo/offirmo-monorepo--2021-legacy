@@ -13,7 +13,9 @@
 ## v0.65.1
 - 🤩 feature: 14 new adventures (now totalling 201!)
 - 😍 feature: 36 new backgrounds (now totalling 134!)
-- 😅 fix: favicon status didn't seem to always work correctly
+- 🤩 improved compatibility for future iOs app
+- 😅 fix: favicon status was broken sometimes
+- 😅 fix: no more ugly hover on Safari iOs
 - 😷 chore: some internal refactors, bump dependencies
 
 ## v0.64.1

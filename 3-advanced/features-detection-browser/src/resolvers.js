@@ -5,7 +5,6 @@ import {
 	get_usage_observations,
 	has_seen_tab_key_usage,
 	has_seen_touch_usage,
-	has_seen_mouse_usage,
 } from './event-listeners'
 
 /////////////////////
@@ -40,19 +39,21 @@ const relevant_media_queries = _get_relevant_media_queries()
 function has_any_hover() {
 	// from more trustable to less trustable:
 
-	if (has_seen_mouse_usage) {
-		// assume the user has a mouse thus can hover
+	// if a MQ is true, it should be reliable
+	if (relevant_media_queries['(any-hover: hover)']) {
 		return true
 	}
+	if (relevant_media_queries['(any-hover: none)'])
+		return false
 
-	// if a MQ is true, it should be reliable
-	if (relevant_media_queries['(any-hover: hover)']) return true
 	if (relevant_media_queries['(any-pointer: fine)']) {
 		// assume the user has a mouse, so can hover
 		return true
 	}
-
-	if (relevant_media_queries['(any-hover: none)']) return false
+	if (relevant_media_queries['(any-pointer: none)']) {
+		// assume the user has no mouse
+		return false
+	}
 
 	if ('ontouchstart' in window || has_seen_touch_usage) {
 		// assume touchscreen = no pointer = no hover

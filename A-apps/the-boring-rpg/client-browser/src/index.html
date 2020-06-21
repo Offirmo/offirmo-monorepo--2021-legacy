@@ -32,7 +32,7 @@
 		<!-- OT⋄CUSTOM BEGIN head miscs -->
 		<script>
 			// https://developers.google.com/analytics/devguides/collection/analyticsjs/#alternative_async_tag
-			window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+			window.ga=window.parent.ga||window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
 			ga('create', 'UA-103238291-2', 'auto');
 			ga('send', 'pageview');
 		</script>

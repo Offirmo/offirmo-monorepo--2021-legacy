@@ -12,7 +12,7 @@ const TopLeftHudViewM = React.memo(
 		if (window.oᐧextra?.flagꓽdebug_render) console.log('🔄 [OMR]TopLeftHudView')
 
 		return (
-			<div className="omr⋄hud⁚top-left">
+			<div className="omr⋄hud⁚top-left o⋄fast-tap">
 				<div className="omr⋄hamburger" onClick={openBurgerMenu}>
 					<span className="icomoon-menu"/>
 				</div>
@@ -38,7 +38,7 @@ const BottomRightHudViewM = React.memo(
 		if (window.oᐧextra?.flagꓽdebug_render) console.log('🔄 [OMR]BottomRightHudView')
 
 		return bottomMenuItems.length > 0 && (
-			<div className="omr⋄hud⁚bottom-right">
+			<div className="omr⋄hud⁚bottom-right o⋄fast-tap">
 				<div className="omr⋄bottom-menu">
 					<ErrorBoundary name={'omr:bottom-menu'}>
 						{bottomMenuItems}
