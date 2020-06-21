@@ -1,7 +1,7 @@
 {
 	"name": "@tbrpg/state",
 	"description": "The Boring RPG state and reducer",
-	"version": "0.64.6",
+	"version": "0.64.8",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 	"private": true,
