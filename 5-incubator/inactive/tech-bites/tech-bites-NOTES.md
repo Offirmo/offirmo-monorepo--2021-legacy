@@ -91,3 +91,5 @@ https://twitter.com/sebmck/status/1265561343295397894
 extensible
  The service worker was designed as part of the extensible web. The idea is that we, as browser developers, acknowledge that we are not better at web development than web developers. And as such, we shouldn't provide narrow high-level APIs that solve a particular problem using patterns we like, and instead give you access to the guts of the browser and let you do it how you want, in a way that works best for your users.
 https://developers.google.com/web/fundamentals/primers/service-workers/lifecycle#handling_updates
+
+release channels https://techcrunch.com/2020/06/15/microsoft-moves-its-windows-10-insider-program-from-rings-to-release-channels/

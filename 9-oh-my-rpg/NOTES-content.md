@@ -341,3 +341,9 @@ Martial art
 * https://www.quora.com/Did-Judo-Gene-Lebell-defeat-Bruce-Lee-If-not-would-Bruce-Lee-have-been-able-to-defeat-an-experienced-grappler-like-Judo-Gene
 
 https://en.wikipedia.org/wiki/Conservation_status
+
+wolf https://en.wikipedia.org/wiki/Never_Cry_Wolf
+
+https://www.reddit.com/r/NoStupidQuestions/comments/3al7jg/can_you_actually_use_a_whip_to_grab_onto/
+https://www.quora.com/Guns-aside-whats-the-safest-lightest-deadliest-weapon-that-ordinary-people-could-carry-everyday-to-protect-them-on-the-streets-and-at-home-without-being-obvious-too-technical-or-very-skillful-or-trained-How-do-you
+

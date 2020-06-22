@@ -29,7 +29,7 @@ z-indexes:
 ## Credits
 
 Resources:
-* Font: spectral
+* Font: spectral https://spectral.prototypo.io/
 * Font: Pix Antiqua - Public domain - https://www.dafont.com/pixantiqua.font
 * Font https://managore.itch.io/m5x7
 * Icons: http://game-icons.net/
