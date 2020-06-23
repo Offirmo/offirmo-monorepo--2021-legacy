@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 
 import { get_top_ish_window } from '@offirmo-private/xoff'
 import { getRootSEC } from '@offirmo-private/soft-execution-context'
+import { get_debug_snapshot } from '@offirmo-private/features-detection-browser'
 
 import './index.css'
 
@@ -95,6 +96,13 @@ export default class DevArea extends Component {
 					<button onClick={() => {
 						setTimeout(() => { Promise.reject(new Error('TEST ERROR promise rejection!')) }, 200)
 					}}>🔥UP</button>
+				</td>
+			</tr>,
+			<tr key="INFO">
+				<td>
+					<button onClick={() => {
+						console.info('❓INFO', { location, '@offirmo-private/features-detection-browser': get_debug_snapshot() })
+					}}>❓INFO</button>
 				</td>
 			</tr>,
 		]

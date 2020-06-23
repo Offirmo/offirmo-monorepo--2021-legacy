@@ -64,6 +64,7 @@ function listenToUnhandledRejections() {
 		window.addEventListener('unhandledrejection', function(evt) {
 			// https://developer.mozilla.org/en-US/docs/Web/API/PromiseRejectionEvent
 			//console.log('DEBUG SEC browser debug: onunhandledrejection', arguments)
+			//console.log(evt.reason)
 			const err = evt.reason || new Error('Error: uncaught promise rejection!')
 
 			SEC._handleError({

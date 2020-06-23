@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- OT⋄GENERATED-FROM-TEMPLATE Offirmo's loading iframe v0.2.0 -->
+<!-- OT⋄GENERATED-FROM-TEMPLATE Offirmo's loading iframe v0.3.0 -->
 
 <html lang="en" xml:lang="en" class="o⋄top-container">
 	<head>
@@ -22,11 +22,10 @@
 			  - compatible https://realfavicongenerator.net/
 		-->
 		<meta name="theme-color" content="#ffffff">
-		<link rel="icon" href="favicon.svg">
-		<link rel="mask-icon" href="mask-icon.svg" color="#000000">
-		<link rel="apple-touch-icon" href="apple-touch-icon_180x180.png">
-		<link rel="manifest" href="manifest.json">
 		<!-- OT⋄CUSTOM END favicons -->
+
+		<!-- OT⋄CUSTOM BEGIN head miscs -->
+		<!-- OT⋄CUSTOM END head miscs -->
 
 		<style type="text/css">
 			:root {
@@ -48,7 +47,7 @@
 				position: absolute;
 				width: 100%;
 				border: 0;
-				background-color: white; /* bc loader's bg shouldn't bleed */
+				background-color: white; /* bc loader's bg shouldn't bleed. TODO adapt to dark mode? */
 			}
 
 			.o⋄top-container {
@@ -57,6 +56,7 @@
 				height: 100%;
 			}
 
+			/* TODO check cordova sample */
 			.blinking{
 				animation: blinkingText 1.2s infinite ease-in-out;
 			}
@@ -88,7 +88,7 @@
 	<body class="o⋄top-container o⋄body⁚full-page">
 		<noscript>You need to enable JavaScript to run this app.</noscript>
 
-		<!-- the actual app -->
+		<!-- the actual app, initially hidden -->
 		<iframe class="o⋄top-container progressive"
 			  importance="high"
 			  loading="eager"
@@ -113,14 +113,6 @@
 	<script>
 		user_settings = {}
 
-		function get_current_path() {
-			return window.location.pathname.endsWith('/index.html')
-				? window.location.pathname.slice(0, -11)
-				: window.location.pathname.endsWith('/')
-					? window.location.pathname.slice(0, -1)
-					: window.location.pathname
-		}
-
 		/* OT⋄CUSTOM BEGIN early code */
 		if (document.URL.startsWith('http://localhost:1981/5-incubator/active/iframe-loading/src/index.html')) {
 			user_settings.app_url = '../doc/demo/index-2.html'
@@ -130,6 +122,7 @@
 
 	<script type="module">
 
+		const PROP = 'oᐧloader'
 		const DEFAULT_RSRC_ID = 'overall'
 		const LOGGER_NAME = 'loading-iframe'
 		const logger = (() => {
@@ -141,21 +134,25 @@
 
 			return {
 				log() {},
+				info() {},
 				warn() {},
 				error() {},
 			}
 		})()
-		logger.log('[IL] starting…', { user_settings })
+		logger.log('[IL] starting…', { user_settings, location })
 
 		/////////////////////
 
+		const { searchParams } = new URL(window.location.href)
+		searchParams.set(PROP, true)
+		searchParams.sort()
 		let state = {
 			settings: {
 				// flat for easy merging
 				bg_color: 'black',
 				fg_color: 'hsl(0, 0%, 98%)',
 				// TODO font, bg picture etc.
-				app_url: get_current_path() + '/index-2.html', // TODO pass queryparams
+				app_url: './index-2.html' + '?' + searchParams.toString(),
 				legend: undefined,
 				expected_rsrc_count: 1,
 				...user_settings,
@@ -225,11 +222,11 @@
 
 		/////////////////////
 
-		if (window.oᐧloader) {
+		if (window[PROP]) {
 			logger.error('[IL] Error! iframe-loading recursion!')
 			// TODO immediately hide our own loader
 		} else {
-			window.oᐧloader = {
+			window[PROP] = {
 				configure({legend, expected_rsrc_count, bg_color, fg_color, ...others} = {}) {
 					if (Object.keys(others).length > 0) logger.error(`[IL] configure_loader() unknown params:`, others)
 
@@ -262,7 +259,7 @@
 			}
 		}
 
-		// TODO favicon
+		// TODO favicon?
 
 		/////////////////////
 
@@ -287,8 +284,7 @@
 
 			// TODO improve error handling
 			if (load_infos.is_loaded || state.error) {
-				window.document.title = sub_frame_window.document.title
-
+				try { window.document.title = sub_frame_window.document.title } catch {}
 				if (elt_iframe.style.display !== 'block') {
 					// transition
 					//logger.log('[IL] !!! LOADED !!!')
@@ -297,8 +293,7 @@
 					elt_loader.style.pointerEvents = 'none'
 					try {
 						// https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API/Using_the_Web_Animations_API
-						elt_loader
-							.animate(
+						const animation = elt_loader.animate(
 								[
 									{opacity: 1},
 									{opacity: 0},
@@ -308,12 +303,13 @@
 									fill: 'forwards',
 								}
 							)
-							.finished.then(() => {
-							// for easier inspection. Really needed?
-							elt_loader.style.display = 'none'
-						})
+						if (animation.finished)
+							animation.finished.then(() => {
+								// for easier inspection. Not really needed.
+								elt_loader.style.display = 'none'
+							})
 					} catch (err) {
-						logger.warn('[IL] Web Animation API error', err)
+						logger.warn('[IL] Web Animation API error:', err)
 					}
 					/*if (state.error) {
 						// TODO remove this ugly confirm which is interrupting at OS level
@@ -345,14 +341,16 @@
 				state.settings.bg_color
 			)
 
-			window.document.title = sub_frame_window.document.title || state.settings.legend || ''
+			let sub_frame_title = null
+			try { sub_frame_title = sub_frame_window.document.title } catch {}
+			window.document.title = sub_frame_title || state.settings.legend || ''
 		}
 
 		try {
 			const cached_config = JSON.parse(localStorage.getItem(LS_KEY_CACHED_CONFIG))
 			if (cached_config) {
 				logger.log('[IL] restoring cached config', { cached_config })
-				window.oᐧloader.configure(cached_config)
+				window[PROP].configure(cached_config)
 			}
 		} catch (err) {
 			logger.warn(err)
@@ -377,9 +375,20 @@
 		}, 10 * 1000)
 
 		/////////////////////
+
+		// PM listener for cross origin sub-frames
+		window.addEventListener('message', ({data, origin, source}) => {
+			if (!data[PROP]) return
+			logger.log('📥 loader PM received', data[PROP])
+			const { method, args } = data[PROP]
+			window[PROP][method](...args)
+		}, false)
+
+		/////////////////////
 	</script>
 
-	<!-- OT⋄CUSTOM low priority scripts & misc -->
+	<!-- OT⋄CUSTOM BEGIN low priority scripts & misc -->
+	<!-- OT⋄CUSTOM END low priority scripts & misc -->
 
 	<script type="module">
 		// TODO progressive enhancements

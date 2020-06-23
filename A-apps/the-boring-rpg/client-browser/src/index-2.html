@@ -31,9 +31,30 @@
 
 		<script>
 			// https://developers.google.com/analytics/devguides/collection/analyticsjs/#alternative_async_tag
-			window.ga=window.parent.ga||window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-			ga('create', 'UA-103238291-2', 'auto');
-			ga('send', 'pageview');
+			// (modified)
+			window.ga = window.parent.ga || window.ga || function(){(ga.q=ga.q||[]).push(arguments)}
+			if (!ga.l) {
+				ga.l = +new Date
+				ga('create', 'UA-103238291-2', 'auto')
+				ga('send', 'pageview')
+			}
+		</script>
+		<script>
+			// https://developers.google.com/web/fundamentals/primers/service-workers/registration
+			/*if ('serviceWorker' in navigator) {
+				const options = undefined
+				navigator.serviceWorker.register('./service_worker.ts', options)
+					.then(
+						serviceWorkerRegistration => {
+							console.log('Service worker registration succeeded', { serviceWorkerRegistration })
+						},
+						err => {
+							console.error('Service worker registration failed:', { err });
+						}
+					)
+			} else {
+				console.warn('Service workers are not supported!');
+			}*/
 		</script>
 	</head>
 
@@ -46,6 +67,7 @@
 
 		<!-- group chat, outside of react control for DOM stability -->
 		<div id="group-chat-container" class="o⋄top-container">
+			The chat should be loading here…
 		</div>
 	</body>
 

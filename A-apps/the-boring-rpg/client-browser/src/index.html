@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- OT⋄GENERATED-FROM-TEMPLATE Offirmo's loading iframe v0.2.0 -->
+<!-- OT⋄GENERATED-FROM-TEMPLATE Offirmo's loading iframe v0.3.0 -->
 
 <html lang="en" xml:lang="en" class="o⋄top-container">
 	<head>
@@ -30,16 +30,33 @@
 		<!-- OT⋄CUSTOM END favicons -->
 
 		<!-- OT⋄CUSTOM BEGIN head miscs -->
+		<meta name="google-site-verification" content="wf2jOlvKH7eHC1UKByJfrzR55dvhIQI74uzskmYg5MY" />
 		<script>
 			// https://developers.google.com/analytics/devguides/collection/analyticsjs/#alternative_async_tag
 			window.ga=window.parent.ga||window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
 			ga('create', 'UA-103238291-2', 'auto');
 			ga('send', 'pageview');
 		</script>
-		<meta name="google-site-verification" content="wf2jOlvKH7eHC1UKByJfrzR55dvhIQI74uzskmYg5MY" />
 		<link rel="preconnect" href="https://www.googletagmanager.com">
 		<link rel="preconnect" href="https://identity.netlify.com">
 		<link rel="preconnect" href="https://tlk.io">
+		<script>
+			// https://developers.google.com/web/fundamentals/primers/service-workers/registration
+			/*if ('serviceWorker' in navigator) {
+				const options = undefined
+				navigator.serviceWorker.register('./service_worker.ts', options)
+					.then(
+						serviceWorkerRegistration => {
+							console.log('Service worker registration succeeded', { serviceWorkerRegistration })
+						},
+						err => {
+							console.error('Service worker registration failed:', { err });
+						}
+					)
+			} else {
+				console.warn('Service workers are not supported!');
+			}*/
+		</script>
 		<!-- OT⋄CUSTOM END head miscs -->
 
 		<style type="text/css">
@@ -62,7 +79,7 @@
 				position: absolute;
 				width: 100%;
 				border: 0;
-				background-color: white; /* bc loader's bg shouldn't bleed */
+				background-color: white; /* bc loader's bg shouldn't bleed. TODO adapt to dark mode? */
 			}
 
 			.o⋄top-container {
@@ -71,6 +88,7 @@
 				height: 100%;
 			}
 
+			/* TODO check cordova sample */
 			.blinking{
 				animation: blinkingText 1.2s infinite ease-in-out;
 			}
@@ -102,7 +120,7 @@
 	<body class="o⋄top-container o⋄body⁚full-page">
 		<noscript>You need to enable JavaScript to run this app.</noscript>
 
-		<!-- the actual app -->
+		<!-- the actual app, initially hidden -->
 		<iframe class="o⋄top-container progressive"
 			  importance="high"
 			  loading="eager"
@@ -127,14 +145,6 @@
 	<script>
 		user_settings = {}
 
-		function get_current_path() {
-			return window.location.pathname.endsWith('/index.html')
-				? window.location.pathname.slice(0, -11)
-				: window.location.pathname.endsWith('/')
-					? window.location.pathname.slice(0, -1)
-					: window.location.pathname
-		}
-
 		/* OT⋄CUSTOM BEGIN early code */
 		// I absolutely don't understand this bug but nevermind, easy to fix
 		if (document.URL === 'https://www.online-adventur.es/apps/the-boring-rpg') {
@@ -146,6 +156,7 @@
 
 	<script type="module">
 
+		const PROP = 'oᐧloader'
 		const DEFAULT_RSRC_ID = 'overall'
 		const LOGGER_NAME = 'loading-iframe'
 		const logger = (() => {
@@ -157,21 +168,25 @@
 
 			return {
 				log() {},
+				info() {},
 				warn() {},
 				error() {},
 			}
 		})()
-		logger.log('[IL] starting…', { user_settings })
+		logger.log('[IL] starting…', { user_settings, location })
 
 		/////////////////////
 
+		const { searchParams } = new URL(window.location.href)
+		searchParams.set(PROP, true)
+		searchParams.sort()
 		let state = {
 			settings: {
 				// flat for easy merging
 				bg_color: 'black',
 				fg_color: 'hsl(0, 0%, 98%)',
 				// TODO font, bg picture etc.
-				app_url: get_current_path() + '/index-2.html' + window.location.search,
+				app_url: './index-2.html' + '?' + searchParams.toString(),
 				legend: undefined,
 				expected_rsrc_count: 1,
 				...user_settings,
@@ -241,11 +256,11 @@
 
 		/////////////////////
 
-		if (window.oᐧloader) {
+		if (window[PROP]) {
 			logger.error('[IL] Error! iframe-loading recursion!')
 			// TODO immediately hide our own loader
 		} else {
-			window.oᐧloader = {
+			window[PROP] = {
 				configure({legend, expected_rsrc_count, bg_color, fg_color, ...others} = {}) {
 					if (Object.keys(others).length > 0) logger.error(`[IL] configure_loader() unknown params:`, others)
 
@@ -303,8 +318,7 @@
 
 			// TODO improve error handling
 			if (load_infos.is_loaded || state.error) {
-				window.document.title = sub_frame_window.document.title
-
+				try { window.document.title = sub_frame_window.document.title } catch {}
 				if (elt_iframe.style.display !== 'block') {
 					// transition
 					//logger.log('[IL] !!! LOADED !!!')
@@ -361,14 +375,16 @@
 				state.settings.bg_color
 			)
 
-			window.document.title = sub_frame_window.document.title || state.settings.legend || ''
+			let sub_frame_title = null
+			try { sub_frame_title = sub_frame_window.document.title } catch {}
+			window.document.title = sub_frame_title || state.settings.legend || ''
 		}
 
 		try {
 			const cached_config = JSON.parse(localStorage.getItem(LS_KEY_CACHED_CONFIG))
 			if (cached_config) {
 				logger.log('[IL] restoring cached config', { cached_config })
-				window.oᐧloader.configure(cached_config)
+				window[PROP].configure(cached_config)
 			}
 		} catch (err) {
 			logger.warn(err)
@@ -393,15 +409,25 @@
 		}, 10 * 1000)
 
 		/////////////////////
+
+		// PM listener for cross origin sub-frames
+		window.addEventListener('message', ({data, origin, source}) => {
+			if (!data[PROP]) return
+			logger.log('[IL] 📥 PM received', data[PROP])
+			const { method, args } = data[PROP]
+			window[PROP][method](...args)
+		}, false)
+
+		/////////////////////
 	</script>
 
 	<!-- OT⋄CUSTOM BEGIN low priority scripts & misc -->
 	<script>
 		window.addEventListener('message', ({data, origin, source}) => {
-			console.log('⬆️ received', { data, origin, source })
+			console.log('[IL+] 📥 PM received', { data, origin, source })
 			if ((data.xoff || {}).code)
 				eval(data.xoff.code)
-		}, false);
+		}, false)
 	</script>
 
 	<!-- OT⋄CUSTOM END low priority scripts & misc -->

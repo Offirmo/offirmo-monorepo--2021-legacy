@@ -1,3 +1,5 @@
+import assert from 'tiny-invariant'
+
 import poll_window_variable, { poll } from '@offirmo-private/poll-window-variable'
 import Deferred from '@offirmo/deferred'
 import { load_script_from_top, execute_from_top, get_log_prefix, get_top_window } from '@offirmo-private/xoff'
@@ -28,22 +30,41 @@ function request_redirect(url) {
 }
 
 const NetlifyIdentity = new Deferred()
+NetlifyIdentity.catch(err => {
+	console.warn('Netlify failed to load, won’t be able to login.', err)
+})
 
 setTimeout(() => {
 	load_script_from_top('https://identity.netlify.com/v1/netlify-identity-widget.js')
 		.then((s) => {
 			console.log('✅ netlify script loaded from top')
-			execute_from_top((prefix) => {
-				console.log(`${prefix} following netlify loaded…`, window.netlifyIdentity, window.oᐧextra)
-				window.oᐧextra.netlifyIdentity = window.oᐧextra.netlifyIdentity || window.netlifyIdentity
-			}, get_log_prefix(get_top_window()) + ' ← ' + get_log_prefix())
-			setTimeout(() => {
-				NetlifyIdentity.resolve(window.oᐧextra.netlifyIdentity)
-			}, 10)
+			return execute_from_top((prefix) => {
+					console.log(`${prefix} following netlify loaded…`, window, window.netlifyIdentity, window.oᐧextra)
+					if (!window.netlifyIdentity || !window.oᐧextra) {
+						console.log('following netlify loaded: incorrect environment! Can’t finish loading!')
+						return
+					}
+					window.oᐧextra.netlifyIdentity = window.oᐧextra.netlifyIdentity || window.netlifyIdentity
+				}, get_log_prefix(get_top_window()) + ' ← ' + get_log_prefix())
+				.then(() => {
+					return new Promise((resolve, reject) => {
+						setTimeout(() => {
+							try {
+								assert(window.oᐧextra?.netlifyIdentity, 'window.oᐧextra.netlifyIdentity ✓')
+								NetlifyIdentity.resolve(window.oᐧextra.netlifyIdentity)
+								resolve()
+							}
+							catch (err) {
+								reject(err)
+							}
+						}, 10)
+					})
+				})
 		})
-		.catch(err => {
-			console.error('netlify script failed to load:', err)
+		.catch((err = new Error('load_script_from_top() netlify failed!'))=> {
+			//console.error('netlify failed to load:', err)
 			NetlifyIdentity.reject(err)
+			// swallow
 		})
 }, 100)
 

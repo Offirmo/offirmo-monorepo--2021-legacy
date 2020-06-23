@@ -18,8 +18,10 @@
 	},
 
 	"scripts": {
-		"clean": "node ../../0-scripts/clean.js dist cache",
+		"clean": "node ../../0-scripts/clean.js .cache .parcel",
 		"start:parcel": "parcel --out-dir .parcel --no-autoinstall doc/demo/index.html",
+		"demo--built": "parcel build --out-dir .parcel --no-autoinstall doc/demo/index.html --public-url ./",
+
 		"demo": "run-s clean start:parcel"
 	},
 	"devDependencies": {

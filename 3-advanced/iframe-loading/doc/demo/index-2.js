@@ -1,10 +1,33 @@
-/*
+
 console.log(`[I2] js`, {
+	location,
 	'window.name': window.name,
 	'window.opener': window.opener,
 	'window.parent': window.parent,
-})*/
+	'document.referrer': document.referrer,
+})
 
+if (!window.oᐧloader) {
+	const { searchParams } = new URL(window.location.href)
+	const has_parent = window.parent !== window
+	const hint_at_loader = searchParams.has('oᐧloader')
+	console.warn(`[I2] can't find the loader!`, { has_parent, hint_at_loader })
+
+	window.oᐧloader = {
+		configure(...args) {
+			window.parent.postMessage(
+				{ oᐧloader: { method: 'configure', args}},
+				'*'
+			)
+		},
+		on_rsrc_loaded(...args) {
+			window.parent.postMessage(
+				{ oᐧloader: { method: 'on_rsrc_loaded', args}},
+				'*'
+			)
+		},
+	}
+}
 
 window.oᐧloader.configure({
 	bg_color: 'rgb(84, 61, 70)',

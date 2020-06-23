@@ -36,7 +36,7 @@ SEC.setAnalyticsAndErrorDetails({
 
 SEC.emitter.on('final-error', function onError({SEC, err}) {
 	// ignore some
-	console.log({err})
+	console.warn('TBRPG SEC final-error handler:', err)
 	if (err.message === 'the-boring-rpg›(browser/on error event): Failed to execute \'removeChild\' on \'Node\': The node to be removed is not a child of this node.') {
 		logger.info('(↑ error in the ignore list)')
 		return

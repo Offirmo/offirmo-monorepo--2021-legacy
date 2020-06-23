@@ -1,4 +1,5 @@
 // Must be Firefox ESR compatible!
+// Beware of cross-origin!
 
 ////////////////////////////////////
 
@@ -85,8 +86,14 @@ export function get_xoff_depth(win: Window = window): number {
 
 	if (win.parent !== win) {
 		const parent_xoff = _get_xoff(win.parent)
-		if (parent_xoff)
-			return parent_xoff.xdepth + 1
+		if (parent_xoff) {
+			try {
+				return parent_xoff.xdepth + 1
+			}
+			catch {
+				return 1
+			}
+		}
 	}
 
 	return 0
@@ -128,10 +135,11 @@ function ensure_xoff(win: Window = window): OffirmoExtras {
 
 		if (win.parent !== win) {
 			try {
+				// can fail if cross-origin
 				root = ensure_xoff(win.parent)
 			}
 			catch (err) {
-				console.warn(`${get_log_prefix(win)} error on ensure_xoff(parent)`, { err })
+				//console.warn(`${get_log_prefix(win)} error on ensure_xoff(parent)`, { err })
 			}
 		}
 
@@ -237,9 +245,10 @@ export function execute_from_top<A, R>(fn: (...args: A[]) => R, ...args: A[]): P
 	const code = _stringify_fn_call(fn, ...args)
 	console.log(`${get_log_prefix()} → ${get_log_prefix(target_win)} execute_from_top()`, { fn, code })
 	return Promise.resolve().then(() => {
+		const { origin } = window.document.location
 		target_win.postMessage(
 			{ xoff: { code }},
-			window.document.location.origin,
+			origin === 'file://' ? '*' : origin, // local files all have unique origins https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS/Errors/CORSRequestNotHttp
 		)
 		// TODO some sort of callback?
 	})
