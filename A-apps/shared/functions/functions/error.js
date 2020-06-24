@@ -11212,7 +11212,6 @@ const PLUGINS = Object.values(PLUGINS_BY_ID);
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/3-advanced/soft-execution-context/dist/src.es2019/common.js
 /* global NODE_ENV process */
 
-const CHANNEL_UNKNOWN = 'unknown';
 
 function decorateWithDetectedEnv(SEC) {
   const ENV = (() => {
@@ -11231,7 +11230,7 @@ function decorateWithDetectedEnv(SEC) {
 
   const IS_DEV_MODE = false;
   const IS_VERBOSE = false;
-  const CHANNEL = CHANNEL_UNKNOWN;
+  const CHANNEL = 'dev';
   const SESSION_START_TIME = Object(generate["d" /* get_UTC_timestamp_ms */])();
   SEC.injectDependencies({
     ENV,

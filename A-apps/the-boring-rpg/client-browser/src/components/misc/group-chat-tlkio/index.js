@@ -49,7 +49,7 @@ function restart({channel_id, nickname} = {}) {
 	}, 5000)
 */
 
-	let optimization_delay_ms = 10 // the chat has a lower priority and the browser should not try to load it asap
+	let optimization_delay_ms = 2000 // the chat has a lower priority and the browser should not try to load it asap
 	if (document.getElementById(ELEMENT_ID))
 		optimization_delay_ms = 0 // no need
 

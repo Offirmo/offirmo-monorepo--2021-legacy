@@ -3,8 +3,6 @@ import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 
 import { SoftExecutionContext } from './types'
 
-const CHANNEL_UNKNOWN = 'unknown'
-
 function decorateWithDetectedEnv(SEC: SoftExecutionContext<any>) {
 	const ENV = (() => {
 		try {
@@ -25,7 +23,7 @@ function decorateWithDetectedEnv(SEC: SoftExecutionContext<any>) {
 
 	const IS_DEV_MODE = false
 	const IS_VERBOSE = false
-	const CHANNEL = CHANNEL_UNKNOWN
+	const CHANNEL = 'dev'
 	const SESSION_START_TIME = get_UTC_timestamp_ms()
 
 	SEC.injectDependencies({
@@ -45,6 +43,5 @@ function decorateWithDetectedEnv(SEC: SoftExecutionContext<any>) {
 
 
 export {
-	CHANNEL_UNKNOWN,
 	decorateWithDetectedEnv,
 }

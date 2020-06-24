@@ -33,9 +33,10 @@
 		<meta name="google-site-verification" content="wf2jOlvKH7eHC1UKByJfrzR55dvhIQI74uzskmYg5MY" />
 		<script>
 			// https://developers.google.com/analytics/devguides/collection/analyticsjs/#alternative_async_tag
-			window.ga=window.parent.ga||window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-			ga('create', 'UA-103238291-2', 'auto');
-			ga('send', 'pageview');
+			// (modified)
+			try { window.ga = window.parent.ga } catch {}
+			window.ga = window.ga || function(){console.log('ga1', arguments);(ga.q=ga.q||[]).push(arguments)}
+			// no further ga commands, we leave that to the sub-frame
 		</script>
 		<link rel="preconnect" href="https://www.googletagmanager.com">
 		<link rel="preconnect" href="https://identity.netlify.com">
@@ -429,7 +430,6 @@
 				eval(data.xoff.code)
 		}, false)
 	</script>
-
 	<!-- OT⋄CUSTOM END low priority scripts & misc -->
 
 	<script type="module">

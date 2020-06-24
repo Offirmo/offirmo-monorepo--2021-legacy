@@ -1,13 +1,15 @@
+import assert from 'tiny-invariant'
 import * as React from 'react'
 import ReactDOM from 'react-dom'
 
-import { set_xoff_flag, load_script_from_top, get_log_prefix, execute_from_top, get_top_window } from '@offirmo-private/xoff'
+import { set_xoff_flag, load_script_from_top } from '@offirmo-private/xoff'
 import ErrorBoundary from '@offirmo-private/react-error-boundary'
 import { overrideHook } from '@offirmo/universal-debug-api-browser'
 import get_loader from '@offirmo-private/iframe-loading'
 
 import { setTextEncoder } from '@tbrpg/flux'
 
+import { CHANNEL } from './services/channel'
 import './services/raven'
 import Root from './components/root'
 //import 'react-circular-progressbar/dist/styles.css'
@@ -35,20 +37,33 @@ setTimeout(() => ReactDOM.render(
 		<Root />
 	</ErrorBoundary>,
 	document.getElementById('root'),
-))
+), 5)
 
 setTimeout(() => {
-	load_script_from_top('https://www.googletagmanager.com/gtag/js?id=UA-103238291-2')
+	assert(ga && !ga.l)
+
+	console.log('ga', {CHANNEL})
+	if (CHANNEL !== 'prod') {
+		ga = function (...args) {
+			console.log('(disabled) ga(', ...args, ')')
+		}
+	}
+
+	ga.l = +new Date
+	ga('create', 'UA-103238291-2', 'auto')
+	ga('send', 'pageview')
+	ga(function(tracker) {
+		console.log('ga loaded!', { clientId: tracker.get('clientId') })
+	})
+
+//	load_script_from_top('https://www.googletagmanager.com/gtag/js?id=UA-103238291-2')
+	load_script_from_top('https://www.google-analytics.com/analytics.js')
 		.then((script) => {
 			console.log(`✅ analytics script loaded from top`, script, window)
-			execute_from_top((prefix) => {
-				console.log(`${prefix} following google loaded…`, window.dataLayer, window.oᐧextra)
-				window.dataLayer = window.dataLayer || []
-				function gtag() { dataLayer.push(arguments) }
-				gtag('js', new Date())
-				gtag('config', 'UA-103238291-2')
-				window.oᐧextra.gtag = gtag
-			}, get_log_prefix(get_top_window()) + ' ← ' + get_log_prefix())
 		})
-		.catch(err => console.error('analytics script failed to load:', err))
+		.catch(err => {
+			err = err || new Error('load_script_from_top() analytics failed!')
+			console.error('analytics script failed to load:', err)
+			// swallow
+		})
 }, 100)

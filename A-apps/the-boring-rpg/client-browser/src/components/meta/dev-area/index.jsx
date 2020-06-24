@@ -6,6 +6,7 @@ import { get_top_ish_window } from '@offirmo-private/xoff'
 import { getRootSEC } from '@offirmo-private/soft-execution-context'
 import { get_debug_snapshot } from '@offirmo-private/features-detection-browser'
 
+import { BUILD_DATE } from '../../../build.json'
 import './index.css'
 
 export default class DevArea extends Component {
@@ -102,7 +103,7 @@ export default class DevArea extends Component {
 				<td>
 					<button onClick={() => {
 						console.info('❓INFO', { location, '@offirmo-private/features-detection-browser': get_debug_snapshot() })
-					}}>❓INFO</button>
+					}}>❓INFO<br/><small>{BUILD_DATE}</small></button>
 				</td>
 			</tr>,
 		]
@@ -119,7 +120,7 @@ export default class DevArea extends Component {
 			<table className="dev-area">
 				<tbody>
 					<tr key="main">
-						<td className="DA-environment"><button onClick={this.onToggle}>{this.channel}</button></td>
+						<td className="DA-environment"  onClick={this.onToggle}>{this.channel}</td>
 					</tr>
 					{this.state.open && dev_controls}
 				</tbody>

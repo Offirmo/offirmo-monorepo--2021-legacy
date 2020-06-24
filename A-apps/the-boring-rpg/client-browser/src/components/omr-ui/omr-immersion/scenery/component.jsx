@@ -19,6 +19,7 @@ const SceneryView = React.memo(
 						{rich_text_to_react(render_artwork_legend(bg))}
 					</div>
 				</div>
+				/* TODO improve loading */
 				<div key="next-background-picture" className={`scenery__prefetch ${next_bg.css_class}`} />
 			</div>
 		)

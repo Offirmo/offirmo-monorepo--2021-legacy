@@ -102,6 +102,13 @@ function * gen_next_step() {
 							msgg_as_user: () => 'Let’s go adventuring!',
 							callback: () => {
 								game_instance.commands.play()
+								window.ga && window.ga('send', 'event', {
+									eventCategory: 'game',
+									eventAction: 'play',
+									//eventValue: 55, TODO
+									//eventLabel: 'Label',
+									hitCallback: () => console.log('GA sent!'),
+								})
 							},
 						},
 					],

@@ -93,7 +93,7 @@ SEC.emitter.emit('analytics', { SEC, eventId, details })
 | `ENV` | yes✅ | yes✅ | yes✅ | less connoted alias of `NODE_ENV` 😉 |
 | `IS_DEV_MODE` | yes✅ | - | - | default to `false`. Used to activate dev commands or reportings, ex. extra settings, extra UI |
 | `IS_VERBOSE` | yes✅ | - | - | default to `false`. Used to activate extra reporting on tasks, intent like --verbose |
-| `CHANNEL` | yes✅ | yes✅ | yes✅ | current channel of rollout deployment. Default to `'unknown'`. Suggested possible values: `'dev'`, `'staging'`, `'prod'` |
+| `CHANNEL` | yes✅ | yes✅ | yes✅ | current channel of rollout deployment. Default to `'dev'`. Suggested possible values: `'dev'`, `'staging'`, `'prod'` |
 | `SESSION_START_TIME` | yes✅ | - | - | UTC timestamp in ms of the time of start |
 | `TIME` | - | yes✅ | yes✅ | UTC timestamp in ms of the time of the error/analytics |
 | `SESSION_DURATION_MS` | - | yes✅ | yes✅ | ms elapsed from the start of the session |
@@ -140,7 +140,7 @@ Events:
 			stack: {  -> prototypically inherited <-
 				module: ...
 				operation: ...
-			} 
+			}
 		},
 	},
 	cache: { // per-SEC cache for complex computations

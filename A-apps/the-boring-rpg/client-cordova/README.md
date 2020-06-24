@@ -21,7 +21,12 @@ cordova platform remove android
 
 cordova platform update android
 
-cordova plugin add cordova-plugin-device
-cordova plugin add cordova-plugin-splashscreen  https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-splashscreen/
+## https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-splashscreen/
+cordova plugin add cordova-plugin-splashscreen
+
+## https://appcenter.ms/
+cordova plugin add cordova-plugin-appcenter-analytics
+cordova plugin add cordova-plugin-appcenter-crashes
+
 cordova plugin remove <plugin>
 ```

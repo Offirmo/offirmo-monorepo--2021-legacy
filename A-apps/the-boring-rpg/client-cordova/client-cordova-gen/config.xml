@@ -15,7 +15,15 @@
 	<content src="app/index-2.html" />
 	<!-- https://cordova.apache.org/docs/en/latest/config_ref/images.html -->
 	<icon src="www/app/favicons/Icon-60@2x.png" />
+
+	<platform name="android">
+		<!-- Ms App center -->
+		<preference name="APP_SECRET" value="7120d50a-e827-4796-a206-2fb47c20ec4b" />
+	</platform>
+
 	<platform name="ios">
+		<!-- Ms App center -->
+		<preference name="APP_SECRET" value="51d1871a-a050-4997-be30-b70c8ea88974" />
 		<!-- https://developer.apple.com/library/archive/qa/qa1686/_index.html -->
 		<icon src="www/app/favicons/icon-60@2x.png" width="120" height="120" />
 		<icon src="www/app/favicons/icon-76.png" width="76" height="76" />

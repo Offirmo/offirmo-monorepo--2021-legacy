@@ -32,12 +32,9 @@
 		<script>
 			// https://developers.google.com/analytics/devguides/collection/analyticsjs/#alternative_async_tag
 			// (modified)
-			window.ga = window.parent.ga || window.ga || function(){(ga.q=ga.q||[]).push(arguments)}
-			if (!ga.l) {
-				ga.l = +new Date
-				ga('create', 'UA-103238291-2', 'auto')
-				ga('send', 'pageview')
-			}
+			try { window.ga = window.parent.ga } catch {}
+			window.ga = window.ga || function(){console.log('ga2', arguments);(ga.q=ga.q||[]).push(arguments)}
+			// no more, see index-2.js
 		</script>
 		<script>
 			// https://developers.google.com/web/fundamentals/primers/service-workers/registration
