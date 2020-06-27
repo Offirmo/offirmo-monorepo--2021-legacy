@@ -1,13 +1,27 @@
 import Deferred from '@offirmo/deferred'
 
-import logger from './logger'
+export function is_loaded_from_cordova() {
+	return window.location.protocol === 'file:' && (new URLSearchParams(location.search)).get('container') === 'cordova'
+}
 
 export const ↆcordova = new Deferred()
 
-document.addEventListener("deviceready", () => {
-	ↆcordova.resolve()
-}, false)
+if (!is_loaded_from_cordova()) {
+	ↆcordova
+		.reject(new Error('Not loaded from Cordova!'))
+}
+else {
+	const el = document.createElement('script')
+	el.type = 'text/javascript'
+	el.src = 'cordova.js'
+	document.body.appendChild(el)
 
-ↆcordova.then(() => {
-	logger.info('Cordova deviceready!')
-})
+	document.addEventListener('deviceready', () => {
+		ↆcordova.resolve()
+	}, false)
+
+	ↆcordova.then(
+		() => console.info('Cordova deviceready!'),
+		() => { }
+	)
+}

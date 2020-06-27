@@ -14,11 +14,11 @@ function on_click_on_signin_button() {
 	ↆNetlifyIdentity.then(NetlifyIdentity => {
 		request_redirect(window.location.href)
 		NetlifyIdentity.open()
-	})
+	}, () => {})
 }
 
 function on_request_logout() {
-	ↆNetlifyIdentity.then(NetlifyIdentity => NetlifyIdentity.logout())
+	ↆNetlifyIdentity.then(NetlifyIdentity => NetlifyIdentity.logout(), () => {})
 }
 
 

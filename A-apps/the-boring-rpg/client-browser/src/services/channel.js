@@ -1,10 +1,9 @@
 
-function is_cordova() {
-	return window.location.protocol === 'file:' && (new URLSearchParams(location.search)).get('container') === 'cordova'
-}
+import { is_loaded_from_cordova } from './cordova'
+
 function is_prod() {
 	return window.location.hostname === 'www.online-adventur.es'
-		|| is_cordova()
+		|| is_loaded_from_cordova()
 }
 
 const CHANNEL = is_prod()
@@ -14,5 +13,6 @@ const CHANNEL = is_prod()
 		: 'dev'
 
 export {
+	is_loaded_from_cordova,
 	CHANNEL,
 }

@@ -157,8 +157,20 @@
 
 		// cordova synchronous detection
 		if (location.pathname.endsWith('-cordova.html')) {
+			// TODO detect the underlying OS? no need for now.
 			user_settings.app_queryparams = 'container=cordova'
-			// TODO detect the OS? no need for now.
+
+			// load cordova just for the sake of disabling the loader
+			const el = document.createElement('script')
+			el.type = 'text/javascript'
+			el.src = 'cordova.js'
+			document.body.appendChild(el)
+			document.addEventListener('deviceready', () => {
+				console.info('[I1+] cordova deviceready')
+				if ('splashscreen' in navigator) {
+					navigator.splashscreen.hide()
+				}
+			}, false)
 		}
 		/* OT⋄CUSTOM END early code */
 	</script>

@@ -98,7 +98,7 @@ function init(SEC, game_instance) {
 					id: avatar_name,
 				})
 			})
-		})
+		}, () => {})
 
 		ↆNetlifyIdentity.then(function attach_listeners(NetlifyIdentity) {
 			NetlifyIdentity.on('init', user => logger.info('NetlifyIdentity⚡ init', user))
@@ -128,7 +128,7 @@ function init(SEC, game_instance) {
 			NetlifyIdentity.on('close', () => {
 				logger.info('NetlifyIdentity⚡ Widget closed')
 			})
-		})
+		}, () => {})
 
 		function refresh_login_state() {
 			update_state({
@@ -177,7 +177,7 @@ function init(SEC, game_instance) {
 						})
 						return user
 					})
-			})
+			}, () => {})
 		}
 	})
 }

@@ -116,7 +116,7 @@ function install({ uncollapse_level = 'warn', lazy = true, original_console = co
 				&& group_invocations.length > lowest_uncollapsed_index
 			) {
 				better_groupEnd()
-				ORIGINAL_METHODS.debug('(forced break out of collapsed group ↑ due to critical log)')
+				ORIGINAL_METHODS.debug('(forced break out of collapsed group ↑ due to critical log ↓)')
 			}
 		}
 

@@ -7,11 +7,16 @@ export default class Deferred<T> {
 	private _reject!: (reason?: any) => void
 	private readonly promise: Promise<T>
 
-	constructor() {
+	constructor({ uncatch = true }: { uncatch?: boolean } = {}) {
 		this.promise = new Promise((resolve, reject) => {
 			this._resolve = resolve
 			this._reject = reject
 		})
+		if (uncatch)
+			this.promise.catch(() => {
+				// swallow to disable uncaught promise rejection messages.
+				// The whole point of this lib is to attach stuff later.
+			})
 	}
 
 	then<TResult1 = T, TResult2 = never>(

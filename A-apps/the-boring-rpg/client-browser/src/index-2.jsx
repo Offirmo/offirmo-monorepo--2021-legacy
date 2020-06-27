@@ -9,6 +9,7 @@ import get_loader from '@offirmo-private/iframe-loading'
 
 import { setTextEncoder } from '@tbrpg/flux'
 
+import { BUILD_DATE } from './build.json'
 import { CHANNEL } from './services/channel'
 import './services/raven'
 import Root from './components/root'
@@ -19,7 +20,11 @@ import {get_xoff} from '@offirmo-private/xoff/src'
 //console.log('hello from index-2', { __filename })
 
 /////////////////////////////////////////////////
-setTimeout(() => console.log('——————— end of immediate synchronous code ———————'))
+setTimeout(() => {
+	console.groupCollapsed('——————— end of immediate synchronous code ———————')
+	console.log({ BUILD_DATE })
+	console.groupEnd()
+})
 
 set_xoff_flag('debug_render', overrideHook('should_trace_renders', false))
 set_xoff_flag('is_paused', overrideHook('should_start_paused', false))

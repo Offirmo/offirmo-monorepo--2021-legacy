@@ -93,3 +93,5 @@ extensible
 https://developers.google.com/web/fundamentals/primers/service-workers/lifecycle#handling_updates
 
 release channels https://techcrunch.com/2020/06/15/microsoft-moves-its-windows-10-insider-program-from-rings-to-release-channels/
+
+https://www.reddit.com/r/spacex/comments/gxb7j1/we_are_the_spacex_software_team_ask_us_anything/ft6ixcm?utm_source=share&utm_medium=web2x
