@@ -12,9 +12,13 @@
 		Offirmo
 	</author>
 
-	<content src="app/index-2.html" />
+	<content src="index-cordova.html" />
 	<!-- https://cordova.apache.org/docs/en/latest/config_ref/images.html -->
-	<icon src="www/app/favicons/Icon-60@2x.png" />
+	<icon src="www/favicons/Icon-60@2x.png" />
+	<!-- https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-splashscreen/index.html#preferences -->
+	<splash src="res/ios/Default@2x~universal~anyany.png" />
+	<preference name="FadeSplashScreenDuration" value="500"/>
+	<preference name="AutoHideSplashScreen" value="false" />
 
 	<platform name="android">
 		<!-- Ms App center -->
@@ -25,8 +29,8 @@
 		<!-- Ms App center -->
 		<preference name="APP_SECRET" value="51d1871a-a050-4997-be30-b70c8ea88974" />
 		<!-- https://developer.apple.com/library/archive/qa/qa1686/_index.html -->
-		<icon src="www/app/favicons/icon-60@2x.png" width="120" height="120" />
-		<icon src="www/app/favicons/icon-76.png" width="76" height="76" />
+		<icon src="www/favicons/icon-60@2x.png" width="120" height="120" />
+		<icon src="www/favicons/icon-76.png" width="76" height="76" />
 	</platform>
 
 	<plugin name="cordova-plugin-whitelist" spec="1" />

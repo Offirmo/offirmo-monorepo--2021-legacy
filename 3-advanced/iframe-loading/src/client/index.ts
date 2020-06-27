@@ -40,6 +40,8 @@ if (!loader_full) {
 	const hint_at_loader = searchParams.has(PROP)
 	if (!hint_at_loader)
 		console.info('iframe-loading: loader not found, are you properly set up?')
+	else
+		console.info('iframe-loading: loader not found in domain, will postMessage().')
 }
 
 const loader = loader_full || loader_fallback

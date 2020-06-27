@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- OT⋄GENERATED-FROM-TEMPLATE Offirmo's loading iframe v0.3.0 -->
+<!-- OT⋄GENERATED-FROM-TEMPLATE Offirmo's loading iframe v0.4.0 -->
 
 <html lang="en" xml:lang="en" class="o⋄top-container">
 	<head>
@@ -47,7 +47,7 @@
 				position: absolute;
 				width: 100%;
 				border: 0;
-				background-color: white; /* bc loader's bg shouldn't bleed. TODO adapt to dark mode? */
+				background-color: white; /* bc loader's bg shouldn't bleed into the frame. TODO adapt to dark mode? */
 			}
 
 			.o⋄top-container {
@@ -56,7 +56,6 @@
 				height: 100%;
 			}
 
-			/* TODO check cordova sample */
 			.blinking{
 				animation: blinkingText 1.2s infinite ease-in-out;
 			}
@@ -95,6 +94,7 @@
 			  scrolling="no"
 		>
 			<p>Error. Your app should be here.</p>
+			<p>Check your add blocker?</p>
 		</iframe>
 
 		<!-- the loader (on top) -->
@@ -117,6 +117,7 @@
 		if (document.URL.startsWith('http://localhost:1981/5-incubator/active/iframe-loading/src/index.html')) {
 			user_settings.app_url = '../doc/demo/index-2.html'
 		}
+		//user_settings.app_url = './index-2.html?custom=2'
 		/* OT⋄CUSTOM END early code */
 	</script>
 
@@ -124,12 +125,12 @@
 
 		const PROP = 'oᐧloader'
 		const DEFAULT_RSRC_ID = 'overall'
-		const LOGGER_NAME = 'loading-iframe'
+		const LIB = 'iframe-loading'
 		const logger = (() => {
 			try {
-				return window._debug.v1.getLogger({name: LOGGER_NAME})
+				return window._debug.v1.getLogger({name: LIB})
 			} catch {}
-			if (!!window.localStorage.getItem(`🛠UDA.override.logger.${LOGGER_NAME}.logLevel`))
+			if (!!window.localStorage.getItem(`🛠UDA.override.logger.${LIB}.logLevel`))
 				return console
 
 			return {
@@ -143,19 +144,23 @@
 
 		/////////////////////
 
-		const { searchParams } = new URL(window.location.href)
-		searchParams.set(PROP, true)
-		searchParams.sort()
 		let state = {
 			settings: {
 				// flat for easy merging
 				bg_color: 'black',
 				fg_color: 'hsl(0, 0%, 98%)',
 				// TODO font, bg picture etc.
-				app_url: './index-2.html' + '?' + searchParams.toString(),
+				app_queryparams: [
+					user_settings.app_queryparams,
+					user_settings.app_url && new URLSearchParams(user_settings.app_url.split('?')[1]).toString(),
+					new URLSearchParams(location.search).toString(),
+				].filter(s => !!s).join('&'),
 				legend: undefined,
 				expected_rsrc_count: 1,
 				...user_settings,
+				app_url: user_settings.app_url // normalize
+					? user_settings.app_url.split('?')[0]
+					: './index-2.html',
 			},
 
 			is_rsrc_loaded: {
@@ -164,7 +169,7 @@
 
 			error: null,
 		}
-		const LS_KEY_CACHED_CONFIG = `XOF.loading-iframe.config_cache.url(${state.settings.app_url})`
+		const LS_KEY_CACHED_CONFIG = `XOF.${LIB}.config_cache.url(${state.settings.app_url})`
 
 		/////////////////////
 
@@ -226,6 +231,7 @@
 			logger.error('[IL] Error! iframe-loading recursion!')
 			// TODO immediately hide our own loader
 		} else {
+			// TODO useful? always postmessage?
 			window[PROP] = {
 				configure({legend, expected_rsrc_count, bg_color, fg_color, ...others} = {}) {
 					if (Object.keys(others).length > 0) logger.error(`[IL] configure_loader() unknown params:`, others)
@@ -282,15 +288,15 @@
 				//sub_frame: sub_frame_window,
 			})
 
-			// TODO improve error handling
 			if (load_infos.is_loaded || state.error) {
 				try { window.document.title = sub_frame_window.document.title } catch {}
 				if (elt_iframe.style.display !== 'block') {
 					// transition
-					//logger.log('[IL] !!! LOADED !!!')
+					logger.log('[IL] !!! LOADED !!!')
 					elt_iframe.style.display = 'block'
 					elt_progress_area.display = 'none'
 					elt_loader.style.pointerEvents = 'none'
+					function hide_loader() { elt_loader.style.display = 'none' }
 					try {
 						// https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API/Using_the_Web_Animations_API
 						const animation = elt_loader.animate(
@@ -303,16 +309,14 @@
 									fill: 'forwards',
 								}
 							)
-						if (animation.finished)
-							animation.finished.then(() => {
-								// for easier inspection. Not really needed.
-								elt_loader.style.display = 'none'
-							})
+						// for easier inspection. Not really needed.
+						setTimeout(hide_loader, 700)
 					} catch (err) {
-						logger.warn('[IL] Web Animation API error:', err)
+						logger.warn('[IL] [optional feature] Web Animation API error:', err)
+						hide_loader()
 					}
 					/*if (state.error) {
-						// TODO remove this ugly confirm which is interrupting at OS level
+						// TODO improve error handling
 						if (!confirm('Load timeout. Does it look OK? (If not, I’ll try reloading.)'))
 							window.location.reload()
 					}*/
@@ -321,11 +325,17 @@
 			}
 
 			if (!elt_iframe.src) {
-				// TODO pass query params
-				elt_iframe.src = state.settings.app_url
+				logger.log('[IL] 1st render!')
 
+				const searchParams = new URLSearchParams(state.settings.app_queryparams)
+				searchParams.set(PROP, true)
+				searchParams.sort()
+
+				elt_iframe.src = state.settings.app_url + '?' + searchParams.toString()
+
+				// just logging, not reliable since the iframe can rewrite them
 				elt_iframe.onload = (args) => logger.log(`[IL] iframe loaded`, { args })
-				elt_iframe.onerror = (args) => logger.warn(`[IL] iframe something wrong happened`, { args })
+				elt_iframe.onerror = (args) => logger.warn(`[IL] iframe something wrong happened`, { args }) // TODO error on this one?
 			}
 
 			if (state.settings.legend) {
@@ -344,6 +354,15 @@
 			let sub_frame_title = null
 			try { sub_frame_title = sub_frame_window.document.title } catch {}
 			window.document.title = sub_frame_title || state.settings.legend || ''
+
+
+			// cordova
+			// https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-splashscreen/index.html#preferences
+			if ('splashscreen' in navigator) {
+				// take over the loading feature
+				logger.log('[IL] hiding cordova loader')
+				navigator.splashscreen.hide()
+			}
 		}
 
 		try {
@@ -368,7 +387,7 @@
 
 			setTimeout(() => {
 				if (!get_load_infos(state).is_loaded) {
-					state = on_error(state, new Error('Timeout waiting for iframe load!'))
+					state = on_error(state, new Error('Timeout waiting for sub-frame load!'))
 					render(state)
 				}
 			}, additional_wait_time_s * 1000)
@@ -379,7 +398,7 @@
 		// PM listener for cross origin sub-frames
 		window.addEventListener('message', ({data, origin, source}) => {
 			if (!data[PROP]) return
-			logger.log('📥 loader PM received', data[PROP])
+			logger.log('[IL] 📥 PM received', data[PROP])
 			const { method, args } = data[PROP]
 			window[PROP][method](...args)
 		}, false)

@@ -11,6 +11,7 @@ NOTE: not much reason to publish this lib since it's supposed to be bundled
 * TODO local pictures
 * [chore] [breaking] cjs pre-build now targeting node12/ES2019 [details](../../CONTRIBUTING/module-exports.md)
 * [feat] improved error display, now always printed as "details" so that the props are inspectable
+* [feat] slightly improved some messages
 * ...
 
 ## v2.1.1

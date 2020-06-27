@@ -30,6 +30,7 @@
 		</style>
 
 		<script>
+			console.log('I2', { location })
 			// https://developers.google.com/analytics/devguides/collection/analyticsjs/#alternative_async_tag
 			// (modified)
 			try { window.ga = window.parent.ga } catch {}
@@ -64,7 +65,7 @@
 
 		<!-- group chat, outside of react control for DOM stability -->
 		<div id="group-chat-container" class="o⋄top-container">
-			The chat should be loading here…
+			<br><br>The chat should be loading here…
 		</div>
 	</body>
 

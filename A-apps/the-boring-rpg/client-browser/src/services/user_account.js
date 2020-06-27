@@ -29,8 +29,8 @@ function request_redirect(url) {
 	localStorage.setItem(REDIRECT_LS_KEY, JSON.stringify(redirect_request))
 }
 
-const NetlifyIdentity = new Deferred()
-NetlifyIdentity.catch(err => {
+const ↆNetlifyIdentity = new Deferred()
+ↆNetlifyIdentity.catch(err => {
 	console.warn('Netlify failed to load, won’t be able to login.', err)
 })
 
@@ -51,7 +51,7 @@ setTimeout(() => {
 						setTimeout(() => {
 							try {
 								assert(window.oᐧextra?.netlifyIdentity, 'window.oᐧextra.netlifyIdentity ✓')
-								NetlifyIdentity.resolve(window.oᐧextra.netlifyIdentity)
+								ↆNetlifyIdentity.resolve(window.oᐧextra.netlifyIdentity)
 								resolve()
 							}
 							catch (err) {
@@ -63,12 +63,12 @@ setTimeout(() => {
 		})
 		.catch((err = new Error('load_script_from_top() netlify failed!'))=> {
 			//console.error('netlify failed to load:', err)
-			NetlifyIdentity.reject(err)
+			ↆNetlifyIdentity.reject(err)
 			// swallow
 		})
 }, 100)
 
-//const NetlifyIdentity = poll_window_variable('netlifyIdentity', { timeoutMs: 5 * 60 * 1000 })
+//const ↆNetlifyIdentity = poll_window_variable('netlifyIdentity', { timeoutMs: 5 * 60 * 1000 })
 
 function init(SEC, game_instance) {
 	SEC.xTry('initializing user account', ({logger}) => {
@@ -78,7 +78,7 @@ function init(SEC, game_instance) {
 			}))
 		}
 
-		NetlifyIdentity.then(() => {
+		ↆNetlifyIdentity.then(() => {
 			logger.verbose('NetlifyIdentity lib loaded ✅')
 			refresh_login_state().then(function register_user_for_raven(user) {
 				const avatar_name = game_instance.queries.get_sub_state('avatar').name
@@ -100,7 +100,7 @@ function init(SEC, game_instance) {
 			})
 		})
 
-		NetlifyIdentity.then(function attach_listeners(NetlifyIdentity) {
+		ↆNetlifyIdentity.then(function attach_listeners(NetlifyIdentity) {
 			NetlifyIdentity.on('init', user => logger.info('NetlifyIdentity⚡ init', user))
 
 			// note: called only on FRESH login
@@ -136,7 +136,7 @@ function init(SEC, game_instance) {
 				logged_in_user: null,
 			})
 
-			return NetlifyIdentity.then(function refresh_login_state(NetlifyIdentity) {
+			return ↆNetlifyIdentity.then(function refresh_login_state(NetlifyIdentity) {
 				const user = NetlifyIdentity.currentUser()
 
 				if (!user) {
@@ -167,7 +167,7 @@ function init(SEC, game_instance) {
 						// TODO ??
 						/*
                       // clean up
-                      NetlifyIdentity.logout()
+                      ↆNetlifyIdentity.logout()
                       */
 					})
 					.then(() => {
@@ -185,6 +185,6 @@ function init(SEC, game_instance) {
 export {
 	get_name,
 	request_redirect,
-	NetlifyIdentity,
+	ↆNetlifyIdentity,
 	init,
 }

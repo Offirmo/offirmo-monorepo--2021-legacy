@@ -49,6 +49,7 @@ CSS tutorials:
 * http://mehmetbat.com/blog/css3-filters/
 
 Tools:
+* https://icomoon.io/
 * http://border-image.com/
 * https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Background_and_Borders/Border-image_generator
 

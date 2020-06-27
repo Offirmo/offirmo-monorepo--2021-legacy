@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
+import { MemoryRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
 //import floating from 'floating.js'
 import { get_xoff_flag, set_xoff_flag } from '@offirmo-private/xoff'
 
@@ -61,6 +61,7 @@ function render_diagnostic() {
 		</StrictCheck>
 	)
 }
+
 
 export default class Root extends Component {
 	static propTypes = {

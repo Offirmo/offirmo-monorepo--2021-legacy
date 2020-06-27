@@ -31,3 +31,11 @@
 	border-width: 1px;
 }
 */
+
+/* strange overlap bug on mobile */
+.omr⋄content-area--inner {
+	pointer-events: none;
+}
+.omr⋄content-area--inner > * {
+	pointer-events: auto;
+}

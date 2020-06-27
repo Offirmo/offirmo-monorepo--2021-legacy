@@ -347,3 +347,21 @@ wolf https://en.wikipedia.org/wiki/Never_Cry_Wolf
 https://www.reddit.com/r/NoStupidQuestions/comments/3al7jg/can_you_actually_use_a_whip_to_grab_onto/
 https://www.quora.com/Guns-aside-whats-the-safest-lightest-deadliest-weapon-that-ordinary-people-could-carry-everyday-to-protect-them-on-the-streets-and-at-home-without-being-obvious-too-technical-or-very-skillful-or-trained-How-do-you
 
+
+Find the one word answer to these riddles and use it to find a word that describes us all
+
+I sit in a corner and travel around the world. What am I?
+
+A word I know, six letters it contains, remove one letter, and twelve remains. What am I?
+
+What is always in front of you but can’t be seen?
+
+I appear in all seasons except for summer. What am I?
+
+You can see me in water, but I never get wet. What am I?
+
+Which word in the dictionary is always spelled incorrectly?
+
+You see a letter that originated from Senselessness. What does it read?
+
+Take the first letter of each answer and make a word.

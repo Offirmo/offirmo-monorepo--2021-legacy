@@ -27,7 +27,7 @@ set_xoff_flag('is_paused', overrideHook('should_start_paused', false))
 get_loader().configure({
 	bg_color: 'rgb(84, 61, 70)',
 	fg_color: 'rgb(255, 235, 188)',
-	legend: 'The Boring RPG, reloaded'
+	legend: 'The Boring RPG, reborn'
 })
 
 setTextEncoder(TextEncoder)

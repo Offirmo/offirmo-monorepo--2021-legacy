@@ -65,11 +65,11 @@ function * gen_next_step() {
 				if (!last_adventure.good) {
 					// https://developer.mozilla.org/en-US/docs/Web/API/Vibration_API
 					try {
-						if (window.navigator.vibrate)
-							window.navigator.vibrate(200)
+						if ('vibrate' in navigator)
+							navigator.vibrate(200)
 					}
-					catch (e) {
-						// swallow
+					catch (err) {
+						console.warn(`[optional] error when attempting to vibrate`, err)
 					}
 				}
 

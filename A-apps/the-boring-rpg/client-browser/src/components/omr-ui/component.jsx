@@ -2,9 +2,9 @@ import * as React from 'react'
 import { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
-import get_loader from '@offirmo-private/iframe-loading'
 import OhMyRpg from '@oh-my-rpg/view-browser-react'
 
+import declare_app_loaded from '../../services/loader'
 import get_game_instance from '../../services/game-instance-browser'
 import About from './omr-about'
 import UniverseAnchor from './omr-universe-anchor'
@@ -15,6 +15,7 @@ import * as GroupChat from '../misc/group-chat-tlkio'
 
 import './index.css'
 import logo from './tbrpg_logo_512x98.png'
+console.log({ logo })
 
 const CHANNEL_ID = 'the-boring-rpg-reloaded'
 const MODE_TO_INDEX = {
@@ -94,12 +95,14 @@ export default class OhMyRPGView extends PureComponent {
 	render() {
 		const { mode } = this.props
 		if (window.oᐧextra?.flagꓽdebug_render) console.log('🔄 OhMyRPGView')
-		get_loader().on_rsrc_loaded()
+		declare_app_loaded()
 
 		return (
 			<OhMyRpg
 
 				logo={
+					// strange bug 'logo' in dev and '/logo' in prod
+					//<img src={['.', ...logo.split('/')].filter(s => !!s).join('/')} height="100%" />
 					<img src={logo} height="100%" />
 				}
 				aboutContent={<About />}
