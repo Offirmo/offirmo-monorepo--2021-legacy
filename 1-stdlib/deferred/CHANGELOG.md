@@ -6,6 +6,7 @@
 * [chore] [breaking] cjs pre-build now targeting node12/ES2019 [details](../../CONTRIBUTING/module-exports.md)
 * [feat] slightly improved typings, following the latest Promise definition (Typescript 3.8.3)
 * [doc] credits
+* TODO unit tests!
 * ...
 
 ## 2.0.1

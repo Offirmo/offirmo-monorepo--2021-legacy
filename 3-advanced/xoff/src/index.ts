@@ -59,7 +59,8 @@ export function get_xoff<T = {}>(win: Window = window): OffirmoExtras & T {
 	return xoff
 }
 
-export function is_sandboxed(win: Window = window): boolean {
+// can't access parent, either sandboxed or cross-origin
+export function is_isolated(win: Window = window): boolean {
 	const { top_win } = get_xoff(win)
 	return !_get_xoff(top_win)
 }
@@ -74,7 +75,7 @@ export function get_top_xoff_window(win: Window = window): Window {
 }
 
 export function get_top_ish_window(win: Window = window): Window {
-	return is_sandboxed()
+	return is_isolated()
 		? get_top_xoff_window(win)
 		: get_top_window(win)
 }
@@ -85,15 +86,12 @@ export function get_xoff_depth(win: Window = window): number {
 		return xoff.xdepth
 
 	if (win.parent !== win) {
-		const parent_xoff = _get_xoff(win.parent)
-		if (parent_xoff) {
-			try {
+		try {
+			const parent_xoff = _get_xoff(win.parent)
+			if (parent_xoff)
 				return parent_xoff.xdepth + 1
-			}
-			catch {
-				return 1
-			}
-		}
+		} catch {}
+		return 1
 	}
 
 	return 0
