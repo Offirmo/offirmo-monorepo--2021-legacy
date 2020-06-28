@@ -10,6 +10,10 @@
 - 😅 fix: tweaks, typos, small bugs…
 - 😷 chore: some internal refactors, bump dependencies
 
+## v0.
+- 😷 chore: improved cordova compatibility for potential mobile app version
+- 😷 chore: some internal refactors, bump dependencies
+
 ## v0.65.1
 - 🤩 feature: 14 new adventures (now totalling 201!)
 - 😍 feature: 36 new backgrounds (now totalling 134!)

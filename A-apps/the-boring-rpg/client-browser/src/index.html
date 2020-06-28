@@ -167,9 +167,6 @@
 			document.body.appendChild(el)
 			document.addEventListener('deviceready', () => {
 				console.info('[I1+] cordova deviceready')
-				if ('splashscreen' in navigator) {
-					navigator.splashscreen.hide()
-				}
 			}, false)
 		}
 		/* OT⋄CUSTOM END early code */

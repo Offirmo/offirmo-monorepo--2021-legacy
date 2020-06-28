@@ -297,7 +297,12 @@
 					elt_iframe.style.display = 'block'
 					elt_progress_area.display = 'none'
 					elt_loader.style.pointerEvents = 'none'
-					function hide_loader() { elt_loader.style.display = 'none' }
+					function hide_loader() {
+						elt_loader.style.display = 'none'
+						// bg back to black to avoid bleeding it on notches on mobile devices (seen on cordova iOs)
+						// TODO revisit that, bleeding still looks better than square on notched
+						//document.documentElement.style.setProperty('--bg', 'black')
+					}
 					try {
 						// https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API/Using_the_Web_Animations_API
 						const animation = elt_loader.animate(
