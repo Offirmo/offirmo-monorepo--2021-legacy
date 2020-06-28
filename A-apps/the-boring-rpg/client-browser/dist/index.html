@@ -173,7 +173,12 @@
 					elt_iframe.style.display = 'block'
 					elt_progress_area.display = 'none'
 					elt_loader.style.pointerEvents = 'none'
-					function hide_loader() { elt_loader.style.display = 'none' }
+					function hide_loader() {
+						elt_loader.style.display = 'none'
+						// bg back to black to avoid bleeding it on notches on mobile devices (seen on cordova iOs)
+						// TODO revisit that, bleeding still looks better than square on notched
+						//document.documentElement.style.setProperty('--bg', 'black')
+					}
 					try {
 						// https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API/Using_the_Web_Animations_API
 						const animation = elt_loader.animate(
@@ -281,6 +286,6 @@
 		}, false)
 
 		/////////////////////
-	</script><script>console.log("I1",{location:location});try{window.ga=window.parent.ga}catch{}if(window.ga=window.ga||function(){console.log("ga1",arguments),(ga.q=ga.q||[]).push(arguments)},user_settings={},"https://www.online-adventur.es/apps/the-boring-rpg"===document.URL&&(console.warn("strange non-/ case, redirecting..."),window.location=document.URL+"/"),location.pathname.endsWith("-cordova.html")){user_settings.app_queryparams="container=cordova";const e=document.createElement("script");e.type="text/javascript",e.src="cordova.js",document.body.appendChild(e),document.addEventListener("deviceready",()=>{console.info("[I1+] cordova deviceready"),"splashscreen"in navigator&&navigator.splashscreen.hide()},!1)}window.addEventListener("message",({data:data,origin:origin,source:source})=>{console.log("[IL+/xoff] 📥 PM received",{data:data,origin:origin,source:source}),(data.xoff||{}).code&&eval(data.xoff.code)},!1);</script><script type="module">
+	</script><script>console.log("I1",{location:location});try{window.ga=window.parent.ga}catch{}if(window.ga=window.ga||function(){console.log("ga1",arguments),(ga.q=ga.q||[]).push(arguments)},user_settings={},"https://www.online-adventur.es/apps/the-boring-rpg"===document.URL&&(console.warn("strange non-/ case, redirecting..."),window.location=document.URL+"/"),location.pathname.endsWith("-cordova.html")){user_settings.app_queryparams="container=cordova";const o=document.createElement("script");o.type="text/javascript",o.src="cordova.js",document.body.appendChild(o),document.addEventListener("deviceready",()=>{console.info("[I1+] cordova deviceready")},!1)}window.addEventListener("message",({data:data,origin:origin,source:source})=>{console.log("[IL+/xoff] 📥 PM received",{data:data,origin:origin,source:source}),(data.xoff||{}).code&&eval(data.xoff.code)},!1);</script><script type="module">
 		// TODO progressive enhancements
 	</script></html>

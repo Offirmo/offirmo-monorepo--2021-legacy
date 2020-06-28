@@ -38,7 +38,7 @@ const ↆnetlify_script = load_script_from_top('https://identity.netlify.com/v1/
 		execute_from_top((prefix) => {
 			console.log(`${prefix} following netlify loaded…`, window.netlifyIdentity, window.oᐧextra)
 			window.oᐧextra.netlifyIdentity = window.netlifyIdentity
-		}, get_log_prefix(get_top_window()) + '←' + get_log_prefix())
+		}, get_log_prefix(get_top_ish_window()) + '←' + get_log_prefix())
 		setTimeout(() => {
 			if (get_xoff_depth() === 2)
 				window.oᐧextra?.netlifyIdentity.open()
@@ -58,7 +58,7 @@ const ↆanalytics_script = load_script_from_top('https://www.googletagmanager.c
 			gtag('js', new Date())
 			gtag('config', 'DEMO')
 			window.oᐧextra.gtag = gtag
-		}, get_log_prefix(get_top_window()) + '←' + get_log_prefix())
+		}, get_log_prefix(get_top_ish_window()) + '←' + get_log_prefix())
 	})
 	.catch(err => console.error('analytics script failed to load:', err))
 //console.log(`${get_log_prefix()} load ↆanalytics_script`, { ↆanalytics_script })

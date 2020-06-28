@@ -204,12 +204,12 @@ export function load_script_from_top(url: string, target_win: Window = get_top_i
 		const xoff_scripts = get_xoff<ScriptsMemo>(target_win)
 		const memo_attribute = get_script_memo_attribute(url)
 		if (!xoff_scripts[memo_attribute]) {
-			const all_existing_top_scripts = Array.from(
+			const all_existing_target_scripts = Array.from(
 				target_win.document.querySelectorAll(
 					'script',
 				),
 			)
-			let script: HTMLElementTagNameMap['script'] = all_existing_top_scripts.find(s => s.src === url) || (() => {
+			let script: HTMLElementTagNameMap['script'] = all_existing_target_scripts.find(s => s.src === url) || (() => {
 				const el = target_win.document.createElement('script')
 				el.type = 'text/javascript'
 				el.src = url
@@ -239,7 +239,7 @@ function _stringify_fn_call<A, R>(fn: (...args: A[]) => R, ...args: A[]): string
 	return `;(${String(fn)})(${args.map(p => typeof p === 'string' ? `"${p}"` : String(p)).join(',')})`
 }
 export function execute_from_top<A, R>(fn: (...args: A[]) => R, ...args: A[]): Promise<void> {
-	const target_win: Window = get_top_window()
+	const target_win: Window = get_top_ish_window()
 	const code = _stringify_fn_call(fn, ...args)
 	console.log(`${get_log_prefix()} → ${get_log_prefix(target_win)} execute_from_top()`, { fn, code })
 	return Promise.resolve().then(() => {

@@ -2,7 +2,7 @@ import assert from 'tiny-invariant'
 
 import poll_window_variable, { poll } from '@offirmo-private/poll-window-variable'
 import Deferred from '@offirmo/deferred'
-import { load_script_from_top, execute_from_top, get_log_prefix, get_top_window } from '@offirmo-private/xoff'
+import { load_script_from_top, execute_from_top, get_log_prefix, get_top_ish_window } from '@offirmo-private/xoff'
 
 import { ACCOUNT_STATE } from './game-instance-browser'
 import { set_user_context } from './raven'
@@ -45,7 +45,7 @@ setTimeout(() => {
 						return
 					}
 					window.oᐧextra.netlifyIdentity = window.oᐧextra.netlifyIdentity || window.netlifyIdentity
-				}, get_log_prefix(get_top_window()) + ' ← ' + get_log_prefix())
+				}, get_log_prefix(get_top_ish_window()) + ' ← ' + get_log_prefix())
 				.then(() => {
 					return new Promise((resolve, reject) => {
 						setTimeout(() => {

@@ -13,16 +13,14 @@ import { BUILD_DATE } from './build.json'
 import { CHANNEL } from './services/channel'
 import './services/raven'
 import Root from './components/root'
-//import 'react-circular-progressbar/dist/styles.css'
 import './index-2.css'
-import {get_xoff} from '@offirmo-private/xoff/src'
 
 //console.log('hello from index-2', { __filename })
 
 /////////////////////////////////////////////////
 setTimeout(() => {
 	console.groupCollapsed('——————— end of immediate synchronous code ———————')
-	console.log({ BUILD_DATE })
+	console.log({ BUILD_DATE, CHANNEL, __filename })
 	console.groupEnd()
 })
 
@@ -60,6 +58,8 @@ setTimeout(() => {
 	ga(function(tracker) {
 		console.log('ga loaded!', { clientId: tracker.get('clientId') })
 	})
+
+	if (CHANNEL !== 'prod') return // prevents a hit from non-prod
 
 //	load_script_from_top('https://www.googletagmanager.com/gtag/js?id=UA-103238291-2')
 	load_script_from_top('https://www.google-analytics.com/analytics.js')
