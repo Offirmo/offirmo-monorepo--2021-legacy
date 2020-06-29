@@ -18,6 +18,13 @@ yarn refresh-loading-template
 yarn copy-extra--prod
 ```
 
+```
+localStorage.setItem('🛠UDA.override.logger.iframe-loading.logLevel', '"silly"')
+localStorage.setItem('🛠UDA.override.should_trace_renders', true)
+localStorage.setItem('🛠UDA.override.should_start_paused', true)
+localStorage.setItem('🛠UDA.override.should_debug_ga', true)
+```
+
 
 ## Releasing
 
@@ -37,7 +44,6 @@ npx bundle-inspector "https://www.online-adventur.es/apps/the-boring-rpg-preprod
 
 ## doc
 * https://github.com/netlify/netlify-identity-widget
-* https://github.com/babel/babel/tree/master/packages/babel-preset-stage-0#babelpreset-stage-0
 * https://github.com/igorprado/react-notification-system
 
 ## Credits

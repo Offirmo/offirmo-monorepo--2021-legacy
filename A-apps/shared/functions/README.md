@@ -15,8 +15,10 @@ doc:
 * https://www.netlify.com/docs/functions/
   * Selecting the JS runtime: https://www.netlify.com/docs/functions/#javascript-runtime-settings
     * see the root netlify.toml
-  * 2020/06 seen 12.??
-    * 2019/12 seen 10.17 (where?)
+    * see Netlify UI build variables
+  * Versions seen (real-time from /echo)
+    * 2020/06 seen 12.16.3
+    * 2019/12 seen 10.17
 * https://serverless.com/blog/common-node8-mistakes-in-lambda/
 * status codes https://www.codetinkerer.com/2015/12/04/choosing-an-http-status-code.html
 

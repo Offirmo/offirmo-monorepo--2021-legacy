@@ -1,5 +1,6 @@
 // Must be Firefox ESR compatible!
 // Beware of cross-origin!
+// TODO clean the logs
 
 ////////////////////////////////////
 
@@ -196,7 +197,7 @@ export function set_xoff_flag<T = boolean>(name: string, value: T, win: Window =
 // needed to bypass X-Frame preventions
 
 export function load_script_from_top(url: string, target_win: Window = get_top_ish_window()): Promise<HTMLElementTagNameMap['script']> {
-	console.log(`${get_log_prefix()} → ${get_log_prefix(target_win)} load_script_from_top()`, { url })
+	console.log(`${get_log_prefix()} → ${get_log_prefix(target_win)} load_script_from_top()…`, { url })
 	return Promise.resolve().then(() => {
 		if (!_get_xoff(target_win))
 			throw new Error(`${get_log_prefix()} load_script_from_top(): invalid target window! (cross origin?)`)
@@ -211,7 +212,7 @@ export function load_script_from_top(url: string, target_win: Window = get_top_i
 			)
 			let script: HTMLElementTagNameMap['script'] = all_existing_target_scripts.find(s => s.src === url) || (() => {
 				const el = target_win.document.createElement('script')
-				el.type = 'text/javascript'
+				//el.type = 'text/javascript'
 				el.src = url
 				;(el as any).importance = 'low' // https://developers.google.com/web/updates/2019/02/priority-hints
 				el.defer = true
@@ -221,11 +222,12 @@ export function load_script_from_top(url: string, target_win: Window = get_top_i
 
 			xoff_scripts[memo_attribute] = new Promise((resolve, reject) => {
 				script.onload = () => {
-					if (get_xoff_flag(FLAG_DEBUG_XOFF)) console.log(`${get_log_prefix()} script loaded from top`, url)
+					if (get_xoff_flag(FLAG_DEBUG_XOFF)) console.log(`${get_log_prefix()} script loaded from top ✔`, url)
 					resolve(script)
 				}
 				script.onerror = (_m, _s, _l, _c, err) => {
-					console.warn(`${get_log_prefix()} script failed to load from top`, url, err)
+					err = err ?? new Error('Unknown script loading error!')
+					console.warn(`${get_log_prefix()} script failed to load from top!`, { url, err }, err)
 					reject(err)
 				}
 			})
@@ -236,20 +238,35 @@ export function load_script_from_top(url: string, target_win: Window = get_top_i
 }
 
 function _stringify_fn_call<A, R>(fn: (...args: A[]) => R, ...args: A[]): string {
-	return `;(${String(fn)})(${args.map(p => typeof p === 'string' ? `"${p}"` : String(p)).join(',')})`
+	return `;(${String(fn)})(${args.map(p => JSON.stringify(p)).join(',')})`
 }
 export function execute_from_top<A, R>(fn: (...args: A[]) => R, ...args: A[]): Promise<void> {
 	const target_win: Window = get_top_ish_window()
 	const code = _stringify_fn_call(fn, ...args)
-	console.log(`${get_log_prefix()} → ${get_log_prefix(target_win)} execute_from_top()`, { fn, code })
-	return Promise.resolve().then(() => {
-		const { origin } = window.document.location
-		target_win.postMessage(
-			{ xoff: { code }},
-			origin === 'file://' ? '*' : origin, // local files all have unique origins https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS/Errors/CORSRequestNotHttp
-		)
-		// TODO some sort of callback?
-	})
+	console.log(`${get_log_prefix()} → ${get_log_prefix(target_win)} execute_from_top()…`, { fn, code, target_win })
+	return Promise.resolve()
+		.then(() => {
+			const target_is_me = target_win === window
+			if (target_is_me) {
+				// better bc 1) better error report 2) better privacy (avoid a postMessage)
+				eval(code)
+				return
+			}
+
+			const { origin } = window.document.location
+			// local files all have unique origins https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS/Errors/CORSRequestNotHttp
+			// also a local file has origin === "null" on Firefox ESR
+			const targetOrigin = (!origin || origin === 'file://' || origin === 'null') ? '*' : origin
+			target_win.postMessage(
+				{ xoff: { code }},
+				targetOrigin,
+			)
+			// TODO some sort of callback?
+		})
+		.catch(err => {
+			console.warn(`${get_log_prefix()} → ${get_log_prefix(target_win)} execute_from_top() failed!`, { fn, code, err })
+			throw err
+		})
 }
 
 ////////////////////////////////////

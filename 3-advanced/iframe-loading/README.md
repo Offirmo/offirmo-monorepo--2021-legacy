@@ -7,7 +7,9 @@ from: html5_009 : WTE micro template
 
 https://stackoverflow.com/questions/10282939/how-to-get-favicons-url-from-a-generic-webpage-in-javascript
 
-`localStorage.setItem('🛠UDA.override.logger.iframe-loading.logLevel', '"silly"')`
+```
+localStorage.setItem('🛠UDA.override.logger.iframe-loading.logLevel', '"silly"')
+```
 
 
 		window.onload = (e) => console.log(`[IL] GlobalEventHandlers.onload`, e)

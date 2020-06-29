@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- OT⋄GENERATED-FROM-TEMPLATE Offirmo's loading iframe v0.4.0 -->
+<!-- OT⋄GENERATED-FROM-TEMPLATE Offirmo's loading iframe v0.4.1 -->
 
 <html lang="en" xml:lang="en" class="o⋄top-container">
 	<head>
@@ -35,8 +35,9 @@
 			console.log('I1', { location })
 			// https://developers.google.com/analytics/devguides/collection/analyticsjs/#alternative_async_tag
 			// (modified)
-			try { window.ga = window.parent.ga } catch {}
-			window.ga = window.ga || function(){console.log('ga1', arguments);(ga.q=ga.q||[]).push(arguments)}
+			/*try { window.ga = window.parent.ga } catch {}
+			window.ga = window.ga ?? function(){console.log('ga1', arguments);(window.ga.q=window.ga.q||[]).push(arguments)}
+			window.ga.l = window.ga.l ?? +new Date*/
 			// no further ga commands, we leave that to the sub-frame
 		</script>
 		<link rel="preconnect" href="https://www.googletagmanager.com">

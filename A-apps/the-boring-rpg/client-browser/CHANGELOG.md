@@ -11,6 +11,7 @@
 - 😷 chore: some internal refactors, bump dependencies
 
 ## v0.
+- 😷 chore: improved analytics, I'll finally see what users are doing AND exclude my tests from it
 - 😷 chore: improved cordova compatibility for potential mobile app version
 - 😷 chore: some internal refactors, bump dependencies
 
@@ -19,7 +20,7 @@
 - 😍 feature: 36 new backgrounds (now totalling 134!)
 - 😅 fix: favicon status was sometimes broken, improved all favicons on the way
 - 😅 fix: no more ugly hover on Safari iOs
-- 😷 improved compatibility for future iOs app
+- 😷 improved compatibility for future mobile app
 - 😷 chore: some internal refactors, bump dependencies
 
 ## v0.64.1

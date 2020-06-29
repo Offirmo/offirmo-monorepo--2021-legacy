@@ -31,7 +31,7 @@ function request_redirect(url) {
 
 const ↆNetlifyIdentity = new Deferred()
 ↆNetlifyIdentity.catch(err => {
-	console.warn('Netlify failed to load, won’t be able to login.', err)
+	console.warn('Netlify failed to load, won’t be able to login.', { err }, err)
 })
 
 setTimeout(() => {

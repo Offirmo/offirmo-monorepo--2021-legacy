@@ -9,7 +9,7 @@ import get_loader from '@offirmo-private/iframe-loading'
 
 import { setTextEncoder } from '@tbrpg/flux'
 
-import { BUILD_DATE } from './build.json'
+import { BUILD_DATE, VERSION } from './build.json'
 import { CHANNEL } from './services/channel'
 import './services/raven'
 import Root from './components/root'
@@ -42,32 +42,32 @@ setTimeout(() => ReactDOM.render(
 ), 5)
 
 setTimeout(() => {
-	assert(ga && !ga.l)
-
-	console.log('ga', {CHANNEL})
+	let ga_script_url = 'https://www.google-analytics.com/analytics.js'
 	if (CHANNEL !== 'prod') {
-		ga = function (...args) {
-			console.log('(disabled) ga(', ...args, ')')
-		}
+		https://developers.google.com/analytics/devguides/collection/analyticsjs/debugging
+		ga_script_url = ga_script_url.slice(0, -3) + '_debug.js'
 	}
 
-	ga.l = +new Date
+	console.log('setting up ga…', { CHANNEL, ga_script_url })
+	assert(ga && ga.l)
+
+	if (CHANNEL !== 'prod') {
+		ga('set', 'sendHitTask', null)
+		if (overrideHook('should_trace_ga', false)) window.ga_debug = { trace: true }
+	}
 	ga('create', 'UA-103238291-2', 'auto')
 	ga('send', 'pageview')
-	ga(function(tracker) {
-		console.log('ga loaded!', { clientId: tracker.get('clientId') })
-	})
+	ga(tracker => console.info('ga loaded!', { clientId: tracker.get('clientId') }))
+	ga('set', 'appName', 'The Boring RPG')
+	ga('set', 'appId', 'com.OffirmoOnlineAdventures.TheBoringRPG')
+	ga('set', 'appVersion', VERSION)
 
-	if (CHANNEL !== 'prod') return // prevents a hit from non-prod
-
-//	load_script_from_top('https://www.googletagmanager.com/gtag/js?id=UA-103238291-2')
-	load_script_from_top('https://www.google-analytics.com/analytics.js')
+	load_script_from_top(ga_script_url, window)
 		.then((script) => {
 			console.log(`✅ analytics script loaded from top`, script, window)
 		})
 		.catch(err => {
-			err = err || new Error('load_script_from_top() analytics failed!')
-			console.error('analytics script failed to load:', err)
+			console.error('analytics script failed to load:', { err })
 			// swallow
 		})
 }, 100)

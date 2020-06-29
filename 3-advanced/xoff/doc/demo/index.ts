@@ -63,6 +63,15 @@ const ↆanalytics_script = load_script_from_top('https://www.googletagmanager.c
 	.catch(err => console.error('analytics script failed to load:', err))
 //console.log(`${get_log_prefix()} load ↆanalytics_script`, { ↆanalytics_script })
 
+window.test_cross_frame_callback = (cb) => {
+	console.log(`${get_log_prefix()} test_cross_frame_callback() calling back…`, { cb })
+	cb()
+}
+
+if (window.parent !== window) {
+	console.log(`${get_log_prefix()} calling parent…`)
+	window.parent.test_cross_frame_callback(() => console.log(`${get_log_prefix()} I got called back.`))
+}
 
 console.groupEnd()
 

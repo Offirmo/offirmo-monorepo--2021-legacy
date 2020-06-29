@@ -1,12 +1,11 @@
 {
 	"plugins": [
-		"@babel/plugin-proposal-optional-chaining"
 	],
 	"presets": [
 		[
 			"@babel/env", {
 			"targets": {
-					"node": "12.18"
+					"node": "12.16.3"
 				}
 			}
 		]

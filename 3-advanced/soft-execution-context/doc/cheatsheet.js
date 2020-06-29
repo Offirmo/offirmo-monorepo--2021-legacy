@@ -51,7 +51,7 @@ import { getRootSEC } from '${stylizeString.bold(PKG_JSON.name)}'
 const LIB = 'FOO'
 
 function get_lib_SEC(parent) {
-	return (parent || getRootSEC())
+	return (parent ?? getRootSEC())
 		.createChild()
 		.setLogicalStack({module: LIB})
 }

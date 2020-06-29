@@ -33,8 +33,9 @@
 			console.log('I2', { location })
 			// https://developers.google.com/analytics/devguides/collection/analyticsjs/#alternative_async_tag
 			// (modified)
-			try { window.ga = window.parent.ga } catch {}
-			window.ga = window.ga || function(){console.log('ga2', arguments);(ga.q=ga.q||[]).push(arguments)}
+			//try { window.ga = window.parent.ga } catch {}
+			window.ga = window.ga ?? function(){console.log('ga2', arguments);(window.ga.q=window.ga.q||[]).push(arguments)}
+			window.ga.l = window.ga.l ?? +new Date
 			// no more, see index-2.js
 		</script>
 		<script>

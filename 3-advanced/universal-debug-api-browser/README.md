@@ -57,6 +57,9 @@ Specific to the browser version, overrides are set through local storage:
 ```
 localStorage.setItem('🛠UDA.override.logger.foo.logLevel', '"verbose"')
 localStorage.setItem('🛠UDA.override.server-url', '"https://prod.dev"')
+// loglevel || ll => log level
+// cohort || co => experiment cohort
+// is has should was will => boolean
 ```
 
 Don't forget that overrides accept only JSON!
