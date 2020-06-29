@@ -3,6 +3,9 @@ TODO https://www.npmjs.com/package/eslint-import-resolver-typescript
 
 https://github.com/mohsinulhaq/react-popper-tooltip
 
+		"@babel/plugin-proposal-class-properties": "^7",
+		"@babel/plugin-transform-spread": "^7",
+
 		"@atlaskit/build-releases": "^3",
 		"@babel/polyfill": "^7",
 		"@babel/preset-stage-0": "^7",

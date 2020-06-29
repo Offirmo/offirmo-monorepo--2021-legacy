@@ -15,12 +15,11 @@ import './services/raven'
 import Root from './components/root'
 import './index-2.css'
 
-//console.log('hello from index-2', { __filename })
-
 /////////////////////////////////////////////////
+
 setTimeout(() => {
 	console.groupCollapsed('——————— end of immediate synchronous code ———————')
-	console.log({ BUILD_DATE, CHANNEL, __filename })
+	console.log({ BUILD_DATE, CHANNEL })
 	console.groupEnd()
 })
 

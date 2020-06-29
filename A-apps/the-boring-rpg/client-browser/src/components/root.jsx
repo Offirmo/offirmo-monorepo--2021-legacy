@@ -16,7 +16,6 @@ import Dev from './pages/dev'
 import Diagnostic from './pages/diagnostic'
 import DevUI from './meta/dev-area'
 
-//console.log(__filename)
 /////////////////////////////////////////////////
 
 //const StrictCheck = StrictMode

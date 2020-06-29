@@ -12,7 +12,8 @@
 	[build.environment]
 		TEST_ENV_VAR = "build"
 		# https://www.netlify.com/docs/functions/#javascript-runtime-settings
-		AWS_LAMBDA_JS_RUNTIME = "nodejs10.x"
+		# https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html
+		AWS_LAMBDA_JS_RUNTIME = "nodejs12.x"
 
 # Production context: All deploys from the main
 # repository branch will inherit these settings.

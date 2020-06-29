@@ -841,9 +841,9 @@ function _htmlElementAsString(el) {
             out.push("." + classes[i]);
         }
     }
-    var attrWhitelist = ['type', 'name', 'title', 'alt'];
-    for (i = 0; i < attrWhitelist.length; i++) {
-        key = attrWhitelist[i];
+    var allowedAttrs = ['type', 'name', 'title', 'alt'];
+    for (i = 0; i < allowedAttrs.length; i++) {
+        key = allowedAttrs[i];
         attr = elem.getAttribute(key);
         if (attr) {
             out.push("[" + key + "=\"" + attr + "\"]");
@@ -874,21 +874,23 @@ var crossPlatformPerformance = (function () {
             return performanceFallback;
         }
     }
-    if (getGlobalObject().performance) {
-        // Polyfill for performance.timeOrigin.
-        //
-        // While performance.timing.navigationStart is deprecated in favor of performance.timeOrigin, performance.timeOrigin
-        // is not as widely supported. Namely, performance.timeOrigin is undefined in Safari as of writing.
-        // tslint:disable-next-line:strict-type-predicates
-        if (performance.timeOrigin === undefined) {
-            // As of writing, performance.timing is not available in Web Workers in mainstream browsers, so it is not always a
-            // valid fallback. In the absence of a initial time provided by the browser, fallback to INITIAL_TIME.
-            // @ts-ignore
-            // tslint:disable-next-line:deprecation
-            performance.timeOrigin = (performance.timing && performance.timing.navigationStart) || INITIAL_TIME;
-        }
+    var performance = getGlobalObject().performance;
+    if (!performance || !performance.now) {
+        return performanceFallback;
     }
-    return getGlobalObject().performance || performanceFallback;
+    // Polyfill for performance.timeOrigin.
+    //
+    // While performance.timing.navigationStart is deprecated in favor of performance.timeOrigin, performance.timeOrigin
+    // is not as widely supported. Namely, performance.timeOrigin is undefined in Safari as of writing.
+    // tslint:disable-next-line:strict-type-predicates
+    if (performance.timeOrigin === undefined) {
+        // As of writing, performance.timing is not available in Web Workers in mainstream browsers, so it is not always a
+        // valid fallback. In the absence of a initial time provided by the browser, fallback to INITIAL_TIME.
+        // @ts-ignore
+        // tslint:disable-next-line:deprecation
+        performance.timeOrigin = (performance.timing && performance.timing.navigationStart) || INITIAL_TIME;
+    }
+    return performance;
 })();
 /**
  * Returns a timestamp in seconds with milliseconds precision since the UNIX epoch calculated with the monotonic clock.
@@ -11096,6 +11098,7 @@ __webpack_require__.d(__webpack_exports__, "configureScope", function() { return
 __webpack_require__.d(__webpack_exports__, "getHubFromCarrier", function() { return /* reexport */ getHubFromCarrier; });
 __webpack_require__.d(__webpack_exports__, "getCurrentHub", function() { return /* reexport */ hub_getCurrentHub; });
 __webpack_require__.d(__webpack_exports__, "Hub", function() { return /* reexport */ hub_Hub; });
+__webpack_require__.d(__webpack_exports__, "makeMain", function() { return /* reexport */ makeMain; });
 __webpack_require__.d(__webpack_exports__, "Scope", function() { return /* reexport */ scope_Scope; });
 __webpack_require__.d(__webpack_exports__, "startTransaction", function() { return /* reexport */ startTransaction; });
 __webpack_require__.d(__webpack_exports__, "setContext", function() { return /* reexport */ setContext; });
@@ -12029,10 +12032,17 @@ var scope_Scope = /** @class */ (function () {
     /**
      * @inheritDoc
      */
-    Scope.prototype.setTransaction = function (transaction) {
-        this._transaction = transaction;
+    Scope.prototype.setTransactionName = function (name) {
+        this._transactionName = name;
         this._notifyScopeListeners();
         return this;
+    };
+    /**
+     * Can be removed in major version.
+     * @deprecated in favor of {@link this.setTransactionName}
+     */
+    Scope.prototype.setTransaction = function (name) {
+        return this.setTransactionName(name);
     };
     /**
      * @inheritDoc
@@ -12052,11 +12062,20 @@ var scope_Scope = /** @class */ (function () {
         return this;
     };
     /**
-     * Internal getter for Span, used in Hub.
-     * @hidden
+     * @inheritDoc
      */
     Scope.prototype.getSpan = function () {
         return this._span;
+    };
+    /**
+     * @inheritDoc
+     */
+    Scope.prototype.getTransaction = function () {
+        var span = this.getSpan();
+        if (span && span.spanRecorder && span.spanRecorder.spans[0]) {
+            return span.spanRecorder.spans[0];
+        }
+        return undefined;
     };
     /**
      * Inherit values from the parent scope.
@@ -12072,7 +12091,7 @@ var scope_Scope = /** @class */ (function () {
             newScope._user = scope._user;
             newScope._level = scope._level;
             newScope._span = scope._span;
-            newScope._transaction = scope._transaction;
+            newScope._transactionName = scope._transactionName;
             newScope._fingerprint = scope._fingerprint;
             newScope._eventProcessors = tslib_es6_spread(scope._eventProcessors);
         }
@@ -12131,7 +12150,7 @@ var scope_Scope = /** @class */ (function () {
         this._user = {};
         this._contexts = {};
         this._level = undefined;
-        this._transaction = undefined;
+        this._transactionName = undefined;
         this._fingerprint = undefined;
         this._span = undefined;
         this._notifyScopeListeners();
@@ -12201,8 +12220,8 @@ var scope_Scope = /** @class */ (function () {
         if (this._level) {
             event.level = this._level;
         }
-        if (this._transaction) {
-            event.transaction = this._transaction;
+        if (this._transactionName) {
+            event.transaction = this._transactionName;
         }
         // We want to set the trace context for normal events only if there isn't already
         // a trace context on the event. There is a product feature in place where we link
@@ -12563,6 +12582,7 @@ var hub_Hub = /** @class */ (function () {
         /** Is a {@link Layer}[] containing the client and scope */
         this._stack = [];
         this._stack.push({ client: client, scope: scope });
+        this.bindClient(client);
     }
     /**
      * Internal helper function to call a method on the top client if it exists.
@@ -15395,7 +15415,7 @@ var external_url_ = __webpack_require__(15);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/version.js
 var SDK_NAME = 'sentry.javascript.node';
-var SDK_VERSION = '5.17.0';
+var SDK_VERSION = '5.18.1';
 //# sourceMappingURL=version.js.map
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/base.js
 
@@ -15797,19 +15817,18 @@ var inboundfilters_InboundFilters = /** @class */ (function () {
             logger.warn("Event dropped due to being matched by `ignoreErrors` option.\nEvent: " + Object(misc["e" /* getEventDescription */])(event));
             return true;
         }
-        if (this._isBlacklistedUrl(event, options)) {
-            logger.warn("Event dropped due to being matched by `blacklistUrls` option.\nEvent: " + Object(misc["e" /* getEventDescription */])(event) + ".\nUrl: " + this._getEventFilterUrl(event));
+        if (this._isDeniedUrl(event, options)) {
+            logger.warn("Event dropped due to being matched by `denyUrls` option.\nEvent: " + Object(misc["e" /* getEventDescription */])(event) + ".\nUrl: " + this._getEventFilterUrl(event));
             return true;
         }
-        if (!this._isWhitelistedUrl(event, options)) {
-            logger.warn("Event dropped due to not being matched by `whitelistUrls` option.\nEvent: " + Object(misc["e" /* getEventDescription */])(event) + ".\nUrl: " + this._getEventFilterUrl(event));
+        if (!this._isAllowedUrl(event, options)) {
+            logger.warn("Event dropped due to not being matched by `allowUrls` option.\nEvent: " + Object(misc["e" /* getEventDescription */])(event) + ".\nUrl: " + this._getEventFilterUrl(event));
             return true;
         }
         return false;
     };
     /** JSDoc */
     InboundFilters.prototype._isSentryError = function (event, options) {
-        if (options === void 0) { options = {}; }
         if (!options.ignoreInternal) {
             return false;
         }
@@ -15827,7 +15846,6 @@ var inboundfilters_InboundFilters = /** @class */ (function () {
     };
     /** JSDoc */
     InboundFilters.prototype._isIgnoredError = function (event, options) {
-        if (options === void 0) { options = {}; }
         if (!options.ignoreErrors || !options.ignoreErrors.length) {
             return false;
         }
@@ -15837,33 +15855,32 @@ var inboundfilters_InboundFilters = /** @class */ (function () {
         });
     };
     /** JSDoc */
-    InboundFilters.prototype._isBlacklistedUrl = function (event, options) {
-        if (options === void 0) { options = {}; }
+    InboundFilters.prototype._isDeniedUrl = function (event, options) {
         // TODO: Use Glob instead?
-        if (!options.blacklistUrls || !options.blacklistUrls.length) {
+        if (!options.denyUrls || !options.denyUrls.length) {
             return false;
         }
         var url = this._getEventFilterUrl(event);
-        return !url ? false : options.blacklistUrls.some(function (pattern) { return Object(string["a" /* isMatchingPattern */])(url, pattern); });
+        return !url ? false : options.denyUrls.some(function (pattern) { return Object(string["a" /* isMatchingPattern */])(url, pattern); });
     };
     /** JSDoc */
-    InboundFilters.prototype._isWhitelistedUrl = function (event, options) {
-        if (options === void 0) { options = {}; }
+    InboundFilters.prototype._isAllowedUrl = function (event, options) {
         // TODO: Use Glob instead?
-        if (!options.whitelistUrls || !options.whitelistUrls.length) {
+        if (!options.allowUrls || !options.allowUrls.length) {
             return true;
         }
         var url = this._getEventFilterUrl(event);
-        return !url ? true : options.whitelistUrls.some(function (pattern) { return Object(string["a" /* isMatchingPattern */])(url, pattern); });
+        return !url ? true : options.allowUrls.some(function (pattern) { return Object(string["a" /* isMatchingPattern */])(url, pattern); });
     };
     /** JSDoc */
     InboundFilters.prototype._mergeOptions = function (clientOptions) {
         if (clientOptions === void 0) { clientOptions = {}; }
+        // tslint:disable:deprecation
         return {
-            blacklistUrls: node_modules_tslib_tslib_es6_spread((this._options.blacklistUrls || []), (clientOptions.blacklistUrls || [])),
+            allowUrls: node_modules_tslib_tslib_es6_spread((this._options.whitelistUrls || []), (this._options.allowUrls || []), (clientOptions.whitelistUrls || []), (clientOptions.allowUrls || [])),
+            denyUrls: node_modules_tslib_tslib_es6_spread((this._options.blacklistUrls || []), (this._options.denyUrls || []), (clientOptions.blacklistUrls || []), (clientOptions.denyUrls || [])),
             ignoreErrors: node_modules_tslib_tslib_es6_spread((this._options.ignoreErrors || []), (clientOptions.ignoreErrors || []), DEFAULT_IGNORE_ERRORS),
             ignoreInternal: typeof this._options.ignoreInternal !== 'undefined' ? this._options.ignoreInternal : true,
-            whitelistUrls: node_modules_tslib_tslib_es6_spread((this._options.whitelistUrls || []), (clientOptions.whitelistUrls || [])),
         };
     };
     /** JSDoc */
@@ -16088,14 +16105,14 @@ function createHandlerWrapper(breadcrumbsEnabled, tracingEnabled) {
             var span;
             var transaction;
             var scope = hub_getCurrentHub().getScope();
-            if (scope) {
-                transaction = scope.getSpan();
-            }
-            if (tracingEnabled && transaction) {
-                span = transaction.startChild({
-                    description: (typeof options === 'string' || !options.method ? 'GET' : options.method) + " " + requestUrl,
-                    op: 'request',
-                });
+            if (scope && tracingEnabled) {
+                transaction = scope.getTransaction();
+                if (transaction) {
+                    span = transaction.startChild({
+                        description: (typeof options === 'string' || !options.method ? 'GET' : options.method) + " " + requestUrl,
+                        op: 'request',
+                    });
+                }
             }
             return originalHandler
                 .apply(this, arguments)

@@ -16,16 +16,27 @@ Note: I do NOT agree with the opinion "don't transpile node_modules", see [issue
 
 Note: when updating here, also update `0-scripts/build-typescript.js`
 
-### FUTURE update 2020-06
-ES2020 approved
-https://github.com/tc39/ecma262/releases/tag/es2020
+### FUTURE 2020-10-20
+oldest active LTS node is no longer 12, now 14
+
+### FUTURE ???
+webpack 5 featuring Acorn 7 released = able to parse ES2020
+https://github.com/webpack/webpack/milestone/18
+
+### 2020-06-28
+ES2020 approved https://github.com/tc39/ecma262/releases/tag/es2020
+* latest ES = [ES2020](https://en.wikipedia.org/wiki/ECMAScript#Versions)
+* oldest active LTS node = [12](https://nodejs.org/en/about/releases/)
+* latest ES supported by this node LTS = [ES2019](https://node.green/#ES2019)
+* latest ES syntax supported by Webpack (= Acorn supports it + webpack bumped Acorn) = 2019
+* FYI compilers/polyfills https://kangax.github.io/compat-table/es2016plus/
 
 ### 2020-05-29
 Switching to supporting oldest node = 12
 since node 10 in maintenance mode since 2020-05-19 https://nodejs.org/en/about/releases/
 * latest ES = [ES2019](https://en.wikipedia.org/wiki/ECMAScript#Versions)
 * oldest active LTS node = [12](https://nodejs.org/en/about/releases/)
-* latest ES supported by this node LTS = [ES2019](https://node.green/#ES2018)
+* latest ES supported by this node LTS = [ES2019](https://node.green/#ES2019)
 
 ### update 2019-07-27
 * latest ES = [ES2019](https://en.wikipedia.org/wiki/ECMAScript#Versions)
