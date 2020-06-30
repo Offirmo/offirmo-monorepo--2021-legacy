@@ -2,9 +2,6 @@
 A convenient aggregation of quality npm modules to be used for writing unit tests.
 Just install this module and you get everything needed at once!
 
-**v4 breaking change:**
-* dropped legacy node compatibility (<2) may still work but didn't try and won't maintain.
-
 This modules bundles:
 * `mocha`
 * `chai`
