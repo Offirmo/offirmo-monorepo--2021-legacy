@@ -2,10 +2,13 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
+* ...
+
+## v3.0.0
+2020/07/01
 * [chore] [breaking] cjs pre-build now targeting node12/ES2019 [details](../../CONTRIBUTING/module-exports.md)
 * [feat] micro refactor to lower the lib size
 * [chore] bumped dependencies
-* ...
 
 ## v2.0.1
 2019/12/12
