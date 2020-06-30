@@ -3,9 +3,12 @@
 
 ## PENDING
 * TODO v1
+* TODO release to FF
 * TODO [fix] edition fields
-* cleaned up some TODO comments
-* cleaned up some dead code, small touchups (logs)
+* TODO [fix] stale overrides handling
+* TODO [fix] ugly styling
+* [chore] cleaned up some TODO comments
+* [chore] cleaned up some dead code, small touchups (logs)
 * [chore] bumped dependencies
 
 ## v0.0.3
