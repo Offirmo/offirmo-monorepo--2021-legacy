@@ -28,7 +28,7 @@
 		  src="https://img.shields.io/badge/license-public_domain-brightgreen.svg">
 	</a>
 	<img alt="maintenance status badge"
-	  src="https://img.shields.io/maintenance/yes/2019.svg">
+	  src="https://img.shields.io/maintenance/yes/2020.svg">
 </p>
 
 **This is a minimal, no-operation implementation of [Offirmo’s practical logger](https://github.com/Offirmo/offirmo-monorepo/wiki/Offirmo%E2%80%99s-Practical-Logger).**
