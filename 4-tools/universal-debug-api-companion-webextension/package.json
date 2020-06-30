@@ -39,7 +39,7 @@
 		"@offirmo-private/timestamps": "^0",
 		"@offirmo-private/view-css": "^0",
 		"@offirmo/deferred": "^3",
-		"@offirmo/practical-logger-browser": "^2.1",
+		"@offirmo/practical-logger-browser": "^3",
 		"@offirmo/practical-logger-core": "^3",
 		"@offirmo/practical-logger-types": "^3",
 		"@offirmo/universal-debug-api-browser": "^0",

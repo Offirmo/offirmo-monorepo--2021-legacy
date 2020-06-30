@@ -9,11 +9,15 @@ NOTE: not much reason to publish this lib since it's supposed to be bundled
 * TODO test EDGE, IE
 * TODO test Windows, Ubuntu
 * TODO local pictures
+
+* ...
+
+## v3.0.0
+2020/07/01
 * [chore] [breaking] cjs pre-build now targeting node12/ES2019 [details](../../CONTRIBUTING/module-exports.md)
 * [feat] improved error display, now always printed as "details" so that the props are inspectable
 * [feat] slightly improved some messages
 * [chore] bumped dependencies
-* ...
 
 ## v2.1.1
 2019/12/12
