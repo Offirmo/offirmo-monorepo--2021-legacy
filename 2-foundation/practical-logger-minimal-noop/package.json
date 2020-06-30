@@ -29,7 +29,7 @@
 	},
 
 	"devDependencies": {
-		"@offirmo/practical-logger-core": "^2",
+		"@offirmo/practical-logger-core": "^3",
 		"@size-limit/preset-small-lib": "^4",
 		"np": "^6",
 		"npm-run-all": "^4",

@@ -23,7 +23,7 @@
 		"tslib": "^2"
 	},
 	"dependencies": {
-		"@offirmo/practical-logger-core": "^2",
+		"@offirmo/practical-logger-core": "^3",
 		"@offirmo/practical-logger-types": "^3",
 		"chalk": "^4",
 		"indent-string": "^4",

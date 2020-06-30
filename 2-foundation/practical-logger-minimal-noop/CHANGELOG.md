@@ -4,6 +4,7 @@
 ## PENDING
 * [chore] [breaking] cjs pre-build now targeting node12/ES2019 [details](../../CONTRIBUTING/module-exports.md)
 * [feat] micro refactor to lower the lib size
+* [chore] bumped dependencies
 * ...
 
 ## v2.0.1

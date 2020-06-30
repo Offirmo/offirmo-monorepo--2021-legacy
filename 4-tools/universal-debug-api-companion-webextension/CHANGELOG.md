@@ -6,6 +6,7 @@
 * TODO [fix] edition fields
 * cleaned up some TODO comments
 * cleaned up some dead code, small touchups (logs)
+* [chore] bumped dependencies
 
 ## v0.0.3
 2020/01/29
