@@ -11,7 +11,8 @@ if (!window.oᐧloader) {
 	const { searchParams } = new URL(window.location.href)
 	const has_parent = window.parent !== window
 	const hint_at_loader = searchParams.has('oᐧloader')
-	console.warn(`[I2] can't find the loader!`, { has_parent, hint_at_loader })
+	if (!has_parent || !hint_at_loader)
+		console.warn(`[I2] can't find the loader!`, { has_parent, hint_at_loader })
 
 	window.oᐧloader = {
 		configure(...args) {

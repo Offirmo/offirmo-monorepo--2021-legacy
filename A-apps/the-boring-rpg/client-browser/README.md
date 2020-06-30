@@ -22,7 +22,7 @@ yarn copy-extra--prod
 localStorage.setItem('🛠UDA.override.logger.iframe-loading.logLevel', '"silly"')
 localStorage.setItem('🛠UDA.override.should_trace_renders', true)
 localStorage.setItem('🛠UDA.override.should_start_paused', true)
-localStorage.setItem('🛠UDA.override.should_debug_ga', true)
+localStorage.setItem('🛠UDA.override.should_trace_ga', true)
 ```
 
 

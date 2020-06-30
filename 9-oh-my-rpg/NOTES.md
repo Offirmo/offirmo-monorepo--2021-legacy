@@ -42,7 +42,6 @@ https://knowyourmeme.com/memes/thelegend27
 +++++ Éléments de RPG classique:
 https://www.pcgamer.com/wow-classic-guide-tips/
 
-
 https://en.wikipedia.org/wiki/Rosicrucianism
 https://en.wikipedia.org/wiki/Sylph
 https://en.wikipedia.org/wiki/Folklore

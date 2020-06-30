@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- OT⋄GENERATED-FROM-TEMPLATE Offirmo's loading iframe v0.4.0 -->
+<!-- OT⋄GENERATED-FROM-TEMPLATE Offirmo's loading iframe v0.5.0 -->
 
 <html lang="en" xml:lang="en" class="o⋄top-container">
 	<head>
@@ -122,8 +122,7 @@
 		/* OT⋄CUSTOM early code */
 	</script>
 
-	<script type="module">
-
+	<script>
 		const PROP = 'oᐧloader'
 		const DEFAULT_RSRC_ID = 'overall'
 		const LIB = 'iframe-loading'
@@ -342,6 +341,18 @@
 				// just logging, not reliable since the iframe can rewrite them
 				elt_iframe.onload = (args) => logger.log(`[IL] iframe loaded`, { args })
 				elt_iframe.onerror = (args) => logger.warn(`[IL] iframe something wrong happened`, { args }) // TODO error on this one?
+
+				// cordova support BUT up to the user to load the cordova script if needed!
+				// https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-splashscreen/index.html
+				document.addEventListener('deviceready', () => {
+					if ('splashscreen' in navigator) {
+						// take over the loading feature
+						setTimeout(() => {
+							logger.log('[IL] hiding cordova loader')
+							navigator.splashscreen.hide()
+						}, 10) // to avoid FOUC
+					}
+				}, false)
 			}
 
 			if (state.settings.legend) {
@@ -360,21 +371,12 @@
 			let sub_frame_title = null
 			try { sub_frame_title = sub_frame_window.document.title } catch {}
 			window.document.title = sub_frame_title || state.settings.legend || ''
-
-
-			// TODO really needed?
-			// https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-splashscreen/index.html#preferences
-			if ('splashscreen' in navigator) {
-				// take over the loading feature
-				logger.log('[IL] hiding cordova loader')
-				navigator.splashscreen.hide()
-			}
 		}
 
 		try {
 			const cached_config = JSON.parse(localStorage.getItem(LS_KEY_CACHED_CONFIG))
 			if (cached_config) {
-				logger.log('[IL] restoring cached config', { cached_config })
+				logger.log('[IL] found cached config, restoring…', { cached_config })
 				window[PROP].configure(cached_config)
 			}
 		} catch (err) {

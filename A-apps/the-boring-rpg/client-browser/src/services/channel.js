@@ -8,11 +8,10 @@ function is_prod() {
 
 const CHANNEL = is_prod()
 	? 'prod'
-	: window.location.hostname === 'offirmo-monorepo.netlify.com'
+	: (window.location.hostname === 'offirmo-monorepo.netlify.com' || window.location.hostname === 'offirmo-monorepo.netlify.app')
 		? 'staging'
 		: 'dev'
 
 export {
-	is_loaded_from_cordova,
 	CHANNEL,
 }

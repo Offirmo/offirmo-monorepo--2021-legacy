@@ -15,7 +15,7 @@ import * as GroupChat from '../misc/group-chat-tlkio'
 
 import './index.css'
 import logo from './tbrpg_logo_512x98.png'
-console.log({ logo })
+//console.log({ logo })
 
 const CHANNEL_ID = 'the-boring-rpg-reloaded'
 const MODE_TO_INDEX = {
