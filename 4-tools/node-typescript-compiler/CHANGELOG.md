@@ -2,8 +2,11 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
-* [chore] [breaking] cjs pre-build now targeting node12/ES2019 [details](../../CONTRIBUTING/module-exports.md)
+* TODO remove lodash as a dependency
 * ...
+
+## v2.1.2
+* [chore] mark as supported
 
 ## v2.1.1
 2019/12/16
