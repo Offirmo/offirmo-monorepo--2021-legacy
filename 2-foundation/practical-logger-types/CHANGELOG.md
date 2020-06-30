@@ -3,8 +3,11 @@
 
 ## PENDING
 * TODO add an extra level for no logs at all?
-* [chore] [breaking] cjs pre-build now targeting node12/ES2019 [details](../../CONTRIBUTING/module-exports.md)
 * ...
+
+## v3.0.0
+2020/07/01
+* [chore] [breaking] cjs pre-build now targeting node12/ES2019 [details](../../CONTRIBUTING/module-exports.md)
 
 ## v2.0.1
 2019/12/12

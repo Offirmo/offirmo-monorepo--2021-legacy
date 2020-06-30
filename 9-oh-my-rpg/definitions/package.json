@@ -20,7 +20,7 @@
 		"@offirmo-private/soft-execution-context": "^0",
 		"@offirmo-private/ts-types": "^0",
 		"@offirmo-private/uuid": "^0",
-		"@offirmo/practical-logger-types": "^2",
+		"@offirmo/practical-logger-types": "^3",
 		"@offirmo/random": "^2",
 		"@offirmo/universal-debug-api-placeholder": "^0",
 		"tiny-invariant": "^1",
