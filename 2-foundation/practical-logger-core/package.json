@@ -33,7 +33,8 @@
 		"@offirmo-private/common-error-fields": "^0",
 		"@size-limit/preset-small-lib": "^4",
 		"np": "^6",
-		"npm-run-all": "^4"
+		"npm-run-all": "^4",
+		"size-limit": "^4"
 	},
 	"scripts": {
 		"clean": "node ../../0-scripts/clean.js dist",

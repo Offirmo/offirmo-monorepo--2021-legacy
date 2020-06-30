@@ -15,7 +15,7 @@
 		"@offirmo-private/soft-execution-context": "^0.0.2",
 		"@offirmo-private/soft-execution-context-browser": "^0.0.2",
 		"@offirmo-private/view-css": "^0",
-		"@offirmo/globalthis-ponyfill": "^2",
+		"@offirmo/globalthis-ponyfill": "^3",
 		"@offirmo/tiny-singleton": "^0",
 		"@offirmo/universal-debug-api-browser": "^0",
 		"@oh-my-rpg/audio-browser": "^0",

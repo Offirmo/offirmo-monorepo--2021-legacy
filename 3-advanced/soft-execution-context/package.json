@@ -19,7 +19,7 @@
 		"@offirmo-private/normalize-error": "^0",
 		"@offirmo-private/promise-try": "^0",
 		"@offirmo-private/timestamps": "^0",
-		"@offirmo/globalthis-ponyfill": "^2",
+		"@offirmo/globalthis-ponyfill": "^3",
 		"emittery": "^0.7",
 		"tslib": "^2"
 	},

@@ -22,7 +22,7 @@
 	"peerDependencies": {
 	},
 	"dependencies": {
-		"@offirmo/globalthis-ponyfill": "^2",
+		"@offirmo/globalthis-ponyfill": "^3",
 		"@offirmo/universal-debug-api-interface": "^0"
 	},
 

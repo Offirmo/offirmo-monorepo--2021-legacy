@@ -22,7 +22,7 @@
 	"peerDependencies": {
 	},
 	"dependencies": {
-		"@offirmo/globalthis-ponyfill": "^2",
+		"@offirmo/globalthis-ponyfill": "^3",
 		"@offirmo/practical-logger-node": "^0",
 		"@offirmo/universal-debug-api-interface": "^0"
 	},
@@ -31,7 +31,8 @@
 		"@babel/core": "^7",
 		"@offirmo/practical-logger-core": "^2",
 		"@size-limit/preset-small-lib": "^4",
-		"npm-run-all": "^4"
+		"npm-run-all": "^4",
+		"size-limit": "^4"
 	},
 	"scripts": {
 		"clean": "node ../../0-scripts/clean.js dist",

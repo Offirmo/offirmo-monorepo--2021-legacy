@@ -26,7 +26,8 @@
 		"@offirmo/practical-logger-core": "^2",
 		"@offirmo/practical-logger-types": "^2",
 		"chalk": "^4",
-		"indent-string": "^4"
+		"indent-string": "^4",
+		"size-limit": "^4"
 	},
 
 	"devDependencies": {
