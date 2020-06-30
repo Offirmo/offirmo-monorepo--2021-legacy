@@ -2,12 +2,18 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
-* [chore] [breaking] cjs pre-build now targeting node12/ES2019 [details](../../CONTRIBUTING/module-exports.md)
+
+
+## v6.0.0
+2020/07/01
+* [chore] [breaking] following the deprecation of `--opts mocha.opts` in mocha 8, converted the options to `--config mocharc.json`
+* [chore] [breaking] now requiring oldest node LTS = 12 (may still work with older ones)
 * [chore] bumped deps: sinon 8, mocha 7
 * [chore] reorganized source paths = links update in the doc
 * [feat] added *optional* installation of [chai-fetch-mock](https://github.com/gakimball/chai-fetch-mock)
 * [chore] bumped deps (eslint mocha 6)
 * [feat] now preloads UDA node
+* [chore] mark as supported
 
 ## v5.0.1
 2019/04/01

@@ -34,21 +34,21 @@ Writing unit tests in JavaScript with mocha/chai requires assembling a bunch of 
 1. installing them: `npm install mocha chai sinon sinon-chai chai-as-promised chai-subset chai-moment`
 1. if using typescript: `npm install @types/mocha @types/chai @types/sinon @types/sinon-chai @types/chai-as-promised`
 1. write an init file for activating `chai.expect` (what else ?), `sinon-chai` and `chai-as-promised`
-1. write the npm task `"test": "mocha --opts mocha.opts path/to/init.js '<glob_to_my_tests/**/*spec.js>'"`
+1. write the npm task `"test": "mocha --config mocharc.json path/to/init.js '<glob_to_my_tests/**/*spec.js>'"`
 1. keep all those dependencies up-to-date
 
 The proposed solution:
 
 **:+1: WITH @offirmo/unit-test-toolbox :+1: :sunglasses:**:
 1. install only one module `npm i -D @offirmo/unit-test-toolbox`
-1. copy this npm task `"test": "mocha --opts mocha.opts node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js '<glob_to_my_tests/**/*spec.js>'"`
+1. copy this npm task `"test": "mocha --config node_modules/@offirmo/unit-test-toolbox/mocharc.json node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js '<glob_to_my_tests/**/*spec.js>'"`
 1. keep @offirmo/unit-test-toolbox up-to-date
 
 
 ## Installation & usage
 
 ### recent npm
-Targeting node >= 8 & npm >= 3 (for we abuse the flat deps)
+Targeting npm >= 3 (for we abuse the flat deps)
 
 ```shell
 npm i --save-dev @offirmo/unit-test-toolbox
