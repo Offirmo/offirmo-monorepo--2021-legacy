@@ -173,6 +173,7 @@
 		"ship-hold": "^2",
 		"sinon": "^9",
 		"sinon-chai": "^3",
+		"size-limit": "^4",
 		"strip-ansi": "^6",
 		"strip-ansi-stream": "^1",
 		"styled-components": "^3",
