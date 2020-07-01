@@ -3,7 +3,9 @@
 
 ## pending
 * TODO unit tests
+* TODO exclude unit tests from npm publish?
 * TODO check the semantic (once?) + duplication handling
+* [chore] tweak the tsconfig to not use nor import tslib. NOT NEEDED for now but will avoid accidents bloating the bundle size.
 * ...
 
 ## v0.0.3

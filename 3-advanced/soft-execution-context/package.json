@@ -13,6 +13,7 @@
 	"sideEffects": true,
 
 	"peerDependencies": {
+		"tslib": "^2"
 	},
 	"dependencies": {
 		"@offirmo-private/common-error-fields": "^0",

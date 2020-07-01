@@ -4,6 +4,7 @@
 ## PENDING
 * [chore] [breaking] cjs pre-build now targeting node12/ES2019 [details](../../CONTRIBUTING/module-exports.md)
 * [feat] micro refactor to lower the lib size
+* [chore] tweaked the tsconfig to not use nor import tslib, it was bloating the bundle size.
 * [chore] bumped dependencies (incl. most recent interface)
 * ...
 

@@ -20,6 +20,7 @@
 	],
 
 	"peerDependencies": {
+		"tslib": "^2"
 	},
 	"dependencies": {
 		"@offirmo/globalthis-ponyfill": "^3",

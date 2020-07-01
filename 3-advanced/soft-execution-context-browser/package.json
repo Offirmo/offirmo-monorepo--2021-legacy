@@ -12,11 +12,11 @@
 	"sideEffects": true,
 
 	"peerDependencies": {
-		"@offirmo-private/soft-execution-context": "^0.0.2"
+		"@offirmo-private/soft-execution-context": "^0.0.2",
+		"tslib": "^2"
 	},
 	"dependencies": {
-		"@offirmo-private/ensure-device-uuid-browser": "^0",
-		"tslib": "^2"
+		"@offirmo-private/ensure-device-uuid-browser": "^0"
 	},
 
 	"scripts": {

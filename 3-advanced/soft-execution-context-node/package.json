@@ -16,10 +16,10 @@
 	"sideEffects": true,
 
 	"peerDependencies": {
-		"@offirmo-private/soft-execution-context": "^0.0.2"
+		"@offirmo-private/soft-execution-context": "^0.0.2",
+		"tslib": "^2"
 	},
 	"dependencies": {
-		"tslib": "^2"
 	},
 
 	"scripts": {

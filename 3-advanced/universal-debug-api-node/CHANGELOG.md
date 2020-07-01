@@ -9,6 +9,7 @@ NOTE: Reminder to increase REVISION when releasing!
 * [chore] node & browser now have the exact same "attaching" logic (as it should be)
 * [feat] better internal logging
 * [chore] bumped dependencies (incl. most recent interface)
+* [chore] correctly document the tslib peer dep
 
 ## v0.0.2
 2019/12/12

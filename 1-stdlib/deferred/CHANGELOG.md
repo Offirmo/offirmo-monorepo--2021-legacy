@@ -3,6 +3,7 @@
 
 ## PENDING
 * TODO unit tests!
+* [chore] tweak the tsconfig to not use nor import tslib. NOT NEEDED for now but will avoid accidents bloating the bundle size.
 * ...
 
 ## 3.0.0

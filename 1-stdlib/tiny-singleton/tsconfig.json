@@ -1,5 +1,9 @@
 {
 	"extends": "../../0-meta/tsconfig.json",
+	"compilerOptions": {
+		"importHelpers": false,
+		"noEmitHelpers": false
+	},
 	"include": [
 		"../../0-typings-custom/**/*.ts",
 		"src/**/*.ts"

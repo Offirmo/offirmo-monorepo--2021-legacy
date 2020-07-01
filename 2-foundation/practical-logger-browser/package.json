@@ -23,7 +23,8 @@
 		}
 	],
 
-	"peerDependencies": {},
+	"peerDependencies": {
+	},
 	"dependencies": {
 		"@offirmo/practical-logger-core": "^3",
 		"@offirmo/practical-logger-types": "^3",

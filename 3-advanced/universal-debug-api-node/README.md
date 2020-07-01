@@ -82,4 +82,4 @@ Sure you can if your code is node only.
 The point of the Universal Debug API is to be isomorphic,
 for shared code.
 
-For ex. the same code running on a browser will get its overrides from local storage.
+For ex. the same code running on a browser could get its overrides from local storage.
