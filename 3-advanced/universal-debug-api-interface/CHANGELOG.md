@@ -3,11 +3,14 @@
 
 ## PENDING
 * TODO clean the useless debug setup?
+* ...
+
+## v1.0.0
+2020/07/02
 * [chore] [breaking] cjs pre-build now targeting node12/ES2019 [details](../../CONTRIBUTING/module-exports.md)
 * [chore] exposes some internal properties for debugging the setup
 * [chore] bumped dependencies
 * [doc] README++
-* ...
 
 ## v0.2.1
 2019/12/12

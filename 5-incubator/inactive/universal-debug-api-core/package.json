@@ -23,7 +23,7 @@
 	},
 	"dependencies": {
 		"@offirmo/globalthis-ponyfill": "^3",
-		"@offirmo/universal-debug-api-interface": "^0"
+		"@offirmo/universal-debug-api-interface": "^1"
 	},
 
 	"devDependencies": {

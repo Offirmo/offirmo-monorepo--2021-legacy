@@ -43,7 +43,7 @@
 		"@offirmo/practical-logger-core": "^3",
 		"@offirmo/practical-logger-types": "^3",
 		"@offirmo/universal-debug-api-browser": "^0",
-		"@offirmo/universal-debug-api-interface": "^0",
+		"@offirmo/universal-debug-api-interface": "^1",
 		"@offirmo/universal-debug-api-placeholder": "^0",
 		"emittery": "^0.7",
 		"memoize-one": "^5",
