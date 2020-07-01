@@ -365,3 +365,20 @@ Which word in the dictionary is always spelled incorrectly?
 You see a letter that originated from Senselessness. What does it read?
 
 Take the first letter of each answer and make a word.
+
+
+The rules of the censored chat channel
+This channel is for civilized and respectful conversations. The following is forbidden:
+1. Harassing, trolling, purposefully offending players.
+2. Discrimination against people based on race, gender, using perks in the game, etc.
+3. Provoking and participating in flame.
+4. Profanity.
+5. Flood.
+6. Advertising.
+7. Abusing CAPS.
+8. Sexual or other adult content.
+9. Anything forbidden by the law or encouraging crime.
+10. Disclosure of other player's personal information, such as a real name or e-mail.
+11. Arguing about moderator's decisions.
+12. Anything that makes using the chat hard or annoying for other players.
+13. Scamming players to get their plutonium, passwords or personal information.
