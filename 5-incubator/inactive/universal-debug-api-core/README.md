@@ -31,7 +31,7 @@
 	  src="https://img.shields.io/maintenance/yes/2020.svg">
 </p>
 
-This is an **internal / technical** component of [Offirmo’s universal debug API](https://github.com/Offirmo/offirmo-monorepo/wiki/Offirmo%E2%80%99s-Practical-Logger).
+This is an **internal / technical** component of [Offirmo’s universal debug API](https://universal-debug-api-js.netlify.app/).
 * isomorphic code for node and browser
 * TODO explain the interface pattern
 

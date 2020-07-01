@@ -9,7 +9,7 @@ NOTE: not much reason to publish this lib since it's supposed to be bundled
 * TODO test EDGE, IE
 * TODO test Windows, Ubuntu
 * TODO local pictures
-
+* [doc] ++
 * ...
 
 ## v3.0.0

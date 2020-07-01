@@ -2,6 +2,7 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
+* [doc] ++
 * ...
 
 ## v3.0.0

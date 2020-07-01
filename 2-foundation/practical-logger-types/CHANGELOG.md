@@ -3,6 +3,7 @@
 
 ## PENDING
 * TODO add an extra level for no logs at all?
+* [doc] ++
 * ...
 
 ## v3.0.0

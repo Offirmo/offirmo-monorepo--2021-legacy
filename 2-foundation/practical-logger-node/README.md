@@ -31,7 +31,7 @@
 	  src="https://img.shields.io/maintenance/yes/2020.svg">
 </p>
 
-**This is a node implementation of [Offirmo’s practical logger](https://github.com/Offirmo/offirmo-monorepo/wiki/Offirmo%E2%80%99s-Practical-Logger).**
+**This is a node implementation of [Offirmo’s practical logger](https://practical-logger-js.netlify.app/).**
 
 ## Demo
 

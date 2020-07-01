@@ -3,6 +3,7 @@
 
 ## pending
 * TODO fix the "maximum call stack exceeded" when printing a SEC
+* [doc] ++
 * ...
 
 ## v0.3.0

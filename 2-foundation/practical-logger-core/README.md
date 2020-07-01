@@ -31,7 +31,7 @@
 	  src="https://img.shields.io/maintenance/yes/2020.svg">
 </p>
 
-This is an **internal / technical** component of [Offirmo’s practical logger](https://github.com/Offirmo/offirmo-monorepo/wiki/Offirmo%E2%80%99s-Practical-Logger).
+This is an **internal / technical** component of [Offirmo’s practical logger](https://practical-logger-js.netlify.app/).
 * isomorphic code for node and browser
 * TODO explain the interface pattern
 
@@ -43,7 +43,7 @@ This is an **internal / technical** component of [Offirmo’s practical logger](
 See the final implementations using this module:
 * minimal no-op: [@offirmo/practical-logger-minimal-noop](https://www.npmjs.com/package/@offirmo/practical-logger-minimal-noop)
 * browser: [@offirmo/practical-logger-browser](https://www.npmjs.com/package/@offirmo/practical-logger-browser)
-* node: TODO publish node version to npm
+* node: [@offirmo/practical-logger-node](https://www.npmjs.com/package/@offirmo/practical-loggernode)
 
 **if you know what you are doing:**
 

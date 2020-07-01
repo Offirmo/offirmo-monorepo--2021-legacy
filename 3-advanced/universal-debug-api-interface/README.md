@@ -35,6 +35,7 @@ This lib declares only TypeScript types/interfaces
 * **No code, 0 bytes** = will do nothing to your bundle size.
 * shared between several implementations
 * you should most likely not use/interact with this lib directly
+
 See overall explanation: [Offirmo’s Universal Debug API](https://universal-debug-api-js.netlify.com/).
 
 
@@ -57,8 +58,8 @@ import {
 Generic, basic loggers. See [@offirmo/practical-logger-types](../../2-foundation/practical-logger-types/README.md)
 
 Though a default level is set,
-it is expected that the level can be modified at load time
-(actual mechanism depending on the implementation)
+it is expected that the level can be overriden at load time
+(actual mechanism depending on the implementation, e.g. [browser](https://www.npmjs.com/package/@offirmo/universal-debug-api-browser) or [node](https://www.npmjs.com/package/@offirmo/universal-debug-api-node))
 
 ```js
 import { getLogger } from '@offirmo/universal-debug-api-<pick an implementation>'
@@ -85,22 +86,22 @@ Allows to "hook" the resolution of an information at load time.
 
 A default value must be provided.
 It is expected that the actual value can be replaced at load time
-(actual mechanism depending on the implementation)
+(actual mechanism depending on the implementation, e.g. [browser](https://www.npmjs.com/package/@offirmo/universal-debug-api-browser) or [node](https://www.npmjs.com/package/@offirmo/universal-debug-api-node))
 
 ```js
 import { overrideHook } from '@offirmo/universal-debug-api-<pick an implementation>'
 
-// ( id = <string>, default_value = any )
+// <T>( id: string, default_value: T ) => T
 const is_debug_enabled = overrideHook('is-debug-enabled', false)
-const variation = overrideHook('experiment-cohort', 'not-enrolled')
+const cohort = overrideHook('experiment-cohort', 'not-enrolled')
 ```
 
 
 ### Debug commands
-TODO, considered in alpha / unstable for now.
+TODO, considered in alpha / unstable for now. Do not use, API change won't count as breaking change.
 
 ### Internal exposed for debug purposes
-TODO, considered in alpha / unstable for now.
+TODO, considered in alpha / unstable for now. Do not use, API change won't count as breaking change.
 
 
 ## Module usage

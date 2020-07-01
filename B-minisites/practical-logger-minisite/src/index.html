@@ -60,7 +60,10 @@
 		Offirmo's Practical Logger does only one thing and does it well:
 		<strong>logging locally<sup><a href="#faq-remote-stash">(*)</a></sup> better than the built-in Console</strong>.
 	</p>
-		<pre><code class="language-js">// myLogger.log('message [string]', { key: 'values (optional)' })
+	<p>
+		Offirmo's Practical Logger has an <strong>isomorphic</strong> interface + node, browser and no-op implementations.
+	</p>
+	<pre><code class="language-js">// myLogger.log('message [string]', { key: 'values (optional)' })
 myLogger.trace('entering computeStuff()...')
 myLogger.verbose('Starting app...', { env: 'staging' })
 myLogger.warn('Server timeout, will retry...', { timeoutMs: 2000, attemptCount: 3 })
@@ -128,6 +131,7 @@ myLogger.groupEnd()
 				<div>
 					<p class="o⋄color⁚secondary">(Browser only, node is not concerned.)</p>
 					<p>Without this feature, errors may have been hidden in a collapsed group. Also useless groups with no contents are skipped.</p>
+					<p>This is configurable, of course.</p>
 					<img src="./demo-groups-20191101.png" />
 				</div>
 			</details>
@@ -241,7 +245,7 @@ myLogger.groupEnd()
 		<summary id="faq-remote-stash"><strong>I'm writing a server, can I send the logs to a remote stash?</strong></summary>
 		<div>
 			<p>
-				Yes. It's not a primary feature, but this logger took inspiration from [bunyan](https://github.com/trentm/node-bunyan#log-record-fields) and [pino](http://getpino.io/#/docs/transports).
+				Yes. It's not a primary feature, but this logger took inspiration from [bunyan](https://github.com/trentm/node-bunyan#log-record-fields) and [pino](https://getpino.io/#/docs/transports).
 				Two possible solutions:
 			</p>
 			<ul>
