@@ -18,7 +18,7 @@ interface Overrides {
 ////////////////////////////////////
 
 export const OWN_LOGGER_NAME = ENV_ROOT
-const REVISION = 1
+const REVISION = 2
 
 ////////////////////////////////////
 
