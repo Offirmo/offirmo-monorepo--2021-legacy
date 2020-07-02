@@ -47,7 +47,7 @@
 		"react-router-dom": "^5",
 		"tiny-invariant": "^1",
 		"tslib": "^2",
-		"typescript-string-enums": "^1",
+		"typescript-string-enums": "^1"
 	},
 
 	"scripts": {
