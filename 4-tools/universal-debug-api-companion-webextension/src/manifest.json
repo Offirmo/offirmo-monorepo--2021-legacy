@@ -2,7 +2,7 @@
 	"manifest_version": 2,
 	"name": "Offirmo’s Universal Web Dev Tool",
 	"description": "Get convenient dev and debug features for your JavaScript code",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"homepage_url": "https://universal-debug-api-js.netlify.com/",
 	"short_name": "Offirmo’s Universal Web Dev Tool",
 	"icons": {
@@ -20,8 +20,6 @@
 	"permissions": [
 		"<all_urls>",
 		"activeTab",
-		"notifications",
-		"storage",
 		"tabs"
 	],
 	"background": {

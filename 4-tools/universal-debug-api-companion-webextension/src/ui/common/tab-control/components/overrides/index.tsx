@@ -3,11 +3,20 @@ import * as React from 'react'
 import { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
-import { AppStateConsumer, get_overrides_map, compare_overrides, RenderParams } from '../../context'
+import {
+	AppStateConsumer,
+	get_overrides_map,
+	compare_overrides,
+	RenderParams,
+	should_inject_the_lib,
+	was_magic_installed,
+	get_sync_status,
+} from '../../context'
 import Override from '../override'
 import { create_msg_change_override_spec } from '../../../../../common/messages'
 import send_message from '../../../utils/send-message'
 import { OverrideState as OriginOverrideState } from '../../../../../common/state/origin'
+import * as TabState from "../../../../../common/state/tab";
 
 
 class Overrides extends Component {
@@ -30,17 +39,22 @@ class Overrides extends Component {
 		//console.log(`🔄 Overrides render_view`, { app_state })
 
 		const overrides = Object.values(get_overrides_map(app_state)).sort(compare_overrides)
-		if (!overrides.length)
+		if (!overrides.length) {
+			const status = !was_magic_installed(app_state)
+				? TabState.SpecSyncStatus.unknown
+				: get_sync_status(app_state)
+
 			return (
 				<Fragment>
 					<p className="o⋄color⁚secondary">No known overrides for this origin so far. Suggestions:</p>
 					<ol className="o⋄color⁚secondary">
-						<li>Ensure the injection is enabled (switch above)</li>
-						<li>Use some in your code!</li>
-						<li>Try refreshing the page</li>
+						{!should_inject_the_lib(app_state) && <li>Ensure the injection is enabled (switch above)</li>}
+						{status !== TabState.SpecSyncStatus['active-and-up-to-date'] && <li>Reload the page</li>}
+						<li>Use some in your code and reload</li>
 					</ol>
 				</Fragment>
 			)
+		}
 
 		return overrides
 			.map((override) => {

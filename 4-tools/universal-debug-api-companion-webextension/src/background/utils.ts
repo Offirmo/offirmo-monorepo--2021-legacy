@@ -9,8 +9,8 @@ export function query_active_tab(): Promise<Readonly<Tabs.Tab>> {
 		.then(([active_tab, ...other_tabs]: Tabs.Tab[]) => {
 			if (!active_tab) {
 				console.error(`
-Please do not manually refresh the extension background tab!
-Please use the refresh button in the extension UI instead!
+Please do not manually reload the extension background tab!
+Please use the reload button in the extension UI instead!
 `)
 				assert(active_tab, 'query_active_tab()')
 			}

@@ -933,4 +933,4 @@ console.log(`[${LIB}.${+Date.now()}] sending a test postMessage...`)
 window.postMessage({msg: `Test message from ${LIB}`}, '*')
 */
 },{"@offirmo/universal-debug-api-placeholder":"N08m","../../../../2-foundation/practical-logger-core/doc/shared-demo":"NeXk"}]},{},["Focm"], null)
-//# sourceMappingURL=demo.062af6d2.js.map
+//# sourceMappingURL=demo.c654fdf1.js.map

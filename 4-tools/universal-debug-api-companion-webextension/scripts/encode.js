@@ -18,7 +18,7 @@ function btoa(s) {
 }*/
 
 /////////////////////
-const MAX_INLINE_LIB_SIZE = 34000 // I don't know the actual limit, just know this one works so far
+const MAX_INLINE_LIB_SIZE = 40000 // I don't know the actual limit, just know this one works so far: 39540
 
 const lib1_input_path = path.resolve(process.cwd(), './dist/injected-api-bundle-1.js')
 const lib1_target_path = path.resolve(process.cwd(), './src/content-scripts/lib-to-inject-1.ts')

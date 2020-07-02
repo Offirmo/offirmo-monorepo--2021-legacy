@@ -7,9 +7,14 @@
 * TODO [fix] edition fields
 * TODO [fix] stale overrides handling
 * TODO [fix] ugly styling
+
+## v0.0.4
+2020/07/02
+* [feat] improved popup step-by-step instructions
+* [feat] lowered the required permissions
 * [chore] cleaned up some TODO comments
 * [chore] cleaned up some dead code, small touchups (logs)
-* [chore] bumped dependencies
+* [chore] bumped dependencies and corresponding fixes
 
 ## v0.0.3
 2020/01/29
