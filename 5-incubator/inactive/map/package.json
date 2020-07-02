@@ -12,7 +12,7 @@
 		"@offirmo-private/prettify-json": "^0",
 		"@offirmo-private/view-css": "^0",
 		"@offirmo/tiny-singleton": "^0",
-		"@offirmo/universal-debug-api-placeholder": "^0",
+		"@offirmo/universal-debug-api-placeholder": "^1",
 		"leaflet": "^1",
 		"tiny-invariant": "^1",
 		"tslib": "^2",

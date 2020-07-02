@@ -6,7 +6,7 @@
 	"license": "Unlicense",
 
 	"dependencies": {
-		"@offirmo/universal-debug-api-placeholder": "^0",
+		"@offirmo/universal-debug-api-placeholder": "^1",
 		"@offirmo/universal-debug-api-browser": "^0",
 		"tslib": "^2"
 	},

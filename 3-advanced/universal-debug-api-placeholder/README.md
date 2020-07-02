@@ -35,9 +35,7 @@
 
 Isomorphic, for node and browser.
 
-Does nothing, minimal code footprint.
-
-Will transparently yield to any other previously required/imported effective version such as [node](../universal-debug-api-node/README.md) or [browser](../universal-debug-api-browser/README.md).
+Does nothing, minimal code footprint. BUT will transparently yield to any other previously required/imported effective version such as [node](../universal-debug-api-node/README.md) or [browser](../universal-debug-api-browser/README.md).
 **Pro tip: for browser, hot-swap this placeholder at run time with the [companion webextension](../../4-tools/universal-debug-api-companion-webextension/README.md)!**
 
 See overall explanation: [Offirmo’s Universal Debug API](https://universal-debug-api-js.netlify.com/).
@@ -61,5 +59,3 @@ import {
 	globalThis, // exposed from sub-dependency for convenience
 } from '@offirmo/universal-debug-api-placeholder'
 ```
-
-Note: no bundled version provided, since this lib is targeted at lib authors, not end users.

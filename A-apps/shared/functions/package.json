@@ -24,7 +24,7 @@
 		"@offirmo-private/uuid": "^0",
 		"@offirmo/tiny-singleton": "^0",
 		"@offirmo/universal-debug-api-node": "^0",
-		"@offirmo/universal-debug-api-placeholder": "^0",
+		"@offirmo/universal-debug-api-placeholder": "^1",
 		"@oh-my-rpg/definitions": "^0",
 		"@sentry/node": "^5",
 		"@tbrpg/flux": "^0",

@@ -16,7 +16,7 @@
 	"dependencies": {
 		"@offirmo-private/normalize-string": "^0",
 		"@offirmo/tiny-singleton": "^0",
-		"@offirmo/universal-debug-api-placeholder": "^0",
+		"@offirmo/universal-debug-api-placeholder": "^1",
 		"json-stable-stringify": "^1",
 		"knex": "^0.21",
 		"normalize-email": "^1",

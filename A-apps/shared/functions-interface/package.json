@@ -14,7 +14,7 @@
 	"sideEffects": false,
 
 	"dependencies": {
-		"@offirmo/universal-debug-api-placeholder": "^0",
+		"@offirmo/universal-debug-api-placeholder": "^1",
 		"tiny-invariant": "^1",
 		"tslib": "^2",
 		"typescript-string-enums": "^1"

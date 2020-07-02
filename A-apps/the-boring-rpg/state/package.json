@@ -23,7 +23,7 @@
 		"@offirmo-private/unicode-data": "^0",
 		"@offirmo-private/uuid": "^0",
 		"@offirmo/random": "^2",
-		"@offirmo/universal-debug-api-placeholder": "^0",
+		"@offirmo/universal-debug-api-placeholder": "^1",
 		"@oh-my-rpg/definitions": "^0",
 		"@oh-my-rpg/logic-adventures": "^0",
 		"@oh-my-rpg/logic-armors": "^0",

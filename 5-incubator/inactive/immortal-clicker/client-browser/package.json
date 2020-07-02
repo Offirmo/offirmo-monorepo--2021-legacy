@@ -18,7 +18,7 @@
 		"@offirmo-private/soft-execution-context": "^0.0.2",
 		"@offirmo-private/soft-execution-context-browser": "^0.0.2",
 		"@offirmo/tiny-singleton": "^0",
-		"@offirmo/universal-debug-api-placeholder": "^0",
+		"@offirmo/universal-debug-api-placeholder": "^1",
 		"@oh-my-rpg/audio-browser": "^0",
 		"@oh-my-rpg/definitions": "^0",
 		"@oh-my-rpg/view-browser-react": "^0",

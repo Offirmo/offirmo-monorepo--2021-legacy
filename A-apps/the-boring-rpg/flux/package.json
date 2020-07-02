@@ -28,7 +28,7 @@
 		"@offirmo-private/uuid": "^0",
 		"@offirmo/deferred": "^3",
 		"@offirmo/tiny-singleton": "^0",
-		"@offirmo/universal-debug-api-placeholder": "^0",
+		"@offirmo/universal-debug-api-placeholder": "^1",
 		"@oh-my-rpg/definitions": "^0",
 		"@oh-my-rpg/state-character": "^0",
 		"@oh-my-rpg/state-engagement": "^0",
