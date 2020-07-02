@@ -3,10 +3,15 @@
 
 ## PENDING
 * TODO v1
+* TODO make the extension public on Chrome Web Store
 * TODO release to FF
 * TODO [fix] edition fields
 * TODO [fix] stale overrides handling
 * TODO [fix] ugly styling
+
+## v0.1.0
+2020/07/03
+* [feat] added Microsoft Edge support
 
 ## v0.0.4
 2020/07/02

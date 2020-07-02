@@ -1,5 +1,5 @@
 
-EXPERIMENTAL, DEV IN PROGRESS
+BETA, works but has rough edges
 
 # Universal Debug API companion webextension
 
@@ -8,7 +8,7 @@ A **companion webextension** to the Universal Debug API for browser.
 This extension will inject a full-fledged version of the Universal Debug API,
 which will take precedence over the empty one you should have in your bundle.
 
-In the future, some UI will allow an easy control of the API.
+In addition, some UI allows an easy control of the debug API.
 
 
 ## Contributing
@@ -50,3 +50,4 @@ Serves a test page on :1234 which uses the Universal Debug API.
 ## TODO review other extensions:
 - [Web Developer Toolbar](https://chrome.google.com/webstore/detail/web-developer-toolbar/deeboegbjcnfgidliakhpoapnpomphji)
 - [JavaScript Errors Notifier](https://chrome.google.com/webstore/detail/javascript-errors-notifie/jafmfknfnkoekkdocjiaipcnmkklaajd)
+- [Code Injector](https://microsoftedge.microsoft.com/addons/detail/code-injector/kgmlfocfgenookigofalapefagndnlnc)

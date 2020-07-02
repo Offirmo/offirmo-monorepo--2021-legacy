@@ -57,8 +57,11 @@ export function is_origin_eligible(origin: string): boolean {
 	if (origin.startsWith('chrome-extension://'))
 		return false
 
+	if (origin.startsWith('edge://'))
+		return false
+
 	if (origin.startsWith('file://'))
-		return false // because no access to LS
+		return false // because no access to LS. TODO?
 
 	if (origin === 'null') // Firefox about:...
 		return false

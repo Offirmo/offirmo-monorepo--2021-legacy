@@ -1,5 +1,9 @@
+https://chrome.google.com/webstore/devconsole/
+
 https://dev.to/shijiezhou/top-10-chrome-extensions-every-developer-likes-3ehk
 
+		"notifications",
+		"storage",
 		"webRequest",
 		"webRequestBlocking",
 		"debugger",
