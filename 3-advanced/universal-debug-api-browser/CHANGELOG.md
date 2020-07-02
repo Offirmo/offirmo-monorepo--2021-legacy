@@ -6,6 +6,9 @@ NOTE: Reminder to increase REVISION when releasing!
 * TODO extract core implementation common bw node & browser?
 * TODO better handle no local storage
 * TODO handle iframes?
+
+## v1.0.0
+2020/07/02
 * [chore] [breaking] cjs pre-build now targeting node12/ES2019 [details](../../CONTRIBUTING/module-exports.md)
 * [feat] better internal logging
 * [doc] README++

@@ -1,7 +1,7 @@
 {
 	"name": "@offirmo/universal-debug-api-browser",
 	"description": "An implementation of the universal debug API for browsers",
-	"version": "0.1.1",
+	"version": "1.0.0",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 
@@ -14,11 +14,11 @@
 
 	"size-limit": [
 	{
-		"limit": "3.1kb",
+		"limit": "4kb",
 		"path": "dist/src.es2019/index.js"
 	},
 	{
-		"limit": "4kb",
+		"limit": "5kb",
 		"path": "dist/src.es2019.cjs/index.js"
 	},
 	{

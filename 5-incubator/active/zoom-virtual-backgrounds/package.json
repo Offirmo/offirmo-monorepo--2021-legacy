@@ -17,7 +17,7 @@
 		"@offirmo-private/view-css": "^0",
 		"@offirmo/globalthis-ponyfill": "^3",
 		"@offirmo/tiny-singleton": "^0",
-		"@offirmo/universal-debug-api-browser": "^0",
+		"@offirmo/universal-debug-api-browser": "^1",
 		"@oh-my-rpg/audio-browser": "^0",
 		"@oh-my-rpg/definitions": "^0",
 		"@oh-my-rpg/rsrc-backgrounds": "^0",
