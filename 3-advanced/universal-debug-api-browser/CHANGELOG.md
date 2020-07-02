@@ -7,10 +7,11 @@ NOTE: Reminder to increase REVISION when releasing!
 * TODO better handle no local storage
 * TODO handle iframes?
 * [chore] [breaking] cjs pre-build now targeting node12/ES2019 [details](../../CONTRIBUTING/module-exports.md)
+* [feat] better internal logging
 * [doc] README++
 * [chore] improved "attaching" logic with hints on setup error and improves some bad cases
-* [feat] better internal logging
 * [chore] bumped dependencies (incl. most recent interface)
+* [chore] tweak the tsconfig to not use nor import tslib, to avoid bloating the bundle size.
 
 ## v0.1.1
 2019/12/12

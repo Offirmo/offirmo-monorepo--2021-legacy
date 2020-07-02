@@ -382,3 +382,7 @@ This channel is for civilized and respectful conversations. The following is for
 11. Arguing about moderator's decisions.
 12. Anything that makes using the chat hard or annoying for other players.
 13. Scamming players to get their plutonium, passwords or personal information.
+
+
+Mindset: growth, hard work trump fixed
+pick what is good, all feedback is good feedback

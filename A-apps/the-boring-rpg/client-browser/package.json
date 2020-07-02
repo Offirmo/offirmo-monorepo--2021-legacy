@@ -7,6 +7,7 @@
 	"private": true,
 
 	"dependencies": {
+		"@babel/core": "^7",
 		"@offirmo-private/ensure-device-uuid-browser": "^0",
 		"@offirmo-private/favicon-notifications": "^0",
 		"@offirmo-private/features-detection-browser": "^0",
@@ -18,6 +19,7 @@
 		"@offirmo-private/rich-text-format-to-react": "^0",
 		"@offirmo-private/soft-execution-context": "^0.0.2",
 		"@offirmo-private/soft-execution-context-browser": "^0.0.2",
+		"@offirmo-private/timestamps": "^0",
 		"@offirmo-private/view-chat": "^0",
 		"@offirmo-private/xoff": "^0",
 		"@offirmo/deferred": "^3",
@@ -45,7 +47,7 @@
 		"react-router-dom": "^5",
 		"tiny-invariant": "^1",
 		"tslib": "^2",
-		"typescript-string-enums": "^1"
+		"typescript-string-enums": "^1",
 	},
 
 	"scripts": {
@@ -64,11 +66,7 @@
 		"build": "npm-run-all clean refresh-build-variables refresh-loading-template build:parcel copy-extra copy-favicons-for-webmanifest"
 	},
 	"devDependencies": {
-		"@babel/core": "^7",
-		"@offirmo-private/iframe-loading": "^0",
 		"@offirmo-private/simple-upgradable-template": "^0",
-		"@offirmo-private/timestamps": "^0",
-		"@offirmo/universal-debug-api-browser": "^0",
 		"npm-run-all": "^4"
 	}
 }
