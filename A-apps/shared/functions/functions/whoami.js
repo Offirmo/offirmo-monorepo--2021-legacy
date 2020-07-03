@@ -589,7 +589,7 @@ function _flattenSEC(SEC) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return getFunctionName; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addContextToFrame; });
 /* harmony import */ var _is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
-/* harmony import */ var _string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(12);
+/* harmony import */ var _string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(13);
 
 
 /**
@@ -1065,14 +1065,20 @@ module.exports = isArray;
 
 
 /***/ }),
-/* 10 */,
-/* 11 */
+/* 10 */
+/***/ (function(module, exports) {
+
+module.exports = require("url");
+
+/***/ }),
+/* 11 */,
+/* 12 */
 /***/ (function(module, exports) {
 
 module.exports = require("path");
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1177,13 +1183,13 @@ function isMatchingPattern(value, pattern) {
 //# sourceMappingURL=string.js.map
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports) {
 
 module.exports = require("events");
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports) {
 
 /**
@@ -1218,12 +1224,6 @@ function isObject(value) {
 
 module.exports = isObject;
 
-
-/***/ }),
-/* 15 */
-/***/ (function(module, exports) {
-
-module.exports = require("url");
 
 /***/ }),
 /* 16 */
@@ -1639,7 +1639,7 @@ function getEnvKeyForOverride(key) {
  ////////////////////////////////////
 
 const OWN_LOGGER_NAME = ENV_ROOT;
-const REVISION = 1; ////////////////////////////////////
+const REVISION = 2; ////////////////////////////////////
 
 function create() {
   //console.log('[UDA-node installed]') // XX
@@ -1994,7 +1994,7 @@ try {
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseGetTag = __webpack_require__(33),
-    isObject = __webpack_require__(14);
+    isObject = __webpack_require__(15);
 
 /** `Object#toString` result references. */
 var asyncTag = '[object AsyncFunction]',
@@ -3445,12 +3445,12 @@ module.exports = {
 // -------
 const inherits = __webpack_require__(38);
 const helpers = __webpack_require__(43);
-const { EventEmitter } = __webpack_require__(13);
+const { EventEmitter } = __webpack_require__(14);
 const debug = __webpack_require__(74);
 
 const assign = __webpack_require__(157);
 const isNumber = __webpack_require__(158);
-const isObject = __webpack_require__(14);
+const isObject = __webpack_require__(15);
 const isPlainObject = __webpack_require__(91);
 const reduce = __webpack_require__(159);
 const saveAsyncStack = __webpack_require__(166);
@@ -4259,7 +4259,7 @@ function __classPrivateFieldSet(receiver, privateMap, value) {
 
 var net = __webpack_require__(88);
 var tls = __webpack_require__(89);
-var url = __webpack_require__(15);
+var url = __webpack_require__(10);
 var assert = __webpack_require__(42);
 var Agent = __webpack_require__(109);
 var inherits = __webpack_require__(4).inherits;
@@ -6940,7 +6940,7 @@ module.exports = baseUnary;
 var eq = __webpack_require__(57),
     isArrayLike = __webpack_require__(34),
     isIndex = __webpack_require__(94),
-    isObject = __webpack_require__(14);
+    isObject = __webpack_require__(15);
 
 /**
  * Checks if the given arguments are from an iteratee call.
@@ -7143,7 +7143,7 @@ module.exports = copyArray;
 /* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(14);
+var isObject = __webpack_require__(15);
 
 /** Built-in value references. */
 var objectCreate = Object.create;
@@ -8004,7 +8004,7 @@ module.exports = function(originalModule) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-const events_1 = __webpack_require__(13);
+const events_1 = __webpack_require__(14);
 const promisify_1 = __importDefault(__webpack_require__(110));
 function isAgentBase(v) {
     return Boolean(v) && typeof v.addRequest === 'function';
@@ -9170,7 +9170,7 @@ module.exports = require("stream");
 // -------
 const assert = __webpack_require__(42);
 const inherits = __webpack_require__(38);
-const { EventEmitter } = __webpack_require__(13);
+const { EventEmitter } = __webpack_require__(14);
 
 const Raw = __webpack_require__(54);
 const helpers = __webpack_require__(43);
@@ -9182,7 +9182,7 @@ const isBoolean = __webpack_require__(223);
 const isEmpty = __webpack_require__(101);
 const isFunction = __webpack_require__(39);
 const isNumber = __webpack_require__(158);
-const isObject = __webpack_require__(14);
+const isObject = __webpack_require__(15);
 const isPlainObject = __webpack_require__(91);
 const isString = __webpack_require__(48);
 const last = __webpack_require__(224);
@@ -10565,7 +10565,7 @@ module.exports = toArray;
 
 const fs = __webpack_require__(5);
 const os = __webpack_require__(26);
-const path = __webpack_require__(11);
+const path = __webpack_require__(12);
 const { promisify } = __webpack_require__(4);
 const mkdirp = __webpack_require__(400);
 
@@ -10660,7 +10660,7 @@ module.exports = toInteger;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseCreate = __webpack_require__(100),
-    isObject = __webpack_require__(14);
+    isObject = __webpack_require__(15);
 
 /**
  * Creates a function that produces an instance of `Ctor` regardless of
@@ -13815,7 +13815,7 @@ var Memo = /** @class */ (function () {
 
 //# sourceMappingURL=memo.js.map
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/string.js
-var string = __webpack_require__(12);
+var string = __webpack_require__(13);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/object.js
 
@@ -15411,11 +15411,11 @@ var promisebuffer_PromiseBuffer = /** @class */ (function () {
 
 //# sourceMappingURL=promisebuffer.js.map
 // EXTERNAL MODULE: external "url"
-var external_url_ = __webpack_require__(15);
+var external_url_ = __webpack_require__(10);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/version.js
 var SDK_NAME = 'sentry.javascript.node';
-var SDK_VERSION = '5.18.1';
+var SDK_VERSION = '5.19.0';
 //# sourceMappingURL=version.js.map
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/base.js
 
@@ -16745,6 +16745,7 @@ function tracingHandler() {
         var reqUrl = req.url;
         var traceId;
         var parentSpanId;
+        var sampled;
         // If there is a trace header set, we extract the data from it and set the span on the scope
         // to be the origin an created transaction set the parent_span_id / trace_id
         if (req.headers && Object(is["h" /* isString */])(req.headers['sentry-trace'])) {
@@ -16752,12 +16753,14 @@ function tracingHandler() {
             if (span) {
                 traceId = span.traceId;
                 parentSpanId = span.parentSpanId;
+                sampled = span.sampled;
             }
         }
         var transaction = startTransaction({
             name: reqMethod + " " + reqUrl,
             op: 'http.server',
             parentSpanId: parentSpanId,
+            sampled: sampled,
             traceId: traceId,
         });
         // We put the transaction on the scope so users can attach children to it
@@ -16779,9 +16782,16 @@ function extractTransaction(req, type) {
     try {
         // Express.js shape
         var request = req;
+        var routePath = void 0;
+        try {
+            routePath = external_url_["parse"](request.originalUrl || request.url).pathname;
+        }
+        catch (_oO) {
+            routePath = request.route.path;
+        }
         switch (type) {
             case 'path': {
-                return request.route.path;
+                return routePath;
             }
             case 'handler': {
                 return request.route.stack[0].name;
@@ -16789,8 +16799,7 @@ function extractTransaction(req, type) {
             case 'methodPath':
             default: {
                 var method = request.method.toUpperCase();
-                var path = request.route.path;
-                return method + "|" + path;
+                return method + "|" + routePath;
             }
         }
     }
@@ -17289,7 +17298,7 @@ var linkederrors_LinkedErrors = /** @class */ (function () {
 
 //# sourceMappingURL=linkederrors.js.map
 // EXTERNAL MODULE: external "path"
-var external_path_ = __webpack_require__(11);
+var external_path_ = __webpack_require__(12);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/integrations/modules.js
 
@@ -20974,7 +20983,7 @@ module.exports = WeakMap;
 /* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(14);
+var isObject = __webpack_require__(15);
 
 /**
  * Checks if `value` is suitable for strict equality comparisons, i.e. `===`.
@@ -21165,7 +21174,7 @@ var Stack = __webpack_require__(120),
     isArray = __webpack_require__(9),
     isBuffer = __webpack_require__(76),
     isMap = __webpack_require__(357),
-    isObject = __webpack_require__(14),
+    isObject = __webpack_require__(15),
     isSet = __webpack_require__(359),
     keys = __webpack_require__(46);
 
@@ -21497,7 +21506,7 @@ const ColumnCompiler = __webpack_require__(258);
 
 const { Pool, TimeoutError } = __webpack_require__(460);
 const inherits = __webpack_require__(38);
-const { EventEmitter } = __webpack_require__(13);
+const { EventEmitter } = __webpack_require__(14);
 const { promisify } = __webpack_require__(4);
 
 const { makeEscape } = __webpack_require__(260);
@@ -22685,7 +22694,7 @@ module.exports = baseValues;
 /* 229 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const { EventEmitter } = __webpack_require__(13);
+const { EventEmitter } = __webpack_require__(14);
 
 const { Migrator } = __webpack_require__(376);
 const Seeder = __webpack_require__(413);
@@ -23274,7 +23283,7 @@ module.exports = reInterpolate;
 /* 236 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const {dirname} = __webpack_require__(11)
+const {dirname} = __webpack_require__(12)
 
 const mkdirpManual = (path, opts, made) => {
   opts.recursive = false
@@ -25384,7 +25393,7 @@ const helpers = __webpack_require__(177);
 const groupBy = __webpack_require__(175);
 const first = __webpack_require__(458);
 const has = __webpack_require__(176);
-const isObject = __webpack_require__(14);
+const isObject = __webpack_require__(15);
 const tail = __webpack_require__(130);
 
 function ColumnCompiler(client, tableCompiler, columnBuilder) {
@@ -26295,7 +26304,7 @@ module.exports = Result
  */
 
 var net = __webpack_require__(88)
-var EventEmitter = __webpack_require__(13).EventEmitter
+var EventEmitter = __webpack_require__(14).EventEmitter
 var util = __webpack_require__(4)
 
 const { parse, serialize } = __webpack_require__(497)
@@ -27789,7 +27798,7 @@ formatters.O = function (v) {
 
 var isFunction = __webpack_require__(39),
     isMasked = __webpack_require__(288),
-    isObject = __webpack_require__(14),
+    isObject = __webpack_require__(15),
     toSource = __webpack_require__(188);
 
 /**
@@ -29751,7 +29760,7 @@ module.exports = baseAssignIn;
 /* 348 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(14),
+var isObject = __webpack_require__(15),
     isPrototype = __webpack_require__(95),
     nativeKeysIn = __webpack_require__(349);
 
@@ -30801,7 +30810,7 @@ var arrayEach = __webpack_require__(127),
     isArray = __webpack_require__(9),
     isBuffer = __webpack_require__(76),
     isFunction = __webpack_require__(39),
-    isObject = __webpack_require__(14),
+    isObject = __webpack_require__(15),
     isTypedArray = __webpack_require__(73);
 
 /**
@@ -30866,7 +30875,7 @@ module.exports = transform;
 
 // Transaction
 // -------
-const { EventEmitter } = __webpack_require__(13);
+const { EventEmitter } = __webpack_require__(14);
 const Debug = __webpack_require__(74);
 
 const makeKnex = __webpack_require__(229);
@@ -32214,7 +32223,7 @@ module.exports = {
 /* 388 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(__dirname) {const path = __webpack_require__(11);
+/* WEBPACK VAR INJECTION */(function(__dirname) {const path = __webpack_require__(12);
 const { writeJsFileUsingTemplate } = __webpack_require__(233);
 const { getMergedConfig } = __webpack_require__(237);
 const { ensureDirectoryExists } = __webpack_require__(132);
@@ -32986,7 +32995,7 @@ module.exports = optsArg
 /***/ (function(module, exports, __webpack_require__) {
 
 const platform = process.env.__TESTING_MKDIRP_PLATFORM__ || process.platform
-const { resolve, parse } = __webpack_require__(11)
+const { resolve, parse } = __webpack_require__(12)
 const pathArg = path => {
   if (/\0/.test(path)) {
     // simulate same failure that node raises
@@ -33020,7 +33029,7 @@ module.exports = pathArg
 /* 403 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const {dirname} = __webpack_require__(11)
+const {dirname} = __webpack_require__(12)
 const {findMade, findMadeSync} = __webpack_require__(404)
 const {mkdirpManual, mkdirpManualSync} = __webpack_require__(236)
 
@@ -33065,7 +33074,7 @@ module.exports = {mkdirpNative, mkdirpNativeSync}
 /* 404 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const {dirname} = __webpack_require__(11)
+const {dirname} = __webpack_require__(12)
 
 const findMade = (opts, parent, path = undefined) => {
   // we never want the 'made' return value to be a root directory
@@ -33116,7 +33125,7 @@ module.exports = {useNative, useNativeSync}
 /* 406 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const path = __webpack_require__(11);
+const path = __webpack_require__(12);
 const sortBy = __webpack_require__(407);
 
 const { readdir } = __webpack_require__(132);
@@ -33454,7 +33463,7 @@ webpackEmptyContext.id = 412;
 /* WEBPACK VAR INJECTION */(function(__dirname) {// Seeder
 // -------
 
-const path = __webpack_require__(11);
+const path = __webpack_require__(12);
 const extend = __webpack_require__(133);
 const includes = __webpack_require__(415);
 const { readdir, ensureDirectoryExists } = __webpack_require__(132);
@@ -33769,7 +33778,7 @@ module.exports = toFinite;
 /* 417 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(14),
+var isObject = __webpack_require__(15),
     isSymbol = __webpack_require__(78);
 
 /** Used as references for various `Number` constants. */
@@ -33910,7 +33919,7 @@ var Stack = __webpack_require__(120),
     assignMergeValue = __webpack_require__(241),
     baseFor = __webpack_require__(194),
     baseMergeDeep = __webpack_require__(421),
-    isObject = __webpack_require__(14),
+    isObject = __webpack_require__(15),
     keysIn = __webpack_require__(58),
     safeGet = __webpack_require__(242);
 
@@ -33964,7 +33973,7 @@ var assignMergeValue = __webpack_require__(241),
     isArrayLikeObject = __webpack_require__(231),
     isBuffer = __webpack_require__(76),
     isFunction = __webpack_require__(39),
-    isObject = __webpack_require__(14),
+    isObject = __webpack_require__(15),
     isPlainObject = __webpack_require__(91),
     isTypedArray = __webpack_require__(73),
     safeGet = __webpack_require__(242),
@@ -35402,7 +35411,7 @@ module.exports = basePickBy;
 var assignValue = __webpack_require__(116),
     castPath = __webpack_require__(125),
     isIndex = __webpack_require__(94),
-    isObject = __webpack_require__(14),
+    isObject = __webpack_require__(15),
     toKey = __webpack_require__(98);
 
 /**
@@ -35453,7 +35462,7 @@ module.exports = baseSet;
 /***/ (function(module, exports, __webpack_require__) {
 
 const inherits = __webpack_require__(38);
-const { EventEmitter } = __webpack_require__(13);
+const { EventEmitter } = __webpack_require__(14);
 const toArray = __webpack_require__(131);
 const { addQueryContext } = __webpack_require__(43);
 const saveAsyncStack = __webpack_require__(166);
@@ -36065,7 +36074,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const PendingOperation_1 = __webpack_require__(462);
 const Resource_1 = __webpack_require__(464);
 const utils_1 = __webpack_require__(178);
-const events_1 = __webpack_require__(13);
+const events_1 = __webpack_require__(14);
 const timers_1 = __webpack_require__(465);
 class Pool {
     constructor(opt) {
@@ -36954,7 +36963,7 @@ module.exports = {
 /* 470 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const url = __webpack_require__(15);
+const url = __webpack_require__(10);
 const { parse } = __webpack_require__(471);
 const parsePG = parse;
 const isWindows = process && process.platform && process.platform === 'win32';
@@ -37029,7 +37038,7 @@ function connectionObject(parsed) {
 "use strict";
 
 
-var url = __webpack_require__(15);
+var url = __webpack_require__(10);
 var fs = __webpack_require__(5);
 
 //Parse method copied from https://github.com/brianc/node-postgres
@@ -37663,7 +37672,7 @@ module.exports = QueryCompiler_PG;
 
 const inherits = __webpack_require__(38);
 const ColumnCompiler = __webpack_require__(258);
-const isObject = __webpack_require__(14);
+const isObject = __webpack_require__(15);
 
 function ColumnCompiler_PG() {
   ColumnCompiler.apply(this, arguments);
@@ -38100,7 +38109,7 @@ module.exports = SchemaCompiler_PG;
  * README.md file in the root directory of this source tree.
  */
 
-var EventEmitter = __webpack_require__(13).EventEmitter
+var EventEmitter = __webpack_require__(14).EventEmitter
 var util = __webpack_require__(4)
 var utils = __webpack_require__(137)
 var sasl = __webpack_require__(488)
@@ -39832,7 +39841,7 @@ module.exports = {
 "use strict";
 
 
-var path = __webpack_require__(11)
+var path = __webpack_require__(12)
   , fs = __webpack_require__(5)
   , helper = __webpack_require__(490)
 ;
@@ -39862,7 +39871,7 @@ module.exports.warnTo = helper.warnTo;
 "use strict";
 
 
-var path = __webpack_require__(11)
+var path = __webpack_require__(12)
   , Stream = __webpack_require__(128).Stream
   , Split = __webpack_require__(491)
   , util = __webpack_require__(4)
@@ -40297,7 +40306,7 @@ module.exports = require("dns");
 "use strict";
 
 
-var url = __webpack_require__(15)
+var url = __webpack_require__(10)
 var fs = __webpack_require__(5)
 
 //Parse method copied from https://github.com/brianc/node-postgres
@@ -40400,7 +40409,7 @@ parse.parse = parse
  * README.md file in the root directory of this source tree.
  */
 
-const { EventEmitter } = __webpack_require__(13)
+const { EventEmitter } = __webpack_require__(14)
 
 const Result = __webpack_require__(266)
 const utils = __webpack_require__(137)
@@ -41427,7 +41436,7 @@ exports.BufferReader = BufferReader;
 
 "use strict";
 
-const EventEmitter = __webpack_require__(13).EventEmitter
+const EventEmitter = __webpack_require__(14).EventEmitter
 
 const NOOP = function () {}
 
@@ -41851,7 +41860,7 @@ var TypeOverrides = __webpack_require__(264)
 var semver = __webpack_require__(506)
 var pkg = __webpack_require__(507)
 var assert = __webpack_require__(42)
-var EventEmitter = __webpack_require__(13).EventEmitter
+var EventEmitter = __webpack_require__(14).EventEmitter
 var util = __webpack_require__(4)
 var ConnectionParameters = __webpack_require__(265)
 
@@ -43379,7 +43388,7 @@ module.exports = JSON.parse("{\"name\":\"pg\",\"version\":\"8.2.1\",\"descriptio
  * README.md file in the root directory of this source tree.
  */
 
-var EventEmitter = __webpack_require__(13).EventEmitter
+var EventEmitter = __webpack_require__(14).EventEmitter
 var util = __webpack_require__(4)
 var utils = __webpack_require__(137)
 
@@ -43603,7 +43612,7 @@ module.exports = PgQueryStream
 
 const Result = __webpack_require__(266)
 const prepare = __webpack_require__(137).prepareValue
-const EventEmitter = __webpack_require__(13).EventEmitter
+const EventEmitter = __webpack_require__(14).EventEmitter
 const util = __webpack_require__(4)
 
 let nextUniqueID = 1 // concept borrowed from org.postgresql.core.v3.QueryExecutorImpl

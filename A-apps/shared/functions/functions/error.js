@@ -335,6 +335,13 @@ module.exports = chalk;
 
 /***/ }),
 
+/***/ 10:
+/***/ (function(module, exports) {
+
+module.exports = require("url");
+
+/***/ }),
+
 /***/ 103:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1006,7 +1013,7 @@ module.exports = function(originalModule) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-const events_1 = __webpack_require__(13);
+const events_1 = __webpack_require__(14);
 const promisify_1 = __importDefault(__webpack_require__(110));
 function isAgentBase(v) {
     return Boolean(v) && typeof v.addRequest === 'function';
@@ -1208,13 +1215,6 @@ function createAgent(callback, opts) {
 createAgent.prototype = createAgent.Agent.prototype;
 module.exports = createAgent;
 //# sourceMappingURL=index.js.map
-
-/***/ }),
-
-/***/ 11:
-/***/ (function(module, exports) {
-
-module.exports = require("path");
 
 /***/ }),
 
@@ -1803,6 +1803,13 @@ module.exports = require("console");
 /***/ }),
 
 /***/ 12:
+/***/ (function(module, exports) {
+
+module.exports = require("path");
+
+/***/ }),
+
+/***/ 13:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1908,7 +1915,7 @@ function isMatchingPattern(value, pattern) {
 
 /***/ }),
 
-/***/ 13:
+/***/ 14:
 /***/ (function(module, exports) {
 
 module.exports = require("events");
@@ -4651,7 +4658,7 @@ var Memo = /** @class */ (function () {
 
 //# sourceMappingURL=memo.js.map
 // EXTERNAL MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/string.js
-var string = __webpack_require__(12);
+var string = __webpack_require__(13);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/object.js
 
@@ -6247,11 +6254,11 @@ var promisebuffer_PromiseBuffer = /** @class */ (function () {
 
 //# sourceMappingURL=promisebuffer.js.map
 // EXTERNAL MODULE: external "url"
-var external_url_ = __webpack_require__(15);
+var external_url_ = __webpack_require__(10);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/version.js
 var SDK_NAME = 'sentry.javascript.node';
-var SDK_VERSION = '5.18.1';
+var SDK_VERSION = '5.19.0';
 //# sourceMappingURL=version.js.map
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/base.js
 
@@ -7581,6 +7588,7 @@ function tracingHandler() {
         var reqUrl = req.url;
         var traceId;
         var parentSpanId;
+        var sampled;
         // If there is a trace header set, we extract the data from it and set the span on the scope
         // to be the origin an created transaction set the parent_span_id / trace_id
         if (req.headers && Object(is["h" /* isString */])(req.headers['sentry-trace'])) {
@@ -7588,12 +7596,14 @@ function tracingHandler() {
             if (span) {
                 traceId = span.traceId;
                 parentSpanId = span.parentSpanId;
+                sampled = span.sampled;
             }
         }
         var transaction = startTransaction({
             name: reqMethod + " " + reqUrl,
             op: 'http.server',
             parentSpanId: parentSpanId,
+            sampled: sampled,
             traceId: traceId,
         });
         // We put the transaction on the scope so users can attach children to it
@@ -7615,9 +7625,16 @@ function extractTransaction(req, type) {
     try {
         // Express.js shape
         var request = req;
+        var routePath = void 0;
+        try {
+            routePath = external_url_["parse"](request.originalUrl || request.url).pathname;
+        }
+        catch (_oO) {
+            routePath = request.route.path;
+        }
         switch (type) {
             case 'path': {
-                return request.route.path;
+                return routePath;
             }
             case 'handler': {
                 return request.route.stack[0].name;
@@ -7625,8 +7642,7 @@ function extractTransaction(req, type) {
             case 'methodPath':
             default: {
                 var method = request.method.toUpperCase();
-                var path = request.route.path;
-                return method + "|" + path;
+                return method + "|" + routePath;
             }
         }
     }
@@ -8125,7 +8141,7 @@ var linkederrors_LinkedErrors = /** @class */ (function () {
 
 //# sourceMappingURL=linkederrors.js.map
 // EXTERNAL MODULE: external "path"
-var external_path_ = __webpack_require__(11);
+var external_path_ = __webpack_require__(12);
 
 // CONCATENATED MODULE: /Users/yjutard/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/integrations/modules.js
 
@@ -9258,13 +9274,6 @@ module.exports = {
 
 /***/ }),
 
-/***/ 15:
-/***/ (function(module, exports) {
-
-module.exports = require("url");
-
-/***/ }),
-
 /***/ 150:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10292,7 +10301,7 @@ function getEnvKeyForOverride(key) {
  ////////////////////////////////////
 
 const OWN_LOGGER_NAME = ENV_ROOT;
-const REVISION = 1; ////////////////////////////////////
+const REVISION = 2; ////////////////////////////////////
 
 function create() {
   //console.log('[UDA-node installed]') // XX
@@ -11903,7 +11912,7 @@ function __classPrivateFieldSet(receiver, privateMap, value) {
 
 var net = __webpack_require__(88);
 var tls = __webpack_require__(89);
-var url = __webpack_require__(15);
+var url = __webpack_require__(10);
 var assert = __webpack_require__(42);
 var Agent = __webpack_require__(109);
 var inherits = __webpack_require__(4).inherits;
@@ -12751,7 +12760,7 @@ LRUMap.prototype.toString = function() {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return getFunctionName; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addContextToFrame; });
 /* harmony import */ var _is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
-/* harmony import */ var _string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(12);
+/* harmony import */ var _string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(13);
 
 
 /**
