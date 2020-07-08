@@ -11,6 +11,8 @@
 - 😷 chore: some internal refactors, bump dependencies
 
 ## v0.
+
+## v0.65.5
 - 😷 chore: improved cordova compatibility for potential mobile app version
 - 😷 chore: improved analytics, I'll finally see what users are doing AND exclude myself from it :)
 - 😷 chore: better debug infos

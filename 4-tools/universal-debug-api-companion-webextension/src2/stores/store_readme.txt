@@ -1,5 +1,6 @@
-A minimum of knowledge of web programming is required to be able to properly use this add-on.
-Documentation (GitHub): https://universal-debug-api-js.netlify.com/
+A minimum of knowledge of web programming is required to be able to properly use this extension.
+Documentation: https://universal-debug-api-js.netlify.com/
+Source: https://github.com/Offirmo/offirmo-monorepo/tree/master/4-tools/universal-debug-api-companion-webextension/src
 
 This is for web developers writing complex/semi-complex JavaScript.
 

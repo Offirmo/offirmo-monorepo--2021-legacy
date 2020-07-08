@@ -83,6 +83,11 @@ https://en.wikipedia.org/wiki/Hofstadter's_law
 
 OKR
 
+https://hackernoon.com/14-things-i-wish-i-knew-before-becoming-a-software-engineer-r55o3z9y
+
+https://blog.pragmaticengineer.com/the-developer-culture-test/
+https://www.joelonsoftware.com/2000/08/09/the-joel-test-12-steps-to-better-code/
+
 marketing: doesn’t matter how fast your shit is if nobody uses it. thank u next...
 https://twitter.com/sebmck/status/1265561343295397894
 

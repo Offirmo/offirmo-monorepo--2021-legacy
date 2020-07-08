@@ -8,6 +8,9 @@ backdrop-filter
 
 canvas effects https://canvas-cards.glitch.me/#intotomorrow-selector
 
+https://riccardoscalco.it/textures/
+https://github.com/SystemErrorWang/White-box-Cartoonization
+
 https://om.elvenar.com/ox/en
 
 VR

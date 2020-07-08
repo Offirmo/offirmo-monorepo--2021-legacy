@@ -386,3 +386,9 @@ This channel is for civilized and respectful conversations. The following is for
 
 Mindset: growth, hard work trump fixed
 pick what is good, all feedback is good feedback
+
+https://science.slashdot.org/story/20/06/14/036217/scientists-trigger-hibernation-in-mice-could-astronauts-be-next
+https://worldbuilding.stackexchange.com/questions/179786/a-two-thresholds-poison-how-does-it-work
+http://www.thepathmag.com/quarantine-skill-growth/
+
+https://mailchi.mp/f0d560ea0cc2/printable_sheets

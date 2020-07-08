@@ -28,6 +28,9 @@ TODO royalty free shutterstock https://www.shutterstock.com/search/fantasy+backg
 * https://www.shutterstock.com/g/NextMars
 * https://www.shutterstock.com/g/ralphstock
 
+https://krita-artists.org/t/the-valley-of-waterfalls/4080
+https://krita-artists.org/t/light-in-the-woods/4723
+
 
 Photo by Shawn Appel on Unsplash https://unsplash.com/@shawn_appel
 Photo by Florian van Duyn on Unsplash https://unsplash.com/photos/Dm-qxdynoEc
