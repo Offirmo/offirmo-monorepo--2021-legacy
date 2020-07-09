@@ -1,0 +1,13 @@
+{
+	"plugins": [
+	],
+	"presets": [
+		[
+			"@babel/env", {
+			"targets": {
+					"node": "12.16.3"
+				}
+			}
+		]
+	]
+}

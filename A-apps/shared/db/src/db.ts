@@ -7,7 +7,7 @@ import logger from './utils/logger'
 export const get_db = tiny_singleton(({min = 1, max = 1}: {min?: number, max?: number} = {}) => Knex({
 		client: 'pg',
 		connection: process.env.SECRET_DATABASE_URL || 'postgres://postgres:@127.0.0.1:32768/postgres',
-		debug: overrideHook('knex-debug', true), // TODO remove
+		debug: overrideHook('knex-debug', true), // TODO change default
 		log: {
 			warn(message: Object) {
 				logger.warn('from knex', message)

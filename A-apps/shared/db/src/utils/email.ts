@@ -1,5 +1,4 @@
 const crypto = require('crypto')
-const normalizeEmail = require('normalize-email')
 import { combine_normalizers, NORMALIZERS } from '@offirmo-private/normalize-string'
 
 ////////////////////////////////////
