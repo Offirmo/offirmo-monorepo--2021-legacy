@@ -392,3 +392,6 @@ https://worldbuilding.stackexchange.com/questions/179786/a-two-thresholds-poison
 http://www.thepathmag.com/quarantine-skill-growth/
 
 https://mailchi.mp/f0d560ea0cc2/printable_sheets
+
+much of it is harder than the work you did before you became a manager. Why, because everything you do now involves people, people who are amazing but messy and always unpredictable.
+

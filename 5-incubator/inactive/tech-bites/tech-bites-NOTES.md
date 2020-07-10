@@ -108,3 +108,7 @@ https://www.jimcollins.com/article_topics/articles/BHAG.html
 generics https://developers.slashdot.org/story/20/06/20/0045210/has-the-time-finally-come-for-generics-in-golang
 
 https://workplace.stackexchange.com/questions/160089/how-to-deal-with-half-my-colleagues-overriding-development-processes-under-the-s
+
+managing up / influencing up
+
+whining, complaining and venting

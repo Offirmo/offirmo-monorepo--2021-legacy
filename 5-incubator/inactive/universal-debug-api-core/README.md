@@ -13,9 +13,9 @@
 		  src="https://img.shields.io/npm/v/@offirmo/universal-debug-api-core.svg">
 	</a>
 	<a alt="dependencies analysis"
-	  href="https://david-dm.org/offirmo/offirmo-monorepo?path=3-advanced%2Funiversal-debug-api-core">
+	  href="https://david-dm.org/offirmo/offirmo-monorepo?path=3-advanced--multi%2Funiversal-debug-api-core">
 		<img alt="dependencies badge"
-		  src="https://img.shields.io/david/offirmo/offirmo-monorepo.svg?path=3-advanced%2Funiversal-debug-api-core">
+		  src="https://img.shields.io/david/offirmo/offirmo-monorepo.svg?path=3-advanced--multi%2Funiversal-debug-api-core">
 	</a>
 	<a alt="bundle size evaluation"
 	  href="https://bundlephobia.com/result?p=@offirmo/universal-debug-api-core">

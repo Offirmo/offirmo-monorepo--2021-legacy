@@ -10,7 +10,7 @@ const tsc = require('../4-tools/node-typescript-compiler')
 
 const cli = meow('build', {
 	flags: {
-		alsoLegacy: {
+		onlyNode: {
 			type: 'boolean',
 			default: false,
 		},
@@ -39,8 +39,8 @@ const DIST_DIR = path.join(PKG_PATH, 'dist')
 const PKG_JSON = require(path.join(PKG_PATH, 'package.json'))
 const PKG_NAME = PKG_JSON.name
 const LOCAL_TSCONFIG_JSON = require(path.join(PKG_PATH, 'tsconfig.json'))
-console.assert(!LOCAL_TSCONFIG_JSON?.compilerOptions?.target)
-console.assert(!LOCAL_TSCONFIG_JSON?.compilerOptions?.module)
+console.assert(!LOCAL_TSCONFIG_JSON.compilerOptions.target)
+console.assert(!LOCAL_TSCONFIG_JSON.compilerOptions.module)
 
 const ROOT_TSCONFIG_JSON = require(path.join(__dirname, '..', '0-meta', 'tsconfig.json'))
 console.assert(ROOT_TSCONFIG_JSON.compilerOptions.target === LATEST_CONVENIENT_ES)
@@ -72,26 +72,6 @@ if (cli.flags.watch) {
 
 /////////////////////
 
-function build_legacy() {
-	throw new Error('Should not be used!')
-	const target = 'es5'
-	const out_dir = `src.${target}.cjs`
-	console.log(`      building ${PKG_NAME}/dist/${stylize_string.bold(out_dir)}`)
-	return tsc.compile(
-		{
-			...compilerOptions,
-			target,
-			module: 'commonjs',
-			outDir: path.join(DIST_DIR, out_dir),
-			project: PKG_PATH,
-		},
-		null,
-		{
-			banner: `(from build-typescript.js) node-typescript-compiler compiling ${PKG_NAME} to dist/${out_dir}...`
-		},
-	)
-}
-
 function build_convenience_prebuilt() {
 	const target = LATEST_ES_OLDEST_ACTIVE_NODE_LTS.toLowerCase()
 	const out_dir = `src.${target}.cjs`
@@ -104,7 +84,7 @@ function build_convenience_prebuilt() {
 				LATEST_ES_OLDEST_ACTIVE_NODE_LTS,
 				...[
 					...ROOT_TSCONFIG_JSON.compilerOptions.lib,
-					...(LOCAL_TSCONFIG_JSON?.compilerOptions?.lib ?? []),
+					...(LOCAL_TSCONFIG_JSON.compilerOptions.lib || []),
 				].filter(s => s !== LATEST_CONVENIENT_ES),
 			],
 			module: 'commonjs',
@@ -149,14 +129,9 @@ Promise.resolve()
 	})
 	.then(() => {
 		if (cli.flags.watch) return
+		if (cli.flags.onlyNode) return
 
 		return build_latest_es()
-	})
-	.then(() => {
-		if (cli.flags.watch) return
-		if (!cli.flags.alsoLegacy) return
-
-		return build_legacy()
 	})
 	.then(() => console.log(`🛠  🔺 building ${stylize_string.bold(PKG_NAME)} done ✔`))
 	/*.catch(err => {

@@ -62,8 +62,6 @@ bolt ws run build --only-fs "1-stdlib/*"
 bolt ws run test --only-fs "1-stdlib/*"
 bolt ws run build --only-fs "2-foundation/*"
 bolt ws run test --only-fs "2-foundation/*"
-bolt ws run build --only-fs "3-advanced/*"
-bolt ws run test --only-fs "3-advanced/*"
 bolt ws run build --only-fs "4-tools/*"
 bolt ws run build --only-fs "5-incubator/**/*"
 bolt ws run build --only @oh-my-rpg/*

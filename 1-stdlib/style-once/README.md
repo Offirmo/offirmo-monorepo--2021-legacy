@@ -7,5 +7,5 @@ style_once({ id: 'style', css: `
 
 ` })
 
-style_once({ id: 'style', href: '//localhost:1981/3-advanced/view-css/src/style.css' })
+style_once({ id: 'style', href: '//localhost:1981/3-advanced--browser/view-css/src/style.css' })
 ```

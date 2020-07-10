@@ -59,5 +59,5 @@
 		"logger",
 		"typescript"
 	],
-	"homepage": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced/universal-debug-api-core"
+	"homepage": "https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--multi/universal-debug-api-core"
 }

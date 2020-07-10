@@ -33,7 +33,7 @@ console.assert(lib1_encoded.length <= MAX_INLINE_LIB_SIZE, '❌❌ lib1 is too b
 fs.writeFileSync(lib1_target_path, `
 // THIS FILE IS AUTO GENERATED!
 // This is a base64 version of the Universal Web Debug API:
-// https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced/universal-debug-api-browser
+// https://github.com/Offirmo/offirmo-monorepo/tree/master/3-advanced--multi/universal-debug-api-browser
 // bundled in a single file through this local file:
 // ../src/injected-libs/universal-debug-api-from-webext.ts
 const lib = '${lib1_encoded}'

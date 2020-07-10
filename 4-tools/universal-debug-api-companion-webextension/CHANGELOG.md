@@ -8,6 +8,7 @@
 * TODO [fix] edition fields
 * TODO [fix] stale overrides handling
 * TODO [fix] ugly styling
+* [chore] reorganized the monorepo: some pathes changed.
 
 ## v0.1.0
 2020/07/03
