@@ -6,8 +6,16 @@
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",
 	"private": true,
+
 	"heroku-run-build-script": false,
+	"engines": {
+		"node": "12.x"
+	},
+
 	"scripts": {
+		"heroku-prebuild": "echo This runs before Heroku installs dependencies.",
+		"heroku-postbuild": "echo This runs after Heroku installs dependencies, but before Heroku prunes and caches dependencies.",
+
 		"clean": "bolt ws run clean && bolt ws exec -- rm -rf .cache .parcel dist node_modules yarn.lock package-lock.json yarn-error.log",
 		"test": "bolt ws run test",
 		"build": "bolt ws run build",
