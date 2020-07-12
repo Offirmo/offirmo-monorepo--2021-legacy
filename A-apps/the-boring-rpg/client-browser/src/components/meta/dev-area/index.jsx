@@ -23,7 +23,7 @@ export default class DevArea extends Component {
 		this.SEC = props.SEC || getRootSEC()
 		const { CHANNEL, IS_DEV_MODE, logger } = this.SEC.getInjectedDependencies()
 		this.logger = logger
-		this.channel = props.channel || CHANNEL || 'dev'
+		this.channel = props.channel || CHANNEL
 		this.state = {
 			displayed: !this.channel.startsWith('prod') || IS_DEV_MODE,
 			open: false,

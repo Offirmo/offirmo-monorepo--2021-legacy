@@ -15,7 +15,7 @@ import './index.css'
 
 
 function * gen_next_step() {
-	const game_instance = get_game_instance()
+	let game_instance = get_game_instance()
 
 	do {
 		const steps = []
@@ -30,14 +30,13 @@ function * gen_next_step() {
 			game_instance.commands.acknowledge_engagement_msg_seen(uid)
 		}
 		else {
-			const state = game_instance.model.get()
 			const ui_state = game_instance.view.get()
 			const last_adventure = game_instance.queries.get_last_adventure()
 
 			if (!ui_state.recap_displayed) {
 				steps.push({
 					type: 'simple_message',
-					msg_main: rich_text_to_react(get_game_instance().queries.get_recap()),
+					msg_main: rich_text_to_react(game_instance.queries.get_recap()),
 				})
 				game_instance.view.set_state(() => ({
 					recap_displayed: true,
@@ -105,9 +104,9 @@ function * gen_next_step() {
 								window.ga && window.ga('send', 'event', {
 									eventCategory: 'game',
 									eventAction: 'play',
-									//eventValue: 55, TODO
-									//eventLabel: 'Label',
-									hitCallback: () => console.log('GA sent!'),
+									eventValue: game_instance.queries.get_last_adventure().good,
+									eventLabel: CTA,
+									hitCallback: () => console.log('GA play sent!'),
 								})
 							},
 						},
@@ -117,6 +116,7 @@ function * gen_next_step() {
 		}
 
 		yield* steps
+		game_instance = get_game_instance()
 	} while (true)
 }
 

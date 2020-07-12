@@ -11,6 +11,9 @@
 - 😷 chore: some internal refactors, bump dependencies
 
 ## v0.
+- 😷 chore: improved analytics (more events, not sending them for me the developer)
+- 😷 chore: improved migration of old savegames
+
 
 ## v0.65.5
 - 😷 chore: improved cordova compatibility for potential mobile app version

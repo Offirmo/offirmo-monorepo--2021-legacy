@@ -6,7 +6,7 @@
 * TODO make the extension public on Chrome Web Store
 * TODO release to FF
 * TODO [fix] edition fields
-* TODO [fix] stale overrides handling
+* TODO [fix] stale overrides handling (last_reported: -1)
 * TODO [fix] ugly styling
 * [chore] reorganized the monorepo: some pathes changed.
 

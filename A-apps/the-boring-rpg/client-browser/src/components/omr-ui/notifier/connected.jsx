@@ -2,13 +2,13 @@ import * as React from 'react'
 import { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
+import { getRootSEC } from '@offirmo-private/soft-execution-context'
 import { THE_BORING_RPG } from '@offirmo-private/marketing-rsrc'
 import { NUMERIC_VERSION } from '@tbrpg/flux'
 
 import rich_text_to_react from '../../../services/rich-text-to-react'
 import { UStateListenerAndProvider } from '../../../context'
 import get_game_instance from '../../../services/game-instance-browser'
-import SEC from '../../../services/sec'
 import { LS_KEYS } from '../../../services/consts'
 
 let start_notifs_displayed = false
@@ -24,7 +24,7 @@ const OMRUINotifierC1 = React.memo(
 				auto_dismiss_delay_ms: 7000,
 			})
 
-			SEC.xTry('update last seen version', () => {
+			getRootSEC().xTry('update last seen version', () => {
 				const current_version = NUMERIC_VERSION
 				const ls_content = localStorage.getItem(LS_KEYS.last_version_seen)
 				if (ls_content) {

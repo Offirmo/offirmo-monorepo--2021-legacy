@@ -1,16 +1,13 @@
 import { Enum } from 'typescript-string-enums'
 import bowser from 'bowser'
+import { getRootSEC } from '@offirmo-private/soft-execution-context'
 import tiny_singleton from '@offirmo/tiny-singleton'
 import assert from 'tiny-invariant'
 
-import { NUMERIC_VERSION, create_game_instance } from '@tbrpg/flux'
-//import { NUMERIC_VERSION as NUMERIC_VERSION_JSON } from './build'
+import { create_game_instance } from '@tbrpg/flux'
 
-import SEC from './sec'
 import { init } from './user_account'
 
-//assert(NUMERIC_VERSION === NUMERIC_VERSION_JSON, 'Internal build error: mismatched numvers in source!')
-//console.log(__filename)
 /////////////////////////////////////////////////
 
 export const ACCOUNT_STATE = Enum(
@@ -37,28 +34,30 @@ const INITIAL_APP_STATE = {
 }
 
 const storage = {
-	//TbrpgStorage {
 	async warm_up() {},
 	async cool_down() {},
 	set_item(key, value) {
 		localStorage.setItem(`the-boring-rpg.${key}`, value)
 	},
 	get_item(key) {
-		return localStorage.getItem(`the-boring-rpg.${key}`)
+		let temp = localStorage.getItem(`the-boring-rpg.${key}`)
+		if (key === 'savegame' && !temp) // migration, TODO remove after a while
+			temp = localStorage.getItem('the-boring-rpg.savegame-bkp.v11')
+		if (key === 'savegame' && !temp) // migration, TODO remove after a while
+			temp = localStorage.getItem('the-boring-rpg.savegame-bkp.v10')
+		if (key === 'savegame' && !temp) // migration, TODO remove after a while
+			temp = localStorage.getItem('the-boring-rpg.savegame-bkp.v9')
+		if (key === 'savegame' && !temp) // migration, TODO remove after a while
+			temp = localStorage.getItem('the-boring-rpg.savegame-bkp.v8')
+		if (key === 'savegame' && !temp) // migration, TODO remove after a while
+			temp = localStorage.getItem('the-boring-rpg.savegame-bkp.v7')
+		if (key === 'savegame' && !temp) // migration, TODO remove after a while
+			temp = localStorage.getItem('the-boring-rpg.savegame-bkp.v6')
+		return temp
 	},
 }
 
-// migration TODO
-/*
-window.localStorage.removeItem('the-boring-rpg.savegame-bkp.v11')
-window.localStorage.removeItem('the-boring-rpg.savegame-bkp.v10')
-window.localStorage.removeItem('the-boring-rpg.savegame-bkp.v9')
-window.localStorage.removeItem('the-boring-rpg.savegame-bkp.v8')
-window.localStorage.removeItem('the-boring-rpg.savegame-bkp.v7')
-window.localStorage.removeItem('the-boring-rpg.savegame-bkp.v6')
-*/
-
-const get = tiny_singleton(() => SEC.xTry('creating game instance', ({SEC, logger}) => {
+const get = tiny_singleton(() => getRootSEC().xTry('creating game instance', ({SEC, logger}) => {
 	const game_instance = create_game_instance({
 		SEC,
 		local_storage: localStorage,
@@ -67,6 +66,14 @@ const get = tiny_singleton(() => SEC.xTry('creating game instance', ({SEC, logge
 			...INITIAL_APP_STATE,
 		},
 	})
+
+	// TODO clean that up later
+	localStorage.removeItem('the-boring-rpg.savegame-bkp.v11')
+	localStorage.removeItem('the-boring-rpg.savegame-bkp.v10')
+	localStorage.removeItem('the-boring-rpg.savegame-bkp.v9')
+	localStorage.removeItem('the-boring-rpg.savegame-bkp.v8')
+	localStorage.removeItem('the-boring-rpg.savegame-bkp.v7')
+	localStorage.removeItem('the-boring-rpg.savegame-bkp.v6')
 
 	// init
 	game_instance.view.set_state(state => {
@@ -78,6 +85,14 @@ const get = tiny_singleton(() => SEC.xTry('creating game instance', ({SEC, logge
 
 	const is_web_diversity_supporter = bowser.name === 'Firefox'
 	game_instance.commands.on_start_session(is_web_diversity_supporter)
+
+	window.ga && window.ga('send', 'event', {
+		eventCategory: 'boot',
+		eventAction: 'restoring-savegame',
+		eventValue: game_instance.queries.get_sub_state('avatar').name,
+		eventLabel: 'Loading…',
+		hitCallback: () => console.log('GA restoring-savegame sent!'),
+	})
 
 	init(SEC, game_instance)
 

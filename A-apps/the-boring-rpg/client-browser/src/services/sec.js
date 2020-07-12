@@ -73,4 +73,5 @@ if (ENV !== process.env.NODE_ENV) {
 
 /////////////////////////////////////////////////
 
-export default SEC
+// no, should be accessed with getRootSEC
+//export default SEC

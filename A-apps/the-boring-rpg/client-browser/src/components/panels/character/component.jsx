@@ -46,6 +46,13 @@ function * gen_next_step() {
 								game_instance.view.set_state(() => ({
 									changing_character_class: false,
 								}))
+								window.ga && window.ga('send', 'event', {
+									eventCategory: 'game',
+									eventAction: 'change_class',
+									//eventValue: game_instance.queries.get_last_adventure().good,
+									//eventLabel: CTA,
+									hitCallback: () => console.log('GA cc sent!'),
+								})
 							},
 						})),
 				})
@@ -67,6 +74,13 @@ function * gen_next_step() {
 						game_instance.view.set_state(() => ({
 							changing_character_name: false,
 						}))
+						window.ga && window.ga('send', 'event', {
+							eventCategory: 'game',
+							eventAction: 'rename_avatar',
+							//eventValue: game_instance.queries.get_last_adventure().good,
+							//eventLabel: CTA,
+							hitCallback: () => console.log('GA ra sent!'),
+						})
 					},
 				})
 			}

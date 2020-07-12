@@ -91,7 +91,8 @@ describe(`${LIB} - selectors`, function() {
 				...u_state,
 				total_energy_consumed_so_far: 1_000, // should be established by this time
 			}
-			//dump_pretty_json('u', u_state)
+			dump_pretty_json('u', u_state)
+			console.log(get_energy_refill_rate(u_state, t_state))
 			expect(get_energy_refill_rate(u_state, t_state).per_day()).to.equal(EXPECTED_ESTABLISHED_ENERGY_REFILL_PER_DAY)
 		})
 

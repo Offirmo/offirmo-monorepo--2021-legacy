@@ -1,16 +1,17 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
 
-import { get_top_ish_window } from '@offirmo-private/xoff'
+import { getRootSEC } from '@offirmo-private/soft-execution-context'
+import { get_top_ish_window, execute_from_top } from '@offirmo-private/xoff'
 import * as RichText from '@offirmo-private/rich-text-format'
 import { THE_BORING_RPG } from '@offirmo-private/marketing-rsrc'
 import { SCHEMA_VERSION, NUMERIC_VERSION as ENGINE_VERSION } from '@tbrpg/flux'
-import { BUILD_DATE } from '../../../build.json'
+import { LS_KEYS } from '@offirmo-private/soft-execution-context-browser/src/consts'
 
+import { BUILD_DATE } from '../../../build.json'
 import NetlifyWidget from '../../misc/netlify'
 import { Chat } from '../../utils/chat-interface'
 import rich_text_to_react from '../../../services/rich-text-to-react'
-import SEC from '../../../services/sec'
 import ErrorBoundary from '@offirmo-private/react-error-boundary'
 import get_game_instance from '../../../services/game-instance-browser'
 
@@ -45,9 +46,20 @@ function * gen_next_step(navigate_to_savegame_editor) {
 						? `Redeeming the code "${code}"...`
 						: 'Maybe another time.',
 					callback: value => {
-						//console.log({value, type: typeof value})
-						if (value)
-							game_instance.commands.attempt_to_redeem_code(value)
+						value = value.toLowerCase().trim()
+						console.log({value, type: typeof value})
+						if (value) {
+							if (value === 'dm') { // dev mode
+								localStorage.setItem(LS_KEYS.dev_mode, true)
+								execute_from_top(() => 	window.location.reload())
+							}
+							else if (value === 'nodm') { // dev mode
+								localStorage.removeItem(LS_KEYS.dev_mode)
+								execute_from_top(() => 	window.location.reload())
+							}
+							else
+								game_instance.commands.attempt_to_redeem_code(value)
+						}
 						game_instance.view.set_state(() => ({
 							redeeming_code: false,
 						}))
@@ -112,7 +124,7 @@ function * gen_next_step(navigate_to_savegame_editor) {
 
 
 export function render_meta(statistics) {
-	const { CHANNEL, ENV } = SEC.getInjectedDependencies()
+	const { CHANNEL, ENV } = getRootSEC().getInjectedDependencies()
 
 	const $doc_list_builder = RichText.unordered_list()
 	$doc_list_builder.pushRawNode(
