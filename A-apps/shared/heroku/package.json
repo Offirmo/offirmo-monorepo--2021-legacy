@@ -35,12 +35,14 @@
 	"scripts": {
 		"clean": "node ../../../0-scripts/clean.js dist",
 
-		"build:dev:watch": "node ../../../0-scripts/build-typescript.js --watch",
-		"build:prod": "node ../../../0-scripts/build-typescript.js --onlyNode",
+		"build--dev--watch": "node ../../../0-scripts/build-typescript.js --watch",
+		"build--prod": "node ../../../0-scripts/build-typescript.js --onlyNode",
 
-		"dev": "run-s clean build:dev:watch",
+		"dev": "run-s clean build--dev--watch",
 		"start": "nodemon --delay 1 dist/src.es2019.cjs/index.js",
-		"build": "run-s build:prod"
+
+		"build": "run-s build--prod",
+		"start--prod": "node --optimize_for_size --max_old_space_size=460 --gc_interval=100 dist/src.es2019.cjs/index.js"
 	},
 	"devDependencies": {
 		"@types/express": "^4",
