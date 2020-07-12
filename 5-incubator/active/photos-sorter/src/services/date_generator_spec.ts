@@ -15,6 +15,11 @@ describe('date generation', function() {
 	const TEST_DATE = new Date(2003, 4, 5, 6, 7, 8, 9)
 	const ZONE_GMT = 'Etc/GMT'
 
+	context('when using the base TZ', function() {
+
+	})
+
+
 	describe('days', function() {
 
 		it('should return correct timestamps up to the day', function() {
