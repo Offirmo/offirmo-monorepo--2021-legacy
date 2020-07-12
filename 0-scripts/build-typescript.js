@@ -38,7 +38,10 @@ const PKG_PATH = process.cwd()
 const DIST_DIR = path.join(PKG_PATH, 'dist')
 const PKG_JSON = require(path.join(PKG_PATH, 'package.json'))
 const PKG_NAME = PKG_JSON.name
+console.log(`🛠  🔻 building ${stylize_string.bold(PKG_NAME)}...` + (cli.flags.watch ? ' (watch mode)' : ''))
+
 const LOCAL_TSCONFIG_JSON = require(path.join(PKG_PATH, 'tsconfig.json'))
+LOCAL_TSCONFIG_JSON.compilerOptions = LOCAL_TSCONFIG_JSON.compilerOptions || {}
 console.assert(!LOCAL_TSCONFIG_JSON.compilerOptions.target)
 console.assert(!LOCAL_TSCONFIG_JSON.compilerOptions.module)
 
@@ -118,7 +121,6 @@ function build_latest_es() {
 /////////////////////
 
 //console.log({PKG_PATH, DIST_DIR, PKG_NAME, flags: cli.flags})
-console.log(`🛠  🔻 building ${stylize_string.bold(PKG_NAME)}...` + (cli.flags.watch ? ' (watch mode)' : ''))
 
 // build sequentially to not duplicate the errors if any.
 // CJS is usable in both node and bundled frontend,

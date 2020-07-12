@@ -1,7 +1,7 @@
 import { createServer } from 'http'
-import * as express from 'express'
+import express from 'express'
 
-console.log('Hello world from express server!')
+console.log('Hello world from Typescript express server!')
 
 const PORT = process.env.PORT || 5000
 
@@ -11,20 +11,17 @@ const app = express()
 app.enable('trust proxy')
 app.disable('x-powered-by')
 
-
-// https://expressjs.com/en/starter/static-files.html
-// REM: respond with index.html when a GET request is made to the homepage
-app.use(express.static('public'))
-
 // respond with "hello world" when a GET request is made to this path
-app.get('/hello', function (req, res) {
-	res.send('hello world!')
+app.get('/', function (req, res) {
+	res.send(`
+This is not what you’re looking for.
+`)
 })
 
 const server = createServer(app)
 
 server.on('error', (err: Error) => {
-	console.error('something bad happened', err)
+	console.error('server encountered an error', err)
 })
 
 server.listen(PORT, () => {
