@@ -21,7 +21,7 @@ import './index-2.css'
 /////////////////////////////////////////////////
 
 setTimeout(() => {
-	console.groupCollapsed('——————— end of immediate synchronous code ———————')
+	console.groupCollapsed('——————— end of immediate, synchronous, non-import code ———————')
 	console.log({ BUILD_DATE, CHANNEL })
 	console.groupEnd()
 })

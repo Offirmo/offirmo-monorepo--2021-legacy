@@ -395,3 +395,8 @@ https://mailchi.mp/f0d560ea0cc2/printable_sheets
 
 much of it is harder than the work you did before you became a manager. Why, because everything you do now involves people, people who are amazing but messy and always unpredictable.
 
+https://rpggeek.com/thread/1295985/beast-shapes-druid-level
+https://www.dndbeyond.com/characters/899660
+
+https://www.questchests.com/post/evil-d-d-campaigns-you-should-run-one-how-to-get-started
+https://www.questchests.com/random-tables

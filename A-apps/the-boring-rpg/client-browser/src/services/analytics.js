@@ -38,7 +38,7 @@ setTimeout(() => {
 
 		logger.groupEnd()
 	})
-})
+}, 1)
 
 
 setTimeout(() => {
