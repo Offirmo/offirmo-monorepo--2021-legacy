@@ -5,6 +5,8 @@ import { CHANNEL } from './channel'
 
 /////////////////////////////////////////////////
 
+process.env.UDA_OVERRIDE__LOGGER_OA_DB_LOGLEVEL= process.env.UDA_OVERRIDE__LOGGER_OA_DB_LOGLEVEL || "silly"
+
 const logger = getLogger({
 	name: APP,
 	suggestedLevel: CHANNEL === 'dev' ? 'silly' : 'warning',

@@ -20,7 +20,7 @@ async function _handler(
 	next: Function
 ): Promise<void> {
 	response.statusCode = 200
-	response.body = `Hello, ${SEC.getInjectedDependencies().user!.called}!`
+	response.body = JSON.stringify(`Hello, ${SEC.getInjectedDependencies().user!.called}!`)
 }
 
 

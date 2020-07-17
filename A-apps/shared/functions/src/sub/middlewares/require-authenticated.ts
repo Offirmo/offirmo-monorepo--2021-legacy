@@ -11,13 +11,13 @@ import {
 } from './types'
 
 
-export const require_authenticated: MiddleWare = async (
+export async function require_authenticated(
 	SEC: XSoftExecutionContext,
 	event: Readonly<APIGatewayEvent>,
 	context: Readonly<NetlifyContext>,
 	response: Response,
 	next: () => Promise<void>
-): Promise<void> => {
+): Promise<void> {
 	try {
 		const netlify_user_data = get_netlify_user_data(context)
 
@@ -36,5 +36,7 @@ export const require_authenticated: MiddleWare = async (
 		throw err
 	}
 }
+const _require_authenticated: MiddleWare = require_authenticated // test check
+
 
 export default require_authenticated

@@ -126,6 +126,7 @@ export function use_middlewares_with_error_safety_net(
 				let _previous_status_code: Response["statusCode"] = response.statusCode
 				let _previous_body: Response["body"] = response.body
 				function _check_response(mw_index: number, stage: 'in' | 'out') {
+					assert(mw_index >= 0 && mw_index < middlewares.length, 'mw_index')
 					let { statusCode, body } = response
 					const current_mw_name = middlewares[mw_index].name || DEFAULT_MW_NAME
 					let mw_debug_id = current_mw_name
@@ -169,8 +170,6 @@ export function use_middlewares_with_error_safety_net(
 
 				let last_reported_error: any = null
 				async function next(index: number): Promise<void> {
-					const current_mw_name = middlewares[index].name || DEFAULT_MW_NAME
-
 					if (index > 0) {
 						_check_response(index - 1, 'in')
 					}
@@ -178,6 +177,7 @@ export function use_middlewares_with_error_safety_net(
 					if (index >= middlewares.length)
 						return
 
+					const current_mw_name = middlewares[index].name || DEFAULT_MW_NAME
 					try {
 						logger.trace(`[MW2] invoking middleware ${index+1}/${middlewares.length} "${current_mw_name}"…`)
 						await middlewares[index](SEC, event, context, response, next.bind(null, index + 1))

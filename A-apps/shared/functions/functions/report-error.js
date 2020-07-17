@@ -8202,7 +8202,11 @@ const handler = async (event, badly_typed_context) => {
   if (!message.endsWith('!')) message = message + '!';
   const err = new Error(message);
   await sentry_1.on_error(err);
-  throw err;
+  return {
+    statusCode: 200,
+    headers: {},
+    body: 'Error reported✔'
+  };
 };
 
 exports.handler = handler;

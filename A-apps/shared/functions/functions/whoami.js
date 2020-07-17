@@ -18777,6 +18777,7 @@ function use_middlewares_with_error_safety_net(event, badly_typed_context, middl
         let _previous_body = response.body;
 
         function _check_response(mw_index, stage) {
+          tiny_invariant_1.default(mw_index >= 0 && mw_index < middlewares.length, 'mw_index');
           let {
             statusCode,
             body
@@ -18825,13 +18826,12 @@ function use_middlewares_with_error_safety_net(event, badly_typed_context, middl
         let last_reported_error = null;
 
         async function next(index) {
-          const current_mw_name = middlewares[index].name || DEFAULT_MW_NAME;
-
           if (index > 0) {
             _check_response(index - 1, 'in');
           }
 
           if (index >= middlewares.length) return;
+          const current_mw_name = middlewares[index].name || DEFAULT_MW_NAME;
 
           try {
             logger.trace(`[MW2] invoking middleware ${index + 1}/${middlewares.length} "${current_mw_name}"…`);
@@ -27676,7 +27676,7 @@ const db_1 = __webpack_require__(282);
 
 const netlify_1 = __webpack_require__(184);
 
-exports.require_authenticated = async (SEC, event, context, response, next) => {
+async function require_authenticated(SEC, event, context, response, next) {
   try {
     const netlify_user_data = netlify_1.get_netlify_user_data(context);
     await db_1.get_db().transaction(async trx => {
@@ -27691,9 +27691,12 @@ exports.require_authenticated = async (SEC, event, context, response, next) => {
     err.statusCode = err.statusCode || 401;
     throw err;
   }
-};
+}
 
-exports.default = exports.require_authenticated;
+exports.require_authenticated = require_authenticated;
+const _require_authenticated = require_authenticated; // test check
+
+exports.default = require_authenticated;
 
 /***/ }),
 /* 282 */
