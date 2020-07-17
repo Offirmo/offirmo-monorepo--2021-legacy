@@ -38,8 +38,8 @@
 	"scripts": {
 		"clean": "node ../../../0-scripts/clean.js …dist functions",
 
-		"build:dev:watch": "node ../../../0-scripts/build-typescript.js --watch",
-		"build:prod": "node ../../../0-scripts/build-typescript.js",
+		"build:dev:watch": "node ../../../0-scripts/build-typescript.js --watch --nodeOnly",
+		"build:prod": "node ../../../0-scripts/build-typescript.js --nodeOnly",
 		"build:netlify-functions": "rm -rf ./functions && netlify-lambda build ./dist/src.es2019.cjs --config ./webpack.config.ts",
 		"ensure-privacy": "grep --null -RIl `whoami` * | xargs -0 sed -i '' -e s/`whoami`/offirmo/g",
 		"xxensure-size": "size-limit",

@@ -68,12 +68,14 @@
 			<li>
 				<button onclick="query('.netlify/functions/whoami')">whoami</button>
 			<li>
-				<button onclick="query('.netlify/functions/test')">test</button>
+				<button onclick="query('.netlify/functions/temp')">temp</button>
 			<li>
-				<button onclick="query('.netlify/functions/report-error')">report-error</button>
-			<li><a>/.netlify/functions/hello</a>
+				<button onclick="query('.netlify/functions/report-error?message=test-error-report!')">report-error</button>
+			<li><a>/.netlify/functions/hello-world</a>
+			<li><a>/.netlify/functions/hello-world-advanced</a>
 			<li><a>/.netlify/functions/echo?foo=bar&baz=42</a>
-			<li><a>/.netlify/functions/lodash</a>
+			<li><a>/.netlify/functions/test-error-handling</a>
+			<li><a>/.netlify/functions/404</a>
 			<li><a>/.netlify/functions/whoami</a> (won't work without the headers, see below)
 		</ul>
 	</details>
