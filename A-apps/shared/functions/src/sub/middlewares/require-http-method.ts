@@ -22,7 +22,7 @@ export type HttpMethod = Enum<typeof HttpMethod> // eslint-disable-line no-redec
 
 
 export function require_http_method(allowed_methods: HttpMethod[]): MiddleWare {
-	return async (
+	const _require_http_method = async (
 		SEC: XSoftExecutionContext,
 		event: Readonly<APIGatewayEvent>,
 		context: Readonly<NetlifyContext>,
@@ -54,4 +54,6 @@ export function require_http_method(allowed_methods: HttpMethod[]): MiddleWare {
 			await next()
 		})
 	}
+	//mw.name = 'require_http_method:' + allowed_methods.join(',')
+	return _require_http_method
 }

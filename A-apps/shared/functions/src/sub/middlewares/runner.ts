@@ -1,4 +1,5 @@
 import assert from 'tiny-invariant'
+import stable_stringify from 'json-stable-stringify'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 
 import {
@@ -19,9 +20,9 @@ import {create_error} from "../utils";
 const MARGIN_AND_SENTRY_BUDGET_MS = CHANNEL === 'dev' ? 5000 : 1000
 
 
-function err_to_response(err: XError): Response {
-	const statusCode = err.statusCode || 500
-	const body = err.res || `[Error] ${err.message || 'Unknown error!'}`
+function _get_response_from_error(err: XError): Response {
+	const statusCode = err?.statusCode || 500
+	const body = err?.res || `[Error] ${err?.message || 'Unknown error!'}`
 
 	return {
 		statusCode,
@@ -30,6 +31,9 @@ function err_to_response(err: XError): Response {
 	}
 }
 
+const DEFAULT_STATUS_CODE = 500
+const DEFAULT_RESPONSE_BODY = '[MW2] Bad handler chain: no response set!'
+const DEFAULT_MW_NAME = 'anonymous'
 
 export function use_middlewares_with_error_safety_net(
 	event: APIGatewayEvent,
@@ -47,10 +51,10 @@ export function use_middlewares_with_error_safety_net(
 
 		///////////////////// Setup /////////////////////
 		SEC.xTry('MW1', ({SEC, logger}) => {
-			logger.log('Starting handling: ' + event.path + '…', {time: get_UTC_timestamp_ms()})
+			logger.log('[MW1] Starting handling: ' + event.path + '…', {time: get_UTC_timestamp_ms()})
 			// TODO breadcrumb
 
-			assert(middlewares.length >= 1, 'please provide some middlewares!')
+			assert(middlewares.length >= 1, '[MW1] please provide some middlewares!')
 
 			let timeout_id: ReturnType<typeof setTimeout> | null = null
 			let is_emitter_waiting = false
@@ -68,28 +72,28 @@ export function use_middlewares_with_error_safety_net(
 			async function on_final_error(err: XError) {
 				clean()
 
-				logger.fatal('⚰️ Final error:', err)
+				logger.fatal('⚰️ [MW1] Final error:', err)
 
 				if (CHANNEL === 'dev') {
-					logger.info('(not reported since dev)')
+					logger.info('([MW1] not reported since dev)')
 				} else {
-					logger.info('(this error will be reported)')
+					logger.info('([MW1] this error will be reported)')
 					try {
 						await report_to_sentry(err)
 					} catch (err) {
-						console.error('XXX huge error in the error handler itself! XXX')
+						console.error('XXX [MW1] huge error in the error handler itself! XXX')
 					}
 				}
 
 				// note: once resolved, the code will be frozen by AWS lambda
 				// so this must be last
-				const response = err_to_response(err)
-				logger.info('FYI resolving with:', {status: response.statusCode})
+				const response = _get_response_from_error(err)
+				logger.info('[MW1] FYI resolving with:', {status: response.statusCode})
 				resolve(response)
 			}
 
 			async function on_final_error_h({err}: XSECEventDataMap['final-error']) {
-				logger.trace('on_final_error_h')
+				logger.trace('[MW1] on_final_error_h')
 				is_emitter_waiting = false
 				await on_final_error(err)
 			}
@@ -100,89 +104,134 @@ export function use_middlewares_with_error_safety_net(
 
 			const remaining_time_ms = context.getRemainingTimeInMillis ? context.getRemainingTimeInMillis() : 10_000
 			const time_budget_ms = Math.max(remaining_time_ms - MARGIN_AND_SENTRY_BUDGET_MS, 0)
-			logger.info('Setting timeout...', {time_budget_ms})
+			logger.info('[MW1] Setting timeout...', {time_budget_ms})
 			timeout_id = setTimeout(() => {
 				timeout_id = null
 				SEC.xTryCatch('timeout', ({logger}) => {
-					logger.fatal('⏰ timeout!')
-					throw new Error('Timeout handling this request!')
+					logger.fatal('⏰ [MW1] timeout!')
+					throw new Error('[MW1] Timeout handling this request!')
 				})
 			}, time_budget_ms)
 
 			///////////////////// invoke /////////////////////
 
 			SEC.xPromiseTry<Response>('MW2', async ({SEC, logger}) => {
-					logger.trace('Invoking MW(s)_')
+				logger.trace(`[MW2] Invoking a chain of ${middlewares.length} middlewares…`)
+				const response: Response = {
+					statusCode: DEFAULT_STATUS_CODE,
+					headers: {},
+					body: DEFAULT_RESPONSE_BODY,
+				}
 
-					const response: Response = {
-						statusCode: 500,
-						headers: {},
-						body: 'Bad handler: response unmodified!'
+				let _previous_status_code: Response["statusCode"] = response.statusCode
+				let _previous_body: Response["body"] = response.body
+				function _check_response(mw_index: number, stage: 'in' | 'out') {
+					let { statusCode, body } = response
+					const current_mw_name = middlewares[mw_index].name || DEFAULT_MW_NAME
+					let mw_debug_id = current_mw_name
+					if (mw_index < middlewares.length)
+						mw_debug_id += '(' + stage + ')'
+
+					if (statusCode !== _previous_status_code) {
+						logger.trace(`[MW2] FYI The middleware "${mw_debug_id}" set the statusCode:`, { statusCode })
+						if (!statusCode || Math.trunc(Number(statusCode)) !== statusCode)
+							throw new Error(`[MW2] The middleware "${mw_debug_id}" set an invalid statusCode!`)
+						if (statusCode >= 400)
+							logger.warn(`[MW2] FYI The middleware "${mw_debug_id}" set an error statusCode:`, { statusCode })
+
+						_previous_status_code = statusCode
 					}
 
-					async function next(index: number): Promise<void> {
-						if (index >= middlewares.length)
-							return
+					if (body !== _previous_body) {
+						logger.trace(`[MW2] FYI The middleware "${mw_debug_id}" set the body:`, { body })
+						if (!body)
+							throw new Error(`[MW2] The middleware "${mw_debug_id}" set an invalid empty body!`)
+						if (statusCode < 400) {
+							if (typeof body === 'string') {
+								try {
+									JSON.parse(body) // check if it's correct json
+								} catch (err) {
+									throw new Error(`[MW2] The middleware "${mw_debug_id}" set an non-json body!`)
+								}
+							} else {
+								try {
+									stable_stringify(body)
+									// TODO deep compare to check for un-stringifiable stufff??
+								} catch {
+									throw new Error(`[MW2] The middleware "${mw_debug_id}" set a non-JSON-stringified body that can’t be fixed automatically!`)
+								}
+							}
+						}
 
-						return middlewares[index](SEC, event, context, response, next.bind(null, index + 1))
+						_previous_body = body
 					}
+				}
+
+				let last_reported_error: any = null
+				async function next(index: number): Promise<void> {
+					const current_mw_name = middlewares[index].name || DEFAULT_MW_NAME
+
+					if (index > 0) {
+						_check_response(index - 1, 'in')
+					}
+
+					if (index >= middlewares.length)
+						return
 
 					try {
-						await next(0)
+						logger.trace(`[MW2] invoking middleware ${index+1}/${middlewares.length} "${current_mw_name}"…`)
+						await middlewares[index](SEC, event, context, response, next.bind(null, index + 1))
+						logger.trace(`[MW2] returning from middleware ${index+1}/${middlewares.length} "${current_mw_name}"…`)
 					}
 					catch (err) {
-						logger.error('FYI MW rejected with:', err)
+						logger.error(`[MW2] FYI MW "${current_mw_name}" rejected with:`, err)
 						throw err
 					}
 
-					let { statusCode, body } = response
-					if (!statusCode || Math.trunc(Number(statusCode)) !== statusCode)
-						throw new Error('The middleware(s) returned an invalid response (statusCode)!')
+					_check_response(index, 'out')
+				}
 
-					if (!body)
-						throw new Error('The middleware(s) returned an invalid response (no body)!')
+				// launch the chain
+				await next(0)
 
-					logger.trace('FYI MW resolved with:', {status: statusCode, body_type: typeof body})
+				let { statusCode, body } = response
 
-					let pseudo_err: XError | null = null
-					if (statusCode >= 400) {
-						const is_body_err_message = typeof body === 'string' && body.toLowerCase().includes('error')
-						pseudo_err = create_error(is_body_err_message ? body : statusCode, { statusCode })
-					}
+				if (response.body === DEFAULT_RESPONSE_BODY)
+					throw new Error(DEFAULT_RESPONSE_BODY)
 
-					// as a convenience, stringify the body automatically
-					try {
-						try {
-							if (typeof body !== 'string')
-								throw new Error('Internal')
-							else
-								JSON.parse(body)
-						}
-						catch {
-							body = JSON.stringify(body) // TODO stable
-						}
-					}
-					catch {
-						throw new Error('The middleware(s) returned a non-JSON-stringified body and it couldn’t be fixed automatically!')
-					}
+				let pseudo_err: XError | null = null
+				if (statusCode >= 400) {
+					// todo enhance non-stringified?
+					const is_body_err_message = typeof body === 'string' && body.toLowerCase().includes('error')
+					pseudo_err = create_error(is_body_err_message ? body : statusCode, { statusCode })
+				}
 
-					if (pseudo_err)
-						throw pseudo_err // so that it get consistently reported
+				if (pseudo_err)
+					throw pseudo_err // so that it get consistently reported
 
-					return {
-						statusCode,
-						headers: {},
-						body,
-					}
-				})
-				.then((response: Response) => {
-					// success!
-					clean()
+				// as a convenience, stringify the body automatically
+				// no need to retest, was validated before
+				if (typeof body !== 'string') {
+					logger.log('[MW2] stringifying automatically…')
+					body = stable_stringify(body)
+				}
 
-					// must be last,
-					resolve(response)
-				})
-				.catch(on_final_error)
+				await new Promise(resolve => setTimeout(resolve, 0)) // to give time to unhandled to be detected. not 100% of course.
+
+				return {
+					statusCode,
+					headers: {},
+					body,
+				}
+			})
+			.then((response: Response) => {
+				// success!
+				clean()
+
+				// must be last,
+				resolve(response)
+			})
+			.catch(on_final_error)
 		})
 	})
 	.then((response: any) => {

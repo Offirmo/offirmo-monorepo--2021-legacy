@@ -29,6 +29,8 @@
 		"@sentry/node": "^5",
 		"@tbrpg/flux": "^0",
 		"@tbrpg/interfaces": "^0",
+		"json-stable-stringify": "^1",
+		"memoize-one": "^5",
 		"noop2": "^2",
 		"tiny-invariant": "^1",
 		"tslib": "^2",
@@ -38,11 +40,10 @@
 	"scripts": {
 		"clean": "node ../../../0-scripts/clean.js …dist functions",
 
-		"build:dev:watch": "node ../../../0-scripts/build-typescript.js --watch --nodeOnly",
-		"build:prod": "node ../../../0-scripts/build-typescript.js --nodeOnly",
+		"build:dev:watch": "node ../../../0-scripts/build-typescript.js --watch --onlyNode",
+		"build:prod": "node ../../../0-scripts/build-typescript.js --onlyNode",
 		"build:netlify-functions": "rm -rf ./functions && netlify-lambda build ./dist/src.es2019.cjs --config ./webpack.config.ts",
-		"ensure-privacy": "grep --null -RIl `whoami` * | xargs -0 sed -i '' -e s/`whoami`/offirmo/g",
-		"xxensure-size": "size-limit",
+		"ensure-privacy": "grep --null -RIl `whoami` functions/* | xargs -0 sed -i '' -e s/`whoami`/offirmo/g",
 
 		"dev": "run-s clean build:dev:watch",
 		"start": "source ~/.nvm/nvm.sh; nvm use 12; export NODE_ENV=development; nvm exec 12 node ./node_modules/.bin/netlify-lambda serve ./dist/src.es2019.cjs --config ./webpack.config.ts",
@@ -50,7 +51,6 @@
 		"build": "run-s build:prod build:netlify-functions ensure-privacy"
 	},
 	"devDependencies": {
-		"@size-limit/preset-small-lib": "^4",
 		"@types/aws-lambda": "^8",
 		"netlify-lambda": "^1",
 		"npm-run-all": "^4"

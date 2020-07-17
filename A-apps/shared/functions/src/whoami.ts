@@ -51,15 +51,11 @@ const handler: NetlifyHandler = (
 	event: APIGatewayEvent,
 	badly_typed_context: Context,
 ): Promise<Response> => {
-	return use_middlewares_with_error_safety_net(
-		event,
-		badly_typed_context,
-		[
-			require_http_method([ HttpMethod.GET ]),
-			require_authenticated,
-			_handler,
-		]
-	)
+	return use_middlewares_with_error_safety_net(event, badly_typed_context,[
+		require_http_method([ HttpMethod.GET ]),
+		require_authenticated,
+		_handler,
+	])
 }
 
 export { handler }

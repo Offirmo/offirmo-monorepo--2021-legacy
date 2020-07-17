@@ -13,6 +13,7 @@ const DEFAULT_ROLES: Readonly<string[]> = []
 
 export function _infer_avatar_url(data: Readonly<BaseUser>): string {
 	//return get_gravatar_url(data.usual_email)
+	// https://github.com/Kikobeats/unavatar
 	return 'https://unavatar.now.sh/' + NORMALIZERS.normalize_email_reasonable(data.raw_email)
 }
 

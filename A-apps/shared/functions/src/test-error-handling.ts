@@ -20,7 +20,7 @@ async function _handler(
 	next: Function
 ): Promise<void> {
 	response.statusCode = 200
-	response.body = 'Error test ok: no error.'
+	response.body = JSON.stringify('Error test ok: no error.')
 }
 
 
