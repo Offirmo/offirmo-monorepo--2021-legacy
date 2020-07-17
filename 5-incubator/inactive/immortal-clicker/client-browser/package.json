@@ -37,7 +37,7 @@
 	},
 
 	"scripts": {
-		"clean": "node ../../../0-scripts/clean.js dist cache",
+		"clean": "node ../../../0-scripts/clean.js …dist …cache",
 
 		"start:parcel": "PARCEL_AUTOINSTALL=false parcel src/frame/index.html --out-dir .parcel --no-autoinstall --port 8080",
 

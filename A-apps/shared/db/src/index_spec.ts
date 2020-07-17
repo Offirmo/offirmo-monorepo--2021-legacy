@@ -5,7 +5,7 @@ import { LIB } from './consts'
 import get_db from './db'
 
 import {create_user, get_by_email} from './users'
-import {cleanup, get_test_base_user_01, get_test_netlify_user_01} from "./users/_common_spec"
+import {cleanup, get_test_base_user_01, get_test_netlify_user_01} from './users/_test_helpers'
 
 ////////////////////////////////////
 
@@ -38,7 +38,7 @@ describe(`${LIB}`, function() {
 						expect(user_id_1 && user_id_2).not.to.be.ok
 						expect(err.message).to.contain('duplicate')
 
-						const cancelled_user = await get_by_email(base.usual_email)
+						const cancelled_user = await get_by_email(base.raw_email)
 						expect(cancelled_user).to.be.null // bc the transaction reverted
 					},
 				)

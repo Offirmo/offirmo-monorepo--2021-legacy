@@ -20,7 +20,7 @@ export async function up(knex: Knex): Promise<any> {
 			.references('id').inTable('users').onDelete('CASCADE')
 			.index()
 
-		/* Nooo ! THis is redundant and duplicated!
+		/* Nooo ! This is redundant and duplicated!
 		table
 			.string('called')
 

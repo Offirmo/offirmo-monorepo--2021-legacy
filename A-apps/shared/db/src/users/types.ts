@@ -1,22 +1,26 @@
 import { WithTimestamps } from '../types'
 
 /////////////////////
-// NOTE: This is CODE data
+// NOTE: This is BASE data
 
 // only strictly necessary
 // fields that can be inferred can be undef / null
 export interface BaseUser {
-	called?: string
-	usual_email: string
-	normalized_email?: string
-	avatar_url?: string
+	raw_email: string
+	normalized_email?: string // inferrable from raw_email
+	called?: string // inferrable from raw_email
+	avatar_url?: string // inferrable from raw_email
 	roles: string[]
 }
 
+/////////////////////
+// NOTE: This is CODE data
+
 export interface User extends NonNullable<BaseUser> {
-	// id?
+	// should we expose the id?
 }
 
+// TODO code or base??
 export interface NetlifyUser {
 	netlify_id: string
 	email: string
@@ -27,8 +31,7 @@ export interface NetlifyUser {
 }
 
 /////////////////////
-// corresponding DB data
-// (P = persistence)
+// corresponding PERSISTENCE (DB) data
 
 export interface PUser extends BaseUser, WithTimestamps {
 	id: number

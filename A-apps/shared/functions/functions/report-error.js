@@ -81,12 +81,265 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 517);
+/******/ 	return __webpack_require__(__webpack_require__.s = 516);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 106:
+/***/ 10:
+/***/ (function(module, exports) {
+
+module.exports = require("events");
+
+/***/ }),
+
+/***/ 100:
+/***/ (function(module, exports) {
+
+module.exports = require("net");
+
+/***/ }),
+
+/***/ 101:
+/***/ (function(module, exports) {
+
+module.exports = require("tls");
+
+/***/ }),
+
+/***/ 102:
+/***/ (function(module, exports) {
+
+/**
+ * Helpers.
+ */
+
+var s = 1000;
+var m = s * 60;
+var h = m * 60;
+var d = h * 24;
+var w = d * 7;
+var y = d * 365.25;
+
+/**
+ * Parse or format the given `val`.
+ *
+ * Options:
+ *
+ *  - `long` verbose formatting [false]
+ *
+ * @param {String|Number} val
+ * @param {Object} [options]
+ * @throws {Error} throw an error if val is not a non-empty string or a number
+ * @return {String|Number}
+ * @api public
+ */
+
+module.exports = function(val, options) {
+  options = options || {};
+  var type = typeof val;
+  if (type === 'string' && val.length > 0) {
+    return parse(val);
+  } else if (type === 'number' && isFinite(val)) {
+    return options.long ? fmtLong(val) : fmtShort(val);
+  }
+  throw new Error(
+    'val is not a non-empty string or a valid number. val=' +
+      JSON.stringify(val)
+  );
+};
+
+/**
+ * Parse the given `str` and return milliseconds.
+ *
+ * @param {String} str
+ * @return {Number}
+ * @api private
+ */
+
+function parse(str) {
+  str = String(str);
+  if (str.length > 100) {
+    return;
+  }
+  var match = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(
+    str
+  );
+  if (!match) {
+    return;
+  }
+  var n = parseFloat(match[1]);
+  var type = (match[2] || 'ms').toLowerCase();
+  switch (type) {
+    case 'years':
+    case 'year':
+    case 'yrs':
+    case 'yr':
+    case 'y':
+      return n * y;
+    case 'weeks':
+    case 'week':
+    case 'w':
+      return n * w;
+    case 'days':
+    case 'day':
+    case 'd':
+      return n * d;
+    case 'hours':
+    case 'hour':
+    case 'hrs':
+    case 'hr':
+    case 'h':
+      return n * h;
+    case 'minutes':
+    case 'minute':
+    case 'mins':
+    case 'min':
+    case 'm':
+      return n * m;
+    case 'seconds':
+    case 'second':
+    case 'secs':
+    case 'sec':
+    case 's':
+      return n * s;
+    case 'milliseconds':
+    case 'millisecond':
+    case 'msecs':
+    case 'msec':
+    case 'ms':
+      return n;
+    default:
+      return undefined;
+  }
+}
+
+/**
+ * Short format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtShort(ms) {
+  var msAbs = Math.abs(ms);
+  if (msAbs >= d) {
+    return Math.round(ms / d) + 'd';
+  }
+  if (msAbs >= h) {
+    return Math.round(ms / h) + 'h';
+  }
+  if (msAbs >= m) {
+    return Math.round(ms / m) + 'm';
+  }
+  if (msAbs >= s) {
+    return Math.round(ms / s) + 's';
+  }
+  return ms + 'ms';
+}
+
+/**
+ * Long format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtLong(ms) {
+  var msAbs = Math.abs(ms);
+  if (msAbs >= d) {
+    return plural(ms, msAbs, d, 'day');
+  }
+  if (msAbs >= h) {
+    return plural(ms, msAbs, h, 'hour');
+  }
+  if (msAbs >= m) {
+    return plural(ms, msAbs, m, 'minute');
+  }
+  if (msAbs >= s) {
+    return plural(ms, msAbs, s, 'second');
+  }
+  return ms + ' ms';
+}
+
+/**
+ * Pluralization helper.
+ */
+
+function plural(ms, msAbs, n, name) {
+  var isPlural = msAbs >= n * 1.5;
+  return Math.round(ms / n) + ' ' + name + (isPlural ? 's' : '');
+}
+
+
+/***/ }),
+
+/***/ 12:
+/***/ (function(module, exports) {
+
+module.exports = require("path");
+
+/***/ }),
+
+/***/ 13:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+function Enum() {
+    var values = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        values[_i] = arguments[_i];
+    }
+    if (typeof values[0] === "string") {
+        var result = {};
+        for (var _a = 0, values_1 = values; _a < values_1.length; _a++) {
+            var value = values_1[_a];
+            result[value] = value;
+        }
+        return result;
+    }
+    else {
+        return values[0];
+    }
+}
+exports.Enum = Enum;
+(function (Enum) {
+    function ofKeys(e) {
+        var result = {};
+        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
+            var key = _a[_i];
+            result[key] = key;
+        }
+        return result;
+    }
+    Enum.ofKeys = ofKeys;
+    function keys(e) {
+        return Object.keys(e);
+    }
+    Enum.keys = keys;
+    function values(e) {
+        var result = [];
+        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
+            var key = _a[_i];
+            result.push(e[key]);
+        }
+        return result;
+    }
+    Enum.values = values;
+    function isType(e, value) {
+        return values(e).indexOf(value) !== -1;
+    }
+    Enum.isType = isType;
+})(Enum = exports.Enum || (exports.Enum = {}));
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ 131:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -102,7 +355,7 @@ module.exports = (flag, argv = process.argv) => {
 
 /***/ }),
 
-/***/ 107:
+/***/ 132:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -114,9 +367,9 @@ Object.defineProperty(exports, "__esModule", {
 exports.on_user_recognized = exports.on_error = void 0; // https://docs.sentry.io/error-reporting/quickstart/?platform=node
 // https://httptoolkit.tech/blog/netlify-function-error-reporting-with-sentry/
 
-const Sentry = __webpack_require__(140);
+const Sentry = __webpack_require__(165);
 
-const channel_1 = __webpack_require__(25);
+const channel_1 = __webpack_require__(29);
 
 Sentry.init({
   // http://getsentry.github.io/sentry-javascript/interfaces/node.nodeoptions.html
@@ -160,7 +413,7 @@ exports.on_user_recognized = on_user_recognized; // TODO self-triage?
 
 /***/ }),
 
-/***/ 108:
+/***/ 133:
 /***/ (function(module, exports) {
 
 module.exports = function(originalModule) {
@@ -191,7 +444,7 @@ module.exports = function(originalModule) {
 
 /***/ }),
 
-/***/ 109:
+/***/ 134:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -199,8 +452,8 @@ module.exports = function(originalModule) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-const events_1 = __webpack_require__(14);
-const promisify_1 = __importDefault(__webpack_require__(110));
+const events_1 = __webpack_require__(10);
+const promisify_1 = __importDefault(__webpack_require__(135));
 function isAgentBase(v) {
     return Boolean(v) && typeof v.addRequest === 'function';
 }
@@ -404,14 +657,7 @@ module.exports = createAgent;
 
 /***/ }),
 
-/***/ 11:
-/***/ (function(module, exports) {
-
-module.exports = require("path");
-
-/***/ }),
-
-/***/ 110:
+/***/ 135:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -436,7 +682,7 @@ exports.default = promisify;
 
 /***/ }),
 
-/***/ 111:
+/***/ 136:
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -445,15 +691,15 @@ exports.default = promisify;
  */
 
 if (typeof process === 'undefined' || process.type === 'renderer' || process.browser === true || process.__nwjs) {
-	module.exports = __webpack_require__(112);
+	module.exports = __webpack_require__(137);
 } else {
-	module.exports = __webpack_require__(113);
+	module.exports = __webpack_require__(138);
 }
 
 
 /***/ }),
 
-/***/ 112:
+/***/ 137:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* eslint-env browser */
@@ -705,7 +951,7 @@ function localstorage() {
 	}
 }
 
-module.exports = __webpack_require__(68)(exports);
+module.exports = __webpack_require__(74)(exports);
 
 const {formatters} = module.exports;
 
@@ -724,14 +970,14 @@ formatters.j = function (v) {
 
 /***/ }),
 
-/***/ 113:
+/***/ 138:
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
  * Module dependencies.
  */
 
-const tty = __webpack_require__(51);
+const tty = __webpack_require__(59);
 const util = __webpack_require__(4);
 
 /**
@@ -754,7 +1000,7 @@ exports.colors = [6, 2, 3, 4, 5, 1];
 try {
 	// Optional dependency (as in, doesn't need to be installed, NOT like optionalDependencies in package.json)
 	// eslint-disable-next-line import/no-extraneous-dependencies
-	const supportsColor = __webpack_require__(53);
+	const supportsColor = __webpack_require__(68);
 
 	if (supportsColor && (supportsColor.stderr || supportsColor).level >= 2) {
 		exports.colors = [
@@ -962,7 +1208,7 @@ function init(debug) {
 	}
 }
 
-module.exports = __webpack_require__(68)(exports);
+module.exports = __webpack_require__(74)(exports);
 
 const {formatters} = module.exports;
 
@@ -988,14 +1234,21 @@ formatters.O = function (v) {
 
 /***/ }),
 
-/***/ 114:
+/***/ 139:
 /***/ (function(module, exports) {
 
 module.exports = require("console");
 
 /***/ }),
 
-/***/ 12:
+/***/ 15:
+/***/ (function(module, exports) {
+
+module.exports = require("url");
+
+/***/ }),
+
+/***/ 16:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1101,21 +1354,7 @@ function isMatchingPattern(value, pattern) {
 
 /***/ }),
 
-/***/ 13:
-/***/ (function(module, exports) {
-
-module.exports = require("url");
-
-/***/ }),
-
-/***/ 14:
-/***/ (function(module, exports) {
-
-module.exports = require("events");
-
-/***/ }),
-
-/***/ 140:
+/***/ 165:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1923,7 +2162,7 @@ var syncpromise_SyncPromise = /** @class */ (function () {
 
 //# sourceMappingURL=syncpromise.js.map
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/misc.js
-var misc = __webpack_require__(7);
+var misc = __webpack_require__(8);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/hub/esm/scope.js
 
@@ -3851,7 +4090,7 @@ var Memo = /** @class */ (function () {
 
 //# sourceMappingURL=memo.js.map
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/string.js
-var string = __webpack_require__(12);
+var string = __webpack_require__(16);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/object.js
 
@@ -4892,10 +5131,10 @@ function basename(path, ext) {
 }
 //# sourceMappingURL=path.js.map
 // EXTERNAL MODULE: external "fs"
-var external_fs_ = __webpack_require__(6);
+var external_fs_ = __webpack_require__(7);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/lru_map/lru.js
-var lru = __webpack_require__(69);
+var lru = __webpack_require__(87);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/stacktrace.js
 /**
@@ -5447,7 +5686,7 @@ var promisebuffer_PromiseBuffer = /** @class */ (function () {
 
 //# sourceMappingURL=promisebuffer.js.map
 // EXTERNAL MODULE: external "url"
-var external_url_ = __webpack_require__(13);
+var external_url_ = __webpack_require__(15);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/version.js
 var SDK_NAME = 'sentry.javascript.node';
@@ -5552,7 +5791,7 @@ var base_BaseTransport = /** @class */ (function () {
 
 //# sourceMappingURL=base.js.map
 // EXTERNAL MODULE: external "http"
-var external_http_ = __webpack_require__(20);
+var external_http_ = __webpack_require__(24);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/http.js
 
@@ -5569,7 +5808,7 @@ var http_HTTPTransport = /** @class */ (function (_super) {
         var proxy = options.httpProxy || process.env.http_proxy;
         _this.module = external_http_;
         _this.client = proxy
-            ? new (__webpack_require__(67))(proxy) // tslint:disable-line:no-unsafe-any
+            ? new (__webpack_require__(73))(proxy) // tslint:disable-line:no-unsafe-any
             : new external_http_["Agent"]({ keepAlive: false, maxSockets: 30, timeout: 2000 });
         return _this;
     }
@@ -5587,7 +5826,7 @@ var http_HTTPTransport = /** @class */ (function (_super) {
 
 //# sourceMappingURL=http.js.map
 // EXTERNAL MODULE: external "https"
-var external_https_ = __webpack_require__(28);
+var external_https_ = __webpack_require__(34);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/https.js
 
@@ -5604,7 +5843,7 @@ var https_HTTPSTransport = /** @class */ (function (_super) {
         var proxy = options.httpsProxy || options.httpProxy || process.env.https_proxy || process.env.http_proxy;
         _this.module = external_https_;
         _this.client = proxy
-            ? new (__webpack_require__(67))(proxy) // tslint:disable-line:no-unsafe-any
+            ? new (__webpack_require__(73))(proxy) // tslint:disable-line:no-unsafe-any
             : new external_https_["Agent"]({ keepAlive: false, maxSockets: 30, timeout: 2000 });
         return _this;
     }
@@ -5998,7 +6237,7 @@ function initAndBind(clientClass, options) {
 }
 //# sourceMappingURL=sdk.js.map
 // EXTERNAL MODULE: external "domain"
-var external_domain_ = __webpack_require__(16);
+var external_domain_ = __webpack_require__(19);
 
 // EXTERNAL MODULE: external "util"
 var external_util_ = __webpack_require__(4);
@@ -6022,7 +6261,7 @@ var console_Console = /** @class */ (function () {
      */
     Console.prototype.setupOnce = function () {
         var e_1, _a;
-        var consoleModule = __webpack_require__(114);
+        var consoleModule = __webpack_require__(139);
         try {
             for (var _b = __values(['debug', 'info', 'warn', 'error', 'log']), _c = _b.next(); !_c.done; _c = _b.next()) {
                 var level = _c.value;
@@ -6109,14 +6348,14 @@ var http_Http = /** @class */ (function () {
             return;
         }
         var handlerWrapper = createHandlerWrapper(this._breadcrumbs, this._tracing);
-        var httpModule = __webpack_require__(20);
+        var httpModule = __webpack_require__(24);
         fill(httpModule, 'get', handlerWrapper);
         fill(httpModule, 'request', handlerWrapper);
         // NOTE: Prior to Node 9, `https` used internals of `http` module, thus we don't patch it.
         // If we do, we'd get double breadcrumbs and double spans for `https` calls.
         // It has been changed in Node 9, so for all versions equal and above, we patch `https` separately.
         if (NODE_VERSION.major && NODE_VERSION.major > 8) {
-            var httpsModule = __webpack_require__(28);
+            var httpsModule = __webpack_require__(34);
             fill(httpsModule, 'get', handlerWrapper);
             fill(httpsModule, 'request', handlerWrapper);
         }
@@ -6753,10 +6992,10 @@ function forget(promise) {
 }
 //# sourceMappingURL=async.js.map
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/node_modules/cookie/index.js
-var cookie = __webpack_require__(70);
+var cookie = __webpack_require__(88);
 
 // EXTERNAL MODULE: external "os"
-var external_os_ = __webpack_require__(26);
+var external_os_ = __webpack_require__(30);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/handlers.js
 
@@ -7334,7 +7573,7 @@ var linkederrors_LinkedErrors = /** @class */ (function () {
 
 //# sourceMappingURL=linkederrors.js.map
 // EXTERNAL MODULE: external "path"
-var external_path_ = __webpack_require__(11);
+var external_path_ = __webpack_require__(12);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/integrations/modules.js
 
@@ -7597,14 +7836,14 @@ if (esm_carrier.__SENTRY__) {
 
 /***/ }),
 
-/***/ 16:
+/***/ 19:
 /***/ (function(module, exports) {
 
 module.exports = require("domain");
 
 /***/ }),
 
-/***/ 17:
+/***/ 20:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7629,44 +7868,14 @@ function getGlobalThis() {
 
 /***/ }),
 
-/***/ 20:
+/***/ 24:
 /***/ (function(module, exports) {
 
 module.exports = require("http");
 
 /***/ }),
 
-/***/ 25:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.CHANNEL = void 0;
-
-const typescript_string_enums_1 = __webpack_require__(8);
-
-const functions_interface_1 = __webpack_require__(80);
-
-exports.CHANNEL = (() => {
-  if (typescript_string_enums_1.Enum.isType(functions_interface_1.ReleaseChannel, process.env.CHANNEL)) return process.env.CHANNEL;
-  if (process.env.AWS_SECRET_ACCESS_KEY) return functions_interface_1.ReleaseChannel.prod;
-  return  false ? undefined : functions_interface_1.ReleaseChannel.prod;
-})();
-
-/***/ }),
-
-/***/ 26:
-/***/ (function(module, exports) {
-
-module.exports = require("os");
-
-/***/ }),
-
-/***/ 27:
+/***/ 28:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7675,8 +7884,8 @@ module.exports = require("os");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "overrideHook", function() { return overrideHook; });
 /* unused harmony export addDebugCommand */
 /* unused harmony export globalThis */
-/* harmony import */ var _offirmo_globalthis_ponyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(17);
-/* harmony import */ var _v1__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(30);
+/* harmony import */ var _offirmo_globalthis_ponyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(20);
+/* harmony import */ var _v1__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(38);
 
 
 const globalThis = Object(_offirmo_globalthis_ponyfill__WEBPACK_IMPORTED_MODULE_0__[/* getGlobalThis */ "a"])(); // ensure the root is present
@@ -7698,10 +7907,26 @@ const {
 
 /***/ }),
 
-/***/ 28:
-/***/ (function(module, exports) {
+/***/ 29:
+/***/ (function(module, exports, __webpack_require__) {
 
-module.exports = require("https");
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.CHANNEL = void 0;
+
+const typescript_string_enums_1 = __webpack_require__(13);
+
+const functions_interface_1 = __webpack_require__(93);
+
+exports.CHANNEL = (() => {
+  if (typescript_string_enums_1.Enum.isType(functions_interface_1.ReleaseChannel, process.env.CHANNEL)) return process.env.CHANNEL;
+  if (process.env.AWS_SECRET_ACCESS_KEY) return functions_interface_1.ReleaseChannel.prod;
+  return  false ? undefined : functions_interface_1.ReleaseChannel.prod;
+})();
 
 /***/ }),
 
@@ -7875,6 +8100,20 @@ function isInstanceOf(wat, base) {
 /***/ }),
 
 /***/ 30:
+/***/ (function(module, exports) {
+
+module.exports = require("os");
+
+/***/ }),
+
+/***/ 34:
+/***/ (function(module, exports) {
+
+module.exports = require("https");
+
+/***/ }),
+
+/***/ 38:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7936,21 +8175,14 @@ module.exports = require("util");
 
 /***/ }),
 
-/***/ 42:
+/***/ 50:
 /***/ (function(module, exports) {
 
 module.exports = require("assert");
 
 /***/ }),
 
-/***/ 51:
-/***/ (function(module, exports) {
-
-module.exports = require("tty");
-
-/***/ }),
-
-/***/ 517:
+/***/ 516:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7961,7 +8193,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.handler = void 0;
 
-const sentry_1 = __webpack_require__(107);
+const sentry_1 = __webpack_require__(132);
 
 const handler = async (event, badly_typed_context) => {
   var _a;
@@ -7977,14 +8209,21 @@ exports.handler = handler;
 
 /***/ }),
 
-/***/ 53:
+/***/ 59:
+/***/ (function(module, exports) {
+
+module.exports = require("tty");
+
+/***/ }),
+
+/***/ 68:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const os = __webpack_require__(26);
-const tty = __webpack_require__(51);
-const hasFlag = __webpack_require__(106);
+const os = __webpack_require__(30);
+const tty = __webpack_require__(59);
+const hasFlag = __webpack_require__(131);
 
 const {env} = process;
 
@@ -8124,27 +8363,27 @@ module.exports = {
 
 /***/ }),
 
-/***/ 6:
+/***/ 7:
 /***/ (function(module, exports) {
 
 module.exports = require("fs");
 
 /***/ }),
 
-/***/ 67:
+/***/ 73:
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
  * Module dependencies.
  */
 
-var net = __webpack_require__(88);
-var tls = __webpack_require__(89);
-var url = __webpack_require__(13);
-var assert = __webpack_require__(42);
-var Agent = __webpack_require__(109);
+var net = __webpack_require__(100);
+var tls = __webpack_require__(101);
+var url = __webpack_require__(15);
+var assert = __webpack_require__(50);
+var Agent = __webpack_require__(134);
 var inherits = __webpack_require__(4).inherits;
-var debug = __webpack_require__(111)('https-proxy-agent');
+var debug = __webpack_require__(136)('https-proxy-agent');
 
 /**
  * Module exports.
@@ -8377,7 +8616,7 @@ function isDefaultPort(port, secure) {
 
 /***/ }),
 
-/***/ 68:
+/***/ 74:
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -8393,7 +8632,7 @@ function setup(env) {
 	createDebug.disable = disable;
 	createDebug.enable = enable;
 	createDebug.enabled = enabled;
-	createDebug.humanize = __webpack_require__(90);
+	createDebug.humanize = __webpack_require__(102);
 
 	Object.keys(env).forEach(key => {
 		createDebug[key] = env[key];
@@ -8650,323 +8889,7 @@ module.exports = setup;
 
 /***/ }),
 
-/***/ 69:
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
- * A doubly linked list-based Least Recently Used (LRU) cache. Will keep most
- * recently used items while discarding least recently used items when its limit
- * is reached.
- *
- * Licensed under MIT. Copyright (c) 2010 Rasmus Andersson <http://hunch.se/>
- * See README.md for details.
- *
- * Illustration of the design:
- *
- *       entry             entry             entry             entry
- *       ______            ______            ______            ______
- *      | head |.newer => |      |.newer => |      |.newer => | tail |
- *      |  A   |          |  B   |          |  C   |          |  D   |
- *      |______| <= older.|______| <= older.|______| <= older.|______|
- *
- *  removed  <--  <--  <--  <--  <--  <--  <--  <--  <--  <--  <--  added
- */
-(function(g,f){
-  const e =  true ? exports : undefined;
-  f(e);
-  if (true) { !(__WEBPACK_AMD_DEFINE_FACTORY__ = (e),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) :
-				__WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)); }
-})(this, function(exports) {
-
-const NEWER = Symbol('newer');
-const OLDER = Symbol('older');
-
-function LRUMap(limit, entries) {
-  if (typeof limit !== 'number') {
-    // called as (entries)
-    entries = limit;
-    limit = 0;
-  }
-
-  this.size = 0;
-  this.limit = limit;
-  this.oldest = this.newest = undefined;
-  this._keymap = new Map();
-
-  if (entries) {
-    this.assign(entries);
-    if (limit < 1) {
-      this.limit = this.size;
-    }
-  }
-}
-
-exports.LRUMap = LRUMap;
-
-function Entry(key, value) {
-  this.key = key;
-  this.value = value;
-  this[NEWER] = undefined;
-  this[OLDER] = undefined;
-}
-
-
-LRUMap.prototype._markEntryAsUsed = function(entry) {
-  if (entry === this.newest) {
-    // Already the most recenlty used entry, so no need to update the list
-    return;
-  }
-  // HEAD--------------TAIL
-  //   <.older   .newer>
-  //  <--- add direction --
-  //   A  B  C  <D>  E
-  if (entry[NEWER]) {
-    if (entry === this.oldest) {
-      this.oldest = entry[NEWER];
-    }
-    entry[NEWER][OLDER] = entry[OLDER]; // C <-- E.
-  }
-  if (entry[OLDER]) {
-    entry[OLDER][NEWER] = entry[NEWER]; // C. --> E
-  }
-  entry[NEWER] = undefined; // D --x
-  entry[OLDER] = this.newest; // D. --> E
-  if (this.newest) {
-    this.newest[NEWER] = entry; // E. <-- D
-  }
-  this.newest = entry;
-};
-
-LRUMap.prototype.assign = function(entries) {
-  let entry, limit = this.limit || Number.MAX_VALUE;
-  this._keymap.clear();
-  let it = entries[Symbol.iterator]();
-  for (let itv = it.next(); !itv.done; itv = it.next()) {
-    let e = new Entry(itv.value[0], itv.value[1]);
-    this._keymap.set(e.key, e);
-    if (!entry) {
-      this.oldest = e;
-    } else {
-      entry[NEWER] = e;
-      e[OLDER] = entry;
-    }
-    entry = e;
-    if (limit-- == 0) {
-      throw new Error('overflow');
-    }
-  }
-  this.newest = entry;
-  this.size = this._keymap.size;
-};
-
-LRUMap.prototype.get = function(key) {
-  // First, find our cache entry
-  var entry = this._keymap.get(key);
-  if (!entry) return; // Not cached. Sorry.
-  // As <key> was found in the cache, register it as being requested recently
-  this._markEntryAsUsed(entry);
-  return entry.value;
-};
-
-LRUMap.prototype.set = function(key, value) {
-  var entry = this._keymap.get(key);
-
-  if (entry) {
-    // update existing
-    entry.value = value;
-    this._markEntryAsUsed(entry);
-    return this;
-  }
-
-  // new entry
-  this._keymap.set(key, (entry = new Entry(key, value)));
-
-  if (this.newest) {
-    // link previous tail to the new tail (entry)
-    this.newest[NEWER] = entry;
-    entry[OLDER] = this.newest;
-  } else {
-    // we're first in -- yay
-    this.oldest = entry;
-  }
-
-  // add new entry to the end of the linked list -- it's now the freshest entry.
-  this.newest = entry;
-  ++this.size;
-  if (this.size > this.limit) {
-    // we hit the limit -- remove the head
-    this.shift();
-  }
-
-  return this;
-};
-
-LRUMap.prototype.shift = function() {
-  // todo: handle special case when limit == 1
-  var entry = this.oldest;
-  if (entry) {
-    if (this.oldest[NEWER]) {
-      // advance the list
-      this.oldest = this.oldest[NEWER];
-      this.oldest[OLDER] = undefined;
-    } else {
-      // the cache is exhausted
-      this.oldest = undefined;
-      this.newest = undefined;
-    }
-    // Remove last strong reference to <entry> and remove links from the purged
-    // entry being returned:
-    entry[NEWER] = entry[OLDER] = undefined;
-    this._keymap.delete(entry.key);
-    --this.size;
-    return [entry.key, entry.value];
-  }
-};
-
-// ----------------------------------------------------------------------------
-// Following code is optional and can be removed without breaking the core
-// functionality.
-
-LRUMap.prototype.find = function(key) {
-  let e = this._keymap.get(key);
-  return e ? e.value : undefined;
-};
-
-LRUMap.prototype.has = function(key) {
-  return this._keymap.has(key);
-};
-
-LRUMap.prototype['delete'] = function(key) {
-  var entry = this._keymap.get(key);
-  if (!entry) return;
-  this._keymap.delete(entry.key);
-  if (entry[NEWER] && entry[OLDER]) {
-    // relink the older entry with the newer entry
-    entry[OLDER][NEWER] = entry[NEWER];
-    entry[NEWER][OLDER] = entry[OLDER];
-  } else if (entry[NEWER]) {
-    // remove the link to us
-    entry[NEWER][OLDER] = undefined;
-    // link the newer entry to head
-    this.oldest = entry[NEWER];
-  } else if (entry[OLDER]) {
-    // remove the link to us
-    entry[OLDER][NEWER] = undefined;
-    // link the newer entry to head
-    this.newest = entry[OLDER];
-  } else {// if(entry[OLDER] === undefined && entry.newer === undefined) {
-    this.oldest = this.newest = undefined;
-  }
-
-  this.size--;
-  return entry.value;
-};
-
-LRUMap.prototype.clear = function() {
-  // Not clearing links should be safe, as we don't expose live links to user
-  this.oldest = this.newest = undefined;
-  this.size = 0;
-  this._keymap.clear();
-};
-
-
-function EntryIterator(oldestEntry) { this.entry = oldestEntry; }
-EntryIterator.prototype[Symbol.iterator] = function() { return this; }
-EntryIterator.prototype.next = function() {
-  let ent = this.entry;
-  if (ent) {
-    this.entry = ent[NEWER];
-    return { done: false, value: [ent.key, ent.value] };
-  } else {
-    return { done: true, value: undefined };
-  }
-};
-
-
-function KeyIterator(oldestEntry) { this.entry = oldestEntry; }
-KeyIterator.prototype[Symbol.iterator] = function() { return this; }
-KeyIterator.prototype.next = function() {
-  let ent = this.entry;
-  if (ent) {
-    this.entry = ent[NEWER];
-    return { done: false, value: ent.key };
-  } else {
-    return { done: true, value: undefined };
-  }
-};
-
-function ValueIterator(oldestEntry) { this.entry = oldestEntry; }
-ValueIterator.prototype[Symbol.iterator] = function() { return this; }
-ValueIterator.prototype.next = function() {
-  let ent = this.entry;
-  if (ent) {
-    this.entry = ent[NEWER];
-    return { done: false, value: ent.value };
-  } else {
-    return { done: true, value: undefined };
-  }
-};
-
-
-LRUMap.prototype.keys = function() {
-  return new KeyIterator(this.oldest);
-};
-
-LRUMap.prototype.values = function() {
-  return new ValueIterator(this.oldest);
-};
-
-LRUMap.prototype.entries = function() {
-  return this;
-};
-
-LRUMap.prototype[Symbol.iterator] = function() {
-  return new EntryIterator(this.oldest);
-};
-
-LRUMap.prototype.forEach = function(fun, thisObj) {
-  if (typeof thisObj !== 'object') {
-    thisObj = this;
-  }
-  let entry = this.oldest;
-  while (entry) {
-    fun.call(thisObj, entry.value, entry.key, this);
-    entry = entry[NEWER];
-  }
-};
-
-/** Returns a JSON (array) representation */
-LRUMap.prototype.toJSON = function() {
-  var s = new Array(this.size), i = 0, entry = this.oldest;
-  while (entry) {
-    s[i++] = { key: entry.key, value: entry.value };
-    entry = entry[NEWER];
-  }
-  return s;
-};
-
-/** Returns a String representation */
-LRUMap.prototype.toString = function() {
-  var s = '', entry = this.oldest;
-  while (entry) {
-    s += String(entry.key)+':'+entry.value;
-    entry = entry[NEWER];
-    if (entry) {
-      s += ' < ';
-    }
-  }
-  return s;
-};
-
-});
-
-
-/***/ }),
-
-/***/ 7:
+/***/ 8:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8988,7 +8911,7 @@ LRUMap.prototype.toString = function() {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return getFunctionName; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addContextToFrame; });
 /* harmony import */ var _is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
-/* harmony import */ var _string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(12);
+/* harmony import */ var _string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(16);
 
 
 /**
@@ -9374,11 +9297,327 @@ function addContextToFrame(lines, frame, linesOfContext) {
         .map(function (line) { return Object(_string__WEBPACK_IMPORTED_MODULE_1__[/* snipLine */ "b"])(line, 0); });
 }
 //# sourceMappingURL=misc.js.map
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(108)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(133)(module)))
 
 /***/ }),
 
-/***/ 70:
+/***/ 87:
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
+ * A doubly linked list-based Least Recently Used (LRU) cache. Will keep most
+ * recently used items while discarding least recently used items when its limit
+ * is reached.
+ *
+ * Licensed under MIT. Copyright (c) 2010 Rasmus Andersson <http://hunch.se/>
+ * See README.md for details.
+ *
+ * Illustration of the design:
+ *
+ *       entry             entry             entry             entry
+ *       ______            ______            ______            ______
+ *      | head |.newer => |      |.newer => |      |.newer => | tail |
+ *      |  A   |          |  B   |          |  C   |          |  D   |
+ *      |______| <= older.|______| <= older.|______| <= older.|______|
+ *
+ *  removed  <--  <--  <--  <--  <--  <--  <--  <--  <--  <--  <--  added
+ */
+(function(g,f){
+  const e =  true ? exports : undefined;
+  f(e);
+  if (true) { !(__WEBPACK_AMD_DEFINE_FACTORY__ = (e),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) :
+				__WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)); }
+})(this, function(exports) {
+
+const NEWER = Symbol('newer');
+const OLDER = Symbol('older');
+
+function LRUMap(limit, entries) {
+  if (typeof limit !== 'number') {
+    // called as (entries)
+    entries = limit;
+    limit = 0;
+  }
+
+  this.size = 0;
+  this.limit = limit;
+  this.oldest = this.newest = undefined;
+  this._keymap = new Map();
+
+  if (entries) {
+    this.assign(entries);
+    if (limit < 1) {
+      this.limit = this.size;
+    }
+  }
+}
+
+exports.LRUMap = LRUMap;
+
+function Entry(key, value) {
+  this.key = key;
+  this.value = value;
+  this[NEWER] = undefined;
+  this[OLDER] = undefined;
+}
+
+
+LRUMap.prototype._markEntryAsUsed = function(entry) {
+  if (entry === this.newest) {
+    // Already the most recenlty used entry, so no need to update the list
+    return;
+  }
+  // HEAD--------------TAIL
+  //   <.older   .newer>
+  //  <--- add direction --
+  //   A  B  C  <D>  E
+  if (entry[NEWER]) {
+    if (entry === this.oldest) {
+      this.oldest = entry[NEWER];
+    }
+    entry[NEWER][OLDER] = entry[OLDER]; // C <-- E.
+  }
+  if (entry[OLDER]) {
+    entry[OLDER][NEWER] = entry[NEWER]; // C. --> E
+  }
+  entry[NEWER] = undefined; // D --x
+  entry[OLDER] = this.newest; // D. --> E
+  if (this.newest) {
+    this.newest[NEWER] = entry; // E. <-- D
+  }
+  this.newest = entry;
+};
+
+LRUMap.prototype.assign = function(entries) {
+  let entry, limit = this.limit || Number.MAX_VALUE;
+  this._keymap.clear();
+  let it = entries[Symbol.iterator]();
+  for (let itv = it.next(); !itv.done; itv = it.next()) {
+    let e = new Entry(itv.value[0], itv.value[1]);
+    this._keymap.set(e.key, e);
+    if (!entry) {
+      this.oldest = e;
+    } else {
+      entry[NEWER] = e;
+      e[OLDER] = entry;
+    }
+    entry = e;
+    if (limit-- == 0) {
+      throw new Error('overflow');
+    }
+  }
+  this.newest = entry;
+  this.size = this._keymap.size;
+};
+
+LRUMap.prototype.get = function(key) {
+  // First, find our cache entry
+  var entry = this._keymap.get(key);
+  if (!entry) return; // Not cached. Sorry.
+  // As <key> was found in the cache, register it as being requested recently
+  this._markEntryAsUsed(entry);
+  return entry.value;
+};
+
+LRUMap.prototype.set = function(key, value) {
+  var entry = this._keymap.get(key);
+
+  if (entry) {
+    // update existing
+    entry.value = value;
+    this._markEntryAsUsed(entry);
+    return this;
+  }
+
+  // new entry
+  this._keymap.set(key, (entry = new Entry(key, value)));
+
+  if (this.newest) {
+    // link previous tail to the new tail (entry)
+    this.newest[NEWER] = entry;
+    entry[OLDER] = this.newest;
+  } else {
+    // we're first in -- yay
+    this.oldest = entry;
+  }
+
+  // add new entry to the end of the linked list -- it's now the freshest entry.
+  this.newest = entry;
+  ++this.size;
+  if (this.size > this.limit) {
+    // we hit the limit -- remove the head
+    this.shift();
+  }
+
+  return this;
+};
+
+LRUMap.prototype.shift = function() {
+  // todo: handle special case when limit == 1
+  var entry = this.oldest;
+  if (entry) {
+    if (this.oldest[NEWER]) {
+      // advance the list
+      this.oldest = this.oldest[NEWER];
+      this.oldest[OLDER] = undefined;
+    } else {
+      // the cache is exhausted
+      this.oldest = undefined;
+      this.newest = undefined;
+    }
+    // Remove last strong reference to <entry> and remove links from the purged
+    // entry being returned:
+    entry[NEWER] = entry[OLDER] = undefined;
+    this._keymap.delete(entry.key);
+    --this.size;
+    return [entry.key, entry.value];
+  }
+};
+
+// ----------------------------------------------------------------------------
+// Following code is optional and can be removed without breaking the core
+// functionality.
+
+LRUMap.prototype.find = function(key) {
+  let e = this._keymap.get(key);
+  return e ? e.value : undefined;
+};
+
+LRUMap.prototype.has = function(key) {
+  return this._keymap.has(key);
+};
+
+LRUMap.prototype['delete'] = function(key) {
+  var entry = this._keymap.get(key);
+  if (!entry) return;
+  this._keymap.delete(entry.key);
+  if (entry[NEWER] && entry[OLDER]) {
+    // relink the older entry with the newer entry
+    entry[OLDER][NEWER] = entry[NEWER];
+    entry[NEWER][OLDER] = entry[OLDER];
+  } else if (entry[NEWER]) {
+    // remove the link to us
+    entry[NEWER][OLDER] = undefined;
+    // link the newer entry to head
+    this.oldest = entry[NEWER];
+  } else if (entry[OLDER]) {
+    // remove the link to us
+    entry[OLDER][NEWER] = undefined;
+    // link the newer entry to head
+    this.newest = entry[OLDER];
+  } else {// if(entry[OLDER] === undefined && entry.newer === undefined) {
+    this.oldest = this.newest = undefined;
+  }
+
+  this.size--;
+  return entry.value;
+};
+
+LRUMap.prototype.clear = function() {
+  // Not clearing links should be safe, as we don't expose live links to user
+  this.oldest = this.newest = undefined;
+  this.size = 0;
+  this._keymap.clear();
+};
+
+
+function EntryIterator(oldestEntry) { this.entry = oldestEntry; }
+EntryIterator.prototype[Symbol.iterator] = function() { return this; }
+EntryIterator.prototype.next = function() {
+  let ent = this.entry;
+  if (ent) {
+    this.entry = ent[NEWER];
+    return { done: false, value: [ent.key, ent.value] };
+  } else {
+    return { done: true, value: undefined };
+  }
+};
+
+
+function KeyIterator(oldestEntry) { this.entry = oldestEntry; }
+KeyIterator.prototype[Symbol.iterator] = function() { return this; }
+KeyIterator.prototype.next = function() {
+  let ent = this.entry;
+  if (ent) {
+    this.entry = ent[NEWER];
+    return { done: false, value: ent.key };
+  } else {
+    return { done: true, value: undefined };
+  }
+};
+
+function ValueIterator(oldestEntry) { this.entry = oldestEntry; }
+ValueIterator.prototype[Symbol.iterator] = function() { return this; }
+ValueIterator.prototype.next = function() {
+  let ent = this.entry;
+  if (ent) {
+    this.entry = ent[NEWER];
+    return { done: false, value: ent.value };
+  } else {
+    return { done: true, value: undefined };
+  }
+};
+
+
+LRUMap.prototype.keys = function() {
+  return new KeyIterator(this.oldest);
+};
+
+LRUMap.prototype.values = function() {
+  return new ValueIterator(this.oldest);
+};
+
+LRUMap.prototype.entries = function() {
+  return this;
+};
+
+LRUMap.prototype[Symbol.iterator] = function() {
+  return new EntryIterator(this.oldest);
+};
+
+LRUMap.prototype.forEach = function(fun, thisObj) {
+  if (typeof thisObj !== 'object') {
+    thisObj = this;
+  }
+  let entry = this.oldest;
+  while (entry) {
+    fun.call(thisObj, entry.value, entry.key, this);
+    entry = entry[NEWER];
+  }
+};
+
+/** Returns a JSON (array) representation */
+LRUMap.prototype.toJSON = function() {
+  var s = new Array(this.size), i = 0, entry = this.oldest;
+  while (entry) {
+    s[i++] = { key: entry.key, value: entry.value };
+    entry = entry[NEWER];
+  }
+  return s;
+};
+
+/** Returns a String representation */
+LRUMap.prototype.toString = function() {
+  var s = '', entry = this.oldest;
+  while (entry) {
+    s += String(entry.key)+':'+entry.value;
+    entry = entry[NEWER];
+    if (entry) {
+      s += ' < ';
+    }
+  }
+  return s;
+};
+
+});
+
+
+/***/ }),
+
+/***/ 88:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9581,63 +9820,7 @@ function tryDecode(str, decode) {
 
 /***/ }),
 
-/***/ 8:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-function Enum() {
-    var values = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        values[_i] = arguments[_i];
-    }
-    if (typeof values[0] === "string") {
-        var result = {};
-        for (var _a = 0, values_1 = values; _a < values_1.length; _a++) {
-            var value = values_1[_a];
-            result[value] = value;
-        }
-        return result;
-    }
-    else {
-        return values[0];
-    }
-}
-exports.Enum = Enum;
-(function (Enum) {
-    function ofKeys(e) {
-        var result = {};
-        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
-            var key = _a[_i];
-            result[key] = key;
-        }
-        return result;
-    }
-    Enum.ofKeys = ofKeys;
-    function keys(e) {
-        return Object.keys(e);
-    }
-    Enum.keys = keys;
-    function values(e) {
-        var result = [];
-        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
-            var key = _a[_i];
-            result.push(e[key]);
-        }
-        return result;
-    }
-    Enum.values = values;
-    function isType(e, value) {
-        return values(e).indexOf(value) !== -1;
-    }
-    Enum.isType = isType;
-})(Enum = exports.Enum || (exports.Enum = {}));
-//# sourceMappingURL=index.js.map
-
-/***/ }),
-
-/***/ 80:
+/***/ 93:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9645,17 +9828,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ReleaseChannel", function() { return ReleaseChannel; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Endpoint", function() { return Endpoint; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get_allowed_origin", function() { return get_allowed_origin; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get_base_url", function() { return get_base_url; });
-/* harmony import */ var typescript_string_enums__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get_api_base_url", function() { return get_api_base_url; });
+/* harmony import */ var typescript_string_enums__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
 /* harmony import */ var typescript_string_enums__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(typescript_string_enums__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _offirmo_universal_debug_api_placeholder__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(27);
+/* harmony import */ var _offirmo_universal_debug_api_placeholder__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(28);
 
 
 const LIB = 'functions interface'; // tslint:disable-next-line: variable-name
 
 const ReleaseChannel = Object(typescript_string_enums__WEBPACK_IMPORTED_MODULE_0__["Enum"])('prod', 'staging', 'dev'); // tslint:disable-next-line: variable-name
 
-const Endpoint = Object(typescript_string_enums__WEBPACK_IMPORTED_MODULE_0__["Enum"])('echo', 'error', 'hello', 'report-error', 'tbrpg-rpc', 'test', 'whoami');
+const Endpoint = Object(typescript_string_enums__WEBPACK_IMPORTED_MODULE_0__["Enum"])('echo', 'hello-world', 'hello-world-advanced', 'report-error', 'tbrpg-rpc', 'temp', 'test-error-handling', 'whoami');
 function get_allowed_origin(channel) {
   switch (channel) {
     case 'dev':
@@ -9672,7 +9855,7 @@ function get_allowed_origin(channel) {
   }
 }
 
-function _get_base_url(channel) {
+function _get_api_base_url(channel) {
   switch (channel) {
     case 'dev':
       return 'http://localhost:9000';
@@ -9689,192 +9872,9 @@ function _get_base_url(channel) {
   }
 }
 
-function get_base_url(channel) {
-  return Object(_offirmo_universal_debug_api_placeholder__WEBPACK_IMPORTED_MODULE_1__["overrideHook"])('fn-base-url', _get_base_url(channel));
+function get_api_base_url(channel) {
+  return Object(_offirmo_universal_debug_api_placeholder__WEBPACK_IMPORTED_MODULE_1__["overrideHook"])('api-base-url', _get_api_base_url(channel));
 }
-
-/***/ }),
-
-/***/ 88:
-/***/ (function(module, exports) {
-
-module.exports = require("net");
-
-/***/ }),
-
-/***/ 89:
-/***/ (function(module, exports) {
-
-module.exports = require("tls");
-
-/***/ }),
-
-/***/ 90:
-/***/ (function(module, exports) {
-
-/**
- * Helpers.
- */
-
-var s = 1000;
-var m = s * 60;
-var h = m * 60;
-var d = h * 24;
-var w = d * 7;
-var y = d * 365.25;
-
-/**
- * Parse or format the given `val`.
- *
- * Options:
- *
- *  - `long` verbose formatting [false]
- *
- * @param {String|Number} val
- * @param {Object} [options]
- * @throws {Error} throw an error if val is not a non-empty string or a number
- * @return {String|Number}
- * @api public
- */
-
-module.exports = function(val, options) {
-  options = options || {};
-  var type = typeof val;
-  if (type === 'string' && val.length > 0) {
-    return parse(val);
-  } else if (type === 'number' && isFinite(val)) {
-    return options.long ? fmtLong(val) : fmtShort(val);
-  }
-  throw new Error(
-    'val is not a non-empty string or a valid number. val=' +
-      JSON.stringify(val)
-  );
-};
-
-/**
- * Parse the given `str` and return milliseconds.
- *
- * @param {String} str
- * @return {Number}
- * @api private
- */
-
-function parse(str) {
-  str = String(str);
-  if (str.length > 100) {
-    return;
-  }
-  var match = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(
-    str
-  );
-  if (!match) {
-    return;
-  }
-  var n = parseFloat(match[1]);
-  var type = (match[2] || 'ms').toLowerCase();
-  switch (type) {
-    case 'years':
-    case 'year':
-    case 'yrs':
-    case 'yr':
-    case 'y':
-      return n * y;
-    case 'weeks':
-    case 'week':
-    case 'w':
-      return n * w;
-    case 'days':
-    case 'day':
-    case 'd':
-      return n * d;
-    case 'hours':
-    case 'hour':
-    case 'hrs':
-    case 'hr':
-    case 'h':
-      return n * h;
-    case 'minutes':
-    case 'minute':
-    case 'mins':
-    case 'min':
-    case 'm':
-      return n * m;
-    case 'seconds':
-    case 'second':
-    case 'secs':
-    case 'sec':
-    case 's':
-      return n * s;
-    case 'milliseconds':
-    case 'millisecond':
-    case 'msecs':
-    case 'msec':
-    case 'ms':
-      return n;
-    default:
-      return undefined;
-  }
-}
-
-/**
- * Short format for `ms`.
- *
- * @param {Number} ms
- * @return {String}
- * @api private
- */
-
-function fmtShort(ms) {
-  var msAbs = Math.abs(ms);
-  if (msAbs >= d) {
-    return Math.round(ms / d) + 'd';
-  }
-  if (msAbs >= h) {
-    return Math.round(ms / h) + 'h';
-  }
-  if (msAbs >= m) {
-    return Math.round(ms / m) + 'm';
-  }
-  if (msAbs >= s) {
-    return Math.round(ms / s) + 's';
-  }
-  return ms + 'ms';
-}
-
-/**
- * Long format for `ms`.
- *
- * @param {Number} ms
- * @return {String}
- * @api private
- */
-
-function fmtLong(ms) {
-  var msAbs = Math.abs(ms);
-  if (msAbs >= d) {
-    return plural(ms, msAbs, d, 'day');
-  }
-  if (msAbs >= h) {
-    return plural(ms, msAbs, h, 'hour');
-  }
-  if (msAbs >= m) {
-    return plural(ms, msAbs, m, 'minute');
-  }
-  if (msAbs >= s) {
-    return plural(ms, msAbs, s, 'second');
-  }
-  return ms + ' ms';
-}
-
-/**
- * Pluralization helper.
- */
-
-function plural(ms, msAbs, n, name) {
-  var isPlural = msAbs >= n * 1.5;
-  return Math.round(ms / n) + ' ' + name + (isPlural ? 's' : '');
-}
-
 
 /***/ })
 

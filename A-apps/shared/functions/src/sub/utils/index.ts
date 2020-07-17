@@ -7,7 +7,7 @@ export interface XError extends _XError {
 
 // TODO extern
 export function create_error(message: string | number | undefined, details: XError['details'] = {}): XError {
-	console.log('create_error', message, details)
+	console.log(`FYI create_error() "${message}"`, details)
 	if (message && STATUS_CODES[message]) {
 		details.statusCode = Number(message)
 		message = STATUS_CODES[details.statusCode]
@@ -20,7 +20,7 @@ export function create_error(message: string | number | undefined, details: XErr
 
 	const error: XError = new Error(message)
 	Object.keys(details).forEach(k => {
-		console.log(k)
+		//console.log(k)
 		if (COMMON_ERROR_FIELDS.has(k) && k !== 'name' && k !== 'message' && k !== 'stack') {
 			(error as any)[k] = details[k]
 		}

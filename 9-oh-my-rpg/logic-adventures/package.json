@@ -28,7 +28,7 @@
 		"npm-run-all": "^4"
 	},
 	"scripts": {
-		"clean": "node ../../0-scripts/clean.js dist",
+		"clean": "node ../../0-scripts/clean.js …dist",
 
 		"build:dev:watch": "node ../../0-scripts/build-typescript.js --watch",
 		"build:prod": "node ../../0-scripts/build-typescript.js",

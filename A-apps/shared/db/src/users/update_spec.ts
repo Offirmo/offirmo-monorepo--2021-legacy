@@ -5,16 +5,16 @@ import { LIB } from '../consts'
 import get_db from '../db'
 import {
 	create_user,
-	netlify_to_base_user,
+	get_base_user_from_netlify_user,
 } from './create'
 import {
-	ensure_through_netlify,
+	ensure_user_through_netlify,
 } from './update'
 import {
 	get_test_base_user_01,
 	get_test_netlify_user_01,
 	cleanup,
-} from './_common_spec'
+} from './_test_helpers'
 import {extract_base, sanitize_persisted} from "./common";
 import {get_by_email} from "./read";
 
@@ -24,21 +24,21 @@ describe(`${LIB} - users - update`, function() {
 	before(cleanup)
 	afterEach(cleanup)
 
-	describe('ensure_through_netlify()', function () {
+	describe('ensure_user_through_netlify()', function () {
 
 		it('should work when no user', async () => {
 			const base_n = get_test_netlify_user_01()
 
-			const user = await ensure_through_netlify(base_n, get_db())
+			const user = await ensure_user_through_netlify(base_n, get_db())
 
-			expect(extract_base(user)).to.deep.equal(netlify_to_base_user(base_n))
+			expect(extract_base(user)).to.deep.equal(get_base_user_from_netlify_user(base_n))
 		})
 
 		it('should link to an existing user if any', async () => {
 			const base = get_test_base_user_01()
 			const existing_user_id = await create_user(base)
 
-			const user = await ensure_through_netlify(get_test_netlify_user_01(), get_db())
+			const user = await ensure_user_through_netlify(get_test_netlify_user_01(), get_db())
 
 			expect(user.id).to.equal(existing_user_id)
 			expect(extract_base(user)).to.deep.equal(sanitize_persisted(base))
@@ -47,11 +47,11 @@ describe(`${LIB} - users - update`, function() {
 		it('should work when everything already there', async () => {
 			const base_n = get_test_netlify_user_01()
 
-			const user_1 = await ensure_through_netlify(base_n, get_db())
-			const user_2 = await ensure_through_netlify(base_n, get_db())
+			const user_1 = await ensure_user_through_netlify(base_n, get_db())
+			const user_2 = await ensure_user_through_netlify(base_n, get_db())
 
-			expect(extract_base(user_1)).to.deep.equal(netlify_to_base_user(base_n))
-			expect(extract_base(user_2)).to.deep.equal(netlify_to_base_user(base_n))
+			expect(extract_base(user_1)).to.deep.equal(get_base_user_from_netlify_user(base_n))
+			expect(extract_base(user_2)).to.deep.equal(get_base_user_from_netlify_user(base_n))
 		})
 
 		it('should update the existing user if any', async () => {
@@ -64,12 +64,12 @@ describe(`${LIB} - users - update`, function() {
 			})
 
 			const expected_final_data = {
-				...netlify_to_base_user(new_base_n),
+				...get_base_user_from_netlify_user(new_base_n),
 				called: sanitize_persisted(old_base).called, // not replaced once set
 				roles: [ 'foo', 'test' ] // merged
 			}
 
-			const user_through_netlify = await ensure_through_netlify(new_base_n, get_db())
+			const user_through_netlify = await ensure_user_through_netlify(new_base_n, get_db())
 			// note: what is returned is inferred, must be = DB but technically not read from it
 			//console.log({ old_base, new_base_n, user_through_netlify })
 

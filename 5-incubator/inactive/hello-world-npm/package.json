@@ -36,7 +36,7 @@
 	},
 
 	"scripts": {
-		"clean": "node ../../0-scripts/clean.js dist",
+		"clean": "node ../../0-scripts/clean.js …dist",
 
 		"test": "echo 'should write tests ;-)'",
 		"test:quick": "test/quick/index.ts",

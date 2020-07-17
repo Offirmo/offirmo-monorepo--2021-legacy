@@ -36,7 +36,7 @@
 	},
 
 	"scripts": {
-		"clean": "node ../../../0-scripts/clean.js dist functions",
+		"clean": "node ../../../0-scripts/clean.js …dist functions",
 
 		"build:dev:watch": "node ../../../0-scripts/build-typescript.js --watch",
 		"build:prod": "node ../../../0-scripts/build-typescript.js",

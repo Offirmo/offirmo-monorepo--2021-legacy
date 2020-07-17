@@ -18,7 +18,7 @@
 	},
 
 	"scripts": {
-		"clean": "node ../../0-scripts/clean.js .cache .parcel",
+		"clean": "node ../../0-scripts/clean.js …cache",
 		"start:parcel": "parcel --out-dir .parcel --no-autoinstall doc/demo/index.html",
 		"demo--built": "parcel build --out-dir .parcel --no-autoinstall doc/demo/index.html --public-url ./",
 

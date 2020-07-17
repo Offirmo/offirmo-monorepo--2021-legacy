@@ -19,10 +19,10 @@ import {
 import { create_error } from './sub/utils'
 
 import { process_rpc } from './sub/tbrpg'
-import { use_middlewares_with_error_safety_net } from "./sub/middlewares/runner"
-import { HttpMethod, require_http_method } from "./sub/middlewares/require-http-method"
-import { require_authenticated } from "./sub/middlewares/require-authenticated"
-import { XSoftExecutionContext} from "./sub/middlewares/types"
+import { use_middlewares_with_error_safety_net } from './sub/middlewares/runner'
+import { HttpMethod, require_http_method } from './sub/middlewares/require-http-method'
+import { require_authenticated } from './sub/middlewares/require-authenticated'
+import { XSoftExecutionContext} from './sub/middlewares/types'
 
 ////////////////////////////////////
 
@@ -36,8 +36,8 @@ async function handle_cors(
 	if (event.httpMethod.toUpperCase() !== 'OPTIONS')
 		return next()
 
-	await SEC.xTry('handle_cors()', async ({ CHANNEL }) => {
-		console.log('\n******* handling a tbrpg-rpc… *******')
+	await SEC.xTry('handle_cors()', async ({ logger, CHANNEL }) => {
+		logger.log('\n******* handling a tbrpg-rpc… *******')
 
 		const origin = event.headers.origin
 		const expected_origin = get_allowed_origin(CHANNEL as ReleaseChannel)
@@ -60,55 +60,56 @@ async function using_json_rpc(
 	response: Response,
 	next: Function
 ): Promise<void> {
-	console.log('\n******* handling a json-rpc msg… *******')
+	return SEC.xTry('using_json_rpc()', async ({ logger }) => {
+		logger.log('\n******* handling a json-rpc msg… *******')
 
-	let statusCode = 500
-	let res: TbrpgRpcResponse = {
-		jsonrpc: '2.0',
-		id: '???',
-		error: get_default_JsonRpc_error(),
-		result: undefined,
-	}
+		let statusCode = 500
+		let res: TbrpgRpcResponse = {
+			jsonrpc: '2.0',
+			id: '???',
+			error: get_default_JsonRpc_error(),
+			result: undefined,
+		}
 
-	try {
-		res.error!.code = JSONRPC_CODE.invalid_request
-		statusCode = 400
-		check_sanity(event)
-		const req: TbrpgRpc = parse_jsonrpc_requests(res, event)
+		try {
+			res.error!.code = JSONRPC_CODE.invalid_request
+			statusCode = 400
+			check_sanity(event)
+			const req: TbrpgRpc = parse_jsonrpc_requests(res, event)
 
-		res.error!.code = JSONRPC_CODE.internal_error
-		res.error!.message = 'Unknown internal error while processing the request!'
-		statusCode = 500
+			res.error!.code = JSONRPC_CODE.internal_error
+			res.error!.message = 'Unknown internal error while processing the request!'
+			statusCode = 500
 
-		SEC.injectDependencies({
-			jsonrpc_request: req,
-			jsonrpc_response: res,
-		})
+			SEC.injectDependencies({
+				jsonrpc_request: req,
+				jsonrpc_response: res,
+			})
 
-		await next()
+			await next()
 
-		if (res.error && res.result)
-			throw new Error('Internal error: unclear result after handling!')
+			if (res.error && res.result)
+				throw new Error('Internal error: unclear result after handling!')
 
-		if (res.result)
-			statusCode = 200 // was processed correctly
-	}
-	catch (err) {
-		statusCode = err.statusCode || statusCode
+			if (res.result)
+				statusCode = 200 // was processed correctly
+		} catch (err) {
+			statusCode = err.statusCode || statusCode
 
-		res.error = err.jsonrpc_response
-			? err.jsonrpc_response
-			: res.error
-				? res.error // the default one we put at the start
-				: get_default_JsonRpc_error() // it could have been deleted
+			res.error = err.jsonrpc_response
+				? err.jsonrpc_response
+				: res.error
+					? res.error // the default one we put at the start
+					: get_default_JsonRpc_error() // it could have been deleted
 
-		res.error!.message = err.message // forced, or wouldn't have needed to catch
+			res.error!.message = err.message // forced, or wouldn't have needed to catch
 
-		delete res.result
-	}
+			delete res.result
+		}
 
-	response.statusCode = statusCode
-	response.body = JSON.stringify(res)
+		response.statusCode = statusCode
+		response.body = JSON.stringify(res)
+	})
 }
 
 async function _handler(
@@ -118,8 +119,8 @@ async function _handler(
 	response: Response,
 	next: Function
 ): Promise<void> {
-	await SEC.xTry('/tbrpg-rpc', async ({ SEC, jsonrpc_request, jsonrpc_response }) => {
-		console.log('\n******* handling a tbrpg-rpc… *******')
+	return SEC.xTry('/tbrpg-rpc', async ({ logger, jsonrpc_request, jsonrpc_response }) => {
+		logger.log('\n******* handling a tbrpg-rpc… *******')
 
 		const req: TbrpgRpc = jsonrpc_request as any
 		const res: TbrpgRpcResponse = jsonrpc_response as any
@@ -159,7 +160,7 @@ function parse_jsonrpc_requests(res: TbrpgRpcResponse, event: APIGatewayEvent): 
 		data = JSON.parse(event.body!)
 	}
 	catch(err) {
-		console.error(err)
+		//console.error(err)
 		res.error!.code = JSONRPC_CODE.parse_error
 		throw create_error('JSON.Parse error!', {
 			statusCode: 400,

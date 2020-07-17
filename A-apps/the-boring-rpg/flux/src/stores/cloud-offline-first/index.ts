@@ -4,7 +4,7 @@ import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import tiny_singleton from '@offirmo/tiny-singleton'
 import { overrideHook } from '@offirmo/universal-debug-api-placeholder'
 import { Storage } from '@offirmo-private/ts-types'
-import { ReleaseChannel, get_base_url, Endpoint } from '@offirmo-private/functions-interface'
+import { ReleaseChannel, get_api_base_url, Endpoint } from '@offirmo-private/functions-interface'
 import { NUMERIC_VERSION, State } from '@tbrpg/state'
 import {
 	Action,
@@ -55,7 +55,7 @@ function reset_pending_actions(SEC: OMRSoftExecutionContext, local_storage: Stor
 
 function get_json_rpc_url(SEC: OMRSoftExecutionContext) {
 	return SEC.xTry('get url', ({ CHANNEL }) => {
-		return get_base_url(CHANNEL as ReleaseChannel) + '/' + Endpoint["tbrpg-rpc"]
+		return get_api_base_url(CHANNEL as ReleaseChannel) + '/' + Endpoint["tbrpg-rpc"]
 	})
 }
 

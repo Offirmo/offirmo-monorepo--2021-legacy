@@ -89,12 +89,12 @@ export interface SoftExecutionContext<Injections = {}, AnalyticsDetails = {}, Er
 	xTryCatch: <T>(operation: string, fn: (p: Injections
 															& BaseInjections
 															& WithSEC<Injections, AnalyticsDetails, ErrorDetails>
-															) => T) => T
+															) => T) => T | undefined
 
 	xPromiseCatch: <T>(operation: string, fn: (p: Injections
 		& BaseInjections
 		& WithSEC<Injections, AnalyticsDetails, ErrorDetails>
-	) => Promise<T>) => Promise<T>
+	) => Promise<T>) => Promise<T | undefined>
 	xPromiseTry: <T>(operation: string, fn: (p: Injections
 		& BaseInjections
 		& WithSEC<Injections, AnalyticsDetails, ErrorDetails>
@@ -102,5 +102,5 @@ export interface SoftExecutionContext<Injections = {}, AnalyticsDetails = {}, Er
 	xPromiseTryCatch: <T>(operation: string, fn: (p: Injections
 		& BaseInjections
 		& WithSEC<Injections, AnalyticsDetails, ErrorDetails>
-	) => Promise<T>) => Promise<T>
+	) => Promise<T>) => Promise<T | undefined>
 }

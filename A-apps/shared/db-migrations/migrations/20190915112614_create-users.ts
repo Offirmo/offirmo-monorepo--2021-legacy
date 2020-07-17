@@ -17,12 +17,12 @@ export async function up(knex: Knex): Promise<any> {
 			.string('called')
 
 		table
-			.string('usual_email')
+			.string('raw_email') // as entered by the user (not cleaned)
 			.unique()
 			.index()
 
 		table
-			.string('normalized_email')
+			.string('normalized_email') // maximally cleaned = used as a unique id
 			.unique()
 			.index()
 

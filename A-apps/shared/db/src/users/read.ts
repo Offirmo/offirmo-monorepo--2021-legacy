@@ -1,21 +1,22 @@
 import assert from 'tiny-invariant'
+import { NORMALIZERS } from '@offirmo-private/normalize-string'
 
 import get_db from '../db'
 
 import { NetlifyUser, PUser } from './types'
 import { TABLE_USERS } from './consts'
-import { normalize_email_full} from '../utils'
 import { sanitize_persisted } from './common'
 
 ////////////////////////////////////
 
 export async function get_by_email(
-	email: string,
+	raw_email: string,
 	trx: ReturnType<typeof get_db> = get_db()
 ): Promise<null | PUser> {
+	const normalized_email = NORMALIZERS.normalize_email_full(raw_email)
 	const raw_result = await trx(TABLE_USERS)
 		.select()
-		.where('normalized_email', normalize_email_full(email))
+		.where('normalized_email', normalized_email)
 
 	if (!raw_result[0])
 		return null
@@ -23,7 +24,10 @@ export async function get_by_email(
 	return sanitize_persisted(raw_result[0] as PUser)
 }
 
+////////////////////////////////////
+
 // returns null bc one should use "ensure user…" in actual code
+// DO NOT mistake with ensure_user()!
 export async function get_by_netlify(
 	data: Partial<NetlifyUser>, // partial as a convenience TODO review
 	trx: ReturnType<typeof get_db> = get_db()
@@ -39,7 +43,6 @@ export async function get_by_netlify(
 	//console.log(`get_by_netlify(${data.netlify_id}): outer join raw result:`, raw_result)
 
 	if (!raw_result || !raw_result.length) {
-		// don't check by email
 		return null
 	}
 

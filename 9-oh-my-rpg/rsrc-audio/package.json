@@ -22,7 +22,7 @@
 	},
 
 	"scripts": {
-		"clean": "node ../../0-scripts/clean.js dist",
+		"clean": "node ../../0-scripts/clean.js …dist",
 
 		"dev": "run-s clean build:dev:watch",
 

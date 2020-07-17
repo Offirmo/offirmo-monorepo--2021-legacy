@@ -15,7 +15,7 @@ module.exports = {
 
 	development: {
 		...COMMON,
-		connection: 'postgres://postgres:@127.0.0.1:32768/postgres',
+		connection: 'postgres://postgres:password@127.0.0.1:32770/postgres',
 	},
 
 	staging: {

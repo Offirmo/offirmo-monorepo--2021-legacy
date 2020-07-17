@@ -16,6 +16,7 @@ const handler: NetlifyHandler = async (
 
 	const err = new Error(message)
 	await report_to_sentry(err)
+
 	throw err
 }
 

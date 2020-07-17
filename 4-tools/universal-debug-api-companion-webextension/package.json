@@ -7,7 +7,7 @@
 	"private": true,
 
 	"scripts": {
-		"clean": "node ../../0-scripts/clean.js dist cache && rm -rf dist.demo",
+		"clean": "node ../../0-scripts/clean.js …dist …cache dist.demo",
 
 		"dev:parcel": "parcel --no-autoinstall --port 9090 --no-hmr src/**/*.html src/background/background.ts src/content-scripts/*.ts",
 		"dev:cpx": "cpx 'src/**/*.{json,png,svg}' dist --watch --verbose",

@@ -4,7 +4,7 @@ import {expect} from 'chai'
 import {APP} from './consts'
 
 import {
-	TEST_CLIENT_CONTEXT_USER,
+	DEV_MOCK_NETLIFY_USER,
 	get_netlify_user_data,
 } from './netlify'
 import {NetlifyClientContext, NetlifyContext} from "./types";

@@ -23,20 +23,21 @@ const PKG_NAME = PKG_JSON.name
 console.log(`🔧  🔻 Cleaning ${stylize_string.bold(PKG_NAME)} [${cli.input}]...`)
 
 
-Promise.all([
-	cli.input.includes('dist')
-		? fs.remove(path.join(PKG_PATH, 'dist'))
-		: Promise.resolve(true),
-
-	cli.input.includes('deps')
-		? fs.remove(path.join(PKG_PATH, 'node_modules'))
-		: Promise.resolve(true),
-
-	cli.input.includes('cache')
-		? Promise.all([
-			fs.remove(path.join(PKG_PATH, '.cache')),
-			fs.remove(path.join(PKG_PATH, '.parcel')),
-		])
-		: Promise.resolve(true),
-])
+Promise.all(cli.input
+	.map(dir => {
+		switch(dir) {
+			case '…dist':
+				return fs.remove(path.join(PKG_PATH, 'dist'))
+			case '…cache':
+				return Promise.all([
+					fs.remove(path.join(PKG_PATH, '.cache')),
+					fs.remove(path.join(PKG_PATH, '.parcel')),
+				])
+			case '…deps': // TODO useful?
+				return fs.remove(path.join(PKG_PATH, 'node_modules'))
+			default:
+				return fs.remove(path.join(PKG_PATH, dir))
+		}
+	})
+)
 	.then(() => console.log(`🔧  🔺 Cleaning ${stylize_string.bold(PKG_NAME)} [${cli.input}] done ✔`))

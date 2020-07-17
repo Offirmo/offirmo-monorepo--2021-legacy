@@ -20,7 +20,7 @@
 		"parcel-bundler": "^1"
 	},
 	"scripts": {
-		"clean": "node ../../0-scripts/clean.js dist cache",
+		"clean": "node ../../0-scripts/clean.js …dist …cache",
 
 		"start:parcel": "PARCEL_AUTOINSTALL=false parcel src/index.html --out-dir .parcel --no-autoinstall",
 

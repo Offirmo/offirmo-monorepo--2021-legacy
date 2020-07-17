@@ -3,6 +3,7 @@
 
 ## pending
 * TODO fix the "maximum call stack exceeded" when printing a SEC
+* TODO pretty+intelligently print the details
 * [doc] ++
 * ...
 

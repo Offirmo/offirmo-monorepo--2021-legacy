@@ -5,7 +5,7 @@
 	"description": "Small reusable CSS classes",
 	"license": "Unlicense",
 	"scripts": {
-		"clean": "node ../../0-scripts/clean.js dist cache",
+		"clean": "node ../../0-scripts/clean.js …dist …cache",
 		"start:parcel": "parcel --out-dir .parcel --no-autoinstall doc/demo/*.html",
 		"demo": "run-s clean start:parcel",
 

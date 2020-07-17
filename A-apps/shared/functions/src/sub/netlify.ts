@@ -7,7 +7,7 @@ import {
 import { CHANNEL } from './services/channel'
 import { create_error } from './utils'
 
-export function ensure_netlify_logged_in(context: Readonly<NetlifyContext>) {
+function _ensure_netlify_logged_in(context: Readonly<NetlifyContext>) {
 	if (!context.clientContext)
 		throw create_error('No/bad/outdated token [1]! (not logged in?)', { statusCode: 401 })
 
@@ -17,7 +17,7 @@ export function ensure_netlify_logged_in(context: Readonly<NetlifyContext>) {
 
 export type NetlifyUserData = Users.NetlifyUser
 
-export const TEST_CLIENT_CONTEXT_USER: Readonly<NonNullable<NetlifyClientContext['user']>> = {
+export const DEV_MOCK_NETLIFY_USER: Readonly<NonNullable<NetlifyClientContext['user']>> = {
 	email: 'dev@online-adventur.es',
 	sub: 'fake-netlify-id',
 	app_metadata: {
@@ -31,15 +31,15 @@ export const TEST_CLIENT_CONTEXT_USER: Readonly<NonNullable<NetlifyClientContext
 	exp: -1,
 }
 
-
 export function get_netlify_user_data(context: NetlifyContext): NetlifyUserData {
 	try {
-		ensure_netlify_logged_in(context)
+		_ensure_netlify_logged_in(context)
 	}
 	catch (err ) {
 		if (err.message.includes('No/bad/outdated token') && CHANNEL === 'dev') {
 			// pretend
-			context.clientContext.user = TEST_CLIENT_CONTEXT_USER
+			context.clientContext.user = DEV_MOCK_NETLIFY_USER
+			;(context.clientContext as any).xxx = "WAS FAKED FOR DEV!"
 		}
 		else
 			throw err

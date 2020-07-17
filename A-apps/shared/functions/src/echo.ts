@@ -39,11 +39,11 @@ export const handler: NetlifyHandler = async (
 			version: process.version,
 			//release: process.release,
 			versions: process.versions,
-			env: filter_out_secrets(process.env),
+			env: _filter_out_secrets(process.env),
 		},
 	}, null, 2)
 
-	console.log(all_the_things)
+	console.log('will return:', all_the_things)
 
 	return {
 		statusCode: 200,
@@ -53,7 +53,7 @@ export const handler: NetlifyHandler = async (
 }
 
 
-function filter_out_secrets(env: NodeJS.ProcessEnv): NodeJS.ProcessEnv {
+function _filter_out_secrets(env: NodeJS.ProcessEnv): NodeJS.ProcessEnv {
 	return Object.entries(env)
 		.map(([k, v]) => {
 			const isSecret = k.toLowerCase().includes('secret')

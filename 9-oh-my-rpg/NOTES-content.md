@@ -400,3 +400,8 @@ https://www.dndbeyond.com/characters/899660
 
 https://www.questchests.com/post/evil-d-d-campaigns-you-should-run-one-how-to-get-started
 https://www.questchests.com/random-tables
+
+https://dota2.gamepedia.com/Role
+https://dota2.gamepedia.com/Ancient_(unit_type)
+https://pathofexile.gamepedia.com/Path_of_Exile_Wiki
+

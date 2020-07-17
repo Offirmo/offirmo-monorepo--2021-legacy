@@ -14,7 +14,12 @@ See below more exact numbers.
 
 Note: I do NOT agree with the opinion "don't transpile node_modules", see [issue]()
 
-Note: when updating here, also update `0-scripts/build-typescript.js`
+Notes:
+* when updating here, also update `0-scripts/build-typescript.js`
+* when updating node, also update
+  * `.nvmrc`
+  * `engines` from root `package.json`
+  * `@types/node`
 
 ### FUTURE 2020-10-20
 oldest active LTS node is no longer 12, now 14

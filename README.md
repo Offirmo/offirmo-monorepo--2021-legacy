@@ -57,17 +57,26 @@ bolt ws run cheatsheet --only @oh-my-rpg/*
 ## build all or a subset
 bolt ws run build
 bolt ws run build --only @offirmo-private/*
-bolt ws run test --only @offirmo-private/*
+bolt ws run test  --only @offirmo-private/*
+## make it work again step by step!
 bolt ws run build --only-fs "1-stdlib/*"
-bolt ws run test --only-fs "1-stdlib/*"
+bolt ws run test  --only-fs "1-stdlib/*"
 bolt ws run build --only-fs "2-foundation/*"
-bolt ws run test --only-fs "2-foundation/*"
+bolt ws run test  --only-fs "2-foundation/*"
+bolt ws run build --only-fs "3-advanced--isomorphic/*"
+bolt ws run test  --only-fs "3-advanced--isomorphic/*"
+bolt ws run build --only-fs "3-advanced--multi/*"
+bolt ws run test  --only-fs "3-advanced--multi/*"
+bolt ws run build --only-fs "3-advanced--browser/*"
+bolt ws run test  --only-fs "3-advanced--browser/*"
+bolt ws run build --only-fs "3-advanced--node/*"
+bolt ws run test  --only-fs "3-advanced--node/*"
 bolt ws run build --only-fs "4-tools/*"
 bolt ws run build --only-fs "5-incubator/**/*"
 bolt ws run build --only @oh-my-rpg/*
-bolt ws run test --only @oh-my-rpg/*
-bolt ws run build --only-fs "A-apps/**/*"
+bolt ws run test  --only @oh-my-rpg/*
 bolt ws run build --only-fs "A-apps/the-boring-rpg/**/*"
+bolt ws run build --only-fs "A-apps/shared/**/*"
 bolt ws run test --only-fs "A-apps/**/*"
 bolt ws run build --only-fs "B-minisites/*"
 bolt w @oh-my-rpg/definitions run build

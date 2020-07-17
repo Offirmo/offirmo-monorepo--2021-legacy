@@ -35,7 +35,7 @@ function create(SEC: OMRSoftExecutionContext, storage: TbrpgStorage): Persistent
 			storage.set_item(StorageKey['savegame-bkp'], stable_stringify(recovered_state))
 
 			return recovered_state
-		})
+		}) ?? null
 
 		function persist(new_state: State): void {
 			if (last_persisted_state && new_state.u_state && new_state.u_state === last_persisted_state.u_state) return // no need

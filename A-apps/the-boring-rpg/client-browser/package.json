@@ -51,7 +51,7 @@
 	},
 
 	"scripts": {
-		"clean": "node ../../../0-scripts/clean.js dist cache",
+		"clean": "node ../../../0-scripts/clean.js …dist …cache",
 
 		"refresh-loading-template": "offirmo-simple-upgradable-template-apply --template=./node_modules/@offirmo-private/iframe-loading/src/index.html --destination=./src/index.html",
 		"refresh-build-variables": "node ../../../0-scripts/update_build_variables.js --inputDir=../state",

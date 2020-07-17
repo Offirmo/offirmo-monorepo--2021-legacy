@@ -1,23 +1,26 @@
 import Knex from 'knex'
 import assert from 'tiny-invariant'
 
+import { NORMALIZERS } from '@offirmo-private/normalize-string'
+
 import { WithoutTimestamps } from '../types'
-import { normalize_email_reasonable, normalize_email_full } from '../utils/email'
 import get_db from '../db'
 import { NetlifyUser, BaseUser, PUser, PNetlifyUser, } from './types'
 import logger from '../utils/logger'
-import {sanitize_persisted} from "./common";
+import { sanitize_persisted } from './common'
 
 ////////////////////////////////////
 
-export function netlify_to_base_user(input: Readonly<NetlifyUser>): BaseUser {
+export function get_base_user_from_netlify_user(input: Readonly<NetlifyUser>): BaseUser {
 	return sanitize_persisted({
 		called: input.full_name,
-		usual_email: input.email,
+		raw_email: input.email,
 		avatar_url: input.avatar_url,
 		roles: input.roles,
 	})
 }
+
+////////////////////////////////////
 
 export async function create_user(
 	data: Readonly<BaseUser>,
@@ -25,8 +28,8 @@ export async function create_user(
 ): Promise<PUser['id']> {
 	data = {
 		...data,
-		usual_email: normalize_email_reasonable(data.usual_email),
-		normalized_email: normalize_email_full(data.usual_email),
+		//raw_email: NORMALIZERS.normalize_email_safe(data.raw_email),
+		normalized_email: NORMALIZERS.normalize_email_full(data.raw_email),
 	}
 	logger.log('creating user...', { data })
 
@@ -57,14 +60,14 @@ export async function create_netlify_user(
 	return { own_id, user_id }
 }
 
-export async function create_through_netlify(
+export async function create_user_through_netlify(
 	data: Readonly<NetlifyUser>,
 	trx: ReturnType<typeof get_db>
 ): Promise<Readonly<WithoutTimestamps<PNetlifyUser>>> {
 	logger.log('creating user through Netlify...', { data })
-	assert(data.netlify_id, 'create_through_netlify: Netlify Id is mandatory!') // can this be typed?
+	assert(data.netlify_id, 'create_user_through_netlify: Netlify Id is mandatory!') // can this be typed?
 
-	const user_id = await create_user(netlify_to_base_user(data), trx)
+	const user_id = await create_user(get_base_user_from_netlify_user(data), trx)
 	const netlify_user: WithoutTimestamps<PNetlifyUser> = {
 		user_id,
 		own_id: data.netlify_id,

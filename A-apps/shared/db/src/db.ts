@@ -1,12 +1,13 @@
 import tiny_singleton from '@offirmo/tiny-singleton'
 import Knex from 'knex'
 import { overrideHook } from '@offirmo/universal-debug-api-placeholder'
+//import { development } from '../../db-migrations/knexfile'
 
 import logger from './utils/logger'
 
 export const get_db = tiny_singleton(({min = 1, max = 1}: {min?: number, max?: number} = {}) => Knex({
 		client: 'pg',
-		connection: process.env.SECRET_DATABASE_URL || 'postgres://postgres:@127.0.0.1:32768/postgres',
+		connection: process.env.SECRET_DATABASE_URL || 'postgres://postgres:password@127.0.0.1:32770/postgres',
 		debug: overrideHook('knex-debug', true), // TODO change default
 		log: {
 			warn(message: Object) {

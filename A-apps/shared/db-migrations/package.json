@@ -7,19 +7,20 @@
 	"private": true,
 
 	"dependencies": {
+		"@offirmo-private/normalize-string": "^0",
+		"knex": "^0.21",
+		"pg": "^8",
+		"tslib": "^2",
+		"typescript": "^3"
 	},
 
 	"scripts": {
 		"up": "knex migrate:latest",
 		"reset": "knex migrate:rollback --all && knex migrate:latest",
-		"new": "knex migrate:make TODO -x ts"
+		"new": "knex migrate:make TODO -x ts --stub"
 	},
 	"devDependencies": {
 		"@types/node": "^12",
-		"knex": "^0.21",
-		"npm-run-all": "^4",
-		"pg": "^8",
-		"tslib": "^2",
-		"typescript": "^3"
+		"npm-run-all": "^4"
 	}
 }

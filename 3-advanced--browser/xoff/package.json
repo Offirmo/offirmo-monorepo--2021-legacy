@@ -20,7 +20,7 @@
 	},
 
 	"scripts": {
-		"clean": "node ../../0-scripts/clean.js dist cache .parcel .dist",
+		"clean": "node ../../0-scripts/clean.js …dist …cache .demo",
 
 		"start:parcel": "parcel --out-dir .parcel --no-autoinstall doc/demo/*.html",
 		"build:dev:watch": "node ../../0-scripts/build-typescript.js --watch",

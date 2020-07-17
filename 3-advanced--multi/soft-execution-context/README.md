@@ -59,18 +59,27 @@ SEC.injectDependencies({
 })
 const { ENV, SEC, logger, foo } = SEC.getInjectedDependencies()
 
-
+/// SYNCHRONOUS
+// won't catch
 SEC.xTry(operation, ({SEC, logger}) => {
 	...
 })
-SEC.xTryCatch(...) // <-- used at top level
+// also
+return SEC.xTry('foo', async ({ SEC, ... }) => { ... })
+// !! will auto-catch, be careful!! (ex. used at top level)
+SEC.xTryCatch(...)
 
-SEC.xPromiseCatch(operation, promise)
 
+/// ASYNCHRONOUS
+// classic Promise.try (but should use async?)
 SEC.xPromiseTry(operation, ({SEC, logger}) => {
 	...
 })
+// !! will auto-catch, be careful!!
+SEC.xPromiseCatch(operation, promise)
 SEC.xPromiseTryCatch(...)
+
+
 
 SEC.setLogicalStack({
 	module: LIB,

@@ -15,11 +15,12 @@ export type ReleaseChannel = Enum<typeof ReleaseChannel> // eslint-disable-line 
 // tslint:disable-next-line: variable-name
 export const Endpoint = Enum(
 	'echo',
-	'error',
-	'hello',
+	'hello-world',
+	'hello-world-advanced',
 	'report-error',
 	'tbrpg-rpc',
-	'test',
+	'temp',
+	'test-error-handling',
 	'whoami',
 )
 export type Endpoint = Enum<typeof Endpoint> // eslint-disable-line no-redeclar
@@ -38,7 +39,7 @@ export function get_allowed_origin(channel: ReleaseChannel): string {
 	}
 }
 
-function _get_base_url(channel: ReleaseChannel): string {
+function _get_api_base_url(channel: ReleaseChannel): string {
 	switch(channel) {
 
 		case 'dev':
@@ -54,6 +55,6 @@ function _get_base_url(channel: ReleaseChannel): string {
 	}
 }
 
-export function get_base_url(channel: ReleaseChannel): string {
-	return overrideHook<string>('fn-base-url', _get_base_url(channel))
+export function get_api_base_url(channel: ReleaseChannel): string {
+	return overrideHook<string>('api-base-url', _get_api_base_url(channel))
 }
