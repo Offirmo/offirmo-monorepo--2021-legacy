@@ -104,5 +104,5 @@ export interface SoftExecutionContext<Injections = {}, AnalyticsDetails = {}, Er
 		_resolve: (value?: T | PromiseLike<T>) => void,
 		_reject: (reason?: any) => void,
 	) => void) => Promise<T>
-	xPromiseTry:      <T>(operation: string, fn: Operation<Promise<T>, Injections, AnalyticsDetails, ErrorDetails>) => Promise<T>
+	xPromiseTry: <T>(operation: string, fn: Operation<Promise<T>, Injections, AnalyticsDetails, ErrorDetails>) => Promise<T>
 }

@@ -73,7 +73,34 @@ const PLUGIN = {
 			return SEC // for chaining
 		}
 
-		// for promises
+		// useful if creating an error later from a saved SEC
+		prototype.createError = function createError(message, details = {}) {
+			const SEC = this
+
+			message = String(message || 'Unknown error!')
+			if (!(message.toLowerCase()).includes('error')) {
+				message = 'Error: ' + message
+			}
+
+			const err = new Error(message)
+			Object.keys(details).forEach(k => {
+				//console.log(k)
+				if (COMMON_ERROR_FIELDS.has(k) && !STANDARD_ERROR_FIELDS.has(k)) {
+					err[k] = details[k]
+				}
+				else {
+					err.details = err.details || {}
+					err.details[k] = details[k]
+				}
+			})
+			err.framesToPop = (err.framesToPop || 0) + 1
+
+			return SEC._decorateErrorWithLogicalStack(
+				SEC._decorateErrorWithDetails(err)
+			)
+		}
+
+		// for termination promises
 		prototype.handleError = function handleError(err) {
 			const SEC = this
 			SEC._handleError({
@@ -159,32 +186,7 @@ const PLUGIN = {
 				})
 		}
 
-		// useful if creating an error later from a saved SEC
-		prototype.createError = function createError(message, details = {}) {
-			const SEC = this
 
-			message = String(message || 'Unknown error!')
-			if (!(message.toLowerCase()).includes('error')) {
-				message = 'Error: ' + message
-			}
-
-			const err = new Error(message)
-			Object.keys(details).forEach(k => {
-				//console.log(k)
-				if (COMMON_ERROR_FIELDS.has(k) && !STANDARD_ERROR_FIELDS.has(k)) {
-					err[k] = details[k]
-				}
-				else {
-					err.details = err.details || {}
-					err.details[k] = details[k]
-				}
-			})
-			err.framesToPop = (err.framesToPop || 0) + 1
-
-			return SEC._decorateErrorWithLogicalStack(
-				SEC._decorateErrorWithDetails(err)
-			)
-		}
 	},
 }
 

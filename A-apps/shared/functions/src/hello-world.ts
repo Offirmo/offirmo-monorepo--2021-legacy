@@ -11,7 +11,7 @@ const handler: NetlifyHandler = async (
 	event: APIGatewayEvent,
 	badly_typed_context: Context,
 ): Promise<Response> => {
-	const msg = `Hello 20200717`
+	const msg = `Hello 20200718`
 	console.log('(log)', msg)
 	console.info('(info)', msg)
 	console.warn('(warn)', msg)

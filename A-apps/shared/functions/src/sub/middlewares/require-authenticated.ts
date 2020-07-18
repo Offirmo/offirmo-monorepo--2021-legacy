@@ -21,13 +21,15 @@ export async function require_authenticated(
 	try {
 		const netlify_user_data = get_netlify_user_data(context)
 
-		await get_db().transaction(async trx => {
-			const user_p = await Users.ensure_user_through_netlify(netlify_user_data, trx)
-			SEC.injectDependencies({
-				user_p,
-				user: Users.infer_defaults_from_persisted(user_p),
+		await SEC.xPromiseTry('ensure_user_through_netlify', () =>
+			get_db().transaction(async trx => {
+				const user_p = await Users.ensure_user_through_netlify(netlify_user_data, trx)
+				SEC.injectDependencies({
+					user_p,
+					user: Users.infer_defaults_from_persisted(user_p),
+				})
 			})
-		})
+		)
 
 		await next()
 	}
