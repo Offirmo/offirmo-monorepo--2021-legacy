@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 513);
+/******/ 	return __webpack_require__(__webpack_require__.s = 511);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -142,7 +142,7 @@ exports.Enum = Enum;
 
 /***/ }),
 
-/***/ 184:
+/***/ 182:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -155,15 +155,9 @@ exports.get_netlify_user_data = exports.DEV_MOCK_NETLIFY_USER = void 0;
 
 const channel_1 = __webpack_require__(29);
 
-const utils_1 = __webpack_require__(58);
-
 function _ensure_netlify_logged_in(context) {
-  if (!context.clientContext) throw utils_1.create_error('No/bad/outdated token [1]! (not logged in?)', {
-    statusCode: 401
-  });
-  if (!context.clientContext.user) throw utils_1.create_error('No/bad/outdated token [2]! (not logged in?)', {
-    statusCode: 401
-  });
+  if (!context.clientContext) throw new Error('No/bad/outdated token [1]! (not logged in?)');
+  if (!context.clientContext.user) throw new Error('No/bad/outdated token [2]! (not logged in?)');
 }
 
 exports.DEV_MOCK_NETLIFY_USER = {
@@ -184,6 +178,8 @@ function get_netlify_user_data(context) {
   try {
     _ensure_netlify_logged_in(context);
   } catch (err) {
+    err.statusCode = 401;
+
     if (err.message.includes('No/bad/outdated token') && channel_1.CHANNEL === 'dev') {
       // pretend
       context.clientContext.user = exports.DEV_MOCK_NETLIFY_USER;
@@ -242,13 +238,6 @@ function getGlobalThis() {
 
 /***/ }),
 
-/***/ 24:
-/***/ (function(module, exports) {
-
-module.exports = require("http");
-
-/***/ }),
-
 /***/ 28:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -294,7 +283,7 @@ exports.CHANNEL = void 0;
 
 const typescript_string_enums_1 = __webpack_require__(13);
 
-const functions_interface_1 = __webpack_require__(94);
+const functions_interface_1 = __webpack_require__(92);
 
 exports.CHANNEL = (() => {
   if (typescript_string_enums_1.Enum.isType(functions_interface_1.ReleaseChannel, process.env.CHANNEL)) return process.env.CHANNEL;
@@ -359,7 +348,7 @@ function create() {
 
 /***/ }),
 
-/***/ 513:
+/***/ 511:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -370,7 +359,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.handler = void 0;
 
-const netlify_1 = __webpack_require__(184);
+const netlify_1 = __webpack_require__(182);
 
 exports.handler = async (event, badly_typed_context) => {
   const context = badly_typed_context;
@@ -426,104 +415,7 @@ function _filter_out_secrets(env) {
 
 /***/ }),
 
-/***/ 58:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.create_error = void 0;
-
-const http_1 = __webpack_require__(24);
-
-const common_error_fields_1 = __webpack_require__(91); // TODO extern
-
-
-function create_error(message, details = {}) {
-  console.log(`FYI create_error() "${message}"`, details);
-
-  if (message && http_1.STATUS_CODES[message]) {
-    details.statusCode = Number(message);
-    message = http_1.STATUS_CODES[details.statusCode];
-  }
-
-  message = String(message || 'Unknown error!');
-
-  if (!message.toLowerCase().includes('error')) {
-    message = 'Error: ' + message;
-  }
-
-  const error = new Error(message);
-  Object.keys(details).forEach(k => {
-    //console.log(k)
-    if (common_error_fields_1.COMMON_ERROR_FIELDS.has(k) && k !== 'name' && k !== 'message' && k !== 'stack') {
-      error[k] = details[k];
-    } else {
-      error.details = error.details || {};
-      error.details[k] = details[k];
-    }
-  });
-  error.framesToPop = error.framesToPop || 1;
-  return error;
-}
-
-exports.create_error = create_error;
-
-/***/ }),
-
-/***/ 72:
-/***/ (function(module, exports) {
-
-
-
-/***/ }),
-
-/***/ 73:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return COMMON_ERROR_FIELDS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return create; });
-function create() {
-  return new Set([// standard fields
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
-  'name', 'message', // quasi-standard
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
-  'stack', // standard in node
-  'code', // https://nodejs.org/dist/latest/docs/api/errors.html#errors_node_js_error_codes
-  // non standard but widely used
-  'statusCode', 'shouldRedirect', 'framesToPop', // My (Offirmo) extensions
-  'details', 'SEC', '_temp']);
-}
-
-const DEFAULT_INSTANCE = create();
-const COMMON_ERROR_FIELDS = DEFAULT_INSTANCE;
-
-
-/***/ }),
-
-/***/ 91:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(72);
-/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_types__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _types__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _types__WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _field_set__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(73);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "COMMON_ERROR_FIELDS", function() { return _field_set__WEBPACK_IMPORTED_MODULE_1__["a"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "create", function() { return _field_set__WEBPACK_IMPORTED_MODULE_1__["b"]; });
-
-
-
-
-/***/ }),
-
-/***/ 94:
+/***/ 92:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

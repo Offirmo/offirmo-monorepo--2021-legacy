@@ -81,12 +81,12 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 515);
+/******/ 	return __webpack_require__(__webpack_require__.s = 513);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 515:
+/***/ 513:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -98,7 +98,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.handler = void 0;
 
 const handler = async (event, badly_typed_context) => {
-  const msg = `Hello 20200717`;
+  const msg = `Hello 20200718`;
   console.log('(log)', msg);
   console.info('(info)', msg);
   console.warn('(warn)', msg);

@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 521);
+/******/ 	return __webpack_require__(__webpack_require__.s = 519);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -103,12 +103,12 @@ const INTERNAL_PROP = '_SEC';
 
 "use strict";
 
-const ansiStyles = __webpack_require__(176);
+const ansiStyles = __webpack_require__(174);
 const {stdout: stdoutColor, stderr: stderrColor} = __webpack_require__(68);
 const {
 	stringReplaceAll,
 	stringEncaseCRLFWithFirstIndex
-} = __webpack_require__(180);
+} = __webpack_require__(178);
 
 const {isArray} = Array;
 
@@ -317,7 +317,7 @@ const chalkTag = (chalk, ...strings) => {
 	}
 
 	if (template === undefined) {
-		template = __webpack_require__(181);
+		template = __webpack_require__(179);
 	}
 
 	return template(chalk, parts.join(''));
@@ -343,866 +343,6 @@ module.exports = require("events");
 /***/ }),
 
 /***/ 100:
-/***/ (function(module, exports, __webpack_require__) {
-
-/* MIT license */
-/* eslint-disable no-mixed-operators */
-const cssKeywords = __webpack_require__(178);
-
-// NOTE: conversions should only return primitive values (i.e. arrays, or
-//       values that give correct `typeof` results).
-//       do not use box values types (i.e. Number(), String(), etc.)
-
-const reverseKeywords = {};
-for (const key of Object.keys(cssKeywords)) {
-	reverseKeywords[cssKeywords[key]] = key;
-}
-
-const convert = {
-	rgb: {channels: 3, labels: 'rgb'},
-	hsl: {channels: 3, labels: 'hsl'},
-	hsv: {channels: 3, labels: 'hsv'},
-	hwb: {channels: 3, labels: 'hwb'},
-	cmyk: {channels: 4, labels: 'cmyk'},
-	xyz: {channels: 3, labels: 'xyz'},
-	lab: {channels: 3, labels: 'lab'},
-	lch: {channels: 3, labels: 'lch'},
-	hex: {channels: 1, labels: ['hex']},
-	keyword: {channels: 1, labels: ['keyword']},
-	ansi16: {channels: 1, labels: ['ansi16']},
-	ansi256: {channels: 1, labels: ['ansi256']},
-	hcg: {channels: 3, labels: ['h', 'c', 'g']},
-	apple: {channels: 3, labels: ['r16', 'g16', 'b16']},
-	gray: {channels: 1, labels: ['gray']}
-};
-
-module.exports = convert;
-
-// Hide .channels and .labels properties
-for (const model of Object.keys(convert)) {
-	if (!('channels' in convert[model])) {
-		throw new Error('missing channels property: ' + model);
-	}
-
-	if (!('labels' in convert[model])) {
-		throw new Error('missing channel labels property: ' + model);
-	}
-
-	if (convert[model].labels.length !== convert[model].channels) {
-		throw new Error('channel and label counts mismatch: ' + model);
-	}
-
-	const {channels, labels} = convert[model];
-	delete convert[model].channels;
-	delete convert[model].labels;
-	Object.defineProperty(convert[model], 'channels', {value: channels});
-	Object.defineProperty(convert[model], 'labels', {value: labels});
-}
-
-convert.rgb.hsl = function (rgb) {
-	const r = rgb[0] / 255;
-	const g = rgb[1] / 255;
-	const b = rgb[2] / 255;
-	const min = Math.min(r, g, b);
-	const max = Math.max(r, g, b);
-	const delta = max - min;
-	let h;
-	let s;
-
-	if (max === min) {
-		h = 0;
-	} else if (r === max) {
-		h = (g - b) / delta;
-	} else if (g === max) {
-		h = 2 + (b - r) / delta;
-	} else if (b === max) {
-		h = 4 + (r - g) / delta;
-	}
-
-	h = Math.min(h * 60, 360);
-
-	if (h < 0) {
-		h += 360;
-	}
-
-	const l = (min + max) / 2;
-
-	if (max === min) {
-		s = 0;
-	} else if (l <= 0.5) {
-		s = delta / (max + min);
-	} else {
-		s = delta / (2 - max - min);
-	}
-
-	return [h, s * 100, l * 100];
-};
-
-convert.rgb.hsv = function (rgb) {
-	let rdif;
-	let gdif;
-	let bdif;
-	let h;
-	let s;
-
-	const r = rgb[0] / 255;
-	const g = rgb[1] / 255;
-	const b = rgb[2] / 255;
-	const v = Math.max(r, g, b);
-	const diff = v - Math.min(r, g, b);
-	const diffc = function (c) {
-		return (v - c) / 6 / diff + 1 / 2;
-	};
-
-	if (diff === 0) {
-		h = 0;
-		s = 0;
-	} else {
-		s = diff / v;
-		rdif = diffc(r);
-		gdif = diffc(g);
-		bdif = diffc(b);
-
-		if (r === v) {
-			h = bdif - gdif;
-		} else if (g === v) {
-			h = (1 / 3) + rdif - bdif;
-		} else if (b === v) {
-			h = (2 / 3) + gdif - rdif;
-		}
-
-		if (h < 0) {
-			h += 1;
-		} else if (h > 1) {
-			h -= 1;
-		}
-	}
-
-	return [
-		h * 360,
-		s * 100,
-		v * 100
-	];
-};
-
-convert.rgb.hwb = function (rgb) {
-	const r = rgb[0];
-	const g = rgb[1];
-	let b = rgb[2];
-	const h = convert.rgb.hsl(rgb)[0];
-	const w = 1 / 255 * Math.min(r, Math.min(g, b));
-
-	b = 1 - 1 / 255 * Math.max(r, Math.max(g, b));
-
-	return [h, w * 100, b * 100];
-};
-
-convert.rgb.cmyk = function (rgb) {
-	const r = rgb[0] / 255;
-	const g = rgb[1] / 255;
-	const b = rgb[2] / 255;
-
-	const k = Math.min(1 - r, 1 - g, 1 - b);
-	const c = (1 - r - k) / (1 - k) || 0;
-	const m = (1 - g - k) / (1 - k) || 0;
-	const y = (1 - b - k) / (1 - k) || 0;
-
-	return [c * 100, m * 100, y * 100, k * 100];
-};
-
-function comparativeDistance(x, y) {
-	/*
-		See https://en.m.wikipedia.org/wiki/Euclidean_distance#Squared_Euclidean_distance
-	*/
-	return (
-		((x[0] - y[0]) ** 2) +
-		((x[1] - y[1]) ** 2) +
-		((x[2] - y[2]) ** 2)
-	);
-}
-
-convert.rgb.keyword = function (rgb) {
-	const reversed = reverseKeywords[rgb];
-	if (reversed) {
-		return reversed;
-	}
-
-	let currentClosestDistance = Infinity;
-	let currentClosestKeyword;
-
-	for (const keyword of Object.keys(cssKeywords)) {
-		const value = cssKeywords[keyword];
-
-		// Compute comparative distance
-		const distance = comparativeDistance(rgb, value);
-
-		// Check if its less, if so set as closest
-		if (distance < currentClosestDistance) {
-			currentClosestDistance = distance;
-			currentClosestKeyword = keyword;
-		}
-	}
-
-	return currentClosestKeyword;
-};
-
-convert.keyword.rgb = function (keyword) {
-	return cssKeywords[keyword];
-};
-
-convert.rgb.xyz = function (rgb) {
-	let r = rgb[0] / 255;
-	let g = rgb[1] / 255;
-	let b = rgb[2] / 255;
-
-	// Assume sRGB
-	r = r > 0.04045 ? (((r + 0.055) / 1.055) ** 2.4) : (r / 12.92);
-	g = g > 0.04045 ? (((g + 0.055) / 1.055) ** 2.4) : (g / 12.92);
-	b = b > 0.04045 ? (((b + 0.055) / 1.055) ** 2.4) : (b / 12.92);
-
-	const x = (r * 0.4124) + (g * 0.3576) + (b * 0.1805);
-	const y = (r * 0.2126) + (g * 0.7152) + (b * 0.0722);
-	const z = (r * 0.0193) + (g * 0.1192) + (b * 0.9505);
-
-	return [x * 100, y * 100, z * 100];
-};
-
-convert.rgb.lab = function (rgb) {
-	const xyz = convert.rgb.xyz(rgb);
-	let x = xyz[0];
-	let y = xyz[1];
-	let z = xyz[2];
-
-	x /= 95.047;
-	y /= 100;
-	z /= 108.883;
-
-	x = x > 0.008856 ? (x ** (1 / 3)) : (7.787 * x) + (16 / 116);
-	y = y > 0.008856 ? (y ** (1 / 3)) : (7.787 * y) + (16 / 116);
-	z = z > 0.008856 ? (z ** (1 / 3)) : (7.787 * z) + (16 / 116);
-
-	const l = (116 * y) - 16;
-	const a = 500 * (x - y);
-	const b = 200 * (y - z);
-
-	return [l, a, b];
-};
-
-convert.hsl.rgb = function (hsl) {
-	const h = hsl[0] / 360;
-	const s = hsl[1] / 100;
-	const l = hsl[2] / 100;
-	let t2;
-	let t3;
-	let val;
-
-	if (s === 0) {
-		val = l * 255;
-		return [val, val, val];
-	}
-
-	if (l < 0.5) {
-		t2 = l * (1 + s);
-	} else {
-		t2 = l + s - l * s;
-	}
-
-	const t1 = 2 * l - t2;
-
-	const rgb = [0, 0, 0];
-	for (let i = 0; i < 3; i++) {
-		t3 = h + 1 / 3 * -(i - 1);
-		if (t3 < 0) {
-			t3++;
-		}
-
-		if (t3 > 1) {
-			t3--;
-		}
-
-		if (6 * t3 < 1) {
-			val = t1 + (t2 - t1) * 6 * t3;
-		} else if (2 * t3 < 1) {
-			val = t2;
-		} else if (3 * t3 < 2) {
-			val = t1 + (t2 - t1) * (2 / 3 - t3) * 6;
-		} else {
-			val = t1;
-		}
-
-		rgb[i] = val * 255;
-	}
-
-	return rgb;
-};
-
-convert.hsl.hsv = function (hsl) {
-	const h = hsl[0];
-	let s = hsl[1] / 100;
-	let l = hsl[2] / 100;
-	let smin = s;
-	const lmin = Math.max(l, 0.01);
-
-	l *= 2;
-	s *= (l <= 1) ? l : 2 - l;
-	smin *= lmin <= 1 ? lmin : 2 - lmin;
-	const v = (l + s) / 2;
-	const sv = l === 0 ? (2 * smin) / (lmin + smin) : (2 * s) / (l + s);
-
-	return [h, sv * 100, v * 100];
-};
-
-convert.hsv.rgb = function (hsv) {
-	const h = hsv[0] / 60;
-	const s = hsv[1] / 100;
-	let v = hsv[2] / 100;
-	const hi = Math.floor(h) % 6;
-
-	const f = h - Math.floor(h);
-	const p = 255 * v * (1 - s);
-	const q = 255 * v * (1 - (s * f));
-	const t = 255 * v * (1 - (s * (1 - f)));
-	v *= 255;
-
-	switch (hi) {
-		case 0:
-			return [v, t, p];
-		case 1:
-			return [q, v, p];
-		case 2:
-			return [p, v, t];
-		case 3:
-			return [p, q, v];
-		case 4:
-			return [t, p, v];
-		case 5:
-			return [v, p, q];
-	}
-};
-
-convert.hsv.hsl = function (hsv) {
-	const h = hsv[0];
-	const s = hsv[1] / 100;
-	const v = hsv[2] / 100;
-	const vmin = Math.max(v, 0.01);
-	let sl;
-	let l;
-
-	l = (2 - s) * v;
-	const lmin = (2 - s) * vmin;
-	sl = s * vmin;
-	sl /= (lmin <= 1) ? lmin : 2 - lmin;
-	sl = sl || 0;
-	l /= 2;
-
-	return [h, sl * 100, l * 100];
-};
-
-// http://dev.w3.org/csswg/css-color/#hwb-to-rgb
-convert.hwb.rgb = function (hwb) {
-	const h = hwb[0] / 360;
-	let wh = hwb[1] / 100;
-	let bl = hwb[2] / 100;
-	const ratio = wh + bl;
-	let f;
-
-	// Wh + bl cant be > 1
-	if (ratio > 1) {
-		wh /= ratio;
-		bl /= ratio;
-	}
-
-	const i = Math.floor(6 * h);
-	const v = 1 - bl;
-	f = 6 * h - i;
-
-	if ((i & 0x01) !== 0) {
-		f = 1 - f;
-	}
-
-	const n = wh + f * (v - wh); // Linear interpolation
-
-	let r;
-	let g;
-	let b;
-	/* eslint-disable max-statements-per-line,no-multi-spaces */
-	switch (i) {
-		default:
-		case 6:
-		case 0: r = v;  g = n;  b = wh; break;
-		case 1: r = n;  g = v;  b = wh; break;
-		case 2: r = wh; g = v;  b = n; break;
-		case 3: r = wh; g = n;  b = v; break;
-		case 4: r = n;  g = wh; b = v; break;
-		case 5: r = v;  g = wh; b = n; break;
-	}
-	/* eslint-enable max-statements-per-line,no-multi-spaces */
-
-	return [r * 255, g * 255, b * 255];
-};
-
-convert.cmyk.rgb = function (cmyk) {
-	const c = cmyk[0] / 100;
-	const m = cmyk[1] / 100;
-	const y = cmyk[2] / 100;
-	const k = cmyk[3] / 100;
-
-	const r = 1 - Math.min(1, c * (1 - k) + k);
-	const g = 1 - Math.min(1, m * (1 - k) + k);
-	const b = 1 - Math.min(1, y * (1 - k) + k);
-
-	return [r * 255, g * 255, b * 255];
-};
-
-convert.xyz.rgb = function (xyz) {
-	const x = xyz[0] / 100;
-	const y = xyz[1] / 100;
-	const z = xyz[2] / 100;
-	let r;
-	let g;
-	let b;
-
-	r = (x * 3.2406) + (y * -1.5372) + (z * -0.4986);
-	g = (x * -0.9689) + (y * 1.8758) + (z * 0.0415);
-	b = (x * 0.0557) + (y * -0.2040) + (z * 1.0570);
-
-	// Assume sRGB
-	r = r > 0.0031308
-		? ((1.055 * (r ** (1.0 / 2.4))) - 0.055)
-		: r * 12.92;
-
-	g = g > 0.0031308
-		? ((1.055 * (g ** (1.0 / 2.4))) - 0.055)
-		: g * 12.92;
-
-	b = b > 0.0031308
-		? ((1.055 * (b ** (1.0 / 2.4))) - 0.055)
-		: b * 12.92;
-
-	r = Math.min(Math.max(0, r), 1);
-	g = Math.min(Math.max(0, g), 1);
-	b = Math.min(Math.max(0, b), 1);
-
-	return [r * 255, g * 255, b * 255];
-};
-
-convert.xyz.lab = function (xyz) {
-	let x = xyz[0];
-	let y = xyz[1];
-	let z = xyz[2];
-
-	x /= 95.047;
-	y /= 100;
-	z /= 108.883;
-
-	x = x > 0.008856 ? (x ** (1 / 3)) : (7.787 * x) + (16 / 116);
-	y = y > 0.008856 ? (y ** (1 / 3)) : (7.787 * y) + (16 / 116);
-	z = z > 0.008856 ? (z ** (1 / 3)) : (7.787 * z) + (16 / 116);
-
-	const l = (116 * y) - 16;
-	const a = 500 * (x - y);
-	const b = 200 * (y - z);
-
-	return [l, a, b];
-};
-
-convert.lab.xyz = function (lab) {
-	const l = lab[0];
-	const a = lab[1];
-	const b = lab[2];
-	let x;
-	let y;
-	let z;
-
-	y = (l + 16) / 116;
-	x = a / 500 + y;
-	z = y - b / 200;
-
-	const y2 = y ** 3;
-	const x2 = x ** 3;
-	const z2 = z ** 3;
-	y = y2 > 0.008856 ? y2 : (y - 16 / 116) / 7.787;
-	x = x2 > 0.008856 ? x2 : (x - 16 / 116) / 7.787;
-	z = z2 > 0.008856 ? z2 : (z - 16 / 116) / 7.787;
-
-	x *= 95.047;
-	y *= 100;
-	z *= 108.883;
-
-	return [x, y, z];
-};
-
-convert.lab.lch = function (lab) {
-	const l = lab[0];
-	const a = lab[1];
-	const b = lab[2];
-	let h;
-
-	const hr = Math.atan2(b, a);
-	h = hr * 360 / 2 / Math.PI;
-
-	if (h < 0) {
-		h += 360;
-	}
-
-	const c = Math.sqrt(a * a + b * b);
-
-	return [l, c, h];
-};
-
-convert.lch.lab = function (lch) {
-	const l = lch[0];
-	const c = lch[1];
-	const h = lch[2];
-
-	const hr = h / 360 * 2 * Math.PI;
-	const a = c * Math.cos(hr);
-	const b = c * Math.sin(hr);
-
-	return [l, a, b];
-};
-
-convert.rgb.ansi16 = function (args, saturation = null) {
-	const [r, g, b] = args;
-	let value = saturation === null ? convert.rgb.hsv(args)[2] : saturation; // Hsv -> ansi16 optimization
-
-	value = Math.round(value / 50);
-
-	if (value === 0) {
-		return 30;
-	}
-
-	let ansi = 30
-		+ ((Math.round(b / 255) << 2)
-		| (Math.round(g / 255) << 1)
-		| Math.round(r / 255));
-
-	if (value === 2) {
-		ansi += 60;
-	}
-
-	return ansi;
-};
-
-convert.hsv.ansi16 = function (args) {
-	// Optimization here; we already know the value and don't need to get
-	// it converted for us.
-	return convert.rgb.ansi16(convert.hsv.rgb(args), args[2]);
-};
-
-convert.rgb.ansi256 = function (args) {
-	const r = args[0];
-	const g = args[1];
-	const b = args[2];
-
-	// We use the extended greyscale palette here, with the exception of
-	// black and white. normal palette only has 4 greyscale shades.
-	if (r === g && g === b) {
-		if (r < 8) {
-			return 16;
-		}
-
-		if (r > 248) {
-			return 231;
-		}
-
-		return Math.round(((r - 8) / 247) * 24) + 232;
-	}
-
-	const ansi = 16
-		+ (36 * Math.round(r / 255 * 5))
-		+ (6 * Math.round(g / 255 * 5))
-		+ Math.round(b / 255 * 5);
-
-	return ansi;
-};
-
-convert.ansi16.rgb = function (args) {
-	let color = args % 10;
-
-	// Handle greyscale
-	if (color === 0 || color === 7) {
-		if (args > 50) {
-			color += 3.5;
-		}
-
-		color = color / 10.5 * 255;
-
-		return [color, color, color];
-	}
-
-	const mult = (~~(args > 50) + 1) * 0.5;
-	const r = ((color & 1) * mult) * 255;
-	const g = (((color >> 1) & 1) * mult) * 255;
-	const b = (((color >> 2) & 1) * mult) * 255;
-
-	return [r, g, b];
-};
-
-convert.ansi256.rgb = function (args) {
-	// Handle greyscale
-	if (args >= 232) {
-		const c = (args - 232) * 10 + 8;
-		return [c, c, c];
-	}
-
-	args -= 16;
-
-	let rem;
-	const r = Math.floor(args / 36) / 5 * 255;
-	const g = Math.floor((rem = args % 36) / 6) / 5 * 255;
-	const b = (rem % 6) / 5 * 255;
-
-	return [r, g, b];
-};
-
-convert.rgb.hex = function (args) {
-	const integer = ((Math.round(args[0]) & 0xFF) << 16)
-		+ ((Math.round(args[1]) & 0xFF) << 8)
-		+ (Math.round(args[2]) & 0xFF);
-
-	const string = integer.toString(16).toUpperCase();
-	return '000000'.substring(string.length) + string;
-};
-
-convert.hex.rgb = function (args) {
-	const match = args.toString(16).match(/[a-f0-9]{6}|[a-f0-9]{3}/i);
-	if (!match) {
-		return [0, 0, 0];
-	}
-
-	let colorString = match[0];
-
-	if (match[0].length === 3) {
-		colorString = colorString.split('').map(char => {
-			return char + char;
-		}).join('');
-	}
-
-	const integer = parseInt(colorString, 16);
-	const r = (integer >> 16) & 0xFF;
-	const g = (integer >> 8) & 0xFF;
-	const b = integer & 0xFF;
-
-	return [r, g, b];
-};
-
-convert.rgb.hcg = function (rgb) {
-	const r = rgb[0] / 255;
-	const g = rgb[1] / 255;
-	const b = rgb[2] / 255;
-	const max = Math.max(Math.max(r, g), b);
-	const min = Math.min(Math.min(r, g), b);
-	const chroma = (max - min);
-	let grayscale;
-	let hue;
-
-	if (chroma < 1) {
-		grayscale = min / (1 - chroma);
-	} else {
-		grayscale = 0;
-	}
-
-	if (chroma <= 0) {
-		hue = 0;
-	} else
-	if (max === r) {
-		hue = ((g - b) / chroma) % 6;
-	} else
-	if (max === g) {
-		hue = 2 + (b - r) / chroma;
-	} else {
-		hue = 4 + (r - g) / chroma;
-	}
-
-	hue /= 6;
-	hue %= 1;
-
-	return [hue * 360, chroma * 100, grayscale * 100];
-};
-
-convert.hsl.hcg = function (hsl) {
-	const s = hsl[1] / 100;
-	const l = hsl[2] / 100;
-
-	const c = l < 0.5 ? (2.0 * s * l) : (2.0 * s * (1.0 - l));
-
-	let f = 0;
-	if (c < 1.0) {
-		f = (l - 0.5 * c) / (1.0 - c);
-	}
-
-	return [hsl[0], c * 100, f * 100];
-};
-
-convert.hsv.hcg = function (hsv) {
-	const s = hsv[1] / 100;
-	const v = hsv[2] / 100;
-
-	const c = s * v;
-	let f = 0;
-
-	if (c < 1.0) {
-		f = (v - c) / (1 - c);
-	}
-
-	return [hsv[0], c * 100, f * 100];
-};
-
-convert.hcg.rgb = function (hcg) {
-	const h = hcg[0] / 360;
-	const c = hcg[1] / 100;
-	const g = hcg[2] / 100;
-
-	if (c === 0.0) {
-		return [g * 255, g * 255, g * 255];
-	}
-
-	const pure = [0, 0, 0];
-	const hi = (h % 1) * 6;
-	const v = hi % 1;
-	const w = 1 - v;
-	let mg = 0;
-
-	/* eslint-disable max-statements-per-line */
-	switch (Math.floor(hi)) {
-		case 0:
-			pure[0] = 1; pure[1] = v; pure[2] = 0; break;
-		case 1:
-			pure[0] = w; pure[1] = 1; pure[2] = 0; break;
-		case 2:
-			pure[0] = 0; pure[1] = 1; pure[2] = v; break;
-		case 3:
-			pure[0] = 0; pure[1] = w; pure[2] = 1; break;
-		case 4:
-			pure[0] = v; pure[1] = 0; pure[2] = 1; break;
-		default:
-			pure[0] = 1; pure[1] = 0; pure[2] = w;
-	}
-	/* eslint-enable max-statements-per-line */
-
-	mg = (1.0 - c) * g;
-
-	return [
-		(c * pure[0] + mg) * 255,
-		(c * pure[1] + mg) * 255,
-		(c * pure[2] + mg) * 255
-	];
-};
-
-convert.hcg.hsv = function (hcg) {
-	const c = hcg[1] / 100;
-	const g = hcg[2] / 100;
-
-	const v = c + g * (1.0 - c);
-	let f = 0;
-
-	if (v > 0.0) {
-		f = c / v;
-	}
-
-	return [hcg[0], f * 100, v * 100];
-};
-
-convert.hcg.hsl = function (hcg) {
-	const c = hcg[1] / 100;
-	const g = hcg[2] / 100;
-
-	const l = g * (1.0 - c) + 0.5 * c;
-	let s = 0;
-
-	if (l > 0.0 && l < 0.5) {
-		s = c / (2 * l);
-	} else
-	if (l >= 0.5 && l < 1.0) {
-		s = c / (2 * (1 - l));
-	}
-
-	return [hcg[0], s * 100, l * 100];
-};
-
-convert.hcg.hwb = function (hcg) {
-	const c = hcg[1] / 100;
-	const g = hcg[2] / 100;
-	const v = c + g * (1.0 - c);
-	return [hcg[0], (v - c) * 100, (1 - v) * 100];
-};
-
-convert.hwb.hcg = function (hwb) {
-	const w = hwb[1] / 100;
-	const b = hwb[2] / 100;
-	const v = 1 - b;
-	const c = v - w;
-	let g = 0;
-
-	if (c < 1) {
-		g = (v - c) / (1 - c);
-	}
-
-	return [hwb[0], c * 100, g * 100];
-};
-
-convert.apple.rgb = function (apple) {
-	return [(apple[0] / 65535) * 255, (apple[1] / 65535) * 255, (apple[2] / 65535) * 255];
-};
-
-convert.rgb.apple = function (rgb) {
-	return [(rgb[0] / 255) * 65535, (rgb[1] / 255) * 65535, (rgb[2] / 255) * 65535];
-};
-
-convert.gray.rgb = function (args) {
-	return [args[0] / 100 * 255, args[0] / 100 * 255, args[0] / 100 * 255];
-};
-
-convert.gray.hsl = function (args) {
-	return [0, 0, args[0]];
-};
-
-convert.gray.hsv = convert.gray.hsl;
-
-convert.gray.hwb = function (gray) {
-	return [0, 100, gray[0]];
-};
-
-convert.gray.cmyk = function (gray) {
-	return [0, 0, 0, gray[0]];
-};
-
-convert.gray.lab = function (gray) {
-	return [gray[0], 0, 0];
-};
-
-convert.gray.hex = function (gray) {
-	const val = Math.round(gray[0] / 100 * 255) & 0xFF;
-	const integer = (val << 16) + (val << 8) + val;
-
-	const string = integer.toString(16).toUpperCase();
-	return '000000'.substring(string.length) + string;
-};
-
-convert.rgb.gray = function (rgb) {
-	const val = (rgb[0] + rgb[1] + rgb[2]) / 3;
-	return [val / 255 * 100];
-};
-
-
-/***/ }),
-
-/***/ 101:
-/***/ (function(module, exports) {
-
-module.exports = require("net");
-
-/***/ }),
-
-/***/ 102:
-/***/ (function(module, exports) {
-
-module.exports = require("tls");
-
-/***/ }),
-
-/***/ 103:
 /***/ (function(module, exports) {
 
 /**
@@ -1378,7 +518,7 @@ module.exports = require("path");
 
 /***/ }),
 
-/***/ 129:
+/***/ 126:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1801,63 +941,7 @@ module.exports = Emittery;
 
 /***/ }),
 
-/***/ 13:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-function Enum() {
-    var values = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        values[_i] = arguments[_i];
-    }
-    if (typeof values[0] === "string") {
-        var result = {};
-        for (var _a = 0, values_1 = values; _a < values_1.length; _a++) {
-            var value = values_1[_a];
-            result[value] = value;
-        }
-        return result;
-    }
-    else {
-        return values[0];
-    }
-}
-exports.Enum = Enum;
-(function (Enum) {
-    function ofKeys(e) {
-        var result = {};
-        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
-            var key = _a[_i];
-            result[key] = key;
-        }
-        return result;
-    }
-    Enum.ofKeys = ofKeys;
-    function keys(e) {
-        return Object.keys(e);
-    }
-    Enum.keys = keys;
-    function values(e) {
-        var result = [];
-        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
-            var key = _a[_i];
-            result.push(e[key]);
-        }
-        return result;
-    }
-    Enum.values = values;
-    function isType(e, value) {
-        return values(e).indexOf(value) !== -1;
-    }
-    Enum.isType = isType;
-})(Enum = exports.Enum || (exports.Enum = {}));
-//# sourceMappingURL=index.js.map
-
-/***/ }),
-
-/***/ 130:
+/***/ 127:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1992,7 +1076,7 @@ function createSink(options = {}) {
 
 /***/ }),
 
-/***/ 132:
+/***/ 129:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2008,7 +1092,63 @@ module.exports = (flag, argv = process.argv) => {
 
 /***/ }),
 
-/***/ 133:
+/***/ 13:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+function Enum() {
+    var values = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        values[_i] = arguments[_i];
+    }
+    if (typeof values[0] === "string") {
+        var result = {};
+        for (var _a = 0, values_1 = values; _a < values_1.length; _a++) {
+            var value = values_1[_a];
+            result[value] = value;
+        }
+        return result;
+    }
+    else {
+        return values[0];
+    }
+}
+exports.Enum = Enum;
+(function (Enum) {
+    function ofKeys(e) {
+        var result = {};
+        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
+            var key = _a[_i];
+            result[key] = key;
+        }
+        return result;
+    }
+    Enum.ofKeys = ofKeys;
+    function keys(e) {
+        return Object.keys(e);
+    }
+    Enum.keys = keys;
+    function values(e) {
+        var result = [];
+        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
+            var key = _a[_i];
+            result.push(e[key]);
+        }
+        return result;
+    }
+    Enum.values = values;
+    function isType(e, value) {
+        return values(e).indexOf(value) !== -1;
+    }
+    Enum.isType = isType;
+})(Enum = exports.Enum || (exports.Enum = {}));
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ 130:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2020,7 +1160,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.on_user_recognized = exports.on_error = void 0; // https://docs.sentry.io/error-reporting/quickstart/?platform=node
 // https://httptoolkit.tech/blog/netlify-function-error-reporting-with-sentry/
 
-const Sentry = __webpack_require__(166);
+const Sentry = __webpack_require__(163);
 
 const channel_1 = __webpack_require__(29);
 
@@ -2066,7 +1206,7 @@ exports.on_user_recognized = on_user_recognized; // TODO self-triage?
 
 /***/ }),
 
-/***/ 134:
+/***/ 131:
 /***/ (function(module, exports) {
 
 module.exports = function(originalModule) {
@@ -2097,7 +1237,7 @@ module.exports = function(originalModule) {
 
 /***/ }),
 
-/***/ 135:
+/***/ 132:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2106,7 +1246,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 const events_1 = __webpack_require__(10);
-const promisify_1 = __importDefault(__webpack_require__(136));
+const promisify_1 = __importDefault(__webpack_require__(133));
 function isAgentBase(v) {
     return Boolean(v) && typeof v.addRequest === 'function';
 }
@@ -2310,7 +1450,7 @@ module.exports = createAgent;
 
 /***/ }),
 
-/***/ 136:
+/***/ 133:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2335,7 +1475,7 @@ exports.default = promisify;
 
 /***/ }),
 
-/***/ 137:
+/***/ 134:
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -2344,15 +1484,15 @@ exports.default = promisify;
  */
 
 if (typeof process === 'undefined' || process.type === 'renderer' || process.browser === true || process.__nwjs) {
-	module.exports = __webpack_require__(138);
+	module.exports = __webpack_require__(135);
 } else {
-	module.exports = __webpack_require__(139);
+	module.exports = __webpack_require__(136);
 }
 
 
 /***/ }),
 
-/***/ 138:
+/***/ 135:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* eslint-env browser */
@@ -2604,7 +1744,7 @@ function localstorage() {
 	}
 }
 
-module.exports = __webpack_require__(75)(exports);
+module.exports = __webpack_require__(73)(exports);
 
 const {formatters} = module.exports;
 
@@ -2623,14 +1763,14 @@ formatters.j = function (v) {
 
 /***/ }),
 
-/***/ 139:
+/***/ 136:
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
  * Module dependencies.
  */
 
-const tty = __webpack_require__(59);
+const tty = __webpack_require__(58);
 const util = __webpack_require__(4);
 
 /**
@@ -2861,7 +2001,7 @@ function init(debug) {
 	}
 }
 
-module.exports = __webpack_require__(75)(exports);
+module.exports = __webpack_require__(73)(exports);
 
 const {formatters} = module.exports;
 
@@ -2887,7 +2027,7 @@ formatters.O = function (v) {
 
 /***/ }),
 
-/***/ 140:
+/***/ 137:
 /***/ (function(module, exports) {
 
 module.exports = require("console");
@@ -3007,7 +2147,7 @@ function isMatchingPattern(value, pattern) {
 
 /***/ }),
 
-/***/ 166:
+/***/ 163:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6787,7 +5927,7 @@ function basename(path, ext) {
 var external_fs_ = __webpack_require__(7);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/lru_map/lru.js
-var lru = __webpack_require__(88);
+var lru = __webpack_require__(87);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/stacktrace.js
 /**
@@ -7444,7 +6584,7 @@ var base_BaseTransport = /** @class */ (function () {
 
 //# sourceMappingURL=base.js.map
 // EXTERNAL MODULE: external "http"
-var external_http_ = __webpack_require__(24);
+var external_http_ = __webpack_require__(25);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/http.js
 
@@ -7461,7 +6601,7 @@ var http_HTTPTransport = /** @class */ (function (_super) {
         var proxy = options.httpProxy || process.env.http_proxy;
         _this.module = external_http_;
         _this.client = proxy
-            ? new (__webpack_require__(74))(proxy) // tslint:disable-line:no-unsafe-any
+            ? new (__webpack_require__(72))(proxy) // tslint:disable-line:no-unsafe-any
             : new external_http_["Agent"]({ keepAlive: false, maxSockets: 30, timeout: 2000 });
         return _this;
     }
@@ -7496,7 +6636,7 @@ var https_HTTPSTransport = /** @class */ (function (_super) {
         var proxy = options.httpsProxy || options.httpProxy || process.env.https_proxy || process.env.http_proxy;
         _this.module = external_https_;
         _this.client = proxy
-            ? new (__webpack_require__(74))(proxy) // tslint:disable-line:no-unsafe-any
+            ? new (__webpack_require__(72))(proxy) // tslint:disable-line:no-unsafe-any
             : new external_https_["Agent"]({ keepAlive: false, maxSockets: 30, timeout: 2000 });
         return _this;
     }
@@ -7914,7 +7054,7 @@ var console_Console = /** @class */ (function () {
      */
     Console.prototype.setupOnce = function () {
         var e_1, _a;
-        var consoleModule = __webpack_require__(140);
+        var consoleModule = __webpack_require__(137);
         try {
             for (var _b = __values(['debug', 'info', 'warn', 'error', 'log']), _c = _b.next(); !_c.done; _c = _b.next()) {
                 var level = _c.value;
@@ -8001,7 +7141,7 @@ var http_Http = /** @class */ (function () {
             return;
         }
         var handlerWrapper = createHandlerWrapper(this._breadcrumbs, this._tracing);
-        var httpModule = __webpack_require__(24);
+        var httpModule = __webpack_require__(25);
         fill(httpModule, 'get', handlerWrapper);
         fill(httpModule, 'request', handlerWrapper);
         // NOTE: Prior to Node 9, `https` used internals of `http` module, thus we don't patch it.
@@ -8645,7 +7785,7 @@ function forget(promise) {
 }
 //# sourceMappingURL=async.js.map
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/node_modules/cookie/index.js
-var cookie = __webpack_require__(89);
+var cookie = __webpack_require__(88);
 
 // EXTERNAL MODULE: external "os"
 var external_os_ = __webpack_require__(30);
@@ -9489,7 +8629,7 @@ if (esm_carrier.__SENTRY__) {
 
 /***/ }),
 
-/***/ 168:
+/***/ 166:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9500,7 +8640,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.use_middlewares_with_error_safety_net = void 0;
 
-const tslib_1 = __webpack_require__(92);
+const tslib_1 = __webpack_require__(90);
 
 const tiny_invariant_1 = tslib_1.__importDefault(__webpack_require__(31));
 
@@ -9508,13 +8648,15 @@ const json_stable_stringify_1 = tslib_1.__importDefault(__webpack_require__(71))
 
 const timestamps_1 = __webpack_require__(47);
 
-const sec_1 = __webpack_require__(172);
+const soft_execution_context_1 = __webpack_require__(67);
 
-const sentry_1 = __webpack_require__(133);
+__webpack_require__(170);
+
+const sentry_1 = __webpack_require__(130);
 
 const channel_1 = __webpack_require__(29);
 
-const utils_1 = __webpack_require__(58); // note: deducted from the overall running budget
+const utils_1 = __webpack_require__(74); // note: deducted from the overall running budget
 
 
 const MARGIN_AND_SENTRY_BUDGET_MS = channel_1.CHANNEL === 'dev' ? 5000 : 1000;
@@ -9529,219 +8671,22 @@ function _get_response_from_error(err) {
   };
 }
 
-const DEFAULT_STATUS_CODE = 500;
-const DEFAULT_RESPONSE_BODY = '[MW2] Bad handler chain: no response set!';
-const DEFAULT_MW_NAME = 'anonymous';
-
-function use_middlewares_with_error_safety_net(event, badly_typed_context, middlewares) {
-  console.log('\n\n → → → → → → → → → → → → → → → → → → → → →');
+function use_middlewares_with_error_safety_net(event, badly_typed_context, middlewares, SEC = soft_execution_context_1.getRootSEC()) {
+  console.log('\n\n\n\n' + Array.from({
+    length: 200
+  }, () => '→').join(' '));
   const SESSION_START_TIME = timestamps_1.get_UTC_timestamp_ms();
-  return new Promise(resolve => {
+  return SEC.xTry('MWRunner', ({
+    SEC,
+    logger
+  }) => {
     const context = badly_typed_context; // overwrite to match handling
 
-    sec_1.SEC.injectDependencies({
+    SEC.injectDependencies({
       SESSION_START_TIME
     }); ///////////////////// Setup /////////////////////
 
-    sec_1.SEC.xTry('MW1', ({
-      SEC,
-      logger
-    }) => {
-      logger.log('[MW1] Starting handling: ' + event.path + '…', {
-        time: timestamps_1.get_UTC_timestamp_ms()
-      }); // TODO breadcrumb
-
-      tiny_invariant_1.default(middlewares.length >= 1, '[MW1] please provide some middlewares!');
-      let timeout_id = null;
-      let is_emitter_waiting = false;
-
-      function clean() {
-        if (timeout_id) {
-          clearTimeout(timeout_id);
-          timeout_id = null;
-        }
-
-        if (is_emitter_waiting) {
-          SEC.emitter.off('final-error', on_final_error_h);
-          is_emitter_waiting = false;
-        }
-      }
-
-      async function on_final_error(err) {
-        clean();
-        logger.fatal('⚰️ [MW1] Final error:', err);
-
-        if (channel_1.CHANNEL === 'dev') {
-          logger.info('([MW1] not reported since dev)');
-        } else {
-          logger.info('([MW1] this error will be reported)');
-
-          try {
-            await sentry_1.on_error(err);
-          } catch (err) {
-            console.error('XXX [MW1] huge error in the error handler itself! XXX');
-          }
-        } // note: once resolved, the code will be frozen by AWS lambda
-        // so this must be last
-
-
-        const response = _get_response_from_error(err);
-
-        logger.info('[MW1] FYI resolving with:', {
-          status: response.statusCode
-        });
-        resolve(response);
-      }
-
-      async function on_final_error_h({
-        err
-      }) {
-        logger.trace('[MW1] on_final_error_h');
-        is_emitter_waiting = false;
-        await on_final_error(err);
-      }
-
-      SEC.emitter.once('final-error').then(on_final_error_h);
-      is_emitter_waiting = true;
-      context.callbackWaitsForEmptyEventLoop = false; // cf. https://httptoolkit.tech/blog/netlify-function-error-reporting-with-sentry/
-
-      const remaining_time_ms = context.getRemainingTimeInMillis ? context.getRemainingTimeInMillis() : 10000;
-      const time_budget_ms = Math.max(remaining_time_ms - MARGIN_AND_SENTRY_BUDGET_MS, 0);
-      logger.info('[MW1] Setting timeout...', {
-        time_budget_ms
-      });
-      timeout_id = setTimeout(() => {
-        timeout_id = null;
-        SEC.xTryCatch('timeout', ({
-          logger
-        }) => {
-          logger.fatal('⏰ [MW1] timeout!');
-          throw new Error('[MW1] Timeout handling this request!');
-        });
-      }, time_budget_ms); ///////////////////// invoke /////////////////////
-
-      SEC.xPromiseTry('MW2', async ({
-        SEC,
-        logger
-      }) => {
-        logger.trace(`[MW2] Invoking a chain of ${middlewares.length} middlewares…`);
-        const response = {
-          statusCode: DEFAULT_STATUS_CODE,
-          headers: {},
-          body: DEFAULT_RESPONSE_BODY
-        };
-        let _previous_status_code = response.statusCode;
-        let _previous_body = response.body;
-
-        function _check_response(mw_index, stage) {
-          tiny_invariant_1.default(mw_index >= 0 && mw_index < middlewares.length, 'mw_index');
-          let {
-            statusCode,
-            body
-          } = response;
-          const current_mw_name = middlewares[mw_index].name || DEFAULT_MW_NAME;
-          let mw_debug_id = current_mw_name;
-          if (mw_index < middlewares.length) mw_debug_id += '(' + stage + ')';
-
-          if (statusCode !== _previous_status_code) {
-            logger.trace(`[MW2] FYI The middleware "${mw_debug_id}" set the statusCode:`, {
-              statusCode
-            });
-            if (!statusCode || Math.trunc(Number(statusCode)) !== statusCode) throw new Error(`[MW2] The middleware "${mw_debug_id}" set an invalid statusCode!`);
-            if (statusCode >= 400) logger.warn(`[MW2] FYI The middleware "${mw_debug_id}" set an error statusCode:`, {
-              statusCode
-            });
-            _previous_status_code = statusCode;
-          }
-
-          if (body !== _previous_body) {
-            logger.trace(`[MW2] FYI The middleware "${mw_debug_id}" set the body:`, {
-              body
-            });
-            if (!body) throw new Error(`[MW2] The middleware "${mw_debug_id}" set an invalid empty body!`);
-
-            if (statusCode < 400) {
-              if (typeof body === 'string') {
-                try {
-                  JSON.parse(body); // check if it's correct json
-                } catch (err) {
-                  throw new Error(`[MW2] The middleware "${mw_debug_id}" set an non-json body!`);
-                }
-              } else {
-                try {
-                  json_stable_stringify_1.default(body); // TODO deep compare to check for un-stringifiable stufff??
-                } catch {
-                  throw new Error(`[MW2] The middleware "${mw_debug_id}" set a non-JSON-stringified body that can’t be fixed automatically!`);
-                }
-              }
-            }
-
-            _previous_body = body;
-          }
-        }
-
-        let last_reported_error = null;
-
-        async function next(index) {
-          if (index > 0) {
-            _check_response(index - 1, 'in');
-          }
-
-          if (index >= middlewares.length) return;
-          const current_mw_name = middlewares[index].name || DEFAULT_MW_NAME;
-
-          try {
-            logger.trace(`[MW2] invoking middleware ${index + 1}/${middlewares.length} "${current_mw_name}"…`);
-            await middlewares[index](SEC, event, context, response, next.bind(null, index + 1));
-            logger.trace(`[MW2] returning from middleware ${index + 1}/${middlewares.length} "${current_mw_name}"…`);
-          } catch (err) {
-            logger.error(`[MW2] FYI MW "${current_mw_name}" rejected with:`, err);
-            throw err;
-          }
-
-          _check_response(index, 'out');
-        } // launch the chain
-
-
-        await next(0);
-        let {
-          statusCode,
-          body
-        } = response;
-        if (response.body === DEFAULT_RESPONSE_BODY) throw new Error(DEFAULT_RESPONSE_BODY);
-        let pseudo_err = null;
-
-        if (statusCode >= 400) {
-          // todo enhance non-stringified?
-          const is_body_err_message = typeof body === 'string' && body.toLowerCase().includes('error');
-          pseudo_err = utils_1.create_error(is_body_err_message ? body : statusCode, {
-            statusCode
-          });
-        }
-
-        if (pseudo_err) throw pseudo_err; // so that it get consistently reported
-        // as a convenience, stringify the body automatically
-        // no need to retest, was validated before
-
-        if (typeof body !== 'string') {
-          logger.log('[MW2] stringifying automatically…');
-          body = json_stable_stringify_1.default(body);
-        }
-
-        await new Promise(resolve => setTimeout(resolve, 0)); // to give time to unhandled to be detected. not 100% of course.
-
-        return {
-          statusCode,
-          headers: {},
-          body
-        };
-      }).then(response => {
-        // success!
-        clean(); // must be last,
-
-        resolve(response);
-      }).catch(on_final_error);
-    });
+    return _run_with_safety_net(SEC, event, context, middlewares);
   }).then(response => {
     console.log('FYI Overall promise resolved with:', response);
     return response;
@@ -9755,18 +8700,252 @@ function use_middlewares_with_error_safety_net(event, badly_typed_context, middl
 
 exports.use_middlewares_with_error_safety_net = use_middlewares_with_error_safety_net;
 
+function _run_with_safety_net(SEC, event, context, middlewares) {
+  return SEC.xNewPromise('⓵ ', ({
+    SEC,
+    logger
+  }, resolve) => {
+    const PREFIX = 'MR1';
+    logger.log(`[${PREFIX}] Starting handling: ${event.path}…`, {
+      time: timestamps_1.get_UTC_timestamp_ms(),
+      mw_count: middlewares.length
+    });
+    tiny_invariant_1.default(middlewares.length >= 1, `[${PREFIX}] please provide some middlewares!`);
+    let timeout_id = null;
+    let is_emitter_waiting = false;
+
+    function clean() {
+      if (timeout_id) {
+        clearTimeout(timeout_id);
+        timeout_id = null;
+      }
+
+      if (is_emitter_waiting) {
+        SEC.emitter.off('final-error', on_final_error_h);
+        is_emitter_waiting = false;
+      }
+    }
+
+    async function on_final_error(err) {
+      clean();
+      logger.fatal(`⚰️ [${PREFIX}] Final error:`, err);
+
+      if (channel_1.CHANNEL === 'dev') {
+        logger.info(`([${PREFIX}] error not reported to sentry since dev)`);
+      } else {
+        logger.info(`([${PREFIX}] this error will be reported to sentry)`);
+
+        try {
+          await sentry_1.on_error(err);
+        } catch (err) {
+          console.error(`XXX [${PREFIX}] huge error in the error handler itself! XXX`);
+        }
+      } // note: once resolved, the code will be frozen by AWS lambda
+      // so this must be last
+
+
+      const response = _get_response_from_error(err);
+
+      logger.info(`[${PREFIX}] FYI resolving with:`, {
+        status: response.statusCode
+      });
+      resolve(response);
+    }
+
+    async function on_final_error_h({
+      err
+    }) {
+      logger.trace(`[${PREFIX}] on_final_error_h`);
+      is_emitter_waiting = false;
+      await on_final_error(err);
+    }
+
+    SEC.emitter.once('final-error').then(on_final_error_h);
+    is_emitter_waiting = true;
+    context.callbackWaitsForEmptyEventLoop = false; // cf. https://httptoolkit.tech/blog/netlify-function-error-reporting-with-sentry/
+    // TODO report which MW caused the timeout
+
+    const remaining_time_ms = context.getRemainingTimeInMillis ? context.getRemainingTimeInMillis() : 10000;
+    const time_budget_ms = Math.max(remaining_time_ms - MARGIN_AND_SENTRY_BUDGET_MS, 0);
+    logger.info(`[${PREFIX}] Setting timeout…`, {
+      time_budget_ms
+    });
+    timeout_id = setTimeout(() => {
+      timeout_id = null;
+      SEC.xTryCatch('timeout', ({
+        logger
+      }) => {
+        logger.fatal(`⏰ [${PREFIX}] timeout!`);
+        throw new Error(`[${PREFIX}] Timeout handling this request!`);
+      });
+    }, time_budget_ms); ///////////////////// invoke /////////////////////
+
+    logger.trace(`[${PREFIX}] Invoking the middleware chain…`);
+    void SEC.xPromiseTry('⓶ ', async params => _run_mw_chain(params, event, context, middlewares)).then(response => {
+      // success!
+      clean(); // must be last,
+
+      resolve(response);
+    }).catch(on_final_error);
+  });
+}
+
+async function _run_mw_chain({
+  SEC,
+  logger
+}, event, context, middlewares) {
+  const PREFIX = 'MR2';
+  const DEFAULT_STATUS_CODE = 500;
+  const DEFAULT_RESPONSE_BODY = `[${PREFIX}] Bad middleware chain: no response set!`;
+  const DEFAULT_MW_NAME = 'anonymous';
+  logger.trace(`[${PREFIX}] Invoking a chain of ${middlewares.length} middlewares…`);
+  const response = {
+    statusCode: DEFAULT_STATUS_CODE,
+    headers: {},
+    body: DEFAULT_RESPONSE_BODY
+  }; ////////////////////////////////////
+
+  let last_manual_error_call_SEC = null;
+  let _previous_status_code = response.statusCode;
+  let _previous_body = response.body;
+
+  function _check_response(SEC, mw_index, stage) {
+    const {
+      logger
+    } = SEC.getInjectedDependencies();
+    tiny_invariant_1.default(mw_index >= 0 && mw_index < middlewares.length, 'mw_index');
+    let {
+      statusCode,
+      body
+    } = response;
+    const current_mw_name = middlewares[mw_index].name || DEFAULT_MW_NAME;
+    let mw_debug_id = current_mw_name;
+    if (mw_index < middlewares.length) mw_debug_id += '(' + stage + ')'; //console.log('_check_response', {mw_index, mw_debug_id}, '\nfrom SEC:', SEC.getLogicalStack(), '\n', SEC.getShortLogicalStack())
+
+    if (statusCode !== _previous_status_code) {
+      logger.trace(`[${PREFIX}] FYI The middleware "${mw_debug_id}" set the statusCode:`, {
+        statusCode
+      });
+      if (!statusCode || Math.trunc(Number(statusCode)) !== statusCode) throw new Error(`[${PREFIX}] The middleware "${mw_debug_id}" set an invalid statusCode!`);
+
+      if (statusCode >= 400) {
+        logger.warn(`[${PREFIX}] FYI The middleware "${mw_debug_id}" set an error statusCode:`, {
+          statusCode
+        });
+        last_manual_error_call_SEC = SEC;
+      }
+
+      _previous_status_code = statusCode;
+    }
+
+    if (body !== _previous_body) {
+      logger.trace(`[${PREFIX}] FYI The middleware "${mw_debug_id}" set the body:`, {
+        body
+      });
+      if (!body) throw new Error(`[${PREFIX}] The middleware "${mw_debug_id}" set an invalid empty body!`);
+
+      if (statusCode < 400) {
+        if (typeof body === 'string') {
+          try {
+            JSON.parse(body); // check if it's correct json
+          } catch (err) {
+            throw new Error(`[${PREFIX}] The middleware "${mw_debug_id}" set an non-json body!`);
+          }
+        } else {
+          try {
+            json_stable_stringify_1.default(body); // TODO deep compare to check for un-stringifiable stufff??
+          } catch {
+            throw new Error(`[${PREFIX}] The middleware "${mw_debug_id}" set a non-JSON-stringified body that can’t be fixed automatically!`);
+          }
+        }
+      }
+
+      _previous_body = body;
+    }
+  } ////////////////////////////////////
+
+
+  let _last_SEC = SEC;
+  let _last_reported_err_msg = null;
+
+  async function next(SEC, index) {
+    if (index > 0) {
+      _check_response(_last_SEC, index - 1, 'in');
+    }
+
+    if (index >= middlewares.length) return;
+    const current_mw_name = middlewares[index].name || DEFAULT_MW_NAME;
+    await SEC.xPromiseTry('mw:' + current_mw_name, async ({
+      SEC
+    }) => {
+      _last_SEC = SEC; //console.log('_last_SEC now =', SEC.getLogicalStack(), '\n', SEC.getShortLogicalStack())
+
+      logger.trace(`[${PREFIX}] invoking middleware ${index + 1}/${middlewares.length} "${current_mw_name}"…`);
+      await middlewares[index](SEC, event, context, response, next.bind(null, SEC, index + 1));
+      logger.trace(`[${PREFIX}] returned from middleware ${index + 1}/${middlewares.length} "${current_mw_name}"…`);
+
+      _check_response(SEC, index, 'out');
+    }).catch(err => {
+      if (err.message === _last_reported_err_msg) {
+        logger.info(`[${PREFIX}] FYI MW "${current_mw_name}" propagated the error.`);
+      } else {
+        logger.error(`[${PREFIX}] FYI MW "${current_mw_name}" rejected with:`, err);
+        _last_reported_err_msg = err.message;
+      }
+
+      throw err;
+    });
+  } // launch the chain
+
+
+  await next(SEC, 0); ////////////////////////////////////
+
+  let {
+    statusCode,
+    body
+  } = response;
+  if (response.body === DEFAULT_RESPONSE_BODY) throw new Error(DEFAULT_RESPONSE_BODY);
+  let pseudo_err = null;
+
+  if (statusCode >= 400) {
+    tiny_invariant_1.default(last_manual_error_call_SEC, 'manual error should have caused SEC to be memorized'); // todo enhance non-stringified?
+
+    const is_body_err_message = typeof body === 'string' && body.toLowerCase().includes('error');
+    pseudo_err = utils_1.create_error(last_manual_error_call_SEC, is_body_err_message ? body : statusCode, {
+      statusCode
+    });
+  }
+
+  if (pseudo_err) throw pseudo_err; // so that it get consistently reported
+  // as a convenience, stringify the body automatically
+  // no need to retest, was validated before
+
+  if (typeof body !== 'string') {
+    logger.log(`[${PREFIX}] stringifying automatically…`);
+    body = json_stable_stringify_1.default(body);
+  }
+
+  await new Promise(resolve => setTimeout(resolve, 0)); // to give time to unhandled to be detected. not 100% of course.
+
+  return {
+    statusCode,
+    headers: {},
+    body
+  };
+}
+
 /***/ }),
 
-/***/ 169:
+/***/ 167:
 /***/ (function(module, exports, __webpack_require__) {
 
-exports.parse = __webpack_require__(170);
-exports.stringify = __webpack_require__(171);
+exports.parse = __webpack_require__(168);
+exports.stringify = __webpack_require__(169);
 
 
 /***/ }),
 
-/***/ 170:
+/***/ 168:
 /***/ (function(module, exports) {
 
 var at, // The index of the current character
@@ -10046,7 +9225,7 @@ module.exports = function (source, reviver) {
 
 /***/ }),
 
-/***/ 171:
+/***/ 169:
 /***/ (function(module, exports) {
 
 var cx = /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
@@ -10207,7 +9386,7 @@ module.exports = function (value, replacer, space) {
 
 /***/ }),
 
-/***/ 172:
+/***/ 170:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10216,19 +9395,18 @@ module.exports = function (value, replacer, space) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.SEC = void 0;
 
-const tslib_1 = __webpack_require__(92);
+const tslib_1 = __webpack_require__(90);
 
-const soft_execution_context_1 = __webpack_require__(97);
+const soft_execution_context_1 = __webpack_require__(67);
 
-const soft_execution_context_node_1 = __webpack_require__(173);
+const soft_execution_context_node_1 = __webpack_require__(171);
 
-const consts_1 = __webpack_require__(93);
+const consts_1 = __webpack_require__(91);
 
 const channel_1 = __webpack_require__(29);
 
-const logger_1 = tslib_1.__importDefault(__webpack_require__(174)); /////////////////////
+const logger_1 = tslib_1.__importDefault(__webpack_require__(172)); /////////////////////
 
 
 const SEC = soft_execution_context_1.getRootSEC().setLogicalStack({
@@ -10236,7 +9414,6 @@ const SEC = soft_execution_context_1.getRootSEC().setLogicalStack({
 }).injectDependencies({
   logger: logger_1.default
 });
-exports.SEC = SEC;
 soft_execution_context_node_1.decorateWithDetectedEnv(SEC);
 SEC.injectDependencies({
   CHANNEL: channel_1.CHANNEL
@@ -10277,21 +9454,18 @@ if (ENV !== "production") {
     'SEC.ENV': ENV,
     'process.env.NODE_ENV': "production"
   });
-} /////////////////////////////////////////////////
-
-
-exports.default = SEC;
+}
 
 /***/ }),
 
-/***/ 173:
+/***/ 171:
 /***/ (function(module, exports, __webpack_require__) {
 
 const os = __webpack_require__(30);
 
 const {
   getRootSEC
-} = __webpack_require__(97); // TODO protect from double install
+} = __webpack_require__(67); // TODO protect from double install
 
 
 function listenToUncaughtErrors() {
@@ -10340,7 +9514,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 174:
+/***/ 172:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10350,9 +9524,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const universal_debug_api_node_1 = __webpack_require__(175);
+const universal_debug_api_node_1 = __webpack_require__(173);
 
-const consts_1 = __webpack_require__(93);
+const consts_1 = __webpack_require__(91);
 
 const channel_1 = __webpack_require__(29); /////////////////////////////////////////////////
 
@@ -10369,7 +9543,7 @@ exports.default = logger;
 
 /***/ }),
 
-/***/ 175:
+/***/ 173:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10452,7 +9626,7 @@ const {
 
 /***/ }),
 
-/***/ 176:
+/***/ 174:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10498,7 +9672,7 @@ const setLazyProperty = (object, property, get) => {
 let colorConvert;
 const makeDynamicStyles = (wrap, targetSpace, identity, isBackground) => {
 	if (colorConvert === undefined) {
-		colorConvert = __webpack_require__(177);
+		colorConvert = __webpack_require__(175);
 	}
 
 	const offset = isBackground ? 10 : 0;
@@ -10624,11 +9798,11 @@ Object.defineProperty(module, 'exports', {
 
 /***/ }),
 
-/***/ 177:
+/***/ 175:
 /***/ (function(module, exports, __webpack_require__) {
 
-const conversions = __webpack_require__(100);
-const route = __webpack_require__(179);
+const conversions = __webpack_require__(97);
+const route = __webpack_require__(177);
 
 const convert = {};
 
@@ -10712,7 +9886,7 @@ module.exports = convert;
 
 /***/ }),
 
-/***/ 178:
+/***/ 176:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10872,10 +10046,10 @@ module.exports = {
 
 /***/ }),
 
-/***/ 179:
+/***/ 177:
 /***/ (function(module, exports, __webpack_require__) {
 
-const conversions = __webpack_require__(100);
+const conversions = __webpack_require__(97);
 
 /*
 	This function routes a model to all other models.
@@ -10976,7 +10150,7 @@ module.exports = function (fromModel) {
 
 /***/ }),
 
-/***/ 180:
+/***/ 178:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11023,7 +10197,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 181:
+/***/ 179:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11165,7 +10339,7 @@ module.exports = (chalk, temporary) => {
 
 /***/ }),
 
-/***/ 182:
+/***/ 180:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11178,13 +10352,14 @@ exports.require_http_method = exports.HttpMethod = void 0;
 
 const typescript_string_enums_1 = __webpack_require__(13);
 
-const utils_1 = __webpack_require__(58);
+const utils_1 = __webpack_require__(74);
 
 exports.HttpMethod = typescript_string_enums_1.Enum('GET', 'PUT', 'POST', 'PATCH', 'OPTIONS');
 
 function require_http_method(allowed_methods) {
   const _require_http_method = async (SEC, event, context, response, next) => {
     await SEC.xTry('require_http_method()', async ({
+      SEC,
       logger
     }) => {
       let http_method = event.httpMethod.toUpperCase();
@@ -11195,7 +10370,7 @@ function require_http_method(allowed_methods) {
       }
 
       if (!allowed_methods.includes(http_method)) {
-        throw utils_1.create_error(405, {
+        throw utils_1.create_error(SEC, 405, {
           expected: allowed_methods.join(','),
           received: http_method
         });
@@ -11219,7 +10394,7 @@ exports.require_http_method = require_http_method;
 
 /***/ }),
 
-/***/ 183:
+/***/ 181:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11445,7 +10620,7 @@ const LOG_LEVEL_TO_HUMAN = ALL_LOG_LEVELS.reduce((acc, ll) => {
 
 /***/ }),
 
-/***/ 24:
+/***/ 25:
 /***/ (function(module, exports) {
 
 module.exports = require("http");
@@ -11497,7 +10672,7 @@ exports.CHANNEL = void 0;
 
 const typescript_string_enums_1 = __webpack_require__(13);
 
-const functions_interface_1 = __webpack_require__(94);
+const functions_interface_1 = __webpack_require__(92);
 
 exports.CHANNEL = (() => {
   if (typescript_string_enums_1.Enum.isType(functions_interface_1.ReleaseChannel, process.env.CHANNEL)) return process.env.CHANNEL;
@@ -11998,10 +11173,10 @@ module.exports = require("util");
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(95);
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(93);
 /* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_types__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _types__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _types__WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _generate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(96);
+/* harmony import */ var _generate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(94);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_UTC_timestamp_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_1__["d"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_1__["g"]; });
@@ -12076,7 +11251,7 @@ __webpack_require__.d(analytics_state_namespaceObject, "addDetail", function() {
 var consts = __webpack_require__(0);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/emittery/index.js
-var emittery = __webpack_require__(129);
+var emittery = __webpack_require__(126);
 var emittery_default = /*#__PURE__*/__webpack_require__.n(emittery);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--multi/soft-execution-context/dist/src.es2019/root-prototype.js
@@ -12253,7 +11428,8 @@ const logical_stack_PLUGIN = {
       const {
         stack
       } = this[consts["a" /* INTERNAL_PROP */]].plugins[PLUGIN_ID];
-      return LOGICAL_STACK_BEGIN_MARKER + stack.module + LOGICAL_STACK_SEPARATOR + stack.operation + LOGICAL_STACK_OPERATION_MARKER + LOGICAL_STACK_END_MARKER;
+      return LOGICAL_STACK_BEGIN_MARKER + stack.module + LOGICAL_STACK_SEPARATOR_NON_ADJACENT //LOGICAL_STACK_SEPARATOR
+      + stack.operation + LOGICAL_STACK_OPERATION_MARKER + LOGICAL_STACK_END_MARKER;
     };
 
     prototype._decorateErrorWithLogicalStack = function _decorateErrorWithLogicalStack(err) {
@@ -12364,9 +11540,18 @@ const dependency_injection_PLUGIN = {
   }
 };
 
-// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/common-error-fields/dist/src.es2019/field-set.js
-var field_set = __webpack_require__(73);
-
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/common-error-fields/dist/src.es2019/field-set.js
+// TODO rename file
+const STANDARD_ERROR_FIELDS = new Set([// standard fields
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
+'name', 'message', // quasi-standard
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
+'stack']);
+const COMMON_ERROR_FIELDS = new Set([...STANDARD_ERROR_FIELDS, // standard in node
+'code', // https://nodejs.org/dist/latest/docs/api/errors.html#errors_node_js_error_codes
+// non standard but widely used
+'statusCode', 'shouldRedirect', 'framesToPop', // My (Offirmo) extensions
+'details', 'SEC', '_temp']);
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/normalize-error/dist/src.es2019/index.js
  // Anything can be thrown: undefined, string, number...)
 // But that's obviously not a good practice.
@@ -12377,7 +11562,7 @@ function normalizeError(err_like = {}) {
   // create a true, safe, writable error object
   const true_err = new Error(err_like.message || `(non-error caught: "${err_like}")`); // properly attach fields if they exist
 
-  field_set["a" /* COMMON_ERROR_FIELDS */].forEach(prop => {
+  COMMON_ERROR_FIELDS.forEach(prop => {
     //if (prop in err_like)
     if (err_like[prop]) true_err[prop] = err_like[prop];
   });
@@ -12393,7 +11578,7 @@ function promiseTry(fn) {
 
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/1-stdlib/timestamps/dist/src.es2019/generate.js
-var generate = __webpack_require__(96);
+var generate = __webpack_require__(94);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--multi/soft-execution-context/dist/src.es2019/plugins/error-handling/state.js
 /////////////////////
@@ -12457,6 +11642,7 @@ function createCatcher({
 
 
 
+
 const error_handling_PLUGIN_ID = 'error_handling';
 
 function cleanTemp(err) {
@@ -12481,18 +11667,6 @@ const error_handling_PLUGIN = {
           err: cleanTemp(err)
         })
       })(err);
-    }; // TODO used?
-
-
-    prototype.throwNewError = function throwNewError(message, details = {}) {
-      const SEC = this;
-      const err = new Error(message);
-      err.details = details;
-
-      SEC._handleError({
-        SEC,
-        shouldRethrow: true
-      });
     };
 
     prototype._decorateErrorWithDetails = function _decorateErrorWithDetails(err) {
@@ -12523,9 +11697,44 @@ const error_handling_PLUGIN = {
       });
       this[consts["a" /* INTERNAL_PROP */]] = root_state;
       return SEC; // for chaining
+    }; // useful if creating an error later from a saved SEC
+
+
+    prototype.createError = function createError(message, details = {}) {
+      const SEC = this;
+      message = String(message || 'Unknown error!');
+
+      if (!message.toLowerCase().includes('error')) {
+        message = 'Error: ' + message;
+      }
+
+      const err = new Error(message);
+      Object.keys(details).forEach(k => {
+        //console.log(k)
+        if (COMMON_ERROR_FIELDS.has(k) && !STANDARD_ERROR_FIELDS.has(k)) {
+          err[k] = details[k];
+        } else {
+          err.details = err.details || {};
+          err.details[k] = details[k];
+        }
+      });
+      err.framesToPop = (err.framesToPop || 0) + 1;
+      return SEC._decorateErrorWithLogicalStack(SEC._decorateErrorWithDetails(err));
+    }; // for termination promises
+
+
+    prototype.handleError = function handleError(err) {
+      const SEC = this;
+
+      SEC._handleError({
+        SEC,
+        debugId: 'handleError',
+        shouldRethrow: false
+      }, err);
     };
 
     prototype.xTry = function xTry(operation, fn) {
+      console.assert(!!operation);
       const SEC = this.createChild().setLogicalStack({
         operation
       });
@@ -12543,6 +11752,7 @@ const error_handling_PLUGIN = {
     };
 
     prototype.xTryCatch = function xTryCatch(operation, fn) {
+      console.assert(!!operation);
       const SEC = this.createChild().setLogicalStack({
         operation
       });
@@ -12559,20 +11769,23 @@ const error_handling_PLUGIN = {
       }
     };
 
-    prototype.xPromiseCatch = function xPromiseCatch(operation, promise) {
+    prototype.xNewPromise = function xPromise(operation, resolver_fn) {
+      console.assert(!!operation);
       const SEC = this.createChild().setLogicalStack({
         operation
       });
-      return promise.catch(err => {
+      const params = SEC[consts["a" /* INTERNAL_PROP */]].plugins[dependency_injection_PLUGIN_ID].context;
+      return new Promise(resolver_fn.bind(undefined, params)).catch(err => {
         SEC._handleError({
           SEC,
-          debugId: 'xPromiseCatch',
-          shouldRethrow: false
+          debugId: 'xPromise',
+          shouldRethrow: true
         }, err);
       });
     };
 
     prototype.xPromiseTry = function xPromiseTry(operation, fn) {
+      console.assert(!!operation);
       const SEC = this.createChild().setLogicalStack({
         operation
       });
@@ -12582,20 +11795,6 @@ const error_handling_PLUGIN = {
           SEC,
           debugId: 'xPromiseTry',
           shouldRethrow: true
-        }, err);
-      });
-    };
-
-    prototype.xPromiseTryCatch = function xPromiseTryCatch(operation, fn) {
-      const SEC = this.createChild().setLogicalStack({
-        operation
-      });
-      const params = SEC[consts["a" /* INTERNAL_PROP */]].plugins[dependency_injection_PLUGIN_ID].context;
-      return promiseTry(() => fn(params)).catch(err => {
-        SEC._handleError({
-          SEC,
-          debugId: 'xPromiseTryCatch',
-          shouldRethrow: false
         }, err);
       });
     };
@@ -12852,7 +12051,7 @@ module.exports = require("assert");
 
 /***/ }),
 
-/***/ 521:
+/***/ 519:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12863,13 +12062,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.handler = void 0;
 
-const runner_1 = __webpack_require__(168);
+const runner_1 = __webpack_require__(166);
 
-const require_http_method_1 = __webpack_require__(182);
+const require_http_method_1 = __webpack_require__(180);
 
 async function _handler(SEC, event, context, response, next) {
   response.statusCode = 200;
-  response.body = 'Test ok!';
+  response.body = JSON.stringify('Test ok!');
 }
 
 const handler = (event, badly_typed_context) => {
@@ -12882,57 +12081,41 @@ exports.handler = handler;
 /***/ }),
 
 /***/ 58:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.create_error = void 0;
-
-const http_1 = __webpack_require__(24);
-
-const common_error_fields_1 = __webpack_require__(91); // TODO extern
-
-
-function create_error(message, details = {}) {
-  console.log(`FYI create_error() "${message}"`, details);
-
-  if (message && http_1.STATUS_CODES[message]) {
-    details.statusCode = Number(message);
-    message = http_1.STATUS_CODES[details.statusCode];
-  }
-
-  message = String(message || 'Unknown error!');
-
-  if (!message.toLowerCase().includes('error')) {
-    message = 'Error: ' + message;
-  }
-
-  const error = new Error(message);
-  Object.keys(details).forEach(k => {
-    //console.log(k)
-    if (common_error_fields_1.COMMON_ERROR_FIELDS.has(k) && k !== 'name' && k !== 'message' && k !== 'stack') {
-      error[k] = details[k];
-    } else {
-      error.details = error.details || {};
-      error.details[k] = details[k];
-    }
-  });
-  error.framesToPop = error.framesToPop || 1;
-  return error;
-}
-
-exports.create_error = create_error;
-
-/***/ }),
-
-/***/ 59:
 /***/ (function(module, exports) {
 
 module.exports = require("tty");
+
+/***/ }),
+
+/***/ 67:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(95);
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_types__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _types__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _types__WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _root__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(96);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getRootSEC", function() { return _root__WEBPACK_IMPORTED_MODULE_1__["a"]; });
+
+/* harmony import */ var _core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(49);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LIB", function() { return _core__WEBPACK_IMPORTED_MODULE_2__["a"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isSEC", function() { return _core__WEBPACK_IMPORTED_MODULE_2__["c"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createSEC", function() { return _core__WEBPACK_IMPORTED_MODULE_2__["b"]; });
+
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "flattenToOwn", function() { return _utils__WEBPACK_IMPORTED_MODULE_3__["c"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "_getSECStatePath", function() { return _utils__WEBPACK_IMPORTED_MODULE_3__["b"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "_flattenSEC", function() { return _utils__WEBPACK_IMPORTED_MODULE_3__["a"]; });
+
+
+
+
+
 
 /***/ }),
 
@@ -12942,8 +12125,8 @@ module.exports = require("tty");
 "use strict";
 
 const os = __webpack_require__(30);
-const tty = __webpack_require__(59);
-const hasFlag = __webpack_require__(132);
+const tty = __webpack_require__(58);
+const hasFlag = __webpack_require__(129);
 
 const {env} = process;
 
@@ -13088,8 +12271,8 @@ module.exports = {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createLogger", function() { return createLogger; });
-/* harmony import */ var _offirmo_practical_logger_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(183);
-/* harmony import */ var _sinks_to_console__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(130);
+/* harmony import */ var _offirmo_practical_logger_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(181);
+/* harmony import */ var _sinks_to_console__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(127);
 
 
 const ORIGINAL_CONSOLE = console;
@@ -13154,7 +12337,7 @@ module.exports = function(module) {
 /***/ 71:
 /***/ (function(module, exports, __webpack_require__) {
 
-var json = typeof JSON !== 'undefined' ? JSON : __webpack_require__(169);
+var json = typeof JSON !== 'undefined' ? JSON : __webpack_require__(167);
 
 module.exports = function (obj, opts) {
     if (!opts) opts = {};
@@ -13243,50 +12426,19 @@ var objectKeys = Object.keys || function (obj) {
 /***/ }),
 
 /***/ 72:
-/***/ (function(module, exports) {
-
-
-
-/***/ }),
-
-/***/ 73:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return COMMON_ERROR_FIELDS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return create; });
-function create() {
-  return new Set([// standard fields
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
-  'name', 'message', // quasi-standard
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
-  'stack', // standard in node
-  'code', // https://nodejs.org/dist/latest/docs/api/errors.html#errors_node_js_error_codes
-  // non standard but widely used
-  'statusCode', 'shouldRedirect', 'framesToPop', // My (Offirmo) extensions
-  'details', 'SEC', '_temp']);
-}
-
-const DEFAULT_INSTANCE = create();
-const COMMON_ERROR_FIELDS = DEFAULT_INSTANCE;
-
-
-/***/ }),
-
-/***/ 74:
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
  * Module dependencies.
  */
 
-var net = __webpack_require__(101);
-var tls = __webpack_require__(102);
+var net = __webpack_require__(98);
+var tls = __webpack_require__(99);
 var url = __webpack_require__(15);
 var assert = __webpack_require__(50);
-var Agent = __webpack_require__(135);
+var Agent = __webpack_require__(132);
 var inherits = __webpack_require__(4).inherits;
-var debug = __webpack_require__(137)('https-proxy-agent');
+var debug = __webpack_require__(134)('https-proxy-agent');
 
 /**
  * Module exports.
@@ -13519,7 +12671,7 @@ function isDefaultPort(port, secure) {
 
 /***/ }),
 
-/***/ 75:
+/***/ 73:
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -13535,7 +12687,7 @@ function setup(env) {
 	createDebug.disable = disable;
 	createDebug.enable = enable;
 	createDebug.enabled = enabled;
-	createDebug.humanize = __webpack_require__(103);
+	createDebug.humanize = __webpack_require__(100);
 
 	Object.keys(env).forEach(key => {
 		createDebug[key] = env[key];
@@ -13789,6 +12941,38 @@ function setup(env) {
 
 module.exports = setup;
 
+
+/***/ }),
+
+/***/ 74:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.create_error = void 0;
+
+const http_1 = __webpack_require__(25); // TODO extern
+
+
+function create_error(SEC, message, details = {}) {
+  console.log(`FYI create_error("${message}"`, details, ') from', SEC.getLogicalStack());
+
+  if (message && http_1.STATUS_CODES[message]) {
+    details.statusCode = Number(message);
+    message = http_1.STATUS_CODES[details.statusCode];
+  } //console.log('CE', SEC.getLogicalStack(), '\n', SEC.getShortLogicalStack())
+
+
+  const err = SEC.createError(String(message), details);
+  err.framesToPop++;
+  return err;
+}
+
+exports.create_error = create_error;
 
 /***/ }),
 
@@ -14200,11 +13384,11 @@ function addContextToFrame(lines, frame, linesOfContext) {
         .map(function (line) { return Object(_string__WEBPACK_IMPORTED_MODULE_1__[/* snipLine */ "b"])(line, 0); });
 }
 //# sourceMappingURL=misc.js.map
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(134)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(131)(module)))
 
 /***/ }),
 
-/***/ 88:
+/***/ 87:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -14520,7 +13704,7 @@ LRUMap.prototype.toString = function() {
 
 /***/ }),
 
-/***/ 89:
+/***/ 88:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14723,25 +13907,7 @@ function tryDecode(str, decode) {
 
 /***/ }),
 
-/***/ 91:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(72);
-/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_types__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _types__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _types__WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _field_set__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(73);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "COMMON_ERROR_FIELDS", function() { return _field_set__WEBPACK_IMPORTED_MODULE_1__["a"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "create", function() { return _field_set__WEBPACK_IMPORTED_MODULE_1__["b"]; });
-
-
-
-
-/***/ }),
-
-/***/ 92:
+/***/ 90:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -15000,7 +14166,7 @@ function __classPrivateFieldSet(receiver, privateMap, value) {
 
 /***/ }),
 
-/***/ 93:
+/***/ 91:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15011,7 +14177,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.get_default_JsonRpc_error = exports.JSONRPC_CODE = exports.APP = void 0; ////////////////////////////////////
 
-const APP = 'functions';
+const APP = 'oa∙api'; // 'functions'
+
 exports.APP = APP; ////////////////////////////////////
 
 const JSONRPC_CODE = {
@@ -15036,7 +14203,7 @@ exports.get_default_JsonRpc_error = get_default_JsonRpc_error;
 
 /***/ }),
 
-/***/ 94:
+/***/ 92:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -15094,14 +14261,14 @@ function get_api_base_url(channel) {
 
 /***/ }),
 
-/***/ 95:
+/***/ 93:
 /***/ (function(module, exports) {
 
 
 
 /***/ }),
 
-/***/ 96:
+/***/ 94:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -15186,46 +14353,14 @@ function get_ISO8601_simplified_day(now = new Date()) {
 
 /***/ }),
 
-/***/ 97:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(98);
-/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_types__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _types__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _types__WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _root__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(99);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getRootSEC", function() { return _root__WEBPACK_IMPORTED_MODULE_1__["a"]; });
-
-/* harmony import */ var _core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(49);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LIB", function() { return _core__WEBPACK_IMPORTED_MODULE_2__["a"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isSEC", function() { return _core__WEBPACK_IMPORTED_MODULE_2__["c"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createSEC", function() { return _core__WEBPACK_IMPORTED_MODULE_2__["b"]; });
-
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "flattenToOwn", function() { return _utils__WEBPACK_IMPORTED_MODULE_3__["c"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "_getSECStatePath", function() { return _utils__WEBPACK_IMPORTED_MODULE_3__["b"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "_flattenSEC", function() { return _utils__WEBPACK_IMPORTED_MODULE_3__["a"]; });
-
-
-
-
-
-
-/***/ }),
-
-/***/ 98:
+/***/ 95:
 /***/ (function(module, exports) {
 
 
 
 /***/ }),
 
-/***/ 99:
+/***/ 96:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -15253,6 +14388,866 @@ function getRootSEC() {
 
 
 
+
+/***/ }),
+
+/***/ 97:
+/***/ (function(module, exports, __webpack_require__) {
+
+/* MIT license */
+/* eslint-disable no-mixed-operators */
+const cssKeywords = __webpack_require__(176);
+
+// NOTE: conversions should only return primitive values (i.e. arrays, or
+//       values that give correct `typeof` results).
+//       do not use box values types (i.e. Number(), String(), etc.)
+
+const reverseKeywords = {};
+for (const key of Object.keys(cssKeywords)) {
+	reverseKeywords[cssKeywords[key]] = key;
+}
+
+const convert = {
+	rgb: {channels: 3, labels: 'rgb'},
+	hsl: {channels: 3, labels: 'hsl'},
+	hsv: {channels: 3, labels: 'hsv'},
+	hwb: {channels: 3, labels: 'hwb'},
+	cmyk: {channels: 4, labels: 'cmyk'},
+	xyz: {channels: 3, labels: 'xyz'},
+	lab: {channels: 3, labels: 'lab'},
+	lch: {channels: 3, labels: 'lch'},
+	hex: {channels: 1, labels: ['hex']},
+	keyword: {channels: 1, labels: ['keyword']},
+	ansi16: {channels: 1, labels: ['ansi16']},
+	ansi256: {channels: 1, labels: ['ansi256']},
+	hcg: {channels: 3, labels: ['h', 'c', 'g']},
+	apple: {channels: 3, labels: ['r16', 'g16', 'b16']},
+	gray: {channels: 1, labels: ['gray']}
+};
+
+module.exports = convert;
+
+// Hide .channels and .labels properties
+for (const model of Object.keys(convert)) {
+	if (!('channels' in convert[model])) {
+		throw new Error('missing channels property: ' + model);
+	}
+
+	if (!('labels' in convert[model])) {
+		throw new Error('missing channel labels property: ' + model);
+	}
+
+	if (convert[model].labels.length !== convert[model].channels) {
+		throw new Error('channel and label counts mismatch: ' + model);
+	}
+
+	const {channels, labels} = convert[model];
+	delete convert[model].channels;
+	delete convert[model].labels;
+	Object.defineProperty(convert[model], 'channels', {value: channels});
+	Object.defineProperty(convert[model], 'labels', {value: labels});
+}
+
+convert.rgb.hsl = function (rgb) {
+	const r = rgb[0] / 255;
+	const g = rgb[1] / 255;
+	const b = rgb[2] / 255;
+	const min = Math.min(r, g, b);
+	const max = Math.max(r, g, b);
+	const delta = max - min;
+	let h;
+	let s;
+
+	if (max === min) {
+		h = 0;
+	} else if (r === max) {
+		h = (g - b) / delta;
+	} else if (g === max) {
+		h = 2 + (b - r) / delta;
+	} else if (b === max) {
+		h = 4 + (r - g) / delta;
+	}
+
+	h = Math.min(h * 60, 360);
+
+	if (h < 0) {
+		h += 360;
+	}
+
+	const l = (min + max) / 2;
+
+	if (max === min) {
+		s = 0;
+	} else if (l <= 0.5) {
+		s = delta / (max + min);
+	} else {
+		s = delta / (2 - max - min);
+	}
+
+	return [h, s * 100, l * 100];
+};
+
+convert.rgb.hsv = function (rgb) {
+	let rdif;
+	let gdif;
+	let bdif;
+	let h;
+	let s;
+
+	const r = rgb[0] / 255;
+	const g = rgb[1] / 255;
+	const b = rgb[2] / 255;
+	const v = Math.max(r, g, b);
+	const diff = v - Math.min(r, g, b);
+	const diffc = function (c) {
+		return (v - c) / 6 / diff + 1 / 2;
+	};
+
+	if (diff === 0) {
+		h = 0;
+		s = 0;
+	} else {
+		s = diff / v;
+		rdif = diffc(r);
+		gdif = diffc(g);
+		bdif = diffc(b);
+
+		if (r === v) {
+			h = bdif - gdif;
+		} else if (g === v) {
+			h = (1 / 3) + rdif - bdif;
+		} else if (b === v) {
+			h = (2 / 3) + gdif - rdif;
+		}
+
+		if (h < 0) {
+			h += 1;
+		} else if (h > 1) {
+			h -= 1;
+		}
+	}
+
+	return [
+		h * 360,
+		s * 100,
+		v * 100
+	];
+};
+
+convert.rgb.hwb = function (rgb) {
+	const r = rgb[0];
+	const g = rgb[1];
+	let b = rgb[2];
+	const h = convert.rgb.hsl(rgb)[0];
+	const w = 1 / 255 * Math.min(r, Math.min(g, b));
+
+	b = 1 - 1 / 255 * Math.max(r, Math.max(g, b));
+
+	return [h, w * 100, b * 100];
+};
+
+convert.rgb.cmyk = function (rgb) {
+	const r = rgb[0] / 255;
+	const g = rgb[1] / 255;
+	const b = rgb[2] / 255;
+
+	const k = Math.min(1 - r, 1 - g, 1 - b);
+	const c = (1 - r - k) / (1 - k) || 0;
+	const m = (1 - g - k) / (1 - k) || 0;
+	const y = (1 - b - k) / (1 - k) || 0;
+
+	return [c * 100, m * 100, y * 100, k * 100];
+};
+
+function comparativeDistance(x, y) {
+	/*
+		See https://en.m.wikipedia.org/wiki/Euclidean_distance#Squared_Euclidean_distance
+	*/
+	return (
+		((x[0] - y[0]) ** 2) +
+		((x[1] - y[1]) ** 2) +
+		((x[2] - y[2]) ** 2)
+	);
+}
+
+convert.rgb.keyword = function (rgb) {
+	const reversed = reverseKeywords[rgb];
+	if (reversed) {
+		return reversed;
+	}
+
+	let currentClosestDistance = Infinity;
+	let currentClosestKeyword;
+
+	for (const keyword of Object.keys(cssKeywords)) {
+		const value = cssKeywords[keyword];
+
+		// Compute comparative distance
+		const distance = comparativeDistance(rgb, value);
+
+		// Check if its less, if so set as closest
+		if (distance < currentClosestDistance) {
+			currentClosestDistance = distance;
+			currentClosestKeyword = keyword;
+		}
+	}
+
+	return currentClosestKeyword;
+};
+
+convert.keyword.rgb = function (keyword) {
+	return cssKeywords[keyword];
+};
+
+convert.rgb.xyz = function (rgb) {
+	let r = rgb[0] / 255;
+	let g = rgb[1] / 255;
+	let b = rgb[2] / 255;
+
+	// Assume sRGB
+	r = r > 0.04045 ? (((r + 0.055) / 1.055) ** 2.4) : (r / 12.92);
+	g = g > 0.04045 ? (((g + 0.055) / 1.055) ** 2.4) : (g / 12.92);
+	b = b > 0.04045 ? (((b + 0.055) / 1.055) ** 2.4) : (b / 12.92);
+
+	const x = (r * 0.4124) + (g * 0.3576) + (b * 0.1805);
+	const y = (r * 0.2126) + (g * 0.7152) + (b * 0.0722);
+	const z = (r * 0.0193) + (g * 0.1192) + (b * 0.9505);
+
+	return [x * 100, y * 100, z * 100];
+};
+
+convert.rgb.lab = function (rgb) {
+	const xyz = convert.rgb.xyz(rgb);
+	let x = xyz[0];
+	let y = xyz[1];
+	let z = xyz[2];
+
+	x /= 95.047;
+	y /= 100;
+	z /= 108.883;
+
+	x = x > 0.008856 ? (x ** (1 / 3)) : (7.787 * x) + (16 / 116);
+	y = y > 0.008856 ? (y ** (1 / 3)) : (7.787 * y) + (16 / 116);
+	z = z > 0.008856 ? (z ** (1 / 3)) : (7.787 * z) + (16 / 116);
+
+	const l = (116 * y) - 16;
+	const a = 500 * (x - y);
+	const b = 200 * (y - z);
+
+	return [l, a, b];
+};
+
+convert.hsl.rgb = function (hsl) {
+	const h = hsl[0] / 360;
+	const s = hsl[1] / 100;
+	const l = hsl[2] / 100;
+	let t2;
+	let t3;
+	let val;
+
+	if (s === 0) {
+		val = l * 255;
+		return [val, val, val];
+	}
+
+	if (l < 0.5) {
+		t2 = l * (1 + s);
+	} else {
+		t2 = l + s - l * s;
+	}
+
+	const t1 = 2 * l - t2;
+
+	const rgb = [0, 0, 0];
+	for (let i = 0; i < 3; i++) {
+		t3 = h + 1 / 3 * -(i - 1);
+		if (t3 < 0) {
+			t3++;
+		}
+
+		if (t3 > 1) {
+			t3--;
+		}
+
+		if (6 * t3 < 1) {
+			val = t1 + (t2 - t1) * 6 * t3;
+		} else if (2 * t3 < 1) {
+			val = t2;
+		} else if (3 * t3 < 2) {
+			val = t1 + (t2 - t1) * (2 / 3 - t3) * 6;
+		} else {
+			val = t1;
+		}
+
+		rgb[i] = val * 255;
+	}
+
+	return rgb;
+};
+
+convert.hsl.hsv = function (hsl) {
+	const h = hsl[0];
+	let s = hsl[1] / 100;
+	let l = hsl[2] / 100;
+	let smin = s;
+	const lmin = Math.max(l, 0.01);
+
+	l *= 2;
+	s *= (l <= 1) ? l : 2 - l;
+	smin *= lmin <= 1 ? lmin : 2 - lmin;
+	const v = (l + s) / 2;
+	const sv = l === 0 ? (2 * smin) / (lmin + smin) : (2 * s) / (l + s);
+
+	return [h, sv * 100, v * 100];
+};
+
+convert.hsv.rgb = function (hsv) {
+	const h = hsv[0] / 60;
+	const s = hsv[1] / 100;
+	let v = hsv[2] / 100;
+	const hi = Math.floor(h) % 6;
+
+	const f = h - Math.floor(h);
+	const p = 255 * v * (1 - s);
+	const q = 255 * v * (1 - (s * f));
+	const t = 255 * v * (1 - (s * (1 - f)));
+	v *= 255;
+
+	switch (hi) {
+		case 0:
+			return [v, t, p];
+		case 1:
+			return [q, v, p];
+		case 2:
+			return [p, v, t];
+		case 3:
+			return [p, q, v];
+		case 4:
+			return [t, p, v];
+		case 5:
+			return [v, p, q];
+	}
+};
+
+convert.hsv.hsl = function (hsv) {
+	const h = hsv[0];
+	const s = hsv[1] / 100;
+	const v = hsv[2] / 100;
+	const vmin = Math.max(v, 0.01);
+	let sl;
+	let l;
+
+	l = (2 - s) * v;
+	const lmin = (2 - s) * vmin;
+	sl = s * vmin;
+	sl /= (lmin <= 1) ? lmin : 2 - lmin;
+	sl = sl || 0;
+	l /= 2;
+
+	return [h, sl * 100, l * 100];
+};
+
+// http://dev.w3.org/csswg/css-color/#hwb-to-rgb
+convert.hwb.rgb = function (hwb) {
+	const h = hwb[0] / 360;
+	let wh = hwb[1] / 100;
+	let bl = hwb[2] / 100;
+	const ratio = wh + bl;
+	let f;
+
+	// Wh + bl cant be > 1
+	if (ratio > 1) {
+		wh /= ratio;
+		bl /= ratio;
+	}
+
+	const i = Math.floor(6 * h);
+	const v = 1 - bl;
+	f = 6 * h - i;
+
+	if ((i & 0x01) !== 0) {
+		f = 1 - f;
+	}
+
+	const n = wh + f * (v - wh); // Linear interpolation
+
+	let r;
+	let g;
+	let b;
+	/* eslint-disable max-statements-per-line,no-multi-spaces */
+	switch (i) {
+		default:
+		case 6:
+		case 0: r = v;  g = n;  b = wh; break;
+		case 1: r = n;  g = v;  b = wh; break;
+		case 2: r = wh; g = v;  b = n; break;
+		case 3: r = wh; g = n;  b = v; break;
+		case 4: r = n;  g = wh; b = v; break;
+		case 5: r = v;  g = wh; b = n; break;
+	}
+	/* eslint-enable max-statements-per-line,no-multi-spaces */
+
+	return [r * 255, g * 255, b * 255];
+};
+
+convert.cmyk.rgb = function (cmyk) {
+	const c = cmyk[0] / 100;
+	const m = cmyk[1] / 100;
+	const y = cmyk[2] / 100;
+	const k = cmyk[3] / 100;
+
+	const r = 1 - Math.min(1, c * (1 - k) + k);
+	const g = 1 - Math.min(1, m * (1 - k) + k);
+	const b = 1 - Math.min(1, y * (1 - k) + k);
+
+	return [r * 255, g * 255, b * 255];
+};
+
+convert.xyz.rgb = function (xyz) {
+	const x = xyz[0] / 100;
+	const y = xyz[1] / 100;
+	const z = xyz[2] / 100;
+	let r;
+	let g;
+	let b;
+
+	r = (x * 3.2406) + (y * -1.5372) + (z * -0.4986);
+	g = (x * -0.9689) + (y * 1.8758) + (z * 0.0415);
+	b = (x * 0.0557) + (y * -0.2040) + (z * 1.0570);
+
+	// Assume sRGB
+	r = r > 0.0031308
+		? ((1.055 * (r ** (1.0 / 2.4))) - 0.055)
+		: r * 12.92;
+
+	g = g > 0.0031308
+		? ((1.055 * (g ** (1.0 / 2.4))) - 0.055)
+		: g * 12.92;
+
+	b = b > 0.0031308
+		? ((1.055 * (b ** (1.0 / 2.4))) - 0.055)
+		: b * 12.92;
+
+	r = Math.min(Math.max(0, r), 1);
+	g = Math.min(Math.max(0, g), 1);
+	b = Math.min(Math.max(0, b), 1);
+
+	return [r * 255, g * 255, b * 255];
+};
+
+convert.xyz.lab = function (xyz) {
+	let x = xyz[0];
+	let y = xyz[1];
+	let z = xyz[2];
+
+	x /= 95.047;
+	y /= 100;
+	z /= 108.883;
+
+	x = x > 0.008856 ? (x ** (1 / 3)) : (7.787 * x) + (16 / 116);
+	y = y > 0.008856 ? (y ** (1 / 3)) : (7.787 * y) + (16 / 116);
+	z = z > 0.008856 ? (z ** (1 / 3)) : (7.787 * z) + (16 / 116);
+
+	const l = (116 * y) - 16;
+	const a = 500 * (x - y);
+	const b = 200 * (y - z);
+
+	return [l, a, b];
+};
+
+convert.lab.xyz = function (lab) {
+	const l = lab[0];
+	const a = lab[1];
+	const b = lab[2];
+	let x;
+	let y;
+	let z;
+
+	y = (l + 16) / 116;
+	x = a / 500 + y;
+	z = y - b / 200;
+
+	const y2 = y ** 3;
+	const x2 = x ** 3;
+	const z2 = z ** 3;
+	y = y2 > 0.008856 ? y2 : (y - 16 / 116) / 7.787;
+	x = x2 > 0.008856 ? x2 : (x - 16 / 116) / 7.787;
+	z = z2 > 0.008856 ? z2 : (z - 16 / 116) / 7.787;
+
+	x *= 95.047;
+	y *= 100;
+	z *= 108.883;
+
+	return [x, y, z];
+};
+
+convert.lab.lch = function (lab) {
+	const l = lab[0];
+	const a = lab[1];
+	const b = lab[2];
+	let h;
+
+	const hr = Math.atan2(b, a);
+	h = hr * 360 / 2 / Math.PI;
+
+	if (h < 0) {
+		h += 360;
+	}
+
+	const c = Math.sqrt(a * a + b * b);
+
+	return [l, c, h];
+};
+
+convert.lch.lab = function (lch) {
+	const l = lch[0];
+	const c = lch[1];
+	const h = lch[2];
+
+	const hr = h / 360 * 2 * Math.PI;
+	const a = c * Math.cos(hr);
+	const b = c * Math.sin(hr);
+
+	return [l, a, b];
+};
+
+convert.rgb.ansi16 = function (args, saturation = null) {
+	const [r, g, b] = args;
+	let value = saturation === null ? convert.rgb.hsv(args)[2] : saturation; // Hsv -> ansi16 optimization
+
+	value = Math.round(value / 50);
+
+	if (value === 0) {
+		return 30;
+	}
+
+	let ansi = 30
+		+ ((Math.round(b / 255) << 2)
+		| (Math.round(g / 255) << 1)
+		| Math.round(r / 255));
+
+	if (value === 2) {
+		ansi += 60;
+	}
+
+	return ansi;
+};
+
+convert.hsv.ansi16 = function (args) {
+	// Optimization here; we already know the value and don't need to get
+	// it converted for us.
+	return convert.rgb.ansi16(convert.hsv.rgb(args), args[2]);
+};
+
+convert.rgb.ansi256 = function (args) {
+	const r = args[0];
+	const g = args[1];
+	const b = args[2];
+
+	// We use the extended greyscale palette here, with the exception of
+	// black and white. normal palette only has 4 greyscale shades.
+	if (r === g && g === b) {
+		if (r < 8) {
+			return 16;
+		}
+
+		if (r > 248) {
+			return 231;
+		}
+
+		return Math.round(((r - 8) / 247) * 24) + 232;
+	}
+
+	const ansi = 16
+		+ (36 * Math.round(r / 255 * 5))
+		+ (6 * Math.round(g / 255 * 5))
+		+ Math.round(b / 255 * 5);
+
+	return ansi;
+};
+
+convert.ansi16.rgb = function (args) {
+	let color = args % 10;
+
+	// Handle greyscale
+	if (color === 0 || color === 7) {
+		if (args > 50) {
+			color += 3.5;
+		}
+
+		color = color / 10.5 * 255;
+
+		return [color, color, color];
+	}
+
+	const mult = (~~(args > 50) + 1) * 0.5;
+	const r = ((color & 1) * mult) * 255;
+	const g = (((color >> 1) & 1) * mult) * 255;
+	const b = (((color >> 2) & 1) * mult) * 255;
+
+	return [r, g, b];
+};
+
+convert.ansi256.rgb = function (args) {
+	// Handle greyscale
+	if (args >= 232) {
+		const c = (args - 232) * 10 + 8;
+		return [c, c, c];
+	}
+
+	args -= 16;
+
+	let rem;
+	const r = Math.floor(args / 36) / 5 * 255;
+	const g = Math.floor((rem = args % 36) / 6) / 5 * 255;
+	const b = (rem % 6) / 5 * 255;
+
+	return [r, g, b];
+};
+
+convert.rgb.hex = function (args) {
+	const integer = ((Math.round(args[0]) & 0xFF) << 16)
+		+ ((Math.round(args[1]) & 0xFF) << 8)
+		+ (Math.round(args[2]) & 0xFF);
+
+	const string = integer.toString(16).toUpperCase();
+	return '000000'.substring(string.length) + string;
+};
+
+convert.hex.rgb = function (args) {
+	const match = args.toString(16).match(/[a-f0-9]{6}|[a-f0-9]{3}/i);
+	if (!match) {
+		return [0, 0, 0];
+	}
+
+	let colorString = match[0];
+
+	if (match[0].length === 3) {
+		colorString = colorString.split('').map(char => {
+			return char + char;
+		}).join('');
+	}
+
+	const integer = parseInt(colorString, 16);
+	const r = (integer >> 16) & 0xFF;
+	const g = (integer >> 8) & 0xFF;
+	const b = integer & 0xFF;
+
+	return [r, g, b];
+};
+
+convert.rgb.hcg = function (rgb) {
+	const r = rgb[0] / 255;
+	const g = rgb[1] / 255;
+	const b = rgb[2] / 255;
+	const max = Math.max(Math.max(r, g), b);
+	const min = Math.min(Math.min(r, g), b);
+	const chroma = (max - min);
+	let grayscale;
+	let hue;
+
+	if (chroma < 1) {
+		grayscale = min / (1 - chroma);
+	} else {
+		grayscale = 0;
+	}
+
+	if (chroma <= 0) {
+		hue = 0;
+	} else
+	if (max === r) {
+		hue = ((g - b) / chroma) % 6;
+	} else
+	if (max === g) {
+		hue = 2 + (b - r) / chroma;
+	} else {
+		hue = 4 + (r - g) / chroma;
+	}
+
+	hue /= 6;
+	hue %= 1;
+
+	return [hue * 360, chroma * 100, grayscale * 100];
+};
+
+convert.hsl.hcg = function (hsl) {
+	const s = hsl[1] / 100;
+	const l = hsl[2] / 100;
+
+	const c = l < 0.5 ? (2.0 * s * l) : (2.0 * s * (1.0 - l));
+
+	let f = 0;
+	if (c < 1.0) {
+		f = (l - 0.5 * c) / (1.0 - c);
+	}
+
+	return [hsl[0], c * 100, f * 100];
+};
+
+convert.hsv.hcg = function (hsv) {
+	const s = hsv[1] / 100;
+	const v = hsv[2] / 100;
+
+	const c = s * v;
+	let f = 0;
+
+	if (c < 1.0) {
+		f = (v - c) / (1 - c);
+	}
+
+	return [hsv[0], c * 100, f * 100];
+};
+
+convert.hcg.rgb = function (hcg) {
+	const h = hcg[0] / 360;
+	const c = hcg[1] / 100;
+	const g = hcg[2] / 100;
+
+	if (c === 0.0) {
+		return [g * 255, g * 255, g * 255];
+	}
+
+	const pure = [0, 0, 0];
+	const hi = (h % 1) * 6;
+	const v = hi % 1;
+	const w = 1 - v;
+	let mg = 0;
+
+	/* eslint-disable max-statements-per-line */
+	switch (Math.floor(hi)) {
+		case 0:
+			pure[0] = 1; pure[1] = v; pure[2] = 0; break;
+		case 1:
+			pure[0] = w; pure[1] = 1; pure[2] = 0; break;
+		case 2:
+			pure[0] = 0; pure[1] = 1; pure[2] = v; break;
+		case 3:
+			pure[0] = 0; pure[1] = w; pure[2] = 1; break;
+		case 4:
+			pure[0] = v; pure[1] = 0; pure[2] = 1; break;
+		default:
+			pure[0] = 1; pure[1] = 0; pure[2] = w;
+	}
+	/* eslint-enable max-statements-per-line */
+
+	mg = (1.0 - c) * g;
+
+	return [
+		(c * pure[0] + mg) * 255,
+		(c * pure[1] + mg) * 255,
+		(c * pure[2] + mg) * 255
+	];
+};
+
+convert.hcg.hsv = function (hcg) {
+	const c = hcg[1] / 100;
+	const g = hcg[2] / 100;
+
+	const v = c + g * (1.0 - c);
+	let f = 0;
+
+	if (v > 0.0) {
+		f = c / v;
+	}
+
+	return [hcg[0], f * 100, v * 100];
+};
+
+convert.hcg.hsl = function (hcg) {
+	const c = hcg[1] / 100;
+	const g = hcg[2] / 100;
+
+	const l = g * (1.0 - c) + 0.5 * c;
+	let s = 0;
+
+	if (l > 0.0 && l < 0.5) {
+		s = c / (2 * l);
+	} else
+	if (l >= 0.5 && l < 1.0) {
+		s = c / (2 * (1 - l));
+	}
+
+	return [hcg[0], s * 100, l * 100];
+};
+
+convert.hcg.hwb = function (hcg) {
+	const c = hcg[1] / 100;
+	const g = hcg[2] / 100;
+	const v = c + g * (1.0 - c);
+	return [hcg[0], (v - c) * 100, (1 - v) * 100];
+};
+
+convert.hwb.hcg = function (hwb) {
+	const w = hwb[1] / 100;
+	const b = hwb[2] / 100;
+	const v = 1 - b;
+	const c = v - w;
+	let g = 0;
+
+	if (c < 1) {
+		g = (v - c) / (1 - c);
+	}
+
+	return [hwb[0], c * 100, g * 100];
+};
+
+convert.apple.rgb = function (apple) {
+	return [(apple[0] / 65535) * 255, (apple[1] / 65535) * 255, (apple[2] / 65535) * 255];
+};
+
+convert.rgb.apple = function (rgb) {
+	return [(rgb[0] / 255) * 65535, (rgb[1] / 255) * 65535, (rgb[2] / 255) * 65535];
+};
+
+convert.gray.rgb = function (args) {
+	return [args[0] / 100 * 255, args[0] / 100 * 255, args[0] / 100 * 255];
+};
+
+convert.gray.hsl = function (args) {
+	return [0, 0, args[0]];
+};
+
+convert.gray.hsv = convert.gray.hsl;
+
+convert.gray.hwb = function (gray) {
+	return [0, 100, gray[0]];
+};
+
+convert.gray.cmyk = function (gray) {
+	return [0, 0, 0, gray[0]];
+};
+
+convert.gray.lab = function (gray) {
+	return [gray[0], 0, 0];
+};
+
+convert.gray.hex = function (gray) {
+	const val = Math.round(gray[0] / 100 * 255) & 0xFF;
+	const integer = (val << 16) + (val << 8) + val;
+
+	const string = integer.toString(16).toUpperCase();
+	return '000000'.substring(string.length) + string;
+};
+
+convert.rgb.gray = function (rgb) {
+	const val = (rgb[0] + rgb[1] + rgb[2]) / 3;
+	return [val / 255 * 100];
+};
+
+
+/***/ }),
+
+/***/ 98:
+/***/ (function(module, exports) {
+
+module.exports = require("net");
+
+/***/ }),
+
+/***/ 99:
+/***/ (function(module, exports) {
+
+module.exports = require("tls");
 
 /***/ })
 
