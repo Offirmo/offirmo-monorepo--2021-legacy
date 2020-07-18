@@ -43,6 +43,14 @@ export interface EventDataMap<Injections = {}, AnalyticsDetails = {}, ErrorDetai
 		& { err: XError }
 }
 
+export type OperationParams<Injections = {}, AnalyticsDetails = {}, ErrorDetails = {}> =
+	Injections
+		& BaseInjections
+		& WithSEC<Injections, AnalyticsDetails, ErrorDetails>
+
+export type Operation<T, Injections = {}, AnalyticsDetails = {}, ErrorDetails = {}> =
+	(params: OperationParams<Injections, AnalyticsDetails, ErrorDetails>) => T
+
 export interface SoftExecutionContext<Injections = {}, AnalyticsDetails = {}, ErrorDetails = {}> {
 
 	// core
@@ -82,25 +90,19 @@ export interface SoftExecutionContext<Injections = {}, AnalyticsDetails = {}, Er
 	// plugin: error handling
 	setErrorReportDetails: (p: Partial<ErrorDetails>)
 		=> SoftExecutionContext<Injections, AnalyticsDetails, ErrorDetails>
-	xTry: <T>(operation: string, fn: (p: Injections
-													& BaseInjections
-													& WithSEC<Injections, AnalyticsDetails, ErrorDetails>
-													) => T) => T
-	xTryCatch: <T>(operation: string, fn: (p: Injections
-															& BaseInjections
-															& WithSEC<Injections, AnalyticsDetails, ErrorDetails>
-															) => T) => T | undefined
 
-	xPromiseCatch: <T>(operation: string, fn: (p: Injections
-		& BaseInjections
-		& WithSEC<Injections, AnalyticsDetails, ErrorDetails>
-	) => Promise<T>) => Promise<T | undefined>
-	xPromiseTry: <T>(operation: string, fn: (p: Injections
-		& BaseInjections
-		& WithSEC<Injections, AnalyticsDetails, ErrorDetails>
-	) => Promise<T>) => Promise<T>
-	xPromiseTryCatch: <T>(operation: string, fn: (p: Injections
-		& BaseInjections
-		& WithSEC<Injections, AnalyticsDetails, ErrorDetails>
-	) => Promise<T>) => Promise<T | undefined>
+	createError: (message: string, details: XError['details']) => XError
+	handleError: (err: XError) => void
+
+	xTry: <T>(operation: string, fn: Operation<T, Injections, AnalyticsDetails, ErrorDetails>) => T
+	xTryCatch: <T>(operation: string, fn: Operation<T, Injections, AnalyticsDetails, ErrorDetails>) => T | undefined
+
+	xNewPromise: <T>(operation: string, fn: (
+		p: Injections
+			& BaseInjections
+			& WithSEC<Injections, AnalyticsDetails, ErrorDetails>,
+		_resolve: (value?: T | PromiseLike<T>) => void,
+		_reject: (reason?: any) => void,
+	) => void) => Promise<T>
+	xPromiseTry:      <T>(operation: string, fn: Operation<Promise<T>, Injections, AnalyticsDetails, ErrorDetails>) => Promise<T>
 }

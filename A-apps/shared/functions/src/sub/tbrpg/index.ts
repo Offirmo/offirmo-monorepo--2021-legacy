@@ -12,8 +12,10 @@ import {
 
 import process_rpc_echo from './echo'
 import process_rpc_sync from './sync'
+import { XSoftExecutionContext } from '../services/sec'
 
 async function process_rpc(
+	SEC: XSoftExecutionContext,
 	req: Readonly<TbrpgRpc>,
 	res: TbrpgRpcResponse,
 ): Promise<void> {
@@ -27,7 +29,7 @@ async function process_rpc(
 			return process_rpc_sync(req as RpcSync, res as RpcSyncResponse)
 
 		default: {
-			throw create_error('RPC method not implemented!', {
+			throw create_error(SEC, 'RPC method not implemented!', {
 				method,
 				statusCode: 501,
 			})

@@ -4,7 +4,7 @@ import { JSONRpcResponse } from '@offirmo-private/json-rpc-types'
 
 ////////////////////////////////////
 
-const APP = 'functions'
+const APP = 'oa∙api' // 'functions'
 
 ////////////////////////////////////
 

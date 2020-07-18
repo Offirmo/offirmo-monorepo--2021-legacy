@@ -1,6 +1,7 @@
 import normalizeError from '@offirmo-private/normalize-error'
 import { promiseTry } from '@offirmo-private/promise-try'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
+import { STANDARD_ERROR_FIELDS, COMMON_ERROR_FIELDS } from '@offirmo-private/common-error-fields'
 
 
 import { INTERNAL_PROP } from '../../consts'
@@ -35,18 +36,6 @@ const PLUGIN = {
 					: err => SEC.emitter.emit('final-error', { SEC, err: cleanTemp(err) }),
 			})(err)
 		}
-
-		// TODO used?
-		prototype.throwNewError = function throwNewError(message, details = {}) {
-			const SEC = this
-			const err = new Error(message)
-			err.details = details
-			SEC._handleError({
-				SEC,
-				shouldRethrow: true,
-			})
-		}
-
 
 		prototype._decorateErrorWithDetails = function _decorateErrorWithDetails(err) {
 			const SEC = this
@@ -84,7 +73,18 @@ const PLUGIN = {
 			return SEC // for chaining
 		}
 
+		// for promises
+		prototype.handleError = function handleError(err) {
+			const SEC = this
+			SEC._handleError({
+				SEC,
+				debugId: 'handleError',
+				shouldRethrow: false,
+			}, err)
+		}
+
 		prototype.xTry = function xTry(operation, fn) {
+			console.assert(!!operation)
 			const SEC = this
 				.createChild()
 				.setLogicalStack({operation})
@@ -104,6 +104,7 @@ const PLUGIN = {
 		}
 
 		prototype.xTryCatch = function xTryCatch(operation, fn) {
+			console.assert(!!operation)
 			const SEC = this
 				.createChild()
 				.setLogicalStack({operation})
@@ -122,22 +123,26 @@ const PLUGIN = {
 			}
 		}
 
-		prototype.xPromiseCatch = function xPromiseCatch(operation, promise) {
+		prototype.xNewPromise = function xPromise(operation, resolver_fn) {
+			console.assert(!!operation)
 			const SEC = this
 				.createChild()
 				.setLogicalStack({operation})
 
-			return promise
+			const params = SEC[INTERNAL_PROP].plugins[ID_DI].context
+
+			return (new Promise(resolver_fn.bind(undefined, params)))
 				.catch(err => {
 					SEC._handleError({
 						SEC,
-						debugId: 'xPromiseCatch',
-						shouldRethrow: false,
+						debugId: 'xPromise',
+						shouldRethrow: true,
 					}, err)
 				})
 		}
 
 		prototype.xPromiseTry = function xPromiseTry(operation, fn) {
+			console.assert(!!operation)
 			const SEC = this
 				.createChild()
 				.setLogicalStack({operation})
@@ -154,21 +159,31 @@ const PLUGIN = {
 				})
 		}
 
-		prototype.xPromiseTryCatch = function xPromiseTryCatch(operation, fn) {
+		// useful if creating an error later from a saved SEC
+		prototype.createError = function createError(message, details = {}) {
 			const SEC = this
-				.createChild()
-				.setLogicalStack({operation})
 
-			const params = SEC[INTERNAL_PROP].plugins[ID_DI].context
+			message = String(message || 'Unknown error!')
+			if (!(message.toLowerCase()).includes('error')) {
+				message = 'Error: ' + message
+			}
 
-			return promiseTry(() => fn(params))
-				.catch(err => {
-					SEC._handleError({
-						SEC,
-						debugId: 'xPromiseTryCatch',
-						shouldRethrow: false,
-					}, err)
-				})
+			const err = new Error(message)
+			Object.keys(details).forEach(k => {
+				//console.log(k)
+				if (COMMON_ERROR_FIELDS.has(k) && !STANDARD_ERROR_FIELDS.has(k)) {
+					err[k] = details[k]
+				}
+				else {
+					err.details = err.details || {}
+					err.details[k] = details[k]
+				}
+			})
+			err.framesToPop = (err.framesToPop || 0) + 1
+
+			return SEC._decorateErrorWithLogicalStack(
+				SEC._decorateErrorWithDetails(err)
+			)
 		}
 	},
 }

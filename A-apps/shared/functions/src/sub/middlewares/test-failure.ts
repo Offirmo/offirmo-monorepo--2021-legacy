@@ -32,12 +32,13 @@ export async function test_failure(
 		next: () => Promise<void>
 ): Promise<void> {
 	const mode = (event.queryStringParameters && event.queryStringParameters.mode) || undefined
+	const { logger } = SEC.getInjectedDependencies()
 
 	assert(!mode || Enum.isType(FailureMode, mode), `Invalid mode, should be one of: ` + Enum.values(FailureMode).join(', '))
 
-	console.log('[MW test_failure] will cause failure:', mode)
+	logger.info('[MW test_failure] will cause failure:', mode)
 
-	const get_test_err = memoize_one(() => create_error(`TEST ${mode}!`, { statusCode: 555 }))
+	const get_test_err = memoize_one(() => create_error(SEC, `TEST ${mode}!`, { statusCode: 555 }))
 
 	switch (mode) {
 		case undefined:
@@ -47,11 +48,12 @@ export async function test_failure(
 
 		case FailureMode['none']:
 			response.statusCode = 200
-			response.body = JSON.stringify('All good.')
+			//response.body = JSON.stringify('All good.')
 			await next()
 			break
 
 		case FailureMode['manual']:
+			// bad idea but possible
 			response.statusCode = get_test_err().statusCode!
 			response.body = get_test_err().message
 			break

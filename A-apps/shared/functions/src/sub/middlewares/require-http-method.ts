@@ -29,7 +29,7 @@ export function require_http_method(allowed_methods: HttpMethod[]): MiddleWare {
 		response: Response,
 		next: () => Promise<void>
 	): Promise<void> => {
-		await SEC.xTry('require_http_method()', async ({ logger }) => {
+		await SEC.xTry('require_http_method()', async ({ SEC, logger }) => {
 			let http_method = event.httpMethod.toUpperCase() as HttpMethod
 			let is_preflight = http_method === HttpMethod.OPTIONS
 
@@ -39,7 +39,7 @@ export function require_http_method(allowed_methods: HttpMethod[]): MiddleWare {
 			}
 
 			if (!allowed_methods.includes(http_method)) {
-				throw create_error(405, {
+				throw create_error(SEC, 405, {
 					expected: allowed_methods.join(','),
 					received: http_method,
 				})

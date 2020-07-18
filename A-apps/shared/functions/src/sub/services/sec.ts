@@ -1,5 +1,13 @@
 import { Logger } from '@offirmo/universal-debug-api-node'
-import { getRootSEC, BaseInjections, SoftExecutionContext, WithSEC, EventDataMap } from '@offirmo-private/soft-execution-context'
+import {
+	getRootSEC,
+	BaseInjections,
+	OperationParams,
+	Operation,
+	SoftExecutionContext,
+	WithSEC,
+	EventDataMap,
+} from '@offirmo-private/soft-execution-context'
 import { JSONRpcRequest, JSONRpcResponse } from '@offirmo-private/json-rpc-types'
 import {
 	listenToUncaughtErrors,
@@ -8,7 +16,6 @@ import {
 } from '@offirmo-private/soft-execution-context-node'
 import { Users } from '@offirmo-private/db'
 
-import { XError } from '../utils'
 import { APP } from '../consts'
 import { CHANNEL } from './channel'
 import logger from './logger'
@@ -26,6 +33,8 @@ export interface Injections extends BaseInjections {
 export type XSoftExecutionContext = SoftExecutionContext<Injections>
 export type WithXSEC = WithSEC<Injections>
 export type XSECEventDataMap = EventDataMap<Injections>
+export type XOperationParams = OperationParams<Injections>
+export type XOperation<T> = Operation<T, Injections>
 
 /////////////////////
 
@@ -73,8 +82,4 @@ if (ENV !== process.env.NODE_ENV) {
 
 /////////////////////////////////////////////////
 
-export default SEC
-export {
-	XError,
-	SEC,
-}
+export { XError } from '../utils'

@@ -36,13 +36,13 @@ async function handle_cors(
 	if (event.httpMethod.toUpperCase() !== 'OPTIONS')
 		return next()
 
-	await SEC.xTry('handle_cors()', async ({ logger, CHANNEL }) => {
+	await SEC.xTry('handle_cors()', async ({ SEC, logger, CHANNEL }) => {
 		logger.log('\n******* handling a tbrpg-rpc… *******')
 
 		const origin = event.headers.origin
 		const expected_origin = get_allowed_origin(CHANNEL as ReleaseChannel)
 		if (origin !== expected_origin)
-			throw create_error(405, {
+			throw create_error(SEC,405, {
 				expected_origin,
 				origin,
 			})
@@ -60,7 +60,7 @@ async function using_json_rpc(
 	response: Response,
 	next: Function
 ): Promise<void> {
-	return SEC.xTry('using_json_rpc()', async ({ logger }) => {
+	return SEC.xTry('using_json_rpc()', async ({ SEC, logger }) => {
 		logger.log('\n******* handling a json-rpc msg… *******')
 
 		let statusCode = 500
@@ -74,8 +74,8 @@ async function using_json_rpc(
 		try {
 			res.error!.code = JSONRPC_CODE.invalid_request
 			statusCode = 400
-			check_sanity(event)
-			const req: TbrpgRpc = parse_jsonrpc_requests(res, event)
+			check_sanity(SEC, event)
+			const req: TbrpgRpc = parse_jsonrpc_requests(SEC, res, event)
 
 			res.error!.code = JSONRPC_CODE.internal_error
 			res.error!.message = 'Unknown internal error while processing the request!'
@@ -119,13 +119,13 @@ async function _handler(
 	response: Response,
 	next: Function
 ): Promise<void> {
-	return SEC.xTry('/tbrpg-rpc', async ({ logger, jsonrpc_request, jsonrpc_response }) => {
+	return SEC.xTry('/tbrpg-rpc', async ({ SEC, logger, jsonrpc_request, jsonrpc_response }) => {
 		logger.log('\n******* handling a tbrpg-rpc… *******')
 
 		const req: TbrpgRpc = jsonrpc_request as any
 		const res: TbrpgRpcResponse = jsonrpc_response as any
 
-		await process_rpc(req, res)
+		await process_rpc(SEC, req, res)
 
 		await next()
 	})
@@ -133,28 +133,28 @@ async function _handler(
 
 ////////////
 
-function check_sanity(event: APIGatewayEvent) {
+function check_sanity(SEC: XSoftExecutionContext, event: APIGatewayEvent) {
 	const { body, isBase64Encoded } = event
 
 	if (isBase64Encoded)
-		throw create_error('Base 64 unexpected!', {
+		throw create_error(SEC, 'Base 64 unexpected!', {
 			statusCode: 422,
 		})
 
 	if (!body)
-		throw create_error('Missing body!', {
+		throw create_error(SEC, 'Missing body!', {
 			statusCode: 413,
 		})
 
 	if (body.length > 32_000)
-		throw create_error('Body too big!', {
+		throw create_error(SEC, 'Body too big!', {
 			statusCode: 413,
 		})
 }
 
 ////////////
 
-function parse_jsonrpc_requests(res: TbrpgRpcResponse, event: APIGatewayEvent): TbrpgRpc {
+function parse_jsonrpc_requests(SEC: XSoftExecutionContext, res: TbrpgRpcResponse, event: APIGatewayEvent): TbrpgRpc {
 	let data: any
 	try {
 		data = JSON.parse(event.body!)
@@ -162,7 +162,7 @@ function parse_jsonrpc_requests(res: TbrpgRpcResponse, event: APIGatewayEvent): 
 	catch(err) {
 		//console.error(err)
 		res.error!.code = JSONRPC_CODE.parse_error
-		throw create_error('JSON.Parse error!', {
+		throw create_error(SEC, 'JSON.Parse error!', {
 			statusCode: 400,
 		})
 	}
@@ -170,7 +170,7 @@ function parse_jsonrpc_requests(res: TbrpgRpcResponse, event: APIGatewayEvent): 
 	if (Array.isArray(data)) {
 		// we don't support batching
 		res.error!.code = JSONRPC_CODE.parse_error
-		throw create_error('Batch RPC not implemented!', {
+		throw create_error(SEC, 'Batch RPC not implemented!', {
 			statusCode: 501,
 		})
 	}
@@ -180,7 +180,7 @@ function parse_jsonrpc_requests(res: TbrpgRpcResponse, event: APIGatewayEvent): 
 		|| !(Number.isInteger(data.id) || typeof data.id === 'string')
 	) {
 		res.error!.code = JSONRPC_CODE.invalid_request
-		throw create_error('Bad JSON-RPC structure!', {
+		throw create_error(SEC, 'Bad JSON-RPC structure!', {
 			statusCode: 400,
 		})
 	}
@@ -190,14 +190,14 @@ function parse_jsonrpc_requests(res: TbrpgRpcResponse, event: APIGatewayEvent): 
 
 	if (Object.keys(data.params).length < 1) {
 		res.error!.code = JSONRPC_CODE.invalid_params
-		throw create_error('Invalid params!', {
+		throw create_error(SEC, 'Invalid params!', {
 			statusCode: 400,
 		})
 	}
 
 	if (!Enum.isType(Method, data.method)) {
 		res.error!.code = JSONRPC_CODE.method_not_found
-		throw create_error('Invalid RPC method!', {
+		throw create_error(SEC, 'Invalid RPC method!', {
 			statusCode: 400,
 		})
 	}

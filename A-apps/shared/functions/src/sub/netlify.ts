@@ -5,14 +5,13 @@ import {
 	NetlifyClientContext,
 } from './types'
 import { CHANNEL } from './services/channel'
-import { create_error } from './utils'
 
 function _ensure_netlify_logged_in(context: Readonly<NetlifyContext>) {
 	if (!context.clientContext)
-		throw create_error('No/bad/outdated token [1]! (not logged in?)', { statusCode: 401 })
+		throw new Error('No/bad/outdated token [1]! (not logged in?)')
 
 	if (!context.clientContext.user)
-		throw create_error('No/bad/outdated token [2]! (not logged in?)', { statusCode: 401 })
+		throw new Error('No/bad/outdated token [2]! (not logged in?)')
 }
 
 export type NetlifyUserData = Users.NetlifyUser
@@ -36,6 +35,7 @@ export function get_netlify_user_data(context: NetlifyContext): NetlifyUserData 
 		_ensure_netlify_logged_in(context)
 	}
 	catch (err ) {
+		err.statusCode = 401
 		if (err.message.includes('No/bad/outdated token') && CHANNEL === 'dev') {
 			// pretend
 			context.clientContext.user = DEV_MOCK_NETLIFY_USER
