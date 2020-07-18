@@ -3,7 +3,8 @@
 
 ## PENDING
 * TODO add an extra level for no logs at all?
-* [chore] tweak the tsconfig to not use nor import tslib. NOT NEEDED for now but will avoid accidents bloating the bundle size.
+* [chore] tweaked the tsconfig to not use nor import tslib. NOT NEEDED for now but will avoid accidents bloating the bundle size.
+* [chore] re-organized the source (monorepo) and tweaked the build script. No logic change.
 * [doc] ++
 * ...
 

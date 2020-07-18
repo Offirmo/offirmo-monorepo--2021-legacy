@@ -9,7 +9,7 @@
 	"dependencies": {
 		"@offirmo-private/normalize-string": "^0",
 		"knex": "^0.21",
-		"pg": "^8",
+		"pg": "^7",
 		"tslib": "^2",
 		"typescript": "^3"
 	},

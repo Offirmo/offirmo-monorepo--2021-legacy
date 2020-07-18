@@ -5,6 +5,8 @@
 * TODO fix the "maximum call stack exceeded" when printing a SEC
 * TODO pretty+intelligently print the details
 * [doc] ++
+* [chore] re-organized the source (monorepo) and tweaked the build script. No logic change.
+* [chore] bumped dependencies (minor)
 * ...
 
 ## v0.3.0

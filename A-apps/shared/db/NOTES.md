@@ -28,6 +28,13 @@ mention the table in function names?
 ### misc
 * default the trx only when 1 db access (no transaction)
 
+
+## References
+
+* http://knexjs.org/
+* https://github.com/Offirmo-team/wiki/wiki/PostgreSQL
+
+
 ## Tosort
 
 postgres://someuser:somepassword@somehost:port/somedatabase

@@ -1,5 +1,5 @@
 # CHANGELOG
-**This tool follows [semver](https://semver.org/).**
+**This package follows [semver](https://semver.org/).**
 
 ## PENDING
 * TODO v1
@@ -8,7 +8,10 @@
 * TODO [fix] edition fields
 * TODO [fix] stale overrides handling (last_reported: -1)
 * TODO [fix] ugly styling
-* [chore] reorganized the monorepo: some pathes changed.
+* TODO bump dependencies (major)
+* [chore] re-organized the source (monorepo) and tweaked the build script. No logic change.
+* [chore] bumped dependencies (minor)
+* ...
 
 ## v0.1.0
 2020/07/03

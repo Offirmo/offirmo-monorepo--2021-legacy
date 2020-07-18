@@ -3,6 +3,8 @@
 
 ## PENDING
 * [doc] ++
+* [chore] re-organized the source (monorepo) and tweaked the build script. No logic change.
+* [chore] bumped dependencies (minor)
 * ...
 
 ## v3.0.0

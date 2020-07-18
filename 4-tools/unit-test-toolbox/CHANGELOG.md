@@ -2,7 +2,9 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
-
+* [chore] re-organized the source (monorepo) and tweaked the build script. No logic change.
+* [chore] bumped dependencies (minor)
+* ...
 
 ## v6.0.0
 2020/07/01

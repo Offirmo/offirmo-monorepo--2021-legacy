@@ -3,6 +3,8 @@
 
 ## PENDING
 * TODO remove lodash as a dependency
+* [chore] re-organized the source (monorepo) and tweaked the build script. No logic change.
+* [chore] bumped dependencies (minor)
 * ...
 
 ## v2.1.2

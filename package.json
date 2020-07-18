@@ -63,7 +63,7 @@
 		"@types/howler": "^2",
 		"@types/json-stable-stringify": "^1",
 		"@types/lodash": "^4",
-		"@types/mocha": "^7",
+		"@types/mocha": "^8",
 		"@types/nanoid": "^2",
 		"@types/netlify-identity-widget": "^1",
 		"@types/node": "^12",
@@ -122,7 +122,7 @@
 		"p-finally": "^2",
 		"p-progress": "^0.4",
 		"path-exists": "^4",
-		"pg": "^8",
+		"pg": "^7",
 		"piecon": "^0.5",
 		"prettyjson": "^1",
 		"prop-types": "^15",
@@ -202,7 +202,6 @@
 		"size-limit": "^4",
 		"ts-node": "^8",
 		"typescript": "^3",
-		"webpack-bundle-analyzer": "^3",
-		"webpack-node-externals": "^1"
+		"webpack-bundle-analyzer": "^3"
 	}
 }

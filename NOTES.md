@@ -24,7 +24,8 @@ https://github.com/mohsinulhaq/react-popper-tooltip
 		"typography": "^0.16",
 		"url-loader": "^1",
 		"webpack": "^4",
-		"webpack-cli": "^3",
+		"webpack-cli": "^3",,
+        "webpack-node-externals": "^1"
 
 warning @babel/node > @babel/polyfill@7.4.4: 🚨 As of Babel 7.4.0, this
 package has been deprecated in favor of directly

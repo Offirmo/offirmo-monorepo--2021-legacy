@@ -5,7 +5,7 @@
 * [chore] tweaked the tsconfig to not use nor import tslib. NOT NEEDED for now but will avoid accidents bloating the bundle size.
 * [chore] fix incorrect LIB
 * TODO clean the useless debug setup?
-* [chore] reorganized the monorepo: some pathes changed
+* [chore] re-organized the source (monorepo) and tweaked the build script. No logic change.
 * ...
 
 ## v1.0.0

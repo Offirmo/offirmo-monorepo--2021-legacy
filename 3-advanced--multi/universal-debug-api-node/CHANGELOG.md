@@ -4,7 +4,9 @@
 ## PENDING
 NOTE: Reminder to increase REVISION when releasing!
 * TODO node & browser should share a lot of logic
-* [chore] reorganized the monorepo: some pathes changed
+* [chore] re-organized the source (monorepo) and tweaked the build script. No logic change.
+* [chore] bumped dependencies (minor)
+* ...
 
 ## v0.1.0
 * [chore] [breaking] cjs pre-build now targeting node12/ES2019 [details](../../CONTRIBUTING/module-exports.md)

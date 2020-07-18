@@ -81,195 +81,26 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 514);
+/******/ 	return __webpack_require__(__webpack_require__.s = 527);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 10:
-/***/ (function(module, exports) {
-
-module.exports = require("events");
-
-/***/ }),
-
-/***/ 100:
-/***/ (function(module, exports) {
-
-/**
- * Helpers.
- */
-
-var s = 1000;
-var m = s * 60;
-var h = m * 60;
-var d = h * 24;
-var w = d * 7;
-var y = d * 365.25;
-
-/**
- * Parse or format the given `val`.
- *
- * Options:
- *
- *  - `long` verbose formatting [false]
- *
- * @param {String|Number} val
- * @param {Object} [options]
- * @throws {Error} throw an error if val is not a non-empty string or a number
- * @return {String|Number}
- * @api public
- */
-
-module.exports = function(val, options) {
-  options = options || {};
-  var type = typeof val;
-  if (type === 'string' && val.length > 0) {
-    return parse(val);
-  } else if (type === 'number' && isFinite(val)) {
-    return options.long ? fmtLong(val) : fmtShort(val);
-  }
-  throw new Error(
-    'val is not a non-empty string or a valid number. val=' +
-      JSON.stringify(val)
-  );
-};
-
-/**
- * Parse the given `str` and return milliseconds.
- *
- * @param {String} str
- * @return {Number}
- * @api private
- */
-
-function parse(str) {
-  str = String(str);
-  if (str.length > 100) {
-    return;
-  }
-  var match = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(
-    str
-  );
-  if (!match) {
-    return;
-  }
-  var n = parseFloat(match[1]);
-  var type = (match[2] || 'ms').toLowerCase();
-  switch (type) {
-    case 'years':
-    case 'year':
-    case 'yrs':
-    case 'yr':
-    case 'y':
-      return n * y;
-    case 'weeks':
-    case 'week':
-    case 'w':
-      return n * w;
-    case 'days':
-    case 'day':
-    case 'd':
-      return n * d;
-    case 'hours':
-    case 'hour':
-    case 'hrs':
-    case 'hr':
-    case 'h':
-      return n * h;
-    case 'minutes':
-    case 'minute':
-    case 'mins':
-    case 'min':
-    case 'm':
-      return n * m;
-    case 'seconds':
-    case 'second':
-    case 'secs':
-    case 'sec':
-    case 's':
-      return n * s;
-    case 'milliseconds':
-    case 'millisecond':
-    case 'msecs':
-    case 'msec':
-    case 'ms':
-      return n;
-    default:
-      return undefined;
-  }
-}
-
-/**
- * Short format for `ms`.
- *
- * @param {Number} ms
- * @return {String}
- * @api private
- */
-
-function fmtShort(ms) {
-  var msAbs = Math.abs(ms);
-  if (msAbs >= d) {
-    return Math.round(ms / d) + 'd';
-  }
-  if (msAbs >= h) {
-    return Math.round(ms / h) + 'h';
-  }
-  if (msAbs >= m) {
-    return Math.round(ms / m) + 'm';
-  }
-  if (msAbs >= s) {
-    return Math.round(ms / s) + 's';
-  }
-  return ms + 'ms';
-}
-
-/**
- * Long format for `ms`.
- *
- * @param {Number} ms
- * @return {String}
- * @api private
- */
-
-function fmtLong(ms) {
-  var msAbs = Math.abs(ms);
-  if (msAbs >= d) {
-    return plural(ms, msAbs, d, 'day');
-  }
-  if (msAbs >= h) {
-    return plural(ms, msAbs, h, 'hour');
-  }
-  if (msAbs >= m) {
-    return plural(ms, msAbs, m, 'minute');
-  }
-  if (msAbs >= s) {
-    return plural(ms, msAbs, s, 'second');
-  }
-  return ms + ' ms';
-}
-
-/**
- * Pluralization helper.
- */
-
-function plural(ms, msAbs, n, name) {
-  var isPlural = msAbs >= n * 1.5;
-  return Math.round(ms / n) + ' ' + name + (isPlural ? 's' : '');
-}
-
-
-/***/ }),
-
-/***/ 12:
+/***/ 11:
 /***/ (function(module, exports) {
 
 module.exports = require("path");
 
 /***/ }),
 
-/***/ 129:
+/***/ 12:
+/***/ (function(module, exports) {
+
+module.exports = require("url");
+
+/***/ }),
+
+/***/ 125:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -285,63 +116,7 @@ module.exports = (flag, argv = process.argv) => {
 
 /***/ }),
 
-/***/ 13:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-function Enum() {
-    var values = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        values[_i] = arguments[_i];
-    }
-    if (typeof values[0] === "string") {
-        var result = {};
-        for (var _a = 0, values_1 = values; _a < values_1.length; _a++) {
-            var value = values_1[_a];
-            result[value] = value;
-        }
-        return result;
-    }
-    else {
-        return values[0];
-    }
-}
-exports.Enum = Enum;
-(function (Enum) {
-    function ofKeys(e) {
-        var result = {};
-        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
-            var key = _a[_i];
-            result[key] = key;
-        }
-        return result;
-    }
-    Enum.ofKeys = ofKeys;
-    function keys(e) {
-        return Object.keys(e);
-    }
-    Enum.keys = keys;
-    function values(e) {
-        var result = [];
-        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
-            var key = _a[_i];
-            result.push(e[key]);
-        }
-        return result;
-    }
-    Enum.values = values;
-    function isType(e, value) {
-        return values(e).indexOf(value) !== -1;
-    }
-    Enum.isType = isType;
-})(Enum = exports.Enum || (exports.Enum = {}));
-//# sourceMappingURL=index.js.map
-
-/***/ }),
-
-/***/ 130:
+/***/ 126:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -353,9 +128,9 @@ Object.defineProperty(exports, "__esModule", {
 exports.on_user_recognized = exports.on_error = void 0; // https://docs.sentry.io/error-reporting/quickstart/?platform=node
 // https://httptoolkit.tech/blog/netlify-function-error-reporting-with-sentry/
 
-const Sentry = __webpack_require__(163);
+const Sentry = __webpack_require__(167);
 
-const channel_1 = __webpack_require__(29);
+const channel_1 = __webpack_require__(27);
 
 Sentry.init({
   // http://getsentry.github.io/sentry-javascript/interfaces/node.nodeoptions.html
@@ -399,7 +174,7 @@ exports.on_user_recognized = on_user_recognized; // TODO self-triage?
 
 /***/ }),
 
-/***/ 131:
+/***/ 127:
 /***/ (function(module, exports) {
 
 module.exports = function(originalModule) {
@@ -430,262 +205,194 @@ module.exports = function(originalModule) {
 
 /***/ }),
 
-/***/ 132:
+/***/ 128:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-const events_1 = __webpack_require__(10);
-const promisify_1 = __importDefault(__webpack_require__(133));
-function isAgentBase(v) {
-    return Boolean(v) && typeof v.addRequest === 'function';
-}
-function isHttpAgent(v) {
-    return Boolean(v) && typeof v.addRequest === 'function';
-}
-function isSecureEndpoint() {
-    const { stack } = new Error();
-    if (typeof stack !== 'string')
-        return false;
-    return stack.split('\n').some(l => l.indexOf('(https.js:') !== -1);
-}
-function createAgent(callback, opts) {
-    return new createAgent.Agent(callback, opts);
-}
-(function (createAgent) {
-    /**
-     * Base `http.Agent` implementation.
-     * No pooling/keep-alive is implemented by default.
-     *
-     * @param {Function} callback
-     * @api public
-     */
-    class Agent extends events_1.EventEmitter {
-        constructor(callback, _opts) {
-            super();
-            // The callback gets promisified lazily
-            this.promisifiedCallback = undefined;
-            let opts = _opts;
-            if (typeof callback === 'function') {
-                this.callback = callback;
-            }
-            else if (callback) {
-                opts = callback;
-            }
-            // timeout for the socket to be returned from the callback
-            this.timeout = null;
-            if (opts && typeof opts.timeout === 'number') {
-                this.timeout = opts.timeout;
-            }
-            this.options = opts || {};
-            this.maxFreeSockets = 1;
-            this.maxSockets = 1;
-            this.sockets = [];
-            this.requests = [];
-        }
-        get defaultPort() {
-            if (typeof this.explicitDefaultPort === 'number') {
-                return this.explicitDefaultPort;
-            }
-            else {
-                return isSecureEndpoint() ? 443 : 80;
-            }
-        }
-        set defaultPort(v) {
-            this.explicitDefaultPort = v;
-        }
-        get protocol() {
-            if (typeof this.explicitProtocol === 'string') {
-                return this.explicitProtocol;
-            }
-            else {
-                return isSecureEndpoint() ? 'https:' : 'http:';
-            }
-        }
-        set protocol(v) {
-            this.explicitProtocol = v;
-        }
-        callback(req, opts, fn) {
-            throw new Error('"agent-base" has no default implementation, you must subclass and override `callback()`');
-        }
-        /**
-         * Called by node-core's "_http_client.js" module when creating
-         * a new HTTP request with this Agent instance.
-         *
-         * @api public
-         */
-        addRequest(req, _opts) {
-            const ownOpts = Object.assign({}, _opts);
-            if (typeof ownOpts.secureEndpoint !== 'boolean') {
-                ownOpts.secureEndpoint = isSecureEndpoint();
-            }
-            // Set default `host` for HTTP to localhost
-            if (ownOpts.host == null) {
-                ownOpts.host = 'localhost';
-            }
-            // Set default `port` for HTTP if none was explicitly specified
-            if (ownOpts.port == null) {
-                ownOpts.port = ownOpts.secureEndpoint ? 443 : 80;
-            }
-            const opts = Object.assign(Object.assign({}, this.options), ownOpts);
-            if (opts.host && opts.path) {
-                // If both a `host` and `path` are specified then it's most likely the
-                // result of a `url.parse()` call... we need to remove the `path` portion so
-                // that `net.connect()` doesn't attempt to open that as a unix socket file.
-                delete opts.path;
-            }
-            delete opts.agent;
-            delete opts.hostname;
-            delete opts._defaultAgent;
-            delete opts.defaultPort;
-            delete opts.createConnection;
-            // Hint to use "Connection: close"
-            // XXX: non-documented `http` module API :(
-            req._last = true;
-            req.shouldKeepAlive = false;
-            // Create the `stream.Duplex` instance
-            let timedOut = false;
-            let timeout = null;
-            const timeoutMs = this.timeout;
-            const freeSocket = this.freeSocket;
-            function onerror(err) {
-                if (req._hadError)
-                    return;
-                req.emit('error', err);
-                // For Safety. Some additional errors might fire later on
-                // and we need to make sure we don't double-fire the error event.
-                req._hadError = true;
-            }
-            function ontimeout() {
-                timeout = null;
-                timedOut = true;
-                const err = new Error(`A "socket" was not created for HTTP request before ${timeoutMs}ms`);
-                err.code = 'ETIMEOUT';
-                onerror(err);
-            }
-            function callbackError(err) {
-                if (timedOut)
-                    return;
-                if (timeout !== null) {
-                    clearTimeout(timeout);
-                    timeout = null;
-                }
-                onerror(err);
-            }
-            function onsocket(socket) {
-                let sock;
-                function onfree() {
-                    freeSocket(sock, opts);
-                }
-                if (timedOut)
-                    return;
-                if (timeout != null) {
-                    clearTimeout(timeout);
-                    timeout = null;
-                }
-                if (isAgentBase(socket) || isHttpAgent(socket)) {
-                    // `socket` is actually an `http.Agent` instance, so
-                    // relinquish responsibility for this `req` to the Agent
-                    // from here on
-                    socket.addRequest(req, opts);
-                    return;
-                }
-                if (socket) {
-                    sock = socket;
-                    sock.on('free', onfree);
-                    req.onSocket(sock);
-                    return;
-                }
-                const err = new Error(`no Duplex stream was returned to agent-base for \`${req.method} ${req.path}\``);
-                onerror(err);
-            }
-            if (typeof this.callback !== 'function') {
-                onerror(new Error('`callback` is not defined'));
-                return;
-            }
-            if (!this.promisifiedCallback) {
-                if (this.callback.length >= 3) {
-                    // Legacy callback function - convert to a Promise
-                    this.promisifiedCallback = promisify_1.default(this.callback);
-                }
-                else {
-                    this.promisifiedCallback = this.callback;
-                }
-            }
-            if (typeof timeoutMs === 'number' && timeoutMs > 0) {
-                timeout = setTimeout(ontimeout, timeoutMs);
-            }
-            if ('port' in opts && typeof opts.port !== 'number') {
-                opts.port = Number(opts.port);
-            }
-            try {
-                Promise.resolve(this.promisifiedCallback(req, opts)).then(onsocket, callbackError);
-            }
-            catch (err) {
-                Promise.reject(err).catch(callbackError);
-            }
-        }
-        freeSocket(socket, opts) {
-            // TODO reuse sockets
-            socket.destroy();
-        }
-        destroy() { }
-    }
-    createAgent.Agent = Agent;
-})(createAgent || (createAgent = {}));
-// So that `instanceof` works correctly
-createAgent.prototype = createAgent.Agent.prototype;
-module.exports = createAgent;
-//# sourceMappingURL=index.js.map
-
-/***/ }),
-
-/***/ 133:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
 Object.defineProperty(exports, "__esModule", { value: true });
-function promisify(fn) {
-    return function (req, opts) {
-        return new Promise((resolve, reject) => {
-            fn.call(this, req, opts, (err, rtn) => {
-                if (err) {
-                    reject(err);
-                }
-                else {
-                    resolve(rtn);
-                }
-            });
-        });
-    };
-}
-exports.default = promisify;
-//# sourceMappingURL=promisify.js.map
-
-/***/ }),
-
-/***/ 134:
-/***/ (function(module, exports, __webpack_require__) {
-
+const net_1 = __importDefault(__webpack_require__(68));
+const tls_1 = __importDefault(__webpack_require__(69));
+const url_1 = __importDefault(__webpack_require__(12));
+const assert_1 = __importDefault(__webpack_require__(37));
+const debug_1 = __importDefault(__webpack_require__(70));
+const agent_base_1 = __webpack_require__(131);
+const parse_proxy_response_1 = __importDefault(__webpack_require__(136));
+const debug = debug_1.default('https-proxy-agent:agent');
 /**
- * Detect Electron renderer / nwjs process, which is node, but we should
- * treat as a browser.
+ * The `HttpsProxyAgent` implements an HTTP Agent subclass that connects to
+ * the specified "HTTP(s) proxy server" in order to proxy HTTPS requests.
+ *
+ * Outgoing HTTP requests are first tunneled through the proxy server using the
+ * `CONNECT` HTTP request method to establish a connection to the proxy server,
+ * and then the proxy server connects to the destination target and issues the
+ * HTTP request from the proxy server.
+ *
+ * `https:` requests have their socket connection upgraded to TLS once
+ * the connection to the proxy server has been established.
+ *
+ * @api public
  */
-
-if (typeof process === 'undefined' || process.type === 'renderer' || process.browser === true || process.__nwjs) {
-	module.exports = __webpack_require__(135);
-} else {
-	module.exports = __webpack_require__(136);
+class HttpsProxyAgent extends agent_base_1.Agent {
+    constructor(_opts) {
+        let opts;
+        if (typeof _opts === 'string') {
+            opts = url_1.default.parse(_opts);
+        }
+        else {
+            opts = _opts;
+        }
+        if (!opts) {
+            throw new Error('an HTTP(S) proxy server `host` and `port` must be specified!');
+        }
+        debug('creating new HttpsProxyAgent instance: %o', opts);
+        super(opts);
+        const proxy = Object.assign({}, opts);
+        // If `true`, then connect to the proxy server over TLS.
+        // Defaults to `false`.
+        this.secureProxy = opts.secureProxy || isHTTPS(proxy.protocol);
+        // Prefer `hostname` over `host`, and set the `port` if needed.
+        proxy.host = proxy.hostname || proxy.host;
+        if (typeof proxy.port === 'string') {
+            proxy.port = parseInt(proxy.port, 10);
+        }
+        if (!proxy.port && proxy.host) {
+            proxy.port = this.secureProxy ? 443 : 80;
+        }
+        // ALPN is supported by Node.js >= v5.
+        // attempt to negotiate http/1.1 for proxy servers that support http/2
+        if (this.secureProxy && !('ALPNProtocols' in proxy)) {
+            proxy.ALPNProtocols = ['http 1.1'];
+        }
+        if (proxy.host && proxy.path) {
+            // If both a `host` and `path` are specified then it's most likely
+            // the result of a `url.parse()` call... we need to remove the
+            // `path` portion so that `net.connect()` doesn't attempt to open
+            // that as a Unix socket file.
+            delete proxy.path;
+            delete proxy.pathname;
+        }
+        this.proxy = proxy;
+    }
+    /**
+     * Called when the node-core HTTP client library is creating a
+     * new HTTP request.
+     *
+     * @api protected
+     */
+    callback(req, opts) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { proxy, secureProxy } = this;
+            // Create a socket connection to the proxy server.
+            let socket;
+            if (secureProxy) {
+                debug('Creating `tls.Socket`: %o', proxy);
+                socket = tls_1.default.connect(proxy);
+            }
+            else {
+                debug('Creating `net.Socket`: %o', proxy);
+                socket = net_1.default.connect(proxy);
+            }
+            const headers = Object.assign({}, proxy.headers);
+            const hostname = `${opts.host}:${opts.port}`;
+            let payload = `CONNECT ${hostname} HTTP/1.1\r\n`;
+            // Inject the `Proxy-Authorization` header if necessary.
+            if (proxy.auth) {
+                headers['Proxy-Authorization'] = `Basic ${Buffer.from(proxy.auth).toString('base64')}`;
+            }
+            // The `Host` header should only include the port
+            // number when it is not the default port.
+            let { host, port, secureEndpoint } = opts;
+            if (!isDefaultPort(port, secureEndpoint)) {
+                host += `:${port}`;
+            }
+            headers.Host = host;
+            headers.Connection = 'close';
+            for (const name of Object.keys(headers)) {
+                payload += `${name}: ${headers[name]}\r\n`;
+            }
+            const proxyResponsePromise = parse_proxy_response_1.default(socket);
+            socket.write(`${payload}\r\n`);
+            const { statusCode, buffered } = yield proxyResponsePromise;
+            if (statusCode === 200) {
+                req.once('socket', resume);
+                if (opts.secureEndpoint) {
+                    const servername = opts.servername || opts.host;
+                    if (!servername) {
+                        throw new Error('Could not determine "servername"');
+                    }
+                    // The proxy is connecting to a TLS server, so upgrade
+                    // this socket connection to a TLS connection.
+                    debug('Upgrading socket connection to TLS');
+                    return tls_1.default.connect(Object.assign(Object.assign({}, omit(opts, 'host', 'hostname', 'path', 'port')), { socket,
+                        servername }));
+                }
+                return socket;
+            }
+            // Some other status code that's not 200... need to re-play the HTTP
+            // header "data" events onto the socket once the HTTP machinery is
+            // attached so that the node core `http` can parse and handle the
+            // error status code.
+            // Close the original socket, and a new "fake" socket is returned
+            // instead, so that the proxy doesn't get the HTTP request
+            // written to it (which may contain `Authorization` headers or other
+            // sensitive data).
+            //
+            // See: https://hackerone.com/reports/541502
+            socket.destroy();
+            const fakeSocket = new net_1.default.Socket();
+            fakeSocket.readable = true;
+            // Need to wait for the "socket" event to re-play the "data" events.
+            req.once('socket', (s) => {
+                debug('replaying proxy buffer for failed request');
+                assert_1.default(s.listenerCount('data') > 0);
+                // Replay the "buffered" Buffer onto the fake `socket`, since at
+                // this point the HTTP module machinery has been hooked up for
+                // the user.
+                s.push(buffered);
+                s.push(null);
+            });
+            return fakeSocket;
+        });
+    }
 }
-
+exports.default = HttpsProxyAgent;
+function resume(socket) {
+    socket.resume();
+}
+function isDefaultPort(port, secure) {
+    return Boolean((!secure && port === 80) || (secure && port === 443));
+}
+function isHTTPS(protocol) {
+    return typeof protocol === 'string' ? /^https:?$/i.test(protocol) : false;
+}
+function omit(obj, ...keys) {
+    const ret = {};
+    let key;
+    for (key in obj) {
+        if (!keys.includes(key)) {
+            ret[key] = obj[key];
+        }
+    }
+    return ret;
+}
+//# sourceMappingURL=agent.js.map
 
 /***/ }),
 
-/***/ 135:
+/***/ 129:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* eslint-env browser */
@@ -937,7 +644,7 @@ function localstorage() {
 	}
 }
 
-module.exports = __webpack_require__(73)(exports);
+module.exports = __webpack_require__(71)(exports);
 
 const {formatters} = module.exports;
 
@@ -956,14 +663,70 @@ formatters.j = function (v) {
 
 /***/ }),
 
-/***/ 136:
+/***/ 13:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+function Enum() {
+    var values = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        values[_i] = arguments[_i];
+    }
+    if (typeof values[0] === "string") {
+        var result = {};
+        for (var _a = 0, values_1 = values; _a < values_1.length; _a++) {
+            var value = values_1[_a];
+            result[value] = value;
+        }
+        return result;
+    }
+    else {
+        return values[0];
+    }
+}
+exports.Enum = Enum;
+(function (Enum) {
+    function ofKeys(e) {
+        var result = {};
+        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
+            var key = _a[_i];
+            result[key] = key;
+        }
+        return result;
+    }
+    Enum.ofKeys = ofKeys;
+    function keys(e) {
+        return Object.keys(e);
+    }
+    Enum.keys = keys;
+    function values(e) {
+        var result = [];
+        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
+            var key = _a[_i];
+            result.push(e[key]);
+        }
+        return result;
+    }
+    Enum.values = values;
+    function isType(e, value) {
+        return values(e).indexOf(value) !== -1;
+    }
+    Enum.isType = isType;
+})(Enum = exports.Enum || (exports.Enum = {}));
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ 130:
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
  * Module dependencies.
  */
 
-const tty = __webpack_require__(58);
+const tty = __webpack_require__(36);
 const util = __webpack_require__(4);
 
 /**
@@ -986,7 +749,7 @@ exports.colors = [6, 2, 3, 4, 5, 1];
 try {
 	// Optional dependency (as in, doesn't need to be installed, NOT like optionalDependencies in package.json)
 	// eslint-disable-next-line import/no-extraneous-dependencies
-	const supportsColor = __webpack_require__(68);
+	const supportsColor = __webpack_require__(45);
 
 	if (supportsColor && (supportsColor.stderr || supportsColor).level >= 2) {
 		exports.colors = [
@@ -1194,7 +957,7 @@ function init(debug) {
 	}
 }
 
-module.exports = __webpack_require__(73)(exports);
+module.exports = __webpack_require__(71)(exports);
 
 const {formatters} = module.exports;
 
@@ -1220,6 +983,864 @@ formatters.O = function (v) {
 
 /***/ }),
 
+/***/ 131:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+const events_1 = __webpack_require__(9);
+const debug_1 = __importDefault(__webpack_require__(132));
+const promisify_1 = __importDefault(__webpack_require__(135));
+const debug = debug_1.default('agent-base');
+function isAgent(v) {
+    return Boolean(v) && typeof v.addRequest === 'function';
+}
+function isSecureEndpoint() {
+    const { stack } = new Error();
+    if (typeof stack !== 'string')
+        return false;
+    return stack.split('\n').some(l => l.indexOf('(https.js:') !== -1);
+}
+function createAgent(callback, opts) {
+    return new createAgent.Agent(callback, opts);
+}
+(function (createAgent) {
+    /**
+     * Base `http.Agent` implementation.
+     * No pooling/keep-alive is implemented by default.
+     *
+     * @param {Function} callback
+     * @api public
+     */
+    class Agent extends events_1.EventEmitter {
+        constructor(callback, _opts) {
+            super();
+            let opts = _opts;
+            if (typeof callback === 'function') {
+                this.callback = callback;
+            }
+            else if (callback) {
+                opts = callback;
+            }
+            // Timeout for the socket to be returned from the callback
+            this.timeout = null;
+            if (opts && typeof opts.timeout === 'number') {
+                this.timeout = opts.timeout;
+            }
+            // These aren't actually used by `agent-base`, but are required
+            // for the TypeScript definition files in `@types/node` :/
+            this.maxFreeSockets = 1;
+            this.maxSockets = 1;
+            this.sockets = {};
+            this.requests = {};
+            this.options = {};
+        }
+        get defaultPort() {
+            if (typeof this.explicitDefaultPort === 'number') {
+                return this.explicitDefaultPort;
+            }
+            return isSecureEndpoint() ? 443 : 80;
+        }
+        set defaultPort(v) {
+            this.explicitDefaultPort = v;
+        }
+        get protocol() {
+            if (typeof this.explicitProtocol === 'string') {
+                return this.explicitProtocol;
+            }
+            return isSecureEndpoint() ? 'https:' : 'http:';
+        }
+        set protocol(v) {
+            this.explicitProtocol = v;
+        }
+        callback(req, opts, fn) {
+            throw new Error('"agent-base" has no default implementation, you must subclass and override `callback()`');
+        }
+        /**
+         * Called by node-core's "_http_client.js" module when creating
+         * a new HTTP request with this Agent instance.
+         *
+         * @api public
+         */
+        addRequest(req, _opts) {
+            const opts = Object.assign({}, _opts);
+            if (typeof opts.secureEndpoint !== 'boolean') {
+                opts.secureEndpoint = isSecureEndpoint();
+            }
+            if (opts.host == null) {
+                opts.host = 'localhost';
+            }
+            if (opts.port == null) {
+                opts.port = opts.secureEndpoint ? 443 : 80;
+            }
+            if (opts.protocol == null) {
+                opts.protocol = opts.secureEndpoint ? 'https:' : 'http:';
+            }
+            if (opts.host && opts.path) {
+                // If both a `host` and `path` are specified then it's most
+                // likely the result of a `url.parse()` call... we need to
+                // remove the `path` portion so that `net.connect()` doesn't
+                // attempt to open that as a unix socket file.
+                delete opts.path;
+            }
+            delete opts.agent;
+            delete opts.hostname;
+            delete opts._defaultAgent;
+            delete opts.defaultPort;
+            delete opts.createConnection;
+            // Hint to use "Connection: close"
+            // XXX: non-documented `http` module API :(
+            req._last = true;
+            req.shouldKeepAlive = false;
+            let timedOut = false;
+            let timeoutId = null;
+            const timeoutMs = opts.timeout || this.timeout;
+            const onerror = (err) => {
+                if (req._hadError)
+                    return;
+                req.emit('error', err);
+                // For Safety. Some additional errors might fire later on
+                // and we need to make sure we don't double-fire the error event.
+                req._hadError = true;
+            };
+            const ontimeout = () => {
+                timeoutId = null;
+                timedOut = true;
+                const err = new Error(`A "socket" was not created for HTTP request before ${timeoutMs}ms`);
+                err.code = 'ETIMEOUT';
+                onerror(err);
+            };
+            const callbackError = (err) => {
+                if (timedOut)
+                    return;
+                if (timeoutId !== null) {
+                    clearTimeout(timeoutId);
+                    timeoutId = null;
+                }
+                onerror(err);
+            };
+            const onsocket = (socket) => {
+                if (timedOut)
+                    return;
+                if (timeoutId != null) {
+                    clearTimeout(timeoutId);
+                    timeoutId = null;
+                }
+                if (isAgent(socket)) {
+                    // `socket` is actually an `http.Agent` instance, so
+                    // relinquish responsibility for this `req` to the Agent
+                    // from here on
+                    debug('Callback returned another Agent instance %o', socket.constructor.name);
+                    socket.addRequest(req, opts);
+                    return;
+                }
+                if (socket) {
+                    socket.once('free', () => {
+                        this.freeSocket(socket, opts);
+                    });
+                    req.onSocket(socket);
+                    return;
+                }
+                const err = new Error(`no Duplex stream was returned to agent-base for \`${req.method} ${req.path}\``);
+                onerror(err);
+            };
+            if (typeof this.callback !== 'function') {
+                onerror(new Error('`callback` is not defined'));
+                return;
+            }
+            if (!this.promisifiedCallback) {
+                if (this.callback.length >= 3) {
+                    debug('Converting legacy callback function to promise');
+                    this.promisifiedCallback = promisify_1.default(this.callback);
+                }
+                else {
+                    this.promisifiedCallback = this.callback;
+                }
+            }
+            if (typeof timeoutMs === 'number' && timeoutMs > 0) {
+                timeoutId = setTimeout(ontimeout, timeoutMs);
+            }
+            if ('port' in opts && typeof opts.port !== 'number') {
+                opts.port = Number(opts.port);
+            }
+            try {
+                debug('Resolving socket for %o request: %o', opts.protocol, `${req.method} ${req.path}`);
+                Promise.resolve(this.promisifiedCallback(req, opts)).then(onsocket, callbackError);
+            }
+            catch (err) {
+                Promise.reject(err).catch(callbackError);
+            }
+        }
+        freeSocket(socket, opts) {
+            debug('Freeing socket %o %o', socket.constructor.name, opts);
+            socket.destroy();
+        }
+        destroy() {
+            debug('Destroying agent %o', this.constructor.name);
+        }
+    }
+    createAgent.Agent = Agent;
+    // So that `instanceof` works correctly
+    createAgent.prototype = createAgent.Agent.prototype;
+})(createAgent || (createAgent = {}));
+module.exports = createAgent;
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ 132:
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Detect Electron renderer / nwjs process, which is node, but we should
+ * treat as a browser.
+ */
+
+if (typeof process === 'undefined' || process.type === 'renderer' || process.browser === true || process.__nwjs) {
+	module.exports = __webpack_require__(133);
+} else {
+	module.exports = __webpack_require__(134);
+}
+
+
+/***/ }),
+
+/***/ 133:
+/***/ (function(module, exports, __webpack_require__) {
+
+/* eslint-env browser */
+
+/**
+ * This is the web browser implementation of `debug()`.
+ */
+
+exports.log = log;
+exports.formatArgs = formatArgs;
+exports.save = save;
+exports.load = load;
+exports.useColors = useColors;
+exports.storage = localstorage();
+
+/**
+ * Colors.
+ */
+
+exports.colors = [
+	'#0000CC',
+	'#0000FF',
+	'#0033CC',
+	'#0033FF',
+	'#0066CC',
+	'#0066FF',
+	'#0099CC',
+	'#0099FF',
+	'#00CC00',
+	'#00CC33',
+	'#00CC66',
+	'#00CC99',
+	'#00CCCC',
+	'#00CCFF',
+	'#3300CC',
+	'#3300FF',
+	'#3333CC',
+	'#3333FF',
+	'#3366CC',
+	'#3366FF',
+	'#3399CC',
+	'#3399FF',
+	'#33CC00',
+	'#33CC33',
+	'#33CC66',
+	'#33CC99',
+	'#33CCCC',
+	'#33CCFF',
+	'#6600CC',
+	'#6600FF',
+	'#6633CC',
+	'#6633FF',
+	'#66CC00',
+	'#66CC33',
+	'#9900CC',
+	'#9900FF',
+	'#9933CC',
+	'#9933FF',
+	'#99CC00',
+	'#99CC33',
+	'#CC0000',
+	'#CC0033',
+	'#CC0066',
+	'#CC0099',
+	'#CC00CC',
+	'#CC00FF',
+	'#CC3300',
+	'#CC3333',
+	'#CC3366',
+	'#CC3399',
+	'#CC33CC',
+	'#CC33FF',
+	'#CC6600',
+	'#CC6633',
+	'#CC9900',
+	'#CC9933',
+	'#CCCC00',
+	'#CCCC33',
+	'#FF0000',
+	'#FF0033',
+	'#FF0066',
+	'#FF0099',
+	'#FF00CC',
+	'#FF00FF',
+	'#FF3300',
+	'#FF3333',
+	'#FF3366',
+	'#FF3399',
+	'#FF33CC',
+	'#FF33FF',
+	'#FF6600',
+	'#FF6633',
+	'#FF9900',
+	'#FF9933',
+	'#FFCC00',
+	'#FFCC33'
+];
+
+/**
+ * Currently only WebKit-based Web Inspectors, Firefox >= v31,
+ * and the Firebug extension (any Firefox version) are known
+ * to support "%c" CSS customizations.
+ *
+ * TODO: add a `localStorage` variable to explicitly enable/disable colors
+ */
+
+// eslint-disable-next-line complexity
+function useColors() {
+	// NB: In an Electron preload script, document will be defined but not fully
+	// initialized. Since we know we're in Chrome, we'll just detect this case
+	// explicitly
+	if (typeof window !== 'undefined' && window.process && (window.process.type === 'renderer' || window.process.__nwjs)) {
+		return true;
+	}
+
+	// Internet Explorer and Edge do not support colors.
+	if (typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/(edge|trident)\/(\d+)/)) {
+		return false;
+	}
+
+	// Is webkit? http://stackoverflow.com/a/16459606/376773
+	// document is undefined in react-native: https://github.com/facebook/react-native/pull/1632
+	return (typeof document !== 'undefined' && document.documentElement && document.documentElement.style && document.documentElement.style.WebkitAppearance) ||
+		// Is firebug? http://stackoverflow.com/a/398120/376773
+		(typeof window !== 'undefined' && window.console && (window.console.firebug || (window.console.exception && window.console.table))) ||
+		// Is firefox >= v31?
+		// https://developer.mozilla.org/en-US/docs/Tools/Web_Console#Styling_messages
+		(typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31) ||
+		// Double check webkit in userAgent just in case we are in a worker
+		(typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/applewebkit\/(\d+)/));
+}
+
+/**
+ * Colorize log arguments if enabled.
+ *
+ * @api public
+ */
+
+function formatArgs(args) {
+	args[0] = (this.useColors ? '%c' : '') +
+		this.namespace +
+		(this.useColors ? ' %c' : ' ') +
+		args[0] +
+		(this.useColors ? '%c ' : ' ') +
+		'+' + module.exports.humanize(this.diff);
+
+	if (!this.useColors) {
+		return;
+	}
+
+	const c = 'color: ' + this.color;
+	args.splice(1, 0, c, 'color: inherit');
+
+	// The final "%c" is somewhat tricky, because there could be other
+	// arguments passed either before or after the %c, so we need to
+	// figure out the correct index to insert the CSS into
+	let index = 0;
+	let lastC = 0;
+	args[0].replace(/%[a-zA-Z%]/g, match => {
+		if (match === '%%') {
+			return;
+		}
+		index++;
+		if (match === '%c') {
+			// We only are interested in the *last* %c
+			// (the user may have provided their own)
+			lastC = index;
+		}
+	});
+
+	args.splice(lastC, 0, c);
+}
+
+/**
+ * Invokes `console.log()` when available.
+ * No-op when `console.log` is not a "function".
+ *
+ * @api public
+ */
+function log(...args) {
+	// This hackery is required for IE8/9, where
+	// the `console.log` function doesn't have 'apply'
+	return typeof console === 'object' &&
+		console.log &&
+		console.log(...args);
+}
+
+/**
+ * Save `namespaces`.
+ *
+ * @param {String} namespaces
+ * @api private
+ */
+function save(namespaces) {
+	try {
+		if (namespaces) {
+			exports.storage.setItem('debug', namespaces);
+		} else {
+			exports.storage.removeItem('debug');
+		}
+	} catch (error) {
+		// Swallow
+		// XXX (@Qix-) should we be logging these?
+	}
+}
+
+/**
+ * Load `namespaces`.
+ *
+ * @return {String} returns the previously persisted debug modes
+ * @api private
+ */
+function load() {
+	let r;
+	try {
+		r = exports.storage.getItem('debug');
+	} catch (error) {
+		// Swallow
+		// XXX (@Qix-) should we be logging these?
+	}
+
+	// If debug isn't set in LS, and we're in Electron, try to load $DEBUG
+	if (!r && typeof process !== 'undefined' && 'env' in process) {
+		r = process.env.DEBUG;
+	}
+
+	return r;
+}
+
+/**
+ * Localstorage attempts to return the localstorage.
+ *
+ * This is necessary because safari throws
+ * when a user disables cookies/localstorage
+ * and you attempt to access it.
+ *
+ * @return {LocalStorage}
+ * @api private
+ */
+
+function localstorage() {
+	try {
+		// TVMLKit (Apple TV JS Runtime) does not have a window object, just localStorage in the global context
+		// The Browser also has localStorage in the global context.
+		return localStorage;
+	} catch (error) {
+		// Swallow
+		// XXX (@Qix-) should we be logging these?
+	}
+}
+
+module.exports = __webpack_require__(72)(exports);
+
+const {formatters} = module.exports;
+
+/**
+ * Map %j to `JSON.stringify()`, since no Web Inspectors do that by default.
+ */
+
+formatters.j = function (v) {
+	try {
+		return JSON.stringify(v);
+	} catch (error) {
+		return '[UnexpectedJSONParseError]: ' + error.message;
+	}
+};
+
+
+/***/ }),
+
+/***/ 134:
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Module dependencies.
+ */
+
+const tty = __webpack_require__(36);
+const util = __webpack_require__(4);
+
+/**
+ * This is the Node.js implementation of `debug()`.
+ */
+
+exports.init = init;
+exports.log = log;
+exports.formatArgs = formatArgs;
+exports.save = save;
+exports.load = load;
+exports.useColors = useColors;
+
+/**
+ * Colors.
+ */
+
+exports.colors = [6, 2, 3, 4, 5, 1];
+
+try {
+	// Optional dependency (as in, doesn't need to be installed, NOT like optionalDependencies in package.json)
+	// eslint-disable-next-line import/no-extraneous-dependencies
+	const supportsColor = __webpack_require__(45);
+
+	if (supportsColor && (supportsColor.stderr || supportsColor).level >= 2) {
+		exports.colors = [
+			20,
+			21,
+			26,
+			27,
+			32,
+			33,
+			38,
+			39,
+			40,
+			41,
+			42,
+			43,
+			44,
+			45,
+			56,
+			57,
+			62,
+			63,
+			68,
+			69,
+			74,
+			75,
+			76,
+			77,
+			78,
+			79,
+			80,
+			81,
+			92,
+			93,
+			98,
+			99,
+			112,
+			113,
+			128,
+			129,
+			134,
+			135,
+			148,
+			149,
+			160,
+			161,
+			162,
+			163,
+			164,
+			165,
+			166,
+			167,
+			168,
+			169,
+			170,
+			171,
+			172,
+			173,
+			178,
+			179,
+			184,
+			185,
+			196,
+			197,
+			198,
+			199,
+			200,
+			201,
+			202,
+			203,
+			204,
+			205,
+			206,
+			207,
+			208,
+			209,
+			214,
+			215,
+			220,
+			221
+		];
+	}
+} catch (error) {
+	// Swallow - we only care if `supports-color` is available; it doesn't have to be.
+}
+
+/**
+ * Build up the default `inspectOpts` object from the environment variables.
+ *
+ *   $ DEBUG_COLORS=no DEBUG_DEPTH=10 DEBUG_SHOW_HIDDEN=enabled node script.js
+ */
+
+exports.inspectOpts = Object.keys(process.env).filter(key => {
+	return /^debug_/i.test(key);
+}).reduce((obj, key) => {
+	// Camel-case
+	const prop = key
+		.substring(6)
+		.toLowerCase()
+		.replace(/_([a-z])/g, (_, k) => {
+			return k.toUpperCase();
+		});
+
+	// Coerce string value into JS value
+	let val = process.env[key];
+	if (/^(yes|on|true|enabled)$/i.test(val)) {
+		val = true;
+	} else if (/^(no|off|false|disabled)$/i.test(val)) {
+		val = false;
+	} else if (val === 'null') {
+		val = null;
+	} else {
+		val = Number(val);
+	}
+
+	obj[prop] = val;
+	return obj;
+}, {});
+
+/**
+ * Is stdout a TTY? Colored output is enabled when `true`.
+ */
+
+function useColors() {
+	return 'colors' in exports.inspectOpts ?
+		Boolean(exports.inspectOpts.colors) :
+		tty.isatty(process.stderr.fd);
+}
+
+/**
+ * Adds ANSI color escape codes if enabled.
+ *
+ * @api public
+ */
+
+function formatArgs(args) {
+	const {namespace: name, useColors} = this;
+
+	if (useColors) {
+		const c = this.color;
+		const colorCode = '\u001B[3' + (c < 8 ? c : '8;5;' + c);
+		const prefix = `  ${colorCode};1m${name} \u001B[0m`;
+
+		args[0] = prefix + args[0].split('\n').join('\n' + prefix);
+		args.push(colorCode + 'm+' + module.exports.humanize(this.diff) + '\u001B[0m');
+	} else {
+		args[0] = getDate() + name + ' ' + args[0];
+	}
+}
+
+function getDate() {
+	if (exports.inspectOpts.hideDate) {
+		return '';
+	}
+	return new Date().toISOString() + ' ';
+}
+
+/**
+ * Invokes `util.format()` with the specified arguments and writes to stderr.
+ */
+
+function log(...args) {
+	return process.stderr.write(util.format(...args) + '\n');
+}
+
+/**
+ * Save `namespaces`.
+ *
+ * @param {String} namespaces
+ * @api private
+ */
+function save(namespaces) {
+	if (namespaces) {
+		process.env.DEBUG = namespaces;
+	} else {
+		// If you set a process.env field to null or undefined, it gets cast to the
+		// string 'null' or 'undefined'. Just delete instead.
+		delete process.env.DEBUG;
+	}
+}
+
+/**
+ * Load `namespaces`.
+ *
+ * @return {String} returns the previously persisted debug modes
+ * @api private
+ */
+
+function load() {
+	return process.env.DEBUG;
+}
+
+/**
+ * Init logic for `debug` instances.
+ *
+ * Create a new `inspectOpts` object in case `useColors` is set
+ * differently for a particular `debug` instance.
+ */
+
+function init(debug) {
+	debug.inspectOpts = {};
+
+	const keys = Object.keys(exports.inspectOpts);
+	for (let i = 0; i < keys.length; i++) {
+		debug.inspectOpts[keys[i]] = exports.inspectOpts[keys[i]];
+	}
+}
+
+module.exports = __webpack_require__(72)(exports);
+
+const {formatters} = module.exports;
+
+/**
+ * Map %o to `util.inspect()`, all on a single line.
+ */
+
+formatters.o = function (v) {
+	this.inspectOpts.colors = this.useColors;
+	return util.inspect(v, this.inspectOpts)
+		.replace(/\s*\n\s*/g, ' ');
+};
+
+/**
+ * Map %O to `util.inspect()`, allowing multiple lines if needed.
+ */
+
+formatters.O = function (v) {
+	this.inspectOpts.colors = this.useColors;
+	return util.inspect(v, this.inspectOpts);
+};
+
+
+/***/ }),
+
+/***/ 135:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+function promisify(fn) {
+    return function (req, opts) {
+        return new Promise((resolve, reject) => {
+            fn.call(this, req, opts, (err, rtn) => {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    resolve(rtn);
+                }
+            });
+        });
+    };
+}
+exports.default = promisify;
+//# sourceMappingURL=promisify.js.map
+
+/***/ }),
+
+/***/ 136:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const debug_1 = __importDefault(__webpack_require__(70));
+const debug = debug_1.default('https-proxy-agent:parse-proxy-response');
+function parseProxyResponse(socket) {
+    return new Promise((resolve, reject) => {
+        // we need to buffer any HTTP traffic that happens with the proxy before we get
+        // the CONNECT response, so that if the response is anything other than an "200"
+        // response code, then we can re-play the "data" events on the socket once the
+        // HTTP parser is hooked up...
+        let buffersLength = 0;
+        const buffers = [];
+        function read() {
+            const b = socket.read();
+            if (b)
+                ondata(b);
+            else
+                socket.once('readable', read);
+        }
+        function cleanup() {
+            socket.removeListener('end', onend);
+            socket.removeListener('error', onerror);
+            socket.removeListener('close', onclose);
+            socket.removeListener('readable', read);
+        }
+        function onclose(err) {
+            debug('onclose had error %o', err);
+        }
+        function onend() {
+            debug('onend');
+        }
+        function onerror(err) {
+            cleanup();
+            debug('onerror %o', err);
+            reject(err);
+        }
+        function ondata(b) {
+            buffers.push(b);
+            buffersLength += b.length;
+            const buffered = Buffer.concat(buffers, buffersLength);
+            const endOfHeaders = buffered.indexOf('\r\n\r\n');
+            if (endOfHeaders === -1) {
+                // keep buffering
+                debug('have not received end of HTTP headers yet...');
+                read();
+                return;
+            }
+            const firstLine = buffered.toString('ascii', 0, buffered.indexOf('\r\n'));
+            const statusCode = +firstLine.split(' ')[1];
+            debug('got proxy server response: %o', firstLine);
+            resolve({
+                statusCode,
+                buffered
+            });
+        }
+        socket.on('error', onerror);
+        socket.on('close', onclose);
+        socket.on('end', onend);
+        read();
+    });
+}
+exports.default = parseProxyResponse;
+//# sourceMappingURL=parse-proxy-response.js.map
+
+/***/ }),
+
 /***/ 137:
 /***/ (function(module, exports) {
 
@@ -1228,13 +1849,6 @@ module.exports = require("console");
 /***/ }),
 
 /***/ 15:
-/***/ (function(module, exports) {
-
-module.exports = require("url");
-
-/***/ }),
-
-/***/ 16:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1340,7 +1954,7 @@ function isMatchingPattern(value, pattern) {
 
 /***/ }),
 
-/***/ 163:
+/***/ 167:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4076,7 +4690,7 @@ var Memo = /** @class */ (function () {
 
 //# sourceMappingURL=memo.js.map
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/string.js
-var string = __webpack_require__(16);
+var string = __webpack_require__(15);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/object.js
 
@@ -5120,7 +5734,7 @@ function basename(path, ext) {
 var external_fs_ = __webpack_require__(7);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/lru_map/lru.js
-var lru = __webpack_require__(87);
+var lru = __webpack_require__(88);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/stacktrace.js
 /**
@@ -5672,11 +6286,11 @@ var promisebuffer_PromiseBuffer = /** @class */ (function () {
 
 //# sourceMappingURL=promisebuffer.js.map
 // EXTERNAL MODULE: external "url"
-var external_url_ = __webpack_require__(15);
+var external_url_ = __webpack_require__(12);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/version.js
 var SDK_NAME = 'sentry.javascript.node';
-var SDK_VERSION = '5.19.1';
+var SDK_VERSION = '5.19.2';
 //# sourceMappingURL=version.js.map
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/base.js
 
@@ -5777,7 +6391,7 @@ var base_BaseTransport = /** @class */ (function () {
 
 //# sourceMappingURL=base.js.map
 // EXTERNAL MODULE: external "http"
-var external_http_ = __webpack_require__(25);
+var external_http_ = __webpack_require__(23);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/http.js
 
@@ -5794,7 +6408,7 @@ var http_HTTPTransport = /** @class */ (function (_super) {
         var proxy = options.httpProxy || process.env.http_proxy;
         _this.module = external_http_;
         _this.client = proxy
-            ? new (__webpack_require__(72))(proxy) // tslint:disable-line:no-unsafe-any
+            ? new (__webpack_require__(67))(proxy) // tslint:disable-line:no-unsafe-any
             : new external_http_["Agent"]({ keepAlive: false, maxSockets: 30, timeout: 2000 });
         return _this;
     }
@@ -5812,7 +6426,7 @@ var http_HTTPTransport = /** @class */ (function (_super) {
 
 //# sourceMappingURL=http.js.map
 // EXTERNAL MODULE: external "https"
-var external_https_ = __webpack_require__(34);
+var external_https_ = __webpack_require__(33);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/https.js
 
@@ -5829,7 +6443,7 @@ var https_HTTPSTransport = /** @class */ (function (_super) {
         var proxy = options.httpsProxy || options.httpProxy || process.env.https_proxy || process.env.http_proxy;
         _this.module = external_https_;
         _this.client = proxy
-            ? new (__webpack_require__(72))(proxy) // tslint:disable-line:no-unsafe-any
+            ? new (__webpack_require__(67))(proxy) // tslint:disable-line:no-unsafe-any
             : new external_https_["Agent"]({ keepAlive: false, maxSockets: 30, timeout: 2000 });
         return _this;
     }
@@ -6223,7 +6837,7 @@ function initAndBind(clientClass, options) {
 }
 //# sourceMappingURL=sdk.js.map
 // EXTERNAL MODULE: external "domain"
-var external_domain_ = __webpack_require__(19);
+var external_domain_ = __webpack_require__(18);
 
 // EXTERNAL MODULE: external "util"
 var external_util_ = __webpack_require__(4);
@@ -6334,14 +6948,14 @@ var http_Http = /** @class */ (function () {
             return;
         }
         var handlerWrapper = createHandlerWrapper(this._breadcrumbs, this._tracing);
-        var httpModule = __webpack_require__(25);
+        var httpModule = __webpack_require__(23);
         fill(httpModule, 'get', handlerWrapper);
         fill(httpModule, 'request', handlerWrapper);
         // NOTE: Prior to Node 9, `https` used internals of `http` module, thus we don't patch it.
         // If we do, we'd get double breadcrumbs and double spans for `https` calls.
         // It has been changed in Node 9, so for all versions equal and above, we patch `https` separately.
         if (NODE_VERSION.major && NODE_VERSION.major > 8) {
-            var httpsModule = __webpack_require__(34);
+            var httpsModule = __webpack_require__(33);
             fill(httpsModule, 'get', handlerWrapper);
             fill(httpsModule, 'request', handlerWrapper);
         }
@@ -6978,10 +7592,10 @@ function forget(promise) {
 }
 //# sourceMappingURL=async.js.map
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/node_modules/cookie/index.js
-var cookie = __webpack_require__(88);
+var cookie = __webpack_require__(89);
 
 // EXTERNAL MODULE: external "os"
-var external_os_ = __webpack_require__(30);
+var external_os_ = __webpack_require__(28);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/handlers.js
 
@@ -7559,7 +8173,7 @@ var linkederrors_LinkedErrors = /** @class */ (function () {
 
 //# sourceMappingURL=linkederrors.js.map
 // EXTERNAL MODULE: external "path"
-var external_path_ = __webpack_require__(12);
+var external_path_ = __webpack_require__(11);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/integrations/modules.js
 
@@ -7822,7 +8436,7 @@ if (esm_carrier.__SENTRY__) {
 
 /***/ }),
 
-/***/ 19:
+/***/ 18:
 /***/ (function(module, exports) {
 
 module.exports = require("domain");
@@ -7854,46 +8468,14 @@ function getGlobalThis() {
 
 /***/ }),
 
-/***/ 25:
+/***/ 23:
 /***/ (function(module, exports) {
 
 module.exports = require("http");
 
 /***/ }),
 
-/***/ 28:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getLogger", function() { return getLogger; });
-/* unused harmony export exposeInternal */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "overrideHook", function() { return overrideHook; });
-/* unused harmony export addDebugCommand */
-/* unused harmony export globalThis */
-/* harmony import */ var _offirmo_globalthis_ponyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(20);
-/* harmony import */ var _v1__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(38);
-
-
-const globalThis = Object(_offirmo_globalthis_ponyfill__WEBPACK_IMPORTED_MODULE_0__[/* getGlobalThis */ "a"])(); // ensure the root is present
-
-globalThis._debug = globalThis._debug || {}; // install globally if no other implementation already present
-
-globalThis._debug.v1 = globalThis._debug.v1 || Object(_v1__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(); // expose the installed implementation
-
-const instance = globalThis._debug.v1;
-const {
-  getLogger,
-  exposeInternal,
-  overrideHook,
-  addDebugCommand
-} = instance;
- // types & sub-types, for convenience
-
-
-
-/***/ }),
-
-/***/ 29:
+/***/ 27:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7906,13 +8488,27 @@ exports.CHANNEL = void 0;
 
 const typescript_string_enums_1 = __webpack_require__(13);
 
-const functions_interface_1 = __webpack_require__(92);
+const functions_interface_1 = __webpack_require__(91);
 
 exports.CHANNEL = (() => {
   if (typescript_string_enums_1.Enum.isType(functions_interface_1.ReleaseChannel, process.env.CHANNEL)) return process.env.CHANNEL;
   if (process.env.AWS_SECRET_ACCESS_KEY) return functions_interface_1.ReleaseChannel.prod;
   return  false ? undefined : functions_interface_1.ReleaseChannel.prod;
 })();
+
+/***/ }),
+
+/***/ 28:
+/***/ (function(module, exports) {
+
+module.exports = require("os");
+
+/***/ }),
+
+/***/ 29:
+/***/ (function(module, exports) {
+
+
 
 /***/ }),
 
@@ -8085,21 +8681,14 @@ function isInstanceOf(wat, base) {
 
 /***/ }),
 
-/***/ 30:
-/***/ (function(module, exports) {
-
-module.exports = require("os");
-
-/***/ }),
-
-/***/ 34:
+/***/ 33:
 /***/ (function(module, exports) {
 
 module.exports = require("https");
 
 /***/ }),
 
-/***/ 38:
+/***/ 35:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8154,6 +8743,20 @@ function create() {
 
 /***/ }),
 
+/***/ 36:
+/***/ (function(module, exports) {
+
+module.exports = require("tty");
+
+/***/ }),
+
+/***/ 37:
+/***/ (function(module, exports) {
+
+module.exports = require("assert");
+
+/***/ }),
+
 /***/ 4:
 /***/ (function(module, exports) {
 
@@ -8161,59 +8764,52 @@ module.exports = require("util");
 
 /***/ }),
 
-/***/ 50:
-/***/ (function(module, exports) {
+/***/ 44:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-module.exports = require("assert");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getLogger", function() { return getLogger; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "exposeInternal", function() { return exposeInternal; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "overrideHook", function() { return overrideHook; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addDebugCommand", function() { return addDebugCommand; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "globalThis", function() { return globalThis; });
+/* harmony import */ var _offirmo_globalthis_ponyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(20);
+/* harmony import */ var _v1__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(35);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createV1", function() { return _v1__WEBPACK_IMPORTED_MODULE_1__["a"]; });
+
+/* harmony import */ var _offirmo_universal_debug_api_interface__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(29);
+/* harmony import */ var _offirmo_universal_debug_api_interface__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_offirmo_universal_debug_api_interface__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _offirmo_universal_debug_api_interface__WEBPACK_IMPORTED_MODULE_2__) if(["getLogger","exposeInternal","overrideHook","addDebugCommand","globalThis","createV1","default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _offirmo_universal_debug_api_interface__WEBPACK_IMPORTED_MODULE_2__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+
+
+const globalThis = Object(_offirmo_globalthis_ponyfill__WEBPACK_IMPORTED_MODULE_0__[/* getGlobalThis */ "a"])(); // ensure the root is present
+
+globalThis._debug = globalThis._debug || {}; // install globally if no other implementation already present
+
+globalThis._debug.v1 = globalThis._debug.v1 || Object(_v1__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(); // expose the installed implementation
+
+const instance = globalThis._debug.v1;
+const {
+  getLogger,
+  exposeInternal,
+  overrideHook,
+  addDebugCommand
+} = instance;
+ // types & sub-types, for convenience
+
+
 
 /***/ }),
 
-/***/ 514:
+/***/ 45:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.handler = void 0;
-
-const sentry_1 = __webpack_require__(130);
-
-const handler = async (event, badly_typed_context) => {
-  var _a;
-
-  let message = ((_a = event === null || event === void 0 ? void 0 : event.queryStringParameters) === null || _a === void 0 ? void 0 : _a.message) || 'Unknown error!';
-  if (!message.endsWith('!')) message = message + '!';
-  const err = new Error(message);
-  await sentry_1.on_error(err);
-  return {
-    statusCode: 200,
-    headers: {},
-    body: 'Error reported✔'
-  };
-};
-
-exports.handler = handler;
-
-/***/ }),
-
-/***/ 58:
-/***/ (function(module, exports) {
-
-module.exports = require("tty");
-
-/***/ }),
-
-/***/ 68:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-const os = __webpack_require__(30);
-const tty = __webpack_require__(58);
-const hasFlag = __webpack_require__(129);
+const os = __webpack_require__(28);
+const tty = __webpack_require__(36);
+const hasFlag = __webpack_require__(125);
 
 const {env} = process;
 
@@ -8353,6 +8949,241 @@ module.exports = {
 
 /***/ }),
 
+/***/ 527:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.handler = void 0;
+
+const sentry_1 = __webpack_require__(126);
+
+const handler = async (event, badly_typed_context) => {
+  var _a;
+
+  let message = ((_a = event === null || event === void 0 ? void 0 : event.queryStringParameters) === null || _a === void 0 ? void 0 : _a.message) || 'Unknown error!';
+  if (!message.endsWith('!')) message = message + '!';
+  const err = new Error(message);
+  await sentry_1.on_error(err);
+  return {
+    statusCode: 200,
+    headers: {},
+    body: 'Error reported✔'
+  };
+};
+
+exports.handler = handler;
+
+/***/ }),
+
+/***/ 54:
+/***/ (function(module, exports) {
+
+/**
+ * Helpers.
+ */
+
+var s = 1000;
+var m = s * 60;
+var h = m * 60;
+var d = h * 24;
+var w = d * 7;
+var y = d * 365.25;
+
+/**
+ * Parse or format the given `val`.
+ *
+ * Options:
+ *
+ *  - `long` verbose formatting [false]
+ *
+ * @param {String|Number} val
+ * @param {Object} [options]
+ * @throws {Error} throw an error if val is not a non-empty string or a number
+ * @return {String|Number}
+ * @api public
+ */
+
+module.exports = function(val, options) {
+  options = options || {};
+  var type = typeof val;
+  if (type === 'string' && val.length > 0) {
+    return parse(val);
+  } else if (type === 'number' && isFinite(val)) {
+    return options.long ? fmtLong(val) : fmtShort(val);
+  }
+  throw new Error(
+    'val is not a non-empty string or a valid number. val=' +
+      JSON.stringify(val)
+  );
+};
+
+/**
+ * Parse the given `str` and return milliseconds.
+ *
+ * @param {String} str
+ * @return {Number}
+ * @api private
+ */
+
+function parse(str) {
+  str = String(str);
+  if (str.length > 100) {
+    return;
+  }
+  var match = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(
+    str
+  );
+  if (!match) {
+    return;
+  }
+  var n = parseFloat(match[1]);
+  var type = (match[2] || 'ms').toLowerCase();
+  switch (type) {
+    case 'years':
+    case 'year':
+    case 'yrs':
+    case 'yr':
+    case 'y':
+      return n * y;
+    case 'weeks':
+    case 'week':
+    case 'w':
+      return n * w;
+    case 'days':
+    case 'day':
+    case 'd':
+      return n * d;
+    case 'hours':
+    case 'hour':
+    case 'hrs':
+    case 'hr':
+    case 'h':
+      return n * h;
+    case 'minutes':
+    case 'minute':
+    case 'mins':
+    case 'min':
+    case 'm':
+      return n * m;
+    case 'seconds':
+    case 'second':
+    case 'secs':
+    case 'sec':
+    case 's':
+      return n * s;
+    case 'milliseconds':
+    case 'millisecond':
+    case 'msecs':
+    case 'msec':
+    case 'ms':
+      return n;
+    default:
+      return undefined;
+  }
+}
+
+/**
+ * Short format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtShort(ms) {
+  var msAbs = Math.abs(ms);
+  if (msAbs >= d) {
+    return Math.round(ms / d) + 'd';
+  }
+  if (msAbs >= h) {
+    return Math.round(ms / h) + 'h';
+  }
+  if (msAbs >= m) {
+    return Math.round(ms / m) + 'm';
+  }
+  if (msAbs >= s) {
+    return Math.round(ms / s) + 's';
+  }
+  return ms + 'ms';
+}
+
+/**
+ * Long format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtLong(ms) {
+  var msAbs = Math.abs(ms);
+  if (msAbs >= d) {
+    return plural(ms, msAbs, d, 'day');
+  }
+  if (msAbs >= h) {
+    return plural(ms, msAbs, h, 'hour');
+  }
+  if (msAbs >= m) {
+    return plural(ms, msAbs, m, 'minute');
+  }
+  if (msAbs >= s) {
+    return plural(ms, msAbs, s, 'second');
+  }
+  return ms + ' ms';
+}
+
+/**
+ * Pluralization helper.
+ */
+
+function plural(ms, msAbs, n, name) {
+  var isPlural = msAbs >= n * 1.5;
+  return Math.round(ms / n) + ' ' + name + (isPlural ? 's' : '');
+}
+
+
+/***/ }),
+
+/***/ 67:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+const agent_1 = __importDefault(__webpack_require__(128));
+function createHttpsProxyAgent(opts) {
+    return new agent_1.default(opts);
+}
+(function (createHttpsProxyAgent) {
+    createHttpsProxyAgent.HttpsProxyAgent = agent_1.default;
+    createHttpsProxyAgent.prototype = agent_1.default.prototype;
+})(createHttpsProxyAgent || (createHttpsProxyAgent = {}));
+module.exports = createHttpsProxyAgent;
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ 68:
+/***/ (function(module, exports) {
+
+module.exports = require("net");
+
+/***/ }),
+
+/***/ 69:
+/***/ (function(module, exports) {
+
+module.exports = require("tls");
+
+/***/ }),
+
 /***/ 7:
 /***/ (function(module, exports) {
 
@@ -8360,253 +9191,24 @@ module.exports = require("fs");
 
 /***/ }),
 
-/***/ 72:
+/***/ 70:
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
- * Module dependencies.
+ * Detect Electron renderer / nwjs process, which is node, but we should
+ * treat as a browser.
  */
 
-var net = __webpack_require__(98);
-var tls = __webpack_require__(99);
-var url = __webpack_require__(15);
-var assert = __webpack_require__(50);
-var Agent = __webpack_require__(132);
-var inherits = __webpack_require__(4).inherits;
-var debug = __webpack_require__(134)('https-proxy-agent');
-
-/**
- * Module exports.
- */
-
-module.exports = HttpsProxyAgent;
-
-/**
- * The `HttpsProxyAgent` implements an HTTP Agent subclass that connects to the
- * specified "HTTP(s) proxy server" in order to proxy HTTPS requests.
- *
- * @api public
- */
-
-function HttpsProxyAgent(opts) {
-	if (!(this instanceof HttpsProxyAgent)) return new HttpsProxyAgent(opts);
-	if ('string' == typeof opts) opts = url.parse(opts);
-	if (!opts)
-		throw new Error(
-			'an HTTP(S) proxy server `host` and `port` must be specified!'
-		);
-	debug('creating new HttpsProxyAgent instance: %o', opts);
-	Agent.call(this, opts);
-
-	var proxy = Object.assign({}, opts);
-
-	// if `true`, then connect to the proxy server over TLS. defaults to `false`.
-	this.secureProxy = proxy.protocol
-		? /^https:?$/i.test(proxy.protocol)
-		: false;
-
-	// prefer `hostname` over `host`, and set the `port` if needed
-	proxy.host = proxy.hostname || proxy.host;
-	proxy.port = +proxy.port || (this.secureProxy ? 443 : 80);
-
-	// ALPN is supported by Node.js >= v5.
-	// attempt to negotiate http/1.1 for proxy servers that support http/2
-	if (this.secureProxy && !('ALPNProtocols' in proxy)) {
-		proxy.ALPNProtocols = ['http 1.1'];
-	}
-
-	if (proxy.host && proxy.path) {
-		// if both a `host` and `path` are specified then it's most likely the
-		// result of a `url.parse()` call... we need to remove the `path` portion so
-		// that `net.connect()` doesn't attempt to open that as a unix socket file.
-		delete proxy.path;
-		delete proxy.pathname;
-	}
-
-	this.proxy = proxy;
-}
-inherits(HttpsProxyAgent, Agent);
-
-/**
- * Called when the node-core HTTP client library is creating a new HTTP request.
- *
- * @api public
- */
-
-HttpsProxyAgent.prototype.callback = function connect(req, opts, fn) {
-	var proxy = this.proxy;
-
-	// create a socket connection to the proxy server
-	var socket;
-	if (this.secureProxy) {
-		socket = tls.connect(proxy);
-	} else {
-		socket = net.connect(proxy);
-	}
-
-	// we need to buffer any HTTP traffic that happens with the proxy before we get
-	// the CONNECT response, so that if the response is anything other than an "200"
-	// response code, then we can re-play the "data" events on the socket once the
-	// HTTP parser is hooked up...
-	var buffers = [];
-	var buffersLength = 0;
-
-	function read() {
-		var b = socket.read();
-		if (b) ondata(b);
-		else socket.once('readable', read);
-	}
-
-	function cleanup() {
-		socket.removeListener('end', onend);
-		socket.removeListener('error', onerror);
-		socket.removeListener('close', onclose);
-		socket.removeListener('readable', read);
-	}
-
-	function onclose(err) {
-		debug('onclose had error %o', err);
-	}
-
-	function onend() {
-		debug('onend');
-	}
-
-	function onerror(err) {
-		cleanup();
-		fn(err);
-	}
-
-	function ondata(b) {
-		buffers.push(b);
-		buffersLength += b.length;
-		var buffered = Buffer.concat(buffers, buffersLength);
-		var str = buffered.toString('ascii');
-
-		if (!~str.indexOf('\r\n\r\n')) {
-			// keep buffering
-			debug('have not received end of HTTP headers yet...');
-			read();
-			return;
-		}
-
-		var firstLine = str.substring(0, str.indexOf('\r\n'));
-		var statusCode = +firstLine.split(' ')[1];
-		debug('got proxy server response: %o', firstLine);
-
-		if (200 == statusCode) {
-			// 200 Connected status code!
-			var sock = socket;
-
-			// nullify the buffered data since we won't be needing it
-			buffers = buffered = null;
-
-			if (opts.secureEndpoint) {
-				// since the proxy is connecting to an SSL server, we have
-				// to upgrade this socket connection to an SSL connection
-				debug(
-					'upgrading proxy-connected socket to TLS connection: %o',
-					opts.host
-				);
-				opts.socket = socket;
-				opts.servername = opts.servername || opts.host;
-				opts.host = null;
-				opts.hostname = null;
-				opts.port = null;
-				sock = tls.connect(opts);
-			}
-
-			cleanup();
-			req.once('socket', resume);
-			fn(null, sock);
-		} else {
-			// some other status code that's not 200... need to re-play the HTTP header
-			// "data" events onto the socket once the HTTP machinery is attached so
-			// that the node core `http` can parse and handle the error status code
-			cleanup();
-
-			// the original socket is closed, and a new closed socket is
-			// returned instead, so that the proxy doesn't get the HTTP request
-			// written to it (which may contain `Authorization` headers or other
-			// sensitive data).
-			//
-			// See: https://hackerone.com/reports/541502
-			socket.destroy();
-			socket = new net.Socket();
-			socket.readable = true;
-
-			// save a reference to the concat'd Buffer for the `onsocket` callback
-			buffers = buffered;
-
-			// need to wait for the "socket" event to re-play the "data" events
-			req.once('socket', onsocket);
-
-			fn(null, socket);
-		}
-	}
-
-	function onsocket(socket) {
-		debug('replaying proxy buffer for failed request');
-		assert(socket.listenerCount('data') > 0);
-
-		// replay the "buffers" Buffer onto the `socket`, since at this point
-		// the HTTP module machinery has been hooked up for the user
-		socket.push(buffers);
-
-		// nullify the cached Buffer instance
-		buffers = null;
-	}
-
-	socket.on('error', onerror);
-	socket.on('close', onclose);
-	socket.on('end', onend);
-
-	read();
-
-	var hostname = opts.host + ':' + opts.port;
-	var msg = 'CONNECT ' + hostname + ' HTTP/1.1\r\n';
-
-	var headers = Object.assign({}, proxy.headers);
-	if (proxy.auth) {
-		headers['Proxy-Authorization'] =
-			'Basic ' + Buffer.from(proxy.auth).toString('base64');
-	}
-
-	// the Host header should only include the port
-	// number when it is a non-standard port
-	var host = opts.host;
-	if (!isDefaultPort(opts.port, opts.secureEndpoint)) {
-		host += ':' + opts.port;
-	}
-	headers['Host'] = host;
-
-	headers['Connection'] = 'close';
-	Object.keys(headers).forEach(function(name) {
-		msg += name + ': ' + headers[name] + '\r\n';
-	});
-
-	socket.write(msg + '\r\n');
-};
-
-/**
- * Resumes a socket.
- *
- * @param {(net.Socket|tls.Socket)} socket The socket to resume
- * @api public
- */
-
-function resume(socket) {
-	socket.resume();
-}
-
-function isDefaultPort(port, secure) {
-	return Boolean((!secure && port === 80) || (secure && port === 443));
+if (typeof process === 'undefined' || process.type === 'renderer' || process.browser === true || process.__nwjs) {
+	module.exports = __webpack_require__(129);
+} else {
+	module.exports = __webpack_require__(130);
 }
 
 
 /***/ }),
 
-/***/ 73:
+/***/ 71:
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -8622,7 +9224,280 @@ function setup(env) {
 	createDebug.disable = disable;
 	createDebug.enable = enable;
 	createDebug.enabled = enabled;
-	createDebug.humanize = __webpack_require__(100);
+	createDebug.humanize = __webpack_require__(54);
+
+	Object.keys(env).forEach(key => {
+		createDebug[key] = env[key];
+	});
+
+	/**
+	* Active `debug` instances.
+	*/
+	createDebug.instances = [];
+
+	/**
+	* The currently active debug mode names, and names to skip.
+	*/
+
+	createDebug.names = [];
+	createDebug.skips = [];
+
+	/**
+	* Map of special "%n" handling functions, for the debug "format" argument.
+	*
+	* Valid key names are a single, lower or upper-case letter, i.e. "n" and "N".
+	*/
+	createDebug.formatters = {};
+
+	/**
+	* Selects a color for a debug namespace
+	* @param {String} namespace The namespace string for the for the debug instance to be colored
+	* @return {Number|String} An ANSI color code for the given namespace
+	* @api private
+	*/
+	function selectColor(namespace) {
+		let hash = 0;
+
+		for (let i = 0; i < namespace.length; i++) {
+			hash = ((hash << 5) - hash) + namespace.charCodeAt(i);
+			hash |= 0; // Convert to 32bit integer
+		}
+
+		return createDebug.colors[Math.abs(hash) % createDebug.colors.length];
+	}
+	createDebug.selectColor = selectColor;
+
+	/**
+	* Create a debugger with the given `namespace`.
+	*
+	* @param {String} namespace
+	* @return {Function}
+	* @api public
+	*/
+	function createDebug(namespace) {
+		let prevTime;
+
+		function debug(...args) {
+			// Disabled?
+			if (!debug.enabled) {
+				return;
+			}
+
+			const self = debug;
+
+			// Set `diff` timestamp
+			const curr = Number(new Date());
+			const ms = curr - (prevTime || curr);
+			self.diff = ms;
+			self.prev = prevTime;
+			self.curr = curr;
+			prevTime = curr;
+
+			args[0] = createDebug.coerce(args[0]);
+
+			if (typeof args[0] !== 'string') {
+				// Anything else let's inspect with %O
+				args.unshift('%O');
+			}
+
+			// Apply any `formatters` transformations
+			let index = 0;
+			args[0] = args[0].replace(/%([a-zA-Z%])/g, (match, format) => {
+				// If we encounter an escaped % then don't increase the array index
+				if (match === '%%') {
+					return match;
+				}
+				index++;
+				const formatter = createDebug.formatters[format];
+				if (typeof formatter === 'function') {
+					const val = args[index];
+					match = formatter.call(self, val);
+
+					// Now we need to remove `args[index]` since it's inlined in the `format`
+					args.splice(index, 1);
+					index--;
+				}
+				return match;
+			});
+
+			// Apply env-specific formatting (colors, etc.)
+			createDebug.formatArgs.call(self, args);
+
+			const logFn = self.log || createDebug.log;
+			logFn.apply(self, args);
+		}
+
+		debug.namespace = namespace;
+		debug.enabled = createDebug.enabled(namespace);
+		debug.useColors = createDebug.useColors();
+		debug.color = selectColor(namespace);
+		debug.destroy = destroy;
+		debug.extend = extend;
+		// Debug.formatArgs = formatArgs;
+		// debug.rawLog = rawLog;
+
+		// env-specific initialization logic for debug instances
+		if (typeof createDebug.init === 'function') {
+			createDebug.init(debug);
+		}
+
+		createDebug.instances.push(debug);
+
+		return debug;
+	}
+
+	function destroy() {
+		const index = createDebug.instances.indexOf(this);
+		if (index !== -1) {
+			createDebug.instances.splice(index, 1);
+			return true;
+		}
+		return false;
+	}
+
+	function extend(namespace, delimiter) {
+		const newDebug = createDebug(this.namespace + (typeof delimiter === 'undefined' ? ':' : delimiter) + namespace);
+		newDebug.log = this.log;
+		return newDebug;
+	}
+
+	/**
+	* Enables a debug mode by namespaces. This can include modes
+	* separated by a colon and wildcards.
+	*
+	* @param {String} namespaces
+	* @api public
+	*/
+	function enable(namespaces) {
+		createDebug.save(namespaces);
+
+		createDebug.names = [];
+		createDebug.skips = [];
+
+		let i;
+		const split = (typeof namespaces === 'string' ? namespaces : '').split(/[\s,]+/);
+		const len = split.length;
+
+		for (i = 0; i < len; i++) {
+			if (!split[i]) {
+				// ignore empty strings
+				continue;
+			}
+
+			namespaces = split[i].replace(/\*/g, '.*?');
+
+			if (namespaces[0] === '-') {
+				createDebug.skips.push(new RegExp('^' + namespaces.substr(1) + '$'));
+			} else {
+				createDebug.names.push(new RegExp('^' + namespaces + '$'));
+			}
+		}
+
+		for (i = 0; i < createDebug.instances.length; i++) {
+			const instance = createDebug.instances[i];
+			instance.enabled = createDebug.enabled(instance.namespace);
+		}
+	}
+
+	/**
+	* Disable debug output.
+	*
+	* @return {String} namespaces
+	* @api public
+	*/
+	function disable() {
+		const namespaces = [
+			...createDebug.names.map(toNamespace),
+			...createDebug.skips.map(toNamespace).map(namespace => '-' + namespace)
+		].join(',');
+		createDebug.enable('');
+		return namespaces;
+	}
+
+	/**
+	* Returns true if the given mode name is enabled, false otherwise.
+	*
+	* @param {String} name
+	* @return {Boolean}
+	* @api public
+	*/
+	function enabled(name) {
+		if (name[name.length - 1] === '*') {
+			return true;
+		}
+
+		let i;
+		let len;
+
+		for (i = 0, len = createDebug.skips.length; i < len; i++) {
+			if (createDebug.skips[i].test(name)) {
+				return false;
+			}
+		}
+
+		for (i = 0, len = createDebug.names.length; i < len; i++) {
+			if (createDebug.names[i].test(name)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	* Convert regexp to namespace
+	*
+	* @param {RegExp} regxep
+	* @return {String} namespace
+	* @api private
+	*/
+	function toNamespace(regexp) {
+		return regexp.toString()
+			.substring(2, regexp.toString().length - 2)
+			.replace(/\.\*\?$/, '*');
+	}
+
+	/**
+	* Coerce `val`.
+	*
+	* @param {Mixed} val
+	* @return {Mixed}
+	* @api private
+	*/
+	function coerce(val) {
+		if (val instanceof Error) {
+			return val.stack || val.message;
+		}
+		return val;
+	}
+
+	createDebug.enable(createDebug.load());
+
+	return createDebug;
+}
+
+module.exports = setup;
+
+
+/***/ }),
+
+/***/ 72:
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/**
+ * This is the common logic for both the Node.js and web browser
+ * implementations of `debug()`.
+ */
+
+function setup(env) {
+	createDebug.debug = createDebug;
+	createDebug.default = createDebug;
+	createDebug.coerce = coerce;
+	createDebug.disable = disable;
+	createDebug.enable = enable;
+	createDebug.enabled = enabled;
+	createDebug.humanize = __webpack_require__(54);
 
 	Object.keys(env).forEach(key => {
 		createDebug[key] = env[key];
@@ -8901,7 +9776,7 @@ module.exports = setup;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return getFunctionName; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addContextToFrame; });
 /* harmony import */ var _is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
-/* harmony import */ var _string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(16);
+/* harmony import */ var _string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(15);
 
 
 /**
@@ -9287,11 +10162,11 @@ function addContextToFrame(lines, frame, linesOfContext) {
         .map(function (line) { return Object(_string__WEBPACK_IMPORTED_MODULE_1__[/* snipLine */ "b"])(line, 0); });
 }
 //# sourceMappingURL=misc.js.map
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(131)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(127)(module)))
 
 /***/ }),
 
-/***/ 87:
+/***/ 88:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -9607,7 +10482,7 @@ LRUMap.prototype.toString = function() {
 
 /***/ }),
 
-/***/ 88:
+/***/ 89:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9810,7 +10685,14 @@ function tryDecode(str, decode) {
 
 /***/ }),
 
-/***/ 92:
+/***/ 9:
+/***/ (function(module, exports) {
+
+module.exports = require("events");
+
+/***/ }),
+
+/***/ 91:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9821,7 +10703,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get_api_base_url", function() { return get_api_base_url; });
 /* harmony import */ var typescript_string_enums__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
 /* harmony import */ var typescript_string_enums__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(typescript_string_enums__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _offirmo_universal_debug_api_placeholder__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(28);
+/* harmony import */ var _offirmo_universal_debug_api_placeholder__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(44);
 
 
 const LIB = 'functions interface'; // tslint:disable-next-line: variable-name
@@ -9865,20 +10747,6 @@ function _get_api_base_url(channel) {
 function get_api_base_url(channel) {
   return Object(_offirmo_universal_debug_api_placeholder__WEBPACK_IMPORTED_MODULE_1__["overrideHook"])('api-base-url', _get_api_base_url(channel));
 }
-
-/***/ }),
-
-/***/ 98:
-/***/ (function(module, exports) {
-
-module.exports = require("net");
-
-/***/ }),
-
-/***/ 99:
-/***/ (function(module, exports) {
-
-module.exports = require("tls");
 
 /***/ })
 

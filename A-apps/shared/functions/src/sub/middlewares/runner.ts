@@ -40,7 +40,7 @@ export function use_middlewares_with_error_safety_net(
 	middlewares: MiddleWare[],
 	SEC: XSoftExecutionContext = getRootSEC(),
 ): Promise<Response> {
-	console.log('\n\n\n\n' +Array.from({length: 200}, () => '→').join(' '))
+	console.log('\n\n\n\n' +Array.from({length: 100}, () => '→').join(' '))
 
 	const SESSION_START_TIME = get_UTC_timestamp_ms()
 

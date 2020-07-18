@@ -6,6 +6,7 @@
 * [doc] improved README
 * [chore] bumped deps
 * [chore] [breaking] now provide [this more rationale export setup](../../CONTRIBUTING/module-exports.md)
+* [chore] re-organized the source (monorepo) and tweaked the build script. No logic change.
 * ...
 
 ## v3.0.2
