@@ -10,6 +10,10 @@
 - 😅 fix: tweaks, typos, small bugs…
 - 😷 chore: some internal refactors, bump dependencies
 
+## v0.65.8
+- 😷 chore: progress toward server
+- 😅 fix: tweaks, typos, small bugs…
+
 ## v0.65.7
 - 😷 chore: improved analytics (more events, not sending them for me the developer)
 - 😷 chore: improved migration of old savegames

@@ -1,3 +1,9 @@
+setTimeout(() => {
+	console.groupCollapsed('——————— end of immediate, synchronous, non-import code ———————')
+	console.log({ BUILD_DATE, CHANNEL })
+	console.groupEnd()
+})
+
 import assert from 'tiny-invariant'
 import * as React from 'react'
 import ReactDOM from 'react-dom'
@@ -20,11 +26,7 @@ import './index-2.css'
 
 /////////////////////////////////////////////////
 
-setTimeout(() => {
-	console.groupCollapsed('——————— end of immediate, synchronous, non-import code ———————')
-	console.log({ BUILD_DATE, CHANNEL })
-	console.groupEnd()
-})
+
 
 set_xoff_flag('debug_render', overrideHook('should_trace_renders', false))
 set_xoff_flag('is_paused', overrideHook('should_start_paused', false))
@@ -42,4 +44,4 @@ setTimeout(() => ReactDOM.render(
 		<Root />
 	</ErrorBoundary>,
 	document.getElementById('root'),
-), 5)
+), 25)

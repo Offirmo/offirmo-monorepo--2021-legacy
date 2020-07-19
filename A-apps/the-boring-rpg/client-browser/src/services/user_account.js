@@ -1,12 +1,15 @@
 import assert from 'tiny-invariant'
 
-import poll_window_variable, { poll } from '@offirmo-private/poll-window-variable'
+import { poll } from '@offirmo-private/poll-window-variable'
 import Deferred from '@offirmo/deferred'
 import { load_script_from_top, execute_from_top, get_log_prefix, get_top_ish_window } from '@offirmo-private/xoff'
+import { get_api_base_url, Endpoint } from '@offirmo-private/functions-interface'
 
+import { CHANNEL } from './channel'
 import { ACCOUNT_STATE } from './game-instance-browser'
 import { set_user_context } from './raven'
 import get_game_instance from './game-instance-browser'
+import fetch from '@tbrpg/flux/src/utils/fetch'
 
 //console.log(__filename)
 /////////////////////////////////////////////////
@@ -72,6 +75,7 @@ setTimeout(() => {
 
 function init(SEC, game_instance) {
 	SEC.xTry('initializing user account', ({logger}) => {
+
 		function update_state(props) {
 			game_instance.view.set_state(state => ({
 				...props,
@@ -80,22 +84,33 @@ function init(SEC, game_instance) {
 
 		ↆNetlifyIdentity.then(() => {
 			logger.verbose('NetlifyIdentity lib loaded ✅')
-			refresh_login_state().then(function register_user_for_raven(user) {
-				const avatar_name = game_instance.queries.get_sub_state('avatar').name
+			const fully_loaded = refresh_login_state()
+			fully_loaded.then(function register_user_for_raven(user) {
+					const avatar_name = game_instance.queries.get_sub_state('avatar').name
 
-				if (!user) {
-					// initial call when not logged in
+					if (!user) {
+						// initial call when not logged in
+						set_user_context({
+							name: avatar_name,
+							id: avatar_name,
+						})
+						return
+					}
+
 					set_user_context({
+						email: user.email,
 						name: avatar_name,
-						id: avatar_name,
+						id: avatar_name, // TODO change
 					})
-					return
-				}
+				})
+			fully_loaded.then(function phone_home(user) {
+				if (!user) return
 
-				set_user_context({
-					email: user.email,
-					name: avatar_name,
-					id: avatar_name,
+				const enpoint_url = get_api_base_url(CHANNEL) + '/' + Endpoint["whoami"]
+				fetch(enpoint_url, {
+					headers: {
+						'Content-Type': 'application/json',
+					},
 				})
 			})
 		}, () => {})

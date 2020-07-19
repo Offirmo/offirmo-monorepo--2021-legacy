@@ -5,7 +5,7 @@ interface XError extends Error {
 
 	stack?: string
 
-	// see comments in field-set.ts
+	// see comments in consts.ts
 	statusCode?: number
 	shouldRedirect?: boolean
 	framesToPop?: number

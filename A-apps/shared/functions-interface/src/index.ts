@@ -41,7 +41,6 @@ export function get_allowed_origin(channel: ReleaseChannel): string {
 
 function _get_api_base_url(channel: ReleaseChannel): string {
 	switch(channel) {
-
 		case 'dev':
 			return 'http://localhost:9000'
 		case 'staging':

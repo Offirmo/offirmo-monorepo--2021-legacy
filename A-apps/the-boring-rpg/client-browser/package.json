@@ -11,6 +11,7 @@
 		"@offirmo-private/ensure-device-uuid-browser": "^0",
 		"@offirmo-private/favicon-notifications": "^0",
 		"@offirmo-private/features-detection-browser": "^0",
+		"@offirmo-private/functions-interface": "^0",
 		"@offirmo-private/iframe-loading": "^0",
 		"@offirmo-private/marketing-rsrc": "^0",
 		"@offirmo-private/poll-window-variable": "^0",
