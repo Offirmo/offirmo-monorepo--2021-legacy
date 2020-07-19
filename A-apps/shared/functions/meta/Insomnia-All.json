@@ -384,7 +384,7 @@
 			"color": null,
 			"created": 1575255511284,
 			"data": {
-				"host": "https://offirmo-monorepo.netlify.com/.netlify/functions"
+				"host": "https://offirmo-monorepo.netlify.app/.netlify/functions"
 			},
 			"dataPropertyOrder": {
 				"&": [

@@ -36,7 +36,7 @@ This lib declares only TypeScript types/interfaces
 * shared between several implementations
 * you should most likely not use/interact with this lib directly
 
-See overall explanation: [Offirmo’s Universal Debug API](https://universal-debug-api-js.netlify.com/).
+See overall explanation: [Offirmo’s Universal Debug API](https://universal-debug-api-js.netlify.app/).
 
 
 ## API

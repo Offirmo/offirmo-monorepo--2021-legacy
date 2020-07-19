@@ -59,16 +59,16 @@ TODO
 ### Important note
 
 **This lib may not be what you're looking for!**
-It's a component of the much more complete (and awesome!!) **[Offirmo’s Universal Debug API](https://universal-debug-api-js.netlify.com/)** (which includes this lib)
+It's a component of the much more complete (and awesome!!) **[Offirmo’s Universal Debug API](https://universal-debug-api-js.netlify.app/)** (which includes this lib)
 This lib does just one thing and does it well: logging in the console.
-However using the full [Offirmo’s Universal Debug API](https://universal-debug-api-js.netlify.com/) will gives you:
+However using the full [Offirmo’s Universal Debug API](https://universal-debug-api-js.netlify.app/) will gives you:
 - ability to locally override the log level (through localstorage, optional UI available)
 - singleton loggers (get API instead of create)
 - complementing extra dev features
 - lower bundle size, no need to bundle the full version!! can be injected locally it through a browser extension, Chrome+FF available
 - UI to control the dev features, in the web extension
 
-[Check it out!](https://universal-debug-api-js.netlify.com/)
+[Check it out!](https://universal-debug-api-js.netlify.app/)
 
 Killer feature: no visible logs for your customers, but logs can be enabled at run time if needed!
 

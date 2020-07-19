@@ -181,7 +181,7 @@ export const DEMO_REPORTS: Report[] = [
 		key: 'some_url',
 		default_value_sjson: sjson_stringify('https://www.online-adventur.es/'),
 		//existing_override_sjson: null,
-		existing_override_sjson: sjson_stringify('https://offirmo-monorepo.netlify.com/'),
+		existing_override_sjson: sjson_stringify('https://offirmo-monorepo.netlify.app/'),
 		//existing_override_sjson: 'some bad json',
 	},
 	{

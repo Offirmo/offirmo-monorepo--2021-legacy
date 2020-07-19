@@ -31,14 +31,14 @@
 	  src="https://img.shields.io/maintenance/yes/2020.svg">
 </p>
 
-**This is a minimal, no-operation implementation of [Offirmo’s Universal Debug API](https://universal-debug-api-js.netlify.com/).**
+**This is a minimal, no-operation implementation of [Offirmo’s Universal Debug API](https://universal-debug-api-js.netlify.app/).**
 
 Isomorphic, for node and browser.
 
 Does nothing, minimal code footprint. BUT will transparently yield to any other previously required/imported effective version such as [node](../universal-debug-api-node/README.md) or [browser](../universal-debug-api-browser/README.md).
 **Pro tip: for browser, hot-swap this placeholder at run time with the [companion webextension](../../4-tools/universal-debug-api-companion-webextension/README.md)!**
 
-See overall explanation: [Offirmo’s Universal Debug API](https://universal-debug-api-js.netlify.com/).
+See overall explanation: [Offirmo’s Universal Debug API](https://universal-debug-api-js.netlify.app/).
 
 
 ## Usage

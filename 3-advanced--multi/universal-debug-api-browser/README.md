@@ -31,7 +31,7 @@
 	  src="https://img.shields.io/maintenance/yes/2020.svg">
 </p>
 
-**This is the browser implementation of [Offirmo’s Universal Debug API](https://universal-debug-api-js.netlify.com/).**
+**This is the browser implementation of [Offirmo’s Universal Debug API](https://universal-debug-api-js.netlify.app/).**
 
 ## Usage
 

@@ -5,7 +5,7 @@
 A monorepo for all my JavaScript / TypeScript projects. So convenient.
 
 Public npm modules:
-* listed [here](https://offirmo-monorepo.netlify.com/0-doc/modules-directory/index.html)
+* listed [here](https://offirmo-monorepo.netlify.app/0-doc/modules-directory/index.html)
 
 Public webapps:
 * [The Boring RPG, reborn](https://www.online-adventur.es/apps/the-boring-rpg/)
@@ -77,6 +77,7 @@ bolt ws run build --only @oh-my-rpg/*
 bolt ws run test  --only @oh-my-rpg/*
 bolt ws run build --only-fs "A-apps/the-boring-rpg/**/*"
 bolt ws run build --only-fs "A-apps/shared/**/*"
+bolt ws run build --only-fs "A-apps/**/*"
 bolt ws run test --only-fs "A-apps/**/*"
 bolt ws run build --only-fs "B-minisites/*"
 bolt w @oh-my-rpg/definitions run build

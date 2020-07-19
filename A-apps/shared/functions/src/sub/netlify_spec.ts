@@ -21,7 +21,7 @@ describe(`${APP} - netlify`, function () {
 				"netlify": "eyJpZGVudGl0eSI6eyJ1cmwiOiJodHRwczovL29mZmlybW8tbW9ub3JlcG8ubmV0bGlmeS5jb20vLm5ldGxpZnkvaWRlbnRpdHkiLCJ0b2tlbiI6ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUpsZUhBaU9qRTFOelV5TnpZMk16SXNJbk4xWWlJNklqQWlmUS5wcnRHeFd3alY2WnVJaWhpRG9Dak9KUGMzWnFuWGtxRUYxaXRJZ3NCUUhrIn0sInVzZXIiOnsiYXBwX21ldGFkYXRhIjp7InByb3ZpZGVyIjoiZ29vZ2xlIn0sImVtYWlsIjoib2ZmaXJtby5uZXRAZ21haWwuY29tIiwiZXhwIjoxNTc1Mjc4MDQzLCJzdWIiOiI1NDZkNzlhYi01MjQwLTRkZDAtYWY2Ni03ODJhZmJjMGEwNDQiLCJ1c2VyX21ldGFkYXRhIjp7ImF2YXRhcl91cmwiOiJodHRwczovL2xoNS5nb29nbGV1c2VyY29udGVudC5jb20vLWdBczBsNnRxemVJL0FBQUFBQUFBQUFJL0FBQUFBQUFBQURNL1M3blNWRmljbGU0L3Bob3RvLmpwZyIsImZ1bGxfbmFtZSI6Ik9mZmlybW8gTmVldCJ9fSwic2l0ZV91cmwiOiJodHRwczovL29mZmlybW8tbW9ub3JlcG8ubmV0bGlmeS5jb20ifQ=="
 			},
 			"identity": {
-				"url": "https://offirmo-monorepo.netlify.com/.netlify/identity",
+				"url": "https://offirmo-monorepo.netlify.app/.netlify/identity",
 				"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzUyNzY2MzIsInN1YiI6IjAifQ.prtGxWwjV6ZuIihiDoCjOJPc3ZqnXkqEF1itIgsBQHk"
 			},
 			"user": {

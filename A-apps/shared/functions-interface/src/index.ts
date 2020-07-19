@@ -31,7 +31,7 @@ export function get_allowed_origin(channel: ReleaseChannel): string {
 		case 'dev':
 			return 'http://localhost:8080'
 		case 'staging':
-			return 'https://offirmo-monorepo.netlify.com'
+			return 'https://offirmo-monorepo.netlify.app'
 		case 'prod':
 			return 'https://www.online-adventur.es'
 		default:
@@ -44,7 +44,7 @@ function _get_api_base_url(channel: ReleaseChannel): string {
 		case 'dev':
 			return 'http://localhost:9000'
 		case 'staging':
-			return 'https://offirmo-monorepo.netlify.com/.netlify/functions'
+			return 'https://offirmo-monorepo.netlify.app/.netlify/functions'
 		case 'prod':
 			return 'https://www.online-adventur.es/.netlify/functions'
 		default:

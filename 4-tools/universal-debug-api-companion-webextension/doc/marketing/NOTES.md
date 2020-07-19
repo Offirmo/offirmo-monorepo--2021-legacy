@@ -21,7 +21,7 @@ This extension is a companion to Offirmo’s Universal Debug API, which provides
 Along with a UI to conveniently control those features.
 
 You'll have to modify your source code
-to include and use "Offirmo’s Universal Debug API" (https://universal-debug-api-js.netlify.com/)
+to include and use "Offirmo’s Universal Debug API" (https://universal-debug-api-js.netlify.app/)
 but this comes at nearly no cost
 since you only have to bundle/use a very small "placeholder" version, doing nothing at all.
 

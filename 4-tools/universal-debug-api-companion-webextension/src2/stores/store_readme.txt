@@ -1,5 +1,5 @@
 A minimum of knowledge of web programming is required to be able to properly use this extension.
-Documentation: https://universal-debug-api-js.netlify.com/
+Documentation: https://universal-debug-api-js.netlify.app/
 Source: https://github.com/Offirmo/offirmo-monorepo/tree/master/4-tools/universal-debug-api-companion-webextension/src
 
 This is for web developers writing complex/semi-complex JavaScript.
@@ -16,7 +16,7 @@ You can with Offirmo’s Universal Debug API (for node & browser + isomorphic)
 This extension is a companion to the debug API, allowing to control it through a UI.
 
 You'll have to modify your source code
-to include and use "Offirmo’s Universal Debug API" (https://universal-debug-api-js.netlify.com/)
+to include and use "Offirmo’s Universal Debug API" (https://universal-debug-api-js.netlify.app/)
 but this comes at nearly no cost
 since you only have to bundle/use a very small "placeholder" version, doing nothing at all.
 
