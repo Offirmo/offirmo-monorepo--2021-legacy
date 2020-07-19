@@ -110,6 +110,7 @@ function init(SEC, game_instance) {
 				fetch(enpoint_url, {
 					headers: {
 						'Content-Type': 'application/json',
+						'Authorization': `Bearer ${user.token.access_token}`,
 					},
 				})
 			})
