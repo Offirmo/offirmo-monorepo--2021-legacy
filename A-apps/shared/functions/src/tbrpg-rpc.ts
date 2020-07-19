@@ -21,11 +21,13 @@ import { create_error } from './sub/utils'
 import { process_rpc } from './sub/tbrpg'
 import { use_middlewares_with_error_safety_net } from './sub/middlewares/runner'
 import { HttpMethod, require_http_method } from './sub/middlewares/require-http-method'
-import { require_authenticated } from './sub/middlewares/require-authenticated'
+import require_authenticated from './sub/middlewares/require-authenticated'
+import handle_cors from './sub/middlewares/handle_cors'
 import { XSoftExecutionContext} from './sub/middlewares/types'
 
 ////////////////////////////////////
 
+/*
 async function handle_cors(
 	SEC: XSoftExecutionContext,
 	event: Readonly<APIGatewayEvent>,
@@ -51,7 +53,7 @@ async function handle_cors(
 		response.headers['Access-Control-Allow-Origin'] = expected_origin
 		response.body = 'OK'
 	})
-}
+}*/
 
 async function using_json_rpc(
 	SEC: XSoftExecutionContext,

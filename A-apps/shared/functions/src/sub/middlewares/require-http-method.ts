@@ -31,7 +31,13 @@ export function require_http_method(allowed_methods: HttpMethod[]): MiddleWare {
 	): Promise<void> => {
 		await SEC.xTry('require_http_method()', async ({ SEC, logger }) => {
 			let http_method = event.httpMethod.toUpperCase() as HttpMethod
-			let is_preflight = http_method === HttpMethod.OPTIONS
+
+			let is_preflight =
+				// https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request
+				http_method === HttpMethod.OPTIONS
+				&& event.headers['access-control-request-method']
+				&& event.headers['access-control-request-headers']
+				&& event.headers.origin
 
 			if (is_preflight) {
 				http_method = event.headers['access-control-request-method'].toUpperCase() as HttpMethod

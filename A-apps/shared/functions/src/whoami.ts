@@ -7,7 +7,8 @@ import {
 } from './sub/types'
 
 import { use_middlewares_with_error_safety_net } from './sub/middlewares/runner'
-import { require_authenticated } from './sub/middlewares/require-authenticated'
+import handle_cors from './sub/middlewares/handle_cors'
+import require_authenticated from './sub/middlewares/require-authenticated'
 import { XSoftExecutionContext } from './sub/services/sec'
 import { get_netlify_user_data } from './sub/netlify'
 import { require_http_method, HttpMethod } from "./sub/middlewares/require-http-method"
@@ -53,6 +54,7 @@ const handler: NetlifyHandler = (
 ): Promise<Response> => {
 	return use_middlewares_with_error_safety_net(event, badly_typed_context,[
 		require_http_method([ HttpMethod.GET ]),
+		handle_cors,
 		require_authenticated,
 		_handler,
 	])
