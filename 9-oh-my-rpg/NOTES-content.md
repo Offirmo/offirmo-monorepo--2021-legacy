@@ -410,3 +410,6 @@ villains https://www.news.com.au/entertainment/books-magazines/books/mary-trump-
 Super matériaux
 https://science.slashdot.org/story/20/07/20/2153224/a-new-artificial-material-effectively-cannot-be-cut
 https://science.slashdot.org/story/20/07/08/2122253/shock-dissipating-fractal-cubes-could-forge-high-tech-armor
+
+moon minerals
+https://science.slashdot.org/story/20/07/06/2348210/moons-metal-rich-craters-challenge-popular-theories-about-its-origin

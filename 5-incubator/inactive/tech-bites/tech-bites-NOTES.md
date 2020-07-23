@@ -112,3 +112,8 @@ https://workplace.stackexchange.com/questions/160089/how-to-deal-with-half-my-co
 managing up / influencing up
 
 whining, complaining and venting
+
+Agile
+Scrum
+Pair-programming
+TDD

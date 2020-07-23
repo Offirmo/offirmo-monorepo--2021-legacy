@@ -4,7 +4,7 @@
 	],
 	"presets": [
 		[
-			"@babel/env",
+			"@babel/preset-env",
 			{
 				"targets": {
 					"browsers": [
