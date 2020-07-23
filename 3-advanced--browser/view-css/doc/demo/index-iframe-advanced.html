@@ -42,17 +42,17 @@
 
 		<nav>
 			<ul class="o⋄nav-list o⋄flex--centered-content">
-				<li class="o⋄text-noselect o⋄color⁚secondary"><a href="https://www.atlassian.com/try">Try all products</a></li>
-				<li class="o⋄text-noselect o⋄color⁚secondary"><a href="https://www.atlassian.com/legal/privacy-policy">Privacy policy</a></li>
-				<li class="o⋄text-noselect o⋄color⁚secondary"><a href="https://www.atlassian.com/legal/customer-agreement">Terms of service</a></li>
+				<li class="o⋄text-noselect o⋄color⁚secondary"><a href="./try">Try all products</a></li>
+				<li class="o⋄text-noselect o⋄color⁚secondary"><a href="./privacy-policy">Privacy policy</a></li>
+				<li class="o⋄text-noselect o⋄color⁚secondary"><a href="./customer-agreement">Terms of service</a></li>
 			</ul>
 		</nav>
 	</div>
 
 	<script>
 		document.querySelector('h1').textContent = document.title
+		el.href || (el.href = el.text)
 		Array.prototype.forEach.call(document.querySelectorAll('a'), function(el) {
-			el.href || (el.href = el.text)
 		})
 	</script>
 

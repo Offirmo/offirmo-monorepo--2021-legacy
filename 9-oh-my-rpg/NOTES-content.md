@@ -405,3 +405,8 @@ https://dota2.gamepedia.com/Role
 https://dota2.gamepedia.com/Ancient_(unit_type)
 https://pathofexile.gamepedia.com/Path_of_Exile_Wiki
 
+villains https://www.news.com.au/entertainment/books-magazines/books/mary-trump-book-review-donald-trumps-father-fred-painted-as-the-true-villain/news-story/eb590b4237ffd5f7db207ff9d5e79ae0
+
+Super matériaux
+https://science.slashdot.org/story/20/07/20/2153224/a-new-artificial-material-effectively-cannot-be-cut
+https://science.slashdot.org/story/20/07/08/2122253/shock-dissipating-fractal-cubes-could-forge-high-tech-armor

@@ -4,6 +4,8 @@
 - tree view https://github.com/elbywan/bosket
 - pathfinding https://github.com/anvaka/ngraph.path
 
+inventory http://augmented-ui.com/
+
 backdrop-filter
 
 canvas effects https://canvas-cards.glitch.me/#intotomorrow-selector

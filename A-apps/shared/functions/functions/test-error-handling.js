@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 532);
+/******/ 	return __webpack_require__(__webpack_require__.s = 530);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -103,12 +103,12 @@ const INTERNAL_PROP = '_SEC';
 
 "use strict";
 
-const ansiStyles = __webpack_require__(183);
-const {stdout: stdoutColor, stderr: stderrColor} = __webpack_require__(50);
+const ansiStyles = __webpack_require__(181);
+const {stdout: stdoutColor, stderr: stderrColor} = __webpack_require__(49);
 const {
 	stringReplaceAll,
 	stringEncaseCRLFWithFirstIndex
-} = __webpack_require__(187);
+} = __webpack_require__(185);
 
 const {isArray} = Array;
 
@@ -317,7 +317,7 @@ const chalkTag = (chalk, ...strings) => {
 	}
 
 	if (template === undefined) {
-		template = __webpack_require__(188);
+		template = __webpack_require__(186);
 	}
 
 	return template(chalk, parts.join(''));
@@ -343,13 +343,6 @@ module.exports = require("events");
 /***/ }),
 
 /***/ 100:
-/***/ (function(module, exports) {
-
-
-
-/***/ }),
-
-/***/ 101:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -434,21 +427,21 @@ function get_ISO8601_simplified_day(now = new Date()) {
 
 /***/ }),
 
-/***/ 102:
+/***/ 101:
 /***/ (function(module, exports) {
 
 
 
 /***/ }),
 
-/***/ 103:
+/***/ 102:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getRootSEC; });
 /* harmony import */ var _offirmo_globalthis_ponyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(20);
 /* harmony import */ var _consts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(0);
-/* harmony import */ var _core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(53);
+/* harmony import */ var _core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(52);
 
 
  /////////////////////
@@ -472,12 +465,12 @@ function getRootSEC() {
 
 /***/ }),
 
-/***/ 104:
+/***/ 103:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
 /* eslint-disable no-mixed-operators */
-const cssKeywords = __webpack_require__(185);
+const cssKeywords = __webpack_require__(183);
 
 // NOTE: conversions should only return primitive values (i.e. arrays, or
 //       values that give correct `typeof` results).
@@ -1325,7 +1318,7 @@ module.exports = require("path");
 
 /***/ }),
 
-/***/ 129:
+/***/ 128:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1748,14 +1741,7 @@ module.exports = Emittery;
 
 /***/ }),
 
-/***/ 13:
-/***/ (function(module, exports) {
-
-module.exports = require("url");
-
-/***/ }),
-
-/***/ 130:
+/***/ 129:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1890,7 +1876,14 @@ function createSink(options = {}) {
 
 /***/ }),
 
-/***/ 132:
+/***/ 13:
+/***/ (function(module, exports) {
+
+module.exports = require("url");
+
+/***/ }),
+
+/***/ 131:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1906,7 +1899,7 @@ module.exports = (flag, argv = process.argv) => {
 
 /***/ }),
 
-/***/ 133:
+/***/ 132:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1918,7 +1911,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.on_user_recognized = exports.on_error = void 0; // https://docs.sentry.io/error-reporting/quickstart/?platform=node
 // https://httptoolkit.tech/blog/netlify-function-error-reporting-with-sentry/
 
-const Sentry = __webpack_require__(171);
+const Sentry = __webpack_require__(170);
 
 const channel_1 = __webpack_require__(29);
 
@@ -1964,7 +1957,7 @@ exports.on_user_recognized = on_user_recognized; // TODO self-triage?
 
 /***/ }),
 
-/***/ 134:
+/***/ 133:
 /***/ (function(module, exports) {
 
 module.exports = function(originalModule) {
@@ -1995,7 +1988,7 @@ module.exports = function(originalModule) {
 
 /***/ }),
 
-/***/ 135:
+/***/ 134:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2013,13 +2006,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const net_1 = __importDefault(__webpack_require__(77));
-const tls_1 = __importDefault(__webpack_require__(78));
+const net_1 = __importDefault(__webpack_require__(76));
+const tls_1 = __importDefault(__webpack_require__(77));
 const url_1 = __importDefault(__webpack_require__(13));
-const assert_1 = __importDefault(__webpack_require__(41));
-const debug_1 = __importDefault(__webpack_require__(79));
-const agent_base_1 = __webpack_require__(138);
-const parse_proxy_response_1 = __importDefault(__webpack_require__(143));
+const assert_1 = __importDefault(__webpack_require__(40));
+const debug_1 = __importDefault(__webpack_require__(78));
+const agent_base_1 = __webpack_require__(137);
+const parse_proxy_response_1 = __importDefault(__webpack_require__(142));
 const debug = debug_1.default('https-proxy-agent:agent');
 /**
  * The `HttpsProxyAgent` implements an HTTP Agent subclass that connects to
@@ -2182,7 +2175,7 @@ function omit(obj, ...keys) {
 
 /***/ }),
 
-/***/ 136:
+/***/ 135:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* eslint-env browser */
@@ -2434,7 +2427,7 @@ function localstorage() {
 	}
 }
 
-module.exports = __webpack_require__(80)(exports);
+module.exports = __webpack_require__(79)(exports);
 
 const {formatters} = module.exports;
 
@@ -2453,14 +2446,14 @@ formatters.j = function (v) {
 
 /***/ }),
 
-/***/ 137:
+/***/ 136:
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
  * Module dependencies.
  */
 
-const tty = __webpack_require__(40);
+const tty = __webpack_require__(39);
 const util = __webpack_require__(4);
 
 /**
@@ -2483,7 +2476,7 @@ exports.colors = [6, 2, 3, 4, 5, 1];
 try {
 	// Optional dependency (as in, doesn't need to be installed, NOT like optionalDependencies in package.json)
 	// eslint-disable-next-line import/no-extraneous-dependencies
-	const supportsColor = __webpack_require__(50);
+	const supportsColor = __webpack_require__(49);
 
 	if (supportsColor && (supportsColor.stderr || supportsColor).level >= 2) {
 		exports.colors = [
@@ -2691,7 +2684,7 @@ function init(debug) {
 	}
 }
 
-module.exports = __webpack_require__(80)(exports);
+module.exports = __webpack_require__(79)(exports);
 
 const {formatters} = module.exports;
 
@@ -2717,7 +2710,7 @@ formatters.O = function (v) {
 
 /***/ }),
 
-/***/ 138:
+/***/ 137:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2726,8 +2719,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 const events_1 = __webpack_require__(10);
-const debug_1 = __importDefault(__webpack_require__(139));
-const promisify_1 = __importDefault(__webpack_require__(142));
+const debug_1 = __importDefault(__webpack_require__(138));
+const promisify_1 = __importDefault(__webpack_require__(141));
 const debug = debug_1.default('agent-base');
 function isAgent(v) {
     return Boolean(v) && typeof v.addRequest === 'function';
@@ -2925,7 +2918,7 @@ module.exports = createAgent;
 
 /***/ }),
 
-/***/ 139:
+/***/ 138:
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -2934,71 +2927,15 @@ module.exports = createAgent;
  */
 
 if (typeof process === 'undefined' || process.type === 'renderer' || process.browser === true || process.__nwjs) {
-	module.exports = __webpack_require__(140);
+	module.exports = __webpack_require__(139);
 } else {
-	module.exports = __webpack_require__(141);
+	module.exports = __webpack_require__(140);
 }
 
 
 /***/ }),
 
-/***/ 14:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-function Enum() {
-    var values = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        values[_i] = arguments[_i];
-    }
-    if (typeof values[0] === "string") {
-        var result = {};
-        for (var _a = 0, values_1 = values; _a < values_1.length; _a++) {
-            var value = values_1[_a];
-            result[value] = value;
-        }
-        return result;
-    }
-    else {
-        return values[0];
-    }
-}
-exports.Enum = Enum;
-(function (Enum) {
-    function ofKeys(e) {
-        var result = {};
-        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
-            var key = _a[_i];
-            result[key] = key;
-        }
-        return result;
-    }
-    Enum.ofKeys = ofKeys;
-    function keys(e) {
-        return Object.keys(e);
-    }
-    Enum.keys = keys;
-    function values(e) {
-        var result = [];
-        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
-            var key = _a[_i];
-            result.push(e[key]);
-        }
-        return result;
-    }
-    Enum.values = values;
-    function isType(e, value) {
-        return values(e).indexOf(value) !== -1;
-    }
-    Enum.isType = isType;
-})(Enum = exports.Enum || (exports.Enum = {}));
-//# sourceMappingURL=index.js.map
-
-/***/ }),
-
-/***/ 140:
+/***/ 139:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* eslint-env browser */
@@ -3250,7 +3187,7 @@ function localstorage() {
 	}
 }
 
-module.exports = __webpack_require__(81)(exports);
+module.exports = __webpack_require__(80)(exports);
 
 const {formatters} = module.exports;
 
@@ -3269,14 +3206,70 @@ formatters.j = function (v) {
 
 /***/ }),
 
-/***/ 141:
+/***/ 14:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+function Enum() {
+    var values = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        values[_i] = arguments[_i];
+    }
+    if (typeof values[0] === "string") {
+        var result = {};
+        for (var _a = 0, values_1 = values; _a < values_1.length; _a++) {
+            var value = values_1[_a];
+            result[value] = value;
+        }
+        return result;
+    }
+    else {
+        return values[0];
+    }
+}
+exports.Enum = Enum;
+(function (Enum) {
+    function ofKeys(e) {
+        var result = {};
+        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
+            var key = _a[_i];
+            result[key] = key;
+        }
+        return result;
+    }
+    Enum.ofKeys = ofKeys;
+    function keys(e) {
+        return Object.keys(e);
+    }
+    Enum.keys = keys;
+    function values(e) {
+        var result = [];
+        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
+            var key = _a[_i];
+            result.push(e[key]);
+        }
+        return result;
+    }
+    Enum.values = values;
+    function isType(e, value) {
+        return values(e).indexOf(value) !== -1;
+    }
+    Enum.isType = isType;
+})(Enum = exports.Enum || (exports.Enum = {}));
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ 140:
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
  * Module dependencies.
  */
 
-const tty = __webpack_require__(40);
+const tty = __webpack_require__(39);
 const util = __webpack_require__(4);
 
 /**
@@ -3299,7 +3292,7 @@ exports.colors = [6, 2, 3, 4, 5, 1];
 try {
 	// Optional dependency (as in, doesn't need to be installed, NOT like optionalDependencies in package.json)
 	// eslint-disable-next-line import/no-extraneous-dependencies
-	const supportsColor = __webpack_require__(50);
+	const supportsColor = __webpack_require__(49);
 
 	if (supportsColor && (supportsColor.stderr || supportsColor).level >= 2) {
 		exports.colors = [
@@ -3507,7 +3500,7 @@ function init(debug) {
 	}
 }
 
-module.exports = __webpack_require__(81)(exports);
+module.exports = __webpack_require__(80)(exports);
 
 const {formatters} = module.exports;
 
@@ -3533,7 +3526,7 @@ formatters.O = function (v) {
 
 /***/ }),
 
-/***/ 142:
+/***/ 141:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3558,7 +3551,7 @@ exports.default = promisify;
 
 /***/ }),
 
-/***/ 143:
+/***/ 142:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3567,7 +3560,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const debug_1 = __importDefault(__webpack_require__(79));
+const debug_1 = __importDefault(__webpack_require__(78));
 const debug = debug_1.default('https-proxy-agent:parse-proxy-response');
 function parseProxyResponse(socket) {
     return new Promise((resolve, reject) => {
@@ -3631,7 +3624,7 @@ exports.default = parseProxyResponse;
 
 /***/ }),
 
-/***/ 144:
+/***/ 143:
 /***/ (function(module, exports) {
 
 module.exports = require("console");
@@ -3744,7 +3737,7 @@ function isMatchingPattern(value, pattern) {
 
 /***/ }),
 
-/***/ 171:
+/***/ 170:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3773,6 +3766,7 @@ __webpack_require__.d(__webpack_exports__, "setTag", function() { return /* reex
 __webpack_require__.d(__webpack_exports__, "setTags", function() { return /* reexport */ setTags; });
 __webpack_require__.d(__webpack_exports__, "setUser", function() { return /* reexport */ setUser; });
 __webpack_require__.d(__webpack_exports__, "withScope", function() { return /* reexport */ withScope; });
+__webpack_require__.d(__webpack_exports__, "NodeBackend", function() { return /* reexport */ backend_NodeBackend; });
 __webpack_require__.d(__webpack_exports__, "NodeClient", function() { return /* reexport */ client_NodeClient; });
 __webpack_require__.d(__webpack_exports__, "defaultIntegrations", function() { return /* reexport */ sdk_defaultIntegrations; });
 __webpack_require__.d(__webpack_exports__, "init", function() { return /* reexport */ init; });
@@ -5854,7 +5848,7 @@ function startTransaction(context) {
     return callOnHub('startTransaction', tslib_tslib_es6_assign({}, context));
 }
 //# sourceMappingURL=index.js.map
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/core/node_modules/tslib/tslib.es6.js
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/node_modules/tslib/tslib.es6.js
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
 
@@ -6074,226 +6068,6 @@ function node_modules_tslib_tslib_es6_classPrivateFieldSet(receiver, privateMap,
     return value;
 }
 
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/node_modules/tslib/tslib.es6.js
-/*! *****************************************************************************
-Copyright (c) Microsoft Corporation.
-
-Permission to use, copy, modify, and/or distribute this software for any
-purpose with or without fee is hereby granted.
-
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-PERFORMANCE OF THIS SOFTWARE.
-***************************************************************************** */
-/* global Reflect, Promise */
-
-var utils_node_modules_tslib_tslib_es6_extendStatics = function(d, b) {
-    utils_node_modules_tslib_tslib_es6_extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return utils_node_modules_tslib_tslib_es6_extendStatics(d, b);
-};
-
-function utils_node_modules_tslib_tslib_es6_extends(d, b) {
-    utils_node_modules_tslib_tslib_es6_extendStatics(d, b);
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-}
-
-var utils_node_modules_tslib_tslib_es6_assign = function() {
-    utils_node_modules_tslib_tslib_es6_assign = Object.assign || function __assign(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-        }
-        return t;
-    }
-    return utils_node_modules_tslib_tslib_es6_assign.apply(this, arguments);
-}
-
-function utils_node_modules_tslib_tslib_es6_rest(s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-}
-
-function utils_node_modules_tslib_tslib_es6_decorate(decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-}
-
-function utils_node_modules_tslib_tslib_es6_param(paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-}
-
-function utils_node_modules_tslib_tslib_es6_metadata(metadataKey, metadataValue) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
-}
-
-function utils_node_modules_tslib_tslib_es6_awaiter(thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-}
-
-function utils_node_modules_tslib_tslib_es6_generator(thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-}
-
-function utils_node_modules_tslib_tslib_es6_createBinding(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}
-
-function utils_node_modules_tslib_tslib_es6_exportStar(m, exports) {
-    for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) exports[p] = m[p];
-}
-
-function utils_node_modules_tslib_tslib_es6_values(o) {
-    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
-    if (m) return m.call(o);
-    if (o && typeof o.length === "number") return {
-        next: function () {
-            if (o && i >= o.length) o = void 0;
-            return { value: o && o[i++], done: !o };
-        }
-    };
-    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
-}
-
-function utils_node_modules_tslib_tslib_es6_read(o, n) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator];
-    if (!m) return o;
-    var i = m.call(o), r, ar = [], e;
-    try {
-        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
-    }
-    catch (error) { e = { error: error }; }
-    finally {
-        try {
-            if (r && !r.done && (m = i["return"])) m.call(i);
-        }
-        finally { if (e) throw e.error; }
-    }
-    return ar;
-}
-
-function utils_node_modules_tslib_tslib_es6_spread() {
-    for (var ar = [], i = 0; i < arguments.length; i++)
-        ar = ar.concat(utils_node_modules_tslib_tslib_es6_read(arguments[i]));
-    return ar;
-}
-
-function utils_node_modules_tslib_tslib_es6_spreadArrays() {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
-};
-
-function utils_node_modules_tslib_tslib_es6_await(v) {
-    return this instanceof utils_node_modules_tslib_tslib_es6_await ? (this.v = v, this) : new utils_node_modules_tslib_tslib_es6_await(v);
-}
-
-function utils_node_modules_tslib_tslib_es6_asyncGenerator(thisArg, _arguments, generator) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var g = generator.apply(thisArg, _arguments || []), i, q = [];
-    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
-    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
-    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
-    function step(r) { r.value instanceof utils_node_modules_tslib_tslib_es6_await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
-    function fulfill(value) { resume("next", value); }
-    function reject(value) { resume("throw", value); }
-    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
-}
-
-function utils_node_modules_tslib_tslib_es6_asyncDelegator(o) {
-    var i, p;
-    return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
-    function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: utils_node_modules_tslib_tslib_es6_await(o[n](v)), done: n === "return" } : f ? f(v) : v; } : f; }
-}
-
-function utils_node_modules_tslib_tslib_es6_asyncValues(o) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var m = o[Symbol.asyncIterator], i;
-    return m ? m.call(o) : (o = typeof utils_node_modules_tslib_tslib_es6_values === "function" ? utils_node_modules_tslib_tslib_es6_values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
-    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
-    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
-}
-
-function utils_node_modules_tslib_tslib_es6_makeTemplateObject(cooked, raw) {
-    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
-    return cooked;
-};
-
-function utils_node_modules_tslib_tslib_es6_importStar(mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result.default = mod;
-    return result;
-}
-
-function utils_node_modules_tslib_tslib_es6_importDefault(mod) {
-    return (mod && mod.__esModule) ? mod : { default: mod };
-}
-
-function utils_node_modules_tslib_tslib_es6_classPrivateFieldGet(receiver, privateMap) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to get private field on non-instance");
-    }
-    return privateMap.get(receiver);
-}
-
-function utils_node_modules_tslib_tslib_es6_classPrivateFieldSet(receiver, privateMap, value) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to set private field on non-instance");
-    }
-    privateMap.set(receiver, value);
-    return value;
-}
-
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/polyfill.js
 var setPrototypeOf = Object.setPrototypeOf || ({ __proto__: [] } instanceof Array ? setProtoOf : mixinProperties); // tslint:disable-line:no-unbound-method
 /**
@@ -6322,7 +6096,7 @@ function mixinProperties(obj, proto) {
 
 /** An error emitted by Sentry SDKs and related utilities. */
 var error_SentryError = /** @class */ (function (_super) {
-    utils_node_modules_tslib_tslib_es6_extends(SentryError, _super);
+    node_modules_tslib_tslib_es6_extends(SentryError, _super);
     function SentryError(message) {
         var _newTarget = this.constructor;
         var _this = _super.call(this, message) || this;
@@ -6336,6 +6110,84 @@ var error_SentryError = /** @class */ (function (_super) {
 }(Error));
 
 //# sourceMappingURL=error.js.map
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/transports/noop.js
+
+
+/** Noop transport */
+var noop_NoopTransport = /** @class */ (function () {
+    function NoopTransport() {
+    }
+    /**
+     * @inheritDoc
+     */
+    NoopTransport.prototype.sendEvent = function (_) {
+        return syncpromise_SyncPromise.resolve({
+            reason: "NoopTransport: Event has been skipped because no Dsn is configured.",
+            status: Status.Skipped,
+        });
+    };
+    /**
+     * @inheritDoc
+     */
+    NoopTransport.prototype.close = function (_) {
+        return syncpromise_SyncPromise.resolve(true);
+    };
+    return NoopTransport;
+}());
+
+//# sourceMappingURL=noop.js.map
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/basebackend.js
+
+
+/**
+ * This is the base implemention of a Backend.
+ * @hidden
+ */
+var basebackend_BaseBackend = /** @class */ (function () {
+    /** Creates a new backend instance. */
+    function BaseBackend(options) {
+        this._options = options;
+        if (!this._options.dsn) {
+            logger.warn('No DSN provided, backend will not do anything.');
+        }
+        this._transport = this._setupTransport();
+    }
+    /**
+     * Sets up the transport so it can be used later to send requests.
+     */
+    BaseBackend.prototype._setupTransport = function () {
+        return new noop_NoopTransport();
+    };
+    /**
+     * @inheritDoc
+     */
+    BaseBackend.prototype.eventFromException = function (_exception, _hint) {
+        throw new error_SentryError('Backend has to implement `eventFromException` method');
+    };
+    /**
+     * @inheritDoc
+     */
+    BaseBackend.prototype.eventFromMessage = function (_message, _level, _hint) {
+        throw new error_SentryError('Backend has to implement `eventFromMessage` method');
+    };
+    /**
+     * @inheritDoc
+     */
+    BaseBackend.prototype.sendEvent = function (event) {
+        this._transport.sendEvent(event).then(null, function (reason) {
+            logger.error("Error while sending event: " + reason);
+        });
+    };
+    /**
+     * @inheritDoc
+     */
+    BaseBackend.prototype.getTransport = function () {
+        return this._transport;
+    };
+    return BaseBackend;
+}());
+
+//# sourceMappingURL=basebackend.js.map
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/dsn.js
 
 
@@ -6377,7 +6229,7 @@ var dsn_Dsn = /** @class */ (function () {
         if (!match) {
             throw new error_SentryError(ERROR_MESSAGE);
         }
-        var _a = utils_node_modules_tslib_tslib_es6_read(match.slice(1), 6), protocol = _a[0], user = _a[1], _b = _a[2], pass = _b === void 0 ? '' : _b, host = _a[3], _c = _a[4], port = _c === void 0 ? '' : _c, lastPath = _a[5];
+        var _a = node_modules_tslib_tslib_es6_read(match.slice(1), 6), protocol = _a[0], user = _a[1], _b = _a[2], pass = _b === void 0 ? '' : _b, host = _a[3], _c = _a[4], port = _c === void 0 ? '' : _c, lastPath = _a[5];
         var path = '';
         var projectId = lastPath;
         var split = projectId.split('/');
@@ -6778,7 +6630,7 @@ function dropUndefinedKeys(val) {
         var obj = val;
         var rv = {};
         try {
-            for (var _b = utils_node_modules_tslib_tslib_es6_values(Object.keys(obj)), _c = _b.next(); !_c.done; _c = _b.next()) {
+            for (var _b = node_modules_tslib_tslib_es6_values(Object.keys(obj)), _c = _b.next(); !_c.done; _c = _b.next()) {
                 var key = _c.value;
                 if (typeof obj[key] !== 'undefined') {
                     rv[key] = dropUndefinedKeys(obj[key]);
@@ -6800,567 +6652,6 @@ function dropUndefinedKeys(val) {
     return val;
 }
 //# sourceMappingURL=object.js.map
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/integration.js
-
-
-
-var installedIntegrations = [];
-/** Gets integration to install */
-function getIntegrationsToSetup(options) {
-    var defaultIntegrations = (options.defaultIntegrations && node_modules_tslib_tslib_es6_spread(options.defaultIntegrations)) || [];
-    var userIntegrations = options.integrations;
-    var integrations = [];
-    if (Array.isArray(userIntegrations)) {
-        var userIntegrationsNames_1 = userIntegrations.map(function (i) { return i.name; });
-        var pickedIntegrationsNames_1 = [];
-        // Leave only unique default integrations, that were not overridden with provided user integrations
-        defaultIntegrations.forEach(function (defaultIntegration) {
-            if (userIntegrationsNames_1.indexOf(defaultIntegration.name) === -1 &&
-                pickedIntegrationsNames_1.indexOf(defaultIntegration.name) === -1) {
-                integrations.push(defaultIntegration);
-                pickedIntegrationsNames_1.push(defaultIntegration.name);
-            }
-        });
-        // Don't add same user integration twice
-        userIntegrations.forEach(function (userIntegration) {
-            if (pickedIntegrationsNames_1.indexOf(userIntegration.name) === -1) {
-                integrations.push(userIntegration);
-                pickedIntegrationsNames_1.push(userIntegration.name);
-            }
-        });
-    }
-    else if (typeof userIntegrations === 'function') {
-        integrations = userIntegrations(defaultIntegrations);
-        integrations = Array.isArray(integrations) ? integrations : [integrations];
-    }
-    else {
-        integrations = node_modules_tslib_tslib_es6_spread(defaultIntegrations);
-    }
-    // Make sure that if present, `Debug` integration will always run last
-    var integrationsNames = integrations.map(function (i) { return i.name; });
-    var alwaysLastToRun = 'Debug';
-    if (integrationsNames.indexOf(alwaysLastToRun) !== -1) {
-        integrations.push.apply(integrations, node_modules_tslib_tslib_es6_spread(integrations.splice(integrationsNames.indexOf(alwaysLastToRun), 1)));
-    }
-    return integrations;
-}
-/** Setup given integration */
-function setupIntegration(integration) {
-    if (installedIntegrations.indexOf(integration.name) !== -1) {
-        return;
-    }
-    integration.setupOnce(scope_addGlobalEventProcessor, hub_getCurrentHub);
-    installedIntegrations.push(integration.name);
-    logger.log("Integration installed: " + integration.name);
-}
-/**
- * Given a list of integration instances this installs them all. When `withDefaults` is set to `true` then all default
- * integrations are added unless they were already provided before.
- * @param integrations array of integration instances
- * @param withDefault should enable default integrations
- */
-function setupIntegrations(options) {
-    var integrations = {};
-    getIntegrationsToSetup(options).forEach(function (integration) {
-        integrations[integration.name] = integration;
-        setupIntegration(integration);
-    });
-    return integrations;
-}
-//# sourceMappingURL=integration.js.map
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/baseclient.js
-
-
-
-
-/**
- * Base implementation for all JavaScript SDK clients.
- *
- * Call the constructor with the corresponding backend constructor and options
- * specific to the client subclass. To access these options later, use
- * {@link Client.getOptions}. Also, the Backend instance is available via
- * {@link Client.getBackend}.
- *
- * If a Dsn is specified in the options, it will be parsed and stored. Use
- * {@link Client.getDsn} to retrieve the Dsn at any moment. In case the Dsn is
- * invalid, the constructor will throw a {@link SentryException}. Note that
- * without a valid Dsn, the SDK will not send any events to Sentry.
- *
- * Before sending an event via the backend, it is passed through
- * {@link BaseClient.prepareEvent} to add SDK information and scope data
- * (breadcrumbs and context). To add more custom information, override this
- * method and extend the resulting prepared event.
- *
- * To issue automatically created events (e.g. via instrumentation), use
- * {@link Client.captureEvent}. It will prepare the event and pass it through
- * the callback lifecycle. To issue auto-breadcrumbs, use
- * {@link Client.addBreadcrumb}.
- *
- * @example
- * class NodeClient extends BaseClient<NodeBackend, NodeOptions> {
- *   public constructor(options: NodeOptions) {
- *     super(NodeBackend, options);
- *   }
- *
- *   // ...
- * }
- */
-var baseclient_BaseClient = /** @class */ (function () {
-    /**
-     * Initializes this client instance.
-     *
-     * @param backendClass A constructor function to create the backend.
-     * @param options Options for the client.
-     */
-    function BaseClient(backendClass, options) {
-        /** Array of used integrations. */
-        this._integrations = {};
-        /** Is the client still processing a call? */
-        this._processing = false;
-        this._backend = new backendClass(options);
-        this._options = options;
-        if (options.dsn) {
-            this._dsn = new dsn_Dsn(options.dsn);
-        }
-    }
-    /**
-     * @inheritDoc
-     */
-    BaseClient.prototype.captureException = function (exception, hint, scope) {
-        var _this = this;
-        var eventId = hint && hint.event_id;
-        this._processing = true;
-        this._getBackend()
-            .eventFromException(exception, hint)
-            .then(function (event) {
-            eventId = _this.captureEvent(event, hint, scope);
-        });
-        return eventId;
-    };
-    /**
-     * @inheritDoc
-     */
-    BaseClient.prototype.captureMessage = function (message, level, hint, scope) {
-        var _this = this;
-        var eventId = hint && hint.event_id;
-        this._processing = true;
-        var promisedEvent = Object(is["f" /* isPrimitive */])(message)
-            ? this._getBackend().eventFromMessage("" + message, level, hint)
-            : this._getBackend().eventFromException(message, hint);
-        promisedEvent.then(function (event) {
-            eventId = _this.captureEvent(event, hint, scope);
-        });
-        return eventId;
-    };
-    /**
-     * @inheritDoc
-     */
-    BaseClient.prototype.captureEvent = function (event, hint, scope) {
-        var _this = this;
-        var eventId = hint && hint.event_id;
-        this._processing = true;
-        this._processEvent(event, hint, scope)
-            .then(function (finalEvent) {
-            // We need to check for finalEvent in case beforeSend returned null
-            eventId = finalEvent && finalEvent.event_id;
-            _this._processing = false;
-        })
-            .then(null, function (reason) {
-            logger.error(reason);
-            _this._processing = false;
-        });
-        return eventId;
-    };
-    /**
-     * @inheritDoc
-     */
-    BaseClient.prototype.getDsn = function () {
-        return this._dsn;
-    };
-    /**
-     * @inheritDoc
-     */
-    BaseClient.prototype.getOptions = function () {
-        return this._options;
-    };
-    /**
-     * @inheritDoc
-     */
-    BaseClient.prototype.flush = function (timeout) {
-        var _this = this;
-        return this._isClientProcessing(timeout).then(function (status) {
-            clearInterval(status.interval);
-            return _this._getBackend()
-                .getTransport()
-                .close(timeout)
-                .then(function (transportFlushed) { return status.ready && transportFlushed; });
-        });
-    };
-    /**
-     * @inheritDoc
-     */
-    BaseClient.prototype.close = function (timeout) {
-        var _this = this;
-        return this.flush(timeout).then(function (result) {
-            _this.getOptions().enabled = false;
-            return result;
-        });
-    };
-    /**
-     * Sets up the integrations
-     */
-    BaseClient.prototype.setupIntegrations = function () {
-        if (this._isEnabled()) {
-            this._integrations = setupIntegrations(this._options);
-        }
-    };
-    /**
-     * @inheritDoc
-     */
-    BaseClient.prototype.getIntegration = function (integration) {
-        try {
-            return this._integrations[integration.id] || null;
-        }
-        catch (_oO) {
-            logger.warn("Cannot retrieve integration " + integration.id + " from the current Client");
-            return null;
-        }
-    };
-    /** Waits for the client to be done with processing. */
-    BaseClient.prototype._isClientProcessing = function (timeout) {
-        var _this = this;
-        return new syncpromise_SyncPromise(function (resolve) {
-            var ticked = 0;
-            var tick = 1;
-            var interval = 0;
-            clearInterval(interval);
-            interval = setInterval(function () {
-                if (!_this._processing) {
-                    resolve({
-                        interval: interval,
-                        ready: true,
-                    });
-                }
-                else {
-                    ticked += tick;
-                    if (timeout && ticked >= timeout) {
-                        resolve({
-                            interval: interval,
-                            ready: false,
-                        });
-                    }
-                }
-            }, tick);
-        });
-    };
-    /** Returns the current backend. */
-    BaseClient.prototype._getBackend = function () {
-        return this._backend;
-    };
-    /** Determines whether this SDK is enabled and a valid Dsn is present. */
-    BaseClient.prototype._isEnabled = function () {
-        return this.getOptions().enabled !== false && this._dsn !== undefined;
-    };
-    /**
-     * Adds common information to events.
-     *
-     * The information includes release and environment from `options`,
-     * breadcrumbs and context (extra, tags and user) from the scope.
-     *
-     * Information that is already present in the event is never overwritten. For
-     * nested objects, such as the context, keys are merged.
-     *
-     * @param event The original event.
-     * @param hint May contain additional information about the original exception.
-     * @param scope A scope containing event metadata.
-     * @returns A new event with more information.
-     */
-    BaseClient.prototype._prepareEvent = function (event, scope, hint) {
-        var _this = this;
-        var _a = this.getOptions().normalizeDepth, normalizeDepth = _a === void 0 ? 3 : _a;
-        var prepared = node_modules_tslib_tslib_es6_assign({}, event, { event_id: event.event_id || (hint && hint.event_id ? hint.event_id : Object(misc["m" /* uuid4 */])()), timestamp: event.timestamp || Object(misc["l" /* timestampWithMs */])() });
-        this._applyClientOptions(prepared);
-        this._applyIntegrationsMetadata(prepared);
-        // If we have scope given to us, use it as the base for further modifications.
-        // This allows us to prevent unnecessary copying of data if `captureContext` is not provided.
-        var finalScope = scope;
-        if (hint && hint.captureContext) {
-            finalScope = scope_Scope.clone(finalScope).update(hint.captureContext);
-        }
-        // We prepare the result here with a resolved Event.
-        var result = syncpromise_SyncPromise.resolve(prepared);
-        // This should be the last thing called, since we want that
-        // {@link Hub.addEventProcessor} gets the finished prepared event.
-        if (finalScope) {
-            // In case we have a hub we reassign it.
-            result = finalScope.applyToEvent(prepared, hint);
-        }
-        return result.then(function (evt) {
-            // tslint:disable-next-line:strict-type-predicates
-            if (typeof normalizeDepth === 'number' && normalizeDepth > 0) {
-                return _this._normalizeEvent(evt, normalizeDepth);
-            }
-            return evt;
-        });
-    };
-    /**
-     * Applies `normalize` function on necessary `Event` attributes to make them safe for serialization.
-     * Normalized keys:
-     * - `breadcrumbs.data`
-     * - `user`
-     * - `contexts`
-     * - `extra`
-     * @param event Event
-     * @returns Normalized event
-     */
-    BaseClient.prototype._normalizeEvent = function (event, depth) {
-        if (!event) {
-            return null;
-        }
-        // tslint:disable:no-unsafe-any
-        var normalized = node_modules_tslib_tslib_es6_assign({}, event, (event.breadcrumbs && {
-            breadcrumbs: event.breadcrumbs.map(function (b) { return (node_modules_tslib_tslib_es6_assign({}, b, (b.data && {
-                data: normalize(b.data, depth),
-            }))); }),
-        }), (event.user && {
-            user: normalize(event.user, depth),
-        }), (event.contexts && {
-            contexts: normalize(event.contexts, depth),
-        }), (event.extra && {
-            extra: normalize(event.extra, depth),
-        }));
-        // event.contexts.trace stores information about a Transaction. Similarly,
-        // event.spans[] stores information about child Spans. Given that a
-        // Transaction is conceptually a Span, normalization should apply to both
-        // Transactions and Spans consistently.
-        // For now the decision is to skip normalization of Transactions and Spans,
-        // so this block overwrites the normalized event to add back the original
-        // Transaction information prior to normalization.
-        if (event.contexts && event.contexts.trace) {
-            normalized.contexts.trace = event.contexts.trace;
-        }
-        return normalized;
-    };
-    /**
-     *  Enhances event using the client configuration.
-     *  It takes care of all "static" values like environment, release and `dist`,
-     *  as well as truncating overly long values.
-     * @param event event instance to be enhanced
-     */
-    BaseClient.prototype._applyClientOptions = function (event) {
-        var _a = this.getOptions(), environment = _a.environment, release = _a.release, dist = _a.dist, _b = _a.maxValueLength, maxValueLength = _b === void 0 ? 250 : _b;
-        if (event.environment === undefined && environment !== undefined) {
-            event.environment = environment;
-        }
-        if (event.release === undefined && release !== undefined) {
-            event.release = release;
-        }
-        if (event.dist === undefined && dist !== undefined) {
-            event.dist = dist;
-        }
-        if (event.message) {
-            event.message = Object(string["c" /* truncate */])(event.message, maxValueLength);
-        }
-        var exception = event.exception && event.exception.values && event.exception.values[0];
-        if (exception && exception.value) {
-            exception.value = Object(string["c" /* truncate */])(exception.value, maxValueLength);
-        }
-        var request = event.request;
-        if (request && request.url) {
-            request.url = Object(string["c" /* truncate */])(request.url, maxValueLength);
-        }
-    };
-    /**
-     * This function adds all used integrations to the SDK info in the event.
-     * @param sdkInfo The sdkInfo of the event that will be filled with all integrations.
-     */
-    BaseClient.prototype._applyIntegrationsMetadata = function (event) {
-        var sdkInfo = event.sdk;
-        var integrationsArray = Object.keys(this._integrations);
-        if (sdkInfo && integrationsArray.length > 0) {
-            sdkInfo.integrations = integrationsArray;
-        }
-    };
-    /**
-     * Tells the backend to send this event
-     * @param event The Sentry event to send
-     */
-    BaseClient.prototype._sendEvent = function (event) {
-        this._getBackend().sendEvent(event);
-    };
-    /**
-     * Processes an event (either error or message) and sends it to Sentry.
-     *
-     * This also adds breadcrumbs and context information to the event. However,
-     * platform specific meta data (such as the User's IP address) must be added
-     * by the SDK implementor.
-     *
-     *
-     * @param event The event to send to Sentry.
-     * @param hint May contain additional information about the original exception.
-     * @param scope A scope containing event metadata.
-     * @returns A SyncPromise that resolves with the event or rejects in case event was/will not be send.
-     */
-    BaseClient.prototype._processEvent = function (event, hint, scope) {
-        var _this = this;
-        var _a = this.getOptions(), beforeSend = _a.beforeSend, sampleRate = _a.sampleRate;
-        if (!this._isEnabled()) {
-            return syncpromise_SyncPromise.reject('SDK not enabled, will not send event.');
-        }
-        var isTransaction = event.type === 'transaction';
-        // 1.0 === 100% events are sent
-        // 0.0 === 0% events are sent
-        // Sampling for transaction happens somewhere else
-        if (!isTransaction && typeof sampleRate === 'number' && Math.random() > sampleRate) {
-            return syncpromise_SyncPromise.reject('This event has been sampled, will not send event.');
-        }
-        return new syncpromise_SyncPromise(function (resolve, reject) {
-            _this._prepareEvent(event, scope, hint)
-                .then(function (prepared) {
-                if (prepared === null) {
-                    reject('An event processor returned null, will not send event.');
-                    return;
-                }
-                var finalEvent = prepared;
-                var isInternalException = hint && hint.data && hint.data.__sentry__ === true;
-                // We skip beforeSend in case of transactions
-                if (isInternalException || !beforeSend || isTransaction) {
-                    _this._sendEvent(finalEvent);
-                    resolve(finalEvent);
-                    return;
-                }
-                var beforeSendResult = beforeSend(prepared, hint);
-                // tslint:disable-next-line:strict-type-predicates
-                if (typeof beforeSendResult === 'undefined') {
-                    logger.error('`beforeSend` method has to return `null` or a valid event.');
-                }
-                else if (Object(is["j" /* isThenable */])(beforeSendResult)) {
-                    _this._handleAsyncBeforeSend(beforeSendResult, resolve, reject);
-                }
-                else {
-                    finalEvent = beforeSendResult;
-                    if (finalEvent === null) {
-                        logger.log('`beforeSend` returned `null`, will not send event.');
-                        resolve(null);
-                        return;
-                    }
-                    // From here on we are really async
-                    _this._sendEvent(finalEvent);
-                    resolve(finalEvent);
-                }
-            })
-                .then(null, function (reason) {
-                _this.captureException(reason, {
-                    data: {
-                        __sentry__: true,
-                    },
-                    originalException: reason,
-                });
-                reject("Event processing pipeline threw an error, original event will not be sent. Details have been sent as a new event.\nReason: " + reason);
-            });
-        });
-    };
-    /**
-     * Resolves before send Promise and calls resolve/reject on parent SyncPromise.
-     */
-    BaseClient.prototype._handleAsyncBeforeSend = function (beforeSend, resolve, reject) {
-        var _this = this;
-        beforeSend
-            .then(function (processedEvent) {
-            if (processedEvent === null) {
-                reject('`beforeSend` returned `null`, will not send event.');
-                return;
-            }
-            // From here on we are really async
-            _this._sendEvent(processedEvent);
-            resolve(processedEvent);
-        })
-            .then(null, function (e) {
-            reject("beforeSend rejected with " + e);
-        });
-    };
-    return BaseClient;
-}());
-
-//# sourceMappingURL=baseclient.js.map
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/transports/noop.js
-
-
-/** Noop transport */
-var noop_NoopTransport = /** @class */ (function () {
-    function NoopTransport() {
-    }
-    /**
-     * @inheritDoc
-     */
-    NoopTransport.prototype.sendEvent = function (_) {
-        return syncpromise_SyncPromise.resolve({
-            reason: "NoopTransport: Event has been skipped because no Dsn is configured.",
-            status: Status.Skipped,
-        });
-    };
-    /**
-     * @inheritDoc
-     */
-    NoopTransport.prototype.close = function (_) {
-        return syncpromise_SyncPromise.resolve(true);
-    };
-    return NoopTransport;
-}());
-
-//# sourceMappingURL=noop.js.map
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/basebackend.js
-
-
-/**
- * This is the base implemention of a Backend.
- * @hidden
- */
-var basebackend_BaseBackend = /** @class */ (function () {
-    /** Creates a new backend instance. */
-    function BaseBackend(options) {
-        this._options = options;
-        if (!this._options.dsn) {
-            logger.warn('No DSN provided, backend will not do anything.');
-        }
-        this._transport = this._setupTransport();
-    }
-    /**
-     * Sets up the transport so it can be used later to send requests.
-     */
-    BaseBackend.prototype._setupTransport = function () {
-        return new noop_NoopTransport();
-    };
-    /**
-     * @inheritDoc
-     */
-    BaseBackend.prototype.eventFromException = function (_exception, _hint) {
-        throw new error_SentryError('Backend has to implement `eventFromException` method');
-    };
-    /**
-     * @inheritDoc
-     */
-    BaseBackend.prototype.eventFromMessage = function (_message, _level, _hint) {
-        throw new error_SentryError('Backend has to implement `eventFromMessage` method');
-    };
-    /**
-     * @inheritDoc
-     */
-    BaseBackend.prototype.sendEvent = function (event) {
-        this._transport.sendEvent(event).then(null, function (reason) {
-            logger.error("Error while sending event: " + reason);
-        });
-    };
-    /**
-     * @inheritDoc
-     */
-    BaseBackend.prototype.getTransport = function () {
-        return this._transport;
-    };
-    return BaseBackend;
-}());
-
-//# sourceMappingURL=basebackend.js.map
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/path.js
 // Slightly modified (no IE8 support, ES6) and transcribed to TypeScript
 // https://raw.githubusercontent.com/calvinmetcalf/rollup-plugin-node-builtins/master/src/es6/path.js
@@ -7524,7 +6815,7 @@ function basename(path, ext) {
 var external_fs_ = __webpack_require__(7);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/lru_map/lru.js
-var lru = __webpack_require__(95);
+var lru = __webpack_require__(94);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/stacktrace.js
 /**
@@ -8080,7 +7371,7 @@ var external_url_ = __webpack_require__(13);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/version.js
 var SDK_NAME = 'sentry.javascript.node';
-var SDK_VERSION = '5.19.2';
+var SDK_VERSION = '5.20.0';
 //# sourceMappingURL=version.js.map
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/base.js
 
@@ -8198,7 +7489,7 @@ var http_HTTPTransport = /** @class */ (function (_super) {
         var proxy = options.httpProxy || process.env.http_proxy;
         _this.module = external_http_;
         _this.client = proxy
-            ? new (__webpack_require__(76))(proxy) // tslint:disable-line:no-unsafe-any
+            ? new (__webpack_require__(75))(proxy) // tslint:disable-line:no-unsafe-any
             : new external_http_["Agent"]({ keepAlive: false, maxSockets: 30, timeout: 2000 });
         return _this;
     }
@@ -8233,7 +7524,7 @@ var https_HTTPSTransport = /** @class */ (function (_super) {
         var proxy = options.httpsProxy || options.httpProxy || process.env.https_proxy || process.env.http_proxy;
         _this.module = external_https_;
         _this.client = proxy
-            ? new (__webpack_require__(76))(proxy) // tslint:disable-line:no-unsafe-any
+            ? new (__webpack_require__(75))(proxy) // tslint:disable-line:no-unsafe-any
             : new external_https_["Agent"]({ keepAlive: false, maxSockets: 30, timeout: 2000 });
         return _this;
     }
@@ -8361,6 +7652,709 @@ var backend_NodeBackend = /** @class */ (function (_super) {
 }(basebackend_BaseBackend));
 
 //# sourceMappingURL=backend.js.map
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/core/node_modules/tslib/tslib.es6.js
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+/* global Reflect, Promise */
+
+var core_node_modules_tslib_tslib_es6_extendStatics = function(d, b) {
+    core_node_modules_tslib_tslib_es6_extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return core_node_modules_tslib_tslib_es6_extendStatics(d, b);
+};
+
+function core_node_modules_tslib_tslib_es6_extends(d, b) {
+    core_node_modules_tslib_tslib_es6_extendStatics(d, b);
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+var core_node_modules_tslib_tslib_es6_assign = function() {
+    core_node_modules_tslib_tslib_es6_assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
+    }
+    return core_node_modules_tslib_tslib_es6_assign.apply(this, arguments);
+}
+
+function core_node_modules_tslib_tslib_es6_rest(s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+}
+
+function core_node_modules_tslib_tslib_es6_decorate(decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+
+function core_node_modules_tslib_tslib_es6_param(paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+}
+
+function core_node_modules_tslib_tslib_es6_metadata(metadataKey, metadataValue) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
+}
+
+function core_node_modules_tslib_tslib_es6_awaiter(thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+}
+
+function core_node_modules_tslib_tslib_es6_generator(thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+}
+
+function core_node_modules_tslib_tslib_es6_createBinding(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}
+
+function core_node_modules_tslib_tslib_es6_exportStar(m, exports) {
+    for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+
+function core_node_modules_tslib_tslib_es6_values(o) {
+    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+    if (m) return m.call(o);
+    if (o && typeof o.length === "number") return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+}
+
+function core_node_modules_tslib_tslib_es6_read(o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+}
+
+function core_node_modules_tslib_tslib_es6_spread() {
+    for (var ar = [], i = 0; i < arguments.length; i++)
+        ar = ar.concat(core_node_modules_tslib_tslib_es6_read(arguments[i]));
+    return ar;
+}
+
+function core_node_modules_tslib_tslib_es6_spreadArrays() {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
+
+function core_node_modules_tslib_tslib_es6_await(v) {
+    return this instanceof core_node_modules_tslib_tslib_es6_await ? (this.v = v, this) : new core_node_modules_tslib_tslib_es6_await(v);
+}
+
+function core_node_modules_tslib_tslib_es6_asyncGenerator(thisArg, _arguments, generator) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var g = generator.apply(thisArg, _arguments || []), i, q = [];
+    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
+    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
+    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
+    function step(r) { r.value instanceof core_node_modules_tslib_tslib_es6_await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
+    function fulfill(value) { resume("next", value); }
+    function reject(value) { resume("throw", value); }
+    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
+}
+
+function core_node_modules_tslib_tslib_es6_asyncDelegator(o) {
+    var i, p;
+    return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
+    function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: core_node_modules_tslib_tslib_es6_await(o[n](v)), done: n === "return" } : f ? f(v) : v; } : f; }
+}
+
+function core_node_modules_tslib_tslib_es6_asyncValues(o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof core_node_modules_tslib_tslib_es6_values === "function" ? core_node_modules_tslib_tslib_es6_values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+}
+
+function core_node_modules_tslib_tslib_es6_makeTemplateObject(cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
+
+function core_node_modules_tslib_tslib_es6_importStar(mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result.default = mod;
+    return result;
+}
+
+function core_node_modules_tslib_tslib_es6_importDefault(mod) {
+    return (mod && mod.__esModule) ? mod : { default: mod };
+}
+
+function core_node_modules_tslib_tslib_es6_classPrivateFieldGet(receiver, privateMap) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to get private field on non-instance");
+    }
+    return privateMap.get(receiver);
+}
+
+function core_node_modules_tslib_tslib_es6_classPrivateFieldSet(receiver, privateMap, value) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to set private field on non-instance");
+    }
+    privateMap.set(receiver, value);
+    return value;
+}
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/integration.js
+
+
+
+var installedIntegrations = [];
+/** Gets integration to install */
+function getIntegrationsToSetup(options) {
+    var defaultIntegrations = (options.defaultIntegrations && core_node_modules_tslib_tslib_es6_spread(options.defaultIntegrations)) || [];
+    var userIntegrations = options.integrations;
+    var integrations = [];
+    if (Array.isArray(userIntegrations)) {
+        var userIntegrationsNames_1 = userIntegrations.map(function (i) { return i.name; });
+        var pickedIntegrationsNames_1 = [];
+        // Leave only unique default integrations, that were not overridden with provided user integrations
+        defaultIntegrations.forEach(function (defaultIntegration) {
+            if (userIntegrationsNames_1.indexOf(defaultIntegration.name) === -1 &&
+                pickedIntegrationsNames_1.indexOf(defaultIntegration.name) === -1) {
+                integrations.push(defaultIntegration);
+                pickedIntegrationsNames_1.push(defaultIntegration.name);
+            }
+        });
+        // Don't add same user integration twice
+        userIntegrations.forEach(function (userIntegration) {
+            if (pickedIntegrationsNames_1.indexOf(userIntegration.name) === -1) {
+                integrations.push(userIntegration);
+                pickedIntegrationsNames_1.push(userIntegration.name);
+            }
+        });
+    }
+    else if (typeof userIntegrations === 'function') {
+        integrations = userIntegrations(defaultIntegrations);
+        integrations = Array.isArray(integrations) ? integrations : [integrations];
+    }
+    else {
+        integrations = core_node_modules_tslib_tslib_es6_spread(defaultIntegrations);
+    }
+    // Make sure that if present, `Debug` integration will always run last
+    var integrationsNames = integrations.map(function (i) { return i.name; });
+    var alwaysLastToRun = 'Debug';
+    if (integrationsNames.indexOf(alwaysLastToRun) !== -1) {
+        integrations.push.apply(integrations, core_node_modules_tslib_tslib_es6_spread(integrations.splice(integrationsNames.indexOf(alwaysLastToRun), 1)));
+    }
+    return integrations;
+}
+/** Setup given integration */
+function setupIntegration(integration) {
+    if (installedIntegrations.indexOf(integration.name) !== -1) {
+        return;
+    }
+    integration.setupOnce(scope_addGlobalEventProcessor, hub_getCurrentHub);
+    installedIntegrations.push(integration.name);
+    logger.log("Integration installed: " + integration.name);
+}
+/**
+ * Given a list of integration instances this installs them all. When `withDefaults` is set to `true` then all default
+ * integrations are added unless they were already provided before.
+ * @param integrations array of integration instances
+ * @param withDefault should enable default integrations
+ */
+function setupIntegrations(options) {
+    var integrations = {};
+    getIntegrationsToSetup(options).forEach(function (integration) {
+        integrations[integration.name] = integration;
+        setupIntegration(integration);
+    });
+    return integrations;
+}
+//# sourceMappingURL=integration.js.map
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/baseclient.js
+
+
+
+
+/**
+ * Base implementation for all JavaScript SDK clients.
+ *
+ * Call the constructor with the corresponding backend constructor and options
+ * specific to the client subclass. To access these options later, use
+ * {@link Client.getOptions}. Also, the Backend instance is available via
+ * {@link Client.getBackend}.
+ *
+ * If a Dsn is specified in the options, it will be parsed and stored. Use
+ * {@link Client.getDsn} to retrieve the Dsn at any moment. In case the Dsn is
+ * invalid, the constructor will throw a {@link SentryException}. Note that
+ * without a valid Dsn, the SDK will not send any events to Sentry.
+ *
+ * Before sending an event via the backend, it is passed through
+ * {@link BaseClient.prepareEvent} to add SDK information and scope data
+ * (breadcrumbs and context). To add more custom information, override this
+ * method and extend the resulting prepared event.
+ *
+ * To issue automatically created events (e.g. via instrumentation), use
+ * {@link Client.captureEvent}. It will prepare the event and pass it through
+ * the callback lifecycle. To issue auto-breadcrumbs, use
+ * {@link Client.addBreadcrumb}.
+ *
+ * @example
+ * class NodeClient extends BaseClient<NodeBackend, NodeOptions> {
+ *   public constructor(options: NodeOptions) {
+ *     super(NodeBackend, options);
+ *   }
+ *
+ *   // ...
+ * }
+ */
+var baseclient_BaseClient = /** @class */ (function () {
+    /**
+     * Initializes this client instance.
+     *
+     * @param backendClass A constructor function to create the backend.
+     * @param options Options for the client.
+     */
+    function BaseClient(backendClass, options) {
+        /** Array of used integrations. */
+        this._integrations = {};
+        /** Is the client still processing a call? */
+        this._processing = false;
+        this._backend = new backendClass(options);
+        this._options = options;
+        if (options.dsn) {
+            this._dsn = new dsn_Dsn(options.dsn);
+        }
+    }
+    /**
+     * @inheritDoc
+     */
+    BaseClient.prototype.captureException = function (exception, hint, scope) {
+        var _this = this;
+        var eventId = hint && hint.event_id;
+        this._processing = true;
+        this._getBackend()
+            .eventFromException(exception, hint)
+            .then(function (event) {
+            eventId = _this.captureEvent(event, hint, scope);
+        });
+        return eventId;
+    };
+    /**
+     * @inheritDoc
+     */
+    BaseClient.prototype.captureMessage = function (message, level, hint, scope) {
+        var _this = this;
+        var eventId = hint && hint.event_id;
+        this._processing = true;
+        var promisedEvent = Object(is["f" /* isPrimitive */])(message)
+            ? this._getBackend().eventFromMessage("" + message, level, hint)
+            : this._getBackend().eventFromException(message, hint);
+        promisedEvent.then(function (event) {
+            eventId = _this.captureEvent(event, hint, scope);
+        });
+        return eventId;
+    };
+    /**
+     * @inheritDoc
+     */
+    BaseClient.prototype.captureEvent = function (event, hint, scope) {
+        var _this = this;
+        var eventId = hint && hint.event_id;
+        this._processing = true;
+        this._processEvent(event, hint, scope)
+            .then(function (finalEvent) {
+            // We need to check for finalEvent in case beforeSend returned null
+            eventId = finalEvent && finalEvent.event_id;
+            _this._processing = false;
+        })
+            .then(null, function (reason) {
+            logger.error(reason);
+            _this._processing = false;
+        });
+        return eventId;
+    };
+    /**
+     * @inheritDoc
+     */
+    BaseClient.prototype.getDsn = function () {
+        return this._dsn;
+    };
+    /**
+     * @inheritDoc
+     */
+    BaseClient.prototype.getOptions = function () {
+        return this._options;
+    };
+    /**
+     * @inheritDoc
+     */
+    BaseClient.prototype.flush = function (timeout) {
+        var _this = this;
+        return this._isClientProcessing(timeout).then(function (status) {
+            clearInterval(status.interval);
+            return _this._getBackend()
+                .getTransport()
+                .close(timeout)
+                .then(function (transportFlushed) { return status.ready && transportFlushed; });
+        });
+    };
+    /**
+     * @inheritDoc
+     */
+    BaseClient.prototype.close = function (timeout) {
+        var _this = this;
+        return this.flush(timeout).then(function (result) {
+            _this.getOptions().enabled = false;
+            return result;
+        });
+    };
+    /**
+     * Sets up the integrations
+     */
+    BaseClient.prototype.setupIntegrations = function () {
+        if (this._isEnabled()) {
+            this._integrations = setupIntegrations(this._options);
+        }
+    };
+    /**
+     * @inheritDoc
+     */
+    BaseClient.prototype.getIntegration = function (integration) {
+        try {
+            return this._integrations[integration.id] || null;
+        }
+        catch (_oO) {
+            logger.warn("Cannot retrieve integration " + integration.id + " from the current Client");
+            return null;
+        }
+    };
+    /** Waits for the client to be done with processing. */
+    BaseClient.prototype._isClientProcessing = function (timeout) {
+        var _this = this;
+        return new syncpromise_SyncPromise(function (resolve) {
+            var ticked = 0;
+            var tick = 1;
+            var interval = 0;
+            clearInterval(interval);
+            interval = setInterval(function () {
+                if (!_this._processing) {
+                    resolve({
+                        interval: interval,
+                        ready: true,
+                    });
+                }
+                else {
+                    ticked += tick;
+                    if (timeout && ticked >= timeout) {
+                        resolve({
+                            interval: interval,
+                            ready: false,
+                        });
+                    }
+                }
+            }, tick);
+        });
+    };
+    /** Returns the current backend. */
+    BaseClient.prototype._getBackend = function () {
+        return this._backend;
+    };
+    /** Determines whether this SDK is enabled and a valid Dsn is present. */
+    BaseClient.prototype._isEnabled = function () {
+        return this.getOptions().enabled !== false && this._dsn !== undefined;
+    };
+    /**
+     * Adds common information to events.
+     *
+     * The information includes release and environment from `options`,
+     * breadcrumbs and context (extra, tags and user) from the scope.
+     *
+     * Information that is already present in the event is never overwritten. For
+     * nested objects, such as the context, keys are merged.
+     *
+     * @param event The original event.
+     * @param hint May contain additional information about the original exception.
+     * @param scope A scope containing event metadata.
+     * @returns A new event with more information.
+     */
+    BaseClient.prototype._prepareEvent = function (event, scope, hint) {
+        var _this = this;
+        var _a = this.getOptions().normalizeDepth, normalizeDepth = _a === void 0 ? 3 : _a;
+        var prepared = core_node_modules_tslib_tslib_es6_assign({}, event, { event_id: event.event_id || (hint && hint.event_id ? hint.event_id : Object(misc["m" /* uuid4 */])()), timestamp: event.timestamp || Object(misc["l" /* timestampWithMs */])() });
+        this._applyClientOptions(prepared);
+        this._applyIntegrationsMetadata(prepared);
+        // If we have scope given to us, use it as the base for further modifications.
+        // This allows us to prevent unnecessary copying of data if `captureContext` is not provided.
+        var finalScope = scope;
+        if (hint && hint.captureContext) {
+            finalScope = scope_Scope.clone(finalScope).update(hint.captureContext);
+        }
+        // We prepare the result here with a resolved Event.
+        var result = syncpromise_SyncPromise.resolve(prepared);
+        // This should be the last thing called, since we want that
+        // {@link Hub.addEventProcessor} gets the finished prepared event.
+        if (finalScope) {
+            // In case we have a hub we reassign it.
+            result = finalScope.applyToEvent(prepared, hint);
+        }
+        return result.then(function (evt) {
+            // tslint:disable-next-line:strict-type-predicates
+            if (typeof normalizeDepth === 'number' && normalizeDepth > 0) {
+                return _this._normalizeEvent(evt, normalizeDepth);
+            }
+            return evt;
+        });
+    };
+    /**
+     * Applies `normalize` function on necessary `Event` attributes to make them safe for serialization.
+     * Normalized keys:
+     * - `breadcrumbs.data`
+     * - `user`
+     * - `contexts`
+     * - `extra`
+     * @param event Event
+     * @returns Normalized event
+     */
+    BaseClient.prototype._normalizeEvent = function (event, depth) {
+        if (!event) {
+            return null;
+        }
+        // tslint:disable:no-unsafe-any
+        var normalized = core_node_modules_tslib_tslib_es6_assign({}, event, (event.breadcrumbs && {
+            breadcrumbs: event.breadcrumbs.map(function (b) { return (core_node_modules_tslib_tslib_es6_assign({}, b, (b.data && {
+                data: normalize(b.data, depth),
+            }))); }),
+        }), (event.user && {
+            user: normalize(event.user, depth),
+        }), (event.contexts && {
+            contexts: normalize(event.contexts, depth),
+        }), (event.extra && {
+            extra: normalize(event.extra, depth),
+        }));
+        // event.contexts.trace stores information about a Transaction. Similarly,
+        // event.spans[] stores information about child Spans. Given that a
+        // Transaction is conceptually a Span, normalization should apply to both
+        // Transactions and Spans consistently.
+        // For now the decision is to skip normalization of Transactions and Spans,
+        // so this block overwrites the normalized event to add back the original
+        // Transaction information prior to normalization.
+        if (event.contexts && event.contexts.trace) {
+            normalized.contexts.trace = event.contexts.trace;
+        }
+        return normalized;
+    };
+    /**
+     *  Enhances event using the client configuration.
+     *  It takes care of all "static" values like environment, release and `dist`,
+     *  as well as truncating overly long values.
+     * @param event event instance to be enhanced
+     */
+    BaseClient.prototype._applyClientOptions = function (event) {
+        var _a = this.getOptions(), environment = _a.environment, release = _a.release, dist = _a.dist, _b = _a.maxValueLength, maxValueLength = _b === void 0 ? 250 : _b;
+        if (event.environment === undefined && environment !== undefined) {
+            event.environment = environment;
+        }
+        if (event.release === undefined && release !== undefined) {
+            event.release = release;
+        }
+        if (event.dist === undefined && dist !== undefined) {
+            event.dist = dist;
+        }
+        if (event.message) {
+            event.message = Object(string["c" /* truncate */])(event.message, maxValueLength);
+        }
+        var exception = event.exception && event.exception.values && event.exception.values[0];
+        if (exception && exception.value) {
+            exception.value = Object(string["c" /* truncate */])(exception.value, maxValueLength);
+        }
+        var request = event.request;
+        if (request && request.url) {
+            request.url = Object(string["c" /* truncate */])(request.url, maxValueLength);
+        }
+    };
+    /**
+     * This function adds all used integrations to the SDK info in the event.
+     * @param sdkInfo The sdkInfo of the event that will be filled with all integrations.
+     */
+    BaseClient.prototype._applyIntegrationsMetadata = function (event) {
+        var sdkInfo = event.sdk;
+        var integrationsArray = Object.keys(this._integrations);
+        if (sdkInfo && integrationsArray.length > 0) {
+            sdkInfo.integrations = integrationsArray;
+        }
+    };
+    /**
+     * Tells the backend to send this event
+     * @param event The Sentry event to send
+     */
+    BaseClient.prototype._sendEvent = function (event) {
+        this._getBackend().sendEvent(event);
+    };
+    /**
+     * Processes an event (either error or message) and sends it to Sentry.
+     *
+     * This also adds breadcrumbs and context information to the event. However,
+     * platform specific meta data (such as the User's IP address) must be added
+     * by the SDK implementor.
+     *
+     *
+     * @param event The event to send to Sentry.
+     * @param hint May contain additional information about the original exception.
+     * @param scope A scope containing event metadata.
+     * @returns A SyncPromise that resolves with the event or rejects in case event was/will not be send.
+     */
+    BaseClient.prototype._processEvent = function (event, hint, scope) {
+        var _this = this;
+        var _a = this.getOptions(), beforeSend = _a.beforeSend, sampleRate = _a.sampleRate;
+        if (!this._isEnabled()) {
+            return syncpromise_SyncPromise.reject('SDK not enabled, will not send event.');
+        }
+        var isTransaction = event.type === 'transaction';
+        // 1.0 === 100% events are sent
+        // 0.0 === 0% events are sent
+        // Sampling for transaction happens somewhere else
+        if (!isTransaction && typeof sampleRate === 'number' && Math.random() > sampleRate) {
+            return syncpromise_SyncPromise.reject('This event has been sampled, will not send event.');
+        }
+        return new syncpromise_SyncPromise(function (resolve, reject) {
+            _this._prepareEvent(event, scope, hint)
+                .then(function (prepared) {
+                if (prepared === null) {
+                    reject('An event processor returned null, will not send event.');
+                    return;
+                }
+                var finalEvent = prepared;
+                var isInternalException = hint && hint.data && hint.data.__sentry__ === true;
+                // We skip beforeSend in case of transactions
+                if (isInternalException || !beforeSend || isTransaction) {
+                    _this._sendEvent(finalEvent);
+                    resolve(finalEvent);
+                    return;
+                }
+                var beforeSendResult = beforeSend(prepared, hint);
+                // tslint:disable-next-line:strict-type-predicates
+                if (typeof beforeSendResult === 'undefined') {
+                    logger.error('`beforeSend` method has to return `null` or a valid event.');
+                }
+                else if (Object(is["j" /* isThenable */])(beforeSendResult)) {
+                    _this._handleAsyncBeforeSend(beforeSendResult, resolve, reject);
+                }
+                else {
+                    finalEvent = beforeSendResult;
+                    if (finalEvent === null) {
+                        logger.log('`beforeSend` returned `null`, will not send event.');
+                        resolve(null);
+                        return;
+                    }
+                    // From here on we are really async
+                    _this._sendEvent(finalEvent);
+                    resolve(finalEvent);
+                }
+            })
+                .then(null, function (reason) {
+                _this.captureException(reason, {
+                    data: {
+                        __sentry__: true,
+                    },
+                    originalException: reason,
+                });
+                reject("Event processing pipeline threw an error, original event will not be sent. Details have been sent as a new event.\nReason: " + reason);
+            });
+        });
+    };
+    /**
+     * Resolves before send Promise and calls resolve/reject on parent SyncPromise.
+     */
+    BaseClient.prototype._handleAsyncBeforeSend = function (beforeSend, resolve, reject) {
+        var _this = this;
+        beforeSend
+            .then(function (processedEvent) {
+            if (processedEvent === null) {
+                reject('`beforeSend` returned `null`, will not send event.');
+                return;
+            }
+            // From here on we are really async
+            _this._sendEvent(processedEvent);
+            resolve(processedEvent);
+        })
+            .then(null, function (e) {
+            reject("beforeSend rejected with " + e);
+        });
+    };
+    return BaseClient;
+}());
+
+//# sourceMappingURL=baseclient.js.map
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/client.js
 
 
@@ -8542,9 +8536,9 @@ var inboundfilters_InboundFilters = /** @class */ (function () {
         if (clientOptions === void 0) { clientOptions = {}; }
         // tslint:disable:deprecation
         return {
-            allowUrls: node_modules_tslib_tslib_es6_spread((this._options.whitelistUrls || []), (this._options.allowUrls || []), (clientOptions.whitelistUrls || []), (clientOptions.allowUrls || [])),
-            denyUrls: node_modules_tslib_tslib_es6_spread((this._options.blacklistUrls || []), (this._options.denyUrls || []), (clientOptions.blacklistUrls || []), (clientOptions.denyUrls || [])),
-            ignoreErrors: node_modules_tslib_tslib_es6_spread((this._options.ignoreErrors || []), (clientOptions.ignoreErrors || []), DEFAULT_IGNORE_ERRORS),
+            allowUrls: core_node_modules_tslib_tslib_es6_spread((this._options.whitelistUrls || []), (this._options.allowUrls || []), (clientOptions.whitelistUrls || []), (clientOptions.allowUrls || [])),
+            denyUrls: core_node_modules_tslib_tslib_es6_spread((this._options.blacklistUrls || []), (this._options.denyUrls || []), (clientOptions.blacklistUrls || []), (clientOptions.denyUrls || [])),
+            ignoreErrors: core_node_modules_tslib_tslib_es6_spread((this._options.ignoreErrors || []), (clientOptions.ignoreErrors || []), DEFAULT_IGNORE_ERRORS),
             ignoreInternal: typeof this._options.ignoreInternal !== 'undefined' ? this._options.ignoreInternal : true,
         };
     };
@@ -8651,7 +8645,7 @@ var console_Console = /** @class */ (function () {
      */
     Console.prototype.setupOnce = function () {
         var e_1, _a;
-        var consoleModule = __webpack_require__(144);
+        var consoleModule = __webpack_require__(143);
         try {
             for (var _b = __values(['debug', 'info', 'warn', 'error', 'log']), _c = _b.next(); !_c.done; _c = _b.next()) {
                 var level = _c.value;
@@ -9382,7 +9376,7 @@ function forget(promise) {
 }
 //# sourceMappingURL=async.js.map
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/node_modules/cookie/index.js
-var cookie = __webpack_require__(96);
+var cookie = __webpack_require__(95);
 
 // EXTERNAL MODULE: external "os"
 var external_os_ = __webpack_require__(30);
@@ -9905,7 +9899,8 @@ var linkederrors_LinkedErrors = /** @class */ (function () {
         scope_addGlobalEventProcessor(function (event, hint) {
             var self = hub_getCurrentHub().getIntegration(LinkedErrors);
             if (self) {
-                return self.handler(event, hint);
+                var handler = self._handler && self._handler.bind(self);
+                return typeof handler === 'function' ? handler(event, hint) : event;
             }
             return event;
         });
@@ -9913,13 +9908,13 @@ var linkederrors_LinkedErrors = /** @class */ (function () {
     /**
      * @inheritDoc
      */
-    LinkedErrors.prototype.handler = function (event, hint) {
+    LinkedErrors.prototype._handler = function (event, hint) {
         var _this = this;
         if (!event.exception || !event.exception.values || !hint || !Object(is["d" /* isInstanceOf */])(hint.originalException, Error)) {
             return syncpromise_SyncPromise.resolve(event);
         }
         return new syncpromise_SyncPromise(function (resolve) {
-            _this.walkErrorTree(hint.originalException, _this._key)
+            _this._walkErrorTree(hint.originalException, _this._key)
                 .then(function (linkedErrors) {
                 if (event && event.exception && event.exception.values) {
                     event.exception.values = __spread(linkedErrors, event.exception.values);
@@ -9934,7 +9929,7 @@ var linkederrors_LinkedErrors = /** @class */ (function () {
     /**
      * @inheritDoc
      */
-    LinkedErrors.prototype.walkErrorTree = function (error, key, stack) {
+    LinkedErrors.prototype._walkErrorTree = function (error, key, stack) {
         var _this = this;
         if (stack === void 0) { stack = []; }
         if (!Object(is["d" /* isInstanceOf */])(error[key], Error) || stack.length + 1 >= this._limit) {
@@ -9943,7 +9938,7 @@ var linkederrors_LinkedErrors = /** @class */ (function () {
         return new syncpromise_SyncPromise(function (resolve, reject) {
             getExceptionFromError(error[key])
                 .then(function (exception) {
-                _this.walkErrorTree(error[key], key, __spread([exception], stack))
+                _this._walkErrorTree(error[key], key, __spread([exception], stack))
                     .then(resolve)
                     .then(null, function () {
                     reject();
@@ -10210,6 +10205,7 @@ function sdk_close(timeout) {
 
 
 
+
 var INTEGRATIONS = __assign({}, integrations_namespaceObject, esm_integrations_namespaceObject);
 
 // We need to patch domain on the global __SENTRY__ object to make it work for node
@@ -10237,23 +10233,23 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.use_middlewares_with_error_safety_net = void 0;
 
-const tslib_1 = __webpack_require__(54);
+const tslib_1 = __webpack_require__(72);
 
 const tiny_invariant_1 = tslib_1.__importDefault(__webpack_require__(31));
 
-const json_stable_stringify_1 = tslib_1.__importDefault(__webpack_require__(75));
+const json_stable_stringify_1 = tslib_1.__importDefault(__webpack_require__(74));
 
-const timestamps_1 = __webpack_require__(51);
+const timestamps_1 = __webpack_require__(50);
 
-const soft_execution_context_1 = __webpack_require__(71);
+const soft_execution_context_1 = __webpack_require__(69);
 
-__webpack_require__(179);
+__webpack_require__(177);
 
-const sentry_1 = __webpack_require__(133);
+const sentry_1 = __webpack_require__(132);
 
 const channel_1 = __webpack_require__(29);
 
-const utils_1 = __webpack_require__(72); // note: deducted from the overall running budget
+const utils_1 = __webpack_require__(70); // note: deducted from the overall running budget
 
 
 const MARGIN_AND_SENTRY_BUDGET_MS = channel_1.CHANNEL === 'dev' ? 5000 : 1000;
@@ -10993,53 +10989,17 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-/***/ }),
+const tslib_1 = __webpack_require__(72);
 
-/***/ 178:
-/***/ (function(module, exports, __webpack_require__) {
+const soft_execution_context_1 = __webpack_require__(69);
 
-"use strict";
+const soft_execution_context_node_1 = __webpack_require__(178);
 
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.COMMON_ERROR_FIELDS = exports.STANDARD_ERROR_FIELDS = void 0;
-exports.STANDARD_ERROR_FIELDS = new Set([// standard fields
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
-'name', 'message', // quasi-standard
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
-'stack']);
-exports.COMMON_ERROR_FIELDS = new Set([//...STANDARD_ERROR_FIELDS, // no, conv to array needed due to a babel bug 😢
-...Array.from(exports.STANDARD_ERROR_FIELDS.keys()), // standard in node
-'code', // https://nodejs.org/dist/latest/docs/api/errors.html#errors_node_js_error_codes
-// non standard but widely used
-'statusCode', 'shouldRedirect', 'framesToPop', // My (Offirmo) extensions
-'details', 'SEC', '_temp']);
-
-/***/ }),
-
-/***/ 179:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-const tslib_1 = __webpack_require__(54);
-
-const soft_execution_context_1 = __webpack_require__(71);
-
-const soft_execution_context_node_1 = __webpack_require__(180);
-
-const consts_1 = __webpack_require__(99);
+const consts_1 = __webpack_require__(98);
 
 const channel_1 = __webpack_require__(29);
 
-const logger_1 = tslib_1.__importDefault(__webpack_require__(181)); /////////////////////
+const logger_1 = tslib_1.__importDefault(__webpack_require__(179)); /////////////////////
 
 
 const SEC = soft_execution_context_1.getRootSEC().setLogicalStack({
@@ -11091,14 +11051,14 @@ if (ENV !== "production") {
 
 /***/ }),
 
-/***/ 180:
+/***/ 178:
 /***/ (function(module, exports, __webpack_require__) {
 
 const os = __webpack_require__(30);
 
 const {
   getRootSEC
-} = __webpack_require__(71); // TODO protect from double install
+} = __webpack_require__(69); // TODO protect from double install
 
 
 function listenToUncaughtErrors() {
@@ -11147,7 +11107,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 181:
+/***/ 179:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11157,9 +11117,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-const universal_debug_api_node_1 = __webpack_require__(182);
+const universal_debug_api_node_1 = __webpack_require__(180);
 
-const consts_1 = __webpack_require__(99);
+const consts_1 = __webpack_require__(98);
 
 const channel_1 = __webpack_require__(29); /////////////////////////////////////////////////
 
@@ -11176,7 +11136,7 @@ exports.default = logger;
 
 /***/ }),
 
-/***/ 182:
+/***/ 180:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11187,10 +11147,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addDebugCommand", function() { return addDebugCommand; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "globalThis", function() { return globalThis; });
 /* harmony import */ var _offirmo_globalthis_ponyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(20);
-/* harmony import */ var _v1__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(36);
+/* harmony import */ var _v1__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(35);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createV1", function() { return _v1__WEBPACK_IMPORTED_MODULE_1__["b"]; });
 
-/* harmony import */ var _offirmo_universal_debug_api_interface__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(38);
+/* harmony import */ var _offirmo_universal_debug_api_interface__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(37);
 /* harmony import */ var _offirmo_universal_debug_api_interface__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_offirmo_universal_debug_api_interface__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _offirmo_universal_debug_api_interface__WEBPACK_IMPORTED_MODULE_2__) if(["getLogger","exposeInternal","overrideHook","addDebugCommand","globalThis","createV1","default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _offirmo_universal_debug_api_interface__WEBPACK_IMPORTED_MODULE_2__[key]; }) }(__WEBPACK_IMPORT_KEY__));
 
@@ -11259,7 +11219,7 @@ const {
 
 /***/ }),
 
-/***/ 183:
+/***/ 181:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11305,7 +11265,7 @@ const setLazyProperty = (object, property, get) => {
 let colorConvert;
 const makeDynamicStyles = (wrap, targetSpace, identity, isBackground) => {
 	if (colorConvert === undefined) {
-		colorConvert = __webpack_require__(184);
+		colorConvert = __webpack_require__(182);
 	}
 
 	const offset = isBackground ? 10 : 0;
@@ -11427,15 +11387,15 @@ Object.defineProperty(module, 'exports', {
 	get: assembleStyles
 });
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(74)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(73)(module)))
 
 /***/ }),
 
-/***/ 184:
+/***/ 182:
 /***/ (function(module, exports, __webpack_require__) {
 
-const conversions = __webpack_require__(104);
-const route = __webpack_require__(186);
+const conversions = __webpack_require__(103);
+const route = __webpack_require__(184);
 
 const convert = {};
 
@@ -11519,7 +11479,7 @@ module.exports = convert;
 
 /***/ }),
 
-/***/ 185:
+/***/ 183:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11679,10 +11639,10 @@ module.exports = {
 
 /***/ }),
 
-/***/ 186:
+/***/ 184:
 /***/ (function(module, exports, __webpack_require__) {
 
-const conversions = __webpack_require__(104);
+const conversions = __webpack_require__(103);
 
 /*
 	This function routes a model to all other models.
@@ -11783,7 +11743,7 @@ module.exports = function (fromModel) {
 
 /***/ }),
 
-/***/ 187:
+/***/ 185:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11830,7 +11790,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 188:
+/***/ 186:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11972,7 +11932,7 @@ module.exports = (chalk, temporary) => {
 
 /***/ }),
 
-/***/ 189:
+/***/ 187:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11985,7 +11945,7 @@ exports.require_http_method = exports.HttpMethod = void 0;
 
 const typescript_string_enums_1 = __webpack_require__(14);
 
-const utils_1 = __webpack_require__(72);
+const utils_1 = __webpack_require__(70);
 
 exports.HttpMethod = typescript_string_enums_1.Enum('GET', 'PUT', 'POST', 'PATCH', 'OPTIONS');
 
@@ -12028,14 +11988,7 @@ exports.require_http_method = require_http_method;
 
 /***/ }),
 
-/***/ 19:
-/***/ (function(module, exports) {
-
-module.exports = require("domain");
-
-/***/ }),
-
-/***/ 190:
+/***/ 188:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12049,7 +12002,7 @@ __webpack_require__.d(__webpack_exports__, "a", function() { return /* binding *
 var consts = __webpack_require__(21);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/practical-logger-core/dist/src.es2019/consts-base.js
-var consts_base = __webpack_require__(52);
+var consts_base = __webpack_require__(51);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/practical-logger-core/dist/src.es2019/normalize-args.js
 function looksLikeAnError(x) {
@@ -12186,6 +12139,13 @@ function create({
 
 /***/ }),
 
+/***/ 19:
+/***/ (function(module, exports) {
+
+module.exports = require("domain");
+
+/***/ }),
+
 /***/ 20:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -12271,7 +12231,7 @@ module.exports = require("http");
 /* unused harmony export addDebugCommand */
 /* unused harmony export globalThis */
 /* harmony import */ var _offirmo_globalthis_ponyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(20);
-/* harmony import */ var _v1__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(39);
+/* harmony import */ var _v1__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(38);
 
 
 const globalThis = Object(_offirmo_globalthis_ponyfill__WEBPACK_IMPORTED_MODULE_0__[/* getGlobalThis */ "a"])(); // ensure the root is present
@@ -12306,7 +12266,7 @@ exports.CHANNEL = void 0;
 
 const typescript_string_enums_1 = __webpack_require__(14);
 
-const functions_interface_1 = __webpack_require__(98);
+const functions_interface_1 = __webpack_require__(97);
 
 exports.CHANNEL = (() => {
   if (typescript_string_enums_1.Enum.isType(functions_interface_1.ReleaseChannel, process.env.CHANNEL)) return process.env.CHANNEL;
@@ -12522,24 +12482,6 @@ module.exports = require("https");
 /***/ }),
 
 /***/ 35:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-const tslib_1 = __webpack_require__(54);
-
-tslib_1.__exportStar(__webpack_require__(177), exports);
-
-tslib_1.__exportStar(__webpack_require__(178), exports);
-
-/***/ }),
-
-/***/ 36:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12549,10 +12491,10 @@ __webpack_require__.d(__webpack_exports__, "a", function() { return /* binding *
 __webpack_require__.d(__webpack_exports__, "b", function() { return /* binding */ create; });
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/practical-logger-node/dist/src.es2019/index.js
-var src_es2019 = __webpack_require__(73);
+var src_es2019 = __webpack_require__(71);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/practical-logger-core/dist/src.es2019/consts-base.js
-var consts_base = __webpack_require__(52);
+var consts_base = __webpack_require__(51);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--multi/universal-debug-api-node/dist/src.es2019/consts.js
 const ENV_ROOT = 'UDA';
@@ -12751,14 +12693,14 @@ function create() {
 
 /***/ }),
 
-/***/ 38:
+/***/ 37:
 /***/ (function(module, exports) {
 
 
 
 /***/ }),
 
-/***/ 39:
+/***/ 38:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12813,6 +12755,13 @@ function create() {
 
 /***/ }),
 
+/***/ 39:
+/***/ (function(module, exports) {
+
+module.exports = require("tty");
+
+/***/ }),
+
 /***/ 4:
 /***/ (function(module, exports) {
 
@@ -12823,80 +12772,18 @@ module.exports = require("util");
 /***/ 40:
 /***/ (function(module, exports) {
 
-module.exports = require("tty");
-
-/***/ }),
-
-/***/ 41:
-/***/ (function(module, exports) {
-
 module.exports = require("assert");
 
 /***/ }),
 
-/***/ 5:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return flattenToOwn; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return _getSECStatePath; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _flattenSEC; });
-/* harmony import */ var _consts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-
-
-function flattenToOwn(object) {
-  if (!object) return object;
-  if (Array.isArray(object)) return object;
-  if (typeof object !== 'object') return object;
-  const res = Object.create(null);
-
-  for (const property in object) {
-    res[property] = object[property];
-  }
-
-  return res;
-} // needed for various tree traversal algorithms
-
-
-function _getSECStatePath(SEC) {
-  if (!SEC[_consts__WEBPACK_IMPORTED_MODULE_0__[/* INTERNAL_PROP */ "a"]].cache.statePath) {
-    const path = [];
-    let state = SEC[_consts__WEBPACK_IMPORTED_MODULE_0__[/* INTERNAL_PROP */ "a"]];
-
-    while (state) {
-      path.unshift(state);
-      state = state.parent;
-    }
-
-    SEC[_consts__WEBPACK_IMPORTED_MODULE_0__[/* INTERNAL_PROP */ "a"]].cache.statePath = path;
-  }
-
-  return SEC[_consts__WEBPACK_IMPORTED_MODULE_0__[/* INTERNAL_PROP */ "a"]].cache.statePath;
-} // for debug
-
-
-function _flattenSEC(SEC) {
-  const plugins = { ...SEC[_consts__WEBPACK_IMPORTED_MODULE_0__[/* INTERNAL_PROP */ "a"]].plugins
-  };
-  plugins.analytics.details = flattenToOwn(plugins.analytics.details);
-  plugins.dependency_injection.context = flattenToOwn(plugins.dependency_injection.context);
-  plugins.error_handling.details = flattenToOwn(plugins.error_handling.details);
-  plugins.logical_stack.stack = flattenToOwn(plugins.logical_stack.stack);
-  return plugins;
-}
-
-
-
-/***/ }),
-
-/***/ 50:
+/***/ 49:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 const os = __webpack_require__(30);
-const tty = __webpack_require__(40);
-const hasFlag = __webpack_require__(132);
+const tty = __webpack_require__(39);
+const hasFlag = __webpack_require__(131);
 
 const {env} = process;
 
@@ -13036,15 +12923,70 @@ module.exports = {
 
 /***/ }),
 
-/***/ 51:
+/***/ 5:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return flattenToOwn; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return _getSECStatePath; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _flattenSEC; });
+/* harmony import */ var _consts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+
+
+function flattenToOwn(object) {
+  if (!object) return object;
+  if (Array.isArray(object)) return object;
+  if (typeof object !== 'object') return object;
+  const res = Object.create(null);
+
+  for (const property in object) {
+    res[property] = object[property];
+  }
+
+  return res;
+} // needed for various tree traversal algorithms
+
+
+function _getSECStatePath(SEC) {
+  if (!SEC[_consts__WEBPACK_IMPORTED_MODULE_0__[/* INTERNAL_PROP */ "a"]].cache.statePath) {
+    const path = [];
+    let state = SEC[_consts__WEBPACK_IMPORTED_MODULE_0__[/* INTERNAL_PROP */ "a"]];
+
+    while (state) {
+      path.unshift(state);
+      state = state.parent;
+    }
+
+    SEC[_consts__WEBPACK_IMPORTED_MODULE_0__[/* INTERNAL_PROP */ "a"]].cache.statePath = path;
+  }
+
+  return SEC[_consts__WEBPACK_IMPORTED_MODULE_0__[/* INTERNAL_PROP */ "a"]].cache.statePath;
+} // for debug
+
+
+function _flattenSEC(SEC) {
+  const plugins = { ...SEC[_consts__WEBPACK_IMPORTED_MODULE_0__[/* INTERNAL_PROP */ "a"]].plugins
+  };
+  plugins.analytics.details = flattenToOwn(plugins.analytics.details);
+  plugins.dependency_injection.context = flattenToOwn(plugins.dependency_injection.context);
+  plugins.error_handling.details = flattenToOwn(plugins.error_handling.details);
+  plugins.logical_stack.stack = flattenToOwn(plugins.logical_stack.stack);
+  return plugins;
+}
+
+
+
+/***/ }),
+
+/***/ 50:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(100);
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(99);
 /* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_types__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _types__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _types__WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _generate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(101);
+/* harmony import */ var _generate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(100);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_UTC_timestamp_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_1__["d"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_human_readable_UTC_timestamp_ms", function() { return _generate__WEBPACK_IMPORTED_MODULE_1__["g"]; });
@@ -13066,7 +13008,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 52:
+/***/ 51:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13080,7 +13022,7 @@ const DEFAULT_LOGGER_KEY = ''; // yes, can be used as a key
 
 /***/ }),
 
-/***/ 53:
+/***/ 52:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13119,7 +13061,7 @@ __webpack_require__.d(analytics_state_namespaceObject, "addDetail", function() {
 var consts = __webpack_require__(0);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/emittery/index.js
-var emittery = __webpack_require__(129);
+var emittery = __webpack_require__(128);
 var emittery_default = /*#__PURE__*/__webpack_require__.n(emittery);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--multi/soft-execution-context/dist/src.es2019/root-prototype.js
@@ -13408,9 +13350,18 @@ const dependency_injection_PLUGIN = {
   }
 };
 
-// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/common-error-fields/dist/src.es2019.cjs/index.js
-var src_es2019_cjs = __webpack_require__(35);
-
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/common-error-fields/dist/src.es2019/consts.js
+const STANDARD_ERROR_FIELDS = new Set([// standard fields
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
+'name', 'message', // quasi-standard
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
+'stack']);
+const COMMON_ERROR_FIELDS = new Set([//...STANDARD_ERROR_FIELDS, // no, conv to array needed due to a babel bug 😢
+...Array.from(STANDARD_ERROR_FIELDS.keys()), // standard in node
+'code', // https://nodejs.org/dist/latest/docs/api/errors.html#errors_node_js_error_codes
+// non standard but widely used
+'statusCode', 'shouldRedirect', 'framesToPop', // My (Offirmo) extensions
+'details', 'SEC', '_temp']);
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/normalize-error/dist/src.es2019/index.js
  // Anything can be thrown: undefined, string, number...)
 // But that's obviously not a good practice.
@@ -13421,7 +13372,7 @@ function normalizeError(err_like = {}) {
   // create a true, safe, writable error object
   const true_err = new Error(err_like.message || `(non-error caught: "${err_like}")`); // properly attach fields if they exist
 
-  src_es2019_cjs["COMMON_ERROR_FIELDS"].forEach(prop => {
+  COMMON_ERROR_FIELDS.forEach(prop => {
     //if (prop in err_like)
     if (err_like[prop]) true_err[prop] = err_like[prop];
   });
@@ -13437,7 +13388,7 @@ function promiseTry(fn) {
 
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/1-stdlib/timestamps/dist/src.es2019/generate.js
-var generate = __webpack_require__(101);
+var generate = __webpack_require__(100);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/3-advanced--multi/soft-execution-context/dist/src.es2019/plugins/error-handling/state.js
 /////////////////////
@@ -13570,7 +13521,7 @@ const error_handling_PLUGIN = {
       const err = new Error(message);
       Object.keys(details).forEach(k => {
         //console.log(k)
-        if (src_es2019_cjs["COMMON_ERROR_FIELDS"].has(k) && !src_es2019_cjs["STANDARD_ERROR_FIELDS"].has(k)) {
+        if (COMMON_ERROR_FIELDS.has(k) && !STANDARD_ERROR_FIELDS.has(k)) {
           err[k] = details[k];
         } else {
           err.details = err.details || {};
@@ -13848,7 +13799,7 @@ function createSEC(args = {}) {
 
 /***/ }),
 
-/***/ 532:
+/***/ 530:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13861,9 +13812,9 @@ exports.handler = void 0;
 
 const runner_1 = __webpack_require__(173);
 
-const require_http_method_1 = __webpack_require__(189);
+const require_http_method_1 = __webpack_require__(187);
 
-const test_failure_1 = __webpack_require__(533);
+const test_failure_1 = __webpack_require__(531);
 
 async function _handler(SEC, event, context, response, next) {
   response.statusCode = 200;
@@ -13878,7 +13829,7 @@ exports.handler = handler;
 
 /***/ }),
 
-/***/ 533:
+/***/ 531:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13889,15 +13840,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.test_failure = exports.FailureMode = void 0;
 
-const tslib_1 = __webpack_require__(54);
+const tslib_1 = __webpack_require__(72);
 
-const memoize_one_1 = tslib_1.__importDefault(__webpack_require__(534));
+const memoize_one_1 = tslib_1.__importDefault(__webpack_require__(532));
 
 const typescript_string_enums_1 = __webpack_require__(14);
 
 const tiny_invariant_1 = tslib_1.__importDefault(__webpack_require__(31));
 
-const utils_1 = __webpack_require__(72);
+const utils_1 = __webpack_require__(70);
 
 exports.FailureMode = typescript_string_enums_1.Enum('none', 'manual', 'uncaught-sync', 'uncaught-async', 'timeout', 'rejection', 'unhandled-rejection', 'bad-status-code', 'non-json-body', 'non-stringified-body', 'non-stringifiable-body', 'no-response');
 
@@ -13998,7 +13949,7 @@ exports.test_failure = test_failure;
 
 /***/ }),
 
-/***/ 534:
+/***/ 532:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -14043,7 +13994,279 @@ function memoizeOne(resultFn, isEqual) {
 
 /***/ }),
 
-/***/ 54:
+/***/ 60:
+/***/ (function(module, exports) {
+
+/**
+ * Helpers.
+ */
+
+var s = 1000;
+var m = s * 60;
+var h = m * 60;
+var d = h * 24;
+var w = d * 7;
+var y = d * 365.25;
+
+/**
+ * Parse or format the given `val`.
+ *
+ * Options:
+ *
+ *  - `long` verbose formatting [false]
+ *
+ * @param {String|Number} val
+ * @param {Object} [options]
+ * @throws {Error} throw an error if val is not a non-empty string or a number
+ * @return {String|Number}
+ * @api public
+ */
+
+module.exports = function(val, options) {
+  options = options || {};
+  var type = typeof val;
+  if (type === 'string' && val.length > 0) {
+    return parse(val);
+  } else if (type === 'number' && isFinite(val)) {
+    return options.long ? fmtLong(val) : fmtShort(val);
+  }
+  throw new Error(
+    'val is not a non-empty string or a valid number. val=' +
+      JSON.stringify(val)
+  );
+};
+
+/**
+ * Parse the given `str` and return milliseconds.
+ *
+ * @param {String} str
+ * @return {Number}
+ * @api private
+ */
+
+function parse(str) {
+  str = String(str);
+  if (str.length > 100) {
+    return;
+  }
+  var match = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(
+    str
+  );
+  if (!match) {
+    return;
+  }
+  var n = parseFloat(match[1]);
+  var type = (match[2] || 'ms').toLowerCase();
+  switch (type) {
+    case 'years':
+    case 'year':
+    case 'yrs':
+    case 'yr':
+    case 'y':
+      return n * y;
+    case 'weeks':
+    case 'week':
+    case 'w':
+      return n * w;
+    case 'days':
+    case 'day':
+    case 'd':
+      return n * d;
+    case 'hours':
+    case 'hour':
+    case 'hrs':
+    case 'hr':
+    case 'h':
+      return n * h;
+    case 'minutes':
+    case 'minute':
+    case 'mins':
+    case 'min':
+    case 'm':
+      return n * m;
+    case 'seconds':
+    case 'second':
+    case 'secs':
+    case 'sec':
+    case 's':
+      return n * s;
+    case 'milliseconds':
+    case 'millisecond':
+    case 'msecs':
+    case 'msec':
+    case 'ms':
+      return n;
+    default:
+      return undefined;
+  }
+}
+
+/**
+ * Short format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtShort(ms) {
+  var msAbs = Math.abs(ms);
+  if (msAbs >= d) {
+    return Math.round(ms / d) + 'd';
+  }
+  if (msAbs >= h) {
+    return Math.round(ms / h) + 'h';
+  }
+  if (msAbs >= m) {
+    return Math.round(ms / m) + 'm';
+  }
+  if (msAbs >= s) {
+    return Math.round(ms / s) + 's';
+  }
+  return ms + 'ms';
+}
+
+/**
+ * Long format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtLong(ms) {
+  var msAbs = Math.abs(ms);
+  if (msAbs >= d) {
+    return plural(ms, msAbs, d, 'day');
+  }
+  if (msAbs >= h) {
+    return plural(ms, msAbs, h, 'hour');
+  }
+  if (msAbs >= m) {
+    return plural(ms, msAbs, m, 'minute');
+  }
+  if (msAbs >= s) {
+    return plural(ms, msAbs, s, 'second');
+  }
+  return ms + ' ms';
+}
+
+/**
+ * Pluralization helper.
+ */
+
+function plural(ms, msAbs, n, name) {
+  var isPlural = msAbs >= n * 1.5;
+  return Math.round(ms / n) + ' ' + name + (isPlural ? 's' : '');
+}
+
+
+/***/ }),
+
+/***/ 69:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(101);
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_types__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _types__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _types__WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _root__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(102);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getRootSEC", function() { return _root__WEBPACK_IMPORTED_MODULE_1__["a"]; });
+
+/* harmony import */ var _core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(52);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LIB", function() { return _core__WEBPACK_IMPORTED_MODULE_2__["a"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isSEC", function() { return _core__WEBPACK_IMPORTED_MODULE_2__["c"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createSEC", function() { return _core__WEBPACK_IMPORTED_MODULE_2__["b"]; });
+
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "flattenToOwn", function() { return _utils__WEBPACK_IMPORTED_MODULE_3__["c"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "_getSECStatePath", function() { return _utils__WEBPACK_IMPORTED_MODULE_3__["b"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "_flattenSEC", function() { return _utils__WEBPACK_IMPORTED_MODULE_3__["a"]; });
+
+
+
+
+
+
+/***/ }),
+
+/***/ 7:
+/***/ (function(module, exports) {
+
+module.exports = require("fs");
+
+/***/ }),
+
+/***/ 70:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.create_error = void 0;
+
+const http_1 = __webpack_require__(25); // TODO extern
+
+
+function create_error(SEC, message, details = {}) {
+  console.log(`FYI create_error("${message}"`, details, ') from', SEC.getLogicalStack());
+
+  if (message && http_1.STATUS_CODES[message]) {
+    details.statusCode = Number(message);
+    message = http_1.STATUS_CODES[details.statusCode];
+  } //console.log('CE', SEC.getLogicalStack(), '\n', SEC.getShortLogicalStack())
+
+
+  const err = SEC.createError(String(message), details);
+  err.framesToPop++;
+  return err;
+}
+
+exports.create_error = create_error;
+
+/***/ }),
+
+/***/ 71:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createLogger", function() { return createLogger; });
+/* harmony import */ var _offirmo_practical_logger_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(188);
+/* harmony import */ var _sinks_to_console__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(129);
+
+
+const ORIGINAL_CONSOLE = console;
+
+function createLogger(p = {}) {
+  var _a;
+
+  const {
+    group,
+    groupCollapsed,
+    groupEnd
+  } = ORIGINAL_CONSOLE;
+  return { ...Object(_offirmo_practical_logger_core__WEBPACK_IMPORTED_MODULE_0__[/* create */ "a"])(p, ((_a = p.sinkOptions) === null || _a === void 0 ? void 0 : _a.sink) || Object(_sinks_to_console__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(p.sinkOptions)),
+    group,
+    groupCollapsed,
+    groupEnd
+  };
+}
+
+
+
+
+
+/***/ }),
+
+/***/ 72:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -14302,279 +14525,7 @@ function __classPrivateFieldSet(receiver, privateMap, value) {
 
 /***/ }),
 
-/***/ 62:
-/***/ (function(module, exports) {
-
-/**
- * Helpers.
- */
-
-var s = 1000;
-var m = s * 60;
-var h = m * 60;
-var d = h * 24;
-var w = d * 7;
-var y = d * 365.25;
-
-/**
- * Parse or format the given `val`.
- *
- * Options:
- *
- *  - `long` verbose formatting [false]
- *
- * @param {String|Number} val
- * @param {Object} [options]
- * @throws {Error} throw an error if val is not a non-empty string or a number
- * @return {String|Number}
- * @api public
- */
-
-module.exports = function(val, options) {
-  options = options || {};
-  var type = typeof val;
-  if (type === 'string' && val.length > 0) {
-    return parse(val);
-  } else if (type === 'number' && isFinite(val)) {
-    return options.long ? fmtLong(val) : fmtShort(val);
-  }
-  throw new Error(
-    'val is not a non-empty string or a valid number. val=' +
-      JSON.stringify(val)
-  );
-};
-
-/**
- * Parse the given `str` and return milliseconds.
- *
- * @param {String} str
- * @return {Number}
- * @api private
- */
-
-function parse(str) {
-  str = String(str);
-  if (str.length > 100) {
-    return;
-  }
-  var match = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(
-    str
-  );
-  if (!match) {
-    return;
-  }
-  var n = parseFloat(match[1]);
-  var type = (match[2] || 'ms').toLowerCase();
-  switch (type) {
-    case 'years':
-    case 'year':
-    case 'yrs':
-    case 'yr':
-    case 'y':
-      return n * y;
-    case 'weeks':
-    case 'week':
-    case 'w':
-      return n * w;
-    case 'days':
-    case 'day':
-    case 'd':
-      return n * d;
-    case 'hours':
-    case 'hour':
-    case 'hrs':
-    case 'hr':
-    case 'h':
-      return n * h;
-    case 'minutes':
-    case 'minute':
-    case 'mins':
-    case 'min':
-    case 'm':
-      return n * m;
-    case 'seconds':
-    case 'second':
-    case 'secs':
-    case 'sec':
-    case 's':
-      return n * s;
-    case 'milliseconds':
-    case 'millisecond':
-    case 'msecs':
-    case 'msec':
-    case 'ms':
-      return n;
-    default:
-      return undefined;
-  }
-}
-
-/**
- * Short format for `ms`.
- *
- * @param {Number} ms
- * @return {String}
- * @api private
- */
-
-function fmtShort(ms) {
-  var msAbs = Math.abs(ms);
-  if (msAbs >= d) {
-    return Math.round(ms / d) + 'd';
-  }
-  if (msAbs >= h) {
-    return Math.round(ms / h) + 'h';
-  }
-  if (msAbs >= m) {
-    return Math.round(ms / m) + 'm';
-  }
-  if (msAbs >= s) {
-    return Math.round(ms / s) + 's';
-  }
-  return ms + 'ms';
-}
-
-/**
- * Long format for `ms`.
- *
- * @param {Number} ms
- * @return {String}
- * @api private
- */
-
-function fmtLong(ms) {
-  var msAbs = Math.abs(ms);
-  if (msAbs >= d) {
-    return plural(ms, msAbs, d, 'day');
-  }
-  if (msAbs >= h) {
-    return plural(ms, msAbs, h, 'hour');
-  }
-  if (msAbs >= m) {
-    return plural(ms, msAbs, m, 'minute');
-  }
-  if (msAbs >= s) {
-    return plural(ms, msAbs, s, 'second');
-  }
-  return ms + ' ms';
-}
-
-/**
- * Pluralization helper.
- */
-
-function plural(ms, msAbs, n, name) {
-  var isPlural = msAbs >= n * 1.5;
-  return Math.round(ms / n) + ' ' + name + (isPlural ? 's' : '');
-}
-
-
-/***/ }),
-
-/***/ 7:
-/***/ (function(module, exports) {
-
-module.exports = require("fs");
-
-/***/ }),
-
-/***/ 71:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(102);
-/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_types__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _types__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _types__WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _root__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(103);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getRootSEC", function() { return _root__WEBPACK_IMPORTED_MODULE_1__["a"]; });
-
-/* harmony import */ var _core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(53);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LIB", function() { return _core__WEBPACK_IMPORTED_MODULE_2__["a"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isSEC", function() { return _core__WEBPACK_IMPORTED_MODULE_2__["c"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createSEC", function() { return _core__WEBPACK_IMPORTED_MODULE_2__["b"]; });
-
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "flattenToOwn", function() { return _utils__WEBPACK_IMPORTED_MODULE_3__["c"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "_getSECStatePath", function() { return _utils__WEBPACK_IMPORTED_MODULE_3__["b"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "_flattenSEC", function() { return _utils__WEBPACK_IMPORTED_MODULE_3__["a"]; });
-
-
-
-
-
-
-/***/ }),
-
-/***/ 72:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.create_error = void 0;
-
-const http_1 = __webpack_require__(25); // TODO extern
-
-
-function create_error(SEC, message, details = {}) {
-  console.log(`FYI create_error("${message}"`, details, ') from', SEC.getLogicalStack());
-
-  if (message && http_1.STATUS_CODES[message]) {
-    details.statusCode = Number(message);
-    message = http_1.STATUS_CODES[details.statusCode];
-  } //console.log('CE', SEC.getLogicalStack(), '\n', SEC.getShortLogicalStack())
-
-
-  const err = SEC.createError(String(message), details);
-  err.framesToPop++;
-  return err;
-}
-
-exports.create_error = create_error;
-
-/***/ }),
-
 /***/ 73:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createLogger", function() { return createLogger; });
-/* harmony import */ var _offirmo_practical_logger_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(190);
-/* harmony import */ var _sinks_to_console__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(130);
-
-
-const ORIGINAL_CONSOLE = console;
-
-function createLogger(p = {}) {
-  var _a;
-
-  const {
-    group,
-    groupCollapsed,
-    groupEnd
-  } = ORIGINAL_CONSOLE;
-  return { ...Object(_offirmo_practical_logger_core__WEBPACK_IMPORTED_MODULE_0__[/* create */ "a"])(p, ((_a = p.sinkOptions) === null || _a === void 0 ? void 0 : _a.sink) || Object(_sinks_to_console__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(p.sinkOptions)),
-    group,
-    groupCollapsed,
-    groupEnd
-  };
-}
-
-
-
-
-
-/***/ }),
-
-/***/ 74:
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -14603,7 +14554,7 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ 75:
+/***/ 74:
 /***/ (function(module, exports, __webpack_require__) {
 
 var json = typeof JSON !== 'undefined' ? JSON : __webpack_require__(174);
@@ -14694,7 +14645,7 @@ var objectKeys = Object.keys || function (obj) {
 
 /***/ }),
 
-/***/ 76:
+/***/ 75:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14702,7 +14653,7 @@ var objectKeys = Object.keys || function (obj) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-const agent_1 = __importDefault(__webpack_require__(135));
+const agent_1 = __importDefault(__webpack_require__(134));
 function createHttpsProxyAgent(opts) {
     return new agent_1.default(opts);
 }
@@ -14715,21 +14666,21 @@ module.exports = createHttpsProxyAgent;
 
 /***/ }),
 
-/***/ 77:
+/***/ 76:
 /***/ (function(module, exports) {
 
 module.exports = require("net");
 
 /***/ }),
 
-/***/ 78:
+/***/ 77:
 /***/ (function(module, exports) {
 
 module.exports = require("tls");
 
 /***/ }),
 
-/***/ 79:
+/***/ 78:
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -14738,10 +14689,283 @@ module.exports = require("tls");
  */
 
 if (typeof process === 'undefined' || process.type === 'renderer' || process.browser === true || process.__nwjs) {
-	module.exports = __webpack_require__(136);
+	module.exports = __webpack_require__(135);
 } else {
-	module.exports = __webpack_require__(137);
+	module.exports = __webpack_require__(136);
 }
+
+
+/***/ }),
+
+/***/ 79:
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/**
+ * This is the common logic for both the Node.js and web browser
+ * implementations of `debug()`.
+ */
+
+function setup(env) {
+	createDebug.debug = createDebug;
+	createDebug.default = createDebug;
+	createDebug.coerce = coerce;
+	createDebug.disable = disable;
+	createDebug.enable = enable;
+	createDebug.enabled = enabled;
+	createDebug.humanize = __webpack_require__(60);
+
+	Object.keys(env).forEach(key => {
+		createDebug[key] = env[key];
+	});
+
+	/**
+	* Active `debug` instances.
+	*/
+	createDebug.instances = [];
+
+	/**
+	* The currently active debug mode names, and names to skip.
+	*/
+
+	createDebug.names = [];
+	createDebug.skips = [];
+
+	/**
+	* Map of special "%n" handling functions, for the debug "format" argument.
+	*
+	* Valid key names are a single, lower or upper-case letter, i.e. "n" and "N".
+	*/
+	createDebug.formatters = {};
+
+	/**
+	* Selects a color for a debug namespace
+	* @param {String} namespace The namespace string for the for the debug instance to be colored
+	* @return {Number|String} An ANSI color code for the given namespace
+	* @api private
+	*/
+	function selectColor(namespace) {
+		let hash = 0;
+
+		for (let i = 0; i < namespace.length; i++) {
+			hash = ((hash << 5) - hash) + namespace.charCodeAt(i);
+			hash |= 0; // Convert to 32bit integer
+		}
+
+		return createDebug.colors[Math.abs(hash) % createDebug.colors.length];
+	}
+	createDebug.selectColor = selectColor;
+
+	/**
+	* Create a debugger with the given `namespace`.
+	*
+	* @param {String} namespace
+	* @return {Function}
+	* @api public
+	*/
+	function createDebug(namespace) {
+		let prevTime;
+
+		function debug(...args) {
+			// Disabled?
+			if (!debug.enabled) {
+				return;
+			}
+
+			const self = debug;
+
+			// Set `diff` timestamp
+			const curr = Number(new Date());
+			const ms = curr - (prevTime || curr);
+			self.diff = ms;
+			self.prev = prevTime;
+			self.curr = curr;
+			prevTime = curr;
+
+			args[0] = createDebug.coerce(args[0]);
+
+			if (typeof args[0] !== 'string') {
+				// Anything else let's inspect with %O
+				args.unshift('%O');
+			}
+
+			// Apply any `formatters` transformations
+			let index = 0;
+			args[0] = args[0].replace(/%([a-zA-Z%])/g, (match, format) => {
+				// If we encounter an escaped % then don't increase the array index
+				if (match === '%%') {
+					return match;
+				}
+				index++;
+				const formatter = createDebug.formatters[format];
+				if (typeof formatter === 'function') {
+					const val = args[index];
+					match = formatter.call(self, val);
+
+					// Now we need to remove `args[index]` since it's inlined in the `format`
+					args.splice(index, 1);
+					index--;
+				}
+				return match;
+			});
+
+			// Apply env-specific formatting (colors, etc.)
+			createDebug.formatArgs.call(self, args);
+
+			const logFn = self.log || createDebug.log;
+			logFn.apply(self, args);
+		}
+
+		debug.namespace = namespace;
+		debug.enabled = createDebug.enabled(namespace);
+		debug.useColors = createDebug.useColors();
+		debug.color = selectColor(namespace);
+		debug.destroy = destroy;
+		debug.extend = extend;
+		// Debug.formatArgs = formatArgs;
+		// debug.rawLog = rawLog;
+
+		// env-specific initialization logic for debug instances
+		if (typeof createDebug.init === 'function') {
+			createDebug.init(debug);
+		}
+
+		createDebug.instances.push(debug);
+
+		return debug;
+	}
+
+	function destroy() {
+		const index = createDebug.instances.indexOf(this);
+		if (index !== -1) {
+			createDebug.instances.splice(index, 1);
+			return true;
+		}
+		return false;
+	}
+
+	function extend(namespace, delimiter) {
+		const newDebug = createDebug(this.namespace + (typeof delimiter === 'undefined' ? ':' : delimiter) + namespace);
+		newDebug.log = this.log;
+		return newDebug;
+	}
+
+	/**
+	* Enables a debug mode by namespaces. This can include modes
+	* separated by a colon and wildcards.
+	*
+	* @param {String} namespaces
+	* @api public
+	*/
+	function enable(namespaces) {
+		createDebug.save(namespaces);
+
+		createDebug.names = [];
+		createDebug.skips = [];
+
+		let i;
+		const split = (typeof namespaces === 'string' ? namespaces : '').split(/[\s,]+/);
+		const len = split.length;
+
+		for (i = 0; i < len; i++) {
+			if (!split[i]) {
+				// ignore empty strings
+				continue;
+			}
+
+			namespaces = split[i].replace(/\*/g, '.*?');
+
+			if (namespaces[0] === '-') {
+				createDebug.skips.push(new RegExp('^' + namespaces.substr(1) + '$'));
+			} else {
+				createDebug.names.push(new RegExp('^' + namespaces + '$'));
+			}
+		}
+
+		for (i = 0; i < createDebug.instances.length; i++) {
+			const instance = createDebug.instances[i];
+			instance.enabled = createDebug.enabled(instance.namespace);
+		}
+	}
+
+	/**
+	* Disable debug output.
+	*
+	* @return {String} namespaces
+	* @api public
+	*/
+	function disable() {
+		const namespaces = [
+			...createDebug.names.map(toNamespace),
+			...createDebug.skips.map(toNamespace).map(namespace => '-' + namespace)
+		].join(',');
+		createDebug.enable('');
+		return namespaces;
+	}
+
+	/**
+	* Returns true if the given mode name is enabled, false otherwise.
+	*
+	* @param {String} name
+	* @return {Boolean}
+	* @api public
+	*/
+	function enabled(name) {
+		if (name[name.length - 1] === '*') {
+			return true;
+		}
+
+		let i;
+		let len;
+
+		for (i = 0, len = createDebug.skips.length; i < len; i++) {
+			if (createDebug.skips[i].test(name)) {
+				return false;
+			}
+		}
+
+		for (i = 0, len = createDebug.names.length; i < len; i++) {
+			if (createDebug.names[i].test(name)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	* Convert regexp to namespace
+	*
+	* @param {RegExp} regxep
+	* @return {String} namespace
+	* @api private
+	*/
+	function toNamespace(regexp) {
+		return regexp.toString()
+			.substring(2, regexp.toString().length - 2)
+			.replace(/\.\*\?$/, '*');
+	}
+
+	/**
+	* Coerce `val`.
+	*
+	* @param {Mixed} val
+	* @return {Mixed}
+	* @api private
+	*/
+	function coerce(val) {
+		if (val instanceof Error) {
+			return val.stack || val.message;
+		}
+		return val;
+	}
+
+	createDebug.enable(createDebug.load());
+
+	return createDebug;
+}
+
+module.exports = setup;
 
 
 /***/ }),
@@ -15154,7 +15378,7 @@ function addContextToFrame(lines, frame, linesOfContext) {
         .map(function (line) { return Object(_string__WEBPACK_IMPORTED_MODULE_1__[/* snipLine */ "b"])(line, 0); });
 }
 //# sourceMappingURL=misc.js.map
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(134)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(133)(module)))
 
 /***/ }),
 
@@ -15174,7 +15398,7 @@ function setup(env) {
 	createDebug.disable = disable;
 	createDebug.enable = enable;
 	createDebug.enabled = enabled;
-	createDebug.humanize = __webpack_require__(62);
+	createDebug.humanize = __webpack_require__(60);
 
 	Object.keys(env).forEach(key => {
 		createDebug[key] = env[key];
@@ -15431,280 +15655,7 @@ module.exports = setup;
 
 /***/ }),
 
-/***/ 81:
-/***/ (function(module, exports, __webpack_require__) {
-
-
-/**
- * This is the common logic for both the Node.js and web browser
- * implementations of `debug()`.
- */
-
-function setup(env) {
-	createDebug.debug = createDebug;
-	createDebug.default = createDebug;
-	createDebug.coerce = coerce;
-	createDebug.disable = disable;
-	createDebug.enable = enable;
-	createDebug.enabled = enabled;
-	createDebug.humanize = __webpack_require__(62);
-
-	Object.keys(env).forEach(key => {
-		createDebug[key] = env[key];
-	});
-
-	/**
-	* Active `debug` instances.
-	*/
-	createDebug.instances = [];
-
-	/**
-	* The currently active debug mode names, and names to skip.
-	*/
-
-	createDebug.names = [];
-	createDebug.skips = [];
-
-	/**
-	* Map of special "%n" handling functions, for the debug "format" argument.
-	*
-	* Valid key names are a single, lower or upper-case letter, i.e. "n" and "N".
-	*/
-	createDebug.formatters = {};
-
-	/**
-	* Selects a color for a debug namespace
-	* @param {String} namespace The namespace string for the for the debug instance to be colored
-	* @return {Number|String} An ANSI color code for the given namespace
-	* @api private
-	*/
-	function selectColor(namespace) {
-		let hash = 0;
-
-		for (let i = 0; i < namespace.length; i++) {
-			hash = ((hash << 5) - hash) + namespace.charCodeAt(i);
-			hash |= 0; // Convert to 32bit integer
-		}
-
-		return createDebug.colors[Math.abs(hash) % createDebug.colors.length];
-	}
-	createDebug.selectColor = selectColor;
-
-	/**
-	* Create a debugger with the given `namespace`.
-	*
-	* @param {String} namespace
-	* @return {Function}
-	* @api public
-	*/
-	function createDebug(namespace) {
-		let prevTime;
-
-		function debug(...args) {
-			// Disabled?
-			if (!debug.enabled) {
-				return;
-			}
-
-			const self = debug;
-
-			// Set `diff` timestamp
-			const curr = Number(new Date());
-			const ms = curr - (prevTime || curr);
-			self.diff = ms;
-			self.prev = prevTime;
-			self.curr = curr;
-			prevTime = curr;
-
-			args[0] = createDebug.coerce(args[0]);
-
-			if (typeof args[0] !== 'string') {
-				// Anything else let's inspect with %O
-				args.unshift('%O');
-			}
-
-			// Apply any `formatters` transformations
-			let index = 0;
-			args[0] = args[0].replace(/%([a-zA-Z%])/g, (match, format) => {
-				// If we encounter an escaped % then don't increase the array index
-				if (match === '%%') {
-					return match;
-				}
-				index++;
-				const formatter = createDebug.formatters[format];
-				if (typeof formatter === 'function') {
-					const val = args[index];
-					match = formatter.call(self, val);
-
-					// Now we need to remove `args[index]` since it's inlined in the `format`
-					args.splice(index, 1);
-					index--;
-				}
-				return match;
-			});
-
-			// Apply env-specific formatting (colors, etc.)
-			createDebug.formatArgs.call(self, args);
-
-			const logFn = self.log || createDebug.log;
-			logFn.apply(self, args);
-		}
-
-		debug.namespace = namespace;
-		debug.enabled = createDebug.enabled(namespace);
-		debug.useColors = createDebug.useColors();
-		debug.color = selectColor(namespace);
-		debug.destroy = destroy;
-		debug.extend = extend;
-		// Debug.formatArgs = formatArgs;
-		// debug.rawLog = rawLog;
-
-		// env-specific initialization logic for debug instances
-		if (typeof createDebug.init === 'function') {
-			createDebug.init(debug);
-		}
-
-		createDebug.instances.push(debug);
-
-		return debug;
-	}
-
-	function destroy() {
-		const index = createDebug.instances.indexOf(this);
-		if (index !== -1) {
-			createDebug.instances.splice(index, 1);
-			return true;
-		}
-		return false;
-	}
-
-	function extend(namespace, delimiter) {
-		const newDebug = createDebug(this.namespace + (typeof delimiter === 'undefined' ? ':' : delimiter) + namespace);
-		newDebug.log = this.log;
-		return newDebug;
-	}
-
-	/**
-	* Enables a debug mode by namespaces. This can include modes
-	* separated by a colon and wildcards.
-	*
-	* @param {String} namespaces
-	* @api public
-	*/
-	function enable(namespaces) {
-		createDebug.save(namespaces);
-
-		createDebug.names = [];
-		createDebug.skips = [];
-
-		let i;
-		const split = (typeof namespaces === 'string' ? namespaces : '').split(/[\s,]+/);
-		const len = split.length;
-
-		for (i = 0; i < len; i++) {
-			if (!split[i]) {
-				// ignore empty strings
-				continue;
-			}
-
-			namespaces = split[i].replace(/\*/g, '.*?');
-
-			if (namespaces[0] === '-') {
-				createDebug.skips.push(new RegExp('^' + namespaces.substr(1) + '$'));
-			} else {
-				createDebug.names.push(new RegExp('^' + namespaces + '$'));
-			}
-		}
-
-		for (i = 0; i < createDebug.instances.length; i++) {
-			const instance = createDebug.instances[i];
-			instance.enabled = createDebug.enabled(instance.namespace);
-		}
-	}
-
-	/**
-	* Disable debug output.
-	*
-	* @return {String} namespaces
-	* @api public
-	*/
-	function disable() {
-		const namespaces = [
-			...createDebug.names.map(toNamespace),
-			...createDebug.skips.map(toNamespace).map(namespace => '-' + namespace)
-		].join(',');
-		createDebug.enable('');
-		return namespaces;
-	}
-
-	/**
-	* Returns true if the given mode name is enabled, false otherwise.
-	*
-	* @param {String} name
-	* @return {Boolean}
-	* @api public
-	*/
-	function enabled(name) {
-		if (name[name.length - 1] === '*') {
-			return true;
-		}
-
-		let i;
-		let len;
-
-		for (i = 0, len = createDebug.skips.length; i < len; i++) {
-			if (createDebug.skips[i].test(name)) {
-				return false;
-			}
-		}
-
-		for (i = 0, len = createDebug.names.length; i < len; i++) {
-			if (createDebug.names[i].test(name)) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	* Convert regexp to namespace
-	*
-	* @param {RegExp} regxep
-	* @return {String} namespace
-	* @api private
-	*/
-	function toNamespace(regexp) {
-		return regexp.toString()
-			.substring(2, regexp.toString().length - 2)
-			.replace(/\.\*\?$/, '*');
-	}
-
-	/**
-	* Coerce `val`.
-	*
-	* @param {Mixed} val
-	* @return {Mixed}
-	* @api private
-	*/
-	function coerce(val) {
-		if (val instanceof Error) {
-			return val.stack || val.message;
-		}
-		return val;
-	}
-
-	createDebug.enable(createDebug.load());
-
-	return createDebug;
-}
-
-module.exports = setup;
-
-
-/***/ }),
-
-/***/ 95:
+/***/ 94:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -16020,7 +15971,7 @@ LRUMap.prototype.toString = function() {
 
 /***/ }),
 
-/***/ 96:
+/***/ 95:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16146,7 +16097,11 @@ function serialize(name, val, options) {
 
   if (null != opt.maxAge) {
     var maxAge = opt.maxAge - 0;
-    if (isNaN(maxAge)) throw new Error('maxAge should be a Number');
+
+    if (isNaN(maxAge) || !isFinite(maxAge)) {
+      throw new TypeError('option maxAge is invalid')
+    }
+
     str += '; Max-Age=' + Math.floor(maxAge);
   }
 
@@ -16196,6 +16151,9 @@ function serialize(name, val, options) {
       case 'strict':
         str += '; SameSite=Strict';
         break;
+      case 'none':
+        str += '; SameSite=None';
+        break;
       default:
         throw new TypeError('option sameSite is invalid');
     }
@@ -16223,7 +16181,7 @@ function tryDecode(str, decode) {
 
 /***/ }),
 
-/***/ 98:
+/***/ 97:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -16281,7 +16239,7 @@ function get_api_base_url(channel) {
 
 /***/ }),
 
-/***/ 99:
+/***/ 98:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16315,6 +16273,13 @@ function get_default_JsonRpc_error() {
 }
 
 exports.get_default_JsonRpc_error = get_default_JsonRpc_error;
+
+/***/ }),
+
+/***/ 99:
+/***/ (function(module, exports) {
+
+
 
 /***/ })
 
