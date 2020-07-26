@@ -4,6 +4,7 @@
 ## PENDING
 NOTE: Reminder to increase REVISION when releasing!
 * TODO node & browser should share a lot of logic
+* [test] TODO unit tests!
 * [chore] re-organized the source (monorepo) and tweaked the build script. No logic change.
 * [chore] bumped dependencies (minor)
 * ...

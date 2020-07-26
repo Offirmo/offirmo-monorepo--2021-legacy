@@ -32,12 +32,13 @@
 		"build:prod": "node ../../../0-scripts/build-typescript.js",
 
 		"dev": "run-s clean build:dev:watch",
-		"xxtest": "../../../node_modules/.bin/mocha --bail --config ../../../4-tools/unit-test-toolbox/mocharc.json ../../../4-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2019.cjs/**/*spec.js'",
+		"xxtest": "./node_modules/.bin/mocha --bail --config ./node_modules/@offirmo/unit-test-toolbox/mocharc.json ./node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2019.cjs/**/*spec.js'",
 		"build": "run-s build:prod",
 
 		"start": "node dist/src.es2019.cjs/index.js"
 	},
 	"devDependencies": {
+		"@offirmo/unit-test-toolbox": "^6",
 		"@types/node": "^12",
 		"npm-run-all": "^4"
 	}

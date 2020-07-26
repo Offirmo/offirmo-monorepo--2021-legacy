@@ -3,6 +3,7 @@
 
 ## PENDING
 * initial release to npm
+* [test] TODO unit tests!
 
 ## TEMPLATE
 * [doc] README++

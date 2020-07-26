@@ -4,6 +4,7 @@
 NOTE: not much reason to publish this lib since it's supposed to be bundled
 
 ## PENDING
+* [test] TODO unit tests!
 * TODO lower size by removing duplication + useless sink
   * NOTE bigger size but not a problem since you're not supposed to bundle this lib
 * TODO test EDGE, IE

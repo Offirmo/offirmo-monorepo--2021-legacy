@@ -4,6 +4,7 @@
 ## PENDING
 * [chore] re-organized the source (monorepo) and tweaked the build script. No logic change.
 * [chore] bumped dependencies (minor)
+* [test] TODO unit tests!
 * ...
 
 ## v1.0.0

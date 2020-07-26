@@ -3,6 +3,7 @@
 
 ## PENDING
 NOTE: Reminder to increase REVISION when releasing!
+* [test] TODO unit tests!
 * TODO extract core implementation common bw node & browser?
 * TODO better handle no local storage
 * TODO handle iframes?

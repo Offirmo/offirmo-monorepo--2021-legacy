@@ -47,15 +47,18 @@
 	},
 	"scripts": {
 		"clean": "node ../../../0-scripts/clean.js …dist",
+
 		"refresh-build-variables": "node ../../../0-scripts/update_build_variables.js --mode=ts",
 		"build:dev:watch": "node ../../../0-scripts/build-typescript.js --watch",
 		"build:prod": "node ../../../0-scripts/build-typescript.js",
+
 		"dev": "run-s clean build:dev:watch",
-		"test": "../../../node_modules/.bin/mocha --config ../../../4-tools/unit-test-toolbox/mocharc.json ../../../4-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2019.cjs/**/*spec.js'",
+		"test": "./node_modules/.bin/mocha --bail --config ./node_modules/@offirmo/unit-test-toolbox/mocharc.json ./node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2019.cjs/**/*spec.js'",
 		"build": "npm version patch && run-s refresh-build-variables build:prod"
 	},
 	"devDependencies": {
 		"@offirmo-private/prettify-json": "^0",
+		"@offirmo/unit-test-toolbox": "^6",
 		"@oh-my-rpg/migration-tester": "^0",
 		"@types/deep-freeze-strict": "^1",
 		"deep-freeze-strict": "^1",

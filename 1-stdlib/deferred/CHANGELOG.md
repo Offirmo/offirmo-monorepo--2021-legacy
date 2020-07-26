@@ -2,7 +2,7 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
-* TODO unit tests!
+* [test] TODO unit tests!
 * [chore] tweak the tsconfig to not use nor import tslib. NOT NEEDED for now but will avoid accidents bloating the bundle size.
 * [chore] re-organized the source (monorepo) and tweaked the build script. No logic change.
 * ...

@@ -47,10 +47,11 @@
 
 		"dev": "run-s clean build:dev:watch",
 		"start": "source ~/.nvm/nvm.sh; nvm use 12; export NODE_ENV=development; nvm exec 12 node ./node_modules/.bin/netlify-lambda serve ./dist/src.es2019.cjs --config ./webpack.config.ts",
-		"test": "../../../node_modules/.bin/mocha --config ../../../4-tools/unit-test-toolbox/mocharc.json ../../../4-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2019.cjs/**/*spec.js'",
+		"test": "./node_modules/.bin/mocha --bail --config ./node_modules/@offirmo/unit-test-toolbox/mocharc.json ./node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2019.cjs/**/*spec.js'",
 		"build": "run-s build:prod build:netlify-functions ensure-privacy"
 	},
 	"devDependencies": {
+		"@offirmo/unit-test-toolbox": "^6",
 		"@types/aws-lambda": "^8",
 		"netlify-lambda": "^1",
 		"npm-run-all": "^4"

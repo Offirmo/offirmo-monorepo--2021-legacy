@@ -27,7 +27,7 @@
 	"scripts": {
 		"clean": "node ../../../0-scripts/clean.js …dist",
 
-		"xtest": "../../../node_modules/.bin/mocha --config ../../../4-tools/unit-test-toolbox/mocharc.json ../../../4-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2019.cjs/**/*spec.js'",
+		"xxtest": "./node_modules/.bin/mocha --bail --config ./node_modules/@offirmo/unit-test-toolbox/mocharc.json ./node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2019.cjs/**/*spec.js'",
 		"build:dev:watch": "node ../../../0-scripts/build-typescript.js --watch",
 		"build:prod": "node ../../../0-scripts/build-typescript.js",
 
@@ -35,6 +35,7 @@
 		"build": "run-s build:prod"
 	},
 	"devDependencies": {
+		"@offirmo/unit-test-toolbox": "^6",
 		"@offirmo/universal-debug-api-node": "^0",
 		"@types/node": "^12",
 		"npm-run-all": "^4",

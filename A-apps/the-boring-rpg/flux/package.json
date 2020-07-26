@@ -45,16 +45,19 @@
 
 	"devDependencies": {
 		"@offirmo/practical-logger-node": "^0",
+		"@offirmo/unit-test-toolbox": "^6",
 		"fetch-mock": "^9",
 		"localstorage-ponyfill": "^1",
 		"npm-run-all": "^4"
 	},
 	"scripts": {
 		"clean": "node ../../../0-scripts/clean.js …dist",
+
 		"build:dev:watch": "node ../../../0-scripts/build-typescript.js --watch",
 		"build:prod": "node ../../../0-scripts/build-typescript.js",
+
 		"dev": "run-s clean build:dev:watch",
-		"test": "../../../node_modules/.bin/mocha --bail --config ../../../4-tools/unit-test-toolbox/mocharc.json ../../../4-tools/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2019.cjs/**/*spec.js'",
+		"test": "./node_modules/.bin/mocha --bail --config ./node_modules/@offirmo/unit-test-toolbox/mocharc.json ./node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2019.cjs/**/*spec.js'",
 		"build": "run-s build:prod"
 	}
 }

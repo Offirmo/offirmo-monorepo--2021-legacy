@@ -59,6 +59,7 @@ bolt ws run build
 bolt ws run build --only @offirmo-private/*
 bolt ws run test  --only @offirmo-private/*
 ## make it work again step by step!
+bolt ws run test  --only-fs "0-meta/*"
 bolt ws run build --only-fs "1-stdlib/*"
 bolt ws run test  --only-fs "1-stdlib/*"
 bolt ws run build --only-fs "2-foundation/*"
@@ -72,6 +73,7 @@ bolt ws run test  --only-fs "3-advanced--browser/*"
 bolt ws run build --only-fs "3-advanced--node/*"
 bolt ws run test  --only-fs "3-advanced--node/*"
 bolt ws run build --only-fs "4-tools/*"
+bolt ws run test --only-fs "4-tools/*"
 bolt ws run build --only-fs "5-incubator/**/*"
 bolt ws run build --only @oh-my-rpg/*
 bolt ws run test  --only @oh-my-rpg/*
