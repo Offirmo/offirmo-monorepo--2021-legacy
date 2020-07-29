@@ -17,7 +17,7 @@
 	"scripts": {
 		"up": "knex migrate:latest",
 		"reset": "knex migrate:rollback --all && knex migrate:latest",
-		"new": "knex migrate:make TODO -x ts --stub"
+		"new": "knex migrate:make TODO -x ts"
 	},
 	"devDependencies": {
 		"@types/node": "^12",

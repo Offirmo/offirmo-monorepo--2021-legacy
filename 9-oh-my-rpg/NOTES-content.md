@@ -413,3 +413,9 @@ https://science.slashdot.org/story/20/07/08/2122253/shock-dissipating-fractal-cu
 
 moon minerals
 https://science.slashdot.org/story/20/07/06/2348210/moons-metal-rich-craters-challenge-popular-theories-about-its-origin
+
+
+smile
+body language
+(trainings, books)
+curiosity

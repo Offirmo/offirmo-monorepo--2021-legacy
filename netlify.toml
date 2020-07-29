@@ -6,7 +6,7 @@
 [build]
 	# Directory with the serverless Lambda functions to deploy to AWS.
 	## https://www.netlify.com/docs/functions/#tools-for-building-javascript-functions
-	functions = "./A-apps/shared/functions/functions"
+	functions = "./A-apps/online-adventur.es/functions/functions"
 	[build.processing]
 		skip_processing = true
 	[build.environment]
