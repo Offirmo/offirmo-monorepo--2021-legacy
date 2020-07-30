@@ -42,3 +42,8 @@ cordova plugin remove <plugin>
 * TODO detect cordova, correctly ga
 * TODO UUID
 * TODO find a way to update the code
+
+TODO https://github.com/Panopath/cordova-app-updater
+TODO https://github.com/Microsoft/cordova-plugin-code-push#readme
+https://cordova.apache.org/howto/2020/07/18/uiwebview-warning.html
+https://breautek.com/2020/07/14/enabling-cors/

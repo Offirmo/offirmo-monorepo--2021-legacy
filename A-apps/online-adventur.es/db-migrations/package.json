@@ -15,7 +15,10 @@
 	},
 
 	"scripts": {
-		"up": "knex migrate:latest",
+		"latest": "knex migrate:latest",
+		"rollback": "knex migrate:rollback",
+		"up": "knex migrate:up",
+		"down": "knex migrate:down",
 		"reset": "knex migrate:rollback --all && knex migrate:latest",
 		"new": "knex migrate:make TODO -x ts"
 	},

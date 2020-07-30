@@ -18,6 +18,8 @@ yarn up --debug
 SECRET_DATABASE_URL=xxx NODE_ENV=staging yarn up
 SECRET_DATABASE_URL=xxx NODE_ENV=prod    yarn up
 
+yarn down = cancel the last one
+
 ## reset:
 yarn reset
 

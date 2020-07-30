@@ -1,11 +1,11 @@
 import assert from 'tiny-invariant'
-import { NORMALIZERS } from '@offirmo-private/normalize-string'
 
 import get_db from '../db'
 
 import { NetlifyUser, PUser } from './types'
 import { TABLE_USERS } from './consts'
 import { sanitize_persisted } from './common'
+import { normalize_email_full } from '../utils'
 
 ////////////////////////////////////
 
@@ -13,7 +13,7 @@ export async function get_by_email(
 	raw_email: string,
 	trx: ReturnType<typeof get_db> = get_db()
 ): Promise<null | PUser> {
-	const normalized_email = NORMALIZERS.normalize_email_full(raw_email)
+	const normalized_email = normalize_email_full(raw_email)
 	const raw_result = await trx(TABLE_USERS)
 		.select()
 		.where('normalized_email', normalized_email)

@@ -5,6 +5,10 @@ import {
 	logger,
 	deep_equals,
 	get_gravatar_url,
+
+	normalize_email_safe,
+	normalize_email_reasonable,
+	normalize_email_full,
 } from '../utils'
 
 ////////////////////////////////////
@@ -14,11 +18,11 @@ const DEFAULT_ROLES: Readonly<string[]> = []
 export function _infer_avatar_url(data: Readonly<BaseUser>): string {
 	//return get_gravatar_url(data.usual_email)
 	// https://github.com/Kikobeats/unavatar
-	return 'https://unavatar.now.sh/' + NORMALIZERS.normalize_email_reasonable(data.raw_email)
+	return 'https://unavatar.now.sh/' + normalize_email_reasonable(data.raw_email)
 }
 
 export function _infer_called(data: Readonly<BaseUser>): string {
-	const [ local_part ] = NORMALIZERS.normalize_email_reasonable(data.raw_email).split('@')
+	const [ local_part ] = normalize_email_reasonable(data.raw_email).split('@')
 
 	/*console.log({
 		1: local_part,
@@ -47,8 +51,8 @@ export function sanitize_persisted<T extends BaseUser>(
 	const output = {
 		...input,
 		called: input.called ? _sanitize_called(input.called!) : undefined,
-		raw_email: NORMALIZERS.normalize_email_safe(input.raw_email),
-		normalized_email: NORMALIZERS.normalize_email_full(input.raw_email),
+		raw_email: normalize_email_safe(input.raw_email),
+		normalized_email: normalize_email_full(input.raw_email),
 		avatar_url: input.avatar_url || undefined,
 		roles: Array.from(new Set([...input.roles])).sort(),
 	}

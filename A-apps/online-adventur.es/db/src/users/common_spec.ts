@@ -15,9 +15,9 @@ describe(`${LIB} - users - common`, function() {
 		it('should work', () => {
 			expect(_infer_avatar_url(
 				get_test_base_user_01({
-					raw_email: 'offirmo.net+test@gmail.Com'
+					raw_email: 'foo.bar+test@gmail.Com'
 				})
-			)).to.equal('https://unavatar.now.sh/offirmo.net@gmail.com')
+			)).to.equal('https://unavatar.now.sh/foo.bar@gmail.com')
 		})
 	})
 
@@ -26,9 +26,9 @@ describe(`${LIB} - users - common`, function() {
 		it('should work', () => {
 			expect(_infer_called(
 				get_test_base_user_01({
-					raw_email: 'offirmo.net+test@gmail.Com'
+					raw_email: 'foo.bar@gmail.Com'
 				})
-			)).to.equal('Offirmo Net')
+			)).to.equal('Foo Bar')
 		})
 	})
 
@@ -37,9 +37,9 @@ describe(`${LIB} - users - common`, function() {
 		it('should work', () => {
 			expect(_sanitize_called(
 				_infer_called(get_test_base_user_01({
-					raw_email: 'offirmo.net+test@gmail.Com'
+					raw_email: 'foo.bar@gmail.Com'
 				}))
-			)).to.equal('Offirmo Net')
+			)).to.equal('Foo Bar')
 		})
 	})
 })

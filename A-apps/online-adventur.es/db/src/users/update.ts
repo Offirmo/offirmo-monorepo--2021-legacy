@@ -1,14 +1,12 @@
 import assert from 'tiny-invariant'
 
-import { NORMALIZERS } from '@offirmo-private/normalize-string'
-
 import get_db from '../db'
 import { BaseUser, NetlifyUser, PUser } from './types'
 import { TABLE_USERS } from './consts'
 import { sanitize_persisted, extract_base } from './common'
 import { get_base_user_from_netlify_user, create_netlify_user, create_user_through_netlify } from './create'
 import { get_by_email, get_by_netlify } from './read'
-import { logger, deep_equals } from '../utils'
+import { logger, deep_equals, normalize_email_full } from '../utils'
 
 ////////////////////////////////////
 
@@ -74,7 +72,9 @@ export async function ensure_user_through_netlify(
 	logger.log('ensure_user_through_netlify #1 / get_by_netlify', {user})
 
 	if (!user) {
-		// 1st time OR new login with a different system
+		// 1st time
+		// OR new login with a different social
+		// OR new login with an email variant
 		user = await get_by_email(data.email, trx)
 		logger.log('ensure_user_through_netlify #2 / get_by_email', {user})
 
@@ -87,7 +87,7 @@ export async function ensure_user_through_netlify(
 				id: user_id,
 				created_at: (new Date()).toISOString(),
 				updated_at: (new Date()).toISOString(),
-				normalized_email: NORMALIZERS.normalize_email_full(data.email),
+				normalized_email: normalize_email_full(data.email),
 			}
 		}
 

@@ -1,5 +1,3 @@
-import { NORMALIZERS } from '@offirmo-private/normalize-string'
-
 import { NetlifyUser, BaseUser, PNetlifyUser } from "./types"
 import { delete_by_email } from "./delete"
 import { WithoutTimestamps } from "../types"
@@ -8,7 +6,9 @@ import get_db from "../db"
 ////////////////////////////////////
 
 export const TEST_NETLIFY_ID: PNetlifyUser['own_id'] = 'netlify-#foo'
-const EMAIL_01 = 'Test01@Test. Io'
+export const TEST_NETLIFY_ID_ALT: PNetlifyUser['own_id'] = 'netlify-#bar'
+const EMAIL_01 = 'Test01@Gmail. Com'
+const EMAIL_01_ALT = 'Test01+foo@Gmail. Com' // same email but netlify doesn't see it
 const CALLED_01 = 'The Tester 01 '
 
 /////////////////////
@@ -19,6 +19,18 @@ export function get_test_netlify_user_01(p: Partial<NetlifyUser> = {}): Readonly
 		netlify_id: TEST_NETLIFY_ID,
 		full_name: CALLED_01,
 		email: EMAIL_01,
+		avatar_url: undefined,
+		roles: [ 'test' ],
+		provider: 'foo',
+		...p,
+	}
+}
+export function get_test_netlify_user_01_alt(p: Partial<NetlifyUser> = {}): Readonly<NetlifyUser> {
+	// data is intentionally "rough"
+	return {
+		netlify_id: TEST_NETLIFY_ID_ALT,
+		full_name: CALLED_01,
+		email: EMAIL_01_ALT,
 		avatar_url: undefined,
 		roles: [ 'test' ],
 		provider: 'foo',

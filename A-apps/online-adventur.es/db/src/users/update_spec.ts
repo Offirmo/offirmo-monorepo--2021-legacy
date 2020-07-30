@@ -13,10 +13,11 @@ import {
 import {
 	get_test_base_user_01,
 	get_test_netlify_user_01,
+	get_test_netlify_user_01_alt,
 	cleanup,
 } from './_test_helpers'
-import {extract_base, sanitize_persisted} from "./common";
-import {get_by_email} from "./read";
+import { extract_base, sanitize_persisted } from './common'
+import { get_by_email } from './read'
 
 ////////////////////////////////////
 
@@ -86,6 +87,21 @@ describe(`${LIB} - users - update`, function() {
 			expect(updated_user!.id).to.equal(existing_user_id)
 			expect(extract_base(updated_user!), 'uu-ob').not.to.deep.equal(sanitize_persisted(old_base))
 			expect(extract_base(updated_user!), 'uu-nb').to.deep.equal(expected_final_data)
+		})
+
+		it('should link to an existing user even if its from a different netlify profile', async () => {
+			const base = get_test_base_user_01()
+			const existing_user_id = await create_user(base)
+
+			const user_1 = await ensure_user_through_netlify(get_test_netlify_user_01(), get_db())
+
+			expect(user_1.id).to.equal(existing_user_id)
+			expect(extract_base(user_1)).to.deep.equal(sanitize_persisted(base))
+
+			const user_2 = await ensure_user_through_netlify(get_test_netlify_user_01_alt(), get_db())
+
+			expect(user_2.id).to.equal(existing_user_id)
+			expect(extract_base(user_2)).to.deep.equal(sanitize_persisted(base))
 		})
 	})
 })

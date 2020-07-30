@@ -1,12 +1,10 @@
 import Knex from 'knex'
 import assert from 'tiny-invariant'
 
-import { NORMALIZERS } from '@offirmo-private/normalize-string'
-
 import { WithoutTimestamps } from '../types'
 import get_db from '../db'
 import { NetlifyUser, BaseUser, PUser, PNetlifyUser, } from './types'
-import logger from '../utils/logger'
+import { logger, normalize_email_full } from '../utils'
 import { sanitize_persisted } from './common'
 
 ////////////////////////////////////
@@ -28,8 +26,8 @@ export async function create_user(
 ): Promise<PUser['id']> {
 	data = {
 		...data,
-		//raw_email: NORMALIZERS.normalize_email_safe(data.raw_email),
-		normalized_email: NORMALIZERS.normalize_email_full(data.raw_email),
+		//raw_email: normalize_email_safe(data.raw_email),
+		normalized_email: normalize_email_full(data.raw_email),
 	}
 	logger.log('creating user...', { data })
 
