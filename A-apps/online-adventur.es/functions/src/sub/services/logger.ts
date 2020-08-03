@@ -5,7 +5,7 @@ import { CHANNEL } from './channel'
 
 /////////////////////////////////////////////////
 
-process.env.UDA_OVERRIDE__LOGGER_OA_DB_LOGLEVEL= process.env.UDA_OVERRIDE__LOGGER_OA_DB_LOGLEVEL || "silly"
+process.env.UDA_OVERRIDE__LOGGER_OA_DB_LOGLEVEL= process.env.UDA_OVERRIDE__LOGGER_OA_DB_LOGLEVEL || 'silly'
 
 const logger = getLogger({
 	name: APP,
@@ -13,8 +13,6 @@ const logger = getLogger({
 })
 
 console.log('\n\n')
-logger.info(`❄️ Cold start of "${APP}", logger level = ${logger.getLevel()}.`)
-logger.info(`❄️ Cold start of "${APP}", channel = ${CHANNEL}.`)
-
+logger.info(`❄️ Cold start of "${APP}"`, { logger_level: logger.getLevel(), CHANNEL, __filename })
 
 export default logger

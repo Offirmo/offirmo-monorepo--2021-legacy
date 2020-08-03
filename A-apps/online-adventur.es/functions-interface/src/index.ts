@@ -57,3 +57,5 @@ function _get_api_base_url(channel: ReleaseChannel): string {
 export function get_api_base_url(channel: ReleaseChannel): string {
 	return overrideHook<string>('api-base-url', _get_api_base_url(channel))
 }
+
+export const HEADER_IMPERSONATE = "X-OFFIRMO-IMPERSONATE".toLowerCase()

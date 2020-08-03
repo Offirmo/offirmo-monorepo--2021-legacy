@@ -13,17 +13,17 @@ export function normalize_email_safe(email: string): string {
 }
 
 export function normalize_email_reasonable(email: string): string {
-	const temp = NORMALIZERS.normalize_email_reasonable(email)
-	if (temp.startsWith('offirmo.net@')) {
-		return normalize_email_safe(email)
+	const safe = NORMALIZERS.normalize_email_safe(email)
+	if (safe.startsWith('offirmo.net+') && safe.endsWith('@gmail.com')) {
+		return safe
 	}
-	return temp
+	return NORMALIZERS.normalize_email_reasonable(email)
 }
 
 export function normalize_email_full(email: string): string {
-	const temp = NORMALIZERS.normalize_email_full(email)
-	if (temp.startsWith('offirmonet@')) {
-		return normalize_email_safe(email)
+	const safe = NORMALIZERS.normalize_email_safe(email)
+	if (safe.startsWith('offirmo.net+') && safe.endsWith('@gmail.com')) {
+		return safe
 	}
-	return temp
+	return NORMALIZERS.normalize_email_full(email)
 }

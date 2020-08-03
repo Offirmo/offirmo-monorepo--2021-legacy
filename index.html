@@ -135,6 +135,7 @@
 		let err = null // so far
 		const headers = {
 			'Content-Type': 'application/json',
+			'X-Foo': 'Bar',
 			 ...(user && { 'Authorization': `Bearer ${user.token.access_token}`, }),
 		}
 		console.log('fetching…', {url, headers})

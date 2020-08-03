@@ -81,12 +81,108 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 522);
+/******/ 	return __webpack_require__(__webpack_require__.s = 525);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 14:
+/***/ 185:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.get_netlify_user_data = exports.DEV_MOCK_NETLIFY_USER = void 0;
+
+const channel_1 = __webpack_require__(27);
+
+function _ensure_netlify_logged_in(context) {
+  if (!context.clientContext) throw new Error('No/bad/outdated token [1]! (not logged in?)');
+  if (!context.clientContext.user) throw new Error('No/bad/outdated token [2]! (not logged in?)');
+}
+
+exports.DEV_MOCK_NETLIFY_USER = {
+  email: 'dev@online-adventur.es',
+  sub: 'fake-netlify-id',
+  app_metadata: {
+    provider: 'test',
+    roles: ['test', 'admin']
+  },
+  user_metadata: {
+    avatar_url: undefined,
+    full_name: 'Fake User For Dev'
+  },
+  exp: -1
+};
+
+function get_netlify_user_data(context) {
+  try {
+    _ensure_netlify_logged_in(context);
+  } catch (err) {
+    err.statusCode = 401;
+
+    if (err.message.includes('No/bad/outdated token') && channel_1.CHANNEL === 'dev') {
+      // pretend
+      context.clientContext.user = exports.DEV_MOCK_NETLIFY_USER;
+      context.clientContext.xxx = "WAS FAKED FOR DEV!";
+    } else throw err;
+  }
+
+  const {
+    email,
+    sub: netlify_id,
+    app_metadata: {
+      provider,
+      roles
+    },
+    user_metadata: {
+      avatar_url,
+      full_name
+    }
+  } = context.clientContext.user;
+  return {
+    netlify_id,
+    email,
+    provider,
+    roles: roles || [],
+    avatar_url,
+    full_name
+  };
+}
+
+exports.get_netlify_user_data = get_netlify_user_data;
+
+/***/ }),
+
+/***/ 19:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export default */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getGlobalThis; });
+/* global globalThis, self, window, global */
+const lastResort = {};
+function getGlobalThis() {
+  // @ts-ignore
+  if (typeof globalThis !== 'undefined') return globalThis; // check node first https://github.com/ljharb/globalThis/issues/2
+  // @ts-ignore
+
+  if (typeof global !== 'undefined') return global; // @ts-ignore
+
+  if (typeof self !== 'undefined') return self; // @ts-ignore
+
+  if (typeof window !== 'undefined') return window;
+  if (typeof this !== 'undefined') return this;
+  return lastResort; // should never happen
+}
+
+
+/***/ }),
+
+/***/ 22:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -142,135 +238,7 @@ exports.Enum = Enum;
 
 /***/ }),
 
-/***/ 190:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.get_netlify_user_data = exports.DEV_MOCK_NETLIFY_USER = void 0;
-
-const channel_1 = __webpack_require__(28);
-
-function _ensure_netlify_logged_in(context) {
-  if (!context.clientContext) throw new Error('No/bad/outdated token [1]! (not logged in?)');
-  if (!context.clientContext.user) throw new Error('No/bad/outdated token [2]! (not logged in?)');
-}
-
-exports.DEV_MOCK_NETLIFY_USER = {
-  email: 'dev@online-adventur.es',
-  sub: 'fake-netlify-id',
-  app_metadata: {
-    provider: 'test',
-    roles: ['test']
-  },
-  user_metadata: {
-    avatar_url: undefined,
-    full_name: 'Fake User For Dev'
-  },
-  exp: -1
-};
-
-function get_netlify_user_data(context) {
-  try {
-    _ensure_netlify_logged_in(context);
-  } catch (err) {
-    err.statusCode = 401;
-
-    if (err.message.includes('No/bad/outdated token') && channel_1.CHANNEL === 'dev') {
-      // pretend
-      context.clientContext.user = exports.DEV_MOCK_NETLIFY_USER;
-      context.clientContext.xxx = "WAS FAKED FOR DEV!";
-    } else throw err;
-  }
-
-  const {
-    email,
-    sub: netlify_id,
-    app_metadata: {
-      provider,
-      roles
-    },
-    user_metadata: {
-      avatar_url,
-      full_name
-    }
-  } = context.clientContext.user;
-  return {
-    netlify_id,
-    email,
-    provider,
-    roles: roles || [],
-    avatar_url,
-    full_name
-  };
-}
-
-exports.get_netlify_user_data = get_netlify_user_data;
-
-/***/ }),
-
-/***/ 20:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export default */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getGlobalThis; });
-/* global globalThis, self, window, global */
-const lastResort = {};
-function getGlobalThis() {
-  // @ts-ignore
-  if (typeof globalThis !== 'undefined') return globalThis; // check node first https://github.com/ljharb/globalThis/issues/2
-  // @ts-ignore
-
-  if (typeof global !== 'undefined') return global; // @ts-ignore
-
-  if (typeof self !== 'undefined') return self; // @ts-ignore
-
-  if (typeof window !== 'undefined') return window;
-  if (typeof this !== 'undefined') return this;
-  return lastResort; // should never happen
-}
-
-
-/***/ }),
-
 /***/ 27:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getLogger", function() { return getLogger; });
-/* unused harmony export exposeInternal */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "overrideHook", function() { return overrideHook; });
-/* unused harmony export addDebugCommand */
-/* unused harmony export globalThis */
-/* harmony import */ var _offirmo_globalthis_ponyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(20);
-/* harmony import */ var _v1__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(39);
-
-
-const globalThis = Object(_offirmo_globalthis_ponyfill__WEBPACK_IMPORTED_MODULE_0__[/* getGlobalThis */ "a"])(); // ensure the root is present
-
-globalThis._debug = globalThis._debug || {}; // install globally if no other implementation already present
-
-globalThis._debug.v1 = globalThis._debug.v1 || Object(_v1__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(); // expose the installed implementation
-
-const instance = globalThis._debug.v1;
-const {
-  getLogger,
-  exposeInternal,
-  overrideHook,
-  addDebugCommand
-} = instance;
- // types & sub-types, for convenience
-
-
-
-/***/ }),
-
-/***/ 28:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -281,9 +249,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.CHANNEL = void 0;
 
-const typescript_string_enums_1 = __webpack_require__(14);
+const typescript_string_enums_1 = __webpack_require__(22);
 
-const functions_interface_1 = __webpack_require__(98);
+const functions_interface_1 = __webpack_require__(67);
 
 exports.CHANNEL = (() => {
   if (typescript_string_enums_1.Enum.isType(functions_interface_1.ReleaseChannel, process.env.CHANNEL)) return process.env.CHANNEL;
@@ -293,7 +261,14 @@ exports.CHANNEL = (() => {
 
 /***/ }),
 
-/***/ 39:
+/***/ 29:
+/***/ (function(module, exports) {
+
+
+
+/***/ }),
+
+/***/ 35:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -348,7 +323,7 @@ function create() {
 
 /***/ }),
 
-/***/ 522:
+/***/ 525:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -359,7 +334,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.handler = void 0;
 
-const netlify_1 = __webpack_require__(190);
+const netlify_1 = __webpack_require__(185);
 
 exports.handler = async (event, badly_typed_context) => {
   const context = badly_typed_context;
@@ -415,25 +390,65 @@ function _filter_out_secrets(env) {
 
 /***/ }),
 
-/***/ 98:
+/***/ 63:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ReleaseChannel", function() { return ReleaseChannel; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Endpoint", function() { return Endpoint; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get_allowed_origin", function() { return get_allowed_origin; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get_api_base_url", function() { return get_api_base_url; });
-/* harmony import */ var typescript_string_enums__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(14);
-/* harmony import */ var typescript_string_enums__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(typescript_string_enums__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _offirmo_universal_debug_api_placeholder__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(27);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getLogger", function() { return getLogger; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "exposeInternal", function() { return exposeInternal; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "overrideHook", function() { return overrideHook; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addDebugCommand", function() { return addDebugCommand; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "globalThis", function() { return globalThis; });
+/* harmony import */ var _offirmo_globalthis_ponyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(19);
+/* harmony import */ var _v1__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(35);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createV1", function() { return _v1__WEBPACK_IMPORTED_MODULE_1__["a"]; });
 
+/* harmony import */ var _offirmo_universal_debug_api_interface__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(29);
+/* harmony import */ var _offirmo_universal_debug_api_interface__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_offirmo_universal_debug_api_interface__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _offirmo_universal_debug_api_interface__WEBPACK_IMPORTED_MODULE_2__) if(["getLogger","exposeInternal","overrideHook","addDebugCommand","globalThis","createV1","default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _offirmo_universal_debug_api_interface__WEBPACK_IMPORTED_MODULE_2__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+
+
+const globalThis = Object(_offirmo_globalthis_ponyfill__WEBPACK_IMPORTED_MODULE_0__[/* getGlobalThis */ "a"])(); // ensure the root is present
+
+globalThis._debug = globalThis._debug || {}; // install globally if no other implementation already present
+
+globalThis._debug.v1 = globalThis._debug.v1 || Object(_v1__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(); // expose the installed implementation
+
+const instance = globalThis._debug.v1;
+const {
+  getLogger,
+  exposeInternal,
+  overrideHook,
+  addDebugCommand
+} = instance;
+ // types & sub-types, for convenience
+
+
+
+/***/ }),
+
+/***/ 67:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.HEADER_IMPERSONATE = exports.get_api_base_url = exports.get_allowed_origin = exports.Endpoint = exports.ReleaseChannel = void 0;
+
+const typescript_string_enums_1 = __webpack_require__(22);
+
+const universal_debug_api_placeholder_1 = __webpack_require__(63);
 
 const LIB = 'functions interface'; // tslint:disable-next-line: variable-name
 
-const ReleaseChannel = Object(typescript_string_enums__WEBPACK_IMPORTED_MODULE_0__["Enum"])('prod', 'staging', 'dev'); // tslint:disable-next-line: variable-name
+exports.ReleaseChannel = typescript_string_enums_1.Enum('prod', 'staging', 'dev'); // tslint:disable-next-line: variable-name
 
-const Endpoint = Object(typescript_string_enums__WEBPACK_IMPORTED_MODULE_0__["Enum"])('echo', 'hello-world', 'hello-world-advanced', 'report-error', 'tbrpg-rpc', 'temp', 'test-error-handling', 'whoami');
+exports.Endpoint = typescript_string_enums_1.Enum('echo', 'hello-world', 'hello-world-advanced', 'report-error', 'tbrpg-rpc', 'temp', 'test-error-handling', 'whoami');
+
 function get_allowed_origin(channel) {
   switch (channel) {
     case 'dev':
@@ -449,6 +464,8 @@ function get_allowed_origin(channel) {
       throw new Error(`[${LIB}] no allowed origin for channel "${channel}"!`);
   }
 }
+
+exports.get_allowed_origin = get_allowed_origin;
 
 function _get_api_base_url(channel) {
   switch (channel) {
@@ -468,8 +485,11 @@ function _get_api_base_url(channel) {
 }
 
 function get_api_base_url(channel) {
-  return Object(_offirmo_universal_debug_api_placeholder__WEBPACK_IMPORTED_MODULE_1__["overrideHook"])('api-base-url', _get_api_base_url(channel));
+  return universal_debug_api_placeholder_1.overrideHook('api-base-url', _get_api_base_url(channel));
 }
+
+exports.get_api_base_url = get_api_base_url;
+exports.HEADER_IMPERSONATE = "X-OFFIRMO-IMPERSONATE".toLowerCase();
 
 /***/ })
 

@@ -1,13 +1,18 @@
 import tiny_singleton from '@offirmo/tiny-singleton'
 import Knex from 'knex'
 import { overrideHook } from '@offirmo/universal-debug-api-placeholder'
-//import { development } from '../../db-migrations/knexfile'
 
 import logger from './utils/logger'
 
+const DEFAULT_CNX_STR = 'postgres://postgres:password@127.0.0.1:32770/postgres'
+
+export function get_connection_string(): string {
+	return process.env.SECRET_DATABASE_URL || DEFAULT_CNX_STR
+}
+
 export const get_db = tiny_singleton(({min = 1, max = 1}: {min?: number, max?: number} = {}) => Knex({
 		client: 'pg',
-		connection: process.env.SECRET_DATABASE_URL || 'postgres://postgres:password@127.0.0.1:32770/postgres',
+		connection: get_connection_string(),
 		debug: overrideHook('knex-debug', true), // TODO change default
 		log: {
 			warn(message: Object) {
@@ -33,7 +38,10 @@ export const get_db = tiny_singleton(({min = 1, max = 1}: {min?: number, max?: n
 				done(undefined, rawConn)
 			},
 		},
-		acquireConnectionTimeout: 5_000, // in our function env, we can't wait too long
+		acquireConnectionTimeout: get_connection_string() === DEFAULT_CNX_STR
+			// in our function env, we can't wait too long
+			? 1000 // local should be fast
+			: 5000,
 	}))
 
 export default get_db

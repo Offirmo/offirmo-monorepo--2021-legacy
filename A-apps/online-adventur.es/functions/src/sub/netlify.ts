@@ -21,7 +21,10 @@ export const DEV_MOCK_NETLIFY_USER: Readonly<NonNullable<NetlifyClientContext['u
 	sub: 'fake-netlify-id',
 	app_metadata: {
 		provider: 'test',
-		roles: [ 'test'],
+		roles: [
+			'test',
+			'admin',
+		],
 	},
 	user_metadata: {
 		avatar_url: undefined,

@@ -1,7 +1,7 @@
 import assert from 'tiny-invariant'
 import stable_stringify from 'json-stable-stringify'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
-import { getRootSEC } from '@offirmo-private/soft-execution-context'
+import { getRootSEC, SoftExecutionContext, OperationParams } from '@offirmo-private/soft-execution-context'
 
 import {
 	APIGatewayEvent,
@@ -11,7 +11,7 @@ import {
 } from '../types'
 
 import '../services/sec'
-import { XError, XSECEventDataMap, XSoftExecutionContext, XOperationParams } from '../services/sec'
+import { XError, XSECEventDataMap, XSoftExecutionContext, XOperationParams, Injections } from '../services/sec'
 import { on_error as report_to_sentry } from '../services/sentry'
 import { CHANNEL } from '../services/channel'
 import { MiddleWare} from './types'
@@ -19,7 +19,7 @@ import { create_error } from '../utils'
 
 
 // note: deducted from the overall running budget
-const MARGIN_AND_SENTRY_BUDGET_MS = CHANNEL === 'dev' ? 5000 : 1000
+const MARGIN_AND_SENTRY_BUDGET_MS = CHANNEL === 'dev' ? -5000 : -1000
 
 
 function _get_response_from_error(err: XError): Response {
@@ -33,6 +33,13 @@ function _get_response_from_error(err: XError): Response {
 	}
 }
 
+interface LocalLSInjections extends Injections {
+	local_mutable: {
+		last_invoked_mw: string
+	}
+}
+type LSoftExecutionContext = SoftExecutionContext<LocalLSInjections>
+type LOperationParams = OperationParams<LocalLSInjections>
 
 export function use_middlewares_with_error_safety_net(
 	event: APIGatewayEvent,
@@ -70,7 +77,7 @@ export function use_middlewares_with_error_safety_net(
 }
 
 function _run_with_safety_net(
-	SEC: XSoftExecutionContext,
+	SEC: SoftExecutionContext,
 	event: APIGatewayEvent,
 	context: NetlifyContext,
 	middlewares: MiddleWare[],
@@ -127,22 +134,28 @@ function _run_with_safety_net(
 
 		context.callbackWaitsForEmptyEventLoop = false // cf. https://httptoolkit.tech/blog/netlify-function-error-reporting-with-sentry/
 
-		// TODO report which MW caused the timeout
+		const LSEC = SEC as any as LSoftExecutionContext
+		LSEC.injectDependencies({
+			local_mutable: {
+				last_invoked_mw: '(none yet)'
+			}
+		})
 		const remaining_time_ms = context.getRemainingTimeInMillis ? context.getRemainingTimeInMillis() : 10_000
-		const time_budget_ms = Math.max(remaining_time_ms - MARGIN_AND_SENTRY_BUDGET_MS, 0)
+		const time_budget_ms = Math.max(remaining_time_ms + MARGIN_AND_SENTRY_BUDGET_MS, 0)
 		logger.info(`[${PREFIX}] Setting timeout…`, {time_budget_ms})
 		timeout_id = setTimeout(() => {
 			timeout_id = null
-			SEC.xTryCatch('timeout', ({logger}) => {
-				logger.fatal(`⏰ [${PREFIX}] timeout!`)
-				throw new Error(`[${PREFIX}] Timeout handling this request!`)
+			LSEC.xTryCatch('timeout', ({logger}) => {
+				const { local_mutable } = LSEC.getInjectedDependencies()
+				logger.fatal(`⏰ [${PREFIX}] timeout!`, local_mutable)
+				throw new Error(`[${PREFIX}] Timeout handling this request! (mw=${local_mutable.last_invoked_mw})`)
 			})
 		}, time_budget_ms)
 
 		///////////////////// invoke /////////////////////
 		logger.trace(`[${PREFIX}] Invoking the middleware chain…`)
 
-		void SEC.xPromiseTry<Response>('⓶ ', async params => _run_mw_chain(
+		void LSEC.xPromiseTry<Response>('⓶ ', async params => _run_mw_chain(
 				params,
 				event, context, middlewares,
 			))
@@ -159,7 +172,7 @@ function _run_with_safety_net(
 }
 
 async function _run_mw_chain(
-	{ SEC, logger }: XOperationParams,
+	{ SEC, logger }: LOperationParams,
 	event: APIGatewayEvent,
 	context: NetlifyContext,
 	middlewares: MiddleWare[],
@@ -179,10 +192,10 @@ async function _run_mw_chain(
 
 	////////////////////////////////////
 
-	let last_manual_error_call_SEC: XSoftExecutionContext | null = null
-	let _previous_status_code: Response["statusCode"] = response.statusCode
-	let _previous_body: Response["body"] = response.body
-	function _check_response(SEC: XSoftExecutionContext, mw_index: number, stage: 'in' | 'out') {
+	let last_manual_error_call_SEC: LSoftExecutionContext | null = null
+	let _previous_status_code: Response['statusCode'] = response.statusCode
+	let _previous_body: Response['body'] = response.body
+	function _check_response(SEC: LSoftExecutionContext, mw_index: number, stage: 'in' | 'out') {
 		const { logger } = SEC.getInjectedDependencies()
 		assert(mw_index >= 0 && mw_index < middlewares.length, 'mw_index')
 		let { statusCode, body } = response
@@ -231,9 +244,9 @@ async function _run_mw_chain(
 
 	////////////////////////////////////
 
-	let _last_SEC: XSoftExecutionContext = SEC
+	let _last_SEC: LSoftExecutionContext = SEC
 	let _last_reported_err_msg: XError['message'] | null = null
-	async function next(SEC: XSoftExecutionContext, index: number): Promise<void> {
+	async function next(SEC: LSoftExecutionContext, index: number): Promise<void> {
 		if (index > 0) {
 			_check_response(_last_SEC, index - 1, 'in')
 		}
@@ -246,7 +259,9 @@ async function _run_mw_chain(
 				_last_SEC = SEC
 				//console.log('_last_SEC now =', SEC.getLogicalStack(), '\n', SEC.getShortLogicalStack())
 				logger.trace(`[${PREFIX}] invoking middleware ${index+1}/${middlewares.length} "${current_mw_name}"…`)
-				await middlewares[index](SEC, event, context, response, next.bind(null, SEC, index + 1))
+				const { local_mutable } = SEC.getInjectedDependencies()
+				local_mutable.last_invoked_mw = current_mw_name
+				await middlewares[index](SEC as XSoftExecutionContext, event, context, response, next.bind(null, SEC, index + 1))
 				logger.trace(`[${PREFIX}] returned from middleware ${index+1}/${middlewares.length} "${current_mw_name}"…`)
 				_check_response(SEC, index, 'out')
 			})

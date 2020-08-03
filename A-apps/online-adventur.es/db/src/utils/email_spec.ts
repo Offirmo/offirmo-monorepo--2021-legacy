@@ -10,7 +10,7 @@ import { get_gravatar_url, normalize_email_safe, normalize_email_reasonable, nor
 
 describe(`${LIB} - utils/email`, function() {
 	const TEST_EMAIL = 'foo.bar+baz@googlemail. Com'
-	const TEST_EMAIL_OFFIRMO = 'offirmo.net+xyz@googlemail. Com'
+	const TEST_EMAIL_OFFIRMO_ALT = 'offirmo.net+xyz@gmail. Com'
 
 	describe('normalize_email_safe()', function() {
 		it('should work', () => {
@@ -18,8 +18,8 @@ describe(`${LIB} - utils/email`, function() {
 				.to.equal(NORMALIZERS.normalize_email_safe(TEST_EMAIL))
 		})
 		it('should normalize offirmo.net+xxx@gmail.com appropriately', () => {
-			expect(normalize_email_safe(TEST_EMAIL_OFFIRMO))
-				.to.equal(NORMALIZERS.normalize_email_safe(TEST_EMAIL_OFFIRMO))
+			expect(normalize_email_safe(TEST_EMAIL_OFFIRMO_ALT))
+				.to.equal(NORMALIZERS.normalize_email_safe(TEST_EMAIL_OFFIRMO_ALT))
 		})
 	})
 
@@ -29,8 +29,8 @@ describe(`${LIB} - utils/email`, function() {
 				.to.equal(NORMALIZERS.normalize_email_reasonable(TEST_EMAIL))
 		})
 		it('should normalize offirmo.net+xxx@gmail.com appropriately', () => {
-			expect(normalize_email_reasonable(TEST_EMAIL_OFFIRMO))
-				.to.equal(NORMALIZERS.normalize_email_safe(TEST_EMAIL_OFFIRMO))
+			expect(normalize_email_reasonable(TEST_EMAIL_OFFIRMO_ALT))
+				.to.equal(NORMALIZERS.normalize_email_safe(TEST_EMAIL_OFFIRMO_ALT))
 		})
 	})
 
@@ -40,8 +40,8 @@ describe(`${LIB} - utils/email`, function() {
 				.to.equal(NORMALIZERS.normalize_email_full(TEST_EMAIL))
 		})
 		it('should normalize offirmo.net+xxx@gmail.com appropriately', () => {
-			expect(normalize_email_full(TEST_EMAIL_OFFIRMO))
-				.to.equal(NORMALIZERS.normalize_email_safe(TEST_EMAIL_OFFIRMO))
+			expect(normalize_email_full(TEST_EMAIL_OFFIRMO_ALT))
+				.to.equal(NORMALIZERS.normalize_email_safe(TEST_EMAIL_OFFIRMO_ALT))
 		})
 	})
 })
