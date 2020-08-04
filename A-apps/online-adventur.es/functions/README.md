@@ -7,6 +7,8 @@
 * pgAdmin
 * `yarn dev` + `yarn start`
 
+export UDA_OVERRIDE__LOGGER_OA∙API_LOGLEVEL=\"silly\" \
+
 
 ## Tosort
 doc:
