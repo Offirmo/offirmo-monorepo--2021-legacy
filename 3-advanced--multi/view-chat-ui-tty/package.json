@@ -14,7 +14,7 @@
 	"peerDependencies": {
 	},
 	"dependencies": {
-		"@offirmo-private/prettify-js": "^0",
+		"@offirmo-private/prettify-any": "^0",
 		"ansi-escapes": "^4",
 		"chalk": "^4",
 		"gauge": "^3",

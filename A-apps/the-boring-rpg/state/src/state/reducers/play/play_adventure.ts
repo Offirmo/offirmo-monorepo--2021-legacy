@@ -329,11 +329,11 @@ function play_adventure(state: Readonly<State>, aa: Readonly<AdventureArchetype>
 	}
 
 	if (aa.good && !gain_count) {
-		//dump_pretty_json('Error NO gain!', {aa, adventure})
+		//dump_prettified_any('Error NO gain!', {aa, adventure})
 		throw new Error(`${LIB}: play_adventure() for "good click" hid "${aa.hid}" unexpectedly resulted in NO gains!`)
 	}
 	if (item_gain_count > 1) {
-		//dump_pretty_json('Error 2x item gain!', {aa, adventure})
+		//dump_prettified_any('Error 2x item gain!', {aa, adventure})
 		throw new Error(`${LIB}: play_adventure() for hid "${aa.hid}" unexpectedly resulted in ${item_gain_count} item gains!`)
 	}
 

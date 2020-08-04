@@ -2,7 +2,7 @@
 
 //const PromiseWithProgress = require('p-progress')
 
-const prettify_any = require('@offirmo-private/prettify-js')
+const prettify_any = require('@offirmo-private/prettify-any')
 
 const stylize_string = require('chalk')
 

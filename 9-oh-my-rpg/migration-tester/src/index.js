@@ -2,7 +2,7 @@
 
 const path = require('path')
 const { cloneDeep } = require('lodash')
-const prettify_json = require('@offirmo-private/prettify-js').default
+const prettify_json = require('@offirmo-private/prettify-any').default
 const { get_human_readable_UTC_timestamp_minutes } = require('@offirmo-private/timestamps')
 const { LIB, HINTS_FILENAME } = require('./consts')
 const fs = require('./utils-fs')

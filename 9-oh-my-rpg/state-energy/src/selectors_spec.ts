@@ -2,7 +2,7 @@ import { expect } from 'chai'
 import sinon from 'sinon'
 import Fraction from 'fraction.js'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
-import { dump_pretty_json } from '@offirmo-private/prettify-js'
+import { dump_prettified_any } from '@offirmo-private/prettify-any'
 
 import {LIB, TICK_MS} from './consts'
 import {
@@ -91,7 +91,7 @@ describe(`${LIB} - selectors`, function() {
 				...u_state,
 				total_energy_consumed_so_far: 1_000, // should be established by this time
 			}
-			dump_pretty_json('u', u_state)
+			dump_prettified_any('u', u_state)
 			console.log(get_energy_refill_rate(u_state, t_state))
 			expect(get_energy_refill_rate(u_state, t_state).per_day()).to.equal(EXPECTED_ESTABLISHED_ENERGY_REFILL_PER_DAY)
 		})
@@ -316,7 +316,7 @@ describe(`${LIB} - selectors`, function() {
 
 				;[ u_state, t_state ] = use_energy([u_state, t_state], 7)
 
-				//dump_pretty_json('s', { u_state, t_state })
+				//dump_prettified_any('s', { u_state, t_state })
 				expect(get_human_time_to_next(u_state, t_state)).to.equal('3h 25m 42s')
 			})
 		})
@@ -333,7 +333,7 @@ describe(`${LIB} - selectors`, function() {
 
 				let now = new Date(2017, 1, 1, 1, 0, 0)
 				;[ u_state, t_state ] = use_energy([ u_state, t_state ], 1, +now)
-				/*dump_pretty_json('+0', {
+				/*dump_prettified_any('+0', {
 					now: get_UTC_timestamp_ms(now),
 					t_state,
 					aef: get_available_energy_float(t_state),
@@ -343,7 +343,7 @@ describe(`${LIB} - selectors`, function() {
 
 				now = new Date(2017, 1, 1, 1, 0, 1)
 				t_state = update_to_now([ u_state, t_state ], +now)
-				/*dump_pretty_json('+1s', {
+				/*dump_prettified_any('+1s', {
 					now: get_UTC_timestamp_ms(now),
 					t_state,
 					aef: get_available_energy_float(t_state),
@@ -353,7 +353,7 @@ describe(`${LIB} - selectors`, function() {
 
 				now = new Date(2017, 1, 1, 1, 1, 0)
 				t_state = update_to_now([ u_state, t_state ], +now)
-				/*dump_pretty_json('+1s', {
+				/*dump_prettified_any('+1s', {
 					now: get_UTC_timestamp_ms(now),
 					t_state,
 					aef: get_available_energy_float(t_state),

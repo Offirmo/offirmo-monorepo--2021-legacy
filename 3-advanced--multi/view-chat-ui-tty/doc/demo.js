@@ -6,7 +6,7 @@
 const { create: create_chat } = require('@offirmo-private/view-chat')
 const { create: create_tty_chat_ui } = require('../src')
 const { get_next_step1 } = require('@offirmo-private/view-chat/src/demo')
-const prettify_any = require('@offirmo-private/prettify-js')
+const prettify_any = require('@offirmo-private/prettify-any')
 const DEBUG = false
 
 

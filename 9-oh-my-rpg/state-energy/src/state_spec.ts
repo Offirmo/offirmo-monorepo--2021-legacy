@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import sinon from 'sinon'
-import { dump_pretty_json } from '@offirmo-private/prettify-js'
+import { dump_prettified_any } from '@offirmo-private/prettify-any'
 
 import { LIB, SCHEMA_VERSION } from './consts'
 
@@ -54,12 +54,12 @@ describe(`${LIB} - reducer`, function() {
 		it('should work on a T=0 freshly created state', function() {
 			let [ u_state, t_state ] = create()
 
-			//dump_pretty_json('s', { u_state, t_state })
+			//dump_prettified_any('s', { u_state, t_state })
 			//expect(get_available_energy_float(t_state)).to.equal(7.)
 
 			t_state = update_to_now([ u_state, t_state ])
 
-			//dump_pretty_json('s', { u_state, t_state })
+			//dump_prettified_any('s', { u_state, t_state })
 			expect(get_available_energy_float(t_state)).to.equal(7.)
 		})
 
@@ -216,9 +216,9 @@ describe(`${LIB} - reducer`, function() {
 			it('should decrement energy correctly', function() {
 				let [ u_state, t_state ] = create()
 
-				//dump_pretty_json('s', { u_state, t_state })
+				//dump_prettified_any('s', { u_state, t_state })
 				;[ u_state, t_state ] = use_energy([ u_state, t_state ], 1)
-				//dump_pretty_json('s', { u_state, t_state })
+				//dump_prettified_any('s', { u_state, t_state })
 				expect(get_available_energy_float(t_state)).to.equal(6.)
 
 				;[ u_state, t_state ] = use_energy([ u_state, t_state ], 1)

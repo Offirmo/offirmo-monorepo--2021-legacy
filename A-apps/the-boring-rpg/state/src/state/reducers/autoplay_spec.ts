@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 
-import { dump_pretty_json } from '@offirmo-private/prettify-js'
+import { dump_prettified_any } from '@offirmo-private/prettify-any'
 
 import { ItemQuality, Item, InventorySlot } from '@oh-my-rpg/definitions'
 import { xxx_internal_reset_prng_cache } from '@oh-my-rpg/state-prng'
@@ -33,11 +33,11 @@ describe(`${LIB} - reducer`, function() {
 				}
 			}
 			catch (err) {
-				dump_pretty_json('crash', state)
+				dump_prettified_any('crash', state)
 				throw err
 			}
 
-			//dump_pretty_json('success', state)
+			//dump_prettified_any('success', state)
 			expect(state.u_state.progress.statistics.good_play_count).to.equal(1000)
 			expect(state.u_state.progress.statistics.bad_play_count).to.equal(0)
 		})
@@ -51,11 +51,11 @@ describe(`${LIB} - reducer`, function() {
 				})
 			}
 			catch (err) {
-				dump_pretty_json('crash', state)
+				dump_prettified_any('crash', state)
 				throw err
 			}
 
-			//dump_pretty_json('success', state)
+			//dump_prettified_any('success', state)
 			expect(state.u_state.avatar.klass).not.to.equal('novice')
 			expect(is_inventory_full(state.u_state), 'inventory full').to.be.false
 			const equipped_armor: Armor = state.u_state.inventory.slotted[InventorySlot.armor]!
@@ -76,11 +76,11 @@ describe(`${LIB} - reducer`, function() {
 				})
 			}
 			catch (err) {
-				dump_pretty_json('crash', state)
+				dump_prettified_any('crash', state)
 				throw err
 			}
 
-			//dump_pretty_json('success', state)
+			//dump_prettified_any('success', state)
 			expect(state.u_state.progress.statistics.good_play_count).to.equal(2000)
 			expect(state.u_state.progress.statistics.bad_play_count).to.equal(100)
 		})

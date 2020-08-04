@@ -1,7 +1,7 @@
 const path = require('path')
 
 const { /*trim, replace,*/ capitalize } = require('lodash')
-const { dump_pretty_json } = require('@offirmo-private/prettify-js')
+const { dump_prettified_any } = require('@offirmo-private/prettify-any')
 const rich_text_to_ansi = require('@offirmo-private/rich-text-format-to-ansi')
 const fs = require('../../../../cli-toolbox/fs/extra')
 
@@ -79,7 +79,7 @@ author_dirs.forEach(author_dir => {
 	}
 
 	if (!AUTHORS_BY_NAME[author_name]) {
-		dump_pretty_json('\n{', author)
+		dump_prettified_any('\n{', author)
 		console.log('},')
 		throw new Error('🔥 💣 💥  Missing author!')
 	}
@@ -152,7 +152,7 @@ author_dirs.forEach(author_dir => {
 				)
 				/* fallthrough */
 			case 'dump':
-				dump_pretty_json('\n{', background)
+				dump_prettified_any('\n{', background)
 				console.log('},')
 				break
 			default:
@@ -202,5 +202,5 @@ ELEMENTS.forEach(e => {
 	if (e.found) return
 
 	console.error(`XXX UNMATCHED ARTWORK!`)
-	dump_pretty_json('', e)
+	dump_prettified_any('', e)
 })

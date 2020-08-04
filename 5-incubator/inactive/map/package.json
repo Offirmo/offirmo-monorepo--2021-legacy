@@ -9,7 +9,7 @@
 	"dependencies": {
 		"@offirmo-private/ensure-device-uuid-browser": "^0",
 		"@offirmo-private/poll-window-variable": "^0",
-		"@offirmo-private/prettify-js": "^0",
+		"@offirmo-private/prettify-any": "^0",
 		"@offirmo-private/view-css": "^0",
 		"@offirmo/tiny-singleton": "^0",
 		"@offirmo/universal-debug-api-placeholder": "^1",

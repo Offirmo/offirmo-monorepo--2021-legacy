@@ -2,7 +2,7 @@ const fs = require('fs')
 const assert = require('assert')
 const parse = require('csv-parse/lib/sync')
 const json = require('../../../../cli-toolbox/fs/json')
-const { dump_pretty_json, prettify_json } = require('@offirmo-private/prettify-js')
+const { dump_prettified_any, prettify_json } = require('@offirmo-private/prettify-any')
 
 
 
@@ -38,7 +38,7 @@ async function load_stops() {
 			throw err
 		}
 	})
-	//dump_pretty_json('data', data)
+	//dump_prettified_any('data', data)
 	//console.log('aa', prettify_json(data))
 }
 
