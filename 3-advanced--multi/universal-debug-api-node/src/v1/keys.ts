@@ -7,6 +7,10 @@ function normalizeKey(key: string): string {
 		.split('-').join('_')
 		.split('.').join('_')
 		.split('⋄').join('_')
+		.split('∙').join('_')
+		.split('ꘌ').join('_')
+		.split('ꓺ').join('_')
+		.split('ː').join('_')
 }
 
 export function getOverrideKeyForLogger(name: string): string {

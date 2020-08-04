@@ -7,6 +7,7 @@ NOTE: Reminder to increase REVISION when releasing!
 * [test] TODO unit tests!
 * [chore] re-organized the source (monorepo) and tweaked the build script. No logic change.
 * [chore] bumped dependencies (minor)
+* [feat] [breaking] added key normalization to "_" for a few unicode chars
 * ...
 
 ## v0.1.0
