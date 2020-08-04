@@ -1,6 +1,6 @@
-import prettify_json from '.'
+import prettify_json from './v1'
 
-describe('@offirmo-private/prettify-json', function() {
+describe('@offirmo-private/prettify-js', function() {
 
 	describe('prettify_json()', function() {
 

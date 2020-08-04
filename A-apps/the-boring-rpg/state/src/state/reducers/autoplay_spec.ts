@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 
-import { dump_pretty_json } from '@offirmo-private/prettify-json'
+import { dump_pretty_json } from '@offirmo-private/prettify-js'
 
 import { ItemQuality, Item, InventorySlot } from '@oh-my-rpg/definitions'
 import { xxx_internal_reset_prng_cache } from '@oh-my-rpg/state-prng'

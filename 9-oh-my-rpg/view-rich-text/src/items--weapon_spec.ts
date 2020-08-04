@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 
 import * as RichText from '@offirmo-private/rich-text-format'
-import { dump_pretty_json } from '@offirmo-private/prettify-json'
+import { dump_pretty_json } from '@offirmo-private/prettify-js'
 
 import { generate_random_demo_weapon, DEMO_WEAPON_1, DEMO_WEAPON_2 } from '@oh-my-rpg/logic-weapons'
 

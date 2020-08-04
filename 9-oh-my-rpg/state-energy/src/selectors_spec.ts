@@ -2,7 +2,7 @@ import { expect } from 'chai'
 import sinon from 'sinon'
 import Fraction from 'fraction.js'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
-import { dump_pretty_json } from '@offirmo-private/prettify-json'
+import { dump_pretty_json } from '@offirmo-private/prettify-js'
 
 import {LIB, TICK_MS} from './consts'
 import {

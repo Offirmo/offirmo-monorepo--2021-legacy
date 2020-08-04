@@ -1,6 +1,6 @@
 {
-	"name": "@offirmo-private/prettify-json",
-	"description": "Intelligently pretty-print a JSON, on node or browser",
+	"name": "@offirmo-private/prettify-js",
+	"description": "Intelligently pretty-print a JS object (and by extension, JSON), on node or browser",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
 	"license": "Unlicense",

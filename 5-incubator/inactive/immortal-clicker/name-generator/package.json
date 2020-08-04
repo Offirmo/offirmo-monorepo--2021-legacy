@@ -24,7 +24,7 @@
 	"scripts": {
 	},
 	"devDependencies": {
-		"@offirmo-private/prettify-json": "^0",
+		"@offirmo-private/prettify-js": "^0",
 		"npm-run-all": "^4"
 	}
 }

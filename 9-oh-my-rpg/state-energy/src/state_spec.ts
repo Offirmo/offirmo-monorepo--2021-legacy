@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import sinon from 'sinon'
-import { dump_pretty_json } from '@offirmo-private/prettify-json'
+import { dump_pretty_json } from '@offirmo-private/prettify-js'
 
 import { LIB, SCHEMA_VERSION } from './consts'
 

@@ -53,7 +53,6 @@ No, returns a too big CSS.
 * https://dev.to/xtrp/possibly-the-most-useful-css-trick-jl3
 * "58 bytes of css to look great nearly everywhere" https://jrl.ninja/etc/1/
 
-TODO steal themes from: https://github.com/gaearon/subliminal
 
 TODO https://24ways.org/2018/managing-flow-and-rhythm-with-css-custom-properties/
 

@@ -40,7 +40,7 @@
 	},
 	"devDependencies": {
 		"@babel/core": "^7",
-		"@offirmo-private/prettify-json": "^0",
+		"@offirmo-private/prettify-js": "^0",
 		"@offirmo-private/rich-text-format-to-ansi": "^0",
 		"@offirmo/unit-test-toolbox": "^6",
 		"fs-extra": "^9",

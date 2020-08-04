@@ -1,7 +1,7 @@
 const path = require('path')
 
 const { /*trim, replace,*/ capitalize } = require('lodash')
-const { dump_pretty_json } = require('@offirmo-private/prettify-json')
+const { dump_pretty_json } = require('@offirmo-private/prettify-js')
 const rich_text_to_ansi = require('@offirmo-private/rich-text-format-to-ansi')
 const fs = require('../../../../cli-toolbox/fs/extra')
 

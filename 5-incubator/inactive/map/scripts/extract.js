@@ -2,7 +2,7 @@ const fs = require('fs')
 const assert = require('assert')
 const parse = require('csv-parse/lib/sync')
 const json = require('../../../../cli-toolbox/fs/json')
-const { dump_pretty_json, prettify_json } = require('@offirmo-private/prettify-json')
+const { dump_pretty_json, prettify_json } = require('@offirmo-private/prettify-js')
 
 
 
