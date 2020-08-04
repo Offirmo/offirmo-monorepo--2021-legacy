@@ -7,7 +7,7 @@ const create_ora_spinner = require('ora')
 const Gauge = require('gauge')
 const promiseFinally = require('p-finally')
 
-const { prettify_json, stylize_string, indent_string, wrap_string } = require('./libs')
+const { prettify_any, stylize_string, indent_string, wrap_string } = require('./libs')
 const { get_shared_start } = require('./utils')
 
 
@@ -88,7 +88,7 @@ function create({DEBUG, shouldCenter}) {
 		if (state.is_closing)
 			return
 
-		if (DEBUG) console.log(`[key pressed:\n${prettify_json(key_pressed)}\n]`)
+		if (DEBUG) console.log(`[key pressed:\n${prettify_any(key_pressed)}\n]`)
 		if (!key_pressed) {
 			if (DEBUG) console.error('keypress: Y U no key?!')
 			return
@@ -282,7 +282,7 @@ function create({DEBUG, shouldCenter}) {
 	}
 
 	async function display_message({msg, choices = [], side = '→'}) {
-		if (DEBUG) console.log(`↘ display_message(\n${prettify_json({msg, choices, side}, { outline: true })}\n)`)
+		if (DEBUG) console.log(`↘ display_message(\n${prettify_any({msg, choices, side}, { outline: true })}\n)`)
 		if (typeof arguments[0] !== 'object')
 			throw new Error('display_message(): incorrect invocation!')
 		if (!msg)
@@ -335,7 +335,7 @@ function create({DEBUG, shouldCenter}) {
 	}
 
 	function read_string(step) {
-		if (DEBUG) console.log(`↘ read_string(\n${prettify_json(step, { outline: true })}\n)`)
+		if (DEBUG) console.log(`↘ read_string(\n${prettify_any(step, { outline: true })}\n)`)
 		return new Promise(resolve => {
 			//rli.clearLine(process.stdout, 0)
 			rli.prompt()

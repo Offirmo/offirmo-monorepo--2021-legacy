@@ -140,10 +140,32 @@ describe('@offirmo-private/prettify-js', function() {
 				test_to_console(new TypeError('foo!'))
 			})
 
-			it('should work with sets of primitive types (key + value)', () => {
-				test_to_console({foo: 42})
+			it('should work with sets', () => {
+				const s0 = new Set()
+				test_to_console(s0)
+
+				const s1 = new Set('foo')
+				test_to_console(s1)
+
+				const s2 = new Set([
+					'foo',
+					42,
+					//42n,
+					true,
+					undefined,
+					Symbol('foo'),
+					null,
+					{ X: 33},
+				])
+				test_to_console(s2)
+
+				const ws1 = new WeakSet([s0, s1])
+				test_to_console(ws1)
 			})
 
+			it('should work with maps', () => {
+				test_to_console(new Map())
+			})
 
 			it('should work with classes', () => {
 				test_to_console({foo: 42})

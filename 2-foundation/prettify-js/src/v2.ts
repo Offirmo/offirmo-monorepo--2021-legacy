@@ -57,7 +57,7 @@ const DEFAULTS: Options = {
 	stylize_user: (s: string) => stylize_string.blue(s),
 
 	// TODO follow max string size
-	prettify_string: (s: string, o: Options) => o.stylize_dim(o.quote) + o.stylize_primitive(s) + o.stylize_dim(o.quote),
+	prettify_string: (s: string, o: Options) => o.stylize_dim(o.quote) + o.stylize_user(s) + o.stylize_dim(o.quote),
 	prettify_number: (n: number, o: Options) => {
 		if (o.should_recognize_constants) {
 			switch(n) {
@@ -151,7 +151,11 @@ const DEFAULTS: Options = {
 								case 'Boolean':
 									return o.prettify_boolean(obj as boolean, o)
 
-								// TODO recognize some objects?
+								// recognize some objects
+								case 'Set':
+									return o.prettify_array(Array.from((obj as Set<any>).keys()), o)
+								case 'WeakSet':
+									return o.stylize_dim('/\*not enumerable*\/')
 
 								// other
 								default:
@@ -178,6 +182,10 @@ const DEFAULTS: Options = {
 
 			return res
 		})
+
+		if (keys.length === 0 && skip_constructor) {
+			return o.stylize_dim('/\*???*\/')
+		}
 
 		return o.stylize_syntax('{')
 			+ keys.map(k => {
