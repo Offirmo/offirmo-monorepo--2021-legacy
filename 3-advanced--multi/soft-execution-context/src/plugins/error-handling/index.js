@@ -1,7 +1,7 @@
 import normalizeError from '@offirmo-private/normalize-error'
 import { promiseTry } from '@offirmo-private/promise-try'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
-import { STANDARD_ERROR_FIELDS, COMMON_ERROR_FIELDS } from '@offirmo-private/common-error-fields'
+import { QUASI_STANDARD_ERROR_FIELDS, COMMON_ERROR_FIELDS_EXTENDED } from '@offirmo-private/common-error-fields'
 
 
 import { INTERNAL_PROP } from '../../consts'
@@ -74,6 +74,7 @@ const PLUGIN = {
 		}
 
 		// useful if creating an error later from a saved SEC
+		// TODO modulize?
 		prototype.createError = function createError(message, details = {}) {
 			const SEC = this
 
@@ -85,7 +86,7 @@ const PLUGIN = {
 			const err = new Error(message)
 			Object.keys(details).forEach(k => {
 				//console.log(k)
-				if (COMMON_ERROR_FIELDS.has(k) && !STANDARD_ERROR_FIELDS.has(k)) {
+				if (COMMON_ERROR_FIELDS_EXTENDED.has(k) && !QUASI_STANDARD_ERROR_FIELDS.has(k)) {
 					err[k] = details[k]
 				}
 				else {

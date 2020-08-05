@@ -4,7 +4,8 @@ import {
 	Response,
 	NetlifyHandler, NetlifyContext,
 } from './sub/types'
-import { get_netlify_user_data } from "./sub/netlify"
+import { get_netlify_user_data } from './sub/netlify'
+import * as build from './sub/build'
 
 
 export const handler: NetlifyHandler = async (
@@ -26,6 +27,7 @@ export const handler: NetlifyHandler = async (
 		badly_typed_context,
 		event,
 		netlify_user_data,
+		build,
 		// https://devdocs.io/node/process
 		process: {
 			//argv: process.argv,

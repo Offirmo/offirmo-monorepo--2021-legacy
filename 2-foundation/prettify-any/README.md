@@ -3,16 +3,17 @@ A node module to conveniently print JSON.
 
 ## Introduction
 Goals:
-* readable
-* safe, won't crash even if circular reference or huge object
-* ability to copy/paste back to normal code (as much as possible)
-* depending on the available space, will try to avoid wrapping if possible
-* stable
-* can help outline wrong JSON
+* ✅ readable
+* safe, won't crash even if circular reference ✅ or huge object ✴️
+* ✅ ability to copy/paste back to normal code (as much as possible)
+* depending on the available space, will try to avoid wrapping if possible ✴️
+* stable ✴️
+* can help outline wrong JSON ✴️
 
 Features:
 - the sign of a negative zero is correctly displayed
 - highlight "problem-ish" values = NaN, errors
+
 
 
 ## DEPRECATED
@@ -30,3 +31,5 @@ dump_prettified_any('hello', {foo}, {outline: true, indent: 3})
 
 
 Note: was formerly using prettyjson and got inspired by it.
+"prettyjson": "^1"
+"@types/prettyjson": "^0.0.29",

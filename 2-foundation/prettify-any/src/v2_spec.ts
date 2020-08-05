@@ -1,15 +1,26 @@
+import chalk from 'chalk'
+
 import {
-	prettify_any,
+	inject_chalk,
+	to_prettified_str as _to_prettified_str,
 } from './v2'
+
+inject_chalk(chalk)
 
 describe('@offirmo-private/prettify-any', function() {
 	const should_test_verbose = false
 
-	describe('prettify_any()', function() {
+	describe('to_prettified_str()', function() {
+		function to_prettified_str(...args: Parameters<typeof _to_prettified_str>) {
+			const prettified = _to_prettified_str(...args)
+			if (prettified.startsWith('[error prettifying:'))
+				throw new Error(prettified)
+			return prettified
+		}
 		function test_to_console(value: any): void {
 			console.log('≡')
 			console.log('☑ default console:', value)
-			console.log('☐ prettify_any(…):', prettify_any(value))
+			console.log('☐ to_prettified_str(…):', to_prettified_str(value))
 		}
 
 		describe('handling of primitive type/values', function() {
@@ -119,7 +130,7 @@ describe('@offirmo-private/prettify-any', function() {
 					}
 				})
 			})
-			it.only('should work with circular objects', () => {
+			it('should work with circular objects', () => {
 				const obj: any = { foo: '42' }
 				obj.bar = obj
 				test_to_console(obj)
@@ -177,7 +188,43 @@ describe('@offirmo-private/prettify-any', function() {
 
 		})
 
+		describe('special cases', function() {
 
+			it('should be able to handle deep objects', () => {
+				const deep_obj: any = {
+					depth: 0,
+				}
+				const deep_arr: any = [ 0 ]
+				const deep_mixed: any = [{
+					depth: 0,
+				}]
+
+				let deep_obj_deepest: any = deep_obj
+				let deep_arr_deepest: any = deep_arr
+				let deep_mixed_deepest: any = deep_mixed
+
+				for (let i = 1; i < 100; ++i) {
+					deep_obj_deepest = deep_obj_deepest.sub = {
+						depth: i,
+					}
+
+					deep_arr_deepest.push([ i ])
+					deep_arr_deepest = deep_arr_deepest[1]
+					deep_mixed_deepest = deep_mixed_deepest[0].sub = [{
+						depth: i*2,
+					}]
+
+
+				}
+				console.log('☐ to_prettified_str(…):', to_prettified_str(deep_obj))
+				console.log('☐ to_prettified_str(…):', to_prettified_str(deep_arr))
+				console.log('☐ to_prettified_str(…):', to_prettified_str(deep_mixed))
+			})
+
+			it('should be able to handle huge blobs', () => {
+				console.log('☐ to_prettified_str(…):', to_prettified_str(process.env))
+			})
+		})
 
 	})
 })

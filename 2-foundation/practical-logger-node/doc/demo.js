@@ -5,7 +5,8 @@
 const { createLogger } = require('..')
 
 const logger_trivial = createLogger()
-logger_trivial.error('test!')
+logger_trivial.log('trivial log test!')
+logger_trivial.error('trivial error test!')
 
 const {
 	demo_legacy_console,

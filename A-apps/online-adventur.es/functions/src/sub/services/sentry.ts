@@ -4,7 +4,7 @@ const Sentry = require('@sentry/node')
 //Sentry.captureException(err)
 //Sentry.captureMessage(err.message)
 
-import { XError } from "@offirmo-private/common-error-fields";
+import { XXError } from '@offirmo-private/common-error-fields'
 
 import { CHANNEL } from './channel'
 
@@ -31,7 +31,7 @@ Sentry.configureScope((scope: any) => {
 	// TODO node version etc. ?
 });
 
-export async function on_error(err: XError): Promise<void> {
+export async function on_error(err: XXError): Promise<void> {
 	console.log('💣 Reporting to Sentry...', err.message)
 
 	// TODO inspect the SEC?

@@ -15,7 +15,7 @@ function create({
 	ui,
 	inter_msg_delay_ms = 0,
 	after_input_delay_ms = 0,
-	prettify_any = x => x, // work with browser
+	to_prettified_str = x => x, // work with browser
 }) {
 	if (DEBUG) console.log('↘ create()')
 
@@ -84,7 +84,7 @@ function create({
 			return step
 		}
 		catch (e) {
-			console.error(prettify_any(step))
+			console.error(to_prettified_str(step))
 			throw e
 		}
 	}
@@ -98,13 +98,13 @@ function create({
 			return choice
 		}
 		catch (e) {
-			console.error(prettify_any(choice))
+			console.error(to_prettified_str(choice))
 			throw e
 		}
 	}
 
 	async function ask_user(step) {
-		if (DEBUG) console.log('↘ ask_user(\n', prettify_any(step, {outline: true}), '\n)')
+		if (DEBUG) console.log('↘ ask_user(\n', to_prettified_str(step, {outline: true}), '\n)')
 
 		let answer = ''
 		const ok = true // TODO used for confirmation
@@ -136,7 +136,7 @@ function create({
 	}
 
 	async function execute_step(step) {
-		if (DEBUG) console.log('↘ execute_step(\n', prettify_any(step, {outline: true}), '\n)')
+		if (DEBUG) console.log('↘ execute_step(\n', to_prettified_str(step, {outline: true}), '\n)')
 
 		switch (step.type) {
 			case 'simple_message':

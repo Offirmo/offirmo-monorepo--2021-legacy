@@ -2,7 +2,7 @@
 
 //const PromiseWithProgress = require('p-progress')
 
-const prettify_any = require('@offirmo-private/prettify-any')
+const to_prettified_str = require('@offirmo-private/prettify-any')
 
 const stylize_string = require('chalk')
 
@@ -26,7 +26,7 @@ function wrap_string(s, size) {
 
 module.exports = {
 	//PromiseWithProgress,
-	prettify_any,
+	to_prettified_str,
 	stylize_string,
 	//indent_string,
 	wrap_string,

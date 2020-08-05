@@ -1,5 +1,7 @@
 UUID
 
+TODO remove the monstruous dependency on crypto!
+
 ```js
 /*
 "@offirmo-private/uuid": "^0",

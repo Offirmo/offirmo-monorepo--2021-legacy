@@ -1,7 +1,6 @@
 import chalk from 'chalk'
-import {
-	LOG_LEVEL_TO_HUMAN,
-} from '@offirmo/practical-logger-core'
+
+import { LOG_LEVEL_TO_HUMAN } from '@offirmo/practical-logger-core'
 
 
 const MIN_WIDTH = 7

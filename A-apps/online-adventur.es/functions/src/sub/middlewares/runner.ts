@@ -11,7 +11,7 @@ import {
 } from '../types'
 
 import '../services/sec'
-import { XError, XSECEventDataMap, XSoftExecutionContext, XOperationParams, Injections } from '../services/sec'
+import { LXXError, XSECEventDataMap, XSoftExecutionContext, XOperationParams, Injections } from '../services/sec'
 import { on_error as report_to_sentry } from '../services/sentry'
 import { CHANNEL } from '../services/channel'
 import { MiddleWare} from './types'
@@ -22,7 +22,7 @@ import { create_error } from '../utils'
 const MARGIN_AND_SENTRY_BUDGET_MS = CHANNEL === 'dev' ? -5000 : -1000
 
 
-function _get_response_from_error(err: XError): Response {
+function _get_response_from_error(err: LXXError): Response {
 	const statusCode = err?.statusCode || 500
 	const body = err?.res || `[Error] ${err?.message || 'Unknown error!'}`
 
@@ -101,7 +101,7 @@ function _run_with_safety_net(
 			}
 		}
 
-		async function on_final_error(err: XError) {
+		async function on_final_error(err: LXXError) {
 			clean()
 
 			logger.fatal(`⚰️ [${PREFIX}] Final error:`, err)
@@ -245,7 +245,7 @@ async function _run_mw_chain(
 	////////////////////////////////////
 
 	let _last_SEC: LSoftExecutionContext = SEC
-	let _last_reported_err_msg: XError['message'] | null = null
+	let _last_reported_err_msg: LXXError['message'] | null = null
 	async function next(SEC: LSoftExecutionContext, index: number): Promise<void> {
 		if (index > 0) {
 			_check_response(_last_SEC, index - 1, 'in')
@@ -288,7 +288,7 @@ async function _run_mw_chain(
 	if (response.body === DEFAULT_RESPONSE_BODY)
 		throw new Error(DEFAULT_RESPONSE_BODY)
 
-	let pseudo_err: XError | null = null
+	let pseudo_err: LXXError | null = null
 	if (statusCode >= 400) {
 		assert(last_manual_error_call_SEC, 'manual error should have caused SEC to be memorized')
 		// todo enhance non-stringified?

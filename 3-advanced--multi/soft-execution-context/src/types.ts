@@ -1,6 +1,6 @@
 import Emittery from 'emittery'
 import { TimestampUTCMs } from '@offirmo-private/timestamps'
-import { XError } from '@offirmo-private/common-error-fields'
+import { XXError } from '@offirmo-private/common-error-fields'
 
 
 export interface BaseInjections {
@@ -40,7 +40,7 @@ export interface EventDataMap<Injections = {}, AnalyticsDetails = {}, ErrorDetai
 		Injections
 		& BaseInjections
 		& WithSEC<Injections, AnalyticsDetails, ErrorDetails>
-		& { err: XError }
+		& { err: XXError }
 }
 
 export type OperationParams<Injections = {}, AnalyticsDetails = {}, ErrorDetails = {}> =
@@ -91,8 +91,8 @@ export interface SoftExecutionContext<Injections = {}, AnalyticsDetails = {}, Er
 	setErrorReportDetails: (p: Partial<ErrorDetails>)
 		=> SoftExecutionContext<Injections, AnalyticsDetails, ErrorDetails>
 
-	createError: (message: string, details: XError['details']) => XError
-	handleError: (err: XError) => void
+	createError: (message: string, details: XXError['details']) => XXError
+	handleError: (err: XXError) => void
 
 	xTry: <T>(operation: string, fn: Operation<T, Injections, AnalyticsDetails, ErrorDetails>) => T
 	xTryCatch: <T>(operation: string, fn: Operation<T, Injections, AnalyticsDetails, ErrorDetails>) => T | undefined

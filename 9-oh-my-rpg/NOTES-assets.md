@@ -49,6 +49,7 @@ Médiévale
 * le roi Renaud https://www.youtube.com/watch?v=CalD_MnNarM&list=UU7PMPiMjYU4qWJqKbmwkyyQ&index=14
 * table ronde https://www.youtube.com/watch?v=Lwb8mUb3hu8&list=UU7PMPiMjYU4qWJqKbmwkyyQ&index=23
 * le vin gaulois https://www.youtube.com/watch?v=4zKOLGwku8o
+* stawars inspired https://www.youtube.com/watch?v=KhktXWzMHKU&list=PL9PLUrw0CbcSx6jZ5sO1W8wY_P0QsiVkb&index=8
 
 * Irish
   * https://www.youtube.com/watch?v=qHMvlV0-_lk

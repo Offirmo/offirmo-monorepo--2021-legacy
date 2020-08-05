@@ -1,5 +1,5 @@
 {
-	"name": "@tbrpg/functions",
+	"name": "@offirmo-private/functions",
 	"description": "Netlify functions for online-adventures.",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
@@ -40,15 +40,16 @@
 	"scripts": {
 		"clean": "node ../../../0-scripts/clean.js …dist functions",
 
+		"refresh-build-variables": "node ../../../0-scripts/update_build_variables.js --mode=ts --outputDir=src/sub",
 		"build:dev:watch": "node ../../../0-scripts/build-typescript.js --watch --onlyNode",
 		"build:prod": "node ../../../0-scripts/build-typescript.js --onlyNode",
 		"build:netlify-functions": "rm -rf ./functions && netlify-lambda build ./dist/src.es2019.cjs --config ./webpack.config.ts",
 		"ensure-privacy": "grep --null -RIl `whoami` functions/* | xargs -0 sed -i '' -e s/`whoami`/offirmo/g",
 
-		"dev": "run-s clean build:dev:watch",
+		"dev": "run-s clean refresh-build-variables build:dev:watch",
 		"start": "source ~/.nvm/nvm.sh; nvm use 12; export NODE_ENV=development; nvm exec 12 node ./node_modules/.bin/netlify-lambda serve ./dist/src.es2019.cjs --config ./webpack.config.ts",
 		"test": "./node_modules/.bin/mocha --bail --config ./node_modules/@offirmo/unit-test-toolbox/mocharc.json ./node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2019.cjs/**/*spec.js'",
-		"build": "run-s build:prod build:netlify-functions ensure-privacy"
+		"build": "run-s refresh-build-variables build:prod build:netlify-functions ensure-privacy"
 	},
 	"devDependencies": {
 		"@offirmo/unit-test-toolbox": "^6",

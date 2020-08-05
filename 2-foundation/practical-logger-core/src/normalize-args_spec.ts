@@ -3,7 +3,7 @@ import { LogDetails } from '@offirmo/practical-logger-types'
 
 import { LIB } from './consts'
 import { normalizeArguments } from './normalize-args'
-import { XError } from '@offirmo-private/common-error-fields'
+import { XXError } from '@offirmo-private/common-error-fields'
 
 describe(`${LIB} - normalize args`, () => {
 	function getNormalizedMessage(...args: any[]): string {
@@ -12,7 +12,7 @@ describe(`${LIB} - normalize args`, () => {
 	function getNormalizedDetails(...args: any[]): LogDetails {
 		return normalizeArguments(arguments)[1]
 	}
-	const err: XError = new Error('err_msg!')
+	const err: XXError = new Error('err_msg!')
 	err.statusCode = 1234
 	err.details = {
 		hello: 42,

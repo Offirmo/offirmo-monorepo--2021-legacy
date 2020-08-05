@@ -24,7 +24,7 @@ const cli = meow('build', {
 		},
 		outputDir: {
 			type: 'string',
-			default: process.cwd(),
+			default: path.resolve(process.cwd(), './src'),
 		},
 	},
 })
@@ -60,7 +60,7 @@ console.log('🧙️  Derived variables:', { VERSION, NUMERIC_VERSION })
 
 switch(cli.flags.mode || 'json') {
 	case 'json': {
-		const target_path = path.resolve(cli.flags.outputDir || process.cwd(), './src/build.json')
+		const target_path = path.resolve(cli.flags.outputDir || process.cwd(), './build.json')
 		write_json_file(target_path, {
 			VERSION,
 			NUMERIC_VERSION,
@@ -70,7 +70,7 @@ switch(cli.flags.mode || 'json') {
 		break
 	}
 	case 'ts': {
-		const target_path = path.resolve(cli.flags.outputDir || process.cwd(), './src/build.ts')
+		const target_path = path.resolve(cli.flags.outputDir || process.cwd(), './build.ts')
 		fs.writeFileSync(target_path, `
 // THIS FILE IS AUTO GENERATED!
 export const VERSION: string = '${VERSION}'

@@ -82,4 +82,4 @@ if (ENV !== process.env.NODE_ENV) {
 
 /////////////////////////////////////////////////
 
-export { XError } from '../utils'
+export { LXXError } from '../utils'

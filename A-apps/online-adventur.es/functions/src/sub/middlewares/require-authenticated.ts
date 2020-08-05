@@ -20,7 +20,7 @@ export async function require_authenticated(
 	response: Response,
 	next: () => Promise<void>
 ): Promise<void> {
-	const CSEC = SEC
+	const CSEC = SEC // TODO fix this ugly thing
 	await SEC.xPromiseTry('require_authenticated()', async ({ SEC, logger }) => {
 		try {
 			const netlify_user_data = get_netlify_user_data(context)

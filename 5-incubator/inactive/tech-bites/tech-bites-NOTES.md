@@ -117,3 +117,5 @@ Agile
 Scrum
 Pair-programming
 TDD
+
+what got us here won't get us there Marshall Goldsmith

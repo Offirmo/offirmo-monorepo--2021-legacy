@@ -1,4 +1,5 @@
 
+// TODO use common lib
 interface ExtendedError extends Error {
 	name: string
 	message: string

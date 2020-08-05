@@ -1,13 +1,13 @@
 import { STATUS_CODES } from 'http'
-import { XError as _XError } from '@offirmo-private/common-error-fields'
+import { XXError } from '@offirmo-private/common-error-fields'
 import { XSoftExecutionContext } from '../services/sec'
 
-export interface XError extends _XError {
+export interface LXXError extends XXError {
 	res?: any
 }
 
 // TODO extern
-export function create_error(SEC: XSoftExecutionContext, message: string | number | undefined, details: XError['details'] = {}): XError {
+export function create_error(SEC: XSoftExecutionContext, message: string | number | undefined, details: LXXError['details'] = {}): LXXError {
 	console.log(`FYI create_error("${message}"`, details,') from', SEC.getLogicalStack())
 
 	if (message && STATUS_CODES[message]) {

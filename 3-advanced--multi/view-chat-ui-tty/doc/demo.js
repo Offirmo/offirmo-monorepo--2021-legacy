@@ -6,7 +6,7 @@
 const { create: create_chat } = require('@offirmo-private/view-chat')
 const { create: create_tty_chat_ui } = require('../src')
 const { get_next_step1 } = require('@offirmo-private/view-chat/src/demo')
-const prettify_any = require('@offirmo-private/prettify-any')
+const to_prettified_str = require('@offirmo-private/prettify-any')
 const DEBUG = false
 
 
@@ -27,7 +27,7 @@ const chat = create_chat({
 	ui: process.stdout.isTTY
 		? create_tty_chat_ui({DEBUG})
 		: no_ui,
-	prettify_any,
+	to_prettified_str,
 })
 
 chat.start()

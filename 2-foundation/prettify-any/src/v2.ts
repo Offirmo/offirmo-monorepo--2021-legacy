@@ -1,17 +1,17 @@
-import stylize_string from 'chalk'
 
 ////////////////////////////////////
 
-// TODO break into subtypes
-export interface Options {
+export interface StyleOptions {
 	max_width: null | number // max width before need to wrap
 	outline: boolean // add a strong separator at top and bottom so that it stands out
-	indent: 'tabs' | number // number of spaces to use for indenting
+	indent: string // what should be used for indenting
 	max_primitive_str_size: null | number
 	should_recognize_constants: boolean
 	should_recognize_globals: boolean
 	quote: '\'' | '"'
+}
 
+export interface StylizeOptions {
 	stylize_dim: (s: string) => string
 	stylize_suspicious: (s: string) => string
 	stylize_error: (s: string) => string
@@ -19,7 +19,9 @@ export interface Options {
 	stylize_primitive: (s: string) => string
 	stylize_syntax: (s: string) => string
 	stylize_user: (s: string) => string
+}
 
+export interface PrettifyOptions {
 	prettify_string: (x: string, st: State) => string
 	prettify_number: (x: number, st: State) => string
 	prettify_bigint: (x: bigint, st: State) => string
@@ -32,8 +34,10 @@ export interface Options {
 	prettify_property_name: (x: string | number | symbol, st: State) => string
 	prettify_object: (x: Object, st: State, ox?: { skip_constructor?: boolean }) => string
 
-	prettify_any: (a: any, st: State) => string
+	to_prettified_str: (a: any, st: State) => string
 }
+
+export type Options = StyleOptions & StylizeOptions & PrettifyOptions
 
 export interface State {
 	o: Options
@@ -41,7 +45,7 @@ export interface State {
 	circular: WeakSet<object>
 }
 
-const DEFAULTS_PARAMS: Partial<Options> = {
+const DEFAULTS_STYLE_OPTIONS: StyleOptions = {
 	max_width: null,
 	outline: false,
 	indent: 'tabs',
@@ -51,7 +55,7 @@ const DEFAULTS_PARAMS: Partial<Options> = {
 	quote: '\'',
 }
 
-const DEFAULTS_PRETTIFY: Partial<Options> = {
+const DEFAULTS_PRETTIFY_OPTIONS: PrettifyOptions = {
 	// TODO follow max string size
 	prettify_string: (s: string, st: State) => {
 		const { o } = st
@@ -107,7 +111,7 @@ const DEFAULTS_PRETTIFY: Partial<Options> = {
 		const {o} = st
 
 		if (f.name && (globalThis as any)[f.name] === f) {
-			return stylize_string.magenta(f.name)
+			return o.stylize_user(f.name)
 		}
 
 		let result = ''
@@ -115,7 +119,7 @@ const DEFAULTS_PRETTIFY: Partial<Options> = {
 		if (f.name) {
 			if (!as_prop)
 				result += o.stylize_syntax('function ')
-			result += stylize_string.green(f.name)
+			result += o.stylize_user(f.name)
 		}
 
 		result += o.stylize_syntax('()')
@@ -130,7 +134,7 @@ const DEFAULTS_PRETTIFY: Partial<Options> = {
 		const {o} = st
 
 		return o.stylize_syntax('[')
-			+ a.map(e => o.prettify_any(e, st)).join(o.stylize_syntax(','))
+			+ a.map(e => o.to_prettified_str(e, st)).join(o.stylize_syntax(','))
 			+ o.stylize_syntax(']')
 	},
 	prettify_property_name: (p: string | number | symbol, st: State) => {
@@ -171,7 +175,7 @@ const DEFAULTS_PRETTIFY: Partial<Options> = {
 				// can we do better?
 				if ((globalThis as any)[p.constructor.name] === p.constructor && p.constructor !== Object) {
 					return o.stylize_syntax('new ')
-						+ stylize_string.magenta(p.constructor.name)
+						+ o.stylize_global(p.constructor.name)
 						+ o.stylize_syntax('(')
 						+ (() => {
 							switch (p.constructor.name) {
@@ -228,12 +232,12 @@ const DEFAULTS_PRETTIFY: Partial<Options> = {
 
 				return o.prettify_property_name(k, st)
 					+ o.stylize_syntax(': ')
-					+ o.prettify_any(v, st)
+					+ o.to_prettified_str(v, st)
 			}).join(o.stylize_syntax(','))
 			+ o.stylize_syntax('}')
 	},
 
-	prettify_any(any: any, st: State): string {
+	to_prettified_str(any: any, st: State): string {
 		const {o} = st
 
 		switch (typeof any) {
@@ -256,9 +260,11 @@ const DEFAULTS_PRETTIFY: Partial<Options> = {
 			case 'function': // special sub-type of object
 				return o.prettify_function(any, st)
 			case 'object': {
-				if (st.circular.has(any))
-					return o.stylize_error('<Circular ref!>')
-				st.circular.add(any)
+				if (any !== null) {
+					if (st.circular.has(any))
+						return o.stylize_error('<Circular ref!>')
+					st.circular.add(any)
+				}
 				return o.prettify_object(any, st)
 			}
 
@@ -269,7 +275,7 @@ const DEFAULTS_PRETTIFY: Partial<Options> = {
 	},
 }
 
-const DEFAULTS_STYLIZE_NONE: Partial<Options> = {
+const DEFAULTS_STYLIZE_OPTIONS__NONE: StylizeOptions = {
 	stylize_dim: (s: string) => s,
 	stylize_suspicious: (s: string) => s,
 	stylize_error: (s: string) => s,
@@ -279,23 +285,23 @@ const DEFAULTS_STYLIZE_NONE: Partial<Options> = {
 	stylize_user: (s: string) => s,
 }
 
-const DEFAULTS_STYLIZE_CHALK_ANSI: Partial<Options> = {
-	stylize_dim: (s: string) => stylize_string.dim(s),
-	stylize_suspicious: (s: string) => stylize_string.bold(s),
-	stylize_error: (s: string) => stylize_string.red.bold(s),
-	stylize_global: (s: string) => stylize_string.magenta(s),
-	stylize_primitive: (s: string) => stylize_string.green(s),
-	stylize_syntax: (s: string) => stylize_string.yellow(s),
-	stylize_user: (s: string) => stylize_string.blue(s),
+function get_stylize_options_chalk_ansi(chalk: any): StylizeOptions {
+	return {
+		stylize_dim: (s: string) => chalk.dim(s),
+		stylize_suspicious: (s: string) => chalk.bold(s),
+		stylize_error: (s: string) => chalk.red.bold(s),
+		stylize_global: (s: string) => chalk.magenta(s),
+		stylize_primitive: (s: string) => chalk.green(s),
+		stylize_syntax: (s: string) => chalk.yellow(s),
+		stylize_user: (s: string) => chalk.blue(s),
+	}
 }
 
-const DEFAULTS_OPTIONS_CHALK_ANSI: Options = {
-	...DEFAULTS_PARAMS as Options,
-	...DEFAULTS_PRETTIFY as Options,
-	...DEFAULTS_STYLIZE_CHALK_ANSI as Options,
+let default_options: Options = {
+	...DEFAULTS_STYLE_OPTIONS,
+	...DEFAULTS_PRETTIFY_OPTIONS,
+	...DEFAULTS_STYLIZE_OPTIONS__NONE,
 }
-
-
 
 ////////////////////////////////////
 
@@ -311,33 +317,45 @@ function cmp<T>(a: T, b: T): number {
 
 ////////////////////////////////////
 
-export function prettify_any(js: Readonly<any>, options: Readonly<Partial<Options>> = {}): string {
-	const st: State = {
-		o: {
-			...DEFAULTS_OPTIONS_CHALK_ANSI,
-			...options,
-		},
+export function to_prettified_str(js: Readonly<any>, options: Readonly<Partial<Options>> = {}): string {
+	try {
+		const st: State = {
+			o: {
+				...default_options,
+				...options,
+			},
 
-		circular: new WeakSet<object>()
+			circular: new WeakSet<object>()
+		}
+
+		return st.o.to_prettified_str(js, st)
 	}
-
-	return st.o.prettify_any(js, st)
+	catch (err) {
+		return `[error prettifying:${err.message}]`
+	}
 }
 
 export function prettify_json(js: Readonly<any>, options: Readonly<Partial<Options>> = {}): string {
 	const st: State = {
 		o: {
-			...DEFAULTS_OPTIONS_CHALK_ANSI,
+			...default_options,
 			...options,
 		},
 
 		circular: new WeakSet<object>()
 	}
 
-	return st.o.prettify_any(js, st)
+	return st.o.to_prettified_str(js, st)
 }
 
 export function dump_prettified_any(msg: string, data: Readonly<any>, options: Readonly<Partial<Options>> = {}): void {
 	console.log(msg)
-	console.log(prettify_any(data, options))
+	console.log(to_prettified_str(data, options))
+}
+
+export function inject_chalk(chalk: any) {
+	default_options = {
+		...default_options,
+		...get_stylize_options_chalk_ansi(chalk),
+	}
 }

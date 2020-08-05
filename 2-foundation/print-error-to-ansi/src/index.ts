@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import chalk from 'chalk'
 
-import { COMMON_ERROR_FIELDS } from '@offirmo-private/common-error-fields'
+import { COMMON_ERROR_FIELDS_EXTENDED } from '@offirmo-private/common-error-fields'
 
 // TODO make it more pro!
 
@@ -38,7 +38,7 @@ function displayError(errLike: Readonly<Partial<Error>> = {}) {
 		displayedProps.add('logicalStack')
 	}
 
-	COMMON_ERROR_FIELDS.forEach(prop => {
+	COMMON_ERROR_FIELDS_EXTENDED.forEach(prop => {
 		if (prop in errLike && !displayedProps.has(prop)) {
 			displayErrProp(errLike, prop)
 		}
