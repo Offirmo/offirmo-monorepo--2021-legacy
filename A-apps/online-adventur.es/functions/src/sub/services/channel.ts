@@ -1,7 +1,14 @@
 import { Enum } from 'typescript-string-enums'
 import { ReleaseChannel } from '@offirmo-private/functions-interface'
 
+/////////////////////////////////////////////////
+
 export const CHANNEL: ReleaseChannel = (() => {
+	/*console.log('CHANNEL detection', {
+		'process.env.CHANNEL': process.env.CHANNEL,
+		'process.env.AWS_SECRET_ACCESS_KEY': process.env.AWS_SECRET_ACCESS_KEY,
+		'process.env.NODE_ENV': process.env.NODE_ENV,
+	})*/
 	if (Enum.isType(ReleaseChannel, process.env.CHANNEL))
 		return process.env.CHANNEL as ReleaseChannel
 

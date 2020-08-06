@@ -16,7 +16,7 @@ const PG_DB_NAME = DEFAULT_DOCKER_DB_NAME
 const PG_PORT = DEFAULT_PG_PORT // exposed through image settings
 const PG_PWD = 'password' // set through ENV VAR
 
-const LOCAL_DEV_CNX_STR = `postgres://${PG_USER}:${PG_PWD}@localhost:${PG_PORT}/${PG_DB_NAME}?ssl=true`
+const LOCAL_DEV_CNX_STR = `postgres://${PG_USER}:${PG_PWD}@localhost:${PG_PORT}/${PG_DB_NAME}`
 
 
 export function get_connection_string(): string {

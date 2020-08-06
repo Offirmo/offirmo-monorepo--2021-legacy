@@ -1,13 +1,13 @@
 /////////////////////
 
-import {expect} from 'chai'
-import {APP} from './consts'
+import { expect } from 'chai'
+import { APP } from '../consts'
 
 import {
 	DEV_MOCK_NETLIFY_USER,
 	get_netlify_user_data,
 } from './netlify'
-import {NetlifyClientContext, NetlifyContext} from "./types";
+import { NetlifyClientContext, NetlifyContext } from '../types'
 
 ////////////////////////////////////
 

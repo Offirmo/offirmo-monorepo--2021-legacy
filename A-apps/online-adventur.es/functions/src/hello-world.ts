@@ -14,8 +14,9 @@ import {
 	Response,
 	NetlifyHandler,
 } from './sub/types'
-
 import { BUILD_DATE } from './sub/build'
+
+////////////////////////////////////
 
 const handler: NetlifyHandler = async (
 	event: APIGatewayEvent,

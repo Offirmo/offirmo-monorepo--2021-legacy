@@ -8,7 +8,6 @@ process.env.UDA_OVERRIDE__KNEX_DEBUG = 'true'
 import '@offirmo/universal-debug-api-node'
 
 import { Enum } from 'typescript-string-enums'
-
 import { Method, TbrpgRpc, TbrpgRpcResponse } from '@tbrpg/interfaces'
 import { ReleaseChannel, get_allowed_origin } from '@offirmo-private/functions-interface'
 
@@ -24,9 +23,7 @@ import {
 	JSONRPC_CODE,
 	get_default_JsonRpc_error,
 } from './sub/consts'
-
 import { create_error } from './sub/utils'
-
 import { process_rpc } from './sub/tbrpg'
 import { use_middlewares_with_error_safety_net } from './sub/middlewares/runner'
 import { HttpMethod, require_http_method } from './sub/middlewares/require-http-method'
@@ -35,34 +32,6 @@ import handle_cors from './sub/middlewares/handle_cors'
 import { XSoftExecutionContext} from './sub/middlewares/types'
 
 ////////////////////////////////////
-
-/*
-async function handle_cors(
-	SEC: XSoftExecutionContext,
-	event: Readonly<APIGatewayEvent>,
-	context: Readonly<NetlifyContext>,
-	response: Response,
-	next: Function
-): Promise<void> {
-	if (event.httpMethod.toUpperCase() !== 'OPTIONS')
-		return next()
-
-	await SEC.xTry('handle_cors()', async ({ SEC, logger, CHANNEL }) => {
-		logger.log('\n******* handling a tbrpg-rpc… *******')
-
-		const origin = event.headers.origin
-		const expected_origin = get_allowed_origin(CHANNEL as ReleaseChannel)
-		if (origin !== expected_origin)
-			throw create_error(SEC,405, {
-				expected_origin,
-				origin,
-			})
-
-		response.statusCode = 200
-		response.headers['Access-Control-Allow-Origin'] = expected_origin
-		response.body = 'OK'
-	})
-}*/
 
 async function using_json_rpc(
 	SEC: XSoftExecutionContext,
@@ -237,4 +206,3 @@ const handler: NetlifyHandler = (
 }
 
 export { handler }
-

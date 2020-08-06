@@ -3,8 +3,10 @@ import { Users } from '@offirmo-private/db'
 import {
 	NetlifyContext,
 	NetlifyClientContext,
-} from './types'
-import { CHANNEL } from './services/channel'
+} from '../types'
+import { CHANNEL } from './channel'
+
+/////////////////////////////////////////////////
 
 function _ensure_netlify_logged_in(context: Readonly<NetlifyContext>) {
 	if (!context.clientContext)

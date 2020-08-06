@@ -1,3 +1,5 @@
+import '../services/sec'
+
 import assert from 'tiny-invariant'
 import stable_stringify from 'json-stable-stringify'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
@@ -9,18 +11,18 @@ import {
 	NetlifyContext,
 	Response,
 } from '../types'
-
-import '../services/sec'
-import { LXXError, XSECEventDataMap, XSoftExecutionContext, XOperationParams, Injections } from '../services/sec'
+import { LXXError, XSECEventDataMap, Injections } from '../services/sec'
 import { on_error as report_to_sentry } from '../services/sentry'
 import { CHANNEL } from '../services/channel'
-import { MiddleWare} from './types'
 import { create_error } from '../utils'
+import { MiddleWare, XSoftExecutionContext } from './types'
 
+////////////////////////////////////
 
 // note: deducted from the overall running budget
 const MARGIN_AND_SENTRY_BUDGET_MS = CHANNEL === 'dev' ? -5000 : -1000
 
+////////////////////////////////////
 
 function _get_response_from_error(err: LXXError): Response {
 	const statusCode = err?.statusCode || 500
@@ -40,6 +42,8 @@ interface LocalLSInjections extends Injections {
 }
 type LSoftExecutionContext = SoftExecutionContext<LocalLSInjections>
 type LOperationParams = OperationParams<LocalLSInjections>
+
+////////////////////////////////////
 
 export function use_middlewares_with_error_safety_net(
 	event: APIGatewayEvent,

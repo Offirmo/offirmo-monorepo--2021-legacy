@@ -6,6 +6,7 @@ import {
 
 import { XSoftExecutionContext } from '../services/sec'
 
+////////////////////////////////////
 
 export type MiddleWare = (
 	SEC: XSoftExecutionContext,
@@ -15,6 +16,7 @@ export type MiddleWare = (
 	next: () => Promise<void>
 ) =>  Promise<void>
 
+////////////////////////////////////
 
 // for convenience
 export {

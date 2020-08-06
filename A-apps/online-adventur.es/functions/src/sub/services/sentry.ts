@@ -8,6 +8,7 @@ import { XXError } from '@offirmo-private/common-error-fields'
 
 import { CHANNEL } from './channel'
 
+/////////////////////////////////////////////////
 
 Sentry.init({
 	// http://getsentry.github.io/sentry-javascript/interfaces/node.nodeoptions.html

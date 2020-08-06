@@ -33,13 +33,11 @@ export function createSink(options: Readonly<SinkOptions> = {}): LogSink {
 			+ LEVEL_TO_ASCII[level]
 			+ '› '
 			+ LEVEL_TO_STYLIZE[level](''
-				+ name
-				+ (name ? '›' : '')
-				+ (msg ? ' ' : '')
-				+ msg
-			)
-
-
+					+ name
+					+ (name ? '›' : '')
+					+ (msg ? ' ' : '')
+					+ msg
+				)
 			+ (
 				Reflect.ownKeys(details).length === 0
 					? ''
@@ -48,7 +46,7 @@ export function createSink(options: Readonly<SinkOptions> = {}): LogSink {
 						//line_width:
 						//first_line_already_used:
 					}))
-			)
+				)
 		console.log(line) // eslint-disable-line no-console
 		if (err)
 			displayError(err)

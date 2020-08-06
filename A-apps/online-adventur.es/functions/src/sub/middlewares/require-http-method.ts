@@ -9,6 +9,7 @@ import {
 	Response,
 } from './types'
 
+////////////////////////////////////
 
 export const HttpMethod = Enum(
 	'GET',
@@ -19,7 +20,7 @@ export const HttpMethod = Enum(
 )
 export type HttpMethod = Enum<typeof HttpMethod> // eslint-disable-line no-redeclare
 
-
+////////////////////////////////////
 
 export function require_http_method(allowed_methods: HttpMethod[]): MiddleWare {
 	const _require_http_method = async (

@@ -2,9 +2,10 @@ import memoize_one from 'memoize-one'
 import { Enum } from 'typescript-string-enums'
 import assert from 'tiny-invariant'
 
-import { APIGatewayEvent, XSoftExecutionContext, NetlifyContext, Response} from './types'
 import { create_error } from '../utils'
+import { APIGatewayEvent, XSoftExecutionContext, NetlifyContext, Response} from './types'
 
+////////////////////////////////////
 
 export const FailureMode = Enum(
 	'none',
@@ -22,7 +23,7 @@ export const FailureMode = Enum(
 )
 export type FailureMode = Enum<typeof FailureMode> // eslint-disable-line no-redeclare
 
-
+////////////////////////////////////
 
 export async function test_failure(
 		SEC: XSoftExecutionContext,

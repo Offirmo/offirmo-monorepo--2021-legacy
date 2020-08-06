@@ -47,7 +47,7 @@
 		"ensure-privacy": "grep --null -RIl `whoami` functions/* | xargs -0 sed -i '' -e s/`whoami`/offirmo/g",
 
 		"dev": "run-s clean refresh-build-variables build:dev:watch",
-		"start": "node ./node_modules/.bin/netlify-lambda serve ./dist/src.es2019.cjs --config ./webpack.config.ts",
+		"start": "NODE_ENV=development node ./node_modules/.bin/netlify-lambda serve ./dist/src.es2019.cjs --config ./webpack.config.ts",
 		"test": "./node_modules/.bin/mocha --bail --config ./node_modules/@offirmo/unit-test-toolbox/mocharc.json ./node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2019.cjs/**/*spec.js'",
 		"build": "run-s refresh-build-variables build:prod build:netlify-functions ensure-privacy"
 	},

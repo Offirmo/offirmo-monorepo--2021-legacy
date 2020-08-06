@@ -1,17 +1,17 @@
 import { get_db, Users, get_connection_string } from '@offirmo-private/db'
-
 import { HEADER_IMPERSONATE } from '@offirmo-private/functions-interface'
-import { XSoftExecutionContext } from '../services/sec'
-import { get_netlify_user_data } from '../netlify'
 
+import { get_netlify_user_data } from '../services/netlify'
+import { create_error } from '../utils'
 import {
+	XSoftExecutionContext,
 	MiddleWare,
 	APIGatewayEvent,
 	NetlifyContext,
 	Response,
 } from './types'
-import { create_error } from '../utils'
 
+////////////////////////////////////
 
 export async function require_authenticated(
 	SEC: XSoftExecutionContext,

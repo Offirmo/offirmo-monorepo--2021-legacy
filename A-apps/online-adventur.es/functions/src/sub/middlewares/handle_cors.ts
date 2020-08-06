@@ -6,7 +6,7 @@ import {
 	Response,
 } from '../types'
 import { create_error } from '../utils'
-import { XSoftExecutionContext} from './types'
+import { XSoftExecutionContext } from './types'
 
 ////////////////////////////////////
 

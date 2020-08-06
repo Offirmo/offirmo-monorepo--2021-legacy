@@ -13,9 +13,10 @@ import {
 	Response,
 	NetlifyHandler, NetlifyContext,
 } from './sub/types'
-import { get_netlify_user_data } from './sub/netlify'
+import { get_netlify_user_data } from './sub/services/netlify'
 import * as build from './sub/build'
 
+////////////////////////////////////
 
 export const handler: NetlifyHandler = async (
 	event: APIGatewayEvent,

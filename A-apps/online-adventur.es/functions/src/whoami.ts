@@ -1,10 +1,8 @@
-/*
-process.env.UDA_OVERRIDE__LOGGER__UDA_INTERNAL_LOGLEVEL = '"silly"'
-process.env.UDA_OVERRIDE__LOGGER_UDA_LOGLEVEL = '"silly"'
+//process.env.UDA_OVERRIDE__LOGGER__UDA_INTERNAL_LOGLEVEL = '"silly"'
+//process.env.UDA_OVERRIDE__LOGGER_UDA_LOGLEVEL = '"silly"'
 process.env.UDA_OVERRIDE__LOGGER_OA_DB_LOGLEVEL = '"silly"'
 process.env.UDA_OVERRIDE__LOGGER_OA_API_LOGLEVEL = '"silly"'
 process.env.UDA_OVERRIDE__KNEX_DEBUG = 'true'
-*/
 import '@offirmo/universal-debug-api-node'
 
 import {
@@ -14,14 +12,14 @@ import {
 	Response,
 	NetlifyHandler,
 } from './sub/types'
-
 import { use_middlewares_with_error_safety_net } from './sub/middlewares/runner'
 import handle_cors from './sub/middlewares/handle_cors'
 import require_authenticated from './sub/middlewares/require-authenticated'
 import { XSoftExecutionContext } from './sub/services/sec'
-import { get_netlify_user_data } from './sub/netlify'
-import { require_http_method, HttpMethod } from "./sub/middlewares/require-http-method"
+import { get_netlify_user_data } from './sub/services/netlify'
+import { require_http_method, HttpMethod } from './sub/middlewares/require-http-method'
 
+////////////////////////////////////
 
 async function _handler(
 	SEC: XSoftExecutionContext,
