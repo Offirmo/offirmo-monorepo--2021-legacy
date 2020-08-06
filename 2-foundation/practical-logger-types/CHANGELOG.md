@@ -2,8 +2,8 @@
 **This package follows [semver](https://semver.org/).**
 
 ## PENDING
-* [test] TODO type tests!
 * TODO add an extra level for no logs at all?
+* [test] TODO type tests!
 * [chore] tweaked the tsconfig to not use nor import tslib. NOT NEEDED for now but will avoid accidents bloating the bundle size.
 * [chore] re-organized the source (monorepo) and tweaked the build script. No logic change.
 * [doc] ++

@@ -3,6 +3,7 @@ import {
 } from '@offirmo/practical-logger-types'
 
 
+// TODO externalize?
 export function looksLikeAnError(x: any): boolean {
 	return !!(x?.name && x?.message && x?.stack)
 }

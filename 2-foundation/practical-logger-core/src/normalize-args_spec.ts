@@ -135,5 +135,4 @@ describe(`${LIB} - normalize args`, () => {
 			})
 		})
 	})
-
 })
