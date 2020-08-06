@@ -4,16 +4,32 @@ import { overrideHook } from '@offirmo/universal-debug-api-placeholder'
 
 import logger from './utils/logger'
 
-const DEFAULT_CNX_STR = 'postgres://postgres:password@127.0.0.1:32770/postgres'
+// Defaults
+// https://hub.docker.com/_/postgres
+const DEFAULT_DOCKER_PG_USER = 'postgres'
+const DEFAULT_DOCKER_DB_NAME = DEFAULT_DOCKER_PG_USER
+const DEFAULT_PG_PORT = 5432
+
+// actual config
+const PG_USER = DEFAULT_DOCKER_PG_USER
+const PG_DB_NAME = DEFAULT_DOCKER_DB_NAME
+const PG_PORT = DEFAULT_PG_PORT // exposed through image settings
+const PG_PWD = 'password' // set through ENV VAR
+
+const LOCAL_DEV_CNX_STR = `postgres://${PG_USER}:${PG_PWD}@localhost:${PG_PORT}/${PG_DB_NAME}?ssl=true`
+
 
 export function get_connection_string(): string {
-	return process.env.SECRET_DATABASE_URL || DEFAULT_CNX_STR
+	return process.env.SECRET_DATABASE_URL || LOCAL_DEV_CNX_STR
 }
 
-export const get_db = tiny_singleton(({min = 1, max = 1}: {min?: number, max?: number} = {}) => Knex({
+export const get_db = tiny_singleton(({min = 1, max = 1}: {min?: number, max?: number} = {}) => {
+	logger.info('get_db() called')
+
+	const db = Knex({
 		client: 'pg',
 		connection: get_connection_string(),
-		debug: overrideHook('knex-debug', true), // TODO change default
+		debug: Boolean(overrideHook('knex-debug', true)), // TODO change default and improve the coercion
 		log: {
 			warn(message: Object) {
 				logger.warn('from knex', message)
@@ -32,16 +48,28 @@ export const get_db = tiny_singleton(({min = 1, max = 1}: {min?: number, max?: n
 			min,
 			max,
 			//idleTimeoutMillis: 100, no, not good in function env.
-			                          // we want to keep the connexion alive between calls if possible
+			// we want to keep the connexion alive between calls if possible
+
+			// http://knexjs.org/#Installation-pooling-afterCreate
 			afterCreate: (rawConn: any, done: any) => {
 				logger.info('knex connection acquired ✔')
 				done(undefined, rawConn)
 			},
 		},
-		acquireConnectionTimeout: get_connection_string() === DEFAULT_CNX_STR
+
+		acquireConnectionTimeout: get_connection_string() === LOCAL_DEV_CNX_STR
 			// in our function env, we can't wait too long
 			? 1000 // local should be fast
 			: 5000,
-	}))
+
+		// http://knexjs.org/#Installation-post-process-response
+		postProcessResponse: (result: any, queryContext: any) => {
+			logger.info('knex got a response', result)
+			return result
+		},
+	})
+
+	return db
+})
 
 export default get_db

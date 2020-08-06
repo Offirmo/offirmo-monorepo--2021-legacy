@@ -12,12 +12,9 @@ const root: DebugApiRoot = globalThis._debug
 
 //////////// v1 ////////////
 
+// TODO extract this common code!
 // install globally if no better implementation already present
 root.v1 = ((existing) => {
-	// We CAN'T replace an existing one, even if we are more recent,
-	// because the existing one may already have been called
-	// and be having a state that can't be carried over.
-	// HOWEVER some hints may help the user:
 	const candidate = createV1()
 	let ownLogger = candidate.getLogger({name: OWN_LOGGER_NAME})
 	ownLogger.log('as a candidate, attempting to attach…')
@@ -26,13 +23,15 @@ root.v1 = ((existing) => {
 		ownLogger.log('nominal install ✅')
 		return candidate // nominal case, this implementation is first
 	}
-
-	// something is wrong,
-	// help the user figure it out
+	// something is wrong.
+	// We CAN'T replace a non-placeholder existing one, even if we are more recent,
+	// because the existing one may already have been called
+	// and be having a state that can't be carried over.
+	// HOWEVER some hints may help the user:
 	let isExistingAPlaceholder = !existing._ // we know that the placeholder doesn't define this optional prop
 
 	if (isExistingAPlaceholder) {
-		ownLogger.warn('install warning: a placeholder is already present, you may have missed some calls! the true implementation should be imported earlier! Check the order of your scripts!')
+		ownLogger.warn('install warning: a placeholder is already present, you may have missed some calls! the true implementation should be imported earlier! Check the order of your scripts/imports!')
 		// better than nothing, may still miss some calls
 		ownLogger.log('as a candidate, replacing existing ⚠')
 		return candidate
@@ -40,6 +39,7 @@ root.v1 = ((existing) => {
 
 	ownLogger = existing.getLogger({name: OWN_LOGGER_NAME})
 	ownLogger.warn('install warning: several true implementation coexists, only the top module should import it. Check your submodules!')
+	// note that this can happens if a bundler incorrectly duplicates the same module
 
 	try {
 		const minVersion = Math.min(existing._!.minor, candidate._!.minor)

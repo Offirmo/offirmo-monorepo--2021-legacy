@@ -45,8 +45,8 @@ export function createSink(options: Readonly<SinkOptions> = {}): LogSink {
 					? ''
 					//: (' ' + JSON.stringify(details))
 					: (' ' + to_prettified_str(details, {
-						line_width:
-						first_line_already_used:
+						//line_width:
+						//first_line_already_used:
 					}))
 			)
 		console.log(line) // eslint-disable-line no-console

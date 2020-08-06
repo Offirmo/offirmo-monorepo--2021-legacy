@@ -61,8 +61,8 @@ node ./doc/demo.js
 ```
 
 Because ENV vars format is restricted, keys are automatically normalized:
-- to upper case
-- separators '.', '-' and '⋄' are converted to '_'
+1. to upper case
+1. separators chars `-.⋄∙ꘌꓺː` are converted to '_'
 
 Though overrides values accept JSON (correctly escaped),
 as a convenience because escaping is hard in shell and text files,
@@ -70,7 +70,7 @@ numbers are auto-converted and non-JSON values are defaulted to strings:
 
 ```bash
 UDA_OVERRIDE__LOGGER_FOO_LOGLEVEL=\"verbose\" \
-## equivalent to
+## is equivalent to
 UDA_OVERRIDE__LOGGER_FOO_LOGLEVEL=verbose \
 ```
 

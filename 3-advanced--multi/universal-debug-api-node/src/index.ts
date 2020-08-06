@@ -12,6 +12,7 @@ const root: DebugApiRoot = globalThis._debug
 
 //////////// v1 ////////////
 
+// TODO extract this common code!
 // install globally if no better implementation already present
 root.v1 = ((existing) => {
 	// We CAN'T replace an existing one, even if we are more recent,

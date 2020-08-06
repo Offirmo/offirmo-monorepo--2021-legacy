@@ -27,6 +27,7 @@ export async function require_authenticated(
 
 			await SEC.xPromiseTry('ensure_user_through_netlify', ({SEC}) =>
 				get_db().transaction(async trx => {
+					logger.trace('calling…')
 					let user_p: Users.PUser = await Users.ensure_user_through_netlify(netlify_user_data, trx)
 					//logger.log('user found', user_p)
 

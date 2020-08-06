@@ -14,7 +14,7 @@ We target the current heroku PostgreSQL addon version: 12.3 (2020/07/17)
 ```bash
 
 ## migrate:
-yarn up --debug
+yarn latest --debug
 SECRET_DATABASE_URL=xxx NODE_ENV=staging yarn up
 SECRET_DATABASE_URL=xxx NODE_ENV=prod    yarn up
 

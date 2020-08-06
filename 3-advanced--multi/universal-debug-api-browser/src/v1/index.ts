@@ -32,6 +32,7 @@ const REVISION = 2
 ////////////////////////////////////
 
 export default function create(): DebugApiV1 {
+	//console.trace('[UDA--browser installing…]')
 
 	////////////////////////////////////
 

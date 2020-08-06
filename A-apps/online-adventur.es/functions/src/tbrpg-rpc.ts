@@ -1,3 +1,11 @@
+import '@offirmo/universal-debug-api-node'
+/*
+process.env.UDA_OVERRIDE__LOGGER__UDA_INTERNAL_LOGLEVEL = '"silly"'
+process.env.UDA_OVERRIDE__LOGGER_UDA_LOGLEVEL = '"silly"'
+process.env.UDA_OVERRIDE__LOGGER_OA_DB_LOGLEVEL = '"silly"'
+process.env.UDA_OVERRIDE__LOGGER_OA_API_LOGLEVEL = '"silly"'
+process.env.UDA_OVERRIDE__KNEX_DEBUG = 'true'*/
+
 import { Enum } from 'typescript-string-enums'
 
 import { Method, TbrpgRpc, TbrpgRpcResponse } from '@tbrpg/interfaces'

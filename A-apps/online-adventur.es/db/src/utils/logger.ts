@@ -8,6 +8,6 @@ export const logger = getLogger({
 	name: LIB,
 	suggestedLevel: 'warn',
 })
-logger.info('@offirmo-private/db loaded, logger level = ' + logger.getLevel())
+logger.info('@offirmo-private/db loaded', { logger_level: logger.getLevel() })
 
 export default logger

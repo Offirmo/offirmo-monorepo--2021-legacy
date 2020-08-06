@@ -95,7 +95,7 @@ export default function create(): DebugApiV1 {
 				})()
 
 				overrides[key].value = value
-				_ownLogger.log(` 🔵 overriden "${key}"`, { value })
+				_ownLogger.log(` 🔵 overriden "${key}"`, { override: value })
 			}
 		}
 
