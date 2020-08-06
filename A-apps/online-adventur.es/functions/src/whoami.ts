@@ -1,10 +1,11 @@
-import '@offirmo/universal-debug-api-node'
 /*
 process.env.UDA_OVERRIDE__LOGGER__UDA_INTERNAL_LOGLEVEL = '"silly"'
 process.env.UDA_OVERRIDE__LOGGER_UDA_LOGLEVEL = '"silly"'
 process.env.UDA_OVERRIDE__LOGGER_OA_DB_LOGLEVEL = '"silly"'
 process.env.UDA_OVERRIDE__LOGGER_OA_API_LOGLEVEL = '"silly"'
-process.env.UDA_OVERRIDE__KNEX_DEBUG = 'true'*/
+process.env.UDA_OVERRIDE__KNEX_DEBUG = 'true'
+*/
+import '@offirmo/universal-debug-api-node'
 
 import {
 	APIGatewayEvent,
@@ -20,8 +21,6 @@ import require_authenticated from './sub/middlewares/require-authenticated'
 import { XSoftExecutionContext } from './sub/services/sec'
 import { get_netlify_user_data } from './sub/netlify'
 import { require_http_method, HttpMethod } from "./sub/middlewares/require-http-method"
-
-
 
 
 async function _handler(

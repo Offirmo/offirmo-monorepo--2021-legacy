@@ -423,3 +423,7 @@ curiosity
 https://www.reddit.com/r/warcraftlore/comments/8vqhmb/what_exactly_does_tirion_fordring_do_to_arthas_to/
 
 https://en.wikipedia.org/wiki/Hemocyanin
+
+personages https://playvalorant.com/en-us/agents/
+
+Faleena (from El Paso)

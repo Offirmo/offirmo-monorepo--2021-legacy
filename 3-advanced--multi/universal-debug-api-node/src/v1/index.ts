@@ -23,7 +23,7 @@ const REVISION = 2
 ////////////////////////////////////
 
 export default function create(): DebugApiV1 {
-	//console.log('[UDA-node installed]') // XX
+	//console.trace('[UDA--node installing…]')
 
 	////////////////////////////////////
 
@@ -44,9 +44,9 @@ export default function create(): DebugApiV1 {
 	function _getOverrideRequestedSJson(ovKey: string): null | string {
 		try {
 			const EnvKey = getEnvKeyForOverride(ovKey)
-			//console.log(`EnvKey = "${EnvKey}"`)
+			//console.log(`- reading EnvKey = "${EnvKey}"`)
 			const rawValue = process.env[EnvKey] || null
-			//console.log(`EnvKey "${EnvKey}" content = "${rawValue}"`)
+			//console.log(`   ↳ read EnvKey "${EnvKey}", content = "${rawValue}"`)
 			return rawValue
 		}
 		catch (err) {

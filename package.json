@@ -190,7 +190,7 @@
 		"eslint-plugin-promise": "^4",
 		"eslint-plugin-react": "^7",
 		"mocha": "^8",
-		"netlify-lambda": "^1",
+		"netlify-lambda": "^2",
 		"nodemon": "^2",
 		"np": "^6",
 		"npm-run-all": "^4",
