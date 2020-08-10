@@ -3,9 +3,9 @@ import { expect } from 'chai'
 import {
 	QUASI_STANDARD_ERROR_FIELDS,
 	COMMON_ERROR_FIELDS,
-} from './consts'
+} from './fields'
 
-describe(`common-error-fields - consts`, () => {
+describe(`common-error-fields - fields`, () => {
 
 	describe('QUASI_STANDARD_ERROR_FIELDS', () => {
 		it('should be healthy', () => {

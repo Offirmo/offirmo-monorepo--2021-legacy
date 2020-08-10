@@ -19,6 +19,7 @@ doc:
     * see the root netlify.toml
     * see Netlify UI build variables
   * Versions seen (real-time from /echo)
+    * 2020/08 seen 12.18.2
     * 2020/06 seen 12.16.3
     * 2019/12 seen 10.17
 * https://serverless.com/blog/common-node8-mistakes-in-lambda/

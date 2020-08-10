@@ -9,6 +9,9 @@ for ex.
 
 We target the current heroku PostgreSQL addon version: 12.3 (2020/07/17)
 
+* https://softwareengineering.stackexchange.com/questions/328458/is-it-good-practice-to-always-have-an-autoincrement-integer-primary-key
+
+
 ## Usage
 
 ```bash

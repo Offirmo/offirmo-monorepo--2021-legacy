@@ -2,7 +2,7 @@
 // eXtended error
 export interface XError extends Error {
 
-	// redefine the standard fields in case the target ES lib doesn't have them
+	// redefine the standard fields in case the target ES lib doesn't have all of them
 	name: string
 	message: string
 	stack?: string

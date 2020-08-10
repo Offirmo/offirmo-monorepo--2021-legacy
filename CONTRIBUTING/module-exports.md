@@ -36,6 +36,10 @@ ES2020 approved https://github.com/tc39/ecma262/releases/tag/es2020
 * latest ES syntax supported by Webpack (= Acorn supports it + webpack bumped Acorn) = 2019
 * FYI compilers/polyfills https://kangax.github.io/compat-table/es2016plus/
 
+Babel plugins
+* https://devblogs.microsoft.com/typescript/typescript-and-babel-7/
+
+
 ### 2020-05-29
 Switching to supporting oldest node = 12
 since node 10 in maintenance mode since 2020-05-19 https://nodejs.org/en/about/releases/

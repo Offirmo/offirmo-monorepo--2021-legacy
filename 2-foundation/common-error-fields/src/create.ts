@@ -1,4 +1,5 @@
 
+/*
 // TODO use common lib
 interface ExtendedError extends Error {
 	name: string
@@ -28,3 +29,4 @@ export {
 	ExtendedError,
 	createError,
 }
+*/
