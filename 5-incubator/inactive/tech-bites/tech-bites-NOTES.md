@@ -119,3 +119,11 @@ Pair-programming
 TDD
 
 what got us here won't get us there Marshall Goldsmith
+
+https://kentcdodds.com/blog/aha-programming
+
+resilient systems https://evgenii.info/
+
+97 Things Every Programmer Should Know
+https://web.archive.org/web/20131125102418/http://programmer.97things.oreilly.com/wiki/index.php/97_Things_Every_Programmer_Should_Know
+https://web.archive.org/web/20131018011814/http://programmer.97things.oreilly.com/wiki/index.php/Contributions_Appearing_in_the_Book

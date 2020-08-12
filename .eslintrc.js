@@ -50,6 +50,7 @@ module.exports = {
 		'prettier',
 		'prettier/@typescript-eslint',
 		//'plugin:node/recommended',
+		'plugin:react-hooks/recommended'
 	],
 	'globals': {
 		'require': true, // recognized by webpack / parcel, so always allowed.

@@ -3,6 +3,7 @@ import {expect} from 'chai'
 
 import { LIB } from '../consts'
 import get_db from '../db'
+import { TABLE__USERS } from './consts'
 import {
 	create_user,
 	get_base_user_from_netlify_user,
@@ -21,7 +22,7 @@ import { get_by_email } from './read'
 
 ////////////////////////////////////
 
-describe(`${LIB} - users - update`, function() {
+describe(`${LIB} - ${TABLE__USERS} - update`, function() {
 	before(cleanup)
 	afterEach(cleanup)
 

@@ -1,4 +1,4 @@
-import { TABLE_USERS } from './consts'
+import { TABLE__USERS } from './consts'
 import get_db from '../db'
 import { logger, normalize_email_full } from '../utils'
 
@@ -10,7 +10,7 @@ export async function delete_by_email(
 ): Promise<void> {
 	const normalized_email = normalize_email_full(raw_email)
 	logger.log('deleting user by email...', { raw_email, normalized_email })
-	await trx(TABLE_USERS)
+	await trx(TABLE__USERS)
 		.where('normalized_email', normalized_email)
 		.delete()
 }

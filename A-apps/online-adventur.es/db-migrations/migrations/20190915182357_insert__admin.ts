@@ -1,10 +1,14 @@
 import * as Knex from 'knex'
 import { NORMALIZERS} from '@offirmo-private/normalize-string'
 
-import { NAME as USERS_TABLE } from './20190915112614_create-users'
-import { NAME as NETLIFY_USERS_TABLE } from './20190915181842_create-netlify-users'
+import { NAME as USERS_TABLE } from './20190915112614_create__users'
+import { NAME as NETLIFY_USERS_TABLE } from './20190915181842_create__users__netlify'
+
+////////////////////////////////////
 
 const ADMIN_EMAIL = 'offirmo.net@gmail.com'
+
+////////////////////////////////////
 
 export async function up(knex: Knex): Promise<any> {
 	await knex(USERS_TABLE).insert(

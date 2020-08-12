@@ -1,6 +1,10 @@
 import * as Knex from 'knex'
 
-export const NAME = 'savegames__tbrpg'
+////////////////////////////////////
+
+export const NAME = 'users__netlify'
+
+////////////////////////////////////
 
 export async function up(knex: Knex): Promise<any> {
 	return knex.schema.createTable(NAME, table => {
@@ -8,8 +12,10 @@ export async function up(knex: Knex): Promise<any> {
 			.timestamps(true, true)
 
 		table
-			.increments('id')
-			.primary()
+			.string('own_id')
+			.notNullable()
+			.unique()
+			.index()
 
 		table
 			.integer('user_id')
@@ -18,35 +24,21 @@ export async function up(knex: Knex): Promise<any> {
 			.references('id').inTable('users').onDelete('CASCADE')
 			.index()
 
+		/* Nooo ! This is redundant and duplicated!
 		table
-			.string('user_private_nickname')
+			.string('called')
+
+		table
+			.string('email')
+
+		table
+			.string('avatar_url')
+
+		table
+			.specificType('roles', 'text[]')
 			.notNullable()
-			.index()
-
-		table
-			.string('user_public_nickname')
-			.index()
-
-		table
-			.string('summary')
-			.notNullable()
-
-		table
-			.jsonb('latest')
-			.notNullable()
-
-		table
-			.jsonb('v-1')
-
-		table
-			.jsonb('v-2')
-
-		table
-			.jsonb('v-3')
-
-		table
-			.jsonb('last_untouched')
-			.notNullable()
+			.defaultTo(knex.raw('array[]::varchar[]'))
+		*/
 	})
 }
 

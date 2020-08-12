@@ -427,3 +427,9 @@ https://en.wikipedia.org/wiki/Hemocyanin
 personages https://playvalorant.com/en-us/agents/
 
 Faleena (from El Paso)
+
+ideas for bad guys:
+- epstein
+- bezos
+- hithler
+-

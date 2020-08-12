@@ -1,3 +1,3 @@
-export const TABLE_USERS = 'users'
-export const TABLE_NETLIFY_USERS = 'users__netlify'
-export const TABLE_AUTH0_USERS = 'users__auth0'
+export const TABLE__USERS = 'users'
+export const TABLE__USERS__NETLIFY = 'users__netlify'
+//export const TABLE__USERS__AUTH0 = 'users__auth0'

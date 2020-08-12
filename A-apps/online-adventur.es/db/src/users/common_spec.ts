@@ -3,12 +3,13 @@
 import {expect} from 'chai'
 
 import { LIB } from '../consts'
+import { TABLE__USERS } from './consts'
 import { _infer_avatar_url, _infer_called, _sanitize_called } from './common'
 import { get_test_base_user_01 } from './_test_helpers'
 
 ////////////////////////////////////
 
-describe(`${LIB} - users - common`, function() {
+describe(`${LIB} - ${TABLE__USERS} - common`, function() {
 
 	describe('infer_avatar_url()', function() {
 

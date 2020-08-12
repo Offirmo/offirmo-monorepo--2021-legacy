@@ -24,7 +24,7 @@ export function get_connection_string(): string {
 }
 
 export const get_db = tiny_singleton(({min = 1, max = 1}: {min?: number, max?: number} = {}) => {
-	logger.info('get_db() called')
+	logger.trace('get_db() called')
 
 	const db = Knex({
 		client: 'pg',
@@ -38,10 +38,10 @@ export const get_db = tiny_singleton(({min = 1, max = 1}: {min?: number, max?: n
 				logger.error('from knex', message)
 			},
 			deprecate(message: Object) {
-				logger.info('from knex: deprecated', message)
+				logger.warn('from knex: deprecated', message)
 			},
 			debug(message: Object) {
-				logger.trace('from knex', message)
+				logger.debug('from knex', message)
 			},
 		},
 		pool: {
@@ -64,7 +64,7 @@ export const get_db = tiny_singleton(({min = 1, max = 1}: {min?: number, max?: n
 
 		// http://knexjs.org/#Installation-post-process-response
 		postProcessResponse: (result: any, queryContext: any) => {
-			logger.info('knex got a response', result)
+			//logger.info('knex got a response', result)
 			return result
 		},
 	})

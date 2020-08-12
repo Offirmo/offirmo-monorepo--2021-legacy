@@ -43,6 +43,10 @@ yarn new
 * http://knexjs.org/
 * https://github.com/Offirmo-team/wiki/wiki/PostgreSQL
 
+postgres array:
+* https://stackoverflow.com/questions/50118196/how-to-insert-array-data-type-using-knex-and-potsgres
+
+
 ## Misc
 * TODO try store a hash of the pwd even if using Netlify, to be able to unplug
 * TODO sessions? with confidence level?

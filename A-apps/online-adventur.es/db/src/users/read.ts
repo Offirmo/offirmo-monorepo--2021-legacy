@@ -3,7 +3,7 @@ import assert from 'tiny-invariant'
 import get_db from '../db'
 
 import { NetlifyUser, PUser } from './types'
-import { TABLE_USERS } from './consts'
+import { TABLE__USERS } from './consts'
 import { sanitize_persisted } from './common'
 import { normalize_email_full } from '../utils'
 
@@ -14,7 +14,7 @@ export async function get_by_email(
 	trx: ReturnType<typeof get_db> = get_db()
 ): Promise<null | PUser> {
 	const normalized_email = normalize_email_full(raw_email)
-	const raw_result = await trx(TABLE_USERS)
+	const raw_result = await trx(TABLE__USERS)
 		.select()
 		.where('normalized_email', normalized_email)
 
@@ -37,7 +37,7 @@ export async function get_by_netlify(
 	// TODO improve?
 	const raw_result = await trx
 		.select(trx.raw('row_to_json("users__netlify".*) AS "netlify_user", row_to_json("users".*) AS "user"'))
-		.from(TABLE_USERS)
+		.from(TABLE__USERS)
 		.fullOuterJoin('users__netlify', {'users.id': 'users__netlify.user_id'})
 		.where('users__netlify.own_id', data.netlify_id)
 	//console.log(`get_by_netlify(${data.netlify_id}): outer join raw result:`, raw_result)

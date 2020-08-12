@@ -6,7 +6,9 @@ import { LIB } from '../consts'
 
 export const logger = getLogger({
 	name: LIB,
-	suggestedLevel: 'warn',
+	//suggestedLevel: 'silly',
+	suggestedLevel: 'log',
+	//suggestedLevel: 'warn',
 })
 logger.info('@offirmo-private/db loaded', { logger_level: logger.getLevel() })
 

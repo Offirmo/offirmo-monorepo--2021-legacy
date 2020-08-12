@@ -4,6 +4,7 @@ import {expect} from 'chai'
 
 import { LIB } from '../consts'
 import get_db from '../db'
+import { TABLE__USERS } from './consts'
 import {
 	create_user,
 	create_user_through_netlify,
@@ -22,7 +23,7 @@ import {sanitize_persisted} from "./common";
 
 /////////////////////
 
-describe(`${LIB} - users - read`, () => {
+describe(`${LIB} - ${TABLE__USERS} - read`, () => {
 	before(cleanup)
 	afterEach(cleanup)
 

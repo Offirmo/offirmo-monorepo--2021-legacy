@@ -4,12 +4,14 @@ import {expect} from 'chai'
 
 import { LIB } from '../consts'
 import get_db from '../db'
+import { TABLE__USERS } from './consts'
 import {
 	create_netlify_user,
 	create_user,
 	create_user_through_netlify,
 } from './create'
 import {
+	EMAIL_01_ALT,
 	TEST_NETLIFY_ID,
 	get_test_base_netlify_user,
 	get_test_base_user_01,
@@ -19,7 +21,7 @@ import {
 
 ////////////////////////////////////
 
-describe(`${LIB} - users - create`, function() {
+describe(`${LIB} - ${TABLE__USERS} - create`, function() {
 
 	before(cleanup)
 	afterEach(cleanup)
@@ -37,12 +39,12 @@ describe(`${LIB} - users - create`, function() {
 			const base = get_test_base_user_01()
 
 			await create_user(base)
-			expect(create_user(base)).to.be.rejectedWith('duplicate')
+			await expect(create_user(base)).to.be.rejectedWith('duplicate')
 		})
 
 		it('should NOT work if duplicated email - variant', async () => {
 			await create_user(get_test_base_user_01())
-			expect(create_user(get_test_base_user_01({raw_email: 'Test@Test. Io'})))
+			await expect(create_user(get_test_base_user_01({raw_email: EMAIL_01_ALT})))
 				.to.be.rejectedWith('duplicate')
 		})
 	})
@@ -61,7 +63,7 @@ describe(`${LIB} - users - create`, function() {
 
 		it('should NOT work if duplicated', async () => {
 			await create_netlify_user(get_test_base_netlify_user(test_user_id))
-			expect(create_netlify_user(get_test_base_netlify_user(test_user_id))).to.be.rejectedWith('duplicate')
+			await expect(create_netlify_user(get_test_base_netlify_user(test_user_id))).to.be.rejectedWith('duplicate')
 		})
 	})
 
@@ -80,7 +82,7 @@ describe(`${LIB} - users - create`, function() {
 
 			it('should crash and not create duplicate data (transaction)', async () => {
 				await create_user_through_netlify(get_test_netlify_user_01(), get_db())
-				expect(create_user_through_netlify(get_test_netlify_user_01(), get_db()))
+				await expect(create_user_through_netlify(get_test_netlify_user_01(), get_db()))
 					.to.be.rejectedWith('duplicate')
 			})
 		})
@@ -90,7 +92,7 @@ describe(`${LIB} - users - create`, function() {
 			// REM: the "clever" implementation is "ensure_xxx"
 			it('should crash and not create duplicate data', async () => {
 				await create_user(get_test_base_user_01())
-				expect(create_user_through_netlify(get_test_netlify_user_01(), get_db()))
+				await expect(create_user_through_netlify(get_test_netlify_user_01(), get_db()))
 					.to.be.rejectedWith('duplicate')
 			})
 		})

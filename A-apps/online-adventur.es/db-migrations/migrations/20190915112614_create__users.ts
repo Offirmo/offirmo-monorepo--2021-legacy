@@ -1,6 +1,10 @@
 import * as Knex from 'knex'
 
-export const NAME = 'users__netlify'
+////////////////////////////////////
+
+export const NAME = 'users'
+
+////////////////////////////////////
 
 export async function up(knex: Knex): Promise<any> {
 	return knex.schema.createTable(NAME, table => {
@@ -8,24 +12,20 @@ export async function up(knex: Knex): Promise<any> {
 			.timestamps(true, true)
 
 		table
-			.string('own_id')
-			.notNullable()
-			.unique()
-			.index()
+			.increments('id').primary()
 
-		table
-			.integer('user_id')
-			.unsigned()
-			.notNullable()
-			.references('id').inTable('users').onDelete('CASCADE')
-			.index()
-
-		/* Nooo ! This is redundant and duplicated!
 		table
 			.string('called')
 
 		table
-			.string('email')
+			.string('raw_email') // as entered by the user (not cleaned)
+			.unique()
+			.index()
+
+		table
+			.string('normalized_email') // maximally cleaned = used as a unique id
+			.unique()
+			.index()
 
 		table
 			.string('avatar_url')
@@ -34,7 +34,6 @@ export async function up(knex: Knex): Promise<any> {
 			.specificType('roles', 'text[]')
 			.notNullable()
 			.defaultTo(knex.raw('array[]::varchar[]'))
-		*/
 	})
 }
 

@@ -2,7 +2,7 @@ import assert from 'tiny-invariant'
 
 import get_db from '../db'
 import { BaseUser, NetlifyUser, PUser } from './types'
-import { TABLE_USERS } from './consts'
+import { TABLE__USERS } from './consts'
 import { sanitize_persisted, extract_base } from './common'
 import { get_base_user_from_netlify_user, create_netlify_user, create_user_through_netlify } from './create'
 import { get_by_email, get_by_netlify } from './read'
@@ -52,7 +52,7 @@ async function ensure_up_to_date(
 		return existing_p
 	}
 
-	await trx(TABLE_USERS)
+	await trx(TABLE__USERS)
 		.where({ id: existing_p.id })
 		.update(candidate)
 
@@ -61,6 +61,8 @@ async function ensure_up_to_date(
 		...candidate,
 	}
 }
+
+////////////////////////////////////
 
 export async function ensure_user_through_netlify(
 	data: Readonly<NetlifyUser>,
