@@ -1,3 +1,26 @@
+Senior Dev tips!
+* individual contributor
+* TL vs PM vs PM vs EM
+* "DRY"
+  * don't repeat yourself
+  *
+* "dependency hell" https://en.wikipedia.org/wiki/Dependency_hell
+* "dry run"
+* "shaving the yak"
+* KISS
+* KTLO
+* crunch
+* SME
+* OKR
+
+
+~~~~~~~~~~~~~~~~~~~~ TOSORT ~~~~~~~~~~~~~~~~~~~~~~
+
+privacy:
+* purpose limitation
+* consent, unbundled
+* not pre-populated
+
 compétition https://www.booklets.io/b/creativity-inc-by-ed-catmull-booklets#
 
 repo of bite-sized programming concepts
@@ -12,8 +35,6 @@ http://www.crackingthecodinginterview.com/
 https://en.wikipedia.org/wiki/Robustness_principle
 https://en.wikipedia.org/wiki/Design_smell
 
-dry run
-
 merge queues https://engineering.shopify.com/blogs/engineering/successfully-merging-work-1000-developers
 
 https://cloud.google.com/blog/products/gcp/sre-fundamentals-slis-slas-and-slos
@@ -22,13 +43,9 @@ X considered harmful
 
 https://www.investopedia.com/terms/f/faang-stocks.asp
 
-
 https://bastianallgeier.com/notes/simplicity-part-2
-dependency hell
 
 CAP ACID https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed/
-
-shaving the yak
 
 abstraction https://www.merrickchristensen.com/articles/abstraction/
 
@@ -45,7 +62,7 @@ https://news.slashdot.org/story/19/12/14/1614214/do-you-remember-the-y2k-bug
 
 executive
 vaporware
-individual contributor
+
 
 anomaly detection
 
@@ -73,15 +90,10 @@ https://en.wikipedia.org/wiki/Conway%27s_law
 
 https://developers.slashdot.org/story/19/07/22/0426201/is-object-oriented-programming-a-trillion-dollar-disaster
 
-KISS
 
-KTLO
-crunch
-SME
 
 https://en.wikipedia.org/wiki/Hofstadter's_law
 
-OKR
 
 https://hackernoon.com/14-things-i-wish-i-knew-before-becoming-a-software-engineer-r55o3z9y
 
