@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 531);
+/******/ 	return __webpack_require__(__webpack_require__.s = 528);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -91,12 +91,12 @@
 
 "use strict";
 
-const ansiStyles = __webpack_require__(95);
-const {stdout: stdoutColor, stderr: stderrColor} = __webpack_require__(34);
+const ansiStyles = __webpack_require__(104);
+const {stdout: stdoutColor, stderr: stderrColor} = __webpack_require__(37);
 const {
 	stringReplaceAll,
 	stringEncaseCRLFWithFirstIndex
-} = __webpack_require__(100);
+} = __webpack_require__(109);
 
 const {isArray} = Array;
 
@@ -305,7 +305,7 @@ const chalkTag = (chalk, ...strings) => {
 	}
 
 	if (template === undefined) {
-		template = __webpack_require__(101);
+		template = __webpack_require__(110);
 	}
 
 	return template(chalk, parts.join(''));
@@ -323,14 +323,1073 @@ module.exports = chalk;
 
 /***/ }),
 
-/***/ 10:
-/***/ (function(module, exports) {
+/***/ 100:
+/***/ (function(module, exports, __webpack_require__) {
 
-module.exports = require("events");
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
+ * A doubly linked list-based Least Recently Used (LRU) cache. Will keep most
+ * recently used items while discarding least recently used items when its limit
+ * is reached.
+ *
+ * Licensed under MIT. Copyright (c) 2010 Rasmus Andersson <http://hunch.se/>
+ * See README.md for details.
+ *
+ * Illustration of the design:
+ *
+ *       entry             entry             entry             entry
+ *       ______            ______            ______            ______
+ *      | head |.newer => |      |.newer => |      |.newer => | tail |
+ *      |  A   |          |  B   |          |  C   |          |  D   |
+ *      |______| <= older.|______| <= older.|______| <= older.|______|
+ *
+ *  removed  <--  <--  <--  <--  <--  <--  <--  <--  <--  <--  <--  added
+ */
+(function(g,f){
+  const e =  true ? exports : undefined;
+  f(e);
+  if (true) { !(__WEBPACK_AMD_DEFINE_FACTORY__ = (e),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) :
+				__WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)); }
+})(this, function(exports) {
+
+const NEWER = Symbol('newer');
+const OLDER = Symbol('older');
+
+function LRUMap(limit, entries) {
+  if (typeof limit !== 'number') {
+    // called as (entries)
+    entries = limit;
+    limit = 0;
+  }
+
+  this.size = 0;
+  this.limit = limit;
+  this.oldest = this.newest = undefined;
+  this._keymap = new Map();
+
+  if (entries) {
+    this.assign(entries);
+    if (limit < 1) {
+      this.limit = this.size;
+    }
+  }
+}
+
+exports.LRUMap = LRUMap;
+
+function Entry(key, value) {
+  this.key = key;
+  this.value = value;
+  this[NEWER] = undefined;
+  this[OLDER] = undefined;
+}
+
+
+LRUMap.prototype._markEntryAsUsed = function(entry) {
+  if (entry === this.newest) {
+    // Already the most recenlty used entry, so no need to update the list
+    return;
+  }
+  // HEAD--------------TAIL
+  //   <.older   .newer>
+  //  <--- add direction --
+  //   A  B  C  <D>  E
+  if (entry[NEWER]) {
+    if (entry === this.oldest) {
+      this.oldest = entry[NEWER];
+    }
+    entry[NEWER][OLDER] = entry[OLDER]; // C <-- E.
+  }
+  if (entry[OLDER]) {
+    entry[OLDER][NEWER] = entry[NEWER]; // C. --> E
+  }
+  entry[NEWER] = undefined; // D --x
+  entry[OLDER] = this.newest; // D. --> E
+  if (this.newest) {
+    this.newest[NEWER] = entry; // E. <-- D
+  }
+  this.newest = entry;
+};
+
+LRUMap.prototype.assign = function(entries) {
+  let entry, limit = this.limit || Number.MAX_VALUE;
+  this._keymap.clear();
+  let it = entries[Symbol.iterator]();
+  for (let itv = it.next(); !itv.done; itv = it.next()) {
+    let e = new Entry(itv.value[0], itv.value[1]);
+    this._keymap.set(e.key, e);
+    if (!entry) {
+      this.oldest = e;
+    } else {
+      entry[NEWER] = e;
+      e[OLDER] = entry;
+    }
+    entry = e;
+    if (limit-- == 0) {
+      throw new Error('overflow');
+    }
+  }
+  this.newest = entry;
+  this.size = this._keymap.size;
+};
+
+LRUMap.prototype.get = function(key) {
+  // First, find our cache entry
+  var entry = this._keymap.get(key);
+  if (!entry) return; // Not cached. Sorry.
+  // As <key> was found in the cache, register it as being requested recently
+  this._markEntryAsUsed(entry);
+  return entry.value;
+};
+
+LRUMap.prototype.set = function(key, value) {
+  var entry = this._keymap.get(key);
+
+  if (entry) {
+    // update existing
+    entry.value = value;
+    this._markEntryAsUsed(entry);
+    return this;
+  }
+
+  // new entry
+  this._keymap.set(key, (entry = new Entry(key, value)));
+
+  if (this.newest) {
+    // link previous tail to the new tail (entry)
+    this.newest[NEWER] = entry;
+    entry[OLDER] = this.newest;
+  } else {
+    // we're first in -- yay
+    this.oldest = entry;
+  }
+
+  // add new entry to the end of the linked list -- it's now the freshest entry.
+  this.newest = entry;
+  ++this.size;
+  if (this.size > this.limit) {
+    // we hit the limit -- remove the head
+    this.shift();
+  }
+
+  return this;
+};
+
+LRUMap.prototype.shift = function() {
+  // todo: handle special case when limit == 1
+  var entry = this.oldest;
+  if (entry) {
+    if (this.oldest[NEWER]) {
+      // advance the list
+      this.oldest = this.oldest[NEWER];
+      this.oldest[OLDER] = undefined;
+    } else {
+      // the cache is exhausted
+      this.oldest = undefined;
+      this.newest = undefined;
+    }
+    // Remove last strong reference to <entry> and remove links from the purged
+    // entry being returned:
+    entry[NEWER] = entry[OLDER] = undefined;
+    this._keymap.delete(entry.key);
+    --this.size;
+    return [entry.key, entry.value];
+  }
+};
+
+// ----------------------------------------------------------------------------
+// Following code is optional and can be removed without breaking the core
+// functionality.
+
+LRUMap.prototype.find = function(key) {
+  let e = this._keymap.get(key);
+  return e ? e.value : undefined;
+};
+
+LRUMap.prototype.has = function(key) {
+  return this._keymap.has(key);
+};
+
+LRUMap.prototype['delete'] = function(key) {
+  var entry = this._keymap.get(key);
+  if (!entry) return;
+  this._keymap.delete(entry.key);
+  if (entry[NEWER] && entry[OLDER]) {
+    // relink the older entry with the newer entry
+    entry[OLDER][NEWER] = entry[NEWER];
+    entry[NEWER][OLDER] = entry[OLDER];
+  } else if (entry[NEWER]) {
+    // remove the link to us
+    entry[NEWER][OLDER] = undefined;
+    // link the newer entry to head
+    this.oldest = entry[NEWER];
+  } else if (entry[OLDER]) {
+    // remove the link to us
+    entry[OLDER][NEWER] = undefined;
+    // link the newer entry to head
+    this.newest = entry[OLDER];
+  } else {// if(entry[OLDER] === undefined && entry.newer === undefined) {
+    this.oldest = this.newest = undefined;
+  }
+
+  this.size--;
+  return entry.value;
+};
+
+LRUMap.prototype.clear = function() {
+  // Not clearing links should be safe, as we don't expose live links to user
+  this.oldest = this.newest = undefined;
+  this.size = 0;
+  this._keymap.clear();
+};
+
+
+function EntryIterator(oldestEntry) { this.entry = oldestEntry; }
+EntryIterator.prototype[Symbol.iterator] = function() { return this; }
+EntryIterator.prototype.next = function() {
+  let ent = this.entry;
+  if (ent) {
+    this.entry = ent[NEWER];
+    return { done: false, value: [ent.key, ent.value] };
+  } else {
+    return { done: true, value: undefined };
+  }
+};
+
+
+function KeyIterator(oldestEntry) { this.entry = oldestEntry; }
+KeyIterator.prototype[Symbol.iterator] = function() { return this; }
+KeyIterator.prototype.next = function() {
+  let ent = this.entry;
+  if (ent) {
+    this.entry = ent[NEWER];
+    return { done: false, value: ent.key };
+  } else {
+    return { done: true, value: undefined };
+  }
+};
+
+function ValueIterator(oldestEntry) { this.entry = oldestEntry; }
+ValueIterator.prototype[Symbol.iterator] = function() { return this; }
+ValueIterator.prototype.next = function() {
+  let ent = this.entry;
+  if (ent) {
+    this.entry = ent[NEWER];
+    return { done: false, value: ent.value };
+  } else {
+    return { done: true, value: undefined };
+  }
+};
+
+
+LRUMap.prototype.keys = function() {
+  return new KeyIterator(this.oldest);
+};
+
+LRUMap.prototype.values = function() {
+  return new ValueIterator(this.oldest);
+};
+
+LRUMap.prototype.entries = function() {
+  return this;
+};
+
+LRUMap.prototype[Symbol.iterator] = function() {
+  return new EntryIterator(this.oldest);
+};
+
+LRUMap.prototype.forEach = function(fun, thisObj) {
+  if (typeof thisObj !== 'object') {
+    thisObj = this;
+  }
+  let entry = this.oldest;
+  while (entry) {
+    fun.call(thisObj, entry.value, entry.key, this);
+    entry = entry[NEWER];
+  }
+};
+
+/** Returns a JSON (array) representation */
+LRUMap.prototype.toJSON = function() {
+  var s = new Array(this.size), i = 0, entry = this.oldest;
+  while (entry) {
+    s[i++] = { key: entry.key, value: entry.value };
+    entry = entry[NEWER];
+  }
+  return s;
+};
+
+/** Returns a String representation */
+LRUMap.prototype.toString = function() {
+  var s = '', entry = this.oldest;
+  while (entry) {
+    s += String(entry.key)+':'+entry.value;
+    entry = entry[NEWER];
+    if (entry) {
+      s += ' < ';
+    }
+  }
+  return s;
+};
+
+});
+
 
 /***/ }),
 
-/***/ 100:
+/***/ 101:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/*!
+ * cookie
+ * Copyright(c) 2012-2014 Roman Shtylman
+ * Copyright(c) 2015 Douglas Christopher Wilson
+ * MIT Licensed
+ */
+
+
+
+/**
+ * Module exports.
+ * @public
+ */
+
+exports.parse = parse;
+exports.serialize = serialize;
+
+/**
+ * Module variables.
+ * @private
+ */
+
+var decode = decodeURIComponent;
+var encode = encodeURIComponent;
+var pairSplitRegExp = /; */;
+
+/**
+ * RegExp to match field-content in RFC 7230 sec 3.2
+ *
+ * field-content = field-vchar [ 1*( SP / HTAB ) field-vchar ]
+ * field-vchar   = VCHAR / obs-text
+ * obs-text      = %x80-FF
+ */
+
+var fieldContentRegExp = /^[\u0009\u0020-\u007e\u0080-\u00ff]+$/;
+
+/**
+ * Parse a cookie header.
+ *
+ * Parse the given cookie header string into an object
+ * The object has the various cookies as keys(names) => values
+ *
+ * @param {string} str
+ * @param {object} [options]
+ * @return {object}
+ * @public
+ */
+
+function parse(str, options) {
+  if (typeof str !== 'string') {
+    throw new TypeError('argument str must be a string');
+  }
+
+  var obj = {}
+  var opt = options || {};
+  var pairs = str.split(pairSplitRegExp);
+  var dec = opt.decode || decode;
+
+  for (var i = 0; i < pairs.length; i++) {
+    var pair = pairs[i];
+    var eq_idx = pair.indexOf('=');
+
+    // skip things that don't look like key=value
+    if (eq_idx < 0) {
+      continue;
+    }
+
+    var key = pair.substr(0, eq_idx).trim()
+    var val = pair.substr(++eq_idx, pair.length).trim();
+
+    // quoted values
+    if ('"' == val[0]) {
+      val = val.slice(1, -1);
+    }
+
+    // only assign once
+    if (undefined == obj[key]) {
+      obj[key] = tryDecode(val, dec);
+    }
+  }
+
+  return obj;
+}
+
+/**
+ * Serialize data into a cookie header.
+ *
+ * Serialize the a name value pair into a cookie string suitable for
+ * http headers. An optional options object specified cookie parameters.
+ *
+ * serialize('foo', 'bar', { httpOnly: true })
+ *   => "foo=bar; httpOnly"
+ *
+ * @param {string} name
+ * @param {string} val
+ * @param {object} [options]
+ * @return {string}
+ * @public
+ */
+
+function serialize(name, val, options) {
+  var opt = options || {};
+  var enc = opt.encode || encode;
+
+  if (typeof enc !== 'function') {
+    throw new TypeError('option encode is invalid');
+  }
+
+  if (!fieldContentRegExp.test(name)) {
+    throw new TypeError('argument name is invalid');
+  }
+
+  var value = enc(val);
+
+  if (value && !fieldContentRegExp.test(value)) {
+    throw new TypeError('argument val is invalid');
+  }
+
+  var str = name + '=' + value;
+
+  if (null != opt.maxAge) {
+    var maxAge = opt.maxAge - 0;
+
+    if (isNaN(maxAge) || !isFinite(maxAge)) {
+      throw new TypeError('option maxAge is invalid')
+    }
+
+    str += '; Max-Age=' + Math.floor(maxAge);
+  }
+
+  if (opt.domain) {
+    if (!fieldContentRegExp.test(opt.domain)) {
+      throw new TypeError('option domain is invalid');
+    }
+
+    str += '; Domain=' + opt.domain;
+  }
+
+  if (opt.path) {
+    if (!fieldContentRegExp.test(opt.path)) {
+      throw new TypeError('option path is invalid');
+    }
+
+    str += '; Path=' + opt.path;
+  }
+
+  if (opt.expires) {
+    if (typeof opt.expires.toUTCString !== 'function') {
+      throw new TypeError('option expires is invalid');
+    }
+
+    str += '; Expires=' + opt.expires.toUTCString();
+  }
+
+  if (opt.httpOnly) {
+    str += '; HttpOnly';
+  }
+
+  if (opt.secure) {
+    str += '; Secure';
+  }
+
+  if (opt.sameSite) {
+    var sameSite = typeof opt.sameSite === 'string'
+      ? opt.sameSite.toLowerCase() : opt.sameSite;
+
+    switch (sameSite) {
+      case true:
+        str += '; SameSite=Strict';
+        break;
+      case 'lax':
+        str += '; SameSite=Lax';
+        break;
+      case 'strict':
+        str += '; SameSite=Strict';
+        break;
+      case 'none':
+        str += '; SameSite=None';
+        break;
+      default:
+        throw new TypeError('option sameSite is invalid');
+    }
+  }
+
+  return str;
+}
+
+/**
+ * Try decoding a string using a decoding function.
+ *
+ * @param {string} str
+ * @param {function} decode
+ * @private
+ */
+
+function tryDecode(str, decode) {
+  try {
+    return decode(str);
+  } catch (e) {
+    return str;
+  }
+}
+
+
+/***/ }),
+
+/***/ 104:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(module) {
+
+const wrapAnsi16 = (fn, offset) => (...args) => {
+	const code = fn(...args);
+	return `\u001B[${code + offset}m`;
+};
+
+const wrapAnsi256 = (fn, offset) => (...args) => {
+	const code = fn(...args);
+	return `\u001B[${38 + offset};5;${code}m`;
+};
+
+const wrapAnsi16m = (fn, offset) => (...args) => {
+	const rgb = fn(...args);
+	return `\u001B[${38 + offset};2;${rgb[0]};${rgb[1]};${rgb[2]}m`;
+};
+
+const ansi2ansi = n => n;
+const rgb2rgb = (r, g, b) => [r, g, b];
+
+const setLazyProperty = (object, property, get) => {
+	Object.defineProperty(object, property, {
+		get: () => {
+			const value = get();
+
+			Object.defineProperty(object, property, {
+				value,
+				enumerable: true,
+				configurable: true
+			});
+
+			return value;
+		},
+		enumerable: true,
+		configurable: true
+	});
+};
+
+/** @type {typeof import('color-convert')} */
+let colorConvert;
+const makeDynamicStyles = (wrap, targetSpace, identity, isBackground) => {
+	if (colorConvert === undefined) {
+		colorConvert = __webpack_require__(105);
+	}
+
+	const offset = isBackground ? 10 : 0;
+	const styles = {};
+
+	for (const [sourceSpace, suite] of Object.entries(colorConvert)) {
+		const name = sourceSpace === 'ansi16' ? 'ansi' : sourceSpace;
+		if (sourceSpace === targetSpace) {
+			styles[name] = wrap(identity, offset);
+		} else if (typeof suite === 'object') {
+			styles[name] = wrap(suite[targetSpace], offset);
+		}
+	}
+
+	return styles;
+};
+
+function assembleStyles() {
+	const codes = new Map();
+	const styles = {
+		modifier: {
+			reset: [0, 0],
+			// 21 isn't widely supported and 22 does the same thing
+			bold: [1, 22],
+			dim: [2, 22],
+			italic: [3, 23],
+			underline: [4, 24],
+			inverse: [7, 27],
+			hidden: [8, 28],
+			strikethrough: [9, 29]
+		},
+		color: {
+			black: [30, 39],
+			red: [31, 39],
+			green: [32, 39],
+			yellow: [33, 39],
+			blue: [34, 39],
+			magenta: [35, 39],
+			cyan: [36, 39],
+			white: [37, 39],
+
+			// Bright color
+			blackBright: [90, 39],
+			redBright: [91, 39],
+			greenBright: [92, 39],
+			yellowBright: [93, 39],
+			blueBright: [94, 39],
+			magentaBright: [95, 39],
+			cyanBright: [96, 39],
+			whiteBright: [97, 39]
+		},
+		bgColor: {
+			bgBlack: [40, 49],
+			bgRed: [41, 49],
+			bgGreen: [42, 49],
+			bgYellow: [43, 49],
+			bgBlue: [44, 49],
+			bgMagenta: [45, 49],
+			bgCyan: [46, 49],
+			bgWhite: [47, 49],
+
+			// Bright color
+			bgBlackBright: [100, 49],
+			bgRedBright: [101, 49],
+			bgGreenBright: [102, 49],
+			bgYellowBright: [103, 49],
+			bgBlueBright: [104, 49],
+			bgMagentaBright: [105, 49],
+			bgCyanBright: [106, 49],
+			bgWhiteBright: [107, 49]
+		}
+	};
+
+	// Alias bright black as gray (and grey)
+	styles.color.gray = styles.color.blackBright;
+	styles.bgColor.bgGray = styles.bgColor.bgBlackBright;
+	styles.color.grey = styles.color.blackBright;
+	styles.bgColor.bgGrey = styles.bgColor.bgBlackBright;
+
+	for (const [groupName, group] of Object.entries(styles)) {
+		for (const [styleName, style] of Object.entries(group)) {
+			styles[styleName] = {
+				open: `\u001B[${style[0]}m`,
+				close: `\u001B[${style[1]}m`
+			};
+
+			group[styleName] = styles[styleName];
+
+			codes.set(style[0], style[1]);
+		}
+
+		Object.defineProperty(styles, groupName, {
+			value: group,
+			enumerable: false
+		});
+	}
+
+	Object.defineProperty(styles, 'codes', {
+		value: codes,
+		enumerable: false
+	});
+
+	styles.color.close = '\u001B[39m';
+	styles.bgColor.close = '\u001B[49m';
+
+	setLazyProperty(styles.color, 'ansi', () => makeDynamicStyles(wrapAnsi16, 'ansi16', ansi2ansi, false));
+	setLazyProperty(styles.color, 'ansi256', () => makeDynamicStyles(wrapAnsi256, 'ansi256', ansi2ansi, false));
+	setLazyProperty(styles.color, 'ansi16m', () => makeDynamicStyles(wrapAnsi16m, 'rgb', rgb2rgb, false));
+	setLazyProperty(styles.bgColor, 'ansi', () => makeDynamicStyles(wrapAnsi16, 'ansi16', ansi2ansi, true));
+	setLazyProperty(styles.bgColor, 'ansi256', () => makeDynamicStyles(wrapAnsi256, 'ansi256', ansi2ansi, true));
+	setLazyProperty(styles.bgColor, 'ansi16m', () => makeDynamicStyles(wrapAnsi16m, 'rgb', rgb2rgb, true));
+
+	return styles;
+}
+
+// Make the export immutable
+Object.defineProperty(module, 'exports', {
+	enumerable: true,
+	get: assembleStyles
+});
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(53)(module)))
+
+/***/ }),
+
+/***/ 105:
+/***/ (function(module, exports, __webpack_require__) {
+
+const conversions = __webpack_require__(56);
+const route = __webpack_require__(107);
+
+const convert = {};
+
+const models = Object.keys(conversions);
+
+function wrapRaw(fn) {
+	const wrappedFn = function (...args) {
+		const arg0 = args[0];
+		if (arg0 === undefined || arg0 === null) {
+			return arg0;
+		}
+
+		if (arg0.length > 1) {
+			args = arg0;
+		}
+
+		return fn(args);
+	};
+
+	// Preserve .conversion property if there is one
+	if ('conversion' in fn) {
+		wrappedFn.conversion = fn.conversion;
+	}
+
+	return wrappedFn;
+}
+
+function wrapRounded(fn) {
+	const wrappedFn = function (...args) {
+		const arg0 = args[0];
+
+		if (arg0 === undefined || arg0 === null) {
+			return arg0;
+		}
+
+		if (arg0.length > 1) {
+			args = arg0;
+		}
+
+		const result = fn(args);
+
+		// We're assuming the result is an array here.
+		// see notice in conversions.js; don't use box types
+		// in conversion functions.
+		if (typeof result === 'object') {
+			for (let len = result.length, i = 0; i < len; i++) {
+				result[i] = Math.round(result[i]);
+			}
+		}
+
+		return result;
+	};
+
+	// Preserve .conversion property if there is one
+	if ('conversion' in fn) {
+		wrappedFn.conversion = fn.conversion;
+	}
+
+	return wrappedFn;
+}
+
+models.forEach(fromModel => {
+	convert[fromModel] = {};
+
+	Object.defineProperty(convert[fromModel], 'channels', {value: conversions[fromModel].channels});
+	Object.defineProperty(convert[fromModel], 'labels', {value: conversions[fromModel].labels});
+
+	const routes = route(fromModel);
+	const routeModels = Object.keys(routes);
+
+	routeModels.forEach(toModel => {
+		const fn = routes[toModel];
+
+		convert[fromModel][toModel] = wrapRounded(fn);
+		convert[fromModel][toModel].raw = wrapRaw(fn);
+	});
+});
+
+module.exports = convert;
+
+
+/***/ }),
+
+/***/ 106:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = {
+	"aliceblue": [240, 248, 255],
+	"antiquewhite": [250, 235, 215],
+	"aqua": [0, 255, 255],
+	"aquamarine": [127, 255, 212],
+	"azure": [240, 255, 255],
+	"beige": [245, 245, 220],
+	"bisque": [255, 228, 196],
+	"black": [0, 0, 0],
+	"blanchedalmond": [255, 235, 205],
+	"blue": [0, 0, 255],
+	"blueviolet": [138, 43, 226],
+	"brown": [165, 42, 42],
+	"burlywood": [222, 184, 135],
+	"cadetblue": [95, 158, 160],
+	"chartreuse": [127, 255, 0],
+	"chocolate": [210, 105, 30],
+	"coral": [255, 127, 80],
+	"cornflowerblue": [100, 149, 237],
+	"cornsilk": [255, 248, 220],
+	"crimson": [220, 20, 60],
+	"cyan": [0, 255, 255],
+	"darkblue": [0, 0, 139],
+	"darkcyan": [0, 139, 139],
+	"darkgoldenrod": [184, 134, 11],
+	"darkgray": [169, 169, 169],
+	"darkgreen": [0, 100, 0],
+	"darkgrey": [169, 169, 169],
+	"darkkhaki": [189, 183, 107],
+	"darkmagenta": [139, 0, 139],
+	"darkolivegreen": [85, 107, 47],
+	"darkorange": [255, 140, 0],
+	"darkorchid": [153, 50, 204],
+	"darkred": [139, 0, 0],
+	"darksalmon": [233, 150, 122],
+	"darkseagreen": [143, 188, 143],
+	"darkslateblue": [72, 61, 139],
+	"darkslategray": [47, 79, 79],
+	"darkslategrey": [47, 79, 79],
+	"darkturquoise": [0, 206, 209],
+	"darkviolet": [148, 0, 211],
+	"deeppink": [255, 20, 147],
+	"deepskyblue": [0, 191, 255],
+	"dimgray": [105, 105, 105],
+	"dimgrey": [105, 105, 105],
+	"dodgerblue": [30, 144, 255],
+	"firebrick": [178, 34, 34],
+	"floralwhite": [255, 250, 240],
+	"forestgreen": [34, 139, 34],
+	"fuchsia": [255, 0, 255],
+	"gainsboro": [220, 220, 220],
+	"ghostwhite": [248, 248, 255],
+	"gold": [255, 215, 0],
+	"goldenrod": [218, 165, 32],
+	"gray": [128, 128, 128],
+	"green": [0, 128, 0],
+	"greenyellow": [173, 255, 47],
+	"grey": [128, 128, 128],
+	"honeydew": [240, 255, 240],
+	"hotpink": [255, 105, 180],
+	"indianred": [205, 92, 92],
+	"indigo": [75, 0, 130],
+	"ivory": [255, 255, 240],
+	"khaki": [240, 230, 140],
+	"lavender": [230, 230, 250],
+	"lavenderblush": [255, 240, 245],
+	"lawngreen": [124, 252, 0],
+	"lemonchiffon": [255, 250, 205],
+	"lightblue": [173, 216, 230],
+	"lightcoral": [240, 128, 128],
+	"lightcyan": [224, 255, 255],
+	"lightgoldenrodyellow": [250, 250, 210],
+	"lightgray": [211, 211, 211],
+	"lightgreen": [144, 238, 144],
+	"lightgrey": [211, 211, 211],
+	"lightpink": [255, 182, 193],
+	"lightsalmon": [255, 160, 122],
+	"lightseagreen": [32, 178, 170],
+	"lightskyblue": [135, 206, 250],
+	"lightslategray": [119, 136, 153],
+	"lightslategrey": [119, 136, 153],
+	"lightsteelblue": [176, 196, 222],
+	"lightyellow": [255, 255, 224],
+	"lime": [0, 255, 0],
+	"limegreen": [50, 205, 50],
+	"linen": [250, 240, 230],
+	"magenta": [255, 0, 255],
+	"maroon": [128, 0, 0],
+	"mediumaquamarine": [102, 205, 170],
+	"mediumblue": [0, 0, 205],
+	"mediumorchid": [186, 85, 211],
+	"mediumpurple": [147, 112, 219],
+	"mediumseagreen": [60, 179, 113],
+	"mediumslateblue": [123, 104, 238],
+	"mediumspringgreen": [0, 250, 154],
+	"mediumturquoise": [72, 209, 204],
+	"mediumvioletred": [199, 21, 133],
+	"midnightblue": [25, 25, 112],
+	"mintcream": [245, 255, 250],
+	"mistyrose": [255, 228, 225],
+	"moccasin": [255, 228, 181],
+	"navajowhite": [255, 222, 173],
+	"navy": [0, 0, 128],
+	"oldlace": [253, 245, 230],
+	"olive": [128, 128, 0],
+	"olivedrab": [107, 142, 35],
+	"orange": [255, 165, 0],
+	"orangered": [255, 69, 0],
+	"orchid": [218, 112, 214],
+	"palegoldenrod": [238, 232, 170],
+	"palegreen": [152, 251, 152],
+	"paleturquoise": [175, 238, 238],
+	"palevioletred": [219, 112, 147],
+	"papayawhip": [255, 239, 213],
+	"peachpuff": [255, 218, 185],
+	"peru": [205, 133, 63],
+	"pink": [255, 192, 203],
+	"plum": [221, 160, 221],
+	"powderblue": [176, 224, 230],
+	"purple": [128, 0, 128],
+	"rebeccapurple": [102, 51, 153],
+	"red": [255, 0, 0],
+	"rosybrown": [188, 143, 143],
+	"royalblue": [65, 105, 225],
+	"saddlebrown": [139, 69, 19],
+	"salmon": [250, 128, 114],
+	"sandybrown": [244, 164, 96],
+	"seagreen": [46, 139, 87],
+	"seashell": [255, 245, 238],
+	"sienna": [160, 82, 45],
+	"silver": [192, 192, 192],
+	"skyblue": [135, 206, 235],
+	"slateblue": [106, 90, 205],
+	"slategray": [112, 128, 144],
+	"slategrey": [112, 128, 144],
+	"snow": [255, 250, 250],
+	"springgreen": [0, 255, 127],
+	"steelblue": [70, 130, 180],
+	"tan": [210, 180, 140],
+	"teal": [0, 128, 128],
+	"thistle": [216, 191, 216],
+	"tomato": [255, 99, 71],
+	"turquoise": [64, 224, 208],
+	"violet": [238, 130, 238],
+	"wheat": [245, 222, 179],
+	"white": [255, 255, 255],
+	"whitesmoke": [245, 245, 245],
+	"yellow": [255, 255, 0],
+	"yellowgreen": [154, 205, 50]
+};
+
+
+/***/ }),
+
+/***/ 107:
+/***/ (function(module, exports, __webpack_require__) {
+
+const conversions = __webpack_require__(56);
+
+/*
+	This function routes a model to all other models.
+
+	all functions that are routed have a property `.conversion` attached
+	to the returned synthetic function. This property is an array
+	of strings, each with the steps in between the 'from' and 'to'
+	color models (inclusive).
+
+	conversions that are not possible simply are not included.
+*/
+
+function buildGraph() {
+	const graph = {};
+	// https://jsperf.com/object-keys-vs-for-in-with-closure/3
+	const models = Object.keys(conversions);
+
+	for (let len = models.length, i = 0; i < len; i++) {
+		graph[models[i]] = {
+			// http://jsperf.com/1-vs-infinity
+			// micro-opt, but this is simple.
+			distance: -1,
+			parent: null
+		};
+	}
+
+	return graph;
+}
+
+// https://en.wikipedia.org/wiki/Breadth-first_search
+function deriveBFS(fromModel) {
+	const graph = buildGraph();
+	const queue = [fromModel]; // Unshift -> queue -> pop
+
+	graph[fromModel].distance = 0;
+
+	while (queue.length) {
+		const current = queue.pop();
+		const adjacents = Object.keys(conversions[current]);
+
+		for (let len = adjacents.length, i = 0; i < len; i++) {
+			const adjacent = adjacents[i];
+			const node = graph[adjacent];
+
+			if (node.distance === -1) {
+				node.distance = graph[current].distance + 1;
+				node.parent = current;
+				queue.unshift(adjacent);
+			}
+		}
+	}
+
+	return graph;
+}
+
+function link(from, to) {
+	return function (args) {
+		return to(from(args));
+	};
+}
+
+function wrapConversion(toModel, graph) {
+	const path = [graph[toModel].parent, toModel];
+	let fn = conversions[graph[toModel].parent][toModel];
+
+	let cur = graph[toModel].parent;
+	while (graph[cur].parent) {
+		path.unshift(graph[cur].parent);
+		fn = link(conversions[graph[cur].parent][cur], fn);
+		cur = graph[cur].parent;
+	}
+
+	fn.conversion = path;
+	return fn;
+}
+
+module.exports = function (fromModel) {
+	const graph = deriveBFS(fromModel);
+	const conversion = {};
+
+	const models = Object.keys(graph);
+	for (let len = models.length, i = 0; i < len; i++) {
+		const toModel = models[i];
+		const node = graph[toModel];
+
+		if (node.parent === null) {
+			// No possible conversion, or this node is the source model.
+			continue;
+		}
+
+		conversion[toModel] = wrapConversion(toModel, graph);
+	}
+
+	return conversion;
+};
+
+
+
+/***/ }),
+
+/***/ 108:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = (flag, argv = process.argv) => {
+	const prefix = flag.startsWith('-') ? '' : (flag.length === 1 ? '-' : '--');
+	const position = argv.indexOf(prefix + flag);
+	const terminatorPosition = argv.indexOf('--');
+	return position !== -1 && (terminatorPosition === -1 || position < terminatorPosition);
+};
+
+
+/***/ }),
+
+/***/ 109:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -377,7 +1436,14 @@ module.exports = {
 
 /***/ }),
 
-/***/ 101:
+/***/ 11:
+/***/ (function(module, exports) {
+
+module.exports = require("events");
+
+/***/ }),
+
+/***/ 110:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -519,7 +1585,7 @@ module.exports = (chalk, temporary) => {
 
 /***/ }),
 
-/***/ 103:
+/***/ 112:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -536,6 +1602,7 @@ var consts = __webpack_require__(6);
 var consts_base = __webpack_require__(23);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/practical-logger-core/dist/src.es2019/normalize-args.js
+// TODO externalize?
 function looksLikeAnError(x) {
   return !!((x === null || x === void 0 ? void 0 : x.name) && (x === null || x === void 0 ? void 0 : x.message) && (x === null || x === void 0 ? void 0 : x.stack));
 } // harmonize
@@ -670,21 +1737,21 @@ function create({
 
 /***/ }),
 
-/***/ 12:
+/***/ 13:
 /***/ (function(module, exports) {
 
 module.exports = require("path");
 
 /***/ }),
 
-/***/ 13:
+/***/ 14:
 /***/ (function(module, exports) {
 
 module.exports = require("url");
 
 /***/ }),
 
-/***/ 136:
+/***/ 143:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -696,9 +1763,9 @@ Object.defineProperty(exports, "__esModule", {
 exports.on_user_recognized = exports.on_error = void 0; // https://docs.sentry.io/error-reporting/quickstart/?platform=node
 // https://httptoolkit.tech/blog/netlify-function-error-reporting-with-sentry/
 
-const Sentry = __webpack_require__(176);
+const Sentry = __webpack_require__(181);
 
-const channel_1 = __webpack_require__(32); /////////////////////////////////////////////////
+const channel_1 = __webpack_require__(34); /////////////////////////////////////////////////
 
 
 Sentry.init({
@@ -743,7 +1810,7 @@ exports.on_user_recognized = on_user_recognized; // TODO self-triage?
 
 /***/ }),
 
-/***/ 137:
+/***/ 144:
 /***/ (function(module, exports) {
 
 module.exports = function(originalModule) {
@@ -774,7 +1841,7 @@ module.exports = function(originalModule) {
 
 /***/ }),
 
-/***/ 138:
+/***/ 145:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -792,13 +1859,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const net_1 = __importDefault(__webpack_require__(74));
-const tls_1 = __importDefault(__webpack_require__(75));
-const url_1 = __importDefault(__webpack_require__(13));
-const assert_1 = __importDefault(__webpack_require__(41));
-const debug_1 = __importDefault(__webpack_require__(76));
-const agent_base_1 = __webpack_require__(141);
-const parse_proxy_response_1 = __importDefault(__webpack_require__(146));
+const net_1 = __importDefault(__webpack_require__(82));
+const tls_1 = __importDefault(__webpack_require__(83));
+const url_1 = __importDefault(__webpack_require__(14));
+const assert_1 = __importDefault(__webpack_require__(45));
+const debug_1 = __importDefault(__webpack_require__(84));
+const agent_base_1 = __webpack_require__(148);
+const parse_proxy_response_1 = __importDefault(__webpack_require__(153));
 const debug = debug_1.default('https-proxy-agent:agent');
 /**
  * The `HttpsProxyAgent` implements an HTTP Agent subclass that connects to
@@ -961,7 +2028,7 @@ function omit(obj, ...keys) {
 
 /***/ }),
 
-/***/ 139:
+/***/ 146:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* eslint-env browser */
@@ -1213,7 +2280,7 @@ function localstorage() {
 	}
 }
 
-module.exports = __webpack_require__(77)(exports);
+module.exports = __webpack_require__(85)(exports);
 
 const {formatters} = module.exports;
 
@@ -1232,70 +2299,14 @@ formatters.j = function (v) {
 
 /***/ }),
 
-/***/ 14:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-function Enum() {
-    var values = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        values[_i] = arguments[_i];
-    }
-    if (typeof values[0] === "string") {
-        var result = {};
-        for (var _a = 0, values_1 = values; _a < values_1.length; _a++) {
-            var value = values_1[_a];
-            result[value] = value;
-        }
-        return result;
-    }
-    else {
-        return values[0];
-    }
-}
-exports.Enum = Enum;
-(function (Enum) {
-    function ofKeys(e) {
-        var result = {};
-        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
-            var key = _a[_i];
-            result[key] = key;
-        }
-        return result;
-    }
-    Enum.ofKeys = ofKeys;
-    function keys(e) {
-        return Object.keys(e);
-    }
-    Enum.keys = keys;
-    function values(e) {
-        var result = [];
-        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
-            var key = _a[_i];
-            result.push(e[key]);
-        }
-        return result;
-    }
-    Enum.values = values;
-    function isType(e, value) {
-        return values(e).indexOf(value) !== -1;
-    }
-    Enum.isType = isType;
-})(Enum = exports.Enum || (exports.Enum = {}));
-//# sourceMappingURL=index.js.map
-
-/***/ }),
-
-/***/ 140:
+/***/ 147:
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
  * Module dependencies.
  */
 
-const tty = __webpack_require__(35);
+const tty = __webpack_require__(38);
 const util = __webpack_require__(4);
 
 /**
@@ -1318,7 +2329,7 @@ exports.colors = [6, 2, 3, 4, 5, 1];
 try {
 	// Optional dependency (as in, doesn't need to be installed, NOT like optionalDependencies in package.json)
 	// eslint-disable-next-line import/no-extraneous-dependencies
-	const supportsColor = __webpack_require__(34);
+	const supportsColor = __webpack_require__(37);
 
 	if (supportsColor && (supportsColor.stderr || supportsColor).level >= 2) {
 		exports.colors = [
@@ -1526,7 +2537,7 @@ function init(debug) {
 	}
 }
 
-module.exports = __webpack_require__(77)(exports);
+module.exports = __webpack_require__(85)(exports);
 
 const {formatters} = module.exports;
 
@@ -1552,7 +2563,7 @@ formatters.O = function (v) {
 
 /***/ }),
 
-/***/ 141:
+/***/ 148:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1560,9 +2571,9 @@ formatters.O = function (v) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-const events_1 = __webpack_require__(10);
-const debug_1 = __importDefault(__webpack_require__(142));
-const promisify_1 = __importDefault(__webpack_require__(145));
+const events_1 = __webpack_require__(11);
+const debug_1 = __importDefault(__webpack_require__(149));
+const promisify_1 = __importDefault(__webpack_require__(152));
 const debug = debug_1.default('agent-base');
 function isAgent(v) {
     return Boolean(v) && typeof v.addRequest === 'function';
@@ -1760,7 +2771,7 @@ module.exports = createAgent;
 
 /***/ }),
 
-/***/ 142:
+/***/ 149:
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -1769,15 +2780,71 @@ module.exports = createAgent;
  */
 
 if (typeof process === 'undefined' || process.type === 'renderer' || process.browser === true || process.__nwjs) {
-	module.exports = __webpack_require__(143);
+	module.exports = __webpack_require__(150);
 } else {
-	module.exports = __webpack_require__(144);
+	module.exports = __webpack_require__(151);
 }
 
 
 /***/ }),
 
-/***/ 143:
+/***/ 15:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+function Enum() {
+    var values = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        values[_i] = arguments[_i];
+    }
+    if (typeof values[0] === "string") {
+        var result = {};
+        for (var _a = 0, values_1 = values; _a < values_1.length; _a++) {
+            var value = values_1[_a];
+            result[value] = value;
+        }
+        return result;
+    }
+    else {
+        return values[0];
+    }
+}
+exports.Enum = Enum;
+(function (Enum) {
+    function ofKeys(e) {
+        var result = {};
+        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
+            var key = _a[_i];
+            result[key] = key;
+        }
+        return result;
+    }
+    Enum.ofKeys = ofKeys;
+    function keys(e) {
+        return Object.keys(e);
+    }
+    Enum.keys = keys;
+    function values(e) {
+        var result = [];
+        for (var _i = 0, _a = Object.keys(e); _i < _a.length; _i++) {
+            var key = _a[_i];
+            result.push(e[key]);
+        }
+        return result;
+    }
+    Enum.values = values;
+    function isType(e, value) {
+        return values(e).indexOf(value) !== -1;
+    }
+    Enum.isType = isType;
+})(Enum = exports.Enum || (exports.Enum = {}));
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ 150:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* eslint-env browser */
@@ -2029,7 +3096,7 @@ function localstorage() {
 	}
 }
 
-module.exports = __webpack_require__(78)(exports);
+module.exports = __webpack_require__(86)(exports);
 
 const {formatters} = module.exports;
 
@@ -2048,14 +3115,14 @@ formatters.j = function (v) {
 
 /***/ }),
 
-/***/ 144:
+/***/ 151:
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
  * Module dependencies.
  */
 
-const tty = __webpack_require__(35);
+const tty = __webpack_require__(38);
 const util = __webpack_require__(4);
 
 /**
@@ -2078,7 +3145,7 @@ exports.colors = [6, 2, 3, 4, 5, 1];
 try {
 	// Optional dependency (as in, doesn't need to be installed, NOT like optionalDependencies in package.json)
 	// eslint-disable-next-line import/no-extraneous-dependencies
-	const supportsColor = __webpack_require__(34);
+	const supportsColor = __webpack_require__(37);
 
 	if (supportsColor && (supportsColor.stderr || supportsColor).level >= 2) {
 		exports.colors = [
@@ -2286,7 +3353,7 @@ function init(debug) {
 	}
 }
 
-module.exports = __webpack_require__(78)(exports);
+module.exports = __webpack_require__(86)(exports);
 
 const {formatters} = module.exports;
 
@@ -2312,7 +3379,7 @@ formatters.O = function (v) {
 
 /***/ }),
 
-/***/ 145:
+/***/ 152:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2337,7 +3404,7 @@ exports.default = promisify;
 
 /***/ }),
 
-/***/ 146:
+/***/ 153:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2346,7 +3413,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const debug_1 = __importDefault(__webpack_require__(76));
+const debug_1 = __importDefault(__webpack_require__(84));
 const debug = debug_1.default('https-proxy-agent:parse-proxy-response');
 function parseProxyResponse(socket) {
     return new Promise((resolve, reject) => {
@@ -2410,14 +3477,14 @@ exports.default = parseProxyResponse;
 
 /***/ }),
 
-/***/ 147:
+/***/ 154:
 /***/ (function(module, exports) {
 
 module.exports = require("console");
 
 /***/ }),
 
-/***/ 16:
+/***/ 17:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2442,7 +3509,7 @@ function getGlobalThis() {
 
 /***/ }),
 
-/***/ 17:
+/***/ 18:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2452,7 +3519,7 @@ __webpack_require__.d(__webpack_exports__, "a", function() { return /* binding *
 __webpack_require__.d(__webpack_exports__, "b", function() { return /* binding */ create; });
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/practical-logger-node/dist/src.es2019/index.js
-var src_es2019 = __webpack_require__(33);
+var src_es2019 = __webpack_require__(36);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/practical-logger-core/dist/src.es2019/consts-base.js
 var consts_base = __webpack_require__(23);
@@ -2654,7 +3721,7 @@ function create() {
 
 /***/ }),
 
-/***/ 176:
+/***/ 181:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2950,6 +4017,7 @@ function __classPrivateFieldSet(receiver, privateMap, value) {
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/types/esm/severity.js
 /** JSDoc */
+// eslint-disable-next-line import/export
 var Severity;
 (function (Severity) {
     /** JSDoc */
@@ -2967,8 +4035,7 @@ var Severity;
     /** JSDoc */
     Severity["Critical"] = "critical";
 })(Severity || (Severity = {}));
-// tslint:disable:completed-docs
-// tslint:disable:no-unnecessary-qualifier no-namespace
+// eslint-disable-next-line @typescript-eslint/no-namespace, import/export
 (function (Severity) {
     /**
      * Converts a string-based level into a {@link Severity}.
@@ -3001,6 +4068,7 @@ var Severity;
 //# sourceMappingURL=severity.js.map
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/types/esm/status.js
 /** The status of an event. */
+// eslint-disable-next-line import/export
 var Status;
 (function (Status) {
     /** The status could not be determined. */
@@ -3016,8 +4084,7 @@ var Status;
     /** A server-side error ocurred during submission. */
     Status["Failed"] = "failed";
 })(Status || (Status = {}));
-// tslint:disable:completed-docs
-// tslint:disable:no-unnecessary-qualifier no-namespace
+// eslint-disable-next-line @typescript-eslint/no-namespace, import/export
 (function (Status) {
     /**
      * Converts a HTTP status code into a {@link Status}.
@@ -3266,7 +4333,14 @@ function tslib_es6_classPrivateFieldSet(receiver, privateMap, value) {
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/is.js
 var is = __webpack_require__(3);
 
+// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/misc.js
+var misc = __webpack_require__(9);
+
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/syncpromise.js
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable @typescript-eslint/typedef */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 /** SyncPromise internal states */
 var States;
@@ -3327,6 +4401,7 @@ var syncpromise_SyncPromise = /** @class */ (function () {
                 }
                 if (_this._state === States.RESOLVED) {
                     if (handler.onfulfilled) {
+                        // eslint-disable-next-line @typescript-eslint/no-floating-promises
                         handler.onfulfilled(_this._value);
                     }
                 }
@@ -3345,10 +4420,6 @@ var syncpromise_SyncPromise = /** @class */ (function () {
             this._reject(e);
         }
     }
-    /** JSDoc */
-    SyncPromise.prototype.toString = function () {
-        return '[object SyncPromise]';
-    };
     /** JSDoc */
     SyncPromise.resolve = function (value) {
         return new SyncPromise(function (resolve) {
@@ -3458,13 +4529,14 @@ var syncpromise_SyncPromise = /** @class */ (function () {
             });
         });
     };
+    /** JSDoc */
+    SyncPromise.prototype.toString = function () {
+        return '[object SyncPromise]';
+    };
     return SyncPromise;
 }());
 
 //# sourceMappingURL=syncpromise.js.map
-// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/misc.js
-var misc = __webpack_require__(9);
-
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/hub/esm/scope.js
 
 
@@ -3487,10 +4559,32 @@ var scope_Scope = /** @class */ (function () {
         /** Tags */
         this._tags = {};
         /** Extra */
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         this._extra = {};
         /** Contexts */
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         this._contexts = {};
     }
+    /**
+     * Inherit values from the parent scope.
+     * @param scope to clone.
+     */
+    Scope.clone = function (scope) {
+        var newScope = new Scope();
+        if (scope) {
+            newScope._breadcrumbs = tslib_es6_spread(scope._breadcrumbs);
+            newScope._tags = tslib_es6_assign({}, scope._tags);
+            newScope._extra = tslib_es6_assign({}, scope._extra);
+            newScope._contexts = tslib_es6_assign({}, scope._contexts);
+            newScope._user = scope._user;
+            newScope._level = scope._level;
+            newScope._span = scope._span;
+            newScope._transactionName = scope._transactionName;
+            newScope._fingerprint = scope._fingerprint;
+            newScope._eventProcessors = tslib_es6_spread(scope._eventProcessors);
+        }
+        return newScope;
+    };
     /**
      * Add internal on change listener. Used for sub SDKs that need to store the scope.
      * @hidden
@@ -3506,48 +4600,6 @@ var scope_Scope = /** @class */ (function () {
         return this;
     };
     /**
-     * This will be called on every set call.
-     */
-    Scope.prototype._notifyScopeListeners = function () {
-        var _this = this;
-        if (!this._notifyingListeners) {
-            this._notifyingListeners = true;
-            setTimeout(function () {
-                _this._scopeListeners.forEach(function (callback) {
-                    callback(_this);
-                });
-                _this._notifyingListeners = false;
-            });
-        }
-    };
-    /**
-     * This will be called after {@link applyToEvent} is finished.
-     */
-    Scope.prototype._notifyEventProcessors = function (processors, event, hint, index) {
-        var _this = this;
-        if (index === void 0) { index = 0; }
-        return new syncpromise_SyncPromise(function (resolve, reject) {
-            var processor = processors[index];
-            // tslint:disable-next-line:strict-type-predicates
-            if (event === null || typeof processor !== 'function') {
-                resolve(event);
-            }
-            else {
-                var result = processor(tslib_es6_assign({}, event), hint);
-                if (Object(is["j" /* isThenable */])(result)) {
-                    result
-                        .then(function (final) { return _this._notifyEventProcessors(processors, final, hint, index + 1).then(resolve); })
-                        .then(null, reject);
-                }
-                else {
-                    _this._notifyEventProcessors(processors, result, hint, index + 1)
-                        .then(resolve)
-                        .then(null, reject);
-                }
-            }
-        });
-    };
-    /**
      * @inheritDoc
      */
     Scope.prototype.setUser = function (user) {
@@ -3559,7 +4611,7 @@ var scope_Scope = /** @class */ (function () {
      * @inheritDoc
      */
     Scope.prototype.setTags = function (tags) {
-        this._tags = tslib_es6_assign({}, this._tags, tags);
+        this._tags = tslib_es6_assign(tslib_es6_assign({}, this._tags), tags);
         this._notifyScopeListeners();
         return this;
     };
@@ -3568,7 +4620,7 @@ var scope_Scope = /** @class */ (function () {
      */
     Scope.prototype.setTag = function (key, value) {
         var _a;
-        this._tags = tslib_es6_assign({}, this._tags, (_a = {}, _a[key] = value, _a));
+        this._tags = tslib_es6_assign(tslib_es6_assign({}, this._tags), (_a = {}, _a[key] = value, _a));
         this._notifyScopeListeners();
         return this;
     };
@@ -3576,7 +4628,7 @@ var scope_Scope = /** @class */ (function () {
      * @inheritDoc
      */
     Scope.prototype.setExtras = function (extras) {
-        this._extra = tslib_es6_assign({}, this._extra, extras);
+        this._extra = tslib_es6_assign(tslib_es6_assign({}, this._extra), extras);
         this._notifyScopeListeners();
         return this;
     };
@@ -3585,7 +4637,7 @@ var scope_Scope = /** @class */ (function () {
      */
     Scope.prototype.setExtra = function (key, extra) {
         var _a;
-        this._extra = tslib_es6_assign({}, this._extra, (_a = {}, _a[key] = extra, _a));
+        this._extra = tslib_es6_assign(tslib_es6_assign({}, this._extra), (_a = {}, _a[key] = extra, _a));
         this._notifyScopeListeners();
         return this;
     };
@@ -3623,9 +4675,10 @@ var scope_Scope = /** @class */ (function () {
     /**
      * @inheritDoc
      */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Scope.prototype.setContext = function (key, context) {
         var _a;
-        this._contexts = tslib_es6_assign({}, this._contexts, (_a = {}, _a[key] = context, _a));
+        this._contexts = tslib_es6_assign(tslib_es6_assign({}, this._contexts), (_a = {}, _a[key] = context, _a));
         this._notifyScopeListeners();
         return this;
     };
@@ -3654,26 +4707,6 @@ var scope_Scope = /** @class */ (function () {
         return undefined;
     };
     /**
-     * Inherit values from the parent scope.
-     * @param scope to clone.
-     */
-    Scope.clone = function (scope) {
-        var newScope = new Scope();
-        if (scope) {
-            newScope._breadcrumbs = tslib_es6_spread(scope._breadcrumbs);
-            newScope._tags = tslib_es6_assign({}, scope._tags);
-            newScope._extra = tslib_es6_assign({}, scope._extra);
-            newScope._contexts = tslib_es6_assign({}, scope._contexts);
-            newScope._user = scope._user;
-            newScope._level = scope._level;
-            newScope._span = scope._span;
-            newScope._transactionName = scope._transactionName;
-            newScope._fingerprint = scope._fingerprint;
-            newScope._eventProcessors = tslib_es6_spread(scope._eventProcessors);
-        }
-        return newScope;
-    };
-    /**
      * @inheritDoc
      */
     Scope.prototype.update = function (captureContext) {
@@ -3685,9 +4718,9 @@ var scope_Scope = /** @class */ (function () {
             return updatedScope instanceof Scope ? updatedScope : this;
         }
         if (captureContext instanceof Scope) {
-            this._tags = tslib_es6_assign({}, this._tags, captureContext._tags);
-            this._extra = tslib_es6_assign({}, this._extra, captureContext._extra);
-            this._contexts = tslib_es6_assign({}, this._contexts, captureContext._contexts);
+            this._tags = tslib_es6_assign(tslib_es6_assign({}, this._tags), captureContext._tags);
+            this._extra = tslib_es6_assign(tslib_es6_assign({}, this._extra), captureContext._extra);
+            this._contexts = tslib_es6_assign(tslib_es6_assign({}, this._contexts), captureContext._contexts);
             if (captureContext._user) {
                 this._user = captureContext._user;
             }
@@ -3699,11 +4732,11 @@ var scope_Scope = /** @class */ (function () {
             }
         }
         else if (Object(is["e" /* isPlainObject */])(captureContext)) {
-            // tslint:disable-next-line:no-parameter-reassignment
+            // eslint-disable-next-line no-param-reassign
             captureContext = captureContext;
-            this._tags = tslib_es6_assign({}, this._tags, captureContext.tags);
-            this._extra = tslib_es6_assign({}, this._extra, captureContext.extra);
-            this._contexts = tslib_es6_assign({}, this._contexts, captureContext.contexts);
+            this._tags = tslib_es6_assign(tslib_es6_assign({}, this._tags), captureContext.tags);
+            this._extra = tslib_es6_assign(tslib_es6_assign({}, this._extra), captureContext.extra);
+            this._contexts = tslib_es6_assign(tslib_es6_assign({}, this._contexts), captureContext.contexts);
             if (captureContext.user) {
                 this._user = captureContext.user;
             }
@@ -3753,6 +4786,85 @@ var scope_Scope = /** @class */ (function () {
         return this;
     };
     /**
+     * Applies the current context and fingerprint to the event.
+     * Note that breadcrumbs will be added by the client.
+     * Also if the event has already breadcrumbs on it, we do not merge them.
+     * @param event Event
+     * @param hint May contain additional informartion about the original exception.
+     * @hidden
+     */
+    Scope.prototype.applyToEvent = function (event, hint) {
+        if (this._extra && Object.keys(this._extra).length) {
+            event.extra = tslib_es6_assign(tslib_es6_assign({}, this._extra), event.extra);
+        }
+        if (this._tags && Object.keys(this._tags).length) {
+            event.tags = tslib_es6_assign(tslib_es6_assign({}, this._tags), event.tags);
+        }
+        if (this._user && Object.keys(this._user).length) {
+            event.user = tslib_es6_assign(tslib_es6_assign({}, this._user), event.user);
+        }
+        if (this._contexts && Object.keys(this._contexts).length) {
+            event.contexts = tslib_es6_assign(tslib_es6_assign({}, this._contexts), event.contexts);
+        }
+        if (this._level) {
+            event.level = this._level;
+        }
+        if (this._transactionName) {
+            event.transaction = this._transactionName;
+        }
+        // We want to set the trace context for normal events only if there isn't already
+        // a trace context on the event. There is a product feature in place where we link
+        // errors with transaction and it relys on that.
+        if (this._span) {
+            event.contexts = tslib_es6_assign({ trace: this._span.getTraceContext() }, event.contexts);
+        }
+        this._applyFingerprint(event);
+        event.breadcrumbs = tslib_es6_spread((event.breadcrumbs || []), this._breadcrumbs);
+        event.breadcrumbs = event.breadcrumbs.length > 0 ? event.breadcrumbs : undefined;
+        return this._notifyEventProcessors(tslib_es6_spread(getGlobalEventProcessors(), this._eventProcessors), event, hint);
+    };
+    /**
+     * This will be called after {@link applyToEvent} is finished.
+     */
+    Scope.prototype._notifyEventProcessors = function (processors, event, hint, index) {
+        var _this = this;
+        if (index === void 0) { index = 0; }
+        return new syncpromise_SyncPromise(function (resolve, reject) {
+            var processor = processors[index];
+            if (event === null || typeof processor !== 'function') {
+                resolve(event);
+            }
+            else {
+                var result = processor(tslib_es6_assign({}, event), hint);
+                if (Object(is["j" /* isThenable */])(result)) {
+                    result
+                        .then(function (final) { return _this._notifyEventProcessors(processors, final, hint, index + 1).then(resolve); })
+                        .then(null, reject);
+                }
+                else {
+                    _this._notifyEventProcessors(processors, result, hint, index + 1)
+                        .then(resolve)
+                        .then(null, reject);
+                }
+            }
+        });
+    };
+    /**
+     * This will be called on every set call.
+     */
+    Scope.prototype._notifyScopeListeners = function () {
+        var _this = this;
+        if (!this._notifyingListeners) {
+            this._notifyingListeners = true;
+            setTimeout(function () {
+                _this._scopeListeners.forEach(function (callback) {
+                    callback(_this);
+                });
+                _this._notifyingListeners = false;
+            });
+        }
+    };
+    /**
      * Applies fingerprint from the scope to the event if there's one,
      * uses message if there's one instead or get rid of empty fingerprint
      */
@@ -3771,44 +4883,6 @@ var scope_Scope = /** @class */ (function () {
         if (event.fingerprint && !event.fingerprint.length) {
             delete event.fingerprint;
         }
-    };
-    /**
-     * Applies the current context and fingerprint to the event.
-     * Note that breadcrumbs will be added by the client.
-     * Also if the event has already breadcrumbs on it, we do not merge them.
-     * @param event Event
-     * @param hint May contain additional informartion about the original exception.
-     * @hidden
-     */
-    Scope.prototype.applyToEvent = function (event, hint) {
-        if (this._extra && Object.keys(this._extra).length) {
-            event.extra = tslib_es6_assign({}, this._extra, event.extra);
-        }
-        if (this._tags && Object.keys(this._tags).length) {
-            event.tags = tslib_es6_assign({}, this._tags, event.tags);
-        }
-        if (this._user && Object.keys(this._user).length) {
-            event.user = tslib_es6_assign({}, this._user, event.user);
-        }
-        if (this._contexts && Object.keys(this._contexts).length) {
-            event.contexts = tslib_es6_assign({}, this._contexts, event.contexts);
-        }
-        if (this._level) {
-            event.level = this._level;
-        }
-        if (this._transactionName) {
-            event.transaction = this._transactionName;
-        }
-        // We want to set the trace context for normal events only if there isn't already
-        // a trace context on the event. There is a product feature in place where we link
-        // errors with transaction and it relys on that.
-        if (this._span) {
-            event.contexts = tslib_es6_assign({ trace: this._span.getTraceContext() }, event.contexts);
-        }
-        this._applyFingerprint(event);
-        event.breadcrumbs = tslib_es6_spread((event.breadcrumbs || []), this._breadcrumbs);
-        event.breadcrumbs = event.breadcrumbs.length > 0 ? event.breadcrumbs : undefined;
-        return this._notifyEventProcessors(tslib_es6_spread(getGlobalEventProcessors(), this._eventProcessors), event, hint);
     };
     return Scope;
 }());
@@ -4051,6 +5125,7 @@ function tslib_tslib_es6_classPrivateFieldSet(receiver, privateMap, value) {
 }
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/logger.js
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 // TODO: Implement different loggers for different environments
 var logger_global = Object(misc["g" /* getGlobalObject */])();
@@ -4080,7 +5155,7 @@ var logger_Logger = /** @class */ (function () {
             return;
         }
         Object(misc["d" /* consoleSandbox */])(function () {
-            logger_global.console.log(PREFIX + "[Log]: " + args.join(' ')); // tslint:disable-line:no-console
+            logger_global.console.log(PREFIX + "[Log]: " + args.join(' '));
         });
     };
     /** JSDoc */
@@ -4093,7 +5168,7 @@ var logger_Logger = /** @class */ (function () {
             return;
         }
         Object(misc["d" /* consoleSandbox */])(function () {
-            logger_global.console.warn(PREFIX + "[Warn]: " + args.join(' ')); // tslint:disable-line:no-console
+            logger_global.console.warn(PREFIX + "[Warn]: " + args.join(' '));
         });
     };
     /** JSDoc */
@@ -4106,7 +5181,7 @@ var logger_Logger = /** @class */ (function () {
             return;
         }
         Object(misc["d" /* consoleSandbox */])(function () {
-            logger_global.console.error(PREFIX + "[Error]: " + args.join(' ')); // tslint:disable-line:no-console
+            logger_global.console.error(PREFIX + "[Error]: " + args.join(' '));
         });
     };
     return Logger;
@@ -4160,23 +5235,6 @@ var hub_Hub = /** @class */ (function () {
         this._stack.push({ client: client, scope: scope });
         this.bindClient(client);
     }
-    /**
-     * Internal helper function to call a method on the top client if it exists.
-     *
-     * @param method The method to call on the client.
-     * @param args Arguments to pass to the client function.
-     */
-    Hub.prototype._invokeClient = function (method) {
-        var _a;
-        var args = [];
-        for (var _i = 1; _i < arguments.length; _i++) {
-            args[_i - 1] = arguments[_i];
-        }
-        var top = this.getStackTop();
-        if (top && top.client && top.client[method]) {
-            (_a = top.client)[method].apply(_a, tslib_es6_spread(args, [top.scope]));
-        }
-    };
     /**
      * @inheritDoc
      */
@@ -4246,6 +5304,7 @@ var hub_Hub = /** @class */ (function () {
     /**
      * @inheritDoc
      */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
     Hub.prototype.captureException = function (exception, hint) {
         var eventId = (this._lastEventId = Object(misc["m" /* uuid4 */])());
         var finalHint = hint;
@@ -4266,7 +5325,7 @@ var hub_Hub = /** @class */ (function () {
                 syntheticException: syntheticException,
             };
         }
-        this._invokeClient('captureException', exception, tslib_es6_assign({}, finalHint, { event_id: eventId }));
+        this._invokeClient('captureException', exception, tslib_es6_assign(tslib_es6_assign({}, finalHint), { event_id: eventId }));
         return eventId;
     };
     /**
@@ -4292,7 +5351,7 @@ var hub_Hub = /** @class */ (function () {
                 syntheticException: syntheticException,
             };
         }
-        this._invokeClient('captureMessage', message, level, tslib_es6_assign({}, finalHint, { event_id: eventId }));
+        this._invokeClient('captureMessage', message, level, tslib_es6_assign(tslib_es6_assign({}, finalHint), { event_id: eventId }));
         return eventId;
     };
     /**
@@ -4300,7 +5359,7 @@ var hub_Hub = /** @class */ (function () {
      */
     Hub.prototype.captureEvent = function (event, hint) {
         var eventId = (this._lastEventId = Object(misc["m" /* uuid4 */])());
-        this._invokeClient('captureEvent', event, tslib_es6_assign({}, hint, { event_id: eventId }));
+        this._invokeClient('captureEvent', event, tslib_es6_assign(tslib_es6_assign({}, hint), { event_id: eventId }));
         return eventId;
     };
     /**
@@ -4317,6 +5376,7 @@ var hub_Hub = /** @class */ (function () {
         if (!top.scope || !top.client) {
             return;
         }
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         var _a = (top.client.getOptions && top.client.getOptions()) || {}, _b = _a.beforeBreadcrumb, beforeBreadcrumb = _b === void 0 ? null : _b, _c = _a.maxBreadcrumbs, maxBreadcrumbs = _c === void 0 ? DEFAULT_BREADCRUMBS : _c;
         if (maxBreadcrumbs <= 0) {
             return;
@@ -4384,6 +5444,7 @@ var hub_Hub = /** @class */ (function () {
     /**
      * @inheritDoc
      */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Hub.prototype.setContext = function (name, context) {
         var top = this.getStackTop();
         if (!top.scope) {
@@ -4447,9 +5508,29 @@ var hub_Hub = /** @class */ (function () {
         return this._callExtensionMethod('traceHeaders');
     };
     /**
+     * Internal helper function to call a method on the top client if it exists.
+     *
+     * @param method The method to call on the client.
+     * @param args Arguments to pass to the client function.
+     */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    Hub.prototype._invokeClient = function (method) {
+        var _a;
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        var top = this.getStackTop();
+        if (top && top.client && top.client[method]) {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
+            (_a = top.client)[method].apply(_a, tslib_es6_spread(args, [top.scope]));
+        }
+    };
+    /**
      * Calls global extension method and binding current instance to the function call
      */
-    // @ts-ignore
+    // @ts-ignore Function lacks ending return statement and return type does not include 'undefined'. ts(2366)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Hub.prototype._callExtensionMethod = function (method) {
         var args = [];
         for (var _i = 1; _i < arguments.length; _i++) {
@@ -4457,7 +5538,6 @@ var hub_Hub = /** @class */ (function () {
         }
         var carrier = getMainCarrier();
         var sentry = carrier.__SENTRY__;
-        // tslint:disable-next-line: strict-type-predicates
         if (sentry && sentry.extensions && typeof sentry.extensions[method] === 'function') {
             return sentry.extensions[method].apply(this, args);
         }
@@ -4516,11 +5596,12 @@ function getHubFromActiveDomain(registry) {
         var property = 'domain';
         var carrier = getMainCarrier();
         var sentry = carrier.__SENTRY__;
-        // tslint:disable-next-line: strict-type-predicates
         if (!sentry || !sentry.extensions || !sentry.extensions[property]) {
             return getHubFromCarrier(registry);
         }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         var domain = sentry.extensions[property];
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         var activeDomain = domain.active;
         // If there no active domain, just return global hub
         if (!activeDomain) {
@@ -4585,6 +5666,7 @@ function setHubOnCarrier(carrier, hub) {
  * @param method function to call on hub.
  * @param args to pass to function.
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function callOnHub(method) {
     var args = [];
     for (var _i = 1; _i < arguments.length; _i++) {
@@ -4592,7 +5674,7 @@ function callOnHub(method) {
     }
     var hub = hub_getCurrentHub();
     if (hub && hub[method]) {
-        // tslint:disable-next-line:no-unsafe-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return hub[method].apply(hub, tslib_tslib_es6_spread(args));
     }
     throw new Error("No hub defined or " + method + " was not found on the hub, please open a bug report.");
@@ -4603,6 +5685,7 @@ function callOnHub(method) {
  * @param exception An exception-like object.
  * @returns The generated eventId.
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
 function captureException(exception, captureContext) {
     var syntheticException;
     try {
@@ -4670,6 +5753,7 @@ function addBreadcrumb(breadcrumb) {
  * @param name of the context
  * @param context Any kind of data. This data will be normalized.
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function setContext(name, context) {
     callOnHub('setContext', name, context);
 }
@@ -4737,6 +5821,7 @@ function withScope(callback) {
  * @param args Arguments to pass to the client/fontend.
  * @hidden
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function _callOnClient(method) {
     var args = [];
     for (var _i = 1; _i < arguments.length; _i++) {
@@ -4986,22 +6071,25 @@ function node_modules_tslib_tslib_es6_classPrivateFieldSet(receiver, privateMap,
 }
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/polyfill.js
-var setPrototypeOf = Object.setPrototypeOf || ({ __proto__: [] } instanceof Array ? setProtoOf : mixinProperties); // tslint:disable-line:no-unbound-method
+var setPrototypeOf = Object.setPrototypeOf || ({ __proto__: [] } instanceof Array ? setProtoOf : mixinProperties);
 /**
  * setPrototypeOf polyfill using __proto__
  */
+// eslint-disable-next-line @typescript-eslint/ban-types
 function setProtoOf(obj, proto) {
-    // @ts-ignore
+    // @ts-ignore __proto__ does not exist on obj
     obj.__proto__ = proto;
     return obj;
 }
 /**
  * setPrototypeOf polyfill using mixin
  */
+// eslint-disable-next-line @typescript-eslint/ban-types
 function mixinProperties(obj, proto) {
     for (var prop in proto) {
+        // eslint-disable-next-line no-prototype-builtins
         if (!obj.hasOwnProperty(prop)) {
-            // @ts-ignore
+            // @ts-ignore typescript complains about indexing so we remove
             obj[prop] = proto[prop];
         }
     }
@@ -5018,7 +6106,6 @@ var error_SentryError = /** @class */ (function (_super) {
         var _newTarget = this.constructor;
         var _this = _super.call(this, message) || this;
         _this.message = message;
-        // tslint:disable:no-unsafe-any
         _this.name = _newTarget.prototype.constructor.name;
         setPrototypeOf(_this, _newTarget.prototype);
         return _this;
@@ -5070,14 +6157,9 @@ var basebackend_BaseBackend = /** @class */ (function () {
         this._transport = this._setupTransport();
     }
     /**
-     * Sets up the transport so it can be used later to send requests.
-     */
-    BaseBackend.prototype._setupTransport = function () {
-        return new noop_NoopTransport();
-    };
-    /**
      * @inheritDoc
      */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
     BaseBackend.prototype.eventFromException = function (_exception, _hint) {
         throw new error_SentryError('Backend has to implement `eventFromException` method');
     };
@@ -5101,15 +6183,392 @@ var basebackend_BaseBackend = /** @class */ (function () {
     BaseBackend.prototype.getTransport = function () {
         return this._transport;
     };
+    /**
+     * Sets up the transport so it can be used later to send requests.
+     */
+    BaseBackend.prototype._setupTransport = function () {
+        return new noop_NoopTransport();
+    };
     return BaseBackend;
 }());
 
 //# sourceMappingURL=basebackend.js.map
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/memo.js
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/**
+ * Memo class used for decycle json objects. Uses WeakSet if available otherwise array.
+ */
+var Memo = /** @class */ (function () {
+    function Memo() {
+        this._hasWeakSet = typeof WeakSet === 'function';
+        this._inner = this._hasWeakSet ? new WeakSet() : [];
+    }
+    /**
+     * Sets obj to remember.
+     * @param obj Object to remember
+     */
+    Memo.prototype.memoize = function (obj) {
+        if (this._hasWeakSet) {
+            if (this._inner.has(obj)) {
+                return true;
+            }
+            this._inner.add(obj);
+            return false;
+        }
+        // eslint-disable-next-line @typescript-eslint/prefer-for-of
+        for (var i = 0; i < this._inner.length; i++) {
+            var value = this._inner[i];
+            if (value === obj) {
+                return true;
+            }
+        }
+        this._inner.push(obj);
+        return false;
+    };
+    /**
+     * Removes object from internal storage.
+     * @param obj Object to forget
+     */
+    Memo.prototype.unmemoize = function (obj) {
+        if (this._hasWeakSet) {
+            this._inner.delete(obj);
+        }
+        else {
+            for (var i = 0; i < this._inner.length; i++) {
+                if (this._inner[i] === obj) {
+                    this._inner.splice(i, 1);
+                    break;
+                }
+            }
+        }
+    };
+    return Memo;
+}());
+
+//# sourceMappingURL=memo.js.map
+// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/string.js
+var string = __webpack_require__(19);
+
+// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/object.js
+
+
+
+
+
+/**
+ * Wrap a given object method with a higher-order function
+ *
+ * @param source An object that contains a method to be wrapped.
+ * @param name A name of method to be wrapped.
+ * @param replacement A function that should be used to wrap a given method.
+ * @returns void
+ */
+function fill(source, name, replacement) {
+    if (!(name in source)) {
+        return;
+    }
+    var original = source[name];
+    var wrapped = replacement(original);
+    // Make sure it's a function first, as we need to attach an empty prototype for `defineProperties` to work
+    // otherwise it'll throw "TypeError: Object.defineProperties called on non-object"
+    if (typeof wrapped === 'function') {
+        try {
+            wrapped.prototype = wrapped.prototype || {};
+            Object.defineProperties(wrapped, {
+                __sentry_original__: {
+                    enumerable: false,
+                    value: original,
+                },
+            });
+        }
+        catch (_Oo) {
+            // This can throw if multiple fill happens on a global object like XMLHttpRequest
+            // Fixes https://github.com/getsentry/sentry-javascript/issues/2043
+        }
+    }
+    source[name] = wrapped;
+}
+/**
+ * Encodes given object into url-friendly format
+ *
+ * @param object An object that contains serializable values
+ * @returns string Encoded
+ */
+function urlEncode(object) {
+    return Object.keys(object)
+        .map(function (key) { return encodeURIComponent(key) + "=" + encodeURIComponent(object[key]); })
+        .join('&');
+}
+/**
+ * Transforms any object into an object literal with all it's attributes
+ * attached to it.
+ *
+ * @param value Initial source that we have to transform in order to be usable by the serializer
+ */
+function getWalkSource(value) {
+    if (Object(is["b" /* isError */])(value)) {
+        var error = value;
+        var err = {
+            message: error.message,
+            name: error.name,
+            stack: error.stack,
+        };
+        for (var i in error) {
+            if (Object.prototype.hasOwnProperty.call(error, i)) {
+                err[i] = error[i];
+            }
+        }
+        return err;
+    }
+    if (Object(is["c" /* isEvent */])(value)) {
+        var event_1 = value;
+        var source = {};
+        source.type = event_1.type;
+        // Accessing event.target can throw (see getsentry/raven-js#838, #768)
+        try {
+            source.target = Object(is["a" /* isElement */])(event_1.target)
+                ? Object(misc["h" /* htmlTreeAsString */])(event_1.target)
+                : Object.prototype.toString.call(event_1.target);
+        }
+        catch (_oO) {
+            source.target = '<unknown>';
+        }
+        try {
+            source.currentTarget = Object(is["a" /* isElement */])(event_1.currentTarget)
+                ? Object(misc["h" /* htmlTreeAsString */])(event_1.currentTarget)
+                : Object.prototype.toString.call(event_1.currentTarget);
+        }
+        catch (_oO) {
+            source.currentTarget = '<unknown>';
+        }
+        if (typeof CustomEvent !== 'undefined' && Object(is["d" /* isInstanceOf */])(value, CustomEvent)) {
+            source.detail = event_1.detail;
+        }
+        for (var i in event_1) {
+            if (Object.prototype.hasOwnProperty.call(event_1, i)) {
+                source[i] = event_1;
+            }
+        }
+        return source;
+    }
+    return value;
+}
+/** Calculates bytes size of input string */
+function utf8Length(value) {
+    // eslint-disable-next-line no-bitwise
+    return ~-encodeURI(value).split(/%..|./).length;
+}
+/** Calculates bytes size of input object */
+function jsonSize(value) {
+    return utf8Length(JSON.stringify(value));
+}
+/** JSDoc */
+function normalizeToSize(object, 
+// Default Node.js REPL depth
+depth, 
+// 100kB, as 200kB is max payload size, so half sounds reasonable
+maxSize) {
+    if (depth === void 0) { depth = 3; }
+    if (maxSize === void 0) { maxSize = 100 * 1024; }
+    var serialized = normalize(object, depth);
+    if (jsonSize(serialized) > maxSize) {
+        return normalizeToSize(object, depth - 1, maxSize);
+    }
+    return serialized;
+}
+/** Transforms any input value into a string form, either primitive value or a type of the input */
+function serializeValue(value) {
+    var type = Object.prototype.toString.call(value);
+    // Node.js REPL notation
+    if (typeof value === 'string') {
+        return value;
+    }
+    if (type === '[object Object]') {
+        return '[Object]';
+    }
+    if (type === '[object Array]') {
+        return '[Array]';
+    }
+    var normalized = normalizeValue(value);
+    return Object(is["f" /* isPrimitive */])(normalized) ? normalized : type;
+}
+/**
+ * normalizeValue()
+ *
+ * Takes unserializable input and make it serializable friendly
+ *
+ * - translates undefined/NaN values to "[undefined]"/"[NaN]" respectively,
+ * - serializes Error objects
+ * - filter global objects
+ */
+function normalizeValue(value, key) {
+    if (key === 'domain' && value && typeof value === 'object' && value._events) {
+        return '[Domain]';
+    }
+    if (key === 'domainEmitter') {
+        return '[DomainEmitter]';
+    }
+    if (typeof global !== 'undefined' && value === global) {
+        return '[Global]';
+    }
+    if (typeof window !== 'undefined' && value === window) {
+        return '[Window]';
+    }
+    if (typeof document !== 'undefined' && value === document) {
+        return '[Document]';
+    }
+    // React's SyntheticEvent thingy
+    if (Object(is["i" /* isSyntheticEvent */])(value)) {
+        return '[SyntheticEvent]';
+    }
+    if (typeof value === 'number' && value !== value) {
+        return '[NaN]';
+    }
+    if (value === void 0) {
+        return '[undefined]';
+    }
+    if (typeof value === 'function') {
+        return "[Function: " + Object(misc["f" /* getFunctionName */])(value) + "]";
+    }
+    return value;
+}
+/**
+ * Walks an object to perform a normalization on it
+ *
+ * @param key of object that's walked in current iteration
+ * @param value object to be walked
+ * @param depth Optional number indicating how deep should walking be performed
+ * @param memo Optional Memo class handling decycling
+ */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+function walk(key, value, depth, memo) {
+    if (depth === void 0) { depth = +Infinity; }
+    if (memo === void 0) { memo = new Memo(); }
+    // If we reach the maximum depth, serialize whatever has left
+    if (depth === 0) {
+        return serializeValue(value);
+    }
+    /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+    // If value implements `toJSON` method, call it and return early
+    if (value !== null && value !== undefined && typeof value.toJSON === 'function') {
+        return value.toJSON();
+    }
+    /* eslint-enable @typescript-eslint/no-unsafe-member-access */
+    // If normalized value is a primitive, there are no branches left to walk, so we can just bail out, as theres no point in going down that branch any further
+    var normalized = normalizeValue(value, key);
+    if (Object(is["f" /* isPrimitive */])(normalized)) {
+        return normalized;
+    }
+    // Create source that we will use for next itterations, either objectified error object (Error type with extracted keys:value pairs) or the input itself
+    var source = getWalkSource(value);
+    // Create an accumulator that will act as a parent for all future itterations of that branch
+    var acc = Array.isArray(value) ? [] : {};
+    // If we already walked that branch, bail out, as it's circular reference
+    if (memo.memoize(value)) {
+        return '[Circular ~]';
+    }
+    // Walk all keys of the source
+    for (var innerKey in source) {
+        // Avoid iterating over fields in the prototype if they've somehow been exposed to enumeration.
+        if (!Object.prototype.hasOwnProperty.call(source, innerKey)) {
+            continue;
+        }
+        // Recursively walk through all the child nodes
+        acc[innerKey] = walk(innerKey, source[innerKey], depth - 1, memo);
+    }
+    // Once walked through all the branches, remove the parent from memo storage
+    memo.unmemoize(value);
+    // Return accumulated values
+    return acc;
+}
+/**
+ * normalize()
+ *
+ * - Creates a copy to prevent original input mutation
+ * - Skip non-enumerablers
+ * - Calls `toJSON` if implemented
+ * - Removes circular references
+ * - Translates non-serializeable values (undefined/NaN/Functions) to serializable format
+ * - Translates known global objects/Classes to a string representations
+ * - Takes care of Error objects serialization
+ * - Optionally limit depth of final output
+ */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+function normalize(input, depth) {
+    try {
+        return JSON.parse(JSON.stringify(input, function (key, value) { return walk(key, value, depth); }));
+    }
+    catch (_oO) {
+        return '**non-serializable**';
+    }
+}
+/**
+ * Given any captured exception, extract its keys and create a sorted
+ * and truncated list that will be used inside the event message.
+ * eg. `Non-error exception captured with keys: foo, bar, baz`
+ */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+function extractExceptionKeysForMessage(exception, maxLength) {
+    if (maxLength === void 0) { maxLength = 40; }
+    var keys = Object.keys(getWalkSource(exception));
+    keys.sort();
+    if (!keys.length) {
+        return '[object has no keys]';
+    }
+    if (keys[0].length >= maxLength) {
+        return Object(string["c" /* truncate */])(keys[0], maxLength);
+    }
+    for (var includedKeys = keys.length; includedKeys > 0; includedKeys--) {
+        var serialized = keys.slice(0, includedKeys).join(', ');
+        if (serialized.length > maxLength) {
+            continue;
+        }
+        if (includedKeys === keys.length) {
+            return serialized;
+        }
+        return Object(string["c" /* truncate */])(serialized, maxLength);
+    }
+    return '';
+}
+/**
+ * Given any object, return the new object with removed keys that value was `undefined`.
+ * Works recursively on objects and arrays.
+ */
+function dropUndefinedKeys(val) {
+    var e_1, _a;
+    if (Object(is["e" /* isPlainObject */])(val)) {
+        var obj = val;
+        var rv = {};
+        try {
+            for (var _b = node_modules_tslib_tslib_es6_values(Object.keys(obj)), _c = _b.next(); !_c.done; _c = _b.next()) {
+                var key = _c.value;
+                if (typeof obj[key] !== 'undefined') {
+                    rv[key] = dropUndefinedKeys(obj[key]);
+                }
+            }
+        }
+        catch (e_1_1) { e_1 = { error: e_1_1 }; }
+        finally {
+            try {
+                if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+            }
+            finally { if (e_1) throw e_1.error; }
+        }
+        return rv;
+    }
+    if (Array.isArray(val)) {
+        return val.map(dropUndefinedKeys);
+    }
+    return val;
+}
+//# sourceMappingURL=object.js.map
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/dsn.js
 
 
 /** Regular expression used to parse a Dsn. */
-var DSN_REGEX = /^(?:(\w+):)\/\/(?:(\w+)(?::(\w+))?@)([\w\.-]+)(?::(\d+))?\/(.+)/;
+var DSN_REGEX = /^(?:(\w+):)\/\/(?:(\w+)(?::(\w+))?@)([\w.-]+)(?::(\d+))?\/(.+)/;
 /** Error message */
 var ERROR_MESSAGE = 'Invalid Dsn';
 /** The Sentry Dsn, identifying a Sentry instance and project. */
@@ -5135,7 +6594,6 @@ var dsn_Dsn = /** @class */ (function () {
      */
     Dsn.prototype.toString = function (withPassword) {
         if (withPassword === void 0) { withPassword = false; }
-        // tslint:disable-next-line:no-this-assignment
         var _a = this, host = _a.host, path = _a.path, pass = _a.pass, port = _a.port, projectId = _a.projectId, protocol = _a.protocol, user = _a.user;
         return (protocol + "://" + user + (withPassword && pass ? ":" + pass : '') +
             ("@" + host + (port ? ":" + port : '') + "/" + (path ? path + "/" : path) + projectId));
@@ -5194,381 +6652,6 @@ var dsn_Dsn = /** @class */ (function () {
 }());
 
 //# sourceMappingURL=dsn.js.map
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/memo.js
-// tslint:disable:no-unsafe-any
-/**
- * Memo class used for decycle json objects. Uses WeakSet if available otherwise array.
- */
-var Memo = /** @class */ (function () {
-    function Memo() {
-        // tslint:disable-next-line
-        this._hasWeakSet = typeof WeakSet === 'function';
-        this._inner = this._hasWeakSet ? new WeakSet() : [];
-    }
-    /**
-     * Sets obj to remember.
-     * @param obj Object to remember
-     */
-    Memo.prototype.memoize = function (obj) {
-        if (this._hasWeakSet) {
-            if (this._inner.has(obj)) {
-                return true;
-            }
-            this._inner.add(obj);
-            return false;
-        }
-        // tslint:disable-next-line:prefer-for-of
-        for (var i = 0; i < this._inner.length; i++) {
-            var value = this._inner[i];
-            if (value === obj) {
-                return true;
-            }
-        }
-        this._inner.push(obj);
-        return false;
-    };
-    /**
-     * Removes object from internal storage.
-     * @param obj Object to forget
-     */
-    Memo.prototype.unmemoize = function (obj) {
-        if (this._hasWeakSet) {
-            this._inner.delete(obj);
-        }
-        else {
-            for (var i = 0; i < this._inner.length; i++) {
-                if (this._inner[i] === obj) {
-                    this._inner.splice(i, 1);
-                    break;
-                }
-            }
-        }
-    };
-    return Memo;
-}());
-
-//# sourceMappingURL=memo.js.map
-// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/string.js
-var string = __webpack_require__(18);
-
-// CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/object.js
-
-
-
-
-
-/**
- * Wrap a given object method with a higher-order function
- *
- * @param source An object that contains a method to be wrapped.
- * @param name A name of method to be wrapped.
- * @param replacement A function that should be used to wrap a given method.
- * @returns void
- */
-function fill(source, name, replacement) {
-    if (!(name in source)) {
-        return;
-    }
-    var original = source[name];
-    var wrapped = replacement(original);
-    // Make sure it's a function first, as we need to attach an empty prototype for `defineProperties` to work
-    // otherwise it'll throw "TypeError: Object.defineProperties called on non-object"
-    // tslint:disable-next-line:strict-type-predicates
-    if (typeof wrapped === 'function') {
-        try {
-            wrapped.prototype = wrapped.prototype || {};
-            Object.defineProperties(wrapped, {
-                __sentry_original__: {
-                    enumerable: false,
-                    value: original,
-                },
-            });
-        }
-        catch (_Oo) {
-            // This can throw if multiple fill happens on a global object like XMLHttpRequest
-            // Fixes https://github.com/getsentry/sentry-javascript/issues/2043
-        }
-    }
-    source[name] = wrapped;
-}
-/**
- * Encodes given object into url-friendly format
- *
- * @param object An object that contains serializable values
- * @returns string Encoded
- */
-function urlEncode(object) {
-    return Object.keys(object)
-        .map(
-    // tslint:disable-next-line:no-unsafe-any
-    function (key) { return encodeURIComponent(key) + "=" + encodeURIComponent(object[key]); })
-        .join('&');
-}
-/**
- * Transforms any object into an object literal with all it's attributes
- * attached to it.
- *
- * @param value Initial source that we have to transform in order to be usable by the serializer
- */
-function getWalkSource(value) {
-    if (Object(is["b" /* isError */])(value)) {
-        var error = value;
-        var err = {
-            message: error.message,
-            name: error.name,
-            stack: error.stack,
-        };
-        for (var i in error) {
-            if (Object.prototype.hasOwnProperty.call(error, i)) {
-                err[i] = error[i];
-            }
-        }
-        return err;
-    }
-    if (Object(is["c" /* isEvent */])(value)) {
-        var event_1 = value;
-        var source = {};
-        source.type = event_1.type;
-        // Accessing event.target can throw (see getsentry/raven-js#838, #768)
-        try {
-            source.target = Object(is["a" /* isElement */])(event_1.target)
-                ? Object(misc["h" /* htmlTreeAsString */])(event_1.target)
-                : Object.prototype.toString.call(event_1.target);
-        }
-        catch (_oO) {
-            source.target = '<unknown>';
-        }
-        try {
-            source.currentTarget = Object(is["a" /* isElement */])(event_1.currentTarget)
-                ? Object(misc["h" /* htmlTreeAsString */])(event_1.currentTarget)
-                : Object.prototype.toString.call(event_1.currentTarget);
-        }
-        catch (_oO) {
-            source.currentTarget = '<unknown>';
-        }
-        // tslint:disable-next-line:strict-type-predicates
-        if (typeof CustomEvent !== 'undefined' && Object(is["d" /* isInstanceOf */])(value, CustomEvent)) {
-            source.detail = event_1.detail;
-        }
-        for (var i in event_1) {
-            if (Object.prototype.hasOwnProperty.call(event_1, i)) {
-                source[i] = event_1;
-            }
-        }
-        return source;
-    }
-    return value;
-}
-/** Calculates bytes size of input string */
-function utf8Length(value) {
-    // tslint:disable-next-line:no-bitwise
-    return ~-encodeURI(value).split(/%..|./).length;
-}
-/** Calculates bytes size of input object */
-function jsonSize(value) {
-    return utf8Length(JSON.stringify(value));
-}
-/** JSDoc */
-function normalizeToSize(object, 
-// Default Node.js REPL depth
-depth, 
-// 100kB, as 200kB is max payload size, so half sounds reasonable
-maxSize) {
-    if (depth === void 0) { depth = 3; }
-    if (maxSize === void 0) { maxSize = 100 * 1024; }
-    var serialized = normalize(object, depth);
-    if (jsonSize(serialized) > maxSize) {
-        return normalizeToSize(object, depth - 1, maxSize);
-    }
-    return serialized;
-}
-/** Transforms any input value into a string form, either primitive value or a type of the input */
-function serializeValue(value) {
-    var type = Object.prototype.toString.call(value);
-    // Node.js REPL notation
-    if (typeof value === 'string') {
-        return value;
-    }
-    if (type === '[object Object]') {
-        return '[Object]';
-    }
-    if (type === '[object Array]') {
-        return '[Array]';
-    }
-    var normalized = normalizeValue(value);
-    return Object(is["f" /* isPrimitive */])(normalized) ? normalized : type;
-}
-/**
- * normalizeValue()
- *
- * Takes unserializable input and make it serializable friendly
- *
- * - translates undefined/NaN values to "[undefined]"/"[NaN]" respectively,
- * - serializes Error objects
- * - filter global objects
- */
-// tslint:disable-next-line:cyclomatic-complexity
-function normalizeValue(value, key) {
-    if (key === 'domain' && value && typeof value === 'object' && value._events) {
-        return '[Domain]';
-    }
-    if (key === 'domainEmitter') {
-        return '[DomainEmitter]';
-    }
-    if (typeof global !== 'undefined' && value === global) {
-        return '[Global]';
-    }
-    if (typeof window !== 'undefined' && value === window) {
-        return '[Window]';
-    }
-    if (typeof document !== 'undefined' && value === document) {
-        return '[Document]';
-    }
-    // React's SyntheticEvent thingy
-    if (Object(is["i" /* isSyntheticEvent */])(value)) {
-        return '[SyntheticEvent]';
-    }
-    // tslint:disable-next-line:no-tautology-expression
-    if (typeof value === 'number' && value !== value) {
-        return '[NaN]';
-    }
-    if (value === void 0) {
-        return '[undefined]';
-    }
-    if (typeof value === 'function') {
-        return "[Function: " + Object(misc["f" /* getFunctionName */])(value) + "]";
-    }
-    return value;
-}
-/**
- * Walks an object to perform a normalization on it
- *
- * @param key of object that's walked in current iteration
- * @param value object to be walked
- * @param depth Optional number indicating how deep should walking be performed
- * @param memo Optional Memo class handling decycling
- */
-function walk(key, value, depth, memo) {
-    if (depth === void 0) { depth = +Infinity; }
-    if (memo === void 0) { memo = new Memo(); }
-    // If we reach the maximum depth, serialize whatever has left
-    if (depth === 0) {
-        return serializeValue(value);
-    }
-    // If value implements `toJSON` method, call it and return early
-    // tslint:disable:no-unsafe-any
-    if (value !== null && value !== undefined && typeof value.toJSON === 'function') {
-        return value.toJSON();
-    }
-    // tslint:enable:no-unsafe-any
-    // If normalized value is a primitive, there are no branches left to walk, so we can just bail out, as theres no point in going down that branch any further
-    var normalized = normalizeValue(value, key);
-    if (Object(is["f" /* isPrimitive */])(normalized)) {
-        return normalized;
-    }
-    // Create source that we will use for next itterations, either objectified error object (Error type with extracted keys:value pairs) or the input itself
-    var source = getWalkSource(value);
-    // Create an accumulator that will act as a parent for all future itterations of that branch
-    var acc = Array.isArray(value) ? [] : {};
-    // If we already walked that branch, bail out, as it's circular reference
-    if (memo.memoize(value)) {
-        return '[Circular ~]';
-    }
-    // Walk all keys of the source
-    for (var innerKey in source) {
-        // Avoid iterating over fields in the prototype if they've somehow been exposed to enumeration.
-        if (!Object.prototype.hasOwnProperty.call(source, innerKey)) {
-            continue;
-        }
-        // Recursively walk through all the child nodes
-        acc[innerKey] = walk(innerKey, source[innerKey], depth - 1, memo);
-    }
-    // Once walked through all the branches, remove the parent from memo storage
-    memo.unmemoize(value);
-    // Return accumulated values
-    return acc;
-}
-/**
- * normalize()
- *
- * - Creates a copy to prevent original input mutation
- * - Skip non-enumerablers
- * - Calls `toJSON` if implemented
- * - Removes circular references
- * - Translates non-serializeable values (undefined/NaN/Functions) to serializable format
- * - Translates known global objects/Classes to a string representations
- * - Takes care of Error objects serialization
- * - Optionally limit depth of final output
- */
-function normalize(input, depth) {
-    try {
-        // tslint:disable-next-line:no-unsafe-any
-        return JSON.parse(JSON.stringify(input, function (key, value) { return walk(key, value, depth); }));
-    }
-    catch (_oO) {
-        return '**non-serializable**';
-    }
-}
-/**
- * Given any captured exception, extract its keys and create a sorted
- * and truncated list that will be used inside the event message.
- * eg. `Non-error exception captured with keys: foo, bar, baz`
- */
-function extractExceptionKeysForMessage(exception, maxLength) {
-    if (maxLength === void 0) { maxLength = 40; }
-    // tslint:disable:strict-type-predicates
-    var keys = Object.keys(getWalkSource(exception));
-    keys.sort();
-    if (!keys.length) {
-        return '[object has no keys]';
-    }
-    if (keys[0].length >= maxLength) {
-        return Object(string["c" /* truncate */])(keys[0], maxLength);
-    }
-    for (var includedKeys = keys.length; includedKeys > 0; includedKeys--) {
-        var serialized = keys.slice(0, includedKeys).join(', ');
-        if (serialized.length > maxLength) {
-            continue;
-        }
-        if (includedKeys === keys.length) {
-            return serialized;
-        }
-        return Object(string["c" /* truncate */])(serialized, maxLength);
-    }
-    return '';
-}
-/**
- * Given any object, return the new object with removed keys that value was `undefined`.
- * Works recursively on objects and arrays.
- */
-function dropUndefinedKeys(val) {
-    var e_1, _a;
-    if (Object(is["e" /* isPlainObject */])(val)) {
-        var obj = val;
-        var rv = {};
-        try {
-            for (var _b = node_modules_tslib_tslib_es6_values(Object.keys(obj)), _c = _b.next(); !_c.done; _c = _b.next()) {
-                var key = _c.value;
-                if (typeof obj[key] !== 'undefined') {
-                    rv[key] = dropUndefinedKeys(obj[key]);
-                }
-            }
-        }
-        catch (e_1_1) { e_1 = { error: e_1_1 }; }
-        finally {
-            try {
-                if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
-            }
-            finally { if (e_1) throw e_1.error; }
-        }
-        return rv;
-    }
-    if (Array.isArray(val)) {
-        return val.map(dropUndefinedKeys);
-    }
-    return val;
-}
-//# sourceMappingURL=object.js.map
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/utils/esm/path.js
 // Slightly modified (no IE8 support, ES6) and transcribed to TypeScript
 // https://raw.githubusercontent.com/calvinmetcalf/rollup-plugin-node-builtins/master/src/es6/path.js
@@ -5583,15 +6666,18 @@ function normalizeArray(parts, allowAboveRoot) {
         }
         else if (last === '..') {
             parts.splice(i, 1);
+            // eslint-disable-next-line no-plusplus
             up++;
         }
         else if (up) {
             parts.splice(i, 1);
+            // eslint-disable-next-line no-plusplus
             up--;
         }
     }
     // if the path is allowed to go above the root, restore leading ..s
     if (allowAboveRoot) {
+        // eslint-disable-next-line no-plusplus
         for (; up--; up) {
             parts.unshift('..');
         }
@@ -5600,7 +6686,7 @@ function normalizeArray(parts, allowAboveRoot) {
 }
 // Split a filename into [root, dir, basename, ext], unix version
 // 'root' is just a slash, or nothing.
-var splitPathRe = /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
+var splitPathRe = /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^/]+?|)(\.[^./]*|))(?:[/]*)$/;
 /** JSDoc */
 function splitPath(filename) {
     var parts = splitPathRe.exec(filename);
@@ -5654,9 +6740,10 @@ function trim(arr) {
 // posix version
 /** JSDoc */
 function relative(from, to) {
-    // tslint:disable:no-parameter-reassignment
+    /* eslint-disable no-param-reassign */
     from = path_resolve(from).substr(1);
     to = path_resolve(to).substr(1);
+    /* eslint-enable no-param-reassign */
     var fromParts = trim(from.split('/'));
     var toParts = trim(to.split('/'));
     var length = Math.min(fromParts.length, toParts.length);
@@ -5732,7 +6819,7 @@ function basename(path, ext) {
 var external_fs_ = __webpack_require__(8);
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/lru_map/lru.js
-var lru = __webpack_require__(92);
+var lru = __webpack_require__(100);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/stacktrace.js
 /**
@@ -5779,6 +6866,7 @@ function parse(err) {
             functionName = lineMatch[1];
             var methodStart = functionName.lastIndexOf('.');
             if (functionName[methodStart - 1] === '.') {
+                // eslint-disable-next-line no-plusplus
                 methodStart--;
             }
             if (methodStart > 0) {
@@ -5819,7 +6907,6 @@ function parse(err) {
 
 
 
-// tslint:disable-next-line:no-unsafe-any
 var DEFAULT_LINES_OF_CONTEXT = 7;
 var FILE_CONTENT_CACHE = new lru["LRUMap"](100);
 /**
@@ -5846,11 +6933,13 @@ var mainModule = ((__webpack_require__.c[__webpack_require__.s] && __webpack_req
 /** JSDoc */
 function getModule(filename, base) {
     if (!base) {
-        base = mainModule; // tslint:disable-line:no-parameter-reassignment
+        // eslint-disable-next-line no-param-reassign
+        base = mainModule;
     }
     // It's specifically a module
     var file = basename(filename, '.js');
-    filename = dirname(filename); // tslint:disable-line:no-parameter-reassignment
+    // eslint-disable-next-line no-param-reassign
+    filename = dirname(filename);
     var n = filename.lastIndexOf('/node_modules/');
     if (n > -1) {
         // /node_modules/ is 14 chars
@@ -5893,6 +6982,7 @@ function readSourceFiles(filenames) {
                 if (cache !== null) {
                     sourceFiles[filename] = cache;
                 }
+                // eslint-disable-next-line no-plusplus
                 count++;
                 // In any case we want to skip here then since we have a content already or we couldn't
                 // read the file and don't want to try again.
@@ -5907,13 +6997,14 @@ function readSourceFiles(filenames) {
                 // We always want to set the cache, even to null which means there was an error reading the file.
                 // We do not want to try to read the file again.
                 FILE_CONTENT_CACHE.set(filename, content);
+                // eslint-disable-next-line no-plusplus
                 count++;
                 if (count === filenames.length) {
                     resolve(sourceFiles);
                 }
             });
         };
-        // tslint:disable-next-line:prefer-for-of
+        // eslint-disable-next-line @typescript-eslint/prefer-for-of
         for (var i = 0; i < filenames.length; i++) {
             _loop_1(i);
         }
@@ -6074,16 +7165,6 @@ var api_API = /** @class */ (function () {
     API.prototype.getStoreEndpoint = function () {
         return this._getIngestEndpoint('store');
     };
-    /** Returns the envelope endpoint URL. */
-    API.prototype._getEnvelopeEndpoint = function () {
-        return this._getIngestEndpoint('envelope');
-    };
-    /** Returns the ingest API endpoint for target. */
-    API.prototype._getIngestEndpoint = function (target) {
-        var base = this.getBaseApiEndpoint();
-        var dsn = this._dsnObject;
-        return "" + base + dsn.projectId + "/" + target + "/";
-    };
     /**
      * Returns the store endpoint URL with auth in the query string.
      *
@@ -6099,17 +7180,6 @@ var api_API = /** @class */ (function () {
      */
     API.prototype.getEnvelopeEndpointWithUrlEncodedAuth = function () {
         return this._getEnvelopeEndpoint() + "?" + this._encodedAuth();
-    };
-    /** Returns a URL-encoded string with auth config suitable for a query string. */
-    API.prototype._encodedAuth = function () {
-        var dsn = this._dsnObject;
-        var auth = {
-            // We send only the minimum set of required information. See
-            // https://github.com/getsentry/sentry-javascript/issues/2572.
-            sentry_key: dsn.user,
-            sentry_version: SENTRY_API_VERSION,
-        };
-        return urlEncode(auth);
     };
     /** Returns only the path component for the store endpoint. */
     API.prototype.getStoreEndpointPath = function () {
@@ -6160,6 +7230,27 @@ var api_API = /** @class */ (function () {
             return endpoint + "?" + encodedOptions.join('&');
         }
         return endpoint;
+    };
+    /** Returns the envelope endpoint URL. */
+    API.prototype._getEnvelopeEndpoint = function () {
+        return this._getIngestEndpoint('envelope');
+    };
+    /** Returns the ingest API endpoint for target. */
+    API.prototype._getIngestEndpoint = function (target) {
+        var base = this.getBaseApiEndpoint();
+        var dsn = this._dsnObject;
+        return "" + base + dsn.projectId + "/" + target + "/";
+    };
+    /** Returns a URL-encoded string with auth config suitable for a query string. */
+    API.prototype._encodedAuth = function () {
+        var dsn = this._dsnObject;
+        var auth = {
+            // We send only the minimum set of required information. See
+            // https://github.com/getsentry/sentry-javascript/issues/2572.
+            sentry_key: dsn.user,
+            sentry_version: SENTRY_API_VERSION,
+        };
+        return urlEncode(auth);
     };
     return API;
 }());
@@ -6284,11 +7375,11 @@ var promisebuffer_PromiseBuffer = /** @class */ (function () {
 
 //# sourceMappingURL=promisebuffer.js.map
 // EXTERNAL MODULE: external "url"
-var external_url_ = __webpack_require__(13);
+var external_url_ = __webpack_require__(14);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/version.js
 var SDK_NAME = 'sentry.javascript.node';
-var SDK_VERSION = '5.20.1';
+var SDK_VERSION = '5.21.1';
 //# sourceMappingURL=version.js.map
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/base.js
 
@@ -6309,9 +7400,21 @@ var base_BaseTransport = /** @class */ (function () {
         this._disabledUntil = new Date(Date.now());
         this._api = new api_API(options.dsn);
     }
+    /**
+     * @inheritDoc
+     */
+    BaseTransport.prototype.sendEvent = function (_) {
+        throw new error_SentryError('Transport Class has to implement `sendEvent` method.');
+    };
+    /**
+     * @inheritDoc
+     */
+    BaseTransport.prototype.close = function (timeout) {
+        return this._buffer.drain(timeout);
+    };
     /** Returns a build request option object used by request */
     BaseTransport.prototype._getRequestOptions = function (uri) {
-        var headers = __assign({}, this._api.getRequestHeaders(SDK_NAME, SDK_VERSION), this.options.headers);
+        var headers = __assign(__assign({}, this._api.getRequestHeaders(SDK_NAME, SDK_VERSION)), this.options.headers);
         var hostname = uri.hostname, pathname = uri.pathname, port = uri.port, protocol = uri.protocol;
         // See https://github.com/nodejs/node/blob/38146e717fed2fabe3aacb6540d839475e0ce1c6/lib/internal/url.js#L1268-L1290
         // We ignore the query string on purpose
@@ -6347,9 +7450,13 @@ var base_BaseTransport = /** @class */ (function () {
                             else {
                                 if (status === Status.RateLimit) {
                                     var now = Date.now();
-                                    var header = res.headers ? res.headers['Retry-After'] : '';
-                                    header = Array.isArray(header) ? header[0] : header;
-                                    _this._disabledUntil = new Date(now + Object(misc["j" /* parseRetryAfterHeader */])(now, header));
+                                    /**
+                                     * "Key-value pairs of header names and values. Header names are lower-cased."
+                                     * https://nodejs.org/api/http.html#http_message_headers
+                                     */
+                                    var retryAfterHeader = res.headers ? res.headers['retry-after'] : '';
+                                    retryAfterHeader = (Array.isArray(retryAfterHeader) ? retryAfterHeader[0] : retryAfterHeader);
+                                    _this._disabledUntil = new Date(now + Object(misc["j" /* parseRetryAfterHeader */])(now, retryAfterHeader));
                                     logger.warn("Too many requests, backing off till: " + _this._disabledUntil);
                                 }
                                 var rejectionMessage = "HTTP Error (" + statusCode + ")";
@@ -6372,24 +7479,12 @@ var base_BaseTransport = /** @class */ (function () {
             });
         });
     };
-    /**
-     * @inheritDoc
-     */
-    BaseTransport.prototype.sendEvent = function (_) {
-        throw new error_SentryError('Transport Class has to implement `sendEvent` method.');
-    };
-    /**
-     * @inheritDoc
-     */
-    BaseTransport.prototype.close = function (timeout) {
-        return this._buffer.drain(timeout);
-    };
     return BaseTransport;
 }());
 
 //# sourceMappingURL=base.js.map
 // EXTERNAL MODULE: external "http"
-var external_http_ = __webpack_require__(27);
+var external_http_ = __webpack_require__(29);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/http.js
 
@@ -6406,7 +7501,7 @@ var http_HTTPTransport = /** @class */ (function (_super) {
         var proxy = options.httpProxy || process.env.http_proxy;
         _this.module = external_http_;
         _this.client = proxy
-            ? new (__webpack_require__(73))(proxy) // tslint:disable-line:no-unsafe-any
+            ? new (__webpack_require__(81))(proxy)
             : new external_http_["Agent"]({ keepAlive: false, maxSockets: 30, timeout: 2000 });
         return _this;
     }
@@ -6424,7 +7519,7 @@ var http_HTTPTransport = /** @class */ (function (_super) {
 
 //# sourceMappingURL=http.js.map
 // EXTERNAL MODULE: external "https"
-var external_https_ = __webpack_require__(39);
+var external_https_ = __webpack_require__(42);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/transports/https.js
 
@@ -6441,7 +7536,7 @@ var https_HTTPSTransport = /** @class */ (function (_super) {
         var proxy = options.httpsProxy || options.httpProxy || process.env.https_proxy || process.env.http_proxy;
         _this.module = external_https_;
         _this.client = proxy
-            ? new (__webpack_require__(73))(proxy) // tslint:disable-line:no-unsafe-any
+            ? new (__webpack_require__(81))(proxy)
             : new external_https_["Agent"]({ keepAlive: false, maxSockets: 30, timeout: 2000 });
         return _this;
     }
@@ -6482,26 +7577,10 @@ var backend_NodeBackend = /** @class */ (function (_super) {
     /**
      * @inheritDoc
      */
-    NodeBackend.prototype._setupTransport = function () {
-        if (!this._options.dsn) {
-            // We return the noop transport here in case there is no Dsn.
-            return _super.prototype._setupTransport.call(this);
-        }
-        var dsn = new dsn_Dsn(this._options.dsn);
-        var transportOptions = __assign({}, this._options.transportOptions, (this._options.httpProxy && { httpProxy: this._options.httpProxy }), (this._options.httpsProxy && { httpsProxy: this._options.httpsProxy }), (this._options.caCerts && { caCerts: this._options.caCerts }), { dsn: this._options.dsn });
-        if (this._options.transport) {
-            return new this._options.transport(transportOptions);
-        }
-        if (dsn.protocol === 'http') {
-            return new http_HTTPTransport(transportOptions);
-        }
-        return new https_HTTPSTransport(transportOptions);
-    };
-    /**
-     * @inheritDoc
-     */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
     NodeBackend.prototype.eventFromException = function (exception, hint) {
         var _this = this;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         var ex = exception;
         var mechanism = {
             handled: true,
@@ -6530,7 +7609,7 @@ var backend_NodeBackend = /** @class */ (function (_super) {
                 .then(function (event) {
                 Object(misc["c" /* addExceptionTypeValue */])(event, undefined, undefined);
                 Object(misc["b" /* addExceptionMechanism */])(event, mechanism);
-                resolve(__assign({}, event, { event_id: hint && hint.event_id }));
+                resolve(__assign(__assign({}, event), { event_id: hint && hint.event_id }));
             })
                 .then(null, reject);
         });
@@ -6564,6 +7643,24 @@ var backend_NodeBackend = /** @class */ (function (_super) {
                 resolve(event);
             }
         });
+    };
+    /**
+     * @inheritDoc
+     */
+    NodeBackend.prototype._setupTransport = function () {
+        if (!this._options.dsn) {
+            // We return the noop transport here in case there is no Dsn.
+            return _super.prototype._setupTransport.call(this);
+        }
+        var dsn = new dsn_Dsn(this._options.dsn);
+        var transportOptions = __assign(__assign(__assign(__assign(__assign({}, this._options.transportOptions), (this._options.httpProxy && { httpProxy: this._options.httpProxy })), (this._options.httpsProxy && { httpsProxy: this._options.httpsProxy })), (this._options.caCerts && { caCerts: this._options.caCerts })), { dsn: this._options.dsn });
+        if (this._options.transport) {
+            return new this._options.transport(transportOptions);
+        }
+        if (dsn.protocol === 'http') {
+            return new http_HTTPTransport(transportOptions);
+        }
+        return new https_HTTPSTransport(transportOptions);
     };
     return NodeBackend;
 }(basebackend_BaseBackend));
@@ -6859,6 +7956,7 @@ function setupIntegrations(options) {
 //# sourceMappingURL=integration.js.map
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/core/esm/baseclient.js
 
+/* eslint-disable max-lines */
 
 
 
@@ -6915,10 +8013,12 @@ var baseclient_BaseClient = /** @class */ (function () {
     /**
      * @inheritDoc
      */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
     BaseClient.prototype.captureException = function (exception, hint, scope) {
         var _this = this;
         var eventId = hint && hint.event_id;
         this._processing = true;
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         this._getBackend()
             .eventFromException(exception, hint)
             .then(function (event) {
@@ -6936,6 +8036,7 @@ var baseclient_BaseClient = /** @class */ (function () {
         var promisedEvent = Object(is["f" /* isPrimitive */])(message)
             ? this._getBackend().eventFromMessage("" + message, level, hint)
             : this._getBackend().eventFromException(message, hint);
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         promisedEvent.then(function (event) {
             eventId = _this.captureEvent(event, hint, scope);
         });
@@ -7067,7 +8168,7 @@ var baseclient_BaseClient = /** @class */ (function () {
     BaseClient.prototype._prepareEvent = function (event, scope, hint) {
         var _this = this;
         var _a = this.getOptions().normalizeDepth, normalizeDepth = _a === void 0 ? 3 : _a;
-        var prepared = core_node_modules_tslib_tslib_es6_assign({}, event, { event_id: event.event_id || (hint && hint.event_id ? hint.event_id : Object(misc["m" /* uuid4 */])()), timestamp: event.timestamp || Object(misc["l" /* timestampWithMs */])() });
+        var prepared = core_node_modules_tslib_tslib_es6_assign(core_node_modules_tslib_tslib_es6_assign({}, event), { event_id: event.event_id || (hint && hint.event_id ? hint.event_id : Object(misc["m" /* uuid4 */])()), timestamp: event.timestamp || Object(misc["l" /* timestampWithMs */])() });
         this._applyClientOptions(prepared);
         this._applyIntegrationsMetadata(prepared);
         // If we have scope given to us, use it as the base for further modifications.
@@ -7085,7 +8186,6 @@ var baseclient_BaseClient = /** @class */ (function () {
             result = finalScope.applyToEvent(prepared, hint);
         }
         return result.then(function (evt) {
-            // tslint:disable-next-line:strict-type-predicates
             if (typeof normalizeDepth === 'number' && normalizeDepth > 0) {
                 return _this._normalizeEvent(evt, normalizeDepth);
             }
@@ -7106,16 +8206,15 @@ var baseclient_BaseClient = /** @class */ (function () {
         if (!event) {
             return null;
         }
-        // tslint:disable:no-unsafe-any
-        var normalized = core_node_modules_tslib_tslib_es6_assign({}, event, (event.breadcrumbs && {
-            breadcrumbs: event.breadcrumbs.map(function (b) { return (core_node_modules_tslib_tslib_es6_assign({}, b, (b.data && {
+        var normalized = core_node_modules_tslib_tslib_es6_assign(core_node_modules_tslib_tslib_es6_assign(core_node_modules_tslib_tslib_es6_assign(core_node_modules_tslib_tslib_es6_assign(core_node_modules_tslib_tslib_es6_assign({}, event), (event.breadcrumbs && {
+            breadcrumbs: event.breadcrumbs.map(function (b) { return (core_node_modules_tslib_tslib_es6_assign(core_node_modules_tslib_tslib_es6_assign({}, b), (b.data && {
                 data: normalize(b.data, depth),
             }))); }),
-        }), (event.user && {
+        })), (event.user && {
             user: normalize(event.user, depth),
-        }), (event.contexts && {
+        })), (event.contexts && {
             contexts: normalize(event.contexts, depth),
-        }), (event.extra && {
+        })), (event.extra && {
             extra: normalize(event.extra, depth),
         }));
         // event.contexts.trace stores information about a Transaction. Similarly,
@@ -7126,6 +8225,7 @@ var baseclient_BaseClient = /** @class */ (function () {
         // so this block overwrites the normalized event to add back the original
         // Transaction information prior to normalization.
         if (event.contexts && event.contexts.trace) {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             normalized.contexts.trace = event.contexts.trace;
         }
         return normalized;
@@ -7192,6 +8292,7 @@ var baseclient_BaseClient = /** @class */ (function () {
      */
     BaseClient.prototype._processEvent = function (event, hint, scope) {
         var _this = this;
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         var _a = this.getOptions(), beforeSend = _a.beforeSend, sampleRate = _a.sampleRate;
         if (!this._isEnabled()) {
             return syncpromise_SyncPromise.reject('SDK not enabled, will not send event.');
@@ -7219,7 +8320,6 @@ var baseclient_BaseClient = /** @class */ (function () {
                     return;
                 }
                 var beforeSendResult = beforeSend(prepared, hint);
-                // tslint:disable-next-line:strict-type-predicates
                 if (typeof beforeSendResult === 'undefined') {
                     logger.error('`beforeSend` method has to return `null` or a valid event.');
                 }
@@ -7297,7 +8397,7 @@ var client_NodeClient = /** @class */ (function (_super) {
      */
     NodeClient.prototype._prepareEvent = function (event, scope, hint) {
         event.platform = event.platform || 'node';
-        event.sdk = __assign({}, event.sdk, { name: SDK_NAME, packages: __spread(((event.sdk && event.sdk.packages) || []), [
+        event.sdk = __assign(__assign({}, event.sdk), { name: SDK_NAME, packages: __spread(((event.sdk && event.sdk.packages) || []), [
                 {
                     name: 'npm:@sentry/node',
                     version: SDK_VERSION,
@@ -7326,14 +8426,15 @@ var FunctionToString = /** @class */ (function () {
      * @inheritDoc
      */
     FunctionToString.prototype.setupOnce = function () {
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         originalFunctionToString = Function.prototype.toString;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         Function.prototype.toString = function () {
             var args = [];
             for (var _i = 0; _i < arguments.length; _i++) {
                 args[_i] = arguments[_i];
             }
             var context = this.__sentry_original__ || this;
-            // tslint:disable-next-line:no-unsafe-any
             return originalFunctionToString.apply(context, args);
         };
     };
@@ -7451,7 +8552,6 @@ var inboundfilters_InboundFilters = /** @class */ (function () {
     /** JSDoc */
     InboundFilters.prototype._mergeOptions = function (clientOptions) {
         if (clientOptions === void 0) { clientOptions = {}; }
-        // tslint:disable:deprecation
         return {
             allowUrls: core_node_modules_tslib_tslib_es6_spread((this._options.whitelistUrls || []), (this._options.allowUrls || []), (clientOptions.whitelistUrls || []), (clientOptions.allowUrls || [])),
             denyUrls: core_node_modules_tslib_tslib_es6_spread((this._options.blacklistUrls || []), (this._options.denyUrls || []), (clientOptions.blacklistUrls || []), (clientOptions.denyUrls || [])),
@@ -7562,7 +8662,7 @@ var console_Console = /** @class */ (function () {
      */
     Console.prototype.setupOnce = function () {
         var e_1, _a;
-        var consoleModule = __webpack_require__(147);
+        var consoleModule = __webpack_require__(154);
         try {
             for (var _b = __values(['debug', 'info', 'warn', 'error', 'log']), _c = _b.next(); !_c.done; _c = _b.next()) {
                 var level = _c.value;
@@ -7649,14 +8749,14 @@ var http_Http = /** @class */ (function () {
             return;
         }
         var handlerWrapper = createHandlerWrapper(this._breadcrumbs, this._tracing);
-        var httpModule = __webpack_require__(27);
+        var httpModule = __webpack_require__(29);
         fill(httpModule, 'get', handlerWrapper);
         fill(httpModule, 'request', handlerWrapper);
         // NOTE: Prior to Node 9, `https` used internals of `http` module, thus we don't patch it.
         // If we do, we'd get double breadcrumbs and double spans for `https` calls.
         // It has been changed in Node 9, so for all versions equal and above, we patch `https` separately.
         if (NODE_VERSION.major && NODE_VERSION.major > 8) {
-            var httpsModule = __webpack_require__(39);
+            var httpsModule = __webpack_require__(42);
             fill(httpsModule, 'get', handlerWrapper);
             fill(httpsModule, 'request', handlerWrapper);
         }
@@ -7690,6 +8790,7 @@ function createHandlerWrapper(breadcrumbsEnabled, tracingEnabled) {
                     });
                 }
             }
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             return originalHandler
                 .apply(this, arguments)
                 .once('response', function (res) {
@@ -7989,6 +9090,7 @@ function apm_node_modules_tslib_tslib_es6_classPrivateFieldSet(receiver, private
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/apm/esm/spanstatus.js
 /** The status of an Span. */
+// eslint-disable-next-line import/export
 var SpanStatus;
 (function (SpanStatus) {
     /** The operation completed successfully. */
@@ -8026,7 +9128,7 @@ var SpanStatus;
     /** Unrecoverable data loss or corruption */
     SpanStatus["DataLoss"] = "data_loss";
 })(SpanStatus || (SpanStatus = {}));
-// tslint:disable:no-unnecessary-qualifier no-namespace
+// eslint-disable-next-line @typescript-eslint/no-namespace, import/export
 (function (SpanStatus) {
     /**
      * Converts a HTTP status code into a {@link SpanStatus}.
@@ -8034,7 +9136,6 @@ var SpanStatus;
      * @param httpStatus The HTTP response status code.
      * @returns The span status or {@link SpanStatus.UnknownError}.
      */
-    // tslint:disable-next-line:completed-docs
     function fromHttpCode(httpStatus) {
         if (httpStatus < 400) {
             return SpanStatus.Ok;
@@ -8113,6 +9214,7 @@ var span_Span = /** @class */ (function () {
         /**
          * @inheritDoc
          */
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         this.data = {};
         if (!spanContext) {
             return this;
@@ -8153,24 +9255,6 @@ var span_Span = /** @class */ (function () {
         }
     }
     /**
-     * @inheritDoc
-     * @deprecated
-     */
-    Span.prototype.child = function (spanContext) {
-        return this.startChild(spanContext);
-    };
-    /**
-     * @inheritDoc
-     */
-    Span.prototype.startChild = function (spanContext) {
-        var span = new Span(apm_node_modules_tslib_tslib_es6_assign({}, spanContext, { parentSpanId: this.spanId, sampled: this.sampled, traceId: this.traceId }));
-        span.spanRecorder = this.spanRecorder;
-        if (span.spanRecorder) {
-            span.spanRecorder.add(span);
-        }
-        return span;
-    };
-    /**
      * Continues a trace from a string (usually the header).
      * @param traceparent Traceparent string
      */
@@ -8184,24 +9268,43 @@ var span_Span = /** @class */ (function () {
             else if (matches[3] === '0') {
                 sampled = false;
             }
-            return new Span(apm_node_modules_tslib_tslib_es6_assign({}, spanContext, { parentSpanId: matches[2], sampled: sampled, traceId: matches[1] }));
+            return new Span(apm_node_modules_tslib_tslib_es6_assign(apm_node_modules_tslib_tslib_es6_assign({}, spanContext), { parentSpanId: matches[2], sampled: sampled, traceId: matches[1] }));
         }
         return undefined;
+    };
+    /**
+     * @inheritDoc
+     * @deprecated
+     */
+    Span.prototype.child = function (spanContext) {
+        return this.startChild(spanContext);
+    };
+    /**
+     * @inheritDoc
+     */
+    Span.prototype.startChild = function (spanContext) {
+        var span = new Span(apm_node_modules_tslib_tslib_es6_assign(apm_node_modules_tslib_tslib_es6_assign({}, spanContext), { parentSpanId: this.spanId, sampled: this.sampled, traceId: this.traceId }));
+        span.spanRecorder = this.spanRecorder;
+        if (span.spanRecorder) {
+            span.spanRecorder.add(span);
+        }
+        return span;
     };
     /**
      * @inheritDoc
      */
     Span.prototype.setTag = function (key, value) {
         var _a;
-        this.tags = apm_node_modules_tslib_tslib_es6_assign({}, this.tags, (_a = {}, _a[key] = value, _a));
+        this.tags = apm_node_modules_tslib_tslib_es6_assign(apm_node_modules_tslib_tslib_es6_assign({}, this.tags), (_a = {}, _a[key] = value, _a));
         return this;
     };
     /**
      * @inheritDoc
      */
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
     Span.prototype.setData = function (key, value) {
         var _a;
-        this.data = apm_node_modules_tslib_tslib_es6_assign({}, this.data, (_a = {}, _a[key] = value, _a));
+        this.data = apm_node_modules_tslib_tslib_es6_assign(apm_node_modules_tslib_tslib_es6_assign({}, this.data), (_a = {}, _a[key] = value, _a));
         return this;
     };
     /**
@@ -8285,21 +9388,25 @@ var span_Span = /** @class */ (function () {
  * Consumes the promise and logs the error when it rejects.
  * @param promise A promise to forget.
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function forget(promise) {
     promise.then(null, function (e) {
         // TODO: Use a better logging mechanism
+        // eslint-disable-next-line no-console
         console.error(e);
     });
 }
 //# sourceMappingURL=async.js.map
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/node_modules/cookie/index.js
-var cookie = __webpack_require__(93);
+var cookie = __webpack_require__(101);
 
 // EXTERNAL MODULE: external "os"
-var external_os_ = __webpack_require__(26);
+var external_os_ = __webpack_require__(27);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/handlers.js
 
+/* eslint-disable max-lines */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 
 
@@ -8345,6 +9452,7 @@ function tracingHandler() {
         });
         // We also set __sentry_transaction on the response so people can grab the transaction there to add
         // spans to it later.
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         res.__sentry_transaction = transaction;
         res.once('finish', function () {
             transaction.setHttpStatus(res.statusCode);
@@ -8475,16 +9583,16 @@ function extractUserData(user, keys) {
  * @hidden
  */
 function parseRequest(event, req, options) {
-    // tslint:disable-next-line:no-parameter-reassignment
+    // eslint-disable-next-line no-param-reassign
     options = __assign({ ip: false, request: true, serverName: true, transaction: true, user: true, version: true }, options);
     if (options.version) {
-        event.contexts = __assign({}, event.contexts, { runtime: {
+        event.contexts = __assign(__assign({}, event.contexts), { runtime: {
                 name: 'node',
                 version: global.process.version,
             } });
     }
     if (options.request) {
-        event.request = __assign({}, event.request, extractRequestData(req, options.request));
+        event.request = __assign(__assign({}, event.request), extractRequestData(req, options.request));
     }
     if (options.serverName && !event.server_name) {
         event.server_name = global.process.env.SENTRY_NAME || external_os_["hostname"]();
@@ -8492,7 +9600,7 @@ function parseRequest(event, req, options) {
     if (options.user) {
         var extractedUser = req.user && Object(is["e" /* isPlainObject */])(req.user) ? extractUserData(req.user, options.user) : {};
         if (Object.keys(extractedUser)) {
-            event.user = __assign({}, event.user, extractedUser);
+            event.user = __assign(__assign({}, event.user), extractedUser);
         }
     }
     // client ip:
@@ -8501,7 +9609,7 @@ function parseRequest(event, req, options) {
     if (options.ip) {
         var ip = req.ip || (req.connection && req.connection.remoteAddress);
         if (ip) {
-            event.user = __assign({}, event.user, { ip_address: ip });
+            event.user = __assign(__assign({}, event.user), { ip_address: ip });
         }
     }
     if (options.transaction && !event.transaction) {
@@ -8519,7 +9627,7 @@ function parseRequest(event, req, options) {
 function requestHandler(options) {
     return function sentryRequestMiddleware(req, res, next) {
         if (options && options.flushTimeout && options.flushTimeout > 0) {
-            // tslint:disable-next-line: no-unbound-method
+            // eslint-disable-next-line @typescript-eslint/unbound-method
             var _end_1 = res.end;
             res.end = function (chunk, encoding, cb) {
                 var _this = this;
@@ -8560,15 +9668,18 @@ function defaultShouldHandleError(error) {
  */
 function errorHandler(options) {
     return function sentryErrorMiddleware(error, _req, res, next) {
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         var shouldHandleError = (options && options.shouldHandleError) || defaultShouldHandleError;
         if (shouldHandleError(error)) {
             withScope(function (_scope) {
                 // For some reason we need to set the transaction on the scope again
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                 var transaction = res.__sentry_transaction;
                 if (transaction && _scope.getSpan() === undefined) {
                     _scope.setSpan(transaction);
                 }
                 var eventId = captureException(error);
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                 res.sentry = eventId;
                 next(error);
             });
@@ -8581,6 +9692,7 @@ function errorHandler(options) {
  * @hidden
  */
 function logAndExitProcess(error) {
+    // eslint-disable-next-line no-console
     console.error(error && error.stack ? error.stack : error);
     var client = hub_getCurrentHub().getClient();
     if (client === undefined) {
@@ -8641,9 +9753,11 @@ var onuncaughtexception_OnUncaughtException = /** @class */ (function () {
             var onFatalError = logAndExitProcess;
             var client = hub_getCurrentHub().getClient();
             if (_this._options.onFatalError) {
+                // eslint-disable-next-line @typescript-eslint/unbound-method
                 onFatalError = _this._options.onFatalError;
             }
             else if (client && client.getOptions().onFatalError) {
+                // eslint-disable-next-line @typescript-eslint/unbound-method
                 onFatalError = client.getOptions().onFatalError;
             }
             if (!caughtFirstError) {
@@ -8740,12 +9854,14 @@ var onunhandledrejection_OnUnhandledRejection = /** @class */ (function () {
      * @param reason string
      * @param promise promise
      */
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
     OnUnhandledRejection.prototype.sendUnhandledPromise = function (reason, promise) {
         var hub = hub_getCurrentHub();
         if (!hub.getIntegration(OnUnhandledRejection)) {
             this._handleRejection(reason);
             return;
         }
+        /* eslint-disable @typescript-eslint/no-unsafe-member-access */
         var context = (promise.domain && promise.domain.sentryContext) || {};
         hub.withScope(function (scope) {
             scope.setExtra('unhandledPromiseRejection', true);
@@ -8761,20 +9877,24 @@ var onunhandledrejection_OnUnhandledRejection = /** @class */ (function () {
             }
             hub.captureException(reason, { originalException: promise });
         });
+        /* eslint-disable @typescript-eslint/no-unsafe-member-access */
         this._handleRejection(reason);
     };
     /**
      * Handler for `mode` option
      */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     OnUnhandledRejection.prototype._handleRejection = function (reason) {
         // https://github.com/nodejs/node/blob/7cf6f9e964aa00772965391c23acda6d71972a9a/lib/internal/process/promises.js#L234-L240
         var rejectionWarning = 'This error originated either by ' +
             'throwing inside of an async function without a catch block, ' +
             'or by rejecting a promise which was not handled with .catch().' +
             ' The promise rejected with the reason:';
+        /* eslint-disable no-console */
         if (this._options.mode === 'warn') {
             Object(misc["d" /* consoleSandbox */])(function () {
                 console.warn(rejectionWarning);
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                 console.error(reason && reason.stack ? reason.stack : reason);
             });
         }
@@ -8784,6 +9904,7 @@ var onunhandledrejection_OnUnhandledRejection = /** @class */ (function () {
             });
             logAndExitProcess(reason);
         }
+        /* eslint-enable no-console */
     };
     /**
      * @inheritDoc
@@ -8880,7 +10001,7 @@ var linkederrors_LinkedErrors = /** @class */ (function () {
 
 //# sourceMappingURL=linkederrors.js.map
 // EXTERNAL MODULE: external "path"
-var external_path_ = __webpack_require__(12);
+var external_path_ = __webpack_require__(13);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/node_modules/@sentry/node/esm/integrations/modules.js
 
@@ -8939,13 +10060,12 @@ var modules_Modules = /** @class */ (function () {
             if (!getCurrentHub().getIntegration(Modules)) {
                 return event;
             }
-            return __assign({}, event, { modules: _this._getModules() });
+            return __assign(__assign({}, event), { modules: _this._getModules() });
         });
     };
     /** Fetches the list of modules and the versions loaded by the entry file for your node.js app. */
     Modules.prototype._getModules = function () {
         if (!moduleCache) {
-            // tslint:disable-next-line:no-unsafe-any
             moduleCache = collectModules();
         }
         return moduleCache;
@@ -9064,6 +10184,7 @@ function init(options) {
     if (options.environment === undefined && process.env.SENTRY_ENVIRONMENT) {
         options.environment = process.env.SENTRY_ENVIRONMENT;
     }
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
     if (external_domain_["active"]) {
         setHubOnCarrier(getMainCarrier(), hub_getCurrentHub());
     }
@@ -9128,7 +10249,7 @@ function sdk_close(timeout) {
 
 
 
-var INTEGRATIONS = __assign({}, integrations_namespaceObject, esm_integrations_namespaceObject);
+var INTEGRATIONS = __assign(__assign({}, integrations_namespaceObject), esm_integrations_namespaceObject);
 
 // We need to patch domain on the global __SENTRY__ object to make it work for node
 // if we don't do this, browser bundlers will have troubles resolving require('domain')
@@ -9136,7 +10257,7 @@ var esm_carrier = getMainCarrier();
 if (esm_carrier.__SENTRY__) {
     esm_carrier.__SENTRY__.extensions = esm_carrier.__SENTRY__.extensions || {};
     if (!esm_carrier.__SENTRY__.extensions.domain) {
-        // @ts-ignore
+        // @ts-ignore domain is missing from extensions Type
         esm_carrier.__SENTRY__.extensions.domain = external_domain_;
     }
 }
@@ -9144,7 +10265,7 @@ if (esm_carrier.__SENTRY__) {
 
 /***/ }),
 
-/***/ 18:
+/***/ 19:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9163,7 +10284,6 @@ if (esm_carrier.__SENTRY__) {
  */
 function truncate(str, max) {
     if (max === void 0) { max = 0; }
-    // tslint:disable-next-line:strict-type-predicates
     if (typeof str !== 'string' || max === 0) {
         return str;
     }
@@ -9184,7 +10304,8 @@ function snipLine(line, colno) {
         return newLine;
     }
     if (colno > ll) {
-        colno = ll; // tslint:disable-line:no-parameter-reassignment
+        // eslint-disable-next-line no-param-reassign
+        colno = ll;
     }
     var start = Math.max(colno - 60, 0);
     if (start < 5) {
@@ -9212,12 +10333,13 @@ function snipLine(line, colno) {
  * @param delimiter string to be placed in-between values
  * @returns Joined values
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function safeJoin(input, delimiter) {
     if (!Array.isArray(input)) {
         return '';
     }
     var output = [];
-    // tslint:disable-next-line:prefer-for-of
+    // eslint-disable-next-line @typescript-eslint/prefer-for-of
     for (var i = 0; i < input.length; i++) {
         var value = input[i];
         try {
@@ -9271,28 +10393,21 @@ const DEFAULT_LOGGER_KEY = ''; // yes, can be used as a key
 
 /***/ }),
 
-/***/ 24:
+/***/ 25:
 /***/ (function(module, exports) {
 
 
-
-/***/ }),
-
-/***/ 26:
-/***/ (function(module, exports) {
-
-module.exports = require("os");
 
 /***/ }),
 
 /***/ 27:
 /***/ (function(module, exports) {
 
-module.exports = require("http");
+module.exports = require("os");
 
 /***/ }),
 
-/***/ 282:
+/***/ 288:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9318,6 +10433,13 @@ const COMMON_ERROR_FIELDS_EXTENDED = new Set([// conv to array needed due to a b
 
 /***/ }),
 
+/***/ 29:
+/***/ (function(module, exports) {
+
+module.exports = require("http");
+
+/***/ }),
+
 /***/ 3:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -9335,6 +10457,8 @@ const COMMON_ERROR_FIELDS_EXTENDED = new Set([// conv to array needed due to a b
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return isThenable; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return isSyntheticEvent; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return isInstanceOf; });
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /**
  * Checks whether given value's type is one of a few Error or Error-like
  * {@link isError}.
@@ -9422,7 +10546,6 @@ function isPlainObject(wat) {
  * @returns A boolean representing the result.
  */
 function isEvent(wat) {
-    // tslint:disable-next-line:strict-type-predicates
     return typeof Event !== 'undefined' && isInstanceOf(wat, Event);
 }
 /**
@@ -9433,7 +10556,6 @@ function isEvent(wat) {
  * @returns A boolean representing the result.
  */
 function isElement(wat) {
-    // tslint:disable-next-line:strict-type-predicates
     return typeof Element !== 'undefined' && isInstanceOf(wat, Element);
 }
 /**
@@ -9451,9 +10573,8 @@ function isRegExp(wat) {
  * @param wat A value to be checked.
  */
 function isThenable(wat) {
-    // tslint:disable:no-unsafe-any
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     return Boolean(wat && wat.then && typeof wat.then === 'function');
-    // tslint:enable:no-unsafe-any
 }
 /**
  * Checks whether given value's type is a SyntheticEvent
@@ -9463,7 +10584,6 @@ function isThenable(wat) {
  * @returns A boolean representing the result.
  */
 function isSyntheticEvent(wat) {
-    // tslint:disable-next-line:no-unsafe-any
     return isPlainObject(wat) && 'nativeEvent' in wat && 'preventDefault' in wat && 'stopPropagation' in wat;
 }
 /**
@@ -9476,7 +10596,6 @@ function isSyntheticEvent(wat) {
  */
 function isInstanceOf(wat, base) {
     try {
-        // tslint:disable-next-line:no-unsafe-any
         return wat instanceof base;
     }
     catch (_e) {
@@ -9488,6 +10607,38 @@ function isInstanceOf(wat, base) {
 /***/ }),
 
 /***/ 32:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getLogger", function() { return getLogger; });
+/* unused harmony export exposeInternal */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "overrideHook", function() { return overrideHook; });
+/* unused harmony export addDebugCommand */
+/* unused harmony export globalThis */
+/* harmony import */ var _offirmo_globalthis_ponyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(17);
+/* harmony import */ var _v1__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(44);
+
+
+const globalThis = Object(_offirmo_globalthis_ponyfill__WEBPACK_IMPORTED_MODULE_0__[/* getGlobalThis */ "a"])(); // ensure the root is present
+
+globalThis._debug = globalThis._debug || {}; // install globally if no other implementation already present
+
+globalThis._debug.v1 = globalThis._debug.v1 || Object(_v1__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(); // expose the installed implementation
+
+const instance = globalThis._debug.v1;
+const {
+  getLogger,
+  exposeInternal,
+  overrideHook,
+  addDebugCommand
+} = instance;
+ // types & sub-types, for convenience
+
+
+
+/***/ }),
+
+/***/ 34:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9498,9 +10649,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.CHANNEL = void 0;
 
-const typescript_string_enums_1 = __webpack_require__(14);
+const typescript_string_enums_1 = __webpack_require__(15);
 
-const functions_interface_1 = __webpack_require__(71); /////////////////////////////////////////////////
+const functions_interface_1 = __webpack_require__(78); /////////////////////////////////////////////////
 
 
 exports.CHANNEL = (() => {
@@ -9516,13 +10667,13 @@ exports.CHANNEL = (() => {
 
 /***/ }),
 
-/***/ 33:
+/***/ 36:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createLogger", function() { return createLogger; });
-/* harmony import */ var _offirmo_practical_logger_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(103);
-/* harmony import */ var _sinks_to_console__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(58);
+/* harmony import */ var _offirmo_practical_logger_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(112);
+/* harmony import */ var _sinks_to_console__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(62);
 
 
 const ORIGINAL_CONSOLE = console;
@@ -9548,14 +10699,14 @@ function createLogger(p = {}) {
 
 /***/ }),
 
-/***/ 34:
+/***/ 37:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const os = __webpack_require__(26);
-const tty = __webpack_require__(35);
-const hasFlag = __webpack_require__(99);
+const os = __webpack_require__(27);
+const tty = __webpack_require__(38);
+const hasFlag = __webpack_require__(108);
 
 const {env} = process;
 
@@ -9695,17 +10846,10 @@ module.exports = {
 
 /***/ }),
 
-/***/ 35:
+/***/ 38:
 /***/ (function(module, exports) {
 
 module.exports = require("tty");
-
-/***/ }),
-
-/***/ 39:
-/***/ (function(module, exports) {
-
-module.exports = require("https");
 
 /***/ }),
 
@@ -9716,7 +10860,14 @@ module.exports = require("util");
 
 /***/ }),
 
-/***/ 40:
+/***/ 42:
+/***/ (function(module, exports) {
+
+module.exports = require("https");
+
+/***/ }),
+
+/***/ 44:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9772,52 +10923,55 @@ function create() {
 
 /***/ }),
 
-/***/ 41:
+/***/ 45:
 /***/ (function(module, exports) {
 
 module.exports = require("assert");
 
 /***/ }),
 
-/***/ 48:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ 528:
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getLogger", function() { return getLogger; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "exposeInternal", function() { return exposeInternal; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "overrideHook", function() { return overrideHook; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addDebugCommand", function() { return addDebugCommand; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "globalThis", function() { return globalThis; });
-/* harmony import */ var _offirmo_globalthis_ponyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(16);
-/* harmony import */ var _v1__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(40);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createV1", function() { return _v1__WEBPACK_IMPORTED_MODULE_1__["a"]; });
-
-/* harmony import */ var _offirmo_universal_debug_api_interface__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(24);
-/* harmony import */ var _offirmo_universal_debug_api_interface__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_offirmo_universal_debug_api_interface__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _offirmo_universal_debug_api_interface__WEBPACK_IMPORTED_MODULE_2__) if(["default","getLogger","exposeInternal","overrideHook","addDebugCommand","globalThis","createV1"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _offirmo_universal_debug_api_interface__WEBPACK_IMPORTED_MODULE_2__[key]; }) }(__WEBPACK_IMPORT_KEY__));
 
 
-const globalThis = Object(_offirmo_globalthis_ponyfill__WEBPACK_IMPORTED_MODULE_0__[/* getGlobalThis */ "a"])(); // ensure the root is present
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.handler = void 0;
+/*
+process.env.UDA_OVERRIDE__LOGGER__UDA_INTERNAL_LOGLEVEL = '"silly"'
+process.env.UDA_OVERRIDE__LOGGER_UDA_LOGLEVEL = '"silly"'
+process.env.UDA_OVERRIDE__LOGGER_OA_DB_LOGLEVEL = '"silly"'
+process.env.UDA_OVERRIDE__LOGGER_OA_API_LOGLEVEL = '"silly"'
+process.env.UDA_OVERRIDE__KNEX_DEBUG = 'true'
+*/
 
-globalThis._debug = globalThis._debug || {}; // install globally if no other implementation already present
+__webpack_require__(68);
 
-globalThis._debug.v1 = globalThis._debug.v1 || Object(_v1__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(); // expose the installed implementation
-
-const instance = globalThis._debug.v1;
-const {
-  getLogger,
-  exposeInternal,
-  overrideHook,
-  addDebugCommand
-} = instance;
- // types & sub-types, for convenience
+const sentry_1 = __webpack_require__(143); ////////////////////////////////////
 
 
+const handler = async (event, badly_typed_context) => {
+  var _a;
+
+  let message = ((_a = event === null || event === void 0 ? void 0 : event.queryStringParameters) === null || _a === void 0 ? void 0 : _a.message) || 'Unknown error!';
+  if (!message.endsWith('!')) message = message + '!';
+  const err = new Error(message);
+  await sentry_1.on_error(err);
+  return {
+    statusCode: 200,
+    headers: {},
+    body: 'Error reported✔'
+  };
+};
+
+exports.handler = handler;
 
 /***/ }),
 
-/***/ 49:
+/***/ 53:
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -9846,12 +11000,12 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ 52:
+/***/ 56:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
 /* eslint-disable no-mixed-operators */
-const cssKeywords = __webpack_require__(97);
+const cssKeywords = __webpack_require__(106);
 
 // NOTE: conversions should only return primitive values (i.e. arrays, or
 //       values that give correct `typeof` results).
@@ -10692,48 +11846,50 @@ convert.rgb.gray = function (rgb) {
 
 /***/ }),
 
-/***/ 531:
-/***/ (function(module, exports, __webpack_require__) {
+/***/ 6:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return LIB; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return LOG_LEVEL_TO_INTEGER; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ALL_LOG_LEVELS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return LOG_LEVEL_TO_HUMAN; });
+const LIB = '@offirmo/practical-logger-core'; // level to a numerical value, for ordering and filtering.
+// mnemonic:  100 = 100% = you will see 100% of the logs
+//              1 =   1% = you will see 1% of the logs (obviously the most important)
 
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.handler = void 0;
-/*
-process.env.UDA_OVERRIDE__LOGGER__UDA_INTERNAL_LOGLEVEL = '"silly"'
-process.env.UDA_OVERRIDE__LOGGER_UDA_LOGLEVEL = '"silly"'
-process.env.UDA_OVERRIDE__LOGGER_OA_DB_LOGLEVEL = '"silly"'
-process.env.UDA_OVERRIDE__LOGGER_OA_API_LOGLEVEL = '"silly"'
-process.env.UDA_OVERRIDE__KNEX_DEBUG = 'true'
-*/
-
-__webpack_require__(60);
-
-const sentry_1 = __webpack_require__(136); ////////////////////////////////////
-
-
-const handler = async (event, badly_typed_context) => {
-  var _a;
-
-  let message = ((_a = event === null || event === void 0 ? void 0 : event.queryStringParameters) === null || _a === void 0 ? void 0 : _a.message) || 'Unknown error!';
-  if (!message.endsWith('!')) message = message + '!';
-  const err = new Error(message);
-  await sentry_1.on_error(err);
-  return {
-    statusCode: 200,
-    headers: {},
-    body: 'Error reported✔'
-  };
+const LOG_LEVEL_TO_INTEGER = {
+  fatal: 1,
+  emerg: 2,
+  alert: 10,
+  crit: 20,
+  error: 30,
+  warning: 40,
+  warn: 40,
+  notice: 45,
+  info: 50,
+  verbose: 70,
+  log: 80,
+  debug: 81,
+  trace: 90,
+  silly: 100
 };
+const ALL_LOG_LEVELS = Object.keys(LOG_LEVEL_TO_INTEGER).map(s => s).sort((a, b) => LOG_LEVEL_TO_INTEGER[a] - LOG_LEVEL_TO_INTEGER[b]); // rationalization to a clear, human understandable string
+// generated to shave a few bytes
+// not using fromEntries bc not available in node <12
 
-exports.handler = handler;
+const LOG_LEVEL_TO_HUMAN = ALL_LOG_LEVELS.reduce((acc, ll) => {
+  acc[ll] = {
+    em: 'emergency',
+    wa: 'warn'
+  }[ll.slice(0, 1)] || ll;
+  return acc;
+}, {});
+
 
 /***/ }),
 
-/***/ 58:
+/***/ 62:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11074,8 +12230,8 @@ function inject_chalk(chalk) {
     ...get_stylize_options_chalk_ansi(chalk)
   };
 }
-// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/common-error-fields/dist/src.es2019/consts.js
-var consts = __webpack_require__(282);
+// EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/common-error-fields/dist/src.es2019/fields.js
+var fields = __webpack_require__(288);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/print-error-to-ansi/dist/src.es2019/index.js
 /* eslint-disable no-console */
@@ -11113,7 +12269,7 @@ function displayError(errLike = {}) {
     displayedProps.add('logicalStack');
   }
 
-  consts["a" /* COMMON_ERROR_FIELDS_EXTENDED */].forEach(prop => {
+  fields["a" /* COMMON_ERROR_FIELDS_EXTENDED */].forEach(prop => {
     if (prop in errLike && !displayedProps.has(prop)) {
       displayErrProp(errLike, prop);
     }
@@ -11122,7 +12278,7 @@ function displayError(errLike = {}) {
 
 
 // EXTERNAL MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/practical-logger-core/dist/src.es2019/consts.js
-var src_es2019_consts = __webpack_require__(6);
+var consts = __webpack_require__(6);
 
 // CONCATENATED MODULE: /Users/offirmo/work/src/off/offirmo-monorepo/2-foundation/practical-logger-node/dist/src.es2019/sinks/common.js
 
@@ -11140,20 +12296,20 @@ function to_aligned_ascii(level) {
 }
 
 const LEVEL_TO_ASCII = {
-  fatal: source_default.a.bgRed.white.bold(to_aligned_ascii(' ' + src_es2019_consts["c" /* LOG_LEVEL_TO_HUMAN */]['fatal'])),
-  emerg: source_default.a.bgRed.white.bold(to_aligned_ascii(src_es2019_consts["c" /* LOG_LEVEL_TO_HUMAN */]['emerg'])),
-  alert: source_default.a.bgRed.white.bold(to_aligned_ascii(' ' + src_es2019_consts["c" /* LOG_LEVEL_TO_HUMAN */]['alert'])),
-  crit: source_default.a.bgRed.white.bold(to_aligned_ascii(src_es2019_consts["c" /* LOG_LEVEL_TO_HUMAN */]['crit'])),
-  error: source_default.a.red.bold(to_aligned_ascii(src_es2019_consts["c" /* LOG_LEVEL_TO_HUMAN */]['error'])),
-  warning: source_default.a.yellow.bold(to_aligned_ascii(src_es2019_consts["c" /* LOG_LEVEL_TO_HUMAN */]['warning'])),
-  warn: source_default.a.yellow.bold(to_aligned_ascii(src_es2019_consts["c" /* LOG_LEVEL_TO_HUMAN */]['warn'])),
-  notice: source_default.a.blue(to_aligned_ascii(src_es2019_consts["c" /* LOG_LEVEL_TO_HUMAN */]['notice'])),
-  info: source_default.a.blue(to_aligned_ascii(src_es2019_consts["c" /* LOG_LEVEL_TO_HUMAN */]['info'])),
-  verbose: to_aligned_ascii(src_es2019_consts["c" /* LOG_LEVEL_TO_HUMAN */]['verbose']),
-  log: to_aligned_ascii(src_es2019_consts["c" /* LOG_LEVEL_TO_HUMAN */]['log']),
-  debug: to_aligned_ascii(src_es2019_consts["c" /* LOG_LEVEL_TO_HUMAN */]['debug']),
-  trace: source_default.a.dim(to_aligned_ascii(src_es2019_consts["c" /* LOG_LEVEL_TO_HUMAN */]['trace'])),
-  silly: source_default.a.dim(to_aligned_ascii(src_es2019_consts["c" /* LOG_LEVEL_TO_HUMAN */]['silly']))
+  fatal: source_default.a.bgRed.white.bold(to_aligned_ascii(' ' + consts["c" /* LOG_LEVEL_TO_HUMAN */]['fatal'])),
+  emerg: source_default.a.bgRed.white.bold(to_aligned_ascii(consts["c" /* LOG_LEVEL_TO_HUMAN */]['emerg'])),
+  alert: source_default.a.bgRed.white.bold(to_aligned_ascii(' ' + consts["c" /* LOG_LEVEL_TO_HUMAN */]['alert'])),
+  crit: source_default.a.bgRed.white.bold(to_aligned_ascii(consts["c" /* LOG_LEVEL_TO_HUMAN */]['crit'])),
+  error: source_default.a.red.bold(to_aligned_ascii(consts["c" /* LOG_LEVEL_TO_HUMAN */]['error'])),
+  warning: source_default.a.yellow.bold(to_aligned_ascii(consts["c" /* LOG_LEVEL_TO_HUMAN */]['warning'])),
+  warn: source_default.a.yellow.bold(to_aligned_ascii(consts["c" /* LOG_LEVEL_TO_HUMAN */]['warn'])),
+  notice: source_default.a.blue(to_aligned_ascii(consts["c" /* LOG_LEVEL_TO_HUMAN */]['notice'])),
+  info: source_default.a.blue(to_aligned_ascii(consts["c" /* LOG_LEVEL_TO_HUMAN */]['info'])),
+  verbose: to_aligned_ascii(consts["c" /* LOG_LEVEL_TO_HUMAN */]['verbose']),
+  log: to_aligned_ascii(consts["c" /* LOG_LEVEL_TO_HUMAN */]['log']),
+  debug: to_aligned_ascii(consts["c" /* LOG_LEVEL_TO_HUMAN */]['debug']),
+  trace: source_default.a.dim(to_aligned_ascii(consts["c" /* LOG_LEVEL_TO_HUMAN */]['trace'])),
+  silly: source_default.a.dim(to_aligned_ascii(consts["c" /* LOG_LEVEL_TO_HUMAN */]['silly']))
 };
 const LEVEL_TO_STYLIZE = {
   fatal: s => source_default.a.red.bold(s),
@@ -11202,50 +12358,7 @@ function createSink(options = {}) {
 
 /***/ }),
 
-/***/ 6:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return LIB; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return LOG_LEVEL_TO_INTEGER; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ALL_LOG_LEVELS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return LOG_LEVEL_TO_HUMAN; });
-const LIB = '@offirmo/practical-logger-core'; // level to a numerical value, for ordering and filtering.
-// mnemonic:  100 = 100% = you will see 100% of the logs
-//              1 =   1% = you will see 1% of the logs (obviously the most important)
-
-const LOG_LEVEL_TO_INTEGER = {
-  fatal: 1,
-  emerg: 2,
-  alert: 10,
-  crit: 20,
-  error: 30,
-  warning: 40,
-  warn: 40,
-  notice: 45,
-  info: 50,
-  verbose: 70,
-  log: 80,
-  debug: 81,
-  trace: 90,
-  silly: 100
-};
-const ALL_LOG_LEVELS = Object.keys(LOG_LEVEL_TO_INTEGER).map(s => s).sort((a, b) => LOG_LEVEL_TO_INTEGER[a] - LOG_LEVEL_TO_INTEGER[b]); // rationalization to a clear, human understandable string
-// generated to shave a few bytes
-// not using fromEntries bc not available in node <12
-
-const LOG_LEVEL_TO_HUMAN = ALL_LOG_LEVELS.reduce((acc, ll) => {
-  acc[ll] = {
-    em: 'emergency',
-    wa: 'warn'
-  }[ll.slice(0, 1)] || ll;
-  return acc;
-}, {});
-
-
-/***/ }),
-
-/***/ 60:
+/***/ 68:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11255,11 +12368,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "overrideHook", function() { return overrideHook; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addDebugCommand", function() { return addDebugCommand; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "globalThis", function() { return globalThis; });
-/* harmony import */ var _offirmo_globalthis_ponyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(16);
-/* harmony import */ var _v1__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(17);
+/* harmony import */ var _offirmo_globalthis_ponyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(17);
+/* harmony import */ var _v1__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(18);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createV1", function() { return _v1__WEBPACK_IMPORTED_MODULE_1__["b"]; });
 
-/* harmony import */ var _offirmo_universal_debug_api_interface__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(24);
+/* harmony import */ var _offirmo_universal_debug_api_interface__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(25);
 /* harmony import */ var _offirmo_universal_debug_api_interface__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_offirmo_universal_debug_api_interface__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _offirmo_universal_debug_api_interface__WEBPACK_IMPORTED_MODULE_2__) if(["default","getLogger","exposeInternal","overrideHook","addDebugCommand","globalThis","createV1"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _offirmo_universal_debug_api_interface__WEBPACK_IMPORTED_MODULE_2__[key]; }) }(__WEBPACK_IMPORT_KEY__));
 
@@ -11329,7 +12442,7 @@ const {
 
 /***/ }),
 
-/***/ 61:
+/***/ 69:
 /***/ (function(module, exports) {
 
 /**
@@ -11498,7 +12611,7 @@ function plural(ms, msAbs, n, name) {
 
 /***/ }),
 
-/***/ 71:
+/***/ 78:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11508,9 +12621,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get_allowed_origin", function() { return get_allowed_origin; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get_api_base_url", function() { return get_api_base_url; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HEADER_IMPERSONATE", function() { return HEADER_IMPERSONATE; });
-/* harmony import */ var typescript_string_enums__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(14);
+/* harmony import */ var typescript_string_enums__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(15);
 /* harmony import */ var typescript_string_enums__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(typescript_string_enums__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _offirmo_universal_debug_api_placeholder__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(48);
+/* harmony import */ var _offirmo_universal_debug_api_placeholder__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(32);
 
 
 const LIB = 'functions interface'; // tslint:disable-next-line: variable-name
@@ -11558,7 +12671,14 @@ const HEADER_IMPERSONATE = "X-OFFIRMO-IMPERSONATE".toLowerCase();
 
 /***/ }),
 
-/***/ 73:
+/***/ 8:
+/***/ (function(module, exports) {
+
+module.exports = require("fs");
+
+/***/ }),
+
+/***/ 81:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11566,7 +12686,7 @@ const HEADER_IMPERSONATE = "X-OFFIRMO-IMPERSONATE".toLowerCase();
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-const agent_1 = __importDefault(__webpack_require__(138));
+const agent_1 = __importDefault(__webpack_require__(145));
 function createHttpsProxyAgent(opts) {
     return new agent_1.default(opts);
 }
@@ -11579,21 +12699,21 @@ module.exports = createHttpsProxyAgent;
 
 /***/ }),
 
-/***/ 74:
+/***/ 82:
 /***/ (function(module, exports) {
 
 module.exports = require("net");
 
 /***/ }),
 
-/***/ 75:
+/***/ 83:
 /***/ (function(module, exports) {
 
 module.exports = require("tls");
 
 /***/ }),
 
-/***/ 76:
+/***/ 84:
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -11602,15 +12722,15 @@ module.exports = require("tls");
  */
 
 if (typeof process === 'undefined' || process.type === 'renderer' || process.browser === true || process.__nwjs) {
-	module.exports = __webpack_require__(139);
+	module.exports = __webpack_require__(146);
 } else {
-	module.exports = __webpack_require__(140);
+	module.exports = __webpack_require__(147);
 }
 
 
 /***/ }),
 
-/***/ 77:
+/***/ 85:
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -11626,7 +12746,7 @@ function setup(env) {
 	createDebug.disable = disable;
 	createDebug.enable = enable;
 	createDebug.enabled = enabled;
-	createDebug.humanize = __webpack_require__(61);
+	createDebug.humanize = __webpack_require__(69);
 
 	Object.keys(env).forEach(key => {
 		createDebug[key] = env[key];
@@ -11883,7 +13003,7 @@ module.exports = setup;
 
 /***/ }),
 
-/***/ 78:
+/***/ 86:
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -11899,7 +13019,7 @@ function setup(env) {
 	createDebug.disable = disable;
 	createDebug.enable = enable;
 	createDebug.enabled = enabled;
-	createDebug.humanize = __webpack_require__(61);
+	createDebug.humanize = __webpack_require__(69);
 
 	Object.keys(env).forEach(key => {
 		createDebug[key] = env[key];
@@ -12153,13 +13273,6 @@ function setup(env) {
 
 module.exports = setup;
 
-
-/***/ }),
-
-/***/ 8:
-/***/ (function(module, exports) {
-
-module.exports = require("fs");
 
 /***/ }),
 
@@ -12185,7 +13298,7 @@ module.exports = require("fs");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return getFunctionName; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addContextToFrame; });
 /* harmony import */ var _is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
-/* harmony import */ var _string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(18);
+/* harmony import */ var _string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(19);
 
 
 /**
@@ -12193,8 +13306,9 @@ module.exports = require("fs");
  *
  * @param request The module path to resolve
  */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 function dynamicRequire(mod, request) {
-    // tslint:disable-next-line: no-unsafe-any
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     return mod.require(request);
 }
 /**
@@ -12203,7 +13317,6 @@ function dynamicRequire(mod, request) {
  * @returns Answer to given question
  */
 function isNodeEnv() {
-    // tslint:disable:strict-type-predicates
     return Object.prototype.toString.call(typeof process !== 'undefined' ? process : 0) === '[object process]';
 }
 var fallbackGlobalObject = {};
@@ -12234,10 +13347,10 @@ function uuid4() {
         var arr = new Uint16Array(8);
         crypto.getRandomValues(arr);
         // set 4 in byte 7
-        // tslint:disable-next-line:no-bitwise
+        // eslint-disable-next-line no-bitwise
         arr[3] = (arr[3] & 0xfff) | 0x4000;
         // set 2 most significant bits of byte 9 to '10'
-        // tslint:disable-next-line:no-bitwise
+        // eslint-disable-next-line no-bitwise
         arr[4] = (arr[4] & 0x3fff) | 0x8000;
         var pad = function (num) {
             var v = num.toString(16);
@@ -12250,9 +13363,9 @@ function uuid4() {
     }
     // http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript/2117523#2117523
     return 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-        // tslint:disable-next-line:no-bitwise
+        // eslint-disable-next-line no-bitwise
         var r = (Math.random() * 16) | 0;
-        // tslint:disable-next-line:no-bitwise
+        // eslint-disable-next-line no-bitwise
         var v = c === 'x' ? r : (r & 0x3) | 0x8;
         return v.toString(16);
     });
@@ -12268,7 +13381,7 @@ function parseUrl(url) {
     if (!url) {
         return {};
     }
-    var match = url.match(/^(([^:\/?#]+):)?(\/\/([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?$/);
+    var match = url.match(/^(([^:/?#]+):)?(\/\/([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?$/);
     if (!match) {
         return {};
     }
@@ -12347,11 +13460,12 @@ function addExceptionMechanism(event, mechanism) {
     if (mechanism === void 0) { mechanism = {}; }
     // TODO: Use real type with `keyof Mechanism` thingy and maybe make it better?
     try {
-        // @ts-ignore
-        // tslint:disable:no-non-null-assertion
+        // @ts-ignore Type 'Mechanism | {}' is not assignable to type 'Mechanism | undefined'
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         event.exception.values[0].mechanism = event.exception.values[0].mechanism || {};
         Object.keys(mechanism).forEach(function (key) {
-            // @ts-ignore
+            // @ts-ignore Mechanism has no index signature
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             event.exception.values[0].mechanism[key] = mechanism[key];
         });
     }
@@ -12391,6 +13505,7 @@ function htmlTreeAsString(elem) {
         var separator = ' > ';
         var sepLength = separator.length;
         var nextStr = void 0;
+        // eslint-disable-next-line no-plusplus
         while (currentElem && height++ < MAX_TRAVERSE_HEIGHT) {
             nextStr = _htmlElementAsString(currentElem);
             // bail out if
@@ -12430,6 +13545,7 @@ function _htmlElementAsString(el) {
     if (elem.id) {
         out.push("#" + elem.id);
     }
+    // eslint-disable-next-line prefer-const
     className = elem.className;
     if (className && Object(_is__WEBPACK_IMPORTED_MODULE_0__[/* isString */ "h"])(className)) {
         classes = className.split(/\s+/);
@@ -12478,12 +13594,11 @@ var crossPlatformPerformance = (function () {
     //
     // While performance.timing.navigationStart is deprecated in favor of performance.timeOrigin, performance.timeOrigin
     // is not as widely supported. Namely, performance.timeOrigin is undefined in Safari as of writing.
-    // tslint:disable-next-line:strict-type-predicates
     if (performance.timeOrigin === undefined) {
         // As of writing, performance.timing is not available in Web Workers in mainstream browsers, so it is not always a
         // valid fallback. In the absence of a initial time provided by the browser, fallback to INITIAL_TIME.
-        // @ts-ignore
-        // tslint:disable-next-line:deprecation
+        // @ts-ignore ignored because timeOrigin is a readonly property but we want to override
+        // eslint-disable-next-line deprecation/deprecation
         performance.timeOrigin = (performance.timing && performance.timing.navigationStart) || INITIAL_TIME;
     }
     return performance;
@@ -12571,1073 +13686,7 @@ function addContextToFrame(lines, frame, linesOfContext) {
         .map(function (line) { return Object(_string__WEBPACK_IMPORTED_MODULE_1__[/* snipLine */ "b"])(line, 0); });
 }
 //# sourceMappingURL=misc.js.map
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(137)(module)))
-
-/***/ }),
-
-/***/ 92:
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
- * A doubly linked list-based Least Recently Used (LRU) cache. Will keep most
- * recently used items while discarding least recently used items when its limit
- * is reached.
- *
- * Licensed under MIT. Copyright (c) 2010 Rasmus Andersson <http://hunch.se/>
- * See README.md for details.
- *
- * Illustration of the design:
- *
- *       entry             entry             entry             entry
- *       ______            ______            ______            ______
- *      | head |.newer => |      |.newer => |      |.newer => | tail |
- *      |  A   |          |  B   |          |  C   |          |  D   |
- *      |______| <= older.|______| <= older.|______| <= older.|______|
- *
- *  removed  <--  <--  <--  <--  <--  <--  <--  <--  <--  <--  <--  added
- */
-(function(g,f){
-  const e =  true ? exports : undefined;
-  f(e);
-  if (true) { !(__WEBPACK_AMD_DEFINE_FACTORY__ = (e),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) :
-				__WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)); }
-})(this, function(exports) {
-
-const NEWER = Symbol('newer');
-const OLDER = Symbol('older');
-
-function LRUMap(limit, entries) {
-  if (typeof limit !== 'number') {
-    // called as (entries)
-    entries = limit;
-    limit = 0;
-  }
-
-  this.size = 0;
-  this.limit = limit;
-  this.oldest = this.newest = undefined;
-  this._keymap = new Map();
-
-  if (entries) {
-    this.assign(entries);
-    if (limit < 1) {
-      this.limit = this.size;
-    }
-  }
-}
-
-exports.LRUMap = LRUMap;
-
-function Entry(key, value) {
-  this.key = key;
-  this.value = value;
-  this[NEWER] = undefined;
-  this[OLDER] = undefined;
-}
-
-
-LRUMap.prototype._markEntryAsUsed = function(entry) {
-  if (entry === this.newest) {
-    // Already the most recenlty used entry, so no need to update the list
-    return;
-  }
-  // HEAD--------------TAIL
-  //   <.older   .newer>
-  //  <--- add direction --
-  //   A  B  C  <D>  E
-  if (entry[NEWER]) {
-    if (entry === this.oldest) {
-      this.oldest = entry[NEWER];
-    }
-    entry[NEWER][OLDER] = entry[OLDER]; // C <-- E.
-  }
-  if (entry[OLDER]) {
-    entry[OLDER][NEWER] = entry[NEWER]; // C. --> E
-  }
-  entry[NEWER] = undefined; // D --x
-  entry[OLDER] = this.newest; // D. --> E
-  if (this.newest) {
-    this.newest[NEWER] = entry; // E. <-- D
-  }
-  this.newest = entry;
-};
-
-LRUMap.prototype.assign = function(entries) {
-  let entry, limit = this.limit || Number.MAX_VALUE;
-  this._keymap.clear();
-  let it = entries[Symbol.iterator]();
-  for (let itv = it.next(); !itv.done; itv = it.next()) {
-    let e = new Entry(itv.value[0], itv.value[1]);
-    this._keymap.set(e.key, e);
-    if (!entry) {
-      this.oldest = e;
-    } else {
-      entry[NEWER] = e;
-      e[OLDER] = entry;
-    }
-    entry = e;
-    if (limit-- == 0) {
-      throw new Error('overflow');
-    }
-  }
-  this.newest = entry;
-  this.size = this._keymap.size;
-};
-
-LRUMap.prototype.get = function(key) {
-  // First, find our cache entry
-  var entry = this._keymap.get(key);
-  if (!entry) return; // Not cached. Sorry.
-  // As <key> was found in the cache, register it as being requested recently
-  this._markEntryAsUsed(entry);
-  return entry.value;
-};
-
-LRUMap.prototype.set = function(key, value) {
-  var entry = this._keymap.get(key);
-
-  if (entry) {
-    // update existing
-    entry.value = value;
-    this._markEntryAsUsed(entry);
-    return this;
-  }
-
-  // new entry
-  this._keymap.set(key, (entry = new Entry(key, value)));
-
-  if (this.newest) {
-    // link previous tail to the new tail (entry)
-    this.newest[NEWER] = entry;
-    entry[OLDER] = this.newest;
-  } else {
-    // we're first in -- yay
-    this.oldest = entry;
-  }
-
-  // add new entry to the end of the linked list -- it's now the freshest entry.
-  this.newest = entry;
-  ++this.size;
-  if (this.size > this.limit) {
-    // we hit the limit -- remove the head
-    this.shift();
-  }
-
-  return this;
-};
-
-LRUMap.prototype.shift = function() {
-  // todo: handle special case when limit == 1
-  var entry = this.oldest;
-  if (entry) {
-    if (this.oldest[NEWER]) {
-      // advance the list
-      this.oldest = this.oldest[NEWER];
-      this.oldest[OLDER] = undefined;
-    } else {
-      // the cache is exhausted
-      this.oldest = undefined;
-      this.newest = undefined;
-    }
-    // Remove last strong reference to <entry> and remove links from the purged
-    // entry being returned:
-    entry[NEWER] = entry[OLDER] = undefined;
-    this._keymap.delete(entry.key);
-    --this.size;
-    return [entry.key, entry.value];
-  }
-};
-
-// ----------------------------------------------------------------------------
-// Following code is optional and can be removed without breaking the core
-// functionality.
-
-LRUMap.prototype.find = function(key) {
-  let e = this._keymap.get(key);
-  return e ? e.value : undefined;
-};
-
-LRUMap.prototype.has = function(key) {
-  return this._keymap.has(key);
-};
-
-LRUMap.prototype['delete'] = function(key) {
-  var entry = this._keymap.get(key);
-  if (!entry) return;
-  this._keymap.delete(entry.key);
-  if (entry[NEWER] && entry[OLDER]) {
-    // relink the older entry with the newer entry
-    entry[OLDER][NEWER] = entry[NEWER];
-    entry[NEWER][OLDER] = entry[OLDER];
-  } else if (entry[NEWER]) {
-    // remove the link to us
-    entry[NEWER][OLDER] = undefined;
-    // link the newer entry to head
-    this.oldest = entry[NEWER];
-  } else if (entry[OLDER]) {
-    // remove the link to us
-    entry[OLDER][NEWER] = undefined;
-    // link the newer entry to head
-    this.newest = entry[OLDER];
-  } else {// if(entry[OLDER] === undefined && entry.newer === undefined) {
-    this.oldest = this.newest = undefined;
-  }
-
-  this.size--;
-  return entry.value;
-};
-
-LRUMap.prototype.clear = function() {
-  // Not clearing links should be safe, as we don't expose live links to user
-  this.oldest = this.newest = undefined;
-  this.size = 0;
-  this._keymap.clear();
-};
-
-
-function EntryIterator(oldestEntry) { this.entry = oldestEntry; }
-EntryIterator.prototype[Symbol.iterator] = function() { return this; }
-EntryIterator.prototype.next = function() {
-  let ent = this.entry;
-  if (ent) {
-    this.entry = ent[NEWER];
-    return { done: false, value: [ent.key, ent.value] };
-  } else {
-    return { done: true, value: undefined };
-  }
-};
-
-
-function KeyIterator(oldestEntry) { this.entry = oldestEntry; }
-KeyIterator.prototype[Symbol.iterator] = function() { return this; }
-KeyIterator.prototype.next = function() {
-  let ent = this.entry;
-  if (ent) {
-    this.entry = ent[NEWER];
-    return { done: false, value: ent.key };
-  } else {
-    return { done: true, value: undefined };
-  }
-};
-
-function ValueIterator(oldestEntry) { this.entry = oldestEntry; }
-ValueIterator.prototype[Symbol.iterator] = function() { return this; }
-ValueIterator.prototype.next = function() {
-  let ent = this.entry;
-  if (ent) {
-    this.entry = ent[NEWER];
-    return { done: false, value: ent.value };
-  } else {
-    return { done: true, value: undefined };
-  }
-};
-
-
-LRUMap.prototype.keys = function() {
-  return new KeyIterator(this.oldest);
-};
-
-LRUMap.prototype.values = function() {
-  return new ValueIterator(this.oldest);
-};
-
-LRUMap.prototype.entries = function() {
-  return this;
-};
-
-LRUMap.prototype[Symbol.iterator] = function() {
-  return new EntryIterator(this.oldest);
-};
-
-LRUMap.prototype.forEach = function(fun, thisObj) {
-  if (typeof thisObj !== 'object') {
-    thisObj = this;
-  }
-  let entry = this.oldest;
-  while (entry) {
-    fun.call(thisObj, entry.value, entry.key, this);
-    entry = entry[NEWER];
-  }
-};
-
-/** Returns a JSON (array) representation */
-LRUMap.prototype.toJSON = function() {
-  var s = new Array(this.size), i = 0, entry = this.oldest;
-  while (entry) {
-    s[i++] = { key: entry.key, value: entry.value };
-    entry = entry[NEWER];
-  }
-  return s;
-};
-
-/** Returns a String representation */
-LRUMap.prototype.toString = function() {
-  var s = '', entry = this.oldest;
-  while (entry) {
-    s += String(entry.key)+':'+entry.value;
-    entry = entry[NEWER];
-    if (entry) {
-      s += ' < ';
-    }
-  }
-  return s;
-};
-
-});
-
-
-/***/ }),
-
-/***/ 93:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/*!
- * cookie
- * Copyright(c) 2012-2014 Roman Shtylman
- * Copyright(c) 2015 Douglas Christopher Wilson
- * MIT Licensed
- */
-
-
-
-/**
- * Module exports.
- * @public
- */
-
-exports.parse = parse;
-exports.serialize = serialize;
-
-/**
- * Module variables.
- * @private
- */
-
-var decode = decodeURIComponent;
-var encode = encodeURIComponent;
-var pairSplitRegExp = /; */;
-
-/**
- * RegExp to match field-content in RFC 7230 sec 3.2
- *
- * field-content = field-vchar [ 1*( SP / HTAB ) field-vchar ]
- * field-vchar   = VCHAR / obs-text
- * obs-text      = %x80-FF
- */
-
-var fieldContentRegExp = /^[\u0009\u0020-\u007e\u0080-\u00ff]+$/;
-
-/**
- * Parse a cookie header.
- *
- * Parse the given cookie header string into an object
- * The object has the various cookies as keys(names) => values
- *
- * @param {string} str
- * @param {object} [options]
- * @return {object}
- * @public
- */
-
-function parse(str, options) {
-  if (typeof str !== 'string') {
-    throw new TypeError('argument str must be a string');
-  }
-
-  var obj = {}
-  var opt = options || {};
-  var pairs = str.split(pairSplitRegExp);
-  var dec = opt.decode || decode;
-
-  for (var i = 0; i < pairs.length; i++) {
-    var pair = pairs[i];
-    var eq_idx = pair.indexOf('=');
-
-    // skip things that don't look like key=value
-    if (eq_idx < 0) {
-      continue;
-    }
-
-    var key = pair.substr(0, eq_idx).trim()
-    var val = pair.substr(++eq_idx, pair.length).trim();
-
-    // quoted values
-    if ('"' == val[0]) {
-      val = val.slice(1, -1);
-    }
-
-    // only assign once
-    if (undefined == obj[key]) {
-      obj[key] = tryDecode(val, dec);
-    }
-  }
-
-  return obj;
-}
-
-/**
- * Serialize data into a cookie header.
- *
- * Serialize the a name value pair into a cookie string suitable for
- * http headers. An optional options object specified cookie parameters.
- *
- * serialize('foo', 'bar', { httpOnly: true })
- *   => "foo=bar; httpOnly"
- *
- * @param {string} name
- * @param {string} val
- * @param {object} [options]
- * @return {string}
- * @public
- */
-
-function serialize(name, val, options) {
-  var opt = options || {};
-  var enc = opt.encode || encode;
-
-  if (typeof enc !== 'function') {
-    throw new TypeError('option encode is invalid');
-  }
-
-  if (!fieldContentRegExp.test(name)) {
-    throw new TypeError('argument name is invalid');
-  }
-
-  var value = enc(val);
-
-  if (value && !fieldContentRegExp.test(value)) {
-    throw new TypeError('argument val is invalid');
-  }
-
-  var str = name + '=' + value;
-
-  if (null != opt.maxAge) {
-    var maxAge = opt.maxAge - 0;
-
-    if (isNaN(maxAge) || !isFinite(maxAge)) {
-      throw new TypeError('option maxAge is invalid')
-    }
-
-    str += '; Max-Age=' + Math.floor(maxAge);
-  }
-
-  if (opt.domain) {
-    if (!fieldContentRegExp.test(opt.domain)) {
-      throw new TypeError('option domain is invalid');
-    }
-
-    str += '; Domain=' + opt.domain;
-  }
-
-  if (opt.path) {
-    if (!fieldContentRegExp.test(opt.path)) {
-      throw new TypeError('option path is invalid');
-    }
-
-    str += '; Path=' + opt.path;
-  }
-
-  if (opt.expires) {
-    if (typeof opt.expires.toUTCString !== 'function') {
-      throw new TypeError('option expires is invalid');
-    }
-
-    str += '; Expires=' + opt.expires.toUTCString();
-  }
-
-  if (opt.httpOnly) {
-    str += '; HttpOnly';
-  }
-
-  if (opt.secure) {
-    str += '; Secure';
-  }
-
-  if (opt.sameSite) {
-    var sameSite = typeof opt.sameSite === 'string'
-      ? opt.sameSite.toLowerCase() : opt.sameSite;
-
-    switch (sameSite) {
-      case true:
-        str += '; SameSite=Strict';
-        break;
-      case 'lax':
-        str += '; SameSite=Lax';
-        break;
-      case 'strict':
-        str += '; SameSite=Strict';
-        break;
-      case 'none':
-        str += '; SameSite=None';
-        break;
-      default:
-        throw new TypeError('option sameSite is invalid');
-    }
-  }
-
-  return str;
-}
-
-/**
- * Try decoding a string using a decoding function.
- *
- * @param {string} str
- * @param {function} decode
- * @private
- */
-
-function tryDecode(str, decode) {
-  try {
-    return decode(str);
-  } catch (e) {
-    return str;
-  }
-}
-
-
-/***/ }),
-
-/***/ 95:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(module) {
-
-const wrapAnsi16 = (fn, offset) => (...args) => {
-	const code = fn(...args);
-	return `\u001B[${code + offset}m`;
-};
-
-const wrapAnsi256 = (fn, offset) => (...args) => {
-	const code = fn(...args);
-	return `\u001B[${38 + offset};5;${code}m`;
-};
-
-const wrapAnsi16m = (fn, offset) => (...args) => {
-	const rgb = fn(...args);
-	return `\u001B[${38 + offset};2;${rgb[0]};${rgb[1]};${rgb[2]}m`;
-};
-
-const ansi2ansi = n => n;
-const rgb2rgb = (r, g, b) => [r, g, b];
-
-const setLazyProperty = (object, property, get) => {
-	Object.defineProperty(object, property, {
-		get: () => {
-			const value = get();
-
-			Object.defineProperty(object, property, {
-				value,
-				enumerable: true,
-				configurable: true
-			});
-
-			return value;
-		},
-		enumerable: true,
-		configurable: true
-	});
-};
-
-/** @type {typeof import('color-convert')} */
-let colorConvert;
-const makeDynamicStyles = (wrap, targetSpace, identity, isBackground) => {
-	if (colorConvert === undefined) {
-		colorConvert = __webpack_require__(96);
-	}
-
-	const offset = isBackground ? 10 : 0;
-	const styles = {};
-
-	for (const [sourceSpace, suite] of Object.entries(colorConvert)) {
-		const name = sourceSpace === 'ansi16' ? 'ansi' : sourceSpace;
-		if (sourceSpace === targetSpace) {
-			styles[name] = wrap(identity, offset);
-		} else if (typeof suite === 'object') {
-			styles[name] = wrap(suite[targetSpace], offset);
-		}
-	}
-
-	return styles;
-};
-
-function assembleStyles() {
-	const codes = new Map();
-	const styles = {
-		modifier: {
-			reset: [0, 0],
-			// 21 isn't widely supported and 22 does the same thing
-			bold: [1, 22],
-			dim: [2, 22],
-			italic: [3, 23],
-			underline: [4, 24],
-			inverse: [7, 27],
-			hidden: [8, 28],
-			strikethrough: [9, 29]
-		},
-		color: {
-			black: [30, 39],
-			red: [31, 39],
-			green: [32, 39],
-			yellow: [33, 39],
-			blue: [34, 39],
-			magenta: [35, 39],
-			cyan: [36, 39],
-			white: [37, 39],
-
-			// Bright color
-			blackBright: [90, 39],
-			redBright: [91, 39],
-			greenBright: [92, 39],
-			yellowBright: [93, 39],
-			blueBright: [94, 39],
-			magentaBright: [95, 39],
-			cyanBright: [96, 39],
-			whiteBright: [97, 39]
-		},
-		bgColor: {
-			bgBlack: [40, 49],
-			bgRed: [41, 49],
-			bgGreen: [42, 49],
-			bgYellow: [43, 49],
-			bgBlue: [44, 49],
-			bgMagenta: [45, 49],
-			bgCyan: [46, 49],
-			bgWhite: [47, 49],
-
-			// Bright color
-			bgBlackBright: [100, 49],
-			bgRedBright: [101, 49],
-			bgGreenBright: [102, 49],
-			bgYellowBright: [103, 49],
-			bgBlueBright: [104, 49],
-			bgMagentaBright: [105, 49],
-			bgCyanBright: [106, 49],
-			bgWhiteBright: [107, 49]
-		}
-	};
-
-	// Alias bright black as gray (and grey)
-	styles.color.gray = styles.color.blackBright;
-	styles.bgColor.bgGray = styles.bgColor.bgBlackBright;
-	styles.color.grey = styles.color.blackBright;
-	styles.bgColor.bgGrey = styles.bgColor.bgBlackBright;
-
-	for (const [groupName, group] of Object.entries(styles)) {
-		for (const [styleName, style] of Object.entries(group)) {
-			styles[styleName] = {
-				open: `\u001B[${style[0]}m`,
-				close: `\u001B[${style[1]}m`
-			};
-
-			group[styleName] = styles[styleName];
-
-			codes.set(style[0], style[1]);
-		}
-
-		Object.defineProperty(styles, groupName, {
-			value: group,
-			enumerable: false
-		});
-	}
-
-	Object.defineProperty(styles, 'codes', {
-		value: codes,
-		enumerable: false
-	});
-
-	styles.color.close = '\u001B[39m';
-	styles.bgColor.close = '\u001B[49m';
-
-	setLazyProperty(styles.color, 'ansi', () => makeDynamicStyles(wrapAnsi16, 'ansi16', ansi2ansi, false));
-	setLazyProperty(styles.color, 'ansi256', () => makeDynamicStyles(wrapAnsi256, 'ansi256', ansi2ansi, false));
-	setLazyProperty(styles.color, 'ansi16m', () => makeDynamicStyles(wrapAnsi16m, 'rgb', rgb2rgb, false));
-	setLazyProperty(styles.bgColor, 'ansi', () => makeDynamicStyles(wrapAnsi16, 'ansi16', ansi2ansi, true));
-	setLazyProperty(styles.bgColor, 'ansi256', () => makeDynamicStyles(wrapAnsi256, 'ansi256', ansi2ansi, true));
-	setLazyProperty(styles.bgColor, 'ansi16m', () => makeDynamicStyles(wrapAnsi16m, 'rgb', rgb2rgb, true));
-
-	return styles;
-}
-
-// Make the export immutable
-Object.defineProperty(module, 'exports', {
-	enumerable: true,
-	get: assembleStyles
-});
-
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(49)(module)))
-
-/***/ }),
-
-/***/ 96:
-/***/ (function(module, exports, __webpack_require__) {
-
-const conversions = __webpack_require__(52);
-const route = __webpack_require__(98);
-
-const convert = {};
-
-const models = Object.keys(conversions);
-
-function wrapRaw(fn) {
-	const wrappedFn = function (...args) {
-		const arg0 = args[0];
-		if (arg0 === undefined || arg0 === null) {
-			return arg0;
-		}
-
-		if (arg0.length > 1) {
-			args = arg0;
-		}
-
-		return fn(args);
-	};
-
-	// Preserve .conversion property if there is one
-	if ('conversion' in fn) {
-		wrappedFn.conversion = fn.conversion;
-	}
-
-	return wrappedFn;
-}
-
-function wrapRounded(fn) {
-	const wrappedFn = function (...args) {
-		const arg0 = args[0];
-
-		if (arg0 === undefined || arg0 === null) {
-			return arg0;
-		}
-
-		if (arg0.length > 1) {
-			args = arg0;
-		}
-
-		const result = fn(args);
-
-		// We're assuming the result is an array here.
-		// see notice in conversions.js; don't use box types
-		// in conversion functions.
-		if (typeof result === 'object') {
-			for (let len = result.length, i = 0; i < len; i++) {
-				result[i] = Math.round(result[i]);
-			}
-		}
-
-		return result;
-	};
-
-	// Preserve .conversion property if there is one
-	if ('conversion' in fn) {
-		wrappedFn.conversion = fn.conversion;
-	}
-
-	return wrappedFn;
-}
-
-models.forEach(fromModel => {
-	convert[fromModel] = {};
-
-	Object.defineProperty(convert[fromModel], 'channels', {value: conversions[fromModel].channels});
-	Object.defineProperty(convert[fromModel], 'labels', {value: conversions[fromModel].labels});
-
-	const routes = route(fromModel);
-	const routeModels = Object.keys(routes);
-
-	routeModels.forEach(toModel => {
-		const fn = routes[toModel];
-
-		convert[fromModel][toModel] = wrapRounded(fn);
-		convert[fromModel][toModel].raw = wrapRaw(fn);
-	});
-});
-
-module.exports = convert;
-
-
-/***/ }),
-
-/***/ 97:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = {
-	"aliceblue": [240, 248, 255],
-	"antiquewhite": [250, 235, 215],
-	"aqua": [0, 255, 255],
-	"aquamarine": [127, 255, 212],
-	"azure": [240, 255, 255],
-	"beige": [245, 245, 220],
-	"bisque": [255, 228, 196],
-	"black": [0, 0, 0],
-	"blanchedalmond": [255, 235, 205],
-	"blue": [0, 0, 255],
-	"blueviolet": [138, 43, 226],
-	"brown": [165, 42, 42],
-	"burlywood": [222, 184, 135],
-	"cadetblue": [95, 158, 160],
-	"chartreuse": [127, 255, 0],
-	"chocolate": [210, 105, 30],
-	"coral": [255, 127, 80],
-	"cornflowerblue": [100, 149, 237],
-	"cornsilk": [255, 248, 220],
-	"crimson": [220, 20, 60],
-	"cyan": [0, 255, 255],
-	"darkblue": [0, 0, 139],
-	"darkcyan": [0, 139, 139],
-	"darkgoldenrod": [184, 134, 11],
-	"darkgray": [169, 169, 169],
-	"darkgreen": [0, 100, 0],
-	"darkgrey": [169, 169, 169],
-	"darkkhaki": [189, 183, 107],
-	"darkmagenta": [139, 0, 139],
-	"darkolivegreen": [85, 107, 47],
-	"darkorange": [255, 140, 0],
-	"darkorchid": [153, 50, 204],
-	"darkred": [139, 0, 0],
-	"darksalmon": [233, 150, 122],
-	"darkseagreen": [143, 188, 143],
-	"darkslateblue": [72, 61, 139],
-	"darkslategray": [47, 79, 79],
-	"darkslategrey": [47, 79, 79],
-	"darkturquoise": [0, 206, 209],
-	"darkviolet": [148, 0, 211],
-	"deeppink": [255, 20, 147],
-	"deepskyblue": [0, 191, 255],
-	"dimgray": [105, 105, 105],
-	"dimgrey": [105, 105, 105],
-	"dodgerblue": [30, 144, 255],
-	"firebrick": [178, 34, 34],
-	"floralwhite": [255, 250, 240],
-	"forestgreen": [34, 139, 34],
-	"fuchsia": [255, 0, 255],
-	"gainsboro": [220, 220, 220],
-	"ghostwhite": [248, 248, 255],
-	"gold": [255, 215, 0],
-	"goldenrod": [218, 165, 32],
-	"gray": [128, 128, 128],
-	"green": [0, 128, 0],
-	"greenyellow": [173, 255, 47],
-	"grey": [128, 128, 128],
-	"honeydew": [240, 255, 240],
-	"hotpink": [255, 105, 180],
-	"indianred": [205, 92, 92],
-	"indigo": [75, 0, 130],
-	"ivory": [255, 255, 240],
-	"khaki": [240, 230, 140],
-	"lavender": [230, 230, 250],
-	"lavenderblush": [255, 240, 245],
-	"lawngreen": [124, 252, 0],
-	"lemonchiffon": [255, 250, 205],
-	"lightblue": [173, 216, 230],
-	"lightcoral": [240, 128, 128],
-	"lightcyan": [224, 255, 255],
-	"lightgoldenrodyellow": [250, 250, 210],
-	"lightgray": [211, 211, 211],
-	"lightgreen": [144, 238, 144],
-	"lightgrey": [211, 211, 211],
-	"lightpink": [255, 182, 193],
-	"lightsalmon": [255, 160, 122],
-	"lightseagreen": [32, 178, 170],
-	"lightskyblue": [135, 206, 250],
-	"lightslategray": [119, 136, 153],
-	"lightslategrey": [119, 136, 153],
-	"lightsteelblue": [176, 196, 222],
-	"lightyellow": [255, 255, 224],
-	"lime": [0, 255, 0],
-	"limegreen": [50, 205, 50],
-	"linen": [250, 240, 230],
-	"magenta": [255, 0, 255],
-	"maroon": [128, 0, 0],
-	"mediumaquamarine": [102, 205, 170],
-	"mediumblue": [0, 0, 205],
-	"mediumorchid": [186, 85, 211],
-	"mediumpurple": [147, 112, 219],
-	"mediumseagreen": [60, 179, 113],
-	"mediumslateblue": [123, 104, 238],
-	"mediumspringgreen": [0, 250, 154],
-	"mediumturquoise": [72, 209, 204],
-	"mediumvioletred": [199, 21, 133],
-	"midnightblue": [25, 25, 112],
-	"mintcream": [245, 255, 250],
-	"mistyrose": [255, 228, 225],
-	"moccasin": [255, 228, 181],
-	"navajowhite": [255, 222, 173],
-	"navy": [0, 0, 128],
-	"oldlace": [253, 245, 230],
-	"olive": [128, 128, 0],
-	"olivedrab": [107, 142, 35],
-	"orange": [255, 165, 0],
-	"orangered": [255, 69, 0],
-	"orchid": [218, 112, 214],
-	"palegoldenrod": [238, 232, 170],
-	"palegreen": [152, 251, 152],
-	"paleturquoise": [175, 238, 238],
-	"palevioletred": [219, 112, 147],
-	"papayawhip": [255, 239, 213],
-	"peachpuff": [255, 218, 185],
-	"peru": [205, 133, 63],
-	"pink": [255, 192, 203],
-	"plum": [221, 160, 221],
-	"powderblue": [176, 224, 230],
-	"purple": [128, 0, 128],
-	"rebeccapurple": [102, 51, 153],
-	"red": [255, 0, 0],
-	"rosybrown": [188, 143, 143],
-	"royalblue": [65, 105, 225],
-	"saddlebrown": [139, 69, 19],
-	"salmon": [250, 128, 114],
-	"sandybrown": [244, 164, 96],
-	"seagreen": [46, 139, 87],
-	"seashell": [255, 245, 238],
-	"sienna": [160, 82, 45],
-	"silver": [192, 192, 192],
-	"skyblue": [135, 206, 235],
-	"slateblue": [106, 90, 205],
-	"slategray": [112, 128, 144],
-	"slategrey": [112, 128, 144],
-	"snow": [255, 250, 250],
-	"springgreen": [0, 255, 127],
-	"steelblue": [70, 130, 180],
-	"tan": [210, 180, 140],
-	"teal": [0, 128, 128],
-	"thistle": [216, 191, 216],
-	"tomato": [255, 99, 71],
-	"turquoise": [64, 224, 208],
-	"violet": [238, 130, 238],
-	"wheat": [245, 222, 179],
-	"white": [255, 255, 255],
-	"whitesmoke": [245, 245, 245],
-	"yellow": [255, 255, 0],
-	"yellowgreen": [154, 205, 50]
-};
-
-
-/***/ }),
-
-/***/ 98:
-/***/ (function(module, exports, __webpack_require__) {
-
-const conversions = __webpack_require__(52);
-
-/*
-	This function routes a model to all other models.
-
-	all functions that are routed have a property `.conversion` attached
-	to the returned synthetic function. This property is an array
-	of strings, each with the steps in between the 'from' and 'to'
-	color models (inclusive).
-
-	conversions that are not possible simply are not included.
-*/
-
-function buildGraph() {
-	const graph = {};
-	// https://jsperf.com/object-keys-vs-for-in-with-closure/3
-	const models = Object.keys(conversions);
-
-	for (let len = models.length, i = 0; i < len; i++) {
-		graph[models[i]] = {
-			// http://jsperf.com/1-vs-infinity
-			// micro-opt, but this is simple.
-			distance: -1,
-			parent: null
-		};
-	}
-
-	return graph;
-}
-
-// https://en.wikipedia.org/wiki/Breadth-first_search
-function deriveBFS(fromModel) {
-	const graph = buildGraph();
-	const queue = [fromModel]; // Unshift -> queue -> pop
-
-	graph[fromModel].distance = 0;
-
-	while (queue.length) {
-		const current = queue.pop();
-		const adjacents = Object.keys(conversions[current]);
-
-		for (let len = adjacents.length, i = 0; i < len; i++) {
-			const adjacent = adjacents[i];
-			const node = graph[adjacent];
-
-			if (node.distance === -1) {
-				node.distance = graph[current].distance + 1;
-				node.parent = current;
-				queue.unshift(adjacent);
-			}
-		}
-	}
-
-	return graph;
-}
-
-function link(from, to) {
-	return function (args) {
-		return to(from(args));
-	};
-}
-
-function wrapConversion(toModel, graph) {
-	const path = [graph[toModel].parent, toModel];
-	let fn = conversions[graph[toModel].parent][toModel];
-
-	let cur = graph[toModel].parent;
-	while (graph[cur].parent) {
-		path.unshift(graph[cur].parent);
-		fn = link(conversions[graph[cur].parent][cur], fn);
-		cur = graph[cur].parent;
-	}
-
-	fn.conversion = path;
-	return fn;
-}
-
-module.exports = function (fromModel) {
-	const graph = deriveBFS(fromModel);
-	const conversion = {};
-
-	const models = Object.keys(graph);
-	for (let len = models.length, i = 0; i < len; i++) {
-		const toModel = models[i];
-		const node = graph[toModel];
-
-		if (node.parent === null) {
-			// No possible conversion, or this node is the source model.
-			continue;
-		}
-
-		conversion[toModel] = wrapConversion(toModel, graph);
-	}
-
-	return conversion;
-};
-
-
-
-/***/ }),
-
-/***/ 99:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = (flag, argv = process.argv) => {
-	const prefix = flag.startsWith('-') ? '' : (flag.length === 1 ? '-' : '--');
-	const position = argv.indexOf(prefix + flag);
-	const terminatorPosition = argv.indexOf('--');
-	return position !== -1 && (terminatorPosition === -1 || position < terminatorPosition);
-};
-
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(144)(module)))
 
 /***/ })
 
