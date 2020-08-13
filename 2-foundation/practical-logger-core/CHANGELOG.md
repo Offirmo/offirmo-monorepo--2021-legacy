@@ -5,6 +5,7 @@
 * [doc] ++
 * [chore] re-organized the source (monorepo) and tweaked the build script. No logic change.
 * [chore] bumped dependencies (minor)
+* XXX DO NOT PUBLISH BEFORE RESOLVING THE PRIVATE DEP (temporary, work in progress)
 * ...
 
 ## v3.0.0

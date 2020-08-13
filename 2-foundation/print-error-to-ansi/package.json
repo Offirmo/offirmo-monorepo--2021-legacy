@@ -20,7 +20,7 @@
 	"peerDependencies": {
 	},
 	"dependencies": {
-		"@offirmo-private/common-error-fields": "^0",
+		"@offirmo-private/error-utils": "^0",
 		"chalk": "^4",
 		"tslib": "^2"
 	},

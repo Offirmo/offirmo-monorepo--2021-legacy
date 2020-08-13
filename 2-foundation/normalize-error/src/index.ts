@@ -1,4 +1,4 @@
-import { XXError, COMMON_ERROR_FIELDS_EXTENDED } from '@offirmo-private/common-error-fields'
+import { XXError, COMMON_ERROR_FIELDS_EXTENDED } from '@offirmo-private/error-utils'
 
 // Anything can be thrown: undefined, string, number...)
 // But that's obviously not a good practice.

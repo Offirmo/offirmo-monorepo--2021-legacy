@@ -1,6 +1,6 @@
 import Emittery from 'emittery'
 import { TimestampUTCMs } from '@offirmo-private/timestamps'
-import { XXError } from '@offirmo-private/common-error-fields'
+import { XXError } from '@offirmo-private/error-utils'
 
 
 export interface BaseInjections {

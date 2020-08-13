@@ -13,6 +13,9 @@
 	"source": "src/index.ts",
 	"sideEffects": false,
 
+	"peerDependencies": {
+		"tslib": "^2"
+	},
 	"dependencies": {
 		"@offirmo-private/normalize-string": "^0",
 		"@offirmo/tiny-singleton": "^0",
@@ -20,8 +23,7 @@
 		"json-stable-stringify": "^1",
 		"knex": "^0.21",
 		"pg": "^7",
-		"tiny-invariant": "^1",
-		"tslib": "^2"
+		"tiny-invariant": "^1"
 	},
 
 	"scripts": {

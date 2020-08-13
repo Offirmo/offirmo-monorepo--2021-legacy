@@ -10,7 +10,7 @@
 	"source": "index.js",
 	"sideEffects": false,
 
-	"devDependencies": {
-		"@offirmo-private/uuid": "0.0.1"
+	"dependencies": {
+		"@offirmo-private/uuid": "^0"
 	}
 }

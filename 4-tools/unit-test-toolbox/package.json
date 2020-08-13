@@ -13,7 +13,6 @@
 	"sideEffects": true,
 
 	"dependencies": {
-		"@offirmo/universal-debug-api-node": "^0",
 		"@types/chai": "^4",
 		"@types/chai-as-promised": "^7",
 		"@types/mocha": "^8",
@@ -30,6 +29,7 @@
 		"sinon-chai": "^3"
 	},
 	"optionalDependencies": {
+		"@offirmo/universal-debug-api-node": "^0",
 		"chai-fetch-mock": "^2"
 	},
 

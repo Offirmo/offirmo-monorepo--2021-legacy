@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import chalk from 'chalk'
 
-import { COMMON_ERROR_FIELDS_EXTENDED } from '@offirmo-private/common-error-fields'
+import { COMMON_ERROR_FIELDS_EXTENDED } from '@offirmo-private/error-utils'
 import { inject_chalk, to_prettified_str } from '@offirmo-private/prettify-any'
 import { displayError } from '@offirmo-private/print-error-to-ansi'
 

@@ -1,5 +1,5 @@
 import { STATUS_CODES } from 'http'
-import { XXError } from '@offirmo-private/common-error-fields'
+import { XXError } from '@offirmo-private/error-utils'
 import { XSoftExecutionContext } from '../services/sec'
 
 export interface LXXError extends XXError {

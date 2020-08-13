@@ -14,10 +14,10 @@
 	"sideEffects": false,
 
 	"peerDependencies": {
+		"@offirmo-private/soft-execution-context": "^0",
 		"tslib": "^2"
 	},
 	"dependencies": {
-		"@offirmo-private/soft-execution-context": "^0",
 		"@offirmo-private/ts-types": "^0",
 		"@offirmo-private/uuid": "^0",
 		"@offirmo/practical-logger-types": "^3",

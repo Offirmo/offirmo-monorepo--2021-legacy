@@ -12,7 +12,7 @@
 	"main": "dist/src.es2019.cjs/index.js",
 
 	"dependencies": {
-		"@offirmo-private/common-error-fields": "^0",
+		"@offirmo-private/error-utils": "^0",
 		"@offirmo-private/db": "^0",
 		"@offirmo-private/functions-interface": "^0",
 		"@offirmo-private/json-rpc-types": "^0",

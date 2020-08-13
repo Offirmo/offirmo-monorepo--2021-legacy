@@ -30,7 +30,7 @@
 	},
 
 	"devDependencies": {
-		"@offirmo-private/common-error-fields": "^0",
+		"@offirmo-private/error-utils": "^0",
 		"@offirmo/unit-test-toolbox": "^6",
 		"@size-limit/preset-small-lib": "^4",
 		"np": "^6",

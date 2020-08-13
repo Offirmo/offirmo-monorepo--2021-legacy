@@ -16,13 +16,12 @@
 		"tslib": "^2"
 	},
 	"dependencies": {
-		"@offirmo-private/common-error-fields": "^0",
+		"@offirmo-private/error-utils": "^0",
 		"@offirmo-private/normalize-error": "^0",
 		"@offirmo-private/promise-try": "^0",
 		"@offirmo-private/timestamps": "^0",
 		"@offirmo/globalthis-ponyfill": "^3",
-		"emittery": "^0.7",
-		"tslib": "^2"
+		"emittery": "^0.7"
 	},
 
 	"devDependencies": {

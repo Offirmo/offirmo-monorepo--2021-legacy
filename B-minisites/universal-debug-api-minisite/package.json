@@ -6,15 +6,15 @@
 	"license": "Unlicense",
 
 	"dependencies": {
-		"@offirmo/universal-debug-api-placeholder": "^1",
+		"@babel/core": "^7",
+		"@offirmo-private/view-css": "^0",
+		"@offirmo/practical-logger-core": "^3",
 		"@offirmo/universal-debug-api-browser": "^1",
+		"@offirmo/universal-debug-api-placeholder": "^1",
 		"tslib": "^2"
 	},
 
 	"devDependencies": {
-		"@babel/core": "^7",
-		"@offirmo-private/view-css": "^0",
-		"@offirmo/practical-logger-core": "^3",
 		"np": "^6",
 		"npm-run-all": "^4",
 		"parcel-bundler": "^1"

@@ -11,7 +11,7 @@
 	"sideEffects": false,
 
 	"peerDependencies": {
-		"@offirmo-private/soft-execution-context": "^0.0.2",
+		"@offirmo-private/soft-execution-context": "^0",
 		"react": "^16"
 	},
 	"dependencies": {

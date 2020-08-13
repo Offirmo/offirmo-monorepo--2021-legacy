@@ -12,6 +12,7 @@
 * [test] TODO unit tests!
 * [chore] re-organized the source (monorepo) and tweaked the build script. No logic change.
 * [chore] bumped dependencies (minor)
+* [chore] explicitly declares tslib as dependency (no change, just cleaner)
 * ...
 
 ## v0.1.0

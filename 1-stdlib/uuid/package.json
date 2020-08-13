@@ -18,11 +18,11 @@
 	},
 	"dependencies": {
 		"@offirmo/random": "^2",
-		"@offirmo/unit-test-toolbox": "^6",
 		"nanoid": "^3"
 	},
 
 	"devDependencies": {
+		"@offirmo/unit-test-toolbox": "^6",
 		"npm-run-all": "^4"
 	},
 	"scripts": {

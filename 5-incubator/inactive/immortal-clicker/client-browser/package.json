@@ -15,7 +15,7 @@
 		"@offirmo-private/react-error-boundary": "^0",
 		"@offirmo-private/rich-text-format": "^0",
 		"@offirmo-private/rich-text-format-to-react": "^0",
-		"@offirmo-private/soft-execution-context": "^0.0.2",
+		"@offirmo-private/soft-execution-context": "^0",
 		"@offirmo-private/soft-execution-context-browser": "^0.0.2",
 		"@offirmo/tiny-singleton": "^0",
 		"@offirmo/universal-debug-api-placeholder": "^1",

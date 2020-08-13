@@ -21,12 +21,12 @@
 		"tslib": "^2"
 	},
 	"dependencies": {
-		"@offirmo/unit-test-toolbox": "^6",
 		"json-stable-stringify": "^1",
 		"murmurhash3js-revisited": "^3"
 	},
 
 	"devDependencies": {
+		"@offirmo/unit-test-toolbox": "^6",
 		"npm-run-all": "^4"
 	},
 	"scripts": {

@@ -4,7 +4,7 @@ const Sentry = require('@sentry/node')
 //Sentry.captureException(err)
 //Sentry.captureMessage(err.message)
 
-import { XXError } from '@offirmo-private/common-error-fields'
+import { XXError } from '@offirmo-private/error-utils'
 
 import { CHANNEL } from './channel'
 

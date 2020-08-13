@@ -14,10 +14,10 @@
 	"sideEffects": false,
 
 	"peerDependencies": {
+		"tslib": "^2"
 	},
 	"dependencies": {
-		"@offirmo-private/common-error-fields": "^0",
-		"tslib": "^2"
+		"@offirmo-private/error-utils": "^0"
 	},
 
 	"devDependencies": {

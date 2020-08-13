@@ -1,2 +1,2 @@
-TODO move to practical-logger-node ??
+TODO move to error utils!
 TODO less ridiculous ;)

@@ -1,5 +1,5 @@
 {
-	"name": "@offirmo-private/common-error-fields",
+	"name": "@offirmo-private/error-utils",
 	"description": "known properties of an error object",
 	"version": "0.0.1",
 	"author": "Offirmo <offirmo.net@gmail.com>",
@@ -14,10 +14,10 @@
 	"sideEffects": false,
 
 	"peerDependencies": {
+		"tslib": "^2"
 	},
 	"dependencies": {
-		"@offirmo/globalthis-ponyfill": "^3",
-		"tslib": "^2"
+		"@offirmo/globalthis-ponyfill": "^3"
 	},
 
 	"devDependencies": {

@@ -12,6 +12,7 @@
 	"sideEffects": false,
 
 	"peerDependencies": {
+		"tslib": "^2"
 	},
 	"dependencies": {
 		"@offirmo-private/prettify-any": "^0",
@@ -23,8 +24,7 @@
 		"p-finally": "^2",
 		"p-progress": "^0.4",
 		"strip-ansi": "^6",
-		"term-size": "^2",
-		"tslib": "^2"
+		"term-size": "^2"
 	},
 
 	"devDependencies": {

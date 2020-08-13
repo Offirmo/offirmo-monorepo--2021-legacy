@@ -1,7 +1,7 @@
 import normalizeError from '@offirmo-private/normalize-error'
 import { promiseTry } from '@offirmo-private/promise-try'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
-import { QUASI_STANDARD_ERROR_FIELDS, COMMON_ERROR_FIELDS_EXTENDED } from '@offirmo-private/common-error-fields'
+import { QUASI_STANDARD_ERROR_FIELDS, COMMON_ERROR_FIELDS_EXTENDED } from '@offirmo-private/error-utils'
 
 
 import { INTERNAL_PROP } from '../../consts'

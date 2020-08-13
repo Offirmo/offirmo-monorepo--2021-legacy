@@ -12,13 +12,13 @@
 	"sideEffects": false,
 
 	"peerDependencies": {
+		"tslib": "^2"
 	},
 	"dependencies": {
 		"caught": "^0.1",
 		"is-promise": "^4",
 		"p-finally": "^2",
-		"p-progress": "^0.4",
-		"tslib": "^2"
+		"p-progress": "^0.4"
 	},
 
 	"devDependencies": {

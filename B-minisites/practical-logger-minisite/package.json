@@ -6,14 +6,14 @@
 	"license": "Unlicense",
 
 	"dependencies": {
+		"@babel/core": "^7",
+		"@offirmo-private/view-css": "^0",
 		"@offirmo/practical-logger-browser": "^3",
+		"@offirmo/practical-logger-core": "^3",
 		"tslib": "^2"
 	},
 
 	"devDependencies": {
-		"@babel/core": "^7",
-		"@offirmo-private/view-css": "^0",
-		"@offirmo/practical-logger-core": "^3",
 		"np": "^6",
 		"npm-run-all": "^4",
 		"parcel-bundler": "^1"
