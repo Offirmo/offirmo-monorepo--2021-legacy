@@ -8,9 +8,9 @@ import { PUser } from '../users/types'
 export interface KeyValue<T> {
 	key: string
 	value: T
-	bkp: null | any
-	'v-1': null | any
-	'v-2': null | any
+	bkp__recent: null | any
+	bkp__old: null | any
+	bkp__older: null | any
 }
 
 /////////////////////
@@ -20,9 +20,9 @@ export interface PKeyValue<T> extends WithTimestamps {
 	user_id: PUser['id']
 	key: string
 	value: T
-	bkp: null | any
-	'v-1': null | any
-	'v-2': null | any
+	bkp__recent: null | any
+	bkp__old: null | any
+	bkp__older: null | any
 }
 
 /////////////////////

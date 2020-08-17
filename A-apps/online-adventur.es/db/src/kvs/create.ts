@@ -23,9 +23,9 @@ export async function create_kv_entry<T>(
 		user_id,
 		key,
 		value,
-		bkp: null,
-		'v-1': null,
-		'v-2': null,
+		bkp__recent: null,
+		bkp__old: null,
+		bkp__older: null,
 	}
 	logger.log('creating a KV entry...', { data })
 

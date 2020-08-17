@@ -31,13 +31,13 @@ export async function up(knex: Knex): Promise<any> {
 			.notNullable()
 
 		table
-			.jsonb('bkp')
+			.jsonb('bkp__recent')
 
 		table
-			.jsonb('v-1')
+			.jsonb('bkp__old')
 
 		table
-			.jsonb('v-2')
+			.jsonb('bkp__older')
 	})
 }
 

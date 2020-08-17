@@ -2,6 +2,11 @@
 
 import { expect, assert } from 'chai'
 
+import {
+	BASE_EXAMPLE,
+	ROOT_EXAMPLE,
+} from '@offirmo-private/state/dist/src.es2019.cjs/_test_helpers'
+
 import { LIB } from '../consts'
 import get_db from '../db'
 import {
@@ -32,78 +37,270 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - update`, function() {
 	})
 	afterEach(user_cleanup)
 
-	const TEST_DATA_1 = { bar: 42 }
-	const TEST_DATA_2 = { bar: { baz: 42 }}
-	const TEST_DATA_3 = { foo: { bar: { baz: 42 }}}
+	const TEST_BASE_DATA_1 = { bar: 42 }
+	const TEST_BASE_DATA_2 = { bar: { baz: 42 }}
+	const TEST_BASE_DATA_3a = { foo: { bar: { baz: 42 }}}
+	const TEST_BASE_DATA_3b = { foo: { bar: { baz: 33 }}}
 
 	describe('upsert()', function () {
 
-		it('should work in create condition', async () => {
+		it('should work in create condition -- simple', async () => {
 			await upsert_kv_entry({
 				user_id: TEST_USER1_ID,
 				key: 'foo',
-				value: TEST_DATA_1,
+				value: TEST_BASE_DATA_3b,
 			})
 
-			const actual = await get({ user_id: TEST_USER1_ID, key: 'foo' })
-			expect(actual.value).to.deep.equal(TEST_DATA_1)
-			expect(actual['bkp']).to.deep.equal(null)
-			expect(actual['v-1']).to.deep.equal(null)
-			expect(actual['v-2']).to.deep.equal(null)
+			const actual = (await get({ user_id: TEST_USER1_ID, key: 'foo' }))!
+			expect(actual.value).to.deep.equal(TEST_BASE_DATA_3b)
+			expect(actual.bkp__recent).to.deep.equal(null)
+			expect(actual.bkp__old).to.deep.equal(null)
+			expect(actual.bkp__older).to.deep.equal(null)
 		})
 
-		it('should work in update condition', async () => {
+		it('should work in create condition -- complex', async () => {
 			await upsert_kv_entry({
 				user_id: TEST_USER1_ID,
 				key: 'foo',
-				value: TEST_DATA_1,
+				value: TEST_BASE_DATA_3b,
+				bkp__recent: TEST_BASE_DATA_3a,
+				bkp__old: TEST_BASE_DATA_2,
+				bkp__older: TEST_BASE_DATA_1,
+			})
+
+			const actual = (await get({ user_id: TEST_USER1_ID, key: 'foo' }))!
+			expect(actual.value).to.deep.equal(TEST_BASE_DATA_3b)
+			expect(actual['bkp__recent']).to.deep.equal(TEST_BASE_DATA_3a)
+			expect(actual.bkp__old).to.deep.equal(TEST_BASE_DATA_2)
+			expect(actual.bkp__older).to.deep.equal(TEST_BASE_DATA_1)
+		})
+
+		it('should work in update condition -- simple', async () => {
+			await upsert_kv_entry({
+				user_id: TEST_USER1_ID,
+				key: 'foo',
+				value: TEST_BASE_DATA_1,
 			})
 			await upsert_kv_entry({
 				user_id: TEST_USER1_ID,
 				key: 'foo',
-				value: TEST_DATA_2,
+				value: TEST_BASE_DATA_2,
 			})
-			const actual = await get({ user_id: TEST_USER1_ID, key: 'foo' })
-			expect(actual.value).to.deep.equal(TEST_DATA_2)
-			expect(actual['bkp']).to.deep.equal(null)
-			expect(actual['v-1']).to.deep.equal(null)
-			expect(actual['v-2']).to.deep.equal(null)
+			const actual = (await get({ user_id: TEST_USER1_ID, key: 'foo' }))!
+			expect(actual.value).to.deep.equal(TEST_BASE_DATA_2)
+			expect(actual['bkp__recent']).to.deep.equal(null) // upsert is the base version, no auto bkp__recent / pre-version
+			expect(actual.bkp__old).to.deep.equal(null)
+			expect(actual.bkp__older).to.deep.equal(null)
+		})
+
+		it('should work in update condition -- complex', async () => {
+			await upsert_kv_entry({
+				user_id: TEST_USER1_ID,
+				key: 'foo',
+				value: TEST_BASE_DATA_3a,
+				bkp__recent: TEST_BASE_DATA_3b,
+				bkp__old: TEST_BASE_DATA_1,
+				bkp__older: TEST_BASE_DATA_2,
+			})
+			await upsert_kv_entry({
+				user_id: TEST_USER1_ID,
+				key: 'foo',
+				value: TEST_BASE_DATA_3b,
+				bkp__recent: TEST_BASE_DATA_3a,
+				bkp__old: TEST_BASE_DATA_2,
+				bkp__older: TEST_BASE_DATA_1,
+			})
+			const actual = (await get({ user_id: TEST_USER1_ID, key: 'foo' }))!
+			expect(actual.value).to.deep.equal(TEST_BASE_DATA_3b)
+			expect(actual['bkp__recent']).to.deep.equal(TEST_BASE_DATA_3a)
+			expect(actual.bkp__old).to.deep.equal(TEST_BASE_DATA_2)
+			expect(actual.bkp__older).to.deep.equal(TEST_BASE_DATA_1)
 		})
 	})
 
 	describe('set_kv_entry()', function () {
 
-		it('should work in create condition', async () => {
-			await set_kv_entry({
-				user_id: TEST_USER1_ID,
-				key: 'foo',
-				value: TEST_DATA_1,
+		context('on basic json', function() {
+
+			it('should work in create condition', async () => {
+				await set_kv_entry({
+					user_id: TEST_USER1_ID,
+					key: 'foo',
+					value: TEST_BASE_DATA_1,
+				})
+
+				const actual = (await get({ user_id: TEST_USER1_ID, key: 'foo' }))!
+				expect(actual.value).to.deep.equal(TEST_BASE_DATA_1)
+				expect(actual['bkp__recent']).to.deep.equal(null)
+				expect(actual.bkp__old).to.deep.equal(null)
+				expect(actual.bkp__older).to.deep.equal(null)
 			})
 
-			const actual = await get({ user_id: TEST_USER1_ID, key: 'foo' })
-			expect(actual.value).to.deep.equal(TEST_DATA_1)
-			expect(actual['bkp']).to.deep.equal(null)
-			expect(actual['v-1']).to.deep.equal(null)
-			expect(actual['v-2']).to.deep.equal(null)
+			it('should do nothing on identical data', async () => {
+				await set_kv_entry({
+					user_id: TEST_USER1_ID,
+					key: 'foo',
+					value: TEST_BASE_DATA_1,
+				})
+
+				let actual = (await get({ user_id: TEST_USER1_ID, key: 'foo' }))!
+				expect(actual.value).to.deep.equal(TEST_BASE_DATA_1)
+				expect(actual['bkp__recent']).to.deep.equal(null)
+				expect(actual.bkp__old).to.deep.equal(null)
+				expect(actual.bkp__older).to.deep.equal(null)
+
+				await set_kv_entry({
+					user_id: TEST_USER1_ID,
+					key: 'foo',
+					value: TEST_BASE_DATA_1,
+				})
+
+				actual = (await get({ user_id: TEST_USER1_ID, key: 'foo' }))!
+				expect(actual.value).to.deep.equal(TEST_BASE_DATA_1)
+				expect(actual['bkp__recent']).to.deep.equal(null)
+				expect(actual.bkp__old).to.deep.equal(null)
+				expect(actual.bkp__older).to.deep.equal(null)
+			})
+
+			it('should work in update condition -- bkp pipeline x3', async () => {
+				await set_kv_entry({
+					user_id: TEST_USER1_ID,
+					key: 'foo',
+					value: TEST_BASE_DATA_1,
+				})
+				await set_kv_entry({
+					user_id: TEST_USER1_ID,
+					key: 'foo',
+					value: TEST_BASE_DATA_2,
+				})
+
+				let actual = (await get({ user_id: TEST_USER1_ID, key: 'foo' }))!
+				expect(actual.value).to.deep.equal(TEST_BASE_DATA_2)
+				expect(actual['bkp__recent']).to.deep.equal(TEST_BASE_DATA_1)
+				expect(actual.bkp__old).to.deep.equal(null)
+				expect(actual.bkp__older).to.deep.equal(null)
+
+				await set_kv_entry({
+					user_id: TEST_USER1_ID,
+					key: 'foo',
+					value: TEST_BASE_DATA_3a,
+				})
+
+				actual = (await get({ user_id: TEST_USER1_ID, key: 'foo' }))!
+				expect(actual.value).to.deep.equal(TEST_BASE_DATA_3a)
+				expect(actual['bkp__recent']).to.deep.equal(TEST_BASE_DATA_2)
+				expect(actual.bkp__old).to.deep.equal(TEST_BASE_DATA_1)
+				expect(actual.bkp__older).to.deep.equal(null)
+			})
 		})
 
-		it.only('should work in update condition', async () => {
-			await set_kv_entry({
-				user_id: TEST_USER1_ID,
-				key: 'foo',
-				value: TEST_DATA_1,
-			})
-			await set_kv_entry({
-				user_id: TEST_USER1_ID,
-				key: 'foo',
-				value: TEST_DATA_2,
+		context('on advanced Offirmo’s states', function() {
+
+			it('should work in create condition', async () => {
+				await set_kv_entry({
+					user_id: TEST_USER1_ID,
+					key: 'foo',
+					value: ROOT_EXAMPLE,
+				})
+
+				const actual = (await get({ user_id: TEST_USER1_ID, key: 'foo' }))!
+				expect(actual.value).to.deep.equal(ROOT_EXAMPLE)
+				expect(actual.bkp__recent).to.deep.equal(null)
+				expect(actual.bkp__old).to.deep.equal(null)
+				expect(actual.bkp__older).to.deep.equal(null)
 			})
 
-			const actual = await get({ user_id: TEST_USER1_ID, key: 'foo' })
-			expect(actual.value).to.deep.equal(TEST_DATA_2)
-			expect(actual['bkp']).to.deep.equal(TEST_DATA_1)
-			expect(actual['v-1']).to.deep.equal(null)
-			expect(actual['v-2']).to.deep.equal(null)
+			it('should do nothing on identical data', async () => {
+				await set_kv_entry({
+					user_id: TEST_USER1_ID,
+					key: 'foo',
+					value: ROOT_EXAMPLE,
+				})
+
+				let actual = (await get({ user_id: TEST_USER1_ID, key: 'foo' }))!
+				expect(actual.value).to.deep.equal(ROOT_EXAMPLE)
+				expect(actual.bkp__recent).to.deep.equal(null)
+				expect(actual.bkp__old).to.deep.equal(null)
+				expect(actual.bkp__older).to.deep.equal(null)
+
+				await set_kv_entry({
+					user_id: TEST_USER1_ID,
+					key: 'foo',
+					value: ROOT_EXAMPLE,
+				})
+
+				actual = (await get({ user_id: TEST_USER1_ID, key: 'foo' }))!
+				expect(actual.value).to.deep.equal(ROOT_EXAMPLE)
+				expect(actual.bkp__recent).to.deep.equal(null)
+				expect(actual.bkp__old).to.deep.equal(null)
+				expect(actual.bkp__older).to.deep.equal(null)
+			})
+
+			it.only('should work in update condition -- same schema version x3 = limited bkp pipeline', async () => {
+				let TEST_ADV_DATA_0 = {
+					...ROOT_EXAMPLE,
+				}
+				let TEST_ADV_DATA_1 = {
+					...ROOT_EXAMPLE,
+					u_state: {
+						...ROOT_EXAMPLE.u_state,
+						revision: 123,
+					}
+				}
+				let TEST_ADV_DATA_2 = {
+					...ROOT_EXAMPLE,
+					u_state: {
+						...ROOT_EXAMPLE.u_state,
+						revision: 124,
+					}
+				}
+				let TEST_ADV_DATA_3 = {
+					...ROOT_EXAMPLE,
+					u_state: {
+						...ROOT_EXAMPLE.u_state,
+						revision: 125,
+					}
+				}
+
+				await set_kv_entry({
+					user_id: TEST_USER1_ID,
+					key: 'foo',
+					value: TEST_ADV_DATA_0,
+				})
+
+				await set_kv_entry({
+					user_id: TEST_USER1_ID,
+					key: 'foo',
+					value: TEST_ADV_DATA_1,
+				})
+				let actual = (await get({ user_id: TEST_USER1_ID, key: 'foo' }))!
+				expect(actual.value, 'v1').to.deep.equal(TEST_ADV_DATA_1)
+				expect(actual.bkp__recent, 'r1').to.deep.equal(TEST_ADV_DATA_0)
+				expect(actual.bkp__old, 'o1').to.deep.equal(null)
+				expect(actual.bkp__older, 'oo1').to.deep.equal(null)
+
+				await set_kv_entry({
+					user_id: TEST_USER1_ID,
+					key: 'foo',
+					value: TEST_ADV_DATA_2,
+				})
+				actual = (await get({ user_id: TEST_USER1_ID, key: 'foo' }))!
+				expect(actual.value, 'v2').to.deep.equal(TEST_ADV_DATA_2)
+				expect(actual.bkp__recent, 'r2').to.deep.equal(TEST_ADV_DATA_1)
+				expect(actual.bkp__old, 'o2').to.deep.equal(null)
+				expect(actual.bkp__older, 'oo2').to.deep.equal(null)
+
+				await set_kv_entry({
+					user_id: TEST_USER1_ID,
+					key: 'foo',
+					value: TEST_ADV_DATA_3,
+				})
+				actual = (await get({ user_id: TEST_USER1_ID, key: 'foo' }))!
+				expect(actual.value, 'v3').to.deep.equal(TEST_ADV_DATA_3)
+				expect(actual.bkp__recent, 'r3').to.deep.equal(TEST_ADV_DATA_2)
+				expect(actual.bkp__old, 'o3').to.deep.equal(null)
+				expect(actual.bkp__older, 'oo3').to.deep.equal(null)
+			})
 		})
 	})
 })
