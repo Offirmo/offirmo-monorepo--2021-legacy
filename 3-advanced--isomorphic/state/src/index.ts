@@ -1,2 +1,5 @@
 export * from './types'
+export * from './type-guards'
+export * from './selectors'
+export * from './comparators'
 export * from './utils'

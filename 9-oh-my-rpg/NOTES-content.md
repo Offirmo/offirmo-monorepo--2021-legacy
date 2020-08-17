@@ -432,4 +432,7 @@ ideas for bad guys:
 - epstein
 - bezos
 - hithler
--
+- Trump
+
+
+create a sustainable ecosystem of native birds. There, I learned the fascinating science of complex systems and understood how delicate the balance of creating equilibrium in an ecosystem is. You need populations of different species in harmony to keep the overall ecosystem healthy. We optimize for the whole, not just for one.

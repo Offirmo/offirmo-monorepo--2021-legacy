@@ -12,9 +12,21 @@ Senior Dev tips!
 * crunch
 * SME
 * OKR
+* progress over perfection
+* submarine
+* better ask for forgiveness than for permission
+* journalists
 
 
 ~~~~~~~~~~~~~~~~~~~~ TOSORT ~~~~~~~~~~~~~~~~~~~~~~
+
+functional programming, single source of truth, flux architecture, heap memory, stack, stack memory, stack overflow, database, async/sync, atomic, context switch, queue, fifo, pointer, handle, register, assembly, microcode, RAM, allocation, garbage collector, message passing, ownership, flux architecture, global variable, scope, loop, breaking out of a loop, jump/goto, map, flatmap, event loop, blocking, semaphore, thread, system call, file write, file read, cache, flushing, object, class, function, constructor, state, typecast, types, prototypes, hooks, log, MVC, dependencies, dependency hell, recursion, linked list, tree, revisions, tree walk, compiler, transpiler, comment, annotation
+Well done sourcing the mental models from your readers ;)
+
+P3 should be learning how to engineer high quality software
+P4 should be doing the lion’s share of engineering
+P5 should be leading your team’s execution on engineering
+P6 should be driving action in your teams, after identifying opportunities themselves
 
 privacy:
 * purpose limitation

@@ -1,25 +1,34 @@
 //import { JSONAny } from '@offirmo-private/ts-types'
 import { TimestampUTCMs } from '@offirmo-private/timestamps'
 
-export interface BaseUState {
-	schema_version: number
-	revision: number
 
+// critical for migrations
+export interface WithSchemaVersion {
+	schema_version: number
+}
+// represents user-initiated changes
+export interface WithRevision {
+	revision: number
+}
+
+export interface BaseState extends WithSchemaVersion, WithRevision {
 	//last_user_action_tms: TimestampUTCMs
 	//[k: string]: JSONAny | BaseUState
 }
 
-export interface BaseTState {
-	schema_version: number
-	// revision is not relevant for a T-State
-	timestamp_ms: TimestampUTCMs
-
-	//[k: string]: JSONAny | BaseTState
+// state which only changes with User actions
+export interface BaseUState extends BaseState {
 }
 
-export interface BaseRootState {
-	schema_version: number
-	//revision: undefined -> useless, see u_state
+
+// state which changes with User actions but also with Time
+export interface BaseTState extends BaseState {
+	timestamp_ms: TimestampUTCMs
+}
+
+
+export interface BaseRootState extends WithSchemaVersion {
+	//revision -> useless, see u_state & t_state
 
 	u_state: BaseUState
 	t_state: BaseTState

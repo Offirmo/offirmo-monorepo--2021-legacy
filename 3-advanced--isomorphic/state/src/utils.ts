@@ -1,11 +1,32 @@
 import assert from 'tiny-invariant'
 
 import {
+	WithSchemaVersion,
+	WithRevision,
 	BaseUState,
 	BaseTState,
 	BaseRootState,
 } from './types'
+import {
+	has_versioned_schema,
+	is_revisioned,
+	is_RootState,
+	is_TState,
+	is_UState,
+} from './type-guards'
+import {
+	get_revision,
+	get_schema_version,
+	get_schema_version_loose,
+} from './selectors'
 
+
+
+
+
+interface AnyBaseState extends WithRevision {
+	[k: string]: any
+}
 interface AnyBaseUState extends BaseUState {
 	[k: string]: any
 }
@@ -18,43 +39,42 @@ interface AnyRootState extends BaseRootState {
 }
 
 
-export function propagate_child_revision_increment_upward<S extends BaseUState | BaseRootState>(
-	previous: Readonly<S> | null | undefined,
-	current: Readonly<S>,
-): Readonly<S> {
+export function propagate_child_revision_increment_upward<S extends WithRevision, R extends BaseRootState, T = S | R>(
+	previous: any,
+	current: Readonly<T>,
+): T {
 	if (!previous)
 		return current
 
 	let has_child_revision_increment = false
 
-	if ((current as any).u_state) {
+	if (is_RootState(current)) {
 		// this is a more advanced state
-		const typed_previous: BaseRootState = previous as any
-		const typed_current: BaseRootState = current as any
-		assert(!Number.isInteger((typed_current as any).revision), 'revision should be on u_state (1)!')
-		assert(Number.isInteger(typed_current.u_state.revision as any), 'revision should be on u_state (2)!')
-		const final_u_state = propagate_child_revision_increment_upward(typed_previous.u_state, typed_current.u_state)
-		if (final_u_state === typed_current.u_state)
+		assert(is_RootState(previous), 'previous has root data structure!')
+		const final_u_state = propagate_child_revision_increment_upward(previous.u_state, current.u_state)
+		const final_t_state = propagate_child_revision_increment_upward(previous.t_state, current.t_state)
+		if (final_u_state === current.u_state && final_t_state === current.t_state)
 			return current
 
 		return {
 			...current,
 			u_state: final_u_state,
+			t_state: final_t_state,
 		}
 	}
 
-	const typed_previous: BaseUState = previous as any
-	const typed_current: BaseUState = current as any
+	assert(is_UState(current) || is_TState(current), 'previous has U/TState data structure!') // uneeded except for helping TS type inference
+	assert(is_UState(previous) && is_UState(current) || is_TState(previous) || is_TState(current), 'previous has U/TState data structure!')
 
-	if (!Number.isInteger(typed_current.revision as any))
-		throw new Error('propagate_child_revision_increment_upward(): Invalid current state!')
-
-	if (Number.isInteger(typed_previous.revision as any) && typed_current.revision !== typed_previous.revision)
+	if (Number.isInteger(previous.revision as any) && current.revision !== previous.revision)
 		throw new Error('propagate_child_revision_increment_upward(): revision already incremented!')
 
-	for (const k in current) {
-		const previous_revision = (previous[k] as any || {}).revision
-		const current_revision = (current[k] as any || {}).revision
+	const typed_previous: AnyBaseState = previous as any
+	const typed_current: AnyBaseState = current as any
+
+	for (const k in typed_current) {
+		const previous_revision = (typed_previous[k] as WithRevision || {}).revision
+		const current_revision = (typed_current[k] as WithRevision || {}).revision
 		if (current_revision !== previous_revision) {
 			if (!Number.isInteger(previous_revision as any))
 				throw new Error(`propagate_child_revision_increment_upward(): Invalid revision for previous "${k}"!`)
@@ -73,10 +93,9 @@ export function propagate_child_revision_increment_upward<S extends BaseUState |
 
 	if (!has_child_revision_increment) return current
 
-
 	return {
 		...current,
-		revision: ((current as any as BaseUState).revision || 0) + 1,
+		revision: (current.revision || 0) + 1,
 	}
 }
 
