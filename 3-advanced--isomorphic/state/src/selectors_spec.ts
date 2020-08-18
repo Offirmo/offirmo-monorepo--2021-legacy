@@ -54,7 +54,7 @@ describe(`${LIB} - selectors`, function() {
 
 	describe('get_revision()', function() {
 		it('should work on correct data', () => {
-			expect(get_revision(ROOT_EXAMPLE.t_state)).to.equal(0)
+			expect(get_revision(ROOT_EXAMPLE.t_state)).to.equal(20)
 			expect(get_revision(BASE_EXAMPLE)).to.equal(103)
 			expect(get_revision(BASE_EXAMPLE.sub1)).to.equal(45)
 		})

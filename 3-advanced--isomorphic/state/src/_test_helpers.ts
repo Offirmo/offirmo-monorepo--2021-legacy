@@ -60,7 +60,7 @@ export const ROOT_EXAMPLE: Readonly<TestRootState> = deepFreeze({
 	u_state: BASE_EXAMPLE,
 	t_state: {
 		schema_version: 3,
-		revision: 0,
+		revision: 20,
 		timestamp_ms: 123456789,
 		energy: 7,
 	},

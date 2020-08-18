@@ -1,7 +1,7 @@
-import { NetlifyUser, BaseUser, PNetlifyUser } from "./types"
-import { delete_by_email } from "./delete"
-import { WithoutTimestamps } from "../types"
-import get_db from "../db"
+import { NetlifyUser, BaseUser, PNetlifyUser } from './types'
+import { delete_by_email } from './delete'
+import { WithoutTimestamps } from '../types'
+import get_db from '../db'
 
 ////////////////////////////////////
 

@@ -28,6 +28,8 @@ P4 should be doing the lion’s share of engineering
 P5 should be leading your team’s execution on engineering
 P6 should be driving action in your teams, after identifying opportunities themselves
 
+https://en.wikipedia.org/wiki/Cache_stampede
+
 privacy:
 * purpose limitation
 * consent, unbundled

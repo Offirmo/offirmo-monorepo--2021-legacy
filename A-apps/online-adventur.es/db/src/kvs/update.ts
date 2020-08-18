@@ -4,8 +4,8 @@ import assert from 'tiny-invariant'
 import {
 	has_versioned_schema,
 	is_RootState,
-	is_loosely_newer_schema_version,
-	assert_newer_schema_version_or_not_equal,
+	get_semantic_difference,
+	SemanticDifference,
 } from '@offirmo-private/state'
 
 import { WithoutTimestamps } from '../types'
@@ -29,7 +29,7 @@ export async function upsert_kv_entry<T>(
 	},
 	trx: ReturnType<typeof get_db> = get_db()
 ): Promise<void> {
-	logger.log('upserting a KV entry...', { params })
+	logger.log('⭆ upserting a KV entry...', { params })
 
 	const { user_id, key } = params
 
@@ -54,7 +54,7 @@ export async function upsert_kv_entry<T>(
 
 	await trx.raw(`? ON CONFLICT (${keyPlaceholders}) DO ? RETURNING *`, [insert, ...keys, update_query])
 
-	logger.log('upserted a KV entry ✔')
+	logger.log('⭅ upserted a KV entry ✔')
 }
 
 export async function set_kv_entry<T>(
@@ -66,18 +66,18 @@ export async function set_kv_entry<T>(
 	},
 	trx: ReturnType<typeof get_db> = get_db()
 ): Promise<void> {
-	logger.log('intelligently setting a KV entry...', { params })
+	logger.log('⭆ intelligently setting a KV entry...', { params })
 
 	const { user_id, key, value } = params
 	let bkp__recent: PKeyValue<T>['bkp__recent'] = null
 	let previous_major_versions: any[] = []
-	const is_simple = !has_versioned_schema(value)
+
 	// TODO validate JSON
 
 	// EXPECTED: values are presented from the oldest to the newest!
 	function enqueue_in_bkp_pipeline(old_val: any) {
-		const semantic_difference = get_semantic_difference(val, old_val)
-		assert(semantic_difference !== 'xxx-reverse')
+		if (!old_val) return
+		const semantic_difference = get_semantic_difference(value, old_val)
 		if (semantic_difference === 'major') {
 			enqueue_in_major_bkp_pipeline(old_val)
 		} else {
@@ -106,35 +106,23 @@ export async function set_kv_entry<T>(
 		}
 	}
 
-	let existing: ReturnType<typeof get<T>> = params.existing_hint || null
+	let existing: PKeyValue<T> | null = params.existing_hint || null
 	existing = existing || await get<T>({ user_id, key }, trx)
 	if (existing) {
 		try {
 			assertDeepStrictEqual(value, existing.value)
-			logger.log('intelligently set a KV entry = no change ✔')
+			logger.log('⭅ intelligently set a KV entry = no change ✔')
 			return
 		}
 		catch {}
 
-		assert_newer_schema_version_or_not_equal(value, existing.value)
+		assert(get_semantic_difference(value, existing.value), 'new value should really be newer!')
 
-		if (existing.bkp__older) {
-			if (!has_versioned_schema(value) || is_loosely_newer_schema_version(value, existing.bkp__older)) {
-				previous_major_versions.unshift(existing.bkp__older)
-			}
-		}
-		if (existing.bkp__old) {
-			if (!has_versioned_schema(value) || is_loosely_newer_schema_version(value, existing.bkp__old)) {
-				previous_major_versions.unshift(existing.bkp__old)
-			}
-		}
-
-		if (existing.bkp__old)
-			previous_major_versions.unshift(existing.bkp__old)
-		if (is_newer_schema_version_or_not_equal(existing.bkp__recent, previous_major_versions[0]))
-			previous_major_versions.unshift(existing.bkp__recent)
-
-		bkp__recent = existing.value
+		// IMPORTANT should enqueue from oldest to newest
+		enqueue_in_bkp_pipeline(existing.bkp__older)
+		enqueue_in_bkp_pipeline(existing.bkp__old)
+		enqueue_in_bkp_pipeline(existing.bkp__recent)
+		enqueue_in_bkp_pipeline(existing.value)
 	}
 
 	const data: WithoutTimestamps<PKeyValue<T>> = {
@@ -148,5 +136,5 @@ export async function set_kv_entry<T>(
 
 	await upsert_kv_entry(data, trx)
 
-	logger.log('intelligently set a KV entry ✔', data)
+	logger.log('⭅ intelligently set a KV entry ✔', data)
 }

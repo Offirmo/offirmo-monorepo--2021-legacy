@@ -17,7 +17,7 @@ export async function get<T>(
 	},
 	trx: ReturnType<typeof get_db> = get_db()
 ): Promise<PKeyValue<T> | null> {
-	logger.log('reading a KV entry…', { user_id, key })
+	logger.log('⭆ reading a KV entry…', { user_id, key })
 
 	const rows = await trx(TABLE__KEY_VALUES)
 		.select()
@@ -25,12 +25,12 @@ export async function get<T>(
 	assert(rows.length <= 1, 'single or no result expected when reading a kv entry')
 
 	if (rows.length === 0) {
-		logger.log('read a KV entry: EMPTY ✔')
+		logger.log('⭅ read a KV entry: EMPTY ✔')
 		return null
 	}
 
 	const data = rows[0]
-	logger.log('read a KV entry ✔', data)
+	logger.log('⭅ read a KV entry ✔', data)
 
 	return data
 }
@@ -43,16 +43,16 @@ export async function get_value<T>(
 	},
 	trx: ReturnType<typeof get_db> = get_db()
 ): Promise<T | null> {
-	logger.log('reading a KV entry value…', { user_id, key })
+	logger.log('⭆ reading a KV entry value…', { user_id, key })
 
 	const data = await get<T>({ user_id, key }, trx)
 	if (!data) {
-		logger.log('read a KV entry value: EMPTY ✔')
+		logger.log('⭅ read a KV entry value: EMPTY ✔')
 		return null
 	}
 
 	const { value } = data
-	logger.log('read a KV entry value ✔', { value })
+	logger.log('⭅ read a KV entry value ✔', { value })
 
 	return value as any
 }

@@ -22,7 +22,6 @@ import {
 } from './update'
 import {
 	get,
-	get_value,
 } from './read'
 
 ////////////////////////////////////
@@ -162,7 +161,7 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - update`, function() {
 				expect(actual.bkp__older).to.deep.equal(null)
 			})
 
-			it('should work in update condition -- bkp pipeline x3', async () => {
+			it('should work in update condition -- change x3 = minor bkp pipeline', async () => {
 				await set_kv_entry({
 					user_id: TEST_USER1_ID,
 					key: 'foo',
@@ -189,7 +188,7 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - update`, function() {
 				actual = (await get({ user_id: TEST_USER1_ID, key: 'foo' }))!
 				expect(actual.value).to.deep.equal(TEST_BASE_DATA_3a)
 				expect(actual['bkp__recent']).to.deep.equal(TEST_BASE_DATA_2)
-				expect(actual.bkp__old).to.deep.equal(TEST_BASE_DATA_1)
+				expect(actual.bkp__old).to.deep.equal(null)
 				expect(actual.bkp__older).to.deep.equal(null)
 			})
 		})
@@ -236,7 +235,7 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - update`, function() {
 				expect(actual.bkp__older).to.deep.equal(null)
 			})
 
-			it.only('should work in update condition -- same schema version x3 = limited bkp pipeline', async () => {
+			it('should work in update condition -- same schema version x3 = minor bkp pipeline', async () => {
 				let TEST_ADV_DATA_0 = {
 					...ROOT_EXAMPLE,
 				}
@@ -300,6 +299,142 @@ describe(`${LIB} - ${TABLE__KEY_VALUES} - update`, function() {
 				expect(actual.bkp__recent, 'r3').to.deep.equal(TEST_ADV_DATA_2)
 				expect(actual.bkp__old, 'o3').to.deep.equal(null)
 				expect(actual.bkp__older, 'oo3').to.deep.equal(null)
+			})
+
+			it('should work in update condition -- only increasing schema version x3 = major bkp pipeline', async () => {
+				let TEST_ADV_DATA_0 = {
+					...ROOT_EXAMPLE,
+					schema_version: 1,
+				}
+				let TEST_ADV_DATA_1 = {
+					...ROOT_EXAMPLE,
+					schema_version: 3,
+					u_state: {
+						...ROOT_EXAMPLE.u_state,
+						revision: 123,
+					}
+				}
+				let TEST_ADV_DATA_2 = {
+					...ROOT_EXAMPLE,
+					schema_version: 4,
+					u_state: {
+						...ROOT_EXAMPLE.u_state,
+						revision: 124,
+					}
+				}
+				let TEST_ADV_DATA_3 = {
+					...ROOT_EXAMPLE,
+					schema_version: 7,
+					u_state: {
+						...ROOT_EXAMPLE.u_state,
+						revision: 125,
+					}
+				}
+
+				await set_kv_entry({
+					user_id: TEST_USER1_ID,
+					key: 'foo',
+					value: TEST_ADV_DATA_0,
+				})
+
+				await set_kv_entry({
+					user_id: TEST_USER1_ID,
+					key: 'foo',
+					value: TEST_ADV_DATA_1,
+				})
+				let actual = (await get({ user_id: TEST_USER1_ID, key: 'foo' }))!
+				expect(actual.value, 'v1').to.deep.equal(TEST_ADV_DATA_1)
+				expect(actual.bkp__recent, 'r1').to.deep.equal(null)
+				expect(actual.bkp__old, 'o1').to.deep.equal(TEST_ADV_DATA_0)
+				expect(actual.bkp__older, 'oo1').to.deep.equal(null)
+
+				await set_kv_entry({
+					user_id: TEST_USER1_ID,
+					key: 'foo',
+					value: TEST_ADV_DATA_2,
+				})
+				actual = (await get({ user_id: TEST_USER1_ID, key: 'foo' }))!
+				expect(actual.value, 'v2').to.deep.equal(TEST_ADV_DATA_2)
+				expect(actual.bkp__recent, 'r2').to.deep.equal(null)
+				expect(actual.bkp__old, 'o2').to.deep.equal(TEST_ADV_DATA_1)
+				expect(actual.bkp__older, 'oo2').to.deep.equal(TEST_ADV_DATA_0)
+
+				await set_kv_entry({
+					user_id: TEST_USER1_ID,
+					key: 'foo',
+					value: TEST_ADV_DATA_3,
+				})
+				actual = (await get({ user_id: TEST_USER1_ID, key: 'foo' }))!
+				expect(actual.value, 'v3').to.deep.equal(TEST_ADV_DATA_3)
+				expect(actual.bkp__recent, 'r3').to.deep.equal(null)
+				expect(actual.bkp__old, 'o3').to.deep.equal(TEST_ADV_DATA_2)
+				expect(actual.bkp__older, 'oo3').to.deep.equal(TEST_ADV_DATA_1)
+			})
+
+			it('should work in update condition -- increasing everything = full bkp pipeline', async () => {
+				let TEST_ADV_DATA_1a = {
+					...ROOT_EXAMPLE,
+					schema_version: 1,
+					u_state: {
+						...ROOT_EXAMPLE.u_state,
+						revision: 1,
+					},
+				}
+				let TEST_ADV_DATA_1b = {
+					...ROOT_EXAMPLE,
+					schema_version: 1,
+					u_state: {
+						...ROOT_EXAMPLE.u_state,
+						revision: 2,
+					}
+				}
+				let TEST_ADV_DATA_2a = {
+					...ROOT_EXAMPLE,
+					schema_version: 2,
+					u_state: {
+						...ROOT_EXAMPLE.u_state,
+						revision: 10,
+					}
+				}
+				let TEST_ADV_DATA_2b = {
+					...ROOT_EXAMPLE,
+					schema_version: 2,
+					u_state: {
+						...ROOT_EXAMPLE.u_state,
+						revision: 11,
+					}
+				}
+				let TEST_ADV_DATA_3a = {
+					...ROOT_EXAMPLE,
+					schema_version: 3,
+					u_state: {
+						...ROOT_EXAMPLE.u_state,
+						revision: 30,
+					}
+				}
+				let TEST_ADV_DATA_3b = {
+					...ROOT_EXAMPLE,
+					schema_version: 3,
+					u_state: {
+						...ROOT_EXAMPLE.u_state,
+						revision: 31,
+					}
+				}
+
+				const user_id = TEST_USER1_ID
+				const key = 'foo'
+				await set_kv_entry({ user_id, key, value: TEST_ADV_DATA_1a })
+				await set_kv_entry({ user_id, key, value: TEST_ADV_DATA_1b })
+				await set_kv_entry({ user_id, key, value: TEST_ADV_DATA_2a })
+				await set_kv_entry({ user_id, key, value: TEST_ADV_DATA_2b })
+				await set_kv_entry({ user_id, key, value: TEST_ADV_DATA_3a })
+				await set_kv_entry({ user_id, key, value: TEST_ADV_DATA_3b })
+
+				const actual = (await get({ user_id, key }))!
+				expect(actual.value,       'v').to.deep.equal(TEST_ADV_DATA_3b)
+				expect(actual.bkp__recent, 'r').to.deep.equal(TEST_ADV_DATA_3a)
+				expect(actual.bkp__old,    'o').to.deep.equal(TEST_ADV_DATA_2b)
+				expect(actual.bkp__older, 'oo').to.deep.equal(TEST_ADV_DATA_1b)
 			})
 		})
 	})

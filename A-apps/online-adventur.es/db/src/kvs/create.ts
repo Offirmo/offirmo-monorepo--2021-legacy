@@ -27,10 +27,10 @@ export async function create_kv_entry<T>(
 		bkp__old: null,
 		bkp__older: null,
 	}
-	logger.log('creating a KV entry...', { data })
+	logger.log('⭆ creating a KV entry...', { data })
 
 	await trx(TABLE__KEY_VALUES)
 		.insert(data)
 
-	logger.log('created a KV entry ✔')
+	logger.log('⭅ created a KV entry ✔')
 }
