@@ -443,3 +443,15 @@ https://blizzardwatch.com/2020/04/08/paladin-changes-wow-shadowlands/
 
 borrowed power https://us.forums.blizzard.com/en/wow/t/what-is-borrowed-power/522284/11
 
+fire tornado https://www.washingtonpost.com/weather/2020/08/16/california-fire-tornado-warning/
+
+https://en.wikipedia.org/wiki/Brigandine
+
+like cheating? No like winning
+
+https://fitness.stackexchange.com/questions/42662/if-bro-splits-dont-work-why-is-literally-every-muscular-guy-in-my-gym-doing
+https://bretcontreras.com/progressive-overload/
+
+https://en.wikipedia.org/wiki/Fall_of_the_Western_Roman_Empire
+
+https://en.wikipedia.org/wiki/Six_Thinking_Hats
