@@ -455,3 +455,12 @@ https://bretcontreras.com/progressive-overload/
 https://en.wikipedia.org/wiki/Fall_of_the_Western_Roman_Empire
 
 https://en.wikipedia.org/wiki/Six_Thinking_Hats
+
+https://goblinscomic.fandom.com/wiki/I.M.E.
+https://forums.giantitp.com/archive/index.php/t-31967.html
+https://villains.obsidianportal.com/wikis/individual-magic-effects
+
+https://rpg.stackexchange.com/questions/172619/how-can-i-make-players-still-feel-rewarded-after-looting-a-dragon-hoard
+https://rpg.stackexchange.com/questions/47604/without-a-magic-item-economy-what-is-gold-for
+
+https://en.wikipedia.org/wiki/Body_armor

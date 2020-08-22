@@ -2,10 +2,10 @@
 import chalk from 'chalk'
 
 import { COMMON_ERROR_FIELDS_EXTENDED } from '@offirmo-private/error-utils'
-import { inject_chalk, to_prettified_str } from '@offirmo-private/prettify-any'
+import { inject_lib__chalk, prettify_any } from '@offirmo-private/prettify-any'
 import { displayError } from '@offirmo-private/print-error-to-ansi'
 
-inject_chalk(chalk)
+inject_lib__chalk(chalk)
 
 import {
 	LogPayload,
@@ -42,7 +42,7 @@ export function createSink(options: Readonly<SinkOptions> = {}): LogSink {
 				Reflect.ownKeys(details).length === 0
 					? ''
 					//: (' ' + JSON.stringify(details))
-					: (' ' + to_prettified_str(details, {
+					: (' ' + prettify_any(details, {
 						//line_width:
 						//first_line_already_used:
 					}))

@@ -13,6 +13,9 @@ https://commons.wikimedia.org/wiki/File:USDA_Mineral_Quartz_Crystal_93c3951.jpg
 Sources
 * https://www.deviantart.com/falleynangel/favourites/63370615/Scenery
 
+### pixel art
+free items/icons (+ links to others) https://www.deviantart.com/7soul1/art/420-Pixel-Art-Icons-for-RPG-129892453
+
 
 ### tosort
 homme préhisto https://www.instagram.com/tombjorklundart/

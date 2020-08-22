@@ -1,9 +1,19 @@
 import deepFreeze from 'deep-freeze-strict'
+import {
+	listenToUncaughtErrors,
+	listenToUnhandledRejections,
+	decorateWithDetectedEnv,
+} from '@offirmo-private/soft-execution-context-node'
 
 import {
 	BaseRootState, BaseTState,
 	BaseUState,
 } from './types'
+
+
+listenToUncaughtErrors()
+listenToUnhandledRejections()
+decorateWithDetectedEnv()
 
 
 export interface SubState1 extends BaseUState {

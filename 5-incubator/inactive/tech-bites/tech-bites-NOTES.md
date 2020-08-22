@@ -88,6 +88,8 @@ CSS
 
     http://saijogeorge.com/css-puns/
 
+https://news.slashdot.org/story/20/08/01/023248/william-english-engineer-behind-the-mother-of-all-demos-dies-at-91
+
 startup disparue https://techcrunch.com/2018/06/21/twitter-smytes-customers/
 
 https://tech.slashdot.org/story/20/03/04/205256/simple-systems-have-less-downtime
