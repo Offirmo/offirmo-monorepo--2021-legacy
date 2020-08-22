@@ -10,3 +10,6 @@ https://www.broadsheet.com.au/sydney/entertainment/article/ten-things-do-sydney-
 https://www.google.com/search?q=red+hand+cave+walk&rlz=1C5CHFA_enAU827AU827&oq=red+hand+cave+walk&aqs=chrome..69i57&sourceid=chrome&ie=UTF-8
 https://www.featherdale.com.au/
 https://sydneyuncovered.com/ku-ring-gai-chase-national-park-walks/
+https://www.goget.com.au/blog/places-to-visit-in-nsw-with-goget/
+https://www.australiantraveller.com/nsw/blue-mountains/greater-blue-mountains/
+https://www.australiantraveller.com/100-ways-to-holiday-here-this-year/

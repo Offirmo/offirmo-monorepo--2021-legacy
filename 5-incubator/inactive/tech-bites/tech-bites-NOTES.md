@@ -155,3 +155,7 @@ https://web.archive.org/web/20131125102418/http://programmer.97things.oreilly.co
 https://web.archive.org/web/20131018011814/http://programmer.97things.oreilly.com/wiki/index.php/Contributions_Appearing_in_the_Book
 
 https://www.thersa.org/
+
+
+https://ia.acs.org.au/article/2019/understanding-the-must-have-soft-skills.html
+
