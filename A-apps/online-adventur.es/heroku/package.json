@@ -12,24 +12,7 @@
 	"main": "dist/src.es2019.cjs/index.js",
 
 	"dependencies": {
-		"@offirmo-private/error-utils": "^0",
-		"@offirmo-private/db": "^0",
-		"@offirmo-private/functions-interface": "^0",
-		"@offirmo-private/json-rpc-types": "^0",
-		"@offirmo-private/normalize-string": "^0",
-		"@offirmo-private/soft-execution-context": "^0",
-		"@offirmo-private/soft-execution-context-node": "^0",
-		"@offirmo-private/timestamps": "^0",
-		"@offirmo-private/uuid": "^0",
-		"@offirmo/tiny-singleton": "^0",
-		"@offirmo/universal-debug-api-node": "^0",
-		"@offirmo/universal-debug-api-placeholder": "^1",
-		"@sentry/node": "^5",
 		"express": "^4",
-		"json-stable-stringify": "^1",
-		"tiny-invariant": "^1",
-		"tslib": "^2",
-		"typescript-string-enums": "^1"
 	},
 
 	"scripts": {

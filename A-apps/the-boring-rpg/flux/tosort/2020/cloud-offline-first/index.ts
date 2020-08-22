@@ -18,9 +18,51 @@ import { LIB as ROOT_LIB } from '../../consts'
 import { OMRSoftExecutionContext } from '../../sec'
 import { CloudStore } from '../types'
 import logger from './logger'
+import { create as create_synchronizer } from './synchonizer'
+import { create as create_jsonrpc_client } from './json-rpc-client'
 
 const LIB = `${ROOT_LIB}/CloudStore`
 
+function get_persisted_pending_actions(SEC: OMRSoftExecutionContext, local_storage: Storage): Action[] {
+	try {
+		return SEC.xTry('retrieving persisted actions', ({}): Action[] => {
+			const raw = local_storage.getItem(StorageKey['cloud.pending-actions'])
+			if (!raw) return []
+
+			const pending_actions = JSON.parse(raw)
+			assert(Array.isArray(pending_actions), 'get_persisted_pending_actions type check')
+
+			return pending_actions
+		})
+	}
+	catch {
+		return []
+	}
+}
+
+function persist_pending_actions(SEC: OMRSoftExecutionContext, local_storage: Storage, pending_actions: Action[]): void {
+	return SEC.xTryCatch(`persisting ${pending_actions.length} action(s)`, ({}): void => {
+		local_storage.setItem(
+			StorageKey['cloud.pending-actions'],
+			stable_stringify(pending_actions),
+		)
+	})
+}
+
+function reset_pending_actions(SEC: OMRSoftExecutionContext, local_storage: Storage): void {
+	return persist_pending_actions(SEC, local_storage, [])
+}
+
+function get_json_rpc_url(SEC: OMRSoftExecutionContext) {
+	return SEC.xTry('get url', ({ CHANNEL }) => {
+		return get_api_base_url(CHANNEL as ReleaseChannel) + '/' + Endpoint["tbrpg-rpc"]
+	})
+}
+
+function forbidden_get(): Readonly<State> | null {
+	// this should never be called
+	throw new Error(`[${LIB}] Unexpected get()!`)
+}
 
 function create(
 	SEC: OMRSoftExecutionContext,
@@ -30,11 +72,11 @@ function create(
 ): CloudStore {
 	return SEC.xTry(LIB, ({SEC: ROOT_SEC}): CloudStore => {
 
-		/*
 		function re_create_cloud_store(initial_state: Readonly<State>) {
 			return ROOT_SEC.xTry('re-creating cloud store', ({ SEC }): CloudStore => {
 				let opt_out_reason: string | null = 'unknown!!' // so far
 				let is_logged_in: boolean = false // so far
+				let pending_actions = get_persisted_pending_actions(SEC, local_storage)
 				//let last_sync_result: Promise<SyncResult> // TODO
 
 				const rpc_url = get_json_rpc_url(SEC)
@@ -187,18 +229,18 @@ function create(
 		}
 
 		let real_cloud_store = re_create_cloud_store(initial_state)
-*/
+
 		const indirect_store = {
 			set(new_state: Readonly<State>): void {
 				// XXX TODO check
-				//real_cloud_store = re_create_cloud_store(new_state)
+				reset_pending_actions(ROOT_SEC, local_storage)
+				real_cloud_store = re_create_cloud_store(new_state)
 			},
 			dispatch(action: Readonly<Action>, eventual_state_hint?: Readonly<State>): void {
-				//return real_cloud_store.dispatch(action, eventual_state_hint)
+				return real_cloud_store.dispatch(action, eventual_state_hint)
 			},
 			get(): Readonly<State> | null {
-				//return real_cloud_store.get()
-				return null
+				return real_cloud_store.get()
 			},
 		}
 

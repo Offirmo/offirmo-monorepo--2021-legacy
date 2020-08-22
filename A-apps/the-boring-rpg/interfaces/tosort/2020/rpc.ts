@@ -1,6 +1,5 @@
 import { Enum } from 'typescript-string-enums'
 import { TimestampUTCMs } from '@offirmo-private/timestamps'
-import { JSONRpcRequest, JSONRpcResponse } from '@offirmo-private/json-rpc-types'
 
 import { State } from '@tbrpg/state'
 

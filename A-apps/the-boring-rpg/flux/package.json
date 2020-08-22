@@ -19,7 +19,6 @@
 	},
 	"dependencies": {
 		"@offirmo-private/functions-interface": "^0",
-		"@offirmo-private/json-rpc-types": "^0",
 		"@offirmo-private/murmurhash": "^0",
 		"@offirmo-private/rich-text-format": "^0",
 		"@offirmo-private/state": "^0",

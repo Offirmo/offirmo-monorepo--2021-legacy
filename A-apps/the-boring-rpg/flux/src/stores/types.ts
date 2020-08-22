@@ -12,7 +12,7 @@ interface InMemoryStore extends Store {
 	get: () => NonNullable<ReturnType<Store['get']>>
 }
 
-interface PersistentStore extends Store {
+interface LocalStore extends Store {
 }
 
 interface CloudStore extends Store {
@@ -22,6 +22,6 @@ interface CloudStore extends Store {
 export {
 	Store,
 	InMemoryStore,
-	PersistentStore,
+	LocalStore,
 	CloudStore,
 }

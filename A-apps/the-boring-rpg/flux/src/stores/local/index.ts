@@ -4,11 +4,11 @@ import { State } from '@tbrpg/state'
 import { Action, TbrpgStorage, StorageKey } from '@tbrpg/interfaces'
 
 import { LIB as ROOT_LIB } from '../../consts'
-import { PersistentStore } from '../types'
+import { LocalStore } from '../types'
 import { OMRSoftExecutionContext } from '../../sec'
 
 
-function create(SEC: OMRSoftExecutionContext, storage: TbrpgStorage): PersistentStore {
+function create(SEC: OMRSoftExecutionContext, storage: TbrpgStorage): LocalStore {
 	const LIB = `${ROOT_LIB}/PersistentStore`
 	return SEC.xTry(`[${LIB}] creating`, ({SEC, logger}) => {
 		let last_persisted_state: State | null = null
@@ -82,6 +82,6 @@ function create(SEC: OMRSoftExecutionContext, storage: TbrpgStorage): Persistent
 
 export default create
 export {
-	PersistentStore,
+	LocalStore,
 	create,
 }
