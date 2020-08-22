@@ -7,4 +7,4 @@
 * you MUST inform the guild of any threat
 * Knights can requisition adventurers of lower ranks
 * don't hoard your resources! The guild will buy them and allow you to buy them back later at the same cost!
-* 
+*
