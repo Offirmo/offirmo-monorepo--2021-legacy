@@ -4,7 +4,7 @@ import {
 	get_human_readable_timestamp_auto_no_tz
 } from '../date_generator'
 
-describe.only('system', function() {
+describe('system', function() {
 
 	describe('timezone', function () {
 

@@ -3,7 +3,7 @@ import assert from 'tiny-invariant'
 import { poll } from '@offirmo-private/poll-window-variable'
 import Deferred from '@offirmo/deferred'
 import { load_script_from_top, execute_from_top, get_log_prefix, get_top_ish_window } from '@offirmo-private/xoff'
-import { get_api_base_url, Endpoint } from '@offirmo-private/functions-interface'
+import { get_api_base_url, Endpoint } from '@online-adventur.es/functions-interface'
 
 import { CHANNEL } from './channel'
 import { ACCOUNT_STATE } from './game-instance-browser'

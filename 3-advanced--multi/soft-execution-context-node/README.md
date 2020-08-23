@@ -1,5 +1,19 @@
 
 
+```ts
+import {
+   listenToUncaughtErrors,
+   listenToUnhandledRejections,
+   decorateWithDetectedEnv,
+   getRootSEC,
+} from '@offirmo-private/soft-execution-context-node'
+listenToUncaughtErrors()
+listenToUnhandledRejections()
+decorateWithDetectedEnv()
+
+import { getLogger } from '@offirmo/universal-debug-api-node'
+getRootSEC().injectDependencies({ logger: getLogger({ suggestedLevel: 'silly' }) })
+```
 
 http://thecodebarbarian.com/unhandled-promise-rejections-in-node.js.html
 

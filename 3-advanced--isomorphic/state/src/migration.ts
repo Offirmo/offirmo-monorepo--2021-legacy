@@ -2,7 +2,6 @@ import deepFreeze from 'deep-freeze-strict'
 import assert from 'tiny-invariant'
 import { SoftExecutionContext } from '@offirmo-private/soft-execution-context'
 
-import { LIB } from './consts'
 import {BaseTState, BaseUState, WithSchemaVersion} from './types'
 import { get_schema_version_loose } from './selectors'
 
@@ -44,27 +43,31 @@ export type CleanupStep<State> = (
 export function generic_migrate_to_latest<State>({
 	SEC,
 
+	LIB,
 	SCHEMA_VERSION,
 	legacy_state,
 	hints,
 	sub_states = [],
-	pipeline
+	cleanup = (SEC, state, hints) => state,
+	pipeline,
 }: {
 	SEC: SoftExecutionContext
+	LIB: string,
 	SCHEMA_VERSION: number
 	legacy_state: Readonly<any>,
 	hints: any,
 	sub_states: string[]
+	cleanup?: CleanupStep<State>,
 	pipeline: readonly [
 		LastMigrationStep<State>,
 		...MigrationStep[]
-	]
+	],
 }): State {
-	return SEC.xTry('migrate_to_latest', ({SEC, logger}) => {
+	return SEC.xTry('migrate_to_latest', ({SEC: RSEC, logger}) => {
 		const existing_version = get_schema_version_loose(legacy_state)
 
-		SEC.setLogicalStack({module: LIB})
-		SEC.setAnalyticsAndErrorDetails({
+		RSEC.setLogicalStack({module: LIB})
+		RSEC.setAnalyticsAndErrorDetails({
 			version_from: existing_version,
 			version_to: SCHEMA_VERSION,
 		})
@@ -75,8 +78,8 @@ export function generic_migrate_to_latest<State>({
 		let state: State = legacy_state as State // for starter, may actually be true
 
 		if (existing_version < SCHEMA_VERSION) {
-			logger.warn(`attempting to migrate schema from v${existing_version} to v${SCHEMA_VERSION}…`)
-			SEC.fireAnalyticsEvent('schema_migration.began')
+			logger.warn(`attempting to migrate schema of ${LIB} from v${existing_version} to v${SCHEMA_VERSION}…`)
+			RSEC.fireAnalyticsEvent('schema_migration.began')
 
 			function previous(
 				index: number,
@@ -84,19 +87,22 @@ export function generic_migrate_to_latest<State>({
 				legacy_state: Readonly<any>,
 				hints: Readonly<any>,
 			): any {
-				/*if (index > 0) {
-					_check_response(_last_SEC, index - 1, 'in')
-				}*/
+				const current_step_name = index >= pipeline.length
+					? 'not-found'
+					: pipeline[index].name || 'unknown'
+				return RSEC.xTry('migration step:' + current_step_name, ({ SEC }) => {
+					/*if (index > 0) {
+						_check_response(_last_SEC, index - 1, 'in')
+					}*/
 
-				if (index >= pipeline.length)
-					return
+					if (index >= pipeline.length) {
+						throw new Error(`No known migration for updating a v${get_schema_version_loose(legacy_state)}!`)
+					}
 
-				const current_step_name = pipeline[index].name || 'unknown'
-				return SEC.xTry('migration step:' + current_step_name, ({ SEC }) => {
 					const legacy_schema_version = get_schema_version_loose(legacy_state)
 					//_last_SEC = SEC
 					//console.log('_last_SEC now =', SEC.getLogicalStack(), '\n', SEC.getShortLogicalStack())
-					logger.trace(`[${LIB}] ⭆ invoking data migration step ${index+1}/${pipeline.length} "${current_step_name}"…`, {legacy_state})
+					logger.trace(`[${LIB}] ⭆ invoking migration pipeline step ${pipeline.length-index}/${pipeline.length} "${current_step_name}"…`, {legacy_state})
 					const state = pipeline[index](
 						SEC,
 						legacy_state,
@@ -105,7 +111,8 @@ export function generic_migrate_to_latest<State>({
 						legacy_schema_version,
 						LIBS,
 					)
-					logger.trace(`[${LIB}] ⭅ returned from data migration step ${index+1}/${pipeline.length} "${current_step_name}"…`, {state})
+					assert(!!state, 'migration step should return something')
+					logger.trace(`[${LIB}] ⭅ returned from migration pipeline step ${pipeline.length-index}/${pipeline.length} "${current_step_name}"…`, {state})
 					//_check_response(SEC, index, 'out')
 					return state
 				})
@@ -113,15 +120,16 @@ export function generic_migrate_to_latest<State>({
 
 			// launch the chain
 			try {
-				legacy_state = previous(0, SEC, legacy_state, hints)
+				state = previous(0, RSEC, state, hints)
 			}
 			catch (err) {
-				SEC.fireAnalyticsEvent('schema_migration.failed')
+				logger.error(`failed to migrate schema of ${LIB} from v${existing_version} to v${SCHEMA_VERSION}!`)
+				RSEC.fireAnalyticsEvent('schema_migration.failed')
 				throw err
 			}
 
-			logger.info(`${LIB}: schema migration successful.`, { state: legacy_state })
-			SEC.fireAnalyticsEvent('schema_migration.ended')
+			logger.info(`${LIB}: schema migration successful.`, { state })
+			RSEC.fireAnalyticsEvent('schema_migration.ended')
 		}
 
 		// migrate sub-reducers if any...
@@ -129,9 +137,7 @@ export function generic_migrate_to_latest<State>({
 			throw new Error('NIMP!')
 		})
 
-		// clean
-		throw new Error('NIMP!')
-
+		state = cleanup(RSEC, state, hints)
 
 		return state
 	})

@@ -1,4 +1,5 @@
 export * from './comparators'
+export * from './migration'
 export * from './selectors'
 export * from './type-guards'
 export * from './types'

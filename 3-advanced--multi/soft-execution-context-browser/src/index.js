@@ -112,6 +112,7 @@ function decorateWithDetectedEnv(SEC) {
 	SEC.setAnalyticsAndErrorDetails(details)
 }
 
+export * from '@offirmo-private/soft-execution-context'
 export {
 	listenToErrorEvents,
 	listenToUnhandledRejections,

@@ -11,8 +11,8 @@ import {
 
 import {
 	TestRootState,
-	TestUState,
-	BASE_EXAMPLE,
+	TestRootUState,
+	BASE_UEXAMPLE,
 	ROOT_EXAMPLE,
 } from './_test_helpers'
 
@@ -47,7 +47,7 @@ describe(`${LIB} - comparators`, function() {
 		context('on advanced Offirmo’s U state', function() {
 
 			it('should return major when no previous', () => {
-				expect(get_semantic_difference(BASE_EXAMPLE)).to.equal(SemanticDifference.major)
+				expect(get_semantic_difference(BASE_UEXAMPLE)).to.equal(SemanticDifference.major)
 			})
 
 			it('should return major when previous has no schema', () => {
@@ -55,33 +55,33 @@ describe(`${LIB} - comparators`, function() {
 			})
 
 			it('should return major when the schema changed', () => {
-				expect(get_semantic_difference(BASE_EXAMPLE, {
-					...BASE_EXAMPLE,
+				expect(get_semantic_difference(BASE_UEXAMPLE, {
+					...BASE_UEXAMPLE,
 					schema_version: 1,
 				})).to.equal(SemanticDifference.major)
 			})
 
 			it('should return minor when no schema change but revision change', () => {
-				expect(get_semantic_difference(BASE_EXAMPLE, {
-					...BASE_EXAMPLE,
+				expect(get_semantic_difference(BASE_UEXAMPLE, {
+					...BASE_UEXAMPLE,
 					revision: 1,
 				})).to.equal(SemanticDifference.minor)
 			})
 
 			it('should return none on equality', () => {
-				expect(get_semantic_difference(BASE_EXAMPLE, BASE_EXAMPLE)).to.equal(SemanticDifference.none)
+				expect(get_semantic_difference(BASE_UEXAMPLE, BASE_UEXAMPLE)).to.equal(SemanticDifference.none)
 			})
 
 			it('should throw on reversed order -- schema version', () => {
-				expect(() => get_semantic_difference(BASE_EXAMPLE, {
-					...BASE_EXAMPLE,
+				expect(() => get_semantic_difference(BASE_UEXAMPLE, {
+					...BASE_UEXAMPLE,
 					schema_version: 9999,
 				})).to.throw()
 			})
 
 			it('should throw on reversed order -- revision', () => {
-				expect(() => get_semantic_difference(BASE_EXAMPLE, {
-					...BASE_EXAMPLE,
+				expect(() => get_semantic_difference(BASE_UEXAMPLE, {
+					...BASE_UEXAMPLE,
 					revision: 9999,
 				})).to.throw()
 			})

@@ -1,7 +1,10 @@
 import { Enum } from 'typescript-string-enums'
 import { overrideHook } from '@offirmo/universal-debug-api-placeholder'
 
-const LIB = 'functions interface'
+/////////////////////////////////////////////////
+
+const LIB = '@online-adventur.es/functions-interface'
+export const HEADER_IMPERSONATE = "X-OFFIRMO-IMPERSONATE".toLowerCase()
 
 // tslint:disable-next-line: variable-name
 export const ReleaseChannel = Enum(
@@ -14,17 +17,21 @@ export type ReleaseChannel = Enum<typeof ReleaseChannel> // eslint-disable-line 
 
 // tslint:disable-next-line: variable-name
 export const Endpoint = Enum(
+	'whoami',
+	'report-error',
+	'key-value',
+
+	// dev
 	'echo',
 	'hello-world',
 	'hello-world-advanced',
-	'report-error',
-	'tbrpg-rpc',
-	'temp',
 	'test-error-handling',
-	'whoami',
+	'temp',
 )
 export type Endpoint = Enum<typeof Endpoint> // eslint-disable-line no-redeclar
 
+
+/////////////////////////////////////////////////
 
 export function get_allowed_origin(channel: ReleaseChannel): string {
 	switch(channel) {
@@ -57,5 +64,3 @@ function _get_api_base_url(channel: ReleaseChannel): string {
 export function get_api_base_url(channel: ReleaseChannel): string {
 	return overrideHook<string>('api-base-url', _get_api_base_url(channel))
 }
-
-export const HEADER_IMPERSONATE = "X-OFFIRMO-IMPERSONATE".toLowerCase()

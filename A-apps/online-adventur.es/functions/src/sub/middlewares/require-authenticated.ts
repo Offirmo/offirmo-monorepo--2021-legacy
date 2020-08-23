@@ -1,5 +1,5 @@
 import { get_db, Users, get_connection_string } from '@offirmo-private/db'
-import { HEADER_IMPERSONATE } from '@offirmo-private/functions-interface'
+import { HEADER_IMPERSONATE } from '@online-adventur.es/functions-interface'
 
 import { get_netlify_user_data } from '../services/netlify'
 import { create_error } from '../utils'

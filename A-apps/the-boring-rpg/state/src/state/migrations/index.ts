@@ -162,7 +162,7 @@ function migrate_to_13(SEC: OMRSoftExecutionContext, legacy_state: Readonly<any>
 	if (legacy_state.schema_version >= 13)
 		throw new Error('migrate_to_13 was called from an outdated/buggy root code, please update!')
 	if (legacy_state.schema_version < 12)
-		legacy_state = migrate_to_12(SEC, legacy_state, hints)
+		legacy_state = migrate_to_12x(SEC, legacy_state, hints)
 
 	let state: State = legacy_state as State // for starter
 
@@ -190,10 +190,7 @@ function migrate_to_13(SEC: OMRSoftExecutionContext, legacy_state: Readonly<any>
 	return state
 }
 
-function migrate_to_12(SEC: OMRSoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any>): any {
-	if (legacy_state.schema_version >= 12)
-		throw new Error('migrate_to_12 was called from an outdated/buggy root code, please update!')
-
+function migrate_to_12x(SEC: OMRSoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any>): any {
 	throw new Error('Alpha release outdated schema, won’t migrate, would take too much time and schema is still unstable!')
 }
 

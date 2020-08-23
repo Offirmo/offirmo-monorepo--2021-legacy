@@ -39,6 +39,7 @@ describe(`${LIB} - reducer`, function() {
 			})
 			expect(t_state, 't').to.deep.equal({
 				schema_version: SCHEMA_VERSION,
+				revision: 0,
 
 				timestamp_ms: 0, // 1970
 				available_energy: {

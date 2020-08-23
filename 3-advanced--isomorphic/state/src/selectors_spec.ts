@@ -9,7 +9,8 @@ import {
 } from './selectors'
 
 import {
-	BASE_EXAMPLE,
+	BASE_UEXAMPLE,
+	BASE_TEXAMPLE,
 	ROOT_EXAMPLE,
 } from './_test_helpers'
 
@@ -21,8 +22,8 @@ describe(`${LIB} - selectors`, function() {
 			expect(get_schema_version({ schema_version: 33})).to.equal(33)
 			expect(get_schema_version(ROOT_EXAMPLE)).to.equal(10)
 			expect(get_schema_version(ROOT_EXAMPLE.t_state)).to.equal(3)
-			expect(get_schema_version(BASE_EXAMPLE)).to.equal(8)
-			expect(get_schema_version(BASE_EXAMPLE.sub1)).to.equal(4)
+			expect(get_schema_version(BASE_UEXAMPLE)).to.equal(8)
+			expect(get_schema_version(BASE_UEXAMPLE.sub1)).to.equal(4)
 		})
 
 		it('should throw on non-matching', () => {
@@ -43,20 +44,26 @@ describe(`${LIB} - selectors`, function() {
 			expect(get_schema_version_loose(new Error('Test!'))).to.equal(0)
 		})
 
-		it('should work on correct data', () => {
-			expect(get_schema_version({ schema_version: 33})).to.equal(33)
+		it('should work on nominal correct data', () => {
+			expect(get_schema_version_loose({ schema_version: 33})).to.equal(33)
 			expect(get_schema_version_loose(ROOT_EXAMPLE)).to.equal(10)
 			expect(get_schema_version_loose(ROOT_EXAMPLE.t_state)).to.equal(3)
-			expect(get_schema_version_loose(BASE_EXAMPLE)).to.equal(8)
-			expect(get_schema_version_loose(BASE_EXAMPLE.sub1)).to.equal(4)
+			expect(get_schema_version_loose(BASE_UEXAMPLE)).to.equal(8)
+			expect(get_schema_version_loose(BASE_UEXAMPLE.sub1)).to.equal(4)
+		})
+
+		it('should work on special aggregated data', () => {
+			expect(get_schema_version_loose([BASE_UEXAMPLE, null] as any)).to.equal(8)
+			expect(get_schema_version_loose([null, BASE_TEXAMPLE] as any)).to.equal(3)
+			expect(get_schema_version_loose([BASE_UEXAMPLE, BASE_TEXAMPLE] as any)).to.equal(8)
 		})
 	})
 
 	describe('get_revision()', function() {
 		it('should work on correct data', () => {
 			expect(get_revision(ROOT_EXAMPLE.t_state)).to.equal(20)
-			expect(get_revision(BASE_EXAMPLE)).to.equal(103)
-			expect(get_revision(BASE_EXAMPLE.sub1)).to.equal(45)
+			expect(get_revision(BASE_UEXAMPLE)).to.equal(103)
+			expect(get_revision(BASE_UEXAMPLE.sub1)).to.equal(45)
 		})
 
 		it('should throw on non-matching', () => {

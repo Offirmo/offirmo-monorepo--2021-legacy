@@ -4,7 +4,7 @@ import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import tiny_singleton from '@offirmo/tiny-singleton'
 import { overrideHook } from '@offirmo/universal-debug-api-placeholder'
 import { Storage } from '@offirmo-private/ts-types'
-import { ReleaseChannel, get_api_base_url, Endpoint } from '@offirmo-private/functions-interface'
+import { ReleaseChannel, get_api_base_url, Endpoint } from '@online-adventur.es/functions-interface'
 import { NUMERIC_VERSION, State } from '@tbrpg/state'
 import {
 	Action,

@@ -18,7 +18,7 @@
 		"tslib": "^2"
 	},
 	"dependencies": {
-		"@offirmo-private/functions-interface": "^0",
+		"@online-adventur.es/functions-interface": "^0",
 		"@offirmo-private/murmurhash": "^0",
 		"@offirmo-private/rich-text-format": "^0",
 		"@offirmo-private/state": "^0",

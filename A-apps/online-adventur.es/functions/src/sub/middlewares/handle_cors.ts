@@ -1,4 +1,4 @@
-import { ReleaseChannel, get_allowed_origin } from '@offirmo-private/functions-interface'
+import { ReleaseChannel, get_allowed_origin } from '@online-adventur.es/functions-interface'
 
 import {
 	APIGatewayEvent,

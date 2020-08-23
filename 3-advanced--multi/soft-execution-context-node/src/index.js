@@ -49,8 +49,8 @@ function decorateWithDetectedEnv() {
 	SEC.setAnalyticsAndErrorDetails(details)
 }
 
-
 module.exports = {
+	...require('@offirmo-private/soft-execution-context'),
 	listenToUncaughtErrors,
 	listenToUnhandledRejections,
 	decorateWithDetectedEnv,

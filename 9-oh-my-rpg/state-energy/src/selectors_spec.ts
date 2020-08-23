@@ -20,7 +20,7 @@ import {
 } from '.'
 
 
-describe(`${LIB} - selectors`, function() {
+describe.skip(`${LIB} - selectors`, function() {
 	beforeEach(function (){
 		this.clock = sinon.useFakeTimers()
 	})

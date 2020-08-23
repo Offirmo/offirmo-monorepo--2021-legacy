@@ -7,7 +7,7 @@ import { UState, TState } from './types'
 // useful for demos and unit tests
 
 const DEMO_U_STATE: Readonly<UState> = deepFreeze({
-	schema_version: 3,
+	schema_version: 4,
 	revision: 3,
 
 	max_energy: 7,
@@ -15,7 +15,8 @@ const DEMO_U_STATE: Readonly<UState> = deepFreeze({
 })
 
 const DEMO_T_STATE: Readonly<TState> = deepFreeze({
-	schema_version: 3,
+	schema_version: 4,
+	revision: 3,
 
 	timestamp_ms: 1545016005762,
 

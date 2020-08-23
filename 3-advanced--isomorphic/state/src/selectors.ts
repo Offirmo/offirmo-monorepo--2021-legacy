@@ -22,7 +22,12 @@ export function get_schema_version<T extends WithSchemaVersion>(s: Readonly<T>):
 	return s.schema_version
 }
 
-export function get_schema_version_loose<T extends WithSchemaVersion>(s: Readonly<T> | any): number {
+export function get_schema_version_loose<U extends WithSchemaVersion, T extends WithSchemaVersion>(s: Readonly<U> | [ Readonly<U>, Readonly<T> ] | any): number {
+	if (Array.isArray(s)) {
+		// case where [ UState, TState ] are bundled together for migration
+		return Math.max(...s.map(get_schema_version_loose))
+	}
+
 	if (has_versioned_schema(s))
 		return get_schema_version(s)
 

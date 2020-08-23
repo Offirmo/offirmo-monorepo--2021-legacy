@@ -464,3 +464,13 @@ https://rpg.stackexchange.com/questions/172619/how-can-i-make-players-still-feel
 https://rpg.stackexchange.com/questions/47604/without-a-magic-item-economy-what-is-gold-for
 
 https://en.wikipedia.org/wiki/Body_armor
+
+https://pathofexile.gamepedia.com/Path_of_Exile_Wiki
+https://pathofexile.gamepedia.com/Passive_skill
+https://pathofexile.gamepedia.com/Modifiers
+https://pathofexile.gamepedia.com/Weapon
+https://www.pathofexile.com/fullscreen-passive-skill-tree/3.10.2/AAAABAUAAQ==
+
+https://www.polygon.com/2020/1/13/21055761/choosing-a-class-guide-shadow-marauder-scion-templar-duelist-witch-ranger-ascendancy-best
+
+https://www.polygon.com/2020/6/2/21277116/path-of-exile-harvest-reveal-details-garden-sacred-grove-seed-cache-crafting-lifeforce-grow

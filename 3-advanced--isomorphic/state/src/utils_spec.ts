@@ -10,7 +10,7 @@ import {
 } from './types'
 
 import {
-	BASE_EXAMPLE,
+	BASE_UEXAMPLE,
 	ROOT_EXAMPLE,
 } from './_test_helpers'
 
@@ -25,7 +25,7 @@ describe(`${LIB} - utils`, function() {
 	describe('propagate_child_revision_increment_upward()', function() {
 
 		context('on a base state', function() {
-			const previous = BASE_EXAMPLE
+			const previous = BASE_UEXAMPLE
 
 			it('should no touch the object if no change at all', () => {
 				const new_state = propagate_child_revision_increment_upward(previous, previous)

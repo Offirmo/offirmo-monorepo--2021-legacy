@@ -44,7 +44,7 @@ function createSEC<Injections = {}, AnalyticsDetails = {}, ErrorDetails = {}>(ar
 	// auto injections
 	if (!args.parent) {
 		SEC.injectDependencies({
-			logger: console,
+			logger: console, // use universal debug API? NO because the placeholder = NOOP = would cause no logs visible by default
 		})
 
 		decorateWithDetectedEnv(SEC)

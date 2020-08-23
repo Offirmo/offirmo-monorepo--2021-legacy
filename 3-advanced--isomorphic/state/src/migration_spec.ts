@@ -12,7 +12,7 @@ import {
 } from './migration'
 
 import {
-	BASE_EXAMPLE,
+	BASE_UEXAMPLE,
 	ROOT_EXAMPLE,
 } from './_test_helpers'
 import { WithSchemaVersion } from './types'
@@ -20,6 +20,7 @@ import { WithSchemaVersion } from './types'
 
 describe(`${LIB} - migration`, function() {
 	const TEST_SEC = getRootSEC()
+	const LIB = '@offirmo-private/state--UNIT-TEST'
 	TEST_SEC.setLogicalStack({module: LIB})
 
 	describe('generic_migrate_to_latest()', function() {
@@ -61,11 +62,39 @@ describe(`${LIB} - migration`, function() {
 				}
 			} as State2)
 
-			it.only('should work in nominal case', () => {
+			const migrate_to_2: LastMigrationStep<State> = (SEC, legacy_state, hints, previous, legacy_schema_version) => {
+				if (legacy_schema_version < 2)
+					legacy_state = previous(SEC, legacy_state, hints)
+
+				let state: State = {
+					...legacy_state as any,
+					foo: {
+						bar: {
+							baz: legacy_state.foo.bar,
+						}
+					}
+				}
+
+				return state
+			}
+
+			const migrate_to_1: MigrationStep = (SEC, legacy_state, hints, previous, legacy_schema_version) => {
+				let state: State = {
+					...legacy_state as any,
+					foo: {
+						bar: legacy_state.foo,
+					}
+				}
+
+				return state
+			}
+
+			it('should work in nominal case', () => {
 				function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any> = {}, ): State {
 					return generic_migrate_to_latest({
 						SEC,
 
+						LIB,
 						SCHEMA_VERSION,
 						legacy_state: DEMO_STATE_v0,
 						hints,
@@ -78,37 +107,28 @@ describe(`${LIB} - migration`, function() {
 					})
 				}
 
-				const migrate_to_2: LastMigrationStep<State> = (SEC, legacy_state, hints, previous, legacy_schema_version) => {
-					if (legacy_schema_version < 2)
-						legacy_state = previous(SEC, legacy_state, hints)
-
-					let state: State = {
-						...legacy_state as any,
-						foo: {
-							bar: {
-								baz: legacy_state.foo.bar,
-							}
-						}
-					}
-
-					return state
-				}
-
-				const migrate_to_1: MigrationStep = (SEC, legacy_state, hints, previous, legacy_schema_version) => {
-					if (legacy_schema_version < 1)
-						legacy_state = previous(SEC, legacy_state, hints)
-
-					let state: State = {
-						...legacy_state as any,
-						foo: {
-							bar: legacy_state.foo,
-						}
-					}
-
-					return state
-				}
-
 				expect(migrate_to_latest(TEST_SEC, DEMO_STATE_v0)).to.deep.equal(DEMO_STATE_v2)
+			})
+
+			it('should throw on too old version', () => {
+				function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any> = {}, ): State {
+					return generic_migrate_to_latest({
+						SEC,
+
+						LIB,
+						SCHEMA_VERSION,
+						legacy_state: DEMO_STATE_v0,
+						hints,
+						sub_states: [],
+
+						pipeline: [
+							migrate_to_2,
+							// no older migration
+						]
+					})
+				}
+
+				expect(() => migrate_to_latest(TEST_SEC, DEMO_STATE_v0)).to.throw('migration')
 			})
 		})
 

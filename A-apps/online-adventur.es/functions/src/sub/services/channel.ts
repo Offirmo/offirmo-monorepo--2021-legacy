@@ -1,5 +1,5 @@
 import { Enum } from 'typescript-string-enums'
-import { ReleaseChannel } from '@offirmo-private/functions-interface'
+import { ReleaseChannel } from '@online-adventur.es/functions-interface'
 
 /////////////////////////////////////////////////
 

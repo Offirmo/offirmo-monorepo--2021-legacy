@@ -28,6 +28,7 @@ function create(now_ms?: TimestampUTCMs): [ Readonly<UState>, Readonly<TState> ]
 
 	const t_state: TState = {
 		schema_version: SCHEMA_VERSION,
+		revision: 0,
 
 		timestamp_ms: now_ms ? now_ms : get_UTC_timestamp_ms(new Date(0)), // 0 makes it easier for unit tests
 		available_energy: {

@@ -12,23 +12,20 @@ const MIGRATION_HINTS_FOR_TESTS: any = deepFreeze({
 /////////////////////
 
 function migrate_to_latest(SEC: OMRSoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any> = {}): State {
-	const existing_version = (legacy_state && legacy_state.schema_version) || 0
-
-	SEC = get_lib_SEC(SEC)
-		.setAnalyticsAndErrorDetails({
+	return get_lib_SEC(SEC).xTry('migrate_to_latest', ({SEC, logger}) => {
+		const existing_version = legacy_state?.schema_version || 0
+		SEC.setAnalyticsAndErrorDetails({
 			version_from: existing_version,
 			version_to: SCHEMA_VERSION,
 		})
 
-	return SEC.xTry('migrate_to_latest', ({SEC, logger}) => {
-
 		if (existing_version > SCHEMA_VERSION)
 			throw new Error('Your data is from a more recent version of this lib. Please update!')
 
-		let state: State = legacy_state as State // for starter
+		let state: State = legacy_state as State // for starter, may actually be true
 
 		if (existing_version < SCHEMA_VERSION) {
-			logger.warn(`${LIB}: attempting to migrate schema from v${existing_version} to v${SCHEMA_VERSION}:`)
+			logger.warn(`${LIB}: attempting to migrate schema from v${existing_version} to v${SCHEMA_VERSION}…`)
 			SEC.fireAnalyticsEvent('schema_migration.began')
 
 			try {

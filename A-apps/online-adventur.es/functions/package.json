@@ -16,7 +16,7 @@
 	"dependencies": {
 		"@offirmo-private/error-utils": "^0",
 		"@offirmo-private/db": "^0",
-		"@offirmo-private/functions-interface": "^0",
+		"@online-adventur.es/functions-interface": "^0",
 		"@offirmo-private/soft-execution-context": "^0",
 		"@offirmo-private/soft-execution-context-node": "^0",
 		"@offirmo-private/timestamps": "^0",
