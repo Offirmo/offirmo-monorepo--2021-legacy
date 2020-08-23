@@ -33,15 +33,6 @@
 		"typescript-string-enums": "^1"
 	},
 
-	"devDependencies": {
-		"@offirmo-private/prettify-any": "^0",
-		"@offirmo-private/rich-text-format-to-ansi": "^0",
-		"@offirmo/unit-test-toolbox": "^6",
-		"@oh-my-rpg/state-prng": "^0",
-		"@tbrpg/state": "^0",
-		"npm-run-all": "^4",
-		"strip-ansi": "^6"
-	},
 	"scripts": {
 		"clean": "node ../../0-scripts/clean.js …dist",
 
@@ -51,5 +42,14 @@
 		"dev": "run-s clean build:dev:watch",
 		"test": "./node_modules/.bin/mocha --bail --config ./node_modules/@offirmo/unit-test-toolbox/mocharc.json ./node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2019.cjs/**/*spec.js'",
 		"build": "run-s build:prod"
+	},
+	"devDependencies": {
+		"@offirmo-private/prettify-any": "^0",
+		"@offirmo-private/rich-text-format-to-ansi": "^0",
+		"@offirmo/unit-test-toolbox": "^6",
+		"@oh-my-rpg/state-prng": "^0",
+		"@tbrpg/state": "^0",
+		"npm-run-all": "^4",
+		"strip-ansi": "^6"
 	}
 }

@@ -12,7 +12,7 @@
 	"main": "dist/src.es2019.cjs/index.js",
 
 	"dependencies": {
-		"express": "^4",
+		"express": "^4"
 	},
 
 	"scripts": {

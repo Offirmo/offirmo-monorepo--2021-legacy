@@ -11,6 +11,7 @@
 	"typings": "dist/src.es2019.cjs/index.d.ts",
 	"source": "src/index.ts",
 	"sideEffects": false,
+
 	"peerDependencies": {
 		"@offirmo-private/soft-execution-context": "^0",
 		"tslib": "^2"
@@ -45,6 +46,7 @@
 		"tiny-invariant": "^1",
 		"typescript-string-enums": "^1"
 	},
+
 	"scripts": {
 		"clean": "node ../../../0-scripts/clean.js …dist",
 		"refresh-build-variables": "node ../../../0-scripts/update_build_variables.js --mode=ts",

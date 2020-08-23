@@ -28,13 +28,6 @@
 	"dependencies": {
 	},
 
-	"devDependencies": {
-		"@offirmo/unit-test-toolbox": "^6",
-		"@size-limit/preset-small-lib": "^4",
-		"np": "^6",
-		"npm-run-all": "^4",
-		"size-limit": "^4"
-	},
 	"scripts": {
 		"clean": "node ../../0-scripts/clean.js …dist",
 
@@ -48,6 +41,13 @@
 
 		"np": "np --no-publish",
 		"prepublishOnly": "run-s clean build test ensure-size"
+	},
+	"devDependencies": {
+		"@offirmo/unit-test-toolbox": "^6",
+		"@size-limit/preset-small-lib": "^4",
+		"np": "^6",
+		"npm-run-all": "^4",
+		"size-limit": "^4"
 	},
 
 	"files": [

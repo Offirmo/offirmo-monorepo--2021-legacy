@@ -31,14 +31,6 @@
 		"@offirmo/tiny-singleton": "^0"
 	},
 
-	"devDependencies": {
-		"@babel/core": "^7",
-		"@offirmo/unit-test-toolbox": "^6",
-		"@size-limit/preset-small-lib": "^4",
-		"np": "^6",
-		"npm-run-all": "^4",
-		"parcel-bundler": "^1"
-	},
 	"scripts": {
 		"clean": "node ../../0-scripts/clean.js …dist",
 
@@ -54,6 +46,14 @@
 
 		"np": "np --no-publish",
 		"prepublishOnly": "run-s clean build test ensure-size"
+	},
+	"devDependencies": {
+		"@babel/core": "^7",
+		"@offirmo/unit-test-toolbox": "^6",
+		"@size-limit/preset-small-lib": "^4",
+		"np": "^6",
+		"npm-run-all": "^4",
+		"parcel-bundler": "^1"
 	},
 
 	"files": [

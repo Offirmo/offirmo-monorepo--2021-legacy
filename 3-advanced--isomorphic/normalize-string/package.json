@@ -15,10 +15,6 @@
 	"dependencies": {
 	},
 
-	"devDependencies": {
-		"@offirmo/unit-test-toolbox": "^6",
-		"npm-run-all": "^4"
-	},
 	"scripts": {
 		"clean": "node ../../0-scripts/clean.js …dist",
 
@@ -28,5 +24,9 @@
 		"dev": "run-s clean build:dev:watch",
 		"test": "./node_modules/.bin/mocha --bail --config ./node_modules/@offirmo/unit-test-toolbox/mocharc.json ./node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'dist/src.es2019.cjs/**/*spec.js'",
 		"build": "run-s build:prod"
+	},
+	"devDependencies": {
+		"@offirmo/unit-test-toolbox": "^6",
+		"npm-run-all": "^4"
 	}
 }
