@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 import chalk from 'chalk'
 
-import { COMMON_ERROR_FIELDS_EXTENDED } from '@offirmo-private/error-utils'
 import { inject_lib__chalk, prettify_any } from '@offirmo-private/prettify-any'
 import { displayError } from '@offirmo-private/print-error-to-ansi'
 
@@ -10,7 +9,6 @@ inject_lib__chalk(chalk)
 import {
 	LogPayload,
 	LogSink,
-	LogDetails,
 } from '@offirmo/practical-logger-types'
 
 import { SinkOptions } from '../types'
