@@ -28,26 +28,26 @@ export async function require_authenticated(
 			await SEC.xPromiseTry('ensure_user_through_netlify', ({SEC}) =>
 				get_db().transaction(async trx => {
 					logger.trace('calling…')
-					let user_p: Users.PUser = await Users.ensure_user_through_netlify(netlify_user_data, trx)
-					//logger.log('user found', user_p)
+					let p_user: Users.PUser = await Users.ensure_user_through_netlify(netlify_user_data, trx)
+					//logger.log('user found', p_user)
 
 					const impersonation_target = event.headers[HEADER_IMPERSONATE]
 					if (impersonation_target) {
-						if (!user_p.roles.includes('admin')) {
+						if (!p_user.roles.includes('admin')) {
 							throw create_error(SEC, 'Illegal impersonation attempt!', { statusCode: 403 })
 						}
 						else {
 							logger.info('Admin attempt to impersonate', { impersonation_target })
-							const impersonated_user_p = await Users.get_by_email(impersonation_target, trx)
-							if (!impersonated_user_p)
+							const impersonated_p_user = await Users.get_by_email(impersonation_target, trx)
+							if (!impersonated_p_user)
 								throw new Error('Can’t find the impersonation target!')
-							user_p = impersonated_user_p
+							p_user = impersonated_p_user
 						}
 					}
 
 					CSEC.injectDependencies({
-						user_p,
-						user: Users.infer_defaults_from_persisted(user_p),
+						p_user,
+						user: Users.infer_defaults_from_persisted(p_user),
 					})
 				})
 			)

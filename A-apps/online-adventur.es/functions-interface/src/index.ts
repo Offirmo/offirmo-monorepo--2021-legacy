@@ -4,7 +4,6 @@ import { overrideHook } from '@offirmo/universal-debug-api-placeholder'
 /////////////////////////////////////////////////
 
 const LIB = '@online-adventur.es/functions-interface'
-export const HEADER_IMPERSONATE = "X-OFFIRMO-IMPERSONATE".toLowerCase()
 
 // tslint:disable-next-line: variable-name
 export const ReleaseChannel = Enum(
@@ -14,6 +13,9 @@ export const ReleaseChannel = Enum(
 )
 export type ReleaseChannel = Enum<typeof ReleaseChannel> // eslint-disable-line no-redeclar
 
+/////////////////////////////////////////////////
+
+export const HEADER_IMPERSONATE = "X-OFFIRMO-IMPERSONATE".toLowerCase()
 
 // tslint:disable-next-line: variable-name
 export const Endpoint = Enum(

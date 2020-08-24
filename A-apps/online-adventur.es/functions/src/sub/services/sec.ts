@@ -24,7 +24,7 @@ import logger from './logger'
 
 export interface Injections extends BaseInjections {
 	logger: Logger
-	user_p?: Users.PUser
+	p_user?: Users.PUser
 	user?: Users.User
 	//jsonrpc_request?: JSONRpcRequest<{}>,
 	//jsonrpc_response?: JSONRpcResponse<{}>,

@@ -474,3 +474,4 @@ https://www.pathofexile.com/fullscreen-passive-skill-tree/3.10.2/AAAABAUAAQ==
 https://www.polygon.com/2020/1/13/21055761/choosing-a-class-guide-shadow-marauder-scion-templar-duelist-witch-ranger-ascendancy-best
 
 https://www.polygon.com/2020/6/2/21277116/path-of-exile-harvest-reveal-details-garden-sacred-grove-seed-cache-crafting-lifeforce-grow
+grappling hook

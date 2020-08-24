@@ -35,8 +35,8 @@ async function _handler(
 
 		who_am_i['2-extracted_from_context'] = get_netlify_user_data(context)
 
-		const { user_p, user } = SEC.getInjectedDependencies()
-		who_am_i['3-DB_result'] = user_p
+		const { p_user, user } = SEC.getInjectedDependencies()
+		who_am_i['3-DB_result'] = p_user
 		who_am_i['4-final_result'] = user
 	} catch (err) {
 		who_am_i.err = {
