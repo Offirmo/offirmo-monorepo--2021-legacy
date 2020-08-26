@@ -33,6 +33,7 @@
 	},
 	"devDependencies": {
 		"@offirmo/unit-test-toolbox": "^6",
+		"deep-freeze-strict": "^1",
 		"npm-run-all": "^4"
 	}
 }

@@ -1,7 +1,6 @@
-import normalizeError from '@offirmo-private/normalize-error'
 import { promiseTry } from '@offirmo-private/promise-try'
 import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
-import { QUASI_STANDARD_ERROR_FIELDS, COMMON_ERROR_FIELDS_EXTENDED } from '@offirmo-private/error-utils'
+import { createError as _createError, normalizeError } from '@offirmo-private/error-utils'
 
 
 import { INTERNAL_PROP } from '../../consts'
@@ -73,27 +72,10 @@ const PLUGIN = {
 			return SEC // for chaining
 		}
 
-		// useful if creating an error later from a saved SEC
-		// TODO modulize?
+		// useful if creating an error later from a saved SEC, ex. from a pipeline
 		prototype.createError = function createError(message, details = {}) {
 			const SEC = this
-
-			message = String(message || 'Unknown error!')
-			if (!(message.toLowerCase()).includes('error')) {
-				message = 'Error: ' + message
-			}
-
-			const err = new Error(message)
-			Object.keys(details).forEach(k => {
-				//console.log(k)
-				if (COMMON_ERROR_FIELDS_EXTENDED.has(k) && !QUASI_STANDARD_ERROR_FIELDS.has(k)) {
-					err[k] = details[k]
-				}
-				else {
-					err.details = err.details || {}
-					err.details[k] = details[k]
-				}
-			})
+			const err = _createError(message, details)
 			err.framesToPop = (err.framesToPop || 0) + 1
 
 			return SEC._decorateErrorWithLogicalStack(

@@ -23,7 +23,7 @@ describe(`common-error-fields - fields`, () => {
 			}
 		})
 		it('should contain extra fields', () => {
-			console.log(COMMON_ERROR_FIELDS)
+			//console.log(COMMON_ERROR_FIELDS)
 			expect(COMMON_ERROR_FIELDS.size).to.be.above(QUASI_STANDARD_ERROR_FIELDS.size)
 		})
 	})
