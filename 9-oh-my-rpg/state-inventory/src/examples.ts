@@ -1,4 +1,4 @@
-import deepFreeze from 'deep-freeze-strict'
+import deep_freeze from 'deep-freeze-strict'
 
 import { InventorySlot } from '@oh-my-rpg/definitions'
 import { DEMO_WEAPON_1, DEMO_WEAPON_2 } from '@oh-my-rpg/logic-weapons'
@@ -12,7 +12,7 @@ import { State } from './types'
 
 // a full featured, non-trivial demo state
 // needed for demos
-const DEMO_STATE: Readonly<State> = deepFreeze({
+const DEMO_STATE: Readonly<State> = deep_freeze<State>({
 	schema_version: 1,
 	revision: 42,
 

@@ -1,4 +1,4 @@
-import deepFreeze from 'deep-freeze-strict'
+import deep_freeze from 'deep-freeze-strict'
 import { LastMigrationStep, MigrationStep, generic_migrate_to_latest } from '@offirmo-private/state'
 
 import { LIB, SCHEMA_VERSION } from './consts'
@@ -7,7 +7,7 @@ import { OMRSoftExecutionContext } from './sec'
 
 // some hints may be needed to migrate to demo state
 // need to export them for composing tests
-const MIGRATION_HINTS_FOR_TESTS: any = deepFreeze({
+const MIGRATION_HINTS_FOR_TESTS: any = deep_freeze<any>({
 })
 
 /////////////////////
@@ -51,7 +51,6 @@ const migrate_to_4: LastMigrationStep<StateForMigration, [any, any]> = (SEC, [le
 const migrate_to_3: MigrationStep<[any, any], [any, any]> = () => {
 	throw new Error('Schema is too old (pre-beta), can’t migrate!')
 }
-
 
 /////////////////////
 

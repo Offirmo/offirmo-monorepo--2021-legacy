@@ -2,16 +2,9 @@ import deep_freeze from 'deep-freeze-strict'
 import assert from 'tiny-invariant'
 import { SoftExecutionContext } from '@offirmo-private/soft-execution-context'
 
-import {
-	BaseState,
-	BaseTState,
-	BaseUState,
-	WithSchemaVersion,
-	BaseRootState,
-} from './types'
 import { AnyRootState } from './types--internal'
 import { get_schema_version_loose } from './selectors'
-import {is_UState, is_TState, is_RootState} from './type-guards'
+import { is_UState, is_TState, is_RootState } from './type-guards'
 
 
 /////////////////////
@@ -149,7 +142,6 @@ export function generic_migrate_to_latest<State>({
 		else {
 			state = _migrate_sub_states__base<State>(SEC, state, sub_states, hints)
 		}
-
 
 		state = cleanup(SEC, state, hints)
 

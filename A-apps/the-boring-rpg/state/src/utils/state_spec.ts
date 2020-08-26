@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import deepFreeze from 'deep-freeze-strict'
+import deep_freeze from 'deep-freeze-strict'
 
 import { LIB } from '../consts'
 
@@ -38,7 +38,7 @@ describe(`${LIB} - utils - state`, function() {
 			t_state: {}
 		}
 
-		const previous_base: Readonly<TestState> = deepFreeze({
+		const previous_base: Readonly<TestState> = deep_freeze<TestState>({
 			schema_version: 7,
 			revision: 103,
 
@@ -56,7 +56,7 @@ describe(`${LIB} - utils - state`, function() {
 			},
 		}) as any
 
-		const previous_root: Readonly<TestRootState> = deepFreeze({
+		const previous_root: Readonly<TestRootState> = deep_freeze<TestRootState>({
 			schema_version: 7,
 
 			u_state: previous_base,
@@ -70,7 +70,7 @@ describe(`${LIB} - utils - state`, function() {
 			})
 
 			it('should not touch the object if no sub-increments', () => {
-				const current_base = deepFreeze({
+				const current_base = deep_freeze({
 					...previous_base,
 					sub1: {
 						...previous_base.sub1,
@@ -82,7 +82,7 @@ describe(`${LIB} - utils - state`, function() {
 			})
 
 			it('should increment if sub-increments', () => {
-				const current_base = deepFreeze({
+				const current_base = deep_freeze({
 					...previous_base,
 					sub1: {
 						...previous_base.sub1,
@@ -90,7 +90,7 @@ describe(`${LIB} - utils - state`, function() {
 						foo: 43,
 					},
 				})
-				const expected = deepFreeze({
+				const expected = deep_freeze({
 					...current_base,
 					revision: 104,
 				})
@@ -100,7 +100,7 @@ describe(`${LIB} - utils - state`, function() {
 			})
 
 			it('should throw if already incremented', () => {
-				const current_base = deepFreeze({
+				const current_base = deep_freeze({
 					...previous_base,
 					revision: 104, // bad
 					sub1: {
@@ -121,7 +121,7 @@ describe(`${LIB} - utils - state`, function() {
 			})
 
 			it('should not touch the object if no sub-increments', () => {
-				const current_root = deepFreeze({
+				const current_root = deep_freeze({
 					...previous_root,
 					u_state: {
 						...previous_root.u_state,
@@ -136,7 +136,7 @@ describe(`${LIB} - utils - state`, function() {
 			})
 
 			it('should increment if sub-increments', () => {
-				const current_root = deepFreeze({
+				const current_root = deep_freeze({
 					...previous_root,
 					u_state: {
 						...previous_root.u_state,
@@ -147,7 +147,7 @@ describe(`${LIB} - utils - state`, function() {
 						},
 					},
 				})
-				const expected = deepFreeze({
+				const expected = deep_freeze({
 					...current_root,
 					u_state: {
 						...current_root.u_state,
@@ -160,7 +160,7 @@ describe(`${LIB} - utils - state`, function() {
 			})
 
 			it('should throw if already incremented', () => {
-				const current_root = deepFreeze({
+				const current_root = deep_freeze({
 					...previous_root,
 					u_state: {
 						...previous_root.u_state,

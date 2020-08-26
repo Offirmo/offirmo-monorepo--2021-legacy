@@ -1,6 +1,6 @@
 /////////////////////
 
-import deepFreeze from 'deep-freeze-strict'
+import deep_freeze from 'deep-freeze-strict'
 
 import { LIB, SCHEMA_VERSION } from './consts'
 

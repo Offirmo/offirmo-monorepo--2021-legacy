@@ -1,5 +1,5 @@
 import {expect} from 'chai'
-import deepFreeze from 'deep-freeze-strict'
+import deep_freeze from 'deep-freeze-strict'
 import sinon from 'sinon'
 
 import { JSONObject } from '@offirmo-private/ts-types'
@@ -22,7 +22,7 @@ import {create} from '..'
 import { DEMO_STATE } from '../../examples'
 
 // some hints may be needed to migrate to demo state
-const MIGRATION_HINTS_FOR_TESTS: any = deepFreeze({
+const MIGRATION_HINTS_FOR_TESTS: any = deep_freeze<any>({
 	to_v12: {
 	},
 
@@ -53,7 +53,7 @@ describe(`${LIB} - schema migration`, function() {
 	})
 
 	it('should correctly migrate a fresh state (by touching nothing)', () => {
-		const old_state = deepFreeze(create())
+		const old_state = deep_freeze<any>(create())
 
 		const new_state = migrate_to_latest(get_lib_SEC(), old_state)
 

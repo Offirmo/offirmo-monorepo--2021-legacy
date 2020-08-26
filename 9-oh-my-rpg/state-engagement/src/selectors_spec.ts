@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import deepFreeze from 'deep-freeze-strict'
+import deep_freeze from 'deep-freeze-strict'
 
 import {
 	create,

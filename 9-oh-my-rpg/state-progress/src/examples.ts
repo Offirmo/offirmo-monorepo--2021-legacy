@@ -1,4 +1,4 @@
-import deepFreeze from 'deep-freeze-strict'
+import deep_freeze from 'deep-freeze-strict'
 
 import { State, AchievementStatus } from './types'
 
@@ -8,7 +8,7 @@ const TRUE_TRUE: true = true // https://github.com/Microsoft/TypeScript/issues/1
 
 // a full featured, non-trivial demo state
 // useful for demos and unit tests
-const DEMO_STATE: Readonly<State> = deepFreeze({
+const DEMO_STATE: Readonly<State> = deep_freeze<State>({
 	schema_version: 2,
 	revision: 42,
 

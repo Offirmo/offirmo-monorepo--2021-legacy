@@ -1,5 +1,5 @@
 import {expect} from 'chai'
-import deepFreeze from 'deep-freeze-strict'
+import deep_freeze from 'deep-freeze-strict'
 
 import { xxx_internal_reset_prng_cache } from '@oh-my-rpg/state-prng'
 
@@ -21,7 +21,7 @@ describe(`${LIB} - schema migration`, function() {
 			const GOOD_PLAY_COUNT = 86
 			const BAD_PLAY_COUNT = 0
 
-			const PSEUDO_V4 = deepFreeze({
+			const PSEUDO_V4 = deep_freeze({
 				'schema_version': 4,
 				'revision': 203,
 				'avatar': {
@@ -51,7 +51,7 @@ describe(`${LIB} - schema migration`, function() {
 			const GOOD_PLAY_COUNT = 429
 			const BAD_PLAY_COUNT = 433 - 429
 
-			const PSEUDO_V4 = deepFreeze({
+			const PSEUDO_V4 = deep_freeze({
 				'schema_version': 6,
 				'revision': 485,
 				'uuid': 'uu1EO9VgTjPlR1YPj0yfdWjG',
@@ -97,7 +97,7 @@ describe(`${LIB} - schema migration`, function() {
 			const GOOD_PLAY_COUNT = 429
 			const BAD_PLAY_COUNT = 433 - 429
 
-			const PSEUDO_V7 = deepFreeze({
+			const PSEUDO_V7 = deep_freeze({
 				'schema_version': 6,
 				'revision': 485,
 				'uuid': 'uu1EO9VgTjPlR1YPj0yfdWjG',

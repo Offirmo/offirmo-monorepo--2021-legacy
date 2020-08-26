@@ -52,9 +52,14 @@ function decorateWithDetectedEnv() {
 // for unit tests only, for convenience
 function _force_uda_logger_with_level(suggestedLevel) {
 	try {
-		const { getLogger } = require('@offirmo/universal-debug-api-node')
-		const logger = getLogger({ suggestedLevel })
-		getRootSEC().injectDependencies({ logger })
+		try {
+			getRootSEC().getInjectedDependencies().logger.setLevel(suggestedLevel)
+		}
+		catch {
+			const { getLogger } = require('@offirmo/universal-debug-api-node')
+			const logger = getLogger({ suggestedLevel })
+			getRootSEC().injectDependencies({ logger })
+		}
 	}
 	catch (err) {
 		getRootSEC().getInjectedDependencies().logger.warn('Couldn’t force an UDA logger with given level!')

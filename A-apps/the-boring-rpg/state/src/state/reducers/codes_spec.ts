@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import deepFreeze from 'deep-freeze-strict'
+import deep_freeze from 'deep-freeze-strict'
 
 import { xxx_internal_reset_prng_cache } from '@oh-my-rpg/state-prng'
 
@@ -15,6 +15,7 @@ import {
 	_lose_all_energy,
 	_ack_all_engagements,
 } from './internal'
+import {State} from '../../types'
 
 describe(`${LIB} - reducer - codes`, function() {
 	beforeEach(() => xxx_internal_reset_prng_cache())
@@ -33,7 +34,7 @@ describe(`${LIB} - reducer - codes`, function() {
 	CODES.forEach(code => {
 		describe(`good code "${code}"`, function() {
 			it('should not cause a crash', function() {
-				const initial_state = deepFreeze(
+				const initial_state = deep_freeze<State>(
 					_ack_all_engagements(
 						_lose_all_energy( // for BORED
 							reseed(
@@ -64,7 +65,7 @@ describe(`${LIB} - reducer - codes`, function() {
 	describe('good code with redemption limit', function() {
 		// bug seen, v0.59
 		it('should correctly crash on second attempt', () => {
-			const initial_state = deepFreeze(
+			const initial_state = deep_freeze<State>(
 				_ack_all_engagements(
 					reseed(
 						create(),
@@ -86,7 +87,7 @@ describe(`${LIB} - reducer - codes`, function() {
 
 	describe('bad code', function() {
 		it('should cause a crash', function() {
-			const initial_state = deepFreeze(
+			const initial_state = deep_freeze<State>(
 				_ack_all_engagements(
 					reseed(
 						create(),

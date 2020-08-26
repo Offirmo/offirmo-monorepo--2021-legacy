@@ -1,6 +1,5 @@
 /////////////////////
 
-import { Random, Engine } from '@offirmo/random'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 
 /////////////////////
@@ -11,7 +10,6 @@ import * as ProgressState from '@oh-my-rpg/state-progress'
 /////////////////////
 
 import { State } from '../../../types'
-import { propagate_child_revision_increment_upward } from '../../../utils/state'
 
 import { will_next_play_be_good_at } from '../../../selectors'
 import { _update_to_now } from '../internal'

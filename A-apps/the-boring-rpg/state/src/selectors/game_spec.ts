@@ -5,7 +5,7 @@ import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 import { xxx_internal_reset_prng_cache } from '@oh-my-rpg/state-prng'
 
 import { LIB } from '../consts'
-import { create } from '..'
+import {create, State} from '..'
 import {
 	get_available_classes,
 	will_next_play_be_good_at,
@@ -21,7 +21,7 @@ describe(`${LIB} - selectors - game`, function() {
 	describe('get_available_classes()', function() {
 
 		it('should return class strings', () => {
-			const { u_state } = deep_freeze(create())
+			const { u_state } = deep_freeze<State>(create())
 
 			const klasses = get_available_classes(u_state)
 
@@ -33,7 +33,7 @@ describe(`${LIB} - selectors - game`, function() {
 		})
 
 		it('should filter out novice', () => {
-			const { u_state } = create()
+			const { u_state } = deep_freeze<State>(create())
 
 			const klasses = get_available_classes(u_state)
 
@@ -44,7 +44,7 @@ describe(`${LIB} - selectors - game`, function() {
 	describe('will_next_play_be_good_at()', function() {
 
 		it('should return a correct boolean', () => {
-			let state = deep_freeze(create())
+			let state = deep_freeze<State>(create())
 
 			expect(will_next_play_be_good_at(state, get_UTC_timestamp_ms())).to.be.true
 
@@ -53,7 +53,8 @@ describe(`${LIB} - selectors - game`, function() {
 		})
 
 		it('should properly take into account the given time', () => {
-			let state = deep_freeze(create())
+			let state = deep_freeze<State>(create())
+
 			state = _lose_all_energy(state)
 			expect(will_next_play_be_good_at(state, get_UTC_timestamp_ms())).to.be.false
 

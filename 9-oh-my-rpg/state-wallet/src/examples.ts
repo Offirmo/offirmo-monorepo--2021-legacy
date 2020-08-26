@@ -1,11 +1,11 @@
-import deepFreeze from 'deep-freeze-strict'
+import deep_freeze from 'deep-freeze-strict'
 import { State } from './types'
 
 /////////////////////
 
 // a full featured, non-trivial demo state
 // useful for demos and unit tests
-const DEMO_STATE: Readonly<State> = deepFreeze({
+const DEMO_STATE: Readonly<State> = deep_freeze<State>({
 	schema_version: 1,
 	revision: 42,
 

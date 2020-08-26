@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import deepFreeze from 'deep-freeze-strict'
+import deep_freeze from 'deep-freeze-strict'
 
 import { test_migrations } from '@oh-my-rpg/migration-tester'
 
@@ -13,7 +13,7 @@ import { create } from './state'
 describe('@oh-my-rpg/state-engagement - migration', function() {
 
 	it('should correctly migrate a fresh new state (by touching nothing)', () => {
-		const old_state = deepFreeze(create())
+		const old_state = deep_freeze<any>(create())
 
 		const new_state = migrate_to_latest(get_lib_SEC(), old_state)
 

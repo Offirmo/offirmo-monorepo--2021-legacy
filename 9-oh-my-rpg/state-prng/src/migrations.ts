@@ -1,4 +1,4 @@
-import deepFreeze from 'deep-freeze-strict'
+import deep_freeze from 'deep-freeze-strict'
 import { generate_uuid } from '@offirmo-private/uuid'
 
 import { LIB, SCHEMA_VERSION } from './consts'
@@ -7,7 +7,7 @@ import { OMRSoftExecutionContext, get_lib_SEC } from './sec'
 
 // some hints may be needed to migrate to demo state
 // need to export them for composing tests
-const MIGRATION_HINTS_FOR_TESTS: any = deepFreeze({
+const MIGRATION_HINTS_FOR_TESTS: any = deep_freeze<any>({
 })
 
 /////////////////////

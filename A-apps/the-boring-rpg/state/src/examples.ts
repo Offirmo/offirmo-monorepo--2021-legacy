@@ -1,6 +1,6 @@
 /////////////////////
 
-import deepFreeze from 'deep-freeze-strict'
+import deep_freeze from 'deep-freeze-strict'
 
 /////////////////////
 
@@ -29,7 +29,7 @@ import { State, Adventure } from './types'
 
 // a full featured, non-trivial demo state
 // with dev gain
-const DEMO_ADVENTURE_01: Readonly<Adventure> = deepFreeze({
+const DEMO_ADVENTURE_01: Readonly<Adventure> = deep_freeze<Adventure>({
 	hid: 'fight_lost_any',
 	uuid: 'uu1~example~adventure~01',
 	good: true,
@@ -52,7 +52,7 @@ const DEMO_ADVENTURE_01: Readonly<Adventure> = deepFreeze({
 	},
 })
 // with coin gain
-const DEMO_ADVENTURE_02: Readonly<Adventure> = deepFreeze({
+const DEMO_ADVENTURE_02: Readonly<Adventure> = deep_freeze<Adventure>({
 	hid: 'dying_man',
 	uuid: 'uu1~example~adventure~02',
 	good: true,
@@ -74,7 +74,7 @@ const DEMO_ADVENTURE_02: Readonly<Adventure> = deepFreeze({
 	},
 })
 // with loot gain
-const DEMO_ADVENTURE_03: Readonly<Adventure> = deepFreeze({
+const DEMO_ADVENTURE_03: Readonly<Adventure> = deep_freeze<Adventure>({
 	hid: 'rare_goods_seller',
 	uuid: 'uu1~example~adventure~03',
 	good: true,
@@ -96,7 +96,7 @@ const DEMO_ADVENTURE_03: Readonly<Adventure> = deepFreeze({
 	},
 })
 // with weapon enhancement gain
-const DEMO_ADVENTURE_04: Adventure = deepFreeze({
+const DEMO_ADVENTURE_04: Adventure = deep_freeze<Adventure>({
 	hid: 'princess',
 	uuid: 'uu1~example~adventure~04',
 	good: true,
@@ -118,7 +118,7 @@ const DEMO_ADVENTURE_04: Adventure = deepFreeze({
 	},
 })
 
-const DEMO_STATE: Readonly<State> = deepFreeze({
+const DEMO_STATE: Readonly<State> = deep_freeze<State>({
 	schema_version: SCHEMA_VERSION,
 
 	u_state: {
@@ -143,6 +143,7 @@ const DEMO_STATE: Readonly<State> = deepFreeze({
 
 	t_state: {
 		schema_version: SCHEMA_VERSION,
+		revision: 1,
 		timestamp_ms: Energy.DEMO_T_STATE.timestamp_ms,
 
 		energy: Energy.DEMO_T_STATE,

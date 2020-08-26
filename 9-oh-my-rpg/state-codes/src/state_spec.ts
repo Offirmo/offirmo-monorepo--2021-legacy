@@ -1,4 +1,4 @@
-import deepFreeze from 'deep-freeze-strict'
+import deep_freeze from 'deep-freeze-strict'
 import { expect } from 'chai'
 
 import { LIB, SCHEMA_VERSION } from './consts'
@@ -26,7 +26,7 @@ describe(`${LIB} - reducer`, function() {
 	})
 
 	describe('code redemption', function() {
-		const BASE_INFOS: Readonly<CodesConditions> = deepFreeze({
+		const BASE_INFOS: Readonly<CodesConditions> = deep_freeze<CodesConditions>({
 			has_energy_depleted: false,
 			good_play_count: 0,
 			is_alpha_player: true,
