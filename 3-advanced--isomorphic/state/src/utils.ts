@@ -8,37 +8,22 @@ import {
 	BaseRootState,
 } from './types'
 import {
-	has_versioned_schema,
-	is_revisioned,
+	AnyBaseState,
+	AnyRootState,
+} from './types--internal'
+import {
 	is_RootState,
 	is_TState,
 	is_UState,
 } from './type-guards'
 import {
-	get_revision,
-	get_schema_version,
-	get_schema_version_loose,
+	get_revision_loose,
 } from './selectors'
 
 
 
-
-
-interface AnyBaseState extends WithRevision {
-	[k: string]: any
-}
-interface AnyBaseUState extends BaseUState {
-	[k: string]: any
-}
-interface AnyBaseTState extends BaseTState {
-	[k: string]: any
-}
-interface AnyRootState extends BaseRootState {
-	u_state: AnyBaseUState
-	t_state: AnyBaseTState
-}
-
-
+// if a child state's revision increased, increase ours
+// TODO go deep! not just 1st level
 export function propagate_child_revision_increment_upward<S extends WithRevision, R extends BaseRootState, T = S | R>(
 	previous: any,
 	current: Readonly<T>,
@@ -73,13 +58,9 @@ export function propagate_child_revision_increment_upward<S extends WithRevision
 	const typed_current: AnyBaseState = current as any
 
 	for (const k in typed_current) {
-		const previous_revision = (typed_previous[k] as WithRevision || {}).revision
-		const current_revision = (typed_current[k] as WithRevision || {}).revision
+		const previous_revision = get_revision_loose(typed_previous[k])
+		const current_revision = get_revision_loose(typed_current[k])
 		if (current_revision !== previous_revision) {
-			if (!Number.isInteger(previous_revision as any))
-				throw new Error(`propagate_child_revision_increment_upward(): Invalid revision for previous "${k}"!`)
-			if (!Number.isInteger(current_revision as any))
-				throw new Error(`propagate_child_revision_increment_upward(): Invalid revision for current "${k}"!`)
 			if (current_revision !== previous_revision + 1) {
 				// NO! It may be normal for a sub to have been stimulated more than once,
 				// ex. gained 3 achievements
@@ -99,7 +80,8 @@ export function propagate_child_revision_increment_upward<S extends WithRevision
 	}
 }
 
-
+// check if the state is still in the revision we expect
+// ex. for an action, check it's still valid, ex. object already sold?
 export function are_ustate_revision_requirements_met<S extends BaseRootState>(state: Readonly<S>, requirements: { [k: string]: number } = {}): boolean {
 	for(const k in requirements) {
 		assert((state as AnyRootState).u_state[k], `are_ustate_revision_requirements_met(): sub state not found: "${k}"!`)

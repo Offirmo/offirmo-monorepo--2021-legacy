@@ -1,18 +1,26 @@
-import deepFreeze from 'deep-freeze-strict'
+import deep_freeze from 'deep-freeze-strict'
 import assert from 'tiny-invariant'
 import { SoftExecutionContext } from '@offirmo-private/soft-execution-context'
 
-import {BaseTState, BaseUState, WithSchemaVersion} from './types'
+import {
+	BaseState,
+	BaseTState,
+	BaseUState,
+	WithSchemaVersion,
+	BaseRootState,
+} from './types'
+import { AnyRootState } from './types--internal'
 import { get_schema_version_loose } from './selectors'
+import {is_UState, is_TState, is_RootState} from './type-guards'
 
 
 /////////////////////
 
 export interface Libs {
-	deep_freeze: typeof deepFreeze,
+	deep_freeze: typeof deep_freeze,
 }
 const LIBS: Libs = {
-	deep_freeze: deepFreeze,
+	deep_freeze: deep_freeze,
 }
 
 export type GenericMigration<State = any, OlderState = any> = (
@@ -39,6 +47,7 @@ export type CleanupStep<State> = (
 	hints: Readonly<any>,
 ) => State
 
+export type SubStatesMigrations = { [key: string]: GenericMigration }
 
 export function generic_migrate_to_latest<State>({
 	SEC,
@@ -47,26 +56,27 @@ export function generic_migrate_to_latest<State>({
 	SCHEMA_VERSION,
 	legacy_state,
 	hints,
-	sub_states = [],
+	sub_states, // no default to force thinking
 	cleanup = (SEC, state, hints) => state,
 	pipeline,
 }: {
 	SEC: SoftExecutionContext
-	LIB: string,
+	LIB: string
 	SCHEMA_VERSION: number
-	legacy_state: Readonly<any>,
-	hints: any,
-	sub_states: string[]
-	cleanup?: CleanupStep<State>,
+	legacy_state: Readonly<any>
+	hints: any
+	sub_states: SubStatesMigrations
+	cleanup?: CleanupStep<State>
 	pipeline: readonly [
 		LastMigrationStep<State>,
-		...MigrationStep[]
-	],
+		...MigrationStep[],
+	]
 }): State {
-	return SEC.xTry('migrate_to_latest', ({SEC: RSEC, logger}) => {
+	return SEC.xTry('migrate_to_latest', ({SEC, logger}) => {
 		const existing_version = get_schema_version_loose(legacy_state)
 
-		RSEC.setLogicalStack({module: LIB})
+		const RSEC = SEC
+		RSEC.setLogicalStack({ module: LIB })
 		RSEC.setAnalyticsAndErrorDetails({
 			version_from: existing_version,
 			version_to: SCHEMA_VERSION,
@@ -133,15 +143,106 @@ export function generic_migrate_to_latest<State>({
 		}
 
 		// migrate sub-reducers if any...
-		sub_states.forEach(key => {
-			throw new Error('NIMP!')
-		})
+		if (is_RootState(state)) {
+			state = _migrate_sub_states__root<State>(SEC, state as any /* stupid TS */, sub_states, hints)
+		}
+		else {
+			state = _migrate_sub_states__base<State>(SEC, state, sub_states, hints)
+		}
 
-		state = cleanup(RSEC, state, hints)
+
+		state = cleanup(SEC, state, hints)
 
 		return state
 	})
+}
 
+function _migrate_sub_states__root<State /*extends BaseRootState*/>(
+	SEC: SoftExecutionContext,
+	state: Readonly<State>,
+	sub_states: SubStatesMigrations,
+	hints: any,
+): State {
+	let { u_state, t_state } = state as any as AnyRootState
+
+	const sub_states_found = new Set<string>()
+	const sub_u_states_found = new Set<string>()
+	const sub_t_states_found = new Set<string>()
+
+	Object.keys(u_state).forEach(key => {
+		if (is_UState(u_state[key])) {
+			sub_states_found.add(key)
+			sub_u_states_found.add(key)
+		}
+	})
+	Object.keys(t_state).forEach(key => {
+		if (is_TState(t_state[key])) {
+			sub_states_found.add(key)
+			sub_t_states_found.add(key)
+		}
+	})
+
+	const sub_states_migrated = new Set<string>()
+	Object.keys(sub_states).forEach(key => {
+		if (sub_u_states_found.has(key) && sub_t_states_found.has(key)) {
+			// combo
+			let [new_sub_ustate, new_sub_tstate] = sub_states[key](
+				SEC,
+				[ u_state[key], t_state[key]],
+				hints[key],
+			)
+			u_state = {
+				...u_state,
+				[key]: new_sub_ustate,
+			}
+			t_state = {
+				...t_state,
+				[key]: new_sub_tstate,
+			}
+		}
+		else if (sub_u_states_found.has(key)) {
+			u_state = {
+				...u_state,
+				[key]: sub_states[key](
+					SEC,
+					u_state[key],
+					hints[key],
+				),
+			}
+		}
+		else if (sub_t_states_found.has(key)) {
+			t_state = {
+				...t_state,
+				[key]: sub_states[key](
+					SEC,
+					t_state[key],
+					hints[key],
+				),
+			}
+		}
+		else {
+			throw new Error(`Expected sub-state "${key}" was not found!`)
+		}
+		sub_states_migrated.add(key)
+	})
+
+	return {
+		...state,
+		u_state,
+		t_state,
+	}
+}
+
+function _migrate_sub_states__base<State /*extends BaseState*/>(
+	SEC: SoftExecutionContext,
+	state: Readonly<State>,
+	sub_states: SubStatesMigrations,
+	hints: any,
+): State {
+	for (let k in sub_states) {
+		throw new Error('_migrate_sub_states__base() NIMP!')
+	}
+	return state
 }
 
 

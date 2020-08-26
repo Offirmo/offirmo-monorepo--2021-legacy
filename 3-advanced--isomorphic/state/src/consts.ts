@@ -1,6 +1,2 @@
 
-const LIB = '@offirmo-private/state'
-
-export {
-	LIB,
-}
+export const LIB = '@offirmo-private/state'

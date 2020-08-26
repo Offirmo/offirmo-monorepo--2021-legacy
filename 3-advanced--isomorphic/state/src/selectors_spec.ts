@@ -6,37 +6,108 @@ import {
 	get_schema_version,
 	get_schema_version_loose,
 	get_revision,
+	get_revision_loose,
 } from './selectors'
 
 import {
-	BASE_UEXAMPLE,
-	BASE_TEXAMPLE,
-	ROOT_EXAMPLE,
+	DEMO_USTATE,
+	DEMO_BASE_STATE,
+	DEMO_BASE_STATE_WITH_SUBS,
+	DEMO_TSTATE,
+	DEMO_ROOT_STATE,
 } from './_test_helpers'
+import {get_semantic_difference} from './comparators'
 
 
 describe(`${LIB} - selectors`, function() {
 
 	describe('get_schema_version()', function() {
-		it('should work on correct data', () => {
-			expect(get_schema_version({ schema_version: 33})).to.equal(33)
-			expect(get_schema_version(ROOT_EXAMPLE)).to.equal(10)
-			expect(get_schema_version(ROOT_EXAMPLE.t_state)).to.equal(3)
-			expect(get_schema_version(BASE_UEXAMPLE)).to.equal(8)
-			expect(get_schema_version(BASE_UEXAMPLE.sub1)).to.equal(4)
+
+		describe('on a NON WithSchemaVersion', function() {
+			it('should throw', () => {
+				expect(
+					// @ts-expect-error
+					() => get_schema_version({ foo: 42 })
+				).to.throw()
+			})
 		})
 
-		it('should throw on non-matching', () => {
-			const DATA = { foo: 42 }
+		describe('on WithSchemaVersion', function() {
+			it('should work on correct data', () => {
+				expect(get_schema_version({ schema_version: 33})).to.equal(33)
+			})
+		})
 
-			expect(
-				// @ts-expect-error
-				() => get_schema_version(DATA)
-			).to.throw()
+		describe('on a BaseState', function() {
+
+			it('should work on correct data', () => {
+				expect(get_schema_version(DEMO_BASE_STATE)).to.equal(DEMO_BASE_STATE.schema_version)
+				expect(get_schema_version(DEMO_ROOT_STATE.u_state)).to.equal(DEMO_ROOT_STATE.u_state.schema_version)
+				expect(get_schema_version(DEMO_ROOT_STATE.t_state)).to.equal(DEMO_ROOT_STATE.t_state.schema_version)
+			})
+		})
+
+		describe('on an aggregated U+T state', function() {
+
+			it('should work on special aggregated data', () => {
+				expect(get_schema_version([DEMO_USTATE, DEMO_TSTATE])).to.equal(DEMO_USTATE.schema_version)
+				expect(get_schema_version([DEMO_USTATE, DEMO_TSTATE])).to.equal(DEMO_TSTATE.schema_version)
+			})
+
+			it('should throw on non-matching', () => {
+				expect(
+					// @ts-expect-error
+					() => get_schema_version([])
+				).to.throw()
+
+				expect(
+					() => get_schema_version([DEMO_TSTATE, DEMO_USTATE])
+				).to.throw()
+
+				expect(
+					// @ts-expect-error
+					() => get_schema_version([DEMO_USTATE, DEMO_TSTATE, DEMO_USTATE])
+				).to.throw()
+			})
+
+			it('should throw on misaligned', () => {
+				expect(
+					() => get_schema_version([DEMO_USTATE, {
+						...DEMO_TSTATE,
+						schema_version: 99,
+					}])
+				).to.throw()
+			})
+		})
+
+		describe('on a root state', function() {
+
+			it('should work on correct data', () => {
+				expect(get_schema_version(DEMO_ROOT_STATE)).to.equal(DEMO_ROOT_STATE.schema_version)
+			})
+
+			it('should throw when any U/T schemas is mismatching', () => {
+				expect(() => get_schema_version({
+					...DEMO_ROOT_STATE,
+					u_state: {
+						...DEMO_ROOT_STATE.u_state,
+						schema_version: 99,
+					}
+				})).to.throw()
+
+				expect(() => get_schema_version({
+					...DEMO_ROOT_STATE,
+					t_state: {
+						...DEMO_ROOT_STATE.t_state,
+						schema_version: 99,
+					}
+				})).to.throw()
+			})
 		})
 	})
 
 	describe('get_schema_version_loose()', function() {
+
 		it('should work on non matching', () => {
 			expect(get_schema_version_loose(undefined)).to.equal(0)
 			expect(get_schema_version_loose(null)).to.equal(0)
@@ -46,33 +117,46 @@ describe(`${LIB} - selectors`, function() {
 
 		it('should work on nominal correct data', () => {
 			expect(get_schema_version_loose({ schema_version: 33})).to.equal(33)
-			expect(get_schema_version_loose(ROOT_EXAMPLE)).to.equal(10)
-			expect(get_schema_version_loose(ROOT_EXAMPLE.t_state)).to.equal(3)
-			expect(get_schema_version_loose(BASE_UEXAMPLE)).to.equal(8)
-			expect(get_schema_version_loose(BASE_UEXAMPLE.sub1)).to.equal(4)
+			expect(get_schema_version_loose(DEMO_ROOT_STATE)).to.equal(DEMO_ROOT_STATE.schema_version)
+			expect(get_schema_version_loose(DEMO_ROOT_STATE.t_state)).to.equal(DEMO_ROOT_STATE.t_state.schema_version)
+			expect(get_schema_version_loose(DEMO_USTATE)).to.equal(DEMO_USTATE.schema_version)
+			expect(get_schema_version_loose(DEMO_BASE_STATE_WITH_SUBS.subA)).to.equal(DEMO_BASE_STATE_WITH_SUBS.subA.schema_version)
 		})
 
 		it('should work on special aggregated data', () => {
-			expect(get_schema_version_loose([BASE_UEXAMPLE, null] as any)).to.equal(8)
-			expect(get_schema_version_loose([null, BASE_TEXAMPLE] as any)).to.equal(3)
-			expect(get_schema_version_loose([BASE_UEXAMPLE, BASE_TEXAMPLE] as any)).to.equal(8)
+			expect(get_schema_version_loose([DEMO_USTATE, DEMO_TSTATE] as any)).to.equal(DEMO_USTATE.schema_version)
 		})
 	})
 
 	describe('get_revision()', function() {
+
 		it('should work on correct data', () => {
-			expect(get_revision(ROOT_EXAMPLE.t_state)).to.equal(20)
-			expect(get_revision(BASE_UEXAMPLE)).to.equal(103)
-			expect(get_revision(BASE_UEXAMPLE.sub1)).to.equal(45)
+			expect(get_revision({ revision: 33 })).to.equal(33)
+			expect(get_revision(DEMO_ROOT_STATE.t_state)).to.equal(DEMO_ROOT_STATE.t_state.revision)
+			expect(get_revision(DEMO_USTATE)).to.equal(DEMO_USTATE.revision)
+			expect(get_revision(DEMO_BASE_STATE_WITH_SUBS.subA)).to.equal(DEMO_BASE_STATE_WITH_SUBS.subA.revision)
 		})
 
 		it('should throw on non-matching', () => {
-			const DATA = { foo: 42 }
-
 			expect(
 				// @ts-expect-error
-				() => get_revision(DATA)
+				() => get_revision({ foo: 42 })
 			).to.throw()
+		})
+	})
+
+	describe('get_revision_loose()', function () {
+
+		it('should work on correct data', () => {
+			expect(get_revision_loose({ revision: 33 })).to.equal(33)
+			expect(get_revision_loose(DEMO_ROOT_STATE.t_state)).to.equal(DEMO_ROOT_STATE.t_state.revision)
+			expect(get_revision_loose(DEMO_USTATE)).to.equal(DEMO_USTATE.revision)
+			expect(get_revision_loose(DEMO_BASE_STATE_WITH_SUBS.subA)).to.equal(DEMO_BASE_STATE_WITH_SUBS.subA.revision)
+		})
+
+		it('should return 0 on non-matching', () => {
+			// @ts-expect-error
+			expect(get_revision_loose({ foo: 42 })).to.equal(0)
 		})
 	})
 })

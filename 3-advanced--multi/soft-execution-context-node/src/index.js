@@ -49,9 +49,22 @@ function decorateWithDetectedEnv() {
 	SEC.setAnalyticsAndErrorDetails(details)
 }
 
+// for unit tests only, for convenience
+function _force_uda_logger_with_level(suggestedLevel) {
+	try {
+		const { getLogger } = require('@offirmo/universal-debug-api-node')
+		const logger = getLogger({ suggestedLevel })
+		getRootSEC().injectDependencies({ logger })
+	}
+	catch (err) {
+		getRootSEC().getInjectedDependencies().logger.warn('Couldn’t force an UDA logger with given level!')
+	}
+}
+
 module.exports = {
 	...require('@offirmo-private/soft-execution-context'),
 	listenToUncaughtErrors,
 	listenToUnhandledRejections,
 	decorateWithDetectedEnv,
+	_force_uda_logger_with_level,
 }

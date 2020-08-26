@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import deepFreeze from 'deep-freeze-strict'
+import deep_freeze from 'deep-freeze-strict'
 
 import {
 	QUASI_STANDARD_ERROR_FIELDS,
@@ -12,7 +12,7 @@ import { normalizeError } from './util--normalize'
 import {XXError} from './types'
 
 
-describe.only(`common-error-fields - utils`, () => {
+describe(`common-error-fields - utils`, () => {
 
 	describe('createError()', () => {
 		it('should work', () => {
@@ -52,7 +52,7 @@ describe.only(`common-error-fields - utils`, () => {
 			xerr.details = {
 				foo: 42
 			}
-			xerr = deepFreeze(xerr)
+			xerr = deep_freeze<any>(xerr)
 
 			const nerr = normalizeError(xerr)
 

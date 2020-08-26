@@ -1,17 +1,11 @@
 import { expect } from 'chai'
-import deepFreeze from 'deep-freeze-strict'
+import deep_freeze from 'deep-freeze-strict'
 
 import { LIB } from './consts'
 
 import {
-	BaseUState,
-	BaseTState,
-	BaseRootState,
-} from './types'
-
-import {
-	BASE_UEXAMPLE,
-	ROOT_EXAMPLE,
+	DEMO_BASE_STATE_WITH_SUBS,
+	DEMO_ROOT_STATE,
 } from './_test_helpers'
 
 import {
@@ -24,8 +18,8 @@ describe(`${LIB} - utils`, function() {
 
 	describe('propagate_child_revision_increment_upward()', function() {
 
-		context('on a base state', function() {
-			const previous = BASE_UEXAMPLE
+		context('on a base state with sub states', function() {
+			const previous = DEMO_BASE_STATE_WITH_SUBS
 
 			it('should no touch the object if no change at all', () => {
 				const new_state = propagate_child_revision_increment_upward(previous, previous)
@@ -33,11 +27,11 @@ describe(`${LIB} - utils`, function() {
 			})
 
 			it('should not touch the object if no sub-increments', () => {
-				const current_base = deepFreeze({
+				const current_base = deep_freeze<typeof previous>({
 					...previous,
-					sub1: {
-						...previous.sub1,
-						foo: 43,
+					subC: {
+						...previous.subC,
+						fizz: 'hello',
 					},
 				})
 				const new_state = propagate_child_revision_increment_upward(previous, current_base)
@@ -45,15 +39,15 @@ describe(`${LIB} - utils`, function() {
 			})
 
 			it('should increment if sub-increments', () => {
-				const current_base = deepFreeze({
+				const current_base = deep_freeze<typeof previous>({
 					...previous,
-					sub1: {
-						...previous.sub1,
+					subC: {
+						...previous.subC,
 						revision: 46,
-						foo: 43,
+						fizz: 'hello',
 					},
 				})
-				const expected = deepFreeze({
+				const expected = deep_freeze<typeof previous>({
 					...current_base,
 					revision: 104,
 				})
@@ -63,13 +57,13 @@ describe(`${LIB} - utils`, function() {
 			})
 
 			it('should throw if already incremented', () => {
-				const current_base = deepFreeze({
+				const current_base = deep_freeze<typeof previous>({
 					...previous,
 					revision: 104, // bad
-					sub1: {
-						...previous.sub1,
+					subC: {
+						...previous.subC,
 						revision: 46,
-						foo: 43,
+						fizz: 'hello',
 					},
 				})
 				expect(() => propagate_child_revision_increment_upward(previous, current_base))
@@ -78,7 +72,7 @@ describe(`${LIB} - utils`, function() {
 		})
 
 		context('on a root state', function() {
-			const previous = ROOT_EXAMPLE
+			const previous = DEMO_ROOT_STATE
 
 			it('should no touch the object if no change at all', () => {
 				const new_state = propagate_child_revision_increment_upward(previous, previous)
@@ -86,13 +80,13 @@ describe(`${LIB} - utils`, function() {
 			})
 
 			it('should not touch the object if no sub-increments', () => {
-				const current_root = deepFreeze({
+				const current_root = deep_freeze<typeof previous>({
 					...previous,
 					u_state: {
 						...previous.u_state,
-						sub1: {
-							...previous.u_state.sub1,
-							foo: 43,
+						subC: {
+							...previous.u_state.subC,
+							fizz: 'hello',
 						},
 					},
 				})
@@ -101,18 +95,18 @@ describe(`${LIB} - utils`, function() {
 			})
 
 			it('should increment if sub-increments', () => {
-				const current_root = deepFreeze({
+				const current_root = deep_freeze<typeof previous>({
 					...previous,
 					u_state: {
 						...previous.u_state,
-						sub1: {
-							...previous.u_state.sub1,
+						subC: {
+							...previous.u_state.subC,
 							revision: 46,
-							foo: 43,
+							fizz: 'hello',
 						},
 					},
 				})
-				const expected = deepFreeze({
+				const expected = deep_freeze<typeof previous>({
 					...current_root,
 					u_state: {
 						...current_root.u_state,
@@ -125,15 +119,15 @@ describe(`${LIB} - utils`, function() {
 			})
 
 			it('should throw if already incremented', () => {
-				const current_root = deepFreeze({
+				const current_root = deep_freeze<typeof previous>({
 					...previous,
 					u_state: {
 						...previous.u_state,
 						revision: 104, // bad
-						sub1: {
-							...previous.u_state.sub1,
+						subC: {
+							...previous.u_state.subC,
 							revision: 46,
-							foo: 43,
+							fizz: 'hello',
 						},
 					},
 				})
@@ -147,31 +141,31 @@ describe(`${LIB} - utils`, function() {
 	describe('are_ustate_revision_requirements_met()', function() {
 
 		it('should return true if no requirements', () => {
-			const result = are_ustate_revision_requirements_met(ROOT_EXAMPLE, {})
+			const result = are_ustate_revision_requirements_met(DEMO_ROOT_STATE, {})
 			expect(result).to.be.true
 		})
 
 		it('should return true if all requirements met', () => {
-			const result = are_ustate_revision_requirements_met(ROOT_EXAMPLE, {
-				sub1: 45,
-				sub2: 67,
+			const result = are_ustate_revision_requirements_met(DEMO_ROOT_STATE, {
+				subA: 333,
+				subC: 24,
 			})
 			expect(result).to.be.true
 		})
 
 		it('should return false if some requirements not met', () => {
-			expect(are_ustate_revision_requirements_met(ROOT_EXAMPLE, {
-				sub1: 40,
-				sub2: 67,
+			expect(are_ustate_revision_requirements_met(DEMO_ROOT_STATE, {
+				subA: 999999,
+				subC: 24,
 			})).to.be.false
-			expect(are_ustate_revision_requirements_met(ROOT_EXAMPLE, {
-				sub1: 45,
-				sub2: 66,
+			expect(are_ustate_revision_requirements_met(DEMO_ROOT_STATE, {
+				subA: 333,
+				subC: 999999,
 			})).to.be.false
 		})
 
 		it('should throw if non-matched requirement', () => {
-			expect(() => are_ustate_revision_requirements_met(ROOT_EXAMPLE, { 'not-existing': 42 }))
+			expect(() => are_ustate_revision_requirements_met(DEMO_ROOT_STATE, { 'subB': 42 }))
 				.to.throw('sub state not found')
 		})
 	})

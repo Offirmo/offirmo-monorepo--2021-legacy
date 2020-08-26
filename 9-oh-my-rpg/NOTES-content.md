@@ -161,6 +161,9 @@ https://eol.org/
 
 ### matières
 * https://rpg.stackexchange.com/questions/149477/what-differences-exist-between-adamantine-and-adamantite-in-all-editions-of-dd#149481
+* https://wiki.albiononline.com/wiki/Runite_Ore
+* https://runescape.wiki/w/Ore
+* https://en.wikipedia.org/wiki/Stygian
 
 ### maladies / virus
 * https://fr.wikipedia.org/wiki/Suette
@@ -474,4 +477,52 @@ https://www.pathofexile.com/fullscreen-passive-skill-tree/3.10.2/AAAABAUAAQ==
 https://www.polygon.com/2020/1/13/21055761/choosing-a-class-guide-shadow-marauder-scion-templar-duelist-witch-ranger-ascendancy-best
 
 https://www.polygon.com/2020/6/2/21277116/path-of-exile-harvest-reveal-details-garden-sacred-grove-seed-cache-crafting-lifeforce-grow
+
 grappling hook
+
+https://news.harvard.edu/gazette/story/2020/06/neurons-that-control-hibernation-like-behavior-are-discovered/
+
+QWESTS
+There are usually 4 common goals for a film’s story. Will your story be about:
+- Winning?
+- Escaping?
+- Stopping something or someone?
+- Retrieving something of value?
+
+We were taught the 3 act structure mirroring the Hero’s Journey popularised by Joseph Campbell in his 1949 work The Hero with a Thousand Faces, where the:
+- 1st Act sets context of the status quo, with an inciting incident that causes the world to change and a call to adventure for the hero.
+- 2nd Act has escalating challenges in the main plot that the hero faces, and the introduction of a secondary plot (e.g. a love story strengthening the main plot) coming full circle in the 3rd Act.
+- 3rd Act results in a resolution, climax or twist that the hero experiences to the point of no return, which results in a new status quo in the world.
+
+Dan Harmon (creator of Rick and Morty and Community) has since simplified the theory into 8 steps:
+- Establish a protagonist (You) - A character is in a zone of comfort.
+- Something ain’t quite right (Need) - We learn that things aren’t perfect in our hero’s universe, setting the stage for external conflict.
+- Crossing the Threshold (Go) - They enter an unfamiliar situation, and begin their journey.
+- The Road of Trials (Search) - They adapt to their unfamiliar situation. They gain the skills they’ll need to achieve their goals and return home.
+- Meeting with the Goddess (Find) - They get what they wanted. The Need (number 2) is fulfilled.
+- Pay the Price (Take) - They pay a price for achieving their goal, but a secondary goal is achieved.
+- Bringing it Home (Return) - They cross the return threshold, and come back to where they started.
+- Master of both Worlds (Change) - The protagonist is in control of their situation, having changed.
+
+A good story always contains conflicts, of which it can be broken down into:
+- External: escalating challenges in the short-term as the world changes - or tactics.
+- Internal: decisions with significant impacts on long-term success - or strategy.
+
+Beats
+We analysed the script and were asked to identify the parts where we thought were important. This is usually something where there is a change from the status quo - it could be a new character introduced, the meeting of hearts, a power dynamic change between characters or a climax/twist. We call this a beat. A short film like this (~10 minutes) will probably have a maximum of 5-6 beats, so we started with around 10+ beats and culled it to 6 core ones.
+Of all the different beats, there will be the heart of the film in one of the beats. If we had to only show one scene, this will be the beat that we will show.
+
+Attitudes:
+Appetite for leadership
+Appetite for collaboration
+Patience for problem-solving
+Patience with detail
+Comfort with risk
+Level of drive
+
+people skills: "prismatic voice" https://www.youtube.com/watch?v=02EJ1IdC6tE
+intonation, pitch, adapting to the audience, ex. kid vs court
+
+Alliages
+https://en.wikipedia.org/wiki/Scandium
+https://en.wikipedia.org/wiki/Titanium_alloy

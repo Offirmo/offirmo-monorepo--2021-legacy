@@ -2,17 +2,11 @@ import assert from 'tiny-invariant'
 import { Enum } from 'typescript-string-enums'
 
 import {
-	WithRevision,
-	WithSchemaVersion,
-} from './types'
-import {
-	get_revision, get_revision_loose,
-	get_schema_version,
+	get_revision_loose,
 	get_schema_version_loose,
 } from './selectors'
 import {
-	has_versioned_schema,
-	is_revisioned, is_RootState,
+	is_RootState,
 } from './type-guards'
 
 
@@ -23,40 +17,6 @@ export const SemanticDifference = Enum(
 	'none',
 )
 export type SemanticDifference = Enum<typeof SemanticDifference> // eslint-disable-line no-redeclare
-
-
-// TODO clean those unused comparisons?
-/*
-// standard comparison function
-export function compare_schema_versions(a: Readonly<WithSchemaVersion>, b: Readonly<WithSchemaVersion>): number {
-	return get_schema_version(a) - get_schema_version(b)
-}
-
-export function is_newer_schema_version<T extends WithSchemaVersion, OldT extends WithSchemaVersion>(current: Readonly<T>, previous: Readonly<OldT>): boolean {
-	return compare_schema_versions(current, previous) > 0
-}
-
-// a more loose version which accepts the previous state to be anything
-export function is_loosely_newer_schema_version<T extends WithSchemaVersion, OldT extends WithSchemaVersion>(current: Readonly<T>, previous?: Readonly<OldT> | any): boolean {
-	if (current === previous) return false
-
-	const previous_schema_version = get_schema_version_loose(previous)
-	if (!previous_schema_version)
-		return true
-
-	return compare_schema_versions(current, previous) >= 0
-}
-
-export function assert_loosely_newer_schema_version<T extends WithSchemaVersion, OldT extends WithSchemaVersion>(current: Readonly<T>, previous?: Readonly<OldT> | any): void {
-	assert(is_loosely_newer_schema_version(current, previous), 'assert_loosely_newer_schema_version()!')
-}
-
-
-// standard comparison function
-export function compare_revisions(a: Readonly<WithRevision>, b: Readonly<WithRevision>): number {
-	return get_revision(a) - get_revision(b)
-}
-*/
 
 export function max(a: SemanticDifference, b: SemanticDifference): SemanticDifference {
 	if (a === SemanticDifference.major || b === SemanticDifference.major)

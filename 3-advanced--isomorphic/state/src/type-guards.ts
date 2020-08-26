@@ -6,7 +6,7 @@ import {
 	BaseState,
 	BaseTState,
 	BaseUState,
-	BaseRootState,
+	BaseRootState, BundledStates,
 } from './types'
 
 
@@ -18,10 +18,12 @@ export function is_revisioned<T extends WithRevision>(s: Readonly<T> | any): s i
 	return Number.isInteger(s?.revision)
 }
 
+
 export function is_BaseState<T extends BaseState>(s: Readonly<T> | any): s is T {
 	return has_versioned_schema<T>(s)
 		&& is_revisioned<T>(s)
 }
+
 
 export function is_UState<T extends BaseUState>(s: Readonly<T> | any): s is T {
 	return is_BaseState<T>(s)
@@ -35,4 +37,10 @@ export function is_RootState<T extends BaseRootState>(s: Readonly<T> | any): s i
 	return is_UState(s?.u_state)
 		&& is_TState(s?.t_state)
 		&& has_versioned_schema<T>(s)
+}
+export function is_bundled_UT<U extends BaseUState, T extends BaseTState>(s: Readonly<BundledStates<U, T>> | any): s is BundledStates<U, T> {
+	return Array.isArray(s)
+		&& s.length === 2
+		&& is_UState(s[0])
+		&& is_TState(s[1])
 }

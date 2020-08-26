@@ -161,3 +161,22 @@ https://www.thersa.org/
 
 https://ia.acs.org.au/article/2019/understanding-the-must-have-soft-skills.html
 
+Privacy:
+- more and more global laws
+- enforcement is growing
+- market responds to it
+- GDPR,
+- data has a lifecycle
+- Protection, integrity, availability
+- Personal data:
+  - account information
+  - customer content
+  - User-generated content
+  - Structured/Unstractured data
+  - direct/indirict identifiers
+- key concepts
+  - transparency and fairness
+  - purpose limitation
+  - consent
+  - data minimization
+- right to erasure

@@ -15,7 +15,7 @@ type OMRSoftExecutionContext = SoftExecutionContext<OMRInjections>
 /////////////////////
 
 const enforce_immutability: ImmutabilityEnforcer = (x) => x
-//const enforce_immutability = (state: State) => deepFreeze(state) TODO
+//const enforce_immutability = (state: State) => deep_freeze(state) TODO
 
 
 function decorate_SEC(SEC: OMRSoftExecutionContext): OMRSoftExecutionContext {

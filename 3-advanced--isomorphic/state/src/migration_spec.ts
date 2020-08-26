@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import deepFreeze from 'deep-freeze-strict'
+import deep_freeze from 'deep-freeze-strict'
 import { SoftExecutionContext, getRootSEC } from '@offirmo-private/soft-execution-context'
 
 import { LIB } from './consts'
@@ -12,13 +12,17 @@ import {
 } from './migration'
 
 import {
-	BASE_UEXAMPLE,
-	ROOT_EXAMPLE,
+	StateA_U_v0,
+	DEMO_STATE_A_U_v0,
+	StateA_U_v1,
+	DEMO_STATE_A_U_v1,
+	StateA_U_v2,
+	DEMO_STATE_A_U_v2,
+	SCHEMA_VERSION_A,
 } from './_test_helpers'
-import { WithSchemaVersion } from './types'
 
 
-describe(`${LIB} - migration`, function() {
+describe.only(`${LIB} - migration`, function() {
 	const TEST_SEC = getRootSEC()
 	const LIB = '@offirmo-private/state--UNIT-TEST'
 	TEST_SEC.setLogicalStack({module: LIB})
@@ -26,41 +30,12 @@ describe(`${LIB} - migration`, function() {
 	describe('generic_migrate_to_latest()', function() {
 
 		describe('on trivial or UState only', function() {
-			const SCHEMA_VERSION = 2
+			const SCHEMA_VERSION = SCHEMA_VERSION_A
 
-			interface State2 extends WithSchemaVersion {
-				schema_revision: 2
-				foo: {
-					bar: {
-						baz: number
-					}
-				}
-			}
+			type State2 = StateA_U_v2
 			type State = State2
-			interface State1 extends WithSchemaVersion {
-				schema_revision: 1
-				foo: {
-					bar: number
-				}
-			}
-			interface State0 {
-				foo: number
-			}
-			const DEMO_STATE_v0: State0 = deepFreeze({
-				foo: 42
-			} as State0)
-			const DEMO_STATE_v1: State1 = deepFreeze({
-				foo: {
-					bar: 42
-				}
-			} as State1)
-			const DEMO_STATE_v2: State2 = deepFreeze({
-				foo: {
-					bar: {
-						baz: 42
-					}
-				}
-			} as State2)
+			const DEMO_STATE_v0 = DEMO_STATE_A_U_v0
+			const DEMO_STATE_v2 = DEMO_STATE_A_U_v2
 
 			const migrate_to_2: LastMigrationStep<State> = (SEC, legacy_state, hints, previous, legacy_schema_version) => {
 				if (legacy_schema_version < 2)
@@ -98,7 +73,7 @@ describe(`${LIB} - migration`, function() {
 						SCHEMA_VERSION,
 						legacy_state: DEMO_STATE_v0,
 						hints,
-						sub_states: [],
+						sub_states: {},
 
 						pipeline: [
 							migrate_to_2,
@@ -110,7 +85,7 @@ describe(`${LIB} - migration`, function() {
 				expect(migrate_to_latest(TEST_SEC, DEMO_STATE_v0)).to.deep.equal(DEMO_STATE_v2)
 			})
 
-			it('should throw on too old version', () => {
+			it('should throw on end of pipeline (too old version)', () => {
 				function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any> = {}, ): State {
 					return generic_migrate_to_latest({
 						SEC,
@@ -119,7 +94,7 @@ describe(`${LIB} - migration`, function() {
 						SCHEMA_VERSION,
 						legacy_state: DEMO_STATE_v0,
 						hints,
-						sub_states: [],
+						sub_states: {},
 
 						pipeline: [
 							migrate_to_2,
@@ -136,91 +111,12 @@ describe(`${LIB} - migration`, function() {
 
 		})
 
-		describe('on UState + TState', function() {
-
-			/*
-
-			const SCHEMA_VERSION = 2
-
-			interface State2 extends WithSchemaVersion{
-				schema_revision: 2
-				foo: {
-					bar: {
-						baz: number
-					}
-				}
-			}
-			type State = State2
-			interface State1 extends WithSchemaVersion{
-				schema_revision: 1
-				foo: {
-					bar: number
-				}
-			}
-			interface State0 {
-				foo: number
-			}
-			const DEMO_STATE_v0: State0 = deepFreeze({
-				foo: 42
-			} as State0)
-			const DEMO_STATE_v1: State1 = deepFreeze({
-				foo: {
-					bar: 42
-				}
-			} as State1)
-			const DEMO_STATE_v2: State2 = deepFreeze({
-				foo: {
-					bar: {
-						baz: 42
-					}
-				}
-			} as State2)
-
-			it('should work in nominal case', () => {
-				function migrate_to_latest(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any> = {}, ): State {
-					return generic_migrate_to_latest({
-						SEC,
-
-						SCHEMA_VERSION,
-						legacy_state: [ DEMO_STATE_v0, ],
-						hints,
-						sub_states: [],
-
-						pipeline: [
-							migrate_to_2,
-							migrate_to_1,
-						]
-					})
-				}
-
-				const migrate_to_2: LastMigrationStep = (SEC, legacy_state, legacy_t_state], hints, next, legacy_schema_version) => {
-					if (legacy_schema_version < 2)
-						[ legacy_u_state, legacy_t_state ] = next(SEC, [legacy_u_state, legacy_t_state], legacy_schema_version, hints)
-
-					let [ u_state, t_state ]: [ State2, any ] = [ legacy_u_state, legacy_t_state ]
-					u_state = {
-						...u_state,
-						foo: {
-							bar: {
-								baz: legacy_u_state.foo.bar,
-							}
-						}
-					}
-
-					return [ u_state, t_state ]
-				}
-
-				const migrate_to_1: MigrationStep = () => {
-					throw new Error('Schema is too old (pre-beta), can’t migrate!')
-				}
-			})
-			 */
-		})
-
-		describe('on RootState', function() {
+		describe('on Bundled UState + TState', function() {
 
 		})
 
+		describe('on RootState with subStates', function() {
+
+		})
 	})
-
 })

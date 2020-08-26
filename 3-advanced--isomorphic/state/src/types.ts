@@ -33,3 +33,5 @@ export interface BaseRootState extends WithSchemaVersion {
 	u_state: BaseUState
 	t_state: BaseTState
 }
+
+export type BundledStates<U extends BaseUState, T extends BaseTState> = [ U, T ]

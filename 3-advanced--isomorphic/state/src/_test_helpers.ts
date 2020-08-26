@@ -1,104 +1,147 @@
-import deepFreeze from 'deep-freeze-strict'
+import deep_freeze from 'deep-freeze-strict'
 
 import {
 	BaseRootState, BaseTState,
-	BaseUState,
+	BaseUState, WithSchemaVersion,
 } from './types'
 
 // needed only for changing the default level
-import { getRootSEC } from '@offirmo-private/soft-execution-context-node'
-import { getLogger } from '@offirmo/universal-debug-api-node'
-const logger = getLogger({
-//	suggestedLevel: 'silly'
-})
-getRootSEC().injectDependencies({ logger: getLogger() })
+import { _force_uda_logger_with_level } from '@offirmo-private/soft-execution-context-node'
+_force_uda_logger_with_level('silly')
 
 /////////////////////////////////////////////////
 
-export interface SubUStateA_v4 extends BaseUState {
-	schema_version: 4
-
+// single U
+export interface StateA_U_v0 {
 	foo: number
-	bar: string
 }
-export type SubUStateA = SubUStateA_v4
+export const DEMO_STATE_A_U_v0: StateA_U_v0 = deep_freeze<StateA_U_v0>({
+	foo: 42
+})
+
+export interface StateA_U_v1 extends WithSchemaVersion {
+	schema_version: 1
+	foo: {
+		bar: number
+	}
+}
+export const DEMO_STATE_A_U_v1: StateA_U_v1 = deep_freeze<StateA_U_v1>({
+	schema_version: 1,
+	foo: {
+		bar: 42
+	}
+})
+
+export interface StateA_U_v2 extends BaseUState {
+	schema_version: 2
+	foo: {
+		bar: {
+			baz: number
+		}
+	}
+}
+export const DEMO_STATE_A_U_v2: StateA_U_v2 = deep_freeze<StateA_U_v2>({
+	schema_version: 2,
+	revision: 333,
+	foo: {
+		bar: {
+			baz: 42
+		}
+	}
+})
+
+export type StateA_U = StateA_U_v2
+export const SCHEMA_VERSION_A = 2
 
 /////////////////////
 
-export interface SubUStateB_v5 extends BaseUState {
+// single T
+export interface StateB_T_v4 extends BaseTState {
+	energy: number
+}
+export const DEMO_STATE_B_T_v4: StateB_T_v4 = deep_freeze<StateB_T_v4>({
+	schema_version: 4,
+	timestamp_ms: 1234567890,
+	revision: 0,
+	energy: 7
+})
+
+export type StateB_T = StateB_T_v4
+export const SCHEMA_VERSION_B = 4
+
+/////////////////////
+
+// bundled
+export interface StateC_U_v5 extends BaseUState {
 	schema_version: 5
 
 	fizz: string
 }
-export type SubUStateB = SubUStateB_v5
-export interface SubTStateB_v5 extends BaseTState {
+export const DEMO_STATE_C_U_v5: StateC_U_v5 = deep_freeze<StateC_U_v5>({
+	schema_version: 5,
+	revision: 24,
+
+	fizz: 'buzz',
+})
+export interface StateC_T_v5 extends BaseTState {
 	schema_version: 5
 
 	buzz: number
 }
-export type SubTStateB = SubTStateB_v5
+export const DEMO_STATE_C_T_v5: StateC_T_v5 = deep_freeze<StateC_T_v5>({
+	schema_version: 5,
+	timestamp_ms: 1234567890,
+	revision: 12,
+
+	buzz: 11,
+})
+export type StateC_U = StateC_U_v5
+export type StateC_T = StateC_T_v5
 
 /////////////////////////////////////////////////
 
-export interface TestRootUState_v8 extends BaseUState {
+export interface DemoRootState_U_v8 extends BaseUState {
+	subA: StateA_U
+	subC: StateC_U
+}
+export interface DemoRootState_T_v8 extends BaseTState {
+	subB: StateB_T
+	subC: StateC_T
+}
+export interface DemoRootState_v8 extends BaseRootState {
 	schema_version: 8
 
-	sub1: SubUStateA
-	sub2: SubUStateB
+	u_state: DemoRootState_U_v8
+	t_state: DemoRootState_T_v8
 }
-export type TestRootUState = TestRootUState_v8
+export type DemoRootState = DemoRootState_v8
 
-export interface TestRootTState_v3 extends BaseTState {
-	schema_version: 3
+/////////////////////////////////////////////////
+export const DEMO_ROOT_v8: Readonly<DemoRootState_v8> = deep_freeze<DemoRootState_v8>({
+	schema_version: 8,
 
-	energy: number
-	sub2: SubTStateB
-}
-export type TestRootTState = TestRootTState_v3
+	u_state: {
+		schema_version: 8,
+		revision: 103,
 
-export interface TestRootState_v10 extends BaseRootState {
-	schema_version: 10
+		subA: DEMO_STATE_A_U_v2,
+		subC: DEMO_STATE_C_U_v5,
+	},
+	t_state: {
+		schema_version: 8,
+		revision: 33,
+		timestamp_ms: 123456789,
 
-	u_state: TestRootUState
-	t_state: TestRootTState
-}
-export type TestRootState = TestRootState_v10
+		subB: DEMO_STATE_B_T_v4,
+		subC: DEMO_STATE_C_T_v5,
+	},
+})
 
 /////////////////////////////////////////////////
 
-export const BASE_UEXAMPLE: Readonly<TestRootUState> = deepFreeze({
-	schema_version: 8,
-	revision: 103,
+export const DEMO_BASE_STATE = DEMO_STATE_C_U_v5
+export const DEMO_BASE_STATE_WITH_SUBS = DEMO_ROOT_v8.u_state
 
-	sub1: {
-		schema_version: 4,
-		revision: 45,
-		foo: 42,
-		bar: 'baz',
-	},
-	sub2: {
-		schema_version: 5,
-		revision: 67,
-		fizz: 'hello',
-	},
-} as TestRootUState)
-
-export const BASE_TEXAMPLE: Readonly<TestRootTState> = deepFreeze({
-	schema_version: 3,
-	revision: 222,
-	timestamp_ms: 123456789,
-	energy: 7,
-
-	sub2: {
-		schema_version: 5,
-		revision: 67,
-		buzz: 33,
-	},
-} as TestRootTState)
-
-export const ROOT_EXAMPLE: Readonly<TestRootState> = deepFreeze({
-	schema_version: 10,
-
-	u_state: BASE_UEXAMPLE,
-	t_state: BASE_TEXAMPLE,
-} as TestRootState)
+export const DEMO_USTATE = DEMO_STATE_C_U_v5
+export const DEMO_TSTATE = DEMO_STATE_C_T_v5
+export const DEMO_ROOT_STATE = DEMO_ROOT_v8
