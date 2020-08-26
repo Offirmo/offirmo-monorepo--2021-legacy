@@ -2,6 +2,7 @@ import memoize_one from 'memoize-one'
 import { Enum } from 'typescript-string-enums'
 import assert from 'tiny-invariant'
 
+import { HTTP_STATUS_CODE } from '../consts'
 import { create_error } from '../utils'
 import { APIGatewayEvent, XSoftExecutionContext, NetlifyContext, Response} from './types'
 
@@ -39,11 +40,11 @@ export async function test_failure(
 
 	logger.info('[MW test_failure] will cause failure:', mode)
 
-	const get_test_err = memoize_one(() => create_error(SEC, `TEST ${mode}!`, { statusCode: 555 }))
+	const get_test_err = memoize_one(() => create_error(`TEST ${mode}!`, { statusCode: 555 }, SEC))
 
 	switch (mode) {
 		case undefined:
-			response.statusCode = 400
+			response.statusCode = HTTP_STATUS_CODE.error.client.bad_request
 			response.body = 'Error: Failure test: Please provide a failure mode: ' + Enum.values(FailureMode).join(', ')
 			break
 
@@ -112,7 +113,7 @@ export async function test_failure(
 			break
 
 		default:
-			response.statusCode = 501
+			response.statusCode = HTTP_STATUS_CODE.error.server.not_implemented
 			response.body = `Failure test: mode "${mode}" not implemented!`
 			break
 	}

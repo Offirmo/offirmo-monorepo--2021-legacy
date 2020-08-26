@@ -1,5 +1,6 @@
 import { Enum } from 'typescript-string-enums'
 
+import { HTTP_STATUS_CODE } from '../consts'
 import { create_error } from '../utils'
 import {
 	MiddleWare,
@@ -46,10 +47,10 @@ export function require_http_method(allowed_methods: HttpMethod[]): MiddleWare {
 			}
 
 			if (!allowed_methods.includes(http_method)) {
-				throw create_error(SEC, 405, {
+				throw create_error(HTTP_STATUS_CODE.error.client.method_not_allowed, {
 					expected: allowed_methods.join(','),
 					received: http_method,
-				})
+				}, SEC)
 			}
 
 			if (is_preflight) {

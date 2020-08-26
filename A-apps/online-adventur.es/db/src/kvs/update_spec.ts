@@ -3,7 +3,6 @@
 import { expect, assert } from 'chai'
 
 import {
-	BASE_EXAMPLE,
 	ROOT_EXAMPLE,
 } from '@offirmo-private/state/dist/src.es2019.cjs/_test_helpers'
 

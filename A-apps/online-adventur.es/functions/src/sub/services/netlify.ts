@@ -4,6 +4,7 @@ import {
 	NetlifyContext,
 	NetlifyClientContext,
 } from '../types'
+import { HTTP_STATUS_CODE } from '../consts'
 import { CHANNEL } from './channel'
 
 /////////////////////////////////////////////////
@@ -40,7 +41,7 @@ export function get_netlify_user_data(context: NetlifyContext): NetlifyUserData 
 		_ensure_netlify_logged_in(context)
 	}
 	catch (err ) {
-		err.statusCode = 401
+		err.statusCode = HTTP_STATUS_CODE.error.client.unauthorized
 		if (err.message.includes('No/bad/outdated token') && CHANNEL === 'dev') {
 			// pretend
 			context.clientContext.user = DEV_MOCK_NETLIFY_USER

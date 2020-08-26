@@ -11,7 +11,10 @@ import { TABLE__KEY_VALUES } from './consts'
 ////////////////////////////////////
 
 export async function get<T>(
-	{ user_id, key }: {
+	{
+		user_id,
+		key
+	}: {
 		user_id: PUser['id'],
 		key: string,
 	},

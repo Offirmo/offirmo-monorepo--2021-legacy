@@ -15,6 +15,7 @@ import {
 } from './sub/types'
 import { get_netlify_user_data } from './sub/services/netlify'
 import * as build from './sub/build'
+import { get_key_from_path, get_id_from_path } from './sub/utils'
 
 ////////////////////////////////////
 
@@ -36,6 +37,10 @@ export const handler: NetlifyHandler = async (
 	const all_the_things = JSON.stringify({
 		badly_typed_context,
 		event,
+		derived: {
+			get_key_from_path: (() => { try { return get_key_from_path(event, { expected_segment_count: null })} catch (err) { return err.message }})(),
+			get_id_from_path: (() => { try { return get_id_from_path(event, { expected_segment_count: null })} catch (err) { return err.message }})(),
+		},
 		netlify_user_data,
 		build,
 		// https://devdocs.io/node/process

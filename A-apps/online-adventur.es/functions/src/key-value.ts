@@ -1,7 +1,5 @@
 //process.env.UDA_OVERRIDE__LOGGER__UDA_INTERNAL_LOGLEVEL = '"silly"'
 //process.env.UDA_OVERRIDE__LOGGER_UDA_LOGLEVEL = '"silly"'
-import {create_error} from './sub/utils'
-
 process.env.UDA_OVERRIDE__LOGGER_OA_DB_LOGLEVEL = '"silly"'
 process.env.UDA_OVERRIDE__LOGGER_OA_API_LOGLEVEL = '"silly"'
 process.env.UDA_OVERRIDE__KNEX_DEBUG = 'true'
@@ -20,11 +18,9 @@ import { use_middlewares_with_error_safety_net } from './sub/middlewares/runner'
 import handle_cors from './sub/middlewares/handle_cors'
 import require_authenticated from './sub/middlewares/require-authenticated'
 import { XSoftExecutionContext } from './sub/services/sec'
-import { get_netlify_user_data } from './sub/services/netlify'
 import { require_http_method, HttpMethod } from './sub/middlewares/require-http-method'
-import { normalize_path } from './sub/middlewares/normalize-path'
-//import { create_error } from '../utils'
-
+import { create_error, get_key_from_path } from './sub/utils'
+import { HTTP_STATUS_CODE } from './sub/consts'
 
 ////////////////////////////////////
 
@@ -36,21 +32,30 @@ async function _handler(
 	next: Function
 ): Promise<void> {
 	const { p_user } = SEC.getInjectedDependencies()
-	const key = event.queryStringParameters!['key']
+	const key = get_key_from_path(event)
 
 	switch(event.httpMethod) {
 		case HttpMethod.GET:
 			response.body = JSON.stringify(await KVs.get_value({
-				user_id: p_user.id,
+				user_id: p_user!.id,
 				key,
 			}))
-			response.statusCode = response.body ? 200 : 404
+			response.statusCode = 200 // never 404 since there is no "existence"
 			break
 		case HttpMethod.PATCH:
-			throw new Error('NIMP!')
+			if (!event.body)
+				throw create_error('Missing body!', { statusCode: HTTP_STATUS_CODE.error.client.bad_request}, SEC)
+
+			response.body = JSON.stringify(await KVs.sync_kv_entry({
+				user_id: p_user!.id,
+				key,
+				value: JSON.parse(event.body),
+			}))
+			response.statusCode = 200 // always succeed
+			break
 		default:
-			// should not happen due to prior validation
-			throw create_error(SEC,405)
+			// should never happen due to prior validation
+			throw create_error(HTTP_STATUS_CODE.error.server.internal, {}, SEC)
 	}
 
 	await next()
@@ -62,9 +67,10 @@ const handler: NetlifyHandler = (
 	badly_typed_context: Context,
 ): Promise<Response> => {
 	return use_middlewares_with_error_safety_net(event, badly_typed_context,[
+		// TODO require no extraneous params: queryparams, etc.
+		// TODO ensure content type? "content-type": "application/json",
 		require_http_method([ HttpMethod.GET, HttpMethod.PATCH ]),
 		handle_cors,
-		normalize_path(),
 		require_authenticated,
 		_handler,
 	])

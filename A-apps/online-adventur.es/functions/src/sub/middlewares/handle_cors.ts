@@ -5,6 +5,7 @@ import {
 	NetlifyContext,
 	Response,
 } from '../types'
+import { HTTP_STATUS_CODE } from '../consts'
 import { create_error } from '../utils'
 import { XSoftExecutionContext } from './types'
 
@@ -27,10 +28,10 @@ export default async function handle_cors(
 		const expected_origin = get_allowed_origin(CHANNEL as ReleaseChannel)
 		if (origin !== expected_origin) {
 			logger.warn('rejecting preflight', {expected_origin, origin})
-			throw create_error(SEC, 405, {
+			throw create_error(HTTP_STATUS_CODE.error.client.method_not_allowed, {
 				expected_origin,
 				origin,
-			})
+			}, SEC)
 		}
 
 		response.statusCode = 200

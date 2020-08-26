@@ -14,7 +14,7 @@ import {
 import { LXXError, XSECEventDataMap, Injections } from '../services/sec'
 import { on_error as report_to_sentry } from '../services/sentry'
 import { CHANNEL } from '../services/channel'
-import { create_error } from '../utils'
+import { create_error, loosely_get_clean_path } from '../utils'
 import { MiddleWare, XSoftExecutionContext } from './types'
 
 ////////////////////////////////////
@@ -86,93 +86,94 @@ function _run_with_safety_net(
 	context: NetlifyContext,
 	middlewares: MiddleWare[],
 ): Promise<Response> {
-	return SEC.xNewPromise('⓵ ', ({SEC, logger}, resolve) => {
-		const PREFIX = 'MR1'
-		logger.log(`[${PREFIX}] Starting handling: ${event.path}…`, {time: get_UTC_timestamp_ms(), mw_count: middlewares.length})
+	return SEC.xPromiseTry((event?.httpMethod?.toUpperCase() || '???') + '/' + (loosely_get_clean_path(event) || '???'), ({SEC}) =>
+		SEC.xNewPromise('⓵ ', ({SEC, logger}, resolve) => {
+			const PREFIX = 'MR1'
+			logger.log(`[${PREFIX}] Starting handling: ${event.httpMethod.toUpperCase()} ${event.path}…`, {time: get_UTC_timestamp_ms(), mw_count: middlewares.length})
 
-		assert(middlewares.length >= 1, `[${PREFIX}] please provide some middlewares!`)
+			assert(middlewares.length >= 1, `[${PREFIX}] please provide some middlewares!`)
 
-		let timeout_id: ReturnType<typeof setTimeout> | null = null
-		let is_emitter_waiting = false
-		function clean() {
-			if (timeout_id) {
-				clearTimeout(timeout_id)
-				timeout_id = null
-			}
-			if (is_emitter_waiting) {
-				SEC.emitter.off('final-error', on_final_error_h)
-				is_emitter_waiting = false
-			}
-		}
-
-		async function on_final_error(err: LXXError) {
-			clean()
-
-			logger.fatal(`⚰️ [${PREFIX}] Final error:`, err)
-
-			if (CHANNEL === 'dev') {
-				logger.info(`([${PREFIX}] error not reported to sentry since dev)`)
-			} else {
-				logger.info(`([${PREFIX}] this error will be reported to sentry)`)
-				try {
-					await report_to_sentry(err)
-				} catch (err) {
-					console.error(`XXX [${PREFIX}] huge error in the error handler itself! XXX`)
+			let timeout_id: ReturnType<typeof setTimeout> | null = null
+			let is_emitter_waiting = false
+			function clean() {
+				if (timeout_id) {
+					clearTimeout(timeout_id)
+					timeout_id = null
+				}
+				if (is_emitter_waiting) {
+					SEC.emitter.off('final-error', on_final_error_h)
+					is_emitter_waiting = false
 				}
 			}
 
-			// note: once resolved, the code will be frozen by AWS lambda
-			// so this must be last
-			const response = _get_response_from_error(err)
-			logger.info(`[${PREFIX}] FYI resolving with:`, {status: response.statusCode})
-			resolve(response)
-		}
-
-		async function on_final_error_h({err}: XSECEventDataMap['final-error']) {
-			logger.trace(`[${PREFIX}] on_final_error_h`)
-			is_emitter_waiting = false
-			await on_final_error(err)
-		}
-		SEC.emitter.once('final-error').then(on_final_error_h)
-		is_emitter_waiting = true
-
-		context.callbackWaitsForEmptyEventLoop = false // cf. https://httptoolkit.tech/blog/netlify-function-error-reporting-with-sentry/
-
-		const LSEC = SEC as any as LSoftExecutionContext
-		LSEC.injectDependencies({
-			local_mutable: {
-				last_invoked_mw: '(none yet)'
-			}
-		})
-		const remaining_time_ms = context.getRemainingTimeInMillis ? context.getRemainingTimeInMillis() : 10_000
-		const time_budget_ms = Math.max(remaining_time_ms + MARGIN_AND_SENTRY_BUDGET_MS, 0)
-		logger.info(`[${PREFIX}] Setting timeout…`, {time_budget_ms})
-		timeout_id = setTimeout(() => {
-			timeout_id = null
-			LSEC.xTryCatch('timeout', ({logger}) => {
-				const { local_mutable } = LSEC.getInjectedDependencies()
-				logger.fatal(`⏰ [${PREFIX}] timeout!`, local_mutable)
-				throw new Error(`[${PREFIX}] Timeout handling this request! (mw=${local_mutable.last_invoked_mw})`)
-			})
-		}, time_budget_ms)
-
-		///////////////////// invoke /////////////////////
-		logger.trace(`[${PREFIX}] Invoking the middleware chain…`)
-
-		void LSEC.xPromiseTry<Response>('⓶ ', async params => _run_mw_chain(
-				params,
-				event, context, middlewares,
-			))
-			.then((response: Response) => {
-				// success!
+			async function on_final_error(err: LXXError) {
 				clean()
 
-				// must be last,
-				resolve(response)
-			})
-			.catch(on_final_error)
-	})
+				logger.fatal(`⚰️ [${PREFIX}] Final error:`, err)
 
+				if (CHANNEL === 'dev') {
+					logger.info(`([${PREFIX}] error not reported to sentry since dev)`)
+				} else {
+					logger.info(`([${PREFIX}] this error will be reported to sentry)`)
+					try {
+						await report_to_sentry(err)
+					} catch (err) {
+						console.error(`XXX [${PREFIX}] huge error in the error handler itself! XXX`)
+					}
+				}
+
+				// note: once resolved, the code will be frozen by AWS lambda
+				// so this must be last
+				const response = _get_response_from_error(err)
+				logger.info(`[${PREFIX}] FYI resolving with:`, {status: response.statusCode})
+				resolve(response)
+			}
+
+			async function on_final_error_h({err}: XSECEventDataMap['final-error']) {
+				logger.trace(`[${PREFIX}] on_final_error_h`)
+				is_emitter_waiting = false
+				await on_final_error(err)
+			}
+			SEC.emitter.once('final-error').then(on_final_error_h)
+			is_emitter_waiting = true
+
+			context.callbackWaitsForEmptyEventLoop = false // cf. https://httptoolkit.tech/blog/netlify-function-error-reporting-with-sentry/
+
+			const LSEC = SEC as any as LSoftExecutionContext
+			LSEC.injectDependencies({
+				local_mutable: {
+					last_invoked_mw: '(none yet)'
+				}
+			})
+			const remaining_time_ms = context.getRemainingTimeInMillis ? context.getRemainingTimeInMillis() : 10_000
+			const time_budget_ms = Math.max(remaining_time_ms + MARGIN_AND_SENTRY_BUDGET_MS, 0)
+			logger.info(`[${PREFIX}] Setting timeout…`, {time_budget_ms})
+			timeout_id = setTimeout(() => {
+				timeout_id = null
+				LSEC.xTryCatch('timeout', ({logger}) => {
+					const { local_mutable } = LSEC.getInjectedDependencies()
+					logger.fatal(`⏰ [${PREFIX}] timeout!`, local_mutable)
+					throw new Error(`[${PREFIX}] Timeout handling this request! (mw=${local_mutable.last_invoked_mw})`)
+				})
+			}, time_budget_ms)
+
+			///////////////////// invoke /////////////////////
+			logger.trace(`[${PREFIX}] Invoking the middleware chain…`)
+
+			void LSEC.xPromiseTry<Response>('⓶ ', async params => _run_mw_chain(
+					params,
+					event, context, middlewares,
+				))
+				.then((response: Response) => {
+					// success!
+					clean()
+
+					// must be last,
+					resolve(response)
+				})
+				.catch(on_final_error)
+		})
+	)
 }
 
 async function _run_mw_chain(
@@ -182,14 +183,14 @@ async function _run_mw_chain(
 	middlewares: MiddleWare[],
 ): Promise<Response> {
 	const PREFIX = 'MR2'
-	const DEFAULT_STATUS_CODE = 500
+	const STATUS_CODE_NOT_SET_DETECTOR = -1
 	const DEFAULT_RESPONSE_BODY = `[${PREFIX}] Bad middleware chain: no response set!`
 	const DEFAULT_MW_NAME = 'anonymous'
 
 	logger.trace(`[${PREFIX}] Invoking a chain of ${middlewares.length} middlewares…`)
 
 	const response: Response = {
-		statusCode: DEFAULT_STATUS_CODE,
+		statusCode: STATUS_CODE_NOT_SET_DETECTOR,
 		headers: {},
 		body: DEFAULT_RESPONSE_BODY,
 	}
@@ -292,12 +293,16 @@ async function _run_mw_chain(
 	if (response.body === DEFAULT_RESPONSE_BODY)
 		throw new Error(DEFAULT_RESPONSE_BODY)
 
+	if (response.statusCode === STATUS_CODE_NOT_SET_DETECTOR) {
+		throw new Error('Status code not set!')
+	}
+
 	let pseudo_err: LXXError | null = null
 	if (statusCode >= 400) {
-		assert(last_manual_error_call_SEC, 'manual error should have caused SEC to be memorized')
+		assert(last_manual_error_call_SEC, 'error status should have caused a corresponding SEC to be memorized')
 		// todo enhance non-stringified?
 		const is_body_err_message = typeof body === 'string' && body.toLowerCase().includes('error')
-		pseudo_err = create_error(last_manual_error_call_SEC, is_body_err_message ? body : statusCode, { statusCode })
+		pseudo_err = create_error(is_body_err_message ? body : statusCode, { statusCode }, last_manual_error_call_SEC)
 	}
 
 	if (pseudo_err)

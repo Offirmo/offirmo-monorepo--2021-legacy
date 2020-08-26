@@ -1,6 +1,7 @@
 import { get_db, Users, get_connection_string } from '@offirmo-private/db'
 import { HEADER_IMPERSONATE } from '@online-adventur.es/functions-interface'
 
+import { HTTP_STATUS_CODE } from '../consts'
 import { get_netlify_user_data } from '../services/netlify'
 import { create_error } from '../utils'
 import {
@@ -34,7 +35,7 @@ export async function require_authenticated(
 					const impersonation_target = event.headers[HEADER_IMPERSONATE]
 					if (impersonation_target) {
 						if (!p_user.roles.includes('admin')) {
-							throw create_error(SEC, 'Illegal impersonation attempt!', { statusCode: 403 })
+							throw create_error('Illegal impersonation attempt!', { statusCode: HTTP_STATUS_CODE.error.client.forbidden }, SEC)
 						}
 						else {
 							logger.info('Admin attempt to impersonate', { impersonation_target })
@@ -60,7 +61,7 @@ export async function require_authenticated(
 				logger.error('Can’t reach the db?!', { connection: get_connection_string() })
 			}
 			else {
-				err.statusCode = err.statusCode || 403
+				err.statusCode = err.statusCode || HTTP_STATUS_CODE.error.client.forbidden
 			}
 			throw err
 		}
