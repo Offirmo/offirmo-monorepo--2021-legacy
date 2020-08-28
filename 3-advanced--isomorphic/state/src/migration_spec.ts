@@ -41,9 +41,13 @@ describe(`${LIB} - migration`, function() {
 				v2: {
 					revision: 333,
 				}
+				// by version
+				// v1: {}
+				// substates
+				// subA: {}
 			}
 
-			const migrate_v1_to_v2: LastMigrationStep<State> = (SEC, legacy_state, hints, previous, legacy_schema_version) => {
+			const migrate_to_2: LastMigrationStep<State> = (SEC, legacy_state, hints, previous, legacy_schema_version) => {
 				if (legacy_schema_version < 1)
 					legacy_state = previous(SEC, legacy_state, hints)
 
@@ -61,7 +65,7 @@ describe(`${LIB} - migration`, function() {
 				return state
 			}
 
-			const migrate_v0_to_v1: MigrationStep = (SEC, legacy_state, hints, previous, legacy_schema_version) => {
+			const migrate_to_1: MigrationStep = (SEC, legacy_state, hints, previous, legacy_schema_version) => {
 				if (legacy_schema_version < 0)
 					legacy_state = previous(SEC, legacy_state, hints)
 
@@ -87,8 +91,8 @@ describe(`${LIB} - migration`, function() {
 					sub_states: {},
 
 					pipeline: [
-						migrate_v1_to_v2,
-						migrate_v0_to_v1,
+						migrate_to_2,
+						migrate_to_1,
 					]
 				})
 			}
@@ -119,7 +123,7 @@ describe(`${LIB} - migration`, function() {
 						sub_states: {},
 
 						pipeline: [
-							migrate_v1_to_v2,
+							migrate_to_2,
 							// no older migration
 						]
 					})

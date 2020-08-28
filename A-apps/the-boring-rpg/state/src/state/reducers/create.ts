@@ -92,6 +92,7 @@ function create(SEC?: OMRSoftExecutionContext, now_ms: TimestampUTCMs = get_UTC_
 			},
 			t_state: {
 				schema_version: SCHEMA_VERSION,
+				revision: 0,
 				timestamp_ms: t_state_energy.timestamp_ms,
 				energy: t_state_energy,
 			},

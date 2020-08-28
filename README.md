@@ -75,6 +75,7 @@ bolt ws run test  --only-fs "3-advanced--node/*"
 bolt ws run build --only-fs "4-tools/*"
 bolt ws run test --only-fs "4-tools/*"
 bolt ws run build --only-fs "5-incubator/**/*"
+bolt ws run test --only-fs "5-incubator/**/*"
 bolt ws run build --only @oh-my-rpg/*
 bolt ws run test  --only @oh-my-rpg/*
 bolt ws run build --only-fs "A-apps/the-boring-rpg/**/*"

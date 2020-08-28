@@ -7,7 +7,7 @@ import { get_schema_version_loose } from './selectors'
 import { is_UState, is_TState, is_RootState } from './type-guards'
 
 
-/////////////////////
+////////////////////////////////////////////////////////////////////////////////////
 
 export interface Libs {
 	deep_freeze: typeof deep_freeze,
@@ -17,13 +17,13 @@ const LIBS: Libs = {
 }
 
 export type GenericMigration<State = any, OlderState = any> = (
-	SEC: SoftExecutionContext,
+	SEC: SoftExecutionContext<any, any, any>,
 	legacy_state: Readonly<OlderState>,
 	hints: Readonly<any>,
 ) => State
 
 export type MigrationStep<State = any, OlderState = any> = (
-	SEC: SoftExecutionContext,
+	SEC: SoftExecutionContext<any, any, any>,
 	legacy_state: Readonly<OlderState>,
 	hints: Readonly<any>,
 	previous: GenericMigration<OlderState>,
@@ -35,12 +35,14 @@ export type MigrationStep<State = any, OlderState = any> = (
 export type LastMigrationStep<State, OlderState = any> = MigrationStep<State, OlderState>
 
 export type CleanupStep<State> = (
-	SEC: SoftExecutionContext,
+	SEC: SoftExecutionContext<any, any, any>,
 	state: Readonly<State>,
 	hints: Readonly<any>,
 ) => State
 
 export type SubStatesMigrations = { [key: string]: GenericMigration }
+
+////////////////////////////////////////////////////////////////////////////////////
 
 export function generic_migrate_to_latest<State>({
 	SEC,
@@ -155,66 +157,76 @@ function _migrate_sub_states__root<State /*extends BaseRootState*/>(
 	sub_states: SubStatesMigrations,
 	hints: any,
 ): State {
+	let has_change = false
 	let { u_state, t_state } = state as any as AnyRootState
 
 	const sub_states_found = new Set<string>()
 	const sub_u_states_found = new Set<string>()
 	const sub_t_states_found = new Set<string>()
 
-	Object.keys(u_state).forEach(key => {
+	for (let key in u_state) {
 		if (is_UState(u_state[key])) {
 			sub_states_found.add(key)
 			sub_u_states_found.add(key)
 		}
-	})
-	Object.keys(t_state).forEach(key => {
+	}
+	for (let key in t_state) {
 		if (is_TState(t_state[key])) {
 			sub_states_found.add(key)
 			sub_t_states_found.add(key)
 		}
-	})
+	}
 
 	const sub_states_migrated = new Set<string>()
 	Object.keys(sub_states).forEach(key => {
+		const migrate_sub_to_latest = sub_states[key]
+		const sub_hints = hints[key]
+		const previous_sub_ustate = u_state[key]
+		const previous_sub_tstate = t_state[key]
+		let new_sub_ustate = previous_sub_ustate
+		let new_sub_tstate = previous_sub_tstate
+
 		if (sub_u_states_found.has(key) && sub_t_states_found.has(key)) {
 			// combo
-			let [new_sub_ustate, new_sub_tstate] = sub_states[key](
-				SEC,
-				[ u_state[key], t_state[key]],
-				hints[key],
-			)
+			[new_sub_ustate, new_sub_tstate] = migrate_sub_to_latest(
+					SEC,
+					[ previous_sub_ustate, previous_sub_tstate],
+					sub_hints,
+				)
+		}
+		else if (sub_u_states_found.has(key)) {
+			new_sub_ustate = migrate_sub_to_latest(
+					SEC,
+					previous_sub_ustate,
+					sub_hints,
+				)
+		}
+		else if (sub_t_states_found.has(key)) {
+			new_sub_tstate = migrate_sub_to_latest(
+					SEC,
+					previous_sub_tstate,
+					sub_hints,
+				)
+		}
+		else {
+			throw new Error(`Expected sub-state "${key}" was not found!`)
+		}
+
+		if (previous_sub_ustate && new_sub_ustate !== previous_sub_ustate) {
+			has_change = true
 			u_state = {
 				...u_state,
 				[key]: new_sub_ustate,
 			}
+		}
+		if (previous_sub_tstate && new_sub_tstate !== previous_sub_tstate) {
+			has_change = true
 			t_state = {
 				...t_state,
 				[key]: new_sub_tstate,
 			}
 		}
-		else if (sub_u_states_found.has(key)) {
-			u_state = {
-				...u_state,
-				[key]: sub_states[key](
-					SEC,
-					u_state[key],
-					hints[key],
-				),
-			}
-		}
-		else if (sub_t_states_found.has(key)) {
-			t_state = {
-				...t_state,
-				[key]: sub_states[key](
-					SEC,
-					t_state[key],
-					hints[key],
-				),
-			}
-		}
-		else {
-			throw new Error(`Expected sub-state "${key}" was not found!`)
-		}
+
 		sub_states_migrated.add(key)
 	})
 

@@ -19,7 +19,7 @@ Features:
 ## DEPRECATED
 ```ts
 // "@offirmo-private/prettify-any": "^0",
-import prettify_json from '@offirmo-private/prettify-any'
+import { prettify_json } from '@offirmo-private/prettify-any'
 
 prettify_json({foo}, {outline: true, indent: 3})
 

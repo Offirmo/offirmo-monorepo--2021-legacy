@@ -11,8 +11,9 @@ const EngagementType = Enum(
 	// 'full_transient', // full screen like a level up
 	// 'announcement',
 	// 'modal', // so important that it must be acknowledged
-	// tutoriel
+	// tutorial
 	// hint
+	// cutscene
 )
 type EngagementType = Enum<typeof EngagementType> // eslint-disable-line no-redeclare
 

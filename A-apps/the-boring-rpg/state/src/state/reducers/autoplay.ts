@@ -3,6 +3,7 @@
 import { Enum } from 'typescript-string-enums'
 import { Random, Engine } from '@offirmo/random'
 import { get_human_readable_UTC_timestamp_days } from '@offirmo-private/timestamps'
+import { propagate_child_revision_increment_upward } from '@offirmo-private/state'
 
 /////////////////////
 
@@ -17,7 +18,6 @@ import {
 /////////////////////
 
 import { State } from '../../types'
-import { propagate_child_revision_increment_upward } from '../../utils/state'
 
 import {
 	get_available_energy_float,

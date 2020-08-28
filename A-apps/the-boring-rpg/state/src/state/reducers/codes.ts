@@ -2,6 +2,7 @@
 
 import { Random, Engine } from '@offirmo/random'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
+import { propagate_child_revision_increment_upward } from '@offirmo-private/state'
 
 /////////////////////
 
@@ -21,7 +22,6 @@ import { switch_class } from '@oh-my-rpg/state-character'
 /////////////////////
 
 import { State } from '../../types'
-import { propagate_child_revision_increment_upward } from '../../utils/state'
 import { EngagementKey } from '../../engagement'
 import { CODE_SPECS_BY_KEY } from '../../data/codes'
 

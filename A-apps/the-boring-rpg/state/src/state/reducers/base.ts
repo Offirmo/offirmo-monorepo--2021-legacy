@@ -3,6 +3,7 @@
 import { Random, Engine } from '@offirmo/random'
 import { UUID } from '@offirmo-private/uuid'
 import { TimestampUTCMs, get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
+import { propagate_child_revision_increment_upward } from '@offirmo-private/state'
 
 /////////////////////
 
@@ -25,7 +26,6 @@ import * as MetaState from '@oh-my-rpg/state-meta'
 import { LIB } from '../../consts'
 import { State } from '../../types'
 import { get_lib_SEC } from '../../sec'
-import { propagate_child_revision_increment_upward } from '../../utils/state'
 import { get_available_classes } from '../../selectors'
 
 import { _refresh_achievements } from './achievements'

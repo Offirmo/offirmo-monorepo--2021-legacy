@@ -22,7 +22,7 @@ function migrate_to_latest(SEC: OMRSoftExecutionContext, legacy_state: Readonly<
 		SCHEMA_VERSION,
 		legacy_state,
 		hints,
-		sub_states: [],
+		sub_states: {},
 
 		pipeline: [
 			migrate_to_4,

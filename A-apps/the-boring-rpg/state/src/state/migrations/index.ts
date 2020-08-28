@@ -1,3 +1,5 @@
+import deep_freeze from 'deep-freeze-strict'
+import { GenericMigration, LastMigrationStep, MigrationStep, SubStatesMigrations, generic_migrate_to_latest } from '@offirmo-private/state'
 
 import * as CharacterState from '@oh-my-rpg/state-character'
 import * as WalletState from '@oh-my-rpg/state-wallet'
@@ -16,60 +18,67 @@ import { reset_and_salvage } from './salvage'
 
 /////////////////////
 
+// this state is a top one, not composable.
+// hints are defined in the unit tests
+
+/////////////////////
+
 const SUB_U_REDUCERS_COUNT = 9
 const SUB_U_OTHER_KEYS_COUNT = 5
 
 const SUB_T_REDUCERS_COUNT = 1
 const SUB_T_OTHER_KEYS_COUNT = 2
 
+const SUB_STATES_MIGRATIONS: SubStatesMigrations = {
+	avatar:     CharacterState.migrate_to_latest,
+	inventory:  InventoryState.migrate_to_latest,
+	wallet:     WalletState.migrate_to_latest,
+	prng:       PRNGState.migrate_to_latest,
+	energy:     EnergyState.migrate_to_latest,
+	engagement: EngagementState.migrate_to_latest,
+	codes:      CodesState.migrate_to_latest,
+	progress:   ProgressState.migrate_to_latest,
+	meta:       MetaState.migrate_to_latest,
+}
 
 function migrate_to_latest(SEC: OMRSoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any> = {}): State {
-	const legacy_version = (() => {
-		if (!legacy_state)
-			return 0
+	let state: State = legacy_state as any// for starter
 
-		if (legacy_state.schema_version)
-			return legacy_state.schema_version
+	try {
+		state = generic_migrate_to_latest({
+			SEC: SEC as any,
 
-		return 0
-	})()
-
-	SEC = get_lib_SEC(SEC)
-		.setAnalyticsAndErrorDetails({
-			version_from: legacy_version,
-			version_to: SCHEMA_VERSION,
+			LIB,
+			SCHEMA_VERSION,
+			legacy_state,
+			hints,
+			sub_states: SUB_STATES_MIGRATIONS,
+			pipeline: [
+				migrate_to_14x,
+				migrate_to_13,
+				migrate_to_12,
+			]
 		})
 
-	return SEC.xTry('migrate_to_latest', ({SEC, logger}) => {
-		if (legacy_version > SCHEMA_VERSION)
-			throw new Error('Your data is from a more recent version of this lib. Please update!')
+		// TODO migrate adventures
+		// TODO migrate items
+	}
+	catch (err) {
+		// we are top, attempt to salvage
+		SEC.getInjectedDependencies().logger.error(`${LIB}: failed migrating schema, reseting and salvaging!`, {err})
+		state = reset_and_salvage(legacy_state)
+		SEC.fireAnalyticsEvent('schema_migration.salvaged', { step: 'main' })
+	}
 
-		let state: State = legacy_state as State // for starter
+	return state
+}
 
-		if (legacy_version < SCHEMA_VERSION) {
-			logger.warn(`${LIB}: attempting to migrate schema from v${legacy_version} to v${SCHEMA_VERSION}:`)
-			SEC.fireAnalyticsEvent('schema_migration.began')
-
-			try {
-				state = migrate_to_13(SEC, legacy_state, hints)
-			}
-			catch (err) {
-				SEC.fireAnalyticsEvent('schema_migration.failed', { step: 'main' })
-				// we are top, attempt to salvage
-				logger.error(`${LIB}: failed migrating schema, reseting and salvaging!`, {err})
-				state = reset_and_salvage(legacy_state)
-				SEC.fireAnalyticsEvent('schema_migration.salvaged', { step: 'main' })
-			}
-		}
-
+/*
+function xxx_migrate_to_latest(SEC: OMRSoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any> = {}): State {
 		// 2nd part (can re-reset...)
 		try {
-			// TODO migrate adventures
-			// TODO migrate items
-
 			// migrate sub-reducers if any...
 			let { u_state, t_state } = state
-
 
 			;(function migrate_u_state() {
 				u_state = { ...u_state } // TODO remove this systematic mutation if possible
@@ -155,14 +164,26 @@ function migrate_to_latest(SEC: OMRSoftExecutionContext, legacy_state: Readonly<
 		return state
 	})
 }
-
+*/
 /////////////////////
 
-function migrate_to_13(SEC: OMRSoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any>): any {
-	if (legacy_state.schema_version >= 13)
-		throw new Error('migrate_to_13 was called from an outdated/buggy root code, please update!')
+const migrate_to_14x: LastMigrationStep<State, any> = (SEC, legacy_state, hints, previous, legacy_schema_version) => {
+	if (legacy_schema_version < 13)
+		legacy_state = previous(SEC, legacy_state, hints)
+
+	let state: State = legacy_state as State // for starter
+	state.t_state.revision = 1 // new prop
+
+	state.schema_version = 14
+	state.t_state.schema_version = 14
+	state.u_state.schema_version = 14
+
+	return state
+}
+
+const migrate_to_13: MigrationStep<State, any> = (SEC, legacy_state, hints, previous, legacy_schema_version) => {
 	if (legacy_state.schema_version < 12)
-		legacy_state = migrate_to_12x(SEC, legacy_state, hints)
+		legacy_state = previous(SEC, legacy_state, hints)
 
 	let state: State = legacy_state as State // for starter
 
@@ -190,7 +211,7 @@ function migrate_to_13(SEC: OMRSoftExecutionContext, legacy_state: Readonly<any>
 	return state
 }
 
-function migrate_to_12x(SEC: OMRSoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any>): any {
+const migrate_to_12: MigrationStep<State> = (SEC, legacy_state, hints, previous, legacy_schema_version) => {
 	throw new Error('Alpha release outdated schema, won’t migrate, would take too much time and schema is still unstable!')
 }
 

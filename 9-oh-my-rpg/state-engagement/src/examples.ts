@@ -20,7 +20,6 @@ const DEMO_STATE: Readonly<State> = deep_freeze<State>({
 				key: 'hello_world--flow',
 				type: EngagementType.flow,
 			},
-			queue_time_root_revision: 0,
 			params: {},
 		},
 	],
