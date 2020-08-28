@@ -1,7 +1,7 @@
 /////////////////////
 
 import { Random, Engine } from '@offirmo/random'
-import { TimestampUTCMs, get_UTC_timestamp_ms, get_human_readable_UTC_timestamp_minutes } from '@offirmo-private/timestamps'
+import { get_UTC_timestamp_ms, get_human_readable_UTC_timestamp_minutes } from '@offirmo-private/timestamps'
 import assert from 'tiny-invariant'
 
 /////////////////////
@@ -64,9 +64,11 @@ const STARTING_ARMOR_SPEC: Readonly<Partial<Armor>> = {
 	base_strength: 1,
 }
 
-function create(SEC?: OMRSoftExecutionContext, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Readonly<State> {
+function create(SEC?: OMRSoftExecutionContext, seed?: number): Readonly<State> {
 	return get_lib_SEC(SEC).xTry('create', ({enforce_immutability}) => {
 		const [ u_state_energy, t_state_energy ] = EnergyState.create()
+		const now = new Date()
+		//console.log('creation', now)
 
 		let state: Readonly<State> = {
 			schema_version: SCHEMA_VERSION,
@@ -74,14 +76,14 @@ function create(SEC?: OMRSoftExecutionContext, now_ms: TimestampUTCMs = get_UTC_
 			u_state: {
 				schema_version: SCHEMA_VERSION,
 				revision: 0,
-				last_user_action_tms: now_ms,
+				last_user_action_tms: get_UTC_timestamp_ms(now),
 
-				creation_date: get_human_readable_UTC_timestamp_minutes(new Date(now_ms)),
+				creation_date: get_human_readable_UTC_timestamp_minutes(now),
 
 				avatar: CharacterState.create(SEC),
 				inventory: InventoryState.create(SEC),
 				wallet: WalletState.add_amount(WalletState.create(), WalletState.Currency.coin, 1), // don't start empty so that a loss can happen
-				prng: PRNGState.create(),
+				prng: PRNGState.create(seed),
 				energy: u_state_energy,
 				engagement: EngagementState.create(SEC),
 				codes: CodesState.create(SEC),
@@ -134,13 +136,15 @@ function create(SEC?: OMRSoftExecutionContext, now_ms: TimestampUTCMs = get_UTC_
 			...state,
 			u_state: {
 				...state.u_state,
-				last_user_action_tms: now_ms, // creating ~= user action
-				// to compensate sub-functions used during build
+
+				// to compensate sub-functions used during creation:
+				//last_user_action_tms: get_UTC_timestamp_ms(now),
 				revision: 0,
 			},
 		}
 
-		state = _update_to_now(state, now_ms) // not sure needed but doesn't hurt
+		// hurts the unit tests!
+		//state = _update_to_now(state, now_ms) // not sure needed but doesn't hurt
 
 		return enforce_immutability(state)
 	})

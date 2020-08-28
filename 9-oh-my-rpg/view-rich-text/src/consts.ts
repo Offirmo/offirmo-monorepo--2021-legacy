@@ -3,7 +3,9 @@ import { RenderItemOptions } from './types'
 
 /////////////////////
 
-const DEFAULT_RENDER_ITEM_OPTIONS: RenderItemOptions = {
+export const LIB = '@oh-my-rpg/view-rich-text'
+
+export const DEFAULT_RENDER_ITEM_OPTIONS: RenderItemOptions = {
 	// most conservative mode by default
 	display_quality: false,
 	display_values: false,
@@ -12,7 +14,3 @@ const DEFAULT_RENDER_ITEM_OPTIONS: RenderItemOptions = {
 }
 
 /////////////////////
-
-export {
-	DEFAULT_RENDER_ITEM_OPTIONS,
-}

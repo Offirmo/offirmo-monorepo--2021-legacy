@@ -20,6 +20,7 @@ import {
 
 const rich_text_to_ansi = require('@offirmo-private/rich-text-format-to-ansi')
 
+import { LIB } from './consts'
 import {
 	render_backpack,
 	render_equipment,
@@ -27,7 +28,7 @@ import {
 } from '.'
 
 
-describe('🔠  view to @offirmo-private/rich-text-format - inventory', function() {
+describe(`🔠  ${LIB} - inventory`, function() {
 
 	describe('backpack rendering', function() {
 
@@ -59,10 +60,10 @@ describe('🔠  view to @offirmo-private/rich-text-format - inventory', function
 				const str = RichText.to_text($doc)
 
 				expect(str).to.be.a('string')
-				expect(str).not.to.contain(' 0.')
-				expect(str).to.contain(' a.')
-				expect(str).to.contain(' e.')
-				expect(str).not.to.contain(' f.')
+				expect(str).not.to.contain('00.')
+				expect(str).to.contain('01.')
+				expect(str).to.contain('05.')
+				expect(str).not.to.contain('06.')
 			})
 		})
 

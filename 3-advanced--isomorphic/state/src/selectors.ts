@@ -35,8 +35,12 @@ export function get_schema_version<U extends WithSchemaVersion, T extends WithSc
 }
 
 export function get_schema_version_loose<U extends WithSchemaVersion, T extends WithSchemaVersion>(s: Readonly<U> | [ Readonly<U>, Readonly<T> ] | any): number {
-	if (has_versioned_schema(s) || is_bundled_UT(s))
+	if (has_versioned_schema(s))
 		return get_schema_version(s)
+
+	// loose bundles
+	if (Array.isArray(s) && has_versioned_schema(s[0]))
+		return get_schema_version(s[0])
 
 	return 0
 }

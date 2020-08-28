@@ -17,7 +17,7 @@ describe(`${LIB} - migration`, function() {
 			use_hints: false,
 			//read_only: false, // XXX
 			SCHEMA_VERSION,
-			LATEST_EXPECTED_DATA: deep_freeze<any>(create()),
+			LATEST_EXPECTED_DATA: () => deep_freeze<any>(create()),
 			migrate_to_latest: migrate_to_latest.bind(null, get_lib_SEC()),
 			absolute_dir_path: require('path').join(__dirname, '../../src/migrations_of_blank_state_specs'),
 			describe, context, it, expect,

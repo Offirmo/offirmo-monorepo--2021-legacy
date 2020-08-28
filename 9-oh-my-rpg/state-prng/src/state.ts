@@ -13,13 +13,13 @@ import { MT19937WithSeed, State } from './types'
 
 const DEFAULT_SEED = 987
 
-function create(): Readonly<State> {
+function create(seed: number = DEFAULT_SEED): Readonly<State> {
 	return {
 		schema_version: SCHEMA_VERSION,
 		uuid: generate_uuid(),
 		revision: 0,
 
-		seed: DEFAULT_SEED,
+		seed, // up to the caller to change it
 		use_count: 0,
 
 		recently_encountered_by_id: {},

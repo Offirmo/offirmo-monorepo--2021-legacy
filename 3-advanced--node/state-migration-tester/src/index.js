@@ -7,8 +7,8 @@ const { expect } = require('chai')
 const sinon = require('sinon')
 const { cloneDeep } = require('lodash')
 const { prettify_json } = require('@offirmo-private/prettify-any')
-const { TEST_DATE_MS, get_human_readable_UTC_timestamp_minutes } = require('@offirmo-private/timestamps')
-const { get_schema_version } = require('@offirmo-private/state')
+const { TEST_TIMESTAMP_MS, get_human_readable_UTC_timestamp_minutes } = require('@offirmo-private/timestamps')
+const { get_schema_version, get_schema_version_loose } = require('@offirmo-private/state')
 
 const { LIB, HINTS_FILENAME } = require('./consts')
 const fs = require('./utils-fs')
@@ -28,6 +28,14 @@ function itㆍshouldㆍmigrateㆍcorrectly({
 	describe, context, it, expect,
 	skip = false, // allow skipping the test, like it.skip
 }) {
+	if (typeof LATEST_EXPECTED_DATA === 'function') {
+		// to allow the creation to benefit from the fake timers
+		const clock = sinon.useFakeTimers(TEST_TIMESTAMP_MS)
+		expect(+Date.now()).to.equal(TEST_TIMESTAMP_MS) // sanity check
+		LATEST_EXPECTED_DATA = LATEST_EXPECTED_DATA()
+		clock.restore()
+	}
+
 	const LOG_PREFIX = `[${LIB} - ${path.basename(absolute_dir_path)}]`
 	console.log(`${LOG_PREFIX} building unit tests...`)
 	if (read_only)
@@ -61,7 +69,7 @@ function itㆍshouldㆍmigrateㆍcorrectly({
 	// early tests, always valid
 	describe(`[${LIB} - automatically generated migration tests]`, function() {
 		beforeEach(function () {
-			this.clock = sinon.useFakeTimers(TEST_DATE_MS)
+			this.clock = sinon.useFakeTimers(TEST_TIMESTAMP_MS)
 		})
 		afterEach(function () {
 			this.clock.restore()
@@ -218,7 +226,7 @@ function itㆍshouldㆍmigrateㆍcorrectly({
 		ALL_SNAPSHOTS.forEach(snapshot_path => {
 			const LEGACY_DATA = fs.json.readSync(snapshot_path)
 
-			context(`when the version is ${get_schema_version(LEGACY_DATA) === SCHEMA_VERSION ? 'UP TO DATE' : 'OUTDATED' }: v${get_schema_version(LEGACY_DATA)} from ${path.basename(snapshot_path)}`, function () {
+			context(`when the version is ${get_schema_version_loose(LEGACY_DATA) === SCHEMA_VERSION ? 'UP TO DATE' : 'OUTDATED' }: v${get_schema_version_loose(LEGACY_DATA)} from ${path.basename(snapshot_path)}`, function () {
 
 				it('should migrate it to the latest version', () => {
 					try {

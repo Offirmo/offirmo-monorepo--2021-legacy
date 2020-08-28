@@ -1,5 +1,6 @@
 import deep_freeze from 'deep-freeze-strict'
 import { LastMigrationStep, MigrationStep, SubStatesMigrations, CleanupStep, generic_migrate_to_latest } from '@offirmo-private/state'
+import { get_UTC_timestamp_ms } from '@offirmo-private/timestamps'
 
 import * as CharacterState from '@oh-my-rpg/state-character'
 import * as WalletState from '@oh-my-rpg/state-wallet'
@@ -13,7 +14,7 @@ import * as MetaState from '@oh-my-rpg/state-meta'
 
 import { LIB, SCHEMA_VERSION } from '../../consts'
 import { State } from '../../types'
-import { OMRSoftExecutionContext, get_lib_SEC } from '../../sec'
+import { OMRSoftExecutionContext } from '../../sec'
 import { reset_and_salvage } from './salvage'
 
 /////////////////////
@@ -59,7 +60,12 @@ export function migrate_to_latest(SEC: OMRSoftExecutionContext, legacy_state: Re
 		// TODO migrate items
 	}
 	catch (err) {
-		// we are top, attempt to salvage
+		if (err.message.includes('more recent')) {
+			// don't touch a more recent savegame!
+			throw err
+		}
+
+		// attempt to salvage
 		SEC.getInjectedDependencies().logger.error(`${LIB}: failed migrating schema, reseting and salvaging!`, {err})
 		state = reset_and_salvage(legacy_state)
 		SEC.fireAnalyticsEvent('schema_migration.salvaged', { step: 'main' })
@@ -160,11 +166,13 @@ function xxx_migrate_to_latest(SEC: OMRSoftExecutionContext, legacy_state: Reado
 /////////////////////
 
 const cleanup: CleanupStep<State> = (SEC, state, hints,) => {
-	const { u_state } = state
+	const { u_state } = state as any
 
 	// micro migrations TODO clean
-	delete (u_state as any).uuid
-	u_state.last_user_action_tms = u_state.last_user_action_tms || 0
+	if (u_state.uuid)
+		delete u_state.uuid
+	if (!u_state.last_user_action_tms)
+		u_state.last_user_action_tms = get_UTC_timestamp_ms()
 
 	return state
 }

@@ -27,7 +27,7 @@ function create(SEC?: OMRSoftExecutionContext): Readonly<State> {
 			achievements: {},
 
 			statistics: {
-				last_visited_timestamp: get_human_readable_UTC_timestamp_days(new Date(0)),
+				last_visited_timestamp: get_human_readable_UTC_timestamp_days(),
 				active_day_count: 1,
 				good_play_count: 0,
 				bad_play_count: 0,

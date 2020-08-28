@@ -25,7 +25,7 @@ function migrate_to_latest(SEC: OMRSoftExecutionContext, legacy_state: Readonly<
 		sub_states_migrate_to_latest: {},
 
 		pipeline: [
-			migrate_to_4,
+			migrate_to_4x,
 			migrate_to_3,
 		]
 	})
@@ -33,17 +33,23 @@ function migrate_to_latest(SEC: OMRSoftExecutionContext, legacy_state: Readonly<
 
 /////////////////////
 
-const migrate_to_4: LastMigrationStep<StateForMigration, [any, any]> = (SEC, [legacy_u_state, legacy_t_state], hints, next, legacy_schema_version) => {
+const migrate_to_4x: LastMigrationStep<StateForMigration, [any, any]> = (SEC, [legacy_u_state, legacy_t_state], hints, previous, legacy_schema_version) => {
 	if (legacy_schema_version < 3)
-		[ legacy_u_state, legacy_t_state ] = next(SEC, [legacy_u_state, legacy_t_state], hints)
+		[ legacy_u_state, legacy_t_state ] = previous(SEC, [legacy_u_state, legacy_t_state], hints)
 
 	let [ u_state, t_state ] = [ legacy_u_state, legacy_t_state ]
+	u_state = {
+		...u_state,
+		schema_version: 4,
+	}
 	t_state = {
 		...t_state,
+		schema_version: 4,
 
 		// this field was added
 		revision: legacy_u_state.revision,
 	}
+
 
 	return [ u_state, t_state ]
 }

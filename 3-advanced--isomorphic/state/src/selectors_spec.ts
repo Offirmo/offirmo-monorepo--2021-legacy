@@ -47,7 +47,7 @@ describe(`${LIB} - selectors`, function() {
 			})
 		})
 
-		describe('on an aggregated U+T state', function() {
+		describe('on an bundled U+T state', function() {
 
 			it('should work on special aggregated data', () => {
 				expect(get_schema_version([DEMO_USTATE, DEMO_TSTATE])).to.equal(DEMO_USTATE.schema_version)
@@ -123,8 +123,9 @@ describe(`${LIB} - selectors`, function() {
 			expect(get_schema_version_loose(DEMO_BASE_STATE_WITH_SUBS.subA)).to.equal(DEMO_BASE_STATE_WITH_SUBS.subA.schema_version)
 		})
 
-		it('should work on special aggregated data', () => {
+		it('should work on special aggregated data, even when old', () => {
 			expect(get_schema_version_loose([DEMO_USTATE, DEMO_TSTATE] as any)).to.equal(DEMO_USTATE.schema_version)
+			expect(get_schema_version_loose([{ schema_version: 33}, null])).to.equal(33)
 		})
 	})
 

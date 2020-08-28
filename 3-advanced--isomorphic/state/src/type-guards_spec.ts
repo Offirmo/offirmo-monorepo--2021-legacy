@@ -6,6 +6,7 @@ import {
 	is_UState,
 	is_TState,
 	is_RootState,
+	is_bundled_UT,
 } from './type-guards'
 
 import {
@@ -57,6 +58,21 @@ describe(`${LIB} - type guards`, function() {
 
 		it('should work on matching: TRUE', () => {
 			expect(is_RootState(DEMO_ROOT_STATE)).to.be.true
+		})
+	})
+
+	describe('is_bundled_UT()', function() {
+		it('should work on non matching: FALSE', () => {
+			expect(is_bundled_UT(undefined)).to.be.false
+			expect(is_bundled_UT(null)).to.be.false
+			expect(is_bundled_UT(0)).to.be.false
+			expect(is_bundled_UT(new Error('Test!'))).to.be.false
+			expect(is_bundled_UT(DEMO_ROOT_STATE.t_state)).to.be.false
+			expect(is_bundled_UT(DEMO_ROOT_STATE.u_state)).to.be.false
+		})
+
+		it('should work on matching: TRUE', () => {
+			expect(is_bundled_UT([ DEMO_ROOT_STATE.u_state, DEMO_ROOT_STATE.t_state ])).to.be.true
 		})
 	})
 })

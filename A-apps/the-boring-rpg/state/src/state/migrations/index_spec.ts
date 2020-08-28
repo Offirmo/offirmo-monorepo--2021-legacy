@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import deep_freeze from 'deep-freeze-strict'
-import sinon from 'sinon'
 import { dump_prettified_any} from '@offirmo-private/prettify-any'
+import { TEST_TIMESTAMP_MS } from '@offirmo-private/timestamps'
 
 import { JSONObject } from '@offirmo-private/ts-types'
 import {itㆍshouldㆍmigrateㆍcorrectly} from '@offirmo-private/state-migration-tester'
@@ -47,7 +47,28 @@ function advanced_diff_json(a: JSONObject, b: JSONObject, { diff }: { diff?: JSO
 
 describe(`${LIB} - schema migration`, function() {
 
+	describe.only('migration of a new state', function () {
+
+
+
+		itㆍshouldㆍmigrateㆍcorrectly({
+			use_hints: false,
+			//read_only: false, // uncomment when updating
+			advanced_diff_json,
+			SCHEMA_VERSION,
+			LATEST_EXPECTED_DATA: () => {
+				const new_state = deep_freeze<any>(create(get_lib_SEC(), 1234))
+				dump_prettified_any('fresh state', new_state)
+				return new_state
+			},
+			migrate_to_latest: migrate_to_latest.bind(null, get_lib_SEC()),
+			absolute_dir_path: require('path').join(__dirname, '../../../../src/state/migrations/migrations_of_blank_state_specs'),
+			describe, context, it, expect,
+		})
+	})
+
 	describe('migration of an existing state', function () {
+
 		itㆍshouldㆍmigrateㆍcorrectly({
 			use_hints: true,
 			//read_only: false, // uncomment when updating
@@ -57,25 +78,6 @@ describe(`${LIB} - schema migration`, function() {
 			LATEST_EXPECTED_DATA: DEMO_STATE,
 			migrate_to_latest: migrate_to_latest.bind(null, get_lib_SEC()),
 			absolute_dir_path: require('path').join(__dirname, '../../../../src/state/migrations/migrations_of_active_state_specs'),
-			describe, context, it, expect,
-		})
-	})
-
-	describe.only('migration of a new state', function () {
-		const new_state = deep_freeze<any>(create())
-		dump_prettified_any('fresh state', new_state)
-
-		// alter seed to avoid migration
-		new_state.u_state.prng.seed = 1234 // should match blank state spec
-
-		itㆍshouldㆍmigrateㆍcorrectly({
-			use_hints: false,
-			//read_only: false, // uncomment when updating
-			advanced_diff_json,
-			SCHEMA_VERSION,
-			LATEST_EXPECTED_DATA: new_state,
-			migrate_to_latest: migrate_to_latest.bind(null, get_lib_SEC()),
-			absolute_dir_path: require('path').join(__dirname, '../../../../src/state/migrations/migrations_of_blank_state_specs'),
 			describe, context, it, expect,
 		})
 	})
