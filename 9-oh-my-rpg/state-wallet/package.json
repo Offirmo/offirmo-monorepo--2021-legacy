@@ -37,7 +37,7 @@
 	},
 	"devDependencies": {
 		"@offirmo/unit-test-toolbox": "^6",
-		"@oh-my-rpg/migration-tester": "^0",
+		"@offirmo-private/state-migration-tester": "^0",
 		"npm-run-all": "^4"
 	}
 }

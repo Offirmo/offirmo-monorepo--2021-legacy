@@ -1,5 +1,5 @@
 {
-	"name": "@oh-my-rpg/migration-tester",
+	"name": "@offirmo-private/state-migration-tester",
 	"version": "0.0.1",
 	"description": "helper for testing migrations",
 	"author": "Offirmo <offirmo.net@gmail.com>",
@@ -11,6 +11,7 @@
 
 	"dependencies": {
 		"@offirmo-private/prettify-any": "^0",
+		"@offirmo-private/state": "^0",
 		"@offirmo-private/timestamps": "^0",
 		"jsondiffpatch": "^0.4",
 		"load-json-file": "^6",

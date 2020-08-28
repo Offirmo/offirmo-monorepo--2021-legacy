@@ -1,0 +1,16 @@
+{
+	"schema_version": 2,
+	"revision": 42,
+	"name": "Perte",
+	"klass": "paladin",
+	"attributes": {
+		"level": 13,
+		"health": 12,
+		"mana": 23,
+		"strength": 4,
+		"agility": 5,
+		"charisma": 6,
+		"wisdom": 7,
+		"luck": 8
+	}
+}

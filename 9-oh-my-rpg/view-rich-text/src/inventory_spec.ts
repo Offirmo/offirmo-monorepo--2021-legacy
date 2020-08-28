@@ -45,7 +45,7 @@ describe('🔠  view to @offirmo-private/rich-text-format - inventory', function
 
 		context('when not empty', function() {
 
-			it.skip('should render properly', () => { // XXX TODO
+			it('should render properly', () => {
 				let inventory = create_inventory()
 				inventory = add_item(inventory, generate_random_demo_weapon())
 				inventory = add_item(inventory, generate_random_demo_weapon())

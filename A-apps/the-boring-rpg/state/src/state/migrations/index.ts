@@ -23,12 +23,6 @@ import { reset_and_salvage } from './salvage'
 
 /////////////////////
 
-const SUB_U_REDUCERS_COUNT = 9
-const SUB_U_OTHER_KEYS_COUNT = 5
-
-const SUB_T_REDUCERS_COUNT = 1
-const SUB_T_OTHER_KEYS_COUNT = 2
-
 const SUB_STATES_MIGRATIONS: SubStatesMigrations = {
 	avatar:     CharacterState.migrate_to_latest,
 	inventory:  InventoryState.migrate_to_latest,
@@ -41,8 +35,8 @@ const SUB_STATES_MIGRATIONS: SubStatesMigrations = {
 	meta:       MetaState.migrate_to_latest,
 }
 
-function migrate_to_latest(SEC: OMRSoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any> = {}): State {
-	let state: State = legacy_state as any// for starter
+export function migrate_to_latest(SEC: OMRSoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any> = {}): State {
+	let state: State = legacy_state as any // for starter
 
 	try {
 		state = generic_migrate_to_latest({
@@ -221,11 +215,4 @@ const migrate_to_13: MigrationStep<State, any> = (SEC, legacy_state, hints, prev
 
 const migrate_to_12: MigrationStep<State> = (SEC, legacy_state, hints, previous, legacy_schema_version) => {
 	throw new Error('Alpha release outdated schema, won’t migrate, would take too much time and schema is still unstable!')
-}
-
-/////////////////////
-
-export {
-	SUB_U_REDUCERS_COUNT,
-	migrate_to_latest,
 }

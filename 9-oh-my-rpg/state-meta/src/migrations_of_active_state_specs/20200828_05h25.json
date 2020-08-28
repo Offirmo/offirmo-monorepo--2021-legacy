@@ -1,0 +1,9 @@
+{
+	"schema_version": 2,
+	"revision": 5,
+	"is_web_diversity_supporter": true,
+	"is_logged_in": true,
+	"roles": [
+		"tbrpg:alpha"
+	]
+}

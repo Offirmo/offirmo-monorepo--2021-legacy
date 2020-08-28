@@ -1,0 +1,53 @@
+{
+	"schema_version": 1,
+	"revision": 42,
+	"unslotted_capacity": 20,
+	"slotted": {
+		"armor": {
+			"uuid": "uu1~test~demo~armor~0002",
+			"element_type": "item",
+			"slot": "armor",
+			"base_hid": "belt",
+			"qualifier1_hid": "brass",
+			"qualifier2_hid": "apprentice",
+			"quality": "legendary",
+			"base_strength": 52909,
+			"enhancement_level": 8
+		},
+		"weapon": {
+			"uuid": "uu1~test~demo~weapon~001",
+			"element_type": "item",
+			"slot": "weapon",
+			"base_hid": "axe",
+			"qualifier1_hid": "admirable",
+			"qualifier2_hid": "adjudicator",
+			"quality": "uncommon",
+			"base_strength": 1099,
+			"enhancement_level": 0
+		}
+	},
+	"unslotted": [
+		{
+			"uuid": "uu1~test~demo~weapon~002",
+			"element_type": "item",
+			"slot": "weapon",
+			"base_hid": "bow",
+			"qualifier1_hid": "arcanic",
+			"qualifier2_hid": "ambassador",
+			"quality": "legendary",
+			"base_strength": 52909,
+			"enhancement_level": 8
+		},
+		{
+			"uuid": "uu1~test~demo~armor~0001",
+			"element_type": "item",
+			"slot": "armor",
+			"base_hid": "armguards",
+			"qualifier1_hid": "bone",
+			"qualifier2_hid": "ancients",
+			"quality": "uncommon",
+			"base_strength": 1099,
+			"enhancement_level": 0
+		}
+	]
+}

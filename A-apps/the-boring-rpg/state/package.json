@@ -60,7 +60,7 @@
 	"devDependencies": {
 		"@offirmo-private/prettify-any": "^0",
 		"@offirmo/unit-test-toolbox": "^6",
-		"@oh-my-rpg/migration-tester": "^0",
+		"@offirmo-private/state-migration-tester": "^0",
 		"@types/deep-freeze-strict": "^1",
 		"deep-freeze-strict": "^1",
 		"npm-run-all": "^4"

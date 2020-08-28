@@ -1,4 +1,5 @@
 import deep_freeze from 'deep-freeze-strict'
+import { TEST_TIMESTAMP_MS } from '@offirmo-private/timestamps'
 
 import {
 	BaseRootState, BaseTState,
@@ -61,7 +62,7 @@ export interface StateB_T_v4 extends BaseTState {
 }
 export const DEMO_STATE_B_T_v4: StateB_T_v4 = deep_freeze<StateB_T_v4>({
 	schema_version: 4,
-	timestamp_ms: 1234567890,
+	timestamp_ms: TEST_TIMESTAMP_MS,
 	revision: 0,
 	energy: 7
 })
@@ -90,7 +91,7 @@ export interface StateC_T_v5 extends BaseTState {
 }
 export const DEMO_STATE_C_T_v5: StateC_T_v5 = deep_freeze<StateC_T_v5>({
 	schema_version: 5,
-	timestamp_ms: 1234567890,
+	timestamp_ms: TEST_TIMESTAMP_MS,
 	revision: 12,
 
 	buzz: 11,
@@ -130,7 +131,7 @@ export const DEMO_ROOT_v8: Readonly<DemoRootState_v8> = deep_freeze<DemoRootStat
 	t_state: {
 		schema_version: 8,
 		revision: 33,
-		timestamp_ms: 123456789,
+		timestamp_ms: TEST_TIMESTAMP_MS,
 
 		subB: DEMO_STATE_B_T_v4,
 		subC: DEMO_STATE_C_T_v5,

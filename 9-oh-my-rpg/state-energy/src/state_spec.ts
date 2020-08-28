@@ -1,5 +1,6 @@
 import { expect } from 'chai'
 import sinon from 'sinon'
+import { TEST_TIMESTAMP_MS } from '@offirmo-private/timestamps'
 import { dump_prettified_any } from '@offirmo-private/prettify-any'
 
 import { LIB, SCHEMA_VERSION } from './consts'
@@ -46,6 +47,28 @@ describe(`${LIB} - reducer`, function() {
 					n: u_state.max_energy,
 					d: 1,
 				},
+			})
+		})
+
+		describe('testability', function () {
+
+			it('should allow passing a forced time', function() {
+				const [ u_state, t_state ] = create(TEST_TIMESTAMP_MS)
+				expect(t_state.timestamp_ms).to.equal(TEST_TIMESTAMP_MS)
+			})
+
+			context('when using sinon', function() {
+				beforeEach(function () {
+					this.clock = sinon.useFakeTimers(TEST_TIMESTAMP_MS)
+				})
+				afterEach(function () {
+					this.clock.restore()
+				})
+
+				it('should be affected by useFakeTimers()', function() {
+					const t_state = update_to_now(create())
+					expect(t_state.timestamp_ms).to.equal(TEST_TIMESTAMP_MS)
+				})
 			})
 		})
 	})

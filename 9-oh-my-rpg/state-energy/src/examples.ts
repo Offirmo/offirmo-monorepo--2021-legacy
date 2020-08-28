@@ -1,4 +1,5 @@
 import deep_freeze from 'deep-freeze-strict'
+import { TEST_TIMESTAMP_MS } from '@offirmo-private/timestamps'
 
 import { UState, TState } from './types'
 
@@ -18,7 +19,7 @@ const DEMO_T_STATE: Readonly<TState> = deep_freeze<TState>({
 	schema_version: 4,
 	revision: 3,
 
-	timestamp_ms: 1545016005762,
+	timestamp_ms: TEST_TIMESTAMP_MS,
 
 	available_energy: {
 		n: 7,

@@ -1,6 +1,7 @@
 /////////////////////
 
 import deep_freeze from 'deep-freeze-strict'
+import { TEST_TIMESTAMP_MS, get_human_readable_UTC_timestamp_minutes } from '@offirmo-private/timestamps'
 
 /////////////////////
 
@@ -124,9 +125,9 @@ const DEMO_STATE: Readonly<State> = deep_freeze<State>({
 	u_state: {
 		schema_version: SCHEMA_VERSION,
 		revision: 203,
-		last_user_action_tms: 123456,
+		last_user_action_tms: TEST_TIMESTAMP_MS,
 
-		creation_date: '20180813_00h33',
+		creation_date: get_human_readable_UTC_timestamp_minutes(new Date(TEST_TIMESTAMP_MS)),
 
 		avatar: Character.DEMO_STATE,
 		inventory: Inventory.DEMO_STATE,
@@ -144,7 +145,7 @@ const DEMO_STATE: Readonly<State> = deep_freeze<State>({
 	t_state: {
 		schema_version: SCHEMA_VERSION,
 		revision: 1,
-		timestamp_ms: Energy.DEMO_T_STATE.timestamp_ms,
+		timestamp_ms: TEST_TIMESTAMP_MS,
 
 		energy: Energy.DEMO_T_STATE,
 	},

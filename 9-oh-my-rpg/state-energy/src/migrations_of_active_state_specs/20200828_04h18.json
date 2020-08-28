@@ -1,0 +1,17 @@
+[
+	{
+		"schema_version": 4,
+		"revision": 3,
+		"max_energy": 7,
+		"total_energy_consumed_so_far": 3
+	},
+	{
+		"schema_version": 4,
+		"revision": 3,
+		"timestamp_ms": 1234567890,
+		"available_energy": {
+			"n": 7,
+			"d": 2
+		}
+	}
+]

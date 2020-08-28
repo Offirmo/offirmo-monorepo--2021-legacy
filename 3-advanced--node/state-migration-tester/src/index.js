@@ -1,15 +1,22 @@
 'use strict'
 
 const path = require('path')
+const { deepStrictEqual: assertDeepStrictEqual } = require('assert').strict
+
+const { expect } = require('chai')
+const sinon = require('sinon')
 const { cloneDeep } = require('lodash')
 const { prettify_json } = require('@offirmo-private/prettify-any')
-const { get_human_readable_UTC_timestamp_minutes } = require('@offirmo-private/timestamps')
+const { TEST_DATE_MS, get_human_readable_UTC_timestamp_minutes } = require('@offirmo-private/timestamps')
+const { get_schema_version } = require('@offirmo-private/state')
+
 const { LIB, HINTS_FILENAME } = require('./consts')
 const fs = require('./utils-fs')
 const base_diff_json = require('./json-diff')
 
 
-function test_migrations({
+function itㆍshouldㆍmigrateㆍcorrectly({
+	// TODO LIB?
 	use_hints = false,
 	read_only = true,
 	migration_hints_for_chaining = undefined,
@@ -52,9 +59,15 @@ function test_migrations({
 	}
 
 	// early tests, always valid
-	describe(`[${LIB} - automatically generated tests]`, function() {
+	describe(`[${LIB} - automatically generated migration tests]`, function() {
+		beforeEach(function () {
+			this.clock = sinon.useFakeTimers(TEST_DATE_MS)
+		})
+		afterEach(function () {
+			this.clock.restore()
+		})
 
-		context('when the schema version is more recent', function () {
+		context('when the version is more recent', function () {
 
 			it('should throw with a meaningful error', () => {
 				function load() {
@@ -65,12 +78,13 @@ function test_migrations({
 			})
 		})
 
-		context('when the schema version is up to date', function () {
+		context('when the version is up to date', function () {
 
 			it('should return the state without change', () => {
 				try {
-					expect(LATEST_EXPECTED_DATA.schema_version).to.equal(SCHEMA_VERSION) // make sure our tests are up to date
-					expect(migrate_to_latest(cloneDeep(LATEST_EXPECTED_DATA))).to.deep.equal(LATEST_EXPECTED_DATA)
+					expect(get_schema_version(LATEST_EXPECTED_DATA), 'schema version').to.equal(SCHEMA_VERSION) // make sure our tests are up to date
+					expect(() => assertDeepStrictEqual(migrate_to_latest(LATEST_EXPECTED_DATA), LATEST_EXPECTED_DATA), 'deep no change').not.to.throw()
+					expect(migrate_to_latest(LATEST_EXPECTED_DATA), 'strict equality = immutable').to.equal(LATEST_EXPECTED_DATA)
 				}
 				catch (err) {
 					err.message = err.message + ` [${LIB} hint: check param LATEST_EXPECTED_DATA]`
@@ -84,13 +98,11 @@ function test_migrations({
 			if (skip)
 				return true // allow outdated tests to pass
 
-			console.log(`${LOG_PREFIX} validating params...`)
+			//console.log(`${LOG_PREFIX} validating params...`)
 
-			// validate SCHEMA_VERSION
 			if (!SCHEMA_VERSION) return false // unit tests above will catch this
 
-			// validate LATEST_EXPECTED_DATA
-			if (LATEST_EXPECTED_DATA.schema_version !== SCHEMA_VERSION)
+			if (get_schema_version(LATEST_EXPECTED_DATA) !== SCHEMA_VERSION)
 				return false // unit tests above will catch this
 
 			const LATEST_EXPECTED_DATA_migrated_diff = base_diff_json(
@@ -99,14 +111,14 @@ function test_migrations({
 			)
 			if (LATEST_EXPECTED_DATA_migrated_diff) {
 				// this error will be caught by the test, but we display the diff to help:
-				console.error(`${LOG_PREFIX} ✖ LATEST_EXPECTED_DATA is not up to date! Difference when migrated:\n`, prettify_json(LATEST_EXPECTED_DATA_migrated_diff))
+				console.error(`${LOG_PREFIX} ❌ LATEST_EXPECTED_DATA is not up to date! Difference when migrated:\n`, prettify_json(LATEST_EXPECTED_DATA_migrated_diff))
 				return false
 			}
 
-			console.log(`${LOG_PREFIX} params OK ✔`)
+			//console.log(`${LOG_PREFIX} params OK ✔`)
 			return true
 		})()) {
-			console.warn(`${LOG_PREFIX} bad params, see unit tests failures ✖`)
+			console.warn(`${LOG_PREFIX} ⚠️  bad params, cf. unit tests failures`)
 		}
 
 		/////// grab the files = past snapshots and hints
@@ -138,7 +150,7 @@ function test_migrations({
 
 		}
 
-		console.log(`${LOG_PREFIX} Found snapshots:\n` + prettify_json(ALL_SNAPSHOTS.map(p => path.basename(p))))
+		console.log(`${LOG_PREFIX} Found snapshots: ` + prettify_json(ALL_SNAPSHOTS.map(p => path.basename(p))))
 
 		/////// create hints file if requested and not present
 		migration_hints_for_chaining = (function generate_and_update_hints(hints_from_params) {
@@ -146,7 +158,7 @@ function test_migrations({
 				return undefined
 
 			if (hints_from_params) {
-				console.log(`${LOG_PREFIX} using hints, provided from params ✔`)
+				//console.log(`${LOG_PREFIX} using hints, provided from params ✔`)
 				return hints_from_params
 			}
 
@@ -163,7 +175,7 @@ function test_migrations({
 			if (!read_only)
 				fs.json.writeSync(HINTS_FILE, hints)
 
-			console.log(`${LOG_PREFIX} using hints, provided from a file ✔`)
+			//console.log(`${LOG_PREFIX} using hints, provided from a file ✔`)
 			return hints
 		})(migration_hints_for_chaining)
 
@@ -177,7 +189,7 @@ function test_migrations({
 				? fs.json.readSync(latest_snapshot_path)
 				: undefined
 
-			if (latest_snapshot_data) console.log(`${LOG_PREFIX} found latest snapshot data ✔`)
+			//if (latest_snapshot_data) console.log(`${LOG_PREFIX} found latest snapshot data ✔`)
 			//console.log(`${LOG_PREFIX} latest_snapshot_data:`, prettify_json(latest_snapshot_data))
 
 			const latest_migrated_diff = diff_json(
@@ -190,12 +202,12 @@ function test_migrations({
 				return
 
 			if (latest_snapshot_path)
-				console.log(`${LOG_PREFIX} ✖ Current latest snapshot is not up to date. Difference with previous:\n`, prettify_json(latest_migrated_diff))
+				console.log(`${LOG_PREFIX} ❌ Current latest snapshot is not up to date. Difference with previous:\n`, prettify_json(latest_migrated_diff))
 			else
-				console.log(`${LOG_PREFIX} ✖ Current latest, up-to-date data is missing.`)
+				console.log(`${LOG_PREFIX} ❌ Current latest, up-to-date data is missing.`)
 
 			if (read_only)
-				throw new Error(`${LOG_PREFIX} ✖ Current latest, up-to-date data is not up to date!`)
+				throw new Error(`${LOG_PREFIX} ❌ Current latest, up-to-date data is not up to date!`)
 
 			// create a new snapshot with the new expected data
 			const name = get_human_readable_UTC_timestamp_minutes() + '.json'
@@ -206,7 +218,7 @@ function test_migrations({
 		ALL_SNAPSHOTS.forEach(snapshot_path => {
 			const LEGACY_DATA = fs.json.readSync(snapshot_path)
 
-			context(`when the version is outdated: v${LEGACY_DATA.schema_version} from ${path.basename(snapshot_path)}`, function () {
+			context(`when the version is ${get_schema_version(LEGACY_DATA) === SCHEMA_VERSION ? 'UP TO DATE' : 'OUTDATED' }: v${get_schema_version(LEGACY_DATA)} from ${path.basename(snapshot_path)}`, function () {
 
 				it('should migrate it to the latest version', () => {
 					try {
@@ -229,13 +241,13 @@ function test_migrations({
 }
 
 // emulate describe.skip
-test_migrations.skip = function(options) {
-	return test_migrations({
+itㆍshouldㆍmigrateㆍcorrectly.skip = function(options) {
+	return itㆍshouldㆍmigrateㆍcorrectly({
 		...options,
 		skip: true,
 	})
 }
 
 module.exports = {
-	test_migrations,
+	itㆍshouldㆍmigrateㆍcorrectly,
 }

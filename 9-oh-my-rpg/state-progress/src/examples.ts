@@ -1,4 +1,5 @@
 import deep_freeze from 'deep-freeze-strict'
+import { get_human_readable_UTC_timestamp_days, TEST_TIMESTAMP_MS } from '@offirmo-private/timestamps'
 
 import { State, AchievementStatus } from './types'
 
@@ -36,7 +37,7 @@ const DEMO_STATE: Readonly<State> = deep_freeze<State>({
 	},
 
 	statistics: {
-		last_visited_timestamp: '20180813',
+		last_visited_timestamp: get_human_readable_UTC_timestamp_days(new Date(TEST_TIMESTAMP_MS)),
 		active_day_count: 12,
 		good_play_count: 12,
 		bad_play_count: 3,

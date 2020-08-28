@@ -1,0 +1,10 @@
+{
+	"schema_version": 1,
+	"revision": 3,
+	"redeemed_codes": {
+		"BORED": {
+			"redeem_count": 1,
+			"last_redeem_date_minutes": "19700115_06h56"
+		}
+	}
+}

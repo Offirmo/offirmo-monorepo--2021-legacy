@@ -4,7 +4,7 @@ import sinon from 'sinon'
 import { dump_prettified_any} from '@offirmo-private/prettify-any'
 
 import { JSONObject } from '@offirmo-private/ts-types'
-import {test_migrations} from '@oh-my-rpg/migration-tester'
+import {itㆍshouldㆍmigrateㆍcorrectly} from '@offirmo-private/state-migration-tester'
 import * as CharacterState from '@oh-my-rpg/state-character'
 import * as WalletState from '@oh-my-rpg/state-wallet'
 import * as InventoryState from '@oh-my-rpg/state-inventory'
@@ -16,7 +16,7 @@ import * as ProgressState from '@oh-my-rpg/state-progress'
 import * as MetaState from '@oh-my-rpg/state-meta'
 
 import { LIB, SCHEMA_VERSION } from '../../consts'
-import { migrate_to_latest, SUB_U_REDUCERS_COUNT } from '.'
+import { migrate_to_latest } from '.'
 import { get_lib_SEC } from '../../sec'
 
 import {create} from '..'
@@ -37,10 +37,6 @@ const MIGRATION_HINTS_FOR_TESTS: any = deep_freeze<any>({
 	progress: ProgressState.MIGRATION_HINTS_FOR_TESTS,
 	meta: MetaState.MIGRATION_HINTS_FOR_TESTS,
 })
-if (Object.keys(MIGRATION_HINTS_FOR_TESTS)
-	.filter(k => !k.startsWith('to_'))
-	.length !== SUB_U_REDUCERS_COUNT)
-	throw new Error('the-boring-rpg migrations: MIGRATION_HINTS_FOR_TESTS is outdated!')
 
 function advanced_diff_json(a: JSONObject, b: JSONObject, { diff }: { diff?: JSONObject } = {}) {
 	if (diff)
@@ -48,26 +44,11 @@ function advanced_diff_json(a: JSONObject, b: JSONObject, { diff }: { diff?: JSO
 	return diff
 }
 
+
 describe(`${LIB} - schema migration`, function() {
-	beforeEach(function () {
-		this.clock = sinon.useFakeTimers(1542794960217) // needed to have a reproducible timestamp
-	})
-	afterEach(function () {
-		this.clock.restore()
-	})
-
-	it('should correctly migrate a fresh state (by touching nothing)', () => {
-		const old_state = deep_freeze<any>(create())
-
-		const new_state = migrate_to_latest(get_lib_SEC(), old_state)
-
-		expect(new_state).to.equal(old_state)
-		expect(new_state).to.deep.equal(old_state)
-	})
 
 	describe('migration of an existing state', function () {
-		// TODO ALPHA remove skip
-		test_migrations({
+		itㆍshouldㆍmigrateㆍcorrectly({
 			use_hints: true,
 			//read_only: false, // uncomment when updating
 			migration_hints_for_chaining: MIGRATION_HINTS_FOR_TESTS,
@@ -80,12 +61,14 @@ describe(`${LIB} - schema migration`, function() {
 		})
 	})
 
-	describe('migration of a new state', function () {
-		const new_state = create()
+	describe.only('migration of a new state', function () {
+		const new_state = deep_freeze<any>(create())
+		dump_prettified_any('fresh state', new_state)
+
 		// alter seed to avoid migration
 		new_state.u_state.prng.seed = 1234 // should match blank state spec
-		// TODO ALPHA remove skip
-		test_migrations.skip({
+
+		itㆍshouldㆍmigrateㆍcorrectly({
 			use_hints: false,
 			//read_only: false, // uncomment when updating
 			advanced_diff_json,

@@ -1,0 +1,16 @@
+{
+	"schema_version": 2,
+	"revision": 0,
+	"name": "[anonymous]",
+	"klass": "novice",
+	"attributes": {
+		"level": 1,
+		"health": 1,
+		"mana": 0,
+		"strength": 1,
+		"agility": 1,
+		"charisma": 1,
+		"wisdom": 1,
+		"luck": 1
+	}
+}

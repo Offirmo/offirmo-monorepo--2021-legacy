@@ -20,6 +20,7 @@ import {
 } from '.'
 
 
+// TODO fix energy limit
 describe.skip(`${LIB} - selectors`, function() {
 	beforeEach(function () {
 		this.clock = sinon.useFakeTimers()
