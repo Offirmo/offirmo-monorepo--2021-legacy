@@ -18,10 +18,10 @@ const SECOND_ms = 1000
 const HOUR_ms = 3600 * SECOND_ms
 
 describe(`${LIB} - reducer`, function() {
-	beforeEach(function (){
+	beforeEach(function () {
 		this.clock = sinon.useFakeTimers()
 	})
-	afterEach(function (){
+	afterEach(function () {
 		this.clock.restore()
 	})
 

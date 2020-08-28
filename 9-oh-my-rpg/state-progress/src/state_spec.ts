@@ -17,6 +17,9 @@ describe('@oh-my-rpg/state-progress - reducer', function() {
 	beforeEach(function () {
 		this.clock = sinon.useFakeTimers() // needed to have a reproducible timestamp
 	})
+	afterEach(function () {
+		this.clock.restore()
+	})
 
 	describe('🆕  initial state', function() {
 

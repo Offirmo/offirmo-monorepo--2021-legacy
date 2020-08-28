@@ -88,7 +88,7 @@ describe(`${LIB} - migration`, function() {
 					SCHEMA_VERSION,
 					legacy_state,
 					hints,
-					sub_states: {},
+					sub_states_migrate_to_latest: {},
 
 					pipeline: [
 						migrate_to_2,
@@ -120,7 +120,7 @@ describe(`${LIB} - migration`, function() {
 						SCHEMA_VERSION,
 						legacy_state: DEMO_STATE_v0,
 						hints,
-						sub_states: {},
+						sub_states_migrate_to_latest: {},
 
 						pipeline: [
 							migrate_to_2,

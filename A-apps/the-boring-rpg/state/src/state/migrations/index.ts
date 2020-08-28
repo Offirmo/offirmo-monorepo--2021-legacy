@@ -1,5 +1,5 @@
 import deep_freeze from 'deep-freeze-strict'
-import { GenericMigration, LastMigrationStep, MigrationStep, SubStatesMigrations, generic_migrate_to_latest } from '@offirmo-private/state'
+import { LastMigrationStep, MigrationStep, SubStatesMigrations, CleanupStep, generic_migrate_to_latest } from '@offirmo-private/state'
 
 import * as CharacterState from '@oh-my-rpg/state-character'
 import * as WalletState from '@oh-my-rpg/state-wallet'
@@ -52,7 +52,8 @@ function migrate_to_latest(SEC: OMRSoftExecutionContext, legacy_state: Readonly<
 			SCHEMA_VERSION,
 			legacy_state,
 			hints,
-			sub_states: SUB_STATES_MIGRATIONS,
+			sub_states_migrate_to_latest: SUB_STATES_MIGRATIONS,
+			cleanup,
 			pipeline: [
 				migrate_to_14x,
 				migrate_to_13,
@@ -83,9 +84,6 @@ function xxx_migrate_to_latest(SEC: OMRSoftExecutionContext, legacy_state: Reado
 			;(function migrate_u_state() {
 				u_state = { ...u_state } // TODO remove this systematic mutation if possible
 
-				// micro migrations TODO clean
-				delete (u_state as any).uuid
-				u_state.last_user_action_tms = u_state.last_user_action_tms || 0
 
 				// up-to-date check
 				if (Object.keys(u_state).length !== SUB_U_REDUCERS_COUNT + SUB_U_OTHER_KEYS_COUNT) {
@@ -166,6 +164,16 @@ function xxx_migrate_to_latest(SEC: OMRSoftExecutionContext, legacy_state: Reado
 }
 */
 /////////////////////
+
+const cleanup: CleanupStep<State> = (SEC, state, hints,) => {
+	const { u_state } = state
+
+	// micro migrations TODO clean
+	delete (u_state as any).uuid
+	u_state.last_user_action_tms = u_state.last_user_action_tms || 0
+
+	return state
+}
 
 const migrate_to_14x: LastMigrationStep<State, any> = (SEC, legacy_state, hints, previous, legacy_schema_version) => {
 	if (legacy_schema_version < 13)

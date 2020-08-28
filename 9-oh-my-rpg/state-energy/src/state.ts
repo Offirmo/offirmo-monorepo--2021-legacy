@@ -152,10 +152,13 @@ function update_to_now(
 
 	return {
 		...t_state,
+
 		available_energy: {
 			n: available_energy.n,
 			d: available_energy.d,
 		},
+
+		// should we increase revision?
 	}
 }
 
@@ -177,7 +180,10 @@ function use_energy(
 
 	u_state = {
 		...u_state,
+
 		total_energy_consumed_so_far: u_state.total_energy_consumed_so_far + qty,
+
+		revision: u_state.revision + 1,
 	}
 	t_state = {
 		...t_state,
@@ -186,6 +192,8 @@ function use_energy(
 			n: available_energy.n,
 			d: available_energy.d,
 		},
+
+		revision: t_state.revision + 1,
 	}
 
 	return [ u_state, t_state ]
@@ -207,6 +215,8 @@ function lose_all_energy(
 			n: 0,
 			d: 1,
 		},
+
+		revision: t_state.revision + 1,
 	}
 
 	return t_state

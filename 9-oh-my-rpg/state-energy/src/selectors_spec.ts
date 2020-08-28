@@ -21,10 +21,10 @@ import {
 
 
 describe.skip(`${LIB} - selectors`, function() {
-	beforeEach(function (){
+	beforeEach(function () {
 		this.clock = sinon.useFakeTimers()
 	})
-	afterEach(function (){
+	afterEach(function () {
 		this.clock.restore()
 	})
 

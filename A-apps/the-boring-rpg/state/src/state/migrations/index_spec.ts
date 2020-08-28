@@ -1,6 +1,7 @@
-import {expect} from 'chai'
+import { expect } from 'chai'
 import deep_freeze from 'deep-freeze-strict'
 import sinon from 'sinon'
+import { dump_prettified_any} from '@offirmo-private/prettify-any'
 
 import { JSONObject } from '@offirmo-private/ts-types'
 import {test_migrations} from '@oh-my-rpg/migration-tester'
@@ -51,13 +52,16 @@ describe(`${LIB} - schema migration`, function() {
 	beforeEach(function () {
 		this.clock = sinon.useFakeTimers(1542794960217) // needed to have a reproducible timestamp
 	})
+	afterEach(function () {
+		this.clock.restore()
+	})
 
 	it('should correctly migrate a fresh state (by touching nothing)', () => {
 		const old_state = deep_freeze<any>(create())
 
 		const new_state = migrate_to_latest(get_lib_SEC(), old_state)
 
-		//expect(new_state).to.equal(old_state)
+		expect(new_state).to.equal(old_state)
 		expect(new_state).to.deep.equal(old_state)
 	})
 

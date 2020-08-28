@@ -36,10 +36,10 @@ describe(`${LIB} - game-instance`, function() {
 		local_storage.clear()
 		storage = create_in_mem_tbrpg_storage()
 	})
-	beforeEach(function (){
+	beforeEach(function () {
 		this.clock = sinon.useFakeTimers(START_MS)
 	})
-	afterEach(function (){
+	afterEach(function () {
 		this.clock.restore()
 	})
 

@@ -60,6 +60,7 @@ interface State extends BaseUState {
 
 	// TODO externalize?
 	statistics: {
+		// TODO rename with hint at the "day"
 		last_visited_timestamp: HumanReadableTimestampUTCDays
 		active_day_count: number
 

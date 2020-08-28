@@ -51,7 +51,7 @@ export function generic_migrate_to_latest<State>({
 	SCHEMA_VERSION,
 	legacy_state,
 	hints,
-	sub_states, // no default to force thinking
+	sub_states_migrate_to_latest, // no default to force thinking
 	cleanup = (SEC, state, hints) => state,
 	pipeline,
 }: {
@@ -60,7 +60,7 @@ export function generic_migrate_to_latest<State>({
 	SCHEMA_VERSION: number
 	legacy_state: Readonly<any>
 	hints: any
-	sub_states: SubStatesMigrations
+	sub_states_migrate_to_latest: SubStatesMigrations
 	cleanup?: CleanupStep<State>
 	pipeline: readonly [
 		LastMigrationStep<State>,
@@ -139,10 +139,10 @@ export function generic_migrate_to_latest<State>({
 
 		// migrate sub-reducers if any...
 		if (is_RootState(state)) {
-			state = _migrate_sub_states__root<State>(SEC, state as any /* stupid TS */, sub_states, hints)
+			state = _migrate_sub_states__root<State>(SEC, state as any /* stupid TS */, sub_states_migrate_to_latest, hints)
 		}
 		else {
-			state = _migrate_sub_states__base<State>(SEC, state, sub_states, hints)
+			state = _migrate_sub_states__base<State>(SEC, state, sub_states_migrate_to_latest, hints)
 		}
 
 		state = cleanup(SEC, state, hints)
@@ -154,12 +154,13 @@ export function generic_migrate_to_latest<State>({
 function _migrate_sub_states__root<State /*extends BaseRootState*/>(
 	SEC: SoftExecutionContext,
 	state: Readonly<State>,
-	sub_states: SubStatesMigrations,
+	sub_states_migrate_to_latest: SubStatesMigrations,
 	hints: any,
 ): State {
 	let has_change = false
 	let { u_state, t_state } = state as any as AnyRootState
 
+	const unmigrated_sub_states = new Set<string>([...Object.keys(sub_states_migrate_to_latest)])
 	const sub_states_found = new Set<string>()
 	const sub_u_states_found = new Set<string>()
 	const sub_t_states_found = new Set<string>()
@@ -178,8 +179,11 @@ function _migrate_sub_states__root<State /*extends BaseRootState*/>(
 	}
 
 	const sub_states_migrated = new Set<string>()
-	Object.keys(sub_states).forEach(key => {
-		const migrate_sub_to_latest = sub_states[key]
+	sub_states_found.forEach(key => {
+		const migrate_sub_to_latest = sub_states_migrate_to_latest[key]
+		if (!migrate_sub_to_latest)
+			throw new Error(`Found sub-state "${key}" but no migration fn was provided!`)
+
 		const sub_hints = hints[key]
 		const previous_sub_ustate = u_state[key]
 		const previous_sub_tstate = t_state[key]
@@ -228,7 +232,14 @@ function _migrate_sub_states__root<State /*extends BaseRootState*/>(
 		}
 
 		sub_states_migrated.add(key)
+		unmigrated_sub_states.delete(key)
 	})
+
+	if (unmigrated_sub_states.size)
+		throw new Error(`Specified sub-states not found! ${Array.from(unmigrated_sub_states).join(',')}`)
+
+	if (!has_change)
+		return state
 
 	return {
 		...state,
@@ -240,63 +251,11 @@ function _migrate_sub_states__root<State /*extends BaseRootState*/>(
 function _migrate_sub_states__base<State /*extends BaseState*/>(
 	SEC: SoftExecutionContext,
 	state: Readonly<State>,
-	sub_states: SubStatesMigrations,
+	sub_states_migrate_to_latest: SubStatesMigrations,
 	hints: any,
 ): State {
-	for (let k in sub_states) {
+	for (let k in sub_states_migrate_to_latest) {
 		throw new Error('_migrate_sub_states__base() NIMP!')
 	}
 	return state
 }
-
-
-/*
-<State extends WithSchemaVersion>(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any> = {}): State {
-
-}
-
-/////////////////////
-
-function migrate_to_13(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any>): any {
-	if (legacy_state.schema_version >= 13)
-		throw new Error('migrate_to_13 was called from an outdated/buggy root code, please update!')
-	if (legacy_state.schema_version < 12)
-		legacy_state = migrate_to_12x(SEC, legacy_state, hints)
-
-	let state: State = legacy_state as State // for starter
-
-	if (state.u_state.last_adventure) {
-		state.u_state.last_adventure = {
-			...legacy_state.u_state.last_adventure,
-			gains: {
-				...legacy_state.u_state.last_adventure.gains,
-				improvementⵧarmor: legacy_state.u_state.last_adventure.gains.armor_improvement,
-				improvementⵧweapon: legacy_state.u_state.last_adventure.gains.weapon_improvement,
-			},
-		}
-		delete (state.u_state.last_adventure?.gains as any)?.armor_improvement
-		delete (state.u_state.last_adventure?.gains as any)?.weapon_improvement
-	}
-	state.u_state.meta = {
-		...state.u_state.meta,
-		persistence_id: state.u_state.meta.persistence_id || undefined,
-	}
-
-	state.schema_version = 13
-	state.t_state.schema_version = 13
-	state.u_state.schema_version = 13
-
-	return state
-}
-
-function migrate_to_2(SEC: SoftExecutionContext, legacy_state: Readonly<any>, hints: Readonly<any>): State {
-	throw new Error('Schema is too old (pre-beta), can’t migrate!')
-}
-
-/////////////////////
-
-export {
-	migrate_to_latest,
-	MIGRATION_HINTS_FOR_TESTS,
-}
-*/
