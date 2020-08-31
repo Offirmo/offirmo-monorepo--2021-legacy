@@ -16,7 +16,9 @@ const AchievementStatus = Enum(
 type AchievementStatus = Enum<typeof AchievementStatus> // eslint-disable-line no-redeclare
 
 interface AchievementDefinition<S> {
-	session_uuid: string // helping React + rich text with a sortable id which may not be stable across sessions. Should NOT be stored.
+	// TODO rename to temporary ID
+	session_uuid: string // to help React + rich text with a sortable id which may not be stable outside of the current session. Should NOT be stored.
+
 	name: string // is also the key
 	icon: string
 	description: string

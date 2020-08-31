@@ -264,7 +264,7 @@ function attempt_to_redeem_code(state: Readonly<State>, code: string, now_ms: Ti
 
 	state = propagate_child_revision_increment_upward(previous_state, state)
 
-	return _refresh_achievements(state, (previous_state || state).u_state.revision)
+	return _refresh_achievements(state)
 }
 
 /////////////////////

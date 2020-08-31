@@ -20,8 +20,11 @@
 	},
 
 	"scripts": {
-		"demo": "./demo/demo.js"
+		"test": "./node_modules/.bin/mocha --bail --config ./node_modules/@offirmo/unit-test-toolbox/mocharc.json ./node_modules/@offirmo/unit-test-toolbox/mocha-chai-init-node.js 'src/**/*spec.js'"
 	},
 	"devDependencies": {
+		"@offirmo-private/uuid": "^0",
+		"@offirmo/unit-test-toolbox": "^6",
+		"npm-run-all": "^4"
 	}
 }

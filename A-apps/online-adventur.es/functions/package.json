@@ -26,8 +26,6 @@
 		"@offirmo/universal-debug-api-placeholder": "^1",
 		"@oh-my-rpg/definitions": "^0",
 		"@sentry/node": "^5",
-		"@tbrpg/flux": "^0",
-		"@tbrpg/interfaces": "^0",
 		"json-stable-stringify": "^1",
 		"memoize-one": "^5",
 		"noop2": "^2",

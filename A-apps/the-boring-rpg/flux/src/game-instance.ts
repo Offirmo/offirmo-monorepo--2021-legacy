@@ -13,7 +13,7 @@ import { State } from '@tbrpg/state'
 import { Action, TbrpgStorage } from '@tbrpg/interfaces'
 
 import { OMRSoftExecutionContext } from './sec'
-import create_persistent_store from './stores/persistent'
+import create_persistent_store from './stores/local'
 import create_in_memory_store from './stores/in-memory'
 import create_cloud_store from './stores/cloud-offline-first'
 import { get_commands } from './commands'

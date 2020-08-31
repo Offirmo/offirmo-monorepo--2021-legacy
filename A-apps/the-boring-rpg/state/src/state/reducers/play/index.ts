@@ -113,7 +113,7 @@ function play(previous_state: Readonly<State>, now_ms: TimestampUTCMs = get_UTC_
 		},
 	}
 
-	return _refresh_achievements(state, previous_state.u_state.revision)
+	return _refresh_achievements(state)
 }
 
 /////////////////////

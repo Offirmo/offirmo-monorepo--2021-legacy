@@ -184,7 +184,7 @@ function autoplay(previous_state: Readonly<State>, options: Readonly<{ target_go
 		...previous_state.t_state.energy.available_energy,
 	}
 
-	state = _refresh_achievements(state, state.u_state.revision)
+	state = _refresh_achievements(state)
 	state = _ack_all_engagements(state)
 	if (state.u_state.revision === previous_state.u_state.revision)
 		state = propagate_child_revision_increment_upward(previous_state, state)

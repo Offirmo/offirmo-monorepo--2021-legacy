@@ -510,16 +510,18 @@ A good story always contains conflicts, of which it can be broken down into:
 - Internal: decisions with significant impacts on long-term success - or strategy.
 
 Beats
-We analysed the script and were asked to identify the parts where we thought were important. This is usually something where there is a change from the status quo - it could be a new character introduced, the meeting of hearts, a power dynamic change between characters or a climax/twist. We call this a beat. A short film like this (~10 minutes) will probably have a maximum of 5-6 beats, so we started with around 10+ beats and culled it to 6 core ones.
+We analysed the script and were asked to identify the parts where we thought were important.
+This is usually something where there is a change from the status quo - it could be a new character introduced, the meeting of hearts, a power dynamic change between characters or a climax/twist.
+We call this a beat. A short film like this (~10 minutes) will probably have a maximum of 5-6 beats, so we started with around 10+ beats and culled it to 6 core ones.
 Of all the different beats, there will be the heart of the film in one of the beats. If we had to only show one scene, this will be the beat that we will show.
 
 Attitudes:
-Appetite for leadership
-Appetite for collaboration
-Patience for problem-solving
-Patience with detail
-Comfort with risk
-Level of drive
+* Appetite for leadership
+* Appetite for collaboration
+* Patience for problem-solving
+* Patience with detail
+* Comfort with risk
+* Level of drive
 
 people skills: "prismatic voice" https://www.youtube.com/watch?v=02EJ1IdC6tE
 intonation, pitch, adapting to the audience, ex. kid vs court

@@ -17,6 +17,7 @@ const DEBUG = false
 
 /////////////////////
 
+// TODO now should be set through sinon, no need
 function create(now_ms?: TimestampUTCMs): [ Readonly<UState>, Readonly<TState> ] {
 	const u_state: UState = {
 		schema_version: SCHEMA_VERSION,

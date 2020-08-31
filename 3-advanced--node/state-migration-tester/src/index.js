@@ -1,7 +1,6 @@
 'use strict'
 
 const path = require('path')
-const { deepStrictEqual: assertDeepStrictEqual } = require('assert').strict
 
 const { expect } = require('chai')
 const sinon = require('sinon')
@@ -12,21 +11,23 @@ const { get_schema_version, get_schema_version_loose } = require('@offirmo-priva
 
 const { LIB, HINTS_FILENAME } = require('./consts')
 const fs = require('./utils-fs')
-const base_diff_json = require('./json-diff')
+const { get_advanced_diff: base_get_json_diff } = require('./json-diff')
 
 
 function itㆍshouldㆍmigrateㆍcorrectly({
 	// TODO LIB?
-	use_hints = false,
-	read_only = true,
-	migration_hints_for_chaining = undefined,
+	use_hints = true,
+	migration_hints_for_chaining = undefined, // if not explicitly provided or disabled, will try to read from a file
 	SCHEMA_VERSION,
 	LATEST_EXPECTED_DATA,
 	migrate_to_latest,
 	absolute_dir_path,
 	advanced_diff_json = undefined,
+	clean_json_diff = undefined,
 	describe, context, it, expect,
-	skip = false, // allow skipping the test, like it.skip
+
+	can_update_snapshots = false,
+	should_skip = false, // allow skipping the test, like it.skip
 }) {
 	if (typeof LATEST_EXPECTED_DATA === 'function') {
 		// to allow the creation to benefit from the fake timers
@@ -38,24 +39,23 @@ function itㆍshouldㆍmigrateㆍcorrectly({
 
 	const LOG_PREFIX = `[${LIB} - ${path.basename(absolute_dir_path)}]`
 	console.log(`${LOG_PREFIX} building unit tests...`)
-	if (read_only)
+	if (!can_update_snapshots)
 		console.log(`${LOG_PREFIX} note: read-only, will only report errors`)
 	else
 		console.log(`${LOG_PREFIX} note: write enabled, will attempt to create/update data`)
-	if (skip)
+	if (should_skip)
 		console.log(`${LOG_PREFIX} note: skip mode, will do the minimum`)
 
 	// propagate the skip
-	describe = skip ? describe.skip.bind(describe) : describe
-	//it = skip ? it.skip.bind(it) : it
+	describe = should_skip ? describe.skip.bind(describe) : describe
 
-	function diff_json(a, b) {
-		let diff = base_diff_json(a, b)
+	function get_json_diff(a, b) {
+		let diff = base_get_json_diff(a, b)
 		if (!diff) return
 
 		if (advanced_diff_json) {
 			diff = advanced_diff_json(a, b, {
-				diff_json: base_diff_json,
+				diff_json: base_get_json_diff,
 				prettify_json,
 				diff,
 			})
@@ -82,7 +82,7 @@ function itㆍshouldㆍmigrateㆍcorrectly({
 					migrate_to_latest({schema_version: 99999})
 				}
 
-				expect(load).to.throw('more recent version')
+				expect(load).to.throw('ore recent version')
 			})
 		})
 
@@ -91,8 +91,9 @@ function itㆍshouldㆍmigrateㆍcorrectly({
 			it('should return the state without change', () => {
 				try {
 					expect(get_schema_version(LATEST_EXPECTED_DATA), 'schema version').to.equal(SCHEMA_VERSION) // make sure our tests are up to date
-					expect(() => assertDeepStrictEqual(migrate_to_latest(LATEST_EXPECTED_DATA), LATEST_EXPECTED_DATA), 'deep no change').not.to.throw()
-					expect(migrate_to_latest(LATEST_EXPECTED_DATA), 'strict equality = immutable').to.equal(LATEST_EXPECTED_DATA)
+					const migrated_data = migrate_to_latest(LATEST_EXPECTED_DATA)
+					expect(migrated_data, 'deep no change').to.deep.equal(LATEST_EXPECTED_DATA)
+					expect(migrated_data, 'immutability').to.equal(LATEST_EXPECTED_DATA)
 				}
 				catch (err) {
 					err.message = err.message + ` [${LIB} hint: check param LATEST_EXPECTED_DATA]`
@@ -103,7 +104,7 @@ function itㆍshouldㆍmigrateㆍcorrectly({
 
 		/////// validate params before continuing further
 		if (!(function validate_params() {
-			if (skip)
+			if (should_skip)
 				return true // allow outdated tests to pass
 
 			//console.log(`${LOG_PREFIX} validating params...`)
@@ -113,7 +114,7 @@ function itㆍshouldㆍmigrateㆍcorrectly({
 			if (get_schema_version(LATEST_EXPECTED_DATA) !== SCHEMA_VERSION)
 				return false // unit tests above will catch this
 
-			const LATEST_EXPECTED_DATA_migrated_diff = base_diff_json(
+			const LATEST_EXPECTED_DATA_migrated_diff = get_json_diff(
 				migrate_to_latest(cloneDeep(LATEST_EXPECTED_DATA)),
 				LATEST_EXPECTED_DATA,
 			)
@@ -130,14 +131,13 @@ function itㆍshouldㆍmigrateㆍcorrectly({
 		}
 
 		/////// grab the files = past snapshots and hints
-		if (!read_only)
-			fs.mkdirpSync(absolute_dir_path)
+		if (can_update_snapshots) fs.mkdirpSync(absolute_dir_path)
 
 		try {
 			fs.lsFilesSync(absolute_dir_path)
 		}
 		catch (err) {
-			if (skip) return
+			if (should_skip) return
 			throw err
 		}
 
@@ -153,7 +153,7 @@ function itㆍshouldㆍmigrateㆍcorrectly({
 		const ALL_SNAPSHOTS = ALL_FILES
 			.filter(snap_path => snap_path !== HINTS_FILE)
 
-		if (ALL_SNAPSHOTS.length === 0 && !read_only) {
+		if (ALL_SNAPSHOTS.length === 0 && can_update_snapshots) {
 			// create one
 
 		}
@@ -180,7 +180,7 @@ function itㆍshouldㆍmigrateㆍcorrectly({
 				hints[key] = hints[key] || {}
 			}
 			// persist the creation/update
-			if (!read_only)
+			if (can_update_snapshots)
 				fs.json.writeSync(HINTS_FILE, hints)
 
 			//console.log(`${LOG_PREFIX} using hints, provided from a file ✔`)
@@ -189,7 +189,7 @@ function itㆍshouldㆍmigrateㆍcorrectly({
 
 		/////// create / update latest file if allowed / not present
 		;(function create_or_update_latest_if_allowed() {
-			if (skip) return
+			if (should_skip) return
 
 			const latest_snapshot_path = ALL_SNAPSHOTS.slice(-1)[0]
 
@@ -200,7 +200,7 @@ function itㆍshouldㆍmigrateㆍcorrectly({
 			//if (latest_snapshot_data) console.log(`${LOG_PREFIX} found latest snapshot data ✔`)
 			//console.log(`${LOG_PREFIX} latest_snapshot_data:`, prettify_json(latest_snapshot_data))
 
-			const latest_migrated_diff = diff_json(
+			const latest_migrated_diff = get_json_diff(
 				LATEST_EXPECTED_DATA,
 				latest_snapshot_data,
 			)
@@ -214,8 +214,10 @@ function itㆍshouldㆍmigrateㆍcorrectly({
 			else
 				console.log(`${LOG_PREFIX} ❌ Current latest, up-to-date data is missing.`)
 
-			if (read_only)
+			if (!can_update_snapshots) {
+				// hard to display the diff TODO https://www.npmjs.com/package/diff
 				throw new Error(`${LOG_PREFIX} ❌ Current latest, up-to-date data is not up to date!`)
+			}
 
 			// create a new snapshot with the new expected data
 			const name = get_human_readable_UTC_timestamp_minutes() + '.json'
@@ -235,7 +237,17 @@ function itㆍshouldㆍmigrateㆍcorrectly({
 						// JSON diff / patch is slightly more powerful,
 						// here configured to ignore uuids if valids
 						// so we pre-compare
-						if (diff_json(LATEST_EXPECTED_DATA, migrated_data)) {
+						let json_diff = get_json_diff(LATEST_EXPECTED_DATA, migrated_data)
+						if (json_diff && clean_json_diff) {
+							// allow the caller to clean one's own diff
+							json_diff = clean_json_diff({
+								json_diff,
+								LATEST_EXPECTED_DATA,
+								migrated_data,
+							})
+						}
+						if (json_diff) {
+							console.warn('Test failure: additional diff (json) for info:', prettify_json(json_diff))
 							expect(migrated_data).to.deep.equal(LATEST_EXPECTED_DATA)
 						}
 					} catch (err) {
@@ -252,10 +264,11 @@ function itㆍshouldㆍmigrateㆍcorrectly({
 itㆍshouldㆍmigrateㆍcorrectly.skip = function(options) {
 	return itㆍshouldㆍmigrateㆍcorrectly({
 		...options,
-		skip: true,
+		should_skip: true,
 	})
 }
 
 module.exports = {
 	itㆍshouldㆍmigrateㆍcorrectly,
+	get_advanced_json_diff: base_get_json_diff,
 }

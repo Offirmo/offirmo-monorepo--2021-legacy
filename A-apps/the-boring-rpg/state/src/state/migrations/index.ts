@@ -15,6 +15,7 @@ import * as MetaState from '@oh-my-rpg/state-meta'
 import { LIB, SCHEMA_VERSION } from '../../consts'
 import { State } from '../../types'
 import { OMRSoftExecutionContext } from '../../sec'
+import { _refresh_achievements } from '../reducers/achievements'
 import { reset_and_salvage } from './salvage'
 
 /////////////////////
@@ -165,16 +166,41 @@ function xxx_migrate_to_latest(SEC: OMRSoftExecutionContext, legacy_state: Reado
 */
 /////////////////////
 
-const cleanup: CleanupStep<State> = (SEC, state, hints,) => {
-	const { u_state } = state as any
+export const cleanup: CleanupStep<State> = (SEC, state, hints,) => {
+	let has_change = false
+
+	// useful if the achievements were modified
+	state = _refresh_achievements(state)
+
+	let { u_state, t_state } = state
 
 	// micro migrations TODO clean
-	if (u_state.uuid)
-		delete u_state.uuid
-	if (!u_state.last_user_action_tms)
+	if ((u_state as any).uuid) {
+		has_change = true
+		delete (u_state as any).uuid
+	}
+	if (!u_state.last_user_action_tms) {
+		has_change = true
 		u_state.last_user_action_tms = get_UTC_timestamp_ms()
+	}
 
-	return state
+	// introduced late: min wallet always >0
+	if (WalletState.get_currency_amount(u_state.wallet, WalletState.Currency.coin) <= 0) {
+		u_state = {
+			...u_state,
+			wallet: WalletState.add_amount(u_state.wallet, WalletState.Currency.coin, 1),
+		}
+		has_change = true
+	}
+
+	if (!has_change)
+		return state
+
+	return {
+		...state,
+		u_state,
+		t_state,
+	}
 }
 
 const migrate_to_14x: LastMigrationStep<State, any> = (SEC, legacy_state, hints, previous, legacy_schema_version) => {
@@ -182,7 +208,7 @@ const migrate_to_14x: LastMigrationStep<State, any> = (SEC, legacy_state, hints,
 		legacy_state = previous(SEC, legacy_state, hints)
 
 	let state: State = legacy_state as State // for starter
-	state.t_state.revision = 1 // new prop
+	state.t_state.revision = 0 // new prop
 
 	state.schema_version = 14
 	state.t_state.schema_version = 14

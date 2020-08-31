@@ -110,7 +110,7 @@ function create(SEC?: OMRSoftExecutionContext, seed?: number): Readonly<State> {
 		state = _receive_item(state, starting_armor)
 		state = equip_item(state, starting_armor.uuid)
 
-		state = _refresh_achievements(state, 0) // there are some initial achievements
+		state = _refresh_achievements(state) // there are some initial achievements
 		// reset engagements that may have been created by noisy initial achievements
 		state = _ack_all_engagements(state)
 

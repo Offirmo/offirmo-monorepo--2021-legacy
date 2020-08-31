@@ -4,7 +4,7 @@
 		"schema_version": 12,
 		"revision": 203,
 		"creation_date": "20180813_00h33",
-		"last_user_action_tms": 123456,
+		"last_user_action_tms": 1234567890,
 		"avatar": {
 			"schema_version": 2,
 			"revision": 42,
@@ -229,10 +229,10 @@
 	},
 	"t_state": {
 		"schema_version": 12,
-		"timestamp_ms": 1545016005762,
+		"timestamp_ms": 1234567890,
 		"energy": {
 			"schema_version": 3,
-			"timestamp_ms": 1545016005762,
+			"timestamp_ms": 1234567890,
 			"available_energy": {
 				"n": 7,
 				"d": 2

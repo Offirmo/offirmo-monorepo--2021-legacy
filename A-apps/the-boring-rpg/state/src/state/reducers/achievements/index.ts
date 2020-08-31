@@ -17,12 +17,10 @@ import {EngagementKey} from '../../../engagement'
 
 /////////////////////
 
-function _refresh_achievements(state: Readonly<State>, previous_revision: number): Readonly<State> {
+function _refresh_achievements(state: Readonly<State>): Readonly<State> {
 	let { u_state } = state
 	let has_change = false
-	let progress: ProgressState = {
-		...u_state.progress,
-	}
+	let progress: ProgressState = u_state.progress
 
 	ACHIEVEMENT_DEFINITIONS.forEach((definition: AchievementDefinition<UState>) => {
 		const { icon, name } = definition

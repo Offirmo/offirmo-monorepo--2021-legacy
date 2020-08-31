@@ -21,7 +21,7 @@ describe(`${LIB} - reducer`, function() {
 				const state = create() // includes an initial refresh
 
 				// a second time
-				const new_state = _refresh_achievements(state, state.u_state.revision)
+				const new_state = _refresh_achievements(state)
 
 				expect(new_state).to.equal(state) // immutability
 			})
@@ -44,7 +44,7 @@ describe(`${LIB} - reducer`, function() {
 					},
 				}
 
-				const new_state = _refresh_achievements(state, state.u_state.revision)
+				const new_state = _refresh_achievements(state)
 
 				expect(new_state).not.to.equal(state) // immutability
 			})

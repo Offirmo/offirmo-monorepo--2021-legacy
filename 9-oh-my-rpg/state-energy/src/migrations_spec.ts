@@ -15,7 +15,7 @@ describe(`${LIB} - migration`, function() {
 
 		itㆍshouldㆍmigrateㆍcorrectly({
 			use_hints: false,
-			//read_only: false, // XXX
+			//can_update_snapshots: true, // uncomment temporarily to update the snaphots
 			SCHEMA_VERSION,
 			LATEST_EXPECTED_DATA: deep_freeze<any>(create()),
 			migrate_to_latest: migrate_to_latest.bind(null, get_lib_SEC()),
@@ -28,7 +28,7 @@ describe(`${LIB} - migration`, function() {
 
 		itㆍshouldㆍmigrateㆍcorrectly({
 			use_hints: true,
-			//read_only: false, // XXX
+			//can_update_snapshots: true, // uncomment temporarily to update the snaphots
 			migration_hints_for_chaining: MIGRATION_HINTS_FOR_TESTS,
 			SCHEMA_VERSION,
 			LATEST_EXPECTED_DATA: [ DEMO_U_STATE, DEMO_T_STATE ],

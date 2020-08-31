@@ -27,8 +27,9 @@
 * at rank C, you may start leading your party
 * at rank B, you may coordinate several parties
 * rank A can only be granted by agreement from the kingdom
-* rank S and above can only be granted by a collective agreement of the heighboring kindoms
+* rank S and above can only be granted by a collective agreement of the neighboring kindoms
 * rank SS is the top rank,
 * adventurer's must help each other!
-* helping other adventurers is a benevolent act. The adventurers receiving your help may decide to reward you with a bortion of the bounty or not.
+* helping other adventurers is a benevolent act. The adventurers receiving your help may decide to reward you with a portion of the bounty or not.
 * don't steal kills!
+* supplement your income by learning to gather resources

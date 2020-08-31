@@ -4,7 +4,7 @@ import { dump_prettified_any} from '@offirmo-private/prettify-any'
 import { TEST_TIMESTAMP_MS } from '@offirmo-private/timestamps'
 
 import { JSONObject } from '@offirmo-private/ts-types'
-import {itㆍshouldㆍmigrateㆍcorrectly} from '@offirmo-private/state-migration-tester'
+import { itㆍshouldㆍmigrateㆍcorrectly } from '@offirmo-private/state-migration-tester'
 import * as CharacterState from '@oh-my-rpg/state-character'
 import * as WalletState from '@oh-my-rpg/state-wallet'
 import * as InventoryState from '@oh-my-rpg/state-inventory'
@@ -38,23 +38,18 @@ const MIGRATION_HINTS_FOR_TESTS: any = deep_freeze<any>({
 	meta: MetaState.MIGRATION_HINTS_FOR_TESTS,
 })
 
-function advanced_diff_json(a: JSONObject, b: JSONObject, { diff }: { diff?: JSONObject } = {}) {
-	if (diff)
-		delete diff.creation_date
-	return diff
-}
 
+function clean_json_diff({ json_diff, LATEST_EXPECTED_DATA, migrated_data }: { json_diff: JSONObject, LATEST_EXPECTED_DATA: JSONObject, migrated_data: JSONObject }):JSONObject {
+	return json_diff
+}
 
 describe(`${LIB} - schema migration`, function() {
 
-	describe.only('migration of a new state', function () {
-
-
+	describe('migration of a new state', function () {
 
 		itㆍshouldㆍmigrateㆍcorrectly({
 			use_hints: false,
-			//read_only: false, // uncomment when updating
-			advanced_diff_json,
+			//can_update_snapshots: true, // uncomment when updating
 			SCHEMA_VERSION,
 			LATEST_EXPECTED_DATA: () => {
 				const new_state = deep_freeze<any>(create(get_lib_SEC(), 1234))
@@ -63,6 +58,7 @@ describe(`${LIB} - schema migration`, function() {
 			},
 			migrate_to_latest: migrate_to_latest.bind(null, get_lib_SEC()),
 			absolute_dir_path: require('path').join(__dirname, '../../../../src/state/migrations/migrations_of_blank_state_specs'),
+			clean_json_diff,
 			describe, context, it, expect,
 		})
 	})
@@ -71,13 +67,13 @@ describe(`${LIB} - schema migration`, function() {
 
 		itㆍshouldㆍmigrateㆍcorrectly({
 			use_hints: true,
-			//read_only: false, // uncomment when updating
+			//can_update_snapshots: true, // uncomment when updating
 			migration_hints_for_chaining: MIGRATION_HINTS_FOR_TESTS,
-			advanced_diff_json,
 			SCHEMA_VERSION,
 			LATEST_EXPECTED_DATA: DEMO_STATE,
 			migrate_to_latest: migrate_to_latest.bind(null, get_lib_SEC()),
 			absolute_dir_path: require('path').join(__dirname, '../../../../src/state/migrations/migrations_of_active_state_specs'),
+			clean_json_diff,
 			describe, context, it, expect,
 		})
 	})

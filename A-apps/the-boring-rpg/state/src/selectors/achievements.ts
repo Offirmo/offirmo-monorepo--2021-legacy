@@ -31,10 +31,10 @@ function get_achievement_snapshot(u_state: Readonly<UState>, definition: Readonl
 	}
 }
 
-function get_achievement_snapshot_by_uuid(u_state: Readonly<UState>, session_uuid: string): Readonly<AchievementSnapshot> {
-	const definition = ACHIEVEMENT_DEFINITIONS.find(d => d.session_uuid === session_uuid)
+function get_achievement_snapshot_by_temporary_id(u_state: Readonly<UState>, temporary_id: string): Readonly<AchievementSnapshot> {
+	const definition = ACHIEVEMENT_DEFINITIONS.find(d => d.session_uuid === temporary_id)
 	if (!definition)
-		throw new Error(`No achievement definition found for uuid "${session_uuid}"!`)
+		throw new Error(`No achievement definition found for temporary_id "${temporary_id}"!`)
 
 	return get_achievement_snapshot(u_state, definition)
 }
@@ -60,7 +60,7 @@ function get_achievements_completion(u_state: Readonly<UState>): [number, number
 
 export {
 	get_achievement_snapshot,
-	get_achievement_snapshot_by_uuid,
+	get_achievement_snapshot_by_temporary_id,
 	get_achievements_snapshot,
 	get_achievements_completion,
 }

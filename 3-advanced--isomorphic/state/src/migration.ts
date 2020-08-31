@@ -4,7 +4,7 @@ import { SoftExecutionContext } from '@offirmo-private/soft-execution-context'
 
 import { AnyRootState } from './types--internal'
 import { get_schema_version_loose } from './selectors'
-import { is_UState, is_TState, is_RootState } from './type-guards'
+import {is_UState, is_TState, is_RootState, is_BaseState, has_versioned_schema} from './type-guards'
 
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -92,23 +92,21 @@ export function generic_migrate_to_latest<State>({
 				legacy_state: Readonly<any>,
 				hints: Readonly<any>,
 			): any {
+				const migrate_step = pipeline[index]
 				const current_step_name = index >= pipeline.length
 					? 'not-found'
-					: pipeline[index].name || 'unknown'
+					: migrate_step?.name || 'unknown'
 				return RSEC.xTry('migration step:' + current_step_name, ({ SEC }) => {
-					/*if (index > 0) {
-						_check_response(_last_SEC, index - 1, 'in')
-					}*/
-
 					if (index >= pipeline.length) {
 						throw new Error(`No known migration for updating a v${get_schema_version_loose(legacy_state)}!`)
 					}
+					assert(typeof migrate_step === 'function', 'migrate step should be a function!')
 
 					const legacy_schema_version = get_schema_version_loose(legacy_state)
 					//_last_SEC = SEC
 					//console.log('_last_SEC now =', SEC.getLogicalStack(), '\n', SEC.getShortLogicalStack())
 					logger.trace(`[${LIB}] ⭆ invoking migration pipeline step ${pipeline.length-index}/${pipeline.length} "${current_step_name}"…`, {legacy_state})
-					const state = pipeline[index](
+					const state = migrate_step(
 						SEC,
 						legacy_state,
 						hints,
@@ -117,7 +115,7 @@ export function generic_migrate_to_latest<State>({
 						LIBS,
 					)
 					assert(!!state, 'migration step should return something')
-					logger.trace(`[${LIB}] ⭅ returned from migration pipeline step ${pipeline.length-index}/${pipeline.length} "${current_step_name}"…`, {state})
+					logger.trace(`[${LIB}] ⭅ returned from migration pipeline step ${pipeline.length-index}/${pipeline.length} "${current_step_name}".`, {state})
 					//_check_response(SEC, index, 'out')
 					return state
 				})
@@ -139,7 +137,7 @@ export function generic_migrate_to_latest<State>({
 
 		// migrate sub-reducers if any...
 		if (is_RootState(state)) {
-			state = _migrate_sub_states__root<State>(SEC, state as any /* stupid TS */, sub_states_migrate_to_latest, hints)
+			state = _migrate_sub_states__root<State>(SEC, state, sub_states_migrate_to_latest, hints)
 		}
 		else {
 			state = _migrate_sub_states__base<State>(SEC, state, sub_states_migrate_to_latest, hints)
@@ -165,18 +163,27 @@ function _migrate_sub_states__root<State /*extends BaseRootState*/>(
 	const sub_u_states_found = new Set<string>()
 	const sub_t_states_found = new Set<string>()
 
+	// using base state in case of a legacy state
 	for (let key in u_state) {
-		if (is_UState(u_state[key])) {
+		if (has_versioned_schema(u_state[key])) {
 			sub_states_found.add(key)
 			sub_u_states_found.add(key)
 		}
 	}
 	for (let key in t_state) {
-		if (is_TState(t_state[key])) {
+		if (has_versioned_schema(t_state[key])) {
 			sub_states_found.add(key)
 			sub_t_states_found.add(key)
 		}
 	}
+
+	/*
+	console.log({
+		sub_states_found,
+		sub_u_states_found,
+		sub_t_states_found,
+	})
+	*/
 
 	const sub_states_migrated = new Set<string>()
 	sub_states_found.forEach(key => {
@@ -190,31 +197,38 @@ function _migrate_sub_states__root<State /*extends BaseRootState*/>(
 		let new_sub_ustate = previous_sub_ustate
 		let new_sub_tstate = previous_sub_tstate
 
-		if (sub_u_states_found.has(key) && sub_t_states_found.has(key)) {
-			// combo
-			[new_sub_ustate, new_sub_tstate] = migrate_sub_to_latest(
+		SEC.xTry(`migration of sub-state "${key}"`, ({SEC, logger}) => {
+			if (sub_u_states_found.has(key) && sub_t_states_found.has(key)) {
+				// combo
+				const legacy_sub_state = [ previous_sub_ustate, previous_sub_tstate]
+				logger.trace(`⭆ invoking migration fn of bundled sub-state "${key}"…`, { legacy_sub_state })
+				;[new_sub_ustate, new_sub_tstate] = migrate_sub_to_latest(
 					SEC,
-					[ previous_sub_ustate, previous_sub_tstate],
+					legacy_sub_state,
 					sub_hints,
 				)
-		}
-		else if (sub_u_states_found.has(key)) {
-			new_sub_ustate = migrate_sub_to_latest(
+			}
+			else if (sub_u_states_found.has(key)) {
+				logger.trace(`⭆ invoking migration fn of sub-UState "${key}"…`, { previous_sub_ustate })
+				new_sub_ustate = migrate_sub_to_latest(
 					SEC,
 					previous_sub_ustate,
 					sub_hints,
 				)
-		}
-		else if (sub_t_states_found.has(key)) {
-			new_sub_tstate = migrate_sub_to_latest(
+			}
+			else if (sub_t_states_found.has(key)) {
+				logger.trace(`⭆ invoking migration fn of sub-TState "${key}"…`, { previous_sub_tstate })
+				new_sub_tstate = migrate_sub_to_latest(
 					SEC,
 					previous_sub_tstate,
 					sub_hints,
 				)
-		}
-		else {
-			throw new Error(`Expected sub-state "${key}" was not found!`)
-		}
+			}
+			else {
+				throw new Error(`Expected sub-state "${key}" was not found!`)
+			}
+			logger.trace(`⭅ returned from migration fn of sub-UState "${key}".`)
+		})
 
 		if (previous_sub_ustate && new_sub_ustate !== previous_sub_ustate) {
 			has_change = true
@@ -254,8 +268,14 @@ function _migrate_sub_states__base<State /*extends BaseState*/>(
 	sub_states_migrate_to_latest: SubStatesMigrations,
 	hints: any,
 ): State {
-	for (let k in sub_states_migrate_to_latest) {
-		throw new Error('_migrate_sub_states__base() NIMP!')
+	//let has_change = false
+	const legacy_state: any = state
+
+	for (let key in sub_states_migrate_to_latest) {
+		if (has_versioned_schema(legacy_state[key])) {
+			throw new Error('_migrate_sub_states__base() NIMP!')
+		}
 	}
+
 	return state
 }

@@ -55,7 +55,7 @@ function on_start_session(previous_state: Readonly<State>, is_web_diversity_supp
 
 	// new achievements may have appeared
 	// (new content = not the same as a migration)
-	return _refresh_achievements(state, previous_state.u_state.revision)
+	return _refresh_achievements(state)
 }
 
 function on_logged_in_refresh(previous_state: Readonly<State>, is_logged_in: boolean, roles: string[] = [], now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Readonly<State> {
@@ -80,7 +80,7 @@ function on_logged_in_refresh(previous_state: Readonly<State>, is_logged_in: boo
 	// new achievements may have appeared
 	// (new content = not the same as a migration)
 	// this may indeed cause a revision
-	return _refresh_achievements(state, previous_state.u_state.revision)
+	return _refresh_achievements(state)
 }
 
 function update_to_now(state: Readonly<State>, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Readonly<State> {
@@ -99,7 +99,7 @@ function equip_item(previous_state: Readonly<State>, uuid: UUID, now_ms: Timesta
 		},
 	}
 
-	return _refresh_achievements(state, previous_state.u_state.revision)
+	return _refresh_achievements(state)
 }
 
 function sell_item(previous_state: Readonly<State>, uuid: UUID, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Readonly<State> {
@@ -113,7 +113,7 @@ function sell_item(previous_state: Readonly<State>, uuid: UUID, now_ms: Timestam
 		},
 	}
 	state = propagate_child_revision_increment_upward(previous_state, state)
-	return _refresh_achievements(state, previous_state.u_state.revision)
+	return _refresh_achievements(state)
 }
 
 function rename_avatar(previous_state: Readonly<State>, new_name: string, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Readonly<State> {
@@ -129,7 +129,7 @@ function rename_avatar(previous_state: Readonly<State>, new_name: string, now_ms
 		},
 	}
 
-	return _refresh_achievements(state, previous_state.u_state.revision)
+	return _refresh_achievements(state)
 }
 
 function change_avatar_class(previous_state: Readonly<State>, new_class: CharacterClass, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Readonly<State> {
@@ -148,7 +148,7 @@ function change_avatar_class(previous_state: Readonly<State>, new_class: Charact
 		},
 	}
 
-	return _refresh_achievements(state, previous_state.u_state.revision)
+	return _refresh_achievements(state)
 }
 
 function acknowledge_engagement_msg_seen(previous_state: Readonly<State>, uid: number, now_ms: TimestampUTCMs = get_UTC_timestamp_ms()): Readonly<State> {

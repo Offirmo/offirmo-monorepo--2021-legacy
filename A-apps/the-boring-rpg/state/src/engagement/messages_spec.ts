@@ -2,9 +2,13 @@ import { expect } from 'chai'
 
 import { xxx_internal_reset_prng_cache } from '@oh-my-rpg/state-prng'
 import * as RichText from '@offirmo-private/rich-text-format'
-import {EngagementType} from '@oh-my-rpg/state-engagement'
+import { EngagementType } from '@oh-my-rpg/state-engagement'
 
-import {create, EngagementKey, get_engagement_message} from '..'
+import {
+	create,
+	EngagementKey,
+	get_engagement_message,
+} from '..'
 
 
 describe('@tbrpg/state - engagement messages', function() {

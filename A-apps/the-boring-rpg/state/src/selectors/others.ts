@@ -25,12 +25,12 @@ import { AchievementSnapshot } from '@oh-my-rpg/state-progress'
 
 import { UState } from '../types'
 import { get_engagement_message } from '../engagement'
-import { get_achievement_snapshot_by_uuid } from './achievements'
+import { get_achievement_snapshot_by_temporary_id } from './achievements'
 
 /////////////////////
 
 
-// TODO
+// TODO power
 function appraise_player_power(u_state: Readonly<UState>): number {
 	let power: number = 1
 
@@ -46,12 +46,11 @@ function appraise_player_power(u_state: Readonly<UState>): number {
 	return power
 }
 
-
 function find_element(u_state: Readonly<UState>, uuid: UUID): Readonly<Element> | Readonly<AchievementSnapshot> | null {
 	// only inventory for now
 	let possible_achievement: Readonly<AchievementSnapshot> | null = null
 	try {
-		possible_achievement = get_achievement_snapshot_by_uuid(u_state, uuid)
+		possible_achievement = get_achievement_snapshot_by_temporary_id(u_state, uuid)
 	}
 	catch (err) {
 		// not found, swallow

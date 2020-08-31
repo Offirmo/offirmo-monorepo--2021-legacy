@@ -1,10 +1,10 @@
 {
-	"schema_version": 12,
+	"schema_version": 14,
 	"u_state": {
-		"schema_version": 12,
+		"schema_version": 14,
 		"revision": 0,
-		"creation_date": "19700115_06h56",
 		"last_user_action_tms": 1234567890,
+		"creation_date": "19700115_06h56",
 
 		"avatar": {
 			"schema_version": 2,
@@ -28,8 +28,8 @@
 			"unslotted_capacity": 20,
 			"slotted": {
 				"weapon": {
+					"uuid": "uu1Bb3pMJTap8J52PqJWJgLG",
 					"element_type": "item",
-					"uuid": "uu1CgU-jvPvI8X6DoBObQccF",
 					"slot": "weapon",
 					"quality": "common",
 					"base_hid": "spoon",
@@ -39,8 +39,8 @@
 					"enhancement_level": 0
 				},
 				"armor": {
+					"uuid": "uu1gRrQHBJQUpP5bMwI1VC7Z",
 					"element_type": "item",
-					"uuid": "uu125vlkus9aiBLdmwWp3pg4",
 					"slot": "armor",
 					"quality": "common",
 					"base_hid": "socks",
@@ -54,20 +54,20 @@
 		},
 		"wallet": {
 			"schema_version": 1,
-			"revision": 0,
-			"coin_count": 0,
+			"revision": 1,
+			"coin_count": 1,
 			"token_count": 0
 		},
 		"prng": {
-			"uuid": "uu1~example~state~PRNG~~",
 			"schema_version": 3,
+			"uuid": "uu1V06_ZWYZ-z0-cDFbpfH6B",
 			"revision": 0,
 			"seed": 1234,
 			"use_count": 0,
 			"recently_encountered_by_id": {}
 		},
 		"energy": {
-			"schema_version": 3,
+			"schema_version": 4,
 			"revision": 0,
 			"max_energy": 7,
 			"total_energy_consumed_so_far": 0
@@ -93,7 +93,7 @@
 		},
 		"progress": {
 			"schema_version": 2,
-			"revision": 97,
+			"revision": 100,
 			"wiki": null,
 			"flags": null,
 			"achievements": {
@@ -129,6 +129,7 @@
 				"First Blood": "revealed",
 				"Into The Wild": "hidden",
 				"Born To Be Wild": "hidden",
+				"49 times… It was 49 times…": "hidden",
 				"Wild Like The Wind": "hidden",
 				"The Wild One": "hidden",
 				"Alpha Of The Wilderness": "hidden",
@@ -189,6 +190,8 @@
 				"I Like Swords!": "revealed",
 				"Alpha player": "unlocked",
 				"Beta player": "revealed",
+				"Supporter of diversity": "revealed",
+				"Registered adventurer": "revealed",
 				"Usurper": "secret",
 				"Just plain lucky": "secret",
 				"Hacker": "secret",
@@ -213,23 +216,22 @@
 				"is_registered_alpha_player": false
 			}
 		},
-		"last_adventure": null,
 		"meta": {
 			"schema_version": 2,
 			"revision": 0,
-
-			"persistence_id": null,
-
 			"is_web_diversity_supporter": false,
 			"is_logged_in": false,
-			"roles": [ ]
-		}
+			"roles": []
+		},
+		"last_adventure": null
 	},
 	"t_state": {
-		"schema_version": 12,
+		"schema_version": 14,
+		"revision": 0,
 		"timestamp_ms": 0,
 		"energy": {
-			"schema_version": 3,
+			"schema_version": 4,
+			"revision": 0,
 			"timestamp_ms": 0,
 			"available_energy": {
 				"n": 7,

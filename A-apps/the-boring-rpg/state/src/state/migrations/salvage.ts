@@ -78,7 +78,7 @@ const get_bad_play_count = (ls: any) => coerce_to_number_or_zero(
 /////////////////////
 
 function reset_and_salvage(legacy_state: Readonly<JSONObject>): Readonly<State> {
-	console.info(`${LIB}: salvaging some data from a v${legacy_state && legacy_state.schema_version} legacy savegame.`)
+	console.info(`${LIB}: salvaging some data from a v${legacy_state && legacy_state.schema_version} legacy savegame…`)
 
 	xxx_internal_reset_prng_cache() // don't do this at home, kids!
 	let state = create()
